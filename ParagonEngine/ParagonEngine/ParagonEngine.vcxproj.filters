@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Entry">
+      <UniqueIdentifier>{5bbfa57e-611c-4888-859c-298181fa78bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entry\WinDefault">
+      <UniqueIdentifier>{6d9ba368-f3c1-45ef-a930-735597e83117}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entry\WinDefault\Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resource.h">
+      <Filter>Entry\WinDefault</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Entry\WinDefault</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ParagonEngine.rc">
+      <Filter>Entry\WinDefault\Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Entry\WinDefault\Resource Files</Filter>
+    </Image>
+    <Image Include="ParagonEngine.ico">
+      <Filter>Entry\WinDefault\Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Entry.cpp">
+      <Filter>Entry</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
