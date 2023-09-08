@@ -131,10 +131,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="DLLTest.h" />
+    <ClInclude Include="EngineMain.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DLLTest.cpp" />
+    <ClCompile Include="EngineMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

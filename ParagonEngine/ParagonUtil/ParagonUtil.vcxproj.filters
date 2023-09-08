@@ -5,4 +5,14 @@
       <UniqueIdentifier>{cb0bf5f8-251f-4b65-bd55-cd133072fd46}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="UtilMain.cpp">
+      <Filter>0_Main</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="UtilMain.h">
+      <Filter>0_Main</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
