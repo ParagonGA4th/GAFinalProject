@@ -6,4 +6,9 @@
   <ItemGroup>
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="0_Main">
+      <UniqueIdentifier>{dc50f58a-6093-474d-8e66-756fc4fc2f53}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
 </Project>
