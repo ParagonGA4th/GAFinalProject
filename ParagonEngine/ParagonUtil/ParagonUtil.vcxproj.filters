@@ -4,6 +4,19 @@
     <Filter Include="0_Main">
       <UniqueIdentifier>{cb0bf5f8-251f-4b65-bd55-cd133072fd46}</UniqueIdentifier>
     </Filter>
+    <Filter Include="1_Log">
+      <UniqueIdentifier>{3221c562-ea37-41b1-8823-ec7c78c0377b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Log.cpp">
+      <Filter>1_Log</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Log.h">
+      <Filter>1_Log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UtilMain.cpp">
