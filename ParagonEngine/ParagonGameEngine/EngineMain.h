@@ -1,4 +1,5 @@
 #pragma once
+#include "../ParagonGameEngine/EngineDLLExporter.h"
 
 /// <summary>
 /// 2023.09.08
@@ -9,8 +10,8 @@ namespace Pg::Engine
 	class EngineMain
 	{
 	public:
-		void Initialize();
-		void Finalize();
+		PARAGON_ENGINE_DLL void Initialize();
+		PARAGON_ENGINE_DLL void Finalize();
 	};
 }
 
