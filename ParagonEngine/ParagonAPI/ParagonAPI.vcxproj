@@ -131,6 +131,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="APIMain.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="APIMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
