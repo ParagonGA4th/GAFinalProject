@@ -1,9 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="CoreMain.h" />
+    <Filter Include="0_Main">
+      <UniqueIdentifier>{351203f5-bfbf-4441-904d-74b9867e3b93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CoreMain.cpp" />
+    <ClCompile Include="CoreMain.cpp">
+      <Filter>0_Main</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CoreMain.h">
+      <Filter>0_Main</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

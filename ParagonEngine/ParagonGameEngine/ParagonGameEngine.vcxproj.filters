@@ -6,4 +6,9 @@
   <ItemGroup>
     <ClCompile Include="DLLTest.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="0_Main">
+      <UniqueIdentifier>{05d15759-9684-4b7a-a054-99f0ccccab6f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
 </Project>
