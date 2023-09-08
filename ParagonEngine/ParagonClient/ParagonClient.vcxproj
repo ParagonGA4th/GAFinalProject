@@ -24,6 +24,7 @@
     <ProjectGuid>{d9bde3d7-2c72-4669-a69e-8ab0979481d3}</ProjectGuid>
     <RootNamespace>ParagonEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>ParagonClient</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -136,13 +137,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entry.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="ParagonEngine.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="ParagonEngine.ico" />
-    <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
