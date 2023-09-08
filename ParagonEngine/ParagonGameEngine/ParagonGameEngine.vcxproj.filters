@@ -4,6 +4,9 @@
     <ClInclude Include="EngineMain.h">
       <Filter>0_Main</Filter>
     </ClInclude>
+    <ClInclude Include="EngineDLLExporter.h">
+      <Filter>1_DLLExporter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -13,6 +16,9 @@
   <ItemGroup>
     <Filter Include="0_Main">
       <UniqueIdentifier>{05d15759-9684-4b7a-a054-99f0ccccab6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_DLLExporter">
+      <UniqueIdentifier>{d15258cb-232a-45bd-8392-3fb51d1aa74d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
