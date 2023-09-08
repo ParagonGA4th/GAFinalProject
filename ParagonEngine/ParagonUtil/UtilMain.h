@@ -5,7 +5,7 @@ namespace Pg::Util
 	class UtilMain
 	{
 	public:
-		void Initialze();
+		void Initialize();
 		void Finalize();
 	};
 }
