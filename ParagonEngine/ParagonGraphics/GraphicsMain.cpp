@@ -3,4 +3,14 @@
 namespace Pg::Graphics
 {
 	
+	void GraphicsMain::Initialize()
+	{
+
+	}
+
+	void GraphicsMain::Finalize()
+	{
+
+	}
+
 }
