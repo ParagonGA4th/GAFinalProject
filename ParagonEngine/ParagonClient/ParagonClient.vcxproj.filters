@@ -1,24 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Entry">
+    <Filter Include="0_Entry">
       <UniqueIdentifier>{5bbfa57e-611c-4888-859c-298181fa78bc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Entry\WinDefault">
+    <Filter Include="0_Entry\WinDefault">
       <UniqueIdentifier>{6d9ba368-f3c1-45ef-a930-735597e83117}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
-      <Filter>Entry\WinDefault</Filter>
+      <Filter>0_Entry\WinDefault</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>Entry\WinDefault</Filter>
+      <Filter>0_Entry\WinDefault</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entry.cpp">
-      <Filter>Entry</Filter>
+      <Filter>0_Entry</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
