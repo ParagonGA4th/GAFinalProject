@@ -1,13 +1,13 @@
-///Paragon Engine¿« Entry Point. 
-
 #define WIN32_LEAN_AND_MEAN  
-#include <windows.h>
+#include "Resource.h"
 
+#include <windows.h>
 #include <stdlib.h>
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
-#include "Resource.h"
+
+///Paragon Engine¿« Entry Point. 
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
