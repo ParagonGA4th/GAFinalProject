@@ -2,7 +2,7 @@
 
 namespace Pg::Util
 {
-	void UtilMain::Initialze()
+	void UtilMain::Initialize()
 	{
 
 	}
