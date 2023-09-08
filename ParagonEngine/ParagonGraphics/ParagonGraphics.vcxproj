@@ -18,7 +18,12 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <PropertyGroup Label="Globals">
+  <ItemGroup>
+    <ClInclude Include="GraphicsMain.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GraphicsMain.cpp" />
+  </ItemGroup>  <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{c17d1f22-3a54-4e41-a57f-0cdb667c6b8e}</ProjectGuid>
