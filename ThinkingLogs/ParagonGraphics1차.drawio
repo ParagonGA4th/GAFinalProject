@@ -1,0 +1,235 @@
+<mxfile host="Electron" modified="2023-09-09T12:07:42.617Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.1 Chrome/112.0.5615.204 Electron/24.6.1 Safari/537.36" etag="pcHDHQUZI3tw0q7lUFaj" version="21.6.1" type="device">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="5002" dy="2841" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="lLuolTyeRvQu0_JksktK-67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.512;entryY=0.005;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="zkfFHV4jXpPFQw0GAbJ--0" target="lLuolTyeRvQu0_JksktK-60">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="889" y="440" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="890" y="480" />
+              <mxPoint x="887" y="480" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zkfFHV4jXpPFQw0GAbJ--0" value="GraphicsMain" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="810" y="66" width="160" height="90" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zkfFHV4jXpPFQw0GAbJ--1" value="Initialize(); -&gt; 초기화&#xa;Run(); -&gt; Update Loop 안에&#xa;Finalize(); -&gt; 마무리&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="zkfFHV4jXpPFQw0GAbJ--0" vertex="1">
+          <mxGeometry y="26" width="160" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="zkfFHV4jXpPFQw0GAbJ--12" value="" style="endArrow=block;endSize=10;endFill=0;shadow=0;strokeWidth=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" target="lLuolTyeRvQu0_JksktK-7" edge="1" source="zkfFHV4jXpPFQw0GAbJ--0">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="280" y="130.0000000000001" as="sourcePoint" />
+            <mxPoint x="-170" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-0" value="GraphicsResourceManager" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="30" y="690" width="260" height="70" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-1" value="- 3D 모델, 2D 텍스쳐, 셰이더, 매트리얼 &#xa;등등... 렌더링 되는 대상만 관리하는 매니저" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="lLuolTyeRvQu0_JksktK-0">
+          <mxGeometry y="26" width="260" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-3" value="Layer" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="40" y="80" width="190" height="70" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-4" value="모여서 RenderQueue를 이룸.&#xa;하나의 Pass에 대응.&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="lLuolTyeRvQu0_JksktK-3">
+          <mxGeometry y="26" width="190" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-6" value="ParagonEngine" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-540" y="-140" width="290" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-7" value="IGraphicsInterface" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-475" y="-90" width="160" height="70" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-9" value="ParagonGraphics" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="760" y="-140" width="290" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-10" value="Framebuffer" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="45" y="170" width="180" height="80" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-11" value=" = Quad랑 같다. &#xa;RTV, SRV, TEXTURE2D 가짐" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="lLuolTyeRvQu0_JksktK-10">
+          <mxGeometry y="26" width="180" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-12" value="Shader" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="1061" y="980" width="180" height="80" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-13" value=" = .hlsl과 대응, &#xa;해석한 바이너리 &#xa;정보를 들고 있다. " style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="lLuolTyeRvQu0_JksktK-12">
+          <mxGeometry y="26" width="180" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-14" value="ShaderMaterial" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="830" y="980" width="210" height="140" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-15" value=" = Shader를 가지고 있고, &#xa;각각에 대응될 Property 갖고 있음.&#xa; - HLSL Parser를 통해 HLSL의 &#xa;프로퍼티 / GPU 변수들을 가져오고&#xa;(ShaderReflection) -&gt; 연동한다.&#xa; &#xa;Mk1 : 단순 If/Else로 구분할수도" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="lLuolTyeRvQu0_JksktK-14">
+          <mxGeometry y="26" width="210" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-16" value="CameraInformation" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="310" y="470" width="210" height="140" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-17" value="= 렌더링에 고유함,&#xa; Camera Component 중에 &#xa;우선도가 가장 0에 가까운 옵젝의 &#xa;View / Projection 정보를 가져온다.&#xa;&#xa;- 메인 카메라의 행렬 정보, &#xa;매 순간 업뎃" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="lLuolTyeRvQu0_JksktK-16">
+          <mxGeometry y="26" width="210" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-18" value="RenderQueue" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="65" y="470" width="210" height="140" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-19" value=" = 프레임버퍼 / Layer의 나열 순서,&#xa;특징 등을 저장해놓는다.&#xa;&#xa;- 순서대로 발동시키며, &#xa;Opaque Deferred -&gt; etc. -&gt; &#xa;PostProcessing -&gt; UI 순서를 유지." style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="lLuolTyeRvQu0_JksktK-18">
+          <mxGeometry y="26" width="210" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.984;entryY=0.327;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="lLuolTyeRvQu0_JksktK-20" target="lLuolTyeRvQu0_JksktK-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-20" value="LowDX11Storage" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="285" y="100" width="390" height="115" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-21" value="DX11 관련 로우 레벨 리소스 저장. &#xa;(ResourceManager에 담는데, 포인터를 찾아서 들고 있기)&#xa;&#xa;- 로직 1도 들어가면 안됨! 로직 != 필요 변수 구분 위함.&#xa;- 내부적으로 Layer, Framebuffer 관리해서 보관하는 Container 존재." style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="lLuolTyeRvQu0_JksktK-20">
+          <mxGeometry y="26" width="390" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-22" value="AssetManager" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-600" y="66" width="410" height="160" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-23" value="- &quot;.파일형식 (ex. .jpg) 처럼 확장자 있는 &#xa;실제 파일(=어셋)들을 보관하는 리소스 매니저.&#xa;- Mk.1 : 엔진 시작할 때 리스트 내부에 있는 모든 Asset을 로드.&#xa;- Mk.2 : Scene 정보에 따라서 필요한 리소스들만 &#xa;로딩 개념으로 로드.&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="lLuolTyeRvQu0_JksktK-22">
+          <mxGeometry y="26" width="410" height="134" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-24" value="&lt;i&gt;고민중- &lt;br&gt;InputLayout-.fbx 콤비네이션 따른 VB, IB 만들 수 있는 정보 갖고 있어야.&lt;br&gt;근데 이 정보를 Engine이 가지고 있어야 하는가?&lt;br&gt;-(가설) : AssetManager - ResourceManager를 동기화.&lt;br&gt;AssetManager는 실제 메모리에 올라간 filepath / 리소스 종류만 보관&lt;br&gt;- ResourceManager는 이 정보를 실제 갖고 있으며, 렌더링에 처리.&lt;br&gt;&lt;br&gt;-그렇다면, 그래픽스와 연결되어 있지 않은 Asset이면 어떡함?&lt;br&gt;AssetManager 역시 실제 기능을 하는데,&amp;nbsp;&lt;br&gt;IAsset 이런 인터페이스에서&lt;br&gt;GraphicsAsset / EngineAsset 이렇게 나눠서, GraphicsAsset은 ParagonGraphics의 ResourceManager에서 보관되는 리소스 페어링 (포인터 갖고 있기)?&lt;br&gt;EngineAsset은 ParagonGameEngine의 ResourceManager에서 보관되는 리소스 페어링 (포인터 갖고 있기)? ... TBA&lt;br&gt;&lt;br&gt;이렇게 된다면, 모든 추가 / 삭제 등 관리 로직은 AssetManager가 주관해야,&lt;br&gt;게임엔진/그래픽스의 개별적인 ResourceManager는 내부 자료를 컨트롤 할 수 있는 함수는 당연히 있어야 하지만, 해당 함수들을 호출하는 주체는 AssetManager다.&amp;nbsp;&lt;br&gt;&lt;/i&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-610" y="266" width="430" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-25" value="ParagonGameEngine" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-1117" y="-140" width="290" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-26" value="EngineResourceManager" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-1100" y="-55" width="200" height="70" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-27" value="?" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="lLuolTyeRvQu0_JksktK-26">
+          <mxGeometry y="26" width="200" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-30" value="IGraphicsResource" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="390" y="690" width="260" height="70" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-41" value="- Filepath,&lt;br&gt;- ResourceType" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="lLuolTyeRvQu0_JksktK-30">
+          <mxGeometry y="26" width="260" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.001;entryY=0.534;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="lLuolTyeRvQu0_JksktK-1" target="lLuolTyeRvQu0_JksktK-41">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="350" y="848" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-33" value="Mesh3D" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="160" y="980" width="165" height="100" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-35" value="- FBX 파싱 구조화 &lt;br&gt;시킨 클래스 보관.&lt;br&gt;- Skinned/Static 구분 bool값" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="lLuolTyeRvQu0_JksktK-33">
+          <mxGeometry y="26" width="165" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-36" value="Formation" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="377.5" y="980" width="205" height="110" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-37" value="- VB, IB를 inputlayout, &lt;br&gt;그리고 FBX에 콤비네이션에 &lt;br&gt;고유하게 보관할 거임.&lt;br&gt;- FBX에서 bool값 복사해옴." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="lLuolTyeRvQu0_JksktK-36">
+          <mxGeometry y="26" width="205" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-40" value="" style="endArrow=block;endSize=10;endFill=0;shadow=0;strokeWidth=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.19;entryY=1.089;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="lLuolTyeRvQu0_JksktK-33" target="lLuolTyeRvQu0_JksktK-41">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="230" y="980" as="sourcePoint" />
+            <mxPoint x="425" y="870" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="360" y="930" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-43" value="" style="endArrow=block;endSize=10;endFill=0;shadow=0;strokeWidth=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="480" y="980" as="sourcePoint" />
+            <mxPoint x="480" y="760" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="471.45" y="870" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-44" value="Texture2D" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="610" y="980" width="200" height="70" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-45" value="- .DDS, .JPG 등으로 &lt;br&gt;만들 수 있는 SRV를 보관할 것.&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="lLuolTyeRvQu0_JksktK-44">
+          <mxGeometry y="26" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-46" value="" style="endArrow=block;endSize=10;endFill=0;shadow=0;strokeWidth=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.477;entryY=1.116;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" target="lLuolTyeRvQu0_JksktK-41">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="685" y="980" as="sourcePoint" />
+            <mxPoint x="520" y="870" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="600" y="930" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-47" value="" style="endArrow=block;endSize=10;endFill=0;shadow=0;strokeWidth=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.647;entryY=1.102;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" target="lLuolTyeRvQu0_JksktK-41">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="935" y="980" as="sourcePoint" />
+            <mxPoint x="770" y="870" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="850" y="900" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="lLuolTyeRvQu0_JksktK-21" target="lLuolTyeRvQu0_JksktK-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-52" value="" style="endArrow=block;endSize=10;endFill=0;shadow=0;strokeWidth=1;rounded=0;edgeStyle=elbowEdgeStyle;elbow=vertical;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1155.18" y="980" as="sourcePoint" />
+            <mxPoint x="600" y="760" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-53" value="LowDX11Logic" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="285" y="240" width="390" height="100" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-54" value="- DX11과 관련된 로직을 캡슐화함.&#xa;- LowDX11Storage에 있는 리소스들을 렌더링 파이프라인에 맞게 조작." style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="lLuolTyeRvQu0_JksktK-53">
+          <mxGeometry y="26" width="390" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-60" value="ParagonRenderer" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="570" y="460" width="620" height="150" as="geometry">
+            <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-61" value="- 실제로 SceneGraph에 있는 옵젝-Renderer 컴포넌트 정보를 받아서,&#xa;-&gt; Skinned / Static / 2D 등등, Renderer 컴포넌트가 상황에 맞게 &#xa;들어왔는지 유무를 보고 렌더 여부를 결정.&#xa;- Ex. 스키닝 되어 있는 모델이 들어왔을 때, SkinnedMeshRenderer 컴포넌트가 붙어있는지 확인, 맞을 시 렌더. .&#xa;&#xa;-후에 별도로 Animation System이 들어오면, &#xa;저장된 정보에 따라서 Animation을 업데이트하는 (Vertex-BoneMapping)&#xa;과정도 수행해줘야 한다. " style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="lLuolTyeRvQu0_JksktK-60">
+          <mxGeometry y="26" width="620" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="lLuolTyeRvQu0_JksktK-68" value="&lt;h1&gt;ParagonGraphics, Mk.1&lt;/h1&gt;&lt;p&gt;- 230909, 고태욱 &amp;amp; 김정식&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-70" y="-330" width="500" height="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
