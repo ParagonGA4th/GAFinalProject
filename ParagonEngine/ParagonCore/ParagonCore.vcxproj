@@ -131,9 +131,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Component.h" />
     <ClInclude Include="CoreMain.h" />
+    <ClInclude Include="IComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="CoreMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
