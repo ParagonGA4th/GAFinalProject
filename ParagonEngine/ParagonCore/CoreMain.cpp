@@ -14,8 +14,17 @@ namespace Pg::Core
 		_className(L"ParagonEngine"),
 		_windowName(L"ParagonEngine")
 	{
-		
+		_engine = std::make_unique<Pg::Engine::EngineMain>();
+		_logger = std::make_unique<Pg::Util::Debug::Log>();
 	}
+
+
+	CoreMain::~CoreMain()
+	{
+
+	}
+
+
 
 	long CoreMain::Initialize(void* hInstance, int cmdShow)
 	{
@@ -31,13 +40,17 @@ namespace Pg::Core
 			return S_FALSE;
 		}
 
-		//DLL 테스트용 초기화
-		Pg::Engine::EngineMain* engine = new Pg::Engine::EngineMain();
+		//시스템 초기화
+		_engine->Initialize();
+		//graphics->Initialize();
 
-		Pg::Graphics::GraphicsMain* graphics = new Pg::Graphics::GraphicsMain();
-
-		engine->Initialize();
-		graphics->Initialize();
+		//디버그 초기화
+		_logger->Initialize();
+		_logger->SetLoggerLevel(0);
+		PG_TRACE("Engine Success!!");
+		PG_DEBUG("Engine Success!!");
+		PG_INFO("Engine Success!!");
+		PG_WARN("Engine Success!!");
 
 		return S_OK;
 	}

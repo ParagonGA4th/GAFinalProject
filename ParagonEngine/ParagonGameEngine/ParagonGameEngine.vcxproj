@@ -133,7 +133,6 @@
   <ItemGroup>
     <ClInclude Include="EngineDLLExporter.h" />
     <ClInclude Include="EngineMain.h" />
-    <ClInclude Include="IEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp" />

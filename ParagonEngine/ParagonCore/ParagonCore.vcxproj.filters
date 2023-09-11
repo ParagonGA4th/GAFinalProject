@@ -19,6 +19,9 @@
     <Filter Include="3_Scene">
       <UniqueIdentifier>{cd7bd6a1-2855-4e5d-bf4e-6a81f2ce86d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="0_Main\Interface">
+      <UniqueIdentifier>{d7d5378f-5f24-4ffa-a068-c46cdc2daa81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoreMain.cpp">
@@ -37,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>1_Component\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="IEngine.h">
+      <Filter>0_Main\Interface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

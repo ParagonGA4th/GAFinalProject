@@ -4,7 +4,7 @@
 /// 변지상의 엔진 인터페이스. 코어에 들어갈 예정
 /// 2023.09.11
 /// </summary>
-namespace Pg::Engine
+namespace Pg::Core
 {
 	class IEngine abstract
 	{
