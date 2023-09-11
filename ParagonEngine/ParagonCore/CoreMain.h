@@ -11,6 +11,15 @@
 #pragma comment(lib,"..\\x64\\Release\\ParagonGraphics.lib")
 #endif // _DEBUG
 
+#ifdef _DEBUG
+#pragma comment(lib,"..\\x64\\Debug\\ParagonUtil.lib")
+#else
+#pragma comment(lib,"..\\x64\\Release\\ParagonUtil.lib")
+#endif // _DEBUG
+
+#include "IEngine.h"
+#include "../ParagonUtil/Log.h"
+#include <memory>
 #include <windows.h>
 
 namespace Pg::Core
@@ -19,6 +28,7 @@ namespace Pg::Core
 	{
 	public:
 		CoreMain();
+		~CoreMain();
 
 		long Initialize(void* hInstance, int cmdShow);
 		void Update();
@@ -32,6 +42,8 @@ namespace Pg::Core
 		static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	private:
+
+		//윈도우 관련 변수들
 		HWND _hWnd;
 		MSG _msg;
 		int _screenwidth;
@@ -39,6 +51,12 @@ namespace Pg::Core
 
 		const WCHAR* _className;
 		const WCHAR* _windowName;
+
+	private:
+		
+		std::unique_ptr<IEngine> _engine;				//게임 엔진
+		std::unique_ptr<Pg::Util::Debug::Log> _logger;
+		//Pg::Graphics::GraphicsMain* graphics;		//그래픽스 엔진
 	};
 }
 
