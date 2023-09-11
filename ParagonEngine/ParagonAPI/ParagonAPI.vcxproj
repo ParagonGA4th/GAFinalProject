@@ -131,16 +131,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="PgInput.h" />
     <ClInclude Include="PgMath.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="APIMain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PgInput.cpp" />
     <ClCompile Include="PgMath.cpp" />
-  </ItemGroup>  
-
-<ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="APIMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
