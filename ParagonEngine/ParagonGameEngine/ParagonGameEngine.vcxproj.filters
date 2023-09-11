@@ -7,6 +7,9 @@
     <ClInclude Include="EngineDLLExporter.h">
       <Filter>1_DLLExporter</Filter>
     </ClInclude>
+    <ClInclude Include="IEngine.h">
+      <Filter>2_Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -19,6 +22,15 @@
     </Filter>
     <Filter Include="1_DLLExporter">
       <UniqueIdentifier>{d15258cb-232a-45bd-8392-3fb51d1aa74d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Interface">
+      <UniqueIdentifier>{b708c0a1-acf8-4b8b-80ef-1bd2d2884e0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_System">
+      <UniqueIdentifier>{1369cddb-fc70-4b89-985c-75b02032e8fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_System\InputSystem">
+      <UniqueIdentifier>{dfd5e14e-c5f6-4172-9b35-5f5772b219f9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

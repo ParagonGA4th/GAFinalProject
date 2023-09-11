@@ -4,15 +4,39 @@
     <Filter Include="0_Main">
       <UniqueIdentifier>{351203f5-bfbf-4441-904d-74b9867e3b93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="1_Component">
+      <UniqueIdentifier>{f1251988-b57b-4169-b325-543308acb228}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Component\Interface">
+      <UniqueIdentifier>{b6f36693-1e58-4c2e-8e17-4216175aba4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Component\BaseClass">
+      <UniqueIdentifier>{fe86a5b4-6036-4878-a878-f3f028fea666}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_GameObject">
+      <UniqueIdentifier>{0db2666d-1aec-46f7-9a84-147dee2ebf48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Scene">
+      <UniqueIdentifier>{cd7bd6a1-2855-4e5d-bf4e-6a81f2ce86d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoreMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>1_Component\BaseClass</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreMain.h">
       <Filter>0_Main</Filter>
+    </ClInclude>
+    <ClInclude Include="IComponent.h">
+      <Filter>1_Component\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>1_Component\BaseClass</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
