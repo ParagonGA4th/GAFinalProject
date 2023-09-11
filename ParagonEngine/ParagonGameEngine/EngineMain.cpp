@@ -7,7 +7,7 @@ namespace Pg::Engine
 	void EngineMain::Initialize()
 	{
 		//디버그용 출력
-		OutputDebugString(L"EngineEngine!!!");
+		OutputDebugString(L"EngineEngineEngine!!!");
 	}
 
 	void EngineMain::Update()
