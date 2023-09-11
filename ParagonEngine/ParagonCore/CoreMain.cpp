@@ -16,6 +16,8 @@ namespace Pg::Core
 	{
 		_engine = std::make_unique<Pg::Engine::EngineMain>();
 		_logger = std::make_unique<Pg::Util::Debug::Log>();
+
+		_inputSystem = std::make_unique <Pg::Engine::InputSystem>();
 	}
 
 
@@ -47,6 +49,11 @@ namespace Pg::Core
 		//디버그 초기화
 		_logger->Initialize();
 		_logger->SetLoggerLevel(0);
+
+		// InputSystem 초기화
+		_inputSystem->Initialize(_screenwidth, _screenheight);
+
+
 		PG_TRACE("Engine Success!!");
 		PG_DEBUG("Engine Success!!");
 		PG_INFO("Engine Success!!");
@@ -71,6 +78,7 @@ namespace Pg::Core
 			else
 			{
 				//여기다가 시스템 싹 다 업데이트!!
+				//_inputSystem->Update();
 			}
 		}
 	}
