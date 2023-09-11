@@ -7,10 +7,16 @@
     <ClInclude Include="EngineDLLExporter.h">
       <Filter>1_DLLExporter</Filter>
     </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>3_System\InputSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
       <Filter>0_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>3_System\InputSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
