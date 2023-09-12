@@ -1,12 +1,20 @@
 #include "AssetManager.h"
 
-namespace Pg::Core::Managers
+namespace Pg::Core::Manager
 {
-	class AssetManager
+	AssetManager::AssetManager()
 	{
-		
+
+	}
+
+	AssetManager::~AssetManager()
+	{
+
+	}
 
 
 
-	};
+
+	
+
 }
