@@ -135,14 +135,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="CoreMain.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="ResourceType.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="Scene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="CoreMain.cpp" />
     <ClCompile Include="GameObject.cpp" />

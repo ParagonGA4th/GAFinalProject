@@ -36,6 +36,7 @@
     <ClCompile Include="Scene.cpp">
       <Filter>3_Scene</Filter>
     </ClCompile>
+    <ClCompile Include="AssetManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreMain.h">
@@ -56,5 +57,7 @@
     <ClInclude Include="Scene.h">
       <Filter>3_Scene</Filter>
     </ClInclude>
+    <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="ResourceType.h" />
   </ItemGroup>
 </Project>
