@@ -7,6 +7,9 @@
     <Filter Include="1_Math">
       <UniqueIdentifier>{39ce30f5-692e-4fd9-9468-ad2ced9bcc96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2_Input">
+      <UniqueIdentifier>{e53ef5b7-2ac1-457f-b2ad-dcda10edd42c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="APIMain.h">
@@ -15,6 +18,9 @@
     <ClInclude Include="PgMath.h">
       <Filter>1_Math</Filter>
     </ClInclude>
+    <ClInclude Include="PgInput.h">
+      <Filter>2_Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="APIMain.cpp">
@@ -22,6 +28,9 @@
     </ClCompile>
     <ClCompile Include="PgMath.cpp">
       <Filter>1_Math</Filter>
+    </ClCompile>
+    <ClCompile Include="PgInput.cpp">
+      <Filter>2_Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
