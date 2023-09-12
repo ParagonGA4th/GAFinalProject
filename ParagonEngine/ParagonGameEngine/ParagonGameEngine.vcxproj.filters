@@ -9,16 +9,18 @@
     </ClInclude>
     <ClInclude Include="InputSystem.h">
       <Filter>3_System\InputSystem</Filter>
-    </ClInclude>
-  </ItemGroup>
+    </ClInclude>    <ClInclude Include="TimeSystem.h">
+      <Filter>2_System\TimeSystem</Filter>
+    </ClInclude>  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
     <ClCompile Include="InputSystem.cpp">
       <Filter>3_System\InputSystem</Filter>
-    </ClCompile>
-  </ItemGroup>
+    </ClCompile>    <ClCompile Include="TimeSystem.cpp">
+      <Filter>2_System\TimeSystem</Filter>
+    </ClCompile>  </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
       <UniqueIdentifier>{05d15759-9684-4b7a-a054-99f0ccccab6f}</UniqueIdentifier>
@@ -26,11 +28,14 @@
     <Filter Include="1_DLLExporter">
       <UniqueIdentifier>{d15258cb-232a-45bd-8392-3fb51d1aa74d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3_System">
+    <Filter Include="2_System">
       <UniqueIdentifier>{1369cddb-fc70-4b89-985c-75b02032e8fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3_System\InputSystem">
+    <Filter Include="2_System\InputSystem">
       <UniqueIdentifier>{dfd5e14e-c5f6-4172-9b35-5f5772b219f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\TimeSystem">
+      <UniqueIdentifier>{093f088d-68f8-4419-81be-fdd07d8898ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
