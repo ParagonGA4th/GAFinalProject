@@ -30,6 +30,12 @@
     <ClCompile Include="Component.cpp">
       <Filter>1_Component\BaseClass</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>2_GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>3_Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreMain.h">
@@ -43,6 +49,12 @@
     </ClInclude>
     <ClInclude Include="IEngine.h">
       <Filter>0_Main\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>2_GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>3_Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
