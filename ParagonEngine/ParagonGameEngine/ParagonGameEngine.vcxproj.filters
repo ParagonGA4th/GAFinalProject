@@ -7,6 +7,7 @@
     <ClInclude Include="EngineDLLExporter.h">
       <Filter>1_DLLExporter</Filter>
     </ClInclude>
+
     <ClInclude Include="TimeSystem.h">
       <Filter>2_System\TimeSystem</Filter>
     </ClInclude>
@@ -18,6 +19,7 @@
     <ClCompile Include="EngineMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
+
     <ClCompile Include="TimeSystem.cpp">
       <Filter>2_System\TimeSystem</Filter>
     </ClCompile>
