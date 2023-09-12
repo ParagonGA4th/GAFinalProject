@@ -28,15 +28,18 @@ namespace Pg::Engine::Input
 	public:
 		PARAGON_ENGINE_DLL void Initialize(int screenwidth, int screenheight);
 		PARAGON_ENGINE_DLL void Update();
+
+	public:
+		PARAGON_ENGINE_DLL void HandleMessage(MSG& msg);
 	
 	public:
-		gainput::InputManager _manager;
-		gainput::InputMap _map;
+		gainput::InputManager* _manager;
+		gainput::InputMap* _map;
 
-		gainput::DeviceId keyboardId;
-		gainput::DeviceId mouseId;
-		gainput::DeviceId padId;
-		gainput::DeviceId touchId;
+		gainput::DeviceId _keyboardId;
+		gainput::DeviceId _mouseId;
+		gainput::DeviceId _padId;
+		gainput::DeviceId _touchId;
 	};
 }
 
