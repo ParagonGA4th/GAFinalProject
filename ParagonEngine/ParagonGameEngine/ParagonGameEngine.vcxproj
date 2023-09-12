@@ -133,9 +133,11 @@
   <ItemGroup>
     <ClInclude Include="EngineDLLExporter.h" />
     <ClInclude Include="EngineMain.h" />
+    <ClInclude Include="TimeSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp" />
+    <ClCompile Include="TimeSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ParagonCore\ParagonCore.vcxproj">
