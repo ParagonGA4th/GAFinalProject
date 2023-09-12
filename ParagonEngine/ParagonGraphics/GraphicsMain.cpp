@@ -9,6 +9,11 @@ namespace Pg::Graphics
 		OutputDebugString(L"GraphicsGraphics!!!");
 	}
 
+	void GraphicsMain::Update()
+	{
+
+	}
+
 	void GraphicsMain::Finalize()
 	{
 

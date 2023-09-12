@@ -55,8 +55,8 @@ namespace Pg::Core
 	private:
 		
 		std::unique_ptr<IEngine> _engine;				//게임 엔진
+		std::unique_ptr<IEngine> _graphics;				//그래픽스 엔진
 		std::unique_ptr<Pg::Util::Debug::Log> _logger;
-		//Pg::Graphics::GraphicsMain* graphics;		//그래픽스 엔진
 	};
 }
 

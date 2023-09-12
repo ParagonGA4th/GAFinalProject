@@ -15,6 +15,7 @@ namespace Pg::Core
 		_windowName(L"ParagonEngine")
 	{
 		_engine = std::make_unique<Pg::Engine::EngineMain>();
+		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>();
 		_logger = std::make_unique<Pg::Util::Debug::Log>();
 	}
 
@@ -23,8 +24,6 @@ namespace Pg::Core
 	{
 
 	}
-
-
 
 	long CoreMain::Initialize(void* hInstance, int cmdShow)
 	{
@@ -40,9 +39,9 @@ namespace Pg::Core
 			return S_FALSE;
 		}
 
-		//시스템 초기화
+		//엔진 초기화
 		_engine->Initialize();
-		//graphics->Initialize();
+		_graphics->Initialize();
 
 		//디버그 초기화
 		_logger->Initialize();
@@ -71,6 +70,8 @@ namespace Pg::Core
 			else
 			{
 				//여기다가 시스템 싹 다 업데이트!!
+				_engine->Update();
+				_graphics->Update();
 			}
 		}
 	}
