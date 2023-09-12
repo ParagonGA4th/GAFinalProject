@@ -141,6 +141,7 @@
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Singleton.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
