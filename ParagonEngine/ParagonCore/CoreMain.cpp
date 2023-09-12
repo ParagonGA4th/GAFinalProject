@@ -18,7 +18,7 @@ namespace Pg::Core
 		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>();
 		_logger = std::make_unique<Pg::Util::Debug::Log>();
 
-		_inputSystem = std::make_unique <Pg::Engine::Input::InputSystem>();
+		_inputSystem = std::make_unique<Pg::Engine::Input::InputSystem>();
 	}
 
 
