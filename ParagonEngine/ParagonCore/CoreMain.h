@@ -17,6 +17,12 @@
 #pragma comment(lib,"..\\x64\\Release\\ParagonUtil.lib")
 #endif // _DEBUG
 
+#ifdef _DEBUG
+#pragma comment(lib,"..\\x64\\Debug\\ParagonAPI.lib")
+#else
+#pragma comment(lib,"..\\x64\\Release\\ParagonAPI.lib")
+#endif // _DEBUG
+
 #include "IEngine.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonGameEngine/InputSystem.h"
@@ -60,9 +66,10 @@ namespace Pg::Core
 		std::unique_ptr<IEngine> _engine;				//게임 엔진
 		std::unique_ptr<IEngine> _graphics;				//그래픽스 엔진
 		std::unique_ptr<Pg::Util::Debug::Log> _logger;
-		std::unique_ptr<Pg::Engine::Input::InputSystem> _inputSystem;
+		//std::unique_ptr<Pg::Engine::Input::InputSystem> _inputSystem;
 
 		Pg::Engine::Time::TimeSystem* _timeSystem;
+		Pg::Engine::Input::InputSystem* _inputSystem;
 	};
 }
 
