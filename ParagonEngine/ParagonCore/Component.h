@@ -20,6 +20,7 @@ namespace Pg::Core
 		Component(GameObject& obj);
 		virtual ~Component();
 
+	public:
 		virtual void Awake() {}
 		virtual void Start() {}
 		virtual void Update() {}
@@ -30,6 +31,9 @@ namespace Pg::Core
 		virtual void OnCollisionEnter() {}
 		virtual void OnCollisionStay() {}
 		virtual void OnCollisionExit() {}
+
+	public:
+		GameObject& _object;
 	};
 
 }
