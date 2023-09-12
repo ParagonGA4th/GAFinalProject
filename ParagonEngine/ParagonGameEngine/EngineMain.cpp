@@ -4,15 +4,21 @@
 
 namespace Pg::Engine
 {
+	EngineMain::EngineMain() :
+		_timeSystem(Time::TimeSystem::Instance())
+	{
+
+	}
+
 	void EngineMain::Initialize()
 	{
-		//디버그용 출력
-		OutputDebugString(L"EngineEngineEngine!!!");
+		_timeSystem->Initialize();
 	}
 
 	void EngineMain::Update()
 	{
-
+		_timeSystem->TimeMeasure();
+		//PG_TRACE(std::to_string(_timeSystem->GetDeltaTime()));
 	}
 
 	void EngineMain::Finalize()
