@@ -1,6 +1,6 @@
 #pragma once
 #include "../ParagonGraphics/GraphicsDLLExporter.h"
-#include "../ParagonCore/IEngine.h"
+#include "../ParagonCore/IGraphics.h"
 
 #include <windows.h>
 //#include "DX11Headers.h"
@@ -10,8 +10,7 @@ namespace Pg::Graphics
 {
 	class LowDX11Logic;
 	class LowDX11Storage;
-
-	class GraphicsMain : public Pg::Core::IEngine
+	class GraphicsMain : public Pg::Core::IGraphics
 	{
 	public:
 		PARAGON_GRAPHICS_DLL GraphicsMain();
