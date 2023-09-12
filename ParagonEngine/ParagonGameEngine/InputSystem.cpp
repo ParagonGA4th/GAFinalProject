@@ -18,13 +18,8 @@
 #pragma comment(lib,"..\\x64\\Release\\ParagonUtil.lib")
 #endif // _DEBUG
 
-namespace  Pg::Engine
+namespace  Pg::Engine::Input
 {
-	enum Button
-	{
-		ButtonConfirm
-	};
-
 	InputSystem::InputSystem()
 		:_manager(), _map(_manager),
 		keyboardId(), mouseId(), padId(), touchId()
@@ -52,6 +47,9 @@ namespace  Pg::Engine
 		_map.MapBool(ButtonConfirm, mouseId, gainput::MouseButtonLeft);
 		_map.MapBool(ButtonConfirm, padId, gainput::PadButtonA);
 		_map.MapBool(ButtonConfirm, touchId, gainput::Touch0Down);
+
+		_map.MapFloat(MouseX, mouseId, gainput::MouseAxisX);
+		_map.MapFloat(MouseY, mouseId, gainput::MouseAxisY);
 	}
 
 
