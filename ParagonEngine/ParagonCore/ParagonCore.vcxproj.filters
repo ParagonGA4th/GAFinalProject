@@ -62,5 +62,11 @@
     <ClInclude Include="Singleton.h">
       <Filter>0_Main\singleton</Filter>
     </ClInclude>
+    <ClInclude Include="IGraphics.h">
+      <Filter>0_Main\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IEditor.h">
+      <Filter>0_Main\Interface</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
