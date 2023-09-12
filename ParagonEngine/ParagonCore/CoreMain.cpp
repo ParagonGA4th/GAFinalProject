@@ -5,6 +5,8 @@
 #include "../ParagonGraphics/GraphicsDLLExporter.h"
 #include "../ParagonAPI/PgInput.h"
 
+#include <string>
+
 namespace Pg::Core
 {
 	CoreMain::CoreMain() :
@@ -94,7 +96,11 @@ namespace Pg::Core
 				}
 				if (PgInput::GetKey(eKeyCode::MouseRight))
 				{
-					PG_TRACE("마우스 오른쪽 버튼 클릭 중");
+					std::string mouseX = std::to_string(PgInput::GetMouseX());
+					std::string mouseY = std::to_string(PgInput::GetMouseY());
+					std::string outString = "마우스 오른쪽 버튼 클릭 중 ";
+					outString.append(mouseX).append(", ").append(mouseY);
+					PG_TRACE(outString);
 				}
 			}
 		}
