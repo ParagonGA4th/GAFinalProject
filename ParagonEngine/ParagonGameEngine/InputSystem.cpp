@@ -3,6 +3,8 @@
 #include "gainput/gainput.h"
 #include "../ParagonUtil/Log.h"
 
+#include "../ParagonAPI/KeyCodeType.h"
+
 #include <windows.h>
 #include <cassert>
 #include <string>
@@ -26,18 +28,20 @@ namespace  Pg::Engine::Input
 		_keyboardId(), _mouseId(), _padId(), _touchId()
 	{
 		_manager = new gainput::InputManager();
+		_map = new gainput::InputMap(*_manager);
 
 		_keyboardId = _manager->CreateDevice<gainput::InputDeviceKeyboard>();
 		_mouseId = _manager->CreateDevice<gainput::InputDeviceMouse>();
 		_padId = _manager->CreateDevice<gainput::InputDevicePad>();
 		_touchId = _manager->CreateDevice<gainput::InputDeviceTouch>();
 
-		_map = new gainput::InputMap(*_manager);
+
 	}
 
 	InputSystem::~InputSystem()
 	{
-
+		delete _map;
+		delete _manager;
 	}
 
 	void InputSystem::Initialize(int screenwidth, int screenheight)
@@ -47,43 +51,78 @@ namespace  Pg::Engine::Input
 		
 		_manager->SetDisplaySize(screenwidth, screenheight);
 
-		_map->MapBool(ButtonConfirm, _keyboardId, gainput::KeyReturn);
-		_map->MapBool(ButtonConfirm, _mouseId, gainput::MouseButtonLeft);
-		_map->MapBool(ButtonConfirm, _padId, gainput::PadButtonA);
-		_map->MapBool(ButtonConfirm, _touchId, gainput::Touch0Down);
-
-		_map->MapFloat(MouseX, _mouseId, gainput::MouseAxisX);
-		_map->MapFloat(MouseY, _mouseId, gainput::MouseAxisY);
+		// 키와 액션을 맵핑
+		MapKeys();
 
 	}
 
 	void InputSystem::Update()
 	{
 		_manager->Update();
-
-		if (_map->GetBoolWasDown(ButtonConfirm))
-		{
-			OutputDebugString(L"Confirm Button Clicked.");
-			PG_TRACE(" ");
-		}
-
-		if (_map->GetFloatDelta(MouseX) != 0.0f || _map->GetFloatDelta(MouseY) != 0.0f)
-		{
-			std::wstring output = L"";
-			output += L"Mouse Moved. X: ";
-			output += std::to_wstring(_map->GetFloat(MouseX));
-			output += L" Y: ";
-			output += std::to_wstring(_map->GetFloat(MouseY));
-			output += L"\n";
-
-			OutputDebugString(output.c_str());
-		}
-
 	}
 
 	void InputSystem::HandleMessage(MSG& msg)
 	{
 		_manager->HandleMessage(msg);
+	}
+
+	void InputSystem::MapKeys()
+	{
+		using namespace Pg::API::Input;
+
+		_map->MapBool(eKeyCode::MoveFront, _keyboardId, gainput::KeyW);
+		_map->MapBool(eKeyCode::MoveBack, _keyboardId, gainput::KeyS);
+		_map->MapBool(eKeyCode::MoveLeft, _keyboardId, gainput::KeyA);
+		_map->MapBool(eKeyCode::MoveRight, _keyboardId, gainput::KeyD);
+		_map->MapBool(eKeyCode::MoveUp, _keyboardId, gainput::KeyE);
+		_map->MapBool(eKeyCode::MoveDown, _keyboardId, gainput::KeyQ);
+
+		_map->MapBool(eKeyCode::ButtonConfirm, _keyboardId, gainput::KeyReturn);
+		_map->MapBool(eKeyCode::ButtonConfirm, _padId, gainput::PadButtonA);
+		_map->MapBool(eKeyCode::ButtonConfirm, _touchId, gainput::Touch0Down);
+
+		_map->MapBool(eKeyCode::MouseLeft , _mouseId, gainput::MouseButtonLeft);
+		_map->MapBool(eKeyCode::MouseRight , _mouseId, gainput::MouseButtonRight);
+
+		_map->MapFloat(eKeyCode::MouseX, _mouseId, gainput::MouseAxisX);
+		_map->MapFloat(eKeyCode::MouseY, _mouseId, gainput::MouseAxisY);
+	}
+
+	bool InputSystem::GetKey(Pg::API::Input::eKeyCode keyCode)
+	{
+		return _map->GetBool(keyCode);
+	}
+
+	bool InputSystem::GetKeyDown(Pg::API::Input::eKeyCode keyCode)
+	{
+		return _map->GetBoolIsNew(keyCode);
+	}
+
+	bool InputSystem::GetKeyUp(Pg::API::Input::eKeyCode keyCode)
+	{
+		return _map->GetBoolWasDown(keyCode);
+	}
+
+	float InputSystem::GetMouseX()
+	{
+		return _map->GetFloat(Pg::API::Input::eKeyCode::MouseX);
+	}
+
+	float InputSystem::GetMouseY()
+	{
+		return _map->GetFloat(Pg::API::Input::eKeyCode::MouseY);
+	}
+
+	bool InputSystem::IsMouseMoving()
+	{
+		if (_map->GetFloatDelta(Pg::API::Input::eKeyCode::MouseX) != 0.0f || _map->GetFloatDelta(Pg::API::Input::eKeyCode::MouseY) != 0.0f)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 }
