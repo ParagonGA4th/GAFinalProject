@@ -1,10 +1,10 @@
 #pragma once
 #include "../ParagonGraphics/GraphicsDLLExporter.h"
-#include "../ParagonCore/IEngine.h"
+#include "../ParagonCore/IGraphics.h"
 
 namespace Pg::Graphics
 {
-	class GraphicsMain : public Pg::Core::IEngine
+	class GraphicsMain : public Pg::Core::IGraphics
 	{
 	public:
 		PARAGON_GRAPHICS_DLL void Initialize();
