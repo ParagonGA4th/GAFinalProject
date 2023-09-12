@@ -7,18 +7,20 @@
     <ClInclude Include="EngineDLLExporter.h">
       <Filter>1_DLLExporter</Filter>
     </ClInclude>
-    <ClInclude Include="TimeSystem.h">
+    <ClInclude Include="InputSystem.h">
+      <Filter>3_System\InputSystem</Filter>
+    </ClInclude>    <ClInclude Include="TimeSystem.h">
       <Filter>2_System\TimeSystem</Filter>
-    </ClInclude>
-  </ItemGroup>
+    </ClInclude>  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
-    <ClCompile Include="TimeSystem.cpp">
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>3_System\InputSystem</Filter>
+    </ClCompile>    <ClCompile Include="TimeSystem.cpp">
       <Filter>2_System\TimeSystem</Filter>
-    </ClCompile>
-  </ItemGroup>
+    </ClCompile>  </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
       <UniqueIdentifier>{05d15759-9684-4b7a-a054-99f0ccccab6f}</UniqueIdentifier>
