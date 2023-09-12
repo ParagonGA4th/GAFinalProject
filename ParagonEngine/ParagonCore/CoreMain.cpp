@@ -3,7 +3,7 @@
 #include "../ParagonGraphics/GraphicsMain.h"
 #include "../ParagonGameEngine/EngineDLLExporter.h"
 #include "../ParagonGraphics/GraphicsDLLExporter.h"
-
+#include "../ParagonAPI/PgInput.h"
 
 namespace Pg::Core
 {
@@ -13,13 +13,14 @@ namespace Pg::Core
 		_screenheight(1080),
 		_className(L"ParagonEngine"),
 		_windowName(L"ParagonEngine"),
-		_timeSystem(Pg::Engine::Time::TimeSystem::Instance())
+		_timeSystem(Pg::Engine::Time::TimeSystem::Instance()),
+		_inputSystem(Pg::Engine::Input::InputSystem::Instance())
 	{
 		_engine = std::make_unique<Pg::Engine::EngineMain>();
 		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>();
 		_logger = std::make_unique<Pg::Util::Debug::Log>();
 
-		_inputSystem = std::make_unique<Pg::Engine::Input::InputSystem>();
+		//_inputSystem = std::make_unique<Pg::Engine::Input::InputSystem>();
 	}
 
 
@@ -52,7 +53,6 @@ namespace Pg::Core
 
 		// InputSystem 초기화
 		_inputSystem->Initialize(_screenwidth, _screenheight);
-		//Pg::Engine::Time::TimeSystem::Instance()->Initialize();
 
 		_timeSystem->Initialize();
 
@@ -83,9 +83,19 @@ namespace Pg::Core
 				//여기다가 시스템 싹 다 업데이트!!
 				_engine->Update();
 				//Pg::Engine::Time::TimeSystem::Instance()->TimeMeasure();
-				//_inputSystem->Update();
+				_inputSystem->Update();
 				_timeSystem->TimeMeasure();
-				PG_TRACE(_timeSystem->GetDeltaTime());
+				//PG_TRACE(_timeSystem->GetDeltaTime());
+
+				using namespace Pg::API::Input;
+				if (PgInput::GetKeyDown(eKeyCode::MouseLeft))
+				{
+					PG_TRACE("마우스 왼쪽 버튼 클릭");
+				}
+				if (PgInput::GetKey(eKeyCode::MouseRight))
+				{
+					PG_TRACE("마우스 오른쪽 버튼 클릭 중");
+				}
 			}
 		}
 	}
