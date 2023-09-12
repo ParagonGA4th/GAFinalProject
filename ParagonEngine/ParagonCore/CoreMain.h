@@ -58,7 +58,7 @@ namespace Pg::Core
 		std::unique_ptr<IEngine> _engine;				//게임 엔진
 		std::unique_ptr<IEngine> _graphics;				//그래픽스 엔진
 		std::unique_ptr<Pg::Util::Debug::Log> _logger;
-		std::unique_ptr<Pg::Engine::InputSystem> _inputSystem;
+		std::unique_ptr<Pg::Engine::Input::InputSystem> _inputSystem;
 	};
 }
 
