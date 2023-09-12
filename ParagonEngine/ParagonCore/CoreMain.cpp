@@ -15,9 +15,10 @@ namespace Pg::Core
 		_windowName(L"ParagonEngine")
 	{
 		_engine = std::make_unique<Pg::Engine::EngineMain>();
+		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>();
 		_logger = std::make_unique<Pg::Util::Debug::Log>();
 
-		_inputSystem = std::make_unique <Pg::Engine::Input::InputSystem>();
+		_inputSystem = std::make_unique <Pg::Engine::InputSystem>();
 	}
 
 
@@ -25,8 +26,6 @@ namespace Pg::Core
 	{
 
 	}
-
-
 
 	long CoreMain::Initialize(void* hInstance, int cmdShow)
 	{
@@ -42,9 +41,9 @@ namespace Pg::Core
 			return S_FALSE;
 		}
 
-		//시스템 초기화
+		//엔진 초기화
 		_engine->Initialize();
-		//graphics->Initialize();
+		_graphics->Initialize();
 
 		//디버그 초기화
 		_logger->Initialize();
@@ -78,8 +77,9 @@ namespace Pg::Core
 			else
 			{
 				//여기다가 시스템 싹 다 업데이트!!
-				_inputSystem->Update();
-			}
+				//_inputSystem->Update();
+				_engine->Update();
+				_graphics->Update();			}
 		}
 	}
 
@@ -129,24 +129,24 @@ namespace Pg::Core
 	{
 		switch (message)
 		{
-		//case WM_LBUTTONDOWN:
-		//	return 0;
+		case WM_LBUTTONDOWN:
+			return 0;
 
-		//case WM_MBUTTONDOWN:
-		//	return 0;
+		case WM_MBUTTONDOWN:
+			return 0;
 
-		//case WM_RBUTTONDOWN:
-		//	return 0;
+		case WM_RBUTTONDOWN:
+			return 0;
 
-		//case WM_LBUTTONUP:
+		case WM_LBUTTONUP:
 
-		//case WM_MBUTTONUP:
+		case WM_MBUTTONUP:
 
-		//case WM_RBUTTONUP:
-		//	return 0;
+		case WM_RBUTTONUP:
+			return 0;
 
-		//case WM_MOUSEMOVE:
-		//	break;
+		case WM_MOUSEMOVE:
+			break;
 
 		case WM_DESTROY:
 			PostQuitMessage(0);
