@@ -1,14 +1,15 @@
 #include "TimeSystem.h"
 
+
+
+
 namespace Pg::Engine::Time
 {
-	float TimeSystem::_deltaTime = 0.0f;
-	int TimeSystem::_frameRate = 0;
-
 	TimeSystem::TimeSystem() :
 		_frequency(LARGE_INTEGER()),
 		_startTick(LARGE_INTEGER()),
-		_endTick(LARGE_INTEGER())
+		_endTick(LARGE_INTEGER()),
+		_totalTick(0.0f)
 	{
 
 	}

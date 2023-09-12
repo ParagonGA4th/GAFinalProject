@@ -12,7 +12,8 @@ namespace Pg::Core
 		_screenwidth(1920),
 		_screenheight(1080),
 		_className(L"ParagonEngine"),
-		_windowName(L"ParagonEngine")
+		_windowName(L"ParagonEngine"),
+		_timeSystem(Pg::Engine::Time::TimeSystem::Instance())
 	{
 		_engine = std::make_unique<Pg::Engine::EngineMain>();
 		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>();
@@ -51,13 +52,15 @@ namespace Pg::Core
 
 		// InputSystem 초기화
 		_inputSystem->Initialize(_screenwidth, _screenheight);
+		//Pg::Engine::Time::TimeSystem::Instance()->Initialize();
 
+		_timeSystem->Initialize();
 
 		PG_TRACE("Engine Success!!");
 		PG_DEBUG("Engine Success!!");
 		PG_INFO("Engine Success!!");
 		PG_WARN("Engine Success!!");
-
+		
 		return S_OK;
 	}
 
@@ -78,8 +81,13 @@ namespace Pg::Core
 			{
 				//여기다가 시스템 싹 다 업데이트!!
 				_engine->Update();
-				_graphics->Update();			}
+				_graphics->Update();			
+				//Pg::Engine::Time::TimeSystem::Instance()->TimeMeasure();
 				//_inputSystem->Update();
+
+				_timeSystem->TimeMeasure();
+				PG_TRACE(_timeSystem->GetDeltaTime());
+			}
 		}
 	}
 
