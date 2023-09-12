@@ -22,6 +22,9 @@
     <Filter Include="0_Main\Interface">
       <UniqueIdentifier>{d7d5378f-5f24-4ffa-a068-c46cdc2daa81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="0_Main\singleton">
+      <UniqueIdentifier>{c39f6dcc-3df1-470f-b101-fc8281d28d44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoreMain.cpp">
@@ -55,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>3_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>0_Main\singleton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
