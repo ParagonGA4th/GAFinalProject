@@ -9,8 +9,16 @@
 
 #include "gainput/gainput.h"
 
-namespace Pg::Engine
+namespace Pg::Engine::Input
 {
+	enum eInput
+	{
+		ButtonMenu,
+		ButtonConfirm,
+		MouseX,
+		MouseY
+	};
+
 	class InputSystem
 	{
 	public:
