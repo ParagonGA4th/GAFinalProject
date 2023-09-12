@@ -137,12 +137,16 @@
   <ItemGroup>
     <ClInclude Include="Component.h" />
     <ClInclude Include="CoreMain.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IEngine.h" />
+    <ClInclude Include="Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="CoreMain.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
