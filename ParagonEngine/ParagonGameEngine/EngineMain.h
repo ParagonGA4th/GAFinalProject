@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../ParagonGameEngine/EngineDLLExporter.h"
 #include "../ParagonCore/IEngine.h"
 #include "../ParagonCore/Singleton.h"
@@ -17,14 +18,14 @@ namespace Pg::Engine
 	public:
 		PARAGON_ENGINE_DLL EngineMain();
 
-		PARAGON_ENGINE_DLL void Initialize();
-		PARAGON_ENGINE_DLL void Update();
-		PARAGON_ENGINE_DLL void Finalize();
+		PARAGON_ENGINE_DLL void Initialize(float width, float height) override;
+		PARAGON_ENGINE_DLL void Update() override;
+		PARAGON_ENGINE_DLL void Finalize() override;
 
 	private:
 
-		Input::InputSystem* _inputSystem;
 		Time::TimeSystem* _timeSystem;
+		Input::InputSystem* _inputSystem;
 	};
 }
 
