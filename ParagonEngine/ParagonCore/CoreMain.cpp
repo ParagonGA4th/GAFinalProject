@@ -77,9 +77,9 @@ namespace Pg::Core
 			else
 			{
 				//여기다가 시스템 싹 다 업데이트!!
-				//_inputSystem->Update();
 				_engine->Update();
 				_graphics->Update();			}
+				//_inputSystem->Update();
 		}
 	}
 

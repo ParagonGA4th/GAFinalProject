@@ -27,7 +27,6 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance,
 	main = std::make_unique<Pg::Core::CoreMain>();
 	main->Initialize(static_cast<void*>(hInstance), nCmdShow);
 
-
 	main->Update();
 
 	main->Finalize();
