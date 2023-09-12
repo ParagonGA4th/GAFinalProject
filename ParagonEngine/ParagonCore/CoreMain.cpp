@@ -76,15 +76,14 @@ namespace Pg::Core
 				}
 
 				DispatchMessage(&_msg);
+				_inputSystem->HandleMessage(_msg);
 			}
 			else
 			{
 				//여기다가 시스템 싹 다 업데이트!!
 				_engine->Update();
-				_graphics->Update();			
 				//Pg::Engine::Time::TimeSystem::Instance()->TimeMeasure();
 				//_inputSystem->Update();
-
 				_timeSystem->TimeMeasure();
 				PG_TRACE(_timeSystem->GetDeltaTime());
 			}
