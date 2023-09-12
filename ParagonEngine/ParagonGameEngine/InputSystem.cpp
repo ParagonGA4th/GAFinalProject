@@ -110,7 +110,7 @@ namespace  Pg::Engine::Input
 
 	float InputSystem::GetMouseY()
 	{
-		return _map->GetFloat(Pg::API::Input::eKeyCode::MouseX);
+		return _map->GetFloat(Pg::API::Input::eKeyCode::MouseY);
 	}
 
 	bool InputSystem::IsMouseMoving()
