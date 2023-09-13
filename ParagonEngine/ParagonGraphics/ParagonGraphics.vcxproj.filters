@@ -7,18 +7,32 @@
     <ClInclude Include="GraphicsDLLExporter.h">
       <Filter>1_DLLExporter</Filter>
     </ClInclude>
-    <ClInclude Include="DX11Headers.h" />
-    <ClInclude Include="LowDX11Logic.h" />
-    <ClInclude Include="LowDX11Storage.h" />
-    <ClInclude Include="ParagonRenderer.h" />
+    <ClInclude Include="DX11Headers.h">
+      <Filter>5_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="LowDX11Logic.h">
+      <Filter>2_LowDX11</Filter>
+    </ClInclude>
+    <ClInclude Include="LowDX11Storage.h">
+      <Filter>2_LowDX11</Filter>
+    </ClInclude>
+    <ClInclude Include="ParagonRenderer.h">
+      <Filter>3_Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
-    <ClCompile Include="LowDX11Logic.cpp" />
-    <ClCompile Include="LowDX11Storage.cpp" />
-    <ClCompile Include="ParagonRenderer.cpp" />
+    <ClCompile Include="LowDX11Logic.cpp">
+      <Filter>2_LowDX11</Filter>
+    </ClCompile>
+    <ClCompile Include="LowDX11Storage.cpp">
+      <Filter>2_LowDX11</Filter>
+    </ClCompile>
+    <ClCompile Include="ParagonRenderer.cpp">
+      <Filter>3_Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -27,9 +41,25 @@
     <Filter Include="1_DLLExporter">
       <UniqueIdentifier>{2a9d5051-b3e8-4e99-9390-c294040bed50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="4_HLSL">
+      <UniqueIdentifier>{77b7d216-140c-4cfc-8018-b14b1c0dbd24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc">
+      <UniqueIdentifier>{aa7de633-70a4-451c-a86e-ad1527be0c5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_LowDX11">
+      <UniqueIdentifier>{577db36a-a07a-4467-ba45-4eee9ec08406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Renderer">
+      <UniqueIdentifier>{2e73b48d-9840-40d0-ab2e-e84226b43f13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="VertexShader.hlsl" />
-    <FxCompile Include="PixelShader.hlsl" />
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>4_HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="PixelShader.hlsl">
+      <Filter>4_HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

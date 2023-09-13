@@ -12,7 +12,7 @@ struct PixelOut
 PixelOut PS(VertexOut pin)
 {
 	PixelOut pout;
-	pout.color = float4(pin.color, 0.5f);
+	pout.color = float4(pin.color, 1.0f);
 	//pout.color = float4(1.0f, 1.0f, 0.0f, 0.0f);
 
 	return pout;

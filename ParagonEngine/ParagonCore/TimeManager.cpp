@@ -30,7 +30,7 @@ namespace Pg::Core::Time
 
 		QueryPerformanceCounter(&_startTick);
 
-		PG_TRACE(std::to_string(_deltaTime));
+		//PG_TRACE(std::to_string(_deltaTime));
 	}
 
 	void TimeManager::MeasureFrame(float deltaTime)
