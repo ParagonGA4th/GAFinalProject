@@ -25,22 +25,25 @@
     <Filter Include="0_Main\singleton">
       <UniqueIdentifier>{c39f6dcc-3df1-470f-b101-fc8281d28d44}</UniqueIdentifier>
     </Filter>
-    <Filter Include="4_Managers">
-      <UniqueIdentifier>{e4c6cf3a-f8de-4efc-9ccd-09ab18d38561}</UniqueIdentifier>
-    </Filter>
     <Filter Include="5_Enums">
       <UniqueIdentifier>{71f05338-cf29-487f-8a53-4bac3b70a1a6}</UniqueIdentifier>
     </Filter>
     <Filter Include="6_Helpers">
       <UniqueIdentifier>{a385e3cd-3b03-40bc-a9fe-3ed714678a47}</UniqueIdentifier>
     </Filter>
-    <Filter Include="4_Managers\AssetManager">
-      <UniqueIdentifier>{15452f5e-c88a-4d3f-8b9a-fc15f2b8243b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="6_Helpers\ResourceHelper">
       <UniqueIdentifier>{959479a1-ad66-4e30-a890-ce0de9c00550}</UniqueIdentifier>
     </Filter>
-    <Filter Include="4_Managers\AssetManager\BaseResource">
+    <Filter Include="4_Resources">
+      <UniqueIdentifier>{e4c6cf3a-f8de-4efc-9ccd-09ab18d38561}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Resources\AssetManager">
+      <UniqueIdentifier>{15452f5e-c88a-4d3f-8b9a-fc15f2b8243b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Resources\Resources">
+      <UniqueIdentifier>{142fab84-257f-4f02-8e08-8c450b9bc1bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Resources\Resources\BaseResource">
       <UniqueIdentifier>{3a4923bf-2f21-4a3f-85ce-f8b54a538afa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -61,10 +64,10 @@
       <Filter>6_Helpers\ResourceHelper</Filter>
     </ClCompile>
     <ClCompile Include="AssetManager.cpp">
-      <Filter>4_Managers\AssetManager</Filter>
+      <Filter>4_Resources\AssetManager</Filter>
     </ClCompile>
     <ClCompile Include="BaseResource.cpp">
-      <Filter>4_Managers\AssetManager\BaseResource</Filter>
+      <Filter>4_Resources\Resources\BaseResource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -99,13 +102,13 @@
       <Filter>5_Enums</Filter>
     </ClInclude>
     <ClInclude Include="AssetManager.h">
-      <Filter>4_Managers\AssetManager</Filter>
+      <Filter>4_Resources\AssetManager</Filter>
     </ClInclude>
     <ClInclude Include="ResourceHelper.h">
       <Filter>6_Helpers\ResourceHelper</Filter>
     </ClInclude>
     <ClInclude Include="BaseResource.h">
-      <Filter>4_Managers\AssetManager\BaseResource</Filter>
+      <Filter>4_Resources\Resources\BaseResource</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
