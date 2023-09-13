@@ -43,9 +43,14 @@ namespace Pg::Graphics
 		_DXStorage->_swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 		_DXStorage->_swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
 		_DXStorage->_swapChainDesc.Flags = NULL;
-
 		// DXGI Factory 생성
+
 		hr = CreateDXGIFactory1(__uuidof(IDXGIFactory2), (void**)(&_DXStorage->_factory));
+
+		if (hr != S_OK)
+		{
+			return hr;
+		}
 
 		// Hwnd 사용하여 스왑체인 생성
 		hr = _DXStorage->_factory->CreateSwapChainForHwnd(
@@ -63,6 +68,11 @@ namespace Pg::Graphics
 	HRESULT LowDX11Logic::CreateMainRenderTarget()
 {
 		hr = _DXStorage->_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&(_DXStorage->_backBuffer));
+
+		if (hr != S_OK)
+		{
+			return hr;
+		}
 
 		hr = _DXStorage->_device->CreateRenderTargetView(_DXStorage->_backBuffer, nullptr, &(_DXStorage->_mainRTV));
 		
