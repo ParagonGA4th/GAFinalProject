@@ -21,6 +21,9 @@
     <ClInclude Include="PgInput.h">
       <Filter>2_Input</Filter>
     </ClInclude>
+    <ClInclude Include="KeyCodeType.h">
+      <Filter>2_Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="APIMain.cpp">

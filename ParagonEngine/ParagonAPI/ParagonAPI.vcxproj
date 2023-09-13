@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="KeyCodeType.h" />
     <ClInclude Include="PgInput.h" />
     <ClInclude Include="PgMath.h" />
   </ItemGroup>
