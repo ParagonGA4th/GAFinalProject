@@ -9,12 +9,12 @@
 
 namespace Pg::Core
 {
-	CoreMain::CoreMain()
+	CoreMain::CoreMain() :
+		_timeManager(Time::TimeManager::Instance())
 	{
 		_engine = std::make_unique<Pg::Engine::EngineMain>();
 		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>();
 		_logger = std::make_unique<Pg::Util::Debug::Log>();
-
 	}
 
 	CoreMain::~CoreMain()
@@ -24,6 +24,8 @@ namespace Pg::Core
 
 	long CoreMain::Initialize(void* hwnd, int screenWidth, int screenHeight)
 	{
+		//deltaTime 초기화
+		_timeManager->Initialize();
 
 		//엔진 초기화
 		_engine->Initialize(screenWidth, screenHeight);
@@ -44,6 +46,9 @@ namespace Pg::Core
 
 	void CoreMain::Update()
 	{
+		//deltaTime 업데이트
+		_timeManager->TimeMeasure();
+
 		//여기다가 시스템 싹 다 업데이트!!
 		_engine->Update();
 		_graphics->Update();
