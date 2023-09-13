@@ -1,6 +1,5 @@
 #pragma once
 
-#include "IComponent.h"
 #include <unordered_map>
 #include <string>
 
@@ -14,7 +13,9 @@ namespace Pg::Core
 	class GameObject
 	{
 	public:
+		GameObject() {};
 		GameObject(const std::string& name);
+
 		virtual ~GameObject();
 
 		void Awake();
@@ -22,20 +23,7 @@ namespace Pg::Core
 		void Update();
 		void FixedUpdate();
 		void LateUpdate();
-
-		void OnCollisionEnter();
-		void OnCollisionStay();
-		void OnCollisionExit();
-
 		const std::string& GetName() const;
-		void SetName(const std::string& name);
-
-	private:
-
-		std::string _objectName;
-		std::string _objectTag;
-
-		bool _isActive;
-	};
+		void SetName(const std::string& name);	};
 }
 
