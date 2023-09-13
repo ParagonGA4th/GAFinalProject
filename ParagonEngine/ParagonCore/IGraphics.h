@@ -11,7 +11,7 @@ namespace Pg::Core
 	class IGraphics abstract
 	{
 	public:
-		virtual void  Initialize(HWND hWnd, int screenWidth, int screenHeight) abstract;
+		virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) abstract;
 
 		virtual void Update() abstract;
 		virtual void BeginRender() abstract;
@@ -19,5 +19,7 @@ namespace Pg::Core
 		virtual void EndRender() abstract;
 
 		virtual void Finalize() abstract;
+
+		virtual void OnWindowResized(int screenWidth, int screenHeight) abstract;
 	};
 }

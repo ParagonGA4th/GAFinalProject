@@ -28,4 +28,8 @@
       <UniqueIdentifier>{2a9d5051-b3e8-4e99-9390-c294040bed50}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="VertexShader.hlsl" />
+    <FxCompile Include="PixelShader.hlsl" />
+  </ItemGroup>
 </Project>

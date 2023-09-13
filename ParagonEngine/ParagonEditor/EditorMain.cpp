@@ -1,5 +1,8 @@
 #include "EditorMain.h"
 
+Pg::Core::CoreMain* EditorMain::_coreMainStatic = nullptr;
+bool EditorMain::_isCoreInitialized;
+
 EditorMain::EditorMain()
 	: _hWnd(), _msg(),
 	_screenWidth(1920),
@@ -7,7 +10,9 @@ EditorMain::EditorMain()
 	_className(L"ParagonEngine"),
 	_windowName(L"ParagonEngine")
 {
+	_isCoreInitialized = false;
 	_coreMain = std::make_unique<Pg::Core::CoreMain>();
+	_coreMainStatic = _coreMain.get();
 }
 
 EditorMain::~EditorMain()
@@ -22,13 +27,14 @@ long EditorMain::Initialize(void* hInstance, int cmdShow)
 
 	RECT rect;
 	GetClientRect(_hWnd, &rect);
-
+	
 	if (!CreateWindows((HINSTANCE)hInstance, cmdShow))
 	{
 		return S_FALSE;
 	}
 
 	_coreMain->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
+	_isCoreInitialized = true;
 }
 
 void EditorMain::Update()
@@ -37,7 +43,7 @@ void EditorMain::Update()
 	{
 		if (PeekMessage(&_msg, NULL, 0, 0, PM_REMOVE))
 		{
-			if (_msg.message == WM_QUIT)
+ 			if (_msg.message == WM_QUIT)
 			{
 				break;
 			}
@@ -100,30 +106,36 @@ LRESULT CALLBACK EditorMain::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 {
 	switch (message)
 	{
-	case WM_LBUTTONDOWN:
-		return 0;
+		case WM_SIZE:
+		{
+			if(_isCoreInitialized)
+			_coreMainStatic->OnWindowResized(LOWORD(lParam), HIWORD(lParam));
+		}
 
-	case WM_MBUTTONDOWN:
-		return 0;
+		case WM_LBUTTONDOWN:
+			return 0;
 
-	case WM_RBUTTONDOWN:
-		return 0;
+		case WM_MBUTTONDOWN:
+			return 0;
 
-	case WM_LBUTTONUP:
+		case WM_RBUTTONDOWN:
+			return 0;
 
-	case WM_MBUTTONUP:
+		case WM_LBUTTONUP:
 
-	case WM_RBUTTONUP:
-		return 0;
+		case WM_MBUTTONUP:
 
-	case WM_MOUSEMOVE:
-		break;
+		case WM_RBUTTONUP:
+			return 0;
 
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
+		case WM_MOUSEMOVE:
+			break;
+
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			break;
+		default:
+			return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 	return 0;
 }

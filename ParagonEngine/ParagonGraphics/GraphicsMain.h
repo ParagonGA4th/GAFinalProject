@@ -5,6 +5,8 @@
 #include <windows.h>
 //#include "DX11Headers.h"
 
+#define ReleaseCOM(x) { if(x){ x->Release(); x = 0; } }
+
 /// <summary>
 /// 
 /// 그래픽스 엔진의 메인 
@@ -29,16 +31,16 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual void EndRender() override;
 		PARAGON_GRAPHICS_DLL virtual void Finalize() override;
 
+	public:
+		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;
+
+
 	private:
 		HRESULT hr;
 
 	private:
 		LowDX11Logic* _DXLogic;
 		LowDX11Storage* _DXStorage;
-
-	private:
-		int _screenWidth;
-		int _screenHeight;
 
 	};
 }
