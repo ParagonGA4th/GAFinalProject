@@ -56,4 +56,15 @@ namespace Pg::Core
 	{
 
 	}
+
+	const std::string& GameObject::GetName() const
+	{
+
+	}
+
+	void GameObject::SetName(const std::string& name)
+	{
+
+	}
+
 }

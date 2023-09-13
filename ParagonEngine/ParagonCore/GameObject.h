@@ -27,6 +27,9 @@ namespace Pg::Core
 		void OnCollisionStay();
 		void OnCollisionExit();
 
+		const std::string& GetName() const;
+		void SetName(const std::string& name);
+
 	private:
 
 		std::string _objectName;
