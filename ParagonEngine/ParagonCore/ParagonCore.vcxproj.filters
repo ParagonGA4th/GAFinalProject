@@ -39,6 +39,7 @@
     <ClCompile Include="Scene.cpp">
       <Filter>3_Scene</Filter>
     </ClCompile>
+    <ClCompile Include="AssetManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreMain.h">
@@ -65,8 +66,7 @@
     <ClInclude Include="IGraphics.h">
       <Filter>0_Main\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="IEditor.h">
-      <Filter>0_Main\Interface</Filter>
-    </ClInclude>
+    <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="ResourceType.h" />
   </ItemGroup>
 </Project>
