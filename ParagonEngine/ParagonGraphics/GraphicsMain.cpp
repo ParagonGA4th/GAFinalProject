@@ -64,4 +64,23 @@ namespace Pg::Graphics
 		delete _DXLogic;
 		delete _DXStorage;
 	}
+
+	void GraphicsMain::OnWindowResized(int screenWidth, int screenHeight)
+	{
+		OutputDebugString(L"Window Resized!!!");
+
+		_DXStorage->_screenWidth = screenWidth;
+		_DXStorage->_screenHeight = screenHeight;
+
+		ReleaseCOM(_DXStorage->_mainRTV);
+		ReleaseCOM(_DXStorage->_depthStencilView);
+		ReleaseCOM(_DXStorage->_depthStencilBuffer);
+		ReleaseCOM(_DXStorage->_depthStencilSRV);
+
+		hr = _DXLogic->ResizeSwapChainBuffers(screenHeight, screenHeight);
+		hr = _DXLogic->CreateMainRenderTarget();
+		hr = _DXLogic->CreateDepthStencilViewAndState();
+		_DXLogic->CreateAndSetViewports();
+	}
+
 }

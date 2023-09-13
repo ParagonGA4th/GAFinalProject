@@ -71,4 +71,10 @@ namespace Pg::Core
 	{
 		_graphics->Finalize();
 	}
+
+	void CoreMain::OnWindowResized(int screenWidth, int screenHeight)
+{
+		_graphics->OnWindowResized(screenWidth, screenHeight);
+	}
+
 }

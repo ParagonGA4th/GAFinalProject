@@ -37,6 +37,9 @@ namespace Pg::Graphics
 
 		void Present();
 
+	public:
+		HRESULT ResizeSwapChainBuffers(int screenWidth, int screenHeight);
+
 	private:
 		
 	public:
