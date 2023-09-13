@@ -1,18 +1,18 @@
 #pragma once
-
 #include "../ParagonCore/Singleton.h"
+#include "../ParagonUtil/Log.h"
 #include <windows.h>
 
 /// <summary>
-/// ParagonEngine¿« TimeSystem.
+/// ParagonCore¿« TimeSystem.
 /// 2023.09.12
 /// </summary>
-namespace Pg::Engine::Time
+namespace Pg::Core::Time
 {
-	class TimeSystem : public Singleton<TimeSystem>
+	class TimeManager : public Singleton<TimeManager>
 	{
 	public:
-		TimeSystem();
+		TimeManager();
 
 		void Initialize();
 		void TimeMeasure();
