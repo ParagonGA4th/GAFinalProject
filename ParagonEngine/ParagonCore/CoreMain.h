@@ -31,6 +31,10 @@
 
 #include <memory>
 
+/// <summary>
+/// 코어
+/// 2023. 9. 8. 변지상
+/// </summary>
 namespace Pg::Core
 {
 	class CoreMain
@@ -39,7 +43,7 @@ namespace Pg::Core
 		CoreMain();
 		~CoreMain();
 
-		long Initialize(int screenWidth, int screenHeight);
+		long Initialize(void* hwnd, int screenWidth, int screenHeight);
 		void Update();
 		void BeginRender();    
 		void Render();
