@@ -33,7 +33,7 @@ namespace Pg::Graphics
 	}
 
 	HRESULT LowDX11Logic::CreateSwapChain(int screenWidth, int screenHeight)
-{
+	{
 		// Swap Chain Description 정의
 		_DXStorage->_swapChainDesc.Width = screenHeight;
 		_DXStorage->_swapChainDesc.Height = 0;
@@ -47,7 +47,7 @@ namespace Pg::Graphics
 		_DXStorage->_swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 		_DXStorage->_swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
 		_DXStorage->_swapChainDesc.Flags = NULL;
-		
+
 		// DXGI Factory 생성
 		hr = CreateDXGIFactory1(__uuidof(IDXGIFactory2), (void**)(&_DXStorage->_factory));
 
@@ -70,7 +70,7 @@ namespace Pg::Graphics
 	}
 
 	HRESULT LowDX11Logic::CreateMainRenderTarget()
-{
+	{
 		hr = _DXStorage->_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&(_DXStorage->_backBuffer));
 
 		if (hr != S_OK)
@@ -79,7 +79,7 @@ namespace Pg::Graphics
 		}
 
 		hr = _DXStorage->_device->CreateRenderTargetView(_DXStorage->_backBuffer, nullptr, &(_DXStorage->_mainRTV));
-		
+
 		return hr;
 	}
 
@@ -138,7 +138,7 @@ namespace Pg::Graphics
 	}
 
 	HRESULT LowDX11Logic::CreateRasterizerStates()
-{
+	{
 		// Solid
 		ZeroMemory(&(_DXStorage->_solidDesc), sizeof(D3D11_RASTERIZER_DESC));
 		_DXStorage->_solidDesc.FillMode = D3D11_FILL_SOLID;
@@ -164,14 +164,14 @@ namespace Pg::Graphics
 	}
 
 	void LowDX11Logic::SetRasterizerrStates(ID3D11RasterizerState* rasterizerState)
-{
+	{
 		_DXStorage->_deviceContext->RSSetState(rasterizerState);
 
 		return;
 	}
 
 	void LowDX11Logic::CreateAndSetViewports()
-{
+	{
 		// Viewport 구조체 생성
 		CD3D11_VIEWPORT viewport(
 			0.0f,
@@ -219,12 +219,12 @@ namespace Pg::Graphics
 	{
 		/// Shader 셋팅
 
-		LPCWSTR vsfilepath = L"../x64/debug/VertexShader.cso"; 
-		LPCWSTR psfilepath = L"../x64/debug/PixelShader.cso"; 
+		LPCWSTR vsfilepath = L"../x64/debug/VertexShader.cso";
+		LPCWSTR psfilepath = L"../x64/debug/PixelShader.cso";
 
 		hr = D3DReadFileToBlob(vsfilepath, &(_DXStorage->_VertexShaderByteCode));
 		_DXStorage->_device->CreateVertexShader(_DXStorage->_VertexShaderByteCode->GetBufferPointer(), _DXStorage->_VertexShaderByteCode->GetBufferSize(), NULL, &(_DXStorage->_VertexShader));
-		
+
 		hr = D3DReadFileToBlob(psfilepath, &(_DXStorage->_PixelShaderByteCode));
 		_DXStorage->_device->CreatePixelShader(_DXStorage->_PixelShaderByteCode->GetBufferPointer(), _DXStorage->_PixelShaderByteCode->GetBufferSize(), NULL, &(_DXStorage->_PixelShader));
 
@@ -368,4 +368,13 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->DrawIndexed(36, 0, 0);
 	}
 
+	HRESULT LowDX11Logic::ResizeSwapChainBuffers(int screenWidth, int screenHeight)
+	{
+		hr = _DXStorage->_swapChain->ResizeBuffers(2, screenWidth, screenHeight, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+
+		if (hr != S_OK)
+		{
+			return hr;
+		}
+	}
 }
