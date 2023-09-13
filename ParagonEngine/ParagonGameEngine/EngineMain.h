@@ -5,7 +5,6 @@
 #include "../ParagonCore/Singleton.h"
 #include "../ParagonUtil/Log.h"
 #include "InputSystem.h"
-#include "TimeSystem.h"
 
 /// <summary>
 /// 2023.09.08
@@ -24,7 +23,6 @@ namespace Pg::Engine
 
 	private:
 
-		Time::TimeSystem* _timeSystem;
 		Input::InputSystem* _inputSystem;
 	};
 }

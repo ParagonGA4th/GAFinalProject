@@ -25,6 +25,9 @@
     <Filter Include="0_Main\singleton">
       <UniqueIdentifier>{c39f6dcc-3df1-470f-b101-fc8281d28d44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="4_TimeManager">
+      <UniqueIdentifier>{2c294edf-bdbf-4d36-b8d2-fe728e9b9d17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoreMain.cpp">
@@ -40,6 +43,9 @@
       <Filter>3_Scene</Filter>
     </ClCompile>
     <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>4_TimeManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreMain.h">
@@ -68,5 +74,8 @@
     </ClInclude>
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="ResourceType.h" />
+    <ClInclude Include="TimeManager.h">
+      <Filter>4_TimeManager</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
