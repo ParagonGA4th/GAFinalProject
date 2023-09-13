@@ -207,30 +207,12 @@ namespace Pg::Graphics
 
 	void LowDX11Logic::Draw()
 	{
-		DrawCube();
+		
 	}
 
 	void LowDX11Logic::Present()
 	{
 		_DXStorage->_swapChain->Present(0, 0);
-	}
-
-	void LowDX11Logic::SetShaders()
-	{
-		/// Shader ¼ÂÆÃ
-
-		LPCWSTR vsfilepath = L"../x64/debug/VertexShader.cso";
-		LPCWSTR psfilepath = L"../x64/debug/PixelShader.cso";
-
-		hr = D3DReadFileToBlob(vsfilepath, &(_DXStorage->_VertexShaderByteCode));
-		_DXStorage->_device->CreateVertexShader(_DXStorage->_VertexShaderByteCode->GetBufferPointer(), _DXStorage->_VertexShaderByteCode->GetBufferSize(), NULL, &(_DXStorage->_VertexShader));
-
-		hr = D3DReadFileToBlob(psfilepath, &(_DXStorage->_PixelShaderByteCode));
-		_DXStorage->_device->CreatePixelShader(_DXStorage->_PixelShaderByteCode->GetBufferPointer(), _DXStorage->_PixelShaderByteCode->GetBufferSize(), NULL, &(_DXStorage->_PixelShader));
-
-
-		_DXStorage->_deviceContext->VSSetShader(_DXStorage->_VertexShader, nullptr, 0);
-		_DXStorage->_deviceContext->PSSetShader(_DXStorage->_PixelShader, nullptr, 0);
 	}
 
 	void LowDX11Logic::SetupCube()
@@ -377,4 +359,22 @@ namespace Pg::Graphics
 			return hr;
 		}
 	}
+
+	void LowDX11Logic::SetVertexShader(std::wstring CSOFilePath)
+	{
+		hr = D3DReadFileToBlob(CSOFilePath.c_str(), &(_DXStorage->_VertexShaderByteCode));
+		_DXStorage->_device->CreateVertexShader(_DXStorage->_VertexShaderByteCode->GetBufferPointer(), _DXStorage->_VertexShaderByteCode->GetBufferSize(), NULL, &(_DXStorage->_VertexShader));
+	
+		_DXStorage->_deviceContext->VSSetShader(_DXStorage->_VertexShader, nullptr, 0);
+		
+	}
+
+	void LowDX11Logic::SetPixelShader(std::wstring CSOFilePath)
+	{
+		hr = D3DReadFileToBlob(CSOFilePath.c_str(), &(_DXStorage->_PixelShaderByteCode));
+		_DXStorage->_device->CreatePixelShader(_DXStorage->_PixelShaderByteCode->GetBufferPointer(), _DXStorage->_PixelShaderByteCode->GetBufferSize(), NULL, &(_DXStorage->_PixelShader));
+	
+		_DXStorage->_deviceContext->PSSetShader(_DXStorage->_PixelShader, nullptr, 0);
+	}
+
 }

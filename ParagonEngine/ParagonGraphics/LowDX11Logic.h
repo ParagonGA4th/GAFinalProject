@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DX11Headers.h"
+#include <string>
 
 /// <summary>
 /// DX11과 관련된 로직을 캡슐화한다.
@@ -27,7 +28,8 @@ namespace Pg::Graphics
 		void SetRasterizerrStates(ID3D11RasterizerState* rasterizerState);
 		void CreateAndSetViewports();
 
-		void SetShaders();
+		void SetVertexShader(std::wstring CSOFilePath);
+		void SetPixelShader(std::wstring CSOFilePath);
 
 		void PrepareRenderTargets();
 		void BindRenderTargets();

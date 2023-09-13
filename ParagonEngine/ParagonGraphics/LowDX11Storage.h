@@ -64,6 +64,10 @@ namespace Pg::Graphics
 		ID3DBlob* _VertexShaderByteCode;
 		ID3DBlob* _PixelShaderByteCode;
 
+		// 상수 버퍼
+		D3D11_BUFFER_DESC _ConstantBufferDesc;
+		ID3D11Buffer* _ConstantBuffer;
+
 	};
 
 }
