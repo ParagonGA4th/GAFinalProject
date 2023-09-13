@@ -2,10 +2,12 @@
 
 namespace Pg::Core
 {
+	GameObject::GameObject(const std::string& name) :
+		_objName(name),
+		_isActive(true)
+	{
 
-	//{
-
-	//}
+	}
 
 	GameObject::~GameObject()
 	{
@@ -39,12 +41,12 @@ namespace Pg::Core
 
 	const std::string& GameObject::GetName() const
 	{
-		return "";
+		return _objName;
 	}
 
 	void GameObject::SetName(const std::string& name)
 	{
-		
+
 	}
 
 }
