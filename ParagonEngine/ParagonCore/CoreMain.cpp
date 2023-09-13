@@ -14,15 +14,11 @@ namespace Pg::Core
 		_screenwidth(1920),
 		_screenheight(1080),
 		_className(L"ParagonEngine"),
-		_windowName(L"ParagonEngine"),
-		_timeSystem(Pg::Engine::Time::TimeSystem::Instance()),
-		_inputSystem(Pg::Engine::Input::InputSystem::Instance())
+		_windowName(L"ParagonEngine")
 	{
 		_engine = std::make_unique<Pg::Engine::EngineMain>();
 		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>();
 		_logger = std::make_unique<Pg::Util::Debug::Log>();
-
-		//_inputSystem = std::make_unique<Pg::Engine::Input::InputSystem>();
 	}
 
 
@@ -46,17 +42,12 @@ namespace Pg::Core
 		}
 
 		//엔진 초기화
-		_engine->Initialize();
+		_engine->Initialize(1920,1080);
 		_graphics->Initialize();
 
 		//디버그 초기화
 		_logger->Initialize();
 		_logger->SetLoggerLevel(0);
-
-		// InputSystem 초기화
-		_inputSystem->Initialize(_screenwidth, _screenheight);
-
-		_timeSystem->Initialize();
 
 		PG_TRACE("Engine Success!!");
 		PG_DEBUG("Engine Success!!");
@@ -78,30 +69,12 @@ namespace Pg::Core
 				}
 
 				DispatchMessage(&_msg);
-				_inputSystem->HandleMessage(_msg);
+				//_inputSystem->HandleMessage(_msg);
 			}
 			else
 			{
 				//여기다가 시스템 싹 다 업데이트!!
 				_engine->Update();
-				//Pg::Engine::Time::TimeSystem::Instance()->TimeMeasure();
-				_inputSystem->Update();
-				_timeSystem->TimeMeasure();
-				//PG_TRACE(_timeSystem->GetDeltaTime());
-
-				using namespace Pg::API::Input;
-				if (PgInput::GetKeyDown(eKeyCode::MouseLeft))
-				{
-					PG_TRACE("마우스 왼쪽 버튼 클릭");
-				}
-				if (PgInput::GetKey(eKeyCode::MouseRight))
-				{
-					std::string mouseX = std::to_string(PgInput::GetMouseX());
-					std::string mouseY = std::to_string(PgInput::GetMouseY());
-					std::string outString = "마우스 오른쪽 버튼 클릭 중 ";
-					outString.append(mouseX).append(", ").append(mouseY);
-					PG_TRACE(outString);
-				}
 			}
 		}
 	}

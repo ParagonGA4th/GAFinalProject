@@ -1,0 +1,43 @@
+#pragma once
+
+#include "DX11Headers.h"
+
+/// <summary>
+/// DX11과 관련된 로직을 캡슐화한다.
+/// 
+/// 2023. 09. 12.
+/// </summary>
+/// 
+
+namespace Pg::Graphics
+{
+	class LowDX11Storage;
+
+	class LowDX11Logic
+	{
+	public:
+		LowDX11Logic(LowDX11Storage* DXStorage);
+
+	public:
+		HRESULT CreateDevice();
+		HRESULT CreateSwapChain();
+		HRESULT CreateMainRenderTarget();
+		HRESULT CreateDepthStencilViewAndState();
+		HRESULT CreateRenderStates();
+		HRESULT SetRenderStates();
+		HRESULT CreateAndSetViewports();
+
+		void ClearRenderTargetView();
+		void ClearDepthStencilView();
+		void BindRenderTargets();
+		void UnbindRenderTargets();
+
+	public:
+		LowDX11Storage* _DXStorage;
+
+	private:
+		HRESULT hr;
+	};
+
+}
+
