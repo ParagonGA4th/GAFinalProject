@@ -22,12 +22,12 @@ namespace Pg::Core
 
 	}
 
-	long CoreMain::Initialize(int screenWidth, int screenHeight)
+	long CoreMain::Initialize(void* hwnd, int screenWidth, int screenHeight)
 	{
 
 		//엔진 초기화
-		_engine->Initialize(1920,1080);
-		_graphics->Initialize(_hWnd);
+		_engine->Initialize(screenWidth, screenHeight);
+		_graphics->Initialize(hwnd);
 
 		//디버그 초기화
 		_logger->Initialize();

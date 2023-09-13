@@ -39,7 +39,7 @@ namespace Pg::Core
 		CoreMain();
 		~CoreMain();
 
-		long Initialize(int screenWidth, int screenHeight);
+		long Initialize(void* hwnd, int screenWidth, int screenHeight);
 		void Update();
 		void BeginRender();    
 		void Render();
