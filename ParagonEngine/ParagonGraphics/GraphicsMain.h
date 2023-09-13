@@ -36,10 +36,6 @@ namespace Pg::Graphics
 		LowDX11Logic* _DXLogic;
 		LowDX11Storage* _DXStorage;
 
-	private:
-		int _screenWidth;
-		int _screenHeight;
-
 	};
 }
 
