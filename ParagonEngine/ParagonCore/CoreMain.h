@@ -54,6 +54,9 @@ namespace Pg::Core
 		const WCHAR* _className;
 		const WCHAR* _windowName;
 
+	public:
+		void OnWindowResized(int screenWidth, int screenHeight);
+
 	private:
 		
 		std::unique_ptr<IEngine> _engine;					//게임 엔진
