@@ -7,11 +7,18 @@
     <ClInclude Include="GraphicsDLLExporter.h">
       <Filter>1_DLLExporter</Filter>
     </ClInclude>
+    <ClInclude Include="DX11Headers.h" />
+    <ClInclude Include="LowDX11Logic.h" />
+    <ClInclude Include="LowDX11Storage.h" />
+    <ClInclude Include="ParagonRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
+    <ClCompile Include="LowDX11Logic.cpp" />
+    <ClCompile Include="LowDX11Storage.cpp" />
+    <ClCompile Include="ParagonRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
