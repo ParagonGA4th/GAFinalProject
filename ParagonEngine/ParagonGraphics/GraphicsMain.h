@@ -22,12 +22,12 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL GraphicsMain();
 
 	public:
-		PARAGON_GRAPHICS_DLL void Initialize(HWND hWnd);
-		PARAGON_GRAPHICS_DLL void Update();
-		PARAGON_GRAPHICS_DLL void BeginRender();
-		PARAGON_GRAPHICS_DLL void Render();
-		PARAGON_GRAPHICS_DLL void EndRender();
-		PARAGON_GRAPHICS_DLL void Finalize();
+		PARAGON_GRAPHICS_DLL virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) override;
+		PARAGON_GRAPHICS_DLL virtual void Update() override;
+		PARAGON_GRAPHICS_DLL virtual void BeginRender() override;
+		PARAGON_GRAPHICS_DLL virtual void Render() override;
+		PARAGON_GRAPHICS_DLL virtual void EndRender() override;
+		PARAGON_GRAPHICS_DLL virtual void Finalize() override;
 
 	private:
 		HRESULT hr;

@@ -8,7 +8,7 @@ EditorMain::EditorMain()
 	_windowName(L"ParagonEngine")
 {
 	_coreMain = std::make_unique<Pg::Core::CoreMain>();
-	_coreMain->Initialize((static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
+	_coreMain->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
 }
 
 EditorMain::~EditorMain()

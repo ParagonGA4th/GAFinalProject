@@ -4,8 +4,8 @@
 #include "../ParagonGameEngine/EngineDLLExporter.h"
 #include "../ParagonGraphics/GraphicsDLLExporter.h"
 
-
 #include <string>
+#include <windows.h>
 
 namespace Pg::Core
 {
@@ -27,7 +27,7 @@ namespace Pg::Core
 
 		//엔진 초기화
 		_engine->Initialize(screenWidth, screenHeight);
-		_graphics->Initialize(hwnd);
+		_graphics->Initialize(static_cast<HWND>(hwnd), screenWidth, screenHeight);
 
 		//디버그 초기화
 		_logger->Initialize();
