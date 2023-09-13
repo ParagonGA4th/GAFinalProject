@@ -13,7 +13,7 @@ namespace Pg::Graphics
 		_DXLogic = new LowDX11Logic(_DXStorage);
 	}
 
-	void GraphicsMain::Initialize(HWND hWnd)
+	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
 	{
 		OutputDebugString(L"GraphicsGraphics!!!");
 
