@@ -19,9 +19,7 @@
 
 #include "IEngine.h"
 #include "../ParagonUtil/Log.h"
-#include "../ParagonGameEngine/InputSystem.h"
 #include <memory>
-#include <windows.h>
 
 namespace Pg::Core
 {
@@ -31,25 +29,14 @@ namespace Pg::Core
 		CoreMain();
 		~CoreMain();
 
-		long Initialize(void* hInstance, int cmdShow);
+		long Initialize(int screenWidth, int screenHeight);
 		void Update();
+		void BeginRender();    
+		void Render();
+		void EndRender();
 		void Finalize();
 
 	private:
-
-		//윈도우 관련 함수들
-		ATOM RegisterClass(HINSTANCE hInstance);
-		BOOL CreateWindows(HINSTANCE hInstance, int cmdShow);
-		static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-
-	private:
-
-		//윈도우 관련 변수들
-		HWND _hWnd;
-		MSG _msg;
-		int _screenwidth;
-		int _screenheight;
-
 		const WCHAR* _className;
 		const WCHAR* _windowName;
 
@@ -58,7 +45,6 @@ namespace Pg::Core
 		std::unique_ptr<IEngine> _engine;				//게임 엔진
 		std::unique_ptr<IEngine> _graphics;				//그래픽스 엔진
 		std::unique_ptr<Pg::Util::Debug::Log> _logger;
-		std::unique_ptr<Pg::Engine::Input::InputSystem> _inputSystem;
 	};
 }
 

@@ -141,7 +141,6 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ResourceType.h" />
     <ClInclude Include="IComponent.h" />
-    <ClInclude Include="IEditor.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="Scene.h" />
