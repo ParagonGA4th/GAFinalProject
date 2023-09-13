@@ -30,6 +30,10 @@ namespace Pg::Graphics
 
 		// ¸ÞÀÎ ·»´õ Å¸°Ù
 		ID3D11RenderTargetView* _mainRTV;
+
+		// Depth-Stencil Buffer °ü·Ã
+		D3D11_TEXTURE2D_DESC _depthStencilBufferDesc;
+		ID3D11Texture2D* _depthStencilBuffer;
 		
 	};
 
