@@ -131,9 +131,11 @@
   <ItemGroup>
     <ClCompile Include="Entry.cpp" />
     <ClCompile Include="EditorMain.cpp" />
+    <ClCompile Include="ImGuiManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorMain.h" />
+    <ClInclude Include="ImGuiManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
