@@ -3,7 +3,6 @@
 namespace Pg::Engine
 {
 	EngineMain::EngineMain() :
-		_timeSystem(Time::TimeSystem::Instance()),
 		_inputSystem(Input::InputSystem::Instance())
 	{
 
@@ -11,15 +10,11 @@ namespace Pg::Engine
 
 	void EngineMain::Initialize(float width, float height)
 	{
-		_timeSystem->Initialize();
 		_inputSystem->Initialize(width, height);
 	}
 
 	void EngineMain::Update()
 	{
-		_timeSystem->TimeMeasure();
-		//PG_TRACE(std::to_string(_timeSystem->GetDeltaTime()));
-
 		_inputSystem->Update();
 		/*using namespace Pg::API::Input;
 				if (PgInput::GetKeyDown(eKeyCode::MouseLeft))
@@ -41,4 +36,5 @@ namespace Pg::Engine
 	{
 
 	}
+
 }

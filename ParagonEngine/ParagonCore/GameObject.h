@@ -26,9 +26,11 @@ namespace Pg::Core
 		const std::string& GetName() const;
 		void SetName(const std::string& name);	
 
+		void SetActive(bool active);
+
 	private:
 
-		const std::string _objName;
+		std::string _objName;
 
 		bool _isActive;
 	};

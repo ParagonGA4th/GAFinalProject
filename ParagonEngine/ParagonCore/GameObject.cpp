@@ -46,7 +46,15 @@ namespace Pg::Core
 
 	void GameObject::SetName(const std::string& name)
 	{
+		_objName = name;
+	}
 
+	void GameObject::SetActive(bool active)
+	{
+		if (active != _isActive)
+		{
+			_isActive = active;
+		}
 	}
 
 }
