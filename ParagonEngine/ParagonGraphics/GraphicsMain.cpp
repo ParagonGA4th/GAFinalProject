@@ -7,7 +7,8 @@ namespace Pg::Graphics
 {
 	GraphicsMain::GraphicsMain()
 		: hr(NULL),
-		_DXStorage(nullptr), _DXLogic(nullptr)
+		_DXStorage(nullptr), _DXLogic(nullptr),
+		_screenWidth(), _screenHeight()
 	{
 		_DXStorage = new LowDX11Storage();
 		_DXLogic = new LowDX11Logic(_DXStorage);
@@ -18,6 +19,9 @@ namespace Pg::Graphics
 		OutputDebugString(L"GraphicsGraphics!!!");
 
 		_DXStorage->_hWnd = hWnd;
+
+		_screenWidth = screenWidth;
+		_screenHeight = screenHeight;
 
 		hr = _DXLogic->CreateDevice();
 		hr = _DXLogic->CreateSwapChain();
