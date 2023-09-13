@@ -20,23 +20,38 @@ namespace Pg::Graphics
 
 	public:
 		HRESULT CreateDevice();
-		HRESULT CreateSwapChain();
+		HRESULT CreateSwapChain(int screenWidth, int screenHeight);
 		HRESULT CreateMainRenderTarget();
 		HRESULT CreateDepthStencilViewAndState();
-		HRESULT CreateRenderStates();
-		HRESULT SetRenderStates();
-		HRESULT CreateAndSetViewports();
+		HRESULT CreateRasterizerStates();
+		void SetRasterizerrStates(ID3D11RasterizerState* rasterizerState);
+		void CreateAndSetViewports();
 
-		void ClearRenderTargetView();
-		void ClearDepthStencilView();
+		void SetShaders();
+
+		void PrepareRenderTargets();
 		void BindRenderTargets();
 		void UnbindRenderTargets();
 
+		void Draw();
+
+		void Present();
+
+	public:
+		HRESULT ResizeSwapChainBuffers(int screenWidth, int screenHeight);
+
+	private:
+		
 	public:
 		LowDX11Storage* _DXStorage;
 
 	private:
 		HRESULT hr;
+
+
+	public:
+		void SetupCube();
+		void DrawCube();
 	};
 
 }

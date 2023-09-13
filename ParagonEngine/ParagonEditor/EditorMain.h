@@ -42,5 +42,7 @@ private:
 
 private:
 	std::unique_ptr<Pg::Core::CoreMain> _coreMain;
+	static Pg::Core::CoreMain* _coreMainStatic;
+	static bool _isCoreInitialized;
 };
 
