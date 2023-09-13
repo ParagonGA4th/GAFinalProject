@@ -5,7 +5,17 @@
 #include <windows.h>
 //#include "DX11Headers.h"
 
-#define ReleaseCOM(x) { if(x){ x->Release(); x = 0; } }
+#ifdef _DEBUG
+#pragma comment(lib,"..\\x64\\Debug\\ParagonCore.lib")
+#else
+#pragma comment(lib,"..\\x64\\Release\\ParagonCore.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\x64\\Debug\\ParagonUtil.lib")
+#else
+#pragma comment(lib,"..\\x64\\Release\\ParagonUtil.lib")
+#endif // _DEBUG
 
 /// <summary>
 /// 
