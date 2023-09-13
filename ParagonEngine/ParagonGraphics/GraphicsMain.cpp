@@ -7,8 +7,7 @@ namespace Pg::Graphics
 {
 	GraphicsMain::GraphicsMain()
 		: hr(NULL),
-		_DXStorage(nullptr), _DXLogic(nullptr),
-		_screenWidth(), _screenHeight()
+		_DXStorage(nullptr), _DXLogic(nullptr)
 	{
 		_DXStorage = new LowDX11Storage();
 		_DXLogic = new LowDX11Logic(_DXStorage);
@@ -20,16 +19,23 @@ namespace Pg::Graphics
 
 		_DXStorage->_hWnd = hWnd;
 
-		_screenWidth = screenWidth;
-		_screenHeight = screenHeight;
+		_DXStorage->_screenWidth = screenWidth;
+		_DXStorage->_screenHeight = screenHeight;
 
-		//hr = _DXLogic->CreateDevice();
-		//hr = _DXLogic->CreateSwapChain();
-		//hr = _DXLogic->CreateMainRenderTarget();
-		//hr = _DXLogic->CreateDepthStencilViewAndState();
-		//hr = _DXLogic->CreateRenderStates();
-		//hr = _DXLogic->SetRenderStates();
-		//hr = _DXLogic->CreateAndSetViewports();
+		hr = _DXLogic->CreateDevice();
+		hr = _DXLogic->CreateSwapChain(screenWidth, screenHeight);
+		hr = _DXLogic->CreateMainRenderTarget();
+		hr = _DXLogic->CreateDepthStencilViewAndState();
+		hr = _DXLogic->CreateRasterizerStates();
+		
+		_DXLogic->SetRasterizerrStates(_DXStorage->_solidState);
+		_DXLogic->CreateAndSetViewports();
+		
+		// ½¦ÀÌ´õ ¼ÂÆÃ
+		_DXLogic->SetShaders();
+
+		_DXLogic->SetupCube();
+
 	}
 
 	void GraphicsMain::Update()
@@ -39,24 +45,18 @@ namespace Pg::Graphics
 
 	void GraphicsMain::BeginRender()
 	{
-		// Clear RenderTargetView
-		_DXLogic->ClearRenderTargetView();
-
-		// Clear DepthStencilView
-		_DXLogic->ClearDepthStencilView();
-
-		// Bind Render Target
-		_DXLogic->BindRenderTargets();
+		_DXLogic->PrepareRenderTargets();
 	}
 
 	void GraphicsMain::Render()
 	{
-
+		_DXLogic->BindRenderTargets();
+		_DXLogic->Draw();
 	}
 
 	void GraphicsMain::EndRender()
 	{
-
+		_DXLogic->Present();
 	}
 
 	void GraphicsMain::Finalize()
@@ -64,4 +64,23 @@ namespace Pg::Graphics
 		delete _DXLogic;
 		delete _DXStorage;
 	}
+
+	void GraphicsMain::OnWindowResized(int screenWidth, int screenHeight)
+	{
+		OutputDebugString(L"Window Resized!!!");
+
+		_DXStorage->_screenWidth = screenWidth;
+		_DXStorage->_screenHeight = screenHeight;
+
+		ReleaseCOM(_DXStorage->_mainRTV);
+		ReleaseCOM(_DXStorage->_depthStencilView);
+		ReleaseCOM(_DXStorage->_depthStencilBuffer);
+		ReleaseCOM(_DXStorage->_depthStencilSRV);
+
+		hr = _DXLogic->ResizeSwapChainBuffers(screenHeight, screenHeight);
+		hr = _DXLogic->CreateMainRenderTarget();
+		hr = _DXLogic->CreateDepthStencilViewAndState();
+		_DXLogic->CreateAndSetViewports();
+	}
+
 }

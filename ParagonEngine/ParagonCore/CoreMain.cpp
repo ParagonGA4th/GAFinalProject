@@ -56,24 +56,30 @@ namespace Pg::Core
 
 	void CoreMain::BeginRender()
 	{
-
+		_graphics->BeginRender();
 	}
 
 
 	void CoreMain::Render()
 	{
-		
+		_graphics->Render();
 	}
 
 
 	void CoreMain::EndRender()
 	{
-		
+		_graphics->EndRender();
 	}
 
 
 	void CoreMain::Finalize()
 	{
-		
+		_graphics->Finalize();
 	}
+
+	void CoreMain::OnWindowResized(int screenWidth, int screenHeight)
+{
+		_graphics->OnWindowResized(screenWidth, screenHeight);
+	}
+
 }
