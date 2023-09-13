@@ -15,11 +15,7 @@ namespace Pg::Core
 		virtual void Start() abstract;
 		virtual void Update() abstract;
 		virtual void LateUpdate() abstract;
-		virtual void FixedUpdate() abstract;
 
 		virtual void OnDestroy() abstract;
-		virtual void OnCollisionEnter() abstract;
-		virtual void OnCollisionStay() abstract;
-		virtual void OnCollisionExit() abstract;
 	};
 }
