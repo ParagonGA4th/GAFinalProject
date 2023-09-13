@@ -24,6 +24,7 @@
 #endif // _DEBUG
 
 #include "IEngine.h"
+#include "IGraphics.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonGameEngine/InputSystem.h"
 #include "../ParagonGameEngine/TimeSystem.h"
@@ -33,6 +34,7 @@
 
 namespace Pg::Core
 {
+
 	class CoreMain
 	{
 	public:
@@ -64,12 +66,11 @@ namespace Pg::Core
 	private:
 		
 		std::unique_ptr<IEngine> _engine;				//게임 엔진
-		std::unique_ptr<IEngine> _graphics;				//그래픽스 엔진
+		std::unique_ptr<IGraphics> _graphics;				//그래픽스 엔진
 		std::unique_ptr<Pg::Util::Debug::Log> _logger;
-		//std::unique_ptr<Pg::Engine::Input::InputSystem> _inputSystem;
+		//Pg::Engine::Input::InputSystem* _inputSystem;
 
-		Pg::Engine::Time::TimeSystem* _timeSystem;
-		Pg::Engine::Input::InputSystem* _inputSystem;
+
 	};
 }
 
