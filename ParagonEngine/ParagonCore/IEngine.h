@@ -9,7 +9,7 @@ namespace Pg::Core
 	class IEngine abstract
 	{
 	public:
-		virtual void  Initialize() abstract;
+		virtual void Initialize(float width, float height) abstract;
 
 		virtual void Update() abstract;
 
