@@ -32,6 +32,10 @@
 #include <memory>
 #include <windows.h>
 
+/// <summary>
+/// 코어
+/// 2023. 9. 8. 변지상
+/// </summary>
 namespace Pg::Core
 {
 	class CoreMain

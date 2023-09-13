@@ -5,6 +5,12 @@
 #include <windows.h>
 //#include "DX11Headers.h"
 
+/// <summary>
+/// 
+/// 그래픽스 엔진의 메인 
+/// 
+/// 23. 09. 08. 고태욱
+/// </summary>
 namespace Pg::Graphics
 {
 	class LowDX11Logic;
@@ -24,11 +30,12 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL void Finalize();
 
 	private:
+		HRESULT hr;
+
+	private:
 		LowDX11Logic* _DXLogic;
 		LowDX11Storage* _DXStorage;
 
-	private:
-		HRESULT hr;
 	};
 }
 
