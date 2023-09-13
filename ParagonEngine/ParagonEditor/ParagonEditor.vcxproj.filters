@@ -7,6 +7,7 @@
     <ClCompile Include="EditorMain.cpp">
       <Filter>1_EditorMain</Filter>
     </ClCompile>
+    <ClCompile Include="ImGuiManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Entry">
@@ -15,10 +16,14 @@
     <Filter Include="1_EditorMain">
       <UniqueIdentifier>{a2b9252d-2b07-4949-b7ea-c4a055fb436c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2_ImguiManager">
+      <UniqueIdentifier>{582dc448-218b-4bb0-aa6f-3b447afa366c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorMain.h">
       <Filter>1_EditorMain</Filter>
     </ClInclude>
+    <ClInclude Include="ImGuiManager.h" />
   </ItemGroup>
 </Project>
