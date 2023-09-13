@@ -1,6 +1,5 @@
 #pragma once
 
-#include "IComponent.h"
 
 /// <summary>
 /// 컴포넌트 클래스
@@ -15,7 +14,7 @@ namespace Pg::Core
 
 namespace Pg::Core
 {
-	class Component : public IComponent
+	class Component
 	{
 	public:
 		Component(GameObject& obj);
