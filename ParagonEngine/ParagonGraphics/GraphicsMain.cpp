@@ -23,13 +23,13 @@ namespace Pg::Graphics
 		_screenWidth = screenWidth;
 		_screenHeight = screenHeight;
 
-		hr = _DXLogic->CreateDevice();
-		hr = _DXLogic->CreateSwapChain();
-		hr = _DXLogic->CreateMainRenderTarget();
-		hr = _DXLogic->CreateDepthStencilViewAndState();
-		hr = _DXLogic->CreateRenderStates();
-		hr = _DXLogic->SetRenderStates();
-		hr = _DXLogic->CreateAndSetViewports();
+		//hr = _DXLogic->CreateDevice();
+		//hr = _DXLogic->CreateSwapChain();
+		//hr = _DXLogic->CreateMainRenderTarget();
+		//hr = _DXLogic->CreateDepthStencilViewAndState();
+		//hr = _DXLogic->CreateRenderStates();
+		//hr = _DXLogic->SetRenderStates();
+		//hr = _DXLogic->CreateAndSetViewports();
 	}
 
 	void GraphicsMain::Update()
@@ -39,13 +39,13 @@ namespace Pg::Graphics
 
 	void GraphicsMain::BeginRender()
 	{
-		// TODO: Clear RenderTargetView
+		// Clear RenderTargetView
 		_DXLogic->ClearRenderTargetView();
 
-		// TODO: Clear DepthStencilView
+		// Clear DepthStencilView
 		_DXLogic->ClearDepthStencilView();
 
-		// TODO: Bind Render Target
+		// Bind Render Target
 		_DXLogic->BindRenderTargets();
 	}
 
