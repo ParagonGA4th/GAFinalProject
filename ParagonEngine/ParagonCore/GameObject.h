@@ -13,7 +13,6 @@ namespace Pg::Core
 	class GameObject
 	{
 	public:
-		GameObject() {};
 		GameObject(const std::string& name);
 
 		virtual ~GameObject();
@@ -23,7 +22,15 @@ namespace Pg::Core
 		void Update();
 		void FixedUpdate();
 		void LateUpdate();
+
 		const std::string& GetName() const;
-		void SetName(const std::string& name);	};
+		void SetName(const std::string& name);	
+
+	private:
+
+		const std::string _objName;
+
+		bool _isActive;
+	};
 }
 
