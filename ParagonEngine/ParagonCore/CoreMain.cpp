@@ -43,7 +43,7 @@ namespace Pg::Core
 
 		//엔진 초기화
 		_engine->Initialize(1920,1080);
-		_graphics->Initialize();
+		_graphics->Initialize(_hWnd);
 
 		//디버그 초기화
 		_logger->Initialize();

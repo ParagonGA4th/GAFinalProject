@@ -34,7 +34,6 @@
 
 namespace Pg::Core
 {
-
 	class CoreMain
 	{
 	public:
