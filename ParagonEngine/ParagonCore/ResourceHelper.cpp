@@ -51,6 +51,8 @@ namespace Pg::Core::Helper
 
 		this->operator[](".mp3") = eResourceType::_PGSOUND;
 		this->operator[](".wav") = eResourceType::_PGSOUND;
+
+		//....
 	}
 
 	ResourceHelper::ExtensionSorter::~ExtensionSorter()

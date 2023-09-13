@@ -8,14 +8,18 @@ namespace Pg::Core::Enum
 {
 	enum class eResourceType
 	{
-		//모두 개별적인 클래스가 뒷받침되어야 한다 (IResource를 상속받는)
-		_NONE, //기본 상태.
+		// 모두 개별적인 클래스가 뒷받침되어야 한다 (BaseResource를 상속받는)
+		_NONE,
+		// Graphics
 		_3DMODEL,
 		_2DTEXTURE,
-		_PGPREFAB,
 		_PGMATERIAL,
 		_PGSHADER,
+		// Engine
 		_PGFONT,
-		_PGSOUND
+		_PGSOUND,
+		_PGPREFAB,
+		_PGSCENE
+		//...
 	};
 }
