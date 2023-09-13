@@ -7,29 +7,10 @@
     <ClInclude Include="GraphicsDLLExporter.h">
       <Filter>1_DLLExporter</Filter>
     </ClInclude>
-    <ClInclude Include="DX11Headers.h" />
-    <ClInclude Include="LowDX11Logic.h">
-      <Filter>2_LowDX11</Filter>
-    </ClInclude>
-    <ClInclude Include="LowDX11Storage.h">
-      <Filter>2_LowDX11</Filter>
-    </ClInclude>
-    <ClInclude Include="ParagonRenderer.h">
-      <Filter>3_Renderer</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
       <Filter>0_Main</Filter>
-    </ClCompile>
-    <ClCompile Include="LowDX11Logic.cpp">
-      <Filter>2_LowDX11</Filter>
-    </ClCompile>
-    <ClCompile Include="LowDX11Storage.cpp">
-      <Filter>2_LowDX11</Filter>
-    </ClCompile>
-    <ClCompile Include="ParagonRenderer.cpp">
-      <Filter>3_Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,12 +19,6 @@
     </Filter>
     <Filter Include="1_DLLExporter">
       <UniqueIdentifier>{2a9d5051-b3e8-4e99-9390-c294040bed50}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_LowDX11">
-      <UniqueIdentifier>{aed1881b-066b-4721-a0fb-94a2a0a347b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3_Renderer">
-      <UniqueIdentifier>{79b2b3e3-3d0f-4265-8abf-c1faa2dd917b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

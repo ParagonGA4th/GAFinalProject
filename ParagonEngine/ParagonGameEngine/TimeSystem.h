@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonGameEngine/EngineDLLExporter.h"
+
 #include "../ParagonCore/Singleton.h"
 #include <windows.h>
 
@@ -12,18 +12,18 @@ namespace Pg::Engine::Time
 	class TimeSystem : public Singleton<TimeSystem>
 	{
 	public:
-		PARAGON_ENGINE_DLL TimeSystem();
+		TimeSystem();
 
-		PARAGON_ENGINE_DLL void Initialize();
-		PARAGON_ENGINE_DLL void TimeMeasure();
-		PARAGON_ENGINE_DLL void MeasureFrame(float deltaTime);
+		void Initialize();
+		void TimeMeasure();
+		void MeasureFrame(float deltaTime);
 
-		PARAGON_ENGINE_DLL float GetDeltaTime();
-		PARAGON_ENGINE_DLL int GetFrameRate();
+		static float GetDeltaTime();
+		static int GetFrameRate();
 
 	public:
-		float _deltaTime = 0.0f;
-		int _frameRate = 0;
+		static float _deltaTime;
+		static int _frameRate;
 		float _totalTick;
 
 		LARGE_INTEGER _frequency;

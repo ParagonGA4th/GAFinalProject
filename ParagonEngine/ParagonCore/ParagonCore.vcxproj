@@ -136,14 +136,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
-    <ClInclude Include="BaseResource.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="CoreMain.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="ResourceHelper.h" />
     <ClInclude Include="ResourceType.h" />
     <ClInclude Include="IComponent.h" />
-    <ClInclude Include="IEditor.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="Scene.h" />
@@ -151,11 +148,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssetManager.cpp" />
-    <ClCompile Include="BaseResource.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="CoreMain.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="ResourceHelper.cpp" />
     <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
