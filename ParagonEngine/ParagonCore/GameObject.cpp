@@ -3,9 +3,9 @@
 namespace Pg::Core
 {
 
-	{
+	//{
 
-	}
+	//}
 
 	GameObject::~GameObject()
 	{
@@ -39,12 +39,12 @@ namespace Pg::Core
 
 	const std::string& GameObject::GetName() const
 	{
-
+		return "";
 	}
 
 	void GameObject::SetName(const std::string& name)
 	{
-
+		
 	}
 
 }
