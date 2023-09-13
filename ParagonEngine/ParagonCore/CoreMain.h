@@ -17,8 +17,21 @@
 #pragma comment(lib,"..\\x64\\Release\\ParagonUtil.lib")
 #endif // _DEBUG
 
+#ifdef _DEBUG
+#pragma comment(lib,"..\\x64\\Debug\\ParagonAPI.lib")
+#else
+#pragma comment(lib,"..\\x64\\Release\\ParagonAPI.lib")
+#endif // _DEBUG
+
 #include "IEngine.h"
+#include "IGraphics.h"
 #include "../ParagonUtil/Log.h"
+<<<<<<< HEAD
+=======
+#include "../ParagonGameEngine/InputSystem.h"
+#include "../ParagonGameEngine/TimeSystem.h"
+
+>>>>>>> 21e5cc717db2b2be72601ecbf0dfc8fbd0c4e8d5
 #include <memory>
 
 namespace Pg::Core
@@ -43,8 +56,14 @@ namespace Pg::Core
 	private:
 		
 		std::unique_ptr<IEngine> _engine;				//게임 엔진
-		std::unique_ptr<IEngine> _graphics;				//그래픽스 엔진
+		std::unique_ptr<IGraphics> _graphics;				//그래픽스 엔진
 		std::unique_ptr<Pg::Util::Debug::Log> _logger;
+<<<<<<< HEAD
+=======
+		//Pg::Engine::Input::InputSystem* _inputSystem;
+
+
+>>>>>>> 21e5cc717db2b2be72601ecbf0dfc8fbd0c4e8d5
 	};
 }
 
