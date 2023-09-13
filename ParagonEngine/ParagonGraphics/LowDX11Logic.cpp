@@ -12,6 +12,7 @@ namespace Pg::Graphics
 
 	HRESULT LowDX11Logic::CreateDevice()
 	{
+		// D3D11 Device 생성
 		hr = D3D11CreateDevice(
 			NULL,															// [in, optional]	IDXGIAdapter				*pAdapter
 			D3D_DRIVER_TYPE_HARDWARE,										//					D3D_Driver_Type				DriverType
@@ -43,8 +44,8 @@ namespace Pg::Graphics
 		_DXStorage->_swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 		_DXStorage->_swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
 		_DXStorage->_swapChainDesc.Flags = NULL;
+		
 		// DXGI Factory 생성
-
 		hr = CreateDXGIFactory1(__uuidof(IDXGIFactory2), (void**)(&_DXStorage->_factory));
 
 		if (hr != S_OK)
@@ -52,7 +53,7 @@ namespace Pg::Graphics
 			return hr;
 		}
 
-		// Hwnd 사용하여 스왑체인 생성
+		// hWnd 사용하여 스왑체인 생성
 		hr = _DXStorage->_factory->CreateSwapChainForHwnd(
 			_DXStorage->_device,
 			_DXStorage->_hWnd,
@@ -81,6 +82,57 @@ namespace Pg::Graphics
 
 	HRESULT LowDX11Logic::CreateDepthStencilViewAndState()
 	{
+		/// Depth Stencil Buffer
+		// DSB를 생성하기 위해 BackBuffer의 정보를 가져옴
+		_DXStorage->_backBuffer->GetDesc(&_DXStorage->_depthStencilBufferDesc);
+
+		// Depth-Stencil Buffer를 위한 Texture Resource Description 구조체 정의
+		// 백버퍼의 속성을 가져온 후, Format과 BindFlags만 바꾸어 쓴다.
+		_DXStorage->_depthStencilBufferDesc.Format = DXGI_FORMAT_D32_FLOAT;
+		_DXStorage->_depthStencilBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
+		// Depth-Stencil Buffer 생성
+		hr = _DXStorage->_device->CreateTexture2D(&(_DXStorage->_depthStencilBufferDesc), NULL, &(_DXStorage->_depthStencilBuffer));
+
+		if (hr != S_OK)
+			return hr;
+
+		/// Depth Stencil View
+		// Depth-Stencil Description 구조체 정의
+		//ZeroMemory(&(_DXStorage->_depthStencilDesc), sizeof(D3D11_DEPTH_STENCIL_DESC));
+		//_DXStorage->_depthStencilDesc.DepthEnable = true;
+		//_DXStorage->_depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		//_DXStorage->_depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+		//// Depth-Stencil State 생성
+		//// (depth-stencil state는 OM 스테이지에 depth-stencil 테스트를 수행하는 방법을 전달한다)
+		//m_pDevice->CreateDepthStencilState(&(_DXStorage->_depthStencilDesc), &m_pDepthStencilState);
+
+		//// Depth-Stencil View 생성
+		//// (Resource로 View를 생성해야 파이프라인에 바인드할 수 있다)
+
+		//hr = m_pDevice->CreateDepthStencilView(m_pDepthStencilBuffer, nullptr, &m_pDepthStencilView);
+
+
+
+		//DSB_d.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		//DSB_d.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		//hr = m_pDevice->CreateTexture2D(&DSB_d, NULL, &m_pDepthStencilBuffer_2);
+
+		//if (FAILED(hr))
+		//{
+		//	return false;
+		//}
+
+
+
+		//// Depth-Stencil 버퍼 시각화를 위해 Shader Resource View 생성
+		//D3D11_SHADER_RESOURCE_VIEW_DESC SRV_d;
+		//SRV_d.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		//SRV_d.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+
+		//hr = m_pDevice->CreateShaderResourceView(m_pDepthStencilBuffer_2, nullptr, &DSBSRV);
+
 		return hr;
 	}
 
