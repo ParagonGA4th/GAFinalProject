@@ -1,137 +1,141 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="0_Main">
-      <UniqueIdentifier>{351203f5-bfbf-4441-904d-74b9867e3b93}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Component">
-      <UniqueIdentifier>{f1251988-b57b-4169-b325-543308acb228}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Component\Interface">
-      <UniqueIdentifier>{b6f36693-1e58-4c2e-8e17-4216175aba4e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Component\BaseClass">
-      <UniqueIdentifier>{fe86a5b4-6036-4878-a878-f3f028fea666}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_GameObject">
-      <UniqueIdentifier>{0db2666d-1aec-46f7-9a84-147dee2ebf48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3_Scene">
-      <UniqueIdentifier>{cd7bd6a1-2855-4e5d-bf4e-6a81f2ce86d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_Main\Interface">
-      <UniqueIdentifier>{d7d5378f-5f24-4ffa-a068-c46cdc2daa81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_Main\singleton">
-      <UniqueIdentifier>{c39f6dcc-3df1-470f-b101-fc8281d28d44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="4_TimeManager">
-      <UniqueIdentifier>{2c294edf-bdbf-4d36-b8d2-fe728e9b9d17}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Component\Transform">
-      <UniqueIdentifier>{2388a01e-c4c5-4323-89d7-9bc7da4f5e83}</UniqueIdentifier>
-    </Filter> <Filter Include="5_AssetManager">
-      <UniqueIdentifier>{741e09b7-a5f9-4301-9b39-9be9539d8890}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="7_Enums">
-      <UniqueIdentifier>{8fa59659-f460-4de0-bcb2-4bd2d90c6b4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_Resources">
-      <UniqueIdentifier>{e44d2b5d-fdba-4a10-9099-c9ec16c27f97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_Resources\BaseResource">
-      <UniqueIdentifier>{8be2f467-0374-4879-9402-f86502309d10}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_Resources\BaseResource\EngineResource">
-      <UniqueIdentifier>{486a6373-ed30-472b-aadb-ad2af8916920}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_Resources\BaseResource\GraphicsResource">
-      <UniqueIdentifier>{71de1039-7383-49d9-87ca-2a6aff035821}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="8_Helpers">
-      <UniqueIdentifier>{fdd64368-0139-4f00-9eb9-92250625d0d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="8_Helpers\ResourceHelper">
-      <UniqueIdentifier>{8fe9dcf1-3b64-40dd-b08d-3b4707f69be9}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>  <ItemGroup>
-    <ClCompile Include="CoreMain.cpp">
-      <Filter>0_Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>1_Component\BaseClass</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>2_GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>3_Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="TimeManager.cpp">
-      <Filter>4_TimeManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>1_Component\Transform</Filter>
-    </ClCompile>
-      <Filter>5_AssetManager</Filter>
-    </ClCompile>
     <ClCompile Include="BaseResource.cpp">
-      <Filter>6_Resources\BaseResource</Filter>
+      <Filter>2_Resources</Filter>
     </ClCompile>
     <ClCompile Include="EngineResource.cpp">
-      <Filter>6_Resources\BaseResource\EngineResource</Filter>
+      <Filter>2_Resources\EngineResource</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsResource.cpp">
-      <Filter>6_Resources\BaseResource\GraphicsResource</Filter>
+      <Filter>2_Resources\GraphicsResource</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>1_Manager\AssetManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>1_Manager\TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>3_SceneInfo\Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="CoreMain.cpp">
+      <Filter>0_CoreMain</Filter>
     </ClCompile>
     <ClCompile Include="ResourceHelper.cpp">
-      <Filter>8_Helpers\ResourceHelper</Filter>
+      <Filter>4_Helpers\ResourceHelper</Filter>
     </ClCompile>
-  </ItemGroup>  <ItemGroup>
-    <ClInclude Include="CoreMain.h">
-      <Filter>0_Main</Filter>
-    </ClInclude>
-    <ClInclude Include="IComponent.h">
-      <Filter>1_Component\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>1_Component\BaseClass</Filter>
-    </ClInclude>
-    <ClInclude Include="IEngine.h">
-      <Filter>0_Main\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>2_GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>3_Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Singleton.h">
-      <Filter>0_Main\singleton</Filter>
-    </ClInclude>
-    <ClInclude Include="IGraphics.h">
-      <Filter>0_Main\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="TimeManager.h">
-      <Filter>4_TimeManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>1_Component\Transform</Filter>
-    </ClInclude>      <Filter>7_Enums</Filter>
-    </ClInclude>
-    <ClInclude Include="AssetManager.h">
-      <Filter>5_AssetManager</Filter>
-    </ClInclude>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>3_SceneInfo\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>3_SceneInfo\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>3_SceneInfo\Scene</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="BaseResource.h">
-      <Filter>6_Resources\BaseResource</Filter>
+      <Filter>2_Resources</Filter>
     </ClInclude>
     <ClInclude Include="EngineResource.h">
-      <Filter>6_Resources\BaseResource\EngineResource</Filter>
+      <Filter>2_Resources\EngineResource</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsResource.h">
-      <Filter>6_Resources\BaseResource\GraphicsResource</Filter>
+      <Filter>2_Resources\GraphicsResource</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>1_Manager\AssetManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>1_Manager\TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>3_SceneInfo\Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreMain.h">
+      <Filter>0_CoreMain</Filter>
+    </ClInclude>
+    <ClInclude Include="IGraphics.h">
+      <Filter>0_CoreMain\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IEngine.h">
+      <Filter>0_CoreMain\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="ResourceHelper.h">
-      <Filter>8_Helpers\ResourceHelper</Filter>
+      <Filter>4_Helpers\ResourceHelper</Filter>
     </ClInclude>
-  </ItemGroup></Project>
+    <ClInclude Include="GameObject.h">
+      <Filter>3_SceneInfo\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceType.h">
+      <Filter>5_Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="IComponent.h">
+      <Filter>3_SceneInfo\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>3_SceneInfo\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>3_SceneInfo\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>0_CoreMain\Singleton</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="1_Manager">
+      <UniqueIdentifier>{afc02e50-6852-4446-bb8d-279906e293d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Manager\TimeManager">
+      <UniqueIdentifier>{fbea3d23-919f-40b9-a74f-da60fd63713b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Manager\AssetManager">
+      <UniqueIdentifier>{3705cec2-0b82-459b-aa69-780cc2339df4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Resources">
+      <UniqueIdentifier>{be63b4cb-e75d-46dd-b4b8-0f5bcceb1d18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Resources\EngineResource">
+      <UniqueIdentifier>{20ff4797-c7ce-4852-a372-e8948d7e0962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Resources\GraphicsResource">
+      <UniqueIdentifier>{c6b00166-67c5-47b9-bb96-42b1a9dd5fe6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_CoreMain">
+      <UniqueIdentifier>{3b79d642-664d-4430-9e72-421b0ad15ae9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_CoreMain\Interfaces">
+      <UniqueIdentifier>{6323f1b5-c65e-42c3-9b97-e47b0bdf7471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_SceneInfo">
+      <UniqueIdentifier>{8dd5cc8a-3e4e-4c79-bb38-3d433cdb9367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_SceneInfo\GameObject">
+      <UniqueIdentifier>{a644d188-6724-4f5e-bcfa-6eb1667418d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_SceneInfo\Component">
+      <UniqueIdentifier>{f15f11b4-65a2-4d45-a7e9-95d0f42bd754}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_SceneInfo\Component\Transform">
+      <UniqueIdentifier>{44970576-22f9-4d03-8e56-2e1fa884ae9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_SceneInfo\Scene">
+      <UniqueIdentifier>{732d4f9b-ed76-475b-997c-fd88cb9d8bc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_CoreMain\Singleton">
+      <UniqueIdentifier>{a0b2949f-1bbb-4f69-b032-0ed6a88af166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Helpers">
+      <UniqueIdentifier>{f56dae80-8f12-4c2e-aa94-82920732aef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Helpers\ResourceHelper">
+      <UniqueIdentifier>{1dc72fb4-3c57-4d20-8bcb-a3c14fcdc061}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Enums">
+      <UniqueIdentifier>{4a1ee3f7-ad5c-4675-af1d-5294c59387a8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
