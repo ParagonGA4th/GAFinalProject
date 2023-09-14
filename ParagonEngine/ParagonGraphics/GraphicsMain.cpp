@@ -54,7 +54,8 @@ namespace Pg::Graphics
 		// test용 큐	브 셋팅
 		_DXLogic->SetupCube();
 
-		_camera->SetPosition(float3(0.0f, 0.0f, -10.0f));
+		_camera->SetPosition(float3(0.0f, 0.0f, -3.0f));
+		_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 
 	}
 
@@ -65,7 +66,7 @@ namespace Pg::Graphics
 		Pg::Core::Time::TimeManager::Instance()->TimeMeasure();
 		float dt = Pg::Core::Time::TimeManager::Instance()->GetDeltaTime();
 
-		cbData.degree += (1.0f * dt);
+		cbData.degree += 0.0000001f;//(0.1f * dt);
 		
 		for (auto& e : _DXStorage->_constantBuffers)
 		{
@@ -140,8 +141,9 @@ namespace Pg::Graphics
 		// 기존 자원들 할당 해제
 		ReleaseCOM(_DXStorage->_mainRTV);
 		ReleaseCOM(_DXStorage->_depthStencilView);
-		ReleaseCOM(_DXStorage->_depthStencilBuffer);
 		ReleaseCOM(_DXStorage->_depthStencilSRV);
+		ReleaseCOM(_DXStorage->_depthStencilBuffer);
+		ReleaseCOM(_DXStorage->_backBuffer)
 
 		// 바뀐 사이즈로 재할당
 		hr = _DXLogic->ResizeSwapChainBuffers(screenWidth, screenHeight);
@@ -149,7 +151,7 @@ namespace Pg::Graphics
 		hr = _DXLogic->CreateDepthStencilViewAndState();
 		_DXLogic->CreateAndSetViewports();
 
-		_camera->SetLens(0.5f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
+		_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 	}
 
 	ID3D11Device* GraphicsMain::GetDevice()
