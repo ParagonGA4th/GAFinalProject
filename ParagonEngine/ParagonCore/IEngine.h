@@ -14,5 +14,9 @@ namespace Pg::Core
 		virtual void Update() abstract;
 
 		virtual void Finalize() abstract;
+
+		//그래픽스 엔진에서 필요한 정보
+		//virtual Scene* GetCurrentScene();
+		//virtual Camera* GetCameraData();
 	};
 }
