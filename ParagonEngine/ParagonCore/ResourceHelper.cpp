@@ -1,9 +1,10 @@
 #include "ResourceHelper.h"
 #include <algorithm>
+#include <filesystem>
 
 namespace Pg::Core::Helper
 {
-	using Pg::Core::Enum::eResourceType;
+	using Pg::Core::Enums::eResourceType;
 
 	ResourceHelper::ResourceHelper()
 	{
@@ -15,13 +16,19 @@ namespace Pg::Core::Helper
 
 	}
 
-	Pg::Core::Enum::eResourceType ResourceHelper::Ext2ResourceType(const std::string& extension)
+	Pg::Core::Enums::eResourceType ResourceHelper::Ext2ResourceType(const std::string& extension)
 	{
 		//대문자로 저장된 문자는 소문자로 변환.
 		std::string tExt = extension;
 
 		std::transform(tExt.begin(), tExt.end(), tExt.begin(), [](auto it) {return std::tolower(it); });
 		return ExtensionSorter()[extension];
+	}
+
+	std::string ResourceHelper::ForcePathUniform(const std::string& filePath)
+	{
+		std::filesystem::path tPath(filePath);
+		return tPath.generic_string();
 	}
 
 	ResourceHelper::ExtensionSorter::ExtensionSorter()

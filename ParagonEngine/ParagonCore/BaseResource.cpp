@@ -4,7 +4,7 @@
 
 namespace Pg::Core::Resources
 {
-	using Pg::Core::Enum::eResourceType;
+	using Pg::Core::Enums::eResourceType;
 	using Pg::Core::Helper::ResourceHelper;
 
 	BaseResource::BaseResource(const std::string& filePath) : _filePath(filePath)
