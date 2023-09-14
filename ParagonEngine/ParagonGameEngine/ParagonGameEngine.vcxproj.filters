@@ -10,6 +10,9 @@
     <ClInclude Include="InputSystem.h">
       <Filter>2_System\InputSystem</Filter>
     </ClInclude>
+    <ClInclude Include="EngineResourceManager.h">
+      <Filter>3_GameEngineResources\EngineResourceManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -17,6 +20,9 @@
     </ClCompile>
     <ClCompile Include="InputSystem.cpp">
       <Filter>2_System\InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineResourceManager.cpp">
+      <Filter>3_GameEngineResources\EngineResourceManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -31,6 +37,12 @@
     </Filter>
     <Filter Include="2_System\InputSystem">
       <UniqueIdentifier>{dfd5e14e-c5f6-4172-9b35-5f5772b219f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GameEngineResources">
+      <UniqueIdentifier>{d7a262c0-d579-42f5-aad5-96ea7b118f5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GameEngineResources\EngineResourceManager">
+      <UniqueIdentifier>{1bf326f1-88d0-48a2-ab9a-fe5c04d17fbc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -35,18 +35,19 @@ namespace Pg::Graphics
 	HRESULT LowDX11Logic::CreateSwapChain(int screenWidth, int screenHeight)
 	{
 		// Swap Chain Description 沥狼
-		_DXStorage->_swapChainDesc.Width = screenHeight;
-		_DXStorage->_swapChainDesc.Height = 0;
+		_DXStorage->_swapChainDesc.Width = screenWidth;
+		_DXStorage->_swapChainDesc.Height = screenHeight;
 		_DXStorage->_swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		_DXStorage->_swapChainDesc.Stereo = FALSE;
 		_DXStorage->_swapChainDesc.SampleDesc.Count = 1;
 		_DXStorage->_swapChainDesc.SampleDesc.Quality = 0;
 		_DXStorage->_swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		_DXStorage->_swapChainDesc.BufferCount = 2;
-		_DXStorage->_swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
+		_DXStorage->_swapChainDesc.Scaling = DXGI_SCALING_NONE;
 		_DXStorage->_swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 		_DXStorage->_swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
 		_DXStorage->_swapChainDesc.Flags = NULL;
+
 
 		// DXGI Factory 积己
 		hr = CreateDXGIFactory1(__uuidof(IDXGIFactory2), (void**)(&_DXStorage->_factory));
@@ -176,8 +177,8 @@ namespace Pg::Graphics
 		CD3D11_VIEWPORT viewport(
 			0.0f,
 			0.0f,
-			(float)_DXStorage->_screenWidth,
-			(float)_DXStorage->_screenHeight
+			static_cast<float>(_DXStorage->_screenWidth),
+			static_cast<float>(_DXStorage->_screenHeight)
 		);
 
 		// Viewport 瘤沥
@@ -337,8 +338,8 @@ namespace Pg::Graphics
 		};
 
 		// InputLayout 积己
-		hr = _DXStorage->_device->CreateInputLayout(vertexDesc, 2, _DXStorage->_VertexShaderByteCode->GetBufferPointer(),
-			_DXStorage->_VertexShaderByteCode->GetBufferSize(), &(_DXStorage->_inputLayout));
+		hr = _DXStorage->_device->CreateInputLayout(vertexDesc, 2, _DXStorage->_vertexShaderByteCode->GetBufferPointer(),
+			_DXStorage->_vertexShaderByteCode->GetBufferSize(), &(_DXStorage->_inputLayout));
 
 		_DXStorage->_deviceContext->IASetInputLayout(_DXStorage->_inputLayout);
 		_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -352,6 +353,7 @@ namespace Pg::Graphics
 
 	HRESULT LowDX11Logic::ResizeSwapChainBuffers(int screenWidth, int screenHeight)
 	{
+
 		hr = _DXStorage->_swapChain->ResizeBuffers(2, screenWidth, screenHeight, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
 
 		if (hr != S_OK)
@@ -362,19 +364,19 @@ namespace Pg::Graphics
 
 	void LowDX11Logic::SetVertexShader(std::wstring CSOFilePath)
 	{
-		hr = D3DReadFileToBlob(CSOFilePath.c_str(), &(_DXStorage->_VertexShaderByteCode));
-		_DXStorage->_device->CreateVertexShader(_DXStorage->_VertexShaderByteCode->GetBufferPointer(), _DXStorage->_VertexShaderByteCode->GetBufferSize(), NULL, &(_DXStorage->_VertexShader));
+		hr = D3DReadFileToBlob(CSOFilePath.c_str(), &(_DXStorage->_vertexShaderByteCode));
+		_DXStorage->_device->CreateVertexShader(_DXStorage->_vertexShaderByteCode->GetBufferPointer(), _DXStorage->_vertexShaderByteCode->GetBufferSize(), NULL, &(_DXStorage->_vertexShader));
 	
-		_DXStorage->_deviceContext->VSSetShader(_DXStorage->_VertexShader, nullptr, 0);
+		_DXStorage->_deviceContext->VSSetShader(_DXStorage->_vertexShader, nullptr, 0);
 		
 	}
 
 	void LowDX11Logic::SetPixelShader(std::wstring CSOFilePath)
 	{
-		hr = D3DReadFileToBlob(CSOFilePath.c_str(), &(_DXStorage->_PixelShaderByteCode));
-		_DXStorage->_device->CreatePixelShader(_DXStorage->_PixelShaderByteCode->GetBufferPointer(), _DXStorage->_PixelShaderByteCode->GetBufferSize(), NULL, &(_DXStorage->_PixelShader));
+		hr = D3DReadFileToBlob(CSOFilePath.c_str(), &(_DXStorage->_pixelShaderByteCode));
+		_DXStorage->_device->CreatePixelShader(_DXStorage->_pixelShaderByteCode->GetBufferPointer(), _DXStorage->_pixelShaderByteCode->GetBufferSize(), NULL, &(_DXStorage->_pixelShader));
 	
-		_DXStorage->_deviceContext->PSSetShader(_DXStorage->_PixelShader, nullptr, 0);
+		_DXStorage->_deviceContext->PSSetShader(_DXStorage->_pixelShader, nullptr, 0);
 	}
 
 }
