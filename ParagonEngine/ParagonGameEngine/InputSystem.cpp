@@ -35,7 +35,9 @@ namespace  Pg::Engine::Input
 		_padId = _manager->CreateDevice<gainput::InputDevicePad>();
 		_touchId = _manager->CreateDevice<gainput::InputDeviceTouch>();
 
-
+		//[DELETE] 인스턴스 두개인지 디버깅중.
+		//std::string address = std::to_string((unsigned long long)(void**)this);
+		
 	}
 
 	InputSystem::~InputSystem()
