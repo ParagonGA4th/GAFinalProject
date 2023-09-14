@@ -1,14 +1,25 @@
 #pragma once
 
 #include "DX11Headers.h"
+#include "ConstantBuffer.h"
+
+#include <vector>
 
 /// <summary>
 /// DX11 관련 로우 레벨 리소스를 저장한다
 /// 
 /// 2023. 09. 12. 김정식
 /// </summary>
+/// 
 namespace Pg::Graphics
 {
+	struct CB_DATA
+	{
+		float degree;
+		matrix viewMatrix;
+		matrix projectionMatrix;
+	};
+
 	class LowDX11Storage
 	{
 	public:
@@ -59,15 +70,14 @@ namespace Pg::Graphics
 
 
 		// Shader 관련
-		ID3D11VertexShader* _VertexShader;
-		ID3D11PixelShader* _PixelShader;
-		ID3DBlob* _VertexShaderByteCode;
-		ID3DBlob* _PixelShaderByteCode;
+		ID3D11VertexShader* _vertexShader;
+		ID3D11PixelShader* _pixelShader;
+		ID3DBlob* _vertexShaderByteCode;
+		ID3DBlob* _pixelShaderByteCode;
 
-		// 상수 버퍼
+		// 상수 버퍼 관련
 		D3D11_BUFFER_DESC _ConstantBufferDesc;
-		ID3D11Buffer* _ConstantBuffer;
-
+		std::vector<ConstantBuffer<CB_DATA>*> _constantBuffers;
 	};
 
 }

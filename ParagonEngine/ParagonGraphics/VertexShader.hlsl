@@ -1,6 +1,8 @@
 cbuffer cbPerObject : register(b0)
 {
 	float degree;
+	float4x4 viewMatrix;
+	float4x4 projMatrix;
 };
 
 struct VertexIn
