@@ -132,4 +132,14 @@ namespace Pg::Graphics
 		_DXLogic->CreateAndSetViewports();
 	}
 
+	ID3D11Device* GraphicsMain::GetDevice()
+	{
+		return _DXStorage->_device;
+	}
+
+	ID3D11DeviceContext* GraphicsMain::GetDeviceContext()
+	{
+		return _DXStorage->_deviceContext;
+	}
+
 }
