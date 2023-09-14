@@ -19,6 +19,9 @@
     <ClInclude Include="ParagonRenderer.h">
       <Filter>3_Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicsResourceManager.h">
+      <Filter>6_GraphicsResources\GraphicsResourceManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -32,6 +35,9 @@
     </ClCompile>
     <ClCompile Include="ParagonRenderer.cpp">
       <Filter>3_Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsResourceManager.cpp">
+      <Filter>6_GraphicsResources\GraphicsResourceManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +58,12 @@
     </Filter>
     <Filter Include="3_Renderer">
       <UniqueIdentifier>{2e73b48d-9840-40d0-ab2e-e84226b43f13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_GraphicsResources">
+      <UniqueIdentifier>{650e58e0-fcc6-485b-86a0-e101de1badf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_GraphicsResources\GraphicsResourceManager">
+      <UniqueIdentifier>{0354da4f-fbf0-453e-a48b-c872c06bdd9f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
