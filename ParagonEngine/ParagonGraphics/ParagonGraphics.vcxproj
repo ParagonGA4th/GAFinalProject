@@ -19,18 +19,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="DX11Headers.h" />
     <ClInclude Include="GraphicsDLLExporter.h" />
     <ClInclude Include="GraphicsMain.h" />
+    <ClInclude Include="GraphicsResourceManager.h" />
     <ClInclude Include="LowDX11Logic.h" />
     <ClInclude Include="LowDX11Storage.h" />
     <ClInclude Include="ParagonRenderer.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="TempCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp" />
+    <ClCompile Include="GraphicsResourceManager.cpp" />
     <ClCompile Include="LowDX11Logic.cpp" />
     <ClCompile Include="LowDX11Storage.cpp" />
     <ClCompile Include="ParagonRenderer.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="TempCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ParagonCore\ParagonCore.vcxproj">

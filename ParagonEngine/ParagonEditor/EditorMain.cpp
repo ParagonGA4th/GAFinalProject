@@ -1,7 +1,7 @@
 #include "EditorMain.h"
 
-Pg::Core::CoreMain* EditorMain::_coreMainStatic = nullptr;
-bool EditorMain::_isCoreInitialized;
+Pg::Core::CoreMain* EditorMain::_coreMainStatic = nullptr;	// WndProc 접근을 위한 스태틱 변수
+bool EditorMain::_isCoreInitialized; // 코어의 Initialize 이후에 스태틱 변수에 접근하도록 하기 위한 bool 변수
 
 EditorMain::EditorMain()
 	: _hWnd(), _msg(),
@@ -108,8 +108,11 @@ LRESULT CALLBACK EditorMain::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	{
 		case WM_SIZE:
 		{
-			if(_isCoreInitialized)
-			_coreMainStatic->OnWindowResized(LOWORD(lParam), HIWORD(lParam));
+			if (_isCoreInitialized)
+			{
+				_coreMainStatic->OnWindowResized(LOWORD(lParam), HIWORD(lParam));
+			}
+			
 		}
 
 		case WM_LBUTTONDOWN:

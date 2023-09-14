@@ -30,8 +30,24 @@
     </Filter>
     <Filter Include="1_Component\Transform">
       <UniqueIdentifier>{2388a01e-c4c5-4323-89d7-9bc7da4f5e83}</UniqueIdentifier>
+    </Filter> <Filter Include="5_AssetManager">
+      <UniqueIdentifier>{741e09b7-a5f9-4301-9b39-9be9539d8890}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
+    <Filter Include="7_Enums">
+      <UniqueIdentifier>{8fa59659-f460-4de0-bcb2-4bd2d90c6b4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_Resources">
+      <UniqueIdentifier>{e44d2b5d-fdba-4a10-9099-c9ec16c27f97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_Resources\BaseResource">
+      <UniqueIdentifier>{8be2f467-0374-4879-9402-f86502309d10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_Resources\BaseResource\EngineResource">
+      <UniqueIdentifier>{486a6373-ed30-472b-aadb-ad2af8916920}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_Resources\BaseResource\GraphicsResource">
+      <UniqueIdentifier>{71de1039-7383-49d9-87ca-2a6aff035821}</UniqueIdentifier>
+    </Filter>  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoreMain.cpp">
       <Filter>0_Main</Filter>
@@ -45,14 +61,26 @@
     <ClCompile Include="Scene.cpp">
       <Filter>3_Scene</Filter>
     </ClCompile>
-    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="TimeManager.cpp">
       <Filter>4_TimeManager</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>1_Component\Transform</Filter>
     </ClCompile>
-  </ItemGroup>
+      <Filter>5_AssetManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceHelper.cpp">
+      <Filter>5_AssetManager</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseResource.cpp">
+      <Filter>6_Resources\BaseResource</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineResource.cpp">
+      <Filter>6_Resources\BaseResource\EngineResource</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsResource.cpp">
+      <Filter>6_Resources\BaseResource\GraphicsResource</Filter>
+    </ClCompile>  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreMain.h">
       <Filter>0_Main</Filter>
@@ -78,13 +106,26 @@
     <ClInclude Include="IGraphics.h">
       <Filter>0_Main\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="AssetManager.h" />
-    <ClInclude Include="ResourceType.h" />
     <ClInclude Include="TimeManager.h">
       <Filter>4_TimeManager</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>1_Component\Transform</Filter>
+    </ClInclude>      <Filter>7_Enums</Filter>
     </ClInclude>
-  </ItemGroup>
+    <ClInclude Include="AssetManager.h">
+      <Filter>5_AssetManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceHelper.h">
+      <Filter>5_AssetManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseResource.h">
+      <Filter>6_Resources\BaseResource</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineResource.h">
+      <Filter>6_Resources\BaseResource\EngineResource</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsResource.h">
+      <Filter>6_Resources\BaseResource\GraphicsResource</Filter>
+    </ClInclude>  </ItemGroup>
 </Project>

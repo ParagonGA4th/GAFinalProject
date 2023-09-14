@@ -14,10 +14,11 @@
 
 namespace Pg::Engine::Input
 {
-
 	class InputSystem : public Singleton<InputSystem>
 	{
 		friend class Pg::API::Input::PgInput;
+		//friend class Singleton<InputSystem>;
+	
 	public:
 		PARAGON_ENGINE_DLL InputSystem();
 		PARAGON_ENGINE_DLL ~InputSystem();
