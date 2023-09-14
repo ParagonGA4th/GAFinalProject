@@ -17,7 +17,19 @@
       <Filter>2_LowDX11</Filter>
     </ClInclude>
     <ClInclude Include="ParagonRenderer.h">
-      <Filter>3_Renderer</Filter>
+      <Filter>5_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsResourceManager.h">
+      <Filter>6_GraphicsResources\GraphicsResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>3_DX11Wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>3_DX11Wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="TempCamera.h">
+      <Filter>5_Misc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -31,7 +43,16 @@
       <Filter>2_LowDX11</Filter>
     </ClCompile>
     <ClCompile Include="ParagonRenderer.cpp">
-      <Filter>3_Renderer</Filter>
+      <Filter>5_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsResourceManager.cpp">
+      <Filter>6_GraphicsResources\GraphicsResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>3_DX11Wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="TempCamera.cpp">
+      <Filter>5_Misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -50,8 +71,14 @@
     <Filter Include="2_LowDX11">
       <UniqueIdentifier>{577db36a-a07a-4467-ba45-4eee9ec08406}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3_Renderer">
+    <Filter Include="3_DX11Wrapper">
       <UniqueIdentifier>{2e73b48d-9840-40d0-ab2e-e84226b43f13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_GraphicsResources">
+      <UniqueIdentifier>{650e58e0-fcc6-485b-86a0-e101de1badf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_GraphicsResources\GraphicsResourceManager">
+      <UniqueIdentifier>{0354da4f-fbf0-453e-a48b-c872c06bdd9f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

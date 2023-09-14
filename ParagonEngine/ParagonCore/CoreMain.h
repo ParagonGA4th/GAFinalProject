@@ -65,6 +65,10 @@ namespace Pg::Core
 		//Pg::Engine::Input::InputSystem* _inputSystem;
 
 		Time::TimeManager* _timeManager;					//µ®≈∏≈∏¿”
+
+	public:
+		ID3D11Device* GetGraphicsDevice();
+		ID3D11DeviceContext* GetGraphicsDeviceContext();
 	};
 }
 
