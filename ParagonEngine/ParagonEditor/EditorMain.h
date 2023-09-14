@@ -14,6 +14,8 @@ namespace Pg::Core
 	class CoreMain;
 }
 
+class ImGuiManager;
+
 class EditorMain
 {
 public:
@@ -41,6 +43,8 @@ private:
 	const WCHAR* _windowName;
 
 private:
+	std::unique_ptr<ImGuiManager> _imGuiManager;
+	
 	std::unique_ptr<Pg::Core::CoreMain> _coreMain;
 	static Pg::Core::CoreMain* _coreMainStatic;
 	static bool _isCoreInitialized;
