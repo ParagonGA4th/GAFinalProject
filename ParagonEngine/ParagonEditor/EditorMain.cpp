@@ -1,7 +1,13 @@
 #include "EditorMain.h"
+#include "ImGuiManager.h"
+
+#include <d3d11.h>
 
 Pg::Core::CoreMain* EditorMain::_coreMainStatic = nullptr;
 bool EditorMain::_isCoreInitialized;
+
+// Forward declare message handler from imgui_impl_win32.cpp
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 EditorMain::EditorMain()
 	: _hWnd(), _msg(),
@@ -10,6 +16,8 @@ EditorMain::EditorMain()
 	_className(L"ParagonEngine"),
 	_windowName(L"ParagonEngine")
 {
+	_imGuiManager = std::make_unique<ImGuiManager>();
+
 	_isCoreInitialized = false;
 	_coreMain = std::make_unique<Pg::Core::CoreMain>();
 	_coreMainStatic = _coreMain.get();
@@ -35,7 +43,15 @@ long EditorMain::Initialize(void* hInstance, int cmdShow)
 
 	_coreMain->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
 	_isCoreInitialized = true;
+
+	// ImGui Dx11, Win32 Setting	
+	ImGui_ImplDX11_Init(_coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
+	ImGui_ImplWin32_Init(_hWnd);
 }
+
+bool show_demo_window = true;
+bool show_another_window = false;
+ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 void EditorMain::Update()
 {
@@ -52,9 +68,22 @@ void EditorMain::Update()
 		}
 		else
 		{
+			// Start the Dear ImGui frame
+			ImGui_ImplDX11_NewFrame();
+			ImGui_ImplWin32_NewFrame();
+			ImGui::NewFrame();
+
+			ImGui::ShowDemoWindow(&show_demo_window);
+
 			_coreMain->Update();
+			ImGui::Render();
+			ImGui::UpdatePlatformWindows();
+
 			_coreMain->BeginRender();
 			_coreMain->Render();
+			
+			ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+			
 			_coreMain->EndRender();
 		}
 	}
@@ -62,7 +91,8 @@ void EditorMain::Update()
 
 void EditorMain::Finalize()
 {
-
+	_imGuiManager->Finalize();
+	_coreMain->Finalize();
 }
 
 ATOM EditorMain::RegisterClass(HINSTANCE hInstance)
@@ -104,6 +134,8 @@ BOOL EditorMain::CreateWindows(HINSTANCE hInstance, int cmdShow)
 
 LRESULT CALLBACK EditorMain::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) { return true; }
+
 	switch (message)
 	{
 		case WM_SIZE:
