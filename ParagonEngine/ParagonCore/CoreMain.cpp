@@ -82,4 +82,14 @@ namespace Pg::Core
 		_graphics->OnWindowResized(screenWidth, screenHeight);
 	}
 
+	ID3D11Device* CoreMain::GetGraphicsDevice()
+	{
+		return _graphics->GetDevice();
+	}
+
+	ID3D11DeviceContext* CoreMain::GetGraphicsDeviceContext()
+	{
+		return _graphics->GetDeviceContext();
+	}
+
 }
