@@ -43,10 +43,11 @@ namespace Pg::Graphics
 		_DXStorage->_swapChainDesc.SampleDesc.Quality = 0;
 		_DXStorage->_swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		_DXStorage->_swapChainDesc.BufferCount = 2;
-		_DXStorage->_swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
+		_DXStorage->_swapChainDesc.Scaling = DXGI_SCALING_NONE;
 		_DXStorage->_swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 		_DXStorage->_swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
 		_DXStorage->_swapChainDesc.Flags = NULL;
+
 
 		// DXGI Factory 생성
 		hr = CreateDXGIFactory1(__uuidof(IDXGIFactory2), (void**)(&_DXStorage->_factory));
@@ -176,8 +177,8 @@ namespace Pg::Graphics
 		CD3D11_VIEWPORT viewport(
 			0.0f,
 			0.0f,
-			(float)_DXStorage->_screenWidth,
-			(float)_DXStorage->_screenHeight
+			static_cast<float>(_DXStorage->_screenWidth),
+			static_cast<float>(_DXStorage->_screenHeight)
 		);
 
 		// Viewport 지정
@@ -352,6 +353,7 @@ namespace Pg::Graphics
 
 	HRESULT LowDX11Logic::ResizeSwapChainBuffers(int screenWidth, int screenHeight)
 	{
+
 		hr = _DXStorage->_swapChain->ResizeBuffers(2, screenWidth, screenHeight, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
 
 		if (hr != S_OK)

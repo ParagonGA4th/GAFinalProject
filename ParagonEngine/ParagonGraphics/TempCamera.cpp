@@ -8,7 +8,7 @@ TempCamera::TempCamera()
 	mUp(0.0f, 1.0f, 0.0f),
 	mLook(0.0f, 0.0f, 1.0f)
 {
-	SetLens(0.5f * std::numbers::pi, 1.0f, 0.0001f, 1000.0f);
+	//SetLens(0.15f * std::numbers::pi, 1.0f, 0.0001f, 1000.0f);
 }
 
 TempCamera::~TempCamera()
