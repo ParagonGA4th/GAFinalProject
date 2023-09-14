@@ -8,6 +8,8 @@ class ImGuiManager
 public:
 	ImGuiManager();
 
+	void CreateFrame();
+	void Render();
 	void Finalize();
 };
 

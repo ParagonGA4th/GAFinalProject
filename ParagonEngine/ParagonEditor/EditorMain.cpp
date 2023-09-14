@@ -68,21 +68,15 @@ void EditorMain::Update()
 		}
 		else
 		{
-			// Start the Dear ImGui frame
-			ImGui_ImplDX11_NewFrame();
-			ImGui_ImplWin32_NewFrame();
-			ImGui::NewFrame();
+			_imGuiManager->CreateFrame();
 
 			ImGui::ShowDemoWindow(&show_demo_window);
 
-			_coreMain->Update();
-			ImGui::Render();
-			ImGui::UpdatePlatformWindows();
-
+			_coreMain->Update();		
 			_coreMain->BeginRender();
 			_coreMain->Render();
-			
-			ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+			_imGuiManager->Render();
 			
 			_coreMain->EndRender();
 		}

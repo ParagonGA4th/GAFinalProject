@@ -1,4 +1,5 @@
 #include "ImGuiManager.h"
+#include <d3d11.h>
 
 ImGuiManager::ImGuiManager()
 {
@@ -29,6 +30,23 @@ ImGuiManager::ImGuiManager()
 		style.WindowRounding = 0.0f;
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
+}
+
+
+void ImGuiManager::CreateFrame()
+{
+	// Start the Dear ImGui frame
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+}
+
+void ImGuiManager::Render()
+{
+	ImGui::Render();
+	ImGui::UpdatePlatformWindows();
+	ImGui::RenderPlatformWindowsDefault();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
 void ImGuiManager::Finalize()
