@@ -47,8 +47,14 @@
     </Filter>
     <Filter Include="6_Resources\BaseResource\GraphicsResource">
       <UniqueIdentifier>{71de1039-7383-49d9-87ca-2a6aff035821}</UniqueIdentifier>
-    </Filter>  </ItemGroup>
-  <ItemGroup>
+    </Filter>
+    <Filter Include="8_Helpers">
+      <UniqueIdentifier>{fdd64368-0139-4f00-9eb9-92250625d0d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\ResourceHelper">
+      <UniqueIdentifier>{8fe9dcf1-3b64-40dd-b08d-3b4707f69be9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>  <ItemGroup>
     <ClCompile Include="CoreMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
@@ -69,9 +75,6 @@
     </ClCompile>
       <Filter>5_AssetManager</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceHelper.cpp">
-      <Filter>5_AssetManager</Filter>
-    </ClCompile>
     <ClCompile Include="BaseResource.cpp">
       <Filter>6_Resources\BaseResource</Filter>
     </ClCompile>
@@ -80,8 +83,11 @@
     </ClCompile>
     <ClCompile Include="GraphicsResource.cpp">
       <Filter>6_Resources\BaseResource\GraphicsResource</Filter>
-    </ClCompile>  </ItemGroup>
-  <ItemGroup>
+    </ClCompile>
+    <ClCompile Include="ResourceHelper.cpp">
+      <Filter>8_Helpers\ResourceHelper</Filter>
+    </ClCompile>
+  </ItemGroup>  <ItemGroup>
     <ClInclude Include="CoreMain.h">
       <Filter>0_Main</Filter>
     </ClInclude>
@@ -116,9 +122,6 @@
     <ClInclude Include="AssetManager.h">
       <Filter>5_AssetManager</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceHelper.h">
-      <Filter>5_AssetManager</Filter>
-    </ClInclude>
     <ClInclude Include="BaseResource.h">
       <Filter>6_Resources\BaseResource</Filter>
     </ClInclude>
@@ -127,5 +130,8 @@
     </ClInclude>
     <ClInclude Include="GraphicsResource.h">
       <Filter>6_Resources\BaseResource\GraphicsResource</Filter>
-    </ClInclude>  </ItemGroup>
-</Project>
+    </ClInclude>
+    <ClInclude Include="ResourceHelper.h">
+      <Filter>8_Helpers\ResourceHelper</Filter>
+    </ClInclude>
+  </ItemGroup></Project>
