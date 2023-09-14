@@ -73,7 +73,7 @@ namespace Pg::Graphics
 		}
 
 
-		//using namespace Pg::API::Input;
+		using namespace Pg::API::Input;
 
 		//if (PgInput::GetKeyDown(MoveFront))
 		//{
