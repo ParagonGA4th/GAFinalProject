@@ -1,5 +1,5 @@
 #pragma once
-
+#include "IComponent.h"
 
 /// <summary>
 /// 컴포넌트 클래스
@@ -14,26 +14,27 @@ namespace Pg::Core
 
 namespace Pg::Core
 {
-	class Component
+	class Component : public IComponent
 	{
 	public:
-		Component(GameObject& obj);
+		Component(GameObject* obj);
+		//가상 소멸자
 		virtual ~Component();
 
 	public:
-		virtual void Awake() {}
-		virtual void Start() {}
-		virtual void Update() {}
-		virtual void FixedUpdate() {}
-		virtual void LateUpdate() {}
+		virtual void Awake() override {}
+		virtual void Start() override {}
+		virtual void Update() override {}
+		virtual void FixedUpdate() override {}
+		virtual void LateUpdate() override {}
 
-		virtual void OnDestroy() {}
-		virtual void OnCollisionEnter() {}
-		virtual void OnCollisionStay() {}
-		virtual void OnCollisionExit() {}
+		virtual void OnDestroy() override {}
+		virtual void OnCollisionEnter() override {}
+		virtual void OnCollisionStay() override {}
+		virtual void OnCollisionExit() override {}
 
 	public:
-		GameObject& _object;
+		GameObject* _object;
 	};
 
 }
