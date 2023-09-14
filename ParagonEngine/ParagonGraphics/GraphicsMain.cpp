@@ -66,7 +66,7 @@ namespace Pg::Graphics
 		Pg::Core::Time::TimeManager::Instance()->TimeMeasure();
 		float dt = Pg::Core::Time::TimeManager::Instance()->GetDeltaTime();
 
-		cbData.degree += 0.0000001f;//(0.1f * dt);
+		cbData.degree += (5.0f * dt);
 		
 		for (auto& e : _DXStorage->_constantBuffers)
 		{
