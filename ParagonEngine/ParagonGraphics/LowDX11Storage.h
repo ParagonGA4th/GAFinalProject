@@ -18,6 +18,7 @@ namespace Pg::Graphics
 		float degree;
 		matrix viewMatrix;
 		matrix projectionMatrix;
+		matrix viewProjMatrix;
 	};
 
 	class LowDX11Storage

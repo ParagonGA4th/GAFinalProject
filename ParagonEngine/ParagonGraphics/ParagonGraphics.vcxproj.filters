@@ -22,13 +22,16 @@
     <ClInclude Include="GraphicsResourceManager.h">
       <Filter>6_GraphicsResources\GraphicsResourceManager</Filter>
     </ClInclude>
-
-
     <ClInclude Include="ConstantBuffer.h">
       <Filter>3_DX11Wrapper</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="TempCamera.h" />  </ItemGroup>
+    <ClInclude Include="Shader.h">
+      <Filter>3_DX11Wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="TempCamera.h">
+      <Filter>5_Misc</Filter>
+    </ClInclude>
+  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
       <Filter>0_Main</Filter>
@@ -44,8 +47,14 @@
     </ClCompile>
     <ClCompile Include="GraphicsResourceManager.cpp">
       <Filter>6_GraphicsResources\GraphicsResourceManager</Filter>
-    </ClCompile>    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="TempCamera.cpp" />  </ItemGroup>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>3_DX11Wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="TempCamera.cpp">
+      <Filter>5_Misc</Filter>
+    </ClCompile>
+  </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
       <UniqueIdentifier>{dc50f58a-6093-474d-8e66-756fc4fc2f53}</UniqueIdentifier>

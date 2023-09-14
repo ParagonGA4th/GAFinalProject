@@ -35,8 +35,8 @@ namespace Pg::Graphics
 	HRESULT LowDX11Logic::CreateSwapChain(int screenWidth, int screenHeight)
 	{
 		// Swap Chain Description Á¤ÀÇ
-		_DXStorage->_swapChainDesc.Width = screenHeight;
-		_DXStorage->_swapChainDesc.Height = 0;
+		_DXStorage->_swapChainDesc.Width = screenWidth;
+		_DXStorage->_swapChainDesc.Height = screenHeight;
 		_DXStorage->_swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		_DXStorage->_swapChainDesc.Stereo = FALSE;
 		_DXStorage->_swapChainDesc.SampleDesc.Count = 1;

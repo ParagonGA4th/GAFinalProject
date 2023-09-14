@@ -3,6 +3,7 @@ cbuffer cbPerObject : register(b0)
 	float degree;
 	float4x4 viewMatrix;
 	float4x4 projMatrix;
+	float4x4 viewProjMatrix;
 };
 
 struct VertexIn
@@ -69,10 +70,13 @@ VertexOut main(VertexIn vin)
 	mat = mul(mat, yaw);
 	mat = mul(mat, pitch);
 	mat = mul(mat, roll);
+	//mat = mul(mat, viewMatrix);
+	//mat = mul(mat, projMatrix);
+	mat = mul(mat, viewProjMatrix);
 
 	float4 vec = float4(vin.pos, 1.0f);
 	
-	vout.pos = mul(vec, mat);
+	vout.pos = normalize(mul(vec, mat));
 	vout.color = vin.color;
 	
 	return vout;
