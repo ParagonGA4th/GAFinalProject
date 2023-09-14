@@ -28,6 +28,9 @@
     <Filter Include="4_TimeManager">
       <UniqueIdentifier>{2c294edf-bdbf-4d36-b8d2-fe728e9b9d17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="1_Component\Transform">
+      <UniqueIdentifier>{2388a01e-c4c5-4323-89d7-9bc7da4f5e83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoreMain.cpp">
@@ -45,6 +48,9 @@
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="TimeManager.cpp">
       <Filter>4_TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>1_Component\Transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +82,9 @@
     <ClInclude Include="ResourceType.h" />
     <ClInclude Include="TimeManager.h">
       <Filter>4_TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>1_Component\Transform</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

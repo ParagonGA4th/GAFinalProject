@@ -2,7 +2,7 @@
 
 namespace Pg::Core
 {
-	Component::Component(GameObject& obj) :
+	Component::Component(GameObject* obj) :
 		_object(obj)
 	{
 
