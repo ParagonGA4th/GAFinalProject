@@ -13,6 +13,7 @@
 namespace Pg::Graphics
 {
 	class LowDX11Storage;
+	class CB_DATA;
 
 	class LowDX11Logic
 	{

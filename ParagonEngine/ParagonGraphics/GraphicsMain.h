@@ -2,6 +2,8 @@
 #include "../ParagonGraphics/GraphicsDLLExporter.h"
 #include "../ParagonCore/IGraphics.h"
 
+#include "TempCamera.h"
+
 #include <windows.h>
 //#include "DX11Headers.h"
 
@@ -15,6 +17,12 @@
 #pragma comment(lib,"..\\x64\\Debug\\ParagonUtil.lib")
 #else
 #pragma comment(lib,"..\\x64\\Release\\ParagonUtil.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\x64\\Debug\\ParagonAPI.lib")
+#else
+#pragma comment(lib,"..\\x64\\Release\\ParagonAPI.lib")
 #endif // _DEBUG
 
 /// <summary>
@@ -55,6 +63,8 @@ namespace Pg::Graphics
 	private:
 		LowDX11Logic* _DXLogic;
 		LowDX11Storage* _DXStorage;
+
+		TempCamera* _camera;
 
 	};
 }
