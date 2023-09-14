@@ -39,7 +39,7 @@ namespace Pg::Graphics
 		ID3D11DeviceContext* _deviceContext;
 
 		// Description 구조체들
-		DXGI_SWAP_CHAIN_DESC1 _swapChainDesc;
+		DXGI_SWAP_CHAIN_DESC _swapChainDesc;
 		D3D11_TEXTURE2D_DESC _depthStencilBufferDesc;
 		D3D11_DEPTH_STENCIL_DESC _depthStencilDesc;
 		D3D11_DEPTH_STENCIL_VIEW_DESC _depthStencilViewDesc;
@@ -47,7 +47,7 @@ namespace Pg::Graphics
 
 		// 스왑체인 관련
 		IDXGIFactory2* _factory;
-		IDXGISwapChain1* _swapChain;
+		IDXGISwapChain* _swapChain;
 		ID3D11Texture2D* _backBuffer;
 
 		// 메인 렌더 타겟
