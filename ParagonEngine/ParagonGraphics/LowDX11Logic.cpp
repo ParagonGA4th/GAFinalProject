@@ -15,18 +15,24 @@ namespace Pg::Graphics
 
 	HRESULT LowDX11Logic::CreateDevice()
 	{
+		UINT createDeviceFlags = 0;
+#ifdef _DEBUG
+		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif // DEBUG
+
+
 		// D3D11 Device 생성
 		hr = D3D11CreateDevice(
 			NULL,															// [in, optional]	IDXGIAdapter				*pAdapter
-			D3D_DRIVER_TYPE_HARDWARE,										//					D3D_Driver_Type				DriverType
-			NULL,															//					HMODULE						Software
-			D3D11_CREATE_DEVICE_DEBUG,									//					UINT						Flags
+			D3D_DRIVER_TYPE_HARDWARE,										// D3D_Driver_Type				DriverType
+			NULL,															// HMODULE						Software
+			createDeviceFlags,												// UINT						Flags
 			NULL,															// [in, optional]	const D3D_FEATURE_LEVEL		*pFeatureLevels
-			NULL,															//					UINT						FeatureLevels
-			D3D11_SDK_VERSION,												//					UINT						SDKVersion
-			&(_DXStorage->_device),														// [out, optional]	ID3D11Device				**ppDevice
+			NULL,															// UINT						FeatureLevels
+			D3D11_SDK_VERSION,												// UINT						SDKVersion
+			&(_DXStorage->_device),											// [out, optional]	ID3D11Device				**ppDevice
 			NULL,															// [out, optional]	D3D_FEATUER_LEVEL			*pFeatureLevel
-			&(_DXStorage->_deviceContext)												// [out, optional]	ID3D11DeviceContext			**ppImmediateContext
+			&(_DXStorage->_deviceContext)									// [out, optional]	ID3D11DeviceContext			**ppImmediateContext
 		);
 
 		return hr;
@@ -35,19 +41,21 @@ namespace Pg::Graphics
 	HRESULT LowDX11Logic::CreateSwapChain(int screenWidth, int screenHeight)
 	{
 		// Swap Chain Description 정의
-		_DXStorage->_swapChainDesc.Width = screenWidth;
-		_DXStorage->_swapChainDesc.Height = screenHeight;
-		_DXStorage->_swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		_DXStorage->_swapChainDesc.Stereo = FALSE;
+		_DXStorage->_swapChainDesc.BufferDesc.Width = screenWidth;
+		_DXStorage->_swapChainDesc.BufferDesc.Height = screenHeight;
+		_DXStorage->_swapChainDesc.BufferDesc.RefreshRate.Numerator = 120;
+		_DXStorage->_swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
+		_DXStorage->_swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		_DXStorage->_swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+		_DXStorage->_swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_CENTERED;
 		_DXStorage->_swapChainDesc.SampleDesc.Count = 1;
 		_DXStorage->_swapChainDesc.SampleDesc.Quality = 0;
 		_DXStorage->_swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		_DXStorage->_swapChainDesc.BufferCount = 2;
-		_DXStorage->_swapChainDesc.Scaling = DXGI_SCALING_NONE;
+		_DXStorage->_swapChainDesc.OutputWindow = _DXStorage->_hWnd;
+		_DXStorage->_swapChainDesc.Windowed = true;
 		_DXStorage->_swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
-		_DXStorage->_swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
-		_DXStorage->_swapChainDesc.Flags = NULL;
-
+		_DXStorage->_swapChainDesc.Flags = 0;
 
 		// DXGI Factory 생성
 		hr = CreateDXGIFactory1(__uuidof(IDXGIFactory2), (void**)(&_DXStorage->_factory));
@@ -57,15 +65,8 @@ namespace Pg::Graphics
 			return hr;
 		}
 
-		// hWnd 사용하여 스왑체인 생성
-		hr = _DXStorage->_factory->CreateSwapChainForHwnd(
-			_DXStorage->_device,
-			_DXStorage->_hWnd,
-			&(_DXStorage->_swapChainDesc),
-			NULL,
-			NULL,
-			&(_DXStorage->_swapChain)
-		);
+		// 스왑체인 생성
+		hr = _DXStorage->_factory->CreateSwapChain(_DXStorage->_device, &(_DXStorage->_swapChainDesc), &(_DXStorage->_swapChain));
 
 		return hr;
 	}
