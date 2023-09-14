@@ -42,6 +42,10 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual void Finalize() override;
 
 	public:
+		PARAGON_GRAPHICS_DLL virtual ID3D11Device* GetDevice() override;
+		PARAGON_GRAPHICS_DLL virtual ID3D11DeviceContext* GetDeviceContext() override;
+
+	public:
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;
 
 
