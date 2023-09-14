@@ -1,27 +1,4 @@
-#pragma once
-#ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonGameEngine.lib")
-#else
-#pragma comment(lib,"..\\x64\\Release\\ParagonGameEngine.lib")
-#endif // _DEBUG
 
-#ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonGraphics.lib")
-#else
-#pragma comment(lib,"..\\x64\\Release\\ParagonGraphics.lib")
-#endif // _DEBUG
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonUtil.lib")
-#else
-#pragma comment(lib,"..\\x64\\Release\\ParagonUtil.lib")
-#endif // _DEBUG
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonAPI.lib")
-#else
-#pragma comment(lib,"..\\x64\\Release\\ParagonAPI.lib")
-#endif // _DEBUG
 
 #include "IEngine.h"
 #include "IGraphics.h"
@@ -30,6 +7,9 @@
 #include "../ParagonGameEngine/InputSystem.h"
 
 #include <memory>
+
+struct ID3D11Device;
+struct ID3D11DeviceContext;
 
 /// <summary>
 /// ÄÚ¾î
