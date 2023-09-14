@@ -1,5 +1,5 @@
 #pragma once
-
+#include <vector>
 #include <unordered_map>
 #include <string>
 
@@ -8,11 +8,18 @@
 /// 여기가 중요한데... 천천히 공부해서 추가하자!
 /// 2023.09.11
 /// </summary>
+
+namespace Pg::Core
+{
+	class IComponent;
+}
+
 namespace Pg::Core
 {
 	class GameObject
 	{
 	public:
+		//게임 오브젝트는 기본적으로 생성 시 무조건 이름을 갖는다.
 		GameObject(const std::string& name);
 
 		virtual ~GameObject();
@@ -28,11 +35,54 @@ namespace Pg::Core
 
 		void SetActive(bool active);
 
+	public:
+
+		template<typename T>
+		void AddComponent();
+
+		template<typename T>
+		T* GetComponent();
+
 	private:
 
 		std::string _objName;
 
 		bool _isActive;
+
+	private:
+
+		//컴포넌트의 이름과 주소를 저장해놓는 리스트.
+		std::unordered_map<std::string, std::vector<IComponent*>> _componentList;
 	};
+
+	///템플릿을 활용한 GetComponent/AddComponent.
+	///지금은 아는 방식이 이것뿐이라 PT까지는 이 방식으로 가져가되
+	/// 추후 더 공부해서 발전시킬 예정
+	/// 2023.09.14
+	template<typename T>
+	void GameObject::AddComponent()
+	{
+		T* component = new T(this);
+		_componentList[typeid(T).name()].push_back(component);
+	}
+
+
+	template<typename T>
+	T* GameObject::GetComponent()
+	{
+		for (auto& iter : _componentList)
+		{
+			T* res = dynamic_cast<T*>(iter);
+			auto com1 = typeid(T*).name();
+			auto com2 = typeid(res).name();
+
+			if (res && strcmp(com1, com2) == 0)
+			{
+				return res;
+			}
+		}
+
+		return nullptr;
+	}
 }
 
