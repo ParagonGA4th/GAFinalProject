@@ -8,6 +8,7 @@
 #include "../ParagonAPI/PgInput.h"
 
 #include <windows.h>
+#include <numbers>
 
 namespace Pg::Graphics
 {
@@ -52,6 +53,8 @@ namespace Pg::Graphics
 
 		// test용 큐	브 셋팅
 		_DXLogic->SetupCube();
+
+		_camera->SetPosition(float3(0.0f, 0.0f, -10.0f));
 
 	}
 
@@ -100,6 +103,7 @@ namespace Pg::Graphics
 		_camera->UpdateViewMatrix();
 		cbData.viewMatrix = _camera->View();
 		cbData.projectionMatrix = _camera->Proj();
+		cbData.viewProjMatrix = _camera->ViewProj();
 	}
 
 	void GraphicsMain::BeginRender()
@@ -140,10 +144,12 @@ namespace Pg::Graphics
 		ReleaseCOM(_DXStorage->_depthStencilSRV);
 
 		// 바뀐 사이즈로 재할당
-		hr = _DXLogic->ResizeSwapChainBuffers(screenHeight, screenHeight);
+		hr = _DXLogic->ResizeSwapChainBuffers(screenWidth, screenHeight);
 		hr = _DXLogic->CreateMainRenderTarget();
 		hr = _DXLogic->CreateDepthStencilViewAndState();
 		_DXLogic->CreateAndSetViewports();
+
+		_camera->SetLens(0.5f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 	}
 
 	ID3D11Device* GraphicsMain::GetDevice()
