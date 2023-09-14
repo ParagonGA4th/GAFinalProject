@@ -20,7 +20,7 @@ namespace Pg::Core::Resources
 
 	protected:
 		std::string _filePath;
-		Pg::Core::Enum::eResourceType _resourceType;
+		Pg::Core::Enums::eResourceType _resourceType;
 	};
 }
 

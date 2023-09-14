@@ -157,10 +157,12 @@
   <ItemGroup>
     <ClInclude Include="EngineDLLExporter.h" />
     <ClInclude Include="EngineMain.h" />
+    <ClInclude Include="EngineResourceManager.h" />
     <ClInclude Include="InputSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp" />
+    <ClCompile Include="EngineResourceManager.cpp" />
     <ClCompile Include="InputSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
