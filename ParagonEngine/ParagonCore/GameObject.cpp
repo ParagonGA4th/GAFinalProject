@@ -1,5 +1,5 @@
 #include "GameObject.h"
-#include "Transform.h"
+
 
 namespace Pg::Core
 {
@@ -8,7 +8,7 @@ namespace Pg::Core
 		_isActive(true),
 		_componentList()
 	{
-
+		this->AddComponent<Transform>();
 	}
 
 	GameObject::~GameObject()
