@@ -38,12 +38,12 @@ namespace Pg::Core
 		}
 	}
 
-	void Scene::AddScene(GameObject* obj)
+	void Scene::AddObject(GameObject* obj)
 	{
 
 	}
 
-	void Scene::DeleteScene(GameObject* obj)
+	void Scene::DeleteObject(GameObject* obj)
 	{
 
 	}

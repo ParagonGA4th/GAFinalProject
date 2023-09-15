@@ -21,8 +21,8 @@ namespace Pg::Core
 		void Start();
 		void Update();
 
-		void AddScene(GameObject* obj);
-		void DeleteScene(GameObject* obj);
+		void AddObject(GameObject* obj);
+		void DeleteObject(GameObject* obj);
 
 		GameObject* CreateGameObject(std::string name);
 

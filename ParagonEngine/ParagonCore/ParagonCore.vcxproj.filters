@@ -28,11 +28,11 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>3_SceneInfo\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>3_SceneInfo\Component</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>3_SceneInfo\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>3_SceneInfo\Component\BaseClass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -72,17 +72,17 @@
     <ClInclude Include="ResourceType.h">
       <Filter>5_Enums</Filter>
     </ClInclude>
-    <ClInclude Include="IComponent.h">
-      <Filter>3_SceneInfo\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>3_SceneInfo\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>3_SceneInfo\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
       <Filter>0_CoreMain\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>3_SceneInfo\Component\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="IComponent.h">
+      <Filter>3_SceneInfo\Component\Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +136,12 @@
     </Filter>
     <Filter Include="5_Enums">
       <UniqueIdentifier>{4a1ee3f7-ad5c-4675-af1d-5294c59387a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_SceneInfo\Component\BaseClass">
+      <UniqueIdentifier>{474d5d39-17b8-4758-8b8f-25c358abcfd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_SceneInfo\Component\Interface">
+      <UniqueIdentifier>{8ec52c3e-46b2-4e98-91b5-08cc7c2a7856}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

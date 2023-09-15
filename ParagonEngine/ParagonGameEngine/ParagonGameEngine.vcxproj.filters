@@ -13,6 +13,12 @@
     <ClInclude Include="EngineResourceManager.h">
       <Filter>3_GameEngineResources\EngineResourceManager</Filter>
     </ClInclude>
+    <ClInclude Include="WorkSpace.h">
+      <Filter>4_WorkSpace</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>4_WorkSpace\SceneView</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -23,6 +29,12 @@
     </ClCompile>
     <ClCompile Include="EngineResourceManager.cpp">
       <Filter>3_GameEngineResources\EngineResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="WorkSpace.cpp">
+      <Filter>4_WorkSpace</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>4_WorkSpace\SceneView</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +55,12 @@
     </Filter>
     <Filter Include="3_GameEngineResources\EngineResourceManager">
       <UniqueIdentifier>{1bf326f1-88d0-48a2-ab9a-fe5c04d17fbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace">
+      <UniqueIdentifier>{e2eec72b-9fb0-46fa-a146-29934a2125c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView">
+      <UniqueIdentifier>{f49d3efc-a1c7-4329-87a7-08623e0d1c8c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
