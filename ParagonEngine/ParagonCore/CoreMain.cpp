@@ -3,6 +3,7 @@
 #include "../ParagonGraphics/GraphicsMain.h"
 #include "../ParagonGameEngine/EngineDLLExporter.h"
 #include "../ParagonGraphics/GraphicsDLLExporter.h"
+#include "../ParagonGameEngine/WorkSpace.h"
 
 #include "Scene.h"
 #include "Transform.h"
@@ -39,17 +40,9 @@ namespace Pg::Core
 		_logger->Initialize();
 		_logger->SetLoggerLevel(0);
 
-		//WorkSpace* _work = new WorkSpace();
-		/*Pg::Core::Scene* tCurrentScene = new Pg::Core::Scene("TestCurrentScene");
-		Pg::Core::GameObject* tObj1 = new GameObject("Cube1");
-		tObj1->GetComponent<Transform>()->SetPosition({ 10.0f, 0.0f, 5.0f });
-		Pg::Core::GameObject* tObj2 = new GameObject("Cube2");
-		tObj2->GetComponent<Transform>()->SetPosition({ -10.0f, 0.0f, 5.0f });
-		tCurrentScene->AddScene(tObj1);
-		tCurrentScene->AddScene(tObj2);*/
+		Pg::Engine::WorkSpace* _work = new Pg::Engine::WorkSpace();
+		_work->Initialize();
 		
-
-
 		PG_TRACE("Engine Success!!");
 		PG_DEBUG("Engine Success!!");
 		PG_INFO("Engine Success!!");
