@@ -159,11 +159,15 @@
     <ClInclude Include="EngineMain.h" />
     <ClInclude Include="EngineResourceManager.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="TestScene.h" />
+    <ClInclude Include="WorkSpace.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp" />
     <ClCompile Include="EngineResourceManager.cpp" />
     <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="WorkSpace.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ParagonCore\ParagonCore.vcxproj">

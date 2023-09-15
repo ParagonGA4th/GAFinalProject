@@ -1,4 +1,6 @@
 #pragma once
+#include "Transform.h"
+
 #include <vector>
 #include <unordered_map>
 #include <string>
@@ -52,7 +54,7 @@ namespace Pg::Core
 	private:
 
 		//컴포넌트의 이름과 주소를 저장해놓는 리스트.
-		std::unordered_map<std::string, std::vector<IComponent*>> _componentList;
+		std::unordered_map<std::string, IComponent*> _componentList;
 	};
 
 	///템플릿을 활용한 GetComponent/AddComponent.
@@ -63,16 +65,15 @@ namespace Pg::Core
 	void GameObject::AddComponent()
 	{
 		T* component = new T(this);
-		_componentList[typeid(T).name()].push_back(component);
+		_componentList.try_emplace(typeid(T).name(), component);
 	}
-
 
 	template<typename T>
 	T* GameObject::GetComponent()
 	{
 		for (auto& iter : _componentList)
 		{
-			T* res = dynamic_cast<T*>(iter);
+			T* res = dynamic_cast<T*>(iter.second);
 			auto com1 = typeid(T*).name();
 			auto com2 = typeid(res).name();
 
