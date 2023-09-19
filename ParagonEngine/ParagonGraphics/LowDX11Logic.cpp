@@ -368,6 +368,8 @@ namespace Pg::Graphics
 		hr = D3DReadFileToBlob(CSOFilePath.c_str(), &(_DXStorage->_vertexShaderByteCode));
 		_DXStorage->_device->CreateVertexShader(_DXStorage->_vertexShaderByteCode->GetBufferPointer(), _DXStorage->_vertexShaderByteCode->GetBufferSize(), NULL, &(_DXStorage->_vertexShader));
 	
+		// TODO: 여기 있으면 안된다
+		// TODO: 리소스 매니저에 쉐이더 바이트 코드 저장해야 함
 		_DXStorage->_deviceContext->VSSetShader(_DXStorage->_vertexShader, nullptr, 0);
 		
 	}
