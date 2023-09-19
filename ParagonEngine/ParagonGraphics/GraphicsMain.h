@@ -62,9 +62,6 @@ namespace Pg::Graphics
 	private:
 		LowDX11Logic* _DXLogic;
 		LowDX11Storage* _DXStorage;
-
-		//TempCamera* _camera;
-
 	};
 }
 
