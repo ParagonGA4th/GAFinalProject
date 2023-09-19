@@ -34,9 +34,7 @@
     <ClCompile Include="Component.cpp">
       <Filter>3_SceneInfo\Component\BaseClass</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>3_SceneInfo\Component\Camera</Filter>
-    </ClCompile>  </ItemGroup>
+  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseResource.h">
       <Filter>2_Resources</Filter>
@@ -85,9 +83,6 @@
     </ClInclude>
     <ClInclude Include="IComponent.h">
       <Filter>3_SceneInfo\Component\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>3_SceneInfo\Component\Camera</Filter>
     </ClInclude>
     <ClInclude Include="CameraData.h">
       <Filter>3_SceneInfo\Component\Camera</Filter>
@@ -152,7 +147,7 @@
       <UniqueIdentifier>{8ec52c3e-46b2-4e98-91b5-08cc7c2a7856}</UniqueIdentifier>
     </Filter>
     <Filter Include="3_SceneInfo\Component\Camera">
-      <UniqueIdentifier>{3067b0a8-a813-425e-b078-01791921e5bc}</UniqueIdentifier>
+      <UniqueIdentifier>{0b92222d-6df9-4bf9-96c6-01e4b2dcc16a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
