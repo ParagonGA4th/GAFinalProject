@@ -5,7 +5,13 @@ namespace Pg::Engine
 {
 	void WorkSpace::Initialize()
 	{
-		TestScene _testScene;
-		_testScene.Initialize();
+		_testScene = new TestScene();
+		_testScene->Initialize();
 	}
+
+	Pg::Core::Scene* WorkSpace::GetCurrentScene()
+	{
+		return _testScene->GetCurrentScene();
+	}
+
 }
