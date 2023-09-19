@@ -54,20 +54,42 @@ namespace Pg::Graphics
 		// test용 큐	브 셋팅
 		_DXLogic->SetupCube();
 
+		// 카메라 설정
 		_camera->SetPosition(float3(0.0f, 0.0f, -3.0f));
 		_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 
+
+		Pg::Core::Time::TimeManager::Instance()->Initialize();
 	}
 
 
 	void GraphicsMain::Update()
 	{
-		Pg::Core::Time::TimeManager::Instance()->Initialize();
+		
 		Pg::Core::Time::TimeManager::Instance()->TimeMeasure();
 		float dt = Pg::Core::Time::TimeManager::Instance()->GetDeltaTime();
 
-		cbData.degree += (5.0f * dt);
+		time += (5.0f * dt);
+
+		using namespace DirectX;
+		//using namespace Pg::Math;
+
+		float4x4 worldMatrix = XMMATRIX(XMMatrixIdentity());
+
+		// TODO: worldMatrix에 값이 저장되지 않음. 왜?
+		worldMatrix *= XMMatrixRotationX(time);
+		worldMatrix *= XMMatrixRotationY(time);
+		worldMatrix *= XMMatrixRotationZ(time);
 		
+		worldMatrix *= XMMatrixScaling(0.5f, 0.5f, 0.5f);
+
+		cbData.worldMatrix = worldMatrix;
+
+		_camera->UpdateViewMatrix();
+		cbData.viewMatrix = _camera->View();
+		cbData.projectionMatrix = _camera->Proj();
+		cbData.viewProjMatrix = _camera->ViewProj();
+
 		for (auto& e : _DXStorage->_constantBuffers)
 		{
 			e->Update(&cbData);
@@ -100,11 +122,6 @@ namespace Pg::Graphics
 		//{
 		//	_camera->WorldUpDown(10.f * dt);
 		//}
-
-		_camera->UpdateViewMatrix();
-		cbData.viewMatrix = _camera->View();
-		cbData.projectionMatrix = _camera->Proj();
-		cbData.viewProjMatrix = _camera->ViewProj();
 	}
 
 	void GraphicsMain::BeginRender()
