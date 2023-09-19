@@ -17,6 +17,5 @@ namespace Pg::Core
 
 		//그래픽스 엔진에서 필요한 정보
 		//virtual Scene* GetCurrentScene();
-		//virtual Camera* GetCameraData();
 	};
 }

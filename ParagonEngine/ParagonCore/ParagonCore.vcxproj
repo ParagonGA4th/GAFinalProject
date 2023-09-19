@@ -157,12 +157,12 @@
   <ItemGroup>
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="BaseResource.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="CoreMain.cpp" />
     <ClCompile Include="EngineResource.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsResource.cpp" />
-    <ClCompile Include="ICamera.cpp" />
     <ClCompile Include="ResourceHelper.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="TimeManager.cpp" />
