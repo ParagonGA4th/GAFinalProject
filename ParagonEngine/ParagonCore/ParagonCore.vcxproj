@@ -137,6 +137,8 @@
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="BaseResource.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraData.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="CoreMain.h" />
     <ClInclude Include="EngineResource.h" />
@@ -160,6 +162,7 @@
     <ClCompile Include="EngineResource.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsResource.cpp" />
+    <ClCompile Include="ICamera.cpp" />
     <ClCompile Include="ResourceHelper.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="TimeManager.cpp" />
