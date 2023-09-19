@@ -19,6 +19,9 @@
     <ClInclude Include="TestScene.h">
       <Filter>4_WorkSpace\SceneView</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>2_System\CameraSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -35,6 +38,9 @@
     </ClCompile>
     <ClCompile Include="TestScene.cpp">
       <Filter>4_WorkSpace\SceneView</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>2_System\CameraSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +67,9 @@
     </Filter>
     <Filter Include="4_WorkSpace\SceneView">
       <UniqueIdentifier>{f49d3efc-a1c7-4329-87a7-08623e0d1c8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\CameraSystem">
+      <UniqueIdentifier>{f96b40a1-4920-4aa6-a69f-5292a4150b8a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
