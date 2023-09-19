@@ -31,6 +31,7 @@
     <ClInclude Include="TempCamera.h">
       <Filter>5_Misc</Filter>
     </ClInclude>
+    <ClInclude Include="MathHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -54,6 +55,7 @@
     <ClCompile Include="TempCamera.cpp">
       <Filter>5_Misc</Filter>
     </ClCompile>
+    <ClCompile Include="MathHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">

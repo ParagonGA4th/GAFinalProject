@@ -36,8 +36,7 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>3_SceneInfo\Component\Camera</Filter>
-    </ClCompile>
-  </ItemGroup>
+    </ClCompile>  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseResource.h">
       <Filter>2_Resources</Filter>
