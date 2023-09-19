@@ -4,7 +4,7 @@ pipeline {
     stage('Source') {
       agent any
       steps {
-        git 'https://github.com/ParagonGA4th/GAFinalProject.git'
+        git(url: 'https://github.com/ParagonGA4th/GAFinalProject', poll: true)
       }
     }
 
