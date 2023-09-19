@@ -26,6 +26,7 @@
     <ClInclude Include="GraphicsResourceManager.h" />
     <ClInclude Include="LowDX11Logic.h" />
     <ClInclude Include="LowDX11Storage.h" />
+    <ClInclude Include="MathHelper.h" />
     <ClInclude Include="ParagonRenderer.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="TempCamera.h" />
@@ -35,6 +36,7 @@
     <ClCompile Include="GraphicsResourceManager.cpp" />
     <ClCompile Include="LowDX11Logic.cpp" />
     <ClCompile Include="LowDX11Storage.cpp" />
+    <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="ParagonRenderer.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="TempCamera.cpp" />
