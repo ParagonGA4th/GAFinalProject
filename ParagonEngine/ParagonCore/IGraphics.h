@@ -1,9 +1,8 @@
 #pragma once
 
 #include "Scene.h"
-#include "CameraData.h"
-
 #include <windows.h>
+#include "../ParagonCore/CameraData.h"
 
 /// <summary>
 /// 변지상의 엔진 인터페이스. 코어에 들어갈 예정
@@ -21,7 +20,7 @@ namespace Pg::Core
 	public:
 		virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) abstract;
 
-		virtual void Update(const Scene* const scene, Pg::Core::CameraData cameraData) abstract;
+		virtual void Update(const Pg::Core::Scene* const scene, Pg::Core::CameraData cameraData) abstract;
 		virtual void BeginRender() abstract;
 		virtual void Render() abstract;
 		virtual void EndRender() abstract;
