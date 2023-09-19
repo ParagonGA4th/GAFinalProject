@@ -22,7 +22,7 @@ namespace Pg::Core
 	{
 	public:
 		//게임 오브젝트는 기본적으로 생성 시 무조건 이름을 갖는다.
-		GameObject(const std::string& name);
+		GameObject(const std::string name);
 
 		virtual ~GameObject();
 
@@ -45,10 +45,10 @@ namespace Pg::Core
 		template<typename T>
 		T* GetComponent();
 
-	private:
-
+	public:
 		std::string _objName;
-
+		Transform& _transform;
+	private:
 		bool _isActive;
 
 	private:
