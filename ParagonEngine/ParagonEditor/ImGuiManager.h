@@ -9,6 +9,11 @@ public:
 	ImGuiManager();
 
 	void CreateFrame();
+
+	void ShowDemoInspector();
+	void ShowDemoHierarchy();
+	void ShowDemoFilter();
+
 	void Render();
 	void Finalize();
 };
