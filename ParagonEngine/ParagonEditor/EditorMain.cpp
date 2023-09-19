@@ -49,10 +49,6 @@ long EditorMain::Initialize(void* hInstance, int cmdShow)
 	ImGui_ImplWin32_Init(_hWnd);
 }
 
-bool show_demo_window = true;
-bool show_another_window = false;
-ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
 void EditorMain::Update()
 {
 	while (true)
@@ -70,7 +66,9 @@ void EditorMain::Update()
 		{
 			_imGuiManager->CreateFrame();
 
-			ImGui::ShowDemoWindow(&show_demo_window);
+			_imGuiManager->ShowDemoInspector();
+			_imGuiManager->ShowDemoHierarchy();
+			_imGuiManager->ShowDemoFilter();
 
 			_coreMain->Update();		
 			_coreMain->BeginRender();
