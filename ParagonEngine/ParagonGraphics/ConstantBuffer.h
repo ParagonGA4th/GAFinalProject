@@ -32,6 +32,7 @@ namespace Pg::Graphics
 	};
 }
 
+// 구현부
 namespace Pg::Graphics
 {
 	template<typename T>
@@ -40,7 +41,7 @@ namespace Pg::Graphics
 		_ConstantBuffer(nullptr),
 		_cbData(cbData)
 	{
-		int sizeCB = (((sizeof(T)-1) / 16 ) + 1) * 16;
+		int sizeCB = (((sizeof(T)-1) / 16 ) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
 
 		_DXStorage->_ConstantBufferDesc.ByteWidth = sizeCB; // 상수버퍼는 16바이트 정렬
 		_DXStorage->_ConstantBufferDesc.Usage = D3D11_USAGE_DEFAULT;
