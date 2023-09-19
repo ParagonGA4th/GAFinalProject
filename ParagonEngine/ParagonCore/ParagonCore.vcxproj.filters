@@ -34,7 +34,7 @@
     <ClCompile Include="Component.cpp">
       <Filter>3_SceneInfo\Component\BaseClass</Filter>
     </ClCompile>
-    <ClCompile Include="ICamera.cpp">
+    <ClCompile Include="Camera.cpp">
       <Filter>3_SceneInfo\Component\Camera</Filter>
     </ClCompile>
   </ItemGroup>
