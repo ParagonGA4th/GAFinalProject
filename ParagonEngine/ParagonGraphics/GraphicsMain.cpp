@@ -2,6 +2,7 @@
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
 #include "ConstantBuffer.h"
+#include "MathHelper.h"
 
 #include "../ParagonCore/TimeManager.h"
 
@@ -32,7 +33,7 @@ namespace Pg::Graphics
 		_DXStorage->_screenWidth = screenWidth;
 		_DXStorage->_screenHeight = screenHeight;
 
-		_camera = new TempCamera();
+		//_camera = new TempCamera();
 
 		hr = _DXLogic->CreateDevice();
 		
@@ -55,17 +56,15 @@ namespace Pg::Graphics
 		_DXLogic->SetupCube();
 
 		// 카메라 설정
-		_camera->SetPosition(float3(0.0f, 0.0f, -3.0f));
-		_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
-
+		//_camera->SetPosition(float3(0.0f, 0.0f, -3.0f));
+		//_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 
 		Pg::Core::Time::TimeManager::Instance()->Initialize();
 	}
 
 
-	void GraphicsMain::Update()
+	void GraphicsMain::Update(const Pg::Core::Scene* const scene, Pg::Core::CameraData cameraData)
 	{
-		
 		Pg::Core::Time::TimeManager::Instance()->TimeMeasure();
 		float dt = Pg::Core::Time::TimeManager::Instance()->GetDeltaTime();
 
@@ -85,10 +84,10 @@ namespace Pg::Graphics
 
 		cbData.worldMatrix = worldMatrix;
 
-		_camera->UpdateViewMatrix();
-		cbData.viewMatrix = _camera->View();
-		cbData.projectionMatrix = _camera->Proj();
-		cbData.viewProjMatrix = _camera->ViewProj();
+		//_camera->UpdateViewMatrix();
+		cbData.viewMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._viewMatrix);
+		cbData.projectionMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._projMatrix);
+		cbData.viewProjMatrix = DirectX::XMMatrixMultiply(cbData.viewMatrix, cbData.projectionMatrix);
 
 		for (auto& e : _DXStorage->_constantBuffers)
 		{
@@ -168,7 +167,7 @@ namespace Pg::Graphics
 		hr = _DXLogic->CreateDepthStencilViewAndState();
 		_DXLogic->CreateAndSetViewports();
 
-		_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
+		//_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 	}
 
 	ID3D11Device* GraphicsMain::GetDevice()
