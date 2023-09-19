@@ -3,7 +3,7 @@
 #include "../ParagonGraphics/GraphicsMain.h"
 #include "../ParagonGameEngine/EngineDLLExporter.h"
 #include "../ParagonGraphics/GraphicsDLLExporter.h"
-
+#include "CameraData.h"
 #include "Scene.h"
 #include "Transform.h"
 #include "GameObject.h"

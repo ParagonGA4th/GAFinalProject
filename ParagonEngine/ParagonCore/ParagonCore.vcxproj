@@ -137,7 +137,6 @@
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="BaseResource.h" />
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="CoreMain.h" />
@@ -157,7 +156,6 @@
   <ItemGroup>
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="BaseResource.cpp" />
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="CoreMain.cpp" />
     <ClCompile Include="EngineResource.cpp" />

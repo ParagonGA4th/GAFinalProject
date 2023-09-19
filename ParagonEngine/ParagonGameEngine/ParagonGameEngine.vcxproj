@@ -155,6 +155,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="EngineDLLExporter.h" />
     <ClInclude Include="EngineMain.h" />
     <ClInclude Include="EngineResourceManager.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="WorkSpace.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="EngineMain.cpp" />
     <ClCompile Include="EngineResourceManager.cpp" />
     <ClCompile Include="InputSystem.cpp" />
