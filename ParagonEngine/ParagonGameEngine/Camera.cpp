@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "../ParagonCore/GameObject.h"
 
 namespace Pg::Engine
 {
@@ -74,7 +75,12 @@ namespace Pg::Engine
 
 	Pg::Core::CameraData Camera::GetCameraData()
 	{
-		return this->_cameraData;
+		_cameraData._position = _object->_transform.GetPosition();
+		_cameraData._rotation = _object->_transform.GetRotation();
+		_cameraData._viewMatrix = GetViewMatrix();
+		_cameraData._projMatrix = GetProjMatrix();
+
+		return _cameraData;
 	}
 
 }

@@ -3,12 +3,14 @@
 
 namespace Pg::Core
 {
-	GameObject::GameObject(const std::string& name) :
+	GameObject::GameObject(const std::string name) :
+		_transform(*(new Transform(this))),
 		_objName(name),
 		_isActive(true),
 		_componentList()
 	{
-		this->AddComponent<Transform>();
+		//기본적으로 무조건 GameObject가 생성되면 Transform을 컴포넌트로 갖는다.
+		_componentList.insert(std::make_pair(typeid(_transform).name(), &_transform));
 	}
 
 	GameObject::~GameObject()
