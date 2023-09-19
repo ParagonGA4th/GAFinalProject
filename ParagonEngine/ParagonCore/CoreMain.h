@@ -27,7 +27,9 @@
 #include "IGraphics.h"
 #include "TimeManager.h"
 #include "../ParagonUtil/Log.h"
+
 #include "../ParagonGameEngine/InputSystem.h"
+#include "../ParagonGameEngine/WorkSpace.h"
 
 #include <memory>
 
@@ -65,6 +67,9 @@ namespace Pg::Core
 		//Pg::Engine::Input::InputSystem* _inputSystem;
 
 		Time::TimeManager* _timeManager;					//델타타임
+
+		//임시 : WORKSPACE
+		Pg::Engine::WorkSpace* _work = nullptr;
 
 	public:
 		ID3D11Device* GetGraphicsDevice();

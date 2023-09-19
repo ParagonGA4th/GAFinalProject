@@ -1,11 +1,26 @@
 #pragma once
+#include "../ParagonCore/Scene.h"
 
 /// <summary>
 /// ев╫╨ф╝©К ╬ю
 /// </summary>
-class TestScene
+/// 
+
+namespace Pg::Engine
 {
-public:
-	void Initialize();
-};
+	class TestScene
+	{
+	public:
+		TestScene();
+
+	public:
+		void Initialize();
+
+		Pg::Core::Scene* GetCurrentScene();
+
+	private:
+		Pg::Core::Scene* tCurrentScene = nullptr;
+	};
+
+}
 

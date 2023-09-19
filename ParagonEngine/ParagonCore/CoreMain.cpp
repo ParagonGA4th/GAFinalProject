@@ -3,7 +3,6 @@
 #include "../ParagonGraphics/GraphicsMain.h"
 #include "../ParagonGameEngine/EngineDLLExporter.h"
 #include "../ParagonGraphics/GraphicsDLLExporter.h"
-#include "../ParagonGameEngine/WorkSpace.h"
 
 #include "Scene.h"
 #include "Transform.h"
@@ -40,14 +39,14 @@ namespace Pg::Core
 		_logger->Initialize();
 		_logger->SetLoggerLevel(0);
 
-		Pg::Engine::WorkSpace* _work = new Pg::Engine::WorkSpace();
+		_work = new Pg::Engine::WorkSpace();
 		_work->Initialize();
-		
+
 		PG_TRACE("Engine Success!!");
 		PG_DEBUG("Engine Success!!");
 		PG_INFO("Engine Success!!");
 		PG_WARN("Engine Success!!");
-		
+
 		return S_OK;
 	}
 
@@ -58,7 +57,31 @@ namespace Pg::Core
 
 		//여기다가 시스템 싹 다 업데이트!!
 		_engine->Update();
-		_graphics->Update();
+
+		CameraData cameraData;
+		cameraData._position = { 0.0f, 0.0f, -3.0f };
+		cameraData._rotation.x = 0.0f;
+		cameraData._rotation.y = 0.0f;
+		cameraData._rotation.z = 0.0f;
+		cameraData._rotation.w = 0.0f;
+
+		cameraData._viewMatrix =
+		{
+			1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 3.0f, 1.0f,
+		};
+
+		cameraData._projMatrix =
+		{
+			1.35799503f, 0.0f, 0.0f, 0.0f,
+			0.0f, 2.41421342f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.00000012f, 1.0f,
+			0.0f, 0.0f, -0.000100000012f, 0.0f,
+		};
+
+		_graphics->Update(_work->GetCurrentScene(), cameraData);
 	}
 
 	void CoreMain::BeginRender()
@@ -86,7 +109,7 @@ namespace Pg::Core
 	}
 
 	void CoreMain::OnWindowResized(int screenWidth, int screenHeight)
-{
+	{
 		_graphics->OnWindowResized(screenWidth, screenHeight);
 	}
 

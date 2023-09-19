@@ -1,11 +1,10 @@
 #pragma once
 #include "../ParagonGraphics/GraphicsDLLExporter.h"
 #include "../ParagonCore/IGraphics.h"
-
-#include "TempCamera.h"
+#include "../ParagonCore/Scene.h"
+#include "../ParagonCore/CameraData.h"
 
 #include <windows.h>
-//#include "DX11Headers.h"
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\x64\\Debug\\ParagonCore.lib")
@@ -43,7 +42,7 @@ namespace Pg::Graphics
 
 	public:
 		PARAGON_GRAPHICS_DLL virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) override;
-		PARAGON_GRAPHICS_DLL virtual void Update() override;
+		PARAGON_GRAPHICS_DLL virtual void Update(const Pg::Core::Scene* const scene, Pg::Core::CameraData cameraData) override;
 		PARAGON_GRAPHICS_DLL virtual void BeginRender() override;
 		PARAGON_GRAPHICS_DLL virtual void Render() override;
 		PARAGON_GRAPHICS_DLL virtual void EndRender() override;
@@ -63,9 +62,6 @@ namespace Pg::Graphics
 	private:
 		LowDX11Logic* _DXLogic;
 		LowDX11Storage* _DXStorage;
-
-		TempCamera* _camera;
-
 	};
 }
 
