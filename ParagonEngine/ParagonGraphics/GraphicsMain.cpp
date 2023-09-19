@@ -56,7 +56,6 @@ namespace Pg::Graphics
 		_DXLogic->SetupCube();
 
 		// 카메라 설정
-		//_camera->SetPosition(float3(0.0f, 0.0f, -3.0f));
 		//_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 
 		Pg::Core::Time::TimeManager::Instance()->Initialize();
@@ -75,7 +74,6 @@ namespace Pg::Graphics
 
 		float4x4 worldMatrix = XMMATRIX(XMMatrixIdentity());
 
-		// TODO: worldMatrix에 값이 저장되지 않음. 왜?
 		worldMatrix *= XMMatrixRotationX(time);
 		worldMatrix *= XMMatrixRotationY(time);
 		worldMatrix *= XMMatrixRotationZ(time);
@@ -84,7 +82,6 @@ namespace Pg::Graphics
 
 		cbData.worldMatrix = worldMatrix;
 
-		//_camera->UpdateViewMatrix();
 		cbData.viewMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._viewMatrix);
 		cbData.projectionMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._projMatrix);
 		cbData.viewProjMatrix = DirectX::XMMatrixMultiply(cbData.viewMatrix, cbData.projectionMatrix);
