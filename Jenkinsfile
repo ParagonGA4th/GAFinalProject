@@ -1,9 +1,33 @@
 pipeline {
   agent any
   stages {
-    stage('Success') {
+    stage('Source') {
+      agent any
       steps {
-        sh 'ls'
+        git 'https://github.com/ParagonGA4th/GAFinalProject'
+      }
+    }
+
+    stage('Build') {
+      steps {
+        tool 'MSBuild'
+      }
+    }
+
+    stage('Finished') {
+      parallel {
+        stage('Success') {
+          steps {
+            echo 'Success!'
+          }
+        }
+
+        stage('Failed') {
+          steps {
+            error 'Failed!'
+          }
+        }
+
       }
     }
 
