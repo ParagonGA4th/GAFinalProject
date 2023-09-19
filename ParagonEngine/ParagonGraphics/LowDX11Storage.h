@@ -15,10 +15,10 @@ namespace Pg::Graphics
 {
 	struct CB_DATA
 	{
-		float degree;
-		matrix viewMatrix;
-		matrix projectionMatrix;
-		matrix viewProjMatrix;
+		float4x4 worldMatrix;
+		float4x4 viewMatrix;
+		float4x4 projectionMatrix;
+		float4x4 viewProjMatrix;
 	};
 
 	class LowDX11Storage
@@ -67,8 +67,8 @@ namespace Pg::Graphics
 
 		const FLOAT _backgroundColor[4] = { 0.8f, 0.5f, 0.5f, 0.0f };
 
+		// TODO: InputLayout 옮기기
 		ID3D11InputLayout* _inputLayout;
-
 
 		// Shader 관련
 		ID3D11VertexShader* _vertexShader;
