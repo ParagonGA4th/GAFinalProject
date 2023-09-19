@@ -162,7 +162,6 @@
     <ClCompile Include="EngineResource.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsResource.cpp" />
-    <ClCompile Include="ICamera.cpp" />
     <ClCompile Include="ResourceHelper.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="TimeManager.cpp" />
