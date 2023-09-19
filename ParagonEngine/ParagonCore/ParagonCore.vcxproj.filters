@@ -34,9 +34,6 @@
     <ClCompile Include="Component.cpp">
       <Filter>3_SceneInfo\Component\BaseClass</Filter>
     </ClCompile>
-    <ClCompile Include="ICamera.cpp">
-      <Filter>3_SceneInfo\Component\Camera</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseResource.h">
