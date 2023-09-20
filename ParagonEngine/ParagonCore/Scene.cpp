@@ -1,13 +1,21 @@
 #include "Scene.h"
 #include "GameObject.h"
 
+
 namespace Pg::Core
 {
 	Scene::Scene(std::string sceneName) :
 		_sceneName(sceneName),
+		_mainCamera(nullptr),
 		_objectList()
 	{
+		//Scene이 만들어질 경우 무조건 MainCamera가 오브젝트로 생성이 되어 있어야 함!
+		GameObject* cameraObject = CreateGameObject("MainCamera");
+		_mainCamera = cameraObject->AddComponent<Pg::Engine::Camera>();
+		_mainCamera->_object->_transform.SetPosition({ 10.0f, 0.0f, 0.0f });
+		_mainCamera->_object->_transform.SetRotation({ 0.0f, 0.0f, 0.0f, 0.0f });
 
+		SetMainCamera(_mainCamera);
 	}
 
 	Scene::~Scene()
@@ -38,14 +46,16 @@ namespace Pg::Core
 		}
 	}
 
-	void Scene::AddObject(GameObject* obj)
+	GameObject* Scene::AddObject(std::string obj)
 	{
-
+		GameObject* gameObj = new GameObject(obj);
+		_objectList.push_back(gameObj);
+		return gameObj;
 	}
 
-	void Scene::DeleteObject(GameObject* obj)
+	void Scene::DeleteObject(std::string obj)
 	{
-
+		
 	}
 
 	GameObject* Scene::CreateGameObject(std::string name)
@@ -63,7 +73,16 @@ namespace Pg::Core
 
 	void Scene::SetSceneName(const std::string& sceneName)
 	{
-
+		_sceneName = sceneName;
 	}
 
+	Pg::Engine::Camera* Scene::GetMainCamera()
+	{
+		return _mainCamera;
+	}
+
+	void Scene::SetMainCamera(Camera* mainCamera)
+	{
+		_mainCamera = mainCamera;
+	}
 }
