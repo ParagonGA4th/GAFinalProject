@@ -64,7 +64,7 @@ namespace Pg::Graphics
 		// test용 큐	브 셋팅
 		_box = new TestCube(_DXStorage);
 
-		_DXStorage->_vertexShader->AddConstantBuffer(_box->_cbData);
+		_DXStorage->_vertexShader->AddConstantBuffer(&(_box->_cbData));
 		
 			// 카메라 설정
 		_camera = new TempCamera();
