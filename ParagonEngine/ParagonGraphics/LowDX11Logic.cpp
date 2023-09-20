@@ -1,6 +1,9 @@
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
 
+#include "Shader.h"
+#include "DX11Headers.h"
+
 #include <vector>
 #include <string>
 
@@ -217,141 +220,6 @@ namespace Pg::Graphics
 		_DXStorage->_swapChain->Present(0, 0);
 	}
 
-	void LowDX11Logic::SetupCube()
-	{
-		struct MeshVertex
-		{
-			float3 position;
-			float3 color;
-		};
-
-		std::vector<MeshVertex> VBData;
-		std::vector<int> IBData;
-
-		VBData.emplace_back(MeshVertex{ float3 {-1.0f, 1.0f, -1.0f}, float3{1.0f, 0.0f, 0.0f} });
-		VBData.emplace_back(MeshVertex{ float3 {1.0f, 1.0f, -1.0f}, float3{0.0f, 1.0f, 0.0f} });
-		VBData.emplace_back(MeshVertex{ float3 {-1.0f, 1.0f, 1.0f}, float3{0.0f, 0.0f, 1.0f} });
-		VBData.emplace_back(MeshVertex{ float3 {1.0f, 1.0f, 1.0f}, float3{1.0f, 1.0f, 0.0f} });
-		VBData.emplace_back(MeshVertex{ float3 {1.0f, -1.0f, -1.0f}, float3{0.0f, 1.0f, 1.0f} });
-		VBData.emplace_back(MeshVertex{ float3 {-1.0f, -1.0f, -1.0f}, float3{1.0f, 0.0f, 1.0f} });
-		VBData.emplace_back(MeshVertex{ float3 {-1.0f, -1.0f, 1.0f}, float3{1.0f, 1.0f, 1.0f} });
-		VBData.emplace_back(MeshVertex{ float3 {1.0f, -1.0f, 1.0f}, float3{0.0f, 0.0f, 0.0f} });
-
-		IBData.emplace_back(0);
-		IBData.emplace_back(1);
-		IBData.emplace_back(2);
-
-		IBData.emplace_back(2);
-		IBData.emplace_back(1);
-		IBData.emplace_back(3);
-
-		IBData.emplace_back(7);
-		IBData.emplace_back(2);
-		IBData.emplace_back(3);
-
-		IBData.emplace_back(2);
-		IBData.emplace_back(7);
-		IBData.emplace_back(6);
-
-		IBData.emplace_back(3);
-		IBData.emplace_back(1);
-		IBData.emplace_back(4);
-
-		IBData.emplace_back(4);
-		IBData.emplace_back(7);
-		IBData.emplace_back(3);
-
-		IBData.emplace_back(5);
-		IBData.emplace_back(2);
-		IBData.emplace_back(6);
-
-		IBData.emplace_back(5);
-		IBData.emplace_back(0);
-		IBData.emplace_back(2);
-
-		IBData.emplace_back(7);
-		IBData.emplace_back(4);
-		IBData.emplace_back(6);
-
-		IBData.emplace_back(6);
-		IBData.emplace_back(4);
-		IBData.emplace_back(5);
-
-		IBData.emplace_back(0);
-		IBData.emplace_back(4);
-		IBData.emplace_back(1);
-
-		IBData.emplace_back(0);
-		IBData.emplace_back(5);
-		IBData.emplace_back(4);
-
-		// Buffer Description
-		D3D11_BUFFER_DESC VBDesc;
-		VBDesc.Usage = D3D11_USAGE_DEFAULT;
-		VBDesc.ByteWidth = VBData.size() * sizeof(MeshVertex);
-		VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		VBDesc.CPUAccessFlags = 0;
-		VBDesc.MiscFlags = 0;
-
-		// Subresource Data
-		D3D11_SUBRESOURCE_DATA VBInitData;
-		VBInitData.pSysMem = &(VBData[0]);
-		VBInitData.SysMemPitch = 0;
-		VBInitData.SysMemSlicePitch = 0;
-
-		ID3D11Buffer* VB;
-
-		// Create the vertex buffer.
-		HRESULT hr = _DXStorage->_device->CreateBuffer(&VBDesc, &VBInitData, &VB);
-
-		// Buffer Description
-		D3D11_BUFFER_DESC IBDesc;
-		IBDesc.Usage = D3D11_USAGE_DEFAULT;
-		IBDesc.ByteWidth = IBData.size() * sizeof(int);
-		IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-		IBDesc.CPUAccessFlags = 0;
-		IBDesc.MiscFlags = 0;
-
-		// Subresource Data
-		D3D11_SUBRESOURCE_DATA IBInitData;
-		IBInitData.pSysMem = &(IBData[0]);
-		IBInitData.SysMemPitch = 0;
-		IBInitData.SysMemSlicePitch = 0;
-
-		ID3D11Buffer* IB;
-
-		// Create the Index buffer.
-		hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &IB);
-
-		UINT stride = sizeof(MeshVertex);
-		UINT offset = 0;
-
-		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &VB, &stride, &offset);
-		_DXStorage->_deviceContext->IASetIndexBuffer(IB, DXGI_FORMAT_R32_UINT, 0);
-
-		/// InputLayout 생성 및 바인딩
-		// Input Element Description 구조체
-		D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
-		{
-			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
-
-		};
-
-		// InputLayout 생성
-		hr = _DXStorage->_device->CreateInputLayout(vertexDesc, 2, _DXStorage->_vertexShaderByteCode->GetBufferPointer(),
-			_DXStorage->_vertexShaderByteCode->GetBufferSize(), &(_DXStorage->_inputLayout));
-
-		_DXStorage->_deviceContext->IASetInputLayout(_DXStorage->_inputLayout);
-		_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	}
-
-	void LowDX11Logic::DrawCube()
-	{
-		//create
-		_DXStorage->_deviceContext->DrawIndexed(36, 0, 0);
-	}
-
 	HRESULT LowDX11Logic::ResizeSwapChainBuffers(int screenWidth, int screenHeight)
 	{
 
@@ -361,25 +229,6 @@ namespace Pg::Graphics
 		{
 			return hr;
 		}
-	}
-
-	void LowDX11Logic::SetVertexShader(std::wstring CSOFilePath)
-	{
-		hr = D3DReadFileToBlob(CSOFilePath.c_str(), &(_DXStorage->_vertexShaderByteCode));
-		_DXStorage->_device->CreateVertexShader(_DXStorage->_vertexShaderByteCode->GetBufferPointer(), _DXStorage->_vertexShaderByteCode->GetBufferSize(), NULL, &(_DXStorage->_vertexShader));
-	
-		// TODO: 여기 있으면 안된다
-		// TODO: 리소스 매니저에 쉐이더 바이트 코드 저장해야 함
-		_DXStorage->_deviceContext->VSSetShader(_DXStorage->_vertexShader, nullptr, 0);
-		
-	}
-
-	void LowDX11Logic::SetPixelShader(std::wstring CSOFilePath)
-	{
-		hr = D3DReadFileToBlob(CSOFilePath.c_str(), &(_DXStorage->_pixelShaderByteCode));
-		_DXStorage->_device->CreatePixelShader(_DXStorage->_pixelShaderByteCode->GetBufferPointer(), _DXStorage->_pixelShaderByteCode->GetBufferSize(), NULL, &(_DXStorage->_pixelShader));
-	
-		_DXStorage->_deviceContext->PSSetShader(_DXStorage->_pixelShader, nullptr, 0);
 	}
 
 }

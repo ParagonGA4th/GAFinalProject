@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DX11Headers.h"
+#include "ConstantBufferBase.h"
 
 /// <summary>
 /// DX11 상수 버퍼를 래핑하는 클래스 템플릿
@@ -12,21 +13,21 @@ namespace Pg::Graphics
 	class LowDX11Storage;
 
 	template<typename T>
-	class ConstantBuffer
+	class ConstantBuffer : public ConstantBufferBase
 	{
 	public:
-		ConstantBuffer(LowDX11Storage* DXStorage, T* cbData);
+		ConstantBuffer(LowDX11Storage* DXStorage, T cbData);
 
 	private:
 		LowDX11Storage* _DXStorage;
 
 	public:
 		ID3D11Buffer* _ConstantBuffer;
-		T* _cbData;
+		T _cbData;
 		D3D11_SUBRESOURCE_DATA _subresource;
 
 	public:
-		void Update(T* cbData);
+		void Update();
 
 	private:
 	};
@@ -36,7 +37,7 @@ namespace Pg::Graphics
 namespace Pg::Graphics
 {
 	template<typename T>
-	ConstantBuffer<T>::ConstantBuffer(LowDX11Storage* DXStorage, T* cbData)
+	ConstantBuffer<T>::ConstantBuffer(LowDX11Storage* DXStorage, T cbData)
 		:_DXStorage(DXStorage),
 		_ConstantBuffer(nullptr),
 		_cbData(cbData)
@@ -49,17 +50,16 @@ namespace Pg::Graphics
 		_DXStorage->_ConstantBufferDesc.CPUAccessFlags = 0;
 		_DXStorage->_ConstantBufferDesc.MiscFlags = 0;
 
-		_subresource.pSysMem = cbData;
+		_subresource.pSysMem = &cbData;
 
 		HRESULT hr = _DXStorage->_device->CreateBuffer(&(_DXStorage->_ConstantBufferDesc), &_subresource, &(_ConstantBuffer));
 
 	}
 
 	template<typename T>
-	void ConstantBuffer<T>::Update(T* cbData)
+	void ConstantBuffer<T>::Update()
 	{
-		_cbData = cbData;
-		_DXStorage->_deviceContext->UpdateSubresource(_ConstantBuffer, 0, NULL, cbData, 0, 0);
+		_DXStorage->_deviceContext->UpdateSubresource(_ConstantBuffer, 0, NULL, &_cbData, 0, 0);
 		_DXStorage->_deviceContext->VSSetConstantBuffers(0, 1, &(_ConstantBuffer));
 	}
 }

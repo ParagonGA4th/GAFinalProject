@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="ConstantBufferBase.h" />
     <ClInclude Include="DX11Headers.h" />
     <ClInclude Include="GraphicsDLLExporter.h" />
     <ClInclude Include="GraphicsMain.h" />
@@ -28,18 +29,25 @@
     <ClInclude Include="LowDX11Storage.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="ParagonRenderer.h" />
+    <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="TempCamera.h" />
+    <ClInclude Include="TestCube.h" />
+    <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ConstantBufferBase.cpp" />
     <ClCompile Include="GraphicsMain.cpp" />
     <ClCompile Include="GraphicsResourceManager.cpp" />
     <ClCompile Include="LowDX11Logic.cpp" />
     <ClCompile Include="LowDX11Storage.cpp" />
     <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="ParagonRenderer.cpp" />
+    <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="TempCamera.cpp" />
+    <ClCompile Include="TestCube.cpp" />
+    <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ParagonCore\ParagonCore.vcxproj">

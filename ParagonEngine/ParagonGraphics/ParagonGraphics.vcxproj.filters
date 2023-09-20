@@ -25,13 +25,21 @@
     <ClInclude Include="ConstantBuffer.h">
       <Filter>3_DX11Wrapper</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>3_DX11Wrapper</Filter>
-    </ClInclude>
     <ClInclude Include="TempCamera.h">
       <Filter>5_Misc</Filter>
     </ClInclude>
     <ClInclude Include="MathHelper.h" />
+    <ClInclude Include="Shader.h">
+      <Filter>3_DX11Wrapper\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>3_DX11Wrapper\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelShader.h">
+      <Filter>3_DX11Wrapper\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCube.h" />
+    <ClInclude Include="ConstantBufferBase.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -49,13 +57,21 @@
     <ClCompile Include="GraphicsResourceManager.cpp">
       <Filter>6_GraphicsResources\GraphicsResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>3_DX11Wrapper</Filter>
-    </ClCompile>
     <ClCompile Include="TempCamera.cpp">
       <Filter>5_Misc</Filter>
     </ClCompile>
     <ClCompile Include="MathHelper.cpp" />
+    <ClCompile Include="Shader.cpp">
+      <Filter>3_DX11Wrapper\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>3_DX11Wrapper\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShader.cpp">
+      <Filter>3_DX11Wrapper\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCube.cpp" />
+    <ClCompile Include="ConstantBufferBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -81,6 +97,9 @@
     </Filter>
     <Filter Include="6_GraphicsResources\GraphicsResourceManager">
       <UniqueIdentifier>{0354da4f-fbf0-453e-a48b-c872c06bdd9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_DX11Wrapper\Shader">
+      <UniqueIdentifier>{cbc5a6ca-3861-4110-afef-551c8d1d0b32}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
