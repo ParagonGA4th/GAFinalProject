@@ -19,6 +19,8 @@ namespace Pg::Graphics
 	{
 		_DXStorage = new LowDX11Storage();
 		_DXLogic = new LowDX11Logic(_DXStorage);
+
+		// TODO: Storage는 static으로 만들어서 인자로 넘길 필요가 없도록 하자
 	}
 
 	float time = 0.0f;
@@ -27,13 +29,12 @@ namespace Pg::Graphics
 	{
 		OutputDebugString(L"GraphicsGraphics!!!");
 
+		/// 초기화 관련
 		_DXStorage->_hWnd = hWnd;
 
 		_DXStorage->_screenWidth = screenWidth;
 		_DXStorage->_screenHeight = screenHeight;
 
-
-		/// 초기화 관련
 		hr = _DXLogic->CreateDevice();
 		
 		hr = _DXLogic->CreateSwapChain(screenWidth, screenHeight);
@@ -54,19 +55,18 @@ namespace Pg::Graphics
 			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
-		_DXStorage->_vertexShader = new VertexShader(_DXStorage, L"../x64/debug/VertexShader.cso", vertexDesc);
-		_DXStorage->_pixelShader = new PixelShader(_DXStorage, L"../x64/debug/PixelShader.cso");
+		_DXStorage->_testVertexShader = new VertexShader(_DXStorage, L"../x64/debug/VertexShader.cso", vertexDesc);
+		_DXStorage->_testPixelShader = new PixelShader(_DXStorage, L"../x64/debug/PixelShader.cso");
 
+		_DXStorage->_testVertexShader->Bind();
+		_DXStorage->_testPixelShader->Bind();
 
-		_DXStorage->_vertexShader->Bind();
-		_DXStorage->_pixelShader->Bind();
-
-		// test용 큐	브 셋팅
+		// TODO: Shader가 TestBox 안에 있어야 하나?
+		// test용 큐	브
 		_box = new TestCube(_DXStorage);
+		_DXStorage->_testVertexShader->AddConstantBuffer(&(_box->_cbData));
 
-		_DXStorage->_vertexShader->AddConstantBuffer(&(_box->_cbData));
-		
-			// 카메라 설정
+		// 카메라 설정
 		_camera = new TempCamera();
 		_camera->SetPosition(float3(0.0f, 0.0f, -3.0f));
 		_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
@@ -86,12 +86,13 @@ namespace Pg::Graphics
 		//cbData.projectionMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._projMatrix);
 		//cbData.viewProjMatrix = DirectX::XMMatrixMultiply(cbData.viewMatrix, cbData.projectionMatrix);
 
-		//_box->Update(time);
-		// TODO: ConstantBuffer가 Shader 안으로 들어가야 함.
-		// TODO: Shader가 TestBox 안에 있어야 함.
+		// TODO: PgMath로 교체
 		using namespace DirectX;
 		//using namespace Pg::Math;
 
+
+		/// 상수 버퍼 채우기
+		// 월드 행렬
 		float4x4 worldMatrix = XMMATRIX(XMMatrixIdentity());
 
 		worldMatrix *= XMMatrixRotationX(time);
@@ -102,20 +103,22 @@ namespace Pg::Graphics
 
 		_box->_cbData.worldMatrix = worldMatrix;
 
+		// 카메라 행렬
+		_camera->Walk(-1.0f * dt);
+		_camera->UpdateViewMatrix();
+
 		_box->_cbData.viewMatrix = _camera->View();
 		_box->_cbData.projectionMatrix = _camera->Proj();
 		_box->_cbData.viewProjMatrix = _camera->ViewProj();
 
-		for (auto& e : _DXStorage->_vertexShader->_constantBuffers)
+		// 상수버퍼 업데이트
+		for (auto& e : _DXStorage->_testVertexShader->_constantBuffers)
 		{
 			e->Update();
 		}
 
-		//_DXStorage->_vertexShader->_constantBuffers->Update(&(_box->_cbData));
-
-		_camera->Walk(-1.0f * dt);
-		_camera->UpdateViewMatrix();
-
+	
+		/// Input 관련
 		//using namespace Pg::API::Input;
 		//
 		//if (PgInput::GetKeyDown(MoveFront))

@@ -116,9 +116,8 @@ Pg::Graphics::TestCube::TestCube(LowDX11Storage* storage)
 	_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &VB, &stride, &offset);
 	_DXStorage->_deviceContext->IASetIndexBuffer(IB, DXGI_FORMAT_R32_UINT, 0);
 
-	/// InputLayout 바인딩
-
-	_DXStorage->_deviceContext->IASetInputLayout(_DXStorage->_vertexShader->_inputLayout);
+	// InputLayout 바인딩
+	_DXStorage->_deviceContext->IASetInputLayout(_DXStorage->_testVertexShader->_inputLayout);
 	_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
