@@ -58,14 +58,14 @@ namespace Pg::Core
 		_graphics->Initialize(static_cast<HWND>(hwnd), screenWidth, screenHeight);
 
 		//디버그 초기화
-		_logger->Initialize();
-		_logger->SetLoggerLevel(0);
+		//_logger->Initialize();
+		//_logger->SetLoggerLevel(0);
 
 
-		PG_TRACE("Engine Success!!");
-		PG_DEBUG("Engine Success!!");
-		PG_INFO("Engine Success!!");
-		PG_WARN("Engine Success!!");
+		//PG_TRACE("Engine Success!!");
+		//PG_DEBUG("Engine Success!!");
+		//PG_INFO("Engine Success!!");
+		//PG_WARN("Engine Success!!");
 		
 		return S_OK;
 	}
