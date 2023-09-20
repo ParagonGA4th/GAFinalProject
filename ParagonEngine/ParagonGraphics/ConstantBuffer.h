@@ -16,14 +16,14 @@ namespace Pg::Graphics
 	class ConstantBuffer : public ConstantBufferBase
 	{
 	public:
-		ConstantBuffer(LowDX11Storage* DXStorage, T cbData);
+		ConstantBuffer(LowDX11Storage* DXStorage, T* cbData);
 
 	private:
 		LowDX11Storage* _DXStorage;
 
 	public:
 		ID3D11Buffer* _ConstantBuffer;
-		T _cbData;
+		T* _cbData;
 		D3D11_SUBRESOURCE_DATA _subresource;
 
 	public:
@@ -37,7 +37,7 @@ namespace Pg::Graphics
 namespace Pg::Graphics
 {
 	template<typename T>
-	ConstantBuffer<T>::ConstantBuffer(LowDX11Storage* DXStorage, T cbData)
+	ConstantBuffer<T>::ConstantBuffer(LowDX11Storage* DXStorage, T* cbData)
 		:_DXStorage(DXStorage),
 		_ConstantBuffer(nullptr),
 		_cbData(cbData)
@@ -50,7 +50,7 @@ namespace Pg::Graphics
 		_DXStorage->_ConstantBufferDesc.CPUAccessFlags = 0;
 		_DXStorage->_ConstantBufferDesc.MiscFlags = 0;
 
-		_subresource.pSysMem = &cbData;
+		_subresource.pSysMem = cbData;
 
 		HRESULT hr = _DXStorage->_device->CreateBuffer(&(_DXStorage->_ConstantBufferDesc), &_subresource, &(_ConstantBuffer));
 
@@ -59,7 +59,7 @@ namespace Pg::Graphics
 	template<typename T>
 	void ConstantBuffer<T>::Update()
 	{
-		_DXStorage->_deviceContext->UpdateSubresource(_ConstantBuffer, 0, NULL, &_cbData, 0, 0);
+		_DXStorage->_deviceContext->UpdateSubresource(_ConstantBuffer, 0, NULL, _cbData, 0, 0);
 		_DXStorage->_deviceContext->VSSetConstantBuffers(0, 1, &(_ConstantBuffer));
 	}
 }
