@@ -1,7 +1,9 @@
 #include "ImGuiManager.h"
 #include <string>
-#include <map>
-#include <vector>
+#include <cstdlib>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 ImGuiManager::ImGuiManager()
 {
@@ -17,9 +19,11 @@ ImGuiManager::ImGuiManager()
 	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
 	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
 
-	//float fontSize = 18.0f;// *2.0f;
-	//io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Bold.ttf", fontSize);
-	//io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Regular.ttf", fontSize);
+
+	// 한글 폰트
+	const char* koreanFontPath = "..\\font\\NotoSansKR-Regular.ttf";
+	io.Fonts->AddFontFromFileTTF(koreanFontPath, 18.0f, NULL, io.Fonts->GetGlyphRangesKorean());
+
 
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
@@ -28,8 +32,9 @@ ImGuiManager::ImGuiManager()
 	ImGuiStyle& style = ImGui::GetStyle();
 
 	// 색상 변경 예시
-	style.Colors[ImGuiCol_Text] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // 텍스트 색상을 빨간색으로 설정
-	style.Colors[ImGuiCol_FrameBg] = ImVec4(0.2f, 0.2f, 0.2f, 1.0f); // 텍스트 색상을 빨간색으로 설정
+	style.Colors[ImGuiCol_Text] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // 텍스트 색상을 하얀색으로 설정
+	style.Colors[ImGuiCol_FrameBg] = ImVec4(0.2f, 0.2f, 0.2f, 1.0f); // 프레임 색상을 회색으로 설정
+	
 	 
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
@@ -115,11 +120,39 @@ void ImGuiManager::ShowDemoFilter()
 {
 	ImGui::Begin("DemoProjectFilter", NULL, ImGuiWindowFlags_NoCollapse);
 
+	ImGui::Text("한글 테스트");
+
+	const char* projectPath = std::getenv("PROJECT_PATH");
+
+	// 재귀함수 만들기
 	if (ImGui::TreeNode("Basic trees"))
 	{
-		for (int i = 0; i < 5; i++)
+		for (const auto& file : fs::directory_iterator(projectPath))
 		{
-			if (ImGui::Selectable(std::to_string(i).c_str(), i == itemClicked)) itemClicked = i;
+			if (file.path().filename().string().rfind(".") == std::string::npos)
+			{
+				if (ImGui::TreeNode(file.path().filename().string().c_str()))
+				{
+					std::string folderPath = file.path().string();
+
+					for (const auto& ffile : fs::directory_iterator(folderPath))
+					{
+						if (ffile.path().filename().string().rfind(".") == std::string::npos)
+						{
+
+						}
+						else
+						{
+							ImGui::Selectable(ffile.path().filename().string().c_str(), false);
+						}
+					}	
+					ImGui::TreePop();
+				}
+			}
+			else
+			{
+				ImGui::Selectable(file.path().filename().string().c_str(), false);
+			}
 		}
 		ImGui::TreePop();
 	}
