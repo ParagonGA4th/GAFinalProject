@@ -19,6 +19,7 @@ namespace Pg::Engine
 		Pg::Core::Scene* GetCurrentScene();
 
 	private:
+		//testScene
 		Pg::Core::Scene* tCurrentScene = nullptr;
 	};
 

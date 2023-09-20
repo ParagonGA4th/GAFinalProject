@@ -1,6 +1,5 @@
 #include "GameObject.h"
-
-
+#include <algorithm>
 namespace Pg::Core
 {
 	GameObject::GameObject(const std::string name) :
@@ -15,7 +14,9 @@ namespace Pg::Core
 
 	GameObject::~GameObject()
 	{
-
+		//게임 오브젝트가 소멸 시 컴포넌트도 모두 삭제된다.
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ delete iter.second; });
 	}
 
 	void GameObject::Awake()
@@ -31,10 +32,9 @@ namespace Pg::Core
 			return;
 		}
 
-		for (auto& iter : _componentList)
-		{
-
-		}
+		//for_each구문을 이용하여 componentList를 싹다 돌리기.
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter) 
+			{ iter.second->Start(); });
 	}
 
 	void GameObject::Update()
@@ -45,16 +45,30 @@ namespace Pg::Core
 			return;
 		}
 
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->Update(); });
 	}
 
 	void GameObject::FixedUpdate()
 	{
+		if (!_isActive)
+		{
+			return;
+		}
 
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->FixedUpdate(); });
 	}
 
 	void GameObject::LateUpdate()
 	{
+		if (!_isActive)
+		{
+			return;
+		}
 
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->LateUpdate(); });
 	}
 
 	const std::string& GameObject::GetName() const
@@ -73,6 +87,26 @@ namespace Pg::Core
 		{
 			_isActive = active;
 		}
+	}
+
+	void GameObject::OnCollisionStay()
+	{
+
+	}
+
+	void GameObject::OnCollisionEnter()
+	{
+
+	}
+
+	void GameObject::OnCollisionExit()
+	{
+
+	}
+
+	void GameObject::OnDestroy()
+	{
+
 	}
 
 }
