@@ -4,6 +4,9 @@
 #include "../ParagonCore/Scene.h"
 #include "../ParagonCore/CameraData.h"
 
+#include "TempCamera.h"
+#include "TestCube.h"
+
 #include <windows.h>
 
 #ifdef _DEBUG
@@ -55,13 +58,16 @@ namespace Pg::Graphics
 	public:
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;
 
-
 	private:
 		HRESULT hr;
 
 	private:
 		LowDX11Logic* _DXLogic;
 		LowDX11Storage* _DXStorage;
+
+	private:
+		TempCamera* _camera;
+		TestCube* _box;
 	};
 }
 

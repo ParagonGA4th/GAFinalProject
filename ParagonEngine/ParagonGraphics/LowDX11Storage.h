@@ -3,6 +3,9 @@
 #include "DX11Headers.h"
 #include "ConstantBuffer.h"
 
+#include "VertexShader.h"
+#include "PixelShader.h"
+
 #include <vector>
 
 /// <summary>
@@ -13,14 +16,6 @@
 /// 
 namespace Pg::Graphics
 {
-	struct CB_DATA
-	{
-		float4x4 worldMatrix;
-		float4x4 viewMatrix;
-		float4x4 projectionMatrix;
-		float4x4 viewProjMatrix;
-	};
-
 	class LowDX11Storage
 	{
 	public:
@@ -71,14 +66,12 @@ namespace Pg::Graphics
 		ID3D11InputLayout* _inputLayout;
 
 		// Shader 관련
-		ID3D11VertexShader* _vertexShader;
-		ID3D11PixelShader* _pixelShader;
-		ID3DBlob* _vertexShaderByteCode;
-		ID3DBlob* _pixelShaderByteCode;
+		VertexShader* _vertexShader;
+		PixelShader* _pixelShader;
 
-		// 상수 버퍼 관련
 		D3D11_BUFFER_DESC _ConstantBufferDesc;
-		std::vector<ConstantBuffer<CB_DATA>*> _constantBuffers;
+
+
 	};
 
 }
