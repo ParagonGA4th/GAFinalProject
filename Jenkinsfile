@@ -10,7 +10,7 @@ pipeline {
 
     stage('Build') {
       steps {
-        tool 'MSBuild'
+        tool 'msbuild'
       }
     }
 
