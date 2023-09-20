@@ -1,4 +1,5 @@
 #include "TestScene.h"
+#include "Camera.h"
 #include "../ParagonCore/GameObject.h"
 #include "../ParagonCore/Transform.h"
 
@@ -13,14 +14,22 @@ void Pg::Engine::TestScene::Initialize()
 
 	tCurrentScene = new Scene("TestCurrentScene");
 
-	GameObject* tObj1 = new GameObject("Cube1");
+	//이거 호출하면 MainCamera 반환함!!
+	tCurrentScene->GetMainCamera();
+
+	//카메라 하나 더 생성
+	GameObject* tObj1 = new GameObject("Camera1");
+	tObj1->AddComponent<Camera>();
 	tObj1->GetComponent<Transform>()->SetPosition({ 10.0f, 0.0f, 5.0f });
 
 	GameObject* tObj2 = new GameObject("Cube2");
 	tObj2->GetComponent<Transform>()->SetPosition({ -10.0f, 0.0f, 5.0f });
 
-	tCurrentScene->AddObject(tObj1);
-	tCurrentScene->AddObject(tObj2);
+	tCurrentScene->AddObject("Camera1");
+	tCurrentScene->AddObject("Cube2");
+
+	//이렇게 하면 메인 카메라 바뀜!!
+	tCurrentScene->SetMainCamera(tObj1->GetComponent<Camera>());
 }
 
 Pg::Core::Scene* Pg::Engine::TestScene::GetCurrentScene()

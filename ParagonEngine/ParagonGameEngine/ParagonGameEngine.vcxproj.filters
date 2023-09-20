@@ -53,9 +53,6 @@
     <Filter Include="2_System">
       <UniqueIdentifier>{1369cddb-fc70-4b89-985c-75b02032e8fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_System\InputSystem">
-      <UniqueIdentifier>{dfd5e14e-c5f6-4172-9b35-5f5772b219f9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3_GameEngineResources">
       <UniqueIdentifier>{d7a262c0-d579-42f5-aad5-96ea7b118f5b}</UniqueIdentifier>
     </Filter>
@@ -70,6 +67,9 @@
     </Filter>
     <Filter Include="2_System\CameraSystem">
       <UniqueIdentifier>{f96b40a1-4920-4aa6-a69f-5292a4150b8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\InputSystem">
+      <UniqueIdentifier>{dfd5e14e-c5f6-4172-9b35-5f5772b219f9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

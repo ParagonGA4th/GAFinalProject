@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "../ParagonGameEngine/Camera.h"
+
 
 /// <summary>
 /// 변지상의 Scene 클래스.
@@ -8,9 +10,16 @@
 /// 2023.09.14
 /// </summary>
 
+namespace Pg::Engine
+{
+	class Camera;
+}
+
 namespace Pg::Core
 {
 	class GameObject;
+
+	using namespace Pg::Engine;
 
 	class Scene
 	{
@@ -21,20 +30,27 @@ namespace Pg::Core
 		void Start();
 		void Update();
 
-		void AddObject(GameObject* obj);
-		void DeleteObject(GameObject* obj);
+		GameObject* AddObject(std::string obj);
+		void DeleteObject(std::string obj);
 
 		GameObject* CreateGameObject(std::string name);
 
 		std::string GetSceneName();
 		void SetSceneName(const std::string& sceneName);
 
+		Camera* GetMainCamera();
+		void SetMainCamera(Camera* mainCamera);
+
 	private:
 
+		//씬 이름
 		std::string _sceneName;
 
-		//씬에서는 
+		//씬 안에 오브젝트가 여러개 존재한다.
 		std::vector<GameObject*> _objectList;
+
+		//카메라
+		Camera* _mainCamera;
 	};
 }
 

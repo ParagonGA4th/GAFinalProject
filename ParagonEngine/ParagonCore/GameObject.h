@@ -32,6 +32,12 @@ namespace Pg::Core
 		void FixedUpdate();
 		void LateUpdate();
 
+		//충돌에 관한 함수.
+		void OnCollisionStay();
+		void OnCollisionEnter();
+		void OnCollisionExit();
+		void OnDestroy();
+
 		const std::string& GetName() const;
 		void SetName(const std::string& name);	
 
@@ -40,7 +46,7 @@ namespace Pg::Core
 	public:
 
 		template<typename T>
-		void AddComponent();
+		T* AddComponent();
 
 		template<typename T>
 		T* GetComponent();
@@ -62,10 +68,11 @@ namespace Pg::Core
 	/// 추후 더 공부해서 발전시킬 예정
 	/// 2023.09.14
 	template<typename T>
-	void GameObject::AddComponent()
+	T* GameObject::AddComponent()
 	{
 		T* component = new T(this);
 		_componentList.try_emplace(typeid(T).name(), component);
+		return component;
 	}
 
 	template<typename T>
