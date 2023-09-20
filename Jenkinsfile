@@ -14,22 +14,5 @@ pipeline {
       }
     }
 
-    stage('Finished') {
-      parallel {
-        stage('Success') {
-          steps {
-            echo 'Success!'
-          }
-        }
-
-        stage('Failed') {
-          steps {
-            error 'Failed!'
-          }
-        }
-
-      }
-    }
-
   }
 }
