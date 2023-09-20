@@ -1,4 +1,5 @@
 #pragma once
+#include "../ParagonGameEngine/EngineDLLExporter.h"
 #include "../ParagonCore/Component.h"
 #include "../ParagonAPI/PgMath.h"
 #include "../ParagonCore/CameraData.h"
@@ -26,23 +27,23 @@ namespace Pg::Engine
 	class Camera : public Pg::Core::Component
 	{
 	public:
-		Camera(Pg::Core::GameObject* obj);
-		virtual ~Camera() = default;
+		PARAGON_ENGINE_DLL Camera(Pg::Core::GameObject* obj);
+		PARAGON_ENGINE_DLL virtual ~Camera() = default;
 
-		float GetNearZ() const;
-		float GetFarZ() const;
-		float GetAspect() const;
-		float GetFovY() const;
+		PARAGON_ENGINE_DLL float GetNearZ() const;
+		PARAGON_ENGINE_DLL float GetFarZ() const;
+		PARAGON_ENGINE_DLL float GetAspect() const;
+		PARAGON_ENGINE_DLL float GetFovY() const;
+		
+		PARAGON_ENGINE_DLL PGFLOAT4X4 GetViewMatrix() const;
+		PARAGON_ENGINE_DLL PGFLOAT4X4 GetProjMatrix() const;
 
-		PGFLOAT4X4 GetViewMatrix() const;
-		PGFLOAT4X4 GetProjMatrix() const;
+		PARAGON_ENGINE_DLL void SetNearZ(float nearZ);
+		PARAGON_ENGINE_DLL void SetFarZ(float farZ);
+		PARAGON_ENGINE_DLL void SetAspect(float aspect);
+		PARAGON_ENGINE_DLL void SetFovY(float fovY);
 
-		void SetNearZ(float nearZ);
-		void SetFarZ(float farZ);
-		void SetAspect(float aspect);
-		void SetFovY(float fovY);
-
-		Pg::Core::CameraData GetCameraData();
+		PARAGON_ENGINE_DLL Pg::Core::CameraData GetCameraData();
 
 		//static Camera* GetMainCamera();
 

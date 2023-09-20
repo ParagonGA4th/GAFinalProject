@@ -11,7 +11,7 @@ namespace Pg::Core
 {
 	class IComponent
 	{
-	protected:
+	public:
 		virtual void Awake() abstract;
 		virtual void Start() abstract;
 		virtual void Update() abstract;
