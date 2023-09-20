@@ -1,9 +1,9 @@
 #pragma once
 
-#include "EngineDLLExporter.h"
+#include "../ParagonGameEngine/EngineDLLExporter.h"
 
-#include "../ParagonGameEngine/TestScene.h"
 #include "../ParagonCore/Scene.h"
+#include "TestScene.h"
 
 /// <summary>
 /// 추후에 Scripting이 될 WorkSpace.
