@@ -62,12 +62,9 @@ namespace Pg::Graphics
 
 		const FLOAT _backgroundColor[4] = { 0.8f, 0.5f, 0.5f, 0.0f };
 
-		// TODO: InputLayout 옮기기
-		ID3D11InputLayout* _inputLayout;
-
 		// Shader 관련
-		VertexShader* _vertexShader;
-		PixelShader* _pixelShader;
+		VertexShader* _testVertexShader;
+		PixelShader* _testPixelShader;
 
 		D3D11_BUFFER_DESC _ConstantBufferDesc;
 
