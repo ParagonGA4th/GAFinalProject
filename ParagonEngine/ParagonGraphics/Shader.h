@@ -25,7 +25,7 @@ namespace Pg::Graphics
 		HRESULT CompileShader(std::wstring CSOFilePath);
 
 		template <typename T>
-		void AddConstantBuffer(T cbData)
+		void AddConstantBuffer(T* cbData)
 		{
 			_constantBuffers.emplace_back(new ConstantBuffer<T>(_DXStorage, cbData));
 		}
