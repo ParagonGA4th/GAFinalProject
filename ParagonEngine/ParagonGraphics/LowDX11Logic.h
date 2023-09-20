@@ -12,8 +12,8 @@
 
 namespace Pg::Graphics
 {
+	class Shader;
 	class LowDX11Storage;
-	class CB_DATA;
 
 	class LowDX11Logic
 	{
@@ -28,9 +28,6 @@ namespace Pg::Graphics
 		HRESULT CreateRasterizerStates();
 		void SetRasterizerrStates(ID3D11RasterizerState* rasterizerState);
 		void CreateAndSetViewports();
-
-		void SetVertexShader(std::wstring CSOFilePath);
-		void SetPixelShader(std::wstring CSOFilePath);
 
 		void PrepareRenderTargets();
 		void BindRenderTargets();
@@ -50,11 +47,6 @@ namespace Pg::Graphics
 
 	private:
 		HRESULT hr;
-
-
-	public:
-		void SetupCube();
-		void DrawCube();
 	};
 
 }
