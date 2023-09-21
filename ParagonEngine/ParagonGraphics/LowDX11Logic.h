@@ -12,7 +12,6 @@
 
 namespace Pg::Graphics
 {
-	class Shader;
 	class LowDX11Storage;
 
 	class LowDX11Logic
