@@ -1,5 +1,6 @@
 #include "WorkSpace.h"
 #include "TestScene.h"
+#include <windows.h>
 
 namespace Pg::Engine
 {
@@ -7,6 +8,7 @@ namespace Pg::Engine
 	{
 		_testScene = new TestScene();
 		_testScene->Initialize();
+		OutputDebugString(L"Enter WorkSpace!");
 	}
 
 	Pg::Core::Scene* WorkSpace::GetCurrentScene()
