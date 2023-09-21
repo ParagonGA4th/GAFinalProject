@@ -15,9 +15,9 @@ public:
 	void ShowDemoInspector();
 	void ShowDemoHierarchy();
 	void ShowDemoFilter();
+	void ShowDemoViewPort();
 
 	void Render();
 	void Finalize();
-
 };
 
