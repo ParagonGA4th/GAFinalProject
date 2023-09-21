@@ -9,13 +9,13 @@ cbuffer cbPerObject : register(b0)
 struct VertexIn
 {
 	float3 pos : POSITION;
-	float3 color : COLOR;
+	nointerpolation float3 color : COLOR;
 };
 
 struct VertexOut
 {
 	float4 pos : SV_POSITION;
-	float3 color : COLOR;
+	nointerpolation float3 color : COLOR;
 };
 
 VertexOut main(VertexIn vin)
