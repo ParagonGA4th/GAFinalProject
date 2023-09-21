@@ -21,7 +21,15 @@ namespace Pg::Core
 
 	void GameObject::Awake()
 	{
+		//활성화되지 않으면 시작 안함.
+		if (!_isActive)
+		{
+			return;
+		}
 
+		//for_each구문을 이용하여 componentList를 싹다 돌리기.
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->Awake(); });
 	}
 
 	void GameObject::Start()
