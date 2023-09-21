@@ -69,8 +69,9 @@ void EditorMain::Update()
 			_imGuiManager->ShowDemoInspector();
 			_imGuiManager->ShowDemoHierarchy();
 			_imGuiManager->ShowDemoFilter();
+			_imGuiManager->ShowDemoViewPort();
 
-			_coreMain->Update();		
+			_coreMain->Update();
 			_coreMain->BeginRender();
 			_coreMain->Render();
 

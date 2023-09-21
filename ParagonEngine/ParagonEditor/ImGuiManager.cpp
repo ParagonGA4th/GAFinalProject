@@ -23,6 +23,8 @@ ImGuiManager::ImGuiManager()
 	// 한글 폰트
 	const char* koreanFontPath = "..\\font\\NotoSansKR-Regular.ttf";
 	io.Fonts->AddFontFromFileTTF(koreanFontPath, 18.0f, NULL, io.Fonts->GetGlyphRangesKorean());
+	bool fontBuilt=io.Fonts->Build();
+	assert(fontBuilt);
 
 
 	// Setup Dear ImGui style
@@ -120,8 +122,6 @@ void ImGuiManager::ShowDemoFilter()
 {
 	ImGui::Begin("DemoProjectFilter", NULL, ImGuiWindowFlags_NoCollapse);
 
-	ImGui::Text("한글 테스트");
-
 	const char* projectPath = std::getenv("PROJECT_PATH");
 
 	// 재귀함수 만들기
@@ -157,6 +157,15 @@ void ImGuiManager::ShowDemoFilter()
 		ImGui::TreePop();
 	}
 
+	ImGui::End();
+}
+
+
+void ImGuiManager::ShowDemoViewPort()
+{
+	ImGui::Begin("DemoScene", NULL, ImGuiWindowFlags_NoCollapse);
+	
+	
 	ImGui::End();
 }
 
