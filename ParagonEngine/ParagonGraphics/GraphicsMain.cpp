@@ -19,11 +19,18 @@ namespace Pg::Graphics
 		_DXStorage(nullptr), _DXLogic(nullptr),
 		_renderer(nullptr)
 	{
-		_DXStorage = new LowDX11Storage();
-		_DXLogic = new LowDX11Logic(_DXStorage);
+		_DXStorage = LowDX11Storage::GetInstance();
+		_DXLogic = LowDX11Logic::GetInstance();
 
-		_renderer = new ParagonRenderer();
+		_renderer = std::make_unique<ParagonRenderer>();
+		_tempObj = new Pg::Core::GameObject("Test");
+
 		// TODO: Storage는 static으로 만들어서 인자로 넘길 필요가 없도록 하자
+	}
+
+	GraphicsMain::~GraphicsMain()
+	{
+		delete _tempObj;
 	}
 
 	float time = 0.0f;
@@ -161,7 +168,7 @@ namespace Pg::Graphics
 		// test용 큐브 그리기
 		_box->Draw();
 
-		_renderer->Render();
+		_renderer->Render(_tempObj);
 	}
 
 	void GraphicsMain::EndRender()
@@ -207,5 +214,7 @@ namespace Pg::Graphics
 	{
 		return _DXStorage->_deviceContext;
 	}
+
+	
 
 }
