@@ -60,6 +60,8 @@ namespace Pg::Graphics
 	void ConstantBuffer<T>::Update()
 	{
 		_DXStorage->_deviceContext->UpdateSubresource(_ConstantBuffer, 0, NULL, _cbData, 0, 0);
+		// TODO: VertexShader가 아닌 쉐이더들에도 대응할 수 있어야 함
+		// TODO: ConstantBuffer가 여러 개 있을 경우에도 대응할 수 있어야 함
 		_DXStorage->_deviceContext->VSSetConstantBuffers(0, 1, &(_ConstantBuffer));
 	}
 }
