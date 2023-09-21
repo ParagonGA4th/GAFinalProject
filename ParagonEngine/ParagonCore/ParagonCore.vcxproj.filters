@@ -37,6 +37,9 @@
     <ClCompile Include="Collider.cpp">
       <Filter>3_SceneInfo\Component\Collider\BaseClass</Filter>
     </ClCompile>
+    <ClCompile Include="BaseRenderer.cpp">
+      <Filter>3_SceneInfo\Component\Renderer\BaseClass</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseResource.h">
@@ -92,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>3_SceneInfo\Component\Collider\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseRenderer.h">
+      <Filter>3_SceneInfo\Component\Renderer\BaseClass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +166,12 @@
     </Filter>
     <Filter Include="3_SceneInfo\Component\Collider\BaseClass">
       <UniqueIdentifier>{0ffece97-40a5-4ac5-b8bf-c2ee774a384b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_SceneInfo\Component\Renderer">
+      <UniqueIdentifier>{ade9fb7b-dd92-4447-9c6f-4990bc01569d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_SceneInfo\Component\Renderer\BaseClass">
+      <UniqueIdentifier>{033ebcc6-e773-4ceb-902b-5d22bcb91f12}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

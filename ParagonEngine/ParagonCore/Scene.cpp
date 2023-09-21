@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "GameObject.h"
+#include <windows.h>
 
 
 namespace Pg::Core
@@ -79,10 +80,13 @@ namespace Pg::Core
 	Pg::Engine::Camera* Scene::GetMainCamera()
 	{
 		return _mainCamera;
+		OutputDebugString(L"MainCamera Get!");
 	}
 
 	void Scene::SetMainCamera(Camera* mainCamera)
 	{
 		_mainCamera = mainCamera;
+
+		OutputDebugString(L"MainCamera Set!");
 	}
 }
