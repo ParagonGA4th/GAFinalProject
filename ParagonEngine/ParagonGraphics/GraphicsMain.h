@@ -37,6 +37,7 @@ namespace Pg::Graphics
 {
 	class LowDX11Logic;
 	class LowDX11Storage;
+	class ParagonRenderer;
 
 	class GraphicsMain : public Pg::Core::IGraphics
 	{
@@ -55,6 +56,9 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual ID3D11Device* GetDevice() override;
 		PARAGON_GRAPHICS_DLL virtual ID3D11DeviceContext* GetDeviceContext() override;
 
+		// TODO: Load(Scene* )
+		// 
+
 	public:
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;
 
@@ -68,6 +72,9 @@ namespace Pg::Graphics
 	private:
 		TempCamera* _camera;
 		TestCube* _box;
+
+	private:
+		ParagonRenderer* _renderer;
 	};
 }
 

@@ -13,4 +13,13 @@ namespace Pg::Graphics
 	{
 
 	}
+
+	LowDX11Storage* LowDX11Storage::GetInstance()
+	{
+		static LowDX11Storage* tInstance = new LowDX11Storage();
+		static LowDX11Logic* tInstance = new LowDX11Storage();
+
+		return tInstance;
+	}
+
 }

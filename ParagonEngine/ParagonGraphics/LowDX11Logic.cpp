@@ -231,4 +231,11 @@ namespace Pg::Graphics
 		}
 	}
 
+	LowDX11Logic* LowDX11Logic::GetInstance()
+	{
+		static LowDX11Logic* tInstance = new LowDX11Logic();
+
+		return tInstance;
+	}
+
 }
