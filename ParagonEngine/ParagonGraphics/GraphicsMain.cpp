@@ -80,7 +80,7 @@ namespace Pg::Graphics
 		Pg::Core::Time::TimeManager::Instance()->TimeMeasure();
 		float dt = Pg::Core::Time::TimeManager::Instance()->GetDeltaTime();
 
-		time += (5.0f * dt);
+		time += (1.0f * dt);
 
 		//cbData.viewMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._viewMatrix);
 		//cbData.projectionMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._projMatrix);
@@ -104,7 +104,7 @@ namespace Pg::Graphics
 		_box->_cbData.worldMatrix = worldMatrix;
 
 		// 카메라 행렬
-		_camera->Walk(-1.0f * dt);
+		//_camera->Walk(-1.0f * dt);
 		_camera->UpdateViewMatrix();
 
 		_box->_cbData.viewMatrix = _camera->View();

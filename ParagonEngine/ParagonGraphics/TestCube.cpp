@@ -15,62 +15,62 @@ Pg::Graphics::TestCube::TestCube(LowDX11Storage* storage)
 	std::vector<MeshVertex> VBData;
 	std::vector<int> IBData;
 
-	VBData.emplace_back(MeshVertex{ float3 {-1.0f, 1.0f, -1.0f}, float3{1.0f, 0.0f, 0.0f} });
-	VBData.emplace_back(MeshVertex{ float3 {1.0f, 1.0f, -1.0f}, float3{0.0f, 1.0f, 0.0f} });
-	VBData.emplace_back(MeshVertex{ float3 {-1.0f, 1.0f, 1.0f}, float3{0.0f, 0.0f, 1.0f} });
-	VBData.emplace_back(MeshVertex{ float3 {1.0f, 1.0f, 1.0f}, float3{1.0f, 1.0f, 0.0f} });
-	VBData.emplace_back(MeshVertex{ float3 {1.0f, -1.0f, -1.0f}, float3{0.0f, 1.0f, 1.0f} });
-	VBData.emplace_back(MeshVertex{ float3 {-1.0f, -1.0f, -1.0f}, float3{1.0f, 0.0f, 1.0f} });
-	VBData.emplace_back(MeshVertex{ float3 {-1.0f, -1.0f, 1.0f}, float3{1.0f, 1.0f, 1.0f} });
-	VBData.emplace_back(MeshVertex{ float3 {1.0f, -1.0f, 1.0f}, float3{0.0f, 0.0f, 0.0f} });
+	VBData.emplace_back(MeshVertex{ float3 {-1.0f, 1.0f, -1.0f}, float3{0.0f, 0.0f, 0.0f} });
+	VBData.emplace_back(MeshVertex{ float3 {1.0f, 1.0f, -1.0f}, float3{1.0f, 0.0f, 0.0f} });
+	VBData.emplace_back(MeshVertex{ float3 {-1.0f, 1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
+	VBData.emplace_back(MeshVertex{ float3 {1.0f, 1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
+	VBData.emplace_back(MeshVertex{ float3 {1.0f, -1.0f, -1.0f}, float3{1.0f, 0.0f, 0.0f} });
+	VBData.emplace_back(MeshVertex{ float3 {-1.0f, -1.0f, -1.0f}, float3{0.0f, 1.0f, 0.0f} });
+	VBData.emplace_back(MeshVertex{ float3 {-1.0f, -1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
+	VBData.emplace_back(MeshVertex{ float3 {1.0f, -1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
 
 	IBData.emplace_back(0);
-	IBData.emplace_back(1);
-	IBData.emplace_back(2);
-
 	IBData.emplace_back(2);
 	IBData.emplace_back(1);
-	IBData.emplace_back(3);
-
-	IBData.emplace_back(7);
-	IBData.emplace_back(2);
-	IBData.emplace_back(3);
 
 	IBData.emplace_back(2);
-	IBData.emplace_back(7);
-	IBData.emplace_back(6);
-
 	IBData.emplace_back(3);
 	IBData.emplace_back(1);
-	IBData.emplace_back(4);
 
-	IBData.emplace_back(4);
 	IBData.emplace_back(7);
 	IBData.emplace_back(3);
+	IBData.emplace_back(2);
 
-	IBData.emplace_back(5);
 	IBData.emplace_back(2);
 	IBData.emplace_back(6);
-
-	IBData.emplace_back(5);
-	IBData.emplace_back(0);
-	IBData.emplace_back(2);
-
 	IBData.emplace_back(7);
-	IBData.emplace_back(4);
-	IBData.emplace_back(6);
 
-	IBData.emplace_back(6);
-	IBData.emplace_back(4);
-	IBData.emplace_back(5);
-
-	IBData.emplace_back(0);
+	IBData.emplace_back(3);
 	IBData.emplace_back(4);
 	IBData.emplace_back(1);
 
+	IBData.emplace_back(4);
+	IBData.emplace_back(3);
+	IBData.emplace_back(7);
+
+	IBData.emplace_back(5);
+	IBData.emplace_back(6);
+	IBData.emplace_back(2);
+
+	IBData.emplace_back(5);
+	IBData.emplace_back(2);
 	IBData.emplace_back(0);
+
+	IBData.emplace_back(7);
+	IBData.emplace_back(6);
+	IBData.emplace_back(4);
+
+	IBData.emplace_back(6);
 	IBData.emplace_back(5);
 	IBData.emplace_back(4);
+
+	IBData.emplace_back(0);
+	IBData.emplace_back(1);
+	IBData.emplace_back(4);
+
+	IBData.emplace_back(0);
+	IBData.emplace_back(4);
+	IBData.emplace_back(5);
 
 	// Buffer Description
 	D3D11_BUFFER_DESC VBDesc;
