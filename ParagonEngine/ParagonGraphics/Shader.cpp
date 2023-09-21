@@ -11,8 +11,6 @@ namespace Pg::Graphics
 		:_DXStorage(storage)
 	{
 		hr = CompileShader(CSOFilePath);
-
-
 	}
 
 	HRESULT Shader::CompileShader(std::wstring CSOFilePath)
