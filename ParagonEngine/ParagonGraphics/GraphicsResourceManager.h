@@ -8,7 +8,7 @@
 #include <cassert>
 
 #include "../ParagonCore/GraphicsResource.h"
-#include "../ParagonCore/Singleton.h"
+#include "../ParagonCore/CoreSingleton.h"
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\x64\\Debug\\ParagonCore.lib")
@@ -29,7 +29,7 @@ namespace Pg::Core::Manager
 
 namespace Pg::Graphics::Manager
 {
-	class GraphicsResourceManager : Singleton<GraphicsResourceManager>
+	class GraphicsResourceManager : Pg::Core::Singleton<GraphicsResourceManager>
 	{
 		friend class Pg::Core::Manager::AssetManager;
 	public:

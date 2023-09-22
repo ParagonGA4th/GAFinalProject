@@ -8,7 +8,7 @@
 #include <cassert>
 
 #include "../ParagonCore/EngineResource.h"
-#include "../ParagonCore/Singleton.h"
+#include "../ParagonCore/CoreSingleton.h"
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\x64\\Debug\\ParagonCore.lib")
@@ -29,7 +29,7 @@ namespace Pg::Core::Manager
 
 namespace Pg::Engine::Manager
 {
-	class EngineResourceManager : Singleton<EngineResourceManager>
+	class EngineResourceManager : Pg::Core::Singleton<EngineResourceManager>
 	{
 		friend class Pg::Core::Manager::AssetManager;
 	public:
