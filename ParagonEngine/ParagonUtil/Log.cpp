@@ -6,8 +6,6 @@
 
 namespace Pg::Util::Debug
 {
-	std::shared_ptr<spdlog::logger> Log::_spdLogger;
-
 	void Log::Initialize()
 	{
 		CreateConsoleWindow();
@@ -92,6 +90,11 @@ namespace Pg::Util::Debug
 			}
 			break;
 		}
+	}
+
+	std::shared_ptr<spdlog::logger>& Log::GetLogger()
+	{
+		 return _spdLogger;
 	}
 
 }

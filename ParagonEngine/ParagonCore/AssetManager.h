@@ -1,5 +1,5 @@
 #pragma once
-#include "Singleton.h"
+#include "CoreSingleton.h"
 #include "BaseResource.h"
 #include "EngineResource.h"
 #include "GraphicsResource.h"
@@ -46,7 +46,7 @@ namespace Pg::Core::Manager
 	using Pg::Engine::Manager::EngineResourceManager;
 	using Pg::Graphics::Manager::GraphicsResourceManager;
 
-	class AssetManager : public Singleton<AssetManager>
+	class AssetManager : public Pg::Core::Singleton<AssetManager>
 	{
 	public:
 		AssetManager();
