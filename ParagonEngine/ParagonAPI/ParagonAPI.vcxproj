@@ -115,6 +115,10 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -133,21 +137,21 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="APIMain.h" />
     <ClInclude Include="KeyCodeType.h" />
     <ClInclude Include="PgInput.h" />
     <ClInclude Include="PgMath.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="APIMain.h" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="APIMain.cpp" />
     <ClCompile Include="PgInput.cpp" />
     <ClCompile Include="PgMath.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="APIMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

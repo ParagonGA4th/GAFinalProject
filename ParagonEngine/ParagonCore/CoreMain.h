@@ -25,6 +25,8 @@
 
 #include "IEngine.h"
 #include "IGraphics.h"
+#include "IUtil.h"
+#include "IAPI.h"
 #include "TimeManager.h"
 #include "../ParagonUtil/Log.h"
 
@@ -63,8 +65,10 @@ namespace Pg::Core
 		
 		std::unique_ptr<IEngine> _engine;					//게임 엔진
 		std::unique_ptr<IGraphics> _graphics;				//그래픽스 엔진
-		std::unique_ptr<Pg::Util::Debug::Log> _logger;		//로거
+		//std::unique_ptr<Pg::Util::Debug::Log> _logger;		//로거
 		//Pg::Engine::Input::InputSystem* _inputSystem;
+		std::unique_ptr<IUtil> _util;
+		std::unique_ptr<IAPI> _api;
 
 		Time::TimeManager* _timeManager;					//델타타임
 
