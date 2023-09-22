@@ -2,13 +2,19 @@
 
 #include "../ParagonGameEngine/EngineDLLExporter.h"
 #include "../ParagonCore/IEngine.h"
-#include "../ParagonCore/Singleton.h"
-#include "../ParagonUtil/Log.h"
-#include "InputSystem.h"
+#include "../ParagonCore/CoreSingleton.h"
 
 /// <summary>
 /// 2023.09.08
 /// </summary>
+
+namespace Pg::Engine
+{
+	namespace Input
+	{
+		class InputSystem;
+	}
+}
 
 namespace Pg::Engine
 {
@@ -23,7 +29,7 @@ namespace Pg::Engine
 
 	private:
 
-		Input::InputSystem* _inputSystem;
+		Input::InputSystem* _inputSystem = nullptr;
 	};
 }
 

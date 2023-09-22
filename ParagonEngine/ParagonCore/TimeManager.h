@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonCore/Singleton.h"
+#include "../ParagonCore/CoreSingleton.h"
 #include "../ParagonUtil/Log.h"
 #include <windows.h>
 
@@ -9,7 +9,7 @@
 /// </summary>
 namespace Pg::Core::Time
 {
-	class TimeManager : public Singleton<TimeManager>
+	class TimeManager : public Pg::Core::Singleton<TimeManager>
 	{
 	public:
 		TimeManager();

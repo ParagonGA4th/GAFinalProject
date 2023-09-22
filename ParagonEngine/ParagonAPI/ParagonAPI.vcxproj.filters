@@ -12,9 +12,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="APIMain.h">
-      <Filter>0_Main</Filter>
-    </ClInclude>
     <ClInclude Include="PgMath.h">
       <Filter>1_Math</Filter>
     </ClInclude>
@@ -24,16 +21,19 @@
     <ClInclude Include="KeyCodeType.h">
       <Filter>2_Input</Filter>
     </ClInclude>
+    <ClInclude Include="APIMain.h">
+      <Filter>0_Main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="APIMain.cpp">
-      <Filter>0_Main</Filter>
-    </ClCompile>
     <ClCompile Include="PgMath.cpp">
       <Filter>1_Math</Filter>
     </ClCompile>
     <ClCompile Include="PgInput.cpp">
       <Filter>2_Input</Filter>
+    </ClCompile>
+    <ClCompile Include="APIMain.cpp">
+      <Filter>0_Main</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
