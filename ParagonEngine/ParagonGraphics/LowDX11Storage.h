@@ -42,7 +42,7 @@ namespace Pg::Graphics
 
 		// Description 구조체들
 		DXGI_SWAP_CHAIN_DESC _swapChainDesc;
-		D3D11_TEXTURE2D_DESC _depthStencilBufferDesc;
+		D3D11_TEXTURE2D_DESC _bufferDesc;
 		D3D11_DEPTH_STENCIL_DESC _depthStencilDesc;
 		D3D11_DEPTH_STENCIL_VIEW_DESC _depthStencilViewDesc;
 		D3D11_SHADER_RESOURCE_VIEW_DESC _shaderResourceViewDesc;
