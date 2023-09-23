@@ -89,10 +89,10 @@ namespace Pg::Graphics
 
 		Pg::Core::Time::TimeManager::Instance()->Initialize();
 
-		sprite = new Sprite(_DXStorage->_deviceContext, L"../Textures/cats.dds");
+		sprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/cats.dds");
 		sprite->SetPosition(100.0f, 100.0f);
 
-		sprite2 = new Sprite(_DXStorage->_deviceContext, L"../Textures/rabbits.dds");
+		sprite2 = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/rabbits.dds");
 		sprite2->SetPosition(800.0f,600.0f);
 
 		font = new Font();
