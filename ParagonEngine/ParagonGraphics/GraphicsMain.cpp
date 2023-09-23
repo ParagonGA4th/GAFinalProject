@@ -10,6 +10,7 @@
 
 #include "ParagonRenderer.h"
 #include "Sprite.h"
+#include "Font.h"
 
 #include <windows.h>
 #include <numbers>
@@ -38,6 +39,7 @@ namespace Pg::Graphics
 	float time = 0.0f;
 	Pg::Graphics::Sprite* sprite;
 	Pg::Graphics::Sprite* sprite2;
+	Pg::Graphics::Font* font;
 
 	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
 	{
@@ -88,10 +90,14 @@ namespace Pg::Graphics
 		Pg::Core::Time::TimeManager::Instance()->Initialize();
 
 		sprite = new Sprite(_DXStorage->_deviceContext, L"../Textures/cats.dds");
-		sprite->SetPosition(float2(100.0f, 100.0f));
+		sprite->SetPosition(100.0f, 100.0f);
 
 		sprite2 = new Sprite(_DXStorage->_deviceContext, L"../Textures/rabbits.dds");
-		sprite2->SetPosition(float2(800.0f,600.0f));
+		sprite2->SetPosition(800.0f,600.0f);
+
+		font = new Font();
+		font->SetText(L"test text..");
+		font->SetPosition(50.0f, 50.0f);
 	}
 
 
@@ -181,6 +187,9 @@ namespace Pg::Graphics
 		// test 스프라이트 그리기
 		sprite->Draw();
 		sprite2->Draw();
+
+		// test 폰트 그리기
+		font->Draw();
 
 		_renderer->Render(_tempObj);
 	}
