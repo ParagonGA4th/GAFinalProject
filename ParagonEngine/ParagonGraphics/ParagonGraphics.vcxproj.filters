@@ -46,6 +46,9 @@
     <ClInclude Include="TestCube.h">
       <Filter>5_Misc</Filter>
     </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>5_Misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -82,6 +85,9 @@
       <Filter>5_Misc</Filter>
     </ClCompile>
     <ClCompile Include="TestCube.cpp">
+      <Filter>5_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
       <Filter>5_Misc</Filter>
     </ClCompile>
   </ItemGroup>
