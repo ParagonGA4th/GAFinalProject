@@ -9,8 +9,8 @@
 
 namespace Pg::Graphics
 {
-	LowDX11Logic::LowDX11Logic(LowDX11Storage* DXStorage)
-		:_DXStorage(DXStorage),
+	LowDX11Logic::LowDX11Logic()
+		:_DXStorage(LowDX11Storage::GetInstance()),
 		hr(NULL)
 	{
 
@@ -229,6 +229,13 @@ namespace Pg::Graphics
 		{
 			return hr;
 		}
+	}
+
+	LowDX11Logic* LowDX11Logic::GetInstance()
+	{
+		static LowDX11Logic* tInstance = new LowDX11Logic();
+
+		return tInstance;
 	}
 
 }
