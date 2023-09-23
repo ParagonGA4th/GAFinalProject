@@ -158,7 +158,9 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsResource.h" />
     <ClInclude Include="IAPI.h" />
+    <ClInclude Include="IRenderObject.h" />
     <ClInclude Include="IUtil.h" />
+    <ClInclude Include="RenderTextData.h" />
     <ClInclude Include="ResourceHelper.h" />
     <ClInclude Include="ResourceType.h" />
     <ClInclude Include="IComponent.h" />
