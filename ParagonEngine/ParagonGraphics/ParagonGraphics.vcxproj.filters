@@ -28,9 +28,6 @@
     <ClInclude Include="TempCamera.h">
       <Filter>5_Misc</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>3_DX11Wrapper\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="VertexShader.h">
       <Filter>3_DX11Wrapper\Shader</Filter>
     </ClInclude>
@@ -45,6 +42,15 @@
     </ClInclude>
     <ClInclude Include="TestCube.h">
       <Filter>5_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObject.h">
+      <Filter>7_RenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderMaterial.h">
+      <Filter>6_GraphicsResources\RenderMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderShader.h">
+      <Filter>6_GraphicsResources\RenderShader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -66,9 +72,6 @@
     <ClCompile Include="TempCamera.cpp">
       <Filter>5_Misc</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>3_DX11Wrapper\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="VertexShader.cpp">
       <Filter>3_DX11Wrapper\Shader</Filter>
     </ClCompile>
@@ -83,6 +86,15 @@
     </ClCompile>
     <ClCompile Include="TestCube.cpp">
       <Filter>5_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObject.cpp">
+      <Filter>7_RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderMaterial.cpp">
+      <Filter>6_GraphicsResources\RenderMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderShader.cpp">
+      <Filter>6_GraphicsResources\RenderShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +124,15 @@
     </Filter>
     <Filter Include="3_DX11Wrapper\Shader">
       <UniqueIdentifier>{cbc5a6ca-3861-4110-afef-551c8d1d0b32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="7_RenderObject">
+      <UniqueIdentifier>{7662f813-7991-48ca-8246-539c96965edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_GraphicsResources\RenderMaterial">
+      <UniqueIdentifier>{2b12d567-cab3-4baf-9dad-a6459170e77a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_GraphicsResources\RenderShader">
+      <UniqueIdentifier>{dc324861-8542-43c3-8fdd-6a94803eea78}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

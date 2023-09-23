@@ -1,7 +1,7 @@
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
 
-#include "Shader.h"
+#include "RenderShader.h"
 #include "DX11Headers.h"
 
 #include <vector>

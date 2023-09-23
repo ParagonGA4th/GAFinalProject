@@ -33,8 +33,13 @@
 /// 
 /// 그래픽스 엔진의 메인 
 /// 
-/// 23. 09. 08. 고태욱
 /// </summary>
+
+namespace Pg::Core
+{
+	class CoreMain;
+}
+
 namespace Pg::Graphics
 {
 	class LowDX11Logic;
@@ -44,7 +49,7 @@ namespace Pg::Graphics
 	class GraphicsMain : public Pg::Core::IGraphics
 	{
 	public:
-		PARAGON_GRAPHICS_DLL GraphicsMain();
+		PARAGON_GRAPHICS_DLL GraphicsMain(Pg::Core::CoreMain* core);
 		virtual ~GraphicsMain();
 
 	public:
@@ -67,8 +72,9 @@ namespace Pg::Graphics
 
 	private:
 		HRESULT hr;
-
+		Pg::Core::CoreMain* _coreMain;
 	private:
+
 		LowDX11Logic* _DXLogic;
 		LowDX11Storage* _DXStorage;
 
