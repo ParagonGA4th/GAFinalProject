@@ -19,13 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Axis.h" />
     <ClInclude Include="AssetBasic3DLoader.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantBufferBase.h" />
     <ClInclude Include="DX11Headers.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="GraphicsDLLExporter.h" />
     <ClInclude Include="GraphicsMain.h" />
     <ClInclude Include="GraphicsResourceManager.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="LowDX11Logic.h" />
     <ClInclude Include="LowDX11Storage.h" />
     <ClInclude Include="RenderMaterial.h" />
@@ -40,10 +43,13 @@
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Axis.cpp" />
     <ClCompile Include="AssetBasic3DLoader.cpp" />
     <ClCompile Include="ConstantBufferBase.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="GraphicsMain.cpp" />
     <ClCompile Include="GraphicsResourceManager.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="LowDX11Logic.cpp" />
     <ClCompile Include="LowDX11Storage.cpp" />
     <ClCompile Include="RenderMaterial.cpp" />
