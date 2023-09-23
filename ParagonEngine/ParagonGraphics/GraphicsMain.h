@@ -3,11 +3,13 @@
 #include "../ParagonCore/IGraphics.h"
 #include "../ParagonCore/Scene.h"
 #include "../ParagonCore/CameraData.h"
+#include "../ParagonCore/GameObject.h"
 
 #include "TempCamera.h"
 #include "TestCube.h"
 
 #include <windows.h>
+#include <memory>
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\x64\\Debug\\ParagonCore.lib")
@@ -37,11 +39,13 @@ namespace Pg::Graphics
 {
 	class LowDX11Logic;
 	class LowDX11Storage;
+	class ParagonRenderer;
 
 	class GraphicsMain : public Pg::Core::IGraphics
 	{
 	public:
 		PARAGON_GRAPHICS_DLL GraphicsMain();
+		virtual ~GraphicsMain();
 
 	public:
 		PARAGON_GRAPHICS_DLL virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) override;
@@ -54,6 +58,9 @@ namespace Pg::Graphics
 	public:
 		PARAGON_GRAPHICS_DLL virtual ID3D11Device* GetDevice() override;
 		PARAGON_GRAPHICS_DLL virtual ID3D11DeviceContext* GetDeviceContext() override;
+
+		// TODO: Load(Scene* )
+		// 
 
 	public:
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;
@@ -68,6 +75,10 @@ namespace Pg::Graphics
 	private:
 		TempCamera* _camera;
 		TestCube* _box;
+		Pg::Core::GameObject* _tempObj;
+
+	private:
+		std::unique_ptr<ParagonRenderer> _renderer;
 	};
 }
 
