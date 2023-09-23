@@ -5,6 +5,7 @@
 #include "MathHelper.h"
 
 #include "../ParagonCore/TimeManager.h"
+#include "../ParagonCore/CoreMain.h"
 #include "../ParagonAPI/PgInput.h"
 
 #include "ParagonRenderer.h"
@@ -14,8 +15,8 @@
 
 namespace Pg::Graphics
 {
-	GraphicsMain::GraphicsMain()
-		: hr(NULL),
+	GraphicsMain::GraphicsMain(Pg::Core::CoreMain* core)
+		: hr(NULL), _coreMain(core),
 		_DXStorage(nullptr), _DXLogic(nullptr),
 		_renderer(nullptr)
 	{

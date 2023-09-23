@@ -27,10 +27,12 @@
     <ClInclude Include="GraphicsResourceManager.h" />
     <ClInclude Include="LowDX11Logic.h" />
     <ClInclude Include="LowDX11Storage.h" />
+    <ClInclude Include="RenderMaterial.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="ParagonRenderer.h" />
     <ClInclude Include="PixelShader.h" />
-    <ClInclude Include="Shader.h" />
+    <ClInclude Include="RenderObject.h" />
+    <ClInclude Include="RenderShader.h" />
     <ClInclude Include="TempCamera.h" />
     <ClInclude Include="TestCube.h" />
     <ClInclude Include="VertexShader.h" />
@@ -41,10 +43,12 @@
     <ClCompile Include="GraphicsResourceManager.cpp" />
     <ClCompile Include="LowDX11Logic.cpp" />
     <ClCompile Include="LowDX11Storage.cpp" />
+    <ClCompile Include="RenderMaterial.cpp" />
     <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="ParagonRenderer.cpp" />
     <ClCompile Include="PixelShader.cpp" />
-    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="RenderObject.cpp" />
+    <ClCompile Include="RenderShader.cpp" />
     <ClCompile Include="TempCamera.cpp" />
     <ClCompile Include="TestCube.cpp" />
     <ClCompile Include="VertexShader.cpp" />
