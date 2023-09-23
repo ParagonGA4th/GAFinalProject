@@ -51,9 +51,14 @@
     </ClInclude>
     <ClInclude Include="RenderShader.h">
       <Filter>6_GraphicsResources\RenderShader</Filter>
-    </ClInclude>    <ClInclude Include="Sprite.h">
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
       <Filter>5_Misc</Filter>
-    </ClInclude>  </ItemGroup>
+    </ClInclude>
+    <ClInclude Include="AssetBasic3DLoader.h">
+      <Filter>6_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
+    </ClInclude>
+  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
       <Filter>0_Main</Filter>
@@ -96,9 +101,14 @@
     </ClCompile>
     <ClCompile Include="RenderShader.cpp">
       <Filter>6_GraphicsResources\RenderShader</Filter>
-    </ClCompile>    <ClCompile Include="Sprite.cpp">
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
       <Filter>5_Misc</Filter>
-    </ClCompile>  </ItemGroup>
+    </ClCompile>
+    <ClCompile Include="AssetBasic3DLoader.cpp">
+      <Filter>6_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
+    </ClCompile>
+  </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
       <UniqueIdentifier>{dc50f58a-6093-474d-8e66-756fc4fc2f53}</UniqueIdentifier>
@@ -135,6 +145,12 @@
     </Filter>
     <Filter Include="6_GraphicsResources\RenderShader">
       <UniqueIdentifier>{dc324861-8542-43c3-8fdd-6a94803eea78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_GraphicsResources\Loaders">
+      <UniqueIdentifier>{0d77ac99-1e1d-4999-8d85-ff94cc142195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_GraphicsResources\Loaders\AssetBasic3DLoader">
+      <UniqueIdentifier>{7bf9f256-5d91-44ef-a978-cd86f167e09d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
