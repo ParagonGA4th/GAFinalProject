@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Shader.h"
+#include "RenderShader.h"
 
 namespace Pg::Graphics
 {
-	class VertexShader : public Shader
+	class VertexShader : public RenderShader
 	{
 	public:
 		VertexShader(LowDX11Storage* storage, std::wstring CSOFilePath, D3D11_INPUT_ELEMENT_DESC* vertexDesc);

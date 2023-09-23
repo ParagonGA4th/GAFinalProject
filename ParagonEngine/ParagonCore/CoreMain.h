@@ -6,12 +6,6 @@
 #endif // _DEBUG
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonGraphics.lib")
-#else
-#pragma comment(lib,"..\\x64\\Release\\ParagonGraphics.lib")
-#endif // _DEBUG
-
-#ifdef _DEBUG
 #pragma comment(lib,"..\\x64\\Debug\\ParagonUtil.lib")
 #else
 #pragma comment(lib,"..\\x64\\Release\\ParagonUtil.lib")

@@ -105,6 +105,12 @@
     <ClInclude Include="IAPI.h">
       <Filter>0_CoreMain\Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="IRenderObject.h">
+      <Filter>3_SceneInfo\Component\Renderer\BaseClass\IRenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTextData.h">
+      <Filter>3_SceneInfo\Component\Renderer\BaseClass\IRenderObject\RenderTextData</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="1_Manager">
@@ -178,6 +184,12 @@
     </Filter>
     <Filter Include="0_CoreMain\CoreSingleton">
       <UniqueIdentifier>{a1746940-3226-4d08-9c88-f69569aec91e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_SceneInfo\Component\Renderer\BaseClass\IRenderObject">
+      <UniqueIdentifier>{4d2b38ba-fc61-49f3-a4d8-27f4b906214a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_SceneInfo\Component\Renderer\BaseClass\IRenderObject\RenderTextData">
+      <UniqueIdentifier>{2ba91b89-a998-45c5-8a53-b7e4344d7c85}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
