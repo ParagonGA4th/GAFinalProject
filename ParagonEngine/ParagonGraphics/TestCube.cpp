@@ -117,6 +117,10 @@ void Pg::Graphics::TestCube::Draw()
 	_DXStorage->_deviceContext->IASetInputLayout(_DXStorage->_testVertexShader->_inputLayout);
 	_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	// Shader 바인딩
+	_DXStorage->_testVertexShader->Bind();
+	_DXStorage->_testPixelShader->Bind();
+
 	UINT stride = sizeof(MeshVertex);
 	UINT offset = 0;
 
@@ -126,6 +130,13 @@ void Pg::Graphics::TestCube::Draw()
 	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), (_DXStorage->_depthStencilView));
 
 	_DXStorage->_deviceContext->DrawIndexed(36, 0, 0);
+
+	// Shader 언바인딩
+	_DXStorage->_testPixelShader->UnBind();
+	_DXStorage->_testVertexShader->UnBind();
+
+	// InputLayout 언바인딩
+	_DXStorage->_deviceContext->IASetInputLayout(nullptr);
 }
 
 void Pg::Graphics::TestCube::Update(float time)

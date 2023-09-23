@@ -26,3 +26,8 @@ void Pg::Graphics::VertexShader::CreateShader()
 	_DXStorage->_device->CreateVertexShader(_byteCode->GetBufferPointer(), _byteCode->GetBufferSize(), NULL, &_shader);
 }
 
+void Pg::Graphics::VertexShader::UnBind()
+{
+	_DXStorage->_deviceContext->VSSetShader(nullptr, nullptr, 0);
+}
+
