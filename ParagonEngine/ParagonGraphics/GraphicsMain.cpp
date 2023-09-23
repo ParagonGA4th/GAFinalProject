@@ -8,6 +8,7 @@
 #include "../ParagonAPI/PgInput.h"
 
 #include "ParagonRenderer.h"
+#include "Sprite.h"
 
 #include <windows.h>
 #include <numbers>
@@ -34,6 +35,8 @@ namespace Pg::Graphics
 	}
 
 	float time = 0.0f;
+	Pg::Graphics::Sprite* sprite;
+	Pg::Graphics::Sprite* sprite2;
 
 	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
 	{
@@ -82,6 +85,12 @@ namespace Pg::Graphics
 		_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 
 		Pg::Core::Time::TimeManager::Instance()->Initialize();
+
+		sprite = new Sprite(_DXStorage->_deviceContext, L"../Textures/cats.dds");
+		sprite->SetPosition(float2(100.0f, 100.0f));
+
+		sprite2 = new Sprite(_DXStorage->_deviceContext, L"../Textures/rabbits.dds");
+		sprite2->SetPosition(float2(800.0f,600.0f));
 	}
 
 
@@ -114,7 +123,7 @@ namespace Pg::Graphics
 		_box->_cbData.worldMatrix = worldMatrix;
 
 		// 카메라 행렬
-		_camera->Walk(-1.0f * dt);
+		//_camera->Walk(-1.0f * dt);
 		_camera->UpdateViewMatrix();
 
 		_box->_cbData.viewMatrix = _camera->View();
@@ -167,6 +176,10 @@ namespace Pg::Graphics
 	{
 		// test용 큐브 그리기
 		_box->Draw();
+		
+		// test 스프라이트 그리기
+		sprite->Draw();
+		sprite2->Draw();
 
 		_renderer->Render(_tempObj);
 	}

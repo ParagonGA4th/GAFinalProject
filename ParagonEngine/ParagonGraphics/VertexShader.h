@@ -14,6 +14,7 @@ namespace Pg::Graphics
 
 	public:
 		void Bind();
+		void UnBind();
 
 	private:
 		ID3D11VertexShader* _shader;
