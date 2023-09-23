@@ -17,7 +17,14 @@ namespace Pg::Graphics
 	class LowDX11Logic
 	{
 	public:
-		LowDX11Logic(LowDX11Storage* DXStorage);
+		static LowDX11Logic* GetInstance();
+
+	private:
+		LowDX11Logic();
+		LowDX11Logic(const LowDX11Logic& rhs) = delete;
+		LowDX11Logic(LowDX11Logic&& rhs) = delete;
+		LowDX11Logic& operator=(const LowDX11Logic& rhs) = delete;
+		LowDX11Logic& operator=(LowDX11Logic&& rhs) = delete;
 
 	public:
 		HRESULT CreateDevice();

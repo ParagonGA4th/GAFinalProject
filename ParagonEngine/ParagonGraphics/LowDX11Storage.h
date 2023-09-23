@@ -19,7 +19,14 @@ namespace Pg::Graphics
 	class LowDX11Storage
 	{
 	public:
+		static LowDX11Storage* GetInstance();
+
+	private:
 		LowDX11Storage();
+		LowDX11Storage(const LowDX11Storage& rhs) = delete;
+		LowDX11Storage(LowDX11Storage&& rhs) = delete;
+		LowDX11Storage& operator=(const LowDX11Storage& rhs) = delete;
+		LowDX11Storage& operator=(LowDX11Storage&& rhs) = delete;
 
 	public:
 		// 윈도우 핸들
