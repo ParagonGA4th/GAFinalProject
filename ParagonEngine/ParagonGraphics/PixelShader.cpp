@@ -3,7 +3,7 @@
 #include "LowDX11Storage.h"
 
 Pg::Graphics::PixelShader::PixelShader(LowDX11Storage* storage, std::wstring CSOFilePath)
-	: Shader(storage, CSOFilePath)
+	: RenderShader(storage, CSOFilePath)
 {
 	CreateShader();
 }
