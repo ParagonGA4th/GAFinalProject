@@ -5,8 +5,9 @@
 #include "MathHelper.h"
 
 #include "../ParagonCore/TimeManager.h"
-
 #include "../ParagonAPI/PgInput.h"
+
+#include "ParagonRenderer.h"
 
 #include <windows.h>
 #include <numbers>
@@ -15,12 +16,21 @@ namespace Pg::Graphics
 {
 	GraphicsMain::GraphicsMain()
 		: hr(NULL),
-		_DXStorage(nullptr), _DXLogic(nullptr)
+		_DXStorage(nullptr), _DXLogic(nullptr),
+		_renderer(nullptr)
 	{
-		_DXStorage = new LowDX11Storage();
-		_DXLogic = new LowDX11Logic(_DXStorage);
+		_DXStorage = LowDX11Storage::GetInstance();
+		_DXLogic = LowDX11Logic::GetInstance();
+
+		_renderer = std::make_unique<ParagonRenderer>();
+		_tempObj = new Pg::Core::GameObject("Test");
 
 		// TODO: Storage는 static으로 만들어서 인자로 넘길 필요가 없도록 하자
+	}
+
+	GraphicsMain::~GraphicsMain()
+	{
+		delete _tempObj;
 	}
 
 	float time = 0.0f;
@@ -104,7 +114,7 @@ namespace Pg::Graphics
 		_box->_cbData.worldMatrix = worldMatrix;
 
 		// 카메라 행렬
-		//_camera->Walk(-1.0f * dt);
+		_camera->Walk(-1.0f * dt);
 		_camera->UpdateViewMatrix();
 
 		_box->_cbData.viewMatrix = _camera->View();
@@ -149,20 +159,21 @@ namespace Pg::Graphics
 
 	void GraphicsMain::BeginRender()
 	{
-		_DXLogic->PrepareRenderTargets();
+		_renderer->BeginRender();
+
 	}
 
 	void GraphicsMain::Render()
 	{
-		_DXLogic->BindRenderTargets();
-		
 		// test용 큐브 그리기
 		_box->Draw();
+
+		_renderer->Render(_tempObj);
 	}
 
 	void GraphicsMain::EndRender()
 	{
-		_DXLogic->Present();
+		_renderer->EndRender();
 	}
 
 	void GraphicsMain::Finalize()
@@ -203,5 +214,7 @@ namespace Pg::Graphics
 	{
 		return _DXStorage->_deviceContext;
 	}
+
+	
 
 }
