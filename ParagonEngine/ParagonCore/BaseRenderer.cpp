@@ -1,6 +1,6 @@
 #include "BaseRenderer.h"
 
-namespace Pg::Core::Components
+namespace Pg::Core
 {
 	
 }
