@@ -13,13 +13,19 @@
 #include <string>
 #include <windows.h>
 
+#ifdef _DEBUG
+#pragma comment(lib,"..\\x64\\Debug\\ParagonGraphics.lib")
+#else
+#pragma comment(lib,"..\\x64\\Release\\ParagonGraphics.lib")
+#endif // _DEBUG
+
 namespace Pg::Core
 {
 	CoreMain::CoreMain() :
 		_timeManager(Time::TimeManager::Instance())
 	{
 		_engine = std::make_unique<Pg::Engine::EngineMain>();
-		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>();
+		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>(this);
 		//_logger = std::make_unique<Pg::Util::Debug::Log>();
 		_util = std::make_unique<Pg::Util::UtilMain>();
 		_api = std::make_unique<Pg::API::APIMain>();
