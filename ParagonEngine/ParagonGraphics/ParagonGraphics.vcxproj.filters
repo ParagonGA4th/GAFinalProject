@@ -28,9 +28,6 @@
     <ClInclude Include="TempCamera.h">
       <Filter>5_Misc</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>3_DX11Wrapper\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="VertexShader.h">
       <Filter>3_DX11Wrapper\Shader</Filter>
     </ClInclude>
@@ -46,10 +43,17 @@
     <ClInclude Include="TestCube.h">
       <Filter>5_Misc</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>5_Misc</Filter>
+    <ClInclude Include="RenderObject.h">
+      <Filter>7_RenderObject</Filter>
     </ClInclude>
-  </ItemGroup>
+    <ClInclude Include="RenderMaterial.h">
+      <Filter>6_GraphicsResources\RenderMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderShader.h">
+      <Filter>6_GraphicsResources\RenderShader</Filter>
+    </ClInclude>    <ClInclude Include="Sprite.h">
+      <Filter>5_Misc</Filter>
+    </ClInclude>  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
       <Filter>0_Main</Filter>
@@ -69,9 +73,6 @@
     <ClCompile Include="TempCamera.cpp">
       <Filter>5_Misc</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>3_DX11Wrapper\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="VertexShader.cpp">
       <Filter>3_DX11Wrapper\Shader</Filter>
     </ClCompile>
@@ -87,10 +88,17 @@
     <ClCompile Include="TestCube.cpp">
       <Filter>5_Misc</Filter>
     </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>5_Misc</Filter>
+    <ClCompile Include="RenderObject.cpp">
+      <Filter>7_RenderObject</Filter>
     </ClCompile>
-  </ItemGroup>
+    <ClCompile Include="RenderMaterial.cpp">
+      <Filter>6_GraphicsResources\RenderMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderShader.cpp">
+      <Filter>6_GraphicsResources\RenderShader</Filter>
+    </ClCompile>    <ClCompile Include="Sprite.cpp">
+      <Filter>5_Misc</Filter>
+    </ClCompile>  </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
       <UniqueIdentifier>{dc50f58a-6093-474d-8e66-756fc4fc2f53}</UniqueIdentifier>
@@ -118,6 +126,15 @@
     </Filter>
     <Filter Include="3_DX11Wrapper\Shader">
       <UniqueIdentifier>{cbc5a6ca-3861-4110-afef-551c8d1d0b32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="7_RenderObject">
+      <UniqueIdentifier>{7662f813-7991-48ca-8246-539c96965edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_GraphicsResources\RenderMaterial">
+      <UniqueIdentifier>{2b12d567-cab3-4baf-9dad-a6459170e77a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_GraphicsResources\RenderShader">
+      <UniqueIdentifier>{dc324861-8542-43c3-8fdd-6a94803eea78}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
