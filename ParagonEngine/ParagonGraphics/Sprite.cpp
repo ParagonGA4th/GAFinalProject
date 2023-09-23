@@ -40,7 +40,8 @@ void Pg::Graphics::Sprite::CreateAndSetTexture(std::wstring textureFilepath)
 
 }
 
-void Pg::Graphics::Sprite::SetPosition(DirectX::XMFLOAT2 position)
+void Pg::Graphics::Sprite::SetPosition(float x, float y)
 {
-	_position = position;
+	_position.x = x;
+	_position.y = y;
 }

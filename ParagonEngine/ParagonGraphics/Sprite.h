@@ -18,7 +18,7 @@ namespace Pg::Graphics
 
 	public:
 		void Draw();
-		void SetPosition(DirectX::XMFLOAT2 position);
+		void SetPosition(float x, float y);
 
 	private:
 		void CreateAndSetTexture(std::wstring textureFilepath);
