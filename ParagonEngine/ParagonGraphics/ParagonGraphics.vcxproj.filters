@@ -46,22 +46,27 @@
     <ClInclude Include="ConstantBufferBase.h">
       <Filter>3_GraphicsResources\ConstantBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="TestCube.h">
-      <Filter>4_RenderObject</Filter>
-    </ClInclude>
     <ClInclude Include="TempCamera.h">
       <Filter>5_Misc</Filter>
     </ClInclude>
-    <ClInclude Include="Axis.h">
-      <Filter>4_RenderObject</Filter>
-    </ClInclude>
     <ClInclude Include="Grid.h">
-      <Filter>4_RenderObject</Filter>
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Axis.h">
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCube.h">
+      <Filter>7_OtherObject</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
-      <Filter>4_RenderObject</Filter>
+      <Filter>7_OtherObject</Filter>
     </ClInclude>
-    <ClInclude Include="Font.h" />
+    <ClInclude Include="AssetBasic3DLoader.h">
+      <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -100,22 +105,27 @@
     <ClCompile Include="ConstantBufferBase.cpp">
       <Filter>3_GraphicsResources\ConstantBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="TestCube.cpp">
-      <Filter>4_RenderObject</Filter>
-    </ClCompile>
     <ClCompile Include="TempCamera.cpp">
       <Filter>5_Misc</Filter>
     </ClCompile>
     <ClCompile Include="Axis.cpp">
-      <Filter>4_RenderObject</Filter>
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>7_OtherObject</Filter>
     </ClCompile>
     <ClCompile Include="Grid.cpp">
-      <Filter>4_RenderObject</Filter>
+      <Filter>7_OtherObject</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
-      <Filter>4_RenderObject</Filter>
+      <Filter>7_OtherObject</Filter>
     </ClCompile>
-    <ClCompile Include="Font.cpp" />
+    <ClCompile Include="TestCube.cpp">
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetBasic3DLoader.cpp">
+      <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -154,11 +164,17 @@
     <Filter Include="6_HLSL">
       <UniqueIdentifier>{77b7d216-140c-4cfc-8018-b14b1c0dbd24}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6_GraphicsResources\Loaders">
-      <UniqueIdentifier>{0d77ac99-1e1d-4999-8d85-ff94cc142195}</UniqueIdentifier>
-    </Filter>
     <Filter Include="6_GraphicsResources\Loaders\AssetBasic3DLoader">
       <UniqueIdentifier>{7bf9f256-5d91-44ef-a978-cd86f167e09d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="7_OtherObject">
+      <UniqueIdentifier>{7c64f1b5-ece3-4874-b94c-0497ac7d8c3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Loaders">
+      <UniqueIdentifier>{5478088e-a0ba-437b-b59c-8afce3d941fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Loaders\AssetBasic3DLoader">
+      <UniqueIdentifier>{8bde66a2-083f-4cd5-9cc6-1c22c6cd3cda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
