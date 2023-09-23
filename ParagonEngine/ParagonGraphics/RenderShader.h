@@ -10,14 +10,19 @@
 class ConstantBuffer;
 class ConstantBufferBase;
 
+/// <summary>
+/// 게임엔진에서 실제로 Shader로 지칭되는 대상.
+/// HLSL 파싱, 연결 등 담당.
+/// </summary>
+
 namespace Pg::Graphics
 {
 	class LowDX11Storage;
 
-	class Shader
+	class RenderShader
 	{
 	public:
-		Shader(LowDX11Storage* storage, std::wstring CSOFilePath);
+		RenderShader(LowDX11Storage* storage, std::wstring CSOFilePath);
 
 	protected:
 		LowDX11Storage* _DXStorage;
@@ -41,3 +46,4 @@ namespace Pg::Graphics
 
 	};
 }
+
