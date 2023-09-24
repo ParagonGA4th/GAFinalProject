@@ -155,9 +155,9 @@ struct aiMeshKey {
     double mTime;
 
     /** Index into the aiMesh::mAnimMeshes array of the
-     *  mesh corresponding to the #aiMeshAnim hosting this
+     *  mesh corresponding to the "#aiMeshAnim" hosting this
      *  key frame. The referenced anim mesh is evaluated
-     *  according to the rules defined in the docs for #aiAnimMesh.*/
+     *  according to the rules defined in the docs for "#aiAnimMesh.*/
     unsigned int mValue;
 
 #ifdef __cplusplus
@@ -348,7 +348,7 @@ struct aiMeshAnim {
      *  of meshes with similar animation setup)*/
     C_STRUCT aiString mName;
 
-    /** Size of the #mKeys array. Must be 1, at least. */
+    /** Size of the "#mKeys array. Must be 1, at least. */
     unsigned int mNumKeys;
 
     /** Key frames of the animation. May not be nullptr. */
@@ -376,7 +376,7 @@ struct aiMeshMorphAnim {
      *  of meshes with similar animation setup)*/
     C_STRUCT aiString mName;
 
-    /** Size of the #mKeys array. Must be 1, at least. */
+    /** Size of the "#mKeys array. Must be 1, at least. */
     unsigned int mNumKeys;
 
     /** Key frames of the animation. May not be nullptr. */
