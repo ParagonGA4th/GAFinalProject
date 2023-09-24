@@ -1,11 +1,11 @@
 #include "EngineMain.h"
 #include "InputSystem.h"
+#include "EngineResourceManager.h"
 
 #include "../ParagonCore/CoreMain.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonAPI/KeyCodeType.h"
 #include <singleton-cpp/singleton.h>
-
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\x64\\Debug\\ParagonUtil.lib")
@@ -21,7 +21,7 @@
 
 namespace Pg::Engine
 {
-	EngineMain::EngineMain(Pg::Core::CoreMain* core) : _coreMain(core)
+	EngineMain::EngineMain(Pg::Core::CoreMain* core) : _coreMain(core), _engineResourceManager(nullptr)
 	{
 		auto& tInputSystem = singleton<Input::InputSystem>();
 		_inputSystem = &tInputSystem;
@@ -42,7 +42,7 @@ namespace Pg::Engine
 	{
 		_inputSystem->Update();
 
-		static bool tTest = false;
+		 static bool tTest = false;
 		if (!tTest)
 		{
 			PG_TRACE("Debugger Used In ParagonGameEngine!");
@@ -70,6 +70,14 @@ namespace Pg::Engine
 
 	}
 
+	Pg::Engine::Manager::EngineResourceManager* EngineMain::GetEngineResourceManager()
+	{
+		if (this->_engineResourceManager == nullptr)
+		{
+			this->_engineResourceManager = Pg::Engine::Manager::EngineResourceManager::Instance();
+		}
+		return _engineResourceManager;
+	}
 	
 	
 
