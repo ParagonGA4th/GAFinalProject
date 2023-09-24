@@ -13,18 +13,7 @@
 #include <set>
 #include <stdexcept>
 #include <type_traits>
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonGraphics.lib")
-#else
-#pragma comment(lib,"..\\x64\\Release\\ParagonGraphics.lib")
-#endif // _DEBUG
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonGameEngine.lib")
-#else
-#pragma comment(lib,"..\\x64\\Release\\ParagonGameEngine.lib")
-#endif // _DEBUG
+#include <cassert>
 
 /// <summary>
 /// 게임 엔진 내의 모든 애셋/리소스 내용을 총괄할 매니저.
@@ -36,6 +25,10 @@
 /// 하위 리소스들은 내부적으로 반드시 InternalLoad / InternalUnload 함수가 구현되어 있어야 한다.
 /// 리소스 로드와 가져오는 시점은 분리되어 있다.
 /// </summary>
+namespace Pg::Core
+{
+	class CoreMain;
+}
 
 namespace Pg::Core::Manager
 {
@@ -43,14 +36,14 @@ namespace Pg::Core::Manager
 	using Pg::Core::Resources::GraphicsResource;
 	using Pg::Core::Resources::EngineResource;
 
-	using Pg::Engine::Manager::EngineResourceManager;
-	using Pg::Graphics::Manager::GraphicsResourceManager;
-
 	class AssetManager : public Pg::Core::Singleton<AssetManager>
 	{
 	public:
 		AssetManager();
 		~AssetManager();
+		
+		//AssetManager 초기화. Engine/Graphics의 리소스 매니저를 받아온다.
+		void Initialize(Pg::Core::CoreMain* core);
 
 		//리소스를 실제로 컨테이너에 로드하는 함수, 로드만 할 뿐이지 함수 자체가 리소스를 반환하지는 않는다.
         template<typename T>
@@ -65,6 +58,11 @@ namespace Pg::Core::Manager
 
 	private:
 		std::set<std::string> _resources;
+
+	private:
+		//별도로 각가 GameEngine / Graphics 프로젝트에서 만들어졌던 리소스 매니저.
+		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager;
+		Pg::Graphics::Manager::GraphicsResourceManager* _graphicsResourceManager;
 	};
 
 	template<typename T>
@@ -97,7 +95,7 @@ namespace Pg::Core::Manager
 			if constexpr (std::is_base_of<EngineResource, T>::value && (!std::is_base_of<GraphicsResource, T>::value))
 			{
 				//EngineResourceManager의 리소스를 가져오는 로직.
-				res = EngineResourceManager::Instance()->CreateResource(path);
+				res = _engineResourceManager->CreateResource(path);
 				
 				tAssureGot = true;
 			}
@@ -105,7 +103,7 @@ namespace Pg::Core::Manager
 			if constexpr ((!std::is_base_of<EngineResource, T>::value) && std::is_base_of<GraphicsResource, T>::value)
 			{
 				//GraphicsResourceManager의 리소스를 가져오는 로직.
-				res = GraphicsResourceManager::Instance()->CreateResource(path);
+				res = _graphicsResourceManager->CreateResource(path);
 				tAssureGot = true;
 			}
 
@@ -142,14 +140,14 @@ namespace Pg::Core::Manager
 			if constexpr (std::is_base_of<EngineResource, T>::value && (!std::is_base_of<GraphicsResource, T>::value))
 			{
 				//EngineResourceManager의 리소스를 가져오는 로직.
-				res = EngineResourceManager::Instance()->GetResource(path);
+				res = _engineResourceManager->GetResource(path);
 				tAssureGot = true;
 			}
 
 			if constexpr ((!std::is_base_of<EngineResource, T>::value) && std::is_base_of<GraphicsResource, T>::value)
 			{
 				//GraphicsResourceManager의 리소스를 가져오는 로직.
-				res = GraphicsResourceManager::Instance()->GetResource(path);
+				res = _graphicsResourceManager->GetResource(path);
 				tAssureGot = true;
 			}
 

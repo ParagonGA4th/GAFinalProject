@@ -9,6 +9,7 @@
 #include "Scene.h"
 #include "Transform.h"
 #include "GameObject.h"
+#include "AssetManager.h"
 
 #include <string>
 #include <windows.h>
@@ -28,7 +29,7 @@
 namespace Pg::Core
 {
 	CoreMain::CoreMain() :
-		_timeManager(Time::TimeManager::Instance())
+		_timeManager(Time::TimeManager::Instance()), _assetManager(Manager::AssetManager::Instance())
 	{
 		_engine = std::make_unique<Pg::Engine::EngineMain>(this);
 		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>(this);
@@ -52,6 +53,9 @@ namespace Pg::Core
 		_api->Initialize();
 		_engine->Initialize(screenWidth, screenHeight);
 		_graphics->Initialize(static_cast<HWND>(hwnd), screenWidth, screenHeight);
+
+		//AssetManager ¼¼ÆÃ.
+		_assetManager->Initialize(this);
 
 		_work = new Pg::Engine::WorkSpace();
 		_work->Initialize();

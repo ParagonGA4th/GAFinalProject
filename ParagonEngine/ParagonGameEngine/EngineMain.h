@@ -19,6 +19,11 @@ namespace Pg::Engine
 	{
 		class InputSystem;
 	}
+
+	namespace Manager
+	{
+		class EngineResourceManager;
+	}
 }
 
 namespace Pg::Engine
@@ -33,9 +38,13 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL void Update() override;
 		PARAGON_ENGINE_DLL void Finalize() override;
 
+		//엔진 리소스 매니저 반환. 
+		PARAGON_ENGINE_DLL Pg::Engine::Manager::EngineResourceManager* GetEngineResourceManager();
+
 	private:
 		Pg::Core::CoreMain* _coreMain = nullptr;
 		Input::InputSystem* _inputSystem = nullptr;
+		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
 	};
 }
 
