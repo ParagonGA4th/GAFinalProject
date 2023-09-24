@@ -15,6 +15,18 @@
 #include <type_traits>
 #include <cassert>
 
+#ifdef _DEBUG
+#pragma comment(lib,"..\\x64\\Debug\\ParagonGameEngine.lib")
+#else
+#pragma comment(lib,"..\\x64\\Release\\ParagonGameEngine.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\x64\\Debug\\ParagonGraphics.lib")
+#else
+#pragma comment(lib,"..\\x64\\Release\\ParagonGraphics.lib")
+#endif // _DEBUG
+
 /// <summary>
 /// 게임 엔진 내의 모든 애셋/리소스 내용을 총괄할 매니저.
 /// 
@@ -24,7 +36,19 @@
 /// Asset관리를 받을 대상은 용도에 따라 EngineResource / GraphicsResource를 상속받아야 하고,
 /// 하위 리소스들은 내부적으로 반드시 InternalLoad / InternalUnload 함수가 구현되어 있어야 한다.
 /// 리소스 로드와 가져오는 시점은 분리되어 있다.
+/// 
+/// NOTES:
+/// AssetManager는 Graphics, Engine을 알아야 하는 상황인데, 
+/// -> 다른 것도 아니고 Unload만 오류가 났던 이유는
+/// 다른 Get / Create는 template function들이라 쓰일 때 오류를 일으키기 때문이다.
+/// 이렇게 된다면, 개별적 리소스 매니저에 있는 함수들이 독립적으로 호출되어야 하는가 ?
+/// 그러면 로직이 관리되지 않는다.
+/// 이렇게 된다면, AssetManager 관리 로직이 바뀌어야 한다.
+/// Core의 AssetManager가 Graphics, Engine을 아는 것은 변하지 않는다.
+/// 다만, 더 이상 Graphics, Engine 내부에서 AssetManager를 통해서 리소스에 접근한다는 생각을 버리고,
+/// GameEngine, Graphics에서 자체 리소스매니저를 통해서 접근한다는 생각을 해야 한다는 것인데..
 /// </summary>
+
 namespace Pg::Core
 {
 	class CoreMain;
