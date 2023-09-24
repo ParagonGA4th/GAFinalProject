@@ -3,6 +3,7 @@
 #include "LowDX11Storage.h"
 #include "ConstantBuffer.h"
 #include "MathHelper.h"
+#include "GraphicsResourceManager.h"
 
 #include "../ParagonCore/TimeManager.h"
 #include "../ParagonCore/CoreMain.h"
@@ -14,6 +15,12 @@
 
 #include <windows.h>
 #include <numbers>
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\x64\\Debug\\ParagonCore.lib")
+#else
+#pragma comment(lib,"..\\x64\\Release\\ParagonCore.lib")
+#endif // _DEBUG
 
 namespace Pg::Graphics
 {
@@ -244,6 +251,15 @@ namespace Pg::Graphics
 		return _DXStorage->_deviceContext;
 	}
 
+	Pg::Graphics::Manager::GraphicsResourceManager* GraphicsMain::GetGraphicsResourceManager()
+	{
+		if (this->_graphicsResourceManager == nullptr)
+		{
+			this->_graphicsResourceManager = Pg::Graphics::Manager::GraphicsResourceManager::Instance();
+		}
+		return _graphicsResourceManager;
+	}
+	
 	
 
 }
