@@ -63,7 +63,7 @@ template <typename T> class aiVector3t;
  *
  *  There's much confusion about matrix layouts (column vs. row order).
  *  This is *always* a row-major matrix. Not even with the
- *  #aiProcess_ConvertToLeftHanded flag, which absolutely does not affect
+ *  "#aiProcess_ConvertToLeftHanded flag, which absolutely does not affect
  *  matrix order - it just affects the handedness of the coordinate system
  *  defined thereby.
  */
