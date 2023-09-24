@@ -117,24 +117,24 @@ extern "C" {
  * it's called 'polygon' (hey, that's just a definition!).
  * <br>
  * aiMesh::mPrimitiveTypes can be queried to quickly examine which types of
- * primitive are actually present in a mesh. The #aiProcess_SortByPType flag
+ * primitive are actually present in a mesh. The "#aiProcess_SortByPType flag
  * executes a special post-processing algorithm which splits meshes with
  * *different* primitive types mixed up (e.g. lines and triangles) in several
  * 'clean' sub-meshes. Furthermore there is a configuration option (
- * #AI_CONFIG_PP_SBP_REMOVE) to force #aiProcess_SortByPType to remove
+ * "#AI_CONFIG_PP_SBP_REMOVE") to force "#aiProcess_SortByPType" to remove
  * specific kinds of primitives from the imported scene, completely and forever.
  * In many cases you'll probably want to set this setting to
  * @code
  * aiPrimitiveType_LINE|aiPrimitiveType_POINT
  * @endcode
- * Together with the #aiProcess_Triangulate flag you can then be sure that
- * #aiFace::mNumIndices is always 3.
+ * Together with the "#aiProcess_Triangulate flag you can then be sure that
+ * "#aiFace::mNumIndices is always 3.
  * @note Take a look at the @link data Data Structures page @endlink for
  * more information on the layout and winding order of a face.
  */
 struct aiFace {
     //! Number of indices defining this face.
-    //! The maximum value for this member is #AI_MAX_FACE_INDICES.
+    //! The maximum value for this member is "#AI_MAX_FACE_INDICES.
     unsigned int mNumIndices;
 
     //! Pointer to the indices array. Size of the array is given in numIndices.
@@ -265,7 +265,7 @@ struct aiBone {
     C_STRUCT aiString mName;
 
     //! The number of vertices affected by this bone.
-    //! The maximum value for this member is #AI_MAX_BONE_WEIGHTS.
+    //! The maximum value for this member is "#AI_MAX_BONE_WEIGHTS.
     unsigned int mNumWeights;
 
 #ifndef ASSIMP_BUILD_NO_ARMATUREPOPULATE_PROCESS
@@ -384,14 +384,14 @@ enum aiPrimitiveType {
     /** A point primitive.
      *
      * This is just a single vertex in the virtual world,
-     * #aiFace contains just one index for such a primitive.
+     * "#aiFace contains just one index for such a primitive.
      */
     aiPrimitiveType_POINT = 0x1,
 
     /** A line primitive.
      *
      * This is a line defined through a start and an end position.
-     * #aiFace contains exactly two indices for such a primitive.
+     * "#aiFace contains exactly two indices for such a primitive.
      */
     aiPrimitiveType_LINE = 0x2,
 
@@ -436,19 +436,19 @@ enum aiPrimitiveType {
 #endif
 }; //! enum aiPrimitiveType
 
-// Get the #aiPrimitiveType flag for a specific number of face indices
+// Get the "#aiPrimitiveType flag for a specific number of face indices
 #define AI_PRIMITIVE_TYPE_FOR_N_INDICES(n) \
     ((n) > 3 ? aiPrimitiveType_POLYGON : (aiPrimitiveType)(1u << ((n)-1)))
 
 // ---------------------------------------------------------------------------
-/** @brief An AnimMesh is an attachment to an #aiMesh stores per-vertex
+/** @brief An AnimMesh is an attachment to an "#aiMesh stores per-vertex
  *  animations for a particular frame.
  *
- *  You may think of an #aiAnimMesh as a `patch` for the host mesh, which
+ *  You may think of an "#aiAnimMesh as a `patch` for the host mesh, which
  *  replaces only certain vertex data streams at a particular time.
- *  Each mesh stores n attached attached meshes (#aiMesh::mAnimMeshes).
+ *  Each mesh stores n attached attached meshes ("#aiMesh::mAnimMeshes).
  *  The actual relationship between the time line and anim meshes is
- *  established by #aiMeshAnim, which references singular mesh attachments
+ *  established by "#aiMeshAnim, which references singular mesh attachments
  *  by their ID and binds them to a time offset.
 */
 struct aiAnimMesh {
@@ -597,13 +597,13 @@ enum aiMorphingMethod {
 *
 * A Mesh uses only a single material which is referenced by a material ID.
 * @note The mPositions member is usually not optional. However, vertex positions
-* *could* be missing if the #AI_SCENE_FLAGS_INCOMPLETE flag is set in
+* *could* be missing if the "#AI_SCENE_FLAGS_INCOMPLETE flag is set in
 * @code
 * aiScene::mFlags
 * @endcode
 */
 struct aiMesh {
-    /** Bitwise combination of the members of the #aiPrimitiveType enum.
+    /** Bitwise combination of the members of the "#aiPrimitiveType enum.
      * This specifies which types of primitives are present in the mesh.
      * The "SortByPrimitiveType"-Step can be used to make sure the
      * output meshes consist of one primitive type each.
@@ -612,13 +612,13 @@ struct aiMesh {
 
     /** The number of vertices in this mesh.
     * This is also the size of all of the per-vertex data arrays.
-    * The maximum value for this member is #AI_MAX_VERTICES.
+    * The maximum value for this member is "#AI_MAX_VERTICES.
     */
     unsigned int mNumVertices;
 
     /** The number of primitives (triangles, polygons, lines) in this  mesh.
     * This is also the size of the mFaces array.
-    * The maximum value for this member is #AI_MAX_FACES.
+    * The maximum value for this member is "#AI_MAX_FACES.
     */
     unsigned int mNumFaces;
 
@@ -658,7 +658,7 @@ struct aiMesh {
     * mixed primitive types (i.e. lines and triangles) may have
     * normals, but the normals for vertices that are only referenced by
     * point or line primitives are undefined and set to qNaN.  See
-    * the #mNormals member for a detailed discussion of qNaNs.
+    * the "#mNormals member for a detailed discussion of qNaNs.
     * @note If the mesh contains tangents, it automatically also
     * contains bitangents.
     */
@@ -674,7 +674,7 @@ struct aiMesh {
     C_STRUCT aiVector3D *mBitangents;
 
     /** Vertex color sets.
-    * A mesh may contain 0 to #AI_MAX_NUMBER_OF_COLOR_SETS vertex
+    * A mesh may contain 0 to "#AI_MAX_NUMBER_OF_COLOR_SETS" vertex
     * colors per vertex. nullptr if not present. Each array is
     * mNumVertices in size if present.
     */
@@ -698,7 +698,7 @@ struct aiMesh {
     /** The faces the mesh is constructed from.
     * Each face refers to a number of vertices by their indices.
     * This array is always present in a mesh, its size is given
-    * in mNumFaces. If the #AI_SCENE_FLAGS_NON_VERBOSE_FORMAT
+    * in mNumFaces. If the "#AI_SCENE_FLAGS_NON_VERBOSE_FORMAT
     * is NOT set each face references an unique set of vertices.
     */
     C_STRUCT aiFace *mFaces;
