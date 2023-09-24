@@ -14,6 +14,12 @@
 #include <windows.h>
 
 #ifdef _DEBUG
+#pragma comment(lib,"..\\x64\\Debug\\ParagonGameEngine.lib")
+#else
+#pragma comment(lib,"..\\x64\\Release\\ParagonGameEngine.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
 #pragma comment(lib,"..\\x64\\Debug\\ParagonGraphics.lib")
 #else
 #pragma comment(lib,"..\\x64\\Release\\ParagonGraphics.lib")
@@ -24,7 +30,7 @@ namespace Pg::Core
 	CoreMain::CoreMain() :
 		_timeManager(Time::TimeManager::Instance())
 	{
-		_engine = std::make_unique<Pg::Engine::EngineMain>();
+		_engine = std::make_unique<Pg::Engine::EngineMain>(this);
 		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>(this);
 		//_logger = std::make_unique<Pg::Util::Debug::Log>();
 		_util = std::make_unique<Pg::Util::UtilMain>();
