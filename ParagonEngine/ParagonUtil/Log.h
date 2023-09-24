@@ -1,5 +1,5 @@
 #pragma once
-
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
@@ -44,49 +44,46 @@ namespace Pg::Util::Debug
 	};
 }
 
-//<디버깅 함수들>
-
 //0단계 : 평화
 #define PG_TRACE(...) \
 	do { \
 		Pg::Util::Debug::Log& tLogger = singleton<Pg::Util::Debug::Log>(); \
-		tLogger.GetLogger()->trace(__VA_ARGS__); \
+		SPDLOG_LOGGER_TRACE(tLogger.GetLogger(), __VA_ARGS__); \
 	} while (false)
 
 //1단계
 #define PG_DEBUG(...) \
 	do { \
 		Pg::Util::Debug::Log& tLogger = singleton<Pg::Util::Debug::Log>(); \
-		tLogger.GetLogger()->debug(__VA_ARGS__); \
+		SPDLOG_LOGGER_DEBUG(tLogger.GetLogger(), __VA_ARGS__); \
 	} while (false)
 
 //2단계
 #define PG_INFO(...) \
 	do { \
 		Pg::Util::Debug::Log& tLogger = singleton<Pg::Util::Debug::Log>(); \
-		tLogger.GetLogger()->info(__VA_ARGS__); \
+		SPDLOG_LOGGER_INFO(tLogger.GetLogger(), __VA_ARGS__); \
 	} while (false)
 
 //3단계
 #define PG_WARN(...) \
 	do { \
 		Pg::Util::Debug::Log& tLogger = singleton<Pg::Util::Debug::Log>(); \
-		tLogger.GetLogger()->warn(__VA_ARGS__); \
+		SPDLOG_LOGGER_WARN(tLogger.GetLogger(), __VA_ARGS__); \
 	} while (false)
 
 //4단계
 #define PG_ERROR(...) \
 	do { \
 		Pg::Util::Debug::Log& tLogger = singleton<Pg::Util::Debug::Log>(); \
-		tLogger.GetLogger()->error(__VA_ARGS__); \
+		SPDLOG_LOGGER_ERROR(tLogger.GetLogger(), __VA_ARGS__); \
 	} while (false)
 
 //5단계
 #define PG_CRITICAL(...) \
 	do { \
 		Pg::Util::Debug::Log& tLogger = singleton<Pg::Util::Debug::Log>(); \
-		tLogger.GetLogger()->critical(__VA_ARGS__); \
+		SPDLOG_LOGGER_CRITICAL(tLogger.GetLogger(), __VA_ARGS__); \
 	} while (false)
 
 //</디버깅 함수들>
-

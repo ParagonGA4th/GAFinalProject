@@ -43,8 +43,6 @@ namespace Pg::Graphics
 
 	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
 	{
-		OutputDebugString(L"GraphicsGraphics!!!");
-
 		/// 초기화 관련
 		_DXStorage->_hWnd = hWnd;
 
@@ -103,6 +101,14 @@ namespace Pg::Graphics
 
 	void GraphicsMain::Update(const Pg::Core::Scene* const scene, Pg::Core::CameraData cameraData)
 	{
+		//Debugging Test.
+		static bool tTest = false;
+		if (!tTest)
+		{
+			PG_TRACE("Debugger Used In ParagonGraphics!");
+			tTest = true;
+		}
+
 		Pg::Core::Time::TimeManager::Instance()->TimeMeasure();
 		float dt = Pg::Core::Time::TimeManager::Instance()->GetDeltaTime();
 
