@@ -12,12 +12,6 @@
 #include <memory>
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonCore.lib")
-#else
-#pragma comment(lib,"..\\x64\\Release\\ParagonCore.lib")
-#endif // _DEBUG
-
-#ifdef _DEBUG
 #pragma comment(lib,"..\\x64\\Debug\\ParagonUtil.lib")
 #else
 #pragma comment(lib,"..\\x64\\Release\\ParagonUtil.lib")
@@ -38,6 +32,14 @@
 namespace Pg::Core
 {
 	class CoreMain;
+}
+
+namespace Pg::Graphics
+{
+	namespace Manager
+	{
+		class GraphicsResourceManager;
+	}
 }
 
 namespace Pg::Graphics
@@ -64,6 +66,9 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual ID3D11Device* GetDevice() override;
 		PARAGON_GRAPHICS_DLL virtual ID3D11DeviceContext* GetDeviceContext() override;
 
+		//그래픽스 리소스 매니저를 반환한다.
+		PARAGON_GRAPHICS_DLL Pg::Graphics::Manager::GraphicsResourceManager* GetGraphicsResourceManager();
+
 		// TODO: Load(Scene* )
 		// 
 
@@ -73,6 +78,7 @@ namespace Pg::Graphics
 	private:
 		HRESULT hr;
 		Pg::Core::CoreMain* _coreMain;
+		Pg::Graphics::Manager::GraphicsResourceManager* _graphicsResourceManager = nullptr;
 	private:
 
 		LowDX11Logic* _DXLogic;

@@ -28,10 +28,20 @@
 /// 코어
 /// 2023. 9. 8. 변지상
 /// </summary>
+
+namespace Pg::Core
+{
+	namespace Manager
+	{
+		class AssetManager;
+	}
+}
+
 namespace Pg::Core
 {
 	class CoreMain
 	{
+		friend class Pg::Core::Manager::AssetManager;
 	public:
 		CoreMain();
 		~CoreMain();
@@ -60,6 +70,7 @@ namespace Pg::Core
 		std::unique_ptr<IAPI> _api;
 
 		Time::TimeManager* _timeManager;					//델타타임
+		Manager::AssetManager* _assetManager;				//어셋매니저
 
 		//임시 : WORKSPACE
 		Pg::Engine::WorkSpace* _work = nullptr;
