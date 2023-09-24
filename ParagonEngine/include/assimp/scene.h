@@ -85,7 +85,7 @@ struct ASSIMP_API aiNode {
      * The name might be empty (length of zero) but all nodes which
      * need to be referenced by either bones or animations are named.
      * Multiple nodes may have the same name, except for nodes which are referenced
-     * by bones (see #aiBone and #aiMesh::mBones). Their names *must* be unique.
+     * by bones (see "#aiBone and "#aiMesh::mBones). Their names *must* be unique.
      *
      * Cameras and lights reference a specific node by name - if there
      * are multiple nodes with this name, they are assigned to each of them.
@@ -120,7 +120,7 @@ struct ASSIMP_API aiNode {
     unsigned int mNumMeshes;
 
     /** The meshes of this node. Each entry is an index into the
-      * mesh list of the #aiScene.
+      * mesh list of the "#aiScene.
       */
     unsigned int* mMeshes;
 
