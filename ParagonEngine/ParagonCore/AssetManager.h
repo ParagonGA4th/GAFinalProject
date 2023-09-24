@@ -5,27 +5,12 @@
 #include "GraphicsResource.h"
 #include "ResourceHelper.h"
 
-#include "../ParagonGraphics/GraphicsResourceManager.h"
-#include "../ParagonGameEngine/EngineResourceManager.h"
-
 #include <string>
 #include <memory>
 #include <set>
 #include <stdexcept>
 #include <type_traits>
 #include <cassert>
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonGameEngine.lib")
-#else
-#pragma comment(lib,"..\\x64\\Release\\ParagonGameEngine.lib")
-#endif // _DEBUG
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonGraphics.lib")
-#else
-#pragma comment(lib,"..\\x64\\Release\\ParagonGraphics.lib")
-#endif // _DEBUG
 
 /// <summary>
 /// 게임 엔진 내의 모든 애셋/리소스 내용을 총괄할 매니저.
@@ -47,11 +32,31 @@
 /// Core의 AssetManager가 Graphics, Engine을 아는 것은 변하지 않는다.
 /// 다만, 더 이상 Graphics, Engine 내부에서 AssetManager를 통해서 리소스에 접근한다는 생각을 버리고,
 /// GameEngine, Graphics에서 자체 리소스매니저를 통해서 접근한다는 생각을 해야 한다는 것인데..
+/// 
+/// Template Class Forward Declaration 방법으로 해결된다면, 
+/// 사용되는 모든 저장 클래스들은 CPP 하단부에 정의되어야 한다.
 /// </summary>
 
 namespace Pg::Core
 {
 	class CoreMain;
+}
+
+namespace Pg::Engine
+{
+	namespace Manager
+	{
+		class EngineResourceManager;
+	}
+}
+
+namespace Pg::Graphics
+{
+	namespace Manager
+	{
+		class GraphicsResourceManager;
+	}
+	
 }
 
 namespace Pg::Core::Manager
@@ -88,107 +93,4 @@ namespace Pg::Core::Manager
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager;
 		Pg::Graphics::Manager::GraphicsResourceManager* _graphicsResourceManager;
 	};
-
-	template<typename T>
-	void Pg::Core::Manager::AssetManager::Load(const std::string& filepath)
-	{
-		static_assert(std::is_base_of<BaseResource, T>::value, "T는 BaseResource의 자식이어야 함!");
-		static_assert(!std::is_same<BaseResource, T>::value, "T는 BaseResource 자체가 될 수는 없습니다.");
-		static_assert(!std::is_same<EngineResource, T>::value, "T는 EngineResource 자체가 될 수는 없습니다.");
-		static_assert(!std::is_same<GraphicsResource, T>::value, "T는 GraphicsResource 자체가 될 수는 없습니다.");
-		
-		//Path 표기 방식 일원화.
-		std::string path = Pg::Core::Helper::ResourceHelper::ForcePathUniform(filepath);
-
-		std::shared_ptr<T> res = nullptr;
-
-		//무조건적으로 해당되는 리소스값이 반환되는지 체크한다.
-		bool tAssureGot = false;
-
-		//일단 Resource가 String 형태로 저장되어 있는지 확인.
-		if (this->_resources.contains(path))
-		{
-			//이미 리소스가 목록에 있는 상황이다. 그냥 리턴해도 상관X.
-			return;
-		}
-		else
-		{
-			//String 목록에 없다. 새로 만들어야 하는 상황!
-
-			// Engine / Graphics 나눠서 실행한다.
-			if constexpr (std::is_base_of<EngineResource, T>::value && (!std::is_base_of<GraphicsResource, T>::value))
-			{
-				//EngineResourceManager의 리소스를 가져오는 로직.
-				res = _engineResourceManager->CreateResource(path);
-				
-				tAssureGot = true;
-			}
-
-			if constexpr ((!std::is_base_of<EngineResource, T>::value) && std::is_base_of<GraphicsResource, T>::value)
-			{
-				//GraphicsResourceManager의 리소스를 가져오는 로직.
-				res = _graphicsResourceManager->CreateResource(path);
-				tAssureGot = true;
-			}
-
-			assert(tAssureGot && "T는 EngineResource도, GraphicsResource도 아니다.");
-		}
-
-		//성공했으니, 메인 관리 리스트에 Path String 추가.
-		_resources.insert(path);
-	}
-
-	template<typename T>
-	std::shared_ptr<T>
-		Pg::Core::Manager::AssetManager::Get(const std::string& filepath)
-	{
-		static_assert(std::is_base_of<BaseResource, T>::value, "T는 BaseResource의 자식이어야 함!");
-		static_assert(!std::is_same<BaseResource, T>::value, "T는 BaseResource 자체가 될 수는 없습니다.");
-		static_assert(!std::is_same<EngineResource, T>::value, "T는 EngineResource 자체가 될 수는 없습니다.");
-		static_assert(!std::is_same<GraphicsResource, T>::value, "T는 GraphicsResource 자체가 될 수는 없습니다.");
-
-		//Path 표기 방식 일원화.
-		std::string path = Pg::Core::Helper::ResourceHelper::ForcePathUniform(filepath);
-
-		std::shared_ptr<T> res = nullptr;
-
-		//무조건적으로 해당되는 리소스값이 반환되는지 체크한다.
-		bool tAssureGot = false;
-
-		//일단 Resource가 String 형태로 저장되어 있는지 확인.
-		if (this->_resources.contains(path))
-		{
-			//이미 정보가 있다. 이 정보만을 가져와서 출력하면 되는 것!
-
-			// Engine / Graphics 나눠서 실행한다.
-			if constexpr (std::is_base_of<EngineResource, T>::value && (!std::is_base_of<GraphicsResource, T>::value))
-			{
-				//EngineResourceManager의 리소스를 가져오는 로직.
-				res = _engineResourceManager->GetResource(path);
-				tAssureGot = true;
-			}
-
-			if constexpr ((!std::is_base_of<EngineResource, T>::value) && std::is_base_of<GraphicsResource, T>::value)
-			{
-				//GraphicsResourceManager의 리소스를 가져오는 로직.
-				res = _graphicsResourceManager->GetResource(path);
-				tAssureGot = true;
-			}
-
-			assert(tAssureGot && "T는 EngineResource도, GraphicsResource도 아니다.");
-		}
-		else
-		{
-			//Get하는 시점에서 리소스는 없으면 안된다.
-
-			assert(false && "AssetManager에서, 없는 리소스를 Get하려고 함!");
-		}
-
-		//성공했으니, 메인 관리 리스트에 Path String 추가.
-		_resources.insert(path);
-
-		//이미 다이내믹 캐스트로 값이 들어온 상황.
-		return res;
-	}
-
 }
