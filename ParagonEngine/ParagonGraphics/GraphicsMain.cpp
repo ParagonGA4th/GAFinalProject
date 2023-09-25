@@ -8,6 +8,7 @@
 #include "../ParagonCore/TimeManager.h"
 #include "../ParagonCore/CoreMain.h"
 #include "../ParagonAPI/PgInput.h"
+#include "../ParagonAPI/APIMain.h"
 
 #include "ParagonRenderer.h"
 #include "Sprite.h"
@@ -39,7 +40,9 @@ namespace Pg::Graphics
 		auto& timeSystem = singleton<Pg::Core::Time::TimeManager>();
 		_timeManager = &timeSystem;
 
-		// TODO: Storage는 static으로 만들어서 인자로 넘길 필요가 없도록 하자
+		auto& api = singleton<Pg::API::APIMain>();
+		_api = &api;
+		_api->Initialize();
 	}
 
 	GraphicsMain::~GraphicsMain()
@@ -129,12 +132,45 @@ namespace Pg::Graphics
 		//cbData.projectionMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._projMatrix);
 		//cbData.viewProjMatrix = DirectX::XMMatrixMultiply(cbData.viewMatrix, cbData.projectionMatrix);
 
-		// TODO: PgMath로 교체
-		using namespace DirectX;
-		//using namespace Pg::Math;
+		/// Input 관련
+		///
+		auto& tInput = singleton<Pg::API::Input::PgInput>();
+		_inputManager = &tInput;
+
+		using namespace Pg::API::Input;
+
+		if (_inputManager->GetKey(MoveFront))
+		{
+			_camera->Walk(10.f * dt);
+		}
+		if (_inputManager->GetKey(MoveBack))
+		{
+			_camera->Walk(-10.f * dt);
+		}
+		if (_inputManager->GetKey(MoveLeft))
+		{
+			_camera->Strafe(-10.f * dt);
+		}
+		if (_inputManager->GetKey(MoveRight))
+		{
+			_camera->Strafe(10.f * dt);
+		}
+		if (_inputManager->GetKey(MoveUp))
+		{
+			_camera->WorldUpDown(-10.f * dt);
+		}
+		if (_inputManager->GetKey(MoveDown))
+		{
+			_camera->WorldUpDown(10.f * dt);
+		}
 
 
 		/// 상수 버퍼 채우기
+		///
+		// TODO: PgMath로 교체
+		using namespace DirectX;
+		//using namespace Pg::Math;
+		// 
 		// 월드 행렬
 		float4x4 worldMatrix = XMMATRIX(XMMatrixIdentity());
 
@@ -161,33 +197,7 @@ namespace Pg::Graphics
 		}
 
 	
-		/// Input 관련
-		//using namespace Pg::API::Input;
-		//
-		//if (PgInput::GetKeyDown(MoveFront))
-		//{
-		//	_camera->Walk(10.f * dt);
-		//}
-		//if (PgInput::GetKeyDown(MoveBack))
-		//{
-		//	_camera->Walk(-10.f * dt);
-		//}
-		//if (PgInput::GetKeyDown(MoveLeft))
-		//{
-		//	_camera->Strafe(-10.f * dt);
-		//}
-		//if (PgInput::GetKeyDown(MoveRight))
-		//{
-		//	_camera->Strafe(10.f * dt);
-		//}
-		//if (PgInput::GetKeyDown(MoveUp))
-		//{
-		//	_camera->WorldUpDown(-10.f * dt);
-		//}
-		//if (PgInput::GetKeyDown(MoveDown))
-		//{
-		//	_camera->WorldUpDown(10.f * dt);
-		//}
+
 	}
 
 	void GraphicsMain::BeginRender()

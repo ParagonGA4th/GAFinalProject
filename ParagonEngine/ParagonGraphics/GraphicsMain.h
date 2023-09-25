@@ -47,6 +47,16 @@ namespace Pg::Graphics
 	}
 }
 
+namespace Pg::API
+{
+	class APIMain;
+
+	namespace Input
+	{
+		class PgInput;
+	}
+}
+
 namespace Pg::Graphics
 {
 	class LowDX11Logic;
@@ -93,7 +103,11 @@ namespace Pg::Graphics
 		TempCamera* _camera;
 		TestCube* _box;
 		Pg::Core::GameObject* _tempObj;
+	
+	private:
 		Pg::Core::Time::TimeManager* _timeManager;
+		Pg::API::Input::PgInput* _inputManager;
+		Pg::API::APIMain* _api;
 
 	private:
 		std::unique_ptr<ParagonRenderer> _renderer;
