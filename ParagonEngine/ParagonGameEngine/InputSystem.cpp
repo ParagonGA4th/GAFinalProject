@@ -126,5 +126,15 @@ namespace  Pg::Engine::Input
 		}
 	}
 
+	float InputSystem::GetMouseDX()
+	{
+		return _map->GetFloatDelta(Pg::API::Input::eKeyCode::MouseX);
+	}
+
+	float InputSystem::GetMouseDY()
+	{
+		return _map->GetFloatDelta(Pg::API::Input::eKeyCode::MouseY);
+	}
+
 }
 
