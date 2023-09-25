@@ -98,7 +98,7 @@ namespace Pg::Graphics
 		// 카메라 설정
 		_camera = new TempCamera();
 		_camera->SetPosition(float3(0.0f, 0.0f, -3.0f));
-		_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
+		_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 
 		_timeManager->Initialize();
 
@@ -119,18 +119,19 @@ namespace Pg::Graphics
 		_timeManager->TimeMeasure();
 		float dt = _timeManager->GetDeltaTime();
 
-
-		time += (1.0f * dt);
+		time += (10.0f * dt);
 
 		text = L"";
 		text.append(L"DeltaTime: " + std::to_wstring(dt) + L"\n");
 		text.append(L"Time: " + std::to_wstring(time) + L"\n");
-		text.append(L"FPS: " + std::to_wstring(_timeManager->GetFrameRate()));
+		text.append(L"FPS: " + std::to_wstring(_timeManager->GetFrameRate()) + L"\n");
+		text.append(L"Look Vector: (" + std::to_wstring(_camera->GetLook().x) + L", " + std::to_wstring(_camera->GetLook().y) + L", " + std::to_wstring(_camera->GetLook().z) + L")") ;
 		font->SetText(text);
 
 		//cbData.viewMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._viewMatrix);
 		//cbData.projectionMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._projMatrix);
 		//cbData.viewProjMatrix = DirectX::XMMatrixMultiply(cbData.viewMatrix, cbData.projectionMatrix);
+
 
 		/// Input 관련
 		///
@@ -141,29 +142,35 @@ namespace Pg::Graphics
 
 		if (_inputManager->GetKey(MoveFront))
 		{
-			_camera->Walk(10.f * dt);
+			_camera->Walk(20.f * dt);
 		}
 		if (_inputManager->GetKey(MoveBack))
 		{
-			_camera->Walk(-10.f * dt);
+			_camera->Walk(-20.f * dt);
 		}
 		if (_inputManager->GetKey(MoveLeft))
 		{
-			_camera->Strafe(-10.f * dt);
+			_camera->Strafe(-20.f * dt);
 		}
 		if (_inputManager->GetKey(MoveRight))
 		{
-			_camera->Strafe(10.f * dt);
+			_camera->Strafe(20.f * dt);
 		}
 		if (_inputManager->GetKey(MoveUp))
 		{
-			_camera->WorldUpDown(-10.f * dt);
+			_camera->WorldUpDown(-20.f * dt);
 		}
 		if (_inputManager->GetKey(MoveDown))
 		{
-			_camera->WorldUpDown(10.f * dt);
+			_camera->WorldUpDown(20.f * dt);
+		}
+		if (_inputManager->GetKey(MouseRight) && _inputManager->IsMouseMoving())
+		{
+			_camera->RotateY(3.0f * _inputManager->GetMouseDX());
+			_camera->Pitch(3.0f * _inputManager->GetMouseDY());
 		}
 
+		_camera->UpdateViewMatrix();
 
 		/// 상수 버퍼 채우기
 		///
@@ -178,14 +185,12 @@ namespace Pg::Graphics
 		worldMatrix *= XMMatrixRotationY(time);
 		worldMatrix *= XMMatrixRotationZ(time);
 
-		worldMatrix *= XMMatrixScaling(0.5f, 0.5f, 0.5f);
+		worldMatrix *= XMMatrixScaling(1.0f, 1.0f, 1.0f);
+		worldMatrix *= XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 
 		_box->_cbData.worldMatrix = worldMatrix;
 
 		// 카메라 행렬
-		//_camera->Walk(-1.0f * dt);
-		_camera->UpdateViewMatrix();
-
 		_box->_cbData.viewMatrix = _camera->View();
 		_box->_cbData.projectionMatrix = _camera->Proj();
 		_box->_cbData.viewProjMatrix = _camera->ViewProj();
@@ -195,9 +200,6 @@ namespace Pg::Graphics
 		{
 			e->Update();
 		}
-
-	
-
 	}
 
 	void GraphicsMain::BeginRender()
@@ -252,7 +254,7 @@ namespace Pg::Graphics
 		hr = _DXLogic->CreateDepthStencilViewAndState();
 		_DXLogic->CreateAndSetViewports();
 
-		//_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
+		_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 	}
 
 	ID3D11Device* GraphicsMain::GetDevice()

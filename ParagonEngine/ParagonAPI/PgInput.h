@@ -31,6 +31,9 @@ namespace Pg::API::Input
 		static float GetMouseX();
 		static float GetMouseY();
 
+		static float GetMouseDX();
+		static float GetMouseDY();
+
 		static bool IsMouseMoving();
 
 	private:

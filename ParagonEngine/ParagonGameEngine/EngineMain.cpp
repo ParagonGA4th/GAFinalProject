@@ -48,20 +48,6 @@ namespace Pg::Engine
 			PG_TRACE("Debugger Used In ParagonGameEngine!");
 			tTest = true;
 		}
-
-		using Pg::API::Input::eKeyCode;
-		if (_inputSystem->GetKeyDown(eKeyCode::MouseLeft))
-		{
-			PG_TRACE("마우스 왼쪽 버튼 클릭");
-		}
-		if (_inputSystem->GetKey(eKeyCode::MouseRight))
-		{
-			std::string mouseX = std::to_string(_inputSystem->GetMouseX());
-			std::string mouseY = std::to_string(_inputSystem->GetMouseY());
-			std::string outString = "마우스 오른쪽 버튼 클릭 중 ";
-			outString.append(mouseX).append(", ").append(mouseY);
-			PG_TRACE(outString);
-		}
 		
 	}
 
