@@ -158,11 +158,11 @@ namespace Pg::Graphics
 		}
 		if (_inputManager->GetKey(MoveUp))
 		{
-			_camera->WorldUpDown(-20.f * dt);
+			_camera->WorldUpDown(20.f * dt);
 		}
 		if (_inputManager->GetKey(MoveDown))
 		{
-			_camera->WorldUpDown(20.f * dt);
+			_camera->WorldUpDown(-20.f * dt);
 		}
 		if (_inputManager->GetKey(MouseRight) && _inputManager->IsMouseMoving())
 		{
