@@ -76,6 +76,7 @@ namespace Pg::Core
 	{
 		//deltaTime 업데이트
 		_timeManager->TimeMeasure();
+		_timeManager->MeasureFrame(_timeManager->GetDeltaTime());
 
 		//여기다가 시스템 싹 다 업데이트!!
 		_engine->Update();
