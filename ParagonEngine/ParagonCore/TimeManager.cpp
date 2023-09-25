@@ -8,7 +8,8 @@ namespace Pg::Core::Time
 	TimeManager::TimeManager() :
 		_frequency(LARGE_INTEGER()),
 		_startTick(LARGE_INTEGER()),
-		_endTick(LARGE_INTEGER())
+		_endTick(LARGE_INTEGER()),
+		_totalTick(0.0f)
 	{
 
 	}
@@ -19,36 +20,44 @@ namespace Pg::Core::Time
 		QueryPerformanceCounter(&_startTick);
 	}
 
-	void TimeManager::TimeMeasure()
-	{
-		QueryPerformanceCounter(&_endTick);
-
-		_totalTick = (float)(_endTick.QuadPart - _startTick.QuadPart) /
-			(float)(_frequency.QuadPart);
-
-		_deltaTime = _totalTick;
-
-		QueryPerformanceCounter(&_startTick);
-
-		//PG_TRACE(std::to_string(_deltaTime));
-	}
-
 	void TimeManager::MeasureFrame(float deltaTime)
 	{
-		double totalTime = 0.0;
-		int frameCount = 0;
+		static double totalTime = 0.0;
+		static int frameCount = 0;
+
 
 		totalTime += deltaTime;
 
 		if (totalTime >= 1)
 		{
 			_frameRate = frameCount;
-			frameCount = 0;
 			totalTime = 0;
+			frameCount = 0;
 		}
 
-		frameCount++;
+		++frameCount;
+
 	}
+
+
+	void TimeManager::TimeMeasure()
+	{
+		QueryPerformanceCounter(&_endTick);
+
+		_int64 elapsed = _endTick.QuadPart - _startTick.QuadPart;
+		_deltaTime = (float)elapsed / (float)_frequency.QuadPart;
+		//_deltaTime = 0.016;
+
+		MeasureFrame(_deltaTime);
+
+		if (_deltaTime != 0)
+		{
+			_frameRate = static_cast<double>(1)/ _deltaTime;
+		}
+
+		QueryPerformanceCounter(&_startTick);
+	}
+
 
 	float TimeManager::GetDeltaTime()
 	{
