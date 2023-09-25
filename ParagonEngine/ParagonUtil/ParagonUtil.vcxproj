@@ -158,12 +158,14 @@
     <ClInclude Include="Log.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ResourceHelper.h" />
     <ClInclude Include="UtilMain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Log.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ResourceHelper.cpp" />
     <ClCompile Include="UtilMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
