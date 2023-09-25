@@ -13,6 +13,9 @@
     <ClCompile Include="PhysXTest.cpp">
       <Filter>3_PhysX</Filter>
     </ClCompile>
+    <Filter Include="3_PhysX">
+      <UniqueIdentifier>{d073be78-ed6b-4d8b-811c-2cb3fc335f25}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="APIMain.h">
@@ -29,17 +32,19 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="0_Main">
-      <UniqueIdentifier>{4828225b-a60c-40c7-aba5-cdf0082c652c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Input">
-      <UniqueIdentifier>{d856fbeb-ac31-47a7-93b1-17c94b1c609f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Math">
-      <UniqueIdentifier>{fc01dc99-e0aa-4d83-8bf5-5382277e54c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3_PhysX">
-      <UniqueIdentifier>{a3075498-a68b-4585-ae73-8c82c4003ec3}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="APIMain.cpp">
+      <Filter>0_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="PgMath.cpp">
+      <Filter>1_Math</Filter>
+    </ClCompile>
+    <ClCompile Include="PgInput.cpp">
+      <Filter>2_Input</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTest.cpp">
+      <Filter>3_PhysX</Filter>
+    </ClCompile>    </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
