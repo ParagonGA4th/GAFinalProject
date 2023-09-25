@@ -1,11 +1,17 @@
 #include "BaseResource.h"
-#include "ResourceHelper.h"
+#include "../ParagonUtil/ResourceHelper.h"
 #include <filesystem>
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\x64\\Debug\\ParagonUtil.lib")
+#else
+#pragma comment(lib,"..\\x64\\Release\\ParagonUtil.lib")
+#endif // _DEBUG
 
 namespace Pg::Core::Resources
 {
 	using Pg::Core::Enums::eResourceType;
-	using Pg::Core::Helper::ResourceHelper;
+	using Pg::Util::Helper::ResourceHelper;
 
 	BaseResource::BaseResource(const std::string& filePath) : _filePath(filePath)
 	{
