@@ -152,6 +152,7 @@
     <ClCompile Include="APIMain.cpp" />
     <ClCompile Include="PgInput.cpp" />
     <ClCompile Include="PgMath.cpp" />
+    <ClCompile Include="PhysXTest.cpp" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
