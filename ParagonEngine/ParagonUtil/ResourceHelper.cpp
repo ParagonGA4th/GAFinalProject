@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <filesystem>
 
-namespace Pg::Core::Helper
+namespace Pg::Util::Helper
 {
 	using Pg::Core::Enums::eResourceType;
 
