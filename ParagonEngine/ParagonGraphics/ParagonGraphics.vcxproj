@@ -19,32 +19,46 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Axis.h" />
+    <ClInclude Include="AssetBasic3DLoader.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantBufferBase.h" />
     <ClInclude Include="DX11Headers.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="GraphicsDLLExporter.h" />
     <ClInclude Include="GraphicsMain.h" />
     <ClInclude Include="GraphicsResourceManager.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="LowDX11Logic.h" />
     <ClInclude Include="LowDX11Storage.h" />
+    <ClInclude Include="RenderMaterial.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="ParagonRenderer.h" />
     <ClInclude Include="PixelShader.h" />
-    <ClInclude Include="Shader.h" />
+    <ClInclude Include="RenderObject.h" />
+    <ClInclude Include="RenderShader.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="TempCamera.h" />
     <ClInclude Include="TestCube.h" />
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Axis.cpp" />
+    <ClCompile Include="AssetBasic3DLoader.cpp" />
     <ClCompile Include="ConstantBufferBase.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="GraphicsMain.cpp" />
     <ClCompile Include="GraphicsResourceManager.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="LowDX11Logic.cpp" />
     <ClCompile Include="LowDX11Storage.cpp" />
+    <ClCompile Include="RenderMaterial.cpp" />
     <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="ParagonRenderer.cpp" />
     <ClCompile Include="PixelShader.cpp" />
-    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="RenderObject.cpp" />
+    <ClCompile Include="RenderShader.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TempCamera.cpp" />
     <ClCompile Include="TestCube.cpp" />
     <ClCompile Include="VertexShader.cpp" />
@@ -128,6 +142,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);PARAGON_API</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,6 +161,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);PARAGON_API</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -164,11 +180,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_EXPORT_GRAPHICS_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
@@ -183,12 +201,15 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_EXPORT_GRAPHICS_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>

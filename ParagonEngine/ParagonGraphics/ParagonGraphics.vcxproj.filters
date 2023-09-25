@@ -16,35 +16,56 @@
     <ClInclude Include="LowDX11Storage.h">
       <Filter>2_LowDX11</Filter>
     </ClInclude>
-    <ClInclude Include="ParagonRenderer.h">
-      <Filter>5_Misc</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicsResourceManager.h">
-      <Filter>6_GraphicsResources\GraphicsResourceManager</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstantBuffer.h">
-      <Filter>3_DX11Wrapper</Filter>
-    </ClInclude>
-    <ClInclude Include="TempCamera.h">
-      <Filter>5_Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>3_DX11Wrapper\Shader</Filter>
+      <Filter>3_GraphicsResources\GraphicsResourceManager</Filter>
     </ClInclude>
     <ClInclude Include="VertexShader.h">
-      <Filter>3_DX11Wrapper\Shader</Filter>
+      <Filter>3_GraphicsResources\Shader</Filter>
     </ClInclude>
     <ClInclude Include="PixelShader.h">
-      <Filter>3_DX11Wrapper\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstantBufferBase.h">
-      <Filter>3_DX11Wrapper</Filter>
+      <Filter>3_GraphicsResources\Shader</Filter>
     </ClInclude>
     <ClInclude Include="MathHelper.h">
       <Filter>5_Misc</Filter>
     </ClInclude>
-    <ClInclude Include="TestCube.h">
+    <ClInclude Include="RenderObject.h">
+      <Filter>4_RenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderMaterial.h">
+      <Filter>3_GraphicsResources\RenderMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderShader.h">
+      <Filter>3_GraphicsResources\RenderShader</Filter>
+    </ClInclude>
+    <ClInclude Include="ParagonRenderer.h">
+      <Filter>0_Main</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>3_GraphicsResources\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBufferBase.h">
+      <Filter>3_GraphicsResources\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="TempCamera.h">
       <Filter>5_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Axis.h">
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCube.h">
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetBasic3DLoader.h">
+      <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -57,32 +78,53 @@
     <ClCompile Include="LowDX11Storage.cpp">
       <Filter>2_LowDX11</Filter>
     </ClCompile>
-    <ClCompile Include="ParagonRenderer.cpp">
-      <Filter>5_Misc</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicsResourceManager.cpp">
-      <Filter>6_GraphicsResources\GraphicsResourceManager</Filter>
-    </ClCompile>
-    <ClCompile Include="TempCamera.cpp">
-      <Filter>5_Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>3_DX11Wrapper\Shader</Filter>
+      <Filter>3_GraphicsResources\GraphicsResourceManager</Filter>
     </ClCompile>
     <ClCompile Include="VertexShader.cpp">
-      <Filter>3_DX11Wrapper\Shader</Filter>
+      <Filter>3_GraphicsResources\Shader</Filter>
     </ClCompile>
     <ClCompile Include="PixelShader.cpp">
-      <Filter>3_DX11Wrapper\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="ConstantBufferBase.cpp">
-      <Filter>3_DX11Wrapper</Filter>
+      <Filter>3_GraphicsResources\Shader</Filter>
     </ClCompile>
     <ClCompile Include="MathHelper.cpp">
       <Filter>5_Misc</Filter>
     </ClCompile>
-    <ClCompile Include="TestCube.cpp">
+    <ClCompile Include="RenderObject.cpp">
+      <Filter>4_RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderMaterial.cpp">
+      <Filter>3_GraphicsResources\RenderMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderShader.cpp">
+      <Filter>3_GraphicsResources\RenderShader</Filter>
+    </ClCompile>
+    <ClCompile Include="ParagonRenderer.cpp">
+      <Filter>0_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantBufferBase.cpp">
+      <Filter>3_GraphicsResources\ConstantBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="TempCamera.cpp">
       <Filter>5_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Axis.cpp">
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCube.cpp">
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetBasic3DLoader.cpp">
+      <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -92,34 +134,55 @@
     <Filter Include="1_DLLExporter">
       <UniqueIdentifier>{2a9d5051-b3e8-4e99-9390-c294040bed50}</UniqueIdentifier>
     </Filter>
-    <Filter Include="4_HLSL">
-      <UniqueIdentifier>{77b7d216-140c-4cfc-8018-b14b1c0dbd24}</UniqueIdentifier>
-    </Filter>
     <Filter Include="5_Misc">
       <UniqueIdentifier>{aa7de633-70a4-451c-a86e-ad1527be0c5e}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_LowDX11">
       <UniqueIdentifier>{577db36a-a07a-4467-ba45-4eee9ec08406}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3_DX11Wrapper">
-      <UniqueIdentifier>{2e73b48d-9840-40d0-ab2e-e84226b43f13}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_GraphicsResources">
+    <Filter Include="3_GraphicsResources">
       <UniqueIdentifier>{650e58e0-fcc6-485b-86a0-e101de1badf0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6_GraphicsResources\GraphicsResourceManager">
+    <Filter Include="3_GraphicsResources\GraphicsResourceManager">
       <UniqueIdentifier>{0354da4f-fbf0-453e-a48b-c872c06bdd9f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3_DX11Wrapper\Shader">
+    <Filter Include="3_GraphicsResources\RenderMaterial">
+      <UniqueIdentifier>{2b12d567-cab3-4baf-9dad-a6459170e77a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\RenderShader">
+      <UniqueIdentifier>{dc324861-8542-43c3-8fdd-6a94803eea78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Shader">
       <UniqueIdentifier>{cbc5a6ca-3861-4110-afef-551c8d1d0b32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\ConstantBuffer">
+      <UniqueIdentifier>{3b0ebca8-e46d-4200-9175-9e1fc29b714a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject">
+      <UniqueIdentifier>{7662f813-7991-48ca-8246-539c96965edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL">
+      <UniqueIdentifier>{77b7d216-140c-4cfc-8018-b14b1c0dbd24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_GraphicsResources\Loaders\AssetBasic3DLoader">
+      <UniqueIdentifier>{7bf9f256-5d91-44ef-a978-cd86f167e09d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="7_OtherObject">
+      <UniqueIdentifier>{7c64f1b5-ece3-4874-b94c-0497ac7d8c3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Loaders">
+      <UniqueIdentifier>{5478088e-a0ba-437b-b59c-8afce3d941fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Loaders\AssetBasic3DLoader">
+      <UniqueIdentifier>{8bde66a2-083f-4cd5-9cc6-1c22c6cd3cda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
-      <Filter>4_HLSL</Filter>
+      <Filter>6_HLSL</Filter>
     </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
-      <Filter>4_HLSL</Filter>
+      <Filter>6_HLSL</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

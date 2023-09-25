@@ -1,24 +1,41 @@
 #include "CoreMain.h"
 #include "../ParagonGameEngine/EngineMain.h"
 #include "../ParagonGraphics/GraphicsMain.h"
+#include "../ParagonUtil/UtilMain.h"
+#include "../ParagonAPI/APIMain.h"
 #include "../ParagonGameEngine/EngineDLLExporter.h"
 #include "../ParagonGraphics/GraphicsDLLExporter.h"
 #include "CameraData.h"
 #include "Scene.h"
 #include "Transform.h"
 #include "GameObject.h"
+#include "AssetManager.h"
 
 #include <string>
 #include <windows.h>
 
+#ifdef _DEBUG
+#pragma comment(lib,"..\\x64\\Debug\\ParagonGameEngine.lib")
+#else
+#pragma comment(lib,"..\\x64\\Release\\ParagonGameEngine.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\x64\\Debug\\ParagonGraphics.lib")
+#else
+#pragma comment(lib,"..\\x64\\Release\\ParagonGraphics.lib")
+#endif // _DEBUG
+
 namespace Pg::Core
 {
 	CoreMain::CoreMain() :
-		_timeManager(Time::TimeManager::Instance())
+		_timeManager(Time::TimeManager::Instance()), _assetManager(Manager::AssetManager::Instance())
 	{
-		_engine = std::make_unique<Pg::Engine::EngineMain>();
-		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>();
-		_logger = std::make_unique<Pg::Util::Debug::Log>();
+		_engine = std::make_unique<Pg::Engine::EngineMain>(this);
+		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>(this);
+		//_logger = std::make_unique<Pg::Util::Debug::Log>();
+		_util = std::make_unique<Pg::Util::UtilMain>();
+		_api = std::make_unique<Pg::API::APIMain>();
 	}
 
 	CoreMain::~CoreMain()
@@ -32,20 +49,21 @@ namespace Pg::Core
 		_timeManager->Initialize();
 
 		//엔진 초기화
+		_util->Initialize();
+		_api->Initialize();
 		_engine->Initialize(screenWidth, screenHeight);
 		_graphics->Initialize(static_cast<HWND>(hwnd), screenWidth, screenHeight);
 
-		//디버그 초기화
-		//_logger->Initialize();
-		//_logger->SetLoggerLevel(0);
+		//AssetManager 세팅.
+		_assetManager->Initialize(this);
 
 		_work = new Pg::Engine::WorkSpace();
 		_work->Initialize();
 
-		//PG_TRACE("Engine Success!!");
-		//PG_DEBUG("Engine Success!!");
-		//PG_INFO("Engine Success!!");
-		//PG_WARN("Engine Success!!");
+		PG_TRACE("Engine Success!!");
+		PG_DEBUG("Engine Success!!");
+		PG_INFO("Engine Success!!");
+		PG_WARN("Engine Success!!");
 
 		return S_OK;
 	}

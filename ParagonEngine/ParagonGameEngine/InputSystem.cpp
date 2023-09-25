@@ -2,8 +2,7 @@
 
 #include "gainput/gainput.h"
 #include "../ParagonUtil/Log.h"
-
-#include "../ParagonAPI/KeyCodeType.h"
+#include "../ParagonAPI/PgInput.h"
 
 #include <windows.h>
 #include <cassert>

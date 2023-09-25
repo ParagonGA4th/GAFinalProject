@@ -5,7 +5,7 @@
 HRESULT hr = NULL;
 
 Pg::Graphics::VertexShader::VertexShader(LowDX11Storage* storage, std::wstring CSOFilePath, D3D11_INPUT_ELEMENT_DESC* vertexDesc)
-	: Shader(storage, CSOFilePath),
+	: RenderShader(storage, CSOFilePath),
 	_vertexDesc(vertexDesc)
 {
 	CreateShader();
@@ -24,5 +24,10 @@ void Pg::Graphics::VertexShader::Bind()
 void Pg::Graphics::VertexShader::CreateShader()
 {
 	_DXStorage->_device->CreateVertexShader(_byteCode->GetBufferPointer(), _byteCode->GetBufferSize(), NULL, &_shader);
+}
+
+void Pg::Graphics::VertexShader::UnBind()
+{
+	_DXStorage->_deviceContext->VSSetShader(nullptr, nullptr, 0);
 }
 
