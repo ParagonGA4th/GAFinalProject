@@ -13,6 +13,9 @@ EditorMain::EditorMain()
 	_isCoreInitialized = false;
 	_coreMain = std::make_unique<Pg::Core::CoreMain>();
 	_coreMainStatic = _coreMain.get();
+
+	auto& tInputSystem = singleton<Pg::Core::Input::InputSystem>();
+	_inputSystem = &tInputSystem;
 }
 
 EditorMain::~EditorMain()
@@ -49,6 +52,7 @@ void EditorMain::Update()
 			}
 
 			DispatchMessage(&_msg);
+			_inputSystem->HandleMessage(_msg);
 		}
 		else
 		{
