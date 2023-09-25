@@ -8,13 +8,7 @@
 #include <cassert>
 
 #include "../ParagonCore/GraphicsResource.h"
-#include "../ParagonCore/Singleton.h"
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonCore.lib")
-#else
-#pragma comment(lib,"..\\x64\\Release\\ParagonCore.lib")
-#endif // _DEBUG
+#include "../ParagonCore/CoreSingleton.h"
 
 /// <summary>
 /// AssetManager에 의해 제어되는 그래픽스 리소스 관리 전담 매니저. 독단적 사용 불가.
@@ -22,20 +16,23 @@
 /// </summary>
 
 //전방 선언, Namespace 다름에도 Friend Class 활용하기 위해.
-namespace Pg::Core::Manager
+namespace Pg::Core
 {
-	class AssetManager;
+	class CoreMain;
+	namespace Manager
+	{
+		class AssetManager;
+	}
 }
 
 namespace Pg::Graphics::Manager
 {
-	class GraphicsResourceManager : Singleton<GraphicsResourceManager>
+	class GraphicsResourceManager : public Pg::Core::Singleton<GraphicsResourceManager>
 	{
 		friend class Pg::Core::Manager::AssetManager;
 	public:
 		GraphicsResourceManager();
 		~GraphicsResourceManager();
-
 
 	private:
 

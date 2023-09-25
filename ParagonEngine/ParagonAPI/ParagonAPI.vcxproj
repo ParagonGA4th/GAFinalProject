@@ -116,6 +116,10 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -134,26 +138,32 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="APIMain.h" />
     <ClInclude Include="KeyCodeType.h" />
     <ClInclude Include="PgInput.h" />
     <ClInclude Include="PgMath.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="APIMain.h" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="APIMain.cpp" />
     <ClCompile Include="PgInput.cpp" />
     <ClCompile Include="PgMath.cpp" />
     <ClCompile Include="PhysXTest.cpp" />
   </ItemGroup>
+<<<<<<< HEAD
   <ItemGroup>
     <ClCompile Include="APIMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+=======
+>>>>>>> 4fab9d295eb99b1e1685ace1f8504b634da28620
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\NVIDIA.PhysX.4.1.229882250\build\native\NVIDIA.PhysX.targets" Condition="Exists('..\packages\NVIDIA.PhysX.4.1.229882250\build\native\NVIDIA.PhysX.targets')" />

@@ -8,13 +8,7 @@
 #include <cassert>
 
 #include "../ParagonCore/EngineResource.h"
-#include "../ParagonCore/Singleton.h"
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonCore.lib")
-#else
-#pragma comment(lib,"..\\x64\\Release\\ParagonCore.lib")
-#endif // _DEBUG
+#include "../ParagonCore/CoreSingleton.h"
 
 /// <summary>
 /// AssetManager에 의해 제어되는 엔진 리소스 관리 전담 매니저. 독단적 사용 불가.
@@ -22,14 +16,18 @@
 /// </summary>
 
 //전방 선언, Namespace 다름에도 Friend Class 활용하기 위해.
-namespace Pg::Core::Manager
+namespace Pg::Core
 {
-	class AssetManager;
+	class CoreMain;
+	namespace Manager
+	{
+		class AssetManager;
+	}
 }
 
 namespace Pg::Engine::Manager
 {
-	class EngineResourceManager : Singleton<EngineResourceManager>
+	class EngineResourceManager : public Pg::Core::Singleton<EngineResourceManager>
 	{
 		friend class Pg::Core::Manager::AssetManager;
 	public:
