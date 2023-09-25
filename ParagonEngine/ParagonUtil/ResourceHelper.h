@@ -1,5 +1,5 @@
 #pragma once
-#include "ResourceType.h"
+#include "../ParagonCore/ResourceType.h"
 #include <map>
 #include <string>
 
@@ -7,7 +7,7 @@
 /// AssetManager를 도와주는 리소스 헬퍼, 리소스 관리에 도움을 준다.
 /// </summary>
 
-namespace Pg::Core::Helper
+namespace Pg::Util::Helper
 {
 	class ResourceHelper
 	{

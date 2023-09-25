@@ -70,6 +70,16 @@
     <ClInclude Include="msdfgenTest.h">
       <Filter>5_Misc</Filter>
     </ClInclude>
+    <ClInclude Include="Asset3DModelDefine.h">
+      <Filter>3_GraphicsResources\Asset3DModelData\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetBasic2DLoader.h">
+      <Filter>3_GraphicsResources\Loaders\AssetBasic2DLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetCombinedLoader.h">
+      <Filter>3_GraphicsResources\Loaders\AssetCombinedLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset3DModelHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -132,6 +142,16 @@
     <ClCompile Include="msdfgenTest.cpp">
       <Filter>5_Misc</Filter>
     </ClCompile>
+    <ClCompile Include="Asset3DModelDefine.cpp">
+      <Filter>3_GraphicsResources\Asset3DModelData\Define</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetBasic2DLoader.cpp">
+      <Filter>3_GraphicsResources\Loaders\AssetBasic2DLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetCombinedLoader.cpp">
+      <Filter>3_GraphicsResources\Loaders\AssetCombinedLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset3DModelHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -178,6 +198,21 @@
     </Filter>
     <Filter Include="3_GraphicsResources\Loaders\AssetBasic3DLoader">
       <UniqueIdentifier>{8bde66a2-083f-4cd5-9cc6-1c22c6cd3cda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Loaders\AssetBasic2DLoader">
+      <UniqueIdentifier>{f54e4c34-fc16-49e3-9d7b-16896e773323}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Loaders\AssetCombinedLoader">
+      <UniqueIdentifier>{66fd3bcc-89db-44cf-b180-47178916d916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Asset3DModelData">
+      <UniqueIdentifier>{0ee47e45-1bb3-4a25-a048-d46222ab75d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Helpers">
+      <UniqueIdentifier>{7d806c07-7ffe-48cf-b843-10a7dfa9384f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Asset3DModelData\Define">
+      <UniqueIdentifier>{dbd555d5-7923-4ea2-a30d-b7e1153de640}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
