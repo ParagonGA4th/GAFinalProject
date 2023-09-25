@@ -81,9 +81,6 @@
     <ClInclude Include="Scene.h">
       <Filter>3_SceneInfo\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Singleton.h">
-      <Filter>0_CoreMain\Singleton</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>3_SceneInfo\Component\BaseClass</Filter>
     </ClInclude>
@@ -98,6 +95,21 @@
     </ClInclude>
     <ClInclude Include="BaseRenderer.h">
       <Filter>3_SceneInfo\Component\Renderer\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="IUtil.h">
+      <Filter>0_CoreMain\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreSingleton.h">
+      <Filter>0_CoreMain\CoreSingleton</Filter>
+    </ClInclude>
+    <ClInclude Include="IAPI.h">
+      <Filter>0_CoreMain\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderObject.h">
+      <Filter>3_SceneInfo\Component\Renderer\BaseClass\IRenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTextData.h">
+      <Filter>3_SceneInfo\Component\Renderer\BaseClass\IRenderObject\RenderTextData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -140,9 +152,6 @@
     <Filter Include="3_SceneInfo\Scene">
       <UniqueIdentifier>{732d4f9b-ed76-475b-997c-fd88cb9d8bc7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_CoreMain\Singleton">
-      <UniqueIdentifier>{a0b2949f-1bbb-4f69-b032-0ed6a88af166}</UniqueIdentifier>
-    </Filter>
     <Filter Include="4_Helpers">
       <UniqueIdentifier>{f56dae80-8f12-4c2e-aa94-82920732aef2}</UniqueIdentifier>
     </Filter>
@@ -172,6 +181,15 @@
     </Filter>
     <Filter Include="3_SceneInfo\Component\Renderer\BaseClass">
       <UniqueIdentifier>{033ebcc6-e773-4ceb-902b-5d22bcb91f12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_CoreMain\CoreSingleton">
+      <UniqueIdentifier>{a1746940-3226-4d08-9c88-f69569aec91e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_SceneInfo\Component\Renderer\BaseClass\IRenderObject">
+      <UniqueIdentifier>{4d2b38ba-fc61-49f3-a4d8-27f4b906214a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_SceneInfo\Component\Renderer\BaseClass\IRenderObject\RenderTextData">
+      <UniqueIdentifier>{2ba91b89-a998-45c5-8a53-b7e4344d7c85}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

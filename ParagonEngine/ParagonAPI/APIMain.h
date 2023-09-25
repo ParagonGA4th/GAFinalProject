@@ -1,16 +1,28 @@
 #pragma once
-
+#include "../ParagonCore/IAPI.h"
 
 /// <summary>
-/// 2023.09.08
+/// API가 발동되기 위한 선 조건을 충족시키기 위한 ParagonAPI 관리 클래스
 /// </summary>
+
 namespace Pg::API
 {
-	class APIMain
+	namespace Input
+	{
+		class PgInput;
+	}
+}
+namespace Pg::API
+{
+	class APIMain : public Pg::Core::IAPI
 	{
 	public:
-		void Initialize();
-		void Finalize();
+		virtual void Initialize() override;
+		virtual void Finalize() override;
+
+	private:
+		Pg::API::Input::PgInput* _pgInput = nullptr;
+
 	};
 }
 

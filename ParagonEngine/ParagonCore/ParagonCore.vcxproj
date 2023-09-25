@@ -115,6 +115,12 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>singleton.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -133,6 +139,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>singleton.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
@@ -145,13 +157,17 @@
     <ClInclude Include="EngineResource.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsResource.h" />
+    <ClInclude Include="IAPI.h" />
+    <ClInclude Include="IRenderObject.h" />
+    <ClInclude Include="IUtil.h" />
+    <ClInclude Include="RenderTextData.h" />
     <ClInclude Include="ResourceHelper.h" />
     <ClInclude Include="ResourceType.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Singleton.h" />
+    <ClInclude Include="CoreSingleton.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>

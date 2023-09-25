@@ -3,32 +3,53 @@
 #include "LowDX11Storage.h"
 #include "ConstantBuffer.h"
 #include "MathHelper.h"
+#include "GraphicsResourceManager.h"
 
 #include "../ParagonCore/TimeManager.h"
-
+#include "../ParagonCore/CoreMain.h"
 #include "../ParagonAPI/PgInput.h"
+
+#include "ParagonRenderer.h"
+#include "Sprite.h"
+#include "Font.h"
 
 #include <windows.h>
 #include <numbers>
 
+#ifdef _DEBUG
+#pragma comment(lib,"..\\x64\\Debug\\ParagonCore.lib")
+#else
+#pragma comment(lib,"..\\x64\\Release\\ParagonCore.lib")
+#endif // _DEBUG
+
 namespace Pg::Graphics
 {
-	GraphicsMain::GraphicsMain()
-		: hr(NULL),
-		_DXStorage(nullptr), _DXLogic(nullptr)
+	GraphicsMain::GraphicsMain(Pg::Core::CoreMain* core)
+		: hr(NULL), _coreMain(core),
+		_DXStorage(nullptr), _DXLogic(nullptr),
+		_renderer(nullptr)
 	{
-		_DXStorage = new LowDX11Storage();
-		_DXLogic = new LowDX11Logic(_DXStorage);
+		_DXStorage = LowDX11Storage::GetInstance();
+		_DXLogic = LowDX11Logic::GetInstance();
+
+		_renderer = std::make_unique<ParagonRenderer>();
+		_tempObj = new Pg::Core::GameObject("Test");
 
 		// TODO: Storage는 static으로 만들어서 인자로 넘길 필요가 없도록 하자
 	}
 
+	GraphicsMain::~GraphicsMain()
+	{
+		delete _tempObj;
+	}
+
 	float time = 0.0f;
+	Pg::Graphics::Sprite* sprite;
+	Pg::Graphics::Sprite* sprite2;
+	Pg::Graphics::Font* font;
 
 	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
 	{
-		OutputDebugString(L"GraphicsGraphics!!!");
-
 		/// 초기화 관련
 		_DXStorage->_hWnd = hWnd;
 
@@ -72,11 +93,29 @@ namespace Pg::Graphics
 		_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 
 		Pg::Core::Time::TimeManager::Instance()->Initialize();
+
+		sprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/cats.dds");
+		sprite->SetPosition(100.0f, 100.0f);
+
+		sprite2 = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/rabbits.dds");
+		sprite2->SetPosition(800.0f,600.0f);
+
+		font = new Font();
+		font->SetText(L"test text..");
+		font->SetPosition(50.0f, 50.0f);
 	}
 
 
 	void GraphicsMain::Update(const Pg::Core::Scene* const scene, Pg::Core::CameraData cameraData)
 	{
+		//Debugging Test.
+		static bool tTest = false;
+		if (!tTest)
+		{
+			PG_TRACE("Debugger Used In ParagonGraphics!");
+			tTest = true;
+		}
+
 		Pg::Core::Time::TimeManager::Instance()->TimeMeasure();
 		float dt = Pg::Core::Time::TimeManager::Instance()->GetDeltaTime();
 
@@ -149,20 +188,28 @@ namespace Pg::Graphics
 
 	void GraphicsMain::BeginRender()
 	{
-		_DXLogic->PrepareRenderTargets();
+		_renderer->BeginRender();
+
 	}
 
 	void GraphicsMain::Render()
 	{
-		_DXLogic->BindRenderTargets();
-		
 		// test용 큐브 그리기
 		_box->Draw();
+		
+		// test 스프라이트 그리기
+		sprite->Draw();
+		sprite2->Draw();
+
+		// test 폰트 그리기
+		font->Draw();
+
+		_renderer->Render(_tempObj);
 	}
 
 	void GraphicsMain::EndRender()
 	{
-		_DXLogic->Present();
+		_renderer->EndRender();
 	}
 
 	void GraphicsMain::Finalize()
@@ -203,5 +250,16 @@ namespace Pg::Graphics
 	{
 		return _DXStorage->_deviceContext;
 	}
+
+	Pg::Graphics::Manager::GraphicsResourceManager* GraphicsMain::GetGraphicsResourceManager()
+	{
+		if (this->_graphicsResourceManager == nullptr)
+		{
+			this->_graphicsResourceManager = Pg::Graphics::Manager::GraphicsResourceManager::Instance();
+		}
+		return _graphicsResourceManager;
+	}
+	
+	
 
 }
