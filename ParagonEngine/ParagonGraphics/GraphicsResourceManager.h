@@ -45,7 +45,7 @@ namespace Pg::Graphics::Manager
 		std::shared_ptr<T> GetResource(const std::string& path);
 
 		//리소스를 언로드하는 함수. AssetManager에서 동시에 발동. 삭제 성공하면 True 반환.
-		bool DeleteResource(const std::string& path);
+		inline bool DeleteResource(const std::string& path);
 
 	private:
 		std::unordered_map<std::string, std::weak_ptr<Pg::Core::Resources::GraphicsResource>> _resources;
@@ -95,7 +95,24 @@ namespace Pg::Graphics::Manager
 
 	}
 
+	bool GraphicsResourceManager::DeleteResource(const std::string& path)
+	{
+		//리소스 활용을 위해 weak_ptr.lock()으로 체크.
+		auto res = _resources[path].lock();
 
+		//만약 지울 수 있는 Resource가 있으면?
+		if (res)
+		{
+			res->InternalUnload();
+			_resources.erase(path);
+
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
 
 
