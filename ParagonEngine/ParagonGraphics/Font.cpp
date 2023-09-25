@@ -13,14 +13,17 @@ namespace Pg::Graphics
 		_DXStorage = Pg::Graphics::LowDX11Storage::GetInstance();
 
 		_spriteBatch = std::make_unique<DirectX::SpriteBatch>(_DXStorage->_deviceContext);
-		_spriteFont = std::make_unique<DirectX::SpriteFont>(_DXStorage->_device, L"../Resources/Fonts/NotoSansKR_16.spritefont");
-
+		_spriteFont = std::make_unique<DirectX::SpriteFont>(_DXStorage->_device, L"../Resources/Fonts/NotoSansKR_13.spritefont");
 	}
 
 	void Font::Draw()
 	{
 		_spriteBatch->Begin();
-		_spriteFont->DrawString(_spriteBatch.get(), _text.c_str(), _position);
+
+		//_position.x = _spriteFont->MeasureString(_text.c_str()) / 2.0f;
+		//_position.y = _spriteFont->MeasureString(_text.c_str()) / 2.0f;
+
+		_spriteFont->DrawString(_spriteBatch.get(), _text.c_str(), _position, DirectX::Colors::Black);
 		_spriteBatch->End();
 	}
 
