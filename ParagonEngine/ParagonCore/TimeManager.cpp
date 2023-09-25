@@ -26,11 +26,13 @@ namespace Pg::Core::Time
 		_totalTick = (float)(_endTick.QuadPart - _startTick.QuadPart) /
 			(float)(_frequency.QuadPart);
 
-		_deltaTime = _totalTick;
+		_deltaTime = _totalTick * 1000;
+
+		MeasureFrame(_deltaTime);
 
 		QueryPerformanceCounter(&_startTick);
 
-		//PG_TRACE(std::to_string(_deltaTime));
+		PG_TRACE(std::to_string(_deltaTime));
 	}
 
 	void TimeManager::MeasureFrame(float deltaTime)
