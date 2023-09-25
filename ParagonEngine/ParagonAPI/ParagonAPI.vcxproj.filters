@@ -1,35 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="APIMain.cpp">
-      <Filter>0_Main</Filter>
-    </ClCompile>
-    <ClCompile Include="PgInput.cpp">
-      <Filter>1_Input</Filter>
-    </ClCompile>
-    <ClCompile Include="PgMath.cpp">
-      <Filter>2_Math</Filter>
-    </ClCompile>
     <ClCompile Include="PhysXTest.cpp">
       <Filter>3_PhysX</Filter>
     </ClCompile>
     <Filter Include="3_PhysX">
       <UniqueIdentifier>{d073be78-ed6b-4d8b-811c-2cb3fc335f25}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="APIMain.cpp" />
+    <ClCompile Include="PgInput.cpp" />
+    <ClCompile Include="PgMath.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="APIMain.h">
-      <Filter>0_Main</Filter>
-    </ClInclude>
-    <ClInclude Include="PgInput.h">
-      <Filter>1_Input</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyCodeType.h">
-      <Filter>1_Input</Filter>
-    </ClInclude>
-    <ClInclude Include="PgMath.h">
-      <Filter>2_Math</Filter>
-    </ClInclude>
+    <ClInclude Include="APIMain.h" />
+    <ClInclude Include="KeyCodeType.h" />
+    <ClInclude Include="PgInput.h" />
+    <ClInclude Include="PgMath.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="APIMain.cpp">
@@ -43,7 +29,8 @@
     </ClCompile>
     <ClCompile Include="PhysXTest.cpp">
       <Filter>3_PhysX</Filter>
-    </ClCompile>    </ItemGroup>
+    </ClCompile>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
