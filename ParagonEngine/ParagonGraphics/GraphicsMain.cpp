@@ -15,6 +15,7 @@
 
 #include <windows.h>
 #include <numbers>
+#include <singleton-cpp/singleton.h>
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\x64\\Debug\\ParagonCore.lib")
@@ -34,6 +35,9 @@ namespace Pg::Graphics
 
 		_renderer = std::make_unique<ParagonRenderer>();
 		_tempObj = new Pg::Core::GameObject("Test");
+
+		auto& timeSystem = singleton<Pg::Core::Time::TimeManager>();
+		_timeManager = &timeSystem;
 
 		// TODO: Storage는 static으로 만들어서 인자로 넘길 필요가 없도록 하자
 	}
@@ -92,7 +96,7 @@ namespace Pg::Graphics
 		_camera->SetPosition(float3(0.0f, 0.0f, -3.0f));
 		_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 
-		Pg::Core::Time::TimeManager::Instance()->Initialize();
+		_timeManager->Initialize();
 
 		sprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/cats.dds");
 		sprite->SetPosition(100.0f, 100.0f);
@@ -116,8 +120,8 @@ namespace Pg::Graphics
 			tTest = true;
 		}
 
-		Pg::Core::Time::TimeManager::Instance()->TimeMeasure();
-		float dt = Pg::Core::Time::TimeManager::Instance()->GetDeltaTime();
+		_timeManager->TimeMeasure();
+		float dt = _timeManager->GetDeltaTime();
 
 		time += (1.0f * dt);
 
