@@ -1,37 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="0_Main">
-      <UniqueIdentifier>{93eb3027-075e-479c-a9ce-141c2dd52ba7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Math">
-      <UniqueIdentifier>{39ce30f5-692e-4fd9-9468-ad2ced9bcc96}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Input">
-      <UniqueIdentifier>{e53ef5b7-2ac1-457f-b2ad-dcda10edd42c}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="PgMath.h">
-      <Filter>1_Math</Filter>
-    </ClInclude>
-    <ClInclude Include="PgInput.h">
-      <Filter>2_Input</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyCodeType.h">
-      <Filter>2_Input</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="APIMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
-    <ClCompile Include="PgMath.cpp">
-      <Filter>1_Math</Filter>
-    </ClCompile>
     <ClCompile Include="PgInput.cpp">
-      <Filter>2_Input</Filter>
+      <Filter>1_Input</Filter>
     </ClCompile>
+    <ClCompile Include="PgMath.cpp">
+      <Filter>2_Math</Filter>
     </ClCompile>
+    <ClCompile Include="PhysXTest.cpp">
+      <Filter>3_PhysX</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="APIMain.h">
+      <Filter>0_Main</Filter>
+    </ClInclude>
+    <ClInclude Include="PgInput.h">
+      <Filter>1_Input</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyCodeType.h">
+      <Filter>1_Input</Filter>
+    </ClInclude>
+    <ClInclude Include="PgMath.h">
+      <Filter>2_Math</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="0_Main">
+      <UniqueIdentifier>{4828225b-a60c-40c7-aba5-cdf0082c652c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Input">
+      <UniqueIdentifier>{d856fbeb-ac31-47a7-93b1-17c94b1c609f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Math">
+      <UniqueIdentifier>{fc01dc99-e0aa-4d83-8bf5-5382277e54c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_PhysX">
+      <UniqueIdentifier>{a3075498-a68b-4585-ae73-8c82c4003ec3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
