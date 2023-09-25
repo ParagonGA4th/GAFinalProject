@@ -67,6 +67,9 @@
     <ClInclude Include="AssetBasic3DLoader.h">
       <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
     </ClInclude>
+    <ClInclude Include="msdfgenTest.h">
+      <Filter>5_Misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -126,6 +129,9 @@
     <ClCompile Include="AssetBasic3DLoader.cpp">
       <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
     </ClCompile>
+    <ClCompile Include="msdfgenTest.cpp">
+      <Filter>5_Misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -163,9 +169,6 @@
     </Filter>
     <Filter Include="6_HLSL">
       <UniqueIdentifier>{77b7d216-140c-4cfc-8018-b14b1c0dbd24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_GraphicsResources\Loaders\AssetBasic3DLoader">
-      <UniqueIdentifier>{7bf9f256-5d91-44ef-a978-cd86f167e09d}</UniqueIdentifier>
     </Filter>
     <Filter Include="7_OtherObject">
       <UniqueIdentifier>{7c64f1b5-ece3-4874-b94c-0497ac7d8c3b}</UniqueIdentifier>
