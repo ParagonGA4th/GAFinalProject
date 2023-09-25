@@ -18,6 +18,8 @@ namespace Pg::Graphics::Loader
 
 		assert(pScene != nullptr);
 
+
+
 	}
 
 }

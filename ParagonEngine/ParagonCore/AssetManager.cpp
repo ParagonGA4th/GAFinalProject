@@ -87,7 +87,7 @@ namespace Pg::Core::Manager
 			if constexpr (std::is_base_of<EngineResource, T>::value && (!std::is_base_of<GraphicsResource, T>::value))
 			{
 				//EngineResourceManager의 리소스를 가져오는 로직.
-				res = _engineResourceManager->CreateResource(path);
+				res = _engineResourceManager->CreateResource<T>(path);
 
 				tAssureGot = true;
 			}
@@ -95,7 +95,7 @@ namespace Pg::Core::Manager
 			if constexpr ((!std::is_base_of<EngineResource, T>::value) && std::is_base_of<GraphicsResource, T>::value)
 			{
 				//GraphicsResourceManager의 리소스를 가져오는 로직.
-				res = _graphicsResourceManager->CreateResource(path);
+				res = _graphicsResourceManager->CreateResource<T>(path);
 				tAssureGot = true;
 			}
 
@@ -133,14 +133,14 @@ namespace Pg::Core::Manager
 			if constexpr (std::is_base_of<EngineResource, T>::value && (!std::is_base_of<GraphicsResource, T>::value))
 			{
 				//EngineResourceManager의 리소스를 가져오는 로직.
-				res = _engineResourceManager->GetResource(path);
+				res = _engineResourceManager->GetResource<T>(path);
 				tAssureGot = true;
 			}
 
 			if constexpr ((!std::is_base_of<EngineResource, T>::value) && std::is_base_of<GraphicsResource, T>::value)
 			{
 				//GraphicsResourceManager의 리소스를 가져오는 로직.
-				res = _graphicsResourceManager->GetResource(path);
+				res = _graphicsResourceManager->GetResource<T>(path);
 				tAssureGot = true;
 			}
 
@@ -170,11 +170,10 @@ namespace Pg::Core::Manager
 		{
 			//명시적으로 두 인스턴스에 모두 삭제(및 언로드)를 진행해준다. 
 			//템플릿을 쓰지 않기 위해, 둘 다 삭제 코드, 내부적으로 해당하는지 아닌지 반환.
-
-			///[TW] WORKINGONIT.
-			//bool tIsEngineDelete = _engineResourceManager->DeleteResource(path);
-			//bool tIsGraphicsDelete = _graphicsResourceManager->DeleteResource(path);
-			//assert((tIsEngineDelete ^ tIsGraphicsDelete) && "하나만 삭제하는 경우가 발생하지 않음, 오류");
+			
+			bool tIsEngineDelete = _engineResourceManager->DeleteResource(path);
+			bool tIsGraphicsDelete = _graphicsResourceManager->DeleteResource(path);
+			assert((tIsEngineDelete ^ tIsGraphicsDelete) && "하나만 삭제하는 경우가 발생하지 않음, 오류");
 		
 			//이제 메인 AssetManager에서 값을 삭제.
 			_resources.erase(path);
