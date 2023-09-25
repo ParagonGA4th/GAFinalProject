@@ -49,7 +49,16 @@ namespace Pg::API::Input
 		return _inputSystem->IsMouseMoving();
 	}
 
-	
+	float PgInput::GetMouseDX()
+	{
+		return _inputSystem->GetMouseDX();
+	}
+
+	float PgInput::GetMouseDY()
+	{
+		return _inputSystem->GetMouseDY();
+	}
+
 	
 
 }
