@@ -32,6 +32,11 @@
 namespace Pg::Core
 {
 	class CoreMain;
+
+	namespace Time
+	{
+		class TimeManager;
+	}
 }
 
 namespace Pg::Graphics
@@ -88,6 +93,7 @@ namespace Pg::Graphics
 		TempCamera* _camera;
 		TestCube* _box;
 		Pg::Core::GameObject* _tempObj;
+		Pg::Core::Time::TimeManager* _timeManager;
 
 	private:
 		std::unique_ptr<ParagonRenderer> _renderer;
