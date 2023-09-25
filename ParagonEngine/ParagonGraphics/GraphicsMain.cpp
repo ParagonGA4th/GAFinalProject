@@ -51,6 +51,7 @@ namespace Pg::Graphics
 	Pg::Graphics::Sprite* sprite;
 	Pg::Graphics::Sprite* sprite2;
 	Pg::Graphics::Font* font;
+	std::wstring text;
 
 	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
 	{
@@ -99,31 +100,30 @@ namespace Pg::Graphics
 		_timeManager->Initialize();
 
 		sprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/cats.dds");
-		sprite->SetPosition(100.0f, 100.0f);
+		sprite->SetPosition(0.0f, 0.0f);
 
 		sprite2 = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/rabbits.dds");
-		sprite2->SetPosition(800.0f,600.0f);
+		sprite2->SetPosition(0.0f, 200.0f);
 
 		font = new Font();
-		font->SetText(L"test text..");
-		font->SetPosition(50.0f, 50.0f);
+		font->SetPosition(10.0f, 410.0f);
+		font->SetText(L"");
 	}
 
 
 	void GraphicsMain::Update(const Pg::Core::Scene* const scene, Pg::Core::CameraData cameraData)
 	{
-		//Debugging Test.
-		static bool tTest = false;
-		if (!tTest)
-		{
-			PG_TRACE("Debugger Used In ParagonGraphics!");
-			tTest = true;
-		}
-
 		_timeManager->TimeMeasure();
 		float dt = _timeManager->GetDeltaTime();
 
+
 		time += (1.0f * dt);
+
+		text = L"";
+		text.append(L"DeltaTime: " + std::to_wstring(dt) + L"\n");
+		text.append(L"Time: " + std::to_wstring(time) + L"\n");
+		text.append(L"FPS: " + std::to_wstring(_timeManager->GetFrameRate()));
+		font->SetText(text);
 
 		//cbData.viewMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._viewMatrix);
 		//cbData.projectionMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._projMatrix);
