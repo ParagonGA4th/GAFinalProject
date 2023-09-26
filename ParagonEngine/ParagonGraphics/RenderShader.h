@@ -29,8 +29,8 @@ namespace Pg::Graphics
 
 	public:
 
-		// 쉐이더를 컴파일하여 바이트코드를 멤버에 저장
-		HRESULT CompileShader(std::wstring CSOFilePath);
+		// 쉐이더 바이트코드를 멤버에 저장
+		HRESULT LoadShader(std::wstring CSOFilePath);
 		ID3DBlob* _byteCode;
 
 	public:
