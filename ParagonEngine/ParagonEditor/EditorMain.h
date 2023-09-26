@@ -4,9 +4,9 @@
 #include <memory>
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonCore.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonCore.lib")
 #else
-#pragma comment(lib,"..\\x64\\Release\\ParagonCore.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonCore.lib")
 #endif // _DEBUG
 
 namespace Pg::Core
