@@ -9,23 +9,30 @@
 #include "../ParagonGraphics/GraphicsResourceManager.h"
 #include "../ParagonGameEngine/EngineResourceManager.h"
 
+#include "../ParagonUtil/ResourceHelper.h"
+
 //<ResourcesList>
 #include "../ParagonGraphics/RenderMaterial.h"
 //</ResourcesList>
 
-
 #include <cassert>
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonGameEngine.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
 #else
-#pragma comment(lib,"..\\x64\\Release\\ParagonGameEngine.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
 #endif // _DEBUG
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonGraphics.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonGameEngine.lib")
 #else
-#pragma comment(lib,"..\\x64\\Release\\ParagonGraphics.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonGameEngine.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonGraphics.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonGraphics.lib")
 #endif // _DEBUG
 
 namespace Pg::Core::Manager
@@ -66,7 +73,7 @@ namespace Pg::Core::Manager
 		static_assert(!std::is_same<GraphicsResource, T>::value, "T는 GraphicsResource 자체가 될 수는 없습니다.");
 
 		//Path 표기 방식 일원화.
-		std::string path = Pg::Core::Helper::ResourceHelper::ForcePathUniform(filepath);
+		std::string path = Pg::Util::Helper::ResourceHelper::ForcePathUniform(filepath);
 
 		std::shared_ptr<T> res = nullptr;
 
@@ -117,7 +124,7 @@ namespace Pg::Core::Manager
 		static_assert(!std::is_same<GraphicsResource, T>::value, "T는 GraphicsResource 자체가 될 수는 없습니다.");
 
 		//Path 표기 방식 일원화.
-		std::string path = Pg::Core::Helper::ResourceHelper::ForcePathUniform(filepath);
+		std::string path = Pg::Util::Helper::ResourceHelper::ForcePathUniform(filepath);
 
 		std::shared_ptr<T> res = nullptr;
 
@@ -163,7 +170,7 @@ namespace Pg::Core::Manager
 	void AssetManager::Unload(const std::string& filepath)
 	{
 		//Path 표기 방식 일원화.
-		std::string path = Pg::Core::Helper::ResourceHelper::ForcePathUniform(filepath);
+		std::string path = Pg::Util::Helper::ResourceHelper::ForcePathUniform(filepath);
 
 		//우선적으로 일단 리스트에 값이 있는지를 확인.
 		if (this->_resources.contains(path))

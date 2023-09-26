@@ -7,15 +7,27 @@
     <Filter Include="1_Log">
       <UniqueIdentifier>{3221c562-ea37-41b1-8823-ec7c78c0377b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2_Helpers">
+      <UniqueIdentifier>{6cafa4a3-1cd8-4baa-96f9-b8a73f98d6a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Helpers\ResourceHelper">
+      <UniqueIdentifier>{8cb7b098-f227-491d-ab39-4e14b050115a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Log.cpp">
       <Filter>1_Log</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceHelper.cpp">
+      <Filter>2_Helpers\ResourceHelper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
       <Filter>1_Log</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceHelper.h">
+      <Filter>2_Helpers\ResourceHelper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
