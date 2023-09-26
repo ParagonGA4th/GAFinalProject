@@ -12,6 +12,8 @@ namespace Pg::Graphics
 	{
 	public:
 		ConstantBufferBase();
+		virtual ~ConstantBufferBase();
+
 		virtual void Update() abstract;
 	};
 }
