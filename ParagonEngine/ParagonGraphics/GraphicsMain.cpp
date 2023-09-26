@@ -14,6 +14,9 @@
 #include "Sprite.h"
 #include "Font.h"
 
+#include "Grid.h"
+#include "Axis.h"
+
 #include <windows.h>
 #include <numbers>
 #include <singleton-cpp/singleton.h>
@@ -56,6 +59,9 @@ namespace Pg::Graphics
 	Pg::Graphics::Font* font;
 	std::wstring text;
 
+	Grid* grid;
+	Axis* axis;
+
 	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
 	{
 		// 초기화 관련
@@ -78,7 +84,7 @@ namespace Pg::Graphics
 
 
 		// 테스트용 큐브
-		_box = new TestCube(_DXStorage);
+		_box = new TestCube();
 		_box->Initialize();
 
 		D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
@@ -91,11 +97,33 @@ namespace Pg::Graphics
 		PixelShader* pixelShader = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
 		
 		// TODO: 비직관적이다.
-		vertexShader->AddConstantBuffer(&(_box->_cbData));
+		vertexShader->BindConstantBuffer(&(_box->_cbData));
 
 		_box->SetVertexShader(vertexShader);
 		_box->SetPixelShader(pixelShader);
 		
+		// Grid
+		grid = new Grid();
+		grid->Initialize();
+
+		// Axis
+		axis = new Axis();
+		axis->Initialize();
+
+		// TODO: TestBox와 Grid, Axis 모두 같은 InputLayout을 사용하고 있다...
+		VertexShader* helperVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
+		helperVS->BindConstantBuffer(&(grid->_cbData));
+
+		// TODO: 다른 쉐이더를 쓰는데도 상수버퍼가 간섭하는 문제가 발생
+		grid->SetVertexShader(vertexShader);
+		//grid->SetVertexShader(helperVS);
+		grid->SetPixelShader(pixelShader);
+
+		axis->SetVertexShader(vertexShader);
+		//axis->SetVertexShader(helperVS);
+		axis->SetPixelShader(pixelShader);
+		
+
 		// 카메라
 		_camera = new TempCamera();
 		_camera->SetPosition(float3(0.0f, 0.0f, -3.0f));
@@ -194,14 +222,23 @@ namespace Pg::Graphics
 		worldMatrix *= XMMatrixScaling(1.0f, 1.0f, 1.0f);
 		worldMatrix *= XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 
-		_box->_cbData.worldMatrix = worldMatrix;
+		// TODO: 다른 쉐이더를 쓰는데도 상수버퍼가 상호간섭하는 문제가 발생
+		//_box->_cbData.worldMatrix = worldMatrix;
+		_box->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
+		//grid->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
 
 		// 카메라 행렬
 		_box->_cbData.viewMatrix = _camera->View();
 		_box->_cbData.projectionMatrix = _camera->Proj();
 		_box->_cbData.viewProjMatrix = _camera->ViewProj();
 
+		grid->_cbData.viewMatrix = _camera->View();
+		grid->_cbData.viewMatrix = _camera->Proj();
+		grid->_cbData.viewMatrix = _camera->ViewProj();
+
 		_box->Update(dt);
+		//grid->Update(dt);
+		//axis->Update(dt);
 	}
 
 	void GraphicsMain::BeginRender()
@@ -215,6 +252,12 @@ namespace Pg::Graphics
 		// test용 큐브 그리기
 		_box->Draw();
 		
+		// Grid
+		grid->Draw();
+
+		// Axis
+		axis->Draw();
+
 		// test 스프라이트 그리기
 		sprite->Draw();
 		sprite2->Draw();
