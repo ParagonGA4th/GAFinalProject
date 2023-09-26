@@ -58,7 +58,7 @@ namespace Pg::Graphics
 
 	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
 	{
-		/// 초기화 관련
+		// 초기화 관련
 		_DXStorage->_hWnd = hWnd;
 
 		_DXStorage->_screenWidth = screenWidth;
@@ -77,37 +77,41 @@ namespace Pg::Graphics
 		_DXLogic->CreateAndSetViewports();
 
 
-		/// 쉐이더 셋팅 관련
+		// 테스트용 큐브
+		_box = new TestCube(_DXStorage);
+		_box->Initialize();
+
 		D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
 		{
 			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
 			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
-		_DXStorage->_testVertexShader = new VertexShader(_DXStorage, L"../x64/debug/VertexShader.cso", vertexDesc);
-		_DXStorage->_testPixelShader = new PixelShader(_DXStorage, L"../x64/debug/PixelShader.cso");
+		VertexShader* vertexShader = new VertexShader(_DXStorage, L"../x64/debug/VertexShader.cso", vertexDesc);
+		PixelShader* pixelShader = new PixelShader(_DXStorage, L"../x64/debug/PixelShader.cso");
+		
+		vertexShader->AddConstantBuffer(&(_box->_cbData));
 
-		_DXStorage->_testVertexShader->Bind();
-		_DXStorage->_testPixelShader->Bind();
-
-		// TODO: Shader가 TestBox 안에 있어야 하나?
-		// test용 큐	브
-		_box = new TestCube(_DXStorage);
-		_DXStorage->_testVertexShader->AddConstantBuffer(&(_box->_cbData));
-
-		// 카메라 설정
+		_box->SetVertexShader(vertexShader);
+		_box->SetPixelShader(pixelShader);
+		
+		// 카메라
 		_camera = new TempCamera();
 		_camera->SetPosition(float3(0.0f, 0.0f, -3.0f));
 		_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 
+
+		// 타임 매니저
 		_timeManager->Initialize();
 
+		// 2d 스프라이트
 		sprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/cats.dds");
 		sprite->SetPosition(0.0f, 0.0f);
 
 		sprite2 = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/rabbits.dds");
 		sprite2->SetPosition(0.0f, 200.0f);
 
+		// 폰트
 		font = new Font();
 		font->SetPosition(10.0f, 410.0f);
 		font->SetText(L"");
@@ -121,6 +125,7 @@ namespace Pg::Graphics
 
 		time += (10.0f * dt);
 
+		// 디버그 정보 출력
 		text = L"";
 		text.append(L"DeltaTime: " + std::to_wstring(dt) + L"\n");
 		text.append(L"Time: " + std::to_wstring(time) + L"\n");
@@ -195,11 +200,7 @@ namespace Pg::Graphics
 		_box->_cbData.projectionMatrix = _camera->Proj();
 		_box->_cbData.viewProjMatrix = _camera->ViewProj();
 
-		// 상수버퍼 업데이트
-		for (auto& e : _DXStorage->_testVertexShader->_constantBuffers)
-		{
-			e->Update();
-		}
+		_box->Update(dt);
 	}
 
 	void GraphicsMain::BeginRender()

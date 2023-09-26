@@ -4,19 +4,76 @@
 #include "LowDX11Storage.h"
 
 Pg::Graphics::TestCube::TestCube(LowDX11Storage* storage)
-	:_DXStorage(storage)
+	:_DXStorage(storage),
+	_vertexShader(nullptr), _pixelShader(nullptr),
+	_cbData()
 {
-	std::vector<MeshVertex> VBData;
+
+}
+
+void Pg::Graphics::TestCube::Draw()
+{
+	BindInputLayout();
+	BindShaders();
+
+	BindBuffers();
+
+	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), (_DXStorage->_depthStencilView));
+
+	_DXStorage->_deviceContext->DrawIndexed(36, 0, 0);
+
+	UnbindShaders();
+	UnbindInputLayout();
+}
+
+void Pg::Graphics::TestCube::Update(float time)
+{
+	// 상수버퍼 업데이트
+	for (auto& e : _vertexShader->_constantBuffers)
+	{
+		e->Update();
+	}
+}
+
+void Pg::Graphics::TestCube::SetVertexShader(VertexShader* shader)
+{
+	_vertexShader = shader;
+}
+
+void Pg::Graphics::TestCube::SetPixelShader(PixelShader* shader)
+{
+	_pixelShader = shader;
+}
+
+Pg::Graphics::VertexShader* Pg::Graphics::TestCube::GetVertexShader()
+{
+	return _vertexShader;
+}
+
+Pg::Graphics::PixelShader* Pg::Graphics::TestCube::GetPixelShader()
+{
+	return _pixelShader;
+}
+
+void Pg::Graphics::TestCube::Initialize()
+{
+	BuildBuffers();
+	BindBuffers();
+}
+
+void Pg::Graphics::TestCube::BuildBuffers()
+{
+	std::vector<TestCubeVertex> VBData;
 	std::vector<int> IBData;
 
-	VBData.emplace_back(MeshVertex{ float3 {-1.0f, 1.0f, -1.0f}, float3{0.0f, 0.0f, 0.0f} });
-	VBData.emplace_back(MeshVertex{ float3 {1.0f, 1.0f, -1.0f}, float3{1.0f, 0.0f, 0.0f} });
-	VBData.emplace_back(MeshVertex{ float3 {-1.0f, 1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
-	VBData.emplace_back(MeshVertex{ float3 {1.0f, 1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
-	VBData.emplace_back(MeshVertex{ float3 {1.0f, -1.0f, -1.0f}, float3{1.0f, 0.0f, 0.0f} });
-	VBData.emplace_back(MeshVertex{ float3 {-1.0f, -1.0f, -1.0f}, float3{0.0f, 1.0f, 0.0f} });
-	VBData.emplace_back(MeshVertex{ float3 {-1.0f, -1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
-	VBData.emplace_back(MeshVertex{ float3 {1.0f, -1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
+	VBData.emplace_back(TestCubeVertex{ float3 {-1.0f, 1.0f, -1.0f}, float3{0.0f, 0.0f, 0.0f} });
+	VBData.emplace_back(TestCubeVertex{ float3 {1.0f, 1.0f, -1.0f}, float3{1.0f, 0.0f, 0.0f} });
+	VBData.emplace_back(TestCubeVertex{ float3 {-1.0f, 1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
+	VBData.emplace_back(TestCubeVertex{ float3 {1.0f, 1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
+	VBData.emplace_back(TestCubeVertex{ float3 {1.0f, -1.0f, -1.0f}, float3{1.0f, 0.0f, 0.0f} });
+	VBData.emplace_back(TestCubeVertex{ float3 {-1.0f, -1.0f, -1.0f}, float3{0.0f, 1.0f, 0.0f} });
+	VBData.emplace_back(TestCubeVertex{ float3 {-1.0f, -1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
+	VBData.emplace_back(TestCubeVertex{ float3 {1.0f, -1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
 
 	IBData.emplace_back(0);
 	IBData.emplace_back(2);
@@ -69,7 +126,7 @@ Pg::Graphics::TestCube::TestCube(LowDX11Storage* storage)
 	// Buffer Description
 	D3D11_BUFFER_DESC VBDesc;
 	VBDesc.Usage = D3D11_USAGE_DEFAULT;
-	VBDesc.ByteWidth = VBData.size() * sizeof(MeshVertex);
+	VBDesc.ByteWidth = VBData.size() * sizeof(TestCubeVertex);
 	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	VBDesc.CPUAccessFlags = 0;
 	VBDesc.MiscFlags = 0;
@@ -99,47 +156,36 @@ Pg::Graphics::TestCube::TestCube(LowDX11Storage* storage)
 
 	// Create the Index buffer.
 	hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &IB);
+}
 
-	UINT stride = sizeof(MeshVertex);
-	UINT offset = 0;
+void Pg::Graphics::TestCube::BindShaders()
+{
+	_vertexShader->Bind();
+	_pixelShader->Bind();
+}
 
-	_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &VB, &stride, &offset);
-	_DXStorage->_deviceContext->IASetIndexBuffer(IB, DXGI_FORMAT_R32_UINT, 0);
+void Pg::Graphics::TestCube::UnbindShaders()
+{
+	_vertexShader->UnBind();
+	_pixelShader->UnBind();
+}
 
-	// InputLayout 바인딩
-	_DXStorage->_deviceContext->IASetInputLayout(_DXStorage->_testVertexShader->_inputLayout);
+void Pg::Graphics::TestCube::BindInputLayout()
+{
+	_DXStorage->_deviceContext->IASetInputLayout(_vertexShader->_inputLayout);
 	_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
-void Pg::Graphics::TestCube::Draw()
+void Pg::Graphics::TestCube::UnbindInputLayout()
 {
-	// InputLayout 바인딩
-	_DXStorage->_deviceContext->IASetInputLayout(_DXStorage->_testVertexShader->_inputLayout);
-	_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	// Shader 바인딩
-	_DXStorage->_testVertexShader->Bind();
-	_DXStorage->_testPixelShader->Bind();
-
-	UINT stride = sizeof(MeshVertex);
-	UINT offset = 0;
-
-	_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &VB, &stride, &offset);
-	_DXStorage->_deviceContext->IASetIndexBuffer(IB, DXGI_FORMAT_R32_UINT, 0);
-
-	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), (_DXStorage->_depthStencilView));
-
-	_DXStorage->_deviceContext->DrawIndexed(36, 0, 0);
-
-	// Shader 언바인딩
-	_DXStorage->_testPixelShader->UnBind();
-	_DXStorage->_testVertexShader->UnBind();
-
-	// InputLayout 언바인딩
 	_DXStorage->_deviceContext->IASetInputLayout(nullptr);
 }
 
-void Pg::Graphics::TestCube::Update(float time)
+void Pg::Graphics::TestCube::BindBuffers()
 {
+	UINT stride = sizeof(TestCubeVertex);
+	UINT offset = 0;
 
+	_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &VB, &stride, &offset);
+	_DXStorage->_deviceContext->IASetIndexBuffer(IB, DXGI_FORMAT_R32_UINT, 0);
 }
