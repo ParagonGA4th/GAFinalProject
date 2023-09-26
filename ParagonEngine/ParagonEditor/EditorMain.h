@@ -4,9 +4,9 @@
 #include <memory>
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonCore.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonCore.lib")
 #else
-#pragma comment(lib,"..\\x64\\Release\\ParagonCore.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonCore.lib")
 #endif // _DEBUG
 
 namespace Pg::Core
@@ -61,5 +61,8 @@ private:
 	// 5) 둘째, 불필요한 조건문 비교가 수행된다.
 	// 6) 따라서 개선이 필요하다.
 	// 2023. 09. 14. 김정식
+
+private:
+	Pg::Core::Input::InputSystem* _inputSystem;
 };
 
