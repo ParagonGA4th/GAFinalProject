@@ -47,9 +47,9 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: builds
-        path: ${{env.SOLUTION_FILE_PATH}}
+        path: ${{env.SOLUTION_FILE_PATH}}\Builds\
 
     - name: Display structure of downloaded files
       run: ls -R
-      working-directory: Builds\
+      working-directory: ${{env.SOLUTION_FILE_PATH}}\Builds
   
