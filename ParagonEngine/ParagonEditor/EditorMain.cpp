@@ -1,5 +1,6 @@
 #include "EditorMain.h"
 #include "ImGuiManager.h"
+#include "FileManager.h"
 
 #include <d3d11.h>
 
@@ -21,6 +22,9 @@ EditorMain::EditorMain()
 	_isCoreInitialized = false;
 	_coreMain = std::make_unique<Pg::Core::CoreMain>();
 	_coreMainStatic = _coreMain.get();
+
+	_fileManager = std::make_unique<FileManager>();
+	_fileManager->Test();
 }
 
 EditorMain::~EditorMain()
@@ -64,19 +68,18 @@ void EditorMain::Update()
 		}
 		else
 		{
+			_coreMain->Update();
+
 			_imGuiManager->CreateFrame();
 
-			_imGuiManager->ShowDemoInspector();
-			_imGuiManager->ShowDemoHierarchy();
-			_imGuiManager->ShowDemoFilter();
-			_imGuiManager->ShowDemoViewPort();
+			//_imGuiManager->ShowDemoInspector();
+			//_imGuiManager->ShowDemoHierarchy();
+			//_imGuiManager->ShowDemoFilter();
+			//_imGuiManager->ShowDemoViewPort();
 
-			_coreMain->Update();
 			_coreMain->BeginRender();
 			_coreMain->Render();
-
 			_imGuiManager->Render();
-			
 			_coreMain->EndRender();
 		}
 	}
