@@ -4,9 +4,9 @@
 #include <singleton-cpp/singleton.h>
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonGameEngine.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonGameEngine.lib")
 #else
-#pragma comment(lib,"..\\x64\\Release\\ParagonGameEngine.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonGameEngine.lib")
 #endif // _DEBUG
 
 namespace Pg::API::Input
@@ -49,7 +49,16 @@ namespace Pg::API::Input
 		return _inputSystem->IsMouseMoving();
 	}
 
-	
+	float PgInput::GetMouseDX()
+	{
+		return _inputSystem->GetMouseDX();
+	}
+
+	float PgInput::GetMouseDY()
+	{
+		return _inputSystem->GetMouseDY();
+	}
+
 	
 
 }
