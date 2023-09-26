@@ -21,10 +21,10 @@ ImGuiManager::ImGuiManager()
 
 
 	// 한글 폰트
-	const char* koreanFontPath = "..\\font\\NotoSansKR-Regular.ttf";
-	io.Fonts->AddFontFromFileTTF(koreanFontPath, 18.0f, NULL, io.Fonts->GetGlyphRangesKorean());
-	bool fontBuilt=io.Fonts->Build();
-	assert(fontBuilt);
+	//const char* koreanFontPath = "..\\font\\NotoSansKR-Regular.ttf";
+	//io.Fonts->AddFontFromFileTTF(koreanFontPath, 18.0f, NULL, io.Fonts->GetGlyphRangesKorean());
+	//bool fontBuilt=io.Fonts->Build();
+	//assert(fontBuilt);
 
 
 	// Setup Dear ImGui style
@@ -54,66 +54,65 @@ void ImGuiManager::CreateFrame()
 	ImGui::NewFrame();
 }
 
-char* nameBuf = new char();
-char* TagBuf = new char();
-bool active = false;
-
-float position = 0.0f;
-float rotation = 0.0f;
-float sacle = 0.0f;
 
 void ImGuiManager::ShowDemoInspector()
 {
 	ImGui::Begin("DemoInspector", NULL, ImGuiWindowFlags_NoCollapse);
 
-	ImGui::Text("Name      ");
+	static char nameBuf[255] = "";
+	ImGui::Text("Name");
 	ImGui::SameLine();
-	ImGui::InputText("##NameInput", nameBuf, sizeof(nameBuf));
-	
-	ImGui::Text("Tag       ");
-	ImGui::SameLine();
-	ImGui::InputText("##TagInput", TagBuf, sizeof(TagBuf));
+	bool re = ImGui::InputText("##NameInput", nameBuf, IM_ARRAYSIZE(nameBuf), ImGuiInputTextFlags_EnterReturnsTrue);
+
+	if (re)
+	{
+		re = false;
+	}
+
+	//ImGui::Text("Tag");
+	//ImGui::SameLine();
+	//ImGui::InputText("##TagInput", TagBuf, 255);
 
 	
-	ImGui::Text("Active    ");
+	ImGui::Text("Active");
 	ImGui::SameLine();
 	ImGui::Checkbox("##ActiveInput", &active);
 
 
-	if (ImGui::CollapsingHeader("Transform"))
+	if (ImGui::CollapsingHeader("Transform"), true)
 	{
-		ImGui::Text("Position  ");
+		ImGui::Text("Position");
 		ImGui::SameLine();
-		ImGui::InputFloat3("##PositionInput", &position);
+		ImGui::InputFloat3("##PositionInput", position);
 
-		ImGui::Text("Rotation  ");
+		ImGui::Text("Rotation");
 		ImGui::SameLine();
-		ImGui::InputFloat3("##RotationInput", &rotation);
+		ImGui::InputFloat3("##RotationInput", rotation);
 
-		ImGui::Text("Scale     ");
+		ImGui::Text("Scale");
 		ImGui::SameLine();
-		ImGui::InputFloat3("##ScaleInput", &sacle);
+		ImGui::InputFloat3("##ScaleInput", sacle);
 	}
 
 	ImGui::End();
 }
 
-int count = 0;
 int itemClicked = -1;
 
 void ImGuiManager::ShowDemoHierarchy()
 {
 	ImGui::Begin("DemoHierarchy", NULL, ImGuiWindowFlags_NoCollapse);
 
-	if (ImGui::Button("AddObject", ImVec2(100, 30)))
-	{
-		count++;
-	}
+	// Scene = Tree Nodes
+	// Normal GameObject = Selectable
+	// Group GameObject = Tree Nodes
 
-	for (int i = 0; i < count; i++)
+	// 오브젝트를 가져와서 그룹으로 만들 수 있어야 한다. -> Drag And Drop
+
+	/*for (int i = 0; i < count; i++)
 	{
 		if(ImGui::Selectable(std::to_string(i).c_str(), i == itemClicked)) itemClicked = i;
-	}
+	}*/
 
 	ImGui::End();
 }
