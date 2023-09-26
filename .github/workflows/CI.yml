@@ -50,9 +50,9 @@ jobs:
 
     - uses: actions/download-artifact@v3
       with:
-        path: ParagonEngine\Builds\
+        path: Builds\
     
     - name: Display structure of downloaded files
       run: ls -R
-      working-directory: ParagonEngine\Builds\
+      working-directory: Builds\
   
