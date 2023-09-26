@@ -17,6 +17,7 @@ namespace Pg::Graphics
 	{
 	public:
 		ConstantBuffer(LowDX11Storage* DXStorage, T* cbData);
+		virtual ~ConstantBuffer();
 
 	private:
 		LowDX11Storage* _DXStorage;
@@ -31,6 +32,7 @@ namespace Pg::Graphics
 
 	private:
 	};
+
 }
 
 // ±¸ÇöºÎ
@@ -54,6 +56,13 @@ namespace Pg::Graphics
 
 		HRESULT hr = _DXStorage->_device->CreateBuffer(&(_DXStorage->_ConstantBufferDesc), &_subresource, &(_ConstantBuffer));
 
+	}
+
+	template<typename T>
+	ConstantBuffer<T>::~ConstantBuffer()
+	{
+		delete _cbData;
+		delete _ConstantBuffer;
 	}
 
 	template<typename T>
