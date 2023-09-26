@@ -15,9 +15,9 @@
 #endif // _DEBUG
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonUtil.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
 #else
-#pragma comment(lib,"..\\x64\\Release\\ParagonUtil.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
 #endif // _DEBUG
 
 namespace  Pg::Engine::Input
