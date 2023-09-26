@@ -46,6 +46,9 @@ namespace Pg::Engine::Input
 
 		PARAGON_ENGINE_DLL float GetMouseX();
 		PARAGON_ENGINE_DLL float GetMouseY();
+		
+		PARAGON_ENGINE_DLL float GetMouseDX();
+		PARAGON_ENGINE_DLL float GetMouseDY();
 
 		PARAGON_ENGINE_DLL bool IsMouseMoving();
 

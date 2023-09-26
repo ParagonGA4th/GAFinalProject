@@ -15,9 +15,9 @@
 #endif // _DEBUG
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonUtil.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
 #else
-#pragma comment(lib,"..\\x64\\Release\\ParagonUtil.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
 #endif // _DEBUG
 
 namespace  Pg::Engine::Input
@@ -124,6 +124,16 @@ namespace  Pg::Engine::Input
 		{
 			return false;
 		}
+	}
+
+	float InputSystem::GetMouseDX()
+	{
+		return _map->GetFloatDelta(Pg::API::Input::eKeyCode::MouseX);
+	}
+
+	float InputSystem::GetMouseDY()
+	{
+		return _map->GetFloatDelta(Pg::API::Input::eKeyCode::MouseY);
 	}
 
 }
