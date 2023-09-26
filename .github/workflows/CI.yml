@@ -50,7 +50,6 @@ jobs:
         path: ${{env.SOLUTION_FILE_PATH}}/Builds
 
     - name: Display structure of downloaded files
-      run: cd ${{env.SOLUTION_FILE_PATH}}
       run: ls -R
       working-directory: /Builds
   
