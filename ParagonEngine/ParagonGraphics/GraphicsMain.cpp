@@ -19,9 +19,9 @@
 #include <singleton-cpp/singleton.h>
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonCore.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonCore.lib")
 #else
-#pragma comment(lib,"..\\x64\\Release\\ParagonCore.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonCore.lib")
 #endif // _DEBUG
 
 namespace Pg::Graphics
@@ -87,9 +87,10 @@ namespace Pg::Graphics
 			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
-		VertexShader* vertexShader = new VertexShader(_DXStorage, L"../x64/debug/VertexShader.cso", vertexDesc);
-		PixelShader* pixelShader = new PixelShader(_DXStorage, L"../x64/debug/PixelShader.cso");
+		VertexShader* vertexShader = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
+		PixelShader* pixelShader = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
 		
+		// TODO: 비직관적이다.
 		vertexShader->AddConstantBuffer(&(_box->_cbData));
 
 		_box->SetVertexShader(vertexShader);
