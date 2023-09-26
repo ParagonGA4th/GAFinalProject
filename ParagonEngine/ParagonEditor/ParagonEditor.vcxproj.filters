@@ -31,6 +31,12 @@
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>ImGui_Inc</Filter>
     </ClCompile>
+    <ClCompile Include="FileManager.cpp">
+      <Filter>FileManager</Filter>
+    </ClCompile>
+    <ClCompile Include="pugixml.cpp">
+      <Filter>pugixml</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Entry">
@@ -44,6 +50,12 @@
     </Filter>
     <Filter Include="ImGui_Inc">
       <UniqueIdentifier>{349ac3e0-1da2-4c63-8f4b-d0e0b75e7bd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileManager">
+      <UniqueIdentifier>{8ba21139-66b2-43da-b4ad-0ee33a689461}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pugixml">
+      <UniqueIdentifier>{1c7380c5-ef65-42b4-bac8-056634995422}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -77,5 +89,20 @@
     <ClInclude Include="imstb_truetype.h">
       <Filter>ImGui_Inc</Filter>
     </ClInclude>
+    <ClInclude Include="FileManager.h">
+      <Filter>FileManager</Filter>
+    </ClInclude>
+    <ClInclude Include="pugiconfig.hpp">
+      <Filter>pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="pugixml.hpp">
+      <Filter>pugixml</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="SceneName.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SceneName.json" />
   </ItemGroup>
 </Project>
