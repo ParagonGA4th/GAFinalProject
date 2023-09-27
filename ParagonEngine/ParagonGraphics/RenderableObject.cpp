@@ -23,11 +23,7 @@ void Pg::Graphics::RenderableObject::Initialize()
 
 void Pg::Graphics::RenderableObject::Update(float time)
 {
-	// 상수버퍼 업데이트
-	for (auto& e : _vertexShader->_constantBuffers)
-	{
-		e->Update();
-	}
+
 }
 
 void Pg::Graphics::RenderableObject::Draw()
@@ -49,6 +45,12 @@ void Pg::Graphics::RenderableObject::BindShaders()
 {
 	_vertexShader->Bind();
 	_pixelShader->Bind();
+
+	for (auto& cb : _vertexShader->_constantBuffers)
+	{
+		cb->Update();
+	}
+	
 }
 
 void Pg::Graphics::RenderableObject::UnbindShaders()
@@ -68,12 +70,12 @@ void Pg::Graphics::RenderableObject::UnbindInputLayout()
 	_DXStorage->_deviceContext->IASetInputLayout(nullptr);
 }
 
-void Pg::Graphics::RenderableObject::SetVertexShader(VertexShader* shader)
+void Pg::Graphics::RenderableObject::AssignVertexShader(VertexShader* shader)
 {
 	_vertexShader = shader;
 }
 
-void Pg::Graphics::RenderableObject::SetPixelShader(PixelShader* shader)
+void Pg::Graphics::RenderableObject::AssignPixelShader(PixelShader* shader)
 {
 	_pixelShader = shader;
 }

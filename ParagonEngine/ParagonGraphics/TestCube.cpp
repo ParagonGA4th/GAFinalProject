@@ -16,7 +16,24 @@ void Pg::Graphics::TestCube::Draw()
 	BindShaders();
 
 	BindBuffers();
+	
+	// todo : Logic으로 옮기기
+	D3D11_RASTERIZER_DESC rd;
+	//rd.FillMode = D3D11_FILL_WIREFRAME;
+	rd.FillMode = D3D11_FILL_SOLID;
+	rd.CullMode = D3D11_CULL_BACK;
+	rd.FrontCounterClockwise = false;
+	rd.DepthBias = 0;
+	rd.SlopeScaledDepthBias = 0.0f;
+	rd.DepthBiasClamp = 0.0f;
+	rd.DepthClipEnable = true;
+	rd.ScissorEnable = false;
+	rd.MultisampleEnable = false;
+	rd.AntialiasedLineEnable = false;
 
+	ID3D11RasterizerState* rs;
+	HRESULT hr = _DXStorage->_device->CreateRasterizerState(&rd, &rs);
+	_DXStorage->_deviceContext->RSSetState(rs);
 	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), (_DXStorage->_depthStencilView));
 
 	_DXStorage->_deviceContext->DrawIndexed(36, 0, 0);

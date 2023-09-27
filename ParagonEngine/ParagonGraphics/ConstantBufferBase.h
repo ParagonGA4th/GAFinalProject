@@ -6,6 +6,8 @@
 /// 2023. 09. 21. ±èÁ¤½Ä
 /// </summary>
 
+struct ID3D11Buffer;
+
 namespace Pg::Graphics
 {
 	class ConstantBufferBase
@@ -15,6 +17,8 @@ namespace Pg::Graphics
 		virtual ~ConstantBufferBase();
 
 		virtual void Update() abstract;
+		virtual ID3D11Buffer* GetBuffer() abstract;
+
 	};
 }
 
