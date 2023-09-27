@@ -56,8 +56,8 @@ namespace Pg::Graphics
 		void UnbindInputLayout();
 
 	public:
-		void SetVertexShader(VertexShader* shader);
-		void SetPixelShader(PixelShader* shader);
+		void AssignVertexShader(VertexShader* shader);
+		void AssignPixelShader(PixelShader* shader);
 
 		VertexShader* GetVertexShader();
 		PixelShader* GetPixelShader();
