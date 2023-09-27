@@ -1,7 +1,12 @@
 #include "EditorMain.h"
+#include "ImGuiManager.h"
+#include "FileManager.h"
 
 Pg::Core::CoreMain* EditorMain::_coreMainStatic = nullptr;	// WndProc 접근을 위한 스태틱 변수
 bool EditorMain::_isCoreInitialized; // 코어의 Initialize 이후에 스태틱 변수에 접근하도록 하기 위한 bool 변수
+
+// Forward declare message handler from imgui_impl_win32.cpp
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 EditorMain::EditorMain()
 	: _hWnd(), _msg(),
@@ -10,6 +15,8 @@ EditorMain::EditorMain()
 	_className(L"ParagonEngine"),
 	_windowName(L"ParagonEngine")
 {
+	_imGuiManager = std::make_unique<ImGuiManager>();
+
 	_isCoreInitialized = false;
 	_coreMain = std::make_unique<Pg::Core::CoreMain>();
 	_coreMainStatic = _coreMain.get();
@@ -38,6 +45,10 @@ long EditorMain::Initialize(void* hInstance, int cmdShow)
 
 	_coreMain->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
 	_isCoreInitialized = true;
+
+	// ImGui Dx11, Win32 Setting	
+	ImGui_ImplDX11_Init(_coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
+	ImGui_ImplWin32_Init(_hWnd);
 }
 
 void EditorMain::Update()
@@ -57,8 +68,17 @@ void EditorMain::Update()
 		else
 		{
 			_coreMain->Update();
+
+			_imGuiManager->CreateFrame();
+
+			//_imGuiManager->ShowDemoInspector();
+			//_imGuiManager->ShowDemoHierarchy();
+			//_imGuiManager->ShowDemoFilter();
+			//_imGuiManager->ShowDemoViewPort();
+
 			_coreMain->BeginRender();
 			_coreMain->Render();
+			_imGuiManager->Render();
 			_coreMain->EndRender();
 		}
 	}
@@ -66,7 +86,8 @@ void EditorMain::Update()
 
 void EditorMain::Finalize()
 {
-
+	_imGuiManager->Finalize();
+	_coreMain->Finalize();
 }
 
 ATOM EditorMain::RegisterClass(HINSTANCE hInstance)
@@ -108,6 +129,8 @@ BOOL EditorMain::CreateWindows(HINSTANCE hInstance, int cmdShow)
 
 LRESULT CALLBACK EditorMain::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) { return true; }
+
 	switch (message)
 	{
 		case WM_SIZE:
