@@ -14,6 +14,9 @@ namespace Pg::Core
 	class CoreMain;
 }
 
+class ImGuiManager;
+class FileManager;
+
 class EditorMain
 {
 public:
@@ -40,6 +43,9 @@ private:
 	const WCHAR* _windowName;
 
 private:
+	std::unique_ptr<ImGuiManager> _imGuiManager;
+	std::unique_ptr<FileManager> _fileManager;
+	
 	std::unique_ptr<Pg::Core::CoreMain> _coreMain;
 	
 private:
