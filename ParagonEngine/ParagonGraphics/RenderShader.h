@@ -39,7 +39,7 @@ namespace Pg::Graphics
 	
 		// 상수 버퍼 데이터를 추가하는 함수
 		template <typename T>
-		void BindConstantBuffer(T* cbData)
+		void AssignConstantBuffer(T* cbData)
 		{
 			_constantBuffers.emplace_back(new ConstantBuffer<T>(_DXStorage, cbData));
 		}

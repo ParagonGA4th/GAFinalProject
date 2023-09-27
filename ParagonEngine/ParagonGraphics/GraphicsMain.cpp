@@ -62,6 +62,8 @@ namespace Pg::Graphics
 	Grid* grid;
 	Axis* axis;
 
+	const float cameraSpeed = 40.f;
+
 	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
 	{
 		// 초기화 관련
@@ -93,14 +95,14 @@ namespace Pg::Graphics
 			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
-		VertexShader* vertexShader = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
-		PixelShader* pixelShader = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
+		VertexShader* BoxVertexShader = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
+		PixelShader* BoxPixelShader = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
 		
 		// TODO: 비직관적이다.
-		vertexShader->BindConstantBuffer(&(_box->_cbData));
+		BoxVertexShader->AssignConstantBuffer(&(_box->_cbData));
 
-		_box->SetVertexShader(vertexShader);
-		_box->SetPixelShader(pixelShader);
+		_box->AssignVertexShader(BoxVertexShader);
+		_box->AssignPixelShader(BoxPixelShader);
 		
 		// Grid
 		grid = new Grid();
@@ -112,35 +114,34 @@ namespace Pg::Graphics
 
 		// TODO: TestBox와 Grid, Axis 모두 같은 InputLayout을 사용하고 있다...
 		VertexShader* helperVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
-		helperVS->BindConstantBuffer(&(grid->_cbData));
+		helperVS->AssignConstantBuffer(&(grid->_cbData));
 
-		// TODO: 다른 쉐이더를 쓰는데도 상수버퍼가 간섭하는 문제가 발생
-		grid->SetVertexShader(vertexShader);
-		//grid->SetVertexShader(helperVS);
-		grid->SetPixelShader(pixelShader);
+		grid->AssignVertexShader(helperVS);
+		grid->AssignPixelShader(BoxPixelShader);
 
-		axis->SetVertexShader(vertexShader);
-		//axis->SetVertexShader(helperVS);
-		axis->SetPixelShader(pixelShader);
+		axis->AssignVertexShader(helperVS);
+		axis->AssignPixelShader(BoxPixelShader);
 		
-
-		// 카메라
+		// Camera
 		_camera = new TempCamera();
 		_camera->SetPosition(float3(0.0f, 0.0f, -3.0f));
 		_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 
-
-		// 타임 매니저
+		// TimeManager
 		_timeManager->Initialize();
 
-		// 2d 스프라이트
+		// InputManager
+		auto& tInput = singleton<Pg::API::Input::PgInput>();
+		_inputManager = &tInput;
+
+		// 2DSprite
 		sprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/cats.dds");
 		sprite->SetPosition(0.0f, 0.0f);
 
 		sprite2 = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/rabbits.dds");
 		sprite2->SetPosition(0.0f, 200.0f);
 
-		// 폰트
+		// Font
 		font = new Font();
 		font->SetPosition(10.0f, 410.0f);
 		font->SetText(L"");
@@ -169,34 +170,31 @@ namespace Pg::Graphics
 
 		/// Input 관련
 		///
-		auto& tInput = singleton<Pg::API::Input::PgInput>();
-		_inputManager = &tInput;
-
 		using namespace Pg::API::Input;
 
 		if (_inputManager->GetKey(MoveFront))
 		{
-			_camera->Walk(20.f * dt);
+			_camera->Walk(1.0f * cameraSpeed * dt);
 		}
 		if (_inputManager->GetKey(MoveBack))
 		{
-			_camera->Walk(-20.f * dt);
+			_camera->Walk(-1.0f * cameraSpeed * dt);
 		}
 		if (_inputManager->GetKey(MoveLeft))
 		{
-			_camera->Strafe(-20.f * dt);
+			_camera->Strafe(-1.0f * cameraSpeed * dt);
 		}
 		if (_inputManager->GetKey(MoveRight))
 		{
-			_camera->Strafe(20.f * dt);
+			_camera->Strafe(1.0f * cameraSpeed * dt);
 		}
 		if (_inputManager->GetKey(MoveUp))
 		{
-			_camera->WorldUpDown(20.f * dt);
+			_camera->WorldUpDown(1.0f * cameraSpeed * dt);
 		}
 		if (_inputManager->GetKey(MoveDown))
 		{
-			_camera->WorldUpDown(-20.f * dt);
+			_camera->WorldUpDown(-1.0f * cameraSpeed * dt);
 		}
 		if (_inputManager->GetKey(MouseRight) && _inputManager->IsMouseMoving())
 		{
@@ -223,9 +221,9 @@ namespace Pg::Graphics
 		worldMatrix *= XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 
 		// TODO: 다른 쉐이더를 쓰는데도 상수버퍼가 상호간섭하는 문제가 발생
-		//_box->_cbData.worldMatrix = worldMatrix;
-		_box->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
-		//grid->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
+		_box->_cbData.worldMatrix = worldMatrix;
+		//_box->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
+		grid->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
 
 		// 카메라 행렬
 		_box->_cbData.viewMatrix = _camera->View();
@@ -233,12 +231,9 @@ namespace Pg::Graphics
 		_box->_cbData.viewProjMatrix = _camera->ViewProj();
 
 		grid->_cbData.viewMatrix = _camera->View();
-		grid->_cbData.viewMatrix = _camera->Proj();
-		grid->_cbData.viewMatrix = _camera->ViewProj();
+		grid->_cbData.projectionMatrix = _camera->Proj();
+		grid->_cbData.viewProjMatrix = _camera->ViewProj();
 
-		_box->Update(dt);
-		//grid->Update(dt);
-		//axis->Update(dt);
 	}
 
 	void GraphicsMain::BeginRender()
