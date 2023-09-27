@@ -1,16 +1,4 @@
-#pragma once
 
-#ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
-#else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
-#endif // _DEBUG
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
-#else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
-#endif // _DEBUG
 
 #include "IEngine.h"
 #include "IGraphics.h"
@@ -21,8 +9,12 @@
 
 #include "../ParagonGameEngine/InputSystem.h"
 #include "../ParagonGameEngine/WorkSpace.h"
+#include <d3d11.h>
 
 #include <memory>
+
+//struct ID3D11Device;
+//struct ID3D11DeviceContext;
 
 /// <summary>
 /// ÄÚ¾î

@@ -15,6 +15,8 @@
 #include <windows.h>
 #include <singleton-cpp/singleton.h>
 
+
+#pragma once
 #ifdef _DEBUG
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonGameEngine.lib")
 #else
@@ -25,6 +27,18 @@
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonGraphics.lib")
 #else
 #pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonGraphics.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
 #endif // _DEBUG
 
 namespace Pg::Core
@@ -60,7 +74,8 @@ namespace Pg::Core
 
 		//AssetManager 세팅.
 		_assetManager->Initialize(this);
-
+		
+		//디버그 초기화
 		_work = new Pg::Engine::WorkSpace();
 		_work->Initialize();
 
