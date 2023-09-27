@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DataStruct.h" />
     <ClCompile Include="Entry.cpp" />
     <ClCompile Include="EditorMain.cpp" />
     <ClCompile Include="FileManager.cpp" />

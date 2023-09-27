@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <scene>
-	<Objects>
+	<objects>
 		<object>
 			<name>New Object</name>
 			<tag></tag>
@@ -18,7 +18,7 @@
 						<rotation>
 							<x>0</x>
 							<y>0</y>
-							<w>1</w>
+							<z>1</z>
 						</rotation>
 						<scale>
 							<x>1</x>
@@ -57,5 +57,5 @@
 				</component>
 			</components>
 		</object>
-	</Objects>
+	</objects>
 </scene>
