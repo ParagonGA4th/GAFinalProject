@@ -24,9 +24,9 @@ VertexOut main(VertexIn vin)
 	
 	float4 vec = float4(vin.pos, 1.0f);
 	
-	vec = mul(vec, mul(worldMatrix, viewProjMatrix));
+	float4x4 WVP = mul(viewProjMatrix, worldMatrix);
 	
-	vout.pos = normalize(vec);
+	vout.pos = mul(WVP, vec);
 	vout.color = vin.color;
 	
 	return vout;
