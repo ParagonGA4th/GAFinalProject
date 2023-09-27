@@ -32,7 +32,7 @@ namespace Pg::Core::Time
 		{
 			_frameRate = frameCount;
 			totalTime = 0;
-			frameCount = 0;
+			frameCount = 0; 
 		}
 
 		++frameCount;
