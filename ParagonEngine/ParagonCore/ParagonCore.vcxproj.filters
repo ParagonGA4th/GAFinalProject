@@ -22,9 +22,6 @@
     <ClCompile Include="CoreMain.cpp">
       <Filter>0_CoreMain</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceHelper.cpp">
-      <Filter>4_Helpers\ResourceHelper</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>3_SceneInfo\GameObject</Filter>
     </ClCompile>
@@ -68,9 +65,6 @@
     </ClInclude>
     <ClInclude Include="IEngine.h">
       <Filter>0_CoreMain\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceHelper.h">
-      <Filter>4_Helpers\ResourceHelper</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>3_SceneInfo\GameObject</Filter>
@@ -154,9 +148,6 @@
     </Filter>
     <Filter Include="4_Helpers">
       <UniqueIdentifier>{f56dae80-8f12-4c2e-aa94-82920732aef2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="4_Helpers\ResourceHelper">
-      <UniqueIdentifier>{1dc72fb4-3c57-4d20-8bcb-a3c14fcdc061}</UniqueIdentifier>
     </Filter>
     <Filter Include="5_Enums">
       <UniqueIdentifier>{4a1ee3f7-ad5c-4675-af1d-5294c59387a8}</UniqueIdentifier>

@@ -3,9 +3,9 @@
 #include "../ParagonAPI/PgMath.h"
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonAPI.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
 #else
-#pragma comment(lib,"..\\x64\\Release\\ParagonAPI.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
 #endif // _DEBUG
 
 /// <summary>

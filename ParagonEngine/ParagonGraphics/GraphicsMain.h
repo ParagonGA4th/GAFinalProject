@@ -12,15 +12,15 @@
 #include <memory>
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonUtil.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
 #else
-#pragma comment(lib,"..\\x64\\Release\\ParagonUtil.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
 #endif // _DEBUG
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonAPI.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
 #else
-#pragma comment(lib,"..\\x64\\Release\\ParagonAPI.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
 #endif // _DEBUG
 
 /// <summary>
@@ -44,6 +44,16 @@ namespace Pg::Graphics
 	namespace Manager
 	{
 		class GraphicsResourceManager;
+	}
+}
+
+namespace Pg::API
+{
+	class APIMain;
+
+	namespace Input
+	{
+		class PgInput;
 	}
 }
 
@@ -93,7 +103,11 @@ namespace Pg::Graphics
 		TempCamera* _camera;
 		TestCube* _box;
 		Pg::Core::GameObject* _tempObj;
+	
+	private:
 		Pg::Core::Time::TimeManager* _timeManager;
+		Pg::API::Input::PgInput* _inputManager;
+		Pg::API::APIMain* _api;
 
 	private:
 		std::unique_ptr<ParagonRenderer> _renderer;
