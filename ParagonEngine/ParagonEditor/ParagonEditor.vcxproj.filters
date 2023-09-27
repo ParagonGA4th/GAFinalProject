@@ -37,6 +37,7 @@
     <ClCompile Include="pugixml.cpp">
       <Filter>pugixml</Filter>
     </ClCompile>
+    <ClCompile Include="DataStruct.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Entry">
