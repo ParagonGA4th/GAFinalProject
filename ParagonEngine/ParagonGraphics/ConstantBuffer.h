@@ -23,12 +23,13 @@ namespace Pg::Graphics
 		LowDX11Storage* _DXStorage;
 
 	public:
-		ID3D11Buffer* _ConstantBuffer;
+		ID3D11Buffer* _Buffer;
 		T* _cbData;
 		D3D11_SUBRESOURCE_DATA _subresource;
 
 	public:
-		void Update();
+		virtual void Update() override;
+		virtual ID3D11Buffer* GetBuffer() override;
 
 	private:
 	};
@@ -41,7 +42,7 @@ namespace Pg::Graphics
 	template<typename T>
 	ConstantBuffer<T>::ConstantBuffer(LowDX11Storage* DXStorage, T* cbData)
 		:_DXStorage(DXStorage),
-		_ConstantBuffer(nullptr),
+		_Buffer(nullptr),
 		_cbData(cbData)
 	{
 		int sizeCB = (((sizeof(T)-1) / 16 ) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
@@ -54,7 +55,7 @@ namespace Pg::Graphics
 
 		_subresource.pSysMem = cbData;
 
-		HRESULT hr = _DXStorage->_device->CreateBuffer(&(_DXStorage->_ConstantBufferDesc), &_subresource, &(_ConstantBuffer));
+		HRESULT hr = _DXStorage->_device->CreateBuffer(&(_DXStorage->_ConstantBufferDesc), &_subresource, &(_Buffer));
 
 	}
 
@@ -62,15 +63,21 @@ namespace Pg::Graphics
 	ConstantBuffer<T>::~ConstantBuffer()
 	{
 		delete _cbData;
-		delete _ConstantBuffer;
+		delete _Buffer;
 	}
 
 	template<typename T>
 	void ConstantBuffer<T>::Update()
+	{	
+		//// TODO: VertexShader가 아닌 쉐이더들에도 대응할 수 있어야 함
+		_DXStorage->_deviceContext->UpdateSubresource(_Buffer, 0, NULL, _cbData, 0, 0);
+		_DXStorage->_deviceContext->VSSetConstantBuffers(0, 1, &_Buffer);
+		_DXStorage->_deviceContext->PSSetConstantBuffers(0, 1, &_Buffer);
+	}
+
+	template<typename T>
+	ID3D11Buffer* ConstantBuffer<T>::GetBuffer()
 	{
-		_DXStorage->_deviceContext->UpdateSubresource(_ConstantBuffer, 0, NULL, _cbData, 0, 0);
-		// TODO: VertexShader가 아닌 쉐이더들에도 대응할 수 있어야 함
-		// TODO: ConstantBuffer가 여러 개 있을 경우에도 대응할 수 있어야 함
-		_DXStorage->_deviceContext->VSSetConstantBuffers(0, 1, &(_ConstantBuffer));
+		return _Buffer;
 	}
 }
