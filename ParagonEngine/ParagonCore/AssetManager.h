@@ -3,7 +3,6 @@
 #include "BaseResource.h"
 #include "EngineResource.h"
 #include "GraphicsResource.h"
-#include "ResourceHelper.h"
 
 #include <string>
 #include <memory>
