@@ -24,7 +24,7 @@ EditorMain::EditorMain()
 	_coreMainStatic = _coreMain.get();
 
 	_fileManager = std::make_unique<FileManager>();
-	_fileManager->Test();
+	_fileManager->XmlLoad();
 }
 
 EditorMain::~EditorMain()
