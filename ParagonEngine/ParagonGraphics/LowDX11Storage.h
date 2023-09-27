@@ -46,6 +46,7 @@ namespace Pg::Graphics
 		D3D11_DEPTH_STENCIL_DESC _depthStencilDesc;
 		D3D11_DEPTH_STENCIL_VIEW_DESC _depthStencilViewDesc;
 		D3D11_SHADER_RESOURCE_VIEW_DESC _shaderResourceViewDesc;
+		D3D11_BUFFER_DESC _ConstantBufferDesc;
 
 		// 스왑체인 관련
 		IDXGIFactory2* _factory;
@@ -67,14 +68,7 @@ namespace Pg::Graphics
 		ID3D11RasterizerState* _solidState;
 		ID3D11RasterizerState* _wireframeState;
 
-		const FLOAT _backgroundColor[4] = { 0.8f, 0.5f, 0.5f, 0.0f };
-
-		// Shader 관련
-		VertexShader* _testVertexShader;
-		PixelShader* _testPixelShader;
-
-		D3D11_BUFFER_DESC _ConstantBufferDesc;
-
+		const FLOAT _backgroundColor[4] = { 0.6f, 0.5f, 0.5f, 0.0f };
 
 	};
 

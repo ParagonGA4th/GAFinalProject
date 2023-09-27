@@ -25,6 +25,15 @@ namespace Pg::Core
 	}
 }
 
+namespace Pg::Graphics
+{
+	namespace Loader
+	{
+		class AssetBasic3DLoader;
+		class AssetBasic2DLoader;
+	}
+}
+
 namespace Pg::Graphics::Manager
 {
 	class GraphicsResourceManager : public Pg::Core::Singleton<GraphicsResourceManager>
@@ -49,6 +58,9 @@ namespace Pg::Graphics::Manager
 
 	private:
 		std::unordered_map<std::string, std::weak_ptr<Pg::Core::Resources::GraphicsResource>> _resources;
+	private:
+		std::unique_ptr<Pg::Graphics::Loader::AssetBasic3DLoader> _asset3DLoader;
+		std::unique_ptr<Pg::Graphics::Loader::AssetBasic2DLoader> _asset2DLoader;
 
 	};
 
