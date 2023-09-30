@@ -38,8 +38,8 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL void Update() override;
 		PARAGON_ENGINE_DLL void Finalize() override;
 
-		//엔진 리소스 매니저 반환. 
-		PARAGON_ENGINE_DLL Pg::Engine::Manager::EngineResourceManager* GetEngineResourceManager();
+		//AssetManager와의 교류를 위해, 엔진 리소스 매니저에 리소스를 로드하는 함수.
+		PARAGON_ENGINE_DLL virtual void LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define) override;
 
 	private:
 		Pg::Core::CoreMain* _coreMain = nullptr;

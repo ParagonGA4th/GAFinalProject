@@ -307,15 +307,10 @@ namespace Pg::Graphics
 		return _DXStorage->_deviceContext;
 	}
 
-	Pg::Graphics::Manager::GraphicsResourceManager* GraphicsMain::GetGraphicsResourceManager()
+	void GraphicsMain::LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define)
 	{
-		if (this->_graphicsResourceManager == nullptr)
-		{
-			this->_graphicsResourceManager = Pg::Graphics::Manager::GraphicsResourceManager::Instance();
-		}
-		return _graphicsResourceManager;
+
 	}
-	
 	
 
 }

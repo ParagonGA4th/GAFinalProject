@@ -18,8 +18,8 @@ namespace Pg::Util::Helper
 		//다양한 상대적 경로 기록 양식을 하나의 양식으로 강제로 통합해 저장해주는 함수이다. 
 		static std::string ForcePathUniform(const std::string& filePath);
 
-		////확장자 (Ex. .png) 를 리소스 타입으로 변환해주는 함수이다.
-		//static auto  Ext2ResourceType(const std::string& extension);
+		//eAssetDefine이 Graphics 리소스 소속인지, Engine 리소스 소속인지 구분해준다. (리소스가 추가되면서 점점 업데이트되어야 할 함수)
+		static bool IsGraphicsResource(Pg::Core::Enums::eAssetDefine define);
 
 
 	private:

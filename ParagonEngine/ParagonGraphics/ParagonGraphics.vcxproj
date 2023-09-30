@@ -31,6 +31,7 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="GraphicsDLLExporter.h" />
     <ClInclude Include="GraphicsMain.h" />
+    <ClInclude Include="GraphicsResourceHelper.h" />
     <ClInclude Include="GraphicsResourceManager.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="LowDX11Logic.h" />
@@ -60,6 +61,7 @@
     <ClCompile Include="ConstantBufferBase.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GraphicsMain.cpp" />
+    <ClCompile Include="GraphicsResourceHelper.cpp" />
     <ClCompile Include="GraphicsResourceManager.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="LowDX11Logic.cpp" />

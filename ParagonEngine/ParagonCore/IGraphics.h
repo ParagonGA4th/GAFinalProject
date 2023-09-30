@@ -1,8 +1,10 @@
 #pragma once
 
 #include "Scene.h"
-#include <windows.h>
 #include "../ParagonCore/CameraData.h"
+#include "AssetDefines.h"
+#include <string>
+#include <windows.h>
 
 /// <summary>
 /// 변지상의 엔진 인터페이스. 코어에 들어갈 예정
@@ -14,8 +16,6 @@ struct ID3D11DeviceContext;
 
 namespace Pg::Core
 {
-
-
 	class IGraphics abstract
 	{
 	public:
@@ -32,5 +32,8 @@ namespace Pg::Core
 		virtual ID3D11DeviceContext* GetDeviceContext() abstract;
 
 		virtual void OnWindowResized(int screenWidth, int screenHeight) abstract;
+
+		//AssetManager와의 교류를 위해, 그래픽스 리소스 매니저에 리소스를 로드하는 함수.
+		virtual void LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define) abstract;
 	};
 }

@@ -81,8 +81,8 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual ID3D11Device* GetDevice() override;
 		PARAGON_GRAPHICS_DLL virtual ID3D11DeviceContext* GetDeviceContext() override;
 
-		//그래픽스 리소스 매니저를 반환한다.
-		PARAGON_GRAPHICS_DLL Pg::Graphics::Manager::GraphicsResourceManager* GetGraphicsResourceManager();
+		//AssetManager와의 교류를 위해, 그래픽스 리소스 매니저에 리소스를 로드하는 함수.
+		PARAGON_GRAPHICS_DLL virtual void LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define) override;
 
 		// TODO: Load(Scene* )
 		// 
