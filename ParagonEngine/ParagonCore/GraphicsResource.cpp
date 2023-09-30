@@ -3,7 +3,7 @@
 
 namespace Pg::Core::Resources
 {
-	GraphicsResource::GraphicsResource(const std::string& filePath) : BaseResource(filePath)
+	GraphicsResource::GraphicsResource(Pg::Core::Enums::eAssetDefine define, const std::string& typeInfoName, const std::string& filePath) : BaseResource(define, typeInfoName, filePath)
 	{
 
 	}
