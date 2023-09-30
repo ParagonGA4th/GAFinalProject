@@ -121,7 +121,7 @@ namespace Pg::Core
 	void CoreMain::Render()
 	{
 		//Render(_engine->GetCurrentScene());
-		_graphics->Render();
+		_graphics->Render(_work->GetCurrentScene());
 	}
 
 
