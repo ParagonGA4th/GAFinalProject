@@ -9,8 +9,9 @@
 /// 2023.09.11
 /// </summary>
 /// 
-class ID3D11Device;
-class ID3D11DeviceContext;
+struct ID3D11Device;
+struct ID3D11DeviceContext;
+
 namespace Pg::Core
 {
 
