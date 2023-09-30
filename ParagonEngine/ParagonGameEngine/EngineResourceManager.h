@@ -25,11 +25,17 @@ namespace Pg::Core
 	}
 }
 
+namespace Pg::Engine
+{
+	class EngineMain;
+}
+
 namespace Pg::Engine::Manager
 {
 	class EngineResourceManager : public Pg::Core::Singleton<EngineResourceManager>
 	{
 		friend class Pg::Core::Manager::AssetManager;
+		friend class Pg::Engine::EngineMain;
 	public:
 		EngineResourceManager();
 		~EngineResourceManager();
@@ -39,7 +45,7 @@ namespace Pg::Engine::Manager
 
 		//리소스를 생성한다. 
 		template<typename T>
-		std::shared_ptr<T> CreateResource(const std::string& path);
+		std::shared_ptr<T> CreateResource(const std::string& path, Pg::Core::Enums::eAssetDefine define);
 
 		template<typename T>
 		std::shared_ptr<T> GetResource(const std::string& path);
@@ -54,7 +60,7 @@ namespace Pg::Engine::Manager
 
 	template<typename T>
 	std::shared_ptr<T>
-		Pg::Engine::Manager::EngineResourceManager::CreateResource(const std::string& path)
+		Pg::Engine::Manager::EngineResourceManager::CreateResource(const std::string& path, Pg::Core::Enums::eAssetDefine define)
 	{
 		//이미 AssetManager의 시점에서는 static하게 체크 완료.
 		//AssetManager의 목록과 연동이 되어야 한다.
@@ -64,7 +70,7 @@ namespace Pg::Engine::Manager
 		assert((!res) && "막히면 이미 만들어진 리소스를 로직 상으로 다시 만드려고 했다는 뜻이다. 로직을 고쳐야.");
 
 		// 없으면, 템플릿으로 들어온 값으로 생성 및 Load.
-		_resources[path] = res = std::make_shared<T>(path);
+		_resources[path] = res = std::make_shared<T>(define, path);
 		res->InternalLoad();
 
 		//원 형태로 반환해줘야 한다.

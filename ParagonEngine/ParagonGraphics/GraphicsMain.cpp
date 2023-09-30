@@ -6,7 +6,9 @@
 #include "GraphicsResourceManager.h"
 
 #include "../ParagonCore/TimeManager.h"
+#include "../ParagonCore/AssetDefines.h"
 #include "../ParagonCore/CoreMain.h"
+#include "../ParagonUtil/ResourceHelper.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/APIMain.h"
 
@@ -17,8 +19,14 @@
 #include "Grid.h"
 #include "Axis.h"
 
+//<실제 Graphics Resource의 목록>
+#include "RenderMaterial.h"
+#include "RenderTexture2D.h"
+//</>
+
 #include <windows.h>
 #include <numbers>
+#include <cassert>
 #include <singleton-cpp/singleton.h>
 
 #ifdef _DEBUG
@@ -32,7 +40,7 @@ namespace Pg::Graphics
 	GraphicsMain::GraphicsMain(Pg::Core::CoreMain* core)
 		: hr(NULL), _coreMain(core),
 		_DXStorage(nullptr), _DXLogic(nullptr),
-		_renderer(nullptr)
+		_renderer(nullptr), _graphicsResourceManager(Manager::GraphicsResourceManager::Instance())
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 		_DXLogic = LowDX11Logic::GetInstance();
@@ -309,8 +317,68 @@ namespace Pg::Graphics
 
 	void GraphicsMain::LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define)
 	{
+		//LoadResource 호출되었다는 것 = Asset이 아직 없다는 말.
 
+		//eAssetDefine을 기준으로 다른 형태의 리소스를 만든다. (리소스의 개수가 확대될수록 이 조건문 역시 확대된다)
+		switch (define)
+		{
+		case (Pg::Core::Enums::eAssetDefine::_NONE):
+			{
+				assert(false);
+			}
+			break;
+			case (Pg::Core::Enums::eAssetDefine::_2DTEXTURE):
+			{
+				_graphicsResourceManager->CreateResource<RenderTexture2D>(filePath, define);
+			}
+			break;
+			case (Pg::Core::Enums::eAssetDefine::_CUBEMAP):
+			{
+				//추가되는 대로 들어와야 한다.
+				assert(false);
+			}
+			break;
+			case (Pg::Core::Enums::eAssetDefine::_3DSTATICMODEL):
+			{
+				//추가되는 대로 들어와야 한다.
+				assert(false);
+			}
+			break;
+			case (Pg::Core::Enums::eAssetDefine::_3DSKINNEDMODEL):
+			{
+				//추가되는 대로 들어와야 한다.
+				assert(false);
+			}
+			break;
+			case (Pg::Core::Enums::eAssetDefine::_FONT):
+			{
+				//추가되는 대로 들어와야 한다.
+				assert(false);
+			}
+			break;
+			case (Pg::Core::Enums::eAssetDefine::_RENDERSHADER):
+			{
+				//추가되는 대로 들어와야 한다.
+				assert(false);
+			}
+			break;
+			case (Pg::Core::Enums::eAssetDefine::_RENDERMATERIAL):
+			{
+				_graphicsResourceManager->CreateResource<RenderMaterial>(filePath, define);
+			}
+			break;
+			default:
+			{
+				assert(false);
+			}
+			break;
+		}
 	}
-	
+
+	void GraphicsMain::UnloadResource(const std::string& filePath)
+	{
+		//Load와 달리, 동시에 두 개의 리소스 매니저가 동시에 호출된다. //지우지 못했어도 오류 반환하지 말자!
+	}
+
 
 }

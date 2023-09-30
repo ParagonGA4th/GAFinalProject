@@ -12,8 +12,8 @@ namespace Pg::Graphics::Manager
 {
 	GraphicsResourceManager::GraphicsResourceManager()
 	{
-		_asset2DLoader = std::make_unique<Pg::Graphics::Loader::AssetBasic2DLoader>();
-		_asset3DLoader = std::make_unique<Pg::Graphics::Loader::AssetBasic3DLoader>();
+		//_asset2DLoader = std::make_unique<Pg::Graphics::Loader::AssetBasic2DLoader>();
+		//_asset3DLoader = std::make_unique<Pg::Graphics::Loader::AssetBasic3DLoader>();
 	}
 
 	GraphicsResourceManager::~GraphicsResourceManager()

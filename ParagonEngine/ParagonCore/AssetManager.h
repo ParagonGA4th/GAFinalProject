@@ -33,8 +33,8 @@ namespace Pg::Core::Manager
 		//실제로 세부 Graphics, Engine의 리소스 매니저를 조종하기 위해, 로직 업데이트.
 		void Update(Pg::Core::IEngine* engine, Pg::Core::IGraphics* graphics);
 
-		//리소스가 실제로 중앙 AssetManager 안에 존재하는지를 판단해준다.
-		bool IsExistResource(const std::string& filepath, Pg::Core::Enums::eAssetDefine define);
+		//리소스가 실제로 중앙 AssetManager 안에 존재하는지를 판단해준다. (*같은 파일 경로로 다른 Asset Enum 들어갈 오류의 경우의 수 곧 생각해야.)
+		bool IsExistResource(const std::string& filepath);
 
 		//리소스를 로드할 Queue에 넣는다.
 		void LoadResource(const std::string& filepath, Pg::Core::Enums::eAssetDefine define);

@@ -29,9 +29,11 @@
 
 namespace Pg::Core
 {
-	CoreMain::CoreMain() :
-		_assetManager(Manager::AssetManager::Instance())
+	CoreMain::CoreMain()
 	{
+		auto& tAssetManager = singleton<Manager::AssetManager>();
+		_assetManager = &tAssetManager;
+
 		auto& timeSystem = singleton<Time::TimeManager>();
 		_timeManager = &timeSystem;
 
@@ -77,6 +79,9 @@ namespace Pg::Core
 		//deltaTime 업데이트
 		_timeManager->TimeMeasure();
 		_timeManager->MeasureFrame(_timeManager->GetDeltaTime());
+
+		//AssetManager 로직 업데이트.
+		_assetManager->Update(_engine.get(), _graphics.get());
 
 		//여기다가 시스템 싹 다 업데이트!!
 		_engine->Update();
