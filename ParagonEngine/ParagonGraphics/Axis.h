@@ -1,29 +1,26 @@
 #pragma once
 
 #include "DX11Headers.h"
+#include "RenderableObject.h"
 
 namespace Pg::Graphics
 {
-	class LowDX11Storage;
 
-	struct Vertex
-	{
-		float3 Pos;
-		float4 Color;
-	};
-
-	class Axis
+	class Axis : public RenderableObject
 	{
 	public:
 		Axis();
+		virtual ~Axis();
 
 	public:
-		void Draw();
+		virtual void Draw() override;
 
-	private:
-		LowDX11Storage* _DXStorage;
+		virtual void BuildBuffers() override;
+		virtual void BindBuffers() override;
 
-		ID3D11Buffer* VB;
-		ID3D11Buffer* IB;
+		virtual void BindInputLayout() override;
+
+	public:
+		CBDataBase _cbData;
 	};
 }

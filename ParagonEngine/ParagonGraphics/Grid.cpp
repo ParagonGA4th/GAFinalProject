@@ -3,11 +3,19 @@
 #include "LowDX11Storage.h"
 
 Pg::Graphics::Grid::Grid()
-	:VB(nullptr), IB(nullptr),
-	_DXStorage()
+	: RenderableObject(),
+	_cbData()
 {
-	_DXStorage = Pg::Graphics::LowDX11Storage::GetInstance();
 
+}
+
+Pg::Graphics::Grid::~Grid()
+{
+
+}
+
+void Pg::Graphics::Grid::BuildBuffers()
+{
 	Vertex vertices[100];
 	for (int i = 0; i < 100; i++)
 	{
@@ -53,7 +61,33 @@ Pg::Graphics::Grid::Grid()
 	hr = _DXStorage->_device->CreateBuffer(&ibd, &iinitData, &IB);
 }
 
+void Pg::Graphics::Grid::BindBuffers()
+{
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+
+	_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &VB, &stride, &offset);
+	_DXStorage->_deviceContext->IASetIndexBuffer(IB, DXGI_FORMAT_R32_UINT, 0);
+}
+
 void Pg::Graphics::Grid::Draw()
 {
+	BindInputLayout();
+	BindShaders();
 
+	BindBuffers();
+
+	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), (_DXStorage->_depthStencilView));
+
+	_DXStorage->_deviceContext->DrawIndexed(40, 0, 0);
+
+	UnbindShaders();
+	UnbindInputLayout();
 }
+
+void Pg::Graphics::Grid::BindInputLayout()
+{
+	_DXStorage->_deviceContext->IASetInputLayout(_vertexShader->_inputLayout);
+	_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+}
+
