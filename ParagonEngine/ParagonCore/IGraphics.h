@@ -16,6 +16,11 @@ struct ID3D11DeviceContext;
 
 namespace Pg::Core
 {
+	class Scene;
+}
+
+namespace Pg::Core
+{
 	class IGraphics abstract
 	{
 	public:
@@ -23,7 +28,7 @@ namespace Pg::Core
 
 		virtual void Update(const Pg::Core::Scene* const scene, Pg::Core::CameraData cameraData) abstract;
 		virtual void BeginRender() abstract;
-		virtual void Render() abstract;
+		virtual void Render(Scene* scene) abstract;
 		virtual void EndRender() abstract;
 
 		virtual void Finalize() abstract;

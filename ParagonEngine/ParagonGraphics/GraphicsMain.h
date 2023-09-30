@@ -32,6 +32,7 @@
 namespace Pg::Core
 {
 	class CoreMain;
+	class Scene;
 
 	namespace Time
 	{
@@ -73,7 +74,7 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) override;
 		PARAGON_GRAPHICS_DLL virtual void Update(const Pg::Core::Scene* const scene, Pg::Core::CameraData cameraData) override;
 		PARAGON_GRAPHICS_DLL virtual void BeginRender() override;
-		PARAGON_GRAPHICS_DLL virtual void Render() override;
+		PARAGON_GRAPHICS_DLL virtual void Render(Pg::Core::Scene* scene) override;
 		PARAGON_GRAPHICS_DLL virtual void EndRender() override;
 		PARAGON_GRAPHICS_DLL virtual void Finalize() override;
 
