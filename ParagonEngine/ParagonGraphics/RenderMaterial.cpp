@@ -4,7 +4,8 @@ namespace Pg::Graphics
 {
 	using Pg::Core::Resources::GraphicsResource;
 
-	RenderMaterial::RenderMaterial(const std::string& filePath) : GraphicsResource(filePath)
+	RenderMaterial::RenderMaterial(Pg::Core::Enums::eAssetDefine define, const std::string& filePath) : 
+		GraphicsResource(define, typeid(this).name(), filePath)
 	{
 		//
 	}

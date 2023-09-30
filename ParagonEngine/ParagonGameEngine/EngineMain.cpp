@@ -2,6 +2,10 @@
 #include "InputSystem.h"
 #include "EngineResourceManager.h"
 
+//<실제 GameEngine Resource의 목록>
+
+//</>
+
 #include "../ParagonCore/CoreMain.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonAPI/KeyCodeType.h"
@@ -61,6 +65,10 @@ namespace Pg::Engine
 
 	}
 
+	void EngineMain::UnloadResource(const std::string& filePath)
+	{
+		//Load와 달리, 동시에 두 개의 리소스 매니저가 동시에 호출된다. //지우지 못했어도 오류 반환하지 말자!
+	}
 	
 
 }

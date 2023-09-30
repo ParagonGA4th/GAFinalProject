@@ -83,7 +83,12 @@
     <ClInclude Include="Asset3DModelHelper.h">
       <Filter>8_Helpers\Asset3DModelHelper</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsResourceHelper.h" />
+    <ClInclude Include="RenderTexture2D.h">
+      <Filter>3_GraphicsResources\RenderTexture2D</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsResourceHelper.h">
+      <Filter>8_Helpers\GraphicsResourceHelper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -159,7 +164,12 @@
     <ClCompile Include="Asset3DModelHelper.cpp">
       <Filter>8_Helpers\Asset3DModelHelper</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicsResourceHelper.cpp" />
+    <ClCompile Include="RenderTexture2D.cpp">
+      <Filter>3_GraphicsResources\RenderTexture2D</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsResourceHelper.cpp">
+      <Filter>8_Helpers\GraphicsResourceHelper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -230,6 +240,9 @@
     </Filter>
     <Filter Include="8_Helpers\GraphicsResourceHelper">
       <UniqueIdentifier>{5e99454b-e123-4aad-a1e9-b04a7f5f27aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\RenderTexture2D">
+      <UniqueIdentifier>{b58c515e-ab8f-4565-9dee-c36c20115eb4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
