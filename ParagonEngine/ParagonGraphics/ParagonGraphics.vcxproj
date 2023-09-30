@@ -46,6 +46,7 @@
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="RenderObject.h" />
     <ClInclude Include="RenderShader.h" />
+    <ClInclude Include="RenderTexture2D.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TempCamera.h" />
     <ClInclude Include="TestCube.h" />
@@ -76,6 +77,7 @@
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="RenderObject.cpp" />
     <ClCompile Include="RenderShader.cpp" />
+    <ClCompile Include="RenderTexture2D.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TempCamera.cpp" />
     <ClCompile Include="TestCube.cpp" />

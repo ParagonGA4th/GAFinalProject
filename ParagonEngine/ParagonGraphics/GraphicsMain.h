@@ -84,6 +84,9 @@ namespace Pg::Graphics
 		//AssetManager와의 교류를 위해, 그래픽스 리소스 매니저에 리소스를 로드하는 함수.
 		PARAGON_GRAPHICS_DLL virtual void LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define) override;
 
+		//AssetManager와의 교류를 위해, 그래픽스 리소스 매니저에 리소스를 언로드하는 함수.
+		PARAGON_GRAPHICS_DLL virtual void UnloadResource(const std::string& filePath) override;
+
 		// TODO: Load(Scene* )
 		// 
 
