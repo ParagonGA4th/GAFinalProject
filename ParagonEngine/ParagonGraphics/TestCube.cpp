@@ -3,9 +3,8 @@
 #include "DX11Headers.h"
 #include "LowDX11Storage.h"
 
-Pg::Graphics::TestCube::TestCube(LowDX11Storage* storage)
-	:_DXStorage(storage),
-	_vertexShader(nullptr), _pixelShader(nullptr),
+Pg::Graphics::TestCube::TestCube()
+	: RenderableObject(),
 	_cbData()
 {
 
@@ -17,48 +16,30 @@ void Pg::Graphics::TestCube::Draw()
 	BindShaders();
 
 	BindBuffers();
+	
+	// todo : Logic으로 옮기기
+	D3D11_RASTERIZER_DESC rd;
+	//rd.FillMode = D3D11_FILL_WIREFRAME;
+	rd.FillMode = D3D11_FILL_SOLID;
+	rd.CullMode = D3D11_CULL_BACK;
+	rd.FrontCounterClockwise = false;
+	rd.DepthBias = 0;
+	rd.SlopeScaledDepthBias = 0.0f;
+	rd.DepthBiasClamp = 0.0f;
+	rd.DepthClipEnable = true;
+	rd.ScissorEnable = false;
+	rd.MultisampleEnable = false;
+	rd.AntialiasedLineEnable = false;
 
+	ID3D11RasterizerState* rs;
+	HRESULT hr = _DXStorage->_device->CreateRasterizerState(&rd, &rs);
+	_DXStorage->_deviceContext->RSSetState(rs);
 	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), (_DXStorage->_depthStencilView));
 
 	_DXStorage->_deviceContext->DrawIndexed(36, 0, 0);
 
 	UnbindShaders();
 	UnbindInputLayout();
-}
-
-void Pg::Graphics::TestCube::Update(float time)
-{
-	// 상수버퍼 업데이트
-	for (auto& e : _vertexShader->_constantBuffers)
-	{
-		e->Update();
-	}
-}
-
-void Pg::Graphics::TestCube::SetVertexShader(VertexShader* shader)
-{
-	_vertexShader = shader;
-}
-
-void Pg::Graphics::TestCube::SetPixelShader(PixelShader* shader)
-{
-	_pixelShader = shader;
-}
-
-Pg::Graphics::VertexShader* Pg::Graphics::TestCube::GetVertexShader()
-{
-	return _vertexShader;
-}
-
-Pg::Graphics::PixelShader* Pg::Graphics::TestCube::GetPixelShader()
-{
-	return _pixelShader;
-}
-
-void Pg::Graphics::TestCube::Initialize()
-{
-	BuildBuffers();
-	BindBuffers();
 }
 
 void Pg::Graphics::TestCube::BuildBuffers()
@@ -156,29 +137,6 @@ void Pg::Graphics::TestCube::BuildBuffers()
 
 	// Create the Index buffer.
 	hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &IB);
-}
-
-void Pg::Graphics::TestCube::BindShaders()
-{
-	_vertexShader->Bind();
-	_pixelShader->Bind();
-}
-
-void Pg::Graphics::TestCube::UnbindShaders()
-{
-	_vertexShader->UnBind();
-	_pixelShader->UnBind();
-}
-
-void Pg::Graphics::TestCube::BindInputLayout()
-{
-	_DXStorage->_deviceContext->IASetInputLayout(_vertexShader->_inputLayout);
-	_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-}
-
-void Pg::Graphics::TestCube::UnbindInputLayout()
-{
-	_DXStorage->_deviceContext->IASetInputLayout(nullptr);
 }
 
 void Pg::Graphics::TestCube::BindBuffers()

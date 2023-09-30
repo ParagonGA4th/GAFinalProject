@@ -29,8 +29,8 @@ namespace Pg::Graphics
 
 	public:
 
-		// 쉐이더를 컴파일하여 바이트코드를 멤버에 저장
-		HRESULT CompileShader(std::wstring CSOFilePath);
+		// 쉐이더 바이트코드를 멤버에 저장
+		HRESULT LoadShader(std::wstring CSOFilePath);
 		ID3DBlob* _byteCode;
 
 	public:
@@ -39,7 +39,7 @@ namespace Pg::Graphics
 	
 		// 상수 버퍼 데이터를 추가하는 함수
 		template <typename T>
-		void AddConstantBuffer(T* cbData)
+		void AssignConstantBuffer(T* cbData)
 		{
 			_constantBuffers.emplace_back(new ConstantBuffer<T>(_DXStorage, cbData));
 		}
