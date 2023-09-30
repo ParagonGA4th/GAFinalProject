@@ -38,6 +38,7 @@
     <ClInclude Include="msdfgenTest.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="RenderableObject.h" />
     <ClInclude Include="RenderMaterial.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="ParagonRenderer.h" />
@@ -66,6 +67,7 @@
     <ClCompile Include="msdfgenTest.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="RenderableObject.cpp" />
     <ClCompile Include="RenderMaterial.cpp" />
     <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="ParagonRenderer.cpp" />
