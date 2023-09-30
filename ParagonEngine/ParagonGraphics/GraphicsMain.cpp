@@ -250,23 +250,24 @@ namespace Pg::Graphics
 
 	}
 
-	void GraphicsMain::Render()
+	void GraphicsMain::Render(Pg::Core::Scene* scene)
 	{
-		// test용 큐브 그리기
-		_box->Draw();
-		
+		//<기본 View>
 		// Grid
 		grid->Draw();
-
 		// Axis
 		axis->Draw();
-
+		//</>
+		
 		// test 스프라이트 그리기
 		sprite->Draw();
 		sprite2->Draw();
 
 		// test 폰트 그리기
 		font->Draw();
+
+		// test용 큐브 그리기
+		_box->Draw();
 
 		_renderer->Render(_tempObj);
 	}

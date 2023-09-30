@@ -31,6 +31,8 @@
 
 namespace Pg::Core
 {
+	class Scene;
+
 	namespace Manager
 	{
 		class AssetManager;
