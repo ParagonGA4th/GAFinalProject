@@ -153,6 +153,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AssetDefines.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="BaseRenderer.h" />
     <ClInclude Include="BaseResource.h" />
@@ -167,7 +168,6 @@
     <ClInclude Include="IRenderObject.h" />
     <ClInclude Include="IUtil.h" />
     <ClInclude Include="RenderTextData.h" />
-    <ClInclude Include="ResourceType.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="IGraphics.h" />

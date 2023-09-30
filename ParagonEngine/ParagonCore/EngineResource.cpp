@@ -3,7 +3,7 @@
 
 namespace Pg::Core::Resources
 {
-	EngineResource::EngineResource(const std::string& filePath) : BaseResource(filePath)
+	EngineResource::EngineResource(Pg::Core::Enums::eAssetDefine define, const std::string& typeInfoName, const std::string& filePath) : BaseResource(define, typeInfoName, filePath)
 	{
 
 	}
