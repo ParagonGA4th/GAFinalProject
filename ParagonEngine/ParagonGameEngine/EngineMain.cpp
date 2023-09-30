@@ -21,7 +21,7 @@
 
 namespace Pg::Engine
 {
-	EngineMain::EngineMain(Pg::Core::CoreMain* core) : _coreMain(core), _engineResourceManager(nullptr)
+	EngineMain::EngineMain(Pg::Core::CoreMain* core) : _coreMain(core), _engineResourceManager(Manager::EngineResourceManager::Instance())
 	{
 		auto& tInputSystem = singleton<Input::InputSystem>();
 		_inputSystem = &tInputSystem;
@@ -56,15 +56,11 @@ namespace Pg::Engine
 
 	}
 
-	Pg::Engine::Manager::EngineResourceManager* EngineMain::GetEngineResourceManager()
+	void EngineMain::LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define)
 	{
-		if (this->_engineResourceManager == nullptr)
-		{
-			this->_engineResourceManager = Pg::Engine::Manager::EngineResourceManager::Instance();
-		}
-		return _engineResourceManager;
+
 	}
-	
+
 	
 
 }

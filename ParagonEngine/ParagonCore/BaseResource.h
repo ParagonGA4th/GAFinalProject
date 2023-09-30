@@ -19,23 +19,11 @@ namespace Pg::Core::Resources
 		virtual void InternalLoad() abstract;
 		virtual void InternalUnload() abstract;
 
-		//자신을 실제로 자신이 실제하는 하위 클래스 형태로 돌려준다.
-		template<typename T>
-		std::shared_ptr<T> CastToSelf();
-
 	protected:
 		std::string _filePath;
 		std::string _typeInfoName;
 		Pg::Core::Enums::eAssetDefine _assetDefine;
 	};
-
-	template<typename T>
-	std::shared_ptr<T>
-		Pg::Core::Resources::BaseResource::CastToSelf()
-	{
-
-	}
-
 }
 
 

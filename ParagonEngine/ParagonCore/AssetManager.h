@@ -15,6 +15,8 @@
 namespace Pg::Core
 {
 	class CoreMain;
+	class IEngine;
+	class IGraphics;
 }
 
 namespace Pg::Core::Manager
@@ -29,14 +31,15 @@ namespace Pg::Core::Manager
 		void Initialize(Pg::Core::CoreMain* core);
 
 		//실제로 세부 Graphics, Engine의 리소스 매니저를 조종하기 위해, 로직 업데이트.
-		void Update();
+		void Update(Pg::Core::IEngine* engine, Pg::Core::IGraphics* graphics);
 
 		//리소스가 실제로 중앙 AssetManager 안에 존재하는지를 판단해준다.
-		void IsExistResource(Pg::Core::Enums::eAssetDefine define, const std::string& filepath);
+		bool IsExistResource(const std::string& filepath, Pg::Core::Enums::eAssetDefine define);
 
-		//리소스가 
-		void LoadResource(Pg::Core::Enums::eAssetDefine define, const std::string& filepath);
+		//리소스를 로드할 Queue에 넣는다.
+		void LoadResource(const std::string& filepath, Pg::Core::Enums::eAssetDefine define);
 
+		//리소스를 언로드할 Queue에 넣는다.
 		void UnloadResource(const std::string& filepath);
 
 	private:
@@ -45,6 +48,10 @@ namespace Pg::Core::Manager
 		//실제로 보관하는 리소스 맵. <파일 경로 / Asset의 종류>
 		std::unordered_map<std::string, Pg::Core::Enums::eAssetDefine> _resourceMap;
 
-		std::vector<std
+		//매 프레임마다 업데이트되는 리소스 페어 (로드 예정)
+		std::vector<std::pair<std::string, Pg::Core::Enums::eAssetDefine>> _perFrameToLoadResources;
+
+		//매 프레임마다 업데이트되는 리소스 페어 (언로드 예정)
+		std::vector<std::string> _perFrameToUnloadResources;
 	};
 }
