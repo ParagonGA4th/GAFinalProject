@@ -18,7 +18,7 @@ cbuffer cbPerObjectBase : register(b0)
 
 cbuffer cbPerObjectSkinned : register(b1)
 {
-    float4x4 gCBuf_Bones[100];
+    float4x4 gCBuf_Bones[PG_MAX_BONECOUNT];
 };
 
 #endif //__DEFINED_DEFAULT_BUFFER_PER_OBJECT_HLSL__

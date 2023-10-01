@@ -90,8 +90,18 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Resources\DefaultShaders\Libraries\DefaultBufferPerObject.hlsl" />
-    <FxCompile Include="..\Resources\DefaultShaders\Libraries\DefaultInputLayouts.hlsl" />
+    <FxCompile Include="..\Resources\DefaultShaders\Libraries\DefaultLayouts.hlsl" />
     <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstSkinned_VS.hlsl" />
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstStage_PS.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PS_MAIN</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">PS_MAIN</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS_MAIN</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS_MAIN</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstStatic_VS.hlsl" />
     <FxCompile Include="PixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
