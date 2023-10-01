@@ -1,7 +1,7 @@
 //그래픽 엔진 디폴트 InputLayout을 저장한 HLSL.
 
-#ifndef __DEFINED_DEFAULT_INPUTLAYOUTS_HLSL__
-#define __DEFINED_DEFAULT_INPUTLAYOUTS_HLSL__
+#ifndef __DEFINED_DEFAULT_LAYOUTS_HLSL__
+#define __DEFINED_DEFAULT_LAYOUTS_HLSL__
 
 struct Vin1stStatic
 {
@@ -43,4 +43,15 @@ struct VOut1st
     //uint vout1st_MatID : MATERIALID;
 };
 
-#endif //__DEFINED_DEFAULT_INPUTLAYOUTS_HLSL__
+struct POut1st
+{
+    float4 pout1st_RT1 : SV_Target0;
+    float4 pout1st_RT2 : SV_Target0;
+    float4 pout1st_RT3 : SV_Target0;
+    float4 pout1st_RT4 : SV_Target0;
+    float4 pout1st_RT1 : SV_Target0;
+    
+    //TYPELESS는 어떻게 넣지?
+};
+
+#endif //__DEFINED_DEFAULT_LAYOUTS_HLSL__

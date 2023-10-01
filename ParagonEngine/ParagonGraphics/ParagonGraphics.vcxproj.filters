@@ -261,13 +261,16 @@
     <FxCompile Include="..\Resources\DefaultShaders\Libraries\DefaultBufferPerObject.hlsl">
       <Filter>6_HLSL\DefaultInfo</Filter>
     </FxCompile>
-    <FxCompile Include="..\Resources\DefaultShaders\Libraries\DefaultInputLayouts.hlsl">
+    <FxCompile Include="..\Resources\DefaultShaders\Libraries\DefaultLayouts.hlsl">
       <Filter>6_HLSL\DefaultInfo</Filter>
     </FxCompile>
     <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstSkinned_VS.hlsl">
       <Filter>6_HLSL\FirstStage</Filter>
     </FxCompile>
     <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstStatic_VS.hlsl">
+      <Filter>6_HLSL\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstStage_PS.hlsl">
       <Filter>6_HLSL\FirstStage</Filter>
     </FxCompile>
   </ItemGroup>
