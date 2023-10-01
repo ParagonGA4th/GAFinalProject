@@ -1,7 +1,7 @@
 ///그래픽엔진 자체의 1st Vertex Shader (Skinned)
 
 #include "../Libraries/DefaultBufferPerObject.hlsl"
-#include "../Libraries/DefaultInputLayouts.hlsl"
+#include "../Libraries/DefaultLayouts.hlsl"
 
 VOut1st VS_MAIN(Vin1stSkinned input)
 {
