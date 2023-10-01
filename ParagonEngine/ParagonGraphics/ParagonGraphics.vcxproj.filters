@@ -244,6 +244,12 @@
     <Filter Include="3_GraphicsResources\RenderTexture2D">
       <UniqueIdentifier>{b58c515e-ab8f-4565-9dee-c36c20115eb4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="6_HLSL\FirstStage">
+      <UniqueIdentifier>{2eaf1504-42d4-469b-a238-8d821561bb3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\DefaultInfo">
+      <UniqueIdentifier>{d6331f99-21c9-43a7-9cf1-d92ea52f5dad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
@@ -251,6 +257,18 @@
     </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
       <Filter>6_HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Libraries\DefaultBufferPerObject.hlsl">
+      <Filter>6_HLSL\DefaultInfo</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Libraries\DefaultInputLayouts.hlsl">
+      <Filter>6_HLSL\DefaultInfo</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstSkinned_VS.hlsl">
+      <Filter>6_HLSL\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstStatic_VS.hlsl">
+      <Filter>6_HLSL\FirstStage</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
