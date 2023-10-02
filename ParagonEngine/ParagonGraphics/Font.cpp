@@ -23,7 +23,7 @@ namespace Pg::Graphics
 		//_position.x = _spriteFont->MeasureString(_text.c_str()) / 2.0f;
 		//_position.y = _spriteFont->MeasureString(_text.c_str()) / 2.0f;
 
-		_spriteFont->DrawString(_spriteBatch.get(), _text.c_str(), _position, DirectX::Colors::Black);
+		_spriteFont->DrawString(_spriteBatch.get(), _text.c_str(), _position, DirectX::Colors::White);
 		_spriteBatch->End();
 	}
 
