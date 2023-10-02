@@ -27,6 +27,7 @@
     <ClInclude Include="AssetBasic3DLoader.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantBufferBase.h" />
+    <ClInclude Include="Cubemap.h" />
     <ClInclude Include="DX11Headers.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GraphicsDLLExporter.h" />
@@ -60,6 +61,7 @@
     <ClCompile Include="Axis.cpp" />
     <ClCompile Include="AssetBasic3DLoader.cpp" />
     <ClCompile Include="ConstantBufferBase.cpp" />
+    <ClCompile Include="Cubemap.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GraphicsMain.cpp" />
     <ClCompile Include="GraphicsResourceHelper.cpp" />
@@ -89,6 +91,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="CubemapPS.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="CubemapVS.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>

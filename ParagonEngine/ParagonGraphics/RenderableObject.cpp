@@ -1,5 +1,7 @@
 #include "RenderableObject.h"
 
+#include "DX11Headers.h"
+#include "dxtk/DDSTextureLoader.h"
 #include "LowDX11Storage.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
@@ -46,11 +48,17 @@ void Pg::Graphics::RenderableObject::BindShaders()
 	_vertexShader->Bind();
 	_pixelShader->Bind();
 
+	// Bind Constant Buffers
 	for (auto& cb : _vertexShader->_constantBuffers)
 	{
-		cb->Update();
+		cb->UpdateAndBind();
 	}
 	
+	// Bind Shader Resources
+	_DXStorage->_deviceContext->PSSetShaderResources(0, 1, &SRV);
+
+	//
+	_DXStorage->_deviceContext->PSSetSamplers(0, 1, &_samplerState);
 }
 
 void Pg::Graphics::RenderableObject::UnbindShaders()
@@ -88,4 +96,24 @@ Pg::Graphics::VertexShader* Pg::Graphics::RenderableObject::GetVertexShader()
 Pg::Graphics::PixelShader* Pg::Graphics::RenderableObject::GetPixelShader()
 {
 	return _pixelShader;
+}
+
+void Pg::Graphics::RenderableObject::SetTexture(std::wstring filepath)
+{
+	ID3D11Resource* Texture = nullptr;
+
+	HRESULT hr = DirectX::CreateDDSTextureFromFile(_DXStorage->_device, filepath.c_str(), &Texture, &SRV);
+
+	_DXStorage->_deviceContext->PSSetShaderResources(0, 1, &SRV);
+
+	D3D11_SAMPLER_DESC sd;
+	sd.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sd.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sd.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sd.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+	sd.MipLODBias = 0.0f;
+	sd.MaxAnisotropy = 1;
+		
+	_DXStorage->_device->CreateSamplerState(&sd, &_samplerState);
+	_DXStorage->_deviceContext->PSSetSamplers(0, 1, &_samplerState);
 }
