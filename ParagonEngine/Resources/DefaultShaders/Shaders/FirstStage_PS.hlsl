@@ -1,11 +1,11 @@
 ///그래픽엔진 자체의 1st Pixel Shader (All)
 
-#include "../Libraries/DefaultBufferPerObject.hlsl"
-#include "../Libraries/DefaultLayouts.hlsl"
+#include "../Libraries/DefaultBufferPerObject.hlsli"
+#include "../Libraries/DefaultLayouts.hlsli"
 
 POut1st PS_MAIN(VOut1st input)
 {
-    POut1st output;
+    POut1st output = (POut1st) 0;
     
     //RT0 : Texture UV Coords.
     output.pout1st_RT0.xyz = input.vout1st_Tex;

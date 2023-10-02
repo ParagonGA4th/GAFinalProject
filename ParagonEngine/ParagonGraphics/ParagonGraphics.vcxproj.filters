@@ -79,7 +79,6 @@
     <ClInclude Include="AssetCombinedLoader.h">
       <Filter>3_GraphicsResources\Loaders\AssetCombinedLoader</Filter>
     </ClInclude>
-    <ClInclude Include="RenderableObject.h" />
     <ClInclude Include="Asset3DModelHelper.h">
       <Filter>8_Helpers\Asset3DModelHelper</Filter>
     </ClInclude>
@@ -88,6 +87,12 @@
     </ClInclude>
     <ClInclude Include="GraphicsResourceHelper.h">
       <Filter>8_Helpers\GraphicsResourceHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderableObject.h">
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Cubemap.h">
+      <Filter>7_OtherObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -160,7 +165,6 @@
     <ClCompile Include="AssetCombinedLoader.cpp">
       <Filter>3_GraphicsResources\Loaders\AssetCombinedLoader</Filter>
     </ClCompile>
-    <ClCompile Include="RenderableObject.cpp" />
     <ClCompile Include="Asset3DModelHelper.cpp">
       <Filter>8_Helpers\Asset3DModelHelper</Filter>
     </ClCompile>
@@ -169,6 +173,12 @@
     </ClCompile>
     <ClCompile Include="GraphicsResourceHelper.cpp">
       <Filter>8_Helpers\GraphicsResourceHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderableObject.cpp">
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Cubemap.cpp">
+      <Filter>7_OtherObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -258,11 +268,11 @@
     <FxCompile Include="PixelShader.hlsl">
       <Filter>6_HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="..\Resources\DefaultShaders\Libraries\DefaultBufferPerObject.hlsl">
-      <Filter>6_HLSL\DefaultInfo</Filter>
+    <FxCompile Include="CubemapVS.hlsl">
+      <Filter>6_HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="..\Resources\DefaultShaders\Libraries\DefaultLayouts.hlsl">
-      <Filter>6_HLSL\DefaultInfo</Filter>
+    <FxCompile Include="CubemapPS.hlsl">
+      <Filter>6_HLSL</Filter>
     </FxCompile>
     <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstSkinned_VS.hlsl">
       <Filter>6_HLSL\FirstStage</Filter>
@@ -273,5 +283,13 @@
     <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstStage_PS.hlsl">
       <Filter>6_HLSL\FirstStage</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\DefaultShaders\Libraries\DefaultBufferPerObject.hlsli">
+      <Filter>6_HLSL\DefaultInfo</Filter>
+    </None>
+    <None Include="..\Resources\DefaultShaders\Libraries\DefaultLayouts.hlsli">
+      <Filter>6_HLSL\DefaultInfo</Filter>
+    </None>
   </ItemGroup>
 </Project>

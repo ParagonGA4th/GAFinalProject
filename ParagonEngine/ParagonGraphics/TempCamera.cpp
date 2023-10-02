@@ -2,13 +2,14 @@
 
 #include <numbers>
 
-TempCamera::TempCamera()
-	: mPosition(0.0f, 0.0f, 0.0f),
+TempCamera::TempCamera(float3 position)
+	: mPosition(position),
 	mRight(1.0f, 0.0f, 0.0f),
 	mUp(0.0f, 1.0f, 0.0f),
-	mLook(0.0f, 0.0f, 1.0f)
+	mLook(0.0f, 0.0f, 0.0f)
 {
 	//SetLens(0.15f * std::numbers::pi, 1.0f, 0.0001f, 1000.0f);
+	LookAt(mPosition, float3(0.0f, 0.0f, 0.0f), mUp);
 }
 
 TempCamera::~TempCamera()
