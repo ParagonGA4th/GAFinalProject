@@ -94,6 +94,9 @@
     <ClInclude Include="Cubemap.h">
       <Filter>7_OtherObject</Filter>
     </ClInclude>
+    <ClInclude Include="ByteBuffer.hpp">
+      <Filter>9_Util\ByteBuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -180,6 +183,9 @@
     <ClCompile Include="Cubemap.cpp">
       <Filter>7_OtherObject</Filter>
     </ClCompile>
+    <ClCompile Include="ByteBuffer.cpp">
+      <Filter>9_Util\ByteBuffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -236,9 +242,6 @@
     <Filter Include="3_GraphicsResources\Asset3DModelData">
       <UniqueIdentifier>{0ee47e45-1bb3-4a25-a048-d46222ab75d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3_GraphicsResources\Helpers">
-      <UniqueIdentifier>{7d806c07-7ffe-48cf-b843-10a7dfa9384f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3_GraphicsResources\Asset3DModelData\Define">
       <UniqueIdentifier>{dbd555d5-7923-4ea2-a30d-b7e1153de640}</UniqueIdentifier>
     </Filter>
@@ -259,6 +262,12 @@
     </Filter>
     <Filter Include="6_HLSL\DefaultInfo">
       <UniqueIdentifier>{d6331f99-21c9-43a7-9cf1-d92ea52f5dad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_Util">
+      <UniqueIdentifier>{ac8e1c62-b6b6-4db3-9a29-773a07312fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_Util\ByteBuffer">
+      <UniqueIdentifier>{0a4a2d5a-c7b4-48ea-a60a-adaf53136896}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

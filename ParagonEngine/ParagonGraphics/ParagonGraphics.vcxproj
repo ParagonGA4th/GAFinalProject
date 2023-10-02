@@ -25,6 +25,7 @@
     <ClInclude Include="AssetCombinedLoader.h" />
     <ClInclude Include="Axis.h" />
     <ClInclude Include="AssetBasic3DLoader.h" />
+    <ClInclude Include="ByteBuffer.hpp" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantBufferBase.h" />
     <ClInclude Include="Cubemap.h" />
@@ -60,6 +61,7 @@
     <ClCompile Include="AssetCombinedLoader.cpp" />
     <ClCompile Include="Axis.cpp" />
     <ClCompile Include="AssetBasic3DLoader.cpp" />
+    <ClCompile Include="ByteBuffer.cpp" />
     <ClCompile Include="ConstantBufferBase.cpp" />
     <ClCompile Include="Cubemap.cpp" />
     <ClCompile Include="Font.cpp" />
