@@ -18,6 +18,7 @@
 
 #include "Grid.h"
 #include "Axis.h"
+#include "Cubemap.h"
 
 //<실제 Graphics Resource의 목록>
 #include "RenderMaterial.h"
@@ -70,7 +71,9 @@ namespace Pg::Graphics
 	Grid* grid;
 	Axis* axis;
 
-	const float cameraSpeed = 40.f;
+	Cubemap* cubemap;
+
+	const float cameraSpeed = 100.0f;
 
 	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
 	{
@@ -100,7 +103,8 @@ namespace Pg::Graphics
 		D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
 		{
 			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}//,
+			//{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
 		VertexShader* BoxVertexShader = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
@@ -130,9 +134,27 @@ namespace Pg::Graphics
 		axis->AssignVertexShader(helperVS);
 		axis->AssignPixelShader(BoxPixelShader);
 		
+
+		// Cubemap
+		D3D11_INPUT_ELEMENT_DESC CubemapvertexDesc[] =
+		{
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		};
+
+		VertexShader* CubemapVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/CubemapVS.cso", CubemapvertexDesc);
+		PixelShader* CubemapPS = new PixelShader(_DXStorage, L"../Builds/x64/debug/CubemapPS.cso");
+
+		cubemap = new Cubemap();
+		cubemap->Initialize();
+
+		CubemapVS->AssignConstantBuffer(&(cubemap->_cbData));
+		cubemap->AssignVertexShader(CubemapVS);
+		cubemap->AssignPixelShader(CubemapPS);
+
+
 		// Camera
-		_camera = new TempCamera();
-		_camera->SetPosition(float3(0.0f, 0.0f, -3.0f));
+		_camera = new TempCamera(float3(0.0f, 3.0f, -10.0f));
 		_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 
 		// TimeManager
@@ -228,7 +250,6 @@ namespace Pg::Graphics
 		worldMatrix *= XMMatrixScaling(1.0f, 1.0f, 1.0f);
 		worldMatrix *= XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 
-		// TODO: 다른 쉐이더를 쓰는데도 상수버퍼가 상호간섭하는 문제가 발생
 		_box->_cbData.worldMatrix = worldMatrix;
 		//_box->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
 		grid->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
@@ -237,10 +258,17 @@ namespace Pg::Graphics
 		_box->_cbData.viewMatrix = _camera->View();
 		_box->_cbData.projectionMatrix = _camera->Proj();
 		_box->_cbData.viewProjMatrix = _camera->ViewProj();
+		_box->_cbData.eyePos = _camera->GetPosition();
 
 		grid->_cbData.viewMatrix = _camera->View();
 		grid->_cbData.projectionMatrix = _camera->Proj();
 		grid->_cbData.viewProjMatrix = _camera->ViewProj();
+
+		cubemap->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
+		cubemap->_cbData.viewMatrix = _camera->View();
+		cubemap->_cbData.projectionMatrix = _camera->Proj();
+		cubemap->_cbData.viewProjMatrix = _camera->ViewProj();
+		cubemap->_cbData.worldViewProjMatrix = _camera->ViewProj() * XMMATRIX(XMMatrixIdentity());
 
 	}
 
@@ -252,6 +280,8 @@ namespace Pg::Graphics
 
 	void GraphicsMain::Render()
 	{
+		cubemap->Draw();
+
 		// test용 큐브 그리기
 		_box->Draw();
 		
