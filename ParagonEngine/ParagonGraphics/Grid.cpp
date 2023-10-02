@@ -20,7 +20,7 @@ void Pg::Graphics::Grid::BuildBuffers()
 	for (int i = 0; i < 100; i++)
 	{
 		vertices[i].Pos = float3((float)(i % 10) - 5.0f, 0.0f, (float)(i / 10) - 5.0f);
-		vertices[i].Color = float4(0.3f, 0.3f, 0.3f, 1.0f);	// 어두운 회색
+		vertices[i].Color = float4(1.0f, 1.0f, 1.0f, 1.0f);	// 밝은 회색
 	}
 
 	D3D11_BUFFER_DESC vbd;
