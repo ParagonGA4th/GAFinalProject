@@ -1,4 +1,5 @@
 #include "AssetBasic3DLoader.h"
+#include "Asset3DModelDefine.h"
 #include "../ParagonUtil/ResourceHelper.h"
 
 #include <assimp/Importer.hpp>     
@@ -31,9 +32,13 @@ namespace Pg::Graphics::Loader
 
 	}
 
-	void AssetBasic3DLoader::Load3DModel(const std::string& path)
+	Pg::Graphics::AssetSceneData* AssetBasic3DLoader::Load3DModel(bool isSkinned, const std::string& path)
 	{
-		if (IsModelSkinned(path))
+		AssetSceneData* tAssetSceneData = new Pg::Graphics::AssetSceneData;
+
+		//일단은 Mesh를 여러 개를 받아도 호환 가능하게 세팅!
+
+		if (isSkinned)
 		{
 			//Skinned
 
@@ -43,6 +48,8 @@ namespace Pg::Graphics::Loader
 			//Static
 
 		}
+
+		return tAssetSceneData;
 	}
 
 	bool AssetBasic3DLoader::IsModelSkinned(const std::string& path)

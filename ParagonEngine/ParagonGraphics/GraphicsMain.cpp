@@ -380,13 +380,7 @@ namespace Pg::Graphics
 				assert(false);
 			}
 			break;
-			case (Pg::Core::Enums::eAssetDefine::_3DSTATICMODEL):
-			{
-				//추가되는 대로 들어와야 한다.
-				assert(false);
-			}
-			break;
-			case (Pg::Core::Enums::eAssetDefine::_3DSKINNEDMODEL):
+			case (Pg::Core::Enums::eAssetDefine::_3DMODEL):
 			{
 				//추가되는 대로 들어와야 한다.
 				assert(false);
