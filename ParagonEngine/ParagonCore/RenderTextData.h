@@ -1,6 +1,7 @@
 #pragma once
-#include <string>
 #include "../ParagonAPI/PgMath.h"
+#include "AssetDefines.h"
+#include <string>
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
@@ -17,12 +18,14 @@
 
 namespace Pg::Core
 {
+	using Pg::Core::Enums::eAssetDefine;
+
 	struct RenderTextData
 	{
 		RenderTextData();
 
-		//3D인지, 3D가 아닌지를 체크하기 위해. (후)
-		bool is3D;
+		//어떤 종류의 리소스인지를 명시한다.
+		eAssetDefine _assetDefine;
 
 		//FLOAT3, 현재 오브젝트가 위치한 포지션.
 		Pg::Math::PGFLOAT3 position;
@@ -31,14 +34,14 @@ namespace Pg::Core
 		//FLOAT3, 현재 오브젝트가 위치한 스케일.
 		Pg::Math::PGFLOAT3 scale;
 		
-		//현재 사용하는 3DModel의 경로.
-		std::string model3dPath;
+		//현재 사용하는 Visual Resource의 경로.
+		std::string resourcePath;
 		//std::string materialPath; //TBA
 	};
 
 	inline RenderTextData::RenderTextData() :
-		is3D(true), position(0.f, 0.f, 0.f), 
-		rotation(0.f, 0.f, 0.f, 0.f), scale(1.f, 1.f, 1.f), model3dPath()
+		_assetDefine(eAssetDefine::_NONE), position(0.f, 0.f, 0.f),
+		rotation(0.f, 0.f, 0.f, 0.f), scale(1.f, 1.f, 1.f), resourcePath()
 	{
 		
 	}
