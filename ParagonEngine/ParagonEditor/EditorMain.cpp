@@ -21,6 +21,9 @@ EditorMain::EditorMain()
 	_coreMain = std::make_unique<Pg::Core::CoreMain>();
 	_coreMainStatic = _coreMain.get();
 
+	_fileManager = std::make_unique<FileManager>();
+	_fileManager->XmlLoad();
+
 	auto& tInputSystem = singleton<Pg::Core::Input::InputSystem>();
 	_inputSystem = &tInputSystem;
 }
