@@ -45,6 +45,10 @@ namespace Pg::Graphics::Manager
 		GraphicsResourceManager();
 		~GraphicsResourceManager();
 
+		//메모리 관리와 관계없이, 포인터를 리턴한다.
+		Pg::Graphics::Loader::AssetBasic3DLoader* GetBasic3DLoader();
+		Pg::Graphics::Loader::AssetBasic2DLoader* GetBasic2DLoader();
+
 	private:
 
 		//리소스가 없는 경우가 강제될 때, 리소스를 생성한다. 

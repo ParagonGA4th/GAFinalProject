@@ -21,9 +21,7 @@ namespace Pg::Util::Helper
 		//eAssetDefine이 Graphics 리소스 소속인지, Engine 리소스 소속인지 구분해준다. (리소스가 추가되면서 점점 업데이트되어야 할 함수)
 		static bool IsGraphicsResource(Pg::Core::Enums::eAssetDefine define);
 
-
 	private:
-		
 
 	};
 }
