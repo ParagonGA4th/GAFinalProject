@@ -36,8 +36,7 @@ namespace Pg::Util::Helper
 		break;
 		case eAssetDefine::_2DTEXTURE:		[[fallthrough]];
 		case eAssetDefine::_CUBEMAP:		[[fallthrough]];
-		case eAssetDefine::_3DSTATICMODEL:	[[fallthrough]];
-		case eAssetDefine::_3DSKINNEDMODEL: [[fallthrough]];
+		case eAssetDefine::_3DMODEL:		[[fallthrough]];
 		case eAssetDefine::_FONT:			[[fallthrough]];
 		case eAssetDefine::_RENDERSHADER:   [[fallthrough]];
 		case eAssetDefine::_RENDERMATERIAL:
@@ -52,6 +51,4 @@ namespace Pg::Util::Helper
 
 		return tIsGraphicsResource;
 	}
-
-
 }
