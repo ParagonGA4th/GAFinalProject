@@ -100,6 +100,12 @@
     <ClInclude Include="Asset3DModelData.h">
       <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
     </ClInclude>
+    <ClInclude Include="RenderUsageStruct3D.h">
+      <Filter>4_RenderObject\RenderUsageStruct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderUsageStruct2D.h">
+      <Filter>4_RenderObject\RenderUsageStruct2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -192,6 +198,12 @@
     <ClCompile Include="Asset3DModelData.cpp">
       <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
     </ClCompile>
+    <ClCompile Include="RenderUsageStruct3D.cpp">
+      <Filter>4_RenderObject\RenderUsageStruct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderUsageStruct2D.cpp">
+      <Filter>4_RenderObject\RenderUsageStruct2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -277,6 +289,15 @@
     </Filter>
     <Filter Include="3_GraphicsResources\Asset3DModelData\Data">
       <UniqueIdentifier>{2378ba46-73ff-4ad8-afbd-fda3e746a452}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderUsageStruct2D">
+      <UniqueIdentifier>{4cd2830e-3afa-4b54-af3e-c5ac4530503d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderUsageStruct3D">
+      <UniqueIdentifier>{8bd2605b-2228-4fae-8023-52bc7e72664f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\ErrorResource">
+      <UniqueIdentifier>{72b5808e-e3f6-4800-8446-3d793c46b032}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
