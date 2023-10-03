@@ -296,9 +296,6 @@
     <Filter Include="4_RenderObject\RenderUsageStruct3D">
       <UniqueIdentifier>{8bd2605b-2228-4fae-8023-52bc7e72664f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3_GraphicsResources\ErrorResource">
-      <UniqueIdentifier>{72b5808e-e3f6-4800-8446-3d793c46b032}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">

@@ -1,6 +1,8 @@
 #include "Asset3DModelData.h"
 #include "AssetBasic3DLoader.h"
 #include "GraphicsResourceManager.h"
+
+#include <d3d11.h>
 namespace Pg::Graphics
 {
 
@@ -26,7 +28,6 @@ namespace Pg::Graphics
 		AssetBasic3DLoader* t3DLoader = GraphicsResourceManager::Instance()->GetBasic3DLoader();
 		this->_isSkinned = t3DLoader->IsModelSkinned(_filePath);
 		this->_assetSceneData = t3DLoader->Load3DModel(_isSkinned, _filePath);
-
 	}
 
 	void Asset3DModelData::InternalUnload()

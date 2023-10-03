@@ -25,6 +25,8 @@ namespace Pg::Graphics
 	private:
 		bool _isSkinned = false;
 		AssetSceneData* _assetSceneData = nullptr;
+
+		
 	};
 
 }
