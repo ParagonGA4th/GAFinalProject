@@ -16,7 +16,7 @@ namespace Pg::Core
 		//실제 RenderObject가 GameObject가 연동되었는지 렌더데이터의 경로 업데이트.
 		//매번 호출되는 것은 아니다. (변화가 있을 때만)
 		//단일 오브젝트의 렌더에 영향을 주는 정보만 전달.
-		virtual void UpdateObjectRenderData(Pg::Core::RenderTextData rTextData) abstract;
+		virtual void UpdateObjectRenderData(const Pg::Core::RenderTextData rTextData) abstract;
 
 
 	};

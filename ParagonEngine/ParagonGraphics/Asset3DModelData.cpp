@@ -12,7 +12,10 @@ namespace Pg::Graphics
 
 	Asset3DModelData::~Asset3DModelData()
 	{
-
+		if (_assetSceneData)
+		{
+			delete _assetSceneData;
+		}
 	}
 
 	void Asset3DModelData::InternalLoad()
@@ -22,7 +25,7 @@ namespace Pg::Graphics
 
 		AssetBasic3DLoader* t3DLoader = GraphicsResourceManager::Instance()->GetBasic3DLoader();
 		this->_isSkinned = t3DLoader->IsModelSkinned(_filePath);
-		t3DLoader->Load3DModel(_isSkinned, _filePath);
+		this->_assetSceneData = t3DLoader->Load3DModel(_isSkinned, _filePath);
 
 	}
 
