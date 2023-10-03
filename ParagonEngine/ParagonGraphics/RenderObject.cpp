@@ -36,7 +36,7 @@ namespace Pg::Graphics
 		//함수 자체 로직으로 2D / 3D 구분.
 		bool tNewIs3D = (bool)tCanRender;
 
-		//렌더러의 종류가 바뀌었는지 확인.
+		//(2D/3D) 렌더러의 종류가 바뀌었는지 확인.
 		if (this->_is3D != tNewIs3D)
 		{
 			_renderUsageStruct2D.Clear();
@@ -54,12 +54,6 @@ namespace Pg::Graphics
 		{
 			Update2DObjectRenderData(rTextData);
 		}
-
-
-
-
-
-
 	}
 
 	void RenderObject::Update2DObjectRenderData(const Pg::Core::RenderTextData& recent)
@@ -75,8 +69,9 @@ namespace Pg::Graphics
 			//ResourcePath 다르면, 새로 투입.
 			if (!_renderUsageStruct2D.IsResourcePathSame(recent.resourcePath))
 			{
-				//이미 만들어진 리소스만 갖고 올 수 있게 설계!
-				//_graphicsResourceManager->GetResource(recent.resourcePath);
+				//이미 Load한 리소스만 가져올 수 있게 설계!
+				auto it = _graphicsResourceManager->GetResource(recent.resourcePath, recent._assetDefine);
+				_renderUsageStruct2D._resourcePath2D = recent.resourcePath;
 			}
 		}
 	}
@@ -94,7 +89,9 @@ namespace Pg::Graphics
 			//ResourcePath 다르면, 새로 투입.
 			if (!_renderUsageStruct3D.IsResourcePathSame(recent.resourcePath))
 			{
-
+				//이미 Load한 리소스만 가져올 수 있게 설계!
+				auto it = _graphicsResourceManager->GetResource(recent.resourcePath, recent._assetDefine);
+				_renderUsageStruct3D._resourcePath3D = recent.resourcePath;
 			}
 		}
 	}
