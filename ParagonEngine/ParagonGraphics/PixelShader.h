@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Shader.h"
+#include "RenderShader.h"
 
 namespace Pg::Graphics
 {
-	class PixelShader : public Shader
+	class PixelShader : public RenderShader
 	{
 	public:
 		PixelShader(LowDX11Storage* storage, std::wstring CSOFilePath);
@@ -14,6 +14,7 @@ namespace Pg::Graphics
 
 	public:
 		void Bind();
+		void UnBind();
 
 	private:
 		ID3D11PixelShader* _shader;

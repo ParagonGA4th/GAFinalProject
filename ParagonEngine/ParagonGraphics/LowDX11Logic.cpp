@@ -1,7 +1,7 @@
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
 
-#include "Shader.h"
+#include "RenderShader.h"
 #include "DX11Headers.h"
 
 #include <vector>
@@ -9,8 +9,8 @@
 
 namespace Pg::Graphics
 {
-	LowDX11Logic::LowDX11Logic(LowDX11Storage* DXStorage)
-		:_DXStorage(DXStorage),
+	LowDX11Logic::LowDX11Logic()
+		:_DXStorage(LowDX11Storage::GetInstance()),
 		hr(NULL)
 	{
 
@@ -92,15 +92,15 @@ namespace Pg::Graphics
 	{
 		/// Depth Stencil Buffer
 		// DSB를 생성하기 위해 BackBuffer의 정보를 가져옴
-		_DXStorage->_backBuffer->GetDesc(&_DXStorage->_depthStencilBufferDesc);
+		_DXStorage->_backBuffer->GetDesc(&_DXStorage->_bufferDesc);
 
 		// Depth-Stencil Buffer를 위한 Texture Resource Description 구조체 정의
 		// 백버퍼의 속성을 가져온 후, Format과 BindFlags만 바꾸어 쓴다.
-		_DXStorage->_depthStencilBufferDesc.Format = DXGI_FORMAT_R32_TYPELESS;
-		_DXStorage->_depthStencilBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+		_DXStorage->_bufferDesc.Format = DXGI_FORMAT_R32_TYPELESS;
+		_DXStorage->_bufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
 
 		// Depth-Stencil Buffer 생성
-		hr = _DXStorage->_device->CreateTexture2D(&(_DXStorage->_depthStencilBufferDesc), NULL, &(_DXStorage->_depthStencilBuffer));
+		hr = _DXStorage->_device->CreateTexture2D(&(_DXStorage->_bufferDesc), NULL, &(_DXStorage->_depthStencilBuffer));
 
 		if (hr != S_OK)
 			return hr;
@@ -229,6 +229,13 @@ namespace Pg::Graphics
 		{
 			return hr;
 		}
+	}
+
+	LowDX11Logic* LowDX11Logic::GetInstance()
+	{
+		static LowDX11Logic* tInstance = new LowDX11Logic();
+
+		return tInstance;
 	}
 
 }

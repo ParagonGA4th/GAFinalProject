@@ -19,7 +19,14 @@ namespace Pg::Graphics
 	class LowDX11Storage
 	{
 	public:
+		static LowDX11Storage* GetInstance();
+
+	private:
 		LowDX11Storage();
+		LowDX11Storage(const LowDX11Storage& rhs) = delete;
+		LowDX11Storage(LowDX11Storage&& rhs) = delete;
+		LowDX11Storage& operator=(const LowDX11Storage& rhs) = delete;
+		LowDX11Storage& operator=(LowDX11Storage&& rhs) = delete;
 
 	public:
 		// 윈도우 핸들
@@ -35,10 +42,11 @@ namespace Pg::Graphics
 
 		// Description 구조체들
 		DXGI_SWAP_CHAIN_DESC _swapChainDesc;
-		D3D11_TEXTURE2D_DESC _depthStencilBufferDesc;
+		D3D11_TEXTURE2D_DESC _bufferDesc;
 		D3D11_DEPTH_STENCIL_DESC _depthStencilDesc;
 		D3D11_DEPTH_STENCIL_VIEW_DESC _depthStencilViewDesc;
 		D3D11_SHADER_RESOURCE_VIEW_DESC _shaderResourceViewDesc;
+		D3D11_BUFFER_DESC _ConstantBufferDesc;
 
 		// 스왑체인 관련
 		IDXGIFactory2* _factory;
@@ -60,14 +68,7 @@ namespace Pg::Graphics
 		ID3D11RasterizerState* _solidState;
 		ID3D11RasterizerState* _wireframeState;
 
-		const FLOAT _backgroundColor[4] = { 0.8f, 0.5f, 0.5f, 0.0f };
-
-		// Shader 관련
-		VertexShader* _testVertexShader;
-		PixelShader* _testPixelShader;
-
-		D3D11_BUFFER_DESC _ConstantBufferDesc;
-
+		const FLOAT _backgroundColor[4] = { 0.6f, 0.5f, 0.5f, 0.0f };
 
 	};
 
