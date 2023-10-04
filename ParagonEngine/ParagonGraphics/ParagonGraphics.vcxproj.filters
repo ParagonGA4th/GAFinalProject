@@ -79,8 +79,21 @@
     <ClInclude Include="AssetCombinedLoader.h">
       <Filter>3_GraphicsResources\Loaders\AssetCombinedLoader</Filter>
     </ClInclude>
-    <ClInclude Include="Asset3DModelHelper.h" />
-    <ClInclude Include="RenderableObject.h" />
+    <ClInclude Include="Asset3DModelHelper.h">
+      <Filter>8_Helpers\Asset3DModelHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTexture2D.h">
+      <Filter>3_GraphicsResources\RenderTexture2D</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsResourceHelper.h">
+      <Filter>8_Helpers\GraphicsResourceHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderableObject.h">
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Cubemap.h">
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -152,8 +165,21 @@
     <ClCompile Include="AssetCombinedLoader.cpp">
       <Filter>3_GraphicsResources\Loaders\AssetCombinedLoader</Filter>
     </ClCompile>
-    <ClCompile Include="Asset3DModelHelper.cpp" />
-    <ClCompile Include="RenderableObject.cpp" />
+    <ClCompile Include="Asset3DModelHelper.cpp">
+      <Filter>8_Helpers\Asset3DModelHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTexture2D.cpp">
+      <Filter>3_GraphicsResources\RenderTexture2D</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsResourceHelper.cpp">
+      <Filter>8_Helpers\GraphicsResourceHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderableObject.cpp">
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Cubemap.cpp">
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -216,6 +242,24 @@
     <Filter Include="3_GraphicsResources\Asset3DModelData\Define">
       <UniqueIdentifier>{dbd555d5-7923-4ea2-a30d-b7e1153de640}</UniqueIdentifier>
     </Filter>
+    <Filter Include="8_Helpers">
+      <UniqueIdentifier>{4f252221-d7dc-4261-a1e8-af415c8cd279}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\Asset3DModelHelper">
+      <UniqueIdentifier>{e5f7ba4b-b111-4230-9d65-0b12801df8c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\GraphicsResourceHelper">
+      <UniqueIdentifier>{5e99454b-e123-4aad-a1e9-b04a7f5f27aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\RenderTexture2D">
+      <UniqueIdentifier>{b58c515e-ab8f-4565-9dee-c36c20115eb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\FirstStage">
+      <UniqueIdentifier>{2eaf1504-42d4-469b-a238-8d821561bb3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\DefaultInfo">
+      <UniqueIdentifier>{d6331f99-21c9-43a7-9cf1-d92ea52f5dad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
@@ -224,5 +268,28 @@
     <FxCompile Include="PixelShader.hlsl">
       <Filter>6_HLSL</Filter>
     </FxCompile>
+    <FxCompile Include="CubemapVS.hlsl">
+      <Filter>6_HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="CubemapPS.hlsl">
+      <Filter>6_HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstSkinned_VS.hlsl">
+      <Filter>6_HLSL\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstStatic_VS.hlsl">
+      <Filter>6_HLSL\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstStage_PS.hlsl">
+      <Filter>6_HLSL\FirstStage</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\DefaultShaders\Libraries\DefaultBufferPerObject.hlsli">
+      <Filter>6_HLSL\DefaultInfo</Filter>
+    </None>
+    <None Include="..\Resources\DefaultShaders\Libraries\DefaultLayouts.hlsli">
+      <Filter>6_HLSL\DefaultInfo</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -69,9 +69,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>3_SceneInfo\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceType.h">
-      <Filter>5_Enums</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>3_SceneInfo\Scene</Filter>
     </ClInclude>
@@ -104,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="RenderTextData.h">
       <Filter>3_SceneInfo\Component\Renderer\BaseClass\IRenderObject\RenderTextData</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetDefines.h">
+      <Filter>5_Enums\AssetDefines</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +181,9 @@
     </Filter>
     <Filter Include="3_SceneInfo\Component\Renderer\BaseClass\IRenderObject\RenderTextData">
       <UniqueIdentifier>{2ba91b89-a998-45c5-8a53-b7e4344d7c85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Enums\AssetDefines">
+      <UniqueIdentifier>{8fa68c09-a9cc-4147-8da7-4ea3362686b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
