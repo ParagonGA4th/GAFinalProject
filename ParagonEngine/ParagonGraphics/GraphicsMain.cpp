@@ -4,6 +4,7 @@
 #include "ConstantBuffer.h"
 #include "MathHelper.h"
 #include "GraphicsResourceManager.h"
+#include "LayoutDefine.h"
 
 #include "../ParagonCore/TimeManager.h"
 #include "../ParagonCore/AssetDefines.h"
@@ -99,6 +100,8 @@ namespace Pg::Graphics
 		
 		_DXLogic->CreateAndSetViewports();
 
+		//Default Input Layout 세팅.
+		LayoutDefine::Initialize();
 
 		// 테스트용 큐브
 		_box = new TestCube();
