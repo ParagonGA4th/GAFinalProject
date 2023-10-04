@@ -8,6 +8,7 @@
 #endif // _DEBUG
 
 //반환해줘야 할 데이터
+// 주석 테스트 2
 namespace Pg::Core
 {
 	struct CameraData
