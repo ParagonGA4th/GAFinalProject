@@ -13,7 +13,7 @@ class TempCamera
 
 
 public:
-	TempCamera();
+	TempCamera(float3 position);
 	~TempCamera();
 
 	// Get/Set world camera position.

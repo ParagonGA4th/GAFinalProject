@@ -6,14 +6,14 @@
 
 namespace Pg::Util::Debug
 {
-	std::shared_ptr<spdlog::logger> Log::_spdLogger;
-
 	void Log::Initialize()
 	{
 		CreateConsoleWindow();
 
-		spdlog::set_pattern("%^[%T] %n: %v%$");
-		_spdLogger = spdlog::stdout_color_mt("Paragon Debugger");
+		//spdlog::set_pattern("%^[%T] %n: %v%$");
+		//spdlog::set_pattern("%^[%g] : %v%$");
+		spdlog::set_pattern("%^[%s / %! / %#]: %v%$");
+		_spdLogger = spdlog::stdout_color_mt("PgLog");
 		_spdLogger->set_level(spdlog::level::trace);
 	}
 
@@ -52,7 +52,7 @@ namespace Pg::Util::Debug
 
 	void Log::SetLoggerLevel(int level)
 	{
-		std::clamp(level, -1, 5);
+		level = std::clamp(level, -1, 5);
 
 		switch (level)
 		{
@@ -92,6 +92,11 @@ namespace Pg::Util::Debug
 			}
 			break;
 		}
+	}
+
+	std::shared_ptr<spdlog::logger>& Log::GetLogger()
+	{
+		 return _spdLogger;
 	}
 
 }

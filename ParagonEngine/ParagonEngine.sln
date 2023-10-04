@@ -6,8 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonGameEngine", "ParagonGameEngine\ParagonGameEngine.vcxproj", "{81FBF0AB-8941-4AE7-9D4E-385B16FD32FC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3F21CDC8-F127-4135-BB69-A870BE2D973B} = {3F21CDC8-F127-4135-BB69-A870BE2D973B}
-		{42B02262-C7F1-450A-B5D4-A070546F6F18} = {42B02262-C7F1-450A-B5D4-A070546F6F18}
-		{CE49D5CD-6B7E-47E7-AD1B-BB93BA556CAC} = {CE49D5CD-6B7E-47E7-AD1B-BB93BA556CAC}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonCore", "ParagonCore\ParagonCore.vcxproj", "{3F21CDC8-F127-4135-BB69-A870BE2D973B}"
@@ -24,11 +22,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonGraphics", "ParagonG
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonUtil", "ParagonUtil\ParagonUtil.vcxproj", "{CE49D5CD-6B7E-47E7-AD1B-BB93BA556CAC}"
-	ProjectSection(ProjectDependencies) = postProject
-		{42B02262-C7F1-450A-B5D4-A070546F6F18} = {42B02262-C7F1-450A-B5D4-A070546F6F18}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonAPI", "ParagonAPI\ParagonAPI.vcxproj", "{42B02262-C7F1-450A-B5D4-A070546F6F18}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CE49D5CD-6B7E-47E7-AD1B-BB93BA556CAC} = {CE49D5CD-6B7E-47E7-AD1B-BB93BA556CAC}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonEditor", "ParagonEditor\ParagonEditor.vcxproj", "{C872B70B-A2F8-4084-8CBE-36A7C98161B9}"
 	ProjectSection(ProjectDependencies) = postProject
