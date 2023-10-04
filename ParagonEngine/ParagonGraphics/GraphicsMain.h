@@ -32,6 +32,7 @@
 namespace Pg::Core
 {
 	class CoreMain;
+	class Scene;
 
 	namespace Time
 	{
@@ -73,7 +74,7 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) override;
 		PARAGON_GRAPHICS_DLL virtual void Update(const Pg::Core::Scene* const scene, Pg::Core::CameraData cameraData) override;
 		PARAGON_GRAPHICS_DLL virtual void BeginRender() override;
-		PARAGON_GRAPHICS_DLL virtual void Render() override;
+		PARAGON_GRAPHICS_DLL virtual void Render(Pg::Core::Scene* scene) override;
 		PARAGON_GRAPHICS_DLL virtual void EndRender() override;
 		PARAGON_GRAPHICS_DLL virtual void Finalize() override;
 
@@ -81,8 +82,11 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual ID3D11Device* GetDevice() override;
 		PARAGON_GRAPHICS_DLL virtual ID3D11DeviceContext* GetDeviceContext() override;
 
-		//그래픽스 리소스 매니저를 반환한다.
-		PARAGON_GRAPHICS_DLL Pg::Graphics::Manager::GraphicsResourceManager* GetGraphicsResourceManager();
+		//AssetManager와의 교류를 위해, 그래픽스 리소스 매니저에 리소스를 로드하는 함수.
+		PARAGON_GRAPHICS_DLL virtual void LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define) override;
+
+		//AssetManager와의 교류를 위해, 그래픽스 리소스 매니저에 리소스를 언로드하는 함수.
+		PARAGON_GRAPHICS_DLL virtual void UnloadResource(const std::string& filePath) override;
 
 		// TODO: Load(Scene* )
 		// 
