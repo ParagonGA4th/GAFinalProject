@@ -45,6 +45,9 @@ namespace Pg::Graphics
 		RenderUsageStruct3D _renderUsageStruct3D;
 
 		Pg::Graphics::Manager::GraphicsResourceManager* _graphicsResourceManager;
+
+
+
 	};
 }
 
