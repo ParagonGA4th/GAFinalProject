@@ -11,7 +11,7 @@ namespace Pg::Core::Resources
 	class EngineResource : public BaseResource
 	{
 	public:
-		EngineResource(const std::string& filePath);
+		EngineResource(Pg::Core::Enums::eAssetDefine define, const std::string& typeInfoName, const std::string& filePath);
 		~EngineResource();
 
 		//내부적으로 로드, 언로드해주는 함수들. 최종 자식 클래스들의 구현체의 생성/소멸자에서 호출되어야.

@@ -16,7 +16,7 @@ namespace Pg::Graphics
 		ConstantBufferBase();
 		virtual ~ConstantBufferBase();
 
-		virtual void Update() abstract;
+		virtual void UpdateAndBind() abstract;
 		virtual ID3D11Buffer* GetBuffer() abstract;
 
 	};
