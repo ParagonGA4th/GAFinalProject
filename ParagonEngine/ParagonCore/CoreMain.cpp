@@ -65,6 +65,7 @@ namespace Pg::Core
 
 	long CoreMain::Initialize(void* hwnd, int screenWidth, int screenHeight)
 	{
+
 		//deltaTime ÃÊ±âÈ­
 		_timeManager->Initialize();
 
