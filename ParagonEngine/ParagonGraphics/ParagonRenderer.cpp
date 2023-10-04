@@ -19,11 +19,12 @@ namespace Pg::Graphics
 	void ParagonRenderer::BeginRender()
 	{
 		_DXLogic->PrepareRenderTargets();
+		_DXLogic->BindRenderTargets();
 	}
 
 	void ParagonRenderer::Render(Pg::Core::GameObject* gameObject)
 	{
-		_DXLogic->BindRenderTargets();
+		
 	}
 
 	void ParagonRenderer::EndRender()
