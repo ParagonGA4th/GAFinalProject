@@ -26,6 +26,7 @@ void main()
 	mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, mDefaultAllocatorCallback, mDefaultErrorCallback);
 	if (!mFoundation) throw("PxCreateFoundation failed!");
 
+	//PhysX의 디버그 정보를 연결한다. 이때 자신의 IP를 매개변수로 받아와야 함.
 	mPvd = PxCreatePvd(*mFoundation);
 	physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
 	mPvd->connect(*transport, physx::PxPvdInstrumentationFlag::eALL);
@@ -43,4 +44,13 @@ void main()
 	sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
 
 	mScene = mPhysics->createScene(sceneDesc);
+
+	//Pvd의 Scene과 Client를 연결하는 작업인 것 같다.
+	physx::PxPvdSceneClient* pvdClient = mScene->getScenePvdClient();
+	if (pvdClient)
+	{
+		pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
+		pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
+		pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
+	}
 }
