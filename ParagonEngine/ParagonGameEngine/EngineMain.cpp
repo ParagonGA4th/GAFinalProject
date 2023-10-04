@@ -2,6 +2,10 @@
 #include "InputSystem.h"
 #include "EngineResourceManager.h"
 
+//<실제 GameEngine Resource의 목록>
+
+//</>
+
 #include "../ParagonCore/CoreMain.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonAPI/KeyCodeType.h"
@@ -21,7 +25,7 @@
 
 namespace Pg::Engine
 {
-	EngineMain::EngineMain(Pg::Core::CoreMain* core) : _coreMain(core), _engineResourceManager(nullptr)
+	EngineMain::EngineMain(Pg::Core::CoreMain* core) : _coreMain(core), _engineResourceManager(Manager::EngineResourceManager::Instance())
 	{
 		auto& tInputSystem = singleton<Input::InputSystem>();
 		_inputSystem = &tInputSystem;
@@ -56,15 +60,15 @@ namespace Pg::Engine
 
 	}
 
-	Pg::Engine::Manager::EngineResourceManager* EngineMain::GetEngineResourceManager()
+	void EngineMain::LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define)
 	{
-		if (this->_engineResourceManager == nullptr)
-		{
-			this->_engineResourceManager = Pg::Engine::Manager::EngineResourceManager::Instance();
-		}
-		return _engineResourceManager;
+
 	}
-	
+
+	void EngineMain::UnloadResource(const std::string& filePath)
+	{
+		//Load와 달리, 동시에 두 개의 리소스 매니저가 동시에 호출된다. //지우지 못했어도 오류 반환하지 말자!
+	}
 	
 
 }
