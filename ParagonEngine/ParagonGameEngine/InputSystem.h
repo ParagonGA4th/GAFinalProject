@@ -6,15 +6,21 @@
 #pragma once
 
 #include "../ParagonGameEngine/EngineDLLExporter.h"
-#include "../ParagonCore/Singleton.h"
-
+#include "../ParagonCore/CoreSingleton.h"
+#include "../ParagonAPI/KeyCodeType.h"
 #include "gainput/gainput.h"
 
-#include "../ParagonAPI/PgInput.h"
+namespace Pg::API
+{
+	namespace Input
+	{
+		class PgInput;
+	}
+}
 
 namespace Pg::Engine::Input
 {
-	class InputSystem : public Singleton<InputSystem>
+	class InputSystem
 	{
 		friend class Pg::API::Input::PgInput;
 		//friend class Singleton<InputSystem>;
@@ -40,6 +46,9 @@ namespace Pg::Engine::Input
 
 		PARAGON_ENGINE_DLL float GetMouseX();
 		PARAGON_ENGINE_DLL float GetMouseY();
+		
+		PARAGON_ENGINE_DLL float GetMouseDX();
+		PARAGON_ENGINE_DLL float GetMouseDY();
 
 		PARAGON_ENGINE_DLL bool IsMouseMoving();
 

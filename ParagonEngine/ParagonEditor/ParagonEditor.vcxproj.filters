@@ -7,7 +7,37 @@
     <ClCompile Include="EditorMain.cpp">
       <Filter>1_EditorMain</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiManager.cpp" />
+    <ClCompile Include="ImGuiManager.cpp">
+      <Filter>2_ImguiManager</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>ImGui_Inc</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>ImGui_Inc</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>ImGui_Inc</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx11.cpp">
+      <Filter>ImGui_Inc</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_win32.cpp">
+      <Filter>ImGui_Inc</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>ImGui_Inc</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>ImGui_Inc</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManager.cpp">
+      <Filter>FileManager</Filter>
+    </ClCompile>
+    <ClCompile Include="pugixml.cpp">
+      <Filter>pugixml</Filter>
+    </ClCompile>
+    <ClCompile Include="DataStruct.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Entry">
@@ -19,11 +49,61 @@
     <Filter Include="2_ImguiManager">
       <UniqueIdentifier>{582dc448-218b-4bb0-aa6f-3b447afa366c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui_Inc">
+      <UniqueIdentifier>{349ac3e0-1da2-4c63-8f4b-d0e0b75e7bd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileManager">
+      <UniqueIdentifier>{8ba21139-66b2-43da-b4ad-0ee33a689461}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pugixml">
+      <UniqueIdentifier>{1c7380c5-ef65-42b4-bac8-056634995422}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorMain.h">
       <Filter>1_EditorMain</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiManager.h" />
+    <ClInclude Include="ImGuiManager.h">
+      <Filter>2_ImguiManager</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>ImGui_Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>ImGui_Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx11.h">
+      <Filter>ImGui_Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_win32.h">
+      <Filter>ImGui_Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>ImGui_Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>ImGui_Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>ImGui_Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>ImGui_Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="FileManager.h">
+      <Filter>FileManager</Filter>
+    </ClInclude>
+    <ClInclude Include="pugiconfig.hpp">
+      <Filter>pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="pugixml.hpp">
+      <Filter>pugixml</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="SceneName.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SceneName.json" />
   </ItemGroup>
 </Project>

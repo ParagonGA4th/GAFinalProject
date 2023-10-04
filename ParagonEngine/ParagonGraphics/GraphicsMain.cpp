@@ -3,33 +3,84 @@
 #include "LowDX11Storage.h"
 #include "ConstantBuffer.h"
 #include "MathHelper.h"
+#include "GraphicsResourceManager.h"
 
 #include "../ParagonCore/TimeManager.h"
-
+#include "../ParagonCore/AssetDefines.h"
+#include "../ParagonCore/CoreMain.h"
+#include "../ParagonUtil/ResourceHelper.h"
 #include "../ParagonAPI/PgInput.h"
+#include "../ParagonAPI/APIMain.h"
+
+#include "ParagonRenderer.h"
+#include "Sprite.h"
+#include "Font.h"
+
+#include "Grid.h"
+#include "Axis.h"
+#include "Cubemap.h"
+
+//<실제 Graphics Resource의 목록>
+#include "RenderMaterial.h"
+#include "RenderTexture2D.h"
+//</>
+
+//DirectXMesh Testing.
+#include <dxmesh/DirectXMesh.h>
 
 #include <windows.h>
 #include <numbers>
+#include <cassert>
+#include <singleton-cpp/singleton.h>
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonCore.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonCore.lib")
+#endif // _DEBUG
 
 namespace Pg::Graphics
 {
-	GraphicsMain::GraphicsMain()
-		: hr(NULL),
-		_DXStorage(nullptr), _DXLogic(nullptr)
+	GraphicsMain::GraphicsMain(Pg::Core::CoreMain* core)
+		: hr(NULL), _coreMain(core),
+		_DXStorage(nullptr), _DXLogic(nullptr),
+		_renderer(nullptr), _graphicsResourceManager(Manager::GraphicsResourceManager::Instance())
 	{
-		_DXStorage = new LowDX11Storage();
-		_DXLogic = new LowDX11Logic(_DXStorage);
+		_DXStorage = LowDX11Storage::GetInstance();
+		_DXLogic = LowDX11Logic::GetInstance();
 
-		// TODO: Storage는 static으로 만들어서 인자로 넘길 필요가 없도록 하자
+		_renderer = std::make_unique<ParagonRenderer>();
+		_tempObj = new Pg::Core::GameObject("Test");
+
+		auto& timeSystem = singleton<Pg::Core::Time::TimeManager>();
+		_timeManager = &timeSystem;
+
+		auto& api = singleton<Pg::API::APIMain>();
+		_api = &api;
+		_api->Initialize();
+	}
+
+	GraphicsMain::~GraphicsMain()
+	{
+		delete _tempObj;
 	}
 
 	float time = 0.0f;
+	Pg::Graphics::Sprite* sprite;
+	Pg::Graphics::Sprite* sprite2;
+	Pg::Graphics::Font* font;
+	std::wstring text;
+
+	Grid* grid;
+	Axis* axis;
+
+	Cubemap* cubemap;
+
+	const float cameraSpeed = 100.0f;
 
 	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
 	{
-		OutputDebugString(L"GraphicsGraphics!!!");
-
-		/// 초기화 관련
+		// 초기화 관련
 		_DXStorage->_hWnd = hWnd;
 
 		_DXStorage->_screenWidth = screenWidth;
@@ -48,50 +99,155 @@ namespace Pg::Graphics
 		_DXLogic->CreateAndSetViewports();
 
 
-		/// 쉐이더 셋팅 관련
+		// 테스트용 큐브
+		_box = new TestCube();
+		_box->Initialize();
+
 		D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
 		{
 			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}//,
+			//{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
-		_DXStorage->_testVertexShader = new VertexShader(_DXStorage, L"../x64/debug/VertexShader.cso", vertexDesc);
-		_DXStorage->_testPixelShader = new PixelShader(_DXStorage, L"../x64/debug/PixelShader.cso");
+		VertexShader* BoxVertexShader = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
+		PixelShader* BoxPixelShader = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
+		
+		// TODO: 비직관적이다.
+		BoxVertexShader->AssignConstantBuffer(&(_box->_cbData));
 
-		_DXStorage->_testVertexShader->Bind();
-		_DXStorage->_testPixelShader->Bind();
+		_box->AssignVertexShader(BoxVertexShader);
+		_box->AssignPixelShader(BoxPixelShader);
+		
+		// Grid
+		grid = new Grid();
+		grid->Initialize();
 
-		// TODO: Shader가 TestBox 안에 있어야 하나?
-		// test용 큐	브
-		_box = new TestCube(_DXStorage);
-		_DXStorage->_testVertexShader->AddConstantBuffer(&(_box->_cbData));
+		// Axis
+		axis = new Axis();
+		axis->Initialize();
 
-		// 카메라 설정
-		_camera = new TempCamera();
-		_camera->SetPosition(float3(0.0f, 0.0f, -3.0f));
-		_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
+		// TODO: TestBox와 Grid, Axis 모두 같은 InputLayout을 사용하고 있다...
+		VertexShader* helperVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
+		helperVS->AssignConstantBuffer(&(grid->_cbData));
 
-		Pg::Core::Time::TimeManager::Instance()->Initialize();
+		grid->AssignVertexShader(helperVS);
+		grid->AssignPixelShader(BoxPixelShader);
+
+		axis->AssignVertexShader(helperVS);
+		axis->AssignPixelShader(BoxPixelShader);
+		
+
+		// Cubemap
+		D3D11_INPUT_ELEMENT_DESC CubemapvertexDesc[] =
+		{
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		};
+
+		//DXMesh Testing, 임시
+		uint32_t tOffsets[D3D11_IA_VERTEX_INPUT_STRUCTURE_ELEMENT_COUNT];
+		uint32_t tStrides[D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT];
+		ComputeInputLayout(CubemapvertexDesc, std::size(CubemapvertexDesc), tOffsets, tStrides);
+
+		VertexShader* CubemapVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/CubemapVS.cso", CubemapvertexDesc);
+		PixelShader* CubemapPS = new PixelShader(_DXStorage, L"../Builds/x64/debug/CubemapPS.cso");
+
+		cubemap = new Cubemap();
+		cubemap->Initialize();
+
+		CubemapVS->AssignConstantBuffer(&(cubemap->_cbData));
+		cubemap->AssignVertexShader(CubemapVS);
+		cubemap->AssignPixelShader(CubemapPS);
+
+
+		// Camera
+		_camera = new TempCamera(float3(0.0f, 3.0f, -10.0f));
+		_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
+
+		// TimeManager
+		_timeManager->Initialize();
+
+		// InputManager
+		auto& tInput = singleton<Pg::API::Input::PgInput>();
+		_inputManager = &tInput;
+
+		// 2DSprite
+		sprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/cats.dds");
+		sprite->SetPosition(0.0f, 0.0f);
+
+		sprite2 = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/rabbits.dds");
+		sprite2->SetPosition(0.0f, 200.0f);
+
+		// Font
+		font = new Font();
+		font->SetPosition(10.0f, 410.0f);
+		font->SetText(L"");
 	}
 
 
 	void GraphicsMain::Update(const Pg::Core::Scene* const scene, Pg::Core::CameraData cameraData)
 	{
-		Pg::Core::Time::TimeManager::Instance()->TimeMeasure();
-		float dt = Pg::Core::Time::TimeManager::Instance()->GetDeltaTime();
+		_timeManager->TimeMeasure();
+		float dt = _timeManager->GetDeltaTime();
 
-		time += (1.0f * dt);
+		time += (10.0f * dt);
+
+		// 디버그 정보 출력
+		text = L"";
+		text.append(L"DeltaTime: " + std::to_wstring(dt) + L"\n");
+		text.append(L"Time: " + std::to_wstring(time) + L"\n");
+		text.append(L"FPS: " + std::to_wstring(_timeManager->GetFrameRate()) + L"\n");
+		text.append(L"Look Vector: (" + std::to_wstring(_camera->GetLook().x) + L", " + std::to_wstring(_camera->GetLook().y) + L", " + std::to_wstring(_camera->GetLook().z) + L")") ;
+		font->SetText(text);
 
 		//cbData.viewMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._viewMatrix);
 		//cbData.projectionMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._projMatrix);
 		//cbData.viewProjMatrix = DirectX::XMMatrixMultiply(cbData.viewMatrix, cbData.projectionMatrix);
 
+
+		/// Input 관련
+		///
+		using namespace Pg::API::Input;
+
+		if (_inputManager->GetKey(MoveFront))
+		{
+			_camera->Walk(1.0f * cameraSpeed * dt);
+		}
+		if (_inputManager->GetKey(MoveBack))
+		{
+			_camera->Walk(-1.0f * cameraSpeed * dt);
+		}
+		if (_inputManager->GetKey(MoveLeft))
+		{
+			_camera->Strafe(-1.0f * cameraSpeed * dt);
+		}
+		if (_inputManager->GetKey(MoveRight))
+		{
+			_camera->Strafe(1.0f * cameraSpeed * dt);
+		}
+		if (_inputManager->GetKey(MoveUp))
+		{
+			_camera->WorldUpDown(1.0f * cameraSpeed * dt);
+		}
+		if (_inputManager->GetKey(MoveDown))
+		{
+			_camera->WorldUpDown(-1.0f * cameraSpeed * dt);
+		}
+		if (_inputManager->GetKey(MouseRight) && _inputManager->IsMouseMoving())
+		{
+			_camera->RotateY(3.0f * _inputManager->GetMouseDX());
+			_camera->Pitch(3.0f * _inputManager->GetMouseDY());
+		}
+
+		_camera->UpdateViewMatrix();
+
+		/// 상수 버퍼 채우기
+		///
 		// TODO: PgMath로 교체
 		using namespace DirectX;
 		//using namespace Pg::Math;
-
-
-		/// 상수 버퍼 채우기
+		// 
 		// 월드 행렬
 		float4x4 worldMatrix = XMMATRIX(XMMatrixIdentity());
 
@@ -99,70 +255,67 @@ namespace Pg::Graphics
 		worldMatrix *= XMMatrixRotationY(time);
 		worldMatrix *= XMMatrixRotationZ(time);
 
-		worldMatrix *= XMMatrixScaling(0.5f, 0.5f, 0.5f);
+		worldMatrix *= XMMatrixScaling(1.0f, 1.0f, 1.0f);
+		worldMatrix *= XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 
 		_box->_cbData.worldMatrix = worldMatrix;
+		//_box->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
+		grid->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
 
 		// 카메라 행렬
-		//_camera->Walk(-1.0f * dt);
-		_camera->UpdateViewMatrix();
-
 		_box->_cbData.viewMatrix = _camera->View();
 		_box->_cbData.projectionMatrix = _camera->Proj();
 		_box->_cbData.viewProjMatrix = _camera->ViewProj();
+		_box->_cbData.eyePos = _camera->GetPosition();
 
-		// 상수버퍼 업데이트
-		for (auto& e : _DXStorage->_testVertexShader->_constantBuffers)
-		{
-			e->Update();
-		}
+		grid->_cbData.viewMatrix = _camera->View();
+		grid->_cbData.projectionMatrix = _camera->Proj();
+		grid->_cbData.viewProjMatrix = _camera->ViewProj();
 
-	
-		/// Input 관련
-		//using namespace Pg::API::Input;
-		//
-		//if (PgInput::GetKeyDown(MoveFront))
-		//{
-		//	_camera->Walk(10.f * dt);
-		//}
-		//if (PgInput::GetKeyDown(MoveBack))
-		//{
-		//	_camera->Walk(-10.f * dt);
-		//}
-		//if (PgInput::GetKeyDown(MoveLeft))
-		//{
-		//	_camera->Strafe(-10.f * dt);
-		//}
-		//if (PgInput::GetKeyDown(MoveRight))
-		//{
-		//	_camera->Strafe(10.f * dt);
-		//}
-		//if (PgInput::GetKeyDown(MoveUp))
-		//{
-		//	_camera->WorldUpDown(-10.f * dt);
-		//}
-		//if (PgInput::GetKeyDown(MoveDown))
-		//{
-		//	_camera->WorldUpDown(10.f * dt);
-		//}
+		cubemap->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
+		cubemap->_cbData.viewMatrix = _camera->View();
+		cubemap->_cbData.projectionMatrix = _camera->Proj();
+		cubemap->_cbData.viewProjMatrix = _camera->ViewProj();
+		cubemap->_cbData.worldViewProjMatrix = _camera->ViewProj() * XMMATRIX(XMMatrixIdentity());
+
 	}
 
 	void GraphicsMain::BeginRender()
 	{
-		_DXLogic->PrepareRenderTargets();
+		_renderer->BeginRender();
+
 	}
 
-	void GraphicsMain::Render()
+	
+	void GraphicsMain::Render(Pg::Core::Scene* scene)
 	{
-		_DXLogic->BindRenderTargets();
+		
+		cubemap->Draw();
 		
 		// test용 큐브 그리기
 		_box->Draw();
+				// Grid
+		grid->Draw();
+		// Axis
+		axis->Draw();
+		//</>
+		
+		// test 스프라이트 그리기
+		sprite->Draw();
+		sprite2->Draw();
+
+		// test 폰트 그리기
+		font->Draw();
+
+		// test용 큐브 그리기
+		_box->Draw();
+
+		_renderer->Render(_tempObj);
 	}
 
 	void GraphicsMain::EndRender()
 	{
-		_DXLogic->Present();
+		_renderer->EndRender();
 	}
 
 	void GraphicsMain::Finalize()
@@ -191,7 +344,7 @@ namespace Pg::Graphics
 		hr = _DXLogic->CreateDepthStencilViewAndState();
 		_DXLogic->CreateAndSetViewports();
 
-		//_camera->SetLens(0.25f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
+		_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 	}
 
 	ID3D11Device* GraphicsMain::GetDevice()
@@ -203,5 +356,71 @@ namespace Pg::Graphics
 	{
 		return _DXStorage->_deviceContext;
 	}
+
+	void GraphicsMain::LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define)
+	{
+		//LoadResource 호출되었다는 것 = Asset이 아직 없다는 말.
+
+		//eAssetDefine을 기준으로 다른 형태의 리소스를 만든다. (리소스의 개수가 확대될수록 이 조건문 역시 확대된다)
+		switch (define)
+		{
+		case (Pg::Core::Enums::eAssetDefine::_NONE):
+			{
+				assert(false);
+			}
+			break;
+			case (Pg::Core::Enums::eAssetDefine::_2DTEXTURE):
+			{
+				_graphicsResourceManager->CreateResource<RenderTexture2D>(filePath, define);
+			}
+			break;
+			case (Pg::Core::Enums::eAssetDefine::_CUBEMAP):
+			{
+				//추가되는 대로 들어와야 한다.
+				assert(false);
+			}
+			break;
+			case (Pg::Core::Enums::eAssetDefine::_3DSTATICMODEL):
+			{
+				//추가되는 대로 들어와야 한다.
+				assert(false);
+			}
+			break;
+			case (Pg::Core::Enums::eAssetDefine::_3DSKINNEDMODEL):
+			{
+				//추가되는 대로 들어와야 한다.
+				assert(false);
+			}
+			break;
+			case (Pg::Core::Enums::eAssetDefine::_FONT):
+			{
+				//추가되는 대로 들어와야 한다.
+				assert(false);
+			}
+			break;
+			case (Pg::Core::Enums::eAssetDefine::_RENDERSHADER):
+			{
+				//추가되는 대로 들어와야 한다.
+				assert(false);
+			}
+			break;
+			case (Pg::Core::Enums::eAssetDefine::_RENDERMATERIAL):
+			{
+				_graphicsResourceManager->CreateResource<RenderMaterial>(filePath, define);
+			}
+			break;
+			default:
+			{
+				assert(false);
+			}
+			break;
+		}
+	}
+
+	void GraphicsMain::UnloadResource(const std::string& filePath)
+	{
+		//Load와 달리, 동시에 두 개의 리소스 매니저가 동시에 호출된다. //지우지 못했어도 오류 반환하지 말자!
+	}
+
 
 }

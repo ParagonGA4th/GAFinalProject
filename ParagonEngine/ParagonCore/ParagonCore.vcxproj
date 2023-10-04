@@ -70,6 +70,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Builds\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Builds\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -115,6 +121,12 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>singleton.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -133,8 +145,15 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>singleton.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AssetDefines.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="BaseRenderer.h" />
     <ClInclude Include="BaseResource.h" />
@@ -145,13 +164,15 @@
     <ClInclude Include="EngineResource.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsResource.h" />
-    <ClInclude Include="ResourceHelper.h" />
-    <ClInclude Include="ResourceType.h" />
+    <ClInclude Include="IAPI.h" />
+    <ClInclude Include="IRenderObject.h" />
+    <ClInclude Include="IUtil.h" />
+    <ClInclude Include="RenderTextData.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Singleton.h" />
+    <ClInclude Include="CoreSingleton.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
@@ -165,7 +186,6 @@
     <ClCompile Include="EngineResource.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsResource.cpp" />
-    <ClCompile Include="ResourceHelper.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Transform.cpp" />

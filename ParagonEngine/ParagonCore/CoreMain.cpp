@@ -1,24 +1,61 @@
 #include "CoreMain.h"
 #include "../ParagonGameEngine/EngineMain.h"
 #include "../ParagonGraphics/GraphicsMain.h"
+#include "../ParagonUtil/UtilMain.h"
+#include "../ParagonAPI/APIMain.h"
 #include "../ParagonGameEngine/EngineDLLExporter.h"
 #include "../ParagonGraphics/GraphicsDLLExporter.h"
 #include "CameraData.h"
 #include "Scene.h"
 #include "Transform.h"
 #include "GameObject.h"
+#include "AssetManager.h"
 
 #include <string>
 #include <windows.h>
+#include <singleton-cpp/singleton.h>
+
+
+#pragma once
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonGameEngine.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonGameEngine.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonGraphics.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonGraphics.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
+#endif // _DEBUG
 
 namespace Pg::Core
 {
-	CoreMain::CoreMain() :
-		_timeManager(Time::TimeManager::Instance())
+	CoreMain::CoreMain()
 	{
-		_engine = std::make_unique<Pg::Engine::EngineMain>();
-		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>();
-		_logger = std::make_unique<Pg::Util::Debug::Log>();
+		auto& tAssetManager = singleton<Manager::AssetManager>();
+		_assetManager = &tAssetManager;
+
+		auto& timeSystem = singleton<Time::TimeManager>();
+		_timeManager = &timeSystem;
+
+		_engine = std::make_unique<Pg::Engine::EngineMain>(this);
+		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>(this);
+		//_logger = std::make_unique<Pg::Util::Debug::Log>();
+		_util = std::make_unique<Pg::Util::UtilMain>();
+		_api = std::make_unique<Pg::API::APIMain>();
 	}
 
 	CoreMain::~CoreMain()
@@ -32,20 +69,19 @@ namespace Pg::Core
 		_timeManager->Initialize();
 
 		//엔진 초기화
+		_util->Initialize();
+		_api->Initialize();
 		_engine->Initialize(screenWidth, screenHeight);
 		_graphics->Initialize(static_cast<HWND>(hwnd), screenWidth, screenHeight);
 
+		//AssetManager 세팅.
+		_assetManager->Initialize(this);
+		
 		//디버그 초기화
-		_logger->Initialize();
-		_logger->SetLoggerLevel(0);
-
 		_work = new Pg::Engine::WorkSpace();
 		_work->Initialize();
 
-		PG_TRACE("Engine Success!!");
-		PG_DEBUG("Engine Success!!");
-		PG_INFO("Engine Success!!");
-		PG_WARN("Engine Success!!");
+
 
 		return S_OK;
 	}
@@ -54,6 +90,10 @@ namespace Pg::Core
 	{
 		//deltaTime 업데이트
 		_timeManager->TimeMeasure();
+		_timeManager->MeasureFrame(_timeManager->GetDeltaTime());
+
+		//AssetManager 로직 업데이트.
+		_assetManager->Update(_engine.get(), _graphics.get());
 
 		//여기다가 시스템 싹 다 업데이트!!
 		_engine->Update();
@@ -93,7 +133,7 @@ namespace Pg::Core
 	void CoreMain::Render()
 	{
 		//Render(_engine->GetCurrentScene());
-		_graphics->Render();
+		_graphics->Render(_work->GetCurrentScene());
 	}
 
 

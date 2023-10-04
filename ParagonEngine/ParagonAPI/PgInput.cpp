@@ -1,43 +1,64 @@
 #include "PgInput.h"
 
 #include "../ParagonGameEngine/InputSystem.h"
+#include <singleton-cpp/singleton.h>
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\x64\\Debug\\ParagonGameEngine.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonGameEngine.lib")
 #else
-#pragma comment(lib,"..\\x64\\Release\\ParagonGameEngine.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonGameEngine.lib")
 #endif // _DEBUG
 
 namespace Pg::API::Input
 {
+	Pg::Engine::Input::InputSystem* PgInput::_inputSystem = nullptr;
+
+	void PgInput::Initialize()
+	{
+		auto& tInputSystem = singleton<Pg::Engine::Input::InputSystem>();
+		_inputSystem = &tInputSystem;
+	}
+
 	bool PgInput::GetKey(Pg::API::Input::eKeyCode keyCode)
 	{
-		return Pg::Engine::Input::InputSystem::Instance()->GetKey(keyCode);
+		return _inputSystem->GetKey(keyCode);
 	}
 
 	bool PgInput::GetKeyDown(Pg::API::Input::eKeyCode keyCode)
 	{
-		return Pg::Engine::Input::InputSystem::Instance()->GetKeyDown(keyCode);
+		return _inputSystem->GetKeyDown(keyCode);
 	}
 
 	bool PgInput::GetKeyUp(Pg::API::Input::eKeyCode keyCode)
 	{
-		return Pg::Engine::Input::InputSystem::Instance()->GetKeyUp(keyCode);
+		return _inputSystem->GetKeyUp(keyCode);
 	}
 
 	float PgInput::GetMouseX()
 	{
-		return Pg::Engine::Input::InputSystem::Instance()->GetMouseX();
+		return _inputSystem->GetMouseX();
 	}
 
 	float PgInput::GetMouseY()
 	{
-		return Pg::Engine::Input::InputSystem::Instance()->GetMouseY();
+		return _inputSystem->GetMouseY();
 	}
 
 	bool PgInput::IsMouseMoving()
 	{
-		return Pg::Engine::Input::InputSystem::Instance()->IsMouseMoving();
+		return _inputSystem->IsMouseMoving();
 	}
+
+	float PgInput::GetMouseDX()
+	{
+		return _inputSystem->GetMouseDX();
+	}
+
+	float PgInput::GetMouseDY()
+	{
+		return _inputSystem->GetMouseDY();
+	}
+
+	
 
 }

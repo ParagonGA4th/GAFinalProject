@@ -1,30 +1,39 @@
 #pragma once
 
-#include "DX11Headers.h"
-
-struct BoxCBData
-{
-	float4x4 worldMatrix;
-	float4x4 viewMatrix;
-	float4x4 projectionMatrix;
-	float4x4 viewProjMatrix;
-};
+#include "RenderableObject.h"
 
 namespace Pg::Graphics
 {
-	class LowDX11Storage;
+	struct BoxCBData
+	{
+		float4x4 worldMatrix;
+		float4x4 viewMatrix;
+		float4x4 projectionMatrix;
+		float4x4 viewProjMatrix;
+		float3 eyePos;
+	};
+}
 
-	class TestCube
+namespace Pg::Graphics
+{
+	class TestCube : public RenderableObject
 	{
 	public:
-		TestCube(LowDX11Storage* storage);
+		TestCube();
 
 	public:
-		void Update(float time);
-		void Draw();
+		virtual void Draw() override;
+
+		virtual void BuildBuffers() override;
+		virtual void BindBuffers() override;
 
 	private:
-		LowDX11Storage* _DXStorage;
+
+		struct TestCubeVertex
+		{
+			float3 position;
+			float3 color;
+		};
 
 	public:
 		BoxCBData _cbData;
