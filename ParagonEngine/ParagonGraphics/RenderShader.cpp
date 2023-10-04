@@ -10,10 +10,10 @@ namespace Pg::Graphics
 	RenderShader::RenderShader(LowDX11Storage* storage, std::wstring CSOFilePath)
 		:_DXStorage(storage)
 	{
-		hr = CompileShader(CSOFilePath);
+		hr = LoadShader(CSOFilePath);
 	}
 
-	HRESULT RenderShader::CompileShader(std::wstring CSOFilePath)
+	HRESULT RenderShader::LoadShader(std::wstring CSOFilePath)
 	{
 		return D3DReadFileToBlob(CSOFilePath.c_str(), &(_byteCode));
 	}
