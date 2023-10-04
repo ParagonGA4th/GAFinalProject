@@ -94,9 +94,6 @@
     <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ParagonCore\ParagonCore.vcxproj">
-      <Project>{3f21cdc8-f127-4135-bb69-a870be2d973b}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="CubemapPS.hlsl">
