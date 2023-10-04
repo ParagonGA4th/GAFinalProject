@@ -273,7 +273,7 @@ namespace Pg::Graphics
 		grid->_cbData.projectionMatrix = _camera->Proj();
 		grid->_cbData.viewProjMatrix = _camera->ViewProj();
 
-		cubemap->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
+		cubemap->_cbData.worldMatrix = XMMatrixTranslation(_camera->GetPosition().x, _camera->GetPosition().y, _camera->GetPosition().z);
 		cubemap->_cbData.viewMatrix = _camera->View();
 		cubemap->_cbData.projectionMatrix = _camera->Proj();
 		cubemap->_cbData.viewProjMatrix = _camera->ViewProj();
@@ -295,11 +295,10 @@ namespace Pg::Graphics
 		
 		// test용 큐브 그리기
 		_box->Draw();
-				// Grid
+		// Grid
 		grid->Draw();
 		// Axis
 		axis->Draw();
-		//</>
 		
 		// test 스프라이트 그리기
 		sprite->Draw();
