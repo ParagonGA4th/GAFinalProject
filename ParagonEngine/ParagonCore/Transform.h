@@ -70,7 +70,7 @@ namespace Pg::Core
 		bool HasParent();
 		std::shared_ptr<Transform> GetParent();
 
-
+		// 테스트 주석
 	private:
 		// 부모, 자식 객체를 가리키는 transform
 		std::shared_ptr<Transform> _parent;
