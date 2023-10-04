@@ -27,6 +27,7 @@ namespace Pg::Core
 
 namespace Pg::Graphics
 {
+	class GraphicsMain;
 	namespace Loader
 	{
 		class AssetBasic3DLoader;
@@ -39,6 +40,7 @@ namespace Pg::Graphics::Manager
 	class GraphicsResourceManager : public Pg::Core::Singleton<GraphicsResourceManager>
 	{
 		friend class Pg::Core::Manager::AssetManager;
+		friend class Pg::Graphics::GraphicsMain;
 	public:
 		GraphicsResourceManager();
 		~GraphicsResourceManager();
@@ -47,7 +49,7 @@ namespace Pg::Graphics::Manager
 
 		//리소스가 없는 경우가 강제될 때, 리소스를 생성한다. 
 		template<typename T>
-		std::shared_ptr<T> CreateResource(const std::string& path);
+		std::shared_ptr<T> CreateResource(const std::string& path, Pg::Core::Enums::eAssetDefine define);
 
 		//리소스가 있는 경우가 강제될 때, 리소스를 반환한다.
 		template<typename T>
@@ -66,7 +68,7 @@ namespace Pg::Graphics::Manager
 
 	template<typename T>
 	std::shared_ptr<T>
-		Pg::Graphics::Manager::GraphicsResourceManager::CreateResource(const std::string& path)
+		Pg::Graphics::Manager::GraphicsResourceManager::CreateResource(const std::string& path, Pg::Core::Enums::eAssetDefine define)
 	{
 		//이미 AssetManager의 시점에서는 static하게 체크 완료.
 		//AssetManager의 목록과 연동이 되어야 한다.
@@ -76,7 +78,7 @@ namespace Pg::Graphics::Manager
 		assert((!res) && "막히면 이미 만들어진 리소스를 로직 상으로 다시 만드려고 했다는 뜻이다. 로직을 고쳐야.");
 
 		// 없으면, 템플릿으로 들어온 값으로 생성 및 Load.
-		_resources[path] = res = std::make_shared<T>(path);
+		_resources[path] = res = std::make_shared<T>(define, path);
 		res->InternalLoad();
 
 		//원 형태로 반환해줘야 한다.
@@ -84,6 +86,7 @@ namespace Pg::Graphics::Manager
 		if (!return_value)
 		{
 			throw std::runtime_error(std::string("[Graphics] 리소스 '") + path + "'를 해당 타입으로 변환하는 것이 불가능!!");
+			assert(false);
 		}
 		return return_value;
 	}
@@ -102,6 +105,7 @@ namespace Pg::Graphics::Manager
 		if (!return_value)
 		{
 			throw std::runtime_error(std::string("[Graphics] 리소스 '") + path + "'를 해당 타입으로 변환하는 것이 불가능!!");
+			assert(false);
 		}
 		return return_value;
 
