@@ -1,31 +1,26 @@
 #pragma once
+
 #include "DX11Headers.h"
+#include "RenderableObject.h"
 
 namespace Pg::Graphics
 {
-	class LowDX11Storage;
 
-	struct Vertex
-	{
-		float3 Pos;
-		float4 Color;
-	};
-
-	class Grid
+	class Grid : public RenderableObject
 	{
 	public:
 		Grid();
+		virtual ~Grid();
 
 	public:
-		void Draw();
-		
-		// VB, IB 생성 및 바인딩
-		// InputLayout 
+		virtual void Draw() override;
 
-	private:
-		LowDX11Storage* _DXStorage;
+		virtual void BuildBuffers() override;
+		virtual void BindBuffers() override;
 
-		ID3D11Buffer* VB;
-		ID3D11Buffer* IB;
+		virtual void BindInputLayout() override;
+
+	public:
+		CBDataBase _cbData;
 	};
 }
