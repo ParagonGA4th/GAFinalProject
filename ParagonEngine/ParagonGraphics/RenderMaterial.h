@@ -9,7 +9,8 @@ namespace Pg::Graphics
 {
 	class RenderMaterial : public Pg::Core::Resources::GraphicsResource
 	{ 
-		RenderMaterial(const std::string& filePath);
+	public:
+		RenderMaterial(Pg::Core::Enums::eAssetDefine define, const std::string& filePath);
 		~RenderMaterial();
 
 		//내부적으로 로드, 언로드해주는 함수들. 최종 자식 클래스들의 구현체의 생성/소멸자에서 호출되어야.

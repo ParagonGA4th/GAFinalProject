@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DX11Headers.h"
+#include <string>
 
 namespace Pg::Graphics
 {
@@ -32,7 +33,7 @@ namespace Pg::Graphics
 		virtual ~RenderableObject();
 
 	public:
-		void Initialize();
+		virtual void Initialize();
 		void Update(float time);
 
 		virtual void Draw();
@@ -45,6 +46,8 @@ namespace Pg::Graphics
 		VertexShader* _vertexShader;
 		PixelShader* _pixelShader;
 
+		ID3D11SamplerState* _samplerState;
+
 	protected:
 		virtual void BuildBuffers();
 		virtual void BindBuffers();
@@ -54,6 +57,9 @@ namespace Pg::Graphics
 
 		virtual void BindInputLayout();
 		void UnbindInputLayout();
+
+		virtual void SetTexture(std::wstring filepath);
+		ID3D11ShaderResourceView* SRV;
 
 	public:
 		void AssignVertexShader(VertexShader* shader);
