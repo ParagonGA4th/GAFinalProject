@@ -106,6 +106,12 @@
     <ClInclude Include="RenderUsageStruct2D.h">
       <Filter>4_RenderObject\RenderUsageStruct2D</Filter>
     </ClInclude>
+    <ClInclude Include="LayoutDefine.h">
+      <Filter>5_Misc\DefaultShaderDefines\LayoutDefine</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBufferDefine.h">
+      <Filter>5_Misc\DefaultShaderDefines\ConstantBufferDefine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -204,6 +210,9 @@
     <ClCompile Include="RenderUsageStruct2D.cpp">
       <Filter>4_RenderObject\RenderUsageStruct2D</Filter>
     </ClCompile>
+    <ClCompile Include="LayoutDefine.cpp">
+      <Filter>5_Misc\DefaultShaderDefines\LayoutDefine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -295,6 +304,15 @@
     </Filter>
     <Filter Include="4_RenderObject\RenderUsageStruct3D">
       <UniqueIdentifier>{8bd2605b-2228-4fae-8023-52bc7e72664f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\DefaultShaderDefines">
+      <UniqueIdentifier>{cbedec0b-2e38-4472-8c12-eae65672c963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\DefaultShaderDefines\LayoutDefine">
+      <UniqueIdentifier>{a638cecb-2c78-4e1f-9852-6a9875e175dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\DefaultShaderDefines\ConstantBufferDefine">
+      <UniqueIdentifier>{16bd805c-10db-44a7-b3f7-812c12cf5848}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -29,7 +29,9 @@
     <ClInclude Include="ByteBuffer.hpp" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantBufferBase.h" />
+    <ClInclude Include="ConstantBufferDefine.h" />
     <ClInclude Include="Cubemap.h" />
+    <ClInclude Include="LayoutDefine.h" />
     <ClInclude Include="DX11Headers.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GraphicsDLLExporter.h" />
@@ -73,6 +75,7 @@
     <ClCompile Include="GraphicsResourceHelper.cpp" />
     <ClCompile Include="GraphicsResourceManager.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="LowDX11Logic.cpp" />
     <ClCompile Include="LowDX11Storage.cpp" />
     <ClCompile Include="msdfgenTest.cpp">
