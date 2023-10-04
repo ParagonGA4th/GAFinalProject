@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseResource.h"
+#include "AssetDefines.h"
 #include <string>
 
 /// <summary>
@@ -11,7 +12,7 @@ namespace Pg::Core::Resources
 	class GraphicsResource : public BaseResource
 	{
 	public:
-		GraphicsResource(const std::string& filePath);
+		GraphicsResource(Pg::Core::Enums::eAssetDefine define, const std::string& typeInfoName, const std::string& filePath);
 		~GraphicsResource();
 		
 		//내부적으로 로드, 언로드해주는 함수들. 최종 자식 클래스들의 구현체의 생성/소멸자에서 호출되어야.
@@ -20,5 +21,7 @@ namespace Pg::Core::Resources
 
 	};
 }
+
+
 
 

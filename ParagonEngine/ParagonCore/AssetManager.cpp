@@ -1,10 +1,33 @@
 #include "AssetManager.h"
+#include "CoreMain.h"
+#include "IEngine.h"
+#include "IGraphics.h"
+
+#include "../ParagonGraphics/GraphicsResourceManager.h"
+#include "../ParagonGameEngine/EngineResourceManager.h"
+
+#include "../ParagonUtil/ResourceHelper.h"
+
+//<ResourcesList>
+#include "../ParagonGraphics/RenderMaterial.h"
+//</ResourcesList>
+
+#include <algorithm>
+#include <cassert>
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
+#endif // _DEBUG
 
 namespace Pg::Core::Manager
 {
+	using Pg::Util::Helper::ResourceHelper;
+
 	AssetManager::AssetManager()
 	{
-
+		//
 	}
 
 	AssetManager::~AssetManager()
@@ -12,31 +35,75 @@ namespace Pg::Core::Manager
 
 	}
 
-	void AssetManager::Unload(const std::string& filepath)
+	void AssetManager::Initialize(Pg::Core::CoreMain* core) 
 	{
-		//Path 표기 방식 일원화.
-		std::string path = Pg::Core::Helper::ResourceHelper::ForcePathUniform(filepath);
+		_coreMain = core;
+		_perFrameToLoadResources.reserve(30);
+		_perFrameToUnloadResources.reserve(30);
+	}
 
-		//우선적으로 일단 리스트에 값이 있는지를 확인.
-		if (this->_resources.contains(path))
+	void AssetManager::Update(Pg::Core::IEngine* engine, Pg::Core::IGraphics* graphics)
+	{
+		//실제 Loading 로직.
+		for (auto& it : _perFrameToLoadResources)
 		{
-			//명시적으로 두 인스턴스에 모두 삭제(및 언로드)를 진행해준다. 
-			//템플릿을 쓰지 않기 위해, 둘 다 삭제 코드, 내부적으로 해당하는지 아닌지 반환.
-			bool tIsEngineDelete = EngineResourceManager::Instance()->DeleteResource(path);
-			bool tIsGraphicsDelete = GraphicsResourceManager::Instance()->DeleteResource(path);
+			if (Pg::Util::Helper::ResourceHelper::IsGraphicsResource(it.second))
+			{
+				graphics->LoadResource(it.first, it.second);
+			}
+			else
+			{
+				engine->LoadResource(it.first, it.second);
+			}
 			
-			assert((tIsEngineDelete ^ tIsGraphicsDelete) && "하나만 삭제하는 경우가 발생하지 않음, 오류");
-		
-			//이제 메인 AssetManager에서 값을 삭제.
-			_resources.erase(path);
+			//실제로 로드되었으면, AssetManager의 목록에 연동해서 관리해야 한다.
+			this->_resourceMap.insert(std::make_pair(it.first, it.second));
 		}
-		else
+
+		//실제 Unloading 로직.
+		for (auto& it : _perFrameToUnloadResources)
 		{
-			//리스트에 값이 없다는 뜻이다. 언로드될 수도 없음.
-			return;
+			graphics->UnloadResource(it);
+			engine->UnloadResource(it);
+
+			//실제로 언로드되었으면, AssetManager의 목록에 연동해서 관리해야 한다.
+			this->_resourceMap.erase(it);
+		}
+
+		//다음 Iteration을 위해 Clear.
+		_perFrameToLoadResources.clear();
+		_perFrameToUnloadResources.clear();
+
+	}
+
+	bool AssetManager::IsExistResource(const std::string& filepath)
+	{
+		auto res = std::find_if(_resourceMap.begin(), _resourceMap.end(),
+			[&filepath](const std::pair<std::string, Pg::Core::Enums::eAssetDefine>& val)
+			-> bool {return (val.first == filepath); });
+
+		bool tIsFound = (res != _resourceMap.end()) ? true : false;
+		return tIsFound;
+	}
+
+	void AssetManager::LoadResource(const std::string& filepath, Pg::Core::Enums::eAssetDefine define)
+	{
+		//Load하기 전에, 이미 목록에 없는지 체크!
+		if (!IsExistResource(filepath))
+		{
+			auto tInfo = std::make_pair(filepath, define);
+			this->_perFrameToLoadResources.emplace_back(tInfo);
 		}
 	}
 
-
+	void AssetManager::UnloadResource(const std::string& filepath)
+	{
+		//Unload하기 전에, 이미 목록에 있는지 체크!
+		if (IsExistResource(filepath))
+		{
+			auto tInfo = filepath;
+			this->_perFrameToUnloadResources.emplace_back(tInfo);
+		}
+	}
 
 }
