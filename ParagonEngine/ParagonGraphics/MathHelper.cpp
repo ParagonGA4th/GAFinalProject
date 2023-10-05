@@ -1,7 +1,7 @@
 #include "MathHelper.h"
 #include <cstring>
 
-namespace Pg::Graphics
+namespace Pg::Graphics::Helper
 {
 	DirectX::XMFLOAT2 MathHelper::PG2XM_FLOAT2(Pg::Math::PGFLOAT2 value)
 	{
@@ -10,7 +10,7 @@ namespace Pg::Graphics
 
 	DirectX::XMFLOAT3 MathHelper::PG2XM_FLOAT3(Pg::Math::PGFLOAT3 value)
 	{
-		return { value.x, value.y, value.z};
+		return { value.x, value.y, value.z };
 	}
 
 	DirectX::XMFLOAT4 MathHelper::PG2XM_FLOAT4(Pg::Math::PGFLOAT4 value)
@@ -45,6 +45,44 @@ namespace Pg::Graphics
 		return ttReturn;
 	}
 
-	//void* memcpy (void* dest, const void* source, size_t num)
+	bool MathHelper::IsEqualXMFloat3X3(DirectX::XMFLOAT3X3 first, DirectX::XMFLOAT3X3 second)
+	{
+		// IIFE 람다 즉시 호출, goto문 사용을 피했다!
+		bool tIsEqual = [&first, &second]
+		{
+			for (short i = 0; i < 3; i++)
+			{
+				for (short j = 0; j < 3; j++)
+				{
+					if (first.m[j][i] != second.m[j][i])
+					{
+						return false;
+					}
+				}
+			}
+			return true;
+		}();
 
+		return tIsEqual;
+	}
+
+	bool MathHelper::IsEqualXMFloat4X4(DirectX::XMFLOAT4X4 first, DirectX::XMFLOAT4X4 second)
+	{
+		bool tIsEqual = [&first, &second]
+		{
+			for (short i = 0; i < 4; i++)
+			{
+				for (short j = 0; j < 4; j++)
+				{
+					if (first.m[j][i] != second.m[j][i])
+					{
+						return false;
+					}
+				}
+			}
+			return true;
+		}(); // IIFE 람다 즉시 호출, goto문 사용을 피했다!
+
+		return tIsEqual;
+	}
 }

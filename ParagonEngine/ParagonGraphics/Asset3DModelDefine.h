@@ -14,6 +14,14 @@
 
 namespace Pg::Graphics
 {
+	namespace Helper
+	{
+		class Asset3DModelHelper;
+	}
+}
+
+namespace Pg::Graphics
+{
 	//<юс╫ц>
 
 	struct MatPropStruct
@@ -1204,7 +1212,7 @@ namespace Pg::Graphics
 #pragma region MGRT_Scene
 	class AssetSceneData
 	{
-		friend class AssetDataHelper;
+		friend class Pg::Graphics::Helper::Asset3DModelHelper;
 	public:
 		AssetSceneData();
 		~AssetSceneData();
