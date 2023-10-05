@@ -216,13 +216,17 @@ namespace Pg::Core
 		return nullptr;
 	}
 
-	void Transform::UpdateTransform()
+	/*void Transform::UpdateTransform()
 	{
 		if (HasParent())
 		{
-			
+			GetWorldTM();
 		}
-	}
+		else
+		{
+
+		}
+	}*/
 
 	Pg::Math::PGFLOAT4X4 Transform::GetWorldTM()
 	{
@@ -248,12 +252,22 @@ namespace Pg::Core
 
 	void Transform::SetParent(Transform* parent)
 	{
-		//_parent = std::make_shared<Transform>(parent);
+		_parent = std::make_shared<Transform>(parent->_object);
 	}
 
 	void Transform::SetParent(GameObject* obj)
 	{
 		_parent = std::make_shared<Transform>(obj);
+	}
+
+	const std::vector<std::shared_ptr<Transform>>& Transform::GetChildren()
+	{
+		return _children;
+	}
+
+	void Transform::AddChild(std::shared_ptr<Transform> child)
+	{
+		_children.emplace_back(child);
 	}
 
 }
