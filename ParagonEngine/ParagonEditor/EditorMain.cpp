@@ -1,6 +1,11 @@
 #include "EditorMain.h"
 #include "ImGuiManager.h"
 #include "FileManager.h"
+#include "../ParagonUtil/Log.h"
+
+#include "../ParagonAPI/PgInput.h"
+
+#include <singleton-cpp/singleton.h>
 
 Pg::Core::CoreMain* EditorMain::_coreMainStatic = nullptr;	// WndProc 접근을 위한 스태틱 변수
 bool EditorMain::_isCoreInitialized; // 코어의 Initialize 이후에 스태틱 변수에 접근하도록 하기 위한 bool 변수
@@ -15,14 +20,17 @@ EditorMain::EditorMain()
 	_className(L"ParagonEngine"),
 	_windowName(L"ParagonEngine")
 {
-	_imGuiManager = std::make_unique<ImGuiManager>();
-
 	_isCoreInitialized = false;
 	_coreMain = std::make_unique<Pg::Core::CoreMain>();
 	_coreMainStatic = _coreMain.get();
 
-	auto& tInputSystem = singleton<Pg::Core::Input::InputSystem>();
-	_inputSystem = &tInputSystem;
+	_fileManager = std::make_unique<FileManager>();
+	_fileManager->XmlLoad();
+
+	auto& tInputSystem = singleton<Pg::API::Input::PgInput>();
+	_input = &tInputSystem;
+
+	_imGuiManager = std::make_unique<ImGuiManager>(_fileManager->GetGameObjectData());
 }
 
 EditorMain::~EditorMain()
@@ -35,20 +43,25 @@ long EditorMain::Initialize(void* hInstance, int cmdShow)
 	//윈도우 초기화
 	RegisterClass((HINSTANCE)hInstance);
 
-	RECT rect;
-	GetClientRect(_hWnd, &rect);
-	
+
 	if (!CreateWindows((HINSTANCE)hInstance, cmdShow))
 	{
 		return S_FALSE;
 	}
 
+	RECT rect;
+
+	GetClientRect(_hWnd, &rect);
+
+	_screenWidth = rect.right - rect.left;
+	_screenHeight = rect.bottom - rect.top;
+
 	_coreMain->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
 	_isCoreInitialized = true;
 
 	// ImGui Dx11, Win32 Setting	
-	ImGui_ImplDX11_Init(_coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
 	ImGui_ImplWin32_Init(_hWnd);
+	ImGui_ImplDX11_Init(_coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
 }
 
 void EditorMain::Update()
@@ -57,21 +70,20 @@ void EditorMain::Update()
 	{
 		if (PeekMessage(&_msg, NULL, 0, 0, PM_REMOVE))
 		{
- 			if (_msg.message == WM_QUIT)
+			if (_msg.message == WM_QUIT)
 			{
 				break;
 			}
 
 			DispatchMessage(&_msg);
-			_inputSystem->HandleMessage(_msg);
+			_input->HandleMessage(_msg);
 		}
 		else
 		{
 			_coreMain->Update();
-
 			_imGuiManager->CreateFrame();
 
-			//_imGuiManager->ShowDemoInspector();
+			_imGuiManager->ShowDemoInspector();
 			//_imGuiManager->ShowDemoHierarchy();
 			//_imGuiManager->ShowDemoFilter();
 			//_imGuiManager->ShowDemoViewPort();
@@ -94,9 +106,9 @@ ATOM EditorMain::RegisterClass(HINSTANCE hInstance)
 {
 	WNDCLASSEXW wcex;
 
-	wcex.cbSize = sizeof(WNDCLASSEX);
+	wcex.cbSize = sizeof(WNDCLASSEXW);
 
-	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.style = CS_CLASSDC;
 	wcex.lpfnWndProc = WndProc;
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
@@ -128,8 +140,8 @@ BOOL EditorMain::CreateWindows(HINSTANCE hInstance, int cmdShow)
 }
 
 LRESULT CALLBACK EditorMain::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) { return true; }
+{ 
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return true;
 
 	switch (message)
 	{
