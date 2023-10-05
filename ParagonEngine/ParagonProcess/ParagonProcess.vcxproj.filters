@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>1_Manager\AssetManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>1_Manager\TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CoreMain.cpp">
+      <Filter>0_CoreMain</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AssetManager.h">
+      <Filter>1_Manager\AssetManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>1_Manager\TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreMain.h">
+      <Filter>0_CoreMain</Filter>
+    </ClInclude>
+    <ClInclude Include="IGraphics.h">
+      <Filter>0_CoreMain\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IEngine.h">
+      <Filter>0_CoreMain\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IUtil.h">
+      <Filter>0_CoreMain\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreSingleton.h">
+      <Filter>0_CoreMain\CoreSingleton</Filter>
+    </ClInclude>
+    <ClInclude Include="IAPI.h">
+      <Filter>0_CoreMain\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetDefines.h">
+      <Filter>2_Enums\AssetDefines</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="1_Manager">
+      <UniqueIdentifier>{afc02e50-6852-4446-bb8d-279906e293d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Manager\TimeManager">
+      <UniqueIdentifier>{fbea3d23-919f-40b9-a74f-da60fd63713b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Manager\AssetManager">
+      <UniqueIdentifier>{3705cec2-0b82-459b-aa69-780cc2339df4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_CoreMain">
+      <UniqueIdentifier>{3b79d642-664d-4430-9e72-421b0ad15ae9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_CoreMain\Interfaces">
+      <UniqueIdentifier>{6323f1b5-c65e-42c3-9b97-e47b0bdf7471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_CoreMain\CoreSingleton">
+      <UniqueIdentifier>{a1746940-3226-4d08-9c88-f69569aec91e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Enums">
+      <UniqueIdentifier>{4a1ee3f7-ad5c-4675-af1d-5294c59387a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Enums\AssetDefines">
+      <UniqueIdentifier>{8fa68c09-a9cc-4147-8da7-4ea3362686b2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

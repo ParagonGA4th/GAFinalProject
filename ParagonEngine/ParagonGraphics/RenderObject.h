@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonCore/IRenderObject.h"
+#include "../ParagonData/IRenderObject.h"
 #include "GraphicsDLLExporter.h"
 #include "RenderUsageStruct2D.h"
 #include "RenderUsageStruct3D.h"
@@ -23,21 +23,21 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class RenderObject : public Pg::Core::IRenderObject
+	class RenderObject : public Pg::Data::IRenderObject
 	{
 	public:
 		PARAGON_GRAPHICS_DLL RenderObject();
 		PARAGON_GRAPHICS_DLL virtual ~RenderObject();
 
 		//렌더링을 위한 오브젝트의 데이터를 큰 갈래에서 업데이트
-		PARAGON_GRAPHICS_DLL virtual void UpdateObjectRenderData(const Pg::Core::RenderTextData rTextData) override;
+		PARAGON_GRAPHICS_DLL virtual void UpdateObjectRenderData(const Pg::Data::RenderTextData rTextData) override;
 
 	private:
 		//2D 오브젝트 렌더링을 위한 정보 업데이트
-		void Update2DObjectRenderData(const Pg::Core::RenderTextData& recent);
+		void Update2DObjectRenderData(const Pg::Data::RenderTextData& recent);
 
 		//3D 오브젝트 렌더링을 위한 정보 업데이트
-		void Update3DObjectRenderData(const Pg::Core::RenderTextData& recent);
+		void Update3DObjectRenderData(const Pg::Data::RenderTextData& recent);
 
 	private:
 		bool _is3D;

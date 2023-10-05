@@ -12,7 +12,7 @@ namespace Pg::Graphics
 		//
 	}
 
-	RenderUsageStruct2D::RenderUsageStruct2D(Pg::Core::RenderTextData rTextData) :
+	RenderUsageStruct2D::RenderUsageStruct2D(Pg::Data::RenderTextData rTextData) :
 		_worldMatrix2D(), _resourcePath2D()
 	{
 		//<Transform Copying>
