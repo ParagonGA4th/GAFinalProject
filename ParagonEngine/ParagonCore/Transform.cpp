@@ -50,4 +50,79 @@ namespace Pg::Core
 		_scale.z = scale.z;
 	}
 
+	Pg::Math::PGFLOAT3 Transform::GetLocalScale()
+	{
+		return _scale;
+	}
+
+	Pg::Math::PGFLOAT3 Transform::GetLocalPosition()
+	{
+		return _position;
+	}
+
+	PGQuaternion Transform::GetLocalRotation()
+{
+		return _rotation;
+	}
+
+	void Transform::SetLocalPosition(float x, float y, float z)
+	{
+
+	}
+
+	void Transform::SetLocalPosition(PGFLOAT3& pos)
+	{
+
+	}
+
+	void Transform::SetLocalRotation(float w, float x, float y, float z)
+	{
+
+	}
+
+	void Transform::SetLocalRotation(PGQuaternion& rot)
+	{
+
+	}
+
+	void Transform::SetLocalScale(float x, float y, float z)
+	{
+
+	}
+
+	void Transform::SetLocalScale(PGFLOAT3& sca)
+	{
+
+	}
+
+	void Transform::SetLocalRotationEuler(float x, float y, float z)
+	{
+
+	}
+
+	void Transform::SetLocalRotationEuler(PGFLOAT3& euler)
+	{
+
+	}
+
+	Pg::Math::PGQuaternion Transform::EulerToQuaternion(float x, float y, float z)
+	{
+		return _rotation;
+	}
+
+	Pg::Math::PGFLOAT3 Transform::QuaternionToEuler(const PGQuaternion& quaternion)
+	{
+		return {};
+	}
+
+	bool Transform::HasParent()
+	{
+		return {};
+	}
+
+	std::shared_ptr<Transform> Transform::GetParent()
+	{
+		return {};
+	}
+
 }
