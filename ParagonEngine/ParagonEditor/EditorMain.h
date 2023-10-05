@@ -9,6 +9,18 @@
 #pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonCore.lib")
 #endif // _DEBUG
 
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
+#endif // _DEBUG
+
 namespace Pg::Core
 {
 	class CoreMain;
@@ -69,6 +81,6 @@ private:
 	// 2023. 09. 14. ±èÁ¤½Ä
 
 private:
-	Pg::Core::Input::InputSystem* _inputSystem;
+	Pg::API::Input::PgInput* _input;
 };
 

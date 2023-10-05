@@ -1,5 +1,6 @@
 #include "PgInput.h"
 
+
 #include "../ParagonGameEngine/InputSystem.h"
 #include <singleton-cpp/singleton.h>
 
@@ -59,6 +60,10 @@ namespace Pg::API::Input
 		return _inputSystem->GetMouseDY();
 	}
 
+	void PgInput::HandleMessage(MSG& msg)
+	{
+		_inputSystem->HandleMessage(msg);
+	}
 	
 
 }
