@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonAPI/PgMath.h"
+#include "../ParagonMath/PgMath.h"
 #include "AssetDefines.h"
 #include <string>
 
@@ -7,6 +7,12 @@
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
 #else
 #pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonMath.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonMath.lib")
 #endif // _DEBUG
 
 /// <summary>
