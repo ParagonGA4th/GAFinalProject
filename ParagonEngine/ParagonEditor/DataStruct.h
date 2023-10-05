@@ -30,6 +30,7 @@ struct TransformData
 
 struct GameObjectData
 {
+	int _objectNumber;
 	std::string _name;
 	std::string _tag;
 	bool _active;
