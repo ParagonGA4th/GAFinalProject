@@ -34,18 +34,19 @@ namespace Pg::Util::Helper
 			assert(false);
 		}
 		break;
-		case eAssetDefine::_2DTEXTURE:		[[fallthrough]];
-		case eAssetDefine::_CUBEMAP:		[[fallthrough]];
-		case eAssetDefine::_3DSTATICMODEL:	[[fallthrough]];
-		case eAssetDefine::_3DSKINNEDMODEL: [[fallthrough]];
-		case eAssetDefine::_FONT:			[[fallthrough]];
-		case eAssetDefine::_RENDERSHADER:   [[fallthrough]];
+		//<Graphics>
+		case eAssetDefine::_2DTEXTURE: [[fallthrough]];
+		case eAssetDefine::_CUBEMAP: [[fallthrough]];
+		case eAssetDefine::_3DMODEL: [[fallthrough]];
+		case eAssetDefine::_FONT: [[fallthrough]];
+		case eAssetDefine::_RENDERSHADER: [[fallthrough]];
 		case eAssetDefine::_RENDERMATERIAL:
 			tIsGraphicsResource = true;
 			break;
+			//</Graphics>
 		default:
 		{
-			assert(false);
+			tIsGraphicsResource = false;
 		}
 		break;
 		}
@@ -53,5 +54,38 @@ namespace Pg::Util::Helper
 		return tIsGraphicsResource;
 	}
 
+	short ResourceHelper::IsPlainRenderable(Pg::Core::Enums::eAssetDefine define)
+	{
+		short tIsPlainRenderable = -1;
+
+		switch (define)
+		{
+		case eAssetDefine::_NONE:
+		{
+			assert(false);
+		}
+		break;
+		//<2D>
+		case eAssetDefine::_2DTEXTURE: [[fallthrough]];
+		case eAssetDefine::_FONT:
+			tIsPlainRenderable = 0;
+			break;
+			//</2D>
+			//<3D>
+		case eAssetDefine::_CUBEMAP: [[fallthrough]];
+		case eAssetDefine::_3DMODEL:
+			tIsPlainRenderable = 1;
+			break;
+			//</3D>
+		default:
+		{
+			//<NOT>
+			tIsPlainRenderable = -1;
+		}
+		break;
+		}
+
+		return tIsPlainRenderable;
+	}
 
 }

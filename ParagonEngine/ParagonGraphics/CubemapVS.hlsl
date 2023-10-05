@@ -15,7 +15,8 @@ struct VertexIn
 
 struct VertexOut
 {
-    float3 PosW : POSITION;
+	float3 PosL : POSITION0;
+    float3 PosW : POSITION1;
     float4 PosH : SV_POSITION;
     float2 UV : TEXCOORD;
 };
@@ -23,9 +24,10 @@ struct VertexOut
 VertexOut VS(VertexIn vin)
 {
     VertexOut vout;
-    
-    vout.PosW = vin.PosL;
-    vout.PosH = mul(viewProjMatrix, float4(vin.PosL, 1.0f));
+	
+    vout.PosL = vin.PosL;
+	vout.PosW = mul(worldMatrix, float4(vin.PosL, 1.0f));
+    vout.PosH = mul(viewProjMatrix, float4(vout.PosW, 1.0f));
     vout.UV = vin.UV;
     
     return vout;
