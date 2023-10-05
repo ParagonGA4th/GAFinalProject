@@ -47,6 +47,9 @@ struct ErrorCorrectionConfig {
     inline explicit ErrorCorrectionConfig(Mode mode = EDGE_PRIORITY, DistanceCheckMode distanceCheckMode = CHECK_DISTANCE_AT_EDGE, double minDeviationRatio = defaultMinDeviationRatio, double minImproveRatio = defaultMinImproveRatio, byte *buffer = NULL) : mode(mode), distanceCheckMode(distanceCheckMode), minDeviationRatio(minDeviationRatio), minImproveRatio(minImproveRatio), buffer(buffer) { }
 };
 
+const double ErrorCorrectionConfig::defaultMinDeviationRatio = 0.0;
+const double ErrorCorrectionConfig::defaultMinImproveRatio = 0.0;
+
 /// The configuration of the distance field generator algorithm.
 struct GeneratorConfig {
     /// Specifies whether to use the version of the algorithm that supports overlapping contours with the same winding. May be set to false to improve performance when no such contours are present.

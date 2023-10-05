@@ -78,9 +78,11 @@ namespace Pg::Core::Manager
 
 	bool AssetManager::IsExistResource(const std::string& filepath)
 	{
+		std::string tFilePath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(filepath);
+
 		auto res = std::find_if(_resourceMap.begin(), _resourceMap.end(),
-			[&filepath](const std::pair<std::string, Pg::Core::Enums::eAssetDefine>& val)
-			-> bool {return (val.first == filepath); });
+			[&tFilePath](const std::pair<std::string, Pg::Core::Enums::eAssetDefine>& val)
+			-> bool {return (val.first == tFilePath); });
 
 		bool tIsFound = (res != _resourceMap.end()) ? true : false;
 		return tIsFound;
@@ -88,20 +90,24 @@ namespace Pg::Core::Manager
 
 	void AssetManager::LoadResource(const std::string& filepath, Pg::Core::Enums::eAssetDefine define)
 	{
+		std::string tFilePath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(filepath);
+
 		//Load하기 전에, 이미 목록에 없는지 체크!
-		if (!IsExistResource(filepath))
+		if (!IsExistResource(tFilePath))
 		{
-			auto tInfo = std::make_pair(filepath, define);
+			auto tInfo = std::make_pair(tFilePath, define);
 			this->_perFrameToLoadResources.emplace_back(tInfo);
 		}
 	}
 
 	void AssetManager::UnloadResource(const std::string& filepath)
 	{
+		std::string tFilePath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(filepath);
+
 		//Unload하기 전에, 이미 목록에 있는지 체크!
-		if (IsExistResource(filepath))
+		if (IsExistResource(tFilePath))
 		{
-			auto tInfo = filepath;
+			auto tInfo = tFilePath;
 			this->_perFrameToUnloadResources.emplace_back(tInfo);
 		}
 	}

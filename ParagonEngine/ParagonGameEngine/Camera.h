@@ -1,7 +1,7 @@
 #pragma once
 #include "../ParagonGameEngine/EngineDLLExporter.h"
 #include "../ParagonCore/Component.h"
-#include "../ParagonAPI/PgMath.h"
+#include "../ParagonMath/PgMath.h"
 #include "../ParagonCore/CameraData.h"
 
 #ifdef _DEBUG
