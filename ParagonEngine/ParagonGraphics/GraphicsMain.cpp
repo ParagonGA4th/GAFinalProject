@@ -4,6 +4,7 @@
 #include "ConstantBuffer.h"
 #include "MathHelper.h"
 #include "GraphicsResourceManager.h"
+#include "LayoutDefine.h"
 
 #include "../ParagonCore/TimeManager.h"
 #include "../ParagonCore/AssetDefines.h"
@@ -23,6 +24,7 @@
 //<실제 Graphics Resource의 목록>
 #include "RenderMaterial.h"
 #include "RenderTexture2D.h"
+#include "Asset3DModelData.h"
 //</>
 
 //DirectXMesh Testing.
@@ -98,6 +100,8 @@ namespace Pg::Graphics
 		
 		_DXLogic->CreateAndSetViewports();
 
+		//Default Input Layout 세팅.
+		LayoutDefine::Initialize();
 
 		// 테스트용 큐브
 		_box = new TestCube();
@@ -272,7 +276,7 @@ namespace Pg::Graphics
 		grid->_cbData.projectionMatrix = _camera->Proj();
 		grid->_cbData.viewProjMatrix = _camera->ViewProj();
 
-		cubemap->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
+		cubemap->_cbData.worldMatrix = XMMatrixTranslation(_camera->GetPosition().x, _camera->GetPosition().y, _camera->GetPosition().z);
 		cubemap->_cbData.viewMatrix = _camera->View();
 		cubemap->_cbData.projectionMatrix = _camera->Proj();
 		cubemap->_cbData.viewProjMatrix = _camera->ViewProj();
@@ -294,11 +298,10 @@ namespace Pg::Graphics
 		
 		// test용 큐브 그리기
 		_box->Draw();
-				// Grid
+		// Grid
 		grid->Draw();
 		// Axis
 		axis->Draw();
-		//</>
 		
 		// test 스프라이트 그리기
 		sprite->Draw();
@@ -359,67 +362,12 @@ namespace Pg::Graphics
 
 	void GraphicsMain::LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define)
 	{
-		//LoadResource 호출되었다는 것 = Asset이 아직 없다는 말.
-
-		//eAssetDefine을 기준으로 다른 형태의 리소스를 만든다. (리소스의 개수가 확대될수록 이 조건문 역시 확대된다)
-		switch (define)
-		{
-		case (Pg::Core::Enums::eAssetDefine::_NONE):
-			{
-				assert(false);
-			}
-			break;
-			case (Pg::Core::Enums::eAssetDefine::_2DTEXTURE):
-			{
-				_graphicsResourceManager->CreateResource<RenderTexture2D>(filePath, define);
-			}
-			break;
-			case (Pg::Core::Enums::eAssetDefine::_CUBEMAP):
-			{
-				//추가되는 대로 들어와야 한다.
-				assert(false);
-			}
-			break;
-			case (Pg::Core::Enums::eAssetDefine::_3DSTATICMODEL):
-			{
-				//추가되는 대로 들어와야 한다.
-				assert(false);
-			}
-			break;
-			case (Pg::Core::Enums::eAssetDefine::_3DSKINNEDMODEL):
-			{
-				//추가되는 대로 들어와야 한다.
-				assert(false);
-			}
-			break;
-			case (Pg::Core::Enums::eAssetDefine::_FONT):
-			{
-				//추가되는 대로 들어와야 한다.
-				assert(false);
-			}
-			break;
-			case (Pg::Core::Enums::eAssetDefine::_RENDERSHADER):
-			{
-				//추가되는 대로 들어와야 한다.
-				assert(false);
-			}
-			break;
-			case (Pg::Core::Enums::eAssetDefine::_RENDERMATERIAL):
-			{
-				_graphicsResourceManager->CreateResource<RenderMaterial>(filePath, define);
-			}
-			break;
-			default:
-			{
-				assert(false);
-			}
-			break;
-		}
+		_graphicsResourceManager->LoadResource(filePath, define);
 	}
 
 	void GraphicsMain::UnloadResource(const std::string& filePath)
 	{
-		//Load와 달리, 동시에 두 개의 리소스 매니저가 동시에 호출된다. //지우지 못했어도 오류 반환하지 말자!
+		_graphicsResourceManager->UnloadResource(filePath);
 	}
 
 
