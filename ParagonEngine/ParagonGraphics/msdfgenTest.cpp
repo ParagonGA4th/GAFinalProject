@@ -2,16 +2,24 @@
 #include "msdfgen/msdfgen.h"
 #include "msdfgen/msdfgen-ext.h"
 
-#pragma comment (lib, "msdfgen-core.lib")
-#pragma comment (lib, "msdfgen-ext.lib")
+#ifdef _DEBUG
+#pragma comment(lib,"msdfgen-core.lib")
+#pragma comment(lib,"msdfgen-ext.lib")
+
+#else
+#pragma comment(lib,"msdfgen-core.lib")
+#pragma comment(lib,"msdfgen-ext.lib")
+
+#endif // _DEBUG
 
 Pg::Graphics::msdfgenTest::msdfgenTest()
 {
+
 	using namespace msdfgen;
 
 	FreetypeHandle* ft = initializeFreetype();
 	if (ft) {
-		FontHandle* font = loadFont(ft, "C:\\Windows\\Fonts\\arialbd.ttf");
+		FontHandle* font = loadFont(ft, "C:\\Windows\\Fonts\\Arial.ttf");
 		if (font) {
 			Shape shape;
 			if (loadGlyph(shape, font, 'A')) {
@@ -21,7 +29,7 @@ Pg::Graphics::msdfgenTest::msdfgenTest()
 				//           image width, height
 				Bitmap<float, 3> msdf(32, 32);
 				//                     range, scale, translation
-				generateMSDF(msdf, shape, 4.0, 1.0, Vector2(4.0, 4.0));
+				generateMSDF(msdf, shape, 4.0, 1.0, msdfgen::Vector2(4.0, 4.0));
 				savePng(msdf, "output.png");
 			}
 			destroyFont(font);

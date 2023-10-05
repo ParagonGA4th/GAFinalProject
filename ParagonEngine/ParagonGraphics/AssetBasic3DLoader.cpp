@@ -1,4 +1,6 @@
 #include "AssetBasic3DLoader.h"
+#include "Asset3DModelDefine.h"
+#include "Asset3DModelHelper.h"
 #include "../ParagonUtil/ResourceHelper.h"
 
 #include <assimp/Importer.hpp>     
@@ -31,18 +33,39 @@ namespace Pg::Graphics::Loader
 
 	}
 
-	void AssetBasic3DLoader::Load3DModel(const std::string& path)
+	Pg::Graphics::AssetSceneData* AssetBasic3DLoader::Load3DModel(bool isSkinned, const std::string& path)
 	{
-		if (IsModelSkinned(path))
+		AssetSceneData* tAssetSceneData = new Pg::Graphics::AssetSceneData;
+		Assimp::Importer importer;
+		//일단은 Mesh를 여러 개를 받아도 호환 가능하게 세팅!
+
+		if (isSkinned)
 		{
 			//Skinned
+			const aiScene* pScene = importer.ReadFile(path.c_str(),
+				aiProcess_Triangulate |
+				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_GenBoundingBoxes |
+				aiProcess_CalcTangentSpace | aiProcess_PopulateArmatureData |
+				aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_LimitBoneWeights);
+			assert(pScene != nullptr);
 
+			Helper::Asset3DModelHelper::CopyAssimpToAssetScene(pScene, tAssetSceneData);
+			Helper::Asset3DModelHelper::FinalizeDataHelper();
 		}
 		else
 		{
 			//Static
+			const aiScene* pScene = importer.ReadFile(path.c_str(),
+				aiProcess_Triangulate |
+				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType |
+				aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_GenBoundingBoxes);
+			assert(pScene != nullptr);
 
+			Helper::Asset3DModelHelper::CopyAssimpToAssetScene(pScene, tAssetSceneData);
+			Helper::Asset3DModelHelper::FinalizeDataHelper();
 		}
+
+		return tAssetSceneData;
 	}
 
 	bool AssetBasic3DLoader::IsModelSkinned(const std::string& path)
