@@ -60,7 +60,14 @@ void ImGuiManager::CreateFrame()
 void ImGuiManager::ShowDemoInspector()
 {
 	//ImGui::ShowDemoWindow(&_active);
+	
 	ImGui::Begin("DemoInspector", NULL, ImGuiWindowFlags_NoCollapse);
+	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_None) && ImGui::IsMouseClicked(0)) {
+		// 창을 클릭한 경우의 동작
+		// 여기에 원하는 코드를 추가하세요.
+
+		ImGui::SetWindowFocus("DemoInspector");
+	}
 	
 	static char nameBuf[256];
 	static char tagBuf[256];
