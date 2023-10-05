@@ -82,10 +82,7 @@ namespace Pg::Core
 		_work = new Pg::Engine::WorkSpace();
 		_work->Initialize();
 
-		PG_TRACE("Engine Success!!");
-		PG_DEBUG("Engine Success!!");
-		PG_INFO("Engine Success!!");
-		PG_WARN("Engine Success!!");
+
 
 		return S_OK;
 	}
