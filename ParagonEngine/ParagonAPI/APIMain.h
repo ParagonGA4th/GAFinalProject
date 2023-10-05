@@ -11,6 +11,8 @@ namespace Pg::API
 	{
 		class PgInput;
 	}
+
+	class PhysXTest;
 }
 namespace Pg::API
 {
@@ -22,6 +24,7 @@ namespace Pg::API
 
 	private:
 		Pg::API::Input::PgInput* _pgInput = nullptr;
+		PhysXTest* _test;
 
 	};
 }
