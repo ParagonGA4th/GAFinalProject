@@ -68,5 +68,4 @@ namespace Pg::API
 		physx::PxU32 size = 30;
 		physx::PxTransform t(physx::PxVec3(0));
 	}
-
 }
