@@ -2,7 +2,7 @@
 
 #include "../ParagonGameEngine/EngineDLLExporter.h"
 
-#include "../ParagonCore/Scene.h"
+#include "../ParagonData/Scene.h"
 #include "TestScene.h"
 
 /// <summary>
@@ -18,7 +18,7 @@ namespace Pg::Engine
 	public:
 		PARAGON_ENGINE_DLL void Initialize();
 
-		PARAGON_ENGINE_DLL Pg::Core::Scene* GetCurrentScene();
+		PARAGON_ENGINE_DLL Pg::Data::Scene* GetCurrentScene();
 
 	private:
 		TestScene* _testScene;
