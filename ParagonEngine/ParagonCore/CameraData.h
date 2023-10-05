@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonAPI/PgMath.h"
+#include "../ParagonMath/PgMath.h"
 
 #ifdef _DEBUG
 #pragma comment(lib, "..\\Builds\\x64\\Debug\\ParagonAPI.lib")
