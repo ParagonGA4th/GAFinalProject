@@ -1,9 +1,11 @@
 #pragma once
 #include "KeyCodeType.h"
+#include "gainput/gainput.h"
 
 /// <summary>
 /// API 딴에서 Input을 갖다 쓸 수 있게 하는 클래스.
 /// </summary>
+
 
 namespace Pg::Engine
 {
@@ -35,6 +37,8 @@ namespace Pg::API::Input
 		static float GetMouseDY();
 
 		static bool IsMouseMoving();
+
+		static void HandleMessage(MSG& msg);
 
 	private:
 		static void Initialize();
