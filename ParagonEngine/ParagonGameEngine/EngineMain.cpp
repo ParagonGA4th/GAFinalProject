@@ -23,6 +23,18 @@
 #pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
 #endif // _DEBUG
 
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonMath.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonMath.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonCore.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonCore.lib")
+#endif // _DEBUG
+
 namespace Pg::Engine
 {
 	EngineMain::EngineMain(Pg::Core::CoreMain* core) : _coreMain(core), _engineResourceManager(Manager::EngineResourceManager::Instance())

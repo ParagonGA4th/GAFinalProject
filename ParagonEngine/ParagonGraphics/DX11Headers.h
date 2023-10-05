@@ -2,7 +2,7 @@
 
 #define ReleaseCOM(x) { if(x){ x->Release(); x = 0; } }
 
-#include "../ParagonAPI/PgMath.h"
+#include "../ParagonMath/PgMath.h"
 
 #include <dxgi1_2.h>
 #include <d3d11.h>
