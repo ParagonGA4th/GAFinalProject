@@ -5,7 +5,7 @@
 
 namespace Pg::Util::Helper
 {
-	using Pg::Core::Enums::eAssetDefine;
+	using Pg::Data::Enums::eAssetDefine;
 
 	ResourceHelper::ResourceHelper()
 	{
@@ -23,7 +23,7 @@ namespace Pg::Util::Helper
 		return tPath.generic_string();
 	}
 
-	bool ResourceHelper::IsGraphicsResource(Pg::Core::Enums::eAssetDefine define)
+	bool ResourceHelper::IsGraphicsResource(Pg::Data::Enums::eAssetDefine define)
 	{
 		bool tIsGraphicsResource = false;
 
@@ -54,7 +54,7 @@ namespace Pg::Util::Helper
 		return tIsGraphicsResource;
 	}
 
-	short ResourceHelper::IsPlainRenderable(Pg::Core::Enums::eAssetDefine define)
+	short ResourceHelper::IsPlainRenderable(Pg::Data::Enums::eAssetDefine define)
 	{
 		short tIsPlainRenderable = -1;
 

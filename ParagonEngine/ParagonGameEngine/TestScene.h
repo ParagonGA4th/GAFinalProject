@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonCore/Scene.h"
+#include "../ParagonData/Scene.h"
 
 /// <summary>
 /// ев╫╨ф╝©К ╬ю
@@ -16,11 +16,11 @@ namespace Pg::Engine
 	public:
 		void Initialize();
 
-		Pg::Core::Scene* GetCurrentScene();
+		Pg::Data::Scene* GetCurrentScene();
 
 	private:
 		//testScene
-		Pg::Core::Scene* tCurrentScene = nullptr;
+		Pg::Data::Scene* tCurrentScene = nullptr;
 	};
 
 }
