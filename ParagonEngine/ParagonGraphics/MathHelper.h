@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonAPI/PgMath.h"
+#include "../ParagonMath/PgMath.h"
 #include <DirectXMath.h>
 
 #ifdef _DEBUG
