@@ -30,13 +30,13 @@ namespace Pg::Graphics::Manager
 		return _asset2DLoader.get();
 	}
 
-	void GraphicsResourceManager::LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define)
+	void GraphicsResourceManager::LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define)
 	{
 		//LoadResource 호출되었다는 것 = Asset이 아직 없다는 말.
 		//Can Compile!
 		//ASSETDEFINE2TYPE_MEMFUNC_2PARAMS(define, this, GraphicsResourceManager::CreateResource, filePath, define);
 		
-		using Pg::Core::Enums::eAssetDefine;
+		using Pg::Data::Enums::eAssetDefine;
 		if (define == eAssetDefine::_2DTEXTURE)
 		{
 			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(filePath, define);
@@ -61,9 +61,9 @@ namespace Pg::Graphics::Manager
 		//Load와 달리, 동시에 두 개의 리소스 매니저가 동시에 호출된다. //지우지 못했어도 오류 반환하지 말자.
 	}
 
-	std::shared_ptr<Pg::Core::Resources::GraphicsResource> GraphicsResourceManager::GetResource(const std::string& path, Pg::Core::Enums::eAssetDefine define)
+	std::shared_ptr<Pg::Data::Resources::GraphicsResource> GraphicsResourceManager::GetResource(const std::string& path, Pg::Data::Enums::eAssetDefine define)
 	{
-		using Pg::Core::Enums::eAssetDefine;
+		using Pg::Data::Enums::eAssetDefine;
 
 		if (define == eAssetDefine::_2DTEXTURE)
 		{

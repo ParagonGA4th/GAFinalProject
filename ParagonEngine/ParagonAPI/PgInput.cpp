@@ -12,7 +12,7 @@
 
 namespace Pg::API::Input
 {
-	Pg::Engine::Input::InputSystem* PgInput::_inputSystem = nullptr;
+	//Pg::Engine::Input::InputSystem* PgInput::_inputSystem = nullptr;
 
 	void PgInput::Initialize()
 	{
