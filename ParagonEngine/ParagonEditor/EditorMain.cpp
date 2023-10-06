@@ -59,6 +59,7 @@ long EditorMain::Initialize(void* hInstance, int cmdShow)
 	_coreMain->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
 	_isCoreInitialized = true;
 
+
 	// ImGui Dx11, Win32 Setting	
 	ImGui_ImplWin32_Init(_hWnd);
 	ImGui_ImplDX11_Init(_coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
@@ -76,6 +77,7 @@ void EditorMain::Update()
 			}
 
 			DispatchMessage(&_msg);
+			TranslateMessage(&_msg);
 			_input->HandleMessage(_msg);
 		}
 		else

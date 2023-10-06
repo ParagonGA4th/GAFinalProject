@@ -7,8 +7,8 @@
 #include <type_traits>
 #include <cassert>
 
-#include "../ParagonCore/EngineResource.h"
-#include "../ParagonCore/CoreSingleton.h"
+#include "../ParagonData/EngineResource.h"
+#include "../ParagonProcess/CoreSingleton.h"
 
 /// <summary>
 /// AssetManager에 의해 제어되는 엔진 리소스 관리 전담 매니저. 독단적 사용 불가.
@@ -45,7 +45,7 @@ namespace Pg::Engine::Manager
 
 		//리소스를 생성한다. 
 		template<typename T>
-		std::shared_ptr<T> CreateResource(const std::string& path, Pg::Core::Enums::eAssetDefine define);
+		std::shared_ptr<T> CreateResource(const std::string& path, Pg::Data::Enums::eAssetDefine define);
 
 		template<typename T>
 		std::shared_ptr<T> GetResource(const std::string& path);
@@ -54,13 +54,13 @@ namespace Pg::Engine::Manager
 		inline bool DeleteResource(const std::string& path);
 
 	private:
-		std::unordered_map<std::string, std::weak_ptr<Pg::Core::Resources::EngineResource>> _resources;
+		std::unordered_map<std::string, std::weak_ptr<Pg::Data::Resources::EngineResource>> _resources;
 
 	};
 
 	template<typename T>
 	std::shared_ptr<T>
-		Pg::Engine::Manager::EngineResourceManager::CreateResource(const std::string& path, Pg::Core::Enums::eAssetDefine define)
+		Pg::Engine::Manager::EngineResourceManager::CreateResource(const std::string& path, Pg::Data::Enums::eAssetDefine define)
 	{
 		//이미 AssetManager의 시점에서는 static하게 체크 완료.
 		//AssetManager의 목록과 연동이 되어야 한다.

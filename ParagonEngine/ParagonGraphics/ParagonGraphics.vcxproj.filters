@@ -94,6 +94,24 @@
     <ClInclude Include="Cubemap.h">
       <Filter>7_OtherObject</Filter>
     </ClInclude>
+    <ClInclude Include="ByteBuffer.hpp">
+      <Filter>9_Util\ByteBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset3DModelData.h">
+      <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderUsageStruct3D.h">
+      <Filter>4_RenderObject\RenderUsageStruct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderUsageStruct2D.h">
+      <Filter>4_RenderObject\RenderUsageStruct2D</Filter>
+    </ClInclude>
+    <ClInclude Include="LayoutDefine.h">
+      <Filter>5_Misc\DefaultShaderDefines\LayoutDefine</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBufferDefine.h">
+      <Filter>5_Misc\DefaultShaderDefines\ConstantBufferDefine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -180,6 +198,21 @@
     <ClCompile Include="Cubemap.cpp">
       <Filter>7_OtherObject</Filter>
     </ClCompile>
+    <ClCompile Include="ByteBuffer.cpp">
+      <Filter>9_Util\ByteBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset3DModelData.cpp">
+      <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderUsageStruct3D.cpp">
+      <Filter>4_RenderObject\RenderUsageStruct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderUsageStruct2D.cpp">
+      <Filter>4_RenderObject\RenderUsageStruct2D</Filter>
+    </ClCompile>
+    <ClCompile Include="LayoutDefine.cpp">
+      <Filter>5_Misc\DefaultShaderDefines\LayoutDefine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -236,9 +269,6 @@
     <Filter Include="3_GraphicsResources\Asset3DModelData">
       <UniqueIdentifier>{0ee47e45-1bb3-4a25-a048-d46222ab75d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3_GraphicsResources\Helpers">
-      <UniqueIdentifier>{7d806c07-7ffe-48cf-b843-10a7dfa9384f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3_GraphicsResources\Asset3DModelData\Define">
       <UniqueIdentifier>{dbd555d5-7923-4ea2-a30d-b7e1153de640}</UniqueIdentifier>
     </Filter>
@@ -259,6 +289,30 @@
     </Filter>
     <Filter Include="6_HLSL\DefaultInfo">
       <UniqueIdentifier>{d6331f99-21c9-43a7-9cf1-d92ea52f5dad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_Util">
+      <UniqueIdentifier>{ac8e1c62-b6b6-4db3-9a29-773a07312fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_Util\ByteBuffer">
+      <UniqueIdentifier>{0a4a2d5a-c7b4-48ea-a60a-adaf53136896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Asset3DModelData\Data">
+      <UniqueIdentifier>{2378ba46-73ff-4ad8-afbd-fda3e746a452}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderUsageStruct2D">
+      <UniqueIdentifier>{4cd2830e-3afa-4b54-af3e-c5ac4530503d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderUsageStruct3D">
+      <UniqueIdentifier>{8bd2605b-2228-4fae-8023-52bc7e72664f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\DefaultShaderDefines">
+      <UniqueIdentifier>{cbedec0b-2e38-4472-8c12-eae65672c963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\DefaultShaderDefines\LayoutDefine">
+      <UniqueIdentifier>{a638cecb-2c78-4e1f-9852-6a9875e175dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\DefaultShaderDefines\ConstantBufferDefine">
+      <UniqueIdentifier>{16bd805c-10db-44a7-b3f7-812c12cf5848}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

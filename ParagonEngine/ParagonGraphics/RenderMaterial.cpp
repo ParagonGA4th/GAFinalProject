@@ -2,9 +2,9 @@
 
 namespace Pg::Graphics
 {
-	using Pg::Core::Resources::GraphicsResource;
+	using Pg::Data::Resources::GraphicsResource;
 
-	RenderMaterial::RenderMaterial(Pg::Core::Enums::eAssetDefine define, const std::string& filePath) : 
+	RenderMaterial::RenderMaterial(Pg::Data::Enums::eAssetDefine define, const std::string& filePath) :
 		GraphicsResource(define, typeid(this).name(), filePath)
 	{
 		//
