@@ -10,7 +10,7 @@
 
 namespace Pg::Core
 {
-	class CoreMain;
+	class ProcessMain;
 
 	namespace Manager
 	{
@@ -28,7 +28,7 @@ namespace Pg::Core
 	class EngineGraphicsAdapter
 	{
 	public:
-		EngineGraphicsAdapter(CoreMain* core);
+		EngineGraphicsAdapter(ProcessMain* core);
 		~EngineGraphicsAdapter();
 
 		//엔진 초기화.
@@ -71,7 +71,7 @@ namespace Pg::Core
 		std::unique_ptr<IEngine> _engine;					//게임 엔진
 		std::unique_ptr<IGraphics> _graphics;				//그래픽스 엔진
 
-		CoreMain* _coreMain; //코어 메인 받아와서 저장.
+		ProcessMain* _coreMain; //코어 메인 받아와서 저장.
 	};
 }
 

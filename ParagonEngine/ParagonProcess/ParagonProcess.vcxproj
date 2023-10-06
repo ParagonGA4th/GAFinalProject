@@ -156,7 +156,7 @@
   <ItemGroup>
     <ClInclude Include="AssetDefines.h" />
     <ClInclude Include="AssetManager.h" />
-    <ClInclude Include="CoreMain.h" />
+    <ClInclude Include="ProcessMain.h" />
     <ClInclude Include="EditorAdapter.h" />
     <ClInclude Include="EngineGraphicsAdapter.h" />
     <ClInclude Include="IAPI.h" />
@@ -168,7 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssetManager.cpp" />
-    <ClCompile Include="CoreMain.cpp" />
+    <ClCompile Include="ProcessMain.cpp" />
     <ClCompile Include="EditorAdapter.cpp" />
     <ClCompile Include="EngineGraphicsAdapter.cpp" />
     <ClCompile Include="TimeManager.cpp" />

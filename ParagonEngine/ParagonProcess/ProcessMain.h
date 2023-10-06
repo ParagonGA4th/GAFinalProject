@@ -36,12 +36,12 @@ namespace Pg::Core
 
 namespace Pg::Core
 {
-	class CoreMain
+	class ProcessMain
 	{
 		friend class Pg::Core::Manager::AssetManager;
 	public:
-		CoreMain();
-		~CoreMain();
+		ProcessMain();
+		~ProcessMain();
 
 		long Initialize(void* hwnd, int screenWidth, int screenHeight);
 		void Update();
