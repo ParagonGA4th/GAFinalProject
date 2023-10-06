@@ -7,7 +7,7 @@
 
 #include <singleton-cpp/singleton.h>
 
-Pg::Core::CoreMain* EditorMain::_coreMainStatic = nullptr;	// WndProc 접근을 위한 스태틱 변수
+Pg::Core::ProcessMain* EditorMain::_coreMainStatic = nullptr;	// WndProc 접근을 위한 스태틱 변수
 bool EditorMain::_isCoreInitialized; // 코어의 Initialize 이후에 스태틱 변수에 접근하도록 하기 위한 bool 변수
 
 // Forward declare message handler from imgui_impl_win32.cpp
@@ -21,7 +21,7 @@ EditorMain::EditorMain()
 	_windowName(L"ParagonEngine")
 {
 	_isCoreInitialized = false;
-	_coreMain = std::make_unique<Pg::Core::CoreMain>();
+	_coreMain = std::make_unique<Pg::Core::ProcessMain>();
 	_coreMainStatic = _coreMain.get();
 
 	_fileManager = std::make_unique<FileManager>();
