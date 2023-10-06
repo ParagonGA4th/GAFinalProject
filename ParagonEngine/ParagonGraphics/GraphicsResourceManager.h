@@ -20,7 +20,7 @@
 //전방 선언, Namespace 다름에도 Friend Class 활용하기 위해.
 namespace Pg::Core
 {
-	class CoreMain;
+	class ProcessMain;
 	namespace Manager
 	{
 		class AssetManager;
