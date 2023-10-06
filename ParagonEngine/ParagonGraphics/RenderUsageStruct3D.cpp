@@ -12,7 +12,7 @@ namespace Pg::Graphics
 		//
 	}
 
-	RenderUsageStruct3D::RenderUsageStruct3D(Pg::Core::RenderTextData rTextData) :
+	RenderUsageStruct3D::RenderUsageStruct3D(Pg::Data::RenderTextData rTextData) :
 		_worldMatrix3D(), _resourcePath3D()
 	{
 		//<Transform Copying>

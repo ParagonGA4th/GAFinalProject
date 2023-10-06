@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonCore/RenderTextData.h"
+#include "../ParagonData/RenderTextData.h"
 
 #include <DirectXMath.h> //GraphicEngine 내부적으로만 활용.
 #include <string> 
@@ -15,7 +15,7 @@ namespace Pg::Graphics
 		friend class RenderObject;
 	public:
 		RenderUsageStruct2D();
-		RenderUsageStruct2D(Pg::Core::RenderTextData rTextData);
+		RenderUsageStruct2D(Pg::Data::RenderTextData rTextData);
 
 		void Clear();
 		bool IsResourcePathSame(const std::string& other);

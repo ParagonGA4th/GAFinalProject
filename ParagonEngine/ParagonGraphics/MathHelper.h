@@ -3,9 +3,9 @@
 #include <DirectXMath.h>
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonMath.lib")
 #else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonMath.lib")
 #endif // _DEBUG
 
 /// <summary>

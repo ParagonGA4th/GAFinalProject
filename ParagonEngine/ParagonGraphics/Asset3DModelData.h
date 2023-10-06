@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonCore/GraphicsResource.h"
+#include "../ParagonData/GraphicsResource.h"
 
 /// <summary>
 /// 실제 3DModel과 1대1 대응되는 클래스. 
@@ -12,10 +12,10 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class Asset3DModelData : public Pg::Core::Resources::GraphicsResource
+	class Asset3DModelData : public Pg::Data::Resources::GraphicsResource
 	{
 	public:
-		Asset3DModelData(Pg::Core::Enums::eAssetDefine define, const std::string& filePath);
+		Asset3DModelData(Pg::Data::Enums::eAssetDefine define, const std::string& filePath);
 		~Asset3DModelData();
 
 		//내부적으로 로드, 언로드해주는 함수들. 최종 자식 클래스들의 구현체의 생성/소멸자에서 호출되어야.

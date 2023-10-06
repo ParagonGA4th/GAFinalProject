@@ -6,7 +6,7 @@
 namespace Pg::Graphics
 {
 
-	Asset3DModelData::Asset3DModelData(Pg::Core::Enums::eAssetDefine define, const std::string& filePath) :
+	Asset3DModelData::Asset3DModelData(Pg::Data::Enums::eAssetDefine define, const std::string& filePath) :
 		GraphicsResource(define, typeid(this).name(), filePath)
 	{
 		//생성자가 호출된 시점에서 이미 새로운 모델 데이터가 중복없이 만들어진다고 확신됨.

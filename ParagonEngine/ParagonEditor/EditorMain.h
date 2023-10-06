@@ -1,10 +1,10 @@
 #pragma once
-#include "../ParagonCore/CoreMain.h"
+#include "../ParagonProcess/CoreMain.h"
 #include <windows.h>
 #include <memory>
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonCore.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonProcess.lib")
 #else
 #pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonCore.lib")
 #endif // _DEBUG
