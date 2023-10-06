@@ -11,8 +11,8 @@ namespace Pg::API
 		_pgInput->Initialize();
 
 		//PhysX
-		_test = new PhysXTest();
-		_test->Initialize();
+		/*_test = new PhysXTest();
+		_test->Initialize();*/
 	}
 
 	void APIMain::Finalize()
