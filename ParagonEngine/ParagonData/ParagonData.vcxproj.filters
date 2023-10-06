@@ -49,6 +49,15 @@
     <Filter Include="5_Enums\AssetDefines">
       <UniqueIdentifier>{0bdad085-105f-41ca-a24b-d76bf6ce5b36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2_Component\Renderer\RendererBase2D">
+      <UniqueIdentifier>{03e2b925-3ba3-47e0-a3ec-a03c72dfe29b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\RendererBase3D">
+      <UniqueIdentifier>{fcb173e0-4f58-41b8-a7b5-676b8e474e1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Enums\RendererType">
+      <UniqueIdentifier>{c0886145-f8e1-40d6-9cdf-bb1b2e543326}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -96,6 +105,15 @@
     <ClInclude Include="EditorMode.h">
       <Filter>5_Enums\EditorMode</Filter>
     </ClInclude>
+    <ClInclude Include="RendererBase3D.h">
+      <Filter>2_Component\Renderer\RendererBase3D</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererBase2D.h">
+      <Filter>2_Component\Renderer\RendererBase2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererType.h">
+      <Filter>5_Enums\RendererType</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scene.cpp">
@@ -124,6 +142,12 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>1_GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererBase3D.cpp">
+      <Filter>2_Component\Renderer\RendererBase3D</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererBase2D.cpp">
+      <Filter>2_Component\Renderer\RendererBase2D</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
