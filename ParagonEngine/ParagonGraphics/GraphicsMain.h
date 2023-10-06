@@ -45,7 +45,7 @@ namespace Pg::API
 
 namespace Pg::Core
 {
-	class CoreMain;
+	class ProcessMain;
 	class Scene;
 
 	namespace Time
@@ -71,7 +71,7 @@ namespace Pg::Graphics
 	class GraphicsMain : public Pg::Core::IGraphics
 	{
 	public:
-		PARAGON_GRAPHICS_DLL GraphicsMain(Pg::Core::CoreMain* core);
+		PARAGON_GRAPHICS_DLL GraphicsMain(Pg::Core::ProcessMain* core);
 		virtual ~GraphicsMain();
 
 	public:
@@ -100,7 +100,7 @@ namespace Pg::Graphics
 
 	private:
 		HRESULT hr;
-		Pg::Core::CoreMain* _coreMain;
+		Pg::Core::ProcessMain* _coreMain;
 		Pg::Graphics::Manager::GraphicsResourceManager* _graphicsResourceManager = nullptr;
 	private:
 
