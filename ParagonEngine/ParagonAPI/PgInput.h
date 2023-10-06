@@ -26,25 +26,25 @@ namespace Pg::API::Input
 	{
 		friend class Pg::API::APIMain;
 	public:
-		static bool GetKey(Pg::API::Input::eKeyCode keyCode);
-		static bool GetKeyDown(Pg::API::Input::eKeyCode keyCode);
-		static bool GetKeyUp(Pg::API::Input::eKeyCode keyCode);
+		bool GetKey(Pg::API::Input::eKeyCode keyCode);
+		bool GetKeyDown(Pg::API::Input::eKeyCode keyCode);
+		bool GetKeyUp(Pg::API::Input::eKeyCode keyCode);
 
-		static float GetMouseX();
-		static float GetMouseY();
+		float GetMouseX();
+		float GetMouseY();
 
-		static float GetMouseDX();
-		static float GetMouseDY();
+		float GetMouseDX();
+		float GetMouseDY();
 
-		static bool IsMouseMoving();
+		bool IsMouseMoving();
 
-		static void HandleMessage(MSG& msg);
-
-	private:
-		static void Initialize();
+		void HandleMessage(MSG& msg);
 
 	private:
-		static Pg::Engine::Input::InputSystem* _inputSystem;
+		void Initialize();
+
+	private:
+		Pg::Engine::Input::InputSystem* _inputSystem;
 	};
 
 
