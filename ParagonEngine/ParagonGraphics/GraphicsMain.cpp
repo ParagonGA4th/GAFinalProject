@@ -4,13 +4,13 @@
 #include "ConstantBuffer.h"
 #include "MathHelper.h"
 #include "GraphicsResourceManager.h"
+#include "LayoutDefine.h"
 
-#include "../ParagonCore/TimeManager.h"
-#include "../ParagonCore/AssetDefines.h"
-#include "../ParagonCore/CoreMain.h"
+#include "../ParagonProcess/TimeManager.h"
+#include "../ParagonData/AssetDefines.h"
+#include "../ParagonProcess/CoreMain.h"
 #include "../ParagonUtil/ResourceHelper.h"
 #include "../ParagonAPI/PgInput.h"
-#include "../ParagonAPI/APIMain.h"
 
 #include "ParagonRenderer.h"
 #include "Sprite.h"
@@ -23,6 +23,7 @@
 //<실제 Graphics Resource의 목록>
 #include "RenderMaterial.h"
 #include "RenderTexture2D.h"
+#include "Asset3DModelData.h"
 //</>
 
 //DirectXMesh Testing.
@@ -31,12 +32,19 @@
 #include <windows.h>
 #include <numbers>
 #include <cassert>
+#include <limits>
 #include <singleton-cpp/singleton.h>
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonCore.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonData.lib")
 #else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonCore.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonData.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
 #endif // _DEBUG
 
 namespace Pg::Graphics
@@ -50,14 +58,10 @@ namespace Pg::Graphics
 		_DXLogic = LowDX11Logic::GetInstance();
 
 		_renderer = std::make_unique<ParagonRenderer>();
-		_tempObj = new Pg::Core::GameObject("Test");
+		_tempObj = new Pg::Data::GameObject("Test");
 
-		auto& timeSystem = singleton<Pg::Core::Time::TimeManager>();
-		_timeManager = &timeSystem;
-
-		auto& api = singleton<Pg::API::APIMain>();
-		_api = &api;
-		_api->Initialize();
+		auto& tInput = singleton<Pg::API::Input::PgInput>();
+		_input = &tInput;
 	}
 
 	GraphicsMain::~GraphicsMain()
@@ -98,6 +102,8 @@ namespace Pg::Graphics
 		
 		_DXLogic->CreateAndSetViewports();
 
+		//Default Input Layout 세팅.
+		LayoutDefine::Initialize();
 
 		// 테스트용 큐브
 		_box = new TestCube();
@@ -165,13 +171,6 @@ namespace Pg::Graphics
 		_camera = new TempCamera(float3(0.0f, 3.0f, -10.0f));
 		_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 
-		// TimeManager
-		_timeManager->Initialize();
-
-		// InputManager
-		auto& tInput = singleton<Pg::API::Input::PgInput>();
-		_inputManager = &tInput;
-
 		// 2DSprite
 		sprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/cats.dds");
 		sprite->SetPosition(0.0f, 0.0f);
@@ -186,18 +185,26 @@ namespace Pg::Graphics
 	}
 
 
-	void GraphicsMain::Update(const Pg::Core::Scene* const scene, Pg::Core::CameraData cameraData)
+	void GraphicsMain::Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData cameraData, float deltaTime)
 	{
-		_timeManager->TimeMeasure();
-		float dt = _timeManager->GetDeltaTime();
+		//_timeManager->TimeMeasure();
+		//float dt = _timeManager->GetDeltaTime();
 
+		float dt = deltaTime;
 		time += (10.0f * dt);
 
 		// 디버그 정보 출력
 		text = L"";
 		text.append(L"DeltaTime: " + std::to_wstring(dt) + L"\n");
 		text.append(L"Time: " + std::to_wstring(time) + L"\n");
-		text.append(L"FPS: " + std::to_wstring(_timeManager->GetFrameRate()) + L"\n");
+
+		float tFrameRate = -1.0f;
+		if (dt > std::numeric_limits<float>::epsilon())
+		{
+			tFrameRate = static_cast<double>(1) / dt;
+		}
+
+		text.append(L"FPS: " + std::to_wstring(tFrameRate) + L"\n");
 		text.append(L"Look Vector: (" + std::to_wstring(_camera->GetLook().x) + L", " + std::to_wstring(_camera->GetLook().y) + L", " + std::to_wstring(_camera->GetLook().z) + L")") ;
 		font->SetText(text);
 
@@ -209,35 +216,35 @@ namespace Pg::Graphics
 		/// Input 관련
 		///
 		using namespace Pg::API::Input;
-
-		if (_inputManager->GetKey(MoveFront))
+		
+		if (_input->GetKey(MoveFront))
 		{
 			_camera->Walk(1.0f * cameraSpeed * dt);
 		}
-		if (_inputManager->GetKey(MoveBack))
+		if (_input->GetKey(MoveBack))
 		{
 			_camera->Walk(-1.0f * cameraSpeed * dt);
 		}
-		if (_inputManager->GetKey(MoveLeft))
+		if (_input->GetKey(MoveLeft))
 		{
 			_camera->Strafe(-1.0f * cameraSpeed * dt);
 		}
-		if (_inputManager->GetKey(MoveRight))
+		if (_input->GetKey(MoveRight))
 		{
 			_camera->Strafe(1.0f * cameraSpeed * dt);
 		}
-		if (_inputManager->GetKey(MoveUp))
+		if (_input->GetKey(MoveUp))
 		{
 			_camera->WorldUpDown(1.0f * cameraSpeed * dt);
 		}
-		if (_inputManager->GetKey(MoveDown))
+		if (_input->GetKey(MoveDown))
 		{
 			_camera->WorldUpDown(-1.0f * cameraSpeed * dt);
 		}
-		if (_inputManager->GetKey(MouseRight) && _inputManager->IsMouseMoving())
+		if (_input->GetKey(MouseRight) && _input->IsMouseMoving())
 		{
-			_camera->RotateY(3.0f * _inputManager->GetMouseDX());
-			_camera->Pitch(3.0f * _inputManager->GetMouseDY());
+			_camera->RotateY(3.0f * _input->GetMouseDX());
+			_camera->Pitch(3.0f * _input->GetMouseDY());
 		}
 
 		_camera->UpdateViewMatrix();
@@ -272,7 +279,7 @@ namespace Pg::Graphics
 		grid->_cbData.projectionMatrix = _camera->Proj();
 		grid->_cbData.viewProjMatrix = _camera->ViewProj();
 
-		cubemap->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
+		cubemap->_cbData.worldMatrix = XMMatrixTranslation(_camera->GetPosition().x, _camera->GetPosition().y, _camera->GetPosition().z);
 		cubemap->_cbData.viewMatrix = _camera->View();
 		cubemap->_cbData.projectionMatrix = _camera->Proj();
 		cubemap->_cbData.viewProjMatrix = _camera->ViewProj();
@@ -287,18 +294,17 @@ namespace Pg::Graphics
 	}
 
 	
-	void GraphicsMain::Render(Pg::Core::Scene* scene)
+	void GraphicsMain::Render(Pg::Data::Scene* scene)
 	{
 		
 		cubemap->Draw();
 		
 		// test용 큐브 그리기
 		_box->Draw();
-				// Grid
+		// Grid
 		grid->Draw();
 		// Axis
 		axis->Draw();
-		//</>
 		
 		// test 스프라이트 그리기
 		sprite->Draw();
@@ -357,69 +363,14 @@ namespace Pg::Graphics
 		return _DXStorage->_deviceContext;
 	}
 
-	void GraphicsMain::LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define)
+	void GraphicsMain::LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define)
 	{
-		//LoadResource 호출되었다는 것 = Asset이 아직 없다는 말.
-
-		//eAssetDefine을 기준으로 다른 형태의 리소스를 만든다. (리소스의 개수가 확대될수록 이 조건문 역시 확대된다)
-		switch (define)
-		{
-		case (Pg::Core::Enums::eAssetDefine::_NONE):
-			{
-				assert(false);
-			}
-			break;
-			case (Pg::Core::Enums::eAssetDefine::_2DTEXTURE):
-			{
-				_graphicsResourceManager->CreateResource<RenderTexture2D>(filePath, define);
-			}
-			break;
-			case (Pg::Core::Enums::eAssetDefine::_CUBEMAP):
-			{
-				//추가되는 대로 들어와야 한다.
-				assert(false);
-			}
-			break;
-			case (Pg::Core::Enums::eAssetDefine::_3DSTATICMODEL):
-			{
-				//추가되는 대로 들어와야 한다.
-				assert(false);
-			}
-			break;
-			case (Pg::Core::Enums::eAssetDefine::_3DSKINNEDMODEL):
-			{
-				//추가되는 대로 들어와야 한다.
-				assert(false);
-			}
-			break;
-			case (Pg::Core::Enums::eAssetDefine::_FONT):
-			{
-				//추가되는 대로 들어와야 한다.
-				assert(false);
-			}
-			break;
-			case (Pg::Core::Enums::eAssetDefine::_RENDERSHADER):
-			{
-				//추가되는 대로 들어와야 한다.
-				assert(false);
-			}
-			break;
-			case (Pg::Core::Enums::eAssetDefine::_RENDERMATERIAL):
-			{
-				_graphicsResourceManager->CreateResource<RenderMaterial>(filePath, define);
-			}
-			break;
-			default:
-			{
-				assert(false);
-			}
-			break;
-		}
+		_graphicsResourceManager->LoadResource(filePath, define);
 	}
 
 	void GraphicsMain::UnloadResource(const std::string& filePath)
 	{
-		//Load와 달리, 동시에 두 개의 리소스 매니저가 동시에 호출된다. //지우지 못했어도 오류 반환하지 말자!
+		_graphicsResourceManager->UnloadResource(filePath);
 	}
 
 
