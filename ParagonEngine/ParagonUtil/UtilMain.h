@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonCore/IUtil.h"
+#include "../ParagonProcess/IUtil.h"
 
 /// <summary>
 /// ParagonUtil의 체계를 관리하는 UtilMain.
