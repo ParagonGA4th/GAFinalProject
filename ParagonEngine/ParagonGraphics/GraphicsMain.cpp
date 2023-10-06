@@ -191,12 +191,12 @@ namespace Pg::Graphics
 		//float dt = _timeManager->GetDeltaTime();
 
 		float dt = deltaTime;
-		time += (10.0f * dt);
+		time += dt;
 
 		// 디버그 정보 출력
 		text = L"";
 		text.append(L"DeltaTime: " + std::to_wstring(dt) + L"\n");
-		text.append(L"Time: " + std::to_wstring(time) + L"\n");
+		text.append(L"Time: " + std::to_wstring(time) + L" sec" + L"\n");
 
 		float tFrameRate = -1.0f;
 		if (dt > std::numeric_limits<float>::epsilon())
