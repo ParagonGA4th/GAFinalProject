@@ -47,7 +47,6 @@ namespace Pg::Core
 		PGFLOAT3 GetLocalPosition();
 		PGQuaternion GetLocalRotation();
 
-
 		// Set 월드 함수들
 		void SetPosition(const PGFLOAT3& pos);
 		void SetPosition(float x, float y, float z);
@@ -66,13 +65,13 @@ namespace Pg::Core
 		void SetLocalRotationEuler(float x, float y, float z);
 		void SetLocalRotationEuler(PGFLOAT3& euler);
 
-		// 오일러 && 쿼터니언 변환 함수들
+		// 짐벌락 방지를 위한... 오일러 && 쿼터니언 변환 함수들
 		PGQuaternion EulerToQuaternion(float x, float y, float z);
 		PGQuaternion EulerToQuaternion(const PGFLOAT3& euler);
 		PGFLOAT3 QuaternionToEuler(float w, float x, float y, float z);
 		PGFLOAT3 QuaternionToEuler(const PGQuaternion& quaternion);
 
-		// 행렬 (부모 유무를 고려)
+		// 월드 행렬 (부모 유무를 고려)
 		PGFLOAT4X4 GetWorldTM();
 
 		// 종속성 세팅 함수
@@ -85,8 +84,6 @@ namespace Pg::Core
 		void SetParent(GameObject* obj);
 		void AddChild(std::shared_ptr<Transform> child);
 
-		
-
 	private:
 		// 부모, 자식 객체를 가리키는 transform
 		std::shared_ptr<Transform> _parent;
@@ -97,6 +94,10 @@ namespace Pg::Core
 		PGQuaternion _rotation; // 기본적으로 쿼터니언으로 관리한다
 		PGFLOAT3 _scale;
 
+		// 벡터
+		PGFLOAT3 _right;
+		PGFLOAT3 _up;
+		PGFLOAT3 _look;
 		
 	};
 }
