@@ -7,8 +7,8 @@ namespace Pg::Graphics
 {
 	HRESULT hr = NULL;
 
-	RenderShader::RenderShader(LowDX11Storage* storage, std::wstring CSOFilePath)
-		:_DXStorage(storage)
+	RenderShader::RenderShader(std::wstring CSOFilePath)
+		:_DXStorage(LowDX11Storage::GetInstance())
 	{
 		hr = LoadShader(CSOFilePath);
 	}
