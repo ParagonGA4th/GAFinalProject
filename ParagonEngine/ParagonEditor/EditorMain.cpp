@@ -86,6 +86,7 @@ void EditorMain::Update()
 			_imGuiManager->CreateFrame();
 
 			_imGuiManager->ShowDemoInspector();
+			 
 			//_imGuiManager->ShowDemoHierarchy();
 			//_imGuiManager->ShowDemoFilter();
 			//_imGuiManager->ShowDemoViewPort();
