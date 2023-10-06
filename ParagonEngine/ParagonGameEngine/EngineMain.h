@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../ParagonGameEngine/EngineDLLExporter.h"
-#include "../ParagonCore/IEngine.h"
-#include "../ParagonCore/CoreSingleton.h"
+#include "../ParagonProcess/IEngine.h"
+#include "../ParagonProcess/CoreSingleton.h"
 
 /// <summary>
 /// 2023.09.08
@@ -39,7 +39,7 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL void Finalize() override;
 
 		//AssetManager와의 교류를 위해, 엔진 리소스 매니저에 리소스를 로드하는 함수.
-		PARAGON_ENGINE_DLL virtual void LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define) override;
+		PARAGON_ENGINE_DLL virtual void LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define) override;
 
 		//AssetManager와의 교류를 위해, 엔진 리소스 매니저에 리소스를 언로드하는 함수.
 		PARAGON_ENGINE_DLL virtual void UnloadResource(const std::string& filePath) override;
