@@ -1,5 +1,6 @@
 #include "EngineMain.h"
 #include "InputSystem.h"
+#include "PhysicSystem.h"
 #include "EngineResourceManager.h"
 
 //<실제 GameEngine Resource의 목록>
@@ -35,6 +36,9 @@ namespace Pg::Engine
 	{
 		auto& tInputSystem = singleton<Input::InputSystem>();
 		_inputSystem = &tInputSystem;
+
+		auto& tphysicSystem = singleton<Physic::PhysicSystem>();
+		_physicSystem = &tphysicSystem;
 	}
 
 	EngineMain::~EngineMain()
@@ -46,6 +50,7 @@ namespace Pg::Engine
 	void EngineMain::Initialize(float width, float height)
 	{
 		_inputSystem->Initialize(width, height);
+		_physicSystem->Initialize();
 	}
 
 	void EngineMain::Update()
