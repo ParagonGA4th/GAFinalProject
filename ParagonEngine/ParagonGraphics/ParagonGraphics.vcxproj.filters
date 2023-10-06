@@ -28,9 +28,6 @@
     <ClInclude Include="MathHelper.h">
       <Filter>5_Misc</Filter>
     </ClInclude>
-    <ClInclude Include="RenderObject.h">
-      <Filter>4_RenderObject</Filter>
-    </ClInclude>
     <ClInclude Include="RenderMaterial.h">
       <Filter>3_GraphicsResources\RenderMaterial</Filter>
     </ClInclude>
@@ -101,16 +98,22 @@
       <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
     </ClInclude>
     <ClInclude Include="RenderUsageStruct3D.h">
-      <Filter>4_RenderObject\RenderUsageStruct3D</Filter>
+      <Filter>4_RenderObject\RenderUsageStruct\RenderUsageStruct3D</Filter>
     </ClInclude>
     <ClInclude Include="RenderUsageStruct2D.h">
-      <Filter>4_RenderObject\RenderUsageStruct2D</Filter>
+      <Filter>4_RenderObject\RenderUsageStruct\RenderUsageStruct2D</Filter>
     </ClInclude>
     <ClInclude Include="LayoutDefine.h">
       <Filter>5_Misc\DefaultShaderDefines\LayoutDefine</Filter>
     </ClInclude>
     <ClInclude Include="ConstantBufferDefine.h">
       <Filter>5_Misc\DefaultShaderDefines\ConstantBufferDefine</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObject2D.h">
+      <Filter>4_RenderObject\RenderObject2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObject3D.h">
+      <Filter>4_RenderObject\RenderObject3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -134,9 +137,6 @@
     </ClCompile>
     <ClCompile Include="MathHelper.cpp">
       <Filter>5_Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderObject.cpp">
-      <Filter>4_RenderObject</Filter>
     </ClCompile>
     <ClCompile Include="RenderMaterial.cpp">
       <Filter>3_GraphicsResources\RenderMaterial</Filter>
@@ -205,13 +205,19 @@
       <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
     </ClCompile>
     <ClCompile Include="RenderUsageStruct3D.cpp">
-      <Filter>4_RenderObject\RenderUsageStruct3D</Filter>
+      <Filter>4_RenderObject\RenderUsageStruct\RenderUsageStruct3D</Filter>
     </ClCompile>
     <ClCompile Include="RenderUsageStruct2D.cpp">
-      <Filter>4_RenderObject\RenderUsageStruct2D</Filter>
+      <Filter>4_RenderObject\RenderUsageStruct\RenderUsageStruct2D</Filter>
     </ClCompile>
     <ClCompile Include="LayoutDefine.cpp">
       <Filter>5_Misc\DefaultShaderDefines\LayoutDefine</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObject2D.cpp">
+      <Filter>4_RenderObject\RenderObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObject3D.cpp">
+      <Filter>4_RenderObject\RenderObject3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -299,12 +305,6 @@
     <Filter Include="3_GraphicsResources\Asset3DModelData\Data">
       <UniqueIdentifier>{2378ba46-73ff-4ad8-afbd-fda3e746a452}</UniqueIdentifier>
     </Filter>
-    <Filter Include="4_RenderObject\RenderUsageStruct2D">
-      <UniqueIdentifier>{4cd2830e-3afa-4b54-af3e-c5ac4530503d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="4_RenderObject\RenderUsageStruct3D">
-      <UniqueIdentifier>{8bd2605b-2228-4fae-8023-52bc7e72664f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="5_Misc\DefaultShaderDefines">
       <UniqueIdentifier>{cbedec0b-2e38-4472-8c12-eae65672c963}</UniqueIdentifier>
     </Filter>
@@ -313,6 +313,21 @@
     </Filter>
     <Filter Include="5_Misc\DefaultShaderDefines\ConstantBufferDefine">
       <UniqueIdentifier>{16bd805c-10db-44a7-b3f7-812c12cf5848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject2D">
+      <UniqueIdentifier>{a5d557da-c728-46fa-898e-64566e7c83a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderUsageStruct">
+      <UniqueIdentifier>{32a7257b-5851-4242-979d-08f79f10d2c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderUsageStruct\RenderUsageStruct3D">
+      <UniqueIdentifier>{8bd2605b-2228-4fae-8023-52bc7e72664f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderUsageStruct\RenderUsageStruct2D">
+      <UniqueIdentifier>{4cd2830e-3afa-4b54-af3e-c5ac4530503d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject3D">
+      <UniqueIdentifier>{fc3d4563-d61f-4414-bf64-5df104bba382}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
