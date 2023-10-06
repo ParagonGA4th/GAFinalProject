@@ -1,13 +1,13 @@
 #pragma once
 #include "../ParagonGameEngine/EngineDLLExporter.h"
-#include "../ParagonCore/Component.h"
-#include "../ParagonAPI/PgMath.h"
-#include "../ParagonCore/CameraData.h"
+#include "../ParagonData/Component.h"
+#include "../ParagonMath/PgMath.h"
+#include "../ParagonData/CameraData.h"
 
 #ifdef _DEBUG
-#pragma comment(lib, "..\\Builds\\x64\\Debug\\ParagonAPI.lib")
+#pragma comment(lib, "..\\Builds\\x64\\Debug\\ParagonMath.lib")
 #else
-#pragma comment(lib, "..\\Builds\\x64\\Release\\ParagonAPI.lib")
+#pragma comment(lib, "..\\Builds\\x64\\Release\\ParagonMath.lib")
 #endif // _DEBUG
 
 /// <summary>
@@ -24,10 +24,10 @@ namespace Pg::Engine
 {
 	using namespace Pg::Math;
 
-	class Camera : public Pg::Core::Component
+	class Camera : public Pg::Data::Component
 	{
 	public:
-		PARAGON_ENGINE_DLL Camera(Pg::Core::GameObject* obj);
+		PARAGON_ENGINE_DLL Camera(Pg::Data::GameObject* obj);
 		PARAGON_ENGINE_DLL virtual ~Camera() = default;
 
 		PARAGON_ENGINE_DLL float GetNearZ() const;
@@ -43,10 +43,10 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL void SetAspect(float aspect);
 		PARAGON_ENGINE_DLL void SetFovY(float fovY);
 
-		PARAGON_ENGINE_DLL Pg::Core::CameraData GetCameraData();
+		PARAGON_ENGINE_DLL Pg::Data::CameraData GetCameraData();
 
 	public:
-		Pg::Core::CameraData _cameraData;
+		Pg::Data::CameraData _cameraData;
 
 	public:
 		// Yaw, pitch, roll (모든 방향으로의 회전이 필요한가?)

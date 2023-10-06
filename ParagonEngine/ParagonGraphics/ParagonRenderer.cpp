@@ -22,7 +22,7 @@ namespace Pg::Graphics
 		_DXLogic->BindRenderTargets();
 	}
 
-	void ParagonRenderer::Render(Pg::Core::GameObject* gameObject)
+	void ParagonRenderer::Render(Pg::Data::GameObject* gameObject)
 	{
 		
 	}
