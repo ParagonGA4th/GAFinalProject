@@ -27,18 +27,12 @@
     <ClCompile Include="APIMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
-    <ClCompile Include="PgMath.cpp">
-      <Filter>1_Math</Filter>
-    </ClCompile>
     <ClCompile Include="PgInput.cpp">
       <Filter>2_Input</Filter>
     </ClCompile>
     <ClCompile Include="PhysXTest.cpp">
       <Filter>3_PhysX</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
