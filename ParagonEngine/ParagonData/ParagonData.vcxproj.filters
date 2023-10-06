@@ -56,16 +56,14 @@
       <UniqueIdentifier>{87505b38-6339-41a2-9ee9-c51b7e8da06a}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Component\Collider\BaseCollider">
-      <UniqueIdentifier>{3101f69c-bd67-47e0-9628-a3110a1240af}</UniqueIdentifier>
+    <Filter Include="2_Component\Renderer\RendererBase2D">
+      <UniqueIdentifier>{03e2b925-3ba3-47e0-a3ec-a03c72dfe29b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Component\Collider\BoxCollider">
-      <UniqueIdentifier>{29946d02-2200-4a40-97b2-ada37fbce8bb}</UniqueIdentifier>
+    <Filter Include="2_Component\Renderer\RendererBase3D">
+      <UniqueIdentifier>{fcb173e0-4f58-41b8-a7b5-676b8e474e1e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Component\Collider\CapsuleCollider">
-      <UniqueIdentifier>{f7a6dcbe-dfc5-46d5-8adc-680762f94e88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Collider\SphereColiider">
-      <UniqueIdentifier>{0bff23f3-c1c0-4f3d-8b28-72365e13f5e7}</UniqueIdentifier>
+    <Filter Include="5_Enums\RendererType">
+      <UniqueIdentifier>{c0886145-f8e1-40d6-9cdf-bb1b2e543326}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +121,15 @@
     <ClInclude Include="SphereCollider.h">
       <Filter>2_Component\Collider\SphereColiider</Filter>
     </ClInclude>
+    <ClInclude Include="RendererBase3D.h">
+      <Filter>2_Component\Renderer\RendererBase3D</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererBase2D.h">
+      <Filter>2_Component\Renderer\RendererBase2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererType.h">
+      <Filter>5_Enums\RendererType</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scene.cpp">
@@ -151,6 +158,12 @@
     </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>2_Component\Collider\BaseCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererBase3D.cpp">
+      <Filter>2_Component\Renderer\RendererBase3D</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererBase2D.cpp">
+      <Filter>2_Component\Renderer\RendererBase2D</Filter>
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
       <Filter>2_Component\Collider\BoxCollider</Filter>

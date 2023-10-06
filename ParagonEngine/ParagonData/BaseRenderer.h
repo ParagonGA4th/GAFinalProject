@@ -21,12 +21,12 @@ namespace Pg::Data
 	public:
 		BaseRenderer(GameObject* obj);
 		virtual ~BaseRenderer();
-		
 
+		IRenderObject* GetRenderObject();
 
 	protected:
-		std::unique_ptr<IRenderObject> _renderInfo;
-
+		IRenderObject* _renderObject = nullptr;
+		bool _is3D = NULL;
 	};
 }
 
