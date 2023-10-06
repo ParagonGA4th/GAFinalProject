@@ -43,6 +43,12 @@
     <Filter Include="5_Enums">
       <UniqueIdentifier>{e367abd5-aa15-4285-ab79-ec0076623ddd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="5_Enums\EditorMode">
+      <UniqueIdentifier>{605e671c-65d1-4b5f-99ad-89b5152d17f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Enums\AssetDefines">
+      <UniqueIdentifier>{0bdad085-105f-41ca-a24b-d76bf6ce5b36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -72,9 +78,6 @@
     <ClInclude Include="Component.h">
       <Filter>2_Component</Filter>
     </ClInclude>
-    <ClInclude Include="AssetDefines.h">
-      <Filter>5_Enums</Filter>
-    </ClInclude>
     <ClInclude Include="RenderTextData.h">
       <Filter>4_Structs\RenderTextData</Filter>
     </ClInclude>
@@ -86,6 +89,12 @@
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>1_GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetDefines.h">
+      <Filter>5_Enums\AssetDefines</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorMode.h">
+      <Filter>5_Enums\EditorMode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

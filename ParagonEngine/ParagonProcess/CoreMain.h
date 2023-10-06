@@ -1,5 +1,4 @@
 
-
 #include "IEngine.h"
 #include "IGraphics.h"
 #include "IUtil.h"
@@ -19,11 +18,15 @@
 /// <summary>
 /// 코어
 /// 2023. 9. 8. 변지상
+/// 
+/// ->
 /// </summary>
 
 namespace Pg::Core
 {
 	class Scene;
+	class EngineGraphicsAdapter;
+	class EditorAdapter;
 
 	namespace Manager
 	{
@@ -53,13 +56,16 @@ namespace Pg::Core
 
 	public:
 		void OnWindowResized(int screenWidth, int screenHeight);
+		ID3D11Device* GetGraphicsDevice();
+		ID3D11DeviceContext* GetGraphicsDeviceContext();
+
+		//Engine & Graphics <-> CoreMain 교류하는 어댑터 리턴.
+		EngineGraphicsAdapter* GetEngineGraphicsAdapter();
+
+		//Editor <-> CoreMain 교류하는 어댑터 리턴.
+		EditorAdapter* GetEditorAdapter();
 
 	private:
-		
-		std::unique_ptr<IEngine> _engine;					//게임 엔진
-		std::unique_ptr<IGraphics> _graphics;				//그래픽스 엔진
-		//std::unique_ptr<Pg::Util::Debug::Log> _logger;		//로거
-		//Pg::Engine::Input::InputSystem* _inputSystem;
 		std::unique_ptr<IUtil> _util;
 		std::unique_ptr<IAPI> _api;
 
@@ -69,9 +75,9 @@ namespace Pg::Core
 		//임시 : WORKSPACE
 		Pg::Engine::WorkSpace* _work = nullptr;
 
-	public:
-		ID3D11Device* GetGraphicsDevice();
-		ID3D11DeviceContext* GetGraphicsDeviceContext();
+	private:
+		std::unique_ptr<EngineGraphicsAdapter> _engineGraphicsAdapter;
+		std::unique_ptr<EditorAdapter> _editorAdapter;
 	};
 }
 

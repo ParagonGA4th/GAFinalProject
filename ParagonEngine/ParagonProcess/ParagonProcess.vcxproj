@@ -157,6 +157,8 @@
     <ClInclude Include="AssetDefines.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="CoreMain.h" />
+    <ClInclude Include="EditorAdapter.h" />
+    <ClInclude Include="EngineGraphicsAdapter.h" />
     <ClInclude Include="IAPI.h" />
     <ClInclude Include="IUtil.h" />
     <ClInclude Include="IEngine.h" />
@@ -167,6 +169,8 @@
   <ItemGroup>
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="CoreMain.cpp" />
+    <ClCompile Include="EditorAdapter.cpp" />
+    <ClCompile Include="EngineGraphicsAdapter.cpp" />
     <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
