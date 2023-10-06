@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "../ParagonCore/GameObject.h"
 #include "../ParagonCore/Transform.h"
+#include "../ParagonCore/BaseRenderer.h" //Render 연동 보기 위해.
 
 Pg::Engine::TestScene::TestScene()
 {
@@ -24,6 +25,7 @@ void Pg::Engine::TestScene::Initialize()
 
 	GameObject* tObj2 = new GameObject("Cube2");
 	tObj2->GetComponent<Transform>()->SetPosition({ -10.0f, 0.0f, 5.0f });
+	tObj2->AddComponent<BaseRenderer>();
 
 	tCurrentScene->AddObject("Camera1");
 	tCurrentScene->AddObject("Cube2");

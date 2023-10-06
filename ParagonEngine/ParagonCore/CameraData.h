@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonAPI/PgMath.h"
+#include "../ParagonMath/PgMath.h"
 
 #ifdef _DEBUG
 #pragma comment(lib, "..\\Builds\\x64\\Debug\\ParagonAPI.lib")
@@ -8,7 +8,6 @@
 #endif // _DEBUG
 
 //반환해줘야 할 데이터
-// 주석 테스트 2
 namespace Pg::Core
 {
 	struct CameraData

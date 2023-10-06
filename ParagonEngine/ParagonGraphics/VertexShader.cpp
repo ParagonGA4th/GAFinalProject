@@ -5,7 +5,7 @@
 HRESULT hr = NULL;
 
 Pg::Graphics::VertexShader::VertexShader(LowDX11Storage* storage, std::wstring CSOFilePath, D3D11_INPUT_ELEMENT_DESC* vertexDesc)
-	: RenderShader(storage, CSOFilePath),
+	: RenderShader(CSOFilePath),
 	_vertexDesc(vertexDesc)
 {
 	CreateShader();
