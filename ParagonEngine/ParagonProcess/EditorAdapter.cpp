@@ -2,7 +2,7 @@
 
 namespace Pg::Core
 {
-	EditorAdapter::EditorAdapter(CoreMain* core) : _coreMain(core), _editorMode{}
+	EditorAdapter::EditorAdapter(ProcessMain* core) : _coreMain(core), _editorMode{}
 	{
 
 	}
