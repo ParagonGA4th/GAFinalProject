@@ -1,6 +1,4 @@
 #include "CoreMain.h"
-#include "../ParagonGameEngine/EngineMain.h"
-#include "../ParagonGraphics/GraphicsMain.h"
 #include "../ParagonUtil/UtilMain.h"
 #include "../ParagonAPI/APIMain.h"
 #include "../ParagonGameEngine/EngineDLLExporter.h"
@@ -10,6 +8,8 @@
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/GameObject.h"
 #include "AssetManager.h"
+#include "EditorAdapter.h"
+#include "EngineGraphicsAdapter.h"
 
 #include <string>
 #include <windows.h>
@@ -48,19 +48,20 @@
 
 namespace Pg::Core
 {
-	CoreMain::CoreMain()
+	CoreMain::CoreMain() : _engineGraphicsAdapter(nullptr), _editorAdapter(nullptr)
 	{
+		//로직 관련 정보 세팅.
 		auto& tAssetManager = singleton<Manager::AssetManager>();
 		_assetManager = &tAssetManager;
 
 		auto& timeSystem = singleton<Time::TimeManager>();
 		_timeManager = &timeSystem;
 
-		_engine = std::make_unique<Pg::Engine::EngineMain>(this);
-		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>(this);
-		//_logger = std::make_unique<Pg::Util::Debug::Log>();
 		_util = std::make_unique<Pg::Util::UtilMain>();
 		_api = std::make_unique<Pg::API::APIMain>();
+
+		_engineGraphicsAdapter = std::make_unique<EngineGraphicsAdapter>(this);
+		_editorAdapter = std::make_unique<EditorAdapter>(this);
 	}
 
 	CoreMain::~CoreMain()
@@ -70,15 +71,14 @@ namespace Pg::Core
 
 	long CoreMain::Initialize(void* hwnd, int screenWidth, int screenHeight)
 	{
-
 		//deltaTime 초기화
 		_timeManager->Initialize();
 
 		//엔진 초기화
 		_util->Initialize();
-		_engine->Initialize(screenWidth, screenHeight);
+		_engineGraphicsAdapter->InitializeEngine(screenWidth, screenHeight);
 		_api->Initialize();
-		_graphics->Initialize(static_cast<HWND>(hwnd), screenWidth, screenHeight);
+		_engineGraphicsAdapter->InitializeGraphics(static_cast<HWND>(hwnd), screenWidth, screenHeight);
 
 		//AssetManager 세팅.
 		_assetManager->Initialize(this);
@@ -97,10 +97,10 @@ namespace Pg::Core
 		_timeManager->MeasureFrame(_timeManager->GetDeltaTime());
 
 		//AssetManager 로직 업데이트.
-		_assetManager->Update(_engine.get(), _graphics.get());
+		_engineGraphicsAdapter->UpdateAssetManager(_assetManager);
 
 		//여기다가 시스템 싹 다 업데이트!!
-		_engine->Update();
+		_engineGraphicsAdapter->UpdateEngine();
 
 		Pg::Data::CameraData cameraData;
 		cameraData._position = { 0.0f, 0.0f, -3.0f };
@@ -125,46 +125,54 @@ namespace Pg::Core
 			0.0f, 0.0f, -0.000100000012f, 0.0f,
 		};
 
-		_graphics->Update(_work->GetCurrentScene(), cameraData, _timeManager->GetDeltaTime());
+		_engineGraphicsAdapter->UpdateGraphics(
+			_work->GetCurrentScene(), cameraData, _timeManager->GetDeltaTime());
 	}
 
 	void CoreMain::BeginRender()
 	{
-		_graphics->BeginRender();
+		_engineGraphicsAdapter->BeginRender();
 	}
 
 
 	void CoreMain::Render()
 	{
-		//Render(_engine->GetCurrentScene());
-		_graphics->Render(_work->GetCurrentScene());
+		_engineGraphicsAdapter->Render(_work->GetCurrentScene());
 	}
-
 
 	void CoreMain::EndRender()
 	{
-		_graphics->EndRender();
+		_engineGraphicsAdapter->EndRender();
 	}
-
 
 	void CoreMain::Finalize()
 	{
-		_graphics->Finalize();
+		_engineGraphicsAdapter->Finalize();
 	}
 
 	void CoreMain::OnWindowResized(int screenWidth, int screenHeight)
 	{
-		_graphics->OnWindowResized(screenWidth, screenHeight);
+		_engineGraphicsAdapter->OnWindowResized(screenWidth, screenHeight);
 	}
 
 	ID3D11Device* CoreMain::GetGraphicsDevice()
 	{
-		return _graphics->GetDevice();
+		return _engineGraphicsAdapter->GetGraphicsDevice();
 	}
 
 	ID3D11DeviceContext* CoreMain::GetGraphicsDeviceContext()
 	{
-		return _graphics->GetDeviceContext();
+		return _engineGraphicsAdapter->GetGraphicsDeviceContext();
+	}
+
+	Pg::Core::EngineGraphicsAdapter* CoreMain::GetEngineGraphicsAdapter()
+	{
+		return _engineGraphicsAdapter.get();
+	}
+
+	Pg::Core::EditorAdapter* CoreMain::GetEditorAdapter()
+	{
+		return _editorAdapter.get();
 	}
 
 }
