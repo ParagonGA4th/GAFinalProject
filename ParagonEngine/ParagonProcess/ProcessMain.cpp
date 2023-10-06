@@ -1,4 +1,4 @@
-#include "CoreMain.h"
+#include "ProcessMain.h"
 #include "../ParagonUtil/UtilMain.h"
 #include "../ParagonAPI/APIMain.h"
 #include "../ParagonGameEngine/EngineDLLExporter.h"
@@ -48,7 +48,7 @@
 
 namespace Pg::Core
 {
-	CoreMain::CoreMain() : _engineGraphicsAdapter(nullptr), _editorAdapter(nullptr)
+	ProcessMain::ProcessMain() : _engineGraphicsAdapter(nullptr), _editorAdapter(nullptr)
 	{
 		//로직 관련 정보 세팅.
 		auto& tAssetManager = singleton<Manager::AssetManager>();
@@ -64,12 +64,12 @@ namespace Pg::Core
 		_editorAdapter = std::make_unique<EditorAdapter>(this);
 	}
 
-	CoreMain::~CoreMain()
+	ProcessMain::~ProcessMain()
 	{
 
 	}
 
-	long CoreMain::Initialize(void* hwnd, int screenWidth, int screenHeight)
+	long ProcessMain::Initialize(void* hwnd, int screenWidth, int screenHeight)
 	{
 		//deltaTime 초기화
 		_timeManager->Initialize();
@@ -90,7 +90,7 @@ namespace Pg::Core
 		return S_OK;
 	}
 
-	void CoreMain::Update()
+	void ProcessMain::Update()
 	{
 		//deltaTime 업데이트
 		_timeManager->TimeMeasure();
@@ -129,48 +129,48 @@ namespace Pg::Core
 			_work->GetCurrentScene(), cameraData, _timeManager->GetDeltaTime());
 	}
 
-	void CoreMain::BeginRender()
+	void ProcessMain::BeginRender()
 	{
 		_engineGraphicsAdapter->BeginRender();
 	}
 
 
-	void CoreMain::Render()
+	void ProcessMain::Render()
 	{
 		_engineGraphicsAdapter->Render(_work->GetCurrentScene());
 	}
 
-	void CoreMain::EndRender()
+	void ProcessMain::EndRender()
 	{
 		_engineGraphicsAdapter->EndRender();
 	}
 
-	void CoreMain::Finalize()
+	void ProcessMain::Finalize()
 	{
 		_engineGraphicsAdapter->Finalize();
 	}
 
-	void CoreMain::OnWindowResized(int screenWidth, int screenHeight)
+	void ProcessMain::OnWindowResized(int screenWidth, int screenHeight)
 	{
 		_engineGraphicsAdapter->OnWindowResized(screenWidth, screenHeight);
 	}
 
-	ID3D11Device* CoreMain::GetGraphicsDevice()
+	ID3D11Device* ProcessMain::GetGraphicsDevice()
 	{
 		return _engineGraphicsAdapter->GetGraphicsDevice();
 	}
 
-	ID3D11DeviceContext* CoreMain::GetGraphicsDeviceContext()
+	ID3D11DeviceContext* ProcessMain::GetGraphicsDeviceContext()
 	{
 		return _engineGraphicsAdapter->GetGraphicsDeviceContext();
 	}
 
-	Pg::Core::EngineGraphicsAdapter* CoreMain::GetEngineGraphicsAdapter()
+	Pg::Core::EngineGraphicsAdapter* ProcessMain::GetEngineGraphicsAdapter()
 	{
 		return _engineGraphicsAdapter.get();
 	}
 
-	Pg::Core::EditorAdapter* CoreMain::GetEditorAdapter()
+	Pg::Core::EditorAdapter* ProcessMain::GetEditorAdapter()
 	{
 		return _editorAdapter.get();
 	}

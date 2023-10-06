@@ -1,6 +1,6 @@
 #include "EngineGraphicsAdapter.h"
 #include "AssetManager.h"
-#include "CoreMain.h"
+#include "ProcessMain.h"
 #include "../ParagonGameEngine/EngineDLLExporter.h"
 #include "../ParagonGraphics/GraphicsDLLExporter.h"
 
@@ -23,7 +23,7 @@
 
 namespace Pg::Core
 {
-	EngineGraphicsAdapter::EngineGraphicsAdapter(CoreMain* core) : _coreMain(core)
+	EngineGraphicsAdapter::EngineGraphicsAdapter(ProcessMain* core) : _coreMain(core)
 	{
 		_engine = std::make_unique<Pg::Engine::EngineMain>(_coreMain);
 		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>(_coreMain);

@@ -7,14 +7,14 @@
     <ClCompile Include="TimeManager.cpp">
       <Filter>1_Manager\TimeManager</Filter>
     </ClCompile>
-    <ClCompile Include="CoreMain.cpp">
-      <Filter>0_CoreMain</Filter>
+    <ClCompile Include="ProcessMain.cpp">
+      <Filter>0_ProcessMain</Filter>
     </ClCompile>
     <ClCompile Include="EditorAdapter.cpp">
-      <Filter>0_CoreMain\Adapter\EditorAdapter</Filter>
+      <Filter>0_ProcessMain\Adapter\EditorAdapter</Filter>
     </ClCompile>
     <ClCompile Include="EngineGraphicsAdapter.cpp">
-      <Filter>0_CoreMain\Adapter\EngineGraphicsAdapter</Filter>
+      <Filter>0_ProcessMain\Adapter\EngineGraphicsAdapter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -24,32 +24,32 @@
     <ClInclude Include="TimeManager.h">
       <Filter>1_Manager\TimeManager</Filter>
     </ClInclude>
-    <ClInclude Include="CoreMain.h">
-      <Filter>0_CoreMain</Filter>
+    <ClInclude Include="ProcessMain.h">
+      <Filter>0_ProcessMain</Filter>
     </ClInclude>
     <ClInclude Include="IGraphics.h">
-      <Filter>0_CoreMain\Interfaces</Filter>
+      <Filter>0_ProcessMain\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="IEngine.h">
-      <Filter>0_CoreMain\Interfaces</Filter>
+      <Filter>0_ProcessMain\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="IUtil.h">
-      <Filter>0_CoreMain\Interfaces</Filter>
+      <Filter>0_ProcessMain\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="CoreSingleton.h">
-      <Filter>0_CoreMain\CoreSingleton</Filter>
+      <Filter>0_ProcessMain\CoreSingleton</Filter>
     </ClInclude>
     <ClInclude Include="IAPI.h">
-      <Filter>0_CoreMain\Interfaces</Filter>
+      <Filter>0_ProcessMain\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="AssetDefines.h">
       <Filter>2_Enums\AssetDefines</Filter>
     </ClInclude>
     <ClInclude Include="EditorAdapter.h">
-      <Filter>0_CoreMain\Adapter\EditorAdapter</Filter>
+      <Filter>0_ProcessMain\Adapter\EditorAdapter</Filter>
     </ClInclude>
     <ClInclude Include="EngineGraphicsAdapter.h">
-      <Filter>0_CoreMain\Adapter\EngineGraphicsAdapter</Filter>
+      <Filter>0_ProcessMain\Adapter\EngineGraphicsAdapter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -62,28 +62,28 @@
     <Filter Include="1_Manager\AssetManager">
       <UniqueIdentifier>{3705cec2-0b82-459b-aa69-780cc2339df4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_CoreMain">
-      <UniqueIdentifier>{3b79d642-664d-4430-9e72-421b0ad15ae9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_CoreMain\Interfaces">
-      <UniqueIdentifier>{6323f1b5-c65e-42c3-9b97-e47b0bdf7471}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_CoreMain\CoreSingleton">
-      <UniqueIdentifier>{a1746940-3226-4d08-9c88-f69569aec91e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2_Enums">
       <UniqueIdentifier>{4a1ee3f7-ad5c-4675-af1d-5294c59387a8}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Enums\AssetDefines">
       <UniqueIdentifier>{8fa68c09-a9cc-4147-8da7-4ea3362686b2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_CoreMain\Adapter">
+    <Filter Include="0_ProcessMain">
+      <UniqueIdentifier>{3b79d642-664d-4430-9e72-421b0ad15ae9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_ProcessMain\Interfaces">
+      <UniqueIdentifier>{6323f1b5-c65e-42c3-9b97-e47b0bdf7471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_ProcessMain\CoreSingleton">
+      <UniqueIdentifier>{a1746940-3226-4d08-9c88-f69569aec91e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_ProcessMain\Adapter">
       <UniqueIdentifier>{21e817dd-bcb3-4dea-9367-1a5a529341b7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_CoreMain\Adapter\EngineGraphicsAdapter">
+    <Filter Include="0_ProcessMain\Adapter\EngineGraphicsAdapter">
       <UniqueIdentifier>{37fa2d42-7f83-4809-a949-97feb97727c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_CoreMain\Adapter\EditorAdapter">
+    <Filter Include="0_ProcessMain\Adapter\EditorAdapter">
       <UniqueIdentifier>{3bef214e-5df7-4569-8eca-ba6c6a85a552}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
