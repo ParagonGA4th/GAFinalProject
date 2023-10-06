@@ -22,7 +22,7 @@ namespace Pg::Graphics
 	class RenderShader
 	{
 	public:
-		RenderShader(LowDX11Storage* storage, std::wstring CSOFilePath);
+		RenderShader(std::wstring CSOFilePath);
 
 	protected:
 		LowDX11Storage* _DXStorage;
@@ -41,7 +41,8 @@ namespace Pg::Graphics
 		template <typename T>
 		void AssignConstantBuffer(T* cbData)
 		{
-			_constantBuffers.emplace_back(new ConstantBuffer<T>(_DXStorage, cbData));
+			ConstantBufferBase* tCBuffer = new ConstantBuffer<T>(cbData);
+			_constantBuffers.emplace_back(tCBuffer);
 		}
 
 	};

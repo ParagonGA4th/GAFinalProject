@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "../ParagonAPI/PgMath.h"
+#include "../ParagonMath/PgMath.h"
 
 #include <memory>
 
@@ -34,6 +34,9 @@ namespace Pg::Core
 		Transform() = default;
 		Transform(GameObject* obj);
 
+		// 업데이트 (LateUpdate를 돌도록...)
+		void UpdateTransform();
+
 		// Get 월드 함수들
 		PGFLOAT3 GetPosition() const;
 		PGQuaternion GetRotation() const;
@@ -47,8 +50,11 @@ namespace Pg::Core
 
 		// Set 월드 함수들
 		void SetPosition(const PGFLOAT3& pos);
+		void SetPosition(float x, float y, float z);
 		void SetRotation(const PGQuaternion& rot);
+		void SetRotation(float w, float x, float y, float z);
 		void SetScale(const PGFLOAT3& scale);
+		void SetScale(float x, float y, float z);
 
 		// Set 로컬 함수들
 		void SetLocalPosition(float x, float y, float z);
@@ -62,15 +68,20 @@ namespace Pg::Core
 
 		// 오일러 && 쿼터니언 변환 함수들
 		PGQuaternion EulerToQuaternion(float x, float y, float z);
+		PGQuaternion EulerToQuaternion(const PGFLOAT3& euler);
+		PGFLOAT3 QuaternionToEuler(float w, float x, float y, float z);
 		PGFLOAT3 QuaternionToEuler(const PGQuaternion& quaternion);
 
-		
+		// 행렬 (부모 유무를 고려)
+		PGFLOAT4X4 GetWorldTM();
 
 		// 종속성 세팅 함수
 		bool HasParent();
 		std::shared_ptr<Transform> GetParent();
+		std::shared_ptr<Transform> GetChild(int index);
+		void SetParent(Transform* parent);
+		void SetParent(GameObject* obj);
 
-		// 테스트 주석
 	private:
 		// 부모, 자식 객체를 가리키는 transform
 		std::shared_ptr<Transform> _parent;
@@ -78,7 +89,7 @@ namespace Pg::Core
 
 		//PRS
 		PGFLOAT3 _position;
-		PGQuaternion _rotation;
+		PGQuaternion _rotation; // 기본적으로 쿼터니언으로 관리한다
 		PGFLOAT3 _scale;
 	};
 }
