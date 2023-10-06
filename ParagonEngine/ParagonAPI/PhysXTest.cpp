@@ -1,4 +1,6 @@
 #include "PhysXTest.h"
+#include "../lib/PhysX/physx/installed/x64-windows/include/PxPhysics.h"
+#include "../lib/PhysX/physx/installed/x64-windows/include/PxPhysicsAPI.h"
 #include <iostream>
 #include <windows.h>
 
@@ -6,6 +8,8 @@ namespace Pg::API
 {
 	void PhysXTest::Initialize()
 	{
+		using namespace physx;
+
 		physx::PxDefaultAllocator mDefaultAllocatorCallback;
 		physx::PxDefaultErrorCallback mDefaultErrorCallback;
 
@@ -67,5 +71,10 @@ namespace Pg::API
 		physx::PxShape* shape = mPhysics->createShape(physx::PxBoxGeometry(halfExtent, halfExtent, halfExtent), *mMaterial);
 		physx::PxU32 size = 30;
 		physx::PxTransform t(physx::PxVec3(0));
+
+		//Ä¸½¶
+		phy
+		physx::PxCapsuleGeometry _capsule;
+		physx::PxShape* _shape = mPhysics->createShape(_capsule, *mMaterial);
 	}
 }
