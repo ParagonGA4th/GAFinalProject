@@ -11,6 +11,8 @@ namespace Pg::Engine::Physic
 		// 버전, 세팅, 단위 등의 정보를 담은 물리
 		_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, _pvd);
 		_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, nullptr);
+
+		CreatePxScene();
 	}
 
 	void PhysicSystem::UpdatePhysics(float deltaTime)
