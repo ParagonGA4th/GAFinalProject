@@ -123,10 +123,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>singleton.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonData.lib;ParagonMath.lib;ParagonUtil.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,10 +147,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>singleton.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonData.lib;ParagonMath.lib;ParagonUtil.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
