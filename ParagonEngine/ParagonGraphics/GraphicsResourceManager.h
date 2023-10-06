@@ -7,8 +7,8 @@
 #include <type_traits>
 #include <cassert>
 
-#include "../ParagonCore/GraphicsResource.h"
-#include "../ParagonCore/CoreSingleton.h"
+#include "../ParagonData/GraphicsResource.h"
+#include "../ParagonProcess/CoreSingleton.h"
 
 /// <summary>
 /// AssetManager에 의해 제어되는 그래픽스 리소스 관리 전담 매니저. 독단적 사용 불가.
@@ -39,7 +39,7 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics::Manager
 {
-	using Pg::Core::Resources::GraphicsResource;
+	using Pg::Data::Resources::GraphicsResource;
 
 	class GraphicsResourceManager : public Pg::Core::Singleton<GraphicsResourceManager>
 	{
@@ -54,11 +54,11 @@ namespace Pg::Graphics::Manager
 		Pg::Graphics::Loader::AssetBasic2DLoader* GetBasic2DLoader();
 
 		//리소스가 있는 경우가 강제될 때, 리소스를 반환한다. (eAssetDefine으로)
-		std::shared_ptr<GraphicsResource> GetResource(const std::string& path, Pg::Core::Enums::eAssetDefine define);
+		std::shared_ptr<GraphicsResource> GetResource(const std::string& path, Pg::Data::Enums::eAssetDefine define);
 
 	private:
 		//GraphicsMain에서, 리소스 로드할 때 활용된다.
-		void LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define);
+		void LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define);
 		void UnloadResource(const std::string& filePath);
 
 		//리소스가 있는 경우가 강제될 때, 리소스를 반환한다. (템플릿 타입으로)
@@ -67,13 +67,13 @@ namespace Pg::Graphics::Manager
 
 		//리소스가 없는 경우가 강제될 때, 리소스를 생성한다. 
 		template<typename T>
-		void CreateResource(const std::string& path, Pg::Core::Enums::eAssetDefine define);
+		void CreateResource(const std::string& path, Pg::Data::Enums::eAssetDefine define);
 
 		//리소스를 언로드하는 함수. AssetManager에서 동시에 발동. 삭제 성공하면 True 반환.
 		inline bool DeleteResource(const std::string& path);
 
 	private:
-		std::unordered_map<std::string, std::weak_ptr<Pg::Core::Resources::GraphicsResource>> _resources;
+		std::unordered_map<std::string, std::weak_ptr<Pg::Data::Resources::GraphicsResource>> _resources;
 	private:
 		std::unique_ptr<Pg::Graphics::Loader::AssetBasic3DLoader> _asset3DLoader;
 		std::unique_ptr<Pg::Graphics::Loader::AssetBasic2DLoader> _asset2DLoader;
@@ -81,7 +81,7 @@ namespace Pg::Graphics::Manager
 	};
 
 	template<typename T>
-	void Pg::Graphics::Manager::GraphicsResourceManager::CreateResource(const std::string& path, Pg::Core::Enums::eAssetDefine define)
+	void Pg::Graphics::Manager::GraphicsResourceManager::CreateResource(const std::string& path, Pg::Data::Enums::eAssetDefine define)
 	{
 		//이미 AssetManager의 시점에서는 static하게 체크 완료.
 		//AssetManager의 목록과 연동이 되어야 한다.

@@ -71,22 +71,22 @@ namespace  Pg::Engine::Input
 	{
 		using namespace Pg::API::Input;
 
-		_map->MapBool(eKeyCode::MoveFront, _keyboardId, gainput::KeyW);
-		_map->MapBool(eKeyCode::MoveBack, _keyboardId, gainput::KeyS);
-		_map->MapBool(eKeyCode::MoveLeft, _keyboardId, gainput::KeyA);
-		_map->MapBool(eKeyCode::MoveRight, _keyboardId, gainput::KeyD);
-		_map->MapBool(eKeyCode::MoveUp, _keyboardId, gainput::KeyE);
-		_map->MapBool(eKeyCode::MoveDown, _keyboardId, gainput::KeyQ);
+		assert(_map->MapBool(eKeyCode::MoveFront, _keyboardId, gainput::KeyW));
+		assert(_map->MapBool(eKeyCode::MoveBack, _keyboardId, gainput::KeyS));
+		assert(_map->MapBool(eKeyCode::MoveLeft, _keyboardId, gainput::KeyA));
+		assert(_map->MapBool(eKeyCode::MoveRight, _keyboardId, gainput::KeyD));
+		assert(_map->MapBool(eKeyCode::MoveUp, _keyboardId, gainput::KeyE));
+		assert(_map->MapBool(eKeyCode::MoveDown, _keyboardId, gainput::KeyQ));
 
-		_map->MapBool(eKeyCode::ButtonConfirm, _keyboardId, gainput::KeyReturn);
-		_map->MapBool(eKeyCode::ButtonConfirm, _padId, gainput::PadButtonA);
-		_map->MapBool(eKeyCode::ButtonConfirm, _touchId, gainput::Touch0Down);
+		assert(_map->MapBool(eKeyCode::ButtonConfirm, _keyboardId, gainput::KeyReturn));
+		assert(_map->MapBool(eKeyCode::ButtonConfirm, _padId, gainput::PadButtonA));
+		assert(_map->MapBool(eKeyCode::ButtonConfirm, _touchId, gainput::Touch0Down));
 
-		_map->MapBool(eKeyCode::MouseLeft , _mouseId, gainput::MouseButtonLeft);
-		_map->MapBool(eKeyCode::MouseRight , _mouseId, gainput::MouseButtonRight);
+		assert(_map->MapBool(eKeyCode::MouseLeft, _mouseId, gainput::MouseButtonLeft));
+		assert(_map->MapBool(eKeyCode::MouseRight, _mouseId, gainput::MouseButtonRight));
 
-		_map->MapFloat(eKeyCode::MouseX, _mouseId, gainput::MouseAxisX);
-		_map->MapFloat(eKeyCode::MouseY, _mouseId, gainput::MouseAxisY);
+		assert(_map->MapFloat(eKeyCode::MouseX, _mouseId, gainput::MouseAxisX));
+		assert(_map->MapFloat(eKeyCode::MouseY, _mouseId, gainput::MouseAxisY));
 	}
 
 	bool InputSystem::GetKey(Pg::API::Input::eKeyCode keyCode)
