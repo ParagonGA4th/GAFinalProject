@@ -1,12 +1,12 @@
 #pragma once
-#include "../ParagonProcess/CoreMain.h"
+#include "../ParagonProcess/ProcessMain.h"
 #include <windows.h>
 #include <memory>
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonProcess.lib")
 #else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonCore.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonProcess.lib")
 #endif // _DEBUG
 
 #ifdef _DEBUG
@@ -23,7 +23,7 @@
 
 namespace Pg::Core
 {
-	class CoreMain;
+	class ProcessMain;
 }
 
 class ImGuiManager;
@@ -58,12 +58,12 @@ private:
 	std::unique_ptr<ImGuiManager> _imGuiManager;
 	std::unique_ptr<FileManager> _fileManager;
 	
-	std::unique_ptr<Pg::Core::CoreMain> _coreMain;
+	std::unique_ptr<Pg::Core::ProcessMain> _coreMain;
 	
 private:
 	/// 윈도우 크기 변경시 코어의 OnWindowResized()를 호출하도록 하기 위한 변수들
 	// WndProc 접근을 위한 스태틱 변수
-	static Pg::Core::CoreMain* _coreMainStatic;
+	static Pg::Core::ProcessMain* _coreMainStatic;
 
 	// 코어의 Initialize 이후에 스태틱 변수에 접근하도록 하기 위한 bool 변수
 	static bool _isCoreInitialized;	
