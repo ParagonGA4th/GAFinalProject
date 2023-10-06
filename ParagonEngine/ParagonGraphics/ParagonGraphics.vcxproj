@@ -49,7 +49,8 @@
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="ParagonRenderer.h" />
     <ClInclude Include="PixelShader.h" />
-    <ClInclude Include="RenderObject.h" />
+    <ClInclude Include="RenderObject2D.h" />
+    <ClInclude Include="RenderObject3D.h" />
     <ClInclude Include="RenderShader.h" />
     <ClInclude Include="RenderTexture2D.h" />
     <ClInclude Include="RenderUsageStruct2D.h" />
@@ -86,7 +87,8 @@
     <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="ParagonRenderer.cpp" />
     <ClCompile Include="PixelShader.cpp" />
-    <ClCompile Include="RenderObject.cpp" />
+    <ClCompile Include="RenderObject2D.cpp" />
+    <ClCompile Include="RenderObject3D.cpp" />
     <ClCompile Include="RenderShader.cpp" />
     <ClCompile Include="RenderTexture2D.cpp" />
     <ClCompile Include="RenderUsageStruct2D.cpp" />

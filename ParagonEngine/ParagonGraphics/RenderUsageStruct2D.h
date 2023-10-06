@@ -12,7 +12,7 @@ namespace Pg::Graphics
 {
 	struct RenderUsageStruct2D
 	{
-		friend class RenderObject;
+		friend class RenderObject2D;
 	public:
 		RenderUsageStruct2D();
 		RenderUsageStruct2D(Pg::Data::RenderTextData rTextData);
