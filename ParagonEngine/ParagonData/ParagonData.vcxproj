@@ -158,6 +158,9 @@
     <ClInclude Include="GraphicsResource.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IRenderObject.h" />
+    <ClInclude Include="RendererBase2D.h" />
+    <ClInclude Include="RendererBase3D.h" />
+    <ClInclude Include="RendererType.h" />
     <ClInclude Include="RenderTextData.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SphereCollider.h" />
@@ -173,6 +176,8 @@
     <ClCompile Include="EngineResource.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsResource.cpp" />
+    <ClCompile Include="RendererBase2D.cpp" />
+    <ClCompile Include="RendererBase3D.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Transform.cpp" />
