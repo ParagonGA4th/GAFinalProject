@@ -45,10 +45,12 @@ namespace Pg::Engine
 
 		PARAGON_ENGINE_DLL Pg::Data::CameraData GetCameraData();
 
-		//static Camera* GetMainCamera();
-
 	public:
 		Pg::Data::CameraData _cameraData;
+
+	public:
+		// Yaw, pitch, roll (모든 방향으로의 회전이 필요한가?)
+		// 
 
 	private:
 

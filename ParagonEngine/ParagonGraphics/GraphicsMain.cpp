@@ -8,7 +8,7 @@
 
 #include "../ParagonProcess/TimeManager.h"
 #include "../ParagonData/AssetDefines.h"
-#include "../ParagonProcess/CoreMain.h"
+#include "../ParagonProcess/ProcessMain.h"
 #include "../ParagonUtil/ResourceHelper.h"
 #include "../ParagonAPI/PgInput.h"
 
@@ -49,7 +49,7 @@
 
 namespace Pg::Graphics
 {
-	GraphicsMain::GraphicsMain(Pg::Core::CoreMain* core)
+	GraphicsMain::GraphicsMain(Pg::Core::ProcessMain* core)
 		: hr(NULL), _coreMain(core),
 		_DXStorage(nullptr), _DXLogic(nullptr),
 		_renderer(nullptr), _graphicsResourceManager(Manager::GraphicsResourceManager::Instance())
