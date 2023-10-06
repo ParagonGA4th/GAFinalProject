@@ -12,8 +12,7 @@ namespace Pg::Core::Enums
 		_NONE,
 		_2DTEXTURE,
 		_CUBEMAP,
-		_3DSTATICMODEL,
-		_3DSKINNEDMODEL,
+		_3DMODEL, //Graphic Engine에서 Static / Skinned를 구분할 것.
 		_FONT,
 		_RENDERSHADER,
 		_RENDERMATERIAL

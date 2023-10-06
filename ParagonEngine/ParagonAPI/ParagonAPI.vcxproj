@@ -153,13 +153,11 @@
     <ClInclude Include="APIMain.h" />
     <ClInclude Include="KeyCodeType.h" />
     <ClInclude Include="PgInput.h" />
-    <ClInclude Include="PgMath.h" />
     <ClInclude Include="PhysXTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="APIMain.cpp" />
     <ClCompile Include="PgInput.cpp" />
-    <ClCompile Include="PgMath.cpp" />
     <ClCompile Include="PhysXTest.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -16,7 +16,7 @@ namespace Pg::Graphics
 	class ConstantBuffer : public ConstantBufferBase
 	{
 	public:
-		ConstantBuffer(LowDX11Storage* DXStorage, T* cbData);
+		ConstantBuffer(T* cbData);
 		virtual ~ConstantBuffer();
 
 	private:
@@ -40,8 +40,8 @@ namespace Pg::Graphics
 namespace Pg::Graphics
 {
 	template<typename T>
-	ConstantBuffer<T>::ConstantBuffer(LowDX11Storage* DXStorage, T* cbData)
-		:_DXStorage(DXStorage),
+	ConstantBuffer<T>::ConstantBuffer(T* cbData)
+		:_DXStorage(LowDX11Storage::GetInstance()),
 		_Buffer(nullptr),
 		_cbData(cbData)
 	{
