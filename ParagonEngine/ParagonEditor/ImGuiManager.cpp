@@ -45,7 +45,6 @@ ImGuiManager::ImGuiManager(std::vector<GameObjectData*> data)
 	}
 
 	_gameObjectData = new GameObjectData();
-	_gameObjectData = _gameObjectDatas.front();
 }
 
 
