@@ -27,9 +27,8 @@ private:
 
 	float position[3];
 	float rotation[3];
-	float sacle[3];
+	float scale[3];
 
-	bool _objectSelected;			// 선택한 treenode의 정보를 한번만 전달하기 위한 변수 
 	int _objectSelectedNumber;		// 현재 Hierarchy창에서 선택된 treenode 
 
 	std::vector<GameObjectData*> _gameObjectDatas;	// Scene 하나
