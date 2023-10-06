@@ -70,6 +70,8 @@ namespace Pg::Graphics
 
 		const FLOAT _backgroundColor[4] = { 0.6f, 0.5f, 0.5f, 0.0f };
 
+		
+
 	};
 
 }

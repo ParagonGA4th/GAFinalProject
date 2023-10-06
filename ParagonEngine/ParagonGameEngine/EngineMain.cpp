@@ -6,7 +6,7 @@
 
 //</>
 
-#include "../ParagonCore/CoreMain.h"
+#include "../ParagonProcess/CoreMain.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonAPI/KeyCodeType.h"
 #include <singleton-cpp/singleton.h>
@@ -18,9 +18,15 @@
 #endif // _DEBUG
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonMath.lib")
 #else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonMath.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonData.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonData.lib")
 #endif // _DEBUG
 
 namespace Pg::Engine
@@ -52,6 +58,11 @@ namespace Pg::Engine
 			PG_TRACE("Debugger Used In ParagonGameEngine!");
 			tTest = true;
 		}
+
+		/*if(_inputSystem->GetKey(API::Input::MouseLeft))
+		{
+			PG_TRACE("INPUTSYSTEM WORKS!");
+		}*/
 		
 	}
 
@@ -60,7 +71,7 @@ namespace Pg::Engine
 
 	}
 
-	void EngineMain::LoadResource(const std::string& filePath, Pg::Core::Enums::eAssetDefine define)
+	void EngineMain::LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define)
 	{
 
 	}

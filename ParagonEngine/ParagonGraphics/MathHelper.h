@@ -1,18 +1,18 @@
 #pragma once
-#include "../ParagonAPI/PgMath.h"
+#include "../ParagonMath/PgMath.h"
 #include <DirectXMath.h>
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonMath.lib")
 #else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonMath.lib")
 #endif // _DEBUG
 
 /// <summary>
 /// 그래픽스 내부에서 수학 처리 등을 위한 헬퍼 클래스.
 /// </summary>
 
-namespace Pg::Graphics
+namespace Pg::Graphics::Helper
 {
 	class MathHelper
 	{
@@ -25,6 +25,8 @@ namespace Pg::Graphics
 		static DirectX::XMFLOAT4X4 PG2XM_FLOAT4X4(Pg::Math::PGFLOAT4X4 value);
 		static DirectX::XMMATRIX PG2XM_MATRIX(Pg::Math::PGFLOAT4X4 value);
 
+		static bool IsEqualXMFloat3X3(DirectX::XMFLOAT3X3 first, DirectX::XMFLOAT3X3 second);
+		static bool IsEqualXMFloat4X4(DirectX::XMFLOAT4X4 first, DirectX::XMFLOAT4X4 second);
 
 	};
 }
