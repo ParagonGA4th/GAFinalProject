@@ -150,6 +150,7 @@
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="EditorMode.h" />
     <ClInclude Include="EngineResource.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsResource.h" />
