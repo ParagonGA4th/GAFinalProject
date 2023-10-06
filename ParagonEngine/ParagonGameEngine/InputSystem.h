@@ -6,7 +6,7 @@
 #pragma once
 
 #include "../ParagonGameEngine/EngineDLLExporter.h"
-#include "../ParagonCore/CoreSingleton.h"
+#include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonAPI/KeyCodeType.h"
 #include "gainput/gainput.h"
 

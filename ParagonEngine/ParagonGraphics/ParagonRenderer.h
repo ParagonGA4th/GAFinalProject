@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../ParagonCore/GameObject.h"
+#include "../ParagonData/GameObject.h"
 
 //#ifdef _DEBUG
 //#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonCore.lib")
@@ -27,7 +27,7 @@ namespace Pg::Graphics
 		~ParagonRenderer();
 
 		void BeginRender();
-		void Render(Pg::Core::GameObject* gameObject);
+		void Render(Pg::Data::GameObject* gameObject);
 		void EndRender();
 
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonCore/AssetDefines.h"
+#include "../ParagonData/AssetDefines.h"
 
 //<실제 Graphics Resource의 목록>
 #include "RenderMaterial.h"
@@ -29,32 +29,32 @@ namespace Pg::Graphics::Helper
 		static void Initialize(); 
 	};
 
-	template <Pg::Core::Enums::eAssetDefine define>
+	template <Pg::Data::Enums::eAssetDefine define>
 	struct AssetDefineType;
 
 	//eAssetDefine을 기준으로 다른 형태의 리소스를 만든다. (리소스의 개수가 확대될수록 이 조건문 역시 확대된다)
 	//세부 클래스 변환.
 
 	template <>
-	struct AssetDefineType<Pg::Core::Enums::eAssetDefine::_NONE>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_NONE>
 	{
-		using type = Pg::Core::Resources::GraphicsResource; //2D Texture로 타입 변환.
+		using type = Pg::Data::Resources::GraphicsResource; //2D Texture로 타입 변환.
 	};
 
 	template <>
-	struct AssetDefineType<Pg::Core::Enums::eAssetDefine::_2DTEXTURE>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_2DTEXTURE>
 	{
 		using type = Pg::Graphics::RenderTexture2D; //2D Texture로 타입 변환.
 	};
 
 	template <>
-	struct AssetDefineType<Pg::Core::Enums::eAssetDefine::_3DMODEL>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_3DMODEL>
 	{
 		using type = Pg::Graphics::Asset3DModelData; //3D Model로 타입 변환.
 	};
 
 	template <>
-	struct AssetDefineType<Pg::Core::Enums::eAssetDefine::_RENDERMATERIAL>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL>
 	{
 		using type = Pg::Graphics::RenderMaterial; //RenderMaterial로 타입 변환.
 	};

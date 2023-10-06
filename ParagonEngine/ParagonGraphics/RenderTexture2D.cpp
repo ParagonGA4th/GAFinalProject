@@ -3,7 +3,7 @@
 
 namespace Pg::Graphics
 {
-	RenderTexture2D::RenderTexture2D(Pg::Core::Enums::eAssetDefine define, const std::string& filePath) : 
+	RenderTexture2D::RenderTexture2D(Pg::Data::Enums::eAssetDefine define, const std::string& filePath) : 
 		GraphicsResource(define, typeid(this).name(), filePath)
 	{
 
