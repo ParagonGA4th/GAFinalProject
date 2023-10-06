@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonCore/IAPI.h"
+#include "../ParagonProcess/IAPI.h"
 
 /// <summary>
 /// API가 발동되기 위한 선 조건을 충족시키기 위한 ParagonAPI 관리 클래스

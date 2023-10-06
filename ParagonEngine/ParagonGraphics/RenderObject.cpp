@@ -10,6 +10,12 @@
 #pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
 #endif // _DEBUG
 
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonData.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonData.lib")
+#endif // _DEBUG
+
 namespace Pg::Graphics
 {
 	using Pg::Graphics::Manager::GraphicsResourceManager;
@@ -27,7 +33,7 @@ namespace Pg::Graphics
 
 	}
 
-	void RenderObject::UpdateObjectRenderData(const Pg::Core::RenderTextData rTextData)
+	void RenderObject::UpdateObjectRenderData(const Pg::Data::RenderTextData rTextData)
 	{
 		//그 자체로 렌더 가능한 리소스인지 검사.
 		int tCanRender = ResourceHelper::IsPlainRenderable(rTextData._assetDefine);
@@ -56,7 +62,7 @@ namespace Pg::Graphics
 		}
 	}
 
-	void RenderObject::Update2DObjectRenderData(const Pg::Core::RenderTextData& recent)
+	void RenderObject::Update2DObjectRenderData(const Pg::Data::RenderTextData& recent)
 	{
 		//2D
 		RenderUsageStruct2D tFreshInfo2D(recent);
@@ -76,7 +82,7 @@ namespace Pg::Graphics
 		}
 	}
 
-	void RenderObject::Update3DObjectRenderData(const Pg::Core::RenderTextData& recent)
+	void RenderObject::Update3DObjectRenderData(const Pg::Data::RenderTextData& recent)
 	{
 		//3D
 		RenderUsageStruct3D tFreshInfo3D(recent);

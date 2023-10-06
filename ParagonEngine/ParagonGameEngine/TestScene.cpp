@@ -1,8 +1,8 @@
 #include "TestScene.h"
 #include "Camera.h"
-#include "../ParagonCore/GameObject.h"
-#include "../ParagonCore/Transform.h"
-#include "../ParagonCore/BaseRenderer.h" //Render 연동 보기 위해.
+#include "../ParagonData/GameObject.h"
+#include "../ParagonData/Transform.h"
+#include "../ParagonData/BaseRenderer.h" //Render 연동 보기 위해.
 
 Pg::Engine::TestScene::TestScene()
 {
@@ -11,7 +11,7 @@ Pg::Engine::TestScene::TestScene()
 
 void Pg::Engine::TestScene::Initialize()
 {
-	using namespace Pg::Core;
+	using namespace Pg::Data;
 
 	tCurrentScene = new Scene("TestCurrentScene");
 
@@ -34,7 +34,7 @@ void Pg::Engine::TestScene::Initialize()
 	tCurrentScene->SetMainCamera(tObj1->GetComponent<Camera>());
 }
 
-Pg::Core::Scene* Pg::Engine::TestScene::GetCurrentScene()
+Pg::Data::Scene* Pg::Engine::TestScene::GetCurrentScene()
 {
 	return tCurrentScene;
 }
