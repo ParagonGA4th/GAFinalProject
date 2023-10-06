@@ -7,7 +7,7 @@
 namespace fs = std::filesystem;
 
 ImGuiManager::ImGuiManager(std::vector<GameObjectData*> data)
-	:_gameObjectDatas(data), _gameObjectData(), _objectSelectedNumber(1), _objectSelected(true)
+	:_gameObjectDatas(data), _gameObjectData(), _objectSelectedNumber(1)
 {
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -44,6 +44,7 @@ ImGuiManager::ImGuiManager(std::vector<GameObjectData*> data)
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
 
+	_gameObjectData = new GameObjectData();
 	_gameObjectData = _gameObjectDatas.front();
 }
 
@@ -61,13 +62,8 @@ void ImGuiManager::ShowDemoInspector()
 {
 	//ImGui::ShowDemoWindow(&_active);
 	ImGui::Begin("DemoInspector", NULL, ImGuiWindowFlags_NoCollapse);
-	
-	static char nameBuf[256];
-	static char tagBuf[256];
-	strcpy(nameBuf, _gameObjectData->_name.c_str());
-	strcpy(tagBuf, _gameObjectData->_tag.c_str());
 
-	if (ImGui::BeginTable("table1", 2))
+	if (ImGui::BeginTable("ObjectInfo", 2))
 	{
 		for (int row = 0; row < 3; row++)
 		{
@@ -78,27 +74,19 @@ void ImGuiManager::ShowDemoInspector()
 				if(row == 0 && column == 0)	ImGui::Text("Name");
 				else if(row == 0 && column == 1)
 				{
-					//if (ImGui::GetIO().KeysDown[ImGuiKey_A]) {}
-
-					if (ImGui::InputText("##Name", nameBuf, IM_ARRAYSIZE(nameBuf), ImGuiInputTextFlags_EnterReturnsTrue))
-					{
-						_gameObjectData->_name = nameBuf;
-					}
+					ImGui::InputText("##Name", const_cast<char*>(_gameObjectData->_name.c_str()), 
+						sizeof(_gameObjectData->_name.c_str()), ImGuiInputTextFlags_EnterReturnsTrue);
 				}
 
 				if(row == 1 && column == 0)	ImGui::Text("Tag");
 				else if(row == 1 && column == 1)
 				{
-					//if (ImGui::GetIO().KeysDown[ImGuiKey_A]) {}
-
-					if (ImGui::InputText("##Tag", tagBuf, IM_ARRAYSIZE(tagBuf), ImGuiInputTextFlags_EnterReturnsTrue))
-					{
-						_gameObjectData->_tag = tagBuf;
-					}
+					ImGui::InputText("##Tag", const_cast<char*>(_gameObjectData->_tag.c_str()),
+						sizeof(_gameObjectData->_tag.c_str()), ImGuiInputTextFlags_EnterReturnsTrue);
 				}
 
 				if(row == 2 && column == 0)	ImGui::Text("Active");
-				else if (row == 2 && column == 1) ImGui::Checkbox("##Active", &_active);
+				else if (row == 2 && column == 1) ImGui::Checkbox("##Active", &_gameObjectData->_active);
 			}
 		}
 		ImGui::EndTable();
@@ -106,19 +94,36 @@ void ImGuiManager::ShowDemoInspector()
 
 	if (ImGui::CollapsingHeader("Transform"), true)
 	{
-		ImGui::Text("Position");
-		ImGui::SameLine();
-		ImGui::InputFloat3("##Position", position);
+		if (ImGui::BeginTable("ObjectTransform", 2))
+		{
+			for (int row = 0; row < 3; row++)
+			{
+				ImGui::TableNextRow();
+				for (int column = 0; column < 2; column++)
+				{
+					ImGui::TableSetColumnIndex(column);
+					if (row == 0 && column == 0)	ImGui::Text("Position");
+					else if (row == 0 && column == 1)
+					{
+						ImGui::InputFloat3("##Position", position);	
+					}
 
-		ImGui::Text("Rotation");
-		ImGui::SameLine();
-		ImGui::InputFloat3("##Rotation", rotation);
+					if (row == 1 && column == 0)	ImGui::Text("Rotation");
+					else if (row == 1 && column == 1)
+					{
+						ImGui::InputFloat3("##Rotation", rotation);						
+					}
 
-		ImGui::Text("Scale");
-		ImGui::SameLine();
-		ImGui::InputFloat3("##Scale", sacle);
+					if (row == 2 && column == 0)	ImGui::Text("Scale");
+					else if (row == 2 && column == 1)
+					{
+						ImGui::InputFloat3("##Scale", scale);	
+					}
+				}
+			}
+			ImGui::EndTable();
+		}
 	}
-
 	ImGui::End();
 }
 
@@ -132,15 +137,14 @@ void ImGuiManager::ShowDemoHierarchy()
 
 	// 오브젝트를 가져와서 그룹으로 만들 수 있어야 한다. -> Drag And Drop
 
-	//for (auto& i : _gameObjectDatas)
-	//{
-	//	if (ImGui::Selectable(i->_name.c_str(), i->_objectNumber == _objectClicked))
-	//	{
-	//		_gameObjectData = i;
-	//		_objectClicked = i->_objectNumber;
-	//	}
-	//}
-
+	for (auto& i : _gameObjectDatas)
+	{
+		if (ImGui::Selectable(i->_name.c_str(), i->_objectNumber == _objectSelectedNumber))
+		{
+			_gameObjectData = i;
+			_objectSelectedNumber = i->_objectNumber;
+		}
+	}
 	ImGui::End();
 }
 
@@ -190,11 +194,6 @@ void ImGuiManager::ShowDemoFilter()
 void ImGuiManager::ShowDemoViewPort()
 {
 	ImGui::Begin("DemoScene", NULL, ImGuiWindowFlags_NoCollapse);
-	
-	ImGuiViewport* viewport = ImGui::GetMainViewport();
-	ImGui::SetNextWindowPos(viewport->GetWorkCenter());
-	ImGui::SetNextWindowViewport(viewport->ID);
-	//ImGui::SetWindowViewport()
 	
 	ImGui::End();
 }
