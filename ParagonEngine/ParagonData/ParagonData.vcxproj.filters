@@ -16,9 +16,6 @@
     <Filter Include="2_Component\Transform">
       <UniqueIdentifier>{69087ee6-ca45-44fe-b0ae-bf8ddda168eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Component\Collider">
-      <UniqueIdentifier>{108858a1-ef77-4b1b-b8cb-7b3555d0e465}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3_Resource">
       <UniqueIdentifier>{241365ad-345b-47de-94bc-79306888b1cd}</UniqueIdentifier>
     </Filter>
@@ -49,6 +46,27 @@
     <Filter Include="5_Enums\AssetDefines">
       <UniqueIdentifier>{0bdad085-105f-41ca-a24b-d76bf6ce5b36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2_Component\BaseClass">
+      <UniqueIdentifier>{08888d73-2dbe-444b-a9ec-a3b730c14fc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Interface">
+      <UniqueIdentifier>{a80587e1-6ac9-450e-92d1-df58080613f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider">
+      <UniqueIdentifier>{87505b38-6339-41a2-9ee9-c51b7e8da06a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\BaseCollider">
+      <UniqueIdentifier>{3101f69c-bd67-47e0-9628-a3110a1240af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\BoxCollider">
+      <UniqueIdentifier>{29946d02-2200-4a40-97b2-ada37fbce8bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\CapsuleCollider">
+      <UniqueIdentifier>{f7a6dcbe-dfc5-46d5-8adc-680762f94e88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\SphereColiider">
+      <UniqueIdentifier>{0bff23f3-c1c0-4f3d-8b28-72365e13f5e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -69,20 +87,11 @@
     <ClInclude Include="GraphicsResource.h">
       <Filter>3_Resource\GraphicsResource</Filter>
     </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>2_Component\Collider</Filter>
-    </ClInclude>
     <ClInclude Include="CameraData.h">
       <Filter>4_Structs\CameraData</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>2_Component</Filter>
-    </ClInclude>
     <ClInclude Include="RenderTextData.h">
       <Filter>4_Structs\RenderTextData</Filter>
-    </ClInclude>
-    <ClInclude Include="IComponent.h">
-      <Filter>2_Component</Filter>
     </ClInclude>
     <ClInclude Include="IRenderObject.h">
       <Filter>2_Component\Renderer</Filter>
@@ -95,6 +104,24 @@
     </ClInclude>
     <ClInclude Include="EditorMode.h">
       <Filter>5_Enums\EditorMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>2_Component\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="IComponent.h">
+      <Filter>2_Component\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>2_Component\Collider\BaseCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>2_Component\Collider\BoxCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="CapsuleCollider.h">
+      <Filter>2_Component\Collider\CapsuleCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>2_Component\Collider\SphereColiider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -116,14 +143,23 @@
     <ClCompile Include="GraphicsResource.cpp">
       <Filter>3_Resource\GraphicsResource</Filter>
     </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>2_Component\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>2_Component</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>1_GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>2_Component\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>2_Component\Collider\BaseCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>2_Component\Collider\BoxCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="CapsuleCollider.cpp">
+      <Filter>2_Component\Collider\CapsuleCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>2_Component\Collider\SphereColiider</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
