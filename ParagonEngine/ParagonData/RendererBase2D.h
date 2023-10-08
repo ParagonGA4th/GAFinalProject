@@ -12,7 +12,6 @@ namespace Pg::Data
 	public:
 		RendererBase2D(GameObject* obj);
 		virtual ~RendererBase2D();
-
 	};
 }
 

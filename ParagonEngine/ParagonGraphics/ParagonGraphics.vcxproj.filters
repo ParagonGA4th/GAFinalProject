@@ -115,6 +115,9 @@
     <ClInclude Include="RenderObject3D.h">
       <Filter>4_RenderObject\RenderObject3D</Filter>
     </ClInclude>
+    <ClInclude Include="RenderObjectBase.h">
+      <Filter>4_RenderObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -218,6 +221,9 @@
     </ClCompile>
     <ClCompile Include="RenderObject3D.cpp">
       <Filter>4_RenderObject\RenderObject3D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectBase.cpp">
+      <Filter>4_RenderObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
