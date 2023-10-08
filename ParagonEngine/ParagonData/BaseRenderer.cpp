@@ -12,15 +12,19 @@ namespace Pg::Data
 
 	BaseRenderer::~BaseRenderer()
 	{
-		if (_renderObject != nullptr)
-		{
-			delete _renderObject;
-		}
+
 	}
 
-	Pg::Data::IRenderObject* BaseRenderer::GetRenderObject()
+	void BaseRenderer::SetRendererTypeName(const std::string& typeName)
 	{
-		return _renderObject;
+		_rendererTypeName = typeName;
 	}
+
+	const std::string& BaseRenderer::GetRendererTypeName() const
+	{
+		return _rendererTypeName;
+	}
+
+	
 
 }

@@ -8,6 +8,8 @@
 
 #include "../ParagonProcess/TimeManager.h"
 #include "../ParagonData/AssetDefines.h"
+#include "../ParagonData/GameObject.h"
+#include "../ParagonData/RendererChangeList.h"
 #include "../ParagonProcess/ProcessMain.h"
 #include "../ParagonUtil/ResourceHelper.h"
 #include "../ParagonAPI/PgInput.h"
@@ -290,13 +292,21 @@ namespace Pg::Graphics
 	void GraphicsMain::BeginRender()
 	{
 		_renderer->BeginRender();
-
 	}
 
 	
 	void GraphicsMain::Render(Pg::Data::Scene* scene)
 	{
-		
+		//렌더하기 전에 Scene이 바뀌었는지 체크.
+		if (scene != _currentScene)
+		{
+			//새로 Scene이 바뀌었을 경우 RenderObject 구성을 바꾼다.
+			_renderer->OnNewSceneStart(scene);
+			_currentScene = scene;
+		}
+		assert(_currentScene != nullptr);
+
+		//하드코딩된 리소스들.
 		cubemap->Draw();
 		
 		// test용 큐브 그리기
@@ -316,7 +326,7 @@ namespace Pg::Graphics
 		// test용 큐브 그리기
 		_box->Draw();
 
-		_renderer->Render(_tempObj);
+		_renderer->Render();
 	}
 
 	void GraphicsMain::EndRender()
@@ -363,6 +373,11 @@ namespace Pg::Graphics
 		return _DXStorage->_deviceContext;
 	}
 
+	void GraphicsMain::SyncComponentToGraphics()
+	{
+		_renderer->SyncComponentToGraphics();
+	}
+
 	void GraphicsMain::LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define)
 	{
 		_graphicsResourceManager->LoadResource(filePath, define);
@@ -373,5 +388,6 @@ namespace Pg::Graphics
 		_graphicsResourceManager->UnloadResource(filePath);
 	}
 
+	
 
 }

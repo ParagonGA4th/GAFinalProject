@@ -26,6 +26,7 @@ namespace Pg::Util::Helper
 		//IsGraphicsResource를 포괄한다.
 		static short IsPlainRenderable(Pg::Data::Enums::eAssetDefine define);
 
+	
 	private:
 
 	};

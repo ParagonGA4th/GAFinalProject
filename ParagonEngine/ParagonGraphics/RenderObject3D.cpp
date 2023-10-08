@@ -1,5 +1,6 @@
 #include "RenderObject3D.h"
 #include "GraphicsResourceManager.h"
+#include "../ParagonData/BaseRenderer.h"
 #include "../ParagonUtil/ResourceHelper.h"
 
 #include <cassert>
@@ -9,11 +10,9 @@ namespace Pg::Graphics
 	using Pg::Graphics::Manager::GraphicsResourceManager;
 	using Pg::Util::Helper::ResourceHelper;
 
-	RenderObject3D::RenderObject3D() :
-		_renderUsageStruct3D(), _graphicsResourceManager(nullptr)
+	RenderObject3D::RenderObject3D(Pg::Data::BaseRenderer* baseRenderer) : RenderObjectBase(baseRenderer)
 	{
-		this->_graphicsResourceManager = GraphicsResourceManager::Instance();
-		//만들 때, 렌더할 때 필요한 정보를 받아와야 한다.
+		//
 	}
 
 	RenderObject3D::~RenderObject3D()

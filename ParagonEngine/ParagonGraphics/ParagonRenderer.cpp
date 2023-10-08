@@ -2,13 +2,24 @@
 
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
+#include "GraphicsResourceHelper.h"
+
+#include "../ParagonData/Scene.h"
+#include "../ParagonData/GameObject.h"
+#include "../ParagonData/BaseRenderer.h"
+#include "../ParagonData/RendererChangeList.h"
+#include "../ParagonUtil/Log.h"
+
+#include <utility>
+#include <singleton-cpp/singleton.h>
 
 namespace Pg::Graphics
 {
 	ParagonRenderer::ParagonRenderer() :
 		_DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
 	{
-
+		auto& tRendererChangeList = singleton<Pg::Data::RendererChangeList>();
+		_rendererChangeList = &tRendererChangeList;
 	}
 
 	ParagonRenderer::~ParagonRenderer()
@@ -22,7 +33,7 @@ namespace Pg::Graphics
 		_DXLogic->BindRenderTargets();
 	}
 
-	void ParagonRenderer::Render(Pg::Data::GameObject* gameObject)
+	void ParagonRenderer::Render()
 	{
 		
 	}
@@ -31,5 +42,97 @@ namespace Pg::Graphics
 	{
 		_DXLogic->Present();
 	}
+
+	void ParagonRenderer::SyncComponentToGraphics()
+	{
+		using Pg::Data::GameObject;
+		using Pg::Graphics::Helper::GraphicsResourceHelper;
+
+		//새로 들어온 Renderer들 추가!
+		for (auto it : _rendererChangeList->GetAddedRendererList())
+		{
+			GameObject* tGameObject = it->_object;
+
+			if (GraphicsResourceHelper::IsRenderer3D(it->GetRendererTypeName()))
+			{
+				//3D
+				auto tRes = _renderObject3DList.insert_or_assign(tGameObject, 
+					std::make_unique<RenderObject3D>(it));
+
+				if (!tRes.second)
+				{
+					//Assign
+					PG_WARN("Already had a renderer (3D), but replaced with a new one.");
+				}
+			}
+			else
+			{
+				//2D
+				auto tRes = _renderObject2DList.insert_or_assign(tGameObject, 
+					std::make_unique<RenderObject2D>(it));
+
+				if (!tRes.second)
+				{
+					//Assign
+					PG_WARN("Already had a renderer (2D), but replaced with a new one.");
+				}
+			}
+		}
+
+		//새로 들어온 Renderer를 삭제!
+		for (auto it : _rendererChangeList->GetDeletedRendererList())
+		{
+			GameObject* tGameObject = it->_object;
+
+			if (GraphicsResourceHelper::IsRenderer3D(it->GetRendererTypeName()))
+			{
+				//3D
+				_renderObject3DList.erase(tGameObject);
+			}
+			else
+			{
+				//2D
+				_renderObject2DList.erase(tGameObject);
+			}
+		}
+	}
+
+	void ParagonRenderer::OnNewSceneStart(Pg::Data::Scene* newScene)
+	{
+		//Scene을 파싱해서, 실제 렌더되어야 하는 Object를 연동한다.
+		//나중에 같은 씬을 유지하는 중에 오브젝트들 중 하나의 렌더러가 꺼진다거나 
+		//상황은 아직 유지 못함. 나중에 _rendererChangeList를 활용하면 된다!
+		
+		//기존의 직접적 RenderObject 리스트들 클리어.
+		_renderObject2DList.clear();
+		_renderObject3DList.clear();
+
+		using Pg::Graphics::Helper::GraphicsResourceHelper;
+
+		for (auto& tGameObject : newScene->GetObjectList())
+		{
+			//GameObject 딴.
+			Pg::Data::BaseRenderer* tBaseRenderer = tGameObject->GetComponent<Pg::Data::BaseRenderer>();
+			
+			if (tBaseRenderer != nullptr)
+			{
+				//원래는 여기에 Active한지도 검사해야 한다.
+				
+				if (GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()))
+				{
+					//3D
+					auto tRes = _renderObject3DList.insert_or_assign(tGameObject, 
+						std::make_unique<RenderObject3D>(tBaseRenderer));
+				}
+				else
+				{
+					//2D
+					auto tRes = _renderObject2DList.insert_or_assign(tGameObject, 
+						std::make_unique<RenderObject2D>(tBaseRenderer));
+				}
+			}
+		}
+	}
+
 }
 

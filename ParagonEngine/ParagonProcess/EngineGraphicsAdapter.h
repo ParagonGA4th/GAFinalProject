@@ -21,6 +21,7 @@ namespace Pg::Core
 namespace Pg::Data
 {
 	class Scene;
+	class RendererChangeList;
 }
 
 namespace Pg::Core
@@ -67,11 +68,17 @@ namespace Pg::Core
 		//그래픽스 디바이스 컨텍스트 반환.
 		ID3D11DeviceContext* GetGraphicsDeviceContext();
 
+		//그래픽스 엔진이랑 Renderer 컴포넌트와 연동시킨다.
+		void UpdateRendererChangeList();
+
 	private:
 		std::unique_ptr<IEngine> _engine;					//게임 엔진
 		std::unique_ptr<IGraphics> _graphics;				//그래픽스 엔진
 
 		ProcessMain* _coreMain; //코어 메인 받아와서 저장.
+
+		//렌더러 체인지 리스트 (연동 위해)
+		Pg::Data::RendererChangeList* _rendererChangeList = nullptr;
 	};
 }
 
