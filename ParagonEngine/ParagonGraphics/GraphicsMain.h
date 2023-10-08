@@ -86,6 +86,8 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual ID3D11Device* GetDevice() override;
 		PARAGON_GRAPHICS_DLL virtual ID3D11DeviceContext* GetDeviceContext() override;
 
+		PARAGON_GRAPHICS_DLL virtual void SyncComponentToGraphics() override;
+
 		//AssetManager와의 교류를 위해, 그래픽스 리소스 매니저에 리소스를 로드하는 함수.
 		PARAGON_GRAPHICS_DLL virtual void LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define) override;
 
@@ -103,7 +105,6 @@ namespace Pg::Graphics
 		Pg::Core::ProcessMain* _coreMain;
 		Pg::Graphics::Manager::GraphicsResourceManager* _graphicsResourceManager = nullptr;
 	private:
-
 		LowDX11Logic* _DXLogic;
 		LowDX11Storage* _DXStorage;
 
@@ -117,6 +118,7 @@ namespace Pg::Graphics
 
 	private:
 		std::unique_ptr<ParagonRenderer> _renderer;
+		Pg::Data::Scene* _currentScene = nullptr;
 	};
 }
 

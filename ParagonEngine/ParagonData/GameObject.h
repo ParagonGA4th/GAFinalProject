@@ -1,9 +1,13 @@
 #pragma once
 #include "Transform.h"
+#include "../ParagonData/BaseRenderer.h"
+#include "../ParagonData/RendererChangeList.h"
 
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include <cassert>
+#include <singleton-cpp/singleton.h>
 
 /// <summary>
 /// 게임오브젝트 클래스. 
@@ -23,7 +27,6 @@ namespace Pg::Data
 	public:
 		//게임 오브젝트는 기본적으로 생성 시 무조건 이름을 갖는다.
 		GameObject(const std::string name);
-
 		virtual ~GameObject();
 
 		void Awake();
@@ -39,7 +42,7 @@ namespace Pg::Data
 		void OnDestroy();
 
 		const std::string& GetName() const;
-		void SetName(const std::string& name);	
+		void SetName(const std::string& name);
 
 		void SetActive(bool active);
 
@@ -51,6 +54,10 @@ namespace Pg::Data
 		template<typename T>
 		T* GetComponent();
 
+		//만약 렌더러 중 하나라면, Rendering Logic 연동.
+		template<typename T>
+		void IfRendererSetup(IComponent* component);
+
 	public:
 		std::string _objName;
 		Transform& _transform;
@@ -58,7 +65,6 @@ namespace Pg::Data
 		bool _isActive;
 
 	private:
-
 		//컴포넌트의 이름과 주소를 저장해놓는 리스트.
 		std::unordered_map<std::string, IComponent*> _componentList;
 	};
@@ -71,7 +77,14 @@ namespace Pg::Data
 	T* GameObject::AddComponent()
 	{
 		T* component = new T(this);
-		_componentList.try_emplace(typeid(T).name(), component);
+		auto tBoolPair = _componentList.try_emplace(typeid(T).name(), component);
+
+		//실제로 추가된 것이라면 렌더러와 연동. (나중에 Component System이 할 일)
+		if (tBoolPair.second)
+		{
+			IfRendererSetup<T>(component);
+		}
+
 		return component;
 	}
 
@@ -89,8 +102,24 @@ namespace Pg::Data
 				return res;
 			}
 		}
-
 		return nullptr;
+	}
+
+	template<typename T>
+	void GameObject::IfRendererSetup(IComponent* component)
+	{
+		//[TW] Renderer 연동 위한 사용. 후에, 별도의 수단이 마련되어야 한다. / 
+		// 나중에 Delete 추가되면 이 역시 업데이트되어야!
+
+		//ComponentList에 정상적으로 추가되었다는 전제, 렌더러-그래픽스 연동 로직.
+		//코드가 리팩토링 / Event & Component 시스템이 추가되며, 사라져야 할 코드.
+		//이러면 Renderer를 베이스로 하는 컴포넌트 여러 개가 들어가면 안 될것!
+
+		if constexpr (std::is_base_of<BaseRenderer, T>::value)
+		{
+			BaseRenderer* tBaseRenderer = static_cast<BaseRenderer*>(component);
+			tBaseRenderer->SetRendererTypeName(typeid(T).name());
+		}
 	}
 }
 

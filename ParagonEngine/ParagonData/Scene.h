@@ -41,6 +41,9 @@ namespace Pg::Data
 		Camera* GetMainCamera();
 		void SetMainCamera(Camera* mainCamera);
 
+		//오브젝트 리스트 자체를 반환.
+		std::vector<GameObject*>& GetObjectList();
+
 	private:
 
 		//씬 이름

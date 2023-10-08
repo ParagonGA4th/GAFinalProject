@@ -1,5 +1,6 @@
 #include "RenderObject2D.h"
 #include "GraphicsResourceManager.h"
+#include "../ParagonData/BaseRenderer.h"
 #include "../ParagonUtil/ResourceHelper.h"
 
 #include <cassert>
@@ -9,11 +10,9 @@ namespace Pg::Graphics
 	using Pg::Graphics::Manager::GraphicsResourceManager;
 	using Pg::Util::Helper::ResourceHelper;
 
-	RenderObject2D::RenderObject2D() :
-		_renderUsageStruct2D(), _graphicsResourceManager(nullptr)
+	RenderObject2D::RenderObject2D(Pg::Data::BaseRenderer* baseRenderer) : RenderObjectBase(baseRenderer)
 	{
-		this->_graphicsResourceManager = GraphicsResourceManager::Instance();
-		//만들 때, 렌더할 때 필요한 정보를 받아와야 한다.
+		//
 	}
 
 	RenderObject2D::~RenderObject2D()
@@ -28,7 +27,6 @@ namespace Pg::Graphics
 		assert((tCanRender == 0) && "막히면 렌더될 수 없는 RenderTextData를 전달했다는 뜻.");
 
 		Update2DObjectRenderData(rTextData);
-
 	}
 
 	void RenderObject2D::Update2DObjectRenderData(const Pg::Data::RenderTextData& recent)
@@ -50,7 +48,6 @@ namespace Pg::Graphics
 			}
 		}
 	}
-
 
 
 
