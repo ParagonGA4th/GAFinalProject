@@ -27,6 +27,10 @@ namespace Pg::Graphics::Helper
 	public:
 		//템플릿 특수화 초기화.
 		static void Initialize(); 
+
+		//받은 RendererTypeName이 3D관련인지, 아닌지 알려준다.
+		//Renderer 컴포넌트가 추가될 수록 업데이트되어야 한다.
+		static bool IsRenderer3D(const std::string& rendererTypeName);
 	};
 
 	template <Pg::Data::Enums::eAssetDefine define>

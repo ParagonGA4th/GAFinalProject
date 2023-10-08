@@ -43,6 +43,9 @@
     <ClCompile Include="Transform.cpp">
       <Filter>2_Component\Transform</Filter>
     </ClCompile>
+    <ClCompile Include="RendererChangeList.cpp">
+      <Filter>6_DataChangeList\RendererChangeList</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -108,6 +111,9 @@
     <ClInclude Include="Transform.h">
       <Filter>2_Component\Transform</Filter>
     </ClInclude>
+    <ClInclude Include="RendererChangeList.h">
+      <Filter>6_DataChangeList\RendererChangeList</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -152,9 +158,6 @@
     <Filter Include="3_Resource\GraphicsResource">
       <UniqueIdentifier>{95b23c3a-6d5f-4dff-8152-02d8f0dffe87}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Component\Renderer\IRenderObject">
-      <UniqueIdentifier>{95b9cff0-0a95-4565-b6cd-25e374894b87}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2_Component\Renderer\BaseRenderer">
       <UniqueIdentifier>{df579efc-39c9-4db2-83f0-253e0a0da5aa}</UniqueIdentifier>
     </Filter>
@@ -181,6 +184,15 @@
     </Filter>
     <Filter Include="2_Component\Transform">
       <UniqueIdentifier>{2415bb1b-218d-4696-a312-7dd2f2e7865d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\IRenderObject">
+      <UniqueIdentifier>{95b9cff0-0a95-4565-b6cd-25e374894b87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_DataChangeList">
+      <UniqueIdentifier>{d13d417b-c265-47df-bce6-c97fb15b63b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_DataChangeList\RendererChangeList">
+      <UniqueIdentifier>{cf9a7602-9fe2-4dd4-a278-b427f8b39400}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

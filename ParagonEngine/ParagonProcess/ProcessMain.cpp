@@ -99,6 +99,9 @@ namespace Pg::Core
 		//AssetManager 로직 업데이트.
 		_engineGraphicsAdapter->UpdateAssetManager(_assetManager);
 
+		//업데이트된 Renderer-Graphics 연동 위해.
+		_engineGraphicsAdapter->UpdateRendererChangeList();
+
 		//여기다가 시스템 싹 다 업데이트!!
 		_engineGraphicsAdapter->UpdateEngine();
 

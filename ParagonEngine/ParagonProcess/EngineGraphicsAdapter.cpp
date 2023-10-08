@@ -1,6 +1,7 @@
 #include "EngineGraphicsAdapter.h"
 #include "AssetManager.h"
 #include "ProcessMain.h"
+#include "../ParagonData/RendererChangeList.h"
 #include "../ParagonGameEngine/EngineDLLExporter.h"
 #include "../ParagonGraphics/GraphicsDLLExporter.h"
 
@@ -8,6 +9,7 @@
 #include "../ParagonGraphics/GraphicsMain.h"
 
 #include <windows.h>
+#include <singleton-cpp/singleton.h>
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonGameEngine.lib")
@@ -27,6 +29,9 @@ namespace Pg::Core
 	{
 		_engine = std::make_unique<Pg::Engine::EngineMain>(_coreMain);
 		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>(_coreMain);
+	
+		auto& tRendererChangeList = singleton<Pg::Data::RendererChangeList>();
+		_rendererChangeList = &tRendererChangeList;
 	}
 
 	EngineGraphicsAdapter::~EngineGraphicsAdapter()
@@ -94,6 +99,15 @@ namespace Pg::Core
 	ID3D11DeviceContext* EngineGraphicsAdapter::GetGraphicsDeviceContext()
 	{
 		return _graphics->GetDeviceContext();
+	}
+
+	void EngineGraphicsAdapter::UpdateRendererChangeList()
+	{
+		if (_rendererChangeList->IfShouldUpdate())
+		{
+			_graphics->SyncComponentToGraphics();
+			_rendererChangeList->ClearRendererChangeLists();
+		}
 	}
 
 
