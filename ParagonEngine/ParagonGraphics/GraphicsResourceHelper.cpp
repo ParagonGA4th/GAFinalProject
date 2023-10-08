@@ -19,7 +19,7 @@ namespace Pg::Graphics::Helper
 		AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL>();
 	}
 
-	bool GraphicsResourceHelper::IsRenderer3D(const std::string& rendererTypeName)
+	short GraphicsResourceHelper::IsRenderer3D(const std::string& rendererTypeName)
 	{
 		//안되는 경우를 걸러낸다.
 		if (rendererTypeName.compare(std::string(typeid(Pg::Data::BaseRenderer).name())) == 0)
@@ -29,18 +29,19 @@ namespace Pg::Graphics::Helper
 
 		//원래는 더 깊숙히 들어가야 하지만, 렌더러 컴포넌트가 아직 나오지 않은 지금은 하드코딩.
 		//이렇게 되어도 안된다! 더 자세한 렌더러 타입이 들어가야지.
+		//2D
 		if (rendererTypeName.compare(std::string(typeid(Pg::Data::RendererBase2D).name())) == 0)
 		{
-			return false;
+			return 0;
 		}
+		//3D
 		else if (rendererTypeName.compare(std::string(typeid(Pg::Data::RendererBase3D).name())) == 0)
 		{
-			return true;
+			return 1;
 		}
 
-		//여기까지 오면 안된다.
-		assert(false);
-		return false;
+		//렌더러가 아닌 것.
+		return -1;
 	}
 
 }

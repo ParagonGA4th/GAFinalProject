@@ -109,6 +109,22 @@ namespace Pg::Graphics
 
 		using Pg::Graphics::Helper::GraphicsResourceHelper;
 
+		//Scene에서 Renderer 정보를 가져오기 전, 
+		//만약 렌더러 중 하나라면, Rendering Logic 연동.
+		for (auto& tGameObject : newScene->GetObjectList())
+		{
+			for (auto& tComponentPair : tGameObject->GetComponentList())
+			{
+				if (GraphicsResourceHelper::IsRenderer3D(tComponentPair.first) != -1)
+				{
+					//만약 렌더러 파생 컴포넌트라면?
+					Pg::Data::BaseRenderer* tBaseRenderer = static_cast<Pg::Data::BaseRenderer*>(tComponentPair.second);
+					tBaseRenderer->SetRendererTypeName(tComponentPair.first);
+				}
+			}
+		}
+
+		//이제 실제 오브젝트 내부 RenderObject 연동.
 		for (auto& tGameObject : newScene->GetObjectList())
 		{
 			//GameObject 딴.
@@ -118,7 +134,7 @@ namespace Pg::Graphics
 			{
 				//원래는 여기에 Active한지도 검사해야 한다.
 				
-				if (GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()))
+				if (GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()) == 1)
 				{
 					//3D
 					auto tRes = _renderObject3DList.insert_or_assign(tGameObject, 
@@ -133,6 +149,8 @@ namespace Pg::Graphics
 			}
 		}
 	}
-
 }
+
+
+
 

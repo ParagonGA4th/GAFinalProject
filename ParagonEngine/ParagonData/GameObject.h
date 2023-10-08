@@ -47,17 +47,14 @@ namespace Pg::Data
 		void SetActive(bool active);
 
 	public:
-
 		template<typename T>
 		T* AddComponent();
 
 		template<typename T>
 		T* GetComponent();
 
-		//만약 렌더러 중 하나라면, Rendering Logic 연동.
-		template<typename T>
-		void IfRendererSetup(IComponent* component);
-
+		//렌더러 호환을 위해, ComponentList 자체 반환.
+		std::unordered_map<std::string, IComponent*>& GetComponentList();
 	public:
 		std::string _objName;
 		Transform& _transform;
@@ -77,14 +74,7 @@ namespace Pg::Data
 	T* GameObject::AddComponent()
 	{
 		T* component = new T(this);
-		auto tBoolPair = _componentList.try_emplace(typeid(T).name(), component);
-
-		//실제로 추가된 것이라면 렌더러와 연동. (나중에 Component System이 할 일)
-		if (tBoolPair.second)
-		{
-			IfRendererSetup<T>(component);
-		}
-
+		_componentList.try_emplace(typeid(T).name(), component);
 		return component;
 	}
 
@@ -102,24 +92,8 @@ namespace Pg::Data
 				return res;
 			}
 		}
+
 		return nullptr;
-	}
-
-	template<typename T>
-	void GameObject::IfRendererSetup(IComponent* component)
-	{
-		//[TW] Renderer 연동 위한 사용. 후에, 별도의 수단이 마련되어야 한다. / 
-		// 나중에 Delete 추가되면 이 역시 업데이트되어야!
-
-		//ComponentList에 정상적으로 추가되었다는 전제, 렌더러-그래픽스 연동 로직.
-		//코드가 리팩토링 / Event & Component 시스템이 추가되며, 사라져야 할 코드.
-		//이러면 Renderer를 베이스로 하는 컴포넌트 여러 개가 들어가면 안 될것!
-
-		if constexpr (std::is_base_of<BaseRenderer, T>::value)
-		{
-			BaseRenderer* tBaseRenderer = static_cast<BaseRenderer*>(component);
-			tBaseRenderer->SetRendererTypeName(typeid(T).name());
-		}
 	}
 }
 

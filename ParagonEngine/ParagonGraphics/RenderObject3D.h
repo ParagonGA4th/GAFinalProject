@@ -19,13 +19,8 @@ namespace Pg::Graphics
 		RenderObject3D(Pg::Data::BaseRenderer* baseRenderer);
 		virtual ~RenderObject3D();
 
-		//렌더링을 위한 오브젝트의 데이터를 큰 갈래에서 업데이트
-		virtual void UpdateObjectRenderData(const Pg::Data::RenderTextData rTextData) override;
-
-	private:
-
 		//3D 오브젝트 렌더링을 위한 정보 업데이트
-		void Update3DObjectRenderData(const Pg::Data::RenderTextData& recent);
+		virtual void UpdateObjectRenderData(const Pg::Data::RenderTextData rTextData) override;
 
 	private:
 		RenderUsageStruct3D _renderUsageStruct3D;
