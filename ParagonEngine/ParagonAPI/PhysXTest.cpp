@@ -1,4 +1,6 @@
 //#include "PhysXTest.h"
+//#include "../lib/PhysX/include/PxPhysics.h"
+//#include "../lib/PhysX/include/PxPhysicsAPI.h"
 //#include <iostream>
 //#include <windows.h>
 //
@@ -6,6 +8,8 @@
 //{
 //	void PhysXTest::Initialize()
 //	{
+//		using namespace physx;
+//
 //		physx::PxDefaultAllocator mDefaultAllocatorCallback;
 //		physx::PxDefaultErrorCallback mDefaultErrorCallback;
 //
@@ -67,6 +71,11 @@
 //		physx::PxShape* shape = mPhysics->createShape(physx::PxBoxGeometry(halfExtent, halfExtent, halfExtent), *mMaterial);
 //		physx::PxU32 size = 30;
 //		physx::PxTransform t(physx::PxVec3(0));
-//	}
 //
+//		//Ä¸½¶
+//		PxRigidDynamic* _capsuleObject = mPhysics->createRigidDynamic(PxTransform(1.0f, 1.0f, 1.0f));
+//		PxTransform relativePos(PxQuat(PxHalfPi, PxVec3(0, 0, 1)));
+//		physx::PxCapsuleGeometry _capsule;
+//		physx::PxShape* _shape = mPhysics->createShape(_capsule, *mMaterial);
+//	}
 //}

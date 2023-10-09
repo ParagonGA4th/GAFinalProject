@@ -10,7 +10,7 @@
 
 namespace Pg::Core
 {
-	class CoreMain;
+	class ProcessMain;
 }
 
 namespace Pg::Engine
@@ -18,6 +18,11 @@ namespace Pg::Engine
 	namespace Input
 	{
 		class InputSystem;
+	}
+
+	namespace Physic
+	{
+		class PhysicSystem;
 	}
 
 	namespace Manager
@@ -31,7 +36,7 @@ namespace Pg::Engine
 	class EngineMain : public Pg::Core::IEngine
 	{
 	public:
-		PARAGON_ENGINE_DLL EngineMain(Pg::Core::CoreMain* core);
+		PARAGON_ENGINE_DLL EngineMain(Pg::Core::ProcessMain* core);
 		virtual ~EngineMain();
 
 		PARAGON_ENGINE_DLL void Initialize(float width, float height) override;
@@ -45,8 +50,9 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL virtual void UnloadResource(const std::string& filePath) override;
 
 	private:
-		Pg::Core::CoreMain* _coreMain = nullptr;
+		Pg::Core::ProcessMain* _coreMain = nullptr;
 		Input::InputSystem* _inputSystem = nullptr;
+		Physic::PhysicSystem* _physicSystem = nullptr;
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
 	};
 }

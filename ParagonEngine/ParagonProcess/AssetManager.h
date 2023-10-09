@@ -14,7 +14,7 @@
 
 namespace Pg::Core
 {
-	class CoreMain;
+	class ProcessMain;
 	class IEngine;
 	class IGraphics;
 }
@@ -28,7 +28,7 @@ namespace Pg::Core::Manager
 		~AssetManager();
 		
 		//AssetManager 초기화. Engine/Graphics의 리소스 매니저를 받아온다.
-		void Initialize(Pg::Core::CoreMain* core);
+		void Initialize(Pg::Core::ProcessMain* core);
 
 		//실제로 세부 Graphics, Engine의 리소스 매니저를 조종하기 위해, 로직 업데이트.
 		void Update(Pg::Core::IEngine* engine, Pg::Core::IGraphics* graphics);
@@ -43,7 +43,7 @@ namespace Pg::Core::Manager
 		void UnloadResource(const std::string& filepath);
 
 	private:
-		Pg::Core::CoreMain* _coreMain;
+		Pg::Core::ProcessMain* _coreMain;
 
 		//실제로 보관하는 리소스 맵. <파일 경로 / Asset의 종류>
 		std::unordered_map<std::string, Pg::Data::Enums::eAssetDefine> _resourceMap;
