@@ -92,8 +92,11 @@ void EditorMain::Update()
 			_imGuiManager->CreateFrame();
 
 			_imGuiManager->ShowDemoInspector();
+			_imGuiManager->ShowDemoHierarchy();
 			 
-
+			_coreMain->BeginRender();
+			_coreMain->Render();
+			_imGuiManager->Render();
 			_coreMain->EndRender();
 		}
 	}
