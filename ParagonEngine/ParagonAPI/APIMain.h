@@ -24,7 +24,7 @@ namespace Pg::API
 
 	private:
 		Pg::API::Input::PgInput* _pgInput = nullptr;
-		PhysXTest* _test;
+		//PhysXTest* _test;
 
 	};
 }

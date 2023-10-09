@@ -12,7 +12,7 @@ namespace Pg::Graphics
 {
 	struct RenderUsageStruct3D
 	{
-		friend class RenderObject;
+		friend class RenderObject3D;
 	public:
 		RenderUsageStruct3D();
 		RenderUsageStruct3D(Pg::Data::RenderTextData rTextData);

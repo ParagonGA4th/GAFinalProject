@@ -1,12 +1,13 @@
 #include "EngineMain.h"
 #include "InputSystem.h"
+#include "PhysicSystem.h"
 #include "EngineResourceManager.h"
 
 //<실제 GameEngine Resource의 목록>
 
 //</>
 
-#include "../ParagonProcess/CoreMain.h"
+#include "../ParagonProcess/ProcessMain.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonAPI/KeyCodeType.h"
 #include <singleton-cpp/singleton.h>
@@ -31,10 +32,13 @@
 
 namespace Pg::Engine
 {
-	EngineMain::EngineMain(Pg::Core::CoreMain* core) : _coreMain(core), _engineResourceManager(Manager::EngineResourceManager::Instance())
+	EngineMain::EngineMain(Pg::Core::ProcessMain* core) : _coreMain(core), _engineResourceManager(Manager::EngineResourceManager::Instance())
 	{
 		auto& tInputSystem = singleton<Input::InputSystem>();
 		_inputSystem = &tInputSystem;
+
+		auto& tphysicSystem = singleton<Physic::PhysicSystem>();
+		_physicSystem = &tphysicSystem;
 	}
 
 	EngineMain::~EngineMain()
@@ -46,6 +50,7 @@ namespace Pg::Engine
 	void EngineMain::Initialize(float width, float height)
 	{
 		_inputSystem->Initialize(width, height);
+		_physicSystem->Initialize();
 	}
 
 	void EngineMain::Update()

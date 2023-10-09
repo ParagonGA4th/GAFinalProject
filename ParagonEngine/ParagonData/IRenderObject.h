@@ -18,6 +18,5 @@ namespace Pg::Data
 		//단일 오브젝트의 렌더에 영향을 주는 정보만 전달.
 		virtual void UpdateObjectRenderData(const Pg::Data::RenderTextData rTextData) abstract;
 
-
 	};
 }
