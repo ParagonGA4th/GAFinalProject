@@ -1,5 +1,5 @@
 #pragma once
-#include "D3DBuffers.h"
+#include "D3DBufferInfo.h"
 
 /// <summary>
 /// AssetScene을 인풋레이아웃을 기반으로 VB와 IB로 만들어주는 클래스.
@@ -19,8 +19,12 @@ namespace Pg::Graphics::Helper
 		BufferParser();
 		~BufferParser();
 
-		//일단은 
-		//static D3DBuffers Asset3DModelToD3DBuffer(Pg::Graphics::AssetSceneData* assetSceneData);
+		//일단은 1차 그래픽엔진에서 Screen->World Space 1차 Layout에 맞추도록 세팅.
+		static void Asset3DModelToD3DBuffer(Pg::Graphics::D3DBufferInfo& outBufferInfo, bool isSkinned, Pg::Graphics::AssetSceneData* assetSceneData);
+	
+	private:
+		static void AssetStaticModelToD3DBuffer(Pg::Graphics::D3DBufferInfo& outBufferInfo, Pg::Graphics::AssetSceneData* assetSceneData);
+		static void AssetSkinnedModelToD3DBuffer(Pg::Graphics::D3DBufferInfo& outBufferInfo, Pg::Graphics::AssetSceneData* assetSceneData);
 	};
 }
 
