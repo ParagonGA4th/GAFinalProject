@@ -437,6 +437,15 @@ namespace Pg::Graphics::Helper
 				_mgrt->m_ColorList.push_back(tCol);
 			}
 		}
+		else
+		{
+			//Vertex Buffer 로드에 문제되지 않게 하기 위해.
+			for (unsigned int i = 0; i < _mgrt->m_NumVertice; i++)
+			{
+				Color tCol = Color(1.f, 1.f, 1.f, 1.f);
+				_mgrt->m_ColorList.push_back(tCol);
+			}
+		}
 
 		if (_assimp->mTextureCoords[0])
 		{
