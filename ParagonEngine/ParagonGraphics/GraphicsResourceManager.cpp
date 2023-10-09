@@ -3,6 +3,8 @@
 #include "AssetBasic2DLoader.h"
 #include "AssetBasic3DLoader.h"
 
+#include "../ParagonUtil/ResourceHelper.h"
+
 namespace Pg::Graphics::Manager
 {
 	GraphicsResourceManager::GraphicsResourceManager()
@@ -84,4 +86,17 @@ namespace Pg::Graphics::Manager
 			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(path);
 		}
 	}
+
+	bool GraphicsResourceManager::IsExistResource(const std::string& path)
+	{
+		std::string tFilePath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(path);
+
+		auto res = std::find_if(_resources.begin(), _resources.end(),
+			[&tFilePath](const std::pair<std::string,std::weak_ptr<Pg::Data::Resources::GraphicsResource>>& val)
+			-> bool {return (val.first == tFilePath); });
+
+		bool tIsFound = (res != _resources.end()) ? true : false;
+		return tIsFound;
+	}
+
 }

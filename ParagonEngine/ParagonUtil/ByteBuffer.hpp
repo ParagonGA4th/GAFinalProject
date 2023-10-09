@@ -26,7 +26,7 @@
 #endif
 
 
-namespace RocketCore::Graphics
+namespace Pg::Util
 {
 	class ByteBuffer {
 		friend class AssetModelLoader;
