@@ -53,6 +53,9 @@ namespace Pg::Graphics::Manager
 		Pg::Graphics::Loader::AssetBasic3DLoader* GetBasic3DLoader();
 		Pg::Graphics::Loader::AssetBasic2DLoader* GetBasic2DLoader();
 
+		//특정 리소스가 이미 로딩되었는지를 확인한다.
+		bool IsExistResource(const std::string& path);
+
 		//리소스가 있는 경우가 강제될 때, 리소스를 반환한다. (eAssetDefine으로)
 		std::shared_ptr<GraphicsResource> GetResource(const std::string& path, Pg::Data::Enums::eAssetDefine define);
 
