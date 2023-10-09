@@ -27,7 +27,7 @@ namespace Pg::Graphics::Loader
 		//	aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_GenBoundingBoxes);
 		//
 		//assert(pScene != nullptr);
-
+		Load3DModel(false, "../Resources/3DModels/MultimaterialCube.fbx");
 
 
 
@@ -49,6 +49,7 @@ namespace Pg::Graphics::Loader
 				aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_LimitBoneWeights);
 			assert(pScene != nullptr);
 
+			tAssetSceneData->m_Directory = path;
 			Helper::Asset3DModelHelper::CopyAssimpToAssetScene(pScene, tAssetSceneData);
 			Helper::Asset3DModelHelper::FinalizeDataHelper();
 		}
@@ -61,6 +62,7 @@ namespace Pg::Graphics::Loader
 				aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_GenBoundingBoxes);
 			assert(pScene != nullptr);
 
+			tAssetSceneData->m_Directory = path;
 			Helper::Asset3DModelHelper::CopyAssimpToAssetScene(pScene, tAssetSceneData);
 			Helper::Asset3DModelHelper::FinalizeDataHelper();
 		}
