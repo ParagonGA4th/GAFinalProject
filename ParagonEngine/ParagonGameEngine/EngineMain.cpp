@@ -59,6 +59,7 @@ namespace Pg::Engine
 	{
 		_inputSystem->Initialize(width, height);
 		_physicSystem->Initialize();
+		_sceneSystem->Initialize();
 	}
 
 	void EngineMain::Update()
@@ -96,7 +97,7 @@ namespace Pg::Engine
 
 	Pg::Data::Scene* EngineMain::GetCurrentScene()
 	{
-		_sceneSystem->GetCurrentScene();
+		return _sceneSystem->GetCurrentScene();
 	}
 
 }
