@@ -36,6 +36,8 @@ namespace Pg::Core
 		virtual ID3D11Device* GetDevice() abstract;
 		virtual ID3D11DeviceContext* GetDeviceContext() abstract;
 
+		virtual void SyncComponentToGraphics() abstract;
+
 		virtual void OnWindowResized(int screenWidth, int screenHeight) abstract;
 
 		//AssetManager와의 교류를 위해, 그래픽스 리소스 매니저에 리소스를 로드하는 함수.

@@ -1,5 +1,5 @@
 #include "AssetManager.h"
-#include "CoreMain.h"
+#include "ProcessMain.h"
 #include "IEngine.h"
 #include "IGraphics.h"
 
@@ -41,7 +41,7 @@ namespace Pg::Core::Manager
 
 	}
 
-	void AssetManager::Initialize(Pg::Core::CoreMain* core) 
+	void AssetManager::Initialize(Pg::Core::ProcessMain* core) 
 	{
 		_coreMain = core;
 		_perFrameToLoadResources.reserve(30);

@@ -9,7 +9,7 @@
 
 namespace Pg::Core
 {
-	class CoreMain;
+	class ProcessMain;
 }
 
 namespace Pg::Core
@@ -17,7 +17,7 @@ namespace Pg::Core
 	class EditorAdapter
 	{
 	public:
-		EditorAdapter(CoreMain* core);
+		EditorAdapter(ProcessMain* core);
 		~EditorAdapter();
 
 		//에디터용 카메라 데이터를 설정한다.
@@ -36,7 +36,7 @@ namespace Pg::Core
 		void LoadEditorResource(Pg::Data::Enums::eAssetDefine define, void* memory, int sizeInBytes);
 
 	private:
-		CoreMain* _coreMain;
+		ProcessMain* _coreMain;
 		Pg::Data::Enums::eEditorMode _editorMode;
 	};
 }

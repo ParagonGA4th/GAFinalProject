@@ -1,67 +1,76 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="0_Scene">
-      <UniqueIdentifier>{5eb114b5-7653-4335-8bd6-9729a27d9f7b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_GameObject">
-      <UniqueIdentifier>{f8a1f0e4-5f6f-49ea-8e49-560480caed73}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component">
-      <UniqueIdentifier>{8f1e9db9-4e3c-4245-a9c1-1a458dcf1736}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Renderer">
-      <UniqueIdentifier>{0637e6b1-1d58-4274-b7c5-866fad641a2c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Transform">
-      <UniqueIdentifier>{69087ee6-ca45-44fe-b0ae-bf8ddda168eb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Collider">
-      <UniqueIdentifier>{108858a1-ef77-4b1b-b8cb-7b3555d0e465}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3_Resource">
-      <UniqueIdentifier>{241365ad-345b-47de-94bc-79306888b1cd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3_Resource\BaseResource">
-      <UniqueIdentifier>{96b312ce-5287-4b09-99ea-bf1014fe39a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3_Resource\EngineResource">
-      <UniqueIdentifier>{3e2a257d-aacb-4eea-b3c2-db50195187a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3_Resource\GraphicsResource">
-      <UniqueIdentifier>{c8648b4b-312f-4858-b695-b2fb3add5ed1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="4_Structs">
-      <UniqueIdentifier>{48c7876c-5235-4b2f-8c88-846dad2b8a30}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="4_Structs\CameraData">
-      <UniqueIdentifier>{a01d2829-be6e-4d7a-aebe-7d5085a22783}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="4_Structs\RenderTextData">
-      <UniqueIdentifier>{06c487b5-1f0a-4641-966f-a74d88305f53}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_Enums">
-      <UniqueIdentifier>{e367abd5-aa15-4285-ab79-ec0076623ddd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_Enums\EditorMode">
-      <UniqueIdentifier>{605e671c-65d1-4b5f-99ad-89b5152d17f9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_Enums\AssetDefines">
-      <UniqueIdentifier>{0bdad085-105f-41ca-a24b-d76bf6ce5b36}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="Scene.cpp">
+      <Filter>0_Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>1_GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>2_Component</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>2_Component\Collider\BoxCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="CapsuleCollider.cpp">
+      <Filter>2_Component\Collider\CapsuleCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>2_Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>2_Component\Collider\SphereCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseResource.cpp">
+      <Filter>3_Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineResource.cpp">
+      <Filter>3_Resource\EngineResource</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsResource.cpp">
+      <Filter>3_Resource\GraphicsResource</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseRenderer.cpp">
+      <Filter>2_Component\Renderer\BaseRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererBase2D.cpp">
+      <Filter>2_Component\Renderer\RendererBase2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererBase3D.cpp">
+      <Filter>2_Component\Renderer\RendererBase3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>2_Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererChangeList.cpp">
+      <Filter>6_DataChangeList\RendererChangeList</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
       <Filter>0_Scene</Filter>
     </ClInclude>
-    <ClInclude Include="BaseRenderer.h">
-      <Filter>2_Component\Renderer</Filter>
+    <ClInclude Include="GameObject.h">
+      <Filter>1_GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>2_Component\Transform</Filter>
+    <ClInclude Include="IComponent.h">
+      <Filter>2_Component\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>2_Component</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>2_Component\Collider\BoxCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="CapsuleCollider.h">
+      <Filter>2_Component\Collider\CapsuleCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>2_Component\Collider\SphereCollider</Filter>
     </ClInclude>
     <ClInclude Include="BaseResource.h">
-      <Filter>3_Resource\BaseResource</Filter>
+      <Filter>3_Resource</Filter>
     </ClInclude>
     <ClInclude Include="EngineResource.h">
       <Filter>3_Resource\EngineResource</Filter>
@@ -73,22 +82,7 @@
       <Filter>2_Component\Collider</Filter>
     </ClInclude>
     <ClInclude Include="CameraData.h">
-      <Filter>4_Structs\CameraData</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>2_Component</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTextData.h">
-      <Filter>4_Structs\RenderTextData</Filter>
-    </ClInclude>
-    <ClInclude Include="IComponent.h">
-      <Filter>2_Component</Filter>
-    </ClInclude>
-    <ClInclude Include="IRenderObject.h">
-      <Filter>2_Component\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>1_GameObject</Filter>
+      <Filter>5_Enums\CameraData</Filter>
     </ClInclude>
     <ClInclude Include="AssetDefines.h">
       <Filter>5_Enums\AssetDefines</Filter>
@@ -96,34 +90,109 @@
     <ClInclude Include="EditorMode.h">
       <Filter>5_Enums\EditorMode</Filter>
     </ClInclude>
+    <ClInclude Include="BaseRenderer.h">
+      <Filter>2_Component\Renderer\BaseRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderObject.h">
+      <Filter>2_Component\Renderer\IRenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererBase2D.h">
+      <Filter>2_Component\Renderer\RendererBase2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererBase3D.h">
+      <Filter>2_Component\Renderer\RendererBase3D</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererType.h">
+      <Filter>5_Enums\RendererType</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTextData.h">
+      <Filter>4_Structs\RenderTextData</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>2_Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererChangeList.h">
+      <Filter>6_DataChangeList\RendererChangeList</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Scene.cpp">
-      <Filter>0_Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseRenderer.cpp">
-      <Filter>2_Component\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>2_Component\Transform</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseResource.cpp">
-      <Filter>3_Resource\BaseResource</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineResource.cpp">
-      <Filter>3_Resource\EngineResource</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsResource.cpp">
-      <Filter>3_Resource\GraphicsResource</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>2_Component\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>2_Component</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>1_GameObject</Filter>
-    </ClCompile>
+    <Filter Include="0_Scene">
+      <UniqueIdentifier>{ec361c95-aede-48ce-9d80-2d4f7c101cae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_GameObject">
+      <UniqueIdentifier>{47767fff-2789-4e4d-8041-cbd0ff7cca17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component">
+      <UniqueIdentifier>{2c68b0fe-cfc2-462a-86d9-c737d032b833}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Interface">
+      <UniqueIdentifier>{ce97f7db-4da9-451c-ae79-1bdd7edc636c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer">
+      <UniqueIdentifier>{5634ea51-bda1-48ec-b247-d40ac905df78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\RendererBase2D">
+      <UniqueIdentifier>{47b9ce9e-af45-4cdb-b99c-699e852f223a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\RendererBase3D">
+      <UniqueIdentifier>{4921af91-35ea-439f-9733-ae0768861c7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider">
+      <UniqueIdentifier>{c5f90883-3359-47ee-8c4e-d41dc4ee3e1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\BoxCollider">
+      <UniqueIdentifier>{5d03cf3d-8459-4bce-9fd6-4324072dbbc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\CapsuleCollider">
+      <UniqueIdentifier>{9d59a471-0206-442b-8579-fd19ab917a5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\SphereCollider">
+      <UniqueIdentifier>{68015c4d-6233-40f7-9e3a-321214f232d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Resource">
+      <UniqueIdentifier>{df76bb30-7196-4a33-a0b6-737ff0fbd90d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Resource\EngineResource">
+      <UniqueIdentifier>{7f719327-595e-416a-ae97-441646588004}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Resource\GraphicsResource">
+      <UniqueIdentifier>{95b23c3a-6d5f-4dff-8152-02d8f0dffe87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\BaseRenderer">
+      <UniqueIdentifier>{df579efc-39c9-4db2-83f0-253e0a0da5aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Enums">
+      <UniqueIdentifier>{a1a8a26b-94b2-4cce-a99a-14478c242db8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Enums\AssetDefines">
+      <UniqueIdentifier>{434f808c-9412-4c0f-aaa2-52346e4e321e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Enums\CameraData">
+      <UniqueIdentifier>{8f73f424-7673-4ab8-8070-e4e44a6e720a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Enums\EditorMode">
+      <UniqueIdentifier>{2b0f3590-e704-497c-9b5c-d9b365b2384e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Enums\RendererType">
+      <UniqueIdentifier>{8caf7dac-63e6-406d-b706-2e3f7321a5e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Structs">
+      <UniqueIdentifier>{775e1143-3ecf-46b5-a68f-85da5371a661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Structs\RenderTextData">
+      <UniqueIdentifier>{0334483d-cdf2-4f79-9548-8a389b60c13e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Transform">
+      <UniqueIdentifier>{2415bb1b-218d-4696-a312-7dd2f2e7865d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\IRenderObject">
+      <UniqueIdentifier>{95b9cff0-0a95-4565-b6cd-25e374894b87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_DataChangeList">
+      <UniqueIdentifier>{d13d417b-c265-47df-bce6-c97fb15b63b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_DataChangeList\RendererChangeList">
+      <UniqueIdentifier>{cf9a7602-9fe2-4dd4-a278-b427f8b39400}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

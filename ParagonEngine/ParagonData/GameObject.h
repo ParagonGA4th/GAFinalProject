@@ -1,9 +1,13 @@
 #pragma once
 #include "Transform.h"
+#include "../ParagonData/BaseRenderer.h"
+#include "../ParagonData/RendererChangeList.h"
 
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include <cassert>
+#include <singleton-cpp/singleton.h>
 
 /// <summary>
 /// 게임오브젝트 클래스. 
@@ -23,7 +27,6 @@ namespace Pg::Data
 	public:
 		//게임 오브젝트는 기본적으로 생성 시 무조건 이름을 갖는다.
 		GameObject(const std::string name);
-
 		virtual ~GameObject();
 
 		void Awake();
@@ -39,18 +42,19 @@ namespace Pg::Data
 		void OnDestroy();
 
 		const std::string& GetName() const;
-		void SetName(const std::string& name);	
+		void SetName(const std::string& name);
 
 		void SetActive(bool active);
 
 	public:
-
 		template<typename T>
 		T* AddComponent();
 
 		template<typename T>
 		T* GetComponent();
 
+		//렌더러 호환을 위해, ComponentList 자체 반환.
+		std::unordered_map<std::string, IComponent*>& GetComponentList();
 	public:
 		std::string _objName;
 		Transform& _transform;
@@ -58,7 +62,6 @@ namespace Pg::Data
 		bool _isActive;
 
 	private:
-
 		//컴포넌트의 이름과 주소를 저장해놓는 리스트.
 		std::unordered_map<std::string, IComponent*> _componentList;
 	};
