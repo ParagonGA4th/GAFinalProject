@@ -91,9 +91,6 @@
     <ClInclude Include="Cubemap.h">
       <Filter>7_OtherObject</Filter>
     </ClInclude>
-    <ClInclude Include="ByteBuffer.hpp">
-      <Filter>9_Util\ByteBuffer</Filter>
-    </ClInclude>
     <ClInclude Include="Asset3DModelData.h">
       <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
     </ClInclude>
@@ -121,7 +118,7 @@
     <ClInclude Include="BufferParser.h">
       <Filter>8_Helpers\BufferParser</Filter>
     </ClInclude>
-    <ClInclude Include="D3DBuffers.h">
+    <ClInclude Include="D3DBufferInfo.h">
       <Filter>10_Structs\D3DBuffers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -206,9 +203,6 @@
     </ClCompile>
     <ClCompile Include="Cubemap.cpp">
       <Filter>7_OtherObject</Filter>
-    </ClCompile>
-    <ClCompile Include="ByteBuffer.cpp">
-      <Filter>9_Util\ByteBuffer</Filter>
     </ClCompile>
     <ClCompile Include="Asset3DModelData.cpp">
       <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
@@ -313,9 +307,6 @@
     </Filter>
     <Filter Include="9_Util">
       <UniqueIdentifier>{ac8e1c62-b6b6-4db3-9a29-773a07312fee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="9_Util\ByteBuffer">
-      <UniqueIdentifier>{0a4a2d5a-c7b4-48ea-a60a-adaf53136896}</UniqueIdentifier>
     </Filter>
     <Filter Include="3_GraphicsResources\Asset3DModelData\Data">
       <UniqueIdentifier>{2378ba46-73ff-4ad8-afbd-fda3e746a452}</UniqueIdentifier>

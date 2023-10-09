@@ -52,7 +52,6 @@ namespace Pg::Graphics
 		std::unordered_map<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>> _renderObject3DList;
 		
 		Pg::Data::RendererChangeList* _rendererChangeList = nullptr;
-		
 	};
 }
 

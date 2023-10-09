@@ -1,10 +1,12 @@
 #include "Asset3DModelData.h"
 #include "AssetBasic3DLoader.h"
 #include "GraphicsResourceManager.h"
+#include "BufferParser.h"
 #include <d3d11.h>
 
 namespace Pg::Graphics
 {
+	using Pg::Graphics::Helper::BufferParser;
 
 	Asset3DModelData::Asset3DModelData(Pg::Data::Enums::eAssetDefine define, const std::string& filePath) :
 		GraphicsResource(define, typeid(this).name(), filePath)
@@ -31,8 +33,8 @@ namespace Pg::Graphics
 		this->_isSkinned = t3DLoader->IsModelSkinned(_filePath);
 		this->_assetSceneData = t3DLoader->Load3DModel(_isSkinned, _filePath);
 		
-		//실제로 DX11 버퍼 로드.
-		
+		//실제로 DX11 버퍼 로드. (Static, Skinned 모두)
+		BufferParser::Asset3DModelToD3DBuffer(_d3dBufferInfo, _isSkinned, _assetSceneData);
 	}
 
 	void Asset3DModelData::InternalUnload()
