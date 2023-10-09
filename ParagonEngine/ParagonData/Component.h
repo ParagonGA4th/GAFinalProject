@@ -34,7 +34,12 @@ namespace Pg::Data
 		virtual void OnCollisionExit() override {}
 
 	public:
+		void SetActive(bool active);
+		bool GetActive();
+
+	public:
 		GameObject* _object;
+		bool _isActive;
 	};
 
 }
