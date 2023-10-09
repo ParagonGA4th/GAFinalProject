@@ -17,13 +17,19 @@ public:
 	void ShowDemoInspector();
 	void ShowDemoHierarchy();
 	void ShowDemoFilter();
-	void ShowDemoViewPort();
+	void ShowDemoViewPort(void* hwnd);
 
 	void Render();
 	void Finalize();
 
 private:
+	void DataSetting(GameObjectData* data);
+
+private:
 	bool _active;
+
+	char _name[256];
+	char _tag[256];
 
 	float position[3];
 	float rotation[3];
@@ -32,6 +38,5 @@ private:
 	int _objectSelectedNumber;		// 현재 Hierarchy창에서 선택된 treenode 
 
 	std::vector<GameObjectData*> _gameObjectDatas;	// Scene 하나
-	GameObjectData* _gameObjectData;
 };
  
