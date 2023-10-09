@@ -39,6 +39,8 @@ namespace Pg::Core
 	class ProcessMain
 	{
 		friend class Pg::Core::Manager::AssetManager;
+		friend class Pg::Core::EditorAdapter;
+		friend class Pg::Core::EngineGraphicsAdapter;
 	public:
 		ProcessMain();
 		~ProcessMain();

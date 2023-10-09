@@ -51,7 +51,7 @@ namespace Pg::Core
 		void BeginRender();
 
 		//실제로 렌더를 시행할 때.
-		void Render(Pg::Data::Scene* scene);
+		void Render();
 
 		//렌더를 끝낼 때.
 		void EndRender();
