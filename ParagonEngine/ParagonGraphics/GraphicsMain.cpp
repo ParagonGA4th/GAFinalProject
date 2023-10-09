@@ -8,7 +8,9 @@
 
 #include "../ParagonProcess/TimeManager.h"
 #include "../ParagonData/AssetDefines.h"
-#include "../ParagonProcess/CoreMain.h"
+#include "../ParagonData/GameObject.h"
+#include "../ParagonData/RendererChangeList.h"
+#include "../ParagonProcess/ProcessMain.h"
 #include "../ParagonUtil/ResourceHelper.h"
 #include "../ParagonAPI/PgInput.h"
 
@@ -49,7 +51,7 @@
 
 namespace Pg::Graphics
 {
-	GraphicsMain::GraphicsMain(Pg::Core::CoreMain* core)
+	GraphicsMain::GraphicsMain(Pg::Core::ProcessMain* core)
 		: hr(NULL), _coreMain(core),
 		_DXStorage(nullptr), _DXLogic(nullptr),
 		_renderer(nullptr), _graphicsResourceManager(Manager::GraphicsResourceManager::Instance())
@@ -191,12 +193,12 @@ namespace Pg::Graphics
 		//float dt = _timeManager->GetDeltaTime();
 
 		float dt = deltaTime;
-		time += (10.0f * dt);
+		time += dt;
 
 		// 디버그 정보 출력
 		text = L"";
 		text.append(L"DeltaTime: " + std::to_wstring(dt) + L"\n");
-		text.append(L"Time: " + std::to_wstring(time) + L"\n");
+		text.append(L"Time: " + std::to_wstring(time) + L" sec" + L"\n");
 
 		float tFrameRate = -1.0f;
 		if (dt > std::numeric_limits<float>::epsilon())
@@ -290,13 +292,22 @@ namespace Pg::Graphics
 	void GraphicsMain::BeginRender()
 	{
 		_renderer->BeginRender();
-
 	}
 
 	
 	void GraphicsMain::Render(Pg::Data::Scene* scene)
 	{
-		
+		//렌더하기 전에 Scene이 바뀌었는지 체크.
+		if (scene != _currentScene)
+		{
+			//새로 Scene이 바뀌었을 경우 RenderObject 구성을 바꾼다.
+			//나중에는 Load 로직이 별도로 들어가야.
+			_renderer->OnNewSceneStart(scene);
+			_currentScene = scene;
+		}
+		assert(_currentScene != nullptr);
+
+		//하드코딩된 리소스들.
 		cubemap->Draw();
 		
 		// test용 큐브 그리기
@@ -316,7 +327,7 @@ namespace Pg::Graphics
 		// test용 큐브 그리기
 		_box->Draw();
 
-		_renderer->Render(_tempObj);
+		_renderer->Render();
 	}
 
 	void GraphicsMain::EndRender()
@@ -363,6 +374,11 @@ namespace Pg::Graphics
 		return _DXStorage->_deviceContext;
 	}
 
+	void GraphicsMain::SyncComponentToGraphics()
+	{
+		_renderer->SyncComponentToGraphics();
+	}
+
 	void GraphicsMain::LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define)
 	{
 		_graphicsResourceManager->LoadResource(filePath, define);
@@ -373,5 +389,6 @@ namespace Pg::Graphics
 		_graphicsResourceManager->UnloadResource(filePath);
 	}
 
+	
 
 }

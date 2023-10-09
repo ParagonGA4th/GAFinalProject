@@ -13,6 +13,9 @@
     <Filter Include="2_Helpers\ResourceHelper">
       <UniqueIdentifier>{8cb7b098-f227-491d-ab39-4e14b050115a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3_PugiXML">
+      <UniqueIdentifier>{bfef0a6d-216f-4879-8463-4eee2accd448}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Log.cpp">
@@ -21,6 +24,9 @@
     <ClCompile Include="ResourceHelper.cpp">
       <Filter>2_Helpers\ResourceHelper</Filter>
     </ClCompile>
+    <ClCompile Include="pugixml.cpp">
+      <Filter>3_PugiXML</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -28,6 +34,12 @@
     </ClInclude>
     <ClInclude Include="ResourceHelper.h">
       <Filter>2_Helpers\ResourceHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="pugiconfig.hpp">
+      <Filter>3_PugiXML</Filter>
+    </ClInclude>
+    <ClInclude Include="pugixml.hpp">
+      <Filter>3_PugiXML</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

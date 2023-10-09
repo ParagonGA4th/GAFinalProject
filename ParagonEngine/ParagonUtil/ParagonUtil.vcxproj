@@ -160,6 +160,8 @@
     <ClInclude Include="Log.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="pugiconfig.hpp" />
+    <ClInclude Include="pugixml.hpp" />
     <ClInclude Include="ResourceHelper.h" />
     <ClInclude Include="UtilMain.h" />
   </ItemGroup>
@@ -167,6 +169,7 @@
     <ClCompile Include="Log.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="ResourceHelper.cpp" />
     <ClCompile Include="UtilMain.cpp" />
   </ItemGroup>

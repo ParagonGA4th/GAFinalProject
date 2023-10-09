@@ -89,4 +89,10 @@ namespace Pg::Data
 
 		OutputDebugString(L"MainCamera Set!");
 	}
+
+	std::vector<GameObject*>& Scene::GetObjectList()
+	{
+		return _objectList;
+	}
+
 }
