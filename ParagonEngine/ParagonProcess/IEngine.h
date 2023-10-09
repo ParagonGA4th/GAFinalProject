@@ -1,5 +1,6 @@
 #pragma once
 #include "../ParagonData/AssetDefines.h"
+#include "../ParagonData/Scene.h"
 #include <string>
 
 /// <summary>
@@ -25,5 +26,8 @@ namespace Pg::Core
 
 		//AssetManager와의 교류를 위해, 엔진 리소스 매니저에 리소스를 언로드하는 함수.
 		virtual void UnloadResource(const std::string& filePath) abstract;
+
+		//렌더링을 위해 현재의 씬을 받아올 필요가 있다.
+		virtual Pg::Data::Scene* GetCurrentScene() abstract;
 	};
 }
