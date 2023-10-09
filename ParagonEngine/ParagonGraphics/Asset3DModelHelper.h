@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <DirectXMath.h>
 #include <assimp/matrix4x4.h>
+#include <assimp/material.h>
 
 /// <summary>
 /// Assimp의 데이터를 리소스 관리 호환 가능하게 변화해주는 헬퍼 클래스.
@@ -37,6 +38,8 @@ struct aiMeshAnim;
 struct aiAnimation;
 struct aiTexel;
 struct aiTexture;
+struct aiMaterial;
+struct aiMaterialProperty;
 
 namespace Pg::Graphics
 {
@@ -84,6 +87,13 @@ namespace Pg::Graphics::Helper
 		static void CopyAnimationToAsset(const aiAnimation* _assimp, AssetAnimationData* _mgrt);
 
 		static void CopyTextureToAsset(const aiTexture* _assimp, AssetTextureData* _mgrt);
+
+		//Material
+		static void CopyMaterialToAsset(const aiMaterial* _assimp, AssetMaterialData* _mgrt);
+		static void CopyMatPropertyToAsset(unsigned int index, const aiMaterial* _assimpMat, const aiMaterialProperty* _assimp, AssetMaterialPropertyData* _mgrt);
+		static std::vector<AssetTextureSRV> GetTexturesFromMaterial(aiMaterial* mat, aiTextureType type, eAssetTextureType typeName, const aiScene* scene);
+		static ID3D11ShaderResourceView* LoadEmbeddedTextureFromMaterial(const aiTexture* _assimp);
+
 
 		// Enum들 처리용. 모든 Enum의 Int 할당 수를 바꾸지 않았지만, Int만을 가지고 표출 가능.
 		// Enum이니, Int 캐스팅해서 넣고 사용해서!
