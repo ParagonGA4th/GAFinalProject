@@ -12,7 +12,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerEnvironment>PATH=$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);%PATH%
+    <LocalDebuggerEnvironment>PATH=$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\msdfgen\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\msdf-atlas-gen\$(PlatformTarget)\$(Configuration);%PATH%
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
