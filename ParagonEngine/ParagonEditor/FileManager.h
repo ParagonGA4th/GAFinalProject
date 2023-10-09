@@ -1,6 +1,6 @@
 #pragma once
 #include "DataStruct.h"
-#include "pugixml.hpp"
+#include "../ParagonUtil/pugixml.hpp"
 
 #include <vector>
 
