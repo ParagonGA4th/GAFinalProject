@@ -1,14 +1,19 @@
 #pragma once
+#include "D3DBufferInfo.h"
 #include "../ParagonData/GraphicsResource.h"
 
 /// <summary>
 /// 실제 3DModel과 1대1 대응되는 클래스. 
+/// 그래픽 엔진 구상 시 사용으로 World->Screen Space의 인풋 레이아웃이 고정되었기에,
+/// 자체적인 VB-IB 연동도 같이 하게 된다. (다른 Material, 다른 시점/애니메이션 스키닝은 RenderObject 딴에서)
 /// </summary>
 
 namespace Pg::Graphics
 {
 	class AssetSceneData;
 }
+
+struct ID3D11Buffer;
 
 namespace Pg::Graphics
 {
@@ -25,10 +30,8 @@ namespace Pg::Graphics
 	private:
 		bool _isSkinned = false;
 		AssetSceneData* _assetSceneData = nullptr;
-
-		
+		D3DBufferInfo _d3dBufferInfo;
 	};
-
 }
 
 
