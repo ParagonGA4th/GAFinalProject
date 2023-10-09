@@ -27,7 +27,7 @@ namespace Pg::Graphics::Loader
 		//	aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_GenBoundingBoxes);
 		//
 		//assert(pScene != nullptr);
-		Load3DModel(false, "../Resources/3DModels/MultimaterialCube.fbx");
+		
 
 
 

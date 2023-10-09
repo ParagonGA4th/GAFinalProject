@@ -118,6 +118,12 @@
     <ClInclude Include="RenderObjectBase.h">
       <Filter>4_RenderObject</Filter>
     </ClInclude>
+    <ClInclude Include="BufferParser.h">
+      <Filter>8_Helpers\BufferParser</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DBuffers.h">
+      <Filter>10_Structs\D3DBuffers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -224,6 +230,9 @@
     </ClCompile>
     <ClCompile Include="RenderObjectBase.cpp">
       <Filter>4_RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferParser.cpp">
+      <Filter>8_Helpers\BufferParser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -334,6 +343,15 @@
     </Filter>
     <Filter Include="4_RenderObject\RenderObject3D">
       <UniqueIdentifier>{fc3d4563-d61f-4414-bf64-5df104bba382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\BufferParser">
+      <UniqueIdentifier>{d7c7a330-377f-40e7-9f17-442b42763150}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs">
+      <UniqueIdentifier>{d5434b36-98c9-4309-8ad7-3ffc755a200e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\D3DBuffers">
+      <UniqueIdentifier>{0d5db81d-6d71-484b-b6b7-a281136d62d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

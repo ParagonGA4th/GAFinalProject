@@ -26,11 +26,13 @@
     <ClInclude Include="AssetCombinedLoader.h" />
     <ClInclude Include="Axis.h" />
     <ClInclude Include="AssetBasic3DLoader.h" />
+    <ClInclude Include="BufferParser.h" />
     <ClInclude Include="ByteBuffer.hpp" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantBufferBase.h" />
     <ClInclude Include="ConstantBufferDefine.h" />
     <ClInclude Include="Cubemap.h" />
+    <ClInclude Include="D3DBuffers.h" />
     <ClInclude Include="LayoutDefine.h" />
     <ClInclude Include="DX11Headers.h" />
     <ClInclude Include="Font.h" />
@@ -69,6 +71,7 @@
     <ClCompile Include="AssetCombinedLoader.cpp" />
     <ClCompile Include="Axis.cpp" />
     <ClCompile Include="AssetBasic3DLoader.cpp" />
+    <ClCompile Include="BufferParser.cpp" />
     <ClCompile Include="ByteBuffer.cpp" />
     <ClCompile Include="ConstantBufferBase.cpp" />
     <ClCompile Include="Cubemap.cpp" />

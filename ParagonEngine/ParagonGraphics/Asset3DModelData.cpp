@@ -1,8 +1,8 @@
 #include "Asset3DModelData.h"
 #include "AssetBasic3DLoader.h"
 #include "GraphicsResourceManager.h"
-
 #include <d3d11.h>
+
 namespace Pg::Graphics
 {
 
@@ -22,12 +22,17 @@ namespace Pg::Graphics
 
 	void Asset3DModelData::InternalLoad()
 	{
+		//중복되었는지 찾는 것은 외부에서 이루어질 일!
+
 		using Pg::Graphics::Manager::GraphicsResourceManager;
 		using Pg::Graphics::Loader::AssetBasic3DLoader;
 
 		AssetBasic3DLoader* t3DLoader = GraphicsResourceManager::Instance()->GetBasic3DLoader();
 		this->_isSkinned = t3DLoader->IsModelSkinned(_filePath);
 		this->_assetSceneData = t3DLoader->Load3DModel(_isSkinned, _filePath);
+		
+		//실제로 DX11 버퍼 로드.
+		
 	}
 
 	void Asset3DModelData::InternalUnload()
