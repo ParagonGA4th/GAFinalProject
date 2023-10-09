@@ -11,6 +11,7 @@ Pg::Core::CoreMain* EditorMain::_coreMainStatic = nullptr;	// WndProc Á¢±ÙÀ» À§Ç
 bool EditorMain::_isCoreInitialized; // ÄÚ¾îÀÇ Initialize ÀÌÈÄ¿¡ ½ºÅÂÆ½ º¯¼ö¿¡ Á¢±ÙÇÏµµ·Ï ÇÏ±â À§ÇÑ bool º¯¼ö
 
 // Forward declare message handler from imgui_impl_win32.cpp
+
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 EditorMain::EditorMain()
@@ -67,6 +68,10 @@ long EditorMain::Initialize(void* hInstance, int cmdShow)
 
 void EditorMain::Update()
 {
+	ImGuiViewport* main_viewport = ImGui::GetMainViewport();
+	main_viewport->PlatformHandle = reinterpret_cast<void*>(_hWnd);
+	main_viewport->PlatformHandleRaw = reinterpret_cast<HWND>(_hWnd);
+
 	while (true)
 	{
 		if (PeekMessage(&_msg, NULL, 0, 0, PM_REMOVE))
@@ -83,16 +88,19 @@ void EditorMain::Update()
 		else
 		{
 			_coreMain->Update();
-			_imGuiManager->CreateFrame();
-
-			_imGuiManager->ShowDemoInspector();
-			//_imGuiManager->ShowDemoHierarchy();
-			//_imGuiManager->ShowDemoFilter();
-			//_imGuiManager->ShowDemoViewPort();
 
 			_coreMain->BeginRender();
 			_coreMain->Render();
+
+			_imGuiManager->CreateFrame();
+
+			_imGuiManager->ShowDemoInspector();
+			_imGuiManager->ShowDemoHierarchy();
+			_imGuiManager->ShowDemoFilter();
+			_imGuiManager->ShowDemoViewPort(static_cast<void*>(_hWnd));
+			
 			_imGuiManager->Render();
+
 			_coreMain->EndRender();
 		}
 	}

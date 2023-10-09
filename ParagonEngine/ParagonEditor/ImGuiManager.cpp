@@ -7,7 +7,7 @@
 namespace fs = std::filesystem;
 
 ImGuiManager::ImGuiManager(std::vector<GameObjectData*> data)
-	:_gameObjectDatas(data), _gameObjectData(), _objectSelectedNumber(1)
+	:_gameObjectDatas(data), _objectSelectedNumber(1)
 {
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -36,16 +36,14 @@ ImGuiManager::ImGuiManager(std::vector<GameObjectData*> data)
 	// 색상 변경 예시
 	style.Colors[ImGuiCol_Text] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // 텍스트 색상을 하얀색으로 설정
 	style.Colors[ImGuiCol_FrameBg] = ImVec4(0.2f, 0.2f, 0.2f, 1.0f); // 프레임 색상을 회색으로 설정
-	
-	 
+		 
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
 		style.WindowRounding = 0.0f;
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
 
-	_gameObjectData = new GameObjectData();
-	_gameObjectData = _gameObjectDatas.front();
+	DataSetting(_gameObjectDatas[_objectSelectedNumber - 1]);
 }
 
 
@@ -74,19 +72,23 @@ void ImGuiManager::ShowDemoInspector()
 				if(row == 0 && column == 0)	ImGui::Text("Name");
 				else if(row == 0 && column == 1)
 				{
-					ImGui::InputText("##Name", const_cast<char*>(_gameObjectData->_name.c_str()), 
-						sizeof(_gameObjectData->_name.c_str()), ImGuiInputTextFlags_EnterReturnsTrue);
+					if (ImGui::InputText("##Name", _name, IM_ARRAYSIZE(_name), ImGuiInputTextFlags_EnterReturnsTrue))
+					{
+						_gameObjectDatas[_objectSelectedNumber - 1]->_name = _name;
+					}
 				}
 
 				if(row == 1 && column == 0)	ImGui::Text("Tag");
 				else if(row == 1 && column == 1)
 				{
-					ImGui::InputText("##Tag", const_cast<char*>(_gameObjectData->_tag.c_str()),
-						sizeof(_gameObjectData->_tag.c_str()), ImGuiInputTextFlags_EnterReturnsTrue);
+					if (ImGui::InputText("##Tag", _tag, IM_ARRAYSIZE(_tag), ImGuiInputTextFlags_EnterReturnsTrue))
+					{
+						_gameObjectDatas[_objectSelectedNumber - 1]->_tag = _tag;
+					}
 				}
 
 				if(row == 2 && column == 0)	ImGui::Text("Active");
-				else if (row == 2 && column == 1) ImGui::Checkbox("##Active", &_gameObjectData->_active);
+				else if (row == 2 && column == 1) ImGui::Checkbox("##Active", &_gameObjectDatas[_objectSelectedNumber - 1]->_active);
 			}
 		}
 		ImGui::EndTable();
@@ -141,7 +143,7 @@ void ImGuiManager::ShowDemoHierarchy()
 	{
 		if (ImGui::Selectable(i->_name.c_str(), i->_objectNumber == _objectSelectedNumber))
 		{
-			_gameObjectData = i;
+			DataSetting(i);
 			_objectSelectedNumber = i->_objectNumber;
 		}
 	}
@@ -191,10 +193,12 @@ void ImGuiManager::ShowDemoFilter()
 }
 
 
-void ImGuiManager::ShowDemoViewPort()
+void ImGuiManager::ShowDemoViewPort(void* hwnd)
 {
 	ImGui::Begin("DemoScene", NULL, ImGuiWindowFlags_NoCollapse);
 	
+
+
 	ImGui::End();
 }
 
@@ -208,11 +212,17 @@ void ImGuiManager::Render()
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
 	}
-}
+}  
 
 void ImGuiManager::Finalize()
 {
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
+}
+
+void ImGuiManager::DataSetting(GameObjectData* data)
+{
+	strcpy(_name, data->_name.c_str());
+	strcpy(_tag, data->_tag.c_str());
 }
