@@ -1,5 +1,5 @@
 #pragma once
-#include "D3DBuffers.h"
+#include "D3DBufferInfo.h"
 #include "../ParagonData/GraphicsResource.h"
 
 /// <summary>
@@ -30,7 +30,7 @@ namespace Pg::Graphics
 	private:
 		bool _isSkinned = false;
 		AssetSceneData* _assetSceneData = nullptr;
-		D3DBuffers _d3dBuffers;
+		D3DBufferInfo _d3dBufferInfo;
 	};
 }
 
