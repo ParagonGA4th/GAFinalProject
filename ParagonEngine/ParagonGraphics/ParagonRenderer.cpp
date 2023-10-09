@@ -35,7 +35,21 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::Render()
 	{
-		
+		for (auto& it : _renderObject3DList)
+		{
+			if (it.second->_baseRenderer->GetActive())
+			{
+				//·»´õ.
+			}
+		}
+
+		for (auto& it : _renderObject2DList)
+		{
+			if (it.second->_baseRenderer->GetActive())
+			{
+				//·»´õ.
+			}
+		}
 	}
 
 	void ParagonRenderer::EndRender()
