@@ -69,9 +69,13 @@ namespace Pg::Core
 		_graphics->BeginRender();
 	}
 
-	void EngineGraphicsAdapter::Render(Pg::Data::Scene* scene)
+	void EngineGraphicsAdapter::Render()
 	{
-		_graphics->Render(scene);
+		//워크스페이스 버전
+		_graphics->Render(_coreMain->_work->GetCurrentScene());
+
+		//게임 엔진 연동 버전.
+		//_graphics->Render(_engine->GetCurrentScene());
 	}
 
 	void EngineGraphicsAdapter::EndRender()

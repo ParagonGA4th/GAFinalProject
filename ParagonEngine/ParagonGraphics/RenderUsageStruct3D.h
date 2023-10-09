@@ -25,5 +25,6 @@ namespace Pg::Graphics
 	private:
 		DirectX::XMFLOAT4X4 _worldMatrix3D;
 		std::string _resourcePath3D;
+		//Graphics Resource -> Render();
 	};
 }

@@ -142,7 +142,8 @@ namespace Pg::Core
 
 	void ProcessMain::Render()
 	{
-		_engineGraphicsAdapter->Render(_work->GetCurrentScene());
+		_engineGraphicsAdapter->Render();
+		//_engineGraphicsAdapter->Render(_work->GetCurrentScene());
 	}
 
 	void ProcessMain::EndRender()

@@ -26,8 +26,8 @@ namespace Pg::Graphics
 	public:
 		RenderObjectBase(Pg::Data::BaseRenderer* baseRenderer);
 
-	protected:
 		Pg::Data::BaseRenderer* _baseRenderer = nullptr;
+	protected:
 		Pg::Graphics::Manager::GraphicsResourceManager* _graphicsResourceManager = nullptr;
 	};
 }
