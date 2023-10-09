@@ -16,6 +16,9 @@
     <Filter Include="3_PugiXML">
       <UniqueIdentifier>{bfef0a6d-216f-4879-8463-4eee2accd448}</UniqueIdentifier>
     </Filter>
+    <Filter Include="4_ByteBuffer">
+      <UniqueIdentifier>{8db40b11-1155-4e4c-b133-9779f7d0af90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Log.cpp">
@@ -26,6 +29,9 @@
     </ClCompile>
     <ClCompile Include="pugixml.cpp">
       <Filter>3_PugiXML</Filter>
+    </ClCompile>
+    <ClCompile Include="ByteBuffer.cpp">
+      <Filter>4_ByteBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="pugixml.hpp">
       <Filter>3_PugiXML</Filter>
+    </ClInclude>
+    <ClInclude Include="ByteBuffer.hpp">
+      <Filter>4_ByteBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
