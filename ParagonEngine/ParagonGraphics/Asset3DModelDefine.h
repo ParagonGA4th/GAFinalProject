@@ -24,6 +24,7 @@ namespace Pg::Graphics
 {
 	//<임시>
 
+	// 이는 Variant로 충분히 교체될 수 있다.
 	struct MatPropStruct
 	{
 		MatPropStruct() : m_FloatData(-1.0f), m_DoubleData(-1.0f), m_StringData("NULL Value."), m_IntData(-1)

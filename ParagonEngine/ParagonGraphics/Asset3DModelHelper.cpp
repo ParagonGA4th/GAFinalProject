@@ -1,5 +1,6 @@
 #include "Asset3DModelHelper.h"
 #include "Asset3DModelDefine.h"
+#include "LowDX11Storage.h"
 
 #include <assimp/Importer.hpp>     
 #include <assimp/scene.h>          
@@ -8,6 +9,8 @@
 
 #include <d3d11.h>
 #include <dxtk/SimpleMath.h>
+#include <dxtk/DDSTextureLoader.h>
+#include <dxtk/WICTextureLoader.h>
 
 #include <cmath>
 #include <limits>
@@ -79,26 +82,25 @@ namespace Pg::Graphics::Helper
 
 		_mgrtScene->m_NumMaterials = _assimpScene->mNumMaterials;
 		_mgrtScene->m_MaterialList.reserve(_mgrtScene->m_NumMaterials);
-
-		///FBX에 딸려오는 Texture 경로는 따로 받기로 했다. ModelData에서 받아서 반영하자. 
-		///데이터가 비었을 때, 정상적인 출력을 할 수 없는 경우가 생긴다.
-		//for (size_t i = 0; i < _mgrtScene->m_NumMaterials; i++)
-		//{
-		//	AssetMaterialData* tMat = new AssetMaterialData;
-		//	///잠시 Material을 테스팅하기 위해 시험.
-		//	//CopyMaterialToAsset(_assimpScene->mMaterials[i], tMat);
-		//	for (size_t j = 0; j <= ASSET_MAXIMUM_TEXTURE_PROP_CNT; j++)
-		//	{
-		//		eAssetTextureType tTexType = static_cast<eAssetTextureType>(j);
-		//		int tTexTypeTexCnt = _assimpScene->mMaterials[i]->GetTextureCount((aiTextureType)tTexType);
-		//		if (tTexTypeTexCnt > 0)
-		//		{
-		//			std::vector<AssetTextureSRV> tATS = GetTexturesFromMaterial(_assimpScene->mMaterials[i], static_cast<aiTextureType>(j), 
-		//				static_cast<eAssetTextureType>(j), _assimpScene);
-		//		}
-		//	}
-		//	_mgrtScene->m_MaterialList.push_back(tMat);
-		//}
+		
+		//Material
+		for (size_t i = 0; i < _mgrtScene->m_NumMaterials; i++)
+		{
+			AssetMaterialData* tMat = new AssetMaterialData;
+			///잠시 Material을 테스팅하기 위해 시험.
+			CopyMaterialToAsset(_assimpScene->mMaterials[i], tMat);
+			//for (size_t j = 0; j <= ASSET_MAXIMUM_TEXTURE_PROP_CNT; j++)
+			//{
+			//	eAssetTextureType tTexType = static_cast<eAssetTextureType>(j);
+			//	int tTexTypeTexCnt = _assimpScene->mMaterials[i]->GetTextureCount((aiTextureType)tTexType);
+			//	if (tTexTypeTexCnt > 0)
+			//	{
+			//		std::vector<AssetTextureSRV> tATS = GetTexturesFromMaterial(_assimpScene->mMaterials[i], static_cast<aiTextureType>(j), 
+			//			static_cast<eAssetTextureType>(j), _assimpScene);
+			//	}
+			//}
+			_mgrtScene->m_MaterialList.push_back(tMat);
+		}
 
 		_mgrtScene->m_NumAnimation = _assimpScene->mNumAnimations;
 		_mgrtScene->m_AnimationList.reserve(_mgrtScene->m_NumAnimation);
@@ -420,7 +422,10 @@ namespace Pg::Graphics::Helper
 			}
 		);
 
-		///로드 해결했다!
+		
+		//MaterialIndex
+		_mgrt->m_MaterialIndex = _assimp->mMaterialIndex;
+
 		if (_assimp->mColors[0])
 		{
 			for (unsigned int i = 0; i < _mgrt->m_NumVertice; i++)
@@ -429,6 +434,15 @@ namespace Pg::Graphics::Helper
 					_assimp->mColors[0][i].g,
 					_assimp->mColors[0][i].b,
 					_assimp->mColors[0][i].a);
+				_mgrt->m_ColorList.push_back(tCol);
+			}
+		}
+		else
+		{
+			//Vertex Buffer 로드에 문제되지 않게 하기 위해.
+			for (unsigned int i = 0; i < _mgrt->m_NumVertice; i++)
+			{
+				Color tCol = Color(1.f, 1.f, 1.f, 1.f);
 				_mgrt->m_ColorList.push_back(tCol);
 			}
 		}
@@ -918,9 +932,6 @@ namespace Pg::Graphics::Helper
 		_mgrt._44 = _assimp->d4;
 	}
 
-#pragma region OldMaterialCodeComments
-	///Material을 읽어오려고 했던 예전 코드, 지금은 경로를 그냥 받아오는 것으로 바뀌었다.
-	/*
 	void Asset3DModelHelper::CopyMaterialToAsset(const aiMaterial* _assimp, AssetMaterialData* _mgrt)
 	{
 		typedef std::tuple<std::string, eAssetTextureMapping, unsigned int, float, eAssetTextureOp, eAssetTextureMapMode> MGRT_TexturePropTuple;
@@ -957,21 +968,22 @@ namespace Pg::Graphics::Helper
 					float tBlend;
 					aiTextureOp tTexOp;
 					aiTextureMapMode tTexMapMode;
-					///[Problem] Embedded Texture, 일반 경우 구분해야 한다.
+					//[Problem] Embedded Texture, 일반 경우 구분해야 한다.
 					_assimp->GetTexture((aiTextureType)tTexType, j, &tPathStr);
 					std::string tPathStringCPP = tPathStr.C_Str();
 					assert(&tPathStringCPP);
 
-					//_assimp->GetTexture((aiTextureType)tTexType, (UINT)j, &tPathStr, &tTexMapping, &tUVIndex, &tBlend, &tTexOp, &tTexMapMode);
-					//
+					_assimp->GetTexture((aiTextureType)tTexType, (UINT)j, &tPathStr, &tTexMapping, &tUVIndex, &tBlend, &tTexOp, &tTexMapMode);
+					
 					//std::string tPathStringCPP = tPathStr.C_Str();
-					//tVec.push_back(std::make_tuple(tPathStringCPP, ConvertTo_eAssetTextureMapping(tTexMapping), tUVIndex,
-					//	tBlend, ConvertTo_eAssetTextureOp(tTexOp), ConvertTo_eAssetTextureMode(tTexMapMode)));
+					tVec.push_back(std::make_tuple(tPathStringCPP, ConvertTo_eAssetTextureMapping(tTexMapping), tUVIndex,
+						tBlend, ConvertTo_eAssetTextureOp(tTexOp), ConvertTo_eAssetTextureMode(tTexMapMode)));
 				}
 				_mgrt->m_TexturePropContainer.insert(std::make_pair(tTexType, tVec));
 			}
 		}
 	}
+
 	void Asset3DModelHelper::CopyMatPropertyToAsset(unsigned int index, const aiMaterial* _assimpMat, const aiMaterialProperty* _assimp, AssetMaterialPropertyData* _mgrt)
 	{
 		_mgrt->m_Key = _assimp->mKey.C_Str();
@@ -982,7 +994,7 @@ namespace Pg::Graphics::Helper
 		//char가 1Byte이니, 이 방식대로 진행해도 문제가 발생하지 않는다.
 		switch (_mgrt->m_Type)
 		{
-			///[Problem] 이것도 문제가 있을 것... 값이 여러개 있으면, 못 받을 것이다!
+			//[Problem] 이것도 문제가 있을 것... 값이 여러개 있으면, 못 받을 것이다!
 			case MGRT_PTI_Float:
 			{
 				ai_real tVal = NULL;
@@ -1021,9 +1033,8 @@ namespace Pg::Graphics::Helper
 			break;
 		}
 	}
-	*/
-	//Material에서 Texture를 빼오기 위해.
-	/*
+	
+	
 	std::vector<AssetTextureSRV> Asset3DModelHelper::GetTexturesFromMaterial(aiMaterial* mat, aiTextureType type, eAssetTextureType typeName, const aiScene* scene)
 	{
 		std::vector<AssetTextureSRV> textures;
@@ -1048,18 +1059,19 @@ namespace Pg::Graphics::Helper
 				const aiTexture* embeddedTexture = scene->GetEmbeddedTexture(str.C_Str());
 				if (embeddedTexture != nullptr)
 				{
-					///[Structure Problem] : 이 놈 때문에 코드의 정합성을 깨고 D3D를 Assimp랑 결부시켜야 한다니...
+					//[Structure Problem] : 이 놈 때문에 코드의 정합성을 깨고 D3D를 Assimp랑 결부시켜야 한다니...
 					textureSRV.texture = LoadEmbeddedTextureFromMaterial(embeddedTexture);
 				}
 				else {
 					std::string filename = std::string(str.C_Str());
 					filename = s_CurrentDataScene->m_Directory + '/' + filename;
 					std::wstring filenamews = std::wstring(filename.begin(), filename.end());
-					hr = CreateWICTextureFromFile(LowLevelDX11::GetInstance()->m_d3dDevice.Get(),
-						LowLevelDX11::GetInstance()->m_d3dImmediateContext.Get(),
+					hr = DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
+						LowDX11Storage::GetInstance()->_deviceContext,
 						filenamews.c_str(), nullptr, &textureSRV.texture);
+					
 					if (FAILED(hr))
-						MessageBox(LowLevelDX11::GetInstance()->m_hWnd, L"3D모델 내부 Material SRV 생성 중 오류 발생.", L"오류...", MB_ICONERROR | MB_OK);
+						MessageBox(LowDX11Storage::GetInstance()->_hWnd, L"3D모델 내부 Material SRV 생성 중 오류 발생.", L"오류...", MB_ICONERROR | MB_OK);
 				}
 				textureSRV.type = typeName;
 				textureSRV.path = str.C_Str();
@@ -1097,18 +1109,17 @@ namespace Pg::Graphics::Helper
 			subresourceData.SysMemSlicePitch = _assimp->mWidth * _assimp->mHeight * 4;
 
 			ID3D11Texture2D* texture2D = nullptr;
-			hr = LowLevelDX11::GetInstance()->m_d3dDevice.Get()->CreateTexture2D(&desc, &subresourceData, &texture2D);
+			hr = LowDX11Storage::GetInstance()->_device->CreateTexture2D(&desc, &subresourceData, &texture2D);
 			if (FAILED(hr))
-				MessageBox(LowLevelDX11::GetInstance()->m_hWnd, L"임베디드 텍스쳐 로드 안에서, CreateTexture2D 실패!", L"오류", MB_ICONERROR | MB_OK);
+				MessageBox(LowDX11Storage::GetInstance()->_hWnd, L"임베디드 텍스쳐 로드 안에서, CreateTexture2D 실패!", L"오류", MB_ICONERROR | MB_OK);
 
-			hr = LowLevelDX11::GetInstance()->m_d3dDevice.Get()->CreateShaderResourceView(texture2D, nullptr, &texture);
+			hr = LowDX11Storage::GetInstance()->_device->CreateShaderResourceView(texture2D, nullptr, &texture);
 			if (FAILED(hr))
-				MessageBox(LowLevelDX11::GetInstance()->m_hWnd, L"임베디드 텍스쳐 로드 안에서, CreateShaderResourceView 실패", L"오류", MB_ICONERROR | MB_OK);
+				MessageBox(LowDX11Storage::GetInstance()->_hWnd, L"임베디드 텍스쳐 로드 안에서, CreateShaderResourceView 실패", L"오류", MB_ICONERROR | MB_OK);
 
 			return texture;
 		}
 	}
-	*/
-#pragma endregion OldMaterialCodeComments
+	
 
 }
