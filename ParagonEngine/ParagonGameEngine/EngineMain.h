@@ -29,6 +29,8 @@ namespace Pg::Engine
 	{
 		class EngineResourceManager;
 	}
+
+	class SceneSystem;
 }
 
 namespace Pg::Engine
@@ -49,10 +51,12 @@ namespace Pg::Engine
 		//AssetManager와의 교류를 위해, 엔진 리소스 매니저에 리소스를 언로드하는 함수.
 		PARAGON_ENGINE_DLL virtual void UnloadResource(const std::string& filePath) override;
 
+		PARAGON_ENGINE_DLL Pg::Data::Scene* GetCurrentScene();
 	private:
 		Pg::Core::ProcessMain* _coreMain = nullptr;
 		Input::InputSystem* _inputSystem = nullptr;
 		Physic::PhysicSystem* _physicSystem = nullptr;
+		SceneSystem* _sceneSystem = nullptr;
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
 	};
 }

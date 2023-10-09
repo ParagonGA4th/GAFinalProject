@@ -170,6 +170,7 @@
     <ClInclude Include="EngineResourceManager.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="PhysicSystem.h" />
+    <ClInclude Include="SceneSystem.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="WorkSpace.h" />
   </ItemGroup>
@@ -179,6 +180,7 @@
     <ClCompile Include="EngineResourceManager.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="PhysicSystem.cpp" />
+    <ClCompile Include="SceneSystem.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="WorkSpace.cpp" />
   </ItemGroup>

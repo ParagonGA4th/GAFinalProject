@@ -1,6 +1,7 @@
 #include "EngineMain.h"
 #include "InputSystem.h"
 #include "PhysicSystem.h"
+#include "SceneSystem.h"
 #include "EngineResourceManager.h"
 
 //<실제 GameEngine Resource의 목록>
@@ -8,6 +9,7 @@
 //</>
 
 #include "../ParagonProcess/ProcessMain.h"
+#include "../ParagonData/Scene.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonAPI/KeyCodeType.h"
 #include <singleton-cpp/singleton.h>
@@ -34,11 +36,17 @@ namespace Pg::Engine
 {
 	EngineMain::EngineMain(Pg::Core::ProcessMain* core) : _coreMain(core), _engineResourceManager(Manager::EngineResourceManager::Instance())
 	{
+		//Input
 		auto& tInputSystem = singleton<Input::InputSystem>();
 		_inputSystem = &tInputSystem;
 
+		//Physic
 		auto& tphysicSystem = singleton<Physic::PhysicSystem>();
 		_physicSystem = &tphysicSystem;
+
+		//Scene
+		auto& tSceneSystem = singleton<SceneSystem>();
+		_sceneSystem = &tSceneSystem;
 	}
 
 	EngineMain::~EngineMain()
@@ -85,6 +93,10 @@ namespace Pg::Engine
 	{
 		//Load와 달리, 동시에 두 개의 리소스 매니저가 동시에 호출된다. //지우지 못했어도 오류 반환하지 말자!
 	}
-	
+
+	Pg::Data::Scene* EngineMain::GetCurrentScene()
+	{
+		_sceneSystem->GetCurrentScene();
+	}
 
 }
