@@ -5,7 +5,7 @@ void FileManager::XmlLoad()
 	pugi::xml_document doc;
 	pugi::xml_node rootNode;
 
-	if (doc.load_file("SceneName.xml"))
+	if (doc.load_file("../ParagonEditor/SceneName.xml"))
 	{
 		rootNode = doc.child("scene");
 		XmlDataParsing(rootNode.first_child());
