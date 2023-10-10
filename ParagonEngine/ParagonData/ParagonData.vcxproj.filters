@@ -46,6 +46,18 @@
     <ClCompile Include="RendererChangeList.cpp">
       <Filter>6_DataChangeList\RendererChangeList</Filter>
     </ClCompile>
+    <ClCompile Include="UIRenderer.cpp">
+      <Filter>2_Component\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>2_Component\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="TextBox.cpp">
+      <Filter>2_Component\UI\TextBox</Filter>
+    </ClCompile>
+    <ClCompile Include="Panel.cpp">
+      <Filter>2_Component\UI\Panel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -113,6 +125,18 @@
     </ClInclude>
     <ClInclude Include="RendererChangeList.h">
       <Filter>6_DataChangeList\RendererChangeList</Filter>
+    </ClInclude>
+    <ClInclude Include="UIRenderer.h">
+      <Filter>2_Component\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>2_Component\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBox.h">
+      <Filter>2_Component\UI\TextBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Panel.h">
+      <Filter>2_Component\UI\Panel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +217,18 @@
     </Filter>
     <Filter Include="6_DataChangeList\RendererChangeList">
       <UniqueIdentifier>{cf9a7602-9fe2-4dd4-a278-b427f8b39400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\UI">
+      <UniqueIdentifier>{b73f4e03-b96b-4ad0-aaa4-b288405c5aea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\UI\Button">
+      <UniqueIdentifier>{63ad0083-7c1c-4d2c-82cf-56f83baaddf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\UI\TextBox">
+      <UniqueIdentifier>{6a611776-b5ff-4e24-830f-37cc12095203}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\UI\Panel">
+      <UniqueIdentifier>{5dcff952-b16f-4fbc-9ada-ca3a3aa3610a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
