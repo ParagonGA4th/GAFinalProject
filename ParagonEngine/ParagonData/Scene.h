@@ -33,8 +33,6 @@ namespace Pg::Data
 		GameObject* AddObject(std::string obj);
 		void DeleteObject(std::string obj);
 
-		GameObject* CreateGameObject(std::string name);
-
 		std::string GetSceneName();
 		void SetSceneName(const std::string& sceneName);
 
