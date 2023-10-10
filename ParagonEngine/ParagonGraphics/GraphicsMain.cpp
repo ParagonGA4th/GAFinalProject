@@ -327,6 +327,9 @@ namespace Pg::Graphics
 		// test용 큐브 그리기
 		_box->Draw();
 
+
+
+
 		_renderer->Render();
 	}
 
