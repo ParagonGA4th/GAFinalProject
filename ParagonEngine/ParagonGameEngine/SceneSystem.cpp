@@ -25,18 +25,15 @@ namespace Pg::Engine
 		tCurrentScene->GetMainCamera();
 
 		//카메라 하나 더 생성
-		GameObject* tObj1 = new GameObject("Camera1");
+		GameObject* tObj1 = tCurrentScene->AddObject("Camera1");
 		tObj1->AddComponent<Camera>();
 		tObj1->GetComponent<Transform>()->SetPosition({ 10.0f, 0.0f, 5.0f });
 
-		GameObject* tObj2 = new GameObject("Cube2");
+		GameObject* tObj2 = tCurrentScene->AddObject("Cube2");
 		tObj2->GetComponent<Transform>()->SetPosition({ -10.0f, 0.0f, 5.0f });
 		tObj2->AddComponent<RendererBase3D>();
 		////tObj2->AddComponent<BaseRenderer>();
 		//tObj2->AddComponent<RendererBase2D>();
-
-		tCurrentScene->AddObject("Camera1");
-		tCurrentScene->AddObject("Cube2");
 
 		//이렇게 하면 메인 카메라 바뀜!!
 		tCurrentScene->SetMainCamera(tObj1->GetComponent<Camera>());
