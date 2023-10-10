@@ -176,10 +176,12 @@
     <ClInclude Include="BaseRenderer.h" />
     <ClInclude Include="BaseResource.h" />
     <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Panel.h" />
     <ClInclude Include="RendererChangeList.h" />
     <ClInclude Include="EditorMode.h" />
     <ClInclude Include="EngineResource.h" />
@@ -193,15 +195,19 @@
     <ClInclude Include="RenderTextData.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="TextBox.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UIRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseRenderer.cpp" />
     <ClCompile Include="BaseResource.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Panel.cpp" />
     <ClCompile Include="RendererChangeList.cpp" />
     <ClCompile Include="EngineResource.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -210,7 +216,9 @@
     <ClCompile Include="RendererBase3D.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="TextBox.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UIRenderer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
