@@ -1,11 +1,19 @@
 #include "Application.h"
 #include "../ParagonEditor/EditorMain.h"
 #include "../ParagonEditor/imgui_impl_win32.h"
+#include "../ParagonAPI/PgInput.h"
+#include <singleton-cpp/singleton.h>
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonEditor.lib")
 #else
 #pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonEditor.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
 #endif // _DEBUG
 
 // Forward declare message handler from imgui_impl_win32.cpp
@@ -40,6 +48,9 @@ void Pg::Client::Core::Application::Initialize(HINSTANCE hInstance)
 
 void Pg::Client::Core::Application::Run()
 {
+	//Input 인스턴스 받기.
+	auto& tInput = singleton<Pg::API::Input::PgInput>();
+	
 	MSG _msg;
 
 	while (true)
@@ -50,6 +61,9 @@ void Pg::Client::Core::Application::Run()
 
 			DispatchMessage(&_msg);
 			TranslateMessage(&_msg);
+
+			//Input Update.
+			tInput.HandleMessage(_msg);
 		}
 		else
 		{
