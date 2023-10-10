@@ -1,5 +1,5 @@
 #pragma once
-#include "UIRenderer.h"
+#include "RendererBase2D.h"
 
 #include <functional>
 
@@ -12,7 +12,7 @@ namespace Pg::Data
 {
 	class GameObject;
 
-	class Button : public UIRenderer
+	class Button : public RendererBase2D
 	{
 	public:
 		Button(GameObject* obj);

@@ -270,4 +270,13 @@ namespace Pg::Data
 		_children.emplace_back(child);
 	}
 
+	bool Transform::Is3D()
+	{
+		return _is3D;
+	}
+
+	void Transform::SetIs3D(bool is3D)
+	{
+		_is3D = is3D;
+	}
 }

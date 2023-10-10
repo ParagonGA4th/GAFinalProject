@@ -1,5 +1,5 @@
 #pragma once
-#include "UIRenderer.h"
+#include "RendererBase2D.h"
 
 #include <string>
 
@@ -12,7 +12,7 @@ namespace Pg::Data
 {
 	class GameObject;
 
-	class Panel : public UIRenderer
+	class Panel : public RendererBase2D
 	{
 	public:
 		Panel(GameObject* obj);
@@ -23,7 +23,7 @@ namespace Pg::Data
 	private:
 		std::string _imagePath;
 	};
-
+	// 패널이 아니라 이미지
 }
 
 
