@@ -197,7 +197,6 @@
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="TextBox.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="UIRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseRenderer.cpp" />
@@ -218,7 +217,6 @@
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="TextBox.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="UIRenderer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
