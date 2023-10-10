@@ -344,6 +344,9 @@
     <Filter Include="10_Structs\D3DBuffers">
       <UniqueIdentifier>{0d5db81d-6d71-484b-b6b7-a281136d62d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="11_TemporaryForwardRendering">
+      <UniqueIdentifier>{f1b3487e-afc1-4aa5-bd21-8bdbee8bb1ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
