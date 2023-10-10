@@ -15,7 +15,7 @@ void Pg::Engine::TestScene::Initialize()
 {
 	using namespace Pg::Data;
 
-	tCurrentScene = new Scene("TestCurrentScene");
+	tCurrentScene = new Scene("TestCurrentSceneWorkspace");
 
 	//이거 호출하면 MainCamera 반환함!!
 	tCurrentScene->GetMainCamera();
@@ -28,6 +28,7 @@ void Pg::Engine::TestScene::Initialize()
 	GameObject* tObj2 = new GameObject("Cube2");
 	tObj2->GetComponent<Transform>()->SetPosition({ -10.0f, 0.0f, 5.0f });
 	tObj2->AddComponent<RendererBase3D>();
+	tObj2->GetComponent<RendererBase3D>()->SetActive(true);
 	////tObj2->AddComponent<BaseRenderer>();
 	//tObj2->AddComponent<RendererBase2D>();
 
@@ -36,6 +37,8 @@ void Pg::Engine::TestScene::Initialize()
 
 	//이렇게 하면 메인 카메라 바뀜!!
 	tCurrentScene->SetMainCamera(tObj1->GetComponent<Camera>());
+
+	assert(true);
 }
 
 Pg::Data::Scene* Pg::Engine::TestScene::GetCurrentScene()
