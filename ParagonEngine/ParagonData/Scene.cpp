@@ -11,7 +11,7 @@ namespace Pg::Data
 		_objectList()
 	{
 		//Scene이 만들어질 경우 무조건 MainCamera가 오브젝트로 생성이 되어 있어야 함!
-		GameObject* cameraObject = CreateGameObject("MainCamera");
+		GameObject* cameraObject = AddObject("MainCamera");
 		_mainCamera = cameraObject->AddComponent<Pg::Engine::Camera>();
 		_mainCamera->_object->_transform.SetPosition({ 10.0f, 0.0f, 0.0f });
 		_mainCamera->_object->_transform.SetRotation({ 0.0f, 0.0f, 0.0f, 0.0f });
@@ -51,20 +51,13 @@ namespace Pg::Data
 	{
 		GameObject* gameObj = new GameObject(obj);
 		_objectList.push_back(gameObj);
+
 		return gameObj;
 	}
 
 	void Scene::DeleteObject(std::string obj)
 	{
 		
-	}
-
-	GameObject* Scene::CreateGameObject(std::string name)
-	{
-		GameObject* object = new GameObject(name);
-		_objectList.push_back(object);
-
-		return object;
 	}
 
 	std::string Scene::GetSceneName()
