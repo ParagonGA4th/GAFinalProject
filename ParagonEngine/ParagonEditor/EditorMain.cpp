@@ -7,19 +7,10 @@
 
 #include <singleton-cpp/singleton.h>
 
-Pg::Core::ProcessMain* EditorMain::_coreMainStatic = nullptr;	// WndProc 접근을 위한 스태틱 변수
-bool EditorMain::_isCoreInitialized; // 코어의 Initialize 이후에 스태틱 변수에 접근하도록 하기 위한 bool 변수
+Pg::Core::ProcessMain* Pg::Editor::EditorMain::_coreMainStatic = nullptr;	// WndProc 접근을 위한 스태틱 변수
+bool Pg::Editor::EditorMain::_isCoreInitialized; // 코어의 Initialize 이후에 스태틱 변수에 접근하도록 하기 위한 bool 변수
 
-// Forward declare message handler from imgui_impl_win32.cpp
-
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-EditorMain::EditorMain()
-	: _hWnd(), _msg(),
-	_screenWidth(1920),
-	_screenHeight(1080),
-	_className(L"ParagonEngine"),
-	_windowName(L"ParagonEngine")
+Pg::Editor::EditorMain::EditorMain()
 {
 	_isCoreInitialized = false;
 	_coreMain = std::make_unique<Pg::Core::ProcessMain>();
@@ -34,156 +25,38 @@ EditorMain::EditorMain()
 	_imGuiManager = std::make_unique<ImGuiManager>(_fileManager->GetGameObjectData());
 }
 
-EditorMain::~EditorMain()
+Pg::Editor::EditorMain::~EditorMain()
 {
 
 }
 
-long EditorMain::Initialize(void* hInstance, int cmdShow)
+void Pg::Editor::EditorMain::Initialize(void* hWnd, float width, float height)
 {
-	//윈도우 초기화
-	RegisterClass((HINSTANCE)hInstance);
-
-
-	if (!CreateWindows((HINSTANCE)hInstance, cmdShow))
-	{
-		return S_FALSE;
-	}
-
-	RECT rect;
-
-	GetClientRect(_hWnd, &rect);
-
-	_screenWidth = rect.right - rect.left;
-	_screenHeight = rect.bottom - rect.top;
-
-	_coreMain->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
+	_coreMain->Initialize(hWnd, width, height);
 	_isCoreInitialized = true;
 
 
 	// ImGui Dx11, Win32 Setting	
-	ImGui_ImplWin32_Init(_hWnd);
+	ImGui_ImplWin32_Init(hWnd);
 	ImGui_ImplDX11_Init(_coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
 }
 
-void EditorMain::Update()
+void Pg::Editor::EditorMain::Update()
 {
-	ImGuiViewport* main_viewport = ImGui::GetMainViewport();
-	main_viewport->PlatformHandle = reinterpret_cast<void*>(_hWnd);
-	main_viewport->PlatformHandleRaw = reinterpret_cast<HWND>(_hWnd);
+	_coreMain->Update();
+	_imGuiManager->CreateFrame();
 
-	while (true)
-	{
-		if (PeekMessage(&_msg, NULL, 0, 0, PM_REMOVE))
-		{
-			if (_msg.message == WM_QUIT)
-			{
-				break;
-			}
+	_imGuiManager->ShowDemoInspector();
+	_imGuiManager->ShowDemoHierarchy();
 
-			DispatchMessage(&_msg);
-			TranslateMessage(&_msg);
-			_input->HandleMessage(_msg);
-		}
-		else
-		{
-			_coreMain->Update();
-
-			_imGuiManager->CreateFrame();
-
-			_imGuiManager->ShowDemoInspector();
-			_imGuiManager->ShowDemoHierarchy();
-			 
-			_coreMain->BeginRender();
-			_coreMain->Render();
-			_imGuiManager->Render();
-			_coreMain->EndRender();
-		}
-	}
+	_coreMain->BeginRender();
+	_coreMain->Render();
+	_imGuiManager->Render();
+	_coreMain->EndRender();
 }
 
-void EditorMain::Finalize()
+void Pg::Editor::EditorMain::Finalize()
 {
 	_imGuiManager->Finalize();
 	_coreMain->Finalize();
-}
-
-ATOM EditorMain::RegisterClass(HINSTANCE hInstance)
-{
-	WNDCLASSEXW wcex;
-
-	wcex.cbSize = sizeof(WNDCLASSEXW);
-
-	wcex.style = CS_CLASSDC;
-	wcex.lpfnWndProc = WndProc;
-	wcex.cbClsExtra = 0;
-	wcex.cbWndExtra = 0;
-	wcex.hInstance = hInstance;
-	wcex.hIcon = NULL;
-	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wcex.lpszMenuName = NULL;
-	wcex.lpszClassName = _className;
-	wcex.hIconSm = NULL;
-
-	return RegisterClassExW(&wcex);
-}
-
-BOOL EditorMain::CreateWindows(HINSTANCE hInstance, int cmdShow)
-{
-	_hWnd = CreateWindowW(_className, _windowName, WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, _screenWidth, _screenHeight, nullptr, nullptr, hInstance, nullptr);
-
-	if (!_hWnd)
-	{
-		return FALSE;
-	}
-
-	ShowWindow(_hWnd, cmdShow);
-	UpdateWindow(_hWnd);
-
-	return TRUE;
-}
-
-LRESULT CALLBACK EditorMain::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{ 
-	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return true;
-
-	switch (message)
-	{
-		case WM_SIZE:
-		{
-			if (_isCoreInitialized)
-			{
-				_coreMainStatic->OnWindowResized(LOWORD(lParam), HIWORD(lParam));
-			}
-			
-		}
-
-		case WM_LBUTTONDOWN:
-			return 0;
-
-		case WM_MBUTTONDOWN:
-			return 0;
-
-		case WM_RBUTTONDOWN:
-			return 0;
-
-		case WM_LBUTTONUP:
-
-		case WM_MBUTTONUP:
-
-		case WM_RBUTTONUP:
-			return 0;
-
-		case WM_MOUSEMOVE:
-			break;
-
-		case WM_DESTROY:
-			PostQuitMessage(0);
-			break;
-		default:
-			return DefWindowProc(hWnd, message, wParam, lParam);
-	}
-	return 0;
 }
