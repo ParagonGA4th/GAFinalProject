@@ -39,7 +39,10 @@ namespace Pg::Graphics
 		{
 			if (it.second->_baseRenderer->GetActive())
 			{
+				
 				//·»´õ.
+
+
 			}
 		}
 
@@ -162,6 +165,8 @@ namespace Pg::Graphics
 				}
 			}
 		}
+
+		assert(true);
 	}
 }
 
