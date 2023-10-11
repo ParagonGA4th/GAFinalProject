@@ -12,10 +12,10 @@ namespace Pg::Data
 {
 	class GameObject;
 
-	class Panel : public RendererBase2D
+	class ImageRenderer : public RendererBase2D
 	{
 	public:
-		Panel(GameObject* obj);
+		ImageRenderer(GameObject* obj);
 
 		void SetImagePath(std::string path);
 		std::string GetImagePath();
@@ -23,7 +23,6 @@ namespace Pg::Data
 	private:
 		std::string _imagePath;
 	};
-	// 패널이 아니라 이미지
 }
 
 
