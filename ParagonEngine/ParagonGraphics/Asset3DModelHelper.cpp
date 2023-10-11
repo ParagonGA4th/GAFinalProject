@@ -43,7 +43,7 @@ namespace Pg::Graphics::Helper
 
 	AssetSceneData* Asset3DModelHelper::s_CurrentDataScene = nullptr;
 
-	//Assimp의 aiScene의 데이터 중 필요한 데이터를 MGRTXXXData 데이터로 옮긴다.
+	//Assimp의 aiScene의 데이터 중 필요한 데이터를 MGRTXXXData 데이터로 옮긴다. + 처리.
 	void Asset3DModelHelper::CopyAssimpToAssetScene(const aiScene* _assimpScene, AssetSceneData* _mgrtScene)
 	{
 		//Node는 재귀적으로 값을 옮겨야 한다.
@@ -939,12 +939,13 @@ namespace Pg::Graphics::Helper
 		_mgrt->m_NumAllocated = _assimp->mNumAllocated;
 		_mgrt->m_NumProperty = _assimp->mNumProperties;
 
-		for (unsigned int i = 0; i < _mgrt->m_NumProperty; i++)
-		{
-			AssetMaterialPropertyData* tMatProp = new AssetMaterialPropertyData;
-			CopyMatPropertyToAsset(i, _assimp, _assimp->mProperties[i], tMatProp);
-			_mgrt->m_PropertyList.push_back(tMatProp);
-		}
+		//임시로 Material Property 비활성화.
+		//for (unsigned int i = 0; i < _mgrt->m_NumProperty; i++)
+		//{
+		//	AssetMaterialPropertyData* tMatProp = new AssetMaterialPropertyData;
+		//	CopyMatPropertyToAsset(i, _assimp, _assimp->mProperties[i], tMatProp);
+		//	_mgrt->m_PropertyList.push_back(tMatProp);
+		//}
 
 		for (size_t i = 0; i <= ASSET_MAXIMUM_TEXTURE_PROP_CNT; i++)
 		{

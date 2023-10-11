@@ -138,6 +138,9 @@
     <ClInclude Include="Panel.h">
       <Filter>2_Component\UI\Panel</Filter>
     </ClInclude>
+    <ClInclude Include="ParagonDefines.h">
+      <Filter>7_ParagonDefines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -229,6 +232,9 @@
     </Filter>
     <Filter Include="2_Component\UI\Panel">
       <UniqueIdentifier>{5dcff952-b16f-4fbc-9ada-ca3a3aa3610a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="7_ParagonDefines">
+      <UniqueIdentifier>{1c8caedb-41a3-46e1-8252-51dbfddf65bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
