@@ -31,9 +31,6 @@ void Pg::Engine::TestScene::Initialize()
 	////tObj2->AddComponent<BaseRenderer>();
 	//tObj2->AddComponent<RendererBase2D>();
 
-	//tCurrentScene->AddObject("Camera1");
-	//tCurrentScene->AddObject("Cube2");
-
 	//이렇게 하면 메인 카메라 바뀜!!
 	tCurrentScene->SetMainCamera(tObj1->GetComponent<Camera>());
 }
