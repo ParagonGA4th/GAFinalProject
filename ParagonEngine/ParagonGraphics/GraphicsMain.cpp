@@ -392,6 +392,15 @@ namespace Pg::Graphics
 		_graphicsResourceManager->UnloadResource(filePath);
 	}
 
-	
+	std::map<std::string, Pg::Data::Enums::eAssetDefine>* GraphicsMain::SendAddedSecondaryResources()
+	{
+		return _graphicsResourceManager->GetSecondaryResources();
+	}
+
+	void GraphicsMain::ClearSecondaryResourcesList()
+	{
+		_graphicsResourceManager->ClearSecondaryResourcesList();
+	}
+
 
 }
