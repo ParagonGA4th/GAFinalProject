@@ -1,24 +1,2 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-    <Filter Include="0_Main">
-      <UniqueIdentifier>{f63f9b80-2443-41ec-bf6d-985dccf32e92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Application">
-      <UniqueIdentifier>{8cee1e09-eecf-4e00-9d45-6b077cdc1074}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>0_Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Application.cpp">
-      <Filter>1_Application</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Application.h">
-      <Filter>1_Application</Filter>
-    </ClInclude>
-  </ItemGroup>
-</Project>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" />
