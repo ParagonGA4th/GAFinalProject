@@ -72,17 +72,17 @@ namespace Pg::Graphics
 	}
 
 	float time = 0.0f;
-	Pg::Graphics::Sprite* sprite;
-	Pg::Graphics::Sprite* sprite2;
-	Pg::Graphics::Font* font;
-	std::wstring text;
+	//Pg::Graphics::Sprite* sprite;
+	//Pg::Graphics::Sprite* sprite2;
+	//Pg::Graphics::Font* font;
+	//std::wstring text;
 
 	Grid* grid;
 	Axis* axis;
 
 	Cubemap* cubemap;
 
-	const float cameraSpeed = 100.0f;
+	const float cameraSpeed = 10.0f;
 
 	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
 	{
@@ -93,40 +93,41 @@ namespace Pg::Graphics
 		_DXStorage->_screenHeight = screenHeight;
 
 		hr = _DXLogic->CreateDevice();
-		
+
 		hr = _DXLogic->CreateSwapChain(screenWidth, screenHeight);
 		hr = _DXLogic->CreateMainRenderTarget();
 
 		hr = _DXLogic->CreateDepthStencilViewAndState();
-		
+
 		hr = _DXLogic->CreateRasterizerStates();
 		_DXLogic->SetRasterizerrStates(_DXStorage->_solidState);
-		
+
 		_DXLogic->CreateAndSetViewports();
 
 		//Default Input Layout 세팅.
 		LayoutDefine::Initialize();
 
-		// 테스트용 큐브
-		_box = new TestCube();
-		_box->Initialize();
+		//// 테스트용 큐브
+		//_box = new TestCube();
+		//_box->Initialize();
 
-		D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
-		{
-			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}//,
-			//{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
-		};
+		//D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
+		//{
+		//	{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		//	{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}//,
+		//	//{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		//};
 
-		VertexShader* BoxVertexShader = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
-		PixelShader* BoxPixelShader = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
-		
-		// TODO: 비직관적이다.
-		BoxVertexShader->AssignConstantBuffer(&(_box->_cbData));
+		//VertexShader* BoxVertexShader = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
+		//PixelShader* BoxPixelShader = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
+		//
+		//// TODO: 비직관적이다.
+		//BoxVertexShader->AssignConstantBuffer(&(_box->_cbData));
 
-		_box->AssignVertexShader(BoxVertexShader);
-		_box->AssignPixelShader(BoxPixelShader);
-		
+		//_box->AssignVertexShader(BoxVertexShader);
+		//_box->AssignPixelShader(BoxPixelShader);
+
+
 		// Grid
 		grid = new Grid();
 		grid->Initialize();
@@ -135,16 +136,25 @@ namespace Pg::Graphics
 		axis = new Axis();
 		axis->Initialize();
 
+
+		D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
+		{
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}//,
+			//{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		};
+
 		// TODO: TestBox와 Grid, Axis 모두 같은 InputLayout을 사용하고 있다...
 		VertexShader* helperVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
+		PixelShader* helperPS = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
 		helperVS->AssignConstantBuffer(&(grid->_cbData));
 
 		grid->AssignVertexShader(helperVS);
-		grid->AssignPixelShader(BoxPixelShader);
+		grid->AssignPixelShader(helperPS);
 
 		axis->AssignVertexShader(helperVS);
-		axis->AssignPixelShader(BoxPixelShader);
-		
+		axis->AssignPixelShader(helperPS);
+
 
 		// Cubemap
 		D3D11_INPUT_ELEMENT_DESC CubemapvertexDesc[] =
@@ -173,17 +183,17 @@ namespace Pg::Graphics
 		_camera = new TempCamera(float3(0.0f, 3.0f, -10.0f));
 		_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 
-		// 2DSprite
-		sprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/cats.dds");
-		sprite->SetPosition(0.0f, 0.0f);
+		//// 2DSprite
+		//sprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/cats.dds");
+		//sprite->SetPosition(0.0f, 0.0f);
 
-		sprite2 = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/rabbits.dds");
-		sprite2->SetPosition(0.0f, 200.0f);
+		//sprite2 = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/rabbits.dds");
+		//sprite2->SetPosition(0.0f, 200.0f);
 
-		// Font
-		font = new Font();
-		font->SetPosition(10.0f, 410.0f);
-		font->SetText(L"");
+		//// Font
+		//font = new Font();
+		//font->SetPosition(10.0f, 410.0f);
+		//font->SetText(L"");
 	}
 
 
@@ -195,20 +205,20 @@ namespace Pg::Graphics
 		float dt = deltaTime;
 		time += dt;
 
-		// 디버그 정보 출력
-		text = L"";
-		text.append(L"DeltaTime: " + std::to_wstring(dt) + L"\n");
-		text.append(L"Time: " + std::to_wstring(time) + L" sec" + L"\n");
+		//// 디버그 정보 출력
+		//text = L"";
+		//text.append(L"DeltaTime: " + std::to_wstring(dt) + L"\n");
+		//text.append(L"Time: " + std::to_wstring(time) + L" sec" + L"\n");
 
-		float tFrameRate = -1.0f;
-		if (dt > std::numeric_limits<float>::epsilon())
-		{
-			tFrameRate = static_cast<double>(1) / dt;
-		}
+		//float tFrameRate = -1.0f;
+		//if (dt > std::numeric_limits<float>::epsilon())
+		//{
+		//	tFrameRate = static_cast<double>(1) / dt;
+		//}
 
-		text.append(L"FPS: " + std::to_wstring(tFrameRate) + L"\n");
-		text.append(L"Look Vector: (" + std::to_wstring(_camera->GetLook().x) + L", " + std::to_wstring(_camera->GetLook().y) + L", " + std::to_wstring(_camera->GetLook().z) + L")") ;
-		font->SetText(text);
+		//text.append(L"FPS: " + std::to_wstring(tFrameRate) + L"\n");
+		//text.append(L"Look Vector: (" + std::to_wstring(_camera->GetLook().x) + L", " + std::to_wstring(_camera->GetLook().y) + L", " + std::to_wstring(_camera->GetLook().z) + L")");
+		//font->SetText(text);
 
 		//cbData.viewMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._viewMatrix);
 		//cbData.projectionMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._projMatrix);
@@ -218,7 +228,7 @@ namespace Pg::Graphics
 		/// Input 관련
 		///
 		using namespace Pg::API::Input;
-		
+
 		if (_input->GetKey(MoveFront))
 		{
 			_camera->Walk(1.0f * cameraSpeed * dt);
@@ -267,15 +277,15 @@ namespace Pg::Graphics
 		worldMatrix *= XMMatrixScaling(1.0f, 1.0f, 1.0f);
 		worldMatrix *= XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 
-		_box->_cbData.worldMatrix = worldMatrix;
-		//_box->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
-		grid->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
+		//_box->_cbData.worldMatrix = worldMatrix;
+		////_box->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
+		//grid->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
 
-		// 카메라 행렬
-		_box->_cbData.viewMatrix = _camera->View();
-		_box->_cbData.projectionMatrix = _camera->Proj();
-		_box->_cbData.viewProjMatrix = _camera->ViewProj();
-		_box->_cbData.eyePos = _camera->GetPosition();
+		//// 카메라 행렬
+		//_box->_cbData.viewMatrix = _camera->View();
+		//_box->_cbData.projectionMatrix = _camera->Proj();
+		//_box->_cbData.viewProjMatrix = _camera->ViewProj();
+		//_box->_cbData.eyePos = _camera->GetPosition();
 
 		grid->_cbData.viewMatrix = _camera->View();
 		grid->_cbData.projectionMatrix = _camera->Proj();
@@ -294,7 +304,7 @@ namespace Pg::Graphics
 		_renderer->BeginRender();
 	}
 
-	
+
 	void GraphicsMain::Render(Pg::Data::Scene* scene)
 	{
 		//렌더하기 전에 Scene이 바뀌었는지 체크.
@@ -307,27 +317,22 @@ namespace Pg::Graphics
 		}
 		assert(_currentScene != nullptr);
 
-		//하드코딩된 리소스들.
-		cubemap->Draw();
-		
-		// test용 큐브 그리기
-		_box->Draw();
-		// Grid
-		grid->Draw();
-		// Axis
-		axis->Draw();
-		
-		// test 스프라이트 그리기
-		sprite->Draw();
-		sprite2->Draw();
+		///하드코딩된 리소스들.
+		//cubemap->Draw();
+		//// Grid
+		//grid->Draw();
+		//// Axis
+		//axis->Draw();
 
-		// test 폰트 그리기
-		font->Draw();
+		////// test용 큐브 그리기
+		////_box->Draw();
 
-		// test용 큐브 그리기
-		_box->Draw();
+		////// test 스프라이트 그리기
+		////sprite->Draw();
+		////sprite2->Draw();
 
-
+		////// test 폰트 그리기
+		////font->Draw();
 
 
 		_renderer->Render();
@@ -358,8 +363,8 @@ namespace Pg::Graphics
 		ReleaseCOM(_DXStorage->_depthStencilBuffer);
 		ReleaseCOM(_DXStorage->_backBuffer)
 
-		// 바뀐 사이즈로 재할당
-		hr = _DXLogic->ResizeSwapChainBuffers(screenWidth, screenHeight);
+			// 바뀐 사이즈로 재할당
+			hr = _DXLogic->ResizeSwapChainBuffers(screenWidth, screenHeight);
 		hr = _DXLogic->CreateMainRenderTarget();
 		hr = _DXLogic->CreateDepthStencilViewAndState();
 		_DXLogic->CreateAndSetViewports();
@@ -392,6 +397,6 @@ namespace Pg::Graphics
 		_graphicsResourceManager->UnloadResource(filePath);
 	}
 
-	
+
 
 }
