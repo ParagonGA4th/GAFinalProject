@@ -3,7 +3,7 @@
 namespace Pg::Data
 {
 	Panel::Panel(GameObject* obj)
-		: UIRenderer(obj),
+		: RendererBase2D(obj),
 		_imagePath("")
 	{
 

@@ -3,7 +3,7 @@
 namespace Pg::Data
 {
 	Button::Button(GameObject* obj)
-		: UIRenderer(obj)
+		: RendererBase2D(obj)
 	{
 
 	}
