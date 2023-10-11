@@ -46,9 +46,6 @@
     <ClCompile Include="RendererChangeList.cpp">
       <Filter>6_DataChangeList\RendererChangeList</Filter>
     </ClCompile>
-    <ClCompile Include="UIRenderer.cpp">
-      <Filter>2_Component\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>2_Component\UI\Button</Filter>
     </ClCompile>
@@ -125,9 +122,6 @@
     </ClInclude>
     <ClInclude Include="RendererChangeList.h">
       <Filter>6_DataChangeList\RendererChangeList</Filter>
-    </ClInclude>
-    <ClInclude Include="UIRenderer.h">
-      <Filter>2_Component\UI</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>2_Component\UI\Button</Filter>

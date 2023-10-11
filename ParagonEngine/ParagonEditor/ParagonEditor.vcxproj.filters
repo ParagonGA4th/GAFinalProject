@@ -1,14 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="EditorMain.cpp">
-      <Filter>0_Main</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGuiManager.cpp">
-      <Filter>2_ImguiManager</Filter>
-    </ClCompile>
     <ClCompile Include="FileManager.cpp">
-      <Filter>FileManager</Filter>
+      <Filter>2_Manager\2_FileManager</Filter>
     </ClCompile>
     <ClCompile Include="DataStruct.h" />
     <ClCompile Include="imgui.cpp">
@@ -32,15 +26,26 @@
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>Imgui\src</Filter>
     </ClCompile>
-    <ClCompile Include="Entry.cpp" />
+    <ClCompile Include="EditorMain.cpp">
+      <Filter>1_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorManager.cpp">
+      <Filter>2_Manager\0_EditorManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiManager.cpp">
+      <Filter>2_Manager\ImguiManager</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>0_Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>0_Entry\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>2_Manager\1_UIManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="2_ImguiManager">
-      <UniqueIdentifier>{582dc448-218b-4bb0-aa6f-3b447afa366c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FileManager">
-      <UniqueIdentifier>{8ba21139-66b2-43da-b4ad-0ee33a689461}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Imgui">
       <UniqueIdentifier>{349ac3e0-1da2-4c63-8f4b-d0e0b75e7bd2}</UniqueIdentifier>
     </Filter>
@@ -50,22 +55,34 @@
     <Filter Include="Imgui\src">
       <UniqueIdentifier>{99bfdae7-d914-4953-a902-75847e51dbbb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main">
+    <Filter Include="0_Entry">
       <UniqueIdentifier>{a2b9252d-2b07-4949-b7ea-c4a055fb436c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1_DLLExporter">
-      <UniqueIdentifier>{b0aac07a-8491-441d-bc46-01cb12674def}</UniqueIdentifier>
+    <Filter Include="1_Main">
+      <UniqueIdentifier>{10fc9034-0baf-41bb-a32e-d03a4553f590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Manager">
+      <UniqueIdentifier>{a0fca74c-be2d-45d3-9510-fd6bafbc1058}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Manager\ImguiManager">
+      <UniqueIdentifier>{071f8ebd-7803-4de6-a616-d512756bdf81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Entry\Application">
+      <UniqueIdentifier>{1c344d54-58f7-4885-9da2-5daebd98fd22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Manager\0_EditorManager">
+      <UniqueIdentifier>{1ac736da-9b58-423a-bd86-a3a14f017b48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Manager\1_UIManager">
+      <UniqueIdentifier>{c5aed1e3-6616-496d-b462-702c6bf3cc3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Manager\2_FileManager">
+      <UniqueIdentifier>{8ba21139-66b2-43da-b4ad-0ee33a689461}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EditorMain.h">
-      <Filter>0_Main</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGuiManager.h">
-      <Filter>2_ImguiManager</Filter>
-    </ClInclude>
     <ClInclude Include="FileManager.h">
-      <Filter>FileManager</Filter>
+      <Filter>2_Manager\2_FileManager</Filter>
     </ClInclude>
     <ClInclude Include="imconfig.h">
       <Filter>Imgui\header</Filter>
@@ -91,17 +108,27 @@
     <ClInclude Include="imstb_truetype.h">
       <Filter>Imgui\header</Filter>
     </ClInclude>
-    <ClInclude Include="EditorDLLExporter.h">
-      <Filter>1_DLLExporter</Filter>
+    <ClInclude Include="EditorMain.h">
+      <Filter>1_Main</Filter>
     </ClInclude>
     <ClInclude Include="IEditor.h">
-      <Filter>0_Main</Filter>
+      <Filter>1_Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorManager.h">
+      <Filter>2_Manager\0_EditorManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiManager.h">
+      <Filter>2_Manager\ImguiManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>0_Entry\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="ExternalLib.h" />
+    <ClInclude Include="UIManager.h">
+      <Filter>2_Manager\1_UIManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="SceneName.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SceneName.json" />
   </ItemGroup>
 </Project>

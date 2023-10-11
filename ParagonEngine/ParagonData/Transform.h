@@ -5,13 +5,12 @@
 #include <memory>
 
 /// <summary>
-/// 변지상의 Transform 클래스.
-/// 일단 
+/// 23.10.6 변지상 && 오수안
+/// 변지상이 프레임을 짜고 오수안이 구현한 Trasnform 클래스
+/// 오브젝트의 자식과 부모, transform 종속성 등은 모두 여기서 관리한다
+/// 또한 오브젝트의 오일러, 쿼터니언 변환을 위한
 /// </summary>
-/// 
-/// 23.09.25 오수안
-/// 쿼터니언, 오일러 변환 함수 추가
-/// 
+
 namespace Pg::Data
 {
 	class GameObject;
@@ -52,6 +51,7 @@ namespace Pg::Data
 		// Set 로컬 함수들
 		void SetLocalPosition(float x, float y, float z);
 		void SetLocalPosition(PGFLOAT3& pos);
+
 		void SetLocalRotation(float w, float x, float y, float z);
 		void SetLocalRotation(PGQuaternion& rot);
 		void SetLocalScale(float x, float y, float z);
@@ -78,6 +78,10 @@ namespace Pg::Data
 		void SetParent(GameObject* obj);
 		void AddChild(std::shared_ptr<Transform> child);
 
+		// 오브젝트의 3D 여부를 세팅
+		void SetIs3D(bool is3D);
+		bool Is3D();
+
 	private:
 		// 부모, 자식 객체를 가리키는 transform
 		std::shared_ptr<Transform> _parent;
@@ -88,11 +92,13 @@ namespace Pg::Data
 		PGQuaternion _rotation; // 기본적으로 쿼터니언으로 관리한다
 		PGFLOAT3 _scale;
 
-		// 벡터
-		PGFLOAT3 _right;
-		PGFLOAT3 _up;
-		PGFLOAT3 _look;
-		
+		//// 벡터
+		//PGFLOAT3 _right;
+		//PGFLOAT3 _up;
+		//PGFLOAT3 _look;
+
+		// bool 
+		bool _is3D;
 	};
 }
 

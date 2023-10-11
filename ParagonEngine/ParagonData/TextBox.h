@@ -1,13 +1,16 @@
 #pragma once
-#include "UIRenderer.h"
+#include "RendererBase2D.h"
+#include "../ParagonMath/PgMath.h"
 
 #include <string>
 
 namespace Pg::Data
 {
+	using namespace Pg::Math;
+
 	class GameObject;
 
-	class TextBox : public UIRenderer
+	class TextBox : public RendererBase2D
 	{
 	public:
 		TextBox(GameObject* obj);
@@ -19,8 +22,16 @@ namespace Pg::Data
 		void SetSize(float size);
 		float GetSize();
 
+		void SetFont(std::string fontName);
+		std::string GetFontName();
+
+		void SetFontColor(PGFLOAT4 color);
+		PGFLOAT4 GetFontColor();
+
 	private:
 		std::string _string;
+		std::string _font;
+		PGFLOAT4 _fontColor;
 		float _fontSize;
 	};
 
