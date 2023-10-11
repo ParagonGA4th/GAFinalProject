@@ -41,6 +41,13 @@ namespace Pg::Core::Manager
 
 		//리소스를 언로드할 Queue에 넣는다.
 		void UnloadResource(const std::string& filepath);
+	
+	private:
+		//FBX를 들여올 때 임베딩된 텍스쳐 연동 등, 
+		//역으로 그래픽스/엔진에서 피할 수 없게 로드 뒤에 추가해야 하는 리소스 존재 -> 호환 위한 함수.
+		void CheckForGraphicsToProcessLoad(Pg::Core::IGraphics* graphics);
+
+
 
 	private:
 		Pg::Core::ProcessMain* _coreMain;

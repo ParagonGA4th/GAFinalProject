@@ -4,6 +4,8 @@
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/AssetDefines.h"
 #include <string>
+#include <vector>
+#include <map>
 #include <windows.h>
 
 /// <summary>
@@ -45,5 +47,11 @@ namespace Pg::Core
 
 		//AssetManager와의 교류를 위해, 그래픽스 리소스 매니저에 리소스를 언로드하는 함수.
 		virtual void UnloadResource(const std::string& filePath) abstract;
+
+		//그래픽스 한정, 특정 리소스를 로드했을 시 내부 파생 2차 리소스 (Ex. Embedded Textures) 등등이 존재 가능.
+		//이를 메인 목록과 호환하기 위해서 쓰이는 함수.
+		virtual std::map<std::string, Pg::Data::Enums::eAssetDefine>* SendAddedSecondaryResources() abstract;
+
+		virtual void ClearSecondaryResourcesList() abstract;
 	};
 }

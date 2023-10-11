@@ -88,4 +88,11 @@ namespace Pg::Util::Helper
 		return tIsPlainRenderable;
 	}
 
+	bool ResourceHelper::IsResourceDDS(const std::string& filePath)
+	{
+		std::filesystem::path tPath(filePath);
+		std::string tExtString = tPath.extension().string();
+		return (tExtString == ".dds" || tExtString == ".DDS");
+	}
+
 }
