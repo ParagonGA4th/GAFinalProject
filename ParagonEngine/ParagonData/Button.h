@@ -18,6 +18,7 @@ namespace Pg::Data
 		Button(GameObject* obj);
 
 	private:
+		//TODO 나중에 필요하면 템플릿으로 바꿀 것
 		std::function<void()> _onClickEvent;
 
 	};
