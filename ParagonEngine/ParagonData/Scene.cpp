@@ -16,7 +16,15 @@ namespace Pg::Data
 		_mainCamera->_object->_transform.SetPosition({ 10.0f, 0.0f, 0.0f });
 		_mainCamera->_object->_transform.SetRotation({ 0.0f, 0.0f, 0.0f, 0.0f });
 
+		// 10.11 오수안
+		// Scene이 생성될 때 반드시 추가되는 main Light
+		GameObject* dirLight = AddObject("MainDirLight");
+		_mainDirLight = dirLight->AddComponent<DirectionalLight>();
+		_mainDirLight->_object->_transform.SetPosition(5.f, 5.f, 5.f);
+		_mainDirLight->SetLightColor(1.f, 0.f, 0.f, 1.f);
+
 		SetMainCamera(_mainCamera);
+		SetMainLight(_mainDirLight);
 	}
 
 	Scene::~Scene()
@@ -89,6 +97,16 @@ namespace Pg::Data
 	std::vector<GameObject*>& Scene::GetObjectList()
 	{
 		return _objectList;
+	}
+
+	DirectionalLight* Scene::GetMainLight()
+	{
+		return _mainDirLight;
+	}
+
+	void Scene::SetMainLight(DirectionalLight* mainLight)
+	{
+		_mainDirLight = mainLight;
 	}
 
 }
