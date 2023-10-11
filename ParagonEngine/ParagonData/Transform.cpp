@@ -1,5 +1,7 @@
 #include "Transform.h"
 
+#include <cmath>
+
 namespace Pg::Data
 {
 	using namespace Pg::Math;
@@ -15,18 +17,18 @@ namespace Pg::Data
 
 	PGFLOAT3 Transform::GetPosition() const
 	{
-		return {};
+		return _position;
 	}
 
 	PGQuaternion Transform::GetRotation() const
 	{
-		return {};
+		return _rotation;
 
 	}
 
 	PGFLOAT3 Transform::GetScale() const
 	{
-		return {};
+		return _scale;
 
 	}
 
@@ -79,6 +81,7 @@ namespace Pg::Data
 	{
 		PGFLOAT4 result = { x, y, z, 1.f };
 
+		// 부모 스케일은 뭘 곱하지..?
 		//if (HasParent())
 		//{
 		//	result = PGFloat4MultiplyMatrix(result, _parent->)
@@ -103,9 +106,8 @@ namespace Pg::Data
 
 	void Transform::SetLocalPosition(float x, float y, float z)
 	{
-		_position.x = x;
-		_position.y = y;
-		_position.z = z;
+		PGFLOAT3 pos = { x, y, z };
+		SetLocalPosition(pos);
 	}
 
 	void Transform::SetLocalPosition(PGFLOAT3& pos)
@@ -216,18 +218,6 @@ namespace Pg::Data
 		return nullptr;
 	}
 
-	/*void Transform::UpdateTransform()
-	{
-		if (HasParent())
-		{
-			GetWorldTM();
-		}
-		else
-		{
-
-		}
-	}*/
-
 	Pg::Math::PGFLOAT4X4 Transform::GetWorldTM()
 	{
 		PGFLOAT4X4 result = Pg::Math::PGScaleMatrix(_scale) * Pg::Math::PGRotationMatrix(_rotation) * Pg::Math::PGTranslateMatrix(_position);
@@ -246,7 +236,7 @@ namespace Pg::Data
 		{
 			return _children.at(index);
 		}
-		// 자식이 없으면 그냥 리턴
+		// 자식이 없으면 nullptr을 리턴
 		return nullptr;
 	}
 
@@ -279,4 +269,133 @@ namespace Pg::Data
 	{
 		_is3D = is3D;
 	}
+
+	Pg::Math::PGFLOAT4X4 Transform::GetLocalTranslateMatrix()
+	{
+		PGFLOAT4X4 result =
+		{
+			1,	0,	0,	0,
+			0,	1,	0,	0,
+			0,	0,	1,	0,
+			_position.x, _position.y, _position.z, 1
+		};
+
+		return result;
+	}
+
+	Pg::Math::PGFLOAT4X4 Transform::GetLocalScaleMatrix()
+	{
+		PGFLOAT4X4 result =
+		{
+			_scale.x,	0,	0,	0,
+			0,	_scale.y,	0,	0,
+			0,	0,	_scale.z,	0,
+			0,	0,			0,	1
+		};
+
+		return result;
+	}
+
+	Pg::Math::PGFLOAT4X4 Transform::GetLocalRotationMatrix()
+	{
+		// 1. 쿼터니언 좌표값을 정규화한다
+		PGQuaternion q = NormalizeQuaternion(_rotation);
+
+		// 2. 정규화된 쿼터니언 값을 회전행렬에 적용한다
+		PGFLOAT4X4 result =
+		{
+			1.f - 2.f * (q.y * q.y) - 2.f * (q.z * q.z),
+			2.f * q.x * q.y - 2.f * q.w * q.z,
+			2.f * q.x * q.z + 2.f * q.w * q.y,
+			0.f,
+
+			2.f * q.x * q.y + 2.f * q.w * q.z,
+			1.f - 2.f * (q.x * q.x) - 2.f * (q.z * q.z),
+			2.f * q.y * q.z - 2.f * q.w * q.x,
+			0.f,
+
+			2.f * q.x * q.z - 2.f * q.w * q.y,
+			2.f * q.y * q.z + 2.f * q.w * q.x,
+			1.f - 2.f * (q.x * q.x) - 2.f * (q.y * q.y),
+			0.f,
+
+			0.f,	0.f,	0.f,	1.f
+		};
+
+		// 3. 값을 반환한다
+		return result;
+	}
+
+	Pg::Math::PGFLOAT4X4 Transform::GetWorldTranslateMatrix()
+	{
+		PGFLOAT4X4 result = GetLocalTranslateMatrix();
+
+		if (_parent)
+		{
+			result *= _parent->GetLocalTranslateMatrix();
+		}
+
+		return result;
+	}
+
+	Pg::Math::PGFLOAT4X4 Transform::GetWorldScaleMatrix()
+	{
+		PGFLOAT4X4 result = GetLocalScaleMatrix();
+
+		if (_parent)
+		{
+			result *= _parent->GetLocalScaleMatrix();
+		}
+
+		return result;
+	}
+
+	Pg::Math::PGFLOAT4X4 Transform::GetWorldRotationMatrix()
+	{
+		PGFLOAT4X4 result = GetLocalRotationMatrix();
+
+		if (_parent)
+		{
+			result *= _parent->GetLocalRotationMatrix();
+		}
+
+		return result;
+	}
+
+	Pg::Math::PGFLOAT3 Transform::GetForward()
+	{
+		PGFLOAT4 result = PGFloat4MultiplyMatrix(PGFLOAT4(0.f, 0.f, 1.f, 0.f), GetWorldRotationMatrix());
+		return PGFLOAT3(result.x, result.y, result.z);
+	}
+
+	Pg::Math::PGFLOAT3 Transform::GetUp()
+	{
+		PGFLOAT4 result = PGFloat4MultiplyMatrix(PGFLOAT4(0.f, 1.f, 0.f, 0.f), GetWorldRotationMatrix());
+		return PGFLOAT3(result.x, result.y, result.z);
+	}
+
+	Pg::Math::PGFLOAT3 Transform::GetRight()
+	{
+		PGFLOAT4 result = PGFloat4MultiplyMatrix(PGFLOAT4(1.f, 0.f, 0.f, 0.f), GetWorldRotationMatrix());
+		return PGFLOAT3(result.x, result.y, result.z);
+	}
+
+	Pg::Math::PGQuaternion Transform::NormalizeQuaternion(PGQuaternion q)
+	{
+		double length = std::sqrt(q.w * q.w 
+						+ q.x * q.x 
+						+ q.y * q.y 
+						+ q.z * q.z);
+		
+		if (length != 0.0) 
+		{
+			q.w /= length;
+			q.x /= length;
+			q.y /= length;
+			q.z /= length;
+		}
+
+		return q;
+	}
+
 }

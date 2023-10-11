@@ -80,6 +80,9 @@ namespace Pg::Data
 	{
 		_mainCamera = mainCamera;
 
+		// 메인 카메라가 바뀌었을 때 오브젝트를 현재
+		// 메인 카메라 기준으로 바꾸어준다
+
 		OutputDebugString(L"MainCamera Set!");
 	}
 
