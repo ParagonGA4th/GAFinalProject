@@ -1,5 +1,7 @@
 #include "TestScene.h"
 #include "Camera.h"
+#include "../ParagonData/ImageRenderer.h"
+#include "../ParagonData/Button.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/BaseRenderer.h" //Render 연동 보기 위해.
@@ -28,6 +30,19 @@ void Pg::Engine::TestScene::Initialize()
 	GameObject* tObj2 = tCurrentScene->AddObject("Cube2");
 	tObj2->GetComponent<Transform>()->SetPosition({ -10.0f, 0.0f, 5.0f });
 	tObj2->AddComponent<RendererBase3D>();
+
+
+	/// 오수안, 새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 
+	GameObject* tObj3 = tCurrentScene->AddObject("BtnTest");
+	tObj3->GetComponent<Transform>()->SetPosition({0.f, 0.f, 0.f});
+	tObj3->AddComponent<Button>();
+	tObj3->GetComponent<ImageRenderer>()->SetImagePath("Test.png");
+
+
+	GameObject* tLight = tCurrentScene->AddObject("LightTest");
+	tLight->GetComponent<Transform>()->SetPosition({ 10.f, 10.f, 10.f });
+
+
 	////tObj2->AddComponent<BaseRenderer>();
 	//tObj2->AddComponent<RendererBase2D>();
 

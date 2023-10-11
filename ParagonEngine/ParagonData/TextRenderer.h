@@ -10,10 +10,10 @@ namespace Pg::Data
 
 	class GameObject;
 
-	class TextBox : public RendererBase2D
+	class TextRenderer : public RendererBase2D
 	{
 	public:
-		TextBox(GameObject* obj);
+		TextRenderer(GameObject* obj);
 
 	public:
 		void SetString(std::string str);
