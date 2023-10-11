@@ -182,6 +182,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Panel.h" />
+    <ClInclude Include="ParagonDefines.h" />
     <ClInclude Include="RendererChangeList.h" />
     <ClInclude Include="EditorMode.h" />
     <ClInclude Include="EngineResource.h" />
