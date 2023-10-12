@@ -203,6 +203,7 @@
     <ClInclude Include="RendererType.h" />
     <ClInclude Include="RenderTextData.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Script.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="TextRenderer.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="RendererBase2D.cpp" />
     <ClCompile Include="RendererBase3D.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Script.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
