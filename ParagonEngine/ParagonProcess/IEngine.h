@@ -2,6 +2,7 @@
 #include "../ParagonData/AssetDefines.h"
 #include "../ParagonData/Scene.h"
 #include <string>
+#include <vector>
 
 /// <summary>
 /// 변지상의 엔진 인터페이스. 코어에 들어갈 예정

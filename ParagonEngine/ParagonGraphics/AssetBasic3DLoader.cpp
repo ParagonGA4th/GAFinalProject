@@ -1,11 +1,13 @@
 #include "AssetBasic3DLoader.h"
 #include "Asset3DModelDefine.h"
 #include "Asset3DModelHelper.h"
+#include "Asset3DModelData.h"
 #include "../ParagonUtil/ResourceHelper.h"
 
 #include <assimp/Importer.hpp>     
 #include <assimp/scene.h>          
 #include <assimp/postprocess.h> 
+//#include <assimp/material.h> 
 #include <cassert>
 
 
@@ -20,20 +22,10 @@ namespace Pg::Graphics::Loader
 	AssetBasic3DLoader::AssetBasic3DLoader()
 	{
 		////Assimp 링크 문제 없다는 것을 확인하기 위해.
-		//Assimp::Importer importer;
-		//const aiScene* pScene = importer.ReadFile("../Resources/3DModels/Banana.fbx",
-		//	aiProcess_Triangulate |
-		//	aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_PreTransformVertices | aiProcess_SortByPType |
-		//	aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_GenBoundingBoxes);
-		//
-		//assert(pScene != nullptr);
 		
-
-
-
 	}
 
-	Pg::Graphics::AssetSceneData* AssetBasic3DLoader::Load3DModel(bool isSkinned, const std::string& path)
+	void AssetBasic3DLoader::Load3DModel(bool isSkinned, const std::string& path, Asset3DModelData* modelData)
 	{
 		AssetSceneData* tAssetSceneData = new Pg::Graphics::AssetSceneData;
 		Assimp::Importer importer;
@@ -46,12 +38,17 @@ namespace Pg::Graphics::Loader
 				aiProcess_Triangulate |
 				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_GenBoundingBoxes |
 				aiProcess_CalcTangentSpace | aiProcess_PopulateArmatureData |
-				aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_LimitBoneWeights);
+				aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_EmbedTextures | aiProcess_LimitBoneWeights);
 			assert(pScene != nullptr);
 
 			tAssetSceneData->m_Directory = path;
 			Helper::Asset3DModelHelper::CopyAssimpToAssetScene(pScene, tAssetSceneData);
 			Helper::Asset3DModelHelper::FinalizeDataHelper();
+			modelData->_assetSceneData = tAssetSceneData;
+
+			//이 상황에서 AssetSceneData는 로딩된 것이다.
+			//Material이 있을 시, 이를 로드한다.
+			//CheckLoadMaterialTextures(pScene, modelData);
 		}
 		else
 		{
@@ -59,15 +56,19 @@ namespace Pg::Graphics::Loader
 			const aiScene* pScene = importer.ReadFile(path.c_str(),
 				aiProcess_Triangulate |
 				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType |
-				aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_GenBoundingBoxes);
+				aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_EmbedTextures | aiProcess_GenBoundingBoxes);
 			assert(pScene != nullptr);
 
 			tAssetSceneData->m_Directory = path;
 			Helper::Asset3DModelHelper::CopyAssimpToAssetScene(pScene, tAssetSceneData);
 			Helper::Asset3DModelHelper::FinalizeDataHelper();
+			modelData->_assetSceneData = tAssetSceneData;
+
+			//이 상황에서 AssetSceneData는 로딩된 것이다.
+			//Material이 있을 시, 이를 로드한다.
+			//CheckLoadMaterialTextures(pScene, modelData);
 		}
 
-		return tAssetSceneData;
 	}
 
 	bool AssetBasic3DLoader::IsModelSkinned(const std::string& path)
@@ -94,6 +95,27 @@ namespace Pg::Graphics::Loader
 		return tIsSkinned;
 	}
 
-	
+	void AssetBasic3DLoader::CheckLoadMaterialTextures(const AssetSceneData* scene, Asset3DModelData* modelData)
+	{
+
+	}
+
+	//void AssetBasic3DLoader::CheckLoadMaterialTextures(const aiScene* assimp, Asset3DModelData* modelData)
+	//{
+	//	if (!assimp->HasMaterials())
+	//	{
+	//		return;
+	//	}
+	//
+	//	//Material이 있다는 얘기이다. 여기서 Material을 처리해야 한다.
+	//	//for(assimp->)
+	//
+	//
+	//}
+	//
+	//void AssetBasic3DLoader::LoadMaterialTextures(aiMaterial* mat, std::string typeName, const aiScene* scene)
+	//{
+	//
+	//}
 
 }

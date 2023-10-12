@@ -99,4 +99,23 @@ namespace Pg::Graphics::Manager
 		return tIsFound;
 	}
 
+	std::map<std::string, Pg::Data::Enums::eAssetDefine>* GraphicsResourceManager::GetSecondaryResources()
+	{
+		if (_toAddSecondaryResourcesMap.empty())
+		{
+			return nullptr;
+		}
+		else
+		{
+			//¹¹¶óµµ ÀÖ´Ù´Â ¾ê±â.
+			return &_toAddSecondaryResourcesMap;
+		}
+	}
+
+	void GraphicsResourceManager::ClearSecondaryResourcesList()
+	{
+		_toAddSecondaryResourcesMap.clear();
+	}
+	
+
 }

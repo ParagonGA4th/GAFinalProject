@@ -97,6 +97,11 @@ namespace Pg::Graphics
 		// TODO: Load(Scene* )
 		// 
 
+		//그래픽스 한정, 특정 리소스를 로드했을 시 내부 파생 2차 리소스 (Ex. Embedded Textures) 등등이 존재 가능.
+		//이를 메인 목록과 호환하기 위해서 쓰이는 함수.
+		PARAGON_GRAPHICS_DLL virtual std::map<std::string, Pg::Data::Enums::eAssetDefine>* SendAddedSecondaryResources() override;
+
+		PARAGON_GRAPHICS_DLL virtual void ClearSecondaryResourcesList() override;
 	public:
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;
 

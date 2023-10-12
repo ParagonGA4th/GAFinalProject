@@ -86,8 +86,25 @@ namespace Pg::Graphics
 		return _skinned1stLayout;
 	}
 
+
+	LayoutDefine::Vin1stStatic::Vin1stStatic(DirectX::XMFLOAT3 posVal) :
+		posL(posVal), normalL( 0.0f, 0.0f,0.0f ), tangentL( 0.0f, 0.0f,0.0f ),
+		color( 1.0f,0.0f,0.0f,1.0f ), tex( 0.f,0.f,0.f ), matID(0)
+	{
+		//
+	}
+
+	LayoutDefine::Vin1stStatic::Vin1stStatic(DirectX::XMFLOAT3 posVal, DirectX::XMFLOAT3 normalVal, 
+		DirectX::XMFLOAT3 tangentVal, DirectX::XMFLOAT4 colorVal, DirectX::XMFLOAT3 texVal, unsigned int matIDVal) :
+		posL(posVal), normalL(normalVal), tangentL(tangentVal), color(colorVal), tex(texVal), matID(matIDVal)
+	{
+		//
+	}
+
 	
+
 	
+
 	
 
 }

@@ -121,6 +121,12 @@
     <ClInclude Include="D3DBufferInfo.h">
       <Filter>10_Structs\D3DBuffers</Filter>
     </ClInclude>
+    <ClInclude Include="TextureCluster.h">
+      <Filter>10_Structs\TextureCluster</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoGeometryGenerator.h">
+      <Filter>9_Util\DemoGeometryGenerator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -227,6 +233,12 @@
     </ClCompile>
     <ClCompile Include="BufferParser.cpp">
       <Filter>8_Helpers\BufferParser</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureCluster.cpp">
+      <Filter>10_Structs\TextureCluster</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoGeometryGenerator.cpp">
+      <Filter>9_Util\DemoGeometryGenerator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -347,6 +359,15 @@
     <Filter Include="11_TemporaryForwardRendering">
       <UniqueIdentifier>{f1b3487e-afc1-4aa5-bd21-8bdbee8bb1ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="6_HLSL\TempForward">
+      <UniqueIdentifier>{c9c79e18-ed8d-4753-b263-81e8f64f61d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\TextureCluster">
+      <UniqueIdentifier>{d996588d-430c-4bd3-b54b-218f353e692d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_Util\DemoGeometryGenerator">
+      <UniqueIdentifier>{96a84336-e59f-4c8b-adc6-f708a51266cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
@@ -369,6 +390,12 @@
     </FxCompile>
     <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstStage_PS.hlsl">
       <Filter>6_HLSL\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\TempForward\TempForwardPS.hlsl">
+      <Filter>6_HLSL\TempForward</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\TempForward\TempForwardVS.hlsl">
+      <Filter>6_HLSL\TempForward</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
