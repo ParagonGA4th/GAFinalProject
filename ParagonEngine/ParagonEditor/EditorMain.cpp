@@ -35,6 +35,7 @@ void Pg::Editor::Core::EditorMain::Loop()
 			DispatchMessage(&_msg);
 			TranslateMessage(&_msg);
 			_editorManager->Handler(_msg);
+			_editorManager->InputHandler(_msg);
 		}
 		else
 		{
