@@ -86,11 +86,13 @@ namespace Pg::Data
 
 	void Scene::SetMainCamera(Camera* mainCamera)
 	{
+		// 메인 카메라 변경
 		_mainCamera = mainCamera;
 
-		// 메인 카메라가 바뀌었을 때 오브젝트를 현재
-		// 메인 카메라 기준으로 바꾸어준다
+		// 그래픽스에 전달될 카메라 데이터를 현재 메인 카메라로 변경
+		_mainCamera->GetCameraData();
 
+		// 디버그 로그 출력
 		OutputDebugString(L"MainCamera Set!");
 	}
 
@@ -99,7 +101,7 @@ namespace Pg::Data
 		return _objectList;
 	}
 
-	DirectionalLight* Scene::GetMainLight()
+	Pg::Data::DirectionalLight* Scene::GetMainLight()
 	{
 		return _mainDirLight;
 	}

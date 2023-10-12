@@ -28,7 +28,7 @@ namespace Pg::Core
 	public:
 		virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) abstract;
 
-		virtual void Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData cameraData, float deltaTime) abstract;
+		virtual void Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData, float deltaTime) abstract;
 		virtual void BeginRender() abstract;
 		virtual void Render(Pg::Data::Scene* scene) abstract;
 		virtual void EndRender() abstract;
