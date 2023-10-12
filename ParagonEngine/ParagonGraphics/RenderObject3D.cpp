@@ -2,7 +2,7 @@
 #include "GraphicsResourceManager.h"
 #include "../ParagonData/BaseRenderer.h"
 #include "../ParagonUtil/ResourceHelper.h"
-
+#include "LowDX11Storage.h"
 #include <cassert>
 
 namespace Pg::Graphics
@@ -13,6 +13,9 @@ namespace Pg::Graphics
 	RenderObject3D::RenderObject3D(Pg::Data::BaseRenderer* baseRenderer) : RenderObjectBase(baseRenderer)
 	{
 		//
+		
+		//#ForwardTemp : GeometricPrimitive 인스턴스 만들기.
+		_tempPrimitive = DirectX::GeometricPrimitive::CreateCube(LowDX11Storage::GetInstance()->_deviceContext);
 	}
 
 	RenderObject3D::~RenderObject3D()
