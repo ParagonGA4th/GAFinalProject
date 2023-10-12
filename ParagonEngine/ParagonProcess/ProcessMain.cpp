@@ -134,7 +134,7 @@ namespace Pg::Core
 		_work->GetCurrentScene()->Update();
 
 		_engineGraphicsAdapter->UpdateGraphics(
-			_work->GetCurrentScene(), cameraData, _timeManager->GetDeltaTime());
+			_work->GetCurrentScene(), &cameraData, _timeManager->GetDeltaTime());
 	}
 
 	void ProcessMain::BeginRender()
