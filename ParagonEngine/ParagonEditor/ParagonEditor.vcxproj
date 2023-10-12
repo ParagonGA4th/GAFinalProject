@@ -143,6 +143,7 @@
     <ClCompile Include="DataStruct.h" />
     <ClCompile Include="EditorManager.cpp" />
     <ClCompile Include="EditorMain.cpp" />
+    <ClCompile Include="File.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="imgui_tables.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Serializer.cpp" />
     <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +162,7 @@
     <ClInclude Include="EditorMain.h" />
     <ClInclude Include="EditorManager.h" />
     <ClInclude Include="ExternalLib.h" />
+    <ClInclude Include="File.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="IEditor.h" />
     <ClInclude Include="imconfig.h" />
@@ -171,6 +174,7 @@
     <ClInclude Include="imstb_rectpack.h" />
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
+    <ClInclude Include="Serializer.h" />
     <ClInclude Include="UIManager.h" />
   </ItemGroup>
   <ItemGroup>
