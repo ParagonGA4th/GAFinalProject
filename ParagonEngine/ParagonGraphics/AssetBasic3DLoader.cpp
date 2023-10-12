@@ -25,13 +25,17 @@ namespace Pg::Graphics::Loader
 		
 	}
 
-	void AssetBasic3DLoader::Load3DModel(bool isSkinned, const std::string& path, Asset3DModelData* modelData)
+	void AssetBasic3DLoader::Load3DModel(const std::string& path, Asset3DModelData* modelData)
 	{
-		AssetSceneData* tAssetSceneData = new Pg::Graphics::AssetSceneData;
+		assert(modelData->_assetSceneData == nullptr);
+
+		modelData->_assetSceneData = new Pg::Graphics::AssetSceneData;
 		Assimp::Importer importer;
 		//일단은 Mesh를 여러 개를 받아도 호환 가능하게 세팅!
 
-		if (isSkinned)
+		modelData->_isSkinned = IsModelSkinned(path);
+		
+		if (modelData->_isSkinned)
 		{
 			//Skinned
 			const aiScene* pScene = importer.ReadFile(path.c_str(),
@@ -41,10 +45,9 @@ namespace Pg::Graphics::Loader
 				aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_EmbedTextures | aiProcess_LimitBoneWeights);
 			assert(pScene != nullptr);
 
-			tAssetSceneData->m_Directory = path;
-			Helper::Asset3DModelHelper::CopyAssimpToAssetScene(pScene, tAssetSceneData);
+			modelData->_assetSceneData->m_Directory = path;
+			Helper::Asset3DModelHelper::ProcessAssimpToAssetData(pScene, modelData);
 			Helper::Asset3DModelHelper::FinalizeDataHelper();
-			modelData->_assetSceneData = tAssetSceneData;
 
 			//이 상황에서 AssetSceneData는 로딩된 것이다.
 			//Material이 있을 시, 이를 로드한다.
@@ -59,10 +62,9 @@ namespace Pg::Graphics::Loader
 				aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_EmbedTextures | aiProcess_GenBoundingBoxes);
 			assert(pScene != nullptr);
 
-			tAssetSceneData->m_Directory = path;
-			Helper::Asset3DModelHelper::CopyAssimpToAssetScene(pScene, tAssetSceneData);
+			modelData->_assetSceneData->m_Directory = path;
+			Helper::Asset3DModelHelper::ProcessAssimpToAssetData(pScene, modelData);
 			Helper::Asset3DModelHelper::FinalizeDataHelper();
-			modelData->_assetSceneData = tAssetSceneData;
 
 			//이 상황에서 AssetSceneData는 로딩된 것이다.
 			//Material이 있을 시, 이를 로드한다.
@@ -94,28 +96,5 @@ namespace Pg::Graphics::Loader
 		}
 		return tIsSkinned;
 	}
-
-	void AssetBasic3DLoader::CheckLoadMaterialTextures(const AssetSceneData* scene, Asset3DModelData* modelData)
-	{
-
-	}
-
-	//void AssetBasic3DLoader::CheckLoadMaterialTextures(const aiScene* assimp, Asset3DModelData* modelData)
-	//{
-	//	if (!assimp->HasMaterials())
-	//	{
-	//		return;
-	//	}
-	//
-	//	//Material이 있다는 얘기이다. 여기서 Material을 처리해야 한다.
-	//	//for(assimp->)
-	//
-	//
-	//}
-	//
-	//void AssetBasic3DLoader::LoadMaterialTextures(aiMaterial* mat, std::string typeName, const aiScene* scene)
-	//{
-	//
-	//}
 
 }
