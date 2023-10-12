@@ -192,6 +192,7 @@ namespace Pg::Graphics
 
 	void GraphicsMain::Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData, float deltaTime)
 	{
+		//당장 CameraData가 반영되는 것이 아님.
 		//_timeManager->TimeMeasure();
 		//float dt = _timeManager->GetDeltaTime();
 
