@@ -4,7 +4,6 @@
     <ClCompile Include="FileManager.cpp">
       <Filter>2_Manager\2_FileManager</Filter>
     </ClCompile>
-    <ClCompile Include="DataStruct.h" />
     <ClCompile Include="imgui.cpp">
       <Filter>Imgui\src</Filter>
     </ClCompile>
@@ -27,7 +26,7 @@
       <Filter>Imgui\src</Filter>
     </ClCompile>
     <ClCompile Include="EditorMain.cpp">
-      <Filter>1_Main</Filter>
+      <Filter>0_Main</Filter>
     </ClCompile>
     <ClCompile Include="EditorManager.cpp">
       <Filter>2_Manager\0_EditorManager</Filter>
@@ -35,21 +34,13 @@
     <ClCompile Include="ImGuiManager.cpp">
       <Filter>2_Manager\ImguiManager</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>0_Entry</Filter>
-    </ClCompile>
-    <ClCompile Include="Application.cpp">
-      <Filter>0_Entry\Application</Filter>
-    </ClCompile>
     <ClCompile Include="UIManager.cpp">
       <Filter>2_Manager\1_UIManager</Filter>
     </ClCompile>
-    <ClCompile Include="File.cpp">
-      <Filter>SuanTest\File</Filter>
+    <ClCompile Include="DataStruct.h">
+      <Filter>1_Define</Filter>
     </ClCompile>
-    <ClCompile Include="Serializer.cpp">
-      <Filter>SuanTest\Serializer</Filter>
-    </ClCompile>
+    <ClCompile Include="Editor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Imgui">
@@ -61,20 +52,17 @@
     <Filter Include="Imgui\src">
       <UniqueIdentifier>{99bfdae7-d914-4953-a902-75847e51dbbb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Entry">
-      <UniqueIdentifier>{a2b9252d-2b07-4949-b7ea-c4a055fb436c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Main">
+    <Filter Include="0_Main">
       <UniqueIdentifier>{10fc9034-0baf-41bb-a32e-d03a4553f590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Define">
+      <UniqueIdentifier>{f57c79c9-3398-442d-be98-3bba39119fe5}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Manager">
       <UniqueIdentifier>{a0fca74c-be2d-45d3-9510-fd6bafbc1058}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Manager\ImguiManager">
       <UniqueIdentifier>{071f8ebd-7803-4de6-a616-d512756bdf81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_Entry\Application">
-      <UniqueIdentifier>{1c344d54-58f7-4885-9da2-5daebd98fd22}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Manager\0_EditorManager">
       <UniqueIdentifier>{1ac736da-9b58-423a-bd86-a3a14f017b48}</UniqueIdentifier>
@@ -85,14 +73,11 @@
     <Filter Include="2_Manager\2_FileManager">
       <UniqueIdentifier>{8ba21139-66b2-43da-b4ad-0ee33a689461}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SuanTest">
-      <UniqueIdentifier>{50bc524e-69d3-4f57-8414-3d185c5f1c44}</UniqueIdentifier>
+    <Filter Include="1_Define\1_Interface">
+      <UniqueIdentifier>{4e6e69d8-8d2e-48a3-990e-2521b6c58164}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SuanTest\File">
-      <UniqueIdentifier>{689cf36c-91e1-4eb5-b724-c34cee61668a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SuanTest\Serializer">
-      <UniqueIdentifier>{c01f8ab2-6958-413e-aab0-9199c04c4397}</UniqueIdentifier>
+    <Filter Include="1_Define\0_DLLExporter">
+      <UniqueIdentifier>{e7207eec-6122-41ce-8492-513780d35b92}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -124,10 +109,7 @@
       <Filter>Imgui\header</Filter>
     </ClInclude>
     <ClInclude Include="EditorMain.h">
-      <Filter>1_Main</Filter>
-    </ClInclude>
-    <ClInclude Include="IEditor.h">
-      <Filter>1_Main</Filter>
+      <Filter>0_Main</Filter>
     </ClInclude>
     <ClInclude Include="EditorManager.h">
       <Filter>2_Manager\0_EditorManager</Filter>
@@ -135,19 +117,19 @@
     <ClInclude Include="ImGuiManager.h">
       <Filter>2_Manager\ImguiManager</Filter>
     </ClInclude>
-    <ClInclude Include="Application.h">
-      <Filter>0_Entry\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="ExternalLib.h" />
     <ClInclude Include="UIManager.h">
       <Filter>2_Manager\1_UIManager</Filter>
     </ClInclude>
-    <ClInclude Include="File.h">
-      <Filter>SuanTest\File</Filter>
+    <ClInclude Include="ExternalLib.h">
+      <Filter>1_Define</Filter>
     </ClInclude>
-    <ClInclude Include="Serializer.h">
-      <Filter>SuanTest\Serializer</Filter>
+    <ClInclude Include="EditorDLLExporter.h">
+      <Filter>1_Define\0_DLLExporter</Filter>
     </ClInclude>
+    <ClInclude Include="IEditor.h">
+      <Filter>1_Define\1_Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="SceneName.xml" />
