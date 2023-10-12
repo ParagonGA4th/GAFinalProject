@@ -1,13 +1,8 @@
 #pragma once
 #include <string>
 #include <vector>
-<<<<<<< HEAD
 #include "../ParagonData/Camera.h"
-=======
-#include "../ParagonGameEngine/Camera.h"
 #include "DirectionalLight.h"
->>>>>>> 9a4d773693d54cf5562eccb3a153b59c8fc94f92
-
 
 /// <summary>
 /// 변지상의 Scene 클래스.
