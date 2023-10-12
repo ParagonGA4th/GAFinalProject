@@ -29,9 +29,9 @@ namespace Pg::Graphics
 		using Pg::Graphics::Manager::GraphicsResourceManager;
 		using Pg::Graphics::Loader::AssetBasic3DLoader;
 
+		//로드 및 구분.
 		AssetBasic3DLoader* t3DLoader = GraphicsResourceManager::Instance()->GetBasic3DLoader();
-		this->_isSkinned = t3DLoader->IsModelSkinned(_filePath);
-		t3DLoader->Load3DModel(_isSkinned, _filePath, this);
+		t3DLoader->Load3DModel(_filePath, this);
 		
 		//실제로 DX11 버퍼 로드. (Static, Skinned 모두)
 		BufferParser::Asset3DModelToD3DBuffer(_d3dBufferInfo, _isSkinned, _assetSceneData);
