@@ -35,6 +35,8 @@
 /// 
 /// </summary>
 
+class ID3D11ShaderResourceView;
+
 namespace Pg::API
 {
 	namespace Input
@@ -102,6 +104,13 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual std::map<std::string, Pg::Data::Enums::eAssetDefine>* SendAddedSecondaryResources() override;
 
 		PARAGON_GRAPHICS_DLL virtual void ClearSecondaryResourcesList() override;
+
+		//Editor 연동 : Editor Camera 시점 SRV를 리턴.
+		PARAGON_GRAPHICS_DLL virtual ID3D11ShaderResourceView* GetEditorCameraViewSRV() override;
+			
+		//Editor 연동 : Game Camera 시점 SRV를 리턴.
+		PARAGON_GRAPHICS_DLL virtual ID3D11ShaderResourceView* GetGameCameraViewSRV() override;
+
 	public:
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;
 
@@ -120,6 +129,11 @@ namespace Pg::Graphics
 	
 	private:
 		Pg::API::Input::PgInput* _input;
+
+	private:
+		// Editor 연동 & 나중에 이 SRV들이 최종 렌더되는 Quad의 SRV여야 한다.
+		ID3D11ShaderResourceView* _editorCameraSRV = nullptr;
+		ID3D11ShaderResourceView* _gameCameraSRV = nullptr;
 
 	private:
 		std::unique_ptr<ParagonRenderer> _renderer;
