@@ -44,6 +44,7 @@ struct aiMaterialProperty;
 namespace Pg::Graphics
 {
 	class AssetSceneData;
+	class Asset3DModelData;
 }
 
 namespace Pg::Graphics::Helper
@@ -52,7 +53,7 @@ namespace Pg::Graphics::Helper
 	{
 	public:
 		//ASSIMP 구조체를 Asset 구조체로 변화시킨다.
-		static void CopyAssimpToAssetScene(const aiScene* _assimpScene, AssetSceneData* _mgrtScene);
+		static void ProcessAssimpToAssetData(const aiScene* _assimpScene, Asset3DModelData* assetData);
 
 		//SceneData를 Static으로 임시 보관 멤버변수 초기화.
 		static void FinalizeDataHelper();
