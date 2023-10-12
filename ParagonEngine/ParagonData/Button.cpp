@@ -1,10 +1,17 @@
 #include "Button.h"
+#include "ImageRenderer.h"
+#include "TextRenderer.h"
+
+#include "GameObject.h"
 
 namespace Pg::Data
 {
-	Button::Button(GameObject* obj)
-		: UIRenderer(obj)
-	{
+	class GameObject;
 
+	Button::Button(GameObject* obj)
+		:Component(obj)
+	{
+		obj->AddComponent<ImageRenderer>();
+		obj->AddComponent<TextRenderer>();
 	}
 }

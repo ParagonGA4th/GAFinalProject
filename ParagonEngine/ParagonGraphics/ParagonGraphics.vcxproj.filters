@@ -124,7 +124,9 @@
     <ClInclude Include="TextureCluster.h">
       <Filter>10_Structs\TextureCluster</Filter>
     </ClInclude>
-    <ClInclude Include="DemoGeometryGenerator.h" />
+    <ClInclude Include="DemoGeometryGenerator.h">
+      <Filter>9_Util\DemoGeometryGenerator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -235,7 +237,9 @@
     <ClCompile Include="TextureCluster.cpp">
       <Filter>10_Structs\TextureCluster</Filter>
     </ClCompile>
-    <ClCompile Include="DemoGeometryGenerator.cpp" />
+    <ClCompile Include="DemoGeometryGenerator.cpp">
+      <Filter>9_Util\DemoGeometryGenerator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">

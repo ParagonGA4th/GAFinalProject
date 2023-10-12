@@ -35,6 +35,7 @@ namespace Pg::Graphics
 	{
 		_DXLogic->PrepareRenderTargets();
 		_DXLogic->BindRenderTargets();
+		//_DXLogic->SetRasterizerrStates();
 	}
 
 	void ParagonRenderer::Render(Pg::Data::CameraData camData)
