@@ -15,7 +15,7 @@ namespace Pg::Graphics
 		//
 		
 		//#ForwardTemp : GeometricPrimitive 인스턴스 만들기.
-		_tempPrimitive = DirectX::GeometricPrimitive::CreateCube(LowDX11Storage::GetInstance()->_deviceContext);
+		_tempPrimitive = DirectX::GeometricPrimitive::CreateSphere(LowDX11Storage::GetInstance()->_deviceContext, 1.0f);
 	}
 
 	RenderObject3D::~RenderObject3D()

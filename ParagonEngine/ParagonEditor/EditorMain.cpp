@@ -1,28 +1,14 @@
 #include "EditorMain.h"
-#include "ImGuiManager.h"
-#include "FileManager.h"
-#include "../ParagonUtil/Log.h"
+#include "EditorManager.h"
 
-#include "../ParagonAPI/PgInput.h"
-
-#include <singleton-cpp/singleton.h>
-
-Pg::Core::ProcessMain* Pg::Editor::EditorMain::_coreMainStatic = nullptr;	// WndProc 접근을 위한 스태틱 변수
-bool Pg::Editor::EditorMain::_isCoreInitialized; // 코어의 Initialize 이후에 스태틱 변수에 접근하도록 하기 위한 bool 변수
+Pg::Editor::Manager::EditorManager* Pg::Editor::EditorMain::_editorManager = nullptr;	// WndProc 접근을 위한 스태틱 변수
 
 Pg::Editor::EditorMain::EditorMain()
+	:_hWnd(),
+	_screenWidth(1920), _screenHeight(1080),
+	_appName(L"ParagonEngine")
 {
-	_isCoreInitialized = false;
-	_coreMain = std::make_unique<Pg::Core::ProcessMain>();
-	_coreMainStatic = _coreMain.get();
-
-	_fileManager = std::make_unique<FileManager>();
-	_fileManager->XmlLoad();
-
-	auto& tInputSystem = singleton<Pg::API::Input::PgInput>();
-	_input = &tInputSystem;
-
-	_imGuiManager = std::make_unique<ImGuiManager>(_fileManager->GetGameObjectData());
+	_editorManager = new Pg::Editor::Manager::EditorManager();
 }
 
 Pg::Editor::EditorMain::~EditorMain()
@@ -30,33 +16,115 @@ Pg::Editor::EditorMain::~EditorMain()
 
 }
 
-void Pg::Editor::EditorMain::Initialize(void* hWnd, float width, float height)
+void Pg::Editor::EditorMain::Initialize()
 {
-	_coreMain->Initialize(hWnd, width, height);
-	_isCoreInitialized = true;
+	HINSTANCE ins = GetModuleHandle(NULL);
+	WindowRegisterClass(ins);
+	CreateWindows(ins);
 
-
-	// ImGui Dx11, Win32 Setting	
-	ImGui_ImplWin32_Init(hWnd);
-	ImGui_ImplDX11_Init(_coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
+	_editorManager->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
 }
 
-void Pg::Editor::EditorMain::Update()
+void Pg::Editor::EditorMain::Run()
 {
-	_coreMain->Update();
-	_imGuiManager->CreateFrame();
+	MSG _msg;
 
-	_imGuiManager->ShowDemoInspector();
-	_imGuiManager->ShowDemoHierarchy();
+	while (true)
+	{
+		if (PeekMessage(&_msg, NULL, 0, 0, PM_REMOVE))
+		{
+			if (_msg.message == WM_QUIT) break;
 
-	_coreMain->BeginRender();
-	_coreMain->Render();
-	_imGuiManager->Render();
-	_coreMain->EndRender();
+			DispatchMessage(&_msg);
+			TranslateMessage(&_msg);
+			_editorManager->InputHandler(_msg);
+		}
+		else
+		{
+			_editorManager->Update();
+		}
+	}
 }
 
 void Pg::Editor::EditorMain::Finalize()
 {
-	_imGuiManager->Finalize();
-	_coreMain->Finalize();
+	_editorManager->Finalize();
+}
+
+ATOM Pg::Editor::EditorMain::WindowRegisterClass(HINSTANCE hInstance)
+{
+	WNDCLASSEXW wcex;
+
+	wcex.cbSize = sizeof(WNDCLASSEXW);
+
+	wcex.style = CS_CLASSDC;
+	wcex.lpfnWndProc = WndProc;
+	wcex.cbClsExtra = 0;
+	wcex.cbWndExtra = 0;
+	wcex.hInstance = hInstance;
+	wcex.hIcon = NULL;
+	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wcex.lpszMenuName = NULL;
+	wcex.lpszClassName = _appName;
+	wcex.hIconSm = NULL;
+
+	return RegisterClassExW(&wcex);
+}
+
+BOOL Pg::Editor::EditorMain::CreateWindows(HINSTANCE hInstance)
+{
+	_hWnd = CreateWindowW(_appName, _appName, WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT, CW_USEDEFAULT, _screenWidth, _screenHeight, nullptr, nullptr, hInstance, nullptr);
+
+	if (!_hWnd) return FALSE;
+	
+	RECT rect;
+
+	GetClientRect(_hWnd, &rect);
+
+	_screenWidth = rect.right - rect.left;
+	_screenHeight = rect.bottom - rect.top;
+
+	ShowWindow(_hWnd, SW_SHOWNORMAL);
+	UpdateWindow(_hWnd);
+
+	return TRUE;
+}
+
+LRESULT CALLBACK Pg::Editor::EditorMain::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_SIZE:
+		 _editorManager->ReSizeHandler(LOWORD(lParam), HIWORD(lParam));
+		break;
+
+	case WM_LBUTTONDOWN:
+		return 0;
+
+	case WM_MBUTTONDOWN:
+		return 0;
+
+	case WM_RBUTTONDOWN:
+		return 0;
+
+	case WM_LBUTTONUP:
+
+	case WM_MBUTTONUP:
+
+	case WM_RBUTTONUP:
+		return 0;
+
+	case WM_MOUSEMOVE:
+		break;
+
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+	return 0;
 }
