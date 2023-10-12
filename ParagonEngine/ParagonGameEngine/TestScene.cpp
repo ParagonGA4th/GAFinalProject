@@ -41,6 +41,11 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_1->GetComponent<RendererBase3D>()->SetActive(true);
 	tObj2_1->AddComponent<MoveForwardBack>();
 
+	GameObject* tObj2_2 = tCurrentScene->AddObject("Cube4");
+	tObj2_2->GetComponent<Transform>()->SetPosition({ -3.0f, 0.0f, 0.0f });
+	tObj2_2->AddComponent<RendererBase3D>();
+	tObj2_2->GetComponent<RendererBase3D>()->SetActive(true);
+
 
 	/// 오수안, 새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 
 	GameObject* tObj3 = tCurrentScene->AddObject("BtnTest");
