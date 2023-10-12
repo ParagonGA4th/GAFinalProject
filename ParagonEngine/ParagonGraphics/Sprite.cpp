@@ -22,6 +22,11 @@ void Pg::Graphics::Sprite::Draw()
 	_spriteBatch->End();
 }
 
+ID3D11ShaderResourceView* Pg::Graphics::Sprite::GetSRV()
+{
+	return _textureSRV;
+}
+
 void Pg::Graphics::Sprite::CreateAndSetTexture(std::wstring textureFilepath)
 {
 	// TODO: DDS가 아닌 파일도 셋팅 가능하도록 기능 추가
@@ -45,3 +50,4 @@ void Pg::Graphics::Sprite::SetPosition(float x, float y)
 	_position.x = x;
 	_position.y = y;
 }
+
