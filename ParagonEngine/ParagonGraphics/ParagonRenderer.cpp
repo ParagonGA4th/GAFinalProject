@@ -2,6 +2,7 @@
 
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
+#include "MathHelper.h"
 #include "GraphicsResourceHelper.h"
 
 #include "../ParagonData/Scene.h"
@@ -15,11 +16,14 @@
 
 namespace Pg::Graphics
 {
+	using Pg::Graphics::Helper::MathHelper;
+
 	ParagonRenderer::ParagonRenderer() :
 		_DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
 	{
 		auto& tRendererChangeList = singleton<Pg::Data::RendererChangeList>();
 		_rendererChangeList = &tRendererChangeList;
+		
 	}
 
 	ParagonRenderer::~ParagonRenderer()
@@ -33,15 +37,22 @@ namespace Pg::Graphics
 		_DXLogic->BindRenderTargets();
 	}
 
-	void ParagonRenderer::Render()
+	void ParagonRenderer::Render(Pg::Data::CameraData camData)
 	{
 		for (auto& it : _renderObject3DList)
 		{
 			if (it.second->_baseRenderer->GetActive())
 			{
 				//·»´õ.
+				DirectX::XMFLOAT4X4 tWorldTM = MathHelper::PG2XM_FLOAT4X4(it.first->_transform.GetWorldTM());
+				DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
 
+				DirectX::XMFLOAT4X4 tViewTM = MathHelper::PG2XM_FLOAT4X4(camData._viewMatrix);
+				DirectX::XMMATRIX tViewTMMat = DirectX::XMLoadFloat4x4(&tViewTM);
 
+				DirectX::XMFLOAT4X4 tProjTM = MathHelper::PG2XM_FLOAT4X4(camData._projMatrix);
+				DirectX::XMMATRIX tProjTMMat = DirectX::XMLoadFloat4x4(&tProjTM);
+				it.second->_tempPrimitive->Draw(tWorldTMMat, tViewTMMat, tProjTMMat, DirectX::Colors::Crimson);
 			}
 		}
 

@@ -13,7 +13,4 @@ namespace Pg::Data
 	{
 		//
 	}
-
-	
-
 }
