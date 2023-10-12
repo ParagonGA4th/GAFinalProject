@@ -1,7 +1,13 @@
 #include "EditorManager.h"
 #include "ExternalLib.h"
-
 #include "UIManager.h"
+#include "../ParagonAPI/PgInput.h"
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
+#endif // _DEBUG
 
 Pg::Editor::Manager::EditorManager::EditorManager()
 	:_isCoreInitailized(false)
@@ -12,8 +18,8 @@ Pg::Editor::Manager::EditorManager::EditorManager()
 	_coreMain = std::make_unique<Pg::Core::ProcessMain>();
 	
 	// input
-	//auto& tInputSystem = singleton<Pg::API::Input::PgInput>();
-	//_input = &tInputSystem;
+	auto& tInputSystem = singleton<Pg::API::Input::PgInput>();
+	_input = &tInputSystem;
 
 	// UI
 	_UIManager = std::make_unique<Pg::Editor::Manager::UIManager>();
@@ -53,11 +59,12 @@ void Pg::Editor::Manager::EditorManager::Finalize()
 //{
 //	//if(_isCoreInitailized) _coreMain->OnWindowResized(width, height);
 //}
-//
-//void Pg::Editor::Manager::EditorManager::InputHandler(MSG message)
-//{
-//	//_input->HandleMessage(message);
-//}
+
+
+void Pg::Editor::Manager::EditorManager::InputHandler(MSG message)
+{
+	_input->HandleMessage(message);
+}
 
 void Pg::Editor::Manager::EditorManager::Handler(MSG message)
 {
