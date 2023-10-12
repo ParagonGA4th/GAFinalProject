@@ -1,24 +1,26 @@
 #pragma once
-#include "IEditor.h"
 #include <windows.h>
 #include <memory>
 
-namespace Pg::Editor
+namespace Pg::Editor::Manager
 {
-	namespace Manager
-	{
-		class EditorManager;
-	}
+	class EditorManager;
+	//class ProcessManager;
+	//class FileManager;
+}
 
-	class EditorMain : public IEditor 
+
+namespace Pg::Editor::Core
+{
+	class EditorMain
 	{
 	public:
-		 EditorMain();
+		EditorMain();
 		~EditorMain();
 
-		virtual void Initialize() override;
-		virtual void Run() override;
-		virtual void Finalize() override;
+		void Initialize();
+		void Loop();
+		void Finalize();
 
 	private:
 		ATOM WindowRegisterClass(HINSTANCE hInstance);
@@ -27,6 +29,7 @@ namespace Pg::Editor
 
 	private:
 		HWND _hWnd;
+		MSG _msg;
 
 		float _screenWidth;
 		float _screenHeight;
@@ -35,7 +38,9 @@ namespace Pg::Editor
 
 	private:
 		// WndProc에 접근 하기 위해 static 사용
-		static Pg::Editor::Manager::EditorManager* _editorManager;
+		std::unique_ptr<Pg::Editor::Manager::EditorManager> _editorManager;
+		//std::unique_ptr<Pg::Editor::Manager::ProcessManager> _processManager;
+		//std::unique_ptr<Pg::Editor::Manager::FileManager> _FileManager;
 	};
 }
 

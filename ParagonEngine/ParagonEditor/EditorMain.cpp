@@ -1,34 +1,31 @@
 #include "EditorMain.h"
 #include "EditorManager.h"
 
-Pg::Editor::Manager::EditorManager* Pg::Editor::EditorMain::_editorManager = nullptr;	// WndProc 접근을 위한 스태틱 변수
-
-Pg::Editor::EditorMain::EditorMain()
+Pg::Editor::Core::EditorMain::EditorMain()
 	:_hWnd(),
 	_screenWidth(1920), _screenHeight(1080),
 	_appName(L"ParagonEngine")
 {
-	_editorManager = new Pg::Editor::Manager::EditorManager();
+	_editorManager = std::make_unique<Pg::Editor::Manager::EditorManager>();
+
 }
 
-Pg::Editor::EditorMain::~EditorMain()
+Pg::Editor::Core::EditorMain::~EditorMain()
 {
 
 }
 
-void Pg::Editor::EditorMain::Initialize()
+void Pg::Editor::Core::EditorMain::Initialize()
 {
 	HINSTANCE ins = GetModuleHandle(NULL);
 	WindowRegisterClass(ins);
 	CreateWindows(ins);
 
-	_editorManager->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
+	_editorManager->Initialize(_hWnd, _screenWidth, _screenHeight);
 }
 
-void Pg::Editor::EditorMain::Run()
+void Pg::Editor::Core::EditorMain::Loop()
 {
-	MSG _msg;
-
 	while (true)
 	{
 		if (PeekMessage(&_msg, NULL, 0, 0, PM_REMOVE))
@@ -37,21 +34,21 @@ void Pg::Editor::EditorMain::Run()
 
 			DispatchMessage(&_msg);
 			TranslateMessage(&_msg);
-			_editorManager->InputHandler(_msg);
+			_editorManager->Handler(_msg);
 		}
 		else
 		{
-			_editorManager->Update();
+			_editorManager->Update();  
 		}
 	}
 }
 
-void Pg::Editor::EditorMain::Finalize()
+void Pg::Editor::Core::EditorMain::Finalize()
 {
 	_editorManager->Finalize();
 }
 
-ATOM Pg::Editor::EditorMain::WindowRegisterClass(HINSTANCE hInstance)
+ATOM Pg::Editor::Core::EditorMain::WindowRegisterClass(HINSTANCE hInstance)
 {
 	WNDCLASSEXW wcex;
 
@@ -72,13 +69,13 @@ ATOM Pg::Editor::EditorMain::WindowRegisterClass(HINSTANCE hInstance)
 	return RegisterClassExW(&wcex);
 }
 
-BOOL Pg::Editor::EditorMain::CreateWindows(HINSTANCE hInstance)
+BOOL Pg::Editor::Core::EditorMain::CreateWindows(HINSTANCE hInstance)
 {
 	_hWnd = CreateWindowW(_appName, _appName, WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, _screenWidth, _screenHeight, nullptr, nullptr, hInstance, nullptr);
 
 	if (!_hWnd) return FALSE;
-	
+
 	RECT rect;
 
 	GetClientRect(_hWnd, &rect);
@@ -92,39 +89,16 @@ BOOL Pg::Editor::EditorMain::CreateWindows(HINSTANCE hInstance)
 	return TRUE;
 }
 
-LRESULT CALLBACK Pg::Editor::EditorMain::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK Pg::Editor::Core::EditorMain::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
-	case WM_SIZE:
-		 _editorManager->ReSizeHandler(LOWORD(lParam), HIWORD(lParam));
-		break;
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			break;
 
-	case WM_LBUTTONDOWN:
-		return 0;
-
-	case WM_MBUTTONDOWN:
-		return 0;
-
-	case WM_RBUTTONDOWN:
-		return 0;
-
-	case WM_LBUTTONUP:
-
-	case WM_MBUTTONUP:
-
-	case WM_RBUTTONUP:
-		return 0;
-
-	case WM_MOUSEMOVE:
-		break;
-
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-
-	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
+		default:
+			return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 	return 0;
 }
