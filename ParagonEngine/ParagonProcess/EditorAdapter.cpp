@@ -1,8 +1,10 @@
 #include "EditorAdapter.h"
+#include "ProcessMain.h"
+#include "EngineGraphicsAdapter.h"
 
 namespace Pg::Core
 {
-	EditorAdapter::EditorAdapter(ProcessMain* core) : _coreMain(core), _editorMode{}
+	EditorAdapter::EditorAdapter(ProcessMain* core) : _processMain(core), _editorMode{}
 	{
 
 	}
@@ -17,14 +19,14 @@ namespace Pg::Core
 
 	}
 
-	void* EditorAdapter::GetSceneEditorViewport()
+	void* EditorAdapter::GetEditorCameraViewSRV()
 	{
-		return {};
+		return _processMain->GetEngineGraphicsAdapter()->GetEditorCameraViewSRV();
 	}
 
-	void* EditorAdapter::GetGameViewport()
+	void* EditorAdapter::GetGameCameraViewSRV()
 	{
-		return {};
+		return _processMain->GetEngineGraphicsAdapter()->GetGameCameraViewSRV();
 	}
 
 	void EditorAdapter::SetEditorMode(Pg::Data::Enums::eEditorMode mode)
