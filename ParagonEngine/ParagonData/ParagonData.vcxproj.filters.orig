@@ -70,7 +70,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>2_Component\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="MoveForwardBack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -148,6 +147,10 @@
     <ClInclude Include="ImageRenderer.h">
       <Filter>2_Component\UI\Panel</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="ParagonDefines.h">
+      <Filter>7_ParagonDefines</Filter>
+=======
     <ClInclude Include="LightData.h">
       <Filter>4_Structs</Filter>
     </ClInclude>
@@ -168,12 +171,8 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>2_Component\Camera</Filter>
+>>>>>>> origin/main
     </ClInclude>
-    <ClInclude Include="ParagonDefines.h">
-      <Filter>7_ParagonDefines</Filter>
-    </ClInclude>
-    <ClInclude Include="Panel.h" />
-    <ClInclude Include="MoveForwardBack.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -266,6 +265,10 @@
     <Filter Include="2_Component\UI\Panel">
       <UniqueIdentifier>{5dcff952-b16f-4fbc-9ada-ca3a3aa3610a}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
+    <Filter Include="7_ParagonDefines">
+      <UniqueIdentifier>{1c8caedb-41a3-46e1-8252-51dbfddf65bf}</UniqueIdentifier>
+=======
     <Filter Include="2_Component\Light">
       <UniqueIdentifier>{6fdc2a79-3e25-4666-ac4d-93004875d37d}</UniqueIdentifier>
     </Filter>
@@ -283,15 +286,7 @@
     </Filter>
     <Filter Include="2_Component\Camera">
       <UniqueIdentifier>{feca1d29-5581-4691-a002-7a02d9a65aed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="7_ParagonDefines">
-      <UniqueIdentifier>{1c8caedb-41a3-46e1-8252-51dbfddf65bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="8_TestScripts">
-      <UniqueIdentifier>{a17a02b6-f64b-4684-a63e-094e0c45f985}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="8_TestScripts\MoveForwardBack">
-      <UniqueIdentifier>{2aeea70d-d57a-4569-86c3-04dd8a46dfe7}</UniqueIdentifier>
+>>>>>>> origin/main
     </Filter>
   </ItemGroup>
 </Project>
