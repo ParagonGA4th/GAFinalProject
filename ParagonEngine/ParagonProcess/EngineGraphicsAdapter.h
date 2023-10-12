@@ -42,7 +42,7 @@ namespace Pg::Core
 		void UpdateEngine();
 
 		//Graphics Update.
-		void UpdateGraphics(const Pg::Data::Scene* const scene, Pg::Data::CameraData cameraData, float deltaTime);
+		void UpdateGraphics(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData, float deltaTime);
 
 		//AssetManager Update.
 		void UpdateAssetManager(Manager::AssetManager* assetManager);
