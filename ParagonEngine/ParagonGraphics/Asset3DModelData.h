@@ -1,7 +1,6 @@
 #pragma once
 #include "D3DBufferInfo.h"
-#include "TextureCluster.h"
-
+#include "MaterialCluster.h"
 #include "../ParagonData/GraphicsResource.h"
 #include "../ParagonData/ParagonDefines.h"
 #include <array>
@@ -34,7 +33,7 @@ namespace Pg::Graphics
 		bool _isSkinned = false;
 		AssetSceneData* _assetSceneData = nullptr;
 		D3DBufferInfo _d3dBufferInfo;
-		std::array<TextureCluster, Pg::Defines::MAX_MATERIAL_PER_MODEL> _modelMaterialList;
+		MaterialCluster _materialCluster;
 	private:
 	};
 }
