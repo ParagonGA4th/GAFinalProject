@@ -12,7 +12,7 @@ namespace Pg::Data
 {
 	class GameObject;
 
-	class Button : public RendererBase2D
+	class Button : public Component
 	{
 	public:
 		Button(GameObject* obj);
