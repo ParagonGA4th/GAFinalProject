@@ -42,7 +42,11 @@ namespace Pg::Data
 
 	PGFLOAT2 RendererBase2D::GetSize()
 	{
-		PGFLOAT2 result = { _width, _height };
+		PGFLOAT2 result;
+
+		result.x = _width;
+		result.y = _height;
+
 		return result;
 	}
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "../ParagonGameEngine/Camera.h"
+#include "../ParagonData/Camera.h"
 
 
 /// <summary>

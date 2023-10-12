@@ -1,5 +1,5 @@
 #include "TestScene.h"
-#include "Camera.h"
+#include "../ParagonData/Camera.h"
 #include "../ParagonData/ImageRenderer.h"
 #include "../ParagonData/Button.h"
 #include "../ParagonData/GameObject.h"

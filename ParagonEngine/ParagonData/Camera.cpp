@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include "../ParagonData/GameObject.h"
+#include "GameObject.h"
 
 namespace Pg::Engine
 {
