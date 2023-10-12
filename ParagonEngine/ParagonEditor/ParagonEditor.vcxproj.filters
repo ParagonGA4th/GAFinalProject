@@ -44,6 +44,12 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>2_Manager\1_UIManager</Filter>
     </ClCompile>
+    <ClCompile Include="File.cpp">
+      <Filter>SuanTest\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Serializer.cpp">
+      <Filter>SuanTest\Serializer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Imgui">
@@ -78,6 +84,15 @@
     </Filter>
     <Filter Include="2_Manager\2_FileManager">
       <UniqueIdentifier>{8ba21139-66b2-43da-b4ad-0ee33a689461}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SuanTest">
+      <UniqueIdentifier>{50bc524e-69d3-4f57-8414-3d185c5f1c44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SuanTest\File">
+      <UniqueIdentifier>{689cf36c-91e1-4eb5-b724-c34cee61668a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SuanTest\Serializer">
+      <UniqueIdentifier>{c01f8ab2-6958-413e-aab0-9199c04c4397}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +141,12 @@
     <ClInclude Include="ExternalLib.h" />
     <ClInclude Include="UIManager.h">
       <Filter>2_Manager\1_UIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>SuanTest\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Serializer.h">
+      <Filter>SuanTest\Serializer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
