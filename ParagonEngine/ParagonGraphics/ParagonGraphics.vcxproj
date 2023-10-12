@@ -33,6 +33,11 @@
     <ClInclude Include="Cubemap.h" />
     <ClInclude Include="D3DBufferInfo.h" />
     <ClInclude Include="DemoGeometryGenerator.h" />
+    <ClInclude Include="GBuffer.h" />
+    <ClInclude Include="GeometryGenerator.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="LayoutDefine.h" />
     <ClInclude Include="DX11Headers.h" />
     <ClInclude Include="Font.h" />
@@ -77,6 +82,11 @@
     <ClCompile Include="Cubemap.cpp" />
     <ClCompile Include="DemoGeometryGenerator.cpp" />
     <ClCompile Include="Font.cpp" />
+    <ClCompile Include="GBuffer.cpp" />
+    <ClCompile Include="GeometryGenerator.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="GraphicsMain.cpp" />
     <ClCompile Include="GraphicsResourceHelper.cpp" />
     <ClCompile Include="GraphicsResourceManager.cpp" />

@@ -127,6 +127,12 @@
     <ClInclude Include="DemoGeometryGenerator.h">
       <Filter>9_Util\DemoGeometryGenerator</Filter>
     </ClInclude>
+    <ClInclude Include="GeometryGenerator.h">
+      <Filter>5_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="GBuffer.h">
+      <Filter>4_RenderObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -239,6 +245,12 @@
     </ClCompile>
     <ClCompile Include="DemoGeometryGenerator.cpp">
       <Filter>9_Util\DemoGeometryGenerator</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryGenerator.cpp">
+      <Filter>5_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="GBuffer.cpp">
+      <Filter>4_RenderObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
