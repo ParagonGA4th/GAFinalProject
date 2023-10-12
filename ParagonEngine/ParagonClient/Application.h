@@ -1,7 +1,11 @@
 #pragma once
-#include "IEditor.h"
 
-namespace Pg::Editor::Main 
+namespace Pg::Editor
+{
+	class IEditor;
+}
+
+namespace Pg::Client::Core
 {
 	class Application
 	{
