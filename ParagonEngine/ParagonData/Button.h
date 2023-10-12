@@ -1,5 +1,5 @@
 #pragma once
-#include "UIRenderer.h"
+#include "RendererBase2D.h"
 
 #include <functional>
 
@@ -12,12 +12,13 @@ namespace Pg::Data
 {
 	class GameObject;
 
-	class Button : public UIRenderer
+	class Button : public Component
 	{
 	public:
 		Button(GameObject* obj);
 
 	private:
+		//TODO 나중에 필요하면 템플릿으로 바꿀 것
 		std::function<void()> _onClickEvent;
 
 	};

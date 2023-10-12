@@ -1,5 +1,5 @@
 #pragma once
-#include "UIRenderer.h"
+#include "RendererBase2D.h"
 
 #include <string>
 
@@ -12,10 +12,10 @@ namespace Pg::Data
 {
 	class GameObject;
 
-	class Panel : public UIRenderer
+	class ImageRenderer : public RendererBase2D
 	{
 	public:
-		Panel(GameObject* obj);
+		ImageRenderer(GameObject* obj);
 
 		void SetImagePath(std::string path);
 		std::string GetImagePath();
@@ -23,7 +23,6 @@ namespace Pg::Data
 	private:
 		std::string _imagePath;
 	};
-
 }
 
 

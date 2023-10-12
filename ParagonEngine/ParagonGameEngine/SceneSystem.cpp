@@ -35,7 +35,7 @@ namespace Pg::Engine
 		////tObj2->AddComponent<BaseRenderer>();
 		//tObj2->AddComponent<RendererBase2D>();
 
-		//이렇게 하면 메인 카메라 바뀜!!
+		//이렇게 하면 메인 카메 라 바뀜!!
 		tCurrentScene->SetMainCamera(tObj1->GetComponent<Camera>());
 
 		PG_TRACE(_currentScene->GetSceneName());
