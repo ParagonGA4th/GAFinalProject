@@ -30,7 +30,7 @@ namespace Pg::Editor::Manager
 		//void ReSizeHandler(float width, float height);
 
 		// Input 관련, 입력 받기 위해 window의 message를 받아야함
-		//void InputHandler(MSG message);
+		void InputHandler(MSG message);
 
 		// Imgui 관련, 입력 등 관련 기능을 사용하려면 WndProc에 있어야 함
 		void Handler(MSG message);
