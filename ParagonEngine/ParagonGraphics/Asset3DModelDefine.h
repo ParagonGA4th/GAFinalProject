@@ -1,12 +1,14 @@
 #pragma once
+
+#include "AssetStructSRV.h"
+
 #include <vector>
 #include <array>
 #include <string>
 #include <tuple>
 #include <map>
-
 #include <d3d11.h>
-#include "dxtk/SimpleMath.h"
+#include <dxtk/SimpleMath.h>
 
 /// <summary>
 /// 3DModel 프로세싱을 위해, Assimp 기반 구조체를 정리해 규정해놓은 헤더.
@@ -33,13 +35,6 @@ namespace Pg::Graphics
 		double m_DoubleData;
 		std::string m_StringData;
 		int m_IntData;
-	};
-
-	struct AssetTextureSRV
-	{
-		std::string type;
-		std::string path;
-		ID3D11ShaderResourceView* texture;
 	};
 
 	//</임시>

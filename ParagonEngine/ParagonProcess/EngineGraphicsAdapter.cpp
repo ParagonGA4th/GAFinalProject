@@ -25,10 +25,10 @@
 
 namespace Pg::Core
 {
-	EngineGraphicsAdapter::EngineGraphicsAdapter(ProcessMain* core) : _coreMain(core)
+	EngineGraphicsAdapter::EngineGraphicsAdapter(ProcessMain* core) : _processMain(core)
 	{
-		_engine = std::make_unique<Pg::Engine::EngineMain>(_coreMain);
-		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>(_coreMain);
+		_engine = std::make_unique<Pg::Engine::EngineMain>(_processMain);
+		_graphics = std::make_unique<Pg::Graphics::GraphicsMain>(_processMain);
 	
 		auto& tRendererChangeList = singleton<Pg::Data::RendererChangeList>();
 		_rendererChangeList = &tRendererChangeList;
@@ -72,7 +72,7 @@ namespace Pg::Core
 	void EngineGraphicsAdapter::Render()
 	{
 		//워크스페이스 버전
-		_graphics->Render(_coreMain->_work->GetCurrentScene());
+		_graphics->Render(_processMain->_work->GetCurrentScene());
 
 		//게임 엔진 연동 버전.
 		//_graphics->Render(_engine->GetCurrentScene());
@@ -114,6 +114,14 @@ namespace Pg::Core
 		}
 	}
 
+	void* EngineGraphicsAdapter::GetEditorCameraViewSRV()
+	{
+		return _graphics->GetEditorCameraViewSRV();
+	}
 
+	void* EngineGraphicsAdapter::GetGameCameraViewSRV()
+	{
+		return _graphics->GetGameCameraViewSRV();
+	}
 
 }

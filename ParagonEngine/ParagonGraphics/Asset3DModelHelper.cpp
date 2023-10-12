@@ -1,6 +1,8 @@
 #include "Asset3DModelHelper.h"
 #include "Asset3DModelDefine.h"
+#include "Asset3DModelData.h"
 #include "LowDX11Storage.h"
+#include "../ParagonData/ParagonDefines.h"
 
 #include <assimp/Importer.hpp>     
 #include <assimp/scene.h>          
@@ -44,13 +46,14 @@ namespace Pg::Graphics::Helper
 	AssetSceneData* Asset3DModelHelper::s_CurrentDataScene = nullptr;
 
 	//Assimp의 aiScene의 데이터 중 필요한 데이터를 MGRTXXXData 데이터로 옮긴다. + 처리.
-	void Asset3DModelHelper::CopyAssimpToAssetScene(const aiScene* _assimpScene, AssetSceneData* _mgrtScene)
+	void Asset3DModelHelper::ProcessAssimpToAssetData(const aiScene* _assimpScene, Asset3DModelData* assetData)
 	{
 		//Node는 재귀적으로 값을 옮겨야 한다.
 		//RootNode 옮기기.
 		///메모리 생성/삭제는, 상황을 보고 알아서 판단하자! 일괄적으로 할당할 수가 없는 상황이다.
 		///단, 할당한 메모리를 일괄적으로 삭제해서 관리할 필요는 있다. 
-
+		
+		AssetSceneData* _mgrtScene = assetData->_assetSceneData;
 		s_CurrentDataScene = _mgrtScene;
 
 		//알아서 nullptr 처리. Root/Rest 구분이기에 상관 X.
@@ -83,22 +86,25 @@ namespace Pg::Graphics::Helper
 		_mgrtScene->m_NumMaterials = _assimpScene->mNumMaterials;
 		_mgrtScene->m_MaterialList.reserve(_mgrtScene->m_NumMaterials);
 		
+		assert(_mgrtScene->m_NumMaterials <= Pg::Defines::MAX_MATERIAL_PER_MODEL);
+
 		//Material
 		for (size_t i = 0; i < _mgrtScene->m_NumMaterials; i++)
 		{
 			AssetMaterialData* tMat = new AssetMaterialData;
 			///잠시 Material을 테스팅하기 위해 시험.
 			CopyMaterialToAsset(_assimpScene->mMaterials[i], tMat);
-			//for (size_t j = 0; j <= ASSET_MAXIMUM_TEXTURE_PROP_CNT; j++)
-			//{
-			//	eAssetTextureType tTexType = static_cast<eAssetTextureType>(j);
-			//	int tTexTypeTexCnt = _assimpScene->mMaterials[i]->GetTextureCount((aiTextureType)tTexType);
-			//	if (tTexTypeTexCnt > 0)
-			//	{
-			//		std::vector<AssetTextureSRV> tATS = GetTexturesFromMaterial(_assimpScene->mMaterials[i], static_cast<aiTextureType>(j), 
-			//			static_cast<eAssetTextureType>(j), _assimpScene);
-			//	}
-			//}
+			for (size_t j = 0; j <= ASSET_MAXIMUM_TEXTURE_PROP_CNT; j++)
+			{
+				eAssetTextureType tTexType = static_cast<eAssetTextureType>(j);
+				int tTexTypeTexCnt = _assimpScene->mMaterials[i]->GetTextureCount((aiTextureType)tTexType);
+				if (tTexTypeTexCnt > 0)
+				{
+					//실제 Model에서 TextureCluster랑 연동된다. (i -> Material의 인덱스.)
+					assetData->_materialCluster.GetMaterialATSByIndex(i) = GetTexturesFromMaterial(_assimpScene->mMaterials[i], static_cast<aiTextureType>(j),
+						static_cast<eAssetTextureType>(j), _assimpScene);
+				}
+			}
 			_mgrtScene->m_MaterialList.push_back(tMat);
 		}
 
@@ -1039,7 +1045,8 @@ namespace Pg::Graphics::Helper
 	std::vector<AssetTextureSRV> Asset3DModelHelper::GetTexturesFromMaterial(aiMaterial* mat, aiTextureType type, eAssetTextureType typeName, const aiScene* scene)
 	{
 		std::vector<AssetTextureSRV> textures;
-		for (UINT i = 0; i < mat->GetTextureCount(type); i++)
+		int textureCount = mat->GetTextureCount(type);
+		for (UINT i = 0; i < textureCount; i++)
 		{
 			aiString str;
 			mat->GetTexture(type, i, &str);
@@ -1047,7 +1054,7 @@ namespace Pg::Graphics::Helper
 			bool skip = false;
 			for (UINT j = 0; j < s_CurrentDataScene->m_ATSMap.size(); j++)
 			{
-				if (std::strcmp(s_CurrentDataScene->m_ATSMap.at(static_cast<eAssetTextureType>(j)).path.c_str(), str.C_Str()) == 0) {
+				if (std::strcmp(s_CurrentDataScene->m_ATSMap[static_cast<eAssetTextureType>(j)].path.c_str(), str.C_Str()) == 0) {
 					textures.push_back(s_CurrentDataScene->m_ATSMap.at(static_cast<eAssetTextureType>(j)));
 					skip = true; // A texture with the same filepath has already been loaded, continue to next one. (optimization)
 					break;

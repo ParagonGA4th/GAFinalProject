@@ -24,6 +24,7 @@
     <ClInclude Include="Asset3DModelHelper.h" />
     <ClInclude Include="AssetBasic2DLoader.h" />
     <ClInclude Include="AssetCombinedLoader.h" />
+    <ClInclude Include="AssetStructSRV.h" />
     <ClInclude Include="Axis.h" />
     <ClInclude Include="AssetBasic3DLoader.h" />
     <ClInclude Include="BufferParser.h" />
@@ -61,7 +62,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TempCamera.h" />
     <ClInclude Include="TestCube.h" />
-    <ClInclude Include="TextureCluster.h" />
+    <ClInclude Include="MaterialCluster.h" />
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
@@ -102,7 +103,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TempCamera.cpp" />
     <ClCompile Include="TestCube.cpp" />
-    <ClCompile Include="TextureCluster.cpp" />
+    <ClCompile Include="MaterialCluster.cpp" />
     <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
