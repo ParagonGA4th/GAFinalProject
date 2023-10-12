@@ -22,17 +22,7 @@ namespace Pg::Graphics::Loader
 	AssetBasic3DLoader::AssetBasic3DLoader()
 	{
 		////Assimp 링크 문제 없다는 것을 확인하기 위해.
-		//Assimp::Importer importer;
-		//const aiScene* pScene = importer.ReadFile("../Resources/3DModels/Banana.fbx",
-		//	aiProcess_Triangulate |
-		//	aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_PreTransformVertices | aiProcess_SortByPType |
-		//	aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_GenBoundingBoxes);
-		//
-		//assert(pScene != nullptr);
 		
-
-
-
 	}
 
 	void AssetBasic3DLoader::Load3DModel(bool isSkinned, const std::string& path, Asset3DModelData* modelData)
@@ -103,6 +93,11 @@ namespace Pg::Graphics::Loader
 			}
 		}
 		return tIsSkinned;
+	}
+
+	void AssetBasic3DLoader::CheckLoadMaterialTextures(const AssetSceneData* scene, Asset3DModelData* modelData)
+	{
+
 	}
 
 	//void AssetBasic3DLoader::CheckLoadMaterialTextures(const aiScene* assimp, Asset3DModelData* modelData)
