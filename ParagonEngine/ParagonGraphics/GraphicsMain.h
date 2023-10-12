@@ -76,7 +76,7 @@ namespace Pg::Graphics
 
 	public:
 		PARAGON_GRAPHICS_DLL virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) override;
-		PARAGON_GRAPHICS_DLL virtual void Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData cameraData, float deltaTime) override;
+		PARAGON_GRAPHICS_DLL virtual void Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData, float deltaTime) override;
 		PARAGON_GRAPHICS_DLL virtual void BeginRender() override;
 		PARAGON_GRAPHICS_DLL virtual void Render(Pg::Data::Scene* scene) override;
 		PARAGON_GRAPHICS_DLL virtual void EndRender() override;

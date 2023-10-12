@@ -190,7 +190,7 @@ namespace Pg::Graphics
 	}
 
 
-	void GraphicsMain::Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData cameraData, float deltaTime)
+	PARAGON_GRAPHICS_DLL void GraphicsMain::Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData, float deltaTime)
 	{
 		//_timeManager->TimeMeasure();
 		//float dt = _timeManager->GetDeltaTime();

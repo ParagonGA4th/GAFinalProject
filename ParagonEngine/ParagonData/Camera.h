@@ -49,7 +49,7 @@ namespace Pg::Engine
 	private:
 
 		float _nearZ;
-		float _farZ;
+		float _farZ = PG_PI / 4; // 가장 현실적인 시야각도를 베이스로 둔다
 		float _aspect;
 		float _fovY;
 	};
