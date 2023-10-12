@@ -31,6 +31,7 @@
 //DirectXMesh Testing.
 #include <dxmesh/DirectXMesh.h>
 
+#include <cstring>
 #include <windows.h>
 #include <numbers>
 #include <cassert>
@@ -51,6 +52,8 @@
 
 namespace Pg::Graphics
 {
+	using Pg::Graphics::Helper::MathHelper;
+	
 	GraphicsMain::GraphicsMain(Pg::Core::ProcessMain* core)
 		: hr(NULL), _coreMain(core),
 		_DXStorage(nullptr), _DXLogic(nullptr),
@@ -331,11 +334,21 @@ namespace Pg::Graphics
 		////sprite->Draw();
 		////sprite2->Draw();
 
-		////// test 폰트 그리기
-		////font->Draw();
+		// #ForwardTemp: 임시로 직접 TempCamera -> CameraData로 옮기는 중.
+		Pg::Data::CameraData tCamData;
+		tCamData._position = { _camera->GetPosition().x, _camera->GetPosition().y,_camera->GetPosition().z};
+		tCamData._rotation = { 0.f,0.f, 0.f, 0.f };
+		
+		DirectX::XMFLOAT4X4 tViewFF;
+		DirectX::XMStoreFloat4x4(&tViewFF, _camera->View());
+		DirectX::XMFLOAT4X4 tProjFF;
+		DirectX::XMStoreFloat4x4(&tProjFF, _camera->Proj());
 
+		assert(sizeof(DirectX::XMFLOAT4X4) == sizeof(Pg::Math::PGFLOAT4X4));
+		std::memcpy(&(tCamData._viewMatrix), &tViewFF, sizeof(Pg::Math::PGFLOAT4X4));
+		std::memcpy(&(tCamData._projMatrix), &tProjFF, sizeof(Pg::Math::PGFLOAT4X4));
 
-		_renderer->Render();
+		_renderer->Render(tCamData);
 	}
 
 	void GraphicsMain::EndRender()
@@ -397,6 +410,15 @@ namespace Pg::Graphics
 		_graphicsResourceManager->UnloadResource(filePath);
 	}
 
+	std::map<std::string, Pg::Data::Enums::eAssetDefine>* GraphicsMain::SendAddedSecondaryResources()
+	{
+		return _graphicsResourceManager->GetSecondaryResources();
+	}
+
+	void GraphicsMain::ClearSecondaryResourcesList()
+	{
+		_graphicsResourceManager->ClearSecondaryResourcesList();
+	}
 
 
 }

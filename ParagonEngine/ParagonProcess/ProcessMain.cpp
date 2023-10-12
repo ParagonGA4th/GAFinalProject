@@ -88,7 +88,7 @@ namespace Pg::Core
 		_work->Initialize();
 		
 		// #ToRemove : CreateResource를 임시로 여기에 호출.
-		_assetManager->LoadResource("../Resources/3DModels/MultimaterialCube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		_assetManager->LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMesh.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		return S_OK;
 	}
 
@@ -129,6 +129,9 @@ namespace Pg::Core
 			0.0f, 0.0f, 1.00000012f, 1.0f,
 			0.0f, 0.0f, -0.000100000012f, 0.0f,
 		};
+
+		//원래는 Engine에서 해줘야 할 일이나, Component 작동 로직만 확인하기 위해.
+		_work->GetCurrentScene()->Update();
 
 		_engineGraphicsAdapter->UpdateGraphics(
 			_work->GetCurrentScene(), cameraData, _timeManager->GetDeltaTime());

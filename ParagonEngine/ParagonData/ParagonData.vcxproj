@@ -177,11 +177,20 @@
     <ClInclude Include="BaseResource.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="MoveForwardBack.h" />
     <ClInclude Include="Panel.h" />
+    <ClInclude Include="ParagonDefines.h" />
+    <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="LightData.h" />
+    <ClInclude Include="LightType.h" />
+    <ClInclude Include="ImageRenderer.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="RendererChangeList.h" />
     <ClInclude Include="EditorMode.h" />
     <ClInclude Include="EngineResource.h" />
@@ -195,7 +204,8 @@
     <ClInclude Include="RenderTextData.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SphereCollider.h" />
-    <ClInclude Include="TextBox.h" />
+    <ClInclude Include="SpotLight.h" />
+    <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
@@ -203,10 +213,15 @@
     <ClCompile Include="BaseResource.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="Panel.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="ImageRenderer.cpp" />
+    <ClCompile Include="MoveForwardBack.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RendererChangeList.cpp" />
     <ClCompile Include="EngineResource.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -215,7 +230,8 @@
     <ClCompile Include="RendererBase3D.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
-    <ClCompile Include="TextBox.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -27,9 +27,6 @@ namespace Pg::Data
 		Transform() = default;
 		Transform(GameObject* obj);
 
-		// 업데이트 (LateUpdate를 돌도록...)
-		//void UpdateTransform();
-
 		// Get 월드 함수들
 		PGFLOAT3 GetPosition() const;
 		PGQuaternion GetRotation() const;
@@ -59,6 +56,22 @@ namespace Pg::Data
 		void SetLocalRotationEuler(float x, float y, float z);
 		void SetLocalRotationEuler(PGFLOAT3& euler);
 
+		// 각 로컬, 월드 transform을 위한 행렬
+		PGQuaternion NormalizeQuaternion(PGQuaternion q);
+
+		PGFLOAT4X4 GetLocalTranslateMatrix();
+		PGFLOAT4X4 GetLocalScaleMatrix();
+		PGFLOAT4X4 GetLocalRotationMatrix();
+
+		PGFLOAT4X4 GetWorldTranslateMatrix();
+		PGFLOAT4X4 GetWorldScaleMatrix();
+		PGFLOAT4X4 GetWorldRotationMatrix();
+
+		// 오브젝트의 전방, 상단, 오른쪽 벡터 (기즈모를 그리거나... 할 때 활용)
+		PGFLOAT3 GetForward();
+		PGFLOAT3 GetUp();
+		PGFLOAT3 GetRight();
+
 		// 짐벌락 방지를 위한... 오일러 && 쿼터니언 변환 함수들
 		PGQuaternion EulerToQuaternion(float x, float y, float z);
 		PGQuaternion EulerToQuaternion(const PGFLOAT3& euler);
@@ -78,7 +91,7 @@ namespace Pg::Data
 		void SetParent(GameObject* obj);
 		void AddChild(std::shared_ptr<Transform> child);
 
-		// 오브젝트의 3D 여부를 세팅
+		/// 오브젝트의 3D 여부를 세팅... Transform에 있는게 맞을까?
 		void SetIs3D(bool is3D);
 		bool Is3D();
 
@@ -91,11 +104,6 @@ namespace Pg::Data
 		PGFLOAT3 _position;
 		PGQuaternion _rotation; // 기본적으로 쿼터니언으로 관리한다
 		PGFLOAT3 _scale;
-
-		//// 벡터
-		//PGFLOAT3 _right;
-		//PGFLOAT3 _up;
-		//PGFLOAT3 _look;
 
 		// bool 
 		bool _is3D;

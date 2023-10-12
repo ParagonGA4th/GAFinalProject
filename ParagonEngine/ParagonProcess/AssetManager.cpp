@@ -80,6 +80,8 @@ namespace Pg::Core::Manager
 		_perFrameToLoadResources.clear();
 		_perFrameToUnloadResources.clear();
 
+		//2차 발생 리소스들이 Graphics에서 나오지 않았다 체크해준다.
+		CheckForGraphicsToProcessLoad(graphics);
 	}
 
 	bool AssetManager::IsExistResource(const std::string& filepath)
@@ -118,4 +120,23 @@ namespace Pg::Core::Manager
 		}
 	}
 
+	void AssetManager::CheckForGraphicsToProcessLoad(Pg::Core::IGraphics* graphics)
+	{
+		auto tSecondaryResources = graphics->SendAddedSecondaryResources();
+
+		if (tSecondaryResources == nullptr)
+		{
+			return;
+		}
+
+		//만약 있을 경우, 리스트에 목록을 추가한다.
+		for (auto& it : *tSecondaryResources)
+		{
+			//기존에 키가 없을 경우만 넣어준다.
+			_resourceMap.insert(std::make_pair(it.first, it.second));
+		}
+
+		//그래픽스 Secondary List 클리어.
+		graphics->ClearSecondaryResourcesList();
+	}
 }

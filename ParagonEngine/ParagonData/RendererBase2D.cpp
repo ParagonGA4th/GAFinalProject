@@ -13,10 +13,8 @@ namespace Pg::Data
 	{
 		//
 	}
-
-	void Pg::Data::RendererBase2D::Start()
+void Pg::Data::RendererBase2D::Start()
 	{
-
 	}
 
 	void RendererBase2D::SetSize(float width, float height)
@@ -42,7 +40,11 @@ namespace Pg::Data
 
 	PGFLOAT2 RendererBase2D::GetSize()
 	{
-		PGFLOAT2 result = { _width, _height };
+		PGFLOAT2 result;
+
+		result.x = _width;
+		result.y = _height;
+
 		return result;
 	}
 

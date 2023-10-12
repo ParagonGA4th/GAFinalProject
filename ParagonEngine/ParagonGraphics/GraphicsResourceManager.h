@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <stdexcept>
 #include <type_traits>
+#include <map>
 #include <cassert>
 
 #include "../ParagonData/GraphicsResource.h"
@@ -59,6 +60,11 @@ namespace Pg::Graphics::Manager
 		//리소스가 있는 경우가 강제될 때, 리소스를 반환한다. (eAssetDefine으로)
 		std::shared_ptr<GraphicsResource> GetResource(const std::string& path, Pg::Data::Enums::eAssetDefine define);
 
+		//2차적으로 생성된 리스트들 반환, 목록 없으면 nullptr 반환.
+		std::map<std::string, Pg::Data::Enums::eAssetDefine>* GetSecondaryResources();
+
+		//한 Iteration마다 활용되는 2차 발생 리소스들을 지운다.
+		void ClearSecondaryResourcesList();
 	private:
 		//GraphicsMain에서, 리소스 로드할 때 활용된다.
 		void LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define);
@@ -76,10 +82,14 @@ namespace Pg::Graphics::Manager
 		inline bool DeleteResource(const std::string& path);
 
 	private:
+		//실제로 리소스 관리를 위해 사용되는 맵. (MAIN)
 		std::unordered_map<std::string, std::weak_ptr<Pg::Data::Resources::GraphicsResource>> _resources;
 	private:
 		std::unique_ptr<Pg::Graphics::Loader::AssetBasic3DLoader> _asset3DLoader;
 		std::unique_ptr<Pg::Graphics::Loader::AssetBasic2DLoader> _asset2DLoader;
+	private:
+		//2차적인 애셋이 발생되어 (Ex. Embedded Texture), AssetManaeger랑 연동을 할 수 있게 하는 Map.
+		std::map<std::string, Pg::Data::Enums::eAssetDefine> _toAddSecondaryResourcesMap;
 
 	};
 

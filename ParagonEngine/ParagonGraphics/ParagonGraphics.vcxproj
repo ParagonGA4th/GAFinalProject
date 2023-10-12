@@ -32,6 +32,7 @@
     <ClInclude Include="ConstantBufferDefine.h" />
     <ClInclude Include="Cubemap.h" />
     <ClInclude Include="D3DBufferInfo.h" />
+    <ClInclude Include="DemoGeometryGenerator.h" />
     <ClInclude Include="LayoutDefine.h" />
     <ClInclude Include="DX11Headers.h" />
     <ClInclude Include="Font.h" />
@@ -60,6 +61,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TempCamera.h" />
     <ClInclude Include="TestCube.h" />
+    <ClInclude Include="TextureCluster.h" />
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +75,7 @@
     <ClCompile Include="BufferParser.cpp" />
     <ClCompile Include="ConstantBufferBase.cpp" />
     <ClCompile Include="Cubemap.cpp" />
+    <ClCompile Include="DemoGeometryGenerator.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GraphicsMain.cpp" />
     <ClCompile Include="GraphicsResourceHelper.cpp" />
@@ -99,11 +102,32 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TempCamera.cpp" />
     <ClCompile Include="TestCube.cpp" />
+    <ClCompile Include="TextureCluster.cpp" />
     <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\Resources\DefaultShaders\TempForward\TempForwardPS.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PS_MAIN</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">PS_MAIN</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS_MAIN</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS_MAIN</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\TempForward\TempForwardVS.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_MAIN</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_MAIN</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_MAIN</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS_MAIN</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="CubemapPS.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS</EntryPointName>

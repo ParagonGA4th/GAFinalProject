@@ -46,8 +46,9 @@ VOut1st VS_MAIN(Vin1stSkinned input)
 	output.vout1st_Tex = input.vin1st_Tex;
 	
 	//추후에 Material ID가 로직에 들어가면 이 역시 하드코딩에서 바꿔야 한다.
-	output.vout1st_MatID = 0;
-	
-	return output;
+    //output.vout1st_MatID = 0;
+    output.vout1st_MatID = input.vin1st_MatID;
+    
+    return output;
 }
 
