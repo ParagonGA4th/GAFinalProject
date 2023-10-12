@@ -67,6 +67,9 @@
     <ClCompile Include="Light.cpp">
       <Filter>2_Component\Light\LightBase</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>2_Component\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -161,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>2_Component\Light\LightBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>2_Component\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +274,9 @@
     </Filter>
     <Filter Include="2_Component\Light\LightBase">
       <UniqueIdentifier>{920d4051-68a0-483c-add3-6322380ecf0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Camera">
+      <UniqueIdentifier>{feca1d29-5581-4691-a002-7a02d9a65aed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

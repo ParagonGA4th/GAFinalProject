@@ -9,7 +9,7 @@ namespace Pg::Data
 	class GameObject;
 
 	Button::Button(GameObject* obj)
-		: RendererBase2D(obj)
+		:Component(obj)
 	{
 		obj->AddComponent<ImageRenderer>();
 		obj->AddComponent<TextRenderer>();

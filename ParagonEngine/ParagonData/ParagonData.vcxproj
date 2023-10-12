@@ -177,6 +177,7 @@
     <ClInclude Include="BaseResource.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="BaseResource.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
