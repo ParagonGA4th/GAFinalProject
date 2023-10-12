@@ -24,7 +24,9 @@ void Pg::Engine::TestScene::Initialize()
 	using namespace Pg::Data;
 
 	tCurrentScene = new Scene("TestCurrentSceneWorkspace");
-	//tInput = new InputSystem();
+
+	auto& inputSys = singleton<Input::InputSystem>();
+	tInput = &inputSys;
 
 	//이거 호출하면 MainCamera 반환함!!
 	tCurrentScene->GetMainCamera();
