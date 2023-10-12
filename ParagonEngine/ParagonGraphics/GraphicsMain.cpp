@@ -77,6 +77,8 @@ namespace Pg::Graphics
 	float time = 0.0f;
 	Pg::Graphics::Sprite* sprite;
 	Pg::Graphics::Sprite* sprite2;
+	Pg::Graphics::Sprite* tempEditorCamSprite;
+	Pg::Graphics::Sprite* tempGameCamSprite;
 	Pg::Graphics::Font* font;
 	std::wstring text;
 
@@ -187,11 +189,20 @@ namespace Pg::Graphics
 		font = new Font();
 		font->SetPosition(10.0f, 410.0f);
 		font->SetText(L"");
+
+		//현재로서는 명시적으로 Editor를 위해 사진으로 SRV를 만들어 넘겨주지만, 나중에는 바뀌어야 한다! (실제 렌더되는 카메라 화면으로)
+		//실제 Sprite로서 활용 X, DDS만 금방 만들기 위해서!
+		tempEditorCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/EditorCamDummy.dds");
+		tempEditorCamSprite->SetPosition(100.0f, 200.0f);
+
+		tempGameCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/GameCamDummy.dds");
+		tempGameCamSprite->SetPosition(400.0f, 200.0f);
 	}
 
 
 	void GraphicsMain::Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData, float deltaTime)
 	{
+		//당장 CameraData가 반영되는 것이 아님.
 		//_timeManager->TimeMeasure();
 		//float dt = _timeManager->GetDeltaTime();
 
@@ -416,5 +427,15 @@ namespace Pg::Graphics
 		_graphicsResourceManager->ClearSecondaryResourcesList();
 	}
 
+	ID3D11ShaderResourceView* GraphicsMain::GetEditorCameraViewSRV()
+	{
+		_editorCameraSRV = tempEditorCamSprite->GetSRV();
+		return _editorCameraSRV;
+	}
 
+	ID3D11ShaderResourceView* GraphicsMain::GetGameCameraViewSRV()
+	{
+		_gameCameraSRV = tempGameCamSprite->GetSRV();
+		return _gameCameraSRV;
+	}
 }
