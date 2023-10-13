@@ -7,10 +7,10 @@ namespace Pg::Graphics
 {
 	struct CBDataBase
 	{
-		float4x4 worldMatrix;
-		float4x4 viewMatrix;
-		float4x4 projectionMatrix;
-		float4x4 viewProjMatrix;
+		DirectX::XMFLOAT4X4 worldMatrix;
+		DirectX::XMFLOAT4X4 viewMatrix;
+		DirectX::XMFLOAT4X4 projectionMatrix;
+		DirectX::XMFLOAT4X4 viewProjMatrix;
 	};
 
 	struct Vertex
@@ -18,6 +18,12 @@ namespace Pg::Graphics
 		float3 Pos;
 		float4 Color;
 	};
+}
+
+namespace Pg::Data
+{
+	class Transform;
+	class CameraData;
 }
 
 namespace Pg::Graphics
@@ -36,6 +42,7 @@ namespace Pg::Graphics
 		virtual void Initialize();
 		void Update(float time);
 
+		virtual void Draw(Pg::Data::Transform& transform, Pg::Data::CameraData& camData);
 		virtual void Draw();
 
 	protected:

@@ -28,6 +28,11 @@ void Pg::Graphics::RenderableObject::Update(float time)
 
 }
 
+void Pg::Graphics::RenderableObject::Draw(Pg::Data::Transform& transform, Pg::Data::CameraData& camData)
+{
+
+}
+
 void Pg::Graphics::RenderableObject::Draw()
 {
 
