@@ -131,3 +131,13 @@ void Pg::Graphics::Cubemap::Initialize()
 
 	SetTexture(L"../Resources/Textures/room.dds");
 }
+
+Pg::Graphics::Cubemap::Cubemap()
+{
+
+}
+
+Pg::Graphics::Cubemap::~Cubemap()
+{
+
+}

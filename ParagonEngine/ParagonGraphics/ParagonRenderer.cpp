@@ -2,8 +2,11 @@
 
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
-#include "MathHelper.h"
 #include "GraphicsResourceHelper.h"
+#include "Grid.h"
+#include "Axis.h"
+#include "Cubemap.h"
+#include "TestCube.h"
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
@@ -18,12 +21,19 @@ namespace Pg::Graphics
 {
 	using Pg::Graphics::Helper::MathHelper;
 
+
+	Grid* grid;
+	Axis* axis;
+	Cubemap* cubemap;
+
+	TestCube* cube;
+
 	ParagonRenderer::ParagonRenderer() :
 		_DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
 	{
 		auto& tRendererChangeList = singleton<Pg::Data::RendererChangeList>();
 		_rendererChangeList = &tRendererChangeList;
-		
+
 	}
 
 	ParagonRenderer::~ParagonRenderer()
@@ -31,32 +41,93 @@ namespace Pg::Graphics
 
 	}
 
+	void ParagonRenderer::Initialize()
+	{
+		D3D11_INPUT_ELEMENT_DESC vertexDesc_1[] =
+		{
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}//,
+			//{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		};
+		
+		D3D11_INPUT_ELEMENT_DESC vertexDesc_2[] =
+		{
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}//,
+			//{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		};
+
+		// TODO: TestBox¿Í Grid, Axis ¸ðµÎ °°Àº InputLayoutÀ» »ç¿ëÇÏ°í ÀÖ´Ù...
+		VertexShader* helperVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc_2);
+		PixelShader* helperPS = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
+		
+		VertexShader* cubeVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc_1);
+		PixelShader* cubePS = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
+
+		cube = new TestCube();
+		cube->Initialize();
+
+		// Grid
+		grid = new Grid();
+		grid->Initialize();
+
+		// Axis
+		axis = new Axis();
+		axis->Initialize();
+
+		cubeVS->AssignConstantBuffer(&(cube->_cbData));
+		helperVS->AssignConstantBuffer(&(grid->_cbData));
+
+		grid->AssignVertexShader(helperVS);
+		grid->AssignPixelShader(helperPS);
+
+		axis->AssignVertexShader(helperVS);
+		axis->AssignPixelShader(helperPS);
+
+		cube->AssignVertexShader(cubeVS);
+		cube->AssignPixelShader(cubePS);
+
+
+		// Cubemap
+		D3D11_INPUT_ELEMENT_DESC CubemapvertexDesc[] =
+		{
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		};
+
+		VertexShader* CubemapVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/CubemapVS.cso", CubemapvertexDesc);
+		PixelShader* CubemapPS = new PixelShader(_DXStorage, L"../Builds/x64/debug/CubemapPS.cso");
+
+		cubemap = new Cubemap();
+		cubemap->Initialize();
+
+		CubemapVS->AssignConstantBuffer(&(cubemap->_cbData));
+		cubemap->AssignVertexShader(CubemapVS);
+		cubemap->AssignPixelShader(CubemapPS);
+	}
+
 	void ParagonRenderer::BeginRender()
 	{
 		_DXLogic->PrepareRenderTargets();
 		_DXLogic->BindRenderTargets();
-		//_DXLogic->SetRasterizerrStates();
 	}
+
+
 
 	void ParagonRenderer::Render(Pg::Data::CameraData camData)
 	{
+		RenderDefaultObjects(camData);
+
+		// 3D ¿ÀºêÁ§Æ® ·»´õ
 		for (auto& it : _renderObject3DList)
 		{
 			if (it.second->_baseRenderer->GetActive())
 			{
-				//·»´õ.
-				DirectX::XMFLOAT4X4 tWorldTM = MathHelper::PG2XM_FLOAT4X4(it.first->_transform.GetWorldTM());
-				DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
-
-				DirectX::XMFLOAT4X4 tViewTM = MathHelper::PG2XM_FLOAT4X4(camData._viewMatrix);
-				DirectX::XMMATRIX tViewTMMat = DirectX::XMLoadFloat4x4(&tViewTM);
-
-				DirectX::XMFLOAT4X4 tProjTM = MathHelper::PG2XM_FLOAT4X4(camData._projMatrix);
-				DirectX::XMMATRIX tProjTMMat = DirectX::XMLoadFloat4x4(&tProjTM);
-				it.second->_tempPrimitive->Draw(tWorldTMMat, tViewTMMat, tProjTMMat, DirectX::Colors::Crimson);
+				cube->Draw(it.first->_transform, camData);
 			}
 		}
 
+		// 2D ¿ÀºêÁ§Æ® ·»´õ
 		for (auto& it : _renderObject2DList)
 		{
 			if (it.second->_baseRenderer->GetActive())
@@ -64,6 +135,7 @@ namespace Pg::Graphics
 				//·»´õ.
 			}
 		}
+
 	}
 
 	void ParagonRenderer::EndRender()
@@ -179,6 +251,45 @@ namespace Pg::Graphics
 
 		assert(true);
 	}
+
+	void ParagonRenderer::RenderDefaultObjects(Pg::Data::CameraData camData)
+{
+		///
+		DirectX::XMFLOAT4X4 tWorldTM;
+		DirectX::XMMATRIX tWorldTMMat = DirectX::XMMatrixIdentity();
+
+		DirectX::XMFLOAT4X4 tViewTM = MathHelper::PG2XM_FLOAT4X4(camData._viewMatrix);
+		DirectX::XMMATRIX tViewTMMat = DirectX::XMLoadFloat4x4(&tViewTM);
+
+		DirectX::XMFLOAT4X4 tProjTM = MathHelper::PG2XM_FLOAT4X4(camData._projMatrix);
+		DirectX::XMMATRIX tProjTMMat = DirectX::XMLoadFloat4x4(&tProjTM);
+
+		DirectX::XMFLOAT3 tCameraPosition = MathHelper::PG2XM_FLOAT3(camData._position);
+		DirectX::XMVECTOR tCameraPositionVec = DirectX::XMLoadFloat3(&tCameraPosition);
+		DirectX::XMMATRIX tCameraPositionMat = DirectX::XMMatrixTranslationFromVector(tCameraPositionVec);
+
+		float tCamDistance = 0.0f;
+		DirectX::XMStoreFloat(&tCamDistance, DirectX::XMVector3Length(tCameraPositionVec));
+
+		// Cubemap
+		DirectX::XMStoreFloat4x4(&(cubemap->_cbData.worldMatrix), DirectX::XMMatrixMultiply(tWorldTMMat, tCameraPositionMat));
+		DirectX::XMStoreFloat4x4(&(cubemap->_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
+
+		// Grid
+		DirectX::XMStoreFloat4x4(&(grid->_cbData.worldMatrix), tWorldTMMat);
+		DirectX::XMStoreFloat4x4(&(grid->_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
+		grid->SetGridSize(20.0f, 20.0f, 10, 10);
+
+		// Axis
+		DirectX::XMStoreFloat4x4(&(axis->_cbData.worldMatrix), tWorldTMMat);
+		DirectX::XMStoreFloat4x4(&(axis->_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
+
+		// ·»´õ
+		cubemap->Draw();
+		grid->Draw();
+		axis->Draw();
+	}
+
 }
 
 

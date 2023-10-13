@@ -6,12 +6,18 @@ namespace Pg::Graphics
 {
 	struct BoxCBData
 	{
-		float4x4 worldMatrix;
-		float4x4 viewMatrix;
-		float4x4 projectionMatrix;
-		float4x4 viewProjMatrix;
-		float3 eyePos;
+		DirectX::XMFLOAT4X4 worldMatrix;
+		DirectX::XMFLOAT4X4 viewMatrix;
+		DirectX::XMFLOAT4X4 projectionMatrix;
+		DirectX::XMFLOAT4X4 viewProjMatrix;
+		DirectX::XMFLOAT3 eyePos;
 	};
+}
+
+namespace Pg::Data
+{
+	class Transform;
+	class CameraData;
 }
 
 namespace Pg::Graphics
@@ -23,6 +29,7 @@ namespace Pg::Graphics
 
 	public:
 		virtual void Draw() override;
+		virtual void Draw(Pg::Data::Transform& transform, Pg::Data::CameraData& camData) override;
 
 		virtual void BuildBuffers() override;
 		virtual void BindBuffers() override;
