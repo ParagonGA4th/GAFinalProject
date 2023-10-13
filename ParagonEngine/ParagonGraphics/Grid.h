@@ -2,6 +2,7 @@
 
 #include "DX11Headers.h"
 #include "RenderableObject.h"
+#include "GeometryGenerator.h"
 
 namespace Pg::Graphics
 {
@@ -20,7 +21,13 @@ namespace Pg::Graphics
 
 		virtual void BindInputLayout() override;
 
+		void SetGridSize(float width, float depth, UINT m, UINT n);
+
 	public:
 		CBDataBase _cbData;
+
+	private:
+		GeometryGenerator tGeometryGenerator;
+		GeometryGenerator::MeshData_PosColor _MeshData;
 	};
 }

@@ -4,12 +4,11 @@
 
 
 #include "GeometryGenerator.h"
-#include "MathHelper.h"
 
 using namespace DirectX;
 using namespace DirectX::PackedVector;
 
-namespace RocketCore::Graphics
+namespace Pg::Graphics
 {
 
 	void GeometryGenerator::CreateBox(float width, float height, float depth, MeshData_PosColor& meshData)
@@ -352,8 +351,8 @@ namespace RocketCore::Graphics
 
 	void GeometryGenerator::CreateGrid(float width, float depth, UINT m, UINT n, MeshData_PosColor& meshData)
 	{
-		UINT vertexCount = m * n;
-		UINT faceCount = (m - 1) * (n - 1) * 2;
+		UINT vertexCount = (m + 1) * (n + 1);
+		UINT lineCount = (m + 1) + (n + 1);
 
 		//
 		// Create the vertices.
@@ -362,22 +361,22 @@ namespace RocketCore::Graphics
 		float halfWidth = 0.5f * width;
 		float halfDepth = 0.5f * depth;
 
-		float dx = width / (n - 1);
-		float dz = depth / (m - 1);
+		float dx = width / (n);
+		float dz = depth / (m);
 
-		float du = 1.0f / (n - 1);
-		float dv = 1.0f / (m - 1);
+		float du = 1.0f / (n);
+		float dv = 1.0f / (m);
 
 		meshData.Vertices.resize(vertexCount);
-		for (UINT i = 0; i < m; ++i)
+		for (UINT i = 0; i < n+1; ++i)
 		{
 			float z = halfDepth - i * dz;
-			for (UINT j = 0; j < n; ++j)
+			for (UINT j = 0; j < m+1; ++j)
 			{
-				float x = -halfWidth + j * dx;
+		 		float x = -halfWidth + j * dx;
 
-				meshData.Vertices[i * n + j]._position = XMFLOAT3(x, 0.0f, z);
-				meshData.Vertices[i * n + j]._color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+				meshData.Vertices[i * (m+1) + j]._position = XMFLOAT3(x, 0.0f, z);
+				meshData.Vertices[i * (m+1) + j]._color = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.0f);
 			}
 		}
 
@@ -385,24 +384,24 @@ namespace RocketCore::Graphics
 		// Create the indices.
 		//
 
-		meshData.Indices.resize(faceCount * 3); // 3 indices per face
+		meshData.Indices.resize(lineCount * 2); // 2 indices per face
 
-		// Iterate over each quad and compute indices.
+		// Iterate over each line and compute indices.
 		UINT k = 0;
-		for (UINT i = 0; i < m - 1; ++i)
+		for (UINT i = 0; i < m+1; ++i)
 		{
-			for (UINT j = 0; j < n - 1; ++j)
-			{
-				meshData.Indices[k] = i * n + j;
-				meshData.Indices[k + 1] = i * n + j + 1;
-				meshData.Indices[k + 2] = (i + 1) * n + j;
+				meshData.Indices[k] = i * (n + 1);
+				meshData.Indices[k + 1] = i * (n + 1)  + n;
 
-				meshData.Indices[k + 3] = (i + 1) * n + j;
-				meshData.Indices[k + 4] = i * n + j + 1;
-				meshData.Indices[k + 5] = (i + 1) * n + j + 1;
+				k += 2; // next line
+		}
 
-				k += 6; // next quad
-			}
+		for (UINT i = 0; i < m + 1; ++i)
+		{
+			meshData.Indices[k] = i;
+			meshData.Indices[k + 1] = i + (m + 1) * (n);
+
+			k += 2; // next line
 		}
 	}
 
