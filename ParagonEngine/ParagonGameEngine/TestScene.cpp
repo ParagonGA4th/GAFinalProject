@@ -16,6 +16,11 @@ Pg::Engine::TestScene::TestScene()
 
 }
 
+Pg::Data::GameObject* tObj1;
+Pg::Data::GameObject* tObj2;
+Pg::Data::GameObject* tObj2_1;
+Pg::Data::GameObject* tObj2_2;
+
 void Pg::Engine::TestScene::Initialize()
 {
 	using namespace Pg::Data;
@@ -26,21 +31,28 @@ void Pg::Engine::TestScene::Initialize()
 	tCurrentScene->GetMainCamera();
 
 	//카메라 하나 더 생성
-	GameObject* tObj1 = tCurrentScene->AddObject("Camera1");
+	tObj1 = tCurrentScene->AddObject("Camera1");
 	tObj1->AddComponent<Camera>();
 	tObj1->GetComponent<Transform>()->SetPosition({ 10.0f, 0.0f, 5.0f });
 
-	GameObject* tObj2 = tCurrentScene->AddObject("Cube2");
-	tObj2->GetComponent<Transform>()->SetPosition({ 1.0f, 0.0f, 5.0f });
+	tObj2 = tCurrentScene->AddObject("Cube1");
+	tObj2->GetComponent<Transform>()->SetPosition({ 3.0f, 0.0f, 5.0f });
+	tObj2->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.0f, 2.0f);
 	tObj2->AddComponent<RendererBase3D>();
 	tObj2->GetComponent<RendererBase3D>()->SetActive(true);
 
-	GameObject* tObj2_1 = tCurrentScene->AddObject("Cube3");
-	tObj2_1->GetComponent<Transform>()->SetPosition({ 3.0f, 0.0f, 0.0f });
+	tObj2_1 = tCurrentScene->AddObject("Cube2");
+	tObj2_1->GetComponent<Transform>()->SetPosition({ 0.0f, 0.0f, 0.0f });
 	tObj2_1->AddComponent<RendererBase3D>();
 	tObj2_1->GetComponent<RendererBase3D>()->SetActive(true);
 	tObj2_1->AddComponent<MoveForwardBack>();
+	tObj2_1->GetComponent<MoveForwardBack>()->SetActive(true);
 
+	tObj2_2 = tCurrentScene->AddObject("Cube3");
+	tObj2_2->GetComponent<Transform>()->SetPosition({ -3.0f, 3.0f, -3.0f });
+	tObj2_2->GetComponent<Transform>()->SetLocalRotationEuler(1.0f, 2.0f, 0.5f);
+	tObj2_2->AddComponent<RendererBase3D>();
+	tObj2_2->GetComponent<RendererBase3D>()->SetActive(true);
 
 	/// 오수안, 새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 
 	GameObject* tObj3 = tCurrentScene->AddObject("BtnTest");
