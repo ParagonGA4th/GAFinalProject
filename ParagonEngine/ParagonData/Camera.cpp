@@ -55,12 +55,12 @@ namespace Pg::Engine
 
 	void Camera::SetNearZ(float nearZ)
 	{
-
+		_nearZ = nearZ;
 	}
 
 	void Camera::SetFarZ(float farZ)
 	{
-
+		_farZ = farZ;
 	}
 
 	void Camera::SetAspect(float aspect)
@@ -77,6 +77,12 @@ namespace Pg::Engine
 	{
 		_cameraData._position = _object->_transform.GetPosition();
 		_cameraData._rotation = _object->_transform.GetRotation();
+
+		_cameraData._farZ = GetFarZ();
+		_cameraData._fovY = GetFovY();
+		_cameraData._nearZ = GetNearZ();
+		_cameraData.aspect = GetAspect();
+
 		_cameraData._viewMatrix = GetViewMatrix();
 		_cameraData._projMatrix = GetProjMatrix();
 

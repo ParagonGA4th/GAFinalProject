@@ -15,6 +15,7 @@
 /// 
 struct ID3D11Device;
 struct ID3D11DeviceContext;
+struct ID3D11ShaderResourceView;
 
 namespace Pg::Data
 {
@@ -28,7 +29,7 @@ namespace Pg::Core
 	public:
 		virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) abstract;
 
-		virtual void Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData cameraData, float deltaTime) abstract;
+		virtual void Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData, float deltaTime) abstract;
 		virtual void BeginRender() abstract;
 		virtual void Render(Pg::Data::Scene* scene) abstract;
 		virtual void EndRender() abstract;
@@ -52,6 +53,13 @@ namespace Pg::Core
 		//이를 메인 목록과 호환하기 위해서 쓰이는 함수.
 		virtual std::map<std::string, Pg::Data::Enums::eAssetDefine>* SendAddedSecondaryResources() abstract;
 
+		//임베디드 텍스쳐로 인해 생성된 리소스들의 목록을 연동. (To Asset Manager)
 		virtual void ClearSecondaryResourcesList() abstract;
+
+		//Editor 연동 : Editor Camera 시점 SRV를 리턴.
+		virtual ID3D11ShaderResourceView* GetEditorCameraViewSRV() abstract;
+
+		//Editor 연동 : Game Camera 시점 SRV를 리턴.
+		virtual ID3D11ShaderResourceView* GetGameCameraViewSRV() abstract;
 	};
 }

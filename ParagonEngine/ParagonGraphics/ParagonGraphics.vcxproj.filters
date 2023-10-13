@@ -121,11 +121,14 @@
     <ClInclude Include="D3DBufferInfo.h">
       <Filter>10_Structs\D3DBuffers</Filter>
     </ClInclude>
-    <ClInclude Include="TextureCluster.h">
+    <ClInclude Include="MaterialCluster.h">
       <Filter>10_Structs\TextureCluster</Filter>
     </ClInclude>
     <ClInclude Include="DemoGeometryGenerator.h">
       <Filter>9_Util\DemoGeometryGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetStructSRV.h">
+      <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
     </ClInclude>
     <ClInclude Include="GeometryGenerator.h">
       <Filter>5_Misc</Filter>
@@ -240,7 +243,7 @@
     <ClCompile Include="BufferParser.cpp">
       <Filter>8_Helpers\BufferParser</Filter>
     </ClCompile>
-    <ClCompile Include="TextureCluster.cpp">
+    <ClCompile Include="MaterialCluster.cpp">
       <Filter>10_Structs\TextureCluster</Filter>
     </ClCompile>
     <ClCompile Include="DemoGeometryGenerator.cpp">

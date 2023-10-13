@@ -12,8 +12,15 @@ namespace Pg::Data
 {
 	struct CameraData
 	{
+		// 카메라의 이동과 회전
 		Pg::Math::PGFLOAT3 _position;
 		Pg::Math::PGQuaternion _rotation;
+
+		// 카메라 정보
+		float _nearZ;
+		float _farZ;
+		float aspect;
+		float _fovY;
 		Pg::Math::PGFLOAT4X4 _viewMatrix;
 		Pg::Math::PGFLOAT4X4 _projMatrix;
 	};
