@@ -17,9 +17,15 @@
 #ifndef GEOMETRYGENERATOR_H
 #define GEOMETRYGENERATOR_H
 
-#include "Define3D.h"
-namespace RocketCore::Graphics
+#include "DirectXPackedVector.h"
+#include "MathHelper.h"
+
+typedef unsigned int UINT;
+
+namespace Pg::Graphics
 {
+	using namespace DirectX;
+
 	class GeometryGenerator
 	{
 	public:
