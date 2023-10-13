@@ -168,7 +168,7 @@ namespace Pg::Graphics
 		return hr;
 	}
 
-	void LowDX11Logic::SetRasterizerrStates(ID3D11RasterizerState* rasterizerState)
+	void LowDX11Logic::SetRasterizerStates(ID3D11RasterizerState* rasterizerState)
 	{
 		_DXStorage->_deviceContext->RSSetState(rasterizerState);
 
