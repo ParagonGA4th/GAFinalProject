@@ -19,6 +19,7 @@ namespace Pg::Graphics
 	public:
 		void Draw();
 		void SetPosition(float x, float y);
+		ID3D11ShaderResourceView* GetSRV();
 
 	private:
 		void CreateAndSetTexture(std::wstring textureFilepath);
