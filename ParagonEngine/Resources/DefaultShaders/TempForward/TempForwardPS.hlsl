@@ -32,13 +32,8 @@ struct VOut1st
 //--------------------------------------------------------------------------------------
 float4 PS_MAIN(VOut1st input) : SV_TARGET
 {
-    //float4 vDiffuse = g_txDiffuse.Sample(g_samLinear, float2(input.vout1st_Tex.x, input.vout1st_Tex.y));
-	//
-    //float fLighting = saturate(dot(g_vLightDir, Input.vNormal));
-    //fLighting = max(fLighting, g_fAmbient);
-	//
-    //return vDiffuse * fLighting;
-    return float4(1.0f, 1.0f, 1.0f, 1.0f);
+    float4 vDiffuse = g_txDiffuse.Sample(g_samLinear, float2(input.vout1st_Tex.x, input.vout1st_Tex.y));
+    return vDiffuse;
 
 }
 
