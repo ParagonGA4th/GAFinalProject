@@ -84,6 +84,9 @@ namespace Pg::Graphics::Manager
 	private:
 		//실제로 리소스 관리를 위해 사용되는 맵. (MAIN)
 		std::unordered_map<std::string, std::weak_ptr<Pg::Data::Resources::GraphicsResource>> _resources;
+		//weak_ptr가 만기(expire)되는 것을 막기 위해서, 별도로 Shared_ptr 보관. (스코프만 유지 용도이기에, 효율적일 필요X)
+		std::map<std::string, std::shared_ptr<Pg::Data::Resources::GraphicsResource>> _scopeResourceMap;
+
 	private:
 		std::unique_ptr<Pg::Graphics::Loader::AssetBasic3DLoader> _asset3DLoader;
 		std::unique_ptr<Pg::Graphics::Loader::AssetBasic2DLoader> _asset2DLoader;
@@ -98,8 +101,6 @@ namespace Pg::Graphics::Manager
 	{
 		//이미 AssetManager의 시점에서는 static하게 체크 완료.
 		//AssetManager의 목록과 연동이 되어야 한다.
-
-		//
 
 		auto res = _resources[path].lock();
 
@@ -116,6 +117,9 @@ namespace Pg::Graphics::Manager
 			throw std::runtime_error(std::string("[Graphics] 리소스 '") + path + "'를 해당 타입으로 변환하는 것이 불가능!!");
 			assert(false);
 		}
+
+		//Scope 유지를 위해 shared_ptr를 별도로 보관해야 한다.
+		_scopeResourceMap.insert(std::make_pair(path, res));
 
 		return;
 	}
@@ -150,6 +154,9 @@ namespace Pg::Graphics::Manager
 		{
 			res->InternalUnload();
 			_resources.erase(path);
+
+			//이제 std::shared_ptr 스코프 유지도 하면 안된다.
+			_scopeResourceMap.erase(path);
 
 			return true;
 		}

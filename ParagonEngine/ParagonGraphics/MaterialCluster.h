@@ -14,6 +14,8 @@ namespace Pg::Graphics
 	{
 	public:
 		//Material의 인덱스(N번 인덱스의 Material)와 1대1로 대응할 값의 참조를 가져온다.
+		// 현재 형태 유지하면서 Vector만큼 DIFFUSE / NORMAL..등등..확장!
+		// OR ATS는 Diffuse 말고도 여러 개로 확장되어야! 
 		std::vector<AssetTextureSRV>& GetMaterialATSByIndex(int index);
 
 		//숫자를 그대로 쓰는 것은 힘들다. 단순 숫자 enum으로 어떤 Resource가 어디로 대응하는지
