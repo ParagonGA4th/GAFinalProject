@@ -42,6 +42,7 @@ namespace Pg::Graphics::Helper
 	using DirectX::SimpleMath::Vector3;
 	using DirectX::SimpleMath::Color;
 	using DirectX::SimpleMath::Quaternion;
+	using namespace Pg::Defines;
 
 	AssetSceneData* Asset3DModelHelper::s_CurrentDataScene = nullptr;
 

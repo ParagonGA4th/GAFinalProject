@@ -42,6 +42,12 @@ namespace Pg::Graphics
 	private:
 		void UpdateConstantBuffer(Pg::Data::CameraData* camData);
 
+		//결국 얘가 호출되어야 한다.
+		void MultiMaterialDraw();
+
+		//망가지는지, 아닌지를 모기 위해 쓰는 단일 DrawIndexed.
+		void SingleMaterialDraw();
+
 	private:
 		DirectX::XMMATRIX _worldMat;
 		DirectX::XMMATRIX _worldInvTransposeMat;
