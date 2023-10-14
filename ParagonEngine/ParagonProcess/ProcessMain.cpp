@@ -86,9 +86,10 @@ namespace Pg::Core
 		//디버그 초기화
 		_work = new Pg::Engine::WorkSpace();
 		_work->Initialize();
-		
+
 		// #ToRemove : CreateResource를 임시로 여기에 호출.
 		_assetManager->LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMesh.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+
 		return S_OK;
 	}
 
