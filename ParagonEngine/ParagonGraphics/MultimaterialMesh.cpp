@@ -4,6 +4,7 @@
 #include "LayoutDefine.h"
 #include "LowDX11Storage.h"
 #include "MathHelper.h"
+#include "AssetTextureType.h"
 
 #include "../ParagonData/GraphicsResource.h"
 #include "../ParagonData/AssetDefines.h"
@@ -82,36 +83,48 @@ namespace Pg::Graphics
 		// SRV + 바뀌는 인덱스 올바르게 반영해야 한다.
 		
 		
-		// _devCon->PSSetShaderResources( 0, 1, &g_pTextureRV );
+		// 
 		// _devCon->DrawIndexed( 36, 0, 0 );
 
-		//int tMeshCount = _modelData->_assetSceneData->m_NumMesh;
-		//for (int i = 0; i < tMeshCount; i++)
-		//{
-		//
-		//}
-		//
+		int tMeshCount = _modelData->_d3dBufferInfo._meshCount;
+		for (int i = 0; i < tMeshCount; i++)
+		{
+			UINT tToDrawIndexCount = 0;
 
+			if (i >= tMeshCount - 1)
+			{
+				//마지막.
+				tToDrawIndexCount = 
+					_modelData->_d3dBufferInfo._indexCount - 
+					_modelData->_d3dBufferInfo._indexOffsetVector[i];
+			}
+			else
+			{
+				tToDrawIndexCount =
+					_modelData->_d3dBufferInfo._indexOffsetVector[i + 1] -
+					_modelData->_d3dBufferInfo._indexOffsetVector[i];
+			}
 
+			//SRV 업데이트.
+			UINT tMatID = _modelData->_d3dBufferInfo._materialIDVector[i];
+			AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[eAssetTextureType::MGRT_TextureType_DIFFUSE];
+			_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
+
+			//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
+			_devCon->DrawIndexed(tToDrawIndexCount,
+				_modelData->_d3dBufferInfo._indexOffsetVector[i],
+				_modelData->_d3dBufferInfo._vertexOffsetVector[i]);
+		}
 
 		//VS/PS Unbind.
 		_devCon->VSSetShader(nullptr, nullptr, 0);
 		_devCon->PSSetShader(nullptr, nullptr, 0);
-
-
 
 		//Constant Buffer 설정.
 
 		//현재 Mesh가 어떤 Material을 가지고 있는지 확인해야. 
 		//이에 따라 판단을 내려야 하기에.
 		//나중에는 결국 Mesh Sorting 등등이 어느 정도 이루어져 있어야 할것. 
-
-
-
-
-
-
-
 	}
 
 	void MultimaterialMesh::CreateSamplerState()

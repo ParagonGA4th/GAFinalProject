@@ -22,6 +22,7 @@
 #include "Axis.h"
 #include "Cubemap.h"
 
+
 //<실제 Graphics Resource의 목록>
 #include "RenderMaterial.h"
 #include "RenderTexture2D.h"
@@ -150,7 +151,6 @@ namespace Pg::Graphics
 		axis->AssignVertexShader(helperVS);
 		axis->AssignPixelShader(BoxPixelShader);
 		
-
 		// Cubemap
 		D3D11_INPUT_ELEMENT_DESC CubemapvertexDesc[] =
 		{
@@ -205,7 +205,7 @@ namespace Pg::Graphics
 		//당장 CameraData가 반영되는 것이 아님.
 		//_timeManager->TimeMeasure();
 		//float dt = _timeManager->GetDeltaTime();
-
+		
 		float dt = deltaTime;
 		time += dt;
 
@@ -301,6 +301,17 @@ namespace Pg::Graphics
 		cubemap->_cbData.viewProjMatrix = _camera->ViewProj();
 		cubemap->_cbData.worldViewProjMatrix = _camera->ViewProj() * XMMATRIX(XMMatrixIdentity());
 
+		// #ToRemove : 임시, FBX Resource가 전달되는 것을 확인하려고 로직을 어기고 긴급 코드 투입.
+		static bool tOnce = false;
+		if (!tOnce)
+		{
+			//MultiMaterial Mesh 테스팅.
+			_tempMultiMesh = new MultimaterialMesh();
+			_tempMultiMesh->Initialize();
+
+			tOnce = true;
+		}
+
 	}
 
 	void GraphicsMain::BeginRender()
@@ -341,6 +352,8 @@ namespace Pg::Graphics
 		// test용 큐브 그리기
 		_box->Draw();
 
+		
+
 		// #ForwardTemp: 임시로 직접 TempCamera -> CameraData로 옮기는 중.
 		Pg::Data::CameraData tCamData;
 		tCamData._position = { _camera->GetPosition().x, _camera->GetPosition().y,_camera->GetPosition().z};
@@ -356,6 +369,10 @@ namespace Pg::Graphics
 		std::memcpy(&(tCamData._projMatrix), &tProjFF, sizeof(Pg::Math::PGFLOAT4X4));
 
 		_renderer->Render(tCamData);
+
+
+		////MultiMaterial Mesh 테스팅.
+		//_tempMultiMesh->Draw(&tCamData);
 	}
 
 	void GraphicsMain::EndRender()
