@@ -82,39 +82,9 @@ namespace Pg::Graphics
 		//바뀌는 SRV를 반영해야 한다. -> MaterialCluster와 D3DBufferInfo를 활용해야 한다.
 		// SRV + 바뀌는 인덱스 올바르게 반영해야 한다.
 		
-		
-		// 
-		// _devCon->DrawIndexed( 36, 0, 0 );
-
-		int tMeshCount = _modelData->_d3dBufferInfo._meshCount;
-		for (int i = 0; i < tMeshCount; i++)
-		{
-			UINT tToDrawIndexCount = 0;
-
-			if (i >= tMeshCount - 1)
-			{
-				//마지막.
-				tToDrawIndexCount = 
-					_modelData->_d3dBufferInfo._indexCount - 
-					_modelData->_d3dBufferInfo._indexOffsetVector[i];
-			}
-			else
-			{
-				tToDrawIndexCount =
-					_modelData->_d3dBufferInfo._indexOffsetVector[i + 1] -
-					_modelData->_d3dBufferInfo._indexOffsetVector[i];
-			}
-
-			//SRV 업데이트.
-			UINT tMatID = _modelData->_d3dBufferInfo._materialIDVector[i];
-			AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[eAssetTextureType::MGRT_TextureType_DIFFUSE];
-			_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
-
-			//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
-			_devCon->DrawIndexed(tToDrawIndexCount,
-				_modelData->_d3dBufferInfo._indexOffsetVector[i],
-				_modelData->_d3dBufferInfo._vertexOffsetVector[i]);
-		}
+		//Multi-Material으로 렌더. 목표해서 되어야 하는 방식.
+		//MultiMaterialDraw();
+		//SingleMaterialDraw();
 
 		//VS/PS Unbind.
 		_devCon->VSSetShader(nullptr, nullptr, 0);
@@ -228,6 +198,53 @@ namespace Pg::Graphics
 		_cbufferSubresourceData.pSysMem = _constantBufferStruct;
 
 		_device->CreateBuffer(&tCBufferDesc, &_cbufferSubresourceData, &(_constantBuffer));
+	}
+
+	void MultimaterialMesh::MultiMaterialDraw()
+	{
+		int tMeshCount = _modelData->_d3dBufferInfo._meshCount;
+		for (int i = 0; i < tMeshCount; i++)
+		{
+			UINT tToDrawIndexCount = 0;
+
+			if (i >= tMeshCount - 1)
+			{
+				//마지막.
+				tToDrawIndexCount =
+					_modelData->_d3dBufferInfo._indexCount -
+					_modelData->_d3dBufferInfo._indexOffsetVector[i];
+			}
+			else
+			{
+				tToDrawIndexCount =
+					_modelData->_d3dBufferInfo._indexOffsetVector[i + 1] -
+					_modelData->_d3dBufferInfo._indexOffsetVector[i];
+			}
+
+			//SRV 업데이트.
+			UINT tMatID = _modelData->_d3dBufferInfo._materialIDVector[i];
+			AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
+			_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
+			_devCon->PSSetSamplers(0, 1, &_samplerState);
+
+			////업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
+			_devCon->DrawIndexed(tToDrawIndexCount,
+				_modelData->_d3dBufferInfo._indexOffsetVector[i],
+				_modelData->_d3dBufferInfo._vertexOffsetVector[i]);
+
+		}
+	}
+
+	void MultimaterialMesh::SingleMaterialDraw()
+	{
+		int i = 0;
+		UINT tMatID = _modelData->_d3dBufferInfo._materialIDVector[i];
+		AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
+		//_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
+		_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
+		_devCon->PSSetSamplers(0, 1, &_samplerState);
+
+		_devCon->DrawIndexed(_modelData->_d3dBufferInfo._indexCount, 0, 0);
 	}
 
 }
