@@ -18,6 +18,8 @@ namespace Pg::Graphics
 		// OR ATS는 Diffuse 말고도 여러 개로 확장되어야! 
 		std::vector<AssetTextureSRV>& GetMaterialATSByIndex(int index);
 
+		
+
 		//숫자를 그대로 쓰는 것은 힘들다. 단순 숫자 enum으로 어떤 Resource가 어디로 대응하는지
 		//가리킬 수 있어야 한다.!
 		//ID3D11ShaderResourceView* GetMaterialSRV();

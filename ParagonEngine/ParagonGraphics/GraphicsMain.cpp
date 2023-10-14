@@ -371,8 +371,8 @@ namespace Pg::Graphics
 		_renderer->Render(tCamData);
 
 
-		////MultiMaterial Mesh 테스팅.
-		//_tempMultiMesh->Draw(&tCamData);
+		//MultiMaterial Mesh 테스팅.
+		_tempMultiMesh->Draw(&tCamData);
 	}
 
 	void GraphicsMain::EndRender()
