@@ -2,6 +2,7 @@
 
 #include "AssetStructSRV.h"
 #include "AssetTextureType.h"
+#include "../ParagonData/ParagonDefines.h"
 
 #include <vector>
 #include <array>
@@ -25,6 +26,7 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
+	using namespace Pg::Defines;
 	//<임시>
 
 	// 이는 Variant로 충분히 교체될 수 있다.
@@ -46,11 +48,6 @@ namespace Pg::Graphics
 		MESH,
 		SKINNEDMESH
 	};
-
-	const unsigned int ASSET_MAX_NUMBER_OF_COLOR_SETS = 0x8;
-	const unsigned int ASSET_MAX_NUMBER_OF_TEXTURECOORDS = 0x8;
-	const unsigned int ASSET_HINTMAXTEXTURELEN = 9;
-	const unsigned int ASSET_MAXIMUM_TEXTURE_PROP_CNT = 21;
 
 	class AssetNodeData;
 	class AssetFaceData;
