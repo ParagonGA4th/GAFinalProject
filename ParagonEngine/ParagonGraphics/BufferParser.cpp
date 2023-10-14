@@ -42,6 +42,15 @@ namespace Pg::Graphics::Helper
 		size_t tVertexCount = 0;
 		unsigned int tDrawStartVertexCnt = 0;
 
+		//Mesh 개수 전달.
+		tD3DBuffer._meshCount = assetSceneData->m_NumMesh;
+
+		//Material ID 전달. (Mesh와 1대1 대응하게)
+		for (size_t i = 0; i < assetSceneData->m_NumMesh; i++)
+		{
+			tD3DBuffer._materialIDVector.push_back(assetSceneData->m_MeshList[i]->m_MaterialIndex);
+		}
+
 		for (size_t i = 0; i < assetSceneData->m_NumMesh; i++)
 		{
 			tD3DBuffer._vertexOffsetVector.push_back(tDrawStartVertexCnt);

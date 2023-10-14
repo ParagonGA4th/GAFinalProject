@@ -125,13 +125,16 @@
       <Filter>10_Structs\MaterialCluster</Filter>
     </ClInclude>
     <ClInclude Include="DemoGeometryGenerator.h">
-      <Filter>9_Util\DemoGeometryGenerator</Filter>
+      <Filter>10_Structs\9_Util\DemoGeometryGenerator</Filter>
     </ClInclude>
     <ClInclude Include="AssetStructSRV.h">
       <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
     </ClInclude>
     <ClInclude Include="MultimaterialMesh.h">
       <Filter>7_OtherObject</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetTextureType.h">
+      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetTextureType</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -244,7 +247,7 @@
       <Filter>10_Structs\MaterialCluster</Filter>
     </ClCompile>
     <ClCompile Include="DemoGeometryGenerator.cpp">
-      <Filter>9_Util\DemoGeometryGenerator</Filter>
+      <Filter>10_Structs\9_Util\DemoGeometryGenerator</Filter>
     </ClCompile>
     <ClCompile Include="MultimaterialMesh.cpp">
       <Filter>7_OtherObject</Filter>
@@ -326,9 +329,6 @@
     <Filter Include="6_HLSL\DefaultInfo">
       <UniqueIdentifier>{d6331f99-21c9-43a7-9cf1-d92ea52f5dad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9_Util">
-      <UniqueIdentifier>{ac8e1c62-b6b6-4db3-9a29-773a07312fee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3_GraphicsResources\Asset3DModelData\Data">
       <UniqueIdentifier>{2378ba46-73ff-4ad8-afbd-fda3e746a452}</UniqueIdentifier>
     </Filter>
@@ -371,11 +371,17 @@
     <Filter Include="6_HLSL\TempForward">
       <UniqueIdentifier>{c9c79e18-ed8d-4753-b263-81e8f64f61d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9_Util\DemoGeometryGenerator">
-      <UniqueIdentifier>{96a84336-e59f-4c8b-adc6-f708a51266cd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="10_Structs\MaterialCluster">
       <UniqueIdentifier>{d996588d-430c-4bd3-b54b-218f353e692d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\9_Util">
+      <UniqueIdentifier>{ac8e1c62-b6b6-4db3-9a29-773a07312fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\9_Util\DemoGeometryGenerator">
+      <UniqueIdentifier>{96a84336-e59f-4c8b-adc6-f708a51266cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Asset3DModelData\Define\AssetTextureType">
+      <UniqueIdentifier>{da6af180-f6dd-4275-8b14-d4734f08cad6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
