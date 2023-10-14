@@ -25,6 +25,7 @@
     <ClInclude Include="AssetBasic2DLoader.h" />
     <ClInclude Include="AssetCombinedLoader.h" />
     <ClInclude Include="AssetStructSRV.h" />
+    <ClInclude Include="AssetTextureType.h" />
     <ClInclude Include="Axis.h" />
     <ClInclude Include="AssetBasic3DLoader.h" />
     <ClInclude Include="BufferParser.h" />
