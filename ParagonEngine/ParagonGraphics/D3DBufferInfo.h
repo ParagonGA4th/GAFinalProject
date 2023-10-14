@@ -12,13 +12,16 @@ namespace Pg::Graphics
 	{
 	public:
 		D3DBufferInfo() : 
-			_vertexBuffer(nullptr), _indexBuffer(nullptr), _indexCount(0) {}
+			_vertexBuffer(nullptr), _indexBuffer(nullptr), _meshCount(0), _indexCount(0) {}
 		
 		//Vertex Buffer
 		ID3D11Buffer* _vertexBuffer;
 		
 		//Index Buffer
 		ID3D11Buffer* _indexBuffer;
+
+		//전체 Mesh의 개수.
+		unsigned int _meshCount;
 
 		unsigned int _indexCount;
 
@@ -27,5 +30,8 @@ namespace Pg::Graphics
 
 		//Index Starting Points Per Mesh (N번째 인덱스부터 Draw)
 		std::vector<unsigned int> _indexOffsetVector;
+
+		//각 Mesh의 인덱스에 대응해서, Material ID가 몇인지 확인!
+		std::vector<unsigned int> _materialIDVector;
 	};
 }
