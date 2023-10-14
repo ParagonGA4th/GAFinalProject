@@ -1,4 +1,6 @@
 //Edited By Taewook Koh, From BasisHLSL11_VS.hlsl.
+//-> Multimaterial Mesh를 위해 개조.
+//현재로서는 Diffuse만 이에 해당되는 방식으로 작동.
 
 //Constant Buffers
 cbuffer cbPerObjectBase : register(b0)
