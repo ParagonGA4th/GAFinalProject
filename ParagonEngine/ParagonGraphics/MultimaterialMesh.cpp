@@ -26,7 +26,8 @@ namespace Pg::Graphics
 		_devCon = LowDX11Storage::GetInstance()->_deviceContext;
 
 		//고정된 File Path ( == AssetManager에서 이미 로딩된 경로가 있어야 작동하므로, 하드코딩했음.)
-		_filePath = "../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMesh.fbx";
+		//_filePath = "../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMesh.fbx";
+		//_filePath = "../Resources/3DModels/Banana.fbx";
 
 		auto tModelData = GraphicsResourceManager::Instance()->GetResource(_filePath, eAssetDefine::_3DMODEL);
 		_modelData = static_cast<Asset3DModelData*>(tModelData.get());
@@ -90,12 +91,12 @@ namespace Pg::Graphics
 
 		//Multi-Material으로 렌더. 목표해서 되어야 하는 방식.
 		//MultiMaterialDraw();
-		//SingleMaterialDraw();
+		SingleMaterialDraw();
 		//SingleMaterialMultiMeshDraw();
 
 		//VS/PS Unbind.
-		_devCon->VSSetShader(nullptr, nullptr, 0);
-		_devCon->PSSetShader(nullptr, nullptr, 0);
+		//_devCon->VSSetShader(nullptr, nullptr, 0);
+		//_devCon->PSSetShader(nullptr, nullptr, 0);
 
 		//Constant Buffer 설정.
 
