@@ -57,7 +57,8 @@ namespace Pg::Graphics::Helper
 
 			//Mesh별 시작 Vertex Cnt 기록 w/ 총 Vertex 개수 기록.
 			tVertexCount += assetSceneData->m_MeshList[i]->m_NumVertice;
-			tDrawStartVertexCnt += tVertexCount;
+
+			tDrawStartVertexCnt = tVertexCount;
 		}
 
 		//InputLayout에 따라서 3DModel의 정보 로드. (Vin1stStatic)
@@ -94,7 +95,7 @@ namespace Pg::Graphics::Helper
 				tIndexCount += assetSceneData->m_MeshList[i]->m_FaceList[j].m_NumIndice;
 			}
 
-			tDrawStartIndexCnt += tIndexCount;
+			tDrawStartIndexCnt = tIndexCount;
 		}
 
 		std::vector<unsigned int> tIBVec;
