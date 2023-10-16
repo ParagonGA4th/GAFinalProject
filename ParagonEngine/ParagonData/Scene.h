@@ -33,6 +33,8 @@ namespace Pg::Data
 
 		void Start();
 		void Update();
+		void FixedUpdate();
+		void LateUpdate();
 
 		GameObject* AddObject(std::string obj);
 		void DeleteObject(std::string obj);
