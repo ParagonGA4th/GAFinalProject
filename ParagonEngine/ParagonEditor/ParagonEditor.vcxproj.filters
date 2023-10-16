@@ -2,12 +2,9 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="FileManager.cpp">
-
       <Filter>2_Manager\0_FileManager</Filter>
     </ClCompile>
-
     <ClCompile Include="EditorManager.cpp">
-
       <Filter>2_Manager\2_EditorManager</Filter>
     </ClCompile>
     <ClCompile Include="ImGuiManager.cpp">
@@ -25,11 +22,8 @@
     <ClCompile Include="ProcessManager.cpp">
       <Filter>2_Manager\1_ProcessManager</Filter>
     </ClCompile>
-    <ClCompile Include="File.cpp">
-      <Filter>SuanTest\File</Filter>
-    </ClCompile>
     <ClCompile Include="Serializer.cpp">
-      <Filter>SuanTest\Serializer</Filter>
+      <Filter>SuanTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -45,7 +39,6 @@
     <Filter Include="2_Manager\ImguiManager">
       <UniqueIdentifier>{071f8ebd-7803-4de6-a616-d512756bdf81}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="1_Define\1_Interface">
       <UniqueIdentifier>{4e6e69d8-8d2e-48a3-990e-2521b6c58164}</UniqueIdentifier>
     </Filter>
@@ -64,28 +57,17 @@
     <Filter Include="SuanTest">
       <UniqueIdentifier>{e5393055-d81f-415b-a08c-21c941bbfb91}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SuanTest\File">
-      <UniqueIdentifier>{5d7b7943-be02-4739-8ee9-7343b6fbcb5f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SuanTest\Serializer">
-      <UniqueIdentifier>{54735cf2-987a-4870-bcc5-ef51079acdfd}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileManager.h">
-
       <Filter>2_Manager\0_FileManager</Filter>
     </ClInclude>
-    
-
     <ClInclude Include="EditorManager.h">
-
       <Filter>2_Manager\2_EditorManager</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiManager.h">
       <Filter>2_Manager\ImguiManager</Filter>
     </ClInclude>
-
     <ClInclude Include="ExternalLib.h">
       <Filter>1_Define</Filter>
     </ClInclude>
@@ -95,7 +77,6 @@
     <ClInclude Include="IEditor.h">
       <Filter>1_Define\1_Interface</Filter>
     </ClInclude>
-
     <ClInclude Include="Editor.h">
       <Filter>0_Main</Filter>
     </ClInclude>
@@ -105,11 +86,11 @@
     <ClInclude Include="ProcessManager.h">
       <Filter>2_Manager\1_ProcessManager</Filter>
     </ClInclude>
-    <ClInclude Include="File.h">
-      <Filter>SuanTest\File</Filter>
+    <ClInclude Include="ISerializable.h">
+      <Filter>SuanTest</Filter>
     </ClInclude>
     <ClInclude Include="Serializer.h">
-      <Filter>SuanTest\Serializer</Filter>
+      <Filter>SuanTest</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

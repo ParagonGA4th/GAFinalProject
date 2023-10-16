@@ -21,4 +21,3 @@ private:
 private:
 	std::vector<GameObjectData*> _gameObjectDatas;
 };
-
