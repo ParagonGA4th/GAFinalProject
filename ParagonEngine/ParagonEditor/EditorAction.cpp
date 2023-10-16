@@ -1,30 +1,33 @@
-#include "EditorMain.h"
+#include "EditorAction.h"
 #include "EditorManager.h"
+#include "ProcessManager.h"
 
-Pg::Editor::Core::EditorMain::EditorMain()
+Pg::Editor::Core::EditorAction::EditorAction()
 	:_hWnd(),
 	_screenWidth(1920), _screenHeight(1080),
 	_appName(L"ParagonEngine")
 {
+	//_processManager = std::make_unique<Pg::Editor::Manager::ProcessManager>();
 	_editorManager = std::make_unique<Pg::Editor::Manager::EditorManager>();
 
 }
 
-Pg::Editor::Core::EditorMain::~EditorMain()
+Pg::Editor::Core::EditorAction::~EditorAction()
 {
 
 }
 
-void Pg::Editor::Core::EditorMain::Initialize()
+void Pg::Editor::Core::EditorAction::Initialize()
 {
 	HINSTANCE ins = GetModuleHandle(NULL);
 	WindowRegisterClass(ins);
 	CreateWindows(ins);
 
+	//_processManager->Initialize(_hWnd, _screenWidth, _screenHeight);
 	_editorManager->Initialize(_hWnd, _screenWidth, _screenHeight);
 }
 
-void Pg::Editor::Core::EditorMain::Loop()
+void Pg::Editor::Core::EditorAction::Loop()
 {
 	while (true)
 	{
@@ -44,12 +47,12 @@ void Pg::Editor::Core::EditorMain::Loop()
 	}
 }
 
-void Pg::Editor::Core::EditorMain::Finalize()
+void Pg::Editor::Core::EditorAction::Finalize()
 {
 	_editorManager->Finalize();
 }
 
-ATOM Pg::Editor::Core::EditorMain::WindowRegisterClass(HINSTANCE hInstance)
+ATOM Pg::Editor::Core::EditorAction::WindowRegisterClass(HINSTANCE hInstance)
 {
 	WNDCLASSEXW wcex;
 
@@ -70,7 +73,7 @@ ATOM Pg::Editor::Core::EditorMain::WindowRegisterClass(HINSTANCE hInstance)
 	return RegisterClassExW(&wcex);
 }
 
-BOOL Pg::Editor::Core::EditorMain::CreateWindows(HINSTANCE hInstance)
+BOOL Pg::Editor::Core::EditorAction::CreateWindows(HINSTANCE hInstance)
 {
 	_hWnd = CreateWindowW(_appName, _appName, WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, _screenWidth, _screenHeight, nullptr, nullptr, hInstance, nullptr);
@@ -90,7 +93,7 @@ BOOL Pg::Editor::Core::EditorMain::CreateWindows(HINSTANCE hInstance)
 	return TRUE;
 }
 
-LRESULT CALLBACK Pg::Editor::Core::EditorMain::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK Pg::Editor::Core::EditorAction::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
