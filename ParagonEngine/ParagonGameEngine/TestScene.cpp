@@ -17,14 +17,13 @@
 
 Pg::Engine::TestScene::TestScene()
 {
-
+	tCurrentScene = new Pg::Data::Scene("TestCurrentSceneWorkspace");
 }
 
 void Pg::Engine::TestScene::Initialize()
 {
 	using namespace Pg::Data;
 
-	tCurrentScene = new Scene("TestCurrentSceneWorkspace");
 
 	/// 오수안, 새로 추가한 스크립트 컴포넌트의 테스트를 위한 코드 
 	tCurrentScene->GetMainCamera()->_object->AddComponent<CameraScriptTest>();

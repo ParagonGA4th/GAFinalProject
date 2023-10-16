@@ -55,6 +55,22 @@ namespace Pg::Data
 		}
 	}
 
+	void Scene::FixedUpdate()
+	{
+		for (auto& object : _objectList)
+		{
+			object->FixedUpdate();
+		}
+	}
+
+	void Scene::LateUpdate()
+	{
+		for (auto& object : _objectList)
+		{
+			object->LateUpdate();
+		}
+	}
+
 	GameObject* Scene::AddObject(std::string obj)
 	{
 		GameObject* gameObj = new GameObject(obj);
@@ -110,5 +126,7 @@ namespace Pg::Data
 	{
 		_mainDirLight = mainLight;
 	}
+
+
 
 }
