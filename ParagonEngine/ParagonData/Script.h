@@ -11,6 +11,7 @@ namespace Pg::Data
 {
 	class Script : public Component
 	{
+	public:
 		Script(GameObject* obj);
 		//가상 소멸자
 		virtual ~Script();
