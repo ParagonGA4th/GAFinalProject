@@ -27,10 +27,10 @@ namespace Pg::Engine
 		class InputSystem;
 	}
 
-	namespace Physic
-	{
-		class PhysicSystem;
-	}
+	//namespace Physic
+	//{
+	//	class PhysicSystem;
+	//}
 
 	namespace Manager
 	{

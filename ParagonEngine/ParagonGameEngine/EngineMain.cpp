@@ -1,5 +1,6 @@
 #include "EngineMain.h"
 #include "InputSystem.h"
+#include "PhysicSystem.h"
 #include "SceneSystem.h"
 #include "EngineResourceManager.h"
 
