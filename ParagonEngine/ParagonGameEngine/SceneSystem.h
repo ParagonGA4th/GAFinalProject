@@ -35,6 +35,9 @@ namespace Pg::Engine
 		void SetCurrentScene(Scene* scene);
 		Pg::Data::Scene* GetCurrentScene();
 
+		//새로운 씬을 생성한다.
+		Pg::Data::Scene* CreateScene(const std::string& sceneName);
+
 		//현재 씬으로 지정된 것을 삭제한다.
 		void DeleteCurrentScene();
 
