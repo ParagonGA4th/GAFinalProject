@@ -1,8 +1,11 @@
 #include "EngineMain.h"
 #include "InputSystem.h"
-#include "PhysicSystem.h"
 #include "SceneSystem.h"
 #include "EngineResourceManager.h"
+
+
+//얘는 외부 SDK 연동 후 진행 예정
+//#include "PhysicSystem.h"
 
 //<실제 GameEngine Resource의 목록>
 
@@ -41,8 +44,8 @@ namespace Pg::Engine
 		_inputSystem = &tInputSystem;
 
 		//Physic
-		auto& tphysicSystem = singleton<Physic::PhysicSystem>();
-		_physicSystem = &tphysicSystem;
+		//auto& tphysicSystem = singleton<Physic::PhysicSystem>();
+		//_physicSystem = &tphysicSystem;
 
 		//Scene
 		auto& tSceneSystem = singleton<SceneSystem>();
@@ -57,13 +60,14 @@ namespace Pg::Engine
 
 	void EngineMain::Initialize(float width, float height)
 	{
-		_inputSystem->Initialize(width, height);
-		_physicSystem->Initialize();
 		_sceneSystem->Initialize();
+		_inputSystem->Initialize(width, height);
+		//_physicSystem->Initialize();
 	}
 
 	void EngineMain::Update()
 	{
+		_sceneSystem->Update();
 		_inputSystem->Update();
 
 		 static bool tTest = false;
@@ -98,6 +102,11 @@ namespace Pg::Engine
 	Pg::Data::Scene* EngineMain::GetCurrentScene()
 	{
 		return _sceneSystem->GetCurrentScene();
+	}
+
+	Pg::Data::CameraData* EngineMain::GetCameraData()
+	{
+		return _cameraData;
 	}
 
 }

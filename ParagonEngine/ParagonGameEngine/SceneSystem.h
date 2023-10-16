@@ -16,6 +16,11 @@ namespace Pg::Data
 
 namespace Pg::Engine
 {
+	class TestScene;
+}
+
+namespace Pg::Engine
+{
 	using namespace Pg::Data;
 
 	class SceneSystem
@@ -37,6 +42,8 @@ namespace Pg::Engine
 	private:
 		Scene* _currentScene = nullptr;
 		std::vector<Scene*> _sceneList;
+
+		TestScene* _testScene = nullptr;
 	};
 }
 
