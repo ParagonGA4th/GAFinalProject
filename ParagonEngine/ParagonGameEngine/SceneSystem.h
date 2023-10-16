@@ -44,7 +44,7 @@ namespace Pg::Engine
 
 	private:
 		Scene* _currentScene = nullptr;
-		std::vector<Scene*> _sceneList;
+		std::unordered_map<std::string, Scene*> _sceneList;
 
 		TestScene* _testScene = nullptr;
 	};
