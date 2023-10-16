@@ -3,6 +3,8 @@
 #include "../ParagonGameEngine/EngineDLLExporter.h"
 #include "../ParagonProcess/IEngine.h"
 #include "../ParagonProcess/CoreSingleton.h"
+#include "../ParagonData/CameraData.h"
+
 
 /// <summary>
 /// 2023.09.08
@@ -11,6 +13,11 @@
 namespace Pg::Core
 {
 	class ProcessMain;
+}
+
+namespace Pg::Data
+{
+	struct CameraData;
 }
 
 namespace Pg::Engine
@@ -52,12 +59,17 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL virtual void UnloadResource(const std::string& filePath) override;
 
 		PARAGON_ENGINE_DLL Pg::Data::Scene* GetCurrentScene();
+
+		PARAGON_ENGINE_DLL Pg::Data::CameraData* GetCameraData();
 	private:
+
 		Pg::Core::ProcessMain* _coreMain = nullptr;
 		Input::InputSystem* _inputSystem = nullptr;
 		//Physic::PhysicSystem* _physicSystem = nullptr;
 		SceneSystem* _sceneSystem = nullptr;
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
+
+		Pg::Data::CameraData* _cameraData;
 	};
 }
 
