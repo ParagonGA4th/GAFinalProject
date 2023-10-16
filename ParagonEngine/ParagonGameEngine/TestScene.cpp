@@ -73,7 +73,6 @@ void Pg::Engine::TestScene::Initialize()
 void Pg::Engine::TestScene::Update()
 {
 	/// 오수안, 새로 추가한 스크립트 컴포넌트의 업데이트 테스트를 위한 코드
-	tCurrentScene->GetMainCamera()->_object->GetComponent<CameraScriptTest>()->Update();
 }
 
 Pg::Data::Scene* Pg::Engine::TestScene::GetCurrentScene()

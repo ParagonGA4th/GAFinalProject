@@ -1,6 +1,6 @@
 #include "EngineMain.h"
 #include "InputSystem.h"
-#include "PhysicSystem.h"
+//#include "PhysicSystem.h"
 #include "SceneSystem.h"
 #include "EngineResourceManager.h"
 
@@ -41,8 +41,8 @@ namespace Pg::Engine
 		_inputSystem = &tInputSystem;
 
 		//Physic
-		auto& tphysicSystem = singleton<Physic::PhysicSystem>();
-		_physicSystem = &tphysicSystem;
+		//auto& tphysicSystem = singleton<Physic::PhysicSystem>();
+		//_physicSystem = &tphysicSystem;
 
 		//Scene
 		auto& tSceneSystem = singleton<SceneSystem>();
@@ -58,7 +58,7 @@ namespace Pg::Engine
 	void EngineMain::Initialize(float width, float height)
 	{
 		_inputSystem->Initialize(width, height);
-		_physicSystem->Initialize();
+		//_physicSystem->Initialize();
 		_sceneSystem->Initialize();
 	}
 

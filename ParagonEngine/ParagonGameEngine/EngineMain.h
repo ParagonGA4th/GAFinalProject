@@ -20,10 +20,10 @@ namespace Pg::Engine
 		class InputSystem;
 	}
 
-	namespace Physic
-	{
-		class PhysicSystem;
-	}
+	//namespace Physic
+	//{
+	//	class PhysicSystem;
+	//}
 
 	namespace Manager
 	{
@@ -55,7 +55,7 @@ namespace Pg::Engine
 	private:
 		Pg::Core::ProcessMain* _coreMain = nullptr;
 		Input::InputSystem* _inputSystem = nullptr;
-		Physic::PhysicSystem* _physicSystem = nullptr;
+		//Physic::PhysicSystem* _physicSystem = nullptr;
 		SceneSystem* _sceneSystem = nullptr;
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
 	};
