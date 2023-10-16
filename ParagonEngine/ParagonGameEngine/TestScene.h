@@ -1,5 +1,6 @@
 #pragma once
 #include "../ParagonData/Scene.h"
+//#include "CameraScriptTest.h"
 
 /// <summary>
 /// ев╫╨ф╝©К ╬ю
@@ -8,6 +9,7 @@
 
 namespace Pg::Engine
 {
+
 	class TestScene
 	{
 	public:
@@ -15,12 +17,14 @@ namespace Pg::Engine
 
 	public:
 		void Initialize();
+		void Update();
 
 		Pg::Data::Scene* GetCurrentScene();
 
 	private:
 		//testScene
 		Pg::Data::Scene* tCurrentScene = nullptr;
+		//CameraScriptTest* tCameraScript = nullptr;
 	};
 
 }

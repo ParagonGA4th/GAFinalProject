@@ -37,6 +37,8 @@ namespace Pg::Engine
 		void SetAspect(float aspect);
 		void SetFovY(float fovY);
 
+
+	public:
 		Pg::Data::CameraData GetCameraData();
 
 	public:
