@@ -125,7 +125,7 @@ namespace Pg::Graphics
 
 	private:
 		TempCamera* _camera;
-		TestCube* _box;
+		//TestCube* _box;
 		Pg::Data::GameObject* _tempObj;
 		MultimaterialMesh* _tempMultiMesh;
 	

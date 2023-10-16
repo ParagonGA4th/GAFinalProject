@@ -22,7 +22,7 @@ Pg::Editor::Manager::EditorManager::EditorManager()
 	_input = &tInputSystem;
 
 	// UI
-	_UIManager = std::make_unique<Pg::Editor::Manager::UIManager>();
+	//_UIManager = std::make_unique<Pg::Editor::Manager::UIManager>();
 }
 
 Pg::Editor::Manager::EditorManager::~EditorManager()
@@ -34,18 +34,18 @@ void Pg::Editor::Manager::EditorManager::Initialize(HWND hWnd, float width, floa
 {
 	_coreMain->Initialize(static_cast<void*>(hWnd), width, height);
 
-	_UIManager->Initialize(static_cast<void*>(hWnd), _coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
+	//_UIManager->Initialize(static_cast<void*>(hWnd), _coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
 	_isCoreInitailized = true;
 }
 
 void Pg::Editor::Manager::EditorManager::Update()
 {
 	_coreMain->Update();
-	_UIManager->Update();
+	//_UIManager->Update();
 
 	_coreMain->BeginRender();
 	_coreMain->Render();
-	_UIManager->Render();
+	//_UIManager->Render();
 	_coreMain->EndRender();
 }
 

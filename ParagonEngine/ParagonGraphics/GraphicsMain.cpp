@@ -114,8 +114,8 @@ namespace Pg::Graphics
 		LayoutDefine::Initialize();
 
 		// 테스트용 큐브
-		_box = new TestCube();
-		_box->Initialize();
+		//_box = new TestCube();
+		//_box->Initialize();
 
 		D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
 		{
@@ -128,10 +128,10 @@ namespace Pg::Graphics
 		PixelShader* BoxPixelShader = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
 		
 		// TODO: 비직관적이다.
-		BoxVertexShader->AssignConstantBuffer(&(_box->_cbData));
-
-		_box->AssignVertexShader(BoxVertexShader);
-		_box->AssignPixelShader(BoxPixelShader);
+		//BoxVertexShader->AssignConstantBuffer(&(_box->_cbData));
+		//
+		//_box->AssignVertexShader(BoxVertexShader);
+		//_box->AssignPixelShader(BoxPixelShader);
 		
 		// Grid
 		grid = new Grid();
@@ -281,15 +281,15 @@ namespace Pg::Graphics
 		worldMatrix *= XMMatrixScaling(1.0f, 1.0f, 1.0f);
 		worldMatrix *= XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 
-		_box->_cbData.worldMatrix = worldMatrix;
+		//_box->_cbData.worldMatrix = worldMatrix;
 		//_box->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
 		grid->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
 
 		// 카메라 행렬
-		_box->_cbData.viewMatrix = _camera->View();
-		_box->_cbData.projectionMatrix = _camera->Proj();
-		_box->_cbData.viewProjMatrix = _camera->ViewProj();
-		_box->_cbData.eyePos = _camera->GetPosition();
+		//_box->_cbData.viewMatrix = _camera->View();
+		//_box->_cbData.projectionMatrix = _camera->Proj();
+		//_box->_cbData.viewProjMatrix = _camera->ViewProj();
+		//_box->_cbData.eyePos = _camera->GetPosition();
 
 		grid->_cbData.viewMatrix = _camera->View();
 		grid->_cbData.projectionMatrix = _camera->Proj();
@@ -336,21 +336,21 @@ namespace Pg::Graphics
 		cubemap->Draw();
 		
 		// test용 큐브 그리기
-		_box->Draw();
+		//_box->Draw();
 		// Grid
 		grid->Draw();
 		// Axis
 		axis->Draw();
 		
 		// test 스프라이트 그리기
-		sprite->Draw();
-		sprite2->Draw();
+		//sprite->Draw();
+		//sprite2->Draw();
 
 		// test 폰트 그리기
 		font->Draw();
 
 		// test용 큐브 그리기
-		_box->Draw();
+		//_box->Draw();
 
 		
 
@@ -372,7 +372,7 @@ namespace Pg::Graphics
 
 
 		//MultiMaterial Mesh 테스팅.
-		_tempMultiMesh->Draw(&tCamData);
+		//_tempMultiMesh->Draw(&tCamData);
 	}
 
 	void GraphicsMain::EndRender()
