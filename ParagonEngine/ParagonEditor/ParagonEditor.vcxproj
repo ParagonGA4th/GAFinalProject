@@ -143,12 +143,12 @@
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="EditorAction.cpp" />
     <ClCompile Include="EditorManager.cpp" />
-    <ClCompile Include="File.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="ImGuiManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ProcessManager.cpp" />
+    <ClCompile Include="Serializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor.h" />
@@ -156,14 +156,14 @@
     <ClInclude Include="EditorDLLExporter.h" />
     <ClInclude Include="EditorManager.h" />
     <ClInclude Include="ExternalLib.h" />
-    <ClInclude Include="File.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="IEditor.h" />
-    <ClInclude Include="UIManager.h" />
     <ClInclude Include="ImGuiManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="ISerializable.h" />
     <ClInclude Include="ProcessManager.h" />
+    <ClInclude Include="Serializer.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="SceneName.xml" />
