@@ -55,6 +55,11 @@ namespace Pg::Engine
 		return _currentScene;
 	}
 
+	Pg::Data::Scene* SceneSystem::CreateScene(const std::string& sceneName)
+	{
+
+	}
+
 	void SceneSystem::DeleteCurrentScene()
 	{
 		if (_currentScene)
@@ -63,7 +68,6 @@ namespace Pg::Engine
 			_currentScene = nullptr;
 		}
 	}
-
 }
 
 
