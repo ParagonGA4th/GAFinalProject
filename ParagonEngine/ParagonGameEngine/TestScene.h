@@ -24,6 +24,7 @@ namespace Pg::Engine
 	private:
 		//testScene
 		Pg::Data::Scene* tCurrentScene = nullptr;
+
 		//CameraScriptTest* tCameraScript = nullptr;
 	};
 

@@ -16,7 +16,9 @@ namespace Pg::Engine
 	class WorkSpace
 	{
 	public:
+
 		PARAGON_ENGINE_DLL void Initialize();
+		PARAGON_ENGINE_DLL void Update();
 
 		PARAGON_ENGINE_DLL Pg::Data::Scene* GetCurrentScene();
 
