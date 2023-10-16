@@ -84,7 +84,7 @@ namespace Pg::Core
 		_assetManager->Initialize(this);
 		
 		// #ToRemove : CreateResource를 임시로 여기에 호출.
-		_assetManager->LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMesh.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//_assetManager->LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMesh.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		return S_OK;
 	}
 
