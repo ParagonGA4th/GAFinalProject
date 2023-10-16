@@ -7,7 +7,6 @@
 #include "../ParagonUtil/Log.h"
 
 #include "../ParagonGameEngine/InputSystem.h"
-#include "../ParagonGameEngine/WorkSpace.h"
 #include <d3d11.h>
 
 #include <memory>
@@ -73,9 +72,6 @@ namespace Pg::Core
 
 		Time::TimeManager* _timeManager;					//델타타임
 		Manager::AssetManager* _assetManager;				//어셋매니저
-
-		//임시 : WORKSPACE
-		Pg::Engine::WorkSpace* _work = nullptr;
 
 	private:
 		std::unique_ptr<EngineGraphicsAdapter> _engineGraphicsAdapter;
