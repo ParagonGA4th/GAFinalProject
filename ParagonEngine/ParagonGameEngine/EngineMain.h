@@ -69,7 +69,6 @@ namespace Pg::Engine
 		SceneSystem* _sceneSystem = nullptr;
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
 
-		Pg::Data::CameraData* _cameraData;
 	};
 }
 

@@ -107,7 +107,7 @@ namespace Pg::Engine
 
 	Pg::Data::CameraData* EngineMain::GetCameraData()
 	{
-		return _cameraData;
+		return _sceneSystem->GetCurrentScene()->GetMainCamera()->GetCameraData();
 	}
 
 }

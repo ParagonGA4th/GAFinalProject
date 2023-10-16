@@ -38,8 +38,9 @@ namespace Pg::Graphics
 		//_DXLogic->SetRasterizerrStates();
 	}
 
-	void ParagonRenderer::Render(Pg::Data::CameraData camData)
+	void ParagonRenderer::Render(Pg::Data::CameraData* camData)
 	{
+
 		for (auto& it : _renderObject3DList)
 		{
 			if (it.second->_baseRenderer->GetActive())
@@ -48,10 +49,10 @@ namespace Pg::Graphics
 				DirectX::XMFLOAT4X4 tWorldTM = MathHelper::PG2XM_FLOAT4X4(it.first->_transform.GetWorldTM());
 				DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
 
-				DirectX::XMFLOAT4X4 tViewTM = MathHelper::PG2XM_FLOAT4X4(camData._viewMatrix);
+				DirectX::XMFLOAT4X4 tViewTM = MathHelper::PG2XM_FLOAT4X4(camData->_viewMatrix);
 				DirectX::XMMATRIX tViewTMMat = DirectX::XMLoadFloat4x4(&tViewTM);
 
-				DirectX::XMFLOAT4X4 tProjTM = MathHelper::PG2XM_FLOAT4X4(camData._projMatrix);
+				DirectX::XMFLOAT4X4 tProjTM = MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
 				DirectX::XMMATRIX tProjTMMat = DirectX::XMLoadFloat4x4(&tProjTM);
 				it.second->_tempPrimitive->Draw(tWorldTMMat, tViewTMMat, tProjTMMat, DirectX::Colors::Crimson);
 			}
