@@ -9,6 +9,7 @@ struct PositionData
 
 struct RotationData
 {
+	float _w;
 	float _x;
 	float _y;
 	float _z;
@@ -26,7 +27,7 @@ struct TransformData
 	PositionData _position;
 	RotationData _rotation;
 	ScaleData _scale;
-};
+}; 
 
 struct GameObjectData
 {
