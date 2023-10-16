@@ -12,11 +12,11 @@ namespace Pg::Editor::Manager
 
 namespace Pg::Editor::Core
 {
-	class EditorMain
+	class EditorAction
 	{
 	public:
-		EditorMain();
-		~EditorMain();
+		EditorAction();
+		~EditorAction();
 
 		void Initialize();
 		void Loop();
@@ -43,4 +43,8 @@ namespace Pg::Editor::Core
 		//std::unique_ptr<Pg::Editor::Manager::FileManager> _FileManager;
 	};
 }
+
+class EditorAction
+{
+};
 
