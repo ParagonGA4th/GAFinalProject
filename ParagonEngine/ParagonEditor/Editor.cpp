@@ -1,21 +1,21 @@
 #include "Editor.h"
-#include "EditorMain.h"
+#include "EditorAction.h"
 
 namespace Ed = Pg::Editor;
 
 
 Ed::Editor::Editor()
 {
-	_main = std::make_unique<Pg::Editor::Core::EditorMain>();
-	_main->Initialize();
+	_action = std::make_unique<Pg::Editor::Core::EditorAction>();
+	_action->Initialize();
 }
 
 Ed::Editor::~Editor()
 {
-	_main->Finalize();
+	_action->Finalize();
 }
 
 void Ed::Editor::Run()
 {
-	_main->Loop();
+	_action->Loop();
 }
