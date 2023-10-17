@@ -1,7 +1,7 @@
 #pragma once
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonData/Scene.h"
-#include <vector>
+#include <unordered_map>
 
 /// <summary>
 /// 변지상의 SceneSystem.

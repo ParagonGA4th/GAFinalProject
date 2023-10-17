@@ -39,7 +39,7 @@ namespace Pg::Engine
 
 	}
 
-	Pg::Data::Scene* CreateScene(const std::string& sceneName)
+	Pg::Data::Scene* SceneSystem::CreateScene(const std::string& sceneName)
 	{
 		auto it = _sceneList.find(sceneName);
 		if (it != _sceneList.end())
