@@ -1,7 +1,7 @@
 #pragma once
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonData/Scene.h"
-#include <vector>
+#include <unordered_map>
 
 /// <summary>
 /// 변지상의 SceneSystem.
@@ -41,12 +41,10 @@ namespace Pg::Engine
 		//현재 씬으로 지정된 것을 삭제한다.
 		void DeleteCurrentScene();
 
-
 	private:
 		Scene* _currentScene = nullptr;
-		std::unordered_map<std::string, Scene*> _sceneList;
-
 		TestScene* _testScene = nullptr;
+		std::unordered_map<std::string, Scene*> _sceneList;
 	};
 }
 
