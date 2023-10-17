@@ -26,7 +26,9 @@ namespace Pg::Graphics
 		_devCon = LowDX11Storage::GetInstance()->_deviceContext;
 
 		//고정된 File Path ( == AssetManager에서 이미 로딩된 경로가 있어야 작동하므로, 하드코딩했음.)
-		_filePath = "../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMesh.fbx";
+		//_filePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx";
+		_filePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx";
+		//_filePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
 		//_filePath = "../Resources/3DModels/Banana.fbx";
 
 		auto tModelData = GraphicsResourceManager::Instance()->GetResource(_filePath, eAssetDefine::_3DMODEL);
@@ -90,8 +92,8 @@ namespace Pg::Graphics
 		// SRV + 바뀌는 인덱스 올바르게 반영해야 한다.
 
 		//Multi-Material으로 렌더. 목표해서 되어야 하는 방식.
-		MultiMaterialDraw();
-		//SingleMaterialDraw();
+		//MultiMaterialDraw();
+		SingleMaterialDraw();
 		//SingleMaterialMultiMeshDraw();
 
 		//VS/PS Unbind.
@@ -231,11 +233,11 @@ namespace Pg::Graphics
 
 			//SRV 업데이트.
 			UINT tMatID = _modelData->_d3dBufferInfo._materialIDVector[i];
-			//AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
-			//_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
+			AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
+			_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
 
-			_devCon->PSSetShaderResources(0, 1, &_testSRV);
-			_devCon->PSSetSamplers(0, 1, &_samplerState);
+			//_devCon->PSSetShaderResources(0, 1, &_testSRV);
+			//_devCon->PSSetSamplers(0, 1, &_samplerState);
 
 			////업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
 			_devCon->DrawIndexed(tToDrawIndexCount,
@@ -253,6 +255,7 @@ namespace Pg::Graphics
 		_devCon->PSSetShaderResources(0, 1, &_testSRV);
 		_devCon->PSSetSamplers(0, 1, &_samplerState);
 
+		//_devCon->DrawIndexed(_modelData->_d3dBufferInfo._indexCount, 0, 0);
 		_devCon->DrawIndexed(_modelData->_d3dBufferInfo._indexCount, 0, 0);
 	}
 
