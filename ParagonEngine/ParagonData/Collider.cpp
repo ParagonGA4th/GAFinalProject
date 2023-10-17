@@ -3,9 +3,39 @@
 namespace Pg::Data
 {
 	Collider::Collider(GameObject* owner) :
-		Component(owner)
+		Component(owner),
+		_positionOffSet(0.0f, 0.0f, 0.0f)
 	{
 
 	}
 
+	void Collider::SetPoisitonOffset(PGFLOAT3 position)
+	{
+
+	}
+
+	void Collider::SetRotationOffset(PGQuaternion rotation)
+	{
+
+	}
+
+	void Collider::SetScaleOffset(PGFLOAT3 scale)
+	{
+
+	}
+
+	Pg::Math::PGFLOAT3 Collider::GetPositionOffset() const
+	{
+
+	}
+
+	Pg::Math::PGQuaternion Collider::GetRotationOffset() const
+	{
+
+	}
+
+	Pg::Math::PGFLOAT3 Collider::GetScaleOffset() const
+	{
+
+	}
 }
