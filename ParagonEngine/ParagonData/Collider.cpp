@@ -2,7 +2,7 @@
 
 namespace Pg::Data
 {
-	Collider::Collider(GameObject* owner) :
+	Collider::Collider(Pg::Data::GameObject* owner) :
 		Component(owner)
 	{
 

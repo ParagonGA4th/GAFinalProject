@@ -19,7 +19,7 @@ namespace Pg::Data
 	class Collider : public Component
 	{
 	public:
-		Collider();
+		Collider(Pg::Data::GameObject* owner);
 
 	private:
 	};

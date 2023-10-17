@@ -6,7 +6,7 @@
 
 
 //얘는 외부 SDK 연동 후 진행 예정
-//#include "PhysicSystem.h"
+#include "PhysicSystem.h"
 
 //<실제 GameEngine Resource의 목록>
 
@@ -45,8 +45,8 @@ namespace Pg::Engine
 		_inputSystem = &tInputSystem;
 
 		//Physic
-		//auto& tphysicSystem = singleton<Physic::PhysicSystem>();
-		//_physicSystem = &tphysicSystem;
+		auto& tphysicSystem = singleton<Physic::PhysicSystem>();
+		_physicSystem = &tphysicSystem;
 
 		//Scene
 		auto& tSceneSystem = singleton<SceneSystem>();
@@ -63,7 +63,7 @@ namespace Pg::Engine
 	{
 		_sceneSystem->Initialize();
 		_inputSystem->Initialize(width, height);
-		//_physicSystem->Initialize();
+		_physicSystem->Initialize();
 	}
 
 	void EngineMain::Update()
