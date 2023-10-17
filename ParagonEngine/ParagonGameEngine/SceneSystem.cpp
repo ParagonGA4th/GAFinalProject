@@ -35,7 +35,21 @@ namespace Pg::Engine
 		Pg::Data::Scene* scene = new Scene("Empty Scene");
 
 		//리스트에 집어 넣는다.
-		//_sceneList.insert(scene);
+
+
+	}
+
+	Pg::Data::Scene* SceneSystem::CreateScene(const std::string& sceneName)
+	{
+		auto it = _sceneList.find(sceneName);
+		if (it != _sceneList.end())
+		{
+			return _sceneList[sceneName];
+		}
+
+		Pg::Data::Scene* scene;
+		scene = new Pg::Data::Scene(sceneName);
+		return scene;
 	}
 
 
@@ -55,17 +69,7 @@ namespace Pg::Engine
 		return _currentScene;
 	}
 
-	Pg::Data::Scene* SceneSystem::CreateScene(const std::string& sceneName)
-	{
-		auto it = _sceneList.find(sceneName);
-		if (it != _sceneList.end())
-		{
-			return _sceneList[sceneName];
-		}
 
-		Pg::Data::Scene* scene;
-		scene = new Pg::Data::Scene(sceneName);
-	}
 
 	void SceneSystem::DeleteCurrentScene()
 	{
@@ -75,6 +79,7 @@ namespace Pg::Engine
 			_currentScene = nullptr;
 		}
 	}
+
 }
 
 

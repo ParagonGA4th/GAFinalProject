@@ -1,0 +1,3 @@
+ParagonEngine\lib\physx\x64\Debug\에서,
+Builds 내부에 위치한 EXE가 있는 경로에 
+PhysX_64.dll // PhysXCommon_64.dll // PhysXFoundation_64.dll를 넣어야 실행됩니다!
