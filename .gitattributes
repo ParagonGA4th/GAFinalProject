@@ -4,6 +4,9 @@
 *.pdb filter=lfs diff=lfs merge=lfs -text
 *.map filter=lfs diff=lfs merge=lfs -text
 <<<<<<< HEAD
+<<<<<<< HEAD
 *.filters filter=lfs diff=lfs merge=lfs -text
+=======
+>>>>>>> 846bba03c7b7ffad747c6e2d6c391786e3729908
 =======
 >>>>>>> 846bba03c7b7ffad747c6e2d6c391786e3729908
