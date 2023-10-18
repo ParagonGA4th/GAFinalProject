@@ -77,6 +77,10 @@ namespace Pg::Core
 		//Editor 연동 : Game Camera 시점 SRV를 리턴.
 		void* GetGameCameraViewSRV();
 
+		Pg::Data::Scene* GetCurrentScene();
+
+		Pg::Data::CameraData* GetCameraData();
+
 	private:
 		std::unique_ptr<IEngine> _engine;					//게임 엔진
 		std::unique_ptr<IGraphics> _graphics;				//그래픽스 엔진

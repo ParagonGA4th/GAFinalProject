@@ -1,6 +1,5 @@
 #include "EditorManager.h"
 #include "ExternalLib.h"
-#include "UIManager.h"
 #include "../ParagonAPI/PgInput.h"
 
 #ifdef _DEBUG
@@ -51,7 +50,7 @@ void Pg::Editor::Manager::EditorManager::Update()
 
 void Pg::Editor::Manager::EditorManager::Finalize()
 {
-	_UIManager->Finalize();
+	//_UIManager->Finalize();
 	_coreMain->Finalize();
 }
 
@@ -68,5 +67,5 @@ void Pg::Editor::Manager::EditorManager::InputHandler(MSG message)
 
 void Pg::Editor::Manager::EditorManager::Handler(MSG message)
 {
-	if(_isCoreInitailized) _UIManager->Handler(message.hwnd, message.message, message.wParam, message.lParam);
+	//if(_isCoreInitailized) _UIManager->Handler(message.hwnd, message.message, message.wParam, message.lParam);
 }

@@ -20,9 +20,13 @@ namespace Pg::Engine
 		PG_TRACE("Enter WorkSpace!");
 	}
 
+	void WorkSpace::Update()
+	{
+		_testScene->Update();
+	}
+
 	Pg::Data::Scene* WorkSpace::GetCurrentScene()
 	{
 		return _testScene->GetCurrentScene();
 	}
-
 }

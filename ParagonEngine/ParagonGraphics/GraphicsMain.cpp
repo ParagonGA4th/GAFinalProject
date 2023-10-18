@@ -368,11 +368,10 @@ namespace Pg::Graphics
 		std::memcpy(&(tCamData._viewMatrix), &tViewFF, sizeof(Pg::Math::PGFLOAT4X4));
 		std::memcpy(&(tCamData._projMatrix), &tProjFF, sizeof(Pg::Math::PGFLOAT4X4));
 
-		_renderer->Render(tCamData);
-
+		_renderer->Render(&tCamData);
 
 		//MultiMaterial Mesh Å×½ºÆÃ.
-		_tempMultiMesh->Draw(&tCamData);
+		//_tempMultiMesh->Draw(&tCamData);
 	}
 
 	void GraphicsMain::EndRender()

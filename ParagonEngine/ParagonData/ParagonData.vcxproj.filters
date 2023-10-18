@@ -73,6 +73,9 @@
     <ClCompile Include="MoveForwardBack.cpp">
       <Filter>8_TestScripts\MoveForwardBack</Filter>
     </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>2_Component\Script</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -177,6 +180,9 @@
     <ClInclude Include="Panel.h" />
     <ClInclude Include="MoveForwardBack.h">
       <Filter>8_TestScripts\MoveForwardBack</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>2_Component\Script</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -296,6 +302,9 @@
     </Filter>
     <Filter Include="8_TestScripts\MoveForwardBack">
       <UniqueIdentifier>{2aeea70d-d57a-4569-86c3-04dd8a46dfe7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Script">
+      <UniqueIdentifier>{ab1f8e7f-80fb-4287-83df-0c049555cfa0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

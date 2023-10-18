@@ -82,19 +82,15 @@ namespace Pg::Core
 
 		//AssetManager 세팅.
 		_assetManager->Initialize(this);
-		
-		//디버그 초기화
-		_work = new Pg::Engine::WorkSpace();
-		_work->Initialize();
 
 		// #ToRemove : CreateResource를 임시로 여기에 호출.
+		//_assetManager->LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMesh.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//_assetManager->LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMeshSeams.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//_assetManager->LoadResource("../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		_assetManager->LoadResource("../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//_assetManager->LoadResource("../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//_assetManager->LoadResource("../Resources/3DModels/Board01.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		//_assetManager->LoadResource("../Resources/3DModels/Banana.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-
+		//_assetManager->LoadResource("../Resources/3DModels/Banana.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);		return S_OK;
 		return S_OK;
 	}
 
@@ -113,7 +109,8 @@ namespace Pg::Core
 		//여기다가 시스템 싹 다 업데이트!!
 		_engineGraphicsAdapter->UpdateEngine();
 
-		Pg::Data::CameraData cameraData;
+		///그래픽스에 존재하는 카메라
+		/*Pg::Data::CameraData cameraData;
 		cameraData._position = { 0.0f, 0.0f, -3.0f };
 		cameraData._rotation.x = 0.0f;
 		cameraData._rotation.y = 0.0f;
@@ -134,13 +131,11 @@ namespace Pg::Core
 			0.0f, 2.41421342f, 0.0f, 0.0f,
 			0.0f, 0.0f, 1.00000012f, 1.0f,
 			0.0f, 0.0f, -0.000100000012f, 0.0f,
-		};
-
-		//원래는 Engine에서 해줘야 할 일이나, Component 작동 로직만 확인하기 위해.
-		_work->GetCurrentScene()->Update();
+		};*/
 
 		_engineGraphicsAdapter->UpdateGraphics(
-			_work->GetCurrentScene(), &cameraData, _timeManager->GetDeltaTime());
+			_engineGraphicsAdapter->GetCurrentScene(),
+			_engineGraphicsAdapter->GetCameraData(), _timeManager->GetDeltaTime());
 	}
 
 	void ProcessMain::BeginRender()

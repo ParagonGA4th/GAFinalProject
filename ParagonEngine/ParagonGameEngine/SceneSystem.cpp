@@ -1,4 +1,5 @@
 #include "SceneSystem.h"
+#include "TestScene.h"
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/RendererBase2D.h"
@@ -11,41 +12,19 @@ namespace Pg::Engine
 	{
 		// #Temporary: 임시로 원래 여기 이거 있으면 안되는데, 작동한다는 것 알기 위해!
 		// 제거 되어야 함. 여기에는 Scene 관리 로직 etc 있어야!
-		using namespace Pg::Data;
-
-		Scene* tCurrentScene0 = new Scene("TestCurrentScene0");
-		_currentScene = tCurrentScene0;
-
-		PG_TRACE(_currentScene->GetSceneName());
-
-		Scene* tCurrentScene = new Scene("TestCurrentScene");
-		_currentScene = tCurrentScene;
-
-		//이거 호출하면 MainCamera 반환함!!
-		tCurrentScene->GetMainCamera();
-
-		//카메라 하나 더 생성
-		GameObject* tObj1 = tCurrentScene->AddObject("Camera1");
-		tObj1->AddComponent<Camera>();
-		tObj1->GetComponent<Transform>()->SetPosition({ 10.0f, 0.0f, 5.0f });
-
-		GameObject* tObj2 = tCurrentScene->AddObject("Cube2");
-		tObj2->GetComponent<Transform>()->SetPosition({ -10.0f, 0.0f, 5.0f });
-		tObj2->AddComponent<RendererBase3D>();
-		////tObj2->AddComponent<BaseRenderer>();
-		//tObj2->AddComponent<RendererBase2D>();
-
-		//이렇게 하면 메인 카메 라 바뀜!!
-		tCurrentScene->SetMainCamera(tObj1->GetComponent<Camera>());
-
-		PG_TRACE(_currentScene->GetSceneName());
-
-
+		_testScene = new TestScene();
+		_currentScene = _testScene->GetCurrentScene();
+		_testScene->Initialize();
+		_currentScene->Start();
 	}
-
+	
 	void SceneSystem::Update()
 	{
-
+		//현재 씬의 Update를 호출시켜주면 TestScene에 존재하는 Update도 호출이 된다.
+		_currentScene->Update();
+		_currentScene->FixedUpdate();
+		_currentScene->LateUpdate();
+		
 	}
 
 	void SceneSystem::LoadEmptyScene()
@@ -56,7 +35,21 @@ namespace Pg::Engine
 		Pg::Data::Scene* scene = new Scene("Empty Scene");
 
 		//리스트에 집어 넣는다.
-		_sceneList.push_back(scene);
+
+
+	}
+
+	Pg::Data::Scene* SceneSystem::CreateScene(const std::string& sceneName)
+	{
+		auto it = _sceneList.find(sceneName);
+		if (it != _sceneList.end())
+		{
+			return _sceneList[sceneName];
+		}
+
+		Pg::Data::Scene* scene;
+		scene = new Pg::Data::Scene(sceneName);
+		return scene;
 	}
 
 
@@ -75,6 +68,8 @@ namespace Pg::Engine
 	{
 		return _currentScene;
 	}
+
+
 
 	void SceneSystem::DeleteCurrentScene()
 	{

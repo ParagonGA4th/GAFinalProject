@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../packages/NVIDIA.PhysX.4.1.229882250/installed/x64-uwp/include/Pxphysics.h"
-#include "../packages/NVIDIA.PhysX.4.1.229882250/installed/x64-uwp/include/PxphysicsAPI.h"
+#include "Pxphysics.h"
+#include "PxphysicsAPI.h"
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonMath/PgMath.h"
 #include <vector>

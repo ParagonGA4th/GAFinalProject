@@ -131,7 +131,7 @@ namespace Pg::Graphics
 	
 	private:
 		Pg::API::Input::PgInput* _input;
-
+		Pg::Data::CameraData* _camData;
 	private:
 		// Editor 연동 & 나중에 이 SRV들이 최종 렌더되는 Quad의 SRV여야 한다.
 		ID3D11ShaderResourceView* _editorCameraSRV = nullptr;

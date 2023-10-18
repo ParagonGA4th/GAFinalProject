@@ -15,8 +15,6 @@ namespace Pg::API::Input
 
 namespace Pg::Editor::Manager
 {
-	class UIManager;
-
 	class EditorManager
 	{
 	public:
@@ -41,7 +39,7 @@ namespace Pg::Editor::Manager
 		std::unique_ptr<Pg::Core::ProcessMain> _coreMain;
 		Pg::API::Input::PgInput* _input;
 
-		std::unique_ptr<Pg::Editor::Manager::UIManager> _UIManager;
+		//std::unique_ptr<Pg::Editor::Manager::UIManager> _UIManager;
 
 	private:
 		bool _isCoreInitailized;
