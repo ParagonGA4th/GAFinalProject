@@ -5,12 +5,9 @@
 
 namespace Pg::Editor
 {
-	namespace Core
-	{
-		class EditorAction;
-	}
+	namespace Core { class EditorAction; }
 
-	class Editor:public IEditor
+	class Editor : public IEditor
 	{
 	public:
 		PARAGON_EDITOR_DLL Editor();
