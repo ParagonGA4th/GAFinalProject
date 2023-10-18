@@ -184,6 +184,12 @@
     <ClInclude Include="Script.h">
       <Filter>2_Component\Script</Filter>
     </ClInclude>
+    <ClInclude Include="ModelData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
