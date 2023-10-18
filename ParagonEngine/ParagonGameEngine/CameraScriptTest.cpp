@@ -96,6 +96,12 @@ void CameraScriptTest::Update()
 		Pg::Math::PGFLOAT3 POS = _object->_transform.GetPosition();
 		float ANGLE = 0.01f;
 
+		Pg::Math::PGFLOAT4 r = { 1.0f,0.0f,0.0f,1.0f };
+		r = Pg::Math::PGFloat4MultiplyMatrix(r, _object->_transform.GetLocalRotationMatrix());
+		Pg::Math::PGQuaternion newRot = PGRotateQuaternion(_object->_transform.GetLocalRotation(), { r.x,r.y,r.z }, 1.f);
+		_object->_transform.SetLocalRotation(newRot);
+
+
 		_object->_transform.SetPosition(POS);
 	}
 
