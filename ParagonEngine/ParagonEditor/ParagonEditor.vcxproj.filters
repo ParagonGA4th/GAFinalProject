@@ -22,10 +22,16 @@
     <ClCompile Include="ProcessManager.cpp">
       <Filter>2_Manager\1_ProcessManager</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="File.cpp">
       <Filter>SuanTest\File</Filter>
     </ClCompile>
     <ClCompile Include="EditorHelper.cpp" />
+=======
+    <ClCompile Include="Serializer.cpp">
+      <Filter>SuanTest</Filter>
+    </ClCompile>
+>>>>>>> b19a211fc54866821a9aa1e5756c268854e23056
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -58,6 +64,7 @@
     <Filter Include="SuanTest">
       <UniqueIdentifier>{e5393055-d81f-415b-a08c-21c941bbfb91}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
     <Filter Include="SuanTest\File">
       <UniqueIdentifier>{5d7b7943-be02-4739-8ee9-7343b6fbcb5f}</UniqueIdentifier>
     </Filter>
@@ -85,6 +92,8 @@
     <Filter Include="3_Window\GameView">
       <UniqueIdentifier>{9ebe9f9a-bfc6-4685-b2ff-5e5ec1905454}</UniqueIdentifier>
     </Filter>
+=======
+>>>>>>> b19a211fc54866821a9aa1e5756c268854e23056
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileManager.h">
@@ -114,10 +123,16 @@
     <ClInclude Include="ProcessManager.h">
       <Filter>2_Manager\1_ProcessManager</Filter>
     </ClInclude>
-    <ClInclude Include="File.h">
-      <Filter>SuanTest\File</Filter>
+    <ClInclude Include="ISerializable.h">
+      <Filter>SuanTest</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="EditorHelper.h" />
+=======
+    <ClInclude Include="Serializer.h">
+      <Filter>SuanTest</Filter>
+    </ClInclude>
+>>>>>>> b19a211fc54866821a9aa1e5756c268854e23056
   </ItemGroup>
   <ItemGroup>
     <Xml Include="SceneName.xml" />

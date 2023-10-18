@@ -17,23 +17,23 @@
 
 Pg::Engine::TestScene::TestScene()
 {
-
+	tCurrentScene = new Pg::Data::Scene("TestCurrentSceneWorkspace");
 }
 
 void Pg::Engine::TestScene::Initialize()
 {
 	using namespace Pg::Data;
 
-	tCurrentScene = new Scene("TestCurrentSceneWorkspace");
 
 	/// 오수안, 새로 추가한 스크립트 컴포넌트의 테스트를 위한 코드 
-	tCurrentScene->GetMainCamera()->_object->AddComponent<CameraScriptTest>();
-	tCurrentScene->GetMainCamera()->_object->GetComponent<CameraScriptTest>()->Start();
 
 	//카메라 하나 더 생성
 	GameObject* tObj1 = tCurrentScene->AddObject("Camera1");
 	tObj1->AddComponent<Camera>();
 	tObj1->GetComponent<Transform>()->SetPosition({ 10.0f, 0.0f, 5.0f });
+
+	tObj1->AddComponent<CameraScriptTest>();
+	tObj1->GetComponent<CameraScriptTest>()->Start();
 
 	GameObject* tObj2 = tCurrentScene->AddObject("Cube2");
 	tObj2->GetComponent<Transform>()->SetPosition({ 1.0f, 0.0f, 5.0f });
@@ -73,7 +73,6 @@ void Pg::Engine::TestScene::Initialize()
 void Pg::Engine::TestScene::Update()
 {
 	/// 오수안, 새로 추가한 스크립트 컴포넌트의 업데이트 테스트를 위한 코드
-	tCurrentScene->GetMainCamera()->_object->GetComponent<CameraScriptTest>()->Update();
 }
 
 Pg::Data::Scene* Pg::Engine::TestScene::GetCurrentScene()
