@@ -61,6 +61,7 @@
     <Filter Include="SuanTest">
       <UniqueIdentifier>{e5393055-d81f-415b-a08c-21c941bbfb91}</UniqueIdentifier>
     </Filter>
+
     <Filter Include="SuanTest\File">
       <UniqueIdentifier>{5d7b7943-be02-4739-8ee9-7343b6fbcb5f}</UniqueIdentifier>
     </Filter>
