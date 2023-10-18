@@ -22,12 +22,10 @@
     <ClCompile Include="ProcessManager.cpp">
       <Filter>2_Manager\1_ProcessManager</Filter>
     </ClCompile>
-
     <ClCompile Include="File.cpp">
       <Filter>SuanTest\File</Filter>
     </ClCompile>
     <ClCompile Include="EditorHelper.cpp" />
-
     <ClCompile Include="Serializer.cpp">
       <Filter>SuanTest</Filter>
     </ClCompile>
