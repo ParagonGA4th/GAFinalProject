@@ -26,16 +26,16 @@ namespace Pg::Data
 
 	Pg::Math::PGFLOAT3 Collider::GetPositionOffset() const
 	{
-		return {};
+		return _positionOffSet;
 	}
 
 	Pg::Math::PGQuaternion Collider::GetRotationOffset() const
 	{
-		return {};
+		return _rotationOffset;
 	}
 
 	Pg::Math::PGFLOAT3 Collider::GetScaleOffset() const
 	{
-		return {};
+		return _scaleOffset;
 	}
 }

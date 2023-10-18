@@ -73,6 +73,9 @@
     <ClCompile Include="Script.cpp">
       <Filter>2_Component\Script</Filter>
     </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>2_Component\Collider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -177,6 +180,9 @@
     </ClInclude>
     <ClInclude Include="Script.h">
       <Filter>2_Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>2_Component\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
