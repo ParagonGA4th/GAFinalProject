@@ -2,12 +2,9 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="FileManager.cpp">
-
       <Filter>2_Manager\0_FileManager</Filter>
     </ClCompile>
-
     <ClCompile Include="EditorManager.cpp">
-
       <Filter>2_Manager\2_EditorManager</Filter>
     </ClCompile>
     <ClCompile Include="ImGuiManager.cpp">
@@ -28,9 +25,7 @@
     <ClCompile Include="File.cpp">
       <Filter>SuanTest\File</Filter>
     </ClCompile>
-    <ClCompile Include="Serializer.cpp">
-      <Filter>SuanTest\Serializer</Filter>
-    </ClCompile>
+    <ClCompile Include="EditorHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -45,7 +40,6 @@
     <Filter Include="2_Manager\ImguiManager">
       <UniqueIdentifier>{071f8ebd-7803-4de6-a616-d512756bdf81}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="1_Define\1_Interface">
       <UniqueIdentifier>{4e6e69d8-8d2e-48a3-990e-2521b6c58164}</UniqueIdentifier>
     </Filter>
@@ -70,22 +64,38 @@
     <Filter Include="SuanTest\Serializer">
       <UniqueIdentifier>{54735cf2-987a-4870-bcc5-ef51079acdfd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3_Window">
+      <UniqueIdentifier>{6084a6c1-b3fd-433f-8388-3eaa43ccacf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Event">
+      <UniqueIdentifier>{3bd23e21-74cc-4162-8d95-e1b71b774609}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Window\Inspector">
+      <UniqueIdentifier>{23e6b17c-9fb9-41e8-865b-e2a517b9364c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Window\Hierarchy">
+      <UniqueIdentifier>{06271255-ed76-4ac8-b007-10ad751ee3be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Window\Filter">
+      <UniqueIdentifier>{37b19fdb-d5d3-4588-a743-ec07b9268e54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Window\SceneView">
+      <UniqueIdentifier>{9055525b-cdd0-41d2-bae0-4f001f5efcf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Window\GameView">
+      <UniqueIdentifier>{9ebe9f9a-bfc6-4685-b2ff-5e5ec1905454}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileManager.h">
-
       <Filter>2_Manager\0_FileManager</Filter>
     </ClInclude>
-    
-
     <ClInclude Include="EditorManager.h">
-
       <Filter>2_Manager\2_EditorManager</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiManager.h">
       <Filter>2_Manager\ImguiManager</Filter>
     </ClInclude>
-
     <ClInclude Include="ExternalLib.h">
       <Filter>1_Define</Filter>
     </ClInclude>
@@ -95,7 +105,6 @@
     <ClInclude Include="IEditor.h">
       <Filter>1_Define\1_Interface</Filter>
     </ClInclude>
-
     <ClInclude Include="Editor.h">
       <Filter>0_Main</Filter>
     </ClInclude>
@@ -108,9 +117,7 @@
     <ClInclude Include="File.h">
       <Filter>SuanTest\File</Filter>
     </ClInclude>
-    <ClInclude Include="Serializer.h">
-      <Filter>SuanTest\Serializer</Filter>
-    </ClInclude>
+    <ClInclude Include="EditorHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="SceneName.xml" />

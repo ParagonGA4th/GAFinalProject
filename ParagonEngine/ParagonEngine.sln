@@ -26,6 +26,7 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonEditor", "ParagonEditor\ParagonEditor.vcxproj", "{C872B70B-A2F8-4084-8CBE-36A7C98161B9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3F21CDC8-F127-4135-BB69-A870BE2D973B} = {3F21CDC8-F127-4135-BB69-A870BE2D973B}
+		{F2116C49-5BF5-4913-8BC4-3CE554A087F5} = {F2116C49-5BF5-4913-8BC4-3CE554A087F5}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonMath", "ParagonMath\ParagonMath.vcxproj", "{0AB5B10A-8B4A-4859-989C-637F962E1667}"
@@ -46,6 +47,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonData", "ParagonData\
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonUI", "ParagonUI\ParagonUI.vcxproj", "{F2116C49-5BF5-4913-8BC4-3CE554A087F5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3F21CDC8-F127-4135-BB69-A870BE2D973B} = {3F21CDC8-F127-4135-BB69-A870BE2D973B}
+		{C17D1F22-3A54-4E41-A57F-0CDB667C6B8E} = {C17D1F22-3A54-4E41-A57F-0CDB667C6B8E}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
