@@ -3,6 +3,8 @@
 #include "../ParagonMath/PgMath.h"
 #include "CameraData.h"
 
+#include <memory>
+
 
 /// <summary>
 /// 변지상의 Camera 클래스.
@@ -37,10 +39,12 @@ namespace Pg::Engine
 		void SetAspect(float aspect);
 		void SetFovY(float fovY);
 
-		Pg::Data::CameraData GetCameraData();
 
 	public:
-		Pg::Data::CameraData _cameraData;
+		Pg::Data::CameraData* GetCameraData();
+
+	public:
+		std::unique_ptr<Pg::Data::CameraData> _cameraData;
 
 	public:
 		// Yaw, pitch, roll (모든 방향으로의 회전이 필요한가?)

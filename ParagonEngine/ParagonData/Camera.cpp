@@ -6,7 +6,7 @@ namespace Pg::Engine
 	Camera::Camera(Pg::Data::GameObject* obj) :
 		Pg::Data::Component(obj)
 	{
-
+		_cameraData = std::make_unique<Pg::Data::CameraData>();
 	}
 
 	float Camera::GetNearZ() const
@@ -73,20 +73,20 @@ namespace Pg::Engine
 
 	}
 
-	Pg::Data::CameraData Camera::GetCameraData()
+	Pg::Data::CameraData* Camera::GetCameraData()
 	{
-		_cameraData._position = _object->_transform.GetPosition();
-		_cameraData._rotation = _object->_transform.GetRotation();
+		_cameraData->_position = _object->_transform.GetPosition();
+		_cameraData->_rotation = _object->_transform.GetRotation();
 
-		_cameraData._farZ = GetFarZ();
-		_cameraData._fovY = GetFovY();
-		_cameraData._nearZ = GetNearZ();
-		_cameraData.aspect = GetAspect();
+		_cameraData->_farZ = GetFarZ();
+		_cameraData->_fovY = GetFovY();
+		_cameraData->_nearZ = GetNearZ();
+		_cameraData->aspect = GetAspect();
 
-		_cameraData._viewMatrix = GetViewMatrix();
-		_cameraData._projMatrix = GetProjMatrix();
+		_cameraData->_viewMatrix = GetViewMatrix();
+		_cameraData->_projMatrix = GetProjMatrix();
 
-		return _cameraData;
+		return _cameraData.get();
 	}
 
 }

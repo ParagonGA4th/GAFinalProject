@@ -30,5 +30,7 @@ namespace Pg::Core
 
 		//렌더링을 위해 현재의 씬을 받아올 필요가 있다.
 		virtual Pg::Data::Scene* GetCurrentScene() abstract;
+
+		virtual Pg::Data::CameraData* GetCameraData() abstract;
 	};
 }

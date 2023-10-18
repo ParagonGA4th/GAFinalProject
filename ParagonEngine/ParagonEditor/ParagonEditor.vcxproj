@@ -141,37 +141,29 @@
   <ItemGroup>
     <ClCompile Include="DataStruct.h" />
     <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="EditorAction.cpp" />
     <ClCompile Include="EditorManager.cpp" />
-    <ClCompile Include="EditorMain.cpp" />
     <ClCompile Include="FileManager.cpp" />
-    <ClCompile Include="imgui.cpp" />
-    <ClCompile Include="ImGuiManager.cpp" />
-    <ClCompile Include="imgui_demo.cpp" />
-    <ClCompile Include="imgui_draw.cpp" />
-    <ClCompile Include="imgui_impl_dx11.cpp" />
-    <ClCompile Include="imgui_impl_win32.cpp" />
-    <ClCompile Include="imgui_tables.cpp" />
-    <ClCompile Include="imgui_widgets.cpp" />
-    <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="ImGuiManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ProcessManager.cpp" />
+    <ClCompile Include="Serializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor.h" />
+    <ClInclude Include="EditorAction.h" />
     <ClInclude Include="EditorDLLExporter.h" />
-    <ClInclude Include="EditorMain.h" />
     <ClInclude Include="EditorManager.h" />
     <ClInclude Include="ExternalLib.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="IEditor.h" />
-    <ClInclude Include="imconfig.h" />
-    <ClInclude Include="imgui.h" />
-    <ClInclude Include="ImGuiManager.h" />
-    <ClInclude Include="imgui_impl_dx11.h" />
-    <ClInclude Include="imgui_impl_win32.h" />
-    <ClInclude Include="imgui_internal.h" />
-    <ClInclude Include="imstb_rectpack.h" />
-    <ClInclude Include="imstb_textedit.h" />
-    <ClInclude Include="imstb_truetype.h" />
-    <ClInclude Include="UIManager.h" />
+    <ClInclude Include="ImGuiManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="ISerializable.h" />
+    <ClInclude Include="ProcessManager.h" />
+    <ClInclude Include="Serializer.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="SceneName.xml" />
