@@ -13,7 +13,8 @@ namespace Pg::Data
 		//Scene이 만들어질 경우 무조건 MainCamera가 오브젝트로 생성이 되어 있어야 함!
 		GameObject* cameraObject = AddObject("MainCamera");
 		_mainCamera = cameraObject->AddComponent<Pg::Engine::Camera>();
-		_mainCamera->_object->_transform.SetPosition({ 10.0f, 0.0f, 0.0f });
+
+
 		_mainCamera->_object->_transform.SetRotation({ 0.0f, 0.0f, 0.0f, 0.0f });
 
 		// 10.11 오수안
@@ -52,6 +53,22 @@ namespace Pg::Data
 		for (auto& object : _objectList)
 		{
 			object->Update();
+		}
+	}
+
+	void Scene::FixedUpdate()
+	{
+		for (auto& object : _objectList)
+		{
+			object->FixedUpdate();
+		}
+	}
+
+	void Scene::LateUpdate()
+	{
+		for (auto& object : _objectList)
+		{
+			object->LateUpdate();
 		}
 	}
 
@@ -110,5 +127,7 @@ namespace Pg::Data
 	{
 		_mainDirLight = mainLight;
 	}
+
+
 
 }
