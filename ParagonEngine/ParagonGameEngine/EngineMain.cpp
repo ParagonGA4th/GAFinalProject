@@ -70,6 +70,7 @@ namespace Pg::Engine
 	{
 		_sceneSystem->Update();
 		_inputSystem->Update();
+		_physicSystem->UpdatePhysics();
 
 		 static bool tTest = false;
 		if (!tTest)
@@ -87,7 +88,7 @@ namespace Pg::Engine
 
 	void EngineMain::Finalize()
 	{
-
+		_physicSystem->Finalize();
 	}
 
 	void EngineMain::LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define)
