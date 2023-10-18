@@ -18,7 +18,7 @@ namespace Pg::Engine::Physic
 	public:
 		void Initialize();
 
-		void UpdatePhysics(float deltaTime);
+		void UpdatePhysics();
 
 		void Finalize();
 
@@ -30,6 +30,7 @@ namespace Pg::Engine::Physic
 		//PhysX연동을 위한 변수들
 		physx::PxDefaultAllocator		_allocator;
 		physx::PxDefaultErrorCallback	_errorCallback;
+		physx::PxTolerancesScale _toleranceScale;
 		physx::PxFoundation* _foundation;
 		physx::PxPhysics* _physics;
 		physx::PxDefaultCpuDispatcher* _dispatcher;
