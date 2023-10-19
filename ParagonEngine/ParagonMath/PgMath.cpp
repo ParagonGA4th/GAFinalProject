@@ -215,20 +215,20 @@ namespace Pg::Math
 
 	//PGQuaternion
 
-	PGQuaternion::PGQuaternion() : x(0.0f), y(0.0f), z(0.0f), w(0.0f)
+	PGQuaternion::PGQuaternion() : w(0.0f), x(0.0f), y(0.0f), z(0.0f)
 	{
 		//
 	}
 
-	constexpr PGQuaternion::PGQuaternion(float _x, float _y, float _z, float _w) noexcept
-		: x(_x), y(_y), z(_z), w(_w)
+	constexpr PGQuaternion::PGQuaternion(float _w, float _x, float _y, float _z) noexcept
+		:w(_w), x(_x), y(_y), z(_z)
 	{
 		//
 	}
 
 	Pg::Math::PGQuaternion PGQuaternion::Conjugate() const
 	{
-		return PGQuaternion(-x, -y, -z, w);
+		return PGQuaternion(w, -x, -y, -z);
 	}
 
 	//PGFLOAT4X4

@@ -182,12 +182,11 @@
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="ModelData.h" />
-    <ClInclude Include="MoveForwardBack.h" />
-    <ClInclude Include="Panel.h" />
-    <ClInclude Include="ParagonDefines.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="ModelData.h" />
+    <ClInclude Include="MoveForwardBack.h" />
+    <ClInclude Include="ParagonDefines.h" />
     <ClInclude Include="LightData.h" />
     <ClInclude Include="LightType.h" />
     <ClInclude Include="ImageRenderer.h" />
@@ -221,8 +220,8 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
-    <ClCompile Include="Light.cpp" />
     <ClCompile Include="ImageRenderer.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="MoveForwardBack.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RendererChangeList.cpp" />
