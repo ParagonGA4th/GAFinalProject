@@ -56,10 +56,18 @@ namespace Pg::Graphics::Loader
 		else
 		{
 			//Static
+			
 			const aiScene* pScene = importer.ReadFile(path.c_str(),
 				aiProcess_Triangulate |
 				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType |
 				aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_EmbedTextures | aiProcess_GenBoundingBoxes);
+			
+			//const aiScene* pScene = importer.ReadFile(path.c_str(),
+			//	aiProcess_Triangulate |
+			//	aiProcess_GenNormals |
+			//	aiProcess_CalcTangentSpace |
+			//	aiProcess_ConvertToLeftHanded);
+			
 			assert(pScene != nullptr);
 
 			modelData->_assetSceneData->m_Directory = path;

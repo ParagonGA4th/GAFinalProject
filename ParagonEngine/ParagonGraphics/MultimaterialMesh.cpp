@@ -29,6 +29,8 @@ namespace Pg::Graphics
 		//_filePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx";
 		_filePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx";
 		//_filePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
+		//_filePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
+		//_filePath = "../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMeshSeams.fbx";
 		//_filePath = "../Resources/3DModels/Banana.fbx";
 
 		auto tModelData = GraphicsResourceManager::Instance()->GetResource(_filePath, eAssetDefine::_3DMODEL);
@@ -221,7 +223,7 @@ namespace Pg::Graphics
 			{
 				//마지막.
 				tToDrawIndexCount =
-					_modelData->_d3dBufferInfo._indexCount -
+					_modelData->_d3dBufferInfo._totalIndexCount -
 					_modelData->_d3dBufferInfo._indexOffsetVector[i];
 			}
 			else
@@ -232,11 +234,11 @@ namespace Pg::Graphics
 			}
 
 			//SRV 업데이트.
-			UINT tMatID = _modelData->_d3dBufferInfo._materialIDVector[i];
-			AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
-			_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
+			//UINT tMatID = _modelData->_d3dBufferInfo._materialIDVector[i];
+			//AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
+			//_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
 
-			//_devCon->PSSetShaderResources(0, 1, &_testSRV);
+			_devCon->PSSetShaderResources(0, 1, &_testSRV);
 			//_devCon->PSSetSamplers(0, 1, &_samplerState);
 
 			////업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
@@ -256,7 +258,8 @@ namespace Pg::Graphics
 		_devCon->PSSetSamplers(0, 1, &_samplerState);
 
 		//_devCon->DrawIndexed(_modelData->_d3dBufferInfo._indexCount, 0, 0);
-		_devCon->DrawIndexed(_modelData->_d3dBufferInfo._indexCount, 0, 0);
+		//_devCon->DrawIndexed(_modelData->_d3dBufferInfo._totalIndexCount, 0, 0);
+		//_devCon->DrawIndexed(36, 0, 0);
 	}
 
 	void MultimaterialMesh::SingleMaterialMultiMeshDraw()
