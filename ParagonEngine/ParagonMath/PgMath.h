@@ -122,10 +122,10 @@ namespace Pg::Math
 
 	struct PGQuaternion
 	{
+		float w;
 		float x;
 		float y;
 		float z;
-		float w;
 
 		PGQuaternion();
 
@@ -135,7 +135,7 @@ namespace Pg::Math
 		PGQuaternion(PGQuaternion&&) = default;
 		PGQuaternion& operator=(PGQuaternion&&) = default;
 
-		constexpr PGQuaternion(float _x, float _y, float _z, float _w) noexcept;
+		constexpr PGQuaternion(float _w, float _x, float _y, float _z) noexcept;
 
 		PGQuaternion Conjugate() const;
 	};
