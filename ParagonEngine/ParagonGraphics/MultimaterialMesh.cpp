@@ -94,11 +94,25 @@ namespace Pg::Graphics
 		//Index Buffer Setting.
 		_devCon->IASetIndexBuffer(_modelData->_d3dBufferInfo._indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
-		_devCon->PSSetShaderResources(0, 1, &_testSRV);
+		//_devCon->PSSetShaderResources(0, 1, &_testSRV);
 
-		_devCon->DrawIndexed(_modelData->_d3dBufferInfo._totalIndexCount, 0, 0);
+		//_devCon->DrawIndexed(_modelData->_d3dBufferInfo._totalIndexCount, 0, 0);
 		//_devCon->DrawIndexed(36, 0, 0);
-
+		//_devCon->DrawIndexed(12, 0, 0);
+		
+		UINT tMatID = _modelData->_d3dBufferInfo._materialIDVector[1];
+		AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
+		_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
+		_devCon->DrawIndexed(12, _modelData->_d3dBufferInfo._indexOffsetVector[1], _modelData->_d3dBufferInfo._vertexOffsetVector[1]);
+		
+		//_devCon->DrawIndexed(12, _modelData->_d3dBufferInfo._indexOffsetVector[2], _modelData->_d3dBufferInfo._vertexOffsetVector[2]);
+		
+		/*
+		분석도 분석인데, 지금은 Node별로 Mesh의 Local Transformation이 반영되지 않기 때문에, 당연히 버텍스 버퍼가 한 공간에 겹쳐서 출력된다. 이를 고쳐야 한다..
+		이와 더불어, 쓸데없는 데이터는 통합하는 것도 좋다!
+		지금 오버헤드를 줄여서, 값을 처리하는 것이 중요.
+		또한, → 현재 부모 노드의 행렬을 요상하게 처리하고 있기 때문에 (Transpose 등등.. Tofu/ModelViewer, 이 역시 손을 봐줘야 한다!
+		*/
 
 		//이제 실제로 그리고 / Texture를 바꿔끼는 방식이 들어가야 한다.
 		//바뀌는 SRV를 반영해야 한다. -> MaterialCluster와 D3DBufferInfo를 활용해야 한다.
