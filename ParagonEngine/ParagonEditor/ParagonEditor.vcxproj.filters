@@ -1,105 +1,102 @@
-<<<<<<< HEAD
-version https://git-lfs.github.com/spec/v1
-oid sha256:9cc29376721fcf254ba7951ab9df676ee3e6c79434b62c184ca50d74825fb1f6
-size 3718
-=======
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="FileManager.cpp">
-      <Filter>2_Manager\0_FileManager</Filter>
+    <ClCompile Include="Serializer.cpp" />
+    <ClCompile Include="Editor.cpp">
+      <Filter>0_Main</Filter>
     </ClCompile>
     <ClCompile Include="EditorManager.cpp">
-      <Filter>2_Manager\2_EditorManager</Filter>
+      <Filter>2_Manager\3_EditorManager</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiManager.cpp">
-      <Filter>2_Manager\ImguiManager</Filter>
+    <ClCompile Include="ProcessManager.cpp">
+      <Filter>2_Manager\2_ProcessManager</Filter>
     </ClCompile>
     <ClCompile Include="DataStruct.h">
       <Filter>1_Define</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.cpp">
-      <Filter>0_Main</Filter>
+    <ClCompile Include="FileManager.cpp">
+      <Filter>2_Manager\0_FilManager</Filter>
     </ClCompile>
     <ClCompile Include="EditorAction.cpp">
+      <Filter>0_Main\EditorAction</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorHelper.cpp">
+      <Filter>2_Manager\EditorHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiManager.cpp">
+      <Filter>2_Manager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ISerializable.h" />
+    <ClInclude Include="Serializer.h" />
+    <ClInclude Include="Editor.h">
       <Filter>0_Main</Filter>
-    </ClCompile>
-    <ClCompile Include="ProcessManager.cpp">
-      <Filter>2_Manager\1_ProcessManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Serializer.cpp">
-      <Filter>SuanTest</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="0_Main">
-      <UniqueIdentifier>{10fc9034-0baf-41bb-a32e-d03a4553f590}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Define">
-      <UniqueIdentifier>{f57c79c9-3398-442d-be98-3bba39119fe5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Manager">
-      <UniqueIdentifier>{a0fca74c-be2d-45d3-9510-fd6bafbc1058}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Manager\ImguiManager">
-      <UniqueIdentifier>{071f8ebd-7803-4de6-a616-d512756bdf81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Define\1_Interface">
-      <UniqueIdentifier>{4e6e69d8-8d2e-48a3-990e-2521b6c58164}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Define\0_DLLExporter">
-      <UniqueIdentifier>{e7207eec-6122-41ce-8492-513780d35b92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Manager\1_ProcessManager">
-      <UniqueIdentifier>{661ff288-5cbe-4600-ba7c-e68491d5c81a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Manager\0_FileManager">
-      <UniqueIdentifier>{8ba21139-66b2-43da-b4ad-0ee33a689461}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Manager\2_EditorManager">
-      <UniqueIdentifier>{1ac736da-9b58-423a-bd86-a3a14f017b48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SuanTest">
-      <UniqueIdentifier>{e5393055-d81f-415b-a08c-21c941bbfb91}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="FileManager.h">
-      <Filter>2_Manager\0_FileManager</Filter>
     </ClInclude>
     <ClInclude Include="EditorManager.h">
-      <Filter>2_Manager\2_EditorManager</Filter>
+      <Filter>2_Manager\3_EditorManager</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiManager.h">
-      <Filter>2_Manager\ImguiManager</Filter>
+    <ClInclude Include="ProcessManager.h">
+      <Filter>2_Manager\2_ProcessManager</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDLLExporter.h">
+      <Filter>1_Define\EditorDLLExporter</Filter>
     </ClInclude>
     <ClInclude Include="ExternalLib.h">
       <Filter>1_Define</Filter>
     </ClInclude>
-    <ClInclude Include="EditorDLLExporter.h">
-      <Filter>1_Define\0_DLLExporter</Filter>
-    </ClInclude>
     <ClInclude Include="IEditor.h">
-      <Filter>1_Define\1_Interface</Filter>
+      <Filter>1_Define</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.h">
-      <Filter>0_Main</Filter>
+    <ClInclude Include="FileManager.h">
+      <Filter>2_Manager\0_FilManager</Filter>
     </ClInclude>
     <ClInclude Include="EditorAction.h">
-      <Filter>0_Main</Filter>
+      <Filter>0_Main\EditorAction</Filter>
     </ClInclude>
-    <ClInclude Include="ProcessManager.h">
-      <Filter>2_Manager\1_ProcessManager</Filter>
+    <ClInclude Include="EditorHelper.h">
+      <Filter>2_Manager\EditorHelper</Filter>
     </ClInclude>
-    <ClInclude Include="ISerializable.h">
-      <Filter>SuanTest</Filter>
-    </ClInclude>
-    <ClInclude Include="Serializer.h">
-      <Filter>SuanTest</Filter>
+    <ClInclude Include="ImGuiManager.h">
+      <Filter>2_Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="SceneName.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="0_Main">
+      <UniqueIdentifier>{3e46d354-9362-4258-8705-75d60113e615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Define">
+      <UniqueIdentifier>{0363f5c7-3ed9-4655-b75a-d655ab668f61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Manager">
+      <UniqueIdentifier>{ec23eaba-630a-4bef-81ad-5b137e8fec96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Manager\0_FilManager">
+      <UniqueIdentifier>{2e9788a1-cb70-46ee-9880-2e87ffcefa55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Manager\2_ProcessManager">
+      <UniqueIdentifier>{6aeadde7-4800-4c6e-8d2d-947ccce11ef1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Manager\3_EditorManager">
+      <UniqueIdentifier>{56dfd14d-ea18-4fa8-8ae7-5ee43d02390e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Define\EditorDLLExporter">
+      <UniqueIdentifier>{a5a395cd-a936-449b-a1d4-162579c4e265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\EditorAction">
+      <UniqueIdentifier>{30d81899-e0d9-43e2-ad07-85156101a297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Manager\EditorHelper">
+      <UniqueIdentifier>{3176ec4c-49d9-422b-95d2-408b4c356845}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Event">
+      <UniqueIdentifier>{748cb9ec-15ef-4e3f-8809-244b6fa1b409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Windows">
+      <UniqueIdentifier>{b8d9bc88-1ec5-40c6-b7e7-d60939984e22}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
 </Project>
->>>>>>> 846bba03c7b7ffad747c6e2d6c391786e3729908
