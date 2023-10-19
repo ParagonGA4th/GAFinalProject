@@ -5,7 +5,7 @@
 namespace Pg::Editor::Manager
 {
 	class EditorManager;
-	//class ProcessManager;
+	class ProcessManager;
 	//class FileManager;
 }
 
@@ -39,7 +39,7 @@ namespace Pg::Editor::Core
 	private:
 		// WndProc에 접근 하기 위해 static 사용
 		std::unique_ptr<Pg::Editor::Manager::EditorManager> _editorManager;
-		//std::unique_ptr<Pg::Editor::Manager::ProcessManager> _processManager;
+		std::unique_ptr<Pg::Editor::Manager::ProcessManager> _processManager;
 		//std::unique_ptr<Pg::Editor::Manager::FileManager> _FileManager;
 	};
 }
