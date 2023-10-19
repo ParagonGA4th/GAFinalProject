@@ -7,7 +7,7 @@ Pg::Editor::Core::EditorAction::EditorAction()
 	_screenWidth(1920), _screenHeight(1080),
 	_appName(L"ParagonEngine")
 {
-	//_processManager = std::make_unique<Pg::Editor::Manager::ProcessManager>();
+	_processManager = std::make_unique<Pg::Editor::Manager::ProcessManager>();
 	_editorManager = std::make_unique<Pg::Editor::Manager::EditorManager>();
 
 }
@@ -23,8 +23,8 @@ void Pg::Editor::Core::EditorAction::Initialize()
 	WindowRegisterClass(ins);
 	CreateWindows(ins);
 
-	//_processManager->Initialize(_hWnd, _screenWidth, _screenHeight);
-	_editorManager->Initialize(_hWnd, _screenWidth, _screenHeight);
+	_processManager->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
+	_editorManager->Initialize(_hWnd);
 }
 
 void Pg::Editor::Core::EditorAction::Loop()
@@ -37,12 +37,15 @@ void Pg::Editor::Core::EditorAction::Loop()
 
 			DispatchMessage(&_msg);
 			TranslateMessage(&_msg);
-			_editorManager->Handler(_msg);
-			_editorManager->InputHandler(_msg);
+			_processManager->ProcessHandler(_msg);
+			_editorManager->UIHandler(_msg);
 		}
 		else
 		{
+			_processManager->Update();
 			_editorManager->Update();  
+			_editorManager->LastUpdate();  
+			_processManager->LastUpdate();
 		}
 	}
 }
@@ -50,6 +53,7 @@ void Pg::Editor::Core::EditorAction::Loop()
 void Pg::Editor::Core::EditorAction::Finalize()
 {
 	_editorManager->Finalize();
+	_processManager->Finalize();
 }
 
 ATOM Pg::Editor::Core::EditorAction::WindowRegisterClass(HINSTANCE hInstance)

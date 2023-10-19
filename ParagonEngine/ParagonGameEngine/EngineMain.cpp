@@ -6,7 +6,7 @@
 
 
 //얘는 외부 SDK 연동 후 진행 예정
-//#include "PhysicSystem.h"
+#include "PhysicSystem.h"
 
 //<실제 GameEngine Resource의 목록>
 
@@ -45,8 +45,8 @@ namespace Pg::Engine
 		_inputSystem = &tInputSystem;
 
 		//Physic
-		//auto& tphysicSystem = singleton<Physic::PhysicSystem>();
-		//_physicSystem = &tphysicSystem;
+		auto& tphysicSystem = singleton<Physic::PhysicSystem>();
+		_physicSystem = &tphysicSystem;
 
 		//Scene
 		auto& tSceneSystem = singleton<SceneSystem>();
@@ -63,13 +63,14 @@ namespace Pg::Engine
 	{
 		_sceneSystem->Initialize();
 		_inputSystem->Initialize(width, height);
-		//_physicSystem->Initialize();
+		_physicSystem->Initialize();
 	}
 
 	void EngineMain::Update()
 	{
 		_sceneSystem->Update();
 		_inputSystem->Update();
+		_physicSystem->UpdatePhysics();
 
 		 static bool tTest = false;
 		if (!tTest)
@@ -87,7 +88,7 @@ namespace Pg::Engine
 
 	void EngineMain::Finalize()
 	{
-
+		_physicSystem->Finalize();
 	}
 
 	void EngineMain::LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define)
@@ -107,7 +108,7 @@ namespace Pg::Engine
 
 	Pg::Data::CameraData* EngineMain::GetCameraData()
 	{
-		return _cameraData;
+		return _sceneSystem->GetCurrentScene()->GetMainCamera()->GetCameraData();
 	}
 
 }

@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+version https://git-lfs.github.com/spec/v1
+oid sha256:0a151ba4264df2dcc91ba13addbbcf2b2391a7dd167c371c08df67ca53e20e68
+size 12494
+=======
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
@@ -15,9 +20,6 @@
     </ClCompile>
     <ClCompile Include="CapsuleCollider.cpp">
       <Filter>2_Component\Collider\CapsuleCollider</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>2_Component\Collider</Filter>
     </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
       <Filter>2_Component\Collider\SphereCollider</Filter>
@@ -76,6 +78,9 @@
     <ClCompile Include="Script.cpp">
       <Filter>2_Component\Script</Filter>
     </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>2_Component\Collider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -107,9 +112,6 @@
     </ClInclude>
     <ClInclude Include="GraphicsResource.h">
       <Filter>3_Resource\GraphicsResource</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>2_Component\Collider</Filter>
     </ClInclude>
     <ClInclude Include="CameraData.h">
       <Filter>5_Enums\CameraData</Filter>
@@ -184,11 +186,8 @@
     <ClInclude Include="Script.h">
       <Filter>2_Component\Script</Filter>
     </ClInclude>
-    <ClInclude Include="ModelData.h">
-      <Filter>4_Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundData.h">
-      <Filter>4_Structs</Filter>
+    <ClInclude Include="Collider.h">
+      <Filter>2_Component\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -314,3 +313,4 @@
     </Filter>
   </ItemGroup>
 </Project>
+>>>>>>> 846bba03c7b7ffad747c6e2d6c391786e3729908
