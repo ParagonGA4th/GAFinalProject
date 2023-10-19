@@ -65,14 +65,19 @@ namespace Pg::Graphics
 		auto& tD3DBuffer = _modelData->_d3dBufferInfo;
 		auto& tMatCluster = _modelData->_materialCluster;
 
+		auto _DXStorage = LowDX11Storage::GetInstance();
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), (_DXStorage->_depthStencilView));
+
 		//Input Layout 호출 / Primitive Topology 세팅.
 		_devCon->IASetInputLayout(LayoutDefine::GetStatic1stLayout());
 		_devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		//VS Bind.
-		_devCon->VSSetShader(_vertexShader, nullptr, 0);
 		//Update Shared Constant Buffer
 		UpdateConstantBuffer(camData);
+
+		_devCon->RSSetState(_rasterizerState);
+		//VS Bind.
+		_devCon->VSSetShader(_vertexShader, nullptr, 0);
 		//Constant Buffer Binding (VS)
 		_devCon->VSSetConstantBuffers(0, 1, &_constantBuffer);
 		//PS Bind.
@@ -87,7 +92,13 @@ namespace Pg::Graphics
 		UINT offset = 0;
 		_devCon->IASetVertexBuffers(0, 1, &(_modelData->_d3dBufferInfo._vertexBuffer), &stride, &offset);
 		//Index Buffer Setting.
-		_devCon->IASetIndexBuffer(_modelData->_d3dBufferInfo._indexBuffer, DXGI_FORMAT_R16_UINT, 0);
+		_devCon->IASetIndexBuffer(_modelData->_d3dBufferInfo._indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+		_devCon->PSSetShaderResources(0, 1, &_testSRV);
+
+		_devCon->DrawIndexed(_modelData->_d3dBufferInfo._totalIndexCount, 0, 0);
+		//_devCon->DrawIndexed(36, 0, 0);
+
 
 		//이제 실제로 그리고 / Texture를 바꿔끼는 방식이 들어가야 한다.
 		//바뀌는 SRV를 반영해야 한다. -> MaterialCluster와 D3DBufferInfo를 활용해야 한다.
@@ -95,7 +106,7 @@ namespace Pg::Graphics
 
 		//Multi-Material으로 렌더. 목표해서 되어야 하는 방식.
 		//MultiMaterialDraw();
-		SingleMaterialDraw();
+		//SingleMaterialDraw();
 		//SingleMaterialMultiMeshDraw();
 
 		//VS/PS Unbind.
@@ -173,7 +184,7 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT4X4 tProj = MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
 		DirectX::XMMATRIX tProjMat = DirectX::XMLoadFloat4x4(&tProj);
 
-		DirectX::XMMATRIX tWVP = DirectX::XMMatrixMultiply(DirectX::XMMatrixMultiply(_worldMat, tViewMat), tProjMat);
+		DirectX::XMMATRIX tWVP = DirectX::XMMatrixMultiply(_worldMat, DirectX::XMMatrixMultiply(tViewMat, tProjMat));
 		_constantBufferStruct->gCBuf_WorldViewProj = tWVP;
 		_constantBufferStruct->gCBuf_CameraPositionW = MathHelper::PG2XM_FLOAT3(camData->_position);
 
@@ -258,7 +269,7 @@ namespace Pg::Graphics
 		_devCon->PSSetSamplers(0, 1, &_samplerState);
 
 		//_devCon->DrawIndexed(_modelData->_d3dBufferInfo._indexCount, 0, 0);
-		//_devCon->DrawIndexed(_modelData->_d3dBufferInfo._totalIndexCount, 0, 0);
+		_devCon->DrawIndexed(_modelData->_d3dBufferInfo._totalIndexCount, 0, 0);
 		//_devCon->DrawIndexed(36, 0, 0);
 	}
 

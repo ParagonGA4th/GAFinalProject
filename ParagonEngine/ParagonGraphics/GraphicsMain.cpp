@@ -334,14 +334,14 @@ namespace Pg::Graphics
 
 		//하드코딩된 리소스들.
 		cubemap->Draw();
-		
+
 		// test용 큐브 그리기
 		//_box->Draw();
 		// Grid
 		grid->Draw();
 		// Axis
 		axis->Draw();
-		
+
 		// test 스프라이트 그리기
 		//sprite->Draw();
 		//sprite2->Draw();
