@@ -371,7 +371,7 @@ namespace Pg::Graphics
 		_renderer->Render(&tCamData);
 
 		//MultiMaterial Mesh Å×½ºÆÃ.
-		//_tempMultiMesh->Draw(&tCamData);
+		_tempMultiMesh->Draw(&tCamData);
 	}
 
 	void GraphicsMain::EndRender()
