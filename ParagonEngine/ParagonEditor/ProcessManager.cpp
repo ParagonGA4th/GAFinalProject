@@ -28,6 +28,8 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd, float screenWid
 
 	_edHepler->SetDevice(_coreMain->GetGraphicsDevice());
 	_edHepler->SetDeviceContext(_coreMain->GetGraphicsDeviceContext());
+
+	_edHepler->SetTexture(_coreMain->GetEditorAdapter()->GetEditorCameraViewSRV());
 }
 
 void Pg::Editor::Manager::ProcessManager::Update()
@@ -50,4 +52,9 @@ void Pg::Editor::Manager::ProcessManager::Finalize()
 void Pg::Editor::Manager::ProcessManager::ProcessHandler(MSG message)
 {
 	if (_isCoreInitailized) _input->HandleMessage(message);
+}
+
+bool Pg::Editor::Manager::ProcessManager::KeyInput(std::string key)
+{
+	//if(_input->GetKeyDown())
 }

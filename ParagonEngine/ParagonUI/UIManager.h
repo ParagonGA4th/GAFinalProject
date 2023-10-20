@@ -28,7 +28,7 @@ namespace Pg::UI::Manager
 		 ~UIManager();
 
 		 void Initialize(void* hWnd, ID3D11Device* device, ID3D11DeviceContext* deviceContext);
-		 void Update();
+		 void Update(void* Texture);
 		 void LastUpdate();
 		 void Finalize();
 

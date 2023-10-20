@@ -152,6 +152,7 @@
     <ClCompile Include="ImGuiManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Inspector.cpp" />
     <ClCompile Include="ProcessManager.cpp" />
     <ClCompile Include="Serializer.cpp" />
   </ItemGroup>
@@ -161,12 +162,14 @@
     <ClInclude Include="EditorDLLExporter.h" />
     <ClInclude Include="EditorHelper.h" />
     <ClInclude Include="EditorManager.h" />
+    <ClInclude Include="IEditorWindow.h" />
     <ClInclude Include="ExternalLib.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="IEditor.h" />
     <ClInclude Include="ImGuiManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Inspector.h" />
     <ClInclude Include="ISerializable.h" />
     <ClInclude Include="ProcessManager.h" />
     <ClInclude Include="Serializer.h" />

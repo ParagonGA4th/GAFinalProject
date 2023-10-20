@@ -1,6 +1,7 @@
 #pragma  once
 #include <windows.h>
 #include <memory>
+#include <string>
 
 namespace Pg::Core { class ProcessMain; }
 namespace Pg::API::Input { class PgInput; }
@@ -18,6 +19,8 @@ namespace Pg::Editor::Manager
 		void Update();
 		void LastUpdate();
 		void Finalize();
+
+		bool KeyInput(std::string key);
 
 		void ProcessHandler(MSG message);
 	private:
