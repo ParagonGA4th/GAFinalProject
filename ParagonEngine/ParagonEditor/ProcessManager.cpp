@@ -3,7 +3,7 @@
 #include "EditorHelper.h"
 
 Pg::Editor::Manager::ProcessManager::ProcessManager()
-	:_isCoreInitailized(false)
+	:_isCoreInitailized(false), _editorOnOff(false)
 {
 	// core
 	_coreMain = std::make_unique<Pg::Core::ProcessMain>();
@@ -28,6 +28,8 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd, float screenWid
 
 	_edHepler->SetDevice(_coreMain->GetGraphicsDevice());
 	_edHepler->SetDeviceContext(_coreMain->GetGraphicsDeviceContext());
+
+	_edHepler->SetTexture(_coreMain->GetEditorAdapter()->GetEditorCameraViewSRV());
 }
 
 void Pg::Editor::Manager::ProcessManager::Update()
@@ -50,4 +52,11 @@ void Pg::Editor::Manager::ProcessManager::Finalize()
 void Pg::Editor::Manager::ProcessManager::ProcessHandler(MSG message)
 {
 	if (_isCoreInitailized) _input->HandleMessage(message);
+}
+
+bool Pg::Editor::Manager::ProcessManager::EditorOnOff()
+{
+	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff)) _editorOnOff = !_editorOnOff;
+
+	return _editorOnOff;
 }

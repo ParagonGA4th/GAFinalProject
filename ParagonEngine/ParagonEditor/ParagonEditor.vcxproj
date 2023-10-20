@@ -119,7 +119,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonData.lib;ParagonAPI.lib;ParagonUtil.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -152,6 +152,7 @@
     <ClCompile Include="ImGuiManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Inspector.cpp" />
     <ClCompile Include="ProcessManager.cpp" />
     <ClCompile Include="Serializer.cpp" />
   </ItemGroup>
@@ -161,12 +162,14 @@
     <ClInclude Include="EditorDLLExporter.h" />
     <ClInclude Include="EditorHelper.h" />
     <ClInclude Include="EditorManager.h" />
+    <ClInclude Include="IEditorWindow.h" />
     <ClInclude Include="ExternalLib.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="IEditor.h" />
     <ClInclude Include="ImGuiManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Inspector.h" />
     <ClInclude Include="ISerializable.h" />
     <ClInclude Include="ProcessManager.h" />
     <ClInclude Include="Serializer.h" />
