@@ -2,9 +2,11 @@
 
 #include "LowDX11Storage.h"
 
+#include "LayoutDefine.h"
+
 HRESULT hr = NULL;
 
-Pg::Graphics::VertexShader::VertexShader(LowDX11Storage* storage, std::wstring CSOFilePath, D3D11_INPUT_ELEMENT_DESC* vertexDesc)
+Pg::Graphics::VertexShader::VertexShader(std::wstring CSOFilePath, D3D11_INPUT_ELEMENT_DESC* vertexDesc)
 	: RenderShader(CSOFilePath),
 	_vertexDesc(vertexDesc)
 {
@@ -15,9 +17,20 @@ Pg::Graphics::VertexShader::VertexShader(LowDX11Storage* storage, std::wstring C
 		_byteCode->GetBufferSize(), &(_inputLayout));
 }
 
+Pg::Graphics::VertexShader::VertexShader(std::wstring CSOFilePath)
+	:RenderShader(CSOFilePath)
+{
+	_DXStorage = LowDX11Storage::GetInstance();
+	CreateShader();
+	_inputLayout = LayoutDefine::GetStatic1stLayout();
+}
 
 void Pg::Graphics::VertexShader::Bind()
 {
+	// Input Layout
+	_DXStorage->_deviceContext->IASetInputLayout(_inputLayout);
+
+	// Shader
 	_DXStorage->_deviceContext->VSSetShader(_shader, nullptr, 0);
 }
 

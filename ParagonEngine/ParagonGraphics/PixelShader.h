@@ -7,7 +7,7 @@ namespace Pg::Graphics
 	class PixelShader : public RenderShader
 	{
 	public:
-		PixelShader(LowDX11Storage* storage, std::wstring CSOFilePath);
+		PixelShader(std::wstring CSOFilePath);
 
 	private:
 		void CreateShader();

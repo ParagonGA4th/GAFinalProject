@@ -26,6 +26,7 @@ namespace Pg::Graphics
 {
 	class LowDX11Logic;
 	class LowDX11Storage;
+	class DeferredRenderer;
 
 	class ParagonRenderer
 	{
@@ -59,6 +60,8 @@ namespace Pg::Graphics
 		std::unordered_map<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>> _renderObject3DList;
 		
 		Pg::Data::RendererChangeList* _rendererChangeList = nullptr;
+
+		DeferredRenderer* _deferredRenderer;
 	};
 }
 

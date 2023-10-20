@@ -136,6 +136,9 @@
     <ClInclude Include="GBuffer.h">
       <Filter>4_RenderObject</Filter>
     </ClInclude>
+    <ClInclude Include="DeferredRenderer.h">
+      <Filter>0_Main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -254,6 +257,9 @@
     </ClCompile>
     <ClCompile Include="GBuffer.cpp">
       <Filter>4_RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="DeferredRenderer.cpp">
+      <Filter>0_Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -411,6 +417,12 @@
     </FxCompile>
     <FxCompile Include="..\Resources\DefaultShaders\TempForward\TempForwardVS.hlsl">
       <Filter>6_HLSL\TempForward</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\SecondStage_PS.hlsl">
+      <Filter>6_HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\SecondStage_VS.hlsl">
+      <Filter>6_HLSL</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

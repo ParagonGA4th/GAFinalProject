@@ -61,12 +61,21 @@ namespace Pg::Graphics
 		ID3D11DepthStencilState* _depthStencilState;
 		ID3D11DepthStencilView* _depthStencilView;
 		ID3D11ShaderResourceView* _depthStencilSRV;
+		ID3D11Texture2D* _DeferredDepthStencilBuffer;
+		ID3D11DepthStencilView* _DeferredDepthStencilView;
+		ID3D11Texture2D* _tempDepthStencilBuffer;
+		ID3D11DepthStencilView* _tempDepthStencilView;
 
 		// Rasterizer State
 		D3D11_RASTERIZER_DESC _solidDesc;
 		D3D11_RASTERIZER_DESC _wireframeDesc;
 		ID3D11RasterizerState* _solidState;
 		ID3D11RasterizerState* _wireframeState;
+
+		// Sampler State
+		ID3D11SamplerState* _defaultSamplerState;
+
+		ID3D11BlendState* _blendState;
 
 		const FLOAT _backgroundColor[4] = { 0.6f, 0.5f, 0.5f, 0.0f };
 

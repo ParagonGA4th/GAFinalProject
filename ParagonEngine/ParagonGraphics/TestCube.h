@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RenderableObject.h"
+#include "ConstantBufferDefine.h"
 
 namespace Pg::Graphics
 {
@@ -22,6 +23,7 @@ namespace Pg::Data
 
 namespace Pg::Graphics
 {
+
 	class TestCube : public RenderableObject
 	{
 	public:
@@ -43,6 +45,6 @@ namespace Pg::Graphics
 		};
 
 	public:
-		BoxCBData _cbData;
+		ConstantBufferDefine::cbPerObjectBase _cbData;
 	};
 }

@@ -13,6 +13,11 @@ namespace Pg::Graphics
 		hr = LoadShader(CSOFilePath);
 	}
 
+	RenderShader::RenderShader()
+	{
+
+	}
+
 	HRESULT RenderShader::LoadShader(std::wstring CSOFilePath)
 	{
 		return D3DReadFileToBlob(CSOFilePath.c_str(), &(_byteCode));

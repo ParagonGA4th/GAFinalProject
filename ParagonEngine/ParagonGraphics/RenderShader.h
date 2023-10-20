@@ -23,6 +23,7 @@ namespace Pg::Graphics
 	{
 	public:
 		RenderShader(std::wstring CSOFilePath);
+		RenderShader();
 
 	protected:
 		LowDX11Storage* _DXStorage;

@@ -96,6 +96,8 @@ namespace Pg::Graphics
 		hr = _DXLogic->CreateRasterizerStates();
 		_DXLogic->SetRasterizerStates(_DXStorage->_solidState);
 
+		hr = _DXLogic->CreateSamplerStates();
+
 		_DXLogic->CreateAndSetViewports();
 
 		//Default Input Layout ¼¼ÆÃ.

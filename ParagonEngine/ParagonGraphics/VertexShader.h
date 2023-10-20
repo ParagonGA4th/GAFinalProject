@@ -7,7 +7,8 @@ namespace Pg::Graphics
 	class VertexShader : public RenderShader
 	{
 	public:
-		VertexShader(LowDX11Storage* storage, std::wstring CSOFilePath, D3D11_INPUT_ELEMENT_DESC* vertexDesc);
+		VertexShader(std::wstring CSOFilePath, D3D11_INPUT_ELEMENT_DESC* vertexDesc);
+		VertexShader(std::wstring CSOFilePath);
 
 	private:
 		void CreateShader();

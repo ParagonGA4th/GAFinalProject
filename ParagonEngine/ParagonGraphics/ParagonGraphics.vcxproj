@@ -36,6 +36,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="D3DBufferInfo.h" />
+    <ClInclude Include="DeferredRenderer.h" />
     <ClInclude Include="DemoGeometryGenerator.h" />
     <ClInclude Include="GBuffer.h" />
     <ClInclude Include="GeometryGenerator.h">
@@ -87,6 +88,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DeferredRenderer.cpp" />
     <ClCompile Include="DemoGeometryGenerator.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GBuffer.cpp" />
@@ -125,6 +127,14 @@
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\SecondStage_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\SecondStage_VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\Resources\DefaultShaders\TempForward\TempForwardPS.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PS_MAIN</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
