@@ -25,18 +25,20 @@ namespace Pg::Engine::Physic
 	public:
 		void CreatePxScene();
 
+		void CreateStack(const physx::PxTransform& t, physx::PxU32 size, physx::PxReal halfExtent);
+
 	private:
 		
 		//PhysX연동을 위한 변수들
 		physx::PxDefaultAllocator		_allocator;
 		physx::PxDefaultErrorCallback	_errorCallback;
 		physx::PxTolerancesScale _toleranceScale;
-		physx::PxFoundation* _foundation;
-		physx::PxPhysics* _physics;
-		physx::PxDefaultCpuDispatcher* _dispatcher;
-		physx::PxScene* _pxScene;
-		physx::PxMaterial* _material;
-		physx::PxPvd* _pvd;
+		physx::PxFoundation* _foundation = nullptr;
+		physx::PxPhysics* _physics = nullptr;
+		physx::PxDefaultCpuDispatcher* _dispatcher = nullptr;
+		physx::PxScene* _pxScene = nullptr;
+		physx::PxMaterial* _material = nullptr;
+		physx::PxPvd* _pvd = nullptr;
 	};
 }
 

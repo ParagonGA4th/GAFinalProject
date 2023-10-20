@@ -42,6 +42,11 @@ namespace Pg::Engine::Physic
 		physx::PxShape* gpShape = _physics->createShape(physx::PxBoxGeometry(1.0f, 256.0f, 256.0f), *_material);
 		groundPlane->attachShape(*gpShape);
 		_pxScene->addActor(*groundPlane);
+
+		for (physx::PxU32 i = 0; i < 5; i++)
+		{
+			CreateStack(physx::PxTransform(physx::PxVec3(0, 0,10.0f)), 10, 2.0f);
+		}
 	}
 
 	void PhysicSystem::UpdatePhysics()
@@ -92,6 +97,23 @@ namespace Pg::Engine::Physic
 			pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
 			pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 		}
+	}
+
+	void PhysicSystem::CreateStack(const physx::PxTransform& t, physx::PxU32 size, physx::PxReal halfExtent)
+	{
+		physx::PxShape* shape = _physics->createShape(physx::PxBoxGeometry(halfExtent, halfExtent, halfExtent), *_material);
+		for (physx::PxU32 i = 0; i < size; i++)
+		{
+			for (physx::PxU32 j = 0; j < size - i; j++)
+			{
+				physx::PxTransform localTm(physx::PxVec3(physx::PxReal(j * 2) - physx::PxReal(size - i), physx::PxReal(i * 2 + 1), 0) * halfExtent);
+				physx::PxRigidDynamic* body = _physics->createRigidDynamic(t.transform(localTm));
+				body->attachShape(*shape);
+				physx::PxRigidBodyExt::updateMassAndInertia(*body, 10.0f);
+				_pxScene->addActor(*body);
+			}
+		}
+		shape->release();
 	}
 
 }
