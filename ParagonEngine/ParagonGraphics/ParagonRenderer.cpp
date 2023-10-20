@@ -7,11 +7,15 @@
 #include "Axis.h"
 #include "Cubemap.h"
 #include "TestCube.h"
+#include "DeferredRenderer.h"
+
+#include "LayoutDefine.h"
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/BaseRenderer.h"
 #include "../ParagonData/RendererChangeList.h"
+#include "../ParagonData/CameraData.h"
 #include "../ParagonUtil/Log.h"
 
 #include <utility>
@@ -25,8 +29,6 @@ namespace Pg::Graphics
 	Grid* grid;
 	Axis* axis;
 	Cubemap* cubemap;
-
-	TestCube* cube;
 
 	ParagonRenderer::ParagonRenderer() :
 		_DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
@@ -42,30 +44,21 @@ namespace Pg::Graphics
 	}
 
 	void ParagonRenderer::Initialize()
-	{
-		D3D11_INPUT_ELEMENT_DESC vertexDesc_1[] =
+	{		
+		_deferredRenderer = new DeferredRenderer();
+		_deferredRenderer->Initialize();
+
+		D3D11_INPUT_ELEMENT_DESC HelperDesc[] =
 		{
 			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}//,
-			//{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
+			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
-		
-		D3D11_INPUT_ELEMENT_DESC vertexDesc_2[] =
-		{
-			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}//,
-			//{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
-		};
+
+		LayoutDefine::GetStatic1stLayout();
 
 		// TODO: TestBox와 Grid, Axis 모두 같은 InputLayout을 사용하고 있다...
-		VertexShader* helperVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc_2);
-		PixelShader* helperPS = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
-		
-		VertexShader* cubeVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc_1);
-		PixelShader* cubePS = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
-
-		cube = new TestCube();
-		cube->Initialize();
+		VertexShader* helperVS = new VertexShader(L"../Builds/x64/debug/VertexShader.cso", HelperDesc);
+		PixelShader* helperPS = new PixelShader(L"../Builds/x64/debug/PixelShader.cso");
 
 		// Grid
 		grid = new Grid();
@@ -75,7 +68,7 @@ namespace Pg::Graphics
 		axis = new Axis();
 		axis->Initialize();
 
-		cubeVS->AssignConstantBuffer(&(cube->_cbData));
+		//cubeVS->AssignConstantBuffer(&(cube->_cbData));
 		helperVS->AssignConstantBuffer(&(grid->_cbData));
 
 		grid->AssignVertexShader(helperVS);
@@ -84,8 +77,8 @@ namespace Pg::Graphics
 		axis->AssignVertexShader(helperVS);
 		axis->AssignPixelShader(helperPS);
 
-		cube->AssignVertexShader(cubeVS);
-		cube->AssignPixelShader(cubePS);
+		//cube->AssignVertexShader(cubeVS);
+		//cube->AssignPixelShader(cubePS);
 
 
 		// Cubemap
@@ -95,8 +88,8 @@ namespace Pg::Graphics
 			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
-		VertexShader* CubemapVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/CubemapVS.cso", CubemapvertexDesc);
-		PixelShader* CubemapPS = new PixelShader(_DXStorage, L"../Builds/x64/debug/CubemapPS.cso");
+		VertexShader* CubemapVS = new VertexShader(L"../Builds/x64/debug/CubemapVS.cso", CubemapvertexDesc);
+		PixelShader* CubemapPS = new PixelShader(L"../Builds/x64/debug/CubemapPS.cso");
 
 		cubemap = new Cubemap();
 		cubemap->Initialize();
@@ -118,14 +111,19 @@ namespace Pg::Graphics
 	{
 		RenderDefaultObjects(camData);
 
+		_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_DeferredDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+
 		// 3D 오브젝트 렌더
 		for (auto& it : _renderObject3DList)
 		{
 			if (it.second->_baseRenderer->GetActive())
 			{
-				cube->Draw(it.first->_transform, camData);
+				_deferredRenderer->Render(*(it.first), camData);
+				
 			}
 		}
+
+		_deferredRenderer->ClearGBuffers();
 
 		// 2D 오브젝트 렌더
 		for (auto& it : _renderObject2DList)
@@ -135,7 +133,6 @@ namespace Pg::Graphics
 				//렌더.
 			}
 		}
-
 	}
 
 	void ParagonRenderer::EndRender()

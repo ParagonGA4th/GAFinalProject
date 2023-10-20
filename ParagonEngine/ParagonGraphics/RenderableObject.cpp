@@ -23,7 +23,7 @@ void Pg::Graphics::RenderableObject::Initialize()
 	BindBuffers();
 }
 
-void Pg::Graphics::RenderableObject::Update(float time)
+void Pg::Graphics::RenderableObject::Draw(float time)
 {
 
 }

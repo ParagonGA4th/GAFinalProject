@@ -32,6 +32,8 @@ namespace Pg::Graphics
 		HRESULT CreateMainRenderTarget();
 		HRESULT CreateDepthStencilViewAndState();
 		HRESULT CreateRasterizerStates();
+		HRESULT CreateSamplerStates();
+		HRESULT CreateBlendState();
 		void SetRasterizerStates(ID3D11RasterizerState* rasterizerState);
 		void CreateAndSetViewports();
 

@@ -3,6 +3,7 @@
 #include "DX11Headers.h"
 #include "MathHelper.h"
 #include "LowDX11Storage.h"
+#include "LayoutDefine.h"
 
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/CameraData.h"
@@ -33,24 +34,15 @@ void Pg::Graphics::TestCube::Draw(Pg::Data::Transform& transform, Pg::Data::Came
 	float tCamDistance = 0.0f;
 	DirectX::XMStoreFloat(&tCamDistance, DirectX::XMVector3Length(tCameraPositionVec));
 
-	_cbData.worldMatrix = tWorldTM;
-	_cbData.viewMatrix = tWorldTM;
-	_cbData.projectionMatrix = tWorldTM;
-	DirectX::XMStoreFloat4x4(&_cbData.viewProjMatrix, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
+	_cbData.gCBuf_World = tWorldTMMat;
+	_cbData.gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
+	//_cbData.gCBuf_WorldViewProj = DirectX::XMMatrixIdentity() * 0.5f;
 
 	// ¹ÙÀÎµù
-	BindInputLayout();
-	BindShaders();
-
+	_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	BindBuffers();
-	
-	_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidState);
-	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), (_DXStorage->_depthStencilView));
 
-	_DXStorage->_deviceContext->DrawIndexed(36, 0, 0);
 
-	UnbindShaders();
-	UnbindInputLayout();
 }
 
 void Pg::Graphics::TestCube::Draw()
@@ -60,17 +52,88 @@ void Pg::Graphics::TestCube::Draw()
 
 void Pg::Graphics::TestCube::BuildBuffers()
 {
-	std::vector<TestCubeVertex> VBData;
+	std::vector<LayoutDefine::Vin1stStatic> VBData;
 	std::vector<int> IBData;
 
-	VBData.emplace_back(TestCubeVertex{ float3 {-1.0f, 1.0f, -1.0f}, float3{0.0f, 0.0f, 0.0f} });
-	VBData.emplace_back(TestCubeVertex{ float3 {1.0f, 1.0f, -1.0f}, float3{1.0f, 0.0f, 0.0f} });
-	VBData.emplace_back(TestCubeVertex{ float3 {-1.0f, 1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
-	VBData.emplace_back(TestCubeVertex{ float3 {1.0f, 1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
-	VBData.emplace_back(TestCubeVertex{ float3 {1.0f, -1.0f, -1.0f}, float3{1.0f, 0.0f, 0.0f} });
-	VBData.emplace_back(TestCubeVertex{ float3 {-1.0f, -1.0f, -1.0f}, float3{0.0f, 1.0f, 0.0f} });
-	VBData.emplace_back(TestCubeVertex{ float3 {-1.0f, -1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
-	VBData.emplace_back(TestCubeVertex{ float3 {1.0f, -1.0f, 1.0f}, float3{1.0f, 0.0f, 0.0f} });
+	VBData.emplace_back(LayoutDefine::Vin1stStatic
+		{
+		DirectX::XMFLOAT3 {-1.0f, 1.0f, -1.0f},			// PosL
+		DirectX::XMFLOAT3 { },							// NormalL
+		DirectX::XMFLOAT3 { },							// TangentL
+		DirectX::XMFLOAT4 {1.0f, 0.0f, 0.0f, 1.0f},		// Color
+		DirectX::XMFLOAT3 { },							// Tex
+		0												// MatID
+		});
+
+	VBData.emplace_back(LayoutDefine::Vin1stStatic
+		{
+		DirectX::XMFLOAT3 {1.0f, 1.0f, -1.0f},
+		DirectX::XMFLOAT3 { },
+		DirectX::XMFLOAT3 { },
+		DirectX::XMFLOAT4 {1.0f, 0.0f, 0.0f, 1.0f},
+		DirectX::XMFLOAT3 { },
+		0
+		});
+
+	VBData.emplace_back(LayoutDefine::Vin1stStatic
+		{
+		DirectX::XMFLOAT3 {-1.0f, 1.0f, 1.0f},
+		DirectX::XMFLOAT3 { },
+		DirectX::XMFLOAT3 { },
+		DirectX::XMFLOAT4 {1.0f, 0.0f, 0.0f, 1.0f},
+		DirectX::XMFLOAT3 { },
+		0
+		});
+
+	VBData.emplace_back(LayoutDefine::Vin1stStatic
+		{
+		DirectX::XMFLOAT3 {1.0f, 1.0f, 1.0f},
+		DirectX::XMFLOAT3 { },
+		DirectX::XMFLOAT3 { },
+		DirectX::XMFLOAT4 {1.0f, 0.0f, 0.0f, 1.0f},
+		DirectX::XMFLOAT3 { },
+		0
+		});
+
+	VBData.emplace_back(LayoutDefine::Vin1stStatic
+		{
+		DirectX::XMFLOAT3 {1.0f, -1.0f, -1.0f},
+		DirectX::XMFLOAT3 { },
+		DirectX::XMFLOAT3 { },
+		DirectX::XMFLOAT4 {1.0f, 0.0f, 0.0f, 1.0f},
+		DirectX::XMFLOAT3 { },
+		0
+		});
+
+	VBData.emplace_back(LayoutDefine::Vin1stStatic
+		{
+		DirectX::XMFLOAT3 {-1.0f, -1.0f, -1.0f},
+		DirectX::XMFLOAT3 { },
+		DirectX::XMFLOAT3 { },
+		DirectX::XMFLOAT4 {0.0f, 1.0f, 0.0f, 1.0f},
+		DirectX::XMFLOAT3 { },
+		0
+		});
+
+	VBData.emplace_back(LayoutDefine::Vin1stStatic
+		{
+		DirectX::XMFLOAT3 {-1.0f, -1.0f, 1.0f},
+		DirectX::XMFLOAT3 { },
+		DirectX::XMFLOAT3 { },
+		DirectX::XMFLOAT4 {1.0f, 0.0f, 0.0f, 1.0f},
+		DirectX::XMFLOAT3 { },
+		0
+		});
+
+	VBData.emplace_back(LayoutDefine::Vin1stStatic
+		{
+		DirectX::XMFLOAT3 {1.0f, -1.0f, 1.0f},
+		DirectX::XMFLOAT3 { },
+		DirectX::XMFLOAT3 { },
+		DirectX::XMFLOAT4 {1.0f, 0.0f, 0.0f, 1.0f},
+		DirectX::XMFLOAT3 { },
+		0
+		});
 
 	IBData.emplace_back(0);
 	IBData.emplace_back(2);
@@ -123,7 +186,7 @@ void Pg::Graphics::TestCube::BuildBuffers()
 	// Buffer Description
 	D3D11_BUFFER_DESC VBDesc;
 	VBDesc.Usage = D3D11_USAGE_DEFAULT;
-	VBDesc.ByteWidth = VBData.size() * sizeof(TestCubeVertex);
+	VBDesc.ByteWidth = VBData.size() * sizeof(LayoutDefine::Vin1stStatic);
 	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	VBDesc.CPUAccessFlags = 0;
 	VBDesc.MiscFlags = 0;
@@ -157,7 +220,7 @@ void Pg::Graphics::TestCube::BuildBuffers()
 
 void Pg::Graphics::TestCube::BindBuffers()
 {
-	UINT stride = sizeof(TestCubeVertex);
+	UINT stride = sizeof(LayoutDefine::Vin1stStatic);
 	UINT offset = 0;
 
 	_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &VB, &stride, &offset);

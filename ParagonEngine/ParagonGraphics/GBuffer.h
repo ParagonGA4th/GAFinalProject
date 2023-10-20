@@ -4,6 +4,8 @@ class ID3D11Texture2D;
 class ID3D11RenderTargetView;
 class ID3D11ShaderResourceView;
 
+enum DXGI_FORMAT;
+
 namespace Pg::Graphics
 {
 	class LowDX11Storage;
@@ -11,19 +13,23 @@ namespace Pg::Graphics
 	class GBuffer
 	{
 	public:
-		GBuffer();
+		GBuffer(DXGI_FORMAT BufferFormat, DXGI_FORMAT ViewFormat);
 
 	public:
 		void Render();
 
-	private:
+	public:
 		void Bind();
 		void Unbind();
 
 	private:
-		void CreateBuffer();
-		void CreateRTV();
-		void CreateSRV();
+		void CreateBuffer(DXGI_FORMAT format);
+		void CreateRTV(DXGI_FORMAT format);
+		void CreateSRV(DXGI_FORMAT format);
+
+	public:
+		ID3D11RenderTargetView* GetRTV();
+		ID3D11ShaderResourceView* GetSRV();
 
 	private:
 		ID3D11Texture2D* _Buffer;

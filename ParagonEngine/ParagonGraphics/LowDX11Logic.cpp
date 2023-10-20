@@ -101,6 +101,8 @@ namespace Pg::Graphics
 
 		// Depth-Stencil Buffer »ı¼º
 		hr = _DXStorage->_device->CreateTexture2D(&(_DXStorage->_bufferDesc), NULL, &(_DXStorage->_depthStencilBuffer));
+		hr = _DXStorage->_device->CreateTexture2D(&(_DXStorage->_bufferDesc), NULL, &(_DXStorage->_DeferredDepthStencilBuffer));
+		hr = _DXStorage->_device->CreateTexture2D(&(_DXStorage->_bufferDesc), NULL, &(_DXStorage->_tempDepthStencilBuffer));
 
 		if (hr != S_OK)
 			return hr;
@@ -125,6 +127,8 @@ namespace Pg::Graphics
 		_DXStorage->_depthStencilViewDesc.Flags = 0;
 
 		hr = _DXStorage->_device->CreateDepthStencilView(_DXStorage->_depthStencilBuffer, &(_DXStorage->_depthStencilViewDesc), &(_DXStorage->_depthStencilView));
+		hr = _DXStorage->_device->CreateDepthStencilView(_DXStorage->_DeferredDepthStencilBuffer, &(_DXStorage->_depthStencilViewDesc), &(_DXStorage->_DeferredDepthStencilView));
+		hr = _DXStorage->_device->CreateDepthStencilView(_DXStorage->_tempDepthStencilBuffer, &(_DXStorage->_depthStencilViewDesc), &(_DXStorage->_tempDepthStencilView));
 
 		if (hr != S_OK)
 			return hr;
@@ -149,7 +153,7 @@ namespace Pg::Graphics
 		_DXStorage->_solidDesc.FillMode = D3D11_FILL_SOLID;
 		_DXStorage->_solidDesc.CullMode = D3D11_CULL_BACK;
 		_DXStorage->_solidDesc.FrontCounterClockwise = false;
-		_DXStorage->_solidDesc.DepthClipEnable = true;
+		_DXStorage->_solidDesc.DepthClipEnable = false;
 
 		hr = _DXStorage->_device->CreateRasterizerState(&(_DXStorage->_solidDesc), &(_DXStorage->_solidState));
 
@@ -236,6 +240,32 @@ namespace Pg::Graphics
 		static LowDX11Logic* tInstance = new LowDX11Logic();
 
 		return tInstance;
+	}
+
+	HRESULT LowDX11Logic::CreateSamplerStates()
+	{
+		D3D11_SAMPLER_DESC tDesc;
+
+		tDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+		tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+		tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+		tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+		tDesc.MipLODBias = 0.0f;
+		tDesc.MaxAnisotropy = 1;
+
+		hr = _DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_defaultSamplerState));
+	
+		return hr;
+	}
+
+	HRESULT LowDX11Logic::CreateBlendState()
+	{
+		D3D11_BLEND_DESC tDesc;
+
+
+		hr = _DXStorage->_device->CreateBlendState(&tDesc, &(_DXStorage->_blendState));
+
+		return hr;
 	}
 
 }

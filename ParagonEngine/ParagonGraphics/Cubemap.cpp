@@ -117,6 +117,8 @@ void Pg::Graphics::Cubemap::Draw()
 
 	BindBuffers();
 
+	_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidState);
+
 	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), (_DXStorage->_depthStencilView));
 	_DXStorage->_deviceContext->DrawIndexed(36, 0, 0);
 

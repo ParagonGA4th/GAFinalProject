@@ -48,9 +48,9 @@ struct POut1st //RGBA
     float4 pout1st_RT0 : SV_Target0; // Texture UV Coords (RGB),  World Space Tangent.x (A)
     float4 pout1st_RT1 : SV_Target1; // World Space Normal (RGB), World Space Tangent.y (A)
     float4 pout1st_RT2 : SV_Target2; // World Space Position (RGB), World Space Tangent.z (A)
-    float3 pout1st_RT3 : SV_Target3; // 3D Model Color (RGB)
+    float4 pout1st_RT3 : SV_Target3; // 3D Model Color (RGB)
     float4 pout1st_RT4 : SV_Target4; // Material ID ((uint)R), Screen Space Velocity (GB), Alpha (A)
-    float pout1st_Depth : SV_Depth; // Depth
+    //float pout1st_Depth : SV_Depth; // Depth
 };
 
 #endif //__DEFINED_DEFAULT_LAYOUTS_HLSL__
