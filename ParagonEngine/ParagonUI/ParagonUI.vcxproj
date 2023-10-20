@@ -36,6 +36,7 @@
     </ClInclude>
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="Widget.h" />
+    <ClInclude Include="WidgetEnum.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui.cpp" />

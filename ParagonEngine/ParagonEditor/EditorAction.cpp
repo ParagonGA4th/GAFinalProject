@@ -9,7 +9,6 @@ Pg::Editor::Core::EditorAction::EditorAction()
 {
 	_processManager = std::make_unique<Pg::Editor::Manager::ProcessManager>();
 	_editorManager = std::make_unique<Pg::Editor::Manager::EditorManager>();
-
 }
 
 Pg::Editor::Core::EditorAction::~EditorAction()

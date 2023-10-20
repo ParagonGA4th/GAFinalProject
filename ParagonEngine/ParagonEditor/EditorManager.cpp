@@ -35,7 +35,7 @@ void Pg::Editor::Manager::EditorManager::Initialize(HWND hWnd)
 
 void Pg::Editor::Manager::EditorManager::Update()
 {
-	_uiManager->Update();
+	_uiManager->Update(_edHepler->GetTexture());
 }
 
 void Pg::Editor::Manager::EditorManager::LastUpdate()

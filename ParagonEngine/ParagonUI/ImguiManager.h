@@ -17,7 +17,15 @@ namespace Pg::UI::Manager
 		void Render();
 		void Finalize();
 
+		void ViewTest(void* Texture);
+
 		void ImguiHandler(MSG message);
+
+	private:
+		void DemoInspector();
+		void DemoHierarchy();
+		void DemoFilter();
+		void DemoViewPort(void* Texture);
 	};
 }
 
