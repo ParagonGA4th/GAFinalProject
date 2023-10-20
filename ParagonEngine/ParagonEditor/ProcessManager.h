@@ -1,7 +1,6 @@
 #pragma  once
 #include <windows.h>
 #include <memory>
-#include <string>
 
 namespace Pg::Core { class ProcessMain; }
 namespace Pg::API::Input { class PgInput; }
@@ -20,7 +19,7 @@ namespace Pg::Editor::Manager
 		void LastUpdate();
 		void Finalize();
 
-		bool KeyInput(std::string key);
+		bool EditorOnOff();
 
 		void ProcessHandler(MSG message);
 	private:
@@ -29,6 +28,7 @@ namespace Pg::Editor::Manager
 		Pg::Editor::Helper::EditorHelper* _edHepler;
 
 		bool _isCoreInitailized;
+		bool _editorOnOff;
 	};
 }
 

@@ -17,6 +17,8 @@ namespace Pg::API::Input
 		MouseX,
 		MouseY,
 		MouseLeft,
-		MouseRight
+		MouseRight,
+
+		EditorOnOff
 	};
 }

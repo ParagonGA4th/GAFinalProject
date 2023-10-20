@@ -42,8 +42,12 @@ void Pg::Editor::Core::EditorAction::Loop()
 		else
 		{
 			_processManager->Update();
-			_editorManager->Update();  
-			_editorManager->LastUpdate();  
+
+			if (_processManager->EditorOnOff())
+			{
+				_editorManager->Update();
+				_editorManager->LastUpdate();
+			}
 			_processManager->LastUpdate();
 		}
 	}
