@@ -1,18 +1,18 @@
 #pragma once
+#include <vector>
 
 namespace Pg::UI
 {
+	class Widget;
 	class Panel
 	{
 	public:
 		Panel();
 		~Panel();
 
-		void SetPanelShow(bool show);
-		bool GetPanelShow();
-
+		void AddWidget();
 	private:
-		bool _isShow;
+		std::vector<Pg::UI::Widget*> _widgets;
 	};
 }
 

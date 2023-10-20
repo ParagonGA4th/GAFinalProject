@@ -19,6 +19,8 @@ namespace Pg::Editor::Manager
 		void LastUpdate();
 		void Finalize();
 
+		bool EditorOnOff();
+
 		void ProcessHandler(MSG message);
 	private:
 		std::unique_ptr<Pg::Core::ProcessMain> _coreMain;
@@ -26,6 +28,7 @@ namespace Pg::Editor::Manager
 		Pg::Editor::Helper::EditorHelper* _edHepler;
 
 		bool _isCoreInitailized;
+		bool _editorOnOff;
 	};
 }
 

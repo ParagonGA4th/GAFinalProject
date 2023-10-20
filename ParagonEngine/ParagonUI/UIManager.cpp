@@ -17,9 +17,10 @@ void Pg::UI::Manager::UIManager::Initialize(void* hWnd, ID3D11Device* device, ID
 	_imguiManager->Initialize(hWnd, device, deviceContext);
 }
 
-void Pg::UI::Manager::UIManager::Update()
+void Pg::UI::Manager::UIManager::Update(void* Texture)
 {
 	_imguiManager->CreateFrame();
+	_imguiManager->ViewTest(Texture);
 }
 
 void Pg::UI::Manager::UIManager::LastUpdate()

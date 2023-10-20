@@ -26,6 +26,9 @@
     <ClCompile Include="ImGuiManager.cpp">
       <Filter>2_Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Inspector.cpp">
+      <Filter>4_Windows\Inspector</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ISerializable.h" />
@@ -59,6 +62,12 @@
     </ClInclude>
     <ClInclude Include="ImGuiManager.h">
       <Filter>2_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Inspector.h">
+      <Filter>4_Windows\Inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="IEditorWindow.h">
+      <Filter>4_Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +106,9 @@
     </Filter>
     <Filter Include="4_Windows">
       <UniqueIdentifier>{b8d9bc88-1ec5-40c6-b7e7-d60939984e22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Windows\Inspector">
+      <UniqueIdentifier>{e2440d48-cd8e-49a9-9556-3a5dbb9ed882}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

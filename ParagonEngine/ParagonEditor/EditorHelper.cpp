@@ -19,3 +19,13 @@ ID3D11DeviceContext* Pg::Editor::Helper::EditorHelper::GetDeviceContext()
 {
 	return _deviceContext;
 }
+
+void Pg::Editor::Helper::EditorHelper::SetTexture(void* Texture)
+{
+	_TestTexture = Texture;
+}
+
+void* Pg::Editor::Helper::EditorHelper::GetTexture()
+{
+	return _TestTexture;
+}
