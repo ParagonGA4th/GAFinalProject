@@ -167,6 +167,9 @@ namespace Pg::Math
 			float m20, float m21, float m22, float m23,
 			float m30, float m31, float m32, float m33) noexcept;
 
+		//DX처럼 Float4x4를 세팅할 수 있게.
+		constexpr PGFLOAT4X4(float mArr[16]) noexcept;
+
 		PGFLOAT4X4 operator*(const PGFLOAT4X4& rhs);
 		PGFLOAT4X4& operator*=(const PGFLOAT4X4& rhs);
 
@@ -240,6 +243,9 @@ namespace Pg::Math
 	Pg::Math::PGFLOAT4X4 PGScaleMatrix(const Pg::Math::PGFLOAT3 scale);
 	Pg::Math::PGFLOAT4X4 PGRotationMatrix(const Pg::Math::PGQuaternion rotation);
 	Pg::Math::PGFLOAT4X4 PGTranslateMatrix(const Pg::Math::PGFLOAT3 position);
+
+	Pg::Math::PGFLOAT4X4 PGMatrixPerspectiveFovLH(float fovAngleY, float aspectRatio, float nearZ, float farZ);
+	Pg::Math::PGFLOAT4X4 PGMatrixOrthographicLH(float viewWidth, float viewHeight, float nearZ, float farZ);
 }
 
 
