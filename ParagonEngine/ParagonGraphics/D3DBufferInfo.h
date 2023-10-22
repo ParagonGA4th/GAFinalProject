@@ -14,7 +14,7 @@ namespace Pg::Graphics
 	public:
 		D3DBufferInfo() : 
 			_vertexBuffer(nullptr), _indexBuffer(nullptr), 
-			_meshCount(0), _totalVertexCount(0), _totalIndexCount(0) {}
+			_meshCount(0), _materialCount(0), _totalVertexCount(0), _totalIndexCount(0) {}
 		
 		//Vertex Buffer
 		ID3D11Buffer* _vertexBuffer;
@@ -24,6 +24,9 @@ namespace Pg::Graphics
 
 		//전체 Mesh의 개수.
 		unsigned int _meshCount;
+
+		//전체 Material의 개수.
+		unsigned int _materialCount;
 
 		unsigned int _totalVertexCount;
 		unsigned int _totalIndexCount;

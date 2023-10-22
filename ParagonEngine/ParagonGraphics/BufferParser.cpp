@@ -51,6 +51,8 @@ namespace Pg::Graphics::Helper
 			tD3DBuffer._materialIDVector.push_back(assetSceneData->m_MeshList[i]->m_MaterialIndex);
 		}
 
+		tD3DBuffer._materialCount = tD3DBuffer._materialIDVector.size();
+
 		for (size_t i = 0; i < assetSceneData->m_NumMesh; i++)
 		{
 			tD3DBuffer._vertexOffsetVector.push_back(tDrawStartVertexCnt);
