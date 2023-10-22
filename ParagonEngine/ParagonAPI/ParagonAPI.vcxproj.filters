@@ -1,3 +1,48 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:66a3a170bb27e23422efe74850db42dbbb32022d67d8e5f1d253d76fbe350474
-size 1503
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="APIMain.cpp">
+      <Filter>0_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTest.cpp">
+      <Filter>3_PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="PgInput.cpp">
+      <Filter>1_PgInput</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="KeyCodeType.h" />
+    <ClInclude Include="APIMain.h">
+      <Filter>0_Main</Filter>
+    </ClInclude>
+    <ClInclude Include="PgInput.h">
+      <Filter>1_PgInput</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTest.h">
+      <Filter>3_PhysX</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="APIMain.cpp">
+      <Filter>0_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="PgInput.cpp">
+      <Filter>2_Input</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTest.cpp">
+      <Filter>3_PhysX</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="0_Main">
+      <UniqueIdentifier>{aae0206b-fad3-4271-8437-0c20c1703ab4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_PgInput">
+      <UniqueIdentifier>{1352dff1-b3fa-4c1c-a88a-b28664cb30bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_PhysX">
+      <UniqueIdentifier>{c63565ae-d064-4970-988e-e26f57c3c09a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

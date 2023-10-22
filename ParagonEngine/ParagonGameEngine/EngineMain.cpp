@@ -14,6 +14,7 @@
 
 #include "../ParagonProcess/ProcessMain.h"
 #include "../ParagonData/Scene.h"
+#include "../ParagonData/Camera.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonAPI/KeyCodeType.h"
 #include <singleton-cpp/singleton.h>
