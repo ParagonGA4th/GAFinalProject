@@ -64,7 +64,7 @@ namespace Pg::Engine::Physic
 
 		_pxScene->lockWrite();
 		
-		PG_TRACE("PhysicSystem Updating...");
+		//PG_TRACE("PhysicSystem Updating...");
 	}
 
 	void PhysicSystem::Finalize()
