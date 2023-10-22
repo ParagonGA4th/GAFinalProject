@@ -1,5 +1,7 @@
 #include "Scene.h"
 #include "GameObject.h"
+#include "../ParagonData/Camera.h"
+
 #include <windows.h>
 
 
@@ -12,7 +14,7 @@ namespace Pg::Data
 	{
 		//Scene이 만들어질 경우 무조건 MainCamera가 오브젝트로 생성이 되어 있어야 함!
 		GameObject* cameraObject = AddObject("MainCamera");
-		_mainCamera = cameraObject->AddComponent<Pg::Engine::Camera>();
+		_mainCamera = cameraObject->AddComponent<Pg::Data::Camera>();
 
 
 		_mainCamera->_object->_transform.SetRotation({ 0.0f, 0.0f, 0.0f, 0.0f });
@@ -95,7 +97,7 @@ namespace Pg::Data
 		_sceneName = sceneName;
 	}
 
-	Pg::Engine::Camera* Scene::GetMainCamera()
+	Pg::Data::Camera* Scene::GetMainCamera()
 	{
 		return _mainCamera;
 		OutputDebugString(L"MainCamera Get!");

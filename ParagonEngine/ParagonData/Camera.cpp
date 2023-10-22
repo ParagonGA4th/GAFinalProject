@@ -3,7 +3,7 @@
 #include <cmath>
 #include <numbers>
 
-namespace Pg::Engine
+namespace Pg::Data
 {
 	Camera::Camera(Pg::Data::GameObject* obj) :
 		Pg::Data::Component(obj)
@@ -16,6 +16,9 @@ namespace Pg::Engine
 
 	void Camera::Update()
 	{
+		//Projection Matrix는 종횡비를 Data딴에서 알 수 없기 때문에 이를 알고 있는 곳에서 만들어진다.
+		//반면, View Matrix는 Camera가 전적으로 담당해야 한다.
+
 		
 	}
 

@@ -11,12 +11,12 @@
 /// 그래픽스 엔진에게 CameraData를 반환해주어야 한다.
 /// 2023.09.19
 /// </summary>
-namespace Pg::Core
+namespace Pg::Data
 {
 	class GameObject;
 }
 
-namespace Pg::Engine
+namespace Pg::Data
 {
 	using namespace Pg::Math;
 

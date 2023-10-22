@@ -13,7 +13,7 @@
 
 // Script<->Component 확인하기 위해.
 #include "../ParagonData/MoveForwardBack.h"
-#include "CameraScriptTest.h"
+#include "EditorCameraScript.h"
 
 Pg::Engine::TestScene::TestScene()
 {
@@ -32,8 +32,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj1->AddComponent<Camera>();
 	tObj1->GetComponent<Transform>()->SetPosition({ 10.0f, 0.0f, 5.0f });
 
-	tObj1->AddComponent<CameraScriptTest>();
-	tObj1->GetComponent<CameraScriptTest>()->Start();
+	tObj1->AddComponent<EditorCameraScript>();
 
 	GameObject* tObj2 = tCurrentScene->AddObject("Cube2");
 	tObj2->GetComponent<Transform>()->SetPosition({ 1.0f, 0.0f, 5.0f });
@@ -65,7 +64,7 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj2->AddComponent<RendererBase2D>();
 
 	//이렇게 하면 메인 카메라 바뀜!!
-	//tCurrentScene->SetMainCamera(tObj1->GetComponent<Camera>());
+	tCurrentScene->SetMainCamera(tObj1->GetComponent<Camera>());
 
 	assert(true);
 }

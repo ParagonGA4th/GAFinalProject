@@ -1,6 +1,7 @@
 #pragma once
 #include "../ParagonData/AssetDefines.h"
 #include "../ParagonData/Scene.h"
+#include "../ParagonData/CameraData.h"
 #include <string>
 #include <vector>
 
