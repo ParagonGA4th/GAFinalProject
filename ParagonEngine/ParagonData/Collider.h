@@ -21,6 +21,11 @@ namespace PG::Data
 	class GameObject;
 }
 
+namespace physx
+{
+	class PxScene;
+}
+
 namespace Pg::Data
 {
 	using namespace Pg::Math;
@@ -39,10 +44,21 @@ namespace Pg::Data
 		PGQuaternion GetRotationOffset() const;
 		PGFLOAT3 GetScaleOffset() const;
 
+		PGFLOAT4X4 GetOffsetTranslateMatrix() const;
+		PGFLOAT4X4 GetOffsetRotationMatrix() const;
+		PGFLOAT4X4 GetOffsetScaleMatrix() const;
+
+	public:
+		void SetPxScene(physx::PxScene* scene );
+		physx::PxScene* GetPxScene();
+
+
 	private:
 		PGFLOAT3 _positionOffSet;
 		PGQuaternion _rotationOffset;
 		PGFLOAT3 _scaleOffset;
+
+		physx::PxScene* _pxScene;
 	};
 }
 
