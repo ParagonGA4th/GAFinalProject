@@ -26,8 +26,8 @@ namespace Pg::Graphics
 		_devCon = LowDX11Storage::GetInstance()->_deviceContext;
 
 		//고정된 File Path ( == AssetManager에서 이미 로딩된 경로가 있어야 작동하므로, 하드코딩했음.)
-		//_filePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx";
-		_filePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx";
+		_filePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx";
+		//_filePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx";
 		//_filePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
 		//_filePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
 		//_filePath = "../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMeshSeams.fbx";
@@ -88,8 +88,6 @@ namespace Pg::Graphics
 		//Index Buffer Setting.
 		_devCon->IASetIndexBuffer(_modelData->_d3dBufferInfo._indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
-		_devCon->PSSetShaderResources(0, 1, &_testSRV);
-
 		//Constant Buffer Binding (VS)
 		UpdateConstantBuffer(camData);
 		_devCon->VSSetConstantBuffers(0, 1, &_constantBuffer);
@@ -100,18 +98,8 @@ namespace Pg::Graphics
 		//UpdateConstantBuffer(camData);
 		//_devCon->DrawIndexed(12, 0, 0);
 		
-		//UINT tMatID = _modelData->_d3dBufferInfo._materialIDVector[1];
-		//AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
-		//_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
 		
-		////<되는 모델>
-		//_devCon->DrawIndexed(12, _modelData->_d3dBufferInfo._indexOffsetVector[0], _modelData->_d3dBufferInfo._vertexOffsetVector[0]);
-		//_devCon->DrawIndexed(12, _modelData->_d3dBufferInfo._indexOffsetVector[1], _modelData->_d3dBufferInfo._vertexOffsetVector[1]);
-		//_devCon->DrawIndexed(12, _modelData->_d3dBufferInfo._indexOffsetVector[2], _modelData->_d3dBufferInfo._vertexOffsetVector[2]);
-		//_devCon->DrawIndexed(12, _modelData->_d3dBufferInfo._indexOffsetVector[3], _modelData->_d3dBufferInfo._vertexOffsetVector[3]);
-		//_devCon->DrawIndexed(12, _modelData->_d3dBufferInfo._indexOffsetVector[4], _modelData->_d3dBufferInfo._vertexOffsetVector[4]);
-		//_devCon->DrawIndexed(12, _modelData->_d3dBufferInfo._indexOffsetVector[5], _modelData->_d3dBufferInfo._vertexOffsetVector[5]);
-		////</되는 모델>
+		//_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
 
 		int tMeshCount = _modelData->_d3dBufferInfo._meshCount;
 		for (int i = 0; i < tMeshCount; i++)
@@ -131,6 +119,14 @@ namespace Pg::Graphics
 					_modelData->_d3dBufferInfo._indexOffsetVector[i + 1] -
 					_modelData->_d3dBufferInfo._indexOffsetVector[i];
 			}
+
+			UINT tMatID = _modelData->_d3dBufferInfo._materialIDVector[i];
+			AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
+			ID3D11ShaderResourceView* tTempDiffuseTexture = tATS.texture;
+			assert(tTempDiffuseTexture != nullptr);
+
+			//_devCon->PSSetShaderResources(0, 1, &_testSRV);
+			_devCon->PSSetShaderResources(0, 1, &tTempDiffuseTexture);
 
 			//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
 			_devCon->DrawIndexed(tToDrawIndexCount,

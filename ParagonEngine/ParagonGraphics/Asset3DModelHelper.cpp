@@ -3,6 +3,7 @@
 #include "Asset3DModelData.h"
 #include "LowDX11Storage.h"
 #include "../ParagonData/ParagonDefines.h"
+#include "../ParagonUtil/ResourceHelper.h"
 
 #include <assimp/Importer.hpp>     
 #include <assimp/scene.h>          
@@ -42,6 +43,8 @@ namespace Pg::Graphics::Helper
 	using DirectX::SimpleMath::Vector3;
 	using DirectX::SimpleMath::Color;
 	using DirectX::SimpleMath::Quaternion;
+
+	using Pg::Util::Helper::ResourceHelper;
 	using namespace Pg::Defines;
 
 	AssetSceneData* Asset3DModelHelper::s_CurrentDataScene = nullptr;
@@ -53,7 +56,7 @@ namespace Pg::Graphics::Helper
 		//RootNode 옮기기.
 		///메모리 생성/삭제는, 상황을 보고 알아서 판단하자! 일괄적으로 할당할 수가 없는 상황이다.
 		///단, 할당한 메모리를 일괄적으로 삭제해서 관리할 필요는 있다. 
-		
+
 		AssetSceneData* _mgrtScene = assetData->_assetSceneData;
 		s_CurrentDataScene = _mgrtScene;
 
@@ -81,16 +84,16 @@ namespace Pg::Graphics::Helper
 		{
 			AssetMeshData* tMesh = new AssetMeshData;
 			CopyMeshToAsset(_assimpScene->mMeshes[i], tMesh);
-			_mgrtScene->m_MeshList.push_back(tMesh);  
+			_mgrtScene->m_MeshList.push_back(tMesh);
 		}
 
 		//Node <-> Mesh Mapping. WorldMatrix를 받기 위해! (Buffer Parser)
 		//
-		
+
 
 		_mgrtScene->m_NumMaterials = _assimpScene->mNumMaterials;
 		_mgrtScene->m_MaterialList.reserve(_mgrtScene->m_NumMaterials);
-		
+
 		assert(_mgrtScene->m_NumMaterials <= Pg::Defines::MAX_MATERIAL_PER_MODEL);
 
 		//Material
@@ -433,7 +436,7 @@ namespace Pg::Graphics::Helper
 			}
 		);
 
-		
+
 		//MaterialIndex
 		_mgrt->m_MaterialIndex = _assimp->mMaterialIndex;
 
@@ -986,7 +989,7 @@ namespace Pg::Graphics::Helper
 					assert(&tPathStringCPP);
 
 					_assimp->GetTexture((aiTextureType)tTexType, (UINT)j, &tPathStr, &tTexMapping, &tUVIndex, &tBlend, &tTexOp, &tTexMapMode);
-					
+
 					//std::string tPathStringCPP = tPathStr.C_Str();
 					tVec.push_back(std::make_tuple(tPathStringCPP, ConvertTo_eAssetTextureMapping(tTexMapping), tUVIndex,
 						tBlend, ConvertTo_eAssetTextureOp(tTexOp), ConvertTo_eAssetTextureMode(tTexMapMode)));
@@ -1007,46 +1010,46 @@ namespace Pg::Graphics::Helper
 		switch (_mgrt->m_Type)
 		{
 			//[Problem] 이것도 문제가 있을 것... 값이 여러개 있으면, 못 받을 것이다!
-			case MGRT_PTI_Float:
-			{
-				ai_real tVal = NULL;
-				_assimpMat->Get(_assimp->mKey.C_Str(), (unsigned int)_assimp->mType, 0, tVal);
-				_mgrt->m_DataSplit.m_FloatData = tVal;
-			}
-			break;
-			case MGRT_PTI_Double:
-			{
-				double tVal = NULL;
-				_assimpMat->Get(_assimp->mKey.C_Str(), (unsigned int)_assimp->mType, 0, tVal);
-				_mgrt->m_DataSplit.m_DoubleData = tVal;
-			}
-			break;
-			case MGRT_PTI_String:
-			{
-				aiString tVal;
-				_assimpMat->Get(_assimp->mKey.C_Str(), (unsigned int)_assimp->mType, 0, tVal);
-				std::string tValStr = tVal.C_Str();
-				_mgrt->m_DataSplit.m_StringData = tValStr;
-			}
-			break;
-			case MGRT_PTI_Integer:
-			{
-				int tVal = NULL;
-				_assimpMat->Get(_assimp->mKey.C_Str(), (unsigned int)_assimp->mType, 0, tVal);
-				_mgrt->m_DataSplit.m_IntData = tVal;
-			}
-			break;
-			default:
-			{
-				//여기까지 왔다는 것은 미정의 형태의 Binary Buffer로 도착했다는 얘기.
-				_mgrt->m_ExceptionBufferData = new char[_mgrt->m_DataLength];
-				memcpy(_mgrt->m_ExceptionBufferData, _assimp->mData, _mgrt->m_DataLength);
-			}
-			break;
+		case MGRT_PTI_Float:
+		{
+			ai_real tVal = NULL;
+			_assimpMat->Get(_assimp->mKey.C_Str(), (unsigned int)_assimp->mType, 0, tVal);
+			_mgrt->m_DataSplit.m_FloatData = tVal;
+		}
+		break;
+		case MGRT_PTI_Double:
+		{
+			double tVal = NULL;
+			_assimpMat->Get(_assimp->mKey.C_Str(), (unsigned int)_assimp->mType, 0, tVal);
+			_mgrt->m_DataSplit.m_DoubleData = tVal;
+		}
+		break;
+		case MGRT_PTI_String:
+		{
+			aiString tVal;
+			_assimpMat->Get(_assimp->mKey.C_Str(), (unsigned int)_assimp->mType, 0, tVal);
+			std::string tValStr = tVal.C_Str();
+			_mgrt->m_DataSplit.m_StringData = tValStr;
+		}
+		break;
+		case MGRT_PTI_Integer:
+		{
+			int tVal = NULL;
+			_assimpMat->Get(_assimp->mKey.C_Str(), (unsigned int)_assimp->mType, 0, tVal);
+			_mgrt->m_DataSplit.m_IntData = tVal;
+		}
+		break;
+		default:
+		{
+			//여기까지 왔다는 것은 미정의 형태의 Binary Buffer로 도착했다는 얘기.
+			_mgrt->m_ExceptionBufferData = new char[_mgrt->m_DataLength];
+			memcpy(_mgrt->m_ExceptionBufferData, _assimp->mData, _mgrt->m_DataLength);
+		}
+		break;
 		}
 	}
-	
-	
+
+
 	std::vector<AssetTextureSRV> Asset3DModelHelper::GetTexturesFromMaterial(aiMaterial* mat, aiTextureType type, eAssetTextureType typeName, const aiScene* scene)
 	{
 		std::vector<AssetTextureSRV> textures;
@@ -1079,10 +1082,20 @@ namespace Pg::Graphics::Helper
 					std::string filename = std::string(str.C_Str());
 					filename = s_CurrentDataScene->m_Directory + '/' + filename;
 					std::wstring filenamews = std::wstring(filename.begin(), filename.end());
-					hr = DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
-						LowDX11Storage::GetInstance()->_deviceContext,
-						filenamews.c_str(), nullptr, &textureSRV.texture);
-					
+
+					if (ResourceHelper::IsResourceDDS(filename))
+					{
+						hr = DirectX::CreateDDSTextureFromFile(LowDX11Storage::GetInstance()->_device,
+							LowDX11Storage::GetInstance()->_deviceContext,
+							filenamews.c_str(), nullptr, &textureSRV.texture);
+					}
+					else
+					{
+						hr = DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
+							LowDX11Storage::GetInstance()->_deviceContext,
+							filenamews.c_str(), nullptr, &textureSRV.texture);
+					}
+
 					if (FAILED(hr))
 						MessageBox(LowDX11Storage::GetInstance()->_hWnd, L"3D모델 내부 Material SRV 생성 중 오류 발생.", L"오류...", MB_ICONERROR | MB_OK);
 				}
@@ -1132,6 +1145,23 @@ namespace Pg::Graphics::Helper
 
 			return texture;
 		}
+
+		// mHeight is 0, so try to load a compressed texture of mWidth bytes
+		const size_t tSize = _assimp->mWidth;
+		std::string tExt = _assimp->achFormatHint;
+
+		if (tExt != "dds" && tExt != "DDS")
+		{
+			HR(DirectX::CreateWICTextureFromMemory(LowDX11Storage::GetInstance()->_device, LowDX11Storage::GetInstance()->_deviceContext,
+				reinterpret_cast<const unsigned char*>(_assimp->pcData), tSize, nullptr, &texture));
+		}
+		else
+		{
+			HR(DirectX::CreateDDSTextureFromMemory(LowDX11Storage::GetInstance()->_device, LowDX11Storage::GetInstance()->_deviceContext,
+				reinterpret_cast<const unsigned char*>(_assimp->pcData), tSize, nullptr, &texture));
+		}
+
+		return texture;
 	}
 
 	//void Asset3DModelHelper::MapNodesToMeshes()
@@ -1150,6 +1180,4 @@ namespace Pg::Graphics::Helper
 	//
 	//	}
 	//}
-
-
 }
