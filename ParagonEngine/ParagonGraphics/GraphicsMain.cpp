@@ -221,7 +221,9 @@ namespace Pg::Graphics
 		}
 
 		text.append(L"FPS: " + std::to_wstring(tFrameRate) + L"\n");
-		text.append(L"Look Vector: (" + std::to_wstring(_camera->GetLook().x) + L", " + std::to_wstring(_camera->GetLook().y) + L", " + std::to_wstring(_camera->GetLook().z) + L")") ;
+		text.append(L"Look Vector: (" + std::to_wstring(_camera->GetLook().x) + L", " + std::to_wstring(_camera->GetLook().y) + L", " + std::to_wstring(_camera->GetLook().z) + L")\n");
+		text.append(L"Engine Cam Pos : " + std::to_wstring(cameraData->_position.x) + L", " + std::to_wstring(cameraData->_position.y) + L", " + std::to_wstring(cameraData->_position.z));
+		
 		font->SetText(text);
 
 		//cbData.viewMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._viewMatrix);
