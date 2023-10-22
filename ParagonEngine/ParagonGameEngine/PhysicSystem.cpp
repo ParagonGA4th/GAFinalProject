@@ -1,4 +1,5 @@
 #include "PhysicSystem.h"
+#include "../ParagonData/Transform.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonUtil/Log.h"
 
@@ -17,7 +18,7 @@ namespace Pg::Engine::Physic
 
 		// visual debugger 세팅, 로컬에 연결
 		_pvd = PxCreatePvd(*_foundation);
-		physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("172.16.1.161", 5425, 10);
+		physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("192.168.30.5", 5425, 10);
 		_pvd->connect(*transport, physx::PxPvdInstrumentationFlag::eDEBUG);
 
 		_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, _pvd);
@@ -43,10 +44,16 @@ namespace Pg::Engine::Physic
 		groundPlane->attachShape(*gpShape);
 		_pxScene->addActor(*groundPlane);
 
-		for (physx::PxU32 i = 0; i < 5; i++)
+		/*for (physx::PxU32 i = 0; i < 5; i++)
 		{
 			CreateStack(physx::PxTransform(physx::PxVec3(0, 0,10.0f)), 10, 2.0f);
-		}
+		}*/
+
+		//예시로 도형 하나 만들기
+		physx::PxRigidDynamic* exRigid = _physics->createRigidDynamic(physx::PxTransform(10.0f, 10.0f, 10.0f));
+		physx::PxShape* exShape = _physics->createShape(physx::PxBoxGeometry(1.0f, 1.0f, 1.0f), *_material);
+		exRigid->attachShape(*exShape);
+		_pxScene->addActor(*exRigid);
 	}
 
 	void PhysicSystem::UpdatePhysics()

@@ -16,12 +16,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>2_Component\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>2_Component\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="BoxCollider.cpp">
-      <Filter>2_Component\Collider</Filter>
-    </ClCompile>
     <ClCompile Include="Script.cpp">
       <Filter>2_Component\Script</Filter>
     </ClCompile>
@@ -33,9 +27,6 @@
     </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>2_Component\Button</Filter>
-    </ClCompile>
-    <ClCompile Include="CapsuleCollider.cpp">
-      <Filter>2_Component\Collider</Filter>
     </ClCompile>
     <ClCompile Include="DirectionalLight.cpp">
       <Filter>2_Component\Light</Filter>
@@ -67,14 +58,23 @@
     <ClCompile Include="RendererChangeList.cpp">
       <Filter>6_DataChangeList</Filter>
     </ClCompile>
-    <ClCompile Include="SphereCollider.cpp">
-      <Filter>2_Component\Collider</Filter>
-    </ClCompile>
     <ClCompile Include="SpotLight.cpp">
       <Filter>2_Component\Light</Filter>
     </ClCompile>
     <ClCompile Include="BaseResource.cpp">
       <Filter>3_Resource\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>2_Component\Collider\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>2_Component\Collider\BoxCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="CapsuleCollider.cpp">
+      <Filter>2_Component\Collider\CapsuleCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>2_Component\Collider\SphereCollider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -92,12 +92,6 @@
     </ClInclude>
     <ClInclude Include="PointLight.h">
       <Filter>2_Component\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>2_Component\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxCollider.h">
-      <Filter>2_Component\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Script.h">
       <Filter>2_Component\Script</Filter>
@@ -119,9 +113,6 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>2_Component\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="CapsuleCollider.h">
-      <Filter>2_Component\Collider</Filter>
     </ClInclude>
     <ClInclude Include="DirectionalLight.h">
       <Filter>2_Component\Light</Filter>
@@ -162,9 +153,6 @@
     <ClInclude Include="RendererChangeList.h">
       <Filter>6_DataChangeList</Filter>
     </ClInclude>
-    <ClInclude Include="SphereCollider.h">
-      <Filter>2_Component\Collider</Filter>
-    </ClInclude>
     <ClInclude Include="ParagonDefines.h">
       <Filter>7_ParagonDefines</Filter>
     </ClInclude>
@@ -188,6 +176,18 @@
     </ClInclude>
     <ClInclude Include="RenderTextData.h">
       <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>2_Component\Collider\BoxCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="CapsuleCollider.h">
+      <Filter>2_Component\Collider\CapsuleCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>2_Component\Collider\SphereCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>2_Component\Collider\BaseClass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +250,18 @@
     </Filter>
     <Filter Include="6_DataChangeList">
       <UniqueIdentifier>{0378711b-6cd9-48e8-a2ed-43014541b694}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\BaseClass">
+      <UniqueIdentifier>{da968cf0-ea1d-49cf-bb46-0f0469308f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\BoxCollider">
+      <UniqueIdentifier>{65cd6fac-dea3-4df8-96e3-e40208df9e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\CapsuleCollider">
+      <UniqueIdentifier>{d0f0cb7a-d7a9-4ea9-bc7b-a551e630b35f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\SphereCollider">
+      <UniqueIdentifier>{209bfa5b-6385-49ed-b021-6c8efd240396}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
