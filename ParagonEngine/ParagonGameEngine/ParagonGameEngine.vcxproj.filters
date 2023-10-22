@@ -25,7 +25,7 @@
     <ClInclude Include="SceneSystem.h">
       <Filter>2_System\SceneSystem</Filter>
     </ClInclude>
-    <ClInclude Include="CameraScriptTest.h">
+    <ClInclude Include="EditorCameraScript.h">
       <Filter>4_WorkSpace\SceneView</Filter>
     </ClInclude>
   </ItemGroup>
@@ -51,7 +51,7 @@
     <ClCompile Include="SceneSystem.cpp">
       <Filter>2_System\SceneSystem</Filter>
     </ClCompile>
-    <ClCompile Include="CameraScriptTest.cpp">
+    <ClCompile Include="EditorCameraScript.cpp">
       <Filter>4_WorkSpace\SceneView</Filter>
     </ClCompile>
   </ItemGroup>

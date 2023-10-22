@@ -11,12 +11,12 @@
 /// 그래픽스 엔진에게 CameraData를 반환해주어야 한다.
 /// 2023.09.19
 /// </summary>
-namespace Pg::Core
+namespace Pg::Data
 {
 	class GameObject;
 }
 
-namespace Pg::Engine
+namespace Pg::Data
 {
 	using namespace Pg::Math;
 
@@ -25,6 +25,10 @@ namespace Pg::Engine
 	public:
 		Camera(Pg::Data::GameObject* obj);
 		virtual ~Camera() = default;
+
+		//실제로 쓰이는 Camera들의 정보를 Scene의 정보와 일치시키기 위해서.
+		virtual void Update() override;
+
 
 		float GetNearZ() const;
 		float GetFarZ() const;
@@ -51,11 +55,20 @@ namespace Pg::Engine
 		// 
 
 	private:
-
 		float _nearZ;
 		float _farZ = PG_PI / 4; // 가장 현실적인 시야각도를 베이스로 둔다
 		float _aspect;
 		float _fovY;
+
+		float _nearWindowHeight;
+		float _farWindowHeight;
+
+		Pg::Math::PGFLOAT4X4 _viewMatrix;
+		Pg::Math::PGFLOAT4X4 _projMatrix;
+
+	private:
+		//Projection 행렬을 만드는 함수.
+		void SetProjectionLens(float fovY, float aspect, float zn, float zf);
 	};
 
 }

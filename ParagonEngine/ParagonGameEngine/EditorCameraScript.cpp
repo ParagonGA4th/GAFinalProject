@@ -1,23 +1,33 @@
-#include "CameraScriptTest.h"
+#include "EditorCameraScript.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/Camera.h"
+
+// 업데이트에서 임시로 인풋을 돌리기 위해...
+#include "../ParagonGameEngine/InputSystem.h"
+
 #include <singleton-cpp/singleton.h>
+#include <cassert>
 
-
-CameraScriptTest::CameraScriptTest(Pg::Data::GameObject* obj)
+EditorCameraScript::EditorCameraScript(Pg::Data::GameObject* obj)
 	:Pg::Data::Script(obj)
 {
 
 }
 
-void CameraScriptTest::Start()
+void EditorCameraScript::Start()
 {
 	// Input
 	auto& tInputSystem = singleton<Pg::Engine::Input::InputSystem>();
 	tInput = &tInputSystem;
+
+	// Camera
+	_camera = _object->GetComponent<Pg::Data::Camera>();
+	assert(_camera != nullptr);
 }
 
-void CameraScriptTest::Update()
+void EditorCameraScript::Update()
 {
+	using namespace Pg::Engine::Input;
 	using namespace Pg::API::Input;
 
 	if (tInput->GetKey(MoveFront))
@@ -104,5 +114,7 @@ void CameraScriptTest::Update()
 
 		_object->_transform.SetPosition(POS);
 	}
+
+
 
 }

@@ -1,12 +1,25 @@
 #include "Camera.h"
 #include "GameObject.h"
+#include <cmath>
+#include <numbers>
 
-namespace Pg::Engine
+namespace Pg::Data
 {
 	Camera::Camera(Pg::Data::GameObject* obj) :
 		Pg::Data::Component(obj)
 	{
 		_cameraData = std::make_unique<Pg::Data::CameraData>();
+
+		//ProjectionMatrix를 마련.
+		//SetProjectionLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
+	}
+
+	void Camera::Update()
+	{
+		//Projection Matrix는 종횡비를 Data딴에서 알 수 없기 때문에 이를 알고 있는 곳에서 만들어진다.
+		//반면, View Matrix는 Camera가 전적으로 담당해야 한다.
+
+		
 	}
 
 	float Camera::GetNearZ() const
@@ -39,6 +52,7 @@ namespace Pg::Engine
 		0.0f, 0.0f, 3.0f, 1.0f,
 		};
 		return tReturn;
+		//return _viewMatrix;
 	}
 
 	Pg::Math::PGFLOAT4X4 Camera::GetProjMatrix() const
@@ -51,6 +65,7 @@ namespace Pg::Engine
 			0.0f, 0.0f, -0.000100000012f, 0.0f,
 		};
 		return tReturn;
+		//return _projMatrix;
 	}
 
 	void Camera::SetNearZ(float nearZ)
@@ -88,5 +103,20 @@ namespace Pg::Engine
 
 		return _cameraData.get();
 	}
+
+	void Camera::SetProjectionLens(float fovY, float aspect, float zn, float zf)
+	{
+		// cache properties
+		this->_fovY = fovY;
+		this->_aspect = aspect;
+		this->_nearZ = zn;
+		this->_farZ = zf;
+
+		this->_nearWindowHeight = 2.0f * _nearZ * tanf(0.5f * _fovY);
+		this->_farWindowHeight = 2.0f * _farZ * tanf(0.5f * _fovY);
+
+		this->_projMatrix = PGMatrixPerspectiveFovLH(fovY, aspect, zn, zf);
+	}
+	
 
 }
