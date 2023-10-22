@@ -11,6 +11,12 @@
 /// PhysX 연동하여 물리엔진을 연동할 것이다
 /// 2023.10.06
 /// </summary>
+namespace Pg::Data
+{
+	class GameObject;
+	class Transform;
+}
+
 namespace Pg::Engine::Physic
 {
 	class PhysicSystem
@@ -26,6 +32,9 @@ namespace Pg::Engine::Physic
 		void CreatePxScene();
 
 		void CreateStack(const physx::PxTransform& t, physx::PxU32 size, physx::PxReal halfExtent);
+
+	public:
+
 
 	private:
 		
