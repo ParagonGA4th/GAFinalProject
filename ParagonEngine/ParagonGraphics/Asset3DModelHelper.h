@@ -89,6 +89,9 @@ namespace Pg::Graphics::Helper
 
 		static void CopyTextureToAsset(const aiTexture* _assimp, AssetTextureData* _mgrt);
 
+		//Node <-> Mesh Mapping.
+		//static void MapNodesToMeshes();
+
 		//Material
 		static void CopyMaterialToAsset(const aiMaterial* _assimp, AssetMaterialData* _mgrt);
 		
