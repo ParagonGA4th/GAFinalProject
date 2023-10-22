@@ -72,18 +72,12 @@ namespace Pg::Graphics
 		_devCon->IASetInputLayout(LayoutDefine::GetStatic1stLayout());
 		_devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		//Update Shared Constant Buffer
-		UpdateConstantBuffer(camData);
-
 		_devCon->RSSetState(_rasterizerState);
 		//VS Bind.
 		_devCon->VSSetShader(_vertexShader, nullptr, 0);
-		//Constant Buffer Binding (VS)
-		_devCon->VSSetConstantBuffers(0, 1, &_constantBuffer);
+		
 		//PS Bind.
 		_devCon->PSSetShader(_pixelShader, nullptr, 0);
-		//Constant Buffer Binding (PS)
-		_devCon->PSSetConstantBuffers(0, 1, &_constantBuffer);
 		//Sampler State Binding (PS)
 		_devCon->PSSetSamplers(0, 1, &_samplerState);
 
@@ -94,19 +88,57 @@ namespace Pg::Graphics
 		//Index Buffer Setting.
 		_devCon->IASetIndexBuffer(_modelData->_d3dBufferInfo._indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
-		//_devCon->PSSetShaderResources(0, 1, &_testSRV);
+		_devCon->PSSetShaderResources(0, 1, &_testSRV);
 
+		//Constant Buffer Binding (VS)
+		UpdateConstantBuffer(camData);
+		_devCon->VSSetConstantBuffers(0, 1, &_constantBuffer);
 		//_devCon->DrawIndexed(_modelData->_d3dBufferInfo._totalIndexCount, 0, 0);
 		//_devCon->DrawIndexed(36, 0, 0);
+		
+		//Update Shared Constant Buffer
+		//UpdateConstantBuffer(camData);
 		//_devCon->DrawIndexed(12, 0, 0);
 		
-		UINT tMatID = _modelData->_d3dBufferInfo._materialIDVector[1];
-		AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
-		_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
-		_devCon->DrawIndexed(12, _modelData->_d3dBufferInfo._indexOffsetVector[1], _modelData->_d3dBufferInfo._vertexOffsetVector[1]);
+		//UINT tMatID = _modelData->_d3dBufferInfo._materialIDVector[1];
+		//AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
+		//_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
 		
+		////<되는 모델>
+		//_devCon->DrawIndexed(12, _modelData->_d3dBufferInfo._indexOffsetVector[0], _modelData->_d3dBufferInfo._vertexOffsetVector[0]);
+		//_devCon->DrawIndexed(12, _modelData->_d3dBufferInfo._indexOffsetVector[1], _modelData->_d3dBufferInfo._vertexOffsetVector[1]);
 		//_devCon->DrawIndexed(12, _modelData->_d3dBufferInfo._indexOffsetVector[2], _modelData->_d3dBufferInfo._vertexOffsetVector[2]);
-		
+		//_devCon->DrawIndexed(12, _modelData->_d3dBufferInfo._indexOffsetVector[3], _modelData->_d3dBufferInfo._vertexOffsetVector[3]);
+		//_devCon->DrawIndexed(12, _modelData->_d3dBufferInfo._indexOffsetVector[4], _modelData->_d3dBufferInfo._vertexOffsetVector[4]);
+		//_devCon->DrawIndexed(12, _modelData->_d3dBufferInfo._indexOffsetVector[5], _modelData->_d3dBufferInfo._vertexOffsetVector[5]);
+		////</되는 모델>
+
+		int tMeshCount = _modelData->_d3dBufferInfo._meshCount;
+		for (int i = 0; i < tMeshCount; i++)
+		{
+			UINT tToDrawIndexCount = 0;
+
+			if (i >= tMeshCount - 1)
+			{
+				//마지막.
+				tToDrawIndexCount =
+					_modelData->_d3dBufferInfo._totalIndexCount -
+					_modelData->_d3dBufferInfo._indexOffsetVector[i];
+			}
+			else
+			{
+				tToDrawIndexCount =
+					_modelData->_d3dBufferInfo._indexOffsetVector[i + 1] -
+					_modelData->_d3dBufferInfo._indexOffsetVector[i];
+			}
+
+			//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
+			_devCon->DrawIndexed(tToDrawIndexCount,
+				_modelData->_d3dBufferInfo._indexOffsetVector[i],
+				_modelData->_d3dBufferInfo._vertexOffsetVector[i]);
+		}
+
+
 		/*
 		분석도 분석인데, 지금은 Node별로 Mesh의 Local Transformation이 반영되지 않기 때문에, 당연히 버텍스 버퍼가 한 공간에 겹쳐서 출력된다. 이를 고쳐야 한다..
 		이와 더불어, 쓸데없는 데이터는 통합하는 것도 좋다!

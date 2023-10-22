@@ -81,8 +81,12 @@ namespace Pg::Graphics::Helper
 		{
 			AssetMeshData* tMesh = new AssetMeshData;
 			CopyMeshToAsset(_assimpScene->mMeshes[i], tMesh);
-			_mgrtScene->m_MeshList.push_back(tMesh);
+			_mgrtScene->m_MeshList.push_back(tMesh);  
 		}
+
+		//Node <-> Mesh Mapping. WorldMatrix를 받기 위해! (Buffer Parser)
+		//
+		
 
 		_mgrtScene->m_NumMaterials = _assimpScene->mNumMaterials;
 		_mgrtScene->m_MaterialList.reserve(_mgrtScene->m_NumMaterials);
@@ -1129,6 +1133,23 @@ namespace Pg::Graphics::Helper
 			return texture;
 		}
 	}
-	
+
+	//void Asset3DModelHelper::MapNodesToMeshes()
+	//{
+	//	for (auto& it : s_CurrentDataScene->m_NodePlainContainer)
+	//	{
+	//
+	//
+	//		//std::string nodeName = it.m_Name;
+	//		//if (nodeName.find("_$AssimpFbx$_") == std::string::npos)
+	//		//{
+	//		//
+	//		//}
+	//		//	continue;
+	//
+	//
+	//	}
+	//}
+
 
 }

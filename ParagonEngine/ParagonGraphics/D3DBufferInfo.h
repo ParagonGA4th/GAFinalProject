@@ -1,5 +1,6 @@
 #pragma once
 #include <d3d11.h>
+#include <DirectXMath.h>
 #include <vector>
 /// <summary>
 /// 단순히 VB/IB를 묶어놓은 클래스.
@@ -35,5 +36,8 @@ namespace Pg::Graphics
 
 		//각 Mesh의 인덱스에 대응해서, Material ID가 몇인지 확인!
 		std::vector<unsigned int> _materialIDVector;
+
+		////(*일단은 Static 기준) 각 Mesh의 인덱스에 대응해서, 적용해야 하는 World Matrix 목록.
+		//std::vector<DirectX::XMMATRIX> _worldMatrixVector;
 	};
 }

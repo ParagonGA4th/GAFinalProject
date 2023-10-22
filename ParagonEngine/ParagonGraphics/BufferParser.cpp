@@ -69,19 +69,6 @@ namespace Pg::Graphics::Helper
 		{
 			for (size_t j = 0; j < assetSceneData->m_MeshList[i]->m_NumVertice; j++)
 			{
-				////posL
-				//tByteVertexBuffer->putBytes((uint8_t*)&(assetSceneData->m_MeshList[i]->m_VerticeList[j]), static_cast<uint32_t>(sizeof(DirectX::XMFLOAT3)));
-				////normalL
-				//tByteVertexBuffer->putBytes((uint8_t*)&(assetSceneData->m_MeshList[i]->m_NormalList[j]), static_cast<uint32_t>(sizeof(DirectX::XMFLOAT3)));
-				////tangentL
-				//tByteVertexBuffer->putBytes((uint8_t*)&(assetSceneData->m_MeshList[i]->m_TangentList[j]), static_cast<uint32_t>(sizeof(DirectX::XMFLOAT3)));
-				////color
-				//tByteVertexBuffer->putBytes((uint8_t*)&(assetSceneData->m_MeshList[i]->m_ColorList[j]), static_cast<uint32_t>(sizeof(DirectX::XMFLOAT4)));
-				////tex
-				//tByteVertexBuffer->putBytes((uint8_t*)&(assetSceneData->m_MeshList[i]->m_TextureCoordList[j]), static_cast<uint32_t>(sizeof(DirectX::XMFLOAT3)));
-				////matID
-				//tByteVertexBuffer->putBytes((uint8_t*)&(assetSceneData->m_MeshList[i]->m_MaterialIndex), static_cast<uint32_t>(sizeof(unsigned int)));
-
 				LayoutDefine::Vin1stStatic tMeshVert;
 				tMeshVert.posL = assetSceneData->m_MeshList[i]->m_VerticeList[j];
 				tMeshVert.normalL = assetSceneData->m_MeshList[i]->m_VerticeList[j];
@@ -97,20 +84,6 @@ namespace Pg::Graphics::Helper
 		//전체 IndexCount 세기 + 기존
 		size_t tIndexCount = 0;
 		unsigned int tDrawStartIndexCnt = 0;
-
-		//for (size_t i = 0; i < assetSceneData->m_NumMesh; i++)
-		//{
-		//	tD3DBuffer._indexOffsetVector.push_back(tDrawStartIndexCnt);
-		//
-		//	//Mesh별 시작 Index Cnt 기록 w/ 총 Index 개수 기록.
-		//	for (size_t j = 0; j < assetSceneData->m_MeshList[i]->m_NumFace; j++)
-		//	{
-		//		tIndexCount += assetSceneData->m_MeshList[i]->m_FaceList[j].m_NumIndice;
-		//	}
-		//
-		//	tDrawStartIndexCnt = tIndexCount;
-		//}
-
 
 		for (auto& it : assetSceneData->m_MeshList)
 		{

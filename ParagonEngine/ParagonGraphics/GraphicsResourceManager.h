@@ -47,7 +47,7 @@ namespace Pg::Graphics::Manager
 		friend class Pg::Core::Manager::AssetManager;
 		friend class Pg::Graphics::GraphicsMain;
 	public:
-		GraphicsResourceManager();
+		GraphicsResourceManager(); 
 		~GraphicsResourceManager();
 
 		//메모리 관리와 관계없이, 포인터를 리턴한다.
