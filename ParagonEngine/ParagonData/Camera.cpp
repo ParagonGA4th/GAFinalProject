@@ -18,8 +18,7 @@ namespace Pg::Data
 	{
 		//Projection Matrix는 종횡비를 Data딴에서 알 수 없기 때문에 이를 알고 있는 곳에서 만들어진다.
 		//반면, View Matrix는 Camera가 전적으로 담당해야 한다.
-
-		
+		UpdateViewMatrix();
 	}
 
 	float Camera::GetNearZ() const
@@ -37,35 +36,9 @@ namespace Pg::Data
 		return _fovY;
 	}
 
-	float Camera::GetAspect() const
-	{
-		return _aspect;
-	}
-
 	Pg::Math::PGFLOAT4X4 Camera::GetViewMatrix() const
 	{
-		Pg::Math::PGFLOAT4X4 tReturn =
-		{
-		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 3.0f, 1.0f,
-		};
-		return tReturn;
-		//return _viewMatrix;
-	}
-
-	Pg::Math::PGFLOAT4X4 Camera::GetProjMatrix() const
-	{
-		Pg::Math::PGFLOAT4X4 tReturn =
-		{
-			1.35799503f, 0.0f, 0.0f, 0.0f,
-			0.0f, 2.41421342f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.00000012f, 1.0f,
-			0.0f, 0.0f, -0.000100000012f, 0.0f,
-		};
-		return tReturn;
-		//return _projMatrix;
+		return _viewMatrix;
 	}
 
 	void Camera::SetNearZ(float nearZ)
@@ -78,14 +51,9 @@ namespace Pg::Data
 		_farZ = farZ;
 	}
 
-	void Camera::SetAspect(float aspect)
-	{
-
-	}
-
 	void Camera::SetFovY(float fovY)
 	{
-
+		_fovY = fovY;
 	}
 
 	Pg::Data::CameraData* Camera::GetCameraData()
@@ -96,73 +64,53 @@ namespace Pg::Data
 		_cameraData->_farZ = GetFarZ();
 		_cameraData->_fovY = GetFovY();
 		_cameraData->_nearZ = GetNearZ();
-		_cameraData->aspect = GetAspect();
 
 		_cameraData->_viewMatrix = GetViewMatrix();
-		_cameraData->_projMatrix = GetProjMatrix();
 
 		return _cameraData.get();
 	}
 
-	void Camera::SetProjectionLens(float fovY, float aspect, float zn, float zf)
-	{
-		// cache properties
-		this->_fovY = fovY;
-		this->_aspect = aspect;
-		this->_nearZ = zn;
-		this->_farZ = zf;
-
-		this->_nearWindowHeight = 2.0f * _nearZ * tanf(0.5f * _fovY);
-		this->_farWindowHeight = 2.0f * _farZ * tanf(0.5f * _fovY);
-
-		this->_projMatrix = PGMatrixPerspectiveFovLH(fovY, aspect, zn, zf);
-	}
-
 	void Camera::UpdateViewMatrix()
-	{
-		//using namespace Pg::Math;
+{
+		using namespace Pg::Math;
 
-		//PGFLOAT3 R = _object->_transform.GetRight();
-		//PGFLOAT3 U = _object->_transform.GetUp();
-		//PGFLOAT3 L = _object->_transform.GetForward();
-		//PGFLOAT3 P = _object->_transform.GetPosition();
+		PGFLOAT3 R = _object->_transform.GetRight();
+		PGFLOAT3 U = _object->_transform.GetUp();
+		PGFLOAT3 L = _object->_transform.GetForward();
+		PGFLOAT3 P = _object->_transform.GetPosition();
 
-		//// Keep camera's axes orthogonal to each other and of unit length.
-		//L = PGFloat3Normalize(L);
-		//U = PGFloat3Normalize(PGFloat3Cross(L, R));
+		// Keep camera's axes orthogonal to each other and of unit length.
+		L = PGFloat3Normalize(L);
+		U = PGFloat3Normalize(PGFloat3Cross(L, R));
 
-		//// U, L already ortho-normal, so no need to normalize cross product.
-		//R = PGFloat3Cross(U, L);
+		// U, L already ortho-normal, so no need to normalize cross product.
+		R = PGFloat3Cross(U, L);
 
-		//// Fill in the view matrix entries.
-		//float x = -PGFloat3Dot(P, R);
-		//float y = -PGFloat3Dot(P, U);
-		//float z = -PGFloat3Dot(P, L);
+		// Fill in the view matrix entries.
+		float x = -PGFloat3Dot(P, R);
+		float y = -PGFloat3Dot(P, U);
+		float z = -PGFloat3Dot(P, L);
 
-		//_object->_transform._right = R;
-		//_object->_transform._up = U;
-		//_object->_transform._forward = L;
+		_viewMatrix(0, 0) = R.x;
+		_viewMatrix(1, 0) = R.y;
+		_viewMatrix(2, 0) = R.z;
+		_viewMatrix(3, 0) = x;
 
-		//_viewMatrix(0, 0) = R.x;
-		//_viewMatrix(1, 0) = R.y;
-		//_viewMatrix(2, 0) = R.z;
-		//_viewMatrix(3, 0) = x;
+		_viewMatrix(0, 1) = U.x;
+		_viewMatrix(1, 1) = U.y;
+		_viewMatrix(2, 1) = U.z;
+		_viewMatrix(3, 1) = y;
 
-		//_viewMatrix(0, 1) = U.x;
-		//_viewMatrix(1, 1) = U.y;
-		//_viewMatrix(2, 1) = U.z;
-		//_viewMatrix(3, 1) = y;
+		_viewMatrix(0, 2) = L.x;
+		_viewMatrix(1, 2) = L.y;
+		_viewMatrix(2, 2) = L.z;
+		_viewMatrix(3, 2) = z;
 
-		//_viewMatrix(0, 2) = L.x;
-		//_viewMatrix(1, 2) = L.y;
-		//_viewMatrix(2, 2) = L.z;
-		//_viewMatrix(3, 2) = z;
+		_viewMatrix(0, 3) = 0.0f;
+		_viewMatrix(1, 3) = 0.0f;
+		_viewMatrix(2, 3) = 0.0f;
+		_viewMatrix(3, 3) = 1.0f;
 
-		//_viewMatrix(0, 3) = 0.0f;
-		//_viewMatrix(1, 3) = 0.0f;
-		//_viewMatrix(2, 3) = 0.0f;
-		//_viewMatrix(3, 3) = 1.0f;
 	}
-
 
 }
