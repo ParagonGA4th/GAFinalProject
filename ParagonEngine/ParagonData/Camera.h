@@ -55,6 +55,9 @@ namespace Pg::Data
 		// 
 
 	private:
+		void UpdateViewMatrix();
+
+	private:
 		float _nearZ;
 		float _farZ = PG_PI / 4; // 가장 현실적인 시야각도를 베이스로 둔다
 		float _aspect;
@@ -65,7 +68,6 @@ namespace Pg::Data
 
 		Pg::Math::PGFLOAT4X4 _viewMatrix;
 		Pg::Math::PGFLOAT4X4 _projMatrix;
-
 
 
 	private:

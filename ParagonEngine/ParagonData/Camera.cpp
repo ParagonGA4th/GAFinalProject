@@ -117,6 +117,52 @@ namespace Pg::Data
 
 		this->_projMatrix = PGMatrixPerspectiveFovLH(fovY, aspect, zn, zf);
 	}
-	
+
+	void Camera::UpdateViewMatrix()
+	{
+		//using namespace Pg::Math;
+		//
+		//PGFLOAT3 R = _object->_transform.GetRight();
+		//PGFLOAT3 U = _object->_transform.GetUp();
+		//PGFLOAT3 L = _object->_transform.GetForward();
+		//PGFLOAT3 P = _object->_transform.GetPosition();
+		//
+		//// Keep camera's axes orthogonal to each other and of unit length.
+		//L = PGFloat3Normalize(L);
+		//U = PGFloat3Normalize(PGFloat3Cross(L, R));
+		//
+		//// U, L already ortho-normal, so no need to normalize cross product.
+		//R = PGFloat3Cross(U, L);
+		//
+		//// Fill in the view matrix entries.
+		//float x = -PGFloat3Dot(P, R);
+		//float y = -PGFloat3Dot(P, U);
+		//float z = -PGFloat3Dot(P, L);
+
+		//XMStoreFloat3(&mRight, R);
+		//XMStoreFloat3(&mUp, U);
+		//XMStoreFloat3(&mLook, L);
+		//
+		//_viewMatrix(0, 0) = mRight.x;
+		//_viewMatrix(1, 0) = mRight.y;
+		//_viewMatrix(2, 0) = mRight.z;
+		//_viewMatrix(3, 0) = x;
+		//
+		//_viewMatrix(0, 1) = mUp.x;
+		//_viewMatrix(1, 1) = mUp.y;
+		//_viewMatrix(2, 1) = mUp.z;
+		//_viewMatrix(3, 1) = y;
+		//
+		//_viewMatrix(0, 2) = mLook.x;
+		//_viewMatrix(1, 2) = mLook.y;
+		//_viewMatrix(2, 2) = mLook.z;
+		//_viewMatrix(3, 2) = z;
+		//
+		//_viewMatrix(0, 3) = 0.0f;
+		//_viewMatrix(1, 3) = 0.0f;
+		//_viewMatrix(2, 3) = 0.0f;
+		//_viewMatrix(3, 3) = 1.0f;
+	}
+
 
 }
