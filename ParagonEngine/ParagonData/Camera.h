@@ -66,7 +66,10 @@ namespace Pg::Data
 		Pg::Math::PGFLOAT4X4 _viewMatrix;
 		Pg::Math::PGFLOAT4X4 _projMatrix;
 
+
+
 	private:
+
 		//Projection 행렬을 만드는 함수.
 		void SetProjectionLens(float fovY, float aspect, float zn, float zf);
 	};
