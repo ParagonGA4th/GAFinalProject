@@ -110,6 +110,12 @@ namespace Pg::Data
 		PGQuaternion _rotation; // 기본적으로 쿼터니언으로 관리한다
 		PGFLOAT3 _scale;
 
+
+		// Forward, Right, Up
+		PGFLOAT3 _forward;
+		PGFLOAT3 _right;
+		PGFLOAT3 _up;
+
 		// bool 
 		bool _is3D;
 	};

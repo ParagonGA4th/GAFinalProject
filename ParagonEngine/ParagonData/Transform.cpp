@@ -367,19 +367,22 @@ namespace Pg::Data
 	Pg::Math::PGFLOAT3 Transform::GetForward()
 	{
 		PGFLOAT4 result = PGFloat4MultiplyMatrix(PGFLOAT4(0.f, 0.f, 1.f, 0.f), GetWorldRotationMatrix());
-		return PGFLOAT3(result.x, result.y, result.z);
+		_forward = PGFLOAT3(result.x, result.y, result.z);
+		return _forward;
 	}
 
 	Pg::Math::PGFLOAT3 Transform::GetUp()
 	{
 		PGFLOAT4 result = PGFloat4MultiplyMatrix(PGFLOAT4(0.f, 1.f, 0.f, 0.f), GetWorldRotationMatrix());
-		return PGFLOAT3(result.x, result.y, result.z);
+		_up = PGFLOAT3(result.x, result.y, result.z);
+		return _up;
 	}
 
 	Pg::Math::PGFLOAT3 Transform::GetRight()
 	{
 		PGFLOAT4 result = PGFloat4MultiplyMatrix(PGFLOAT4(1.f, 0.f, 0.f, 0.f), GetWorldRotationMatrix());
-		return PGFLOAT3(result.x, result.y, result.z);
+		_right = PGFLOAT3(result.x, result.y, result.z);
+		return _right;
 	}
 
 	Pg::Math::PGQuaternion Transform::NormalizeQuaternion(PGQuaternion q)
