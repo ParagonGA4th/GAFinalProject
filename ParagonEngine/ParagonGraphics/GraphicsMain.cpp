@@ -205,6 +205,9 @@ namespace Pg::Graphics
 		//당장 CameraData가 반영되는 것이 아님.
 		//_timeManager->TimeMeasure();
 		//float dt = _timeManager->GetDeltaTime();
+		
+		//Projection 행렬을 채운다.
+		FillCamDataProjection(_camData);
 
 		float dt = deltaTime;
 		time += dt;
@@ -440,4 +443,19 @@ namespace Pg::Graphics
 		_gameCameraSRV = tempGameCamSprite->GetSRV();
 		return _gameCameraSRV;
 	}
+
+	void GraphicsMain::FillCamDataProjection(Pg::Data::CameraData* camData)
+	{
+		//this->_fovY = fovY;
+		//this->_aspect = aspect;
+		//this->_nearZ = zn;
+		//this->_farZ = zf;
+		//
+		//this->_nearWindowHeight = 2.0f * _nearZ * tanf(0.5f * _fovY);
+		//this->_farWindowHeight = 2.0f * _farZ * tanf(0.5f * _fovY);
+
+		//camData->_aspect = static_cast<float>(_DXStorage->_screenWidth) / static_cast<float>(_DXStorage->_screenHeight);
+		//camData->_projMatrix = Pg::Math::PGMatrixPerspectiveFovLH(camData->_fovY, camData->_aspect, camData->_nearZ, camData->_farZ);
+	}
+
 }

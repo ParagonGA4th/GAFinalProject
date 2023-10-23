@@ -228,8 +228,8 @@ namespace Pg::Math
 	inline Pg::Math::PGFLOAT3 PGFloat3Normalize(const Pg::Math::PGFLOAT3& f) noexcept;
 	inline Pg::Math::PGFLOAT4 PGFloat4Normalize(const Pg::Math::PGFLOAT4& f) noexcept;
 	inline Pg::Math::PGQuaternion PGQuaternionNormalize(const Pg::Math::PGQuaternion& f) noexcept;
-	constexpr float PGFloat3Dot(const Pg::Math::PGFLOAT3& lhs, const Pg::Math::PGFLOAT3& rhs);
-	constexpr Pg::Math::PGFLOAT3 PGFloat3Cross(const Pg::Math::PGFLOAT3& lhs, const Pg::Math::PGFLOAT3& rhs);
+	float PGFloat3Dot(const Pg::Math::PGFLOAT3& lhs, const Pg::Math::PGFLOAT3& rhs);
+	Pg::Math::PGFLOAT3 PGFloat3Cross(const Pg::Math::PGFLOAT3& lhs, const Pg::Math::PGFLOAT3& rhs);
 	Pg::Math::PGFLOAT3 PGFloat3MultiplyMatrix(const Pg::Math::PGFLOAT3& lhs, const Pg::Math::PGFLOAT4X4& rhs);
 	Pg::Math::PGFLOAT4 PGFloat4MultiplyMatrix(const Pg::Math::PGFLOAT4& lhs, const Pg::Math::PGFLOAT4X4& rhs);
 	Pg::Math::PGQuaternion PGRotateQuaternionY(const Pg::Math::PGQuaternion& quaternion, float radian);

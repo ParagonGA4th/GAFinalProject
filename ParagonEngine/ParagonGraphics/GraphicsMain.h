@@ -4,6 +4,7 @@
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonMath/PgMath.h"
 
 #include "TempCamera.h"
 #include "TestCube.h"
@@ -113,6 +114,9 @@ namespace Pg::Graphics
 
 	public:
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;
+	private:
+		//불완전하게 전달된 CamData에 투영 행렬을 넣는다.
+		virtual void FillCamDataProjection(Pg::Data::CameraData* camData);
 
 	private:
 		HRESULT hr;
@@ -130,6 +134,7 @@ namespace Pg::Graphics
 	private:
 		Pg::API::Input::PgInput* _input;
 		Pg::Data::CameraData* _camData;
+
 	private:
 		// Editor 연동 & 나중에 이 SRV들이 최종 렌더되는 Quad의 SRV여야 한다.
 		ID3D11ShaderResourceView* _editorCameraSRV = nullptr;

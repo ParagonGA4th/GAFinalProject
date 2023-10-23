@@ -447,12 +447,12 @@ namespace Pg::Math
 		return { f.x / length, f.y / length, f.z / length, f.w / length };
 	}
 
-	constexpr float PGFloat3Dot(const PGFLOAT3& lhs, const PGFLOAT3& rhs)
+	float PGFloat3Dot(const PGFLOAT3& lhs, const PGFLOAT3& rhs)
 	{
 		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 	}
 
-	constexpr Pg::Math::PGFLOAT3 PGFloat3Cross(const PGFLOAT3& lhs, const PGFLOAT3& rhs)
+	Pg::Math::PGFLOAT3 PGFloat3Cross(const PGFLOAT3& lhs, const PGFLOAT3& rhs)
 	{
 		return Pg::Math::PGFLOAT3(lhs.y * rhs.z - lhs.z * rhs.y, lhs.z * rhs.x - lhs.x * rhs.z, lhs.x * rhs.y - lhs.y * rhs.x);
 	}
