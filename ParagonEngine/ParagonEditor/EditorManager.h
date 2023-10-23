@@ -24,7 +24,7 @@ namespace Pg::Editor::Manager
 		std::unique_ptr<Pg::UI::Manager::UIManager> _uiManager;
 		Pg::Editor::Helper::EditorHelper* _edHepler;
 
-		bool _isUIInitailized;
+		bool _editorOnOff;
 	};
 }
 

@@ -11,7 +11,7 @@
 #endif // _DEBUG
 
 Pg::Editor::Manager::EditorManager::EditorManager()
-	:_isUIInitailized(false)
+	:_editorOnOff(false)
 {
 	auto& tEditorHelper = singleton<Pg::Editor::Helper::EditorHelper>();
 	_edHepler = &tEditorHelper;
@@ -35,12 +35,14 @@ void Pg::Editor::Manager::EditorManager::Initialize(HWND hWnd)
 
 void Pg::Editor::Manager::EditorManager::Update()
 {
-	_uiManager->Update(_edHepler->GetTexture());
+	if (_edHepler->GetEditorOnOff()) _editorOnOff = !_editorOnOff;
+
+	if(_editorOnOff) _uiManager->Update(_edHepler->GetTexture());
 }
 
 void Pg::Editor::Manager::EditorManager::LastUpdate()
 {
-	_uiManager->LastUpdate();
+	if (_editorOnOff) _uiManager->LastUpdate();
 }
 
 void Pg::Editor::Manager::EditorManager::Finalize()

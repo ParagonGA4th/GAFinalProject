@@ -37,6 +37,8 @@ void Pg::Editor::Manager::ProcessManager::Update()
 	_coreMain->Update();
 	_coreMain->BeginRender();
 	_coreMain->Render();
+
+	_edHepler->SetEditorOnOff(_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff));
 }
 
 void Pg::Editor::Manager::ProcessManager::LastUpdate()
@@ -54,9 +56,3 @@ void Pg::Editor::Manager::ProcessManager::ProcessHandler(MSG message)
 	if (_isCoreInitailized) _input->HandleMessage(message);
 }
 
-bool Pg::Editor::Manager::ProcessManager::EditorOnOff()
-{
-	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff)) _editorOnOff = !_editorOnOff;
-
-	return _editorOnOff;
-}

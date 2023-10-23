@@ -29,51 +29,29 @@ namespace Pg::Data
 		//실제로 쓰이는 Camera들의 정보를 Scene의 정보와 일치시키기 위해서.
 		virtual void Update() override;
 
-
 		float GetNearZ() const;
 		float GetFarZ() const;
-		float GetAspect() const;
 		float GetFovY() const;
 
 		PGFLOAT4X4 GetViewMatrix() const;
-		PGFLOAT4X4 GetProjMatrix() const;
 
 		void SetNearZ(float nearZ);
 		void SetFarZ(float farZ);
-		void SetAspect(float aspect);
 		void SetFovY(float fovY);
-
 
 	public:
 		Pg::Data::CameraData* GetCameraData();
 
-	public:
+	private:
 		std::unique_ptr<Pg::Data::CameraData> _cameraData;
 
-	public:
-		// Yaw, pitch, roll (모든 방향으로의 회전이 필요한가?)
-		// 
-
 	private:
-		void UpdateViewMatrix();
-
-	private:
-		float _nearZ;
-		float _farZ = PG_PI / 4; // 가장 현실적인 시야각도를 베이스로 둔다
-		float _aspect;
-		float _fovY;
-
-		float _nearWindowHeight;
-		float _farWindowHeight;
-
+		float _nearZ = 0.0001f;
+		float _farZ = PG_PI / static_cast<float>(4); // 가장 현실적인 시야각도를 베이스로 둔다
+		float _fovY = PG_PI * 0.4f;
 		Pg::Math::PGFLOAT4X4 _viewMatrix;
-		Pg::Math::PGFLOAT4X4 _projMatrix;
 
-
-	private:
-
-		//Projection 행렬을 만드는 함수.
-		void SetProjectionLens(float fovY, float aspect, float zn, float zf);
+		void UpdateViewMatrix();
 	};
 
 }
