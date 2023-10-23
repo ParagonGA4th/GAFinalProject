@@ -670,9 +670,9 @@ namespace Pg::Math
 		return { quaternion.x,quaternion.y,quaternion.z,quaternion.w };
 	}
 
-	Pg::Math::PGFLOAT4 PGFloat4ToQuaternion(const PGFLOAT4& f4)
+	Pg::Math::PGQuaternion PGFloat4ToQuaternion(const PGFLOAT4& f4)
 	{
-		return { f4.x, f4.y, f4.z, f4.w };
+		return { f4.w, f4.x, f4.y, f4.z };
 	}
 
 	Pg::Math::PGQuaternion PGMatrixToQuaternion(const PGFLOAT4X4& matrix)
@@ -802,6 +802,60 @@ namespace Pg::Math
 			0, 0, -nearZ / farZ - nearZ, 1
 		};
 		return Pg::Math::PGFLOAT4X4(tempOrtho);
+	}
+
+	Pg::Math::PGQuaternion EulerToQuaternion(float x, float y, float z)
+	{
+		PGQuaternion quaternion;
+
+		// 각 축의 값을 반으로 나눈 뒤... 계산
+		double cy = cos(x * 0.5);
+		double sy = sin(x * 0.5);
+		double cp = cos(y * 0.5);
+		double sp = sin(y * 0.5);
+		double cr = cos(z * 0.5);
+		double sr = sin(z * 0.5);
+
+		quaternion.w = cy * cp * cr + sy * sp * sr;
+		quaternion.x = cy * cp * sr - sy * sp * cr;
+		quaternion.y = sy * cp * sr + cy * sp * cr;
+		quaternion.z = sy * cp * cr - cy * sp * sr;
+
+		return quaternion;
+	}
+
+	Pg::Math::PGQuaternion EulerToQuaternion(const Pg::Math::PGFLOAT3& euler)
+	{
+		return EulerToQuaternion(euler.x, euler.y, euler.z);
+	}
+
+	Pg::Math::PGFLOAT3 QuaternionToEuler(const Pg::Math::PGQuaternion& quaternion)
+	{
+		return QuaternionToEuler(quaternion.w, quaternion.x, quaternion.y, quaternion.z);
+	}
+
+	Pg::Math::PGFLOAT3 QuaternionToEuler(float w, float x, float y, float z)
+	{
+		Pg::Math::PGFLOAT3 euler;
+
+		// Roll (X 축 회전)
+		double sinr_cosp = 2.0 * (w * x + y * z);
+		double cosr_cosp = 1.0 - 2.0 * (x * x + y * y);
+		euler.x = std::atan2(sinr_cosp, cosr_cosp);
+
+		// Pitch (Y 축 회전)
+		double sinp = 2.0 * (w * y - z * x);
+		if (std::abs(sinp) >= 1)
+			euler.y = std::copysign(PG_PI / 2.0, sinp); // use 90 degrees if out of range
+		else
+			euler.y = std::asin(sinp);
+
+		// Yaw (Z 축 회전)
+		double siny_cosp = 2.0 * (w * z + x * y);
+		double cosy_cosp = 1.0 - 2.0 * (y * y + z * z);
+		euler.z = std::atan2(siny_cosp, cosy_cosp);
+
+		return euler;
 	}
 
 }
