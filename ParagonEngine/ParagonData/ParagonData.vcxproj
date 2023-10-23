@@ -183,6 +183,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="ISerializable.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="ModelData.h" />
     <ClInclude Include="MoveForwardBack.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="RenderTextData.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Script.h" />
+    <ClInclude Include="Serializer.h" />
     <ClInclude Include="SoundData.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="SpotLight.h" />
@@ -232,6 +234,7 @@
     <ClCompile Include="RendererBase3D.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Script.cpp" />
+    <ClCompile Include="Serializer.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="TextRenderer.cpp" />

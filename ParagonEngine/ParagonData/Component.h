@@ -1,5 +1,6 @@
 #pragma once
 #include "IComponent.h"
+#include "ISerializable.h"
 
 /// <summary>
 /// 컴포넌트 클래스

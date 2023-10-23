@@ -95,6 +95,10 @@ namespace Pg::Data
 		void SetIs3D(bool is3D);
 		bool Is3D();
 
+		/// 시리얼라이즈 테스트를 위한 함수
+	/*	void OnSerialize() override;
+		void OnDeserialize() override;*/
+
 	private:
 		// 부모, 자식 객체를 가리키는 transform
 		std::shared_ptr<Transform> _parent;
