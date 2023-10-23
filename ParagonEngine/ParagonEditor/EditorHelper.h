@@ -17,10 +17,15 @@ namespace Pg::Editor::Helper
 		void SetTexture(void* Texture);
 		void* GetTexture();
 
+		void SetEditorOnOff(bool onoff);
+		bool GetEditorOnOff();
+
 	private:
 		ID3D11Device* _device;
 		ID3D11DeviceContext* _deviceContext;
 
 		void* _TestTexture;
+
+		bool _onOff;
 	};
 }

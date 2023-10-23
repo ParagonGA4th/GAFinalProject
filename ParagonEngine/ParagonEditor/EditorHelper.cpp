@@ -29,3 +29,13 @@ void* Pg::Editor::Helper::EditorHelper::GetTexture()
 {
 	return _TestTexture;
 }
+
+void Pg::Editor::Helper::EditorHelper::SetEditorOnOff(bool onoff)
+{
+	_onOff = onoff;
+}
+
+bool Pg::Editor::Helper::EditorHelper::GetEditorOnOff()
+{
+	return _onOff;
+}
