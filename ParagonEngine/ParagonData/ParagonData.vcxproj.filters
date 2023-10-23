@@ -79,6 +79,9 @@
     <ClCompile Include="Serializer.cpp">
       <Filter>9_DataSerializer</Filter>
     </ClCompile>
+    <ClCompile Include="DynamicCollider.cpp">
+      <Filter>2_Component\Collider\DynamicCollider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -198,6 +201,9 @@
     <ClInclude Include="ISerializable.h">
       <Filter>9_DataSerializer</Filter>
     </ClInclude>
+    <ClInclude Include="DynamicCollider.h">
+      <Filter>2_Component\Collider\DynamicCollider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -274,6 +280,9 @@
     </Filter>
     <Filter Include="9_DataSerializer">
       <UniqueIdentifier>{8e85e9fd-441e-4718-bc5c-cdaf85bf2be4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\DynamicCollider">
+      <UniqueIdentifier>{51a8fda0-dcc5-41de-89fd-93a38be98935}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
