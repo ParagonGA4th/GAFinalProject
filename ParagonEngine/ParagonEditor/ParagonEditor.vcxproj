@@ -154,7 +154,6 @@
     </ClCompile>
     <ClCompile Include="Inspector.cpp" />
     <ClCompile Include="ProcessManager.cpp" />
-    <ClCompile Include="Serializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor.h" />
@@ -170,9 +169,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Inspector.h" />
-    <ClInclude Include="ISerializable.h" />
     <ClInclude Include="ProcessManager.h" />
-    <ClInclude Include="Serializer.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="SceneName.xml" />

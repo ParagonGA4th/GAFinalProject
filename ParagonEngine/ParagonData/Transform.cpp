@@ -1,4 +1,5 @@
 #include "Transform.h"
+#include "Serializer.h"
 
 #include <cmath>
 
@@ -398,5 +399,15 @@ namespace Pg::Data
 
 		return q;
 	}
+
+	//void Transform::OnSerialize()
+	//{
+	//	//Serializer::SerializeFloat();
+	//}
+
+	//void Transform::OnDeserialize()
+	//{
+
+	//}
 
 }

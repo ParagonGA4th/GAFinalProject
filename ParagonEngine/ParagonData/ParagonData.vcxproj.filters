@@ -76,6 +76,9 @@
     <ClCompile Include="SphereCollider.cpp">
       <Filter>2_Component\Collider\SphereCollider</Filter>
     </ClCompile>
+    <ClCompile Include="Serializer.cpp">
+      <Filter>9_DataSerializer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -189,6 +192,12 @@
     <ClInclude Include="Collider.h">
       <Filter>2_Component\Collider\BaseClass</Filter>
     </ClInclude>
+    <ClInclude Include="Serializer.h">
+      <Filter>9_DataSerializer</Filter>
+    </ClInclude>
+    <ClInclude Include="ISerializable.h">
+      <Filter>9_DataSerializer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -262,6 +271,9 @@
     </Filter>
     <Filter Include="2_Component\Collider\SphereCollider">
       <UniqueIdentifier>{209bfa5b-6385-49ed-b021-6c8efd240396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_DataSerializer">
+      <UniqueIdentifier>{8e85e9fd-441e-4718-bc5c-cdaf85bf2be4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
