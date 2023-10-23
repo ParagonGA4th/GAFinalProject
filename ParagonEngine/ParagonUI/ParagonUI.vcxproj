@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="InputText.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="ImguiManager.h">
@@ -39,6 +40,7 @@
     <ClInclude Include="WidgetEnum.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="InputText.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="ImguiManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
