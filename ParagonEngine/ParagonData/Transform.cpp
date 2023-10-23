@@ -11,9 +11,10 @@ namespace Pg::Data
 		Component(obj),
 		_position(0.0f,0.0f,0.0f),
 		_rotation(0.0f,0.0f,0.0f,0.0f),
-		_scale(1.0f,1.0f,1.0f)
+		_scale(1.0f,1.0f,1.0f),
+		_forward(0.f, 0.f, 0.f), _right(1.f, 0.f, 0.f), _up(0.f, 1.f, 0.f), _is3D(true)
 	{
-
+		
 	}
 
 	PGFLOAT3 Transform::GetPosition() const
@@ -410,14 +411,14 @@ namespace Pg::Data
 		return q;
 	}
 
-	//void Transform::OnSerialize()
-	//{
-	//	//Serializer::SerializeFloat();
-	//}
+	void Transform::OnSerialize()
+	{
+		//Serializer::SerializeFloat();
+	}
+	
+	void Transform::OnDeserialize()
+	{
 
-	//void Transform::OnDeserialize()
-	//{
-
-	//}
+	}
 
 }

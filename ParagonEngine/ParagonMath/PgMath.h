@@ -173,7 +173,7 @@ namespace Pg::Math
 		PGFLOAT4X4 operator*(const PGFLOAT4X4& rhs);
 		PGFLOAT4X4& operator*=(const PGFLOAT4X4& rhs);
 
-		//float& operator()(size_t row, size_t column) noexcept;
+		float& operator()(size_t row, size_t column) noexcept;
 
 		//단위 행렬
 		static PGFLOAT4X4 Identity();
@@ -228,8 +228,8 @@ namespace Pg::Math
 	inline Pg::Math::PGFLOAT3 PGFloat3Normalize(const Pg::Math::PGFLOAT3& f) noexcept;
 	inline Pg::Math::PGFLOAT4 PGFloat4Normalize(const Pg::Math::PGFLOAT4& f) noexcept;
 	inline Pg::Math::PGQuaternion PGQuaternionNormalize(const Pg::Math::PGQuaternion& f) noexcept;
-	constexpr float PGFloat3Dot(const Pg::Math::PGFLOAT3& lhs, const Pg::Math::PGFLOAT3& rhs);
-	constexpr Pg::Math::PGFLOAT3 PGFloat3Cross(const Pg::Math::PGFLOAT3& lhs, const Pg::Math::PGFLOAT3& rhs);
+	float PGFloat3Dot(const Pg::Math::PGFLOAT3& lhs, const Pg::Math::PGFLOAT3& rhs);
+	Pg::Math::PGFLOAT3 PGFloat3Cross(const Pg::Math::PGFLOAT3& lhs, const Pg::Math::PGFLOAT3& rhs);
 	Pg::Math::PGFLOAT3 PGFloat3MultiplyMatrix(const Pg::Math::PGFLOAT3& lhs, const Pg::Math::PGFLOAT4X4& rhs);
 	Pg::Math::PGFLOAT4 PGFloat4MultiplyMatrix(const Pg::Math::PGFLOAT4& lhs, const Pg::Math::PGFLOAT4X4& rhs);
 	Pg::Math::PGQuaternion PGRotateQuaternionY(const Pg::Math::PGQuaternion& quaternion, float radian);
@@ -239,7 +239,7 @@ namespace Pg::Math
 	Pg::Math::PGFLOAT4X4 PGMatrixRotationY(float angle);
 	Pg::Math::PGFLOAT3X3 PGInverseMatrix(const Pg::Math::PGFLOAT3X3& mat);
 	Pg::Math::PGFLOAT4 PGQuaternionToFloat4(const Pg::Math::PGQuaternion& quaternion);
-	Pg::Math::PGFLOAT4 PGFloat4ToQuaternion(const Pg::Math::PGFLOAT4& f4);
+	Pg::Math::PGQuaternion PGFloat4ToQuaternion(const Pg::Math::PGFLOAT4& f4);
 	Pg::Math::PGQuaternion PGMatrixToQuaternion(const Pg::Math::PGFLOAT4X4& matrix);
 
 	Pg::Math::PGFLOAT4X4 PGScaleMatrix(const Pg::Math::PGFLOAT3 scale);
@@ -248,6 +248,12 @@ namespace Pg::Math
 
 	Pg::Math::PGFLOAT4X4 PGMatrixPerspectiveFovLH(float fovAngleY, float aspectRatio, float nearZ, float farZ);
 	Pg::Math::PGFLOAT4X4 PGMatrixOrthographicLH(float viewWidth, float viewHeight, float nearZ, float farZ);
+
+	//Euler<->Quaternion
+	Pg::Math::PGQuaternion EulerToQuaternion(const Pg::Math::PGFLOAT3& euler);
+	Pg::Math::PGQuaternion EulerToQuaternion(float x, float y, float z);
+	Pg::Math::PGFLOAT3 QuaternionToEuler(const Pg::Math::PGQuaternion& quaternion);
+	Pg::Math::PGFLOAT3 QuaternionToEuler(float w, float x, float y, float z);
 }
 
 

@@ -35,7 +35,7 @@ void EditorCameraScript::Update()
 	{
 		Pg::Math::PGFLOAT3 LOOK = _object->_transform.GetForward();
 		Pg::Math::PGFLOAT3 POS = _object->_transform.GetPosition();
-		float DISTANCE = 0.01f; // 임시로 거리를 설정함 (distance * camera speed * deltaTime)
+		float DISTANCE = _moveSpeed; // 임시로 거리를 설정함 (distance * camera speed * deltaTime)
 
 		LOOK = {LOOK.x * DISTANCE, LOOK.y * DISTANCE, LOOK.z * DISTANCE };
 		POS += LOOK;
@@ -46,7 +46,7 @@ void EditorCameraScript::Update()
 	{
 		Pg::Math::PGFLOAT3 LOOK = _object->_transform.GetForward();
 		Pg::Math::PGFLOAT3 POS = _object->_transform.GetPosition();
-		float DISTANCE = -0.01f; // 임시로 거리를 설정함 (distance * camera speed * deltaTime)
+		float DISTANCE = -_moveSpeed; // 임시로 거리를 설정함 (distance * camera speed * deltaTime)
 
 		LOOK = { LOOK.x * DISTANCE, LOOK.y * DISTANCE, LOOK.z * DISTANCE };
 		POS += LOOK;
@@ -57,7 +57,7 @@ void EditorCameraScript::Update()
 	{
 		Pg::Math::PGFLOAT3 RIGHT = _object->_transform.GetRight();
 		Pg::Math::PGFLOAT3 POS = _object->_transform.GetPosition();
-		float DISTANCE = -0.01f; // 임시로 거리를 설정함 (distance * camera speed * deltaTime)
+		float DISTANCE = -_moveSpeed; // 임시로 거리를 설정함 (distance * camera speed * deltaTime)
 
 		RIGHT = { RIGHT.x * DISTANCE, RIGHT.y * DISTANCE, RIGHT.z * DISTANCE };
 		POS += RIGHT;
@@ -68,7 +68,7 @@ void EditorCameraScript::Update()
 	{
 		Pg::Math::PGFLOAT3 RIGHT = _object->_transform.GetRight();
 		Pg::Math::PGFLOAT3 POS = _object->_transform.GetPosition();
-		float DISTANCE = 0.01f; // 임시로 거리를 설정함 (distance * camera speed * deltaTime)
+		float DISTANCE = _moveSpeed; // 임시로 거리를 설정함 (distance * camera speed * deltaTime)
 
 		RIGHT = { RIGHT.x * DISTANCE, RIGHT.y * DISTANCE, RIGHT.z * DISTANCE };
 		POS += RIGHT;
@@ -79,7 +79,7 @@ void EditorCameraScript::Update()
 	{
 		Pg::Math::PGFLOAT3 UP = _object->_transform.GetUp();
 		Pg::Math::PGFLOAT3 POS = _object->_transform.GetPosition();
-		float DISTANCE = 0.01f; // 임시로 거리를 설정함 (distance * camera speed * deltaTime)
+		float DISTANCE = _moveSpeed; // 임시로 거리를 설정함 (distance * camera speed * deltaTime)
 
 		UP = { UP.x * DISTANCE, UP.y * DISTANCE, UP.z * DISTANCE };
 		POS += UP;
@@ -90,7 +90,7 @@ void EditorCameraScript::Update()
 	{
 		Pg::Math::PGFLOAT3 UP = _object->_transform.GetUp();
 		Pg::Math::PGFLOAT3 POS = _object->_transform.GetPosition();
-		float DISTANCE = -0.01f; // 임시로 거리를 설정함 (distance * camera speed * deltaTime)
+		float DISTANCE = -_moveSpeed; // 임시로 거리를 설정함 (distance * camera speed * deltaTime)
 
 		UP = { UP.x * DISTANCE, UP.y * DISTANCE, UP.z * DISTANCE };
 		POS += UP;
@@ -116,7 +116,4 @@ void EditorCameraScript::Update()
 		//_object->_transform.SetLocalRotationEuler(tLookDir);
 		_object->_transform.SetPosition(POS);
 	}
-
-
-
 }
