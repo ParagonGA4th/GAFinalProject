@@ -38,6 +38,9 @@
       <Filter>Imgui</Filter>
     </ClInclude>
     <ClInclude Include="WidgetEnum.h" />
+    <ClInclude Include="InputText.h">
+      <Filter>0_UI\1_Widget\InputText</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Widget.cpp">
@@ -73,6 +76,9 @@
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
+    <ClCompile Include="InputText.cpp">
+      <Filter>0_UI\1_Widget\InputText</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_UI">
@@ -95,6 +101,9 @@
     </Filter>
     <Filter Include="1_Manager\ImguiManager">
       <UniqueIdentifier>{3ff707a4-63c1-49e4-a991-cad16938c7ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\InputText">
+      <UniqueIdentifier>{c164ae0c-6be8-42f1-a436-4dce87c0da1c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
