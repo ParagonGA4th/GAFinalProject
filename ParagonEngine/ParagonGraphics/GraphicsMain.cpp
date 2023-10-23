@@ -207,7 +207,8 @@ namespace Pg::Graphics
 		//float dt = _timeManager->GetDeltaTime();
 		
 		//Projection 행렬을 채운다.
-		FillCamDataProjection(_camData);
+		FillCamDataProjection(cameraData);
+		this->_camData = cameraData;
 
 		float dt = deltaTime;
 		time += dt;
@@ -224,8 +225,10 @@ namespace Pg::Graphics
 		}
 
 		text.append(L"FPS: " + std::to_wstring(tFrameRate) + L"\n");
-		text.append(L"Look Vector: (" + std::to_wstring(_camera->GetLook().x) + L", " + std::to_wstring(_camera->GetLook().y) + L", " + std::to_wstring(_camera->GetLook().z) + L")\n");
-		text.append(L"Engine Cam Pos : " + std::to_wstring(cameraData->_position.x) + L", " + std::to_wstring(cameraData->_position.y) + L", " + std::to_wstring(cameraData->_position.z));
+		//text.append(L"Look Vector: (" + std::to_wstring(_camera->GetLook().x) + L", " + std::to_wstring(_camera->GetLook().y) + L", " + std::to_wstring(_camera->GetLook().z) + L")\n");
+		text.append(L"Engine Cam Pos : " + std::to_wstring(cameraData->_position.x) + L", " + std::to_wstring(cameraData->_position.y) + L", " + std::to_wstring(cameraData->_position.z) + L")\n");
+		Pg::Math::PGFLOAT3 tEulerCamRot = Pg::Math::QuaternionToEuler(cameraData->_rotation);
+		text.append(L"Engine Cam Rotation : " + std::to_wstring(tEulerCamRot.x) + L", " + std::to_wstring(tEulerCamRot.y) + L", " + std::to_wstring(tEulerCamRot.z));
 		
 		font->SetText(text);
 
@@ -233,11 +236,10 @@ namespace Pg::Graphics
 		//cbData.projectionMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._projMatrix);
 		//cbData.viewProjMatrix = DirectX::XMMatrixMultiply(cbData.viewMatrix, cbData.projectionMatrix);
 
-
 		/// Input 관련
 		///
 		using namespace Pg::API::Input;
-		
+
 		if (_input->GetKey(MoveFront))
 		{
 			_camera->Walk(1.0f * cameraSpeed * dt);
@@ -327,24 +329,24 @@ namespace Pg::Graphics
 		assert(_currentScene != nullptr);
 
 		//하드코딩된 리소스들.
-		cubemap->Draw();
-		
-		// test용 큐브 그리기
-		_box->Draw();
-		// Grid
-		grid->Draw();
-		// Axis
-		axis->Draw();
-		
-		// test 스프라이트 그리기
-		sprite->Draw();
-		sprite2->Draw();
-
-		// test 폰트 그리기
+		//cubemap->Draw();
+		//
+		//// test용 큐브 그리기
+		//_box->Draw();
+		//// Grid
+		//grid->Draw();
+		//// Axis
+		//axis->Draw();
+		//
+		//// test 스프라이트 그리기
+		//sprite->Draw();
+		//sprite2->Draw();
+		//
+		//// test 폰트 그리기
 		font->Draw();
-
-		// test용 큐브 그리기
-		_box->Draw();
+		//
+		//// test용 큐브 그리기
+		//_box->Draw();
 
 		// #ForwardTemp: 임시로 직접 TempCamera -> CameraData로 옮기는 중.
 		Pg::Data::CameraData tCamData;
@@ -360,7 +362,8 @@ namespace Pg::Graphics
 		std::memcpy(&(tCamData._viewMatrix), &tViewFF, sizeof(Pg::Math::PGFLOAT4X4));
 		std::memcpy(&(tCamData._projMatrix), &tProjFF, sizeof(Pg::Math::PGFLOAT4X4));
 
-		_renderer->Render(&tCamData);
+		//_renderer->Render(&tCamData);
+		_renderer->Render(_camData);
 	}
 
 	void GraphicsMain::EndRender()
@@ -446,16 +449,11 @@ namespace Pg::Graphics
 
 	void GraphicsMain::FillCamDataProjection(Pg::Data::CameraData* camData)
 	{
-		//this->_fovY = fovY;
-		//this->_aspect = aspect;
-		//this->_nearZ = zn;
-		//this->_farZ = zf;
-		//
-		//this->_nearWindowHeight = 2.0f * _nearZ * tanf(0.5f * _fovY);
-		//this->_farWindowHeight = 2.0f * _farZ * tanf(0.5f * _fovY);
+		camData->_nearWindowHeight = 2.0f * camData->_nearZ * tanf(0.5f * camData->_fovY);
+		camData->_farWindowHeight = 2.0f * camData->_farZ * tanf(0.5f * camData->_fovY);
 
-		//camData->_aspect = static_cast<float>(_DXStorage->_screenWidth) / static_cast<float>(_DXStorage->_screenHeight);
-		//camData->_projMatrix = Pg::Math::PGMatrixPerspectiveFovLH(camData->_fovY, camData->_aspect, camData->_nearZ, camData->_farZ);
+		camData->_aspect = static_cast<float>(_DXStorage->_screenWidth) / static_cast<float>(_DXStorage->_screenHeight);
+		camData->_projMatrix = Pg::Math::PGMatrixPerspectiveFovLH(camData->_fovY, camData->_aspect, camData->_nearZ, camData->_farZ);
 	}
 
 }
