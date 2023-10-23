@@ -82,12 +82,19 @@ namespace Pg::Data
 	{
 		PGFLOAT4 result = { x, y, z, 1.f };
 
-		// ºÎ¸ð ½ºÄÉÀÏÀº ¹» °öÇÏÁö..?
-		//if (HasParent())
-		//{
-		//	result = PGFloat4MultiplyMatrix(result, _parent->)
-		//}
+		if (HasParent())
+		{
+			PGFLOAT4X4 scaleInverseMatrix = _parent->GetWorldScaleMatrix();
+			scaleInverseMatrix.m[0][0] = 1 / scaleInverseMatrix.m[0][0];
+			scaleInverseMatrix.m[1][1] = 1 / scaleInverseMatrix.m[1][1];
+			scaleInverseMatrix.m[2][2] = 1 / scaleInverseMatrix.m[2][2];
+			scaleInverseMatrix.m[3][3] = 1 / scaleInverseMatrix.m[3][3];
+			result = PGFloat4MultiplyMatrix(result, scaleInverseMatrix);
+		}
 
+		_scale.x = result.x;
+		_scale.y = result.y;
+		_scale.z = result.z;
 	}
 
 	Pg::Math::PGFLOAT3 Transform::GetLocalScale()
