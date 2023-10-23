@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "../ParagonMath/PgMath.h"
+#include "ISerializable.h"
 
 #include <memory>
 
@@ -22,7 +23,7 @@ namespace Pg::Data
 
 	class Transform : public Component
 	{
-		friend class Camera;
+		//friend class Camera;
 	public:
 		// 임시 기본생성자
 		Transform() = default;
@@ -69,6 +70,7 @@ namespace Pg::Data
 		PGFLOAT4X4 GetWorldRotationMatrix();
 
 		// 오브젝트의 전방, 상단, 오른쪽 벡터 (기즈모를 그리거나... 할 때 활용)
+
 		PGFLOAT3 GetForward();
 		PGFLOAT3 GetUp();
 		PGFLOAT3 GetRight();
@@ -97,10 +99,15 @@ namespace Pg::Data
 		bool Is3D();
 
 		/// 시리얼라이즈 테스트를 위한 함수
-	/*	void OnSerialize() override;
-		void OnDeserialize() override;*/
+		void OnSerialize() override;
+		void OnDeserialize() override;
 
 	private:
+		// 카메라를 위한 transform 함수
+		// 카메라에서 rotation이 일어나면 오브젝트의 방향 벡터를 변환해준다
+		//PGFLOAT3 SetForwardUpRight(PGFLOAT3 up, PGFLOAT3 right, PGFLOAT3 forward);
+		
+		
 		// 부모, 자식 객체를 가리키는 transform
 		std::shared_ptr<Transform> _parent;
 		std::vector<std::shared_ptr<Transform>> _children;
