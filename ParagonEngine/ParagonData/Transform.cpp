@@ -410,14 +410,14 @@ namespace Pg::Data
 		return q;
 	}
 
-	//void Transform::OnSerialize()
-	//{
-	//	//Serializer::SerializeFloat();
-	//}
+	void Transform::OnSerialize()
+	{
+		//Serializer::SerializeFloat();
+	}
+	
+	void Transform::OnDeserialize()
+	{
 
-	//void Transform::OnDeserialize()
-	//{
-
-	//}
+	}
 
 }
