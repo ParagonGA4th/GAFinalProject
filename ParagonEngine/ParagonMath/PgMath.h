@@ -173,7 +173,7 @@ namespace Pg::Math
 		PGFLOAT4X4 operator*(const PGFLOAT4X4& rhs);
 		PGFLOAT4X4& operator*=(const PGFLOAT4X4& rhs);
 
-		//float& operator()(size_t row, size_t column) noexcept;
+		float& operator()(size_t row, size_t column) noexcept;
 
 		//단위 행렬
 		static PGFLOAT4X4 Identity();
