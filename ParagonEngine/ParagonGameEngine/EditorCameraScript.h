@@ -31,6 +31,8 @@ public:
 	virtual void Start() override;
 	virtual void Update() override;
 
+private:
+	//TempCamera 우선 이식.
 
 private:
 	// 인풋 시스템으로 카메라의 이동을 체크한다
