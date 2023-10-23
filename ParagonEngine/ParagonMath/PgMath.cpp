@@ -302,6 +302,11 @@ namespace Pg::Math
 		return *this;
 	}
 
+	//float& PGFLOAT4X4::operator()(size_t row, size_t column) noexcept
+	//{
+	//
+	//}
+
 	Pg::Math::PGFLOAT4X4 PGFLOAT4X4::Identity()
 	{
 		return

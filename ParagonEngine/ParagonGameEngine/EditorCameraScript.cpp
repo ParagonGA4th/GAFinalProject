@@ -1,6 +1,7 @@
 #include "EditorCameraScript.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Camera.h"
+#include "../ParagonMath/PgMath.h"
 
 // 업데이트에서 임시로 인풋을 돌리기 위해...
 #include "../ParagonGameEngine/InputSystem.h"

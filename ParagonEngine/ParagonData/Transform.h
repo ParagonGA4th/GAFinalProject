@@ -22,6 +22,7 @@ namespace Pg::Data
 
 	class Transform : public Component
 	{
+		friend class Camera;
 	public:
 		// 임시 기본생성자
 		Transform() = default;
