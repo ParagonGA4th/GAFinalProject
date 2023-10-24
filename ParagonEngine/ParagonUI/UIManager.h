@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <vector>
 #include <memory>
+#include <string>
 
 // UI를 만들고 삭제할 수 있어야 한다
 // 만들어진 UI에 다른 UI를 추가 할 수 있어야 한다
@@ -36,7 +37,7 @@ namespace Pg::UI::Manager
 
 		 void UIHandler(MSG message);
 
-		 Pg::UI::Panel* CreatePanel();
+		 Pg::UI::Panel* CreatePanel(std::string panelName);
 		 bool DeletePanel();
 
 	private:

@@ -2,6 +2,7 @@
 #include "ImGuiManager.h"
 #include "Panel.h"
 
+
 Pg::UI::Manager::UIManager::UIManager()
 {
 	_imguiManager = std::make_unique<Pg::UI::Manager::ImGuiManager>();
@@ -43,19 +44,20 @@ void Pg::UI::Manager::UIManager::UIHandler(MSG message)
 	_imguiManager->ImguiHandler(message);                                             
 }
 
-Pg::UI::Panel* Pg::UI::Manager::UIManager::CreatePanel()
+Pg::UI::Panel* Pg::UI::Manager::UIManager::CreatePanel(std::string panelName)
 {
 	// 货肺款 panel(imgui俊辑绰 window) 积己
-	Panel* panels = new Panel();
+	Panel* panel = new Panel(panelName);
 
 	// 积己等 panel阑 vector俊 push
-	if (_panels.empty()) _panels.emplace_back(panels);
+	if (_panels.empty()) _panels.emplace_back(panel);
 
-	return panels;
+	return panel;
 }
 
 bool Pg::UI::Manager::UIManager::DeletePanel()
 {
 	return true;
 }
+
 
