@@ -215,7 +215,7 @@ namespace Pg::Math
 
 	//PGQuaternion
 
-	PGQuaternion::PGQuaternion() : w(0.0f), x(0.0f), y(0.0f), z(0.0f)
+	PGQuaternion::PGQuaternion() : w(1.0f), x(0.0f), y(0.0f), z(0.0f)
 	{
 		//
 	}
@@ -444,7 +444,7 @@ namespace Pg::Math
 	Pg::Math::PGQuaternion PGQuaternionNormalize(const PGQuaternion& f) noexcept
 	{
 		float length = std::sqrt(f.x * f.x + f.y * f.y + f.z * f.z + f.w * f.w);
-		return { f.x / length, f.y / length, f.z / length, f.w / length };
+		return { f.w / length, f.x / length, f.y / length, f.z / length };
 	}
 
 	float PGFloat3Dot(const PGFLOAT3& lhs, const PGFLOAT3& rhs)
@@ -532,22 +532,23 @@ namespace Pg::Math
 		float cosHalfAngle = std::cos(halfAngleRad);
 		float sinHalfAngle = std::sin(halfAngleRad);
 
+		float w = cosHalfAngle;
 		float x = normalizedAxis.x * sinHalfAngle;
 		float y = normalizedAxis.y * sinHalfAngle;
 		float z = normalizedAxis.z * sinHalfAngle;
-		float w = cosHalfAngle;
 
 		// 회전 쿼터니언을 정규화하여 사용합니다.
-		Pg::Math::PGQuaternion rotation = { x, y, z, w };
+		Pg::Math::PGQuaternion rotation = { w, x, y, z };
 		rotation = PGQuaternionNormalize(rotation);
 
 		// 원본 쿼터니언과 회전 쿼터니언의 곱으로 결과 쿼터니언을 계산합니다.
 		Pg::Math::PGQuaternion result;
+
 		//	result = PGQuaternionMultiply(quaternion, rotation);
+		result.w = rotation.w * quaternion.w - rotation.x * quaternion.x - rotation.y * quaternion.y - rotation.z * quaternion.z;
 		result.x = rotation.w * quaternion.x + rotation.x * quaternion.w + rotation.y * quaternion.z - rotation.z * quaternion.y;
 		result.y = rotation.w * quaternion.y - rotation.x * quaternion.z + rotation.y * quaternion.w + rotation.z * quaternion.x;
 		result.z = rotation.w * quaternion.z + rotation.x * quaternion.y - rotation.y * quaternion.x + rotation.z * quaternion.w;
-		result.w = rotation.w * quaternion.w - rotation.x * quaternion.x - rotation.y * quaternion.y - rotation.z * quaternion.z;
 
 		return result;
 	}
@@ -757,6 +758,29 @@ namespace Pg::Math
 			1
 		};
 
+// 		Pg::Math::PGFLOAT4X4 rotationMatrix =
+// 		{
+// 			1.0f - 2.0f * (rotation.y * rotation.y + rotation.z * rotation.z),
+// 			2.0f * (rotation.x * rotation.y - rotation.z * rotation.w),
+// 			2.0f * (rotation.x * rotation.z + rotation.y * rotation.w),
+// 			0,
+// 
+// 			2.0f * (rotation.x * rotation.y + rotation.z * rotation.w),
+// 			1.0f - 2.0f * (rotation.x * rotation.x + rotation.z * rotation.z),
+// 			2.0f * (rotation.y * rotation.z - rotation.x * rotation.w),
+// 			0,
+// 
+// 			2.0f * (rotation.x * rotation.z - rotation.y * rotation.w),
+// 			2.0f * (rotation.y * rotation.z + rotation.x * rotation.w),
+// 			1.0f - 2.0f * (rotation.x * rotation.x + rotation.y * rotation.y),
+// 			0,
+// 
+// 			0,
+// 			0,
+// 			0,
+// 			1
+// 		};
+
 		return rotationMatrix;
 	}
 
@@ -804,7 +828,7 @@ namespace Pg::Math
 		return Pg::Math::PGFLOAT4X4(tempOrtho);
 	}
 
-	Pg::Math::PGQuaternion EulerToQuaternion(float x, float y, float z)
+	Pg::Math::PGQuaternion PGEulerToQuaternion(float x, float y, float z)
 	{
 		PGQuaternion quaternion;
 
@@ -824,17 +848,17 @@ namespace Pg::Math
 		return quaternion;
 	}
 
-	Pg::Math::PGQuaternion EulerToQuaternion(const Pg::Math::PGFLOAT3& euler)
+	Pg::Math::PGQuaternion PGEulerToQuaternion(const Pg::Math::PGFLOAT3& euler)
 	{
-		return EulerToQuaternion(euler.x, euler.y, euler.z);
+		return PGEulerToQuaternion(euler.x, euler.y, euler.z);
 	}
 
-	Pg::Math::PGFLOAT3 QuaternionToEuler(const Pg::Math::PGQuaternion& quaternion)
+	Pg::Math::PGFLOAT3 PGQuaternionToEuler(const Pg::Math::PGQuaternion& quaternion)
 	{
-		return QuaternionToEuler(quaternion.w, quaternion.x, quaternion.y, quaternion.z);
+		return PGQuaternionToEuler(quaternion.w, quaternion.x, quaternion.y, quaternion.z);
 	}
 
-	Pg::Math::PGFLOAT3 QuaternionToEuler(float w, float x, float y, float z)
+	Pg::Math::PGFLOAT3 PGQuaternionToEuler(float w, float x, float y, float z)
 	{
 		Pg::Math::PGFLOAT3 euler;
 

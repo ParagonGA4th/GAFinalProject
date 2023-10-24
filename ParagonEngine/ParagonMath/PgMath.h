@@ -250,10 +250,10 @@ namespace Pg::Math
 	Pg::Math::PGFLOAT4X4 PGMatrixOrthographicLH(float viewWidth, float viewHeight, float nearZ, float farZ);
 
 	//Euler<->Quaternion
-	Pg::Math::PGQuaternion EulerToQuaternion(const Pg::Math::PGFLOAT3& euler);
-	Pg::Math::PGQuaternion EulerToQuaternion(float x, float y, float z);
-	Pg::Math::PGFLOAT3 QuaternionToEuler(const Pg::Math::PGQuaternion& quaternion);
-	Pg::Math::PGFLOAT3 QuaternionToEuler(float w, float x, float y, float z);
+	Pg::Math::PGQuaternion PGEulerToQuaternion(const Pg::Math::PGFLOAT3& euler);
+	Pg::Math::PGQuaternion PGEulerToQuaternion(float x, float y, float z);
+	Pg::Math::PGFLOAT3 PGQuaternionToEuler(const Pg::Math::PGQuaternion& quaternion);
+	Pg::Math::PGFLOAT3 PGQuaternionToEuler(float w, float x, float y, float z);
 }
 
 
