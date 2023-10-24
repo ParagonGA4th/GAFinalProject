@@ -1,9 +1,9 @@
 #pragma once
 #include "Widget.h"
 
-namespace Pg::UI::Widget
+namespace Pg::UI
 {
-	class InputText : public Widget 
+	class InputText //: public Widget 
 	{
 	public:
 	};
