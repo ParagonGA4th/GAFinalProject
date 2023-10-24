@@ -31,6 +31,7 @@ void Pg::Engine::TestScene::Initialize()
 	GameObject* tObj1 = tCurrentScene->AddObject("Camera1");
 	tObj1->AddComponent<Camera>();
 	tObj1->GetComponent<Transform>()->SetPosition({ 0.f, 3.0f, -10.f });
+	tObj1->GetComponent<Transform>()->SetLocalRotationEuler(0.f,0.f,0.f);
 	tObj1->AddComponent<EditorCameraScript>();
 
 	GameObject* tObj2 = tCurrentScene->AddObject("Cube2");

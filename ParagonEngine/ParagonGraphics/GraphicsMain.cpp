@@ -175,8 +175,8 @@ namespace Pg::Graphics
 
 
 		// Camera
-		_camera = new TempCamera(float3(0.0f, 3.0f, -10.0f));
-		_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
+		//_camera = new TempCamera(float3(0.0f, 3.0f, -10.0f));
+		//_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 
 		// 2DSprite
 		sprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/cats.dds");
@@ -227,87 +227,15 @@ namespace Pg::Graphics
 		text.append(L"FPS: " + std::to_wstring(tFrameRate) + L"\n");
 		//text.append(L"Look Vector: (" + std::to_wstring(_camera->GetLook().x) + L", " + std::to_wstring(_camera->GetLook().y) + L", " + std::to_wstring(_camera->GetLook().z) + L")\n");
 		text.append(L"Engine Cam Pos : " + std::to_wstring(cameraData->_position.x) + L", " + std::to_wstring(cameraData->_position.y) + L", " + std::to_wstring(cameraData->_position.z) + L")\n");
-		Pg::Math::PGFLOAT3 tEulerCamRot = Pg::Math::QuaternionToEuler(cameraData->_rotation);
-		text.append(L"Engine Cam Rotation : " + std::to_wstring(tEulerCamRot.x) + L", " + std::to_wstring(tEulerCamRot.y) + L", " + std::to_wstring(tEulerCamRot.z));
-		
+		Pg::Math::PGFLOAT3 tEulerCamRot = Pg::Math::PGQuaternionToEuler(cameraData->_rotation);
+		tEulerCamRot.x = Pg::Math::PGConvertToDegrees(tEulerCamRot.x);
+		tEulerCamRot.y = Pg::Math::PGConvertToDegrees(tEulerCamRot.y);
+		tEulerCamRot.z = Pg::Math::PGConvertToDegrees(tEulerCamRot.z);
+		text.append(L"Cam Rotation Euler Degrees: " + std::to_wstring(tEulerCamRot.x) + L", " + std::to_wstring(tEulerCamRot.y) + L", " + std::to_wstring(tEulerCamRot.z) + L")\n");
+		text.append(L"Cam Rotation Quaternion: " + std::to_wstring(cameraData->_rotation.w) + L", " + std::to_wstring(cameraData->_rotation.x) + L", " + std::to_wstring(cameraData->_rotation.y) + L", " + std::to_wstring(cameraData->_rotation.z) + L")\n");
+
 		font->SetText(text);
-
-		//cbData.viewMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._viewMatrix);
-		//cbData.projectionMatrix = Pg::Graphics::MathHelper::PG2XM_MATRIX(cameraData._projMatrix);
-		//cbData.viewProjMatrix = DirectX::XMMatrixMultiply(cbData.viewMatrix, cbData.projectionMatrix);
-
-		/// Input 관련
-		///
-		using namespace Pg::API::Input;
-
-		if (_input->GetKey(MoveFront))
-		{
-			_camera->Walk(1.0f * cameraSpeed * dt);
-		}
-		if (_input->GetKey(MoveBack))
-		{
-			_camera->Walk(-1.0f * cameraSpeed * dt);
-		}
-		if (_input->GetKey(MoveLeft))
-		{
-			_camera->Strafe(-1.0f * cameraSpeed * dt);
-		}
-		if (_input->GetKey(MoveRight))
-		{
-			_camera->Strafe(1.0f * cameraSpeed * dt);
-		}
-		if (_input->GetKey(MoveUp))
-		{
-			_camera->WorldUpDown(1.0f * cameraSpeed * dt);
-		}
-		if (_input->GetKey(MoveDown))
-		{
-			_camera->WorldUpDown(-1.0f * cameraSpeed * dt);
-		}
-		if (_input->GetKey(MouseRight) && _input->IsMouseMoving())
-		{
-			_camera->RotateY(3.0f * _input->GetMouseDX());
-			_camera->Pitch(3.0f * _input->GetMouseDY());
-		}
-
-		_camera->UpdateViewMatrix();
-
-		/// 상수 버퍼 채우기
-		///
-		// TODO: PgMath로 교체
-		using namespace DirectX;
-		//using namespace Pg::Math;
-		// 
-		// 월드 행렬
-		float4x4 worldMatrix = XMMATRIX(XMMatrixIdentity());
-
-		worldMatrix *= XMMatrixRotationX(time);
-		worldMatrix *= XMMatrixRotationY(time);
-		worldMatrix *= XMMatrixRotationZ(time);
-
-		worldMatrix *= XMMatrixScaling(1.0f, 1.0f, 1.0f);
-		worldMatrix *= XMMatrixTranslation(0.0f, 0.0f, 0.0f);
-
-		_box->_cbData.worldMatrix = worldMatrix;
-		//_box->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
-		grid->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
-
-		// 카메라 행렬
-		_box->_cbData.viewMatrix = _camera->View();
-		_box->_cbData.projectionMatrix = _camera->Proj();
-		_box->_cbData.viewProjMatrix = _camera->ViewProj();
-		_box->_cbData.eyePos = _camera->GetPosition();
-
-		grid->_cbData.viewMatrix = _camera->View();
-		grid->_cbData.projectionMatrix = _camera->Proj();
-		grid->_cbData.viewProjMatrix = _camera->ViewProj();
-
-		cubemap->_cbData.worldMatrix = XMMatrixTranslation(_camera->GetPosition().x, _camera->GetPosition().y, _camera->GetPosition().z);
-		cubemap->_cbData.viewMatrix = _camera->View();
-		cubemap->_cbData.projectionMatrix = _camera->Proj();
-		cubemap->_cbData.viewProjMatrix = _camera->ViewProj();
-		cubemap->_cbData.worldViewProjMatrix = _camera->ViewProj() * XMMATRIX(XMMatrixIdentity());
-
+		BasicRendersConstantBufferLoad();
 	}
 
 	void GraphicsMain::BeginRender()
@@ -328,41 +256,8 @@ namespace Pg::Graphics
 		}
 		assert(_currentScene != nullptr);
 
-		//하드코딩된 리소스들.
-		//cubemap->Draw();
-		//
-		//// test용 큐브 그리기
-		//_box->Draw();
-		//// Grid
-		//grid->Draw();
-		//// Axis
-		//axis->Draw();
-		//
-		//// test 스프라이트 그리기
-		//sprite->Draw();
-		//sprite2->Draw();
-		//
-		//// test 폰트 그리기
-		font->Draw();
-		//
-		//// test용 큐브 그리기
-		//_box->Draw();
+		BasicRendersDraw();
 
-		// #ForwardTemp: 임시로 직접 TempCamera -> CameraData로 옮기는 중.
-		Pg::Data::CameraData tCamData;
-		tCamData._position = { _camera->GetPosition().x, _camera->GetPosition().y,_camera->GetPosition().z};
-		tCamData._rotation = { 0.f,0.f, 0.f, 0.f };
-		
-		DirectX::XMFLOAT4X4 tViewFF;
-		DirectX::XMStoreFloat4x4(&tViewFF, _camera->View());
-		DirectX::XMFLOAT4X4 tProjFF;
-		DirectX::XMStoreFloat4x4(&tProjFF, _camera->Proj());
-
-		assert(sizeof(DirectX::XMFLOAT4X4) == sizeof(Pg::Math::PGFLOAT4X4));
-		std::memcpy(&(tCamData._viewMatrix), &tViewFF, sizeof(Pg::Math::PGFLOAT4X4));
-		std::memcpy(&(tCamData._projMatrix), &tProjFF, sizeof(Pg::Math::PGFLOAT4X4));
-
-		//_renderer->Render(&tCamData);
 		_renderer->Render(_camData);
 	}
 
@@ -381,6 +276,7 @@ namespace Pg::Graphics
 	{
 		OutputDebugString(L"Window Resized!!!");
 
+		//이것만으로 Projection Matrix는 조정된다.
 		_DXStorage->_screenWidth = screenWidth;
 		_DXStorage->_screenHeight = screenHeight;
 
@@ -397,7 +293,7 @@ namespace Pg::Graphics
 		hr = _DXLogic->CreateDepthStencilViewAndState();
 		_DXLogic->CreateAndSetViewports();
 
-		_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
+		//_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 	}
 
 	ID3D11Device* GraphicsMain::GetDevice()
@@ -454,6 +350,71 @@ namespace Pg::Graphics
 
 		camData->_aspect = static_cast<float>(_DXStorage->_screenWidth) / static_cast<float>(_DXStorage->_screenHeight);
 		camData->_projMatrix = Pg::Math::PGMatrixPerspectiveFovLH(camData->_fovY, camData->_aspect, camData->_nearZ, camData->_farZ);
+	}
+
+	void GraphicsMain::BasicRendersConstantBufferLoad()
+	{
+		//Constant Buffer Loading
+		/// 상수 버퍼 채우기
+		///
+		// TODO: PgMath로 교체
+		using namespace DirectX;
+		//using namespace Pg::Math;
+		// 
+		// 월드 행렬
+		float4x4 worldMatrix = XMMATRIX(XMMatrixIdentity());
+
+		//Grid 출력
+		grid->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
+		std::memcpy(&(grid->_cbData.viewMatrix), &(_camData->_viewMatrix), sizeof(Pg::Math::PGFLOAT4X4));
+		std::memcpy(&(grid->_cbData.projectionMatrix), &(_camData->_projMatrix), sizeof(Pg::Math::PGFLOAT4X4));
+		DirectX::XMMATRIX tViewProj = DirectX::XMMatrixMultiply(grid->_cbData.viewMatrix, grid->_cbData.projectionMatrix);
+		std::memcpy(&(grid->_cbData.viewProjMatrix), &(tViewProj), sizeof(Pg::Math::PGFLOAT4X4));
+
+		worldMatrix *= XMMatrixRotationX(time);
+		worldMatrix *= XMMatrixRotationY(time);
+		worldMatrix *= XMMatrixRotationZ(time);
+
+		worldMatrix *= XMMatrixScaling(1.0f, 1.0f, 1.0f);
+		worldMatrix *= XMMatrixTranslation(0.0f, 0.0f, 0.0f);
+
+		_box->_cbData.worldMatrix = worldMatrix;
+		std::memcpy(&(_box->_cbData.viewMatrix), &(_camData->_viewMatrix), sizeof(Pg::Math::PGFLOAT4X4));
+		std::memcpy(&(_box->_cbData.projectionMatrix), &(_camData->_projMatrix), sizeof(Pg::Math::PGFLOAT4X4));
+		_box->_cbData.viewProjMatrix = tViewProj;
+		std::memcpy(&(_box->_cbData.eyePos), &(_camData->_position), sizeof(Pg::Math::PGFLOAT3));
+
+		cubemap->_cbData.worldMatrix = XMMatrixTranslation(_camData->_position.x, _camData->_position.y, _camData->_position.z);
+		std::memcpy(&(cubemap->_cbData.viewMatrix), &(_camData->_viewMatrix), sizeof(Pg::Math::PGFLOAT4X4));
+		std::memcpy(&(cubemap->_cbData.projectionMatrix), &(_camData->_projMatrix), sizeof(Pg::Math::PGFLOAT4X4));
+		cubemap->_cbData.viewProjMatrix = tViewProj;
+		cubemap->_cbData.worldViewProjMatrix = tViewProj * XMMATRIX(XMMatrixIdentity());
+	}
+
+	void GraphicsMain::BasicRendersDraw()
+	{
+
+		// 카메라 행렬
+
+		//하드코딩된 리소스들.
+		cubemap->Draw();
+		//
+		//// test용 큐브 그리기
+		_box->Draw();
+		//// Grid
+		grid->Draw();
+		//// Axis
+		axis->Draw();
+		//
+		//// test 스프라이트 그리기
+		sprite->Draw();
+		sprite2->Draw();
+		//
+		//// test 폰트 그리기
+		font->Draw();
+		//
+		//// test용 큐브 그리기
+		_box->Draw();
 	}
 
 }

@@ -9,6 +9,8 @@
 #include <singleton-cpp/singleton.h>
 #include <cassert>
 
+#include <DirectXMath.h>
+
 EditorCameraScript::EditorCameraScript(Pg::Data::GameObject* obj)
 	:Pg::Data::Script(obj)
 {
@@ -99,71 +101,43 @@ void EditorCameraScript::Update()
 	}
 	if (tInput->GetKey(MouseRight) && tInput->IsMouseMoving())
 	{
-		//RotateY(3.0f * tInput->GetMouseDX());
+		using namespace Pg::Math;
 		//Pitch(3.0f * tInput->GetMouseDY());
+		RotateY(3.0f * tInput->GetMouseDX());
 	}
-
-	if (tInput->GetKeyDown(MouseRight))
+	else
 	{
-		//RotateY(45.0f);
+		//if (tInput->GetKey(MouseLeft) && tInput->IsMouseMoving())
+		//{
+		//	using namespace Pg::Math;
+		//	Pitch(3.0f * tInput->GetMouseDY());
+		//	//RotateY(3.0f * tInput->GetMouseDX());
+		//}
 	}
 }
 
 void EditorCameraScript::RotateY(float angle)
 {
-	//using namespace Pg::Math;
-	//PGFLOAT4X4 R = PGMatrixRotationY(angle);
-	//
-	//PGFLOAT4X4 tLocalRotMat = _object->_transform.GetLocalRotationMatrix();
-	//tLocalRotMat = tLocalRotMat * R;
-	//PGQuaternion tNewRotQuat = PGMatrixToQuaternion(tLocalRotMat);
-	//_object->_transform.SetLocalRotation(tNewRotQuat);
+	using namespace Pg::Math;
+
+	PGQuaternion tOldRotQuat = _object->_transform.GetLocalRotation();
+	PGQuaternion tRotatedQuat = PGRotateQuaternion(tOldRotQuat, PGFLOAT3(0.f,1.f,0.f), -angle);
+	tRotatedQuat = PGQuaternionNormalize(tRotatedQuat);
+	_object->_transform.SetLocalRotation(tRotatedQuat);
 }
 
 void EditorCameraScript::Pitch(float angle)
 {
-	//using namespace Pg::Math;
-	//PGFLOAT4X4 R = PGMatrixRotationX(angle);
-	//
-	//PGFLOAT4X4 tLocalRotMat = _object->_transform.GetLocalRotationMatrix();
-	//tLocalRotMat = tLocalRotMat * R;
-	//PGQuaternion tNewRotQuat = PGMatrixToQuaternion(tLocalRotMat);
-	//_object->_transform.SetLocalRotation(tNewRotQuat);
+	using namespace Pg::Math;
 
+	PGQuaternion tOldRotQuat = _object->_transform.GetLocalRotation();
+	PGQuaternion tRotatedQuat = PGRotateQuaternion(tOldRotQuat, PGFLOAT3(1.f, 0.f, 0.f), -angle);
+
+	tRotatedQuat = PGQuaternionNormalize(tRotatedQuat);
+
+	_object->_transform.SetLocalRotation(tRotatedQuat);
 }
 
-/*
-Pg::Math::PGFLOAT3 RIGHT	= _object->_transform.GetRight();
-		Pg::Math::PGFLOAT3 UP		= _object->_transform.GetUp();
-		Pg::Math::PGFLOAT3 FORWARD	= _object->_transform.GetForward();
-
-
-		Pg::Math::PGFLOAT3 POS = _object->_transform.GetPosition();
-		float ANGLE = 0.01f;
-
-		Pg::Math::PGFLOAT4 r = { 1.0f,0.0f,0.0f,1.0f };
-		r = Pg::Math::PGFloat4MultiplyMatrix(r, _object->_transform.GetLocalRotationMatrix());
-		Pg::Math::PGQuaternion newRot = PGRotateQuaternion(_object->_transform.GetLocalRotation(), { r.x,r.y,r.z }, 1.f);
-		_object->_transform.SetLocalRotation(newRot);
-
-		//Pg::Math::PGFLOAT3 tLookDir = { 45.f, 0.f, 0.f };
-		//_object->_transform.SetLocalRotationEuler(tLookDir);
-		_object->_transform.SetPosition(POS);
-*/
-
-/*
-DirectX::XMMATRIX R = DirectX::XMMatrixRotationY(angle);
-	PGFLOAT4X4 tLocalRotMat = _object->_transform.GetLocalRotationMatrix();
-	DirectX::XMFLOAT4X4 tDXLocalRotMatFF;
-	std::memcpy(&tDXLocalRotMatFF, &tLocalRotMat, sizeof(Pg::Math::PGFLOAT4X4));
-	DirectX::XMMATRIX tDXLocalRotMat = DirectX::XMLoadFloat4x4(&tDXLocalRotMatFF);
-	DirectX::XMMATRIX tAns = DirectX::XMMatrixMultiply(tDXLocalRotMat, R);
-	DirectX::XMVECTOR tAnsQuat = DirectX::XMQuaternionRotationMatrix(tAns);
-	DirectX::XMFLOAT4 tAnsQuatF;
-	DirectX::XMStoreFloat4(&tAnsQuatF, tAnsQuat);
-	PGQuaternion tToPut = { tAnsQuatF.w,tAnsQuatF.x,tAnsQuatF.y,tAnsQuatF.z };
-	_object->_transform.SetLocalRotation(tToPut);
-*/
 
 
 
