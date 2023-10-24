@@ -47,7 +47,9 @@ namespace Pg::Data
 
 	private:
 		float _nearZ = 0.0001f;
-		float _farZ = PG_PI / static_cast<float>(4); // 가장 현실적인 시야각도를 베이스로 둔다
+		//float _farZ = PG_PI / static_cast<float>(4); // 가장 현실적인 시야각도를 베이스로 둔다
+		float _farZ = 1000.0f;
+
 		float _fovY = PG_PI * 0.4f;
 		Pg::Math::PGFLOAT4X4 _viewMatrix;
 
