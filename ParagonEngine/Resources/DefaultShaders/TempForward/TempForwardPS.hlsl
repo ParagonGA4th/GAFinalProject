@@ -1,13 +1,6 @@
 //231011 Edited By Taewook Koh, From BasisHLSL11_PS.hlsl.
-
-cbuffer cbPerObjectBase : register(b0)
-{
-    float4x4 gCBuf_World;
-    float4x4 gCBuf_WorldInvTranspose;
-    float4x4 gCBuf_WorldViewProj;
-    float3 gCBuf_CameraPositionW;
-    // gCBuf_Materials[10] //후에 Material이 들어가면 추가되어야.
-}
+//Multimaterial Mesh를 위해서 개조.
+//현재로서는 Diffuse만 이에 해당되는 방식으로 작동.
 
 //텍스쳐 & Samplers
 Texture2D g_txDiffuse : register(t0);
@@ -30,13 +23,8 @@ struct VOut1st
 //--------------------------------------------------------------------------------------
 float4 PS_MAIN(VOut1st input) : SV_TARGET
 {
-    //float4 vDiffuse = g_txDiffuse.Sample(g_samLinear, float2(input.vout1st_Tex.x, input.vout1st_Tex.y));
-	//
-    //float fLighting = saturate(dot(g_vLightDir, Input.vNormal));
-    //fLighting = max(fLighting, g_fAmbient);
-	//
-    //return vDiffuse * fLighting;
-    return float4(1.0f, 1.0f, 1.0f, 1.0f);
+    float4 vDiffuse = g_txDiffuse.Sample(g_samLinear, float2(input.vout1st_Tex.x, input.vout1st_Tex.y));
+    return vDiffuse;
 
 }
 

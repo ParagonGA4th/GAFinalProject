@@ -22,6 +22,7 @@
 #include "Axis.h"
 #include "Cubemap.h"
 
+
 //<실제 Graphics Resource의 목록>
 #include "RenderMaterial.h"
 #include "RenderTexture2D.h"
@@ -113,8 +114,8 @@ namespace Pg::Graphics
 		LayoutDefine::Initialize();
 
 		// 테스트용 큐브
-		_box = new TestCube();
-		_box->Initialize();
+		//_box = new TestCube();
+		//_box->Initialize();
 
 		D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
 		{
@@ -127,10 +128,10 @@ namespace Pg::Graphics
 		PixelShader* BoxPixelShader = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
 		
 		// TODO: 비직관적이다.
-		BoxVertexShader->AssignConstantBuffer(&(_box->_cbData));
-
-		_box->AssignVertexShader(BoxVertexShader);
-		_box->AssignPixelShader(BoxPixelShader);
+		//BoxVertexShader->AssignConstantBuffer(&(_box->_cbData));
+		//
+		//_box->AssignVertexShader(BoxVertexShader);
+		//_box->AssignPixelShader(BoxPixelShader);
 		
 		// Grid
 		grid = new Grid();
@@ -150,7 +151,6 @@ namespace Pg::Graphics
 		axis->AssignVertexShader(helperVS);
 		axis->AssignPixelShader(BoxPixelShader);
 		
-
 		// Cubemap
 		D3D11_INPUT_ELEMENT_DESC CubemapvertexDesc[] =
 		{
@@ -236,6 +236,17 @@ namespace Pg::Graphics
 
 		font->SetText(text);
 		BasicRendersConstantBufferLoad();
+		// #ToRemove : 임시, FBX Resource가 전달되는 것을 확인하려고 로직을 어기고 긴급 코드 투입.
+		static bool tOnce = false;
+		if (!tOnce)
+		{
+			//MultiMaterial Mesh 테스팅.
+			_tempMultiMesh = new MultimaterialMesh();
+			_tempMultiMesh->Initialize();
+
+			tOnce = true;
+		}
+
 	}
 
 	void GraphicsMain::BeginRender()
@@ -255,10 +266,13 @@ namespace Pg::Graphics
 			_currentScene = scene;
 		}
 		assert(_currentScene != nullptr);
-
 		BasicRendersDraw();
 
+
 		_renderer->Render(_camData);
+
+		//MultiMaterial Mesh 테스팅.
+		_tempMultiMesh->Draw(_camData);
 	}
 
 	void GraphicsMain::EndRender()
@@ -378,11 +392,11 @@ namespace Pg::Graphics
 		worldMatrix *= XMMatrixScaling(1.0f, 1.0f, 1.0f);
 		worldMatrix *= XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 
-		_box->_cbData.worldMatrix = worldMatrix;
-		std::memcpy(&(_box->_cbData.viewMatrix), &(_camData->_viewMatrix), sizeof(Pg::Math::PGFLOAT4X4));
-		std::memcpy(&(_box->_cbData.projectionMatrix), &(_camData->_projMatrix), sizeof(Pg::Math::PGFLOAT4X4));
-		_box->_cbData.viewProjMatrix = tViewProj;
-		std::memcpy(&(_box->_cbData.eyePos), &(_camData->_position), sizeof(Pg::Math::PGFLOAT3));
+		//_box->_cbData.worldMatrix = worldMatrix;
+		//std::memcpy(&(_box->_cbData.viewMatrix), &(_camData->_viewMatrix), sizeof(Pg::Math::PGFLOAT4X4));
+		//std::memcpy(&(_box->_cbData.projectionMatrix), &(_camData->_projMatrix), sizeof(Pg::Math::PGFLOAT4X4));
+		//_box->_cbData.viewProjMatrix = tViewProj;
+		//std::memcpy(&(_box->_cbData.eyePos), &(_camData->_position), sizeof(Pg::Math::PGFLOAT3));
 
 		cubemap->_cbData.worldMatrix = XMMatrixTranslation(_camData->_position.x, _camData->_position.y, _camData->_position.z);
 		std::memcpy(&(cubemap->_cbData.viewMatrix), &(_camData->_viewMatrix), sizeof(Pg::Math::PGFLOAT4X4));
@@ -400,7 +414,7 @@ namespace Pg::Graphics
 		cubemap->Draw();
 		//
 		//// test용 큐브 그리기
-		_box->Draw();
+		//_box->Draw();
 		//// Grid
 		grid->Draw();
 		//// Axis
@@ -414,7 +428,7 @@ namespace Pg::Graphics
 		font->Draw();
 		//
 		//// test용 큐브 그리기
-		_box->Draw();
+		//_box->Draw();
 	}
 
 }
