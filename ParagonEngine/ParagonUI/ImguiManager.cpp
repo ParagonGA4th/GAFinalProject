@@ -92,14 +92,14 @@ void Pg::UI::Manager::ImGuiManager::ViewTest(void* Texture)
 	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
 	DemoInspector();
-	//DemoHierarchy();
-	//DemoFilter();
-	//DemoViewPort(Texture);
+	DemoHierarchy();
+	DemoFilter();
+	DemoViewPort(Texture);
 }
 
 void Pg::UI::Manager::ImGuiManager::DemoInspector()
 {
-	ImGui::Begin("DemoInspector", NULL, ImGuiWindowFlags_NoCollapse);
+	ImGui::Begin("DemoInspector", NULL, ImGuiWindowFlags_DockNodeHost);
 
 	static char name[256];
 	static char tag[256];
@@ -180,7 +180,7 @@ void Pg::UI::Manager::ImGuiManager::DemoInspector()
 
 void Pg::UI::Manager::ImGuiManager::DemoHierarchy()
 {
-	ImGui::Begin("DemoHierarchy", NULL, ImGuiWindowFlags_NoCollapse);
+	ImGui::Begin("DemoHierarchy", NULL, ImGuiWindowFlags_DockNodeHost);
 
 	static int objSelectNum = 0;
 
@@ -210,7 +210,7 @@ void Pg::UI::Manager::ImGuiManager::DemoHierarchy()
 
 void Pg::UI::Manager::ImGuiManager::DemoFilter()
 {
-	ImGui::Begin("DemoProjectFilter", NULL, ImGuiWindowFlags_NoCollapse);
+	ImGui::Begin("DemoProjectFilter", NULL, ImGuiWindowFlags_DockNodeHost);
 
 	//const char* projectPath = std::getenv("PROJECT_PATH");
 
@@ -257,3 +257,12 @@ void Pg::UI::Manager::ImGuiManager::DemoViewPort(void* Texture)
 	ImGui::End();
 }
 
+void Pg::UI::Manager::ImGuiManager::PanelBegin(std::string panelName)
+{
+	ImGui::Begin(panelName.c_str());
+}
+
+void Pg::UI::Manager::ImGuiManager::PanelEnd()
+{
+	ImGui::End();
+}

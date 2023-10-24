@@ -10,7 +10,9 @@ namespace Pg::Editor::Window
 		virtual void Finalize() abstract;
 
 		virtual void SetShow(bool show) abstract;
-		virtual bool ShowWindow() abstract;
+		virtual bool GetShow() abstract;
+
+		virtual void ShowWindow() abstract;
 	};
 }
 
