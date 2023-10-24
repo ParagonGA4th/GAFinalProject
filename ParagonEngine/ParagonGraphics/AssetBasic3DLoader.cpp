@@ -45,7 +45,7 @@ namespace Pg::Graphics::Loader
 				aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_EmbedTextures | aiProcess_LimitBoneWeights);
 			assert(pScene != nullptr);
 
-			modelData->_assetSceneData->m_Directory = path;
+			modelData->_assetSceneData->m_Directory = path;  
 			Helper::Asset3DModelHelper::ProcessAssimpToAssetData(pScene, modelData);
 			Helper::Asset3DModelHelper::FinalizeDataHelper();
 
@@ -56,15 +56,30 @@ namespace Pg::Graphics::Loader
 		else
 		{
 			//Static
+			
+			const aiScene* pScene = importer.ReadFile(path.c_str(),
+				aiProcess_Triangulate |
+				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType |
+				aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_EmbedTextures | aiProcess_PreTransformVertices | aiProcess_GenBoundingBoxes);
+			
+			/*
 			const aiScene* pScene = importer.ReadFile(path.c_str(),
 				aiProcess_Triangulate |
 				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType |
 				aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_EmbedTextures | aiProcess_GenBoundingBoxes);
+			*/
+
+			//const aiScene* pScene = importer.ReadFile(path.c_str(),
+			//	aiProcess_Triangulate |
+			//	aiProcess_GenNormals |
+			//	aiProcess_CalcTangentSpace |
+			//	aiProcess_ConvertToLeftHanded);
+			
 			assert(pScene != nullptr);
 
-			modelData->_assetSceneData->m_Directory = path;
+			modelData->_assetSceneData->m_Directory = path;  
 			Helper::Asset3DModelHelper::ProcessAssimpToAssetData(pScene, modelData);
-			Helper::Asset3DModelHelper::FinalizeDataHelper();
+			Helper::Asset3DModelHelper::FinalizeDataHelper();  
 
 			//이 상황에서 AssetSceneData는 로딩된 것이다.
 			//Material이 있을 시, 이를 로드한다.

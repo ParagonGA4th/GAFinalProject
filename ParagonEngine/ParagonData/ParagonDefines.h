@@ -7,4 +7,8 @@
 namespace Pg::Defines
 {
 	constexpr unsigned short MAX_MATERIAL_PER_MODEL = 10;
+	constexpr unsigned int ASSET_MAX_NUMBER_OF_COLOR_SETS = 0x8;
+	constexpr unsigned int ASSET_MAX_NUMBER_OF_TEXTURECOORDS = 0x8;
+	constexpr unsigned int ASSET_HINTMAXTEXTURELEN = 9;
+	constexpr unsigned int ASSET_MAXIMUM_TEXTURE_PROP_CNT = 21;
 }

@@ -8,6 +8,7 @@
 
 #include "TempCamera.h"
 #include "TestCube.h"
+#include "MultimaterialMesh.h"
 
 #include <windows.h>
 #include <memory>
@@ -130,9 +131,11 @@ namespace Pg::Graphics
 		LowDX11Storage* _DXStorage;
 
 	private:
+		
 		//TempCamera* _camera;
-		TestCube* _box;
+		//TestCube* _box;
 		Pg::Data::GameObject* _tempObj;
+		MultimaterialMesh* _tempMultiMesh;
 	
 	private:
 		Pg::API::Input::PgInput* _input;

@@ -3,7 +3,7 @@
 
 namespace Pg::UI
 {
-	class InputText //: public Widget 
+	class InputText : public Widget 
 	{
 	public:
 	};
