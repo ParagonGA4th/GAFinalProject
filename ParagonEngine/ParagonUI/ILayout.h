@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 namespace Pg::UI
 {
@@ -7,8 +8,10 @@ namespace Pg::UI
 		friend class Panel;
 	public:
 		virtual void CreateWidget() abstract;
-	private:
+
+	protected:
 		virtual void Update() abstract;
+		virtual std::string GetPanelName() abstract;
 	};
 }
 
