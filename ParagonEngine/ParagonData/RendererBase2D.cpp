@@ -75,9 +75,5 @@ namespace Pg::Data
 		return _isClicked;
 	}
 
-	void RendererBase2D::Render()
-	{
-		assert(false);
-	}
 
 }

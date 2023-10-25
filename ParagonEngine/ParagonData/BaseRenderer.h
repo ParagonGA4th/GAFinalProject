@@ -23,10 +23,6 @@ namespace Pg::Data
 		BaseRenderer(GameObject* obj);
 		virtual ~BaseRenderer();
 
-		//매번 캐스팅을 피하기 위해서, Renderer 자체적으로 Render할 수 있는 함수 추가.
-		virtual void Render() abstract;
-
-
 		//렌더링 로직 판단을 위해 실제 렌더러 타입 이름 반환.
 		const std::string& GetRendererTypeName() const;
 
