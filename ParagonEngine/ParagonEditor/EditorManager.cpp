@@ -3,12 +3,15 @@
 #include "../ParagonUI/UIManager.h"
 
 #include <singleton-cpp/singleton.h>
+#include <string>
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUI.lib")
 #else
 #pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUI.lib")
 #endif // _DEBUG
+
+
 
 Pg::Editor::Manager::EditorManager::EditorManager()
 	:_editorOnOff(false)
@@ -17,7 +20,8 @@ Pg::Editor::Manager::EditorManager::EditorManager()
 	_edHepler = &tEditorHelper;
 
 	// UI
-	_uiManager = std::make_unique<Pg::UI::Manager::UIManager>();
+	auto& tUIManager = singleton<Pg::UI::Manager::UIManager>();
+	_uiManager = &tUIManager;
 
 	// Editor event
 	// Editor window

@@ -7,6 +7,7 @@
 // Component
 
 Pg::Editor::Window::Inspector::Inspector()
+	:_isShow(true)
 {
 
 }
@@ -36,7 +37,13 @@ void Pg::Editor::Window::Inspector::SetShow(bool show)
 	_isShow = show;
 }
 
-bool Pg::Editor::Window::Inspector::ShowWindow()
+bool Pg::Editor::Window::Inspector::GetShow()
 {
 	return _isShow;
 }
+
+void Pg::Editor::Window::Inspector::ShowWindow()
+{
+}
+
+
