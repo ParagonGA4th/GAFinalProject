@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include "IRenderObject.h"
 
+#include <cassert>
+
 namespace Pg::Data
 {
 	RendererBase3D::RendererBase3D(GameObject* obj) : BaseRenderer(obj)
@@ -12,6 +14,11 @@ namespace Pg::Data
 	RendererBase3D::~RendererBase3D()
 	{
 		//
+	}
+
+	void RendererBase3D::Render()
+	{
+		assert(false);
 	}
 
 }

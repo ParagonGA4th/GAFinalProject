@@ -1,6 +1,7 @@
 #include "RendererBase2D.h"
 #include "GameObject.h"
 #include "IRenderObject.h"
+#include <cassert>
 
 namespace Pg::Data
 {
@@ -13,7 +14,8 @@ namespace Pg::Data
 	{
 		//
 	}
-void Pg::Data::RendererBase2D::Start()
+
+	void Pg::Data::RendererBase2D::Start()
 	{
 	}
 
@@ -71,6 +73,11 @@ void Pg::Data::RendererBase2D::Start()
 	bool RendererBase2D::IsClicked()
 	{
 		return _isClicked;
+	}
+
+	void RendererBase2D::Render()
+	{
+		assert(false);
 	}
 
 }

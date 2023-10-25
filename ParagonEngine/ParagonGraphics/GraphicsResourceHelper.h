@@ -32,14 +32,19 @@ namespace Pg::Graphics::Helper
 		//렌더러가 아닌지 <-1> / 2D 렌더러인지 <0> / 3D 렌더러인지 <1>.
 		//Renderer 컴포넌트가 추가될 수록 업데이트되어야 한다.
 		static short IsRenderer3D(const std::string& rendererTypeName);
+
 	};
 
+	
+}
+
+namespace Pg::Graphics::Helper
+{
 	template <Pg::Data::Enums::eAssetDefine define>
 	struct AssetDefineType;
 
 	//eAssetDefine을 기준으로 다른 형태의 리소스를 만든다. (리소스의 개수가 확대될수록 이 조건문 역시 확대된다)
 	//세부 클래스 변환.
-
 	template <>
 	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_NONE>
 	{
@@ -69,21 +74,6 @@ namespace Pg::Graphics::Helper
 
 // -> AssetDefine 호환을 위해!
 #define ASSETDEFINE_TYPE(ASSETDEFINE) Pg::Graphics::Helper::AssetDefineType<ASSETDEFINE>::type
-
-//실행은 되지만, 통일성을 위해 쓰지 않는다.
-//#define ASSETDEFINE2TYPE_MEMFUNC_2PARAMS(_enumAssetDefine, _obj, _memberFunc, _1stParam, _2ndParam) \
-//	do { \
-//		if (_enumAssetDefine == Pg::Core::Enums::eAssetDefine::_2DTEXTURE) { \
-//			(_obj->_memberFunc<ASSETDEFINE_TYPE(Pg::Core::Enums::eAssetDefine::_2DTEXTURE)>)(_1stParam, _2ndParam); \
-//		} \
-//		else if (_enumAssetDefine == Pg::Core::Enums::eAssetDefine::_3DMODEL) { \
-//			(_obj->_memberFunc<ASSETDEFINE_TYPE(Pg::Core::Enums::eAssetDefine::_3DMODEL)>)(_1stParam, _2ndParam); \
-//		} \
-//		else if (_enumAssetDefine == Pg::Core::Enums::eAssetDefine::_RENDERMATERIAL) { \
-//			(_obj->_memberFunc<ASSETDEFINE_TYPE(Pg::Core::Enums::eAssetDefine::_RENDERMATERIAL)>)(_1stParam, _2ndParam); \
-//		} \
-//	} while (false)
-
 
 
 

@@ -20,6 +20,9 @@ namespace Pg::Data
 		void SetImagePath(std::string path);
 		std::string GetImagePath();
 
+		//구체화된 Render 함수, 호출되면 실제 기능 수행해야!
+		virtual void Render() override;
+
 	private:
 		std::string _imagePath;
 	};

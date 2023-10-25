@@ -80,6 +80,7 @@ namespace Pg::Graphics
 
 	public:
 		PARAGON_GRAPHICS_DLL virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) override;
+
 		PARAGON_GRAPHICS_DLL virtual void Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData, float deltaTime) override;
 		PARAGON_GRAPHICS_DLL virtual void BeginRender() override;
 		PARAGON_GRAPHICS_DLL virtual void Render(Pg::Data::Scene* scene) override;
@@ -123,6 +124,9 @@ namespace Pg::Graphics
 		void BasicRendersInitialize();
 		void BasicRendersConstantBufferLoad();
 		void BasicRendersDraw();
+
+		//원래는 Engine에서 필요한 리소스들을 씬의 상태/양상에 따라 로드해왔어야 하지만, 지금은 그럴 수 없으니 임시.
+		void TempResourceMeshLoad();
 	private:
 		HRESULT hr;
 		Pg::Core::ProcessMain* _coreMain;
