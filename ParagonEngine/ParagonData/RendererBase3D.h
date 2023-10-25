@@ -13,6 +13,10 @@ namespace Pg::Data
 		RendererBase3D(GameObject* obj);
 		virtual ~RendererBase3D();
 
+		//구체화되지 않은 상태에서 해당 함수를 호출하면 에러.
+		virtual void Render() override;
+
+	private:
 		
 	};
 }

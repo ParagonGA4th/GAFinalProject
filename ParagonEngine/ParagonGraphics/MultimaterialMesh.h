@@ -25,7 +25,7 @@ namespace Pg::Graphics
 	class MultimaterialMesh
 	{
 	public:
-		MultimaterialMesh();
+		MultimaterialMesh(const std::string& filePath);
 		~MultimaterialMesh();
 
 		//Initializing. (로드된 Asset3DModelData를 갖고 오는 역할)
@@ -56,7 +56,6 @@ namespace Pg::Graphics
 		DirectX::XMMATRIX _worldMat;
 		DirectX::XMMATRIX _worldInvTransposeMat;
 	private:
-		std::string _filePath;
 		Asset3DModelData* _modelData = nullptr;
 		ConstantBufferDefine::cbPerObjectBase* _constantBufferStruct;
 	private:

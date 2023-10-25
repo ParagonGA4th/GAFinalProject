@@ -51,4 +51,9 @@ namespace Pg::Data
 		return _fontColor;
 	}
 
+	void TextRenderer::Render()
+	{
+
+	}
+
 }

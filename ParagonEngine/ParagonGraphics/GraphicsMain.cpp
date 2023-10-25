@@ -149,17 +149,15 @@ namespace Pg::Graphics
 
 		font->SetText(text);
 		BasicRendersConstantBufferLoad();
-		// #ToRemove : 임시, FBX Resource가 전달되는 것을 확인하려고 로직을 어기고 긴급 코드 투입.
+
 		static bool tOnce = false;
 		if (!tOnce)
 		{
 			//MultiMaterial Mesh 테스팅.
-			_tempMultiMesh = new MultimaterialMesh();
-			_tempMultiMesh->Initialize();
+			TempResourceMeshLoad();
 
 			tOnce = true;
 		}
-
 	}
 
 	void GraphicsMain::BeginRender()
@@ -417,6 +415,25 @@ namespace Pg::Graphics
 
 		tempGameCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/GameCamDummy.dds");
 		tempGameCamSprite->SetPosition(400.0f, 200.0f);
+	}
+
+	void GraphicsMain::TempResourceMeshLoad()
+	{
+		std::string tFilePath;
+		//고정된 File Path ( == AssetManager에서 이미 로딩된 경로가 있어야 작동하므로, 하드코딩했음.)
+		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx";
+		tFilePath = "../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx";
+		//tFilePath = "../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx";
+		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx";
+		//tFilePath = "../Resources/3DModels/MultiMatMesh/diffuseonly.fbx";
+		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
+		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
+		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMeshSeams.fbx";
+		//tFilePath = "../Resources/3DModels/Banana.fbx";
+
+		//MultiMaterial Mesh 테스팅.
+		_tempMultiMesh = new MultimaterialMesh(tFilePath);
+		_tempMultiMesh->Initialize();
 	}
 
 }

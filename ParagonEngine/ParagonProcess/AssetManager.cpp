@@ -148,7 +148,9 @@ namespace Pg::Core::Manager
 		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMesh.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMeshSeams.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/MultiMatMesh/diffuseonly.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/MultiMatMesh/diffuseonly.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//LoadResource("../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//LoadResource("../Resources/3DModels/Board01.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
