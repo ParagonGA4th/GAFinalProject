@@ -19,10 +19,5 @@ namespace Pg::Data
 		return _imagePath;
 	}
 
-	void ImageRenderer::Render()
-	{
-
-	}
-
 }
 
