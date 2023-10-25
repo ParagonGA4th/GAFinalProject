@@ -30,8 +30,8 @@ void Pg::Engine::TestScene::Initialize()
 	//카메라 하나 더 생성
 	GameObject* tObj1 = tCurrentScene->AddObject("Camera1");
 	tObj1->AddComponent<Camera>();
-	tObj1->GetComponent<Transform>()->SetPosition({ 10.0f, 0.0f, 5.0f });
-
+	tObj1->GetComponent<Transform>()->SetPosition({ 0.f, 3.0f, -10.f });
+	tObj1->GetComponent<Transform>()->SetLocalRotationEuler(0.f,0.f,0.f);
 	tObj1->AddComponent<EditorCameraScript>();
 
 	GameObject* tObj2 = tCurrentScene->AddObject("Cube2");
@@ -43,7 +43,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_1->GetComponent<Transform>()->SetPosition({ 3.0f, 0.0f, 0.0f });
 	tObj2_1->AddComponent<RendererBase3D>();
 	tObj2_1->GetComponent<RendererBase3D>()->SetActive(true);
-	tObj2_1->AddComponent<MoveForwardBack>();
+	//tObj2_1->AddComponent<MoveForwardBack>();
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Cube4");
 	tObj2_2->GetComponent<Transform>()->SetPosition({ -3.0f, 0.0f, 0.0f });

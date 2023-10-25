@@ -46,6 +46,8 @@ namespace Pg::Core::Manager
 		_coreMain = core;
 		_perFrameToLoadResources.reserve(30);
 		_perFrameToUnloadResources.reserve(30);
+
+		TemporaryLoadResources();
 	}
 
 	void AssetManager::Update(Pg::Core::IEngine* engine, Pg::Core::IGraphics* graphics)
@@ -139,4 +141,17 @@ namespace Pg::Core::Manager
 		//그래픽스 Secondary List 클리어.
 		graphics->ClearSecondaryResourcesList();
 	}
+
+	void AssetManager::TemporaryLoadResources()
+	{
+		//CreateResource를 임시로 여기에 호출.
+		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMesh.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMeshSeams.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/Board01.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/Banana.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);		
+	}
+
 }

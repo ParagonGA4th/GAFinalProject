@@ -1,4 +1,4 @@
- #include "ProcessMain.h"
+#include "ProcessMain.h"
 #include "../ParagonUtil/UtilMain.h"
 #include "../ParagonAPI/APIMain.h"
 #include "../ParagonGameEngine/EngineDLLExporter.h"
@@ -82,9 +82,7 @@ namespace Pg::Core
 
 		//AssetManager 세팅.
 		_assetManager->Initialize(this);
-		
-		// #ToRemove : CreateResource를 임시로 여기에 호출.
-		//_assetManager->LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMesh.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+
 		return S_OK;
 	}
 

@@ -91,25 +91,25 @@ namespace Pg::Data
 		float y = -PGFloat3Dot(P, U);
 		float z = -PGFloat3Dot(P, L);
 
-		_viewMatrix(0, 0) = R.x;
-		_viewMatrix(1, 0) = R.y;
-		_viewMatrix(2, 0) = R.z;
-		_viewMatrix(3, 0) = x;
+		_viewMatrix.m[0][0] = R.x;
+		_viewMatrix.m[1][0] = R.y;
+		_viewMatrix.m[2][0] = R.z;
+		_viewMatrix.m[3][0] = x;
 
-		_viewMatrix(0, 1) = U.x;
-		_viewMatrix(1, 1) = U.y;
-		_viewMatrix(2, 1) = U.z;
-		_viewMatrix(3, 1) = y;
+		_viewMatrix.m[0][1] = U.x;
+		_viewMatrix.m[1][1] = U.y;
+		_viewMatrix.m[2][1] = U.z;
+		_viewMatrix.m[3][1] = y;
 
-		_viewMatrix(0, 2) = L.x;
-		_viewMatrix(1, 2) = L.y;
-		_viewMatrix(2, 2) = L.z;
-		_viewMatrix(3, 2) = z;
+		_viewMatrix.m[0][2] = L.x;
+		_viewMatrix.m[1][2] = L.y;
+		_viewMatrix.m[2][2] = L.z;
+		_viewMatrix.m[3][2] = z;
 
-		_viewMatrix(0, 3) = 0.0f;
-		_viewMatrix(1, 3) = 0.0f;
-		_viewMatrix(2, 3) = 0.0f;
-		_viewMatrix(3, 3) = 1.0f;
+		_viewMatrix.m[0][3] = 0.0f;
+		_viewMatrix.m[1][3] = 0.0f;
+		_viewMatrix.m[2][3] = 0.0f;
+		_viewMatrix.m[3][3] = 1.0f;
 
 	}
 
