@@ -26,8 +26,11 @@ namespace Pg::Graphics
 	public:
 		RenderObjectBase(Pg::Data::BaseRenderer* baseRenderer);
 
-		Pg::Data::BaseRenderer* _baseRenderer = nullptr;
+		virtual void Render() override;
+
+		Pg::Data::BaseRenderer* GetBaseRenderer();
 	protected:
+		Pg::Data::BaseRenderer* _baseRenderer = nullptr;
 		Pg::Graphics::Manager::GraphicsResourceManager* _graphicsResourceManager = nullptr;
 	};
 }

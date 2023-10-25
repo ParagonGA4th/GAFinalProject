@@ -43,7 +43,7 @@ namespace Pg::Graphics
 
 		for (auto& it : _renderObject3DList)
 		{
-			if (it.second->_baseRenderer->GetActive())
+			if (it.second->GetBaseRenderer()->GetActive())
 			{
 				//렌더.
 				DirectX::XMFLOAT4X4 tWorldTM = MathHelper::PG2XM_FLOAT4X4(it.first->_transform.GetWorldTM());
@@ -60,7 +60,7 @@ namespace Pg::Graphics
 
 		for (auto& it : _renderObject2DList)
 		{
-			if (it.second->_baseRenderer->GetActive())
+			if (it.second->GetBaseRenderer()->GetActive())
 			{
 				//렌더.
 			}
@@ -138,20 +138,7 @@ namespace Pg::Graphics
 
 		using Pg::Graphics::Helper::GraphicsResourceHelper;
 
-		//Scene에서 Renderer 정보를 가져오기 전, 
-		//만약 렌더러 중 하나라면, Rendering Logic 연동.
-		for (auto& tGameObject : newScene->GetObjectList())
-		{
-			for (auto& tComponentPair : tGameObject->GetComponentList())
-			{
-				if (GraphicsResourceHelper::IsRenderer3D(tComponentPair.first) != -1)
-				{
-					//만약 렌더러 파생 컴포넌트라면?
-					Pg::Data::BaseRenderer* tBaseRenderer = static_cast<Pg::Data::BaseRenderer*>(tComponentPair.second);
-					tBaseRenderer->SetRendererTypeName(tComponentPair.first);
-				}
-			}
-		}
+		//컴포넌트 내부적으로 -> 자신이 어떤 타입인지 Renderer에게 전달. 내부적으로 호출.
 
 		//이제 실제 오브젝트 내부 RenderObject 연동.
 		for (auto& tGameObject : newScene->GetObjectList())

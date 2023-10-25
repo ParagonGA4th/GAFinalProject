@@ -24,14 +24,11 @@ namespace Pg::Graphics
 		RenderObject3D(Pg::Data::BaseRenderer* baseRenderer);
 		virtual ~RenderObject3D();
 
-		//3D 오브젝트 렌더링을 위한 정보 업데이트
-		virtual void UpdateObjectRenderData(const Pg::Data::RenderTextData rTextData) override;
-
 		// #ForwardTemp : ForwardRendering 테스트를 위해 놔둠. WorkSpace 검사 위해.
 		std::unique_ptr<DirectX::GeometricPrimitive> _tempPrimitive;
+		
+		virtual void Render() override;
 
-	private:
-		RenderUsageStruct3D _renderUsageStruct3D;
 	};
 }
 
