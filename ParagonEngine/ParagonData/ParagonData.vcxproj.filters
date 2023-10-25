@@ -40,20 +40,8 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>1_GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="ImageRenderer.cpp">
-      <Filter>2_Component\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="MoveForwardBack.cpp">
       <Filter>8_TestScripts</Filter>
-    </ClCompile>
-    <ClCompile Include="TextRenderer.cpp">
-      <Filter>2_Component\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="RendererBase2D.cpp">
-      <Filter>2_Component\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="RendererBase3D.cpp">
-      <Filter>2_Component\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="RendererChangeList.cpp">
       <Filter>6_DataChangeList</Filter>
@@ -81,6 +69,21 @@
     </ClCompile>
     <ClCompile Include="DynamicCollider.cpp">
       <Filter>2_Component\Collider\DynamicCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>2_Component\Renderer\2D\TextRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageRenderer.cpp">
+      <Filter>2_Component\Renderer\2D\ImageRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererBase2D.cpp">
+      <Filter>2_Component\Renderer\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererBase3D.cpp">
+      <Filter>2_Component\Renderer\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticMeshRenderer.cpp">
+      <Filter>2_Component\Renderer\3D\StaticMeshRenderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -132,12 +135,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>1_GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="ImageRenderer.h">
-      <Filter>2_Component\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="IRenderObject.h">
-      <Filter>2_Component\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="MoveForwardBack.h">
       <Filter>8_TestScripts</Filter>
     </ClInclude>
@@ -146,15 +143,6 @@
     </ClInclude>
     <ClInclude Include="LightType.h">
       <Filter>5_Enums</Filter>
-    </ClInclude>
-    <ClInclude Include="TextRenderer.h">
-      <Filter>2_Component\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="RendererBase2D.h">
-      <Filter>2_Component\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="RendererBase3D.h">
-      <Filter>2_Component\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="RendererChangeList.h">
       <Filter>6_DataChangeList</Filter>
@@ -203,6 +191,24 @@
     </ClInclude>
     <ClInclude Include="DynamicCollider.h">
       <Filter>2_Component\Collider\DynamicCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderObject.h">
+      <Filter>2_Component\Renderer\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>2_Component\Renderer\2D\TextRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageRenderer.h">
+      <Filter>2_Component\Renderer\2D\ImageRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererBase2D.h">
+      <Filter>2_Component\Renderer\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererBase3D.h">
+      <Filter>2_Component\Renderer\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticMeshRenderer.h">
+      <Filter>2_Component\Renderer\3D\StaticMeshRenderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +289,24 @@
     </Filter>
     <Filter Include="2_Component\Collider\DynamicCollider">
       <UniqueIdentifier>{51a8fda0-dcc5-41de-89fd-93a38be98935}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\Interface">
+      <UniqueIdentifier>{7d25301b-51ab-4c08-accc-0c07a0c640ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\3D">
+      <UniqueIdentifier>{fd84d26f-d4c3-4172-9049-9d0100a57e05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\2D">
+      <UniqueIdentifier>{3cda6f4d-fe63-4073-b147-72e7dde2d895}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\2D\ImageRenderer">
+      <UniqueIdentifier>{08c41d8c-4084-4dbc-b009-2f4485943c04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\2D\TextRenderer">
+      <UniqueIdentifier>{8c7d751b-d13a-4ee8-9ba7-0de980154831}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\3D\StaticMeshRenderer">
+      <UniqueIdentifier>{27d5ab17-5ab9-4310-88f4-dd3a4a77dd4e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

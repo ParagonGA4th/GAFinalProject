@@ -13,10 +13,9 @@ namespace Pg::Data
 	class IRenderObject abstract
 	{
 	public:
-		//실제 RenderObject가 GameObject가 연동되었는지 렌더데이터의 경로 업데이트.
-		//매번 호출되는 것은 아니다. (변화가 있을 때만)
-		//단일 오브젝트의 렌더에 영향을 주는 정보만 전달.
-		virtual void UpdateObjectRenderData(const Pg::Data::RenderTextData rTextData) abstract;
+
+		//실제로 렌더오브젝트들을 렌더하는 함수.
+		virtual void Render() abstract;
 
 	};
 }

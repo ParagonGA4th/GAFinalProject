@@ -5,9 +5,12 @@
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
 
-#include "../ParagonData/BaseRenderer.h" //Render 연동 보기 위해.
-#include "../ParagonData/RendererBase2D.h" //Render 연동 보기 위해.
-#include "../ParagonData/RendererBase3D.h" //Render 연동 보기 위해.
+//#include "../ParagonData/BaseRenderer.h" //Render 연동 보기 위해.
+//#include "../ParagonData/RendererBase2D.h" //Render 연동 보기 위해.
+//#include "../ParagonData/RendererBase3D.h" //Render 연동 보기 위해.
+#include "../ParagonData/ImageRenderer.h" //Render 연동 보기 위해.
+#include "../ParagonData/TextRenderer.h" //Render 연동 보기 위해.
+#include "../ParagonData/StaticMeshRenderer.h" //Render 연동 보기 위해.
 
 
 
@@ -36,19 +39,19 @@ void Pg::Engine::TestScene::Initialize()
 
 	GameObject* tObj2 = tCurrentScene->AddObject("Cube2");
 	tObj2->GetComponent<Transform>()->SetPosition({ 1.0f, 0.0f, 5.0f });
-	tObj2->AddComponent<RendererBase3D>();
-	tObj2->GetComponent<RendererBase3D>()->SetActive(true);
+	tObj2->AddComponent<StaticMeshRenderer>();
+	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	GameObject* tObj2_1 = tCurrentScene->AddObject("Cube3");
 	tObj2_1->GetComponent<Transform>()->SetPosition({ 3.0f, 0.0f, 0.0f });
-	tObj2_1->AddComponent<RendererBase3D>();
-	tObj2_1->GetComponent<RendererBase3D>()->SetActive(true);
+	tObj2_1->AddComponent<StaticMeshRenderer>();
+	tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	//tObj2_1->AddComponent<MoveForwardBack>();
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Cube4");
 	tObj2_2->GetComponent<Transform>()->SetPosition({ -3.0f, 0.0f, 0.0f });
-	tObj2_2->AddComponent<RendererBase3D>();
-	tObj2_2->GetComponent<RendererBase3D>()->SetActive(true);
+	tObj2_2->AddComponent<StaticMeshRenderer>();
+	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 
 	/// 오수안, 새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 

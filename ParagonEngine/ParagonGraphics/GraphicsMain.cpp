@@ -113,99 +113,12 @@ namespace Pg::Graphics
 		//Default Input Layout 세팅.
 		LayoutDefine::Initialize();
 
-		// 테스트용 큐브
-		//_box = new TestCube();
-		//_box->Initialize();
-
-		D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
-		{
-			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}//,
-			//{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
-		};
-
-		VertexShader* BoxVertexShader = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
-		PixelShader* BoxPixelShader = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
-		
-		// TODO: 비직관적이다.
-		//BoxVertexShader->AssignConstantBuffer(&(_box->_cbData));
-		//
-		//_box->AssignVertexShader(BoxVertexShader);
-		//_box->AssignPixelShader(BoxPixelShader);
-		
-		// Grid
-		grid = new Grid();
-		grid->Initialize();
-
-		// Axis
-		axis = new Axis();
-		axis->Initialize();
-
-		// TODO: TestBox와 Grid, Axis 모두 같은 InputLayout을 사용하고 있다...
-		VertexShader* helperVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
-		helperVS->AssignConstantBuffer(&(grid->_cbData));
-
-		grid->AssignVertexShader(helperVS);
-		grid->AssignPixelShader(BoxPixelShader);
-
-		axis->AssignVertexShader(helperVS);
-		axis->AssignPixelShader(BoxPixelShader);
-		
-		// Cubemap
-		D3D11_INPUT_ELEMENT_DESC CubemapvertexDesc[] =
-		{
-			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
-		};
-
-		//DXMesh Testing, 임시
-		uint32_t tOffsets[D3D11_IA_VERTEX_INPUT_STRUCTURE_ELEMENT_COUNT];
-		uint32_t tStrides[D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT];
-		ComputeInputLayout(CubemapvertexDesc, std::size(CubemapvertexDesc), tOffsets, tStrides);
-
-		VertexShader* CubemapVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/CubemapVS.cso", CubemapvertexDesc);
-		PixelShader* CubemapPS = new PixelShader(_DXStorage, L"../Builds/x64/debug/CubemapPS.cso");
-
-		cubemap = new Cubemap();
-		cubemap->Initialize();
-
-		CubemapVS->AssignConstantBuffer(&(cubemap->_cbData));
-		cubemap->AssignVertexShader(CubemapVS);
-		cubemap->AssignPixelShader(CubemapPS);
-
-
-		// Camera
-		//_camera = new TempCamera(float3(0.0f, 3.0f, -10.0f));
-		//_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
-
-		// 2DSprite
-		sprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/cats.dds");
-		sprite->SetPosition(0.0f, 0.0f);
-
-		sprite2 = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/rabbits.dds");
-		sprite2->SetPosition(0.0f, 200.0f);
-
-		// Font
-		font = new Font();
-		font->SetPosition(10.0f, 410.0f);
-		font->SetText(L"");
-
-		//현재로서는 명시적으로 Editor를 위해 사진으로 SRV를 만들어 넘겨주지만, 나중에는 바뀌어야 한다! (실제 렌더되는 카메라 화면으로)
-		//실제 Sprite로서 활용 X, DDS만 금방 만들기 위해서!
-		tempEditorCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/EditorCamDummy.dds");
-		tempEditorCamSprite->SetPosition(100.0f, 200.0f);
-
-		tempGameCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/GameCamDummy.dds");
-		tempGameCamSprite->SetPosition(400.0f, 200.0f);
+		BasicRendersInitialize();
 	}
 
 
 	void GraphicsMain::Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData, float deltaTime)
-	{
-		//당장 CameraData가 반영되는 것이 아님.
-		//_timeManager->TimeMeasure();
-		//float dt = _timeManager->GetDeltaTime();
-		
+	{	
 		//Projection 행렬을 채운다.
 		FillCamDataProjection(cameraData);
 		this->_camData = cameraData;
@@ -236,17 +149,15 @@ namespace Pg::Graphics
 
 		font->SetText(text);
 		BasicRendersConstantBufferLoad();
-		// #ToRemove : 임시, FBX Resource가 전달되는 것을 확인하려고 로직을 어기고 긴급 코드 투입.
+
 		static bool tOnce = false;
 		if (!tOnce)
 		{
 			//MultiMaterial Mesh 테스팅.
-			_tempMultiMesh = new MultimaterialMesh();
-			_tempMultiMesh->Initialize();
+			TempResourceMeshLoad();
 
 			tOnce = true;
 		}
-
 	}
 
 	void GraphicsMain::BeginRender()
@@ -267,7 +178,6 @@ namespace Pg::Graphics
 		}
 		assert(_currentScene != nullptr);
 		BasicRendersDraw();
-
 
 		_renderer->Render(_camData);
 
@@ -306,8 +216,6 @@ namespace Pg::Graphics
 		hr = _DXLogic->CreateMainRenderTarget();
 		hr = _DXLogic->CreateDepthStencilViewAndState();
 		_DXLogic->CreateAndSetViewports();
-
-		//_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 	}
 
 	ID3D11Device* GraphicsMain::GetDevice()
@@ -429,6 +337,103 @@ namespace Pg::Graphics
 		//
 		//// test용 큐브 그리기
 		//_box->Draw();
+	}
+
+	void GraphicsMain::BasicRendersInitialize()
+	{
+		D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
+		{
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}//,
+			//{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		};
+
+		VertexShader* BoxVertexShader = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
+		PixelShader* BoxPixelShader = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
+
+		// Grid
+		grid = new Grid();
+		grid->Initialize();
+
+		// Axis
+		axis = new Axis();
+		axis->Initialize();
+
+		// TODO: TestBox와 Grid, Axis 모두 같은 InputLayout을 사용하고 있다...
+		VertexShader* helperVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
+		helperVS->AssignConstantBuffer(&(grid->_cbData));
+
+		grid->AssignVertexShader(helperVS);
+		grid->AssignPixelShader(BoxPixelShader);
+
+		axis->AssignVertexShader(helperVS);
+		axis->AssignPixelShader(BoxPixelShader);
+
+		// Cubemap
+		D3D11_INPUT_ELEMENT_DESC CubemapvertexDesc[] =
+		{
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		};
+
+		//DXMesh Testing, 임시
+		uint32_t tOffsets[D3D11_IA_VERTEX_INPUT_STRUCTURE_ELEMENT_COUNT];
+		uint32_t tStrides[D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT];
+		ComputeInputLayout(CubemapvertexDesc, std::size(CubemapvertexDesc), tOffsets, tStrides);
+
+		VertexShader* CubemapVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/CubemapVS.cso", CubemapvertexDesc);
+		PixelShader* CubemapPS = new PixelShader(_DXStorage, L"../Builds/x64/debug/CubemapPS.cso");
+
+		cubemap = new Cubemap();
+		cubemap->Initialize();
+
+		CubemapVS->AssignConstantBuffer(&(cubemap->_cbData));
+		cubemap->AssignVertexShader(CubemapVS);
+		cubemap->AssignPixelShader(CubemapPS);
+
+
+		// Camera
+		//_camera = new TempCamera(float3(0.0f, 3.0f, -10.0f));
+		//_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
+
+		// 2DSprite
+		sprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/cats.dds");
+		sprite->SetPosition(0.0f, 0.0f);
+
+		sprite2 = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/rabbits.dds");
+		sprite2->SetPosition(0.0f, 200.0f);
+
+		// Font
+		font = new Font();
+		font->SetPosition(10.0f, 410.0f);
+		font->SetText(L"");
+
+		//현재로서는 명시적으로 Editor를 위해 사진으로 SRV를 만들어 넘겨주지만, 나중에는 바뀌어야 한다! (실제 렌더되는 카메라 화면으로)
+		//실제 Sprite로서 활용 X, DDS만 금방 만들기 위해서!
+		tempEditorCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/EditorCamDummy.dds");
+		tempEditorCamSprite->SetPosition(100.0f, 200.0f);
+
+		tempGameCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/GameCamDummy.dds");
+		tempGameCamSprite->SetPosition(400.0f, 200.0f);
+	}
+
+	void GraphicsMain::TempResourceMeshLoad()
+	{
+		std::string tFilePath;
+		//고정된 File Path ( == AssetManager에서 이미 로딩된 경로가 있어야 작동하므로, 하드코딩했음.)
+		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx";
+		tFilePath = "../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx";
+		//tFilePath = "../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx";
+		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx";
+		//tFilePath = "../Resources/3DModels/MultiMatMesh/diffuseonly.fbx";
+		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
+		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
+		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMeshSeams.fbx";
+		//tFilePath = "../Resources/3DModels/Banana.fbx";
+
+		//MultiMaterial Mesh 테스팅.
+		_tempMultiMesh = new MultimaterialMesh(tFilePath);
+		_tempMultiMesh->Initialize();
 	}
 
 }

@@ -101,30 +101,6 @@ namespace Pg::Core
 		//여기다가 시스템 싹 다 업데이트!!
 		_engineGraphicsAdapter->UpdateEngine();
 
-		///그래픽스에 존재하는 카메라
-		/*Pg::Data::CameraData cameraData;
-		cameraData._position = { 0.0f, 0.0f, -3.0f };
-		cameraData._rotation.x = 0.0f;
-		cameraData._rotation.y = 0.0f;
-		cameraData._rotation.z = 0.0f;
-		cameraData._rotation.w = 0.0f;
-
-		cameraData._viewMatrix =
-		{
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 3.0f, 1.0f,
-		};
-
-		cameraData._projMatrix =
-		{
-			1.35799503f, 0.0f, 0.0f, 0.0f,
-			0.0f, 2.41421342f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.00000012f, 1.0f,
-			0.0f, 0.0f, -0.000100000012f, 0.0f,
-		};*/
-
 		_engineGraphicsAdapter->UpdateGraphics(
 			_engineGraphicsAdapter->GetCurrentScene(),
 			_engineGraphicsAdapter->GetCameraData(), _timeManager->GetDeltaTime());
@@ -135,11 +111,9 @@ namespace Pg::Core
 		_engineGraphicsAdapter->BeginRender();
 	}
 
-
 	void ProcessMain::Render()
 	{
 		_engineGraphicsAdapter->Render();
-		//_engineGraphicsAdapter->Render(_work->GetCurrentScene());
 	}
 
 	void ProcessMain::EndRender()
