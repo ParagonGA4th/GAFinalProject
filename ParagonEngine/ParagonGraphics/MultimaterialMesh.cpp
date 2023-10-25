@@ -26,8 +26,9 @@ namespace Pg::Graphics
 		_devCon = LowDX11Storage::GetInstance()->_deviceContext;
 
 		//고정된 File Path ( == AssetManager에서 이미 로딩된 경로가 있어야 작동하므로, 하드코딩했음.)
-		_filePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx";
+		//_filePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx";
 		//_filePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx";
+		_filePath = "../Resources/3DModels/MultiMatMesh/diffuseonly.fbx";
 		//_filePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
 		//_filePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
 		//_filePath = "../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMeshSeams.fbx";
@@ -39,8 +40,8 @@ namespace Pg::Graphics
 		Initialize();
 
 		//테스팅을 위해서, SRV를 명시적으로 만들어서 테스트.
-		HRESULT hr = DirectX::CreateDDSTextureFromFile(_device, L"../Resources/Textures/DummyData/EditorCamDummy.dds",
-			&_testResource, &_testSRV);
+		//HRESULT hr = DirectX::CreateDDSTextureFromFile(_device, L"../Resources/Textures/DummyData/EditorCamDummy.dds",
+		//	&_testResource, &_testSRV);
 	}
 
 	MultimaterialMesh::~MultimaterialMesh()
@@ -242,7 +243,7 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT4 tRotQuat = { 0.0f, 0.0f, 0.0f, 0.0f };
 		DirectX::XMVECTOR tRotQuatVec = DirectX::XMLoadFloat4(&tRotQuat);
 
-		DirectX::XMFLOAT3 tScale = { 1.0f, 1.0f, 1.0f };
+		DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
 		DirectX::XMVECTOR tScaleVec = DirectX::XMLoadFloat3(&tScale);
 
 		_worldMat = DirectX::XMMatrixAffineTransformation(tScaleVec, tPosVec, tRotQuatVec, tPosVec);

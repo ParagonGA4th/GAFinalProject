@@ -120,6 +120,7 @@ namespace Pg::Graphics
 		void FillCamDataProjection(Pg::Data::CameraData* camData);
 
 		//기능 중심 구현 요구 사항 옮겨놓았다. (Ex. Cubemap / Box.. etc..)
+		void BasicRendersInitialize();
 		void BasicRendersConstantBufferLoad();
 		void BasicRendersDraw();
 	private:
