@@ -17,7 +17,7 @@ namespace Pg::Graphics
 	using Pg::Graphics::Manager::GraphicsResourceManager;
 	using Pg::Data::Enums::eAssetDefine;
 
-	MultimaterialMesh::MultimaterialMesh()
+	MultimaterialMesh::MultimaterialMesh(const std::string& filePath)
 	{
 		_constantBufferStruct = new ConstantBufferDefine::cbPerObjectBase;
 
@@ -25,22 +25,10 @@ namespace Pg::Graphics
 		_device = LowDX11Storage::GetInstance()->_device;
 		_devCon = LowDX11Storage::GetInstance()->_deviceContext;
 
-		//고정된 File Path ( == AssetManager에서 이미 로딩된 경로가 있어야 작동하므로, 하드코딩했음.)
-		_filePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx";
-		//_filePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx";
-		//_filePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
-		//_filePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
-		//_filePath = "../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMeshSeams.fbx";
-		//_filePath = "../Resources/3DModels/Banana.fbx";
-
-		auto tModelData = GraphicsResourceManager::Instance()->GetResource(_filePath, eAssetDefine::_3DMODEL);
+		auto tModelData = GraphicsResourceManager::Instance()->GetResource(filePath, eAssetDefine::_3DMODEL);
 		_modelData = static_cast<Asset3DModelData*>(tModelData.get());
 
 		Initialize();
-
-		//테스팅을 위해서, SRV를 명시적으로 만들어서 테스트.
-		HRESULT hr = DirectX::CreateDDSTextureFromFile(_device, L"../Resources/Textures/DummyData/EditorCamDummy.dds",
-			&_testResource, &_testSRV);
 	}
 
 	MultimaterialMesh::~MultimaterialMesh()
@@ -242,7 +230,8 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT4 tRotQuat = { 0.0f, 0.0f, 0.0f, 0.0f };
 		DirectX::XMVECTOR tRotQuatVec = DirectX::XMLoadFloat4(&tRotQuat);
 
-		DirectX::XMFLOAT3 tScale = { 1.0f, 1.0f, 1.0f };
+		DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
+		//DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
 		DirectX::XMVECTOR tScaleVec = DirectX::XMLoadFloat3(&tScale);
 
 		_worldMat = DirectX::XMMatrixAffineTransformation(tScaleVec, tPosVec, tRotQuatVec, tPosVec);
