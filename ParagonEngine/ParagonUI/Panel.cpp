@@ -1,12 +1,14 @@
 #include "Panel.h"
-#include "ILayout.h"
 #include "ImGuiManager.h"
+
+#include "ILayout.h"
+#include "DLayout.h"
 
 Pg::UI::Panel::Panel(std::string panelName)
 	:_panelName(panelName)
 {
-	//_currentLayout = new ILayout();
-	//_layouts.emplace_back(_currentLayout);
+	_currentLayout = new Pg::UI::Layout::DLayout("Default");
+	_layouts.emplace_back(_currentLayout);
 }
 
 Pg::UI::Panel::~Panel()
@@ -49,11 +51,11 @@ void Pg::UI::Panel::SwitchingLayout(std::string panelName)
 {
 	for (auto& layout : _layouts)
 	{
-		//if (layout->GetPanelName() == panelName)
-		//{
-		//	_currentLayout = layout;
-		//	break;
-		//}
+		if (layout->GetPanelName() == panelName)
+		{
+			_currentLayout = layout;
+			break;
+		}
 	}
 }
 

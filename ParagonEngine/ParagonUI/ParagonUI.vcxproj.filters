@@ -48,6 +48,9 @@
     <ClInclude Include="ILayout.h">
       <Filter>0_UI\1_Layout</Filter>
     </ClInclude>
+    <ClInclude Include="DLayout.h">
+      <Filter>0_UI\1_Layout\DefaultLayout</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IWidget.cpp">
@@ -92,6 +95,9 @@
     <ClCompile Include="ILayout.cpp">
       <Filter>0_UI\1_Layout</Filter>
     </ClCompile>
+    <ClCompile Include="DLayout.cpp">
+      <Filter>0_UI\1_Layout\DefaultLayout</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_UI">
@@ -123,6 +129,9 @@
     </Filter>
     <Filter Include="0_UI\0_Panel">
       <UniqueIdentifier>{d8808669-0daf-4d42-966d-ca990b13ab96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Layout\DefaultLayout">
+      <UniqueIdentifier>{028edf2c-3447-4f6b-8819-88ad21f9e029}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

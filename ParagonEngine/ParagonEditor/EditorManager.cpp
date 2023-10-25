@@ -3,15 +3,6 @@
 #include "../ParagonUI/UIManager.h"
 
 #include <singleton-cpp/singleton.h>
-#include <string>
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUI.lib")
-#else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUI.lib")
-#endif // _DEBUG
-
-
 
 Pg::Editor::Manager::EditorManager::EditorManager()
 	:_editorOnOff(false)

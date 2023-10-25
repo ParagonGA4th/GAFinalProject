@@ -11,8 +11,6 @@ namespace Pg::Editor::Window
 
 		virtual void SetShow(bool show) abstract;
 		virtual bool GetShow() abstract;
-
-		virtual void ShowWindow() abstract;
 	};
 }
 
