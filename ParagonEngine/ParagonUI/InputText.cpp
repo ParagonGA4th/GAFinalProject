@@ -1,1 +1,16 @@
 #include "InputText.h"
+#include "imgui.h"
+
+Pg::UI::Widget::InputText::InputText(std::string label, std::string& text)
+	: _label("##"), _text(text), _inputText()
+{
+	_label.append(label);
+}
+
+void Pg::UI::Widget::InputText::Update()
+{
+	if (ImGui::InputText(_label.c_str(), _inputText, IM_ARRAYSIZE(_inputText)), ImGuiInputTextFlags_EnterReturnsTrue)
+	{
+		_text = _inputText;
+	}
+}

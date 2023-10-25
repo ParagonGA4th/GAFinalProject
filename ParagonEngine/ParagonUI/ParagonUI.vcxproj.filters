@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Widget.h">
-      <Filter>0_UI\1_Widget</Filter>
+    <ClInclude Include="IWidget.h">
+      <Filter>0_UI\2_Widget</Filter>
     </ClInclude>
     <ClInclude Include="Panel.h">
       <Filter>0_UI\0_Panel</Filter>
@@ -39,12 +39,19 @@
     </ClInclude>
     <ClInclude Include="WidgetEnum.h" />
     <ClInclude Include="InputText.h">
-      <Filter>0_UI\1_Widget\InputText</Filter>
+      <Filter>0_UI\2_Widget\Text\InputText</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>0_UI\2_Widget\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="UIEnum.h" />
+    <ClInclude Include="ILayout.h">
+      <Filter>0_UI\1_Layout</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Widget.cpp">
-      <Filter>0_UI\1_Widget</Filter>
+    <ClCompile Include="IWidget.cpp">
+      <Filter>0_UI\2_Widget</Filter>
     </ClCompile>
     <ClCompile Include="Panel.cpp">
       <Filter>0_UI\0_Panel</Filter>
@@ -77,18 +84,18 @@
       <Filter>Imgui</Filter>
     </ClCompile>
     <ClCompile Include="InputText.cpp">
-      <Filter>0_UI\1_Widget\InputText</Filter>
+      <Filter>0_UI\2_Widget\Text\InputText</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>0_UI\2_Widget\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="ILayout.cpp">
+      <Filter>0_UI\1_Layout</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_UI">
       <UniqueIdentifier>{427891bd-96de-4fc0-8169-0d3d62b06bb8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_UI\0_Panel">
-      <UniqueIdentifier>{d8808669-0daf-4d42-966d-ca990b13ab96}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_UI\1_Widget">
-      <UniqueIdentifier>{6eede181-c325-4cff-99c4-8e54ae7c4628}</UniqueIdentifier>
     </Filter>
     <Filter Include="Imgui">
       <UniqueIdentifier>{c020cbe5-8a4f-468f-a625-aa046b71e478}</UniqueIdentifier>
@@ -102,8 +109,20 @@
     <Filter Include="1_Manager\ImguiManager">
       <UniqueIdentifier>{3ff707a4-63c1-49e4-a991-cad16938c7ac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_UI\1_Widget\InputText">
+    <Filter Include="0_UI\2_Widget">
+      <UniqueIdentifier>{6eede181-c325-4cff-99c4-8e54ae7c4628}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\2_Widget\Text">
+      <UniqueIdentifier>{da378bd8-a565-4043-946d-caf51aeb0412}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\2_Widget\Text\InputText">
       <UniqueIdentifier>{c164ae0c-6be8-42f1-a436-4dce87c0da1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Layout">
+      <UniqueIdentifier>{ea097696-7a81-4acd-afb1-d7ef6ca35e7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\0_Panel">
+      <UniqueIdentifier>{d8808669-0daf-4d42-966d-ca990b13ab96}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

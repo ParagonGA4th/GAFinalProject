@@ -14,7 +14,9 @@ namespace Pg::Editor::Window
 		virtual void Finalize() override;
 
 		virtual void SetShow(bool show) override;
-		virtual bool ShowWindow() override;
+		virtual bool GetShow() override;
+		
+		virtual void ShowWindow() override;
 
 	private:
 		bool _isShow;

@@ -1,6 +1,6 @@
 #pragma once
 #include <windows.h>
-#include <memory>
+#include <string>
 
 namespace Pg::UI::Manager { class UIManager; }
 namespace Pg::Editor::Helper { class EditorHelper; }
@@ -21,10 +21,12 @@ namespace Pg::Editor::Manager
 		void UIHandler(MSG message);
 
 	private:
-		std::unique_ptr<Pg::UI::Manager::UIManager> _uiManager;
+		Pg::UI::Manager::UIManager* _uiManager;
 		Pg::Editor::Helper::EditorHelper* _edHepler;
 
 		bool _editorOnOff;
+
+		std::string str;
 	};
 }
 
