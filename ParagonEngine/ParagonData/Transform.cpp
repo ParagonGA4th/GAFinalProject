@@ -10,9 +10,9 @@ namespace Pg::Data
 	Transform::Transform(GameObject* obj) :
 		Component(obj),
 		_position(0.0f,0.0f,0.0f),
-		_rotation(0.0f,0.0f,0.0f,0.0f),
+		_rotation(1.0f,0.0f,0.0f,0.0f),
 		_scale(1.0f,1.0f,1.0f),
-		_forward(0.f, 0.f, 0.f), _right(1.f, 0.f, 0.f), _up(0.f, 1.f, 0.f), _is3D(true)
+		_forward(0.f, 0.f, 1.f), _right(1.f, 0.f, 0.f), _up(0.f, 1.f, 0.f), _is3D(true)
 	{
 		
 	}
@@ -234,7 +234,8 @@ namespace Pg::Data
 		
 		if (_parent)
 		{
-			_parent->GetWorldTM();
+			PGFLOAT4X4 tParentWorldTM = _parent->GetWorldTM();
+			result = result * tParentWorldTM;
 		}
 
 		return result;
@@ -366,7 +367,7 @@ namespace Pg::Data
 
 		if (_parent)
 		{
-			result *= _parent->GetLocalRotationMatrix();
+			result *= _parent->GetWorldRotationMatrix();
 		}
 
 		return result;

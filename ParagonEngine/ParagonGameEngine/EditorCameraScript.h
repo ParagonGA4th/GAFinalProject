@@ -32,7 +32,10 @@ public:
 	virtual void Update() override;
 
 private:
-	//TempCamera 우선 이식.
+	//TempCamera의 마우스 조작 방식 활용. -> 동시에 X, Y Rotation 세팅하는데 문제 발생!
+	void RotateY(float angle);
+	void Pitch(float angle);
+
 
 private:
 	// 인풋 시스템으로 카메라의 이동을 체크한다

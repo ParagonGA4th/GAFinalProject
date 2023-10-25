@@ -8,6 +8,7 @@
 
 #include "TempCamera.h"
 #include "TestCube.h"
+#include "MultimaterialMesh.h"
 
 #include <windows.h>
 #include <memory>
@@ -116,8 +117,11 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;
 	private:
 		//불완전하게 전달된 CamData에 투영 행렬을 넣는다.
-		virtual void FillCamDataProjection(Pg::Data::CameraData* camData);
+		void FillCamDataProjection(Pg::Data::CameraData* camData);
 
+		//기능 중심 구현 요구 사항 옮겨놓았다. (Ex. Cubemap / Box.. etc..)
+		void BasicRendersConstantBufferLoad();
+		void BasicRendersDraw();
 	private:
 		HRESULT hr;
 		Pg::Core::ProcessMain* _coreMain;
@@ -127,9 +131,11 @@ namespace Pg::Graphics
 		LowDX11Storage* _DXStorage;
 
 	private:
-		TempCamera* _camera;
-		TestCube* _box;
+		
+		//TempCamera* _camera;
+		//TestCube* _box;
 		Pg::Data::GameObject* _tempObj;
+		MultimaterialMesh* _tempMultiMesh;
 	
 	private:
 		Pg::API::Input::PgInput* _input;
