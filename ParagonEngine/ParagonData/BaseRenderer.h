@@ -22,13 +22,14 @@ namespace Pg::Data
 		BaseRenderer(GameObject* obj);
 		virtual ~BaseRenderer();
 
-		//Renderer의 실제 타입을 결정한다.
-		void SetRendererTypeName(const std::string& typeName);
-		
 		//렌더링 로직 판단을 위해 실제 렌더러 타입 이름 반환.
 		const std::string& GetRendererTypeName() const;
 
 	protected:
+		//Renderer의 실제 타입을 결정한다.
+		void SetRendererTypeName(const std::string& typeName);
+
+	private:
 		// 어떤 Renderer가 실제로 만들어졌는지 연동하기 위해서.
 		// 나중에는 어떤 렌더러가 추가되냐에 따라서 비트플래그가 설정되어야 할것.
 		std::string _rendererTypeName; 

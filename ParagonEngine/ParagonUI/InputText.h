@@ -1,7 +1,7 @@
 #pragma once
 #include "Text.h"
 
-namespace Pg::UI
+namespace Pg::UI::Widget
 {
 	class InputText : public Pg::UI::IWidget
 	{

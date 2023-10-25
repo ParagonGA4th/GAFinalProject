@@ -6,7 +6,7 @@ namespace Pg::Data
 		: RendererBase2D(obj),
 		_imagePath("")
 	{
-
+		SetRendererTypeName(typeid(this).name());
 	}
 
 	void ImageRenderer::SetImagePath(std::string path)
