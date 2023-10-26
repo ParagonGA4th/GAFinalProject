@@ -38,7 +38,7 @@
     <ClInclude Include="D3DBufferInfo.h" />
     <ClInclude Include="DeferredRenderer.h" />
     <ClInclude Include="DemoGeometryGenerator.h" />
-    <ClInclude Include="ForwardRenderer.h" />
+    <ClInclude Include="Forward3DRenderer.h" />
     <ClInclude Include="GBuffer.h" />
     <ClInclude Include="GeometryGenerator.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -92,7 +92,7 @@
     <ClCompile Include="DeferredRenderer.cpp" />
     <ClCompile Include="DemoGeometryGenerator.cpp" />
     <ClCompile Include="Font.cpp" />
-    <ClCompile Include="ForwardRenderer.cpp" />
+    <ClCompile Include="Forward3DRenderer.cpp" />
     <ClCompile Include="GBuffer.cpp" />
     <ClCompile Include="GeometryGenerator.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

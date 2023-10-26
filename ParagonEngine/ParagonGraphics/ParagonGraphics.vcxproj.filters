@@ -139,7 +139,7 @@
     <ClInclude Include="DeferredRenderer.h">
       <Filter>0_Main</Filter>
     </ClInclude>
-    <ClInclude Include="ForwardRenderer.h">
+    <ClInclude Include="Forward3DRenderer.h">
       <Filter>0_Main</Filter>
     </ClInclude>
   </ItemGroup>
@@ -264,7 +264,7 @@
     <ClCompile Include="DeferredRenderer.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
-    <ClCompile Include="ForwardRenderer.cpp">
+    <ClCompile Include="Forward3DRenderer.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
   </ItemGroup>

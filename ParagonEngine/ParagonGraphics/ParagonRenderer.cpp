@@ -6,7 +6,7 @@
 #include "MathHelper.h"
 
 #include "DeferredRenderer.h"
-#include "ForwardRenderer.h"
+#include "Forward3DRenderer.h"
 
 #include "LayoutDefine.h"
 
@@ -42,9 +42,8 @@ namespace Pg::Graphics
 		_deferredRenderer = new DeferredRenderer();
 		_deferredRenderer->Initialize();
 
-		_forwardRenderer = new ForwardRenderer();
+		_forwardRenderer = new Forward3DRenderer();
 		_forwardRenderer->Initialize();
-
 	}
 
 	void ParagonRenderer::BeginRender()
@@ -52,8 +51,6 @@ namespace Pg::Graphics
 		_deferredRenderer->BeginRender();
 		
 	}
-
-
 
 	void ParagonRenderer::Render(Pg::Data::CameraData camData)
 	{
