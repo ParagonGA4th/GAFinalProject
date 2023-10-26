@@ -84,24 +84,21 @@ void Pg::Graphics::DeferredRenderer::BeginRender()
 
 void Pg::Graphics::DeferredRenderer::RenderFirstPass(Pg::Data::GameObject* object, Pg::Data::CameraData& camData)
 {
-	BindFirstPass();
+	
 
 	// 3D 오브젝트 렌더
 	cube->Draw(object->_transform, camData);
 
-	UnbindFirstPass();
+	
 }
 
 void Pg::Graphics::DeferredRenderer::RenderSecondPass()
 {
-	BindSecondPass();
-
+	//Quad를 그린다.
 	_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
 
 	//_DXStorage->_deviceContext->OMSetBlendState(nullptr, NULL, 0xffffffff);
 	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
-
-	UnbindSecondPass();
 }
 
 void Pg::Graphics::DeferredRenderer::BindFirstPass()

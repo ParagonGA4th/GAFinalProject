@@ -69,6 +69,7 @@ namespace Pg::Graphics
 	{
 		// 3D 오브젝트 렌더
 		// Deferred
+		_deferredRenderer->BindFirstPass();
 		for (auto& it : _renderObject3DList)
 		{
 			if (it.second->GetBaseRenderer()->GetActive())
@@ -76,7 +77,11 @@ namespace Pg::Graphics
 				_deferredRenderer->RenderFirstPass(it.first, *camData);
 			}
 		}
+		_deferredRenderer->UnbindFirstPass();
+
+		_deferredRenderer->BindSecondPass();
 		_deferredRenderer->RenderSecondPass();
+		_deferredRenderer->UnbindSecondPass();
 
 		for (auto& it : _renderObject3DList)
 		{
