@@ -73,13 +73,19 @@ namespace Pg::Graphics
 		{
 			if (it.second->GetBaseRenderer()->GetActive())
 			{
-				
 				_deferredRenderer->RenderFirstPass(it.first, *camData);
-				it.second->Render(camData);
 			}
 		}
 		_deferredRenderer->RenderSecondPass();
 
+		for (auto& it : _renderObject3DList)
+		{
+			if (it.second->GetBaseRenderer()->GetActive())
+			{
+				it.second->Render(camData);
+			}
+		}
+		
 		// Forward
 		_forwardRenderer->Render(*camData);
 

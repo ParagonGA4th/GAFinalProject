@@ -105,8 +105,14 @@ namespace Pg::Graphics
 		//Default Input Layout ¼¼ÆÃ.
 		LayoutDefine::Initialize();
 
-		
-		BasicRendersInitialize();
+		_renderer->Initialize();
+
+		//BasicRendersInitialize();
+		tempEditorCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/EditorCamDummy.dds");
+		tempEditorCamSprite->SetPosition(100.0f, 200.0f);
+
+		tempGameCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/GameCamDummy.dds");
+		tempGameCamSprite->SetPosition(400.0f, 200.0f);
 	}
 
 
@@ -162,7 +168,7 @@ namespace Pg::Graphics
 			_currentScene = scene;
 		}
 		assert(_currentScene != nullptr);
-		BasicRendersDraw();
+		//BasicRendersDraw();
 
 		
 		_renderer->Render(_camData);
