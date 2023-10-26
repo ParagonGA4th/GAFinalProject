@@ -37,12 +37,12 @@ namespace Pg::Graphics
 
 		void ClearGBuffers();
 	
-	private:
 		void BindFirstPass();
 		void BindSecondPass();
 
 		void UnbindFirstPass();
 		void UnbindSecondPass();
+	private:
 
 		void BuildFullscreenQuad();
 	private:

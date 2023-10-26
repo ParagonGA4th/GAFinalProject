@@ -47,21 +47,7 @@ namespace Pg::Graphics
 
 	void RenderObjectStaticMesh3D::Render(Pg::Data::CameraData* camData)
 	{
-		////렌더.
-		//DirectX::XMFLOAT4X4 tWorldTM = MathHelper::PG2XM_FLOAT4X4(_baseRenderer->_object->_transform.GetWorldTM());
-		//DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
-		//
-		//DirectX::XMFLOAT4X4 tViewTM = MathHelper::PG2XM_FLOAT4X4(camData->_viewMatrix);
-		//DirectX::XMMATRIX tViewTMMat = DirectX::XMLoadFloat4x4(&tViewTM);
-		//
-		//DirectX::XMFLOAT4X4 tProjTM = MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
-		//DirectX::XMMATRIX tProjTMMat = DirectX::XMLoadFloat4x4(&tProjTM);
-		//
-		//_tempPrimitive->Draw(tWorldTMMat, tViewTMMat, tProjTMMat, DirectX::Colors::Crimson);
-
-		//렌더하는 방식 : 한꺼번에 GPU에 많은 양의 메모리를 넣어놓는게 아니라,
-		//DrawIndexed를 나눠서 호출하는 중에 SetResource를 다르게 사용.
-
+	
 		auto& tD3DBuffer = _modelData->_d3dBufferInfo;
 		auto& tMatCluster = _modelData->_materialCluster;
 
@@ -91,15 +77,7 @@ namespace Pg::Graphics
 		//Constant Buffer Binding (VS)
 		UpdateConstantBuffer(camData);
 		_devCon->VSSetConstantBuffers(0, 1, &_constantBuffer);
-		//_devCon->DrawIndexed(_modelData->_d3dBufferInfo._totalIndexCount, 0, 0);
-		//_devCon->DrawIndexed(36, 0, 0);
-
-		//Update Shared Constant Buffer
-		//UpdateConstantBuffer(camData);
-		//_devCon->DrawIndexed(12, 0, 0);
-
-
-		//_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
+		
 
 		int tMeshCount = _modelData->_d3dBufferInfo._meshCount;
 		for (int i = 0; i < tMeshCount; i++)
