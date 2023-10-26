@@ -39,6 +39,9 @@
     <ClInclude Include="D3DBufferInfo.h" />
     <ClInclude Include="DeferredRenderer.h" />
     <ClInclude Include="DemoGeometryGenerator.h" />
+    <ClInclude Include="Forward2DRenderer.h" />
+    <ClInclude Include="RenderObject2DList.h" />
+    <ClInclude Include="RenderObject3DList.h" />
     <ClInclude Include="IRenderObject.h" />
     <ClInclude Include="Forward3DRenderer.h" />
     <ClInclude Include="GBuffer.h" />
@@ -95,6 +98,7 @@
     <ClCompile Include="DeferredRenderer.cpp" />
     <ClCompile Include="DemoGeometryGenerator.cpp" />
     <ClCompile Include="Font.cpp" />
+    <ClCompile Include="Forward2DRenderer.cpp" />
     <ClCompile Include="Forward3DRenderer.cpp" />
     <ClCompile Include="GBuffer.cpp" />
     <ClCompile Include="GeometryGenerator.cpp">

@@ -7,6 +7,7 @@
 
 #include "DeferredRenderer.h"
 #include "Forward3DRenderer.h"
+#include "Forward2DRenderer.h"
 
 #include "LayoutDefine.h"
 
@@ -41,6 +42,8 @@ namespace Pg::Graphics
 		auto& tRendererChangeList = singleton<Pg::Data::RendererChangeList>();
 		_rendererChangeList = &tRendererChangeList;
 
+		_renderObject2DList = std::make_unique<RenderObject2DList>();
+		_renderObject3DList = std::make_unique<RenderObject3DList>();
 	}
 
 	ParagonRenderer::~ParagonRenderer()
@@ -50,11 +53,14 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::Initialize()
 	{		
-		_deferredRenderer = new DeferredRenderer();
+		_deferredRenderer = std::make_unique<DeferredRenderer>();
 		_deferredRenderer->Initialize();
 
-		_forwardRenderer = new Forward3DRenderer();
-		_forwardRenderer->Initialize();
+		_forward3dRenderer = std::make_unique<Forward3DRenderer>();
+		_forward3dRenderer->Initialize();
+
+		_forward2dRenderer = std::make_unique<Forward2DRenderer>();
+		_forward2dRenderer->Initialize();
 	}
 
 	void ParagonRenderer::BeginRender()
@@ -70,7 +76,7 @@ namespace Pg::Graphics
 		// 3D 오브젝트 렌더
 		// Deferred
 		_deferredRenderer->BindFirstPass();
-		for (auto& it : _renderObject3DList)
+		for (auto& it : _renderObject3DList->_list)
 		{
 			if (it.second->GetBaseRenderer()->GetActive())
 			{
@@ -83,7 +89,7 @@ namespace Pg::Graphics
 		_deferredRenderer->RenderSecondPass();
 		_deferredRenderer->UnbindSecondPass();
 
-		for (auto& it : _renderObject3DList)
+		for (auto& it : _renderObject3DList->_list)
 		{
 			if (it.second->GetBaseRenderer()->GetActive())
 			{
@@ -92,16 +98,10 @@ namespace Pg::Graphics
 		}
 		
 		// Forward
-		_forwardRenderer->Render(*camData);
+		_forward3dRenderer->Render(*camData);
 
-		// 2D 오브젝트 렌더
-		for (auto& it : _renderObject2DList)
-		{
-			if (it.second->GetBaseRenderer()->GetActive())
-			{
-				//렌더.
-			}
-		}
+		// 2D 오브젝트 렌더 
+		_forward2dRenderer->Render(_renderObject2DList.get(), camData);
 	}
 
 	void ParagonRenderer::EndRender()
@@ -122,7 +122,7 @@ namespace Pg::Graphics
 			if (GraphicsResourceHelper::IsRenderer3D(it->GetRendererTypeName()))
 			{
 				//3D
-				auto tRes = _renderObject3DList.insert_or_assign(tGameObject, 
+				auto tRes = _renderObject3DList->_list.insert_or_assign(tGameObject, 
 					std::make_unique<RenderObject3D>(it));
 
 				if (!tRes.second)
@@ -134,7 +134,7 @@ namespace Pg::Graphics
 			else
 			{
 				//2D
-				auto tRes = _renderObject2DList.insert_or_assign(tGameObject, 
+				auto tRes = _renderObject2DList->_list.insert_or_assign(tGameObject,
 					std::make_unique<RenderObject2D>(it));
 
 				if (!tRes.second)
@@ -153,12 +153,12 @@ namespace Pg::Graphics
 			if (GraphicsResourceHelper::IsRenderer3D(it->GetRendererTypeName()))
 			{
 				//3D
-				_renderObject3DList.erase(tGameObject);
+				_renderObject3DList->_list.erase(tGameObject);
 			}
 			else
 			{
 				//2D
-				_renderObject2DList.erase(tGameObject);
+				_renderObject2DList->_list.erase(tGameObject);
 			}
 		}
 	}
@@ -170,8 +170,8 @@ namespace Pg::Graphics
 		//상황은 아직 유지 못함. 나중에 _rendererChangeList를 활용하면 된다!
 		
 		//기존의 직접적 RenderObject 리스트들 클리어.
-		_renderObject2DList.clear();
-		_renderObject3DList.clear();
+		_renderObject2DList->_list.clear();
+		_renderObject3DList->_list.clear();
 
 		using Pg::Graphics::Helper::GraphicsResourceHelper;
 
@@ -193,7 +193,7 @@ namespace Pg::Graphics
 					//StaticMeshRenderer
 					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
 					{
-						auto tRes = _renderObject3DList.insert_or_assign(tGameObject,
+						auto tRes = _renderObject3DList->_list.insert_or_assign(tGameObject,
 							std::make_unique<RenderObjectStaticMesh3D>(tBaseRenderer));
 					}
 				}
@@ -203,14 +203,14 @@ namespace Pg::Graphics
 					//TextRenderer
 					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::TextRenderer*).name())) == 0)
 					{
-						auto tRes = _renderObject2DList.insert_or_assign(tGameObject,
+						auto tRes = _renderObject2DList->_list.insert_or_assign(tGameObject,
 							std::make_unique<RenderObjectText2D>(tBaseRenderer));
 					}
 
 					//ImageRenderer
 					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::ImageRenderer*).name())) == 0)
 					{
-						auto tRes = _renderObject2DList.insert_or_assign(tGameObject,
+						auto tRes = _renderObject2DList->_list.insert_or_assign(tGameObject,
 							std::make_unique<RenderObjectImage2D>(tBaseRenderer));
 					}
 				}
