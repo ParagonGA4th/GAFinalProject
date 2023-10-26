@@ -27,7 +27,7 @@ void Pg::Engine::TestScene::Initialize()
 {
 	using namespace Pg::Data;
 
-
+	
 	/// 오수안, 새로 추가한 스크립트 컴포넌트의 테스트를 위한 코드 
 
 	//카메라 하나 더 생성
@@ -44,15 +44,15 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	GameObject* tObj2_1 = tCurrentScene->AddObject("Cube3");
-	tObj2_1->GetComponent<Transform>()->SetPosition({ 3.0f, 0.0f, 0.0f });
+	tObj2_1->GetComponent<Transform>()->SetPosition({ 5.0f, 0.0f, 0.0f });
 	tObj2_1->AddComponent<StaticMeshRenderer>();
-	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx");
+	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/MultiMatMesh/RoadLavaCone.fbx");
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	//tObj2_1->AddComponent<MoveForwardBack>();
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Cube4");
-	tObj2_2->GetComponent<Transform>()->SetPosition({ -3.0f, 0.0f, 0.0f });
-	tObj2_2->AddComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx");
+	tObj2_2->GetComponent<Transform>()->SetPosition({ -5.0f, 0.0f, 0.0f });
+	tObj2_2->AddComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/MultiMatMesh/WoodRoadCone.fbx");
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 
