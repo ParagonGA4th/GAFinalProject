@@ -17,8 +17,7 @@ namespace Pg::Graphics
 		RenderObject3D(Pg::Data::BaseRenderer* baseRenderer);
 		virtual ~RenderObject3D();
 		
-		virtual void Render(Pg::Data::CameraData* camData) override;
-
+		virtual void Render(Pg::Data::CameraData* camData) abstract;
 	};
 }
 

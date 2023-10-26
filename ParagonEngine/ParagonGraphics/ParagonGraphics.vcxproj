@@ -40,9 +40,9 @@
     <ClInclude Include="DeferredRenderer.h" />
     <ClInclude Include="DemoGeometryGenerator.h" />
     <ClInclude Include="Forward2DRenderer.h" />
+    <ClInclude Include="RenderFont.h" />
     <ClInclude Include="RenderObject2DList.h" />
     <ClInclude Include="RenderObject3DList.h" />
-    <ClInclude Include="IRenderObject.h" />
     <ClInclude Include="Forward3DRenderer.h" />
     <ClInclude Include="GBuffer.h" />
     <ClInclude Include="GeometryGenerator.h">
@@ -117,6 +117,7 @@
     </ClCompile>
     <ClCompile Include="MultimaterialMesh.cpp" />
     <ClCompile Include="RenderableObject.cpp" />
+    <ClCompile Include="RenderFont.cpp" />
     <ClCompile Include="RenderMaterial.cpp" />
     <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="ParagonRenderer.cpp" />

@@ -19,12 +19,4 @@ namespace Pg::Graphics
 	{
 
 	}
-
-	void RenderObject3D::Render(Pg::Data::CameraData* camData)
-	{
-		assert(false);
-	}
-	
-
-
 }
