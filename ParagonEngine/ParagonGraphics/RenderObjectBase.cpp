@@ -14,7 +14,7 @@ namespace Pg::Graphics
 		//만들 때, 렌더할 때 필요한 정보를 받아와야 한다.
 	}
 
-	void RenderObjectBase::Render()
+	void RenderObjectBase::Render(Pg::Data::CameraData* camData)
 	{
 		assert(false);
 	}

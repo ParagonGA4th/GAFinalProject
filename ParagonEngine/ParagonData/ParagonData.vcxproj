@@ -199,7 +199,6 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsResource.h" />
     <ClInclude Include="IComponent.h" />
-    <ClInclude Include="IRenderObject.h" />
     <ClInclude Include="RendererBase2D.h" />
     <ClInclude Include="RendererBase3D.h" />
     <ClInclude Include="RendererType.h" />

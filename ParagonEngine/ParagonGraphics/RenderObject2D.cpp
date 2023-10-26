@@ -20,9 +20,9 @@ namespace Pg::Graphics
 
 	}
 
-	void RenderObject2D::Render()
+	void RenderObject2D::Render(Pg::Data::CameraData* camData)
 	{
-
+		assert(false);
 	}
 
 

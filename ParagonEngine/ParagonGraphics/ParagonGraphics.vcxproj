@@ -35,6 +35,7 @@
     <ClInclude Include="Cubemap.h" />
     <ClInclude Include="D3DBufferInfo.h" />
     <ClInclude Include="DemoGeometryGenerator.h" />
+    <ClInclude Include="IRenderObject.h" />
     <ClInclude Include="LayoutDefine.h" />
     <ClInclude Include="DX11Headers.h" />
     <ClInclude Include="Font.h" />
@@ -57,6 +58,9 @@
     <ClInclude Include="RenderObjectBase.h" />
     <ClInclude Include="RenderObject2D.h" />
     <ClInclude Include="RenderObject3D.h" />
+    <ClInclude Include="RenderObjectImage2D.h" />
+    <ClInclude Include="RenderObjectStaticMesh3D.h" />
+    <ClInclude Include="RenderObjectText2D.h" />
     <ClInclude Include="RenderShader.h" />
     <ClInclude Include="RenderTexture2D.h" />
     <ClInclude Include="RenderUsageStruct2D.h" />
@@ -99,6 +103,9 @@
     <ClCompile Include="RenderObjectBase.cpp" />
     <ClCompile Include="RenderObject2D.cpp" />
     <ClCompile Include="RenderObject3D.cpp" />
+    <ClCompile Include="RenderObjectImage2D.cpp" />
+    <ClCompile Include="RenderObjectStaticMesh3D.cpp" />
+    <ClCompile Include="RenderObjectText2D.cpp" />
     <ClCompile Include="RenderShader.cpp" />
     <ClCompile Include="RenderTexture2D.cpp" />
     <ClCompile Include="RenderUsageStruct2D.cpp" />

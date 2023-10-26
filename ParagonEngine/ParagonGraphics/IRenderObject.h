@@ -1,5 +1,6 @@
 #pragma once
-#include "RenderTextData.h"
+#include "../ParagonData/RenderTextData.h"
+#include "../ParagonData/CameraData.h"
 
 /// <summary>
 /// 모든 BaseRenderer 기반 클래스들이 갖고 있고,
@@ -8,14 +9,14 @@
 /// GOAL: 3DModel, Material 정보를 보관한다.
 /// </summary>
 
-namespace Pg::Data
+namespace Pg::Graphics
 {
 	class IRenderObject abstract
 	{
 	public:
 
 		//실제로 렌더오브젝트들을 렌더하는 함수.
-		virtual void Render() abstract;
+		virtual void Render(Pg::Data::CameraData* camData) abstract;
 
 	};
 }

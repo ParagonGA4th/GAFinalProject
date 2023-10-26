@@ -35,7 +35,7 @@ namespace Pg::Graphics::Helper
 
 		//원래는 더 깊숙히 들어가야 하지만, 렌더러 컴포넌트가 아직 나오지 않은 지금은 하드코딩.
 		//이렇게 되어도 안된다! 더 자세한 렌더러 타입이 들어가야지.
-		// 포인터가 들어와야 한다. typeid(this).name(); 이렇게, 포인터가 들어오기 때문에.
+		// 포인터가 들어와야 한다. typeid(자신).name(); 이렇게, 포인터가 들어오기 때문에.
 		//2D 실제.
 		if (rendererTypeName.compare(std::string(typeid(Pg::Data::ImageRenderer*).name())) == 0 ||
 			rendererTypeName.compare(std::string(typeid(Pg::Data::TextRenderer*).name())) == 0 )

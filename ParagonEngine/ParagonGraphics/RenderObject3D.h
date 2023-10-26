@@ -1,12 +1,5 @@
 #pragma once
-#include "GraphicsDLLExporter.h"
-#include "RenderUsageStruct3D.h"
 #include "RenderObjectBase.h"
-
-#include <memory>
-
-//#ForwardTemp : 헤더.
-#include <dxtk/GeometricPrimitive.h>
 
 /// <summary>
 /// GameObject가 그래픽엔진의 렌더링 로직이랑 1대1 연동될 수 있게 하는 클래스이다.
@@ -23,11 +16,8 @@ namespace Pg::Graphics
 	public:
 		RenderObject3D(Pg::Data::BaseRenderer* baseRenderer);
 		virtual ~RenderObject3D();
-
-		// #ForwardTemp : ForwardRendering 테스트를 위해 놔둠. WorkSpace 검사 위해.
-		std::unique_ptr<DirectX::GeometricPrimitive> _tempPrimitive;
 		
-		virtual void Render() override;
+		virtual void Render(Pg::Data::CameraData* camData) override;
 
 	};
 }
