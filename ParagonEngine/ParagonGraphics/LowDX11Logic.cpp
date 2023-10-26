@@ -192,11 +192,6 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->RSSetViewports(1, &viewport);
 	}
 
-	void LowDX11Logic::Draw()
-	{
-		
-	}
-
 	void LowDX11Logic::Present()
 	{
 		_DXStorage->_swapChain->Present(0, 0);

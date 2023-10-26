@@ -36,13 +36,19 @@ void Pg::Graphics::TestCube::Draw(Pg::Data::Transform& transform, Pg::Data::Came
 
 	_cbData.gCBuf_World = tWorldTMMat;
 	_cbData.gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
-	//_cbData.gCBuf_WorldViewProj = DirectX::XMMatrixIdentity() * 0.5f;
 
-	// 바인딩
+	// 상수버퍼 업데이트
+	for (auto& cb : _vertexShader->_constantBuffers)
+	{
+		cb->UpdateAndBind();
+	}
+
+	// IA 바인딩
 	_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	BindBuffers();
 
-
+	// 그리기
+	_DXStorage->_deviceContext->DrawIndexed(36, 0, 0);
 }
 
 void Pg::Graphics::TestCube::Draw()

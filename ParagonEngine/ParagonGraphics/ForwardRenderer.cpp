@@ -74,16 +74,7 @@ namespace Pg::Graphics
 
 	void Pg::Graphics::ForwardRenderer::BeginRender()
 	{
-		// Set Depth Stencil State
-		_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_depthStencilState, 0);
-
-		// Clear Main RTV and DSV
-		//_DXStorage->_deviceContext->ClearRenderTargetView(_DXStorage->_mainRTV, _DXStorage->_backgroundColor);
-		//_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-		
-
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_DeferredDepthStencilView);
-
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
 	}
 
 	void Pg::Graphics::ForwardRenderer::Render(Pg::Data::CameraData camData)
