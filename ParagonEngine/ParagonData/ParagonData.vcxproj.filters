@@ -85,6 +85,9 @@
     <ClCompile Include="StaticMeshRenderer.cpp">
       <Filter>2_Component\Renderer\3D\StaticMeshRenderer</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceQueue.cpp">
+      <Filter>6_DataChangeList\ResourceQueue</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -210,6 +213,9 @@
     <ClInclude Include="StaticMeshRenderer.h">
       <Filter>2_Component\Renderer\3D\StaticMeshRenderer</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceQueue.h">
+      <Filter>6_DataChangeList\ResourceQueue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -307,6 +313,9 @@
     </Filter>
     <Filter Include="2_Component\Renderer\3D\StaticMeshRenderer">
       <UniqueIdentifier>{27d5ab17-5ab9-4310-88f4-dd3a4a77dd4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_DataChangeList\ResourceQueue">
+      <UniqueIdentifier>{821c629c-71f3-45f1-aa90-034383729b81}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

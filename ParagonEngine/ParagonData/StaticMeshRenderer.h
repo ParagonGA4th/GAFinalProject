@@ -15,9 +15,6 @@ namespace Pg::Data
 	public:
 		StaticMeshRenderer(GameObject* obj);
 
-		//구체화된 Render 함수, 호출되면 실제 기능 수행해야!
-		virtual void Render() override;
-
 	private:
 		
 	};
