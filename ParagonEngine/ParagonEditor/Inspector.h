@@ -2,9 +2,9 @@
 #include "IEditorWindow.h"
 #include <string>
 
-namespace Pg::UI::Manager { class UIManager; }
-namespace Pg::UI { class Panel; }
+#include "../ParagonUI/WidgetContainer.h"
 
+namespace Pg::UI::Manager { class UIManager; }
 namespace Pg::Editor::Window
 {
 	class Inspector : public IEditorWindow
@@ -21,14 +21,16 @@ namespace Pg::Editor::Window
 		virtual bool GetShow() override;	
 
 	private:
-		void CreateUI();
 
 	private:
 		std::string _winName;
 		bool _isShow;
 
 		Pg::UI::Manager::UIManager* _uiManager;
-		Pg::UI::Panel* _panel;
+		Pg::UI::WidgetContainer cons;
+
+		std::string _objName;
+		std::string _objTag;
 	};
 }
 

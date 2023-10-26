@@ -17,8 +17,6 @@
 struct ID3D11Device;
 struct ID3D11DeviceContext;
 
-namespace Pg::UI { class Panel; }
-
 namespace Pg::UI::Manager
 {
 	class ImGuiManager;
@@ -37,11 +35,10 @@ namespace Pg::UI::Manager
 
 		 void UIHandler(MSG message);
 
-		 Pg::UI::Panel* CreatePanel(std::string panelName);
-		 bool DeletePanel();
+		 void WindowBegin(std::string winName);
+		 void WindowEnd();
 
 	private:
 		std::unique_ptr<Pg::UI::Manager::ImGuiManager> _imguiManager;
-		std::vector<Pg::UI::Panel*> _panels;
 	};
 }

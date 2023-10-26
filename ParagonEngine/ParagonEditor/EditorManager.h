@@ -1,9 +1,11 @@
 #pragma once
 #include <windows.h>
 #include <string>
+#include <memory>
 
-namespace Pg::UI::Manager { class UIManager; }
 namespace Pg::Editor::Helper { class EditorHelper; }
+namespace Pg::Editor::Window { class Inspector; }
+namespace Pg::UI::Manager { class UIManager; }
 
 namespace Pg::Editor::Manager
 {
@@ -23,6 +25,7 @@ namespace Pg::Editor::Manager
 	private:
 		Pg::UI::Manager::UIManager* _uiManager;
 		Pg::Editor::Helper::EditorHelper* _edHepler;
+		std::unique_ptr<Pg::Editor::Window::Inspector> _inspector;
 
 		bool _editorOnOff;
 

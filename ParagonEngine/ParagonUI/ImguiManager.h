@@ -22,8 +22,8 @@ namespace Pg::UI::Manager
 
 		void ImguiHandler(MSG message);
 
-		static void PanelBegin(std::string windowName);
-		static void PanelEnd();
+		static void Begin(std::string windowName);
+		static void End();
 
 	private:
 		void DemoInspector();
