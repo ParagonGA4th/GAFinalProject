@@ -8,7 +8,7 @@ namespace Pg::Data
 		_string(""),
 		_fontSize(1.f)
 	{
-
+		SetRendererTypeName(typeid(this).name());
 	}
 
 	void TextRenderer::SetString(std::string str)

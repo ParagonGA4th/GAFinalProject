@@ -4,6 +4,7 @@
 #include "LowDX11Storage.h"
 #include "LayoutDefine.h"
 #include "../ParagonUtil/ByteBuffer.hpp"
+#include "DX11Headers.h"
 #include <vector>
 #include <cassert>
 
@@ -36,11 +37,21 @@ namespace Pg::Graphics::Helper
 	void BufferParser::AssetStaticModelToD3DBuffer(Pg::Graphics::D3DBufferInfo& outBufferInfo, Pg::Graphics::AssetSceneData* assetSceneData)
 	{
 		auto&& tD3DBuffer = outBufferInfo;
-		Pg::Util::ByteBuffer* tByteVertexBuffer = new Pg::Util::ByteBuffer;
 
 		//전체 VertexCount 세기 + 기존
 		size_t tVertexCount = 0;
 		unsigned int tDrawStartVertexCnt = 0;
+
+		//Mesh 개수 전달.
+		tD3DBuffer._meshCount = assetSceneData->m_NumMesh;
+
+		//Material ID 전달. (Mesh와 1대1 대응하게)
+		for (size_t i = 0; i < assetSceneData->m_NumMesh; i++)
+		{
+			tD3DBuffer._materialIDVector.push_back(assetSceneData->m_MeshList[i]->m_MaterialIndex);
+		}
+
+		tD3DBuffer._materialCount = tD3DBuffer._materialIDVector.size();
 
 		for (size_t i = 0; i < assetSceneData->m_NumMesh; i++)
 		{
@@ -48,26 +59,27 @@ namespace Pg::Graphics::Helper
 
 			//Mesh별 시작 Vertex Cnt 기록 w/ 총 Vertex 개수 기록.
 			tVertexCount += assetSceneData->m_MeshList[i]->m_NumVertice;
-			tDrawStartVertexCnt += tVertexCount;
+
+			tDrawStartVertexCnt = tVertexCount;
 		}
+
+		std::vector<LayoutDefine::Vin1stStatic> tVBVec;
+		tVBVec.reserve(tVertexCount);
 
 		//InputLayout에 따라서 3DModel의 정보 로드. (Vin1stStatic)
 		for (size_t i = 0; i < assetSceneData->m_NumMesh; i++)
 		{
 			for (size_t j = 0; j < assetSceneData->m_MeshList[i]->m_NumVertice; j++)
 			{
-				//posL
-				tByteVertexBuffer->putBytes((uint8_t*)&(assetSceneData->m_MeshList[i]->m_VerticeList[j]), static_cast<uint32_t>(sizeof(DirectX::XMFLOAT3)));
-				//normalL
-				tByteVertexBuffer->putBytes((uint8_t*)&(assetSceneData->m_MeshList[i]->m_NormalList[j]), static_cast<uint32_t>(sizeof(DirectX::XMFLOAT3)));
-				//tangentL
-				tByteVertexBuffer->putBytes((uint8_t*)&(assetSceneData->m_MeshList[i]->m_TangentList[j]), static_cast<uint32_t>(sizeof(DirectX::XMFLOAT3)));
-				//color
-				tByteVertexBuffer->putBytes((uint8_t*)&(assetSceneData->m_MeshList[i]->m_ColorList[j]), static_cast<uint32_t>(sizeof(DirectX::XMFLOAT4)));
-				//tex
-				tByteVertexBuffer->putBytes((uint8_t*)&(assetSceneData->m_MeshList[i]->m_TextureCoordList[j]), static_cast<uint32_t>(sizeof(DirectX::XMFLOAT3)));
-				//matID
-				tByteVertexBuffer->putBytes((uint8_t*)&(assetSceneData->m_MeshList[i]->m_MaterialIndex), static_cast<uint32_t>(sizeof(unsigned int)));
+				LayoutDefine::Vin1stStatic tMeshVert;
+				tMeshVert.posL = assetSceneData->m_MeshList[i]->m_VerticeList[j];
+				tMeshVert.normalL = assetSceneData->m_MeshList[i]->m_VerticeList[j];
+				tMeshVert.tangentL = assetSceneData->m_MeshList[i]->m_TangentList[j];
+				tMeshVert.color = assetSceneData->m_MeshList[i]->m_ColorList[j];
+				tMeshVert.tex = assetSceneData->m_MeshList[i]->m_TextureCoordList[j];
+				tMeshVert.matID = assetSceneData->m_MeshList[i]->m_MaterialIndex;
+
+				tVBVec.push_back(tMeshVert);
 			}
 		}
 
@@ -75,17 +87,15 @@ namespace Pg::Graphics::Helper
 		size_t tIndexCount = 0;
 		unsigned int tDrawStartIndexCnt = 0;
 
-		for (size_t i = 0; i < assetSceneData->m_NumMesh; i++)
+		for (auto& it : assetSceneData->m_MeshList)
 		{
 			tD3DBuffer._indexOffsetVector.push_back(tDrawStartIndexCnt);
 
-			//Mesh별 시작 Index Cnt 기록 w/ 총 Index 개수 기록.
-			for (size_t j = 0; j < assetSceneData->m_MeshList[i]->m_NumFace; j++)
+			for (auto&& itt : it->m_FaceList)
 			{
-				tIndexCount += assetSceneData->m_MeshList[i]->m_FaceList[j].m_NumIndice;
+				tIndexCount += itt.m_NumIndice;
 			}
-
-			tDrawStartIndexCnt += tIndexCount;
+			tDrawStartIndexCnt = tIndexCount;
 		}
 
 		std::vector<unsigned int> tIBVec;
@@ -109,13 +119,9 @@ namespace Pg::Graphics::Helper
 		tVBD.CPUAccessFlags = 0;
 		tVBD.MiscFlags = 0;
 		D3D11_SUBRESOURCE_DATA vinitData;
-		vinitData.pSysMem = tByteVertexBuffer->GetStartAddress();
+		vinitData.pSysMem = &(tVBVec[0]);
 
-		HRESULT hr = LowDX11Storage::GetInstance()->_device->CreateBuffer(&tVBD, &vinitData, &(tD3DBuffer._vertexBuffer));
-		if (FAILED(hr))
-		{
-			assert(false);
-		}
+		HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tVBD, &vinitData, &(tD3DBuffer._vertexBuffer)));
 
 		D3D11_BUFFER_DESC tIBD;
 		tIBD.Usage = D3D11_USAGE_IMMUTABLE;
@@ -124,14 +130,13 @@ namespace Pg::Graphics::Helper
 		tIBD.CPUAccessFlags = 0;
 		tIBD.MiscFlags = 0;
 		D3D11_SUBRESOURCE_DATA iinitData;
-		iinitData.pSysMem = tIBVec.data();
+		iinitData.pSysMem = &(tIBVec[0]);
 
-		hr = LowDX11Storage::GetInstance()->_device->CreateBuffer(&tIBD, &iinitData, &(tD3DBuffer._indexBuffer));
-
-		tD3DBuffer._indexCount = static_cast<UINT>(tIndexCount);
-
-		//메모리 릭 막기
-		delete tByteVertexBuffer;
+		HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tIBD, &iinitData, &(tD3DBuffer._indexBuffer)));
+	
+		//전체 Vertex Count 할당.
+		tD3DBuffer._totalVertexCount = static_cast<UINT>(tVertexCount);
+		tD3DBuffer._totalIndexCount = static_cast<UINT>(tIndexCount);
 	}
 
 	void BufferParser::AssetSkinnedModelToD3DBuffer(Pg::Graphics::D3DBufferInfo& outBufferInfo, Pg::Graphics::AssetSceneData* assetSceneData)

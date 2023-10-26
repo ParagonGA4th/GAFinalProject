@@ -5,12 +5,9 @@
 
 namespace Pg::Editor
 {
-	namespace Core
-	{
-		class EditorMain;
-	}
+	namespace Core { class EditorAction; }
 
-	class Editor:public IEditor
+	class Editor : public IEditor
 	{
 	public:
 		PARAGON_EDITOR_DLL Editor();
@@ -18,7 +15,7 @@ namespace Pg::Editor
 
 		virtual PARAGON_EDITOR_DLL void Run() override;
 	private:
-		std::unique_ptr<Pg::Editor::Core::EditorMain> _main;
+		std::unique_ptr<Pg::Editor::Core::EditorAction> _action;
 	};
 }
 

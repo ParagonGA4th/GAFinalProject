@@ -1,6 +1,7 @@
 #pragma once
 #include "../ParagonData/AssetDefines.h"
 #include "../ParagonData/Scene.h"
+#include "../ParagonData/CameraData.h"
 #include <string>
 #include <vector>
 
@@ -30,5 +31,7 @@ namespace Pg::Core
 
 		//렌더링을 위해 현재의 씬을 받아올 필요가 있다.
 		virtual Pg::Data::Scene* GetCurrentScene() abstract;
+
+		virtual Pg::Data::CameraData* GetCameraData() abstract;
 	};
 }

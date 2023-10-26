@@ -1,4 +1,5 @@
 #include "Transform.h"
+#include "Serializer.h"
 
 #include <cmath>
 
@@ -9,10 +10,11 @@ namespace Pg::Data
 	Transform::Transform(GameObject* obj) :
 		Component(obj),
 		_position(0.0f,0.0f,0.0f),
-		_rotation(0.0f,0.0f,0.0f,0.0f),
-		_scale(1.0f,1.0f,1.0f)
+		_rotation(1.0f,0.0f,0.0f,0.0f),
+		_scale(1.0f,1.0f,1.0f),
+		_forward(0.f, 0.f, 1.f), _right(1.f, 0.f, 0.f), _up(0.f, 1.f, 0.f), _is3D(true)
 	{
-
+		
 	}
 
 	PGFLOAT3 Transform::GetPosition() const
@@ -81,12 +83,19 @@ namespace Pg::Data
 	{
 		PGFLOAT4 result = { x, y, z, 1.f };
 
-		// 부모 스케일은 뭘 곱하지..?
-		//if (HasParent())
-		//{
-		//	result = PGFloat4MultiplyMatrix(result, _parent->)
-		//}
+		if (HasParent())
+		{
+			PGFLOAT4X4 scaleInverseMatrix = _parent->GetWorldScaleMatrix();
+			scaleInverseMatrix.m[0][0] = 1 / scaleInverseMatrix.m[0][0];
+			scaleInverseMatrix.m[1][1] = 1 / scaleInverseMatrix.m[1][1];
+			scaleInverseMatrix.m[2][2] = 1 / scaleInverseMatrix.m[2][2];
+			scaleInverseMatrix.m[3][3] = 1 / scaleInverseMatrix.m[3][3];
+			result = PGFloat4MultiplyMatrix(result, scaleInverseMatrix);
+		}
 
+		_scale.x = result.x;
+		_scale.y = result.y;
+		_scale.z = result.z;
 	}
 
 	Pg::Math::PGFLOAT3 Transform::GetLocalScale()
@@ -149,6 +158,7 @@ namespace Pg::Data
 		_rotation = result;
 	}
 
+	///이 함수에 명시되어 있는 Euler는 degree 기준이다!!!!!
 	Pg::Math::PGQuaternion Transform::EulerToQuaternion(float x, float y, float z)
 	{
 		PGQuaternion quaternion;
@@ -224,7 +234,8 @@ namespace Pg::Data
 		
 		if (_parent)
 		{
-			_parent->GetWorldTM();
+			PGFLOAT4X4 tParentWorldTM = _parent->GetWorldTM();
+			result = result * tParentWorldTM;
 		}
 
 		return result;
@@ -356,7 +367,7 @@ namespace Pg::Data
 
 		if (_parent)
 		{
-			result *= _parent->GetLocalRotationMatrix();
+			result *= _parent->GetWorldRotationMatrix();
 		}
 
 		return result;
@@ -365,19 +376,22 @@ namespace Pg::Data
 	Pg::Math::PGFLOAT3 Transform::GetForward()
 	{
 		PGFLOAT4 result = PGFloat4MultiplyMatrix(PGFLOAT4(0.f, 0.f, 1.f, 0.f), GetWorldRotationMatrix());
-		return PGFLOAT3(result.x, result.y, result.z);
+		_forward = PGFLOAT3(result.x, result.y, result.z);
+		return _forward;
 	}
 
 	Pg::Math::PGFLOAT3 Transform::GetUp()
 	{
 		PGFLOAT4 result = PGFloat4MultiplyMatrix(PGFLOAT4(0.f, 1.f, 0.f, 0.f), GetWorldRotationMatrix());
-		return PGFLOAT3(result.x, result.y, result.z);
+		_up = PGFLOAT3(result.x, result.y, result.z);
+		return _up;
 	}
 
 	Pg::Math::PGFLOAT3 Transform::GetRight()
 	{
 		PGFLOAT4 result = PGFloat4MultiplyMatrix(PGFLOAT4(1.f, 0.f, 0.f, 0.f), GetWorldRotationMatrix());
-		return PGFLOAT3(result.x, result.y, result.z);
+		_right = PGFLOAT3(result.x, result.y, result.z);
+		return _right;
 	}
 
 	Pg::Math::PGQuaternion Transform::NormalizeQuaternion(PGQuaternion q)
@@ -396,6 +410,16 @@ namespace Pg::Data
 		}
 
 		return q;
+	}
+
+	void Transform::OnSerialize()
+	{
+		//Serializer::SerializeFloat();
+	}
+	
+	void Transform::OnDeserialize()
+	{
+
 	}
 
 }

@@ -1,5 +1,9 @@
 #pragma once
-#include "../ParagonData/IRenderObject.h"
+#include "IRenderObject.h"
+#include "../ParagonData/BaseRenderer.h"
+#include "../ParagonData/GameObject.h"
+
+#include <memory>
 
 /// <summary>
 /// Graphics 엔진에서 쓰이는 모든 렌더되는 오브젝트들의 기본 클래스이다.
@@ -21,13 +25,16 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class RenderObjectBase : public Pg::Data::IRenderObject
+	class RenderObjectBase : public Pg::Graphics::IRenderObject
 	{
 	public:
 		RenderObjectBase(Pg::Data::BaseRenderer* baseRenderer);
 
-		Pg::Data::BaseRenderer* _baseRenderer = nullptr;
+		virtual void Render(Pg::Data::CameraData* camData) override;
+
+		Pg::Data::BaseRenderer* GetBaseRenderer();
 	protected:
+		Pg::Data::BaseRenderer* _baseRenderer = nullptr;
 		Pg::Graphics::Manager::GraphicsResourceManager* _graphicsResourceManager = nullptr;
 	};
 }

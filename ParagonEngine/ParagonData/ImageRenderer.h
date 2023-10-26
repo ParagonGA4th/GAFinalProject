@@ -20,6 +20,7 @@ namespace Pg::Data
 		void SetImagePath(std::string path);
 		std::string GetImagePath();
 
+
 	private:
 		std::string _imagePath;
 	};

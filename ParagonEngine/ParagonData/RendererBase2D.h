@@ -19,6 +19,7 @@ namespace Pg::Data
 	protected:
 		virtual void Start() override;
 
+
 	public:
 		void SetSize(float width, float height);
 		void SetWidth(float width);

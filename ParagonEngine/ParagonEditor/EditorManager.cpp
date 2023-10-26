@@ -1,28 +1,30 @@
 #include "EditorManager.h"
-#include "ExternalLib.h"
-#include "UIManager.h"
-#include "../ParagonAPI/PgInput.h"
+#include "EditorHelper.h"
+#include "../ParagonUI/UIManager.h"
+
+#include <singleton-cpp/singleton.h>
+#include <string>
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUI.lib")
 #else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUI.lib")
 #endif // _DEBUG
 
+
+
 Pg::Editor::Manager::EditorManager::EditorManager()
-	:_isCoreInitailized(false)
+	:_editorOnOff(false)
 {
-	// File (SceneData)
-	
-	// core
-	_coreMain = std::make_unique<Pg::Core::ProcessMain>();
-	
-	// input
-	auto& tInputSystem = singleton<Pg::API::Input::PgInput>();
-	_input = &tInputSystem;
+	auto& tEditorHelper = singleton<Pg::Editor::Helper::EditorHelper>();
+	_edHepler = &tEditorHelper;
 
 	// UI
-	_UIManager = std::make_unique<Pg::Editor::Manager::UIManager>();
+	auto& tUIManager = singleton<Pg::UI::Manager::UIManager>();
+	_uiManager = &tUIManager;
+
+	// Editor event
+	// Editor window
 }
 
 Pg::Editor::Manager::EditorManager::~EditorManager()
@@ -30,43 +32,31 @@ Pg::Editor::Manager::EditorManager::~EditorManager()
 
 }
 
-void Pg::Editor::Manager::EditorManager::Initialize(HWND hWnd, float width, float height)
+void Pg::Editor::Manager::EditorManager::Initialize(HWND hWnd)
 {
-	_coreMain->Initialize(static_cast<void*>(hWnd), width, height);
-
-	_UIManager->Initialize(static_cast<void*>(hWnd), _coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
-	_isCoreInitailized = true;
+	_uiManager->Initialize(static_cast<void*>(hWnd), _edHepler->GetDevice(), _edHepler->GetDeviceContext());
 }
 
 void Pg::Editor::Manager::EditorManager::Update()
 {
-	_coreMain->Update();
-	_UIManager->Update();
+	if (_edHepler->GetEditorOnOff()) _editorOnOff = !_editorOnOff;
 
-	_coreMain->BeginRender();
-	_coreMain->Render();
-	_UIManager->Render();
-	_coreMain->EndRender();
+	if(_editorOnOff) _uiManager->Update(_edHepler->GetTexture());
+}
+
+void Pg::Editor::Manager::EditorManager::LastUpdate()
+{
+	if (_editorOnOff) _uiManager->LastUpdate();
 }
 
 void Pg::Editor::Manager::EditorManager::Finalize()
 {
-	_UIManager->Finalize();
-	_coreMain->Finalize();
+	_uiManager->Finalize();
 }
 
-//void Pg::Editor::Manager::EditorManager::ReSizeHandler(float width, float height)
-//{
-//	//if(_isCoreInitailized) _coreMain->OnWindowResized(width, height);
-//}
 
-
-void Pg::Editor::Manager::EditorManager::InputHandler(MSG message)
+void Pg::Editor::Manager::EditorManager::UIHandler(MSG message)
 {
-	_input->HandleMessage(message);
+	_uiManager->UIHandler(message);
 }
 
-void Pg::Editor::Manager::EditorManager::Handler(MSG message)
-{
-	if(_isCoreInitailized) _UIManager->Handler(message.hwnd, message.message, message.wParam, message.lParam);
-}

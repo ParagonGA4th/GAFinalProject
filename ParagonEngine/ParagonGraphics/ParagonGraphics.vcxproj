@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -25,6 +25,7 @@
     <ClInclude Include="AssetBasic2DLoader.h" />
     <ClInclude Include="AssetCombinedLoader.h" />
     <ClInclude Include="AssetStructSRV.h" />
+    <ClInclude Include="AssetTextureType.h" />
     <ClInclude Include="Axis.h" />
     <ClInclude Include="AssetBasic3DLoader.h" />
     <ClInclude Include="BufferParser.h" />
@@ -38,6 +39,7 @@
     <ClInclude Include="D3DBufferInfo.h" />
     <ClInclude Include="DeferredRenderer.h" />
     <ClInclude Include="DemoGeometryGenerator.h" />
+    <ClInclude Include="IRenderObject.h" />
     <ClInclude Include="Forward3DRenderer.h" />
     <ClInclude Include="GBuffer.h" />
     <ClInclude Include="GeometryGenerator.h">
@@ -57,6 +59,7 @@
     <ClInclude Include="msdfgenTest.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="MultimaterialMesh.h" />
     <ClInclude Include="RenderableObject.h" />
     <ClInclude Include="RenderMaterial.h" />
     <ClInclude Include="MathHelper.h" />
@@ -65,6 +68,9 @@
     <ClInclude Include="RenderObjectBase.h" />
     <ClInclude Include="RenderObject2D.h" />
     <ClInclude Include="RenderObject3D.h" />
+    <ClInclude Include="RenderObjectImage2D.h" />
+    <ClInclude Include="RenderObjectStaticMesh3D.h" />
+    <ClInclude Include="RenderObjectText2D.h" />
     <ClInclude Include="RenderShader.h" />
     <ClInclude Include="RenderTexture2D.h" />
     <ClInclude Include="RenderUsageStruct2D.h" />
@@ -85,10 +91,7 @@
     <ClCompile Include="AssetBasic3DLoader.cpp" />
     <ClCompile Include="BufferParser.cpp" />
     <ClCompile Include="ConstantBufferBase.cpp" />
-    <ClCompile Include="Cubemap.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
+
     <ClCompile Include="DeferredRenderer.cpp" />
     <ClCompile Include="DemoGeometryGenerator.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -108,6 +111,7 @@
     <ClCompile Include="msdfgenTest.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="MultimaterialMesh.cpp" />
     <ClCompile Include="RenderableObject.cpp" />
     <ClCompile Include="RenderMaterial.cpp" />
     <ClCompile Include="MathHelper.cpp" />
@@ -116,6 +120,9 @@
     <ClCompile Include="RenderObjectBase.cpp" />
     <ClCompile Include="RenderObject2D.cpp" />
     <ClCompile Include="RenderObject3D.cpp" />
+    <ClCompile Include="RenderObjectImage2D.cpp" />
+    <ClCompile Include="RenderObjectStaticMesh3D.cpp" />
+    <ClCompile Include="RenderObjectText2D.cpp" />
     <ClCompile Include="RenderShader.cpp" />
     <ClCompile Include="RenderTexture2D.cpp" />
     <ClCompile Include="RenderUsageStruct2D.cpp" />

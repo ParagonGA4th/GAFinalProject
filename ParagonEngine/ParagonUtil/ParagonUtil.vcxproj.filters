@@ -1,64 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="0_Main">
-      <UniqueIdentifier>{cb0bf5f8-251f-4b65-bd55-cd133072fd46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Log">
-      <UniqueIdentifier>{3221c562-ea37-41b1-8823-ec7c78c0377b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Helpers">
-      <UniqueIdentifier>{6cafa4a3-1cd8-4baa-96f9-b8a73f98d6a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Helpers\ResourceHelper">
-      <UniqueIdentifier>{8cb7b098-f227-491d-ab39-4e14b050115a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3_PugiXML">
-      <UniqueIdentifier>{bfef0a6d-216f-4879-8463-4eee2accd448}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="4_ByteBuffer">
-      <UniqueIdentifier>{8db40b11-1155-4e4c-b133-9779f7d0af90}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="ByteBuffer.cpp">
+      <Filter>4_ByteBuffer</Filter>
+    </ClCompile>
     <ClCompile Include="Log.cpp">
       <Filter>1_Log</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceHelper.cpp">
-      <Filter>2_Helpers\ResourceHelper</Filter>
     </ClCompile>
     <ClCompile Include="pugixml.cpp">
       <Filter>3_PugiXML</Filter>
     </ClCompile>
-    <ClCompile Include="ByteBuffer.cpp">
-      <Filter>4_ByteBuffer</Filter>
+    <ClCompile Include="ResourceHelper.cpp">
+      <Filter>2_Helpers</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Log.h">
-      <Filter>1_Log</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceHelper.h">
-      <Filter>2_Helpers\ResourceHelper</Filter>
-    </ClInclude>
-    <ClInclude Include="pugiconfig.hpp">
-      <Filter>3_PugiXML</Filter>
-    </ClInclude>
-    <ClInclude Include="pugixml.hpp">
-      <Filter>3_PugiXML</Filter>
-    </ClInclude>
-    <ClInclude Include="ByteBuffer.hpp">
-      <Filter>4_ByteBuffer</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="UtilMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ByteBuffer.hpp">
+      <Filter>4_ByteBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>1_Log</Filter>
+    </ClInclude>
+    <ClInclude Include="pugixml.hpp">
+      <Filter>3_PugiXML</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceHelper.h">
+      <Filter>2_Helpers</Filter>
+    </ClInclude>
     <ClInclude Include="UtilMain.h">
       <Filter>0_Main</Filter>
     </ClInclude>
+    <ClInclude Include="pugiconfig.hpp">
+      <Filter>3_PugiXML</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="0_Main">
+      <UniqueIdentifier>{7dcb6fc4-8d93-4143-8e69-49765f90ffa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Log">
+      <UniqueIdentifier>{37d8d201-062b-4e60-8cfd-2746348f124b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Helpers">
+      <UniqueIdentifier>{f594ddca-11be-404b-8dbf-0ec9210780f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_PugiXML">
+      <UniqueIdentifier>{f2edf92f-4cad-4d88-bb06-2710b090d0c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_ByteBuffer">
+      <UniqueIdentifier>{9307f650-aade-4339-9033-f2b5998f2eb9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

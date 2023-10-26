@@ -1,6 +1,7 @@
 #include "RendererBase3D.h"
 #include "GameObject.h"
-#include "IRenderObject.h"
+
+#include <cassert>
 
 namespace Pg::Data
 {
@@ -13,5 +14,7 @@ namespace Pg::Data
 	{
 		//
 	}
+
+	
 
 }

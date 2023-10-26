@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "../ParagonData/Camera.h"
 #include "DirectionalLight.h"
 
 /// <summary>
@@ -14,16 +13,14 @@
 /// 씬이 기본적으로 가지고 있는 main Directional Light 메서드를 추가
 /// </summary>
 
-namespace Pg::Engine
-{
-	class Camera;
-}
-
 namespace Pg::Data
 {
 	class GameObject;
+	class Camera;
 
-	using namespace Pg::Engine;
+	using Pg::Data::GameObject;
+	using Pg::Data::Camera;
+	using Pg::Data::DirectionalLight;
 
 	class Scene
 	{
@@ -33,6 +30,8 @@ namespace Pg::Data
 
 		void Start();
 		void Update();
+		void FixedUpdate();
+		void LateUpdate();
 
 		GameObject* AddObject(std::string obj);
 		void DeleteObject(std::string obj);
