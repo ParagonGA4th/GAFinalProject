@@ -204,6 +204,7 @@
     <ClInclude Include="RendererBase3D.h" />
     <ClInclude Include="RendererType.h" />
     <ClInclude Include="RenderTextData.h" />
+    <ClInclude Include="ResourceQueue.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="Serializer.h" />
@@ -235,6 +236,7 @@
     <ClCompile Include="GraphicsResource.cpp" />
     <ClCompile Include="RendererBase2D.cpp" />
     <ClCompile Include="RendererBase3D.cpp" />
+    <ClCompile Include="ResourceQueue.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Serializer.cpp" />

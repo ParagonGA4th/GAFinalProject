@@ -25,7 +25,7 @@ namespace Pg::Graphics
 
 	void RenderObject3D::Render()
 	{
-
+		
 	}
 	
 

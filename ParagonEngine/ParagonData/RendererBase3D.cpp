@@ -16,9 +16,6 @@ namespace Pg::Data
 		//
 	}
 
-	void RendererBase3D::Render()
-	{
-		assert(false);
-	}
+	
 
 }
