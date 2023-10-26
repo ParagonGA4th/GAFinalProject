@@ -134,4 +134,9 @@ namespace Pg::Core
 		return _engine->GetCameraData();
 	}
 
+	void EngineGraphicsAdapter::SyncLoadGraphicsResources()
+	{
+		_graphics->SyncLoadGraphicsResources();
+	}
+
 }
