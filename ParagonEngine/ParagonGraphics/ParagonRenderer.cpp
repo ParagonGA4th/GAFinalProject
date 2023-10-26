@@ -3,11 +3,10 @@
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
 #include "GraphicsResourceHelper.h"
-#include "Grid.h"
-#include "Axis.h"
-#include "Cubemap.h"
-#include "TestCube.h"
+#include "MathHelper.h"
+
 #include "DeferredRenderer.h"
+#include "ForwardRenderer.h"
 
 #include "LayoutDefine.h"
 
@@ -23,12 +22,7 @@
 
 namespace Pg::Graphics
 {
-	using Pg::Graphics::Helper::MathHelper;
-
-
-	Grid* grid;
-	Axis* axis;
-	Cubemap* cubemap;
+	using Helper::MathHelper;
 
 	ParagonRenderer::ParagonRenderer() :
 		_DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
@@ -48,82 +42,34 @@ namespace Pg::Graphics
 		_deferredRenderer = new DeferredRenderer();
 		_deferredRenderer->Initialize();
 
-		D3D11_INPUT_ELEMENT_DESC HelperDesc[] =
-		{
-			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
-		};
+		_forwardRenderer = new ForwardRenderer();
+		_forwardRenderer->Initialize();
 
-		LayoutDefine::GetStatic1stLayout();
-
-		// TODO: TestBox와 Grid, Axis 모두 같은 InputLayout을 사용하고 있다...
-		VertexShader* helperVS = new VertexShader(L"../Builds/x64/debug/VertexShader.cso", HelperDesc);
-		PixelShader* helperPS = new PixelShader(L"../Builds/x64/debug/PixelShader.cso");
-
-		// Grid
-		grid = new Grid();
-		grid->Initialize();
-
-		// Axis
-		axis = new Axis();
-		axis->Initialize();
-
-		//cubeVS->AssignConstantBuffer(&(cube->_cbData));
-		helperVS->AssignConstantBuffer(&(grid->_cbData));
-
-		grid->AssignVertexShader(helperVS);
-		grid->AssignPixelShader(helperPS);
-
-		axis->AssignVertexShader(helperVS);
-		axis->AssignPixelShader(helperPS);
-
-		//cube->AssignVertexShader(cubeVS);
-		//cube->AssignPixelShader(cubePS);
-
-
-		// Cubemap
-		D3D11_INPUT_ELEMENT_DESC CubemapvertexDesc[] =
-		{
-			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
-		};
-
-		VertexShader* CubemapVS = new VertexShader(L"../Builds/x64/debug/CubemapVS.cso", CubemapvertexDesc);
-		PixelShader* CubemapPS = new PixelShader(L"../Builds/x64/debug/CubemapPS.cso");
-
-		cubemap = new Cubemap();
-		cubemap->Initialize();
-
-		CubemapVS->AssignConstantBuffer(&(cubemap->_cbData));
-		cubemap->AssignVertexShader(CubemapVS);
-		cubemap->AssignPixelShader(CubemapPS);
 	}
 
 	void ParagonRenderer::BeginRender()
 	{
-		_DXLogic->PrepareRenderTargets();
-		_DXLogic->BindRenderTargets();
+		_deferredRenderer->BeginRender();
+		
 	}
 
 
 
 	void ParagonRenderer::Render(Pg::Data::CameraData camData)
 	{
-		RenderDefaultObjects(camData);
-
-		_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_DeferredDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-
 		// 3D 오브젝트 렌더
+		// Deferred
 		for (auto& it : _renderObject3DList)
 		{
 			if (it.second->_baseRenderer->GetActive())
 			{
-				_deferredRenderer->Render(*(it.first), camData);
-				
+				_deferredRenderer->RenderFirstPass(it.first, camData);
 			}
 		}
+		_deferredRenderer->RenderSecondPass();
 
-		_deferredRenderer->ClearGBuffers();
+		// Forward
+		_forwardRenderer->Render(camData);
 
 		// 2D 오브젝트 렌더
 		for (auto& it : _renderObject2DList)
@@ -245,50 +191,6 @@ namespace Pg::Graphics
 				}
 			}
 		}
-
 		assert(true);
 	}
-
-	void ParagonRenderer::RenderDefaultObjects(Pg::Data::CameraData camData)
-{
-		///
-		DirectX::XMFLOAT4X4 tWorldTM;
-		DirectX::XMMATRIX tWorldTMMat = DirectX::XMMatrixIdentity();
-
-		DirectX::XMFLOAT4X4 tViewTM = MathHelper::PG2XM_FLOAT4X4(camData._viewMatrix);
-		DirectX::XMMATRIX tViewTMMat = DirectX::XMLoadFloat4x4(&tViewTM);
-
-		DirectX::XMFLOAT4X4 tProjTM = MathHelper::PG2XM_FLOAT4X4(camData._projMatrix);
-		DirectX::XMMATRIX tProjTMMat = DirectX::XMLoadFloat4x4(&tProjTM);
-
-		DirectX::XMFLOAT3 tCameraPosition = MathHelper::PG2XM_FLOAT3(camData._position);
-		DirectX::XMVECTOR tCameraPositionVec = DirectX::XMLoadFloat3(&tCameraPosition);
-		DirectX::XMMATRIX tCameraPositionMat = DirectX::XMMatrixTranslationFromVector(tCameraPositionVec);
-
-		float tCamDistance = 0.0f;
-		DirectX::XMStoreFloat(&tCamDistance, DirectX::XMVector3Length(tCameraPositionVec));
-
-		// Cubemap
-		DirectX::XMStoreFloat4x4(&(cubemap->_cbData.worldMatrix), DirectX::XMMatrixMultiply(tWorldTMMat, tCameraPositionMat));
-		DirectX::XMStoreFloat4x4(&(cubemap->_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
-
-		// Grid
-		DirectX::XMStoreFloat4x4(&(grid->_cbData.worldMatrix), tWorldTMMat);
-		DirectX::XMStoreFloat4x4(&(grid->_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
-		grid->SetGridSize(20.0f, 20.0f, 10, 10);
-
-		// Axis
-		DirectX::XMStoreFloat4x4(&(axis->_cbData.worldMatrix), tWorldTMMat);
-		DirectX::XMStoreFloat4x4(&(axis->_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
-
-		// 렌더
-		cubemap->Draw();
-		grid->Draw();
-		axis->Draw();
-	}
-
 }
-
-
-
-
