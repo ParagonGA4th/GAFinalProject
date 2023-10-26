@@ -98,6 +98,8 @@ namespace Pg::Graphics
 
 		hr = _DXLogic->CreateSamplerStates();
 
+		hr = _DXLogic->CreateBlendState();
+
 		_DXLogic->CreateAndSetViewports();
 
 		//Default Input Layout ¼¼ÆÃ.

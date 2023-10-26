@@ -80,8 +80,6 @@ void Pg::Graphics::Axis::Draw()
 
 	BindBuffers();
 
-	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), (_DXStorage->_depthStencilView));
-
 	_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
 
 	UnbindShaders();

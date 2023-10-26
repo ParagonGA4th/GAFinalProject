@@ -41,12 +41,12 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2->AddComponent<RendererBase3D>();
 	tObj2->GetComponent<RendererBase3D>()->SetActive(true);
 
-	//tObj2_1 = tCurrentScene->AddObject("Cube2");
-	//tObj2_1->GetComponent<Transform>()->SetPosition({ 0.0f, 0.0f, 0.0f });
-	//tObj2_1->AddComponent<RendererBase3D>();
-	//tObj2_1->GetComponent<RendererBase3D>()->SetActive(true);
-	//tObj2_1->AddComponent<MoveForwardBack>();
-	//tObj2_1->GetComponent<MoveForwardBack>()->SetActive(true);
+	tObj2_1 = tCurrentScene->AddObject("Cube2");
+	tObj2_1->GetComponent<Transform>()->SetPosition({ 0.0f, 0.0f, 0.0f });
+	tObj2_1->AddComponent<RendererBase3D>();
+	tObj2_1->GetComponent<RendererBase3D>()->SetActive(true);
+	tObj2_1->AddComponent<MoveForwardBack>();
+	tObj2_1->GetComponent<MoveForwardBack>()->SetActive(true);
 
 	tObj2_2 = tCurrentScene->AddObject("Cube3");
 	tObj2_2->GetComponent<Transform>()->SetPosition({ -3.0f, 3.0f, -3.0f });

@@ -37,12 +37,6 @@ namespace Pg::Graphics
 		void SetRasterizerStates(ID3D11RasterizerState* rasterizerState);
 		void CreateAndSetViewports();
 
-		void PrepareRenderTargets();
-		void BindRenderTargets();
-		void UnbindRenderTargets();
-
-		void Draw();
-
 		void Present();
 
 	public:

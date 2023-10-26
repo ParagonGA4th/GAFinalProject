@@ -127,7 +127,6 @@ namespace Pg::Graphics
 		_DXStorage->_depthStencilViewDesc.Flags = 0;
 
 		hr = _DXStorage->_device->CreateDepthStencilView(_DXStorage->_depthStencilBuffer, &(_DXStorage->_depthStencilViewDesc), &(_DXStorage->_depthStencilView));
-		hr = _DXStorage->_device->CreateDepthStencilView(_DXStorage->_DeferredDepthStencilBuffer, &(_DXStorage->_depthStencilViewDesc), &(_DXStorage->_DeferredDepthStencilView));
 		hr = _DXStorage->_device->CreateDepthStencilView(_DXStorage->_tempDepthStencilBuffer, &(_DXStorage->_depthStencilViewDesc), &(_DXStorage->_tempDepthStencilView));
 
 		if (hr != S_OK)
@@ -193,27 +192,6 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->RSSetViewports(1, &viewport);
 	}
 
-	void LowDX11Logic::PrepareRenderTargets()
-	{
-		// Set Depth Stencil State
-		_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_depthStencilState, 0);
-
-		// Clear Main RTV and DSV
-		_DXStorage->_deviceContext->ClearRenderTargetView(_DXStorage->_mainRTV, _DXStorage->_backgroundColor);
-		_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-	}
-
-	void LowDX11Logic::BindRenderTargets()
-	{
-
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
-	}
-
-	void LowDX11Logic::UnbindRenderTargets()
-	{
-		// TODO: null RTV ¹ÙÀÎµù
-	}
-
 	void LowDX11Logic::Draw()
 	{
 		
@@ -260,8 +238,19 @@ namespace Pg::Graphics
 
 	HRESULT LowDX11Logic::CreateBlendState()
 	{
-		D3D11_BLEND_DESC tDesc;
+		D3D11_BLEND_DESC tDesc ;
 
+		for (auto& e : tDesc.RenderTarget)
+		{
+			e.BlendEnable = true;
+			e.SrcBlend = D3D11_BLEND_ONE;
+			e.DestBlend = D3D11_BLEND_ZERO;
+			e.BlendOp = D3D11_BLEND_OP_ADD;
+			e.SrcBlendAlpha = D3D11_BLEND_ONE;
+			e.DestBlendAlpha = D3D11_BLEND_ZERO;
+			e.BlendOpAlpha = D3D11_BLEND_OP_ADD;
+			e.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		}
 
 		hr = _DXStorage->_device->CreateBlendState(&tDesc, &(_DXStorage->_blendState));
 
