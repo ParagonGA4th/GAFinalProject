@@ -1,9 +1,11 @@
 #pragma once
+#include "../ParagonData/GraphicsResource.h"
+#include "../ParagonData/AssetDefines.h"
 
 #include "DX11Headers.h"
-
 #include "ConstantBuffer.h"
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -19,11 +21,18 @@ namespace Pg::Graphics
 {
 	class LowDX11Storage;
 
-	class RenderShader
+	class RenderShader : public Pg::Data::Resources::GraphicsResource
 	{
 	public:
 		RenderShader(std::wstring CSOFilePath);
-		RenderShader();
+		
+		//그래픽 엔진을 테스팅할 때는 위의 생성자를 써도 되지만, 이 생성자가 실제 GraphicsResource 로직을 따른다.
+		RenderShader(Pg::Data::Enums::eAssetDefine define, const std::string& filePath);
+
+	public:
+		//내부적으로 로드, 언로드해주는 함수들. 최종 자식 클래스들의 구현체의 생성/소멸자에서 호출되어야.
+		virtual void InternalLoad() override;
+		virtual void InternalUnload() override;
 
 	protected:
 		LowDX11Storage* _DXStorage;

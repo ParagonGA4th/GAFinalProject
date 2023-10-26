@@ -63,15 +63,22 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	/// 오수안, 새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 
-	GameObject* tObj3 = tCurrentScene->AddObject("BtnTest");
-	tObj3->GetComponent<Transform>()->SetPosition({0.f, 0.f, 0.f});
-	tObj3->AddComponent<Button>();
-	tObj3->GetComponent<ImageRenderer>()->SetImagePath("Test.png");
-
+	
 	GameObject* tLight = tCurrentScene->AddObject("LightTest");
 	tLight->GetComponent<Transform>()->SetPosition({ 10.f, 10.f, 10.f });
 
+	GameObject* tObj3 = tCurrentScene->AddObject("BtnTest");
+	tObj3->GetComponent<Transform>()->SetPosition({ 200.f, 200.f, 0.f });
+	tObj3->GetComponent<Transform>()->SetIs3D(false);
+	tObj3->AddComponent<Button>();
+	tObj3->GetComponent<ImageRenderer>()->SetImagePath("../Resources/Textures/LPDisk.jpg");
 
+	GameObject* tObj4 = tCurrentScene->AddObject("TextTest");
+	tObj4->GetComponent<Transform>()->SetPosition({ 600.0f, 200.f, 0.f });
+	tObj4->GetComponent<Transform>()->SetIs3D(false);
+	tObj4->AddComponent<TextRenderer>();
+	tObj4->GetComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_16.spritefont");
+	tObj4->GetComponent<TextRenderer>()->SetString("Writing Test");
 
 	//이렇게 하면 메인 카메라 바뀜!!
 	tCurrentScene->SetMainCamera(tObj1->GetComponent<Camera>());

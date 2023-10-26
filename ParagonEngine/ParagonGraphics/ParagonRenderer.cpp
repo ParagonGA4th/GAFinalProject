@@ -111,56 +111,56 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::SyncComponentToGraphics()
 	{
-		using Pg::Data::GameObject;
-		using Pg::Graphics::Helper::GraphicsResourceHelper;
-
-		//새로 들어온 Renderer들 추가!
-		for (auto it : _rendererChangeList->GetAddedRendererList())
-		{
-			GameObject* tGameObject = it->_object;
-
-			if (GraphicsResourceHelper::IsRenderer3D(it->GetRendererTypeName()))
-			{
-				//3D
-				auto tRes = _renderObject3DList->_list.insert_or_assign(tGameObject, 
-					std::make_unique<RenderObject3D>(it));
-
-				if (!tRes.second)
-				{
-					//Assign
-					PG_WARN("Already had a renderer (3D), but replaced with a new one.");
-				}
-			}
-			else
-			{
-				//2D
-				auto tRes = _renderObject2DList->_list.insert_or_assign(tGameObject,
-					std::make_unique<RenderObject2D>(it));
-
-				if (!tRes.second)
-				{
-					//Assign
-					PG_WARN("Already had a renderer (2D), but replaced with a new one.");
-				}
-			}
-		}
-
-		//새로 들어온 Renderer를 삭제!
-		for (auto it : _rendererChangeList->GetDeletedRendererList())
-		{
-			GameObject* tGameObject = it->_object;
-
-			if (GraphicsResourceHelper::IsRenderer3D(it->GetRendererTypeName()))
-			{
-				//3D
-				_renderObject3DList->_list.erase(tGameObject);
-			}
-			else
-			{
-				//2D
-				_renderObject2DList->_list.erase(tGameObject);
-			}
-		}
+		//using Pg::Data::GameObject;
+		//using Pg::Graphics::Helper::GraphicsResourceHelper;
+		//
+		////새로 들어온 Renderer들 추가!
+		//for (auto it : _rendererChangeList->GetAddedRendererList())
+		//{
+		//	GameObject* tGameObject = it->_object;
+		//
+		//	if (GraphicsResourceHelper::IsRenderer3D(it->GetRendererTypeName()))
+		//	{
+		//		//3D
+		//		auto tRes = _renderObject3DList->_list.insert_or_assign(tGameObject,
+		//			std::make_unique<RenderObject3D>(it));
+		//
+		//		if (!tRes.second)
+		//		{
+		//			//Assign
+		//			PG_WARN("Already had a renderer (3D), but replaced with a new one.");
+		//		}
+		//	}
+		//	else
+		//	{
+		//		//2D
+		//		auto tRes = _renderObject2DList->_list.insert_or_assign(tGameObject,
+		//			std::make_unique<RenderObject2D>(it));
+		//
+		//		if (!tRes.second)
+		//		{
+		//			//Assign
+		//			PG_WARN("Already had a renderer (2D), but replaced with a new one.");
+		//		}
+		//	}
+		//}
+		//
+		////새로 들어온 Renderer를 삭제!
+		//for (auto it : _rendererChangeList->GetDeletedRendererList())
+		//{
+		//	GameObject* tGameObject = it->_object;
+		//
+		//	if (GraphicsResourceHelper::IsRenderer3D(it->GetRendererTypeName()))
+		//	{
+		//		//3D
+		//		_renderObject3DList->_list.erase(tGameObject);
+		//	}
+		//	else
+		//	{
+		//		//2D
+		//		_renderObject2DList->_list.erase(tGameObject);
+		//	}
+		//}
 	}
 
 	void ParagonRenderer::OnNewSceneStart(Pg::Data::Scene* newScene)

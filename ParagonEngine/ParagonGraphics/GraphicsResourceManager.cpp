@@ -43,9 +43,17 @@ namespace Pg::Graphics::Manager
 		{
 			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(filePath, define);
 		}
+		else if (define == eAssetDefine::_FONT)
+		{
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_FONT)>(filePath, define);
+		}
 		else if (define == eAssetDefine::_3DMODEL)
 		{
 			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_3DMODEL)>(filePath, define);
+		}
+		else if (define == eAssetDefine::_RENDERSHADER)
+		{
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_RENDERSHADER)>(filePath, define);
 		}
 		else if (define == eAssetDefine::_RENDERMATERIAL)
 		{
@@ -71,9 +79,17 @@ namespace Pg::Graphics::Manager
 		{
 			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(path);
 		}
+		else if (define == eAssetDefine::_FONT)
+		{
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_FONT)>(path);
+		}
 		else if (define == eAssetDefine::_3DMODEL)
 		{
 			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_3DMODEL)>(path);
+		}
+		else if (define == eAssetDefine::_RENDERSHADER)
+		{
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_RENDERSHADER)>(path);
 		}
 		else if (define == eAssetDefine::_RENDERMATERIAL)
 		{

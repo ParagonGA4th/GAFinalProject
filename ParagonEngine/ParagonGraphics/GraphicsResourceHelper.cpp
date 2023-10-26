@@ -19,7 +19,9 @@ namespace Pg::Graphics::Helper
 	{
 		//템플릿 특수화 초기화의 역할을 할 것이다.
 		AssetDefineType<Pg::Data::Enums::eAssetDefine::_2DTEXTURE>();
+		AssetDefineType<Pg::Data::Enums::eAssetDefine::_FONT>();
 		AssetDefineType<Pg::Data::Enums::eAssetDefine::_3DMODEL>();
+		AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDERSHADER>();
 		AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL>();
 	}
 
