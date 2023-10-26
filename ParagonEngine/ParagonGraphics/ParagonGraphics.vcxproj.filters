@@ -240,9 +240,6 @@
     <ClCompile Include="RenderableObject.cpp">
       <Filter>7_OtherObject</Filter>
     </ClCompile>
-    <ClCompile Include="Cubemap.cpp">
-      <Filter>7_OtherObject</Filter>
-    </ClCompile>
     <ClCompile Include="Asset3DModelData.cpp">
       <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
     </ClCompile>
@@ -296,6 +293,9 @@
     </ClCompile>
     <ClCompile Include="RenderObjectStaticMesh3D.cpp">
       <Filter>4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Cubemap.cpp">
+      <Filter>7_OtherObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
