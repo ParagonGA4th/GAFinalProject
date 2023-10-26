@@ -47,7 +47,9 @@ namespace Pg::Core::Manager
 		//역으로 그래픽스/엔진에서 피할 수 없게 로드 뒤에 추가해야 하는 리소스 존재 -> 호환 위한 함수.
 		void CheckForGraphicsToProcessLoad(Pg::Core::IGraphics* graphics);
 
-
+	private:
+		//임시로 미리 로드할 리소스들을 로드해놓는다!
+		void TemporaryLoadResources();
 
 	private:
 		Pg::Core::ProcessMain* _coreMain;

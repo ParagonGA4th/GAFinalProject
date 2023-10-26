@@ -4,12 +4,17 @@
 #include "SceneSystem.h"
 #include "EngineResourceManager.h"
 
+
+//얘는 외부 SDK 연동 후 진행 예정
+#include "PhysicSystem.h"
+
 //<실제 GameEngine Resource의 목록>
 
 //</>
 
 #include "../ParagonProcess/ProcessMain.h"
 #include "../ParagonData/Scene.h"
+#include "../ParagonData/Camera.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonAPI/KeyCodeType.h"
 #include <singleton-cpp/singleton.h>
@@ -57,14 +62,16 @@ namespace Pg::Engine
 
 	void EngineMain::Initialize(float width, float height)
 	{
+		_sceneSystem->Initialize();
 		_inputSystem->Initialize(width, height);
 		_physicSystem->Initialize();
-		_sceneSystem->Initialize();
 	}
 
 	void EngineMain::Update()
 	{
+		_sceneSystem->Update();
 		_inputSystem->Update();
+		_physicSystem->UpdatePhysics();
 
 		 static bool tTest = false;
 		if (!tTest)
@@ -82,7 +89,7 @@ namespace Pg::Engine
 
 	void EngineMain::Finalize()
 	{
-
+		_physicSystem->Finalize();
 	}
 
 	void EngineMain::LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define)
@@ -98,6 +105,11 @@ namespace Pg::Engine
 	Pg::Data::Scene* EngineMain::GetCurrentScene()
 	{
 		return _sceneSystem->GetCurrentScene();
+	}
+
+	Pg::Data::CameraData* EngineMain::GetCameraData()
+	{
+		return _sceneSystem->GetCurrentScene()->GetMainCamera()->GetCameraData();
 	}
 
 }

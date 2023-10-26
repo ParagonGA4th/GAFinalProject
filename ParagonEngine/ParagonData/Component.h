@@ -1,5 +1,6 @@
 #pragma once
 #include "IComponent.h"
+#include "ISerializable.h"
 
 /// <summary>
 /// 컴포넌트 클래스
@@ -14,7 +15,7 @@ namespace Pg::Data
 
 namespace Pg::Data
 {
-	class Component : public IComponent
+	class Component : public IComponent, public ISerializable
 	{
 	public:
 		Component(GameObject* obj);
@@ -32,6 +33,13 @@ namespace Pg::Data
 		virtual void OnCollisionEnter() override {}
 		virtual void OnCollisionStay() override {}
 		virtual void OnCollisionExit() override {}
+
+		// Scene Data -> XML
+		virtual void OnSerialize() override {}
+		// XML -> Scene Data
+		virtual void OnDeserialize() override {}
+		// Scene Data -> Editor Data
+		virtual void OnDataStructure() override {}
 
 	public:
 		void SetActive(bool active);

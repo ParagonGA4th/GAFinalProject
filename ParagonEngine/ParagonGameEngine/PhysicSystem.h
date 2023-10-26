@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../packages/NVIDIA.PhysX.4.1.229882250/installed/x64-uwp/include/Pxphysics.h"
-#include "../packages/NVIDIA.PhysX.4.1.229882250/installed/x64-uwp/include/PxphysicsAPI.h"
+#include "Pxphysics.h"
+#include "PxphysicsAPI.h"
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonMath/PgMath.h"
 #include <vector>
@@ -11,6 +11,12 @@
 /// PhysX 연동하여 물리엔진을 연동할 것이다
 /// 2023.10.06
 /// </summary>
+namespace Pg::Data
+{
+	class GameObject;
+	class Transform;
+}
+
 namespace Pg::Engine::Physic
 {
 	class PhysicSystem
@@ -18,24 +24,30 @@ namespace Pg::Engine::Physic
 	public:
 		void Initialize();
 
-		void UpdatePhysics(float deltaTime);
+		void UpdatePhysics();
 
 		void Finalize();
 
 	public:
 		void CreatePxScene();
 
+		void CreateStack(const physx::PxTransform& t, physx::PxU32 size, physx::PxReal halfExtent);
+
+	public:
+
+
 	private:
 		
 		//PhysX연동을 위한 변수들
 		physx::PxDefaultAllocator		_allocator;
 		physx::PxDefaultErrorCallback	_errorCallback;
-		physx::PxFoundation* _foundation;
-		physx::PxPhysics* _physics;
-		physx::PxDefaultCpuDispatcher* _dispatcher;
-		physx::PxScene* _pxScene;
-		physx::PxMaterial* _material;
-		physx::PxPvd* _pvd;
+		physx::PxTolerancesScale _toleranceScale;
+		physx::PxFoundation* _foundation = nullptr;
+		physx::PxPhysics* _physics = nullptr;
+		physx::PxDefaultCpuDispatcher* _dispatcher = nullptr;
+		physx::PxScene* _pxScene = nullptr;
+		physx::PxMaterial* _material = nullptr;
+		physx::PxPvd* _pvd = nullptr;
 	};
 }
 

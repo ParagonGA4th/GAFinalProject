@@ -80,15 +80,13 @@ namespace Pg::Core
 		_api->Initialize();
 		_engineGraphicsAdapter->InitializeGraphics(static_cast<HWND>(hwnd), screenWidth, screenHeight);
 
-		//AssetManager 세팅.
+		//AssetManager 세팅. (현재 씬에서 리소스 목록 받아오는 것 아님, 받아올 리소스 하드코딩!)
 		_assetManager->Initialize(this);
-		
-		//디버그 초기화
-		_work = new Pg::Engine::WorkSpace();
-		_work->Initialize();
-		
-		// #ToRemove : CreateResource를 임시로 여기에 호출.
-		_assetManager->LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMesh.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		_engineGraphicsAdapter->UpdateAssetManager(_assetManager);
+
+		//AssetManager에서 로딩된 리소스 - 그래픽 엔진과 연동.
+		_engineGraphicsAdapter->SyncLoadGraphicsResources();
+
 		return S_OK;
 	}
 
@@ -107,34 +105,9 @@ namespace Pg::Core
 		//여기다가 시스템 싹 다 업데이트!!
 		_engineGraphicsAdapter->UpdateEngine();
 
-		Pg::Data::CameraData cameraData;
-		cameraData._position = { 0.0f, 0.0f, -3.0f };
-		cameraData._rotation.x = 0.0f;
-		cameraData._rotation.y = 0.0f;
-		cameraData._rotation.z = 0.0f;
-		cameraData._rotation.w = 0.0f;
-
-		cameraData._viewMatrix =
-		{
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 3.0f, 1.0f,
-		};
-
-		cameraData._projMatrix =
-		{
-			1.35799503f, 0.0f, 0.0f, 0.0f,
-			0.0f, 2.41421342f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.00000012f, 1.0f,
-			0.0f, 0.0f, -0.000100000012f, 0.0f,
-		};
-
-		//원래는 Engine에서 해줘야 할 일이나, Component 작동 로직만 확인하기 위해.
-		_work->GetCurrentScene()->Update();
-
 		_engineGraphicsAdapter->UpdateGraphics(
-			_work->GetCurrentScene(), &cameraData, _timeManager->GetDeltaTime());
+			_engineGraphicsAdapter->GetCurrentScene(),
+			_engineGraphicsAdapter->GetCameraData(), _timeManager->GetDeltaTime());
 	}
 
 	void ProcessMain::BeginRender()
@@ -142,11 +115,9 @@ namespace Pg::Core
 		_engineGraphicsAdapter->BeginRender();
 	}
 
-
 	void ProcessMain::Render()
 	{
 		_engineGraphicsAdapter->Render();
-		//_engineGraphicsAdapter->Render(_work->GetCurrentScene());
 	}
 
 	void ProcessMain::EndRender()

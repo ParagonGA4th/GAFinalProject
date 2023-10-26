@@ -1,137 +1,111 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="FileManager.cpp">
-      <Filter>2_Manager\2_FileManager</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui.cpp">
-      <Filter>Imgui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_demo.cpp">
-      <Filter>Imgui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_draw.cpp">
-      <Filter>Imgui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_impl_dx11.cpp">
-      <Filter>Imgui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_impl_win32.cpp">
-      <Filter>Imgui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_tables.cpp">
-      <Filter>Imgui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_widgets.cpp">
-      <Filter>Imgui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorMain.cpp">
+    <ClCompile Include="Editor.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
     <ClCompile Include="EditorManager.cpp">
-      <Filter>2_Manager\0_EditorManager</Filter>
+      <Filter>2_Manager\3_EditorManager</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiManager.cpp">
-      <Filter>2_Manager\ImguiManager</Filter>
-    </ClCompile>
-    <ClCompile Include="UIManager.cpp">
-      <Filter>2_Manager\1_UIManager</Filter>
+    <ClCompile Include="ProcessManager.cpp">
+      <Filter>2_Manager\2_ProcessManager</Filter>
     </ClCompile>
     <ClCompile Include="DataStruct.h">
       <Filter>1_Define</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="FileManager.cpp">
+      <Filter>2_Manager\0_FilManager</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorAction.cpp">
+      <Filter>0_Main\EditorAction</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorHelper.cpp">
+      <Filter>2_Manager\EditorHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiManager.cpp">
+      <Filter>2_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Inspector.cpp">
+      <Filter>4_Windows\Inspector</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Imgui">
-      <UniqueIdentifier>{349ac3e0-1da2-4c63-8f4b-d0e0b75e7bd2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Imgui\header">
-      <UniqueIdentifier>{ec47e941-1219-4ca1-91e0-68650cb7e1b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Imgui\src">
-      <UniqueIdentifier>{99bfdae7-d914-4953-a902-75847e51dbbb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_Main">
-      <UniqueIdentifier>{10fc9034-0baf-41bb-a32e-d03a4553f590}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Define">
-      <UniqueIdentifier>{f57c79c9-3398-442d-be98-3bba39119fe5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Manager">
-      <UniqueIdentifier>{a0fca74c-be2d-45d3-9510-fd6bafbc1058}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Manager\ImguiManager">
-      <UniqueIdentifier>{071f8ebd-7803-4de6-a616-d512756bdf81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Manager\0_EditorManager">
-      <UniqueIdentifier>{1ac736da-9b58-423a-bd86-a3a14f017b48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Manager\1_UIManager">
-      <UniqueIdentifier>{c5aed1e3-6616-496d-b462-702c6bf3cc3d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Manager\2_FileManager">
-      <UniqueIdentifier>{8ba21139-66b2-43da-b4ad-0ee33a689461}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Define\1_Interface">
-      <UniqueIdentifier>{4e6e69d8-8d2e-48a3-990e-2521b6c58164}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Define\0_DLLExporter">
-      <UniqueIdentifier>{e7207eec-6122-41ce-8492-513780d35b92}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="FileManager.h">
-      <Filter>2_Manager\2_FileManager</Filter>
-    </ClInclude>
-    <ClInclude Include="imconfig.h">
-      <Filter>Imgui\header</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui.h">
-      <Filter>Imgui\header</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_impl_dx11.h">
-      <Filter>Imgui\header</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_impl_win32.h">
-      <Filter>Imgui\header</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_internal.h">
-      <Filter>Imgui\header</Filter>
-    </ClInclude>
-    <ClInclude Include="imstb_rectpack.h">
-      <Filter>Imgui\header</Filter>
-    </ClInclude>
-    <ClInclude Include="imstb_textedit.h">
-      <Filter>Imgui\header</Filter>
-    </ClInclude>
-    <ClInclude Include="imstb_truetype.h">
-      <Filter>Imgui\header</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorMain.h">
+    <ClInclude Include="Editor.h">
       <Filter>0_Main</Filter>
     </ClInclude>
     <ClInclude Include="EditorManager.h">
-      <Filter>2_Manager\0_EditorManager</Filter>
+      <Filter>2_Manager\3_EditorManager</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiManager.h">
-      <Filter>2_Manager\ImguiManager</Filter>
+    <ClInclude Include="ProcessManager.h">
+      <Filter>2_Manager\2_ProcessManager</Filter>
     </ClInclude>
-    <ClInclude Include="UIManager.h">
-      <Filter>2_Manager\1_UIManager</Filter>
+    <ClInclude Include="EditorDLLExporter.h">
+      <Filter>1_Define\EditorDLLExporter</Filter>
     </ClInclude>
     <ClInclude Include="ExternalLib.h">
       <Filter>1_Define</Filter>
     </ClInclude>
-    <ClInclude Include="EditorDLLExporter.h">
-      <Filter>1_Define\0_DLLExporter</Filter>
-    </ClInclude>
     <ClInclude Include="IEditor.h">
-      <Filter>1_Define\1_Interface</Filter>
+      <Filter>1_Define</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.h" />
+    <ClInclude Include="FileManager.h">
+      <Filter>2_Manager\0_FilManager</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorAction.h">
+      <Filter>0_Main\EditorAction</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorHelper.h">
+      <Filter>2_Manager\EditorHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiManager.h">
+      <Filter>2_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Inspector.h">
+      <Filter>4_Windows\Inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="IEditorWindow.h">
+      <Filter>4_Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="SceneName.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="0_Main">
+      <UniqueIdentifier>{3e46d354-9362-4258-8705-75d60113e615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Define">
+      <UniqueIdentifier>{0363f5c7-3ed9-4655-b75a-d655ab668f61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Manager">
+      <UniqueIdentifier>{ec23eaba-630a-4bef-81ad-5b137e8fec96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Manager\0_FilManager">
+      <UniqueIdentifier>{2e9788a1-cb70-46ee-9880-2e87ffcefa55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Manager\2_ProcessManager">
+      <UniqueIdentifier>{6aeadde7-4800-4c6e-8d2d-947ccce11ef1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Manager\3_EditorManager">
+      <UniqueIdentifier>{56dfd14d-ea18-4fa8-8ae7-5ee43d02390e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Define\EditorDLLExporter">
+      <UniqueIdentifier>{a5a395cd-a936-449b-a1d4-162579c4e265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\EditorAction">
+      <UniqueIdentifier>{30d81899-e0d9-43e2-ad07-85156101a297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Manager\EditorHelper">
+      <UniqueIdentifier>{3176ec4c-49d9-422b-95d2-408b4c356845}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Event">
+      <UniqueIdentifier>{748cb9ec-15ef-4e3f-8809-244b6fa1b409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Windows">
+      <UniqueIdentifier>{b8d9bc88-1ec5-40c6-b7e7-d60939984e22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Windows\Inspector">
+      <UniqueIdentifier>{e2440d48-cd8e-49a9-9556-3a5dbb9ed882}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

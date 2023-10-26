@@ -15,6 +15,7 @@ namespace Pg::Data
 	public:
 		TextRenderer(GameObject* obj);
 
+
 	public:
 		void SetString(std::string str);
 		std::string GetString();

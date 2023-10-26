@@ -38,6 +38,9 @@ namespace Pg::Core
 		//그래픽스 초기화.
 		void InitializeGraphics(void* hwnd, int screenWidth, int screenHeight);
 
+		//그래픽스 리소스, 애셋 매니저와 연동.
+		void SyncLoadGraphicsResources();
+		
 		//Engine Update.
 		void UpdateEngine();
 
@@ -76,6 +79,10 @@ namespace Pg::Core
 
 		//Editor 연동 : Game Camera 시점 SRV를 리턴.
 		void* GetGameCameraViewSRV();
+
+		Pg::Data::Scene* GetCurrentScene();
+
+		Pg::Data::CameraData* GetCameraData();
 
 	private:
 		std::unique_ptr<IEngine> _engine;					//게임 엔진

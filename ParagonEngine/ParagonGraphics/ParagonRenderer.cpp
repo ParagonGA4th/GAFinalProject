@@ -17,12 +17,23 @@
 #include "../ParagonData/CameraData.h"
 #include "../ParagonUtil/Log.h"
 
+//세부적인 렌더러들의 리스트.
+#include "../ParagonData/StaticMeshRenderer.h"
+
+#include "../ParagonData/ImageRenderer.h"
+#include "../ParagonData/TextRenderer.h"
+
+//세부적인 렌더 오브젝트들의 리스트.
+#include "RenderObjectStaticMesh3D.h"
+#include "RenderObjectText2D.h"
+#include "RenderObjectImage2D.h"
+
 #include <utility>
 #include <singleton-cpp/singleton.h>
 
 namespace Pg::Graphics
 {
-	using Helper::MathHelper;
+	using Pg::Graphics::Helper::MathHelper;
 
 	ParagonRenderer::ParagonRenderer() :
 		_DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
@@ -48,30 +59,34 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::BeginRender()
 	{
+		//_DXLogic->PrepareRenderTargets();
+		//_DXLogic->BindRenderTargets();
 		_deferredRenderer->BeginRender();
 		
 	}
 
-	void ParagonRenderer::Render(Pg::Data::CameraData camData)
+	void ParagonRenderer::Render(Pg::Data::CameraData* camData)
 	{
 		// 3D 오브젝트 렌더
 		// Deferred
 		for (auto& it : _renderObject3DList)
 		{
-			if (it.second->_baseRenderer->GetActive())
+			if (it.second->GetBaseRenderer()->GetActive())
 			{
-				_deferredRenderer->RenderFirstPass(it.first, camData);
+				
+				_deferredRenderer->RenderFirstPass(it.first, *camData);
+				it.second->Render(camData);
 			}
 		}
 		_deferredRenderer->RenderSecondPass();
 
 		// Forward
-		_forwardRenderer->Render(camData);
+		_forwardRenderer->Render(*camData);
 
 		// 2D 오브젝트 렌더
 		for (auto& it : _renderObject2DList)
 		{
-			if (it.second->_baseRenderer->GetActive())
+			if (it.second->GetBaseRenderer()->GetActive())
 			{
 				//렌더.
 			}
@@ -149,20 +164,7 @@ namespace Pg::Graphics
 
 		using Pg::Graphics::Helper::GraphicsResourceHelper;
 
-		//Scene에서 Renderer 정보를 가져오기 전, 
-		//만약 렌더러 중 하나라면, Rendering Logic 연동.
-		for (auto& tGameObject : newScene->GetObjectList())
-		{
-			for (auto& tComponentPair : tGameObject->GetComponentList())
-			{
-				if (GraphicsResourceHelper::IsRenderer3D(tComponentPair.first) != -1)
-				{
-					//만약 렌더러 파생 컴포넌트라면?
-					Pg::Data::BaseRenderer* tBaseRenderer = static_cast<Pg::Data::BaseRenderer*>(tComponentPair.second);
-					tBaseRenderer->SetRendererTypeName(tComponentPair.first);
-				}
-			}
-		}
+		//컴포넌트 내부적으로 -> 자신이 어떤 타입인지 Renderer에게 전달. 내부적으로 호출.
 
 		//이제 실제 오브젝트 내부 RenderObject 연동.
 		for (auto& tGameObject : newScene->GetObjectList())
@@ -177,14 +179,29 @@ namespace Pg::Graphics
 				if (GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()) == 1)
 				{
 					//3D
-					auto tRes = _renderObject3DList.insert_or_assign(tGameObject, 
-						std::make_unique<RenderObject3D>(tBaseRenderer));
+					//StaticMeshRenderer
+					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
+					{
+						auto tRes = _renderObject3DList.insert_or_assign(tGameObject,
+							std::make_unique<RenderObjectStaticMesh3D>(tBaseRenderer));
+					}
 				}
-				else
+				else if (GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()) == 0)
 				{
 					//2D
-					auto tRes = _renderObject2DList.insert_or_assign(tGameObject, 
-						std::make_unique<RenderObject2D>(tBaseRenderer));
+					//TextRenderer
+					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::TextRenderer*).name())) == 0)
+					{
+						auto tRes = _renderObject2DList.insert_or_assign(tGameObject,
+							std::make_unique<RenderObjectText2D>(tBaseRenderer));
+					}
+
+					//ImageRenderer
+					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::ImageRenderer*).name())) == 0)
+					{
+						auto tRes = _renderObject2DList.insert_or_assign(tGameObject,
+							std::make_unique<RenderObjectImage2D>(tBaseRenderer));
+					}
 				}
 			}
 		}

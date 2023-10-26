@@ -141,10 +141,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>singleton.lib</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonUtil.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -165,10 +165,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>singleton.lib</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonMath.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -182,11 +182,13 @@
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="MoveForwardBack.h" />
-    <ClInclude Include="Panel.h" />
-    <ClInclude Include="ParagonDefines.h" />
     <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="DynamicCollider.h" />
+    <ClInclude Include="ISerializable.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="ModelData.h" />
+    <ClInclude Include="MoveForwardBack.h" />
+    <ClInclude Include="ParagonDefines.h" />
     <ClInclude Include="LightData.h" />
     <ClInclude Include="LightType.h" />
     <ClInclude Include="ImageRenderer.h" />
@@ -197,14 +199,18 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsResource.h" />
     <ClInclude Include="IComponent.h" />
-    <ClInclude Include="IRenderObject.h" />
     <ClInclude Include="RendererBase2D.h" />
     <ClInclude Include="RendererBase3D.h" />
     <ClInclude Include="RendererType.h" />
     <ClInclude Include="RenderTextData.h" />
+    <ClInclude Include="ResourceQueue.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Script.h" />
+    <ClInclude Include="Serializer.h" />
+    <ClInclude Include="SoundData.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="SpotLight.h" />
+    <ClInclude Include="StaticMeshRenderer.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
@@ -218,8 +224,9 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
-    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="DynamicCollider.cpp" />
     <ClCompile Include="ImageRenderer.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="MoveForwardBack.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RendererChangeList.cpp" />
@@ -228,9 +235,13 @@
     <ClCompile Include="GraphicsResource.cpp" />
     <ClCompile Include="RendererBase2D.cpp" />
     <ClCompile Include="RendererBase3D.cpp" />
+    <ClCompile Include="ResourceQueue.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Script.cpp" />
+    <ClCompile Include="Serializer.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="SpotLight.cpp" />
+    <ClCompile Include="StaticMeshRenderer.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>

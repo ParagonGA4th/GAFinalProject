@@ -1,7 +1,7 @@
 #pragma once
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonData/Scene.h"
-#include <vector>
+#include <unordered_map>
 
 /// <summary>
 /// 변지상의 SceneSystem.
@@ -12,6 +12,11 @@
 namespace Pg::Data
 {
 	class Scene;
+}
+
+namespace Pg::Engine
+{
+	class TestScene;
 }
 
 namespace Pg::Engine
@@ -30,13 +35,16 @@ namespace Pg::Engine
 		void SetCurrentScene(Scene* scene);
 		Pg::Data::Scene* GetCurrentScene();
 
+		//새로운 씬을 생성한다.
+		Pg::Data::Scene* CreateScene(const std::string& sceneName);
+
 		//현재 씬으로 지정된 것을 삭제한다.
 		void DeleteCurrentScene();
 
-
 	private:
 		Scene* _currentScene = nullptr;
-		std::vector<Scene*> _sceneList;
+		TestScene* _testScene = nullptr;
+		std::unordered_map<std::string, Scene*> _sceneList;
 	};
 }
 

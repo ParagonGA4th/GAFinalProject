@@ -122,10 +122,10 @@
       <Filter>10_Structs\D3DBuffers</Filter>
     </ClInclude>
     <ClInclude Include="MaterialCluster.h">
-      <Filter>10_Structs\TextureCluster</Filter>
+      <Filter>10_Structs\MaterialCluster</Filter>
     </ClInclude>
     <ClInclude Include="DemoGeometryGenerator.h">
-      <Filter>9_Util\DemoGeometryGenerator</Filter>
+      <Filter>10_Structs\9_Util\DemoGeometryGenerator</Filter>
     </ClInclude>
     <ClInclude Include="AssetStructSRV.h">
       <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
@@ -141,6 +141,24 @@
     </ClInclude>
     <ClInclude Include="Forward3DRenderer.h">
       <Filter>0_Main</Filter>
+    </ClInclude>
+    <ClInclude Include="MultimaterialMesh.h">
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetTextureType.h">
+      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetTextureType</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectText2D.h">
+      <Filter>4_RenderObject\RenderObject2D\RenderObjectText2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectImage2D.h">
+      <Filter>4_RenderObject\RenderObject2D\RenderObjectImage2D</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderObject.h">
+      <Filter>4_RenderObject\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectStaticMesh3D.h">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -250,10 +268,10 @@
       <Filter>8_Helpers\BufferParser</Filter>
     </ClCompile>
     <ClCompile Include="MaterialCluster.cpp">
-      <Filter>10_Structs\TextureCluster</Filter>
+      <Filter>10_Structs\MaterialCluster</Filter>
     </ClCompile>
     <ClCompile Include="DemoGeometryGenerator.cpp">
-      <Filter>9_Util\DemoGeometryGenerator</Filter>
+      <Filter>10_Structs\9_Util\DemoGeometryGenerator</Filter>
     </ClCompile>
     <ClCompile Include="GeometryGenerator.cpp">
       <Filter>5_Misc</Filter>
@@ -266,6 +284,18 @@
     </ClCompile>
     <ClCompile Include="Forward3DRenderer.cpp">
       <Filter>0_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="MultimaterialMesh.cpp">
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectText2D.cpp">
+      <Filter>4_RenderObject\RenderObject2D\RenderObjectText2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectImage2D.cpp">
+      <Filter>4_RenderObject\RenderObject2D\RenderObjectImage2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectStaticMesh3D.cpp">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -344,9 +374,6 @@
     <Filter Include="6_HLSL\DefaultInfo">
       <UniqueIdentifier>{d6331f99-21c9-43a7-9cf1-d92ea52f5dad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9_Util">
-      <UniqueIdentifier>{ac8e1c62-b6b6-4db3-9a29-773a07312fee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3_GraphicsResources\Asset3DModelData\Data">
       <UniqueIdentifier>{2378ba46-73ff-4ad8-afbd-fda3e746a452}</UniqueIdentifier>
     </Filter>
@@ -389,11 +416,29 @@
     <Filter Include="6_HLSL\TempForward">
       <UniqueIdentifier>{c9c79e18-ed8d-4753-b263-81e8f64f61d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="10_Structs\TextureCluster">
+    <Filter Include="10_Structs\MaterialCluster">
       <UniqueIdentifier>{d996588d-430c-4bd3-b54b-218f353e692d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9_Util\DemoGeometryGenerator">
+    <Filter Include="10_Structs\9_Util">
+      <UniqueIdentifier>{ac8e1c62-b6b6-4db3-9a29-773a07312fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\9_Util\DemoGeometryGenerator">
       <UniqueIdentifier>{96a84336-e59f-4c8b-adc6-f708a51266cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Asset3DModelData\Define\AssetTextureType">
+      <UniqueIdentifier>{da6af180-f6dd-4275-8b14-d4734f08cad6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject2D\RenderObjectText2D">
+      <UniqueIdentifier>{b78e51a2-d0d1-4aa9-8493-c344bd8a0de2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject2D\RenderObjectImage2D">
+      <UniqueIdentifier>{c954ace8-b4df-4b29-8dcd-ca88412d3809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D">
+      <UniqueIdentifier>{cb121fc8-aa1e-4642-9f73-9136df3aeafe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\Interface">
+      <UniqueIdentifier>{ab03e88c-4d07-4d8e-a633-ee7c7da92838}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

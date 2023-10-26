@@ -4,11 +4,56 @@
     <ClCompile Include="Scene.cpp">
       <Filter>0_Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>2_Component\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>2_Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>2_Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>2_Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>2_Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>2_Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseRenderer.cpp">
+      <Filter>2_Component\Renderer\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>2_Component\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLight.cpp">
+      <Filter>2_Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineResource.cpp">
+      <Filter>3_Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsResource.cpp">
+      <Filter>3_Resource</Filter>
+    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>1_GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>2_Component</Filter>
+    <ClCompile Include="MoveForwardBack.cpp">
+      <Filter>8_TestScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererChangeList.cpp">
+      <Filter>6_DataChangeList</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>2_Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseResource.cpp">
+      <Filter>3_Resource\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>2_Component\Collider\BaseClass</Filter>
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
       <Filter>2_Component\Collider\BoxCollider</Filter>
@@ -16,76 +61,118 @@
     <ClCompile Include="CapsuleCollider.cpp">
       <Filter>2_Component\Collider\CapsuleCollider</Filter>
     </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>2_Component\Collider</Filter>
-    </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
       <Filter>2_Component\Collider\SphereCollider</Filter>
     </ClCompile>
-    <ClCompile Include="BaseResource.cpp">
-      <Filter>3_Resource</Filter>
+    <ClCompile Include="Serializer.cpp">
+      <Filter>9_DataSerializer</Filter>
     </ClCompile>
-    <ClCompile Include="EngineResource.cpp">
-      <Filter>3_Resource\EngineResource</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsResource.cpp">
-      <Filter>3_Resource\GraphicsResource</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseRenderer.cpp">
-      <Filter>2_Component\Renderer\BaseRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="RendererBase2D.cpp">
-      <Filter>2_Component\Renderer\RendererBase2D</Filter>
-    </ClCompile>
-    <ClCompile Include="RendererBase3D.cpp">
-      <Filter>2_Component\Renderer\RendererBase3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>2_Component\Transform</Filter>
-    </ClCompile>
-    <ClCompile Include="RendererChangeList.cpp">
-      <Filter>6_DataChangeList\RendererChangeList</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>2_Component\UI\Button</Filter>
+    <ClCompile Include="DynamicCollider.cpp">
+      <Filter>2_Component\Collider\DynamicCollider</Filter>
     </ClCompile>
     <ClCompile Include="TextRenderer.cpp">
-      <Filter>2_Component\UI\TextBox</Filter>
+      <Filter>2_Component\Renderer\2D\TextRenderer</Filter>
     </ClCompile>
     <ClCompile Include="ImageRenderer.cpp">
-      <Filter>2_Component\UI\Panel</Filter>
+      <Filter>2_Component\Renderer\2D\ImageRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="SpotLight.cpp">
-      <Filter>2_Component\Light\SpotLight</Filter>
+    <ClCompile Include="RendererBase2D.cpp">
+      <Filter>2_Component\Renderer\2D</Filter>
     </ClCompile>
-    <ClCompile Include="PointLight.cpp">
-      <Filter>2_Component\Light\PointLight</Filter>
+    <ClCompile Include="RendererBase3D.cpp">
+      <Filter>2_Component\Renderer\3D</Filter>
     </ClCompile>
-    <ClCompile Include="DirectionalLight.cpp">
-      <Filter>2_Component\Light\DirectionalLight</Filter>
+    <ClCompile Include="StaticMeshRenderer.cpp">
+      <Filter>2_Component\Renderer\3D\StaticMeshRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>2_Component\Light\LightBase</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>2_Component\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveForwardBack.cpp">
-      <Filter>8_TestScripts\MoveForwardBack</Filter>
+    <ClCompile Include="ResourceQueue.cpp">
+      <Filter>6_DataChangeList\ResourceQueue</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
       <Filter>0_Scene</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>1_GameObject</Filter>
+    <ClInclude Include="Component.h">
+      <Filter>2_Component\BaseClass</Filter>
     </ClInclude>
     <ClInclude Include="IComponent.h">
       <Filter>2_Component\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>2_Component</Filter>
+    <ClInclude Include="Light.h">
+      <Filter>2_Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>2_Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>2_Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>2_Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseRenderer.h">
+      <Filter>2_Component\Renderer\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetDefines.h">
+      <Filter>7_ParagonDefines</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>2_Component\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraData.h">
+      <Filter>2_Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>2_Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>2_Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineResource.h">
+      <Filter>3_Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsResource.h">
+      <Filter>3_Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>1_GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveForwardBack.h">
+      <Filter>8_TestScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererType.h">
+      <Filter>5_Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="LightType.h">
+      <Filter>5_Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererChangeList.h">
+      <Filter>6_DataChangeList</Filter>
+    </ClInclude>
+    <ClInclude Include="ParagonDefines.h">
+      <Filter>7_ParagonDefines</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorMode.h">
+      <Filter>5_Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>2_Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseResource.h">
+      <Filter>3_Resource\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="LightData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTextData.h">
+      <Filter>4_Structs</Filter>
     </ClInclude>
     <ClInclude Include="BoxCollider.h">
       <Filter>2_Component\Collider\BoxCollider</Filter>
@@ -96,206 +183,133 @@
     <ClInclude Include="SphereCollider.h">
       <Filter>2_Component\Collider\SphereCollider</Filter>
     </ClInclude>
-    <ClInclude Include="BaseResource.h">
-      <Filter>3_Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineResource.h">
-      <Filter>3_Resource\EngineResource</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsResource.h">
-      <Filter>3_Resource\GraphicsResource</Filter>
-    </ClInclude>
     <ClInclude Include="Collider.h">
-      <Filter>2_Component\Collider</Filter>
+      <Filter>2_Component\Collider\BaseClass</Filter>
     </ClInclude>
-    <ClInclude Include="CameraData.h">
-      <Filter>5_Enums\CameraData</Filter>
+    <ClInclude Include="Serializer.h">
+      <Filter>9_DataSerializer</Filter>
     </ClInclude>
-    <ClInclude Include="AssetDefines.h">
-      <Filter>5_Enums\AssetDefines</Filter>
+    <ClInclude Include="ISerializable.h">
+      <Filter>9_DataSerializer</Filter>
     </ClInclude>
-    <ClInclude Include="EditorMode.h">
-      <Filter>5_Enums\EditorMode</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseRenderer.h">
-      <Filter>2_Component\Renderer\BaseRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="IRenderObject.h">
-      <Filter>2_Component\Renderer\IRenderObject</Filter>
-    </ClInclude>
-    <ClInclude Include="RendererBase2D.h">
-      <Filter>2_Component\Renderer\RendererBase2D</Filter>
-    </ClInclude>
-    <ClInclude Include="RendererBase3D.h">
-      <Filter>2_Component\Renderer\RendererBase3D</Filter>
-    </ClInclude>
-    <ClInclude Include="RendererType.h">
-      <Filter>5_Enums\RendererType</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTextData.h">
-      <Filter>4_Structs\RenderTextData</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>2_Component\Transform</Filter>
-    </ClInclude>
-    <ClInclude Include="RendererChangeList.h">
-      <Filter>6_DataChangeList\RendererChangeList</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>2_Component\UI\Button</Filter>
+    <ClInclude Include="DynamicCollider.h">
+      <Filter>2_Component\Collider\DynamicCollider</Filter>
     </ClInclude>
     <ClInclude Include="TextRenderer.h">
-      <Filter>2_Component\UI\TextBox</Filter>
+      <Filter>2_Component\Renderer\2D\TextRenderer</Filter>
     </ClInclude>
     <ClInclude Include="ImageRenderer.h">
-      <Filter>2_Component\UI\Panel</Filter>
+      <Filter>2_Component\Renderer\2D\ImageRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="LightData.h">
-      <Filter>4_Structs</Filter>
+    <ClInclude Include="RendererBase2D.h">
+      <Filter>2_Component\Renderer\2D</Filter>
     </ClInclude>
-    <ClInclude Include="LightType.h">
-      <Filter>5_Enums</Filter>
+    <ClInclude Include="RendererBase3D.h">
+      <Filter>2_Component\Renderer\3D</Filter>
     </ClInclude>
-    <ClInclude Include="SpotLight.h">
-      <Filter>2_Component\Light\SpotLight</Filter>
+    <ClInclude Include="StaticMeshRenderer.h">
+      <Filter>2_Component\Renderer\3D\StaticMeshRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="PointLight.h">
-      <Filter>2_Component\Light\PointLight</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectionalLight.h">
-      <Filter>2_Component\Light\DirectionalLight</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>2_Component\Light\LightBase</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>2_Component\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="ParagonDefines.h">
-      <Filter>7_ParagonDefines</Filter>
-    </ClInclude>
-    <ClInclude Include="Panel.h" />
-    <ClInclude Include="MoveForwardBack.h">
-      <Filter>8_TestScripts\MoveForwardBack</Filter>
+    <ClInclude Include="ResourceQueue.h">
+      <Filter>6_DataChangeList\ResourceQueue</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
-      <UniqueIdentifier>{ec361c95-aede-48ce-9d80-2d4f7c101cae}</UniqueIdentifier>
+      <UniqueIdentifier>{2c5090ab-9153-4a59-96d5-9bc6a1ade861}</UniqueIdentifier>
     </Filter>
     <Filter Include="1_GameObject">
-      <UniqueIdentifier>{47767fff-2789-4e4d-8041-cbd0ff7cca17}</UniqueIdentifier>
+      <UniqueIdentifier>{cafc21f0-e330-4292-9151-5dcb47c2ccf6}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Component">
-      <UniqueIdentifier>{2c68b0fe-cfc2-462a-86d9-c737d032b833}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Interface">
-      <UniqueIdentifier>{ce97f7db-4da9-451c-ae79-1bdd7edc636c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Renderer">
-      <UniqueIdentifier>{5634ea51-bda1-48ec-b247-d40ac905df78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Renderer\RendererBase2D">
-      <UniqueIdentifier>{47b9ce9e-af45-4cdb-b99c-699e852f223a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Renderer\RendererBase3D">
-      <UniqueIdentifier>{4921af91-35ea-439f-9733-ae0768861c7a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Collider">
-      <UniqueIdentifier>{c5f90883-3359-47ee-8c4e-d41dc4ee3e1d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Collider\BoxCollider">
-      <UniqueIdentifier>{5d03cf3d-8459-4bce-9fd6-4324072dbbc4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Collider\CapsuleCollider">
-      <UniqueIdentifier>{9d59a471-0206-442b-8579-fd19ab917a5f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Collider\SphereCollider">
-      <UniqueIdentifier>{68015c4d-6233-40f7-9e3a-321214f232d5}</UniqueIdentifier>
+      <UniqueIdentifier>{15495bfd-c5eb-4bdb-8f16-58117261c1aa}</UniqueIdentifier>
     </Filter>
     <Filter Include="3_Resource">
-      <UniqueIdentifier>{df76bb30-7196-4a33-a0b6-737ff0fbd90d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3_Resource\EngineResource">
-      <UniqueIdentifier>{7f719327-595e-416a-ae97-441646588004}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3_Resource\GraphicsResource">
-      <UniqueIdentifier>{95b23c3a-6d5f-4dff-8152-02d8f0dffe87}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Renderer\BaseRenderer">
-      <UniqueIdentifier>{df579efc-39c9-4db2-83f0-253e0a0da5aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_Enums">
-      <UniqueIdentifier>{a1a8a26b-94b2-4cce-a99a-14478c242db8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_Enums\AssetDefines">
-      <UniqueIdentifier>{434f808c-9412-4c0f-aaa2-52346e4e321e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_Enums\CameraData">
-      <UniqueIdentifier>{8f73f424-7673-4ab8-8070-e4e44a6e720a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_Enums\EditorMode">
-      <UniqueIdentifier>{2b0f3590-e704-497c-9b5c-d9b365b2384e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_Enums\RendererType">
-      <UniqueIdentifier>{8caf7dac-63e6-406d-b706-2e3f7321a5e3}</UniqueIdentifier>
+      <UniqueIdentifier>{37c9807d-abbf-4dc9-b157-55eaddba8b2c}</UniqueIdentifier>
     </Filter>
     <Filter Include="4_Structs">
-      <UniqueIdentifier>{775e1143-3ecf-46b5-a68f-85da5371a661}</UniqueIdentifier>
+      <UniqueIdentifier>{b92c37fd-171d-4497-a7eb-838ed1280933}</UniqueIdentifier>
     </Filter>
-    <Filter Include="4_Structs\RenderTextData">
-      <UniqueIdentifier>{0334483d-cdf2-4f79-9548-8a389b60c13e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Transform">
-      <UniqueIdentifier>{2415bb1b-218d-4696-a312-7dd2f2e7865d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Renderer\IRenderObject">
-      <UniqueIdentifier>{95b9cff0-0a95-4565-b6cd-25e374894b87}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_DataChangeList">
-      <UniqueIdentifier>{d13d417b-c265-47df-bce6-c97fb15b63b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_DataChangeList\RendererChangeList">
-      <UniqueIdentifier>{cf9a7602-9fe2-4dd4-a278-b427f8b39400}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\UI">
-      <UniqueIdentifier>{b73f4e03-b96b-4ad0-aaa4-b288405c5aea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\UI\Button">
-      <UniqueIdentifier>{63ad0083-7c1c-4d2c-82cf-56f83baaddf9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\UI\TextBox">
-      <UniqueIdentifier>{6a611776-b5ff-4e24-830f-37cc12095203}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\UI\Panel">
-      <UniqueIdentifier>{5dcff952-b16f-4fbc-9ada-ca3a3aa3610a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Light">
-      <UniqueIdentifier>{6fdc2a79-3e25-4666-ac4d-93004875d37d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Light\DirectionalLight">
-      <UniqueIdentifier>{f6928c01-abd6-4c57-8d27-6f7dfe570733}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Light\PointLight">
-      <UniqueIdentifier>{9c3ce0d1-f449-469f-beaa-32da07be67e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Light\SpotLight">
-      <UniqueIdentifier>{35e8d2ac-0be8-4d7b-8f11-424dcfb4126f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Light\LightBase">
-      <UniqueIdentifier>{920d4051-68a0-483c-add3-6322380ecf0d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Camera">
-      <UniqueIdentifier>{feca1d29-5581-4691-a002-7a02d9a65aed}</UniqueIdentifier>
+    <Filter Include="5_Enums">
+      <UniqueIdentifier>{586942d2-d05b-4630-a5fb-beeab6f05744}</UniqueIdentifier>
     </Filter>
     <Filter Include="7_ParagonDefines">
-      <UniqueIdentifier>{1c8caedb-41a3-46e1-8252-51dbfddf65bf}</UniqueIdentifier>
+      <UniqueIdentifier>{e2a211f3-a344-479d-9afb-faf956c259ca}</UniqueIdentifier>
     </Filter>
     <Filter Include="8_TestScripts">
-      <UniqueIdentifier>{a17a02b6-f64b-4684-a63e-094e0c45f985}</UniqueIdentifier>
+      <UniqueIdentifier>{98868859-c368-42bf-9040-543cb9ff8bfb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="8_TestScripts\MoveForwardBack">
-      <UniqueIdentifier>{2aeea70d-d57a-4569-86c3-04dd8a46dfe7}</UniqueIdentifier>
+    <Filter Include="2_Component\Interface">
+      <UniqueIdentifier>{c9566f24-9307-483a-8d2a-816a16645fe7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\BaseClass">
+      <UniqueIdentifier>{9168ff7f-900e-412c-8e28-b2e3cb5f1eb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Transform">
+      <UniqueIdentifier>{149b25af-6399-4d0e-8b7b-91cadc918c66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Camera">
+      <UniqueIdentifier>{dcff2f5d-d7ea-4f29-a493-24035708514e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Light">
+      <UniqueIdentifier>{68c10eaf-42c1-46a2-b110-40e48696e505}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider">
+      <UniqueIdentifier>{4417d714-ca78-49d0-9888-1c06b9c31ca5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Script">
+      <UniqueIdentifier>{80ed792a-3d04-4ec7-957d-52f6f5d52400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer">
+      <UniqueIdentifier>{3845d0cb-630d-471a-8b81-07a323c027f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\BaseClass">
+      <UniqueIdentifier>{f92600e3-e432-4614-b52a-b07386de60d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Button">
+      <UniqueIdentifier>{b3e53bb0-eb90-4646-b909-89afba4cc3ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Resource\BaseClass">
+      <UniqueIdentifier>{45458850-900a-49f8-912b-b811cde34b25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_DataChangeList">
+      <UniqueIdentifier>{0378711b-6cd9-48e8-a2ed-43014541b694}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\BaseClass">
+      <UniqueIdentifier>{da968cf0-ea1d-49cf-bb46-0f0469308f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\BoxCollider">
+      <UniqueIdentifier>{65cd6fac-dea3-4df8-96e3-e40208df9e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\CapsuleCollider">
+      <UniqueIdentifier>{d0f0cb7a-d7a9-4ea9-bc7b-a551e630b35f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\SphereCollider">
+      <UniqueIdentifier>{209bfa5b-6385-49ed-b021-6c8efd240396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_DataSerializer">
+      <UniqueIdentifier>{8e85e9fd-441e-4718-bc5c-cdaf85bf2be4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\DynamicCollider">
+      <UniqueIdentifier>{51a8fda0-dcc5-41de-89fd-93a38be98935}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\3D">
+      <UniqueIdentifier>{fd84d26f-d4c3-4172-9049-9d0100a57e05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\2D">
+      <UniqueIdentifier>{3cda6f4d-fe63-4073-b147-72e7dde2d895}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\2D\ImageRenderer">
+      <UniqueIdentifier>{08c41d8c-4084-4dbc-b009-2f4485943c04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\2D\TextRenderer">
+      <UniqueIdentifier>{8c7d751b-d13a-4ee8-9ba7-0de980154831}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\3D\StaticMeshRenderer">
+      <UniqueIdentifier>{27d5ab17-5ab9-4310-88f4-dd3a4a77dd4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_DataChangeList\ResourceQueue">
+      <UniqueIdentifier>{821c629c-71f3-45f1-aa90-034383729b81}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

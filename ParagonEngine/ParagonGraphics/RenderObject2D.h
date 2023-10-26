@@ -1,6 +1,5 @@
 #pragma once
 #include "GraphicsDLLExporter.h"
-#include "RenderUsageStruct2D.h"
 #include "RenderObjectBase.h"
 
 /// <summary>
@@ -19,15 +18,8 @@ namespace Pg::Graphics
 		RenderObject2D(Pg::Data::BaseRenderer* baseRenderer);
 		virtual ~RenderObject2D();
 
-		//렌더링을 위한 오브젝트의 데이터를 큰 갈래에서 업데이트
-		virtual void UpdateObjectRenderData(const Pg::Data::RenderTextData rTextData) override;
+		virtual void Render(Pg::Data::CameraData* camData) override;
 
-	private:
-		//2D 오브젝트 렌더링을 위한 정보 업데이트
-		void Update2DObjectRenderData(const Pg::Data::RenderTextData& recent);
-
-	private:
-		RenderUsageStruct2D _renderUsageStruct2D;
 	};
 }
 
