@@ -14,17 +14,16 @@
 #include "../ParagonData/CameraData.h"
 #include "RenderObjectBase.h"
 
+#include "RenderObject3D.h"
+
 #include "ConstantBufferDefine.h"
 
 #include "GeometryGenerator.h"
-
 
 Pg::Graphics::DeferredRenderer::DeferredRenderer()
 {
 	cube = new TestCube();
 }
-
-
 
 void Pg::Graphics::DeferredRenderer::Initialize()
 {
@@ -62,41 +61,45 @@ void Pg::Graphics::DeferredRenderer::Initialize()
 	_firstVS = new VertexShader(L"../Builds/x64/debug/FirstStatic_VS.cso");
 	_firstVS->_inputLayout = LayoutDefine::GetStatic1stLayout();
 	_firstVS->AssignConstantBuffer(&cube->_cbData);
+	cube->AssignVertexShader(_firstVS);
+
 	_firstPS = new PixelShader(L"../Builds/x64/debug/FirstStage_PS.cso");
-
-
 
 	// 2nd Pass
 	_secondVS = new VertexShader(L"../Builds/x64/debug/SecondStage_VS.cso");
 	_secondVS->_inputLayout = LayoutDefine::Get2ndLayout();
 	_secondPS = new PixelShader(L"../Builds/x64/debug/SecondStage_PS.cso");
-
 }
 
-void Pg::Graphics::DeferredRenderer::Render(Pg::Data::GameObject& object, Pg::Data::CameraData& camData)
+void Pg::Graphics::DeferredRenderer::BeginRender()
 {
-	_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidState);
-	
-	_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_DeferredDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
+	// Set Depth Stencil State
+	_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_depthStencilState, 0);
 
-	// 1st Pass
+	_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
+	ClearGBuffers();
+
+	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
+}
+
+void Pg::Graphics::DeferredRenderer::RenderFirstPass(Pg::Data::GameObject* object, Pg::Data::CameraData& camData)
+{
 	BindFirstPass();
 
-	cube->Draw(object._transform, camData);
-
-	for (auto& cb : _firstVS->_constantBuffers)
-	{
-		cb->UpdateAndBind();
-	}
-
-	_DXStorage->_deviceContext->DrawIndexed(36, 0, 0);
+	// 3D 오브젝트 렌더
+	cube->Draw(object->_transform, camData);
 
 	UnbindFirstPass();
+}
 
-	// 2nd Pass
+void Pg::Graphics::DeferredRenderer::RenderSecondPass()
+{
 	BindSecondPass();
 
 	_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
+
+	//_DXStorage->_deviceContext->OMSetBlendState(nullptr, NULL, 0xffffffff);
+	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
 
 	UnbindSecondPass();
 }
@@ -107,11 +110,11 @@ void Pg::Graphics::DeferredRenderer::BindFirstPass()
 	_firstVS->Bind();
 	_firstPS->Bind();
 
+	_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidState);
 	_DXStorage->_deviceContext->PSSetShaderResources(0, 1, &NullSRV[0]);
 
 	// SetRenderTarget
-	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), _RTVs.data(), _DXStorage->_DeferredDepthStencilView);
-	
+	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), _RTVs.data(), _DXStorage->_depthStencilView);
 }
 
 void Pg::Graphics::DeferredRenderer::UnbindFirstPass()
@@ -138,9 +141,10 @@ void Pg::Graphics::DeferredRenderer::BindSecondPass()
 	// Set Sampler State
 	_DXStorage->_deviceContext->PSSetSamplers(0, 1, &_DXStorage->_defaultSamplerState);
 
+	_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_tempDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
+
 	// Render to Main Render Target
 	_DXStorage->_deviceContext->OMSetRenderTargets(1, &_DXStorage->_mainRTV, _DXStorage->_tempDepthStencilView);
-	//_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_tempDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
 }
 
 void Pg::Graphics::DeferredRenderer::UnbindSecondPass()
@@ -151,9 +155,7 @@ void Pg::Graphics::DeferredRenderer::UnbindSecondPass()
 	_DXStorage->_deviceContext->VSSetShaderResources(0, _SRVs.size(), NullSRV.data());
 	_DXStorage->_deviceContext->PSSetShaderResources(0, _SRVs.size(), NullSRV.data());
 
-	_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-
-	//_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), NullRTV.data(), _DXStorage->_depthStencilView);
+	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), NullRTV.data(), _DXStorage->_depthStencilView);
 }
 
 void Pg::Graphics::DeferredRenderer::BuildFullscreenQuad()
@@ -211,7 +213,5 @@ void Pg::Graphics::DeferredRenderer::ClearGBuffers()
 	for (auto& e : _RTVs)
 	{
 		_DXStorage->_deviceContext->ClearRenderTargetView(e, _DXStorage->_backgroundColor);
-		
 	}
-	
 }

@@ -1,9 +1,9 @@
 #pragma once
 
+#include "DX11Headers.h"
+
 #include <vector>
 #include <memory>
-
-#include "DX11Headers.h"
 
 namespace Pg::Data
 {
@@ -13,12 +13,15 @@ namespace Pg::Data
 
 namespace Pg::Graphics
 {
-	class GBuffer;
 	class TestCube;
+	class LowDX11Storage;
+	class GBuffer;
 	class VertexShader;
 	class PixelShader;
-	class LowDX11Storage;
+}
 
+namespace Pg::Graphics
+{
 	class DeferredRenderer
 	{
 	public:
@@ -27,10 +30,13 @@ namespace Pg::Graphics
 	public:
 		void Initialize();
 
-		// 각각의 GBuffer들에 렌더
-		void Render(Pg::Data::GameObject& object, Pg::Data::CameraData& camData);
+		void BeginRender();
+
+		void RenderFirstPass(Pg::Data::GameObject* object, Pg::Data::CameraData& camData);
+		void RenderSecondPass();
 
 		void ClearGBuffers();
+	
 	private:
 		void BindFirstPass();
 		void BindSecondPass();
