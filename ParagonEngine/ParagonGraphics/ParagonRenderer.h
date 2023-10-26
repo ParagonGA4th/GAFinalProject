@@ -27,7 +27,7 @@ namespace Pg::Graphics
 	class LowDX11Logic;
 	class LowDX11Storage;
 	class DeferredRenderer;
-	class ForwardRenderer;
+	class Forward3DRenderer;
 
 	class ParagonRenderer
 	{
@@ -60,7 +60,7 @@ namespace Pg::Graphics
 		Pg::Data::RendererChangeList* _rendererChangeList = nullptr;
 
 		DeferredRenderer* _deferredRenderer;
-		ForwardRenderer* _forwardRenderer;
+		Forward3DRenderer* _forwardRenderer;
 	};
 }
 

@@ -10,10 +10,10 @@ namespace Pg::Graphics
 	class LowDX11Storage;
 	class LowDX11Logic;
 
-	class ForwardRenderer
+	class Forward3DRenderer
 	{
 	public:
-		ForwardRenderer();
+		Forward3DRenderer();
 
 	public:
 		void Initialize();

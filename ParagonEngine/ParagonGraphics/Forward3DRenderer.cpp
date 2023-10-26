@@ -1,4 +1,4 @@
-#include "ForwardRenderer.h"
+#include "Forward3DRenderer.h"
 
 #include "DX11Headers.h"
 #include "LowDX11Logic.h"
@@ -21,13 +21,13 @@ namespace Pg::Graphics
 	Axis* axis;
 	Cubemap* cubemap;
 
-	Pg::Graphics::ForwardRenderer::ForwardRenderer()
+	Pg::Graphics::Forward3DRenderer::Forward3DRenderer()
 		: _DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
 	{
 
 	}
 
-	void Pg::Graphics::ForwardRenderer::Initialize()
+	void Pg::Graphics::Forward3DRenderer::Initialize()
 	{
 		D3D11_INPUT_ELEMENT_DESC HelperDesc[] =
 		{
@@ -72,12 +72,12 @@ namespace Pg::Graphics
 		cubemap->AssignPixelShader(CubemapPS);
 	}
 
-	void Pg::Graphics::ForwardRenderer::BeginRender()
+	void Pg::Graphics::Forward3DRenderer::BeginRender()
 	{
 		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
 	}
 
-	void Pg::Graphics::ForwardRenderer::Render(Pg::Data::CameraData camData)
+	void Pg::Graphics::Forward3DRenderer::Render(Pg::Data::CameraData camData)
 	{
 		BeginRender();
 
