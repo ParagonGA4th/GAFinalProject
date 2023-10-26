@@ -1,5 +1,6 @@
 #pragma once
 #include "RenderObject3D.h"
+#include "ConstantBufferDefine.h"
 
 //#ForwardTemp : 헤더.
 #include <dxtk/GeometricPrimitive.h>
@@ -8,19 +9,59 @@
 /// StaticMeshRenderer 컴포넌트와 1대1 대응하는 렌더오브젝트.
 /// </summary>
 
+struct ID3D11Device;
+struct ID3D11DeviceContext;
+
+namespace Pg::Data
+{
+	class StaticMeshRenderer;
+}
+
+namespace Pg::Graphics
+{
+	class Asset3DModelData;
+}
+
 namespace Pg::Graphics
 {
 	class RenderObjectStaticMesh3D : public RenderObject3D
 	{
 	public:
 		RenderObjectStaticMesh3D(Pg::Data::BaseRenderer* baseRenderer);
-	
+		virtual ~RenderObjectStaticMesh3D();
+
 		virtual void Render(Pg::Data::CameraData* camData) override;
 
 	private:
-
 		// #ForwardTemp : ForwardRendering 테스트를 위해 놔둠. WorkSpace 검사 위해.
-		std::unique_ptr<DirectX::GeometricPrimitive> _tempPrimitive;
+		//std::unique_ptr<DirectX::GeometricPrimitive> _tempPrimitive;
+
+	private:
+		Asset3DModelData* _modelData = nullptr;
+
+	private:
+		void UpdateConstantBuffer(Pg::Data::CameraData* camData);
+	private:
+		void CreateSamplerState();
+		void CreateVertexPixelShader();
+		void CreateRasterizerState();
+		void CreateConstantBuffer();
+		
+	private:
+
+		ConstantBufferDefine::cbPerObjectBase* _constantBufferStruct;
+
+		//렌더러와 연결되면서 지워질 것이다!
+		ID3D11Device* _device = nullptr;
+		ID3D11DeviceContext* _devCon = nullptr;
+
+		ID3D11VertexShader* _vertexShader = nullptr;
+		ID3D11PixelShader* _pixelShader = nullptr;
+
+		D3D11_SUBRESOURCE_DATA _cbufferSubresourceData;
+		ID3D11Buffer* _constantBuffer = nullptr;
+		ID3D11SamplerState* _samplerState = nullptr;
+		ID3D11RasterizerState* _rasterizerState = nullptr;
 	};
 }
 

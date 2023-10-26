@@ -173,7 +173,7 @@ namespace Pg::Graphics
 		_renderer->Render(_camData);
 
 		//MultiMaterial Mesh 테스팅.
-		_tempMultiMesh->Draw(_camData);
+		//_tempMultiMesh->Draw(_camData);
 	}
 
 	void GraphicsMain::EndRender()
@@ -413,7 +413,7 @@ namespace Pg::Graphics
 		std::string tFilePath;
 		//고정된 File Path ( == AssetManager에서 이미 로딩된 경로가 있어야 작동하므로, 하드코딩했음.)
 		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx";
-		tFilePath = "../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx";
+		//tFilePath = "../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx";
 		//tFilePath = "../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx";
 		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx";
 		//tFilePath = "../Resources/3DModels/MultiMatMesh/diffuseonly.fbx";
@@ -423,8 +423,8 @@ namespace Pg::Graphics
 		//tFilePath = "../Resources/3DModels/Banana.fbx";
 
 		//MultiMaterial Mesh 테스팅.
-		_tempMultiMesh = new MultimaterialMesh(tFilePath);
-		_tempMultiMesh->Initialize();
+		//_tempMultiMesh = new MultimaterialMesh(tFilePath);
+		//_tempMultiMesh->Initialize();
 	}
 
 	void GraphicsMain::SyncLoadGraphicsResources()
