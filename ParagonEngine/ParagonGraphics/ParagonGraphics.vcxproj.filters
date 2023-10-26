@@ -142,9 +142,11 @@
     <ClInclude Include="RenderObjectImage2D.h">
       <Filter>4_RenderObject\RenderObject2D\RenderObjectImage2D</Filter>
     </ClInclude>
-    <ClInclude Include="RenderObjectStaticMesh3D.h" />
     <ClInclude Include="IRenderObject.h">
       <Filter>4_RenderObject\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectStaticMesh3D.h">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -268,7 +270,9 @@
     <ClCompile Include="RenderObjectImage2D.cpp">
       <Filter>4_RenderObject\RenderObject2D\RenderObjectImage2D</Filter>
     </ClCompile>
-    <ClCompile Include="RenderObjectStaticMesh3D.cpp" />
+    <ClCompile Include="RenderObjectStaticMesh3D.cpp">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">

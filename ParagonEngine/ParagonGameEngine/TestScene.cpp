@@ -40,17 +40,19 @@ void Pg::Engine::TestScene::Initialize()
 	GameObject* tObj2 = tCurrentScene->AddObject("Cube2");
 	tObj2->GetComponent<Transform>()->SetPosition({ 1.0f, 0.0f, 5.0f });
 	tObj2->AddComponent<StaticMeshRenderer>();
+	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx");
 	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	GameObject* tObj2_1 = tCurrentScene->AddObject("Cube3");
 	tObj2_1->GetComponent<Transform>()->SetPosition({ 3.0f, 0.0f, 0.0f });
 	tObj2_1->AddComponent<StaticMeshRenderer>();
+	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx");
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	//tObj2_1->AddComponent<MoveForwardBack>();
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Cube4");
 	tObj2_2->GetComponent<Transform>()->SetPosition({ -3.0f, 0.0f, 0.0f });
-	tObj2_2->AddComponent<StaticMeshRenderer>();
+	tObj2_2->AddComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx");
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 

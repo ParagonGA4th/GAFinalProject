@@ -14,6 +14,9 @@ namespace Pg::Data
 	{
 	public:
 		StaticMeshRenderer(GameObject* obj);
+		
+		void SetMeshFilePath(const std::string& meshFilePath);
+		std::string GetMeshFilePath();
 
 	private:
 		std::string _meshFilePath;
