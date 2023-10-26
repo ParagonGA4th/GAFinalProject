@@ -11,6 +11,17 @@
 #include "../ParagonData/RendererChangeList.h"
 #include "../ParagonUtil/Log.h"
 
+//세부적인 렌더러들의 리스트.
+#include "../ParagonData/StaticMeshRenderer.h"
+
+#include "../ParagonData/ImageRenderer.h"
+#include "../ParagonData/TextRenderer.h"
+
+//세부적인 렌더 오브젝트들의 리스트.
+#include "RenderObjectStaticMesh3D.h"
+#include "RenderObjectText2D.h"
+#include "RenderObjectImage2D.h"
+
 #include <utility>
 #include <singleton-cpp/singleton.h>
 
@@ -45,17 +56,7 @@ namespace Pg::Graphics
 		{
 			if (it.second->GetBaseRenderer()->GetActive())
 			{
-				//렌더.
-				DirectX::XMFLOAT4X4 tWorldTM = MathHelper::PG2XM_FLOAT4X4(it.first->_transform.GetWorldTM());
-				DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
-
-				DirectX::XMFLOAT4X4 tViewTM = MathHelper::PG2XM_FLOAT4X4(camData->_viewMatrix);
-				DirectX::XMMATRIX tViewTMMat = DirectX::XMLoadFloat4x4(&tViewTM);
-
-				DirectX::XMFLOAT4X4 tProjTM = MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
-				DirectX::XMMATRIX tProjTMMat = DirectX::XMLoadFloat4x4(&tProjTM);
-
-				it.second->_tempPrimitive->Draw(tWorldTMMat, tViewTMMat, tProjTMMat, DirectX::Colors::Crimson);
+				it.second->Render(camData);
 			}
 		}
 
@@ -154,14 +155,29 @@ namespace Pg::Graphics
 				if (GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()) == 1)
 				{
 					//3D
-					auto tRes = _renderObject3DList.insert_or_assign(tGameObject, 
-						std::make_unique<RenderObject3D>(tBaseRenderer));
+					//StaticMeshRenderer
+					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
+					{
+						auto tRes = _renderObject3DList.insert_or_assign(tGameObject,
+							std::make_unique<RenderObjectStaticMesh3D>(tBaseRenderer));
+					}
 				}
-				else
+				else if (GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()) == 0)
 				{
 					//2D
-					auto tRes = _renderObject2DList.insert_or_assign(tGameObject, 
-						std::make_unique<RenderObject2D>(tBaseRenderer));
+					//TextRenderer
+					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::TextRenderer*).name())) == 0)
+					{
+						auto tRes = _renderObject2DList.insert_or_assign(tGameObject,
+							std::make_unique<RenderObjectText2D>(tBaseRenderer));
+					}
+
+					//ImageRenderer
+					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::ImageRenderer*).name())) == 0)
+					{
+						auto tRes = _renderObject2DList.insert_or_assign(tGameObject,
+							std::make_unique<RenderObjectImage2D>(tBaseRenderer));
+					}
 				}
 			}
 		}

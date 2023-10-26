@@ -13,9 +13,6 @@ namespace Pg::Graphics
 	RenderObject3D::RenderObject3D(Pg::Data::BaseRenderer* baseRenderer) : RenderObjectBase(baseRenderer)
 	{
 		//
-		
-		//#ForwardTemp : GeometricPrimitive 인스턴스 만들기.
-		_tempPrimitive = DirectX::GeometricPrimitive::CreateSphere(LowDX11Storage::GetInstance()->_deviceContext, 1.0f);
 	}
 
 	RenderObject3D::~RenderObject3D()
@@ -23,9 +20,9 @@ namespace Pg::Graphics
 
 	}
 
-	void RenderObject3D::Render()
+	void RenderObject3D::Render(Pg::Data::CameraData* camData)
 	{
-		
+		assert(false);
 	}
 	
 

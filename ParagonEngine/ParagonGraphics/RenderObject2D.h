@@ -1,6 +1,5 @@
 #pragma once
 #include "GraphicsDLLExporter.h"
-#include "RenderUsageStruct2D.h"
 #include "RenderObjectBase.h"
 
 /// <summary>
@@ -19,7 +18,7 @@ namespace Pg::Graphics
 		RenderObject2D(Pg::Data::BaseRenderer* baseRenderer);
 		virtual ~RenderObject2D();
 
-		virtual void Render() override;
+		virtual void Render(Pg::Data::CameraData* camData) override;
 
 	};
 }

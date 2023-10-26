@@ -136,6 +136,16 @@
     <ClInclude Include="AssetTextureType.h">
       <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetTextureType</Filter>
     </ClInclude>
+    <ClInclude Include="RenderObjectText2D.h">
+      <Filter>4_RenderObject\RenderObject2D\RenderObjectText2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectImage2D.h">
+      <Filter>4_RenderObject\RenderObject2D\RenderObjectImage2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectStaticMesh3D.h" />
+    <ClInclude Include="IRenderObject.h">
+      <Filter>4_RenderObject\Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -252,6 +262,13 @@
     <ClCompile Include="MultimaterialMesh.cpp">
       <Filter>7_OtherObject</Filter>
     </ClCompile>
+    <ClCompile Include="RenderObjectText2D.cpp">
+      <Filter>4_RenderObject\RenderObject2D\RenderObjectText2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectImage2D.cpp">
+      <Filter>4_RenderObject\RenderObject2D\RenderObjectImage2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectStaticMesh3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -382,6 +399,18 @@
     </Filter>
     <Filter Include="3_GraphicsResources\Asset3DModelData\Define\AssetTextureType">
       <UniqueIdentifier>{da6af180-f6dd-4275-8b14-d4734f08cad6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject2D\RenderObjectText2D">
+      <UniqueIdentifier>{b78e51a2-d0d1-4aa9-8493-c344bd8a0de2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject2D\RenderObjectImage2D">
+      <UniqueIdentifier>{c954ace8-b4df-4b29-8dcd-ca88412d3809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D">
+      <UniqueIdentifier>{cb121fc8-aa1e-4642-9f73-9136df3aeafe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\Interface">
+      <UniqueIdentifier>{ab03e88c-4d07-4d8e-a633-ee7c7da92838}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
