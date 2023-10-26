@@ -1,6 +1,8 @@
 #include "Inspector.h"
 #include "../ParagonUI/UIManager.h"
-#include "../ParagonUI/Panel.h"
+
+#include "../ParagonUI/Column.h"
+
 #include <singleton-cpp/singleton.h>
 
 // Object Name
@@ -9,8 +11,9 @@
 // Transform
 // Component
 
+
 Pg::Editor::Window::Inspector::Inspector()
-	:_winName("Inspector"), _isShow(true), _panel()
+	:_winName("Inspector"), _isShow(true)
 {
 	auto& tUIManager = singleton<Pg::UI::Manager::UIManager>();
 	_uiManager = &tUIManager;
@@ -23,12 +26,19 @@ Pg::Editor::Window::Inspector::~Inspector()
 
 void Pg::Editor::Window::Inspector::Initialize()
 {
-	_panel = _uiManager->CreatePanel(_winName);
+	cons.CreateColumnsWidget<Pg::UI::Widget::Text>("Name");
+	cons.CreateColumnsWidget<Pg::UI::Widget::InputText>("Name", _objName);
+	cons.CreateColumnsWidget<Pg::UI::Widget::Text>("Tag");
+	cons.CreateColumnsWidget<Pg::UI::Widget::InputText>("Tag", _objTag);
+
+	cons.CreateWidget<Pg::UI::Widget::Layout::Column<2>>(cons.GetColumnWidgets());
 }
 
 void Pg::Editor::Window::Inspector::Update()
 {
-	_panel->Update();
+	_uiManager->WindowBegin(_winName);
+	cons.Update();
+	_uiManager->WindowEnd();
 }
 
 void Pg::Editor::Window::Inspector::Finalize()
@@ -45,9 +55,3 @@ bool Pg::Editor::Window::Inspector::GetShow()
 {
 	return _isShow;
 }
-
-void Pg::Editor::Window::Inspector::CreateUI()
-{
-
-}
-

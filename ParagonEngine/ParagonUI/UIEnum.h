@@ -1,11 +1,11 @@
 #pragma once
 
-namespace Pg::UI::Enum
+namespace Pg::UI::Type
 {
-	enum class eLayoutType
+	enum class eWidgetType
 	{
-		Collapsing,
-		Menu
+		Text,
+		InputText	
 	};
 }
 

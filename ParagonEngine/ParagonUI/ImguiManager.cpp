@@ -257,12 +257,12 @@ void Pg::UI::Manager::ImGuiManager::DemoViewPort(void* Texture)
 	ImGui::End();
 }
 
-void Pg::UI::Manager::ImGuiManager::PanelBegin(std::string panelName)
+void Pg::UI::Manager::ImGuiManager::Begin(std::string panelName)
 {
 	ImGui::Begin(panelName.c_str());
 }
 
-void Pg::UI::Manager::ImGuiManager::PanelEnd()
+void Pg::UI::Manager::ImGuiManager::End()
 {
 	ImGui::End();
 }
