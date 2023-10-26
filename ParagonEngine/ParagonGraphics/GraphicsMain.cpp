@@ -149,15 +149,6 @@ namespace Pg::Graphics
 
 		font->SetText(text);
 		BasicRendersConstantBufferLoad();
-
-		static bool tOnce = false;
-		if (!tOnce)
-		{
-			//MultiMaterial Mesh 테스팅.
-			TempResourceMeshLoad();
-
-			tOnce = true;
-		}
 	}
 
 	void GraphicsMain::BeginRender()
@@ -434,6 +425,11 @@ namespace Pg::Graphics
 		//MultiMaterial Mesh 테스팅.
 		_tempMultiMesh = new MultimaterialMesh(tFilePath);
 		_tempMultiMesh->Initialize();
+	}
+
+	void GraphicsMain::SyncLoadGraphicsResources()
+	{
+		TempResourceMeshLoad();
 	}
 
 }

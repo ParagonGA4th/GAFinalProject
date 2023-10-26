@@ -16,6 +16,6 @@ namespace Pg::Data
 		StaticMeshRenderer(GameObject* obj);
 
 	private:
-		
+		std::string _meshFilePath;
 	};
 }
