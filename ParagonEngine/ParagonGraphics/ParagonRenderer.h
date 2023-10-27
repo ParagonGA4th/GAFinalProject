@@ -63,6 +63,7 @@ namespace Pg::Graphics
 		std::unique_ptr<DeferredRenderer> _deferredRenderer;
 		std::unique_ptr<Forward3DRenderer> _forward3dRenderer;
 		std::unique_ptr<Forward2DRenderer> _forward2dRenderer;
+
 	};
 }
 

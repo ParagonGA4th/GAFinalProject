@@ -29,10 +29,6 @@ namespace Pg::Graphics
 		virtual void Render(Pg::Data::CameraData* camData) override;
 
 	private:
-		// #ForwardTemp : ForwardRendering 테스트를 위해 놔둠. WorkSpace 검사 위해.
-		//std::unique_ptr<DirectX::GeometricPrimitive> _tempPrimitive;
-
-	private:
 		Asset3DModelData* _modelData = nullptr;
 
 	private:

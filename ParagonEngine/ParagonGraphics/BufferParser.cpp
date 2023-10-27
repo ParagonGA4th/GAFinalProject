@@ -24,8 +24,8 @@ namespace Pg::Graphics::Helper
 	{
 		if (isSkinned)
 		{
-			//아직 구현이 되지 않았다. Skinned Model이 이 시점에서 들어오면 안됨.
-			assert(false);
+			//Skinned 구현 시작!
+			//assert(false);
 			AssetSkinnedModelToD3DBuffer(outBufferInfo, assetSceneData);
 		}
 		else
@@ -141,7 +141,7 @@ namespace Pg::Graphics::Helper
 
 	void BufferParser::AssetSkinnedModelToD3DBuffer(Pg::Graphics::D3DBufferInfo& outBufferInfo, Pg::Graphics::AssetSceneData* assetSceneData)
 	{
-		//아직 구현 안됨.
+		//Skinned 본격적으로 구현 시작.
 	}
 
 }

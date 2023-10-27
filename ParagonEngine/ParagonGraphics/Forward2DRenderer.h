@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+
 /// <summary>
 /// 이미지 / 텍스트 등, 2D 리소스 출력을 맡는 렌더러이다.
 /// </summary>
@@ -35,5 +36,4 @@ namespace Pg::Graphics
 		Pg::Graphics::LowDX11Storage* _DXStorage;
 	};
 }
-
 
