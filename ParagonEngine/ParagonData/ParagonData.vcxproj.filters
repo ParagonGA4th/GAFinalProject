@@ -88,6 +88,9 @@
     <ClCompile Include="ResourceQueue.cpp">
       <Filter>6_DataChangeList\ResourceQueue</Filter>
     </ClCompile>
+    <ClCompile Include="SkinnedMeshRenderer.cpp">
+      <Filter>2_Component\Renderer\3D\SkinnedMeshRenderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -213,6 +216,9 @@
     <ClInclude Include="ResourceQueue.h">
       <Filter>6_DataChangeList\ResourceQueue</Filter>
     </ClInclude>
+    <ClInclude Include="SkinnedMeshRenderer.h">
+      <Filter>2_Component\Renderer\3D\SkinnedMeshRenderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -310,6 +316,9 @@
     </Filter>
     <Filter Include="6_DataChangeList\ResourceQueue">
       <UniqueIdentifier>{821c629c-71f3-45f1-aa90-034383729b81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\3D\SkinnedMeshRenderer">
+      <UniqueIdentifier>{adc80490-16f4-4eeb-b8ce-e5e553520bd3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

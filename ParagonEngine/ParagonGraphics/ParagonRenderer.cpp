@@ -20,12 +20,14 @@
 
 //세부적인 렌더러들의 리스트.
 #include "../ParagonData/StaticMeshRenderer.h"
+#include "../ParagonData/SkinnedMeshRenderer.h"
 
 #include "../ParagonData/ImageRenderer.h"
 #include "../ParagonData/TextRenderer.h"
 
 //세부적인 렌더 오브젝트들의 리스트.
 #include "RenderObjectStaticMesh3D.h"
+#include "RenderObjectSkinnedMesh3D.h"
 #include "RenderObjectText2D.h"
 #include "RenderObjectImage2D.h"
 
@@ -75,20 +77,20 @@ namespace Pg::Graphics
 	{
 		// 3D 오브젝트 렌더
 		// Deferred
-		_deferredRenderer->BindFirstPass();
-		for (auto& it : _renderObject3DList->_list)
-		{
-			if (it.second->GetBaseRenderer()->GetActive())
-			{
-				_deferredRenderer->RenderFirstPass(it.first, *camData);
-			}
-		}
-		_deferredRenderer->UnbindFirstPass();
-
-		_deferredRenderer->BindSecondPass();
-		_deferredRenderer->RenderSecondPass();
-		_deferredRenderer->UnbindSecondPass();
-
+		//_deferredRenderer->BindFirstPass();
+		//for (auto& it : _renderObject3DList->_list)
+		//{
+		//	if (it.second->GetBaseRenderer()->GetActive())
+		//	{
+		//		_deferredRenderer->RenderFirstPass(it.first, *camData);
+		//	}
+		//}
+		//_deferredRenderer->UnbindFirstPass();
+		//
+		//_deferredRenderer->BindSecondPass();
+		//_deferredRenderer->RenderSecondPass();
+		//_deferredRenderer->UnbindSecondPass();
+		//
 		for (auto& it : _renderObject3DList->_list)
 		{
 			if (it.second->GetBaseRenderer()->GetActive())
@@ -195,6 +197,13 @@ namespace Pg::Graphics
 					{
 						auto tRes = _renderObject3DList->_list.insert_or_assign(tGameObject,
 							std::make_unique<RenderObjectStaticMesh3D>(tBaseRenderer));
+					}
+
+					//SkinnedMeshRenderer
+					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::SkinnedMeshRenderer*).name())) == 0)
+					{
+						auto tRes = _renderObject3DList->_list.insert_or_assign(tGameObject,
+							std::make_unique<RenderObjectSkinnedMesh3D>(tBaseRenderer));
 					}
 				}
 				else if (GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()) == 0)

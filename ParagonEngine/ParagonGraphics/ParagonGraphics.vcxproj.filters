@@ -169,6 +169,9 @@
     <ClInclude Include="RenderFont.h">
       <Filter>3_GraphicsResources\RenderFont</Filter>
     </ClInclude>
+    <ClInclude Include="RenderObjectSkinnedMesh3D.h">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -311,6 +314,9 @@
     </ClCompile>
     <ClCompile Include="RenderFont.cpp">
       <Filter>3_GraphicsResources\RenderFont</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectSkinnedMesh3D.cpp">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -463,6 +469,9 @@
     </Filter>
     <Filter Include="3_GraphicsResources\RenderFont">
       <UniqueIdentifier>{0bae70f9-746e-4705-8ede-05ed5669a754}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D">
+      <UniqueIdentifier>{8dbf0ed9-5baa-4360-aa75-058feb8f6aba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
