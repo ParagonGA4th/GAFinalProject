@@ -414,7 +414,9 @@ namespace Pg::Graphics
 		std::string tFilePath;
 		//고정된 File Path ( == AssetManager에서 이미 로딩된 경로가 있어야 작동하므로, 하드코딩했음.)
 		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx";
-		tFilePath = "../Resources/3DModels/Animated/Boss_Test_NonDeform.fbx";
+		//tFilePath = "../Resources/3DModels/Animated/Boss_Test_NonDeform.fbx";
+		tFilePath = "../Resources/3DModels/Animated/BasicAnimatedCubeEdited.fbx";
+		//tFilePath = "../Resources/3DModels/Animated/Boss_Test_NonDeform_MultiMat.fbx";
 		//tFilePath = "../Resources/3DModels/Animated/SkinnedExample.fbx";
 		//tFilePath = "../Resources/3DModels/MultiMatMesh/diffuseonly.fbx";
 
