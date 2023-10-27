@@ -22,14 +22,12 @@
 
 Pg::Graphics::DeferredRenderer::DeferredRenderer()
 {
-	cube = new TestCube();
+
 }
 
 void Pg::Graphics::DeferredRenderer::Initialize()
 {
 	_DXStorage = LowDX11Storage::GetInstance();
-
-	cube->Initialize();
 
 	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
@@ -58,17 +56,14 @@ void Pg::Graphics::DeferredRenderer::Initialize()
 	}
 
 	// 1st Pass
-	_firstVS = new VertexShader(L"../Builds/x64/debug/FirstStatic_VS.cso");
+	_firstVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/FirstStatic_VS.cso");
 	_firstVS->_inputLayout = LayoutDefine::GetStatic1stLayout();
-	_firstVS->AssignConstantBuffer(&cube->_cbData);
-	cube->AssignVertexShader(_firstVS);
-
-	_firstPS = new PixelShader(L"../Builds/x64/debug/FirstStage_PS.cso");
+	_firstPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/FirstStage_PS.cso");
 
 	// 2nd Pass
-	_secondVS = new VertexShader(L"../Builds/x64/debug/SecondStage_VS.cso");
+	_secondVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/SecondStage_VS.cso");
 	_secondVS->_inputLayout = LayoutDefine::Get2ndLayout();
-	_secondPS = new PixelShader(L"../Builds/x64/debug/SecondStage_PS.cso");
+	_secondPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/SecondStage_PS.cso");
 }
 
 void Pg::Graphics::DeferredRenderer::BeginRender()
@@ -82,14 +77,13 @@ void Pg::Graphics::DeferredRenderer::BeginRender()
 	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
 }
 
-void Pg::Graphics::DeferredRenderer::RenderFirstPass(Pg::Data::GameObject* object, Pg::Data::CameraData& camData)
+void Pg::Graphics::DeferredRenderer::RenderFirstPass(RenderObject3D* renderObject, Pg::Data::CameraData* camData)
 {
-	
+	// TODO
+	_firstVS->AssignConstantBuffer(renderObject->_constantBufferStruct);
+	renderObject->AssignVertexShader(_firstVS);
 
-	// 3D 오브젝트 렌더
-	cube->Draw(object->_transform, camData);
-
-	
+	renderObject->Render(camData);
 }
 
 void Pg::Graphics::DeferredRenderer::RenderSecondPass()

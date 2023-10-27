@@ -55,6 +55,9 @@
     <ClInclude Include="Font.h">
       <Filter>7_OtherObject</Filter>
     </ClInclude>
+    <ClInclude Include="TestCube.h">
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>7_OtherObject</Filter>
     </ClInclude>
@@ -81,6 +84,9 @@
     </ClInclude>
     <ClInclude Include="GraphicsResourceHelper.h">
       <Filter>8_Helpers\GraphicsResourceHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderableObject.h">
+      <Filter>7_OtherObject</Filter>
     </ClInclude>
     <ClInclude Include="Cubemap.h">
       <Filter>7_OtherObject</Filter>
@@ -124,6 +130,7 @@
     <ClInclude Include="AssetStructSRV.h">
       <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="GeometryGenerator.h">
       <Filter>5_Misc</Filter>
     </ClInclude>
@@ -135,7 +142,7 @@
     </ClInclude>
     <ClInclude Include="Forward3DRenderer.h">
       <Filter>0_Main</Filter>
-    </ClInclude>
+=======
     <ClInclude Include="MultimaterialMesh.h">
       <Filter>7_OtherObject</Filter>
     </ClInclude>
@@ -148,23 +155,12 @@
     <ClInclude Include="RenderObjectImage2D.h">
       <Filter>4_RenderObject\RenderObject2D\RenderObjectImage2D</Filter>
     </ClInclude>
+    <ClInclude Include="IRenderObject.h">
+      <Filter>4_RenderObject\Interface</Filter>
+    </ClInclude>
     <ClInclude Include="RenderObjectStaticMesh3D.h">
       <Filter>4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Forward2DRenderer.h">
-      <Filter>0_Main</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderObject3DList.h">
-      <Filter>10_Structs\RenderObjectList\RenderObject3DList</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderObject2DList.h">
-      <Filter>10_Structs\RenderObjectList\RenderObject2DList</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderFont.h">
-      <Filter>3_GraphicsResources\RenderFont</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderableObject.h">
-      <Filter>7_OtherObject</Filter>
+>>>>>>> Graphics
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +212,9 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>7_OtherObject</Filter>
     </ClCompile>
+    <ClCompile Include="TestCube.cpp">
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
     <ClCompile Include="AssetBasic3DLoader.cpp">
       <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
     </ClCompile>
@@ -239,6 +238,12 @@
     </ClCompile>
     <ClCompile Include="GraphicsResourceHelper.cpp">
       <Filter>8_Helpers\GraphicsResourceHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderableObject.cpp">
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Cubemap.cpp">
+      <Filter>7_OtherObject</Filter>
     </ClCompile>
     <ClCompile Include="Asset3DModelData.cpp">
       <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
@@ -270,18 +275,6 @@
     <ClCompile Include="DemoGeometryGenerator.cpp">
       <Filter>10_Structs\9_Util\DemoGeometryGenerator</Filter>
     </ClCompile>
-    <ClCompile Include="GeometryGenerator.cpp">
-      <Filter>5_Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="GBuffer.cpp">
-      <Filter>4_RenderObject</Filter>
-    </ClCompile>
-    <ClCompile Include="DeferredRenderer.cpp">
-      <Filter>0_Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Forward3DRenderer.cpp">
-      <Filter>0_Main</Filter>
-    </ClCompile>
     <ClCompile Include="MultimaterialMesh.cpp">
       <Filter>7_OtherObject</Filter>
     </ClCompile>
@@ -294,17 +287,17 @@
     <ClCompile Include="RenderObjectStaticMesh3D.cpp">
       <Filter>4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D</Filter>
     </ClCompile>
-    <ClCompile Include="Cubemap.cpp">
-      <Filter>7_OtherObject</Filter>
+    <ClCompile Include="GeometryGenerator.cpp">
+      <Filter>5_Misc</Filter>
     </ClCompile>
-    <ClCompile Include="Forward2DRenderer.cpp">
+    <ClCompile Include="GBuffer.cpp">
+      <Filter>4_RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="DeferredRenderer.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
-    <ClCompile Include="RenderFont.cpp">
-      <Filter>3_GraphicsResources\RenderFont</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderableObject.cpp">
-      <Filter>7_OtherObject</Filter>
+    <ClCompile Include="Forward3DRenderer.cpp">
+      <Filter>0_Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -446,17 +439,8 @@
     <Filter Include="4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D">
       <UniqueIdentifier>{cb121fc8-aa1e-4642-9f73-9136df3aeafe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="10_Structs\RenderObjectList">
-      <UniqueIdentifier>{47066a72-c70a-4722-b502-e9a236a0d4dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="10_Structs\RenderObjectList\RenderObject2DList">
-      <UniqueIdentifier>{b98873a6-f807-4896-a495-23cd40399025}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="10_Structs\RenderObjectList\RenderObject3DList">
-      <UniqueIdentifier>{7615f067-2066-4839-8094-b58112896c55}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3_GraphicsResources\RenderFont">
-      <UniqueIdentifier>{0bae70f9-746e-4705-8ede-05ed5669a754}</UniqueIdentifier>
+    <Filter Include="4_RenderObject\Interface">
+      <UniqueIdentifier>{ab03e88c-4d07-4d8e-a633-ee7c7da92838}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

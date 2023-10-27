@@ -14,6 +14,7 @@ namespace Pg::Data
 namespace Pg::Graphics
 {
 	class TestCube;
+	class RenderObject3D;
 	class LowDX11Storage;
 	class GBuffer;
 	class VertexShader;
@@ -32,7 +33,7 @@ namespace Pg::Graphics
 
 		void BeginRender();
 
-		void RenderFirstPass(Pg::Data::GameObject* object, Pg::Data::CameraData& camData);
+		void RenderFirstPass(RenderObject3D* renderObject, Pg::Data::CameraData* camData);
 		void RenderSecondPass();
 
 		void ClearGBuffers();

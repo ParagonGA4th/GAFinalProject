@@ -24,9 +24,6 @@ namespace Pg::Graphics
 	class RenderShader : public Pg::Data::Resources::GraphicsResource
 	{
 	public:
-		RenderShader(std::wstring CSOFilePath);
-		
-		//그래픽 엔진을 테스팅할 때는 위의 생성자를 써도 되지만, 이 생성자가 실제 GraphicsResource 로직을 따른다.
 		RenderShader(Pg::Data::Enums::eAssetDefine define, const std::string& filePath);
 
 	public:
@@ -40,7 +37,7 @@ namespace Pg::Graphics
 	public:
 
 		// 쉐이더 바이트코드를 멤버에 저장
-		HRESULT LoadShader(std::wstring CSOFilePath);
+		HRESULT LoadShader(const std::string& filePath);
 		ID3DBlob* _byteCode;
 
 	public:
