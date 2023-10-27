@@ -170,12 +170,10 @@ namespace Pg::Graphics
 		assert(_currentScene != nullptr);
 		//BasicRendersDraw();
 
-		
-		_renderer->Render(_camData);
+		//MultiMaterial Mesh 테스팅. 현재로서는 먼저 호출되어야 Mesh가 깨지지 않음!
+		_tempMultiMesh->Draw(_camData);
 
-		
-		//MultiMaterial Mesh 테스팅.
-		//_tempMultiMesh->Draw(_camData);
+		_renderer->Render(_camData);
 	}
 
 	void GraphicsMain::EndRender()
@@ -416,18 +414,14 @@ namespace Pg::Graphics
 		std::string tFilePath;
 		//고정된 File Path ( == AssetManager에서 이미 로딩된 경로가 있어야 작동하므로, 하드코딩했음.)
 		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx";
-		//tFilePath = "../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx";
-		//tFilePath = "../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx";
-		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx";
+		tFilePath = "../Resources/3DModels/Animated/Boss_Test_NonDeform.fbx";
+		//tFilePath = "../Resources/3DModels/Animated/SkinnedExample.fbx";
 		//tFilePath = "../Resources/3DModels/MultiMatMesh/diffuseonly.fbx";
-		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
-		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
-		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMeshSeams.fbx";
-		//tFilePath = "../Resources/3DModels/Banana.fbx";
 
+		
 		//MultiMaterial Mesh 테스팅.
-		//_tempMultiMesh = new MultimaterialMesh(tFilePath);
-		//_tempMultiMesh->Initialize();
+		_tempMultiMesh = new MultimaterialMesh(tFilePath);
+		_tempMultiMesh->Initialize();
 	}
 
 	void GraphicsMain::SyncLoadGraphicsResources()

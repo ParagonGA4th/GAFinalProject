@@ -46,6 +46,7 @@ namespace Pg::Graphics
 
 		_renderObject2DList = std::make_unique<RenderObject2DList>();
 		_renderObject3DList = std::make_unique<RenderObject3DList>();
+
 	}
 
 	ParagonRenderer::~ParagonRenderer()
