@@ -11,6 +11,7 @@
 #include "../ParagonData/ImageRenderer.h" //Render 연동 보기 위해.
 #include "../ParagonData/TextRenderer.h" //Render 연동 보기 위해.
 #include "../ParagonData/StaticMeshRenderer.h" //Render 연동 보기 위해.
+#include "../ParagonData/SkinnedMeshRenderer.h" //Render 연동 보기 위해.
 
 
 
