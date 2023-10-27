@@ -40,10 +40,10 @@ namespace Pg::Graphics
 
 	public:
 		virtual void Initialize();
-		void Draw(float time);
+		void Render(float time);
 
-		virtual void Draw(Pg::Data::Transform& transform, Pg::Data::CameraData& camData);
-		virtual void Draw();
+		virtual void Render(Pg::Data::Transform& transform, Pg::Data::CameraData& camData);
+		virtual void Render();
 
 	protected:
 		LowDX11Storage* _DXStorage;

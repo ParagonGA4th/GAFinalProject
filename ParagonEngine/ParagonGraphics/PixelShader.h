@@ -7,7 +7,7 @@ namespace Pg::Graphics
 	class PixelShader : public RenderShader
 	{
 	public:
-		PixelShader(std::wstring CSOFilePath);
+		PixelShader(Pg::Data::Enums::eAssetDefine define, const std::string& filePath);
 
 	private:
 		void CreateShader();

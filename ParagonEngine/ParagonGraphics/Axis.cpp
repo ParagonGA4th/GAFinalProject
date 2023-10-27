@@ -73,7 +73,7 @@ void Pg::Graphics::Axis::BindBuffers()
 	_DXStorage->_deviceContext->IASetIndexBuffer(IB, DXGI_FORMAT_R32_UINT, 0);
 }
 
-void Pg::Graphics::Axis::Draw()
+void Pg::Graphics::Axis::Render()
 {
 	BindInputLayout();
 	BindShaders();

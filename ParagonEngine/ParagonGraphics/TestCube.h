@@ -30,8 +30,8 @@ namespace Pg::Graphics
 		TestCube();
 
 	public:
-		virtual void Draw() override;
-		virtual void Draw(Pg::Data::Transform& transform, Pg::Data::CameraData& camData) override;
+		virtual void Render() override;
+		virtual void Render(Pg::Data::Transform& transform, Pg::Data::CameraData& camData) override;
 
 		virtual void BuildBuffers() override;
 		virtual void BindBuffers() override;

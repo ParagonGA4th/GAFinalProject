@@ -85,6 +85,14 @@ namespace Pg::Graphics
 
 		hr = _DXStorage->_device->CreateRenderTargetView(_DXStorage->_backBuffer, nullptr, &(_DXStorage->_mainRTV));
 
+		if (hr != S_OK)
+		{
+			return hr;
+		}
+
+		// TODO: 메인렌더타겟 SRV 생성 및 쿼드로 출력하기
+		//hr = _DXStorage->_device->CreateShaderResourceView(_DXStorage->_backBuffer, &_DXStorage->_shaderResourceViewDesc, &_DXStorage->_mainRTSRV);
+		
 		return hr;
 	}
 
@@ -101,7 +109,6 @@ namespace Pg::Graphics
 
 		// Depth-Stencil Buffer 생성
 		hr = _DXStorage->_device->CreateTexture2D(&(_DXStorage->_bufferDesc), NULL, &(_DXStorage->_depthStencilBuffer));
-		hr = _DXStorage->_device->CreateTexture2D(&(_DXStorage->_bufferDesc), NULL, &(_DXStorage->_DeferredDepthStencilBuffer));
 		hr = _DXStorage->_device->CreateTexture2D(&(_DXStorage->_bufferDesc), NULL, &(_DXStorage->_tempDepthStencilBuffer));
 
 		if (hr != S_OK)

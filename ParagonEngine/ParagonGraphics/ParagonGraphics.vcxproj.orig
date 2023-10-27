@@ -26,10 +26,7 @@
     <ClInclude Include="AssetCombinedLoader.h" />
     <ClInclude Include="AssetStructSRV.h" />
     <ClInclude Include="AssetTextureType.h" />
-    <ClInclude Include="Axis.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="Axis.h" />
     <ClInclude Include="AssetBasic3DLoader.h" />
     <ClInclude Include="BufferParser.h" />
     <ClInclude Include="ConstantBuffer.h" />
@@ -42,17 +39,16 @@
     <ClInclude Include="D3DBufferInfo.h" />
     <ClInclude Include="DeferredRenderer.h" />
     <ClInclude Include="DemoGeometryGenerator.h" />
-    <ClInclude Include="Forward2DRenderer.h" />
-    <ClInclude Include="RenderableObject.h" />
-    <ClInclude Include="RenderFont.h" />
-    <ClInclude Include="RenderObject2DList.h" />
-    <ClInclude Include="RenderObject3DList.h" />
+<<<<<<< HEAD
     <ClInclude Include="Forward3DRenderer.h" />
     <ClInclude Include="GBuffer.h" />
     <ClInclude Include="GeometryGenerator.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+=======
+    <ClInclude Include="IRenderObject.h" />
+>>>>>>> Graphics
     <ClInclude Include="LayoutDefine.h" />
     <ClInclude Include="DX11Headers.h" />
     <ClInclude Include="Font.h" />
@@ -60,16 +56,14 @@
     <ClInclude Include="GraphicsMain.h" />
     <ClInclude Include="GraphicsResourceHelper.h" />
     <ClInclude Include="GraphicsResourceManager.h" />
-    <ClInclude Include="Grid.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="LowDX11Logic.h" />
     <ClInclude Include="LowDX11Storage.h" />
     <ClInclude Include="msdfgenTest.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="MultimaterialMesh.h" />
+    <ClInclude Include="RenderableObject.h" />
     <ClInclude Include="RenderMaterial.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="ParagonRenderer.h" />
@@ -86,6 +80,7 @@
     <ClInclude Include="RenderUsageStruct3D.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TempCamera.h" />
+    <ClInclude Include="TestCube.h" />
     <ClInclude Include="MaterialCluster.h" />
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
@@ -95,10 +90,7 @@
     <ClCompile Include="Asset3DModelHelper.cpp" />
     <ClCompile Include="AssetBasic2DLoader.cpp" />
     <ClCompile Include="AssetCombinedLoader.cpp" />
-    <ClCompile Include="Axis.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="Axis.cpp" />
     <ClCompile Include="AssetBasic3DLoader.cpp" />
     <ClCompile Include="BufferParser.cpp" />
     <ClCompile Include="ConstantBufferBase.cpp" />
@@ -109,7 +101,6 @@
     <ClCompile Include="DeferredRenderer.cpp" />
     <ClCompile Include="DemoGeometryGenerator.cpp" />
     <ClCompile Include="Font.cpp" />
-    <ClCompile Include="Forward2DRenderer.cpp" />
     <ClCompile Include="Forward3DRenderer.cpp" />
     <ClCompile Include="GBuffer.cpp" />
     <ClCompile Include="GeometryGenerator.cpp">
@@ -119,10 +110,7 @@
     <ClCompile Include="GraphicsMain.cpp" />
     <ClCompile Include="GraphicsResourceHelper.cpp" />
     <ClCompile Include="GraphicsResourceManager.cpp" />
-    <ClCompile Include="Grid.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="LowDX11Logic.cpp" />
     <ClCompile Include="LowDX11Storage.cpp" />
@@ -131,7 +119,6 @@
     </ClCompile>
     <ClCompile Include="MultimaterialMesh.cpp" />
     <ClCompile Include="RenderableObject.cpp" />
-    <ClCompile Include="RenderFont.cpp" />
     <ClCompile Include="RenderMaterial.cpp" />
     <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="ParagonRenderer.cpp" />
@@ -148,6 +135,7 @@
     <ClCompile Include="RenderUsageStruct3D.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TempCamera.cpp" />
+    <ClCompile Include="TestCube.cpp" />
     <ClCompile Include="MaterialCluster.cpp" />
     <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>

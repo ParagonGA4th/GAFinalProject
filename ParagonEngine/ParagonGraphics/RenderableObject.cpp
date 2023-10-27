@@ -23,17 +23,17 @@ void Pg::Graphics::RenderableObject::Initialize()
 	BindBuffers();
 }
 
-void Pg::Graphics::RenderableObject::Draw(float time)
+void Pg::Graphics::RenderableObject::Render(float time)
 {
 
 }
 
-void Pg::Graphics::RenderableObject::Draw(Pg::Data::Transform& transform, Pg::Data::CameraData& camData)
+void Pg::Graphics::RenderableObject::Render(Pg::Data::Transform& transform, Pg::Data::CameraData& camData)
 {
 
 }
 
-void Pg::Graphics::RenderableObject::Draw()
+void Pg::Graphics::RenderableObject::Render()
 {
 
 }

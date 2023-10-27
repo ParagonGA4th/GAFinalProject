@@ -35,8 +35,8 @@ namespace Pg::Graphics
 			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
-		VertexShader* helperVS = new VertexShader(L"../Builds/x64/debug/VertexShader.cso", HelperDesc);
-		PixelShader* helperPS = new PixelShader(L"../Builds/x64/debug/PixelShader.cso");
+		VertexShader* helperVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/VertexShader.cso", HelperDesc);
+		PixelShader* helperPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/PixelShader.cso");
 
 		// Grid
 		grid = new Grid();
@@ -61,8 +61,8 @@ namespace Pg::Graphics
 			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
-		VertexShader* CubemapVS = new VertexShader(L"../Builds/x64/debug/CubemapVS.cso", CubemapvertexDesc);
-		PixelShader* CubemapPS = new PixelShader(L"../Builds/x64/debug/CubemapPS.cso");
+		VertexShader* CubemapVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/CubemapVS.cso", CubemapvertexDesc);
+		PixelShader* CubemapPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/CubemapPS.cso");
 
 		cubemap = new Cubemap();
 		cubemap->Initialize();
@@ -112,9 +112,9 @@ namespace Pg::Graphics
 		DirectX::XMStoreFloat4x4(&(axis->_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
 
 		// ·»´õ
-		cubemap->Draw();
-		grid->Draw();
-		axis->Draw();
+		cubemap->Render();
+		grid->Render();
+		axis->Render();
 	}
 }
 
