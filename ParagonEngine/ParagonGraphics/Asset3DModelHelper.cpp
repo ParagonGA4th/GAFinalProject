@@ -64,7 +64,7 @@ namespace Pg::Graphics::Helper
 		_mgrtScene->m_RootNode = new AssetNodeData(nullptr);
 		CopyRootNodeToAsset(_assimpScene->mRootNode, _mgrtScene->m_RootNode);
 
-		//Global Inverse 할당!
+		//Global Inverse 할당! -> 얘는 놔둔다. 전치반환을 하지 않고, 분명히 사용될 것!
 		DirectX::SimpleMath::Matrix tGlobalTrans = _mgrtScene->m_RootNode->m_ParRelativeTransform;
 		_mgrtScene->m_GlobalTransform = tGlobalTrans;
 		DirectX::XMVECTOR tDet = DirectX::XMVectorZero();

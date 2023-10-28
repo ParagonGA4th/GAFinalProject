@@ -156,7 +156,7 @@ namespace Pg::Core::Manager
 		//LoadResource("../Resources/3DModels/Animated/Boss_Test_Deform.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//LoadResource("../Resources/3DModels/Animated/Boss_Test_NonDeform.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//LoadResource("../Resources/3DModels/Animated/BasicAnimatedCubeEdited.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/Animated/Boss_Test_NonDeform_MultiMat.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/Animated/Boss_Test_NonDeform_MultiMat.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/Textures/LPDisk.jpg", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
 		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
 		//LoadResource("../Resources/3DModels/MultiMatMesh/diffuseonly.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);

@@ -1,5 +1,5 @@
 //Edited By Taewook Koh, From BasisHLSL11_VS.hlsl.
-//-> Multimaterial Mesh를 위해 개조.
+//-> Multimaterial Mesh를 위해 개조. (Skinned Input Layout을 받지만, 관련 연산X)
 //현재로서는 Diffuse만 이에 해당되는 방식으로 작동.
 
 //Constant Buffers

@@ -11,12 +11,23 @@
 #include "../ParagonData/CameraData.h"
 
 #include <dxtk/DDSTextureLoader.h>
+#include <dxtk/WICTextureLoader.h>
+
+//ASSIMP로, 리소스 관리 로직이랑 별개 관리 예정.
+#include <assimp/Importer.hpp>     
+#include <assimp/scene.h>          
+#include <assimp/postprocess.h> 
+#include <cassert> 
+
 
 namespace Pg::Graphics
 {
+	using namespace tofu;
+
 	using Pg::Graphics::Manager::GraphicsResourceManager;
 	using Pg::Data::Enums::eAssetDefine;
 
+	//static 
 	MultimaterialMesh::MultimaterialMesh(const std::string& filePath)
 	{
 		_constantBufferStruct = new ConstantBufferDefine::cbPerObjectBase;
@@ -25,129 +36,18 @@ namespace Pg::Graphics
 		_device = LowDX11Storage::GetInstance()->_device;
 		_devCon = LowDX11Storage::GetInstance()->_deviceContext;
 
-		auto tModelData = GraphicsResourceManager::Instance()->GetResource(filePath, eAssetDefine::_3DMODEL);
-		_modelData = static_cast<Asset3DModelData*>(tModelData.get());
+		CreateVertexPixelShader();
+		CreateSamplerState();
+		CreateRasterizerState();
+		CreateConstantBuffer();
+		LoadHardCodedSRVs();
 
-		Initialize();
+		ImportSkinnedAsset(filePath);
 	}
 
 	MultimaterialMesh::~MultimaterialMesh()
 	{
 		delete _constantBufferStruct;
-	}
-
-	void MultimaterialMesh::Initialize()
-	{
-		CreateVertexPixelShader();
-		CreateSamplerState();
-		CreateRasterizerState();
-		CreateConstantBuffer();
-		SetupMatrices();
-	}
-
-	void MultimaterialMesh::Draw(Pg::Data::CameraData* camData)
-	{
-		//렌더하는 방식 : 한꺼번에 GPU에 많은 양의 메모리를 넣어놓는게 아니라,
-		//DrawIndexed를 나눠서 호출하는 중에 SetResource를 다르게 사용.
-
-		auto& tD3DBuffer = _modelData->_d3dBufferInfo;
-		auto& tMatCluster = _modelData->_materialCluster;
-
-		auto _DXStorage = LowDX11Storage::GetInstance();
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), (_DXStorage->_depthStencilView));
-
-		//Input Layout 호출 / Primitive Topology 세팅.
-		_devCon->IASetInputLayout(LayoutDefine::GetSkinned1stLayout());
-		_devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-		_devCon->RSSetState(_rasterizerState);
-		//VS Bind.
-		_devCon->VSSetShader(_vertexShader, nullptr, 0);
-		
-		//PS Bind.
-		_devCon->PSSetShader(_pixelShader, nullptr, 0);
-		//Sampler State Binding (PS)
-		_devCon->PSSetSamplers(0, 1, &_samplerState);
-
-		//Vertex Buffer Setting.
-		UINT stride = sizeof(LayoutDefine::Vin1stStatic);
-		UINT offset = 0;
-		_devCon->IASetVertexBuffers(0, 1, &(_modelData->_d3dBufferInfo._vertexBuffer), &stride, &offset);
-		//Index Buffer Setting.
-		_devCon->IASetIndexBuffer(_modelData->_d3dBufferInfo._indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
-		//Constant Buffer Binding (VS)
-		UpdateConstantBuffer(camData);
-		_devCon->VSSetConstantBuffers(0, 1, &_constantBuffer);
-		//_devCon->DrawIndexed(_modelData->_d3dBufferInfo._totalIndexCount, 0, 0);
-		//_devCon->DrawIndexed(36, 0, 0);
-		
-		//Update Shared Constant Buffer
-		//UpdateConstantBuffer(camData);
-		//_devCon->DrawIndexed(12, 0, 0);
-		
-		
-		//_devCon->PSSetShaderResources(0, 1, &(tATS.texture));
-
-		int tMeshCount = _modelData->_d3dBufferInfo._meshCount;
-		for (int i = 0; i < tMeshCount; i++)
-		{
-			UINT tToDrawIndexCount = 0;
-
-			if (i >= tMeshCount - 1)
-			{
-				//마지막.
-				tToDrawIndexCount =
-					_modelData->_d3dBufferInfo._totalIndexCount -
-					_modelData->_d3dBufferInfo._indexOffsetVector[i];
-			}
-			else
-			{
-				tToDrawIndexCount =
-					_modelData->_d3dBufferInfo._indexOffsetVector[i + 1] -
-					_modelData->_d3dBufferInfo._indexOffsetVector[i];
-			}
-
-			UINT tMatID = _modelData->_d3dBufferInfo._materialIDVector[i];
-			AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
-			ID3D11ShaderResourceView* tTempDiffuseTexture = tATS.texture;
-			assert(tTempDiffuseTexture != nullptr);
-
-			//_devCon->PSSetShaderResources(0, 1, &_testSRV);
-			_devCon->PSSetShaderResources(0, 1, &tTempDiffuseTexture);
-
-			//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
-			_devCon->DrawIndexed(tToDrawIndexCount,
-				_modelData->_d3dBufferInfo._indexOffsetVector[i],
-				_modelData->_d3dBufferInfo._vertexOffsetVector[i]);
-		}
-
-
-		/*
-		분석도 분석인데, 지금은 Node별로 Mesh의 Local Transformation이 반영되지 않기 때문에, 당연히 버텍스 버퍼가 한 공간에 겹쳐서 출력된다. 이를 고쳐야 한다..
-		이와 더불어, 쓸데없는 데이터는 통합하는 것도 좋다!
-		지금 오버헤드를 줄여서, 값을 처리하는 것이 중요.
-		또한, → 현재 부모 노드의 행렬을 요상하게 처리하고 있기 때문에 (Transpose 등등.. Tofu/ModelViewer, 이 역시 손을 봐줘야 한다!
-		*/
-
-		//이제 실제로 그리고 / Texture를 바꿔끼는 방식이 들어가야 한다.
-		//바뀌는 SRV를 반영해야 한다. -> MaterialCluster와 D3DBufferInfo를 활용해야 한다.
-		// SRV + 바뀌는 인덱스 올바르게 반영해야 한다.
-
-		//Multi-Material으로 렌더. 목표해서 되어야 하는 방식.
-		//MultiMaterialDraw();
-		//SingleMaterialDraw();
-		//SingleMaterialMultiMeshDraw();
-
-		//VS/PS Unbind.
-		_devCon->VSSetShader(nullptr, nullptr, 0);
-		_devCon->PSSetShader(nullptr, nullptr, 0);
-
-		//Constant Buffer 설정.
-
-		//현재 Mesh가 어떤 Material을 가지고 있는지 확인해야. 
-		//이에 따라 판단을 내려야 하기에.
-		//나중에는 결국 Mesh Sorting 등등이 어느 정도 이루어져 있어야 할것. 
 	}
 
 	void MultimaterialMesh::CreateSamplerState()
@@ -201,13 +101,16 @@ namespace Pg::Graphics
 		_device->CreateRasterizerState(&rd, &_rasterizerState);
 	}
 
-	void MultimaterialMesh::UpdateConstantBuffer(Pg::Data::CameraData* camData)
+	void MultimaterialMesh::UpdateConstantBuffer(Pg::Data::CameraData* camData, DirectX::XMFLOAT4X4 worldMat)
 	{
 		using Pg::Graphics::Helper::MathHelper;
 
 		//기반 Struct채우기.
-		_constantBufferStruct->gCBuf_World = _worldMat;
-		_constantBufferStruct->gCBuf_WorldInvTranspose = _worldInvTransposeMat;
+		DirectX::XMMATRIX tWorldMat = DirectX::XMLoadFloat4x4(&worldMat);
+		DirectX::XMMATRIX tWorldInvTransposeMat = DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, tWorldMat));
+
+		_constantBufferStruct->gCBuf_World = tWorldMat;
+		_constantBufferStruct->gCBuf_WorldInvTranspose = tWorldInvTransposeMat;
 
 		DirectX::XMFLOAT4X4 tView = MathHelper::PG2XM_FLOAT4X4(camData->_viewMatrix);
 		DirectX::XMMATRIX tViewMat = DirectX::XMLoadFloat4x4(&tView);
@@ -215,28 +118,11 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT4X4 tProj = MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
 		DirectX::XMMATRIX tProjMat = DirectX::XMLoadFloat4x4(&tProj);
 
-		DirectX::XMMATRIX tWVP = DirectX::XMMatrixMultiply(_worldMat, DirectX::XMMatrixMultiply(tViewMat, tProjMat));
+		DirectX::XMMATRIX tWVP = DirectX::XMMatrixMultiply(tWorldMat, DirectX::XMMatrixMultiply(tViewMat, tProjMat));
 		_constantBufferStruct->gCBuf_WorldViewProj = tWVP;
 		_constantBufferStruct->gCBuf_CameraPositionW = MathHelper::PG2XM_FLOAT3(camData->_position);
 
-		//Updating Subresource
-		_devCon->UpdateSubresource(_constantBuffer, 0, NULL, _constantBufferStruct, 0, 0);
-	}
-
-	void MultimaterialMesh::SetupMatrices()
-	{
-		DirectX::XMFLOAT3 tPosition = { 0.0f, 3.0f, 0.0f };
-		DirectX::XMVECTOR tPosVec = DirectX::XMLoadFloat3(&tPosition);
-
-		DirectX::XMFLOAT4 tRotQuat = { 0.0f, 0.0f, 0.0f, 0.0f };
-		DirectX::XMVECTOR tRotQuatVec = DirectX::XMLoadFloat4(&tRotQuat);
-
-		DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
-		//DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
-		DirectX::XMVECTOR tScaleVec = DirectX::XMLoadFloat3(&tScale);
-
-		_worldMat = DirectX::XMMatrixAffineTransformation(tScaleVec, tPosVec, tRotQuatVec, tPosVec);
-		_worldInvTransposeMat = DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, _worldMat));
+		//Updating Subresource (Map / UnMap으로 대체됨!)
 	}
 
 	void MultimaterialMesh::CreateConstantBuffer()
@@ -246,16 +132,238 @@ namespace Pg::Graphics
 
 		D3D11_BUFFER_DESC tCBufferDesc;
 		tCBufferDesc.ByteWidth = sizeCB; // 상수버퍼는 16바이트 정렬
-		tCBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		tCBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 		tCBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		tCBufferDesc.CPUAccessFlags = 0;
+		tCBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		tCBufferDesc.MiscFlags = 0;
+
+		/*CD3D11_BUFFER_DESC cbDesc(
+			sizeof(float) * 16,
+			D3D11_BIND_CONSTANT_BUFFER,
+			D3D11_USAGE_DYNAMIC,
+			D3D11_CPU_ACCESS_WRITE);*/
 
 		_cbufferSubresourceData.pSysMem = _constantBufferStruct;
 
-		_device->CreateBuffer(&tCBufferDesc, &_cbufferSubresourceData, &(_constantBuffer));
+		HR(_device->CreateBuffer(&tCBufferDesc, &_cbufferSubresourceData, &(_constantBuffer)));
 	}
 
-	
+	void MultimaterialMesh::ImportSkinnedAsset(const std::string& filePath)
+	{
+		//Skinned
+		_importer = new Assimp::Importer;
+
+		selectedMesh = -1;
+		selectedAnimation = -1;
+		selectedNode = nullptr;
+
+		_vertexBuffer = nullptr;
+		_indexBuffer = nullptr;
+		numVertices = 0;
+		numIndices = 0;
+		meshes.clear();
+
+		scene = _importer->ReadFile(filePath.c_str(),
+			aiProcess_Triangulate |
+			aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_GenBoundingBoxes |
+			aiProcess_CalcTangentSpace | aiProcess_PopulateArmatureData |
+			aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_FixInfacingNormals | aiProcess_EmbedTextures | aiProcess_LimitBoneWeights);
+		
+		assert(scene != nullptr);
+		
+		for (uint32_t i = 0; i < scene->mNumMeshes; i++)
+		{
+			aiMesh* m = scene->mMeshes[i];
+			numVertices += m->mNumVertices;
+			numIndices += m->mNumFaces * 3;
+		}
+
+		if (numVertices == 0) return;
+
+		LayoutDefine::Vin1stSkinned* vertices = new LayoutDefine::Vin1stSkinned[numVertices];
+		int32_t* indices = new int32_t[numIndices];
+		uint32_t vid = 0, iid = 0;
+		for (uint32_t i = 0; i < scene->mNumMeshes; i++)
+		{
+			aiMesh* m = scene->mMeshes[i];
+			for (uint32_t j = 0; j < m->mNumVertices; j++)
+			{
+				auto& pos = m->mVertices[j];
+				auto& norm = m->mNormals[j];
+				auto& tan = m->mTangents[j];
+				auto& uv = m->mTextureCoords[0][j];
+
+				vertices[vid + j].posL = DirectX::XMFLOAT3{ pos.x, pos.y, pos.z };
+				vertices[vid + j].normalL = DirectX::XMFLOAT3{ norm.x, norm.y, norm.z };
+				vertices[vid + j].tangentL = DirectX::XMFLOAT3{ tan.x, tan.y, tan.z };
+				vertices[vid + j].color = DirectX::XMFLOAT4{1.0f,1.0f, 1.0f, 1.0f };
+				vertices[vid + j].tex = DirectX::XMFLOAT3{ uv.x, uv.y, uv.z };
+				vertices[vid + j].matID = m->mMaterialIndex;
+
+				vertices[vid + j].blendIndice0 = 0;
+				vertices[vid + j].blendIndice1 = 0;
+				vertices[vid + j].blendIndice2 = 0;
+				vertices[vid + j].blendIndice3 = 0;
+
+				vertices[vid + j].blendWeight0 = 0.0f;
+				vertices[vid + j].blendWeight1 = 0.0f;
+				vertices[vid + j].blendWeight2 = 0.0f;
+			}
+
+			for (uint32_t j = 0; j < m->mNumFaces; j++)
+			{
+				indices[iid + j * 3] = m->mFaces[j].mIndices[0];
+				indices[iid + j * 3 + 1] = m->mFaces[j].mIndices[1];
+				indices[iid + j * 3 + 2] = m->mFaces[j].mIndices[2];
+			}
+
+			Mesh mesh;
+			mesh.startVertex = vid;
+			mesh.startIndex = iid;
+			mesh.numVertices = m->mNumVertices;
+			mesh.numIndices = m->mNumFaces * 3;
+			meshes.push_back(mesh);
+
+			vid += m->mNumVertices;
+			iid += m->mNumFaces * 3;
+		}
+
+		do
+		{
+			CD3D11_BUFFER_DESC vbDesc(
+				numVertices * sizeof(LayoutDefine::Vin1stSkinned),
+				D3D11_BIND_VERTEX_BUFFER);
+			D3D11_SUBRESOURCE_DATA vbData = { vertices, 0, 0 };
+			if (S_OK != _device->CreateBuffer(&vbDesc, &vbData, &_vertexBuffer))
+				assert(false);
+
+			CD3D11_BUFFER_DESC ibDesc(
+				numIndices * sizeof(uint32_t),
+				D3D11_BIND_INDEX_BUFFER);
+			D3D11_SUBRESOURCE_DATA ibData = { indices, 0, 0 };
+			if (S_OK != _device->CreateBuffer(&ibDesc, &ibData, &_indexBuffer))
+				assert(false);
+
+		} while (0);
+
+		delete[] vertices;
+		delete[] indices;
+
+		if (nullptr == _vertexBuffer || nullptr == _indexBuffer)
+		{
+			if (nullptr != _vertexBuffer) _vertexBuffer->Release();
+			if (nullptr != _indexBuffer) _indexBuffer->Release();
+		}
+
+	}
+
+	void MultimaterialMesh::RenderScene(Pg::Data::CameraData* camData)
+	{
+		if (meshes.empty() || nullptr == scene)
+		{
+			assert(false);
+		}
+
+		auto _DXStorage = LowDX11Storage::GetInstance();
+		_devCon->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), (_DXStorage->_depthStencilView));
+
+		_devCon->IASetInputLayout(LayoutDefine::GetSkinned1stLayout());
+		_devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		_devCon->RSSetState(_rasterizerState);
+
+		_devCon->VSSetShader(_vertexShader, nullptr, 0);
+		_devCon->PSSetShader(_pixelShader, nullptr, 0);
+		_devCon->PSSetSamplers(0, 1, &_samplerState);
+
+		UINT strides[] = { sizeof(LayoutDefine::Vin1stSkinned) };
+		UINT offsets[] = { 0 };
+
+		_devCon->IASetVertexBuffers(0, 1, &_vertexBuffer, strides, offsets);
+		_devCon->IASetIndexBuffer(_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+		
+		
+		//BufferMemory 매핑만 설정.
+		_devCon->VSSetConstantBuffers(0, 1, &_constantBuffer);
+
+		//1/100으로 줄여서 렌더링할 것이다. -> 일단은 World Matrix를 Identity로!
+		DirectX::XMMATRIX tWorldMat = DirectX::XMMatrixIdentity();
+
+		//0.01 스케일링 적용.
+		DirectX::XMMATRIX tWorldMatScaled = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f), tWorldMat);
+		DirectX::XMFLOAT4X4 tWorldMatScaledFF;
+		DirectX::XMStoreFloat4x4(&tWorldMatScaledFF, tWorldMatScaled);
+
+		render_scene_node(camData, scene->mRootNode, tWorldMatScaledFF);
+
+		//VS/PS Unbind.
+		_devCon->VSSetShader(nullptr, nullptr, 0);
+		_devCon->PSSetShader(nullptr, nullptr, 0);
+	}
+
+	void MultimaterialMesh::render_scene_node(Pg::Data::CameraData* camData, aiNode* node, DirectX::XMFLOAT4X4 parentTransform)
+	{
+		DirectX::XMMATRIX tParentTranform = DirectX::XMLoadFloat4x4(&parentTransform);
+
+		DirectX::XMFLOAT4X4 tNodeTransformFF;
+		aiMatrix4x4 tAssimpNodeTransformFF = node->mTransformation.Transpose();
+		std::memcpy(&tNodeTransformFF, &tAssimpNodeTransformFF, sizeof(DirectX::XMFLOAT4X4));
+		DirectX::XMMATRIX tNodeTransform = DirectX::XMLoadFloat4x4(&tNodeTransformFF);
+
+		DirectX::XMMATRIX tCurrent = DirectX::XMMatrixMultiply(tParentTranform, tNodeTransform);
+		DirectX::XMFLOAT4X4 tCurrentFF;
+		DirectX::XMStoreFloat4x4(&tCurrentFF, tCurrent);
+
+		if (node->mNumMeshes > 0)
+		{
+			D3D11_MAPPED_SUBRESOURCE res = {};
+			if (S_OK == _devCon->Map(_constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &res))
+			{
+				ConstantBufferDefine::cbPerObjectBase* data = reinterpret_cast<ConstantBufferDefine::cbPerObjectBase*>(res.pData);
+
+				UpdateConstantBuffer(camData, tCurrentFF);
+				*(data) = *_constantBufferStruct;
+
+				_devCon->Unmap(_constantBuffer, 0);
+			}
+		}
+
+		for (uint32_t i = 0; i < node->mNumMeshes; i++)
+		{
+			Mesh& m = meshes[node->mMeshes[i]];
+
+			aiMesh* tAiMesh = scene->mMeshes[node->mMeshes[i]];
+
+			//이제 SolidRS-DiffuseTexture를 이용하기에, 
+			//Mesh의 인덱스에 따라 PSSetShaderResources를
+			//해당 Mesh의 Material의 인덱스에 맞게 호출한다.
+			_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[tAiMesh->mMaterialIndex]));
+
+			_devCon->DrawIndexed(m.numIndices, m.startIndex, m.startVertex);
+		}
+
+		for (uint32_t i = 0; i < node->mNumChildren; i++)
+		{
+			render_scene_node(camData, node->mChildren[i], tCurrentFF);
+		}
+	}
+
+	void MultimaterialMesh::LoadHardCodedSRVs()
+	{
+		std::wstring t1stSRVPath = L"../Resources/3DModels/Animated/Textures/boss_lp_body_lp_AlbedoTransparency.png";
+		std::wstring t2ndSRVPath = L"../Resources/3DModels/Animated/Textures/boss_lp_atc_lp_AlbedoTransparency.png";
+		std::wstring t3rdSRVPath = L"../Resources/3DModels/Animated/Textures/StylizedWoodenFloor_Diffuse.png";
+
+		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
+			LowDX11Storage::GetInstance()->_deviceContext,
+			t1stSRVPath.c_str(), nullptr, &(_tempSRVArray[0])));
+
+		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
+			LowDX11Storage::GetInstance()->_deviceContext,
+			t2ndSRVPath.c_str(), nullptr, &(_tempSRVArray[1])));
+
+		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
+			LowDX11Storage::GetInstance()->_deviceContext,
+			t3rdSRVPath.c_str(), nullptr, &(_tempSRVArray[2])));
+	}
 
 }

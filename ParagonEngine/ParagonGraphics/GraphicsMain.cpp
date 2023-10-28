@@ -171,7 +171,7 @@ namespace Pg::Graphics
 		//BasicRendersDraw();
 
 		//MultiMaterial Mesh 테스팅. 현재로서는 먼저 호출되어야 Mesh가 깨지지 않음!
-		_tempMultiMesh->Draw(_camData);
+		_tempMultiMesh->RenderScene(_camData);
 
 		_renderer->Render(_camData);
 	}
@@ -412,7 +412,9 @@ namespace Pg::Graphics
 	void GraphicsMain::TempResourceMeshLoad()
 	{
 		std::string tFilePath;
-		//고정된 File Path ( == AssetManager에서 이미 로딩된 경로가 있어야 작동하므로, 하드코딩했음.)
+
+		//이제는 AssetManager의 로드 로직과 무관하게 MultimaterialMesh 활용할 것.
+		
 		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx";
 		//tFilePath = "../Resources/3DModels/Animated/Boss_Test_NonDeform.fbx";
 		//tFilePath = "../Resources/3DModels/Animated/BasicAnimatedCubeEdited.fbx";
@@ -423,7 +425,6 @@ namespace Pg::Graphics
 		
 		//MultiMaterial Mesh 테스팅.
 		_tempMultiMesh = new MultimaterialMesh(tFilePath);
-		_tempMultiMesh->Initialize();
 	}
 
 	void GraphicsMain::SyncLoadGraphicsResources()
