@@ -281,7 +281,6 @@ namespace Pg::Graphics
 		_devCon->IASetVertexBuffers(0, 1, &_vertexBuffer, strides, offsets);
 		_devCon->IASetIndexBuffer(_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 		
-		
 		//BufferMemory 매핑만 설정.
 		_devCon->VSSetConstantBuffers(0, 1, &_constantBuffer);
 
@@ -290,10 +289,14 @@ namespace Pg::Graphics
 
 		//0.01 스케일링 적용.
 		DirectX::XMMATRIX tWorldMatScaled = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f), tWorldMat);
-		DirectX::XMFLOAT4X4 tWorldMatScaledFF;
-		DirectX::XMStoreFloat4x4(&tWorldMatScaledFF, tWorldMatScaled);
+		//DirectX::XMMATRIX tWorldMatScaled = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f), tWorldMat);
+		//이론 : 현재 기본적으로 aiMatrix4x4가 Transpose되어 있을 것이라는 전제로 코드가 짜여졌기에, 역으로 시작도 전치해서 넣어줘야!
+		//스케일만 있는 지금이야 상관이 없겠지만, 위치가 Translate 조금만 되어도 보일 것!
+		DirectX::XMMATRIX tWorldMatScaledTransposed = DirectX::XMMatrixTranspose(tWorldMatScaled);
+		DirectX::XMFLOAT4X4 tWorldMatScaledTransposedFF;
+		DirectX::XMStoreFloat4x4(&tWorldMatScaledTransposedFF, tWorldMatScaled);
 
-		render_scene_node(camData, scene->mRootNode, tWorldMatScaledFF);
+		render_scene_node(camData, scene->mRootNode, tWorldMatScaledTransposedFF);
 
 		//VS/PS Unbind.
 		_devCon->VSSetShader(nullptr, nullptr, 0);
