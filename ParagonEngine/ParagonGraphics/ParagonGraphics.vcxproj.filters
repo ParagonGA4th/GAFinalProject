@@ -172,6 +172,15 @@
     <ClInclude Include="RenderObjectSkinnedMesh3D.h">
       <Filter>4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D</Filter>
     </ClInclude>
+    <ClInclude Include="Bone.h">
+      <Filter>5_Misc\Tofu</Filter>
+    </ClInclude>
+    <ClInclude Include="TofuMath.h">
+      <Filter>5_Misc\Tofu</Filter>
+    </ClInclude>
+    <ClInclude Include="TofuMesh.h">
+      <Filter>5_Misc\Tofu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -472,6 +481,9 @@
     </Filter>
     <Filter Include="4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D">
       <UniqueIdentifier>{8dbf0ed9-5baa-4360-aa75-058feb8f6aba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\Tofu">
+      <UniqueIdentifier>{4f05be43-07d0-4c80-9c69-c0026b3458c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -28,6 +28,7 @@
     <ClInclude Include="AssetTextureType.h" />
     <ClInclude Include="Axis.h" />
     <ClInclude Include="AssetBasic3DLoader.h" />
+    <ClInclude Include="Bone.h" />
     <ClInclude Include="BufferParser.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantBufferBase.h" />
@@ -83,6 +84,8 @@
     <ClInclude Include="TempCamera.h" />
     <ClInclude Include="TestCube.h" />
     <ClInclude Include="MaterialCluster.h" />
+    <ClInclude Include="TofuMath.h" />
+    <ClInclude Include="TofuMesh.h" />
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
