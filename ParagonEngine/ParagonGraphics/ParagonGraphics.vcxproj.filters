@@ -508,6 +508,9 @@
     <FxCompile Include="..\Resources\DefaultShaders\Shaders\SecondStage_VS.hlsl">
       <Filter>6_HLSL</Filter>
     </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\TempForward\TempForwardVSSkinned.hlsl">
+      <Filter>6_HLSL\TempForward</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\DefaultShaders\Libraries\DefaultBufferPerObject.hlsli">
