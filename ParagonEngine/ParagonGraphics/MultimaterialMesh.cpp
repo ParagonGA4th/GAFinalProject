@@ -57,7 +57,7 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), (_DXStorage->_depthStencilView));
 
 		//Input Layout 호출 / Primitive Topology 세팅.
-		_devCon->IASetInputLayout(LayoutDefine::GetStatic1stLayout());
+		_devCon->IASetInputLayout(LayoutDefine::GetSkinned1stLayout());
 		_devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		_devCon->RSSetState(_rasterizerState);
@@ -166,7 +166,8 @@ namespace Pg::Graphics
 	void MultimaterialMesh::CreateVertexPixelShader()
 	{
 		//TempForwardVS/PS 경로를 셋업한다.
-		std::wstring tTempForwardVSPath = L"../Builds/x64/Debug/TempForwardVS.cso";
+		//std::wstring tTempForwardVSPath = L"../Builds/x64/Debug/TempForwardVS.cso";
+		std::wstring tTempForwardVSPath = L"../Builds/x64/Debug/TempForwardVSSkinned.cso";
 		std::wstring tTempForwardPSPath = L"../Builds/x64/Debug/TempForwardPS.cso";
 
 		//TempForwardVS -> Vertex Shader 셋업.
@@ -240,6 +241,7 @@ namespace Pg::Graphics
 
 	void MultimaterialMesh::CreateConstantBuffer()
 	{
+		//int sizeCB = (((sizeof(ConstantBufferDefine::cbPerObjectBase) - 1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
 		int sizeCB = (((sizeof(ConstantBufferDefine::cbPerObjectBase) - 1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
 
 		D3D11_BUFFER_DESC tCBufferDesc;
