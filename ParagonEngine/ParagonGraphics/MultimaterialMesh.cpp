@@ -280,23 +280,22 @@ namespace Pg::Graphics
 
 		_devCon->IASetVertexBuffers(0, 1, &_vertexBuffer, strides, offsets);
 		_devCon->IASetIndexBuffer(_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-		
+
 		//BufferMemory 매핑만 설정.
 		_devCon->VSSetConstantBuffers(0, 1, &_constantBuffer);
 
 		//1/100으로 줄여서 렌더링할 것이다. -> 일단은 World Matrix를 Identity로!
 		DirectX::XMMATRIX tWorldMat = DirectX::XMMatrixIdentity();
-
+		DirectX::XMMATRIX tH21Mat = DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f);
 		//0.01 스케일링 적용.
-		DirectX::XMMATRIX tWorldMatScaled = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f), tWorldMat);
-		//DirectX::XMMATRIX tWorldMatScaled = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f), tWorldMat);
-		//이론 : 현재 기본적으로 aiMatrix4x4가 Transpose되어 있을 것이라는 전제로 코드가 짜여졌기에, 역으로 시작도 전치해서 넣어줘야!
-		//스케일만 있는 지금이야 상관이 없겠지만, 위치가 Translate 조금만 되어도 보일 것!
-		DirectX::XMMATRIX tWorldMatScaledTransposed = DirectX::XMMatrixTranspose(tWorldMatScaled);
-		DirectX::XMFLOAT4X4 tWorldMatScaledTransposedFF;
-		DirectX::XMStoreFloat4x4(&tWorldMatScaledTransposedFF, tWorldMatScaled);
+		DirectX::XMMATRIX tWorldMatScaled = DirectX::XMMatrixMultiply(tH21Mat, tWorldMat);
+		DirectX::XMFLOAT4X4 tWorldMatScaledFF;
+		DirectX::XMStoreFloat4x4(&tWorldMatScaledFF, tWorldMatScaled);
+		
+		//그런가..? 확실한 것은, 들어갈 때는 올바르게 (DX 기준) 행렬이 매개변수로 들어가는 것을 전제로 하고 있다. 
+		//다시 생각해봐라! Transpose 여부.
 
-		render_scene_node(camData, scene->mRootNode, tWorldMatScaledTransposedFF);
+		render_scene_node(camData, scene->mRootNode, tWorldMatScaledFF);
 
 		//VS/PS Unbind.
 		_devCon->VSSetShader(nullptr, nullptr, 0);
@@ -308,17 +307,22 @@ namespace Pg::Graphics
 		DirectX::XMMATRIX tParentTranform = DirectX::XMLoadFloat4x4(&parentTransform);
 
 		DirectX::XMFLOAT4X4 tNodeTransformFF;
-		aiMatrix4x4 tAssimpNodeTransformFF = node->mTransformation.Transpose();
+		aiMatrix4x4 tAssimpNodeTransformFF = node->mTransformation;
+
 		std::memcpy(&tNodeTransformFF, &tAssimpNodeTransformFF, sizeof(DirectX::XMFLOAT4X4));
 		DirectX::XMMATRIX tNodeTransform = DirectX::XMLoadFloat4x4(&tNodeTransformFF);
 
+		//원본 데이터에 영향을 안 주는 선에서 복사한 데이터에서 전치해서 행렬을 보관한다(Assimp는 Column-Major);
+		tNodeTransform = DirectX::XMMatrixTranspose(tNodeTransform);
+			
 		DirectX::XMMATRIX tCurrent = DirectX::XMMatrixMultiply(tParentTranform, tNodeTransform);
 		DirectX::XMFLOAT4X4 tCurrentFF;
 		DirectX::XMStoreFloat4x4(&tCurrentFF, tCurrent);
 
 		if (node->mNumMeshes > 0)
 		{
-			D3D11_MAPPED_SUBRESOURCE res = {};
+			D3D11_MAPPED_SUBRESOURCE res;
+			ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
 			if (S_OK == _devCon->Map(_constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &res))
 			{
 				ConstantBufferDefine::cbPerObjectBase* data = reinterpret_cast<ConstantBufferDefine::cbPerObjectBase*>(res.pData);
