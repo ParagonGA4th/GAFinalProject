@@ -54,7 +54,7 @@ void Pg::Graphics::RenderableObject::BindShaders()
 	_pixelShader->Bind();
 
 	// Bind Constant Buffers
-	for (auto& cb : _vertexShader->_constantBuffers)
+	for (auto& cb : _constantBuffers)
 	{
 		cb->UpdateAndBind();
 	}

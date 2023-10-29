@@ -13,7 +13,7 @@ namespace Pg::Data
 
 	void MoveForwardBack::Update()
 	{
-		tMoveVar += 0.0005f;
+		tMoveVar += 0.05f;
 
 		Transform& tTrans = this->_object->_transform;
 		PGFLOAT3 tCurPos = tTrans.GetPosition();

@@ -46,11 +46,11 @@ namespace Pg::Graphics
 		axis = new Axis();
 		axis->Initialize();
 
-		helperVS->AssignConstantBuffer(&(grid->_cbData));
-
+		grid->CreateConstantBuffer(&(grid->_cbData));
 		grid->AssignVertexShader(helperVS);
 		grid->AssignPixelShader(helperPS);
 
+		axis->CreateConstantBuffer(&(axis->_cbData));
 		axis->AssignVertexShader(helperVS);
 		axis->AssignPixelShader(helperPS);
 
@@ -67,7 +67,7 @@ namespace Pg::Graphics
 		cubemap = new Cubemap();
 		cubemap->Initialize();
 
-		CubemapVS->AssignConstantBuffer(&(cubemap->_cbData));
+		cubemap->CreateConstantBuffer(&(cubemap->_cbData));
 		cubemap->AssignVertexShader(CubemapVS);
 		cubemap->AssignPixelShader(CubemapPS);
 	}
@@ -105,7 +105,7 @@ namespace Pg::Graphics
 		// Grid
 		DirectX::XMStoreFloat4x4(&(grid->_cbData.worldMatrix), tWorldTMMat);
 		DirectX::XMStoreFloat4x4(&(grid->_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
-		grid->SetGridSize(20.0f, 20.0f, 10, 10);
+		grid->SetGridSize(30.0f, 30.0f, 20, 20);
 
 		// Axis
 		DirectX::XMStoreFloat4x4(&(axis->_cbData.worldMatrix), tWorldTMMat);

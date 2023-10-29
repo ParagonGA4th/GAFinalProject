@@ -1,6 +1,9 @@
 #pragma once
 
+#include "constantBuffer.h"
+
 #include "DX11Headers.h"
+
 #include <string>
 
 namespace Pg::Graphics
@@ -74,6 +77,18 @@ namespace Pg::Graphics
 
 		VertexShader* GetVertexShader();
 		PixelShader* GetPixelShader();
+
+	public:
+		// 상수 버퍼들을 저장하는 벡터
+		std::vector< ConstantBufferBase* > _constantBuffers;
+
+		// 상수 버퍼 데이터를 추가하는 함수
+		template <typename T>
+		void CreateConstantBuffer(T* cbData)
+		{
+			ConstantBufferBase* tCBuffer = new ConstantBuffer<T>(cbData);
+			_constantBuffers.emplace_back(tCBuffer);
+		}
 	};
 
 }

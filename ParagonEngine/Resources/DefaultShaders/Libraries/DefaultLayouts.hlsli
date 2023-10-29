@@ -51,6 +51,7 @@ struct POut1st //RGBA
     float4 pout1st_RT3 : SV_Target3; // 3D Model Color (RGB)
     float4 pout1st_RT4 : SV_Target4; // Material ID ((uint)R), Screen Space Velocity (GB), Alpha (A)
     //float pout1st_Depth : SV_Depth; // Depth
+    float4 pout1st_RT5 : SV_Target5; // Temp Diffuse Texture;
 };
 
 #endif //__DEFINED_DEFAULT_LAYOUTS_HLSL__
