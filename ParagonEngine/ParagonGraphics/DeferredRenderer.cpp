@@ -34,6 +34,7 @@ void Pg::Graphics::DeferredRenderer::Initialize()
 	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R16G16B16A16_TYPELESS, DXGI_FORMAT_R16G16B16A16_FLOAT));
+	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 
 	for (auto& e : _gBuffers)
 	{
@@ -80,14 +81,14 @@ void Pg::Graphics::DeferredRenderer::BeginRender()
 void Pg::Graphics::DeferredRenderer::RenderFirstPass(RenderObject3D* renderObject, Pg::Data::CameraData* camData)
 {
 	// TODO
-	_firstVS->AssignConstantBuffer(renderObject->_constantBufferStruct);
-	renderObject->AssignVertexShader(_firstVS);
+	renderObject->SetVertexShader(_firstVS);
+	renderObject->SetPixelShader(_firstPS);
 
 	renderObject->Render(camData);
 }
 
 void Pg::Graphics::DeferredRenderer::RenderSecondPass()
-{
+{	
 	//Quad를 그린다.
 	_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
 

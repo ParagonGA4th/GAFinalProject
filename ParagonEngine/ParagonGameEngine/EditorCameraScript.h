@@ -42,6 +42,6 @@ private:
 	Pg::Engine::Input::InputSystem* tInput = nullptr;
 	Pg::Data::Camera* _camera = nullptr;
 
-	float _moveSpeed = 0.0075f;
+	float _moveSpeed = 0.1f;
 };
 

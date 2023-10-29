@@ -17,7 +17,7 @@ float4 main(VertexOut pin) : SV_TARGET
 {
 	float4 output;
 	
-	output = GBuffer[3].Sample(state, pin.UV);
+    output = GBuffer[5].Sample(state, pin.UV);
 
 	return output;
 }

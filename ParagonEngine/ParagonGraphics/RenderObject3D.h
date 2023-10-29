@@ -2,6 +2,7 @@
 #include "RenderObjectBase.h"
 
 #include "ConstantBufferDefine.h"
+#include "ConstantBuffer.h"
 
 #include "DX11Headers.h"
 
@@ -33,6 +34,7 @@ namespace Pg::Graphics
 	class PixelShader;
 	class ConstantBufferDefine;
 	struct ConstantBufferDefine::cbPerObjectBase;
+
 }
 
 namespace Pg::Graphics
@@ -70,13 +72,17 @@ namespace Pg::Graphics
 
 		virtual void BindInputLayout();
 		void UnbindInputLayout();
-
+	
+	protected:
+		ID3D11ShaderResourceView* _SRV;
+		
+	public:	
 		virtual void SetTexture(std::wstring filepath);
-		ID3D11ShaderResourceView* SRV;
+		virtual void SetTexture(ID3D11ShaderResourceView* SRV);
 
 	public:
-		void AssignVertexShader(VertexShader* shader);
-		void AssignPixelShader(PixelShader* shader);
+		void SetVertexShader(VertexShader* shader);
+		void SetPixelShader(PixelShader* shader);
 
 		VertexShader* GetVertexShader();
 		PixelShader* GetPixelShader();
@@ -84,6 +90,19 @@ namespace Pg::Graphics
 	protected:
 		ID3D11Device* _device;
 		ID3D11DeviceContext* _devCon;
+
+
+	public:
+		// 상수 버퍼들을 저장하는 벡터
+		std::vector< ConstantBufferBase* > _constantBuffers;
+
+		// 상수 버퍼 데이터를 추가하는 함수
+		template <typename T>
+		void CreateConstantBuffer(T* cbData)
+		{
+			ConstantBufferBase* tCBuffer = new ConstantBuffer<T>(cbData);
+			_constantBuffers.emplace_back(tCBuffer);
+		}
 
 	};
 }

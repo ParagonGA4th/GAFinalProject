@@ -2,6 +2,15 @@
 
 #include "../Libraries/DefaultLayouts.hlsli"
 
+SamplerState state
+{
+    Filter = MIN_POINT_MAG_LINEAR_MIP_POINT;
+    AddressU = Wrap;
+    AddressV = Wrap;
+};
+
+Texture2D Diffuse;
+
 POut1st PS_MAIN(VOut1st input)
 {
     POut1st output;
@@ -32,6 +41,9 @@ POut1st PS_MAIN(VOut1st input)
 	output.pout1st_RT4.w = 1.0f;
     
     //pout1st_Depth -> SV_Depth에 대해서는 아직은 추가적인 처리 안 해줄 것.
+    
+    //RT5 : Temp Diffuse Texture
+    output.pout1st_RT5 = Diffuse.Sample(state, input.vout1st_Tex.xy);
     
     return output;
 }

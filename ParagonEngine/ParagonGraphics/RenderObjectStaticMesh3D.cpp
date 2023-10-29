@@ -5,9 +5,11 @@
 #include "LowDX11Storage.h"
 #include "../ParagonData/StaticMeshRenderer.h"
 #include "LayoutDefine.h"
+#include "MathHelper.h"
 
 namespace Pg::Graphics
 {
+	using Pg::Graphics::Helper::MathHelper;
 	using Pg::Graphics::Manager::GraphicsResourceManager;
 	using Pg::Data::Enums::eAssetDefine;
 
@@ -35,6 +37,39 @@ namespace Pg::Graphics
 		auto& tD3DBuffer = _modelData->_d3dBufferInfo;
 		auto& tMatCluster = _modelData->_materialCluster;
 
+		BindInputLayout();
+
+		// 상수버퍼에 들어갈 값 셋팅
+		DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());
+		DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
+
+		DirectX::XMMATRIX tWorldInvTransposeMat = DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, tWorldTMMat));
+
+		//0.01 스케일링 적용.
+		tWorldTMMat = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f), tWorldTMMat);
+
+		DirectX::XMFLOAT4X4 tViewTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData->_viewMatrix);
+		DirectX::XMMATRIX tViewTMMat = DirectX::XMLoadFloat4x4(&tViewTM);
+
+		DirectX::XMFLOAT4X4 tProjTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
+		DirectX::XMMATRIX tProjTMMat = DirectX::XMLoadFloat4x4(&tProjTM);
+
+		DirectX::XMFLOAT3 tCameraPositionW = Helper::MathHelper::PG2XM_FLOAT3(camData->_position);
+		DirectX::XMVECTOR tCameraPositionVec = DirectX::XMLoadFloat3(&tCameraPositionW);
+		DirectX::XMMATRIX tCameraPositionMat = DirectX::XMMatrixTranslationFromVector(tCameraPositionVec);
+
+		float tCamDistance = 0.0f;
+		DirectX::XMStoreFloat(&tCamDistance, DirectX::XMVector3Length(tCameraPositionVec));
+
+		_constantBufferStruct->gCBuf_World = tWorldTMMat;
+		_constantBufferStruct->gCBuf_WorldInvTranspose = tWorldInvTransposeMat;
+		_constantBufferStruct->gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
+		_constantBufferStruct->gCBuf_CameraPositionW = tCameraPositionW;
+
+		// Texture
+
+		BindShaders();
+		BindBuffers();
 
 		int tMeshCount = _modelData->_d3dBufferInfo._meshCount;
 		for (int i = 0; i < tMeshCount; i++)
@@ -59,15 +94,16 @@ namespace Pg::Graphics
 			AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
 			ID3D11ShaderResourceView* tTempDiffuseTexture = tATS.texture;
 			assert(tTempDiffuseTexture != nullptr);
-
-			//_devCon->PSSetShaderResources(0, 1, &_testSRV);
-			_devCon->PSSetShaderResources(0, 1, &tTempDiffuseTexture);
+			SetTexture(tTempDiffuseTexture);
 
 			//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
 			_devCon->DrawIndexed(tToDrawIndexCount,
 				_modelData->_d3dBufferInfo._indexOffsetVector[i],
 				_modelData->_d3dBufferInfo._vertexOffsetVector[i]);
 		}
+
+		UnbindShaders();
+		UnbindInputLayout();
 
 		/*
 		분석도 분석인데, 지금은 Node별로 Mesh의 Local Transformation이 반영되지 않기 때문에, 당연히 버텍스 버퍼가 한 공간에 겹쳐서 출력된다. 이를 고쳐야 한다..

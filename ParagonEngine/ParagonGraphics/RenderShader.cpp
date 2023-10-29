@@ -1,7 +1,6 @@
 #include "RenderShader.h"
 
 #include "LowDX11Storage.h"
-#include "ConstantBuffer.h"
 
 namespace Pg::Graphics
 {
