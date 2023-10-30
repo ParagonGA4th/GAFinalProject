@@ -20,6 +20,7 @@
 #include <cassert> 
 
 
+
 namespace Pg::Graphics
 {
 	using namespace tofu;
@@ -180,12 +181,21 @@ namespace Pg::Graphics
 
 		if (numVertices == 0) return;
 
+		//Skinned Data를 위해서 구조체 처리.
+
+		SetupBoneData(_vertexBoneVector,scene, numVertices);
+
+		//지금까지 Bone Index/Weight Binding을 위해, 인덱스 카운팅 도입.
+		UINT tTotalElapsedVertexCount = 0;
+
 		LayoutDefine::Vin1stSkinned* vertices = new LayoutDefine::Vin1stSkinned[numVertices];
 		int32_t* indices = new int32_t[numIndices];
 		uint32_t vid = 0, iid = 0;
 		for (uint32_t i = 0; i < scene->mNumMeshes; i++)
 		{
 			aiMesh* m = scene->mMeshes[i];
+			//tTotalElapsedVertexCount += _meshEntriesVector[i].BaseVertex;
+			tTotalElapsedVertexCount = _meshEntriesVector[i].BaseVertex;
 			for (uint32_t j = 0; j < m->mNumVertices; j++)
 			{
 				auto& pos = m->mVertices[j];
@@ -200,14 +210,23 @@ namespace Pg::Graphics
 				vertices[vid + j].tex = DirectX::XMFLOAT3{ uv.x, uv.y, uv.z };
 				vertices[vid + j].matID = m->mMaterialIndex;
 
-				vertices[vid + j].blendIndice0 = 0;
-				vertices[vid + j].blendIndice1 = 0;
-				vertices[vid + j].blendIndice2 = 0;
-				vertices[vid + j].blendIndice3 = 0;
+				//vertices[vid + j].blendIndice0 = 0;
+				//vertices[vid + j].blendIndice1 = 0;
+				//vertices[vid + j].blendIndice2 = 0;
+				//vertices[vid + j].blendIndice3 = 0;
+				//
+				//vertices[vid + j].blendWeight0 = 0.0f;
+				//vertices[vid + j].blendWeight1 = 0.0f;
+				//vertices[vid + j].blendWeight2 = 0.0f;
 
-				vertices[vid + j].blendWeight0 = 0.0f;
-				vertices[vid + j].blendWeight1 = 0.0f;
-				vertices[vid + j].blendWeight2 = 0.0f;
+				vertices[vid + j].blendIndice0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0];
+				vertices[vid + j].blendIndice1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1];
+				vertices[vid + j].blendIndice2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[2];
+				vertices[vid + j].blendIndice3 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[3];
+
+				vertices[vid + j].blendWeight0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[0];
+				vertices[vid + j].blendWeight1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[1];
+				vertices[vid + j].blendWeight2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[2];
 			}
 
 			for (uint32_t j = 0; j < m->mNumFaces; j++)
@@ -227,6 +246,9 @@ namespace Pg::Graphics
 			vid += m->mNumVertices;
 			iid += m->mNumFaces * 3;
 		}
+
+	
+		
 
 		do
 		{
@@ -285,10 +307,21 @@ namespace Pg::Graphics
 		_devCon->VSSetConstantBuffers(0, 1, &_constantBuffer);
 
 		//1/100으로 줄여서 렌더링할 것이다. -> 일단은 World Matrix를 Identity로!
-		DirectX::XMMATRIX tWorldMat = DirectX::XMMatrixIdentity();
-		DirectX::XMMATRIX tH21Mat = DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f);
+		///커스텀 위치 조정.
+		///현재 렌더 로직 떄문에, 이 역시 적용되지 않는 상황이다!
+		DirectX::XMFLOAT3 tPosition = { 0.0f, 10.0f, 0.0f };
+		DirectX::XMVECTOR tPosVec = DirectX::XMLoadFloat3(&tPosition);
+
+		DirectX::XMFLOAT4 tRotQuat = { 0.0f, 0.0f, 0.0f, 0.0f };
+		DirectX::XMVECTOR tRotQuatVec = DirectX::XMLoadFloat4(&tRotQuat);
+
 		//0.01 스케일링 적용.
-		DirectX::XMMATRIX tWorldMatScaled = DirectX::XMMatrixMultiply(tH21Mat, tWorldMat);
+		DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
+		//DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
+		DirectX::XMVECTOR tScaleVec = DirectX::XMLoadFloat3(&tScale);
+
+		DirectX::XMMATRIX tWorldMatScaled = DirectX::XMMatrixAffineTransformation(tScaleVec, tPosVec, tRotQuatVec, tPosVec);
+
 		DirectX::XMFLOAT4X4 tWorldMatScaledFF;
 		DirectX::XMStoreFloat4x4(&tWorldMatScaledFF, tWorldMatScaled);
 		
@@ -371,6 +404,102 @@ namespace Pg::Graphics
 		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
 			LowDX11Storage::GetInstance()->_deviceContext,
 			t3rdSRVPath.c_str(), nullptr, &(_tempSRVArray[2])));
+	}
+
+	void MultimaterialMesh::SetupBoneData(std::vector<RenderUsageVertexBone>& vBoneList, const aiScene* scene, unsigned int verticeCount)
+	{
+		vBoneList.resize(verticeCount);
+
+		unsigned int tNumVertices = 0;
+		unsigned int tNumIndices = 0;
+
+		//당장 Bone 데이터를 쓰는데 사용하지는 않으나, 실제 D3D 버퍼 출력에 활용되는 정보.
+		_meshEntriesVector.resize(scene->mNumMeshes);
+		for (unsigned int i = 0; i < _meshEntriesVector.size(); i++)
+		{
+			// Total mesh indices. 
+			_meshEntriesVector[i].NumIndices = scene->mMeshes[i]->mNumFaces * 3;
+
+			// Set the base vertex of this mesh (initial vertex for this mesh within the vertices array) to the current total vertices. 
+			_meshEntriesVector[i].BaseVertex = tNumVertices;
+
+			// Set the base index of this mesh (initial index for this mesh within the indices array) to the current total indices. 
+			_meshEntriesVector[i].BaseIndex = tNumIndices;
+
+			// Increment total vertices and indices. 
+			tNumVertices += scene->mMeshes[i]->mNumVertices;
+			tNumIndices += _meshEntriesVector[i].NumIndices;
+		}
+
+		//outBone.resize(tNumVertices);
+		//outIndice.reserve(tNumIndices);
+
+		for (unsigned int i = 0; i < scene->mNumMeshes; i++)
+		{
+			aiMesh* aMesh = scene->mMeshes[i];
+
+			//Vertex 로드는 인덱스가 변하지 않기 때문에, 
+			//제대로 적용됨
+			if (aMesh->HasBones())
+			{
+				SetupRenderBones(i, aMesh, vBoneList);
+			}
+		}
+	}
+
+	void MultimaterialMesh::SetupRenderBones(unsigned int index, aiMesh* mesh, std::vector<RenderUsageVertexBone>& vBoneList)
+	{
+		for (unsigned int i = 0; i < mesh->mNumBones; i++) {
+
+			unsigned int BoneIndex = 0;
+
+			// Obtain the bone name.
+			std::string BoneName(mesh->mBones[i]->mName.C_Str());
+
+			// If bone isn't already in the map. 
+			if (_mappedBones.find(BoneName) == _mappedBones.end())
+			{
+				// Set the bone ID to be the current total number of bones. 
+				BoneIndex = _formationNumBone;
+
+				// Increment total bones. 
+				_formationNumBone++;
+
+				// Push new bone info into bones vector. 
+				RenderUsageBoneInfo tBi;
+				_renderBoneInfoVector.push_back(tBi);
+			}
+			else 
+			{
+				// Bone ID is already in map. 
+				BoneIndex = _mappedBones[BoneName];
+			}
+
+			_mappedBones[BoneName] = BoneIndex;
+
+			// Obtains the offset matrix which transforms the bone from mesh space into bone space. 
+			aiMatrix4x4 tOffsetMat = mesh->mBones[i]->mOffsetMatrix;
+
+			//Column Major -> Row Major : 전치.
+			tOffsetMat = tOffsetMat.Transpose();
+			DirectX::XMFLOAT4X4 tXMOffsetMat;
+			std::memcpy(&tXMOffsetMat, &tOffsetMat, sizeof(DirectX::XMFLOAT4X4));
+			_renderBoneInfoVector[BoneIndex].BoneOffset = tXMOffsetMat;
+
+			// Iterate over all the affected vertices by this bone i.e weights. 
+			for (unsigned int j = 0; j < mesh->mBones[i]->mNumWeights; j++) {
+
+				// Obtain an index to the affected vertex within the array of vertices.
+				unsigned int VertexID = _meshEntriesVector[index].BaseVertex + mesh->mBones[i]->mWeights[j].mVertexId;
+
+				// The value of how much this bone influences the vertex. 
+				float Weight = mesh->mBones[i]->mWeights[j].mWeight;
+
+				// Insert bone data for particular vertex ID. A maximum of 4 bones can influence the same vertex. 
+				vBoneList[VertexID].AddBoneData(BoneIndex, Weight);
+			}
+		}
+		assert(mesh);
 	}
 
 }

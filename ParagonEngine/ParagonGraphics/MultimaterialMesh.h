@@ -1,6 +1,7 @@
 #pragma once
 #include "ConstantBufferDefine.h"
 #include <string>
+#include <map>
 #include <vector>
 #include <unordered_map>
 #include <array>
@@ -11,6 +12,9 @@
 #include "TofuMesh.h"
 #include "Bone.h"
 
+//임시 기능 위주 Skinning 구현을 위해, 해당 헤더 사용!
+#include "TempBoneHelper.h"
+
 /// <summary>
 /// Deferred Rendering이 전역적으로 자리잡기 전에, 
 /// 다중 Material 적용되는 Mesh 렌더 데모를 위해. -> 이제 Skinned 용도로 개조!
@@ -18,6 +22,7 @@
 /// </summary>
 
 struct aiNode;
+struct aiMesh;
 struct aiScene;
 struct aiAnimation;
 
@@ -92,15 +97,18 @@ namespace Pg::Graphics
 	private:
 		void render_scene_node(Pg::Data::CameraData* camData, aiNode* node, DirectX::XMFLOAT4X4 parentTransform);
 
-		//int32_t generate_skeleton(aiNode* node);
-		//
-		//int32_t generate_skeleton_node(aiNode* node, int32_t parentBoneIdx);
-		//
-		//int32_t generate_animation(aiAnimation* anim);
+	private:
+		//Bone 셋업 작업.
+		void SetupBoneData(std::vector<RenderUsageVertexBone>& vBoneList, const aiScene* scene, unsigned int verticeCount);
+		//Bone Render용 Bone 셋업 작업.
+		void SetupRenderBones(unsigned int index, aiMesh* mesh, std::vector<RenderUsageVertexBone>& vBoneList);
+	
+		std::map<std::string, unsigned int> _mappedBones;
+		unsigned int _formationNumBone = 0;
 
-		//int32_t compile_shader(const char* src, uint32_t size, const char* entry, const char* target, ID3DBlob** blob);
-		//int32_t load_file_to_blob(const wchar_t* filename, ID3DBlob** blob);
-
+		std::vector<RenderUsageVertexBone> _vertexBoneVector;
+		std::vector<RenderUsageMesh> _meshEntriesVector;
+		std::vector<RenderUsageBoneInfo> _renderBoneInfoVector;
 	private:
 		//Boss_Test_NonDeform_MultiMat.fbx를 렌더하기 위해서, 개별적으로 SRV들 마련. (임베딩X, 작동을 보려고)
 		std::array< ID3D11ShaderResourceView*, 3> _tempSRVArray;
