@@ -1,9 +1,7 @@
 #include "Inspector.h"
 #include "../ParagonUI/UIManager.h"
-
-#include "../ParagonUI/Column.h"
-
-#include <singleton-cpp/singleton.h>
+#include "../ParagonUI/WidgetContainer.h"
+ #include <singleton-cpp/singleton.h>
 
 // Object Name
 // Object Tag
@@ -11,12 +9,20 @@
 // Transform
 // Component
 
+#include "../ParagonUI/Text.h"
+#include "../ParagonUI/InputText.h"
+#include "../ParagonUI/InputFloat3.h"
+#include "../ParagonUI/CheckBox.h"
+#include "../ParagonUI/Column.h"
+#include "../ParagonUI/Collaps.h"
 
 Pg::Editor::Window::Inspector::Inspector()
 	:_winName("Inspector"), _isShow(true)
 {
 	auto& tUIManager = singleton<Pg::UI::Manager::UIManager>();
 	_uiManager = &tUIManager;
+
+	cons = new Pg::UI::WidgetContainer();
 }
 
 Pg::Editor::Window::Inspector::~Inspector()
@@ -26,18 +32,33 @@ Pg::Editor::Window::Inspector::~Inspector()
 
 void Pg::Editor::Window::Inspector::Initialize()
 {
-	cons.CreateColumnsWidget<Pg::UI::Widget::Text>("Name");
-	cons.CreateColumnsWidget<Pg::UI::Widget::InputText>("Name", _objName);
-	cons.CreateColumnsWidget<Pg::UI::Widget::Text>("Tag");
-	cons.CreateColumnsWidget<Pg::UI::Widget::InputText>("Tag", _objTag);
+	cons->CreateColumnsWidget<Pg::UI::Widget::Text>("Name");
+	cons->CreateColumnsWidget<Pg::UI::Widget::InputText>("Name", _objName);
+	cons->CreateColumnsWidget<Pg::UI::Widget::Text>("Tag");
+	cons->CreateColumnsWidget<Pg::UI::Widget::InputText>("Tag", _objTag);
+	cons->CreateColumnsWidget<Pg::UI::Widget::Text>("Active");
+	cons->CreateColumnsWidget<Pg::UI::Widget::CheckBox>("Active", _isObjActive);
 
-	cons.CreateWidget<Pg::UI::Widget::Layout::Column<2>>(cons.GetColumnWidgets());
+	cons->CreateWidget<Pg::UI::Widget::Layout::Column<2>>(cons->GetColumnWidgets());
+
+
+	cons->ClearColumnWidget();
+	cons->CreateColumnsWidget<Pg::UI::Widget::Text>("Position");
+	cons->CreateColumnsWidget<Pg::UI::Widget::InputFloat3>("Position", _position);
+	cons->CreateColumnsWidget<Pg::UI::Widget::Text>("Rotation");
+	cons->CreateColumnsWidget<Pg::UI::Widget::InputFloat3>("Rotation", _rotation);
+	cons->CreateColumnsWidget<Pg::UI::Widget::Text>("Scale");
+	cons->CreateColumnsWidget<Pg::UI::Widget::InputFloat3>("Scale", _scale);
+
+	cons->CreateCollapsWidget<Pg::UI::Widget::Layout::Column<2>>(cons->GetColumnWidgets());
+
+	cons->CreateWidget<Pg::UI::Widget::Layout::Collaps>("Transform", cons->GetCollapsWidgets());	
 }
 
 void Pg::Editor::Window::Inspector::Update()
 {
 	_uiManager->WindowBegin(_winName);
-	cons.Update();
+	cons->Update();
 	_uiManager->WindowEnd();
 }
 

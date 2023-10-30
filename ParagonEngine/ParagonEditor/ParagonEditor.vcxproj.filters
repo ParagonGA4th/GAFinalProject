@@ -28,6 +28,15 @@
     <ClCompile Include="Inspector.cpp">
       <Filter>4_Windows\Inspector</Filter>
     </ClCompile>
+    <ClCompile Include="Hierarchy.cpp">
+      <Filter>4_Windows\Hierarchy</Filter>
+    </ClCompile>
+    <ClCompile Include="Filter.cpp">
+      <Filter>4_Windows\Filter</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewScene.cpp">
+      <Filter>4_Windows\ViewScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor.h">
@@ -65,6 +74,15 @@
     </ClInclude>
     <ClInclude Include="IEditorWindow.h">
       <Filter>4_Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Hierarchy.h">
+      <Filter>4_Windows\Hierarchy</Filter>
+    </ClInclude>
+    <ClInclude Include="Filter.h">
+      <Filter>4_Windows\Filter</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewScene.h">
+      <Filter>4_Windows\ViewScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +124,15 @@
     </Filter>
     <Filter Include="4_Windows\Inspector">
       <UniqueIdentifier>{e2440d48-cd8e-49a9-9556-3a5dbb9ed882}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Windows\Hierarchy">
+      <UniqueIdentifier>{6ae91111-abaf-4f4f-b15d-0f414182febf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Windows\Filter">
+      <UniqueIdentifier>{8792ef46-46a9-4baf-89e7-cc33fbf3c364}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Windows\ViewScene">
+      <UniqueIdentifier>{6623f742-824c-4f9a-a564-5adba5cb9421}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

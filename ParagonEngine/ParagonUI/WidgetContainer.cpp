@@ -12,3 +12,13 @@ std::vector<Pg::UI::IWidget*> Pg::UI::WidgetContainer::GetColumnWidgets()
 {
 	return _columnWidgets;
 }
+
+std::vector<Pg::UI::IWidget*> Pg::UI::WidgetContainer::GetCollapsWidgets()
+{
+	return _collapsWidgets;
+}
+
+void Pg::UI::WidgetContainer::ClearColumnWidget()
+{
+	_columnWidgets.clear();
+}

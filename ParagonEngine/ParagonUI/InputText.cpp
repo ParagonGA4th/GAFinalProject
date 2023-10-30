@@ -5,6 +5,7 @@ Pg::UI::Widget::InputText::InputText(std::string label, std::string& text)
 	: _label("##"), _text(text), _inputText()
 {
 	_label.append(label);
+	strcpy(_inputText, text.c_str());
 }
 
 void Pg::UI::Widget::InputText::Update()

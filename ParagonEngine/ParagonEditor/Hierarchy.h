@@ -7,18 +7,18 @@ namespace Pg::UI::Manager { class UIManager; }
 
 namespace Pg::Editor::Window
 {
-	class Inspector : public IEditorWindow
+	class Hierarchy : public IEditorWindow
 	{
 	public:
-		Inspector();
-		~Inspector();
+		Hierarchy();
+		~Hierarchy();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
 		virtual void Finalize() override;
 
 		virtual void SetShow(bool show) override;
-		virtual bool GetShow() override;	
+		virtual bool GetShow() override;
 
 	private:
 
@@ -32,14 +32,6 @@ namespace Pg::Editor::Window
 		Pg::UI::WidgetContainer* cons;
 
 		/// Data value
-		std::string _objName;
-		std::string _objTag;
-		bool _isObjActive;
-
-		float _position[3] = { 0.1f, 0.1f, 0.1f };
-		float _rotation[3] = { 0.1f, 0.1f, 0.1f };
-		float _scale[3] = { 0.1f, 0.1f, 0.1f };
 	};
 }
-
 

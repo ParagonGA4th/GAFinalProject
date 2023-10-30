@@ -2,6 +2,7 @@
 #include "EditorHelper.h"
 
 #include "Inspector.h"
+#include "Hierarchy.h"
 
 #include "../ParagonUI/UIManager.h"
 
@@ -20,7 +21,7 @@ Pg::Editor::Manager::EditorManager::EditorManager()
 	// Editor event
 	// Editor window
 	_inspector = std::make_unique<Pg::Editor::Window::Inspector>();
-
+	_hierarchy = std::make_unique<Pg::Editor::Window::Hierarchy>();
 }
 
 Pg::Editor::Manager::EditorManager::~EditorManager()
@@ -32,6 +33,7 @@ void Pg::Editor::Manager::EditorManager::Initialize(HWND hWnd)
 {
 	_uiManager->Initialize(static_cast<void*>(hWnd), _edHepler->GetDevice(), _edHepler->GetDeviceContext());
 	_inspector->Initialize();
+	_hierarchy->Initialize();
 }
 
 void Pg::Editor::Manager::EditorManager::Update()
@@ -42,6 +44,7 @@ void Pg::Editor::Manager::EditorManager::Update()
 	{
 		_uiManager->Update(_edHepler->GetTexture());
 		_inspector->Update();
+		_hierarchy->Update();
 	}
 }
 

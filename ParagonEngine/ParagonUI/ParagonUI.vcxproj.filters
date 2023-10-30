@@ -50,6 +50,21 @@
     <ClInclude Include="Column.h">
       <Filter>0_UI\1_Widget\Layout\Column</Filter>
     </ClInclude>
+    <ClInclude Include="CheckBox.h">
+      <Filter>0_UI\1_Widget\CheckBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Collaps.h">
+      <Filter>0_UI\1_Widget\Layout\Collaps</Filter>
+    </ClInclude>
+    <ClInclude Include="InputFloat3.h">
+      <Filter>0_UI\1_Widget\InputFloat</Filter>
+    </ClInclude>
+    <ClInclude Include="Selectable.h">
+      <Filter>0_UI\1_Widget\Selectable</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>0_UI\1_Widget\Image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Panel.cpp">
@@ -91,6 +106,21 @@
     <ClCompile Include="WidgetContainer.cpp">
       <Filter>0_UI\1_Widget\0_Container</Filter>
     </ClCompile>
+    <ClCompile Include="CheckBox.cpp">
+      <Filter>0_UI\1_Widget\CheckBox</Filter>
+    </ClCompile>
+    <ClCompile Include="Collaps.cpp">
+      <Filter>0_UI\1_Widget\Layout\Collaps</Filter>
+    </ClCompile>
+    <ClCompile Include="InputFloat3.cpp">
+      <Filter>0_UI\1_Widget\InputFloat</Filter>
+    </ClCompile>
+    <ClCompile Include="Selectable.cpp">
+      <Filter>0_UI\1_Widget\Selectable</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>0_UI\1_Widget\Image</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_UI">
@@ -128,6 +158,21 @@
     </Filter>
     <Filter Include="0_UI\1_Widget\Layout\Column">
       <UniqueIdentifier>{b238d2cb-4044-444e-96ba-e12a665b55bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\CheckBox">
+      <UniqueIdentifier>{a2478dac-1494-441a-b396-0e40ed93feec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Layout\Collaps">
+      <UniqueIdentifier>{cc1cce5b-5d80-4329-b6c6-c19a2d106775}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\InputFloat">
+      <UniqueIdentifier>{8d03de5d-22df-48ce-9dca-582187c04194}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Selectable">
+      <UniqueIdentifier>{2353fc5f-abee-4d60-9ba9-fbc1dbbe1163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Image">
+      <UniqueIdentifier>{19938d3d-b6ab-4d91-99c0-563f935032ae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
