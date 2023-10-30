@@ -1,7 +1,5 @@
 #pragma once
 #include "IWidget.h"
-#include "InputText.h"
-
 #include <vector>
 
 namespace Pg::UI
@@ -11,6 +9,7 @@ namespace Pg::UI
 	public:
 		void Update();
 		std::vector<Pg::UI::IWidget*> GetColumnWidgets();
+		std::vector<Pg::UI::IWidget*> GetCollapsWidgets();
 
 		template<typename T, typename ... Args>
 		T& CreateWidget(Args&&... args)
@@ -26,11 +25,22 @@ namespace Pg::UI
 			_columnWidgets.emplace_back(new T(args...));
 			T& ins = *reinterpret_cast<T*>(_columnWidgets.back());
 			return ins;
+		}		
+		
+		template<typename T, typename ... Args>
+		T& CreateCollapsWidget(Args&&... args)
+		{
+			_collapsWidgets.emplace_back(new T(args...));
+			T& ins = *reinterpret_cast<T*>(_collapsWidgets.back());
+			return ins;
 		}
+
+		void ClearColumnWidget();
 
 	private:
 		std::vector<Pg::UI::IWidget*> _widgets;
 		std::vector<Pg::UI::IWidget*> _columnWidgets;
+		std::vector<Pg::UI::IWidget*> _collapsWidgets;
 	};
 
 }
