@@ -181,6 +181,9 @@
     <ClInclude Include="TofuMesh.h">
       <Filter>5_Misc\Tofu</Filter>
     </ClInclude>
+    <ClInclude Include="TempBoneHelper.h">
+      <Filter>5_Misc\TempBoneHelper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -326,6 +329,9 @@
     </ClCompile>
     <ClCompile Include="RenderObjectSkinnedMesh3D.cpp">
       <Filter>4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D</Filter>
+    </ClCompile>
+    <ClCompile Include="TempBoneHelper.cpp">
+      <Filter>5_Misc\TempBoneHelper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -484,6 +490,9 @@
     </Filter>
     <Filter Include="5_Misc\Tofu">
       <UniqueIdentifier>{4f05be43-07d0-4c80-9c69-c0026b3458c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\TempBoneHelper">
+      <UniqueIdentifier>{39dae302-b568-4cad-99aa-494322f9d07c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

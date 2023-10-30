@@ -6,28 +6,6 @@
 
 namespace tofu
 {
-	//using math::int4;
-	//using math::float3;
-	//using math::float4;
-
-	//struct Vertex
-	//{
-	//	float3		position;
-	//	float3		normal;
-	//	float3		tangent;
-	//	float3		uv;
-	//};
-	//
-	//struct SkinnedVertex
-	//{
-	//	float3		position;
-	//	float3		normal;
-	//	float3		tangent;
-	//	float3		uv;
-	//	int4		bones;
-	//	float4		weights;
-	//};
-
 	struct Bone
 	{
 		float		matrix[12];

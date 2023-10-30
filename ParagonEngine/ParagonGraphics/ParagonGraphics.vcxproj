@@ -81,6 +81,7 @@
     <ClInclude Include="RenderUsageStruct2D.h" />
     <ClInclude Include="RenderUsageStruct3D.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="TempBoneHelper.h" />
     <ClInclude Include="TempCamera.h" />
     <ClInclude Include="TestCube.h" />
     <ClInclude Include="MaterialCluster.h" />
@@ -138,6 +139,7 @@
     <ClCompile Include="RenderUsageStruct2D.cpp" />
     <ClCompile Include="RenderUsageStruct3D.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="TempBoneHelper.cpp" />
     <ClCompile Include="TempCamera.cpp" />
     <ClCompile Include="TestCube.cpp" />
     <ClCompile Include="MaterialCluster.cpp" />
