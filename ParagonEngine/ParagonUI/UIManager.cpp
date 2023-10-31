@@ -44,20 +44,12 @@ void Pg::UI::Manager::UIManager::UIHandler(MSG message)
 	_imguiManager->ImguiHandler(message);                                             
 }
 
-Pg::UI::Panel* Pg::UI::Manager::UIManager::CreatePanel(std::string panelName)
+void Pg::UI::Manager::UIManager::WindowBegin(std::string winName)
 {
-	// 货肺款 panel(imgui俊辑绰 window) 积己
-	Panel* panel = new Panel(panelName);
-
-	// 积己等 panel阑 vector俊 push
-	if (_panels.empty()) _panels.emplace_back(panel);
-
-	return panel;
+	_imguiManager->Begin(winName);
 }
 
-bool Pg::UI::Manager::UIManager::DeletePanel()
+void Pg::UI::Manager::UIManager::WindowEnd()
 {
-	return true;
+	_imguiManager->End();
 }
-
-

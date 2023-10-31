@@ -1,17 +1,11 @@
 #include "EditorManager.h"
 #include "EditorHelper.h"
+
+#include "Inspector.h"
+
 #include "../ParagonUI/UIManager.h"
 
 #include <singleton-cpp/singleton.h>
-#include <string>
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUI.lib")
-#else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUI.lib")
-#endif // _DEBUG
-
-
 
 Pg::Editor::Manager::EditorManager::EditorManager()
 	:_editorOnOff(false)
@@ -25,6 +19,8 @@ Pg::Editor::Manager::EditorManager::EditorManager()
 
 	// Editor event
 	// Editor window
+	_inspector = std::make_unique<Pg::Editor::Window::Inspector>();
+
 }
 
 Pg::Editor::Manager::EditorManager::~EditorManager()
@@ -35,13 +31,18 @@ Pg::Editor::Manager::EditorManager::~EditorManager()
 void Pg::Editor::Manager::EditorManager::Initialize(HWND hWnd)
 {
 	_uiManager->Initialize(static_cast<void*>(hWnd), _edHepler->GetDevice(), _edHepler->GetDeviceContext());
+	_inspector->Initialize();
 }
 
 void Pg::Editor::Manager::EditorManager::Update()
 {
 	if (_edHepler->GetEditorOnOff()) _editorOnOff = !_editorOnOff;
 
-	if(_editorOnOff) _uiManager->Update(_edHepler->GetTexture());
+	if (_editorOnOff)
+	{
+		_uiManager->Update(_edHepler->GetTexture());
+		_inspector->Update();
+	}
 }
 
 void Pg::Editor::Manager::EditorManager::LastUpdate()
