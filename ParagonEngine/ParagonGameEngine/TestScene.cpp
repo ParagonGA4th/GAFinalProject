@@ -46,7 +46,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_1->GetComponent<Transform>()->SetPosition({ 3.0f, 0.0f, 0.0f });
 	tObj2_1->AddComponent<StaticMeshRenderer>();
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	//tObj2_1->AddComponent<MoveForwardBack>();
+	tObj2_1->AddComponent<MoveForwardBack>();
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Cube4");
 	tObj2_2->GetComponent<Transform>()->SetPosition({ -3.0f, 0.0f, 0.0f });

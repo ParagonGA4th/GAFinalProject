@@ -1,9 +1,11 @@
 #include "BoxCollider.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/Transform.h"
 
-namespace Pg::Engine
+namespace Pg::Data
 {
 	BoxCollider::BoxCollider(Pg::Data::GameObject* owner) :
+		DynamicCollider(owner),
 		_width(1.0f),
 		_height(1.0f),
 		_depth(1.0f)
@@ -16,19 +18,23 @@ namespace Pg::Engine
 
 	}
 
-	float BoxCollider::GetWidth() const
+	void BoxCollider::SetScale(float w, float h, float d)
 	{
-		return _width;
+
+	}
+
+	float BoxCollider::GetWidth() const
+	{ 
+		return _width * _scaleOffset.x * _object->_transform.GetScale().x;
 	}
 
 	float BoxCollider::GetHeight() const
 	{
-		return _height;
+		return _height * _scaleOffset.y * _object->_transform.GetScale().y;
 	}
 
 	float BoxCollider::GetDepth() const
 	{
-		return _depth;
+		return _depth * _scaleOffset.z * _object->_transform.GetScale().z;
 	}
-
 }

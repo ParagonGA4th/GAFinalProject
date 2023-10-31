@@ -1,5 +1,5 @@
 #pragma once
-
+#include "DynamicCollider.h"
 
 /// <summary>
 /// 변지상의 BoxCollider
@@ -12,18 +12,20 @@ namespace Pg::Data
 	class GameObject;
 }
 
-namespace Pg::Engine
+namespace Pg::Data
 {
-	class BoxCollider
+	class BoxCollider : public DynamicCollider
 	{
 	public:
-		BoxCollider(Pg::Data::GameObject* owner);
+		BoxCollider(GameObject* owner);
 
 		void Update();
 
 		float GetWidth() const;
 		float GetHeight() const;
 		float GetDepth() const;
+
+		void SetScale(float w, float h, float d);
 
 	private:
 		float _width;

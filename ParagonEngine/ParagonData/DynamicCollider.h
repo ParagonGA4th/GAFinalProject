@@ -9,6 +9,16 @@
 
 namespace Pg::Data
 {
+	enum class ForceMode : int
+	{
+		FORCE,
+		IMPULSE,
+		ACCELERATION
+	};
+}
+
+namespace Pg::Data
+{
 	class GameObject;
 }
 
@@ -25,6 +35,16 @@ namespace Pg::Data
 		DynamicCollider(GameObject* owner);
 
 	public:
+
+		//충돌판정 여부 체크
+		bool SetIsCollided();
+		bool GetIsCollided();
+
+	public:
+		void AddForce(PGFLOAT3 dir, ForceMode mode);
+
+	public:
+
 		//Collider 클래스에 적용되어있기에 가상함수로...
 		virtual float GetWidth() const abstract;
 		virtual float GetHeight() const abstract;
@@ -32,6 +52,8 @@ namespace Pg::Data
 
 	private:
 		physx::PxRigidDynamic* _rigid;
+
+		bool _isCollided;
 	};
 }
 
