@@ -56,19 +56,16 @@
       <Filter>2_Component\Collider\BaseClass</Filter>
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
-      <Filter>2_Component\Collider\BoxCollider</Filter>
+      <Filter>2_Component\Collider\DynamicCollider\BoxCollider</Filter>
     </ClCompile>
     <ClCompile Include="CapsuleCollider.cpp">
-      <Filter>2_Component\Collider\CapsuleCollider</Filter>
+      <Filter>2_Component\Collider\DynamicCollider\CapsuleCollider</Filter>
     </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
-      <Filter>2_Component\Collider\SphereCollider</Filter>
+      <Filter>2_Component\Collider\DynamicCollider\SphereCollider</Filter>
     </ClCompile>
     <ClCompile Include="Serializer.cpp">
       <Filter>9_DataSerializer</Filter>
-    </ClCompile>
-    <ClCompile Include="DynamicCollider.cpp">
-      <Filter>2_Component\Collider\DynamicCollider</Filter>
     </ClCompile>
     <ClCompile Include="TextRenderer.cpp">
       <Filter>2_Component\Renderer\2D\TextRenderer</Filter>
@@ -87,6 +84,15 @@
     </ClCompile>
     <ClCompile Include="ResourceQueue.cpp">
       <Filter>6_DataChangeList\ResourceQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicCollider.cpp">
+      <Filter>2_Component\Collider\DynamicCollider\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticCollider.cpp">
+      <Filter>2_Component\Collider\StaticCollider\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticBoxCollider.cpp">
+      <Filter>2_Component\Collider\StaticCollider\BoxCollider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,13 +181,13 @@
       <Filter>4_Structs</Filter>
     </ClInclude>
     <ClInclude Include="BoxCollider.h">
-      <Filter>2_Component\Collider\BoxCollider</Filter>
+      <Filter>2_Component\Collider\DynamicCollider\BoxCollider</Filter>
     </ClInclude>
     <ClInclude Include="CapsuleCollider.h">
-      <Filter>2_Component\Collider\CapsuleCollider</Filter>
+      <Filter>2_Component\Collider\DynamicCollider\CapsuleCollider</Filter>
     </ClInclude>
     <ClInclude Include="SphereCollider.h">
-      <Filter>2_Component\Collider\SphereCollider</Filter>
+      <Filter>2_Component\Collider\DynamicCollider\SphereCollider</Filter>
     </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>2_Component\Collider\BaseClass</Filter>
@@ -191,9 +197,6 @@
     </ClInclude>
     <ClInclude Include="ISerializable.h">
       <Filter>9_DataSerializer</Filter>
-    </ClInclude>
-    <ClInclude Include="DynamicCollider.h">
-      <Filter>2_Component\Collider\DynamicCollider</Filter>
     </ClInclude>
     <ClInclude Include="IRenderObject.h">
       <Filter>2_Component\Renderer\Interface</Filter>
@@ -215,6 +218,15 @@
     </ClInclude>
     <ClInclude Include="ResourceQueue.h">
       <Filter>6_DataChangeList\ResourceQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicCollider.h">
+      <Filter>2_Component\Collider\DynamicCollider\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticCollider.h">
+      <Filter>2_Component\Collider\StaticCollider\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticBoxCollider.h">
+      <Filter>2_Component\Collider\StaticCollider\BoxCollider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -281,15 +293,6 @@
     <Filter Include="2_Component\Collider\BaseClass">
       <UniqueIdentifier>{da968cf0-ea1d-49cf-bb46-0f0469308f43}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Component\Collider\BoxCollider">
-      <UniqueIdentifier>{65cd6fac-dea3-4df8-96e3-e40208df9e12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Collider\CapsuleCollider">
-      <UniqueIdentifier>{d0f0cb7a-d7a9-4ea9-bc7b-a551e630b35f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Collider\SphereCollider">
-      <UniqueIdentifier>{209bfa5b-6385-49ed-b021-6c8efd240396}</UniqueIdentifier>
-    </Filter>
     <Filter Include="9_DataSerializer">
       <UniqueIdentifier>{8e85e9fd-441e-4718-bc5c-cdaf85bf2be4}</UniqueIdentifier>
     </Filter>
@@ -316,6 +319,27 @@
     </Filter>
     <Filter Include="6_DataChangeList\ResourceQueue">
       <UniqueIdentifier>{821c629c-71f3-45f1-aa90-034383729b81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\DynamicCollider\BaseClass">
+      <UniqueIdentifier>{1addae72-f26e-4dca-a9c3-cff00f7ea7c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\DynamicCollider\BoxCollider">
+      <UniqueIdentifier>{65cd6fac-dea3-4df8-96e3-e40208df9e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\DynamicCollider\CapsuleCollider">
+      <UniqueIdentifier>{d0f0cb7a-d7a9-4ea9-bc7b-a551e630b35f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\DynamicCollider\SphereCollider">
+      <UniqueIdentifier>{209bfa5b-6385-49ed-b021-6c8efd240396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\StaticCollider">
+      <UniqueIdentifier>{50ebdce7-0ca3-4c8c-a882-148ef1c683e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\StaticCollider\BaseClass">
+      <UniqueIdentifier>{f53ca70a-f2f8-4087-97db-e1edfcdd8a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\StaticCollider\BoxCollider">
+      <UniqueIdentifier>{94c65e16-27ab-47cb-a5c4-f6cd9d8856cc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

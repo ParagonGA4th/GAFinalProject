@@ -141,7 +141,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>singleton.lib;ParagonMath.lib</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonMath.lib;</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -165,7 +165,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>singleton.lib;ParagonMath.lib</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonMath.lib;</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -211,6 +211,8 @@
     <ClInclude Include="SoundData.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="SpotLight.h" />
+    <ClInclude Include="StaticBoxCollider.h" />
+    <ClInclude Include="StaticCollider.h" />
     <ClInclude Include="StaticMeshRenderer.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Transform.h" />
@@ -242,6 +244,8 @@
     <ClCompile Include="Serializer.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="SpotLight.cpp" />
+    <ClCompile Include="StaticBoxCollider.cpp" />
+    <ClCompile Include="StaticCollider.cpp" />
     <ClCompile Include="StaticMeshRenderer.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Transform.cpp" />
