@@ -31,6 +31,13 @@ namespace Assimp
 	class Importer;
 }
 
+namespace Pg::API
+{
+	namespace Input
+	{
+		class PgInput;
+	}
+}
 namespace Pg::Data
 {
 	struct CameraData;
@@ -51,8 +58,7 @@ namespace Pg::Graphics
 		MultimaterialMesh(const std::string& filePath);
 		~MultimaterialMesh();
 
-		//Skinned Mesh Rendering.
-		void RenderScene(Pg::Data::CameraData* camData);
+		void Render(Pg::Data::CameraData* camData);
 	private:
 		void CreateSamplerState();
 		void CreateVertexPixelShader();
@@ -62,7 +68,11 @@ namespace Pg::Graphics
 
 		//기존 프레임워크에 의존하지 않는 방식. 
 		void ImportSkinnedAsset(const std::string& filePath);
-		
+				
+		//해당 FBX에서는 Animation들이 이미 들어 있다. 그걸 활용해 출력하고자 한다.
+
+		//Skinned Mesh Rendering.
+		void RenderScene(Pg::Data::CameraData* camData);
 
 	private:
 		//Assimp / Parsing 직접 처리와 관련된 함수들. (TofuModelViewer)
@@ -109,6 +119,22 @@ namespace Pg::Graphics
 		std::vector<RenderUsageVertexBone> _vertexBoneVector;
 		std::vector<RenderUsageMesh> _meshEntriesVector;
 		std::vector<RenderUsageBoneInfo> _renderBoneInfoVector;
+
+		//Animation UpdateBuffer.
+		std::vector<DirectX::XMMATRIX> _boneTransformVector;
+
+	private:
+		void BoneTransformUpdate();
+
+		void ReadNodeHierarchy(double animTick, const aiNode* pNode, const aiAnimation* pAnim, DirectX::XMFLOAT4X4 parentTransform);
+		void CalcInterpolatedRotation(DirectX::XMFLOAT4& xmQuat, double animTick, const aiNodeAnim* pNodeAnim);
+		void CalcInterpolatedTranslation(DirectX::XMFLOAT3& xmTrans, double animTick, const aiNodeAnim* pNodeAnim);
+
+		unsigned int FindRotation(double animTick, const aiNodeAnim* pNodeAnim);
+		unsigned int FindTranslation(double animTick, const aiNodeAnim* pNodeAnim);
+
+	private:
+		Pg::API::Input::PgInput* _tempInput;
 	private:
 		//Boss_Test_NonDeform_MultiMat.fbx를 렌더하기 위해서, 개별적으로 SRV들 마련. (임베딩X, 작동을 보려고)
 		std::array< ID3D11ShaderResourceView*, 3> _tempSRVArray;

@@ -47,7 +47,7 @@ namespace Pg::Graphics::Loader
 
 			modelData->_assetSceneData->m_Directory = path;
 			Helper::Asset3DModelHelper::ProcessAssimpToAssetData(pScene, modelData);
-			Helper::Asset3DModelHelper::FinalizeDataHelper();
+ 			Helper::Asset3DModelHelper::FinalizeDataHelper();
 
 			//이 상황에서 AssetSceneData는 로딩된 것이다.
 			//Material이 있을 시, 이를 로드한다.

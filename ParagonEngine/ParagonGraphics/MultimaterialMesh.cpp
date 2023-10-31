@@ -10,6 +10,8 @@
 #include "../ParagonData/AssetDefines.h"
 #include "../ParagonData/CameraData.h"
 
+#include "../ParagonAPI/PgInput.h"
+
 #include <dxtk/DDSTextureLoader.h>
 #include <dxtk/WICTextureLoader.h>
 
@@ -17,9 +19,15 @@
 #include <assimp/Importer.hpp>     
 #include <assimp/scene.h>          
 #include <assimp/postprocess.h> 
+#include <singleton-cpp/singleton.h> 
 #include <cassert> 
+#include <algorithm> 
 
-
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
+#endif // _DEBUG
 
 namespace Pg::Graphics
 {
@@ -36,6 +44,9 @@ namespace Pg::Graphics
 		//Device / DevCon 받아오기.
 		_device = LowDX11Storage::GetInstance()->_device;
 		_devCon = LowDX11Storage::GetInstance()->_deviceContext;
+
+		auto& tTempInput = singleton<Pg::API::Input::PgInput>();
+		_tempInput = &tTempInput;
 
 		CreateVertexPixelShader();
 		CreateSamplerState();
@@ -169,9 +180,9 @@ namespace Pg::Graphics
 			aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_GenBoundingBoxes |
 			aiProcess_CalcTangentSpace | aiProcess_PopulateArmatureData |
 			aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_FixInfacingNormals | aiProcess_EmbedTextures | aiProcess_LimitBoneWeights);
-		
+
 		assert(scene != nullptr);
-		
+
 		for (uint32_t i = 0; i < scene->mNumMeshes; i++)
 		{
 			aiMesh* m = scene->mMeshes[i];
@@ -181,9 +192,13 @@ namespace Pg::Graphics
 
 		if (numVertices == 0) return;
 
+		//셰이더에 넣을 버퍼 처리를 위해서 Vector Resize.
+		_boneTransformVector.resize(100);
+		std::fill(_boneTransformVector.begin(), _boneTransformVector.end(), DirectX::XMMatrixIdentity());
+
 		//Skinned Data를 위해서 구조체 처리.
 
-		SetupBoneData(_vertexBoneVector,scene, numVertices);
+		SetupBoneData(_vertexBoneVector, scene, numVertices);
 
 		//지금까지 Bone Index/Weight Binding을 위해, 인덱스 카운팅 도입.
 		UINT tTotalElapsedVertexCount = 0;
@@ -206,18 +221,9 @@ namespace Pg::Graphics
 				vertices[vid + j].posL = DirectX::XMFLOAT3{ pos.x, pos.y, pos.z };
 				vertices[vid + j].normalL = DirectX::XMFLOAT3{ norm.x, norm.y, norm.z };
 				vertices[vid + j].tangentL = DirectX::XMFLOAT3{ tan.x, tan.y, tan.z };
-				vertices[vid + j].color = DirectX::XMFLOAT4{1.0f,1.0f, 1.0f, 1.0f };
+				vertices[vid + j].color = DirectX::XMFLOAT4{ 1.0f,1.0f, 1.0f, 1.0f };
 				vertices[vid + j].tex = DirectX::XMFLOAT3{ uv.x, uv.y, uv.z };
 				vertices[vid + j].matID = m->mMaterialIndex;
-
-				//vertices[vid + j].blendIndice0 = 0;
-				//vertices[vid + j].blendIndice1 = 0;
-				//vertices[vid + j].blendIndice2 = 0;
-				//vertices[vid + j].blendIndice3 = 0;
-				//
-				//vertices[vid + j].blendWeight0 = 0.0f;
-				//vertices[vid + j].blendWeight1 = 0.0f;
-				//vertices[vid + j].blendWeight2 = 0.0f;
 
 				vertices[vid + j].blendIndice0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0];
 				vertices[vid + j].blendIndice1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1];
@@ -246,9 +252,6 @@ namespace Pg::Graphics
 			vid += m->mNumVertices;
 			iid += m->mNumFaces * 3;
 		}
-
-	
-		
 
 		do
 		{
@@ -324,7 +327,7 @@ namespace Pg::Graphics
 
 		DirectX::XMFLOAT4X4 tWorldMatScaledFF;
 		DirectX::XMStoreFloat4x4(&tWorldMatScaledFF, tWorldMatScaled);
-		
+
 		//그런가..? 확실한 것은, 들어갈 때는 올바르게 (DX 기준) 행렬이 매개변수로 들어가는 것을 전제로 하고 있다. 
 		//다시 생각해봐라! Transpose 여부.
 
@@ -347,7 +350,7 @@ namespace Pg::Graphics
 
 		//원본 데이터에 영향을 안 주는 선에서 복사한 데이터에서 전치해서 행렬을 보관한다(Assimp는 Column-Major);
 		tNodeTransform = DirectX::XMMatrixTranspose(tNodeTransform);
-			
+
 		DirectX::XMMATRIX tCurrent = DirectX::XMMatrixMultiply(tParentTranform, tNodeTransform);
 		DirectX::XMFLOAT4X4 tCurrentFF;
 		DirectX::XMStoreFloat4x4(&tCurrentFF, tCurrent);
@@ -469,7 +472,7 @@ namespace Pg::Graphics
 				RenderUsageBoneInfo tBi;
 				_renderBoneInfoVector.push_back(tBi);
 			}
-			else 
+			else
 			{
 				// Bone ID is already in map. 
 				BoneIndex = _mappedBones[BoneName];
@@ -487,8 +490,8 @@ namespace Pg::Graphics
 			_renderBoneInfoVector[BoneIndex].BoneOffset = tXMOffsetMat;
 
 			// Iterate over all the affected vertices by this bone i.e weights. 
-			for (unsigned int j = 0; j < mesh->mBones[i]->mNumWeights; j++) {
-
+			for (unsigned int j = 0; j < mesh->mBones[i]->mNumWeights; j++)
+			{
 				// Obtain an index to the affected vertex within the array of vertices.
 				unsigned int VertexID = _meshEntriesVector[index].BaseVertex + mesh->mBones[i]->mWeights[j].mVertexId;
 
@@ -500,6 +503,262 @@ namespace Pg::Graphics
 			}
 		}
 		assert(mesh);
+	}
+
+	void MultimaterialMesh::Render(Pg::Data::CameraData* camData)
+	{
+		//그냥 모두 다 Looping 하게 재생!
+		BoneTransformUpdate();
+		RenderScene(camData);
+	}
+
+	void MultimaterialMesh::BoneTransformUpdate()
+	{
+		//처음에 아무것도 없으면 아예 출력이 되지 않으니, T-Pose Animation을 기본으로 잡고 코드를 짜야 한다.
+
+		//현재 3DModel은 3개인 상태 : 0 / 1 / 2 중 2가 T-Pose.
+		static short tChoice = 0;
+
+		if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveBack))
+		{
+			tChoice = 0;
+		}
+		else if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveLeft))
+		{
+			tChoice = 1;
+		}
+		else if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveRight))
+		{
+			tChoice = 2;
+		}
+
+		aiAnimation* tAnim = nullptr;
+		tAnim = scene->mAnimations[tChoice];
+
+		//절대로 일단은 정해져 있는 Tick 수 넘어가지 않게 -> 나머지 연산을 할것. 
+		static double tPlayTickDur = 0;
+		tPlayTickDur += 0.1;
+		double tInwardTick = fmod(tPlayTickDur, tAnim->mDuration);
+		assert(tInwardTick < tAnim->mDuration);
+
+		DirectX::XMFLOAT4X4 tDefaultMat = { 1.0f,0.0f,0.0f,0.0f, 0.0f,1.0f,0.0f,0.0f, 0.0f,0.0f,1.0f,0.0f, 0.0f,0.0f,0.0f,1.0f };
+		ReadNodeHierarchy(tInwardTick, scene->mRootNode, tAnim, tDefaultMat);
+
+		assert(_formationNumBone < 100);
+		// Populates transforms vector with new bone transformation matrices. 
+		for (unsigned int i = 0; i < _formationNumBone; i++)
+		{
+			_boneTransformVector[i] = DirectX::XMLoadFloat4x4(&_renderBoneInfoVector[i].FinalTransformation);
+		}
+	}
+
+	void MultimaterialMesh::ReadNodeHierarchy(double animTick, const aiNode* pNode, const aiAnimation* pAnim, DirectX::XMFLOAT4X4 parentTransform)
+	{
+		//using Matrix = DirectX::XMMATRIX;
+		//using Quaternion = DirectX::XMFLOAT4;
+		//DX 쿼터니언 : X,Y,Z (벡터), W(스칼라)
+		// XMFLOAT4 / XMVECTOR
+
+		// Obtain the name of the current node 
+		std::string NodeName(pNode->mName.C_Str());
+
+		// Use the first animation 
+		const aiAnimation* pAnimation = pAnim;
+
+		// Obtain transformation relative to node's parent. 
+		aiMatrix4x4 tAiTrans = pNode->mTransformation;
+		tAiTrans = tAiTrans.Transpose();
+		DirectX::XMFLOAT4X4 NodeTransformation;
+		std::memcpy(&NodeTransformation, &tAiTrans, sizeof(DirectX::XMFLOAT4X4));
+
+		const aiNodeAnim* pNodeAnim = nullptr;
+
+		// Find the animation channel of the current node. -> 나중에 미리 매핑해놓을 수 있음!
+		//다만, Animation에 해당되지 않는 Node들은 일단 이 로직이 없으면 실행되지 않을 것이다! 이는 염두.
+
+		for (unsigned i = 0; i < pAnimation->mNumChannels; i++)
+		{
+			const aiNodeAnim* pNodeAnimIndex = pAnimation->mChannels[i];
+			std::string tNodeAnimName(pNodeAnimIndex->mNodeName.C_Str());
+
+			// If there is a match for a channel with the current node's name, then we've found the animation channel. 
+			if (tNodeAnimName.compare(NodeName) == 0)
+			{
+				pNodeAnim = pNodeAnimIndex;
+			}
+		}
+
+		if (pNodeAnim)
+		{
+			// Interpolate rotation and generate rotation transformation matrix
+			DirectX::XMFLOAT4 RotationQ;
+			//CalcInterpolatedRotation(RotationQ, animationTime, pNodeAnim);
+			CalcInterpolatedRotation(RotationQ, animTick, pNodeAnim);
+
+			DirectX::XMVECTOR RotationQVec = DirectX::XMLoadFloat4(&RotationQ);
+			DirectX::XMMATRIX RotationM = DirectX::XMMatrixRotationQuaternion(RotationQVec);
+
+			// Interpolate translation and generate translation transformation matrix
+			DirectX::XMFLOAT3 Translation;
+			CalcInterpolatedTranslation(Translation, animTick, pNodeAnim);
+
+			DirectX::XMMATRIX TranslationM;
+			TranslationM = DirectX::XMMatrixTranslation(Translation.x, Translation.y, Translation.z);
+
+			DirectX::XMMATRIX tCombinedTrans = DirectX::XMMatrixMultiply(RotationM, TranslationM);
+			// Combine the above transformations
+			DirectX::XMStoreFloat4x4(&NodeTransformation, tCombinedTrans);
+		}
+		DirectX::XMMATRIX nodeTransformationMat = DirectX::XMLoadFloat4x4(&NodeTransformation);
+		DirectX::XMMATRIX parentTransformMat = DirectX::XMLoadFloat4x4(&parentTransform);
+
+		DirectX::XMMATRIX GlobalTransformation = DirectX::XMMatrixMultiply(nodeTransformationMat, parentTransformMat);
+		DirectX::XMFLOAT4X4 GlobalTransformationFF;
+		DirectX::XMStoreFloat4x4(&GlobalTransformationFF, GlobalTransformation);
+
+		// Apply the final transformation to the indexed bone in the array. 
+		if (_mappedBones.find(NodeName) != _mappedBones.end())
+		{
+			unsigned int BoneIndex = _mappedBones[NodeName];
+
+			//현재로서는 매 프레임 역행렬을 구한다.
+			aiMatrix4x4 tAiRootTrans = scene->mRootNode->mTransformation;
+			tAiRootTrans = tAiRootTrans.Transpose();
+			DirectX::XMFLOAT4X4 tRootTrans;
+			std::memcpy(&tRootTrans, &tAiRootTrans, sizeof(DirectX::XMFLOAT4X4));
+
+			//위에 있는 변수와 잘 구별해야 한다!
+			DirectX::XMMATRIX tGlobalTrans = DirectX::XMLoadFloat4x4(&tRootTrans);
+			DirectX::XMVECTOR tDet = DirectX::XMVectorZero();
+			DirectX::XMMATRIX tGlobalInverseTransform = DirectX::XMMatrixInverse(&tDet, tGlobalTrans);
+
+			DirectX::XMMATRIX tBoneOffsetMat = DirectX::XMLoadFloat4x4(&(_renderBoneInfoVector[BoneIndex].BoneOffset));
+			//1차 망가지기 전 Answer.
+			DirectX::XMMATRIX tFinalTrans = DirectX::XMMatrixMultiply(DirectX::XMMatrixMultiply(tBoneOffsetMat, GlobalTransformation), tGlobalInverseTransform);
+			DirectX::XMStoreFloat4x4(&(_renderBoneInfoVector[BoneIndex].FinalTransformation), tFinalTrans);
+		}
+
+		// Do the same for all the node's children. 
+		for (unsigned i = 0; i < pNode->mNumChildren; i++)
+		{
+			ReadNodeHierarchy(animTick, pNode->mChildren[i], pAnim, GlobalTransformationFF);
+		}
+	}
+
+	void MultimaterialMesh::CalcInterpolatedRotation(DirectX::XMFLOAT4& xmQuat, double animTick, const aiNodeAnim* pNodeAnim)
+	{
+		//using Matrix = DirectX::SimpleMath::Matrix;
+		//using Quaternion = DirectX::SimpleMath::Quaternion;
+
+		// we need at least two values to interpolate...
+		if (pNodeAnim->mNumRotationKeys == 1)
+		{
+			//aiQuaternion은 wxyz 순서.
+			aiQuaternion tQuat = pNodeAnim->mRotationKeys[0].mValue;
+			xmQuat = { tQuat.x,tQuat.y,tQuat.z,tQuat.w };
+			return;
+		}
+		// Obtain the current rotation keyframe. 
+		unsigned int RotationIndex = FindRotation(animTick, pNodeAnim);
+
+		// Calculate the next rotation keyframe and check bounds. 
+		unsigned int NextRotationIndex = (RotationIndex + 1);
+		assert(NextRotationIndex < pNodeAnim->mNumRotationKeys);
+
+		// Calculate delta time, i.e time between the two keyframes.
+		float DeltaTime = pNodeAnim->mRotationKeys[NextRotationIndex].mTime - pNodeAnim->mRotationKeys[RotationIndex].mTime;
+
+		// Calculate the elapsed time within the delta time.  
+		float Factor = (animTick - (float)pNodeAnim->mRotationKeys[RotationIndex].mTime) / DeltaTime;
+		//assert(Factor >= 0.0f && Factor <= 1.0f);
+
+		// Obtain the quaternions values for the current and next keyframe. 
+		aiQuaternion tAiStartRotationQ = pNodeAnim->mRotationKeys[RotationIndex].mValue;
+		aiQuaternion tAiEndRotationQ = pNodeAnim->mRotationKeys[NextRotationIndex].mValue;
+
+		DirectX::XMFLOAT4 StartRotationQ = { tAiStartRotationQ.x,tAiStartRotationQ.y,tAiStartRotationQ.z,tAiStartRotationQ.w };
+		DirectX::XMFLOAT4 EndRotationQ = { tAiEndRotationQ.x,tAiEndRotationQ.y,tAiEndRotationQ.z,tAiEndRotationQ.w };
+
+		DirectX::XMVECTOR StartRotationQVec = DirectX::XMLoadFloat4(&StartRotationQ);
+		DirectX::XMVECTOR EndRotationQVec = DirectX::XMLoadFloat4(&EndRotationQ);
+
+		// Interpolate between them using the Factor. 
+		DirectX::XMVECTOR tXMQuatVec = DirectX::XMQuaternionSlerp(StartRotationQVec, EndRotationQVec, Factor);
+		// Normalise and set the reference. 
+		tXMQuatVec = DirectX::XMQuaternionNormalize(tXMQuatVec);
+
+		DirectX::XMStoreFloat4(&xmQuat, tXMQuatVec);
+	}
+
+	void MultimaterialMesh::CalcInterpolatedTranslation(DirectX::XMFLOAT3& xmTrans, double animTick, const aiNodeAnim* pNodeAnim)
+	{
+		// we need at least two values to interpolate...
+		if (pNodeAnim->mNumPositionKeys == 1)
+		{
+			aiVector3D tVal = pNodeAnim->mPositionKeys[0].mValue;
+			xmTrans = {tVal.x, tVal.y, tVal.z};
+			return;
+		}
+
+		unsigned int PositionIndex = FindTranslation(animTick, pNodeAnim);
+		unsigned int NextPositionIndex = (PositionIndex + 1);
+		assert(NextPositionIndex < pNodeAnim->mNumPositionKeys);
+
+		float DeltaTime = pNodeAnim->mPositionKeys[NextPositionIndex].mTime - pNodeAnim->mPositionKeys[PositionIndex].mTime;
+		float Factor = (animTick - (float)pNodeAnim->mPositionKeys[PositionIndex].mTime) / DeltaTime;
+		//assert(Factor >= 0.0f && Factor <= 1.0f);
+
+		auto tStartVal = pNodeAnim->mPositionKeys[PositionIndex].mValue;
+		auto tEndVal = pNodeAnim->mPositionKeys[NextPositionIndex].mValue;
+
+		DirectX::XMFLOAT3 Start = { tStartVal.x,tStartVal.y,tStartVal.z };
+		DirectX::XMFLOAT3 End = { tEndVal.x,tEndVal.y,tEndVal.z };
+
+		DirectX::XMVECTOR StartVec = DirectX::XMLoadFloat3(&Start);
+		DirectX::XMVECTOR EndVec = DirectX::XMLoadFloat3(&End);
+
+		DirectX::XMVECTOR DeltaVec = DirectX::XMVectorSubtract(EndVec, StartVec);
+		
+		using namespace DirectX;
+		DirectX::XMVECTOR OutVec = StartVec + (Factor * DeltaVec);
+		DirectX::XMStoreFloat3(&xmTrans, OutVec);
+	}
+
+	unsigned int MultimaterialMesh::FindRotation(double animTick, const aiNodeAnim* pNodeAnim)
+	{
+		// Check if there are rotation keyframes. 
+		assert(pNodeAnim->mNumRotationKeys > 0);
+
+		// Find the rotation key just before the current animation time and return the index. 
+		for (unsigned int i = 0; i < pNodeAnim->mNumRotationKeys - 1; i++) 
+		{ 
+			//FIX.
+			if (animTick < (float)pNodeAnim->mRotationKeys[i + 1].mTime) 
+			{
+				return i;
+			}
+		}
+		assert(0);
+
+		return 0;
+	}
+
+	unsigned int MultimaterialMesh::FindTranslation(double animTick, const aiNodeAnim* pNodeAnim)
+	{
+		assert(pNodeAnim->mNumPositionKeys > 0);
+
+		// Find the translation key just before the current animation time and return the index. 
+		for (unsigned int i = 0; i < pNodeAnim->mNumPositionKeys - 1; i++) 
+		{ 
+			//FIX.
+			if (animTick < (float)pNodeAnim->mPositionKeys[i + 1].mTime) 
+			{
+				return i;
+			}
+		}
+		assert(0);
+
+		return 0;
 	}
 
 }

@@ -171,7 +171,7 @@ namespace Pg::Graphics
 		//BasicRendersDraw();
 
 		//MultiMaterial Mesh 테스팅. 현재로서는 먼저 호출되어야 Mesh가 깨지지 않음!
-		_tempMultiMesh->RenderScene(_camData);
+		_tempMultiMesh->Render(_camData);
 
 		_renderer->Render(_camData);
 	}
