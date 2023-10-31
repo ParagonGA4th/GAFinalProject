@@ -355,6 +355,7 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT4X4 tCurrentFF;
 		DirectX::XMStoreFloat4x4(&tCurrentFF, tCurrent);
 
+		//이거 필요 없을 수도!
 		if (node->mNumMeshes > 0)
 		{
 			D3D11_MAPPED_SUBRESOURCE res;

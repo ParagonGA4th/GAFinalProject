@@ -25,6 +25,7 @@ struct aiNode;
 struct aiMesh;
 struct aiScene;
 struct aiAnimation;
+struct aiNodeAnim;
 
 namespace Assimp
 {
