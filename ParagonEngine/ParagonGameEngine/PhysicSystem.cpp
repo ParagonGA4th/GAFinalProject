@@ -1,9 +1,10 @@
 #include "PhysicSystem.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/Collider.h"
+#include "../ParagonData/BoxCollider.h"
+#include "../ParagonData/DynamicCollider.h"
 #include "../ParagonUtil/Log.h"
-
-
 
 namespace Pg::Engine::Physic
 {
@@ -18,7 +19,7 @@ namespace Pg::Engine::Physic
 
 		// visual debugger 세팅, 로컬에 연결
 		_pvd = PxCreatePvd(*_foundation);
-		physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("192.168.30.5", 5425, 10);
+		physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("172.16.1.161", 5425, 10);
 		_pvd->connect(*transport, physx::PxPvdInstrumentationFlag::eDEBUG);
 
 		_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, _pvd);
@@ -121,6 +122,11 @@ namespace Pg::Engine::Physic
 			}
 		}
 		shape->release();
+	}
+
+	void PhysicSystem::MakeDynamicBoxCollider(Pg::Data::GameObject* obj)
+	{
+
 	}
 
 }

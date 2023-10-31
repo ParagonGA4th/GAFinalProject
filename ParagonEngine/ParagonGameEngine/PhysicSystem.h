@@ -34,6 +34,9 @@ namespace Pg::Engine::Physic
 		void CreateStack(const physx::PxTransform& t, physx::PxU32 size, physx::PxReal halfExtent);
 
 	public:
+		void MakeDynamicBoxCollider(Pg::Data::GameObject* obj);
+
+	public:
 
 
 	private:
