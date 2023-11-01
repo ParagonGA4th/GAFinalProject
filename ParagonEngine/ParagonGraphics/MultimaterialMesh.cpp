@@ -352,7 +352,8 @@ namespace Pg::Graphics
 		//0.01 스케일링 적용.
 		//DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
 		//이 모델이 되따 크다.
-		DirectX::XMFLOAT3 tScale = { 0.0001f, 0.0001f, 0.0001f };
+		//DirectX::XMFLOAT3 tScale = { 0.0001f, 0.0001f, 0.0001f };
+		DirectX::XMFLOAT3 tScale = { 0.001f, 0.001f, 0.001f };
 		//DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
 		DirectX::XMVECTOR tScaleVec = DirectX::XMLoadFloat3(&tScale);
 
@@ -363,15 +364,60 @@ namespace Pg::Graphics
 
 		//그런가..? 확실한 것은, 들어갈 때는 올바르게 (DX 기준) 행렬이 매개변수로 들어가는 것을 전제로 하고 있다. 
 		//다시 생각해봐라! Transpose 여부.
+		
+		/// Skinned Constant Buffer 업데이트.
+		//옮겨졌던 모든 스키닝을 Vector로 옮기기. (구조체로)
 
-		//BufferMemory 매핑만 설정. -> 이제 Skinned니까 2개!
-		_devCon->VSSetConstantBuffers(0, 1, &(_constantBuffer[0]));
+		for (int i = 0; i < 100; i++)
+		{
+			_skinnedCBuffer->gCBuf_Bones[i] = _boneTransformVector[i];
+		}
+
+		D3D11_MAPPED_SUBRESOURCE res;
+		ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+		HRESULT hr = _devCon->Map(_constantBuffer[1], 0, D3D11_MAP_WRITE_DISCARD, 0, &res);
+		if (hr == S_OK)
+		{
+			ConstantBufferDefine::cbPerObjectSkinned* data = reinterpret_cast<ConstantBufferDefine::cbPerObjectSkinned*>(res.pData);
+			*(data) = *_skinnedCBuffer;
+
+			_devCon->Unmap(_constantBuffer[1], 0);
+		}
+		else
+		{
+			assert(false);
+		}
+		///
 		_devCon->VSSetConstantBuffers(1, 1, &(_constantBuffer[1]));
 
-		UpdateSkinnedCBuffer(); //내부에서 Skinned Constant Buffer 업데이트.
+		/// Normal Constant Buffer 업데이트.
+		//한꺼번에 그려야 할 것. Mesh들 사이는 나누지만, 그 이상은 X!
+
+		D3D11_MAPPED_SUBRESOURCE res2;
+		ZeroMemory(&res2, sizeof(D3D11_MAPPED_SUBRESOURCE));
+		if (S_OK == _devCon->Map(_constantBuffer[0], 0, D3D11_MAP_WRITE_DISCARD, 0, &res2))
+		{
+			ConstantBufferDefine::cbPerObjectBase* data = reinterpret_cast<ConstantBufferDefine::cbPerObjectBase*>(res2.pData);
+
+			UpdateConstantBuffer(camData, tWorldMatScaledFF);
+			*(data) = *_constantBufferStruct;
+
+			_devCon->Unmap(_constantBuffer[0], 0);
+		}
+		else
+		{
+			assert(false);
+		}
+		/// 
+		_devCon->VSSetConstantBuffers(0, 1, &(_constantBuffer[0]));
 
 		//render_scene_node(camData, scene->mRootNode, tWorldMatScaledFF);
-		RenderSkinnedNodes(camData, tWorldMatScaledFF); // 내부에서 Normal Constant Buffer 업데이트.
+		RenderSkinnedNodes(camData); // 내부에서
+
+		//원래 위에 있었음.
+		//BufferMemory 매핑만 설정. -> 이제 Skinned니까 2개!
+		
 
 		//VS/PS Unbind.
 		_devCon->VSSetShader(nullptr, nullptr, 0);
@@ -558,7 +604,7 @@ namespace Pg::Graphics
 		//처음에 아무것도 없으면 아예 출력이 되지 않으니, T-Pose Animation을 기본으로 잡고 코드를 짜야 한다.
 
 		//현재 3DModel은 3개인 상태 : 0 / 1 / 2 중 2가 T-Pose.
-		static short tChoice = 0;
+		
 
 		//if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveBack))
 		//{
@@ -572,7 +618,7 @@ namespace Pg::Graphics
 		//{
 		//	tChoice = 2;
 		//}
-
+		static short tChoice = 1;
 		aiAnimation* tAnim = nullptr;
 		tAnim = scene->mAnimations[tChoice];
 
@@ -583,11 +629,45 @@ namespace Pg::Graphics
 		assert(tInwardTick < tAnim->mDuration);
 		PG_TRACE(tInwardTick);
 
+		//static double tInwardTick = 0;
+		//if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveRight))
+		//{
+		//	tInwardTick += 10;
+		//	PG_TRACE(tInwardTick);
+		//}
+		
+		//DirectX::XMFLOAT4X4 tDefaultMat =
+		//{ 100000000.0f,0.0f,0.0f,0.0f,
+		//  0.0f,100000000.0f,0.0f,0.0f,
+		//  0.0f,0.0f,100000000.0f,0.0f,
+		//  0.0f,0.0f,0.0f,100000000.0f };
+
+		//DirectX::XMFLOAT4X4 tDefaultMat =
+		//{ 10000.0f,0.0f,0.0f,0.0f,
+		//  0.0f,10000.0f,0.0f,0.0f,
+		//  0.0f,0.0f,10000.0f,0.0f,
+		//  0.0f,0.0f,0.0f,10000.0f };
+
 		DirectX::XMFLOAT4X4 tDefaultMat =
 		{ 1.0f,0.0f,0.0f,0.0f,
 		  0.0f,1.0f,0.0f,0.0f,
 		  0.0f,0.0f,1.0f,0.0f,
 		  0.0f,0.0f,0.0f,1.0f };
+
+		//Bone의 사이즈도 덩달아 줄여주기.
+		//DirectX::XMFLOAT4X4 tDefaultMat =
+		//{ 0.0001f,0.0f,0.0f,0.0f,
+		//  0.0f,0.0001f,0.0f,0.0f,
+		//  0.0f,0.0f,0.0001f,0.0f,
+		//  0.0f,0.0f,0.0f,0.0001f };
+
+		//DirectX::XMFLOAT4X4 tDefaultMat =
+		//{ 0.001f,0.0f,0.0f,0.0f,
+		//  0.0f,0.001f,0.0f,0.0f,
+		//  0.0f,0.0f,0.001f,0.0f,
+		//  0.0f,0.0f,0.0f,0.001f };
+
+		//, 0.0001f, 0.0001f
 
 		//ReadNodeHierarchy(tInwardTick, scene->mRootNode, tAnim, tDefaultMat);
 		ReadNodeHierarchy(tInwardTick, scene->mRootNode, tAnim, tDefaultMat);
@@ -615,7 +695,8 @@ namespace Pg::Graphics
 
 		// Obtain transformation relative to node's parent. 
 		aiMatrix4x4 tAiTrans = pNode->mTransformation;
-		tAiTrans = tAiTrans.Transpose();
+		tAiTrans.Transpose();
+		//tAiTrans = tAiTrans.Transpose();
 		DirectX::XMFLOAT4X4 NodeTransformation;
 		std::memcpy(&NodeTransformation, &tAiTrans, sizeof(DirectX::XMFLOAT4X4));
 
@@ -809,48 +890,8 @@ namespace Pg::Graphics
 		return 0;
 	}
 
-	void MultimaterialMesh::UpdateSkinnedCBuffer()
+	void MultimaterialMesh::RenderSkinnedNodes(Pg::Data::CameraData* camData)
 	{
-		//옮겨졌던 모든 스키닝을 Vector로 옮기기. (구조체로)
-	
-		for (int i = 0; i < 100; i++)
-		{
-			_skinnedCBuffer->gCBuf_Bones[i] = _boneTransformVector[i];
-		}
-
-		D3D11_MAPPED_SUBRESOURCE res;
-		ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
-
-		HRESULT hr = _devCon->Map(_constantBuffer[1], 0, D3D11_MAP_WRITE_DISCARD, 0, &res);
-		if (hr == S_OK)
-		{
-			ConstantBufferDefine::cbPerObjectSkinned* data = reinterpret_cast<ConstantBufferDefine::cbPerObjectSkinned*>(res.pData);
-			*(data) = *_skinnedCBuffer;
-
-			_devCon->Unmap(_constantBuffer[1], 0);
-		}
-		else
-		{
-			assert(false);
-		}
-	}
-
-	void MultimaterialMesh::RenderSkinnedNodes(Pg::Data::CameraData* camData, DirectX::XMFLOAT4X4 renderPos)
-	{
-		//한꺼번에 그려야 할 것. Mesh들 사이는 나누지만, 그 이상은 X!
-
-		D3D11_MAPPED_SUBRESOURCE res;
-		ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
-		if (S_OK == _devCon->Map(_constantBuffer[0], 0, D3D11_MAP_WRITE_DISCARD, 0, &res))
-		{
-			ConstantBufferDefine::cbPerObjectBase* data = reinterpret_cast<ConstantBufferDefine::cbPerObjectBase*>(res.pData);
-
-			UpdateConstantBuffer(camData, renderPos);
-			*(data) = *_constantBufferStruct;
-
-			_devCon->Unmap(*_constantBuffer, 0);
-		}
-
 		//한꺼번에 렌더 함수들 모아놓기. (Mesh들 사이는 DrawCall 나누고!)
 
 		for (int i = 0; i < scene->mNumMeshes; i++)
@@ -861,7 +902,9 @@ namespace Pg::Graphics
 			//이제 SolidRS-DiffuseTexture를 이용하기에, 
 			//Mesh의 인덱스에 따라 PSSetShaderResources를
 			//해당 Mesh의 Material의 인덱스에 맞게 호출한다.
+			
 			_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[tAiMesh->mMaterialIndex]));
+			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[0]));
 
 			_devCon->DrawIndexed(m.numIndices, m.startIndex, m.startVertex);
 		}

@@ -108,7 +108,7 @@ namespace Pg::Graphics
 
 	private:
 		void render_scene_node(Pg::Data::CameraData* camData, aiNode* node, DirectX::XMFLOAT4X4 parentTransform);
-		void RenderSkinnedNodes(Pg::Data::CameraData* camData, DirectX::XMFLOAT4X4 renderPos);
+		void RenderSkinnedNodes(Pg::Data::CameraData* camData);
 	private:
 		//Bone 셋업 작업.
 		void SetupBoneData(std::vector<RenderUsageVertexBone>& vBoneList, const aiScene* scene, unsigned int verticeCount);
@@ -144,7 +144,6 @@ namespace Pg::Graphics
 
 	private:
 		void UpdateConstantBuffer(Pg::Data::CameraData* camData, DirectX::XMFLOAT4X4 worldMat);
-		void UpdateSkinnedCBuffer();
 	private:
 		Asset3DModelData* _modelData = nullptr;
 		ConstantBufferDefine::cbPerObjectBase* _constantBufferStruct;
