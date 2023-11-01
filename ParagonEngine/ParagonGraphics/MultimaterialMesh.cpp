@@ -23,6 +23,8 @@
 #include <cassert> 
 #include <algorithm> 
 
+#include "../ParagonUtil/Log.h"
+
 #ifdef _DEBUG
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
 #else
@@ -40,6 +42,7 @@ namespace Pg::Graphics
 	MultimaterialMesh::MultimaterialMesh(const std::string& filePath)
 	{
 		_constantBufferStruct = new ConstantBufferDefine::cbPerObjectBase;
+		_skinnedCBuffer = new ConstantBufferDefine::cbPerObjectSkinned;
 
 		//Device / DevCon 받아오기.
 		_device = LowDX11Storage::GetInstance()->_device;
@@ -60,6 +63,7 @@ namespace Pg::Graphics
 	MultimaterialMesh::~MultimaterialMesh()
 	{
 		delete _constantBufferStruct;
+		delete _skinnedCBuffer;
 	}
 
 	void MultimaterialMesh::CreateSamplerState()
@@ -84,15 +88,17 @@ namespace Pg::Graphics
 
 		//TempForwardVS -> Vertex Shader 셋업.
 		ID3DBlob* tVertexShaderByteCode = nullptr;
-		D3DReadFileToBlob(tTempForwardVSPath.c_str(), &(tVertexShaderByteCode));
+		HRESULT hr = D3DReadFileToBlob(tTempForwardVSPath.c_str(), &(tVertexShaderByteCode));
 		_device->CreateVertexShader(tVertexShaderByteCode->GetBufferPointer(),
 			tVertexShaderByteCode->GetBufferSize(), NULL, &_vertexShader);
+		assert(hr == S_OK);
 
 		//TempForwardPS -> Vertex Shader 셋업.
 		ID3DBlob* tPixelShaderByteCode = nullptr;
 		D3DReadFileToBlob(tTempForwardPSPath.c_str(), &(tPixelShaderByteCode));
 		_device->CreatePixelShader(tPixelShaderByteCode->GetBufferPointer(),
 			tPixelShaderByteCode->GetBufferSize(), NULL, &_pixelShader);
+		assert(hr == S_OK);
 	}
 
 	void MultimaterialMesh::CreateRasterizerState()
@@ -139,25 +145,53 @@ namespace Pg::Graphics
 
 	void MultimaterialMesh::CreateConstantBuffer()
 	{
-		//int sizeCB = (((sizeof(ConstantBufferDefine::cbPerObjectBase) - 1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
-		int sizeCB = (((sizeof(ConstantBufferDefine::cbPerObjectBase) - 1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
+		{
+			//int sizeCB = (((sizeof(ConstantBufferDefine::cbPerObjectBase) - 1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
 
-		D3D11_BUFFER_DESC tCBufferDesc;
-		tCBufferDesc.ByteWidth = sizeCB; // 상수버퍼는 16바이트 정렬
-		tCBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-		tCBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		tCBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		tCBufferDesc.MiscFlags = 0;
+			//상수 버퍼를 명시적으로 넣어주는 문제 때문에 문제 발생?
+			int sizeCB = (((sizeof(ConstantBufferDefine::cbPerObjectBase) - 1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
+			assert(sizeCB % 16 == 0);
+			D3D11_BUFFER_DESC tCBufferDesc;
+			tCBufferDesc.ByteWidth = sizeCB; // 상수버퍼는 16바이트 정렬
+			tCBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+			tCBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+			tCBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			tCBufferDesc.MiscFlags = 0;
 
-		/*CD3D11_BUFFER_DESC cbDesc(
-			sizeof(float) * 16,
-			D3D11_BIND_CONSTANT_BUFFER,
-			D3D11_USAGE_DYNAMIC,
-			D3D11_CPU_ACCESS_WRITE);*/
+			/*CD3D11_BUFFER_DESC cbDesc(
+				sizeof(float) * 16,
+				D3D11_BIND_CONSTANT_BUFFER,
+				D3D11_USAGE_DYNAMIC,
+				D3D11_CPU_ACCESS_WRITE);*/
 
-		_cbufferSubresourceData.pSysMem = _constantBufferStruct;
+			_cbufferSubresourceData0.pSysMem = _constantBufferStruct;
 
-		HR(_device->CreateBuffer(&tCBufferDesc, &_cbufferSubresourceData, &(_constantBuffer)));
+			HR(_device->CreateBuffer(&tCBufferDesc, &_cbufferSubresourceData0, &(_constantBuffer[0])));
+		}
+
+		{
+			//int sizeCB = (((sizeof(MultimaterialMesh::SkinnedCBuffer) - 1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
+			int sizeCB = sizeof(ConstantBufferDefine::cbPerObjectSkinned);
+			assert(sizeCB % 16 == 0);
+
+			D3D11_BUFFER_DESC tCBufferDesc;
+			tCBufferDesc.ByteWidth = sizeCB; // 상수버퍼는 16바이트 정렬
+			tCBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+			tCBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+			tCBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			tCBufferDesc.MiscFlags = 0;
+
+			/*CD3D11_BUFFER_DESC cbDesc(
+				sizeof(float) * 16,
+				D3D11_BIND_CONSTANT_BUFFER,
+				D3D11_USAGE_DYNAMIC,
+				D3D11_CPU_ACCESS_WRITE);*/
+
+			_cbufferSubresourceData1.pSysMem = _skinnedCBuffer;
+
+			HR(_device->CreateBuffer(&tCBufferDesc, &_cbufferSubresourceData1, &(_constantBuffer[1])));
+		}
+
 	}
 
 	void MultimaterialMesh::ImportSkinnedAsset(const std::string& filePath)
@@ -306,20 +340,19 @@ namespace Pg::Graphics
 		_devCon->IASetVertexBuffers(0, 1, &_vertexBuffer, strides, offsets);
 		_devCon->IASetIndexBuffer(_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
-		//BufferMemory 매핑만 설정.
-		_devCon->VSSetConstantBuffers(0, 1, &_constantBuffer);
-
 		//1/100으로 줄여서 렌더링할 것이다. -> 일단은 World Matrix를 Identity로!
 		///커스텀 위치 조정.
 		///현재 렌더 로직 떄문에, 이 역시 적용되지 않는 상황이다!
-		DirectX::XMFLOAT3 tPosition = { 0.0f, 10.0f, 0.0f };
+		DirectX::XMFLOAT3 tPosition = { 0.0f, 0.0f, 0.0f };
 		DirectX::XMVECTOR tPosVec = DirectX::XMLoadFloat3(&tPosition);
 
 		DirectX::XMFLOAT4 tRotQuat = { 0.0f, 0.0f, 0.0f, 0.0f };
 		DirectX::XMVECTOR tRotQuatVec = DirectX::XMLoadFloat4(&tRotQuat);
 
 		//0.01 스케일링 적용.
-		DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
+		//DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
+		//이 모델이 되따 크다.
+		DirectX::XMFLOAT3 tScale = { 0.0001f, 0.0001f, 0.0001f };
 		//DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
 		DirectX::XMVECTOR tScaleVec = DirectX::XMLoadFloat3(&tScale);
 
@@ -331,7 +364,14 @@ namespace Pg::Graphics
 		//그런가..? 확실한 것은, 들어갈 때는 올바르게 (DX 기준) 행렬이 매개변수로 들어가는 것을 전제로 하고 있다. 
 		//다시 생각해봐라! Transpose 여부.
 
-		render_scene_node(camData, scene->mRootNode, tWorldMatScaledFF);
+		//BufferMemory 매핑만 설정. -> 이제 Skinned니까 2개!
+		_devCon->VSSetConstantBuffers(0, 1, &(_constantBuffer[0]));
+		_devCon->VSSetConstantBuffers(1, 1, &(_constantBuffer[1]));
+
+		UpdateSkinnedCBuffer(); //내부에서 Skinned Constant Buffer 업데이트.
+
+		//render_scene_node(camData, scene->mRootNode, tWorldMatScaledFF);
+		RenderSkinnedNodes(camData, tWorldMatScaledFF); // 내부에서 Normal Constant Buffer 업데이트.
 
 		//VS/PS Unbind.
 		_devCon->VSSetShader(nullptr, nullptr, 0);
@@ -355,19 +395,19 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT4X4 tCurrentFF;
 		DirectX::XMStoreFloat4x4(&tCurrentFF, tCurrent);
 
-		//이거 필요 없을 수도!
+		//여기에서는 0번째 인덱스 (Constant Buffer 중) 업데이트. 1번째는 아직 그러지 못한 상황이다!
 		if (node->mNumMeshes > 0)
 		{
 			D3D11_MAPPED_SUBRESOURCE res;
 			ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
-			if (S_OK == _devCon->Map(_constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &res))
+			if (S_OK == _devCon->Map(_constantBuffer[0], 0, D3D11_MAP_WRITE_DISCARD, 0, &res))
 			{
 				ConstantBufferDefine::cbPerObjectBase* data = reinterpret_cast<ConstantBufferDefine::cbPerObjectBase*>(res.pData);
 
 				UpdateConstantBuffer(camData, tCurrentFF);
 				*(data) = *_constantBufferStruct;
 
-				_devCon->Unmap(_constantBuffer, 0);
+				_devCon->Unmap(*_constantBuffer, 0);
 			}
 		}
 
@@ -520,18 +560,18 @@ namespace Pg::Graphics
 		//현재 3DModel은 3개인 상태 : 0 / 1 / 2 중 2가 T-Pose.
 		static short tChoice = 0;
 
-		if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveBack))
-		{
-			tChoice = 0;
-		}
-		else if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveLeft))
-		{
-			tChoice = 1;
-		}
-		else if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveRight))
-		{
-			tChoice = 2;
-		}
+		//if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveBack))
+		//{
+		//	tChoice = 0;
+		//}
+		//else if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveLeft))
+		//{
+		//	tChoice = 1;
+		//}
+		//else if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveRight))
+		//{
+		//	tChoice = 2;
+		//}
 
 		aiAnimation* tAnim = nullptr;
 		tAnim = scene->mAnimations[tChoice];
@@ -541,8 +581,15 @@ namespace Pg::Graphics
 		tPlayTickDur += 0.1;
 		double tInwardTick = fmod(tPlayTickDur, tAnim->mDuration);
 		assert(tInwardTick < tAnim->mDuration);
+		PG_TRACE(tInwardTick);
 
-		DirectX::XMFLOAT4X4 tDefaultMat = { 1.0f,0.0f,0.0f,0.0f, 0.0f,1.0f,0.0f,0.0f, 0.0f,0.0f,1.0f,0.0f, 0.0f,0.0f,0.0f,1.0f };
+		DirectX::XMFLOAT4X4 tDefaultMat =
+		{ 1.0f,0.0f,0.0f,0.0f,
+		  0.0f,1.0f,0.0f,0.0f,
+		  0.0f,0.0f,1.0f,0.0f,
+		  0.0f,0.0f,0.0f,1.0f };
+
+		//ReadNodeHierarchy(tInwardTick, scene->mRootNode, tAnim, tDefaultMat);
 		ReadNodeHierarchy(tInwardTick, scene->mRootNode, tAnim, tDefaultMat);
 
 		assert(_formationNumBone < 100);
@@ -697,7 +744,7 @@ namespace Pg::Graphics
 		if (pNodeAnim->mNumPositionKeys == 1)
 		{
 			aiVector3D tVal = pNodeAnim->mPositionKeys[0].mValue;
-			xmTrans = {tVal.x, tVal.y, tVal.z};
+			xmTrans = { tVal.x, tVal.y, tVal.z };
 			return;
 		}
 
@@ -719,7 +766,7 @@ namespace Pg::Graphics
 		DirectX::XMVECTOR EndVec = DirectX::XMLoadFloat3(&End);
 
 		DirectX::XMVECTOR DeltaVec = DirectX::XMVectorSubtract(EndVec, StartVec);
-		
+
 		using namespace DirectX;
 		DirectX::XMVECTOR OutVec = StartVec + (Factor * DeltaVec);
 		DirectX::XMStoreFloat3(&xmTrans, OutVec);
@@ -731,10 +778,10 @@ namespace Pg::Graphics
 		assert(pNodeAnim->mNumRotationKeys > 0);
 
 		// Find the rotation key just before the current animation time and return the index. 
-		for (unsigned int i = 0; i < pNodeAnim->mNumRotationKeys - 1; i++) 
-		{ 
+		for (unsigned int i = 0; i < pNodeAnim->mNumRotationKeys - 1; i++)
+		{
 			//FIX.
-			if (animTick < (float)pNodeAnim->mRotationKeys[i + 1].mTime) 
+			if (animTick < (float)pNodeAnim->mRotationKeys[i + 1].mTime)
 			{
 				return i;
 			}
@@ -749,10 +796,10 @@ namespace Pg::Graphics
 		assert(pNodeAnim->mNumPositionKeys > 0);
 
 		// Find the translation key just before the current animation time and return the index. 
-		for (unsigned int i = 0; i < pNodeAnim->mNumPositionKeys - 1; i++) 
-		{ 
+		for (unsigned int i = 0; i < pNodeAnim->mNumPositionKeys - 1; i++)
+		{
 			//FIX.
-			if (animTick < (float)pNodeAnim->mPositionKeys[i + 1].mTime) 
+			if (animTick < (float)pNodeAnim->mPositionKeys[i + 1].mTime)
 			{
 				return i;
 			}
@@ -760,6 +807,64 @@ namespace Pg::Graphics
 		assert(0);
 
 		return 0;
+	}
+
+	void MultimaterialMesh::UpdateSkinnedCBuffer()
+	{
+		//옮겨졌던 모든 스키닝을 Vector로 옮기기. (구조체로)
+	
+		for (int i = 0; i < 100; i++)
+		{
+			_skinnedCBuffer->gCBuf_Bones[i] = _boneTransformVector[i];
+		}
+
+		D3D11_MAPPED_SUBRESOURCE res;
+		ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+		HRESULT hr = _devCon->Map(_constantBuffer[1], 0, D3D11_MAP_WRITE_DISCARD, 0, &res);
+		if (hr == S_OK)
+		{
+			ConstantBufferDefine::cbPerObjectSkinned* data = reinterpret_cast<ConstantBufferDefine::cbPerObjectSkinned*>(res.pData);
+			*(data) = *_skinnedCBuffer;
+
+			_devCon->Unmap(_constantBuffer[1], 0);
+		}
+		else
+		{
+			assert(false);
+		}
+	}
+
+	void MultimaterialMesh::RenderSkinnedNodes(Pg::Data::CameraData* camData, DirectX::XMFLOAT4X4 renderPos)
+	{
+		//한꺼번에 그려야 할 것. Mesh들 사이는 나누지만, 그 이상은 X!
+
+		D3D11_MAPPED_SUBRESOURCE res;
+		ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
+		if (S_OK == _devCon->Map(_constantBuffer[0], 0, D3D11_MAP_WRITE_DISCARD, 0, &res))
+		{
+			ConstantBufferDefine::cbPerObjectBase* data = reinterpret_cast<ConstantBufferDefine::cbPerObjectBase*>(res.pData);
+
+			UpdateConstantBuffer(camData, renderPos);
+			*(data) = *_constantBufferStruct;
+
+			_devCon->Unmap(*_constantBuffer, 0);
+		}
+
+		//한꺼번에 렌더 함수들 모아놓기. (Mesh들 사이는 DrawCall 나누고!)
+
+		for (int i = 0; i < scene->mNumMeshes; i++)
+		{
+			Mesh& m = meshes[i];
+			aiMesh* tAiMesh = scene->mMeshes[i];
+
+			//이제 SolidRS-DiffuseTexture를 이용하기에, 
+			//Mesh의 인덱스에 따라 PSSetShaderResources를
+			//해당 Mesh의 Material의 인덱스에 맞게 호출한다.
+			_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[tAiMesh->mMaterialIndex]));
+
+			_devCon->DrawIndexed(m.numIndices, m.startIndex, m.startVertex);
+		}
 	}
 
 }

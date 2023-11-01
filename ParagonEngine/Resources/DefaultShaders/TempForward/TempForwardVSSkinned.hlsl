@@ -51,7 +51,7 @@ struct VOut1st
 };
 
 VOut1st VS_MAIN(Vin1stSkinned input)
-{
+{   
     VOut1st output;
 	
 	//Skinning 과정.
@@ -101,7 +101,8 @@ VOut1st VS_MAIN(Vin1stSkinned input)
 	
 	//추후에 Material ID가 로직에 들어가면 이 역시 하드코딩에서 바꿔야 한다.
     //output.vout1st_MatID = 0;
-    output.vout1st_MatID = input.vin1st_MatID;
+    //output.vout1st_MatID = input.vin1st_MatID; //이게 진짜.
     
+    output.vout1st_MatID = input.vin1st_MatID;
     return output;
 }

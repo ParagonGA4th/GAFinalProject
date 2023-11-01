@@ -55,6 +55,7 @@ namespace Pg::Graphics
 
 	class MultimaterialMesh
 	{
+
 	public:
 		MultimaterialMesh(const std::string& filePath);
 		~MultimaterialMesh();
@@ -107,7 +108,7 @@ namespace Pg::Graphics
 
 	private:
 		void render_scene_node(Pg::Data::CameraData* camData, aiNode* node, DirectX::XMFLOAT4X4 parentTransform);
-
+		void RenderSkinnedNodes(Pg::Data::CameraData* camData, DirectX::XMFLOAT4X4 renderPos);
 	private:
 		//Bone 셋업 작업.
 		void SetupBoneData(std::vector<RenderUsageVertexBone>& vBoneList, const aiScene* scene, unsigned int verticeCount);
@@ -143,10 +144,12 @@ namespace Pg::Graphics
 
 	private:
 		void UpdateConstantBuffer(Pg::Data::CameraData* camData, DirectX::XMFLOAT4X4 worldMat);
-
+		void UpdateSkinnedCBuffer();
 	private:
 		Asset3DModelData* _modelData = nullptr;
 		ConstantBufferDefine::cbPerObjectBase* _constantBufferStruct;
+		ConstantBufferDefine::cbPerObjectSkinned* _skinnedCBuffer;
+
 	private:
 		ID3D11Device* _device;
 		ID3D11DeviceContext* _devCon;
@@ -154,8 +157,10 @@ namespace Pg::Graphics
 		ID3D11VertexShader* _vertexShader = nullptr;
 		ID3D11PixelShader* _pixelShader = nullptr;
 
-		D3D11_SUBRESOURCE_DATA _cbufferSubresourceData;
-		ID3D11Buffer* _constantBuffer = nullptr;
+		D3D11_SUBRESOURCE_DATA _cbufferSubresourceData0;
+		D3D11_SUBRESOURCE_DATA _cbufferSubresourceData1;
+		ID3D11Buffer* _constantBuffer[2]; //인덱스 0은 일반, 인덱스 1은 Bone 기준의 Skinned.
+
 		ID3D11SamplerState* _samplerState = nullptr;
 		ID3D11RasterizerState* _rasterizerState = nullptr;
 	private:
