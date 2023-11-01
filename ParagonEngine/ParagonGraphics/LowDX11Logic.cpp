@@ -23,6 +23,7 @@ namespace Pg::Graphics
 		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif // DEBUG
 
+		D3D_FEATURE_LEVEL tCheckFeatureLevel;
 
 		// D3D11 Device »ý¼º
 		hr = D3D11CreateDevice(
@@ -34,7 +35,7 @@ namespace Pg::Graphics
 			NULL,															// UINT						FeatureLevels
 			D3D11_SDK_VERSION,												// UINT						SDKVersion
 			&(_DXStorage->_device),											// [out, optional]	ID3D11Device				**ppDevice
-			NULL,															// [out, optional]	D3D_FEATUER_LEVEL			*pFeatureLevel
+			&tCheckFeatureLevel,															// [out, optional]	D3D_FEATUER_LEVEL			*pFeatureLevel
 			&(_DXStorage->_deviceContext)									// [out, optional]	ID3D11DeviceContext			**ppImmediateContext
 		);
 
