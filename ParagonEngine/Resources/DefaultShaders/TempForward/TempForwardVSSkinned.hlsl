@@ -93,7 +93,8 @@ VOut1st VS_MAIN(Vin1stSkinned input)
     output.vout1st_TangentW = mul(skinnedTangentL, (float3x3) gCBuf_World);
 	
 	// 동차좌표계 내 Position 계산.
-    output.vout1st_PosH = mul(gCBuf_WorldViewProj, float4(input.vin1st_PosL, 1.0f));
+    //난 빡대가리다.. 이걸 SkinnedPos로 안 줬다고...??? 
+    output.vout1st_PosH = mul(gCBuf_WorldViewProj, float4(skinnedPosL, 1.0f));
     
 	// Color & UV(W) 값 전달.
     output.vout1st_Color = input.vin1st_Color;
