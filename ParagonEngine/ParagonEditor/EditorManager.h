@@ -9,6 +9,8 @@ namespace Pg::Editor::Window
 {
 	class Inspector; 
 	class Hierarchy; 
+	class Scene;
+	class Filter;
 }
 
 namespace Pg::Editor::Manager
@@ -33,6 +35,8 @@ namespace Pg::Editor::Manager
 		// Editor Windows
 		std::unique_ptr<Pg::Editor::Window::Inspector> _inspector;
 		std::unique_ptr<Pg::Editor::Window::Hierarchy> _hierarchy;
+		std::unique_ptr<Pg::Editor::Window::Scene> _scene;
+		std::unique_ptr<Pg::Editor::Window::Filter> _filter;
 
 		bool _editorOnOff;
 

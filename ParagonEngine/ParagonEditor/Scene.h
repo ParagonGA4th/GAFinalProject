@@ -2,36 +2,37 @@
 #include "IEditorWindow.h"
 #include <string>
 
+namespace Pg::Editor::Helper { class EditorHelper; }
 namespace Pg::UI { class WidgetContainer; }
 namespace Pg::UI::Manager { class UIManager; }
 
 namespace Pg::Editor::Window
 {
-	class Hierarchy : public IEditorWindow
+	class Scene : public IEditorWindow
 	{
 	public:
-		Hierarchy();
-		~Hierarchy();
+		Scene();
+		~Scene();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
 		virtual void Finalize() override;
+		
 
 		virtual void SetShow(bool show) override;
 		virtual bool GetShow() override;
-
+	
 	private:
-
-	private:
-		/// hierarchy value
+		/// Scene Value
 		std::string _winName;
 		bool _isShow;
 
-		/// helper class
+		/// helper Class
+		Pg::Editor::Helper::EditorHelper* _editorHelper;
 		Pg::UI::Manager::UIManager* _uiManager;
 		Pg::UI::WidgetContainer* cons;
 
-		/// Data value
+		/// Data Value
 	};
 }
 

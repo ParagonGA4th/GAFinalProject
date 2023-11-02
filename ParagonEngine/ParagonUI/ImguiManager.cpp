@@ -89,12 +89,6 @@ void Pg::UI::Manager::ImGuiManager::ImguiHandler(MSG message)
 
 void Pg::UI::Manager::ImGuiManager::ViewTest(void* Texture)
 {
-	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
-
-	DemoInspector();
-	DemoHierarchy();
-	DemoFilter();
-	DemoViewPort(Texture);
 }
 
 void Pg::UI::Manager::ImGuiManager::DemoInspector()

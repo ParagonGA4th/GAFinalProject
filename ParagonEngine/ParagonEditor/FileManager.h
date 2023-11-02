@@ -3,21 +3,29 @@
 #include "../ParagonUtil/pugixml.hpp"
 
 #include <vector>
+#include <string>
 
-class FileManager
+namespace Pg::Editor::Manager
 {
-public:
-	FileManager() {};
-	void XmlLoad();
-	void JsonLoad();
+	class FileManager
+	{
+	public:
+		FileManager();
+		~FileManager();
 
-	std::vector<GameObjectData*> GetGameObjectData() const;
+		//void XmlLoad();
+		//void JsonLoad();
 
-private:
-	void XmlDataParsing(pugi::xml_node node);
-	void XmlObjectDataParsing(pugi::xml_node node, GameObjectData& data);
-	void XmlComponentDataParsing(pugi::xml_node node, GameObjectData& data);
+		//std::vector<GameObjectData*> GetGameObjectData() const;
 
-private:
-	std::vector<GameObjectData*> _gameObjectDatas;
-};
+	private:
+		//void XmlDataParsing(pugi::xml_node node);
+		//void XmlObjectDataParsing(pugi::xml_node node, GameObjectData& data);
+		//void XmlComponentDataParsing(pugi::xml_node node, GameObjectData& data);
+
+	private:
+		//std::vector<GameObjectData*> _gameObjectDatas;
+		std::string _projectPath;
+	};
+
+}
