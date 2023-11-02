@@ -267,6 +267,15 @@ namespace Pg::Graphics
 				vertices[vid + j].blendWeight0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[0];
 				vertices[vid + j].blendWeight1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[1];
 				vertices[vid + j].blendWeight2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[2];
+
+				//vertices[vid + j].blendIndice0 = 0;
+				//vertices[vid + j].blendIndice1 = 0;
+				//vertices[vid + j].blendIndice2 = 0;
+				//vertices[vid + j].blendIndice3 = 0;
+				//
+				//vertices[vid + j].blendWeight0 = 0.f;
+				//vertices[vid + j].blendWeight1 = 0.f;
+				//vertices[vid + j].blendWeight2 = 0.f;
 			}
 
 			for (uint32_t j = 0; j < m->mNumFaces; j++)
@@ -350,10 +359,10 @@ namespace Pg::Graphics
 		DirectX::XMVECTOR tRotQuatVec = DirectX::XMLoadFloat4(&tRotQuat);
 
 		//0.01 스케일링 적용.
-		//DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
 		//이 모델이 되따 크다.
 		//DirectX::XMFLOAT3 tScale = { 0.0001f, 0.0001f, 0.0001f };
-		DirectX::XMFLOAT3 tScale = { 0.001f, 0.001f, 0.001f };
+		//DirectX::XMFLOAT3 tScale = { 0.001f, 0.001f, 0.001f };
+		DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
 		//DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
 		DirectX::XMVECTOR tScaleVec = DirectX::XMLoadFloat3(&tScale);
 
@@ -627,7 +636,7 @@ namespace Pg::Graphics
 		tPlayTickDur += 0.1;
 		double tInwardTick = fmod(tPlayTickDur, tAnim->mDuration);
 		assert(tInwardTick < tAnim->mDuration);
-		PG_TRACE(tInwardTick);
+		//PG_TRACE(tInwardTick);
 
 		//static double tInwardTick = 0;
 		//if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveRight))
