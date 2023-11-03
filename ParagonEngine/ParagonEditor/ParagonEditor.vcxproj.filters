@@ -34,8 +34,8 @@
     <ClCompile Include="Filter.cpp">
       <Filter>4_Windows\Filter</Filter>
     </ClCompile>
-    <ClCompile Include="ViewScene.cpp">
-      <Filter>4_Windows\ViewScene</Filter>
+    <ClCompile Include="Scene.cpp">
+      <Filter>4_Windows\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,8 +81,8 @@
     <ClInclude Include="Filter.h">
       <Filter>4_Windows\Filter</Filter>
     </ClInclude>
-    <ClInclude Include="ViewScene.h">
-      <Filter>4_Windows\ViewScene</Filter>
+    <ClInclude Include="Scene.h">
+      <Filter>4_Windows\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -131,7 +131,7 @@
     <Filter Include="4_Windows\Filter">
       <UniqueIdentifier>{8792ef46-46a9-4baf-89e7-cc33fbf3c364}</UniqueIdentifier>
     </Filter>
-    <Filter Include="4_Windows\ViewScene">
+    <Filter Include="4_Windows\Scene">
       <UniqueIdentifier>{6623f742-824c-4f9a-a564-5adba5cb9421}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
