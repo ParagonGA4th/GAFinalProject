@@ -11,7 +11,7 @@ VOut1st VS_MAIN(Vin1stStatic input)
 	output.vout1st_PosW = mul(gCBuf_World, float4(input.vin1st_PosL, 1.0f)).xyz;
 	
 	// Normal을 Local -> World 이동.
-	output.vout1st_NormalW = mul((float3x3)gCBuf_WorldInvTranspose, input.vin1st_NormalL);
+	output.vout1st_NormalW = normalize(mul((float3x3)gCBuf_WorldInvTranspose, input.vin1st_NormalL));
 	
 	// Tangent를 Local -> World 이동.
 	output.vout1st_TangentW = mul((float3x3)gCBuf_World, input.vin1st_TangentL);

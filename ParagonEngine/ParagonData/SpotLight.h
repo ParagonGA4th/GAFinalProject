@@ -10,9 +10,9 @@ namespace Pg::Data
 
 	public:
 		void SetAttenuation(PGFLOAT3 attenuation);
-		PGFLOAT3 GetAttenuation();
+		virtual PGFLOAT3 GetAttenuation();
 		void SetRange(float d);
-		float GetRange();
+		virtual float GetRange();
 
 	private:
 		float _range;

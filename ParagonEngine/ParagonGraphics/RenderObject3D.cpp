@@ -48,7 +48,6 @@ namespace Pg::Graphics
 
 	void RenderObject3D::Initialize()
 	{
-		//BuildBuffers();
 		BindBuffers();
 	}
 
@@ -56,12 +55,6 @@ namespace Pg::Graphics
 	{
 		_vertexShader->Bind();
 		_pixelShader->Bind();
-
-		// Bind Constant Buffers
-		for (auto& cb : _constantBuffers)
-		{
-			cb->UpdateAndBind();
-		}
 
 		// Bind Shader Resources
 		//_DXStorage->_deviceContext->PSSetShaderResources(0, 1, &_SRV);
@@ -78,7 +71,8 @@ namespace Pg::Graphics
 
 	void RenderObject3D::BindInputLayout()
 	{
-		_DXStorage->_deviceContext->IASetInputLayout(_vertexShader->_inputLayout);
+		//_DXStorage->_deviceContext->IASetInputLayout(_vertexShader->_inputLayout);
+		_DXStorage->_deviceContext->IASetInputLayout(_inputLayout);
 		_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	}
 

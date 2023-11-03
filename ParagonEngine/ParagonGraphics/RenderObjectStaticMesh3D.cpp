@@ -37,8 +37,6 @@ namespace Pg::Graphics
 		auto& tD3DBuffer = _modelData->_d3dBufferInfo;
 		auto& tMatCluster = _modelData->_materialCluster;
 
-		BindInputLayout();
-
 		// 상수버퍼에 들어갈 값 셋팅
 		DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());
 		DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
@@ -66,10 +64,14 @@ namespace Pg::Graphics
 		_constantBufferStruct->gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
 		_constantBufferStruct->gCBuf_CameraPositionW = tCameraPositionW;
 
-		// Texture
+		// Bind Constant Buffers
+		for (auto& cb : _constantBuffers)
+		{
+			cb->UpdateAndBind(_constantBuffers.size());
+		}
 
-		BindShaders();
 		BindBuffers();
+		_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		int tMeshCount = _modelData->_d3dBufferInfo._meshCount;
 		for (int i = 0; i < tMeshCount; i++)
@@ -101,9 +103,6 @@ namespace Pg::Graphics
 				_modelData->_d3dBufferInfo._indexOffsetVector[i],
 				_modelData->_d3dBufferInfo._vertexOffsetVector[i]);
 		}
-
-		UnbindShaders();
-		UnbindInputLayout();
 
 		/*
 		분석도 분석인데, 지금은 Node별로 Mesh의 Local Transformation이 반영되지 않기 때문에, 당연히 버텍스 버퍼가 한 공간에 겹쳐서 출력된다. 이를 고쳐야 한다..

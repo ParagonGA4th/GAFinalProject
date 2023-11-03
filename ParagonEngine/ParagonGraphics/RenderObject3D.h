@@ -64,6 +64,8 @@ namespace Pg::Graphics
 
 		ID3D11SamplerState* _samplerState;
 
+		ID3D11InputLayout* _inputLayout;
+
 	protected:
 		virtual void BindBuffers() abstract;
 

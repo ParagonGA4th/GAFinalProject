@@ -137,18 +137,13 @@ namespace Pg::Graphics
 		{
 			//새로 Scene이 바뀌었을 경우 RenderObject 구성을 바꾼다.
 			//나중에는 Load 로직이 별도로 들어가야.
-			_renderer->OnNewSceneStart(scene);
+			_renderer->ParseSceneData(scene);
 			_currentScene = scene;
 		}
 		assert(_currentScene != nullptr);
-		//BasicRendersDraw();
 
-		
 		_renderer->Render(_camData);
 
-		
-		//MultiMaterial Mesh 테스팅.
-		//_tempMultiMesh->Draw(_camData);
 	}
 
 	void GraphicsMain::EndRender()

@@ -25,6 +25,7 @@ namespace Pg::Graphics
 		}
 
 		_spriteBatch->End();
+		_DXStorage->_deviceContext->OMSetBlendState(NULL, NULL, 0xffffffff);
 	}
 
 	void Forward2DRenderer::Finalize()
