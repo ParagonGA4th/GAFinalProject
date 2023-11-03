@@ -2,6 +2,8 @@
 
 #include "Pxphysics.h"
 #include "PxphysicsAPI.h"
+#include "extensions/PxDefaultAllocator.h"
+#include "extensions/PxDefaultErrorCallback.h"
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonMath/PgMath.h"
 #include <vector>
@@ -34,7 +36,10 @@ namespace Pg::Engine::Physic
 		void CreateStack(const physx::PxTransform& t, physx::PxU32 size, physx::PxReal halfExtent);
 
 	public:
+		//Collider 생성
 		void MakeDynamicBoxCollider(Pg::Data::GameObject* obj);
+		void MakeDynamicSphereCollider(Pg::Data::GameObject* obj);
+		void MakeDynamicCapsuleCollider(Pg::Data::GameObject* obj);
 
 	public:
 
@@ -44,13 +49,13 @@ namespace Pg::Engine::Physic
 		//PhysX연동을 위한 변수들
 		physx::PxDefaultAllocator		_allocator;
 		physx::PxDefaultErrorCallback	_errorCallback;
-		physx::PxTolerancesScale _toleranceScale;
-		physx::PxFoundation* _foundation = nullptr;
-		physx::PxPhysics* _physics = nullptr;
-		physx::PxDefaultCpuDispatcher* _dispatcher = nullptr;
-		physx::PxScene* _pxScene = nullptr;
-		physx::PxMaterial* _material = nullptr;
-		physx::PxPvd* _pvd = nullptr;
+		physx::PxTolerancesScale		_toleranceScale;
+		physx::PxPhysics*				_physics;
+		physx::PxFoundation*			_foundation = nullptr;
+		physx::PxDefaultCpuDispatcher*	_dispatcher = nullptr;
+		physx::PxScene*					_pxScene = nullptr;
+		physx::PxMaterial*				_material = nullptr;
+		physx::PxPvd*					_pvd = nullptr;
 	};
 }
 

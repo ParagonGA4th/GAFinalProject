@@ -117,7 +117,7 @@ namespace Pg::Data
 
 	}
 
-	std::unordered_map<std::string, IComponent*>& GameObject::GetComponentList()
+	std::unordered_map<std::string, Component*>& GameObject::GetComponentList()
 	{
 		return _componentList;
 	}

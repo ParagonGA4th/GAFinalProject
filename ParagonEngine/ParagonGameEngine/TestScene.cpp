@@ -28,7 +28,7 @@ void Pg::Engine::TestScene::Initialize()
 	using namespace Pg::Data;
 
 
-	/// 오수안, 새로 추가한 스크립트 컴포넌트의 테스트를 위한 코드 
+	///새로 추가한 스크립트 컴포넌트의 테스트를 위한 코드 
 
 	//카메라 하나 더 생성
 	GameObject* tObj1 = tCurrentScene->AddObject("Camera1");
@@ -54,7 +54,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 
-	/// 오수안, 새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 
+	///새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 
 	GameObject* tObj3 = tCurrentScene->AddObject("BtnTest");
 	tObj3->GetComponent<Transform>()->SetPosition({0.f, 0.f, 0.f});
 	tObj3->AddComponent<Button>();
@@ -74,7 +74,7 @@ void Pg::Engine::TestScene::Initialize()
 
 void Pg::Engine::TestScene::Update()
 {
-	/// 오수안, 새로 추가한 스크립트 컴포넌트의 업데이트 테스트를 위한 코드
+	///새로 추가한 스크립트 컴포넌트의 업데이트 테스트를 위한 코드
 }
 
 Pg::Data::Scene* Pg::Engine::TestScene::GetCurrentScene()

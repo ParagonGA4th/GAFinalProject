@@ -18,6 +18,7 @@ namespace Pg::Engine::Physic
 		//_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, nullptr);
 
 		// visual debugger 세팅, 로컬에 연결
+		// ip주소 설정하는거 엄청 거슬리는데...이걸 어떻게?
 		_pvd = PxCreatePvd(*_foundation);
 		physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("172.16.1.161", 5425, 10);
 		_pvd->connect(*transport, physx::PxPvdInstrumentationFlag::eDEBUG);
@@ -126,7 +127,37 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::MakeDynamicBoxCollider(Pg::Data::GameObject* obj)
 	{
+		//Collider를 Box로 설정
+		Pg::Data::Collider* col = obj->GetComponent<Pg::Data::BoxCollider>();
+
+		auto colliderVec = obj->GetComponents<Pg::Data::BoxCollider>();
+
+		//for (auto collider : colliderVec)
+		//{
+		//	Pg::Data::BoxCollider* boxcol = dynamic_cast<Pg::Data::BoxCollider*>(col);
+
+		//	//physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(boxcol->GetWidth() / 2),
+		//	//	boxcol->GetHeight() / 2, boxcol->GetDepth() / 2);
+
+		//	//Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
+		//	//
+		//	//physx::PxTransform local(physx::PxVec3(position.x, position.y, position.z));
+
+		//	//RigidBody 생성(적용은 시키지 않음)
+		//	//physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
+
+		//	////_physics->createS
+		//}
 
 	}
 
+	void PhysicSystem::MakeDynamicSphereCollider(Pg::Data::GameObject* obj)
+	{
+
+	}
+
+	void PhysicSystem::MakeDynamicCapsuleCollider(Pg::Data::GameObject* obj)
+	{
+
+	}
 }
