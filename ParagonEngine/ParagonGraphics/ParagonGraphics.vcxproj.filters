@@ -166,6 +166,11 @@
     <ClInclude Include="RenderableObject.h">
       <Filter>7_OtherObject</Filter>
     </ClInclude>
+    <ClInclude Include="RenderObjectLightList.h" />
+    <ClInclude Include="RenderObjectLight.h" />
+    <ClInclude Include="LightStructs.h">
+      <Filter>10_Structs\RenderObjectList</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -306,6 +311,8 @@
     <ClCompile Include="RenderableObject.cpp">
       <Filter>7_OtherObject</Filter>
     </ClCompile>
+    <ClCompile Include="RenderObjectLightList.cpp" />
+    <ClCompile Include="RenderObjectLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -493,12 +500,21 @@
     <FxCompile Include="..\Resources\DefaultShaders\Shaders\SecondStage_VS.hlsl">
       <Filter>6_HLSL</Filter>
     </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\PhongPS.hlsl">
+      <Filter>6_HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\PhongVS.hlsl">
+      <Filter>6_HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\DefaultShaders\Libraries\DefaultBufferPerObject.hlsli">
       <Filter>6_HLSL\DefaultInfo</Filter>
     </None>
     <None Include="..\Resources\DefaultShaders\Libraries\DefaultLayouts.hlsli">
+      <Filter>6_HLSL\DefaultInfo</Filter>
+    </None>
+    <None Include="misc.hlsli">
       <Filter>6_HLSL\DefaultInfo</Filter>
     </None>
   </ItemGroup>

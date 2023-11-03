@@ -28,7 +28,7 @@ namespace Pg::Graphics
 		D3D11_SUBRESOURCE_DATA _subresource;
 
 	public:
-		virtual void UpdateAndBind() override;
+		virtual void UpdateAndBind(UINT num) override;
 		virtual ID3D11Buffer* GetBuffer() override;
 
 	private:
@@ -67,12 +67,11 @@ namespace Pg::Graphics
 	}
 
 	template<typename T>
-	void ConstantBuffer<T>::UpdateAndBind()
+	void ConstantBuffer<T>::UpdateAndBind(UINT num)
 	{	
-		//// TODO: VertexShader가 아닌 쉐이더들에도 대응할 수 있어야 함
 		_DXStorage->_deviceContext->UpdateSubresource(_Buffer, 0, NULL, _cbData, 0, 0);
-		_DXStorage->_deviceContext->VSSetConstantBuffers(0, 1, &_Buffer);
-		_DXStorage->_deviceContext->PSSetConstantBuffers(0, 1, &_Buffer);
+		_DXStorage->_deviceContext->VSSetConstantBuffers(num-1, 1, &_Buffer);
+		_DXStorage->_deviceContext->PSSetConstantBuffers(num-1, 1, &_Buffer);
 	}
 
 	template<typename T>

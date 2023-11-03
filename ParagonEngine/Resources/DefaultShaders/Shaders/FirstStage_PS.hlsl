@@ -1,13 +1,8 @@
 ///그래픽엔진 자체의 1st Pixel Shader (All)
 
 #include "../Libraries/DefaultLayouts.hlsli"
+#include "../Libraries/misc.hlsli"
 
-SamplerState state
-{
-    Filter = MIN_POINT_MAG_LINEAR_MIP_POINT;
-    AddressU = Wrap;
-    AddressV = Wrap;
-};
 
 Texture2D Diffuse;
 
@@ -40,10 +35,13 @@ POut1st PS_MAIN(VOut1st input)
     //RT4 : Alpha. (1로 하드코딩됨)
 	output.pout1st_RT4.w = 1.0f;
     
-    //pout1st_Depth -> SV_Depth에 대해서는 아직은 추가적인 처리 안 해줄 것.
-    
     //RT5 : Temp Diffuse Texture
     output.pout1st_RT5 = Diffuse.Sample(state, input.vout1st_Tex.xy);
+	
+	//RT6 : Phong Lighting Results
+  
+	//pout1st_Depth -> SV_Depth에 대해서는 아직은 추가적인 처리 안 해줄 것.
+    
     
     return output;
 }

@@ -126,6 +126,12 @@ namespace Pg::Graphics
 		// (depth-stencil state는 OM 스테이지에 depth-stencil 테스트를 수행하는 방법을 전달한다)
 		_DXStorage->_device->CreateDepthStencilState(&(_DXStorage->_depthStencilDesc), &(_DXStorage->_depthStencilState));
 
+		_DXStorage->_depthStencilDesc.DepthEnable = true;
+		_DXStorage->_depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+		_DXStorage->_depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+		_DXStorage->_device->CreateDepthStencilState(&(_DXStorage->_depthStencilDesc), &(_DXStorage->_2ndPassDepthStencilState));
+
 		//// Depth-Stencil View 생성
 		//// (Resource로 View를 생성해야 파이프라인에 바인드할 수 있다)
 
@@ -134,7 +140,7 @@ namespace Pg::Graphics
 		_DXStorage->_depthStencilViewDesc.Flags = 0;
 
 		hr = _DXStorage->_device->CreateDepthStencilView(_DXStorage->_depthStencilBuffer, &(_DXStorage->_depthStencilViewDesc), &(_DXStorage->_depthStencilView));
-		hr = _DXStorage->_device->CreateDepthStencilView(_DXStorage->_tempDepthStencilBuffer, &(_DXStorage->_depthStencilViewDesc), &(_DXStorage->_tempDepthStencilView));
+		//hr = _DXStorage->_device->CreateDepthStencilView(_DXStorage->_depthStencilBuffer, &(_DXStorage->_depthStencilViewDesc), &(_DXStorage->_secondPassDepthStencilView));
 
 		if (hr != S_OK)
 			return hr;

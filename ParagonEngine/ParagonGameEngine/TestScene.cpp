@@ -18,6 +18,9 @@
 #include "../ParagonData/MoveForwardBack.h"
 #include "EditorCameraScript.h"
 
+#include "../ParagonData/SpotLight.h"
+#include "../ParagonData/PointLight.h"
+
 Pg::Engine::TestScene::TestScene()
 {
 	tCurrentScene = new Pg::Data::Scene("TestCurrentSceneWorkspace");
@@ -43,14 +46,14 @@ void Pg::Engine::TestScene::Initialize()
 	tObj1->AddComponent<EditorCameraScript>();
 
 	tObj2 = tCurrentScene->AddObject("Cube1");
-	tObj2->GetComponent<Transform>()->SetPosition({ 3.0f, 0.0f, 5.0f });
+	tObj2->GetComponent<Transform>()->SetPosition({ 3.0f, 1.0f, 5.0f });
 	tObj2->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.0f, 2.0f);
 	tObj2->AddComponent<StaticMeshRenderer>();
-	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx");
+	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx");
 	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	GameObject* tObj2_1 = tCurrentScene->AddObject("Cube3");
-	tObj2_1->GetComponent<Transform>()->SetPosition({ 5.0f, 0.0f, 0.0f });
+	tObj2_1->GetComponent<Transform>()->SetPosition({ 5.0f, 1.0f, 0.0f });
 	tObj2_1->AddComponent<StaticMeshRenderer>();
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/MultiMatMesh/RoadLavaCone.fbx");
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
@@ -58,14 +61,56 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_1->GetComponent<MoveForwardBack>()->SetActive(true);
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Cube4");
-	tObj2_2->GetComponent<Transform>()->SetPosition({ -5.0f, 0.0f, 0.0f });
+	tObj2_2->GetComponent<Transform>()->SetPosition({ -5.0f, 1.0f, 0.0f });
 	tObj2_2->AddComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/MultiMatMesh/WoodRoadCone.fbx");
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
+	tObj2 = tCurrentScene->AddObject("Cube5");
+	tObj2->GetComponent<Transform>()->SetPosition({ -1.0f, -3.0f, 5.0f });
+	tObj2->GetComponent<Transform>()->SetLocalRotationEuler(1.0f, -1.0f, 3.0f);
+	tObj2->AddComponent<StaticMeshRenderer>();
+	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx");
+	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
+
+	tObj2 = tCurrentScene->AddObject("Cube6");
+	tObj2->GetComponent<Transform>()->SetPosition({ -3.0f, -1.0f, -2.0f });
+	tObj2->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.5f, -2.0f);
+	tObj2->AddComponent<StaticMeshRenderer>();
+	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx");
+	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	tObj2->AddComponent<MoveForwardBack>();
+	tObj2->GetComponent<MoveForwardBack>()->SetActive(true);
+
+	tObj2 = tCurrentScene->AddObject("Cube7");
+	tObj2->GetComponent<Transform>()->SetPosition({ 1.0f, 4.0f, -5.0f });
+	tObj2->GetComponent<Transform>()->SetLocalRotationEuler(1.5f, 2.0f, 4.0f);
+	tObj2->AddComponent<StaticMeshRenderer>();
+	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx");
+	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
+
 	/// 오수안, 새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 
 	
-	GameObject* tLight = tCurrentScene->AddObject("LightTest");
+	GameObject* tLight = tCurrentScene->AddObject("LightTest1");
 	tLight->GetComponent<Transform>()->SetPosition({ 10.f, 10.f, 10.f });
+	tLight->AddComponent<DirectionalLight>();
+	tLight->GetComponent<DirectionalLight>()->SetDirection({ 1.0f, 0.0f, 0.0f });
+	tLight->GetComponent<DirectionalLight>()->SetAmbient({ 0.3f, 0.3f, 0.3f, 1.0f });
+	tLight->GetComponent<DirectionalLight>()->SetDiffuse({ 0.8f, 0.8f, 0.8f, 1.0f });
+	tLight->GetComponent<DirectionalLight>()->SetSpecular({ 0.4f, 0.4f, 0.4f, 1.0f });
+	tLight->GetComponent<DirectionalLight>()->SetIntensity( 2.0f );
+	tLight->GetComponent<DirectionalLight>()->SetActive(true);
+
+	//GameObject* tLight2 = tCurrentScene->AddObject("LightTest2");
+	//tLight2->GetComponent<Transform>()->SetPosition({ 10.f, 10.f, 10.f });
+	//tLight2->AddComponent<PointLight>();
+	//tLight2->GetComponent<PointLight>()->SetAmbient({ 0.5f, 0.1f, 0.1f, 1.0f });
+	//tLight2->GetComponent<PointLight>()->SetIntensity(3.0f);
+	//tLight2->GetComponent<PointLight>()->SetActive(true);
+
+	//GameObject* tLight3 = tCurrentScene->AddObject("LightTest3");
+	//tLight3->GetComponent<Transform>()->SetPosition({ 10.f, 10.f, 10.f });
+	//tLight3->AddComponent<SpotLight>();
+	//tLight3->GetComponent<SpotLight>()->SetActive(true);
 
 	GameObject* tObj3 = tCurrentScene->AddObject("BtnTest");
 	tObj3->GetComponent<Transform>()->SetPosition({ 200.f, 200.f, 0.f });

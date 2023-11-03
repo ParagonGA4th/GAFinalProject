@@ -3,9 +3,9 @@
 
 Texture2D GBuffer[7];
 
-VOutFinal main(VInFinal vin)
+VOutLighting main(VinLighting vin)
 {
-	VOutFinal vout;
+	VOutLighting vout;
 
 	vout.PositionH = float4(vin.Position, 1.0f);
 	vout.UV = vin.UV;

@@ -78,6 +78,8 @@
     <ClInclude Include="RenderObject2D.h" />
     <ClInclude Include="RenderObject3D.h" />
     <ClInclude Include="RenderObjectImage2D.h" />
+    <ClInclude Include="RenderObjectLight.h" />
+    <ClInclude Include="RenderObjectLightList.h" />
     <ClInclude Include="RenderObjectStaticMesh3D.h" />
     <ClInclude Include="RenderObjectText2D.h" />
     <ClInclude Include="RenderShader.h" />
@@ -88,6 +90,7 @@
     <ClInclude Include="TempCamera.h" />
     <ClInclude Include="MaterialCluster.h" />
     <ClInclude Include="VertexShader.h" />
+    <ClInclude Include="LightStructs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset3DModelData.cpp" />
@@ -140,6 +143,8 @@
     <ClCompile Include="RenderObject2D.cpp" />
     <ClCompile Include="RenderObject3D.cpp" />
     <ClCompile Include="RenderObjectImage2D.cpp" />
+    <ClCompile Include="RenderObjectLight.cpp" />
+    <ClCompile Include="RenderObjectLightList.cpp" />
     <ClCompile Include="RenderObjectStaticMesh3D.cpp" />
     <ClCompile Include="RenderObjectText2D.cpp" />
     <ClCompile Include="RenderShader.cpp" />
@@ -154,6 +159,14 @@
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\PhongPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\PhongVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\Resources\DefaultShaders\Shaders\SecondStage_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -241,6 +254,7 @@
   <ItemGroup>
     <None Include="..\Resources\DefaultShaders\Libraries\DefaultBufferPerObject.hlsli" />
     <None Include="..\Resources\DefaultShaders\Libraries\DefaultLayouts.hlsli" />
+    <None Include="misc.hlsli" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -268,6 +282,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -275,6 +290,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -348,6 +364,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -369,6 +386,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalIncludeDirectories>
+      <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

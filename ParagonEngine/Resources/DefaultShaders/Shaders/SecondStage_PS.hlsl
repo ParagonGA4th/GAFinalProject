@@ -1,23 +1,16 @@
-SamplerState state
-{
-	Filter = MIN_POINT_MAG_LINEAR_MIP_POINT;
-	AddressU = Wrap;
-	AddressV = Wrap;
-};
+#include "../Libraries/DefaultLayouts.hlsli"
+#include "../Libraries/misc.hlsli"
 
-struct VertexOut
-{
-	float4 PositionH : SV_POSITION;
-	float2 UV : TEXCOORD;
-};
+Texture2D GBuffer[7];
 
-Texture2D GBuffer[6];
-
-float4 main(VertexOut pin) : SV_TARGET
+float4 main(VOutFinal pin) : SV_TARGET
 {
-	float4 output;
+	float4 output = float4(1.0f, 0.0f, 0.0f, 1.0f);
 	
-    output = GBuffer[5].Sample(state, pin.UV);
-
+	float4 BaseColor = GBuffer[5].Sample(state, pin.UV);
+	float4 Phong = GBuffer[6].Sample(state, pin.UV);
+	
+	output = BaseColor * Phong;
+	
 	return output;
 }
