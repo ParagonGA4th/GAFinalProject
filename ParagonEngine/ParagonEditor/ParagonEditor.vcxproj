@@ -110,7 +110,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_EXPORT_EDITOR_DLL</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_EXPORT_EDITOR_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -156,7 +156,7 @@
     </ClCompile>
     <ClCompile Include="Inspector.cpp" />
     <ClCompile Include="ProcessManager.cpp" />
-    <ClCompile Include="ViewScene.cpp" />
+    <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor.h" />
@@ -175,7 +175,7 @@
     </ClInclude>
     <ClInclude Include="Inspector.h" />
     <ClInclude Include="ProcessManager.h" />
-    <ClInclude Include="ViewScene.h" />
+    <ClInclude Include="Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="SceneName.xml" />

@@ -65,6 +65,9 @@
     <ClInclude Include="Image.h">
       <Filter>0_UI\1_Widget\Image</Filter>
     </ClInclude>
+    <ClInclude Include="TreeNode.h">
+      <Filter>0_UI\1_Widget\TreeNode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Panel.cpp">
@@ -121,6 +124,9 @@
     <ClCompile Include="Image.cpp">
       <Filter>0_UI\1_Widget\Image</Filter>
     </ClCompile>
+    <ClCompile Include="TreeNode.cpp">
+      <Filter>0_UI\1_Widget\TreeNode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_UI">
@@ -173,6 +179,9 @@
     </Filter>
     <Filter Include="0_UI\1_Widget\Image">
       <UniqueIdentifier>{19938d3d-b6ab-4d91-99c0-563f935032ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\TreeNode">
+      <UniqueIdentifier>{e5e4871b-502a-4a4f-ada8-af2cd1817ec6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

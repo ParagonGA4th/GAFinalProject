@@ -7,7 +7,7 @@ namespace Pg::UI::Widget
 	{
 	public:
 		Image(void* image, float width, float height);
-		virtual void Update() abstract;
+		virtual void Update() override;
 
 	private:
 		void* _image;
@@ -15,4 +15,3 @@ namespace Pg::UI::Widget
 		float _height;
 	};
 }
-
