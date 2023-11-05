@@ -514,7 +514,10 @@
     <None Include="..\Resources\DefaultShaders\Libraries\DefaultLayouts.hlsli">
       <Filter>6_HLSL\DefaultInfo</Filter>
     </None>
-    <None Include="misc.hlsli">
+    <None Include="..\Resources\DefaultShaders\Libraries\misc.hlsli">
+      <Filter>6_HLSL\DefaultInfo</Filter>
+    </None>
+    <None Include="..\Resources\DefaultShaders\Libraries\Lights.hlsli">
       <Filter>6_HLSL\DefaultInfo</Filter>
     </None>
   </ItemGroup>

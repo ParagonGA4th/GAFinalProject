@@ -31,4 +31,12 @@ namespace Pg::Data::Structs
 		PGFLOAT3 attenuation;
 		float range;
 	};
+
+	struct Lights
+	{
+		//std::vector<DirectionalLight> directionalLight;
+		//std::vector<PointLight> pointLight;
+		//std::vector<SpotLight> spotLight;
+		std::vector<Light> lights;
+	};
 }

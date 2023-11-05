@@ -254,7 +254,8 @@
   <ItemGroup>
     <None Include="..\Resources\DefaultShaders\Libraries\DefaultBufferPerObject.hlsli" />
     <None Include="..\Resources\DefaultShaders\Libraries\DefaultLayouts.hlsli" />
-    <None Include="misc.hlsli" />
+    <None Include="..\Resources\DefaultShaders\Libraries\Lights.hlsli" />
+    <None Include="..\Resources\DefaultShaders\Libraries\misc.hlsli" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
