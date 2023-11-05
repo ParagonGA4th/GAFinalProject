@@ -169,6 +169,7 @@ namespace Pg::Graphics
 
 		//컴포넌트 내부적으로 -> 자신이 어떤 타입인지 Renderer에게 전달. 내부적으로 호출.
 		
+		Pg::Data::Structs::Lights* tLights = new Pg::Data::Structs::Lights;
 		Pg::Data::Light* tLightComponent;
 		//이제 실제 오브젝트 내부 RenderObject 연동.
 		for (auto& tGameObject : newScene->GetObjectList())
@@ -179,16 +180,16 @@ namespace Pg::Graphics
 			if (tLightComponent != nullptr)
 			{
 				RenderObjectLight* tLight = new RenderObjectLight();
-				
-				Pg::Data::Structs::DirectionalLight* data = new Pg::Data::Structs::DirectionalLight;
-				data->intensity = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetIntensity();
-				data->color = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetLightColor();
-				data->ambient = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetAmbient();
-				data->diffuse = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetDiffuse();
-				data->Specullar = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetSpecular();
-				data->direction = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetDirection();
 
-				tLight->CreateConstantBuffer(data);
+				Pg::Data::Structs::DirectionalLight data;
+				data.intensity = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetIntensity();
+				data.color = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetLightColor();
+				data.ambient = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetAmbient();
+				data.diffuse = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetDiffuse();
+				data.Specullar = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetSpecular();
+				data.direction = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetDirection();
+
+				//tLight->CreateConstantBuffer(data);
 				tLight->_type = Pg::Data::Enums::eLightType::DIRECTIONALLIGHT;
 
 				_renderObjectLightsList.emplace_back(tLight);
