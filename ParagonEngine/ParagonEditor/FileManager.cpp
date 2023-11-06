@@ -1,12 +1,120 @@
 #include "FileManager.h"
+#include <cassert>
+#include <shobjidl.h>
 
-Pg::Editor::Manager::FileManager::FileManager()
+void Pg::Editor::Manager::FileManager::Initialize(std::string path)
 {
+	_projectPath = path;
 }
 
-Pg::Editor::Manager::FileManager::~FileManager()
+void Pg::Editor::Manager::FileManager::FileOpen()
 {
+	std::string openFile = GetOpenFilePath();
 
+}
+
+bool Pg::Editor::Manager::FileManager::FileSave()
+{
+	std::string saveFile = GetSaveFilePath();
+
+	return true;
+}
+
+std::string Pg::Editor::Manager::FileManager::GetOpenFilePath()
+{
+	// COM 라이브러리 초기화
+	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+	assert(SUCCEEDED(hr));
+
+	IFileOpenDialog* pFileOpen;
+
+	// Common Item Dialog 인터페이스 생성
+	hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_PPV_ARGS(&pFileOpen));
+	if (FAILED(hr)) { CoUninitialize(); }
+
+	// Common Item Dialog 특성 설정
+	// pFileOpen->SetTitle(L"파일 선택 대화 상자"); // 제목 설정 (선택 사항)
+	//pFileOpen->SetOptions(FOS_PICKFOLDERS); // 폴더 선택 대화 상자로 사용 (선택 사항)
+
+	// 파일 필터 설정: .ppt 확장자 필터
+	COMDLG_FILTERSPEC fileTypes[] = {
+		{ L"Pragon Project", L"*.pgproject" },
+		{ L"모든 파일", L"*.*" },
+	};
+
+	pFileOpen->SetFileTypes(ARRAYSIZE(fileTypes), fileTypes);
+	pFileOpen->SetFileTypeIndex(1); // 기본 확장자 선택 (1부터 시작)
+
+	// 파일 선택 대화 상자 표시
+	std::string filePath;
+	ShowDialog(pFileOpen, filePath);
+
+	pFileOpen->Release();
+	CoUninitialize();
+
+	return filePath;
+}
+
+std::string Pg::Editor::Manager::FileManager::GetSaveFilePath()
+{
+	// COM 라이브러리 초기화
+	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+	assert(SUCCEEDED(hr));
+
+	IFileSaveDialog* pFileSave;
+
+	// Common Item Dialog 인터페이스 생성
+	hr = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_ALL, IID_PPV_ARGS(&pFileSave));
+	if (FAILED(hr)) { CoUninitialize(); assert(SUCCEEDED(hr)); }
+
+	// 파일 필터 설정: .ppt 확장자 필터
+	COMDLG_FILTERSPEC fileTypes[] = {
+		{ L"Pragon Project", L"*.pgproject" },
+	};
+	pFileSave->SetFileTypes(ARRAYSIZE(fileTypes), fileTypes);
+	pFileSave->SetFileTypeIndex(1); // 기본 확장자 선택 (1부터 시작)
+
+	// 초기 파일 이름 및 경로 설정
+	pFileSave->SetFileName(L"NewProject.pgproject");
+
+	// 파일 선택 대화 상자 표시
+	std::string filePath;
+	ShowDialog(pFileSave, filePath);
+
+	pFileSave->Release();
+	CoUninitialize();
+
+	return filePath;
+}
+
+void Pg::Editor::Manager::FileManager::ShowDialog(IFileDialog* fileDialog, std::string& path)
+{
+	// 파일 저장 대화 상자 표시
+	HRESULT hr = fileDialog->Show(NULL);
+	IShellItem* pItem;
+	LPWSTR filePath = NULL;
+
+	if (SUCCEEDED(hr))
+	{
+		hr = fileDialog->GetResult(&pItem);
+		if (SUCCEEDED(hr))
+		{
+			hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &filePath);
+			if (SUCCEEDED(hr))
+			{
+				CoTaskMemFree(filePath);
+			}
+			pItem->Release();
+		}
+	}
+
+	if (filePath != NULL)
+	{
+		std::wstring wString;
+		wString.append(&filePath[0]);
+
+		path.append(wString.begin(), wString.end());
+	}
 }
 
 //

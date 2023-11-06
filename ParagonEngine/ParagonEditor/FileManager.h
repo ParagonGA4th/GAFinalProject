@@ -1,31 +1,24 @@
 #pragma once
-#include "DataStruct.h"
-#include "../ParagonUtil/pugixml.hpp"
-
-#include <vector>
 #include <string>
+
+struct IFileDialog;
 
 namespace Pg::Editor::Manager
 {
 	class FileManager
 	{
 	public:
-		FileManager();
-		~FileManager();
+		void Initialize(std::string path);
 
-		//void XmlLoad();
-		//void JsonLoad();
-
-		//std::vector<GameObjectData*> GetGameObjectData() const;
+		void FileOpen();
+		bool FileSave();
 
 	private:
-		//void XmlDataParsing(pugi::xml_node node);
-		//void XmlObjectDataParsing(pugi::xml_node node, GameObjectData& data);
-		//void XmlComponentDataParsing(pugi::xml_node node, GameObjectData& data);
+		std::string GetOpenFilePath();
+		std::string GetSaveFilePath();
+		void ShowDialog(IFileDialog* fileDialog, std::string& path);
 
 	private:
-		//std::vector<GameObjectData*> _gameObjectDatas;
 		std::string _projectPath;
 	};
-
 }
