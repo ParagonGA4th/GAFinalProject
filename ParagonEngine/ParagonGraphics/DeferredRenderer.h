@@ -15,7 +15,7 @@ namespace Pg::Graphics
 {
 	class TestCube;
 	class RenderObject3DList;
-	class RenderObjectLight;
+	class RenderObjectLightList;
 	class LowDX11Storage;
 	class GBuffer;
 	class VertexShader;
@@ -35,7 +35,7 @@ namespace Pg::Graphics
 		void BeginRender();
 
 		void RenderFirstPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
-		void BuildLight(std::vector<RenderObjectLight*>& lightList);
+		void BuildLight(RenderObjectLightList* lightList);
 		void RenderSecondPass();
 
 		void ClearGBuffers();

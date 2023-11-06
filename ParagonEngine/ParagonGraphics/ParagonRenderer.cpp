@@ -11,6 +11,7 @@
 
 #include "LayoutDefine.h"
 #include "../ParagonData/LightType.h"
+#include "RenderObjectLight.h"
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
@@ -30,6 +31,7 @@
 #include "RenderObjectText2D.h"
 #include "RenderObjectImage2D.h"
 
+#include "../ParagonData/Light.h"
 #include "../ParagonData/DirectionalLight.h"
 #include "../ParagonData/PointLight.h"
 #include "../ParagonData/SpotLight.h"
@@ -49,6 +51,7 @@ namespace Pg::Graphics
 
 		_renderObject2DList = std::make_unique<RenderObject2DList>();
 		_renderObject3DList = std::make_unique<RenderObject3DList>();
+		
 	}
 
 	ParagonRenderer::~ParagonRenderer()
@@ -66,6 +69,8 @@ namespace Pg::Graphics
 
 		_forward2dRenderer = std::make_unique<Forward2DRenderer>();
 		_forward2dRenderer->Initialize();
+
+		_renderObjectLightsList = std::make_unique<RenderObjectLightList>();
 	}
 
 	void ParagonRenderer::BeginRender()
@@ -82,7 +87,7 @@ namespace Pg::Graphics
 
 		// Deferred Lighting Pass
 		_deferredRenderer->BindLightingPass();
-		_deferredRenderer->BuildLight(_renderObjectLightsList);
+		_deferredRenderer->BuildLight(_renderObjectLightsList.get());
 		_deferredRenderer->UnbindLightingPass();
 
 		// Deferred Final Pass
@@ -163,79 +168,24 @@ namespace Pg::Graphics
 		//기존의 직접적 RenderObject 리스트들 클리어.
 		_renderObject2DList->_list.clear();
 		_renderObject3DList->_list.clear();
-		_renderObjectLightsList.clear();
+		_renderObjectLightsList->_list.clear();
 
 		using Pg::Graphics::Helper::GraphicsResourceHelper;
 
 		//컴포넌트 내부적으로 -> 자신이 어떤 타입인지 Renderer에게 전달. 내부적으로 호출.
 		
-		Pg::Data::Structs::Lights* tLights = new Pg::Data::Structs::Lights;
-		Pg::Data::Light* tLightComponent;
+
 		//이제 실제 오브젝트 내부 RenderObject 연동.
 		for (auto& tGameObject : newScene->GetObjectList())
 		{
-			
 			// Light Component가 붙은 오브젝트들을 Light list에 넣는다. 이는 이후에 Lighting Pass에서 사용됨
-			tLightComponent = tGameObject->GetComponent<Pg::Data::DirectionalLight>();
+			Pg::Data::Light* tLightComponent = tGameObject->GetComponent<Pg::Data::Light>();
 			if (tLightComponent != nullptr)
 			{
-				RenderObjectLight* tLight = new RenderObjectLight();
-
-				Pg::Data::Structs::DirectionalLight data;
-				data.intensity = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetIntensity();
-				data.color = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetLightColor();
-				data.ambient = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetAmbient();
-				data.diffuse = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetDiffuse();
-				data.Specullar = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetSpecular();
-				data.direction = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent)->GetDirection();
-
-				//tLight->CreateConstantBuffer(data);
-				tLight->_type = Pg::Data::Enums::eLightType::DIRECTIONALLIGHT;
-
-				_renderObjectLightsList.emplace_back(tLight);
+				ParseLights(tLightComponent);
 			}
 
-			tLightComponent = tGameObject->GetComponent<Pg::Data::PointLight>();
-			if (tLightComponent != nullptr)
-			{
-				RenderObjectLight* tLight = new RenderObjectLight();
-
-				Pg::Data::Structs::PointLight* data = new Pg::Data::Structs::PointLight;
-				data->intensity = dynamic_cast<Pg::Data::PointLight*>(tLightComponent)->GetIntensity();
-				data->color = dynamic_cast<Pg::Data::PointLight*>(tLightComponent)->GetLightColor();
-				data->ambient = dynamic_cast<Pg::Data::PointLight*>(tLightComponent)->GetAmbient();
-				data->diffuse = dynamic_cast<Pg::Data::PointLight*>(tLightComponent)->GetDiffuse();
-				data->Specullar = dynamic_cast<Pg::Data::PointLight*>(tLightComponent)->GetSpecular();
-				data->attenuation = dynamic_cast<Pg::Data::PointLight*>(tLightComponent)->GetAttenuation();
-				data->range = dynamic_cast<Pg::Data::PointLight*>(tLightComponent)->GetRange();
-
-				tLight->CreateConstantBuffer(data);
-				tLight->_type = Pg::Data::Enums::eLightType::POINTLIGHT;
-
-				_renderObjectLightsList.emplace_back(tLight);
-			}
-
-			tLightComponent = tGameObject->GetComponent<Pg::Data::SpotLight>();
-			if (tLightComponent != nullptr)
-			{
-				RenderObjectLight* tLight = new RenderObjectLight();
-
-				Pg::Data::Structs::SpotLight* data = new Pg::Data::Structs::SpotLight;
-				data->intensity = dynamic_cast<Pg::Data::SpotLight*>(tLightComponent)->GetIntensity();
-				data->color = dynamic_cast<Pg::Data::SpotLight*>(tLightComponent)->GetLightColor();
-				data->ambient = dynamic_cast<Pg::Data::SpotLight*>(tLightComponent)->GetAmbient();
-				data->diffuse = dynamic_cast<Pg::Data::SpotLight*>(tLightComponent)->GetDiffuse();
-				data->Specullar = dynamic_cast<Pg::Data::SpotLight*>(tLightComponent)->GetSpecular();
-				data->attenuation = dynamic_cast<Pg::Data::SpotLight*>(tLightComponent)->GetAttenuation();
-				data->range = dynamic_cast<Pg::Data::SpotLight*>(tLightComponent)->GetRange();
-
-				tLight->CreateConstantBuffer(data);
-				tLight->_type = Pg::Data::Enums::eLightType::SPOTLIGHT;
-
-				_renderObjectLightsList.emplace_back(tLight);
-			}
-
-			//GameObject 딴.
+			// RenderObject
 			Pg::Data::BaseRenderer* tBaseRenderer = tGameObject->GetComponent<Pg::Data::BaseRenderer>();
 			
 			if (tBaseRenderer != nullptr)
@@ -273,4 +223,59 @@ namespace Pg::Graphics
 		}
 		assert(true);
 	}
+
+	void ParagonRenderer::ParseLights(Pg::Data::Light* tLightComponent)
+	{
+
+		RenderObjectLight* tLight = new RenderObjectLight();
+
+		if (Pg::Data::DirectionalLight* directionalLight = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent))
+		{
+			tLight->_type = Pg::Data::Enums::eLightType::DIRECTIONALLIGHT;
+
+			Pg::Data::Structs::DirectionalLight* data = new Pg::Data::Structs::DirectionalLight;
+			data->intensity = directionalLight->GetIntensity();
+			data->color = directionalLight->GetLightColor();
+			data->ambient = directionalLight->GetAmbient();
+			data->diffuse = directionalLight->GetDiffuse();
+			data->Specullar = directionalLight->GetSpecular();
+			data->direction = directionalLight->GetDirection();
+
+			tLight->_LightData = data;
+		}
+		else if (Pg::Data::PointLight* pointLight = dynamic_cast<Pg::Data::PointLight*>(tLightComponent))
+		{
+			tLight->_type = Pg::Data::Enums::eLightType::POINTLIGHT;
+
+			Pg::Data::Structs::PointLight* data = new Pg::Data::Structs::PointLight;
+			data->intensity = pointLight->GetIntensity();
+			data->color = pointLight->GetLightColor();
+			data->ambient = pointLight->GetAmbient();
+			data->diffuse = pointLight->GetDiffuse();
+			data->Specullar = pointLight->GetSpecular();
+			data->attenuation = pointLight->GetAttenuation();
+			data->range = pointLight->GetRange();
+
+			tLight->_LightData = data;
+		}
+
+		else if (Pg::Data::SpotLight* SpotLight = dynamic_cast<Pg::Data::SpotLight*>(tLightComponent))
+		{
+			tLight->_type = Pg::Data::Enums::eLightType::SPOTLIGHT;
+
+			Pg::Data::Structs::SpotLight* data = new Pg::Data::Structs::SpotLight;
+			data->intensity = SpotLight->GetIntensity();
+			data->color = SpotLight->GetLightColor();
+			data->ambient = SpotLight->GetAmbient();
+			data->diffuse = SpotLight->GetDiffuse();
+			data->Specullar = SpotLight->GetSpecular();
+			data->attenuation = SpotLight->GetAttenuation();
+			data->range = SpotLight->GetRange();
+
+			tLight->_LightData = data;
+		}
+
+		_renderObjectLightsList->_list.emplace_back(tLight);
+	}
+
 }

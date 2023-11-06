@@ -11,10 +11,36 @@ float4 main(VOutLighting pin) : SV_TARGET
 	
 	float3 Normal = GBuffer[1].Sample(state, pin.UV).xyz;
 	
-    for (int i = 0; i < 10; ++i)
-    {
-        output += directionalLight[i].intensity * (directionalLight[i].ambient + directionalLight[i].diffuse * dot(Normal, directionalLight[i].direction));		
-    }
+	float intensity;
+	float4 ambient;
+	float4 diffuse;
+	float4 specular;
+	float3 direction;
+	
+	for(int i = 0; i < 10; ++i)
+	{
+		// Directional Light
+		intensity = directionalLight[i].intensity;
+		ambient = directionalLight[i].ambient;
+		diffuse = directionalLight[i].diffuse;
+		direction = directionalLight[i].direction;
+		
+		//output += intensity * (ambient + diffuse * dot(Normal, direction));
+		output +=  (ambient + diffuse * dot(Normal, direction));
+		
+	}
+	
+	output /= 10;
+	
+	//for(int i = 0; i < 10; ++i)
+	//{
+	//	// Point Light
+	//	intensity = pointLight[i].intensity;
+	//	ambient = pointLight[i].ambient;
+		
+	//	output += (intensity * (ambient));
+	//}
+
 	
 	return output;
 }

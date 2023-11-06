@@ -13,6 +13,7 @@ namespace Pg::Data::Structs
 		PGFLOAT4 diffuse;
 		PGFLOAT4 Specullar;
 		float intensity;
+		PGFLOAT3 padding;
 	};
 
 	struct DirectionalLight : public Light
@@ -34,9 +35,12 @@ namespace Pg::Data::Structs
 
 	struct Lights
 	{
-		//std::vector<DirectionalLight> directionalLight;
-		//std::vector<PointLight> pointLight;
-		//std::vector<SpotLight> spotLight;
-		std::vector<Light> lights;
+		// TODO:
+
+		//DirectionalLight directionalLight[10];
+		//PointLight pointLight[10];
+
+		Light* lights[20];
+
 	};
 }

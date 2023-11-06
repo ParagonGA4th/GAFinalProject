@@ -4,7 +4,6 @@
 #include "RenderObject2DList.h"
 #include "RenderObject3DList.h"
 #include "RenderObjectLightList.h"
-#include "RenderObjectLight.h"
 
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/GameObject.h"
@@ -22,6 +21,7 @@ namespace Pg::Data
 	class Scene;
 	class GameObject;
 	class RendererChangeList;
+	class Light;
 }
 
 namespace Pg::Graphics
@@ -31,7 +31,6 @@ namespace Pg::Graphics
 	class DeferredRenderer;
 	class Forward3DRenderer;
 	class Forward2DRenderer;
-	class RenderObjectLight;
 
 	class ParagonRenderer
 	{
@@ -54,13 +53,16 @@ namespace Pg::Graphics
 		void EndRender();
 
 	private:
+		void ParseLights(Pg::Data::Light* tLightComponent);
+
+	private:
 		LowDX11Storage* _DXStorage = nullptr;
 		LowDX11Logic* _DXLogic = nullptr;
 
 		//저장된 GameObject <=> RenderObject들.
 		std::unique_ptr<RenderObject2DList> _renderObject2DList;
 		std::unique_ptr<RenderObject3DList> _renderObject3DList;
-		std::vector<RenderObjectLight*> _renderObjectLightsList;
+		std::unique_ptr<RenderObjectLightList> _renderObjectLightsList;
 		
 		Pg::Data::RendererChangeList* _rendererChangeList = nullptr;
 
