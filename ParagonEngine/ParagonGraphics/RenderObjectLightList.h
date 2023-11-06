@@ -9,6 +9,11 @@ namespace Pg::Graphics
 	class RenderObjectLight;
 }
 
+namespace Pg::Data
+{
+	class Light;
+}
+
 namespace Pg::Graphics
 {
 	struct RenderObjectLightList
@@ -18,11 +23,15 @@ namespace Pg::Graphics
 		RenderObjectLightList();
 
 	public:
-		std::vector<RenderObjectLight*> _list;
+		//std::vector<void*> _data;
+		//std::vector<Pg::Data::Structs::Light*> _data;
 		
 
 	public:
 		void UpdateConstantBuffer();
+		void ParseLights(Pg::Data::Light* lightComponent);
+		void BuildConstantBuffer();
+		void ClearLightData();
 
 	public:
 		// 상수 버퍼들을 저장하는 벡터
@@ -30,15 +39,16 @@ namespace Pg::Graphics
 
 		// 상수 버퍼 데이터를 추가하는 함수
 		template <typename T>
-		void CreateConstantBuffer(T* cbData)
+		void CreateConstantBuffer(T* cbData, unsigned int size)
 		{
-			ConstantBufferBase* tCBuffer = new ConstantBuffer<T>(cbData);
+			ConstantBufferBase* tCBuffer = new ConstantBuffer<T>(cbData, size);
 			_constantBuffers.emplace_back(tCBuffer);
 		}
 
 	private:
-		// 상수 버퍼에 대응하는 구조체 멤버
-		Pg::Data::Structs::Lights* _LightConstantBufferStruct;
+		std::vector<Pg::Data::Structs::DirectionalLight> _directionalLight;
+		std::vector<Pg::Data::Structs::PointLight> _pointLight;
+		std::vector<Pg::Data::Structs::SpotLight> _spotLight;
 
 	private:
 		LowDX11Storage* _DXStorage;

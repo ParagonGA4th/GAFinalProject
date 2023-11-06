@@ -258,10 +258,10 @@ void Pg::Graphics::DeferredRenderer::UnbindLightingPass()
 	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), NullRTV.data(), _DXStorage->_depthStencilView);
 }
 
-void Pg::Graphics::DeferredRenderer::BuildLight(RenderObjectLightList* lightList)
+void Pg::Graphics::DeferredRenderer::BuildLight(RenderObjectLightList* lightData)
 {
 	// 라이트 정보를 담고 있는 상수버퍼를 조립하고 업데이트
-	lightList->UpdateConstantBuffer();
+	lightData->UpdateConstantBuffer();
 
 	_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
 }

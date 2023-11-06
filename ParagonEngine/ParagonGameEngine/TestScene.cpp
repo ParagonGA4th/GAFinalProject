@@ -90,6 +90,7 @@ void Pg::Engine::TestScene::Initialize()
 
 	/// 오수안, 새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 
 	
+	// Directional
 	GameObject* tLight = tCurrentScene->AddObject("LightTest1");
 	tLight->GetComponent<Transform>()->SetPosition({ 10.f, 10.f, 10.f });
 	tLight->AddComponent<DirectionalLight>();
@@ -97,13 +98,14 @@ void Pg::Engine::TestScene::Initialize()
 	tLight->GetComponent<DirectionalLight>()->SetAmbient({ 0.3f, 0.3f, 0.3f, 1.0f });
 	tLight->GetComponent<DirectionalLight>()->SetDiffuse({ 0.8f, 0.8f, 0.8f, 1.0f });
 	tLight->GetComponent<DirectionalLight>()->SetSpecular({ 0.4f, 0.4f, 0.4f, 1.0f });
-	tLight->GetComponent<DirectionalLight>()->SetIntensity( 2.0f );
+	tLight->GetComponent<DirectionalLight>()->SetIntensity( 1.0f );
 	tLight->GetComponent<DirectionalLight>()->SetActive(true);
 
+	// Point
 	GameObject* tLight2 = tCurrentScene->AddObject("LightTest2");
 	tLight2->GetComponent<Transform>()->SetPosition({ 10.f, 10.f, 10.f });
 	tLight2->AddComponent<PointLight>();
-	tLight2->GetComponent<PointLight>()->SetAmbient({ 0.2f, 0.2f, 0.2f, 1.0f });
+	tLight2->GetComponent<PointLight>()->SetAmbient({ 0.2f, 0.0f, 0.0f, 1.0f });
 	tLight2->GetComponent<PointLight>()->SetDiffuse({ 0.6f, 0.1f, 0.1f, 1.0f });
 	tLight2->GetComponent<PointLight>()->SetIntensity(1.0f);
 	tLight2->GetComponent<PointLight>()->SetActive(true);
@@ -111,15 +113,16 @@ void Pg::Engine::TestScene::Initialize()
 	GameObject* tLight2_1 = tCurrentScene->AddObject("LightTest2_1");
 	tLight2_1->GetComponent<Transform>()->SetPosition({ -10.f, -10.f, -10.f });
 	tLight2_1->AddComponent<PointLight>();
-	tLight2_1->GetComponent<PointLight>()->SetAmbient({ 0.0f, 0.0f, 1.0f, 1.0f });
+	tLight2_1->GetComponent<PointLight>()->SetAmbient({ 0.0f, 0.0f, 0.2f, 1.0f });
 	tLight2_1->GetComponent<PointLight>()->SetDiffuse({ 0.1f, 0.1f, 0.7f, 1.0f });
 	tLight2_1->GetComponent<PointLight>()->SetIntensity(1.0f);
 	tLight2_1->GetComponent<PointLight>()->SetActive(true);
 
-	//GameObject* tLight3 = tCurrentScene->AddObject("LightTest3");
-	//tLight3->GetComponent<Transform>()->SetPosition({ 10.f, 10.f, 10.f });
-	//tLight3->AddComponent<SpotLight>();
-	//tLight3->GetComponent<SpotLight>()->SetActive(true);
+	// Spot
+	GameObject* tLight3 = tCurrentScene->AddObject("LightTest3");
+	tLight3->GetComponent<Transform>()->SetPosition({ 10.f, 10.f, 10.f });
+	tLight3->AddComponent<SpotLight>();
+	tLight3->GetComponent<SpotLight>()->SetActive(true);
 
 	GameObject* tObj3 = tCurrentScene->AddObject("BtnTest");
 	tObj3->GetComponent<Transform>()->SetPosition({ 200.f, 200.f, 0.f });

@@ -20,8 +20,7 @@ struct PointLight
     float4 specular;
 
     float intensity;
-    float3 padding;
-	
+    
     float3 attenuation;
     float range;
 };
@@ -35,14 +34,22 @@ struct SpotLight
     float4 specular;
 
     float intensity;
-	float3 padding;
     
     float3 attenuation;
     float range;
 };
 
-cbuffer cbLight : register(b0)
+cbuffer cbDirectionalLight : register(b0)
 {
 	DirectionalLight directionalLight[10];
+};
+
+cbuffer cbPointLight : register(b1)
+{
     PointLight pointLight[10];
+};
+
+cbuffer cbSpotLight : register(b2)
+{
+    PointLight spotLight[10];
 };

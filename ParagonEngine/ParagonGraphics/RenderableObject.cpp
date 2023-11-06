@@ -54,9 +54,9 @@ void Pg::Graphics::RenderableObject::BindShaders()
 	_pixelShader->Bind();
 
 	// Bind Constant Buffers
-	for (auto& cb : _constantBuffers)
+	for (int i = 0; i < _constantBuffers.size(); ++i)
 	{
-		cb->UpdateAndBind(_constantBuffers.size());
+		_constantBuffers[i]->UpdateAndBind(i);
 	}
 	
 	// Bind Shader Resources

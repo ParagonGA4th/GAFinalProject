@@ -17,6 +17,7 @@ namespace Pg::Graphics
 	{
 	public:
 		ConstantBuffer(T* cbData);
+		ConstantBuffer(T* cbData, unsigned int size);
 		virtual ~ConstantBuffer();
 
 	private:
@@ -60,6 +61,26 @@ namespace Pg::Graphics
 	}
 
 	template<typename T>
+	ConstantBuffer<T>::ConstantBuffer(T* cbData, unsigned int size)
+		:_DXStorage(LowDX11Storage::GetInstance()),
+		_Buffer(nullptr),
+		_cbData(cbData)
+	{
+		int sizeCB = (((sizeof(T) - 1) / 16) + 1) * 16 * size;	// declspec 으로 16바이트 정렬할 수 있다?
+
+		_DXStorage->_ConstantBufferDesc.ByteWidth = sizeCB; // 상수버퍼는 16바이트 정렬
+		_DXStorage->_ConstantBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		_DXStorage->_ConstantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		_DXStorage->_ConstantBufferDesc.CPUAccessFlags = 0;
+		_DXStorage->_ConstantBufferDesc.MiscFlags = 0;
+
+		_subresource.pSysMem = cbData;
+
+		HRESULT hr = _DXStorage->_device->CreateBuffer(&(_DXStorage->_ConstantBufferDesc), &_subresource, &(_Buffer));
+
+	}
+
+	template<typename T>
 	ConstantBuffer<T>::~ConstantBuffer()
 	{
 		delete _cbData;
@@ -67,11 +88,11 @@ namespace Pg::Graphics
 	}
 
 	template<typename T>
-	void ConstantBuffer<T>::UpdateAndBind(UINT num)
+	void ConstantBuffer<T>::UpdateAndBind(UINT index)
 	{	
 		_DXStorage->_deviceContext->UpdateSubresource(_Buffer, 0, NULL, _cbData, 0, 0);
-		_DXStorage->_deviceContext->VSSetConstantBuffers(num-1, 1, &_Buffer);
-		_DXStorage->_deviceContext->PSSetConstantBuffers(num-1, 1, &_Buffer);
+		_DXStorage->_deviceContext->VSSetConstantBuffers(index, 1, &_Buffer);
+		_DXStorage->_deviceContext->PSSetConstantBuffers(index, 1, &_Buffer);
 	}
 
 	template<typename T>

@@ -1,46 +1,67 @@
 #pragma once
 
 #include "../ParagonMath/PgMath.h"
+#include "../ParagonData/LightType.h"
 
 namespace Pg::Data::Structs
 {
 	using namespace Pg::Math;
 
-	struct Light
+	__declspec(align(16)) struct Light
 	{
 		PGFLOAT4 color;
 		PGFLOAT4 ambient;
 		PGFLOAT4 diffuse;
-		PGFLOAT4 Specullar;
+		PGFLOAT4 specular;
+
+		Pg::Data::Enums::eLightType type;
 		float intensity;
-		PGFLOAT3 padding;
+		
+		PGFLOAT3 direction;
+
+		float range;
+		PGFLOAT3 attenuation;
+
 	};
 
-	struct DirectionalLight : public Light
+	__declspec(align(16)) struct DirectionalLight
 	{
+		PGFLOAT4 color;
+
+		PGFLOAT4 ambient;
+		PGFLOAT4 diffuse;
+		PGFLOAT4 specular;
+
+		float intensity;
+
 		PGFLOAT3 direction;
 	};
 
-	struct PointLight : public Light
+	__declspec(align(16)) struct PointLight
 	{
+		PGFLOAT4 color;
+
+		PGFLOAT4 ambient;
+		PGFLOAT4 diffuse;
+		PGFLOAT4 specular;
+
+		float intensity;
+
 		PGFLOAT3 attenuation;
 		float range;
 	};
 
-	struct SpotLight : public Light
+	__declspec(align(16)) struct SpotLight
 	{
+		PGFLOAT4 color;
+
+		PGFLOAT4 ambient;
+		PGFLOAT4 diffuse;
+		PGFLOAT4 specular;
+
+		float intensity;
+
 		PGFLOAT3 attenuation;
 		float range;
-	};
-
-	struct Lights
-	{
-		// TODO:
-
-		//DirectionalLight directionalLight[10];
-		//PointLight pointLight[10];
-
-		Light* lights[20];
-
 	};
 }
