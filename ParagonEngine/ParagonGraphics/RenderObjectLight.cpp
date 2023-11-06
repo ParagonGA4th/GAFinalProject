@@ -15,8 +15,6 @@
 Pg::Graphics::RenderObjectLight::RenderObjectLight()
 	:RenderObjectBase(nullptr), _type()
 {
-	//_defaultConstantBufferStruct = new ConstantBufferDefine::cbPerObjectBase;
-	//CreateConstantBuffer(_defaultConstantBufferStruct);
 
 	_DXStorage = LowDX11Storage::GetInstance();
 }
@@ -24,13 +22,4 @@ Pg::Graphics::RenderObjectLight::RenderObjectLight()
 Pg::Graphics::RenderObjectLight::~RenderObjectLight()
 {
 
-}
-
-void Pg::Graphics::RenderObjectLight::Build()
-{
-	// Bind Constant Buffers
-	for (auto& cb : _constantBuffers)
-	{
-		cb->UpdateAndBind(_constantBuffers.size());
-	}
 }

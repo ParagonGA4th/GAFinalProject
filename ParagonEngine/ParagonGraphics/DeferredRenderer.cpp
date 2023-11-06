@@ -18,7 +18,7 @@
 
 #include "RenderObject3D.h"
 #include "RenderObject3DList.h"
-#include "RenderObjectLight.h"
+#include "RenderObjectLightList.h"
 
 #include "ConstantBufferDefine.h"
 
@@ -227,11 +227,12 @@ void Pg::Graphics::DeferredRenderer::BindLightingPass()
 	auto LightingBufferSRV = LightingBuffer->GetSRV();
 	auto LightingBufferRTV = LightingBuffer->GetRTV();
 
-
 	// Build Quad
 	BuildFullscreenQuad();
 
 	// Bind Shaders
+	// TODO: 라이팅 모델에 따라 쉐이더가 바뀔 수 있어야 한다.
+	// ex) Lit / Unlit / Blinn-Phong / PBR ,,, 
 	_lightingVS->Bind();
 	_lightingPS->Bind();
 
@@ -257,20 +258,10 @@ void Pg::Graphics::DeferredRenderer::UnbindLightingPass()
 	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), NullRTV.data(), _DXStorage->_depthStencilView);
 }
 
-void Pg::Graphics::DeferredRenderer::BuildLight(std::vector<RenderObjectLight*>& lightList)
+void Pg::Graphics::DeferredRenderer::BuildLight(RenderObjectLightList* lightList)
 {
-	for (auto& it : lightList)
-	{
-		it->Build();
-	}
-
-	//light->
-	//light->_constantBufferStruct->
-	//	lightBaseResource->ob
-
-	// TODO: 상수버퍼로 관련 값들 넘기기
+	// 라이트 정보를 담고 있는 상수버퍼를 조립하고 업데이트
+	lightList->UpdateConstantBuffer();
 
 	_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
-
-
 }
