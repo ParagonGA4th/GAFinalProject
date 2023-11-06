@@ -75,6 +75,14 @@ namespace Pg::Data
 		return scaleMatrix;
 	}
 
+	Pg::Math::PGFLOAT4X4 Collider::GetOffsetTM() const
+	{
+		PGFLOAT4X4 res = GetOffsetScaleMatrix() * GetOffsetRotationMatrix() * GetOffsetTranslateMatrix();
+
+		return res;
+	}
+
+
 	void Collider::SetPxScene(physx::PxScene* scene)
 	{
 		_pxScene = scene;
@@ -84,5 +92,6 @@ namespace Pg::Data
 	{
 		return _pxScene;
 	}
+
 
 }

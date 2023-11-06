@@ -43,6 +43,8 @@ namespace Pg::Data
 		void SetRotationOffset(PGQuaternion rotation);
 		void SetScaleOffset(PGFLOAT3 scale);
 
+		PGFLOAT4X4 GetOffsetTM() const;
+
 	public:
 		void SetPxScene(physx::PxScene* scene );
 		physx::PxScene* GetPxScene();
