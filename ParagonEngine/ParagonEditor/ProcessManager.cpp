@@ -13,7 +13,7 @@ Pg::Editor::Manager::ProcessManager::ProcessManager()
 	_input = &tInputSystem;
 
 	auto& tEditorHelper = singleton<Pg::Editor::Helper::EditorHelper> ();
-	_edHepler = &tEditorHelper;
+	_edHepler = &tEditorHelper; 
 }
 
 Pg::Editor::Manager::ProcessManager::~ProcessManager()

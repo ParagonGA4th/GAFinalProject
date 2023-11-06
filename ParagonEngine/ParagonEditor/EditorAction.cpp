@@ -11,7 +11,6 @@
 #define ID_SAVE 1004
 #define ID_EXIT 1005
 
-
 Pg::Editor::Core::EditorAction::EditorAction()
 	:_hWnd(),
 	_screenWidth(1920), _screenHeight(1080),
@@ -35,6 +34,8 @@ void Pg::Editor::Core::EditorAction::Initialize()
 
 	_processManager->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
 	_editorManager->Initialize(_hWnd);
+	//_fileManager->Initialize(GetCommandLine());
+	//_fileManager->FileOpen();
 }
 void Pg::Editor::Core::EditorAction::Loop()
 {
