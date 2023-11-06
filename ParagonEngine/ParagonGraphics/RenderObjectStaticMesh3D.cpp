@@ -65,9 +65,9 @@ namespace Pg::Graphics
 		_constantBufferStruct->gCBuf_CameraPositionW = tCameraPositionW;
 
 		// Bind Constant Buffers
-		for (auto& cb : _constantBuffers)
+		for (int i = 0; i < _constantBuffers.size(); ++i)
 		{
-			cb->UpdateAndBind(_constantBuffers.size());
+			_constantBuffers[i]->UpdateAndBind(i);
 		}
 
 		BindBuffers();

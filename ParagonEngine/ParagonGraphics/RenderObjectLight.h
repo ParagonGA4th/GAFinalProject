@@ -27,7 +27,6 @@ namespace Pg::Graphics
 
 	public:
 		Pg::Data::Enums::eLightType _type;
-
 		Pg::Data::Structs::Light* _LightData;
 
 	private:

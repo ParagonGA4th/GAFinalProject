@@ -57,13 +57,14 @@ struct POut1st //RGBA
 
 struct VinLighting
 {
-	float3 Position : POSITION;
+	float3 PositionW : POSITION;
 	float3 Nomral : NORMAL;
 	float2 UV : TEXCOORD;
 };
 
 struct VOutLighting
 {
+    float3 PositionW : POSITION;
 	float4 PositionH : SV_POSITION;
 	float2 UV : TEXCOORD;
 };

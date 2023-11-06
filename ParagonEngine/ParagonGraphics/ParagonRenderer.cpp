@@ -31,11 +31,6 @@
 #include "RenderObjectText2D.h"
 #include "RenderObjectImage2D.h"
 
-#include "../ParagonData/Light.h"
-#include "../ParagonData/DirectionalLight.h"
-#include "../ParagonData/PointLight.h"
-#include "../ParagonData/SpotLight.h"
-
 #include <utility>
 #include <singleton-cpp/singleton.h>
 
@@ -70,7 +65,8 @@ namespace Pg::Graphics
 		_forward2dRenderer = std::make_unique<Forward2DRenderer>();
 		_forward2dRenderer->Initialize();
 
-		_renderObjectLightsList = std::make_unique<RenderObjectLightList>();
+		// 내부적으로 DXStorage를 쓰고 있기 때문에 생성자가 아닌 Initialize()에 있어야 함
+		_lights = std::make_unique<RenderObjectLightList>();
 	}
 
 	void ParagonRenderer::BeginRender()
@@ -87,7 +83,7 @@ namespace Pg::Graphics
 
 		// Deferred Lighting Pass
 		_deferredRenderer->BindLightingPass();
-		_deferredRenderer->BuildLight(_renderObjectLightsList.get());
+		_deferredRenderer->BuildLight(_lights.get());
 		_deferredRenderer->UnbindLightingPass();
 
 		// Deferred Final Pass
@@ -168,7 +164,7 @@ namespace Pg::Graphics
 		//기존의 직접적 RenderObject 리스트들 클리어.
 		_renderObject2DList->_list.clear();
 		_renderObject3DList->_list.clear();
-		_renderObjectLightsList->_list.clear();
+		_lights->ClearLightData();
 
 		using Pg::Graphics::Helper::GraphicsResourceHelper;
 
@@ -178,13 +174,6 @@ namespace Pg::Graphics
 		//이제 실제 오브젝트 내부 RenderObject 연동.
 		for (auto& tGameObject : newScene->GetObjectList())
 		{
-			// Light Component가 붙은 오브젝트들을 Light list에 넣는다. 이는 이후에 Lighting Pass에서 사용됨
-			Pg::Data::Light* tLightComponent = tGameObject->GetComponent<Pg::Data::Light>();
-			if (tLightComponent != nullptr)
-			{
-				ParseLights(tLightComponent);
-			}
-
 			// RenderObject
 			Pg::Data::BaseRenderer* tBaseRenderer = tGameObject->GetComponent<Pg::Data::BaseRenderer>();
 			
@@ -220,62 +209,18 @@ namespace Pg::Graphics
 					}
 				}
 			}
+
+			// Light Component가 붙은 오브젝트들을 Light list에 넣는다. 이는 이후에 Lighting Pass에서 사용됨
+			Pg::Data::Light* tLightComponent = tGameObject->GetComponent<Pg::Data::Light>();
+			if (tLightComponent != nullptr)
+			{
+				_lights->ParseLights(tLightComponent);
+			}
+
 		}
+
+		_lights->BuildConstantBuffer();
 		assert(true);
-	}
-
-	void ParagonRenderer::ParseLights(Pg::Data::Light* tLightComponent)
-	{
-
-		RenderObjectLight* tLight = new RenderObjectLight();
-
-		if (Pg::Data::DirectionalLight* directionalLight = dynamic_cast<Pg::Data::DirectionalLight*>(tLightComponent))
-		{
-			tLight->_type = Pg::Data::Enums::eLightType::DIRECTIONALLIGHT;
-
-			Pg::Data::Structs::DirectionalLight* data = new Pg::Data::Structs::DirectionalLight;
-			data->intensity = directionalLight->GetIntensity();
-			data->color = directionalLight->GetLightColor();
-			data->ambient = directionalLight->GetAmbient();
-			data->diffuse = directionalLight->GetDiffuse();
-			data->Specullar = directionalLight->GetSpecular();
-			data->direction = directionalLight->GetDirection();
-
-			tLight->_LightData = data;
-		}
-		else if (Pg::Data::PointLight* pointLight = dynamic_cast<Pg::Data::PointLight*>(tLightComponent))
-		{
-			tLight->_type = Pg::Data::Enums::eLightType::POINTLIGHT;
-
-			Pg::Data::Structs::PointLight* data = new Pg::Data::Structs::PointLight;
-			data->intensity = pointLight->GetIntensity();
-			data->color = pointLight->GetLightColor();
-			data->ambient = pointLight->GetAmbient();
-			data->diffuse = pointLight->GetDiffuse();
-			data->Specullar = pointLight->GetSpecular();
-			data->attenuation = pointLight->GetAttenuation();
-			data->range = pointLight->GetRange();
-
-			tLight->_LightData = data;
-		}
-
-		else if (Pg::Data::SpotLight* SpotLight = dynamic_cast<Pg::Data::SpotLight*>(tLightComponent))
-		{
-			tLight->_type = Pg::Data::Enums::eLightType::SPOTLIGHT;
-
-			Pg::Data::Structs::SpotLight* data = new Pg::Data::Structs::SpotLight;
-			data->intensity = SpotLight->GetIntensity();
-			data->color = SpotLight->GetLightColor();
-			data->ambient = SpotLight->GetAmbient();
-			data->diffuse = SpotLight->GetDiffuse();
-			data->Specullar = SpotLight->GetSpecular();
-			data->attenuation = SpotLight->GetAttenuation();
-			data->range = SpotLight->GetRange();
-
-			tLight->_LightData = data;
-		}
-
-		_renderObjectLightsList->_list.emplace_back(tLight);
 	}
 
 }

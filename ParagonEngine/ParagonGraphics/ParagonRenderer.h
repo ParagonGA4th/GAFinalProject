@@ -21,7 +21,6 @@ namespace Pg::Data
 	class Scene;
 	class GameObject;
 	class RendererChangeList;
-	class Light;
 }
 
 namespace Pg::Graphics
@@ -53,16 +52,13 @@ namespace Pg::Graphics
 		void EndRender();
 
 	private:
-		void ParseLights(Pg::Data::Light* tLightComponent);
-
-	private:
 		LowDX11Storage* _DXStorage = nullptr;
 		LowDX11Logic* _DXLogic = nullptr;
 
 		//저장된 GameObject <=> RenderObject들.
 		std::unique_ptr<RenderObject2DList> _renderObject2DList;
 		std::unique_ptr<RenderObject3DList> _renderObject3DList;
-		std::unique_ptr<RenderObjectLightList> _renderObjectLightsList;
+		std::unique_ptr<RenderObjectLightList> _lights;
 		
 		Pg::Data::RendererChangeList* _rendererChangeList = nullptr;
 
