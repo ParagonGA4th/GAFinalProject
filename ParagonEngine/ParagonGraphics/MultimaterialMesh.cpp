@@ -236,6 +236,7 @@ namespace Pg::Graphics
 
 		//지금까지 Bone Index/Weight Binding을 위해, 인덱스 카운팅 도입.
 		UINT tTotalElapsedVertexCount = 0;
+		UINT tTotalElapsedIndiceCount = 0;
 
 		LayoutDefine::Vin1stSkinned* vertices = new LayoutDefine::Vin1stSkinned[numVertices];
 		int32_t* indices = new int32_t[numIndices];
@@ -245,6 +246,7 @@ namespace Pg::Graphics
 			aiMesh* m = scene->mMeshes[i];
 			//tTotalElapsedVertexCount += _meshEntriesVector[i].BaseVertex;
 			tTotalElapsedVertexCount = _meshEntriesVector[i].BaseVertex;
+			tTotalElapsedIndiceCount = _meshEntriesVector[i].BaseIndex;
 			for (uint32_t j = 0; j < m->mNumVertices; j++)
 			{
 				auto& pos = m->mVertices[j];
@@ -259,23 +261,32 @@ namespace Pg::Graphics
 				vertices[vid + j].tex = DirectX::XMFLOAT3{ uv.x, uv.y, uv.z };
 				vertices[vid + j].matID = m->mMaterialIndex;
 
-				vertices[vid + j].blendIndice0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0];
-				vertices[vid + j].blendIndice1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1];
-				vertices[vid + j].blendIndice2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[2];
-				vertices[vid + j].blendIndice3 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[3];
+				//vertices[vid + j].blendIndice0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0];
+				//vertices[vid + j].blendIndice1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1];
+				//vertices[vid + j].blendIndice2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[2];
+				//vertices[vid + j].blendIndice3 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[3];
+
+				vertices[vid + j].blendIndice0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0] + tTotalElapsedIndiceCount;
+				vertices[vid + j].blendIndice1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1] + tTotalElapsedIndiceCount;
+				vertices[vid + j].blendIndice2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[2] + tTotalElapsedIndiceCount;
+				vertices[vid + j].blendIndice3 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[3] + tTotalElapsedIndiceCount;
 
 				vertices[vid + j].blendWeight0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[0];
 				vertices[vid + j].blendWeight1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[1];
 				vertices[vid + j].blendWeight2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[2];
 
-				//vertices[vid + j].blendIndice0 = 0;
-				//vertices[vid + j].blendIndice1 = 0;
-				//vertices[vid + j].blendIndice2 = 0;
-				//vertices[vid + j].blendIndice3 = 0;
+				//vertices[vid + j].blendWeight0 = 0.2f;
+				//vertices[vid + j].blendWeight1 = 0.2f;
+				//vertices[vid + j].blendWeight2 = 0.2f;
+
+				//vertices[vid + j].blendIndice0 = _vertexBoneVector.at(j).IDs[0];
+				//vertices[vid + j].blendIndice1 = _vertexBoneVector.at(j).IDs[1];
+				//vertices[vid + j].blendIndice2 = _vertexBoneVector.at(j).IDs[2];
+				//vertices[vid + j].blendIndice3 = _vertexBoneVector.at(j).IDs[3];
 				//
-				//vertices[vid + j].blendWeight0 = 0.f;
-				//vertices[vid + j].blendWeight1 = 0.f;
-				//vertices[vid + j].blendWeight2 = 0.f;
+				//vertices[vid + j].blendWeight0 = _vertexBoneVector.at(j).Weights[0];
+				//vertices[vid + j].blendWeight1 = _vertexBoneVector.at(j).Weights[1];
+				//vertices[vid + j].blendWeight2 = _vertexBoneVector.at(j).Weights[2];
 			}
 
 			for (uint32_t j = 0; j < m->mNumFaces; j++)
@@ -355,14 +366,15 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT3 tPosition = { 0.0f, 0.0f, 0.0f };
 		DirectX::XMVECTOR tPosVec = DirectX::XMLoadFloat3(&tPosition);
 
-		DirectX::XMFLOAT4 tRotQuat = { 0.0f, 0.0f, 0.0f, 0.0f };
+		DirectX::XMFLOAT4 tRotQuat = { 0.0f, 0.0f, 0.0f, 1.0f };
 		DirectX::XMVECTOR tRotQuatVec = DirectX::XMLoadFloat4(&tRotQuat);
 
 		//0.01 스케일링 적용.
 		//이 모델이 되따 크다.
 		//DirectX::XMFLOAT3 tScale = { 0.0001f, 0.0001f, 0.0001f };
 		//DirectX::XMFLOAT3 tScale = { 0.001f, 0.001f, 0.001f };
-		DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
+		//DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
+		DirectX::XMFLOAT3 tScale = { 0.1f, 0.1f, 0.1f };
 		//DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
 		DirectX::XMVECTOR tScaleVec = DirectX::XMLoadFloat3(&tScale);
 
@@ -503,6 +515,16 @@ namespace Pg::Graphics
 		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
 			LowDX11Storage::GetInstance()->_deviceContext,
 			t3rdSRVPath.c_str(), nullptr, &(_tempSRVArray[2])));
+
+		//Timmy
+		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
+			LowDX11Storage::GetInstance()->_deviceContext,
+			L"../Resources/3DModels/Animated/Textures/Timmy_Diffuse.png", nullptr, &_tempTimmySRV));
+
+		//Direct3D Cylinder
+		HR(DirectX::CreateDDSTextureFromFile(LowDX11Storage::GetInstance()->_device,
+			LowDX11Storage::GetInstance()->_deviceContext,
+			L"../Resources/3DModels/Animated/Textures/WoodCrate01.dds", nullptr, &_tempCylinderSRV));
 	}
 
 	void MultimaterialMesh::SetupBoneData(std::vector<RenderUsageVertexBone>& vBoneList, const aiScene* scene, unsigned int verticeCount)
@@ -577,12 +599,26 @@ namespace Pg::Graphics
 			_mappedBones[BoneName] = BoneIndex;
 
 			// Obtains the offset matrix which transforms the bone from mesh space into bone space. 
-			aiMatrix4x4 tOffsetMat = mesh->mBones[i]->mOffsetMatrix;
-
-			//Column Major -> Row Major : 전치.
-			tOffsetMat = tOffsetMat.Transpose();
+			{
+				//aiMatrix4x4 tOffsetMat = mesh->mBones[i]->mOffsetMatrix;
+				//
+				////Column Major -> Row Major : 전치.
+				//tOffsetMat = tOffsetMat.Transpose();
+				//DirectX::XMFLOAT4X4 tXMOffsetMat;
+				//std::memcpy(&tXMOffsetMat, &tOffsetMat, sizeof(DirectX::XMFLOAT4X4));
+			}
 			DirectX::XMFLOAT4X4 tXMOffsetMat;
-			std::memcpy(&tXMOffsetMat, &tOffsetMat, sizeof(DirectX::XMFLOAT4X4));
+			DirectX::XMMATRIX tXMOffsetMatMat = DirectX::XMMATRIX(&mesh->mBones[i]->mOffsetMatrix.a1);
+			tXMOffsetMatMat = DirectX::XMMatrixTranspose(tXMOffsetMatMat);
+			DirectX::XMStoreFloat4x4(&tXMOffsetMat, tXMOffsetMatMat);
+
+			///TRY
+			{
+				//DirectX::XMMATRIX tXMOffsetMatMat = DirectX::XMLoadFloat4x4(&tXMOffsetMat);
+				////tXMOffsetMatMat = DirectX::XMMatrixMultiply(tXMOffsetMatMat, DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(180.0f)));
+				//DirectX::XMStoreFloat4x4(&tXMOffsetMat, tXMOffsetMatMat);
+			}
+		
 			_renderBoneInfoVector[BoneIndex].BoneOffset = tXMOffsetMat;
 
 			// Iterate over all the affected vertices by this bone i.e weights. 
@@ -614,7 +650,7 @@ namespace Pg::Graphics
 
 		//현재 3DModel은 3개인 상태 : 0 / 1 / 2 중 2가 T-Pose.
 		
-
+		static short tChoice = 0;
 		//if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveBack))
 		//{
 		//	tChoice = 0;
@@ -627,35 +663,25 @@ namespace Pg::Graphics
 		//{
 		//	tChoice = 2;
 		//}
-		static short tChoice = 1;
+		
 		aiAnimation* tAnim = nullptr;
 		tAnim = scene->mAnimations[tChoice];
 
 		//절대로 일단은 정해져 있는 Tick 수 넘어가지 않게 -> 나머지 연산을 할것. 
 		static double tPlayTickDur = 0;
 		tPlayTickDur += 0.1;
-		double tInwardTick = fmod(tPlayTickDur, tAnim->mDuration);
-		assert(tInwardTick < tAnim->mDuration);
+		
 		//PG_TRACE(tInwardTick);
 
-		//static double tInwardTick = 0;
-		//if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveRight))
+		//static double tPlayTickDur = 0;
+		//if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveUp))
 		//{
-		//	tInwardTick += 10;
-		//	PG_TRACE(tInwardTick);
+		//	tPlayTickDur += 1;
+		//	//PG_TRACE(tInwardTick);
 		//}
-		
-		//DirectX::XMFLOAT4X4 tDefaultMat =
-		//{ 100000000.0f,0.0f,0.0f,0.0f,
-		//  0.0f,100000000.0f,0.0f,0.0f,
-		//  0.0f,0.0f,100000000.0f,0.0f,
-		//  0.0f,0.0f,0.0f,100000000.0f };
 
-		//DirectX::XMFLOAT4X4 tDefaultMat =
-		//{ 10000.0f,0.0f,0.0f,0.0f,
-		//  0.0f,10000.0f,0.0f,0.0f,
-		//  0.0f,0.0f,10000.0f,0.0f,
-		//  0.0f,0.0f,0.0f,10000.0f };
+		double tInwardTick = fmod(tPlayTickDur, tAnim->mDuration);
+		assert(tInwardTick < tAnim->mDuration);
 
 		DirectX::XMFLOAT4X4 tDefaultMat =
 		{ 1.0f,0.0f,0.0f,0.0f,
@@ -663,20 +689,17 @@ namespace Pg::Graphics
 		  0.0f,0.0f,1.0f,0.0f,
 		  0.0f,0.0f,0.0f,1.0f };
 
-		//Bone의 사이즈도 덩달아 줄여주기.
 		//DirectX::XMFLOAT4X4 tDefaultMat =
-		//{ 0.0001f,0.0f,0.0f,0.0f,
-		//  0.0f,0.0001f,0.0f,0.0f,
-		//  0.0f,0.0f,0.0001f,0.0f,
-		//  0.0f,0.0f,0.0f,0.0001f };
+		//{ -1.0f,0.0f,0.0f,0.0f,
+		//  0.0f,-1.0f,0.0f,0.0f,
+		//  0.0f,0.0f,-1.0f,0.0f,
+		//  0.0f,0.0f,0.0f,-1.0f };
 
 		//DirectX::XMFLOAT4X4 tDefaultMat =
-		//{ 0.001f,0.0f,0.0f,0.0f,
-		//  0.0f,0.001f,0.0f,0.0f,
-		//  0.0f,0.0f,0.001f,0.0f,
-		//  0.0f,0.0f,0.0f,0.001f };
-
-		//, 0.0001f, 0.0001f
+		//{ 0.1f,0.0f,0.0f,0.0f,
+		//  0.0f,0.1f,0.0f,0.0f,
+		//  0.0f,0.0f,0.1f,0.0f,
+		//  0.0f,0.0f,0.0f,0.1f };
 
 		//ReadNodeHierarchy(tInwardTick, scene->mRootNode, tAnim, tDefaultMat);
 		ReadNodeHierarchy(tInwardTick, scene->mRootNode, tAnim, tDefaultMat);
@@ -704,10 +727,52 @@ namespace Pg::Graphics
 
 		// Obtain transformation relative to node's parent. 
 		aiMatrix4x4 tAiTrans = pNode->mTransformation;
-		tAiTrans.Transpose();
+		//tAiTrans.Transpose();
 		//tAiTrans = tAiTrans.Transpose();
 		DirectX::XMFLOAT4X4 NodeTransformation;
+
+		///Before
+		//std::memcpy(&NodeTransformation, &tAiTrans, sizeof(DirectX::XMFLOAT4X4));
+		///
+
+		///Try
 		std::memcpy(&NodeTransformation, &tAiTrans, sizeof(DirectX::XMFLOAT4X4));
+		//DirectX::XMMATRIX NodeTransMat = DirectX::XMLoadFloat4x4(&NodeTransformation);
+		//NodeTransMat = DirectX::XMMatrixMultiply(DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(180.0f)),NodeTransMat);
+		//NodeTransMat = DirectX::XMMatrixMultiply(NodeTransMat, DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(180.0f)));
+		//NodeTransMat = DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(180.0f));
+		//DirectX::XMStoreFloat4x4(&NodeTransformation, NodeTransMat);
+		{
+			DirectX::XMMATRIX tParRelMat = DirectX::XMLoadFloat4x4(&NodeTransformation);
+			DirectX::XMVECTOR ttScale;
+			DirectX::XMVECTOR ttRotQuat;
+			DirectX::XMVECTOR ttTranslate;
+			DirectX::XMMatrixDecompose(&ttScale, &ttRotQuat, &ttTranslate, tParRelMat);
+
+			DirectX::XMFLOAT3 ttScaleFF;
+			DirectX::XMFLOAT4 ttRotQuatFF;
+			DirectX::XMFLOAT3 ttTranslateFF;
+
+			DirectX::XMStoreFloat3(&ttScaleFF, ttScale);
+			DirectX::XMStoreFloat4(&ttRotQuatFF, ttRotQuat);
+			DirectX::XMStoreFloat3(&ttTranslateFF, ttTranslate);
+
+			DirectX::XMVECTOR translation = DirectX::XMVectorSet(ttTranslateFF.x, ttTranslateFF.y, ttTranslateFF.z, 1.0f);
+			DirectX::XMVECTOR rotationQuaternion = DirectX::XMVectorSet(ttRotQuatFF.x, ttRotQuatFF.y, ttRotQuatFF.z, ttRotQuatFF.w);
+
+			DirectX::XMVECTOR scale = DirectX::XMVectorSet(ttScaleFF.x, ttScaleFF.y, ttScaleFF.z, 1.0f);
+
+			// Create the transformation matrix for the bone
+			DirectX::XMMATRIX tBoneTransform = DirectX::XMMatrixScalingFromVector(scale) *
+				DirectX::XMMatrixRotationQuaternion(rotationQuaternion) *
+				DirectX::XMMatrixTranslationFromVector(translation);
+
+			///TRY
+			tBoneTransform = DirectX::XMMatrixMultiply(tBoneTransform, DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(180.0f)));
+			//tBoneTransform = DirectX::XMMatrixMultiply(DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(90.0f)), tBoneTransform);
+			DirectX::XMStoreFloat4x4(&NodeTransformation, tBoneTransform);
+		}
+		///
 
 		const aiNodeAnim* pNodeAnim = nullptr;
 
@@ -751,6 +816,8 @@ namespace Pg::Graphics
 		DirectX::XMMATRIX parentTransformMat = DirectX::XMLoadFloat4x4(&parentTransform);
 
 		DirectX::XMMATRIX GlobalTransformation = DirectX::XMMatrixMultiply(nodeTransformationMat, parentTransformMat);
+		//DirectX::XMMATRIX GlobalTransformation = DirectX::XMMatrixMultiply(parentTransformMat, nodeTransformationMat);
+
 		DirectX::XMFLOAT4X4 GlobalTransformationFF;
 		DirectX::XMStoreFloat4x4(&GlobalTransformationFF, GlobalTransformation);
 
@@ -760,19 +827,27 @@ namespace Pg::Graphics
 			unsigned int BoneIndex = _mappedBones[NodeName];
 
 			//현재로서는 매 프레임 역행렬을 구한다.
-			aiMatrix4x4 tAiRootTrans = scene->mRootNode->mTransformation;
-			tAiRootTrans = tAiRootTrans.Transpose();
-			DirectX::XMFLOAT4X4 tRootTrans;
-			std::memcpy(&tRootTrans, &tAiRootTrans, sizeof(DirectX::XMFLOAT4X4));
-
-			//위에 있는 변수와 잘 구별해야 한다!
-			DirectX::XMMATRIX tGlobalTrans = DirectX::XMLoadFloat4x4(&tRootTrans);
-			DirectX::XMVECTOR tDet = DirectX::XMVectorZero();
-			DirectX::XMMATRIX tGlobalInverseTransform = DirectX::XMMatrixInverse(&tDet, tGlobalTrans);
+			//aiMatrix4x4 tAiRootTrans = scene->mRootNode->mTransformation;
+			DirectX::XMMATRIX tGlobalInverseTransform = DirectX::XMMATRIX(&scene->mRootNode->mTransformation.Inverse().a1);
+			{
+				//tAiRootTrans = tAiRootTrans.Transpose();
+				//DirectX::XMFLOAT4X4 tRootTrans;
+				//std::memcpy(&tRootTrans, &tAiRootTrans, sizeof(DirectX::XMFLOAT4X4));
+				//
+				////위에 있는 변수와 잘 구별해야 한다!
+				//DirectX::XMMATRIX tGlobalTrans = DirectX::XMLoadFloat4x4(&tRootTrans);
+				//DirectX::XMVECTOR tDet = DirectX::XMVectorZero();
+				//DirectX::XMMATRIX tGlobalInverseTransform = DirectX::XMMatrixInverse(&tDet, tGlobalTrans);
+			}
+			
 
 			DirectX::XMMATRIX tBoneOffsetMat = DirectX::XMLoadFloat4x4(&(_renderBoneInfoVector[BoneIndex].BoneOffset));
 			//1차 망가지기 전 Answer.
 			DirectX::XMMATRIX tFinalTrans = DirectX::XMMatrixMultiply(DirectX::XMMatrixMultiply(tBoneOffsetMat, GlobalTransformation), tGlobalInverseTransform);
+			//DirectX::XMMATRIX tFinalTrans = DirectX::XMMatrixMultiply(tGlobalInverseTransform, DirectX::XMMatrixMultiply(tBoneOffsetMat, GlobalTransformation));
+			///TRY
+			//tFinalTrans = DirectX::XMMatrixMultiply(tFinalTrans, DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(180.0f)));
+
 			DirectX::XMStoreFloat4x4(&(_renderBoneInfoVector[BoneIndex].FinalTransformation), tFinalTrans);
 		}
 
@@ -818,6 +893,7 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT4 EndRotationQ = { tAiEndRotationQ.x,tAiEndRotationQ.y,tAiEndRotationQ.z,tAiEndRotationQ.w };
 
 		DirectX::XMVECTOR StartRotationQVec = DirectX::XMLoadFloat4(&StartRotationQ);
+
 		DirectX::XMVECTOR EndRotationQVec = DirectX::XMLoadFloat4(&EndRotationQ);
 
 		// Interpolate between them using the Factor. 
@@ -912,7 +988,8 @@ namespace Pg::Graphics
 			//Mesh의 인덱스에 따라 PSSetShaderResources를
 			//해당 Mesh의 Material의 인덱스에 맞게 호출한다.
 			
-			_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[tAiMesh->mMaterialIndex]));
+			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[tAiMesh->mMaterialIndex]));
+			_devCon->PSSetShaderResources(0, 1, &_tempCylinderSRV);
 			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[0]));
 
 			_devCon->DrawIndexed(m.numIndices, m.startIndex, m.startVertex);

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Asset3DModelData.h" />
     <ClInclude Include="Asset3DModelDefine.h" />
     <ClInclude Include="Asset3DModelHelper.h" />
@@ -41,6 +42,7 @@
     <ClInclude Include="DeferredRenderer.h" />
     <ClInclude Include="DemoGeometryGenerator.h" />
     <ClInclude Include="Forward2DRenderer.h" />
+    <ClInclude Include="Joint.h" />
     <ClInclude Include="RenderFont.h" />
     <ClInclude Include="RenderObject2DList.h" />
     <ClInclude Include="RenderObject3DList.h" />
@@ -80,6 +82,9 @@
     <ClInclude Include="RenderTexture2D.h" />
     <ClInclude Include="RenderUsageStruct2D.h" />
     <ClInclude Include="RenderUsageStruct3D.h" />
+    <ClInclude Include="BonePerVertex.h" />
+    <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="SkinnedMultiMatMesh.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TempBoneHelper.h" />
     <ClInclude Include="TempCamera.h" />
@@ -90,6 +95,7 @@
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Asset3DModelData.cpp" />
     <ClCompile Include="Asset3DModelDefine.cpp" />
     <ClCompile Include="Asset3DModelHelper.cpp" />
@@ -114,6 +120,7 @@
     <ClCompile Include="GraphicsResourceHelper.cpp" />
     <ClCompile Include="GraphicsResourceManager.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="Joint.cpp" />
     <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="LowDX11Logic.cpp" />
     <ClCompile Include="LowDX11Storage.cpp" />
@@ -138,6 +145,9 @@
     <ClCompile Include="RenderTexture2D.cpp" />
     <ClCompile Include="RenderUsageStruct2D.cpp" />
     <ClCompile Include="RenderUsageStruct3D.cpp" />
+    <ClCompile Include="BonePerVertex.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
+    <ClCompile Include="SkinnedMultiMatMesh.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TempBoneHelper.cpp" />
     <ClCompile Include="TempCamera.cpp" />

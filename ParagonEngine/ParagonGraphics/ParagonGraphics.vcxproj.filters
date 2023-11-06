@@ -173,16 +173,31 @@
       <Filter>4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D</Filter>
     </ClInclude>
     <ClInclude Include="Bone.h">
-      <Filter>5_Misc\Tofu</Filter>
+      <Filter>5_Misc\Temp\Tofu</Filter>
     </ClInclude>
     <ClInclude Include="TofuMath.h">
-      <Filter>5_Misc\Tofu</Filter>
+      <Filter>5_Misc\Temp\Tofu</Filter>
     </ClInclude>
     <ClInclude Include="TofuMesh.h">
-      <Filter>5_Misc\Tofu</Filter>
+      <Filter>5_Misc\Temp\Tofu</Filter>
     </ClInclude>
     <ClInclude Include="TempBoneHelper.h">
-      <Filter>5_Misc\TempBoneHelper</Filter>
+      <Filter>5_Misc\Temp\TempBoneHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinnedMultiMatMesh.h">
+      <Filter>7_OtherObject\SkinnedMultiMatMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton.h">
+      <Filter>5_Misc\Temp\VWPSFG</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>5_Misc\Temp\VWPSFG</Filter>
+    </ClInclude>
+    <ClInclude Include="Joint.h">
+      <Filter>5_Misc\Temp\VWPSFG</Filter>
+    </ClInclude>
+    <ClInclude Include="BonePerVertex.h">
+      <Filter>5_Misc\Temp\VWPSFG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -331,7 +346,22 @@
       <Filter>4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D</Filter>
     </ClCompile>
     <ClCompile Include="TempBoneHelper.cpp">
-      <Filter>5_Misc\TempBoneHelper</Filter>
+      <Filter>5_Misc\Temp\TempBoneHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinnedMultiMatMesh.cpp">
+      <Filter>7_OtherObject\SkinnedMultiMatMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>5_Misc\Temp\VWPSFG</Filter>
+    </ClCompile>
+    <ClCompile Include="Joint.cpp">
+      <Filter>5_Misc\Temp\VWPSFG</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>5_Misc\Temp\VWPSFG</Filter>
+    </ClCompile>
+    <ClCompile Include="BonePerVertex.cpp">
+      <Filter>5_Misc\Temp\VWPSFG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -488,11 +518,29 @@
     <Filter Include="4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D">
       <UniqueIdentifier>{8dbf0ed9-5baa-4360-aa75-058feb8f6aba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5_Misc\Tofu">
+    <Filter Include="7_OtherObject\SkinnedMultiMatMesh">
+      <UniqueIdentifier>{52754c21-d10f-41f7-b39b-43056277c9e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\Temp">
+      <UniqueIdentifier>{927d72a3-cad5-4a5e-a849-d8aba3086e03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\Temp\TempBoneHelper">
+      <UniqueIdentifier>{39dae302-b568-4cad-99aa-494322f9d07c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\Temp\Tofu">
       <UniqueIdentifier>{4f05be43-07d0-4c80-9c69-c0026b3458c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5_Misc\TempBoneHelper">
-      <UniqueIdentifier>{39dae302-b568-4cad-99aa-494322f9d07c}</UniqueIdentifier>
+    <Filter Include="5_Misc\Temp\VWPSFG">
+      <UniqueIdentifier>{26389ffb-6577-4617-8488-db318852adb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\Temp\VWPSFG\Skeleton">
+      <UniqueIdentifier>{e3cdbe15-2c0e-4028-874a-bdc8357a86dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\Temp\VWPSFG\Joint">
+      <UniqueIdentifier>{6b7c816a-f441-4471-b5b8-4be6b408b852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\Temp\VWPSFG\Animation">
+      <UniqueIdentifier>{9aad9a69-a901-47bb-86ee-57e56eeb8ee9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
