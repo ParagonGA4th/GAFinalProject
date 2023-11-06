@@ -140,6 +140,8 @@ namespace Pg::Graphics
 	private:
 		//Boss_Test_NonDeform_MultiMat.fbx를 렌더하기 위해서, 개별적으로 SRV들 마련. (임베딩X, 작동을 보려고)
 		std::array< ID3D11ShaderResourceView*, 3> _tempSRVArray;
+		ID3D11ShaderResourceView* _tempTimmySRV;
+		ID3D11ShaderResourceView* _tempCylinderSRV;
 
 
 	private:
