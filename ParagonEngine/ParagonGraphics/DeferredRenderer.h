@@ -35,7 +35,7 @@ namespace Pg::Graphics
 		void BeginRender();
 
 		void RenderFirstPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
-		void BuildLight(RenderObjectLightList* lightList);
+		void RenderLight(RenderObjectLightList* lightList, Pg::Data::CameraData* camData);
 		void RenderSecondPass();
 
 		void ClearGBuffers();

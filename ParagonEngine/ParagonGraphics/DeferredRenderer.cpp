@@ -258,10 +258,12 @@ void Pg::Graphics::DeferredRenderer::UnbindLightingPass()
 	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), NullRTV.data(), _DXStorage->_depthStencilView);
 }
 
-void Pg::Graphics::DeferredRenderer::BuildLight(RenderObjectLightList* lightData)
+void Pg::Graphics::DeferredRenderer::RenderLight(RenderObjectLightList* lightList, Pg::Data::CameraData* camData)
 {
-	// 라이트 정보를 담고 있는 상수버퍼를 조립하고 업데이트
-	lightData->UpdateConstantBuffer();
+	// 조명 정보를 담고 있는 상수버퍼를 조립하고 업데이트
+	lightList->Update(camData);
+	lightList->UpdateConstantBuffer();
 
+	// 조명을 연산한다
 	_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
 }
