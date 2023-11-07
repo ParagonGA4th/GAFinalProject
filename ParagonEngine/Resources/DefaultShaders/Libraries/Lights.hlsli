@@ -65,4 +65,7 @@ cbuffer cbSpotLight : register(b2)
 cbuffer cbLightingData : register(b3)
 {
 	float3 camPosW;
+	unsigned int bufferToRender;
+	// 0 - 6 : GBuffers
+	// 7 : MainRT
 }

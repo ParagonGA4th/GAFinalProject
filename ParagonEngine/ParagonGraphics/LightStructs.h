@@ -78,5 +78,6 @@ namespace Pg::Data::Structs
 	__declspec(align(16)) struct LightingData
 	{
 		PGFLOAT3 camPosW;
+		unsigned int bufferToRender;
 	};
 }
