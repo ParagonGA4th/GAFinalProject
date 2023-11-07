@@ -7,7 +7,6 @@
 #include "Filter.h"
 
 #include "../ParagonUI/UIManager.h"
-
 #include <singleton-cpp/singleton.h>
 
 Pg::Editor::Manager::EditorManager::EditorManager()

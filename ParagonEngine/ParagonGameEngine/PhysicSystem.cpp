@@ -3,6 +3,7 @@
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Collider.h"
 #include "../ParagonData/BoxCollider.h"
+#include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonUtil/Log.h"
 
@@ -127,27 +128,24 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::MakeDynamicBoxCollider(Pg::Data::GameObject* obj)
 	{
-		//Collider를 Box로 설정
+		//Collider를 Box로 설정 
 		Pg::Data::Collider* col = obj->GetComponent<Pg::Data::BoxCollider>();
 
 		auto colliderVec = obj->GetComponents<Pg::Data::BoxCollider>();
 
-		//for (auto collider : colliderVec)
-		//{
-		//	Pg::Data::BoxCollider* boxcol = dynamic_cast<Pg::Data::BoxCollider*>(col);
+		for (auto& collider : colliderVec)
+		{
+			Pg::Data::BoxCollider* boxcol = dynamic_cast<Pg::Data::BoxCollider*>(collider);
 
-		//	//physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(boxcol->GetWidth() / 2),
-		//	//	boxcol->GetHeight() / 2, boxcol->GetDepth() / 2);
+			physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(boxcol->GetWidth() / 2 ,
+				boxcol->GetHeight() / 2, boxcol->GetDepth() / 2), *_material);
 
-		//	//Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
-		//	//
-		//	//physx::PxTransform local(physx::PxVec3(position.x, position.y, position.z));
+			Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 
-		//	//RigidBody 생성(적용은 시키지 않음)
-		//	//physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
+			physx::PxTransform local(physx::PxVec3(position.x, position.y, position.z));
 
-		//	////_physics->createS
-		//}
+			boxShape->release();
+		}
 
 	}
 
@@ -158,6 +156,14 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::MakeDynamicCapsuleCollider(Pg::Data::GameObject* obj)
 	{
+		//Pg::Data::Collider* tmp = obj->GetComponent<Pg::Data::CapsuleCollider*>()
+	}
+
+	void PhysicSystem::CreateDynamicRigid(physx::PxShape* shape)
+	{
+		//RigidBody 생성(적용은 시키지 않음)
+		//physx::PxRigidDynamic* rigid = _physics->createRigidDynamic();
 
 	}
+
 }
