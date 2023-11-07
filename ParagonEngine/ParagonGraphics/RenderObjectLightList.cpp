@@ -10,10 +10,15 @@
 
 #include "../ParagonData/Transform.h"
 
+#include "../ParagonAPI/PgInput.h"
+
 Pg::Graphics::RenderObjectLightList::RenderObjectLightList()
 	:_DXStorage(LowDX11Storage::GetInstance()), _lightingData()
 {
-	
+	auto& tInputSystem = singleton<Pg::API::Input::PgInput>();
+	_input = &tInputSystem;
+
+	_lightingData.bufferToRender = 7;
 }
 
 void Pg::Graphics::RenderObjectLightList::UpdateConstantBuffer()
@@ -108,4 +113,13 @@ void Pg::Graphics::RenderObjectLightList::ClearLightData()
 void Pg::Graphics::RenderObjectLightList::Update(Pg::Data::CameraData* camData)
 {
 	_lightingData.camPosW = camData->_position;
+
+	if (_input->GetKeyDown(API::Input::NextRenderTarget))
+	{
+		_lightingData.bufferToRender = (_lightingData.bufferToRender + 1) % 8;
+	}
+	else if (_input->GetKeyDown(API::Input::PrevRenderTarget))
+	{
+		_lightingData.bufferToRender = (_lightingData.bufferToRender -1) % 8;
+	}
 }

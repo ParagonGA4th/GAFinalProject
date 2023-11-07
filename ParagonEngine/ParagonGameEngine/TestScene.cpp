@@ -146,17 +146,31 @@ void Pg::Engine::TestScene::Initialize()
 	tLight3->GetComponent<SpotLight>()->SetActive(true);
 
 	GameObject* tObj3 = tCurrentScene->AddObject("BtnTest");
-	tObj3->GetComponent<Transform>()->SetPosition({ 50.f, 50.f, 0.f });
+	tObj3->GetComponent<Transform>()->SetPosition({ 10.f, 140.f, 0.f });
 	tObj3->GetComponent<Transform>()->SetIs3D(false);
 	tObj3->AddComponent<Button>();
 	tObj3->GetComponent<ImageRenderer>()->SetImagePath("../Resources/Textures/wook.jpg");
 
 	GameObject* tObj4 = tCurrentScene->AddObject("TextTest");
-	tObj4->GetComponent<Transform>()->SetPosition({ 100.0f, 10.f, 0.f });
+	tObj4->GetComponent<Transform>()->SetPosition({ 10.0f, 100.f, 0.f });
 	tObj4->GetComponent<Transform>()->SetIs3D(false);
 	tObj4->AddComponent<TextRenderer>();
 	tObj4->GetComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_16.spritefont");
 	tObj4->GetComponent<TextRenderer>()->SetString("Koh Tae Wook");
+
+	GameObject* tObj4_1 = tCurrentScene->AddObject("TextTest");
+	tObj4_1->GetComponent<Transform>()->SetPosition({ 10.0f, 340.f, 0.f });
+	tObj4_1->GetComponent<Transform>()->SetIs3D(false);
+	tObj4_1->AddComponent<TextRenderer>();
+	tObj4_1->GetComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_16.spritefont");
+	tObj4_1->GetComponent<TextRenderer>()->SetString("Je Bal");
+
+	GameObject* tObj5 = tCurrentScene->AddObject("TextTest");
+	tObj5->GetComponent<Transform>()->SetPosition({ 10.0f, 10.f, 0.f });
+	tObj5->GetComponent<Transform>()->SetIs3D(false);
+	tObj5->AddComponent<TextRenderer>();
+	tObj5->GetComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_13.spritefont");
+	tObj5->GetComponent<TextRenderer>()->SetString("[ f11 ] Previous Render Target\n[ f12 ] Next Render Target");
 
 	//이렇게 하면 메인 카메라 바뀜!!
 	tCurrentScene->SetMainCamera(tObj1->GetComponent<Camera>());

@@ -4,6 +4,11 @@
 
 #include "LightStructs.h"
 
+namespace Pg::API::Input
+{
+	class PgInput;
+}
+
 namespace Pg::Graphics
 {
 	class RenderObjectLight;
@@ -59,5 +64,7 @@ namespace Pg::Graphics
 		void Update(Pg::Data::CameraData* camData);
 	private:
 		LowDX11Storage* _DXStorage;
+
+		Pg::API::Input::PgInput* _input;
 	};
 }
