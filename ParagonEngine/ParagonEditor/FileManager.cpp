@@ -1,6 +1,7 @@
 #include "FileManager.h"
 #include <cassert>
 #include <shobjidl.h>
+#include <fstream>
 
 void Pg::Editor::Manager::FileManager::Initialize(std::string path)
 {
@@ -9,13 +10,34 @@ void Pg::Editor::Manager::FileManager::Initialize(std::string path)
 
 void Pg::Editor::Manager::FileManager::FileOpen()
 {
-	std::string openFile = GetOpenFilePath();
+	std::string openFileFullPath = GetOpenFilePath();
 
+	// 파일 스트림을 열기
+	std::ifstream fileStream(openFileFullPath);
+	std::string fileContext;
+
+	if (fileStream.is_open()) 
+	{
+		std::string line;
+		// 파일로부터 한 줄씩 읽어오기
+		while (std::getline(fileStream, line)) 
+		{
+			fileContext.append(line);
+		}
+
+		// 파일 스트림 닫기
+		fileStream.close();
+	}
+
+	while (fileContext.find("\t") != std::string::npos)
+	{
+		fileContext.erase(fileContext.find("\t"), 1);
+	}
 }
 
 bool Pg::Editor::Manager::FileManager::FileSave()
 {
-	std::string saveFile = GetSaveFilePath();
+	std::string saveFileFullPath = GetSaveFilePath();
 
 	return true;
 }
@@ -117,7 +139,7 @@ void Pg::Editor::Manager::FileManager::ShowDialog(IFileDialog* fileDialog, std::
 	}
 }
 
-//
+
 //void Pg::Editor::Manager::FileManager::XmlLoad()
 //{
 //	pugi::xml_document doc;

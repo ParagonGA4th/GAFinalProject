@@ -14,8 +14,11 @@ namespace Pg::Editor::Helper
 		void SetDeviceContext(ID3D11DeviceContext* deviceContext);
 		ID3D11DeviceContext* GetDeviceContext();
 
-		void SetTexture(void* Texture);
-		void* GetTexture();
+		void SetSceneTexture(void* Texture);
+		void* GetSceneTexture();
+
+		void SetGameTexture(void* Texture);
+		void* GetGameTexture();
 
 		void SetEditorOnOff(bool onoff);
 		bool GetEditorOnOff();
@@ -24,7 +27,8 @@ namespace Pg::Editor::Helper
 		ID3D11Device* _device;
 		ID3D11DeviceContext* _deviceContext;
 
-		void* _TestTexture;
+		void* _sceneTexture;
+		void* _gameTexture;
 
 		bool _onOff;
 	};
