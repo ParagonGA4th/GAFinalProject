@@ -18,18 +18,10 @@ namespace Pg::UI::Manager
 		void Render();
 		void Finalize();
 
-		void ViewTest(void* Texture);
-
 		void ImguiHandler(MSG message);
 
 		static void Begin(std::string windowName);
 		static void End();
-
-	private:
-		void DemoInspector();
-		void DemoHierarchy();
-		void DemoFilter();
-		void DemoViewPort(void* Texture);
 	};
 }
 
