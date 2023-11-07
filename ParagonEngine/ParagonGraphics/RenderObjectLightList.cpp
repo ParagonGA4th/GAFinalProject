@@ -8,10 +8,12 @@
 #include "../ParagonData/PointLight.h"
 #include "../ParagonData/SpotLight.h"
 
-Pg::Graphics::RenderObjectLightList::RenderObjectLightList()
-	:_DXStorage(LowDX11Storage::GetInstance())
-{
+#include "../ParagonData/Transform.h"
 
+Pg::Graphics::RenderObjectLightList::RenderObjectLightList()
+	:_DXStorage(LowDX11Storage::GetInstance()), _lightingData()
+{
+	
 }
 
 void Pg::Graphics::RenderObjectLightList::UpdateConstantBuffer()
@@ -22,11 +24,14 @@ void Pg::Graphics::RenderObjectLightList::UpdateConstantBuffer()
 	}
 }
 
-void Pg::Graphics::RenderObjectLightList::ParseLights(Pg::Data::Light* lightComponent)
+void Pg::Graphics::RenderObjectLightList::ParseLights(Pg::Data::Transform* transform, Pg::Data::Light* lightComponent)
 {
+	// 광원의 종류에 따라 다른 리스트에 저장한다
 	if (Pg::Data::DirectionalLight* directionalLight = dynamic_cast<Pg::Data::DirectionalLight*>(lightComponent))
 	{
 		Pg::Data::Structs::DirectionalLight* tLightData = new Pg::Data::Structs::DirectionalLight();
+
+		tLightData->position = Pg::Math::PGFLOAT4(transform->GetPosition(), 0.0f);
 
 		tLightData->intensity = directionalLight->GetIntensity();
 		tLightData->color = directionalLight->GetLightColor();
@@ -41,6 +46,8 @@ void Pg::Graphics::RenderObjectLightList::ParseLights(Pg::Data::Light* lightComp
 	else if (Pg::Data::PointLight* pointLight = dynamic_cast<Pg::Data::PointLight*>(lightComponent))
 	{
 		Pg::Data::Structs::PointLight* tLightData = new Pg::Data::Structs::PointLight();
+
+		tLightData->position = Pg::Math::PGFLOAT4(transform->GetPosition(), 0.0f);
 
 		tLightData->intensity = pointLight->GetIntensity();
 		tLightData->color = pointLight->GetLightColor();
@@ -58,11 +65,15 @@ void Pg::Graphics::RenderObjectLightList::ParseLights(Pg::Data::Light* lightComp
 	{
 		Pg::Data::Structs::SpotLight* tLightData = new Pg::Data::Structs::SpotLight();
 		
+		tLightData->position = Pg::Math::PGFLOAT4(transform->GetPosition(), 0.0f);
+
 		tLightData->intensity = SpotLight->GetIntensity();
 		tLightData->color = SpotLight->GetLightColor();
 		tLightData->ambient = SpotLight->GetAmbient();
 		tLightData->diffuse = SpotLight->GetDiffuse();
 		tLightData->specular = SpotLight->GetSpecular();
+
+		tLightData->direction = SpotLight->GetDirection();
 
 		tLightData->attenuation = SpotLight->GetAttenuation();
 		tLightData->range = SpotLight->GetRange();
@@ -74,9 +85,17 @@ void Pg::Graphics::RenderObjectLightList::ParseLights(Pg::Data::Light* lightComp
 
 void Pg::Graphics::RenderObjectLightList::BuildConstantBuffer()
 {
+	// 각각의 리스트마다 상수버퍼를 만들어준다
+	// TODO: 광원 종류에 상관없이 상수버퍼를 하나만 만들고 enum으로 다른 처리를 해주는 방법도 있다
+	// 하지만 쉐이더 코드에 if문이 들어가는 것이 좋지 않은 것 같기 때문에..
+	// 더 좋은 방법이 있을까?
+
 	CreateConstantBuffer(_directionalLight.data(), _directionalLight.size());
 	CreateConstantBuffer(_pointLight.data(), _pointLight.size());
 	CreateConstantBuffer(_spotLight.data(), _spotLight.size());
+	CreateConstantBuffer(&_lightingData, 1);
+	
+	// TODO: 상수 버퍼에 데이터가 하나도 없을 경우 생성이 안되는 문제가 있다
 }
 
 void Pg::Graphics::RenderObjectLightList::ClearLightData()
@@ -84,4 +103,9 @@ void Pg::Graphics::RenderObjectLightList::ClearLightData()
 	_directionalLight.clear();
 	_pointLight.clear();
 	_spotLight.clear();
+}
+
+void Pg::Graphics::RenderObjectLightList::Update(Pg::Data::CameraData* camData)
+{
+	_lightingData.camPosW = camData->_position;
 }

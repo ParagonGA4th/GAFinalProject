@@ -83,7 +83,7 @@ namespace Pg::Graphics
 
 		// Deferred Lighting Pass
 		_deferredRenderer->BindLightingPass();
-		_deferredRenderer->BuildLight(_lights.get());
+		_deferredRenderer->RenderLight(_lights.get(), camData);
 		_deferredRenderer->UnbindLightingPass();
 
 		// Deferred Final Pass
@@ -210,15 +210,17 @@ namespace Pg::Graphics
 				}
 			}
 
-			// Light Component가 붙은 오브젝트들을 Light list에 넣는다. 이는 이후에 Lighting Pass에서 사용됨
+			// Light Component가 붙은 오브젝트들을 파싱하여 Light list에 넣는다. 이는 이후에 Lighting Pass에서 사용됨
 			Pg::Data::Light* tLightComponent = tGameObject->GetComponent<Pg::Data::Light>();
 			if (tLightComponent != nullptr)
 			{
-				_lights->ParseLights(tLightComponent);
+				Pg::Data::Transform* tLightTransform = tGameObject->GetComponent<Pg::Data::Transform>();
+				_lights->ParseLights(tLightTransform, tLightComponent);
 			}
 
 		}
 
+		// 리스트에 파싱된 조명 정보를 사용하여 상수 버퍼를 만든다
 		_lights->BuildConstantBuffer();
 		assert(true);
 	}

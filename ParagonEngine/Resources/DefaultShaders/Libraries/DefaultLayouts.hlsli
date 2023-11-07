@@ -64,7 +64,6 @@ struct VinLighting
 
 struct VOutLighting
 {
-    float3 PositionW : POSITION;
 	float4 PositionH : SV_POSITION;
 	float2 UV : TEXCOORD;
 };

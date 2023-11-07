@@ -1,5 +1,7 @@
 struct DirectionalLight
 {
+	float4 position;
+
     float4 color;
 
     float4 ambient;
@@ -13,6 +15,8 @@ struct DirectionalLight
 
 struct PointLight
 {
+	float4 position;
+	
     float4 color;
 
     float4 ambient;
@@ -27,6 +31,8 @@ struct PointLight
 
 struct SpotLight
 {
+	float4 position;
+	
     float4 color;
 
     float4 ambient;
@@ -35,6 +41,8 @@ struct SpotLight
 
     float intensity;
     
+	float3 direction;
+	
     float3 attenuation;
     float range;
 };
@@ -51,5 +59,10 @@ cbuffer cbPointLight : register(b1)
 
 cbuffer cbSpotLight : register(b2)
 {
-    PointLight spotLight[10];
+    SpotLight spotLight[10];
 };
+
+cbuffer cbLightingData : register(b3)
+{
+	float3 camPosW;
+}

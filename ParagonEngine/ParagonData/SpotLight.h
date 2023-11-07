@@ -13,10 +13,13 @@ namespace Pg::Data
 		virtual PGFLOAT3 GetAttenuation();
 		void SetRange(float d);
 		virtual float GetRange();
+		void SetDirection(const PGFLOAT3& direction);
+		PGFLOAT3& GetDirection();
 
 	private:
 		float _range;
 		PGFLOAT3 _attenuation;
+		PGFLOAT3 _direction;
 	};
 }
 

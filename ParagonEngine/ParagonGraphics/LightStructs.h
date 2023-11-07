@@ -7,8 +7,10 @@ namespace Pg::Data::Structs
 {
 	using namespace Pg::Math;
 
-	__declspec(align(16)) struct Light
+	struct Light
 	{
+		PGFLOAT4 position;
+
 		PGFLOAT4 color;
 		PGFLOAT4 ambient;
 		PGFLOAT4 diffuse;
@@ -26,6 +28,8 @@ namespace Pg::Data::Structs
 
 	__declspec(align(16)) struct DirectionalLight
 	{
+		PGFLOAT4 position;
+
 		PGFLOAT4 color;
 
 		PGFLOAT4 ambient;
@@ -39,6 +43,8 @@ namespace Pg::Data::Structs
 
 	__declspec(align(16)) struct PointLight
 	{
+		PGFLOAT4 position;
+
 		PGFLOAT4 color;
 
 		PGFLOAT4 ambient;
@@ -53,6 +59,8 @@ namespace Pg::Data::Structs
 
 	__declspec(align(16)) struct SpotLight
 	{
+		PGFLOAT4 position;
+
 		PGFLOAT4 color;
 
 		PGFLOAT4 ambient;
@@ -61,7 +69,14 @@ namespace Pg::Data::Structs
 
 		float intensity;
 
+		PGFLOAT3 direction;
+
 		PGFLOAT3 attenuation;
 		float range;
+	};
+
+	__declspec(align(16)) struct LightingData
+	{
+		PGFLOAT3 camPosW;
 	};
 }

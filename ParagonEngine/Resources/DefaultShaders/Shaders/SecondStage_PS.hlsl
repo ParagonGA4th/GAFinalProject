@@ -10,8 +10,9 @@ float4 main(VOutFinal pin) : SV_TARGET
 	float4 BaseColor = GBuffer[5].Sample(state, pin.UV);
 	float4 Phong = GBuffer[6].Sample(state, pin.UV);
 	
+	//output = BaseColor;
 	//output = Phong;
-	output = BaseColor * Phong;
+	output = BaseColor * Phong * 2;
 	
 	return output;
 }

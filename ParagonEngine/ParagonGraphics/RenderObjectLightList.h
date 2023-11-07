@@ -12,6 +12,8 @@ namespace Pg::Graphics
 namespace Pg::Data
 {
 	class Light;
+	class Transform;
+	class CameraData;
 }
 
 namespace Pg::Graphics
@@ -22,21 +24,25 @@ namespace Pg::Graphics
 	public:
 		RenderObjectLightList();
 
-	public:
-		//std::vector<void*> _data;
-		//std::vector<Pg::Data::Structs::Light*> _data;
-		
 
+	/// 조명 리스트 관련
 	public:
-		void UpdateConstantBuffer();
-		void ParseLights(Pg::Data::Light* lightComponent);
-		void BuildConstantBuffer();
 		void ClearLightData();
+		void ParseLights(Pg::Data::Transform* transform, Pg::Data::Light* lightComponent);
 
+	private:
+		// 광원을 종류별로 저장한다
+		std::vector<Pg::Data::Structs::DirectionalLight> _directionalLight;
+		std::vector<Pg::Data::Structs::PointLight> _pointLight;
+		std::vector<Pg::Data::Structs::SpotLight> _spotLight;
+		Pg::Data::Structs::LightingData _lightingData;
+
+	/// 상수 버퍼 관련
 	public:
 		// 상수 버퍼들을 저장하는 벡터
 		std::vector< ConstantBufferBase* > _constantBuffers;
 
+	public:
 		// 상수 버퍼 데이터를 추가하는 함수
 		template <typename T>
 		void CreateConstantBuffer(T* cbData, unsigned int size)
@@ -45,11 +51,12 @@ namespace Pg::Graphics
 			_constantBuffers.emplace_back(tCBuffer);
 		}
 
-	private:
-		std::vector<Pg::Data::Structs::DirectionalLight> _directionalLight;
-		std::vector<Pg::Data::Structs::PointLight> _pointLight;
-		std::vector<Pg::Data::Structs::SpotLight> _spotLight;
+		void BuildConstantBuffer();
+		void UpdateConstantBuffer();
 
+	/// 기타
+	public:
+		void Update(Pg::Data::CameraData* camData);
 	private:
 		LowDX11Storage* _DXStorage;
 	};

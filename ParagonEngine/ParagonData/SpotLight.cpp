@@ -30,5 +30,16 @@ namespace Pg::Data
 	{
 		return _range;
 	}
+
+	void SpotLight::SetDirection(const PGFLOAT3& direction)
+	{
+		_direction = direction;
+	}
+
+	Pg::Math::PGFLOAT3& SpotLight::GetDirection()
+	{
+		return _direction;
+	}
+
 }
 
