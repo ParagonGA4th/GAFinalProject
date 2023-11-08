@@ -84,7 +84,10 @@
     <ClInclude Include="RenderUsageStruct3D.h" />
     <ClInclude Include="BonePerVertex.h" />
     <ClInclude Include="Skeleton.h" />
-    <ClInclude Include="SkinnedMultiMatMesh.h" />
+    <ClInclude Include="SkinnedMultiMatMesh.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TempBoneHelper.h" />
     <ClInclude Include="TempCamera.h" />
@@ -147,7 +150,10 @@
     <ClCompile Include="RenderUsageStruct3D.cpp" />
     <ClCompile Include="BonePerVertex.cpp" />
     <ClCompile Include="Skeleton.cpp" />
-    <ClCompile Include="SkinnedMultiMatMesh.cpp" />
+    <ClCompile Include="SkinnedMultiMatMesh.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TempBoneHelper.cpp" />
     <ClCompile Include="TempCamera.cpp" />
