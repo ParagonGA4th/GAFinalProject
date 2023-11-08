@@ -34,9 +34,12 @@ namespace Pg::Graphics
 	RenderUsageBoneInfo::RenderUsageBoneInfo()
 	{
 		//Identity
-		_boneOffset = { 1.0f,0.0f,0.0f,0.0f, 0.0f,1.0f,0.0f,0.0f, 0.0f,0.0f,1.0f,0.0f, 0.0f,0.0f,0.0f,1.0f };
-		//Zero
-		_finalTransformation = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		//_boneOffset = { 1.0f,0.0f,0.0f,0.0f, 0.0f,1.0f,0.0f,0.0f, 0.0f,0.0f,1.0f,0.0f, 0.0f,0.0f,0.0f,1.0f };
+		////Zero
+		//_finalTransformation = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+		_boneOffset = DirectX::SimpleMath::Matrix::Identity;
+		_finalTransformation = DirectX::SimpleMath::Matrix(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 
 }

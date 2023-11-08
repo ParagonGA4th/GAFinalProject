@@ -120,4 +120,31 @@ namespace Pg::Graphics::Helper
 		return DirectX::SimpleMath::Vector3(vec.x, vec.y, vec.z);
 	}
 
+	void MathHelper::DecomposeAssembleMatrix(DirectX::SimpleMath::Matrix& mat)
+	{
+		DirectX::XMVECTOR ttScale;
+		DirectX::XMVECTOR ttRotQuat;
+		DirectX::XMVECTOR ttTranslate;
+		DirectX::XMMatrixDecompose(&ttScale, &ttRotQuat, &ttTranslate, mat);
+
+		DirectX::XMFLOAT3 ttScaleFF;
+		DirectX::XMFLOAT4 ttRotQuatFF;
+		DirectX::XMFLOAT3 ttTranslateFF;
+
+		DirectX::XMStoreFloat3(&ttScaleFF, ttScale);
+		DirectX::XMStoreFloat4(&ttRotQuatFF, ttRotQuat);
+		DirectX::XMStoreFloat3(&ttTranslateFF, ttTranslate);
+
+		DirectX::XMVECTOR translation = DirectX::XMVectorSet(ttTranslateFF.x, ttTranslateFF.y, ttTranslateFF.z, 1.0f);
+		DirectX::XMVECTOR rotationQuaternion = DirectX::XMVectorSet(ttRotQuatFF.x, ttRotQuatFF.y, ttRotQuatFF.z, ttRotQuatFF.w);
+
+		DirectX::XMVECTOR scale = DirectX::XMVectorSet(ttScaleFF.x, ttScaleFF.y, ttScaleFF.z, 1.0f);
+
+		DirectX::XMMATRIX tBoneTransform = DirectX::XMMatrixScalingFromVector(scale) *
+			DirectX::XMMatrixRotationQuaternion(rotationQuaternion) *
+			DirectX::XMMatrixTranslationFromVector(translation);
+
+		mat = tBoneTransform;
+	}
+
 }

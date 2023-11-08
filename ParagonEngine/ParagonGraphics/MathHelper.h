@@ -38,7 +38,11 @@ namespace Pg::Graphics::Helper
 		static DirectX::SimpleMath::Matrix AI2SM_MATRIX(const aiMatrix4x4& mat);
 		static DirectX::SimpleMath::Quaternion AI2SM_QUATERNION(const aiQuaternion& quat);
 		static DirectX::SimpleMath::Vector3 AI2SM_VECTOR3(const aiVector3D& vec);
+		
 
+
+		//Experimental
+		static void DecomposeAssembleMatrix(DirectX::SimpleMath::Matrix& mat);
 	};
 }
 
