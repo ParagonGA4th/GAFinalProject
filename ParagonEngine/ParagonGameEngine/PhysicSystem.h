@@ -19,6 +19,11 @@ namespace Pg::Data
 	class Transform;
 }
 
+namespace Pg::Engine
+{
+	class SceneSystem;
+}
+
 namespace Pg::Engine::Physic
 {
 	class PhysicSystem
@@ -36,6 +41,8 @@ namespace Pg::Engine::Physic
 		void CreateStack(const physx::PxTransform& t, physx::PxU32 size, physx::PxReal halfExtent);
 
 	public:
+		void MakeCollider();
+
 		//Collider »ý¼º
 		void MakeDynamicBoxCollider(Pg::Data::GameObject* obj);
 		void MakeDynamicSphereCollider(Pg::Data::GameObject* obj);
@@ -59,6 +66,8 @@ namespace Pg::Engine::Physic
 		physx::PxScene*					_pxScene = nullptr;
 		physx::PxMaterial*				_material = nullptr;
 		physx::PxPvd*					_pvd = nullptr;
+
+		Pg::Engine::SceneSystem*		_sceneSystem;
 	};
 }
 
