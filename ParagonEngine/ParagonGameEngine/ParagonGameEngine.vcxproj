@@ -169,6 +169,7 @@
     <ClInclude Include="EngineDLLExporter.h" />
     <ClInclude Include="EngineMain.h" />
     <ClInclude Include="EngineResourceManager.h" />
+    <ClInclude Include="EventSystem.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="PhysicSystem.h" />
     <ClInclude Include="SceneSystem.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="EditorCameraScript.cpp" />
     <ClCompile Include="EngineMain.cpp" />
     <ClCompile Include="EngineResourceManager.cpp" />
+    <ClCompile Include="EventSystem.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="PhysicSystem.cpp" />
     <ClCompile Include="SceneSystem.cpp" />

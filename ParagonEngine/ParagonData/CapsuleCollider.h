@@ -22,6 +22,8 @@ namespace Pg::Data
 		virtual float GetHeight() const override;
 		virtual float GetDepth() const override;
 
+		void SetRadius(float r);
+		void SetHalfHeight(float h);
 		float GetRadius() const;
 		float GetHalfHeight() const;
 	private:

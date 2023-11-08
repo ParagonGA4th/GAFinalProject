@@ -1,5 +1,11 @@
 #pragma once
-class RigidBody
+
+namespace Pg::Data
 {
-};
+	class RigidBody
+	{
+	public:
+
+	};
+}
 
