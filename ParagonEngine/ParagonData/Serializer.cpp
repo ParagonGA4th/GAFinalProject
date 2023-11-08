@@ -119,7 +119,7 @@ namespace Test
 		SerializeString(doc, node, name, val.name);
 	}
 
-	void Serializer::DeserializeBoolean(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, bool& result)
+	void Serializer::DeserializeBoolean(pugi::xml_node* node, const std::string& name, bool& result)
 	{
 		// 이름으로 해당 노드값이 존재하는지 가져온다
 		pugi::xml_node nodeName = node->child(name.c_str());
@@ -135,7 +135,7 @@ namespace Test
 		}
 	}
 
-	bool Serializer::DeserializeBoolean(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name)
+	bool Serializer::DeserializeBoolean(pugi::xml_node* node, const std::string& name)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 
@@ -149,7 +149,7 @@ namespace Test
 		}
 	}
 
-	void Serializer::DeserializeString(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, std::string& result)
+	void Serializer::DeserializeString(pugi::xml_node* node, const std::string& name, std::string& result)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 
@@ -163,7 +163,7 @@ namespace Test
 		}
 	}
 
-	std::string Serializer::DeserializeString(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name)
+	std::string Serializer::DeserializeString(pugi::xml_node* node, const std::string& name)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 
@@ -177,7 +177,7 @@ namespace Test
 		}
 	}
 
-	void Serializer::DeserializeFloat(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, float& result)
+	void Serializer::DeserializeFloat(pugi::xml_node* node, const std::string& name, float& result)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -190,7 +190,7 @@ namespace Test
 		}
 	}
 
-	float Serializer::DeserializeFloat(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name)
+	float Serializer::DeserializeFloat(pugi::xml_node* node, const std::string& name)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -203,7 +203,7 @@ namespace Test
 		}
 	}
 
-	void Serializer::DeserializeDouble(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, double& result)
+	void Serializer::DeserializeDouble(pugi::xml_node* node, const std::string& name, double& result)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -216,7 +216,7 @@ namespace Test
 		}
 	}
 
-	double Serializer::DeserializeDouble(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name)
+	double Serializer::DeserializeDouble(pugi::xml_node* node, const std::string& name)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -229,7 +229,7 @@ namespace Test
 		}
 	}
 
-	void Serializer::DeserializeInt(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, int& result)
+	void Serializer::DeserializeInt(pugi::xml_node* node, const std::string& name, int& result)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -242,7 +242,7 @@ namespace Test
 		}
 	}
 
-	bool Serializer::DeserializeInt(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name)
+	bool Serializer::DeserializeInt(pugi::xml_node* node, const std::string& name)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -255,7 +255,7 @@ namespace Test
 		}
 	}
 
-	void Serializer::DeserializeUint(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, unsigned& result)
+	void Serializer::DeserializeUint(pugi::xml_node* node, const std::string& name, unsigned& result)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -268,7 +268,7 @@ namespace Test
 		}
 	}
 
-	unsigned Serializer::DeserializeUint(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name)
+	unsigned Serializer::DeserializeUint(pugi::xml_node* node, const std::string& name)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -281,7 +281,7 @@ namespace Test
 		}
 	}
 
-	void Serializer::DeserializeInt64(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, int64_t& result)
+	void Serializer::DeserializeInt64(pugi::xml_node* node, const std::string& name, int64_t& result)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -294,7 +294,7 @@ namespace Test
 		}
 	}
 
-	int64_t Serializer::DeserializeInt64(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name)
+	int64_t Serializer::DeserializeInt64(pugi::xml_node* node, const std::string& name)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -307,7 +307,7 @@ namespace Test
 		}
 	}
 
-	void Serializer::DeserializeVec2(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT2& result)
+	void Serializer::DeserializeVec2(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT2& result)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -321,7 +321,7 @@ namespace Test
 		}
 	}
 
-	Pg::Math::PGFLOAT2 Serializer::DeserializeVec2(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name)
+	Pg::Math::PGFLOAT2 Serializer::DeserializeVec2(pugi::xml_node* node, const std::string& name)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -337,7 +337,7 @@ namespace Test
 		}
 	}
 
-	void Serializer::DeserializeVec3(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT3& result)
+	void Serializer::DeserializeVec3(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT3& result)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -352,7 +352,7 @@ namespace Test
 		}
 	}
 
-	Pg::Math::PGFLOAT3 Serializer::DeserializeVec3(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name)
+	Pg::Math::PGFLOAT3 Serializer::DeserializeVec3(pugi::xml_node* node, const std::string& name)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -370,7 +370,7 @@ namespace Test
 	}
 
 
-	void Serializer::DeserializeVec4(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT4& result)
+	void Serializer::DeserializeVec4(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT4& result)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -386,7 +386,7 @@ namespace Test
 		}
 	}
 
-	Pg::Math::PGFLOAT4 Serializer::DeserializeVec4(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name)
+	Pg::Math::PGFLOAT4 Serializer::DeserializeVec4(pugi::xml_node* node, const std::string& name)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -404,7 +404,7 @@ namespace Test
 		}
 	}
 
-	void Serializer::DeserializeQuaternion(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Math::PGQuaternion& result)
+	void Serializer::DeserializeQuaternion(pugi::xml_node* node, const std::string& name, Pg::Math::PGQuaternion& result)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
@@ -420,7 +420,7 @@ namespace Test
 		}
 	}
 
-	Pg::Math::PGQuaternion Serializer::DeserializeQuaternion(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name)
+	Pg::Math::PGQuaternion Serializer::DeserializeQuaternion(pugi::xml_node* node, const std::string& name)
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 		if (nodeName)
