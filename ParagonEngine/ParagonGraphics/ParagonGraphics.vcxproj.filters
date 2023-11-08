@@ -184,9 +184,6 @@
     <ClInclude Include="TempBoneHelper.h">
       <Filter>5_Misc\Temp\TempBoneHelper</Filter>
     </ClInclude>
-    <ClInclude Include="SkinnedMultiMatMesh.h">
-      <Filter>7_OtherObject\SkinnedMultiMatMesh</Filter>
-    </ClInclude>
     <ClInclude Include="Skeleton.h">
       <Filter>5_Misc\Temp\VWPSFG</Filter>
     </ClInclude>
@@ -347,9 +344,6 @@
     </ClCompile>
     <ClCompile Include="TempBoneHelper.cpp">
       <Filter>5_Misc\Temp\TempBoneHelper</Filter>
-    </ClCompile>
-    <ClCompile Include="SkinnedMultiMatMesh.cpp">
-      <Filter>7_OtherObject\SkinnedMultiMatMesh</Filter>
     </ClCompile>
     <ClCompile Include="Skeleton.cpp">
       <Filter>5_Misc\Temp\VWPSFG</Filter>
@@ -517,9 +511,6 @@
     </Filter>
     <Filter Include="4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D">
       <UniqueIdentifier>{8dbf0ed9-5baa-4360-aa75-058feb8f6aba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="7_OtherObject\SkinnedMultiMatMesh">
-      <UniqueIdentifier>{52754c21-d10f-41f7-b39b-43056277c9e1}</UniqueIdentifier>
     </Filter>
     <Filter Include="5_Misc\Temp">
       <UniqueIdentifier>{927d72a3-cad5-4a5e-a849-d8aba3086e03}</UniqueIdentifier>

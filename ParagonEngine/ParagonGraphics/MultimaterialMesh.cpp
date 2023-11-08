@@ -23,7 +23,7 @@
 #include <cassert> 
 #include <algorithm> 
 
-#include <dxtk/SimpleMath.h>
+
 
 #include "../ParagonUtil/Log.h"
 
@@ -38,8 +38,15 @@ namespace Pg::Graphics
 	using namespace tofu;
 
 	using Pg::Graphics::Manager::GraphicsResourceManager;
+	using Pg::Graphics::Helper::MathHelper;
 	using Pg::Data::Enums::eAssetDefine;
 
+	using DirectX::SimpleMath::Matrix;
+	using DirectX::SimpleMath::Quaternion;
+	using DirectX::SimpleMath::Vector3;
+	using DirectX::SimpleMath::Vector4;
+
+#pragma region Unchanged
 	//static 
 	MultimaterialMesh::MultimaterialMesh(const std::string& filePath)
 	{
@@ -121,30 +128,6 @@ namespace Pg::Graphics
 		_device->CreateRasterizerState(&rd, &_rasterizerState);
 	}
 
-	void MultimaterialMesh::UpdateConstantBuffer(Pg::Data::CameraData* camData, DirectX::XMFLOAT4X4 worldMat)
-	{
-		using Pg::Graphics::Helper::MathHelper;
-
-		//기반 Struct채우기.
-		DirectX::XMMATRIX tWorldMat = DirectX::XMLoadFloat4x4(&worldMat);
-		DirectX::XMMATRIX tWorldInvTransposeMat = DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, tWorldMat));
-
-		_constantBufferStruct->gCBuf_World = tWorldMat;
-		_constantBufferStruct->gCBuf_WorldInvTranspose = tWorldInvTransposeMat;
-
-		DirectX::XMFLOAT4X4 tView = MathHelper::PG2XM_FLOAT4X4(camData->_viewMatrix);
-		DirectX::XMMATRIX tViewMat = DirectX::XMLoadFloat4x4(&tView);
-
-		DirectX::XMFLOAT4X4 tProj = MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
-		DirectX::XMMATRIX tProjMat = DirectX::XMLoadFloat4x4(&tProj);
-
-		DirectX::XMMATRIX tWVP = DirectX::XMMatrixMultiply(tWorldMat, DirectX::XMMatrixMultiply(tViewMat, tProjMat));
-		_constantBufferStruct->gCBuf_WorldViewProj = tWVP;
-		_constantBufferStruct->gCBuf_CameraPositionW = MathHelper::PG2XM_FLOAT3(camData->_position);
-
-		//Updating Subresource (Map / UnMap으로 대체됨!)
-	}
-
 	void MultimaterialMesh::CreateConstantBuffer()
 	{
 		{
@@ -196,19 +179,77 @@ namespace Pg::Graphics
 
 	}
 
+	void MultimaterialMesh::LoadHardCodedSRVs()
+	{
+		std::wstring t1stSRVPath = L"../Resources/3DModels/Animated/Textures/boss_lp_body_lp_AlbedoTransparency.png";
+		std::wstring t2ndSRVPath = L"../Resources/3DModels/Animated/Textures/boss_lp_atc_lp_AlbedoTransparency.png";
+		std::wstring t3rdSRVPath = L"../Resources/3DModels/Animated/Textures/StylizedWoodenFloor_Diffuse.png";
+
+		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
+			LowDX11Storage::GetInstance()->_deviceContext,
+			t1stSRVPath.c_str(), nullptr, &(_tempSRVArray[0])));
+
+		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
+			LowDX11Storage::GetInstance()->_deviceContext,
+			t2ndSRVPath.c_str(), nullptr, &(_tempSRVArray[1])));
+
+		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
+			LowDX11Storage::GetInstance()->_deviceContext,
+			t3rdSRVPath.c_str(), nullptr, &(_tempSRVArray[2])));
+
+		//Timmy
+		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
+			LowDX11Storage::GetInstance()->_deviceContext,
+			L"../Resources/3DModels/Animated/Textures/Timmy_Diffuse.png", nullptr, &_tempTimmySRV));
+
+		//Direct3D Cylinder
+		HR(DirectX::CreateDDSTextureFromFile(LowDX11Storage::GetInstance()->_device,
+			LowDX11Storage::GetInstance()->_deviceContext,
+			L"../Resources/3DModels/Animated/Textures/WoodCrate01.dds", nullptr, &_tempCylinderSRV));
+	}
+
+	void MultimaterialMesh::UpdateConstantBufferBase(Pg::Data::CameraData* camData, DirectX::XMFLOAT4X4 worldMat)
+	{
+		using Pg::Graphics::Helper::MathHelper;
+
+		//기반 Struct채우기.
+		DirectX::XMMATRIX tWorldMat = DirectX::XMLoadFloat4x4(&worldMat);
+		DirectX::XMMATRIX tWorldInvTransposeMat = DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, tWorldMat));
+
+		_constantBufferStruct->gCBuf_World = tWorldMat;
+		_constantBufferStruct->gCBuf_WorldInvTranspose = tWorldInvTransposeMat;
+
+		DirectX::XMFLOAT4X4 tView = MathHelper::PG2XM_FLOAT4X4(camData->_viewMatrix);
+		DirectX::XMMATRIX tViewMat = DirectX::XMLoadFloat4x4(&tView);
+
+		DirectX::XMFLOAT4X4 tProj = MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
+		DirectX::XMMATRIX tProjMat = DirectX::XMLoadFloat4x4(&tProj);
+
+		DirectX::XMMATRIX tWVP = DirectX::XMMatrixMultiply(tWorldMat, DirectX::XMMatrixMultiply(tViewMat, tProjMat));
+		_constantBufferStruct->gCBuf_WorldViewProj = tWVP;
+		_constantBufferStruct->gCBuf_CameraPositionW = MathHelper::PG2XM_FLOAT3(camData->_position);
+
+		//Updating Subresource (Map / UnMap으로 대체됨!)
+	}
+
+#pragma endregion Unchanged
+
+	void MultimaterialMesh::Render(Pg::Data::CameraData* camData)
+	{
+		//그냥 모두 다 Looping 하게 재생!
+		BoneTransformUpdate();
+		RenderScene(camData);
+	}
+
 	void MultimaterialMesh::ImportSkinnedAsset(const std::string& filePath)
 	{
 		//Skinned
 		_importer = new Assimp::Importer;
 
-		selectedMesh = -1;
-		selectedAnimation = -1;
-		selectedNode = nullptr;
-
 		_vertexBuffer = nullptr;
 		_indexBuffer = nullptr;
-		numVertices = 0;
-		numIndices = 0;
+		_numVertices = 0;
+		_numIndices = 0;
 		meshes.clear();
 
 		scene = _importer->ReadFile(filePath.c_str(),
@@ -219,36 +260,46 @@ namespace Pg::Graphics
 
 		assert(scene != nullptr);
 
+		//Mesh의 Global Inverse Transform 할당.
+			//Global Inverse 할당!
+		DirectX::SimpleMath::Matrix tGlobalTrans = MathHelper::AI2SM_MATRIX(scene->mRootNode->mTransformation);
+		tGlobalTrans = tGlobalTrans.Transpose();
+		DirectX::XMVECTOR tDet = DirectX::XMVectorZero();
+		_meshGlobalInverseTransform = DirectX::XMMatrixInverse(&tDet, tGlobalTrans);
+
+		//_meshGlobalInverseTransform = 
+
 		for (uint32_t i = 0; i < scene->mNumMeshes; i++)
 		{
 			aiMesh* m = scene->mMeshes[i];
-			numVertices += m->mNumVertices;
-			numIndices += m->mNumFaces * 3;
+			_numVertices += m->mNumVertices;
+			_numIndices += m->mNumFaces * 3;
 		}
 
-		if (numVertices == 0) return;
-
-		//셰이더에 넣을 버퍼 처리를 위해서 Vector Resize.
-		_boneTransformVector.resize(100);
-		std::fill(_boneTransformVector.begin(), _boneTransformVector.end(), DirectX::XMMatrixIdentity());
+		if (_numVertices == 0) return;
 
 		//Skinned Data를 위해서 구조체 처리.
+		//셰이더에 넣을 버퍼 처리를 위해서 Vector Resize.
+		_boneTransformVector.resize(100);
+		std::fill(_boneTransformVector.begin(), _boneTransformVector.end(), DirectX::SimpleMath::Matrix::Identity);
 
-		SetupBoneData(_vertexBoneVector, scene, numVertices);
+		SetupRenderUsageMesh();
+		_vertexBoneVector.resize(_numVertices); //Vertex Bone Vector : 미리 모델의 전체 VerticeCount만큼 Resize.
+		SetupBoneData(_vertexBoneVector, scene);
 
 		//지금까지 Bone Index/Weight Binding을 위해, 인덱스 카운팅 도입.
 		UINT tTotalElapsedVertexCount = 0;
 		UINT tTotalElapsedIndiceCount = 0;
 
-		LayoutDefine::Vin1stSkinned* vertices = new LayoutDefine::Vin1stSkinned[numVertices];
-		int32_t* indices = new int32_t[numIndices];
+		LayoutDefine::Vin1stSkinned* vertices = new LayoutDefine::Vin1stSkinned[_numVertices];
+		int32_t* indices = new int32_t[_numIndices];
 		uint32_t vid = 0, iid = 0;
 		for (uint32_t i = 0; i < scene->mNumMeshes; i++)
 		{
 			aiMesh* m = scene->mMeshes[i];
 			//tTotalElapsedVertexCount += _meshEntriesVector[i].BaseVertex;
-			tTotalElapsedVertexCount = _meshEntriesVector[i].BaseVertex;
-			tTotalElapsedIndiceCount = _meshEntriesVector[i].BaseIndex;
+			tTotalElapsedVertexCount = _meshEntriesVector[i]._baseVertex;
+			tTotalElapsedIndiceCount = _meshEntriesVector[i]._baseIndex;
 			for (uint32_t j = 0; j < m->mNumVertices; j++)
 			{
 				auto& pos = m->mVertices[j];
@@ -263,15 +314,15 @@ namespace Pg::Graphics
 				vertices[vid + j].tex = DirectX::XMFLOAT3{ uv.x, uv.y, uv.z };
 				vertices[vid + j].matID = m->mMaterialIndex;
 
-				//vertices[vid + j].blendIndice0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0];
-				//vertices[vid + j].blendIndice1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1];
-				//vertices[vid + j].blendIndice2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[2];
-				//vertices[vid + j].blendIndice3 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[3];
+				vertices[vid + j].blendIndice0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0];
+				vertices[vid + j].blendIndice1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1];
+				vertices[vid + j].blendIndice2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[2];
+				vertices[vid + j].blendIndice3 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[3];
 
-				vertices[vid + j].blendIndice0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0] + tTotalElapsedIndiceCount;
-				vertices[vid + j].blendIndice1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1] + tTotalElapsedIndiceCount;
-				vertices[vid + j].blendIndice2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[2] + tTotalElapsedIndiceCount;
-				vertices[vid + j].blendIndice3 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[3] + tTotalElapsedIndiceCount;
+				//vertices[vid + j].blendIndice0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0] + tTotalElapsedIndiceCount;
+				//vertices[vid + j].blendIndice1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1] + tTotalElapsedIndiceCount;
+				//vertices[vid + j].blendIndice2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[2] + tTotalElapsedIndiceCount;
+				//vertices[vid + j].blendIndice3 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[3] + tTotalElapsedIndiceCount;
 
 				vertices[vid + j].blendWeight0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[0];
 				vertices[vid + j].blendWeight1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[1];
@@ -312,14 +363,14 @@ namespace Pg::Graphics
 		do
 		{
 			CD3D11_BUFFER_DESC vbDesc(
-				numVertices * sizeof(LayoutDefine::Vin1stSkinned),
+				_numVertices * sizeof(LayoutDefine::Vin1stSkinned),
 				D3D11_BIND_VERTEX_BUFFER);
 			D3D11_SUBRESOURCE_DATA vbData = { vertices, 0, 0 };
 			if (S_OK != _device->CreateBuffer(&vbDesc, &vbData, &_vertexBuffer))
 				assert(false);
 
 			CD3D11_BUFFER_DESC ibDesc(
-				numIndices * sizeof(uint32_t),
+				_numIndices * sizeof(uint32_t),
 				D3D11_BIND_INDEX_BUFFER);
 			D3D11_SUBRESOURCE_DATA ibData = { indices, 0, 0 };
 			if (S_OK != _device->CreateBuffer(&ibDesc, &ibData, &_indexBuffer))
@@ -423,7 +474,7 @@ namespace Pg::Graphics
 		{
 			ConstantBufferDefine::cbPerObjectBase* data = reinterpret_cast<ConstantBufferDefine::cbPerObjectBase*>(res2.pData);
 
-			UpdateConstantBuffer(camData, tWorldMatScaledFF);
+			UpdateConstantBufferBase(camData, tWorldMatScaledFF);
 			*(data) = *_constantBufferStruct;
 
 			_devCon->Unmap(_constantBuffer[0], 0);
@@ -447,116 +498,10 @@ namespace Pg::Graphics
 		_devCon->PSSetShader(nullptr, nullptr, 0);
 	}
 
-	void MultimaterialMesh::render_scene_node(Pg::Data::CameraData* camData, aiNode* node, DirectX::XMFLOAT4X4 parentTransform)
+	
+
+	void MultimaterialMesh::SetupBoneData(std::vector<RenderUsageVertexBone>& vBoneList, const aiScene* scene)
 	{
-		DirectX::XMMATRIX tParentTranform = DirectX::XMLoadFloat4x4(&parentTransform);
-
-		DirectX::XMFLOAT4X4 tNodeTransformFF;
-		aiMatrix4x4 tAssimpNodeTransformFF = node->mTransformation;
-
-		std::memcpy(&tNodeTransformFF, &tAssimpNodeTransformFF, sizeof(DirectX::XMFLOAT4X4));
-		DirectX::XMMATRIX tNodeTransform = DirectX::XMLoadFloat4x4(&tNodeTransformFF);
-
-		//원본 데이터에 영향을 안 주는 선에서 복사한 데이터에서 전치해서 행렬을 보관한다(Assimp는 Column-Major);
-		tNodeTransform = DirectX::XMMatrixTranspose(tNodeTransform);
-
-		DirectX::XMMATRIX tCurrent = DirectX::XMMatrixMultiply(tParentTranform, tNodeTransform);
-		DirectX::XMFLOAT4X4 tCurrentFF;
-		DirectX::XMStoreFloat4x4(&tCurrentFF, tCurrent);
-
-		//여기에서는 0번째 인덱스 (Constant Buffer 중) 업데이트. 1번째는 아직 그러지 못한 상황이다!
-		if (node->mNumMeshes > 0)
-		{
-			D3D11_MAPPED_SUBRESOURCE res;
-			ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
-			if (S_OK == _devCon->Map(_constantBuffer[0], 0, D3D11_MAP_WRITE_DISCARD, 0, &res))
-			{
-				ConstantBufferDefine::cbPerObjectBase* data = reinterpret_cast<ConstantBufferDefine::cbPerObjectBase*>(res.pData);
-
-				UpdateConstantBuffer(camData, tCurrentFF);
-				*(data) = *_constantBufferStruct;
-
-				_devCon->Unmap(*_constantBuffer, 0);
-			}
-		}
-
-		for (uint32_t i = 0; i < node->mNumMeshes; i++)
-		{
-			Mesh& m = meshes[node->mMeshes[i]];
-
-			aiMesh* tAiMesh = scene->mMeshes[node->mMeshes[i]];
-
-			//이제 SolidRS-DiffuseTexture를 이용하기에, 
-			//Mesh의 인덱스에 따라 PSSetShaderResources를
-			//해당 Mesh의 Material의 인덱스에 맞게 호출한다.
-			_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[tAiMesh->mMaterialIndex]));
-
-			_devCon->DrawIndexed(m.numIndices, m.startIndex, m.startVertex);
-		}
-
-		for (uint32_t i = 0; i < node->mNumChildren; i++)
-		{
-			render_scene_node(camData, node->mChildren[i], tCurrentFF);
-		}
-	}
-
-	void MultimaterialMesh::LoadHardCodedSRVs()
-	{
-		std::wstring t1stSRVPath = L"../Resources/3DModels/Animated/Textures/boss_lp_body_lp_AlbedoTransparency.png";
-		std::wstring t2ndSRVPath = L"../Resources/3DModels/Animated/Textures/boss_lp_atc_lp_AlbedoTransparency.png";
-		std::wstring t3rdSRVPath = L"../Resources/3DModels/Animated/Textures/StylizedWoodenFloor_Diffuse.png";
-
-		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
-			LowDX11Storage::GetInstance()->_deviceContext,
-			t1stSRVPath.c_str(), nullptr, &(_tempSRVArray[0])));
-
-		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
-			LowDX11Storage::GetInstance()->_deviceContext,
-			t2ndSRVPath.c_str(), nullptr, &(_tempSRVArray[1])));
-
-		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
-			LowDX11Storage::GetInstance()->_deviceContext,
-			t3rdSRVPath.c_str(), nullptr, &(_tempSRVArray[2])));
-
-		//Timmy
-		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
-			LowDX11Storage::GetInstance()->_deviceContext,
-			L"../Resources/3DModels/Animated/Textures/Timmy_Diffuse.png", nullptr, &_tempTimmySRV));
-
-		//Direct3D Cylinder
-		HR(DirectX::CreateDDSTextureFromFile(LowDX11Storage::GetInstance()->_device,
-			LowDX11Storage::GetInstance()->_deviceContext,
-			L"../Resources/3DModels/Animated/Textures/WoodCrate01.dds", nullptr, &_tempCylinderSRV));
-	}
-
-	void MultimaterialMesh::SetupBoneData(std::vector<RenderUsageVertexBone>& vBoneList, const aiScene* scene, unsigned int verticeCount)
-	{
-		vBoneList.resize(verticeCount);
-
-		unsigned int tNumVertices = 0;
-		unsigned int tNumIndices = 0;
-
-		//당장 Bone 데이터를 쓰는데 사용하지는 않으나, 실제 D3D 버퍼 출력에 활용되는 정보.
-		_meshEntriesVector.resize(scene->mNumMeshes);
-		for (unsigned int i = 0; i < _meshEntriesVector.size(); i++)
-		{
-			// Total mesh indices. 
-			_meshEntriesVector[i].NumIndices = scene->mMeshes[i]->mNumFaces * 3;
-
-			// Set the base vertex of this mesh (initial vertex for this mesh within the vertices array) to the current total vertices. 
-			_meshEntriesVector[i].BaseVertex = tNumVertices;
-
-			// Set the base index of this mesh (initial index for this mesh within the indices array) to the current total indices. 
-			_meshEntriesVector[i].BaseIndex = tNumIndices;
-
-			// Increment total vertices and indices. 
-			tNumVertices += scene->mMeshes[i]->mNumVertices;
-			tNumIndices += _meshEntriesVector[i].NumIndices;
-		}
-
-		//outBone.resize(tNumVertices);
-		//outIndice.reserve(tNumIndices);
-
 		for (unsigned int i = 0; i < scene->mNumMeshes; i++)
 		{
 			aiMesh* aMesh = scene->mMeshes[i];
@@ -592,8 +537,7 @@ namespace Pg::Graphics
 				RenderUsageBoneInfo tBi;
 				_renderBoneInfoVector.push_back(tBi);
 			}
-			else
-			{
+			else {
 				// Bone ID is already in map. 
 				BoneIndex = _mappedBones[BoneName];
 			}
@@ -601,33 +545,14 @@ namespace Pg::Graphics
 			_mappedBones[BoneName] = BoneIndex;
 
 			// Obtains the offset matrix which transforms the bone from mesh space into bone space. 
-			{
-				//aiMatrix4x4 tOffsetMat = mesh->mBones[i]->mOffsetMatrix;
-				//
-				////Column Major -> Row Major : 전치.
-				//tOffsetMat = tOffsetMat.Transpose();
-				//DirectX::XMFLOAT4X4 tXMOffsetMat;
-				//std::memcpy(&tXMOffsetMat, &tOffsetMat, sizeof(DirectX::XMFLOAT4X4));
-			}
-			DirectX::XMFLOAT4X4 tXMOffsetMat;
-			DirectX::XMMATRIX tXMOffsetMatMat = DirectX::XMMATRIX(&mesh->mBones[i]->mOffsetMatrix.a1);
-			//tXMOffsetMatMat = DirectX::XMMatrixTranspose(tXMOffsetMatMat);
-			DirectX::XMStoreFloat4x4(&tXMOffsetMat, tXMOffsetMatMat);
-
-			///TRY
-			{
-				//DirectX::XMMATRIX tXMOffsetMatMat = DirectX::XMLoadFloat4x4(&tXMOffsetMat);
-				////tXMOffsetMatMat = DirectX::XMMatrixMultiply(tXMOffsetMatMat, DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(180.0f)));
-				//DirectX::XMStoreFloat4x4(&tXMOffsetMat, tXMOffsetMatMat);
-			}
-		
-			_renderBoneInfoVector[BoneIndex].BoneOffset = tXMOffsetMat;
+			Matrix tBoneOffset = MathHelper::AI2SM_MATRIX(mesh->mBones[i]->mOffsetMatrix);
+			_renderBoneInfoVector[BoneIndex]._boneOffset = tBoneOffset.Transpose();
 
 			// Iterate over all the affected vertices by this bone i.e weights. 
-			for (unsigned int j = 0; j < mesh->mBones[i]->mNumWeights; j++)
-			{
+			for (unsigned int j = 0; j < mesh->mBones[i]->mNumWeights; j++) {
+
 				// Obtain an index to the affected vertex within the array of vertices.
-				unsigned int VertexID = _meshEntriesVector[index].BaseVertex + mesh->mBones[i]->mWeights[j].mVertexId;
+				unsigned int VertexID = _meshEntriesVector[index]._baseVertex + mesh->mBones[i]->mWeights[j].mVertexId;
 
 				// The value of how much this bone influences the vertex. 
 				float Weight = mesh->mBones[i]->mWeights[j].mWeight;
@@ -639,13 +564,6 @@ namespace Pg::Graphics
 		assert(mesh);
 	}
 
-	void MultimaterialMesh::Render(Pg::Data::CameraData* camData)
-	{
-		//그냥 모두 다 Looping 하게 재생!
-		BoneTransformUpdate();
-		RenderScene(camData);
-	}
-
 	void MultimaterialMesh::BoneTransformUpdate()
 	{
 		//처음에 아무것도 없으면 아예 출력이 되지 않으니, T-Pose Animation을 기본으로 잡고 코드를 짜야 한다.
@@ -653,18 +571,6 @@ namespace Pg::Graphics
 		//현재 3DModel은 3개인 상태 : 0 / 1 / 2 중 2가 T-Pose.
 		
 		static short tChoice = 0;
-		//if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveBack))
-		//{
-		//	tChoice = 0;
-		//}
-		//else if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveLeft))
-		//{
-		//	tChoice = 1;
-		//}
-		//else if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveRight))
-		//{
-		//	tChoice = 2;
-		//}
 		
 		aiAnimation* tAnim = nullptr;
 		tAnim = scene->mAnimations[tChoice];
@@ -672,15 +578,6 @@ namespace Pg::Graphics
 		//절대로 일단은 정해져 있는 Tick 수 넘어가지 않게 -> 나머지 연산을 할것. 
 		static double tPlayTickDur = 0;
 		tPlayTickDur += 0.1;
-		
-		//PG_TRACE(tInwardTick);
-
-		//static double tPlayTickDur = 0;
-		//if (_tempInput->GetKeyDown(API::Input::eKeyCode::MoveUp))
-		//{
-		//	tPlayTickDur += 1;
-		//	//PG_TRACE(tInwardTick);
-		//}
 
 		double tInwardTick = fmod(tPlayTickDur, tAnim->mDuration);
 		assert(tInwardTick < tAnim->mDuration);
@@ -692,16 +589,10 @@ namespace Pg::Graphics
 		  0.0f,0.0f,0.0f,1.0f };
 
 		//DirectX::XMFLOAT4X4 tDefaultMat =
-		//{ -1.0f,0.0f,0.0f,0.0f,
-		//  0.0f,-1.0f,0.0f,0.0f,
-		//  0.0f,0.0f,-1.0f,0.0f,
-		//  0.0f,0.0f,0.0f,-1.0f };
-
-		//DirectX::XMFLOAT4X4 tDefaultMat =
-		//{ 0.1f,0.0f,0.0f,0.0f,
-		//  0.0f,0.1f,0.0f,0.0f,
-		//  0.0f,0.0f,0.1f,0.0f,
-		//  0.0f,0.0f,0.0f,0.1f };
+		//{ 0.01f,0.0f,0.0f,0.0f,
+		//  0.0f,0.01f,0.0f,0.0f,
+		//  0.0f,0.0f,0.01f,0.0f,
+		//  0.0f,0.0f,0.0f,0.01f };
 
 		//ReadNodeHierarchy(tInwardTick, scene->mRootNode, tAnim, tDefaultMat);
 		ReadNodeHierarchy(tInwardTick, scene->mRootNode, tAnim, tDefaultMat);
@@ -710,89 +601,41 @@ namespace Pg::Graphics
 		// Populates transforms vector with new bone transformation matrices. 
 		for (unsigned int i = 0; i < _formationNumBone; i++)
 		{
-			_boneTransformVector[i] = DirectX::XMLoadFloat4x4(&_renderBoneInfoVector[i].FinalTransformation);
+			//_boneTransformVector[i] = _renderBoneInfoVector[i]._finalTransformation;
+			_boneTransformVector[i] = _renderBoneInfoVector[i]._finalTransformation.Transpose();
+			//_boneTransformVector[i] = Matrix::Identity;
 		}
 	}
 
-	void MultimaterialMesh::ReadNodeHierarchy(double animTick, const aiNode* pNode, const aiAnimation* pAnim, DirectX::XMFLOAT4X4 parentTransform)
+	void MultimaterialMesh::ReadNodeHierarchy(double animTick, const aiNode* pNode, const aiAnimation* pAnim, DirectX::SimpleMath::Matrix parentTransform)
 	{
-		//using Matrix = DirectX::XMMATRIX;
+		//using Matrix = DirectX::SimpleMath::Matrix;
 		//using Quaternion = DirectX::XMFLOAT4;
 		//DX 쿼터니언 : X,Y,Z (벡터), W(스칼라)
 		// XMFLOAT4 / XMVECTOR
 
 		// Obtain the name of the current node 
-		std::string NodeName(pNode->mName.C_Str());
+		std::string tNodeName(pNode->mName.C_Str());
 
 		// Use the first animation 
 		const aiAnimation* pAnimation = pAnim;
 
 		// Obtain transformation relative to node's parent. 
-		aiMatrix4x4 tAiTrans = pNode->mTransformation;
-		//tAiTrans.Transpose();
-		//tAiTrans = tAiTrans.Transpose();
-		DirectX::XMFLOAT4X4 NodeTransformation;
+		Matrix tNodeTransformation = MathHelper::AI2SM_MATRIX(pNode->mTransformation);
 
-		///Before
-		//std::memcpy(&NodeTransformation, &tAiTrans, sizeof(DirectX::XMFLOAT4X4));
-		///
-
-		///Try
-		std::memcpy(&NodeTransformation, &tAiTrans, sizeof(DirectX::XMFLOAT4X4));
-		//DirectX::XMMATRIX NodeTransMat = DirectX::XMLoadFloat4x4(&NodeTransformation);
-		//NodeTransMat = DirectX::XMMatrixMultiply(DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(180.0f)),NodeTransMat);
-		//NodeTransMat = DirectX::XMMatrixMultiply(NodeTransMat, DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(180.0f)));
-		//NodeTransMat = DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(180.0f));
-		//DirectX::XMStoreFloat4x4(&NodeTransformation, NodeTransMat);
-		{
-			DirectX::XMMATRIX tParRelMat = DirectX::XMLoadFloat4x4(&NodeTransformation);
-			DirectX::XMVECTOR ttScale;
-			DirectX::XMVECTOR ttRotQuat;
-			DirectX::XMVECTOR ttTranslate;
-			DirectX::XMMatrixDecompose(&ttScale, &ttRotQuat, &ttTranslate, tParRelMat);
-
-			DirectX::XMFLOAT3 ttScaleFF;
-			DirectX::XMFLOAT4 ttRotQuatFF;
-			DirectX::XMFLOAT3 ttTranslateFF;
-
-			DirectX::XMStoreFloat3(&ttScaleFF, ttScale);
-			DirectX::XMStoreFloat4(&ttRotQuatFF, ttRotQuat);
-			DirectX::XMStoreFloat3(&ttTranslateFF, ttTranslate);
-
-			DirectX::XMVECTOR translation = DirectX::XMVectorSet(ttTranslateFF.x, ttTranslateFF.y, ttTranslateFF.z, 1.0f);
-			DirectX::XMVECTOR rotationQuaternion = DirectX::XMVectorSet(ttRotQuatFF.x, ttRotQuatFF.y, ttRotQuatFF.z, ttRotQuatFF.w);
-
-			DirectX::XMVECTOR scale = DirectX::XMVectorSet(ttScaleFF.x, ttScaleFF.y, ttScaleFF.z, 1.0f);
-
-			// Create the transformation matrix for the bone
-			/*DirectX::XMMATRIX tBoneTransform = DirectX::XMMatrixScalingFromVector(scale) *
-				DirectX::XMMatrixRotationQuaternion(rotationQuaternion) *
-				DirectX::XMMatrixTranslationFromVector(translation);*/
-
-			DirectX::XMMATRIX tBoneTransform = DirectX::XMMatrixTranslationFromVector(translation) * 
-				DirectX::XMMatrixRotationQuaternion(rotationQuaternion) *
-				DirectX::XMMatrixScalingFromVector(scale);
-
-
-			///TRY
-			//tBoneTransform = DirectX::XMMatrixMultiply(tBoneTransform, DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(180.0f)));
-			//tBoneTransform = DirectX::XMMatrixMultiply(DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(90.0f)), tBoneTransform);
-			DirectX::XMStoreFloat4x4(&NodeTransformation, tBoneTransform);
-		}
-		///
+		//여기서 Decompose를 시행안하기는 했다. 문제시 보기.
 
 		const aiNodeAnim* pNodeAnim = nullptr;
 
 		// Find the animation channel of the current node. -> 나중에 미리 매핑해놓을 수 있음!
 		//다만, Animation에 해당되지 않는 Node들은 일단 이 로직이 없으면 실행되지 않을 것이다! 이는 염두.
-
 		for (unsigned i = 0; i < pAnimation->mNumChannels; i++)
 		{
 			const aiNodeAnim* pNodeAnimIndex = pAnimation->mChannels[i];
 			std::string tNodeAnimName(pNodeAnimIndex->mNodeName.C_Str());
 
 			// If there is a match for a channel with the current node's name, then we've found the animation channel. 
-			if (tNodeAnimName.compare(NodeName) == 0)
+			if (tNodeAnimName.compare(tNodeName) == 0)
 			{
 				pNodeAnim = pNodeAnimIndex;
 			}
@@ -801,75 +644,45 @@ namespace Pg::Graphics
 		if (pNodeAnim)
 		{
 			// Interpolate rotation and generate rotation transformation matrix
-			DirectX::XMFLOAT4 RotationQ;
+			Quaternion RotationQ;
 			//CalcInterpolatedRotation(RotationQ, animationTime, pNodeAnim);
 			CalcInterpolatedRotation(RotationQ, animTick, pNodeAnim);
 
-			DirectX::XMVECTOR RotationQVec = DirectX::XMLoadFloat4(&RotationQ);
-			DirectX::XMMATRIX RotationM = DirectX::XMMatrixRotationQuaternion(RotationQVec);
+			Matrix RotationM = DirectX::XMMatrixRotationQuaternion(RotationQ);
+			//RotationM = RotationM.Transpose(); 
 
 			// Interpolate translation and generate translation transformation matrix
-			DirectX::XMFLOAT3 Translation;
+			DirectX::SimpleMath::Vector3 Translation;
 			CalcInterpolatedTranslation(Translation, animTick, pNodeAnim);
-
-			DirectX::XMMATRIX TranslationM;
+			Matrix TranslationM;
 			TranslationM = DirectX::XMMatrixTranslation(Translation.x, Translation.y, Translation.z);
+			//TranslationM = TranslationM.Transpose();
 
-			DirectX::XMMATRIX tCombinedTrans = DirectX::XMMatrixMultiply(RotationM, TranslationM);
 			// Combine the above transformations
-			DirectX::XMStoreFloat4x4(&NodeTransformation, tCombinedTrans);
+			tNodeTransformation = RotationM * TranslationM;/* *ScalingM;*/
 		}
-		DirectX::XMMATRIX nodeTransformationMat = DirectX::XMLoadFloat4x4(&NodeTransformation);
-		DirectX::XMMATRIX parentTransformMat = DirectX::XMLoadFloat4x4(&parentTransform);
 
-		//DirectX::XMMATRIX GlobalTransformation = DirectX::XMMatrixMultiply(nodeTransformationMat, parentTransformMat);
-		DirectX::XMMATRIX GlobalTransformation = DirectX::XMMatrixMultiply(parentTransformMat, nodeTransformationMat);
-
-		DirectX::XMFLOAT4X4 GlobalTransformationFF;
-		DirectX::XMStoreFloat4x4(&GlobalTransformationFF, GlobalTransformation);
+		Matrix tGlobalTransformation = tNodeTransformation * parentTransform;
 
 		// Apply the final transformation to the indexed bone in the array. 
-		if (_mappedBones.find(NodeName) != _mappedBones.end())
+		if (_mappedBones.find(tNodeName) != _mappedBones.end())
 		{
-			unsigned int BoneIndex = _mappedBones[NodeName];
+			unsigned int tBoneIndex = _mappedBones[tNodeName];
 
-			//현재로서는 매 프레임 역행렬을 구한다.
-			//aiMatrix4x4 tAiRootTrans = scene->mRootNode->mTransformation;
-			DirectX::XMMATRIX tGlobalInverseTransform = DirectX::XMMATRIX(&scene->mRootNode->mTransformation.Inverse().a1);
-			//tGlobalInverseTransform = DirectX::XMMatrixTranspose(tGlobalInverseTransform);
-			{
-				//tAiRootTrans = tAiRootTrans.Transpose();
-				//DirectX::XMFLOAT4X4 tRootTrans;
-				//std::memcpy(&tRootTrans, &tAiRootTrans, sizeof(DirectX::XMFLOAT4X4));
-				//
-				////위에 있는 변수와 잘 구별해야 한다!
-				//DirectX::XMMATRIX tGlobalTrans = DirectX::XMLoadFloat4x4(&tRootTrans);
-				//DirectX::XMVECTOR tDet = DirectX::XMVectorZero();
-				//DirectX::XMMATRIX tGlobalInverseTransform = DirectX::XMMatrixInverse(&tDet, tGlobalTrans);
-			}
-			
-
-			DirectX::XMMATRIX tBoneOffsetMat = DirectX::XMLoadFloat4x4(&(_renderBoneInfoVector[BoneIndex].BoneOffset));
-			//1차 망가지기 전 Answer.
-			DirectX::XMMATRIX tFinalTrans = DirectX::XMMatrixMultiply(DirectX::XMMatrixMultiply(tBoneOffsetMat, GlobalTransformation), tGlobalInverseTransform);
-			//tFinalTrans = DirectX::XMMatrixTranspose(tFinalTrans);
-			//DirectX::XMMATRIX tFinalTrans = DirectX::XMMatrixMultiply(tBoneOffsetMat, GlobalTransformation);
-			//DirectX::XMMATRIX tFinalTrans = DirectX::XMMatrixIdentity();
-			//DirectX::XMMATRIX tFinalTrans = DirectX::XMMatrixMultiply(tGlobalInverseTransform, DirectX::XMMatrixMultiply(tBoneOffsetMat, GlobalTransformation));
-			///TRY
-			//tFinalTrans = DirectX::XMMatrixMultiply(tFinalTrans, DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(180.0f)));
-
-			DirectX::XMStoreFloat4x4(&(_renderBoneInfoVector[BoneIndex].FinalTransformation), tFinalTrans);
+			_renderBoneInfoVector[tBoneIndex]._finalTransformation =
+				_renderBoneInfoVector[tBoneIndex]._boneOffset *
+				tGlobalTransformation *
+				_meshGlobalInverseTransform;
 		}
 
 		// Do the same for all the node's children. 
 		for (unsigned i = 0; i < pNode->mNumChildren; i++)
 		{
-			ReadNodeHierarchy(animTick, pNode->mChildren[i], pAnim, GlobalTransformationFF);
+			ReadNodeHierarchy(animTick, pNode->mChildren[i], pAnim, tGlobalTransformation);
 		}
 	}
 
-	void MultimaterialMesh::CalcInterpolatedRotation(DirectX::XMFLOAT4& xmQuat, double animTick, const aiNodeAnim* pNodeAnim)
+	void MultimaterialMesh::CalcInterpolatedRotation(DirectX::SimpleMath::Quaternion& outQuat, double animTick, const aiNodeAnim* pNodeAnim)
 	{
 		//using Matrix = DirectX::SimpleMath::Matrix;
 		//using Quaternion = DirectX::SimpleMath::Quaternion;
@@ -877,10 +690,8 @@ namespace Pg::Graphics
 		// we need at least two values to interpolate...
 		if (pNodeAnim->mNumRotationKeys == 1)
 		{
-			//aiQuaternion은 wxyz 순서.
-			aiQuaternion tQuat = pNodeAnim->mRotationKeys[0].mValue;
-			xmQuat = { tQuat.x,tQuat.y,tQuat.z,tQuat.w };
-			return;
+			outQuat = MathHelper::AI2SM_QUATERNION(pNodeAnim->mRotationKeys[0].mValue);
+			return; 
 		}
 		// Obtain the current rotation keyframe. 
 		unsigned int RotationIndex = FindRotation(animTick, pNodeAnim);
@@ -897,31 +708,22 @@ namespace Pg::Graphics
 		//assert(Factor >= 0.0f && Factor <= 1.0f);
 
 		// Obtain the quaternions values for the current and next keyframe. 
-		aiQuaternion tAiStartRotationQ = pNodeAnim->mRotationKeys[RotationIndex].mValue;
-		aiQuaternion tAiEndRotationQ = pNodeAnim->mRotationKeys[NextRotationIndex].mValue;
-
-		DirectX::XMFLOAT4 StartRotationQ = { tAiStartRotationQ.x,tAiStartRotationQ.y,tAiStartRotationQ.z,tAiStartRotationQ.w };
-		DirectX::XMFLOAT4 EndRotationQ = { tAiEndRotationQ.x,tAiEndRotationQ.y,tAiEndRotationQ.z,tAiEndRotationQ.w };
-
-		DirectX::XMVECTOR StartRotationQVec = DirectX::XMLoadFloat4(&StartRotationQ);
-
-		DirectX::XMVECTOR EndRotationQVec = DirectX::XMLoadFloat4(&EndRotationQ);
+		const Quaternion StartRotationQ = MathHelper::AI2SM_QUATERNION(pNodeAnim->mRotationKeys[RotationIndex].mValue);
+		const Quaternion EndRotationQ = MathHelper::AI2SM_QUATERNION(pNodeAnim->mRotationKeys[NextRotationIndex].mValue);
 
 		// Interpolate between them using the Factor. 
-		DirectX::XMVECTOR tXMQuatVec = DirectX::XMQuaternionSlerp(StartRotationQVec, EndRotationQVec, Factor);
-		// Normalise and set the reference. 
-		tXMQuatVec = DirectX::XMQuaternionNormalize(tXMQuatVec);
+		Quaternion::Slerp(StartRotationQ, EndRotationQ, Factor, outQuat);
 
-		DirectX::XMStoreFloat4(&xmQuat, tXMQuatVec);
+		// Normalise and set the reference. 
+		outQuat.Normalize();
 	}
 
-	void MultimaterialMesh::CalcInterpolatedTranslation(DirectX::XMFLOAT3& xmTrans, double animTick, const aiNodeAnim* pNodeAnim)
+	void MultimaterialMesh::CalcInterpolatedTranslation(DirectX::SimpleMath::Vector3& outVec, double animTick, const aiNodeAnim* pNodeAnim)
 	{
 		// we need at least two values to interpolate...
 		if (pNodeAnim->mNumPositionKeys == 1)
 		{
-			aiVector3D tVal = pNodeAnim->mPositionKeys[0].mValue;
-			xmTrans = { tVal.x, tVal.y, tVal.z };
+			outVec = MathHelper::AI2SM_VECTOR3(pNodeAnim->mPositionKeys[0].mValue);
 			return;
 		}
 
@@ -931,22 +733,13 @@ namespace Pg::Graphics
 
 		float DeltaTime = pNodeAnim->mPositionKeys[NextPositionIndex].mTime - pNodeAnim->mPositionKeys[PositionIndex].mTime;
 		float Factor = (animTick - (float)pNodeAnim->mPositionKeys[PositionIndex].mTime) / DeltaTime;
+
 		//assert(Factor >= 0.0f && Factor <= 1.0f);
+		const DirectX::SimpleMath::Vector3 Start = MathHelper::AI2SM_VECTOR3(pNodeAnim->mPositionKeys[PositionIndex].mValue);
+		const DirectX::SimpleMath::Vector3 End = MathHelper::AI2SM_VECTOR3(pNodeAnim->mPositionKeys[NextPositionIndex].mValue);
 
-		auto tStartVal = pNodeAnim->mPositionKeys[PositionIndex].mValue;
-		auto tEndVal = pNodeAnim->mPositionKeys[NextPositionIndex].mValue;
-
-		DirectX::XMFLOAT3 Start = { tStartVal.x,tStartVal.y,tStartVal.z };
-		DirectX::XMFLOAT3 End = { tEndVal.x,tEndVal.y,tEndVal.z };
-
-		DirectX::XMVECTOR StartVec = DirectX::XMLoadFloat3(&Start);
-		DirectX::XMVECTOR EndVec = DirectX::XMLoadFloat3(&End);
-
-		DirectX::XMVECTOR DeltaVec = DirectX::XMVectorSubtract(EndVec, StartVec);
-
-		using namespace DirectX;
-		DirectX::XMVECTOR OutVec = StartVec + (Factor * DeltaVec);
-		DirectX::XMStoreFloat3(&xmTrans, OutVec);
+		DirectX::SimpleMath::Vector3 Delta = End - Start;
+		outVec = Start + Factor * Delta;
 	}
 
 	unsigned int MultimaterialMesh::FindRotation(double animTick, const aiNodeAnim* pNodeAnim)
@@ -1001,9 +794,36 @@ namespace Pg::Graphics
 			
 			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[tAiMesh->mMaterialIndex]));
 			_devCon->PSSetShaderResources(0, 1, &_tempCylinderSRV);
+			//_devCon->PSSetShaderResources(0, 1, &_tempTimmySRV);
 			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[0]));
 
 			_devCon->DrawIndexed(m.numIndices, m.startIndex, m.startVertex);
+		}
+	}
+
+	void MultimaterialMesh::SetupRenderUsageMesh()
+	{
+		unsigned int tStartingVertices = 0;
+		unsigned int tStartingIndices = 0;
+
+		//당장 Bone 데이터를 쓰는데 사용하지는 않으나, 실제 D3D 버퍼 출력에 활용되는 정보.
+		_meshEntriesVector.resize(scene->mNumMeshes);
+
+		for (unsigned int i = 0; i < _meshEntriesVector.size(); i++)
+		{
+			// Total mesh indices. 
+			_meshEntriesVector[i]._numIndices = scene->mMeshes[i]->mNumFaces * 3;
+			_meshEntriesVector[i]._numVertices = scene->mMeshes[i]->mNumVertices;
+
+			// Set the base vertex of this mesh (initial vertex for this mesh within the vertices array) to the current total vertices. 
+			_meshEntriesVector[i]._baseVertex = tStartingVertices;
+
+			// Set the base index of this mesh (initial index for this mesh within the indices array) to the current total indices. 
+			_meshEntriesVector[i]._baseIndex = tStartingIndices;
+
+			// Increment total vertices and indices. 
+			tStartingVertices += scene->mMeshes[i]->mNumVertices;
+			tStartingIndices += _meshEntriesVector[i]._numIndices;
 		}
 	}
 

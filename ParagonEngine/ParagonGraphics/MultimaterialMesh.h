@@ -7,7 +7,7 @@
 #include <array>
 #include <DirectXMath.h>
 #include <d3d11.h>
-
+#include <dxtk/SimpleMath.h>
 //Temporary
 #include "TofuMesh.h"
 #include "Bone.h"
@@ -77,18 +77,19 @@ namespace Pg::Graphics
 		void RenderScene(Pg::Data::CameraData* camData);
 
 	private:
+		void SetupRenderUsageMesh(); //Vertex의 시작점 / Index Count / Index의 시작점 기록.
+
+	private:
 		//Assimp / Parsing 직접 처리와 관련된 함수들. (TofuModelViewer)
 		Assimp::Importer* _importer;
 		const aiScene* scene;
-		int32_t selectedMesh;
-		int32_t selectedAnimation;
-		aiNode* selectedNode;
-		int32_t selectedBone;
+
+		DirectX::SimpleMath::Matrix _meshGlobalInverseTransform;
 
 		ID3D11Buffer* _vertexBuffer;
 		ID3D11Buffer* _indexBuffer;
-		uint32_t			numVertices;
-		uint32_t			numIndices;
+		uint32_t			_numVertices;
+		uint32_t			_numIndices;
 
 		std::vector<Mesh>	meshes;
 		std::vector<Bone>	bones;
@@ -96,22 +97,16 @@ namespace Pg::Graphics
 
 		std::vector<char>	boneNameArray;
 
-		//ID3D11Buffer* instanceCB;
-		//ID3D11Buffer* frameCB;
-		//
-		//ID3D11Buffer* bonesCB;
-
 		Animation			anim;
 		std::vector<Track>	tracks;
 		std::vector<VectorFrame>		vectorFrames;
 		std::vector<QuaternionFrame>	quatFrames;
 
 	private:
-		void render_scene_node(Pg::Data::CameraData* camData, aiNode* node, DirectX::XMFLOAT4X4 parentTransform);
 		void RenderSkinnedNodes(Pg::Data::CameraData* camData);
 	private:
 		//Bone 셋업 작업.
-		void SetupBoneData(std::vector<RenderUsageVertexBone>& vBoneList, const aiScene* scene, unsigned int verticeCount);
+		void SetupBoneData(std::vector<RenderUsageVertexBone>& vBoneList, const aiScene* scene);
 		//Bone Render용 Bone 셋업 작업.
 		void SetupRenderBones(unsigned int index, aiMesh* mesh, std::vector<RenderUsageVertexBone>& vBoneList);
 	
@@ -123,14 +118,14 @@ namespace Pg::Graphics
 		std::vector<RenderUsageBoneInfo> _renderBoneInfoVector;
 
 		//Animation UpdateBuffer.
-		std::vector<DirectX::XMMATRIX> _boneTransformVector;
+		std::vector<DirectX::SimpleMath::Matrix> _boneTransformVector;
 
 	private:
 		void BoneTransformUpdate();
 
-		void ReadNodeHierarchy(double animTick, const aiNode* pNode, const aiAnimation* pAnim, DirectX::XMFLOAT4X4 parentTransform);
-		void CalcInterpolatedRotation(DirectX::XMFLOAT4& xmQuat, double animTick, const aiNodeAnim* pNodeAnim);
-		void CalcInterpolatedTranslation(DirectX::XMFLOAT3& xmTrans, double animTick, const aiNodeAnim* pNodeAnim);
+		void ReadNodeHierarchy(double animTick, const aiNode* pNode, const aiAnimation* pAnim, DirectX::SimpleMath::Matrix parentTransform);
+		void CalcInterpolatedRotation(DirectX::SimpleMath::Quaternion& outQuat, double animTick, const aiNodeAnim* pNodeAnim);
+		void CalcInterpolatedTranslation(DirectX::SimpleMath::Vector3& outVec, double animTick, const aiNodeAnim* pNodeAnim);
 
 		unsigned int FindRotation(double animTick, const aiNodeAnim* pNodeAnim);
 		unsigned int FindTranslation(double animTick, const aiNodeAnim* pNodeAnim);
@@ -145,7 +140,7 @@ namespace Pg::Graphics
 
 
 	private:
-		void UpdateConstantBuffer(Pg::Data::CameraData* camData, DirectX::XMFLOAT4X4 worldMat);
+		void UpdateConstantBufferBase(Pg::Data::CameraData* camData, DirectX::XMFLOAT4X4 worldMat);
 	private:
 		Asset3DModelData* _modelData = nullptr;
 		ConstantBufferDefine::cbPerObjectBase* _constantBufferStruct;

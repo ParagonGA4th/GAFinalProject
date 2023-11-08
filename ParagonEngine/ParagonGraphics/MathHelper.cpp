@@ -85,4 +85,39 @@ namespace Pg::Graphics::Helper
 
 		return tIsEqual;
 	}
+
+	DirectX::SimpleMath::Matrix MathHelper::AI2SM_MATRIX(const aiMatrix4x4& mat)
+	{
+		DirectX::SimpleMath::Matrix toReturn;
+
+		toReturn._11 = mat.a1;
+		toReturn._12 = mat.a2;
+		toReturn._13 = mat.a3;
+		toReturn._14 = mat.a4;
+		toReturn._21 = mat.b1;
+		toReturn._22 = mat.b2;
+		toReturn._23 = mat.b3;
+		toReturn._24 = mat.b4;
+		toReturn._31 = mat.c1;
+		toReturn._32 = mat.c2;
+		toReturn._33 = mat.c3;
+		toReturn._34 = mat.c4;
+		toReturn._41 = mat.d1;
+		toReturn._42 = mat.d2;
+		toReturn._43 = mat.d3;
+		toReturn._44 = mat.d4;
+
+		return toReturn;
+	}
+
+	DirectX::SimpleMath::Quaternion MathHelper::AI2SM_QUATERNION(const aiQuaternion& quat)
+	{
+		return DirectX::SimpleMath::Quaternion(quat.x, quat.y, quat.z, quat.w);
+	}
+
+	DirectX::SimpleMath::Vector3 MathHelper::AI2SM_VECTOR3(const aiVector3D& vec)
+	{
+		return DirectX::SimpleMath::Vector3(vec.x, vec.y, vec.z);
+	}
+
 }
