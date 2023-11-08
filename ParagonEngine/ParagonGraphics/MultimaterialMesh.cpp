@@ -23,6 +23,8 @@
 #include <cassert> 
 #include <algorithm> 
 
+#include <dxtk/SimpleMath.h>
+
 #include "../ParagonUtil/Log.h"
 
 #ifdef _DEBUG
@@ -609,7 +611,7 @@ namespace Pg::Graphics
 			}
 			DirectX::XMFLOAT4X4 tXMOffsetMat;
 			DirectX::XMMATRIX tXMOffsetMatMat = DirectX::XMMATRIX(&mesh->mBones[i]->mOffsetMatrix.a1);
-			tXMOffsetMatMat = DirectX::XMMatrixTranspose(tXMOffsetMatMat);
+			//tXMOffsetMatMat = DirectX::XMMatrixTranspose(tXMOffsetMatMat);
 			DirectX::XMStoreFloat4x4(&tXMOffsetMat, tXMOffsetMatMat);
 
 			///TRY
@@ -763,12 +765,17 @@ namespace Pg::Graphics
 			DirectX::XMVECTOR scale = DirectX::XMVectorSet(ttScaleFF.x, ttScaleFF.y, ttScaleFF.z, 1.0f);
 
 			// Create the transformation matrix for the bone
-			DirectX::XMMATRIX tBoneTransform = DirectX::XMMatrixScalingFromVector(scale) *
+			/*DirectX::XMMATRIX tBoneTransform = DirectX::XMMatrixScalingFromVector(scale) *
 				DirectX::XMMatrixRotationQuaternion(rotationQuaternion) *
-				DirectX::XMMatrixTranslationFromVector(translation);
+				DirectX::XMMatrixTranslationFromVector(translation);*/
+
+			DirectX::XMMATRIX tBoneTransform = DirectX::XMMatrixTranslationFromVector(translation) * 
+				DirectX::XMMatrixRotationQuaternion(rotationQuaternion) *
+				DirectX::XMMatrixScalingFromVector(scale);
+
 
 			///TRY
-			tBoneTransform = DirectX::XMMatrixMultiply(tBoneTransform, DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(180.0f)));
+			//tBoneTransform = DirectX::XMMatrixMultiply(tBoneTransform, DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(180.0f)));
 			//tBoneTransform = DirectX::XMMatrixMultiply(DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(90.0f)), tBoneTransform);
 			DirectX::XMStoreFloat4x4(&NodeTransformation, tBoneTransform);
 		}
@@ -815,8 +822,8 @@ namespace Pg::Graphics
 		DirectX::XMMATRIX nodeTransformationMat = DirectX::XMLoadFloat4x4(&NodeTransformation);
 		DirectX::XMMATRIX parentTransformMat = DirectX::XMLoadFloat4x4(&parentTransform);
 
-		DirectX::XMMATRIX GlobalTransformation = DirectX::XMMatrixMultiply(nodeTransformationMat, parentTransformMat);
-		//DirectX::XMMATRIX GlobalTransformation = DirectX::XMMatrixMultiply(parentTransformMat, nodeTransformationMat);
+		//DirectX::XMMATRIX GlobalTransformation = DirectX::XMMatrixMultiply(nodeTransformationMat, parentTransformMat);
+		DirectX::XMMATRIX GlobalTransformation = DirectX::XMMatrixMultiply(parentTransformMat, nodeTransformationMat);
 
 		DirectX::XMFLOAT4X4 GlobalTransformationFF;
 		DirectX::XMStoreFloat4x4(&GlobalTransformationFF, GlobalTransformation);
@@ -829,6 +836,7 @@ namespace Pg::Graphics
 			//현재로서는 매 프레임 역행렬을 구한다.
 			//aiMatrix4x4 tAiRootTrans = scene->mRootNode->mTransformation;
 			DirectX::XMMATRIX tGlobalInverseTransform = DirectX::XMMATRIX(&scene->mRootNode->mTransformation.Inverse().a1);
+			//tGlobalInverseTransform = DirectX::XMMatrixTranspose(tGlobalInverseTransform);
 			{
 				//tAiRootTrans = tAiRootTrans.Transpose();
 				//DirectX::XMFLOAT4X4 tRootTrans;
@@ -844,6 +852,9 @@ namespace Pg::Graphics
 			DirectX::XMMATRIX tBoneOffsetMat = DirectX::XMLoadFloat4x4(&(_renderBoneInfoVector[BoneIndex].BoneOffset));
 			//1차 망가지기 전 Answer.
 			DirectX::XMMATRIX tFinalTrans = DirectX::XMMatrixMultiply(DirectX::XMMatrixMultiply(tBoneOffsetMat, GlobalTransformation), tGlobalInverseTransform);
+			//tFinalTrans = DirectX::XMMatrixTranspose(tFinalTrans);
+			//DirectX::XMMATRIX tFinalTrans = DirectX::XMMatrixMultiply(tBoneOffsetMat, GlobalTransformation);
+			//DirectX::XMMATRIX tFinalTrans = DirectX::XMMatrixIdentity();
 			//DirectX::XMMATRIX tFinalTrans = DirectX::XMMatrixMultiply(tGlobalInverseTransform, DirectX::XMMatrixMultiply(tBoneOffsetMat, GlobalTransformation));
 			///TRY
 			//tFinalTrans = DirectX::XMMatrixMultiply(tFinalTrans, DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(180.0f)));
