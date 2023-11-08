@@ -420,9 +420,9 @@ namespace Pg::Graphics
 		//tFilePath = "../Resources/3DModels/Animated/BasicAnimatedCubeEdited.fbx";
 		//tFilePath = "../Resources/3DModels/Animated/Boss_Test_NonDeform_MultiMat.fbx";
 		//tFilePath = "../Resources/3DModels/Animated/SkinnedExample.fbx";
-		tFilePath = "../Resources/3DModels/Animated/Cylinder.fbx";
+		//tFilePath = "../Resources/3DModels/Animated/Cylinder.fbx";
 		//tFilePath = "../Resources/3DModels/Animated/4QCharacter_idle_ani.fbx";
-		//tFilePath = "../Resources/3DModels/Animated/TimmyModel.fbx";
+		tFilePath = "../Resources/3DModels/Animated/TimmyModel.fbx";
 		//tFilePath = "../Resources/3DModels/MultiMatMesh/diffuseonly.fbx";
 
 		
