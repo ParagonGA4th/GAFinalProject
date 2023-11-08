@@ -34,7 +34,7 @@ void Pg::Editor::Core::EditorAction::Initialize()
 
 	_processManager->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
 	_editorManager->Initialize(_hWnd);
-	//_fileManager->Initialize(GetCommandLine());
+	//_fileManager->Initialize();
 	//_fileManager->FileOpen();
 }
 void Pg::Editor::Core::EditorAction::Loop()
