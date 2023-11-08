@@ -20,14 +20,24 @@ ID3D11DeviceContext* Pg::Editor::Helper::EditorHelper::GetDeviceContext()
 	return _deviceContext;
 }
 
-void Pg::Editor::Helper::EditorHelper::SetTexture(void* Texture)
+void Pg::Editor::Helper::EditorHelper::SetSceneTexture(void* Texture)
 {
-	_TestTexture = Texture;
+	_sceneTexture = Texture;
 }
 
-void* Pg::Editor::Helper::EditorHelper::GetTexture()
+void* Pg::Editor::Helper::EditorHelper::GetSceneTexture()
 {
-	return _TestTexture;
+	return _sceneTexture;
+}
+
+void Pg::Editor::Helper::EditorHelper::SetGameTexture(void* Texture)
+{
+	_gameTexture = Texture;
+}
+
+void* Pg::Editor::Helper::EditorHelper::GetGameTexture()
+{
+	return _gameTexture;
 }
 
 void Pg::Editor::Helper::EditorHelper::SetEditorOnOff(bool onoff)
