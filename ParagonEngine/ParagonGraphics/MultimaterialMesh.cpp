@@ -206,6 +206,11 @@ namespace Pg::Graphics
 		HR(DirectX::CreateDDSTextureFromFile(LowDX11Storage::GetInstance()->_device,
 			LowDX11Storage::GetInstance()->_deviceContext,
 			L"../Resources/3DModels/Animated/Textures/WoodCrate01.dds", nullptr, &_tempCylinderSRV));
+
+		//TempBabo SRV
+		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
+			LowDX11Storage::GetInstance()->_deviceContext,
+			L"../Resources/3DModels/Animated/Textures/texture_BaseColor.png", nullptr, &_tempBaboSRV));	
 	}
 
 	void MultimaterialMesh::UpdateConstantBufferBase(Pg::Data::CameraData* camData, DirectX::XMFLOAT4X4 worldMat)
@@ -263,7 +268,10 @@ namespace Pg::Graphics
 		//Mesh의 Global Inverse Transform 할당.
 			//Global Inverse 할당!
 		DirectX::SimpleMath::Matrix tGlobalTrans = MathHelper::AI2SM_MATRIX(scene->mRootNode->mTransformation);
+		//기존
+		//MathHelper::DecomposeAssembleMatrix(tGlobalTrans);
 		tGlobalTrans = tGlobalTrans.Transpose();
+
 		DirectX::XMVECTOR tDet = DirectX::XMVectorZero();
 		_meshGlobalInverseTransform = DirectX::XMMatrixInverse(&tDet, tGlobalTrans);
 
@@ -426,8 +434,8 @@ namespace Pg::Graphics
 		//이 모델이 되따 크다.
 		//DirectX::XMFLOAT3 tScale = { 0.0001f, 0.0001f, 0.0001f };
 		//DirectX::XMFLOAT3 tScale = { 0.001f, 0.001f, 0.001f };
-		//DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
-		DirectX::XMFLOAT3 tScale = { 0.1f, 0.1f, 0.1f };
+		DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
+		//DirectX::XMFLOAT3 tScale = { 0.1f, 0.1f, 0.1f };
 		//DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
 		DirectX::XMVECTOR tScaleVec = DirectX::XMLoadFloat3(&tScale);
 
@@ -546,7 +554,10 @@ namespace Pg::Graphics
 
 			// Obtains the offset matrix which transforms the bone from mesh space into bone space. 
 			Matrix tBoneOffset = MathHelper::AI2SM_MATRIX(mesh->mBones[i]->mOffsetMatrix);
+			///기존
+			//MathHelper::DecomposeAssembleMatrix(tBoneOffset);
 			_renderBoneInfoVector[BoneIndex]._boneOffset = tBoneOffset.Transpose();
+
 
 			// Iterate over all the affected vertices by this bone i.e weights. 
 			for (unsigned int j = 0; j < mesh->mBones[i]->mNumWeights; j++) {
@@ -588,12 +599,6 @@ namespace Pg::Graphics
 		  0.0f,0.0f,1.0f,0.0f,
 		  0.0f,0.0f,0.0f,1.0f };
 
-		//DirectX::XMFLOAT4X4 tDefaultMat =
-		//{ 0.01f,0.0f,0.0f,0.0f,
-		//  0.0f,0.01f,0.0f,0.0f,
-		//  0.0f,0.0f,0.01f,0.0f,
-		//  0.0f,0.0f,0.0f,0.01f };
-
 		//ReadNodeHierarchy(tInwardTick, scene->mRootNode, tAnim, tDefaultMat);
 		ReadNodeHierarchy(tInwardTick, scene->mRootNode, tAnim, tDefaultMat);
 
@@ -622,7 +627,11 @@ namespace Pg::Graphics
 
 		// Obtain transformation relative to node's parent. 
 		Matrix tNodeTransformation = MathHelper::AI2SM_MATRIX(pNode->mTransformation);
+
+		///기존
+		//MathHelper::DecomposeAssembleMatrix(tNodeTransformation);
 		tNodeTransformation = tNodeTransformation.Transpose();
+		
 
 		//여기서 Decompose를 시행안하기는 했다. 문제시 보기.
 
@@ -796,6 +805,7 @@ namespace Pg::Graphics
 			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[tAiMesh->mMaterialIndex]));
 			//_devCon->PSSetShaderResources(0, 1, &_tempCylinderSRV);
 			_devCon->PSSetShaderResources(0, 1, &_tempTimmySRV);
+			//_devCon->PSSetShaderResources(0, 1, &_tempBaboSRV);
 			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[0]));
 
 			_devCon->DrawIndexed(m.numIndices, m.startIndex, m.startVertex);
