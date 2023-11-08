@@ -47,7 +47,7 @@ void Pg::Editor::Manager::EditorManager::Update()
 
 	if (_editorOnOff)
 	{
-		_uiManager->Update(_edHepler->GetTexture());
+		_uiManager->Update(_edHepler->GetSceneTexture());
 		_inspector->Update();
 		_hierarchy->Update();
 		_scene->Update();

@@ -29,7 +29,7 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd, float screenWid
 	_edHepler->SetDevice(_coreMain->GetGraphicsDevice());
 	_edHepler->SetDeviceContext(_coreMain->GetGraphicsDeviceContext());
 
-	_edHepler->SetTexture(_coreMain->GetEditorAdapter()->GetEditorCameraViewSRV());
+	_edHepler->SetSceneTexture(_coreMain->GetEditorAdapter()->GetEditorCameraViewSRV());
 }
 
 void Pg::Editor::Manager::ProcessManager::Update()

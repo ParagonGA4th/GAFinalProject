@@ -1,21 +1,40 @@
 #include "FileManager.h"
-#include <cassert>
-#include <shobjidl.h>
 
-void Pg::Editor::Manager::FileManager::Initialize(std::string path)
+#include "../ParagonData/Serializer.h"
+
+#include <cassert>
+
+void Pg::Editor::Manager::FileManager::Initialize()
 {
-	_projectPath = path;
+	// 파일 필터 설정
+	fileTypes[0] = { L"Pragon Project", L"*.pgproject" };
+	fileTypes[1] = { L"Pragon Scene", L"*.pgscene" };
+	fileTypes[2] = { L"모든 파일", L"*.*" };
+
+	// project가 처음 open 될 때는 기존 폴더(Builds//x64//Relase//)에 있는 sample load.
 }
 
 void Pg::Editor::Manager::FileManager::FileOpen()
 {
-	std::string openFile = GetOpenFilePath();
+	std::string openFileFullPath = GetOpenFilePath();
 
+	if (!openFileFullPath.empty())
+	{
+		pugi::xml_document doc;
+		if (doc.load_file(openFileFullPath.c_str()))
+		{
+			pugi::xml_node rootNode = doc.child("scene");
+
+			//pugi::xml_node objects = rootNode.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "objects";});
+
+			// objects를 순회 하며 object를 가져온다
+		}
+	}
 }
 
 bool Pg::Editor::Manager::FileManager::FileSave()
 {
-	std::string saveFile = GetSaveFilePath();
+	std::string saveFileFullPath = GetSaveFilePath();
 
 	return true;
 }
@@ -26,21 +45,14 @@ std::string Pg::Editor::Manager::FileManager::GetOpenFilePath()
 	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 	assert(SUCCEEDED(hr));
 
-	IFileOpenDialog* pFileOpen;
-
 	// Common Item Dialog 인터페이스 생성
+	IFileOpenDialog* pFileOpen;
 	hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_PPV_ARGS(&pFileOpen));
-	if (FAILED(hr)) { CoUninitialize(); }
+	if (FAILED(hr)) { CoUninitialize(); assert(SUCCEEDED(hr)); }
 
 	// Common Item Dialog 특성 설정
-	// pFileOpen->SetTitle(L"파일 선택 대화 상자"); // 제목 설정 (선택 사항)
+	pFileOpen->SetTitle(L"Paragon Project"); // 제목 설정 (선택 사항)
 	//pFileOpen->SetOptions(FOS_PICKFOLDERS); // 폴더 선택 대화 상자로 사용 (선택 사항)
-
-	// 파일 필터 설정: .ppt 확장자 필터
-	COMDLG_FILTERSPEC fileTypes[] = {
-		{ L"Pragon Project", L"*.pgproject" },
-		{ L"모든 파일", L"*.*" },
-	};
 
 	pFileOpen->SetFileTypes(ARRAYSIZE(fileTypes), fileTypes);
 	pFileOpen->SetFileTypeIndex(1); // 기본 확장자 선택 (1부터 시작)
@@ -61,16 +73,11 @@ std::string Pg::Editor::Manager::FileManager::GetSaveFilePath()
 	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 	assert(SUCCEEDED(hr));
 
-	IFileSaveDialog* pFileSave;
-
 	// Common Item Dialog 인터페이스 생성
+	IFileSaveDialog* pFileSave;
 	hr = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_ALL, IID_PPV_ARGS(&pFileSave));
 	if (FAILED(hr)) { CoUninitialize(); assert(SUCCEEDED(hr)); }
 
-	// 파일 필터 설정: .ppt 확장자 필터
-	COMDLG_FILTERSPEC fileTypes[] = {
-		{ L"Pragon Project", L"*.pgproject" },
-	};
 	pFileSave->SetFileTypes(ARRAYSIZE(fileTypes), fileTypes);
 	pFileSave->SetFileTypeIndex(1); // 기본 확장자 선택 (1부터 시작)
 
@@ -92,7 +99,8 @@ void Pg::Editor::Manager::FileManager::ShowDialog(IFileDialog* fileDialog, std::
 	// 파일 저장 대화 상자 표시
 	HRESULT hr = fileDialog->Show(NULL);
 	IShellItem* pItem;
-	LPWSTR filePath = NULL;
+	LPWSTR filePath;
+
 
 	if (SUCCEEDED(hr))
 	{
@@ -116,96 +124,3 @@ void Pg::Editor::Manager::FileManager::ShowDialog(IFileDialog* fileDialog, std::
 		path.append(wString.begin(), wString.end());
 	}
 }
-
-//
-//void Pg::Editor::Manager::FileManager::XmlLoad()
-//{
-//	pugi::xml_document doc;
-//	pugi::xml_node rootNode;
-//
-//	if (doc.load_file("../ParagonEditor/SceneName.xml"))
-//	{
-//		rootNode = doc.child("scene");
-//		XmlDataParsing(rootNode.first_child());
-//	}
-//}
-//
-//void Pg::Editor::Manager::FileManager::JsonLoad()
-//{
-//}
-//
-//std::vector<GameObjectData*> Pg::Editor::Manager::FileManager::GetGameObjectData() const
-//{
-//	return _gameObjectDatas;
-//}
-//
-//void Pg::Editor::Manager::FileManager::XmlDataParsing(pugi::xml_node node)
-//{
-//	int count = 1;
-//
-//	// node Name = objects
-//	for (pugi::xml_node child : node.children("object"))
-//	{
-//		GameObjectData* objData = new GameObjectData();
-//		objData->_objectNumber = count;
-//
-//		// object 안에 들어있는 데이터를 
-//		XmlObjectDataParsing(child, *objData);
-//
-//		_gameObjectDatas.push_back(objData);
-//		++count;
-//	}
-//}
-//
-//void Pg::Editor::Manager::FileManager::XmlObjectDataParsing(pugi::xml_node node, GameObjectData& data)
-//{
-//	// Object가 넘어온다
-//	for (pugi::xml_node child = node.first_child(); child; child = child.next_sibling())
-//	{
-//		std::string childName = child.name();
-//
-//		if (childName.compare("name") == 0) { data._name = child.child_value(); }
-//		if (childName.compare("tag") == 0) { data._tag = child.child_value(); }
-//		if (childName.compare("active") == 0) { data._active = child.child_value(); }
-//		if (childName.compare("parent") == 0) { data._parent = std::stoi(child.child_value()); }
-//		if (childName.compare("components") == 0) { XmlComponentDataParsing(child.first_child(), data); }
-//	}
-//}
-//
-//void Pg::Editor::Manager::FileManager::XmlComponentDataParsing(pugi::xml_node node, GameObjectData& data)
-//{
-//	for (pugi::xml_node child = node.first_child(); child; child = child.next_sibling())
-//	{
-//		std::string childName = child.name();
-//
-//		if (childName.compare("type") == 0) { data._type = child.child_value(); }
-//		if (childName.compare("data") == 0) 
-//		{ 
-//			for (pugi::xml_node tool = child.first_child(); tool; tool = tool.next_sibling())
-//			{
-//				std::string childName = tool.name();
-//
-//				if (childName.compare("position") == 0) 
-//				{
-//					data._transform._position._x = std::stof(tool.first_child().child_value());
-//					data._transform._position._y = std::stof(tool.first_child().next_sibling().child_value());
-//					data._transform._position._z = std::stof(tool.first_child().next_sibling().next_sibling().child_value());
-//				}
-//
-//				if (childName.compare("rotation") == 0) 
-//				{
-//					data._transform._rotation._x = std::stof(tool.first_child().child_value());
-//					data._transform._rotation._y = std::stof(tool.first_child().next_sibling().child_value());
-//					data._transform._rotation._z = std::stof(tool.first_child().next_sibling().next_sibling().child_value());
-//				}
-//
-//				if (childName.compare("scale") == 0) 
-//				{
-//					data._transform._scale._x = std::stof(tool.first_child().child_value());
-//					data._transform._scale._y = std::stof(tool.first_child().next_sibling().child_value());
-//					data._transform._scale._z = std::stof(tool.first_child().next_sibling().next_sibling().child_value());
-//				}
-//			}
-//		}
-//	}
-//}
