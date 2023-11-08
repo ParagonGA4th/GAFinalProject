@@ -622,6 +622,7 @@ namespace Pg::Graphics
 
 		// Obtain transformation relative to node's parent. 
 		Matrix tNodeTransformation = MathHelper::AI2SM_MATRIX(pNode->mTransformation);
+		tNodeTransformation = tNodeTransformation.Transpose();
 
 		//여기서 Decompose를 시행안하기는 했다. 문제시 보기.
 
@@ -793,8 +794,8 @@ namespace Pg::Graphics
 			//해당 Mesh의 Material의 인덱스에 맞게 호출한다.
 			
 			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[tAiMesh->mMaterialIndex]));
-			_devCon->PSSetShaderResources(0, 1, &_tempCylinderSRV);
-			//_devCon->PSSetShaderResources(0, 1, &_tempTimmySRV);
+			//_devCon->PSSetShaderResources(0, 1, &_tempCylinderSRV);
+			_devCon->PSSetShaderResources(0, 1, &_tempTimmySRV);
 			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[0]));
 
 			_devCon->DrawIndexed(m.numIndices, m.startIndex, m.startVertex);
