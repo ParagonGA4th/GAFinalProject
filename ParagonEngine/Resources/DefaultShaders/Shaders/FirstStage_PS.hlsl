@@ -5,6 +5,7 @@
 
 
 Texture2D Diffuse;
+Texture2D Normal;
 
 POut1st PS_MAIN(VOut1st input)
 {
@@ -16,7 +17,8 @@ POut1st PS_MAIN(VOut1st input)
 	output.pout1st_RT0.w = input.vout1st_TangentW.x;
     
     //RT1 : World Space Normal.
-	output.pout1st_RT1.xyz = input.vout1st_NormalW;
+	//output.pout1st_RT1.xyz = input.vout1st_NormalW;
+	output.pout1st_RT1.xyz = Normal.Sample(state, input.vout1st_Tex.xy);
     //RT1 : World Space Tangent.y
 	output.pout1st_RT1.w = input.vout1st_TangentW.y;
     

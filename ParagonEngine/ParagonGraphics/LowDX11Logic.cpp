@@ -24,6 +24,7 @@ namespace Pg::Graphics
 #endif // DEBUG
 
 
+		// TODO: Feature Level 설정
 		// D3D11 Device 생성
 		hr = D3D11CreateDevice(
 			NULL,															// [in, optional]	IDXGIAdapter				*pAdapter

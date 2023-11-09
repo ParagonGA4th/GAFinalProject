@@ -22,7 +22,7 @@ namespace Pg::Graphics
 		RenderObjectStaticMesh3D(Pg::Data::BaseRenderer* baseRenderer);
 		virtual ~RenderObjectStaticMesh3D();
 
-		virtual void Render(Pg::Data::CameraData* camData) override;
+		virtual void Render() override;
 
 	private:
 		// #ForwardTemp : ForwardRendering 테스트를 위해 놔둠. WorkSpace 검사 위해.
@@ -30,6 +30,15 @@ namespace Pg::Graphics
 
 	private:
 		virtual void BindBuffers() override;
+
+	public:
+		virtual void UpdateConstantBuffers(Pg::Data::CameraData* camData) override;
+		virtual void BindConstantBuffers() override;
+		virtual void UnbindConstantBuffers() override;
+
+
+	private:
+		RenderTexture2D* _normalMap;
 	};
 }
 

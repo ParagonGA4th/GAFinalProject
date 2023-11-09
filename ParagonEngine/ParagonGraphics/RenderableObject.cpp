@@ -56,7 +56,12 @@ void Pg::Graphics::RenderableObject::BindShaders()
 	// Bind Constant Buffers
 	for (int i = 0; i < _constantBuffers.size(); ++i)
 	{
-		_constantBuffers[i]->UpdateAndBind(i);
+		_constantBuffers[i]->Update(i);
+	}
+
+	for (int i = 0; i < _constantBuffers.size(); ++i)
+	{
+		_constantBuffers[i]->Bind(i);
 	}
 	
 	// Bind Shader Resources
@@ -68,6 +73,12 @@ void Pg::Graphics::RenderableObject::BindShaders()
 
 void Pg::Graphics::RenderableObject::UnbindShaders()
 {
+
+	for (int i = 0; i < _constantBuffers.size(); ++i)
+	{
+		_constantBuffers[i]->Unbind(i);
+	}
+
 	_vertexShader->UnBind();
 	_pixelShader->UnBind();
 }

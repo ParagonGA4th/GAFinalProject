@@ -34,6 +34,7 @@ namespace Pg::Graphics
 	class PixelShader;
 	class ConstantBufferDefine;
 	struct ConstantBufferDefine::cbPerObjectBase;
+	class RenderTexture2D;
 
 }
 
@@ -46,7 +47,7 @@ namespace Pg::Graphics
 		virtual ~RenderObject3D();
 		
 		virtual void Initialize();
-		virtual void Render(Pg::Data::CameraData* camData);
+		virtual void Render();
 
 	protected:
 		Asset3DModelData* _modelData = nullptr;
@@ -76,11 +77,13 @@ namespace Pg::Graphics
 		void UnbindInputLayout();
 	
 	protected:
-		ID3D11ShaderResourceView* _SRV;
+		std::vector<RenderTexture2D*> _textures;
+
 		
 	public:	
-		virtual void SetTexture(std::wstring filepath);
-		virtual void SetTexture(ID3D11ShaderResourceView* SRV);
+		virtual void AddTexture(std::wstring filepath);
+		virtual void AddTexture(RenderTexture2D* texture);
+		void BindTextures();
 
 	public:
 		void SetVertexShader(VertexShader* shader);
@@ -92,6 +95,11 @@ namespace Pg::Graphics
 	protected:
 		ID3D11Device* _device;
 		ID3D11DeviceContext* _devCon;
+
+	public:
+		virtual void UpdateConstantBuffers(Pg::Data::CameraData* camData) abstract;
+		virtual void BindConstantBuffers() abstract;
+		virtual void UnbindConstantBuffers() abstract;
 
 
 	public:
