@@ -440,9 +440,9 @@ namespace Pg::Graphics
 		//이 모델이 되따 크다.
 		//DirectX::XMFLOAT3 tScale = { 0.0001f, 0.0001f, 0.0001f };
 		//DirectX::XMFLOAT3 tScale = { 0.001f, 0.001f, 0.001f };
-		DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
+		//DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
 		//DirectX::XMFLOAT3 tScale = { 0.1f, 0.1f, 0.1f };
-		//DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
+		DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
 		DirectX::XMVECTOR tScaleVec = DirectX::XMLoadFloat3(&tScale);
 
 		DirectX::XMMATRIX tWorldMatScaled = DirectX::XMMatrixAffineTransformation(tScaleVec, tPosVec, tRotQuatVec, tPosVec);
@@ -594,7 +594,17 @@ namespace Pg::Graphics
 
 		//절대로 일단은 정해져 있는 Tick 수 넘어가지 않게 -> 나머지 연산을 할것. 
 		static double tPlayTickDur = 0;
-		tPlayTickDur += 0.1;
+		//tPlayTickDur += 0.1;
+		tPlayTickDur += 1;
+
+
+		//if (_tempInput->GetKeyDown(API::Input::eKeyCode::TempToggleAnim))
+		//{
+		//	tPlayTickDur += 0.1;
+		//
+		//	std::string tMsg = "Tick : " + std::to_string(tPlayTickDur);
+		//	PG_TRACE(tMsg.c_str());
+		//}
 
 		double tInwardTick = fmod(tPlayTickDur, tAnim->mDuration);
 		assert(tInwardTick < tAnim->mDuration);
@@ -728,7 +738,8 @@ namespace Pg::Graphics
 
 		// Calculate the elapsed time within the delta time.  
 		float Factor = (animTick - (float)pNodeAnim->mRotationKeys[RotationIndex].mTime) / DeltaTime;
-		//assert(Factor >= 0.0f && Factor <= 1.0f);
+
+		///오류 : Factor가 0~1 사이로 결정되지 않는 오류 확인!
 
 		// Obtain the quaternions values for the current and next keyframe. 
 		const Quaternion StartRotationQ = MathHelper::AI2SM_QUATERNION(pNodeAnim->mRotationKeys[RotationIndex].mValue);
@@ -736,6 +747,8 @@ namespace Pg::Graphics
 
 		// Interpolate between them using the Factor. 
 		//Quaternion::Slerp(StartRotationQ, EndRotationQ, Factor, outQuat);
+
+		//Cubic Interpolation 쓰기..??
 
 		//TRY:
 		outQuat = MathHelper::QuaternionSlerpNoFlip(StartRotationQ, EndRotationQ, Factor);
@@ -820,8 +833,8 @@ namespace Pg::Graphics
 
 			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[tAiMesh->mMaterialIndex]));
 			//_devCon->PSSetShaderResources(0, 1, &_tempCylinderSRV);
-			//_devCon->PSSetShaderResources(0, 1, &_tempTimmySRV);
-			_devCon->PSSetShaderResources(0, 1, &_temp4QSRV);
+			_devCon->PSSetShaderResources(0, 1, &_tempTimmySRV);
+			//_devCon->PSSetShaderResources(0, 1, &_temp4QSRV);
 			//_devCon->PSSetShaderResources(0, 1, &_tempBaboSRV);
 			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[0]));
 

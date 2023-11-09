@@ -149,9 +149,17 @@ namespace Pg::Graphics::Helper
 		// If the dot product is negative, the quaternions are 180 degrees apart
 		// Negate one of the quaternions to take the shorter path
 		DirectX::SimpleMath::Quaternion correctedQ2 = (dotProduct < 0.0f) ? -q2 : q2;
+		//DirectX::SimpleMath::Quaternion correctedQ2 = (dotProduct < 0.0f) ? q2 : -q2;
 
 		// Perform spherical linear interpolation (slerp) using the corrected quaternion
-		return DirectX::SimpleMath::Quaternion::Slerp(q1, correctedQ2, t);
+		//보간 전에도 정규화 추가!
+		DirectX::SimpleMath::Quaternion q1Norm = q1;
+		q1Norm.Normalize();
+		correctedQ2.Normalize();
+
+		DirectX::SimpleMath::Quaternion ans = DirectX::SimpleMath::Quaternion::Slerp(q1Norm, correctedQ2, t);
+		ans.Normalize();
+		return ans;
 	}
 
 
