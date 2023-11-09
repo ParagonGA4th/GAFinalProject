@@ -147,11 +147,15 @@ namespace Pg::Core::Manager
 	{
 		//CreateResource를 임시로 여기에 호출.
 		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMesh.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/TexturedMultiCubes/simplecube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMeshSeams.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/TexturedMultiCubes/simplecube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/MultiMatMesh/RoadLavaCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/MultiMatMesh/WoodRoadCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/a.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/Textures/wook.jpg", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
 		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);

@@ -220,8 +220,14 @@ namespace Pg::Graphics
 
 		}
 
-		// 리스트에 파싱된 조명 정보를 사용하여 상수 버퍼를 만든다
-		_lights->BuildConstantBuffer();
+		// 리스트에 파싱된 조명 정보로 라이팅 패스에 쓰일 상수 버퍼를 만든다
+		_lights->BuildConstantBuffers();
+
+		// 디퍼드 렌더러의 멤버에 상수 버퍼을 저장해둔다 (패스별 바인딩을 위해)
+		_deferredRenderer->_lightingCBs = _lights->_constantBuffers;
+		//_deferredRenderer->_firstCBs = _renderObject3DList->_list
+		//_deferredRenderer->_secondCBs
+
 		assert(true);
 	}
 

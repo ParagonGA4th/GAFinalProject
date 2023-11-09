@@ -18,6 +18,7 @@ VOut1st VS_MAIN(Vin1stStatic input)
 	
 	// 동차좌표계 내 Position 계산.
 	output.vout1st_PosH = mul(gCBuf_WorldViewProj, float4(input.vin1st_PosL, 1.0f));
+	//output.vout1st_PosH = mul(gCBuf_WorldView, float4(input.vin1st_PosL, 1.0f));
 	
 	// Color & UV(W) 값 전달.
 	output.vout1st_Color = input.vin1st_Color;

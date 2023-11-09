@@ -33,6 +33,7 @@ void Pg::Graphics::VertexShader::Bind()
 
 	// Shader
 	_DXStorage->_deviceContext->VSSetShader(_shader, nullptr, 0);
+
 }
 
 void Pg::Graphics::VertexShader::CreateShader()
@@ -43,5 +44,6 @@ void Pg::Graphics::VertexShader::CreateShader()
 void Pg::Graphics::VertexShader::UnBind()
 {
 	_DXStorage->_deviceContext->VSSetShader(nullptr, nullptr, 0);
+
 }
 

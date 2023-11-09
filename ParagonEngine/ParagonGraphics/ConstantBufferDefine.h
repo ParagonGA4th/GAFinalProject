@@ -16,6 +16,7 @@ namespace Pg::Graphics
 		{
 			DirectX::XMMATRIX gCBuf_World;
 			DirectX::XMMATRIX gCBuf_WorldInvTranspose;
+			DirectX::XMMATRIX gCBuf_WorldView;
 			DirectX::XMMATRIX gCBuf_WorldViewProj;
 			DirectX::XMFLOAT3 gCBuf_CameraPositionW;
 			// gCBuf_Materials[10] //후에 Material이 들어가면 추가되어야.

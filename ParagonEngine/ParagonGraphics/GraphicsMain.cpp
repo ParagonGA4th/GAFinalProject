@@ -177,6 +177,7 @@ namespace Pg::Graphics
 		hr = _DXLogic->CreateMainRenderTarget();
 		hr = _DXLogic->CreateDepthStencilViewAndState();
 		_DXLogic->CreateAndSetViewports();
+		// TODO: 쿼드 사이즈 변경 후 재할당 로직도 들어가야 함
 	
 	}
 

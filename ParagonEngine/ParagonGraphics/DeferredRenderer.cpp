@@ -101,11 +101,15 @@ void Pg::Graphics::DeferredRenderer::BindFirstPass()
 
 void Pg::Graphics::DeferredRenderer::RenderFirstPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 {
+
 	for (auto& it : renderObjectList->_list)
 	{
 		if (it.second->GetBaseRenderer()->GetActive())
 		{
-			it.second->Render(camData);
+			it.second->UpdateConstantBuffers(camData);
+			it.second->BindConstantBuffers();
+			it.second->Render();
+			it.second->UnbindConstantBuffers();
 		}
 	}
 
@@ -128,6 +132,8 @@ void Pg::Graphics::DeferredRenderer::BindSecondPass()
 	// Bind Shaders
 	_secondVS->Bind();
 	_secondPS->Bind();
+
+	// Bind Constant Buffers
 
 	// Set Shader Resources to Sample
 	_DXStorage->_deviceContext->VSSetShaderResources(0, _SRVs.size(), _SRVs.data());
@@ -155,6 +161,8 @@ void Pg::Graphics::DeferredRenderer::UnbindSecondPass()
 {
 	_secondVS->UnBind();
 	_secondPS->UnBind();
+
+	UnbindConstantBuffers(_lightingCBs);
 
 	_DXStorage->_deviceContext->VSSetShaderResources(0, _SRVs.size(), NullSRV.data());
 	_DXStorage->_deviceContext->PSSetShaderResources(0, _SRVs.size(), NullSRV.data());
@@ -236,6 +244,8 @@ void Pg::Graphics::DeferredRenderer::BindLightingPass()
 	_lightingVS->Bind();
 	_lightingPS->Bind();
 
+	BindConstantBuffers(_lightingCBs);
+
 	// Set Shader Resources to Sample
 	_DXStorage->_deviceContext->VSSetShaderResources(0, _SRVs.size() - 1, _SRVs.data());
 	_DXStorage->_deviceContext->PSSetShaderResources(0, _SRVs.size() - 1, _SRVs.data());
@@ -252,6 +262,8 @@ void Pg::Graphics::DeferredRenderer::BindLightingPass()
 
 void Pg::Graphics::DeferredRenderer::UnbindLightingPass()
 {
+	//UnbindConstantBuffers(_lightingCBs);
+
 	_lightingVS->UnBind();
 	_lightingPS->UnBind();
 
@@ -262,8 +274,32 @@ void Pg::Graphics::DeferredRenderer::RenderLight(RenderObjectLightList* lightLis
 {
 	// 조명 정보를 담고 있는 상수버퍼를 조립하고 업데이트
 	lightList->Update(camData);
-	lightList->UpdateConstantBuffer();
+	UpdateConstantBuffers(_lightingCBs);
 
 	// 조명을 연산한다
 	_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
+}
+
+void Pg::Graphics::DeferredRenderer::UpdateConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers)
+{
+	for (int i = 0; i < _constantBuffers.size(); ++i)
+	{
+		_constantBuffers[i]->Update(i);
+	}
+}
+
+void Pg::Graphics::DeferredRenderer::BindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers)
+{
+	for (int i = 0; i < _constantBuffers.size(); ++i)
+	{
+		_constantBuffers[i]->Bind(i);
+	}
+}
+
+void Pg::Graphics::DeferredRenderer::UnbindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers)
+{
+	for (int i = 0; i < _constantBuffers.size(); ++i)
+	{
+		_constantBuffers[i]->Unbind(i);
+	}
 }

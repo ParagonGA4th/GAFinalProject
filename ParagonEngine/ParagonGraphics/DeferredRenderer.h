@@ -20,6 +20,7 @@ namespace Pg::Graphics
 	class GBuffer;
 	class VertexShader;
 	class PixelShader;
+	class ConstantBufferBase;
 }
 
 namespace Pg::Graphics
@@ -67,6 +68,16 @@ namespace Pg::Graphics
 		
 		VertexShader* _secondVS;
 		PixelShader* _secondPS;
+
+	public:
+		std::vector< ConstantBufferBase* > _firstCBs;
+		std::vector< ConstantBufferBase* > _lightingCBs;
+		std::vector< ConstantBufferBase* > _secondCBs;
+
+	private:
+		void UpdateConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers);
+		void BindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers);
+		void UnbindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers);
 
 	private:
 		LowDX11Storage* _DXStorage;

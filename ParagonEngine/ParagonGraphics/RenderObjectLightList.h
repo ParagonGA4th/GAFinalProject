@@ -56,8 +56,8 @@ namespace Pg::Graphics
 			_constantBuffers.emplace_back(tCBuffer);
 		}
 
-		void BuildConstantBuffer();
-		void UpdateConstantBuffer();
+		void BuildConstantBuffers();
+
 
 	/// ±‚≈∏
 	public:

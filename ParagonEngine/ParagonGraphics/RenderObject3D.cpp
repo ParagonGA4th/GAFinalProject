@@ -9,6 +9,7 @@
 #include "DX11Headers.h"
 
 #include "dxtk/DDSTextureLoader.h"
+#include "dxtk/WICTextureLoader.h"
 
 #include "Asset3DModelData.h"
 
@@ -16,7 +17,10 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
+#include "RenderTexture2D.h"
+
 #include <cassert>
+#include <filesystem>
 
 namespace Pg::Graphics
 {
@@ -24,7 +28,8 @@ namespace Pg::Graphics
 	using Pg::Graphics::Manager::GraphicsResourceManager;
 	using Pg::Util::Helper::ResourceHelper;
 
-	RenderObject3D::RenderObject3D(Pg::Data::BaseRenderer* baseRenderer) : RenderObjectBase(baseRenderer)
+	RenderObject3D::RenderObject3D(Pg::Data::BaseRenderer* baseRenderer) : RenderObjectBase(baseRenderer),
+		_textures()
 	{
 		_constantBufferStruct = new ConstantBufferDefine::cbPerObjectBase;
 		CreateConstantBuffer(_constantBufferStruct);
@@ -41,7 +46,7 @@ namespace Pg::Graphics
 
 	}
 
-	void RenderObject3D::Render(Pg::Data::CameraData* camData)
+	void RenderObject3D::Render()
 	{
 
 	}
@@ -101,29 +106,51 @@ namespace Pg::Graphics
 		return _pixelShader;
 	}
 
-	void RenderObject3D::SetTexture(std::wstring filepath)
+	void RenderObject3D::AddTexture(std::wstring filepath)
 	{
-		ID3D11Resource* Texture = nullptr;
+		std::string _string;
+		_string.assign(filepath.begin(), filepath.end());
 
-		HRESULT hr = DirectX::CreateDDSTextureFromFile(_DXStorage->_device, filepath.c_str(), &Texture, &_SRV);
+		RenderTexture2D* texture = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, _string);
+		
+		std::filesystem::path _path(filepath);
+		std::string texturePath = _path.extension().string();
 
-		_DXStorage->_deviceContext->PSSetShaderResources(0, 1, &_SRV);
+		if (texturePath == ".dds" || texturePath == ".DDS")
+		{
+			//HRESULT hr = DirectX::CreateDDSTextureFromFile();
+		}
+		else
+		{
+			HRESULT hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, filepath.c_str(), &texture->GetResource(), &texture->GetSRV());
+		}
 
-		D3D11_SAMPLER_DESC sd;
-		sd.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-		sd.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-		sd.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-		sd.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
-		sd.MipLODBias = 0.0f;
-		sd.MaxAnisotropy = 1;
-
-		_DXStorage->_device->CreateSamplerState(&sd, &_samplerState);
-		_DXStorage->_deviceContext->PSSetSamplers(0, 1, &_samplerState);
+		_textures.emplace_back(texture);
 	}
 
-	void RenderObject3D::SetTexture(ID3D11ShaderResourceView* SRV)
+	void RenderObject3D::AddTexture(RenderTexture2D* texture)
 	{
-		_DXStorage->_deviceContext->PSSetShaderResources(0, 1, &SRV);
+		//std::filesystem::path _path(texture->GetFilePath());
+		//std::string extension = _path.extension().string();
+
+		//if (extension == ".dds" || extension == ".DDS")
+		//{
+		//	//HRESULT hr = DirectX::CreateDDSTextureFromFile();
+		//}
+		//else
+		//{
+		//	HRESULT hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, texture->GetFilePath().c_str(), &texture->GetResource(), &texture->GetSRV());
+		//}
+
+		_textures.emplace_back(texture);
+	}
+
+	void RenderObject3D::BindTextures()
+	{
+		for (int i = 0; i < _textures.size(); ++i)
+		{
+			_DXStorage->_deviceContext->PSSetShaderResources(i, 1, &(_textures.at(i)->GetSRV()));
+		}
 
 		D3D11_SAMPLER_DESC sd;
 		sd.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;

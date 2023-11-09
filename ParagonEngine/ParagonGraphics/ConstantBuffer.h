@@ -25,11 +25,14 @@ namespace Pg::Graphics
 
 	public:
 		ID3D11Buffer* _Buffer;
+		ID3D11Buffer* _NullBuffer;
 		T* _cbData;
 		D3D11_SUBRESOURCE_DATA _subresource;
 
 	public:
-		virtual void UpdateAndBind(UINT num) override;
+		virtual void Update(UINT num) override;
+		virtual void Bind(UINT num) override;
+		virtual void Unbind(UINT num) override;
 		virtual ID3D11Buffer* GetBuffer() override;
 
 	private:
@@ -43,7 +46,7 @@ namespace Pg::Graphics
 	template<typename T>
 	ConstantBuffer<T>::ConstantBuffer(T* cbData)
 		:_DXStorage(LowDX11Storage::GetInstance()),
-		_Buffer(nullptr),
+		_Buffer(nullptr), _NullBuffer(nullptr),
 		_cbData(cbData)
 	{
 		int sizeCB = (((sizeof(T)-1) / 16 ) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
@@ -63,7 +66,7 @@ namespace Pg::Graphics
 	template<typename T>
 	ConstantBuffer<T>::ConstantBuffer(T* cbData, unsigned int size)
 		:_DXStorage(LowDX11Storage::GetInstance()),
-		_Buffer(nullptr),
+		_Buffer(nullptr), _NullBuffer(nullptr),
 		_cbData(cbData)
 	{
 		int sizeCB = (((sizeof(T) - 1) / 16) + 1) * 16 * size;	// declspec 으로 16바이트 정렬할 수 있다?
@@ -88,11 +91,23 @@ namespace Pg::Graphics
 	}
 
 	template<typename T>
-	void ConstantBuffer<T>::UpdateAndBind(UINT index)
+	void ConstantBuffer<T>::Update(UINT index)
 	{	
 		_DXStorage->_deviceContext->UpdateSubresource(_Buffer, 0, NULL, _cbData, 0, 0);
+	}
+
+	template<typename T>
+	void ConstantBuffer<T>::Bind(UINT index)
+	{
 		_DXStorage->_deviceContext->VSSetConstantBuffers(index, 1, &_Buffer);
 		_DXStorage->_deviceContext->PSSetConstantBuffers(index, 1, &_Buffer);
+	}
+
+	template<typename T>
+	void ConstantBuffer<T>::Unbind(UINT index)
+	{
+		_DXStorage->_deviceContext->VSSetConstantBuffers(index, 1, &_NullBuffer);
+		_DXStorage->_deviceContext->PSSetConstantBuffers(index, 1, &_NullBuffer);
 	}
 
 	template<typename T>
