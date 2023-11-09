@@ -210,7 +210,12 @@ namespace Pg::Graphics
 		//TempBabo SRV
 		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
 			LowDX11Storage::GetInstance()->_deviceContext,
-			L"../Resources/3DModels/Animated/Textures/texture_BaseColor.png", nullptr, &_tempBaboSRV));	
+			L"../Resources/3DModels/Animated/Textures/texture_BaseColor.png", nullptr, &_tempBaboSRV));
+
+		//4Q SRV
+		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
+			LowDX11Storage::GetInstance()->_deviceContext,
+			L"../Resources/3DModels/Animated/Textures/TT_checker_2048x2048_UV_GRID_BaseColor.png", nullptr, &_temp4QSRV));
 	}
 
 	void MultimaterialMesh::UpdateConstantBufferBase(Pg::Data::CameraData* camData, DirectX::XMFLOAT4X4 worldMat)
@@ -427,6 +432,7 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT3 tPosition = { 0.0f, 0.0f, 0.0f };
 		DirectX::XMVECTOR tPosVec = DirectX::XMLoadFloat3(&tPosition);
 
+
 		DirectX::XMFLOAT4 tRotQuat = { 0.0f, 0.0f, 0.0f, 1.0f };
 		DirectX::XMVECTOR tRotQuatVec = DirectX::XMLoadFloat4(&tRotQuat);
 
@@ -446,7 +452,7 @@ namespace Pg::Graphics
 
 		//그런가..? 확실한 것은, 들어갈 때는 올바르게 (DX 기준) 행렬이 매개변수로 들어가는 것을 전제로 하고 있다. 
 		//다시 생각해봐라! Transpose 여부.
-		
+
 		/// Skinned Constant Buffer 업데이트.
 		//옮겨졌던 모든 스키닝을 Vector로 옮기기. (구조체로)
 
@@ -499,14 +505,14 @@ namespace Pg::Graphics
 
 		//원래 위에 있었음.
 		//BufferMemory 매핑만 설정. -> 이제 Skinned니까 2개!
-		
+
 
 		//VS/PS Unbind.
 		_devCon->VSSetShader(nullptr, nullptr, 0);
 		_devCon->PSSetShader(nullptr, nullptr, 0);
 	}
 
-	
+
 
 	void MultimaterialMesh::SetupBoneData(std::vector<RenderUsageVertexBone>& vBoneList, const aiScene* scene)
 	{
@@ -580,9 +586,9 @@ namespace Pg::Graphics
 		//처음에 아무것도 없으면 아예 출력이 되지 않으니, T-Pose Animation을 기본으로 잡고 코드를 짜야 한다.
 
 		//현재 3DModel은 3개인 상태 : 0 / 1 / 2 중 2가 T-Pose.
-		
+
 		static short tChoice = 0;
-		
+
 		aiAnimation* tAnim = nullptr;
 		tAnim = scene->mAnimations[tChoice];
 
@@ -631,7 +637,14 @@ namespace Pg::Graphics
 		///기존
 		//MathHelper::DecomposeAssembleMatrix(tNodeTransformation);
 		tNodeTransformation = tNodeTransformation.Transpose();
-		
+
+		///Rotation, 하지만 이는 지속성이 없는 코드.
+		{
+			//using namespace DirectX;
+			//
+			//Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(XMConvertToRadians(0.0f), XMConvertToRadians(0.0f), XMConvertToRadians(0.0f));
+			//tNodeTransformation = rotationMatrix;
+		}
 
 		//여기서 Decompose를 시행안하기는 했다. 문제시 보기.
 
@@ -701,7 +714,7 @@ namespace Pg::Graphics
 		if (pNodeAnim->mNumRotationKeys == 1)
 		{
 			outQuat = MathHelper::AI2SM_QUATERNION(pNodeAnim->mRotationKeys[0].mValue);
-			return; 
+			return;
 		}
 		// Obtain the current rotation keyframe. 
 		unsigned int RotationIndex = FindRotation(animTick, pNodeAnim);
@@ -722,7 +735,10 @@ namespace Pg::Graphics
 		const Quaternion EndRotationQ = MathHelper::AI2SM_QUATERNION(pNodeAnim->mRotationKeys[NextRotationIndex].mValue);
 
 		// Interpolate between them using the Factor. 
-		Quaternion::Slerp(StartRotationQ, EndRotationQ, Factor, outQuat);
+		//Quaternion::Slerp(StartRotationQ, EndRotationQ, Factor, outQuat);
+
+		//TRY:
+		outQuat = MathHelper::QuaternionSlerpNoFlip(StartRotationQ, EndRotationQ, Factor);
 
 		// Normalise and set the reference. 
 		outQuat.Normalize();
@@ -801,10 +817,11 @@ namespace Pg::Graphics
 			//이제 SolidRS-DiffuseTexture를 이용하기에, 
 			//Mesh의 인덱스에 따라 PSSetShaderResources를
 			//해당 Mesh의 Material의 인덱스에 맞게 호출한다.
-			
+
 			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[tAiMesh->mMaterialIndex]));
 			//_devCon->PSSetShaderResources(0, 1, &_tempCylinderSRV);
-			_devCon->PSSetShaderResources(0, 1, &_tempTimmySRV);
+			//_devCon->PSSetShaderResources(0, 1, &_tempTimmySRV);
+			_devCon->PSSetShaderResources(0, 1, &_temp4QSRV);
 			//_devCon->PSSetShaderResources(0, 1, &_tempBaboSRV);
 			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[0]));
 
