@@ -122,29 +122,37 @@ namespace Pg::Graphics::Helper
 
 	void MathHelper::DecomposeAssembleMatrix(DirectX::SimpleMath::Matrix& mat)
 	{
+		using namespace DirectX;
+
 		DirectX::XMVECTOR ttScale;
 		DirectX::XMVECTOR ttRotQuat;
 		DirectX::XMVECTOR ttTranslate;
 		DirectX::XMMatrixDecompose(&ttScale, &ttRotQuat, &ttTranslate, mat);
 
-		DirectX::XMFLOAT3 ttScaleFF;
-		DirectX::XMFLOAT4 ttRotQuatFF;
-		DirectX::XMFLOAT3 ttTranslateFF;
+		DirectX::XMMATRIX tAssembleTransform = DirectX::XMMatrixScalingFromVector(ttScale) *
+			DirectX::XMMatrixRotationQuaternion(ttRotQuat) *
+			DirectX::XMMatrixTranslationFromVector(ttTranslate);
 
-		DirectX::XMStoreFloat3(&ttScaleFF, ttScale);
-		DirectX::XMStoreFloat4(&ttRotQuatFF, ttRotQuat);
-		DirectX::XMStoreFloat3(&ttTranslateFF, ttTranslate);
-
-		DirectX::XMVECTOR translation = DirectX::XMVectorSet(ttTranslateFF.x, ttTranslateFF.y, ttTranslateFF.z, 1.0f);
-		DirectX::XMVECTOR rotationQuaternion = DirectX::XMVectorSet(ttRotQuatFF.x, ttRotQuatFF.y, ttRotQuatFF.z, ttRotQuatFF.w);
-
-		DirectX::XMVECTOR scale = DirectX::XMVectorSet(ttScaleFF.x, ttScaleFF.y, ttScaleFF.z, 1.0f);
-
-		DirectX::XMMATRIX tBoneTransform = DirectX::XMMatrixScalingFromVector(scale) *
-			DirectX::XMMatrixRotationQuaternion(rotationQuaternion) *
-			DirectX::XMMatrixTranslationFromVector(translation);
-
-		mat = tBoneTransform;
+		/*DirectX::XMMATRIX tAssembleTransform =
+			DirectX::XMMatrixTranslationFromVector(ttTranslate) *
+			DirectX::XMMatrixRotationQuaternion(ttRotQuat) *
+			DirectX::XMMatrixScalingFromVector(ttScale);*/
+			
+		mat = tAssembleTransform;
 	}
+
+	DirectX::SimpleMath::Quaternion MathHelper::QuaternionSlerpNoFlip(const DirectX::SimpleMath::Quaternion& q1, const DirectX::SimpleMath::Quaternion& q2, float t)
+	{
+		// Calculate the dot product between q1 and q2
+		float dotProduct = q1.Dot(q2);
+
+		// If the dot product is negative, the quaternions are 180 degrees apart
+		// Negate one of the quaternions to take the shorter path
+		DirectX::SimpleMath::Quaternion correctedQ2 = (dotProduct < 0.0f) ? -q2 : q2;
+
+		// Perform spherical linear interpolation (slerp) using the corrected quaternion
+		return DirectX::SimpleMath::Quaternion::Slerp(q1, correctedQ2, t);
+	}
+
 
 }

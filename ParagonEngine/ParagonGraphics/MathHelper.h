@@ -43,6 +43,7 @@ namespace Pg::Graphics::Helper
 
 		//Experimental
 		static void DecomposeAssembleMatrix(DirectX::SimpleMath::Matrix& mat);
+		static DirectX::SimpleMath::Quaternion QuaternionSlerpNoFlip(const DirectX::SimpleMath::Quaternion& q1, const DirectX::SimpleMath::Quaternion& q2, float t);
 	};
 }
 
