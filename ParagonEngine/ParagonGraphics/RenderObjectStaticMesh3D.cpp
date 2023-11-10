@@ -26,9 +26,12 @@ namespace Pg::Graphics
 		auto tModelData = GraphicsResourceManager::Instance()->GetResource(tStaticMeshRenderer->GetMeshFilePath(), eAssetDefine::_3DMODEL);
 		_modelData = static_cast<Asset3DModelData*>(tModelData.get());
 		
-		_normalMap = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, "../Resources/Textures/tw_normal.png");
+		_normal = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, "../Resources/Textures/tw_normal.png");
+		HRESULT hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _normal->GetFilePath().c_str(), &_normal->GetResource(), &_normal->GetSRV());
+
+		_diffuse = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, "../Resources/Textures/tw_diffuse.png");
+		hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _normal->GetFilePath().c_str(), &_normal->GetResource(), &_normal->GetSRV());
 		
-		HRESULT hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _normalMap->GetFilePath().c_str(), &_normalMap->GetResource(), &_normalMap->GetSRV());
 
 	}
 
@@ -68,12 +71,10 @@ namespace Pg::Graphics
 			AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
 			assert(tATS.texture != nullptr);
 
-			RenderTexture2D* tTexture = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, tATS.path);
-			tTexture->GetSRV() = tATS.texture;
+			_diffuse->GetSRV() = tATS.texture;
 
-			AddTexture(tTexture);
-
-			AddTexture(_normalMap);
+			_textures.emplace_back(_diffuse);
+			_textures.emplace_back(_normal);
 
 			BindTextures();
 
