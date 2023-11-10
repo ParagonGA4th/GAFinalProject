@@ -81,7 +81,7 @@ namespace Pg::Graphics
 
 		
 	public:	
-		//virtual void AddTexture(std::wstring filepath);
+		virtual void AddTexture(std::wstring filepath);
 		virtual void AddTexture(RenderTexture2D* texture);
 		void BindTextures();
 
