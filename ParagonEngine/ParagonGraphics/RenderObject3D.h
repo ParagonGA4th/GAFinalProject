@@ -63,8 +63,6 @@ namespace Pg::Graphics
 		VertexShader* _vertexShader;
 		PixelShader* _pixelShader;
 
-		ID3D11SamplerState* _samplerState;
-
 		ID3D11InputLayout* _inputLayout;
 
 	protected:
@@ -81,8 +79,6 @@ namespace Pg::Graphics
 
 		
 	public:	
-		virtual void AddTexture(std::wstring filepath);
-		virtual void AddTexture(RenderTexture2D* texture);
 		void BindTextures();
 
 	public:

@@ -38,7 +38,8 @@ namespace Pg::Graphics
 
 
 	private:
-		RenderTexture2D* _normalMap;
+		RenderTexture2D* _normal;
+		RenderTexture2D* _diffuse;
 	};
 }
 
