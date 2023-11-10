@@ -83,6 +83,5 @@ void Pg::Graphics::Grid::BindInputLayout()
 void Pg::Graphics::Grid::SetGridSize(float width, float depth, UINT m, UINT n)
 {
 	tGeometryGenerator.CreateGrid(width, depth, m, n, _MeshData);
-	BuildBuffers();
 }
 
