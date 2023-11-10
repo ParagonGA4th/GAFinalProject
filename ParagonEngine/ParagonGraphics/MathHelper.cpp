@@ -143,23 +143,37 @@ namespace Pg::Graphics::Helper
 
 	DirectX::SimpleMath::Quaternion MathHelper::QuaternionSlerpNoFlip(const DirectX::SimpleMath::Quaternion& q1, const DirectX::SimpleMath::Quaternion& q2, float t)
 	{
-		// Calculate the dot product between q1 and q2
-		float dotProduct = q1.Dot(q2);
+		// Ensure input quaternions are normalized
+		DirectX::SimpleMath::Quaternion a = q1;
+		a.Normalize();
+		DirectX::SimpleMath::Quaternion b = q2;
+		b.Normalize();
 
-		// If the dot product is negative, the quaternions are 180 degrees apart
-		// Negate one of the quaternions to take the shorter path
-		DirectX::SimpleMath::Quaternion correctedQ2 = (dotProduct < 0.0f) ? -q2 : q2;
-		//DirectX::SimpleMath::Quaternion correctedQ2 = (dotProduct < 0.0f) ? q2 : -q2;
+		// Calculate the dot product between the quaternions
+		float dot = a.Dot(b);
 
-		// Perform spherical linear interpolation (slerp) using the corrected quaternion
-		//보간 전에도 정규화 추가!
-		DirectX::SimpleMath::Quaternion q1Norm = q1;
-		q1Norm.Normalize();
-		correctedQ2.Normalize();
+		// Adjust the signs if needed to take the shorter path
+		if (dot < 0.0f)
+		{
+			b = -b;
+			dot = -dot;
+		}
 
-		DirectX::SimpleMath::Quaternion ans = DirectX::SimpleMath::Quaternion::Slerp(q1Norm, correctedQ2, t);
-		ans.Normalize();
-		return ans;
+		// Clamp the dot product to prevent numerical instability
+		dot = std::min(1.0f, std::max(-1.0f, dot));
+
+		// Calculate the angle and axis of rotation
+		float angle = acos(dot);
+
+		// Perform the spherical linear interpolation (Slerp)
+		DirectX::SimpleMath::Quaternion tBaseQuat = (a * sin((1.0f - t) * angle) + b * sin(t * angle));
+
+		const DirectX::XMVECTOR v1 = DirectX::XMLoadFloat4(&tBaseQuat);
+		const DirectX::XMVECTOR X = DirectX::XMVectorScale(v1, 1.f / sin(angle));
+		DirectX::SimpleMath::Quaternion result;
+		DirectX::XMStoreFloat4(&result, X);
+
+		return result;
 	}
 
 

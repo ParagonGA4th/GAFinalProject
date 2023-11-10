@@ -424,8 +424,8 @@ namespace Pg::Graphics
 		//tFilePath = "../Resources/3DModels/Animated/Timmy_Shooting.fbx";
 		//tFilePath = "../Resources/3DModels/Animated/TimmyModel.fbx";
 		//tFilePath = "../Resources/3DModels/Animated/test_animation002.fbx";
-		//tFilePath = "../Resources/3DModels/Animated/4QCharacter_idle_ani.fbx";
-		tFilePath = "../Resources/3DModels/Animated/test_timmy003.fbx"; //얘는 Better FBX Exporter가 문제를 (행렬이 부서지는 문제) 어느 정도 해결했다고 볼 수 있다.
+		tFilePath = "../Resources/3DModels/Animated/4QCharacter_idle_ani.fbx";
+		//tFilePath = "../Resources/3DModels/Animated/test_timmy003.fbx"; //얘는 Better FBX Exporter가 문제를 (행렬이 부서지는 문제) 어느 정도 해결했다고 볼 수 있다.
 		//tFilePath = "../Resources/3DModels/MultiMatMesh/diffuseonly.fbx";
 
 		
