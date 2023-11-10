@@ -40,6 +40,7 @@ namespace Pg::Graphics
 
 		// Grid
 		grid = new Grid();
+		grid->SetGridSize(30.0f, 30.0f, 30, 30);
 		grid->Initialize();
 
 		// Axis
@@ -105,7 +106,6 @@ namespace Pg::Graphics
 		// Grid
 		DirectX::XMStoreFloat4x4(&(grid->_cbData.worldMatrix), tWorldTMMat);
 		DirectX::XMStoreFloat4x4(&(grid->_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
-		grid->SetGridSize(30.0f, 30.0f, 20, 20);
 
 		// Axis
 		DirectX::XMStoreFloat4x4(&(axis->_cbData.worldMatrix), tWorldTMMat);
