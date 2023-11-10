@@ -60,10 +60,10 @@ namespace Pg::Data
 		//렌더러 호환을 위해, ComponentList 자체 반환.
 		std::unordered_map<std::string, Component*>& GetComponentList();
 	public:
-		std::string _objName;
 		Transform& _transform;
 	private:
 		bool _isActive;
+		std::string _objName;
 
 	private:
 		//컴포넌트의 이름과 주소를 저장해놓는 리스트.

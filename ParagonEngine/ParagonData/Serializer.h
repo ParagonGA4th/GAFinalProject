@@ -4,7 +4,7 @@
 #include "../ParagonData/ModelData.h"
 #include "../ParagonData/SoundData.h"
 
-namespace Test
+namespace Pg::Data::Serialize
 {
 	class Serializer
 	{
