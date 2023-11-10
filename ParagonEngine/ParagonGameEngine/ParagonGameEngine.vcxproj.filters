@@ -28,6 +28,9 @@
     <ClInclude Include="EditorCameraScript.h">
       <Filter>4_WorkSpace\SceneView</Filter>
     </ClInclude>
+    <ClInclude Include="EventSystem.h">
+      <Filter>2_System\EventSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -53,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="EditorCameraScript.cpp">
       <Filter>4_WorkSpace\SceneView</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSystem.cpp">
+      <Filter>2_System\EventSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +91,9 @@
     </Filter>
     <Filter Include="2_System\SceneSystem">
       <UniqueIdentifier>{b0b22550-0d8e-4869-9bb0-573c34426e6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\EventSystem">
+      <UniqueIdentifier>{8ced1db1-43f1-40fa-8b55-a9cd484d6fe7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

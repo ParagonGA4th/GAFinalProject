@@ -1,6 +1,8 @@
 #include "PhysicSystem.h"
+#include "SceneSystem.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/Scene.h"
 #include "../ParagonData/Collider.h"
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
@@ -57,6 +59,8 @@ namespace Pg::Engine::Physic
 		physx::PxShape* exShape = _physics->createShape(physx::PxBoxGeometry(1.0f, 1.0f, 1.0f), *_material);
 		exRigid->attachShape(*exShape);
 		_pxScene->addActor(*exRigid);
+
+		MakeCollider();
 	}
 
 	void PhysicSystem::UpdatePhysics()
@@ -126,6 +130,21 @@ namespace Pg::Engine::Physic
 		shape->release();
 	}
 
+
+	void PhysicSystem::MakeCollider()
+	{
+		//싱글턴
+		auto& tSceneSystem = singleton<SceneSystem>();
+		_sceneSystem = &tSceneSystem;
+
+		//현재 씬에 존재하는 오브젝트 리스트를 받아와 Collider를 전부 그린다.
+		for (auto& obj : _sceneSystem->GetCurrentScene()->GetObjectList())
+		{
+			MakeDynamicBoxCollider(obj);
+		}
+	}
+
+
 	void PhysicSystem::MakeDynamicBoxCollider(Pg::Data::GameObject* obj)
 	{
 		//Collider를 Box로 설정 
@@ -143,8 +162,16 @@ namespace Pg::Engine::Physic
 			Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 
 			physx::PxTransform local(physx::PxVec3(position.x, position.y, position.z));
+			
+			//테스트를 위해 임시로 Rigid 넣어봄.
+			physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
+
+			rigid->attachShape(*boxShape);
+
+			_pxScene->addActor(*rigid);
 
 			boxShape->release();
+
 		}
 
 	}
