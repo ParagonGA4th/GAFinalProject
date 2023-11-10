@@ -26,7 +26,14 @@ namespace Pg::Graphics
 		RenderObjectSkinnedMesh3D(Pg::Data::BaseRenderer* baseRenderer);
 		virtual ~RenderObjectSkinnedMesh3D();
 
-		virtual void Render(Pg::Data::CameraData* camData) override;
+		//virtual void Render(Pg::Data::CameraData* camData) override;
+
+		virtual void BindBuffers() override;
+		virtual void UpdateConstantBuffers(Pg::Data::CameraData* camData) override;
+		virtual void BindConstantBuffers() override;
+		virtual void UnbindConstantBuffers() override;
+
+
 
 	private:
 		Asset3DModelData* _modelData = nullptr;

@@ -1,25 +1,11 @@
-//SamplerState state;
-
+#include "../Libraries/DefaultLayouts.hlsli"
 #include "../Libraries/DefaultBufferPerObject.hlsli"
 
-struct VertexIn
-{
-	float3 Position : POSITION;
-	float3 Nomral : NORMAL;
-	float2 UV : TEXCOORD;
-};
+Texture2D GBuffer[7];
 
-struct VertexOut
+VOutFinal main(VInFinal vin)
 {
-	float4 PositionH : SV_POSITION;
-	float2 UV : TEXCOORD;
-};
-
-Texture2D GBuffer[6];
-
-VertexOut main(VertexIn vin)
-{
-	VertexOut vout;
+	VOutFinal vout;
 
 	vout.PositionH = float4(vin.Position, 1.0f);
 	vout.UV = vin.UV;

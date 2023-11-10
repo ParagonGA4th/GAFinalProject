@@ -8,8 +8,11 @@ namespace Pg::Data
 	{
 	public:
 		DirectionalLight(GameObject* obj);
+		void SetDirection(const PGFLOAT3& direction);
+		PGFLOAT3& GetDirection();
 
 	private:
+		PGFLOAT3 _direction;
 	};
 
 }

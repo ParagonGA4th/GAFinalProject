@@ -1,6 +1,11 @@
 ///그래픽엔진 자체의 1st Pixel Shader (All)
 
 #include "../Libraries/DefaultLayouts.hlsli"
+#include "../Libraries/misc.hlsli"
+
+
+Texture2D Diffuse;
+Texture2D Normal;
 
 POut1st PS_MAIN(VOut1st input)
 {
@@ -12,7 +17,8 @@ POut1st PS_MAIN(VOut1st input)
 	output.pout1st_RT0.w = input.vout1st_TangentW.x;
     
     //RT1 : World Space Normal.
-	output.pout1st_RT1.xyz = input.vout1st_NormalW;
+	//output.pout1st_RT1.xyz = input.vout1st_NormalW;
+	output.pout1st_RT1.xyz = Normal.Sample(state, input.vout1st_Tex.xy);
     //RT1 : World Space Tangent.y
 	output.pout1st_RT1.w = input.vout1st_TangentW.y;
     
@@ -31,7 +37,13 @@ POut1st PS_MAIN(VOut1st input)
     //RT4 : Alpha. (1로 하드코딩됨)
 	output.pout1st_RT4.w = 1.0f;
     
-    //pout1st_Depth -> SV_Depth에 대해서는 아직은 추가적인 처리 안 해줄 것.
+    //RT5 : Temp Diffuse Texture
+    output.pout1st_RT5 = Diffuse.Sample(state, input.vout1st_Tex.xy);
+	
+	//RT6 : Phong Lighting Results
+  
+	//pout1st_Depth -> SV_Depth에 대해서는 아직은 추가적인 처리 안 해줄 것.
+    
     
     return output;
 }

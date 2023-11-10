@@ -55,9 +55,6 @@
     <ClInclude Include="Font.h">
       <Filter>7_OtherObject</Filter>
     </ClInclude>
-    <ClInclude Include="TestCube.h">
-      <Filter>7_OtherObject</Filter>
-    </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>7_OtherObject</Filter>
     </ClInclude>
@@ -84,9 +81,6 @@
     </ClInclude>
     <ClInclude Include="GraphicsResourceHelper.h">
       <Filter>8_Helpers\GraphicsResourceHelper</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderableObject.h">
-      <Filter>7_OtherObject</Filter>
     </ClInclude>
     <ClInclude Include="Cubemap.h">
       <Filter>7_OtherObject</Filter>
@@ -196,6 +190,14 @@
     <ClInclude Include="BonePerVertex.h">
       <Filter>5_Misc\Temp\VWPSFG</Filter>
     </ClInclude>
+    <ClInclude Include="RenderableObject.h">
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectLightList.h" />
+    <ClInclude Include="RenderObjectLight.h" />
+    <ClInclude Include="LightStructs.h">
+      <Filter>10_Structs\RenderObjectList</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -246,9 +248,6 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>7_OtherObject</Filter>
     </ClCompile>
-    <ClCompile Include="TestCube.cpp">
-      <Filter>7_OtherObject</Filter>
-    </ClCompile>
     <ClCompile Include="AssetBasic3DLoader.cpp">
       <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
     </ClCompile>
@@ -272,9 +271,6 @@
     </ClCompile>
     <ClCompile Include="GraphicsResourceHelper.cpp">
       <Filter>8_Helpers\GraphicsResourceHelper</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderableObject.cpp">
-      <Filter>7_OtherObject</Filter>
     </ClCompile>
     <ClCompile Include="Asset3DModelData.cpp">
       <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
@@ -339,6 +335,11 @@
     <ClCompile Include="RenderFont.cpp">
       <Filter>3_GraphicsResources\RenderFont</Filter>
     </ClCompile>
+    <ClCompile Include="RenderableObject.cpp">
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectLightList.cpp" />
+    <ClCompile Include="RenderObjectLight.cpp" />
     <ClCompile Include="RenderObjectSkinnedMesh3D.cpp">
       <Filter>4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D</Filter>
     </ClCompile>
@@ -571,12 +572,24 @@
     <FxCompile Include="..\Resources\DefaultShaders\TempForward\TempForwardVSSkinned.hlsl">
       <Filter>6_HLSL\TempForward</Filter>
     </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\PhongPS.hlsl">
+      <Filter>6_HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\PhongVS.hlsl">
+      <Filter>6_HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\DefaultShaders\Libraries\DefaultBufferPerObject.hlsli">
       <Filter>6_HLSL\DefaultInfo</Filter>
     </None>
     <None Include="..\Resources\DefaultShaders\Libraries\DefaultLayouts.hlsli">
+      <Filter>6_HLSL\DefaultInfo</Filter>
+    </None>
+    <None Include="..\Resources\DefaultShaders\Libraries\misc.hlsli">
+      <Filter>6_HLSL\DefaultInfo</Filter>
+    </None>
+    <None Include="..\Resources\DefaultShaders\Libraries\Lights.hlsli">
       <Filter>6_HLSL\DefaultInfo</Filter>
     </None>
   </ItemGroup>

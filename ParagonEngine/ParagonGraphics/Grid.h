@@ -1,6 +1,5 @@
 #pragma once
 
-#include "DX11Headers.h"
 #include "RenderableObject.h"
 #include "GeometryGenerator.h"
 
@@ -14,7 +13,7 @@ namespace Pg::Graphics
 		virtual ~Grid();
 
 	public:
-		virtual void Draw() override;
+		virtual void Render() override;
 
 		virtual void BuildBuffers() override;
 		virtual void BindBuffers() override;

@@ -89,6 +89,9 @@ namespace  Pg::Engine::Input
 		assert(_map->MapFloat(eKeyCode::MouseY, _mouseId, gainput::MouseAxisY));
 
 		assert(_map->MapBool(eKeyCode::EditorOnOff, _keyboardId, gainput::KeyF1));
+
+		assert(_map->MapBool(eKeyCode::PrevRenderTarget, _keyboardId, gainput::KeyF11));
+		assert(_map->MapBool(eKeyCode::NextRenderTarget, _keyboardId, gainput::KeyF12));
 	}
 
 	bool InputSystem::GetKey(Pg::API::Input::eKeyCode keyCode)

@@ -21,13 +21,13 @@ namespace Pg::Data
 
 		// 10.11 오수안
 		// Scene이 생성될 때 반드시 추가되는 main Light
-		GameObject* dirLight = AddObject("MainDirLight");
-		_mainDirLight = dirLight->AddComponent<DirectionalLight>();
-		_mainDirLight->_object->_transform.SetPosition(5.f, 5.f, 5.f);
-		_mainDirLight->SetLightColor(1.f, 0.f, 0.f, 1.f);
+		//GameObject* dirLight = AddObject("MainDirLight");
+		//_mainDirLight = dirLight->AddComponent<DirectionalLight>();
+		//_mainDirLight->_object->_transform.SetPosition(5.f, 5.f, 5.f);
+		//_mainDirLight->SetLightColor(1.f, 0.f, 0.f, 1.f);
 
 		SetMainCamera(_mainCamera);
-		SetMainLight(_mainDirLight);
+		//SetMainLight(_mainDirLight);
 	}
 
 	Scene::~Scene()

@@ -14,10 +14,13 @@ namespace Pg::Data
 namespace Pg::Graphics
 {
 	class TestCube;
+	class RenderObject3DList;
+	class RenderObjectLightList;
 	class LowDX11Storage;
 	class GBuffer;
 	class VertexShader;
 	class PixelShader;
+	class ConstantBufferBase;
 }
 
 namespace Pg::Graphics
@@ -32,15 +35,18 @@ namespace Pg::Graphics
 
 		void BeginRender();
 
-		void RenderFirstPass(Pg::Data::GameObject* object, Pg::Data::CameraData& camData);
+		void RenderFirstPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
+		void RenderLight(RenderObjectLightList* lightList, Pg::Data::CameraData* camData);
 		void RenderSecondPass();
 
 		void ClearGBuffers();
 	
 		void BindFirstPass();
+		void BindLightingPass();
 		void BindSecondPass();
 
 		void UnbindFirstPass();
+		void UnbindLightingPass();
 		void UnbindSecondPass();
 	private:
 
@@ -56,9 +62,22 @@ namespace Pg::Graphics
 	private:
 		VertexShader* _firstVS;
 		PixelShader* _firstPS;
+
+		VertexShader* _lightingVS;
+		PixelShader* _lightingPS;
 		
 		VertexShader* _secondVS;
 		PixelShader* _secondPS;
+
+	public:
+		std::vector< ConstantBufferBase* > _firstCBs;
+		std::vector< ConstantBufferBase* > _lightingCBs;
+		std::vector< ConstantBufferBase* > _secondCBs;
+
+	private:
+		void UpdateConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers);
+		void BindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers);
+		void UnbindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers);
 
 	private:
 		LowDX11Storage* _DXStorage;

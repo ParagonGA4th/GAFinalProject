@@ -41,4 +41,12 @@ namespace Pg::Graphics
 		return _textureBuffer;
 	}
 
+	std::wstring RenderTexture2D::GetFilePath()
+	{
+		std::wstring _wstring;
+		_wstring.assign(_filePath.begin(), _filePath.end());
+
+		return _wstring;
+	}
+
 }

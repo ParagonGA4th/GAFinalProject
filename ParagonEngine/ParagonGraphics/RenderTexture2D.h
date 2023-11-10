@@ -24,6 +24,8 @@ namespace Pg::Graphics
 
 		ID3D11ShaderResourceView*& GetSRV();
 		ID3D11Resource*& GetResource();
+
+		std::wstring GetFilePath();
 	
 	private:
 		//Load하는 로직이 이를 채워야 한다!
