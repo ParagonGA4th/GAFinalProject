@@ -440,9 +440,9 @@ namespace Pg::Graphics
 		//이 모델이 되따 크다.
 		//DirectX::XMFLOAT3 tScale = { 0.0001f, 0.0001f, 0.0001f };
 		//DirectX::XMFLOAT3 tScale = { 0.001f, 0.001f, 0.001f };
-		//DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
+		DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
 		//DirectX::XMFLOAT3 tScale = { 0.1f, 0.1f, 0.1f };
-		DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
+		//DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
 		DirectX::XMVECTOR tScaleVec = DirectX::XMLoadFloat3(&tScale);
 
 		DirectX::XMMATRIX tWorldMatScaled = DirectX::XMMatrixAffineTransformation(tScaleVec, tPosVec, tRotQuatVec, tPosVec);
@@ -594,8 +594,8 @@ namespace Pg::Graphics
 
 		//절대로 일단은 정해져 있는 Tick 수 넘어가지 않게 -> 나머지 연산을 할것. 
 		static double tPlayTickDur = 0;
-		//tPlayTickDur += 0.1;
-		tPlayTickDur += 1;
+		//tPlayTickDur += 1;
+		tPlayTickDur += 0.1;
 
 
 		//if (_tempInput->GetKeyDown(API::Input::eKeyCode::TempToggleAnim))
@@ -646,15 +646,23 @@ namespace Pg::Graphics
 
 		///기존
 		//MathHelper::DecomposeAssembleMatrix(tNodeTransformation);
+		//MathHelper::DecomposeAssembleMatrix(tNodeTransformation);
+		//tNodeTransformation.Invert(tNodeTransformation);
 		tNodeTransformation = tNodeTransformation.Transpose();
-
-		///Rotation, 하지만 이는 지속성이 없는 코드.
 		{
 			//using namespace DirectX;
+			//Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(XMConvertToRadians(0.0f), XMConvertToRadians(180.0f), XMConvertToRadians(0.0f));
 			//
-			//Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(XMConvertToRadians(0.0f), XMConvertToRadians(0.0f), XMConvertToRadians(0.0f));
-			//tNodeTransformation = rotationMatrix;
+			//tNodeTransformation *= tNodeTransformation;
 		}
+
+		/////Rotation, 하지만 이는 지속성이 없는 코드.
+		//{
+		//	using namespace DirectX;
+		//
+		//	Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(XMConvertToRadians(0.0f), XMConvertToRadians(0.0f), XMConvertToRadians(0.0f));
+		//	tNodeTransformation = rotationMatrix;
+		//}
 
 		//여기서 Decompose를 시행안하기는 했다. 문제시 보기.
 
