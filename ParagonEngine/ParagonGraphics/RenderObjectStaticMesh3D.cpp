@@ -30,15 +30,6 @@ namespace Pg::Graphics
 		
 		HRESULT hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _normalMap->GetFilePath().c_str(), &_normalMap->GetResource(), &_normalMap->GetSRV());
 
-
-		//생성자로 메모리 할당 이동.
-		tDiffuseTexture = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, "../Resources/Textures/tw_diffuse.png");
-
-		{
-		HRESULT hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, tDiffuseTexture->GetFilePath().c_str(), &tDiffuseTexture->GetResource(), &tDiffuseTexture->GetSRV());
-
-		}
-		//tDiffuseTexture->GetSRV() = tATS.texture;
 	}
 
 	RenderObjectStaticMesh3D::~RenderObjectStaticMesh3D()
@@ -77,7 +68,10 @@ namespace Pg::Graphics
 			AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
 			assert(tATS.texture != nullptr);
 
-			AddTexture(tDiffuseTexture);
+			RenderTexture2D* tTexture = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, tATS.path);
+			tTexture->GetSRV() = tATS.texture;
+
+			AddTexture(tTexture);
 
 			AddTexture(_normalMap);
 

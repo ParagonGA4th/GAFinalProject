@@ -39,9 +39,6 @@ namespace Pg::Graphics
 
 	private:
 		RenderTexture2D* _normalMap;
-
-		//임시로 릭 막기 위해 메모리 세이브
-		RenderTexture2D* tDiffuseTexture;
 	};
 }
 
