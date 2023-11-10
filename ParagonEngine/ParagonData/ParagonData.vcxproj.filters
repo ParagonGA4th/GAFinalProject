@@ -7,12 +7,6 @@
     <ClCompile Include="Component.cpp">
       <Filter>2_Component\BaseClass</Filter>
     </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>2_Component\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="PointLight.cpp">
-      <Filter>2_Component\Light</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>2_Component\Camera</Filter>
     </ClCompile>
@@ -28,9 +22,6 @@
     <ClCompile Include="Button.cpp">
       <Filter>2_Component\Button</Filter>
     </ClCompile>
-    <ClCompile Include="DirectionalLight.cpp">
-      <Filter>2_Component\Light</Filter>
-    </ClCompile>
     <ClCompile Include="EngineResource.cpp">
       <Filter>3_Resource</Filter>
     </ClCompile>
@@ -45,9 +36,6 @@
     </ClCompile>
     <ClCompile Include="RendererChangeList.cpp">
       <Filter>6_DataChangeList</Filter>
-    </ClCompile>
-    <ClCompile Include="SpotLight.cpp">
-      <Filter>2_Component\Light</Filter>
     </ClCompile>
     <ClCompile Include="BaseResource.cpp">
       <Filter>3_Resource\BaseClass</Filter>
@@ -97,6 +85,18 @@
     <ClCompile Include="RigidBody.cpp">
       <Filter>2_Component\RigidBody</Filter>
     </ClCompile>
+    <ClCompile Include="DirectionalLight.cpp">
+      <Filter>2_Component\Light\DirectionalLight</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>2_Component\Light\PointLight</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>2_Component\Light\SpotLight</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>2_Component\Light\BaseClass</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -107,12 +107,6 @@
     </ClInclude>
     <ClInclude Include="IComponent.h">
       <Filter>2_Component\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>2_Component\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="PointLight.h">
-      <Filter>2_Component\Light</Filter>
     </ClInclude>
     <ClInclude Include="Script.h">
       <Filter>2_Component\Script</Filter>
@@ -134,9 +128,6 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>2_Component\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectionalLight.h">
-      <Filter>2_Component\Light</Filter>
     </ClInclude>
     <ClInclude Include="EngineResource.h">
       <Filter>3_Resource</Filter>
@@ -164,9 +155,6 @@
     </ClInclude>
     <ClInclude Include="EditorMode.h">
       <Filter>5_Enums</Filter>
-    </ClInclude>
-    <ClInclude Include="SpotLight.h">
-      <Filter>2_Component\Light</Filter>
     </ClInclude>
     <ClInclude Include="BaseResource.h">
       <Filter>3_Resource\BaseClass</Filter>
@@ -233,6 +221,18 @@
     </ClInclude>
     <ClInclude Include="RigidBody.h">
       <Filter>2_Component\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>2_Component\Light\DirectionalLight</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>2_Component\Light\PointLight</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>2_Component\Light\SpotLight</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>2_Component\Light\BaseClass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +349,18 @@
     </Filter>
     <Filter Include="2_Component\RigidBody">
       <UniqueIdentifier>{58672e29-ee52-4a0c-9ec4-b304b6d4104e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Light\DirectionalLight">
+      <UniqueIdentifier>{9423fd94-9e78-4939-a0e6-578e16b176b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Light\PointLight">
+      <UniqueIdentifier>{bb93dee5-1bf0-4713-b0e9-02338707de61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Light\SpotLight">
+      <UniqueIdentifier>{0a5bf8bb-cb5f-4c4d-b7e0-f80122362764}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Light\BaseClass">
+      <UniqueIdentifier>{2ef27641-2cf8-49ec-b280-7ed07d890ecc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

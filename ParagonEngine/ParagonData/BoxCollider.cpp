@@ -20,7 +20,9 @@ namespace Pg::Data
 
 	void BoxCollider::SetScale(float w, float h, float d)
 	{
-
+		_width = w;
+		_height = h;
+		_depth = d;
 	}
 
 	float BoxCollider::GetWidth() const
