@@ -59,7 +59,7 @@ void Pg::Graphics::Grid::BindBuffers()
 	_DXStorage->_deviceContext->IASetIndexBuffer(IB, DXGI_FORMAT_R32_UINT, 0);
 }
 
-void Pg::Graphics::Grid::Draw()
+void Pg::Graphics::Grid::Render()
 {
 	BindInputLayout();
 	BindShaders();

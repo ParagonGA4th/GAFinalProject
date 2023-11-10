@@ -12,9 +12,13 @@
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/CameraData.h"
+#include "../ParagonData/LightType.h"
+
 #include "RenderObjectBase.h"
 
 #include "RenderObject3D.h"
+#include "RenderObject3DList.h"
+#include "RenderObjectLightList.h"
 
 #include "ConstantBufferDefine.h"
 
@@ -22,20 +26,20 @@
 
 Pg::Graphics::DeferredRenderer::DeferredRenderer()
 {
-	cube = new TestCube();
+
 }
 
 void Pg::Graphics::DeferredRenderer::Initialize()
 {
 	_DXStorage = LowDX11Storage::GetInstance();
 
-	cube->Initialize();
-
 	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R16G16B16A16_TYPELESS, DXGI_FORMAT_R16G16B16A16_FLOAT));
+	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT)); // phong lighting results
 
 	for (auto& e : _gBuffers)
 	{
@@ -58,17 +62,18 @@ void Pg::Graphics::DeferredRenderer::Initialize()
 	}
 
 	// 1st Pass
-	_firstVS = new VertexShader(L"../Builds/x64/debug/FirstStatic_VS.cso");
+	_firstVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/FirstStatic_VS.cso");
 	_firstVS->_inputLayout = LayoutDefine::GetStatic1stLayout();
-	_firstVS->AssignConstantBuffer(&cube->_cbData);
-	cube->AssignVertexShader(_firstVS);
+	_firstPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/FirstStage_PS.cso");
 
-	_firstPS = new PixelShader(L"../Builds/x64/debug/FirstStage_PS.cso");
+	_lightingVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/PhongVS.cso");
+	_lightingVS->_inputLayout = LayoutDefine::Get2ndLayout();
+	_lightingPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/PhongPS.cso");
 
 	// 2nd Pass
-	_secondVS = new VertexShader(L"../Builds/x64/debug/SecondStage_VS.cso");
+	_secondVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/SecondStage_VS.cso");
 	_secondVS->_inputLayout = LayoutDefine::Get2ndLayout();
-	_secondPS = new PixelShader(L"../Builds/x64/debug/SecondStage_PS.cso");
+	_secondPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/SecondStage_PS.cso");
 }
 
 void Pg::Graphics::DeferredRenderer::BeginRender()
@@ -82,25 +87,6 @@ void Pg::Graphics::DeferredRenderer::BeginRender()
 	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
 }
 
-void Pg::Graphics::DeferredRenderer::RenderFirstPass(Pg::Data::GameObject* object, Pg::Data::CameraData& camData)
-{
-	
-
-	// 3D 오브젝트 렌더
-	cube->Draw(object->_transform, camData);
-
-	
-}
-
-void Pg::Graphics::DeferredRenderer::RenderSecondPass()
-{
-	//Quad를 그린다.
-	_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
-
-	//_DXStorage->_deviceContext->OMSetBlendState(nullptr, NULL, 0xffffffff);
-	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
-}
-
 void Pg::Graphics::DeferredRenderer::BindFirstPass()
 {
 	// Bind Shaders
@@ -110,12 +96,28 @@ void Pg::Graphics::DeferredRenderer::BindFirstPass()
 	_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidState);
 	_DXStorage->_deviceContext->PSSetShaderResources(0, 1, &NullSRV[0]);
 
-	// SetRenderTarget
 	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), _RTVs.data(), _DXStorage->_depthStencilView);
+}
+
+void Pg::Graphics::DeferredRenderer::RenderFirstPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+{
+
+	for (auto& it : renderObjectList->_list)
+	{
+		if (it.second->GetBaseRenderer()->GetActive())
+		{
+			it.second->UpdateConstantBuffers(camData);
+			it.second->BindConstantBuffers();
+			it.second->Render();
+			it.second->UnbindConstantBuffers();
+		}
+	}
+
 }
 
 void Pg::Graphics::DeferredRenderer::UnbindFirstPass()
 {
+	// Unbind Shaders
 	_firstVS->UnBind();
 	_firstPS->UnBind();
 
@@ -131,6 +133,8 @@ void Pg::Graphics::DeferredRenderer::BindSecondPass()
 	_secondVS->Bind();
 	_secondPS->Bind();
 
+	// Bind Constant Buffers
+
 	// Set Shader Resources to Sample
 	_DXStorage->_deviceContext->VSSetShaderResources(0, _SRVs.size(), _SRVs.data());
 	_DXStorage->_deviceContext->PSSetShaderResources(0, _SRVs.size(), _SRVs.data());
@@ -138,10 +142,19 @@ void Pg::Graphics::DeferredRenderer::BindSecondPass()
 	// Set Sampler State
 	_DXStorage->_deviceContext->PSSetSamplers(0, 1, &_DXStorage->_defaultSamplerState);
 
-	_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_tempDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
-
+	_DXStorage->_deviceContext->ClearRenderTargetView(_DXStorage->_mainRTV, _DXStorage->_backgroundColor);
 	// Render to Main Render Target
-	_DXStorage->_deviceContext->OMSetRenderTargets(1, &_DXStorage->_mainRTV, _DXStorage->_tempDepthStencilView);
+	_DXStorage->_deviceContext->OMSetRenderTargets(1, &_DXStorage->_mainRTV, _DXStorage->_depthStencilView);
+	_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_2ndPassDepthStencilState, 0);
+}
+
+void Pg::Graphics::DeferredRenderer::RenderSecondPass()
+{
+	//Quad를 그린다.
+	_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
+
+	//_DXStorage->_deviceContext->OMSetBlendState(nullptr, NULL, 0xffffffff);
+	//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
 }
 
 void Pg::Graphics::DeferredRenderer::UnbindSecondPass()
@@ -149,10 +162,13 @@ void Pg::Graphics::DeferredRenderer::UnbindSecondPass()
 	_secondVS->UnBind();
 	_secondPS->UnBind();
 
+	UnbindConstantBuffers(_lightingCBs);
+
 	_DXStorage->_deviceContext->VSSetShaderResources(0, _SRVs.size(), NullSRV.data());
 	_DXStorage->_deviceContext->PSSetShaderResources(0, _SRVs.size(), NullSRV.data());
 
 	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), NullRTV.data(), _DXStorage->_depthStencilView);
+	_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_depthStencilState, 0);
 }
 
 void Pg::Graphics::DeferredRenderer::BuildFullscreenQuad()
@@ -210,5 +226,80 @@ void Pg::Graphics::DeferredRenderer::ClearGBuffers()
 	for (auto& e : _RTVs)
 	{
 		_DXStorage->_deviceContext->ClearRenderTargetView(e, _DXStorage->_backgroundColor);
+	}
+}
+
+void Pg::Graphics::DeferredRenderer::BindLightingPass()
+{
+	auto LightingBuffer = _gBuffers[6];
+	auto LightingBufferSRV = LightingBuffer->GetSRV();
+	auto LightingBufferRTV = LightingBuffer->GetRTV();
+
+	// Build Quad
+	BuildFullscreenQuad();
+
+	// Bind Shaders
+	// TODO: 라이팅 모델에 따라 쉐이더가 바뀔 수 있어야 한다.
+	// ex) Lit / Unlit / Blinn-Phong / PBR ,,, 
+	_lightingVS->Bind();
+	_lightingPS->Bind();
+
+	BindConstantBuffers(_lightingCBs);
+
+	// Set Shader Resources to Sample
+	_DXStorage->_deviceContext->VSSetShaderResources(0, _SRVs.size() - 1, _SRVs.data());
+	_DXStorage->_deviceContext->PSSetShaderResources(0, _SRVs.size() - 1, _SRVs.data());
+
+	// Set Sampler State
+	_DXStorage->_deviceContext->PSSetSamplers(0, 1, &_DXStorage->_defaultSamplerState);
+
+	_DXStorage->_deviceContext->ClearRenderTargetView(LightingBufferRTV, _DXStorage->_backgroundColor);
+	// Render to Main Render Target
+	_DXStorage->_deviceContext->OMSetRenderTargets(1, &LightingBufferRTV, _DXStorage->_depthStencilView);
+	_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_2ndPassDepthStencilState, 0);
+
+}
+
+void Pg::Graphics::DeferredRenderer::UnbindLightingPass()
+{
+	//UnbindConstantBuffers(_lightingCBs);
+
+	_lightingVS->UnBind();
+	_lightingPS->UnBind();
+
+	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), NullRTV.data(), _DXStorage->_depthStencilView);
+}
+
+void Pg::Graphics::DeferredRenderer::RenderLight(RenderObjectLightList* lightList, Pg::Data::CameraData* camData)
+{
+	// 조명 정보를 담고 있는 상수버퍼를 조립하고 업데이트
+	lightList->Update(camData);
+	UpdateConstantBuffers(_lightingCBs);
+
+	// 조명을 연산한다
+	_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
+}
+
+void Pg::Graphics::DeferredRenderer::UpdateConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers)
+{
+	for (int i = 0; i < _constantBuffers.size(); ++i)
+	{
+		_constantBuffers[i]->Update(i);
+	}
+}
+
+void Pg::Graphics::DeferredRenderer::BindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers)
+{
+	for (int i = 0; i < _constantBuffers.size(); ++i)
+	{
+		_constantBuffers[i]->Bind(i);
+	}
+}
+
+void Pg::Graphics::DeferredRenderer::UnbindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers)
+{
+	for (int i = 0; i < _constantBuffers.size(); ++i)
+	{
+		_constantBuffers[i]->Unbind(i);
 	}
 }

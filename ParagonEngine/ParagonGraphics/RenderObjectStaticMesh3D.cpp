@@ -1,12 +1,14 @@
 #include "RenderObjectStaticMesh3D.h"
-#include "LowDX11Storage.h"
-#include "MathHelper.h"
+
 #include "GraphicsResourceHelper.h"
 #include "GraphicsResourceManager.h"
-#include "Asset3DModelData.h"
-#include "LayoutDefine.h"
-
+#include "LowDX11Storage.h"
 #include "../ParagonData/StaticMeshRenderer.h"
+#include "LayoutDefine.h"
+#include "MathHelper.h"
+#include "RenderTexture2D.h"
+
+#include "dxtk/WICTextureLoader.h"
 
 namespace Pg::Graphics
 {
@@ -16,20 +18,6 @@ namespace Pg::Graphics
 
 	RenderObjectStaticMesh3D::RenderObjectStaticMesh3D(Pg::Data::BaseRenderer* baseRenderer) : RenderObject3D(baseRenderer)
 	{
-		//#ForwardTemp : GeometricPrimitive 인스턴스 만들기.
-		//_tempPrimitive = DirectX::GeometricPrimitive::CreateSphere(LowDX11Storage::GetInstance()->_deviceContext, 1.0f);
-
-		_constantBufferStruct = new ConstantBufferDefine::cbPerObjectBase;
-
-		//Device / DevCon 받아오기.
-		_device = LowDX11Storage::GetInstance()->_device;
-		_devCon = LowDX11Storage::GetInstance()->_deviceContext;
-
-		CreateVertexPixelShader();
-		CreateSamplerState();
-		CreateRasterizerState();
-		CreateConstantBuffer();
-
 
 		//StaticMeshRenderer 따로 포인터를 받기.
 		Pg::Data::StaticMeshRenderer* tStaticMeshRenderer = static_cast<Pg::Data::StaticMeshRenderer*>(GetBaseRenderer());
@@ -38,6 +26,10 @@ namespace Pg::Graphics
 		auto tModelData = GraphicsResourceManager::Instance()->GetResource(tStaticMeshRenderer->GetMeshFilePath(), eAssetDefine::_3DMODEL);
 		_modelData = static_cast<Asset3DModelData*>(tModelData.get());
 		
+		_normalMap = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, "../Resources/Textures/tw_normal.png");
+		
+		HRESULT hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _normalMap->GetFilePath().c_str(), &_normalMap->GetResource(), &_normalMap->GetSRV());
+
 	}
 
 	RenderObjectStaticMesh3D::~RenderObjectStaticMesh3D()
@@ -45,39 +37,13 @@ namespace Pg::Graphics
 		delete _constantBufferStruct;
 	}
 
-	void RenderObjectStaticMesh3D::Render(Pg::Data::CameraData* camData)
+	void RenderObjectStaticMesh3D::Render()
 	{
-	
-		auto& tD3DBuffer = _modelData->_d3dBufferInfo;
-		auto& tMatCluster = _modelData->_materialCluster;
+		_textures.clear();
 
-		auto _DXStorage = LowDX11Storage::GetInstance();
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), (_DXStorage->_depthStencilView));
+		BindBuffers();
+		_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		//Input Layout 호출 / Primitive Topology 세팅.
-		_devCon->IASetInputLayout(LayoutDefine::GetStatic1stLayout());
-		_devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-		_devCon->RSSetState(_rasterizerState);
-		//VS Bind.
-		_devCon->VSSetShader(_vertexShader, nullptr, 0);
-
-		//PS Bind.
-		_devCon->PSSetShader(_pixelShader, nullptr, 0);
-		//Sampler State Binding (PS)
-		_devCon->PSSetSamplers(0, 1, &_samplerState);
-
-		//Vertex Buffer Setting.
-		UINT stride = sizeof(LayoutDefine::Vin1stStatic);
-		UINT offset = 0;
-		_devCon->IASetVertexBuffers(0, 1, &(_modelData->_d3dBufferInfo._vertexBuffer), &stride, &offset);
-		//Index Buffer Setting.
-		_devCon->IASetIndexBuffer(_modelData->_d3dBufferInfo._indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
-		//Constant Buffer Binding (VS)
-		UpdateConstantBuffer(camData);
-		_devCon->VSSetConstantBuffers(0, 1, &_constantBuffer);
-		
 
 		int tMeshCount = _modelData->_d3dBufferInfo._meshCount;
 		for (int i = 0; i < tMeshCount; i++)
@@ -100,17 +66,23 @@ namespace Pg::Graphics
 
 			UINT tMatID = _modelData->_d3dBufferInfo._materialIDVector[i];
 			AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
-			ID3D11ShaderResourceView* tTempDiffuseTexture = tATS.texture;
-			assert(tTempDiffuseTexture != nullptr);
+			assert(tATS.texture != nullptr);
 
-			//_devCon->PSSetShaderResources(0, 1, &_testSRV);
-			_devCon->PSSetShaderResources(0, 1, &tTempDiffuseTexture);
+			RenderTexture2D* tTexture = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, tATS.path);
+			tTexture->GetSRV() = tATS.texture;
+
+			AddTexture(tTexture);
+
+			AddTexture(_normalMap);
+
+			BindTextures();
 
 			//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
 			_devCon->DrawIndexed(tToDrawIndexCount,
 				_modelData->_d3dBufferInfo._indexOffsetVector[i],
 				_modelData->_d3dBufferInfo._vertexOffsetVector[i]);
 		}
+
 
 
 		/*
@@ -129,112 +101,78 @@ namespace Pg::Graphics
 		//SingleMaterialDraw();
 		//SingleMaterialMultiMeshDraw();
 
-		//VS/PS Unbind.
-		_devCon->VSSetShader(nullptr, nullptr, 0);
-		_devCon->PSSetShader(nullptr, nullptr, 0);
-
-		//Constant Buffer 설정.
-
 		//현재 Mesh가 어떤 Material을 가지고 있는지 확인해야. 
 		//이에 따라 판단을 내려야 하기에.
 		//나중에는 결국 Mesh Sorting 등등이 어느 정도 이루어져 있어야 할것. 
 	}
 
-	void RenderObjectStaticMesh3D::UpdateConstantBuffer(Pg::Data::CameraData* camData)
+	void RenderObjectStaticMesh3D::BindBuffers()
 	{
-		Pg::Math::PGFLOAT4X4 tWorldMat = GetBaseRenderer()->_object->_transform.GetWorldTM();
-		DirectX::XMFLOAT4X4 tWorldMatFF = MathHelper::PG2XM_FLOAT4X4(tWorldMat);
-		DirectX::XMMATRIX tWorldMatFFMat = DirectX::XMLoadFloat4x4(&tWorldMatFF);
+		///
+		//Vertex Buffer Setting.
+		UINT stride = sizeof(LayoutDefine::Vin1stStatic);
+		UINT offset = 0;
+		_devCon->IASetVertexBuffers(0, 1, &(_modelData->_d3dBufferInfo._vertexBuffer), &stride, &offset);
+		//Index Buffer Setting.
+		_devCon->IASetIndexBuffer(_modelData->_d3dBufferInfo._indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	}
+
+	void RenderObjectStaticMesh3D::UpdateConstantBuffers(Pg::Data::CameraData* camData)
+	{
+		auto _DXStorage = LowDX11Storage::GetInstance();
+
+		auto& tD3DBuffer = _modelData->_d3dBufferInfo;
+		auto& tMatCluster = _modelData->_materialCluster;
+
+		// 상수버퍼에 들어갈 값 셋팅
+		DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());
+		DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
+
+		DirectX::XMMATRIX tWorldInvTransposeMat = DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, tWorldTMMat));
 
 		//0.01 스케일링 적용.
-		tWorldMatFFMat = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f), tWorldMatFFMat);
+		tWorldTMMat = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f), tWorldTMMat);
 
-		DirectX::XMMATRIX tWorldInvTransposeMat = DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, tWorldMatFFMat));
+		DirectX::XMFLOAT4X4 tViewTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData->_viewMatrix);
+		DirectX::XMMATRIX tViewTMMat = DirectX::XMLoadFloat4x4(&tViewTM);
 
-		//기반 Struct채우기.
-		_constantBufferStruct->gCBuf_World = tWorldMatFFMat;
+		DirectX::XMFLOAT4X4 tProjTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
+		DirectX::XMMATRIX tProjTMMat = DirectX::XMLoadFloat4x4(&tProjTM);
+
+		DirectX::XMFLOAT3 tCameraPositionW = Helper::MathHelper::PG2XM_FLOAT3(camData->_position);
+		DirectX::XMVECTOR tCameraPositionVec = DirectX::XMLoadFloat3(&tCameraPositionW);
+		DirectX::XMMATRIX tCameraPositionMat = DirectX::XMMatrixTranslationFromVector(tCameraPositionVec);
+
+		float tCamDistance = 0.0f;
+		DirectX::XMStoreFloat(&tCamDistance, DirectX::XMVector3Length(tCameraPositionVec));
+
+		_constantBufferStruct->gCBuf_World = tWorldTMMat;
 		_constantBufferStruct->gCBuf_WorldInvTranspose = tWorldInvTransposeMat;
+		_constantBufferStruct->gCBuf_WorldView = tViewTMMat;
+		_constantBufferStruct->gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
+		_constantBufferStruct->gCBuf_CameraPositionW = tCameraPositionW;
 
-		DirectX::XMFLOAT4X4 tView = MathHelper::PG2XM_FLOAT4X4(camData->_viewMatrix);
-		DirectX::XMMATRIX tViewMat = DirectX::XMLoadFloat4x4(&tView);
-
-		DirectX::XMFLOAT4X4 tProj = MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
-		DirectX::XMMATRIX tProjMat = DirectX::XMLoadFloat4x4(&tProj);
-
-		DirectX::XMMATRIX tWVP = DirectX::XMMatrixMultiply(tWorldMatFFMat, DirectX::XMMatrixMultiply(tViewMat, tProjMat));
-		_constantBufferStruct->gCBuf_WorldViewProj = tWVP;
-		_constantBufferStruct->gCBuf_CameraPositionW = MathHelper::PG2XM_FLOAT3(camData->_position);
-
-		//Updating Subresource
-		_devCon->UpdateSubresource(_constantBuffer, 0, NULL, _constantBufferStruct, 0, 0);
+		// Bind Constant Buffers
+		for (int i = 0; i < _constantBuffers.size(); ++i)
+		{
+			_constantBuffers[i]->Update(i);
+		}
 	}
 
-	void RenderObjectStaticMesh3D::CreateSamplerState()
+	void RenderObjectStaticMesh3D::BindConstantBuffers()
 	{
-		D3D11_SAMPLER_DESC sd;
-		sd.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-		sd.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-		sd.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-		sd.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
-		sd.MipLODBias = 0.0f;
-		sd.MaxAnisotropy = 1;
-
-		_device->CreateSamplerState(&sd, &_samplerState);
+		for (int i = 0; i < _constantBuffers.size(); ++i)
+		{
+			_constantBuffers[i]->Bind(i);
+		}
 	}
 
-	void RenderObjectStaticMesh3D::CreateVertexPixelShader()
+	void RenderObjectStaticMesh3D::UnbindConstantBuffers()
 	{
-		//TempForwardVS/PS 경로를 셋업한다.
-		std::wstring tTempForwardVSPath = L"../Builds/x64/Debug/TempForwardVS.cso";
-		std::wstring tTempForwardPSPath = L"../Builds/x64/Debug/TempForwardPS.cso";
-
-		//TempForwardVS -> Vertex Shader 셋업.
-		ID3DBlob* tVertexShaderByteCode = nullptr;
-		D3DReadFileToBlob(tTempForwardVSPath.c_str(), &(tVertexShaderByteCode));
-		_device->CreateVertexShader(tVertexShaderByteCode->GetBufferPointer(),
-			tVertexShaderByteCode->GetBufferSize(), NULL, &_vertexShader);
-
-		//TempForwardPS -> Vertex Shader 셋업.
-		ID3DBlob* tPixelShaderByteCode = nullptr;
-		D3DReadFileToBlob(tTempForwardPSPath.c_str(), &(tPixelShaderByteCode));
-		_device->CreatePixelShader(tPixelShaderByteCode->GetBufferPointer(),
-			tPixelShaderByteCode->GetBufferSize(), NULL, &_pixelShader);
+		for (int i = 0; i < _constantBuffers.size(); ++i)
+		{
+			_constantBuffers[i]->Unbind(i);
+		}
 	}
-
-	void RenderObjectStaticMesh3D::CreateRasterizerState()
-	{
-		D3D11_RASTERIZER_DESC rd;
-		//rd.FillMode = D3D11_FILL_WIREFRAME;
-		rd.FillMode = D3D11_FILL_SOLID;
-		rd.CullMode = D3D11_CULL_BACK;
-		rd.FrontCounterClockwise = false;
-		rd.DepthBias = 0;
-		rd.SlopeScaledDepthBias = 0.0f;
-		rd.DepthBiasClamp = 0.0f;
-		rd.DepthClipEnable = true;
-		rd.ScissorEnable = false;
-		rd.MultisampleEnable = false;
-		rd.AntialiasedLineEnable = false;
-
-		_device->CreateRasterizerState(&rd, &_rasterizerState);
-	}
-
-	void RenderObjectStaticMesh3D::CreateConstantBuffer()
-	{
-		int sizeCB = (((sizeof(ConstantBufferDefine::cbPerObjectBase) - 1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
-
-		D3D11_BUFFER_DESC tCBufferDesc;
-		tCBufferDesc.ByteWidth = sizeCB; // 상수버퍼는 16바이트 정렬
-		tCBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-		tCBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		tCBufferDesc.CPUAccessFlags = 0;
-		tCBufferDesc.MiscFlags = 0;
-
-		_cbufferSubresourceData.pSysMem = _constantBufferStruct;
-
-		_device->CreateBuffer(&tCBufferDesc, &_cbufferSubresourceData, &(_constantBuffer));
-	}
-
-
 
 }

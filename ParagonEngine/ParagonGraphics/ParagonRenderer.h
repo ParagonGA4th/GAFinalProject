@@ -3,6 +3,7 @@
 
 #include "RenderObject2DList.h"
 #include "RenderObject3DList.h"
+#include "RenderObjectLightList.h"
 
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/GameObject.h"
@@ -38,7 +39,7 @@ namespace Pg::Graphics
 
 		//Scene이 바뀌었을 때 / 게임 엔진이 처음 시작되었을 때 호출되어야 한다.
 		//메모리 추가 할당을 막기 위해, Scene당 렌더오브젝트 생성 로직 중복을 막아야 한다!
-		void OnNewSceneStart(Pg::Data::Scene* newScene);
+		void ParseSceneData(Pg::Data::Scene* newScene);
 
 		//ParagonRenderer에 연동 처리를 맡겼다.
 		void SyncComponentToGraphics();
@@ -57,6 +58,7 @@ namespace Pg::Graphics
 		//저장된 GameObject <=> RenderObject들.
 		std::unique_ptr<RenderObject2DList> _renderObject2DList;
 		std::unique_ptr<RenderObject3DList> _renderObject3DList;
+		std::unique_ptr<RenderObjectLightList> _lights;
 		
 		Pg::Data::RendererChangeList* _rendererChangeList = nullptr;
 

@@ -25,6 +25,7 @@ namespace Pg::Graphics
 
 		D3D_FEATURE_LEVEL tCheckFeatureLevel;
 
+		// TODO: Feature Level 설정
 		// D3D11 Device 생성
 		hr = D3D11CreateDevice(
 			NULL,															// [in, optional]	IDXGIAdapter				*pAdapter
@@ -86,6 +87,14 @@ namespace Pg::Graphics
 
 		hr = _DXStorage->_device->CreateRenderTargetView(_DXStorage->_backBuffer, nullptr, &(_DXStorage->_mainRTV));
 
+		if (hr != S_OK)
+		{
+			return hr;
+		}
+
+		// TODO: 메인렌더타겟 SRV 생성 및 쿼드로 출력하기
+		//hr = _DXStorage->_device->CreateShaderResourceView(_DXStorage->_backBuffer, &_DXStorage->_shaderResourceViewDesc, &_DXStorage->_mainRTSRV);
+		
 		return hr;
 	}
 
@@ -102,7 +111,6 @@ namespace Pg::Graphics
 
 		// Depth-Stencil Buffer 생성
 		hr = _DXStorage->_device->CreateTexture2D(&(_DXStorage->_bufferDesc), NULL, &(_DXStorage->_depthStencilBuffer));
-		hr = _DXStorage->_device->CreateTexture2D(&(_DXStorage->_bufferDesc), NULL, &(_DXStorage->_DeferredDepthStencilBuffer));
 		hr = _DXStorage->_device->CreateTexture2D(&(_DXStorage->_bufferDesc), NULL, &(_DXStorage->_tempDepthStencilBuffer));
 
 		if (hr != S_OK)
@@ -120,6 +128,12 @@ namespace Pg::Graphics
 		// (depth-stencil state는 OM 스테이지에 depth-stencil 테스트를 수행하는 방법을 전달한다)
 		_DXStorage->_device->CreateDepthStencilState(&(_DXStorage->_depthStencilDesc), &(_DXStorage->_depthStencilState));
 
+		_DXStorage->_depthStencilDesc.DepthEnable = true;
+		_DXStorage->_depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+		_DXStorage->_depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+		_DXStorage->_device->CreateDepthStencilState(&(_DXStorage->_depthStencilDesc), &(_DXStorage->_2ndPassDepthStencilState));
+
 		//// Depth-Stencil View 생성
 		//// (Resource로 View를 생성해야 파이프라인에 바인드할 수 있다)
 
@@ -128,7 +142,7 @@ namespace Pg::Graphics
 		_DXStorage->_depthStencilViewDesc.Flags = 0;
 
 		hr = _DXStorage->_device->CreateDepthStencilView(_DXStorage->_depthStencilBuffer, &(_DXStorage->_depthStencilViewDesc), &(_DXStorage->_depthStencilView));
-		hr = _DXStorage->_device->CreateDepthStencilView(_DXStorage->_tempDepthStencilBuffer, &(_DXStorage->_depthStencilViewDesc), &(_DXStorage->_tempDepthStencilView));
+		//hr = _DXStorage->_device->CreateDepthStencilView(_DXStorage->_depthStencilBuffer, &(_DXStorage->_depthStencilViewDesc), &(_DXStorage->_secondPassDepthStencilView));
 
 		if (hr != S_OK)
 			return hr;

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "DX11Headers.h"
 #include "RenderableObject.h"
 
 namespace Pg::Graphics
@@ -13,7 +12,7 @@ namespace Pg::Graphics
 		virtual ~Axis();
 
 	public:
-		virtual void Draw() override;
+		virtual void Render() override;
 
 		virtual void BuildBuffers() override;
 		virtual void BindBuffers() override;

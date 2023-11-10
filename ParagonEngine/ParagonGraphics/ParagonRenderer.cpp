@@ -10,6 +10,8 @@
 #include "Forward2DRenderer.h"
 
 #include "LayoutDefine.h"
+#include "../ParagonData/LightType.h"
+#include "RenderObjectLight.h"
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
@@ -64,46 +66,35 @@ namespace Pg::Graphics
 
 		_forward2dRenderer = std::make_unique<Forward2DRenderer>();
 		_forward2dRenderer->Initialize();
+
+		// 내부적으로 DXStorage를 쓰고 있기 때문에 생성자가 아닌 Initialize()에 있어야 함
+		_lights = std::make_unique<RenderObjectLightList>();
 	}
 
 	void ParagonRenderer::BeginRender()
 	{
-		//_DXLogic->PrepareRenderTargets();
-		//_DXLogic->BindRenderTargets();
 		_deferredRenderer->BeginRender();
-		
 	}
 
 	void ParagonRenderer::Render(Pg::Data::CameraData* camData)
-	{
-		// 3D 오브젝트 렌더
-		// Deferred
-		//_deferredRenderer->BindFirstPass();
-		//for (auto& it : _renderObject3DList->_list)
-		//{
-		//	if (it.second->GetBaseRenderer()->GetActive())
-		//	{
-		//		_deferredRenderer->RenderFirstPass(it.first, *camData);
-		//	}
-		//}
-		//_deferredRenderer->UnbindFirstPass();
-		//
-		//_deferredRenderer->BindSecondPass();
-		//_deferredRenderer->RenderSecondPass();
-		//_deferredRenderer->UnbindSecondPass();
-		//
-		for (auto& it : _renderObject3DList->_list)
-		{
-			if (it.second->GetBaseRenderer()->GetActive())
-			{
-				it.second->Render(camData);
-			}
-		}
+	{	
+		// Deferred 1st Pass
 		
+		_deferredRenderer->RenderFirstPass(_renderObject3DList.get(), camData);
+		_deferredRenderer->UnbindFirstPass();
+
+		// Deferred Lighting Pass
+		_deferredRenderer->BindLightingPass();
+		_deferredRenderer->RenderLight(_lights.get(), camData);
+		_deferredRenderer->UnbindLightingPass();
+
+		// Deferred Final Pass
+		_deferredRenderer->BindSecondPass();
+		_deferredRenderer->RenderSecondPass();
+		_deferredRenderer->UnbindSecondPass();
+
 		// Forward
 		_forward3dRenderer->Render(*camData);
-
-		// 2D 오브젝트 렌더 
 		_forward2dRenderer->Render(_renderObject2DList.get(), camData);
 	}
 
@@ -166,7 +157,7 @@ namespace Pg::Graphics
 		//}
 	}
 
-	void ParagonRenderer::OnNewSceneStart(Pg::Data::Scene* newScene)
+	void ParagonRenderer::ParseSceneData(Pg::Data::Scene* newScene)
 	{
 		//Scene을 파싱해서, 실제 렌더되어야 하는 Object를 연동한다.
 		//나중에 같은 씬을 유지하는 중에 오브젝트들 중 하나의 렌더러가 꺼진다거나 
@@ -175,15 +166,17 @@ namespace Pg::Graphics
 		//기존의 직접적 RenderObject 리스트들 클리어.
 		_renderObject2DList->_list.clear();
 		_renderObject3DList->_list.clear();
+		_lights->ClearLightData();
 
 		using Pg::Graphics::Helper::GraphicsResourceHelper;
 
 		//컴포넌트 내부적으로 -> 자신이 어떤 타입인지 Renderer에게 전달. 내부적으로 호출.
+		
 
 		//이제 실제 오브젝트 내부 RenderObject 연동.
 		for (auto& tGameObject : newScene->GetObjectList())
 		{
-			//GameObject 딴.
+			// RenderObject
 			Pg::Data::BaseRenderer* tBaseRenderer = tGameObject->GetComponent<Pg::Data::BaseRenderer>();
 			
 			if (tBaseRenderer != nullptr)
@@ -225,7 +218,26 @@ namespace Pg::Graphics
 					}
 				}
 			}
+
+			// Light Component가 붙은 오브젝트들을 파싱하여 Light list에 넣는다. 이는 이후에 Lighting Pass에서 사용됨
+			Pg::Data::Light* tLightComponent = tGameObject->GetComponent<Pg::Data::Light>();
+			if (tLightComponent != nullptr)
+			{
+				Pg::Data::Transform* tLightTransform = tGameObject->GetComponent<Pg::Data::Transform>();
+				_lights->ParseLights(tLightTransform, tLightComponent);
+			}
+
 		}
+
+		// 리스트에 파싱된 조명 정보로 라이팅 패스에 쓰일 상수 버퍼를 만든다
+		_lights->BuildConstantBuffers();
+
+		// 디퍼드 렌더러의 멤버에 상수 버퍼을 저장해둔다 (패스별 바인딩을 위해)
+		_deferredRenderer->_lightingCBs = _lights->_constantBuffers;
+		//_deferredRenderer->_firstCBs = _renderObject3DList->_list
+		//_deferredRenderer->_secondCBs
+
 		assert(true);
 	}
+
 }

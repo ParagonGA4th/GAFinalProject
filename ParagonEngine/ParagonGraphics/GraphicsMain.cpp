@@ -122,33 +122,6 @@ namespace Pg::Graphics
 		FillCamDataProjection(cameraData);
 		this->_camData = cameraData;
 
-
-		//float dt = deltaTime;
-		//time += dt;
-
-		//// 디버그 정보 출력
-		//text = L"";
-		//text.append(L"DeltaTime: " + std::to_wstring(dt) + L"\n");
-		//text.append(L"Time: " + std::to_wstring(time) + L" sec" + L"\n");
-
-		//float tFrameRate = -1.0f;
-		//if (dt > std::numeric_limits<float>::epsilon())
-		//{
-		//	tFrameRate = static_cast<double>(1) / dt;
-		//}
-
-		//text.append(L"FPS: " + std::to_wstring(tFrameRate) + L"\n");
-		////text.append(L"Look Vector: (" + std::to_wstring(_camera->GetLook().x) + L", " + std::to_wstring(_camera->GetLook().y) + L", " + std::to_wstring(_camera->GetLook().z) + L")\n");
-		//text.append(L"Engine Cam Pos : " + std::to_wstring(cameraData->_position.x) + L", " + std::to_wstring(cameraData->_position.y) + L", " + std::to_wstring(cameraData->_position.z) + L")\n");
-		//Pg::Math::PGFLOAT3 tEulerCamRot = Pg::Math::PGQuaternionToEuler(cameraData->_rotation);
-		//tEulerCamRot.x = Pg::Math::PGConvertToDegrees(tEulerCamRot.x);
-		//tEulerCamRot.y = Pg::Math::PGConvertToDegrees(tEulerCamRot.y);
-		//tEulerCamRot.z = Pg::Math::PGConvertToDegrees(tEulerCamRot.z);
-		//text.append(L"Cam Rotation Euler Degrees: " + std::to_wstring(tEulerCamRot.x) + L", " + std::to_wstring(tEulerCamRot.y) + L", " + std::to_wstring(tEulerCamRot.z) + L")\n");
-		//text.append(L"Cam Rotation Quaternion: " + std::to_wstring(cameraData->_rotation.w) + L", " + std::to_wstring(cameraData->_rotation.x) + L", " + std::to_wstring(cameraData->_rotation.y) + L", " + std::to_wstring(cameraData->_rotation.z) + L")\n");
-
-		//font->SetText(text);
-		//BasicRendersConstantBufferLoad();
 	}
 
 	void GraphicsMain::BeginRender()
@@ -164,16 +137,13 @@ namespace Pg::Graphics
 		{
 			//새로 Scene이 바뀌었을 경우 RenderObject 구성을 바꾼다.
 			//나중에는 Load 로직이 별도로 들어가야.
-			_renderer->OnNewSceneStart(scene);
+			_renderer->ParseSceneData(scene);
 			_currentScene = scene;
 		}
 		assert(_currentScene != nullptr);
-		//BasicRendersDraw();
-
-		//MultiMaterial Mesh 테스팅. 현재로서는 먼저 호출되어야 Mesh가 깨지지 않음!
-		_tempMultiMesh->Render(_camData);
 
 		_renderer->Render(_camData);
+
 	}
 
 	void GraphicsMain::EndRender()
@@ -207,6 +177,7 @@ namespace Pg::Graphics
 		hr = _DXLogic->CreateMainRenderTarget();
 		hr = _DXLogic->CreateDepthStencilViewAndState();
 		_DXLogic->CreateAndSetViewports();
+		// TODO: 쿼드 사이즈 변경 후 재할당 로직도 들어가야 함
 	
 	}
 
@@ -265,71 +236,6 @@ namespace Pg::Graphics
 		camData->_aspect = static_cast<float>(_DXStorage->_screenWidth) / static_cast<float>(_DXStorage->_screenHeight);
 		camData->_projMatrix = Pg::Math::PGMatrixPerspectiveFovLH(camData->_fovY, camData->_aspect, camData->_nearZ, camData->_farZ);
 	}
-
-	//void GraphicsMain::BasicRendersConstantBufferLoad()
-	//{
-	//	//Constant Buffer Loading
-	//	/// 상수 버퍼 채우기
-	//	///
-	//	// TODO: PgMath로 교체
-	//	using namespace DirectX;
-	//	//using namespace Pg::Math;
-	//	// 
-	//	// 월드 행렬
-	//	float4x4 worldMatrix = XMMATRIX(XMMatrixIdentity());
-
-	//	//Grid 출력
-	//	grid->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
-	//	std::memcpy(&(grid->_cbData.viewMatrix), &(_camData->_viewMatrix), sizeof(Pg::Math::PGFLOAT4X4));
-	//	std::memcpy(&(grid->_cbData.projectionMatrix), &(_camData->_projMatrix), sizeof(Pg::Math::PGFLOAT4X4));
-	//	DirectX::XMMATRIX tViewProj = DirectX::XMMatrixMultiply(grid->_cbData.viewMatrix, grid->_cbData.projectionMatrix);
-	//	std::memcpy(&(grid->_cbData.viewProjMatrix), &(tViewProj), sizeof(Pg::Math::PGFLOAT4X4));
-
-	//	worldMatrix *= XMMatrixRotationX(time);
-	//	worldMatrix *= XMMatrixRotationY(time);
-	//	worldMatrix *= XMMatrixRotationZ(time);
-
-	//	worldMatrix *= XMMatrixScaling(1.0f, 1.0f, 1.0f);
-	//	worldMatrix *= XMMatrixTranslation(0.0f, 0.0f, 0.0f);
-
-	//	//_box->_cbData.worldMatrix = worldMatrix;
-	//	//std::memcpy(&(_box->_cbData.viewMatrix), &(_camData->_viewMatrix), sizeof(Pg::Math::PGFLOAT4X4));
-	//	//std::memcpy(&(_box->_cbData.projectionMatrix), &(_camData->_projMatrix), sizeof(Pg::Math::PGFLOAT4X4));
-	//	//_box->_cbData.viewProjMatrix = tViewProj;
-	//	//std::memcpy(&(_box->_cbData.eyePos), &(_camData->_position), sizeof(Pg::Math::PGFLOAT3));
-
-	//	cubemap->_cbData.worldMatrix = XMMatrixTranslation(_camData->_position.x, _camData->_position.y, _camData->_position.z);
-	//	std::memcpy(&(cubemap->_cbData.viewMatrix), &(_camData->_viewMatrix), sizeof(Pg::Math::PGFLOAT4X4));
-	//	std::memcpy(&(cubemap->_cbData.projectionMatrix), &(_camData->_projMatrix), sizeof(Pg::Math::PGFLOAT4X4));
-	//	cubemap->_cbData.viewProjMatrix = tViewProj;
-	//	cubemap->_cbData.worldViewProjMatrix = tViewProj * XMMATRIX(XMMatrixIdentity());
-	//}
-
-	//void GraphicsMain::BasicRendersDraw()
-	//{
-
-	//	// 카메라 행렬
-
-	//	//하드코딩된 리소스들.
-	//	cubemap->Draw();
-	//	//
-	//	//// test용 큐브 그리기
-	//	//_box->Draw();
-	//	//// Grid
-	//	grid->Draw();
-	//	//// Axis
-	//	axis->Draw();
-	//	//
-	//	//// test 스프라이트 그리기
-	//	sprite->Draw();
-	//	sprite2->Draw();
-	//	//
-	//	//// test 폰트 그리기
-	//	font->Draw();
-	//	//
-	//	//// test용 큐브 그리기
-	//	//_box->Draw();
-	//}
 
 	//void GraphicsMain::BasicRendersInitialize()
 	//{
@@ -412,25 +318,20 @@ namespace Pg::Graphics
 	void GraphicsMain::TempResourceMeshLoad()
 	{
 		std::string tFilePath;
-
-		//이제는 AssetManager의 로드 로직과 무관하게 MultimaterialMesh 활용할 것.
-		
+		//고정된 File Path ( == AssetManager에서 이미 로딩된 경로가 있어야 작동하므로, 하드코딩했음.)
 		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx";
-		//tFilePath = "../Resources/3DModels/Animated/Boss_Test_NonDeform.fbx";
-		//tFilePath = "../Resources/3DModels/Animated/BasicAnimatedCubeEdited.fbx";
-		//tFilePath = "../Resources/3DModels/Animated/Boss_Test_NonDeform_MultiMat.fbx";
-		//tFilePath = "../Resources/3DModels/Animated/SkinnedExample.fbx";
-		//tFilePath = "../Resources/3DModels/Animated/Cylinder.fbx";
-		//tFilePath = "../Resources/3DModels/Animated/Timmy_Shooting.fbx";
-		//tFilePath = "../Resources/3DModels/Animated/TimmyModel.fbx";
-		//tFilePath = "../Resources/3DModels/Animated/test_animation002.fbx";
-		tFilePath = "../Resources/3DModels/Animated/4QCharacter_idle_ani.fbx";
-		//tFilePath = "../Resources/3DModels/Animated/test_timmy003.fbx"; //얘는 Better FBX Exporter가 문제를 (행렬이 부서지는 문제) 어느 정도 해결했다고 볼 수 있다.
+		//tFilePath = "../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx";
+		//tFilePath = "../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx";
+		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx";
 		//tFilePath = "../Resources/3DModels/MultiMatMesh/diffuseonly.fbx";
+		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
+		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx";
+		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMeshSeams.fbx";
+		//tFilePath = "../Resources/3DModels/Banana.fbx";
 
-		
 		//MultiMaterial Mesh 테스팅.
-		_tempMultiMesh = new MultimaterialMesh(tFilePath);
+		//_tempMultiMesh = new MultimaterialMesh(tFilePath);
+		//_tempMultiMesh->Initialize();
 	}
 
 	void GraphicsMain::SyncLoadGraphicsResources()

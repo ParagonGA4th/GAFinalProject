@@ -27,7 +27,10 @@
     <ClInclude Include="AssetCombinedLoader.h" />
     <ClInclude Include="AssetStructSRV.h" />
     <ClInclude Include="AssetTextureType.h" />
-    <ClInclude Include="Axis.h" />
+    <ClInclude Include="Axis.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="AssetBasic3DLoader.h" />
     <ClInclude Include="Bone.h" />
     <ClInclude Include="BufferParser.h" />
@@ -43,6 +46,7 @@
     <ClInclude Include="DemoGeometryGenerator.h" />
     <ClInclude Include="Forward2DRenderer.h" />
     <ClInclude Include="Joint.h" />
+    <ClInclude Include="RenderableObject.h" />
     <ClInclude Include="RenderFont.h" />
     <ClInclude Include="RenderObject2DList.h" />
     <ClInclude Include="RenderObject3DList.h" />
@@ -59,14 +63,16 @@
     <ClInclude Include="GraphicsMain.h" />
     <ClInclude Include="GraphicsResourceHelper.h" />
     <ClInclude Include="GraphicsResourceManager.h" />
-    <ClInclude Include="Grid.h" />
+    <ClInclude Include="Grid.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="LowDX11Logic.h" />
     <ClInclude Include="LowDX11Storage.h" />
     <ClInclude Include="msdfgenTest.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="MultimaterialMesh.h" />
-    <ClInclude Include="RenderableObject.h" />
     <ClInclude Include="RenderMaterial.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="ParagonRenderer.h" />
@@ -76,6 +82,8 @@
     <ClInclude Include="RenderObject3D.h" />
     <ClInclude Include="RenderObjectImage2D.h" />
     <ClInclude Include="RenderObjectSkinnedMesh3D.h" />
+    <ClInclude Include="RenderObjectLight.h" />
+    <ClInclude Include="RenderObjectLightList.h" />
     <ClInclude Include="RenderObjectStaticMesh3D.h" />
     <ClInclude Include="RenderObjectText2D.h" />
     <ClInclude Include="RenderShader.h" />
@@ -87,11 +95,11 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TempBoneHelper.h" />
     <ClInclude Include="TempCamera.h" />
-    <ClInclude Include="TestCube.h" />
     <ClInclude Include="MaterialCluster.h" />
     <ClInclude Include="TofuMath.h" />
     <ClInclude Include="TofuMesh.h" />
     <ClInclude Include="VertexShader.h" />
+    <ClInclude Include="LightStructs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
@@ -100,11 +108,17 @@
     <ClCompile Include="Asset3DModelHelper.cpp" />
     <ClCompile Include="AssetBasic2DLoader.cpp" />
     <ClCompile Include="AssetCombinedLoader.cpp" />
-    <ClCompile Include="Axis.cpp" />
+    <ClCompile Include="Axis.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="AssetBasic3DLoader.cpp" />
     <ClCompile Include="BufferParser.cpp" />
     <ClCompile Include="ConstantBufferBase.cpp" />
-    <ClCompile Include="Cubemap.cpp" />
+    <ClCompile Include="Cubemap.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DeferredRenderer.cpp" />
     <ClCompile Include="DemoGeometryGenerator.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -118,7 +132,10 @@
     <ClCompile Include="GraphicsMain.cpp" />
     <ClCompile Include="GraphicsResourceHelper.cpp" />
     <ClCompile Include="GraphicsResourceManager.cpp" />
-    <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="Grid.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Joint.cpp" />
     <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="LowDX11Logic.cpp" />
@@ -138,6 +155,8 @@
     <ClCompile Include="RenderObject3D.cpp" />
     <ClCompile Include="RenderObjectImage2D.cpp" />
     <ClCompile Include="RenderObjectSkinnedMesh3D.cpp" />
+    <ClCompile Include="RenderObjectLight.cpp" />
+    <ClCompile Include="RenderObjectLightList.cpp" />
     <ClCompile Include="RenderObjectStaticMesh3D.cpp" />
     <ClCompile Include="RenderObjectText2D.cpp" />
     <ClCompile Include="RenderShader.cpp" />
@@ -149,13 +168,20 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TempBoneHelper.cpp" />
     <ClCompile Include="TempCamera.cpp" />
-    <ClCompile Include="TestCube.cpp" />
     <ClCompile Include="MaterialCluster.cpp" />
     <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\PhongPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\DefaultShaders\Shaders\PhongVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\Resources\DefaultShaders\Shaders\SecondStage_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -249,6 +275,8 @@
   <ItemGroup>
     <None Include="..\Resources\DefaultShaders\Libraries\DefaultBufferPerObject.hlsli" />
     <None Include="..\Resources\DefaultShaders\Libraries\DefaultLayouts.hlsli" />
+    <None Include="..\Resources\DefaultShaders\Libraries\Lights.hlsli" />
+    <None Include="..\Resources\DefaultShaders\Libraries\misc.hlsli" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -276,6 +304,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -283,6 +312,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -356,6 +386,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -377,6 +408,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalIncludeDirectories>
+      <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

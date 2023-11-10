@@ -35,8 +35,8 @@ namespace Pg::Graphics
 			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
-		VertexShader* helperVS = new VertexShader(L"../Builds/x64/debug/VertexShader.cso", HelperDesc);
-		PixelShader* helperPS = new PixelShader(L"../Builds/x64/debug/PixelShader.cso");
+		VertexShader* helperVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/VertexShader.cso", HelperDesc);
+		PixelShader* helperPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/PixelShader.cso");
 
 		// Grid
 		grid = new Grid();
@@ -46,11 +46,11 @@ namespace Pg::Graphics
 		axis = new Axis();
 		axis->Initialize();
 
-		helperVS->AssignConstantBuffer(&(grid->_cbData));
-
+		grid->CreateConstantBuffer(&(grid->_cbData));
 		grid->AssignVertexShader(helperVS);
 		grid->AssignPixelShader(helperPS);
 
+		axis->CreateConstantBuffer(&(axis->_cbData));
 		axis->AssignVertexShader(helperVS);
 		axis->AssignPixelShader(helperPS);
 
@@ -61,13 +61,13 @@ namespace Pg::Graphics
 			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
-		VertexShader* CubemapVS = new VertexShader(L"../Builds/x64/debug/CubemapVS.cso", CubemapvertexDesc);
-		PixelShader* CubemapPS = new PixelShader(L"../Builds/x64/debug/CubemapPS.cso");
+		VertexShader* CubemapVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/CubemapVS.cso", CubemapvertexDesc);
+		PixelShader* CubemapPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/CubemapPS.cso");
 
 		cubemap = new Cubemap();
 		cubemap->Initialize();
 
-		CubemapVS->AssignConstantBuffer(&(cubemap->_cbData));
+		cubemap->CreateConstantBuffer(&(cubemap->_cbData));
 		cubemap->AssignVertexShader(CubemapVS);
 		cubemap->AssignPixelShader(CubemapPS);
 	}
@@ -105,16 +105,16 @@ namespace Pg::Graphics
 		// Grid
 		DirectX::XMStoreFloat4x4(&(grid->_cbData.worldMatrix), tWorldTMMat);
 		DirectX::XMStoreFloat4x4(&(grid->_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
-		grid->SetGridSize(20.0f, 20.0f, 10, 10);
+		grid->SetGridSize(30.0f, 30.0f, 20, 20);
 
 		// Axis
 		DirectX::XMStoreFloat4x4(&(axis->_cbData.worldMatrix), tWorldTMMat);
 		DirectX::XMStoreFloat4x4(&(axis->_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
 
 		// ·»´õ
-		cubemap->Draw();
-		grid->Draw();
-		axis->Draw();
+		cubemap->Render();
+		grid->Render();
+		axis->Render();
 	}
 }
 

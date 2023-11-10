@@ -110,7 +110,7 @@ void Pg::Graphics::Cubemap::BindBuffers()
 	_DXStorage->_deviceContext->IASetIndexBuffer(IB, DXGI_FORMAT_R32_UINT, 0);
 }
 
-void Pg::Graphics::Cubemap::Draw()
+void Pg::Graphics::Cubemap::Render()
 {
 	BindInputLayout();
 	BindShaders();
@@ -134,6 +134,7 @@ void Pg::Graphics::Cubemap::Initialize()
 }
 
 Pg::Graphics::Cubemap::Cubemap()
+	:RenderableObject()
 {
 
 }
