@@ -36,7 +36,7 @@ private:
 	void RotateY(float angle);
 	void Pitch(float angle);
 	
-	void RotateAllTry(float yaw, float pitch);
+	void RotateFix(float yaw, float pitch); // 고친 X,Y Rotation 설정.
 
 
 private:

@@ -41,7 +41,7 @@ void EditorCameraScript::Update()
 		Pg::Math::PGFLOAT3 POS = _object->_transform.GetPosition();
 		float DISTANCE = _moveSpeed; // 임시로 거리를 설정함 (distance * camera speed * deltaTime)
 
-		LOOK = {LOOK.x * DISTANCE, LOOK.y * DISTANCE, LOOK.z * DISTANCE };
+		LOOK = { LOOK.x * DISTANCE, LOOK.y * DISTANCE, LOOK.z * DISTANCE };
 		POS += LOOK;
 
 		_object->_transform.SetPosition(POS);
@@ -101,79 +101,112 @@ void EditorCameraScript::Update()
 
 		_object->_transform.SetPosition(POS);
 	}
+	
 	if (tInput->GetKey(MouseRight) && tInput->IsMouseMoving())
 	{
 		using namespace Pg::Math;
-		RotateY(3.0f * tInput->GetMouseDX());
+		//RotateY(3.0f * tInput->GetMouseDX());
 		//Pitch(3.0f * tInput->GetMouseDY());
-		//RotateAllTry(3.0f * tInput->GetMouseDX(), 0.f);
-		//RotateAllTry(0.f, 3.0f * tInput->GetMouseDY());
-		//RotateAllTry(3.0f * tInput->GetMouseDX(), 3.0f * tInput->GetMouseDY());
-	}
-	else
-	{
-		//if (tInput->GetKey(MouseLeft) && tInput->IsMouseMoving())
-		//{
-		//	using namespace Pg::Math;
-		//	Pitch(3.0f * tInput->GetMouseDY());
-		//	//RotateY(3.0f * tInput->GetMouseDX());
-		//}
+		RotateFix(3.0f * tInput->GetMouseDX(), 3.0f * tInput->GetMouseDY());
+		//RotateFix(-3.0f * tInput->GetMouseDX(), -3.0f * tInput->GetMouseDY());
+		//RotateFix(3.0f * tInput->GetMouseDX(), 0.f);
+		//RotateFix(0.f, 3.0f * tInput->GetMouseDY());
 	}
 }
 
+//Now Defunct
 void EditorCameraScript::RotateY(float angle)
 {
 	using namespace Pg::Math;
 
 	PGQuaternion tOldRotQuat = _object->_transform.GetLocalRotation();
 
-	PGQuaternion tRotatedQuat = PGRotateQuaternion(tOldRotQuat, PGFLOAT3(0.f,1.f,0.f), -angle);
+	PGQuaternion tRotatedQuat = PGRotateQuaternion(tOldRotQuat, PGFLOAT3(0.f, 1.f, 0.f), -angle);
 	tRotatedQuat = PGQuaternionNormalize(tRotatedQuat);
 
 	_object->_transform.SetLocalRotation(tRotatedQuat);
 }
 
+//Now Defunct
 void EditorCameraScript::Pitch(float angle)
 {
 	using namespace Pg::Math;
 
 	PGQuaternion tOldRotQuat = _object->_transform.GetLocalRotation();
-	
+
 	PGQuaternion tRotatedQuat = PGRotateQuaternion(tOldRotQuat, PGFLOAT3(1.f, 0.f, 0.f), -angle);
 
 	tRotatedQuat = PGQuaternionNormalize(tRotatedQuat);
 
-	_object->_transform.SetLocalRotation(tRotatedQuat);	
+	_object->_transform.SetLocalRotation(tRotatedQuat);
 }
 
-void EditorCameraScript::RotateAllTry(float yaw, float pitch)
+void EditorCameraScript::RotateFix(float yaw, float pitch)
 {
 	using namespace Pg::Math;
 	using namespace DirectX::SimpleMath;
 
 	Vector3 tLocalUpVector = { _object->_transform.GetUp().x, _object->_transform.GetUp().y, _object->_transform.GetUp().z };
 	Vector3 tLocalRightVector = { _object->_transform.GetRight().x, _object->_transform.GetRight().y, _object->_transform.GetRight().z };
+	Vector3 tLocalForwardVector = { _object->_transform.GetForward().x, _object->_transform.GetForward().y, _object->_transform.GetForward().z };
 
-	Quaternion qPitch = Quaternion::CreateFromAxisAngle(tLocalRightVector, pitch);
-	//Quaternion qPitch = Quaternion::CreateFromAxisAngle({1.f, 0.f, 0.f}, pitch);
-	//Quaternion qYaw = Quaternion::CreateFromAxisAngle(tLocalUpVector, yaw);
-	Quaternion qYaw = Quaternion::CreateFromAxisAngle({0.f, 1.f, 0.f}, yaw);
+	tLocalUpVector.Normalize();
+	tLocalRightVector.Normalize();
+	tLocalForwardVector.Normalize();
 
-	Quaternion qFinal = qPitch * qYaw;
-	qFinal.Normalize();
+	//RotateY (Yaw)
+	{
+		DirectX::XMMATRIX R = DirectX::XMMatrixRotationY(yaw);
 
-	PGQuaternion tOldRotQuat = _object->_transform.GetLocalRotation();
-	Quaternion tSMOldRotQuat = { tOldRotQuat.x, tOldRotQuat.y, tOldRotQuat.z, tOldRotQuat.w };
-	tSMOldRotQuat.Normalize();
+		DirectX::XMStoreFloat3(&tLocalRightVector, DirectX::XMVector3TransformNormal(DirectX::XMLoadFloat3(&tLocalRightVector), R));
+		DirectX::XMStoreFloat3(&tLocalUpVector, DirectX::XMVector3TransformNormal(DirectX::XMLoadFloat3(&tLocalUpVector), R));
+		DirectX::XMStoreFloat3(&tLocalForwardVector, DirectX::XMVector3TransformNormal(DirectX::XMLoadFloat3(&tLocalForwardVector), R));
+	}
 
-	Quaternion tReturn = qFinal * tSMOldRotQuat;
-	//Quaternion tReturn = tSMOldRotQuat * qFinal;
-	tReturn.Normalize();
+	//Pitch
+	{
+		DirectX::XMMATRIX R = DirectX::XMMatrixRotationAxis(DirectX::XMLoadFloat3(&tLocalRightVector), pitch);
+
+		DirectX::XMStoreFloat3(&tLocalUpVector, DirectX::XMVector3TransformNormal(DirectX::XMLoadFloat3(&tLocalUpVector), R));
+		DirectX::XMStoreFloat3(&tLocalForwardVector, DirectX::XMVector3TransformNormal(DirectX::XMLoadFloat3(&tLocalForwardVector), R));
+	}
+
+	//정규직교화.
+	{
+		DirectX::XMVECTOR U = DirectX::XMLoadFloat3(&tLocalUpVector);
+		DirectX::XMVECTOR L = DirectX::XMLoadFloat3(&tLocalForwardVector);
+		DirectX::XMVECTOR R = DirectX::XMLoadFloat3(&tLocalRightVector);
+
+		// Keep camera's axes orthogonal to each other and of unit length.
+		L = DirectX::XMVector3Normalize(L);
+		U = DirectX::XMVector3Normalize(DirectX::XMVector3Cross(L, R));
+
+		// U, L already ortho-normal, so no need to normalize cross product.
+		R = DirectX::XMVector3Cross(U, L);
+
+		DirectX::XMStoreFloat3(&tLocalRightVector, R);
+		DirectX::XMStoreFloat3(&tLocalUpVector, U);
+		DirectX::XMStoreFloat3(&tLocalForwardVector, L);
+	}
+
+	//Rotation Matrix에서 DirectX Quaternion으로.
+	DirectX::XMFLOAT4 tReturn;
+	{
+		//Forward Vector 반대로 뒤집지 않고 처리.
+		DirectX::XMMATRIX rotationMatrix(
+			tLocalRightVector.x, tLocalUpVector.x, tLocalForwardVector.x, 0.0f,
+			tLocalRightVector.y, tLocalUpVector.y, tLocalForwardVector.y, 0.0f,
+			tLocalRightVector.z, tLocalUpVector.z, tLocalForwardVector.z, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		);
+
+		DirectX::XMVECTOR quaternion = DirectX::XMQuaternionRotationMatrix(rotationMatrix);
+		DirectX::XMStoreFloat4(&tReturn, quaternion);
+	}
 
 	PGQuaternion tNewRotQuat = { tReturn.w, tReturn.x, tReturn.y, tReturn.z };
 	_object->_transform.SetLocalRotation(tNewRotQuat);
 }
-
 
 
 
