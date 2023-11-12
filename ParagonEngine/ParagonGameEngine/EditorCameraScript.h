@@ -35,6 +35,8 @@ private:
 	//TempCamera의 마우스 조작 방식 활용. -> 동시에 X, Y Rotation 세팅하는데 문제 발생!
 	void RotateY(float angle);
 	void Pitch(float angle);
+	
+	void RotateAllTry(float yaw, float pitch);
 
 
 private:
