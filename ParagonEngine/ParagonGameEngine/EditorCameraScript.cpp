@@ -9,7 +9,9 @@
 #include <singleton-cpp/singleton.h>
 #include <cassert>
 
+//긴급 고치기 시도.
 #include <DirectXMath.h>
+#include <dxtk/SimpleMath.h>
 
 EditorCameraScript::EditorCameraScript(Pg::Data::GameObject* obj)
 	:Pg::Data::Script(obj)
@@ -102,8 +104,11 @@ void EditorCameraScript::Update()
 	if (tInput->GetKey(MouseRight) && tInput->IsMouseMoving())
 	{
 		using namespace Pg::Math;
-		//Pitch(3.0f * tInput->GetMouseDY());
 		RotateY(3.0f * tInput->GetMouseDX());
+		//Pitch(3.0f * tInput->GetMouseDY());
+		//RotateAllTry(3.0f * tInput->GetMouseDX(), 0.f);
+		//RotateAllTry(0.f, 3.0f * tInput->GetMouseDY());
+		//RotateAllTry(3.0f * tInput->GetMouseDX(), 3.0f * tInput->GetMouseDY());
 	}
 	else
 	{
@@ -121,8 +126,10 @@ void EditorCameraScript::RotateY(float angle)
 	using namespace Pg::Math;
 
 	PGQuaternion tOldRotQuat = _object->_transform.GetLocalRotation();
+
 	PGQuaternion tRotatedQuat = PGRotateQuaternion(tOldRotQuat, PGFLOAT3(0.f,1.f,0.f), -angle);
 	tRotatedQuat = PGQuaternionNormalize(tRotatedQuat);
+
 	_object->_transform.SetLocalRotation(tRotatedQuat);
 }
 
@@ -131,13 +138,41 @@ void EditorCameraScript::Pitch(float angle)
 	using namespace Pg::Math;
 
 	PGQuaternion tOldRotQuat = _object->_transform.GetLocalRotation();
+	
 	PGQuaternion tRotatedQuat = PGRotateQuaternion(tOldRotQuat, PGFLOAT3(1.f, 0.f, 0.f), -angle);
 
 	tRotatedQuat = PGQuaternionNormalize(tRotatedQuat);
 
-	_object->_transform.SetLocalRotation(tRotatedQuat);
+	_object->_transform.SetLocalRotation(tRotatedQuat);	
 }
 
+void EditorCameraScript::RotateAllTry(float yaw, float pitch)
+{
+	using namespace Pg::Math;
+	using namespace DirectX::SimpleMath;
+
+	Vector3 tLocalUpVector = { _object->_transform.GetUp().x, _object->_transform.GetUp().y, _object->_transform.GetUp().z };
+	Vector3 tLocalRightVector = { _object->_transform.GetRight().x, _object->_transform.GetRight().y, _object->_transform.GetRight().z };
+
+	Quaternion qPitch = Quaternion::CreateFromAxisAngle(tLocalRightVector, pitch);
+	//Quaternion qPitch = Quaternion::CreateFromAxisAngle({1.f, 0.f, 0.f}, pitch);
+	//Quaternion qYaw = Quaternion::CreateFromAxisAngle(tLocalUpVector, yaw);
+	Quaternion qYaw = Quaternion::CreateFromAxisAngle({0.f, 1.f, 0.f}, yaw);
+
+	Quaternion qFinal = qPitch * qYaw;
+	qFinal.Normalize();
+
+	PGQuaternion tOldRotQuat = _object->_transform.GetLocalRotation();
+	Quaternion tSMOldRotQuat = { tOldRotQuat.x, tOldRotQuat.y, tOldRotQuat.z, tOldRotQuat.w };
+	tSMOldRotQuat.Normalize();
+
+	Quaternion tReturn = qFinal * tSMOldRotQuat;
+	//Quaternion tReturn = tSMOldRotQuat * qFinal;
+	tReturn.Normalize();
+
+	PGQuaternion tNewRotQuat = { tReturn.w, tReturn.x, tReturn.y, tReturn.z };
+	_object->_transform.SetLocalRotation(tNewRotQuat);
+}
 
 
 
