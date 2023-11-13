@@ -43,7 +43,6 @@
     <ClInclude Include="Selectable.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TreeNode.h" />
-    <ClInclude Include="UIEnum.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="IWidget.h" />
     <ClInclude Include="WidgetContainer.h" />

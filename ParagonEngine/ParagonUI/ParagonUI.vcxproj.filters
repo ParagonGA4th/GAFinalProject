@@ -40,7 +40,6 @@
     <ClInclude Include="Text.h">
       <Filter>0_UI\1_Widget\Text</Filter>
     </ClInclude>
-    <ClInclude Include="UIEnum.h" />
     <ClInclude Include="IWidget.h">
       <Filter>0_UI\1_Widget</Filter>
     </ClInclude>
@@ -135,15 +134,6 @@
     <Filter Include="Imgui">
       <UniqueIdentifier>{c020cbe5-8a4f-468f-a625-aa046b71e478}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1_Manager">
-      <UniqueIdentifier>{30d79f0e-1bf5-48e0-b457-9559b051d776}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Manager\UIManager">
-      <UniqueIdentifier>{9b154547-b168-439d-909d-7c62f197831b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Manager\ImguiManager">
-      <UniqueIdentifier>{3ff707a4-63c1-49e4-a991-cad16938c7ac}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0_UI\0_Panel">
       <UniqueIdentifier>{d8808669-0daf-4d42-966d-ca990b13ab96}</UniqueIdentifier>
     </Filter>
@@ -182,6 +172,15 @@
     </Filter>
     <Filter Include="0_UI\1_Widget\TreeNode">
       <UniqueIdentifier>{e5e4871b-502a-4a4f-ada8-af2cd1817ec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Manager">
+      <UniqueIdentifier>{30d79f0e-1bf5-48e0-b457-9559b051d776}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Manager\UIManager">
+      <UniqueIdentifier>{9b154547-b168-439d-909d-7c62f197831b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Manager\ImguiManager">
+      <UniqueIdentifier>{3ff707a4-63c1-49e4-a991-cad16938c7ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
