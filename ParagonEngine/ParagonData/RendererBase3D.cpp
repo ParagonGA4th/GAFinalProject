@@ -1,6 +1,5 @@
 #include "RendererBase3D.h"
 #include "GameObject.h"
-#include "IRenderObject.h"
 
 #include <cassert>
 

@@ -47,6 +47,7 @@ namespace Pg::Core::Manager
 		_perFrameToLoadResources.reserve(30);
 		_perFrameToUnloadResources.reserve(30);
 
+		//Scene 단위 리소스 연동이 완료되지 않으면, 여기서 로드되지 않은 리소스들은 사용되지 못함.
 		TemporaryLoadResources();
 	}
 
@@ -146,15 +147,23 @@ namespace Pg::Core::Manager
 	{
 		//CreateResource를 임시로 여기에 호출.
 		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMesh.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/TexturedMultiCubes/simplecube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/TexturedMultiCubes/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMeshSeams.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/TexturedMultiCubes/simplecube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		//LoadResource("../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/MultiMatMesh/RoadLavaCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/MultiMatMesh/WoodRoadCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/Textures/tw_normal.png", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+		LoadResource("../Resources/Textures/tw_diffuse.png", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+		LoadResource("../Resources/Textures/wook.jpg", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
+		LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
 		//LoadResource("../Resources/3DModels/MultiMatMesh/diffuseonly.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		//LoadResource("../Resources/3DModels/TexturedMultiCubes/Floor_test003.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		//LoadResource("../Resources/3DModels/Board01.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		//LoadResource("../Resources/3DModels/Banana.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);		
+		
 	}
 
 }

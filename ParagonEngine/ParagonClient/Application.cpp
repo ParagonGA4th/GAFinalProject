@@ -1,5 +1,4 @@
 #include "Application.h"
-
 #include "../ParagonEditor/IEditor.h"
 #include "../ParagonEditor/Editor.h"
 

@@ -17,6 +17,7 @@ namespace Pg::Graphics
 	{
 	public:
 		ConstantBuffer(T* cbData);
+		ConstantBuffer(T* cbData, unsigned int size);
 		virtual ~ConstantBuffer();
 
 	private:
@@ -24,11 +25,14 @@ namespace Pg::Graphics
 
 	public:
 		ID3D11Buffer* _Buffer;
+		ID3D11Buffer* _NullBuffer;
 		T* _cbData;
 		D3D11_SUBRESOURCE_DATA _subresource;
 
 	public:
-		virtual void UpdateAndBind() override;
+		virtual void Update(UINT num) override;
+		virtual void Bind(UINT num) override;
+		virtual void Unbind(UINT num) override;
 		virtual ID3D11Buffer* GetBuffer() override;
 
 	private:
@@ -42,10 +46,30 @@ namespace Pg::Graphics
 	template<typename T>
 	ConstantBuffer<T>::ConstantBuffer(T* cbData)
 		:_DXStorage(LowDX11Storage::GetInstance()),
-		_Buffer(nullptr),
+		_Buffer(nullptr), _NullBuffer(nullptr),
 		_cbData(cbData)
 	{
 		int sizeCB = (((sizeof(T)-1) / 16 ) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
+
+		_DXStorage->_ConstantBufferDesc.ByteWidth = sizeCB; // 상수버퍼는 16바이트 정렬
+		_DXStorage->_ConstantBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		_DXStorage->_ConstantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		_DXStorage->_ConstantBufferDesc.CPUAccessFlags = 0;
+		_DXStorage->_ConstantBufferDesc.MiscFlags = 0;
+
+		_subresource.pSysMem = cbData;
+
+		HRESULT hr = _DXStorage->_device->CreateBuffer(&(_DXStorage->_ConstantBufferDesc), &_subresource, &(_Buffer));
+
+	}
+
+	template<typename T>
+	ConstantBuffer<T>::ConstantBuffer(T* cbData, unsigned int size)
+		:_DXStorage(LowDX11Storage::GetInstance()),
+		_Buffer(nullptr), _NullBuffer(nullptr),
+		_cbData(cbData)
+	{
+		int sizeCB = (((sizeof(T) - 1) / 16) + 1) * 16 * size;	// declspec 으로 16바이트 정렬할 수 있다?
 
 		_DXStorage->_ConstantBufferDesc.ByteWidth = sizeCB; // 상수버퍼는 16바이트 정렬
 		_DXStorage->_ConstantBufferDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -67,12 +91,23 @@ namespace Pg::Graphics
 	}
 
 	template<typename T>
-	void ConstantBuffer<T>::UpdateAndBind()
+	void ConstantBuffer<T>::Update(UINT index)
 	{	
-		//// TODO: VertexShader가 아닌 쉐이더들에도 대응할 수 있어야 함
 		_DXStorage->_deviceContext->UpdateSubresource(_Buffer, 0, NULL, _cbData, 0, 0);
-		_DXStorage->_deviceContext->VSSetConstantBuffers(0, 1, &_Buffer);
-		_DXStorage->_deviceContext->PSSetConstantBuffers(0, 1, &_Buffer);
+	}
+
+	template<typename T>
+	void ConstantBuffer<T>::Bind(UINT index)
+	{
+		_DXStorage->_deviceContext->VSSetConstantBuffers(index, 1, &_Buffer);
+		_DXStorage->_deviceContext->PSSetConstantBuffers(index, 1, &_Buffer);
+	}
+
+	template<typename T>
+	void ConstantBuffer<T>::Unbind(UINT index)
+	{
+		_DXStorage->_deviceContext->VSSetConstantBuffers(index, 1, &_NullBuffer);
+		_DXStorage->_deviceContext->PSSetConstantBuffers(index, 1, &_NullBuffer);
 	}
 
 	template<typename T>

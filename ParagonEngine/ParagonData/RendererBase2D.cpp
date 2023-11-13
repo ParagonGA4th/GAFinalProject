@@ -1,6 +1,5 @@
 #include "RendererBase2D.h"
 #include "GameObject.h"
-#include "IRenderObject.h"
 #include <cassert>
 
 namespace Pg::Data

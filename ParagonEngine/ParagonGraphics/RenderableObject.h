@@ -1,16 +1,19 @@
 #pragma once
 
+#include "constantBuffer.h"
+
 #include "DX11Headers.h"
+
 #include <string>
 
 namespace Pg::Graphics
 {
 	struct CBDataBase
 	{
-		float4x4 worldMatrix;
-		float4x4 viewMatrix;
-		float4x4 projectionMatrix;
-		float4x4 viewProjMatrix;
+		DirectX::XMFLOAT4X4 worldMatrix;
+		DirectX::XMFLOAT4X4 viewMatrix;
+		DirectX::XMFLOAT4X4 projectionMatrix;
+		DirectX::XMFLOAT4X4 viewProjMatrix;
 	};
 
 	struct Vertex
@@ -18,6 +21,12 @@ namespace Pg::Graphics
 		float3 Pos;
 		float4 Color;
 	};
+}
+
+namespace Pg::Data
+{
+	class Transform;
+	class CameraData;
 }
 
 namespace Pg::Graphics
@@ -34,9 +43,10 @@ namespace Pg::Graphics
 
 	public:
 		virtual void Initialize();
-		void Update(float time);
+		void Render(float time);
 
-		virtual void Draw();
+		virtual void Render(Pg::Data::Transform& transform, Pg::Data::CameraData& camData);
+		virtual void Render();
 
 	protected:
 		LowDX11Storage* _DXStorage;
@@ -67,6 +77,18 @@ namespace Pg::Graphics
 
 		VertexShader* GetVertexShader();
 		PixelShader* GetPixelShader();
+
+	public:
+		// 상수 버퍼들을 저장하는 벡터
+		std::vector< ConstantBufferBase* > _constantBuffers;
+
+		// 상수 버퍼 데이터를 추가하는 함수
+		template <typename T>
+		void CreateConstantBuffer(T* cbData)
+		{
+			ConstantBufferBase* tCBuffer = new ConstantBuffer<T>(cbData);
+			_constantBuffers.emplace_back(tCBuffer);
+		}
 	};
 
 }

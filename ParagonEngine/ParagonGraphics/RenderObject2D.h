@@ -1,8 +1,8 @@
 #pragma once
 #include "GraphicsDLLExporter.h"
-#include "RenderUsageStruct2D.h"
 #include "RenderObjectBase.h"
 
+#include <dxtk/SpriteBatch.h>
 /// <summary>
 /// GameObject가 그래픽엔진의 렌더링 로직이랑 1대1 연동될 수 있게 하는 클래스이다.
 /// 2D 모두와 호환될 것이다.
@@ -19,7 +19,7 @@ namespace Pg::Graphics
 		RenderObject2D(Pg::Data::BaseRenderer* baseRenderer);
 		virtual ~RenderObject2D();
 
-		virtual void Render() override;
+		virtual void Render(DirectX::SpriteBatch* spriteBatch, Pg::Data::CameraData* camData) abstract;
 
 	};
 }

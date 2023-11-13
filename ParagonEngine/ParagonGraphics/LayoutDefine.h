@@ -57,11 +57,12 @@ namespace Pg::Graphics
 		//Skinned Mesh 요구 레이아웃 반환
 		static ID3D11InputLayout* GetSkinned1stLayout();
 
-
+		static ID3D11InputLayout* Get2ndLayout();
 
 	private:
 		static ID3D11InputLayout* _static1stLayout;
 		static ID3D11InputLayout* _skinned1stLayout;
+		static ID3D11InputLayout* _2ndLayout;
 
 	private:
 

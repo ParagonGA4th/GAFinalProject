@@ -3,7 +3,9 @@
 
 //<실제 Graphics Resource의 목록>
 #include "RenderMaterial.h"
+#include "RenderShader.h"
 #include "RenderTexture2D.h"
+#include "RenderFont.h"
 #include "Asset3DModelData.h"
 //</>
 
@@ -58,9 +60,21 @@ namespace Pg::Graphics::Helper
 	};
 
 	template <>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_FONT>
+	{
+		using type = Pg::Graphics::RenderFont; //RenderMaterial로 타입 변환.
+	};
+
+	template <>
 	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_3DMODEL>
 	{
 		using type = Pg::Graphics::Asset3DModelData; //3D Model로 타입 변환.
+	};
+
+	template <>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDERSHADER>
+	{
+		using type = Pg::Graphics::RenderShader; //RenderMaterial로 타입 변환.
 	};
 
 	template <>

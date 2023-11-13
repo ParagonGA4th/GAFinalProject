@@ -48,9 +48,47 @@ struct POut1st //RGBA
     float4 pout1st_RT0 : SV_Target0; // Texture UV Coords (RGB),  World Space Tangent.x (A)
     float4 pout1st_RT1 : SV_Target1; // World Space Normal (RGB), World Space Tangent.y (A)
     float4 pout1st_RT2 : SV_Target2; // World Space Position (RGB), World Space Tangent.z (A)
-    float3 pout1st_RT3 : SV_Target3; // 3D Model Color (RGB)
+    float4 pout1st_RT3 : SV_Target3; // 3D Model Color (RGB)
     float4 pout1st_RT4 : SV_Target4; // Material ID ((uint)R), Screen Space Velocity (GB), Alpha (A)
-    float pout1st_Depth : SV_Depth; // Depth
+    float4 pout1st_RT5 : SV_Target5; // Temp Diffuse Texture;
+	float4 pout1st_RT6 : SV_Target6; // Phong Lighting Results
+    //float pout1st_Depth : SV_Depth; // Depth
+};
+
+struct VinLighting
+{
+	float3 PositionW : POSITION;
+	float3 Nomral : NORMAL;
+	float2 UV : TEXCOORD;
+};
+
+struct VOutLighting
+{
+	float4 PositionH : SV_POSITION;
+	float2 UV : TEXCOORD;
+};
+
+struct POutLighting
+{
+	float4 Output : SV_Target;
+};
+
+struct VInFinal
+{
+	float3 Position : POSITION;
+	float3 Nomral : NORMAL;
+	float2 UV : TEXCOORD;
+};
+
+struct VOutFinal
+{
+	float4 PositionH : SV_POSITION;
+	float2 UV : TEXCOORD;
+};
+
+struct POutFinal
+{
+	float4 Output : SV_Target;
 };
 
 #endif //__DEFINED_DEFAULT_LAYOUTS_HLSL__
