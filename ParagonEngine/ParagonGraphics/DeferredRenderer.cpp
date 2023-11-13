@@ -61,6 +61,8 @@ void Pg::Graphics::DeferredRenderer::Initialize()
 		NullSRV.emplace_back(nullptr);
 	}
 
+	BuildFullscreenQuad();
+
 	// 1st Pass
 	_firstVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/FirstStatic_VS.cso");
 	_firstVS->_inputLayout = LayoutDefine::GetStatic1stLayout();
@@ -126,8 +128,8 @@ void Pg::Graphics::DeferredRenderer::UnbindFirstPass()
 
 void Pg::Graphics::DeferredRenderer::BindSecondPass()
 {
-	// Build Quad
-	BuildFullscreenQuad();
+	// Bind Quad
+	BindFullscreenQuad();
 
 	// Bind Shaders
 	_secondVS->Bind();
@@ -173,12 +175,9 @@ void Pg::Graphics::DeferredRenderer::UnbindSecondPass()
 
 void Pg::Graphics::DeferredRenderer::BuildFullscreenQuad()
 {
-	GeometryGenerator* tGeometryGenerator = new GeometryGenerator();
+	GeometryGenerator tGeometryGenerator;
 	GeometryGenerator::MeshData_PosNormalTex tMeshData;
-	tGeometryGenerator->GenerateFullscreenQuad(tMeshData);
-
-	ID3D11Buffer* VB;
-	ID3D11Buffer* IB;
+	tGeometryGenerator.GenerateFullscreenQuad(tMeshData);
 
 	// Buffer Description
 	D3D11_BUFFER_DESC VBDesc;
@@ -195,7 +194,7 @@ void Pg::Graphics::DeferredRenderer::BuildFullscreenQuad()
 	VBInitData.SysMemSlicePitch = 0;
 
 	// Create the vertex buffer.
-	HRESULT hr = _DXStorage->_device->CreateBuffer(&VBDesc, &VBInitData, &VB);
+	HRESULT hr = _DXStorage->_device->CreateBuffer(&VBDesc, &VBInitData, &_VB);
 
 	// Buffer Description
 	D3D11_BUFFER_DESC IBDesc;
@@ -212,13 +211,7 @@ void Pg::Graphics::DeferredRenderer::BuildFullscreenQuad()
 	IBInitData.SysMemSlicePitch = 0;
 
 	// Create the Index buffer.
-	hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &IB);
-
-	// Bind Buffers
-	UINT stride = sizeof(GeometryGenerator::GeomVertex_PosNormalTex);
-	UINT offset = 0;
-	_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &VB, &stride, &offset);
-	_DXStorage->_deviceContext->IASetIndexBuffer(IB, DXGI_FORMAT_R32_UINT, 0);
+	hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &_IB);
 }
 
 void Pg::Graphics::DeferredRenderer::ClearGBuffers()
@@ -235,8 +228,8 @@ void Pg::Graphics::DeferredRenderer::BindLightingPass()
 	auto LightingBufferSRV = LightingBuffer->GetSRV();
 	auto LightingBufferRTV = LightingBuffer->GetRTV();
 
-	// Build Quad
-	BuildFullscreenQuad();
+	// Bind Quad
+	BindFullscreenQuad();
 
 	// Bind Shaders
 	// TODO: 라이팅 모델에 따라 쉐이더가 바뀔 수 있어야 한다.
@@ -302,4 +295,13 @@ void Pg::Graphics::DeferredRenderer::UnbindConstantBuffers(std::vector< Constant
 	{
 		_constantBuffers[i]->Unbind(i);
 	}
+}
+
+void Pg::Graphics::DeferredRenderer::BindFullscreenQuad()
+{
+	// Bind Buffers
+	UINT stride = sizeof(GeometryGenerator::GeomVertex_PosNormalTex);
+	UINT offset = 0;
+	_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &_VB, &stride, &offset);
+	_DXStorage->_deviceContext->IASetIndexBuffer(_IB, DXGI_FORMAT_R32_UINT, 0);
 }

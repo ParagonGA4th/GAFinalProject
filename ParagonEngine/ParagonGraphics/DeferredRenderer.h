@@ -51,6 +51,7 @@ namespace Pg::Graphics
 	private:
 
 		void BuildFullscreenQuad();
+		void BindFullscreenQuad();
 	private:
 		std::vector<GBuffer*> _gBuffers;
 		std::vector<ID3D11RenderTargetView*> _RTVs;
@@ -68,6 +69,10 @@ namespace Pg::Graphics
 		
 		VertexShader* _secondVS;
 		PixelShader* _secondPS;
+
+	private:
+		ID3D11Buffer* _VB;
+		ID3D11Buffer* _IB;
 
 	public:
 		std::vector< ConstantBufferBase* > _firstCBs;
