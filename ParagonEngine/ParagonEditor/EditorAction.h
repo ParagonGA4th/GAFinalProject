@@ -42,8 +42,3 @@ namespace Pg::Editor::Core
 		std::unique_ptr<Pg::Editor::Manager::FileManager> _fileManager;
 	};
 }
-
-class EditorAction
-{
-};
-

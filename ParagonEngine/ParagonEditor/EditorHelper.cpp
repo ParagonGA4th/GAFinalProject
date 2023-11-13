@@ -49,3 +49,13 @@ bool Pg::Editor::Helper::EditorHelper::GetEditorOnOff()
 {
 	return _onOff;
 }
+
+void Pg::Editor::Helper::EditorHelper::SetCurrentScene(Pg::Data::Scene* scene)
+{
+	_currentScene = scene;
+}
+
+Pg::Data::Scene* Pg::Editor::Helper::EditorHelper::GetCurrentScene()
+{
+	return _currentScene;
+}

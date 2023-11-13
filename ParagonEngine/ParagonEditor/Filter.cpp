@@ -12,7 +12,7 @@
 namespace fs = std::filesystem;
 
 Pg::Editor::Window::Filter::Filter()
-	:_winName("Project"), _isShow(true), _firstPath("D:\\Test")
+	:_winName("Project"), _isShow(true)
 {
 	auto& tUIManager = singleton<Pg::UI::Manager::UIManager>();
 	_uiManager = &tUIManager;
@@ -31,7 +31,7 @@ void Pg::Editor::Window::Filter::Initialize()
 	// 파일일 경우 각 파일 명에 따라 list 생성 -> selectable 클래스가 string list를 받기 때문
 	// 폴더일 경우 그동안 생성되었던 파일명 list를 selectable에 넘겨준 뒤, treenode 생성
 
-	TestFilter(_firstPath);
+	//TestFilter(_firstPath);
 }
 
 void Pg::Editor::Window::Filter::Update()
@@ -64,29 +64,29 @@ void Pg::Editor::Window::Filter::TestFilter(std::string path)
 
 	bool isAllFile = true;
 
-	for (const auto& file : fs::directory_iterator(path))
-	{
-		fileName = file.path().filename().string();
+	//for (const auto& file : fs::directory_iterator(path))
+	//{
+	//	fileName = file.path().filename().string();
 
-		if (fileName.rfind(".") == std::string::npos)
-		{
-			isAllFile = false;
+	//	if (fileName.rfind(".") == std::string::npos)
+	//	{
+	//		isAllFile = false;
 
-			folderPath = file.path().string();
-			TestFilter(folderPath);
+	//		folderPath = file.path().string();
+	//		TestFilter(folderPath);
 
 
-			if (_firstPath.compare(path) != 0) cons->CreateTreeNodeWidget<Pg::UI::Widget::TreeNode>(fileName.c_str(), cons->GetTreeNodeWidgets());
-			else cons->CreateWidget<Pg::UI::Widget::TreeNode>(fileName.c_str(), cons->GetTreeNodeWidgets());
-	
-			cons->ClearTreeNodeWidget();
-		}
-		else
-		{
-			if(isAllFile) if (fileName.compare(".vs") != 0) fileNames.emplace_back(fileName);
-		}
-	}
+	//		if (_firstPath.compare(path) != 0) cons->CreateTreeNodeWidget<Pg::UI::Widget::TreeNode>(fileName.c_str(), cons->GetTreeNodeWidgets());
+	//		else cons->CreateWidget<Pg::UI::Widget::TreeNode>(fileName.c_str(), cons->GetTreeNodeWidgets());
+	//
+	//		cons->ClearTreeNodeWidget();
+	//	}
+	//	else
+	//	{
+	//		if(isAllFile) if (fileName.compare(".vs") != 0) fileNames.emplace_back(fileName);
+	//	}
+	//}
 
-	if(isAllFile) cons->CreateTreeNodeWidget<Pg::UI::Widget::Selectable>(fileNames);
-	fileNames.clear();
+	//if(isAllFile) cons->CreateTreeNodeWidget<Pg::UI::Widget::Selectable>(fileNames);
+	//fileNames.clear();
 }
