@@ -189,13 +189,11 @@
     <ClInclude Include="ISerializable.h">
       <Filter>9_DataSerializer</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="IRenderObject.h">
       <Filter>2_Component\Renderer\Interface</Filter>
-=======
+	</ClInclude>
     <ClInclude Include="DynamicCollider.h">
       <Filter>2_Component\Collider\DynamicCollider</Filter>
->>>>>>> Graphics
     </ClInclude>
     <ClInclude Include="TextRenderer.h">
       <Filter>2_Component\Renderer\2D\TextRenderer</Filter>
