@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Asset3DModelData.h" />
     <ClInclude Include="Asset3DModelDefine.h" />
     <ClInclude Include="Asset3DModelHelper.h" />
@@ -100,6 +101,7 @@
     <ClInclude Include="LightStructs.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Asset3DModelData.cpp" />
     <ClCompile Include="Asset3DModelDefine.cpp" />
     <ClCompile Include="Asset3DModelHelper.cpp" />

@@ -1,6 +1,10 @@
 #pragma once
 #include "../ParagonMath/PgMath.h"
 #include <DirectXMath.h>
+#include <dxtk/SimpleMath.h>
+#include <assimp/matrix4x4.h>
+#include <assimp/quaternion.h>
+#include <assimp/vector3.h>
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonMath.lib")
@@ -11,6 +15,8 @@
 /// <summary>
 /// 그래픽스 내부에서 수학 처리 등을 위한 헬퍼 클래스.
 /// </summary>
+
+
 
 namespace Pg::Graphics::Helper
 {
@@ -28,6 +34,16 @@ namespace Pg::Graphics::Helper
 		static bool IsEqualXMFloat3X3(DirectX::XMFLOAT3X3 first, DirectX::XMFLOAT3X3 second);
 		static bool IsEqualXMFloat4X4(DirectX::XMFLOAT4X4 first, DirectX::XMFLOAT4X4 second);
 
+		//Assimp의 Matrix를 SimpleMath로 바꿔준다.
+		static DirectX::SimpleMath::Matrix AI2SM_MATRIX(const aiMatrix4x4& mat);
+		static DirectX::SimpleMath::Quaternion AI2SM_QUATERNION(const aiQuaternion& quat);
+		static DirectX::SimpleMath::Vector3 AI2SM_VECTOR3(const aiVector3D& vec);
+		
+
+
+		//Experimental
+		static void DecomposeAssembleMatrix(DirectX::SimpleMath::Matrix& mat);
+		static DirectX::SimpleMath::Quaternion QuaternionSlerpNoFlip(const DirectX::SimpleMath::Quaternion& q1, const DirectX::SimpleMath::Quaternion& q2, float t);
 	};
 }
 
