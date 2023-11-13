@@ -143,7 +143,6 @@ namespace Pg::Graphics
 		assert(_currentScene != nullptr);
 
 		_renderer->Render(_camData);
-
 	}
 
 	void GraphicsMain::EndRender()
@@ -191,9 +190,10 @@ namespace Pg::Graphics
 		return _DXStorage->_deviceContext;
 	}
 
-	void GraphicsMain::SyncComponentToGraphics()
+	void GraphicsMain::SyncComponentToGraphics(const Pg::Data::Scene* const scene)
 	{
-		_renderer->SyncComponentToGraphics();
+		//이 함수가 호출되는 것은 SceneSystem이나 GameEngine 주최로 하게 하고 싶다.
+		_renderer->SyncComponentToGraphics(scene);
 	}
 
 	void GraphicsMain::LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define)
@@ -237,6 +237,11 @@ namespace Pg::Graphics
 		camData->_projMatrix = Pg::Math::PGMatrixPerspectiveFovLH(camData->_fovY, camData->_aspect, camData->_nearZ, camData->_farZ);
 	}
 
+	void GraphicsMain::SyncLoadGraphicsResources()
+	{
+		TempResourceMeshLoad();
+	}
+
 	void GraphicsMain::TempResourceMeshLoad()
 	{
 		std::string tFilePath;
@@ -255,10 +260,4 @@ namespace Pg::Graphics
 		//_tempMultiMesh = new MultimaterialMesh(tFilePath);
 		//_tempMultiMesh->Initialize();
 	}
-
-	void GraphicsMain::SyncLoadGraphicsResources()
-	{
-		TempResourceMeshLoad();
-	}
-
 }
