@@ -4,7 +4,7 @@
 
 namespace Pg::Graphics
 {
-	struct CubeMapCB : CBDataBase
+	struct CubeMapCB : Pg::Graphics::CBDataBase
 	{
 		float4x4 worldViewProjMatrix;
 	};
@@ -21,8 +21,12 @@ namespace Pg::Graphics
 	class Cubemap : public RenderableObject
 	{
 	public:
+		Cubemap();
+		~Cubemap();
+
+	public:
 		virtual void Initialize() override;
-		virtual void Draw() override;
+		virtual void Render() override;
 
 	protected:
 		virtual void BuildBuffers() override;

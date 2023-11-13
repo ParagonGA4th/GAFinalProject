@@ -9,15 +9,18 @@
 #ifdef _DEBUG
 #define PG_1ST_STATIC_SHADER_PATH	L"..\\Builds\\x64\\Debug\\FirstStatic_VS.cso"
 #define PG_1ST_SKINNED_SHADER_PATH	L"..\\Builds\\x64\\Debug\\FirstSkinned_VS.cso"
+#define PG_2ND_SHADER_PATH	L"..\\Builds\\x64\\Debug\\SecondStage_VS.cso"
 #else
 #define PG_1ST_STATIC_SHADER_PATH	L"..\\Builds\\x64\\Release\\FirstStatic_VS.cso"
 #define PG_1ST_SKINNED_SHADER_PATH	L"..\\Builds\\x64\\Release\\FirstSkinned_VS.cso"
+#define PG_2ND_SHADER_PATH	L"..\\Builds\\x64\\Release\\SecondStage_VS.cso"
 #endif // _DEBUG
 
 namespace Pg::Graphics
 {
 	ID3D11InputLayout* LayoutDefine::_static1stLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_skinned1stLayout = nullptr;
+	ID3D11InputLayout* LayoutDefine::_2ndLayout = nullptr;
 
 	void LayoutDefine::Initialize()
 	{
@@ -74,6 +77,20 @@ namespace Pg::Graphics
 		// Static Mesh ÀÎÇ² ·¹ÀÌ¾Æ¿ô ¸¸µé±â.
 		hr = tD3DDevice->CreateInputLayout(vin1stSkinnedDesc, ARRAYSIZE(vin1stSkinnedDesc), tSkinned1stByteCode->GetBufferPointer(),
 			tSkinned1stByteCode->GetBufferSize(), &_skinned1stLayout);
+
+		//SecondStage_VS.cso
+		ID3DBlob* t2ndByteCode = nullptr;
+		hr = D3DReadFileToBlob(PG_2ND_SHADER_PATH, &(t2ndByteCode));
+		if (FAILED(hr)) { assert(false); }
+
+		D3D11_INPUT_ELEMENT_DESC quadDesc[] =
+		{
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		};
+
+		hr = tD3DDevice->CreateInputLayout(quadDesc, ARRAYSIZE(quadDesc), t2ndByteCode->GetBufferPointer(), t2ndByteCode->GetBufferSize(), &_2ndLayout);
 	}
 
 	ID3D11InputLayout* LayoutDefine::GetStatic1stLayout()
@@ -86,6 +103,10 @@ namespace Pg::Graphics
 		return _skinned1stLayout;
 	}
 
+	ID3D11InputLayout* LayoutDefine::Get2ndLayout()
+	{
+		return _2ndLayout;
+	}
 
 	LayoutDefine::Vin1stStatic::Vin1stStatic(DirectX::XMFLOAT3 posVal) :
 		posL(posVal), normalL( 0.0f, 0.0f,0.0f ), tangentL( 0.0f, 0.0f,0.0f ),

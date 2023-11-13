@@ -24,6 +24,7 @@ namespace Pg::Graphics
 #endif // DEBUG
 
 
+		// TODO: Feature Level 설정
 		// D3D11 Device 생성
 		hr = D3D11CreateDevice(
 			NULL,															// [in, optional]	IDXGIAdapter				*pAdapter
@@ -85,6 +86,14 @@ namespace Pg::Graphics
 
 		hr = _DXStorage->_device->CreateRenderTargetView(_DXStorage->_backBuffer, nullptr, &(_DXStorage->_mainRTV));
 
+		if (hr != S_OK)
+		{
+			return hr;
+		}
+
+		// TODO: 메인렌더타겟 SRV 생성 및 쿼드로 출력하기
+		//hr = _DXStorage->_device->CreateShaderResourceView(_DXStorage->_backBuffer, &_DXStorage->_shaderResourceViewDesc, &_DXStorage->_mainRTSRV);
+		
 		return hr;
 	}
 
@@ -101,6 +110,7 @@ namespace Pg::Graphics
 
 		// Depth-Stencil Buffer 생성
 		hr = _DXStorage->_device->CreateTexture2D(&(_DXStorage->_bufferDesc), NULL, &(_DXStorage->_depthStencilBuffer));
+		hr = _DXStorage->_device->CreateTexture2D(&(_DXStorage->_bufferDesc), NULL, &(_DXStorage->_tempDepthStencilBuffer));
 
 		if (hr != S_OK)
 			return hr;
@@ -117,6 +127,12 @@ namespace Pg::Graphics
 		// (depth-stencil state는 OM 스테이지에 depth-stencil 테스트를 수행하는 방법을 전달한다)
 		_DXStorage->_device->CreateDepthStencilState(&(_DXStorage->_depthStencilDesc), &(_DXStorage->_depthStencilState));
 
+		_DXStorage->_depthStencilDesc.DepthEnable = true;
+		_DXStorage->_depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+		_DXStorage->_depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+		_DXStorage->_device->CreateDepthStencilState(&(_DXStorage->_depthStencilDesc), &(_DXStorage->_2ndPassDepthStencilState));
+
 		//// Depth-Stencil View 생성
 		//// (Resource로 View를 생성해야 파이프라인에 바인드할 수 있다)
 
@@ -125,6 +141,7 @@ namespace Pg::Graphics
 		_DXStorage->_depthStencilViewDesc.Flags = 0;
 
 		hr = _DXStorage->_device->CreateDepthStencilView(_DXStorage->_depthStencilBuffer, &(_DXStorage->_depthStencilViewDesc), &(_DXStorage->_depthStencilView));
+		//hr = _DXStorage->_device->CreateDepthStencilView(_DXStorage->_depthStencilBuffer, &(_DXStorage->_depthStencilViewDesc), &(_DXStorage->_secondPassDepthStencilView));
 
 		if (hr != S_OK)
 			return hr;
@@ -149,7 +166,7 @@ namespace Pg::Graphics
 		_DXStorage->_solidDesc.FillMode = D3D11_FILL_SOLID;
 		_DXStorage->_solidDesc.CullMode = D3D11_CULL_BACK;
 		_DXStorage->_solidDesc.FrontCounterClockwise = false;
-		_DXStorage->_solidDesc.DepthClipEnable = true;
+		_DXStorage->_solidDesc.DepthClipEnable = false;
 
 		hr = _DXStorage->_device->CreateRasterizerState(&(_DXStorage->_solidDesc), &(_DXStorage->_solidState));
 
@@ -168,7 +185,7 @@ namespace Pg::Graphics
 		return hr;
 	}
 
-	void LowDX11Logic::SetRasterizerrStates(ID3D11RasterizerState* rasterizerState)
+	void LowDX11Logic::SetRasterizerStates(ID3D11RasterizerState* rasterizerState)
 	{
 		_DXStorage->_deviceContext->RSSetState(rasterizerState);
 
@@ -187,32 +204,6 @@ namespace Pg::Graphics
 
 		// Viewport 지정
 		_DXStorage->_deviceContext->RSSetViewports(1, &viewport);
-	}
-
-	void LowDX11Logic::PrepareRenderTargets()
-	{
-		// Set Depth Stencil State
-		_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_depthStencilState, 0);
-
-		// Clear Main RTV and DSV
-		_DXStorage->_deviceContext->ClearRenderTargetView(_DXStorage->_mainRTV, _DXStorage->_backgroundColor);
-		_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-	}
-
-	void LowDX11Logic::BindRenderTargets()
-	{
-
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
-	}
-
-	void LowDX11Logic::UnbindRenderTargets()
-	{
-		// TODO: null RTV 바인딩
-	}
-
-	void LowDX11Logic::Draw()
-	{
-		
 	}
 
 	void LowDX11Logic::Present()
@@ -236,6 +227,43 @@ namespace Pg::Graphics
 		static LowDX11Logic* tInstance = new LowDX11Logic();
 
 		return tInstance;
+	}
+
+	HRESULT LowDX11Logic::CreateSamplerStates()
+	{
+		D3D11_SAMPLER_DESC tDesc;
+
+		tDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+		tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+		tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+		tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+		tDesc.MipLODBias = 0.0f;
+		tDesc.MaxAnisotropy = 1;
+
+		hr = _DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_defaultSamplerState));
+	
+		return hr;
+	}
+
+	HRESULT LowDX11Logic::CreateBlendState()
+	{
+		D3D11_BLEND_DESC tDesc ;
+
+		for (auto& e : tDesc.RenderTarget)
+		{
+			e.BlendEnable = true;
+			e.SrcBlend = D3D11_BLEND_ONE;
+			e.DestBlend = D3D11_BLEND_ZERO;
+			e.BlendOp = D3D11_BLEND_OP_ADD;
+			e.SrcBlendAlpha = D3D11_BLEND_ONE;
+			e.DestBlendAlpha = D3D11_BLEND_ZERO;
+			e.BlendOpAlpha = D3D11_BLEND_OP_ADD;
+			e.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		}
+
+		hr = _DXStorage->_device->CreateBlendState(&tDesc, &(_DXStorage->_blendState));
+
+		return hr;
 	}
 
 }

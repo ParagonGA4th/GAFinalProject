@@ -38,6 +38,9 @@ namespace Pg::Core
 		//그래픽스 초기화.
 		void InitializeGraphics(void* hwnd, int screenWidth, int screenHeight);
 
+		//그래픽스 리소스, 애셋 매니저와 연동.
+		void SyncLoadGraphicsResources();
+		
 		//Engine Update.
 		void UpdateEngine();
 

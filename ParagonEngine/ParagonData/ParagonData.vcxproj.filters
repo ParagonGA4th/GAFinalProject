@@ -189,8 +189,13 @@
     <ClInclude Include="ISerializable.h">
       <Filter>9_DataSerializer</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="IRenderObject.h">
       <Filter>2_Component\Renderer\Interface</Filter>
+=======
+    <ClInclude Include="DynamicCollider.h">
+      <Filter>2_Component\Collider\DynamicCollider</Filter>
+>>>>>>> Graphics
     </ClInclude>
     <ClInclude Include="TextRenderer.h">
       <Filter>2_Component\Renderer\2D\TextRenderer</Filter>
@@ -304,9 +309,6 @@
     </Filter>
     <Filter Include="2_Component\Collider\DynamicCollider">
       <UniqueIdentifier>{51a8fda0-dcc5-41de-89fd-93a38be98935}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Renderer\Interface">
-      <UniqueIdentifier>{7d25301b-51ab-4c08-accc-0c07a0c640ec}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Component\Renderer\3D">
       <UniqueIdentifier>{fd84d26f-d4c3-4172-9049-9d0100a57e05}</UniqueIdentifier>

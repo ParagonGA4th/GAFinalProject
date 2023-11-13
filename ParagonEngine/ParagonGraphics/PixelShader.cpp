@@ -2,9 +2,9 @@
 
 #include "LowDX11Storage.h"
 
-Pg::Graphics::PixelShader::PixelShader(LowDX11Storage* storage, std::wstring CSOFilePath)
-	: RenderShader(CSOFilePath)
+Pg::Graphics::PixelShader::PixelShader(Pg::Data::Enums::eAssetDefine define, const std::string& filePath) : RenderShader(define, filePath)
 {
+	_DXStorage = LowDX11Storage::GetInstance();
 	CreateShader();
 }
 

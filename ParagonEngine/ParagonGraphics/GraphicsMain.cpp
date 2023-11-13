@@ -75,20 +75,9 @@ namespace Pg::Graphics
 		delete _tempObj;
 	}
 
-	float time = 0.0f;
-	Pg::Graphics::Sprite* sprite;
-	Pg::Graphics::Sprite* sprite2;
+	const float cameraSpeed = 10.0f;
 	Pg::Graphics::Sprite* tempEditorCamSprite;
 	Pg::Graphics::Sprite* tempGameCamSprite;
-	Pg::Graphics::Font* font;
-	std::wstring text;
-
-	Grid* grid;
-	Axis* axis;
-
-	Cubemap* cubemap;
-
-	const float cameraSpeed = 100.0f;
 
 	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
 	{
@@ -99,21 +88,31 @@ namespace Pg::Graphics
 		_DXStorage->_screenHeight = screenHeight;
 
 		hr = _DXLogic->CreateDevice();
-		
+
 		hr = _DXLogic->CreateSwapChain(screenWidth, screenHeight);
 		hr = _DXLogic->CreateMainRenderTarget();
 
 		hr = _DXLogic->CreateDepthStencilViewAndState();
-		
+
 		hr = _DXLogic->CreateRasterizerStates();
-		_DXLogic->SetRasterizerrStates(_DXStorage->_solidState);
-		
+
+		hr = _DXLogic->CreateSamplerStates();
+
+		hr = _DXLogic->CreateBlendState();
+
 		_DXLogic->CreateAndSetViewports();
 
 		//Default Input Layout 세팅.
 		LayoutDefine::Initialize();
 
-		BasicRendersInitialize();
+		_renderer->Initialize();
+
+		//BasicRendersInitialize();
+		tempEditorCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/EditorCamDummy.dds");
+		tempEditorCamSprite->SetPosition(100.0f, 200.0f);
+
+		tempGameCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/GameCamDummy.dds");
+		tempGameCamSprite->SetPosition(400.0f, 200.0f);
 	}
 
 
@@ -123,41 +122,6 @@ namespace Pg::Graphics
 		FillCamDataProjection(cameraData);
 		this->_camData = cameraData;
 
-		float dt = deltaTime;
-		time += dt;
-
-		// 디버그 정보 출력
-		text = L"";
-		text.append(L"DeltaTime: " + std::to_wstring(dt) + L"\n");
-		text.append(L"Time: " + std::to_wstring(time) + L" sec" + L"\n");
-
-		float tFrameRate = -1.0f;
-		if (dt > std::numeric_limits<float>::epsilon())
-		{
-			tFrameRate = static_cast<double>(1) / dt;
-		}
-
-		text.append(L"FPS: " + std::to_wstring(tFrameRate) + L"\n");
-		//text.append(L"Look Vector: (" + std::to_wstring(_camera->GetLook().x) + L", " + std::to_wstring(_camera->GetLook().y) + L", " + std::to_wstring(_camera->GetLook().z) + L")\n");
-		text.append(L"Engine Cam Pos : " + std::to_wstring(cameraData->_position.x) + L", " + std::to_wstring(cameraData->_position.y) + L", " + std::to_wstring(cameraData->_position.z) + L")\n");
-		Pg::Math::PGFLOAT3 tEulerCamRot = Pg::Math::PGQuaternionToEuler(cameraData->_rotation);
-		tEulerCamRot.x = Pg::Math::PGConvertToDegrees(tEulerCamRot.x);
-		tEulerCamRot.y = Pg::Math::PGConvertToDegrees(tEulerCamRot.y);
-		tEulerCamRot.z = Pg::Math::PGConvertToDegrees(tEulerCamRot.z);
-		text.append(L"Cam Rotation Euler Degrees: " + std::to_wstring(tEulerCamRot.x) + L", " + std::to_wstring(tEulerCamRot.y) + L", " + std::to_wstring(tEulerCamRot.z) + L")\n");
-		text.append(L"Cam Rotation Quaternion: " + std::to_wstring(cameraData->_rotation.w) + L", " + std::to_wstring(cameraData->_rotation.x) + L", " + std::to_wstring(cameraData->_rotation.y) + L", " + std::to_wstring(cameraData->_rotation.z) + L")\n");
-
-		font->SetText(text);
-		BasicRendersConstantBufferLoad();
-
-		static bool tOnce = false;
-		if (!tOnce)
-		{
-			//MultiMaterial Mesh 테스팅.
-			TempResourceMeshLoad();
-
-			tOnce = true;
-		}
 	}
 
 	void GraphicsMain::BeginRender()
@@ -165,7 +129,7 @@ namespace Pg::Graphics
 		_renderer->BeginRender();
 	}
 
-	
+
 	void GraphicsMain::Render(Pg::Data::Scene* scene)
 	{
 		//렌더하기 전에 Scene이 바뀌었는지 체크.
@@ -173,16 +137,13 @@ namespace Pg::Graphics
 		{
 			//새로 Scene이 바뀌었을 경우 RenderObject 구성을 바꾼다.
 			//나중에는 Load 로직이 별도로 들어가야.
-			_renderer->OnNewSceneStart(scene);
+			_renderer->ParseSceneData(scene);
 			_currentScene = scene;
 		}
 		assert(_currentScene != nullptr);
-		BasicRendersDraw();
 
 		_renderer->Render(_camData);
 
-		//MultiMaterial Mesh 테스팅.
-		_tempMultiMesh->Draw(_camData);
 	}
 
 	void GraphicsMain::EndRender()
@@ -216,6 +177,8 @@ namespace Pg::Graphics
 		hr = _DXLogic->CreateMainRenderTarget();
 		hr = _DXLogic->CreateDepthStencilViewAndState();
 		_DXLogic->CreateAndSetViewports();
+		// TODO: 쿼드 사이즈 변경 후 재할당 로직도 들어가야 함
+	
 	}
 
 	ID3D11Device* GraphicsMain::GetDevice()
@@ -274,155 +237,12 @@ namespace Pg::Graphics
 		camData->_projMatrix = Pg::Math::PGMatrixPerspectiveFovLH(camData->_fovY, camData->_aspect, camData->_nearZ, camData->_farZ);
 	}
 
-	void GraphicsMain::BasicRendersConstantBufferLoad()
-	{
-		//Constant Buffer Loading
-		/// 상수 버퍼 채우기
-		///
-		// TODO: PgMath로 교체
-		using namespace DirectX;
-		//using namespace Pg::Math;
-		// 
-		// 월드 행렬
-		float4x4 worldMatrix = XMMATRIX(XMMatrixIdentity());
-
-		//Grid 출력
-		grid->_cbData.worldMatrix = XMMATRIX(XMMatrixIdentity());
-		std::memcpy(&(grid->_cbData.viewMatrix), &(_camData->_viewMatrix), sizeof(Pg::Math::PGFLOAT4X4));
-		std::memcpy(&(grid->_cbData.projectionMatrix), &(_camData->_projMatrix), sizeof(Pg::Math::PGFLOAT4X4));
-		DirectX::XMMATRIX tViewProj = DirectX::XMMatrixMultiply(grid->_cbData.viewMatrix, grid->_cbData.projectionMatrix);
-		std::memcpy(&(grid->_cbData.viewProjMatrix), &(tViewProj), sizeof(Pg::Math::PGFLOAT4X4));
-
-		worldMatrix *= XMMatrixRotationX(time);
-		worldMatrix *= XMMatrixRotationY(time);
-		worldMatrix *= XMMatrixRotationZ(time);
-
-		worldMatrix *= XMMatrixScaling(1.0f, 1.0f, 1.0f);
-		worldMatrix *= XMMatrixTranslation(0.0f, 0.0f, 0.0f);
-
-		//_box->_cbData.worldMatrix = worldMatrix;
-		//std::memcpy(&(_box->_cbData.viewMatrix), &(_camData->_viewMatrix), sizeof(Pg::Math::PGFLOAT4X4));
-		//std::memcpy(&(_box->_cbData.projectionMatrix), &(_camData->_projMatrix), sizeof(Pg::Math::PGFLOAT4X4));
-		//_box->_cbData.viewProjMatrix = tViewProj;
-		//std::memcpy(&(_box->_cbData.eyePos), &(_camData->_position), sizeof(Pg::Math::PGFLOAT3));
-
-		cubemap->_cbData.worldMatrix = XMMatrixTranslation(_camData->_position.x, _camData->_position.y, _camData->_position.z);
-		std::memcpy(&(cubemap->_cbData.viewMatrix), &(_camData->_viewMatrix), sizeof(Pg::Math::PGFLOAT4X4));
-		std::memcpy(&(cubemap->_cbData.projectionMatrix), &(_camData->_projMatrix), sizeof(Pg::Math::PGFLOAT4X4));
-		cubemap->_cbData.viewProjMatrix = tViewProj;
-		cubemap->_cbData.worldViewProjMatrix = tViewProj * XMMATRIX(XMMatrixIdentity());
-	}
-
-	void GraphicsMain::BasicRendersDraw()
-	{
-
-		// 카메라 행렬
-
-		//하드코딩된 리소스들.
-		cubemap->Draw();
-		//
-		//// test용 큐브 그리기
-		//_box->Draw();
-		//// Grid
-		grid->Draw();
-		//// Axis
-		axis->Draw();
-		//
-		//// test 스프라이트 그리기
-		sprite->Draw();
-		sprite2->Draw();
-		//
-		//// test 폰트 그리기
-		font->Draw();
-		//
-		//// test용 큐브 그리기
-		//_box->Draw();
-	}
-
-	void GraphicsMain::BasicRendersInitialize()
-	{
-		D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
-		{
-			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}//,
-			//{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
-		};
-
-		VertexShader* BoxVertexShader = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
-		PixelShader* BoxPixelShader = new PixelShader(_DXStorage, L"../Builds/x64/debug/PixelShader.cso");
-
-		// Grid
-		grid = new Grid();
-		grid->Initialize();
-
-		// Axis
-		axis = new Axis();
-		axis->Initialize();
-
-		// TODO: TestBox와 Grid, Axis 모두 같은 InputLayout을 사용하고 있다...
-		VertexShader* helperVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/VertexShader.cso", vertexDesc);
-		helperVS->AssignConstantBuffer(&(grid->_cbData));
-
-		grid->AssignVertexShader(helperVS);
-		grid->AssignPixelShader(BoxPixelShader);
-
-		axis->AssignVertexShader(helperVS);
-		axis->AssignPixelShader(BoxPixelShader);
-
-		// Cubemap
-		D3D11_INPUT_ELEMENT_DESC CubemapvertexDesc[] =
-		{
-			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
-		};
-
-		//DXMesh Testing, 임시
-		uint32_t tOffsets[D3D11_IA_VERTEX_INPUT_STRUCTURE_ELEMENT_COUNT];
-		uint32_t tStrides[D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT];
-		ComputeInputLayout(CubemapvertexDesc, std::size(CubemapvertexDesc), tOffsets, tStrides);
-
-		VertexShader* CubemapVS = new VertexShader(_DXStorage, L"../Builds/x64/debug/CubemapVS.cso", CubemapvertexDesc);
-		PixelShader* CubemapPS = new PixelShader(_DXStorage, L"../Builds/x64/debug/CubemapPS.cso");
-
-		cubemap = new Cubemap();
-		cubemap->Initialize();
-
-		CubemapVS->AssignConstantBuffer(&(cubemap->_cbData));
-		cubemap->AssignVertexShader(CubemapVS);
-		cubemap->AssignPixelShader(CubemapPS);
-
-
-		// Camera
-		//_camera = new TempCamera(float3(0.0f, 3.0f, -10.0f));
-		//_camera->SetLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
-
-		// 2DSprite
-		sprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/cats.dds");
-		sprite->SetPosition(0.0f, 0.0f);
-
-		sprite2 = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/rabbits.dds");
-		sprite2->SetPosition(0.0f, 200.0f);
-
-		// Font
-		font = new Font();
-		font->SetPosition(10.0f, 410.0f);
-		font->SetText(L"");
-
-		//현재로서는 명시적으로 Editor를 위해 사진으로 SRV를 만들어 넘겨주지만, 나중에는 바뀌어야 한다! (실제 렌더되는 카메라 화면으로)
-		//실제 Sprite로서 활용 X, DDS만 금방 만들기 위해서!
-		tempEditorCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/EditorCamDummy.dds");
-		tempEditorCamSprite->SetPosition(100.0f, 200.0f);
-
-		tempGameCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/GameCamDummy.dds");
-		tempGameCamSprite->SetPosition(400.0f, 200.0f);
-	}
-
 	void GraphicsMain::TempResourceMeshLoad()
 	{
 		std::string tFilePath;
 		//고정된 File Path ( == AssetManager에서 이미 로딩된 경로가 있어야 작동하므로, 하드코딩했음.)
 		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx";
-		tFilePath = "../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx";
+		//tFilePath = "../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx";
 		//tFilePath = "../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx";
 		//tFilePath = "../Resources/3DModels/TexturedMultiCubes/TMultiCube_test002.fbx";
 		//tFilePath = "../Resources/3DModels/MultiMatMesh/diffuseonly.fbx";
@@ -432,8 +252,13 @@ namespace Pg::Graphics
 		//tFilePath = "../Resources/3DModels/Banana.fbx";
 
 		//MultiMaterial Mesh 테스팅.
-		_tempMultiMesh = new MultimaterialMesh(tFilePath);
-		_tempMultiMesh->Initialize();
+		//_tempMultiMesh = new MultimaterialMesh(tFilePath);
+		//_tempMultiMesh->Initialize();
+	}
+
+	void GraphicsMain::SyncLoadGraphicsResources()
+	{
+		TempResourceMeshLoad();
 	}
 
 }

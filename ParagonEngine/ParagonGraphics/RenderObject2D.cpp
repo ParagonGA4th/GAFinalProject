@@ -19,12 +19,4 @@ namespace Pg::Graphics
 	{
 
 	}
-
-	void RenderObject2D::Render()
-	{
-
-	}
-
-
-
 }

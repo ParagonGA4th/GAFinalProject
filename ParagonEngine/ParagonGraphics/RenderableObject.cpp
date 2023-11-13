@@ -23,12 +23,17 @@ void Pg::Graphics::RenderableObject::Initialize()
 	BindBuffers();
 }
 
-void Pg::Graphics::RenderableObject::Update(float time)
+void Pg::Graphics::RenderableObject::Render(float time)
 {
 
 }
 
-void Pg::Graphics::RenderableObject::Draw()
+void Pg::Graphics::RenderableObject::Render(Pg::Data::Transform& transform, Pg::Data::CameraData& camData)
+{
+
+}
+
+void Pg::Graphics::RenderableObject::Render()
 {
 
 }
@@ -49,9 +54,14 @@ void Pg::Graphics::RenderableObject::BindShaders()
 	_pixelShader->Bind();
 
 	// Bind Constant Buffers
-	for (auto& cb : _vertexShader->_constantBuffers)
+	for (int i = 0; i < _constantBuffers.size(); ++i)
 	{
-		cb->UpdateAndBind();
+		_constantBuffers[i]->Update(i);
+	}
+
+	for (int i = 0; i < _constantBuffers.size(); ++i)
+	{
+		_constantBuffers[i]->Bind(i);
 	}
 	
 	// Bind Shader Resources
@@ -63,6 +73,12 @@ void Pg::Graphics::RenderableObject::BindShaders()
 
 void Pg::Graphics::RenderableObject::UnbindShaders()
 {
+
+	for (int i = 0; i < _constantBuffers.size(); ++i)
+	{
+		_constantBuffers[i]->Unbind(i);
+	}
+
 	_vertexShader->UnBind();
 	_pixelShader->UnBind();
 }

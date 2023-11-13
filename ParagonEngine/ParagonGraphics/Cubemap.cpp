@@ -110,14 +110,15 @@ void Pg::Graphics::Cubemap::BindBuffers()
 	_DXStorage->_deviceContext->IASetIndexBuffer(IB, DXGI_FORMAT_R32_UINT, 0);
 }
 
-void Pg::Graphics::Cubemap::Draw()
+void Pg::Graphics::Cubemap::Render()
 {
 	BindInputLayout();
 	BindShaders();
 
 	BindBuffers();
 
-	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), (_DXStorage->_depthStencilView));
+	_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidState);
+	
 	_DXStorage->_deviceContext->DrawIndexed(36, 0, 0);
 
 	UnbindShaders();
@@ -130,4 +131,15 @@ void Pg::Graphics::Cubemap::Initialize()
 	BindBuffers();
 
 	SetTexture(L"../Resources/Textures/room.dds");
+}
+
+Pg::Graphics::Cubemap::Cubemap()
+	:RenderableObject()
+{
+
+}
+
+Pg::Graphics::Cubemap::~Cubemap()
+{
+
 }
