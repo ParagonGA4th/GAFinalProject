@@ -5,6 +5,7 @@
 #include <string>
 #include <shobjidl.h>
 
+namespace Pg::Editor::Helper { class EditorHelper; }
 namespace Pg::Data
 {
 	class GameObject;
@@ -21,6 +22,8 @@ namespace Pg::Editor::Manager
 		void FileOpen();
 		bool FileSave();
 
+		std::vector<Pg::Data::Scene*> GetSceneData();
+
 	private:
 		// Get File Data
 		std::string GetOpenFilePath();
@@ -34,6 +37,7 @@ namespace Pg::Editor::Manager
 		void DataDeserialize(pugi::xml_node node, int sceneNumber);
 
 	private:
+		Pg::Editor::Helper::EditorHelper* _edHepler;
 		std::string _projectPath;
 
 		// 탐색기 파일 필터 설정을 위한 변수

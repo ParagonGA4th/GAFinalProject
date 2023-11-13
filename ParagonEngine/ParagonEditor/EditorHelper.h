@@ -3,6 +3,8 @@
 struct ID3D11Device;
 struct ID3D11DeviceContext;
 
+namespace Pg::Data { class Scene; }
+
 namespace Pg::Editor::Helper
 {
 	class EditorHelper
@@ -23,6 +25,9 @@ namespace Pg::Editor::Helper
 		void SetEditorOnOff(bool onoff);
 		bool GetEditorOnOff();
 
+		void SetCurrentScene(Pg::Data::Scene* scene);
+		Pg::Data::Scene* GetCurrentScene();
+
 	private:
 		ID3D11Device* _device;
 		ID3D11DeviceContext* _deviceContext;
@@ -31,5 +36,7 @@ namespace Pg::Editor::Helper
 		void* _gameTexture;
 
 		bool _onOff;
+
+		Pg::Data::Scene* _currentScene;
 	};
 }

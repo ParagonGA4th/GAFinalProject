@@ -33,7 +33,6 @@ namespace Pg::Editor::Window
 		Pg::UI::WidgetContainer* cons;
 
 		/// Data Value
-		std::string _firstPath;
 	};
 }
 

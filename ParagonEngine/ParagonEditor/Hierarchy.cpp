@@ -1,17 +1,22 @@
 #include "Hierarchy.h"
+#include "EditorHelper.h"
+
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
-#include <singleton-cpp/singleton.h>
-
 #include "../ParagonUI/Selectable.h"
+#include "../ParagonData/Scene.h"
 
 #include <vector>
+#include <singleton-cpp/singleton.h>
 
 Pg::Editor::Window::Hierarchy::Hierarchy()
 	:_winName("Hierarchy"), _isShow(true)
 {
 	auto& tUIManager = singleton<Pg::UI::Manager::UIManager>();
 	_uiManager = &tUIManager;
+
+	auto& tEditorHelper = singleton<Pg::Editor::Helper::EditorHelper>();
+	_edHepler = &tEditorHelper;
 
 	cons = new Pg::UI::WidgetContainer();
 }
@@ -23,13 +28,16 @@ Pg::Editor::Window::Hierarchy::~Hierarchy()
 
 void Pg::Editor::Window::Hierarchy::Initialize()
 {
-	std::vector<std::string> test;
+	std::vector<std::string> objName;
+	if (_edHepler->GetCurrentScene() != NULL)
+	{
+		for (auto i : _edHepler->GetCurrentScene()->GetObjectList())
+		{
+			objName.emplace_back(i->GetName());
+		}
+	}
 
-	test.push_back("TestObj_1");
-	test.push_back("TestObj_2");
-	test.push_back("TestObj_3");
-
-	cons->CreateWidget<Pg::UI::Widget::Selectable>(test);
+	cons->CreateWidget<Pg::UI::Widget::Selectable>(objName);
 }
 
 void Pg::Editor::Window::Hierarchy::Update()

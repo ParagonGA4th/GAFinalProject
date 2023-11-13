@@ -1,15 +1,19 @@
 #include "FileManager.h"
-
+#include "EditorHelper.h"
 #include "../ParagonData/Serializer.h"
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
 
 #include <cassert>
+#include <singleton-cpp/singleton.h>
 
 using Pg::Data::Serialize::Serializer;
 
 void Pg::Editor::Manager::FileManager::Initialize()
 {
+	auto& tEditorHelper = singleton<Pg::Editor::Helper::EditorHelper>();
+	_edHepler = &tEditorHelper;
+	
 	// 파일 필터 설정
 	fileTypes[0] = { L"Pragon Project", L"*.pgproject" };
 	fileTypes[1] = { L"Pragon Scene", L"*.pgscene" };
@@ -22,7 +26,8 @@ void Pg::Editor::Manager::FileManager::FileOpen()
 {
 	std::string openFileFullPath = GetOpenFilePath();
 
-	if (!openFileFullPath.empty()) FileLoad(openFileFullPath);	
+	if (!openFileFullPath.empty()) FileLoad(openFileFullPath);
+	if(_scenes.size() > 0) _edHepler->SetCurrentScene(_scenes.at(0));
 }
 
 bool Pg::Editor::Manager::FileManager::FileSave()
@@ -30,6 +35,11 @@ bool Pg::Editor::Manager::FileManager::FileSave()
 	std::string saveFileFullPath = GetSaveFilePath();
 
 	return true;
+}
+
+std::vector<Pg::Data::Scene*> Pg::Editor::Manager::FileManager::GetSceneData()
+{
+	return _scenes;
 }
 
 std::string Pg::Editor::Manager::FileManager::GetOpenFilePath()
@@ -130,7 +140,7 @@ void Pg::Editor::Manager::FileManager::FileLoad(std::string path)
 		_scenes.push_back(new Pg::Data::Scene(path));
 
 		pugi::xml_node rootNode = doc.child("scene");
-		DataDeserialize(rootNode.first_child(), _scenes.size()- 1);
+		DataDeserialize(rootNode.first_child(), _scenes.size() - 1);
 	}
 }
 
@@ -148,7 +158,36 @@ void Pg::Editor::Manager::FileManager::DataDeserialize(pugi::xml_node node, int 
 
 		for (pugi::xml_node component = comps.first_child(); component; component = comps.next_sibling())
 		{
+			std::string typeName = typeid(Pg::Data::Transform).name();
 
+			if (typeName == Serializer::DeserializeString(&component, "type"))
+			{
+				pugi::xml_node trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "position"; });
+
+				obj->_transform.SetPosition
+				(
+					Serializer::DeserializeFloat(&trans, "x"),
+					Serializer::DeserializeFloat(&trans, "y"),
+					Serializer::DeserializeFloat(&trans, "z")
+				);
+
+				trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "rotation"; });
+				obj->_transform.SetRotation
+				(
+					Serializer::DeserializeFloat(&trans, "W"),
+					Serializer::DeserializeFloat(&trans, "x"),
+					Serializer::DeserializeFloat(&trans, "y"),
+					Serializer::DeserializeFloat(&trans, "z")
+				);
+
+				trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "scale"; });
+				obj->_transform.SetScale
+				(
+					Serializer::DeserializeFloat(&trans, "x"),
+					Serializer::DeserializeFloat(&trans, "y"),
+					Serializer::DeserializeFloat(&trans, "z")
+				);
+			}
 		}
 	}
 }
