@@ -30,7 +30,7 @@ namespace Pg::Graphics
 		HRESULT hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _normal->GetFilePath().c_str(), &_normal->GetResource(), &_normal->GetSRV());
 
 		_diffuse = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, "../Resources/Textures/tw_diffuse.png");
-		hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _normal->GetFilePath().c_str(), &_normal->GetResource(), &_normal->GetSRV());
+		//hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _diffuse->GetFilePath().c_str(), &_diffuse->GetResource(), &_diffuse->GetSRV());
 		
 
 	}

@@ -18,7 +18,7 @@ Pg::Graphics::RenderObjectLightList::RenderObjectLightList()
 	auto& tInputSystem = singleton<Pg::API::Input::PgInput>();
 	_input = &tInputSystem;
 
-	_lightingData.bufferToRender = 7;
+	_lightingData.bufferToRender = 6;
 }
 
 void Pg::Graphics::RenderObjectLightList::ParseLights(Pg::Data::Transform* transform, Pg::Data::Light* lightComponent)
