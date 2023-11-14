@@ -34,9 +34,6 @@
     <ClInclude Include="DebugSystem.h">
       <Filter>2_System\DebugSystem</Filter>
     </ClInclude>
-    <ClInclude Include="DebugData.h">
-      <Filter>2_System\DebugSystem</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">

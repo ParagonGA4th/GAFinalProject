@@ -169,7 +169,6 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="DebugData.h" />
     <ClInclude Include="DebugSystem.h" />
     <ClInclude Include="EditorCameraScript.h" />
     <ClInclude Include="EngineDLLExporter.h" />
