@@ -97,6 +97,7 @@ void Pg::Graphics::DeferredRenderer::BindFirstPass()
 
 	_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidState);
 	_DXStorage->_deviceContext->PSSetShaderResources(0, 1, &NullSRV[0]);
+	_DXStorage->_deviceContext->PSSetSamplers(0, 1, &_DXStorage->_defaultSamplerState);
 
 	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), _RTVs.data(), _DXStorage->_depthStencilView);
 }

@@ -73,7 +73,7 @@ float4 main(VOutLighting pin) : SV_TARGET
 		intensity = spotLight[i].intensity;
 		ambient = spotLight[i].ambient;
 		diffuse = spotLight[i].diffuse * max(dot(Normal, -Light), 0);
-		specular = spotLight[i].specular * pow(max(dot(reflect(Light, Normal), View), 0), 32);
+		specular = spotLight[i].specular * pow(max(dot(reflect(Light, Normal), View), 0), 8);
 		
 		d = length(PositionW - spotLight[i].position.xyz);
 		a2 = spotLight[i].attenuation.x;
