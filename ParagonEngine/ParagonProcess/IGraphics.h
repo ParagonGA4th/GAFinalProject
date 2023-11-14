@@ -42,8 +42,7 @@ namespace Pg::Core
 		virtual ID3D11Device* GetDevice() abstract;
 		virtual ID3D11DeviceContext* GetDeviceContext() abstract;
 
-		//예정 : Scene이 바뀌거나 // 컴포넌트 등이 생겨나거나/빠지는 등 이벤트가 발생했을 때, 그래픽 엔진과 렌더 관련 컴포넌트들을 연동한다.
-		virtual void SyncComponentToGraphics(const Pg::Data::Scene* const scene) abstract;
+		virtual void SyncComponentToGraphics() abstract;
 
 		virtual void OnWindowResized(int screenWidth, int screenHeight) abstract;
 

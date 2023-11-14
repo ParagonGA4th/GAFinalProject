@@ -92,8 +92,7 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual ID3D11Device* GetDevice() override;
 		PARAGON_GRAPHICS_DLL virtual ID3D11DeviceContext* GetDeviceContext() override;
 
-		//Scene이 바뀌거나 // 컴포넌트 등이 생겨나거나/빠지는 등 이벤트가 발생했을 때, 그래픽 엔진과 렌더 관련 컴포넌트들을 연동한다.
-		PARAGON_GRAPHICS_DLL virtual void SyncComponentToGraphics(const Pg::Data::Scene* const scene) override;
+		PARAGON_GRAPHICS_DLL virtual void SyncComponentToGraphics() override;
 
 		//AssetManager와의 교류를 위해, 그래픽스 리소스 매니저에 리소스를 로드하는 함수.
 		PARAGON_GRAPHICS_DLL virtual void LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define) override;
@@ -129,7 +128,6 @@ namespace Pg::Graphics
 
 		//원래는 Engine에서 필요한 리소스들을 씬의 상태/양상에 따라 로드해왔어야 하지만, 지금은 그럴 수 없으니 임시.
 		void TempResourceMeshLoad();
-
 	private:
 		HRESULT hr;
 		Pg::Core::ProcessMain* _coreMain;

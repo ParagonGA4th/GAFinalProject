@@ -8,7 +8,6 @@
 #include "DeferredRenderer.h"
 #include "Forward3DRenderer.h"
 #include "Forward2DRenderer.h"
-#include "DebugRenderer.h"
 
 #include "LayoutDefine.h"
 #include "../ParagonData/LightType.h"
@@ -66,9 +65,6 @@ namespace Pg::Graphics
 		_forward2dRenderer = std::make_unique<Forward2DRenderer>();
 		_forward2dRenderer->Initialize();
 
-		_debugRenderer = std::make_unique<DebugRenderer>();
-		_debugRenderer->Initialize();
-
 		// 내부적으로 DXStorage를 쓰고 있기 때문에 생성자가 아닌 Initialize()에 있어야 함
 		_lights = std::make_unique<RenderObjectLightList>();
 	}
@@ -105,7 +101,61 @@ namespace Pg::Graphics
 		_DXLogic->Present();
 	}
 
-	void ParagonRenderer::ParseSceneData(const Pg::Data::Scene* const newScene)
+	void ParagonRenderer::SyncComponentToGraphics()
+	{
+		//using Pg::Data::GameObject;
+		//using Pg::Graphics::Helper::GraphicsResourceHelper;
+		//
+		////새로 들어온 Renderer들 추가!
+		//for (auto it : _rendererChangeList->GetAddedRendererList())
+		//{
+		//	GameObject* tGameObject = it->_object;
+		//
+		//	if (GraphicsResourceHelper::IsRenderer3D(it->GetRendererTypeName()))
+		//	{
+		//		//3D
+		//		auto tRes = _renderObject3DList->_list.insert_or_assign(tGameObject,
+		//			std::make_unique<RenderObject3D>(it));
+		//
+		//		if (!tRes.second)
+		//		{
+		//			//Assign
+		//			PG_WARN("Already had a renderer (3D), but replaced with a new one.");
+		//		}
+		//	}
+		//	else
+		//	{
+		//		//2D
+		//		auto tRes = _renderObject2DList->_list.insert_or_assign(tGameObject,
+		//			std::make_unique<RenderObject2D>(it));
+		//
+		//		if (!tRes.second)
+		//		{
+		//			//Assign
+		//			PG_WARN("Already had a renderer (2D), but replaced with a new one.");
+		//		}
+		//	}
+		//}
+		//
+		////새로 들어온 Renderer를 삭제!
+		//for (auto it : _rendererChangeList->GetDeletedRendererList())
+		//{
+		//	GameObject* tGameObject = it->_object;
+		//
+		//	if (GraphicsResourceHelper::IsRenderer3D(it->GetRendererTypeName()))
+		//	{
+		//		//3D
+		//		_renderObject3DList->_list.erase(tGameObject);
+		//	}
+		//	else
+		//	{
+		//		//2D
+		//		_renderObject2DList->_list.erase(tGameObject);
+		//	}
+		//}
+	}
+
+	void ParagonRenderer::ParseSceneData(Pg::Data::Scene* newScene)
 	{
 		//Scene을 파싱해서, 실제 렌더되어야 하는 Object를 연동한다.
 		//나중에 같은 씬을 유지하는 중에 오브젝트들 중 하나의 렌더러가 꺼진다거나 
@@ -180,20 +230,5 @@ namespace Pg::Graphics
 
 		assert(true);
 	}
-
-	void ParagonRenderer::DebugRender(Pg::Data::CameraData* camData)
-	{
-
-	}
-
-	void ParagonRenderer::SyncComponentToGraphics(const Pg::Data::Scene* const newScene)
-	{
-		
-	}
-
-	//void ParagonRenderer::SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene)
-	//{
-	//
-	//}
 
 }

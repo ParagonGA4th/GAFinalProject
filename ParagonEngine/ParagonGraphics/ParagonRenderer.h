@@ -30,7 +30,6 @@ namespace Pg::Graphics
 	class DeferredRenderer;
 	class Forward3DRenderer;
 	class Forward2DRenderer;
-	class DebugRenderer;
 
 	class ParagonRenderer
 	{
@@ -38,28 +37,19 @@ namespace Pg::Graphics
 		ParagonRenderer();
 		~ParagonRenderer();
 
-		//Render 관련 Component 데이터를 다시 로드한다.
-		virtual void SyncComponentToGraphics(const Pg::Data::Scene* const newScene);
-		
-		//Debug Data 데이터를 다시 로드한다. 
-		//virtual void SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene);
-
-
-		///SyncRendererToGraphics가 호환되는 즉시 Public으로 호출되지 말아야.
 		//Scene이 바뀌었을 때 / 게임 엔진이 처음 시작되었을 때 호출되어야 한다.
 		//메모리 추가 할당을 막기 위해, Scene당 렌더오브젝트 생성 로직 중복을 막아야 한다!
-		void ParseSceneData(const Pg::Data::Scene* const newScene);
+		void ParseSceneData(Pg::Data::Scene* newScene);
+
+		//ParagonRenderer에 연동 처리를 맡겼다.
+		void SyncComponentToGraphics();
+
 	public:
 		void Initialize();
 
 		void BeginRender();
 		void Render(Pg::Data::CameraData* camData); //이미 컴포넌트 단계에서 RenderObject들과 연동되기에, 오브젝트 자체를 받을 필요가 없음.
-		void DebugRender(Pg::Data::CameraData* camData); // 별도로 Debug Render를 한다.
 		void EndRender();
-
-	private:
-		
-
 
 	private:
 		LowDX11Storage* _DXStorage = nullptr;
@@ -75,7 +65,6 @@ namespace Pg::Graphics
 		std::unique_ptr<DeferredRenderer> _deferredRenderer;
 		std::unique_ptr<Forward3DRenderer> _forward3dRenderer;
 		std::unique_ptr<Forward2DRenderer> _forward2dRenderer;
-		std::unique_ptr<DebugRenderer> _debugRenderer;
 	};
 }
 

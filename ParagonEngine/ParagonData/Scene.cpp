@@ -115,7 +115,7 @@ namespace Pg::Data
 		OutputDebugString(L"MainCamera Set!");
 	}
 
-	const std::vector<GameObject*>& Scene::GetObjectList() const
+	std::vector<GameObject*>& Scene::GetObjectList()
 	{
 		return _objectList;
 	}
