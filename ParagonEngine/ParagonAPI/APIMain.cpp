@@ -1,6 +1,6 @@
 #include "APIMain.h"
 #include "PgInput.h"
-#include "PhysXTest.h"
+#include "PgTime.h"
 #include <singleton-cpp/singleton.h>
 namespace Pg::API
 {
@@ -8,10 +8,12 @@ namespace Pg::API
 	{
 		auto& tPgInput = singleton<Pg::API::Input::PgInput>();
 		this->_pgInput = &tPgInput;
-		_pgInput->Initialize();
 
-		//_test = new PhysXTest();
-		//_test->Initialize();
+		auto& tPgTime = singleton<Pg::API::Time::PgTime>();
+		this->_pgTime = &tPgTime;
+
+		_pgInput->Initialize();
+		_pgTime->Initialize();
 	}
 
 	void APIMain::Finalize()
