@@ -14,16 +14,13 @@
       <Filter>1_Define</Filter>
     </ClCompile>
     <ClCompile Include="FileManager.cpp">
-      <Filter>2_Manager\0_FilManager</Filter>
+      <Filter>File\FilManager</Filter>
     </ClCompile>
     <ClCompile Include="EditorAction.cpp">
       <Filter>0_Main\EditorAction</Filter>
     </ClCompile>
     <ClCompile Include="EditorHelper.cpp">
       <Filter>2_Manager\EditorHelper</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGuiManager.cpp">
-      <Filter>2_Manager</Filter>
     </ClCompile>
     <ClCompile Include="Inspector.cpp">
       <Filter>4_Windows\Inspector</Filter>
@@ -37,6 +34,13 @@
     <ClCompile Include="Scene.cpp">
       <Filter>4_Windows\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Serializer.cpp">
+      <Filter>File\Serialize</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>File\DataManager</Filter>
+    </ClCompile>
+    <ClCompile Include="DataContainer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor.h">
@@ -58,16 +62,13 @@
       <Filter>1_Define</Filter>
     </ClInclude>
     <ClInclude Include="FileManager.h">
-      <Filter>2_Manager\0_FilManager</Filter>
+      <Filter>File\FilManager</Filter>
     </ClInclude>
     <ClInclude Include="EditorAction.h">
       <Filter>0_Main\EditorAction</Filter>
     </ClInclude>
     <ClInclude Include="EditorHelper.h">
       <Filter>2_Manager\EditorHelper</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGuiManager.h">
-      <Filter>2_Manager</Filter>
     </ClInclude>
     <ClInclude Include="Inspector.h">
       <Filter>4_Windows\Inspector</Filter>
@@ -84,9 +85,13 @@
     <ClInclude Include="Scene.h">
       <Filter>4_Windows\Scene</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="SceneName.xml" />
+    <ClInclude Include="Serializer.h">
+      <Filter>File\Serialize</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>File\DataManager</Filter>
+    </ClInclude>
+    <ClInclude Include="DataContainer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -97,9 +102,6 @@
     </Filter>
     <Filter Include="2_Manager">
       <UniqueIdentifier>{ec23eaba-630a-4bef-81ad-5b137e8fec96}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Manager\0_FilManager">
-      <UniqueIdentifier>{2e9788a1-cb70-46ee-9880-2e87ffcefa55}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Manager\2_ProcessManager">
       <UniqueIdentifier>{6aeadde7-4800-4c6e-8d2d-947ccce11ef1}</UniqueIdentifier>
@@ -133,6 +135,18 @@
     </Filter>
     <Filter Include="4_Windows\Scene">
       <UniqueIdentifier>{6623f742-824c-4f9a-a564-5adba5cb9421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File">
+      <UniqueIdentifier>{ff87ba54-b4f3-4e3a-a9b8-294483913b95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\FilManager">
+      <UniqueIdentifier>{2e9788a1-cb70-46ee-9880-2e87ffcefa55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\Serialize">
+      <UniqueIdentifier>{da92b7b7-5fa9-4def-a94a-fde8bd8f150c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\DataManager">
+      <UniqueIdentifier>{6614e59e-2228-43e9-bddd-eb646ddee662}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,48 +1,32 @@
 #pragma once
-#include "../ParagonUtil/pugixml.hpp"
-
-#include <vector>
-#include <string>
 #include <shobjidl.h>
-
-namespace Pg::Editor::Helper { class EditorHelper; }
-namespace Pg::Data
-{
-	class GameObject;
-	class Scene;
-}
+#include <memory>
+#include <string>
 
 namespace Pg::Editor::Manager
 {
+	using FilePath = std::string;
+	class DataManager;
 	class FileManager
 	{
 	public:
+		FileManager();
+		~FileManager();
+
 		void Initialize();
 
 		void FileOpen();
 		bool FileSave();
 
-		std::vector<Pg::Data::Scene*> GetSceneData();
-
 	private:
 		// Get File Data
-		std::string GetOpenFilePath();
-		std::string GetSaveFilePath();
-		void ShowDialog(IFileDialog* fileDialog, std::string& path);
-
-		void FileLoad(std::string path);
-
-		// Serialize, Desrialize
-		void DataSerialize();
-		void DataDeserialize(pugi::xml_node node, int sceneNumber);
+		void ShowDialog(bool isOpen);
 
 	private:
-		Pg::Editor::Helper::EditorHelper* _edHepler;
-		std::string _projectPath;
+		FilePath _path;
+		std::unique_ptr<Pg::Editor::Manager::DataManager> _dataManager;
 
 		// 탐색기 파일 필터 설정을 위한 변수
-		COMDLG_FILTERSPEC fileTypes[3];
-	
-		std::vector<Pg::Data::Scene*> _scenes;
+		COMDLG_FILTERSPEC fileTypes[3];	
 	};
 }
