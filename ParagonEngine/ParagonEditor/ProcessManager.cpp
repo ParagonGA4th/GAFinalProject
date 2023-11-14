@@ -1,6 +1,5 @@
 #include "ProcessManager.h"
 #include "ExternalLib.h"
-#include "EditorHelper.h"
 
 Pg::Editor::Manager::ProcessManager::ProcessManager()
 	:_isCoreInitailized(false), _editorOnOff(false)

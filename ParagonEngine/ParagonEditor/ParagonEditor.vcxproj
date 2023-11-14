@@ -152,7 +152,6 @@
     <ClCompile Include="DataStruct.h" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="EditorAction.cpp" />
-    <ClCompile Include="EditorHelper.cpp" />
     <ClCompile Include="EditorManager.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="Filter.cpp" />
@@ -168,7 +167,6 @@
     <ClInclude Include="Editor.h" />
     <ClInclude Include="EditorAction.h" />
     <ClInclude Include="EditorDLLExporter.h" />
-    <ClInclude Include="EditorHelper.h" />
     <ClInclude Include="EditorManager.h" />
     <ClInclude Include="Filter.h" />
     <ClInclude Include="Hierarchy.h" />

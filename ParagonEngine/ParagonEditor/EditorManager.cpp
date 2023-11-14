@@ -1,5 +1,4 @@
 #include "EditorManager.h"
-#include "EditorHelper.h"
 
 #include "Inspector.h"
 #include "Hierarchy.h"

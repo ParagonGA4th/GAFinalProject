@@ -1,5 +1,4 @@
 #include "Scene.h"
-#include "EditorHelper.h"
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
 #include <singleton-cpp/singleton.h>
