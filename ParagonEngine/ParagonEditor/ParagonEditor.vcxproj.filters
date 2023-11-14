@@ -19,9 +19,6 @@
     <ClCompile Include="EditorAction.cpp">
       <Filter>0_Main\EditorAction</Filter>
     </ClCompile>
-    <ClCompile Include="EditorHelper.cpp">
-      <Filter>2_Manager\EditorHelper</Filter>
-    </ClCompile>
     <ClCompile Include="Inspector.cpp">
       <Filter>4_Windows\Inspector</Filter>
     </ClCompile>
@@ -66,9 +63,6 @@
     </ClInclude>
     <ClInclude Include="EditorAction.h">
       <Filter>0_Main\EditorAction</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorHelper.h">
-      <Filter>2_Manager\EditorHelper</Filter>
     </ClInclude>
     <ClInclude Include="Inspector.h">
       <Filter>4_Windows\Inspector</Filter>

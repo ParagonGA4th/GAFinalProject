@@ -1,5 +1,4 @@
 #include "Hierarchy.h"
-#include "EditorHelper.h"
 
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
