@@ -4,11 +4,11 @@
     <ClCompile Include="APIMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
-    <ClCompile Include="PhysXTest.cpp">
-      <Filter>3_PhysX</Filter>
-    </ClCompile>
     <ClCompile Include="PgInput.cpp">
       <Filter>1_PgInput</Filter>
+    </ClCompile>
+    <ClCompile Include="PgTime.cpp">
+      <Filter>2_PgTime</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -19,8 +19,8 @@
     <ClInclude Include="PgInput.h">
       <Filter>1_PgInput</Filter>
     </ClInclude>
-    <ClInclude Include="PhysXTest.h">
-      <Filter>3_PhysX</Filter>
+    <ClInclude Include="PgTime.h">
+      <Filter>2_PgTime</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -41,8 +41,8 @@
     <Filter Include="1_PgInput">
       <UniqueIdentifier>{1352dff1-b3fa-4c1c-a88a-b28664cb30bc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3_PhysX">
-      <UniqueIdentifier>{c63565ae-d064-4970-988e-e26f57c3c09a}</UniqueIdentifier>
+    <Filter Include="2_PgTime">
+      <UniqueIdentifier>{75c7ac1e-f195-4d67-98a1-2bd2d7a7568c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

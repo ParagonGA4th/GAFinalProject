@@ -2,6 +2,7 @@
 #include "InputSystem.h"
 #include "PhysicSystem.h"
 #include "SceneSystem.h"
+#include "TimeSystem.h"
 #include "EngineResourceManager.h"
 
 
@@ -52,6 +53,10 @@ namespace Pg::Engine
 		//Scene
 		auto& tSceneSystem = singleton<SceneSystem>();
 		_sceneSystem = &tSceneSystem;
+
+		//Time
+		auto& tTimeSystem = singleton<Time::TimeSystem>();
+		_timeSystem = &tTimeSystem;
 	}
 
 	EngineMain::~EngineMain()
@@ -65,6 +70,7 @@ namespace Pg::Engine
 		_sceneSystem->Initialize();
 		_inputSystem->Initialize(width, height);
 		_physicSystem->Initialize();
+		_timeSystem->Initialize();
 	}
 
 	void EngineMain::Update()
@@ -72,6 +78,7 @@ namespace Pg::Engine
 		_sceneSystem->Update();
 		_inputSystem->Update();
 		_physicSystem->UpdatePhysics();
+		_timeSystem->TimeMeasure();
 
 		 static bool tTest = false;
 		if (!tTest)
