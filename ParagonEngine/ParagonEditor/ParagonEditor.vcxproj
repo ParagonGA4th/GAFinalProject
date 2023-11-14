@@ -147,6 +147,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DataContainer.cpp" />
+    <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="DataStruct.h" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="EditorAction.cpp" />
@@ -155,14 +157,14 @@
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="Filter.cpp" />
     <ClCompile Include="Hierarchy.cpp" />
-    <ClCompile Include="ImGuiManager.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Inspector.cpp" />
     <ClCompile Include="ProcessManager.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Serializer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DataContainer.h" />
+    <ClInclude Include="DataManager.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="EditorAction.h" />
     <ClInclude Include="EditorDLLExporter.h" />
@@ -174,15 +176,10 @@
     <ClInclude Include="ExternalLib.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="IEditor.h" />
-    <ClInclude Include="ImGuiManager.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="Inspector.h" />
     <ClInclude Include="ProcessManager.h" />
     <ClInclude Include="Scene.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="SceneName.xml" />
+    <ClInclude Include="Serializer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
