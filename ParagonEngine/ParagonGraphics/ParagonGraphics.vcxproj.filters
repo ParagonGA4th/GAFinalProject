@@ -195,6 +195,9 @@
     <ClInclude Include="Animation.h">
       <Filter>11_TempMultiMesh</Filter>
     </ClInclude>
+    <ClInclude Include="DebugRenderer.h">
+      <Filter>0_Main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -351,6 +354,9 @@
     </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>11_TempMultiMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugRenderer.cpp">
+      <Filter>0_Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

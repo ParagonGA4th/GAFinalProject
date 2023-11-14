@@ -71,11 +71,9 @@ namespace Pg::Core
 
 	void EngineGraphicsAdapter::Render()
 	{
+
 		//워크스페이스 버전
 		_graphics->Render(_engine->GetCurrentScene());
-
-		//게임 엔진 연동 버전.
-		//_graphics->Render(_engine->GetCurrentScene());
 	}
 
 	void EngineGraphicsAdapter::EndRender()
@@ -109,7 +107,7 @@ namespace Pg::Core
 	{
 		if (_rendererChangeList->IfShouldUpdate())
 		{
-			_graphics->SyncComponentToGraphics();
+			//_graphics->SyncComponentToGraphics();
 			_rendererChangeList->ClearRendererChangeLists();
 		}
 	}
