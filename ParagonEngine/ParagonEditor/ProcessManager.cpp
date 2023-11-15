@@ -1,8 +1,15 @@
 #include "ProcessManager.h"
-#include "ExternalLib.h"
+#include "DataContainer.h"
+
+#include "../ParagonProcess/ProcessMain.h"
+#include "../ParagonProcess/EditorAdapter.h"
+#include "../ParagonAPI/PgInput.h"
+
+#include <singleton-cpp/singleton.h>
+
 
 Pg::Editor::Manager::ProcessManager::ProcessManager()
-	:_isCoreInitailized(false), _editorOnOff(false)
+	:_isCoreInitailized(false)
 {
 	// core
 	_coreMain = std::make_unique<Pg::Core::ProcessMain>();
@@ -11,13 +18,12 @@ Pg::Editor::Manager::ProcessManager::ProcessManager()
 	auto& tInputSystem = singleton<Pg::API::Input::PgInput>();
 	_input = &tInputSystem;
 
-	auto& tEditorHelper = singleton<Pg::Editor::Helper::EditorHelper> ();
-	_edHepler = &tEditorHelper; 
+	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer> ();
+	_dataContainer = &tdataCon;
 }
 
 Pg::Editor::Manager::ProcessManager::~ProcessManager()
 {
-
 }
 
 void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd, float screenWidth, float screenHeight)
@@ -25,10 +31,10 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd, float screenWid
 	_coreMain->Initialize(hWnd, screenWidth, screenHeight);
 	_isCoreInitailized = true;
 
-	_edHepler->SetDevice(_coreMain->GetGraphicsDevice());
-	_edHepler->SetDeviceContext(_coreMain->GetGraphicsDeviceContext());
+	_dataContainer->SetDevice(_coreMain->GetGraphicsDevice());
+	_dataContainer->SetDeviceContext(_coreMain->GetGraphicsDeviceContext());
 
-	_edHepler->SetSceneTexture(_coreMain->GetEditorAdapter()->GetEditorCameraViewSRV());
+	_dataContainer->SetSceneTexture(_coreMain->GetEditorAdapter()->GetEditorCameraViewSRV());
 }
 
 void Pg::Editor::Manager::ProcessManager::Update()
@@ -37,7 +43,11 @@ void Pg::Editor::Manager::ProcessManager::Update()
 	_coreMain->BeginRender();
 	_coreMain->Render();
 
-	_edHepler->SetEditorOnOff(_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff));
+	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff))
+	{
+		_dataContainer->SetEditorOnOff(!_dataContainer->GetEditorOnOff());
+		_coreMain->GetEditorAdapter()->SetEditorMode(Pg::Data::Enums::eEditorMode::_EDIT);
+	}
 }
 
 void Pg::Editor::Manager::ProcessManager::LastUpdate()
