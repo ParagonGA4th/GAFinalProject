@@ -5,6 +5,7 @@
 #include <assimp/matrix4x4.h>
 #include <assimp/quaternion.h>
 #include <assimp/vector3.h>
+#include <assimp/color4.h>
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonMath.lib")
@@ -38,9 +39,8 @@ namespace Pg::Graphics::Helper
 		static DirectX::SimpleMath::Matrix AI2SM_MATRIX(const aiMatrix4x4& mat);
 		static DirectX::SimpleMath::Quaternion AI2SM_QUATERNION(const aiQuaternion& quat);
 		static DirectX::SimpleMath::Vector3 AI2SM_VECTOR3(const aiVector3D& vec);
+		static DirectX::SimpleMath::Vector4 AI2SM_COLOR_VECTOR4(const aiColor4D& col);
 		
-
-
 		//Experimental
 		static void DecomposeAssembleMatrix(DirectX::SimpleMath::Matrix& mat);
 		static DirectX::SimpleMath::Quaternion QuaternionSlerpNoFlip(const DirectX::SimpleMath::Quaternion& q1, const DirectX::SimpleMath::Quaternion& q2, float t);

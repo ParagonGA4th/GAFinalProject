@@ -1,6 +1,4 @@
 #pragma once
-#include "D3DBufferInfo.h"
-#include "MaterialCluster.h"
 #include "../ParagonData/GraphicsResource.h"
 #include "../ParagonData/ParagonDefines.h"
 #include <array>
@@ -15,13 +13,17 @@ struct ID3D11Buffer;
 
 namespace Pg::Graphics
 {
-	class AssetSceneData;
+	struct Scene_AssetData;
+	struct MaterialCluster;
 }
 
 namespace Pg::Graphics
 {
 	class Asset3DModelData : public Pg::Data::Resources::GraphicsResource
 	{
+		friend class Pg::Graphics::Helper::AssimpBufferParser;
+		friend class Pg::Graphics::Loader::AssetBasic3DLoader;
+
 	public:
 		Asset3DModelData(Pg::Data::Enums::eAssetDefine define, const std::string& filePath);
 		~Asset3DModelData();
@@ -30,11 +32,25 @@ namespace Pg::Graphics
 		virtual void InternalLoad() override;
 		virtual void InternalUnload() override;
 
-		bool _isSkinned = false;
-		AssetSceneData* _assetSceneData = nullptr;
-		D3DBufferInfo _d3dBufferInfo;
-		MaterialCluster _materialCluster;
+		bool IsSkinned();
+		MaterialCluster* GetMaterialByIndex(short index);
+
+
+		// 여기서, 실질적으로 Mesh 관련된 정보를 보관하는 
+		// 다른 요소 투입 예정. AssetSceneData 대신.
+
 	private:
+		bool _isSkinned = false;
+		Scene_AssetData* _assetSceneData = nullptr;
+
+		//해당 Vector의 인덱스는, 매터리얼의 인덱스와 같다.
+		std::vector<MaterialCluster*> _materialClusterList;
+
+		//Vertex Buffer
+		ID3D11Buffer* _vertexBuffer;
+
+		//Index Buffer
+		ID3D11Buffer* _indexBuffer;
 	};
 }
 

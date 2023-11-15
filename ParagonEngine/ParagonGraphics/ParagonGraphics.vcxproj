@@ -21,11 +21,10 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Asset3DModelData.h" />
-    <ClInclude Include="Asset3DModelDefine.h" />
-    <ClInclude Include="Asset3DModelHelper.h" />
+    <ClInclude Include="AssetAnimationDataDefine.h" />
     <ClInclude Include="AssetBasic2DLoader.h" />
     <ClInclude Include="AssetCombinedLoader.h" />
-    <ClInclude Include="AssetStructSRV.h" />
+    <ClInclude Include="AssetModelDataDefine.h" />
     <ClInclude Include="AssetTextureType.h" />
     <ClInclude Include="Axis.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -34,7 +33,7 @@
     <ClInclude Include="AssetBasic3DLoader.h" />
     <ClInclude Include="Bone.h" />
     <ClInclude Include="BonePerVertex.h" />
-    <ClInclude Include="BufferParser.h" />
+    <ClInclude Include="AssimpBufferParser.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantBufferBase.h" />
     <ClInclude Include="ConstantBufferDefine.h" />
@@ -42,7 +41,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="D3DBufferInfo.h" />
     <ClInclude Include="DebugRenderer.h" />
     <ClInclude Include="DeferredRenderer.h" />
     <ClInclude Include="DemoGeometryGenerator.h" />
@@ -104,17 +102,17 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Asset3DModelData.cpp" />
-    <ClCompile Include="Asset3DModelDefine.cpp" />
-    <ClCompile Include="Asset3DModelHelper.cpp" />
+    <ClCompile Include="AssetAnimationDataDefine.cpp" />
     <ClCompile Include="AssetBasic2DLoader.cpp" />
     <ClCompile Include="AssetCombinedLoader.cpp" />
+    <ClCompile Include="AssetModelDataDefine.cpp" />
     <ClCompile Include="Axis.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="AssetBasic3DLoader.cpp" />
     <ClCompile Include="BonePerVertex.cpp" />
-    <ClCompile Include="BufferParser.cpp" />
+    <ClCompile Include="AssimpBufferParser.cpp" />
     <ClCompile Include="ConstantBufferBase.cpp" />
     <ClCompile Include="Cubemap.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

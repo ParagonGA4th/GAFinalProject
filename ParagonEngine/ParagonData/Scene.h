@@ -49,7 +49,6 @@ namespace Pg::Data
 		const std::vector<GameObject*>& GetObjectList() const;
 
 	private:
-
 		//æ¿ ¿Ã∏ß
 		std::string _sceneName;
 
