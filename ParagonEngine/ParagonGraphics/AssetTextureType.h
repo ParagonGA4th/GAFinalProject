@@ -1,5 +1,4 @@
 #pragma once
-#include <climits>
 
 /// <summary>
 /// Texture Load에 있어서 Define 하나에 TextureType까지 정의하면
@@ -7,7 +6,7 @@
 /// </summary>
 namespace Pg::Graphics
 {
-	enum eAssetTextureType : int
+	enum eAssetTextureType
 	{
 		/** Dummy value.
 		 *
@@ -15,7 +14,7 @@ namespace Pg::Graphics
 		 *  ("#aiMaterialProperty::mSemantic) for all material properties
 		 *  *not* related to textures.
 		 */
-		PG_TextureType_NONE = 0,
+		MGRT_TextureType_NONE = 0,
 
 		/** LEGACY API MATERIALS
 		 * Legacy refers to materials which
@@ -28,31 +27,31 @@ namespace Pg::Graphics
 		  *  OR
 		  *  PBR Specular/Glossiness
 		  */
-		  PG_TextureType_DIFFUSE = 1,
+		  MGRT_TextureType_DIFFUSE = 1,
 
 		  /** The texture is combined with the result of the specular
 		   *  lighting equation.
 		   *  OR
 		   *  PBR Specular/Glossiness
 		   */
-		   PG_TextureType_SPECULAR = 2,
+		   MGRT_TextureType_SPECULAR = 2,
 
 		   /** The texture is combined with the result of the ambient
 			*  lighting equation.
 			*/
-			PG_TextureType_AMBIENT = 3,
+			MGRT_TextureType_AMBIENT = 3,
 
 			/** The texture is added to the result of the lighting
 			 *  calculation. It isn't influenced by incoming light.
 			 */
-			 PG_TextureType_EMISSIVE = 4,
+			 MGRT_TextureType_EMISSIVE = 4,
 
 			 /** The texture is a height map.
 			  *
 			  *  By convention, higher gray-scale values stand for
 			  *  higher elevations from the base height.
 			  */
-			  PG_TextureType_HEIGHT = 5,
+			  MGRT_TextureType_HEIGHT = 5,
 
 			  /** The texture is a (tangent space) normal-map.
 			   *
@@ -60,7 +59,7 @@ namespace Pg::Graphics
 			   *  normal maps. Assimp does (intentionally) not
 			   *  distinguish here.
 			   */
-			   PG_TextureType_NORMALS = 6,
+			   MGRT_TextureType_NORMALS = 6,
 
 			   /** The texture defines the glossiness of the material.
 				*
@@ -69,21 +68,21 @@ namespace Pg::Graphics
 				*  function defined to map the linear color values in the
 				*  texture to a suitable exponent. Have fun.
 			   */
-			   PG_TextureType_SHININESS = 7,
+			   MGRT_TextureType_SHININESS = 7,
 
 			   /** The texture defines per-pixel opacity.
 				*
 				*  Usually 'white' means opaque and 'black' means
 				*  'transparency'. Or quite the opposite. Have fun.
 			   */
-			   PG_TextureType_OPACITY = 8,
+			   MGRT_TextureType_OPACITY = 8,
 
 			   /** Displacement texture
 				*
 				*  The exact purpose and format is application-dependent.
 				*  Higher color values stand for higher vertex displacements.
 			   */
-			   PG_TextureType_DISPLACEMENT = 9,
+			   MGRT_TextureType_DISPLACEMENT = 9,
 
 			   /** Lightmap texture (aka Ambient Occlusion)
 				*
@@ -92,14 +91,14 @@ namespace Pg::Graphics
 				*  scaling value for the final color value of a pixel. Its
 				*  intensity is not affected by incoming light.
 			   */
-			   PG_TextureType_LIGHTMAP = 10,
+			   MGRT_TextureType_LIGHTMAP = 10,
 
 			   /** Reflection texture
 				*
 				* Contains the color of a perfect mirror reflection.
 				* Rarely used, almost never for real-time applications.
 			   */
-			   PG_TextureType_REFLECTION = 11,
+			   MGRT_TextureType_REFLECTION = 11,
 
 			   /** PBR Materials
 				* PBR definitions from maya and other modelling packages now use this standard.
@@ -108,12 +107,12 @@ namespace Pg::Graphics
 				* Modelling packages which use this are very common now.
 				*/
 
-				PG_TextureType_BASE_COLOR = 12,
-				PG_TextureType_NORMAL_CAMERA = 13,
-				PG_TextureType_EMISSION_COLOR = 14,
-				PG_TextureType_METALNESS = 15,
-				PG_TextureType_DIFFUSE_ROUGHNESS = 16,
-				PG_TextureType_AMBIENT_OCCLUSION = 17,
+				MGRT_TextureType_BASE_COLOR = 12,
+				MGRT_TextureType_NORMAL_CAMERA = 13,
+				MGRT_TextureType_EMISSION_COLOR = 14,
+				MGRT_TextureType_METALNESS = 15,
+				MGRT_TextureType_DIFFUSE_ROUGHNESS = 16,
+				MGRT_TextureType_AMBIENT_OCCLUSION = 17,
 
 				/** PBR Material Modifiers
 				* Some modern renderers have further PBR modifiers that may be overlaid
@@ -126,20 +125,20 @@ namespace Pg::Graphics
 				* eg velvet
 				* https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_sheen
 				*/
-				PG_TextureType_SHEEN = 19,
+				MGRT_TextureType_SHEEN = 19,
 
 				/** Clearcoat
 				* Simulates a layer of 'polish' or 'lacquer' layered on top of a PBR substrate
 				* https://autodesk.github.io/standard-surface/#closures/coating
 				* https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_clearcoat
 				*/
-				PG_TextureType_CLEARCOAT = 20,
+				MGRT_TextureType_CLEARCOAT = 20,
 
 				/** Transmission
 				* Simulates transmission through the surface
 				* May include further information such as wall thickness
 				*/
-				PG_TextureType_TRANSMISSION = 21,
+				MGRT_TextureType_TRANSMISSION = 21,
 
 				/** Unknown texture
 				 *
@@ -147,10 +146,10 @@ namespace Pg::Graphics
 				 *  above is considered to be 'unknown'. It is still imported,
 				 *  but is excluded from any further post-processing.
 				*/
-				PG_TextureType_UNKNOWN = 18,
+				MGRT_TextureType_UNKNOWN = 18,
 
 #ifndef SWIG
-				PG_TextureType_Force32Bit = INT_MAX
+				MGRT_TextureType_Force32Bit = INT_MAX
 #endif
 	};
 }

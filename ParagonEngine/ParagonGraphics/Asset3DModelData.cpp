@@ -1,15 +1,12 @@
 #include "Asset3DModelData.h"
-#include "AssetModelDataDefine.h"
 #include "AssetBasic3DLoader.h"
 #include "GraphicsResourceManager.h"
-#include "MaterialCluster.h"
-#include "AssimpBufferParser.h"
-#include <cassert>
+#include "BufferParser.h"
 #include <d3d11.h>
 
 namespace Pg::Graphics
 {
-	using Pg::Graphics::Helper::AssimpBufferParser;
+	using Pg::Graphics::Helper::BufferParser;
 
 	Asset3DModelData::Asset3DModelData(Pg::Data::Enums::eAssetDefine define, const std::string& filePath) :
 		GraphicsResource(define, typeid(this).name(), filePath)
@@ -34,25 +31,15 @@ namespace Pg::Graphics
 
 		//로드 및 구분.
 		AssetBasic3DLoader* t3DLoader = GraphicsResourceManager::Instance()->GetBasic3DLoader();
-		t3DLoader->Load3DModelBuffer(_filePath, this);
+		t3DLoader->Load3DModel(_filePath, this);
+		
+		//실제로 DX11 버퍼 로드. (Static, Skinned 모두)
+		BufferParser::Asset3DModelToD3DBuffer(_d3dBufferInfo, _isSkinned, _assetSceneData);
 	}
 
 	void Asset3DModelData::InternalUnload()
 	{
 
-	}
-
-	bool Asset3DModelData::IsSkinned()
-	{
-		return _isSkinned;
-	}
-
-	Pg::Graphics::MaterialCluster* Asset3DModelData::GetMaterialByIndex(short index)
-	{
-		assert(index >= 0 && index < Pg::Defines::MAX_MATERIAL_PER_MODEL);
-		assert(_materialClusterList.size() > index);
-
-		return _materialClusterList.at(index);
 	}
 
 }

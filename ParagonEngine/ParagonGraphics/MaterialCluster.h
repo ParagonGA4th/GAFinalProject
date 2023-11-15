@@ -1,44 +1,32 @@
 #pragma once
-#include "AssetTextureType.h"
+#include "AssetStructSRV.h"
 #include "../ParagonData/ParagonDefines.h"
 
-#include <string>
 #include <array>
 #include <vector>
-
 /// <summary>
-/// FBX 내부에 임베딩되어 있는 텍스쳐를 빼서 보관한다. 
-/// 나중에 내용물은 바뀔 수도 있다. 에디터에서 Texture만 바뀌는 경우,
-/// 내용물이 대체된다.
-/// 
-/// 각각 하나의 Material에 대응!
+/// FBX 내부에 임베딩되어 있는 텍스쳐를 빼서 보관한다.
 /// </summary>
-
-struct ID3D11ShaderResourceView;
-
-namespace Pg::Graphics
-{
-	class RenderTexture2D;
-}
 
 namespace Pg::Graphics
 {
 	class MaterialCluster
 	{
-		friend class Pg::Graphics::Helper::AssimpBufferParser;
-
 	public:
-		MaterialCluster();
-		////AssetTextureType에 기반해서 해당하는 Texture SRV를 반환한다.
-		//ID3D11ShaderResourceView* GetTextureSrvByType(eAssetTextureType type);
-		////AssetTextureType에 기반해서 해당하는 Texture Path를 반환한다.
-		//std::string GetTexturePathByType(eAssetTextureType type);
+		//Material의 인덱스(N번 인덱스의 Material)와 1대1로 대응할 값의 참조를 가져온다.
+		// 현재 형태 유지하면서 Vector만큼 DIFFUSE / NORMAL..등등..확장!
+		// OR ATS는 Diffuse 말고도 여러 개로 확장되어야! 
+		std::vector<AssetTextureSRV>& GetMaterialATSByIndex(int index);
 
-		//나중에는 Path만 특정 Type으로 넣어서 Map을 바꿀 수 있는 세터가 있어야 한다.
+		
+
+		//숫자를 그대로 쓰는 것은 힘들다. 단순 숫자 enum으로 어떤 Resource가 어디로 대응하는지
+		//가리킬 수 있어야 한다.!
+		//ID3D11ShaderResourceView* GetMaterialSRV();
 
 	private:
-		//각 인덱스가 AssetTextureType과 1대1 대응한다.
-		std::array<RenderTexture2D*, Pg::Defines::MAX_MATERIAL_PER_MODEL> _atsList;
+		//AssetMaterialData의 인덱스랑 1대1 대응할 것이다.
+		std::array<std::vector<AssetTextureSRV>, Pg::Defines::MAX_MATERIAL_PER_MODEL> _assetSRV;
 	};
 }
 

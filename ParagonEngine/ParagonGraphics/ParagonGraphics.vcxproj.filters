@@ -64,11 +64,17 @@
     <ClInclude Include="msdfgenTest.h">
       <Filter>5_Misc</Filter>
     </ClInclude>
+    <ClInclude Include="Asset3DModelDefine.h">
+      <Filter>3_GraphicsResources\Asset3DModelData\Define</Filter>
+    </ClInclude>
     <ClInclude Include="AssetBasic2DLoader.h">
       <Filter>3_GraphicsResources\Loaders\AssetBasic2DLoader</Filter>
     </ClInclude>
     <ClInclude Include="AssetCombinedLoader.h">
       <Filter>3_GraphicsResources\Loaders\AssetCombinedLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset3DModelHelper.h">
+      <Filter>8_Helpers\Asset3DModelHelper</Filter>
     </ClInclude>
     <ClInclude Include="RenderTexture2D.h">
       <Filter>3_GraphicsResources\RenderTexture2D</Filter>
@@ -103,14 +109,20 @@
     <ClInclude Include="RenderObjectBase.h">
       <Filter>4_RenderObject</Filter>
     </ClInclude>
-    <ClInclude Include="AssimpBufferParser.h">
+    <ClInclude Include="BufferParser.h">
       <Filter>8_Helpers\BufferParser</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DBufferInfo.h">
+      <Filter>10_Structs\D3DBuffers</Filter>
     </ClInclude>
     <ClInclude Include="MaterialCluster.h">
       <Filter>10_Structs\MaterialCluster</Filter>
     </ClInclude>
     <ClInclude Include="DemoGeometryGenerator.h">
       <Filter>10_Structs\9_Util\DemoGeometryGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetStructSRV.h">
+      <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
     </ClInclude>
     <ClInclude Include="GeometryGenerator.h">
       <Filter>5_Misc</Filter>
@@ -123,6 +135,9 @@
     </ClInclude>
     <ClInclude Include="Forward3DRenderer.h">
       <Filter>0_Main</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetTextureType.h">
+      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetTextureType</Filter>
     </ClInclude>
     <ClInclude Include="RenderObjectText2D.h">
       <Filter>4_RenderObject\RenderObject2D\RenderObjectText2D</Filter>
@@ -183,15 +198,6 @@
     <ClInclude Include="DebugRenderer.h">
       <Filter>0_Main</Filter>
     </ClInclude>
-    <ClInclude Include="AssetModelDataDefine.h">
-      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetModelDataDefine</Filter>
-    </ClInclude>
-    <ClInclude Include="AssetAnimationDataDefine.h">
-      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetAnimationDataDefine</Filter>
-    </ClInclude>
-    <ClInclude Include="AssetTextureType.h">
-      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetTextureType</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -248,11 +254,17 @@
     <ClCompile Include="msdfgenTest.cpp">
       <Filter>5_Misc</Filter>
     </ClCompile>
+    <ClCompile Include="Asset3DModelDefine.cpp">
+      <Filter>3_GraphicsResources\Asset3DModelData\Define</Filter>
+    </ClCompile>
     <ClCompile Include="AssetBasic2DLoader.cpp">
       <Filter>3_GraphicsResources\Loaders\AssetBasic2DLoader</Filter>
     </ClCompile>
     <ClCompile Include="AssetCombinedLoader.cpp">
       <Filter>3_GraphicsResources\Loaders\AssetCombinedLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset3DModelHelper.cpp">
+      <Filter>8_Helpers\Asset3DModelHelper</Filter>
     </ClCompile>
     <ClCompile Include="RenderTexture2D.cpp">
       <Filter>3_GraphicsResources\RenderTexture2D</Filter>
@@ -281,7 +293,7 @@
     <ClCompile Include="RenderObjectBase.cpp">
       <Filter>4_RenderObject</Filter>
     </ClCompile>
-    <ClCompile Include="AssimpBufferParser.cpp">
+    <ClCompile Include="BufferParser.cpp">
       <Filter>8_Helpers\BufferParser</Filter>
     </ClCompile>
     <ClCompile Include="MaterialCluster.cpp">
@@ -346,12 +358,6 @@
     <ClCompile Include="DebugRenderer.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
-    <ClCompile Include="AssetModelDataDefine.cpp">
-      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetModelDataDefine</Filter>
-    </ClCompile>
-    <ClCompile Include="AssetAnimationDataDefine.cpp">
-      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetAnimationDataDefine</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -414,6 +420,9 @@
     <Filter Include="8_Helpers">
       <UniqueIdentifier>{4f252221-d7dc-4261-a1e8-af415c8cd279}</UniqueIdentifier>
     </Filter>
+    <Filter Include="8_Helpers\Asset3DModelHelper">
+      <UniqueIdentifier>{e5f7ba4b-b111-4230-9d65-0b12801df8c4}</UniqueIdentifier>
+    </Filter>
     <Filter Include="8_Helpers\GraphicsResourceHelper">
       <UniqueIdentifier>{5e99454b-e123-4aad-a1e9-b04a7f5f27aa}</UniqueIdentifier>
     </Filter>
@@ -459,6 +468,9 @@
     <Filter Include="10_Structs">
       <UniqueIdentifier>{d5434b36-98c9-4309-8ad7-3ffc755a200e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="10_Structs\D3DBuffers">
+      <UniqueIdentifier>{0d5db81d-6d71-484b-b6b7-a281136d62d9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="6_HLSL\TempForward">
       <UniqueIdentifier>{c9c79e18-ed8d-4753-b263-81e8f64f61d0}</UniqueIdentifier>
     </Filter>
@@ -497,12 +509,6 @@
     </Filter>
     <Filter Include="11_TempMultiMesh">
       <UniqueIdentifier>{f1b3487e-afc1-4aa5-bd21-8bdbee8bb1ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3_GraphicsResources\Asset3DModelData\Define\AssetModelDataDefine">
-      <UniqueIdentifier>{86d0c1de-e5af-4401-b892-c866de0d2e29}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3_GraphicsResources\Asset3DModelData\Define\AssetAnimationDataDefine">
-      <UniqueIdentifier>{3a363304-1b97-4ec2-b25b-d94c305bd55e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
