@@ -57,7 +57,8 @@ namespace Pg::Graphics
 		void DebugRender(Pg::Data::CameraData* camData); // 별도로 Debug Render를 한다.
 		void EndRender();
 
-	private:
+	public:
+		unsigned int Get3DObjectCount();
 		
 
 

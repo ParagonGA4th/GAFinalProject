@@ -36,6 +36,8 @@ Pg::Data::GameObject* tObj5;
 Pg::Data::GameObject* tObj6;
 Pg::Data::GameObject* tObj7;
 
+Pg::Data::GameObject* tText_1;
+
 void Pg::Engine::TestScene::Initialize()
 {
 	using namespace Pg::Data;
@@ -185,12 +187,12 @@ void Pg::Engine::TestScene::Initialize()
 	tObj4->GetComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_16.spritefont");
 	tObj4->GetComponent<TextRenderer>()->SetString("Paragon Engine");
 
-	GameObject* tObj4_1 = tCurrentScene->AddObject("TextTest");
-	tObj4_1->GetComponent<Transform>()->SetPosition({ 10.0f, 340.f, 0.f });
-	tObj4_1->GetComponent<Transform>()->SetIs3D(false);
-	tObj4_1->AddComponent<TextRenderer>();
-	tObj4_1->GetComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_16.spritefont");
-	tObj4_1->GetComponent<TextRenderer>()->SetString("Let's Go!!");
+	tText_1 = tCurrentScene->AddObject("TextTest");
+	tText_1->GetComponent<Transform>()->SetPosition({ 10.0f, 250.f, 0.f });
+	tText_1->GetComponent<Transform>()->SetIs3D(false);
+	tText_1->AddComponent<TextRenderer>();
+	tText_1->GetComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_13.spritefont");
+	tText_1->GetComponent<TextRenderer>()->SetString("Let's Go!!");
 
 	GameObject* tObj5 = tCurrentScene->AddObject("TextTest");
 	tObj5->GetComponent<Transform>()->SetPosition({ 10.0f, 10.f, 0.f });
@@ -205,9 +207,14 @@ void Pg::Engine::TestScene::Initialize()
 	assert(true);
 }
 
+unsigned int n = 0;
+
 void Pg::Engine::TestScene::Update()
 {
+	n = GetCurrentScene()->_graphicsDebugData._renderedObjectCount;
+
 	///새로 추가한 스크립트 컴포넌트의 업데이트 테스트를 위한 코드
+	tText_1->GetComponent<Pg::Data::TextRenderer>()->SetString("Rendered Objects Count : " + std::to_string(n));
 }
 
 Pg::Data::Scene* Pg::Engine::TestScene::GetCurrentScene()

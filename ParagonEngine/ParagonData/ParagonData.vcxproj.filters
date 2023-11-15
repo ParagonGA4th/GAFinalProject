@@ -237,6 +237,9 @@
     <ClInclude Include="CameraData.h">
       <Filter>4_Structs</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicsDebugData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">

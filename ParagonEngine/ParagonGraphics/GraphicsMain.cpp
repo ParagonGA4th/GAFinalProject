@@ -142,6 +142,9 @@ namespace Pg::Graphics
 		assert(_currentScene != nullptr);
 
 		_renderer->Render(_camData);
+
+		// 현재 렌더링되고 있는 3D 오브젝트의 갯수를 Scene으로 전달.
+		scene->_graphicsDebugData._renderedObjectCount = _renderer->Get3DObjectCount();
 	}
 
 	void GraphicsMain::EndRender()
