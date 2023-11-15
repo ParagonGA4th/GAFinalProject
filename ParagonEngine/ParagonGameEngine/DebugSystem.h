@@ -1,6 +1,7 @@
 #pragma once
 #include "../ParagonMath/PgMath.h"
-#include "DebugData.h"
+#include "../ParagonProcess/CoreSingleton.h"
+#include "../ParagonData/DebugData.h"
 #include <vector>
 #include <string>
 
@@ -11,6 +12,8 @@
 /// </summary>
 namespace Pg::Engine
 {
+	using namespace Pg::Math;
+
 	class DebugSystem
 	{
 	public:
@@ -18,14 +21,23 @@ namespace Pg::Engine
 		void Finalize();
 
 	public:
+		//디버그 정보를 벡터에 저장.
+		void DrawBoxDebug(PGFLOAT4X4 worldTM, PGFLOAT3 scale, PGFLOAT4 color);
+		void DrawLineDebug(PGFLOAT3 beginPoint, PGFLOAT3 endPoint, PGFLOAT4 color);
 
+		void DeleteBoxDebug();
 
 		void SetDebugMode(bool isdebug);
+
+	public:
+		std::vector<Pg::Data::BoxInfo>& GetBoxVector();
+		std::vector<Pg::Data::LineInfo>& GetLineVector();
 	private:
-		std::vector<BoxInfo> _boxVec;
+		std::vector<Pg::Data::BoxInfo> _boxVec;
+		std::vector<Pg::Data::LineInfo> _lineVec;
 
 		//디버그 모드 플래그
-		bool _isDebug;
+		bool _isDebug = false;
 	};
 
 }

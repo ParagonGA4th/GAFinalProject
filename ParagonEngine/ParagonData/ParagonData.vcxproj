@@ -186,6 +186,7 @@
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DebugData.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DynamicCollider.h" />
     <ClInclude Include="ISerializable.h" />

@@ -156,12 +156,12 @@
     <ClInclude Include="APIMain.h" />
     <ClInclude Include="KeyCodeType.h" />
     <ClInclude Include="PgInput.h" />
-    <ClInclude Include="PhysXTest.h" />
+    <ClInclude Include="PgTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="APIMain.cpp" />
     <ClCompile Include="PgInput.cpp" />
-    <ClCompile Include="PhysXTest.cpp" />
+    <ClCompile Include="PgTime.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
