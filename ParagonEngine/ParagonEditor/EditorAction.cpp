@@ -33,7 +33,8 @@ void Pg::Editor::Core::EditorAction::Initialize()
 	CreateWindows(ins);
 
 	_fileManager->Initialize();
-	_fileManager->FileOpen();
+	// 임시로 비활성화
+	//_fileManager->FileOpen();
 	_processManager->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
 	_editorManager->Initialize(_hWnd);
 }

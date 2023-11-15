@@ -73,7 +73,7 @@ namespace Pg::Graphics::Helper
 			{
 				LayoutDefine::Vin1stStatic tMeshVert;
 				tMeshVert.posL = assetSceneData->m_MeshList[i]->m_VerticeList[j];
-				tMeshVert.normalL = assetSceneData->m_MeshList[i]->m_VerticeList[j];
+				tMeshVert.normalL = assetSceneData->m_MeshList[i]->m_NormalList[j];
 				tMeshVert.tangentL = assetSceneData->m_MeshList[i]->m_TangentList[j];
 				tMeshVert.color = assetSceneData->m_MeshList[i]->m_ColorList[j];
 				tMeshVert.tex = assetSceneData->m_MeshList[i]->m_TextureCoordList[j];

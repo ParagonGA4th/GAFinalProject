@@ -157,6 +157,7 @@ namespace Pg::Core::Manager
 		LoadResource("../Resources/3DModels/MultiMatMesh/RoadLavaCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/MultiMatMesh/WoodRoadCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/plane.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/Textures/tw_normal.png", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
 		LoadResource("../Resources/Textures/tw_diffuse.png", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
 		LoadResource("../Resources/Textures/wook.jpg", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);

@@ -54,9 +54,6 @@ namespace Pg::Core
 		auto& tAssetManager = singleton<Manager::AssetManager>();
 		_assetManager = &tAssetManager;
 
-		auto& timeSystem = singleton<Time::TimeManager>();
-		_timeManager = &timeSystem;
-
 		_util = std::make_unique<Pg::Util::UtilMain>();
 		_api = std::make_unique<Pg::API::APIMain>();
 
@@ -72,7 +69,7 @@ namespace Pg::Core
 	long ProcessMain::Initialize(void* hwnd, int screenWidth, int screenHeight)
 	{
 		//deltaTime 초기화
-		_timeManager->Initialize();
+		//_timeManager->Initialize();
 
 		//엔진 초기화
 		_util->Initialize();
@@ -93,8 +90,8 @@ namespace Pg::Core
 	void ProcessMain::Update()
 	{
 		//deltaTime 업데이트
-		_timeManager->TimeMeasure();
-		_timeManager->MeasureFrame(_timeManager->GetDeltaTime());
+		//_timeManager->TimeMeasure();
+		//_timeManager->MeasureFrame(_timeManager->GetDeltaTime());
 
 		//AssetManager 로직 업데이트.
 		_engineGraphicsAdapter->UpdateAssetManager(_assetManager);
@@ -107,7 +104,7 @@ namespace Pg::Core
 
 		_engineGraphicsAdapter->UpdateGraphics(
 			_engineGraphicsAdapter->GetCurrentScene(),
-			_engineGraphicsAdapter->GetCameraData(), _timeManager->GetDeltaTime());
+			_engineGraphicsAdapter->GetCameraData());
 	}
 
 	void ProcessMain::BeginRender()

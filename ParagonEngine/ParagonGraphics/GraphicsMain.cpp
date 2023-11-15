@@ -6,7 +6,6 @@
 #include "GraphicsResourceManager.h"
 #include "LayoutDefine.h"
 
-#include "../ParagonProcess/TimeManager.h"
 #include "../ParagonData/AssetDefines.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/RendererChangeList.h"
@@ -116,7 +115,7 @@ namespace Pg::Graphics
 	}
 
 
-	void GraphicsMain::Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData, float deltaTime)
+	void GraphicsMain::Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData)
 	{	
 		//Projection 행렬을 채운다.
 		FillCamDataProjection(cameraData);

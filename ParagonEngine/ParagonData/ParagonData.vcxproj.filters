@@ -123,9 +123,6 @@
     <ClInclude Include="Button.h">
       <Filter>2_Component\Button</Filter>
     </ClInclude>
-    <ClInclude Include="CameraData.h">
-      <Filter>2_Component\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>2_Component\Camera</Filter>
     </ClInclude>
@@ -189,9 +186,6 @@
     <ClInclude Include="ISerializable.h">
       <Filter>9_DataSerializer</Filter>
     </ClInclude>
-    <ClInclude Include="IRenderObject.h">
-      <Filter>2_Component\Renderer\Interface</Filter>
-	</ClInclude>
     <ClInclude Include="DynamicCollider.h">
       <Filter>2_Component\Collider\DynamicCollider</Filter>
     </ClInclude>
@@ -236,6 +230,12 @@
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>2_Component\Light\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraData.h">
+      <Filter>4_Structs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

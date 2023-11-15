@@ -12,7 +12,10 @@ namespace Pg::API
 		class PgInput;
 	}
 
-	class PhysXTest;
+	namespace Time
+	{
+		class PgTime;
+	}
 }
 namespace Pg::API
 {
@@ -24,6 +27,7 @@ namespace Pg::API
 
 	private:
 		Pg::API::Input::PgInput* _pgInput = nullptr;
+		Pg::API::Time::PgTime* _pgTime = nullptr;
 		//PhysXTest* _test;
 
 	};
