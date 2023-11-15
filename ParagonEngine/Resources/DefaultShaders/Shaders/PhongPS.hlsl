@@ -51,14 +51,14 @@ float4 main(VOutLighting pin) : SV_TARGET
 		intensity = pointLight[i].intensity;
 		ambient = pointLight[i].ambient;
 		diffuse = pointLight[i].diffuse * max(dot(Normal, direction), 0);
-		specular = pointLight[i].specular * pow(max(dot(reflect(Light, Normal), View), 0), 8);
+		specular = pointLight[i].specular * pow(max(dot(reflect(-Light, Normal), View), 0), 16);
 		
 		d = length(PositionW - pointLight[i].position.xyz);
 		a2 = pointLight[i].attenuation.x;
 		a1 = pointLight[i].attenuation.y;
 		a = pointLight[i].attenuation.z;
 		
-		output += intensity * (ambient + (diffuse + specular / ((a2 * d * d) + (a1 * d) + a + 1)));
+		output += intensity * (ambient + ((diffuse + specular) / ((a2 * d * d) + (a1 * d) + a + 1)));
 	}
 	
 	
@@ -73,16 +73,16 @@ float4 main(VOutLighting pin) : SV_TARGET
 		intensity = spotLight[i].intensity;
 		ambient = spotLight[i].ambient;
 		diffuse = spotLight[i].diffuse * max(dot(Normal, -Light), 0);
-		specular = spotLight[i].specular * pow(max(dot(reflect(Light, Normal), View), 0), 8);
+		specular = spotLight[i].specular * pow(max(dot(reflect(Light, Normal), View), 0), 16);
 		
 		d = length(PositionW - spotLight[i].position.xyz);
 		a2 = spotLight[i].attenuation.x;
 		a1 = spotLight[i].attenuation.y;
 		a = spotLight[i].attenuation.z;
 		
-		ks = pow(max(dot(direction, -Light), 0), 32);
+		ks = pow(max(dot(direction, -Light), 0), 16);
 		
-		output += intensity * ks * (ambient + (diffuse + specular / ((a2 * d * d) + (a1 * d) + a + 1) ) );
+		output += intensity * ks * (ambient + ((diffuse + specular) / ((a2 * d * d) + (a1 * d) + a + 1)));
 	}
 
 	return output;

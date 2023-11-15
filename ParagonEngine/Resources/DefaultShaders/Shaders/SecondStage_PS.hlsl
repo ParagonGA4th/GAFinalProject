@@ -32,13 +32,13 @@ float4 main(VOutFinal pin) : SV_TARGET
 			output = GBuffer[4].Sample(state, pin.UV);
 			break;
 		case 5:
-			output = GBuffer[5].Sample(state, pin.UV);
+			output = pow(BaseColor, 1.0 / 2.2);
 			break;
 		case 6:
 			output = GBuffer[6].Sample(state, pin.UV);
 			break;
 		case 7:
-			output = BaseColor * Phong * 2;
+			output = pow(BaseColor * Phong, 1.0 / 2.2);
 			break;
 		
 	}
