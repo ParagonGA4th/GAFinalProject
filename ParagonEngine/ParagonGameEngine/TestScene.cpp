@@ -34,6 +34,7 @@ Pg::Data::GameObject* tObj3;
 Pg::Data::GameObject* tObj4;
 Pg::Data::GameObject* tObj5;
 Pg::Data::GameObject* tObj6;
+Pg::Data::GameObject* tObj7;
 
 void Pg::Engine::TestScene::Initialize()
 {
@@ -106,30 +107,38 @@ void Pg::Engine::TestScene::Initialize()
 	tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/TexturedMultiCubes/simplecube.fbx");
 	tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
+	tObj7 = tCurrentScene->AddObject("Plane");
+	tObj7->GetComponent<Transform>()->SetPosition({ 0.0f, 0.2f, 0.0f });
+	tObj7->GetComponent<Transform>()->SetLocalScale(1.0f, 1.0f, 1.0f);
+	tObj7->GetComponent<Transform>()->SetLocalRotationEuler(0.0f, 0.0f, 0.0f);
+	tObj7->AddComponent<StaticMeshRenderer>();
+	tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/plane.fbx");
+	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+
 	/// 오수안, 새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 
 	
 	// Directional
 	GameObject* tLight = tCurrentScene->AddObject("LightTest1");
-	tLight->GetComponent<Transform>()->SetPosition({ 10.f, 10.f, 10.f });
+	tLight->GetComponent<Transform>()->SetPosition({ 0.f, 0.f, 0.f });
 	tLight->AddComponent<DirectionalLight>();
-	tLight->GetComponent<DirectionalLight>()->SetDirection({ 1.0f, 0.0f, -1.0f });
-	tLight->GetComponent<DirectionalLight>()->SetAmbient({ 0.1f, 0.1f, 0.1f, 1.0f });
-	tLight->GetComponent<DirectionalLight>()->SetDiffuse({ 0.8f, 0.8f, 0.8f, 1.0f });
-	tLight->GetComponent<DirectionalLight>()->SetSpecular({ 0.1f, 0.1f, 0.1f, 1.0f });
-	tLight->GetComponent<DirectionalLight>()->SetIntensity( 0.5f );
+	tLight->GetComponent<DirectionalLight>()->SetDirection({ -1.0f, -1.0f, 1.0f });
+	tLight->GetComponent<DirectionalLight>()->SetAmbient({ 0.0f, 0.0f, 0.0f, 1.0f });
+	tLight->GetComponent<DirectionalLight>()->SetDiffuse({ 0.6f, 0.6f, 0.6f, 1.0f });
+	tLight->GetComponent<DirectionalLight>()->SetSpecular({ 0.2f, 0.2f, 0.2f, 1.0f });
+	tLight->GetComponent<DirectionalLight>()->SetIntensity( 0.2f );
 	tLight->GetComponent<DirectionalLight>()->SetActive(true);
 
 	// Point
-	//GameObject* tLight2 = tCurrentScene->AddObject("LightTest2");
-	//tLight2->GetComponent<Transform>()->SetPosition({ 3.f, 0.f, 0.f });
-	//tLight2->AddComponent<PointLight>();
-	//tLight2->GetComponent<PointLight>()->SetAmbient({ 0.01f, 0.01f, 0.01f, 1.0f });
-	//tLight2->GetComponent<PointLight>()->SetDiffuse({ 0.6f, 0.1f, 0.1f, 1.0f });
-	//tLight2->GetComponent<PointLight>()->SetSpecular({ 0.5f, 0.1f, 0.1f, 1.0f });
-	//tLight2->GetComponent<PointLight>()->SetAttenuation({ 1.0f, 1.0f, 1.0f });
-	//tLight2->GetComponent<PointLight>()->SetIntensity(0.7f);
-	//tLight2->GetComponent<PointLight>()->SetActive(true);
-
+	GameObject* tLight2 = tCurrentScene->AddObject("LightTest2");
+	tLight2->GetComponent<Transform>()->SetPosition({ 0.f, 2.0f, 0.f });
+	tLight2->AddComponent<PointLight>();
+	tLight2->GetComponent<PointLight>()->SetAmbient({ 0.0f, 0.0f, 0.0f, 1.0f });
+	tLight2->GetComponent<PointLight>()->SetDiffuse({ 0.6f, 0.6f, 0.6f, 1.0f });
+	tLight2->GetComponent<PointLight>()->SetSpecular({ 0.7f, 0.7f, 0.7f, 1.0f });
+	tLight2->GetComponent<PointLight>()->SetAttenuation({ 1.0f, 1.0f, 0.0f });
+	tLight2->GetComponent<PointLight>()->SetIntensity(10.0f);
+	tLight2->GetComponent<PointLight>()->SetActive(true);
+	 
 	//GameObject* tLight2_1 = tCurrentScene->AddObject("LightTest2_1");
 	//tLight2_1->GetComponent<Transform>()->SetPosition({ -3.f, 0.f, 0.f });
 	//tLight2_1->AddComponent<PointLight>();
@@ -153,14 +162,14 @@ void Pg::Engine::TestScene::Initialize()
 	//tLight3->GetComponent<SpotLight>()->SetActive(true);
 	//
 	GameObject* tLight4 = tCurrentScene->AddObject("LightTest4");
-	tLight4->GetComponent<Transform>()->SetPosition({ 0.0f, 0.0f, -4.0f });
+	tLight4->GetComponent<Transform>()->SetPosition({ 0.0f, 5.0f, 0.0f });
 	tLight4->AddComponent<SpotLight>();
 	tLight4->GetComponent<SpotLight>()->SetAmbient({ 0.01f, 0.01f, 0.01f, 1.0f });
-	tLight4->GetComponent<SpotLight>()->SetDiffuse({ 0.6f, 0.6f , 0.6f, 1.0f });
-	tLight4->GetComponent<SpotLight>()->SetSpecular({ 0.6f, 0.6f, 0.6f, 1.0f });
-	tLight4->GetComponent<SpotLight>()->SetAttenuation({ 1.0f, 1.0f, 1.0f });
+	tLight4->GetComponent<SpotLight>()->SetDiffuse({ 0.8f, 0.8f, 0.8f, 1.0f });
+	tLight4->GetComponent<SpotLight>()->SetSpecular({ 0.7f, 0.7f, 0.7f, 1.0f });
+	tLight4->GetComponent<SpotLight>()->SetAttenuation({ 1.0f, 1.0f, 0.0f });
 	tLight4->GetComponent<SpotLight>()->SetIntensity(10.0f);
-	tLight4->GetComponent<SpotLight>()->SetDirection({ 0.0f, 12.0f, 0.0f });
+	tLight4->GetComponent<SpotLight>()->SetDirection({ 0.0f, -1.0f, 0.0f });
 	tLight4->GetComponent<SpotLight>()->SetActive(true);
 
 	GameObject* tObj3 = tCurrentScene->AddObject("BtnTest");
@@ -188,7 +197,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj5->GetComponent<Transform>()->SetIs3D(false);
 	tObj5->AddComponent<TextRenderer>();
 	tObj5->GetComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_13.spritefont");
-	tObj5->GetComponent<TextRenderer>()->SetString("[ f11 ] Previous Render Target\n[ f12 ] Next Render Target");
+	tObj5->GetComponent<TextRenderer>()->SetString("[9] Previous Render Target\n[0] Next Render Target");
 
 	//이렇게 하면 메인 카메라 바뀜!!
 	tCurrentScene->SetMainCamera(tObj1->GetComponent<Camera>());
