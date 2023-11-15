@@ -1,6 +1,7 @@
 ///그래픽엔진 자체의 1st Pixel Shader (All)
 
 #include "../Libraries/DefaultLayouts.hlsli"
+#include "../Libraries/DefaultBufferPerObject.hlsli"
 #include "../Libraries/misc.hlsli"
 
 
@@ -11,6 +12,18 @@ POut1st PS_MAIN(VOut1st input)
 {
     POut1st output;
 	
+	// normal과 tangent는 rasterizer를 거치며 보간된다.
+	float3 NormalW = normalize(input.vout1st_NormalW);
+	float3 TangentW = normalize(input.vout1st_TangentW);
+	float3 BinormalW = normalize(cross(TangentW, NormalW));
+	float3x3 TBNMatrix = float3x3(TangentW, BinormalW, NormalW);
+	
+	float3 NormalSample = pow(Normal.Sample(state, input.vout1st_Tex.xy).xyz, 1.0 / 2.2); // [0 ~ 1]
+	NormalSample = NormalSample * 2.0 - 1.0;// [1 ~ -1]
+	
+	// convert to World Space
+	NormalSample = mul(NormalSample, TBNMatrix);
+	
     //RT0 : Texture UV Coords.
 	output.pout1st_RT0.xyz = input.vout1st_Tex;
     //RT0 : World Space Tangent.x
@@ -18,7 +31,8 @@ POut1st PS_MAIN(VOut1st input)
     
     //RT1 : World Space Normal.
 	//output.pout1st_RT1.xyz = input.vout1st_NormalW;
-	output.pout1st_RT1.xyz = Normal.Sample(state, input.vout1st_Tex.xy);
+	//output.pout1st_RT1.xyz = NormalW;
+	output.pout1st_RT1.xyz = NormalSample;
     //RT1 : World Space Tangent.y
 	output.pout1st_RT1.w = input.vout1st_TangentW.y;
     
