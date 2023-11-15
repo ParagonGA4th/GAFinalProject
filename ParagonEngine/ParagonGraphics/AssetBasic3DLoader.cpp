@@ -1,8 +1,7 @@
 #include "AssetBasic3DLoader.h"
-#include "AssetModelDataDefine.h"
-#include "AssetAnimationDataDefine.h"
+#include "Asset3DModelDefine.h"
+#include "Asset3DModelHelper.h"
 #include "Asset3DModelData.h"
-#include "AssimpBufferParser.h"
 #include "../ParagonUtil/ResourceHelper.h"
 
 #include <assimp/Importer.hpp>     
@@ -20,65 +19,81 @@
 
 namespace Pg::Graphics::Loader
 {
-	using Pg::Graphics::Helper::AssimpBufferParser;
-
 	AssetBasic3DLoader::AssetBasic3DLoader()
 	{
 		////Assimp 링크 문제 없다는 것을 확인하기 위해.
-		_importer = new Assimp::Importer();
+		
 	}
 
-	AssetBasic3DLoader::~AssetBasic3DLoader()
-	{
-		delete _importer;
-	}
-
-	void AssetBasic3DLoader::Load3DModelBuffer(const std::string& path, Asset3DModelData* modelData)
+	void AssetBasic3DLoader::Load3DModel(const std::string& path, Asset3DModelData* modelData)
 	{
 		assert(modelData->_assetSceneData == nullptr);
-		modelData->_assetSceneData = new Pg::Graphics::Scene_AssetData;
+
+		modelData->_assetSceneData = new Pg::Graphics::AssetSceneData;
+		Assimp::Importer importer;
+		//일단은 Mesh를 여러 개를 받아도 호환 가능하게 세팅!
+
 		modelData->_isSkinned = IsModelSkinned(path);
 		
 		if (modelData->_isSkinned)
 		{
 			//Skinned
-			const aiScene* pScene = _importer->ReadFile(path.c_str(),
+			const aiScene* pScene = importer.ReadFile(path.c_str(),
 				aiProcess_Triangulate |
 				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_GenBoundingBoxes |
 				aiProcess_CalcTangentSpace | aiProcess_PopulateArmatureData |
 				aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_EmbedTextures | aiProcess_LimitBoneWeights);
 			assert(pScene != nullptr);
 
-			AssimpBufferParser::AssimpToSceneAssetData(pScene, path, modelData->_assetSceneData);
-			AssimpBufferParser::AssimpToDXBuffer(true, pScene, modelData->_vertexBuffer, modelData->_indexBuffer);
-			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList);
+			modelData->_assetSceneData->m_Directory = path;  
+			Helper::Asset3DModelHelper::ProcessAssimpToAssetData(pScene, modelData);
+			Helper::Asset3DModelHelper::FinalizeDataHelper();
+
+			//이 상황에서 AssetSceneData는 로딩된 것이다.
+			//Material이 있을 시, 이를 로드한다.
+			//CheckLoadMaterialTextures(pScene, modelData);
 		}
 		else
 		{
 			//Static
-			const aiScene* pScene = _importer->ReadFile(path.c_str(),
+			
+			const aiScene* pScene = importer.ReadFile(path.c_str(),
 				aiProcess_Triangulate |
 				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType |
 				aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_EmbedTextures | aiProcess_PreTransformVertices | aiProcess_GenBoundingBoxes);
+			
+			/*
+			const aiScene* pScene = importer.ReadFile(path.c_str(),
+				aiProcess_Triangulate |
+				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType |
+				aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_EmbedTextures | aiProcess_GenBoundingBoxes);
+			*/
+
+			//const aiScene* pScene = importer.ReadFile(path.c_str(),
+			//	aiProcess_Triangulate |
+			//	aiProcess_GenNormals |
+			//	aiProcess_CalcTangentSpace |
+			//	aiProcess_ConvertToLeftHanded);
+			
 			assert(pScene != nullptr);
 
-			AssimpBufferParser::AssimpToSceneAssetData(pScene, path, modelData->_assetSceneData);
-			AssimpBufferParser::AssimpToDXBuffer(false, pScene, modelData->_vertexBuffer, modelData->_indexBuffer);
-			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList);
+			modelData->_assetSceneData->m_Directory = path;  
+			Helper::Asset3DModelHelper::ProcessAssimpToAssetData(pScene, modelData);
+			Helper::Asset3DModelHelper::FinalizeDataHelper();  
+
+			//이 상황에서 AssetSceneData는 로딩된 것이다.
+			//Material이 있을 시, 이를 로드한다.
+			//CheckLoadMaterialTextures(pScene, modelData);
 		}
 
-		//Importer를 재사용하면서, 기존에 있던 데이터 클리어.
-		_importer->FreeScene();
 	}
 
 	bool AssetBasic3DLoader::IsModelSkinned(const std::string& path)
 	{
-		//Importer를 재사용하면서, 기존에 있던 데이터 클리어.
-		_importer->FreeScene();
-
 		std::string tPath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(path);
 
-		const aiScene* tScene = _importer->ReadFile(path.c_str(),
+		Assimp::Importer tImporter;
+		const aiScene* tScene = tImporter.ReadFile(path.c_str(),
 			aiProcess_GenSmoothNormals | aiProcess_Triangulate | aiProcess_FlipUVs);
 
 		bool tIsSkinned = false;
@@ -94,11 +109,7 @@ namespace Pg::Graphics::Loader
 				break;
 			}
 		}
-		_importer->FreeScene();
-
 		return tIsSkinned;
 	}
-
-	
 
 }

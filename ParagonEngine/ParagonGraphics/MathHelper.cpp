@@ -176,9 +176,5 @@ namespace Pg::Graphics::Helper
 		return result;
 	}
 
-	DirectX::SimpleMath::Vector4 MathHelper::AI2SM_COLOR_VECTOR4(const aiColor4D& col)
-	{
-		return { col.r,col.g,col.b,col.a };
-	}
 
 }
