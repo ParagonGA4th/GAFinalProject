@@ -30,7 +30,7 @@ namespace Pg::Graphics
 		HRESULT hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _normal->GetFilePath().c_str(), &_normal->GetResource(), &_normal->GetSRV());
 
 		_diffuse = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, "../Resources/Textures/tw_diffuse.png");
-		//hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _diffuse->GetFilePath().c_str(), &_diffuse->GetResource(), &_diffuse->GetSRV());
+		hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _diffuse->GetFilePath().c_str(), &_diffuse->GetResource(), &_diffuse->GetSRV());
 		
 
 	}
@@ -71,7 +71,7 @@ namespace Pg::Graphics
 			AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
 			assert(tATS.texture != nullptr);
 
-			_diffuse->GetSRV() = tATS.texture;
+			//_diffuse->GetSRV() = tATS.texture;
 
 			_textures.emplace_back(_diffuse);
 			_textures.emplace_back(_normal);

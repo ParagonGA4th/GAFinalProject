@@ -14,12 +14,12 @@ POut1st PS_MAIN(VOut1st input)
 	
 	// normal과 tangent는 rasterizer를 거치며 보간된다.
 	float3 NormalW = normalize(input.vout1st_NormalW);
-	float3 TangentW = input.vout1st_TangentW;
-	float3 BinormalW = cross(TangentW, NormalW);
+	float3 TangentW = normalize(input.vout1st_TangentW);
+	float3 BinormalW = normalize(cross(TangentW, NormalW));
 	float3x3 TBNMatrix = float3x3(TangentW, BinormalW, NormalW);
 	
-	float3 NormalSample = Normal.Sample(state, input.vout1st_Tex.xy).xyz; // [0 ~ 1]
-	NormalSample = NormalSample * 2 - 1; // [1 ~ -1]
+	float3 NormalSample = pow(Normal.Sample(state, input.vout1st_Tex.xy).xyz, 1.0 / 2.2); // [0 ~ 1]
+	NormalSample = NormalSample * 2.0 - 1.0;// [1 ~ -1]
 	
 	// convert to World Space
 	NormalSample = mul(NormalSample, TBNMatrix);
@@ -31,7 +31,7 @@ POut1st PS_MAIN(VOut1st input)
     
     //RT1 : World Space Normal.
 	//output.pout1st_RT1.xyz = input.vout1st_NormalW;
-	//output.pout1st_RT1.xyz = TangentW;
+	//output.pout1st_RT1.xyz = NormalW;
 	output.pout1st_RT1.xyz = NormalSample;
     //RT1 : World Space Tangent.y
 	output.pout1st_RT1.w = input.vout1st_TangentW.y;
