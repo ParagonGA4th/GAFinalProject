@@ -38,31 +38,33 @@ namespace Pg::Graphics::Manager
 		//Can Compile!
 		//ASSETDEFINE2TYPE_MEMFUNC_2PARAMS(define, this, GraphicsResourceManager::CreateResource, filePath, define);
 		
+		std::string tFilePath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(filePath);
+
 		using Pg::Data::Enums::eAssetDefine;
 		if (define == eAssetDefine::_2DTEXTURE)
 		{
-			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(filePath, define);
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(tFilePath, define);
 		}
 		else if (define == eAssetDefine::_FONT)
 		{
-			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_FONT)>(filePath, define);
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_FONT)>(tFilePath, define);
 		}
 		else if (define == eAssetDefine::_3DMODEL)
 		{
-			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_3DMODEL)>(filePath, define);
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_3DMODEL)>(tFilePath, define);
 		}
 		else if (define == eAssetDefine::_RENDERSHADER)
 		{
-			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_RENDERSHADER)>(filePath, define);
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_RENDERSHADER)>(tFilePath, define);
 		}
 		else if (define == eAssetDefine::_RENDERMATERIAL)
 		{
-			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_RENDERMATERIAL)>(filePath, define);
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_RENDERMATERIAL)>(tFilePath, define);
 		}
 		else
 		{
 			assert(false); //여기까지 와도 안된다.
-			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(filePath, define);
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(tFilePath, define);
 		}
 	}
 
@@ -73,33 +75,35 @@ namespace Pg::Graphics::Manager
 
 	std::shared_ptr<Pg::Data::Resources::GraphicsResource> GraphicsResourceManager::GetResource(const std::string& path, Pg::Data::Enums::eAssetDefine define)
 	{
+		std::string tFilePath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(path);
+
 		using Pg::Data::Enums::eAssetDefine;
 
 		if (define == eAssetDefine::_2DTEXTURE)
 		{
-			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(path);
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(tFilePath);
 		}
 		else if (define == eAssetDefine::_FONT)
 		{
-			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_FONT)>(path);
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_FONT)>(tFilePath);
 		}
 		else if (define == eAssetDefine::_3DMODEL)
 		{
-			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_3DMODEL)>(path);
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_3DMODEL)>(tFilePath);
 		}
 		else if (define == eAssetDefine::_RENDERSHADER)
 		{
-			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_RENDERSHADER)>(path);
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_RENDERSHADER)>(tFilePath);
 		}
 		else if (define == eAssetDefine::_RENDERMATERIAL)
 		{
-			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_RENDERMATERIAL)>(path);
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_RENDERMATERIAL)>(tFilePath);
 		}
 		else
 		{
 			assert(false);
 			//여기까지 와도 안된다.
-			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(path);
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(tFilePath);
 		}
 	}
 
@@ -132,6 +136,14 @@ namespace Pg::Graphics::Manager
 	{
 		_toAddSecondaryResourcesMap.clear();
 	}
-	
+
+	void GraphicsResourceManager::AddSecondaryResource(const std::string& path, Pg::Data::Enums::eAssetDefine define)
+	{
+		std::string tFilePath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(path);
+
+		//AssetManager한테 이러이러한 애셋이 외부적으로 추가되었다고 알리는 과정!
+		_toAddSecondaryResourcesMap.insert(std::make_pair(tFilePath, define));
+	}
+
 
 }

@@ -45,6 +45,7 @@ namespace Pg::Graphics::Manager
 	class GraphicsResourceManager : public Pg::Core::Singleton<GraphicsResourceManager>
 	{
 		friend class Pg::Core::Manager::AssetManager;
+		friend class Pg::Graphics::Helper::AssimpBufferParser;
 		friend class Pg::Graphics::GraphicsMain;
 	public:
 		GraphicsResourceManager(); 
@@ -59,6 +60,10 @@ namespace Pg::Graphics::Manager
 
 		//리소스가 있는 경우가 강제될 때, 리소스를 반환한다. (eAssetDefine으로)
 		std::shared_ptr<GraphicsResource> GetResource(const std::string& path, Pg::Data::Enums::eAssetDefine define);
+
+		//2차 리소스 등으로 AssetManager를 거치지 않고 GraphicsResourceManager에서 CreateResource되었을 때,
+		//명시적으로 SecondaryResourceList에 해당 사항을 추가할 수 있는 방법.
+		void AddSecondaryResource(const std::string& path, Pg::Data::Enums::eAssetDefine define);
 
 		//2차적으로 생성된 리스트들 반환, 목록 없으면 nullptr 반환.
 		std::map<std::string, Pg::Data::Enums::eAssetDefine>* GetSecondaryResources();

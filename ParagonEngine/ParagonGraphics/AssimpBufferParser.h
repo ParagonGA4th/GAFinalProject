@@ -89,7 +89,7 @@ namespace Pg::Graphics::Helper
 		//Bone Info도 있어야 하는데..
 
 		//Material 관련.
-		static void SaveEmbeddedTextureToFile(const std::string& dir, const aiTexture* assimp);
+		static void SaveEmbeddedTextureToFile(const std::string& filePath, const aiTexture* assimp);
 
 	private:
 		static Pg::Graphics::Manager::GraphicsResourceManager* _graphicsResourceManager;
