@@ -25,12 +25,12 @@ namespace Pg::Graphics::Loader
 	AssetBasic3DLoader::AssetBasic3DLoader()
 	{
 		////Assimp 링크 문제 없다는 것을 확인하기 위해.
-		_importer = new Assimp::Importer();
+		_importer = std::make_unique<Assimp::Importer>();
 	}
 
 	AssetBasic3DLoader::~AssetBasic3DLoader()
 	{
-		delete _importer;
+		//
 	}
 
 	void AssetBasic3DLoader::Load3DModelBuffer(const std::string& path, Asset3DModelData* modelData)
@@ -51,7 +51,7 @@ namespace Pg::Graphics::Loader
 
 			AssimpBufferParser::AssimpToSceneAssetData(pScene, path, modelData->_assetSceneData);
 			AssimpBufferParser::AssimpToDXBuffer(true, pScene, modelData->_vertexBuffer, modelData->_indexBuffer);
-			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList);
+			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList, path);
 		}
 		else
 		{
@@ -64,7 +64,7 @@ namespace Pg::Graphics::Loader
 
 			AssimpBufferParser::AssimpToSceneAssetData(pScene, path, modelData->_assetSceneData);
 			AssimpBufferParser::AssimpToDXBuffer(false, pScene, modelData->_vertexBuffer, modelData->_indexBuffer);
-			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList);
+			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList, path);
 		}
 
 		//Importer를 재사용하면서, 기존에 있던 데이터 클리어.
