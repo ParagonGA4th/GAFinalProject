@@ -36,6 +36,10 @@ namespace Pg::Graphics
 		class AssetBasic3DLoader;
 		class AssetBasic2DLoader;
 	}
+	namespace Helper
+	{
+		class AssimpBufferParser;
+	}
 }
 
 namespace Pg::Graphics::Manager

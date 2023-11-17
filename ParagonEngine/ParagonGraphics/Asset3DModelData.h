@@ -2,6 +2,7 @@
 #include "../ParagonData/GraphicsResource.h"
 #include "../ParagonData/ParagonDefines.h"
 #include <array>
+#include <vector>
 
 /// <summary>
 /// 실제 3DModel과 1대1 대응되는 클래스. 
@@ -15,6 +16,15 @@ namespace Pg::Graphics
 {
 	struct Scene_AssetData;
 	struct MaterialCluster;
+
+	namespace Helper
+	{
+		class AssimpBufferParser;
+	}
+	namespace Loader
+	{
+		class AssetBasic3DLoader;
+	}
 }
 
 namespace Pg::Graphics
@@ -39,7 +49,6 @@ namespace Pg::Graphics
 		// 여기서, 실질적으로 Mesh 관련된 정보를 보관하는 
 		// 다른 요소 투입 예정. AssetSceneData 대신.
 
-	private:
 		bool _isSkinned = false;
 		Scene_AssetData* _assetSceneData = nullptr;
 

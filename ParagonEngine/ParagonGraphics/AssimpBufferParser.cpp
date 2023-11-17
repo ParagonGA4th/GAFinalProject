@@ -54,7 +54,7 @@ namespace Pg::Graphics::Helper
 	using Pg::Data::Enums::eAssetDefine;
 
 	Pg::Graphics::Manager::GraphicsResourceManager* AssimpBufferParser::_graphicsResourceManager = nullptr;
-	 
+
 	AssimpBufferParser::AssimpBufferParser()
 	{
 		_graphicsResourceManager = Pg::Graphics::Manager::GraphicsResourceManager::Instance();
@@ -104,10 +104,12 @@ namespace Pg::Graphics::Helper
 				tMeshVert.tangentL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTangents[j]);
 
 				//없으면 {0.f,0.f,0.f,0.f}가 들어가 있음.
-				IF_NOT_NULL(assimp->mMeshes[i]->mColors[j],
-					tMeshVert.color = MathHelper::AI2SM_COLOR_VECTOR4(assimp->mMeshes[i]->mColors[j][0]););
-				
-				tMeshVert.tex = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTextureCoords[j][0]);
+				//IF_NOT_NULL(assimp->mMeshes[i]->mColors[j],
+				//	tMeshVert.color = MathHelper::AI2SM_COLOR_VECTOR4(assimp->mMeshes[i]->mColors[0][j]););
+				//일단은 Color 지원을 파싱에서 받지 않는다!
+				tMeshVert.color = { 0.f, 0.f, 0.f, 0.f };
+
+				tMeshVert.tex = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTextureCoords[0][j]);
 				tMeshVert.matID = assimp->mMeshes[i]->mMaterialIndex;
 
 				tVBVec.push_back(tMeshVert);
@@ -218,7 +220,7 @@ namespace Pg::Graphics::Helper
 			outMatClusterList.push_back(tMatCluster);
 		}
 	}
-	
+
 
 	void AssimpBufferParser::AssimpToSceneAssetData(const aiScene* assimp, const std::string& path, Scene_AssetData* outSceneAssetData)
 	{
@@ -351,7 +353,7 @@ namespace Pg::Graphics::Helper
 		ID3D11Texture2D* tUseTexture2D = nullptr;
 
 		//tUseResource, tUseTexture2D는 같은 대상을 가리킨다.
-		HR(tUseResource->QueryInterface(IID_ID3D11Texture2D, (void**)&tUseTexture2D)); 
+		HR(tUseResource->QueryInterface(IID_ID3D11Texture2D, (void**)&tUseTexture2D));
 
 		if (assimp->mHeight != 0)
 		{

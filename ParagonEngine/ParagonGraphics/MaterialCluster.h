@@ -19,6 +19,10 @@ struct ID3D11ShaderResourceView;
 namespace Pg::Graphics
 {
 	class RenderTexture2D;
+	namespace Helper
+	{
+		class AssimpBufferParser;
+	}
 }
 
 namespace Pg::Graphics
@@ -29,10 +33,8 @@ namespace Pg::Graphics
 
 	public:
 		MaterialCluster();
-		////AssetTextureType에 기반해서 해당하는 Texture SRV를 반환한다.
-		//ID3D11ShaderResourceView* GetTextureSrvByType(eAssetTextureType type);
-		////AssetTextureType에 기반해서 해당하는 Texture Path를 반환한다.
-		//std::string GetTexturePathByType(eAssetTextureType type);
+		//AssetTextureType에 기반해서 해당하는 RenderTexture2D를 반환한다.
+		RenderTexture2D* GetTextureByType(eAssetTextureType type);
 
 		//나중에는 Path만 특정 Type으로 넣어서 Map을 바꿀 수 있는 세터가 있어야 한다.
 
