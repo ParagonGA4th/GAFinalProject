@@ -28,7 +28,7 @@ void Pg::Editor::Manager::DataManager::DataLoad()
 	if (_path.find("pgproject") == std::string::npos) SceneLoad();
 	else ProjectLoad();
 
-	_dataContainer->SetScenes(_scenes);
+	if(_scenes.size() > 0) _dataContainer->SetScenes(_scenes);
 }
 
 void Pg::Editor::Manager::DataManager::DataSave()

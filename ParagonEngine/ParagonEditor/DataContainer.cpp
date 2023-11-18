@@ -53,6 +53,9 @@ bool Pg::Editor::Data::DataContainer::GetEditorOnOff()
 void Pg::Editor::Data::DataContainer::SetScenes(std::vector<Pg::Data::Scene*> scenes)
 {
 	_scenes = scenes;
+
+	// юс╫ц
+	SetCurrentScene(_scenes.at(0));
 }
 
 std::vector<Pg::Data::Scene*> Pg::Editor::Data::DataContainer::GetScenes()

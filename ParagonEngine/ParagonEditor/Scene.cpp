@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "DataContainer.h"
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
 #include <singleton-cpp/singleton.h>
@@ -8,8 +9,8 @@
 Pg::Editor::Window::Scene::Scene()
 	:_winName("Scene"), _isShow(true)
 {
-	auto& tedhepler = singleton<Pg::Editor::Helper::EditorHelper>();
-	_editorHelper = &tedhepler;
+	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
+	_dataContainer = &tdataCon;
 	
 	auto& tUIManager = singleton<Pg::UI::Manager::UIManager>();
 	_uiManager = &tUIManager;
@@ -24,7 +25,7 @@ Pg::Editor::Window::Scene::~Scene()
 
 void Pg::Editor::Window::Scene::Initialize()
 {
-	cons->CreateWidget<Pg::UI::Widget::Image>(_editorHelper->GetSceneTexture(), 1080.f, 920.f);
+	cons->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 1080.f, 920.f);
 }
 
 void Pg::Editor::Window::Scene::Update()

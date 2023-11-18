@@ -1,5 +1,5 @@
 #include "Hierarchy.h"
-
+#include "DataContainer.h"
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
 #include "../ParagonUI/Selectable.h"
@@ -14,8 +14,8 @@ Pg::Editor::Window::Hierarchy::Hierarchy()
 	auto& tUIManager = singleton<Pg::UI::Manager::UIManager>();
 	_uiManager = &tUIManager;
 
-	auto& tEditorHelper = singleton<Pg::Editor::Helper::EditorHelper>();
-	_edHepler = &tEditorHelper;
+	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
+	_dataContainer = &tdataCon;
 
 	cons = new Pg::UI::WidgetContainer();
 }
@@ -28,9 +28,9 @@ Pg::Editor::Window::Hierarchy::~Hierarchy()
 void Pg::Editor::Window::Hierarchy::Initialize()
 {
 	std::vector<std::string> objName;
-	if (_edHepler->GetCurrentScene() != NULL)
+	if (_dataContainer->GetCurrentScene() != NULL)
 	{
-		for (auto i : _edHepler->GetCurrentScene()->GetObjectList())
+		for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
 		{
 			objName.emplace_back(i->GetName());
 		}
