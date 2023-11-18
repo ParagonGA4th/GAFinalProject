@@ -6,12 +6,12 @@
 #include <dxtk/CommonStates.h>
 #include <dxtk/GeometricPrimitive.h>
 #include <dxtk/PrimitiveBatch.h>
+#include <dxtk/Effects.h>
 
 /// 게임엔진에서 콜라이더 등 
 /// 디버그 렌더 과정을 담당한다.
 
-//class DirectX::GeometricPrimitive;
-//template<> class DirectX::PrimitiveBatch<DirectX::VertexPositionColor>;
+struct ID3D11InputLayout;
 
 namespace Pg::Data
 {
@@ -30,11 +30,21 @@ namespace Pg::Graphics
 
 	public:
 		void Initialize();
-		void BeginRender();
 		void Render(Pg::Data::CameraData* camData);
 
 	private:
-		void CreateGeometry();
+		//내부적으로 Rendering 세팅 설정.
+		void BeginGeoPrimitiveRender();
+		void GeoPrimitiveRender(Pg::Data::CameraData* camData);
+		void EndGeoPrimitiveRender();
+
+		void BeginLineRender(Pg::Data::CameraData* camData);
+		void LineRender();
+		void EndLineRender();
+
+	private:
+		void InitGeometry();
+		void InitLine();
 
 	private:
 		LowDX11Storage* _DXStorage;
@@ -45,11 +55,18 @@ namespace Pg::Graphics
 		std::unique_ptr<DirectX::GeometricPrimitive> _boxShape;
 		//Sphere Wireframe Rendering
 		std::unique_ptr<DirectX::GeometricPrimitive> _sphereShape;
-		//Capsule Wireframe Rendering
-		std::unique_ptr<DirectX::GeometricPrimitive> _capsuleShape;
+
+		//Capsule Wireframe Rendering -> TBA. CreateCustom을 통해서 만들 것.
+		//std::unique_ptr<DirectX::GeometricPrimitive> _capsuleShape;
+
+	private:
+		//DebugLine을 위한 요구사항.
+		
 		//Line Wireframe Rendering
 		std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> _primitiveBatch;
-	
+		ID3D11InputLayout* _debugLineInputLayout = nullptr;
+		std::unique_ptr<DirectX::BasicEffect> _basicEffect = nullptr;
+
 		//CommonState
 		std::unique_ptr<DirectX::CommonStates> _commonStates;
 	};

@@ -183,7 +183,7 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::DebugRender(Pg::Data::CameraData* camData)
 	{
-
+		_debugRenderer->Render(camData);
 	}
 
 	void ParagonRenderer::SyncComponentToGraphics(const Pg::Data::Scene* const newScene)
