@@ -117,6 +117,10 @@ namespace Pg::Graphics::Manager
 
 		// 없으면, 템플릿으로 들어온 값으로 생성 및 Load.
 		_resources[path] = res = std::make_shared<T>(define, path);
+
+		//Scope 유지를 위해 shared_ptr를 별도로 보관해야 한다.
+		_scopeResourceMap.insert(std::make_pair(path, res));
+
 		res->InternalLoad();
 
 		//원 형태로 반환해줘야 한다.
@@ -126,10 +130,6 @@ namespace Pg::Graphics::Manager
 			throw std::runtime_error(std::string("[Graphics] 리소스 '") + path + "'를 해당 타입으로 변환하는 것이 불가능!!");
 			assert(false);
 		}
-
-		//Scope 유지를 위해 shared_ptr를 별도로 보관해야 한다.
-		_scopeResourceMap.insert(std::make_pair(path, res));
-
 		return;
 	}
 

@@ -91,8 +91,6 @@ namespace Pg::Graphics::Helper
 		//Material ฐüทร.
 		static void SaveEmbeddedTextureToFile(const std::string& filePath, const aiTexture* assimp);
 
-	private:
-		static Pg::Graphics::Manager::GraphicsResourceManager* _graphicsResourceManager;
 	};
 }
 
