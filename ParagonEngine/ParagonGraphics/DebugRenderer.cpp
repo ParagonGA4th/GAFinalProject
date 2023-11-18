@@ -30,4 +30,14 @@ namespace Pg::Graphics
 
 	}
 
+	void DebugRenderer::CreateGeometry()
+	{
+		//Box & Sphere 만들기.
+		_boxShape = DirectX::GeometricPrimitive::CreateBox(_DXStorage->_deviceContext, DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f));
+		_sphereShape = DirectX::GeometricPrimitive::CreateSphere(_DXStorage->_deviceContext);
+		
+		//Capsule 만들기.
+		
+	
+	}
 }
