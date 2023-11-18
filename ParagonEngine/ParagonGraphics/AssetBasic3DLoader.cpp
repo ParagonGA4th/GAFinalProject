@@ -24,6 +24,8 @@ namespace Pg::Graphics::Loader
 
 	AssetBasic3DLoader::AssetBasic3DLoader()
 	{
+		AssimpBufferParser::Initialize();
+
 		////Assimp 링크 문제 없다는 것을 확인하기 위해.
 		_importer = std::make_unique<Assimp::Importer>();
 	}

@@ -57,12 +57,17 @@ namespace Pg::Graphics::Helper
 
 	AssimpBufferParser::AssimpBufferParser()
 	{
-		_graphicsResourceManager = Pg::Graphics::Manager::GraphicsResourceManager::Instance();
+		//
 	}
 
 	AssimpBufferParser::~AssimpBufferParser()
 	{
 		//
+	}
+
+	void AssimpBufferParser::Initialize()
+	{
+		_graphicsResourceManager = Pg::Graphics::Manager::GraphicsResourceManager::Instance();
 	}
 
 	void AssimpBufferParser::AssimpToDXBuffer(bool isSkinned, const aiScene* assimp, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB)
@@ -435,7 +440,4 @@ namespace Pg::Graphics::Helper
 		//여기서 실패한다면, 임베딩된 리소스의 경로가 잘못되어 만들어졌다는 것.
 		return;
 	}
-
-
-
 }

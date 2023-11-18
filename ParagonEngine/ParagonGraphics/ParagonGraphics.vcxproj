@@ -43,7 +43,10 @@
     </ClInclude>
     <ClInclude Include="DebugRenderer.h" />
     <ClInclude Include="DeferredRenderer.h" />
-    <ClInclude Include="DemoGeometryGenerator.h" />
+    <ClInclude Include="DemoGeometryGenerator.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Forward2DRenderer.h" />
     <ClInclude Include="Joint.h" />
     <ClInclude Include="RenderableObject.h" />
@@ -120,7 +123,10 @@
     </ClCompile>
     <ClCompile Include="DebugRenderer.cpp" />
     <ClCompile Include="DeferredRenderer.cpp" />
-    <ClCompile Include="DemoGeometryGenerator.cpp" />
+    <ClCompile Include="DemoGeometryGenerator.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Forward2DRenderer.cpp" />
     <ClCompile Include="Forward3DRenderer.cpp" />
