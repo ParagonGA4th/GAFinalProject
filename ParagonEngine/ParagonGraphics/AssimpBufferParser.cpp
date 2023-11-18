@@ -183,7 +183,13 @@ namespace Pg::Graphics::Helper
 					aiString tAssimpTexturePath;
 					assimp->mMaterials[i]->GetTexture((aiTextureType)tTexType, i, &tAssimpTexturePath);
 					std::string tTexturePath = tAssimpTexturePath.C_Str();
-					std::string tCompletePath = directory + '/' + tTexturePath;
+
+					//이전에, Directory에서 .fbx라는 파일 경로에서 Texture가 파생되는 것이 아니라,
+					//"한단계" 상위 경로로 가서 찾아야 한다.
+					std::filesystem::path modelParentPath = directory;
+					std::string modelParentStr = modelParentPath.parent_path().string();
+					std::string tCompletePath = modelParentStr + '/' + tTexturePath;
+
 					tCompletePath = ResourceHelper::ForcePathUniform(tCompletePath);
 
 					//이미 해당 이름으로 된 리소스가 없다면
@@ -418,10 +424,6 @@ namespace Pg::Graphics::Helper
 		std::string tExt = assimp->achFormatHint;
 		if (tExt != "dds" || tExt != "DDS")
 		{
-			HR(DirectX::SaveDDSTextureToFile(LowDX11Storage::GetInstance()->_deviceContext, tUseTexture2D, tFilenameWS.c_str()));
-		}
-		else
-		{
 			//WIC는 DDS보다 더 다양한 설정이 있었다. 일단 이를 기반해서 보자.
 			if (tExt == "jpeg" || tExt == "JPEG" || tExt == "jpg" || tExt == "JPG")
 			{
@@ -435,6 +437,10 @@ namespace Pg::Graphics::Helper
 			{
 				assert(false && "모르는 임베딩된 이미지 형식.");
 			}
+		}
+		else
+		{
+			HR(DirectX::SaveDDSTextureToFile(LowDX11Storage::GetInstance()->_deviceContext, tUseTexture2D, tFilenameWS.c_str()));
 		}
 
 		//이제 함수 밖에서 실제로 값을 추가해야 한다. 
