@@ -61,9 +61,6 @@ namespace Pg::Graphics::Helper
 	public:
 		AssimpBufferParser();
 		~AssimpBufferParser();
-		
-		//GraphicsResourceManager 포인터를 가져온다.
-		static void Initialize();
 
 		//Assimp의 구조체를 받고 Vertex / Index Buffer를 만든다.
 		//일단은 1차 그래픽엔진에서 Screen->World Space 1차 Layout에 맞추도록 세팅.
