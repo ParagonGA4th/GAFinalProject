@@ -42,10 +42,10 @@ void Pg::Editor::Manager::WindowManager::Initialize(HWND hWnd)
 void Pg::Editor::Manager::WindowManager::Update()
 {
 	_uiManager->Update(_dataContainer->GetSceneTexture());
-	_inspector->Update();
+	//_inspector->Update();
 	_hierarchy->Update();
-	_scene->Update();
-	_filter->Update();
+	//_scene->Update();
+	//_filter->Update();
 }
 
 void Pg::Editor::Manager::WindowManager::LastUpdate()

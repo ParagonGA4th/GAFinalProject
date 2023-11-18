@@ -17,7 +17,7 @@ namespace Pg::Editor::Manager
 		void LastUpdate();		
 		void Finalize();
 
-		void UIHandler(MSG message);
+		void WindowHandler(MSG message);
 
 	private:
 		Pg::Editor::Data::DataContainer* _dataContainer;
