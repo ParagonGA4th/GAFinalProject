@@ -1,5 +1,5 @@
 #include "DemoGeometryGenerator.h"
-//#include "D3DBufferInfo.h"
+#include "D3DBufferInfo.h"
 #include "LayoutDefine.h"
 #include "LowDX11Storage.h"
 
