@@ -112,7 +112,7 @@ namespace Pg::Graphics
 		DirectX::XMStoreFloat4x4(&(axis->_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
 
 		// ·»´õ
-		//cubemap->Render();
+		cubemap->Render();
 		grid->Render();
 		axis->Render();
 	}

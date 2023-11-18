@@ -191,6 +191,11 @@ namespace Pg::Graphics
 		
 	}
 
+	unsigned int ParagonRenderer::Get3DObjectCount()
+	{
+		return _renderObject3DList->_list.size();
+	}
+
 	//void ParagonRenderer::SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene)
 	//{
 	//
