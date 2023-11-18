@@ -16,6 +16,7 @@
 
 // Script<->Component 확인하기 위해.
 #include "../ParagonData/MoveForwardBack.h"
+#include "PrintRuntimeData.h"
 #include "EditorCameraScript.h"
 
 #include "../ParagonData/SpotLight.h"
@@ -37,6 +38,7 @@ Pg::Data::GameObject* tObj6;
 Pg::Data::GameObject* tObj7;
 
 Pg::Data::GameObject* tText_1;
+Pg::Data::GameObject* tText_2;
 
 void Pg::Engine::TestScene::Initialize()
 {
@@ -200,6 +202,17 @@ void Pg::Engine::TestScene::Initialize()
 	tObj5->AddComponent<TextRenderer>();
 	tObj5->GetComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_13.spritefont");
 	tObj5->GetComponent<TextRenderer>()->SetString("[9] Previous Render Target\n[0] Next Render Target");
+
+	//FPS 정보 출력.
+	tText_2 = tCurrentScene->AddObject("FPSTextTest");
+	tText_2->GetComponent<Transform>()->SetPosition({ 10.0f, 350.f, 0.f });
+	tText_2->GetComponent<Transform>()->SetIs3D(false);
+	tText_2->AddComponent<TextRenderer>();
+	tText_2->GetComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_13.spritefont");
+	tText_2->GetComponent<TextRenderer>()->SetString("NULL");
+	tText_2->AddComponent<PrintRuntimeData>();
+
+
 
 	//이렇게 하면 메인 카메라 바뀜!!
 	tCurrentScene->SetMainCamera(tObj1->GetComponent<Camera>());
