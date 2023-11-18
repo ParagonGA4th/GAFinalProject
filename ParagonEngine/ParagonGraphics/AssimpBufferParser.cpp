@@ -52,12 +52,11 @@ namespace Pg::Graphics::Helper
 	using Pg::Graphics::Helper::MathHelper;
 	using Pg::Util::Helper::ResourceHelper;
 	using Pg::Data::Enums::eAssetDefine;
-
-	Pg::Graphics::Manager::GraphicsResourceManager* AssimpBufferParser::_graphicsResourceManager = nullptr;
+	using Pg::Graphics::Manager::GraphicsResourceManager;
 
 	AssimpBufferParser::AssimpBufferParser()
 	{
-		_graphicsResourceManager = Pg::Graphics::Manager::GraphicsResourceManager::Instance();
+		//
 	}
 
 	AssimpBufferParser::~AssimpBufferParser()
@@ -163,6 +162,9 @@ namespace Pg::Graphics::Helper
 
 	void AssimpBufferParser::AssimpToMaterialClusterList(const aiScene* assimp, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory)
 	{
+		//미리 GraphicsResourceManager 받아오기.
+		GraphicsResourceManager* tGraphicsResourceManager = GraphicsResourceManager::Instance();
+
 		unsigned int tNumMaterials = assimp->mNumMaterials;
 		outMatClusterList.reserve(assimp->mNumMaterials);
 
@@ -185,7 +187,7 @@ namespace Pg::Graphics::Helper
 					tCompletePath = ResourceHelper::ForcePathUniform(tCompletePath);
 
 					//이미 해당 이름으로 된 리소스가 없다면
-					if (!_graphicsResourceManager->IsExistResource(tCompletePath))
+					if (!tGraphicsResourceManager->IsExistResource(tCompletePath))
 					{
 						HRESULT hr = S_OK;
 
@@ -207,13 +209,13 @@ namespace Pg::Graphics::Helper
 						}
 
 						//일단은 해당 리소스대로 일단 GraphicsResourceManager에 추가.
-						_graphicsResourceManager->LoadResource(tCompletePath, eAssetDefine::_2DTEXTURE);
+						tGraphicsResourceManager->LoadResource(tCompletePath, eAssetDefine::_2DTEXTURE);
 						//AssetManager와 연동 위해.
-						_graphicsResourceManager->AddSecondaryResource(tCompletePath, eAssetDefine::_2DTEXTURE);
+						tGraphicsResourceManager->AddSecondaryResource(tCompletePath, eAssetDefine::_2DTEXTURE);
 					}
 
 					//이미 동일한 파일 이름으로 로드된 RenderTexture2D가 있다.
-					auto tTexture2dData = _graphicsResourceManager->GetResource(tCompletePath, Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+					auto tTexture2dData = tGraphicsResourceManager->GetResource(tCompletePath, Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
 					tMatCluster->_atsList[j] = static_cast<RenderTexture2D*>(tTexture2dData.get());
 				}
 			}
@@ -351,9 +353,7 @@ namespace Pg::Graphics::Helper
 		HRESULT hr;
 		ID3D11Resource* tUseResource = nullptr;
 		ID3D11Texture2D* tUseTexture2D = nullptr;
-
-		//tUseResource, tUseTexture2D는 같은 대상을 가리킨다.
-		HR(tUseResource->QueryInterface(IID_ID3D11Texture2D, (void**)&tUseTexture2D));
+		//이 둘이 같은 대상을 가리키게 해야 한다.
 
 		if (assimp->mHeight != 0)
 		{
@@ -378,7 +378,11 @@ namespace Pg::Graphics::Helper
 
 			hr = LowDX11Storage::GetInstance()->_device->CreateTexture2D(&desc, &subresourceData, &tUseTexture2D);
 			if (FAILED(hr))
+			{
 				MessageBox(LowDX11Storage::GetInstance()->_hWnd, L"임베디드 텍스쳐 로드 안에서, CreateTexture2D 실패!", L"오류", MB_ICONERROR | MB_OK);
+			}
+			//tUseResource, tUseTexture2D는 같은 대상을 가리킨다.
+			HR(tUseTexture2D->QueryInterface(IID_ID3D11Resource, (void**)&tUseResource));
 		}
 		else
 		{
@@ -399,6 +403,8 @@ namespace Pg::Graphics::Helper
 				HR(DirectX::CreateDDSTextureFromMemory(LowDX11Storage::GetInstance()->_device, LowDX11Storage::GetInstance()->_deviceContext,
 					reinterpret_cast<const unsigned char*>(assimp->pcData), tSize, &tUseResource, &tDumpSRV));
 			}
+
+			HR(tUseResource->QueryInterface(IID_ID3D11Texture2D, (void**)&tUseTexture2D));
 		}
 
 		//SRV를 만드는 대신, ScreenGrab의 파일로 쓰기를 활용할 것!
@@ -436,6 +442,7 @@ namespace Pg::Graphics::Helper
 		return;
 	}
 
+	
 
 
 }
