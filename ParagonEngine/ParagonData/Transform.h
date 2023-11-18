@@ -1,7 +1,6 @@
 #pragma once
 #include "Component.h"
 #include "../ParagonMath/PgMath.h"
-#include "ISerializable.h"
 
 #include <memory>
 
@@ -97,10 +96,6 @@ namespace Pg::Data
 		/// 오브젝트의 3D 여부를 세팅... Transform에 있는게 맞을까?
 		void SetIs3D(bool is3D);
 		bool Is3D();
-
-		/// 시리얼라이즈 테스트를 위한 함수
-		void OnSerialize() override;
-		void OnDeserialize() override;
 
 	private:
 		// 카메라를 위한 transform 함수
