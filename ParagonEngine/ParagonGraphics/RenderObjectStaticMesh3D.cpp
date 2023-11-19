@@ -59,9 +59,16 @@ namespace Pg::Graphics
 			//아니면 업데이트되는 로직을 여기랑 연관? 후의 일.
 			this->_diffuse = _modelData->GetMaterialByIndex(tMatID)->GetTextureByType(PG_TextureType_DIFFUSE);
 			this->_normal =  _modelData->GetMaterialByIndex(tMatID)->GetTextureByType(PG_TextureType_NORMALS);
-			assert(this->_diffuse != nullptr);
-			assert(this->_normal != nullptr);
 
+			if (this->_diffuse == nullptr)
+			{
+				this->_diffuse = GraphicsResourceManager::Instance()->GetDefaultTexture(PG_TextureType_DIFFUSE);
+			}
+			if (this->_normal == nullptr)
+			{
+				this->_normal = GraphicsResourceManager::Instance()->GetDefaultTexture(PG_TextureType_NORMALS);
+			}
+			
 			_textures.emplace_back(_diffuse);
 			_textures.emplace_back(_normal);
 

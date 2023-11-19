@@ -10,6 +10,7 @@
 
 #include "../ParagonData/GraphicsResource.h"
 #include "../ParagonProcess/CoreSingleton.h"
+#include "AssetTextureType.h"
 
 /// <summary>
 /// AssetManager에 의해 제어되는 그래픽스 리소스 관리 전담 매니저. 독단적 사용 불가.
@@ -40,6 +41,11 @@ namespace Pg::Graphics
 	{
 		class AssimpBufferParser;
 	}
+}
+
+namespace Pg::Graphics
+{
+	class RenderTexture2D;
 }
 
 namespace Pg::Graphics::Manager
@@ -74,6 +80,10 @@ namespace Pg::Graphics::Manager
 
 		//한 Iteration마다 활용되는 2차 발생 리소스들을 지운다.
 		void ClearSecondaryResourcesList();
+
+		//가져온 값이 없을 때 Texture의 종류에 따라 디폴트 값을 가져올 수 있다.
+		RenderTexture2D* GetDefaultTexture(eAssetTextureType textureType);
+
 	private:
 		//GraphicsMain에서, 리소스 로드할 때 활용된다.
 		void LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define);

@@ -53,7 +53,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2->GetComponent<Transform>()->SetPosition({ 3.0f, 1.0f, 5.0f });
 	tObj2->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.0f, 2.0f);
 	tObj2->AddComponent<StaticMeshRenderer>();
-	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/TexturedMultiCubes/simplecube.fbx");
+	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj2->AddComponent<MoveForwardBack>();
 	tObj2->GetComponent<MoveForwardBack>()->SetActive(true);
@@ -61,12 +61,12 @@ void Pg::Engine::TestScene::Initialize()
 	GameObject* tObj2_1 = tCurrentScene->AddObject("Cube3");
 	tObj2_1->GetComponent<Transform>()->SetPosition({ 5.0f, 1.0f, 0.0f });
 	tObj2_1->AddComponent<StaticMeshRenderer>();
-	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/TexturedMultiCubes/twcylinder.fbx");
+	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx");
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Cube4");
 	tObj2_2->GetComponent<Transform>()->SetPosition({ -5.0f, 1.0f, 0.0f });
-	tObj2_2->AddComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/TexturedMultiCubes/simplecube.fbx");
+	tObj2_2->AddComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj2_2->AddComponent<MoveForwardBack>();
 	tObj2_2->GetComponent<MoveForwardBack>()->SetActive(true);
@@ -75,7 +75,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj3->GetComponent<Transform>()->SetPosition({ -1.0f, -3.0f, 5.0f });
 	tObj3->GetComponent<Transform>()->SetLocalRotationEuler(1.0f, -1.0f, 3.0f);
 	tObj3->AddComponent<StaticMeshRenderer>();
-	tObj3->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/TexturedMultiCubes/twcylinder.fbx");
+	tObj3->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx");
 	tObj3->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj3->AddComponent<MoveForwardBack>();
 	tObj3->GetComponent<MoveForwardBack>()->SetActive(true);
@@ -84,7 +84,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj4->GetComponent<Transform>()->SetPosition({ -3.0f, -1.0f, -2.0f });
 	tObj4->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.5f, -2.0f);
 	tObj4->AddComponent<StaticMeshRenderer>();
-	tObj4->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/TexturedMultiCubes/simplecube.fbx");
+	tObj4->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	tObj4->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj4->AddComponent<MoveForwardBack>();
 	tObj4->GetComponent<MoveForwardBack>()->SetActive(true);
@@ -93,7 +93,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj5->GetComponent<Transform>()->SetPosition({ 1.0f, 4.0f, -5.0f });
 	tObj5->GetComponent<Transform>()->SetLocalRotationEuler(1.5f, 2.0f, 4.0f);
 	tObj5->AddComponent<StaticMeshRenderer>();
-	tObj5->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/TexturedMultiCubes/twcylinder.fbx");
+	tObj5->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx");
 	tObj5->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj5->AddComponent<MoveForwardBack>();
 	tObj5->GetComponent<MoveForwardBack>()->SetActive(true);
@@ -103,7 +103,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj6->GetComponent<Transform>()->SetLocalScale( 2.0f, 2.0f, 2.0f );
 	tObj6->GetComponent<Transform>()->SetLocalRotationEuler(0.0f, -1.57f, 0.0f);
 	tObj6->AddComponent<StaticMeshRenderer>();
-	tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/TexturedMultiCubes/simplecube.fbx");
+	tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	/// 오수안, 새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 

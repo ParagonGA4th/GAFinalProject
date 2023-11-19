@@ -97,6 +97,9 @@
     <ClCompile Include="Light.cpp">
       <Filter>2_Component\Light\BaseClass</Filter>
     </ClCompile>
+    <ClCompile Include="ParagonDefines.cpp">
+      <Filter>7_ParagonDefines</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -189,9 +192,6 @@
     <ClInclude Include="ISerializable.h">
       <Filter>9_DataSerializer</Filter>
     </ClInclude>
-    <ClInclude Include="IRenderObject.h">
-      <Filter>2_Component\Renderer\Interface</Filter>
-	</ClInclude>
     <ClInclude Include="DynamicCollider.h">
       <Filter>2_Component\Collider\DynamicCollider</Filter>
     </ClInclude>

@@ -181,10 +181,10 @@ namespace Pg::Graphics::Helper
 				if (tTexTypeTexCnt > 0)
 				{
 					aiString tAssimpTexturePath;
-					assimp->mMaterials[i]->GetTexture((aiTextureType)tTexType, i, &tAssimpTexturePath);
+					assimp->mMaterials[i]->GetTexture((aiTextureType)tTexType, 0, &tAssimpTexturePath); //항상 0번째 Texture만을 가져오게!
 					std::string tTexturePath = tAssimpTexturePath.C_Str();
 
-					//이전에, Directory에서 .fbx라는 파일 경로에서 Texture가 파생되는 것이 아니라,
+					//이전에, Directory에서 .fbx라는 파일 경로에서 TextureX가 파생되는 것이 아니라,
 					//"한단계" 상위 경로로 가서 찾아야 한다.
 					std::filesystem::path modelParentPath = directory;
 					std::string modelParentStr = modelParentPath.parent_path().string();
@@ -195,25 +195,10 @@ namespace Pg::Graphics::Helper
 					//이미 해당 이름으로 된 리소스가 없다면
 					if (!tGraphicsResourceManager->IsExistResource(tCompletePath))
 					{
-						HRESULT hr = S_OK;
-
-						const aiTexture* tEmbeddedTexture = assimp->GetEmbeddedTexture(tAssimpTexturePath.C_Str());
-
-						//만약 임베딩 형태로 받아온 Texture가 존재한다면, GraphicsResourceManager에 추가함과 동시에 설정해야 한다.
-						if (tEmbeddedTexture != nullptr)
-						{
-							//우선적으로 FilePath대로 파일을 물리적으로 존재하게 한 후, 시행.
-							//이미 있으면, 아무것도 하지 않는다. 다음에 로드해서 갖고 오면 되는 문제.
-							SaveEmbeddedTextureToFile(tCompletePath, tEmbeddedTexture);
-						}
-						else
-						{
-							//경로 형식으로 저장되어 있다는 뜻
-							//Windows 파일로 계산된 경로에 실제로 해당 리소스가 저장되어 있는지 확인한다. 
-							std::filesystem::path tCompletePathFS = tCompletePath;
-							assert(std::filesystem::exists(tCompletePathFS) && "임베딩 X라서 텍스쳐 경로가 있어야 하는데, 존재하지 않는다.");
-						}
-
+						//여기를 이제 Embedding 없이 내부 저장 경로만을 가지고 가져올 수 있게 손봐야 한다.
+						//Embedded Texture가 있는지도 검사할 필요 없이, Path만 가지고 있으면 무조건 .fbm 내부를 찾게 해야 함!
+						///CHANGING HERE 
+						
 						//일단은 해당 리소스대로 일단 GraphicsResourceManager에 추가.
 						tGraphicsResourceManager->LoadResource(tCompletePath, eAssetDefine::_2DTEXTURE);
 						//AssetManager와 연동 위해.
@@ -227,6 +212,7 @@ namespace Pg::Graphics::Helper
 			}
 			outMatClusterList.push_back(tMatCluster);
 		}
+		assert(true);
 	}
 
 	
@@ -352,103 +338,7 @@ namespace Pg::Graphics::Helper
 	//
 	//}
 
-	void AssimpBufferParser::SaveEmbeddedTextureToFile(const std::string& filePath, const aiTexture* assimp)
-	{
-		//이 Dir는 상대 경로로 들어와야 한다.
-		//목표는 여기서 만드는게 아니라, 이 함수 안에서 LoadResource 호출 -> 후에 GetResource로 가져올 수 있게 하기.
-
-		HRESULT hr;
-		ID3D11Resource* tUseResource = nullptr;
-		ID3D11Texture2D* tUseTexture2D = nullptr;
-		//이 둘이 같은 대상을 가리키게 해야 한다.
-
-		if (assimp->mHeight != 0)
-		{
-			// Load an uncompressed ARGB8888 embedded texture
-			D3D11_TEXTURE2D_DESC desc;
-			desc.Width = assimp->mWidth;
-			desc.Height = assimp->mHeight;
-			desc.MipLevels = 1;
-			desc.ArraySize = 1;
-			desc.SampleDesc.Count = 1;
-			desc.SampleDesc.Quality = 0;
-			desc.Usage = D3D11_USAGE_DEFAULT;
-			desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-			desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-			desc.CPUAccessFlags = 0;
-			desc.MiscFlags = 0;
-
-			D3D11_SUBRESOURCE_DATA subresourceData;
-			subresourceData.pSysMem = assimp->pcData;
-			subresourceData.SysMemPitch = assimp->mWidth * 4;
-			subresourceData.SysMemSlicePitch = assimp->mWidth * assimp->mHeight * 4;
-
-			hr = LowDX11Storage::GetInstance()->_device->CreateTexture2D(&desc, &subresourceData, &tUseTexture2D);
-			if (FAILED(hr))
-			{
-				MessageBox(LowDX11Storage::GetInstance()->_hWnd, L"임베디드 텍스쳐 로드 안에서, CreateTexture2D 실패!", L"오류", MB_ICONERROR | MB_OK);
-			}
-			//tUseResource, tUseTexture2D는 같은 대상을 가리킨다.
-			HR(tUseTexture2D->QueryInterface(IID_ID3D11Resource, (void**)&tUseResource));
-		}
-		else
-		{
-			//Texture만 유지시키고, SRV는 RenderTexture때 다시 만들어질 것이다.
-			ID3D11ShaderResourceView* tDumpSRV = nullptr;
-
-			// mHeight is 0, so try to load a compressed texture of mWidth bytes
-			const size_t tSize = assimp->mWidth;
-			std::string tExt = assimp->achFormatHint;
-
-			if (tExt != "dds" && tExt != "DDS")
-			{
-				DirectX::CreateWICTextureFromMemory(LowDX11Storage::GetInstance()->_device, LowDX11Storage::GetInstance()->_deviceContext,
-					reinterpret_cast<const unsigned char*>(assimp->pcData), tSize, &tUseResource, &tDumpSRV);
-			}
-			else
-			{
-				HR(DirectX::CreateDDSTextureFromMemory(LowDX11Storage::GetInstance()->_device, LowDX11Storage::GetInstance()->_deviceContext,
-					reinterpret_cast<const unsigned char*>(assimp->pcData), tSize, &tUseResource, &tDumpSRV));
-			}
-
-			HR(tUseResource->QueryInterface(IID_ID3D11Texture2D, (void**)&tUseTexture2D));
-		}
-
-		//SRV를 만드는 대신, ScreenGrab의 파일로 쓰기를 활용할 것!
-		///여기하고 있었음!
-		//Directory는 NNN.fbm//XXX.png 뭐 이런 형태로 들어온다.
-		//기록할 FileDirectory + PathName 적기.
-
-		std::wstring tFilenameWS = std::wstring(filePath.begin(), filePath.end());
-
-		//DDS/WIC 따라 달라진다.
-		std::string tExt = assimp->achFormatHint;
-		if (tExt != "dds" || tExt != "DDS")
-		{
-			//WIC는 DDS보다 더 다양한 설정이 있었다. 일단 이를 기반해서 보자.
-			if (tExt == "jpeg" || tExt == "JPEG" || tExt == "jpg" || tExt == "JPG")
-			{
-				HR(DirectX::SaveWICTextureToFile(LowDX11Storage::GetInstance()->_deviceContext, tUseTexture2D, GUID_ContainerFormatJpeg, tFilenameWS.c_str()));
-			}
-			else if (tExt == "png" || tExt == "PNG")
-			{
-				//에러 발생.
-				HR(DirectX::SaveWICTextureToFile(LowDX11Storage::GetInstance()->_deviceContext, tUseTexture2D, GUID_ContainerFormatPng, tFilenameWS.c_str()));
-			}
-			else
-			{
-				assert(false && "모르는 임베딩된 이미지 형식.");
-			}
-		}
-		else
-		{
-			HR(DirectX::SaveDDSTextureToFile(LowDX11Storage::GetInstance()->_deviceContext, tUseTexture2D, tFilenameWS.c_str()));
-		}
-
-		//이제 함수 밖에서 실제로 값을 추가해야 한다. 
-		//여기서 실패한다면, 임베딩된 리소스의 경로가 잘못되어 만들어졌다는 것.
-		return;
-	}
+	
 
 	
 

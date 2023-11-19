@@ -47,7 +47,7 @@ namespace Pg::Graphics::Loader
 				aiProcess_Triangulate |
 				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_GenBoundingBoxes |
 				aiProcess_CalcTangentSpace | aiProcess_PopulateArmatureData |
-				aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_EmbedTextures | aiProcess_LimitBoneWeights);
+				aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_LimitBoneWeights); //aiProcess_EmbedTextures |
 			assert(pScene != nullptr);
 
 			AssimpBufferParser::AssimpToSceneAssetData(pScene, path, modelData->_assetSceneData);
@@ -60,7 +60,7 @@ namespace Pg::Graphics::Loader
 			const aiScene* pScene = _importer->ReadFile(path.c_str(),
 				aiProcess_Triangulate |
 				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType |
-				aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_EmbedTextures | aiProcess_PreTransformVertices | aiProcess_GenBoundingBoxes);
+				aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_PreTransformVertices | aiProcess_GenBoundingBoxes); //aiProcess_EmbedTextures |
 			assert(pScene != nullptr);
 
 			AssimpBufferParser::AssimpToSceneAssetData(pScene, path, modelData->_assetSceneData);

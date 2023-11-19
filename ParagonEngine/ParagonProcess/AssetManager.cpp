@@ -3,6 +3,7 @@
 #include "IEngine.h"
 #include "IGraphics.h"
 
+#include "../ParagonData/ParagonDefines.h"
 #include "../ParagonGraphics/GraphicsResourceManager.h"
 #include "../ParagonGameEngine/EngineResourceManager.h"
 
@@ -46,6 +47,9 @@ namespace Pg::Core::Manager
 		_coreMain = core;
 		_perFrameToLoadResources.reserve(30);
 		_perFrameToUnloadResources.reserve(30);
+
+		//디폴트 리소스들이 로드되는 함수. 필수!
+		LoadDefaultResources();
 
 		//Scene 단위 리소스 연동이 완료되지 않으면, 여기서 로드되지 않은 리소스들은 사용되지 못함.
 		TemporaryLoadResources();
@@ -146,24 +150,24 @@ namespace Pg::Core::Manager
 	void AssetManager::TemporaryLoadResources()
 	{
 		//CreateResource를 임시로 여기에 호출.
-		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMesh.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/TexturedMultiCubes/simplecube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/TexturedMultiCubes/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TexturedMultiCubeMultiMeshSeams.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		//LoadResource("../Resources/3DModels/TexturedMultiCubes/TMultiCube_test001.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		//LoadResource("../Resources/3DModels/TexturedMultiCubes/simplecube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/MultiMatMesh/LavaWoodCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/MultiMatMesh/RoadLavaCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/MultiMatMesh/WoodRoadCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/MultiMatMesh/TwoRoadWoodTorus.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/JustCopyCube/JustCopyCube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/WoodRoadCone/WoodRoadCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/TwoRoadWoodTorus/TwoRoadWoodTorus.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/Textures/tw_normal.png", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
 		LoadResource("../Resources/Textures/tw_diffuse.png", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
 		LoadResource("../Resources/Textures/wook.jpg", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
 		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
 		LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
-		//LoadResource("../Resources/3DModels/MultiMatMesh/diffuseonly.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		
+	}
+
+	void AssetManager::LoadDefaultResources()
+	{
+		LoadResource(Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+		LoadResource(Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
 	}
 
 }

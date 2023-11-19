@@ -235,6 +235,7 @@
     <ClCompile Include="ImageRenderer.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="MoveForwardBack.cpp" />
+    <ClCompile Include="ParagonDefines.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RendererChangeList.cpp" />
     <ClCompile Include="EngineResource.cpp" />
