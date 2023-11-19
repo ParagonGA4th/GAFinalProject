@@ -420,12 +420,6 @@
     <Filter Include="3_GraphicsResources\RenderTexture2D">
       <UniqueIdentifier>{b58c515e-ab8f-4565-9dee-c36c20115eb4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6_HLSL\FirstStage">
-      <UniqueIdentifier>{2eaf1504-42d4-469b-a238-8d821561bb3e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_HLSL\DefaultInfo">
-      <UniqueIdentifier>{d6331f99-21c9-43a7-9cf1-d92ea52f5dad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3_GraphicsResources\Asset3DModelData\Data">
       <UniqueIdentifier>{2378ba46-73ff-4ad8-afbd-fda3e746a452}</UniqueIdentifier>
     </Filter>
@@ -458,9 +452,6 @@
     </Filter>
     <Filter Include="10_Structs">
       <UniqueIdentifier>{d5434b36-98c9-4309-8ad7-3ffc755a200e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_HLSL\TempForward">
-      <UniqueIdentifier>{c9c79e18-ed8d-4753-b263-81e8f64f61d0}</UniqueIdentifier>
     </Filter>
     <Filter Include="10_Structs\MaterialCluster">
       <UniqueIdentifier>{d996588d-430c-4bd3-b54b-218f353e692d}</UniqueIdentifier>
@@ -504,60 +495,75 @@
     <Filter Include="3_GraphicsResources\Asset3DModelData\Define\AssetAnimationDataDefine">
       <UniqueIdentifier>{3a363304-1b97-4ec2-b25b-d94c305bd55e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="6_HLSL\DefaultInfo">
+      <UniqueIdentifier>{db8f85a2-97ee-4f0e-b7e0-75a14b40d6b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\FirstStage">
+      <UniqueIdentifier>{34883b41-925c-4e8c-8225-b89fda0e804e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\TempForward">
+      <UniqueIdentifier>{a64ae292-9e03-4c37-aa55-44847c09c920}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\SecondStage">
+      <UniqueIdentifier>{63c3f972-a3cb-4ea7-8cb4-62010ed912ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Others">
+      <UniqueIdentifier>{e4ce8650-e3f7-44c5-9884-68418bf1523b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="VertexShader.hlsl">
-      <Filter>6_HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="PixelShader.hlsl">
-      <Filter>6_HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="CubemapVS.hlsl">
-      <Filter>6_HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="CubemapPS.hlsl">
-      <Filter>6_HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstSkinned_VS.hlsl">
-      <Filter>6_HLSL\FirstStage</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstStatic_VS.hlsl">
-      <Filter>6_HLSL\FirstStage</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\DefaultShaders\Shaders\FirstStage_PS.hlsl">
-      <Filter>6_HLSL\FirstStage</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\DefaultShaders\TempForward\TempForwardPS.hlsl">
-      <Filter>6_HLSL\TempForward</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\DefaultShaders\TempForward\TempForwardVS.hlsl">
-      <Filter>6_HLSL\TempForward</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\DefaultShaders\Shaders\SecondStage_PS.hlsl">
-      <Filter>6_HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\DefaultShaders\Shaders\SecondStage_VS.hlsl">
-      <Filter>6_HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\DefaultShaders\Shaders\PhongPS.hlsl">
-      <Filter>6_HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\DefaultShaders\Shaders\PhongVS.hlsl">
-      <Filter>6_HLSL</Filter>
-    </FxCompile>
+    <None Include="..\ShaderDefaults\Libraries\DefaultBufferPerObject.hlsli">
+      <Filter>6_HLSL\DefaultInfo</Filter>
+    </None>
+    <None Include="..\ShaderDefaults\Libraries\DefaultLayouts.hlsli">
+      <Filter>6_HLSL\DefaultInfo</Filter>
+    </None>
+    <None Include="..\ShaderDefaults\Libraries\Lights.hlsli">
+      <Filter>6_HLSL\DefaultInfo</Filter>
+    </None>
+    <None Include="..\ShaderDefaults\Libraries\misc.hlsli">
+      <Filter>6_HLSL\DefaultInfo</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Resources\DefaultShaders\Libraries\DefaultBufferPerObject.hlsli">
-      <Filter>6_HLSL\DefaultInfo</Filter>
-    </None>
-    <None Include="..\Resources\DefaultShaders\Libraries\DefaultLayouts.hlsli">
-      <Filter>6_HLSL\DefaultInfo</Filter>
-    </None>
-    <None Include="..\Resources\DefaultShaders\Libraries\misc.hlsli">
-      <Filter>6_HLSL\DefaultInfo</Filter>
-    </None>
-    <None Include="..\Resources\DefaultShaders\Libraries\Lights.hlsli">
-      <Filter>6_HLSL\DefaultInfo</Filter>
-    </None>
+    <FxCompile Include="..\ShaderDefaults\Shaders\FirstSkinned_VS.hlsl">
+      <Filter>6_HLSL\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderDefaults\Shaders\FirstStage_PS.hlsl">
+      <Filter>6_HLSL\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderDefaults\Shaders\FirstStatic_VS.hlsl">
+      <Filter>6_HLSL\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderDefaults\TempForward\TempForwardPS.hlsl">
+      <Filter>6_HLSL\TempForward</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderDefaults\TempForward\TempForwardVS.hlsl">
+      <Filter>6_HLSL\TempForward</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderDefaults\Shaders\SecondStage_PS.hlsl">
+      <Filter>6_HLSL\SecondStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderDefaults\Shaders\SecondStage_VS.hlsl">
+      <Filter>6_HLSL\SecondStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderDefaults\Others\CubemapPS.hlsl">
+      <Filter>6_HLSL\Others</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderDefaults\Others\CubemapVS.hlsl">
+      <Filter>6_HLSL\Others</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderDefaults\Others\PixelShader.hlsl">
+      <Filter>6_HLSL\Others</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderDefaults\Others\VertexShader.hlsl">
+      <Filter>6_HLSL\Others</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderDefaults\Shaders\PhongPS.hlsl">
+      <Filter>6_HLSL\SecondStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderDefaults\Shaders\PhongVS.hlsl">
+      <Filter>6_HLSL\SecondStage</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
