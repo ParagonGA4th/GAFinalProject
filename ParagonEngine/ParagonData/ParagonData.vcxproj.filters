@@ -91,9 +91,6 @@
     <ClCompile Include="Light.cpp">
       <Filter>2_Component\Light\BaseClass</Filter>
     </ClCompile>
-    <ClCompile Include="MoveForwardBack.cpp">
-      <Filter>8_TestScripts\MoveForwardBack</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">

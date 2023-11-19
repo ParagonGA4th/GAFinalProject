@@ -1,0 +1,1 @@
+SamplerState state : register(s0);

@@ -1,11 +1,21 @@
 #include "MaterialCluster.h"
 #include <cassert>
+#include <d3d11.h>
+
 namespace Pg::Graphics
 {
-	std::vector<Pg::Graphics::AssetTextureSRV>& MaterialCluster::GetMaterialATSByIndex(int index)
+	MaterialCluster::MaterialCluster() : _atsList()
 	{
-		assert(index <= Pg::Defines::MAX_MATERIAL_PER_MODEL);
-		return _assetSRV[index];
+		_atsList.fill(nullptr);
 	}
+
+	Pg::Graphics::RenderTexture2D* MaterialCluster::GetTextureByType(eAssetTextureType type)
+	{
+		//???? ??? nullptr, ?????? RenderTexture2D*?? ??????.
+		return _atsList[type];
+	}
+
+
+	
 
 }

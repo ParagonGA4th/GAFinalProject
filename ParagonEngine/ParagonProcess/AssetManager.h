@@ -48,6 +48,9 @@ namespace Pg::Core::Manager
 		void CheckForGraphicsToProcessLoad(Pg::Core::IGraphics* graphics);
 
 	private:
+		//특정 위치에 쓰일 리소스가 없을 경우 사용되는 디폴트 리소스 로드.
+		void LoadDefaultResources();
+
 		//임시로 미리 로드할 리소스들을 로드해놓는다!
 		void TemporaryLoadResources();
 
