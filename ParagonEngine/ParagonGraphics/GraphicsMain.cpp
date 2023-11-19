@@ -6,7 +6,6 @@
 #include "GraphicsResourceManager.h"
 #include "LayoutDefine.h"
 
-#include "../ParagonProcess/TimeManager.h"
 #include "../ParagonData/AssetDefines.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/RendererChangeList.h"
@@ -116,7 +115,7 @@ namespace Pg::Graphics
 	}
 
 
-	void GraphicsMain::Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData, float deltaTime)
+	void GraphicsMain::Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData)
 	{	
 		//Projection 행렬을 채운다.
 		FillCamDataProjection(cameraData);
@@ -143,7 +142,11 @@ namespace Pg::Graphics
 		assert(_currentScene != nullptr);
 
 		_renderer->Render(_camData);
+		//DebugRender 기능, 일단은 디폴트로 켜두었음.
+		_renderer->DebugRender(_camData);
 
+		// 현재 렌더링되고 있는 3D 오브젝트의 갯수를 Scene으로 전달.
+		scene->_graphicsDebugData._renderedObjectCount = _renderer->Get3DObjectCount();
 	}
 
 	void GraphicsMain::EndRender()
@@ -191,9 +194,10 @@ namespace Pg::Graphics
 		return _DXStorage->_deviceContext;
 	}
 
-	void GraphicsMain::SyncComponentToGraphics()
+	void GraphicsMain::SyncComponentToGraphics(const Pg::Data::Scene* const scene)
 	{
-		_renderer->SyncComponentToGraphics();
+		//이 함수가 호출되는 것은 SceneSystem이나 GameEngine 주최로 하게 하고 싶다.
+		_renderer->SyncComponentToGraphics(scene);
 	}
 
 	void GraphicsMain::LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define)
@@ -237,6 +241,11 @@ namespace Pg::Graphics
 		camData->_projMatrix = Pg::Math::PGMatrixPerspectiveFovLH(camData->_fovY, camData->_aspect, camData->_nearZ, camData->_farZ);
 	}
 
+	void GraphicsMain::SyncLoadGraphicsResources()
+	{
+		TempResourceMeshLoad();
+	}
+
 	void GraphicsMain::TempResourceMeshLoad()
 	{
 		std::string tFilePath;
@@ -255,10 +264,4 @@ namespace Pg::Graphics
 		//_tempMultiMesh = new MultimaterialMesh(tFilePath);
 		//_tempMultiMesh->Initialize();
 	}
-
-	void GraphicsMain::SyncLoadGraphicsResources()
-	{
-		TempResourceMeshLoad();
-	}
-
 }

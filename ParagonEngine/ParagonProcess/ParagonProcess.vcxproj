@@ -168,14 +168,12 @@
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="CoreSingleton.h" />
-    <ClInclude Include="TimeManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="ProcessMain.cpp" />
     <ClCompile Include="EditorAdapter.cpp" />
     <ClCompile Include="EngineGraphicsAdapter.cpp" />
-    <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

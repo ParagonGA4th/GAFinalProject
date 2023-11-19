@@ -22,6 +22,8 @@ namespace Pg::API::Input
 		EditorOnOff,
 
 		NextRenderTarget,
-		PrevRenderTarget
+		PrevRenderTarget,
+
+		ShiftL //이동 속도 조정 위해.
 	};
 }

@@ -31,9 +31,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>1_GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="MoveForwardBack.cpp">
-      <Filter>8_TestScripts</Filter>
-    </ClCompile>
     <ClCompile Include="RendererChangeList.cpp">
       <Filter>6_DataChangeList</Filter>
     </ClCompile>
@@ -94,6 +91,9 @@
     <ClCompile Include="Light.cpp">
       <Filter>2_Component\Light\BaseClass</Filter>
     </ClCompile>
+    <ClCompile Include="MoveForwardBack.cpp">
+      <Filter>8_TestScripts\MoveForwardBack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -120,9 +120,6 @@
     <ClInclude Include="Button.h">
       <Filter>2_Component\Button</Filter>
     </ClInclude>
-    <ClInclude Include="CameraData.h">
-      <Filter>2_Component\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>2_Component\Camera</Filter>
     </ClInclude>
@@ -134,9 +131,6 @@
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>1_GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveForwardBack.h">
-      <Filter>8_TestScripts</Filter>
     </ClInclude>
     <ClInclude Include="RendererType.h">
       <Filter>5_Enums</Filter>
@@ -224,6 +218,18 @@
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>2_Component\Light\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsDebugData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveForwardBack.h">
+      <Filter>8_TestScripts\MoveForwardBack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +355,9 @@
     </Filter>
     <Filter Include="2_Component\Light\BaseClass">
       <UniqueIdentifier>{2ef27641-2cf8-49ec-b280-7ed07d890ecc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_TestScripts\MoveForwardBack">
+      <UniqueIdentifier>{8e29721c-724d-4c05-b2eb-74c1380183c6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
