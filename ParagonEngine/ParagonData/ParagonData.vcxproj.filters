@@ -52,9 +52,6 @@
     <ClCompile Include="SphereCollider.cpp">
       <Filter>2_Component\Collider\DynamicCollider\SphereCollider</Filter>
     </ClCompile>
-    <ClCompile Include="Serializer.cpp">
-      <Filter>9_DataSerializer</Filter>
-    </ClCompile>
     <ClCompile Include="TextRenderer.cpp">
       <Filter>2_Component\Renderer\2D\TextRenderer</Filter>
     </ClCompile>
@@ -179,12 +176,6 @@
     </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>2_Component\Collider\BaseClass</Filter>
-    </ClInclude>
-    <ClInclude Include="Serializer.h">
-      <Filter>9_DataSerializer</Filter>
-    </ClInclude>
-    <ClInclude Include="ISerializable.h">
-      <Filter>9_DataSerializer</Filter>
     </ClInclude>
     <ClInclude Include="DynamicCollider.h">
       <Filter>2_Component\Collider\DynamicCollider</Filter>
