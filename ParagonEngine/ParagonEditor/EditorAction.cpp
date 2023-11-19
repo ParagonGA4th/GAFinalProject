@@ -49,7 +49,7 @@ void Pg::Editor::Core::EditorAction::Loop()
 			DispatchMessage(&_msg);
 			TranslateMessage(&_msg);
 			_processManager->ProcessHandler(_msg);
-			_editorManager->UIHandler(_msg);
+			_editorManager->WindowHandler(_msg);
 		}
 		else
 		{
