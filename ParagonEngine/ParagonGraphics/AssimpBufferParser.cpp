@@ -159,7 +159,7 @@ namespace Pg::Graphics::Helper
 		//
 		assert(false);
 	}
-
+	
 	void AssimpBufferParser::AssimpToMaterialClusterList(const aiScene* assimp, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory)
 	{
 		//미리 GraphicsResourceManager 받아오기.
@@ -229,6 +229,7 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
+	
 
 	void AssimpBufferParser::AssimpToSceneAssetData(const aiScene* assimp, const std::string& path, Scene_AssetData* outSceneAssetData)
 	{
@@ -431,6 +432,7 @@ namespace Pg::Graphics::Helper
 			}
 			else if (tExt == "png" || tExt == "PNG")
 			{
+				//에러 발생.
 				HR(DirectX::SaveWICTextureToFile(LowDX11Storage::GetInstance()->_deviceContext, tUseTexture2D, GUID_ContainerFormatPng, tFilenameWS.c_str()));
 			}
 			else
