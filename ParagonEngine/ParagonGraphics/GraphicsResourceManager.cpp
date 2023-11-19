@@ -3,7 +3,12 @@
 #include "AssetBasic2DLoader.h"
 #include "AssetBasic3DLoader.h"
 
+#include "RenderTexture2D.h" //디폴트 텍스쳐 로드 때문에.
+
+#include "../ParagonData/ParagonDefines.h" 
 #include "../ParagonUtil/ResourceHelper.h"
+
+#include <cassert>
 
 namespace Pg::Graphics::Manager
 {
@@ -145,5 +150,28 @@ namespace Pg::Graphics::Manager
 		_toAddSecondaryResourcesMap.insert(std::make_pair(tFilePath, define));
 	}
 
+	RenderTexture2D* GraphicsResourceManager::GetDefaultTexture(eAssetTextureType textureType)
+	{
+		switch (textureType)
+		{
+		case PG_TextureType_DIFFUSE:
+		{
+			auto tRes = GetResource(Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+			return static_cast<RenderTexture2D*>(tRes.get());
+		}
+		break;
+		case PG_TextureType_NORMALS:
+		{
+			auto tRes = GetResource(Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+			return static_cast<RenderTexture2D*>(tRes.get());
+		}
+		break;
+		default:
+		{
+			assert(false && "아직 해당 종류 대해서는 디폴트 텍스쳐 준비되지 않았음!");
+		}
+		break;
+		}
+	}
 
 }
