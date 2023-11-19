@@ -54,9 +54,9 @@ namespace Pg::Core
 		_engine->Update();
 	}
 
-	void EngineGraphicsAdapter::UpdateGraphics(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData, float deltaTime)
+	void EngineGraphicsAdapter::UpdateGraphics(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData)
 	{
-		_graphics->Update(scene, cameraData, deltaTime);
+		_graphics->Update(scene, cameraData);
 	}
 
 	void EngineGraphicsAdapter::UpdateAssetManager(Manager::AssetManager* assetManager)
@@ -71,11 +71,9 @@ namespace Pg::Core
 
 	void EngineGraphicsAdapter::Render()
 	{
+
 		//워크스페이스 버전
 		_graphics->Render(_engine->GetCurrentScene());
-
-		//게임 엔진 연동 버전.
-		//_graphics->Render(_engine->GetCurrentScene());
 	}
 
 	void EngineGraphicsAdapter::EndRender()
@@ -109,7 +107,7 @@ namespace Pg::Core
 	{
 		if (_rendererChangeList->IfShouldUpdate())
 		{
-			_graphics->SyncComponentToGraphics();
+			//_graphics->SyncComponentToGraphics();
 			_rendererChangeList->ClearRendererChangeLists();
 		}
 	}

@@ -32,6 +32,11 @@ namespace Pg::Engine
 		class PhysicSystem;
 	}
 
+	namespace Time
+	{
+		class TimeSystem;
+	}
+
 	namespace Manager
 	{
 		class EngineResourceManager;
@@ -66,6 +71,7 @@ namespace Pg::Engine
 		Pg::Core::ProcessMain* _coreMain = nullptr;
 		Input::InputSystem* _inputSystem = nullptr;
 		Physic::PhysicSystem* _physicSystem = nullptr;
+		Time::TimeSystem* _timeSystem = nullptr;
 		SceneSystem* _sceneSystem = nullptr;
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
 

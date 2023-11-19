@@ -10,7 +10,8 @@ namespace Pg::Data
 	Scene::Scene(std::string sceneName) :
 		_sceneName(sceneName),
 		_mainCamera(nullptr),
-		_objectList()
+		_objectList(),
+		_graphicsDebugData()
 	{
 		//Scene이 만들어질 경우 무조건 MainCamera가 오브젝트로 생성이 되어 있어야 함!
 		GameObject* cameraObject = AddObject("MainCamera");
@@ -115,7 +116,7 @@ namespace Pg::Data
 		OutputDebugString(L"MainCamera Set!");
 	}
 
-	std::vector<GameObject*>& Scene::GetObjectList()
+	const std::vector<GameObject*>& Scene::GetObjectList() const
 	{
 		return _objectList;
 	}
