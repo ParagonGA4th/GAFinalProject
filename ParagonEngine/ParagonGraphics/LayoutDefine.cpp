@@ -22,22 +22,6 @@ namespace Pg::Graphics
 	ID3D11InputLayout* LayoutDefine::_skinned1stLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_2ndLayout = nullptr;
 
-	LayoutDefine::Vin1stStatic::Vin1stStatic() :
-		posL(0.f, 0.f, 0.f), normalL(0.f, 0.f, 0.f), tangentL(0.f, 0.f, 0.f),
-		color(0.f, 0.f, 0.f, 0.f), tex(0.f, 0.f, 0.f), matID(0)
-	{
-		//
-	}
-
-	LayoutDefine::Vin1stSkinned::Vin1stSkinned() :
-		posL(0.f, 0.f, 0.f), normalL(0.f, 0.f, 0.f), tangentL(0.f, 0.f, 0.f),
-		color(0.f, 0.f, 0.f, 0.f), tex(0.f, 0.f, 0.f), matID(0),
-		blendIndice0(0), blendIndice1(0), blendIndice2(0), blendIndice3(0),
-		blendWeight0(0.f), blendWeight1(0.f), blendWeight2(0.f)
-	{
-		//
-	}
-
 	void LayoutDefine::Initialize()
 	{
 		HRESULT hr = S_OK;
@@ -137,4 +121,11 @@ namespace Pg::Graphics
 	{
 		//
 	}
+
+	
+
+	
+
+	
+
 }

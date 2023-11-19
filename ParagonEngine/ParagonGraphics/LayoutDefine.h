@@ -15,7 +15,7 @@ namespace Pg::Graphics
 		//Static Mesh가 요구하는 포맷. 
 		struct Vin1stStatic
 		{
-			Vin1stStatic();
+			Vin1stStatic() = default;
 			Vin1stStatic(DirectX::XMFLOAT3 posVal);
 			Vin1stStatic(DirectX::XMFLOAT3 posVal, DirectX::XMFLOAT3 normalVal,
 				DirectX::XMFLOAT3 tangentVal, DirectX::XMFLOAT4 colorVal, 
@@ -32,7 +32,6 @@ namespace Pg::Graphics
 		//Skinned Mesh가 요구하는 포맷. 
 		struct Vin1stSkinned
 		{
-			Vin1stSkinned();
 			DirectX::XMFLOAT3 posL;
 			DirectX::XMFLOAT3 normalL;
 			DirectX::XMFLOAT3 tangentL;

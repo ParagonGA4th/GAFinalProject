@@ -4,13 +4,12 @@
 #include "../ParagonData/ModelData.h"
 #include "../ParagonData/SoundData.h"
 
-namespace Pg::Data::Serialize
+namespace Pg::Serialize
 {
 	class Serializer
 	{
 	public:
 		// Serialize
-
 		static void SerializeBoolean(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, bool val);
 		static void SerializeString(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, std::string val);
 		static void SerializeFloat(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, float val);

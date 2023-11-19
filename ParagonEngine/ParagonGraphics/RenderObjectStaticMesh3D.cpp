@@ -28,7 +28,7 @@ namespace Pg::Graphics
 		//Mesh 데이터를 받기.
 		auto tModelData = GraphicsResourceManager::Instance()->GetResource(tStaticMeshRenderer->GetMeshFilePath(), eAssetDefine::_3DMODEL);
 		_modelData = static_cast<Asset3DModelData*>(tModelData.get());
-		
+
 		//_normal = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, "../Resources/Textures/tw_normal.png");
 		//HRESULT hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _normal->GetFilePath().c_str(), &_normal->GetResource(), &_normal->GetSRV());
 		//
@@ -43,7 +43,7 @@ namespace Pg::Graphics
 
 	void RenderObjectStaticMesh3D::Render()
 	{
-		_textures.clear();
+		
 
 		BindBuffers();
 		_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -52,13 +52,16 @@ namespace Pg::Graphics
 
 		for (int i = 0; i < tMeshCount; i++)
 		{
+			//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
+			_textures.clear();
+
 			UINT tToDrawIndexCount = _modelData->_assetSceneData->_meshList[i]._numIndices;
 			UINT tMatID = _modelData->_assetSceneData->_meshList[i]._materialID;
 
 			//이거 한번만 받아도 되겠지만, 일단은 통일성을 위해서.
 			//아니면 업데이트되는 로직을 여기랑 연관? 후의 일.
 			this->_diffuse = _modelData->GetMaterialByIndex(tMatID)->GetTextureByType(PG_TextureType_DIFFUSE);
-			this->_normal =  _modelData->GetMaterialByIndex(tMatID)->GetTextureByType(PG_TextureType_NORMALS);
+			this->_normal = _modelData->GetMaterialByIndex(tMatID)->GetTextureByType(PG_TextureType_NORMALS);
 
 			if (this->_diffuse == nullptr)
 			{
@@ -68,7 +71,7 @@ namespace Pg::Graphics
 			{
 				this->_normal = GraphicsResourceManager::Instance()->GetDefaultTexture(PG_TextureType_NORMALS);
 			}
-			
+
 			_textures.emplace_back(_diffuse);
 			_textures.emplace_back(_normal);
 

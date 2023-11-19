@@ -106,41 +106,12 @@ namespace Pg::Graphics
 		return _pixelShader;
 	}
 
-	//void RenderObject3D::AddTexture(std::wstring filepath)
-	//{
-	//	std::string _string;
-	//	_string.assign(filepath.begin(), filepath.end());
-
-	//	RenderTexture2D* texture = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, _string);
-	//	
-	//	std::filesystem::path _path(filepath);
-	//	std::string texturePath = _path.extension().string();
-
-	//	if (texturePath == ".dds" || texturePath == ".DDS")
-	//	{
-	//		//HRESULT hr = DirectX::CreateDDSTextureFromFile();
-	//	}
-	//	else
-	//	{
-	//		HRESULT hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, filepath.c_str(), &texture->GetResource(), &texture->GetSRV());
-	//	}
-
-	//	_textures.emplace_back(texture);
-	//}
-
-	//void RenderObject3D::AddTexture(RenderTexture2D* texture)
-	//{
-	//	_textures.emplace_back(texture);
-	//}
-
 	void RenderObject3D::BindTextures()
 	{
 		for (int i = 0; i < _textures.size(); ++i)
 		{
 			_DXStorage->_deviceContext->PSSetShaderResources(i, 1, &(_textures.at(i)->GetSRV()));
 		}
-
-		_DXStorage->_deviceContext->PSSetSamplers(0, 1, &_DXStorage->_defaultSamplerState);
 	}
 
 }

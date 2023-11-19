@@ -103,9 +103,6 @@
     <ClInclude Include="RenderObjectBase.h">
       <Filter>4_RenderObject</Filter>
     </ClInclude>
-    <ClInclude Include="AssimpBufferParser.h">
-      <Filter>8_Helpers\BufferParser</Filter>
-    </ClInclude>
     <ClInclude Include="MaterialCluster.h">
       <Filter>10_Structs\MaterialCluster</Filter>
     </ClInclude>
@@ -183,14 +180,17 @@
     <ClInclude Include="DebugRenderer.h">
       <Filter>0_Main</Filter>
     </ClInclude>
-    <ClInclude Include="AssetModelDataDefine.h">
-      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetModelDataDefine</Filter>
+    <ClInclude Include="AssetTextureType.h">
+      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetTextureType</Filter>
     </ClInclude>
     <ClInclude Include="AssetAnimationDataDefine.h">
       <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetAnimationDataDefine</Filter>
     </ClInclude>
-    <ClInclude Include="AssetTextureType.h">
-      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetTextureType</Filter>
+    <ClInclude Include="AssetModelDataDefine.h">
+      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetModelDataDefine</Filter>
+    </ClInclude>
+    <ClInclude Include="AssimpBufferParser.h">
+      <Filter>8_Helpers\BufferParser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -281,9 +281,6 @@
     <ClCompile Include="RenderObjectBase.cpp">
       <Filter>4_RenderObject</Filter>
     </ClCompile>
-    <ClCompile Include="AssimpBufferParser.cpp">
-      <Filter>8_Helpers\BufferParser</Filter>
-    </ClCompile>
     <ClCompile Include="MaterialCluster.cpp">
       <Filter>10_Structs\MaterialCluster</Filter>
     </ClCompile>
@@ -346,11 +343,14 @@
     <ClCompile Include="DebugRenderer.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
+    <ClCompile Include="AssetAnimationDataDefine.cpp">
+      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetAnimationDataDefine</Filter>
+    </ClCompile>
     <ClCompile Include="AssetModelDataDefine.cpp">
       <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetModelDataDefine</Filter>
     </ClCompile>
-    <ClCompile Include="AssetAnimationDataDefine.cpp">
-      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetAnimationDataDefine</Filter>
+    <ClCompile Include="AssimpBufferParser.cpp">
+      <Filter>8_Helpers\BufferParser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

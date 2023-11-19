@@ -6,7 +6,7 @@
 
 namespace Pg::Data
 {
-	MoveForwardBack::MoveForwardBack(GameObject* obj) : Component(obj)
+	MoveForwardBack::MoveForwardBack(GameObject* obj) : Script(obj)
 	{
 
 	}

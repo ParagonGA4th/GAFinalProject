@@ -3,7 +3,6 @@
 #include "IGraphics.h"
 #include "IUtil.h"
 #include "IAPI.h"
-#include "TimeManager.h"
 #include "../ParagonUtil/Log.h"
 
 #include "../ParagonGameEngine/InputSystem.h"
@@ -68,9 +67,7 @@ namespace Pg::Core
 
 	private:
 		std::unique_ptr<IUtil> _util;
-		std::unique_ptr<IAPI> _api;
-
-		Time::TimeManager* _timeManager;					//델타타임
+		std::unique_ptr<IAPI> _api;					
 		Manager::AssetManager* _assetManager;				//어셋매니저
 
 	private:

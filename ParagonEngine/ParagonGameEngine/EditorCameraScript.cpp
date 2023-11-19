@@ -112,6 +112,17 @@ void EditorCameraScript::Update()
 		//RotateFix(3.0f * tInput->GetMouseDX(), 0.f);
 		//RotateFix(0.f, 3.0f * tInput->GetMouseDY());
 	}
+
+	//돌아다니는 속도, ShiftL로 조정할 수 있게!
+
+	if (tInput->GetKeyDown(ShiftL))
+	{
+		_moveSpeed *= 2.f;
+	}
+	if (tInput->GetKeyUp(ShiftL))
+	{
+		_moveSpeed /= 2.f;
+	}
 }
 
 //Now Defunct

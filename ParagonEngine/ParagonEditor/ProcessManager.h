@@ -4,7 +4,7 @@
 
 namespace Pg::Core { class ProcessMain; }
 namespace Pg::API::Input { class PgInput; }
-namespace Pg::Editor::Helper{ class EditorHelper; }
+namespace Pg::Editor::Data{ class DataContainer; }
 
 namespace Pg::Editor::Manager
 {
@@ -23,10 +23,9 @@ namespace Pg::Editor::Manager
 	private:
 		std::unique_ptr<Pg::Core::ProcessMain> _coreMain;
 		Pg::API::Input::PgInput* _input;
-		Pg::Editor::Helper::EditorHelper* _edHepler;
+		Pg::Editor::Data::DataContainer* _dataContainer;
 
 		bool _isCoreInitailized;
-		bool _editorOnOff;
 	};
 }
 

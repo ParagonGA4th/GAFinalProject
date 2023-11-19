@@ -4,6 +4,7 @@
 #include "AssetBasic3DLoader.h"
 
 #include "RenderTexture2D.h" //디폴트 텍스쳐 로드 때문에.
+#include "AssetTextureType.h"
 
 #include "../ParagonData/ParagonDefines.h" 
 #include "../ParagonUtil/ResourceHelper.h"

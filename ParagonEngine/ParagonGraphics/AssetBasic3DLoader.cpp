@@ -24,7 +24,7 @@ namespace Pg::Graphics::Loader
 
 	AssetBasic3DLoader::AssetBasic3DLoader()
 	{
-		////Assimp 링크 문제 없다는 것을 확인하기 위해.
+		////Assimp ??? ???? ????? ???? ?????? ????.
 		_importer = std::make_unique<Assimp::Importer>();
 
 	}
@@ -68,13 +68,13 @@ namespace Pg::Graphics::Loader
 			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList, path);
 		}
 
-		//Importer를 재사용하면서, 기존에 있던 데이터 클리어.
+		//Importer?? ???????, ?????? ??? ?????? ?????.
 		_importer->FreeScene();
 	}
 
 	bool AssetBasic3DLoader::IsModelSkinned(const std::string& path)
 	{
-		//Importer를 재사용하면서, 기존에 있던 데이터 클리어.
+		//Importer?? ???????, ?????? ??? ?????? ?????.
 		_importer->FreeScene();
 
 		std::string tPath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(path);
@@ -84,7 +84,7 @@ namespace Pg::Graphics::Loader
 
 		bool tIsSkinned = false;
 
-		// 모든 Mesh를 체크한다. 
+		// ??? Mesh?? u????. 
 		for (unsigned int i = 0; i < tScene->mNumMeshes; ++i) 
 		{
 			aiMesh* mesh = tScene->mMeshes[i];
