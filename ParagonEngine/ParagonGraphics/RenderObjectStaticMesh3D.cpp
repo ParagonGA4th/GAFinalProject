@@ -7,6 +7,9 @@
 #include "LayoutDefine.h"
 #include "MathHelper.h"
 #include "RenderTexture2D.h"
+#include "AssetModelDataDefine.h"
+#include "AssetTextureType.h"
+#include "MaterialCluster.h"
 
 #include "dxtk/WICTextureLoader.h"
 
@@ -25,14 +28,12 @@ namespace Pg::Graphics
 		//Mesh 데이터를 받기.
 		auto tModelData = GraphicsResourceManager::Instance()->GetResource(tStaticMeshRenderer->GetMeshFilePath(), eAssetDefine::_3DMODEL);
 		_modelData = static_cast<Asset3DModelData*>(tModelData.get());
-		
-		_normal = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, "../Resources/Textures/tw_normal.png");
-		HRESULT hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _normal->GetFilePath().c_str(), &_normal->GetResource(), &_normal->GetSRV());
 
-		_diffuse = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, "../Resources/Textures/tw_diffuse.png");
-		hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _diffuse->GetFilePath().c_str(), &_diffuse->GetResource(), &_diffuse->GetSRV());
-		
-
+		//_normal = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, "../Resources/Textures/tw_normal.png");
+		//HRESULT hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _normal->GetFilePath().c_str(), &_normal->GetResource(), &_normal->GetSRV());
+		//
+		//_diffuse = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, "../Resources/Textures/tw_diffuse.png");
+		//hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _normal->GetFilePath().c_str(), &_normal->GetResource(), &_normal->GetSRV());
 	}
 
 	RenderObjectStaticMesh3D::~RenderObjectStaticMesh3D()
@@ -42,36 +43,34 @@ namespace Pg::Graphics
 
 	void RenderObjectStaticMesh3D::Render()
 	{
-		_textures.clear();
+		
 
 		BindBuffers();
 		_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+		int tMeshCount = _modelData->_assetSceneData->_totalMeshCount;
 
-		int tMeshCount = _modelData->_d3dBufferInfo._meshCount;
 		for (int i = 0; i < tMeshCount; i++)
 		{
-			UINT tToDrawIndexCount = 0;
+			//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
+			_textures.clear();
 
-			if (i >= tMeshCount - 1)
+			UINT tToDrawIndexCount = _modelData->_assetSceneData->_meshList[i]._numIndices;
+			UINT tMatID = _modelData->_assetSceneData->_meshList[i]._materialID;
+
+			//이거 한번만 받아도 되겠지만, 일단은 통일성을 위해서.
+			//아니면 업데이트되는 로직을 여기랑 연관? 후의 일.
+			this->_diffuse = _modelData->GetMaterialByIndex(tMatID)->GetTextureByType(PG_TextureType_DIFFUSE);
+			this->_normal = _modelData->GetMaterialByIndex(tMatID)->GetTextureByType(PG_TextureType_NORMALS);
+
+			if (this->_diffuse == nullptr)
 			{
-				//마지막.
-				tToDrawIndexCount =
-					_modelData->_d3dBufferInfo._totalIndexCount -
-					_modelData->_d3dBufferInfo._indexOffsetVector[i];
+				this->_diffuse = GraphicsResourceManager::Instance()->GetDefaultTexture(PG_TextureType_DIFFUSE);
 			}
-			else
+			if (this->_normal == nullptr)
 			{
-				tToDrawIndexCount =
-					_modelData->_d3dBufferInfo._indexOffsetVector[i + 1] -
-					_modelData->_d3dBufferInfo._indexOffsetVector[i];
+				this->_normal = GraphicsResourceManager::Instance()->GetDefaultTexture(PG_TextureType_NORMALS);
 			}
-
-			UINT tMatID = _modelData->_d3dBufferInfo._materialIDVector[i];
-			AssetTextureSRV tATS = _modelData->_materialCluster.GetMaterialATSByIndex(tMatID)[0];
-			assert(tATS.texture != nullptr);
-
-			//_diffuse->GetSRV() = tATS.texture;
 
 			_textures.emplace_back(_diffuse);
 			_textures.emplace_back(_normal);
@@ -80,11 +79,9 @@ namespace Pg::Graphics
 
 			//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
 			_devCon->DrawIndexed(tToDrawIndexCount,
-				_modelData->_d3dBufferInfo._indexOffsetVector[i],
-				_modelData->_d3dBufferInfo._vertexOffsetVector[i]);
+				_modelData->_assetSceneData->_meshList[i]._indexOffset,
+				_modelData->_assetSceneData->_meshList[i]._vertexOffset);
 		}
-
-
 
 		/*
 		분석도 분석인데, 지금은 Node별로 Mesh의 Local Transformation이 반영되지 않기 때문에, 당연히 버텍스 버퍼가 한 공간에 겹쳐서 출력된다. 이를 고쳐야 한다..
@@ -113,17 +110,17 @@ namespace Pg::Graphics
 		//Vertex Buffer Setting.
 		UINT stride = sizeof(LayoutDefine::Vin1stStatic);
 		UINT offset = 0;
-		_devCon->IASetVertexBuffers(0, 1, &(_modelData->_d3dBufferInfo._vertexBuffer), &stride, &offset);
+		_devCon->IASetVertexBuffers(0, 1, &(_modelData->_vertexBuffer), &stride, &offset);
 		//Index Buffer Setting.
-		_devCon->IASetIndexBuffer(_modelData->_d3dBufferInfo._indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+		_devCon->IASetIndexBuffer(_modelData->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	}
 
 	void RenderObjectStaticMesh3D::UpdateConstantBuffers(Pg::Data::CameraData* camData)
 	{
 		auto _DXStorage = LowDX11Storage::GetInstance();
 
-		auto& tD3DBuffer = _modelData->_d3dBufferInfo;
-		auto& tMatCluster = _modelData->_materialCluster;
+		//auto& tD3DBuffer = _modelData->_d3dBufferInfo;
+		//auto& tMatCluster = _modelData->_materialCluster;
 
 		// 상수버퍼에 들어갈 값 셋팅
 		DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());

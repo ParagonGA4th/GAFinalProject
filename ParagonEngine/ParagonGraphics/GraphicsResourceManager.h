@@ -10,6 +10,7 @@
 
 #include "../ParagonData/GraphicsResource.h"
 #include "../ParagonProcess/CoreSingleton.h"
+#include "AssetTextureType.h"
 
 /// <summary>
 /// AssetManager에 의해 제어되는 그래픽스 리소스 관리 전담 매니저. 독단적 사용 불가.
@@ -36,6 +37,15 @@ namespace Pg::Graphics
 		class AssetBasic3DLoader;
 		class AssetBasic2DLoader;
 	}
+	namespace Helper
+	{
+		class AssimpBufferParser;
+	}
+}
+
+namespace Pg::Graphics
+{
+	class RenderTexture2D;
 }
 
 namespace Pg::Graphics::Manager
@@ -45,6 +55,7 @@ namespace Pg::Graphics::Manager
 	class GraphicsResourceManager : public Pg::Core::Singleton<GraphicsResourceManager>
 	{
 		friend class Pg::Core::Manager::AssetManager;
+		friend class Pg::Graphics::Helper::AssimpBufferParser;
 		friend class Pg::Graphics::GraphicsMain;
 	public:
 		GraphicsResourceManager(); 
@@ -60,11 +71,19 @@ namespace Pg::Graphics::Manager
 		//리소스가 있는 경우가 강제될 때, 리소스를 반환한다. (eAssetDefine으로)
 		std::shared_ptr<GraphicsResource> GetResource(const std::string& path, Pg::Data::Enums::eAssetDefine define);
 
+		//2차 리소스 등으로 AssetManager를 거치지 않고 GraphicsResourceManager에서 CreateResource되었을 때,
+		//명시적으로 SecondaryResourceList에 해당 사항을 추가할 수 있는 방법.
+		void AddSecondaryResource(const std::string& path, Pg::Data::Enums::eAssetDefine define);
+
 		//2차적으로 생성된 리스트들 반환, 목록 없으면 nullptr 반환.
 		std::map<std::string, Pg::Data::Enums::eAssetDefine>* GetSecondaryResources();
 
 		//한 Iteration마다 활용되는 2차 발생 리소스들을 지운다.
 		void ClearSecondaryResourcesList();
+
+		//가져온 값이 없을 때 Texture의 종류에 따라 디폴트 값을 가져올 수 있다.
+		RenderTexture2D* GetDefaultTexture(eAssetTextureType textureType);
+
 	private:
 		//GraphicsMain에서, 리소스 로드할 때 활용된다.
 		void LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define);
@@ -108,6 +127,10 @@ namespace Pg::Graphics::Manager
 
 		// 없으면, 템플릿으로 들어온 값으로 생성 및 Load.
 		_resources[path] = res = std::make_shared<T>(define, path);
+
+		//Scope 유지를 위해 shared_ptr를 별도로 보관해야 한다.
+		_scopeResourceMap.insert(std::make_pair(path, res));
+
 		res->InternalLoad();
 
 		//원 형태로 반환해줘야 한다.
@@ -117,10 +140,6 @@ namespace Pg::Graphics::Manager
 			throw std::runtime_error(std::string("[Graphics] 리소스 '") + path + "'를 해당 타입으로 변환하는 것이 불가능!!");
 			assert(false);
 		}
-
-		//Scope 유지를 위해 shared_ptr를 별도로 보관해야 한다.
-		_scopeResourceMap.insert(std::make_pair(path, res));
-
 		return;
 	}
 
