@@ -11,7 +11,7 @@ namespace Pg::Graphics
 
 	Pg::Graphics::RenderTexture2D* MaterialCluster::GetTextureByType(eAssetTextureType type)
 	{
-		//없을 경우 nullptr, 있으면 RenderTexture2D*를 반환한다.
+		//???? ??? nullptr, ?????? RenderTexture2D*?? ??????.
 		return _atsList[type];
 	}
 

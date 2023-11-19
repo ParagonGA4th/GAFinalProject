@@ -34,8 +34,11 @@
     <ClInclude Include="DebugSystem.h">
       <Filter>2_System\DebugSystem</Filter>
     </ClInclude>
-    <ClInclude Include="DebugData.h">
-      <Filter>2_System\DebugSystem</Filter>
+    <ClInclude Include="TimeSystem.h">
+      <Filter>2_System\TimeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="PrintRuntimeData.h">
+      <Filter>4_WorkSpace\SceneView</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +71,12 @@
     </ClCompile>
     <ClCompile Include="DebugSystem.cpp">
       <Filter>2_System\DebugSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeSystem.cpp">
+      <Filter>2_System\TimeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintRuntimeData.cpp">
+      <Filter>4_WorkSpace\SceneView</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +115,9 @@
     </Filter>
     <Filter Include="2_System\DebugSystem">
       <UniqueIdentifier>{0c5d9658-5dcb-4e7a-ab78-73ae6f8c64df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\TimeSystem">
+      <UniqueIdentifier>{9ea9fc35-ec73-4f0a-8052-37ab06cd79e8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

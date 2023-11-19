@@ -54,9 +54,9 @@ namespace Pg::Core
 		_engine->Update();
 	}
 
-	void EngineGraphicsAdapter::UpdateGraphics(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData, float deltaTime)
+	void EngineGraphicsAdapter::UpdateGraphics(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData)
 	{
-		_graphics->Update(scene, cameraData, deltaTime);
+		_graphics->Update(scene, cameraData);
 	}
 
 	void EngineGraphicsAdapter::UpdateAssetManager(Manager::AssetManager* assetManager)

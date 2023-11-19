@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "Script.h"
 #include "../ParagonMath/PgMath.h"
 
 #include <cstdlib>
@@ -14,7 +14,7 @@ namespace Pg::Data
 }
 namespace Pg::Data
 {
-	class MoveForwardBack : public Component
+	class MoveForwardBack : public Script
 	{
 	public:
 		MoveForwardBack(GameObject* obj);

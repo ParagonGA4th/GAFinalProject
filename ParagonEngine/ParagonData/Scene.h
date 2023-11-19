@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "DirectionalLight.h"
+#include "../ParagonData/GraphicsDebugData.h"
 
 /// <summary>
 /// 변지상의 Scene 클래스.
@@ -49,6 +50,7 @@ namespace Pg::Data
 		const std::vector<GameObject*>& GetObjectList() const;
 
 	private:
+
 		//씬 이름
 		std::string _sceneName;
 
@@ -58,6 +60,9 @@ namespace Pg::Data
 		//카메라
 		Camera* _mainCamera;
 		DirectionalLight* _mainDirLight;
+
+	public:
+		GraphicsDebugData _graphicsDebugData;
 	};
 }
 
