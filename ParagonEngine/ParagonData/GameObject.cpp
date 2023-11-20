@@ -97,6 +97,11 @@ namespace Pg::Data
 		}
 	}
 
+	bool GameObject::GetActive()
+	{
+		return _isActive;
+	}
+
 	void GameObject::OnCollisionStay()
 	{
 

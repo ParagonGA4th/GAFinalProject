@@ -21,6 +21,9 @@ namespace Pg::Editor::Manager
 	private:
 		// Get File Data
 		void ShowDialog(bool isOpen);
+		
+		void CreateFolder();
+		void CreateFile();
 
 	private:
 		FilePath _path;
