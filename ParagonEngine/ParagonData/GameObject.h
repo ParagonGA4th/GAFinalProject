@@ -45,6 +45,7 @@ namespace Pg::Data
 		void SetName(const std::string& name);
 
 		void SetActive(bool active);
+		bool GetActive();
 
 	public:
 		template<typename T>

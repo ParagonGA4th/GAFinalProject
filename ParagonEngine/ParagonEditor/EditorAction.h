@@ -9,7 +9,6 @@ namespace Pg::Editor::Manager
 	class FileManager;
 }
 
-
 namespace Pg::Editor::Core
 {
 	class EditorAction
