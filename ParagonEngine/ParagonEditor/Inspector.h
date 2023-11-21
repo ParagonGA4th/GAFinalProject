@@ -2,6 +2,7 @@
 #include "IEditorWindow.h"
 #include <string>
 
+namespace Pg::Editor::Data { class DataContainer; }
 namespace Pg::UI { class WidgetContainer; }
 namespace Pg::UI::Manager { class UIManager; }
 
@@ -28,6 +29,7 @@ namespace Pg::Editor::Window
 		bool _isShow;
 
 		/// helper class
+		Pg::Editor::Data::DataContainer* _dataContainer;
 		Pg::UI::Manager::UIManager* _uiManager;
 		Pg::UI::WidgetContainer* cons;
 
