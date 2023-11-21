@@ -19,6 +19,7 @@
 #include "../ParagonData/BaseRenderer.h"
 #include "../ParagonData/RendererChangeList.h"
 #include "../ParagonData/CameraData.h"
+
 #include "../ParagonUtil/Log.h"
 
 //세부적인 렌더러들의 리스트.
@@ -47,7 +48,7 @@ namespace Pg::Graphics
 
 		_renderObject2DList = std::make_unique<RenderObject2DList>();
 		_renderObject3DList = std::make_unique<RenderObject3DList>();
-		
+
 	}
 
 	ParagonRenderer::~ParagonRenderer()
@@ -56,7 +57,7 @@ namespace Pg::Graphics
 	}
 
 	void ParagonRenderer::Initialize()
-	{		
+	{
 		_deferredRenderer = std::make_unique<DeferredRenderer>();
 		_deferredRenderer->Initialize();
 
@@ -79,7 +80,7 @@ namespace Pg::Graphics
 	}
 
 	void ParagonRenderer::Render(Pg::Data::CameraData* camData)
-	{	
+	{
 		// Deferred 1st Pass
 		_deferredRenderer->BindFirstPass();
 		_deferredRenderer->RenderFirstPass(_renderObject3DList.get(), camData);
@@ -110,7 +111,7 @@ namespace Pg::Graphics
 		//Scene을 파싱해서, 실제 렌더되어야 하는 Object를 연동한다.
 		//나중에 같은 씬을 유지하는 중에 오브젝트들 중 하나의 렌더러가 꺼진다거나 
 		//상황은 아직 유지 못함. 나중에 _rendererChangeList를 활용하면 된다!
-		
+
 		//기존의 직접적 RenderObject 리스트들 클리어.
 		_renderObject2DList->_list.clear();
 		_renderObject3DList->_list.clear();
@@ -119,18 +120,18 @@ namespace Pg::Graphics
 		using Pg::Graphics::Helper::GraphicsResourceHelper;
 
 		//컴포넌트 내부적으로 -> 자신이 어떤 타입인지 Renderer에게 전달. 내부적으로 호출.
-		
+
 
 		//이제 실제 오브젝트 내부 RenderObject 연동.
 		for (auto& tGameObject : newScene->GetObjectList())
 		{
 			// RenderObject
 			Pg::Data::BaseRenderer* tBaseRenderer = tGameObject->GetComponent<Pg::Data::BaseRenderer>();
-			
+
 			if (tBaseRenderer != nullptr)
 			{
 				//원래는 여기에 Active한지도 검사해야 한다.
-				
+
 				if (GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()) == 1)
 				{
 					//3D
@@ -188,12 +189,12 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::SyncComponentToGraphics(const Pg::Data::Scene* const newScene)
 	{
-		
+
 	}
 
 	unsigned int ParagonRenderer::Get3DObjectCount()
 	{
-		return _renderObject3DList->_list.size();
+		return _renderObject3DList->_renderedObjectCount;
 	}
 
 	//void ParagonRenderer::SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene)

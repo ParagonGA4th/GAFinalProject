@@ -14,6 +14,7 @@ namespace Pg::Data
 namespace Pg::Graphics
 {
 	class TestCube;
+	class RenderObject3D;
 	class RenderObject3DList;
 	class RenderObjectLightList;
 	class LowDX11Storage;
@@ -83,6 +84,9 @@ namespace Pg::Graphics
 		void UpdateConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers);
 		void BindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers);
 		void UnbindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers);
+
+	private:
+		bool IsInFrustum(RenderObject3D* object, Pg::Data::CameraData* camData);
 
 	private:
 		LowDX11Storage* _DXStorage;

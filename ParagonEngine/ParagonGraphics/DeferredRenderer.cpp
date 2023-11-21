@@ -104,16 +104,23 @@ void Pg::Graphics::DeferredRenderer::BindFirstPass()
 
 void Pg::Graphics::DeferredRenderer::RenderFirstPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 {
+	renderObjectList->_renderedObjectCount = 0;
 
 	for (auto& it : renderObjectList->_list)
 	{
 		if (it.second->GetBaseRenderer()->GetActive())
 		{
-			it.second->UpdateConstantBuffers(camData);
-			it.second->BindConstantBuffers();
-			it.second->Render();
-			it.second->UnbindConstantBuffers();
+			if (IsInFrustum(it.second.get(), camData))
+			{
+				it.second->UpdateConstantBuffers(camData);
+				it.second->BindConstantBuffers();
+				it.second->Render();
+				it.second->UnbindConstantBuffers();
+				renderObjectList->_renderedObjectCount++;
+			}
 		}
+
+
 	}
 
 }
@@ -305,4 +312,86 @@ void Pg::Graphics::DeferredRenderer::BindFullscreenQuad()
 	UINT offset = 0;
 	_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &_VB, &stride, &offset);
 	_DXStorage->_deviceContext->IASetIndexBuffer(_IB, DXGI_FORMAT_R32_UINT, 0);
+}
+
+bool Pg::Graphics::DeferredRenderer::IsInFrustum(RenderObject3D* object, Pg::Data::CameraData* camData)
+{
+	Pg::Data::PGFLOAT4 p;
+	Pg::Data::PGFLOAT4 n;
+
+	float result;
+	Pg::Data::PGFLOAT4 q;
+
+
+	q = Pg::Data::PGFLOAT4(object->GetBaseRenderer()->_object->GetComponent<Pg::Data::Transform>()->GetPosition(), 1.0f);
+	q = Pg::Math::PGFloat4MultiplyMatrix(q, camData->_viewMatrix);
+
+	// Near Plane
+	p = { 0.0f, 0.0f, camData->_nearZ, 0.0f};
+	n = { 0.0f, 0.0f, 1.0f, 0.0f };
+
+	result = n.x * q.x + n.y * q.y + n.z * q.z - (n.x * p.x + n.y * p.y + n.z * p.z);
+
+	if (result < 0)
+	{
+		return false;
+	}
+
+	// Far Plane
+	p = { 0.0f, 0.0f, camData->_farZ, 0.0f };
+	n = { 0.0f, 0.0f, -1.0f, 0.0f };
+
+	result = n.x * q.x + n.y * q.y + n.z * q.z - (n.x * p.x + n.y * p.y + n.z * p.z);
+
+	if (result < 0)
+	{
+		return false;
+	}
+
+	// Right Plane
+	p = {camData->_nearWindowHeight * camData->_aspect / 2, 0.0f, camData->_nearZ, 0.0f };
+	n = { camData->_nearWindowHeight * camData->_nearZ / 2, 0.0f, camData->_aspect * camData->_nearWindowHeight * camData->_nearWindowHeight / 4, 0.0f};
+	
+	result = n.x * q.x + n.y * q.y + n.z * q.z - (n.x * p.x + n.y * p.y + n.z * p.z);
+
+	if (result < 0)
+	{
+		return false;
+	}
+
+	// Left Plane
+	p = {(-1.0f) * camData->_nearWindowHeight * camData->_aspect / 2, 0.0f, camData->_nearZ, 0.0f };
+	n = {(-1.0f) * camData->_nearWindowHeight * camData->_nearZ / 2, 0.0f, camData->_aspect * camData->_nearWindowHeight * camData->_nearWindowHeight / 4, 0.0f };
+	
+	result = n.x * q.x + n.y * q.y + n.z * q.z - (n.x * p.x + n.y * p.y + n.z * p.z);
+
+	if (result < 0)
+	{
+		return false;
+	}
+
+	// Up Plane
+	p = {0.0f , camData->_nearWindowHeight / 2, camData->_nearZ, 0.0f };
+	n = {0.0f, camData->_nearWindowHeight * camData->_aspect * camData->_nearZ / -2, camData->_nearWindowHeight * camData->_aspect * camData->_nearWindowHeight / 4, 0.0f};
+
+	result = n.x * q.x + n.y * q.y + n.z * q.z - (n.x * p.x + n.y * p.y + n.z * p.z);
+
+	if (result < 0)
+	{
+		return false;
+	}
+
+	// Down Plane
+	p = {0.0f , (-1.0f) * camData->_nearWindowHeight / 2, camData->_nearZ, 0.0f };
+	n = { 0.0f, (-1.0f) * camData->_nearWindowHeight * camData->_aspect * camData->_nearZ / -2, camData->_nearWindowHeight * camData->_aspect * camData->_nearWindowHeight / 4, 0.0f };
+
+	result = n.x * q.x + n.y * q.y + n.z * q.z - (n.x * p.x + n.y * p.y + n.z * p.z);
+
+	if (result < 0)
+	{
+		return false;
+	}
+
+	// 프러스텀 안에 존재한다면 true를 반환
+	return true;
 }

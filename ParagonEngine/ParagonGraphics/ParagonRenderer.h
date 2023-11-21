@@ -59,8 +59,6 @@ namespace Pg::Graphics
 
 	public:
 		unsigned int Get3DObjectCount();
-		
-
 
 	private:
 		LowDX11Storage* _DXStorage = nullptr;
