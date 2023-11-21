@@ -4,6 +4,7 @@
 #include "../ParagonData/Button.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
+#include "../ParagonData/BoxCollider.h"
 
 //#include "../ParagonData/BaseRenderer.h" //Render 연동 보기 위해.
 //#include "../ParagonData/RendererBase2D.h" //Render 연동 보기 위해.
@@ -57,6 +58,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2 = tCurrentScene->AddObject("Cube1");
 	tObj2->GetComponent<Transform>()->SetPosition({ 3.0f, 1.0f, 5.0f });
 	tObj2->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.0f, 2.0f);
+	tObj2->AddComponent<BoxCollider>();
 	tObj2->AddComponent<StaticMeshRenderer>();
 	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
@@ -65,12 +67,14 @@ void Pg::Engine::TestScene::Initialize()
 
 	GameObject* tObj2_1 = tCurrentScene->AddObject("Cube3");
 	tObj2_1->GetComponent<Transform>()->SetPosition({ 5.0f, 1.0f, 0.0f });
+	tObj2_1->AddComponent<BoxCollider>();
 	tObj2_1->AddComponent<StaticMeshRenderer>();
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx");
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Cube4");
 	tObj2_2->GetComponent<Transform>()->SetPosition({ -5.0f, 1.0f, 0.0f });
+	tObj2_2->AddComponent<BoxCollider>();
 	tObj2_2->AddComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx");
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj2_2->AddComponent<MoveForwardBack>();

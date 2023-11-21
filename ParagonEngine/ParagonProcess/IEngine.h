@@ -35,6 +35,8 @@ namespace Pg::Core
 
 		virtual Pg::Data::CameraData* GetCameraData() abstract;
 
-		virtual Pg::Data::BoxInfo* GetBoxDebugData() abstract;
+		virtual const std::vector<Pg::Data::BoxInfo*>& GetBoxDebugData() const abstract;
+
+		virtual const std::vector<Pg::Data::LineInfo*>& GetLineDebugData() const abstract;
 	};
 }

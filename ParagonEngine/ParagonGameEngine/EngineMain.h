@@ -6,7 +6,7 @@
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/DebugData.h"
 
-
+#include <vector>
 /// <summary>
 /// 2023.09.08
 /// </summary>
@@ -45,6 +45,8 @@ namespace Pg::Engine
 	}
 
 	class SceneSystem;
+
+	class DebugSystem;
 }
 
 namespace Pg::Engine
@@ -69,7 +71,9 @@ namespace Pg::Engine
 
 		PARAGON_ENGINE_DLL Pg::Data::CameraData* GetCameraData();
 
-		PARAGON_ENGINE_DLL Pg::Data::BoxInfo* GetBoxDebugData();
+		PARAGON_ENGINE_DLL const std::vector<Pg::Data::BoxInfo*>& GetBoxDebugData() const;
+
+		PARAGON_ENGINE_DLL const std::vector<Pg::Data::LineInfo*>& GetLineDebugData() const;
 	private:
 
 		Pg::Core::ProcessMain* _coreMain = nullptr;
@@ -77,6 +81,7 @@ namespace Pg::Engine
 		Physic::PhysicSystem* _physicSystem = nullptr;
 		Time::TimeSystem* _timeSystem = nullptr;
 		SceneSystem* _sceneSystem = nullptr;
+		DebugSystem* _debugSystem = nullptr;
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
 
 	};
