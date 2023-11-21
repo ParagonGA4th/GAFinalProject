@@ -135,4 +135,11 @@ namespace Pg::Engine
 	{
 		return _debugSystem->GetLineVector();
 	}
+
+	void EngineMain::ClearDebugVectorData()
+	{
+		//일단은 박스만 다루니.
+		_debugSystem->DeleteBoxDebug();
+	}
+
 }
