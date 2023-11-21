@@ -196,6 +196,11 @@ namespace Pg::Graphics
 		return _renderObject3DList->_list.size();
 	}
 
+	void ParagonRenderer::PassDebugGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
+	{
+		_debugRenderer->GetDebugBoxGeometryData(boxColVec);
+	}
+
 	//void ParagonRenderer::SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene)
 	//{
 	//

@@ -9,6 +9,7 @@
 #include "../ParagonGraphics/GraphicsMain.h"
 
 #include <windows.h>
+#include <vector>
 #include <singleton-cpp/singleton.h>
 
 #ifdef _DEBUG
@@ -135,6 +136,18 @@ namespace Pg::Core
 	void EngineGraphicsAdapter::SyncLoadGraphicsResources()
 	{
 		_graphics->SyncLoadGraphicsResources();
+	}
+
+	void EngineGraphicsAdapter::PassDebugRenderData()
+	{
+		const auto& tBoxColVec = _engine->GetBoxDebugData();
+		_graphics->SetBoxDebugRenderData(tBoxColVec);
+
+	}
+
+	void EngineGraphicsAdapter::ClearDebugVectorData()
+	{
+		_engine->ClearDebugVectorData();
 	}
 
 }

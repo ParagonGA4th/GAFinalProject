@@ -84,6 +84,12 @@ namespace Pg::Core
 
 		Pg::Data::CameraData* GetCameraData();
 
+		//그래픽스 엔진한테 렌더될 디버그 데이터를 전달한다.
+		void PassDebugRenderData();
+
+		//디버그 시스템 지오메트리 데이터 클리어.
+		void ClearDebugVectorData();
+
 	private:
 		std::unique_ptr<IEngine> _engine;					//게임 엔진
 		std::unique_ptr<IGraphics> _graphics;				//그래픽스 엔진

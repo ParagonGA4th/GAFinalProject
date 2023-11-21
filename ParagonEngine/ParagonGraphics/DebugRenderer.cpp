@@ -77,18 +77,19 @@ namespace Pg::Graphics
 
 	void DebugRenderer::GeoPrimitiveRender(Pg::Data::CameraData* camData)
 	{
+		//무조건 Wireframe으로 그린다.
 		//DebugSystem이랑 연동되면 실제 Collider 정보랑 연동되어 출력될 예정.
+		//2023.11.21 : Box.
 		using namespace DirectX;
-		
-		XMMATRIX tBoxWorld = XMMatrixScaling(2.f, 1.f, 2.f) * XMMatrixTranslation(0.f, 0.f, 0.f);
-		XMMATRIX tSphereWorld = XMMatrixTranslation(1.f, 2.f, 0.f);
 
 		XMMATRIX tView = MathHelper::PG2XM_MATRIX(camData->_viewMatrix);
 		XMMATRIX tProj = MathHelper::PG2XM_MATRIX(camData->_projMatrix);
 
-		//무조건 Wireframe으로 그린다.
-		_boxShape->Draw(tBoxWorld, tView, tProj, Colors::Yellow, nullptr, true);
-		_sphereShape->Draw(tSphereWorld, tView, tProj, Colors::Yellow, nullptr, true);
+		for (int i = 0; i < _boxColVector->size(); i++)
+		{
+			DirectX::XMVECTOR tLineColor = MathHelper::PG2XM_VECTOR(_boxColVector->at(i)->color);
+			_boxShape->Draw(MathHelper::PG2XM_MATRIX(_boxColVector->at(i)->worldTM), tView, tProj, tLineColor, nullptr, true);
+		}
 	}
 
 	void DebugRenderer::EndGeoPrimitiveRender()
@@ -127,6 +128,10 @@ namespace Pg::Graphics
 		_primitiveBatch->End();
 	}
 
+	void DebugRenderer::GetDebugBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
+	{
+		_boxColVector = &boxColVec;
+	}
 
 
 }

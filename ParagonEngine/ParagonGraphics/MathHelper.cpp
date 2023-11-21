@@ -18,6 +18,12 @@ namespace Pg::Graphics::Helper
 		return { value.x, value.y, value.z, value.w };
 	}
 
+	DirectX::XMVECTOR MathHelper::PG2XM_VECTOR(Pg::Math::PGFLOAT4 value)
+	{
+		DirectX::XMFLOAT4 tFF = { value.x, value.y, value.z, value.w };
+		return DirectX::XMLoadFloat4(&tFF);
+	}
+
 	DirectX::XMFLOAT4 MathHelper::PG2XM_QUATERNION(Pg::Math::PGQuaternion value)
 	{
 		return { value.x, value.y, value.z, value.w };
@@ -176,5 +182,6 @@ namespace Pg::Graphics::Helper
 		return result;
 	}
 
+	
 
 }
