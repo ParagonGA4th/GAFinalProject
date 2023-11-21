@@ -119,10 +119,7 @@ void Pg::Graphics::DeferredRenderer::RenderFirstPass(RenderObject3DList* renderO
 				renderObjectList->_renderedObjectCount++;
 			}
 		}
-
-
 	}
-
 }
 
 void Pg::Graphics::DeferredRenderer::UnbindFirstPass()

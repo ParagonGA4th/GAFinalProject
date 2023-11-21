@@ -46,6 +46,7 @@ namespace Pg::Graphics
 		
 
 		BindBuffers();
+
 		_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		int tMeshCount = _modelData->_assetSceneData->_totalMeshCount;
