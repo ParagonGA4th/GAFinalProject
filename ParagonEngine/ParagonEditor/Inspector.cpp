@@ -40,13 +40,16 @@ void Pg::Editor::Window::Inspector::Initialize()
 {
 	Pg::Data::GameObject* obj = nullptr;
 
-	for (auto vobj : _dataContainer->GetCurrentScene()->GetObjectList())
+	if (_dataContainer->GetCurrentScene() != NULL)
 	{
-		if (vobj->GetName() == "New Object") obj = vobj;
-	}
+		for (auto vobj : _dataContainer->GetCurrentScene()->GetObjectList())
+		{
+			if (vobj->GetName() == "New Object") obj = vobj;
+		}
 
-	_objName = obj->GetName();
-	_isObjActive = obj->GetActive();
+		_objName = obj->GetName();
+		_isObjActive = obj->GetActive();
+	}
 
 	cons->CreateColumnsWidget<Pg::UI::Widget::Text>("Name");
 	cons->CreateColumnsWidget<Pg::UI::Widget::InputText>("Name", _objName);
