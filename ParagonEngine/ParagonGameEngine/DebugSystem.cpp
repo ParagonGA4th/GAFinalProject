@@ -38,14 +38,14 @@ namespace Pg::Engine
 		_boxVec.clear();
 	}
 
-	std::vector<Pg::Data::BoxInfo>& DebugSystem::GetBoxVector()
+	std::vector<Pg::Data::BoxInfo>& DebugSystem::GetBoxVector() const
 	{
-		return _boxVec;
+		return _boxVec; 
 	}
 
-	std::vector<Pg::Data::LineInfo>& DebugSystem::GetLineVector()
+	std::vector<Pg::Data::LineInfo>& DebugSystem::GetLineVector() 
 	{
-		return _lineVec;
+		return _lineVec;                                
 	}
 
 }

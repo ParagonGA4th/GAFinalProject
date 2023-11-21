@@ -119,4 +119,8 @@ namespace Pg::Engine
 		return _sceneSystem->GetCurrentScene()->GetMainCamera()->GetCameraData();
 	}
 
+	Pg::Data::BoxInfo* EngineMain::GetBoxDebugData()
+	{
+		return {};
+	}
 }

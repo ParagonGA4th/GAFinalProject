@@ -4,6 +4,7 @@
 #include "../ParagonProcess/IEngine.h"
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonData/CameraData.h"
+#include "../ParagonData/DebugData.h"
 
 
 /// <summary>
@@ -18,6 +19,7 @@ namespace Pg::Core
 namespace Pg::Data
 {
 	struct CameraData;
+	struct BoxInfo;
 }
 
 namespace Pg::Engine
@@ -66,6 +68,8 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL Pg::Data::Scene* GetCurrentScene();
 
 		PARAGON_ENGINE_DLL Pg::Data::CameraData* GetCameraData();
+
+		PARAGON_ENGINE_DLL Pg::Data::BoxInfo* GetBoxDebugData();
 	private:
 
 		Pg::Core::ProcessMain* _coreMain = nullptr;

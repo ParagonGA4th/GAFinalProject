@@ -2,6 +2,7 @@
 #include "../ParagonData/AssetDefines.h"
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/CameraData.h"
+#include "../ParagonData/DebugData.h"
 #include <string>
 #include <vector>
 
@@ -33,5 +34,7 @@ namespace Pg::Core
 		virtual Pg::Data::Scene* GetCurrentScene() abstract;
 
 		virtual Pg::Data::CameraData* GetCameraData() abstract;
+
+		virtual Pg::Data::BoxInfo* GetBoxDebugData() abstract;
 	};
 }
