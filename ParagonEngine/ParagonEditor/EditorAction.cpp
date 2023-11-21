@@ -34,7 +34,7 @@ void Pg::Editor::Core::EditorAction::Initialize()
 
 	_fileManager->Initialize();
 	// 임시로 비활성화
-	//_fileManager->FileOpen();
+	_fileManager->FileOpen();
 	_processManager->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
 	_editorManager->Initialize(_hWnd);
 }
@@ -114,7 +114,7 @@ BOOL Pg::Editor::Core::EditorAction::CreateWindows(HINSTANCE hInstance)
 	AppendMenu(hSubMenu, MF_STRING, ID_OPEN_SCENE, "Open Scene");
 	AppendMenu(hSubMenu, MF_STRING, ID_NEW_SCENE, "New Scene");
 	AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL); // 구분선 추가
-	AppendMenu(hSubMenu, MF_STRING, ID_SAVE, "Save");
+	AppendMenu(hSubMenu, MF_STRING, ID_SAVE, "Save (Ctrl + S)");
 	AppendMenu(hSubMenu, MF_STRING, ID_EXIT, "Exit");
 	AppendMenu(hMenu, MF_POPUP, (UINT_PTR)hSubMenu, "File");
 

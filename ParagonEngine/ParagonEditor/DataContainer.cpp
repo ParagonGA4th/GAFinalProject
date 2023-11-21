@@ -73,3 +73,13 @@ Pg::Data::Scene* Pg::Editor::Data::DataContainer::GetCurrentScene()
 	return _currentScene;
 }
 
+void Pg::Editor::Data::DataContainer::SetSave(bool isSave)
+{
+	_isSave = isSave;
+}
+
+bool Pg::Editor::Data::DataContainer::GetSave()
+{
+	return _isSave;
+}
+

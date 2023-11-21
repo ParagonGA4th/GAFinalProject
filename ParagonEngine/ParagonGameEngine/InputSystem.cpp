@@ -94,6 +94,8 @@ namespace  Pg::Engine::Input
 		assert(_map->MapBool(eKeyCode::NextRenderTarget, _keyboardId, gainput::Key0));
 
 		assert(_map->MapBool(eKeyCode::ShiftL, _keyboardId, gainput::KeyShiftL));
+
+		assert(_map->MapBool(eKeyCode::Save, _keyboardId, gainput::KeyCtrlL && gainput::KeyS));
 	}
 
 	bool InputSystem::GetKey(Pg::API::Input::eKeyCode keyCode)

@@ -30,7 +30,11 @@ namespace Pg::Editor::Data
 		std::vector<Pg::Data::Scene*> GetScenes();
 
 		void SetCurrentScene(Pg::Data::Scene* scene);
-		Pg::Data::Scene* GetCurrentScene();				
+		Pg::Data::Scene* GetCurrentScene();	
+
+		// Event System 만들기 전 테스트 용도
+		void SetSave(bool isSave);
+		bool GetSave();
 
 	private:
 		ID3D11Device* _device;
@@ -43,5 +47,6 @@ namespace Pg::Editor::Data
 		void* _gameTexture;
 
 		bool _onOff;
+		bool _isSave;
 	};
 }

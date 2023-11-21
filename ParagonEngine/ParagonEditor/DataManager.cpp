@@ -33,7 +33,9 @@ void Pg::Editor::Manager::DataManager::DataLoad()
 
 void Pg::Editor::Manager::DataManager::DataSave()
 {
-
+	// Data를 가져와서 Serialize
+	// xml로 파싱
+	// 폴더 생성()
 }
 
 void Pg::Editor::Manager::DataManager::ProjectLoad()
