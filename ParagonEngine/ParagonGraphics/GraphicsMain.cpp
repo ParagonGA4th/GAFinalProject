@@ -145,7 +145,7 @@ namespace Pg::Graphics
 		//DebugRender 기능, 일단은 디폴트로 켜두었음.
 		_renderer->DebugRender(_camData);
 
-		// 현재 렌더링되고 있는 3D 오브젝트의 갯수를 Scene으로 전달.
+		// 현재 렌더링되고 있는 3D 오브젝트의 갯수를 Scene으로 전달. (프러스텀 컬링 체크용)
 		scene->_graphicsDebugData._renderedObjectCount = _renderer->Get3DObjectCount();
 	}
 

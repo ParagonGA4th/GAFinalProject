@@ -15,5 +15,6 @@ namespace Pg::Graphics
 	{
 	public:
 		std::unordered_map<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>> _list;
+		unsigned int _renderedObjectCount = 0;
 	};
 }
