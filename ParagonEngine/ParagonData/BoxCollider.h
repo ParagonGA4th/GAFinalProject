@@ -1,5 +1,7 @@
 #pragma once
 #include "DynamicCollider.h"
+#include "../ParagonMath/PgMath.h"
+#include "../ParagonData/DebugData.h"
 
 /// <summary>
 /// 변지상의 BoxCollider
@@ -27,10 +29,13 @@ namespace Pg::Data
 
 		void SetScale(float w, float h, float d);
 
+		Pg::Data::BoxInfo _boxInfo;
 	private:
 		float _width;
 		float _height;
 		float _depth;
+
+
 	};
 }
 

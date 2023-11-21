@@ -2,6 +2,7 @@
 #include "InputSystem.h"
 #include "PhysicSystem.h"
 #include "SceneSystem.h"
+#include "DebugSystem.h"
 #include "TimeSystem.h"
 #include "EngineResourceManager.h"
 
@@ -57,6 +58,10 @@ namespace Pg::Engine
 		//Time
 		auto& tTimeSystem = singleton<Time::TimeSystem>();
 		_timeSystem = &tTimeSystem;
+
+		//Debug
+		auto& tDebugSystem = singleton<DebugSystem>();
+		_debugSystem = &tDebugSystem;
 	}
 
 	EngineMain::~EngineMain()
@@ -70,6 +75,7 @@ namespace Pg::Engine
 		_sceneSystem->Initialize();
 		_inputSystem->Initialize(width, height);
 		_physicSystem->Initialize();
+		_debugSystem->Initialize();
 		_timeSystem->Initialize();
 	}
 
@@ -78,6 +84,7 @@ namespace Pg::Engine
 		_sceneSystem->Update();
 		_inputSystem->Update();
 		_physicSystem->UpdatePhysics();
+		_debugSystem->Update(_sceneSystem->GetCurrentScene());
 		_timeSystem->TimeMeasure();
 
 		 static bool tTest = false;
@@ -119,8 +126,13 @@ namespace Pg::Engine
 		return _sceneSystem->GetCurrentScene()->GetMainCamera()->GetCameraData();
 	}
 
-	Pg::Data::BoxInfo* EngineMain::GetBoxDebugData()
+	const std::vector<BoxInfo*>& EngineMain::GetBoxDebugData() const
 	{
-		return {};
+		return _debugSystem->GetBoxVector();
+	}
+
+	const std::vector<Pg::Data::LineInfo*>& EngineMain::GetLineDebugData() const
+	{
+		return _debugSystem->GetLineVector();
 	}
 }
