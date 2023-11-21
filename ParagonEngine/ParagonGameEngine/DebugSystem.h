@@ -30,11 +30,17 @@ namespace Pg::Engine
 		void SetDebugMode(bool isdebug);
 
 	public:
-		std::vector<Pg::Data::BoxInfo>& GetBoxVector();
+		std::vector<Pg::Data::BoxInfo>& GetBoxVector() const;
 		std::vector<Pg::Data::LineInfo>& GetLineVector();
+
+		//std::vector<Pg::Data::BoxInfo*>& GetDrawEnabledBoxVector() const;
+		//std::vector<Pg::Data::LineInfo*>& GetDrawEnabledLineVector();
 	private:
 		std::vector<Pg::Data::BoxInfo> _boxVec;
 		std::vector<Pg::Data::LineInfo> _lineVec;
+
+		//std::vector<Pg::Data::BoxInfo*> _boxVecChosen;
+		//std::vector<Pg::Data::LineInfo*> _lineVecChosen;
 
 		//디버그 모드 플래그
 		bool _isDebug = false;
