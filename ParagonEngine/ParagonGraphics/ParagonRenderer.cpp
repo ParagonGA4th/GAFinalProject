@@ -32,8 +32,10 @@
 #include "RenderObjectText2D.h"
 #include "RenderObjectImage2D.h"
 
+
 #include <utility>
 #include <singleton-cpp/singleton.h>
+
 
 namespace Pg::Graphics
 {
@@ -71,6 +73,9 @@ namespace Pg::Graphics
 
 		// 내부적으로 DXStorage를 쓰고 있기 때문에 생성자가 아닌 Initialize()에 있어야 함
 		_lights = std::make_unique<RenderObjectLightList>();
+
+		//SkinningMk.2
+		_tempMultiMesh = new MultimaterialMesh("tFilePath");
 	}
 
 	void ParagonRenderer::BeginRender()
@@ -97,6 +102,18 @@ namespace Pg::Graphics
 
 		// Forward
 		_forward3dRenderer->Render(*camData);
+
+		//SkinningMk.2
+		{
+			static Pg::Data::CameraData* tCamData = nullptr;
+			if (tCamData == nullptr)
+			{
+				tCamData = new Pg::Data::CameraData();
+			}
+			std::memcpy(tCamData, &camData, sizeof(Pg::Data::CameraData));
+			_tempMultiMesh->Render(tCamData);
+		}
+
 		_forward2dRenderer->Render(_renderObject2DList.get(), camData);
 	}
 

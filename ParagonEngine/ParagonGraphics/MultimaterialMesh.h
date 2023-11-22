@@ -137,7 +137,6 @@ namespace Pg::Graphics
 		std::array< ID3D11ShaderResourceView*, 3> _tempSRVArray;
 		ID3D11ShaderResourceView* _tempTimmySRV;
 		ID3D11ShaderResourceView* _tempCylinderSRV;
-		ID3D11ShaderResourceView* _tempBaboSRV;
 		ID3D11ShaderResourceView* _temp4QSRV;
 
 

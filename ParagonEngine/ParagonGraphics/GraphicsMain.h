@@ -8,7 +8,6 @@
 
 #include "TempCamera.h"
 #include "TestCube.h"
-#include "MultimaterialMesh.h"
 
 #include <windows.h>
 #include <memory>
@@ -142,7 +141,6 @@ namespace Pg::Graphics
 		//TempCamera* _camera;
 		//TestCube* _box;
 		Pg::Data::GameObject* _tempObj;
-		MultimaterialMesh* _tempMultiMesh;
 
 	private:
 		// Editor 연동 & 나중에 이 SRV들이 최종 렌더되는 Quad의 SRV여야 한다.
