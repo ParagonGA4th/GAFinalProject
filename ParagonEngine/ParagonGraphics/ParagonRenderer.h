@@ -8,6 +8,9 @@
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/GameObject.h"
 
+//SkinningMk.2
+#include "MultimaterialMesh.h"
+
 #include <memory>
 
 /// <summary>
@@ -77,6 +80,12 @@ namespace Pg::Graphics
 		std::unique_ptr<Forward3DRenderer> _forward3dRenderer;
 		std::unique_ptr<Forward2DRenderer> _forward2dRenderer;
 		std::unique_ptr<DebugRenderer> _debugRenderer;
+
+	private:
+		//SkinningMk.2 วัมค.
+		MultimaterialMesh* _tempMultiMesh;
+
 	};
 }
 
+	

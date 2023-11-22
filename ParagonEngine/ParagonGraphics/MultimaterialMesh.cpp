@@ -23,8 +23,6 @@
 #include <cassert> 
 #include <algorithm> 
 
-
-
 #include "../ParagonUtil/Log.h"
 
 #ifdef _DEBUG
@@ -66,7 +64,9 @@ namespace Pg::Graphics
 		CreateConstantBuffer();
 		LoadHardCodedSRVs();
 
-		ImportSkinnedAsset(filePath);
+
+		std::string tFilePath = "../Resources/3DModels/AnimMesh/Timmy_Shooting/Timmy_Shooting.fbx";
+		ImportSkinnedAsset(tFilePath);
 	}
 
 	MultimaterialMesh::~MultimaterialMesh()
@@ -181,9 +181,9 @@ namespace Pg::Graphics
 
 	void MultimaterialMesh::LoadHardCodedSRVs()
 	{
-		std::wstring t1stSRVPath = L"../Resources/3DModels/Animated/Textures/boss_lp_body_lp_AlbedoTransparency.png";
-		std::wstring t2ndSRVPath = L"../Resources/3DModels/Animated/Textures/boss_lp_atc_lp_AlbedoTransparency.png";
-		std::wstring t3rdSRVPath = L"../Resources/3DModels/Animated/Textures/StylizedWoodenFloor_Diffuse.png";
+		std::wstring t1stSRVPath = L"../Resources/3DModels/AnimMesh/Boss_Test_NonDeform_MultiMat/Boss_Test_NonDeform_MultiMat.fbm/boss_lp_atc_lp_AlbedoTransparency.png";
+		std::wstring t2ndSRVPath = L"../Resources/3DModels/AnimMesh/Boss_Test_NonDeform_MultiMat/Boss_Test_NonDeform_MultiMat.fbm/boss_lp_body_lp_AlbedoTransparency.png";
+		std::wstring t3rdSRVPath = L"../Resources/3DModels/AnimMesh/Boss_Test_NonDeform_MultiMat/Boss_Test_NonDeform_MultiMat.fbm/StylizedWoodenFloor_Diffuse.png";
 
 		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
 			LowDX11Storage::GetInstance()->_deviceContext,
@@ -200,22 +200,17 @@ namespace Pg::Graphics
 		//Timmy
 		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
 			LowDX11Storage::GetInstance()->_deviceContext,
-			L"../Resources/3DModels/Animated/Textures/Timmy_Diffuse.png", nullptr, &_tempTimmySRV));
+			L"../Resources/3DModels/AnimMesh/Timmy_Shooting/Timmy_Shooting.fbm/Ch09_1001_Diffuse.png", nullptr, &_tempTimmySRV));
 
 		//Direct3D Cylinder
 		HR(DirectX::CreateDDSTextureFromFile(LowDX11Storage::GetInstance()->_device,
 			LowDX11Storage::GetInstance()->_deviceContext,
-			L"../Resources/3DModels/Animated/Textures/WoodCrate01.dds", nullptr, &_tempCylinderSRV));
-
-		//TempBabo SRV
-		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
-			LowDX11Storage::GetInstance()->_deviceContext,
-			L"../Resources/3DModels/Animated/Textures/texture_BaseColor.png", nullptr, &_tempBaboSRV));
+			L"../Resources/3DModels/AnimMesh/Cylinder/Cylinder.fbm/WoodCrate01.dds", nullptr, &_tempCylinderSRV));
 
 		//4Q SRV
 		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
 			LowDX11Storage::GetInstance()->_deviceContext,
-			L"../Resources/3DModels/Animated/Textures/TT_checker_2048x2048_UV_GRID_BaseColor.png", nullptr, &_temp4QSRV));
+			L"../Resources/3DModels/AnimMesh/4QCharacter_idle_ani/4QCharacter_idle_ani.fbm/BaseColor.png", nullptr, &_temp4QSRV));
 	}
 
 	void MultimaterialMesh::UpdateConstantBufferBase(Pg::Data::CameraData* camData, DirectX::XMFLOAT4X4 worldMat)
@@ -266,7 +261,7 @@ namespace Pg::Graphics
 			aiProcess_Triangulate |
 			aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_GenBoundingBoxes |
 			aiProcess_CalcTangentSpace | aiProcess_PopulateArmatureData |
-			aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_FixInfacingNormals | aiProcess_EmbedTextures | aiProcess_LimitBoneWeights);
+			aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_FixInfacingNormals | aiProcess_LimitBoneWeights);
 
 		assert(scene != nullptr);
 
@@ -440,9 +435,9 @@ namespace Pg::Graphics
 		//이 모델이 되따 크다.
 		//DirectX::XMFLOAT3 tScale = { 0.0001f, 0.0001f, 0.0001f };
 		//DirectX::XMFLOAT3 tScale = { 0.001f, 0.001f, 0.001f };
-		DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
+		//DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
 		//DirectX::XMFLOAT3 tScale = { 0.1f, 0.1f, 0.1f };
-		//DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
+		DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
 		DirectX::XMVECTOR tScaleVec = DirectX::XMLoadFloat3(&tScale);
 
 		DirectX::XMMATRIX tWorldMatScaled = DirectX::XMMatrixAffineTransformation(tScaleVec, tPosVec, tRotQuatVec, tPosVec);
@@ -843,7 +838,6 @@ namespace Pg::Graphics
 			//_devCon->PSSetShaderResources(0, 1, &_tempCylinderSRV);
 			_devCon->PSSetShaderResources(0, 1, &_tempTimmySRV);
 			//_devCon->PSSetShaderResources(0, 1, &_temp4QSRV);
-			//_devCon->PSSetShaderResources(0, 1, &_tempBaboSRV);
 			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[0]));
 
 			_devCon->DrawIndexed(m.numIndices, m.startIndex, m.startVertex);

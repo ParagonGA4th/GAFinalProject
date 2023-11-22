@@ -13,8 +13,6 @@
 #include "Axis.h"
 #include "Cubemap.h"
 
-
-
 namespace Pg::Graphics
 {
 	Grid* grid;
