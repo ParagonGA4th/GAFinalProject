@@ -72,8 +72,8 @@ namespace Pg::Engine
 
 	void EngineMain::Initialize(float width, float height)
 	{
-		_sceneSystem->Initialize();
 		_inputSystem->Initialize(width, height);
+		_sceneSystem->Initialize();
 		_physicSystem->Initialize();
 		_debugSystem->Initialize();
 		_timeSystem->Initialize();

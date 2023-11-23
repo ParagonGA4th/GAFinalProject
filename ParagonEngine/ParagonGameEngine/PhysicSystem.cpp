@@ -127,6 +127,7 @@ namespace Pg::Engine::Physic
 				_pxScene->addActor(*body);
 			}
 		}
+
 		shape->release();
 	}
 
@@ -137,10 +138,16 @@ namespace Pg::Engine::Physic
 		auto& tSceneSystem = singleton<SceneSystem>();
 		_sceneSystem = &tSceneSystem;
 
-		//현재 씬에 존재하는 오브젝트 리스트를 받아와 Collider를 전부 그린다.
+		//현재 씬에 존재하는 오브젝트 리스트를 받아와 
+		//Collider 존재할 경우 Collider를 전부 생성한다.
 		for (auto& obj : _sceneSystem->GetCurrentScene()->GetObjectList())
 		{
-			MakeDynamicBoxCollider(obj);
+			Pg::Data::BoxCollider* tBoxCol = obj->GetComponent<Pg::Data::BoxCollider>();
+
+			if (tBoxCol != nullptr)
+			{
+				MakeDynamicBoxCollider(obj);
+			}
 		}
 	}
 
