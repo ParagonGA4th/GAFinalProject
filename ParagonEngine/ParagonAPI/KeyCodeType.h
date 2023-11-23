@@ -26,6 +26,9 @@ namespace Pg::API::Input
 
 		ShiftL, //이동 속도 조정 위해.
 		
-		Save
+		Save,
+
+		CtrlL,
+		KeyS
 	};
 }

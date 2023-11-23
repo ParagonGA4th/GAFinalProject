@@ -17,23 +17,22 @@ Pg::Editor::Manager::DataManager::DataManager()
 Pg::Editor::Manager::DataManager::~DataManager() 
 {}
 
-void Pg::Editor::Manager::DataManager::SetFilePath(std::string path)
+void Pg::Editor::Manager::DataManager::DataLoad(std::string path, std::string fileName)
 {
 	_path = path;
-}
+	_fileName = fileName;
 
-
-void Pg::Editor::Manager::DataManager::DataLoad()
-{
 	if (_path.find("pgproject") == std::string::npos) SceneLoad();
 	else ProjectLoad();
 
 	if(_scenes.size() > 0) _dataContainer->SetScenes(_scenes);
 }
 
-void Pg::Editor::Manager::DataManager::DataSave()
+void Pg::Editor::Manager::DataManager::DataSave(std::string path, std::string fileName)
 {
 	// Data를 가져와서 Serialize
+	
+
 	// xml로 파싱
 	// 폴더 생성()
 }
@@ -48,15 +47,20 @@ void Pg::Editor::Manager::DataManager::SceneLoad()
 	pugi::xml_document doc;
 	if (doc.load_file(_path.c_str()))
 	{
-		_fileName = _path.substr(_path.rfind("\\") + 1);
-		_fileName = _fileName.substr(0, _fileName.find(".", 0));
-
 		_scenes.push_back(new Pg::Data::Scene(_fileName));
 
 		pugi::xml_node rootNode = doc.child("scene");
 		DataDeserialize(rootNode.first_child(), _scenes.size() - 1);
 	}
 }
+
+void Pg::Editor::Manager::DataManager::SceneSave()
+{
+	pugi::xml_document doc;
+
+	// 파일 덮어쓰기
+}
+
 
 void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int sceneNum)
 {
@@ -77,36 +81,15 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 
 			if (typeName == Pg::Serialize::Serializer::DeserializeString(&component, "type"))
 			{
-				TransformDeserialize(component, obj);
+				pugi::xml_node trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "position"; });
+				obj->_transform.SetPosition(Pg::Serialize::Serializer::DeserializeVec3(&trans, "x"));
+
+				trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "rotation"; });
+				obj->_transform.SetRotation(Pg::Serialize::Serializer::DeserializeQuaternion(&trans, "w"));
+
+				trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "scale"; });
+				obj->_transform.SetScale(Pg::Serialize::Serializer::DeserializeVec3(&trans, "x"));
 			}
 		}
 	}
-}
-
-void Pg::Editor::Manager::DataManager::TransformDeserialize(pugi::xml_node component, Pg::Data::GameObject* obj)
-{
-	pugi::xml_node trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "position"; });
-	obj->_transform.SetPosition
-	(
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "x"),
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "y"),
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "z")
-	);
-
-	trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "rotation"; });
-	obj->_transform.SetRotation
-	(
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "W"),
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "x"),
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "y"),
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "z")
-	);
-
-	trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "scale"; });
-	obj->_transform.SetScale
-	(
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "x"),
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "y"),
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "z")
-	);
 }
