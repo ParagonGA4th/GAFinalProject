@@ -18,21 +18,18 @@ namespace Pg::Editor::Manager
 		DataManager();
 		~DataManager();
 
-		void SetFilePath(std::string path);
-		void DataLoad();
-		void DataSave();
+		void DataLoad(std::string path, std::string fileName);
+		void DataSave(std::string path, std::string fileName);
 
 	private:
 		void ProjectLoad();
 		void SceneLoad();
 
 		//void ProjectSave();
-		//void SceneSave();
+		void SceneSave();
 
 		void DataDeserialize(pugi::xml_node root, int sceneNum);
 		//void DataSerialize();
-
-		void TransformDeserialize(pugi::xml_node component, Pg::Data::GameObject* obj);
 
 	private:
 		std::string _path;
