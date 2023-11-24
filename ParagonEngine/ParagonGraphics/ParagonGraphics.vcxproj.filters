@@ -565,5 +565,8 @@
     <FxCompile Include="..\ShaderDefaults\Shaders\PhongVS.hlsl">
       <Filter>6_HLSL\SecondStage</Filter>
     </FxCompile>
+    <FxCompile Include="..\ShaderDefaults\TempForward\TempForwardVSSkinned.hlsl">
+      <Filter>6_HLSL\TempForward</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
