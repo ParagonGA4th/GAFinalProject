@@ -230,6 +230,8 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT4X4 tProj = MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
 		DirectX::XMMATRIX tProjMat = DirectX::XMLoadFloat4x4(&tProj);
 
+		_constantBufferStruct->gCBuf_WorldView = DirectX::XMMatrixMultiply(tWorldMat, tViewMat);
+
 		DirectX::XMMATRIX tWVP = DirectX::XMMatrixMultiply(tWorldMat, DirectX::XMMatrixMultiply(tViewMat, tProjMat));
 		_constantBufferStruct->gCBuf_WorldViewProj = tWVP;
 		_constantBufferStruct->gCBuf_CameraPositionW = MathHelper::PG2XM_FLOAT3(camData->_position);
@@ -435,9 +437,9 @@ namespace Pg::Graphics
 		//이 모델이 되따 크다.
 		//DirectX::XMFLOAT3 tScale = { 0.0001f, 0.0001f, 0.0001f };
 		//DirectX::XMFLOAT3 tScale = { 0.001f, 0.001f, 0.001f };
-		//DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
+		DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
 		//DirectX::XMFLOAT3 tScale = { 0.1f, 0.1f, 0.1f };
-		DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
+		//DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
 		DirectX::XMVECTOR tScaleVec = DirectX::XMLoadFloat3(&tScale);
 
 		DirectX::XMMATRIX tWorldMatScaled = DirectX::XMMatrixAffineTransformation(tScaleVec, tPosVec, tRotQuatVec, tPosVec);
