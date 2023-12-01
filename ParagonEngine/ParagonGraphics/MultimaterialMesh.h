@@ -138,6 +138,7 @@ namespace Pg::Graphics
 		ID3D11ShaderResourceView* _tempTimmySRV;
 		ID3D11ShaderResourceView* _tempCylinderSRV;
 		ID3D11ShaderResourceView* _temp4QSRV;
+		ID3D11ShaderResourceView* _tempFallFlatMonsterSRV;
 
 
 	private:

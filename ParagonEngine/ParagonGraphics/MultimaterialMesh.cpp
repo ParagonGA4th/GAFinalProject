@@ -65,7 +65,9 @@ namespace Pg::Graphics
 		LoadHardCodedSRVs();
 
 
-		std::string tFilePath = "../Resources/3DModels/AnimMesh/Timmy_Shooting/Timmy_Shooting.fbx";
+		//std::string tFilePath = "../Resources/3DModels/AnimMesh/Timmy_Shooting/Timmy_Shooting.fbx";
+		//std::string tFilePath = "../Resources/3DModels/AnimMesh/Cylinder/Cylinder.fbx";
+		std::string tFilePath = "../Resources/3DModels/AnimMesh/FallFlatMonster/FallFlatMonster.fbx";
 		ImportSkinnedAsset(tFilePath);
 	}
 
@@ -211,6 +213,12 @@ namespace Pg::Graphics
 		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
 			LowDX11Storage::GetInstance()->_deviceContext,
 			L"../Resources/3DModels/AnimMesh/4QCharacter_idle_ani/4QCharacter_idle_ani.fbm/BaseColor.png", nullptr, &_temp4QSRV));
+	
+		//FallFlatMonster
+		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
+			LowDX11Storage::GetInstance()->_deviceContext,
+			L"../Resources/3DModels/AnimMesh/FallFlatMonster/FallFlatMonster.fbm/Mutant_diffuse.png", nullptr, &_tempFallFlatMonsterSRV));
+	
 	}
 
 	void MultimaterialMesh::UpdateConstantBufferBase(Pg::Data::CameraData* camData, DirectX::XMFLOAT4X4 worldMat)
@@ -426,7 +434,7 @@ namespace Pg::Graphics
 		//1/100으로 줄여서 렌더링할 것이다. -> 일단은 World Matrix를 Identity로!
 		///커스텀 위치 조정.
 		///현재 렌더 로직 떄문에, 이 역시 적용되지 않는 상황이다!
-		DirectX::XMFLOAT3 tPosition = { 0.0f, 0.0f, 0.0f };
+		DirectX::XMFLOAT3 tPosition = { -1.0f, 3.0f, 0.0f };
 		DirectX::XMVECTOR tPosVec = DirectX::XMLoadFloat3(&tPosition);
 
 
@@ -438,6 +446,7 @@ namespace Pg::Graphics
 		//DirectX::XMFLOAT3 tScale = { 0.0001f, 0.0001f, 0.0001f };
 		//DirectX::XMFLOAT3 tScale = { 0.001f, 0.001f, 0.001f };
 		DirectX::XMFLOAT3 tScale = { 0.01f, 0.01f, 0.01f };
+		//DirectX::XMFLOAT3 tScale = { 0.03f, 0.03f, 0.03f };
 		//DirectX::XMFLOAT3 tScale = { 0.1f, 0.1f, 0.1f };
 		//DirectX::XMFLOAT3 tScale = {1.0f,1.0f, 1.0f};
 		DirectX::XMVECTOR tScaleVec = DirectX::XMLoadFloat3(&tScale);
@@ -561,6 +570,9 @@ namespace Pg::Graphics
 			//MathHelper::DecomposeAssembleMatrix(tBoneOffset);
 			_renderBoneInfoVector[BoneIndex]._boneOffset = tBoneOffset.Transpose();
 
+			//{
+			//
+			//}
 
 			// Iterate over all the affected vertices by this bone i.e weights. 
 			for (unsigned int j = 0; j < mesh->mBones[i]->mNumWeights; j++) {
@@ -653,13 +665,15 @@ namespace Pg::Graphics
 			//tNodeTransformation *= tNodeTransformation;
 		}
 
-		/////Rotation, 하지만 이는 지속성이 없는 코드.
-		//{
-		//	using namespace DirectX;
-		//
-		//	Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(XMConvertToRadians(0.0f), XMConvertToRadians(0.0f), XMConvertToRadians(0.0f));
-		//	tNodeTransformation = rotationMatrix;
-		//}
+		///Rotation, 하지만 이는 지속성이 없는 코드.
+		{
+			//using namespace DirectX;
+			//tNodeTransformation = tNodeTransformation.Transpose();
+			//
+			//Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(XMConvertToRadians(0.0f), XMConvertToRadians(0.0f), XMConvertToRadians(0.0f));
+			//////tNodeTransformation = rotationMatrix;
+			//tNodeTransformation *= rotationMatrix;
+		}
 
 		//여기서 Decompose를 시행안하기는 했다. 문제시 보기.
 
@@ -838,7 +852,8 @@ namespace Pg::Graphics
 
 			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[tAiMesh->mMaterialIndex]));
 			//_devCon->PSSetShaderResources(0, 1, &_tempCylinderSRV);
-			_devCon->PSSetShaderResources(0, 1, &_tempTimmySRV);
+			_devCon->PSSetShaderResources(0, 1, &_tempFallFlatMonsterSRV);
+			//_devCon->PSSetShaderResources(0, 1, &_tempTimmySRV);
 			//_devCon->PSSetShaderResources(0, 1, &_temp4QSRV);
 			//_devCon->PSSetShaderResources(0, 1, &(_tempSRVArray[0]));
 

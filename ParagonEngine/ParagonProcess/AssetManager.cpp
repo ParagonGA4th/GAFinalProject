@@ -163,6 +163,8 @@ namespace Pg::Core::Manager
 		LoadResource("../Resources/Textures/wook.jpg", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
 		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
 		LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
+	
+		//LoadResource("../Resources/3DModels/AnimMesh/twcylinder/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 	}
 
 	void AssetManager::LoadDefaultResources()
