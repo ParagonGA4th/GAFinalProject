@@ -16,8 +16,6 @@
 /// 그래픽스 내부에서 수학 처리 등을 위한 헬퍼 클래스.
 /// </summary>
 
-
-
 namespace Pg::Graphics::Helper
 {
 	class MathHelper
@@ -43,6 +41,7 @@ namespace Pg::Graphics::Helper
 
 		//Experimental
 		static void DecomposeAssembleMatrix(DirectX::SimpleMath::Matrix& mat);
+		//static void DecomposeAssembleFlipMatrix(DirectX::SimpleMath::Matrix& mat);
 		static DirectX::SimpleMath::Quaternion QuaternionSlerpNoFlip(const DirectX::SimpleMath::Quaternion& q1, const DirectX::SimpleMath::Quaternion& q2, float t);
 	};
 }

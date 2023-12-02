@@ -571,8 +571,20 @@ namespace Pg::Graphics
 			_renderBoneInfoVector[BoneIndex]._boneOffset = tBoneOffset.Transpose();
 
 			//{
-			//
+			//	using namespace DirectX;
+			//	Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(XMConvertToRadians(0.0f), XMConvertToRadians(0.f), XMConvertToRadians(0.0f));
+			//	_renderBoneInfoVector[BoneIndex]._boneOffset *= rotationMatrix;
 			//}
+			//MathHelper::DecomposeAssembleMatrix(_renderBoneInfoVector[BoneIndex]._boneOffset);
+
+			{ 
+				
+				
+
+
+				
+			}   
+
 
 			// Iterate over all the affected vertices by this bone i.e weights. 
 			for (unsigned int j = 0; j < mesh->mBones[i]->mNumWeights; j++) {
@@ -604,16 +616,16 @@ namespace Pg::Graphics
 		//절대로 일단은 정해져 있는 Tick 수 넘어가지 않게 -> 나머지 연산을 할것. 
 		static double tPlayTickDur = 0;
 		//tPlayTickDur += 1;
-		tPlayTickDur += 0.1;
+		//tPlayTickDur += 0.1;
 
 
-		//if (_tempInput->GetKeyDown(API::Input::eKeyCode::TempToggleAnim))
-		//{
-		//	tPlayTickDur += 0.1;
-		//
-		//	std::string tMsg = "Tick : " + std::to_string(tPlayTickDur);
-		//	PG_TRACE(tMsg.c_str());
-		//}
+		if (_tempInput->GetKeyDown(API::Input::eKeyCode::MouseLeft))
+		{
+			tPlayTickDur += 0.1;
+		
+			std::string tMsg = "Tick : " + std::to_string(tPlayTickDur);
+			PG_TRACE(tMsg.c_str());
+		}
 
 		double tInwardTick = fmod(tPlayTickDur, tAnim->mDuration);
 		assert(tInwardTick < tAnim->mDuration);
@@ -667,11 +679,11 @@ namespace Pg::Graphics
 
 		///Rotation, 하지만 이는 지속성이 없는 코드.
 		{
-			//using namespace DirectX;
-			//tNodeTransformation = tNodeTransformation.Transpose();
-			//
-			//Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(XMConvertToRadians(0.0f), XMConvertToRadians(0.0f), XMConvertToRadians(0.0f));
-			//////tNodeTransformation = rotationMatrix;
+			using namespace DirectX;
+			tNodeTransformation = tNodeTransformation.Transpose();
+
+			Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(XMConvertToRadians(0.0f), XMConvertToRadians(0.0f), XMConvertToRadians(0.0f));
+			tNodeTransformation = rotationMatrix;
 			//tNodeTransformation *= rotationMatrix;
 		}
 
