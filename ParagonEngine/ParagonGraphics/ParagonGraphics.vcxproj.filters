@@ -192,6 +192,9 @@
     <ClInclude Include="AssimpBufferParser.h">
       <Filter>8_Helpers\BufferParser</Filter>
     </ClInclude>
+    <ClInclude Include="RenderObjectSkinnedMesh3D.h">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -352,6 +355,9 @@
     <ClCompile Include="AssimpBufferParser.cpp">
       <Filter>8_Helpers\BufferParser</Filter>
     </ClCompile>
+    <ClCompile Include="RenderObjectSkinnedMesh3D.cpp">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -509,6 +515,9 @@
     </Filter>
     <Filter Include="6_HLSL\Others">
       <UniqueIdentifier>{e4ce8650-e3f7-44c5-9884-68418bf1523b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D">
+      <UniqueIdentifier>{376e6232-d816-4923-85d1-1a601ecd9bca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -83,6 +83,7 @@
     <ClInclude Include="RenderObjectImage2D.h" />
     <ClInclude Include="RenderObjectLight.h" />
     <ClInclude Include="RenderObjectLightList.h" />
+    <ClInclude Include="RenderObjectSkinnedMesh3D.h" />
     <ClInclude Include="RenderObjectStaticMesh3D.h" />
     <ClInclude Include="RenderObjectText2D.h" />
     <ClInclude Include="RenderShader.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="RenderObjectImage2D.cpp" />
     <ClCompile Include="RenderObjectLight.cpp" />
     <ClCompile Include="RenderObjectLightList.cpp" />
+    <ClCompile Include="RenderObjectSkinnedMesh3D.cpp" />
     <ClCompile Include="RenderObjectStaticMesh3D.cpp" />
     <ClCompile Include="RenderObjectText2D.cpp" />
     <ClCompile Include="RenderShader.cpp" />
