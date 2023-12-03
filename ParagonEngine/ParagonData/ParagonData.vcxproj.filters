@@ -91,6 +91,11 @@
     <ClCompile Include="Light.cpp">
       <Filter>2_Component\Light\BaseClass</Filter>
     </ClCompile>
+    <ClCompile Include="MoveForwardBack.cpp" />
+    <ClCompile Include="ParagonDefines.cpp" />
+    <ClCompile Include="SkinnedMeshRenderer.cpp">
+      <Filter>2_Component\Renderer\3D\SkinnedMeshRenderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -222,11 +227,11 @@
     <ClInclude Include="CameraData.h">
       <Filter>4_Structs</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsDebugData.h">
-      <Filter>4_Structs</Filter>
-    </ClInclude>
     <ClInclude Include="MoveForwardBack.h">
       <Filter>8_TestScripts\MoveForwardBack</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinnedMeshRenderer.h">
+      <Filter>2_Component\Renderer\3D\SkinnedMeshRenderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -355,6 +360,9 @@
     </Filter>
     <Filter Include="8_TestScripts\MoveForwardBack">
       <UniqueIdentifier>{8e29721c-724d-4c05-b2eb-74c1380183c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\3D\SkinnedMeshRenderer">
+      <UniqueIdentifier>{765ff04f-c71d-4daf-931c-cfa249af2d59}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
