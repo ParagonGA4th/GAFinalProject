@@ -25,15 +25,14 @@ void Pg::Editor::Manager::FileManager::Initialize()
 void Pg::Editor::Manager::FileManager::FileOpen()
 {
 	ShowDialog(true);
-	_dataManager->DataLoad(_path, SeparatingFileName());
+	_dataManager->DataLoad(_rootPath, SeparatingFileName());
 }
 
 bool Pg::Editor::Manager::FileManager::FileSave()
 {
 	ShowDialog(false);
 	CreateFolder();
-	CreatePFile();
-	_dataManager->DataSave(_path, SeparatingFileName());
+	_dataManager->DataSave("", "");
 	return true;
 }
 
@@ -83,7 +82,8 @@ void Pg::Editor::Manager::FileManager::ShowDialog(bool isOpen)
 		std::wstring wString;
 		wString.append(&filePath[0]);
 
-		_path.append(wString.begin(), wString.end());
+		_rootPath.clear();
+		_rootPath.append(wString.begin(), wString.end());
 	}
 
 	itemDialog->Release();
@@ -92,9 +92,13 @@ void Pg::Editor::Manager::FileManager::ShowDialog(bool isOpen)
 
 void Pg::Editor::Manager::FileManager::CreateFolder()
 {
-	fs::path rootPath = _path.substr(0, _path.rfind("."));
-	fs::path subFolder_1 = rootPath.string() + "\\Assets";
-	fs::path subFolder_2 = rootPath.string() + "\\Scripts";
+	fs::path rootPath = _rootPath.substr(0, _rootPath.rfind("."));
+
+	_assetsPath = rootPath.string() + "\\Assets";
+	fs::path subFolder_1 = _assetsPath;
+
+	_scriptPath = rootPath.string() + "\\Scripts";
+	fs::path subFolder_2 = _scriptPath;
 	
 	fs::create_directory(rootPath);	
 	fs::create_directory(subFolder_1);
@@ -105,7 +109,7 @@ void Pg::Editor::Manager::FileManager::CreatePFile()
 {
 	try 
 	{
-		fs::path filePath = _path.insert(_path.rfind("\\"), "\\" + SeparatingFileName());
+		fs::path filePath = _rootPath.insert(_rootPath.rfind("\\"), "\\" + SeparatingFileName());
 		// 파일 생성
 		std::ofstream file(filePath);
 		if (file.is_open()) {
@@ -122,7 +126,7 @@ std::string Pg::Editor::Manager::FileManager::SeparatingFileName()
 {
 	std::string fileName;
 
-	fileName = _path.substr(_path.rfind("\\") + 1);
+	fileName = _rootPath.substr(_rootPath.rfind("\\") + 1);
 	fileName = fileName.substr(0, fileName.find(".", 0));
 
 	return fileName;

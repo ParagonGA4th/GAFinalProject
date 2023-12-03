@@ -32,6 +32,7 @@ void Pg::Editor::Manager::DataManager::DataSave(std::string path, std::string fi
 {
 	// Data를 가져와서 Serialize
 	
+	SceneSave();
 
 	// xml로 파싱
 	// 폴더 생성()
@@ -56,8 +57,15 @@ void Pg::Editor::Manager::DataManager::SceneLoad()
 
 void Pg::Editor::Manager::DataManager::SceneSave()
 {
-	pugi::xml_document doc;
+	for (auto& scene : _dataContainer->GetScenes())
+	{
+		pugi::xml_document doc;
+		
+		doc.append_child("scene");
+		pugi::xml_node node = doc.child("scene").append_child("objects");
 
+		DataSerialize(node, scene);
+	}
 	// 파일 덮어쓰기
 }
 
@@ -91,5 +99,24 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 				obj->_transform.SetScale(Pg::Serialize::Serializer::DeserializeVec3(&trans, "x"));
 			}
 		}
+	}
+}
+
+void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Data::Scene* scene)
+{
+	// scene node 안에 objects
+	// objects node 안에 object
+	// 각 component에 맞는 serialize 형식 필요
+
+	for (auto& object : scene->GetObjectList())
+	{
+		pugi::xml_node xmlObject = node.append_child("object");
+
+		xmlObject.append_child("name");
+		xmlObject.append_child("tag");
+		xmlObject.append_child("active");
+		xmlObject.append_child("parent");
+
+		xmlObject.append_child("components");
 	}
 }
