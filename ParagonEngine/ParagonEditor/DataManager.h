@@ -29,7 +29,7 @@ namespace Pg::Editor::Manager
 		void SceneSave();
 
 		void DataDeserialize(pugi::xml_node root, int sceneNum);
-		//void DataSerialize();
+		void DataSerialize(pugi::xml_node node, Pg::Data::Scene* scene);
 
 	private:
 		std::string _path;

@@ -27,7 +27,9 @@ namespace Pg::Editor::Manager
 		std::string SeparatingFileName();
 
 	private:
-		FilePath _path;
+		FilePath _rootPath;
+		FilePath _assetsPath;
+		FilePath _scriptPath;
 		std::unique_ptr<Pg::Editor::Manager::DataManager> _dataManager;
 	};
 }
