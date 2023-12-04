@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <singleton-cpp/singleton.h>
+#include <sstream>
 
 Pg::Editor::Manager::DataManager::DataManager()
 {
@@ -28,14 +29,15 @@ void Pg::Editor::Manager::DataManager::DataLoad(std::string path, std::string fi
 	if(_scenes.size() > 0) _dataContainer->SetScenes(_scenes);
 }
 
-void Pg::Editor::Manager::DataManager::DataSave(std::string path, std::string fileName)
+std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::DataSave()
 {
 	// Data를 가져와서 Serialize
 	
 	SceneSave();
 
-	// xml로 파싱
 	// 폴더 생성()
+
+	return _sceneSerializeData;
 }
 
 void Pg::Editor::Manager::DataManager::ProjectLoad()
@@ -61,10 +63,21 @@ void Pg::Editor::Manager::DataManager::SceneSave()
 	{
 		pugi::xml_document doc;
 		
+		pugi::xml_node declarationNode = doc.prepend_child(pugi::node_declaration);
+		declarationNode.append_attribute("version") = "1.0";
+		declarationNode.append_attribute("encoding") = "utf-8";
+
 		doc.append_child("scene");
 		pugi::xml_node node = doc.child("scene").append_child("objects");
 
 		DataSerialize(node, scene);
+
+		std::stringstream ss;
+		doc.save(ss, "\t"); // save 함수를 사용하여 스트림에 XML을 저장
+
+		std::string docToString = ss.str();
+
+		_sceneSerializeData.insert({ scene->GetSceneName(), docToString });
 	}
 	// 파일 덮어쓰기
 }
@@ -112,11 +125,28 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 	{
 		pugi::xml_node xmlObject = node.append_child("object");
 
-		xmlObject.append_child("name");
-		xmlObject.append_child("tag");
-		xmlObject.append_child("active");
-		xmlObject.append_child("parent");
+		Pg::Serialize::Serializer::SerializeString(&xmlObject, "name", object->GetName());
+		Pg::Serialize::Serializer::SerializeBoolean(&xmlObject, "active", object->GetActive());
+	
+		//xmlObject.append_child("parent");
 
-		xmlObject.append_child("components");
+		pugi::xml_node objComponents = xmlObject.append_child("components");
+
+		// flag를 이용해서 어떤 component가 있는지 확인한다
+		// 확인한 component의 type에 따라 serialize 한다
+		// 현재는 transform만 
+
+		pugi::xml_node objComponent = objComponents.append_child("component");
+		Pg::Serialize::Serializer::SerializeString(&objComponent, "type", "class Pg::Data::Transform");
+
+		pugi::xml_node componentData = objComponent.append_child("data");
+		Pg::Serialize::Serializer::SerializeVector3(&componentData, "position",
+			object->GetComponent<Pg::Data::Transform>()->GetPosition());		
+		
+		Pg::Serialize::Serializer::SerializeQuat(&componentData, "rotation",
+			object->GetComponent<Pg::Data::Transform>()->GetRotation());		
+		
+		Pg::Serialize::Serializer::SerializeVector3(&componentData, "scale",
+			object->GetComponent<Pg::Data::Transform>()->GetScale());
 	}
 }
