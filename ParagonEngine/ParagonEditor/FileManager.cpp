@@ -32,7 +32,8 @@ bool Pg::Editor::Manager::FileManager::FileSave()
 {
 	ShowDialog(false);
 	CreateFolder();
-	_dataManager->DataSave("", "");
+	CreateParagonFile(_dataManager->DataSave());
+
 	return true;
 }
 
@@ -105,16 +106,20 @@ void Pg::Editor::Manager::FileManager::CreateFolder()
 	fs::create_directory(subFolder_2);
 }
 
-void Pg::Editor::Manager::FileManager::CreatePFile()
+void Pg::Editor::Manager::FileManager::CreateParagonFile(std::unordered_map<std::string, std::string> fileData)
 {
 	try 
 	{
-		fs::path filePath = _rootPath.insert(_rootPath.rfind("\\"), "\\" + SeparatingFileName());
-		// 파일 생성
-		std::ofstream file(filePath);
-		if (file.is_open()) {
-			file << "Hello, World!"; // 파일에 내용 쓰기
-			file.close(); // 파일 닫기
+		for (auto& data : fileData)
+		{
+			fs::path filePath = _assetsPath + "\\" + data.first +  ".pgscene";
+			// 파일 생성
+			std::ofstream file(filePath, std::ios::out | std::ios::trunc);
+
+			if (file.is_open()) {
+				file << data.second; // 파일에 내용 쓰기
+				file.close(); // 파일 닫기
+			}
 		}
 	}
 	catch (const std::exception& e) {

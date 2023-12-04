@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 namespace Pg::Editor::Manager
 {
@@ -22,7 +23,7 @@ namespace Pg::Editor::Manager
 		void ShowDialog(bool isOpen);
 		
 		void CreateFolder();
-		void CreatePFile();
+		void CreateParagonFile(std::unordered_map<std::string, std::string> fileData);
 
 		std::string SeparatingFileName();
 
