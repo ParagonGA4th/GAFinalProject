@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation.h" />
     <ClInclude Include="Asset3DModelData.h" />
     <ClInclude Include="AssetAnimationDataDefine.h" />
     <ClInclude Include="AssetBasic2DLoader.h" />
+    <ClInclude Include="AssetBasic3DLoader.h" />
     <ClInclude Include="AssetCombinedLoader.h" />
     <ClInclude Include="AssetModelDataDefine.h" />
     <ClInclude Include="AssetTextureType.h" />
@@ -31,9 +31,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="AssetBasic3DLoader.h" />
-    <ClInclude Include="Bone.h" />
-    <ClInclude Include="BonePerVertex.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantBufferBase.h" />
     <ClInclude Include="ConstantBufferDefine.h" />
@@ -45,7 +42,6 @@
     <ClInclude Include="DeferredRenderer.h" />
     <ClInclude Include="DemoGeometryGenerator.h" />
     <ClInclude Include="Forward2DRenderer.h" />
-    <ClInclude Include="Joint.h" />
     <ClInclude Include="RenderableObject.h" />
     <ClInclude Include="RenderFont.h" />
     <ClInclude Include="RenderObject2DList.h" />
@@ -90,21 +86,18 @@
     <ClInclude Include="RenderTexture2D.h" />
     <ClInclude Include="RenderUsageStruct2D.h" />
     <ClInclude Include="RenderUsageStruct3D.h" />
-    <ClInclude Include="Skeleton.h" />
     <ClInclude Include="Sprite.h" />
-    <ClInclude Include="TempBoneHelper.h" />
+    <ClInclude Include="RenderPrepStructs.h" />
     <ClInclude Include="TempCamera.h" />
     <ClInclude Include="MaterialCluster.h" />
-    <ClInclude Include="TofuMath.h" />
-    <ClInclude Include="TofuMesh.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="LightStructs.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Asset3DModelData.cpp" />
     <ClCompile Include="AssetAnimationDataDefine.cpp" />
     <ClCompile Include="AssetBasic2DLoader.cpp" />
+    <ClCompile Include="AssetBasic3DLoader.cpp" />
     <ClCompile Include="AssetCombinedLoader.cpp" />
     <ClCompile Include="AssetModelDataDefine.cpp" />
     <ClCompile Include="AssimpBufferParser.cpp" />
@@ -112,8 +105,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="AssetBasic3DLoader.cpp" />
-    <ClCompile Include="BonePerVertex.cpp" />
     <ClCompile Include="ConstantBufferBase.cpp" />
     <ClCompile Include="Cubemap.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -137,7 +128,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Joint.cpp" />
     <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="LowDX11Logic.cpp" />
     <ClCompile Include="LowDX11Storage.cpp" />
@@ -164,9 +154,8 @@
     <ClCompile Include="RenderTexture2D.cpp" />
     <ClCompile Include="RenderUsageStruct2D.cpp" />
     <ClCompile Include="RenderUsageStruct3D.cpp" />
-    <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="TempBoneHelper.cpp" />
+    <ClCompile Include="RenderPrepStructs.cpp" />
     <ClCompile Include="TempCamera.cpp" />
     <ClCompile Include="MaterialCluster.cpp" />
     <ClCompile Include="VertexShader.cpp" />

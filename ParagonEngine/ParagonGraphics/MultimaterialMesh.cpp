@@ -33,8 +33,6 @@
 
 namespace Pg::Graphics
 {
-	using namespace tofu;
-
 	using Pg::Graphics::Manager::GraphicsResourceManager;
 	using Pg::Graphics::Helper::MathHelper;
 	using Pg::Data::Enums::eAssetDefine;
@@ -520,7 +518,7 @@ namespace Pg::Graphics
 
 
 
-	void MultimaterialMesh::SetupBoneData(std::vector<RenderUsageVertexBone>& vBoneList, const aiScene* scene)
+	void MultimaterialMesh::SetupBoneData(std::vector<RenderPrepVertexBone>& vBoneList, const aiScene* scene)
 	{
 		for (unsigned int i = 0; i < scene->mNumMeshes; i++)
 		{
@@ -535,7 +533,7 @@ namespace Pg::Graphics
 		}
 	}
 
-	void MultimaterialMesh::SetupRenderBones(unsigned int index, aiMesh* mesh, std::vector<RenderUsageVertexBone>& vBoneList)
+	void MultimaterialMesh::SetupRenderBones(unsigned int index, aiMesh* mesh, std::vector<RenderPrepVertexBone>& vBoneList)
 	{
 		for (unsigned int i = 0; i < mesh->mNumBones; i++) {
 
@@ -554,7 +552,7 @@ namespace Pg::Graphics
 				_formationNumBone++;
 
 				// Push new bone info into bones vector. 
-				RenderUsageBoneInfo tBi;
+				RenderPrepBoneInfo tBi;
 				_renderBoneInfoVector.push_back(tBi);
 			}
 			else {
@@ -576,15 +574,6 @@ namespace Pg::Graphics
 			//	_renderBoneInfoVector[BoneIndex]._boneOffset *= rotationMatrix;
 			//}
 			//MathHelper::DecomposeAssembleMatrix(_renderBoneInfoVector[BoneIndex]._boneOffset);
-
-			{ 
-				
-				
-
-
-				
-			}   
-
 
 			// Iterate over all the affected vertices by this bone i.e weights. 
 			for (unsigned int j = 0; j < mesh->mBones[i]->mNumWeights; j++) {
