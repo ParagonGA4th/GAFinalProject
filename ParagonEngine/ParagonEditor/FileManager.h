@@ -1,7 +1,7 @@
 #pragma once
-#include <shobjidl.h>
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 namespace Pg::Editor::Manager
 {
@@ -23,13 +23,14 @@ namespace Pg::Editor::Manager
 		void ShowDialog(bool isOpen);
 		
 		void CreateFolder();
-		void CreateFile();
+		void CreateParagonFile(std::unordered_map<std::string, std::string> fileData);
+
+		std::string SeparatingFileName();
 
 	private:
-		FilePath _path;
+		FilePath _rootPath;
+		FilePath _assetsPath;
+		FilePath _scriptPath;
 		std::unique_ptr<Pg::Editor::Manager::DataManager> _dataManager;
-
-		// 탐색기 파일 필터 설정을 위한 변수
-		COMDLG_FILTERSPEC fileTypes[3];	
 	};
 }

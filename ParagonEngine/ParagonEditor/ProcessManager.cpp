@@ -48,6 +48,11 @@ void Pg::Editor::Manager::ProcessManager::Update()
 		_dataContainer->SetEditorOnOff(!_dataContainer->GetEditorOnOff());
 		_coreMain->GetEditorAdapter()->SetEditorMode(Pg::Data::Enums::eEditorMode::_EDIT);
 	}
+
+	if (_input->GetKeyDown(API::Input::eKeyCode::Save))
+	{
+		_dataContainer->SetSave(!_dataContainer->GetSave());
+	}
 }
 
 void Pg::Editor::Manager::ProcessManager::LastUpdate()

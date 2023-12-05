@@ -34,7 +34,8 @@ void Pg::Editor::Core::EditorAction::Initialize()
 
 	_fileManager->Initialize();
 	// 임시로 비활성화
-	_fileManager->FileOpen();
+	//_fileManager->FileOpen();
+	//_fileManager->FileSave();
 	_processManager->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
 	_editorManager->Initialize(_hWnd);
 }
