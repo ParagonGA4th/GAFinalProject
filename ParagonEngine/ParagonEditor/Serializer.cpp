@@ -1,38 +1,38 @@
 #include "Serializer.h"
 
 
-void Pg::Serialize::Serializer::SerializeBoolean(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, bool val)
+void Pg::Serialize::Serializer::SerializeBoolean(pugi::xml_node* node, const std::string& name, bool val)
 {
 	pugi::xml_node boolNode = node->append_child(name.c_str());
 	boolNode.text().set(val ? "true" : "false");
 }
 
 
-void Pg::Serialize::Serializer::SerializeString(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, std::string val)
+void Pg::Serialize::Serializer::SerializeString(pugi::xml_node* node, const std::string& name, std::string val)
 {
 	pugi::xml_node stringNode = node->append_child(name.c_str());
 	stringNode.text().set(val.c_str());
 }
 
-void Pg::Serialize::Serializer::SerializeFloat(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, float val)
+void Pg::Serialize::Serializer::SerializeFloat(pugi::xml_node* node, const std::string& name, float val)
 {
 	pugi::xml_node floatNode = node->append_child(name.c_str());
 	floatNode.text().set(std::to_string(val).c_str());
 }
 
-void Pg::Serialize::Serializer::SerialzieDouble(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, double val)
+void Pg::Serialize::Serializer::SerialzieDouble(pugi::xml_node* node, const std::string& name, double val)
 {
 	pugi::xml_node doubletNode = node->append_child(name.c_str());
 	doubletNode.text().set(std::to_string(val).c_str());
 }
 
-void Pg::Serialize::Serializer::SerializeInt(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, int val)
+void Pg::Serialize::Serializer::SerializeInt(pugi::xml_node* node, const std::string& name, int val)
 {
 	pugi::xml_node intNode = node->append_child(name.c_str());
 	intNode.text().set(std::to_string(val).c_str());
 }
 
-void Pg::Serialize::Serializer::SerializeVector2(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT2 val)
+void Pg::Serialize::Serializer::SerializeVector2(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT2 val)
 {
 	pugi::xml_node vec2Node = node->append_child(name.c_str());
 
@@ -42,7 +42,7 @@ void Pg::Serialize::Serializer::SerializeVector2(pugi::xml_document& doc, pugi::
 	child2.text().set(std::to_string(val.y).c_str());
 }
 
-void Pg::Serialize::Serializer::SerializeVector3(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT3 val)
+void Pg::Serialize::Serializer::SerializeVector3(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT3 val)
 {
 	pugi::xml_node vec3Node = node->append_child(name.c_str());
 
@@ -54,7 +54,7 @@ void Pg::Serialize::Serializer::SerializeVector3(pugi::xml_document& doc, pugi::
 	child3.text().set(std::to_string(val.z).c_str());
 }
 
-void Pg::Serialize::Serializer::SerializeVector4(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT4 val)
+void Pg::Serialize::Serializer::SerializeVector4(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT4 val)
 {
 	pugi::xml_node vec4Node = node->append_child(name.c_str());
 
@@ -68,7 +68,7 @@ void Pg::Serialize::Serializer::SerializeVector4(pugi::xml_document& doc, pugi::
 	w.text().set(std::to_string(val.w).c_str());
 }
 
-void Pg::Serialize::Serializer::SerializeQuat(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Math::PGQuaternion val)
+void Pg::Serialize::Serializer::SerializeQuat(pugi::xml_node* node, const std::string& name, Pg::Math::PGQuaternion val)
 {
 	pugi::xml_node vec4Node = node->append_child(name.c_str());
 
@@ -82,7 +82,7 @@ void Pg::Serialize::Serializer::SerializeQuat(pugi::xml_document& doc, pugi::xml
 	z.text().set(std::to_string(val.z).c_str());
 }
 
-void Pg::Serialize::Serializer::SerializeColor(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT4 val)
+void Pg::Serialize::Serializer::SerializeColor(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT4 val)
 {
 	pugi::xml_node colorNode = node->append_child(name.c_str());
 
@@ -96,24 +96,24 @@ void Pg::Serialize::Serializer::SerializeColor(pugi::xml_document& doc, pugi::xm
 	a.text().set(std::to_string(val.w).c_str());
 }
 
-void Pg::Serialize::Serializer::SerializeModelPath(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Data::Model val)
+void Pg::Serialize::Serializer::SerializeModelPath(pugi::xml_node* node, const std::string& name, Pg::Data::Model val)
 {
-	SerializeString(doc, node, name, val.name);
+	SerializeString(node, name, val.name);
 }
 
-void Pg::Serialize::Serializer::SerializeTexturePath(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Data::Texture val)
+void Pg::Serialize::Serializer::SerializeTexturePath(pugi::xml_node* node, const std::string& name, Pg::Data::Texture val)
 {
-	SerializeString(doc, node, name, val.name);
+	SerializeString(node, name, val.name);
 }
 
-void Pg::Serialize::Serializer::SerializeMaterialPath(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Data::Material val)
+void Pg::Serialize::Serializer::SerializeMaterialPath(pugi::xml_node* node, const std::string& name, Pg::Data::Material val)
 {
-	SerializeString(doc, node, name, val.name);
+	SerializeString(node, name, val.name);
 }
 
-void Pg::Serialize::Serializer::SerializeSoundPath(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Data::Sound val)
+void Pg::Serialize::Serializer::SerializeSoundPath(pugi::xml_node* node, const std::string& name, Pg::Data::Sound val)
 {
-	SerializeString(doc, node, name, val.name);
+	SerializeString(node, name, val.name);
 }
 
 void Pg::Serialize::Serializer::DeserializeBoolean(pugi::xml_node* node, const std::string& name, bool& result)

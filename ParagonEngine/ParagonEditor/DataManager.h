@@ -2,6 +2,7 @@
 #include "../ParagonUtil/pugixml.hpp"
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 namespace Pg::Data
 {
@@ -18,21 +19,18 @@ namespace Pg::Editor::Manager
 		DataManager();
 		~DataManager();
 
-		void SetFilePath(std::string path);
-		void DataLoad();
-		void DataSave();
+		void DataLoad(std::string path, std::string fileName);
+		std::unordered_map<std::string, std::string> DataSave();
 
 	private:
 		void ProjectLoad();
 		void SceneLoad();
 
 		//void ProjectSave();
-		//void SceneSave();
+		void SceneSave();
 
 		void DataDeserialize(pugi::xml_node root, int sceneNum);
-		//void DataSerialize();
-
-		void TransformDeserialize(pugi::xml_node component, Pg::Data::GameObject* obj);
+		void DataSerialize(pugi::xml_node node, Pg::Data::Scene* scene);
 
 	private:
 		std::string _path;
@@ -40,6 +38,7 @@ namespace Pg::Editor::Manager
 
 		std::vector<Pg::Data::Scene*> _scenes;
 		std::vector<Pg::Data::GameObject*> _changeObjects;
+		std::unordered_map<std::string, std::string> _sceneSerializeData;
 
 		Pg::Editor::Data::DataContainer* _dataContainer;
 	};
