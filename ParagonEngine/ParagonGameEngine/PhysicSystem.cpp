@@ -55,10 +55,10 @@ namespace Pg::Engine::Physic
 		}*/
 
 		//예시로 도형 하나 만들기
-		physx::PxRigidDynamic* exRigid = _physics->createRigidDynamic(physx::PxTransform(10.0f, 10.0f, 10.0f));
+		/*physx::PxRigidDynamic* exRigid = _physics->createRigidDynamic(physx::PxTransform(10.0f, 10.0f, 10.0f));
 		physx::PxShape* exShape = _physics->createShape(physx::PxBoxGeometry(1.0f, 1.0f, 1.0f), *_material);
 		exRigid->attachShape(*exShape);
-		_pxScene->addActor(*exRigid);
+		_pxScene->addActor(*exRigid);*/
 
 		MakeCollider();
 	}
@@ -169,13 +169,14 @@ namespace Pg::Engine::Physic
 			Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 
 			physx::PxTransform local(physx::PxVec3(position.x, position.y, position.z));
+
 			
-			//테스트를 위해 임시로 Rigid 넣어봄.
-			physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
+			////테스트를 위해 임시로 Rigid 넣어봄.
+			/*physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
 
 			rigid->attachShape(*boxShape);
 
-			_pxScene->addActor(*rigid);
+			_pxScene->addActor(*rigid);*/
 
 			boxShape->release();
 
