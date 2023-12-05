@@ -1,4 +1,6 @@
 #pragma once
+#include "RenderPrepStructs.h"
+
 #include <string>
 #include <vector>
 #include <memory>
@@ -30,7 +32,8 @@ struct ID3D11ShaderResourceView;
 namespace Pg::Graphics
 {
 	//엔진 자체 Mesh 정보 저장
-	class Scene_AssetData;
+	struct Scene_AssetData;
+	struct Skinned_AssetData;
 	class Node_AssetData;
 	class Mesh_AssetData;
 	class AABB_AssetData;
@@ -64,7 +67,8 @@ namespace Pg::Graphics::Helper
 
 		//Assimp의 구조체를 받고 Vertex / Index Buffer를 만든다.
 		//일단은 1차 그래픽엔진에서 Screen->World Space 1차 Layout에 맞추도록 세팅.
-		static void AssimpToDXBuffer(bool isSkinned, const aiScene* assimp, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB);
+		static void AssimpToStaticDataDXBuffer(const aiScene* assimp, Scene_AssetData* sceneData, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB);
+		static void AssimpToSkinnedDataDXBuffer(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB);
 		static void AssimpToSceneAssetData(const aiScene* assimp, const std::string& path, Scene_AssetData* outSceneAssetData);
 		static void AssimpToMaterialClusterList(const aiScene* assimp, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory);
 		
@@ -73,7 +77,14 @@ namespace Pg::Graphics::Helper
 	private:
 		//직접적으로 VB/IB를 만들어내보내는 함수들.
 		static void ParseAssimpStatic(const aiScene* assimp, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt);
-		static void ParseAssimpSkinned(const aiScene* assimp, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt);
+		static void ParseAssimpSkinned(const aiScene* assimp, const Scene_AssetData* sceneData, const std::vector<RenderPrepVertexBone>& vertexBoneVector, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt);
+
+		//Skinned Data 저장하는 함수.
+		static void StoreIndependentSkinnedData(const aiScene* assimp, Skinned_AssetData* skinnedData);
+
+		//참조형으로 VB 만들 때 쓰이는 VertexBone 벡터 반환.
+		static void StoreGetDependentSkinnedData(const aiScene* assimp, const Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, std::vector<RenderPrepVertexBone>& outVertexBoneVector);
+		static void SetupRenderBones(unsigned int index, aiMesh* mesh, const Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, std::vector<RenderPrepVertexBone>& vBoneList);
 
 		//개별적인 Assimp 구조체를 AssetData로 옮겨서 저장한다.
 		static void StoreAssimpNode(const aiNode* assimp, Node_AssetData* pgNode);
@@ -89,6 +100,11 @@ namespace Pg::Graphics::Helper
 		//Bone Info도 있어야 하는데..
 
 		//Material 관련.
+
+	private:
+		//Skinned 렌더위한 값을 가져오기 위해서.
+
+
 	};
 }
 

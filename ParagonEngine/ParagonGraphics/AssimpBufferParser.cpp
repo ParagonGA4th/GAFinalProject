@@ -28,7 +28,6 @@
 #include <dxtk/WICTextureLoader.h>
 
 #include <cassert>
-#include <vector>
 #include <filesystem>
 
 //NULL이 아닐 때만 값을 시행하는 Macro 함수.
@@ -64,26 +63,13 @@ namespace Pg::Graphics::Helper
 		//
 	}
 
-	void AssimpBufferParser::AssimpToDXBuffer(bool isSkinned, const aiScene* assimp, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB)
+	void AssimpBufferParser::AssimpToStaticDataDXBuffer(const aiScene* assimp, Scene_AssetData* sceneData, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB)
 	{
-		//일단은 독립적으로 Data 유지하기 위해, Total Vertex/Index Count를 Assimp에서 받는다.
-		unsigned int tTotalVertexCount = 0;
-		unsigned int tTotalIndexCount = 0;
+		//Total Vertex/Index Count 활용.
+		unsigned int tTotalVertexCount = sceneData->_totalVertexCount;
+		unsigned int tTotalIndexCount = sceneData->_totalIndexCount;
 
-		for (int i = 0; i < assimp->mNumMeshes; i++)
-		{
-			tTotalVertexCount += assimp->mMeshes[i]->mNumVertices;
-			tTotalIndexCount += (assimp->mMeshes[i]->mNumFaces * 3);
-		}
-
-		if (isSkinned)
-		{
-			ParseAssimpSkinned(assimp, outVB, outIB, tTotalVertexCount, tTotalIndexCount);
-		}
-		else
-		{
-			ParseAssimpStatic(assimp, outVB, outIB, tTotalVertexCount, tTotalIndexCount);
-		}
+		ParseAssimpStatic(assimp, outVB, outIB, tTotalVertexCount, tTotalIndexCount);
 	}
 
 	void AssimpBufferParser::ParseAssimpStatic(const aiScene* assimp, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt)
@@ -153,11 +139,178 @@ namespace Pg::Graphics::Helper
 		HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tIBD, &iinitData, &outIB));
 	}
 
-	void AssimpBufferParser::ParseAssimpSkinned(const aiScene* assimp, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt)
+	void AssimpBufferParser::AssimpToSkinnedDataDXBuffer(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB)
 	{
-		//아직까지 옮기지 않았음.
-		//
-		assert(false);
+		//우선적으로, Skinned Data부터 보관.
+		StoreIndependentSkinnedData(assimp, skinnedData);
+
+		std::vector<RenderPrepVertexBone> tVertexBoneVector;
+		tVertexBoneVector.resize(sceneData->_totalVertexCount);
+		StoreGetDependentSkinnedData(assimp, sceneData, skinnedData, tVertexBoneVector);
+
+		//Total Vertex/Index Count 활용.
+		unsigned int tTotalVertexCount = sceneData->_totalVertexCount;
+		unsigned int tTotalIndexCount = sceneData->_totalIndexCount;
+
+		ParseAssimpSkinned(assimp, sceneData, tVertexBoneVector, outVB, outIB, tTotalVertexCount, tTotalIndexCount);
+	}
+
+	//스키닝 데이터 중, 실시간 데이터와 상관 없는 스키닝 데이터 정보 입력.
+	void AssimpBufferParser::StoreIndependentSkinnedData(const aiScene* assimp, Skinned_AssetData* skinnedData)
+	{
+		//Global Inverse Transform 기록.
+		DirectX::SimpleMath::Matrix tGlobalTrans = MathHelper::AI2SM_MATRIX(assimp->mRootNode->mTransformation);
+		tGlobalTrans = tGlobalTrans.Transpose();
+		DirectX::XMVECTOR tDet = DirectX::XMVectorZero();
+		skinnedData->_meshGlobalInverseTransform = DirectX::XMMatrixInverse(&tDet, tGlobalTrans);
+
+		//나머지는 Dependent에서 옮겨질 것. 
+	}
+
+	void AssimpBufferParser::StoreGetDependentSkinnedData(const aiScene* assimp, const Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, std::vector<RenderPrepVertexBone>& outVertexBoneVector)
+	{
+		for (unsigned int i = 0; i < assimp->mNumMeshes; i++)
+		{
+			aiMesh* aMesh = assimp->mMeshes[i];
+
+			//Vertex 로드는 인덱스가 변하지 않기 때문에, 제대로 적용.
+			if (aMesh->HasBones())
+			{
+				SetupRenderBones(i, aMesh, sceneData, skinnedData, outVertexBoneVector);
+			}
+		}
+	}
+
+	void AssimpBufferParser::SetupRenderBones(unsigned int index, aiMesh* mesh, const Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, std::vector<RenderPrepVertexBone>& vBoneList)
+	{
+		using DirectX::SimpleMath::Matrix;
+
+		for (unsigned int i = 0; i < mesh->mNumBones; i++) {
+
+			unsigned int BoneIndex = 0;
+
+			// Obtain the bone name.
+			std::string BoneName(mesh->mBones[i]->mName.C_Str());
+
+			// If bone isn't already in the map. 
+			if (skinnedData->_mappedBones.find(BoneName) == skinnedData->_mappedBones.end())
+			{
+				// Set the bone ID to be the current total number of bones. 
+				BoneIndex = skinnedData->_numFormationBone;
+
+				// Increment total bones. 
+				skinnedData->_numFormationBone++;
+
+				// Push new bone info into bones vector. 
+				RenderPrepBoneInfo tBi;
+				skinnedData->_renderBoneInfoVector.push_back(tBi);
+			}
+			else {
+				// Bone ID is already in map. 
+				BoneIndex = skinnedData->_mappedBones[BoneName];
+			}
+
+			skinnedData->_mappedBones[BoneName] = BoneIndex;
+
+			// Obtains the offset matrix which transforms the bone from mesh space into bone space. 
+			Matrix tBoneOffset = MathHelper::AI2SM_MATRIX(mesh->mBones[i]->mOffsetMatrix);
+			///기존
+			//MathHelper::DecomposeAssembleMatrix(tBoneOffset);
+			skinnedData->_renderBoneInfoVector[BoneIndex]._boneOffset = tBoneOffset.Transpose();
+
+			// Iterate over all the affected vertices by this bone i.e weights. 
+			for (unsigned int j = 0; j < mesh->mBones[i]->mNumWeights; j++) {
+
+				// Obtain an index to the affected vertex within the array of vertices.
+				//unsigned int VertexID = _meshEntriesVector[index]._baseVertex + mesh->mBones[i]->mWeights[j].mVertexId;
+				unsigned int VertexID = sceneData->_meshList[index]._vertexOffset + mesh->mBones[i]->mWeights[j].mVertexId;
+				
+				// The value of how much this bone influences the vertex. 
+				float Weight = mesh->mBones[i]->mWeights[j].mWeight;
+
+				// Insert bone data for particular vertex ID. A maximum of 4 bones can influence the same vertex. 
+				vBoneList[VertexID].AddBoneData(BoneIndex, Weight);
+			}
+		}
+		assert(mesh);
+	}
+
+	void AssimpBufferParser::ParseAssimpSkinned(const aiScene* assimp, const Scene_AssetData* sceneData, const std::vector<RenderPrepVertexBone>& vertexBoneVector, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt)
+	{
+		//지금까지 Bone Index/Weight Binding을 위해, 인덱스 카운팅 도입.
+		UINT tTotalElapsedVertexCount = 0;
+		UINT tTotalElapsedIndiceCount = 0;
+
+		LayoutDefine::Vin1stSkinned* vertices = new LayoutDefine::Vin1stSkinned[vertexCnt];
+		int32_t* indices = new int32_t[indexCnt];
+		uint32_t vid = 0, iid = 0;
+
+		for (uint32_t i = 0; i < assimp->mNumMeshes; i++)
+		{
+			aiMesh* m = assimp->mMeshes[i];
+			tTotalElapsedVertexCount = sceneData->_meshList[i]._vertexOffset;
+			tTotalElapsedIndiceCount = sceneData->_meshList[i]._indexOffset;
+
+			for (uint32_t j = 0; j < m->mNumVertices; j++)
+			{
+				//문제 생기면 MultimaterialMesh (원본 참고)
+				auto& pos = m->mVertices[j];
+				auto& norm = m->mNormals[j];
+				auto& tan = m->mTangents[j];
+				auto& uv = m->mTextureCoords[0][j];
+
+				vertices[vid + j].posL = DirectX::XMFLOAT3{ pos.x, pos.y, pos.z };
+				vertices[vid + j].normalL = DirectX::XMFLOAT3{ norm.x, norm.y, norm.z };
+				vertices[vid + j].tangentL = DirectX::XMFLOAT3{ tan.x, tan.y, tan.z };
+				vertices[vid + j].color = DirectX::XMFLOAT4{ 1.0f,1.0f, 1.0f, 1.0f };
+				vertices[vid + j].tex = DirectX::XMFLOAT3{ uv.x, uv.y, uv.z };
+				vertices[vid + j].matID = m->mMaterialIndex;
+
+				vertices[vid + j].blendIndice0 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0];
+				vertices[vid + j].blendIndice1 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1];
+				vertices[vid + j].blendIndice2 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[2];
+				vertices[vid + j].blendIndice3 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[3];
+
+				vertices[vid + j].blendWeight0 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[0];
+				vertices[vid + j].blendWeight1 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[1];
+				vertices[vid + j].blendWeight2 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[2];
+			}
+
+			for (uint32_t j = 0; j < m->mNumFaces; j++)
+			{
+				indices[iid + j * 3] = m->mFaces[j].mIndices[0];
+				indices[iid + j * 3 + 1] = m->mFaces[j].mIndices[1];
+				indices[iid + j * 3 + 2] = m->mFaces[j].mIndices[2];
+			}
+
+			vid += m->mNumVertices;
+			iid += m->mNumFaces * 3;
+		}
+
+		do
+		{
+			CD3D11_BUFFER_DESC vbDesc(
+				vertexCnt * sizeof(LayoutDefine::Vin1stSkinned),
+				D3D11_BIND_VERTEX_BUFFER);
+			D3D11_SUBRESOURCE_DATA vbData = { vertices, 0, 0 };
+			HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&vbDesc, &vbData, &outVB));
+				assert(false);
+
+			CD3D11_BUFFER_DESC ibDesc(
+				indexCnt * sizeof(uint32_t),
+				D3D11_BIND_INDEX_BUFFER);
+			D3D11_SUBRESOURCE_DATA ibData = { indices, 0, 0 };
+			HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&ibDesc, &ibData, &outIB));
+		} while (0);
+
+		delete[] vertices;
+		delete[] indices;
+
+		if (nullptr == outVB || nullptr == outIB)
+		{
+			if (nullptr != outVB) outVB->Release();
+			if (nullptr != outIB) outIB->Release();
+		}
 	}
 	
 	void AssimpBufferParser::AssimpToMaterialClusterList(const aiScene* assimp, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory)
@@ -333,14 +486,10 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
+	
+
 	//void BufferParser::StoreAssimpBone(const aiBone* assimp, Bone_AssetData* pgAABB)
 	//{
 	//
 	//}
-
-	
-
-	
-
-
 }

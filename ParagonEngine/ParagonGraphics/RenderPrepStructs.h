@@ -5,7 +5,7 @@
 /// 일단 단순 Skinning 구현을 위해 설정해놓는 헬퍼 구조체들.
 namespace Pg::Graphics
 {
-	struct RenderUsageMesh
+	struct RenderPrepMesh
 	{
 		unsigned int _baseVertex = 0;  //!< The base vertex of this mesh in the vertices array for the entire model.
 		unsigned int _baseIndex = 0;	  //!< The base index of this mesh in the indices array for the entire model. 
@@ -13,10 +13,10 @@ namespace Pg::Graphics
 		unsigned int _numIndices = 0;  //!< Total number of mesh indices. 
 	};
 
-	class RenderUsageVertexBone
+	class RenderPrepVertexBone
 	{
 	public:
-		RenderUsageVertexBone();
+		RenderPrepVertexBone();
 	
 		void AddBoneData(unsigned int BoneID, float Weight);
 		bool isInit = false;
@@ -28,12 +28,21 @@ namespace Pg::Graphics
 		float Weights[4]; //!< An array of the weight influence per bone. 
 	};
 
-	class RenderUsageBoneInfo
+	class RenderPrepBoneInfo
 	{
 	public:
-		RenderUsageBoneInfo();
+		RenderPrepBoneInfo();
 		DirectX::SimpleMath::Matrix _finalTransformation; // Final transformation to apply to vertices 
 		DirectX::SimpleMath::Matrix _boneOffset; // Initial offset from local to bone space. 
 	};
 
+	//기존 Tofu에서 쓰이던 Mesh 방식.
+	struct Mesh
+	{
+		float			matrix[12];
+		unsigned int	startVertex;
+		unsigned int	startIndex;
+		unsigned int	numVertices;
+		unsigned int	numIndices;
+	};
 }

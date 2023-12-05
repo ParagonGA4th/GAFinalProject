@@ -58,9 +58,6 @@
     <ClInclude Include="Sprite.h">
       <Filter>7_OtherObject</Filter>
     </ClInclude>
-    <ClInclude Include="AssetBasic3DLoader.h">
-      <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
-    </ClInclude>
     <ClInclude Include="msdfgenTest.h">
       <Filter>5_Misc</Filter>
     </ClInclude>
@@ -153,28 +150,7 @@
     <ClInclude Include="MultimaterialMesh.h">
       <Filter>11_TempMultiMesh</Filter>
     </ClInclude>
-    <ClInclude Include="Bone.h">
-      <Filter>11_TempMultiMesh</Filter>
-    </ClInclude>
-    <ClInclude Include="BonePerVertex.h">
-      <Filter>11_TempMultiMesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Joint.h">
-      <Filter>11_TempMultiMesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Skeleton.h">
-      <Filter>11_TempMultiMesh</Filter>
-    </ClInclude>
-    <ClInclude Include="TempBoneHelper.h">
-      <Filter>11_TempMultiMesh</Filter>
-    </ClInclude>
-    <ClInclude Include="TofuMath.h">
-      <Filter>11_TempMultiMesh</Filter>
-    </ClInclude>
-    <ClInclude Include="TofuMesh.h">
-      <Filter>11_TempMultiMesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
+    <ClInclude Include="RenderPrepStructs.h">
       <Filter>11_TempMultiMesh</Filter>
     </ClInclude>
     <ClInclude Include="DebugRenderer.h">
@@ -194,6 +170,9 @@
     </ClInclude>
     <ClInclude Include="RenderObjectSkinnedMesh3D.h">
       <Filter>4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetBasic3DLoader.h">
+      <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -244,9 +223,6 @@
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>7_OtherObject</Filter>
-    </ClCompile>
-    <ClCompile Include="AssetBasic3DLoader.cpp">
-      <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
     </ClCompile>
     <ClCompile Include="msdfgenTest.cpp">
       <Filter>5_Misc</Filter>
@@ -328,19 +304,7 @@
     <ClCompile Include="MultimaterialMesh.cpp">
       <Filter>11_TempMultiMesh</Filter>
     </ClCompile>
-    <ClCompile Include="BonePerVertex.cpp">
-      <Filter>11_TempMultiMesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Joint.cpp">
-      <Filter>11_TempMultiMesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Skeleton.cpp">
-      <Filter>11_TempMultiMesh</Filter>
-    </ClCompile>
-    <ClCompile Include="TempBoneHelper.cpp">
-      <Filter>11_TempMultiMesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
+    <ClCompile Include="RenderPrepStructs.cpp">
       <Filter>11_TempMultiMesh</Filter>
     </ClCompile>
     <ClCompile Include="DebugRenderer.cpp">
@@ -357,6 +321,9 @@
     </ClCompile>
     <ClCompile Include="RenderObjectSkinnedMesh3D.cpp">
       <Filter>4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetBasic3DLoader.cpp">
+      <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
