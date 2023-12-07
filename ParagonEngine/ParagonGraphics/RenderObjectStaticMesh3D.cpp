@@ -21,19 +21,12 @@ namespace Pg::Graphics
 
 	RenderObjectStaticMesh3D::RenderObjectStaticMesh3D(Pg::Data::BaseRenderer* baseRenderer) : RenderObject3D(baseRenderer)
 	{
-
 		//StaticMeshRenderer 따로 포인터를 받기.
 		Pg::Data::StaticMeshRenderer* tStaticMeshRenderer = static_cast<Pg::Data::StaticMeshRenderer*>(GetBaseRenderer());
 
 		//Mesh 데이터를 받기.
 		auto tModelData = GraphicsResourceManager::Instance()->GetResource(tStaticMeshRenderer->GetMeshFilePath(), eAssetDefine::_3DMODEL);
 		_modelData = static_cast<Asset3DModelData*>(tModelData.get());
-
-		//_normal = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, "../Resources/Textures/tw_normal.png");
-		//HRESULT hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _normal->GetFilePath().c_str(), &_normal->GetResource(), &_normal->GetSRV());
-		//
-		//_diffuse = new RenderTexture2D(Pg::Data::Enums::eAssetDefine::_2DTEXTURE, "../Resources/Textures/tw_diffuse.png");
-		//hr = DirectX::CreateWICTextureFromFile(_DXStorage->_device, _normal->GetFilePath().c_str(), &_normal->GetResource(), &_normal->GetSRV());
 	}
 
 	RenderObjectStaticMesh3D::~RenderObjectStaticMesh3D()

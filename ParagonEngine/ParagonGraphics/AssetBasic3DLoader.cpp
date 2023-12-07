@@ -1,8 +1,9 @@
 #include "AssetBasic3DLoader.h"
+#include "Asset3DModelData.h"
 #include "AssetModelDataDefine.h"
 #include "AssetAnimationDataDefine.h"
-#include "Asset3DModelData.h"
 #include "AssimpBufferParser.h"
+#include "RenderPrepStructs.h"
 #include "../ParagonUtil/ResourceHelper.h"
 
 #include <assimp/Importer.hpp>     
@@ -37,21 +38,25 @@ namespace Pg::Graphics::Loader
 	void AssetBasic3DLoader::Load3DModelBuffer(const std::string& path, Asset3DModelData* modelData)
 	{
 		assert(modelData->_assetSceneData == nullptr);
+		assert(modelData->_assetSkinnedData == nullptr);
 		modelData->_assetSceneData = new Pg::Graphics::Scene_AssetData;
 		modelData->_isSkinned = IsModelSkinned(path);
 		
 		if (modelData->_isSkinned)
 		{
+			//SkinnedAssetData 역시 할당.
+			modelData->_assetSkinnedData = new Skinned_AssetData;
+
 			//Skinned
 			const aiScene* pScene = _importer->ReadFile(path.c_str(),
 				aiProcess_Triangulate |
 				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_GenBoundingBoxes |
 				aiProcess_CalcTangentSpace | aiProcess_PopulateArmatureData |
-				aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_LimitBoneWeights); //aiProcess_EmbedTextures |
+				aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_FixInfacingNormals | aiProcess_LimitBoneWeights); //aiProcess_EmbedTextures |
 			assert(pScene != nullptr);
 
 			AssimpBufferParser::AssimpToSceneAssetData(pScene, path, modelData->_assetSceneData);
-			AssimpBufferParser::AssimpToDXBuffer(true, pScene, modelData->_vertexBuffer, modelData->_indexBuffer);
+			AssimpBufferParser::AssimpToSkinnedDataDXBuffer(pScene, modelData->_assetSceneData, modelData->_assetSkinnedData, modelData->_vertexBuffer, modelData->_indexBuffer);
 			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList, path);
 		}
 		else
@@ -64,7 +69,7 @@ namespace Pg::Graphics::Loader
 			assert(pScene != nullptr);
 
 			AssimpBufferParser::AssimpToSceneAssetData(pScene, path, modelData->_assetSceneData);
-			AssimpBufferParser::AssimpToDXBuffer(false, pScene, modelData->_vertexBuffer, modelData->_indexBuffer);
+			AssimpBufferParser::AssimpToStaticDataDXBuffer(pScene, modelData->_assetSceneData, modelData->_vertexBuffer, modelData->_indexBuffer);
 			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList, path);
 		}
 

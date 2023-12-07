@@ -15,7 +15,8 @@ struct ID3D11Buffer;
 namespace Pg::Graphics
 {
 	struct Scene_AssetData;
-	struct MaterialCluster;
+	struct Skinned_AssetData;
+	class MaterialCluster;
 
 	namespace Helper
 	{
@@ -51,6 +52,7 @@ namespace Pg::Graphics
 
 		bool _isSkinned = false;
 		Scene_AssetData* _assetSceneData = nullptr;
+		Skinned_AssetData* _assetSkinnedData = nullptr;
 
 		//해당 Vector의 인덱스는, 매터리얼의 인덱스와 같다.
 		std::vector<MaterialCluster*> _materialClusterList;

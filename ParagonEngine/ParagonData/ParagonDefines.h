@@ -13,6 +13,8 @@ namespace Pg::Defines
 	constexpr unsigned int ASSET_HINTMAXTEXTURELEN = 9;
 	constexpr unsigned int ASSET_MAXIMUM_TEXTURE_PROP_CNT = 21;
 
+	constexpr unsigned int ASSET_MAXIMUM_BONE_NUMBER_PER_MESH = 100;
+
 	extern const std::string ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH;
 	extern const std::string ASSET_DEFAULT_NORMAL_TEXTURE_PATH;
 }

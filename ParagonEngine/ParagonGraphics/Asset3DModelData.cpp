@@ -19,9 +19,13 @@ namespace Pg::Graphics
 
 	Asset3DModelData::~Asset3DModelData()
 	{
-		if (_assetSceneData)
+		if (_assetSceneData != nullptr)
 		{
 			delete _assetSceneData;
+		}
+		if (_assetSkinnedData != nullptr)
+		{
+			delete _assetSkinnedData;
 		}
 	}
 

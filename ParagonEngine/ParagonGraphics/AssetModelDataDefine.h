@@ -1,7 +1,10 @@
 #pragma once
+#include "RenderPrepStructs.h"
+
 #include <string>
 #include <memory>
 #include <vector>
+#include <map>
 #include <DirectXMath.h>
 #include <dxtk/SimpleMath.h>
 
@@ -86,5 +89,24 @@ namespace Pg::Graphics
 
 		//전체 Material Count;
 		unsigned int _totalMaterialCount = 0;
+	};
+
+	//SkinnedMeshRenderer에 활용되는 데이터들, 해당 구조체에 모아서 관리.
+	struct Skinned_AssetData
+	{
+		Skinned_AssetData();
+
+		//Bone 연산에 필요한 Global Inverse Transform.
+		DirectX::SimpleMath::Matrix _meshGlobalInverseTransform;
+
+		//매핑될 Bone Info 벡터.
+		std::vector<RenderPrepBoneInfo> _renderBoneInfoVector;
+
+		//Bone Mapping 정보 저장.
+		std::map<std::string, unsigned int> _mappedBones;
+		unsigned int _numFormationBone;
+
+		//GPU에 바인딩될 Bone Tranform Vector. 크기는 100이 기본.
+		std::vector<DirectX::SimpleMath::Matrix> _boneTransformVector;
 	};
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
+#include <vector>
 #include <memory>
-#include "MaterialCluster.h"
 
 /// <summary>
 /// 3D ?? ??????? ?ех???? ??????? ?????.
@@ -16,7 +16,6 @@ namespace Assimp
 
 namespace Pg::Graphics
 {
-	class AssetSceneData;
 	class Asset3DModelData;
 }
 
@@ -35,7 +34,7 @@ namespace Pg::Graphics::Loader
 		void Load3DModelBuffer(const std::string& path, Asset3DModelData* modelData);
 		
 	private:
-		std::unique_ptr< Assimp::Importer>_importer;
+		std::unique_ptr<Assimp::Importer>_importer;
 	};
 }
 
