@@ -131,15 +131,30 @@ namespace Pg::Engine
 		return _debugSystem->GetBoxVector();
 	}
 
-	const std::vector<Pg::Data::LineInfo*>& EngineMain::GetLineDebugData() const
+	const std::vector<Pg::Data::LineInfo>& EngineMain::GetLineDebugData() const
 	{
 		return _debugSystem->GetLineVector();
+	}
+
+	const std::vector<Pg::Data::SphereInfo*>& EngineMain::GetSphereDebugData() const
+	{
+		return _debugSystem->GetSphereVector();
+	}
+
+	const std::vector<Pg::Data::CapsuleInfo*>& EngineMain::GetCapsuleDebugData() const
+	{
+		return _debugSystem->GetCapsuleVector();
 	}
 
 	void EngineMain::ClearDebugVectorData()
 	{
 		//일단은 박스만 다루니.
 		_debugSystem->DeleteBoxDebug();
+		_debugSystem->DeleteSphereDebug();
+		_debugSystem->DeleteCapsuleDebug();
+		_debugSystem->DeleteLineDebug();
 	}
+
+	
 
 }

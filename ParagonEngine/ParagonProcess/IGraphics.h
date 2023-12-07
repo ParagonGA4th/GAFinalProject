@@ -69,7 +69,10 @@ namespace Pg::Core
 		//Editor 연동 : Game Camera 시점 SRV를 리턴.
 		virtual ID3D11ShaderResourceView* GetGameCameraViewSRV() abstract;
 
-		//Engine에서 BoxDebugData를 받는다.
+		//Engine에서 DebugData를 받는다.
 		virtual void SetBoxDebugRenderData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec) abstract;
+		virtual void SetLineDebugRenderData(const std::vector<Pg::Data::LineInfo>& const lineColVec) abstract;
+		virtual void SetCapsuleDebugRenderData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec) abstract;
+		virtual void SetSphereDebugRenderData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec) abstract;
 	};
 }

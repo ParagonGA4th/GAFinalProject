@@ -116,7 +116,10 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual ID3D11ShaderResourceView* GetGameCameraViewSRV() override;
 
 		//Box Render : Debug Data ¹Þ±â.
-		virtual void SetBoxDebugRenderData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec) override;
+		PARAGON_GRAPHICS_DLL virtual void SetBoxDebugRenderData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec) override;
+		PARAGON_GRAPHICS_DLL virtual void SetLineDebugRenderData(const std::vector<Pg::Data::LineInfo>& const lineColVec) override;
+		PARAGON_GRAPHICS_DLL virtual void SetCapsuleDebugRenderData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec) override;
+		PARAGON_GRAPHICS_DLL virtual void SetSphereDebugRenderData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec) override;
 
 	public:
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;

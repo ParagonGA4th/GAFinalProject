@@ -57,7 +57,10 @@ namespace Pg::Graphics
 		void Initialize();
 
 		//DebugRenderer로 Debug Geometry를 넘겼다.
-		void PassDebugGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec);
+		void PassBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec);
+		void PassLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec);
+		void PassCapsuleGeometryData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec);
+		void PassSphereGeometryData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec);
 
 		void BeginRender();
 		void Render(Pg::Data::CameraData* camData); //이미 컴포넌트 단계에서 RenderObject들과 연동되기에, 오브젝트 자체를 받을 필요가 없음.

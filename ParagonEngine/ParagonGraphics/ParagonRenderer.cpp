@@ -214,10 +214,27 @@ namespace Pg::Graphics
 		return _renderObject3DList->_list.size();
 	}
 
-	void ParagonRenderer::PassDebugGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
+	void ParagonRenderer::PassBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
 	{
 		_debugRenderer->GetDebugBoxGeometryData(boxColVec);
 	}
+
+	void ParagonRenderer::PassLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec)
+	{
+		_debugRenderer->GetDebugLineGeometryData(lineColVec);
+	}
+
+	void ParagonRenderer::PassCapsuleGeometryData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec)
+	{
+		_debugRenderer->GetDebugCapsuleGeometryData(capsuleColVec);
+	}
+
+	void ParagonRenderer::PassSphereGeometryData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec)
+	{
+		_debugRenderer->GetDebugSphereGeometryData(sphereColVec);
+	}
+
+
 
 	//void ParagonRenderer::SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene)
 	//{

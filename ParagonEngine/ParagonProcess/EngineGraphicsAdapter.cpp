@@ -143,6 +143,15 @@ namespace Pg::Core
 		const auto& tBoxColVec = _engine->GetBoxDebugData();
 		_graphics->SetBoxDebugRenderData(tBoxColVec);
 
+		const auto& tSphereColVec = _engine->GetSphereDebugData();
+		_graphics->SetSphereDebugRenderData(tSphereColVec);
+
+		const auto& tCapsuleColVec = _engine->GetCapsuleDebugData();
+		_graphics->SetCapsuleDebugRenderData(tCapsuleColVec);
+
+		const auto& tLineColVec = _engine->GetLineDebugData();
+		_graphics->SetLineDebugRenderData(tLineColVec);
+
 	}
 
 	void EngineGraphicsAdapter::ClearDebugVectorData()
