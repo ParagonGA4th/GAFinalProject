@@ -24,6 +24,11 @@ namespace Pg::API::Input
 		NextRenderTarget,
 		PrevRenderTarget,
 
-		ShiftL //이동 속도 조정 위해.
+		ShiftL, //이동 속도 조정 위해.
+		
+		Save,
+
+		CtrlL,
+		KeyS
 	};
 }

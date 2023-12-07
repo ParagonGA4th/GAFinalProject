@@ -1,4 +1,7 @@
 #include "Inspector.h"
+#include "DataContainer.h"
+#include "../ParagonData/Scene.h"
+#include "../ParagonData/GameObject.h"
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
  #include <singleton-cpp/singleton.h>
@@ -22,6 +25,9 @@ Pg::Editor::Window::Inspector::Inspector()
 	auto& tUIManager = singleton<Pg::UI::Manager::UIManager>();
 	_uiManager = &tUIManager;
 
+	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
+	_dataContainer = &tdataCon;
+
 	cons = new Pg::UI::WidgetContainer();
 }
 
@@ -32,6 +38,19 @@ Pg::Editor::Window::Inspector::~Inspector()
 
 void Pg::Editor::Window::Inspector::Initialize()
 {
+	Pg::Data::GameObject* obj = nullptr;
+
+	if (_dataContainer->GetCurrentScene() != NULL)
+	{
+		for (auto vobj : _dataContainer->GetCurrentScene()->GetObjectList())
+		{
+			if (vobj->GetName() == "New Object") obj = vobj;
+		}
+
+		_objName = obj->GetName();
+		_isObjActive = obj->GetActive();
+	}
+
 	cons->CreateColumnsWidget<Pg::UI::Widget::Text>("Name");
 	cons->CreateColumnsWidget<Pg::UI::Widget::InputText>("Name", _objName);
 	cons->CreateColumnsWidget<Pg::UI::Widget::Text>("Tag");
@@ -60,6 +79,18 @@ void Pg::Editor::Window::Inspector::Update()
 	_uiManager->WindowBegin(_winName);
 	cons->Update();
 	_uiManager->WindowEnd();
+
+	if (_dataContainer->GetSave())
+	{
+		for (auto vobj : _dataContainer->GetCurrentScene()->GetObjectList())
+		{
+			if (vobj->GetName() == "New Object")
+			{
+				vobj->SetName(_objName);
+				vobj->SetActive(_isObjActive);
+			}
+		}
+	}
 }
 
 void Pg::Editor::Window::Inspector::Finalize()

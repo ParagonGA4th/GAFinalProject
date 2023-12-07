@@ -10,20 +10,20 @@ namespace Pg::Serialize
 	{
 	public:
 		// Serialize
-		static void SerializeBoolean(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, bool val);
-		static void SerializeString(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, std::string val);
-		static void SerializeFloat(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, float val);
-		static void SerialzieDouble(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, double val);
-		static void SerializeInt(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, int val);
-		static void SerializeVector2(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT2 val);
-		static void SerializeVector3(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT3 val);
-		static void SerializeVector4(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT4 val);
-		static void SerializeQuat(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Math::PGQuaternion val);
-		static void SerializeColor(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT4 val);
-		static void SerializeModelPath(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Data::Model val);
-		static void SerializeTexturePath(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Data::Texture val);
-		static void SerializeMaterialPath(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Data::Material val);
-		static void SerializeSoundPath(pugi::xml_document& doc, pugi::xml_node* node, const std::string& name, Pg::Data::Sound val);
+		static void SerializeBoolean(pugi::xml_node* node, const std::string& name, bool val);
+		static void SerializeString(pugi::xml_node* node, const std::string& name, std::string val);
+		static void SerializeFloat(pugi::xml_node* node, const std::string& name, float val);
+		static void SerialzieDouble(pugi::xml_node* node, const std::string& name, double val);
+		static void SerializeInt(pugi::xml_node* node, const std::string& name, int val);
+		static void SerializeVector2(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT2 val);
+		static void SerializeVector3(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT3 val);
+		static void SerializeVector4(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT4 val);
+		static void SerializeQuat(pugi::xml_node* node, const std::string& name, Pg::Math::PGQuaternion val);
+		static void SerializeColor(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT4 val);
+		static void SerializeModelPath(pugi::xml_node* node, const std::string& name, Pg::Data::Model val);
+		static void SerializeTexturePath(pugi::xml_node* node, const std::string& name, Pg::Data::Texture val);
+		static void SerializeMaterialPath(pugi::xml_node* node, const std::string& name, Pg::Data::Material val);
+		static void SerializeSoundPath(pugi::xml_node* node, const std::string& name, Pg::Data::Sound val);
 		
 
 		// Deserialize

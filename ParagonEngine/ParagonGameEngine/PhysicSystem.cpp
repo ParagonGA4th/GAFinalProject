@@ -55,10 +55,10 @@ namespace Pg::Engine::Physic
 		}*/
 
 		//예시로 도형 하나 만들기
-		physx::PxRigidDynamic* exRigid = _physics->createRigidDynamic(physx::PxTransform(10.0f, 10.0f, 10.0f));
+		/*physx::PxRigidDynamic* exRigid = _physics->createRigidDynamic(physx::PxTransform(10.0f, 10.0f, 10.0f));
 		physx::PxShape* exShape = _physics->createShape(physx::PxBoxGeometry(1.0f, 1.0f, 1.0f), *_material);
 		exRigid->attachShape(*exShape);
-		_pxScene->addActor(*exRigid);
+		_pxScene->addActor(*exRigid);*/
 
 		MakeCollider();
 	}
@@ -127,6 +127,7 @@ namespace Pg::Engine::Physic
 				_pxScene->addActor(*body);
 			}
 		}
+
 		shape->release();
 	}
 
@@ -137,10 +138,16 @@ namespace Pg::Engine::Physic
 		auto& tSceneSystem = singleton<SceneSystem>();
 		_sceneSystem = &tSceneSystem;
 
-		//현재 씬에 존재하는 오브젝트 리스트를 받아와 Collider를 전부 그린다.
+		//현재 씬에 존재하는 오브젝트 리스트를 받아와 
+		//Collider 존재할 경우 Collider를 전부 생성한다.
 		for (auto& obj : _sceneSystem->GetCurrentScene()->GetObjectList())
 		{
-			MakeDynamicBoxCollider(obj);
+			Pg::Data::BoxCollider* tBoxCol = obj->GetComponent<Pg::Data::BoxCollider>();
+
+			if (tBoxCol != nullptr)
+			{
+				MakeDynamicBoxCollider(obj);
+			}
 		}
 	}
 
@@ -162,13 +169,14 @@ namespace Pg::Engine::Physic
 			Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 
 			physx::PxTransform local(physx::PxVec3(position.x, position.y, position.z));
+
 			
-			//테스트를 위해 임시로 Rigid 넣어봄.
-			physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
+			////테스트를 위해 임시로 Rigid 넣어봄.
+			/*physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
 
 			rigid->attachShape(*boxShape);
 
-			_pxScene->addActor(*rigid);
+			_pxScene->addActor(*rigid);*/
 
 			boxShape->release();
 

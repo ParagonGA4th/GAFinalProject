@@ -45,6 +45,7 @@ namespace Pg::Data
 		void SetName(const std::string& name);
 
 		void SetActive(bool active);
+		bool GetActive();
 
 	public:
 		template<typename T>
@@ -109,16 +110,6 @@ namespace Pg::Data
 	{
 		std::vector<T*> res;
 		T* tmp;
-
-		//for (const auto& com : _componentList)
-		//{
-		//	tmp = dynamic_cast<T*>(com.second);
-		//
-		//	if (tmp)
-		//	{
-		//		res.push_back(tmp);
-		//	}
-		//}
 
 		///Structured Binding
 		for (const auto& [typeName, component] : _componentList)

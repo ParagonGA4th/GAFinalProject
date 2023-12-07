@@ -115,6 +115,9 @@ namespace Pg::Graphics
 		//Editor 연동 : Game Camera 시점 SRV를 리턴.
 		PARAGON_GRAPHICS_DLL virtual ID3D11ShaderResourceView* GetGameCameraViewSRV() override;
 
+		//Box Render : Debug Data 받기.
+		virtual void SetBoxDebugRenderData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec) override;
+
 	public:
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;
 	private:
@@ -154,6 +157,10 @@ namespace Pg::Graphics
 	private:
 		std::unique_ptr<ParagonRenderer> _renderer;
 		Pg::Data::Scene* _currentScene = nullptr;
+
+	private:
+
+
 	};
 }
 

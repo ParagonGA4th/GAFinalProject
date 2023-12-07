@@ -2,6 +2,7 @@
 #include "InputSystem.h"
 #include "PhysicSystem.h"
 #include "SceneSystem.h"
+#include "DebugSystem.h"
 #include "TimeSystem.h"
 #include "EngineResourceManager.h"
 
@@ -57,6 +58,10 @@ namespace Pg::Engine
 		//Time
 		auto& tTimeSystem = singleton<Time::TimeSystem>();
 		_timeSystem = &tTimeSystem;
+
+		//Debug
+		auto& tDebugSystem = singleton<DebugSystem>();
+		_debugSystem = &tDebugSystem;
 	}
 
 	EngineMain::~EngineMain()
@@ -67,9 +72,10 @@ namespace Pg::Engine
 
 	void EngineMain::Initialize(float width, float height)
 	{
-		_sceneSystem->Initialize();
 		_inputSystem->Initialize(width, height);
+		_sceneSystem->Initialize();
 		_physicSystem->Initialize();
+		_debugSystem->Initialize();
 		_timeSystem->Initialize();
 	}
 
@@ -78,6 +84,7 @@ namespace Pg::Engine
 		_sceneSystem->Update();
 		_inputSystem->Update();
 		_physicSystem->UpdatePhysics();
+		_debugSystem->Update(_sceneSystem->GetCurrentScene());
 		_timeSystem->TimeMeasure();
 
 		 static bool tTest = false;
@@ -117,6 +124,22 @@ namespace Pg::Engine
 	Pg::Data::CameraData* EngineMain::GetCameraData()
 	{
 		return _sceneSystem->GetCurrentScene()->GetMainCamera()->GetCameraData();
+	}
+
+	const std::vector<BoxInfo*>& EngineMain::GetBoxDebugData() const
+	{
+		return _debugSystem->GetBoxVector();
+	}
+
+	const std::vector<Pg::Data::LineInfo*>& EngineMain::GetLineDebugData() const
+	{
+		return _debugSystem->GetLineVector();
+	}
+
+	void EngineMain::ClearDebugVectorData()
+	{
+		//일단은 박스만 다루니.
+		_debugSystem->DeleteBoxDebug();
 	}
 
 }

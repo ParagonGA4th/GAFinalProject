@@ -6,12 +6,14 @@
 #include "RenderObjectLightList.h"
 
 #include "../ParagonData/CameraData.h"
+#include "../ParagonData/DebugData.h"
 #include "../ParagonData/GameObject.h"
 
 //SkinningMk.2
 #include "MultimaterialMesh.h"
 
 #include <memory>
+#include <vector>
 
 /// <summary>
 /// Paragon Renderer
@@ -47,13 +49,15 @@ namespace Pg::Graphics
 		//Debug Data 데이터를 다시 로드한다. 
 		//virtual void SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene);
 
-
 		///SyncRendererToGraphics가 호환되는 즉시 Public으로 호출되지 말아야.
 		//Scene이 바뀌었을 때 / 게임 엔진이 처음 시작되었을 때 호출되어야 한다.
 		//메모리 추가 할당을 막기 위해, Scene당 렌더오브젝트 생성 로직 중복을 막아야 한다!
 		void ParseSceneData(const Pg::Data::Scene* const newScene);
 	public:
 		void Initialize();
+
+		//DebugRenderer로 Debug Geometry를 넘겼다.
+		void PassDebugGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec);
 
 		void BeginRender();
 		void Render(Pg::Data::CameraData* camData); //이미 컴포넌트 단계에서 RenderObject들과 연동되기에, 오브젝트 자체를 받을 필요가 없음.
