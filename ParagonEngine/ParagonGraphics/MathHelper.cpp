@@ -147,6 +147,22 @@ namespace Pg::Graphics::Helper
 		mat = tAssembleTransform;
 	}
 
+	//void MathHelper::DecomposeAssembleFlipMatrix(DirectX::SimpleMath::Matrix& mat)
+	//{
+	//	using namespace DirectX;
+	//
+	//	DirectX::XMVECTOR ttScale;
+	//	DirectX::XMVECTOR ttRotQuat;
+	//	DirectX::XMVECTOR ttTranslate;
+	//	DirectX::XMMatrixDecompose(&ttScale, &ttRotQuat, &ttTranslate, mat);
+	//
+	//	DirectX::XMMATRIX tAssembleTransform = DirectX::XMMatrixScalingFromVector(ttScale) *
+	//		DirectX::XMMatrixRotationQuaternion(ttRotQuat) *
+	//		DirectX::XMMatrixTranslationFromVector(ttTranslate);
+	//
+	//	mat = tAssembleTransform;
+	//}
+
 	DirectX::SimpleMath::Quaternion MathHelper::QuaternionSlerpNoFlip(const DirectX::SimpleMath::Quaternion& q1, const DirectX::SimpleMath::Quaternion& q2, float t)
 	{
 		// Ensure input quaternions are normalized

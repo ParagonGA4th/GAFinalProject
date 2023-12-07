@@ -1,18 +1,18 @@
-#include "TempBoneHelper.h"
+#include "RenderPrepStructs.h"
 #include <cassert>
 #include <limits>
 #include <memory.h>
 
 namespace Pg::Graphics
 {
-	RenderUsageVertexBone::RenderUsageVertexBone()
+	RenderPrepVertexBone::RenderPrepVertexBone()
 	{
 		//아무리 Bone의 영향을 받지 않더라도, 멈추지는 않게 되어 있다.
 		memset(IDs, 0, 4 * sizeof(IDs[0]));
 		memset(Weights, 0, 4 * sizeof(Weights[0]));
 	}
 
-	void RenderUsageVertexBone::AddBoneData(unsigned int BoneID, float Weight)
+	void RenderPrepVertexBone::AddBoneData(unsigned int BoneID, float Weight)
 	{
 		for (unsigned int i = 0; i < 4; i++) {
 
@@ -31,15 +31,12 @@ namespace Pg::Graphics
 		assert(0);
 	}
 
-	RenderUsageBoneInfo::RenderUsageBoneInfo()
+	RenderPrepBoneInfo::RenderPrepBoneInfo()
 	{
-		//Identity
-		//_boneOffset = { 1.0f,0.0f,0.0f,0.0f, 0.0f,1.0f,0.0f,0.0f, 0.0f,0.0f,1.0f,0.0f, 0.0f,0.0f,0.0f,1.0f };
-		////Zero
-		//_finalTransformation = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
 		_boneOffset = DirectX::SimpleMath::Matrix::Identity;
 		_finalTransformation = DirectX::SimpleMath::Matrix(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
+
+
 
 }

@@ -8,12 +8,8 @@
 #include <DirectXMath.h>
 #include <d3d11.h>
 #include <dxtk/SimpleMath.h>
-//Temporary
-#include "TofuMesh.h"
-#include "Bone.h"
 
-//임시 기능 위주 Skinning 구현을 위해, 해당 헤더 사용!
-#include "TempBoneHelper.h"
+#include "RenderPrepStructs.h"
 
 /// <summary>
 /// Deferred Rendering이 전역적으로 자리잡기 전에, 
@@ -51,8 +47,6 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	using namespace tofu;
-
 	class MultimaterialMesh
 	{
 
@@ -92,30 +86,21 @@ namespace Pg::Graphics
 		uint32_t			_numIndices;
 
 		std::vector<Mesh>	meshes;
-		std::vector<Bone>	bones;
-		std::unordered_map<std::string, int32_t> boneTable;
-
-		std::vector<char>	boneNameArray;
-
-		Animation			anim;
-		std::vector<Track>	tracks;
-		std::vector<VectorFrame>		vectorFrames;
-		std::vector<QuaternionFrame>	quatFrames;
 
 	private:
 		void RenderSkinnedNodes(Pg::Data::CameraData* camData);
 	private:
 		//Bone 셋업 작업.
-		void SetupBoneData(std::vector<RenderUsageVertexBone>& vBoneList, const aiScene* scene);
+		void SetupBoneData(std::vector<RenderPrepVertexBone>& vBoneList, const aiScene* scene);
 		//Bone Render용 Bone 셋업 작업.
-		void SetupRenderBones(unsigned int index, aiMesh* mesh, std::vector<RenderUsageVertexBone>& vBoneList);
+		void SetupRenderBones(unsigned int index, aiMesh* mesh, std::vector<RenderPrepVertexBone>& vBoneList);
 	
 		std::map<std::string, unsigned int> _mappedBones;
 		unsigned int _formationNumBone = 0;
 
-		std::vector<RenderUsageVertexBone> _vertexBoneVector;
-		std::vector<RenderUsageMesh> _meshEntriesVector;
-		std::vector<RenderUsageBoneInfo> _renderBoneInfoVector;
+		std::vector<RenderPrepVertexBone> _vertexBoneVector;
+		std::vector<RenderPrepMesh> _meshEntriesVector;
+		std::vector<RenderPrepBoneInfo> _renderBoneInfoVector;
 
 		//Animation UpdateBuffer.
 		std::vector<DirectX::SimpleMath::Matrix> _boneTransformVector;
@@ -137,8 +122,8 @@ namespace Pg::Graphics
 		std::array< ID3D11ShaderResourceView*, 3> _tempSRVArray;
 		ID3D11ShaderResourceView* _tempTimmySRV;
 		ID3D11ShaderResourceView* _tempCylinderSRV;
-		ID3D11ShaderResourceView* _tempBaboSRV;
 		ID3D11ShaderResourceView* _temp4QSRV;
+		ID3D11ShaderResourceView* _tempFallFlatMonsterSRV;
 
 
 	private:

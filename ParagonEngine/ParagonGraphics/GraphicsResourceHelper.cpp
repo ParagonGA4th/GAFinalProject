@@ -8,6 +8,7 @@
 #include "../ParagonData/ImageRenderer.h"
 #include "../ParagonData/TextRenderer.h"
 #include "../ParagonData/StaticMeshRenderer.h"
+#include "../ParagonData/SkinnedMeshRenderer.h"
 
 #include "../ParagonUtil/Log.h"
 
@@ -46,7 +47,8 @@ namespace Pg::Graphics::Helper
 		}
 
 		//3D ½ÇÁ¦.
-		if (rendererTypeName.compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
+		if (rendererTypeName.compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0 ||
+			rendererTypeName.compare(std::string(typeid(Pg::Data::SkinnedMeshRenderer*).name())) == 0)
 		{
 			return 1;
 		}
