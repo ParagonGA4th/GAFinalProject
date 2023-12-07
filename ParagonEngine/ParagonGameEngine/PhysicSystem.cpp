@@ -172,11 +172,10 @@ namespace Pg::Engine::Physic
 
 			
 			////테스트를 위해 임시로 Rigid 넣어봄.
-			/*physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
+			physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
 
 			rigid->attachShape(*boxShape);
-
-			_pxScene->addActor(*rigid);*/
+			_pxScene->addActor(*rigid);
 
 			boxShape->release();
 

@@ -1,6 +1,7 @@
 #include "DebugSystem.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/BoxCollider.h"
+#include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonUtil/Log.h"
 
 #include <cassert>
@@ -20,11 +21,20 @@ namespace Pg::Engine
 		for (auto& it : scene->GetObjectList())
 		{
 			Pg::Data::BoxCollider* tBoxCol = it->GetComponent<Pg::Data::BoxCollider>();
+			
 			if (tBoxCol != nullptr)
 			{
 				DrawBoxDebug(&(tBoxCol->_boxInfo));
 			}
+
+			Pg::Data::CapsuleCollider* tCapsuleCol = it->GetComponent<Pg::Data::CapsuleCollider>();
+
+			if (tCapsuleCol != nullptr)
+			{
+				DrawCapsuleDebug(&(tCapsuleCol->_capsuleInfo));
+			}
 		}
+
 		assert(true);
 	}	
 
@@ -48,6 +58,18 @@ namespace Pg::Engine
 
 		_boxVec.push_back(boxInfo);
 	}
+
+
+	void DebugSystem::DrawCapsuleDebug(Pg::Data::CapsuleInfo* capsuleInfo)
+	{
+		if (!_isDebug)
+		{
+			return;
+		}
+
+		_capsuleVec.push_back(capsuleInfo);
+	}
+
 
 	void DebugSystem::DrawLineDebug(PGFLOAT3 beginPoint, PGFLOAT3 endPoint, PGFLOAT4 color)
 	{

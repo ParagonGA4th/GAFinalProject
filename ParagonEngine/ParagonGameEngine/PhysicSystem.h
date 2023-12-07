@@ -51,7 +51,8 @@ namespace Pg::Engine::Physic
 		//RigidBody »ý¼º
 		void CreateDynamicRigid(physx::PxShape* shape);
 
-	public:
+	private:
+		std::vector<physx::PxRigidDynamic*> _rigidDynamicVec;
 
 
 	private:

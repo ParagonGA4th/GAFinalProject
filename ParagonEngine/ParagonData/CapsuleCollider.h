@@ -1,6 +1,7 @@
 #pragma once
 #include "DynamicCollider.h"
 #include "../ParagonMath/PgMath.h"
+#include "../ParagonData/DebugData.h"
 
 namespace Pg::Data
 {
@@ -26,6 +27,9 @@ namespace Pg::Data
 		void SetHalfHeight(float h);
 		float GetRadius() const;
 		float GetHalfHeight() const;
+
+		Pg::Data::CapsuleInfo _capsuleInfo;
+
 	private:
 		float _radius;
 		float _halfHeight;
