@@ -605,16 +605,16 @@ namespace Pg::Graphics
 		//절대로 일단은 정해져 있는 Tick 수 넘어가지 않게 -> 나머지 연산을 할것. 
 		static double tPlayTickDur = 0;
 		//tPlayTickDur += 1;
-		//tPlayTickDur += 0.1;
+		tPlayTickDur += 0.1;
 
 
-		if (_tempInput->GetKeyDown(API::Input::eKeyCode::MouseLeft))
-		{
-			tPlayTickDur += 0.1;
-		
-			std::string tMsg = "Tick : " + std::to_string(tPlayTickDur);
-			PG_TRACE(tMsg.c_str());
-		}
+		//if (_tempInput->GetKeyDown(API::Input::eKeyCode::MouseLeft))
+		//{
+		//	tPlayTickDur += 0.1;
+		//
+		//	std::string tMsg = "Tick : " + std::to_string(tPlayTickDur);
+		//	PG_TRACE(tMsg.c_str());
+		//}
 
 		double tInwardTick = fmod(tPlayTickDur, tAnim->mDuration);
 		assert(tInwardTick < tAnim->mDuration);
