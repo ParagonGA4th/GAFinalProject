@@ -106,15 +106,7 @@ namespace Pg::Graphics
 		_forward3dRenderer->Render(*camData);
 
 		//SkinningMk.2
-		{
-			//static Pg::Data::CameraData* tCamData = nullptr;
-			//if (tCamData == nullptr)
-			//{
-			//	tCamData = new Pg::Data::CameraData();
-			//}
-			//std::memcpy(tCamData, &camData, sizeof(Pg::Data::CameraData));
-			_tempMultiMesh->Render(camData);
-		}
+		//_tempMultiMesh->Render(camData);
 
 		_forward2dRenderer->Render(_renderObject2DList.get(), camData);
 	}

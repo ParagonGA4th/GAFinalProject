@@ -28,6 +28,16 @@ namespace Pg::Graphics
 		virtual void BindConstantBuffers() override;
 		virtual void UnbindConstantBuffers() override;
 
+	private:
+		//Skinned Mesh에 독립적임.
+		//void BoneTransformUpdate();
+
+		//void ReadNodeHierarchy(double animTick, const aiNode* pNode, const aiAnimation* pAnim, DirectX::SimpleMath::Matrix parentTransform);
+		//void CalcInterpolatedRotation(DirectX::SimpleMath::Quaternion& outQuat, double animTick, const aiNodeAnim* pNodeAnim);
+		//void CalcInterpolatedTranslation(DirectX::SimpleMath::Vector3& outVec, double animTick, const aiNodeAnim* pNodeAnim);
+		//
+		//unsigned int FindRotation(double animTick, const aiNodeAnim* pNodeAnim);
+		//unsigned int FindTranslation(double animTick, const aiNodeAnim* pNodeAnim);
 
 	private:
 		RenderTexture2D* _normal = nullptr;
