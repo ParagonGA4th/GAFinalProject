@@ -254,6 +254,10 @@ namespace Pg::Math
 	Pg::Math::PGQuaternion PGEulerToQuaternion(float x, float y, float z);
 	Pg::Math::PGFLOAT3 PGQuaternionToEuler(const Pg::Math::PGQuaternion& quaternion);
 	Pg::Math::PGFLOAT3 PGQuaternionToEuler(float w, float x, float y, float z);
+
+	//RotateVectorAroundAxis 
+	Pg::Math::PGFLOAT3 PGRotateVectorAroundAxis(Pg::Math::PGFLOAT3 vecToRotate, Pg::Math::PGFLOAT3 rotAxis, float angleInRad);
+
 }
 
 

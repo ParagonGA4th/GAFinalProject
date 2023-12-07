@@ -198,6 +198,28 @@ namespace Pg::Graphics::Helper
 		return result;
 	}
 
+	DirectX::XMFLOAT3 MathHelper::RotateVectorAroundAxis(DirectX::XMFLOAT3 vecToRotate, DirectX::XMFLOAT3 rotAxis, float angleInRad)
+	{
+		using namespace DirectX;
+
+		XMFLOAT3 vectorToRotate = { vecToRotate.x, vecToRotate.y, vecToRotate.z };;
+		XMFLOAT3 rotationAxis = { rotAxis.x, rotAxis.y, rotAxis.z };
+		float angleInRadians = angleInRad;
+
+		// Step 1: Create Matrices
+		XMMATRIX translationToOrigin = XMMatrixTranslation(-rotationAxis.x, -rotationAxis.y, -rotationAxis.z);
+		XMMATRIX rotation = XMMatrixRotationAxis(XMLoadFloat3(&rotationAxis), angleInRadians);
+		XMMATRIX translationBack = XMMatrixTranslation(rotationAxis.x, rotationAxis.y, rotationAxis.z);
+
+		// Step 2: Combine Matrices
+		XMMATRIX transformationMatrix = translationToOrigin * rotation * translationBack;
+
+		// Step 3: Apply Transformation
+		XMFLOAT3 rotatedVector;
+		XMStoreFloat3(&rotatedVector, XMVector3Transform(XMLoadFloat3(&vectorToRotate), transformationMatrix));
+
+		return { rotatedVector.x, rotatedVector.y, rotatedVector.z };
+	}
 	
 
 }

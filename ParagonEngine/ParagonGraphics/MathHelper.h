@@ -44,6 +44,9 @@ namespace Pg::Graphics::Helper
 		static void DecomposeAssembleMatrix(DirectX::SimpleMath::Matrix& mat);
 		//static void DecomposeAssembleFlipMatrix(DirectX::SimpleMath::Matrix& mat);
 		static DirectX::SimpleMath::Quaternion QuaternionSlerpNoFlip(const DirectX::SimpleMath::Quaternion& q1, const DirectX::SimpleMath::Quaternion& q2, float t);
+	
+		static DirectX::XMFLOAT3 RotateVectorAroundAxis(DirectX::XMFLOAT3 vecToRotate, DirectX::XMFLOAT3 rotAxis, float angleInRad);
+
 	};
 }
 
