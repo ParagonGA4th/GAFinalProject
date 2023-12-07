@@ -2,6 +2,7 @@
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/SphereCollider.h"
 #include "../ParagonUtil/Log.h"
 
 #include <cassert>
@@ -32,6 +33,13 @@ namespace Pg::Engine
 			if (tCapsuleCol != nullptr)
 			{
 				DrawCapsuleDebug(&(tCapsuleCol->_capsuleInfo));
+			}
+
+			Pg::Data::SphereCollider* tShpereCol = it->GetComponent<Pg::Data::SphereCollider>();
+
+			if (tCapsuleCol != nullptr)
+			{
+				DrawSphereDebug(&(tShpereCol->_sphereInfo));
 			}
 		}
 
@@ -70,6 +78,16 @@ namespace Pg::Engine
 		_capsuleVec.push_back(capsuleInfo);
 	}
 
+
+	void DebugSystem::DrawSphereDebug(Pg::Data::SphereInfo* sphereInfo)
+	{
+		if (!_isDebug)
+		{
+			return;
+		}
+
+		_sphereVec.push_back(sphereInfo);
+	}
 
 	void DebugSystem::DrawLineDebug(PGFLOAT3 beginPoint, PGFLOAT3 endPoint, PGFLOAT4 color)
 	{
