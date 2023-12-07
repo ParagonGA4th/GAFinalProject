@@ -12,7 +12,12 @@ namespace Pg::Data
 
 	void CapsuleCollider::Update()
 	{
-		Pg::Math::PGFLOAT4X4 worldTM = GetOffsetTM() * _object->_transform.GetWorldTM();
+		PGFLOAT4X4 worldTM = GetOffsetTM() * _object->_transform.GetWorldTM();
+		PGFLOAT3 Whd = { GetWidth(), GetHeight(), GetDepth() };
+		PGFLOAT4 color = { 0.0f,1.0f,0.0f,1.0f };
+		_capsuleInfo.worldTM = worldTM;
+		_capsuleInfo.scale = Whd;
+		_capsuleInfo.color = color;
 	}
 
 	float CapsuleCollider::GetWidth() const

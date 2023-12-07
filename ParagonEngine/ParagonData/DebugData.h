@@ -20,4 +20,18 @@ namespace Pg::Data
 		Pg::Math::PGFLOAT3 endPoint;
 		Pg::Math::PGFLOAT4 color;
 	};
+
+	struct SphereInfo
+	{
+		Pg::Math::PGFLOAT4X4 worldTM;
+		Pg::Math::PGFLOAT3 scale;
+		Pg::Math::PGFLOAT4 color;
+	};
+
+	struct CapsuleInfo
+	{
+		Pg::Math::PGFLOAT4X4 worldTM;
+		Pg::Math::PGFLOAT3 scale;
+		Pg::Math::PGFLOAT4 color;
+	};
 }
