@@ -18,6 +18,12 @@ namespace Pg::Engine
 
 	void DebugSystem::Update(Pg::Data::Scene* scene)
 	{
+		//디버그 모드가 아닐 때 리턴.
+		if (!_isDebug)
+		{
+			return;
+		}
+
 		//Event System 들어오면 지울 것.
 		for (auto& it : scene->GetObjectList())
 		{
@@ -43,6 +49,9 @@ namespace Pg::Engine
 			}
 		}
 
+		DrawLineDebug({ 0.f,0.f,0.f }, {10.f,8.f,0.f}, { 1.f,1.f,0.f,1.f });
+		DrawLineDebug({ 0.f,0.f,0.f }, {8.f,10.f,0.f}, { 1.f,1.f,0.f,1.f });
+
 		assert(true);
 	}	
 
@@ -57,46 +66,31 @@ namespace Pg::Engine
 		_isDebug = isdebug;
 	}
 
-	void DebugSystem::DrawBoxDebug(Pg::Data::BoxInfo* boxInfo)
+	void DebugSystem::DrawBoxDebug(Pg::Data::BoxInfo * boxInfo)
 	{
-		if (!_isDebug)
-		{
-			return;
-		}
-
 		_boxVec.push_back(boxInfo);
 	}
 
 
 	void DebugSystem::DrawCapsuleDebug(Pg::Data::CapsuleInfo* capsuleInfo)
 	{
-		if (!_isDebug)
-		{
-			return;
-		}
-
 		_capsuleVec.push_back(capsuleInfo);
 	}
 
 
 	void DebugSystem::DrawSphereDebug(Pg::Data::SphereInfo* sphereInfo)
 	{
-		if (!_isDebug)
-		{
-			return;
-		}
-
 		_sphereVec.push_back(sphereInfo);
 	}
 
 	void DebugSystem::DrawLineDebug(PGFLOAT3 beginPoint, PGFLOAT3 endPoint, PGFLOAT4 color)
 	{
+		//[TW] Line 한정, 포인터가 되면 안된다.
+		// 매번 변하는 위치 및 특성, 정해져 있으면 안된다! (특정 콜라이더에도 종속X이기에, 현 구조와 병행 불가)
 
-	}
-
-	void DebugSystem::DeleteBoxDebug()
-	{
-		_boxVec.clear();
+		//Line Vector
+		Pg::Data::LineInfo tLineInfo;
+		_lineVec.push_back(tLineInfo);
 	}
 
 	const std::vector<Pg::Data::BoxInfo*>& DebugSystem::GetBoxVector() const
@@ -104,9 +98,41 @@ namespace Pg::Engine
 		return _boxVec;
 	}
 
-	const std::vector<Pg::Data::LineInfo*>& DebugSystem::GetLineVector() const
+	const std::vector<Pg::Data::LineInfo>& DebugSystem::GetLineVector() const
 	{
 		return _lineVec;                                
 	}
+
+	const std::vector<Pg::Data::SphereInfo*>& DebugSystem::GetSphereVector() const
+	{
+		return _sphereVec;
+	}
+
+	const std::vector<Pg::Data::CapsuleInfo*>& DebugSystem::GetCapsuleVector() const
+	{
+		return _capsuleVec;
+	}
+
+	void DebugSystem::DeleteBoxDebug()
+	{
+		_boxVec.clear();
+	}
+
+	void DebugSystem::DeleteSphereDebug()
+	{
+		_sphereVec.clear();
+	}
+
+	void DebugSystem::DeleteCapsuleDebug()
+	{
+		_capsuleVec.clear();
+	}
+
+	void DebugSystem::DeleteLineDebug()
+	{
+		_lineVec.clear();
+	}
+
+	
 
 }

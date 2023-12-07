@@ -37,7 +37,9 @@ namespace Pg::Core
 
 		virtual const std::vector<Pg::Data::BoxInfo*>& GetBoxDebugData() const abstract;
 
-		virtual const std::vector<Pg::Data::LineInfo*>& GetLineDebugData() const abstract;
+		virtual const std::vector<Pg::Data::LineInfo>& GetLineDebugData() const abstract;
+		virtual const std::vector<Pg::Data::SphereInfo*>& GetSphereDebugData() const abstract;
+		virtual const std::vector<Pg::Data::CapsuleInfo*>& GetCapsuleDebugData() const abstract;
 
 		//디버그 데이터 디버그 시스템에서 클리어.
 		virtual void ClearDebugVectorData() abstract;

@@ -38,18 +38,23 @@ namespace Pg::Engine
 		void DrawLineDebug(PGFLOAT3 beginPoint, PGFLOAT3 endPoint, PGFLOAT4 color);
 
 		void DeleteBoxDebug();
+		void DeleteSphereDebug();
+		void DeleteCapsuleDebug();
+		void DeleteLineDebug();
 
 		void SetDebugMode(bool isdebug);
 
 	public:
 		const std::vector<Pg::Data::BoxInfo*>& GetBoxVector() const;
-		const std::vector<Pg::Data::LineInfo*>& GetLineVector() const;
+		const std::vector<Pg::Data::LineInfo>& GetLineVector() const;
+		const std::vector<Pg::Data::SphereInfo*>& GetSphereVector() const;
+		const std::vector<Pg::Data::CapsuleInfo*>& GetCapsuleVector() const;
 
 		//std::vector<Pg::Data::BoxInfo*>& GetDrawEnabledBoxVector() const;
 		//std::vector<Pg::Data::LineInfo*>& GetDrawEnabledLineVector();
 	private:
 		std::vector<Pg::Data::BoxInfo*> _boxVec;
-		std::vector<Pg::Data::LineInfo*> _lineVec;
+		std::vector<Pg::Data::LineInfo> _lineVec;
 		std::vector<Pg::Data::CapsuleInfo*> _capsuleVec;
 		std::vector<Pg::Data::SphereInfo*> _sphereVec;
 

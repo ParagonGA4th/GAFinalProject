@@ -120,92 +120,55 @@ namespace Pg::Graphics
 		//무조건 Wireframe으로 그린다.
 		//DebugSystem이랑 연동되면 실제 Collider 정보랑 연동되어 출력될 예정.
 		//2023.11.21 : Box.
-		using namespace DirectX;
-
-		XMMATRIX tView = MathHelper::PG2XM_MATRIX(camData->_viewMatrix);
-		XMMATRIX tProj = MathHelper::PG2XM_MATRIX(camData->_projMatrix);
 
 		//Box Collider Rendering (연동됨)
 		for (int i = 0; i < _boxColVector->size(); i++)
 		{
-			DirectX::XMVECTOR tLineColor = MathHelper::PG2XM_VECTOR(_boxColVector->at(i)->color);
-			_boxShape->Draw(MathHelper::PG2XM_MATRIX(_boxColVector->at(i)->worldTM), tView, tProj, tLineColor, nullptr, true);
+			DrawBox(camData, _boxColVector->at(i));
 		}
 
-		//Capsule Rendering
+		for (int i = 0; i < _sphereColVector->size(); i++)
 		{
-			//매개변수 역할.
-			DirectX::XMFLOAT3 tCylinderPos = { 0.f, 2.f, -3.f };
-			//DirectX::XMFLOAT3 tCylinderPos = { 0.f, 0.f,0.f};
-
-			static float tRotAmount = 0.f;
-			tRotAmount += 1.f;
-			float tActualRot = fmod(tRotAmount, 360.f);
-
-			DirectX::XMFLOAT3 tCylinderEulerDegRot = { tRotAmount, 0.f, 0.f };
-
-			DirectX::XMFLOAT3 tCylinderEulerRadRot = { XMConvertToRadians(tCylinderEulerDegRot.x), XMConvertToRadians(tCylinderEulerDegRot.y),XMConvertToRadians(tCylinderEulerDegRot.z) };
-			DirectX::XMVECTOR tCylinderEulerRadRotVec = DirectX::XMLoadFloat3(&tCylinderEulerRadRot);
-			DirectX::XMFLOAT3 tCylinderScale = { 1.f, 1.f, 1.f };
-			//DirectX::XMFLOAT3 tCylinderScale = { 2.f,.f, 1.f };
-			float tHeight = 2.0f;
-			float tRadius = 1.0f;
-
-			//<>//
-			//Cylinder 연산에 필요할 것들. (위 내용과 자동 연동)
-			DirectX::XMVECTOR tRotQuat = XMQuaternionRotationRollPitchYawFromVector(tCylinderEulerRadRotVec);
-			//오브젝트의 Translation을 기준으로 돌아야 한다.
-			DirectX::XMMATRIX tTransformRotMat = DirectX::XMMatrixRotationQuaternion(tRotQuat);
-
-			DirectX::XMMATRIX tTransformScaleMat = DirectX::XMMatrixScaling(tCylinderScale.x, tCylinderScale.y, tCylinderScale.z);
-			DirectX::XMMATRIX tSelfScaleMat = DirectX::XMMatrixScaling(tRadius, tHeight, tRadius);
-			DirectX::XMMATRIX tHeightlessScaleMat = DirectX::XMMatrixScaling(tRadius, 1.f, tRadius);
-	
-			//Cylinder Collider Rendering
-			{
-				//Cylinder World Mat
-				DirectX::XMMATRIX tScale = tTransformScaleMat * tSelfScaleMat;
-				DirectX::XMMATRIX tRot = tTransformRotMat;
-				DirectX::XMMATRIX tTrans = DirectX::XMMatrixTranslation(tCylinderPos.x, tCylinderPos.y, tCylinderPos.z);
-				DirectX::XMMATRIX tWorld = tScale * tRot * tTrans;
-				//tWorld *= tTrans;
-
-				_cylinderShape->Draw(tWorld, tView, tProj, Colors::Green, nullptr, true);
-			}
-			//Hemispheres
-			//Top Hemisphere Collider Rendering
-			{
-				DirectX::XMFLOAT3 tTransOffsetFT = { 0.f, tHeight / 2.f, 0.f };
-				DirectX::XMVECTOR tTransOffsetVec = DirectX::XMLoadFloat3(&tTransOffsetFT);
-
-				//이 tTransVec가 tCylinderPos를 중심으로 Rotation을 거쳐야 한다.
-				DirectX::XMMATRIX tTransOffsetMat = DirectX::XMMatrixTranslationFromVector(tTransOffsetVec);
-
-				DirectX::XMMATRIX tTrans = DirectX::XMMatrixTranslation(tCylinderPos.x, tCylinderPos.y, tCylinderPos.z);
-				DirectX::XMMATRIX tRot = tTransformRotMat;
-				DirectX::XMMATRIX tScale = tTransformScaleMat * tHeightlessScaleMat;
-				DirectX::XMMATRIX tWorld = tTransOffsetMat * tScale * tRot * tTrans;
-				
-				_topHemisphereShape->Draw(tWorld, tView, tProj, Colors::Green, nullptr, true);
-			}
-
-			//Bottom Hemisphere Collider Rendering
-			{
-				DirectX::XMFLOAT3 tTransOffsetFT = { 0.f, -tHeight / 2.f, 0.f };
-				DirectX::XMVECTOR tTransOffsetVec = DirectX::XMLoadFloat3(&tTransOffsetFT);
-
-				//이 tTransVec가 tCylinderPos를 중심으로 Rotation을 거쳐야 한다.
-				DirectX::XMMATRIX tTransOffsetMat = DirectX::XMMatrixTranslationFromVector(tTransOffsetVec);
-
-				DirectX::XMMATRIX tTrans = DirectX::XMMatrixTranslation(tCylinderPos.x, tCylinderPos.y, tCylinderPos.z);
-				DirectX::XMMATRIX tRot = tTransformRotMat;
-				DirectX::XMMATRIX tScale = tTransformScaleMat * tHeightlessScaleMat;
-				DirectX::XMMATRIX tWorld = tTransOffsetMat * tScale * tRot * tTrans;
-
-				_bottomHemisphereShape->Draw(tWorld, tView, tProj, Colors::Green, nullptr, true);
-			}
+			DrawSphere(camData, _sphereColVector->at(i));
+		}
+		
+		for (int i = 0; i < _capsuleColVector->size(); i++)
+		{
+			DrawCapsule(camData, _capsuleColVector->at(i));
 		}
 
+		//Pg::Data::CapsuleInfo t;
+		//t.color = { 0,1,0,1 };
+		//
+		//DirectX::XMMATRIX tTempScale = DirectX::XMMatrixScaling(1.f, 1.f, 1.f);
+		//DirectX::XMMATRIX tTempRot;
+		//{
+		//	using namespace DirectX;
+		//	static float tRotAmount = 0.f;
+		//	tRotAmount += 1.f;
+		//	float tActualRot = fmod(tRotAmount, 360.f);
+		//
+		//	DirectX::XMFLOAT3 tCylinderEulerDegRot = { tRotAmount, 0.f, 0.f };
+		//	DirectX::XMFLOAT3 tCylinderEulerRadRot = { XMConvertToRadians(tCylinderEulerDegRot.x), XMConvertToRadians(tCylinderEulerDegRot.y),XMConvertToRadians(tCylinderEulerDegRot.z) };
+		//	DirectX::XMVECTOR tCylinderEulerRadRotVec = DirectX::XMLoadFloat3(&tCylinderEulerRadRot);
+		//	//DirectX::XMFLOAT3 tCylinderScale = { 2.f,.f, 1.f };
+		//	float tHeight = 2.0f;
+		//	float tRadius = 1.0f;
+		//
+		//	//<>//
+		//	//Cylinder 연산에 필요할 것들. (위 내용과 자동 연동)
+		//	DirectX::XMVECTOR tRotQuat = XMQuaternionRotationRollPitchYawFromVector(tCylinderEulerRadRotVec);
+		//	tTempRot = DirectX::XMMatrixRotationQuaternion(tRotQuat);
+		//}
+		//auto tTempTrans = DirectX::XMMatrixTranslation(0.f, 2.f, -3.f);
+		//
+		//{
+		//	using namespace DirectX;
+		//	DirectX::XMMATRIX tWorldTM = tTempScale * tTempRot * tTempTrans;
+		//	std::memcpy(&(t.worldTM), &tWorldTM, sizeof(DirectX::XMMATRIX));
+		//}
+		//
+		//DrawCapsule(camData, &t);
 	}
 
 	void DebugRenderer::EndGeoPrimitiveRender()
@@ -229,14 +192,11 @@ namespace Pg::Graphics
 	{
 		//DebugSystem이랑 연동되면 실제 Line 정보랑 연동되어 출력될 예정.
 
-		DirectX::XMFLOAT3 tFirst = { 0.f, 0.f, 0.f };
-		DirectX::XMFLOAT3 tSecond = { 0.f, 2.f, -3.f };
-		DirectX::XMFLOAT4 tColor;
-		DirectX::XMStoreFloat4(&tColor, DirectX::Colors::White);
-
-		_primitiveBatch->DrawLine(
-			DirectX::VertexPositionColor(tFirst, tColor),
-			DirectX::VertexPositionColor(tSecond, tColor));
+		for (int i = 0; i < _lineColVector->size(); i++)
+		{
+			Pg::Data::LineInfo it = _lineColVector->at(i);
+			DrawLine(&it);
+		}
 	}
 
 	void DebugRenderer::EndPrimitiveBatchRender()
@@ -249,6 +209,139 @@ namespace Pg::Graphics
 		_boxColVector = &boxColVec;
 	}
 
+	void DebugRenderer::GetDebugSphereGeometryData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec)
+	{
+		_sphereColVector = &sphereColVec;
+	}
 
+	void DebugRenderer::GetDebugCapsuleGeometryData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec)
+	{
+		_capsuleColVector = &capsuleColVec;
+	}
+
+	void DebugRenderer::GetDebugLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec)
+	{
+		_lineColVector = &lineColVec;
+	}
+
+	void DebugRenderer::DrawBox(Pg::Data::CameraData* camData, Pg::Data::BoxInfo* boxInfo)
+	{
+		using namespace DirectX;
+
+		XMMATRIX tView = MathHelper::PG2XM_MATRIX(camData->_viewMatrix);
+		XMMATRIX tProj = MathHelper::PG2XM_MATRIX(camData->_projMatrix);
+
+		DirectX::XMVECTOR tLineColor = MathHelper::PG2XM_VECTOR(boxInfo->color);
+		_boxShape->Draw(MathHelper::PG2XM_MATRIX(boxInfo->worldTM), tView, tProj, tLineColor, nullptr, true);
+	}
+
+	void DebugRenderer::DrawSphere(Pg::Data::CameraData* camData, Pg::Data::SphereInfo* sphereInfo)
+	{
+		using namespace DirectX;
+
+		XMMATRIX tView = MathHelper::PG2XM_MATRIX(camData->_viewMatrix);
+		XMMATRIX tProj = MathHelper::PG2XM_MATRIX(camData->_projMatrix);
+
+		DirectX::XMVECTOR tLineColor = MathHelper::PG2XM_VECTOR(sphereInfo->color);
+		_boxShape->Draw(MathHelper::PG2XM_MATRIX(sphereInfo->worldTM), tView, tProj, tLineColor, nullptr, true);
+	}
+
+	void DebugRenderer::DrawCapsule(Pg::Data::CameraData* camData, Pg::Data::CapsuleInfo* capsuleInfo)
+	{
+		using namespace DirectX;
+
+		////매개변수 역할.
+		//DirectX::XMFLOAT3 tCylinderPos = { 0.f, 2.f, -3.f };
+		////DirectX::XMFLOAT3 tCylinderPos = { 0.f, 0.f,0.f};
+		//
+		//static float tRotAmount = 0.f;
+		//tRotAmount += 1.f;
+		//float tActualRot = fmod(tRotAmount, 360.f);
+		//
+		//DirectX::XMFLOAT3 tCylinderEulerDegRot = { tRotAmount, 0.f, 0.f };
+		//DirectX::XMFLOAT3 tCylinderEulerRadRot = { XMConvertToRadians(tCylinderEulerDegRot.x), XMConvertToRadians(tCylinderEulerDegRot.y),XMConvertToRadians(tCylinderEulerDegRot.z) };
+		//DirectX::XMVECTOR tCylinderEulerRadRotVec = DirectX::XMLoadFloat3(&tCylinderEulerRadRot);
+		//DirectX::XMFLOAT3 tCylinderScale = { 1.f, 1.f, 1.f };
+		////DirectX::XMFLOAT3 tCylinderScale = { 2.f,.f, 1.f };
+		
+		XMMATRIX tCapsuleWorldTM = MathHelper::PG2XM_MATRIX(capsuleInfo->worldTM);
+
+		DirectX::XMVECTOR tCylinderScaleVec;
+		DirectX::XMFLOAT3 tCylinderScale = { 1.f, 1.f, 1.f };
+		DirectX::XMVECTOR tCylinderEulerRadRotVec;
+		DirectX::XMVECTOR tCylinderPosVec;
+		DirectX::XMFLOAT3 tCylinderPos = {0.f,0.f,0.f};
+		XMMatrixDecompose(&tCylinderScaleVec, &tCylinderEulerRadRotVec, &tCylinderPosVec, tCapsuleWorldTM);
+		XMStoreFloat3(&tCylinderScale, tCylinderScaleVec);
+		XMStoreFloat3(&tCylinderPos, tCylinderPosVec);
+
+		float tHeight = 1.0f;
+		float tRadius = 1.0f;
+
+		//<>//
+		//Cylinder 연산에 필요할 것들. (위 내용과 자동 연동)
+		DirectX::XMVECTOR tRotQuat = XMQuaternionRotationRollPitchYawFromVector(tCylinderEulerRadRotVec);
+		//오브젝트의 Translation을 기준으로 돌아야 한다.
+		DirectX::XMMATRIX tTransformRotMat = DirectX::XMMatrixRotationQuaternion(tRotQuat);
+
+		DirectX::XMMATRIX tTransformScaleMat = DirectX::XMMatrixScaling(tCylinderScale.x, tCylinderScale.y, tCylinderScale.z);
+		DirectX::XMMATRIX tSelfScaleMat = DirectX::XMMatrixScaling(tRadius, tHeight, tRadius);
+		DirectX::XMMATRIX tHeightlessScaleMat = DirectX::XMMatrixScaling(tRadius, 1.f, tRadius);
+
+		XMMATRIX tView = MathHelper::PG2XM_MATRIX(camData->_viewMatrix);
+		XMMATRIX tProj = MathHelper::PG2XM_MATRIX(camData->_projMatrix);
+
+		//Cylinder Collider Rendering
+		{
+			//Cylinder World Mat
+			DirectX::XMMATRIX tScale = tTransformScaleMat * tSelfScaleMat;
+			DirectX::XMMATRIX tRot = tTransformRotMat;
+			DirectX::XMMATRIX tTrans = DirectX::XMMatrixTranslation(tCylinderPos.x, tCylinderPos.y, tCylinderPos.z);
+			DirectX::XMMATRIX tWorld = tScale * tRot * tTrans;
+			//tWorld *= tTrans;
+
+			_cylinderShape->Draw(tWorld, tView, tProj, Colors::Green, nullptr, true);
+		}
+		//Hemispheres
+		//Top Hemisphere Collider Rendering
+		{
+			DirectX::XMFLOAT3 tTransOffsetFT = { 0.f, tHeight / 2.f, 0.f };
+			DirectX::XMVECTOR tTransOffsetVec = DirectX::XMLoadFloat3(&tTransOffsetFT);
+
+			//이 tTransVec가 tCylinderPos를 중심으로 Rotation을 거쳐야 한다.
+			DirectX::XMMATRIX tTransOffsetMat = DirectX::XMMatrixTranslationFromVector(tTransOffsetVec);
+
+			DirectX::XMMATRIX tTrans = DirectX::XMMatrixTranslation(tCylinderPos.x, tCylinderPos.y, tCylinderPos.z);
+			DirectX::XMMATRIX tRot = tTransformRotMat;
+			DirectX::XMMATRIX tScale = tTransformScaleMat * tHeightlessScaleMat;
+			DirectX::XMMATRIX tWorld = tTransOffsetMat * tScale * tRot * tTrans;
+
+			_topHemisphereShape->Draw(tWorld, tView, tProj, Colors::Green, nullptr, true);
+		}
+
+		//Bottom Hemisphere Collider Rendering
+		{
+			DirectX::XMFLOAT3 tTransOffsetFT = { 0.f, -tHeight / 2.f, 0.f };
+			DirectX::XMVECTOR tTransOffsetVec = DirectX::XMLoadFloat3(&tTransOffsetFT);
+
+			//이 tTransVec가 tCylinderPos를 중심으로 Rotation을 거쳐야 한다.
+			DirectX::XMMATRIX tTransOffsetMat = DirectX::XMMatrixTranslationFromVector(tTransOffsetVec);
+
+			DirectX::XMMATRIX tTrans = DirectX::XMMatrixTranslation(tCylinderPos.x, tCylinderPos.y, tCylinderPos.z);
+			DirectX::XMMATRIX tRot = tTransformRotMat;
+			DirectX::XMMATRIX tScale = tTransformScaleMat * tHeightlessScaleMat;
+			DirectX::XMMATRIX tWorld = tTransOffsetMat * tScale * tRot * tTrans;
+
+			_bottomHemisphereShape->Draw(tWorld, tView, tProj, Colors::Green, nullptr, true);
+		}
+	}
+
+	void DebugRenderer::DrawLine(Pg::Data::LineInfo* lineInfo)
+	{
+		_primitiveBatch->DrawLine(
+			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(lineInfo->beginPoint), MathHelper::PG2XM_FLOAT4(lineInfo->color)),
+			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(lineInfo->endPoint), MathHelper::PG2XM_FLOAT4(lineInfo->color)));
+	}
+	
 
 }

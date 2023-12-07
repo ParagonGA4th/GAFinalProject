@@ -34,6 +34,9 @@ namespace Pg::Graphics
 	public:
 		void Initialize();
 		void GetDebugBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec);
+		void GetDebugSphereGeometryData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec);
+		void GetDebugCapsuleGeometryData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec);
+		void GetDebugLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec);
 		void Render(Pg::Data::CameraData* camData);
 
 	private:
@@ -45,6 +48,12 @@ namespace Pg::Graphics
 		void BeginPrimitiveBatchRender(Pg::Data::CameraData* camData);
 		void LineRender();
 		void EndPrimitiveBatchRender();
+
+	private:
+		void DrawBox(Pg::Data::CameraData* camData, Pg::Data::BoxInfo* boxInfo);
+		void DrawSphere(Pg::Data::CameraData* camData, Pg::Data::SphereInfo* sphereInfo);
+		void DrawCapsule(Pg::Data::CameraData* camData, Pg::Data::CapsuleInfo* capsuleInfo);
+		void DrawLine(Pg::Data::LineInfo* lineInfo);
 
 	private:
 		void InitGeometry();
@@ -68,6 +77,9 @@ namespace Pg::Graphics
 	private:
 		//렌더링을 위해 Pointer를 보관.
 		const std::vector<Pg::Data::BoxInfo*>* _boxColVector = nullptr;
+		const std::vector<Pg::Data::SphereInfo*>* _sphereColVector = nullptr;
+		const std::vector<Pg::Data::CapsuleInfo*>* _capsuleColVector = nullptr;
+		const std::vector<Pg::Data::LineInfo>* _lineColVector = nullptr;
 
 	private:
 		//DebugLine을 위한 요구사항.

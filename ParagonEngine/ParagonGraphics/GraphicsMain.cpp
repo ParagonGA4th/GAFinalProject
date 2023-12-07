@@ -53,7 +53,7 @@
 namespace Pg::Graphics
 {
 	using Pg::Graphics::Helper::MathHelper;
-	
+
 	GraphicsMain::GraphicsMain(Pg::Core::ProcessMain* core)
 		: hr(NULL), _coreMain(core),
 		_DXStorage(nullptr), _DXLogic(nullptr),
@@ -116,7 +116,7 @@ namespace Pg::Graphics
 
 
 	void GraphicsMain::Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData)
-	{	
+	{
 		//Projection 행렬을 채운다.
 		FillCamDataProjection(cameraData);
 		this->_camData = cameraData;
@@ -175,13 +175,13 @@ namespace Pg::Graphics
 		ReleaseCOM(_DXStorage->_depthStencilBuffer);
 		ReleaseCOM(_DXStorage->_backBuffer)
 
-		// 바뀐 사이즈로 재할당
-		hr = _DXLogic->ResizeSwapChainBuffers(screenWidth, screenHeight);
+			// 바뀐 사이즈로 재할당
+			hr = _DXLogic->ResizeSwapChainBuffers(screenWidth, screenHeight);
 		hr = _DXLogic->CreateMainRenderTarget();
 		hr = _DXLogic->CreateDepthStencilViewAndState();
 		_DXLogic->CreateAndSetViewports();
 		// TODO: 쿼드 사이즈 변경 후 재할당 로직도 들어가야 함
-	
+
 	}
 
 	ID3D11Device* GraphicsMain::GetDevice()
@@ -259,7 +259,22 @@ namespace Pg::Graphics
 
 	void GraphicsMain::SetBoxDebugRenderData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
 	{
-		_renderer->PassDebugGeometryData(boxColVec);
+		_renderer->PassBoxGeometryData(boxColVec);
+	}
+
+	void GraphicsMain::SetLineDebugRenderData(const std::vector<Pg::Data::LineInfo>& const lineColVec)
+	{
+		_renderer->PassLineGeometryData(lineColVec);
+	}
+
+	void GraphicsMain::SetCapsuleDebugRenderData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec)
+	{
+		_renderer->PassCapsuleGeometryData(capsuleColVec);
+	}
+
+	void GraphicsMain::SetSphereDebugRenderData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec)
+	{
+		_renderer->PassSphereGeometryData(sphereColVec);
 	}
 
 }
