@@ -94,6 +94,11 @@ namespace  Pg::Engine::Input
 		assert(_map->MapBool(eKeyCode::NextRenderTarget, _keyboardId, gainput::Key0));
 
 		assert(_map->MapBool(eKeyCode::ShiftL, _keyboardId, gainput::KeyShiftL));
+
+		gainput::SimultaneouslyDownGesture* sdg = _manager->CreateAndGetDevice<gainput::SimultaneouslyDownGesture>();
+		sdg->AddButton(_keyboardId, gainput::KeyCtrlL);
+		sdg->AddButton(_keyboardId, gainput::KeyS);
+		_map->MapBool(eKeyCode::Save, sdg->GetDeviceId(), gainput::SimultaneouslyDownTriggered);
 	}
 
 	bool InputSystem::GetKey(Pg::API::Input::eKeyCode keyCode)

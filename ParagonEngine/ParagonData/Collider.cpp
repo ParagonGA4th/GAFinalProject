@@ -8,7 +8,7 @@ namespace Pg::Data
 		Component(owner),
 		_positionOffSet(0.0f, 0.0f, 0.0f),
 		_rotationOffset(1.0f, 0.0f, 0.0f, 0.0f),
-		_scaleOffset(1.0f, 1.0f, 1.0f),
+		_scaleOffset(2.0f, 2.0f, 2.0f),
 		_pxScene(nullptr)
 	{
 		
@@ -59,7 +59,30 @@ namespace Pg::Data
 
 	Pg::Math::PGFLOAT4X4 Collider::GetOffsetRotationMatrix() const
 	{
-		return {};
+		PGFLOAT4X4 rotationMatrix =
+		{
+		   1.0f - 2.0f * (_rotationOffset.y * _rotationOffset.y + _rotationOffset.z * _rotationOffset.z),
+		   2.0f * (_rotationOffset.x * _rotationOffset.y + _rotationOffset.z * _rotationOffset.w),
+		   2.0f * (_rotationOffset.x * _rotationOffset.z - _rotationOffset.y * _rotationOffset.w),
+		   0,
+
+		   2.0f * (_rotationOffset.x * _rotationOffset.y - _rotationOffset.z * _rotationOffset.w),
+		   1.0f - 2.0f * (_rotationOffset.x * _rotationOffset.x + _rotationOffset.z * _rotationOffset.z),
+		   2.0f * (_rotationOffset.y * _rotationOffset.z + _rotationOffset.x * _rotationOffset.w),
+		   0,
+
+		   2.0f * (_rotationOffset.x * _rotationOffset.z + _rotationOffset.y * _rotationOffset.w),
+		   2.0f * (_rotationOffset.y * _rotationOffset.z - _rotationOffset.x * _rotationOffset.w),
+		   1.0f - 2.0f * (_rotationOffset.x * _rotationOffset.x + _rotationOffset.y * _rotationOffset.y),
+		   0,
+
+		   0,
+		   0,
+		   0,
+		   1
+		};
+
+		return rotationMatrix;
 	}
 
 	Pg::Math::PGFLOAT4X4 Collider::GetOffsetScaleMatrix() const

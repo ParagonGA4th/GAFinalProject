@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <singleton-cpp/singleton.h>
+#include <sstream>
 
 Pg::Editor::Manager::DataManager::DataManager()
 {
@@ -17,23 +18,26 @@ Pg::Editor::Manager::DataManager::DataManager()
 Pg::Editor::Manager::DataManager::~DataManager() 
 {}
 
-void Pg::Editor::Manager::DataManager::SetFilePath(std::string path)
+void Pg::Editor::Manager::DataManager::DataLoad(std::string path, std::string fileName)
 {
 	_path = path;
-}
+	_fileName = fileName;
 
-
-void Pg::Editor::Manager::DataManager::DataLoad()
-{
 	if (_path.find("pgproject") == std::string::npos) SceneLoad();
 	else ProjectLoad();
 
 	if(_scenes.size() > 0) _dataContainer->SetScenes(_scenes);
 }
 
-void Pg::Editor::Manager::DataManager::DataSave()
+std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::DataSave()
 {
+	// Data를 가져와서 Serialize
+	
+	SceneSave();
 
+	// 폴더 생성()
+
+	return _sceneSerializeData;
 }
 
 void Pg::Editor::Manager::DataManager::ProjectLoad()
@@ -46,15 +50,38 @@ void Pg::Editor::Manager::DataManager::SceneLoad()
 	pugi::xml_document doc;
 	if (doc.load_file(_path.c_str()))
 	{
-		_fileName = _path.substr(_path.rfind("\\") + 1);
-		_fileName = _fileName.substr(0, _fileName.find(".", 0));
-
 		_scenes.push_back(new Pg::Data::Scene(_fileName));
 
 		pugi::xml_node rootNode = doc.child("scene");
 		DataDeserialize(rootNode.first_child(), _scenes.size() - 1);
 	}
 }
+
+void Pg::Editor::Manager::DataManager::SceneSave()
+{
+	for (auto& scene : _dataContainer->GetScenes())
+	{
+		pugi::xml_document doc;
+		
+		pugi::xml_node declarationNode = doc.prepend_child(pugi::node_declaration);
+		declarationNode.append_attribute("version") = "1.0";
+		declarationNode.append_attribute("encoding") = "utf-8";
+
+		doc.append_child("scene");
+		pugi::xml_node node = doc.child("scene").append_child("objects");
+
+		DataSerialize(node, scene);
+
+		std::stringstream ss;
+		doc.save(ss, "\t"); // save 함수를 사용하여 스트림에 XML을 저장
+
+		std::string docToString = ss.str();
+
+		_sceneSerializeData.insert({ scene->GetSceneName(), docToString });
+	}
+	// 파일 덮어쓰기
+}
+
 
 void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int sceneNum)
 {
@@ -75,36 +102,51 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 
 			if (typeName == Pg::Serialize::Serializer::DeserializeString(&component, "type"))
 			{
-				TransformDeserialize(component, obj);
+				pugi::xml_node trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "position"; });
+				obj->_transform.SetPosition(Pg::Serialize::Serializer::DeserializeVec3(&trans, "x"));
+
+				trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "rotation"; });
+				obj->_transform.SetRotation(Pg::Serialize::Serializer::DeserializeQuaternion(&trans, "w"));
+
+				trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "scale"; });
+				obj->_transform.SetScale(Pg::Serialize::Serializer::DeserializeVec3(&trans, "x"));
 			}
 		}
 	}
 }
 
-void Pg::Editor::Manager::DataManager::TransformDeserialize(pugi::xml_node component, Pg::Data::GameObject* obj)
+void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Data::Scene* scene)
 {
-	pugi::xml_node trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "position"; });
-	obj->_transform.SetPosition
-	(
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "x"),
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "y"),
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "z")
-	);
+	// scene node 안에 objects
+	// objects node 안에 object
+	// 각 component에 맞는 serialize 형식 필요
 
-	trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "rotation"; });
-	obj->_transform.SetRotation
-	(
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "W"),
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "x"),
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "y"),
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "z")
-	);
+	for (auto& object : scene->GetObjectList())
+	{
+		pugi::xml_node xmlObject = node.append_child("object");
 
-	trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "scale"; });
-	obj->_transform.SetScale
-	(
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "x"),
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "y"),
-		Pg::Serialize::Serializer::DeserializeFloat(&trans, "z")
-	);
+		Pg::Serialize::Serializer::SerializeString(&xmlObject, "name", object->GetName());
+		Pg::Serialize::Serializer::SerializeBoolean(&xmlObject, "active", object->GetActive());
+	
+		//xmlObject.append_child("parent");
+
+		pugi::xml_node objComponents = xmlObject.append_child("components");
+
+		// flag를 이용해서 어떤 component가 있는지 확인한다
+		// 확인한 component의 type에 따라 serialize 한다
+		// 현재는 transform만 
+
+		pugi::xml_node objComponent = objComponents.append_child("component");
+		Pg::Serialize::Serializer::SerializeString(&objComponent, "type", "class Pg::Data::Transform");
+
+		pugi::xml_node componentData = objComponent.append_child("data");
+		Pg::Serialize::Serializer::SerializeVector3(&componentData, "position",
+			object->GetComponent<Pg::Data::Transform>()->GetPosition());		
+		
+		Pg::Serialize::Serializer::SerializeQuat(&componentData, "rotation",
+			object->GetComponent<Pg::Data::Transform>()->GetRotation());		
+		
+		Pg::Serialize::Serializer::SerializeVector3(&componentData, "scale",
+			object->GetComponent<Pg::Data::Transform>()->GetScale());
+	}
 }

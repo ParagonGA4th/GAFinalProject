@@ -2,6 +2,7 @@
 #include "../ParagonData/AssetDefines.h"
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/CameraData.h"
+#include "../ParagonData/DebugData.h"
 #include <string>
 #include <vector>
 
@@ -33,5 +34,12 @@ namespace Pg::Core
 		virtual Pg::Data::Scene* GetCurrentScene() abstract;
 
 		virtual Pg::Data::CameraData* GetCameraData() abstract;
+
+		virtual const std::vector<Pg::Data::BoxInfo*>& GetBoxDebugData() const abstract;
+
+		virtual const std::vector<Pg::Data::LineInfo*>& GetLineDebugData() const abstract;
+
+		//디버그 데이터 디버그 시스템에서 클리어.
+		virtual void ClearDebugVectorData() abstract;
 	};
 }

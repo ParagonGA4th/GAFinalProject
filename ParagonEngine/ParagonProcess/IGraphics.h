@@ -2,6 +2,9 @@
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/CameraData.h"
+#include "../ParagonData/DebugData.h"
+#include "../ParagonData/AssetDefines.h"
+
 #include "../ParagonData/AssetDefines.h"
 #include <string>
 #include <vector>
@@ -65,5 +68,8 @@ namespace Pg::Core
 
 		//Editor 연동 : Game Camera 시점 SRV를 리턴.
 		virtual ID3D11ShaderResourceView* GetGameCameraViewSRV() abstract;
+
+		//Engine에서 BoxDebugData를 받는다.
+		virtual void SetBoxDebugRenderData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec) abstract;
 	};
 }

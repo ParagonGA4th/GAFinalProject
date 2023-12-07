@@ -256,4 +256,10 @@ namespace Pg::Graphics
 		////MultiMaterial Mesh Å×½ºÆÃ.
 		//_tempMultiMesh = new MultimaterialMesh(tFilePath);
 	}
+
+	void GraphicsMain::SetBoxDebugRenderData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
+	{
+		_renderer->PassDebugGeometryData(boxColVec);
+	}
+
 }

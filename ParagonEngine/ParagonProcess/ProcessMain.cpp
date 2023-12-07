@@ -102,6 +102,8 @@ namespace Pg::Core
 		//여기다가 시스템 싹 다 업데이트!!
 		_engineGraphicsAdapter->UpdateEngine();
 
+		_engineGraphicsAdapter->PassDebugRenderData();
+
 		_engineGraphicsAdapter->UpdateGraphics(
 			_engineGraphicsAdapter->GetCurrentScene(),
 			_engineGraphicsAdapter->GetCameraData());
@@ -120,6 +122,9 @@ namespace Pg::Core
 	void ProcessMain::EndRender()
 	{
 		_engineGraphicsAdapter->EndRender();
+
+		//디버그 렌더 데이터 클리어 (디버그 시스템)
+		_engineGraphicsAdapter->ClearDebugVectorData();
 	}
 
 	void ProcessMain::Finalize()

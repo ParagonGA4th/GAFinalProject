@@ -24,6 +24,7 @@ namespace Pg::Graphics::Helper
 		static DirectX::XMFLOAT2 PG2XM_FLOAT2(Pg::Math::PGFLOAT2 value);
 		static DirectX::XMFLOAT3 PG2XM_FLOAT3(Pg::Math::PGFLOAT3 value);
 		static DirectX::XMFLOAT4 PG2XM_FLOAT4(Pg::Math::PGFLOAT4 value);
+		static DirectX::XMVECTOR PG2XM_VECTOR(Pg::Math::PGFLOAT4 value);
 		static DirectX::XMFLOAT4 PG2XM_QUATERNION(Pg::Math::PGQuaternion value);
 		static DirectX::XMFLOAT3X3 PG2XM_FLOAT3X3(Pg::Math::PGFLOAT3X3 value);
 		static DirectX::XMFLOAT4X4 PG2XM_FLOAT4X4(Pg::Math::PGFLOAT4X4 value);

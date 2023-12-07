@@ -15,7 +15,12 @@ namespace Pg::Data
 
 	void BoxCollider::Update()
 	{
-
+		PGFLOAT4X4 worldTM = GetOffsetTM() * _object->_transform.GetWorldTM();
+		PGFLOAT3 Whd = { GetWidth(), GetHeight(), GetDepth() };
+		PGFLOAT4 color = { 0.0f,1.0f,0.0f,1.0f };
+		_boxInfo.worldTM = worldTM;
+		_boxInfo.scale = Whd;
+		_boxInfo.color = color;
 	}
 
 	void BoxCollider::SetScale(float w, float h, float d)
