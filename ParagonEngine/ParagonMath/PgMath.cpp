@@ -1,5 +1,6 @@
 #include "PgMath.h"
 #include <cmath>
+#include <DirectXMath.h>
 
 namespace Pg::Math
 {
@@ -881,6 +882,30 @@ namespace Pg::Math
 
 		return euler;
 	}
+
+	Pg::Math::PGFLOAT3 PGRotateVectorAroundAxis(Pg::Math::PGFLOAT3 vecToRotate, Pg::Math::PGFLOAT3 rotAxis, float angleInRad)
+	{
+		using namespace DirectX;
+
+		XMFLOAT3 vectorToRotate = { vecToRotate.x, vecToRotate.y, vecToRotate.z };;
+		XMFLOAT3 rotationAxis = { rotAxis.x, rotAxis.y, rotAxis.z };
+		float angleInRadians = angleInRad;
+
+		// Step 1: Create Matrices
+		XMMATRIX translationToOrigin = XMMatrixTranslation(-rotationAxis.x, -rotationAxis.y, -rotationAxis.z);
+		XMMATRIX rotation = XMMatrixRotationAxis(XMLoadFloat3(&rotationAxis), angleInRadians);
+		XMMATRIX translationBack = XMMatrixTranslation(rotationAxis.x, rotationAxis.y, rotationAxis.z);
+
+		// Step 2: Combine Matrices
+		XMMATRIX transformationMatrix = translationToOrigin * rotation * translationBack;
+
+		// Step 3: Apply Transformation
+		XMFLOAT3 rotatedVector;
+		XMStoreFloat3(&rotatedVector, XMVector3Transform(XMLoadFloat3(&vectorToRotate), transformationMatrix));
+
+		return { rotatedVector.x, rotatedVector.y, rotatedVector.z };
+	}
+
 
 }
 

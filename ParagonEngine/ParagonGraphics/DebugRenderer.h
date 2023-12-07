@@ -42,9 +42,9 @@ namespace Pg::Graphics
 		void GeoPrimitiveRender(Pg::Data::CameraData* camData);
 		void EndGeoPrimitiveRender();
 
-		void BeginLineRender(Pg::Data::CameraData* camData);
+		void BeginPrimitiveBatchRender(Pg::Data::CameraData* camData);
 		void LineRender();
-		void EndLineRender();
+		void EndPrimitiveBatchRender();
 
 	private:
 		void InitGeometry();
@@ -60,9 +60,10 @@ namespace Pg::Graphics
 		//Sphere Wireframe Rendering
 		std::unique_ptr<DirectX::GeometricPrimitive> _sphereShape;
 
-		//Capsule Wireframe Rendering -> TBA. CreateCustom을 통해서 만들 것.
-		//std::unique_ptr<DirectX::GeometricPrimitive> _capsuleShape;
-
+		//Capsule Wireframe Rendering. (Sphere와 합쳐서 Capsule 구성에 활용)
+		std::unique_ptr<DirectX::GeometricPrimitive> _topHemisphereShape;
+		std::unique_ptr<DirectX::GeometricPrimitive> _cylinderShape;
+		std::unique_ptr<DirectX::GeometricPrimitive> _bottomHemisphereShape;
 
 	private:
 		//렌더링을 위해 Pointer를 보관.
@@ -70,7 +71,7 @@ namespace Pg::Graphics
 
 	private:
 		//DebugLine을 위한 요구사항.
-		
+	
 		//Line Wireframe Rendering
 		std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> _primitiveBatch;
 		ID3D11InputLayout* _debugLineInputLayout = nullptr;
