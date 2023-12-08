@@ -35,7 +35,7 @@ namespace Pg::Engine
 		void DrawBoxDebug(Pg::Data::BoxInfo* boxInfo);
 		void DrawCapsuleDebug(Pg::Data::CapsuleInfo* capsuleInfo);
 		void DrawSphereDebug(Pg::Data::SphereInfo* sphereInfo);
-		void DrawLineDebug(PGFLOAT3 beginPoint, PGFLOAT3 endPoint, PGFLOAT4 color);
+		void DrawLineDebug(PGFLOAT3 begin, PGFLOAT3 end, PGFLOAT4 col);
 
 		void DeleteBoxDebug();
 		void DeleteSphereDebug();
