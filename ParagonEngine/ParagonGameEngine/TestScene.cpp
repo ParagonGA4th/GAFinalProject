@@ -5,6 +5,8 @@
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/BoxCollider.h"
+#include "../ParagonData/SphereCollider.h"
+#include "../ParagonData/CapsuleCollider.h"
 
 //#include "../ParagonData/BaseRenderer.h" //Render 연동 보기 위해.
 //#include "../ParagonData/RendererBase2D.h" //Render 연동 보기 위해.
@@ -67,7 +69,7 @@ void Pg::Engine::TestScene::Initialize()
 
 	GameObject* tObj2_1 = tCurrentScene->AddObject("Cube3");
 	tObj2_1->GetComponent<Transform>()->SetPosition({ 5.0f, 1.0f, 0.0f });
-	tObj2_1->AddComponent<BoxCollider>();
+	tObj2_1->AddComponent<CapsuleCollider>();
 	tObj2_1->AddComponent<StaticMeshRenderer>();
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx");
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
