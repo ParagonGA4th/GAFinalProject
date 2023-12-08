@@ -243,7 +243,7 @@ namespace Pg::Graphics
 		XMMATRIX tProj = MathHelper::PG2XM_MATRIX(camData->_projMatrix);
 
 		DirectX::XMVECTOR tLineColor = MathHelper::PG2XM_VECTOR(sphereInfo->color);
-		_boxShape->Draw(MathHelper::PG2XM_MATRIX(sphereInfo->worldTM), tView, tProj, tLineColor, nullptr, true);
+		_sphereShape->Draw(MathHelper::PG2XM_MATRIX(sphereInfo->worldTM), tView, tProj, tLineColor, nullptr, true);
 	}
 
 	void DebugRenderer::DrawCapsule(Pg::Data::CameraData* camData, Pg::Data::CapsuleInfo* capsuleInfo)

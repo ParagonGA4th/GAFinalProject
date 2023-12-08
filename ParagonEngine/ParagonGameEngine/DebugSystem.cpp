@@ -28,22 +28,18 @@ namespace Pg::Engine
 		for (auto& it : scene->GetObjectList())
 		{
 			Pg::Data::BoxCollider* tBoxCol = it->GetComponent<Pg::Data::BoxCollider>();
+			Pg::Data::CapsuleCollider* tCapsuleCol = it->GetComponent<Pg::Data::CapsuleCollider>();
+			Pg::Data::SphereCollider* tShpereCol = it->GetComponent<Pg::Data::SphereCollider>();
 			
 			if (tBoxCol != nullptr)
 			{
 				DrawBoxDebug(&(tBoxCol->_boxInfo));
 			}
-
-			Pg::Data::CapsuleCollider* tCapsuleCol = it->GetComponent<Pg::Data::CapsuleCollider>();
-
-			if (tCapsuleCol != nullptr)
+			else if (tCapsuleCol != nullptr)
 			{
 				DrawCapsuleDebug(&(tCapsuleCol->_capsuleInfo));
 			}
-
-			Pg::Data::SphereCollider* tShpereCol = it->GetComponent<Pg::Data::SphereCollider>();
-
-			if (tCapsuleCol != nullptr)
+			else if (tShpereCol != nullptr)
 			{
 				DrawSphereDebug(&(tShpereCol->_sphereInfo));
 			}
@@ -83,13 +79,16 @@ namespace Pg::Engine
 		_sphereVec.push_back(sphereInfo);
 	}
 
-	void DebugSystem::DrawLineDebug(PGFLOAT3 beginPoint, PGFLOAT3 endPoint, PGFLOAT4 color)
+	void DebugSystem::DrawLineDebug(PGFLOAT3 begin, PGFLOAT3 end, PGFLOAT4 col)
 	{
 		//[TW] Line 한정, 포인터가 되면 안된다.
 		// 매번 변하는 위치 및 특성, 정해져 있으면 안된다! (특정 콜라이더에도 종속X이기에, 현 구조와 병행 불가)
 
 		//Line Vector
 		Pg::Data::LineInfo tLineInfo;
+		tLineInfo.beginPoint = begin;
+		tLineInfo.endPoint = end;
+		tLineInfo.color = col;
 		_lineVec.push_back(tLineInfo);
 	}
 
