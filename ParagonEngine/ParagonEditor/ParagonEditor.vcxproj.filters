@@ -40,6 +40,12 @@
     <ClCompile Include="WindowManager.cpp">
       <Filter>2_Windows\0_WindowManager</Filter>
     </ClCompile>
+    <ClCompile Include="EventSystem.cpp">
+      <Filter>4_Event\EventSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>4_Event</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor.h">
@@ -89,6 +95,18 @@
     </ClInclude>
     <ClInclude Include="WindowManager.h">
       <Filter>2_Windows\0_WindowManager</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSystem.h">
+      <Filter>4_Event\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EventType.h">
+      <Filter>4_Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>4_Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDefine.h">
+      <Filter>1_Define</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +166,9 @@
     </Filter>
     <Filter Include="3_File\Data\Serialize">
       <UniqueIdentifier>{da92b7b7-5fa9-4def-a94a-fde8bd8f150c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Event\EventSystem">
+      <UniqueIdentifier>{e3f1f26a-702e-4fe1-9a00-132ba6bc00ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
