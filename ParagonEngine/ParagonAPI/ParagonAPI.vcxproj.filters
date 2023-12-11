@@ -4,11 +4,11 @@
     <ClCompile Include="APIMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
-    <ClCompile Include="PgInput.cpp">
-      <Filter>1_PgInput</Filter>
-    </ClCompile>
     <ClCompile Include="PgTime.cpp">
       <Filter>2_PgTime</Filter>
+    </ClCompile>
+    <ClCompile Include="PgInput.cpp">
+      <Filter>1_PgInput</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -29,9 +29,6 @@
     </ClCompile>
     <ClCompile Include="PgInput.cpp">
       <Filter>2_Input</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysXTest.cpp">
-      <Filter>3_PhysX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
