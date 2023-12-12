@@ -31,7 +31,6 @@ namespace Pg::Graphics
 		LowDX11Storage* _DXStorage;
 
 	public:
-
 		// 쉐이더 바이트코드를 멤버에 저장
 		HRESULT LoadShader(const std::string& filePath);
 		ID3DBlob* _byteCode;

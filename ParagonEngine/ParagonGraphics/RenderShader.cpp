@@ -20,7 +20,7 @@ namespace Pg::Graphics
 
 	void RenderShader::InternalLoad()
 	{
-
+		
 	}
 
 	void RenderShader::InternalUnload()

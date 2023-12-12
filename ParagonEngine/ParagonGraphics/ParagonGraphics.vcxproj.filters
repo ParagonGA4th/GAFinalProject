@@ -174,6 +174,15 @@
     <ClInclude Include="AssetBasic3DLoader.h">
       <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
     </ClInclude>
+    <ClInclude Include="SystemShader.h">
+      <Filter>3_GraphicsResources\SystemShader</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemVertexShader.h">
+      <Filter>3_GraphicsResources\SystemShader\SystemVertexShader</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemPixelShader.h">
+      <Filter>3_GraphicsResources\SystemShader\SystemPixelShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -324,6 +333,15 @@
     </ClCompile>
     <ClCompile Include="AssetBasic3DLoader.cpp">
       <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemShader.cpp">
+      <Filter>3_GraphicsResources\SystemShader</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemVertexShader.cpp">
+      <Filter>3_GraphicsResources\SystemShader\SystemVertexShader</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemPixelShader.cpp">
+      <Filter>3_GraphicsResources\SystemShader\SystemPixelShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -485,6 +503,15 @@
     </Filter>
     <Filter Include="4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D">
       <UniqueIdentifier>{376e6232-d816-4923-85d1-1a601ecd9bca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\SystemShader">
+      <UniqueIdentifier>{aa2bdefd-95f0-4c27-ab56-c2d2153bfe8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\SystemShader\SystemVertexShader">
+      <UniqueIdentifier>{a6ac6a39-bc2f-4fcc-8981-526cdeda02e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\SystemShader\SystemPixelShader">
+      <UniqueIdentifier>{6f06b7ed-15bc-4a91-84f3-3fa70d757372}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

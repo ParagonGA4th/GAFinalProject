@@ -18,8 +18,8 @@ namespace Pg::Graphics
 	class RenderObjectLightList;
 	class LowDX11Storage;
 	class GBuffer;
-	class VertexShader;
-	class PixelShader;
+	class SystemVertexShader;
+	class SystemPixelShader;
 	class ConstantBufferBase;
 }
 
@@ -61,14 +61,23 @@ namespace Pg::Graphics
 		std::vector<ID3D11ShaderResourceView*> NullSRV;
 
 	private:
-		VertexShader* _firstVS;
-		PixelShader* _firstPS;
+		//VertexShader* _firstVS;
+		//PixelShader* _firstPS;
+		//
+		//VertexShader* _lightingVS;
+		//PixelShader* _lightingPS;
+		//
+		//VertexShader* _secondVS;
+		//PixelShader* _secondPS;
 
-		VertexShader* _lightingVS;
-		PixelShader* _lightingPS;
-		
-		VertexShader* _secondVS;
-		PixelShader* _secondPS;
+		SystemVertexShader* _firstVS;
+		SystemPixelShader* _firstPS;
+
+		SystemVertexShader* _lightingVS;
+		SystemPixelShader* _lightingPS;
+
+		SystemVertexShader* _secondVS;
+		SystemPixelShader* _secondPS;
 
 	private:
 		ID3D11Buffer* _VB;

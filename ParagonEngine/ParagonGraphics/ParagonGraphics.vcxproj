@@ -88,6 +88,9 @@
     <ClInclude Include="RenderUsageStruct3D.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="RenderPrepStructs.h" />
+    <ClInclude Include="SystemPixelShader.h" />
+    <ClInclude Include="SystemShader.h" />
+    <ClInclude Include="SystemVertexShader.h" />
     <ClInclude Include="TempCamera.h" />
     <ClInclude Include="MaterialCluster.h" />
     <ClInclude Include="VertexShader.h" />
@@ -156,6 +159,9 @@
     <ClCompile Include="RenderUsageStruct3D.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="RenderPrepStructs.cpp" />
+    <ClCompile Include="SystemPixelShader.cpp" />
+    <ClCompile Include="SystemShader.cpp" />
+    <ClCompile Include="SystemVertexShader.cpp" />
     <ClCompile Include="TempCamera.cpp" />
     <ClCompile Include="MaterialCluster.cpp" />
     <ClCompile Include="VertexShader.cpp" />

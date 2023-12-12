@@ -1,8 +1,8 @@
 #include "DeferredRenderer.h"
 
 #include "TestCube.h"
-#include "VertexShader.h"
-#include "PixelShader.h"
+#include "SystemVertexShader.h"
+#include "SystemPixelShader.h"
 
 #include "GBuffer.h"
 #include "LowDX11Storage.h"
@@ -64,18 +64,16 @@ void Pg::Graphics::DeferredRenderer::Initialize()
 	BuildFullscreenQuad();
 
 	// 1st Pass
-	_firstVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/FirstStatic_VS.cso");
-	_firstVS->_inputLayout = LayoutDefine::GetStatic1stLayout();
-	_firstPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/FirstStage_PS.cso");
+	_firstVS = new SystemVertexShader(L"../Builds/x64/debug/FirstStatic_VS.cso", LayoutDefine::GetStatic1stLayout());
+	_firstPS = new SystemPixelShader(L"../Builds/x64/debug/FirstStage_PS.cso");
 
-	_lightingVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/PhongVS.cso");
-	_lightingVS->_inputLayout = LayoutDefine::Get2ndLayout();
-	_lightingPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/PhongPS.cso");
+	//Lighting
+	_lightingVS = new SystemVertexShader(L"../Builds/x64/debug/PhongVS.cso", LayoutDefine::Get2ndLayout());
+	_lightingPS = new SystemPixelShader(L"../Builds/x64/debug/PhongPS.cso");
 
 	// 2nd Pass
-	_secondVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/SecondStage_VS.cso");
-	_secondVS->_inputLayout = LayoutDefine::Get2ndLayout();
-	_secondPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/SecondStage_PS.cso");
+	_secondVS = new SystemVertexShader(L"../Builds/x64/debug/SecondStage_VS.cso", LayoutDefine::Get2ndLayout());
+	_secondPS = new SystemPixelShader(L"../Builds/x64/debug/SecondStage_PS.cso");
 }
 
 void Pg::Graphics::DeferredRenderer::BeginRender()
@@ -121,8 +119,8 @@ void Pg::Graphics::DeferredRenderer::RenderFirstPass(RenderObject3DList* renderO
 void Pg::Graphics::DeferredRenderer::UnbindFirstPass()
 {
 	// Unbind Shaders
-	_firstVS->UnBind();
-	_firstPS->UnBind();
+	_firstVS->Unbind();
+	_firstPS->Unbind();
 
 	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), NullRTV.data(), _DXStorage->_depthStencilView);
 }
@@ -162,8 +160,8 @@ void Pg::Graphics::DeferredRenderer::RenderSecondPass()
 
 void Pg::Graphics::DeferredRenderer::UnbindSecondPass()
 {
-	_secondVS->UnBind();
-	_secondPS->UnBind();
+	_secondVS->Unbind();
+	_secondPS->Unbind();
 
 	UnbindConstantBuffers(_lightingCBs);
 
@@ -258,8 +256,8 @@ void Pg::Graphics::DeferredRenderer::UnbindLightingPass()
 {
 	//UnbindConstantBuffers(_lightingCBs);
 
-	_lightingVS->UnBind();
-	_lightingPS->UnBind();
+	_lightingVS->Unbind();
+	_lightingPS->Unbind();
 
 	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), NullRTV.data(), _DXStorage->_depthStencilView);
 }
