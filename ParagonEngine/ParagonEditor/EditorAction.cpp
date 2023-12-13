@@ -53,8 +53,7 @@ void Pg::Editor::Core::EditorAction::Loop()
 		{
 			_processManager->Update();
 			_editorManager->Update();
-			_editorManager->LastUpdate();
-			_processManager->LastUpdate();
+			_processManager->LateUpdate();
 		}
 	}
 }

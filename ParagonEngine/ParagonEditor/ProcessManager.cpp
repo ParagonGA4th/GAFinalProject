@@ -55,7 +55,7 @@ void Pg::Editor::Manager::ProcessManager::Update()
 	}
 }
 
-void Pg::Editor::Manager::ProcessManager::LastUpdate()
+void Pg::Editor::Manager::ProcessManager::LateUpdate()
 {
 	_coreMain->EndRender();
 }
