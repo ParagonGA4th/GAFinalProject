@@ -9,6 +9,7 @@
 
 namespace Pg::Data
 {
+	//힘을 가하는 방법
 	enum class ForceMode : int
 	{
 		FORCE,
@@ -40,6 +41,8 @@ namespace Pg::Data
 		bool SetIsCollided();
 		bool GetIsCollided();
 
+		void SetPxRigidDynamic(void* rigid);
+
 	public:
 		void AddForce(PGFLOAT3 dir, ForceMode mode);
 
@@ -51,7 +54,7 @@ namespace Pg::Data
 		virtual float GetDepth() const abstract;
 
 	private:
-		physx::PxRigidDynamic* _rigid;
+		void* _rigid;
 
 		bool _isCollided;
 	};

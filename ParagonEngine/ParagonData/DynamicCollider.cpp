@@ -23,4 +23,9 @@ namespace Pg::Data
 	{
 
 	}
+
+	void DynamicCollider::SetPxRigidDynamic(void* rigid)
+	{
+		_rigid = rigid;
+	}
 }
