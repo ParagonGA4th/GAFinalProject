@@ -9,6 +9,11 @@ namespace Pg::Editor::Manager
 	class FileManager;
 }
 
+namespace Pg::Editor
+{
+	class Event;
+}
+
 namespace Pg::Editor::Core
 {
 	class EditorAction
@@ -39,5 +44,7 @@ namespace Pg::Editor::Core
 		std::unique_ptr<Pg::Editor::Manager::EditorManager> _editorManager;
 		std::unique_ptr<Pg::Editor::Manager::ProcessManager> _processManager;
 		std::unique_ptr<Pg::Editor::Manager::FileManager> _fileManager;
+
+		std::unique_ptr < Pg::Editor::Event> _editorEvent;
 	};
 }

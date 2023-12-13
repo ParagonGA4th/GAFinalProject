@@ -3,6 +3,11 @@
 #include <string>
 #include <unordered_map>
 
+namespace Pg::Editor
+{
+	class Event;
+}
+
 namespace Pg::Editor::Manager
 {
 	using FilePath = std::string;
@@ -31,6 +36,9 @@ namespace Pg::Editor::Manager
 		FilePath _rootPath;
 		FilePath _assetsPath;
 		FilePath _scriptPath;
+
 		std::unique_ptr<Pg::Editor::Manager::DataManager> _dataManager;
+		std::unique_ptr<Pg::Editor::Event> _fileSaveEvent;
+		std::unique_ptr<Pg::Editor::Event> _fileOpenEvent;
 	};
 }

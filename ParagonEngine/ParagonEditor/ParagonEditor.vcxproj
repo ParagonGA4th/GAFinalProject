@@ -152,6 +152,8 @@
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="EditorAction.cpp" />
     <ClCompile Include="EditorManager.cpp" />
+    <ClCompile Include="EventSystem.cpp" />
+    <ClCompile Include="Event.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="Filter.cpp" />
     <ClCompile Include="Hierarchy.cpp" />
@@ -166,8 +168,12 @@
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="EditorAction.h" />
+    <ClInclude Include="EditorDefine.h" />
     <ClInclude Include="EditorDLLExporter.h" />
     <ClInclude Include="EditorManager.h" />
+    <ClInclude Include="EventSystem.h" />
+    <ClInclude Include="EventType.h" />
+    <ClInclude Include="Event.h" />
     <ClInclude Include="Filter.h" />
     <ClInclude Include="Hierarchy.h" />
     <ClInclude Include="IEditorWindow.h" />
