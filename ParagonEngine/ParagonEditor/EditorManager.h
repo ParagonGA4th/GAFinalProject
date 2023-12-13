@@ -14,7 +14,6 @@ namespace Pg::Editor::Manager
 		
 		void Initialize(HWND hWnd);
 		void Update();
-		void LastUpdate();		
 		void Finalize();
 
 		void WindowHandler(MSG message);
