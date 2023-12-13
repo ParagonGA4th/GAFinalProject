@@ -1,6 +1,7 @@
 #pragma once
 #include "IEditorWindow.h"
 #include <string>
+#include <vector>
 
 namespace Pg::Editor::Data { class DataContainer; }
 namespace Pg::UI { class WidgetContainer; }
@@ -22,6 +23,7 @@ namespace Pg::Editor::Window
 		virtual bool GetShow() override;
 
 	private:
+		void DataSet();
 
 	private:
 		/// hierarchy value
@@ -34,6 +36,7 @@ namespace Pg::Editor::Window
 		Pg::UI::WidgetContainer* cons;
 
 		/// Data value
+		std::vector<std::string> _objNames;
 	};
 }
 
