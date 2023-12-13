@@ -54,9 +54,6 @@ namespace Pg::Engine::Physic
 		void MakeDynamicSphereCollider(Pg::Data::GameObject* obj);
 		void MakeDynamicCapsuleCollider(Pg::Data::GameObject* obj);
 
-		//RigidBody 생성
-		void CreateDynamicRigid(physx::PxShape* shape);
-
 	private:
 		//Rigid 정보를 담아놓는 벡터
 		std::vector<physx::PxRigidDynamic*> _rigidDynamicVec;
