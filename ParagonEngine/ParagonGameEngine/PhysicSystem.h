@@ -47,6 +47,8 @@ namespace Pg::Engine::Physic
 		void MakeDynamicBoxCollider(Pg::Data::GameObject* obj);
 		void MakeDynamicSphereCollider(Pg::Data::GameObject* obj);
 		void MakeDynamicCapsuleCollider(Pg::Data::GameObject* obj);
+		void MakeStaticBoxCollider(Pg::Data::GameObject* obj);
+		void MakePlaneCollider(Pg::Data::GameObject* obj);
 
 		//RigidBody »ý¼º
 		void CreateDynamicRigid(physx::PxShape* shape);
