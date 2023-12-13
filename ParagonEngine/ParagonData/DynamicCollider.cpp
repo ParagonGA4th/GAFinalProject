@@ -1,11 +1,14 @@
 #include "DynamicCollider.h"
 
+#include <PxPhysics.h>
+#include <PxPhysicsAPI.h>
+
 namespace Pg::Data
 {
 	DynamicCollider::DynamicCollider(GameObject* owner) :
 		Collider(owner)
 	{
-
+		physx::PxTransform pxTransform;
 	}
 
 	bool DynamicCollider::SetIsCollided()
