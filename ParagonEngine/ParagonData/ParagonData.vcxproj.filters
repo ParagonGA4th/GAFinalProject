@@ -20,7 +20,7 @@
       <Filter>2_Component\Renderer\BaseClass</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
-      <Filter>2_Component\Button</Filter>
+      <Filter>2_Component\UI\Button</Filter>
     </ClCompile>
     <ClCompile Include="EngineResource.cpp">
       <Filter>3_Resource</Filter>
@@ -120,7 +120,7 @@
       <Filter>7_ParagonDefines</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>2_Component\Button</Filter>
+      <Filter>2_Component\UI\Button</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>2_Component\Camera</Filter>
@@ -286,9 +286,6 @@
     <Filter Include="2_Component\Renderer\BaseClass">
       <UniqueIdentifier>{f92600e3-e432-4614-b52a-b07386de60d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Component\Button">
-      <UniqueIdentifier>{b3e53bb0-eb90-4646-b909-89afba4cc3ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3_Resource\BaseClass">
       <UniqueIdentifier>{45458850-900a-49f8-912b-b811cde34b25}</UniqueIdentifier>
     </Filter>
@@ -363,6 +360,15 @@
     </Filter>
     <Filter Include="2_Component\Renderer\3D\SkinnedMeshRenderer">
       <UniqueIdentifier>{765ff04f-c71d-4daf-931c-cfa249af2d59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\UI">
+      <UniqueIdentifier>{924185cf-efa7-42c4-8eda-8fbfc742443c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\UI\Button">
+      <UniqueIdentifier>{b3e53bb0-eb90-4646-b909-89afba4cc3ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\UI\Slider">
+      <UniqueIdentifier>{070588a3-5e11-41b7-8963-d3fbd2a43f2e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

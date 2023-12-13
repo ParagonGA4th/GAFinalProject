@@ -7,6 +7,7 @@
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/SphereCollider.h"
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonUtil/Log.h"
 
@@ -69,6 +70,11 @@ namespace Pg::Engine::Physic
 		_pxScene->simulate(1.0f / 60.0f);
 
 		_pxScene->fetchResults(true);
+
+		for (auto& rigid : _rigidDynamicVec)
+		{
+
+		}
 
 		_pxScene->lockWrite();
 		
@@ -147,11 +153,18 @@ namespace Pg::Engine::Physic
 		for (auto& obj : _sceneSystem->GetCurrentScene()->GetObjectList())
 		{
 			Pg::Data::BoxCollider* tBoxCol = obj->GetComponent<Pg::Data::BoxCollider>();
+			Pg::Data::SphereCollider* tSphCol = obj->GetComponent<Pg::Data::SphereCollider>();
 
 			if (tBoxCol != nullptr)
 			{
 				MakeDynamicBoxCollider(obj);
 			}
+			else if (tSphCol != nullptr)
+			{
+				MakeDynamicSphereCollider(obj);
+			}
+
+			MakeDynamicCapsuleCollider(obj);
 		}
 	}
 
@@ -160,7 +173,27 @@ namespace Pg::Engine::Physic
 	{
 		Pg::Data::Collider* col = obj->GetComponent<Pg::Data::StaticBoxCollider>();
 
-		auto colliderVec = obj->GetComponents<Pg::Data::StaticBoxCollider>();
+		if (col)
+		{
+			auto colliderVec = obj->GetComponents<Pg::Data::StaticBoxCollider>();
+
+			for (auto& collider : colliderVec)
+			{
+				Pg::Data::BoxCollider* staticBoxcol = dynamic_cast<Pg::Data::BoxCollider*>(collider);
+
+				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(staticBoxcol->GetWidth() / 2,
+					staticBoxcol->GetHeight() / 2, staticBoxcol->GetDepth() / 2), *_material);
+
+				Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
+
+				physx::PxTransform local(physx::PxVec3(position.x, position.y, position.z));
+
+				boxShape->release();
+
+			}
+
+		}
+
 	}
 
 	void PhysicSystem::MakeDynamicBoxCollider(Pg::Data::GameObject* obj)
@@ -191,6 +224,11 @@ namespace Pg::Engine::Physic
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
 
 				rigid->attachShape(*boxShape);
+
+				//Rigid의 중력 조정
+				rigid->setAngularDamping(0.5f);
+				rigid->setLinearDamping(0.5f);
+				
 				_pxScene->addActor(*rigid);
 
 				boxcol->SetPxRigidDynamic(rigid);
@@ -209,25 +247,64 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::MakeDynamicSphereCollider(Pg::Data::GameObject* obj)
 	{
+		Pg::Data::Collider* col = obj->GetComponent<Pg::Data::SphereCollider>();
 
+		if (col)
+		{
+			auto colliderVec = obj->GetComponents<Pg::Data::SphereCollider>();
+
+			for (auto& collider : colliderVec)
+			{
+				Pg::Data::SphereCollider* sphCol = dynamic_cast<Pg::Data::SphereCollider*>(collider);
+
+				physx::PxShape* shape = _physics->createShape(physx::PxSphereGeometry(sphCol->GetRadius()), *_material);
+
+				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
+				physx::PxTransform localTm(physx::PxVec3(pos.x, pos.y, pos.z));
+				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
+
+				rigid->attachShape(*shape);
+				_pxScene->addActor(*rigid);
+
+				sphCol->SetPxRigidDynamic(rigid);
+				rigid->userData = sphCol;
+				shape->release();
+
+			}
+		}
 	}
 
 	void PhysicSystem::MakeDynamicCapsuleCollider(Pg::Data::GameObject* obj)
 	{
-		//Pg::Data::Collider* tmp = obj->GetComponent<Pg::Data::CapsuleCollider*>()
-	}
+		Pg::Data::Collider* col = obj->GetComponent<Pg::Data::CapsuleCollider>();
 
+		if (col)
+		{
+			auto colliderVec = obj->GetComponents<Pg::Data::CapsuleCollider>();
+
+			for (auto& collider : colliderVec)
+			{
+				Pg::Data::CapsuleCollider* capCol = dynamic_cast<Pg::Data::CapsuleCollider*>(collider);
+
+				physx::PxShape* shape = _physics->createShape(physx::PxCapsuleGeometry(capCol->GetRadius(), capCol->GetHalfHeight()), *_material);
+
+				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
+				physx::PxTransform localTm(physx::PxIdentity);
+				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
+
+				rigid->attachShape(*shape);
+				_pxScene->addActor(*rigid);
+
+				capCol->SetPxRigidDynamic(rigid);
+				rigid->userData = capCol;
+				shape->release();
+
+			}
+		}
+	}
 
 	void PhysicSystem::MakePlaneCollider(Pg::Data::GameObject* obj)
 	{
-
-	}
-
-
-	void PhysicSystem::CreateDynamicRigid(physx::PxShape* shape)
-	{
-		//RigidBody 생성(적용은 시키지 않음)
-		//physx::PxRigidDynamic* rigid = _physics->createRigidDynamic();
 
 	}
 
