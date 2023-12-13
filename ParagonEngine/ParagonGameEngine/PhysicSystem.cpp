@@ -5,6 +5,7 @@
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/Collider.h"
 #include "../ParagonData/BoxCollider.h"
+#include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonUtil/Log.h"
@@ -113,9 +114,12 @@ namespace Pg::Engine::Physic
 		}
 	}
 
+	///Pvd에 Stack을 띄우는 예시.
 	void PhysicSystem::CreateStack(const physx::PxTransform& t, physx::PxU32 size, physx::PxReal halfExtent)
 	{
+		//PxShape 생성
 		physx::PxShape* shape = _physics->createShape(physx::PxBoxGeometry(halfExtent, halfExtent, halfExtent), *_material);
+
 		for (physx::PxU32 i = 0; i < size; i++)
 		{
 			for (physx::PxU32 j = 0; j < size - i; j++)
@@ -152,35 +156,55 @@ namespace Pg::Engine::Physic
 	}
 
 
+	void PhysicSystem::MakeStaticBoxCollider(Pg::Data::GameObject* obj)
+	{
+		Pg::Data::Collider* col = obj->GetComponent<Pg::Data::StaticBoxCollider>();
+
+		auto colliderVec = obj->GetComponents<Pg::Data::StaticBoxCollider>();
+	}
+
 	void PhysicSystem::MakeDynamicBoxCollider(Pg::Data::GameObject* obj)
 	{
 		//Collider를 Box로 설정 
 		Pg::Data::Collider* col = obj->GetComponent<Pg::Data::BoxCollider>();
 
-		auto colliderVec = obj->GetComponents<Pg::Data::BoxCollider>();
 
-		for (auto& collider : colliderVec)
+		if (col)
 		{
-			Pg::Data::BoxCollider* boxcol = dynamic_cast<Pg::Data::BoxCollider*>(collider);
-
-			physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(boxcol->GetWidth() / 2 ,
-				boxcol->GetHeight() / 2, boxcol->GetDepth() / 2), *_material);
-
-			Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
-
-			physx::PxTransform local(physx::PxVec3(position.x, position.y, position.z));
-
+			auto colliderVec = obj->GetComponents<Pg::Data::BoxCollider>();
 			
-			////테스트를 위해 임시로 Rigid 넣어봄.
-			physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
+			for (auto& collider : colliderVec)
+			{
+				Pg::Data::BoxCollider* boxcol = dynamic_cast<Pg::Data::BoxCollider*>(collider);
 
-			rigid->attachShape(*boxShape);
-			_pxScene->addActor(*rigid);
+				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(boxcol->GetWidth() / 2,
+					boxcol->GetHeight() / 2, boxcol->GetDepth() / 2), *_material);
 
-			boxShape->release();
+				Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
+
+				physx::PxTransform local(physx::PxVec3(position.x, position.y, position.z));
+
+
+				//테스트를 위해 임시로 Rigid 넣어봄.
+				//임시 아닌 이렇게 합쳐서 갈 예정.
+				//2023.12.11
+				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
+
+				rigid->attachShape(*boxShape);
+				_pxScene->addActor(*rigid);
+
+				boxcol->SetPxRigidDynamic(rigid);
+				rigid->userData = boxcol;
+				boxShape->release();
+
+				///나중에 physicsSystem 사용 시
+				//void* tRigid = rigid;
+				//physx::PxRigidDynamic* tNewRigid = reinterpret_cast<physx::PxRigidDynamic*>(tRigid);
+
+			}
 
 		}
-
+		
 	}
 
 	void PhysicSystem::MakeDynamicSphereCollider(Pg::Data::GameObject* obj)
@@ -192,6 +216,13 @@ namespace Pg::Engine::Physic
 	{
 		//Pg::Data::Collider* tmp = obj->GetComponent<Pg::Data::CapsuleCollider*>()
 	}
+
+
+	void PhysicSystem::MakePlaneCollider(Pg::Data::GameObject* obj)
+	{
+
+	}
+
 
 	void PhysicSystem::CreateDynamicRigid(physx::PxShape* shape)
 	{
