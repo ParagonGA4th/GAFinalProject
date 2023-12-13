@@ -1,5 +1,6 @@
 #include "FileManager.h"
 #include "DataManager.h"
+#include "Event.h"
 
 #include <shobjidl.h>
 #include <fstream>
@@ -11,6 +12,8 @@ namespace fs = std::filesystem;
 Pg::Editor::Manager::FileManager::FileManager()
 {
 	_dataManager = std::make_unique<Pg::Editor::Manager::DataManager>();
+	_fileSaveEvent = std::make_unique<Pg::Editor::Event>();
+	_fileOpenEvent = std::make_unique<Pg::Editor::Event>();
 }
 
 Pg::Editor::Manager::FileManager::~FileManager()
@@ -20,6 +23,12 @@ Pg::Editor::Manager::FileManager::~FileManager()
 void Pg::Editor::Manager::FileManager::Initialize()
 {
 	// project가 처음 open 될 때는 기존 폴더(Builds//x64//Relase//)에 있는 sample load.
+
+	std::function<void()> fileOpen = [&](){ FileOpen(); };
+	std::function<void()> fileSave = [&](){ FileSave(); };
+
+	_fileSaveEvent->AddEvent(Pg::Editor::eEventType::FileSave, fileSave);
+	_fileOpenEvent->AddEvent(Pg::Editor::eEventType::FileOpen, fileOpen);
 }
 
 void Pg::Editor::Manager::FileManager::FileOpen()
@@ -56,7 +65,7 @@ void Pg::Editor::Manager::FileManager::ShowDialog(bool isOpen)
 	// 파일 필터 설정: .ppt 확장자 필터
 	COMDLG_FILTERSPEC fileTypes[1];
 
-	if(isOpen) fileTypes[0] = { L"Pragon Scene", L"*.pgscene" };
+	if (isOpen) fileTypes[0] = { L"Pragon Scene", L"*.pgscene" };
 	else fileTypes[0] = { L"Pragon Project", L"*.pgproject" };
 
 	itemDialog->SetFileTypes(ARRAYSIZE(fileTypes), fileTypes);
@@ -100,19 +109,19 @@ void Pg::Editor::Manager::FileManager::CreateFolder()
 
 	_scriptPath = rootPath.string() + "\\Scripts";
 	fs::path subFolder_2 = _scriptPath;
-	
-	fs::create_directory(rootPath);	
+
+	fs::create_directory(rootPath);
 	fs::create_directory(subFolder_1);
 	fs::create_directory(subFolder_2);
 }
 
 void Pg::Editor::Manager::FileManager::CreateParagonFile(std::unordered_map<std::string, std::string> fileData)
 {
-	try 
+	try
 	{
 		for (auto& data : fileData)
 		{
-			fs::path filePath = _assetsPath + "\\" + data.first +  ".pgscene";
+			fs::path filePath = _assetsPath + "\\" + data.first + ".pgscene";
 			// 파일 생성
 			std::ofstream file(filePath, std::ios::out | std::ios::trunc);
 

@@ -2,14 +2,8 @@
 #include "EditorManager.h"
 #include "ProcessManager.h"
 #include "FileManager.h"
-
-// Message 처리를 위해 필요한 define
-#define ID_OPEN_PROJECT 1000
-#define ID_NEW_PROJECT 1001
-#define ID_OPEN_SCENE 1002
-#define ID_NEW_SCENE 1003
-#define ID_SAVE 1004
-#define ID_EXIT 1005
+#include "Event.h"
+#include "EditorDefine.h"
 
 Pg::Editor::Core::EditorAction::EditorAction()
 	:_hWnd(),
@@ -19,6 +13,8 @@ Pg::Editor::Core::EditorAction::EditorAction()
 	_fileManager = std::make_unique<Pg::Editor::Manager::FileManager>();
 	_processManager = std::make_unique<Pg::Editor::Manager::ProcessManager>();
 	_editorManager = std::make_unique<Pg::Editor::Manager::EditorManager>();
+
+	_editorEvent = std::make_unique<Pg::Editor::Event>();
 }
 
 Pg::Editor::Core::EditorAction::~EditorAction()
@@ -51,6 +47,7 @@ void Pg::Editor::Core::EditorAction::Loop()
 			TranslateMessage(&_msg);
 			_processManager->ProcessHandler(_msg);
 			_editorManager->WindowHandler(_msg);
+			_editorEvent->EventHandler(_msg);
 		}
 		else
 		{
@@ -138,27 +135,7 @@ LRESULT CALLBACK Pg::Editor::Core::EditorAction::WndProc(HWND hWnd, UINT message
 	
 		case WM_COMMAND:
 			// 메뉴 항목 선택 이벤트 처리
-			switch (LOWORD(wParam)) 
-			{
-				case ID_OPEN_PROJECT:
-					break;
-				
-				case ID_NEW_PROJECT:
-					break;
-				
-				case ID_OPEN_SCENE:
-					break;
-				
-				case ID_NEW_SCENE:
-					break;
-	
-				case ID_SAVE:	
-					break;		
-				
-				case ID_EXIT:
-					PostMessage(hWnd, WM_CLOSE, 0, 0);
-					break;
-			}
+			if (LOWORD(wParam) == ID_EXIT) PostMessage(hWnd, WM_CLOSE, 0, 0);
 			break;
 
 		default:
