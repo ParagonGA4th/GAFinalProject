@@ -16,7 +16,7 @@ namespace Pg::Editor::Manager
 
 		void Initialize(void* hWnd, float screenWidth, float screenHeight);
 		void Update();
-		void LastUpdate();
+		void LateUpdate();
 		void Finalize();
 
 		void ProcessHandler(MSG message);

@@ -29,13 +29,6 @@ void Pg::Editor::Manager::EditorManager::Update()
 	_windowManager->Update();
 }
 
-void Pg::Editor::Manager::EditorManager::LastUpdate()
-{
-	if (!_dataContainer->GetEditorOnOff()) return;
-
-	_windowManager->LastUpdate();
-}
-
 void Pg::Editor::Manager::EditorManager::Finalize()
 {
 	_windowManager->Finalize();
