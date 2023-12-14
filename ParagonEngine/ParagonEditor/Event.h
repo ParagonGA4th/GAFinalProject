@@ -1,7 +1,8 @@
 #pragma once
 #include "EventType.h"
-#include <windows.h>
+
 #include <functional>
+#include <windows.h>
 
 namespace Pg::Editor
 {
@@ -13,8 +14,10 @@ namespace Pg::Editor
 		~Event();
 
 		void AddEvent(eEventType eventType, std::function<void()> callback);
+		void AddEvent(eEventType eventType, std::function<void(void*)> callback);
 		void RemoveEvent(eEventType eventType);
-		void Invoke(eEventType eventType = eEventType::NONE);
+		void Invoke(eEventType eventType);
+		void Invoke(eEventType eventType, void* value);
 
 		void EventHandler(MSG message);
 
@@ -23,5 +26,3 @@ namespace Pg::Editor
 		EventSystem* _eventSystem;
 	};
 }
-
-

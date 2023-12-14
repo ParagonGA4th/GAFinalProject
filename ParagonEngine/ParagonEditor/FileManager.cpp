@@ -24,11 +24,8 @@ void Pg::Editor::Manager::FileManager::Initialize()
 {
 	// project가 처음 open 될 때는 기존 폴더(Builds//x64//Relase//)에 있는 sample load.
 
-	std::function<void()> fileOpen = [&](){ FileOpen(); };
-	std::function<void()> fileSave = [&](){ FileSave(); };
-
-	_fileSaveEvent->AddEvent(Pg::Editor::eEventType::FileSave, fileSave);
-	_fileOpenEvent->AddEvent(Pg::Editor::eEventType::FileOpen, fileOpen);
+	_fileSaveEvent->AddEvent(Pg::Editor::eEventType::FileSave, [&]() { FileSave(); });
+	_fileOpenEvent->AddEvent(Pg::Editor::eEventType::FileOpen, [&]() { FileOpen(); });
 }
 
 void Pg::Editor::Manager::FileManager::FileOpen()
@@ -37,13 +34,11 @@ void Pg::Editor::Manager::FileManager::FileOpen()
 	_dataManager->DataLoad(_rootPath, SeparatingFileName());
 }
 
-bool Pg::Editor::Manager::FileManager::FileSave()
+void Pg::Editor::Manager::FileManager::FileSave()
 {
 	ShowDialog(false);
 	CreateFolder();
 	CreateParagonFile(_dataManager->DataSave());
-
-	return true;
 }
 
 void Pg::Editor::Manager::FileManager::ShowDialog(bool isOpen)

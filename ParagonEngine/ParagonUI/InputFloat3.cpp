@@ -11,6 +11,8 @@ Pg::UI::Widget::InputFloat3::InputFloat3(std::string label, float input[3])
 
 void Pg::UI::Widget::InputFloat3::Update()
 {
+	memcpy(_inputfloat, _inputPtr, sizeof(float) * 3);
+
 	if (ImGui::InputFloat3(_label.c_str(), _inputfloat))
 	{
 		*_inputPtr = _inputfloat[0];

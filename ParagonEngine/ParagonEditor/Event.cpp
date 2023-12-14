@@ -20,6 +20,12 @@ void Pg::Editor::Event::AddEvent(eEventType eventType, std::function<void()> cal
 	_eventSystem->AddEventHandler(eventType, callback);
 }
 
+void Pg::Editor::Event::AddEvent(eEventType eventType, std::function<void(void*)> callback)
+{
+	_eventType = eventType;
+	_eventSystem->AddEventHandler(eventType, callback);
+}
+
 void Pg::Editor::Event::RemoveEvent(eEventType eventType)
 {
 	_eventSystem->RemoveEventHandler(eventType);
@@ -27,7 +33,12 @@ void Pg::Editor::Event::RemoveEvent(eEventType eventType)
 
 void Pg::Editor::Event::Invoke(eEventType eventType)
 {
-	_eventSystem->TriggerEvent(eventType == eEventType::NONE ? _eventType : eventType);
+	_eventSystem->TriggerEvent(eventType);
+}
+
+void Pg::Editor::Event::Invoke(eEventType eventType, void* value)
+{
+	_eventSystem->TriggerEvent(eventType, value);
 }
 
 void Pg::Editor::Event::EventHandler(MSG message)
@@ -36,17 +47,8 @@ void Pg::Editor::Event::EventHandler(MSG message)
 	{
 		switch (LOWORD(message.wParam))
 		{
-		case ID_OPEN_PROJECT:
-			break;
-
-		case ID_NEW_PROJECT:
-			break;
-
 		case ID_OPEN_SCENE:
 			Invoke(eEventType::FileOpen);
-			break;
-
-		case ID_NEW_SCENE:
 			break;
 
 		case ID_SAVE:

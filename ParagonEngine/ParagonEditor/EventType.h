@@ -7,5 +7,6 @@ namespace Pg::Editor
 		NONE,
 		FileSave,
 		FileOpen,
+		ChangeObjectData,
 	};
 }
