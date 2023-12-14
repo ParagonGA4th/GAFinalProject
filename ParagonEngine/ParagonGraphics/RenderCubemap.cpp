@@ -66,23 +66,28 @@ namespace Pg::Graphics
 
 	void RenderCubemap::BindConstantBuffers()
 	{
-		_DXStorage->_deviceContext->UpdateSubresource(_cBuffer, 0, NULL, &_cbData, 0, 0);
+		//_DXStorage->_deviceContext->UpdateSubresource(_cBuffer, 0, NULL, &_cbData, 0, 0);
 		_DXStorage->_deviceContext->VSSetConstantBuffers(0, 1, &_cBuffer);
 	}
 
 	void RenderCubemap::BindAdditionalResources()
 	{
-		_DXStorage->_deviceContext->PSSetShaderResources(0, 1, &_srv);
 		_DXStorage->_deviceContext->PSSetSamplers(0, 1, &(_DXStorage->_defaultSamplerState));
-	}
+		_DXStorage->_deviceContext->PSSetShaderResources(0, 1, &_srv);
+	} 
 
-	void RenderCubemap::Render()
+	void RenderCubemap::BindVertexIndexBuffers()
 	{
 		UINT stride = sizeof(LayoutDefine::VinCubemap);
 		UINT offset = 0;
 
 		LowDX11Storage::GetInstance()->_deviceContext->IASetVertexBuffers(0, 1, &_VB, &stride, &offset);
 		LowDX11Storage::GetInstance()->_deviceContext->IASetIndexBuffer(_IB, DXGI_FORMAT_R32_UINT, 0);
+	}
+
+	void RenderCubemap::Render()
+	{
+		
 
 		_DXStorage->_deviceContext->DrawIndexed(_indexCount, 0, 0);
 	}
@@ -112,6 +117,9 @@ namespace Pg::Graphics
 
 		HR(_DXStorage->_device->CreateBuffer(&tCBufferDesc, &_cbSubresData, &_cBuffer));
 	}
+
+	
+
 }
 
 
