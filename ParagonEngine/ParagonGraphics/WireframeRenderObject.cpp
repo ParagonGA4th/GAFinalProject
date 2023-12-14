@@ -35,6 +35,8 @@ namespace Pg::Graphics
 
 		DirectX::XMStoreFloat4x4(&(_cbData.worldMatrix), tWorldTMMat);
 		DirectX::XMStoreFloat4x4(&(_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
+
+		_DXStorage->_deviceContext->UpdateSubresource(_cBuffer, 0, NULL, &_cbData, 0, 0);
 	}
 
 	void WireframeRenderObject::BindConstantBuffers()
@@ -69,7 +71,7 @@ namespace Pg::Graphics
 		tCBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		tCBufferDesc.MiscFlags = 0;
 
-		_cbSubresData.pSysMem = reinterpret_cast<const void*>(&_cbData);
+		_cbSubresData.pSysMem = &_cbData;
 
 		HR(_DXStorage->_device->CreateBuffer(&tCBufferDesc, &_cbSubresData, &_cBuffer));
 	}

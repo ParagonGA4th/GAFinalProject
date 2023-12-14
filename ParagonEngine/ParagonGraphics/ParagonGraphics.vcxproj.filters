@@ -31,9 +31,6 @@
     <ClInclude Include="RenderMaterial.h">
       <Filter>3_GraphicsResources\RenderMaterial</Filter>
     </ClInclude>
-    <ClInclude Include="RenderVertexShader.h">
-      <Filter>3_GraphicsResources\RenderShader\RenderVertexShader</Filter>
-    </ClInclude>
     <ClInclude Include="ParagonRenderer.h">
       <Filter>0_Main</Filter>
     </ClInclude>
@@ -168,9 +165,6 @@
     <ClInclude Include="SystemVertexShader.h">
       <Filter>3_GraphicsResources\SystemShader\SystemVertexShader</Filter>
     </ClInclude>
-    <ClInclude Include="RenderPixelShader.h">
-      <Filter>3_GraphicsResources\RenderShader\RenderPixelShader</Filter>
-    </ClInclude>
     <ClInclude Include="RenderCubemap.h">
       <Filter>3_GraphicsResources\RenderCubemap</Filter>
     </ClInclude>
@@ -185,6 +179,15 @@
     </ClInclude>
     <ClInclude Include="SystemPixelShader.h">
       <Filter>3_GraphicsResources\SystemShader\SystemPixelShader</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectCubemapList.h">
+      <Filter>10_Structs\RenderObjectList\RenderObjectCubemapList</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPixelShader.h">
+      <Filter>3_GraphicsResources\RenderShader\RenderPixelShader</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderVertexShader.h">
+      <Filter>3_GraphicsResources\RenderShader\RenderVertexShader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -211,9 +214,6 @@
     </ClCompile>
     <ClCompile Include="RenderMaterial.cpp">
       <Filter>3_GraphicsResources\RenderMaterial</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderVertexShader.cpp">
-      <Filter>3_GraphicsResources\RenderShader\RenderVertexShader</Filter>
     </ClCompile>
     <ClCompile Include="ParagonRenderer.cpp">
       <Filter>0_Main</Filter>
@@ -259,9 +259,6 @@
     </ClCompile>
     <ClCompile Include="RenderObject2D.cpp">
       <Filter>4_RenderObject\RenderObject2D</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderObject3D.cpp">
-      <Filter>4_RenderObject\RenderObject3D</Filter>
     </ClCompile>
     <ClCompile Include="RenderObjectBase.cpp">
       <Filter>4_RenderObject</Filter>
@@ -328,9 +325,6 @@
     <ClCompile Include="SystemVertexShader.cpp">
       <Filter>3_GraphicsResources\SystemShader\SystemVertexShader</Filter>
     </ClCompile>
-    <ClCompile Include="RenderPixelShader.cpp">
-      <Filter>3_GraphicsResources\RenderShader\RenderPixelShader</Filter>
-    </ClCompile>
     <ClCompile Include="RenderCubemap.cpp">
       <Filter>3_GraphicsResources\RenderCubemap</Filter>
     </ClCompile>
@@ -348,6 +342,15 @@
     </ClCompile>
     <ClCompile Include="Forward3DRenderer.cpp">
       <Filter>0_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObject3D.cpp">
+      <Filter>4_RenderObject\RenderObject3D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPixelShader.cpp">
+      <Filter>3_GraphicsResources\RenderShader\RenderPixelShader</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderVertexShader.cpp">
+      <Filter>3_GraphicsResources\RenderShader\RenderVertexShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -536,6 +539,9 @@
     </Filter>
     <Filter Include="4_RenderObject\WireframeRenderObject\Grid">
       <UniqueIdentifier>{bd7c2f99-626c-4bab-a759-96bff9d2861f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\RenderObjectList\RenderObjectCubemapList">
+      <UniqueIdentifier>{9c9d30fe-4eeb-43a3-9ed4-6a4b2e608068}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

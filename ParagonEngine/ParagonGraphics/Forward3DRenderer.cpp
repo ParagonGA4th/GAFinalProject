@@ -3,8 +3,7 @@
 #include "DX11Headers.h"
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
-#include "SystemVertexShader.h"
-#include "SystemPixelShader.h"
+
 #include "MathHelper.h"
 #include "LayoutDefine.h"
 #include "GraphicsResourceManager.h"
@@ -14,8 +13,8 @@
 
 #include "Grid.h"
 #include "Axis.h"
-#include "WireframeRenderObject.h"
 #include "RenderCubemap.h"
+#include "RenderObjectCubemapList.h"
 
 #include <algorithm>
 #include <cassert>
@@ -35,32 +34,29 @@ namespace Pg::Graphics
 	{
 		CreateSystemVertexShaders();
 		InitializePrimitiveWireframeObjects();
-		InitializeCubemaps();
-
-
 	}
 
-	void Pg::Graphics::Forward3DRenderer::Render(Pg::Data::CameraData* camData)
+	void Pg::Graphics::Forward3DRenderer::Render(RenderObjectCubemapList* cubeMapList, unsigned int cubeMapIndex, Pg::Data::CameraData* camData)
 	{
 		//일단은 Render Target을 Main으로 설정.
 		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
 
 		RenderWireframePrimitives(camData);
-		RenderCubemapWithIndex(camData, 0);
+		RenderCubemapWithIndex(camData, cubeMapList, cubeMapIndex);
 	}
 
-	void Forward3DRenderer::RenderCubemapWithIndex(Pg::Data::CameraData* camData, unsigned int cubemapIndex)
+	void Forward3DRenderer::RenderCubemapWithIndex(Pg::Data::CameraData* camData, RenderObjectCubemapList* cubeMapList, unsigned int cubemapIndex)
 	{
 		//Layout, Topology, Shader, RS
 		_cubemapVS->Bind();
 		_cubemapPS->Bind();
 
 		//실제 Cubemap 렌더.
-		_cubeMapList.at(cubemapIndex)->UpdateConstantBuffers(camData);
-		_cubeMapList.at(cubemapIndex)->BindConstantBuffers();
-		_cubeMapList.at(cubemapIndex)->BindAdditionalResources();
-		_cubeMapList.at(cubemapIndex)->Render();
-		_cubeMapList.at(cubemapIndex)->UnbindConstantBuffers();
+		cubeMapList->_list.at(cubemapIndex)->UpdateConstantBuffers(camData);
+		cubeMapList->_list.at(cubemapIndex)->BindConstantBuffers();
+		cubeMapList->_list.at(cubemapIndex)->BindAdditionalResources();
+		cubeMapList->_list.at(cubemapIndex)->Render();
+		cubeMapList->_list.at(cubemapIndex)->UnbindConstantBuffers();
 
 		//Shaders Unbind.
 		_cubemapVS->Unbind();
@@ -107,18 +103,6 @@ namespace Pg::Graphics
 		{
 			it->BuildBuffers();
 		}
-	}
-
-	void Forward3DRenderer::InitializeCubemaps()
-	{
-		//Index : 1 추가.
-		{
-			//Cubemap 데이터를 받기.
-			auto tCubemapData = GraphicsResourceManager::Instance()->GetResource("../Resources/Textures/room.dds", eAssetDefine::_CUBEMAP);
-			_cubeMapList.push_back(static_cast<RenderCubemap*>(tCubemapData.get()));
-		}
-
-
 	}
 }
 

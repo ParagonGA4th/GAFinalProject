@@ -26,10 +26,5 @@ namespace Pg::Graphics
 		{
 			DirectX::XMMATRIX gCBuf_Bones[PG_MAX_BONECOUNT];
 		};
-
-		struct cbCubemap
-		{
-			DirectX::XMMATRIX gCBuf_Bones[PG_MAX_BONECOUNT];
-		};
 	};
 }

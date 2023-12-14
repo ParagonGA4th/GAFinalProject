@@ -3,6 +3,7 @@
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
 #include "GraphicsResourceHelper.h"
+#include "GraphicsResourceManager.h"
 #include "MathHelper.h"
 
 #include "DeferredRenderer.h"
@@ -51,7 +52,7 @@ namespace Pg::Graphics
 
 		_renderObject2DList = std::make_unique<RenderObject2DList>();
 		_renderObject3DList = std::make_unique<RenderObject3DList>();
-		
+		_cubeMapList = std::make_unique<RenderObjectCubemapList>();
 	}
 
 	ParagonRenderer::~ParagonRenderer()
@@ -103,7 +104,7 @@ namespace Pg::Graphics
 		_deferredRenderer->UnbindSecondPass();
 
 		// Forward
-		_forward3dRenderer->Render(camData);
+		_forward3dRenderer->Render(_cubeMapList.get(), 0, camData);
 
 		//SkinningMk.2
 		//_tempMultiMesh->Render(camData);
@@ -199,6 +200,19 @@ namespace Pg::Graphics
 		assert(true);
 	}
 
+	void ParagonRenderer::PlaceCubemapList()
+	{
+		using Pg::Graphics::Manager::GraphicsResourceManager;
+		using Pg::Data::Enums::eAssetDefine;
+
+		//Index : 1 추가.
+		{
+			//Cubemap 데이터를 받기.
+			auto tCubemapData = GraphicsResourceManager::Instance()->GetResource("../Resources/Textures/room.dds", eAssetDefine::_CUBEMAP);
+			_cubeMapList->_list.push_back(static_cast<RenderCubemap*>(tCubemapData.get()));
+		}
+	}
+
 	void ParagonRenderer::DebugRender(Pg::Data::CameraData* camData)
 	{
 		_debugRenderer->Render(camData);
@@ -233,8 +247,6 @@ namespace Pg::Graphics
 	{
 		_debugRenderer->GetDebugSphereGeometryData(sphereColVec);
 	}
-
-
 
 	//void ParagonRenderer::SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene)
 	//{

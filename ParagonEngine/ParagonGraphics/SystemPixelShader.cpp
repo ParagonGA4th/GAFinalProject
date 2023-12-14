@@ -1,8 +1,7 @@
 #include "SystemPixelShader.h"
 #include "LowDX11Storage.h"
-
-
 #include <cassert>
+
 namespace Pg::Graphics
 {
 	SystemPixelShader::SystemPixelShader(const std::wstring& wFilePath)

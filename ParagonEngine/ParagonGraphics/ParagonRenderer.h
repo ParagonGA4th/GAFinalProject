@@ -4,6 +4,7 @@
 #include "RenderObject2DList.h"
 #include "RenderObject3DList.h"
 #include "RenderObjectLightList.h"
+#include "RenderObjectCubemapList.h"
 
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/DebugData.h"
@@ -53,6 +54,9 @@ namespace Pg::Graphics
 		//Scene이 바뀌었을 때 / 게임 엔진이 처음 시작되었을 때 호출되어야 한다.
 		//메모리 추가 할당을 막기 위해, Scene당 렌더오브젝트 생성 로직 중복을 막아야 한다!
 		void ParseSceneData(const Pg::Data::Scene* const newScene);
+		
+		//일단은 Cubemap List는 하드코딩되어 있음.
+		void PlaceCubemapList();
 	public:
 		void Initialize();
 
@@ -80,6 +84,7 @@ namespace Pg::Graphics
 		std::unique_ptr<RenderObject2DList> _renderObject2DList;
 		std::unique_ptr<RenderObject3DList> _renderObject3DList;
 		std::unique_ptr<RenderObjectLightList> _lights;
+		std::unique_ptr<RenderObjectCubemapList> _cubeMapList;
 		
 		Pg::Data::RendererChangeList* _rendererChangeList = nullptr;
 
