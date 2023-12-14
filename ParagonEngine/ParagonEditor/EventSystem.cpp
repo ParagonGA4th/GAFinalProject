@@ -1,15 +1,32 @@
 #include "EventSystem.h"
 
-void Pg::Editor::EventSystem::RemoveEventHandler(EventID eventId)
+void Pg::Editor::EventSystem::AddEventHandler(const EventID eventId, const EventHandler& handler)
 {
-	auto eventHandler = _eventHandlers.find(eventId);
-	if (eventHandler != _eventHandlers.end()) _eventHandlers.erase(eventHandler);
+	_eventHandlers[eventId] = handler;
 }
 
-void Pg::Editor::EventSystem::TriggerEvent(EventID eventId)
+void Pg::Editor::EventSystem::AddEventHandler(const EventID eventId, const ValueEventHandler& handler)
+{
+	_valueEventHandlers[eventId] = handler;
+}
+
+void Pg::Editor::EventSystem::RemoveEventHandler(EventID eventId)
+{
+	if (_eventHandlers.find(eventId) != _eventHandlers.end()) _eventHandlers.erase(eventId);
+	else
+	{
+		if (_valueEventHandlers.find(eventId) != _valueEventHandlers.end()) _valueEventHandlers.erase(eventId);
+	}
+}
+
+void Pg::Editor::EventSystem::TriggerEvent(EventID eventId, void* value)
 {
 	auto it = _eventHandlers.find(eventId);
-	if (it != _eventHandlers.end() && it->second) it->second();
-
+	if (it != _eventHandlers.end()) it->second();
+	else
+	{
+		auto vit = _valueEventHandlers.find(eventId);
+		if (vit != _valueEventHandlers.end()) vit->second(value);
+	}
 }
 
