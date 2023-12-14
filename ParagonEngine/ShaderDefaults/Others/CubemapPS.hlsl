@@ -1,11 +1,5 @@
-TextureCube cubeMap;
-
-SamplerState state
-{
-    Filter = MIN_POINT_MAG_LINEAR_MIP_POINT;
-    AddressU = Wrap;
-    AddressV = Wrap;
-};
+TextureCube cubeMap : register(t0);
+SamplerState state : register(s0);
 
 struct VertexOut
 {

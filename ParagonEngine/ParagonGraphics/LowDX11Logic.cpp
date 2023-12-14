@@ -241,6 +241,7 @@ namespace Pg::Graphics
 		tDesc.MaxAnisotropy = 1;
 
 		hr = _DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_defaultSamplerState));
+		assert(SUCCEEDED(hr));
 	
 		return hr;
 	}

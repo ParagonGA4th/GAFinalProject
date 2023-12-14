@@ -3,21 +3,27 @@
 #include "DX11Headers.h"
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
-#include "VertexShader.h"
-#include "PixelShader.h"
+#include "SystemVertexShader.h"
+#include "SystemPixelShader.h"
 #include "MathHelper.h"
+#include "LayoutDefine.h"
+#include "GraphicsResourceManager.h"
 
 #include "../ParagonData/CameraData.h"
+#include "../ParagonData/AssetDefines.h"
 
 #include "Grid.h"
 #include "Axis.h"
-#include "Cubemap.h"
+#include "WireframeRenderObject.h"
+#include "RenderCubemap.h"
+
+#include <algorithm>
+#include <cassert>
 
 namespace Pg::Graphics
 {
-	Grid* grid;
-	Axis* axis;
-	Cubemap* cubemap;
+	using Pg::Graphics::Manager::GraphicsResourceManager;
+	using Pg::Data::Enums::eAssetDefine;
 
 	Pg::Graphics::Forward3DRenderer::Forward3DRenderer()
 		: _DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
@@ -27,92 +33,92 @@ namespace Pg::Graphics
 
 	void Pg::Graphics::Forward3DRenderer::Initialize()
 	{
-		D3D11_INPUT_ELEMENT_DESC HelperDesc[] =
-		{
-			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
-		};
+		CreateSystemVertexShaders();
+		InitializePrimitiveWireframeObjects();
+		InitializeCubemaps();
 
-		VertexShader* helperVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/VertexShader.cso", HelperDesc);
-		PixelShader* helperPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/PixelShader.cso");
 
-		// Grid
-		grid = new Grid();
-		grid->SetGridSize(30.0f, 30.0f, 30, 30);
-		grid->Initialize();
-
-		// Axis
-		axis = new Axis();
-		axis->Initialize();
-
-		grid->CreateConstantBuffer(&(grid->_cbData));
-		grid->AssignVertexShader(helperVS);
-		grid->AssignPixelShader(helperPS);
-
-		axis->CreateConstantBuffer(&(axis->_cbData));
-		axis->AssignVertexShader(helperVS);
-		axis->AssignPixelShader(helperPS);
-
-		// Cubemap
-		D3D11_INPUT_ELEMENT_DESC CubemapvertexDesc[] =
-		{
-			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
-		};
-
-		VertexShader* CubemapVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/CubemapVS.cso", CubemapvertexDesc);
-		PixelShader* CubemapPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/CubemapPS.cso");
-
-		cubemap = new Cubemap();
-		cubemap->Initialize();
-
-		cubemap->CreateConstantBuffer(&(cubemap->_cbData));
-		cubemap->AssignVertexShader(CubemapVS);
-		cubemap->AssignPixelShader(CubemapPS);
 	}
 
-	void Pg::Graphics::Forward3DRenderer::BeginRender()
+	void Pg::Graphics::Forward3DRenderer::Render(Pg::Data::CameraData* camData)
 	{
+		//일단은 Render Target을 Main으로 설정.
 		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
+
+		RenderWireframePrimitives(camData);
+		RenderCubemapWithIndex(camData, 0);
 	}
 
-	void Pg::Graphics::Forward3DRenderer::Render(Pg::Data::CameraData camData)
+	void Forward3DRenderer::RenderCubemapWithIndex(Pg::Data::CameraData* camData, unsigned int cubemapIndex)
 	{
-		BeginRender();
+		//Layout, Topology, Shader, RS
+		_cubemapVS->Bind();
+		_cubemapPS->Bind();
 
-		///
-		DirectX::XMFLOAT4X4 tWorldTM;
-		DirectX::XMMATRIX tWorldTMMat = DirectX::XMMatrixIdentity();
+		//실제 Cubemap 렌더.
+		_cubeMapList.at(cubemapIndex)->UpdateConstantBuffers(camData);
+		_cubeMapList.at(cubemapIndex)->BindConstantBuffers();
+		_cubeMapList.at(cubemapIndex)->BindAdditionalResources();
+		_cubeMapList.at(cubemapIndex)->Render();
+		_cubeMapList.at(cubemapIndex)->UnbindConstantBuffers();
 
-		DirectX::XMFLOAT4X4 tViewTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData._viewMatrix);
-		DirectX::XMMATRIX tViewTMMat = DirectX::XMLoadFloat4x4(&tViewTM);
+		//Shaders Unbind.
+		_cubemapVS->Unbind();
+		_cubemapPS->Unbind();
+	}
 
-		DirectX::XMFLOAT4X4 tProjTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData._projMatrix);
-		DirectX::XMMATRIX tProjTMMat = DirectX::XMLoadFloat4x4(&tProjTM);
+	void Forward3DRenderer::CreateSystemVertexShaders()
+	{
+		_primitiveVS = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/PrimitiveVS.cso", LayoutDefine::GetWireframePrimitiveLayout(),
+			LowDX11Storage::GetInstance()->_wireframeState, D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+		_primitivePS = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/PrimitivePS.cso");
 
-		DirectX::XMFLOAT3 tCameraPosition = Helper::MathHelper::PG2XM_FLOAT3(camData._position);
-		DirectX::XMVECTOR tCameraPositionVec = DirectX::XMLoadFloat3(&tCameraPosition);
-		DirectX::XMMATRIX tCameraPositionMat = DirectX::XMMatrixTranslationFromVector(tCameraPositionVec);
+		_cubemapVS = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/CubemapVS.cso", LayoutDefine::GetCubemapLayout(),
+			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		_cubemapPS = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/CubemapPS.cso");
+	}
 
-		float tCamDistance = 0.0f;
-		DirectX::XMStoreFloat(&tCamDistance, DirectX::XMVector3Length(tCameraPositionVec));
+	void Forward3DRenderer::RenderWireframePrimitives(Pg::Data::CameraData* camData)
+	{
+		//Layout, Topology, Shader, RS
+		_primitiveVS->Bind();
+		_primitivePS->Bind();
 
-		// Cubemap
-		DirectX::XMStoreFloat4x4(&(cubemap->_cbData.worldMatrix), DirectX::XMMatrixMultiply(tWorldTMMat, tCameraPositionMat));
-		DirectX::XMStoreFloat4x4(&(cubemap->_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
+		for (auto& it : _primObjectList)
+		{
+			it->UpdateConstantBuffers(camData);
+			it->BindConstantBuffers();
+			it->Render();
+			it->UnbindConstantBuffers();
+		}
 
-		// Grid
-		DirectX::XMStoreFloat4x4(&(grid->_cbData.worldMatrix), tWorldTMMat);
-		DirectX::XMStoreFloat4x4(&(grid->_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
+		_primitiveVS->Unbind();
+		_primitivePS->Unbind();
+	}
 
-		// Axis
-		DirectX::XMStoreFloat4x4(&(axis->_cbData.worldMatrix), tWorldTMMat);
-		DirectX::XMStoreFloat4x4(&(axis->_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
+	void Forward3DRenderer::InitializePrimitiveWireframeObjects()
+	{
+		// Primitive RenderObject 투입 + Initialize();
+		_primObjectList.push_back(std::make_unique<Grid>());
+		_primObjectList.push_back(std::make_unique<Axis>());
 
-		// 렌더
-		cubemap->Render();
-		grid->Render();
-		axis->Render();
+		//일괄적으로 BuildBuffers 수행.
+		for (auto& it : _primObjectList)
+		{
+			it->BuildBuffers();
+		}
+	}
+
+	void Forward3DRenderer::InitializeCubemaps()
+	{
+		//Index : 1 추가.
+		{
+			//Cubemap 데이터를 받기.
+			auto tCubemapData = GraphicsResourceManager::Instance()->GetResource("../Resources/Textures/room.dds", eAssetDefine::_CUBEMAP);
+			_cubeMapList.push_back(static_cast<RenderCubemap*>(tCubemapData.get()));
+		}
+
+
 	}
 }
 

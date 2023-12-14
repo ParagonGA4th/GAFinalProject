@@ -19,7 +19,7 @@
 
 #include "Grid.h"
 #include "Axis.h"
-#include "Cubemap.h"
+#include "RenderCubemap.h"
 
 
 //<실제 Graphics Resource의 목록>

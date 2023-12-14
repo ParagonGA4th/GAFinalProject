@@ -22,7 +22,9 @@ namespace Pg::Graphics::Helper
 		AssetDefineType<Pg::Data::Enums::eAssetDefine::_2DTEXTURE>();
 		AssetDefineType<Pg::Data::Enums::eAssetDefine::_FONT>();
 		AssetDefineType<Pg::Data::Enums::eAssetDefine::_3DMODEL>();
-		AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDERSHADER>();
+		AssetDefineType<Pg::Data::Enums::eAssetDefine::_CUBEMAP>();
+		AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDER_VERTEXSHADER>();
+		AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDER_PIXELSHADER>();
 		AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL>();
 	}
 

@@ -39,7 +39,8 @@ namespace Pg::Util::Helper
 		case eAssetDefine::_CUBEMAP: [[fallthrough]];
 		case eAssetDefine::_3DMODEL: [[fallthrough]];
 		case eAssetDefine::_FONT: [[fallthrough]];
-		case eAssetDefine::_RENDERSHADER: [[fallthrough]];
+		case eAssetDefine::_RENDER_VERTEXSHADER: [[fallthrough]];
+		case eAssetDefine::_RENDER_PIXELSHADER: [[fallthrough]];
 		case eAssetDefine::_RENDERMATERIAL:
 			tIsGraphicsResource = true;
 			break;
@@ -68,11 +69,11 @@ namespace Pg::Util::Helper
 		//<2D>
 		case eAssetDefine::_2DTEXTURE: [[fallthrough]];
 		case eAssetDefine::_FONT:
+		case eAssetDefine::_CUBEMAP: [[fallthrough]]; //일단은 "2D"로 분류. (DDS / WIC 범위에 들어가니)
 			tIsPlainRenderable = 0;
 			break;
 			//</2D>
 			//<3D>
-		case eAssetDefine::_CUBEMAP: [[fallthrough]];
 		case eAssetDefine::_3DMODEL:
 			tIsPlainRenderable = 1;
 			break;
@@ -89,6 +90,13 @@ namespace Pg::Util::Helper
 	}
 
 	bool ResourceHelper::IsResourceDDS(const std::string& filePath)
+	{
+		std::filesystem::path tPath(filePath);
+		std::string tExtString = tPath.extension().string();
+		return (tExtString == ".dds" || tExtString == ".DDS");
+	}
+
+	bool ResourceHelper::IsResourceDDS(const std::wstring& filePath)
 	{
 		std::filesystem::path tPath(filePath);
 		std::string tExtString = tPath.extension().string();

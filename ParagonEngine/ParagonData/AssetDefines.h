@@ -14,7 +14,8 @@ namespace Pg::Data::Enums
 		_CUBEMAP,
 		_3DMODEL, //Graphic Engine에서 Static / Skinned를 구분할 것.
 		_FONT,
-		_RENDERSHADER,
+		_RENDER_VERTEXSHADER,
+		_RENDER_PIXELSHADER,
 		_RENDERMATERIAL
 	};
 }
