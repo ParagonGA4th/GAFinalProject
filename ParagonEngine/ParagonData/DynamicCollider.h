@@ -12,9 +12,10 @@ namespace Pg::Data
 	//힘을 가하는 방법
 	enum class ForceMode : int
 	{
-		FORCE,
-		IMPULSE,
-		ACCELERATION
+		eFORCE,
+		eIMPULSE,
+		eACCELERATION,
+		eVELOCITY_CHANGE
 	};
 }
 
@@ -30,18 +31,25 @@ namespace physx
 
 namespace Pg::Data
 {
+	using namespace Pg::Math;
+
 	class DynamicCollider : public Collider
 	{
 	public:
 		DynamicCollider(GameObject* owner);
 
 	public:
+		virtual void Start() abstract;
 
 		//충돌판정 여부 체크
-		bool SetIsCollided();
-		bool GetIsCollided();
+		bool GetIsCollide();
+		bool GetWasCollided();
 
-		void SetPxRigidDynamic(void* rigid);
+		void SetPxRigidDynamic(physx::PxRigidDynamic* rigid);
+		physx::PxRigidDynamic* GetRigidBodyDynamic();
+
+		void SetVelocity(PGFLOAT3 velo);
+		PGFLOAT3 GetVelocity() const;
 
 	public:
 		void AddForce(PGFLOAT3 dir, ForceMode mode);
@@ -54,9 +62,11 @@ namespace Pg::Data
 		virtual float GetDepth() const abstract;
 
 	private:
-		void* _rigid;
+		physx::PxRigidDynamic* _rigid;
 
-		bool _isCollided;
+		//충돌의 여부를 판단하기 위해.
+		bool _isCollide;
+		bool _wasCollided;
 	};
 }
 

@@ -10,6 +10,12 @@ namespace Pg::Data
 
 	}
 
+	void CapsuleCollider::Start()
+	{
+
+	}
+a
+
 	void CapsuleCollider::Update()
 	{
 		PGFLOAT4X4 worldTM = GetOffsetTM() * _object->_transform.GetWorldTM();
