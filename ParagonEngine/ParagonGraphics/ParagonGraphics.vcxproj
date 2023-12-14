@@ -42,6 +42,9 @@
     <ClInclude Include="DeferredRenderer.h" />
     <ClInclude Include="DemoGeometryGenerator.h" />
     <ClInclude Include="Forward2DRenderer.h" />
+    <ClInclude Include="RenderObjectCubemapList.h" />
+    <ClInclude Include="RenderPixelShader.h" />
+    <ClInclude Include="RenderVertexShader.h" />
     <ClInclude Include="SystemPixelShader.h" />
     <ClInclude Include="WireframeRenderObject.h" />
     <ClInclude Include="RenderFont.h" />
@@ -86,8 +89,6 @@
     <ClInclude Include="RenderObjectSkinnedMesh3D.h" />
     <ClInclude Include="RenderObjectStaticMesh3D.h" />
     <ClInclude Include="RenderObjectText2D.h" />
-    <ClInclude Include="RenderPixelShader.h" />
-    <ClInclude Include="RenderVertexShader.h" />
     <ClInclude Include="RenderTexture2D.h" />
     <ClInclude Include="RenderUsageStruct2D.h" />
     <ClInclude Include="RenderUsageStruct3D.h" />
@@ -145,6 +146,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="MultimaterialMesh.cpp" />
+    <ClCompile Include="RenderObject3D.cpp" />
+    <ClCompile Include="RenderPixelShader.cpp" />
+    <ClCompile Include="RenderVertexShader.cpp" />
     <ClCompile Include="SystemPixelShader.cpp" />
     <ClCompile Include="WireframeRenderObject.cpp" />
     <ClCompile Include="RenderFont.cpp" />
@@ -157,15 +161,12 @@
     </ClCompile>
     <ClCompile Include="RenderObjectBase.cpp" />
     <ClCompile Include="RenderObject2D.cpp" />
-    <ClCompile Include="RenderObject3D.cpp" />
     <ClCompile Include="RenderObjectImage2D.cpp" />
     <ClCompile Include="RenderObjectLight.cpp" />
     <ClCompile Include="RenderObjectLightList.cpp" />
     <ClCompile Include="RenderObjectSkinnedMesh3D.cpp" />
     <ClCompile Include="RenderObjectStaticMesh3D.cpp" />
     <ClCompile Include="RenderObjectText2D.cpp" />
-    <ClCompile Include="RenderPixelShader.cpp" />
-    <ClCompile Include="RenderVertexShader.cpp" />
     <ClCompile Include="RenderTexture2D.cpp" />
     <ClCompile Include="RenderUsageStruct2D.cpp" />
     <ClCompile Include="RenderUsageStruct3D.cpp" />

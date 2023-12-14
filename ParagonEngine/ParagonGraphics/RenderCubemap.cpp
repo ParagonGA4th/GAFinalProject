@@ -20,7 +20,6 @@ namespace Pg::Graphics
 		GraphicsResource(define, typeid(this).name(), filePath)
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
-		CreateConstantBuffers();
 	}
 
 	RenderCubemap::~RenderCubemap()
@@ -36,6 +35,8 @@ namespace Pg::Graphics
 
 		AssetBasic2DLoader* t2DLoader = GraphicsResourceManager::Instance()->GetBasic2DLoader();
 		t2DLoader->LoadCubemap(_filePath, this);
+
+		CreateConstantBuffers();
 	}
 
 	void RenderCubemap::InternalUnload()
@@ -59,11 +60,13 @@ namespace Pg::Graphics
 		DirectX::XMMATRIX tCameraPositionMat = DirectX::XMMatrixTranslationFromVector(tCameraPositionVec);
 
 		DirectX::XMStoreFloat4x4(&(_cbData.worldMatrix), DirectX::XMMatrixMultiply(tWorldTMMat, tCameraPositionMat));
+		//DirectX::XMStoreFloat4x4(&(_cbData.worldMatrix), tWorldTMMat);
 		DirectX::XMStoreFloat4x4(&(_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
 	}
 
 	void RenderCubemap::BindConstantBuffers()
 	{
+		_DXStorage->_deviceContext->UpdateSubresource(_cBuffer, 0, NULL, &_cbData, 0, 0);
 		_DXStorage->_deviceContext->VSSetConstantBuffers(0, 1, &_cBuffer);
 	}
 
@@ -80,7 +83,6 @@ namespace Pg::Graphics
 
 		LowDX11Storage::GetInstance()->_deviceContext->IASetVertexBuffers(0, 1, &_VB, &stride, &offset);
 		LowDX11Storage::GetInstance()->_deviceContext->IASetIndexBuffer(_IB, DXGI_FORMAT_R32_UINT, 0);
-
 
 		_DXStorage->_deviceContext->DrawIndexed(_indexCount, 0, 0);
 	}

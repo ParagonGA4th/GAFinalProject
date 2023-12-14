@@ -40,7 +40,5 @@ namespace Pg::Graphics
 	{
 		_DXStorage->_deviceContext->VSSetShader(nullptr, nullptr, 0);
 	}
-	
-
 }
 
