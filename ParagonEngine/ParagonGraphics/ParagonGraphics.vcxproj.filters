@@ -31,8 +31,8 @@
     <ClInclude Include="RenderMaterial.h">
       <Filter>3_GraphicsResources\RenderMaterial</Filter>
     </ClInclude>
-    <ClInclude Include="RenderShader.h">
-      <Filter>3_GraphicsResources\RenderShader</Filter>
+    <ClInclude Include="RenderVertexShader.h">
+      <Filter>3_GraphicsResources\RenderShader\RenderVertexShader</Filter>
     </ClInclude>
     <ClInclude Include="ParagonRenderer.h">
       <Filter>0_Main</Filter>
@@ -45,12 +45,6 @@
     </ClInclude>
     <ClInclude Include="TempCamera.h">
       <Filter>5_Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="Grid.h">
-      <Filter>7_OtherObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Axis.h">
-      <Filter>7_OtherObject</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>7_OtherObject</Filter>
@@ -72,9 +66,6 @@
     </ClInclude>
     <ClInclude Include="GraphicsResourceHelper.h">
       <Filter>8_Helpers\GraphicsResourceHelper</Filter>
-    </ClInclude>
-    <ClInclude Include="Cubemap.h">
-      <Filter>7_OtherObject</Filter>
     </ClInclude>
     <ClInclude Include="Asset3DModelData.h">
       <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
@@ -139,9 +130,6 @@
     <ClInclude Include="RenderFont.h">
       <Filter>3_GraphicsResources\RenderFont</Filter>
     </ClInclude>
-    <ClInclude Include="RenderableObject.h">
-      <Filter>7_OtherObject</Filter>
-    </ClInclude>
     <ClInclude Include="RenderObjectLightList.h" />
     <ClInclude Include="RenderObjectLight.h" />
     <ClInclude Include="LightStructs.h">
@@ -183,6 +171,21 @@
     <ClInclude Include="SystemPixelShader.h">
       <Filter>3_GraphicsResources\SystemShader\SystemPixelShader</Filter>
     </ClInclude>
+    <ClInclude Include="RenderPixelShader.h">
+      <Filter>3_GraphicsResources\RenderShader\RenderPixelShader</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderCubemap.h">
+      <Filter>3_GraphicsResources\RenderCubemap</Filter>
+    </ClInclude>
+    <ClInclude Include="WireframeRenderObject.h">
+      <Filter>4_RenderObject\WireframeRenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>4_RenderObject\WireframeRenderObject\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="Axis.h">
+      <Filter>4_RenderObject\WireframeRenderObject\Axis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -209,8 +212,8 @@
     <ClCompile Include="RenderMaterial.cpp">
       <Filter>3_GraphicsResources\RenderMaterial</Filter>
     </ClCompile>
-    <ClCompile Include="RenderShader.cpp">
-      <Filter>3_GraphicsResources\RenderShader</Filter>
+    <ClCompile Include="RenderVertexShader.cpp">
+      <Filter>3_GraphicsResources\RenderShader\RenderVertexShader</Filter>
     </ClCompile>
     <ClCompile Include="ParagonRenderer.cpp">
       <Filter>0_Main</Filter>
@@ -221,13 +224,7 @@
     <ClCompile Include="TempCamera.cpp">
       <Filter>5_Misc</Filter>
     </ClCompile>
-    <ClCompile Include="Axis.cpp">
-      <Filter>7_OtherObject</Filter>
-    </ClCompile>
     <ClCompile Include="Font.cpp">
-      <Filter>7_OtherObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Grid.cpp">
       <Filter>7_OtherObject</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
@@ -296,17 +293,11 @@
     <ClCompile Include="RenderObjectStaticMesh3D.cpp">
       <Filter>4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D</Filter>
     </ClCompile>
-    <ClCompile Include="Cubemap.cpp">
-      <Filter>7_OtherObject</Filter>
-    </ClCompile>
     <ClCompile Include="Forward2DRenderer.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
     <ClCompile Include="RenderFont.cpp">
       <Filter>3_GraphicsResources\RenderFont</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderableObject.cpp">
-      <Filter>7_OtherObject</Filter>
     </ClCompile>
     <ClCompile Include="RenderObjectLightList.cpp" />
     <ClCompile Include="RenderObjectLight.cpp" />
@@ -343,6 +334,21 @@
     <ClCompile Include="SystemPixelShader.cpp">
       <Filter>3_GraphicsResources\SystemShader\SystemPixelShader</Filter>
     </ClCompile>
+    <ClCompile Include="RenderPixelShader.cpp">
+      <Filter>3_GraphicsResources\RenderShader\RenderPixelShader</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderCubemap.cpp">
+      <Filter>3_GraphicsResources\RenderCubemap</Filter>
+    </ClCompile>
+    <ClCompile Include="WireframeRenderObject.cpp">
+      <Filter>4_RenderObject\WireframeRenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>4_RenderObject\WireframeRenderObject\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="Axis.cpp">
+      <Filter>4_RenderObject\WireframeRenderObject\Axis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -365,9 +371,6 @@
     </Filter>
     <Filter Include="3_GraphicsResources\RenderMaterial">
       <UniqueIdentifier>{2b12d567-cab3-4baf-9dad-a6459170e77a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3_GraphicsResources\RenderShader">
-      <UniqueIdentifier>{dc324861-8542-43c3-8fdd-6a94803eea78}</UniqueIdentifier>
     </Filter>
     <Filter Include="3_GraphicsResources\Shader">
       <UniqueIdentifier>{cbc5a6ca-3861-4110-afef-551c8d1d0b32}</UniqueIdentifier>
@@ -513,6 +516,27 @@
     <Filter Include="3_GraphicsResources\SystemShader\SystemPixelShader">
       <UniqueIdentifier>{6f06b7ed-15bc-4a91-84f3-3fa70d757372}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3_GraphicsResources\RenderShader">
+      <UniqueIdentifier>{4b14586b-ead3-4828-a35d-cc3403eb575b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\RenderShader\RenderVertexShader">
+      <UniqueIdentifier>{dc324861-8542-43c3-8fdd-6a94803eea78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\RenderShader\RenderPixelShader">
+      <UniqueIdentifier>{905c22c4-84cc-4f64-9c8b-e83160b6f2d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\RenderCubemap">
+      <UniqueIdentifier>{f37f8d83-c235-4e23-8aea-d16b41a934f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\WireframeRenderObject">
+      <UniqueIdentifier>{21302cff-981d-4a96-a0be-a738bbe568e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\WireframeRenderObject\Axis">
+      <UniqueIdentifier>{cb0fb748-9344-4c38-addd-52dda81e1c78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\WireframeRenderObject\Grid">
+      <UniqueIdentifier>{bd7c2f99-626c-4bab-a759-96bff9d2861f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ShaderDefaults\Libraries\DefaultBufferPerObject.hlsli">
@@ -556,10 +580,10 @@
     <FxCompile Include="..\ShaderDefaults\Others\CubemapVS.hlsl">
       <Filter>6_HLSL\Others</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Others\PixelShader.hlsl">
+    <FxCompile Include="..\ShaderDefaults\Others\PrimitivePS.hlsl">
       <Filter>6_HLSL\Others</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Others\VertexShader.hlsl">
+    <FxCompile Include="..\ShaderDefaults\Others\PrimitiveVS.hlsl">
       <Filter>6_HLSL\Others</Filter>
     </FxCompile>
     <FxCompile Include="..\ShaderDefaults\Shaders\PhongPS.hlsl">

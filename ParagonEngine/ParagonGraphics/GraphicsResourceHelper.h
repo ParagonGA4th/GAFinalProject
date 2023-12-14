@@ -3,9 +3,11 @@
 
 //<실제 Graphics Resource의 목록>
 #include "RenderMaterial.h"
-#include "RenderShader.h"
+#include "RenderVertexShader.h"
+#include "RenderPixelShader.h"
 #include "RenderTexture2D.h"
 #include "RenderFont.h"
+#include "RenderCubemap.h"
 #include "Asset3DModelData.h"
 //</>
 
@@ -66,15 +68,27 @@ namespace Pg::Graphics::Helper
 	};
 
 	template <>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_CUBEMAP>
+	{
+		using type = Pg::Graphics::RenderCubemap; //RenderMaterial로 타입 변환.
+	};
+
+	template <>
 	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_3DMODEL>
 	{
 		using type = Pg::Graphics::Asset3DModelData; //3D Model로 타입 변환.
 	};
 
 	template <>
-	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDERSHADER>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDER_VERTEXSHADER>
 	{
-		using type = Pg::Graphics::RenderShader; //RenderMaterial로 타입 변환.
+		using type = Pg::Graphics::RenderVertexShader; //RenderMaterial로 타입 변환.
+	};
+
+	template <>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDER_PIXELSHADER>
+	{
+		using type = Pg::Graphics::RenderPixelShader; //RenderMaterial로 타입 변환.
 	};
 
 	template <>

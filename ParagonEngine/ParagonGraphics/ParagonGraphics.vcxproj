@@ -34,7 +34,7 @@
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantBufferBase.h" />
     <ClInclude Include="ConstantBufferDefine.h" />
-    <ClInclude Include="Cubemap.h">
+    <ClInclude Include="RenderCubemap.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -42,7 +42,7 @@
     <ClInclude Include="DeferredRenderer.h" />
     <ClInclude Include="DemoGeometryGenerator.h" />
     <ClInclude Include="Forward2DRenderer.h" />
-    <ClInclude Include="RenderableObject.h" />
+    <ClInclude Include="WireframeRenderObject.h" />
     <ClInclude Include="RenderFont.h" />
     <ClInclude Include="RenderObject2DList.h" />
     <ClInclude Include="RenderObject3DList.h" />
@@ -72,7 +72,10 @@
     <ClInclude Include="RenderMaterial.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="ParagonRenderer.h" />
-    <ClInclude Include="PixelShader.h" />
+    <ClInclude Include="PixelShader.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="RenderObjectBase.h" />
     <ClInclude Include="RenderObject2D.h" />
     <ClInclude Include="RenderObject3D.h" />
@@ -82,7 +85,8 @@
     <ClInclude Include="RenderObjectSkinnedMesh3D.h" />
     <ClInclude Include="RenderObjectStaticMesh3D.h" />
     <ClInclude Include="RenderObjectText2D.h" />
-    <ClInclude Include="RenderShader.h" />
+    <ClInclude Include="RenderPixelShader.h" />
+    <ClInclude Include="RenderVertexShader.h" />
     <ClInclude Include="RenderTexture2D.h" />
     <ClInclude Include="RenderUsageStruct2D.h" />
     <ClInclude Include="RenderUsageStruct3D.h" />
@@ -93,7 +97,10 @@
     <ClInclude Include="SystemVertexShader.h" />
     <ClInclude Include="TempCamera.h" />
     <ClInclude Include="MaterialCluster.h" />
-    <ClInclude Include="VertexShader.h" />
+    <ClInclude Include="VertexShader.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="LightStructs.h" />
   </ItemGroup>
   <ItemGroup>
@@ -109,7 +116,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ConstantBufferBase.cpp" />
-    <ClCompile Include="Cubemap.cpp">
+    <ClCompile Include="RenderCubemap.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -138,12 +145,15 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="MultimaterialMesh.cpp" />
-    <ClCompile Include="RenderableObject.cpp" />
+    <ClCompile Include="WireframeRenderObject.cpp" />
     <ClCompile Include="RenderFont.cpp" />
     <ClCompile Include="RenderMaterial.cpp" />
     <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="ParagonRenderer.cpp" />
-    <ClCompile Include="PixelShader.cpp" />
+    <ClCompile Include="PixelShader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="RenderObjectBase.cpp" />
     <ClCompile Include="RenderObject2D.cpp" />
     <ClCompile Include="RenderObject3D.cpp" />
@@ -153,7 +163,8 @@
     <ClCompile Include="RenderObjectSkinnedMesh3D.cpp" />
     <ClCompile Include="RenderObjectStaticMesh3D.cpp" />
     <ClCompile Include="RenderObjectText2D.cpp" />
-    <ClCompile Include="RenderShader.cpp" />
+    <ClCompile Include="RenderPixelShader.cpp" />
+    <ClCompile Include="RenderVertexShader.cpp" />
     <ClCompile Include="RenderTexture2D.cpp" />
     <ClCompile Include="RenderUsageStruct2D.cpp" />
     <ClCompile Include="RenderUsageStruct3D.cpp" />
@@ -164,7 +175,10 @@
     <ClCompile Include="SystemVertexShader.cpp" />
     <ClCompile Include="TempCamera.cpp" />
     <ClCompile Include="MaterialCluster.cpp" />
-    <ClCompile Include="VertexShader.cpp" />
+    <ClCompile Include="VertexShader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ShaderDefaults\Libraries\DefaultBufferPerObject.hlsli" />
@@ -185,13 +199,13 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Others\PixelShader.hlsl">
+    <FxCompile Include="..\ShaderDefaults\Others\PrimitivePS.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Others\VertexShader.hlsl">
+    <FxCompile Include="..\ShaderDefaults\Others\PrimitiveVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>

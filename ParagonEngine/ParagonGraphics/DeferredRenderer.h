@@ -61,15 +61,6 @@ namespace Pg::Graphics
 		std::vector<ID3D11ShaderResourceView*> NullSRV;
 
 	private:
-		//VertexShader* _firstVS;
-		//PixelShader* _firstPS;
-		//
-		//VertexShader* _lightingVS;
-		//PixelShader* _lightingPS;
-		//
-		//VertexShader* _secondVS;
-		//PixelShader* _secondPS;
-
 		SystemVertexShader* _firstVS;
 		SystemPixelShader* _firstPS;
 
@@ -84,14 +75,14 @@ namespace Pg::Graphics
 		ID3D11Buffer* _IB;
 
 	public:
-		std::vector< ConstantBufferBase* > _firstCBs;
-		std::vector< ConstantBufferBase* > _lightingCBs;
-		std::vector< ConstantBufferBase* > _secondCBs;
+		std::vector<ConstantBufferBase*> _firstCBs;
+		std::vector<ConstantBufferBase*> _lightingCBs;
+		std::vector<ConstantBufferBase*> _secondCBs;
 
 	private:
-		void UpdateConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers);
-		void BindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers);
-		void UnbindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers);
+		void UpdateConstantBuffers(const std::vector< ConstantBufferBase*>& _constantBuffers);
+		void BindConstantBuffers(const std::vector< ConstantBufferBase*>& _constantBuffers);
+		void UnbindConstantBuffers(const std::vector< ConstantBufferBase*>& _constantBuffers);
 
 	private:
 		LowDX11Storage* _DXStorage;

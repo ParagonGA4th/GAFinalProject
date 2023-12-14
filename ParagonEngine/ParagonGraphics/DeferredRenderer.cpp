@@ -272,7 +272,7 @@ void Pg::Graphics::DeferredRenderer::RenderLight(RenderObjectLightList* lightLis
 	_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
 }
 
-void Pg::Graphics::DeferredRenderer::UpdateConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers)
+void Pg::Graphics::DeferredRenderer::UpdateConstantBuffers(const std::vector< ConstantBufferBase*>& _constantBuffers)
 {
 	for (int i = 0; i < _constantBuffers.size(); ++i)
 	{
@@ -280,7 +280,7 @@ void Pg::Graphics::DeferredRenderer::UpdateConstantBuffers(std::vector< Constant
 	}
 }
 
-void Pg::Graphics::DeferredRenderer::BindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers)
+void Pg::Graphics::DeferredRenderer::BindConstantBuffers(const std::vector< ConstantBufferBase*>& _constantBuffers)
 {
 	for (int i = 0; i < _constantBuffers.size(); ++i)
 	{
@@ -288,7 +288,7 @@ void Pg::Graphics::DeferredRenderer::BindConstantBuffers(std::vector< ConstantBu
 	}
 }
 
-void Pg::Graphics::DeferredRenderer::UnbindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers)
+void Pg::Graphics::DeferredRenderer::UnbindConstantBuffers(const std::vector< ConstantBufferBase*>& _constantBuffers)
 {
 	for (int i = 0; i < _constantBuffers.size(); ++i)
 	{

@@ -55,13 +55,21 @@ namespace Pg::Graphics::Manager
 		{
 			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_FONT)>(tFilePath, define);
 		}
+		else if (define == eAssetDefine::_CUBEMAP)
+		{
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_CUBEMAP)>(tFilePath, define);
+		}
 		else if (define == eAssetDefine::_3DMODEL)
 		{
 			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_3DMODEL)>(tFilePath, define);
 		}
-		else if (define == eAssetDefine::_RENDERSHADER)
+		else if (define == eAssetDefine::_RENDER_VERTEXSHADER)
 		{
-			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_RENDERSHADER)>(tFilePath, define);
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_RENDER_VERTEXSHADER)>(tFilePath, define);
+		}
+		else if (define == eAssetDefine::_RENDER_PIXELSHADER)
+		{
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_RENDER_PIXELSHADER)>(tFilePath, define);
 		}
 		else if (define == eAssetDefine::_RENDERMATERIAL)
 		{
@@ -93,13 +101,21 @@ namespace Pg::Graphics::Manager
 		{
 			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_FONT)>(tFilePath);
 		}
+		else if (define == eAssetDefine::_CUBEMAP)
+		{
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_CUBEMAP)>(tFilePath);
+		}
 		else if (define == eAssetDefine::_3DMODEL)
 		{
 			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_3DMODEL)>(tFilePath);
 		}
-		else if (define == eAssetDefine::_RENDERSHADER)
+		else if (define == eAssetDefine::_RENDER_VERTEXSHADER)
 		{
-			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_RENDERSHADER)>(tFilePath);
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_RENDER_VERTEXSHADER)>(tFilePath);
+		}
+		else if (define == eAssetDefine::_RENDER_PIXELSHADER)
+		{
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_RENDER_PIXELSHADER)>(tFilePath);
 		}
 		else if (define == eAssetDefine::_RENDERMATERIAL)
 		{

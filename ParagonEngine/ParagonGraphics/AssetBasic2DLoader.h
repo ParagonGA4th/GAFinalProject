@@ -12,6 +12,7 @@ namespace Pg::Graphics
 
 	class RenderTexture2D;
 	class RenderFont;
+	class RenderCubemap;
 }
 
 namespace Pg::Graphics::Loader
@@ -27,9 +28,17 @@ namespace Pg::Graphics::Loader
 		//Font(Text)를 로드한다.
 		void LoadFont(const std::string& path, RenderFont* outFontData);
 
+		//Cubemap(Cubemap)를 로드한다.
+		void LoadCubemap(const std::string& path, RenderCubemap* outCubemapData);
 
 	private:
 		Pg::Graphics::LowDX11Storage* _DXStorage;
+
+	private:
+		//Cubemap을 만들기 위한 별도의 함수.
+		void PlaceCubemapBuffers(RenderCubemap* outCubemapData);
+		void PlaceCubemapSRV(const std::wstring& path, RenderCubemap* outCubemapData);
+
 	};
 }
 

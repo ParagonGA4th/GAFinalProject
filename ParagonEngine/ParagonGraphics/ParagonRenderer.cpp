@@ -103,7 +103,7 @@ namespace Pg::Graphics
 		_deferredRenderer->UnbindSecondPass();
 
 		// Forward
-		_forward3dRenderer->Render(*camData);
+		_forward3dRenderer->Render(camData);
 
 		//SkinningMk.2
 		//_tempMultiMesh->Render(camData);

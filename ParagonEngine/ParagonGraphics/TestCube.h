@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RenderableObject.h"
+#include "WireframeRenderObject.h"
 #include "ConstantBufferDefine.h"
 
 namespace Pg::Graphics

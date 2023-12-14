@@ -5,8 +5,8 @@
 
 namespace Pg::Graphics
 {
-	SystemVertexShader::SystemVertexShader(const std::wstring& wFilePath, ID3D11InputLayout* tInputLayout)
-		: SystemShader(wFilePath), _shader(nullptr), _inputLayout(tInputLayout)
+	SystemVertexShader::SystemVertexShader(const std::wstring& wFilePath, ID3D11InputLayout* tInputLayout, ID3D11RasterizerState* rsState, D3D_PRIMITIVE_TOPOLOGY topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+		: SystemShader(wFilePath), _shader(nullptr), _inputLayout(tInputLayout), _rsState(rsState), _topology(topology)
 	{
 		//Vertex Shader Loading
 		HR(_DXStorage->_device->CreateVertexShader(_byteCode->GetBufferPointer(), _byteCode->GetBufferSize(), NULL, &_shader));
@@ -30,6 +30,10 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->IASetInputLayout(_inputLayout);
 		// Shader
 		_DXStorage->_deviceContext->VSSetShader(_shader, nullptr, 0);
+		// Topology 
+		_DXStorage->_deviceContext->IASetPrimitiveTopology(_topology);
+		// RS.
+		_DXStorage->_deviceContext->RSSetState(_rsState);
 	}
 
 	void SystemVertexShader::Unbind()
