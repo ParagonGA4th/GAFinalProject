@@ -25,8 +25,8 @@ Pg::Editor::Manager::WindowManager::WindowManager()
 
 	// Editor window
 
-	_windows.emplace_back(new Pg::Editor::Window::Inspector());
 	_windows.emplace_back(new Pg::Editor::Window::Hierarchy());
+	_windows.emplace_back(new Pg::Editor::Window::Inspector());
 	_windows.emplace_back(new Pg::Editor::Window::Scene());
 	_windows.emplace_back(new Pg::Editor::Window::Filter());
 }

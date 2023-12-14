@@ -21,7 +21,7 @@ namespace Pg::Editor::Manager
 		void Initialize();
 
 		void FileOpen();
-		bool FileSave();
+		void FileSave();
 
 	private:
 		// Get File Data

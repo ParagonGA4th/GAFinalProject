@@ -2,7 +2,9 @@
 #include "IEditorWindow.h"
 #include <string>
 #include <vector>
+#include <memory>
 
+namespace Pg::Editor { class Event; }
 namespace Pg::Editor::Data { class DataContainer; }
 namespace Pg::UI { class WidgetContainer; }
 namespace Pg::UI::Manager { class UIManager; }
@@ -35,8 +37,13 @@ namespace Pg::Editor::Window
 		Pg::UI::Manager::UIManager* _uiManager;
 		Pg::UI::WidgetContainer* cons;
 
+		std::unique_ptr<Pg::Editor::Event> _changeObjectData;
+
 		/// Data value
 		std::vector<std::string> _objNames;
+		int* _selectedNumber;
+
+		std::string _prevObjName;
 	};
 }
 
