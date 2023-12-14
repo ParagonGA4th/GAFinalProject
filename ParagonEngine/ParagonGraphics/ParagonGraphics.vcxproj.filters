@@ -168,9 +168,6 @@
     <ClInclude Include="SystemVertexShader.h">
       <Filter>3_GraphicsResources\SystemShader\SystemVertexShader</Filter>
     </ClInclude>
-    <ClInclude Include="SystemPixelShader.h">
-      <Filter>3_GraphicsResources\SystemShader\SystemPixelShader</Filter>
-    </ClInclude>
     <ClInclude Include="RenderPixelShader.h">
       <Filter>3_GraphicsResources\RenderShader\RenderPixelShader</Filter>
     </ClInclude>
@@ -185,6 +182,9 @@
     </ClInclude>
     <ClInclude Include="Axis.h">
       <Filter>4_RenderObject\WireframeRenderObject\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemPixelShader.h">
+      <Filter>3_GraphicsResources\SystemShader\SystemPixelShader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -281,9 +281,6 @@
     <ClCompile Include="DeferredRenderer.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
-    <ClCompile Include="Forward3DRenderer.cpp">
-      <Filter>0_Main</Filter>
-    </ClCompile>
     <ClCompile Include="RenderObjectText2D.cpp">
       <Filter>4_RenderObject\RenderObject2D\RenderObjectText2D</Filter>
     </ClCompile>
@@ -331,9 +328,6 @@
     <ClCompile Include="SystemVertexShader.cpp">
       <Filter>3_GraphicsResources\SystemShader\SystemVertexShader</Filter>
     </ClCompile>
-    <ClCompile Include="SystemPixelShader.cpp">
-      <Filter>3_GraphicsResources\SystemShader\SystemPixelShader</Filter>
-    </ClCompile>
     <ClCompile Include="RenderPixelShader.cpp">
       <Filter>3_GraphicsResources\RenderShader\RenderPixelShader</Filter>
     </ClCompile>
@@ -348,6 +342,12 @@
     </ClCompile>
     <ClCompile Include="Axis.cpp">
       <Filter>4_RenderObject\WireframeRenderObject\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemPixelShader.cpp">
+      <Filter>3_GraphicsResources\SystemShader\SystemPixelShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Forward3DRenderer.cpp">
+      <Filter>0_Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

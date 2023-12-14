@@ -7,24 +7,24 @@
 #include <vector>
 
 #ifdef _DEBUG
-#define PG_1ST_STATIC_SHADER_PATH	L"..\\Builds\\x64\\Debug\\FirstStatic_VS.cso"
-#define PG_1ST_SKINNED_SHADER_PATH	L"..\\Builds\\x64\\Debug\\FirstSkinned_VS.cso"
-#define PG_2ND_SHADER_PATH			L"..\\Builds\\x64\\Debug\\SecondStage_VS.cso"
-#define PG_PRIMITIVE_SHADER_PATH	L"..\\Builds\\x64\\Debug\\PrimitiveVS.cso"
-#define PG_CUBEMAP_SHADER_PATH		L"..\\Builds\\x64\\Debug\\CubemapVS.cso"
+#define PG_1ST_STATIC_SHADER_PATH		L"..\\Builds\\x64\\Debug\\FirstStatic_VS.cso"
+#define PG_1ST_SKINNED_SHADER_PATH		L"..\\Builds\\x64\\Debug\\FirstSkinned_VS.cso"
+#define PG_DEFERRED_QUAD_SHADER_PATH	L"..\\Builds\\x64\\Debug\\SecondStage_VS.cso"
+#define PG_PRIMITIVE_SHADER_PATH		L"..\\Builds\\x64\\Debug\\PrimitiveVS.cso"
+#define PG_CUBEMAP_SHADER_PATH			L"..\\Builds\\x64\\Debug\\CubemapVS.cso"
 #else
-#define PG_1ST_STATIC_SHADER_PATH	L"..\\Builds\\x64\\Release\\FirstStatic_VS.cso"
-#define PG_1ST_SKINNED_SHADER_PATH	L"..\\Builds\\x64\\Release\\FirstSkinned_VS.cso"
-#define PG_2ND_SHADER_PATH			L"..\\Builds\\x64\\Release\\SecondStage_VS.cso"
-#define PG_PRIMITIVE_SHADER_PATH	L"..\\Builds\\x64\\Release\\PrimitiveVS.cso"
-#define PG_CUBEMAP_SHADER_PATH		L"..\\Builds\\x64\\Release\\CubemapVS.cso"
+#define PG_1ST_STATIC_SHADER_PATH		L"..\\Builds\\x64\\Release\\FirstStatic_VS.cso"
+#define PG_1ST_SKINNED_SHADER_PATH		L"..\\Builds\\x64\\Release\\FirstSkinned_VS.cso"
+#define PG_DEFERRED_QUAD_SHADER_PATH	L"..\\Builds\\x64\\Release\\SecondStage_VS.cso"
+#define PG_PRIMITIVE_SHADER_PATH		L"..\\Builds\\x64\\Release\\PrimitiveVS.cso"
+#define PG_CUBEMAP_SHADER_PATH			L"..\\Builds\\x64\\Release\\CubemapVS.cso"
 #endif // _DEBUG
 
 namespace Pg::Graphics
 {
 	ID3D11InputLayout* LayoutDefine::_static1stLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_skinned1stLayout = nullptr;
-	ID3D11InputLayout* LayoutDefine::_2ndLayout = nullptr;
+	ID3D11InputLayout* LayoutDefine::_deferredQuadLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_cubemapLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_wireframePrimitiveLayout = nullptr;
 
@@ -32,7 +32,7 @@ namespace Pg::Graphics
 	{
 		CreateStatic1stLayout();
 		CreateSkinned1stLayout();
-		Create2ndLayout();
+		CreateDeferredQuadLayout();
 		CreateWireframePrimitiveLayout();
 		CreateCubemapLayout();
 	}
@@ -47,9 +47,9 @@ namespace Pg::Graphics
 		return _skinned1stLayout;
 	}
 
-	ID3D11InputLayout* LayoutDefine::Get2ndLayout()
+	ID3D11InputLayout* LayoutDefine::GetDeferredQuadLayout()
 	{
-		return _2ndLayout;
+		return _deferredQuadLayout;
 	}
 
 	ID3D11InputLayout* LayoutDefine::GetWireframePrimitiveLayout()
@@ -128,7 +128,7 @@ namespace Pg::Graphics
 			tSkinned1stByteCode->GetBufferSize(), &_skinned1stLayout);
 	}
 
-	void LayoutDefine::Create2ndLayout()
+	void LayoutDefine::CreateDeferredQuadLayout()
 	{
 		//SecondStage_VS.cso
 		HRESULT hr = S_OK;
@@ -137,8 +137,8 @@ namespace Pg::Graphics
 		ID3D11Device* _device = tDXStorage->_device;
 		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
 
-		ID3DBlob* t2ndByteCode = nullptr;
-		hr = D3DReadFileToBlob(PG_2ND_SHADER_PATH, &(t2ndByteCode));
+		ID3DBlob* tDefQuadByteCode = nullptr;
+		hr = D3DReadFileToBlob(PG_DEFERRED_QUAD_SHADER_PATH, &(tDefQuadByteCode));
 		if (FAILED(hr)) { assert(false); }
 
 		D3D11_INPUT_ELEMENT_DESC quadDesc[] =
@@ -148,7 +148,7 @@ namespace Pg::Graphics
 			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
-		hr = _device->CreateInputLayout(quadDesc, ARRAYSIZE(quadDesc), t2ndByteCode->GetBufferPointer(), t2ndByteCode->GetBufferSize(), &_2ndLayout);
+		hr = _device->CreateInputLayout(quadDesc, ARRAYSIZE(quadDesc), tDefQuadByteCode->GetBufferPointer(), tDefQuadByteCode->GetBufferSize(), &_deferredQuadLayout);
 	}
 
 	void LayoutDefine::CreateWireframePrimitiveLayout()
@@ -170,7 +170,7 @@ namespace Pg::Graphics
 			{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 		
-		hr = _device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_primitiveLayout);
+		hr = _device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_wireframePrimitiveLayout);
 	}
 
 	void LayoutDefine::CreateCubemapLayout()
@@ -222,7 +222,7 @@ namespace Pg::Graphics
 		//
 	}
 
-	LayoutDefine::Vin2nd::Vin2nd(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 norm, DirectX::XMFLOAT2 uv) :
+	LayoutDefine::VinDeferredQuad::VinDeferredQuad(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 norm, DirectX::XMFLOAT2 uv) :
 		posL(pos), normalL(norm), tex(uv) 
 	{
 		//

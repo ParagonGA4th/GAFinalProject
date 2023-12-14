@@ -2,7 +2,7 @@
 #include "SystemShader.h"
 
 /// <summary>
-/// SystemShader 중, Vertex Shader를 별도로 관리.
+/// SystemShader 중, Pixel Shader를 별도로 관리.
 /// </summary>
 
 namespace Pg::Graphics

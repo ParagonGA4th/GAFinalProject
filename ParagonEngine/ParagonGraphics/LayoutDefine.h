@@ -51,10 +51,10 @@ namespace Pg::Graphics
 			float			  blendWeight2;
 		};
 
-		struct Vin2nd
+		struct VinDeferredQuad
 		{
-			Vin2nd() = default;
-			Vin2nd(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 norm, DirectX::XMFLOAT2 uv);
+			VinDeferredQuad() = default;
+			VinDeferredQuad(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 norm, DirectX::XMFLOAT2 uv);
 			DirectX::XMFLOAT3 posL;
 			DirectX::XMFLOAT3 normalL;
 			DirectX::XMFLOAT2 tex;
@@ -85,7 +85,7 @@ namespace Pg::Graphics
 		static ID3D11InputLayout* GetSkinned1stLayout();
 
 		//2nd Layout ¹ÝÈ¯
-		static ID3D11InputLayout* Get2ndLayout();
+		static ID3D11InputLayout* GetDeferredQuadLayout();
 
 		static ID3D11InputLayout* GetWireframePrimitiveLayout();
 		static ID3D11InputLayout* GetCubemapLayout();
@@ -93,14 +93,14 @@ namespace Pg::Graphics
 	private:
 		static ID3D11InputLayout* _static1stLayout;
 		static ID3D11InputLayout* _skinned1stLayout;
-		static ID3D11InputLayout* _2ndLayout;
+		static ID3D11InputLayout* _deferredQuadLayout;
 		static ID3D11InputLayout* _wireframePrimitiveLayout; 
 		static ID3D11InputLayout* _cubemapLayout;
 
 	private:
 		static void CreateStatic1stLayout();
 		static void CreateSkinned1stLayout();
-		static void Create2ndLayout();
+		static void CreateDeferredQuadLayout();
 		static void CreateWireframePrimitiveLayout();
 		static void CreateCubemapLayout();
 

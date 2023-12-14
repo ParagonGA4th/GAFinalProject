@@ -30,8 +30,8 @@ namespace Pg::Graphics
 {
 	class LowDX11Storage;
 	class Asset3DModelData;
-	class VertexShader;
-	class PixelShader;
+	class RenderVertexShader;
+	class RenderPixelShader;
 	class ConstantBufferDefine;
 	struct ConstantBufferDefine::cbPerObjectBase;
 	class RenderTexture2D;
@@ -60,8 +60,8 @@ namespace Pg::Graphics
 
 		ID3D11Buffer* VB;
 		ID3D11Buffer* IB;
-		VertexShader* _vertexShader;
-		PixelShader* _pixelShader;
+		RenderVertexShader* _vertexShader;
+		RenderPixelShader* _pixelShader;
 
 		ID3D11InputLayout* _inputLayout;
 
@@ -82,11 +82,11 @@ namespace Pg::Graphics
 		void BindTextures();
 
 	public:
-		void SetVertexShader(VertexShader* shader);
-		void SetPixelShader(PixelShader* shader);
+		void SetVertexShader(RenderVertexShader* shader);
+		void SetPixelShader(RenderPixelShader* shader);
 
-		VertexShader* GetVertexShader();
-		PixelShader* GetPixelShader();
+		RenderVertexShader* GetVertexShader();
+		RenderPixelShader* GetPixelShader();
 
 	protected:
 		ID3D11Device* _device;

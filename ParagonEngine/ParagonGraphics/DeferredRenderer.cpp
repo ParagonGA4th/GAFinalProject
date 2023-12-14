@@ -64,15 +64,18 @@ void Pg::Graphics::DeferredRenderer::Initialize()
 	BuildFullscreenQuad();
 
 	// 1st Pass
-	_firstVS = new SystemVertexShader(L"../Builds/x64/debug/FirstStatic_VS.cso", LayoutDefine::GetStatic1stLayout());
+	_firstVS = new SystemVertexShader(L"../Builds/x64/debug/FirstStatic_VS.cso", LayoutDefine::GetStatic1stLayout(),
+		LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	_firstPS = new SystemPixelShader(L"../Builds/x64/debug/FirstStage_PS.cso");
 
 	//Lighting
-	_lightingVS = new SystemVertexShader(L"../Builds/x64/debug/PhongVS.cso", LayoutDefine::Get2ndLayout());
+	_lightingVS = new SystemVertexShader(L"../Builds/x64/debug/PhongVS.cso", LayoutDefine::GetDeferredQuadLayout(),
+		LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	_lightingPS = new SystemPixelShader(L"../Builds/x64/debug/PhongPS.cso");
 
 	// 2nd Pass
-	_secondVS = new SystemVertexShader(L"../Builds/x64/debug/SecondStage_VS.cso", LayoutDefine::Get2ndLayout());
+	_secondVS = new SystemVertexShader(L"../Builds/x64/debug/SecondStage_VS.cso", LayoutDefine::GetDeferredQuadLayout(),
+		LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	_secondPS = new SystemPixelShader(L"../Builds/x64/debug/SecondStage_PS.cso");
 }
 

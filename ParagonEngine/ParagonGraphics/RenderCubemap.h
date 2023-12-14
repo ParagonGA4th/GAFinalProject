@@ -1,7 +1,8 @@
 #pragma once
+#include "DX11Headers.h"
+
 #include "../ParagonData/GraphicsResource.h"
 #include "../ParagonData/AssetDefines.h"
-
 #include <memory>
 #include <string>
 
