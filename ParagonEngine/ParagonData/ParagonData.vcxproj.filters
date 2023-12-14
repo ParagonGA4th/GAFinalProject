@@ -76,9 +76,6 @@
     <ClCompile Include="StaticBoxCollider.cpp">
       <Filter>2_Component\Collider\StaticCollider\BoxCollider</Filter>
     </ClCompile>
-    <ClCompile Include="RigidBody.cpp">
-      <Filter>2_Component\RigidBody</Filter>
-    </ClCompile>
     <ClCompile Include="DirectionalLight.cpp">
       <Filter>2_Component\Light\DirectionalLight</Filter>
     </ClCompile>
@@ -205,9 +202,6 @@
     </ClInclude>
     <ClInclude Include="StaticBoxCollider.h">
       <Filter>2_Component\Collider\StaticCollider\BoxCollider</Filter>
-    </ClInclude>
-    <ClInclude Include="RigidBody.h">
-      <Filter>2_Component\RigidBody</Filter>
     </ClInclude>
     <ClInclude Include="DirectionalLight.h">
       <Filter>2_Component\Light\DirectionalLight</Filter>
@@ -339,9 +333,6 @@
     </Filter>
     <Filter Include="2_Component\Collider\StaticCollider\BoxCollider">
       <UniqueIdentifier>{94c65e16-27ab-47cb-a5c4-f6cd9d8856cc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\RigidBody">
-      <UniqueIdentifier>{58672e29-ee52-4a0c-9ec4-b304b6d4104e}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Component\Light\DirectionalLight">
       <UniqueIdentifier>{9423fd94-9e78-4939-a0e6-578e16b176b8}</UniqueIdentifier>

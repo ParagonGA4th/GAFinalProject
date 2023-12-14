@@ -13,6 +13,14 @@ namespace Pg::Data
 
 	}
 
+
+	void BoxCollider::Start()
+	{
+
+	}
+
+
+
 	void BoxCollider::Update()
 	{
 		PGFLOAT4X4 worldTM = GetOffsetTM() * _object->_transform.GetWorldTM();
