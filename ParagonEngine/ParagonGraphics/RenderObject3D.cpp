@@ -8,14 +8,10 @@
 
 #include "DX11Headers.h"
 
-#include "dxtk/DDSTextureLoader.h"
-#include "dxtk/WICTextureLoader.h"
-
 #include "Asset3DModelData.h"
 
-
-#include "VertexShader.h"
-#include "PixelShader.h"
+#include "RenderVertexShader.h"
+#include "RenderPixelShader.h"
 
 #include "RenderTexture2D.h"
 
@@ -64,15 +60,14 @@ namespace Pg::Graphics
 
 		// Bind Shader Resources
 		//_DXStorage->_deviceContext->PSSetShaderResources(0, 1, &_SRV);
-
 		//
-		_DXStorage->_deviceContext->PSSetSamplers(0, 1, &_DXStorage->_defaultSamplerState);
+		//_DXStorage->_deviceContext->PSSetSamplers(0, 1, &_DXStorage->_defaultSamplerState);
 	}
 
 	void RenderObject3D::UnbindShaders()
 	{
-		_vertexShader->UnBind();
-		_pixelShader->UnBind();
+		_vertexShader->Unbind();
+		_pixelShader->Unbind();
 	}
 
 	void RenderObject3D::BindInputLayout()
@@ -86,22 +81,22 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->IASetInputLayout(nullptr);
 	}
 
-	void RenderObject3D::SetVertexShader(VertexShader* shader)
+	void RenderObject3D::SetVertexShader(RenderVertexShader* shader)
 	{
 		_vertexShader = shader;
 	}
 
-	void RenderObject3D::SetPixelShader(PixelShader* shader)
+	void RenderObject3D::SetPixelShader(RenderPixelShader* shader)
 	{
 		_pixelShader = shader;
 	}
 
-	Pg::Graphics::VertexShader* RenderObject3D::GetVertexShader()
+	Pg::Graphics::RenderVertexShader* RenderObject3D::GetVertexShader()
 	{
 		return _vertexShader;
 	}
 
-	Pg::Graphics::PixelShader* RenderObject3D::GetPixelShader()
+	Pg::Graphics::RenderPixelShader* RenderObject3D::GetPixelShader()
 	{
 		return _pixelShader;
 	}

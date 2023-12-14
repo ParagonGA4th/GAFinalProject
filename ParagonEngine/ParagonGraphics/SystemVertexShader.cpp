@@ -5,7 +5,7 @@
 
 namespace Pg::Graphics
 {
-	SystemVertexShader::SystemVertexShader(const std::wstring& wFilePath, ID3D11InputLayout* tInputLayout, ID3D11RasterizerState* rsState, D3D_PRIMITIVE_TOPOLOGY topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+	SystemVertexShader::SystemVertexShader(const std::wstring& wFilePath, ID3D11InputLayout* tInputLayout, ID3D11RasterizerState* rsState, D3D_PRIMITIVE_TOPOLOGY topology)
 		: SystemShader(wFilePath), _shader(nullptr), _inputLayout(tInputLayout), _rsState(rsState), _topology(topology)
 	{
 		//Vertex Shader Loading

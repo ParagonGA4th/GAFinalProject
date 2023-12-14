@@ -9,6 +9,8 @@
 #include <vector>
 
 /// <summary>
+/// 클라이언트에게 노출되는,
+/// 렌더링 파이프라인에 후에 바인딩되는 셰이더를 관리하기 위해 구성.
 /// 게임엔진 클라이언트에서 실제로 Pixel Shader로 지칭되는 대상.
 /// </summary>
 
@@ -27,8 +29,15 @@ namespace Pg::Graphics
 		virtual void InternalLoad() override;
 		virtual void InternalUnload() override;
 
+	public:
+		void Bind();
+		void Unbind();
+
 	private:
 		LowDX11Storage* _DXStorage = nullptr;
+
+		// 쉐이더 바이트코드를 멤버에 저장
+		ID3DBlob* _byteCode = nullptr;
+		ID3D11PixelShader* _shader = nullptr;
 	};
 }
-
