@@ -1,12 +1,12 @@
 #include "Hierarchy.h"
 #include "DataContainer.h"
+#include "Event.h"
 
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
 #include "../ParagonUI/Selectable.h"
 
 #include "../ParagonData/Scene.h"
-
 
 #include <singleton-cpp/singleton.h>
 
@@ -20,6 +20,8 @@ Pg::Editor::Window::Hierarchy::Hierarchy()
 	_dataContainer = &tdataCon;
 
 	cons = new Pg::UI::WidgetContainer();
+
+	_changeObjectData = std::make_unique<Pg::Editor::Event>();
 }
 
 Pg::Editor::Window::Hierarchy::~Hierarchy()
@@ -29,7 +31,8 @@ Pg::Editor::Window::Hierarchy::~Hierarchy()
 
 void Pg::Editor::Window::Hierarchy::Initialize()
 {
-	cons->CreateWidget<Pg::UI::Widget::Selectable>(_objNames);
+	auto& selectable = cons->CreateWidget<Pg::UI::Widget::Selectable>(_objNames);
+	_selectedNumber = selectable.GetSelectableNumber();
 }
 
 void Pg::Editor::Window::Hierarchy::Update()
@@ -46,7 +49,7 @@ void Pg::Editor::Window::Hierarchy::Finalize()
 }
 
 void Pg::Editor::Window::Hierarchy::SetShow(bool show)
-{ 
+{
 	_isShow = show;
 }
 
@@ -63,6 +66,17 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 		for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
 		{
 			_objNames.emplace_back(i->GetName());
+		}
+
+		if (_prevObjName != _objNames.at(*_selectedNumber))
+		{
+			_prevObjName = _objNames.at(*_selectedNumber);
+			for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
+			{
+				if (i->GetName() == _prevObjName)
+					_changeObjectData->Invoke(eEventType::ChangeObjectData, static_cast<void*>(i));
+
+			}
 		}
 	}
 }
