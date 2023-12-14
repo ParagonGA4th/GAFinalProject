@@ -254,9 +254,6 @@
     <ClCompile Include="RenderUsageStruct2D.cpp">
       <Filter>4_RenderObject\RenderUsageStruct\RenderUsageStruct2D</Filter>
     </ClCompile>
-    <ClCompile Include="LayoutDefine.cpp">
-      <Filter>5_Misc\DefaultShaderDefines\LayoutDefine</Filter>
-    </ClCompile>
     <ClCompile Include="RenderObject2D.cpp">
       <Filter>4_RenderObject\RenderObject2D</Filter>
     </ClCompile>
@@ -351,6 +348,9 @@
     </ClCompile>
     <ClCompile Include="RenderVertexShader.cpp">
       <Filter>3_GraphicsResources\RenderShader\RenderVertexShader</Filter>
+    </ClCompile>
+    <ClCompile Include="LayoutDefine.cpp">
+      <Filter>5_Misc\DefaultShaderDefines\LayoutDefine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

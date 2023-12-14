@@ -28,12 +28,12 @@ namespace Pg::Graphics
 	{
 		// Input Layout
 		_DXStorage->_deviceContext->IASetInputLayout(_inputLayout);
-		// Shader
-		_DXStorage->_deviceContext->VSSetShader(_shader, nullptr, 0);
 		// Topology 
 		_DXStorage->_deviceContext->IASetPrimitiveTopology(_topology);
 		// RS.
 		_DXStorage->_deviceContext->RSSetState(_rsState);
+		// Shader
+		_DXStorage->_deviceContext->VSSetShader(_shader, nullptr, 0);
 	}
 
 	void SystemVertexShader::Unbind()
