@@ -41,6 +41,10 @@ namespace Pg::Data
 	public:
 		virtual void Start() abstract;
 
+	public:
+		void UpdateTransform();
+
+	public:
 		//충돌판정 여부 체크
 		bool GetIsCollide();
 		bool GetWasCollided();

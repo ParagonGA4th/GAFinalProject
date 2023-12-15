@@ -14,7 +14,6 @@ namespace Pg::Data
 	{
 
 	}
-a
 
 	void CapsuleCollider::Update()
 	{
