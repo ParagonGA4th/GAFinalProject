@@ -36,7 +36,15 @@ namespace Pg::Graphics
 		DirectX::XMStoreFloat4x4(&(_cbData.worldMatrix), tWorldTMMat);
 		DirectX::XMStoreFloat4x4(&(_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
 
-		_DXStorage->_deviceContext->UpdateSubresource(_cBuffer, 0, NULL, &_cbData, 0, 0);
+		//_DXStorage->_deviceContext->UpdateSubresource(_cBuffer, 0, NULL, &_cbData, 0, 0);
+
+		//Mapping.
+		D3D11_MAPPED_SUBRESOURCE res;
+		ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
+		HR(_DXStorage->_deviceContext->Map(_cBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &res));
+		WireframeRenderObject::CB* data = reinterpret_cast<WireframeRenderObject::CB*>(res.pData);
+		*(data) = _cbData;
+		_DXStorage->_deviceContext->Unmap(_cBuffer, 0);
 	}
 
 	void WireframeRenderObject::BindConstantBuffers()

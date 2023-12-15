@@ -41,7 +41,6 @@ namespace Pg::Graphics
 		void UpdateConstantBuffers(Pg::Data::CameraData* camData);
 		void BindConstantBuffers();
 		void BindAdditionalResources();
-		void BindVertexIndexBuffers();
 		void Render();
 		void UnbindAdditionalResources();
 		void UnbindConstantBuffers();
