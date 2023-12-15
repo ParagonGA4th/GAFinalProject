@@ -183,94 +183,31 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\ShaderDefaults\Libraries\DefaultBufferPerObject.hlsli" />
-    <None Include="..\ShaderDefaults\Libraries\DefaultLayouts.hlsli" />
-    <None Include="..\ShaderDefaults\Libraries\Lights.hlsli" />
-    <None Include="..\ShaderDefaults\Libraries\misc.hlsli" />
+    <None Include="..\Shaders\Appends\Libraries\Appends_Common.hlsli" />
+    <None Include="..\Shaders\Appends\Libraries\TextureBuffers\Appends_AdditionalTextures.hlsli" />
+    <None Include="..\Shaders\Appends\Libraries\TextureBuffers\Appends_GBufferTextures.hlsli" />
+    <None Include="..\Shaders\Appends\Libraries\TextureBuffers\Appends_LightmapTextures.hlsli" />
+    <None Include="..\Shaders\System\Libraries\System_1stLayouts.hlsli" />
+    <None Include="..\Shaders\System\Libraries\System_PerObjectBuffers.hlsli" />
+    <None Include="..\Shaders\System\Libraries\System_QuadLayouts.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\ShaderAppends\Object\AppendTest\AppendTestPS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="..\ShaderAppends\Object\AppendTest\AppendTestVS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Others\CubemapPS.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Others\CubemapVS.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Others\PrimitivePS.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Others\PrimitiveVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Shaders\FirstSkinned_VS.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_MAIN</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS_MAIN</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Shaders\FirstStage_PS.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS_MAIN</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS_MAIN</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Shaders\FirstStatic_VS.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_MAIN</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS_MAIN</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Shaders\PhongPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Shaders\PhongVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Shaders\SecondStage_PS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Shaders\SecondStage_VS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\TempForward\TempForwardPS.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS_MAIN</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS_MAIN</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\TempForward\TempForwardVS.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_MAIN</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS_MAIN</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\TempForward\TempForwardVSSkinned.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_MAIN</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS_MAIN</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
+    <FxCompile Include="..\Shaders\Appends\Added\Object\AppendTest\AppendObjectTestPS.hlsl" />
+    <FxCompile Include="..\Shaders\Appends\Added\Object\AppendTest\AppendObjectTestVS.hlsl" />
+    <FxCompile Include="..\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl" />
+    <FxCompile Include="..\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestVS.hlsl" />
+    <FxCompile Include="..\Shaders\System\Pipeline\FirstStage\FirstSkinned_VS.hlsl" />
+    <FxCompile Include="..\Shaders\System\Pipeline\FirstStage\FirstStage_PS.hlsl" />
+    <FxCompile Include="..\Shaders\System\Pipeline\FirstStage\FirstStatic_VS.hlsl" />
+    <FxCompile Include="..\Shaders\System\Pipeline\Others\CubemapPS.hlsl" />
+    <FxCompile Include="..\Shaders\System\Pipeline\Others\CubemapVS.hlsl" />
+    <FxCompile Include="..\Shaders\System\Pipeline\Others\PrimitivePS.hlsl" />
+    <FxCompile Include="..\Shaders\System\Pipeline\Others\PrimitiveVS.hlsl" />
+    <FxCompile Include="..\Shaders\System\Pipeline\SecondStage\SecondStage_PS.hlsl" />
+    <FxCompile Include="..\Shaders\System\Pipeline\SecondStage\SecondStage_VS.hlsl" />
+    <FxCompile Include="..\Shaders\System\Pipeline\TempForward\TempForwardPS.hlsl" />
+    <FxCompile Include="..\Shaders\System\Pipeline\TempForward\TempForwardVS.hlsl" />
+    <FxCompile Include="..\Shaders\System\Pipeline\TempForward\TempForwardVSSkinned.hlsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
