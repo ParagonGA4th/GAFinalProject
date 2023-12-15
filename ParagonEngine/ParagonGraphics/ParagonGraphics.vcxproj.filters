@@ -534,111 +534,123 @@
     <Filter Include="10_Structs\RenderObjectList\RenderObjectWireframeList">
       <UniqueIdentifier>{97f30ae3-ee69-480e-8642-081ee54a39b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6_HLSL\Defaults">
-      <UniqueIdentifier>{659a9669-b1d9-42bd-8577-17dafc28923b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_HLSL\Defaults\FirstStage">
-      <UniqueIdentifier>{34883b41-925c-4e8c-8225-b89fda0e804e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_HLSL\Defaults\DefaultInfo">
-      <UniqueIdentifier>{db8f85a2-97ee-4f0e-b7e0-75a14b40d6b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_HLSL\Defaults\Others">
-      <UniqueIdentifier>{e4ce8650-e3f7-44c5-9884-68418bf1523b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_HLSL\Defaults\SecondStage">
-      <UniqueIdentifier>{63c3f972-a3cb-4ea7-8cb4-62010ed912ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_HLSL\Defaults\TempForward">
-      <UniqueIdentifier>{a64ae292-9e03-4c37-aa55-44847c09c920}</UniqueIdentifier>
-    </Filter>
     <Filter Include="6_HLSL\Appends">
-      <UniqueIdentifier>{b55add6e-ff2a-42e1-bbdd-d63d5af98e34}</UniqueIdentifier>
+      <UniqueIdentifier>{b2fdc1f2-9cad-473e-8ca4-d4294664166d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6_HLSL\Appends\Object">
-      <UniqueIdentifier>{1d003e49-539d-46ae-8467-65fb6c3f687b}</UniqueIdentifier>
+    <Filter Include="6_HLSL\System">
+      <UniqueIdentifier>{5dcfcd50-b3d1-4dda-b354-bf06e4108139}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6_HLSL\Appends\Screen">
-      <UniqueIdentifier>{d9b8aded-f112-4102-a6d9-6a1c67379ce5}</UniqueIdentifier>
+    <Filter Include="6_HLSL\Appends\Added">
+      <UniqueIdentifier>{47dfb12c-7fa4-402c-9038-c559c5321de4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6_HLSL\Appends\Object\1_PS">
-      <UniqueIdentifier>{5df6a155-4395-4855-9af8-2f3f639c90ae}</UniqueIdentifier>
+    <Filter Include="6_HLSL\Appends\Libraries">
+      <UniqueIdentifier>{451330e0-5d32-4a2e-814f-2d79296fe154}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6_HLSL\Appends\Object\0_VS">
-      <UniqueIdentifier>{448e487a-700a-4ae7-a53b-da00f26338d3}</UniqueIdentifier>
+    <Filter Include="6_HLSL\System\Libraries">
+      <UniqueIdentifier>{f24edc95-097b-4e38-ad01-e64d11ac76e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6_HLSL\Appends\Screen\0_VS">
-      <UniqueIdentifier>{29cb3240-65c7-4e2c-8197-9d9343723f1a}</UniqueIdentifier>
+    <Filter Include="6_HLSL\System\Pipeline">
+      <UniqueIdentifier>{17997960-6c0f-43e6-ac9c-ca8295cec23f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6_HLSL\Appends\Screen\1_PS">
-      <UniqueIdentifier>{cffca755-2673-4aa5-90bd-e599669673d8}</UniqueIdentifier>
+    <Filter Include="6_HLSL\Appends\Added\Object">
+      <UniqueIdentifier>{c3eefffb-b368-44ac-9b7c-f79ca0f52ce4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6_HLSL\Defaults\AppendsCommon">
-      <UniqueIdentifier>{cc192cb9-fdb4-47ed-81fb-7be51b61f296}</UniqueIdentifier>
+    <Filter Include="6_HLSL\Appends\Added\Screen">
+      <UniqueIdentifier>{393c6d46-1939-4975-b613-4b430c795d11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\FirstStage">
+      <UniqueIdentifier>{ca2bb5f2-d23e-4aa9-861c-9be9d6f94881}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\SecondStage">
+      <UniqueIdentifier>{64723afd-fe41-416e-a678-c0062094345d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\Others">
+      <UniqueIdentifier>{be5a1b86-6a1f-4836-9742-62426e6e2a4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\TempForward">
+      <UniqueIdentifier>{c4574f09-b0e6-4bf5-9212-7a24cae31367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Added\Object\AppendTest">
+      <UniqueIdentifier>{eafa407a-1df3-4550-a749-caee3f6c9fa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Added\Screen\AppendTest">
+      <UniqueIdentifier>{d8b4476d-cc00-43d8-af2e-8ce3c6ee5166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Libraries\TextureBuffers">
+      <UniqueIdentifier>{d2f9f464-13f1-46d4-a6e7-9ec767a7ce32}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\ShaderDefaults\Libraries\DefaultBufferPerObject.hlsli">
-      <Filter>6_HLSL\Defaults\DefaultInfo</Filter>
+    <None Include="..\Shaders\System\Libraries\System_1stLayouts.hlsli">
+      <Filter>6_HLSL\System\Libraries</Filter>
     </None>
-    <None Include="..\ShaderDefaults\Libraries\DefaultLayouts.hlsli">
-      <Filter>6_HLSL\Defaults\DefaultInfo</Filter>
+    <None Include="..\Shaders\System\Libraries\System_PerObjectBuffers.hlsli">
+      <Filter>6_HLSL\System\Libraries</Filter>
     </None>
-    <None Include="..\ShaderDefaults\Libraries\Lights.hlsli">
-      <Filter>6_HLSL\Defaults\DefaultInfo</Filter>
+    <None Include="..\Shaders\System\Libraries\System_QuadLayouts.hlsli">
+      <Filter>6_HLSL\System\Libraries</Filter>
     </None>
-    <None Include="..\ShaderDefaults\Libraries\misc.hlsli">
-      <Filter>6_HLSL\Defaults\DefaultInfo</Filter>
+    <None Include="..\Shaders\Appends\Libraries\Appends_Common.hlsli">
+      <Filter>6_HLSL\Appends\Libraries</Filter>
+    </None>
+    <None Include="..\Shaders\Appends\Libraries\TextureBuffers\Appends_GBufferTextures.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\TextureBuffers</Filter>
+    </None>
+    <None Include="..\Shaders\Appends\Libraries\TextureBuffers\Appends_AdditionalTextures.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\TextureBuffers</Filter>
+    </None>
+    <None Include="..\Shaders\Appends\Libraries\TextureBuffers\Appends_LightmapTextures.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\TextureBuffers</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\ShaderDefaults\Shaders\FirstSkinned_VS.hlsl">
-      <Filter>6_HLSL\Defaults\FirstStage</Filter>
+    <FxCompile Include="..\Shaders\System\Pipeline\FirstStage\FirstSkinned_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Shaders\FirstStage_PS.hlsl">
-      <Filter>6_HLSL\Defaults\FirstStage</Filter>
+    <FxCompile Include="..\Shaders\System\Pipeline\FirstStage\FirstStage_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Shaders\FirstStatic_VS.hlsl">
-      <Filter>6_HLSL\Defaults\FirstStage</Filter>
+    <FxCompile Include="..\Shaders\System\Pipeline\FirstStage\FirstStatic_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\TempForward\TempForwardPS.hlsl">
-      <Filter>6_HLSL\Defaults\TempForward</Filter>
+    <FxCompile Include="..\Shaders\System\Pipeline\TempForward\TempForwardPS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\TempForward</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\TempForward\TempForwardVS.hlsl">
-      <Filter>6_HLSL\Defaults\TempForward</Filter>
+    <FxCompile Include="..\Shaders\System\Pipeline\TempForward\TempForwardVS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\TempForward</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Shaders\SecondStage_PS.hlsl">
-      <Filter>6_HLSL\Defaults\SecondStage</Filter>
+    <FxCompile Include="..\Shaders\System\Pipeline\TempForward\TempForwardVSSkinned.hlsl">
+      <Filter>6_HLSL\System\Pipeline\TempForward</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Shaders\SecondStage_VS.hlsl">
-      <Filter>6_HLSL\Defaults\SecondStage</Filter>
+    <FxCompile Include="..\Shaders\System\Pipeline\Others\CubemapPS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Others</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Others\CubemapPS.hlsl">
-      <Filter>6_HLSL\Defaults\Others</Filter>
+    <FxCompile Include="..\Shaders\System\Pipeline\Others\CubemapVS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Others</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Others\CubemapVS.hlsl">
-      <Filter>6_HLSL\Defaults\Others</Filter>
+    <FxCompile Include="..\Shaders\System\Pipeline\Others\PrimitivePS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Others</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Others\PrimitivePS.hlsl">
-      <Filter>6_HLSL\Defaults\Others</Filter>
+    <FxCompile Include="..\Shaders\System\Pipeline\Others\PrimitiveVS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Others</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Others\PrimitiveVS.hlsl">
-      <Filter>6_HLSL\Defaults\Others</Filter>
+    <FxCompile Include="..\Shaders\System\Pipeline\SecondStage\SecondStage_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\SecondStage</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Shaders\PhongPS.hlsl">
-      <Filter>6_HLSL\Defaults\SecondStage</Filter>
+    <FxCompile Include="..\Shaders\System\Pipeline\SecondStage\SecondStage_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\SecondStage</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\Shaders\PhongVS.hlsl">
-      <Filter>6_HLSL\Defaults\SecondStage</Filter>
+    <FxCompile Include="..\Shaders\Appends\Added\Object\AppendTest\AppendObjectTestVS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\AppendTest</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderDefaults\TempForward\TempForwardVSSkinned.hlsl">
-      <Filter>6_HLSL\Defaults\TempForward</Filter>
+    <FxCompile Include="..\Shaders\Appends\Added\Object\AppendTest\AppendObjectTestPS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\AppendTest</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderAppends\Object\AppendTest\AppendTestVS.hlsl">
-      <Filter>6_HLSL\Appends\Object\0_VS</Filter>
+    <FxCompile Include="..\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Screen\AppendTest</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderAppends\Object\AppendTest\AppendTestPS.hlsl">
-      <Filter>6_HLSL\Appends\Object\1_PS</Filter>
+    <FxCompile Include="..\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestVS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Screen\AppendTest</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
