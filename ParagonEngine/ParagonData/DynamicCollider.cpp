@@ -14,6 +14,27 @@ namespace Pg::Data
 	}
 
 
+	void DynamicCollider::UpdateTransform()
+	{
+		using namespace Pg::Math;
+
+		PGFLOAT4 position = PGFLOAT4(GetPositionOffset(), 1.0f) * _object->_transform.GetWorldTM();
+		PGQuaternion rotation = PGQuaternionMultiply(GetRotationOffset(), _object->_transform.GetRotation());
+		
+		physx::PxTransform transform;
+
+		transform.p.x = position.x;
+		transform.p.y = position.y;
+		transform.p.z = position.z;
+
+		transform.q.x = rotation.x;
+		transform.q.y = rotation.y;
+		transform.q.z = rotation.z;
+		transform.q.w = rotation.w;
+
+		_rigid->setGlobalPose(transform);
+	}
+
 	bool DynamicCollider::GetIsCollide()
 	{
 		return _isCollide;

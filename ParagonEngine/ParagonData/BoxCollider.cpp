@@ -13,13 +13,10 @@ namespace Pg::Data
 
 	}
 
-
 	void BoxCollider::Start()
 	{
 
 	}
-
-
 
 	void BoxCollider::Update()
 	{
