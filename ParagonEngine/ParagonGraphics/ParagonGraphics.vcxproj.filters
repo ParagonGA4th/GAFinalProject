@@ -189,6 +189,9 @@
     <ClInclude Include="RenderVertexShader.h">
       <Filter>3_GraphicsResources\RenderShader\RenderVertexShader</Filter>
     </ClInclude>
+    <ClInclude Include="RenderObjectWireframeList.h">
+      <Filter>10_Structs\RenderObjectList\RenderObjectWireframeList</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -542,6 +545,9 @@
     </Filter>
     <Filter Include="10_Structs\RenderObjectList\RenderObjectCubemapList">
       <UniqueIdentifier>{9c9d30fe-4eeb-43a3-9ed4-6a4b2e608068}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\RenderObjectList\RenderObjectWireframeList">
+      <UniqueIdentifier>{97f30ae3-ee69-480e-8642-081ee54a39b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
