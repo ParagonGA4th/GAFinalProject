@@ -62,11 +62,18 @@ namespace Pg::Graphics
 		DirectX::XMStoreFloat4x4(&(_cbData.worldMatrix), DirectX::XMMatrixMultiply(tWorldTMMat, tCameraPositionMat));
 		//DirectX::XMStoreFloat4x4(&(_cbData.worldMatrix), tWorldTMMat);
 		DirectX::XMStoreFloat4x4(&(_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
+
+		//Mapping.
+		D3D11_MAPPED_SUBRESOURCE res;
+		ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
+		HR(_DXStorage->_deviceContext->Map(_cBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &res));
+		RenderCubemap::CB* data = reinterpret_cast<RenderCubemap::CB*>(res.pData);
+		*(data) = _cbData;
+		_DXStorage->_deviceContext->Unmap(_cBuffer, 0);
 	}
 
 	void RenderCubemap::BindConstantBuffers()
 	{
-		//_DXStorage->_deviceContext->UpdateSubresource(_cBuffer, 0, NULL, &_cbData, 0, 0);
 		_DXStorage->_deviceContext->VSSetConstantBuffers(0, 1, &_cBuffer);
 	}
 
@@ -76,18 +83,13 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(0, 1, &_srv);
 	} 
 
-	void RenderCubemap::BindVertexIndexBuffers()
+	void RenderCubemap::Render()
 	{
 		UINT stride = sizeof(LayoutDefine::VinCubemap);
 		UINT offset = 0;
 
 		LowDX11Storage::GetInstance()->_deviceContext->IASetVertexBuffers(0, 1, &_VB, &stride, &offset);
 		LowDX11Storage::GetInstance()->_deviceContext->IASetIndexBuffer(_IB, DXGI_FORMAT_R32_UINT, 0);
-	}
-
-	void RenderCubemap::Render()
-	{
-		
 
 		_DXStorage->_deviceContext->DrawIndexed(_indexCount, 0, 0);
 	}

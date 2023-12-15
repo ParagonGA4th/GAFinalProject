@@ -53,8 +53,6 @@ namespace Pg::Graphics
 
 		//½ÇÁ¦ Cubemap ·»´õ.
 		cubeMapList->_list.at(cubemapIndex)->BindAdditionalResources();
-		///231214 Last.
-		//cubeMapList->_list.at(cubemapIndex)->Bind();
 		cubeMapList->_list.at(cubemapIndex)->UpdateConstantBuffers(camData);
 		cubeMapList->_list.at(cubemapIndex)->BindConstantBuffers();
 		cubeMapList->_list.at(cubemapIndex)->Render();
