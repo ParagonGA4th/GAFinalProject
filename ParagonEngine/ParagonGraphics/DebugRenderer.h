@@ -1,4 +1,6 @@
 #pragma once
+#include "SystemVertexShader.h"
+#include "SystemPixelShader.h"
 #include "../ParagonData/DebugData.h"
 
 #include <memory>
@@ -25,6 +27,7 @@ namespace Pg::Graphics
 {
 	class LowDX11Storage;
 	class LowDX11Logic;
+	class RenderObjectWireframeList;
 
 	class DebugRenderer
 	{
@@ -37,10 +40,12 @@ namespace Pg::Graphics
 		void GetDebugSphereGeometryData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec);
 		void GetDebugCapsuleGeometryData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec);
 		void GetDebugLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec);
-		void Render(Pg::Data::CameraData* camData);
+		void Render(RenderObjectWireframeList* wireframeList, Pg::Data::CameraData* camData);
 
 	private:
 		//내부적으로 Rendering 세팅 설정.
+		void WireframeObjRender(RenderObjectWireframeList* wireframeList, Pg::Data::CameraData* camData);
+
 		void BeginGeoPrimitiveRender();
 		void GeoPrimitiveRender(Pg::Data::CameraData* camData);
 		void EndGeoPrimitiveRender();
@@ -56,12 +61,20 @@ namespace Pg::Graphics
 		void DrawLine(Pg::Data::LineInfo* lineInfo);
 
 	private:
+		void CreateSystemVertexShaders();
 		void InitGeometry();
 		void InitLine();
 
 	private:
 		LowDX11Storage* _DXStorage;
 		LowDX11Logic* _DXLogic;
+
+	private:
+		//SystemVertexShader : Primitive
+		std::unique_ptr<SystemVertexShader> _primitiveVS;
+		std::unique_ptr<SystemPixelShader> _primitivePS;
+
+		//Wireframe Primitive RenderObjects
 
 	private:
 		//Box Wireframe Rendering

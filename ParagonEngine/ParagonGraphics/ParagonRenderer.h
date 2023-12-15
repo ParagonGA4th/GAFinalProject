@@ -5,6 +5,7 @@
 #include "RenderObject3DList.h"
 #include "RenderObjectLightList.h"
 #include "RenderObjectCubemapList.h"
+#include "RenderObjectWireframeList.h"
 
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/DebugData.h"
@@ -74,6 +75,8 @@ namespace Pg::Graphics
 	public:
 		unsigned int Get3DObjectCount();
 		
+	private:
+		void InitializePrimitiveWireframeObjects();
 
 
 	private:
@@ -85,6 +88,8 @@ namespace Pg::Graphics
 		std::unique_ptr<RenderObject3DList> _renderObject3DList;
 		std::unique_ptr<RenderObjectLightList> _lights;
 		std::unique_ptr<RenderObjectCubemapList> _cubeMapList;
+		//Axis/Grid
+		std::unique_ptr<RenderObjectWireframeList> _primObjectList;
 		
 		Pg::Data::RendererChangeList* _rendererChangeList = nullptr;
 

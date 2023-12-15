@@ -4,6 +4,9 @@
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
 #include "MathHelper.h"
+#include "RenderObjectWireframeList.h"
+#include "WireframeRenderObject.h"
+#include "LayoutDefine.h"
 
 #include "../ParagonData/CameraData.h"
 
@@ -21,12 +24,15 @@ namespace Pg::Graphics
 
 	void DebugRenderer::Initialize()
 	{
+		CreateSystemVertexShaders();
 		InitGeometry();
 		InitLine();
 	}
 
-	void DebugRenderer::Render(Pg::Data::CameraData* camData)
+	void DebugRenderer::Render(RenderObjectWireframeList* wireframeList, Pg::Data::CameraData* camData)
 	{
+		WireframeObjRender(wireframeList, camData);
+
 		BeginGeoPrimitiveRender();
 		GeoPrimitiveRender(camData);
 		EndGeoPrimitiveRender();
@@ -108,6 +114,24 @@ namespace Pg::Graphics
 			&_debugLineInputLayout));
 
 		_commonStates = std::make_unique<DirectX::CommonStates>(_DXStorage->_device);
+	}
+
+	void DebugRenderer::WireframeObjRender(RenderObjectWireframeList* wireframeList, Pg::Data::CameraData* camData)
+	{
+		//Layout, Topology, Shader, RS
+		_primitiveVS->Bind();
+		_primitivePS->Bind();
+
+		for (auto& it : wireframeList->_list)
+		{
+			it->UpdateConstantBuffers(camData);
+			it->BindConstantBuffers();
+			it->Render();
+			it->UnbindConstantBuffers();
+		}
+
+		_primitiveVS->Unbind();
+		_primitivePS->Unbind();
 	}
 
 	void DebugRenderer::BeginGeoPrimitiveRender()
@@ -342,6 +366,12 @@ namespace Pg::Graphics
 			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(lineInfo->beginPoint), MathHelper::PG2XM_FLOAT4(lineInfo->color)),
 			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(lineInfo->endPoint), MathHelper::PG2XM_FLOAT4(lineInfo->color)));
 	}
-	
+
+	void DebugRenderer::CreateSystemVertexShaders()
+	{
+		_primitiveVS = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/PrimitiveVS.cso", LayoutDefine::GetWireframePrimitiveLayout(),
+			LowDX11Storage::GetInstance()->_wireframeState, D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+		_primitivePS = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/PrimitivePS.cso");
+	}
 
 }

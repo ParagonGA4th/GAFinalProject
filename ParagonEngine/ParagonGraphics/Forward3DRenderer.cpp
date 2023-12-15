@@ -11,8 +11,6 @@
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/AssetDefines.h"
 
-#include "Grid.h"
-#include "Axis.h"
 #include "RenderCubemap.h"
 #include "RenderObjectCubemapList.h"
 
@@ -33,7 +31,6 @@ namespace Pg::Graphics
 	void Pg::Graphics::Forward3DRenderer::Initialize()
 	{
 		CreateSystemVertexShaders();
-		InitializePrimitiveWireframeObjects();
 	}
 
 	void Pg::Graphics::Forward3DRenderer::Render(RenderObjectCubemapList* cubeMapList, unsigned int cubeMapIndex, Pg::Data::CameraData* camData)
@@ -41,7 +38,6 @@ namespace Pg::Graphics
 		//일단은 Render Target을 Main으로 설정.
 		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
 
-		RenderWireframePrimitives(camData);
 		RenderCubemapWithIndex(camData, cubeMapList, cubeMapIndex);
 	}
 
@@ -65,44 +61,9 @@ namespace Pg::Graphics
 
 	void Forward3DRenderer::CreateSystemVertexShaders()
 	{
-		_primitiveVS = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/PrimitiveVS.cso", LayoutDefine::GetWireframePrimitiveLayout(),
-			LowDX11Storage::GetInstance()->_wireframeState, D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
-		_primitivePS = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/PrimitivePS.cso");
-
 		_cubemapVS = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/CubemapVS.cso", LayoutDefine::GetCubemapLayout(),
 			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		_cubemapPS = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/CubemapPS.cso");
-	}
-
-	void Forward3DRenderer::RenderWireframePrimitives(Pg::Data::CameraData* camData)
-	{
-		//Layout, Topology, Shader, RS
-		_primitiveVS->Bind();
-		_primitivePS->Bind();
-
-		for (auto& it : _primObjectList)
-		{
-			it->UpdateConstantBuffers(camData);
-			it->BindConstantBuffers();
-			it->Render();
-			it->UnbindConstantBuffers();
-		}
-
-		_primitiveVS->Unbind();
-		_primitivePS->Unbind();
-	}
-
-	void Forward3DRenderer::InitializePrimitiveWireframeObjects()
-	{
-		// Primitive RenderObject 투입 + Initialize();
-		_primObjectList.push_back(std::make_unique<Grid>());
-		_primObjectList.push_back(std::make_unique<Axis>());
-
-		//일괄적으로 BuildBuffers 수행.
-		for (auto& it : _primObjectList)
-		{
-			it->BuildBuffers();
-		}
 	}
 }
 

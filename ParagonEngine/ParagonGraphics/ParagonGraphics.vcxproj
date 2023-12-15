@@ -43,6 +43,7 @@
     <ClInclude Include="DemoGeometryGenerator.h" />
     <ClInclude Include="Forward2DRenderer.h" />
     <ClInclude Include="RenderObjectCubemapList.h" />
+    <ClInclude Include="RenderObjectWireframeList.h" />
     <ClInclude Include="RenderPixelShader.h" />
     <ClInclude Include="RenderVertexShader.h" />
     <ClInclude Include="SystemPixelShader.h" />

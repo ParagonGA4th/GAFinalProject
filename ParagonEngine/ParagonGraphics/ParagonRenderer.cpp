@@ -22,6 +22,10 @@
 #include "../ParagonData/CameraData.h"
 #include "../ParagonUtil/Log.h"
 
+//Wireframe RenderObject들.
+#include "Axis.h"
+#include "Grid.h"
+
 //세부적인 렌더러들의 리스트.
 #include "../ParagonData/StaticMeshRenderer.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
@@ -53,6 +57,7 @@ namespace Pg::Graphics
 		_renderObject2DList = std::make_unique<RenderObject2DList>();
 		_renderObject3DList = std::make_unique<RenderObject3DList>();
 		_cubeMapList = std::make_unique<RenderObjectCubemapList>();
+		_primObjectList = std::make_unique<RenderObjectWireframeList>();
 	}
 
 	ParagonRenderer::~ParagonRenderer()
@@ -76,6 +81,9 @@ namespace Pg::Graphics
 
 		// 내부적으로 DXStorage를 쓰고 있기 때문에 생성자가 아닌 Initialize()에 있어야 함
 		_lights = std::make_unique<RenderObjectLightList>();
+
+		//Initialize Primitive Wireframe Obj
+		InitializePrimitiveWireframeObjects();
 
 		//SkinningMk.2
 		_tempMultiMesh = new MultimaterialMesh("tFilePath");
@@ -110,6 +118,11 @@ namespace Pg::Graphics
 		//_tempMultiMesh->Render(camData);
 
 		_forward2dRenderer->Render(_renderObject2DList.get(), camData);
+	}
+
+	void ParagonRenderer::DebugRender(Pg::Data::CameraData* camData)
+	{
+		_debugRenderer->Render(_primObjectList.get(), camData);
 	}
 
 	void ParagonRenderer::EndRender()
@@ -213,11 +226,6 @@ namespace Pg::Graphics
 		}
 	}
 
-	void ParagonRenderer::DebugRender(Pg::Data::CameraData* camData)
-	{
-		_debugRenderer->Render(camData);
-	}
-
 	void ParagonRenderer::SyncComponentToGraphics(const Pg::Data::Scene* const newScene)
 	{
 		
@@ -246,6 +254,19 @@ namespace Pg::Graphics
 	void ParagonRenderer::PassSphereGeometryData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec)
 	{
 		_debugRenderer->GetDebugSphereGeometryData(sphereColVec);
+	}
+
+	void ParagonRenderer::InitializePrimitiveWireframeObjects()
+	{
+		// Primitive RenderObject 투입 + Initialize();
+		_primObjectList->_list.push_back(std::make_unique<Grid>());
+		_primObjectList->_list.push_back(std::make_unique<Axis>());
+
+		//일괄적으로 BuildBuffers 수행.
+		for (auto& it : _primObjectList->_list)
+		{
+			it->BuildBuffers();
+		}
 	}
 
 	//void ParagonRenderer::SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene)
