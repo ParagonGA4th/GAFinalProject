@@ -13,7 +13,6 @@ namespace Pg::Data
 
 namespace Pg::Graphics
 {
-	class TestCube;
 	class RenderObject3DList;
 	class RenderObjectLightList;
 	class LowDX11Storage;
@@ -86,8 +85,5 @@ namespace Pg::Graphics
 
 	private:
 		LowDX11Storage* _DXStorage;
-
-	private:
-		TestCube* cube;
 	};
 }

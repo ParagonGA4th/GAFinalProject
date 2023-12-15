@@ -34,6 +34,11 @@ namespace Pg::Graphics
 		void Unbind();
 
 	private:
+		void SetupShaderRequirements();
+		//Shader Reflection.
+		void ReflectShader();
+
+	private:
 		LowDX11Storage* _DXStorage = nullptr;
 
 		// 쉐이더 바이트코드를 멤버에 저장

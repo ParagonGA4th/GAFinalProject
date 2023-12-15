@@ -166,8 +166,10 @@ namespace Pg::Core::Manager
 		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", eAssetDefine::_FONT);
 		LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", eAssetDefine::_FONT);
 		LoadResource("../Resources/Textures/room.dds", eAssetDefine::_CUBEMAP);
-		
 
+		//현재 파이프라인에는 요구되지 않으나, 리플렉션을 보기 위해.
+		//LoadResource("../Builds/x64/Debug/AppendTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
+		
 		//LoadResource("../Resources/3DModels/AnimMesh/twcylinder/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 	}
 
