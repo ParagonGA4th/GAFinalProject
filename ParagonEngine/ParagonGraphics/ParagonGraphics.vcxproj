@@ -184,7 +184,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\Appends\Libraries\Appends_Common.hlsli" />
-    <None Include="..\Shaders\Appends\Libraries\TextureBuffers\Appends_AdditionalTextures.hlsli" />
+    <None Include="..\Shaders\Appends\Libraries\SamplerStates\Appends_SamplerStates.hlsli" />
     <None Include="..\Shaders\Appends\Libraries\TextureBuffers\Appends_GBufferTextures.hlsli" />
     <None Include="..\Shaders\Appends\Libraries\TextureBuffers\Appends_LightmapTextures.hlsli" />
     <None Include="..\Shaders\System\Libraries\System_1stLayouts.hlsli" />

@@ -3,7 +3,12 @@
 #ifndef __DEFINED_APPENDS_COMMON_HLSL__
 #define __DEFINED_APPENDS_COMMON_HLSL__
 
-#include "TextureBuffers/Appends_GBufferTextures.hlsli"
+//System
+#include "../../System/Libraries/System_QuadLayouts.hlsli"
 
+//Appends
+#include "TextureBuffers/Appends_GBufferTextures.hlsli"
+#include "TextureBuffers/Appends_LightmapTextures.hlsli"
+#include "TextureBuffers/Appends_LightmapTextures.hlsli"
 
 #endif //__DEFINED_APPENDS_COMMON_HLSL__
