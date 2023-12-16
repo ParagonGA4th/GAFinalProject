@@ -579,6 +579,9 @@
     <Filter Include="6_HLSL\Appends\Libraries\TextureBuffers">
       <UniqueIdentifier>{d2f9f464-13f1-46d4-a6e7-9ec767a7ce32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="6_HLSL\Appends\Libraries\SamplerStates">
+      <UniqueIdentifier>{97be7a8a-2493-45e7-9f42-d9e410f62025}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\System\Libraries\System_1stLayouts.hlsli">
@@ -596,11 +599,11 @@
     <None Include="..\Shaders\Appends\Libraries\TextureBuffers\Appends_GBufferTextures.hlsli">
       <Filter>6_HLSL\Appends\Libraries\TextureBuffers</Filter>
     </None>
-    <None Include="..\Shaders\Appends\Libraries\TextureBuffers\Appends_AdditionalTextures.hlsli">
-      <Filter>6_HLSL\Appends\Libraries\TextureBuffers</Filter>
-    </None>
     <None Include="..\Shaders\Appends\Libraries\TextureBuffers\Appends_LightmapTextures.hlsli">
       <Filter>6_HLSL\Appends\Libraries\TextureBuffers</Filter>
+    </None>
+    <None Include="..\Shaders\Appends\Libraries\SamplerStates\Appends_SamplerStates.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\SamplerStates</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

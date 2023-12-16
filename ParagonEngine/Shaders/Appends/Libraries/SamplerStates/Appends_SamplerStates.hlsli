@@ -1,0 +1,8 @@
+#ifndef __DEFINED_APPENDS_SAMPLER_STATES_HLSL__
+#define __DEFINED_APPENDS_SAMPLER_STATES_HLSL__
+
+//Full Screen Quad : Sampler State.
+SamplerState fullScreenQuadSS : register(s0);
+SamplerState lightmapSS : register(s1);
+
+#endif //__DEFINED_APPENDS_SAMPLER_STATES_HLSL__
