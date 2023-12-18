@@ -1,4 +1,4 @@
-#include "FileManager.h"
+#include "FileSystem.h"
 #include "DataManager.h"
 #include "Event.h"
 
@@ -9,18 +9,18 @@
 
 namespace fs = std::filesystem;
 
-Pg::Editor::Manager::FileManager::FileManager()
+Pg::Editor::System::FileSystem::FileSystem()
 {
 	_dataManager = std::make_unique<Pg::Editor::Manager::DataManager>();
 	_fileSaveEvent = std::make_unique<Pg::Editor::Event>();
 	_fileOpenEvent = std::make_unique<Pg::Editor::Event>();
 }
 
-Pg::Editor::Manager::FileManager::~FileManager()
+Pg::Editor::System::FileSystem::~FileSystem()
 {
 }
 
-void Pg::Editor::Manager::FileManager::Initialize()
+void Pg::Editor::System::FileSystem::Initialize()
 {
 	// project가 처음 open 될 때는 기존 폴더(Builds//x64//Relase//)에 있는 sample load.
 
@@ -28,20 +28,20 @@ void Pg::Editor::Manager::FileManager::Initialize()
 	_fileOpenEvent->AddEvent(Pg::Editor::eEventType::FileOpen, [&]() { FileOpen(); });
 }
 
-void Pg::Editor::Manager::FileManager::FileOpen()
+void Pg::Editor::System::FileSystem::FileOpen()
 {
 	ShowDialog(true);
 	_dataManager->DataLoad(_rootPath, SeparatingFileName());
 }
 
-void Pg::Editor::Manager::FileManager::FileSave()
+void Pg::Editor::System::FileSystem::FileSave()
 {
 	ShowDialog(false);
 	CreateFolder();
 	CreateParagonFile(_dataManager->DataSave());
 }
 
-void Pg::Editor::Manager::FileManager::ShowDialog(bool isOpen)
+void Pg::Editor::System::FileSystem::ShowDialog(bool isOpen)
 {
 	// COM 라이브러리 초기화
 	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
@@ -95,7 +95,7 @@ void Pg::Editor::Manager::FileManager::ShowDialog(bool isOpen)
 	CoUninitialize();
 }
 
-void Pg::Editor::Manager::FileManager::CreateFolder()
+void Pg::Editor::System::FileSystem::CreateFolder()
 {
 	fs::path rootPath = _rootPath.substr(0, _rootPath.rfind("."));
 
@@ -110,7 +110,7 @@ void Pg::Editor::Manager::FileManager::CreateFolder()
 	fs::create_directory(subFolder_2);
 }
 
-void Pg::Editor::Manager::FileManager::CreateParagonFile(std::unordered_map<std::string, std::string> fileData)
+void Pg::Editor::System::FileSystem::CreateParagonFile(std::unordered_map<std::string, std::string> fileData)
 {
 	try
 	{
@@ -131,7 +131,7 @@ void Pg::Editor::Manager::FileManager::CreateParagonFile(std::unordered_map<std:
 	}
 }
 
-std::string Pg::Editor::Manager::FileManager::SeparatingFileName()
+std::string Pg::Editor::System::FileSystem::SeparatingFileName()
 {
 	std::string fileName;
 

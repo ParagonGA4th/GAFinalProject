@@ -1,18 +1,11 @@
 #pragma once
 #include <windows.h>
 #include <memory>
+#include <vector>
 
-namespace Pg::Editor::Manager
-{
-	class EditorManager;
-	class ProcessManager;
-	class FileManager;
-}
-
-namespace Pg::Editor
-{
-	class Event;
-}
+namespace Pg::Editor::Manager { class IEditorManager; }
+namespace Pg::Editor::System { class FileSystem; }
+namespace Pg::Editor { class Event; }
 
 namespace Pg::Editor::Core
 {
@@ -40,11 +33,8 @@ namespace Pg::Editor::Core
 
 		const WCHAR* _appName;
 	private:
-		// WndProc에 접근 하기 위해 static 사용
-		std::unique_ptr<Pg::Editor::Manager::EditorManager> _editorManager;
-		std::unique_ptr<Pg::Editor::Manager::ProcessManager> _processManager;
-		std::unique_ptr<Pg::Editor::Manager::FileManager> _fileManager;
-
-		std::unique_ptr < Pg::Editor::Event> _editorEvent;
+		std::vector<Pg::Editor::Manager::IEditorManager*> _editorManagers;
+		std::unique_ptr<Pg::Editor::System::FileSystem> _fileSystem;
+		std::unique_ptr<Pg::Editor::Event> _editorEvent;
 	};
 }

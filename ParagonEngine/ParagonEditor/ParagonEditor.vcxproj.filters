@@ -1,20 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Editor.cpp">
-      <Filter>0_Main</Filter>
-    </ClCompile>
     <ClCompile Include="EditorManager.cpp">
-      <Filter>0_Main\EditorManager</Filter>
+      <Filter>1_Main\EditorManager</Filter>
     </ClCompile>
     <ClCompile Include="ProcessManager.cpp">
-      <Filter>0_Main\ProcessManager</Filter>
+      <Filter>1_Main\ProcessManager</Filter>
     </ClCompile>
-    <ClCompile Include="FileManager.cpp">
-      <Filter>3_File\FilManager</Filter>
+    <ClCompile Include="FileSystem.cpp">
+      <Filter>3_File\FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="EditorAction.cpp">
-      <Filter>0_Main\EditorAction</Filter>
+      <Filter>1_Main\EditorAction</Filter>
     </ClCompile>
     <ClCompile Include="Inspector.cpp">
       <Filter>2_Windows\Inspector</Filter>
@@ -44,30 +41,27 @@
       <Filter>4_Event\EventSystem</Filter>
     </ClCompile>
     <ClCompile Include="Event.cpp">
-      <Filter>4_Event</Filter>
+      <Filter>4_Event\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>1_Main\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Editor.h">
-      <Filter>0_Main</Filter>
-    </ClInclude>
     <ClInclude Include="EditorManager.h">
-      <Filter>0_Main\EditorManager</Filter>
+      <Filter>1_Main\EditorManager</Filter>
     </ClInclude>
     <ClInclude Include="ProcessManager.h">
-      <Filter>0_Main\ProcessManager</Filter>
+      <Filter>1_Main\ProcessManager</Filter>
     </ClInclude>
     <ClInclude Include="EditorDLLExporter.h">
-      <Filter>1_Define\EditorDLLExporter</Filter>
+      <Filter>0_Define\EditorDLLExporter</Filter>
     </ClInclude>
-    <ClInclude Include="IEditor.h">
-      <Filter>1_Define</Filter>
-    </ClInclude>
-    <ClInclude Include="FileManager.h">
-      <Filter>3_File\FilManager</Filter>
+    <ClInclude Include="FileSystem.h">
+      <Filter>3_File\FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="EditorAction.h">
-      <Filter>0_Main\EditorAction</Filter>
+      <Filter>1_Main\EditorAction</Filter>
     </ClInclude>
     <ClInclude Include="Inspector.h">
       <Filter>2_Windows\Inspector</Filter>
@@ -102,32 +96,23 @@
     <ClInclude Include="EventType.h">
       <Filter>4_Event</Filter>
     </ClInclude>
-    <ClInclude Include="Event.h">
-      <Filter>4_Event</Filter>
-    </ClInclude>
     <ClInclude Include="EditorDefine.h">
-      <Filter>1_Define</Filter>
+      <Filter>0_Define</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>4_Event\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>1_Main\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="IEditor.h">
+      <Filter>0_Define\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IEditorManager.h">
+      <Filter>0_Define\Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="0_Main">
-      <UniqueIdentifier>{3e46d354-9362-4258-8705-75d60113e615}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Define">
-      <UniqueIdentifier>{0363f5c7-3ed9-4655-b75a-d655ab668f61}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Define\EditorDLLExporter">
-      <UniqueIdentifier>{a5a395cd-a936-449b-a1d4-162579c4e265}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_Main\EditorAction">
-      <UniqueIdentifier>{30d81899-e0d9-43e2-ad07-85156101a297}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_Main\EditorManager">
-      <UniqueIdentifier>{56dfd14d-ea18-4fa8-8ae7-5ee43d02390e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_Main\ProcessManager">
-      <UniqueIdentifier>{6aeadde7-4800-4c6e-8d2d-947ccce11ef1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="4_Event">
       <UniqueIdentifier>{748cb9ec-15ef-4e3f-8809-244b6fa1b409}</UniqueIdentifier>
     </Filter>
@@ -152,9 +137,6 @@
     <Filter Include="3_File">
       <UniqueIdentifier>{ff87ba54-b4f3-4e3a-a9b8-294483913b95}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3_File\FilManager">
-      <UniqueIdentifier>{2e9788a1-cb70-46ee-9880-2e87ffcefa55}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3_File\Data">
       <UniqueIdentifier>{803e37e2-5951-4b8d-ba9f-cd15dbb8afe0}</UniqueIdentifier>
     </Filter>
@@ -169,6 +151,36 @@
     </Filter>
     <Filter Include="4_Event\EventSystem">
       <UniqueIdentifier>{e3f1f26a-702e-4fe1-9a00-132ba6bc00ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Event\Event">
+      <UniqueIdentifier>{a9522205-dcc9-40a2-99fe-2bf8e2530db5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Define">
+      <UniqueIdentifier>{0363f5c7-3ed9-4655-b75a-d655ab668f61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Define\EditorDLLExporter">
+      <UniqueIdentifier>{a5a395cd-a936-449b-a1d4-162579c4e265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Main">
+      <UniqueIdentifier>{3e46d354-9362-4258-8705-75d60113e615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Main\EditorAction">
+      <UniqueIdentifier>{30d81899-e0d9-43e2-ad07-85156101a297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Main\EditorManager">
+      <UniqueIdentifier>{56dfd14d-ea18-4fa8-8ae7-5ee43d02390e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Main\ProcessManager">
+      <UniqueIdentifier>{6aeadde7-4800-4c6e-8d2d-947ccce11ef1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Main\Editor">
+      <UniqueIdentifier>{a7e9b0f8-eca8-4862-a7f1-77937af49334}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Define\Interface">
+      <UniqueIdentifier>{70c8a54c-7cc3-4ce1-b272-d7d17b09dcb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_File\FileSystem">
+      <UniqueIdentifier>{2e9788a1-cb70-46ee-9880-2e87ffcefa55}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

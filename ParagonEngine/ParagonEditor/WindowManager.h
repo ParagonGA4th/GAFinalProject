@@ -3,8 +3,8 @@
 #include <vector>
 
 namespace Pg::Editor::Data { class DataContainer; }
-namespace Pg::UI::Manager { class UIManager; }
 namespace Pg::Editor::Window { class IEditorWindow; }
+namespace Pg::UI::Manager { class UIManager; }
 
 namespace Pg::Editor::Manager
 {
@@ -14,7 +14,7 @@ namespace Pg::Editor::Manager
 		WindowManager();
 		~WindowManager();
 
-		void Initialize(HWND hWnd);
+		void Initialize(void* hWnd);
 		void Update();
 		void Finalize();
 		void WindowHandler(MSG message);
