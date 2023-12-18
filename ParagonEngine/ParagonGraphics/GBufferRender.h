@@ -6,30 +6,27 @@ class ID3D11ShaderResourceView;
 
 enum DXGI_FORMAT;
 
+/// <summary>
+/// G-Buffer 중, 일반 RenderTarget에 대응하는 클래스.
+/// </summary>
+
 namespace Pg::Graphics
 {
 	class LowDX11Storage;
 
-	class GBuffer
+	class GBufferRender
 	{
 	public:
-		GBuffer(DXGI_FORMAT BufferFormat, DXGI_FORMAT ViewFormat);
-
+		GBufferRender(DXGI_FORMAT BufferFormat, DXGI_FORMAT ViewFormat);
+		~GBufferRender();
 	public:
-		void Render();
-
-	public:
-		void Bind();
-		void Unbind();
+		ID3D11RenderTargetView* GetRTV();
+		ID3D11ShaderResourceView* GetSRV();
 
 	private:
 		void CreateBuffer(DXGI_FORMAT format);
 		void CreateRTV(DXGI_FORMAT format);
 		void CreateSRV(DXGI_FORMAT format);
-
-	public:
-		ID3D11RenderTargetView* GetRTV();
-		ID3D11ShaderResourceView* GetSRV();
 
 	private:
 		ID3D11Texture2D* _Buffer;

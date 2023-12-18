@@ -31,9 +31,6 @@
     <ClInclude Include="RenderMaterial.h">
       <Filter>3_GraphicsResources\RenderMaterial</Filter>
     </ClInclude>
-    <ClInclude Include="ParagonRenderer.h">
-      <Filter>0_Main</Filter>
-    </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
       <Filter>3_GraphicsResources\ConstantBuffer</Filter>
     </ClInclude>
@@ -97,15 +94,6 @@
     <ClInclude Include="GeometryGenerator.h">
       <Filter>5_Misc</Filter>
     </ClInclude>
-    <ClInclude Include="GBuffer.h">
-      <Filter>4_RenderObject</Filter>
-    </ClInclude>
-    <ClInclude Include="DeferredRenderer.h">
-      <Filter>0_Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Forward3DRenderer.h">
-      <Filter>0_Main</Filter>
-    </ClInclude>
     <ClInclude Include="RenderObjectText2D.h">
       <Filter>4_RenderObject\RenderObject2D\RenderObjectText2D</Filter>
     </ClInclude>
@@ -114,9 +102,6 @@
     </ClInclude>
     <ClInclude Include="RenderObjectStaticMesh3D.h">
       <Filter>4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Forward2DRenderer.h">
-      <Filter>0_Main</Filter>
     </ClInclude>
     <ClInclude Include="RenderObject3DList.h">
       <Filter>10_Structs\RenderObjectList\RenderObject3DList</Filter>
@@ -137,9 +122,6 @@
     </ClInclude>
     <ClInclude Include="RenderPrepStructs.h">
       <Filter>11_TempMultiMesh</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugRenderer.h">
-      <Filter>0_Main</Filter>
     </ClInclude>
     <ClInclude Include="AssetTextureType.h">
       <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetTextureType</Filter>
@@ -192,6 +174,27 @@
     <ClInclude Include="RenderObjectWireframeList.h">
       <Filter>10_Structs\RenderObjectList\RenderObjectWireframeList</Filter>
     </ClInclude>
+    <ClInclude Include="ParagonRenderer.h">
+      <Filter>0_Main\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Forward3DRenderer.h">
+      <Filter>0_Main\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Forward2DRenderer.h">
+      <Filter>0_Main\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="DeferredRenderer.h">
+      <Filter>0_Main\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugRenderer.h">
+      <Filter>0_Main\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="GBufferRender.h">
+      <Filter>0_Main\GBuffers\GBufferRender</Filter>
+    </ClInclude>
+    <ClInclude Include="GBufferDepthStencil.h">
+      <Filter>0_Main\GBuffers\GBufferDepthStencil</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -217,9 +220,6 @@
     </ClCompile>
     <ClCompile Include="RenderMaterial.cpp">
       <Filter>3_GraphicsResources\RenderMaterial</Filter>
-    </ClCompile>
-    <ClCompile Include="ParagonRenderer.cpp">
-      <Filter>0_Main</Filter>
     </ClCompile>
     <ClCompile Include="ConstantBufferBase.cpp">
       <Filter>3_GraphicsResources\ConstantBuffer</Filter>
@@ -272,12 +272,6 @@
     <ClCompile Include="GeometryGenerator.cpp">
       <Filter>5_Misc</Filter>
     </ClCompile>
-    <ClCompile Include="GBuffer.cpp">
-      <Filter>4_RenderObject</Filter>
-    </ClCompile>
-    <ClCompile Include="DeferredRenderer.cpp">
-      <Filter>0_Main</Filter>
-    </ClCompile>
     <ClCompile Include="RenderObjectText2D.cpp">
       <Filter>4_RenderObject\RenderObject2D\RenderObjectText2D</Filter>
     </ClCompile>
@@ -286,9 +280,6 @@
     </ClCompile>
     <ClCompile Include="RenderObjectStaticMesh3D.cpp">
       <Filter>4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Forward2DRenderer.cpp">
-      <Filter>0_Main</Filter>
     </ClCompile>
     <ClCompile Include="RenderFont.cpp">
       <Filter>3_GraphicsResources\RenderFont</Filter>
@@ -300,9 +291,6 @@
     </ClCompile>
     <ClCompile Include="RenderPrepStructs.cpp">
       <Filter>11_TempMultiMesh</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugRenderer.cpp">
-      <Filter>0_Main</Filter>
     </ClCompile>
     <ClCompile Include="AssetAnimationDataDefine.cpp">
       <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetAnimationDataDefine</Filter>
@@ -340,9 +328,6 @@
     <ClCompile Include="SystemPixelShader.cpp">
       <Filter>3_GraphicsResources\SystemShader\SystemPixelShader</Filter>
     </ClCompile>
-    <ClCompile Include="Forward3DRenderer.cpp">
-      <Filter>0_Main</Filter>
-    </ClCompile>
     <ClCompile Include="RenderObject3D.cpp">
       <Filter>4_RenderObject\RenderObject3D</Filter>
     </ClCompile>
@@ -354,6 +339,27 @@
     </ClCompile>
     <ClCompile Include="LayoutDefine.cpp">
       <Filter>5_Misc\DefaultShaderDefines\LayoutDefine</Filter>
+    </ClCompile>
+    <ClCompile Include="ParagonRenderer.cpp">
+      <Filter>0_Main\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Forward3DRenderer.cpp">
+      <Filter>0_Main\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Forward2DRenderer.cpp">
+      <Filter>0_Main\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="DeferredRenderer.cpp">
+      <Filter>0_Main\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugRenderer.cpp">
+      <Filter>0_Main\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="GBufferRender.cpp">
+      <Filter>0_Main\GBuffers\GBufferRender</Filter>
+    </ClCompile>
+    <ClCompile Include="GBufferDepthStencil.cpp">
+      <Filter>0_Main\GBuffers\GBufferDepthStencil</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -581,6 +587,18 @@
     </Filter>
     <Filter Include="6_HLSL\Appends\Libraries\SamplerStates">
       <UniqueIdentifier>{97be7a8a-2493-45e7-9f42-d9e410f62025}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers">
+      <UniqueIdentifier>{85c26228-1841-4e91-9dca-07777d029ce5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\GBuffers">
+      <UniqueIdentifier>{90d4c724-7977-41d9-918a-7399baa4d36d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\GBuffers\GBufferRender">
+      <UniqueIdentifier>{81e58eca-6673-4ddc-9715-18d4b224991a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\GBuffers\GBufferDepthStencil">
+      <UniqueIdentifier>{f96d711a-63a6-4d9a-b7a9-0bfe64fa49f8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

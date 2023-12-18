@@ -100,16 +100,17 @@ namespace Pg::Graphics
 		_deferredRenderer->BindFirstPass();
 		_deferredRenderer->RenderFirstPass(_renderObject3DList.get(), camData);
 		_deferredRenderer->UnbindFirstPass();
-
+		
+		//이제 여기가 Shader를 담고 있어야 한다.
 		// Deferred Lighting Pass
-		_deferredRenderer->BindLightingPass();
-		_deferredRenderer->RenderLight(_lights.get(), camData);
-		_deferredRenderer->UnbindLightingPass();
-
-		// Deferred Final Pass
-		_deferredRenderer->BindSecondPass();
-		_deferredRenderer->RenderSecondPass();
-		_deferredRenderer->UnbindSecondPass();
+		//_deferredRenderer->BindLightingPass();
+		//_deferredRenderer->RenderLight(_lights.get(), camData);
+		//_deferredRenderer->UnbindLightingPass();
+		//
+		//// Deferred Final Pass
+		//_deferredRenderer->BindSecondPass();
+		//_deferredRenderer->RenderSecondPass();
+		//_deferredRenderer->UnbindSecondPass();
 
 		// Forward
 		_forward3dRenderer->Render(_cubeMapList.get(), 0, camData);
