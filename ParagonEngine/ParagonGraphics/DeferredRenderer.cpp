@@ -4,7 +4,8 @@
 #include "SystemVertexShader.h"
 #include "SystemPixelShader.h"
 
-#include "GBuffer.h"
+#include "GBufferRender.h"
+#include "GBufferDepthStencil.h"
 #include "LowDX11Storage.h"
 
 #include "LayoutDefine.h"
@@ -33,30 +34,37 @@ void Pg::Graphics::DeferredRenderer::Initialize()
 {
 	_DXStorage = LowDX11Storage::GetInstance();
 
-	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
-	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
-	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
-	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
-	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R16G16B16A16_TYPELESS, DXGI_FORMAT_R16G16B16A16_FLOAT));
-	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
-	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT)); // phong lighting results
+	_gBufferRenderList.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+	_gBufferRenderList.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+	_gBufferRenderList.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+	_gBufferRenderList.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+	_gBufferRenderList.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 
-	for (auto& e : _gBuffers)
+	_gBufferDepthStencil = std::make_unique<GBufferDepthStencil>(DXGI_FORMAT_R32_TYPELESS, DXGI_FORMAT_D32_FLOAT_S8X24_UINT);
+
+	//FirstStage_PS에서 Binding될 Render Target들.
+	for (auto& e : _gBufferRenderList)
 	{
 		_RTVs.emplace_back(e->GetRTV());
 	}
 
-	for (auto& e : _gBuffers)
+	//SecondStage들에서 Binding될 SRV들. (GBufferRender, ~5/6)
+	for (auto& e : _gBufferRenderList)
 	{
 		_SRVs.emplace_back(e->GetSRV());
 	}
 
-	for (int i = 0; i < _gBuffers.size(); ++i)
+	//SecondStage들에서 Binding될 Depth SRV. (GBufferDepthStencil, 6/6)
+	_SRVs.emplace_back(_gBufferDepthStencil->GetSRV());
+	
+	//지금까지 바인딩된 값만큼 RTV Null Array를 만들어준다.
+	for (int i = 0; i < _gBufferRenderList.size() + 1; ++i)
 	{
 		NullRTV.emplace_back(nullptr);
 	}
 
-	for (int i = 0; i < _gBuffers.size(); ++i)
+	//지금까지 바인딩된 값만큼 SRV Null Array를 만들어준다.
+	for (int i = 0; i < _SRVs.size(); ++i)
 	{
 		NullSRV.emplace_back(nullptr);
 	}
@@ -201,7 +209,7 @@ void Pg::Graphics::DeferredRenderer::BuildFullscreenQuad()
 	// Buffer Description
 	D3D11_BUFFER_DESC IBDesc;
 	IBDesc.Usage = D3D11_USAGE_DEFAULT;
-	IBDesc.ByteWidth = tMeshData.Indices.size() * sizeof(int);
+	IBDesc.ByteWidth = tMeshData.Indices.size() * sizeof(unsigned int);
 	IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	IBDesc.CPUAccessFlags = 0;
 	IBDesc.MiscFlags = 0;

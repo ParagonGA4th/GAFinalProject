@@ -16,7 +16,8 @@ namespace Pg::Graphics
 	class RenderObject3DList;
 	class RenderObjectLightList;
 	class LowDX11Storage;
-	class GBuffer;
+	class GBufferRender;
+	class GBufferDepthStencil;
 	class SystemVertexShader;
 	class SystemPixelShader;
 	class ConstantBufferBase;
@@ -52,7 +53,9 @@ namespace Pg::Graphics
 		void BuildFullscreenQuad();
 		void BindFullscreenQuad();
 	private:
-		std::vector<GBuffer*> _gBuffers;
+		std::vector<std::unique_ptr<GBufferRender>> _gBufferRenderList;
+		std::unique_ptr<GBufferDepthStencil> _gBufferDepthStencil;
+
 		std::vector<ID3D11RenderTargetView*> _RTVs;
 		std::vector<ID3D11ShaderResourceView*> _SRVs;
 

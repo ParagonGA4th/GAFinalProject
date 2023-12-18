@@ -34,6 +34,7 @@
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantBufferBase.h" />
     <ClInclude Include="ConstantBufferDefine.h" />
+    <ClInclude Include="GBufferDepthStencil.h" />
     <ClInclude Include="RenderCubemap.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -52,7 +53,7 @@
     <ClInclude Include="RenderObject2DList.h" />
     <ClInclude Include="RenderObject3DList.h" />
     <ClInclude Include="Forward3DRenderer.h" />
-    <ClInclude Include="GBuffer.h" />
+    <ClInclude Include="GBufferRender.h" />
     <ClInclude Include="GeometryGenerator.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -119,6 +120,7 @@
     </ClCompile>
     <ClCompile Include="ConstantBufferBase.cpp" />
     <ClCompile Include="Forward3DRenderer.cpp" />
+    <ClCompile Include="GBufferDepthStencil.cpp" />
     <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="RenderCubemap.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -129,7 +131,7 @@
     <ClCompile Include="DemoGeometryGenerator.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Forward2DRenderer.cpp" />
-    <ClCompile Include="GBuffer.cpp" />
+    <ClCompile Include="GBufferRender.cpp" />
     <ClCompile Include="GeometryGenerator.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>

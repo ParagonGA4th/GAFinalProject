@@ -1,9 +1,9 @@
-#include "GBuffer.h"
+#include "GBufferRender.h"
 
 #include "DX11Headers.h"
 #include "LowDX11Storage.h"
 
-Pg::Graphics::GBuffer::GBuffer(DXGI_FORMAT BufferFormat, DXGI_FORMAT ViewFormat)
+Pg::Graphics::GBufferRender::GBufferRender(DXGI_FORMAT BufferFormat, DXGI_FORMAT ViewFormat)
 	:_Buffer(), _RTV(), _SRV(),
 	_DXStorage(LowDX11Storage::GetInstance())
 {
@@ -12,7 +12,12 @@ Pg::Graphics::GBuffer::GBuffer(DXGI_FORMAT BufferFormat, DXGI_FORMAT ViewFormat)
 	CreateSRV(ViewFormat);
 }
 
-void Pg::Graphics::GBuffer::CreateBuffer(DXGI_FORMAT format)
+Pg::Graphics::GBufferRender::~GBufferRender()
+{
+	//
+}
+
+void Pg::Graphics::GBufferRender::CreateBuffer(DXGI_FORMAT format)
 {
 	D3D11_TEXTURE2D_DESC tDesc;
 	tDesc.Width = _DXStorage->_screenWidth;
@@ -27,21 +32,20 @@ void Pg::Graphics::GBuffer::CreateBuffer(DXGI_FORMAT format)
 	tDesc.CPUAccessFlags = 0;
 	tDesc.MiscFlags = 0;
 
-	
-	HRESULT hr = _DXStorage->_device->CreateTexture2D(&tDesc, nullptr, &_Buffer);
+	HR(_DXStorage->_device->CreateTexture2D(&tDesc, nullptr, &_Buffer));
 }
 
-void Pg::Graphics::GBuffer::CreateRTV(DXGI_FORMAT format)
+void Pg::Graphics::GBufferRender::CreateRTV(DXGI_FORMAT format)
 {
 	D3D11_RENDER_TARGET_VIEW_DESC tDesc;
 	tDesc.Format = format;
 	tDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
 	tDesc.Texture2D.MipSlice = 0;
 
-	HRESULT hr = _DXStorage->_device->CreateRenderTargetView(_Buffer, &tDesc, &_RTV);
+	HR(_DXStorage->_device->CreateRenderTargetView(_Buffer, &tDesc, &_RTV));
 }
 
-void Pg::Graphics::GBuffer::CreateSRV(DXGI_FORMAT format)
+void Pg::Graphics::GBufferRender::CreateSRV(DXGI_FORMAT format)
 {
 	D3D11_SHADER_RESOURCE_VIEW_DESC tDesc;
 	tDesc.Format = format;
@@ -49,31 +53,17 @@ void Pg::Graphics::GBuffer::CreateSRV(DXGI_FORMAT format)
 	tDesc.Texture2D.MostDetailedMip = 0;
 	tDesc.Texture2D.MipLevels = -1;
 
-	HRESULT hr = _DXStorage->_device->CreateShaderResourceView(_Buffer, &tDesc, &_SRV);
-
+	HR(_DXStorage->_device->CreateShaderResourceView(_Buffer, &tDesc, &_SRV));
 }
 
-void Pg::Graphics::GBuffer::Bind()
-{
-	_DXStorage->_deviceContext->OMSetRenderTargets(1, &_RTV, _DXStorage->_depthStencilView);
-}
-
-void Pg::Graphics::GBuffer::Unbind()
-{
-
-}
-
-void Pg::Graphics::GBuffer::Render()
-{
-
-}
-
-ID3D11RenderTargetView* Pg::Graphics::GBuffer::GetRTV()
+ID3D11RenderTargetView* Pg::Graphics::GBufferRender::GetRTV()
 {
 	return _RTV;
 }
 
-ID3D11ShaderResourceView* Pg::Graphics::GBuffer::GetSRV()
+ID3D11ShaderResourceView* Pg::Graphics::GBufferRender::GetSRV()
 {
 	return _SRV;
 }
+
+

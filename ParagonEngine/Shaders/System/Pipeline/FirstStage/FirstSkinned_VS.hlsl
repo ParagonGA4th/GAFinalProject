@@ -47,10 +47,12 @@ VOut1st main(Vin1stSkinned input)
 	// Color & UV(W) 값 전달.
 	output.vout1st_Color = input.vin1st_Color;
 	output.vout1st_Tex = input.vin1st_Tex;
+    output.vout1st_LightmapUV = input.vin1st_LightmapUV;
+    output.vout1st_Alpha = input.vin1st_Alpha;
 	
-	//추후에 Material ID가 로직에 들어가면 이 역시 하드코딩에서 바꿔야 한다.
-    //output.vout1st_MatID = 0;
-    output.vout1st_MatID = input.vin1st_MatID;
+	//추후에 Object ID가 로직에 들어가면 이 역시 하드코딩에서 바꿔야 한다.
+	//output.vin1st_ObjectID = 0;
+    output.vout1st_ObjectID = input.vin1st_ObjectID;
     
     return output;
 }
