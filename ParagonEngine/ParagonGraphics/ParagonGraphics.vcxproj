@@ -185,32 +185,32 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Shaders\Appends\Libraries\Appends_PSCommon.hlsli" />
-    <None Include="..\Shaders\Appends\Libraries\Appends_VSCommon.hlsli" />
-    <None Include="..\Shaders\Appends\Libraries\SamplerStates\Appends_SamplerStates.hlsli" />
-    <None Include="..\Shaders\Appends\Libraries\TextureBuffers\Appends_GBufferTextures.hlsli" />
-    <None Include="..\Shaders\Appends\Libraries\TextureBuffers\Appends_LightmapTextures.hlsli" />
-    <None Include="..\Shaders\System\Libraries\System_1stLayouts.hlsli" />
-    <None Include="..\Shaders\System\Libraries\System_PerObjectBuffers.hlsli" />
-    <None Include="..\Shaders\System\Libraries\System_QuadLayouts.hlsli" />
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\AppendTest\AppendObjectTestPS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\AppendTest\AppendObjectTestVS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestVS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstSkinned_VS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstStage_PS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstStatic_VS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\CubemapPS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\CubemapVS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\PrimitivePS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\PrimitiveVS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\SecondStage\SecondStage_PS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\SecondStage\SecondStage_VS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\TempForward\TempForwardPS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\TempForward\TempForwardVS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\TempForward\TempForwardVSSkinned.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Shaders\Appends\Added\Object\AppendTest\AppendObjectTestPS.hlsl" />
-    <FxCompile Include="..\Shaders\Appends\Added\Object\AppendTest\AppendObjectTestVS.hlsl" />
-    <FxCompile Include="..\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl" />
-    <FxCompile Include="..\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestVS.hlsl" />
-    <FxCompile Include="..\Shaders\System\Pipeline\FirstStage\FirstSkinned_VS.hlsl" />
-    <FxCompile Include="..\Shaders\System\Pipeline\FirstStage\FirstStage_PS.hlsl" />
-    <FxCompile Include="..\Shaders\System\Pipeline\FirstStage\FirstStatic_VS.hlsl" />
-    <FxCompile Include="..\Shaders\System\Pipeline\Others\CubemapPS.hlsl" />
-    <FxCompile Include="..\Shaders\System\Pipeline\Others\CubemapVS.hlsl" />
-    <FxCompile Include="..\Shaders\System\Pipeline\Others\PrimitivePS.hlsl" />
-    <FxCompile Include="..\Shaders\System\Pipeline\Others\PrimitiveVS.hlsl" />
-    <FxCompile Include="..\Shaders\System\Pipeline\SecondStage\SecondStage_PS.hlsl" />
-    <FxCompile Include="..\Shaders\System\Pipeline\SecondStage\SecondStage_VS.hlsl" />
-    <FxCompile Include="..\Shaders\System\Pipeline\TempForward\TempForwardPS.hlsl" />
-    <FxCompile Include="..\Shaders\System\Pipeline\TempForward\TempForwardVS.hlsl" />
-    <FxCompile Include="..\Shaders\System\Pipeline\TempForward\TempForwardVSSkinned.hlsl" />
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\Appends_PSCommon.hlsli" />
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\Appends_VSCommon.hlsli" />
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\SamplerStates\Appends_SamplerStates.hlsli" />
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_GBufferTextures.hlsli" />
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_LightmapTextures.hlsli" />
+    <None Include="..\ShaderResources\Shaders\System\Libraries\System_1stLayouts.hlsli" />
+    <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjectBuffers.hlsli" />
+    <None Include="..\ShaderResources\Shaders\System\Libraries\System_QuadLayouts.hlsli" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

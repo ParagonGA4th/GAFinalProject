@@ -16,8 +16,12 @@ namespace Pg::Data
 		void SetMeshFilePath(const std::string& meshFilePath);
 		std::string GetMeshFilePath();
 
+		void SetMaterialFilePath(const std::string& materialFilePath);
+		std::string GetMaterialFilePath();
+
 	private:
 		std::string _meshFilePath;
+		std::string _renderMaterialPath;
 	};
 }
 

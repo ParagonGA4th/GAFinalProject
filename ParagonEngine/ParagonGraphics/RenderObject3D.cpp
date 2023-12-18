@@ -35,33 +35,17 @@ namespace Pg::Graphics
 		//Device / DevCon 받아오기.
 		_device = _DXStorage->_device;
 		_devCon = _DXStorage->_deviceContext;
-
 	}
 
 	RenderObject3D::~RenderObject3D()
 	{
-
-	}
-
-	void RenderObject3D::Render()
-	{
-
-	}
-
-	void RenderObject3D::Initialize()
-	{
-		BindBuffers();
+		delete _constantBufferStruct;
 	}
 
 	void RenderObject3D::BindShaders()
 	{
 		_vertexShader->Bind();
 		_pixelShader->Bind();
-
-		// Bind Shader Resources
-		//_DXStorage->_deviceContext->PSSetShaderResources(0, 1, &_SRV);
-		//
-		//_DXStorage->_deviceContext->PSSetSamplers(0, 1, &_DXStorage->_defaultSamplerState);
 	}
 
 	void RenderObject3D::UnbindShaders()
@@ -70,43 +54,23 @@ namespace Pg::Graphics
 		_pixelShader->Unbind();
 	}
 
-	void RenderObject3D::BindInputLayout()
+	void RenderObject3D::AddTextureToArray(RenderTexture2D* texture)
 	{
-		_DXStorage->_deviceContext->IASetInputLayout(_inputLayout);
-		_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		_textures.emplace_back(texture);
 	}
 
-	void RenderObject3D::UnbindInputLayout()
-	{
-		_DXStorage->_deviceContext->IASetInputLayout(nullptr);
-	}
-
-	void RenderObject3D::SetVertexShader(RenderVertexShader* shader)
-	{
-		_vertexShader = shader;
-	}
-
-	void RenderObject3D::SetPixelShader(RenderPixelShader* shader)
-	{
-		_pixelShader = shader;
-	}
-
-	Pg::Graphics::RenderVertexShader* RenderObject3D::GetVertexShader()
-	{
-		return _vertexShader;
-	}
-
-	Pg::Graphics::RenderPixelShader* RenderObject3D::GetPixelShader()
-	{
-		return _pixelShader;
-	}
-
-	void RenderObject3D::BindTextures()
+	void RenderObject3D::BindTextureArray()
 	{
 		for (int i = 0; i < _textures.size(); ++i)
 		{
 			_DXStorage->_deviceContext->PSSetShaderResources(i, 1, &(_textures.at(i)->GetSRV()));
 		}
 	}
+
+	void RenderObject3D::ClearTextureArray()
+	{
+		_textures.clear();
+	}
+
 
 }

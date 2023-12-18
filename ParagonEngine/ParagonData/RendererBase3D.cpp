@@ -29,5 +29,14 @@ namespace Pg::Data
 		return _meshFilePath;
 	}
 
+	void RendererBase3D::SetMaterialFilePath(const std::string& materialFilePath)
+	{
+		this->_renderMaterialPath = ResourceHelper::ForcePathUniform(materialFilePath);
+	}
+
+	std::string RendererBase3D::GetMaterialFilePath()
+	{
+		return _renderMaterialPath;
+	}
 
 }
