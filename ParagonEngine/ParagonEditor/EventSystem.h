@@ -5,7 +5,7 @@
 #include <functional>
 #include <any>
 
-namespace Pg::Editor
+namespace Pg::Editor::System
 {
 	class EventSystem
 	{

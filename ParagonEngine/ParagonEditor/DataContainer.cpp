@@ -1,18 +1,14 @@
 #include "DataContainer.h"
 
-void Pg::Editor::Data::DataContainer::SetDevice(ID3D11Device* device)
+void Pg::Editor::Data::DataContainer::SetGraphicsData(ID3D11Device* d, ID3D11DeviceContext* dc)
 {
-	_device = device;
+	_device = d;
+	_deviceContext = dc;
 }
 
 ID3D11Device* Pg::Editor::Data::DataContainer::GetDevice()
 {
 	return _device;
-}
-
-void Pg::Editor::Data::DataContainer::SetDeviceContext(ID3D11DeviceContext* deviceContext)
-{
-	_deviceContext = deviceContext;
 }
 
 ID3D11DeviceContext* Pg::Editor::Data::DataContainer::GetDeviceContext()
@@ -73,13 +69,5 @@ Pg::Data::Scene* Pg::Editor::Data::DataContainer::GetCurrentScene()
 	return _currentScene;
 }
 
-void Pg::Editor::Data::DataContainer::SetSave(bool isSave)
-{
-	_isSave = isSave;
-}
 
-bool Pg::Editor::Data::DataContainer::GetSave()
-{
-	return _isSave;
-}
 
