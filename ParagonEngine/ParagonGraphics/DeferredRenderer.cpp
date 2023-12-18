@@ -113,7 +113,6 @@ void Pg::Graphics::DeferredRenderer::BindFirstPass()
 
 void Pg::Graphics::DeferredRenderer::RenderFirstPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 {
-
 	for (auto& it : renderObjectList->_list)
 	{
 		if (it.second->GetBaseRenderer()->GetActive())

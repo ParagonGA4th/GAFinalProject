@@ -35,7 +35,7 @@ namespace Pg::Graphics
 	class ConstantBufferDefine;
 	struct ConstantBufferDefine::cbPerObjectBase;
 	class RenderTexture2D;
-
+	class RenderMaterial;
 }
 
 namespace Pg::Graphics
@@ -46,14 +46,24 @@ namespace Pg::Graphics
 		RenderObject3D(Pg::Data::BaseRenderer* baseRenderer);
 		virtual ~RenderObject3D();
 		
-		virtual void Initialize();
-		virtual void Render();
-
-	protected:
-		Asset3DModelData* _modelData = nullptr;
+		virtual void Initialize() abstract;
+		
+		virtual void UpdateConstantBuffers(Pg::Data::CameraData* camData) abstract;
+		virtual void BindConstantBuffers() abstract;
+		virtual void Render() abstract;
+		virtual void UnbindConstantBuffers() abstract;
+		
+	public:	
+		void AddTextureToArray(RenderTexture2D* texture);
+		void BindTextureArray();
+		void ClearTextureArray();
 
 	public:
-		ConstantBufferDefine::cbPerObjectBase* _constantBufferStruct;
+		void SetVertexShader(RenderVertexShader* shader) { this->_vertexShader = shader; }
+		void SetPixelShader(RenderPixelShader* shader) { this->_pixelShader = shader; }
+
+		RenderVertexShader* GetVertexShader() { return _vertexShader;  }
+		RenderPixelShader* GetPixelShader() { return _pixelShader; }
 
 	protected:
 		LowDX11Storage* _DXStorage;
@@ -62,8 +72,7 @@ namespace Pg::Graphics
 		ID3D11Buffer* IB;
 		RenderVertexShader* _vertexShader;
 		RenderPixelShader* _pixelShader;
-
-		ID3D11InputLayout* _inputLayout;
+		RenderMaterial* _renderMaterial;
 
 	protected:
 		virtual void BindBuffers() abstract;
@@ -71,36 +80,16 @@ namespace Pg::Graphics
 		void BindShaders();
 		void UnbindShaders();
 
-		virtual void BindInputLayout();
-		void UnbindInputLayout();
-	
 	protected:
+		Asset3DModelData* _modelData = nullptr;
+		ConstantBufferDefine::cbPerObjectBase* _constantBufferStruct;
+
+	private:
 		std::vector<RenderTexture2D*> _textures;
-
-		
-	public:	
-		void BindTextures();
-
-	public:
-		void SetVertexShader(RenderVertexShader* shader);
-		void SetPixelShader(RenderPixelShader* shader);
-
-		RenderVertexShader* GetVertexShader();
-		RenderPixelShader* GetPixelShader();
-
-	protected:
-		ID3D11Device* _device;
-		ID3D11DeviceContext* _devCon;
-
-	public:
-		virtual void UpdateConstantBuffers(Pg::Data::CameraData* camData) abstract;
-		virtual void BindConstantBuffers() abstract;
-		virtual void UnbindConstantBuffers() abstract;
-
 
 	public:
 		// 상수 버퍼들을 저장하는 벡터
-		std::vector< ConstantBufferBase* > _constantBuffers;
+		std::vector<ConstantBufferBase*> _constantBuffers;
 
 		// 상수 버퍼 데이터를 추가하는 함수
 		template <typename T>
