@@ -12,6 +12,7 @@ namespace Pg::Data
 		SphereCollider(GameObject* owner);
 
 	public:
+		virtual void Start() override;
 		virtual void Update() override;
 		
 		virtual float GetWidth() const override;
