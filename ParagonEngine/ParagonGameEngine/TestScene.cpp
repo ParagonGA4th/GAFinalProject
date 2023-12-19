@@ -58,7 +58,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj1->AddComponent<EditorCameraScript>();
 
 	tObj2 = tCurrentScene->AddObject("Cube1");
-	//tObj2->GetComponent<Transform>()->SetPosition({ 0.0f, 5.0f, 5.0f });
+	tObj2->GetComponent<Transform>()->SetPosition({ 1.0f, 10.0f, 0.0f });
 	//tObj2->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.0f, 2.0f);
 	tObj2->AddComponent<BoxCollider>();
 	tObj2->AddComponent<StaticMeshRenderer>();
@@ -68,7 +68,7 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj2->GetComponent<MoveForwardBack>()->SetActive(true);
 
 	GameObject* tObj2_1 = tCurrentScene->AddObject("Cube3");
-	//tObj2_1->GetComponent<Transform>()->SetPosition({ 0.0f, 5.0f, 0.0f });
+	tObj2_1->GetComponent<Transform>()->SetPosition({ 3.0f, 10.0f, 0.0f });
 	tObj2_1->AddComponent<SphereCollider>();
 	tObj2_1->AddComponent<StaticMeshRenderer>();
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx");
@@ -76,7 +76,7 @@ void Pg::Engine::TestScene::Initialize()
 
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Cube4");
-	//tObj2_2->GetComponent<Transform>()->SetPosition({ 0.0f, 1.0f, 0.0f });
+	tObj2_2->GetComponent<Transform>()->SetPosition({ 1.0f, 0.0f, 0.0f });
 	tObj2_2->AddComponent<CapsuleCollider>();
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 0.0f, 0.0f, 0.0f });
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, -10.0f, 0.0f, 0.0f });

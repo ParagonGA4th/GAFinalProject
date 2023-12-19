@@ -242,6 +242,9 @@ namespace Pg::Graphics
 			XMVECTOR tScale;
 			XMMatrixDecompose(&tScale, &tRotQuat, &tTrans, tWorld);
 
+			//Scale Fix 
+			tScale = XMVectorScale(tScale, 2);
+
 			DirectX::XMMATRIX tZNinety = XMMatrixRotationZ(XMConvertToRadians(90.0f));
 			DirectX::XMMATRIX tOriginRot = XMMatrixRotationQuaternion(tRotQuat);
 			tRotQuat = XMQuaternionRotationMatrix(XMMatrixMultiply(tZNinety, tOriginRot));
@@ -272,6 +275,9 @@ namespace Pg::Graphics
 			XMVECTOR tScale;
 			XMMatrixDecompose(&tScale, &tRotQuat, &tTrans, tWorld);
 
+			//Scale Fix 
+			tScale = XMVectorScale(tScale, 2);
+			
 			DirectX::XMMATRIX tZNinety = XMMatrixRotationZ(XMConvertToRadians(90.0f));
 			DirectX::XMMATRIX tOriginRot = XMMatrixRotationQuaternion(tRotQuat);
 			tRotQuat = XMQuaternionRotationMatrix(XMMatrixMultiply(tZNinety, tOriginRot));
@@ -298,6 +304,10 @@ namespace Pg::Graphics
 		DirectX::XMVECTOR tCylinderPosVec;
 		DirectX::XMFLOAT3 tCylinderPos = {0.f,0.f,0.f};
 		XMMatrixDecompose(&tCylinderScaleVec, &tCylinderEulerRadRotVec, &tCylinderPosVec, tCapsuleWorldTM);
+
+		//Scale Fix 
+		tCylinderScaleVec = XMVectorScale(tCylinderScaleVec, 2);
+
 		XMStoreFloat3(&tCylinderScale, tCylinderScaleVec);
 		XMStoreFloat3(&tCylinderPos, tCylinderPosVec);
 

@@ -15,6 +15,7 @@ namespace Pg::Data
 
 	void DynamicCollider::UpdatePhysics(PGFLOAT3 pos, PGQuaternion quat)
 	{
+
 		PGFLOAT4 localPos = PGFloat4MultiplyMatrix({ pos, 1.0f }, GetOffsetTM().Inverse());
 		PGQuaternion localQuat = PGQuaternionMultiply(quat, GetRotationOffset().Conjugate());
 

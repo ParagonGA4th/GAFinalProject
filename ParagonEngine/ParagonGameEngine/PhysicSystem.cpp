@@ -49,7 +49,7 @@ namespace Pg::Engine::Physic
 		physx::PxRigidStatic* groundPlane = PxCreatePlane(*_physics, physx::PxPlane(0, 1, 0, 0), *_material);
 		physx::PxShape* gpShape = _physics->createShape(physx::PxBoxGeometry(1.0f, 20.0f, 20.0f), *_material);
 		physx::PxTransform gpTransform;
-		gpTransform.p = { 0, -20, 0 };
+		gpTransform.p = { 0, 0, 0 };
 		gpTransform.q = { 0, 0, 0, 1 };
 		gpShape->setLocalPose(gpTransform);
 		//gpShape->Set
@@ -123,8 +123,8 @@ namespace Pg::Engine::Physic
 	{
 		for (auto& rigid : _rigidDynamicVec)
 		{
-			//Pg::Data::DynamicCollider* dynamicCol = static_cast<Pg::Data::DynamicCollider*>(rigid->userData);
-			//dynamicCol->UpdateTransform();
+			Pg::Data::DynamicCollider* dynamicCol = static_cast<Pg::Data::DynamicCollider*>(rigid->userData);
+			dynamicCol->UpdateTransform();
 		}
 	}
 
@@ -270,7 +270,6 @@ namespace Pg::Engine::Physic
 				Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 
 				physx::PxTransform local(physx::PxVec3(position.x, position.y, position.z));
-
 
 				//테스트를 위해 임시로 Rigid 넣어봄.
 				//임시 아닌 이렇게 합쳐서 갈 예정.
