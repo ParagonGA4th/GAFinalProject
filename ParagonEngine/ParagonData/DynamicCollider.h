@@ -42,6 +42,7 @@ namespace Pg::Data
 		virtual void Start() abstract;
 
 	public:
+		void UpdatePhysics(PGFLOAT3 pos, PGQuaternion quat);
 		void UpdateTransform();
 
 	public:
@@ -57,6 +58,8 @@ namespace Pg::Data
 
 	public:
 		void AddForce(PGFLOAT3 dir, ForceMode mode);
+
+		void Flush();
 
 	public:
 

@@ -36,6 +36,10 @@ namespace Pg::Engine::Physic
 
 		void Finalize();
 
+		void AddObjectToScene();
+
+		void Flush();
+
 	public:
 		//PhysX ¿¹Á¦
 		void CreatePxScene();

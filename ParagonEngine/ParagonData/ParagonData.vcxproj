@@ -196,6 +196,7 @@
     <ClInclude Include="LightData.h" />
     <ClInclude Include="LightType.h" />
     <ClInclude Include="ImageRenderer.h" />
+    <ClInclude Include="PlaneCollider.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="RendererChangeList.h" />
     <ClInclude Include="EditorMode.h" />
@@ -235,6 +236,7 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="MoveForwardBack.cpp" />
     <ClCompile Include="ParagonDefines.cpp" />
+    <ClCompile Include="PlaneCollider.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RendererChangeList.cpp" />
     <ClCompile Include="EngineResource.cpp" />

@@ -41,7 +41,9 @@
 
 namespace Pg::Engine
 {
-	EngineMain::EngineMain(Pg::Core::ProcessMain* core) : _coreMain(core), _engineResourceManager(Manager::EngineResourceManager::Instance())
+	EngineMain::EngineMain(Pg::Core::ProcessMain* core) : 
+		_coreMain(core), 
+		_engineResourceManager(Manager::EngineResourceManager::Instance())
 	{
 		//Input
 		auto& tInputSystem = singleton<Input::InputSystem>();
@@ -81,14 +83,15 @@ namespace Pg::Engine
 
 	void EngineMain::Update()
 	{
-		_sceneSystem->Update();
 		_timeSystem->TimeMeasure();
-		_inputSystem->Update();
+		_sceneSystem->Update();
 		_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
-		
-		_debugSystem->Update(_sceneSystem->GetCurrentScene());
-
+		_physicSystem->Flush();
+		_inputSystem->Update();
 		_physicSystem->UpdateTransform();
+		_debugSystem->Update(_sceneSystem->GetCurrentScene());
+		
+
 
 		 static bool tTest = false;
 		if (!tTest)
@@ -157,7 +160,4 @@ namespace Pg::Engine
 		_debugSystem->DeleteCapsuleDebug();
 		_debugSystem->DeleteLineDebug();
 	}
-
-	
-
 }

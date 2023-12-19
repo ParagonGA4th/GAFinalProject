@@ -47,7 +47,12 @@ namespace Pg::Engine::Physic
 
 		// ground 생성 후, 임의로 shape 붙여주기
 		physx::PxRigidStatic* groundPlane = PxCreatePlane(*_physics, physx::PxPlane(0, 1, 0, 0), *_material);
-		physx::PxShape* gpShape = _physics->createShape(physx::PxBoxGeometry(1.0f, 10.0f, 10.0f), *_material);
+		physx::PxShape* gpShape = _physics->createShape(physx::PxBoxGeometry(1.0f, 20.0f, 20.0f), *_material);
+		physx::PxTransform gpTransform;
+		gpTransform.p = { 0, -20, 0 };
+		gpTransform.q = { 0, 0, 0, 1 };
+		gpShape->setLocalPose(gpTransform);
+		//gpShape->Set
 		groundPlane->attachShape(*gpShape);
 		_pxScene->addActor(*groundPlane);
 
@@ -76,6 +81,19 @@ namespace Pg::Engine::Physic
 		{
 			Pg::Data::DynamicCollider* dynamicCol = static_cast<Pg::Data::DynamicCollider*>(rigid->userData);
 			Pg::Data::GameObject* gameObj = dynamicCol->_object;
+
+			if (!dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
+			{
+				gameObj->OnCollisionEnter();
+			}
+			else if (dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
+			{
+				gameObj->OnCollisionStay();
+			}
+			else if (dynamicCol->GetWasCollided() && !dynamicCol->GetIsCollide())
+			{
+				gameObj->OnCollisionExit();
+			}
 		}
 
 		///PxTransform 정보를 자체 엔진 내부의 Transform과 연결.
@@ -95,12 +113,9 @@ namespace Pg::Engine::Physic
 			quat.y = transform.q.y;
 			quat.z = transform.q.z;
 			quat.w = transform.q.w;
+
+			static_cast<Pg::Data::DynamicCollider*>(rigid->userData)->UpdatePhysics(position, quat);
 		}
-
-
-		//_pxScene->lockWrite();
-		
-		//PG_TRACE("PhysicSystem Updating...");
 	}
 
 
@@ -108,8 +123,8 @@ namespace Pg::Engine::Physic
 	{
 		for (auto& rigid : _rigidDynamicVec)
 		{
-			Pg::Data::DynamicCollider* dynamicCol = static_cast<Pg::Data::DynamicCollider*>(rigid->userData);
-			dynamicCol->UpdateTransform();
+			//Pg::Data::DynamicCollider* dynamicCol = static_cast<Pg::Data::DynamicCollider*>(rigid->userData);
+			//dynamicCol->UpdateTransform();
 		}
 	}
 
@@ -136,8 +151,9 @@ namespace Pg::Engine::Physic
 	{
 		// 씬에 대한 설정
 		physx::PxSceneDesc sceneDesc(_physics->getTolerancesScale());
-		// 임의로 중력을 2배로 했다.	3배로 늘림 ㅎㅎ
-		sceneDesc.gravity = physx::PxVec3(0.0f, -29.43f, 0.0f);
+		
+		sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
+		//sceneDesc.gravity = physx::PxVec3(0.0f, 0.0f, 0.0f);
 		_dispatcher = physx::PxDefaultCpuDispatcherCreate(2);
 		sceneDesc.cpuDispatcher = _dispatcher;
 		sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
@@ -187,6 +203,7 @@ namespace Pg::Engine::Physic
 		{
 			Pg::Data::BoxCollider* tBoxCol = obj->GetComponent<Pg::Data::BoxCollider>();
 			Pg::Data::SphereCollider* tSphCol = obj->GetComponent<Pg::Data::SphereCollider>();
+			Pg::Data::CapsuleCollider* tCapCol = obj->GetComponent<Pg::Data::CapsuleCollider>();
 
 			if (tBoxCol != nullptr)
 			{
@@ -196,8 +213,12 @@ namespace Pg::Engine::Physic
 			{
 				MakeDynamicSphereCollider(obj);
 			}
+			else if (tCapCol != nullptr)
+			{
+				MakeDynamicCapsuleCollider(obj);
 
-			MakeDynamicCapsuleCollider(obj);
+			}
+			AddObjectToScene();
 		}
 	}
 
@@ -212,7 +233,7 @@ namespace Pg::Engine::Physic
 
 			for (auto& collider : colliderVec)
 			{
-				Pg::Data::BoxCollider* staticBoxcol = dynamic_cast<Pg::Data::BoxCollider*>(collider);
+				Pg::Data::StaticBoxCollider* staticBoxcol = dynamic_cast<Pg::Data::StaticBoxCollider*>(collider);
 
 				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(staticBoxcol->GetWidth() / 2,
 					staticBoxcol->GetHeight() / 2, staticBoxcol->GetDepth() / 2), *_material);
@@ -256,16 +277,22 @@ namespace Pg::Engine::Physic
 				//2023.12.11
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
 
-				rigid->attachShape(*boxShape);
-
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
 				rigid->setLinearDamping(0.5f);
+				rigid->attachShape(*boxShape);
+
+				///collider의 축 고정 시
+				/*rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, true);
+				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, true);
+				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, true);*/
 				
-				_pxScene->addActor(*rigid);
+				//_pxScene->addActor(*rigid);
 
 				boxcol->SetPxRigidDynamic(rigid);
 				rigid->userData = boxcol;
+				_rigidDynamicVec.push_back(rigid);
+
 				boxShape->release();
 
 				///나중에 physicsSystem 사용 시
@@ -296,11 +323,22 @@ namespace Pg::Engine::Physic
 				physx::PxTransform localTm(physx::PxVec3(pos.x, pos.y, pos.z));
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
 
+				//Rigid의 중력 조정
+				rigid->setAngularDamping(0.5f);
+				rigid->setLinearDamping(0.5f);
 				rigid->attachShape(*shape);
-				_pxScene->addActor(*rigid);
+				//_pxScene->addActor(*rigid);
+				
+			
+
+				///collider의 축 고정 시
+				/*rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, true);
+				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, true);
+				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, true);*/
 
 				sphCol->SetPxRigidDynamic(rigid);
 				rigid->userData = sphCol;
+				_rigidDynamicVec.push_back(rigid);
 				shape->release();
 
 			}
@@ -325,16 +363,24 @@ namespace Pg::Engine::Physic
 				physx::PxTransform localTm(physx::PxIdentity);
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
 
-				rigid->attachShape(*shape);
 
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
 				rigid->setLinearDamping(0.5f);
 
-				_pxScene->addActor(*rigid);
+				rigid->attachShape(*shape);
+
+				///collider의 축 고정 시
+				/*rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, true);
+				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, true);
+				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, true);*/
+
+			
+				//_pxScene->addActor(*rigid);
 
 				capCol->SetPxRigidDynamic(rigid);
 				rigid->userData = capCol;
+				_rigidDynamicVec.push_back(rigid);
 				shape->release();
 
 			}
@@ -344,6 +390,23 @@ namespace Pg::Engine::Physic
 	void PhysicSystem::MakePlaneCollider(Pg::Data::GameObject* obj)
 	{
 
+	}
+
+	void PhysicSystem::AddObjectToScene()
+	{
+		for (auto& rigidDynamic : _rigidDynamicVec)
+		{
+			static_cast<Pg::Data::DynamicCollider*>(rigidDynamic->userData)->UpdateTransform();
+			_pxScene->addActor(*rigidDynamic);
+		}
+	}
+
+	void PhysicSystem::Flush()
+	{
+		for (auto& rigid : _rigidDynamicVec)
+		{
+			static_cast<Pg::Data::DynamicCollider*>(rigid->userData)->Flush();
+		}
 	}
 
 }

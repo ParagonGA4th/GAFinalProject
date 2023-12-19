@@ -58,32 +58,32 @@ void Pg::Engine::TestScene::Initialize()
 	tObj1->AddComponent<EditorCameraScript>();
 
 	tObj2 = tCurrentScene->AddObject("Cube1");
-	tObj2->GetComponent<Transform>()->SetPosition({ 3.0f, 1.0f, 5.0f });
-	tObj2->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.0f, 2.0f);
-	//tObj2->AddComponent<BoxCollider>();
+	//tObj2->GetComponent<Transform>()->SetPosition({ 0.0f, 5.0f, 5.0f });
+	//tObj2->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.0f, 2.0f);
+	tObj2->AddComponent<BoxCollider>();
 	tObj2->AddComponent<StaticMeshRenderer>();
 	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	tObj2->AddComponent<MoveForwardBack>();
-	tObj2->GetComponent<MoveForwardBack>()->SetActive(true);
+	//tObj2->AddComponent<MoveForwardBack>();
+	//tObj2->GetComponent<MoveForwardBack>()->SetActive(true);
 
 	GameObject* tObj2_1 = tCurrentScene->AddObject("Cube3");
-	tObj2_1->GetComponent<Transform>()->SetPosition({ 5.0f, 1.0f, 0.0f });
-	//tObj2_1->AddComponent<SphereCollider>();
+	//tObj2_1->GetComponent<Transform>()->SetPosition({ 0.0f, 5.0f, 0.0f });
+	tObj2_1->AddComponent<SphereCollider>();
 	tObj2_1->AddComponent<StaticMeshRenderer>();
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx");
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Cube4");
-	tObj2_2->GetComponent<Transform>()->SetPosition({ -5.0f, 1.0f, 0.0f });
-	//tObj2_2->AddComponent<CapsuleCollider>();
-	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 5.0f, 5.0f, 0.0f });
-	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, 1.0f,0.0f, 0.0f });
+	//tObj2_2->GetComponent<Transform>()->SetPosition({ 0.0f, 1.0f, 0.0f });
+	tObj2_2->AddComponent<CapsuleCollider>();
+	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 0.0f, 0.0f, 0.0f });
+	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, -10.0f, 0.0f, 0.0f });
 	tObj2_2->AddComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx");
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	tObj2_2->AddComponent<MoveForwardBack>();
-	tObj2_2->GetComponent<MoveForwardBack>()->SetActive(true);
+	//tObj2_2->AddComponent<MoveForwardBack>();
+	//tObj2_2->GetComponent<MoveForwardBack>()->SetActive(false);
 
 
 	tObj3 = tCurrentScene->AddObject("Cube5");
@@ -107,17 +107,18 @@ void Pg::Engine::TestScene::Initialize()
 	tObj4->GetComponent<MoveForwardBack>()->SetActive(true);
 
 	tObj5 = tCurrentScene->AddObject("Cube7");
-	tObj5->GetComponent<Transform>()->SetPosition({ 1.0f, 4.0f, -5.0f });
+	tObj5->GetComponent<Transform>()->SetPosition({ 5.0f, 0.0f, 0.0f });
 	tObj5->GetComponent<Transform>()->SetLocalRotationEuler(1.5f, 2.0f, 4.0f);
 	//tObj5->AddComponent<BoxCollider>();
+	//tObj5->GetComponent<BoxCollider>()->SetPoisitonOffset({ 1.0f,0.0f,0.0f });
 	tObj5->AddComponent<StaticMeshRenderer>();
 	tObj5->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx");
 	tObj5->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	tObj5->AddComponent<MoveForwardBack>();
-	tObj5->GetComponent<MoveForwardBack>()->SetActive(true);
+	//tObj5->AddComponent<MoveForwardBack>();
+	//tObj5->GetComponent<MoveForwardBack>()->SetActive(true);
 
 	tObj6 = tCurrentScene->AddObject("Cube8");
-	tObj6->GetComponent<Transform>()->SetPosition({ 0.0f, 8.0f, 0.0f });
+	tObj6->GetComponent<Transform>()->SetPosition({ -5.0f, 0.0f, 0.0f });
 	tObj6->GetComponent<Transform>()->SetLocalScale( 2.0f, 2.0f, 2.0f );
 	tObj6->GetComponent<Transform>()->SetLocalRotationEuler(0.0f, -1.57f, 0.0f);
 	//tObj6->AddComponent<BoxCollider>();
@@ -133,7 +134,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
 	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
-	/// 오수안, 새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 
+	///새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 
 	
 	// Directional
 	GameObject* tLight = tCurrentScene->AddObject("LightTest1");
