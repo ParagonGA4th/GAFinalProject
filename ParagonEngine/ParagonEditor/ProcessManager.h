@@ -26,6 +26,7 @@ namespace Pg::Editor::Manager
 		float _screenHeight;
 
 		bool _isCoreInitailized;
+		bool _isSceneSet;
 		
 		std::unique_ptr<Pg::Core::ProcessMain> _coreMain;
 

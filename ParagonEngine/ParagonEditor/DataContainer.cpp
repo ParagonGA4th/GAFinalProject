@@ -1,5 +1,7 @@
 #include "DataContainer.h"
 
+#include "../ParagonData/Scene.h"
+
 void Pg::Editor::Data::DataContainer::SetGraphicsData(ID3D11Device* d, ID3D11DeviceContext* dc)
 {
 	_device = d;
@@ -46,17 +48,30 @@ bool Pg::Editor::Data::DataContainer::GetEditorOnOff()
 	return _onOff;
 }
 
-void Pg::Editor::Data::DataContainer::SetScenes(std::vector<Pg::Data::Scene*> scenes)
+void Pg::Editor::Data::DataContainer::SetSceneList(std::vector<Pg::Data::Scene*> scenes)
 {
 	_scenes = scenes;
 
 	// юс╫ц
-	SetCurrentScene(_scenes.at(0));
+	SetCurrentScene(0);
 }
 
-std::vector<Pg::Data::Scene*> Pg::Editor::Data::DataContainer::GetScenes()
+std::vector<Pg::Data::Scene*> Pg::Editor::Data::DataContainer::GetSceneList()
 {
 	return _scenes;
+}
+
+void Pg::Editor::Data::DataContainer::SetCurrentScene(int sceneNumber)
+{
+	_currentScene = _scenes.at(sceneNumber);
+}
+
+void Pg::Editor::Data::DataContainer::SetCurrentScene(std::string sceneName)
+{
+	for (auto& scene : _scenes)
+	{
+		if (scene->GetSceneName() == sceneName) _currentScene = scene;
+	}
 }
 
 void Pg::Editor::Data::DataContainer::SetCurrentScene(Pg::Data::Scene* scene)

@@ -29,7 +29,7 @@ Pg::Editor::Core::EditorAction::~EditorAction()
 
 void Pg::Editor::Core::EditorAction::Initialize()
 {
-	HINSTANCE ins = GetModuleHandle(NULL);
+	HINSTANCE ins = GetModuleHandle(NULL);-
 	WindowRegisterClass(ins);
 	CreateWindows(ins);
 

@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 
 struct ID3D11Device;
 struct ID3D11DeviceContext;
@@ -23,9 +24,11 @@ namespace Pg::Editor::Data
 		void SetEditorOnOff(bool onoff);
 		bool GetEditorOnOff();
 
-		void SetScenes(std::vector<Pg::Data::Scene*> scenes);
-		std::vector<Pg::Data::Scene*> GetScenes();
+		void SetSceneList(std::vector<Pg::Data::Scene*> scenes);
+		std::vector<Pg::Data::Scene*> GetSceneList();
 
+		void SetCurrentScene(int sceneNumber);
+		void SetCurrentScene(std::string sceneName);
 		void SetCurrentScene(Pg::Data::Scene* scene);
 		Pg::Data::Scene* GetCurrentScene();	
 

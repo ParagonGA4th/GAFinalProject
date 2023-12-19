@@ -10,7 +10,7 @@
 
 Pg::Editor::Manager::ProcessManager::ProcessManager(float width, float height)
 	:_screenWidth(width), _screenHeight(height),
-	_isCoreInitailized(false)
+	_isCoreInitailized(false), _isSceneSet(false)
 {
 	// core
 	_coreMain = std::make_unique<Pg::Core::ProcessMain>();
@@ -46,6 +46,20 @@ void Pg::Editor::Manager::ProcessManager::Update()
 	{
 		_dataContainer->SetEditorOnOff(!_dataContainer->GetEditorOnOff());
 		_coreMain->GetEditorAdapter()->SetEditorMode(Pg::Data::Enums::eEditorMode::_EDIT);
+	}
+
+	if (_dataContainer->GetEditorOnOff())
+	{
+		if (_dataContainer->GetSceneList().size() > 0)
+		{
+			if (!_isSceneSet)
+			{
+				_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
+				_isSceneSet = true;
+			}
+
+			_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
+		}
 	}
 }
 
