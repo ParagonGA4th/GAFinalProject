@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Panel.h">
-      <Filter>0_UI\0_Panel</Filter>
-    </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>1_Manager\UIManager</Filter>
     </ClInclude>
@@ -69,9 +66,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Panel.cpp">
-      <Filter>0_UI\0_Panel</Filter>
-    </ClCompile>
     <ClCompile Include="UIManager.cpp">
       <Filter>1_Manager\UIManager</Filter>
     </ClCompile>
@@ -133,9 +127,6 @@
     </Filter>
     <Filter Include="Imgui">
       <UniqueIdentifier>{c020cbe5-8a4f-468f-a625-aa046b71e478}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_UI\0_Panel">
-      <UniqueIdentifier>{d8808669-0daf-4d42-966d-ca990b13ab96}</UniqueIdentifier>
     </Filter>
     <Filter Include="0_UI\1_Widget">
       <UniqueIdentifier>{6eede181-c325-4cff-99c4-8e54ae7c4628}</UniqueIdentifier>

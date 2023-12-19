@@ -65,6 +65,7 @@ void Pg::Editor::Window::Inspector::Initialize()
 void Pg::Editor::Window::Inspector::Update()
 {
 	_uiManager->WindowBegin(_winName);
+	DataUpate();
 	cons->Update();
 	_uiManager->WindowEnd();
 
@@ -100,7 +101,8 @@ void Pg::Editor::Window::Inspector::DataSet(void* data)
 {
 	if (data != nullptr)
 	{
-		Pg::Data::GameObject* obj = static_cast<Pg::Data::GameObject*>(data);
+		_gameObject = data;
+		Pg::Data::GameObject* obj = static_cast<Pg::Data::GameObject*>(_gameObject);
 
 		if (obj != NULL)
 		{
@@ -119,5 +121,20 @@ void Pg::Editor::Window::Inspector::DataSet(void* data)
 			_scale[1] = obj->_transform.GetScale().y;
 			_scale[2] = obj->_transform.GetScale().z;
 		}
+	}
+}
+
+void Pg::Editor::Window::Inspector::DataUpate()
+{
+	if (_gameObject != nullptr)
+	{
+		Pg::Data::GameObject* obj = static_cast<Pg::Data::GameObject*>(_gameObject);
+		
+		obj->SetActive(_isObjActive);
+		obj->SetName(_objName);
+
+		obj->_transform.SetPosition(_position[0], _position[1], _position[2]);
+		obj->_transform.SetRotation(1.f, _rotation[0], _rotation[1], _rotation[2]);
+		obj->_transform.SetScale(_scale[0], _scale[1], _scale[2]);
 	}
 }

@@ -75,7 +75,6 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 			{
 				if (i->GetName() == _prevObjName)
 					_changeObjectData->Invoke(eEventType::ChangeObjectData, static_cast<void*>(i));
-
 			}
 		}
 	}

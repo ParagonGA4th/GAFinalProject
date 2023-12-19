@@ -9,6 +9,8 @@
 
 #include "../ParagonUI/UIManager.h"
 
+#include "../ParagonData/Scene.h"
+
 #include <algorithm>
 #include <singleton-cpp/singleton.h>
 

@@ -26,7 +26,7 @@ void Pg::Editor::Manager::DataManager::DataLoad(std::string path, std::string fi
 	if (_path.find("pgproject") == std::string::npos) SceneLoad();
 	else ProjectLoad();
 
-	if(_scenes.size() > 0) _dataContainer->SetScenes(_scenes);
+	if(_scenes.size() > 0) _dataContainer->SetSceneList(_scenes);
 }
 
 std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::DataSave()
@@ -59,7 +59,7 @@ void Pg::Editor::Manager::DataManager::SceneLoad()
 
 void Pg::Editor::Manager::DataManager::SceneSave()
 {
-	for (auto& scene : _dataContainer->GetScenes())
+	for (auto& scene : _dataContainer->GetSceneList())
 	{
 		pugi::xml_document doc;
 		

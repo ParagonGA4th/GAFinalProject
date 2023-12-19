@@ -23,8 +23,8 @@ namespace Pg::Editor::Window
 		virtual bool GetShow() override;	
 
 	private:
-
 		void DataSet(void* data);
+		void DataUpate();
 
 	private:
 		/// inspector value
@@ -38,6 +38,8 @@ namespace Pg::Editor::Window
 		std::unique_ptr<Pg::Editor::Event> _changeObjectData;
 
 		/// Data value
+		void* _gameObject;
+
 		std::string _objName;
 		std::string _objTag;
 		bool _isObjActive;
