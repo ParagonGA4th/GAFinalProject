@@ -31,7 +31,8 @@ namespace Pg::Engine::Physic
 	public:
 		void Initialize();
 
-		void UpdatePhysics();
+		void UpdatePhysics(float dTime);
+		void UpdateTransform();
 
 		void Finalize();
 

@@ -82,10 +82,13 @@ namespace Pg::Engine
 	void EngineMain::Update()
 	{
 		_sceneSystem->Update();
-		_inputSystem->Update();
-		_physicSystem->UpdatePhysics();
-		_debugSystem->Update(_sceneSystem->GetCurrentScene());
 		_timeSystem->TimeMeasure();
+		_inputSystem->Update();
+		_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
+		
+		_debugSystem->Update(_sceneSystem->GetCurrentScene());
+
+		_physicSystem->UpdateTransform();
 
 		 static bool tTest = false;
 		if (!tTest)

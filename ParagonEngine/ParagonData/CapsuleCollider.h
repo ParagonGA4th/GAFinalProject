@@ -16,6 +16,7 @@ namespace Pg::Data
 		CapsuleCollider(GameObject* owner);
 
 	protected:
+		virtual void Start() override;
 		virtual void Update() override;
 
 	public:

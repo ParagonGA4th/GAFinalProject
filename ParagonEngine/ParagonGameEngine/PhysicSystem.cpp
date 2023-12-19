@@ -47,7 +47,7 @@ namespace Pg::Engine::Physic
 
 		// ground 생성 후, 임의로 shape 붙여주기
 		physx::PxRigidStatic* groundPlane = PxCreatePlane(*_physics, physx::PxPlane(0, 1, 0, 0), *_material);
-		physx::PxShape* gpShape = _physics->createShape(physx::PxBoxGeometry(1.0f, 256.0f, 256.0f), *_material);
+		physx::PxShape* gpShape = _physics->createShape(physx::PxBoxGeometry(1.0f, 10.0f, 10.0f), *_material);
 		groundPlane->attachShape(*gpShape);
 		_pxScene->addActor(*groundPlane);
 
@@ -65,25 +65,58 @@ namespace Pg::Engine::Physic
 		MakeCollider();
 	}
 
-	void PhysicSystem::UpdatePhysics()
+	void PhysicSystem::UpdatePhysics(float dTime)
 	{
-		_pxScene->simulate(1.0f / 60.0f);
+		_pxScene->simulate(dTime);
 
 		_pxScene->fetchResults(true);
 
+		///DynamucCollider 컴포넌트를 가진 오브젝트한테 물리 업데이트를 적용.
 		for (auto& rigid : _rigidDynamicVec)
 		{
-
+			Pg::Data::DynamicCollider* dynamicCol = static_cast<Pg::Data::DynamicCollider*>(rigid->userData);
+			Pg::Data::GameObject* gameObj = dynamicCol->_object;
 		}
 
-		_pxScene->lockWrite();
+		///PxTransform 정보를 자체 엔진 내부의 Transform과 연결.
+		Pg::Math::PGFLOAT3 position;
+		Pg::Math::PGQuaternion quat;
+		physx::PxTransform transform;
+
+		for (auto& rigid : _rigidDynamicVec)
+		{
+			transform = rigid->getGlobalPose();
+
+			position.x = transform.p.x;
+			position.y = transform.p.y;
+			position.z = transform.p.z;
+
+			quat.x = transform.q.x;
+			quat.y = transform.q.y;
+			quat.z = transform.q.z;
+			quat.w = transform.q.w;
+		}
+
+
+		//_pxScene->lockWrite();
 		
 		//PG_TRACE("PhysicSystem Updating...");
 	}
 
+
+	void PhysicSystem::UpdateTransform()
+	{
+		for (auto& rigid : _rigidDynamicVec)
+		{
+			Pg::Data::DynamicCollider* dynamicCol = static_cast<Pg::Data::DynamicCollider*>(rigid->userData);
+			dynamicCol->UpdateTransform();
+		}
+	}
+
+
 	void PhysicSystem::Finalize()
 	{
-		//
+		//Physx에 관한 모든 변수 초기화.
 		PX_RELEASE(_pxScene);
 		PX_RELEASE(_dispatcher);
 		PX_RELEASE(_physics);
@@ -96,7 +129,7 @@ namespace Pg::Engine::Physic
 		}
 		PX_RELEASE(_foundation);
 
-		PG_TRACE("PhysicSystem released.");
+		//PG_TRACE("PhysicSystem released.");
 	}
 
 	void PhysicSystem::CreatePxScene()
@@ -293,6 +326,11 @@ namespace Pg::Engine::Physic
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
 
 				rigid->attachShape(*shape);
+
+				//Rigid의 중력 조정
+				rigid->setAngularDamping(0.5f);
+				rigid->setLinearDamping(0.5f);
+
 				_pxScene->addActor(*rigid);
 
 				capCol->SetPxRigidDynamic(rigid);

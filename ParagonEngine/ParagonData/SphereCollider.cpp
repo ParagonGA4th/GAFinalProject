@@ -12,6 +12,12 @@ namespace Pg::Data
 	}
 
 
+	void SphereCollider::Start()
+	{
+
+	}
+
+
 	void SphereCollider::Update()
 	{
 		PGFLOAT4X4 worldTM = GetOffsetTM() * _object->_transform.GetWorldTM();
