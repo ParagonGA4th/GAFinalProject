@@ -93,6 +93,9 @@
     <ClCompile Include="SkinnedMeshRenderer.cpp">
       <Filter>2_Component\Renderer\3D\SkinnedMeshRenderer</Filter>
     </ClCompile>
+    <ClCompile Include="PlaneCollider.cpp">
+      <Filter>2_Component\Collider\StaticCollider\PlaneCollider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -227,6 +230,9 @@
     <ClInclude Include="SkinnedMeshRenderer.h">
       <Filter>2_Component\Renderer\3D\SkinnedMeshRenderer</Filter>
     </ClInclude>
+    <ClInclude Include="PlaneCollider.h">
+      <Filter>2_Component\Collider\StaticCollider\PlaneCollider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -360,6 +366,9 @@
     </Filter>
     <Filter Include="2_Component\UI\Slider">
       <UniqueIdentifier>{070588a3-5e11-41b7-8963-d3fbd2a43f2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\StaticCollider\PlaneCollider">
+      <UniqueIdentifier>{34510aec-ad30-4dcd-9cd2-d6bc26aac2b6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

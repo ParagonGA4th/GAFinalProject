@@ -228,22 +228,59 @@ namespace Pg::Graphics
 	{
 		using namespace DirectX;
 
+		XMMATRIX tWorld = MathHelper::PG2XM_MATRIX(boxInfo->worldTM);
 		XMMATRIX tView = MathHelper::PG2XM_MATRIX(camData->_viewMatrix);
 		XMMATRIX tProj = MathHelper::PG2XM_MATRIX(camData->_projMatrix);
 
 		DirectX::XMVECTOR tLineColor = MathHelper::PG2XM_VECTOR(boxInfo->color);
-		_boxShape->Draw(MathHelper::PG2XM_MATRIX(boxInfo->worldTM), tView, tProj, tLineColor, nullptr, true);
+
+		{
+			///PVD 연동 디버깅
+
+			XMVECTOR tTrans;
+			XMVECTOR tRotQuat;
+			XMVECTOR tScale;
+			XMMatrixDecompose(&tScale, &tRotQuat, &tTrans, tWorld);
+
+			DirectX::XMMATRIX tZNinety = XMMatrixRotationZ(XMConvertToRadians(90.0f));
+			DirectX::XMMATRIX tOriginRot = XMMatrixRotationQuaternion(tRotQuat);
+			tRotQuat = XMQuaternionRotationMatrix(XMMatrixMultiply(tZNinety, tOriginRot));
+
+			tWorld = XMMatrixAffineTransformation(tScale, XMVectorZero(), tRotQuat, tTrans);
+			///
+
+		}
+
+		_boxShape->Draw(tWorld, tView, tProj, tLineColor, nullptr, true);
 	}
 
 	void DebugRenderer::DrawSphere(Pg::Data::CameraData* camData, Pg::Data::SphereInfo* sphereInfo)
 	{
 		using namespace DirectX;
 
+		XMMATRIX tWorld = MathHelper::PG2XM_MATRIX(sphereInfo->worldTM);
 		XMMATRIX tView = MathHelper::PG2XM_MATRIX(camData->_viewMatrix);
 		XMMATRIX tProj = MathHelper::PG2XM_MATRIX(camData->_projMatrix);
 
 		DirectX::XMVECTOR tLineColor = MathHelper::PG2XM_VECTOR(sphereInfo->color);
-		_sphereShape->Draw(MathHelper::PG2XM_MATRIX(sphereInfo->worldTM), tView, tProj, tLineColor, nullptr, true);
+
+		{
+			///PVD 연동 디버깅
+
+			XMVECTOR tTrans;
+			XMVECTOR tRotQuat;
+			XMVECTOR tScale;
+			XMMatrixDecompose(&tScale, &tRotQuat, &tTrans, tWorld);
+
+			DirectX::XMMATRIX tZNinety = XMMatrixRotationZ(XMConvertToRadians(90.0f));
+			DirectX::XMMATRIX tOriginRot = XMMatrixRotationQuaternion(tRotQuat);
+			tRotQuat = XMQuaternionRotationMatrix(XMMatrixMultiply(tZNinety, tOriginRot));
+
+			tWorld = XMMatrixAffineTransformation(tScale, XMVectorZero(), tRotQuat, tTrans);
+			///
+
+		}
+		_sphereShape->Draw(tWorld, tView, tProj, tLineColor, nullptr, true);
 	}
 
 	void DebugRenderer::DrawCapsule(Pg::Data::CameraData* camData, Pg::Data::CapsuleInfo* capsuleInfo)
@@ -251,18 +288,7 @@ namespace Pg::Graphics
 		using namespace DirectX;
 
 		////매개변수 역할.
-		//DirectX::XMFLOAT3 tCylinderPos = { 0.f, 2.f, -3.f };
-		////DirectX::XMFLOAT3 tCylinderPos = { 0.f, 0.f,0.f};
-		//
-		//static float tRotAmount = 0.f;
-		//tRotAmount += 1.f;
-		//float tActualRot = fmod(tRotAmount, 360.f);
-		//
-		//DirectX::XMFLOAT3 tCylinderEulerDegRot = { tRotAmount, 0.f, 0.f };
-		//DirectX::XMFLOAT3 tCylinderEulerRadRot = { XMConvertToRadians(tCylinderEulerDegRot.x), XMConvertToRadians(tCylinderEulerDegRot.y),XMConvertToRadians(tCylinderEulerDegRot.z) };
-		//DirectX::XMVECTOR tCylinderEulerRadRotVec = DirectX::XMLoadFloat3(&tCylinderEulerRadRot);
-		//DirectX::XMFLOAT3 tCylinderScale = { 1.f, 1.f, 1.f };
-		////DirectX::XMFLOAT3 tCylinderScale = { 2.f,.f, 1.f };
+	
 		
 		XMMATRIX tCapsuleWorldTM = MathHelper::PG2XM_MATRIX(capsuleInfo->worldTM);
 
@@ -281,6 +307,15 @@ namespace Pg::Graphics
 		//<>//
 		//Cylinder 연산에 필요할 것들. (위 내용과 자동 연동)
 		DirectX::XMVECTOR tRotQuat = XMQuaternionRotationRollPitchYawFromVector(tCylinderEulerRadRotVec);
+		{
+			using namespace DirectX;
+			///PVD 연동 디버깅
+			DirectX::XMMATRIX tZNinety = XMMatrixRotationZ(XMConvertToRadians(90.0f));
+			DirectX::XMMATRIX tOriginRot = XMMatrixRotationQuaternion(tRotQuat);
+			tRotQuat = XMQuaternionRotationMatrix(XMMatrixMultiply(tZNinety, tOriginRot));
+			///
+		}
+		
 		//오브젝트의 Translation을 기준으로 돌아야 한다.
 		DirectX::XMMATRIX tTransformRotMat = DirectX::XMMatrixRotationQuaternion(tRotQuat);
 

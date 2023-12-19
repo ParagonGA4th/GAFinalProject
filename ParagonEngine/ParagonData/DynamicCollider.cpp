@@ -13,6 +13,14 @@ namespace Pg::Data
 		
 	}
 
+	void DynamicCollider::UpdatePhysics(PGFLOAT3 pos, PGQuaternion quat)
+	{
+		PGFLOAT4 localPos = PGFloat4MultiplyMatrix({ pos, 1.0f }, GetOffsetTM().Inverse());
+		PGQuaternion localQuat = PGQuaternionMultiply(quat, GetRotationOffset().Conjugate());
+
+		_object->_transform.SetPosition(localPos.x, localPos.y, localPos.z);
+		_object->_transform.SetRotation(localQuat);
+	}
 
 	void DynamicCollider::UpdateTransform()
 	{
@@ -31,6 +39,15 @@ namespace Pg::Data
 		transform.q.y = rotation.y;
 		transform.q.z = rotation.z;
 		transform.q.w = rotation.w;
+
+		/*position.x = transform.p.x;
+		position.y = transform.p.y;
+		position.z = transform.p.z;
+
+		rotation.x = transform.q.x;
+		rotation.y = transform.q.y;
+		rotation.z = transform.q.z;
+		rotation.w = transform.q.w;*/
 
 		_rigid->setGlobalPose(transform);
 	}
@@ -90,4 +107,11 @@ namespace Pg::Data
 		physx::PxVec3 vec = _rigid->getLinearVelocity();
 		return { vec.x, vec.y, vec.z };
 	}
+
+	void DynamicCollider::Flush()
+	{
+		_wasCollided = _isCollide;
+		_isCollide = true;
+	}
+
 }
