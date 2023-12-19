@@ -1,5 +1,3 @@
-#pragma pixel_shader main
-#pragma target 5.0
 //Appends PS 필수 조건.
 
 //Append Shader에 쓰일 셰이더 Commons
