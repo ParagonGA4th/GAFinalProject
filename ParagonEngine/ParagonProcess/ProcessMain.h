@@ -22,7 +22,6 @@
 
 namespace Pg::Core
 {
-	class Scene;
 	class EngineGraphicsAdapter;
 	class EditorAdapter;
 

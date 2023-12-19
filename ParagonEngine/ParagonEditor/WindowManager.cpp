@@ -1,17 +1,17 @@
 #include "WindowManager.h"
 #include "DataContainer.h"
 
-
 #include "IEditorWindow.h"
 #include "Inspector.h"
 #include "Hierarchy.h"
 #include "Scene.h"
 #include "Filter.h"
 
-
 #include "../ParagonUI/UIManager.h"
 
+#include "../ParagonData/Scene.h"
 
+#include <algorithm>
 #include <singleton-cpp/singleton.h>
 
 Pg::Editor::Manager::WindowManager::WindowManager()
@@ -36,22 +36,18 @@ Pg::Editor::Manager::WindowManager::~WindowManager()
 
 }
 
-void Pg::Editor::Manager::WindowManager::Initialize(HWND hWnd)
+void Pg::Editor::Manager::WindowManager::Initialize(void* hWnd)
 {
-	_uiManager->Initialize(static_cast<void*>(hWnd), _dataContainer->GetDevice(), _dataContainer->GetDeviceContext());
-	for (auto& window : _windows)
-	{
-		window->Initialize();
-	}
+	_uiManager->Initialize(hWnd, _dataContainer->GetDevice(),_dataContainer->GetDeviceContext());
+	for_each(_windows.begin(), _windows.end(), 
+		[](Pg::Editor::Window::IEditorWindow* ewindow) { ewindow->Initialize(); });
 }
 
 void Pg::Editor::Manager::WindowManager::Update()
 {
 	_uiManager->Update();
-	for (auto& window : _windows)
-	{
-		if (window->GetShow()) window->Update();
-	}
+	for_each(_windows.begin(), _windows.end(), 
+		[](Pg::Editor::Window::IEditorWindow* ewindow) { if(ewindow->GetShow()) ewindow->Update(); });
 	_uiManager->LastUpdate();
 }
 

@@ -6,7 +6,7 @@
 
 Pg::Editor::Event::Event()
 {
-	auto& tes = singleton<Pg::Editor::EventSystem>();
+	auto& tes = singleton<Pg::Editor::System::EventSystem>();
 	_eventSystem = &tes;
 }
 

@@ -1,5 +1,5 @@
 #pragma  once
-#include <windows.h>
+#include "IEditorManager.h"
 #include <memory>
 
 namespace Pg::Core { class ProcessMain; }
@@ -8,24 +8,31 @@ namespace Pg::Editor::Data{ class DataContainer; }
 
 namespace Pg::Editor::Manager
 {
-	class ProcessManager
+	class ProcessManager : public IEditorManager
 	{
 	public:
-		ProcessManager();
+		ProcessManager(float width, float height);
 		~ProcessManager();
 
-		void Initialize(void* hWnd, float screenWidth, float screenHeight);
-		void Update();
-		void LateUpdate();
-		void Finalize();
+		virtual void Initialize(void* hWnd) override;
+		virtual void Update() override;
+		virtual void LateUpdate() override;
+		virtual void Finalize() override;
 
-		void ProcessHandler(MSG message);
+		virtual void ManagerHandler(MSG message) override;
+
 	private:
+		float _screenWidth;
+		float _screenHeight;
+
+		bool _isCoreInitailized;
+		bool _isSceneSet;
+		
 		std::unique_ptr<Pg::Core::ProcessMain> _coreMain;
+
 		Pg::API::Input::PgInput* _input;
 		Pg::Editor::Data::DataContainer* _dataContainer;
 
-		bool _isCoreInitailized;
 	};
 }
 

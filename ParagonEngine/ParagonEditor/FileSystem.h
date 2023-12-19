@@ -3,20 +3,17 @@
 #include <string>
 #include <unordered_map>
 
-namespace Pg::Editor
-{
-	class Event;
-}
+namespace Pg::Editor { class Event; }
+namespace Pg::Editor::Manager { class DataManager; }
 
-namespace Pg::Editor::Manager
+namespace Pg::Editor::System
 {
 	using FilePath = std::string;
-	class DataManager;
-	class FileManager
+	class FileSystem
 	{
 	public:
-		FileManager();
-		~FileManager();
+		FileSystem();
+		~FileSystem();
 
 		void Initialize();
 

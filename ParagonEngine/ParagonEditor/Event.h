@@ -4,9 +4,9 @@
 #include <functional>
 #include <windows.h>
 
+namespace Pg::Editor::System { class EventSystem; }	
 namespace Pg::Editor
 {
-	class EventSystem;
 	class Event
 	{
 	public:
@@ -23,6 +23,6 @@ namespace Pg::Editor
 
 	private:
 		eEventType _eventType;
-		EventSystem* _eventSystem;
+		Pg::Editor::System::EventSystem* _eventSystem;
 	};
 }
