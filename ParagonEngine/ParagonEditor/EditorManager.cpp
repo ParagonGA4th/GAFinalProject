@@ -14,19 +14,20 @@ Pg::Editor::Manager::EditorManager::EditorManager()
 
 Pg::Editor::Manager::EditorManager::~EditorManager()
 {
-
 }
 
-void Pg::Editor::Manager::EditorManager::Initialize(HWND hWnd)
+void Pg::Editor::Manager::EditorManager::Initialize(void* hWnd)
 {
 	_windowManager->Initialize(hWnd);
 }
 
 void Pg::Editor::Manager::EditorManager::Update()
 {
-	if (!_dataContainer->GetEditorOnOff()) return;
+	if (_dataContainer->GetEditorOnOff()) _windowManager->Update();
+}
 
-	_windowManager->Update();
+void Pg::Editor::Manager::EditorManager::LateUpdate()
+{
 }
 
 void Pg::Editor::Manager::EditorManager::Finalize()
@@ -34,9 +35,10 @@ void Pg::Editor::Manager::EditorManager::Finalize()
 	_windowManager->Finalize();
 }
 
-
-void Pg::Editor::Manager::EditorManager::WindowHandler(MSG message)
+void Pg::Editor::Manager::EditorManager::ManagerHandler(MSG message)
 {
 	_windowManager->WindowHandler(message);
 }
+
+
 

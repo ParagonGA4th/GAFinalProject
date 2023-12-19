@@ -7,9 +7,16 @@
 #include "../ParagonData/AssetDefines.h"
 #include "../ParagonData/EditorMode.h"
 
+#include <vector>
+
 namespace Pg::Core
 {
 	class ProcessMain;
+}
+
+namespace Pg::Data
+{
+	class Scene;
 }
 
 namespace Pg::Core
@@ -35,9 +42,24 @@ namespace Pg::Core
 		//에디터에 고유한 리소스를 로드한다. 
 		void LoadEditorResource(Pg::Data::Enums::eAssetDefine define, void* memory, int sizeInBytes);
 
+		//에디터에서 가져온 씬 목록을 설정한다
+		void SetSceneList(std::vector<Pg::Data::Scene*> scenes);
+
+		//에디터의 씬 목록을 가져온다
+		std::vector<Pg::Data::Scene*> GetSceneList();
+
+		//에디터에 따라 현재 씬을 설정한다
+		void SetCurrentScene(Pg::Data::Scene* scene);
+
+		//에디터에 따른 현재 씬을 가져온다
+		Pg::Data::Scene* GetCurrentScene();
+
 	private:
 		ProcessMain* _processMain;
 		Pg::Data::Enums::eEditorMode _editorMode;
+		
+		std::vector<Pg::Data::Scene*> _scenes;
+		Pg::Data::Scene* _currentScene;
 	};
 }
 

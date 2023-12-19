@@ -1,6 +1,5 @@
 #include "UIManager.h"
 #include "ImGuiManager.h"
-#include "Panel.h"
 
 
 Pg::UI::Manager::UIManager::UIManager()

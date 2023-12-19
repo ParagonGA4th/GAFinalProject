@@ -1,6 +1,7 @@
 #pragma once
 
-// Message 처리를 위해 필요한 define
+// Editor의 상단바 Message 처리를 위해 필요한 define
+
 #define ID_OPEN_PROJECT 1000
 #define ID_NEW_PROJECT 1001
 #define ID_OPEN_SCENE 1002
