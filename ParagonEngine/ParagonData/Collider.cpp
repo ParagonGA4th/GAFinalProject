@@ -22,6 +22,7 @@ namespace Pg::Data
 	void Collider::SetRotationOffset(PGQuaternion rotation)
 	{
 		//PGQuaternion result = PGEulerToQuaternion(rotation.x, rotation.y, rotation.z);
+		//_rotationOffset = result;
 		_rotationOffset = rotation;
 	}
 

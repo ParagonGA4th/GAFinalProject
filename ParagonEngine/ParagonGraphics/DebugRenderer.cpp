@@ -242,10 +242,12 @@ namespace Pg::Graphics
 			XMVECTOR tScale;
 			XMMatrixDecompose(&tScale, &tRotQuat, &tTrans, tWorld);
 
-			//Scale Fix 
-			tScale = XMVectorScale(tScale, 2);
+			////Scale Fix 
+			//tScale = XMVectorScale(tScale, 2);
+			XMFLOAT3 infoScale = MathHelper::PG2XM_FLOAT3(boxInfo->scale);
+			tScale = XMLoadFloat3(&infoScale);
 
-			DirectX::XMMATRIX tZNinety = XMMatrixRotationZ(XMConvertToRadians(90.0f));
+			DirectX::XMMATRIX tZNinety = XMMatrixRotationZ(XMConvertToRadians(0.0f));
 			DirectX::XMMATRIX tOriginRot = XMMatrixRotationQuaternion(tRotQuat);
 			tRotQuat = XMQuaternionRotationMatrix(XMMatrixMultiply(tZNinety, tOriginRot));
 
@@ -276,9 +278,11 @@ namespace Pg::Graphics
 			XMMatrixDecompose(&tScale, &tRotQuat, &tTrans, tWorld);
 
 			//Scale Fix 
-			tScale = XMVectorScale(tScale, 2);
-			
-			DirectX::XMMATRIX tZNinety = XMMatrixRotationZ(XMConvertToRadians(90.0f));
+			//tScale = XMVectorScale(tScale, 2);
+			XMFLOAT3 infoScale = MathHelper::PG2XM_FLOAT3(sphereInfo->scale);
+			tScale = XMLoadFloat3(&infoScale);
+
+			DirectX::XMMATRIX tZNinety = XMMatrixRotationZ(XMConvertToRadians(0.0f));
 			DirectX::XMMATRIX tOriginRot = XMMatrixRotationQuaternion(tRotQuat);
 			tRotQuat = XMQuaternionRotationMatrix(XMMatrixMultiply(tZNinety, tOriginRot));
 
@@ -306,13 +310,20 @@ namespace Pg::Graphics
 		XMMatrixDecompose(&tCylinderScaleVec, &tCylinderEulerRadRotVec, &tCylinderPosVec, tCapsuleWorldTM);
 
 		//Scale Fix 
-		tCylinderScaleVec = XMVectorScale(tCylinderScaleVec, 2);
+		//tCylinderScaleVec = XMVectorScale(tCylinderScaleVec, 2);
 
 		XMStoreFloat3(&tCylinderScale, tCylinderScaleVec);
 		XMStoreFloat3(&tCylinderPos, tCylinderPosVec);
 
+		tCylinderScale.x = capsuleInfo->scale.z;
+		tCylinderScale.y = capsuleInfo->scale.x;
+		tCylinderScale.z = capsuleInfo->scale.y;
+
 		float tHeight = 1.0f;
 		float tRadius = 1.0f;
+
+		//float tHeight = capsuleInfo->scale.x /2.f;
+		//float tRadius = (capsuleInfo->scale.y + capsuleInfo->scale.z) / 2.0f;
 
 		//<>//
 		//Cylinder 연산에 필요할 것들. (위 내용과 자동 연동)
@@ -320,7 +331,7 @@ namespace Pg::Graphics
 		{
 			using namespace DirectX;
 			///PVD 연동 디버깅
-			DirectX::XMMATRIX tZNinety = XMMatrixRotationZ(XMConvertToRadians(90.0f));
+			DirectX::XMMATRIX tZNinety = XMMatrixRotationZ(XMConvertToRadians(0.0f));
 			DirectX::XMMATRIX tOriginRot = XMMatrixRotationQuaternion(tRotQuat);
 			tRotQuat = XMQuaternionRotationMatrix(XMMatrixMultiply(tZNinety, tOriginRot));
 			///

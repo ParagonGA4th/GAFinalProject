@@ -47,12 +47,7 @@ namespace Pg::Engine::Physic
 
 		// ground 생성 후, 임의로 shape 붙여주기
 		physx::PxRigidStatic* groundPlane = PxCreatePlane(*_physics, physx::PxPlane(0, 1, 0, 0), *_material);
-		physx::PxShape* gpShape = _physics->createShape(physx::PxBoxGeometry(1.0f, 20.0f, 20.0f), *_material);
-		physx::PxTransform gpTransform;
-		gpTransform.p = { 0, 0, 0 };
-		gpTransform.q = { 0, 0, 0, 1 };
-		gpShape->setLocalPose(gpTransform);
-		//gpShape->Set
+		physx::PxShape* gpShape = _physics->createShape(physx::PxBoxGeometry(0.1f, 20.0f, 20.0f), *_material);
 		groundPlane->attachShape(*gpShape);
 		_pxScene->addActor(*groundPlane);
 
@@ -318,6 +313,11 @@ namespace Pg::Engine::Physic
 
 				physx::PxShape* shape = _physics->createShape(physx::PxSphereGeometry(sphCol->GetRadius()), *_material);
 
+				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform.GetRotation());
+				physx::PxTransform trans(physx::PxIdentity);
+				trans.q = physx::PxQuat(0, 0, 0.7071068f, 0.7071068f);
+				shape->setLocalPose(trans);
+
 				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 				physx::PxTransform localTm(physx::PxVec3(pos.x, pos.y, pos.z));
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
@@ -328,8 +328,6 @@ namespace Pg::Engine::Physic
 				rigid->attachShape(*shape);
 				//_pxScene->addActor(*rigid);
 				
-			
-
 				///collider의 축 고정 시
 				/*rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, true);
 				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, true);
@@ -358,10 +356,14 @@ namespace Pg::Engine::Physic
 
 				physx::PxShape* shape = _physics->createShape(physx::PxCapsuleGeometry(capCol->GetRadius(), capCol->GetHalfHeight()), *_material);
 
+				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform.GetRotation());
+				physx::PxTransform trans(physx::PxIdentity);
+				trans.q = physx::PxQuat(0, 0, 0.7071068f, 0.7071068f);
+				shape->setLocalPose(trans);
+
 				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 				physx::PxTransform localTm(physx::PxIdentity);
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
-
 
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
