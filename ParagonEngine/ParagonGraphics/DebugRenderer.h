@@ -57,6 +57,7 @@ namespace Pg::Graphics
 
 	private:
 		void InitGeometry();
+		void InitCapsule();
 		void InitLine();
 
 	private:
@@ -69,10 +70,9 @@ namespace Pg::Graphics
 		//Sphere Wireframe Rendering
 		std::unique_ptr<DirectX::GeometricPrimitive> _sphereShape;
 
-		//Capsule Wireframe Rendering. (Sphere와 합쳐서 Capsule 구성에 활용)
-		std::unique_ptr<DirectX::GeometricPrimitive> _topHemisphereShape;
-		std::unique_ptr<DirectX::GeometricPrimitive> _cylinderShape;
-		std::unique_ptr<DirectX::GeometricPrimitive> _bottomHemisphereShape;
+		//Capsule Wireframe Rendering
+		std::unique_ptr<DirectX::GeometricPrimitive> _capsuleShape;
+		
 
 	private:
 		//렌더링을 위해 Pointer를 보관.

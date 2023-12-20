@@ -44,48 +44,8 @@ namespace Pg::Graphics
 		size_t tTesellationFactor = 16;
 		_sphereShape = DirectX::GeometricPrimitive::CreateSphere(_DXStorage->_deviceContext, 1.f, tTesellationFactor);
 
-
 		//Capsule 만들기.
-		{
-			//Capsule을 위한 Cylinder를 만들기.
-			{
-				_cylinderShape = DirectX::GeometricPrimitive::CreateCylinder(_DXStorage->_deviceContext, 1.f, 1.f, tTesellationFactor);
-			}
-
-			//Top Hemisphere 만들기.
-			{
-				using namespace DirectX;
-
-				GeometricPrimitive::VertexCollection vertices;
-				GeometricPrimitive::IndexCollection indices;
-				GeometricPrimitive::CreateSphere(vertices, indices,
-					1.f, tTesellationFactor / 2);
-
-				for (size_t i = 0; i < vertices.size(); i++)
-				{
-					vertices[i].position.y = fabs(vertices[i].position.y);
-				}
-
-				_topHemisphereShape = GeometricPrimitive::CreateCustom(_DXStorage->_deviceContext, vertices, indices);
-			}
-
-			//Bottom Hemisphere 만들기.
-			{
-				using namespace DirectX;
-
-				GeometricPrimitive::VertexCollection vertices;
-				GeometricPrimitive::IndexCollection indices;
-				GeometricPrimitive::CreateSphere(vertices, indices,
-					1.f, tTesellationFactor/2);
-
-				for (size_t i = 0; i < vertices.size(); i++)
-				{
-					vertices[i].position.y = -fabs(vertices[i].position.y);
-				}
-
-				_bottomHemisphereShape = GeometricPrimitive::CreateCustom(_DXStorage->_deviceContext, vertices, indices);
-			}
-		}
+		InitCapsule();
 	}
 
 	void DebugRenderer::InitLine()
@@ -136,39 +96,6 @@ namespace Pg::Graphics
 		{
 			DrawCapsule(camData, _capsuleColVector->at(i));
 		}
-
-		//Pg::Data::CapsuleInfo t;
-		//t.color = { 0,1,0,1 };
-		//
-		//DirectX::XMMATRIX tTempScale = DirectX::XMMatrixScaling(1.f, 1.f, 1.f);
-		//DirectX::XMMATRIX tTempRot;
-		//{
-		//	using namespace DirectX;
-		//	static float tRotAmount = 0.f;
-		//	tRotAmount += 1.f;
-		//	float tActualRot = fmod(tRotAmount, 360.f);
-		//
-		//	DirectX::XMFLOAT3 tCylinderEulerDegRot = { tRotAmount, 0.f, 0.f };
-		//	DirectX::XMFLOAT3 tCylinderEulerRadRot = { XMConvertToRadians(tCylinderEulerDegRot.x), XMConvertToRadians(tCylinderEulerDegRot.y),XMConvertToRadians(tCylinderEulerDegRot.z) };
-		//	DirectX::XMVECTOR tCylinderEulerRadRotVec = DirectX::XMLoadFloat3(&tCylinderEulerRadRot);
-		//	//DirectX::XMFLOAT3 tCylinderScale = { 2.f,.f, 1.f };
-		//	float tHeight = 2.0f;
-		//	float tRadius = 1.0f;
-		//
-		//	//<>//
-		//	//Cylinder 연산에 필요할 것들. (위 내용과 자동 연동)
-		//	DirectX::XMVECTOR tRotQuat = XMQuaternionRotationRollPitchYawFromVector(tCylinderEulerRadRotVec);
-		//	tTempRot = DirectX::XMMatrixRotationQuaternion(tRotQuat);
-		//}
-		//auto tTempTrans = DirectX::XMMatrixTranslation(0.f, 2.f, -3.f);
-		//
-		//{
-		//	using namespace DirectX;
-		//	DirectX::XMMATRIX tWorldTM = tTempScale * tTempRot * tTempTrans;
-		//	std::memcpy(&(t.worldTM), &tWorldTM, sizeof(DirectX::XMMATRIX));
-		//}
-		//
-		//DrawCapsule(camData, &t);
 	}
 
 	void DebugRenderer::EndGeoPrimitiveRender()
@@ -297,107 +224,192 @@ namespace Pg::Graphics
 	{
 		using namespace DirectX;
 
-		////매개변수 역할.
-	
-		
-		XMMATRIX tCapsuleWorldTM = MathHelper::PG2XM_MATRIX(capsuleInfo->worldTM);
-
-		DirectX::XMVECTOR tCylinderScaleVec;
-		DirectX::XMFLOAT3 tCylinderScale = { 1.f, 1.f, 1.f };
-		DirectX::XMVECTOR tCylinderEulerRadRotVec;
-		DirectX::XMVECTOR tCylinderPosVec;
-		DirectX::XMFLOAT3 tCylinderPos = {0.f,0.f,0.f};
-		XMMatrixDecompose(&tCylinderScaleVec, &tCylinderEulerRadRotVec, &tCylinderPosVec, tCapsuleWorldTM);
-
-		//Scale Fix 
-		//tCylinderScaleVec = XMVectorScale(tCylinderScaleVec, 2);
-
-		XMStoreFloat3(&tCylinderScale, tCylinderScaleVec);
-		XMStoreFloat3(&tCylinderPos, tCylinderPosVec);
-
-		tCylinderScale.x = capsuleInfo->scale.z;
-		tCylinderScale.y = capsuleInfo->scale.x;
-		tCylinderScale.z = capsuleInfo->scale.y;
-
-		float tHeight = 1.0f;
-		float tRadius = 1.0f;
-
-		//float tHeight = capsuleInfo->scale.x /2.f;
-		//float tRadius = (capsuleInfo->scale.y + capsuleInfo->scale.z) / 2.0f;
-
-		//<>//
-		//Cylinder 연산에 필요할 것들. (위 내용과 자동 연동)
-		DirectX::XMVECTOR tRotQuat = XMQuaternionRotationRollPitchYawFromVector(tCylinderEulerRadRotVec);
-		{
-			using namespace DirectX;
-			///PVD 연동 디버깅
-			DirectX::XMMATRIX tZNinety = XMMatrixRotationZ(XMConvertToRadians(0.0f));
-			DirectX::XMMATRIX tOriginRot = XMMatrixRotationQuaternion(tRotQuat);
-			tRotQuat = XMQuaternionRotationMatrix(XMMatrixMultiply(tZNinety, tOriginRot));
-			///
-		}
-		
-		//오브젝트의 Translation을 기준으로 돌아야 한다.
-		DirectX::XMMATRIX tTransformRotMat = DirectX::XMMatrixRotationQuaternion(tRotQuat);
-
-		DirectX::XMMATRIX tTransformScaleMat = DirectX::XMMatrixScaling(tCylinderScale.x, tCylinderScale.y, tCylinderScale.z);
-		DirectX::XMMATRIX tSelfScaleMat = DirectX::XMMatrixScaling(tRadius, tHeight, tRadius);
-		DirectX::XMMATRIX tHeightlessScaleMat = DirectX::XMMatrixScaling(tRadius, 1.f, tRadius);
-
+		XMMATRIX tWorld = MathHelper::PG2XM_MATRIX(capsuleInfo->worldTM);
 		XMMATRIX tView = MathHelper::PG2XM_MATRIX(camData->_viewMatrix);
 		XMMATRIX tProj = MathHelper::PG2XM_MATRIX(camData->_projMatrix);
 
-		//Cylinder Collider Rendering
+		DirectX::XMVECTOR tLineColor = MathHelper::PG2XM_VECTOR(capsuleInfo->color);
+
 		{
-			//Cylinder World Mat
-			DirectX::XMMATRIX tScale = tTransformScaleMat * tSelfScaleMat;
-			DirectX::XMMATRIX tRot = tTransformRotMat;
-			DirectX::XMMATRIX tTrans = DirectX::XMMatrixTranslation(tCylinderPos.x, tCylinderPos.y, tCylinderPos.z);
-			DirectX::XMMATRIX tWorld = tScale * tRot * tTrans;
-			//tWorld *= tTrans;
+			///PVD 연동 디버깅
 
-			_cylinderShape->Draw(tWorld, tView, tProj, Colors::Green, nullptr, true);
+			XMVECTOR tTrans;
+			XMVECTOR tRotQuat;
+			XMVECTOR tScale;
+			XMMatrixDecompose(&tScale, &tRotQuat, &tTrans, tWorld);
+
+			//Scale Fix 
+			//tScale = XMVectorScale(tScale, 2);
+			XMFLOAT3 infoScale = MathHelper::PG2XM_FLOAT3(capsuleInfo->scale);
+			tScale = XMLoadFloat3(&infoScale);
+
+			DirectX::XMMATRIX tZNinety = XMMatrixRotationZ(XMConvertToRadians(0.0f));
+			DirectX::XMMATRIX tOriginRot = XMMatrixRotationQuaternion(tRotQuat);
+			tRotQuat = XMQuaternionRotationMatrix(XMMatrixMultiply(tZNinety, tOriginRot));
+
+			tWorld = XMMatrixAffineTransformation(tScale, XMVectorZero(), tRotQuat, tTrans);
+			///
+
 		}
-		//Hemispheres
-		//Top Hemisphere Collider Rendering
-		{
-			DirectX::XMFLOAT3 tTransOffsetFT = { 0.f, tHeight / 2.f, 0.f };
-			DirectX::XMVECTOR tTransOffsetVec = DirectX::XMLoadFloat3(&tTransOffsetFT);
-
-			//이 tTransVec가 tCylinderPos를 중심으로 Rotation을 거쳐야 한다.
-			DirectX::XMMATRIX tTransOffsetMat = DirectX::XMMatrixTranslationFromVector(tTransOffsetVec);
-
-			DirectX::XMMATRIX tTrans = DirectX::XMMatrixTranslation(tCylinderPos.x, tCylinderPos.y, tCylinderPos.z);
-			DirectX::XMMATRIX tRot = tTransformRotMat;
-			DirectX::XMMATRIX tScale = tTransformScaleMat * tHeightlessScaleMat;
-			DirectX::XMMATRIX tWorld = tTransOffsetMat * tScale * tRot * tTrans;
-
-			_topHemisphereShape->Draw(tWorld, tView, tProj, Colors::Green, nullptr, true);
-		}
-
-		//Bottom Hemisphere Collider Rendering
-		{
-			DirectX::XMFLOAT3 tTransOffsetFT = { 0.f, -tHeight / 2.f, 0.f };
-			DirectX::XMVECTOR tTransOffsetVec = DirectX::XMLoadFloat3(&tTransOffsetFT);
-
-			//이 tTransVec가 tCylinderPos를 중심으로 Rotation을 거쳐야 한다.
-			DirectX::XMMATRIX tTransOffsetMat = DirectX::XMMatrixTranslationFromVector(tTransOffsetVec);
-
-			DirectX::XMMATRIX tTrans = DirectX::XMMatrixTranslation(tCylinderPos.x, tCylinderPos.y, tCylinderPos.z);
-			DirectX::XMMATRIX tRot = tTransformRotMat;
-			DirectX::XMMATRIX tScale = tTransformScaleMat * tHeightlessScaleMat;
-			DirectX::XMMATRIX tWorld = tTransOffsetMat * tScale * tRot * tTrans;
-
-			_bottomHemisphereShape->Draw(tWorld, tView, tProj, Colors::Green, nullptr, true);
-		}
+		_capsuleShape->Draw(tWorld, tView, tProj, tLineColor, nullptr, true);
 	}
-
+	
 	void DebugRenderer::DrawLine(Pg::Data::LineInfo* lineInfo)
 	{
 		_primitiveBatch->DrawLine(
 			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(lineInfo->beginPoint), MathHelper::PG2XM_FLOAT4(lineInfo->color)),
 			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(lineInfo->endPoint), MathHelper::PG2XM_FLOAT4(lineInfo->color)));
 	}
-	
+
+	void DebugRenderer::InitCapsule()
+	{
+		float radius = 0.5f; // 캡슐의 반지름
+		float height = 1.0f; // 캡슐의 높이
+		int stackCount = 5; // 수평 분할
+		int sliceCount = 20; // 수직 분할
+
+		DirectX::GeometricPrimitive::VertexCollection vertices;
+		DirectX::GeometricPrimitive::IndexCollection indices;
+
+		// 상단 반구 정점
+		vertices.push_back(DirectX::VertexPositionNormalTexture{
+		   DirectX::SimpleMath::Vector3{0.0f, radius + height * 0.5f, 0.0f},
+		   DirectX::SimpleMath::Vector3{0.f, 1.f, 0.f},DirectX::SimpleMath::Vector2{0.f,0.f} });
+
+		for (int i = 1; i <= stackCount; i++)
+		{
+			// 윗방향 벡터와의 각도
+			float upTheta = DirectX::XM_PI * 0.5f * (i / static_cast<float>(stackCount));
+
+			float xzsize = radius * sinf(upTheta);
+			float ysize = radius * cosf(upTheta);
+
+			for (int j = 0; j < sliceCount; j++)
+			{
+				float zTheta = DirectX::XM_PI * 2.0f * (j / static_cast<float>(sliceCount));
+
+				float x = xzsize * sinf(zTheta);
+				float y = ysize + height * 0.5f;
+				float z = xzsize * cosf(zTheta);
+
+				vertices.push_back(DirectX::VertexPositionNormalTexture{
+				   DirectX::SimpleMath::Vector3{x, y, z},
+				   DirectX::SimpleMath::Vector3{0.f, 1.f, 0.f},
+				   DirectX::SimpleMath::Vector2{0.f,0.f} }
+				);
+			}
+		}
+
+		size_t middleIdx = vertices.size();
+
+		// 하단 반구 정점
+		for (int i = stackCount; i >= 1; i--)
+		{
+			// 윗방향 벡터와의 각도
+			float upTheta = DirectX::XM_PI * 0.5f * (i / static_cast<float>(stackCount));
+
+			float xzsize = radius * sinf(upTheta);
+			float ysize = radius * cosf(upTheta);
+
+			for (int j = 0; j < sliceCount; j++)
+			{
+				float zTheta = DirectX::XM_PI * 2.0f * (j / static_cast<float>(sliceCount));
+
+				float x = xzsize * sinf(zTheta);
+				float y = ysize + height * 0.5f;
+				float z = xzsize * cosf(zTheta);
+
+				vertices.push_back(DirectX::VertexPositionNormalTexture{
+				   DirectX::SimpleMath::Vector3(x, -y, z),
+				   DirectX::SimpleMath::Vector3{0.f, 1.f, 0.f},
+				   DirectX::SimpleMath::Vector2{0.f,0.f} }
+				);
+			}
+		}
+
+		vertices.push_back(DirectX::VertexPositionNormalTexture{
+		   DirectX::SimpleMath::Vector3{0.0f, -(radius + height * 0.5f), 0.0f},
+			DirectX::SimpleMath::Vector3{0.f, 1.f, 0.f},
+				   DirectX::SimpleMath::Vector2{0.f,0.f} }
+		);
+
+		// 상단 반구 인덱스
+		for (int i = 0; i < sliceCount; i++) {
+			int a = 0;
+			int b = 1 + i;
+			int c = 1 + ((i + 1) % sliceCount);
+
+			indices.push_back(a);
+			indices.push_back(b);
+			indices.push_back(c);
+		}
+
+		for (int i = 1; i < stackCount; i++) {
+			for (int j = 0; j < sliceCount; j++) {
+				int a = 1 + (i - 1) * sliceCount + j;
+				int b = 1 + (i - 1) * sliceCount + ((j + 1) % sliceCount);
+				int c = 1 + i * sliceCount + j;
+				int d = 1 + i * sliceCount + ((j + 1) % sliceCount);
+
+				indices.push_back(a);
+				indices.push_back(c);
+				indices.push_back(d);
+
+				indices.push_back(a);
+				indices.push_back(d);
+				indices.push_back(b);
+			}
+		}
+
+		// 실린더 부분 인덱스
+		for (int i = 0; i < sliceCount; i++)
+		{
+			int a = middleIdx - sliceCount + i;
+			int b = middleIdx - sliceCount + ((i + 1) % sliceCount);
+			int c = middleIdx + i;
+			int d = middleIdx + ((i + 1) % sliceCount);
+
+			indices.push_back(a);
+			indices.push_back(c);
+			indices.push_back(d);
+
+			indices.push_back(a);
+			indices.push_back(d);
+			indices.push_back(b);
+		}
+
+		// 하단 반구 인덱스
+		for (int i = 1; i < stackCount; i++) {
+			for (int j = 0; j < sliceCount; j++) {
+				int a = middleIdx + (i - 1) * sliceCount + j;
+				int b = middleIdx + (i - 1) * sliceCount + ((j + 1) % sliceCount);
+				int c = middleIdx + i * sliceCount + j;
+				int d = middleIdx + i * sliceCount + ((j + 1) % sliceCount);
+
+				indices.push_back(a);
+				indices.push_back(c);
+				indices.push_back(d);
+
+				indices.push_back(a);
+				indices.push_back(d);
+				indices.push_back(b);
+			}
+		}
+
+		for (int i = 0; i < sliceCount; i++) {
+			int a = vertices.size() - 1;
+			int b = vertices.size() - 1 - sliceCount + i;
+			int c = vertices.size() - 1 - sliceCount + ((i + 1) % sliceCount);
+
+			indices.push_back(b);
+			indices.push_back(a);
+			indices.push_back(c);
+		}
+
+		//
+		_capsuleShape = DirectX::GeometricPrimitive::CreateCustom(_DXStorage->_deviceContext, vertices, indices);
+	}
+
+
 
 }
