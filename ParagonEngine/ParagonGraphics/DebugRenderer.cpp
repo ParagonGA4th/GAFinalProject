@@ -274,7 +274,7 @@ namespace Pg::Graphics
 		// 상단 반구 정점
 		vertices.push_back(DirectX::VertexPositionNormalTexture{
 		   DirectX::SimpleMath::Vector3{0.0f, radius + height * 0.5f, 0.0f},
-		   DirectX::SimpleMath::Vector3{0.f, 1.f, 0.f},DirectX::SimpleMath::Vector2{0.f,0.f} });
+		   DirectX::SimpleMath::Vector3{1.f, 1.f, 1.f},DirectX::SimpleMath::Vector2{0.f,0.f} });
 
 		for (int i = 1; i <= stackCount; i++)
 		{
@@ -294,7 +294,7 @@ namespace Pg::Graphics
 
 				vertices.push_back(DirectX::VertexPositionNormalTexture{
 				   DirectX::SimpleMath::Vector3{x, y, z},
-				   DirectX::SimpleMath::Vector3{0.f, 1.f, 0.f},
+				   DirectX::SimpleMath::Vector3{1.f, 1.f, 1.f},
 				   DirectX::SimpleMath::Vector2{0.f,0.f} }
 				);
 			}
@@ -321,7 +321,7 @@ namespace Pg::Graphics
 
 				vertices.push_back(DirectX::VertexPositionNormalTexture{
 				   DirectX::SimpleMath::Vector3(x, -y, z),
-				   DirectX::SimpleMath::Vector3{0.f, 1.f, 0.f},
+				   DirectX::SimpleMath::Vector3{1.f, 1.f, 1.f},
 				   DirectX::SimpleMath::Vector2{0.f,0.f} }
 				);
 			}
@@ -329,7 +329,7 @@ namespace Pg::Graphics
 
 		vertices.push_back(DirectX::VertexPositionNormalTexture{
 		   DirectX::SimpleMath::Vector3{0.0f, -(radius + height * 0.5f), 0.0f},
-			DirectX::SimpleMath::Vector3{0.f, 1.f, 0.f},
+			DirectX::SimpleMath::Vector3{1.f, 1.f, 1.f},
 				   DirectX::SimpleMath::Vector2{0.f,0.f} }
 		);
 

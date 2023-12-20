@@ -83,11 +83,12 @@ namespace Pg::Engine
 
 	void EngineMain::Update()
 	{
+		///업데이트 순서 무조건 고정!!! 바뀌면 안됨
 		_timeSystem->TimeMeasure();
-		_sceneSystem->Update();
+		_inputSystem->Update();
 		_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
 		_physicSystem->Flush();
-		_inputSystem->Update();
+		_sceneSystem->Update();
 		_physicSystem->UpdateTransform();
 		_debugSystem->Update(_sceneSystem->GetCurrentScene());
 		

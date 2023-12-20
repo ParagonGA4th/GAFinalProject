@@ -25,10 +25,15 @@ namespace Pg::API::Input
 		PrevRenderTarget,
 
 		ShiftL, //이동 속도 조정 위해.
-		
+
 		Save,
 
 		CtrlL,
-		KeyS
+		KeyS,
+
+		KeyLeft,
+		KeyRight,
+		KeyUp,
+		KeyDown
 	};
 }
