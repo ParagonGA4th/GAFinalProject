@@ -60,4 +60,10 @@ namespace Pg::Data
 		_halfHeight = h;
 	}
 
+	void CapsuleCollider::SetCapsuleInfo(float rad, float halfHeight)
+	{
+		_radius = rad;
+		_halfHeight = halfHeight;
+	}
+
 }

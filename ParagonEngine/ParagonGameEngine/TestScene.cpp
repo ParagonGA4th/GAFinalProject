@@ -58,7 +58,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj1->AddComponent<EditorCameraScript>();
 
 	tObj2 = tCurrentScene->AddObject("Cube1");
-	tObj2->GetComponent<Transform>()->SetPosition({ 1.0f, 10.0f, 0.0f });
+	tObj2->GetComponent<Transform>()->SetPosition({ 0.0f, 10.0f, 0.0f });
 	//tObj2->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.0f, 2.0f);
 	tObj2->AddComponent<BoxCollider>();
 	tObj2->AddComponent<StaticMeshRenderer>();
@@ -70,6 +70,7 @@ void Pg::Engine::TestScene::Initialize()
 	GameObject* tObj2_1 = tCurrentScene->AddObject("Cube3");
 	tObj2_1->GetComponent<Transform>()->SetPosition({ 3.0f, 10.0f, 0.0f });
 	tObj2_1->AddComponent<SphereCollider>();
+	tObj2_1->GetComponent<SphereCollider>()->SetRadius(2.0f);
 	tObj2_1->AddComponent<StaticMeshRenderer>();
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx");
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
@@ -78,8 +79,8 @@ void Pg::Engine::TestScene::Initialize()
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Cube4");
 	tObj2_2->GetComponent<Transform>()->SetPosition({ 1.0f, 0.0f, 0.0f });
 	tObj2_2->AddComponent<CapsuleCollider>();
-	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 0.0f, 0.0f, 0.0f });
-	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, -10.0f, 0.0f, 0.0f });
+	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 1.0f, 0.0f, 0.0f });
+	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, 90.0f, 0.0f, 0.0f });
 	tObj2_2->AddComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx");
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	//tObj2_2->AddComponent<MoveForwardBack>();
@@ -88,8 +89,9 @@ void Pg::Engine::TestScene::Initialize()
 
 	tObj3 = tCurrentScene->AddObject("Cube5");
 	tObj3->GetComponent<Transform>()->SetPosition({ -1.0f, -3.0f, 5.0f });
-	tObj3->GetComponent<Transform>()->SetLocalRotationEuler(1.0f, -1.0f, 3.0f);
-	//tObj3->AddComponent<BoxCollider>();
+	//tObj3->GetComponent<Transform>()->SetLocalRotationEuler(0.0f, 100.0f, 0.0f);
+	tObj3->AddComponent<CapsuleCollider>();
+	tObj3->GetComponent<CapsuleCollider>()->SetCapsuleInfo(2.0f, 2.0f);
 	tObj3->AddComponent<StaticMeshRenderer>();
 	tObj3->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx");
 	tObj3->GetComponent<StaticMeshRenderer>()->SetActive(true);
