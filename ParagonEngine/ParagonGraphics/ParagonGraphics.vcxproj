@@ -185,8 +185,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\AppendTest\AppendObjectTestPS.hlsl" />
-    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\AppendTest\AppendObjectTestVS.hlsl" />
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\AppendTest\AppendObjectTestPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\AppendTest\AppendObjectTestVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl" />
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestVS.hlsl" />
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstSkinned_VS.hlsl" />

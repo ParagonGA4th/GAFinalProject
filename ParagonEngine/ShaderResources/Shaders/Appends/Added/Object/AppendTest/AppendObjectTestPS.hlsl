@@ -7,6 +7,10 @@
 cbuffer cbAppendsObject : register(b8)
 {
     bool isOne;
+    //float3 test1;
+    //int2 test2;
+    //uint2 test3;
+    //float4 test4;
 };
 
 //Texture2D는 무조건 t25에서 시작.
