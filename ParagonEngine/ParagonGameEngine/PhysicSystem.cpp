@@ -19,16 +19,16 @@ namespace Pg::Engine::Physic
 		if (!_foundation) throw("PxCreateFoundation Failed!");
 
 		// 버전, 세팅, 단위 등의 정보를 담은 물리
-		//_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, _pvd);
-		//_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, nullptr);
+		_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, _pvd);
 
 		// visual debugger 세팅, 로컬에 연결
 		// ip주소 설정하는거 엄청 거슬리는데...이걸 어떻게?
-		_pvd = PxCreatePvd(*_foundation);
-		physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("172.16.1.161", 5425, 10);
-		_pvd->connect(*transport, physx::PxPvdInstrumentationFlag::eDEBUG);
+		/*_pvd = PxCreatePvd(*_foundation);
+		physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("127.16.1.161", 5425, 10);
+		_pvd->connect(*transport, physx::PxPvdInstrumentationFlag::eALL);*/
 
-		_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, _pvd);
+		//_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, _pvd);
+		//_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, nullptr);
 
 		CreatePxScene();
 
@@ -40,7 +40,6 @@ namespace Pg::Engine::Physic
 			pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
 			pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 		}
-
 	
 		// 머티리얼 생성(임의)
 		_material = _physics->createMaterial(0.25f, 0.2f, 0.4f);

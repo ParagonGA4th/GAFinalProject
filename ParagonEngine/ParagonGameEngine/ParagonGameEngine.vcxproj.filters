@@ -40,6 +40,9 @@
     <ClInclude Include="PrintRuntimeData.h">
       <Filter>4_WorkSpace\SceneView</Filter>
     </ClInclude>
+    <ClInclude Include="MovingTest.h">
+      <Filter>4_WorkSpace\SceneView</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -76,6 +79,9 @@
       <Filter>2_System\TimeSystem</Filter>
     </ClCompile>
     <ClCompile Include="PrintRuntimeData.cpp">
+      <Filter>4_WorkSpace\SceneView</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingTest.cpp">
       <Filter>4_WorkSpace\SceneView</Filter>
     </ClCompile>
   </ItemGroup>

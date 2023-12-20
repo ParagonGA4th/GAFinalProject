@@ -36,7 +36,7 @@ namespace  Pg::Engine::Input
 
 		//[DELETE] 인스턴스 두개인지 디버깅중.
 		//std::string address = std::to_string((unsigned long long)(void**)this);
-		
+
 	}
 
 	InputSystem::~InputSystem()
@@ -49,7 +49,7 @@ namespace  Pg::Engine::Input
 	{
 		//PG_DEBUG("Input System Initialized.");
 		OutputDebugString(L"Input System Initialized.");
-		
+
 		_manager->SetDisplaySize(screenwidth, screenheight);
 
 		// 키와 액션을 맵핑
@@ -94,6 +94,11 @@ namespace  Pg::Engine::Input
 		assert(_map->MapBool(eKeyCode::NextRenderTarget, _keyboardId, gainput::Key0));
 
 		assert(_map->MapBool(eKeyCode::ShiftL, _keyboardId, gainput::KeyShiftL));
+
+		assert(_map->MapBool(eKeyCode::KeyLeft, _keyboardId, gainput::KeyLeft));
+		assert(_map->MapBool(eKeyCode::KeyRight, _keyboardId, gainput::KeyRight));
+		assert(_map->MapBool(eKeyCode::KeyUp, _keyboardId, gainput::KeyUp));
+		assert(_map->MapBool(eKeyCode::KeyDown,_keyboardId, gainput::KeyDown));
 
 		gainput::SimultaneouslyDownGesture* sdg = _manager->CreateAndGetDevice<gainput::SimultaneouslyDownGesture>();
 		sdg->AddButton(_keyboardId, gainput::KeyCtrlL);
