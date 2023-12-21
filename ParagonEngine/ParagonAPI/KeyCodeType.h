@@ -20,6 +20,7 @@ namespace Pg::API::Input
 		MouseRight,
 
 		EditorOnOff,
+		DebugOnOff,
 
 		NextRenderTarget,
 		PrevRenderTarget,
