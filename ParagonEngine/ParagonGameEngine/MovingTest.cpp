@@ -2,6 +2,8 @@
 
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Camera.h"
+#include "../ParagonData/ForceMode.h"
+#include "../ParagonData/DynamicCollider.h"
 #include "../ParagonMath/PgMath.h"
 
 // 업데이트에서 임시로 인풋을 돌리기 위해...
@@ -26,6 +28,10 @@ void MovingTest::Update()
 	using namespace Pg::Engine::Input;
 	using namespace Pg::API::Input;
 
+	//_object->GetComponent<Pg::Data::DynamicCollider>()->FreezeAxisX(true);
+	//_object->GetComponent<Pg::Data::DynamicCollider>()->FreezeAxisY(true);
+	//_object->GetComponent<Pg::Data::DynamicCollider>()->FreezeAxisZ(true);
+
 	auto tTransPos = _object->_transform.GetPosition();
 
 	if (tInput->GetKey(KeyLeft))
@@ -38,10 +44,14 @@ void MovingTest::Update()
 	}
 	if (tInput->GetKey(KeyUp))
 	{
-		_object->_transform.SetPosition(tTransPos.x, tTransPos.y + 0.1f, tTransPos.z);
+		_object->_transform.SetPosition(tTransPos.x, tTransPos.y , tTransPos.z + 0.1f);
 	}
 	if (tInput->GetKey(KeyDown))
 	{
-		_object->_transform.SetPosition(tTransPos.x, tTransPos.y - 0.1f, tTransPos.z);
+		_object->_transform.SetPosition(tTransPos.x, tTransPos.y , tTransPos.z - 0.1f);
+	}
+	if (tInput->GetKeyDown(Space))
+	{
+		_object->GetComponent<Pg::Data::DynamicCollider>()->AddForce({ 0.0f, 10.0f ,0.0f }, Pg::Data::ForceMode::eIMPULSE);
 	}
 }

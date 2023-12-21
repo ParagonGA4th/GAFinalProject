@@ -31,19 +31,6 @@ Pg::Engine::TestScene::TestScene()
 	tCurrentScene = new Pg::Data::Scene("TestCurrentSceneWorkspace");
 }
 
-Pg::Data::GameObject* tObj1;
-Pg::Data::GameObject* tObj2;
-Pg::Data::GameObject* tObj2_1;
-Pg::Data::GameObject* tObj2_2;
-Pg::Data::GameObject* tObj3;
-Pg::Data::GameObject* tObj4;
-Pg::Data::GameObject* tObj5;
-Pg::Data::GameObject* tObj6;
-Pg::Data::GameObject* tObj7;
-
-Pg::Data::GameObject* tText_1;
-Pg::Data::GameObject* tText_2;
-
 void Pg::Engine::TestScene::Initialize()
 {
 	using namespace Pg::Data;
@@ -52,21 +39,19 @@ void Pg::Engine::TestScene::Initialize()
 	///새로 추가한 스크립트 컴포넌트의 테스트를 위한 코드 
 
 	//카메라 하나 더 생성
-	tObj1 = tCurrentScene->AddObject("Camera1");
+	Pg::Data::GameObject* tObj1 = tCurrentScene->AddObject("Camera1");
 	tObj1->AddComponent<Camera>();
 	tObj1->GetComponent<Transform>()->SetPosition({ 0.f, 3.0f, -10.f });
 	tObj1->GetComponent<Transform>()->SetLocalRotationEuler(0.f,0.f,0.f);
 	tObj1->AddComponent<EditorCameraScript>();
 
-	tObj2 = tCurrentScene->AddObject("Cube1");
+	Pg::Data::GameObject* tObj2 = tCurrentScene->AddObject("Cube1");
 	tObj2->GetComponent<Transform>()->SetPosition({ 0.0f, 10.0f, 0.0f });
 	//tObj2->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.0f, 2.0f);
 	tObj2->AddComponent<BoxCollider>();
 	tObj2->AddComponent<StaticMeshRenderer>();
 	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Cube/Cube.fbx");
 	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	tObj2->AddComponent<MovingTest>();
-	tObj2->AddComponent<MovingTest>()->SetActive(true);
 	//tObj2->GetComponent<MoveForwardBack>()->SetActive(true);
 
 	GameObject* tObj2_1 = tCurrentScene->AddObject("Sphere1");
@@ -81,16 +66,21 @@ void Pg::Engine::TestScene::Initialize()
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Capsule1");
 	tObj2_2->GetComponent<Transform>()->SetPosition({ 1.0f, 0.0f, 0.0f });
 	tObj2_2->AddComponent<CapsuleCollider>();
+	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
+	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
+	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 1.0f, 0.0f, 0.0f });
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, 90.0f, 0.0f, 0.0f });
 	tObj2_2->AddComponent<StaticMeshRenderer>();
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx");
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	tObj2_2->AddComponent<MovingTest>();
+	tObj2_2->AddComponent<MovingTest>()->SetActive(true);
 	//tObj2_2->AddComponent<MoveForwardBack>();
 	//tObj2_2->GetComponent<MoveForwardBack>()->SetActive(false);
 
 
-	tObj3 = tCurrentScene->AddObject("Capsule2");
+	Pg::Data::GameObject* tObj3 = tCurrentScene->AddObject("Capsule2");
 	tObj3->GetComponent<Transform>()->SetPosition({ -1.0f, -3.0f, 5.0f });
 	//tObj3->GetComponent<Transform>()->SetLocalRotationEuler(0.0f, 100.0f, 0.0f);
 	tObj3->AddComponent<CapsuleCollider>();
@@ -101,7 +91,7 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj3->AddComponent<MoveForwardBack>();
 	//tObj3->GetComponent<MoveForwardBack>()->SetActive(false);
 
-	tObj4 = tCurrentScene->AddObject("Cube6");
+	Pg::Data::GameObject* tObj4 = tCurrentScene->AddObject("Cube6");
 	tObj4->GetComponent<Transform>()->SetPosition({ -3.0f, -1.0f, -2.0f });
 	tObj4->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.5f, -2.0f);
 	//tObj4->AddComponent<BoxCollider>();
@@ -111,7 +101,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj4->AddComponent<MoveForwardBack>();
 	tObj4->GetComponent<MoveForwardBack>()->SetActive(true);
 
-	tObj5 = tCurrentScene->AddObject("Cube7");
+	Pg::Data::GameObject* tObj5 = tCurrentScene->AddObject("Cube7");
 	tObj5->GetComponent<Transform>()->SetPosition({ 5.0f, 0.0f, 0.0f });
 	tObj5->GetComponent<Transform>()->SetLocalRotationEuler(1.5f, 2.0f, 4.0f);
 	//tObj5->AddComponent<BoxCollider>();
@@ -122,7 +112,7 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj5->AddComponent<MoveForwardBack>();
 	//tObj5->GetComponent<MoveForwardBack>()->SetActive(true);
 
-	tObj6 = tCurrentScene->AddObject("Cube8");
+	Pg::Data::GameObject* tObj6 = tCurrentScene->AddObject("Cube8");
 	tObj6->GetComponent<Transform>()->SetPosition({ -5.0f, 0.0f, 0.0f });
 	tObj6->GetComponent<Transform>()->SetLocalScale( 2.0f, 2.0f, 2.0f );
 	tObj6->GetComponent<Transform>()->SetLocalRotationEuler(0.0f, -1.57f, 0.0f);
@@ -131,7 +121,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
-	tObj7 = tCurrentScene->AddObject("Plane");
+	Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
 	tObj7->GetComponent<Transform>()->SetPosition({ 0.0f, 0.2f, 0.0f });
 	tObj7->GetComponent<Transform>()->SetLocalScale(1.0f, 1.0f, 1.0f);
 	tObj7->GetComponent<Transform>()->SetLocalRotationEuler(0.0f, 0.0f, 0.0f);
@@ -196,35 +186,35 @@ void Pg::Engine::TestScene::Initialize()
 	tLight4->GetComponent<SpotLight>()->SetDirection({ 0.0f, -1.0f, 0.0f });
 	tLight4->GetComponent<SpotLight>()->SetActive(true);
 
-	GameObject* tObj3 = tCurrentScene->AddObject("BtnTest");
-	tObj3->GetComponent<Transform>()->SetPosition({ 10.f, 140.f, 0.f });
-	tObj3->GetComponent<Transform>()->SetIs3D(false);
-	tObj3->AddComponent<Button>();
-	tObj3->GetComponent<ImageRenderer>()->SetImagePath("../Resources/Textures/wook.jpg");
+	GameObject* tObj8 = tCurrentScene->AddObject("BtnTest");
+	tObj8->GetComponent<Transform>()->SetPosition({ 10.f, 140.f, 0.f });
+	tObj8->GetComponent<Transform>()->SetIs3D(false);
+	tObj8->AddComponent<Button>();
+	tObj8->GetComponent<ImageRenderer>()->SetImagePath("../Resources/Textures/wook.jpg");
 
-	GameObject* tObj4 = tCurrentScene->AddObject("TextTest");
-	tObj4->GetComponent<Transform>()->SetPosition({ 10.0f, 100.f, 0.f });
-	tObj4->GetComponent<Transform>()->SetIs3D(false);
-	tObj4->AddComponent<TextRenderer>();
-	tObj4->GetComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_16.spritefont");
-	tObj4->GetComponent<TextRenderer>()->SetString("Paragon Engine");
+	GameObject* tObj9 = tCurrentScene->AddObject("TextTest");
+	tObj9->GetComponent<Transform>()->SetPosition({ 10.0f, 100.f, 0.f });
+	tObj9->GetComponent<Transform>()->SetIs3D(false);
+	tObj9->AddComponent<TextRenderer>();
+	tObj9->GetComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_16.spritefont");
+	tObj9->GetComponent<TextRenderer>()->SetString("Paragon Engine");
 
-	tText_1 = tCurrentScene->AddObject("TextTest");
+	Pg::Data::GameObject* tText_1 = tCurrentScene->AddObject("TextTest");
 	tText_1->GetComponent<Transform>()->SetPosition({ 10.0f, 250.f, 0.f });
 	tText_1->GetComponent<Transform>()->SetIs3D(false);
 	tText_1->AddComponent<TextRenderer>();
 	tText_1->GetComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_13.spritefont");
 	tText_1->GetComponent<TextRenderer>()->SetString("Let's Go!!");
 
-	GameObject* tObj5 = tCurrentScene->AddObject("TextTest");
-	tObj5->GetComponent<Transform>()->SetPosition({ 10.0f, 10.f, 0.f });
-	tObj5->GetComponent<Transform>()->SetIs3D(false);
-	tObj5->AddComponent<TextRenderer>();
-	tObj5->GetComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_13.spritefont");
-	tObj5->GetComponent<TextRenderer>()->SetString("[9] Previous Render Target\n[0] Next Render Target");
+	GameObject* tObj10 = tCurrentScene->AddObject("TextTest");
+	tObj10->GetComponent<Transform>()->SetPosition({ 10.0f, 10.f, 0.f });
+	tObj10->GetComponent<Transform>()->SetIs3D(false);
+	tObj10->AddComponent<TextRenderer>();
+	tObj10->GetComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_13.spritefont");
+	tObj10->GetComponent<TextRenderer>()->SetString("[9] Previous Render Target\n[0] Next Render Target");
 
 	//FPS 정보 출력.
-	tText_2 = tCurrentScene->AddObject("FPSTextTest");
+	Pg::Data::GameObject* tText_2 = tCurrentScene->AddObject("FPSTextTest");
 	tText_2->GetComponent<Transform>()->SetPosition({ 10.0f, 350.f, 0.f });
 	tText_2->GetComponent<Transform>()->SetIs3D(false);
 	tText_2->AddComponent<TextRenderer>();
@@ -240,15 +230,9 @@ void Pg::Engine::TestScene::Initialize()
 	assert(true);
 }
 
-unsigned int n = 0;
-
-void Pg::Engine::TestScene::Update()
-{
-	n = GetCurrentScene()->_graphicsDebugData._renderedObjectCount;
-
-	///새로 추가한 스크립트 컴포넌트의 업데이트 테스트를 위한 코드
-	tText_1->GetComponent<Pg::Data::TextRenderer>()->SetString("Rendered Objects Count : " + std::to_string(n));
-}
+/*tObj2->GetComponent<Pg::Data::BoxCollider>()->FreezeAxisX(true);
+	tObj2->GetComponent<Pg::Data::BoxCollider>()->FreezeAxisY(true);
+	tObj2->GetComponent<Pg::Data::BoxCollider>()->FreezeAxisZ(true);*/
 
 Pg::Data::Scene* Pg::Engine::TestScene::GetCurrentScene()
 {
