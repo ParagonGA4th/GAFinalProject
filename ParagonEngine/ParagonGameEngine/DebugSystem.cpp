@@ -1,4 +1,5 @@
 #include "DebugSystem.h"
+#include "../ParagonAPI/KeyCodeType.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/StaticBoxCollider.h"
@@ -7,54 +8,76 @@
 #include "../ParagonData/PlaneCollider.h"
 #include "../ParagonUtil/Log.h"
 
+#include <singleton-cpp/singleton.h>
 #include <cassert>
 
 namespace Pg::Engine
 {
 
-	void DebugSystem::Initialize()
+	DebugSystem::DebugSystem() :
+		_isDebug(false)
 	{
 
+	}
+
+	void DebugSystem::Initialize()
+	{
+		// Input
+		auto& tInputSystem = singleton<Input::InputSystem>();
+		tInput = &tInputSystem;
 	}
 
 
 	void DebugSystem::Update(Pg::Data::Scene* scene)
 	{
+		using namespace Pg::Engine::Input;
+		using namespace Pg::API::Input;
+
+		//디버그 껐다 켜기.
+		if (tInput->GetKeyDown(DebugOnOff))
+		{
+			SetDebugMode(!_isDebug);
+		}
+
 		//디버그 모드가 아닐 때 리턴.
-		if (!_isDebug)
+	/*	if (!_isDebug)
 		{
 			return;
-		}
+		}*/
 
-		//Event System 들어오면 지울 것.
-		for (auto& it : scene->GetObjectList())
+		///Event System 들어오면 지울 것.
+		//디버그 활성화 시 렌더링.
+		if (_isDebug)
 		{
-			Pg::Data::BoxCollider* tBoxCol = it->GetComponent<Pg::Data::BoxCollider>();
-			Pg::Data::CapsuleCollider* tCapsuleCol = it->GetComponent<Pg::Data::CapsuleCollider>();
-			Pg::Data::SphereCollider* tShpereCol = it->GetComponent<Pg::Data::SphereCollider>();
-			Pg::Data::PlaneCollider* tPlaneCol = it->GetComponent<Pg::Data::PlaneCollider>();
-			Pg::Data::StaticBoxCollider* tStaticBoxCol = it->GetComponent<Pg::Data::StaticBoxCollider>();
-			
-			if (tBoxCol != nullptr || tStaticBoxCol != nullptr)
+			for (auto& it : scene->GetObjectList())
 			{
-				DrawBoxDebug(&(tBoxCol->_boxInfo));
-			}
-			else if (tCapsuleCol != nullptr)
-			{
-				DrawCapsuleDebug(&(tCapsuleCol->_capsuleInfo));
-			}
-			else if (tShpereCol != nullptr)
-			{
-				DrawSphereDebug(&(tShpereCol->_sphereInfo));
-			}
-			else if (tPlaneCol != nullptr)
-			{
-				DrawPlaneDebug(&(tPlaneCol->_planeInfo));
-			}
-		}
+				Pg::Data::BoxCollider* tBoxCol = it->GetComponent<Pg::Data::BoxCollider>();
+				Pg::Data::CapsuleCollider* tCapsuleCol = it->GetComponent<Pg::Data::CapsuleCollider>();
+				Pg::Data::SphereCollider* tShpereCol = it->GetComponent<Pg::Data::SphereCollider>();
+				Pg::Data::PlaneCollider* tPlaneCol = it->GetComponent<Pg::Data::PlaneCollider>();
+				Pg::Data::StaticBoxCollider* tStaticBoxCol = it->GetComponent<Pg::Data::StaticBoxCollider>();
 
-		DrawLineDebug({ 0.f,0.f,0.f }, {10.f,8.f,0.f}, { 1.f,1.f,0.f,1.f });
-		DrawLineDebug({ 0.f,0.f,0.f }, {8.f,10.f,0.f}, { 1.f,1.f,0.f,1.f });
+				if (tBoxCol != nullptr || tStaticBoxCol != nullptr)
+				{
+					DrawBoxDebug(&(tBoxCol->_boxInfo));
+				}
+				else if (tCapsuleCol != nullptr)
+				{
+					DrawCapsuleDebug(&(tCapsuleCol->_capsuleInfo));
+				}
+				else if (tShpereCol != nullptr)
+				{
+					DrawSphereDebug(&(tShpereCol->_sphereInfo));
+				}
+				else if (tPlaneCol != nullptr)
+				{
+					DrawPlaneDebug(&(tPlaneCol->_planeInfo));
+				}
+			}
+
+			DrawLineDebug({ 0.f,0.f,0.f }, { 10.f,8.f,0.f }, { 1.f,1.f,0.f,1.f });
+			DrawLineDebug({ 0.f,0.f,0.f }, { 8.f,10.f,0.f }, { 1.f,1.f,0.f,1.f });
+		}
 
 		assert(true);
 	}	

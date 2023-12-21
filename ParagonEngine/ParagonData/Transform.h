@@ -97,21 +97,20 @@ namespace Pg::Data
 		void SetIs3D(bool is3D);
 		bool Is3D();
 
+	public:
+		//PRS (Serialize를 위해 public으로)
+		PGFLOAT3 _position;
+		PGQuaternion _rotation; // 기본적으로 쿼터니언으로 관리한다
+		PGFLOAT3 _scale;
+
 	private:
 		// 카메라를 위한 transform 함수
 		// 카메라에서 rotation이 일어나면 오브젝트의 방향 벡터를 변환해준다
 		//PGFLOAT3 SetForwardUpRight(PGFLOAT3 up, PGFLOAT3 right, PGFLOAT3 forward);
 		
-		
 		// 부모, 자식 객체를 가리키는 transform
 		std::shared_ptr<Transform> _parent;
 		std::vector<std::shared_ptr<Transform>> _children;
-
-		//PRS
-		PGFLOAT3 _position;
-		PGQuaternion _rotation; // 기본적으로 쿼터니언으로 관리한다
-		PGFLOAT3 _scale;
-
 
 		// Forward, Right, Up
 		PGFLOAT3 _forward;

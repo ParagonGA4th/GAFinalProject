@@ -1,4 +1,5 @@
 #pragma once
+#include "InputSystem.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonData/DebugData.h"
@@ -21,9 +22,13 @@ namespace Pg::Engine
 {
 	using namespace Pg::Math;
 
+	class InputSystem;
+
 	class DebugSystem
 	{
 	public:
+		DebugSystem();
+
 		void Initialize();
 
 		void Update(Pg::Data::Scene* scene);
@@ -66,7 +71,9 @@ namespace Pg::Engine
 		//std::vector<Pg::Data::LineInfo*> _lineVecChosen;
 
 		//디버그 모드 플래그
-		bool _isDebug = true;
+		bool _isDebug;
+
+		Input::InputSystem* tInput = nullptr;
 	};
 
 }
