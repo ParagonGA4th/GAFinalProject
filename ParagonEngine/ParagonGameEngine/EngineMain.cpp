@@ -153,6 +153,11 @@ namespace Pg::Engine
 		return _debugSystem->GetCapsuleVector();
 	}
 
+	const std::vector<Pg::Data::PlaneInfo*>& EngineMain::GetPlaneDebugData() const
+	{
+		return _debugSystem->GetPlaneVector();
+	}
+
 	void EngineMain::ClearDebugVectorData()
 	{
 		//일단은 박스만 다루니.
@@ -160,5 +165,6 @@ namespace Pg::Engine
 		_debugSystem->DeleteSphereDebug();
 		_debugSystem->DeleteCapsuleDebug();
 		_debugSystem->DeleteLineDebug();
+		_debugSystem->DeletePlaneDebug();
 	}
 }

@@ -13,9 +13,6 @@
     <ClInclude Include="EngineResourceManager.h">
       <Filter>3_GameEngineResources\EngineResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="WorkSpace.h">
-      <Filter>4_WorkSpace</Filter>
-    </ClInclude>
     <ClInclude Include="TestScene.h">
       <Filter>4_WorkSpace\SceneView</Filter>
     </ClInclude>
@@ -53,9 +50,6 @@
     </ClCompile>
     <ClCompile Include="EngineResourceManager.cpp">
       <Filter>3_GameEngineResources\EngineResourceManager</Filter>
-    </ClCompile>
-    <ClCompile Include="WorkSpace.cpp">
-      <Filter>4_WorkSpace</Filter>
     </ClCompile>
     <ClCompile Include="TestScene.cpp">
       <Filter>4_WorkSpace\SceneView</Filter>

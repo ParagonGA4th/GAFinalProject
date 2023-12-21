@@ -233,6 +233,9 @@
     <ClInclude Include="PlaneCollider.h">
       <Filter>2_Component\Collider\StaticCollider\PlaneCollider</Filter>
     </ClInclude>
+    <ClInclude Include="ForceMode.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">

@@ -261,6 +261,41 @@ namespace Pg::Graphics
 			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(lineInfo->endPoint), MathHelper::PG2XM_FLOAT4(lineInfo->color)));
 	}
 
+	void DebugRenderer::DrawPlane(Pg::Data::CameraData* camData, Pg::Data::PlaneInfo* planeInfo)
+	{
+		using namespace DirectX;
+
+		XMMATRIX tWorld = MathHelper::PG2XM_MATRIX(planeInfo->worldTM);
+		XMMATRIX tView = MathHelper::PG2XM_MATRIX(camData->_viewMatrix);
+		XMMATRIX tProj = MathHelper::PG2XM_MATRIX(camData->_projMatrix);
+
+		DirectX::XMVECTOR tLineColor = MathHelper::PG2XM_VECTOR(planeInfo->color);
+
+		{
+			///PVD ¿¬µ¿ µð¹ö±ë
+
+			XMVECTOR tTrans;
+			XMVECTOR tRotQuat;
+			XMVECTOR tScale;
+			XMMatrixDecompose(&tScale, &tRotQuat, &tTrans, tWorld);
+
+			//Scale Fix 
+			//tScale = XMVectorScale(tScale, 2);
+			XMFLOAT3 infoScale = MathHelper::PG2XM_FLOAT3(planeInfo->scale);
+			tScale = XMLoadFloat3(&infoScale);
+
+			DirectX::XMMATRIX tZNinety = XMMatrixRotationZ(XMConvertToRadians(0.0f));
+			DirectX::XMMATRIX tOriginRot = XMMatrixRotationQuaternion(tRotQuat);
+			tRotQuat = XMQuaternionRotationMatrix(XMMatrixMultiply(tZNinety, tOriginRot));
+
+			tWorld = XMMatrixAffineTransformation(tScale, XMVectorZero(), tRotQuat, tTrans);
+			///
+
+		}
+		_sphereShape->Draw(tWorld, tView, tProj, tLineColor, nullptr, true);
+	}
+
+
 	void DebugRenderer::InitCapsule()
 	{
 		float radius = 0.5f; // Ä¸½¶ÀÇ ¹ÝÁö¸§
@@ -410,6 +445,10 @@ namespace Pg::Graphics
 		_capsuleShape = DirectX::GeometricPrimitive::CreateCustom(_DXStorage->_deviceContext, vertices, indices);
 	}
 
+	void DebugRenderer::GetDebugPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec)
+	{
+		_planeColVector = &planeColVec;
+	}
 
 
 }

@@ -26,6 +26,9 @@ namespace Pg::Engine
 	class SceneSystem
 	{
 	public:
+		SceneSystem();
+		~SceneSystem();
+
 		void Initialize();
 
 		void Update(); 
@@ -45,6 +48,9 @@ namespace Pg::Engine
 		Scene* _currentScene = nullptr;
 		TestScene* _testScene = nullptr;
 		std::unordered_map<std::string, Scene*> _sceneList;
+
+	private:
+		bool _isStarted;
 	};
 }
 

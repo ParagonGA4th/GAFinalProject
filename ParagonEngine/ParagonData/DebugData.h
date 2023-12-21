@@ -35,4 +35,11 @@ namespace Pg::Data
 		Pg::Math::PGFLOAT3 scale;
 		Pg::Math::PGFLOAT4 color;
 	};
+
+	struct PlaneInfo
+	{
+		Pg::Math::PGFLOAT4X4 worldTM;
+		Pg::Math::PGFLOAT3 scale;
+		Pg::Math::PGFLOAT4 color;
+	};
 }

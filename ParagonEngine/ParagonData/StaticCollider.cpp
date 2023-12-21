@@ -9,4 +9,9 @@ namespace Pg::Data
 
 	}
 
+	void StaticCollider::UpdateTransform()
+	{
+
+	}
+
 }

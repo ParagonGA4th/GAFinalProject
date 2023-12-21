@@ -17,8 +17,6 @@ namespace Pg::Engine
 
 	public:
 		void Initialize();
-		void Update();
-
 		Pg::Data::Scene* GetCurrentScene();
 
 	private:

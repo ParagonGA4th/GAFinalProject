@@ -15,6 +15,8 @@ namespace Pg::Data
 	public:
 		StaticCollider(GameObject* owner);
 
+		virtual void UpdateTransform() override;
+
 	private:
 		bool _isCollide;
 	};

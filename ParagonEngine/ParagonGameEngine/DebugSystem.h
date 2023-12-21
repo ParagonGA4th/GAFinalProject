@@ -35,11 +35,13 @@ namespace Pg::Engine
 		void DrawBoxDebug(Pg::Data::BoxInfo* boxInfo);
 		void DrawCapsuleDebug(Pg::Data::CapsuleInfo* capsuleInfo);
 		void DrawSphereDebug(Pg::Data::SphereInfo* sphereInfo);
+		void DrawPlaneDebug(Pg::Data::PlaneInfo* planeInfo);
 		void DrawLineDebug(PGFLOAT3 begin, PGFLOAT3 end, PGFLOAT4 col);
 
 		void DeleteBoxDebug();
 		void DeleteSphereDebug();
 		void DeleteCapsuleDebug();
+		void DeletePlaneDebug();
 		void DeleteLineDebug();
 
 		void SetDebugMode(bool isdebug);
@@ -49,6 +51,7 @@ namespace Pg::Engine
 		const std::vector<Pg::Data::LineInfo>& GetLineVector() const;
 		const std::vector<Pg::Data::SphereInfo*>& GetSphereVector() const;
 		const std::vector<Pg::Data::CapsuleInfo*>& GetCapsuleVector() const;
+		const std::vector<Pg::Data::PlaneInfo*>& GetPlaneVector() const;
 
 		//std::vector<Pg::Data::BoxInfo*>& GetDrawEnabledBoxVector() const;
 		//std::vector<Pg::Data::LineInfo*>& GetDrawEnabledLineVector();
@@ -57,6 +60,7 @@ namespace Pg::Engine
 		std::vector<Pg::Data::LineInfo> _lineVec;
 		std::vector<Pg::Data::CapsuleInfo*> _capsuleVec;
 		std::vector<Pg::Data::SphereInfo*> _sphereVec;
+		std::vector<Pg::Data::PlaneInfo*> _planeVec;
 
 		//std::vector<Pg::Data::BoxInfo*> _boxVecChosen;
 		//std::vector<Pg::Data::LineInfo*> _lineVecChosen;

@@ -8,13 +8,25 @@ namespace Pg::Data
 	DynamicCollider::DynamicCollider(GameObject* owner) :
 		Collider(owner),
 		_isCollide(false),
-		_wasCollided(false)
+		_wasCollided(false),
+		_isActiveX(false),
+		_isActiveY(false),
+		_isActiveZ(false)
 	{
 		
 	}
 
+	void DynamicCollider::Start()
+	{
+		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, _isActiveX);
+		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, _isActiveY);
+		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, _isActiveZ);
+	}
+
 	void DynamicCollider::UpdatePhysics(PGFLOAT3 pos, PGQuaternion quat)
 	{
+
+
 
 		PGFLOAT4 localPos = PGFloat4MultiplyMatrix({ pos, 1.0f }, GetOffsetTM().Inverse());
 		PGQuaternion localQuat = PGQuaternionMultiply(quat, GetRotationOffset().Conjugate());
@@ -66,9 +78,9 @@ namespace Pg::Data
 	void DynamicCollider::AddForce(PGFLOAT3 dir, ForceMode mode)
 	{
 		physx::PxVec3 direction;
-		dir.x = direction.x;
-		dir.y = direction.y;
-		dir.z = direction.z;
+		direction.x = dir.x;
+		direction.y = dir.y;
+		direction.z = dir.z;
 
 		//Force의 방향에 따라 구분
 		switch (mode)
@@ -114,5 +126,22 @@ namespace Pg::Data
 		_wasCollided = _isCollide;
 		_isCollide = true;
 	}
+
+	void DynamicCollider::FreezeAxisX(bool isActive)
+	{
+		_isActiveX = isActive;
+	}
+
+	void DynamicCollider::FreezeAxisY(bool isActive)
+	{
+		_isActiveY = isActive;
+	}
+
+	void DynamicCollider::FreezeAxisZ(bool isActive)
+	{
+		_isActiveZ = isActive;
+	}
+
+
 
 }

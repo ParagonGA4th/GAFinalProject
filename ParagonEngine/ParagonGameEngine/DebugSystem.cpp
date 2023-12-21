@@ -1,8 +1,10 @@
 #include "DebugSystem.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/BoxCollider.h"
+#include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/SphereCollider.h"
+#include "../ParagonData/PlaneCollider.h"
 #include "../ParagonUtil/Log.h"
 
 #include <cassert>
@@ -30,8 +32,10 @@ namespace Pg::Engine
 			Pg::Data::BoxCollider* tBoxCol = it->GetComponent<Pg::Data::BoxCollider>();
 			Pg::Data::CapsuleCollider* tCapsuleCol = it->GetComponent<Pg::Data::CapsuleCollider>();
 			Pg::Data::SphereCollider* tShpereCol = it->GetComponent<Pg::Data::SphereCollider>();
+			Pg::Data::PlaneCollider* tPlaneCol = it->GetComponent<Pg::Data::PlaneCollider>();
+			Pg::Data::StaticBoxCollider* tStaticBoxCol = it->GetComponent<Pg::Data::StaticBoxCollider>();
 			
-			if (tBoxCol != nullptr)
+			if (tBoxCol != nullptr || tStaticBoxCol != nullptr)
 			{
 				DrawBoxDebug(&(tBoxCol->_boxInfo));
 			}
@@ -42,6 +46,10 @@ namespace Pg::Engine
 			else if (tShpereCol != nullptr)
 			{
 				DrawSphereDebug(&(tShpereCol->_sphereInfo));
+			}
+			else if (tPlaneCol != nullptr)
+			{
+				DrawPlaneDebug(&(tPlaneCol->_planeInfo));
 			}
 		}
 
@@ -79,6 +87,11 @@ namespace Pg::Engine
 		_sphereVec.push_back(sphereInfo);
 	}
 
+	void DebugSystem::DrawPlaneDebug(Pg::Data::PlaneInfo* planeInfo)
+	{
+		_planeVec.push_back(planeInfo);
+	}
+
 	void DebugSystem::DrawLineDebug(PGFLOAT3 begin, PGFLOAT3 end, PGFLOAT4 col)
 	{
 		//[TW] Line 한정, 포인터가 되면 안된다.
@@ -112,6 +125,11 @@ namespace Pg::Engine
 		return _capsuleVec;
 	}
 
+	const std::vector<Pg::Data::PlaneInfo*>& DebugSystem::GetPlaneVector() const
+	{
+		return _planeVec;
+	}
+
 	void DebugSystem::DeleteBoxDebug()
 	{
 		_boxVec.clear();
@@ -132,6 +150,8 @@ namespace Pg::Engine
 		_lineVec.clear();
 	}
 
-	
-
+	void DebugSystem::DeletePlaneDebug()
+	{
+		_planeVec.clear();
+	}
 }
