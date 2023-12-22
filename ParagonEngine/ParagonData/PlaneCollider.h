@@ -14,13 +14,14 @@ namespace Pg::Data
 
 	class PlaneCollider : public StaticCollider
 	{
+	public:
 		PlaneCollider(GameObject* owner);
 
 	protected:
 		virtual void Update() override;
 
 	public:
-		//Pg::Math::PGFLOAT3 GetNormalVector() const;
+		Pg::Math::PGFLOAT3 GetNormalVector() const;
 		float GetDistance();
 
 		float GetWidth();

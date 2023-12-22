@@ -13,8 +13,11 @@ namespace Pg::Data
 	void CapsuleCollider::Update()
 	{
 		PGFLOAT4X4 worldTM = GetOffsetTM() * _object->_transform.GetWorldTM();
-		PGFLOAT3 Whd = { GetWidth(), GetHeight(), GetDepth() };
+		PGFLOAT3 Whd = { GetWidth() / _object->_transform._scale.x, 
+						GetHeight() / _object->_transform._scale.y, 
+						GetDepth()  / _object->_transform._scale.z };
 		PGFLOAT4 color = { 0.0f,1.0f,0.0f,1.0f };
+
 		_capsuleInfo.worldTM = worldTM;
 		_capsuleInfo.scale = Whd;
 		_capsuleInfo.color = color;

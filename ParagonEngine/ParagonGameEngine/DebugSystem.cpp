@@ -15,7 +15,7 @@ namespace Pg::Engine
 {
 
 	DebugSystem::DebugSystem() :
-		_isDebug(false)
+		_isDebug(true)
 	{
 
 	}
@@ -57,9 +57,13 @@ namespace Pg::Engine
 				Pg::Data::PlaneCollider* tPlaneCol = it->GetComponent<Pg::Data::PlaneCollider>();
 				Pg::Data::StaticBoxCollider* tStaticBoxCol = it->GetComponent<Pg::Data::StaticBoxCollider>();
 
-				if (tBoxCol != nullptr || tStaticBoxCol != nullptr)
+				if (tBoxCol != nullptr)
 				{
 					DrawBoxDebug(&(tBoxCol->_boxInfo));
+				}
+				else if (tStaticBoxCol != nullptr)
+				{
+					DrawBoxDebug(&(tStaticBoxCol->_boxInfo));
 				}
 				else if (tCapsuleCol != nullptr)
 				{

@@ -6,11 +6,22 @@ namespace Pg::Data
 {
 	using namespace Pg::Math;
 
+
+	PlaneCollider::PlaneCollider(GameObject* owner) :
+		StaticCollider(owner),
+		_width(20.0f),
+		_depth(20.0f)
+	{
+
+	}
+
 	void PlaneCollider::Update()
 	{
-		PGFLOAT4X4 worldTM = _object->_transform.GetWorldTM();
-		PGFLOAT3 Wd = { 0.01f, GetWidth(), GetDepth() };
-		PGFLOAT4 color = { 0.0f, 0.1f, 0.0f, 1.0f };
+		using namespace Pg::Math;
+
+		PGFLOAT4X4 worldTM = GetOffsetTM() * _object->_transform.GetWorldTM();
+		PGFLOAT3 Wd = { GetWidth(), 1.0f, GetDepth()};
+		PGFLOAT4 color = { 0.0f, 0.0f, 1.0f, 1.0f };
 		_planeInfo.worldTM = worldTM;
 		_planeInfo.scale = Wd;
 		_planeInfo.color = color;
@@ -18,21 +29,22 @@ namespace Pg::Data
 
 	float PlaneCollider::GetDistance()
 	{
-		return true;
+		return PGFloat3Length(_object->_transform.GetLocalPosition());
 	}
 
 	float PlaneCollider::GetWidth()
 	{
-		return _width;
+		return _width * _scaleOffset.x * _object->_transform.GetScale().x;
 	}
 
 	float PlaneCollider::GetDepth()
 	{
-		return _depth;
+		return _depth * _scaleOffset.z * _object->_transform.GetScale().z;
 	}
 
-	/*Pg::Math::PGFLOAT3 PlaneCollider::GetNormalVector() const
+	PGFLOAT3 PlaneCollider::GetNormalVector() const
 	{
-		return true;
-	}*/
+		PGFLOAT3 tmp = _object->_transform.GetRight();
+		return PGFloat3Normalize(tmp);
+	}
 }
