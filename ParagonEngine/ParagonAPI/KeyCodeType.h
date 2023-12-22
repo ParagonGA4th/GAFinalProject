@@ -20,6 +20,7 @@ namespace Pg::API::Input
 		MouseRight,
 
 		EditorOnOff,
+		DebugOnOff,
 
 		NextRenderTarget,
 		PrevRenderTarget,
@@ -34,6 +35,7 @@ namespace Pg::API::Input
 		KeyLeft,
 		KeyRight,
 		KeyUp,
-		KeyDown
+		KeyDown,
+		Space
 	};
 }

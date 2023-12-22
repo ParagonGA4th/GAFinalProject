@@ -46,6 +46,11 @@ namespace Pg::Graphics
 
 		//Capsule 만들기.
 		InitCapsule();
+
+
+		InitPlane();
+		//Box & Sphere 만들기.
+		//_planeShape = DirectX::GeometricPrimitive::CreateBox(_DXStorage->_deviceContext, DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f));
 	}
 
 	void DebugRenderer::InitLine()
@@ -91,10 +96,15 @@ namespace Pg::Graphics
 		{
 			DrawSphere(camData, _sphereColVector->at(i));
 		}
-		
+
 		for (int i = 0; i < _capsuleColVector->size(); i++)
 		{
 			DrawCapsule(camData, _capsuleColVector->at(i));
+		}
+
+		for (int i = 0; i < _planeColVector->size(); i++)
+		{
+			DrawPlane(camData, _planeColVector->at(i));
 		}
 	}
 
@@ -253,13 +263,48 @@ namespace Pg::Graphics
 		}
 		_capsuleShape->Draw(tWorld, tView, tProj, tLineColor, nullptr, true);
 	}
-	
+
 	void DebugRenderer::DrawLine(Pg::Data::LineInfo* lineInfo)
 	{
 		_primitiveBatch->DrawLine(
 			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(lineInfo->beginPoint), MathHelper::PG2XM_FLOAT4(lineInfo->color)),
 			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(lineInfo->endPoint), MathHelper::PG2XM_FLOAT4(lineInfo->color)));
 	}
+
+	void DebugRenderer::DrawPlane(Pg::Data::CameraData* camData, Pg::Data::PlaneInfo* planeInfo)
+	{
+		using namespace DirectX;
+
+		XMMATRIX tWorld = MathHelper::PG2XM_MATRIX(planeInfo->worldTM);
+		XMMATRIX tView = MathHelper::PG2XM_MATRIX(camData->_viewMatrix);
+		XMMATRIX tProj = MathHelper::PG2XM_MATRIX(camData->_projMatrix);
+
+		DirectX::XMVECTOR tLineColor = MathHelper::PG2XM_VECTOR(planeInfo->color);
+
+		{
+			///PVD 연동 디버깅
+
+			XMVECTOR tTrans;
+			XMVECTOR tRotQuat;
+			XMVECTOR tScale;
+			XMMatrixDecompose(&tScale, &tRotQuat, &tTrans, tWorld);
+
+			//Scale Fix 
+			//tScale = XMVectorScale(tScale, 2);
+			XMFLOAT3 infoScale = MathHelper::PG2XM_FLOAT3(planeInfo->scale);
+			tScale = XMLoadFloat3(&infoScale);
+
+			DirectX::XMMATRIX tZNinety = XMMatrixRotationZ(XMConvertToRadians(0.0f));
+			DirectX::XMMATRIX tOriginRot = XMMatrixRotationQuaternion(tRotQuat);
+			tRotQuat = XMQuaternionRotationMatrix(XMMatrixMultiply(tZNinety, tOriginRot));
+
+			tWorld = XMMatrixAffineTransformation(tScale, XMVectorZero(), tRotQuat, tTrans);
+			///
+
+		}
+		_planeShape->Draw(tWorld, tView, tProj, tLineColor, nullptr, true);
+	}
+
 
 	void DebugRenderer::InitCapsule()
 	{
@@ -410,6 +455,48 @@ namespace Pg::Graphics
 		_capsuleShape = DirectX::GeometricPrimitive::CreateCustom(_DXStorage->_deviceContext, vertices, indices);
 	}
 
+	void DebugRenderer::GetDebugPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec)
+	{
+		_planeColVector = &planeColVec;
+	}
 
+	void DebugRenderer::InitPlane()
+	{
+		DirectX::GeometricPrimitive::VertexCollection vertices;
+		DirectX::GeometricPrimitive::IndexCollection indices;
+
+		//0
+		vertices.push_back(DirectX::VertexPositionNormalTexture{
+		   DirectX::SimpleMath::Vector3{-0.5f,0.f, 0.5f},
+		   DirectX::SimpleMath::Vector3{0.9f, 0.9f, 0.9f},	DirectX::SimpleMath::Vector2{0.f,0.f} });
+
+		//1
+		vertices.push_back(DirectX::VertexPositionNormalTexture{
+			DirectX::SimpleMath::Vector3{0.5f,0.f, 0.5f},
+			 DirectX::SimpleMath::Vector3{0.9f, 0.9f, 0.9f},	DirectX::SimpleMath::Vector2{0.f,0.f} });
+
+		//2
+		vertices.push_back(DirectX::VertexPositionNormalTexture{
+			DirectX::SimpleMath::Vector3{0.5f,0.f, -0.5f},
+			DirectX::SimpleMath::Vector3{0.9f, 0.9f, 0.9f},	DirectX::SimpleMath::Vector2{0.f,0.f} });
+
+		//3
+		vertices.push_back(DirectX::VertexPositionNormalTexture{
+			DirectX::SimpleMath::Vector3{-0.5f, 0.f, -0.5f},
+		DirectX::SimpleMath::Vector3{0.9f, 0.9f, 0.9f},	DirectX::SimpleMath::Vector2{0.f,0.f} });
+
+		//012
+		//023
+		indices.push_back(0);
+		indices.push_back(1);
+		indices.push_back(2);
+		indices.push_back(0);
+		indices.push_back(2);
+		indices.push_back(3);
+
+
+		_planeShape = DirectX::GeometricPrimitive::CreateCustom(_DXStorage->_deviceContext, vertices, indices);
+	
+	}
 
 }

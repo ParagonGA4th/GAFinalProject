@@ -189,6 +189,7 @@
     <ClInclude Include="DebugData.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DynamicCollider.h" />
+    <ClInclude Include="ForceMode.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="ModelData.h" />
     <ClInclude Include="MoveForwardBack.h" />

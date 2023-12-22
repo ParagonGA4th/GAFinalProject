@@ -5,6 +5,7 @@
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/Collider.h"
 #include "../ParagonData/BoxCollider.h"
+#include "../ParagonData/PlaneCollider.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/SphereCollider.h"
@@ -18,16 +19,16 @@ namespace Pg::Engine::Physic
 		_foundation = PxCreateFoundation(PX_PHYSICS_VERSION, _allocator, _errorCallback);
 		if (!_foundation) throw("PxCreateFoundation Failed!");
 
-		// 버전, 세팅, 단위 등의 정보를 담은 물리
-		_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, _pvd);
 
 		// visual debugger 세팅, 로컬에 연결
 		// ip주소 설정하는거 엄청 거슬리는데...이걸 어떻게?
-		/*_pvd = PxCreatePvd(*_foundation);
-		physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("127.16.1.161", 5425, 10);
-		_pvd->connect(*transport, physx::PxPvdInstrumentationFlag::eALL);*/
+		_pvd = PxCreatePvd(*_foundation);
+		physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("localhost", 5425, 10);
+		_pvd->connect(*transport, physx::PxPvdInstrumentationFlag::eALL);
 
+		// 버전, 세팅, 단위 등의 정보를 담은 물리
 		//_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, _pvd);
+		_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, _pvd);
 		//_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, nullptr);
 
 		CreatePxScene();
@@ -42,13 +43,13 @@ namespace Pg::Engine::Physic
 		}
 	
 		// 머티리얼 생성(임의)
-		_material = _physics->createMaterial(0.25f, 0.2f, 0.4f);
+		_material = _physics->createMaterial(0.1f, 0.1f, 0.5f);
 
 		// ground 생성 후, 임의로 shape 붙여주기
-		physx::PxRigidStatic* groundPlane = PxCreatePlane(*_physics, physx::PxPlane(0, 1, 0, 0), *_material);
+		/*physx::PxRigidStatic* groundPlane = PxCreatePlane(*_physics, physx::PxPlane(0, 1, 0, 0), *_material);
 		physx::PxShape* gpShape = _physics->createShape(physx::PxBoxGeometry(0.1f, 20.0f, 20.0f), *_material);
 		groundPlane->attachShape(*gpShape);
-		_pxScene->addActor(*groundPlane);
+		_pxScene->addActor(*groundPlane);*/
 
 		/*for (physx::PxU32 i = 0; i < 5; i++)
 		{
@@ -60,8 +61,7 @@ namespace Pg::Engine::Physic
 		physx::PxShape* exShape = _physics->createShape(physx::PxBoxGeometry(1.0f, 1.0f, 1.0f), *_material);
 		exRigid->attachShape(*exShape);
 		_pxScene->addActor(*exRigid);*/
-
-		MakeCollider();
+		InitMakeColliders();
 	}
 
 	void PhysicSystem::UpdatePhysics(float dTime)
@@ -119,6 +119,12 @@ namespace Pg::Engine::Physic
 		{
 			Pg::Data::DynamicCollider* dynamicCol = static_cast<Pg::Data::DynamicCollider*>(rigid->userData);
 			dynamicCol->UpdateTransform();
+		}
+
+		for (auto& rigid : _rigidStaticVec)
+		{
+			Pg::Data::StaticCollider* staticCol = static_cast<Pg::Data::StaticCollider*>(rigid->userData);
+			staticCol->UpdateTransform();
 		}
 	}
 
@@ -185,7 +191,7 @@ namespace Pg::Engine::Physic
 	}
 
 
-	void PhysicSystem::MakeCollider()
+	void PhysicSystem::InitMakeColliders()
 	{
 		//싱글턴
 		auto& tSceneSystem = singleton<SceneSystem>();
@@ -196,12 +202,18 @@ namespace Pg::Engine::Physic
 		for (auto& obj : _sceneSystem->GetCurrentScene()->GetObjectList())
 		{
 			Pg::Data::BoxCollider* tBoxCol = obj->GetComponent<Pg::Data::BoxCollider>();
+			Pg::Data::StaticBoxCollider* tStaticBoxCol = obj->GetComponent<Pg::Data::StaticBoxCollider>();
 			Pg::Data::SphereCollider* tSphCol = obj->GetComponent<Pg::Data::SphereCollider>();
 			Pg::Data::CapsuleCollider* tCapCol = obj->GetComponent<Pg::Data::CapsuleCollider>();
+			Pg::Data::PlaneCollider* tPlaneCol = obj->GetComponent<Pg::Data::PlaneCollider>();
 
 			if (tBoxCol != nullptr)
 			{
 				MakeDynamicBoxCollider(obj);
+			}
+			else if (tStaticBoxCol != nullptr)
+			{
+				MakeStaticBoxCollider(obj);
 			}
 			else if (tSphCol != nullptr)
 			{
@@ -210,6 +222,11 @@ namespace Pg::Engine::Physic
 			else if (tCapCol != nullptr)
 			{
 				MakeDynamicCapsuleCollider(obj);
+
+			}
+			else if (tPlaneCol != nullptr)
+			{
+				MakePlaneCollider(obj);
 
 			}
 			AddObjectToScene();
@@ -234,7 +251,13 @@ namespace Pg::Engine::Physic
 
 				Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 
-				physx::PxTransform local(physx::PxVec3(position.x, position.y, position.z));
+				physx::PxTransform localTm(physx::PxVec3(position.x, position.y, position.z));
+				physx::PxRigidStatic* rigid = _physics->createRigidStatic(localTm);
+				rigid->attachShape(*boxShape);
+
+				staticBoxcol->SetPxRigidStatic(rigid);
+				rigid->userData = staticBoxcol;
+				_rigidStaticVec.push_back(rigid);
 
 				boxShape->release();
 
@@ -389,7 +412,35 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::MakePlaneCollider(Pg::Data::GameObject* obj)
 	{
+		/// ground 생성 후, 임의로 shape 붙여주기
+		/*physx::PxRigidStatic* groundPlane = PxCreatePlane(*_physics, physx::PxPlane(0, 1, 0, 0), *_material);
+		physx::PxShape* gpShape = _physics->createShape(physx::PxBoxGeometry(0.1f, 20.0f, 20.0f), *_material);
+		groundPlane->attachShape(*gpShape);
+		_pxScene->addActor(*groundPlane);*/
 
+		Pg::Data::Collider* col = obj->GetComponent<Pg::Data::PlaneCollider>();
+
+		if (col)
+		{
+			auto colliderVec = obj->GetComponents<Pg::Data::PlaneCollider>();
+
+			for (auto& collider : colliderVec)
+			{
+				Pg::Data::PlaneCollider* planeCol = dynamic_cast<Pg::Data::PlaneCollider*>(collider);
+				physx::PxShape* shape = _physics->createShape(physx::PxBoxGeometry(planeCol->GetWidth() / 2, 0.1f, planeCol->GetDepth() / 2), *_material);
+				Pg::Math::PGFLOAT3 normal = planeCol->GetNormalVector();
+				physx::PxTransform normalTm(physx::PxVec3(normal.x, normal.y, normal.z));
+				//physx::PxPlane plane = { normal.x, normal.y, normal.z, planeCol->GetDistance() };
+
+				//physx::PxRigidStatic* rigid = PxCreatePlane(*_physics, plane, *_material);
+				physx::PxRigidStatic* rigid =_physics->createRigidStatic(normalTm);
+				rigid->attachShape(*shape);
+				planeCol->SetPxRigidStatic(rigid);
+				rigid->userData = planeCol;
+
+				_rigidStaticVec.push_back(rigid);
+			}
+		}
 	}
 
 	void PhysicSystem::AddObjectToScene()
@@ -399,6 +450,12 @@ namespace Pg::Engine::Physic
 			static_cast<Pg::Data::DynamicCollider*>(rigidDynamic->userData)->UpdateTransform();
 			_pxScene->addActor(*rigidDynamic);
 		}
+
+		for (auto& rigidStatic : _rigidStaticVec)
+		{
+			static_cast<Pg::Data::StaticCollider*>(rigidStatic->userData)->UpdateTransform();
+			_pxScene->addActor(*rigidStatic);
+		}
 	}
 
 	void PhysicSystem::Flush()
@@ -407,6 +464,11 @@ namespace Pg::Engine::Physic
 		{
 			static_cast<Pg::Data::DynamicCollider*>(rigid->userData)->Flush();
 		}
+
+		/*for (auto& rigid : _rigidStaticVec)
+		{
+			static_cast<Pg::Data::StaticCollider*>(rigid->userData)->Flush();
+		}*/
 	}
 
 }

@@ -89,6 +89,7 @@ namespace  Pg::Engine::Input
 		assert(_map->MapFloat(eKeyCode::MouseY, _mouseId, gainput::MouseAxisY));
 
 		assert(_map->MapBool(eKeyCode::EditorOnOff, _keyboardId, gainput::KeyF1));
+		assert(_map->MapBool(eKeyCode::DebugOnOff, _keyboardId, gainput::KeyF2));
 
 		assert(_map->MapBool(eKeyCode::PrevRenderTarget, _keyboardId, gainput::Key9));
 		assert(_map->MapBool(eKeyCode::NextRenderTarget, _keyboardId, gainput::Key0));
@@ -99,6 +100,7 @@ namespace  Pg::Engine::Input
 		assert(_map->MapBool(eKeyCode::KeyRight, _keyboardId, gainput::KeyRight));
 		assert(_map->MapBool(eKeyCode::KeyUp, _keyboardId, gainput::KeyUp));
 		assert(_map->MapBool(eKeyCode::KeyDown,_keyboardId, gainput::KeyDown));
+		assert(_map->MapBool(eKeyCode::Space,_keyboardId, gainput::KeySpace));
 
 		gainput::SimultaneouslyDownGesture* sdg = _manager->CreateAndGetDevice<gainput::SimultaneouslyDownGesture>();
 		sdg->AddButton(_keyboardId, gainput::KeyCtrlL);

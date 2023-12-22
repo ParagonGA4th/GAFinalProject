@@ -37,6 +37,7 @@ namespace Pg::Graphics
 		void GetDebugSphereGeometryData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec);
 		void GetDebugCapsuleGeometryData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec);
 		void GetDebugLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec);
+		void GetDebugPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec);
 		void Render(Pg::Data::CameraData* camData);
 
 	private:
@@ -54,11 +55,13 @@ namespace Pg::Graphics
 		void DrawSphere(Pg::Data::CameraData* camData, Pg::Data::SphereInfo* sphereInfo);
 		void DrawCapsule(Pg::Data::CameraData* camData, Pg::Data::CapsuleInfo* capsuleInfo);
 		void DrawLine(Pg::Data::LineInfo* lineInfo);
+		void DrawPlane(Pg::Data::CameraData* camData, Pg::Data::PlaneInfo* planeInfo);
 
 	private:
 		void InitGeometry();
 		void InitCapsule();
 		void InitLine();
+		void InitPlane();
 
 	private:
 		LowDX11Storage* _DXStorage;
@@ -73,6 +76,9 @@ namespace Pg::Graphics
 		//Capsule Wireframe Rendering
 		std::unique_ptr<DirectX::GeometricPrimitive> _capsuleShape;
 		
+		//Plane Wireframe Rendering
+		std::unique_ptr<DirectX::GeometricPrimitive> _planeShape;
+		
 
 	private:
 		//렌더링을 위해 Pointer를 보관.
@@ -80,6 +86,7 @@ namespace Pg::Graphics
 		const std::vector<Pg::Data::SphereInfo*>* _sphereColVector = nullptr;
 		const std::vector<Pg::Data::CapsuleInfo*>* _capsuleColVector = nullptr;
 		const std::vector<Pg::Data::LineInfo>* _lineColVector = nullptr;
+		const std::vector<Pg::Data::PlaneInfo*>* _planeColVector = nullptr;
 
 	private:
 		//DebugLine을 위한 요구사항.
