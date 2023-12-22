@@ -2,8 +2,9 @@
 #include "DataContainer.h"
 
 #include "IEditorWindow.h"
-#include "Inspector.h"
+#include "MenuBar.h"
 #include "Hierarchy.h"
+#include "Inspector.h"
 #include "Scene.h"
 #include "Filter.h"
 
@@ -25,6 +26,7 @@ Pg::Editor::Manager::WindowManager::WindowManager()
 
 	// Editor window
 
+	//_windows.emplace_back(new Pg::Editor::Window::MenuBar());
 	_windows.emplace_back(new Pg::Editor::Window::Hierarchy());
 	_windows.emplace_back(new Pg::Editor::Window::Inspector());
 	_windows.emplace_back(new Pg::Editor::Window::Scene());
