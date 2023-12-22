@@ -234,6 +234,10 @@ namespace Pg::Graphics
 		_debugRenderer->GetDebugSphereGeometryData(sphereColVec);
 	}
 
+	void ParagonRenderer::PassPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec)
+	{
+		_debugRenderer->GetDebugPlaneGeometryData(planeColVec);
+	}
 
 
 	//void ParagonRenderer::SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene)

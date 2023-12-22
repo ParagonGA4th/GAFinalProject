@@ -1,23 +1,12 @@
 #pragma once
 #include "Collider.h"
+#include "ForceMode.h"
 #include "../ParagonMath/PgMath.h"
 
 /// <summary>
 /// 변지상의 DynamicCollider.
 /// 2023.10.23
 /// </summary>
-
-namespace Pg::Data
-{
-	//힘을 가하는 방법
-	enum class ForceMode : int
-	{
-		eFORCE,
-		eIMPULSE,
-		eACCELERATION,
-		eVELOCITY_CHANGE
-	};
-}
 
 namespace Pg::Data
 {
@@ -39,11 +28,11 @@ namespace Pg::Data
 		DynamicCollider(GameObject* owner);
 
 	public:
-		virtual void Start() abstract;
+		virtual void Start() override;
 
 	public:
 		void UpdatePhysics(PGFLOAT3 pos, PGQuaternion quat);
-		void UpdateTransform();
+		virtual void UpdateTransform() override;
 
 	public:
 		//충돌판정 여부 체크
@@ -58,6 +47,13 @@ namespace Pg::Data
 
 	public:
 		void AddForce(PGFLOAT3 dir, ForceMode mode);
+		
+		///Collider의 축을 고정
+		void FreezeAxisX(bool isActive);
+		void FreezeAxisY(bool isActive);
+		void FreezeAxisZ(bool isActive);
+
+	public:
 
 		void Flush();
 
@@ -74,6 +70,12 @@ namespace Pg::Data
 		//충돌의 여부를 판단하기 위해.
 		bool _isCollide;
 		bool _wasCollided;
+
+	private:
+		//플래그
+		bool _isActiveX;
+		bool _isActiveY;
+		bool _isActiveZ;
 	};
 }
 

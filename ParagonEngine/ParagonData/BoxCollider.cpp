@@ -1,5 +1,5 @@
 #include "BoxCollider.h"
-#include "../ParagonData/GameObject.h"
+#include "GameObject.h"
 //#include "../ParagonData/Transform.h"
 
 namespace Pg::Data
@@ -9,11 +9,6 @@ namespace Pg::Data
 		_width(1.0f),
 		_height(1.0f),
 		_depth(1.0f)
-	{
-
-	}
-
-	void BoxCollider::Start()
 	{
 
 	}

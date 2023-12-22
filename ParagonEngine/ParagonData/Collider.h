@@ -49,6 +49,8 @@ namespace Pg::Data
 		void SetPxScene(physx::PxScene* scene );
 		physx::PxScene* GetPxScene();
 
+		virtual void UpdateTransform() abstract;
+
 
 	protected:
 		PGFLOAT3 _positionOffSet;

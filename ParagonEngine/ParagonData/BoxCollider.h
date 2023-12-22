@@ -21,8 +21,6 @@ namespace Pg::Data
 	public:
 		BoxCollider(GameObject* owner);
 
-		virtual void Start() override;
-
 		void Update();
 
 		float GetWidth() const;

@@ -12,11 +12,6 @@ namespace Pg::Data
 	}
 
 
-	void SphereCollider::Start()
-	{
-
-	}
-
 
 	void SphereCollider::Update()
 	{

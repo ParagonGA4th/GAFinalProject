@@ -48,7 +48,7 @@ namespace Pg::Engine::Physic
 
 	public:
 		//Collider 穿端 持失
-		void MakeCollider();
+		void InitMakeColliders();
 
 		//StaticCollider 持失
 		void MakeStaticBoxCollider(Pg::Data::GameObject* obj);
