@@ -10,6 +10,7 @@
 #include "../ParagonUtil/ResourceHelper.h"
 
 #include <cassert>
+#include <algorithm>
 
 namespace Pg::Graphics::Manager
 {
@@ -191,4 +192,23 @@ namespace Pg::Graphics::Manager
 		}
 	}
 
+	std::shared_ptr<Pg::Data::Resources::GraphicsResource> GraphicsResourceManager::GetResourceByName(const std::string& name, Pg::Data::Enums::eAssetDefine define)
+	{
+		std::string tFullPath = "";
+		for (auto& it : _resources)
+		{
+			if (it.first.find(name) != std::string::npos)
+			{
+				tFullPath = it.first;
+				break;
+			}
+		}
+	
+		if (tFullPath.empty())
+		{
+			assert(false && "없는 리소스를 가지고 오려고 함!");
+		}
+
+		return GetResource(tFullPath, define);
+	}
 }

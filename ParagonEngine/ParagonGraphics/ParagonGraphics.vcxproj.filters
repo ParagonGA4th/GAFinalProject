@@ -195,6 +195,7 @@
     <ClInclude Include="GBufferDepthStencil.h">
       <Filter>0_Main\GBuffers\GBufferDepthStencil</Filter>
     </ClInclude>
+    <ClInclude Include="MaterialParser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -361,6 +362,7 @@
     <ClCompile Include="GBufferDepthStencil.cpp">
       <Filter>0_Main\GBuffers\GBufferDepthStencil</Filter>
     </ClCompile>
+    <ClCompile Include="MaterialParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -599,6 +601,9 @@
     </Filter>
     <Filter Include="6_HLSL\System\Pipeline\TempForward">
       <UniqueIdentifier>{5cc1c07b-7adb-4c6e-9c3e-33101d692436}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\MaterialParser">
+      <UniqueIdentifier>{e3f86a17-cc31-4047-9192-e38e1672a170}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

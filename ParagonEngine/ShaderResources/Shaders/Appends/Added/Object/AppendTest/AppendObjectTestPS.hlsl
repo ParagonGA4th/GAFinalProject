@@ -7,15 +7,18 @@
 cbuffer cbAppendsObject : register(b8)
 {
     bool isOne;
-    //float3 test1;
-    //int2 test2;
-    //uint2 test3;
-    //float4 test4;
+   //float3 test1;
+   //int test2;
+   //uint test3;
+   //float4 test4;
+   //float2 test5;
+   //float3 test6;
+   //int test7;
 };
 
 //Texture2D는 무조건 t25에서 시작.
-Texture2D t2_DiffuseTexture : register(t25);
-Texture2D t2_DiffuseTexture2 : register(t26);
+Texture2D<float4> t2_DiffuseTexture : register(t25);
+Texture2D<float4> t2_DiffuseTexture2 : register(t26);
 
 //반드시 인풋 = VOutQuad, 아웃풋 = POutQuad
 POutQuad main(VOutQuad pin)
