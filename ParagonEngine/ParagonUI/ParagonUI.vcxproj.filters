@@ -64,6 +64,9 @@
     <ClInclude Include="TreeNode.h">
       <Filter>0_UI\1_Widget\TreeNode</Filter>
     </ClInclude>
+    <ClInclude Include="MenuBar.h">
+      <Filter>0_UI\1_Widget\MenuBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UIManager.cpp">
@@ -120,6 +123,9 @@
     <ClCompile Include="TreeNode.cpp">
       <Filter>0_UI\1_Widget\TreeNode</Filter>
     </ClCompile>
+    <ClCompile Include="MenuBar.cpp">
+      <Filter>0_UI\1_Widget\MenuBar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_UI">
@@ -172,6 +178,9 @@
     </Filter>
     <Filter Include="1_Manager\ImguiManager">
       <UniqueIdentifier>{3ff707a4-63c1-49e4-a991-cad16938c7ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\MenuBar">
+      <UniqueIdentifier>{fd1a8c70-7862-4f7b-a987-1bc31db80ec8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

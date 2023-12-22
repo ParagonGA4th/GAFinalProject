@@ -42,9 +42,9 @@ void Pg::UI::Manager::UIManager::UIHandler(MSG message)
 	_imguiManager->ImguiHandler(message);                                             
 }
 
-void Pg::UI::Manager::UIManager::WindowBegin(std::string winName)
+void Pg::UI::Manager::UIManager::WindowBegin(std::string winName, bool isMenu)
 {
-	_imguiManager->Begin(winName);
+	_imguiManager->Begin(winName, isMenu);
 }
 
 void Pg::UI::Manager::UIManager::WindowEnd()

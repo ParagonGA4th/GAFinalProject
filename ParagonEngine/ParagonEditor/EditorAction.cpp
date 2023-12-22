@@ -52,11 +52,16 @@ void Pg::Editor::Core::EditorAction::Loop()
 		}
 		else
 		{
-			for (auto& manager : _editorManagers) 
-			{ 
-				manager->Update(); 
-				manager->LateUpdate(); 
-			}
+			//for (auto& manager : _editorManagers) 
+			//{ 
+			//	manager->Update(); 
+			//	manager->LateUpdate(); 
+			//}
+
+			_editorManagers.at(0)->Update();
+			_editorManagers.at(1)->Update();
+			_editorManagers.at(1)->LateUpdate();
+			_editorManagers.at(0)->LateUpdate();
 		}
 	}
 }
@@ -107,11 +112,11 @@ BOOL Pg::Editor::Core::EditorAction::CreateWindows(HINSTANCE hInstance)
 	HMENU hSubMenu = CreatePopupMenu();
 
 	// 메뉴 항목 추가
-	AppendMenu(hSubMenu, MF_STRING, ID_OPEN_PROJECT, "Open Project");
-	AppendMenu(hSubMenu, MF_STRING, ID_NEW_PROJECT, "New Project");
-	AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL); // 구분선 추가
 	AppendMenu(hSubMenu, MF_STRING, ID_OPEN_SCENE, "Open Scene");
 	AppendMenu(hSubMenu, MF_STRING, ID_NEW_SCENE, "New Scene");
+	AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL); // 구분선 추가
+	AppendMenu(hSubMenu, MF_STRING, ID_OPEN_PROJECT, "Open Project");
+	AppendMenu(hSubMenu, MF_STRING, ID_NEW_PROJECT, "New Project");
 	AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL); // 구분선 추가
 	AppendMenu(hSubMenu, MF_STRING, ID_SAVE, "Save (Ctrl + S)");
 	AppendMenu(hSubMenu, MF_STRING, ID_EXIT, "Exit");
