@@ -1,5 +1,7 @@
 #pragma once
 #include "StaticCollider.h"
+#include "DebugData.h"
+#include "../ParagonMath/PgMath.h"
 
 namespace Pg::Data
 {
@@ -16,6 +18,11 @@ namespace Pg::Data
 		float GetWidth() const;
 		float GetHeight() const;
 		float GetDepth() const;
+
+	public:
+		void SetScale(float w, float h, float d);
+
+		Pg::Data::BoxInfo _boxInfo;
 
 	private:
 		float _width;

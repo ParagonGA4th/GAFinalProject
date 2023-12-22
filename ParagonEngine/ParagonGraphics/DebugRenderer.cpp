@@ -46,6 +46,11 @@ namespace Pg::Graphics
 
 		//Capsule 만들기.
 		InitCapsule();
+
+
+		InitPlane();
+		//Box & Sphere 만들기.
+		//_planeShape = DirectX::GeometricPrimitive::CreateBox(_DXStorage->_deviceContext, DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f));
 	}
 
 	void DebugRenderer::InitLine()
@@ -91,10 +96,15 @@ namespace Pg::Graphics
 		{
 			DrawSphere(camData, _sphereColVector->at(i));
 		}
-		
+
 		for (int i = 0; i < _capsuleColVector->size(); i++)
 		{
 			DrawCapsule(camData, _capsuleColVector->at(i));
+		}
+
+		for (int i = 0; i < _planeColVector->size(); i++)
+		{
+			DrawPlane(camData, _planeColVector->at(i));
 		}
 	}
 
@@ -253,7 +263,7 @@ namespace Pg::Graphics
 		}
 		_capsuleShape->Draw(tWorld, tView, tProj, tLineColor, nullptr, true);
 	}
-	
+
 	void DebugRenderer::DrawLine(Pg::Data::LineInfo* lineInfo)
 	{
 		_primitiveBatch->DrawLine(
@@ -292,7 +302,7 @@ namespace Pg::Graphics
 			///
 
 		}
-		_sphereShape->Draw(tWorld, tView, tProj, tLineColor, nullptr, true);
+		_planeShape->Draw(tWorld, tView, tProj, tLineColor, nullptr, true);
 	}
 
 
@@ -450,5 +460,43 @@ namespace Pg::Graphics
 		_planeColVector = &planeColVec;
 	}
 
+	void DebugRenderer::InitPlane()
+	{
+		DirectX::GeometricPrimitive::VertexCollection vertices;
+		DirectX::GeometricPrimitive::IndexCollection indices;
+
+		//0
+		vertices.push_back(DirectX::VertexPositionNormalTexture{
+		   DirectX::SimpleMath::Vector3{-0.5f,0.f, 0.5f},
+		   DirectX::SimpleMath::Vector3{0.9f, 0.9f, 0.9f},	DirectX::SimpleMath::Vector2{0.f,0.f} });
+
+		//1
+		vertices.push_back(DirectX::VertexPositionNormalTexture{
+			DirectX::SimpleMath::Vector3{0.5f,0.f, 0.5f},
+			 DirectX::SimpleMath::Vector3{0.9f, 0.9f, 0.9f},	DirectX::SimpleMath::Vector2{0.f,0.f} });
+
+		//2
+		vertices.push_back(DirectX::VertexPositionNormalTexture{
+			DirectX::SimpleMath::Vector3{0.5f,0.f, -0.5f},
+			DirectX::SimpleMath::Vector3{0.9f, 0.9f, 0.9f},	DirectX::SimpleMath::Vector2{0.f,0.f} });
+
+		//3
+		vertices.push_back(DirectX::VertexPositionNormalTexture{
+			DirectX::SimpleMath::Vector3{-0.5f, 0.f, -0.5f},
+		DirectX::SimpleMath::Vector3{0.9f, 0.9f, 0.9f},	DirectX::SimpleMath::Vector2{0.f,0.f} });
+
+		//012
+		//023
+		indices.push_back(0);
+		indices.push_back(1);
+		indices.push_back(2);
+		indices.push_back(0);
+		indices.push_back(2);
+		indices.push_back(3);
+
+
+		_planeShape = DirectX::GeometricPrimitive::CreateCustom(_DXStorage->_deviceContext, vertices, indices);
+	
+	}
 
 }

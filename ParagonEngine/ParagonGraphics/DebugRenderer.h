@@ -61,6 +61,7 @@ namespace Pg::Graphics
 		void InitGeometry();
 		void InitCapsule();
 		void InitLine();
+		void InitPlane();
 
 	private:
 		LowDX11Storage* _DXStorage;
@@ -74,6 +75,9 @@ namespace Pg::Graphics
 
 		//Capsule Wireframe Rendering
 		std::unique_ptr<DirectX::GeometricPrimitive> _capsuleShape;
+		
+		//Plane Wireframe Rendering
+		std::unique_ptr<DirectX::GeometricPrimitive> _planeShape;
 		
 
 	private:

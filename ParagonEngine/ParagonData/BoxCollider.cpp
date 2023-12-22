@@ -1,5 +1,5 @@
 #include "BoxCollider.h"
-#include "../ParagonData/GameObject.h"
+#include "GameObject.h"
 //#include "../ParagonData/Transform.h"
 
 namespace Pg::Data

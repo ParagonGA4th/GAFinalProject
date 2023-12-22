@@ -5,7 +5,9 @@
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/BoxCollider.h"
+#include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SphereCollider.h"
+#include "../ParagonData/PlaneCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
 
 //#include "../ParagonData/BaseRenderer.h" //Render 연동 보기 위해.
@@ -35,14 +37,14 @@ void Pg::Engine::TestScene::Initialize()
 {
 	using namespace Pg::Data;
 
-	
+
 	///새로 추가한 스크립트 컴포넌트의 테스트를 위한 코드 
 
 	//카메라 하나 더 생성
 	Pg::Data::GameObject* tObj1 = tCurrentScene->AddObject("Camera1");
 	tObj1->AddComponent<Camera>();
 	tObj1->GetComponent<Transform>()->SetPosition({ 0.f, 3.0f, -10.f });
-	tObj1->GetComponent<Transform>()->SetLocalRotationEuler(0.f,0.f,0.f);
+	tObj1->GetComponent<Transform>()->SetLocalRotationEuler(0.f, 0.f, 0.f);
 	tObj1->AddComponent<EditorCameraScript>();
 
 	Pg::Data::GameObject* tObj2 = tCurrentScene->AddObject("Cube1");
@@ -82,9 +84,10 @@ void Pg::Engine::TestScene::Initialize()
 
 	Pg::Data::GameObject* tObj3 = tCurrentScene->AddObject("Capsule2");
 	tObj3->GetComponent<Transform>()->SetPosition({ -1.0f, -3.0f, 5.0f });
+	tObj3->GetComponent<Transform>()->SetScale({ 3.0f, 3.0f, 3.0f });
 	//tObj3->GetComponent<Transform>()->SetLocalRotationEuler(0.0f, 100.0f, 0.0f);
 	tObj3->AddComponent<CapsuleCollider>();
-	tObj3->GetComponent<CapsuleCollider>()->SetCapsuleInfo(2.0f, 2.0f);
+	tObj3->GetComponent<CapsuleCollider>()->SetCapsuleInfo(3.0f, 3.0f);
 	tObj3->AddComponent<StaticMeshRenderer>();
 	tObj3->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj3->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx");
@@ -92,14 +95,16 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj3->GetComponent<MoveForwardBack>()->SetActive(false);
 
 	Pg::Data::GameObject* tObj4 = tCurrentScene->AddObject("Cube6");
-	tObj4->GetComponent<Transform>()->SetPosition({ -3.0f, -1.0f, -2.0f });
-	tObj4->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.5f, -2.0f);
-	//tObj4->AddComponent<BoxCollider>();
+	tObj4->GetComponent<Transform>()->SetPosition({ -2.0f, 0.0f, 0.0f });
+	//tObj4->GetComponent<Transform>()->SetScale(2.0f, 2.0f, 2.0f);
+	//tObj4->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.5f, -2.0f);
+	tObj4->AddComponent<StaticBoxCollider>();
+	tObj4->GetComponent<StaticBoxCollider>()->SetScale(2.0f, 2.0f, 2.0f);
 	tObj4->AddComponent<StaticMeshRenderer>();
 	tObj4->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	tObj4->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	tObj4->AddComponent<MoveForwardBack>();
-	tObj4->GetComponent<MoveForwardBack>()->SetActive(true);
+	//tObj4->AddComponent<MoveForwardBack>();
+	//tObj4->GetComponent<MoveForwardBack>()->SetActive(true);
 
 	Pg::Data::GameObject* tObj5 = tCurrentScene->AddObject("Cube7");
 	tObj5->GetComponent<Transform>()->SetPosition({ 5.0f, 0.0f, 0.0f });
@@ -122,9 +127,11 @@ void Pg::Engine::TestScene::Initialize()
 	tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
-	tObj7->GetComponent<Transform>()->SetPosition({ 0.0f, 0.2f, 0.0f });
+	tObj7->GetComponent<Transform>()->SetPosition({ 0.0f, -5.0f, 0.0f });
 	tObj7->GetComponent<Transform>()->SetLocalScale(1.0f, 1.0f, 1.0f);
 	tObj7->GetComponent<Transform>()->SetLocalRotationEuler(0.0f, 0.0f, 0.0f);
+	tObj7->AddComponent<PlaneCollider>();
+	//tObj7->GetComponent<PlaneCollider>();
 	tObj7->AddComponent<StaticMeshRenderer>();
 	tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
 	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
