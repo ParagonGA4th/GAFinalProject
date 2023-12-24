@@ -48,6 +48,7 @@
     <ClInclude Include="RenderObjectWireframeList.h" />
     <ClInclude Include="RenderPixelShader.h" />
     <ClInclude Include="RenderVertexShader.h" />
+    <ClInclude Include="ShaderParsingData.h" />
     <ClInclude Include="SystemPixelShader.h" />
     <ClInclude Include="WireframeRenderObject.h" />
     <ClInclude Include="RenderFont.h" />

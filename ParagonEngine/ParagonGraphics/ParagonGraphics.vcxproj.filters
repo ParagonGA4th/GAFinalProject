@@ -196,6 +196,7 @@
       <Filter>0_Main\GBuffers\GBufferDepthStencil</Filter>
     </ClInclude>
     <ClInclude Include="MaterialParser.h" />
+    <ClInclude Include="ShaderParsingData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">

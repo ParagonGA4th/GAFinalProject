@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <memory>
+#include "ShaderParsingData.h"
 
 /// <summary>
 /// PgShaderParser로 인해 만들어진
@@ -8,7 +10,7 @@
 /// CombinedLoader가 유일한 객체를 들고 있을 것이다.
 /// </summary>
 
-namespace Pg
+namespace Pg::Graphics
 {
 	class MaterialParser
 	{
@@ -17,16 +19,21 @@ namespace Pg
 		~MaterialParser();
 
 		void Reset();
-		void ParsePgMat(const std::string& pgMatFilePath);
-		
-		//
-		struct MaterialParsingData
-		{
-			std::string _vertexShaderName;
-		};
+		void ParsePgMat(const std::string& pgmatPath);
 
 	private:
-		MaterialParsingData* _materialParsingData;
+		void ParseShaderMat(pugi::xml_node* shdNode, ShaderParsingData* parsingData);
+
+	private:
+		eCbVarType GetCbVarType(const std::string& varString);
+		void GetCbVarValue(pugi::xml_node* parNode, eCbVarType varType, CbVarValue& varValue);
+
+		eTexVarType GetTexVarType(const std::string& varString);
+		eTexReturnVarType GetTexReturnVarType(const std::string& varString);
+
+	private:
+		std::unique_ptr<ShaderParsingData> _vsParseData = nullptr;
+		std::unique_ptr<ShaderParsingData> _psParseData = nullptr;
 	};
 }
 
