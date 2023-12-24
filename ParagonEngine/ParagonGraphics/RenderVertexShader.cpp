@@ -1,10 +1,7 @@
 #include "RenderVertexShader.h"
 #include "LowDX11Storage.h"
-#include "LayoutDefine.h"
-
-//Reflection 요구 사항.
-//#include <D3DCompiler.inl>
-#include <d3d11shader.h>
+#include "GraphicsResourceManager.h"
+#include "AssetCombinedLoader.h"
 
 namespace Pg::Graphics
 {
@@ -23,8 +20,12 @@ namespace Pg::Graphics
 
 	void RenderVertexShader::InternalLoad()
 	{
-		SetupShaderRequirements();
-		ReflectShader();
+		using Pg::Graphics::Manager::GraphicsResourceManager;
+		using Pg::Graphics::Loader::AssetCombinedLoader;
+
+		GraphicsResourceManager* tResManager = Pg::Graphics::Manager::GraphicsResourceManager::Instance();
+		AssetCombinedLoader* tComLoader = tResManager->GetCombinedLoader();
+		tComLoader->LoadRenderVertexShader(_filePath, this);
 	}
 
 	void RenderVertexShader::InternalUnload()
@@ -47,33 +48,6 @@ namespace Pg::Graphics
 	void RenderVertexShader::Unbind()
 	{
 		_DXStorage->_deviceContext->VSSetShader(nullptr, nullptr, 0);
-	}
-
-
-	void RenderVertexShader::SetupShaderRequirements()
-	{
-		std::wstring wFilePath;
-		wFilePath.assign(_filePath.begin(), _filePath.end());
-
-		//Blob으로 D3D 파일을 읽어온다. (Load)
-		HR(D3DReadFileToBlob(wFilePath.c_str(), &_byteCode));
-
-		//Vertex Shader 갖고 오기.
-		HR(_DXStorage->_device->CreateVertexShader(_byteCode->GetBufferPointer(), _byteCode->GetBufferSize(), NULL, &_shader));
-
-		//InputLayout : 정한 기본으로 갖고 오기.
-		_inputLayout = LayoutDefine::GetDeferredQuadLayout();
-	}
-
-	void RenderVertexShader::ReflectShader()
-	{
-		ID3D11ShaderReflection* tReflection = nullptr;
-		D3DReflect(_byteCode->GetBufferPointer(), _byteCode->GetBufferSize(), 
-			IID_ID3D11ShaderReflection, reinterpret_cast<void**>(&tReflection));
-
-		D3D11_SHADER_DESC tDesc;
-		tReflection->GetDesc(&tDesc);
-
 	}
 
 }

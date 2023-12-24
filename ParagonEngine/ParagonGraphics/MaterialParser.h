@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include "ShaderParsingData.h"
+#include "../ParagonUtil/pugixml.hpp"
 
 /// <summary>
 /// PgShaderParser로 인해 만들어진
@@ -12,14 +13,20 @@
 
 namespace Pg::Graphics
 {
+	class RenderMaterial;
+}
+
+namespace Pg::Graphics
+{
 	class MaterialParser
 	{
 	public:
 		MaterialParser();
 		~MaterialParser();
 
-		void Reset();
 		void ParsePgMat(const std::string& pgmatPath);
+		void LoadRenderMaterial(RenderMaterial* renderMat);
+		void Reset();
 
 	private:
 		void ParseShaderMat(pugi::xml_node* shdNode, ShaderParsingData* parsingData);

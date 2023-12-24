@@ -1,5 +1,6 @@
 #include "MaterialParser.h"
-#include "../ParagonUtil/pugixml.hpp"
+#include "RenderMaterial.h"
+
 
 #include <algorithm>
 #include <cassert>
@@ -17,7 +18,7 @@ namespace Pg::Graphics
 
 	}
 
-	//"test4.pgmat"
+	//대표적인 예시 : "test4.pgmat"
 	void MaterialParser::ParsePgMat(const std::string& pgmatPath)
 	{
 		//Material Parsing Data 객체를 만들기. 
@@ -39,6 +40,11 @@ namespace Pg::Graphics
 		ParseShaderMat(&tPSNode, _psParseData.get());
 
 		assert("");
+	}
+
+	void MaterialParser::LoadRenderMaterial(RenderMaterial* renderMat)
+	{
+		///231225, 이거 하고 있었음.
 	}
 
 	void MaterialParser::Reset()
@@ -327,4 +333,5 @@ namespace Pg::Graphics
 			return _TEXRET_UNORM;
 		}
 	}
+
 }

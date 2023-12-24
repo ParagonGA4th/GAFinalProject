@@ -16,10 +16,19 @@
 
 namespace Pg::Graphics
 {
+	namespace Loader
+	{
+		class AssetCombinedLoader;
+	}
+}
+
+namespace Pg::Graphics
+{
 	class LowDX11Storage;
 
 	class RenderPixelShader : public Pg::Data::Resources::GraphicsResource
 	{
+		friend class Pg::Graphics::Loader::AssetCombinedLoader;
 	public:
 		RenderPixelShader(Pg::Data::Enums::eAssetDefine define, const std::string& filePath);
 		virtual ~RenderPixelShader();
