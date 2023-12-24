@@ -36,6 +36,7 @@ namespace Pg::Graphics
 	{
 		class AssetBasic3DLoader;
 		class AssetBasic2DLoader;
+		class AssetCombinedLoader;
 	}
 	namespace Helper
 	{
@@ -64,6 +65,7 @@ namespace Pg::Graphics::Manager
 		//메모리 관리와 관계없이, 포인터를 리턴한다.
 		Pg::Graphics::Loader::AssetBasic3DLoader* GetBasic3DLoader();
 		Pg::Graphics::Loader::AssetBasic2DLoader* GetBasic2DLoader();
+		Pg::Graphics::Loader::AssetCombinedLoader* GetCombinedLoader();
 
 		//특정 리소스가 이미 로딩되었는지를 확인한다.
 		bool IsExistResource(const std::string& path);
@@ -111,6 +113,7 @@ namespace Pg::Graphics::Manager
 	private:
 		std::unique_ptr<Pg::Graphics::Loader::AssetBasic3DLoader> _asset3DLoader;
 		std::unique_ptr<Pg::Graphics::Loader::AssetBasic2DLoader> _asset2DLoader;
+		std::unique_ptr<Pg::Graphics::Loader::AssetCombinedLoader> _assetCombinedLoader;
 	private:
 		//2차적인 애셋이 발생되어 (Ex. Embedded Texture), AssetManaeger랑 연동을 할 수 있게 하는 Map.
 		std::map<std::string, Pg::Data::Enums::eAssetDefine> _toAddSecondaryResourcesMap;

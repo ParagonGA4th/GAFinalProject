@@ -16,10 +16,19 @@
 
 namespace Pg::Graphics
 {
+	namespace Loader
+	{
+		class AssetCombinedLoader;
+	}
+}
+
+namespace Pg::Graphics
+{
 	class LowDX11Storage;
 
 	class RenderVertexShader : public Pg::Data::Resources::GraphicsResource
 	{
+		friend class Pg::Graphics::Loader::AssetCombinedLoader;
 	public:
 		RenderVertexShader(Pg::Data::Enums::eAssetDefine define, const std::string& filePath);
 		virtual ~RenderVertexShader();
@@ -32,11 +41,6 @@ namespace Pg::Graphics
 	public:
 		void Bind();
 		void Unbind();
-
-	private:
-		void SetupShaderRequirements();
-		//Shader Reflection.
-		void ReflectShader();
 
 	private:
 		LowDX11Storage* _DXStorage = nullptr;

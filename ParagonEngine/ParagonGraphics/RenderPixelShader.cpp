@@ -1,6 +1,7 @@
 #include "RenderPixelShader.h"
 #include "LowDX11Storage.h"
-#include "LayoutDefine.h"
+#include "GraphicsResourceManager.h"
+#include "AssetCombinedLoader.h"
 
 namespace Pg::Graphics
 {
@@ -19,14 +20,12 @@ namespace Pg::Graphics
 
 	void RenderPixelShader::InternalLoad()
 	{
-		std::wstring wFilePath;
-		wFilePath.assign(_filePath.begin(), _filePath.end());
+		using Pg::Graphics::Manager::GraphicsResourceManager;
+		using Pg::Graphics::Loader::AssetCombinedLoader;
 
-		//Blob으로 D3D 파일을 읽어온다. (Load)
-		HR(D3DReadFileToBlob(wFilePath.c_str(), &_byteCode));
-
-		//Pixel Shader 갖고 오기.
-		HR(_DXStorage->_device->CreatePixelShader(_byteCode->GetBufferPointer(), _byteCode->GetBufferSize(), NULL, &_shader));
+		GraphicsResourceManager* tResManager = Pg::Graphics::Manager::GraphicsResourceManager::Instance();
+		AssetCombinedLoader* tComLoader = tResManager->GetCombinedLoader();
+		tComLoader->LoadRenderPixelShader(_filePath, this);
 	}
 
 	void RenderPixelShader::InternalUnload()

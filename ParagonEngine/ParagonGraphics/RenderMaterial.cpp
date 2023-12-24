@@ -1,4 +1,7 @@
 #include "RenderMaterial.h"
+#include "LowDX11Storage.h"
+#include "GraphicsResourceManager.h"
+#include "AssetCombinedLoader.h"
 
 namespace Pg::Graphics
 {
@@ -7,7 +10,7 @@ namespace Pg::Graphics
 	RenderMaterial::RenderMaterial(Pg::Data::Enums::eAssetDefine define, const std::string& filePath) :
 		GraphicsResource(define, typeid(this).name(), filePath)
 	{
-		//
+		_byteUpdateBuffer = std::make_unique<Pg::Util::ByteBuffer>();
 	}
 
 	RenderMaterial::~RenderMaterial()
@@ -17,7 +20,12 @@ namespace Pg::Graphics
 
 	void RenderMaterial::InternalLoad()
 	{
-		//Internal Load Logic, TBA.
+		using Pg::Graphics::Manager::GraphicsResourceManager;
+		using Pg::Graphics::Loader::AssetCombinedLoader;
+
+		GraphicsResourceManager* tResManager = Pg::Graphics::Manager::GraphicsResourceManager::Instance();
+		AssetCombinedLoader* tComLoader = tResManager->GetCombinedLoader();
+		tComLoader->LoadRenderMaterial(_filePath, this);
 	}
 
 	void RenderMaterial::InternalUnload()

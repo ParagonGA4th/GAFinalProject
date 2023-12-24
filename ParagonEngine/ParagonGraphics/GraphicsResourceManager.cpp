@@ -2,6 +2,7 @@
 #include "GraphicsResourceHelper.h"
 #include "AssetBasic2DLoader.h"
 #include "AssetBasic3DLoader.h"
+#include "AssetCombinedLoader.h"
 
 #include "RenderTexture2D.h" //디폴트 텍스쳐 로드 때문에.
 #include "AssetTextureType.h"
@@ -20,6 +21,7 @@ namespace Pg::Graphics::Manager
 
 		_asset2DLoader = std::make_unique<Pg::Graphics::Loader::AssetBasic2DLoader>();
 		_asset3DLoader = std::make_unique<Pg::Graphics::Loader::AssetBasic3DLoader>();
+		_assetCombinedLoader = std::make_unique<Pg::Graphics::Loader::AssetCombinedLoader>();
 	}
 
 	GraphicsResourceManager::~GraphicsResourceManager()
@@ -37,6 +39,12 @@ namespace Pg::Graphics::Manager
 	{
 		assert(_asset2DLoader);
 		return _asset2DLoader.get();
+	}
+
+	Pg::Graphics::Loader::AssetCombinedLoader* GraphicsResourceManager::GetCombinedLoader()
+	{
+		assert(_assetCombinedLoader);
+		return _assetCombinedLoader.get();
 	}
 
 	void GraphicsResourceManager::LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define)
@@ -211,4 +219,7 @@ namespace Pg::Graphics::Manager
 
 		return GetResource(tFullPath, define);
 	}
+
+	
+
 }

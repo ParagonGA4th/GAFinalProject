@@ -11,10 +11,10 @@
       <Filter>5_Misc</Filter>
     </ClInclude>
     <ClInclude Include="LowDX11Logic.h">
-      <Filter>2_LowDX11</Filter>
+      <Filter>3_GraphicsResources\2_LowDX11</Filter>
     </ClInclude>
     <ClInclude Include="LowDX11Storage.h">
-      <Filter>2_LowDX11</Filter>
+      <Filter>3_GraphicsResources\2_LowDX11</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsResourceManager.h">
       <Filter>3_GraphicsResources\GraphicsResourceManager</Filter>
@@ -195,18 +195,22 @@
     <ClInclude Include="GBufferDepthStencil.h">
       <Filter>0_Main\GBuffers\GBufferDepthStencil</Filter>
     </ClInclude>
-    <ClInclude Include="MaterialParser.h" />
-    <ClInclude Include="ShaderParsingData.h" />
+    <ClInclude Include="MaterialParser.h">
+      <Filter>8_Helpers\MaterialParser</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderParsingData.h">
+      <Filter>8_Helpers\MaterialParser\ShaderParsingData</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
     <ClCompile Include="LowDX11Logic.cpp">
-      <Filter>2_LowDX11</Filter>
+      <Filter>3_GraphicsResources\2_LowDX11</Filter>
     </ClCompile>
     <ClCompile Include="LowDX11Storage.cpp">
-      <Filter>2_LowDX11</Filter>
+      <Filter>3_GraphicsResources\2_LowDX11</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsResourceManager.cpp">
       <Filter>3_GraphicsResources\GraphicsResourceManager</Filter>
@@ -363,7 +367,9 @@
     <ClCompile Include="GBufferDepthStencil.cpp">
       <Filter>0_Main\GBuffers\GBufferDepthStencil</Filter>
     </ClCompile>
-    <ClCompile Include="MaterialParser.cpp" />
+    <ClCompile Include="MaterialParser.cpp">
+      <Filter>8_Helpers\MaterialParser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -374,9 +380,6 @@
     </Filter>
     <Filter Include="5_Misc">
       <UniqueIdentifier>{aa7de633-70a4-451c-a86e-ad1527be0c5e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_LowDX11">
-      <UniqueIdentifier>{577db36a-a07a-4467-ba45-4eee9ec08406}</UniqueIdentifier>
     </Filter>
     <Filter Include="3_GraphicsResources">
       <UniqueIdentifier>{650e58e0-fcc6-485b-86a0-e101de1badf0}</UniqueIdentifier>
@@ -605,6 +608,12 @@
     </Filter>
     <Filter Include="8_Helpers\MaterialParser">
       <UniqueIdentifier>{e3f86a17-cc31-4047-9192-e38e1672a170}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\2_LowDX11">
+      <UniqueIdentifier>{577db36a-a07a-4467-ba45-4eee9ec08406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\MaterialParser\ShaderParsingData">
+      <UniqueIdentifier>{6b7b660e-302b-4608-bc72-3582afa311a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
