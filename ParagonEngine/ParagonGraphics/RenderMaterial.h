@@ -47,7 +47,7 @@ namespace Pg::Graphics
 		virtual void InternalUnload() override;
 
 	public:
-		//SetXXX 함수들.
+		//SetXXX 함수들. Vertex Shader, Pixel Shader 전용이 다르다.
 		void SetBoolVS(const std::string& varName, bool value);
 		void SetBoolPS(const std::string& varName, bool value);
 		void SetUnsignedIntVS(const std::string& varName, unsigned int value);
