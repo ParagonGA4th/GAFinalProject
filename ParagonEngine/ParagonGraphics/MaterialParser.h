@@ -30,13 +30,9 @@ namespace Pg::Graphics
 
 	private:
 		void ParseShaderMat(pugi::xml_node* shdNode, ShaderParsingData* parsingData);
-
+		void LoadShaderIntrinsics(RenderMaterial::MatShaderIntrinsics* intrinsic, ShaderParsingData* parseData);
 	private:
-		eCbVarType GetCbVarType(const std::string& varString);
 		void GetCbVarValue(pugi::xml_node* parNode, eCbVarType varType, CbVarValue& varValue);
-
-		eTexVarType GetTexVarType(const std::string& varString);
-		eTexReturnVarType GetTexReturnVarType(const std::string& varString);
 
 	private:
 		std::unique_ptr<ShaderParsingData> _vsParseData = nullptr;

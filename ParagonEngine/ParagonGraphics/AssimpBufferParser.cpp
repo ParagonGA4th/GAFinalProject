@@ -353,13 +353,13 @@ namespace Pg::Graphics::Helper
 						///CHANGING HERE 
 						
 						//일단은 해당 리소스대로 일단 GraphicsResourceManager에 추가.
-						tGraphicsResourceManager->LoadResource(tCompletePath, eAssetDefine::_2DTEXTURE);
+						tGraphicsResourceManager->LoadResource(tCompletePath, eAssetDefine::_TEXTURE2D);
 						//AssetManager와 연동 위해.
-						tGraphicsResourceManager->AddSecondaryResource(tCompletePath, eAssetDefine::_2DTEXTURE);
+						tGraphicsResourceManager->AddSecondaryResource(tCompletePath, eAssetDefine::_TEXTURE2D);
 					}
 
 					//이미 동일한 파일 이름으로 로드된 RenderTexture2D가 있다.
-					auto tTexture2dData = tGraphicsResourceManager->GetResource(tCompletePath, Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+					auto tTexture2dData = tGraphicsResourceManager->GetResource(tCompletePath, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 					tMatCluster->_atsList[j] = static_cast<RenderTexture2D*>(tTexture2dData.get());
 				}
 			}

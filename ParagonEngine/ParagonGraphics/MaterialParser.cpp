@@ -1,13 +1,17 @@
 #include "MaterialParser.h"
 #include "RenderMaterial.h"
-
+#include "RenderTexture.h"
+#include "GraphicsResourceManager.h"
+#include "GraphicsResourceHelper.h"
 
 #include <algorithm>
 #include <cassert>
 
 namespace Pg::Graphics
 {
-	
+	using Pg::Graphics::Manager::GraphicsResourceManager;
+	using Pg::Graphics::Helper::GraphicsResourceHelper;
+
 	MaterialParser::MaterialParser()
 	{
 
@@ -44,7 +48,10 @@ namespace Pg::Graphics
 
 	void MaterialParser::LoadRenderMaterial(RenderMaterial* renderMat)
 	{
-		///231225, 이거 하고 있었음.
+		//VS
+		LoadShaderIntrinsics(renderMat->_vsIntrinsics.get(), _vsParseData.get());
+		//PS
+		LoadShaderIntrinsics(renderMat->_psIntrinsics.get(), _psParseData.get());
 	}
 
 	void MaterialParser::Reset()
@@ -113,7 +120,7 @@ namespace Pg::Graphics
 					{
 						assert(false && ".pgmat에 애초에 발견되지 못하는 값이 있으면 안됨.");
 					}
-					it->second._varType = GetCbVarType(tVarChildNode.attribute("Type").value());
+					it->second._varType = GraphicsResourceHelper::GetCbVarType(tVarChildNode.attribute("Type").value());
 					it->second._size = std::stoul(tVarChildNode.attribute("Size").value());
 					it->second._startOffset = std::stoul(tVarChildNode.attribute("StartOffset").value());
 					GetCbVarValue(&tVarChildNode, it->second._varType, it->second._varValue);
@@ -150,8 +157,8 @@ namespace Pg::Graphics
 						assert(false && ".pgmat에 애초에 발견되지 못하는 값이 있으면 안됨.");
 					}
 
-					it->second._textureType = GetTexVarType(tVarChildNode.attribute("Type").value());
-					it->second._srvReturnType = GetTexReturnVarType(tVarChildNode.attribute("ResourceReturnType").value());
+					it->second._textureType = GraphicsResourceHelper::GetTexVarType(tVarChildNode.attribute("Type").value());
+					it->second._srvReturnType = GraphicsResourceHelper::GetTexReturnVarType(tVarChildNode.attribute("ResourceReturnType").value());
 					it->second._registerCount = std::stoul(tVarChildNode.attribute("RegisterCount").value());
 					it->second._fileName = tVarChildNode.attribute("Value").value();
 				}
@@ -160,46 +167,6 @@ namespace Pg::Graphics
 			//Texture2D
 			//Texture2DArray
 			//TextureCube
-		}
-	}
-
-
-	eCbVarType MaterialParser::GetCbVarType(const std::string& varString)
-	{
-		if (varString.compare("bool") == 0)
-		{
-			return _CB_BOOL;
-		}
-		else if (varString.compare("uint") == 0)
-		{
-			return _CB_UINT;
-		}
-		else if (varString.compare("int") == 0)
-		{
-			return _CB_INT;
-		}
-		else if (varString.compare("float") == 0)
-		{
-			return _CB_FLOAT;
-		}
-		else if (varString.compare("float2") == 0)
-		{
-			return _CB_FLOAT2;
-		}
-		else if (varString.compare("float3") == 0)
-		{
-			return _CB_FLOAT3;
-		}
-		else if (varString.compare("float4") == 0)
-		{
-			return _CB_FLOAT4;
-		}
-		else
-		{
-			//여기까지 오면 안된다.
-			assert(false && "Invalid Type");
-			//유효하지 않다.
-			return _CB_BOOL;
 		}
 	}
 
@@ -276,62 +243,95 @@ namespace Pg::Graphics
 		}
 	}
 
-	eTexVarType MaterialParser::GetTexVarType(const std::string& varString)
+	void MaterialParser::LoadShaderIntrinsics(RenderMaterial::MatShaderIntrinsics* intrinsic, ShaderParsingData* parseData)
 	{
-		if (varString.compare("Texture1D") == 0)
-		{
-			return _TEX_TEXTURE1D;
-		}
-		else if (varString.compare("Texture2D") == 0)
-		{
-			return _TEX_TEXTURE2D;
-		}
-		else if (varString.compare("Texture2DArray") == 0)
-		{
-			return _TEX_TEXTURE2DARRAY;
-		}
-		else if (varString.compare("TextureCube") == 0)
-		{
-			return _TEX_TEXTURECUBE;
-		}
-		else
-		{
-			//여기까지 오면 안된다.
-			assert(false && "Invalid Type");
-			//유효하지 않다.
-			return _TEX_TEXTURE1D;
-		}
-	}
+		//<ConstantBuffer>
+		//ByteCount만큼 Constant Buffer 값을 놓는다. + 기록.
+		intrinsic->_cbBufferSize = parseData->_cbData._byteCount;
+		intrinsic->_cbByteUpdateBuffer->resize(intrinsic->_cbBufferSize);
 
-	eTexReturnVarType MaterialParser::GetTexReturnVarType(const std::string& varString)
-	{
-		if (varString.compare("PG_RETURN_TYPE_UNORM") == 0)
+		//Register Number 기록.
+		intrinsic->_cbRegisterNum = parseData->_cbData._registerCount;
+
+		//바이트 버퍼에 값 등 나열.
+		for (int i = 0; i < parseData->_cbData._varData.size(); i++)
 		{
-			return _TEXRET_UNORM;
+			intrinsic->_cbByteVector.push_back(CbMaterialPair());
+			CbMaterialPair& tAddedCbMatPair = intrinsic->_cbByteVector.back();
+
+			//Variable Name 옮기기.
+			tAddedCbMatPair.first = parseData->_cbData._varData[i].first;
+			//Structured Binding.
+			auto& [bVarType, bByteOffset] = tAddedCbMatPair.second;
+			//VarType 가져오기.
+			bVarType = parseData->_cbData._varData[i].second._varType;
+			//ByteOffset 가져오기.
+			bByteOffset = parseData->_cbData._varData[i].second._startOffset;
+
+			//실제로 ByteBuffer에 값 넣기. ByteOffset = Index 1대1 대응 가능하다.
+			CbVarValue& tVarParsedValue = parseData->_cbData._varData[i].second._varValue;
+			switch (bVarType)
+			{
+				case (_CB_BOOL):
+				{
+					//HLSL식 Bool = 4Byte. == C식 BOOL Typedef.
+					intrinsic->_cbByteUpdateBuffer->putInt(static_cast<int>(std::get<_CB_BOOL>(tVarParsedValue)), bByteOffset);
+				}
+				break;
+				case (_CB_UINT):
+				{
+					intrinsic->_cbByteUpdateBuffer->putUnsignedInt(std::get<_CB_UINT>(tVarParsedValue), bByteOffset);
+				}
+				break;
+				case (_CB_INT):
+				{
+					intrinsic->_cbByteUpdateBuffer->putInt(std::get<_CB_INT>(tVarParsedValue), bByteOffset);
+				}
+				break;
+				case (_CB_FLOAT):
+				{
+					intrinsic->_cbByteUpdateBuffer->putFloat(std::get<_CB_FLOAT>(tVarParsedValue), bByteOffset);
+				}
+				break;
+				case (_CB_FLOAT2):
+				{
+					intrinsic->_cbByteUpdateBuffer->PutXMFloat2(std::get<_CB_FLOAT2>(tVarParsedValue), bByteOffset);
+				}
+				break;
+				case (_CB_FLOAT3):
+				{
+					intrinsic->_cbByteUpdateBuffer->PutXMFloat3(std::get<_CB_FLOAT3>(tVarParsedValue), bByteOffset);
+				}
+				break;
+				case (_CB_FLOAT4):
+				{
+					intrinsic->_cbByteUpdateBuffer->PutXMFloat4(std::get<_CB_FLOAT4>(tVarParsedValue), bByteOffset);
+				}
+				break;
+			}
 		}
-		else if (varString.compare("PG_RETURN_TYPE_SNORM") == 0)
+		//</ConstantBuffer>
+
+		//<Textures>
+		for (int i = 0; i < parseData->_texData._varData.size(); i++)
 		{
-			return _TEXRET_SNORM;
+			intrinsic->_texPlaceVector.push_back(TexMaterialPair());
+			TexMaterialPair& tAddedTexMatPair = intrinsic->_texPlaceVector.back();
+
+			//Variable Name
+			tAddedTexMatPair.first = parseData->_texData._varData[i].first;
+			//Structured Binding
+			auto& [bTexType, bRegisterNum, bRenderTexture] = tAddedTexMatPair.second;
+
+			bTexType = parseData->_texData._varData[i].second._textureType;
+			bRegisterNum = parseData->_texData._varData[i].second._registerCount;
+			
+			//실제 파일을 넣는 방식: 그래픽스 리소스 매니저에서 찾아야 한다!
+			auto it = GraphicsResourceManager::Instance()->GetResourceByName(
+				parseData->_texData._varData[i].second._fileName, GraphicsResourceHelper::GetAssetDefine(bTexType));
+			bRenderTexture = static_cast<RenderTexture*>(it.get());
 		}
-		else if (varString.compare("PG_RETURN_TYPE_SINT") == 0)
-		{
-			return _TEXRET_SINT;
-		}
-		else if (varString.compare("PG_RETURN_TYPE_UINT") == 0)
-		{
-			return _TEXRET_UINT;
-		}
-		else if (varString.compare("PG_RETURN_TYPE_FLOAT") == 0)
-		{
-			return _TEXRET_FLOAT;
-		}
-		else
-		{
-			//여기까지 오면 안된다.
-			assert(false && "Invalid Type");
-			//유효하지 않다.
-			return _TEXRET_UNORM;
-		}
+		//</Textures>
 	}
 
 }
