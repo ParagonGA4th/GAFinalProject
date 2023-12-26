@@ -443,6 +443,13 @@ namespace Pg::Engine::Physic
 		}
 	}
 
+
+	void PhysicSystem::MakeRayCast(Pg::Data::GameObject* obj)
+	{
+
+	}
+
+
 	void PhysicSystem::AddObjectToScene()
 	{
 		for (auto& rigidDynamic : _rigidDynamicVec)
@@ -470,5 +477,4 @@ namespace Pg::Engine::Physic
 			static_cast<Pg::Data::StaticCollider*>(rigid->userData)->Flush();
 		}*/
 	}
-
 }
