@@ -401,6 +401,7 @@ namespace Pg::Engine::Physic
 			
 				//_pxScene->addActor(*rigid);
 
+				//Rigid 설정하기
 				capCol->SetPxRigidDynamic(rigid);
 				rigid->userData = capCol;
 				_rigidDynamicVec.push_back(rigid);
@@ -426,6 +427,8 @@ namespace Pg::Engine::Physic
 
 			for (auto& collider : colliderVec)
 			{
+				///PxPlane이 잘 안되는 것 같아 일단 박스처럼 생성.
+				///추후에 PxPlane으로 출력할 예정.
 				Pg::Data::PlaneCollider* planeCol = dynamic_cast<Pg::Data::PlaneCollider*>(collider);
 				physx::PxShape* shape = _physics->createShape(physx::PxBoxGeometry(planeCol->GetWidth() / 2, 0.1f, planeCol->GetDepth() / 2), *_material);
 				Pg::Math::PGFLOAT3 normal = planeCol->GetNormalVector();
