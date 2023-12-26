@@ -1,7 +1,10 @@
 #include "AssetBasic2DLoader.h"
 #include "LowDX11Storage.h"
 
+#include "RenderTexture1D.h"
 #include "RenderTexture2D.h"
+#include "RenderTexture2DArray.h"
+#include "RenderTextureCube.h"
 #include "RenderFont.h"
 #include "RenderCubemap.h"
 
@@ -21,20 +24,24 @@ namespace Pg::Graphics::Loader
 		
 	}
 
+	void AssetBasic2DLoader::LoadTexture1D(const std::string& path, RenderTexture1D* outTextureData)
+	{
+		LoadInternalRenderTexture(path, outTextureData);
+	}
+
 	void AssetBasic2DLoader::LoadTexture2D(const std::string& path, RenderTexture2D* outTextureData)
 	{
-		//한글 Path는 넘어오지 못하겠지만, 일단은.
-		std::wstring tWStrPath;
-		tWStrPath.assign(path.begin(), path.end());
+		LoadInternalRenderTexture(path, outTextureData);
+	}
 
-		if (ResourceHelper::IsResourceDDS(path))
-		{
-			HR(DirectX::CreateDDSTextureFromFile(_DXStorage->_device, tWStrPath.c_str(), &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
-		}
-		else
-		{
-			HR(DirectX::CreateWICTextureFromFile(_DXStorage->_device, tWStrPath.c_str(), &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
-		}
+	void AssetBasic2DLoader::LoadTexture2DArray(const std::string& path, RenderTexture2DArray* outTextureData)
+	{
+		LoadInternalRenderTexture(path, outTextureData);
+	}
+
+	void AssetBasic2DLoader::LoadTextureCube(const std::string& path, RenderTextureCube* outTextureData)
+	{
+		LoadInternalRenderTexture(path, outTextureData);
 	}
 
 	void AssetBasic2DLoader::LoadFont(const std::string& path, RenderFont* outFontData)
@@ -159,6 +166,22 @@ namespace Pg::Graphics::Loader
 		ID3D11Resource* tTexture = nullptr;
 		assert(ResourceHelper::IsResourceDDS(path));
 		HR(DirectX::CreateDDSTextureFromFile(_DXStorage->_device, path.c_str(), &tTexture, &(outCubemapData->_srv)));
+	}
+
+	void AssetBasic2DLoader::LoadInternalRenderTexture(const std::string& path, RenderTexture* outTextureData)
+	{
+		//한글 Path는 넘어오지 못하겠지만, 일단은.
+		std::wstring tWStrPath;
+		tWStrPath.assign(path.begin(), path.end());
+
+		if (ResourceHelper::IsResourceDDS(path))
+		{
+			HR(DirectX::CreateDDSTextureFromFile(_DXStorage->_device, tWStrPath.c_str(), &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
+		}
+		else
+		{
+			HR(DirectX::CreateWICTextureFromFile(_DXStorage->_device, tWStrPath.c_str(), &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
+		}
 	}
 
 }

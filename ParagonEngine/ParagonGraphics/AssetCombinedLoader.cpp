@@ -53,7 +53,6 @@ namespace Pg::Graphics::Loader
 	void AssetCombinedLoader::LoadRenderMaterial(const std::string& path, RenderMaterial* renderMat)
 	{
 		_matParser->ParsePgMat(path);
-
 		//Action.
 		_matParser->LoadRenderMaterial(renderMat);
 		_matParser->Reset();

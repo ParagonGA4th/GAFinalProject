@@ -1,11 +1,16 @@
 #pragma once
 #include "../ParagonData/AssetDefines.h"
 
+#include "ShaderParsingData.h"
+
 //<실제 Graphics Resource의 목록>
 #include "RenderMaterial.h"
 #include "RenderVertexShader.h"
 #include "RenderPixelShader.h"
+#include "RenderTexture1D.h"
 #include "RenderTexture2D.h"
+#include "RenderTexture2DArray.h"
+#include "RenderTextureCube.h"
 #include "RenderFont.h"
 #include "RenderCubemap.h"
 #include "Asset3DModelData.h"
@@ -25,6 +30,8 @@
 // GraphicResourcesHelper
 namespace Pg::Graphics::Helper
 {
+	using Pg::Data::Enums::eAssetDefine;
+
 	//GraphicsResourceHelper 그 자체.
 	class GraphicsResourceHelper
 	{
@@ -37,9 +44,13 @@ namespace Pg::Graphics::Helper
 		//Renderer 컴포넌트가 추가될 수록 업데이트되어야 한다.
 		static short IsRenderer3D(const std::string& rendererTypeName);
 
-	};
-
+		//그래픽스 : Material Loading!
+		static eTexVarType GetTexVarType(const std::string& varString);
+		static eTexReturnVarType GetTexReturnVarType(const std::string& varString);
+		static eCbVarType GetCbVarType(const std::string& varString);
+		static eAssetDefine GetAssetDefine(eTexVarType texVarType);
 	
+	};
 }
 
 namespace Pg::Graphics::Helper
@@ -56,9 +67,27 @@ namespace Pg::Graphics::Helper
 	};
 
 	template <>
-	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_2DTEXTURE>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_TEXTURE1D>
+	{
+		using type = Pg::Graphics::RenderTexture1D; //2D Texture로 타입 변환.
+	};
+
+	template <>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_TEXTURE2D>
 	{
 		using type = Pg::Graphics::RenderTexture2D; //2D Texture로 타입 변환.
+	};
+
+	template <>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY>
+	{
+		using type = Pg::Graphics::RenderTexture2DArray; //2D Texture로 타입 변환.
+	};
+
+	template <>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_TEXTURECUBE>
+	{
+		using type = Pg::Graphics::RenderTextureCube; //2D Texture로 타입 변환.
 	};
 
 	template <>

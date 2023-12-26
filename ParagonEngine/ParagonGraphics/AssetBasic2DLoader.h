@@ -10,7 +10,11 @@ namespace Pg::Graphics
 {
 	class LowDX11Storage;
 
+	class RenderTexture;
+	class RenderTexture1D;
 	class RenderTexture2D;
+	class RenderTexture2DArray;
+	class RenderTextureCube;
 	class RenderFont;
 	class RenderCubemap;
 }
@@ -22,8 +26,17 @@ namespace Pg::Graphics::Loader
 	public:
 		AssetBasic2DLoader();
 
+		//Texture1D를 로드한다.
+		void LoadTexture1D(const std::string& path, RenderTexture1D* outTextureData);
+
 		//Texture2D(Image)를 로드한다.
 		void LoadTexture2D(const std::string& path, RenderTexture2D* outTextureData);
+
+		//Texture2DArray를 로드한다.
+		void LoadTexture2DArray(const std::string& path, RenderTexture2DArray* outTextureData);
+
+		//TextureCube를 로드한다.
+		void LoadTextureCube(const std::string& path, RenderTextureCube* outTextureData);
 
 		//Font(Text)를 로드한다.
 		void LoadFont(const std::string& path, RenderFont* outFontData);
@@ -33,6 +46,11 @@ namespace Pg::Graphics::Loader
 
 	private:
 		Pg::Graphics::LowDX11Storage* _DXStorage;
+
+	private:
+		//일단 현재 RenderTexture 상속체들이 별개의 Create 함수를 필요로 하지 않으니, 
+		//내부적으로 일괄적으로 호출되는 코드이다.
+		void LoadInternalRenderTexture(const std::string& path, RenderTexture* outTextureData);
 
 	private:
 		//Cubemap을 만들기 위한 별도의 함수.

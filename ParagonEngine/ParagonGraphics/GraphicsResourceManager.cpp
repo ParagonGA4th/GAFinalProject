@@ -56,9 +56,22 @@ namespace Pg::Graphics::Manager
 		std::string tFilePath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(filePath);
 
 		using Pg::Data::Enums::eAssetDefine;
-		if (define == eAssetDefine::_2DTEXTURE)
+
+		if (define == eAssetDefine::_TEXTURE1D)
 		{
-			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(tFilePath, define);
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_TEXTURE1D)>(tFilePath, define);
+		}
+		else if (define == eAssetDefine::_TEXTURE2D)
+		{
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_TEXTURE2D)>(tFilePath, define);
+		}
+		else if (define == eAssetDefine::_TEXTURE2DARRAY)
+		{
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_TEXTURE2DARRAY)>(tFilePath, define);
+		}
+		else if (define == eAssetDefine::_TEXTURECUBE)
+		{
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_TEXTURECUBE)>(tFilePath, define);
 		}
 		else if (define == eAssetDefine::_FONT)
 		{
@@ -87,7 +100,7 @@ namespace Pg::Graphics::Manager
 		else
 		{
 			assert(false); //여기까지 와도 안된다.
-			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(tFilePath, define);
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_TEXTURE2D)>(tFilePath, define);
 		}
 	}
 
@@ -99,12 +112,23 @@ namespace Pg::Graphics::Manager
 	std::shared_ptr<Pg::Data::Resources::GraphicsResource> GraphicsResourceManager::GetResource(const std::string& path, Pg::Data::Enums::eAssetDefine define)
 	{
 		std::string tFilePath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(path);
-
 		using Pg::Data::Enums::eAssetDefine;
 
-		if (define == eAssetDefine::_2DTEXTURE)
+		if (define == eAssetDefine::_TEXTURE1D)
 		{
-			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(tFilePath);
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_TEXTURE1D)>(tFilePath);
+		}
+		else if (define == eAssetDefine::_TEXTURE2D)
+		{
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_TEXTURE2D)>(tFilePath);
+		}
+		else if (define == eAssetDefine::_TEXTURE2DARRAY)
+		{
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_TEXTURE2DARRAY)>(tFilePath);
+		}
+		else if (define == eAssetDefine::_TEXTURECUBE)
+		{
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_TEXTURECUBE)>(tFilePath);
 		}
 		else if (define == eAssetDefine::_FONT)
 		{
@@ -134,7 +158,7 @@ namespace Pg::Graphics::Manager
 		{
 			assert(false);
 			//여기까지 와도 안된다.
-			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_2DTEXTURE)>(tFilePath);
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_TEXTURE2D)>(tFilePath);
 		}
 	}
 
@@ -182,13 +206,13 @@ namespace Pg::Graphics::Manager
 		{
 		case PG_TextureType_DIFFUSE:
 		{
-			auto tRes = GetResource(Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+			auto tRes = GetResource(Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 			return static_cast<RenderTexture2D*>(tRes.get());
 		}
 		break;
 		case PG_TextureType_NORMALS:
 		{
-			auto tRes = GetResource(Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+			auto tRes = GetResource(Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 			return static_cast<RenderTexture2D*>(tRes.get());
 		}
 		break;

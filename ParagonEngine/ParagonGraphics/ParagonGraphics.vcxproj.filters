@@ -11,10 +11,10 @@
       <Filter>5_Misc</Filter>
     </ClInclude>
     <ClInclude Include="LowDX11Logic.h">
-      <Filter>3_GraphicsResources\2_LowDX11</Filter>
+      <Filter>2_LowDX11</Filter>
     </ClInclude>
     <ClInclude Include="LowDX11Storage.h">
-      <Filter>3_GraphicsResources\2_LowDX11</Filter>
+      <Filter>2_LowDX11</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsResourceManager.h">
       <Filter>3_GraphicsResources\GraphicsResourceManager</Filter>
@@ -56,7 +56,7 @@
       <Filter>3_GraphicsResources\Loaders\AssetCombinedLoader</Filter>
     </ClInclude>
     <ClInclude Include="RenderTexture2D.h">
-      <Filter>3_GraphicsResources\RenderTexture2D</Filter>
+      <Filter>3_GraphicsResources\RenderTextures\RenderTexture2D</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsResourceHelper.h">
       <Filter>8_Helpers\GraphicsResourceHelper</Filter>
@@ -112,8 +112,6 @@
     <ClInclude Include="RenderFont.h">
       <Filter>3_GraphicsResources\RenderFont</Filter>
     </ClInclude>
-    <ClInclude Include="RenderObjectLightList.h" />
-    <ClInclude Include="RenderObjectLight.h" />
     <ClInclude Include="LightStructs.h">
       <Filter>10_Structs\RenderObjectList</Filter>
     </ClInclude>
@@ -148,7 +146,7 @@
       <Filter>3_GraphicsResources\SystemShader\SystemVertexShader</Filter>
     </ClInclude>
     <ClInclude Include="RenderCubemap.h">
-      <Filter>3_GraphicsResources\RenderCubemap</Filter>
+      <Filter>3_GraphicsResources\RenderTextures\RenderCubemap</Filter>
     </ClInclude>
     <ClInclude Include="WireframeRenderObject.h">
       <Filter>4_RenderObject\WireframeRenderObject</Filter>
@@ -201,16 +199,34 @@
     <ClInclude Include="ShaderParsingData.h">
       <Filter>8_Helpers\MaterialParser\ShaderParsingData</Filter>
     </ClInclude>
+    <ClInclude Include="RenderObjectLightList.h">
+      <Filter>5_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectLight.h">
+      <Filter>5_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTextureCube.h">
+      <Filter>3_GraphicsResources\RenderTextures\RenderTextureCube</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTexture1D.h">
+      <Filter>3_GraphicsResources\RenderTextures\RenderTexture1D</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTexture2DArray.h">
+      <Filter>3_GraphicsResources\RenderTextures\RenderTexture2DArray</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTexture.h">
+      <Filter>3_GraphicsResources\RenderTextures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
     <ClCompile Include="LowDX11Logic.cpp">
-      <Filter>3_GraphicsResources\2_LowDX11</Filter>
+      <Filter>2_LowDX11</Filter>
     </ClCompile>
     <ClCompile Include="LowDX11Storage.cpp">
-      <Filter>3_GraphicsResources\2_LowDX11</Filter>
+      <Filter>2_LowDX11</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsResourceManager.cpp">
       <Filter>3_GraphicsResources\GraphicsResourceManager</Filter>
@@ -249,7 +265,7 @@
       <Filter>3_GraphicsResources\Loaders\AssetCombinedLoader</Filter>
     </ClCompile>
     <ClCompile Include="RenderTexture2D.cpp">
-      <Filter>3_GraphicsResources\RenderTexture2D</Filter>
+      <Filter>3_GraphicsResources\RenderTextures\RenderTexture2D</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsResourceHelper.cpp">
       <Filter>8_Helpers\GraphicsResourceHelper</Filter>
@@ -290,8 +306,6 @@
     <ClCompile Include="RenderFont.cpp">
       <Filter>3_GraphicsResources\RenderFont</Filter>
     </ClCompile>
-    <ClCompile Include="RenderObjectLightList.cpp" />
-    <ClCompile Include="RenderObjectLight.cpp" />
     <ClCompile Include="MultimaterialMesh.cpp">
       <Filter>11_TempMultiMesh</Filter>
     </ClCompile>
@@ -320,7 +334,7 @@
       <Filter>3_GraphicsResources\SystemShader\SystemVertexShader</Filter>
     </ClCompile>
     <ClCompile Include="RenderCubemap.cpp">
-      <Filter>3_GraphicsResources\RenderCubemap</Filter>
+      <Filter>3_GraphicsResources\RenderTextures\RenderCubemap</Filter>
     </ClCompile>
     <ClCompile Include="WireframeRenderObject.cpp">
       <Filter>4_RenderObject\WireframeRenderObject</Filter>
@@ -369,6 +383,24 @@
     </ClCompile>
     <ClCompile Include="MaterialParser.cpp">
       <Filter>8_Helpers\MaterialParser</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectLight.cpp">
+      <Filter>5_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectLightList.cpp">
+      <Filter>5_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTextureCube.cpp">
+      <Filter>3_GraphicsResources\RenderTextures\RenderTextureCube</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTexture1D.cpp">
+      <Filter>3_GraphicsResources\RenderTextures\RenderTexture1D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTexture2DArray.cpp">
+      <Filter>3_GraphicsResources\RenderTextures\RenderTexture2DArray</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTexture.cpp">
+      <Filter>3_GraphicsResources\RenderTextures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -428,9 +460,6 @@
     </Filter>
     <Filter Include="8_Helpers\GraphicsResourceHelper">
       <UniqueIdentifier>{5e99454b-e123-4aad-a1e9-b04a7f5f27aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3_GraphicsResources\RenderTexture2D">
-      <UniqueIdentifier>{b58c515e-ab8f-4565-9dee-c36c20115eb4}</UniqueIdentifier>
     </Filter>
     <Filter Include="3_GraphicsResources\Asset3DModelData\Data">
       <UniqueIdentifier>{2378ba46-73ff-4ad8-afbd-fda3e746a452}</UniqueIdentifier>
@@ -528,9 +557,6 @@
     <Filter Include="3_GraphicsResources\RenderShader\RenderPixelShader">
       <UniqueIdentifier>{905c22c4-84cc-4f64-9c8b-e83160b6f2d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3_GraphicsResources\RenderCubemap">
-      <UniqueIdentifier>{f37f8d83-c235-4e23-8aea-d16b41a934f6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="4_RenderObject\WireframeRenderObject">
       <UniqueIdentifier>{21302cff-981d-4a96-a0be-a738bbe568e3}</UniqueIdentifier>
     </Filter>
@@ -609,11 +635,29 @@
     <Filter Include="8_Helpers\MaterialParser">
       <UniqueIdentifier>{e3f86a17-cc31-4047-9192-e38e1672a170}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3_GraphicsResources\2_LowDX11">
-      <UniqueIdentifier>{577db36a-a07a-4467-ba45-4eee9ec08406}</UniqueIdentifier>
-    </Filter>
     <Filter Include="8_Helpers\MaterialParser\ShaderParsingData">
       <UniqueIdentifier>{6b7b660e-302b-4608-bc72-3582afa311a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_LowDX11">
+      <UniqueIdentifier>{577db36a-a07a-4467-ba45-4eee9ec08406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\RenderTextures">
+      <UniqueIdentifier>{98a2ad60-f636-459e-9591-44a0f2f3df78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\RenderTextures\RenderCubemap">
+      <UniqueIdentifier>{f37f8d83-c235-4e23-8aea-d16b41a934f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\RenderTextures\RenderTextureCube">
+      <UniqueIdentifier>{2fdc0d6e-bfa8-45eb-8908-c5bc0e643b37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\RenderTextures\RenderTexture2DArray">
+      <UniqueIdentifier>{2df29e28-6742-42b7-b9b6-a300c51ed5de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\RenderTextures\RenderTexture1D">
+      <UniqueIdentifier>{c171e771-e7c4-4afa-9b0a-a7378a935378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\RenderTextures\RenderTexture2D">
+      <UniqueIdentifier>{b58c515e-ab8f-4565-9dee-c36c20115eb4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

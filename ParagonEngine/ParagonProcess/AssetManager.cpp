@@ -160,9 +160,9 @@ namespace Pg::Core::Manager
 		LoadResource("../Resources/3DModels/StaticMesh/WoodRoadCone/WoodRoadCone.fbx", eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/StaticMesh/TwoRoadWoodTorus/TwoRoadWoodTorus.fbx", eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/BasicMesh/Plane/plane.fbx", eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/Textures/tw_normal.png", eAssetDefine::_2DTEXTURE);
-		LoadResource("../Resources/Textures/tw_diffuse.png", eAssetDefine::_2DTEXTURE);
-		LoadResource("../Resources/Textures/wook.jpg", eAssetDefine::_2DTEXTURE);
+		LoadResource("../Resources/Textures/tw_normal.png", eAssetDefine::_TEXTURE2D);
+		LoadResource("../Resources/Textures/tw_diffuse.png", eAssetDefine::_TEXTURE2D);
+		LoadResource("../Resources/Textures/wook.jpg", eAssetDefine::_TEXTURE2D);
 		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", eAssetDefine::_FONT);
 		LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", eAssetDefine::_FONT);
 		LoadResource("../Resources/Textures/room.dds", eAssetDefine::_CUBEMAP);
@@ -177,8 +177,8 @@ namespace Pg::Core::Manager
 	{
 		using Pg::Data::Enums::eAssetDefine;
 
-		LoadResource(Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH, eAssetDefine::_2DTEXTURE);
-		LoadResource(Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH, eAssetDefine::_2DTEXTURE);
+		LoadResource(Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
+		LoadResource(Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
 	}
 
 }

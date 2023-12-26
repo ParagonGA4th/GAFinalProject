@@ -47,6 +47,10 @@
     <ClInclude Include="RenderObjectCubemapList.h" />
     <ClInclude Include="RenderObjectWireframeList.h" />
     <ClInclude Include="RenderPixelShader.h" />
+    <ClInclude Include="RenderTexture.h" />
+    <ClInclude Include="RenderTexture1D.h" />
+    <ClInclude Include="RenderTexture2DArray.h" />
+    <ClInclude Include="RenderTextureCube.h" />
     <ClInclude Include="RenderVertexShader.h" />
     <ClInclude Include="ShaderParsingData.h" />
     <ClInclude Include="SystemPixelShader.h" />
@@ -154,6 +158,10 @@
     <ClCompile Include="MultimaterialMesh.cpp" />
     <ClCompile Include="RenderObject3D.cpp" />
     <ClCompile Include="RenderPixelShader.cpp" />
+    <ClCompile Include="RenderTexture.cpp" />
+    <ClCompile Include="RenderTexture1D.cpp" />
+    <ClCompile Include="RenderTexture2DArray.cpp" />
+    <ClCompile Include="RenderTextureCube.cpp" />
     <ClCompile Include="RenderVertexShader.cpp" />
     <ClCompile Include="SystemPixelShader.cpp" />
     <ClCompile Include="WireframeRenderObject.cpp" />
