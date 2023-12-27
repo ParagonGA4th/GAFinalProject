@@ -91,26 +91,19 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::BeginRender()
 	{
-		_deferredRenderer->BeginRender();
+		_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_depthStencilState, 0);
+
+		_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
+
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
 	}
 
 	void ParagonRenderer::Render(Pg::Data::CameraData* camData)
 	{	
 		// Deferred 1st Pass
-		_deferredRenderer->BindFirstPass();
-		_deferredRenderer->RenderFirstPass(_renderObject3DList.get(), camData);
-		_deferredRenderer->UnbindFirstPass();
+		_deferredRenderer->Render(_renderObject3DList.get(), camData);
 		
 		//이제 여기가 Shader를 담고 있어야 한다.
-		// Deferred Lighting Pass
-		//_deferredRenderer->BindLightingPass();
-		//_deferredRenderer->RenderLight(_lights.get(), camData);
-		//_deferredRenderer->UnbindLightingPass();
-		//
-		//// Deferred Final Pass
-		//_deferredRenderer->BindSecondPass();
-		//_deferredRenderer->RenderSecondPass();
-		//_deferredRenderer->UnbindSecondPass();
 
 		// Forward
 		_forward3dRenderer->Render(_cubeMapList.get(), 0, camData);
