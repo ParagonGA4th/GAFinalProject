@@ -217,6 +217,15 @@
     <ClInclude Include="RenderTexture.h">
       <Filter>3_GraphicsResources\Resources\RenderTexture</Filter>
     </ClInclude>
+    <ClInclude Include="IRenderPass.h">
+      <Filter>0_Main\RenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstRenderPass.h">
+      <Filter>0_Main\RenderPass\FirstRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="OpaqueQuadRenderPass.h">
+      <Filter>0_Main\RenderPass\OpaqueQuadRenderPass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -401,6 +410,12 @@
     </ClCompile>
     <ClCompile Include="RenderTexture.cpp">
       <Filter>3_GraphicsResources\Resources\RenderTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="FirstRenderPass.cpp">
+      <Filter>0_Main\RenderPass\FirstRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="OpaqueQuadRenderPass.cpp">
+      <Filter>0_Main\RenderPass\OpaqueQuadRenderPass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -605,9 +620,6 @@
     <Filter Include="6_HLSL\System\Pipeline\Others">
       <UniqueIdentifier>{61659c06-c288-416a-a264-5b491fafd66b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6_HLSL\System\Pipeline\SecondStage">
-      <UniqueIdentifier>{1e00a65a-ff2f-4f75-b130-fd43fd6a57b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="6_HLSL\System\Pipeline\TempForward">
       <UniqueIdentifier>{5cc1c07b-7adb-4c6e-9c3e-33101d692436}</UniqueIdentifier>
     </Filter>
@@ -662,6 +674,15 @@
     <Filter Include="5_Misc\Shader">
       <UniqueIdentifier>{cbc5a6ca-3861-4110-afef-551c8d1d0b32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="0_Main\RenderPass">
+      <UniqueIdentifier>{b448a453-6fc8-4a56-bd6d-099ed77b88c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass\FirstRenderPass">
+      <UniqueIdentifier>{3157d69f-ab00-40e8-9704-a984429cdac2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass\OpaqueQuadRenderPass">
+      <UniqueIdentifier>{449cc130-19ee-4d9d-883c-be93c1eeaf50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
@@ -693,12 +714,6 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\TempForward\TempForwardVSSkinned.hlsl">
       <Filter>6_HLSL\System\Pipeline\TempForward</Filter>
-    </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\SecondStage\SecondStage_PS.hlsl">
-      <Filter>6_HLSL\System\Pipeline\SecondStage</Filter>
-    </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\SecondStage\SecondStage_VS.hlsl">
-      <Filter>6_HLSL\System\Pipeline\SecondStage</Filter>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\CubemapPS.hlsl">
       <Filter>6_HLSL\System\Pipeline\Others</Filter>

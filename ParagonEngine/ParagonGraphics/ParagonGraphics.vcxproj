@@ -31,11 +31,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="FirstRenderPass.h" />
+    <ClInclude Include="IRenderPass.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantBufferBase.h" />
     <ClInclude Include="ConstantBufferDefine.h" />
     <ClInclude Include="GBufferDepthStencil.h" />
     <ClInclude Include="MaterialParser.h" />
+    <ClInclude Include="OpaqueQuadRenderPass.h" />
     <ClInclude Include="RenderCubemap.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -125,10 +128,12 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ConstantBufferBase.cpp" />
+    <ClCompile Include="FirstRenderPass.cpp" />
     <ClCompile Include="Forward3DRenderer.cpp" />
     <ClCompile Include="GBufferDepthStencil.cpp" />
     <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="MaterialParser.cpp" />
+    <ClCompile Include="OpaqueQuadRenderPass.cpp" />
     <ClCompile Include="RenderCubemap.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -213,8 +218,6 @@
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\CubemapVS.hlsl" />
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\PrimitivePS.hlsl" />
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\PrimitiveVS.hlsl" />
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\SecondStage\SecondStage_PS.hlsl" />
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\SecondStage\SecondStage_VS.hlsl" />
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\TempForward\TempForwardPS.hlsl" />
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\TempForward\TempForwardVS.hlsl" />
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\TempForward\TempForwardVSSkinned.hlsl" />
