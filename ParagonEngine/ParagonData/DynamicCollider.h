@@ -42,7 +42,9 @@ namespace Pg::Data
 		void SetPxRigidDynamic(physx::PxRigidDynamic* rigid);
 		physx::PxRigidDynamic* GetRigidBodyDynamic();
 
+		///속도의 증감
 		void SetVelocity(PGFLOAT3 velo);
+		void AddVelocity(PGFLOAT3 velo);
 		PGFLOAT3 GetVelocity() const;
 
 	public:
