@@ -66,7 +66,7 @@ void Pg::Engine::TestScene::Initialize()
 
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Capsule1");
-	tObj2_2->GetComponent<Transform>()->SetPosition({ 1.0f, 0.0f, 0.0f });
+	tObj2_2->GetComponent<Transform>()->SetPosition({ 1.0f, 5.0f, 0.0f });
 	tObj2_2->AddComponent<CapsuleCollider>();
 	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
 	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
@@ -83,7 +83,7 @@ void Pg::Engine::TestScene::Initialize()
 
 
 	Pg::Data::GameObject* tObj3 = tCurrentScene->AddObject("Capsule2");
-	tObj3->GetComponent<Transform>()->SetPosition({ -1.0f, -3.0f, 5.0f });
+	tObj3->GetComponent<Transform>()->SetPosition({ -1.0f, 5.0f, 5.0f });
 	tObj3->GetComponent<Transform>()->SetScale({ 3.0f, 3.0f, 3.0f });
 	//tObj3->GetComponent<Transform>()->SetLocalRotationEuler(0.0f, 100.0f, 0.0f);
 	tObj3->AddComponent<CapsuleCollider>();
@@ -95,7 +95,7 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj3->GetComponent<MoveForwardBack>()->SetActive(false);
 
 	Pg::Data::GameObject* tObj4 = tCurrentScene->AddObject("Cube6");
-	tObj4->GetComponent<Transform>()->SetPosition({ -2.0f, 0.0f, 0.0f });
+	tObj4->GetComponent<Transform>()->SetPosition({ -2.0f, 1.0f, 0.0f });
 	//tObj4->GetComponent<Transform>()->SetScale(2.0f, 2.0f, 2.0f);
 	//tObj4->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.5f, -2.0f);
 	tObj4->AddComponent<StaticBoxCollider>();
@@ -106,28 +106,28 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj4->AddComponent<MoveForwardBack>();
 	//tObj4->GetComponent<MoveForwardBack>()->SetActive(true);
 
-	Pg::Data::GameObject* tObj5 = tCurrentScene->AddObject("Cube7");
-	tObj5->GetComponent<Transform>()->SetPosition({ 5.0f, 0.0f, 0.0f });
-	tObj5->GetComponent<Transform>()->SetLocalRotationEuler(1.5f, 2.0f, 4.0f);
-	//tObj5->AddComponent<BoxCollider>();
-	//tObj5->GetComponent<BoxCollider>()->SetPoisitonOffset({ 1.0f,0.0f,0.0f });
-	tObj5->AddComponent<StaticMeshRenderer>();
-	tObj5->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx");
-	tObj5->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	//tObj5->AddComponent<MoveForwardBack>();
-	//tObj5->GetComponent<MoveForwardBack>()->SetActive(true);
+	//Pg::Data::GameObject* tObj5 = tCurrentScene->AddObject("Cube7");
+	//tObj5->GetComponent<Transform>()->SetPosition({ 5.0f, 0.0f, 0.0f });
+	//tObj5->GetComponent<Transform>()->SetLocalRotationEuler(1.5f, 2.0f, 4.0f);
+	////tObj5->AddComponent<BoxCollider>();
+	////tObj5->GetComponent<BoxCollider>()->SetPoisitonOffset({ 1.0f,0.0f,0.0f });
+	//tObj5->AddComponent<StaticMeshRenderer>();
+	//tObj5->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx");
+	//tObj5->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	////tObj5->AddComponent<MoveForwardBack>();
+	////tObj5->GetComponent<MoveForwardBack>()->SetActive(true);
 
-	Pg::Data::GameObject* tObj6 = tCurrentScene->AddObject("Cube8");
-	tObj6->GetComponent<Transform>()->SetPosition({ -5.0f, 0.0f, 0.0f });
-	tObj6->GetComponent<Transform>()->SetLocalScale( 2.0f, 2.0f, 2.0f );
-	tObj6->GetComponent<Transform>()->SetLocalRotationEuler(0.0f, -1.57f, 0.0f);
-	//tObj6->AddComponent<BoxCollider>();
-	tObj6->AddComponent<StaticMeshRenderer>();
-	tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
-	tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	//Pg::Data::GameObject* tObj6 = tCurrentScene->AddObject("Cube8");
+	//tObj6->GetComponent<Transform>()->SetPosition({ -5.0f, 0.0f, 0.0f });
+	//tObj6->GetComponent<Transform>()->SetLocalScale( 2.0f, 2.0f, 2.0f );
+	//tObj6->GetComponent<Transform>()->SetLocalRotationEuler(0.0f, -1.57f, 0.0f);
+	////tObj6->AddComponent<BoxCollider>();
+	//tObj6->AddComponent<StaticMeshRenderer>();
+	//tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
+	//tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
-	tObj7->GetComponent<Transform>()->SetPosition({ 0.0f, -5.0f, 0.0f });
+	tObj7->GetComponent<Transform>()->SetPosition({ 0.0f, 0.0f, 0.0f });
 	tObj7->GetComponent<Transform>()->SetLocalScale(1.0f, 1.0f, 1.0f);
 	tObj7->GetComponent<Transform>()->SetLocalRotationEuler(0.0f, 0.0f, 0.0f);
 	tObj7->AddComponent<PlaneCollider>();

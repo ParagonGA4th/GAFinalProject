@@ -77,6 +77,7 @@ namespace  Pg::Engine::Input
 		assert(_map->MapBool(eKeyCode::MoveRight, _keyboardId, gainput::KeyD));
 		assert(_map->MapBool(eKeyCode::MoveUp, _keyboardId, gainput::KeyE));
 		assert(_map->MapBool(eKeyCode::MoveDown, _keyboardId, gainput::KeyQ));
+		assert(_map->MapBool(eKeyCode::KeyZ, _keyboardId, gainput::KeyZ));
 
 		assert(_map->MapBool(eKeyCode::ButtonConfirm, _keyboardId, gainput::KeyReturn));
 		assert(_map->MapBool(eKeyCode::ButtonConfirm, _padId, gainput::PadButtonA));
