@@ -73,7 +73,11 @@ namespace Pg::Graphics::Manager
 		//리소스가 있는 경우가 강제될 때, 리소스를 반환한다. (eAssetDefine으로)
 		std::shared_ptr<GraphicsResource> GetResource(const std::string& path, Pg::Data::Enums::eAssetDefine define);
 
+		//이름만을 가지고 리소스를 반환받을 수 있는 함수.
 		std::shared_ptr<GraphicsResource> GetResourceByName(const std::string& name, Pg::Data::Enums::eAssetDefine define);
+
+		//한 타입을 명시하면 이에 속하는 모든 리소스를 반환하는 함수. 부하가 큰 편.
+		std::vector<std::shared_ptr<GraphicsResource>> GetAllResourcesByDefine(Pg::Data::Enums::eAssetDefine define);
 
 		//2차 리소스 등으로 AssetManager를 거치지 않고 GraphicsResourceManager에서 CreateResource되었을 때,
 		//명시적으로 SecondaryResourceList에 해당 사항을 추가할 수 있는 방법.

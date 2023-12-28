@@ -15,6 +15,8 @@ namespace Pg::Graphics
 {
 	class RenderTexture;
 	class MaterialParser;
+	class RenderVertexShader;
+	class RenderPixelShader;
 
 	namespace Loader
 	{
@@ -46,6 +48,11 @@ namespace Pg::Graphics
 		virtual void InternalLoad() override;
 		virtual void InternalUnload() override;
 
+		// 매 오브젝트마다 업데이트되는거 아님. 
+		// 같은 Material 들고 있는 오브젝트 단위로 업데이트: Texture, SRV, Material별 ConstantBuffer.
+		void Bind();
+		void Unbind();
+
 	public:
 		//SetXXX 함수들. Vertex Shader, Pixel Shader 전용이 다르다.
 		void SetBoolVS(const std::string& varName, bool value);
@@ -76,13 +83,16 @@ namespace Pg::Graphics
 			std::unique_ptr<Pg::Util::ByteBuffer> _cbByteUpdateBuffer;
 			uint32_t _cbBufferSize;
 			uint32_t _cbRegisterNum;
-			
+
 			std::vector<CbMaterialPair> _cbByteVector;
 			std::vector<TexMaterialPair> _texPlaceVector;
 		};
 	private:
 		std::unique_ptr<RenderMaterial::MatShaderIntrinsics> _vsIntrinsics;
 		std::unique_ptr<RenderMaterial::MatShaderIntrinsics> _psIntrinsics;
+
+		RenderVertexShader* _vertexShader;
+		RenderPixelShader* _pixelShader;
 	};
 
 }

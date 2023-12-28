@@ -301,4 +301,14 @@ namespace Pg::Graphics
 		_psIntrinsics->_cbByteUpdateBuffer->PutXMFloat4(value, tByteOffset);
 	}
 
+	void RenderMaterial::Bind()
+	{
+
+	}
+
+	void RenderMaterial::Unbind()
+	{
+
+	}
+
 }

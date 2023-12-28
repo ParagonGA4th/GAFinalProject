@@ -46,14 +46,19 @@ namespace Pg::Graphics
 
 	void FirstRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
+		//모든 오브젝트 렌더링.
 		for (auto& it : renderObjectList->_list)
 		{
-			if (it.second->GetBaseRenderer()->GetActive())
+			//Vector
+			for (int i = 0; i < it.second->size(); i++)
 			{
-				it.second->UpdateConstantBuffers(camData);
-				it.second->BindConstantBuffers();
-				it.second->Render();
-				it.second->UnbindConstantBuffers();
+				if (it.second->at(i).second->GetBaseRenderer()->GetActive())
+				{
+					it.second->at(i).second->UpdateConstantBuffers(camData);
+					it.second->at(i).second->BindBuffers();
+					it.second->at(i).second->Render();
+					it.second->at(i).second->UnbindBuffers();
+				}
 			}
 		}
 	}

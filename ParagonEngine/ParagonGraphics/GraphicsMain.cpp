@@ -137,7 +137,6 @@ namespace Pg::Graphics
 			//새로 Scene이 바뀌었을 경우 RenderObject 구성을 바꾼다.
 			//나중에는 Load 로직이 별도로 들어가야.
 			_renderer->ParseSceneData(scene);
-			_renderer->PlaceCubemapList();
 			_currentScene = scene;
 		}
 		assert(_currentScene != nullptr);
@@ -145,9 +144,6 @@ namespace Pg::Graphics
 		_renderer->Render(_camData);
 		//DebugRender 기능, 일단은 디폴트로 켜두었음.
 		_renderer->DebugRender(_camData);
-
-		// 현재 렌더링되고 있는 3D 오브젝트의 갯수를 Scene으로 전달.
-		scene->_graphicsDebugData._renderedObjectCount = _renderer->Get3DObjectCount();
 	}
 
 	void GraphicsMain::EndRender()

@@ -2,6 +2,7 @@
 #include "RenderObject3D.h"
 #include "../ParagonData/GameObject.h"
 #include <unordered_map>
+#include <vector>
 #include <memory>
 
 /// <summary>
@@ -14,6 +15,17 @@ namespace Pg::Graphics
 	struct RenderObject3DList
 	{
 	public:
-		std::unordered_map<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>> _list;
+		std::vector<std::string> _materialPathSet;
+
+		std::unordered_map<std::string, /* Material Path */ 
+			std::unique_ptr<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>> _list; /* Vector */
+	
+	public:
+		void Clear()
+		{
+			_list.clear();
+			_materialPathSet.clear();
+		}
 	};
+
 }

@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include "ShaderParsingData.h"
+#include "RenderMaterial.h"
 #include "../ParagonUtil/pugixml.hpp"
 
 /// <summary>
@@ -13,7 +14,7 @@
 
 namespace Pg::Graphics
 {
-	class RenderMaterial;
+
 }
 
 namespace Pg::Graphics
@@ -25,11 +26,14 @@ namespace Pg::Graphics
 		~MaterialParser();
 
 		void ParsePgMat(const std::string& pgmatPath);
+		//실제로 리소스 매니저에 있는 VS, PS를 배치한다.
+		void PlaceShaders(RenderMaterial* renderMat);
 		void LoadRenderMaterial(RenderMaterial* renderMat);
 		void Reset();
 
 	private:
 		void ParseShaderMat(pugi::xml_node* shdNode, ShaderParsingData* parsingData);
+		
 		void LoadShaderIntrinsics(RenderMaterial::MatShaderIntrinsics* intrinsic, ShaderParsingData* parseData);
 	private:
 		void GetCbVarValue(pugi::xml_node* parNode, eCbVarType varType, CbVarValue& varValue);
