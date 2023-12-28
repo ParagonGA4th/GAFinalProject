@@ -128,7 +128,7 @@ namespace Pg::Graphics
 		}
 	}
 
-	void RenderObjectStaticMesh3D::BindConstantBuffers()
+	void RenderObjectStaticMesh3D::BindBuffers()
 	{
 		for (int i = 0; i < _constantBuffers.size(); ++i)
 		{
@@ -136,7 +136,7 @@ namespace Pg::Graphics
 		}
 	}
 
-	void RenderObjectStaticMesh3D::UnbindConstantBuffers()
+	void RenderObjectStaticMesh3D::UnbindBuffers()
 	{
 		for (int i = 0; i < _constantBuffers.size(); ++i)
 		{

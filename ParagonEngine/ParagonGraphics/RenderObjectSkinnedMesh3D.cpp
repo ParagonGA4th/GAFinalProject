@@ -103,4 +103,9 @@ namespace Pg::Graphics
 
 	}
 
+	void RenderObjectSkinnedMesh3D::UnbindBuffers()
+	{
+
+	}
+
 }

@@ -89,7 +89,7 @@
       <Filter>10_Structs\MaterialCluster</Filter>
     </ClInclude>
     <ClInclude Include="DemoGeometryGenerator.h">
-      <Filter>10_Structs\9_Util\DemoGeometryGenerator</Filter>
+      <Filter>9_Util\DemoGeometryGenerator</Filter>
     </ClInclude>
     <ClInclude Include="GeometryGenerator.h">
       <Filter>5_Misc</Filter>
@@ -226,6 +226,9 @@
     <ClInclude Include="OpaqueQuadRenderPass.h">
       <Filter>0_Main\RenderPass\OpaqueQuadRenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicsSceneParser.h">
+      <Filter>8_Helpers\GraphicsSceneParser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -298,7 +301,7 @@
       <Filter>10_Structs\MaterialCluster</Filter>
     </ClCompile>
     <ClCompile Include="DemoGeometryGenerator.cpp">
-      <Filter>10_Structs\9_Util\DemoGeometryGenerator</Filter>
+      <Filter>9_Util\DemoGeometryGenerator</Filter>
     </ClCompile>
     <ClCompile Include="GeometryGenerator.cpp">
       <Filter>5_Misc</Filter>
@@ -417,6 +420,9 @@
     <ClCompile Include="OpaqueQuadRenderPass.cpp">
       <Filter>0_Main\RenderPass\OpaqueQuadRenderPass</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicsSceneParser.cpp">
+      <Filter>8_Helpers\GraphicsSceneParser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -502,12 +508,6 @@
     </Filter>
     <Filter Include="10_Structs\MaterialCluster">
       <UniqueIdentifier>{d996588d-430c-4bd3-b54b-218f353e692d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="10_Structs\9_Util">
-      <UniqueIdentifier>{ac8e1c62-b6b6-4db3-9a29-773a07312fee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="10_Structs\9_Util\DemoGeometryGenerator">
-      <UniqueIdentifier>{96a84336-e59f-4c8b-adc6-f708a51266cd}</UniqueIdentifier>
     </Filter>
     <Filter Include="3_GraphicsResources\Asset3DModelData\Define\AssetTextureType">
       <UniqueIdentifier>{da6af180-f6dd-4275-8b14-d4734f08cad6}</UniqueIdentifier>
@@ -682,6 +682,15 @@
     </Filter>
     <Filter Include="0_Main\RenderPass\OpaqueQuadRenderPass">
       <UniqueIdentifier>{449cc130-19ee-4d9d-883c-be93c1eeaf50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_Util">
+      <UniqueIdentifier>{ac8e1c62-b6b6-4db3-9a29-773a07312fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_Util\DemoGeometryGenerator">
+      <UniqueIdentifier>{96a84336-e59f-4c8b-adc6-f708a51266cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\GraphicsSceneParser">
+      <UniqueIdentifier>{b052a2bd-ff95-4976-87eb-a72c2e8875d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

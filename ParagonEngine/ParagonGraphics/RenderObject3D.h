@@ -5,6 +5,7 @@
 #include "ConstantBuffer.h"
 
 #include "DX11Headers.h"
+#include <string>
 
 /// <summary>
 /// GameObject가 그래픽엔진의 렌더링 로직이랑 1대1 연동될 수 있게 하는 클래스이다.
@@ -45,59 +46,19 @@ namespace Pg::Graphics
 	public:
 		RenderObject3D(Pg::Data::BaseRenderer* baseRenderer);
 		virtual ~RenderObject3D();
-		
-		virtual void Initialize() abstract;
-		
+			
+		//FirstRenderPass에 쓰인다.
 		virtual void UpdateConstantBuffers(Pg::Data::CameraData* camData) abstract;
-		virtual void BindConstantBuffers() abstract;
+		virtual void BindBuffers() abstract;
 		virtual void Render() abstract;
-		virtual void UnbindConstantBuffers() abstract;
-		
-	public:	
-		void AddTextureToArray(RenderTexture2D* texture);
-		void BindTextureArray();
-		void ClearTextureArray();
-
-	public:
-		void SetVertexShader(RenderVertexShader* shader) { this->_vertexShader = shader; }
-		void SetPixelShader(RenderPixelShader* shader) { this->_pixelShader = shader; }
-
-		RenderVertexShader* GetVertexShader() { return _vertexShader;  }
-		RenderPixelShader* GetPixelShader() { return _pixelShader; }
+		virtual void UnbindBuffers() abstract;
 
 	protected:
 		LowDX11Storage* _DXStorage;
-
-		ID3D11Buffer* VB;
-		ID3D11Buffer* IB;
-		RenderVertexShader* _vertexShader;
-		RenderPixelShader* _pixelShader;
-		RenderMaterial* _renderMaterial;
-
-	protected:
-		virtual void BindBuffers() abstract;
-
-		void BindShaders();
-		void UnbindShaders();
-
-	protected:
 		Asset3DModelData* _modelData = nullptr;
-		ConstantBufferDefine::cbPerObjectBase* _constantBufferStruct;
-
-	private:
-		std::vector<RenderTexture2D*> _textures;
-
-	public:
-		// 상수 버퍼들을 저장하는 벡터
-		std::vector<ConstantBufferBase*> _constantBuffers;
-
-		// 상수 버퍼 데이터를 추가하는 함수
-		template <typename T>
-		void CreateConstantBuffer(T* cbData)
-		{
-			ConstantBufferBase* tCBuffer = new ConstantBuffer<T>(cbData);
-			_constantBuffers.emplace_back(tCBuffer);
-		}
-
+		
+		//어떤 Material이랑 연동되었는지, 알 필요가 있다. -> 이미 RendererBase3D에 있다.
+		//Parsing 과정에서 알아내야 하기 때문. (Sorting 때문에)
+		//std::string _materialName;
 	};
 }

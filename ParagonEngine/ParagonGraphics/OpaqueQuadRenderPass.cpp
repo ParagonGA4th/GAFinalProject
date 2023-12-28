@@ -6,11 +6,12 @@
 #include "GeometryGenerator.h"
 #include "RenderVertexShader.h"
 #include "RenderPixelShader.h"
+#include "RenderMaterial.h"
 
 namespace Pg::Graphics
 {
-
-	OpaqueQuadRenderPass::OpaqueQuadRenderPass()
+	OpaqueQuadRenderPass::OpaqueQuadRenderPass(RenderMaterial* renderMat) :
+		_renderMaterial(renderMat)
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 
@@ -30,18 +31,25 @@ namespace Pg::Graphics
 
 	void OpaqueQuadRenderPass::BindPass()
 	{
-		BindBuffers();
+		BindVertexIndexBuffer();
+		_renderMaterial->Bind();
 		//BindShaders(); 바뀔 수 있어야 한다. -> 어떤 셰이더가 들어오고, 처리하는지.
 	}
 
 	void OpaqueQuadRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
-
+		for (auto& it : *(renderObjectList->_list.at(_renderMaterial->GetFilePath())))
+		{
+			it.second->UpdateConstantBuffers(camData);
+			it.second->BindBuffers();
+			it.second->Render();
+			it.second->UnbindBuffers();
+		}
 	}
 
 	void OpaqueQuadRenderPass::UnbindPass()
 	{
-
+		_renderMaterial->Unbind();
 	}
 
 	void OpaqueQuadRenderPass::SetupNextRequirements()
@@ -90,7 +98,7 @@ namespace Pg::Graphics
 		hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &_quadIB);
 	}
 
-	void OpaqueQuadRenderPass::BindBuffers()
+	void OpaqueQuadRenderPass::BindVertexIndexBuffer()
 	{
 		// Bind Buffers
 		UINT stride = sizeof(GeometryGenerator::GeomVertex_PosNormalTex);
@@ -99,11 +107,6 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->IASetIndexBuffer(_quadIB, DXGI_FORMAT_R32_UINT, 0);
 	}
 
-	void OpaqueQuadRenderPass::BindShaders()
-	{
-		
-	}
 
-	
 
 }

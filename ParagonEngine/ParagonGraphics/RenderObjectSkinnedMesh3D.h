@@ -20,13 +20,10 @@ namespace Pg::Graphics
 
 		virtual void Render() override;
 
-	private:
-		virtual void BindBuffers() override;
-
 	public:
 		virtual void UpdateConstantBuffers(Pg::Data::CameraData* camData) override;
-		virtual void BindConstantBuffers() override;
-		virtual void UnbindConstantBuffers() override;
+		virtual void BindBuffers() override;
+		virtual void UnbindBuffers() override;
 
 	private:
 		//Skinned Mesh에 독립적임.

@@ -1,5 +1,4 @@
 #include "MaterialParser.h"
-#include "RenderMaterial.h"
 #include "RenderTexture.h"
 #include "GraphicsResourceManager.h"
 #include "GraphicsResourceHelper.h"
@@ -334,4 +333,16 @@ namespace Pg::Graphics
 		//</Textures>
 	}
 
+	void MaterialParser::PlaceShaders(RenderMaterial* renderMat)
+	{
+		//실제 파일을 넣는 방식: 그래픽스 리소스 매니저에서 찾아야 한다!
+		//VS
+		auto vsRes = GraphicsResourceManager::Instance()->GetResourceByName(
+			_vsParseData->_shaderName, Pg::Data::Enums::eAssetDefine::_RENDER_VERTEXSHADER);
+		renderMat->_vertexShader = static_cast<RenderVertexShader*>(vsRes.get());
+		//PS
+		auto psRes = GraphicsResourceManager::Instance()->GetResourceByName(
+			_psParseData->_shaderName, Pg::Data::Enums::eAssetDefine::_RENDER_PIXELSHADER);
+		renderMat->_pixelShader = static_cast<RenderPixelShader*>(psRes.get());
+	}
 }

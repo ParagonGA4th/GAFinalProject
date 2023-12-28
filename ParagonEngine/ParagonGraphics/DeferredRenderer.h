@@ -1,5 +1,4 @@
 #pragma once
-
 #include "DX11Headers.h"
 
 #include <vector>
@@ -15,6 +14,7 @@ namespace Pg::Graphics
 {
 	class RenderObject3DList;
 	class LowDX11Storage;
+	class IRenderPass;
 }
 
 namespace Pg::Graphics
@@ -23,15 +23,19 @@ namespace Pg::Graphics
 	{
 	public:
 		DeferredRenderer();
+		~DeferredRenderer();
 
 	public:
 		void Initialize();
 		void Render(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 	
+	private:
+		void PushRenderPasses();
+		void InitializeRenderPasses();
 		
-
 	private:
 		LowDX11Storage* _DXStorage;
+		std::vector<IRenderPass*> _renderPassVector;
 	
 	};
 }

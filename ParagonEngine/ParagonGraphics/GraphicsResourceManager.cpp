@@ -244,6 +244,22 @@ namespace Pg::Graphics::Manager
 		return GetResource(tFullPath, define);
 	}
 
+	std::vector<std::shared_ptr<Pg::Data::Resources::GraphicsResource>> GraphicsResourceManager::GetAllResourcesByDefine(Pg::Data::Enums::eAssetDefine define)
+	{
+		std::vector<std::shared_ptr<Pg::Data::Resources::GraphicsResource>> tRet;
+
+		for (auto& it : _resources)
+		{
+			auto res = it.second.lock();
+			assert(res);
+			if (res->GetAssetDefine() == define)
+			{
+				tRet.push_back(res);
+			}
+		}
+
+		return tRet;
+	}
 	
 
 }
