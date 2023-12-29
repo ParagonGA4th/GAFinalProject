@@ -13,9 +13,6 @@
     <ClCompile Include="Script.cpp">
       <Filter>2_Component\Script</Filter>
     </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>2_Component\Transform</Filter>
-    </ClCompile>
     <ClCompile Include="BaseRenderer.cpp">
       <Filter>2_Component\Renderer\BaseClass</Filter>
     </ClCompile>
@@ -95,6 +92,9 @@
     </ClCompile>
     <ClCompile Include="PlaneCollider.cpp">
       <Filter>2_Component\Collider\StaticCollider\PlaneCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>2_Component\Script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
