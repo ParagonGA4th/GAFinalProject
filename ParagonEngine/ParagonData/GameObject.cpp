@@ -105,22 +105,46 @@ namespace Pg::Data
 
 	void GameObject::OnCollisionStay()
 	{
+		if (!_isActive)
+		{
+			return;
+		}
 
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->OnCollisionStay(); });
 	}
 
 	void GameObject::OnCollisionEnter()
 	{
+		if (!_isActive)
+		{
+			return;
+		}
 
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->OnCollisionEnter(); });
 	}
 
 	void GameObject::OnCollisionExit()
 	{
-
+		if (!_isActive)
+		{
+			return;
+		}
+		 
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->OnCollisionExit(); });
 	}
 
 	void GameObject::OnDestroy()
 	{
+		if (!_isActive)
+		{
+			return;
+		}
 
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->OnDestroy(); });
 	}
 
 	std::unordered_map<std::string, Component*>& GameObject::GetComponentList()

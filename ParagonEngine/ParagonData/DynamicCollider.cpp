@@ -25,9 +25,6 @@ namespace Pg::Data
 
 	void DynamicCollider::UpdatePhysics(PGFLOAT3 pos, PGQuaternion quat)
 	{
-
-
-
 		PGFLOAT4 localPos = PGFloat4MultiplyMatrix({ pos, 1.0f }, GetOffsetTM().Inverse());
 		PGQuaternion localQuat = PGQuaternionMultiply(quat, GetRotationOffset().Conjugate());
 
@@ -119,6 +116,14 @@ namespace Pg::Data
 	{
 		physx::PxVec3 vec = _rigid->getLinearVelocity();
 		return { vec.x, vec.y, vec.z };
+	}
+
+
+	void DynamicCollider::AddVelocity(PGFLOAT3 velo)
+	{
+		physx::PxVec3 vec = { velo.x, velo.y , velo.z };
+		vec += _rigid->getLinearVelocity();
+		_rigid->setLinearVelocity(vec);
 	}
 
 	void DynamicCollider::Flush()

@@ -17,6 +17,7 @@ namespace Pg::Data
 {
 	class GameObject;
 	class Transform;
+	class Collider;
 }
 
 namespace Pg::Engine
@@ -59,7 +60,7 @@ namespace Pg::Engine::Physic
 		void MakeDynamicSphereCollider(Pg::Data::GameObject* obj);
 		void MakeDynamicCapsuleCollider(Pg::Data::GameObject* obj);
 
-		void MakeRayCast(Pg::Data::GameObject* obj);
+		Pg::Data::Collider* MakeRayCast(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length);
 
 	private:
 		//Rigid 정보를 담아놓는 벡터

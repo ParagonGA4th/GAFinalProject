@@ -446,12 +446,12 @@ namespace Pg::Engine::Physic
 		}
 	}
 
-
-	void PhysicSystem::MakeRayCast(Pg::Data::GameObject* obj)
+	///Rayscast 생성하기
+	Pg::Data::Collider* PhysicSystem::MakeRayCast(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length)
 	{
-
+		Pg::Data::Collider* raycastCol = nullptr;
+		return raycastCol;
 	}
-
 
 	void PhysicSystem::AddObjectToScene()
 	{
@@ -480,4 +480,6 @@ namespace Pg::Engine::Physic
 			static_cast<Pg::Data::StaticCollider*>(rigid->userData)->Flush();
 		}*/
 	}
+
+
 }
