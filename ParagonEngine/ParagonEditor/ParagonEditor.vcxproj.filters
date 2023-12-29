@@ -194,5 +194,8 @@
     <Filter Include="2_Windows\MenuBar">
       <UniqueIdentifier>{70b38a76-d7bb-4df6-9e77-799c102a7b72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Visit_Struct">
+      <UniqueIdentifier>{ea5e6b9c-734c-465d-a4d8-52025f4060cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
