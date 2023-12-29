@@ -32,7 +32,7 @@ void Pg::Serialize::Serializer::SerializeInt(pugi::xml_node* node, const std::st
 	intNode.text().set(std::to_string(val).c_str());
 }
 
-void Pg::Serialize::Serializer::SerializeVector2(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT2 val)
+void Pg::Serialize::Serializer::SerializePGFloat2(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT2 val)
 {
 	pugi::xml_node vec2Node = node->append_child(name.c_str());
 
@@ -42,7 +42,7 @@ void Pg::Serialize::Serializer::SerializeVector2(pugi::xml_node* node, const std
 	child2.text().set(std::to_string(val.y).c_str());
 }
 
-void Pg::Serialize::Serializer::SerializeVector3(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT3 val)
+void Pg::Serialize::Serializer::SerializePGFloat3(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT3 val)
 {
 	pugi::xml_node vec3Node = node->append_child(name.c_str());
 
@@ -54,7 +54,7 @@ void Pg::Serialize::Serializer::SerializeVector3(pugi::xml_node* node, const std
 	child3.text().set(std::to_string(val.z).c_str());
 }
 
-void Pg::Serialize::Serializer::SerializeVector4(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT4 val)
+void Pg::Serialize::Serializer::SerializePGFloat4(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT4 val)
 {
 	pugi::xml_node vec4Node = node->append_child(name.c_str());
 
@@ -68,7 +68,7 @@ void Pg::Serialize::Serializer::SerializeVector4(pugi::xml_node* node, const std
 	w.text().set(std::to_string(val.w).c_str());
 }
 
-void Pg::Serialize::Serializer::SerializeQuat(pugi::xml_node* node, const std::string& name, Pg::Math::PGQuaternion val)
+void Pg::Serialize::Serializer::SerializePGQuat(pugi::xml_node* node, const std::string& name, Pg::Math::PGQuaternion val)
 {
 	pugi::xml_node vec4Node = node->append_child(name.c_str());
 
@@ -304,7 +304,7 @@ int64_t Pg::Serialize::Serializer::DeserializeInt64(pugi::xml_node* node, const 
 	}
 }
 
-void Pg::Serialize::Serializer::DeserializeVec2(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT2& result)
+void Pg::Serialize::Serializer::DeserializePGFloat2(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT2& result)
 {
 	pugi::xml_node nodeName = node->child(name.c_str());
 	if (nodeName)
@@ -318,7 +318,7 @@ void Pg::Serialize::Serializer::DeserializeVec2(pugi::xml_node* node, const std:
 	}
 }
 
-Pg::Math::PGFLOAT2 Pg::Serialize::Serializer::DeserializeVec2(pugi::xml_node* node, const std::string& name)
+Pg::Math::PGFLOAT2 Pg::Serialize::Serializer::DeserializePGFloat2(pugi::xml_node* node, const std::string& name)
 {
 	pugi::xml_node nodeName = node->child(name.c_str());
 	if (nodeName)
@@ -334,7 +334,7 @@ Pg::Math::PGFLOAT2 Pg::Serialize::Serializer::DeserializeVec2(pugi::xml_node* no
 	}
 }
 
-void Pg::Serialize::Serializer::DeserializeVec3(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT3& result)
+void Pg::Serialize::Serializer::DeserializePGFloat3(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT3& result)
 {
 	pugi::xml_node nodeName = node->child(name.c_str());
 	if (nodeName)
@@ -349,7 +349,7 @@ void Pg::Serialize::Serializer::DeserializeVec3(pugi::xml_node* node, const std:
 	}
 }
 
-Pg::Math::PGFLOAT3 Pg::Serialize::Serializer::DeserializeVec3(pugi::xml_node* node, const std::string& name)
+Pg::Math::PGFLOAT3 Pg::Serialize::Serializer::DeserializePGFloat3(pugi::xml_node* node, const std::string& name)
 {
 	pugi::xml_node nodeName = node->child(name.c_str());
 	if (nodeName)
@@ -367,7 +367,7 @@ Pg::Math::PGFLOAT3 Pg::Serialize::Serializer::DeserializeVec3(pugi::xml_node* no
 }
 
 
-void Pg::Serialize::Serializer::DeserializeVec4(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT4& result)
+void Pg::Serialize::Serializer::DeserializePGFloat4(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT4& result)
 {
 	pugi::xml_node nodeName = node->child(name.c_str());
 	if (nodeName)
@@ -383,7 +383,7 @@ void Pg::Serialize::Serializer::DeserializeVec4(pugi::xml_node* node, const std:
 	}
 }
 
-Pg::Math::PGFLOAT4 Pg::Serialize::Serializer::DeserializeVec4(pugi::xml_node* node, const std::string& name)
+Pg::Math::PGFLOAT4 Pg::Serialize::Serializer::DeserializePGFloat4(pugi::xml_node* node, const std::string& name)
 {
 	pugi::xml_node nodeName = node->child(name.c_str());
 	if (nodeName)
@@ -401,7 +401,7 @@ Pg::Math::PGFLOAT4 Pg::Serialize::Serializer::DeserializeVec4(pugi::xml_node* no
 	}
 }
 
-void Pg::Serialize::Serializer::DeserializeQuaternion(pugi::xml_node* node, const std::string& name, Pg::Math::PGQuaternion& result)
+void Pg::Serialize::Serializer::DeserializePGQuaternion(pugi::xml_node* node, const std::string& name, Pg::Math::PGQuaternion& result)
 {
 	pugi::xml_node nodeName = node->child(name.c_str());
 	if (nodeName)
@@ -417,7 +417,7 @@ void Pg::Serialize::Serializer::DeserializeQuaternion(pugi::xml_node* node, cons
 	}
 }
 
-Pg::Math::PGQuaternion Pg::Serialize::Serializer::DeserializeQuaternion(pugi::xml_node* node, const std::string& name)
+Pg::Math::PGQuaternion Pg::Serialize::Serializer::DeserializePGQuaternion(pugi::xml_node* node, const std::string& name)
 {
 	pugi::xml_node nodeName = node->child(name.c_str());
 	if (nodeName)

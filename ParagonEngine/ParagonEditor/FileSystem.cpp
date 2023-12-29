@@ -117,16 +117,19 @@ void Pg::Editor::System::FileSystem::CreateParagonFile(std::unordered_map<std::s
 		for (auto& data : fileData)
 		{
 			fs::path filePath = _assetsPath + "\\" + data.first + ".pgscene";
+
 			// 파일 생성
 			std::ofstream file(filePath, std::ios::out | std::ios::trunc);
 
-			if (file.is_open()) {
+			if (file.is_open()) 
+			{
 				file << data.second; // 파일에 내용 쓰기
 				file.close(); // 파일 닫기
 			}
 		}
 	}
-	catch (const std::exception& e) {
+	catch (const std::exception& e) 
+	{
 		// 파일 생성 실패 시 예외 처리
 	}
 }
