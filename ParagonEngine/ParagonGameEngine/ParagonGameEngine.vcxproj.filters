@@ -107,9 +107,6 @@
     <Filter Include="2_System\PhysicSystem">
       <UniqueIdentifier>{ee935016-be10-42a9-86ba-64378ce5b25c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_System\SceneSystem">
-      <UniqueIdentifier>{b0b22550-0d8e-4869-9bb0-573c34426e6c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2_System\EventSystem">
       <UniqueIdentifier>{8ced1db1-43f1-40fa-8b55-a9cd484d6fe7}</UniqueIdentifier>
     </Filter>
@@ -130,6 +127,9 @@
     </Filter>
     <Filter Include="4_WorkSpace\SceneView\Scripts\RuntimeData">
       <UniqueIdentifier>{29d7e73a-378f-4789-9310-d3b1a43df4e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\SceneSystem">
+      <UniqueIdentifier>{b0b22550-0d8e-4869-9bb0-573c34426e6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
