@@ -18,6 +18,7 @@ namespace Pg::Data
 
 	void DynamicCollider::Start()
 	{
+		//각각의 축들을 Freeze 시켜주는 역할을 한다.
 		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, _isActiveX);
 		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, _isActiveY);
 		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, _isActiveZ);
@@ -34,6 +35,7 @@ namespace Pg::Data
 
 	void DynamicCollider::UpdateTransform()
 	{
+		//PxTransform을 자체 Transform과 연결시킨다.
 		using namespace Pg::Math;
 
 		PGFLOAT4 position = PGFLOAT4(GetPositionOffset(), 1.0f) * _object->_transform.GetWorldTM();
@@ -49,15 +51,6 @@ namespace Pg::Data
 		transform.q.y = rotation.y;
 		transform.q.z = rotation.z;
 		transform.q.w = rotation.w;
-
-		/*position.x = transform.p.x;
-		position.y = transform.p.y;
-		position.z = transform.p.z;
-
-		rotation.x = transform.q.x;
-		rotation.y = transform.q.y;
-		rotation.z = transform.q.z;
-		rotation.w = transform.q.w;*/
 
 		_rigid->setGlobalPose(transform);
 	}

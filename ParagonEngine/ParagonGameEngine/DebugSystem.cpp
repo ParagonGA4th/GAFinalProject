@@ -79,8 +79,8 @@ namespace Pg::Engine
 				}
 			}
 
-			DrawLineDebug({ 0.f,0.f,0.f }, { 10.f,8.f,0.f }, { 1.f,1.f,0.f,1.f });
-			DrawLineDebug({ 0.f,0.f,0.f }, { 8.f,10.f,0.f }, { 1.f,1.f,0.f,1.f });
+			//DrawLineDebug({ 0.f,0.f,0.f }, { 10.f,8.f,0.f }, { 1.f,1.f,0.f,1.f });
+			//DrawLineDebug({ 0.f,0.f,0.f }, { 8.f,10.f,0.f }, { 1.f,1.f,0.f,1.f });
 		}
 
 		assert(true);
