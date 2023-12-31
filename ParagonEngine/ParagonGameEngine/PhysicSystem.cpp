@@ -41,9 +41,23 @@ namespace Pg::Engine::Physic
 			pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
 			pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 		}
-	
+
 		// 머티리얼 생성(임의)
 		_material = _physics->createMaterial(0.1f, 0.1f, 0.5f);
+
+		///RayCast의 예시
+		physx::PxVec3 origin = { 0.0f,0.0f,0.0f };		// [in] Ray origin
+		physx::PxVec3 unitDir = { 1.0f, 1.0f, 1.0f };	// [in] Normalized ray direction
+		physx::PxReal maxDistance = 1.0f;				// [in] Raycast max distance
+
+		const physx::PxU32 bufferSize = 256;			// [in] size of 'hitBuffer'
+		physx::PxRaycastHit hitBuffer[bufferSize];		// [out] User provided buffer for results
+		physx::PxRaycastBuffer buf(hitBuffer, bufferSize); // [out] Blocking and touching hits stored here
+
+		_pxScene->raycast(origin, unitDir, maxDistance, buf);
+
+		//Collider 생성!
+		InitMakeColliders();
 
 		// ground 생성 후, 임의로 shape 붙여주기
 		/*physx::PxRigidStatic* groundPlane = PxCreatePlane(*_physics, physx::PxPlane(0, 1, 0, 0), *_material);
@@ -61,7 +75,6 @@ namespace Pg::Engine::Physic
 		physx::PxShape* exShape = _physics->createShape(physx::PxBoxGeometry(1.0f, 1.0f, 1.0f), *_material);
 		exRigid->attachShape(*exShape);
 		_pxScene->addActor(*exRigid);*/
-		InitMakeColliders();
 	}
 
 	void PhysicSystem::UpdatePhysics(float dTime)
@@ -207,6 +220,7 @@ namespace Pg::Engine::Physic
 			Pg::Data::CapsuleCollider* tCapCol = obj->GetComponent<Pg::Data::CapsuleCollider>();
 			Pg::Data::PlaneCollider* tPlaneCol = obj->GetComponent<Pg::Data::PlaneCollider>();
 
+			//어떤 Collider인지에 따라 출력을 구분한다.
 			if (tBoxCol != nullptr)
 			{
 				MakeDynamicBoxCollider(obj);
@@ -480,6 +494,4 @@ namespace Pg::Engine::Physic
 			static_cast<Pg::Data::StaticCollider*>(rigid->userData)->Flush();
 		}*/
 	}
-
-
 }
