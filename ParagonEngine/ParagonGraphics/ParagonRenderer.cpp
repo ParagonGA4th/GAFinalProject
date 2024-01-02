@@ -58,10 +58,13 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::BeginRender()
 	{
+		//Depth Stencil State 디폴트 상태로 바꾸기. 
 		_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_depthStencilState, 0);
 
+		//ClearDepthStencilView. Depth Buffer // Stencil Buffer 지우기.
 		_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
 
+		//Render Target을 디폴트로 설정.
 		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
 	}
 

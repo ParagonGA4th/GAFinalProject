@@ -34,9 +34,6 @@
     <ClInclude Include="ConstantBuffer.h">
       <Filter>3_GraphicsResources\ConstantBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="ConstantBufferBase.h">
-      <Filter>3_GraphicsResources\ConstantBuffer</Filter>
-    </ClInclude>
     <ClInclude Include="TempCamera.h">
       <Filter>5_Misc</Filter>
     </ClInclude>
@@ -254,9 +251,6 @@
     </ClCompile>
     <ClCompile Include="RenderMaterial.cpp">
       <Filter>3_GraphicsResources\Resources\RenderMaterial</Filter>
-    </ClCompile>
-    <ClCompile Include="ConstantBufferBase.cpp">
-      <Filter>3_GraphicsResources\ConstantBuffer</Filter>
     </ClCompile>
     <ClCompile Include="TempCamera.cpp">
       <Filter>5_Misc</Filter>
