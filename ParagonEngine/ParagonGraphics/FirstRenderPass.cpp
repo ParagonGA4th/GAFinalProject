@@ -29,19 +29,20 @@ namespace Pg::Graphics
 
 	void FirstRenderPass::BindPass()
 	{
-		// Bind Shaders
-		_vs->Bind();
-		_ps->Bind();
-
+		//자체적인 DSV Clear, Depth Stencil State 리셋, OMSetRenderTargets.
 		_DXStorage->_deviceContext->ClearDepthStencilView(_gBufferDepthStencil->GetDSV(), D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
-		_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidState);
 		_DXStorage->_deviceContext->OMSetDepthStencilState(_gBufferDepthStencil->GetDSState(), 0);
-		_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), _RTVs.data(), _gBufferDepthStencil->GetDSV());
 
 		for (auto& e : _RTVs)
 		{
 			_DXStorage->_deviceContext->ClearRenderTargetView(e, _DXStorage->_backgroundColor);
 		}
+
+		_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), _RTVs.data(), _gBufferDepthStencil->GetDSV());
+
+		// 셰이더 바인딩.
+		_vs->Bind();
+		_ps->Bind();
 	}
 
 	void FirstRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)

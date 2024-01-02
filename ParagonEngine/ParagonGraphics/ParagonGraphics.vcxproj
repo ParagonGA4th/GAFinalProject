@@ -35,7 +35,6 @@
     <ClInclude Include="GraphicsSceneParser.h" />
     <ClInclude Include="IRenderPass.h" />
     <ClInclude Include="ConstantBuffer.h" />
-    <ClInclude Include="ConstantBufferBase.h" />
     <ClInclude Include="ConstantBufferDefine.h" />
     <ClInclude Include="GBufferDepthStencil.h" />
     <ClInclude Include="MaterialParser.h" />
@@ -128,7 +127,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="ConstantBufferBase.cpp" />
     <ClCompile Include="FirstRenderPass.cpp" />
     <ClCompile Include="Forward3DRenderer.cpp" />
     <ClCompile Include="GBufferDepthStencil.cpp" />

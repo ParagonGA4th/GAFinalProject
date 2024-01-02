@@ -1,5 +1,8 @@
 #pragma once
 #include "RenderObject3D.h"
+#include "ConstantBuffer.h"
+#include "ConstantBufferDefine.h"
+#include <memory>
 
 /// <summary>
 /// StaticMeshRenderer 컴포넌트와 1대1 대응하는 렌더오브젝트.
@@ -24,8 +27,8 @@ namespace Pg::Graphics
 		virtual void UnbindBuffers() override;
 
 	private:
-		RenderTexture2D* _normal = nullptr;
-		RenderTexture2D* _diffuse = nullptr;
+		void BindVertexIndexBuffer();
+		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>> _cBuffer;
 	};
 }
 

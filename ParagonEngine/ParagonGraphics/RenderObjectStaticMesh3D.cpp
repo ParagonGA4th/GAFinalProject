@@ -27,6 +27,9 @@ namespace Pg::Graphics
 		//Mesh 데이터를 받기.
 		auto tModelData = GraphicsResourceManager::Instance()->GetResource(tStaticMeshRenderer->GetMeshFilePath(), eAssetDefine::_3DMODEL);
 		_modelData = static_cast<Asset3DModelData*>(tModelData.get());
+
+		//Constant Buffer Data를 생성.
+		_cBuffer = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>>();
 	}
 
 	RenderObjectStaticMesh3D::~RenderObjectStaticMesh3D()
@@ -75,23 +78,9 @@ namespace Pg::Graphics
 		}
 	}
 
-	void RenderObjectStaticMesh3D::BindBuffers()
-	{
-		///
-		//Vertex Buffer Setting.
-		UINT stride = sizeof(LayoutDefine::Vin1stStatic);
-		UINT offset = 0;
-		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(_modelData->_vertexBuffer), &stride, &offset);
-		//Index Buffer Setting.
-		_DXStorage->_deviceContext->IASetIndexBuffer(_modelData->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-	}
-
 	void RenderObjectStaticMesh3D::UpdateConstantBuffers(Pg::Data::CameraData* camData)
 	{
 		auto _DXStorage = LowDX11Storage::GetInstance();
-
-		//auto& tD3DBuffer = _modelData->_d3dBufferInfo;
-		//auto& tMatCluster = _modelData->_materialCluster;
 
 		// 상수버퍼에 들어갈 값 셋팅
 		DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());
@@ -115,11 +104,11 @@ namespace Pg::Graphics
 		float tCamDistance = 0.0f;
 		DirectX::XMStoreFloat(&tCamDistance, DirectX::XMVector3Length(tCameraPositionVec));
 
-		_constantBufferStruct->gCBuf_World = tWorldTMMat;
-		_constantBufferStruct->gCBuf_WorldInvTranspose = tWorldInvTransposeMat;
-		_constantBufferStruct->gCBuf_WorldView = tViewTMMat;
-		_constantBufferStruct->gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
-		_constantBufferStruct->gCBuf_CameraPositionW = tCameraPositionW;
+		_cBuffer->GetDataStruct()->gCBuf_World = tWorldTMMat;
+		_cBuffer->GetDataStruct()->gCBuf_WorldInvTranspose = tWorldInvTransposeMat;
+		_cBuffer->GetDataStruct()->gCBuf_WorldView = tViewTMMat;
+		_cBuffer->GetDataStruct()->gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
+		_cBuffer->GetDataStruct()->gCBuf_CameraPositionW = tCameraPositionW;
 
 		// Bind Constant Buffers
 		for (int i = 0; i < _constantBuffers.size(); ++i)
@@ -142,6 +131,17 @@ namespace Pg::Graphics
 		{
 			_constantBuffers[i]->Unbind(i);
 		}
+	}
+
+	void RenderObjectStaticMesh3D::BindVertexIndexBuffer()
+	{
+		///
+		//Vertex Buffer Setting.
+		UINT stride = sizeof(LayoutDefine::Vin1stStatic);
+		UINT offset = 0;
+		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(_modelData->_vertexBuffer), &stride, &offset);
+		//Index Buffer Setting.
+		_DXStorage->_deviceContext->IASetIndexBuffer(_modelData->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	}
 
 }
