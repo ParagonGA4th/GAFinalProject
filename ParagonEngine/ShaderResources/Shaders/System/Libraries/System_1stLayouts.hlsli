@@ -56,7 +56,7 @@ struct POut1st //RGBA
     float4 pout1st_RT2 : SV_Target2; // World Space Position (RGB), World Space Tangent.z (A)
     float4 pout1st_RT3 : SV_Target3; // 3D Model Color (RGBA)
     float4 pout1st_RT4 : SV_Target4; // Lightmap Texture UV Coords (RG), ObjectID (B), Alpha (A)
-    //Depth Stencil 딴에서 5th GBuffer가 만들어진다.
+    //Depth Stencil 딴에서 마지막 GBuffer가 만들어진다.
 };
 
 #endif //__DEFINED_SYSTEM_1STLAYOUTS_HLSL__

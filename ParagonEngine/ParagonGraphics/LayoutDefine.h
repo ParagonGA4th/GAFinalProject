@@ -19,14 +19,16 @@ namespace Pg::Graphics
 			Vin1stStatic(DirectX::XMFLOAT3 posVal);
 			Vin1stStatic(DirectX::XMFLOAT3 posVal, DirectX::XMFLOAT3 normalVal,
 				DirectX::XMFLOAT3 tangentVal, DirectX::XMFLOAT4 colorVal, 
-				DirectX::XMFLOAT3 texVal, unsigned int matIDVal);
+				DirectX::XMFLOAT3 texVal, DirectX::XMFLOAT2 lightmapUVVal, float alphaVal, unsigned int objIDVal);
 
-			DirectX::XMFLOAT3 posL;
-			DirectX::XMFLOAT3 normalL;
-			DirectX::XMFLOAT3 tangentL;
-			DirectX::XMFLOAT4 color;
-			DirectX::XMFLOAT3 tex;
-			unsigned int	  matID;
+			DirectX::XMFLOAT3 _posL;
+			DirectX::XMFLOAT3 _normalL;
+			DirectX::XMFLOAT3 _tangentL;
+			DirectX::XMFLOAT4 _color;
+			DirectX::XMFLOAT3 _texUV;
+			DirectX::XMFLOAT2 _lightmapUV;
+			float			  _alpha;
+			unsigned int	  _objectID;
 		};
 
 		//Skinned Mesh가 요구하는 포맷. 
@@ -34,21 +36,23 @@ namespace Pg::Graphics
 		{
 			Vin1stSkinned() = default;
 
-			DirectX::XMFLOAT3 posL;
-			DirectX::XMFLOAT3 normalL;
-			DirectX::XMFLOAT3 tangentL;
-			DirectX::XMFLOAT4 color;
-			DirectX::XMFLOAT3 tex;
-			unsigned int	  matID;
+			DirectX::XMFLOAT3 _posL;
+			DirectX::XMFLOAT3 _normalL;
+			DirectX::XMFLOAT3 _tangentL;
+			DirectX::XMFLOAT4 _color;
+			DirectX::XMFLOAT3 _texUV;
+			DirectX::XMFLOAT2 _lightmapUV;
+			float			  _alpha;
+			unsigned int	  _objectID;
 			
-			unsigned int	  blendIndice0;
-			unsigned int	  blendIndice1;
-			unsigned int	  blendIndice2;
-			unsigned int	  blendIndice3;
+			unsigned int	  _blendIndice0;
+			unsigned int	  _blendIndice1;
+			unsigned int	  _blendIndice2;
+			unsigned int	  _blendIndice3;
 
-			float			  blendWeight0;
-			float			  blendWeight1;
-			float			  blendWeight2;
+			float			  _blendWeight0;
+			float			  _blendWeight1;
+			float			  _blendWeight2;
 		};
 
 		struct VinDeferredQuad
