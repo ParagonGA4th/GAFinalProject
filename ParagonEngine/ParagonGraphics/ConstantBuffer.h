@@ -23,6 +23,8 @@ namespace Pg::Graphics
 		//Constant Buffer의 기본이 되는 함수들.
 		void Update(unsigned int index);
 		void BindVS(unsigned int index);
+		void UnbindVS(unsigned int index);
+		void BindPS(unsigned int index);
 		void UnbindPS(unsigned int index);
 		ID3D11Buffer* GetBuffer();
 
@@ -65,7 +67,7 @@ namespace Pg::Graphics
 		_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		_desc.MiscFlags = 0;
 
-		_subresource.pSysMem = cbData;
+		_subresource.pSysMem = _cbData;
 
 		HR(_DXStorage->_device->CreateBuffer(&_desc, &_subresource, &(_Buffer)));
 	}
@@ -89,7 +91,7 @@ namespace Pg::Graphics
 		_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		_desc.MiscFlags = 0;
 
-		_subresource.pSysMem = cbData;
+		_subresource.pSysMem = _cbData;
 
 		HR(_DXStorage->_device->CreateBuffer(&_desc, &_subresource, &(_Buffer)));
 	}
@@ -120,21 +122,20 @@ namespace Pg::Graphics
 		//이미 자신은 GetDataStruct를 통해서 업데이트되었을 것. 
 		*(data) = *_cbData;
 
-		_devCon->Unmap(_constantBuffer[0], 0);
+		_DXStorage->_deviceContext->Unmap(_Buffer, 0);
 	}
 
 	template<typename T>
-	void ConstantBuffer<T>::Bind(unsigned int index)
+	void ConstantBuffer<T>::BindVS(unsigned int index)
 	{
 		_DXStorage->_deviceContext->VSSetConstantBuffers(index, 1, &_Buffer);
-		_DXStorage->_deviceContext->PSSetConstantBuffers(index, 1, &_Buffer);
+		
 	}
 
 	template<typename T>
-	void ConstantBuffer<T>::Unbind(unsigned int index)
+	void ConstantBuffer<T>::UnbindVS(unsigned int index)
 	{
 		_DXStorage->_deviceContext->VSSetConstantBuffers(index, 1, &_NullBuffer);
-		_DXStorage->_deviceContext->PSSetConstantBuffers(index, 1, &_NullBuffer);
 	}
 
 	template<typename T>
@@ -144,8 +145,22 @@ namespace Pg::Graphics
 	}
 
 	template<typename T>
-	T* Pg::Graphics::ConstantBuffer<T>::GetDataStruct()
+	T* ConstantBuffer<T>::GetDataStruct()
 	{
 		return _cbData;
 	}
+
+	template<typename T>
+	void ConstantBuffer<T>::BindPS(unsigned int index)
+	{
+		_DXStorage->_deviceContext->PSSetConstantBuffers(index, 1, &_Buffer);
+	}
+
+	template<typename T>
+	void ConstantBuffer<T>::UnbindPS(unsigned int index)
+	{
+		_DXStorage->_deviceContext->PSSetConstantBuffers(index, 1, &_NullBuffer);
+	}
+
+	
 }

@@ -34,42 +34,19 @@ namespace Pg::Graphics
 
 	RenderObjectStaticMesh3D::~RenderObjectStaticMesh3D()
 	{
-		
+
 	}
 
 	void RenderObjectStaticMesh3D::Render()
 	{
-		BindBuffers();
-		_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		BindVertexIndexBuffer();
 
 		int tMeshCount = _modelData->_assetSceneData->_totalMeshCount;
 
 		for (int i = 0; i < tMeshCount; i++)
 		{
 			//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
-			ClearTextureArray();
-
 			UINT tToDrawIndexCount = _modelData->_assetSceneData->_meshList[i]._numIndices;
-			UINT tMatID = _modelData->_assetSceneData->_meshList[i]._materialID;
-
-			//이거 한번만 받아도 되겠지만, 일단은 통일성을 위해서.
-			//아니면 업데이트되는 로직을 여기랑 연관? 후의 일.
-			this->_diffuse = _modelData->GetMaterialByIndex(tMatID)->GetTextureByType(PG_TextureType_DIFFUSE);
-			this->_normal = _modelData->GetMaterialByIndex(tMatID)->GetTextureByType(PG_TextureType_NORMALS);
-
-			if (this->_diffuse == nullptr)
-			{
-				this->_diffuse = GraphicsResourceManager::Instance()->GetDefaultTexture(PG_TextureType_DIFFUSE);
-			}
-			if (this->_normal == nullptr)
-			{
-				this->_normal = GraphicsResourceManager::Instance()->GetDefaultTexture(PG_TextureType_NORMALS);
-			}
-
-			AddTextureToArray(_diffuse);
-			AddTextureToArray(_normal);
-
-			BindTextureArray();
 
 			//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
 			_DXStorage->_deviceContext->DrawIndexed(tToDrawIndexCount,
@@ -110,27 +87,19 @@ namespace Pg::Graphics
 		_cBuffer->GetDataStruct()->gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
 		_cBuffer->GetDataStruct()->gCBuf_CameraPositionW = tCameraPositionW;
 
-		// Bind Constant Buffers
-		for (int i = 0; i < _constantBuffers.size(); ++i)
-		{
-			_constantBuffers[i]->Update(i);
-		}
+		//첫번째 Constant Buffer에는 얘만 넣어주면 된다.
+		_cBuffer->Update(0);
+
 	}
 
 	void RenderObjectStaticMesh3D::BindBuffers()
 	{
-		for (int i = 0; i < _constantBuffers.size(); ++i)
-		{
-			_constantBuffers[i]->Bind(i);
-		}
+		_cBuffer->BindVS(0);
 	}
 
 	void RenderObjectStaticMesh3D::UnbindBuffers()
 	{
-		for (int i = 0; i < _constantBuffers.size(); ++i)
-		{
-			_constantBuffers[i]->Unbind(i);
-		}
+		_cBuffer->UnbindVS(0);
 	}
 
 	void RenderObjectStaticMesh3D::BindVertexIndexBuffer()
