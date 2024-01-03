@@ -75,7 +75,6 @@ namespace Pg::Graphics
 		hr = D3DReadFileToBlob(PG_1ST_STATIC_SHADER_PATH, &(tStatic1stByteCode));
 		if (FAILED(hr)) { assert(false); }
 
-		// Static Mesh 인풋 구조체
 		D3D11_INPUT_ELEMENT_DESC vin1stStaticDesc[] =
 		{
 			{"POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 0,	D3D11_INPUT_PER_VERTEX_DATA, 0},
@@ -83,7 +82,9 @@ namespace Pg::Graphics
 			{"TANGENT",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 24,	D3D11_INPUT_PER_VERTEX_DATA, 0},
 			{"COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, 36,	D3D11_INPUT_PER_VERTEX_DATA, 0},
 			{"TEXCOORD",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 52,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"MATERIALID",	0, DXGI_FORMAT_R32_UINT,			0, 64,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,		0, 64,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"ALPHA",		0, DXGI_FORMAT_R32_FLOAT,			0, 72,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"OBJECTID",	0, DXGI_FORMAT_R32_UINT,			0, 76,	D3D11_INPUT_PER_VERTEX_DATA, 0},
 		};
 
 		// Static Mesh 인풋 레이아웃 만들기.
@@ -108,19 +109,21 @@ namespace Pg::Graphics
 		// Skinned Mesh 인풋 구조체
 		D3D11_INPUT_ELEMENT_DESC vin1stSkinnedDesc[] =
 		{
-			{"POSITION",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0,	0,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"NORMAL",			0, DXGI_FORMAT_R32G32B32_FLOAT,		0,	12,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"TANGENT",			0, DXGI_FORMAT_R32G32B32_FLOAT,		0,	24,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"COLOR",			0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0,	36,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"TEXCOORD",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0,	52,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"MATERIALID",		0, DXGI_FORMAT_R32_UINT,			0,	64,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"BLENDINDICES",	0, DXGI_FORMAT_R32_UINT,			0,	68,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"BLENDINDICES",	1, DXGI_FORMAT_R32_UINT,			0,	72,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"BLENDINDICES",	2, DXGI_FORMAT_R32_UINT,			0,	76,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"BLENDINDICES",	3, DXGI_FORMAT_R32_UINT,			0,	80,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"BLENDWEIGHT",		0, DXGI_FORMAT_R32_FLOAT,			0,	84,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"BLENDWEIGHT",		1, DXGI_FORMAT_R32_FLOAT,			0,	88,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"BLENDWEIGHT",		2, DXGI_FORMAT_R32_FLOAT,			0,	92,	D3D11_INPUT_PER_VERTEX_DATA, 0}
+			{"POSITION",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 0,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"NORMAL",			0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 12,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TANGENT",			0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 24,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"COLOR",			0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, 36,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 52,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD",		1, DXGI_FORMAT_R32G32_FLOAT,		0, 64,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"ALPHA",			0, DXGI_FORMAT_R32_FLOAT,			0, 72,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"OBJECTID",		0, DXGI_FORMAT_R32_UINT,			0, 76,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDINDICES",	0, DXGI_FORMAT_R32_UINT,			0, 80,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDINDICES",	1, DXGI_FORMAT_R32_UINT,			0, 84,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDINDICES",	2, DXGI_FORMAT_R32_UINT,			0, 88,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDINDICES",	3, DXGI_FORMAT_R32_UINT,			0, 92,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDWEIGHT",		0, DXGI_FORMAT_R32_FLOAT,			0, 96,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDWEIGHT",		1, DXGI_FORMAT_R32_FLOAT,			0, 100,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDWEIGHT",		2, DXGI_FORMAT_R32_FLOAT,			0, 104,	D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
 		// Static Mesh 인풋 레이아웃 만들기.
@@ -197,17 +200,18 @@ namespace Pg::Graphics
 
 	//개별적인 요소 Layout 생성자.
 	LayoutDefine::Vin1stStatic::Vin1stStatic(DirectX::XMFLOAT3 posVal) :
-		posL(posVal), normalL(0.0f, 0.0f, 0.0f), tangentL(0.0f, 0.0f, 0.0f),
-		color(1.0f, 0.0f, 0.0f, 1.0f), tex(0.f, 0.f, 0.f), matID(0)
+		_posL(posVal), _normalL(0.0f, 0.0f, 0.0f), _tangentL(0.0f, 0.0f, 0.0f),
+		_color(1.0f, 0.0f, 0.0f, 1.0f), _texUV(0.f, 0.f, 0.f), _lightmapUV(0.f, 0.f), _alpha(0.f), _objectID(0)
 	{
 		//
 	}
 
-	LayoutDefine::Vin1stStatic::Vin1stStatic(DirectX::XMFLOAT3 posVal, DirectX::XMFLOAT3 normalVal,
-		DirectX::XMFLOAT3 tangentVal, DirectX::XMFLOAT4 colorVal, DirectX::XMFLOAT3 texVal, unsigned int matIDVal) :
-		posL(posVal), normalL(normalVal), tangentL(tangentVal), color(colorVal), tex(texVal), matID(matIDVal)
+	LayoutDefine::Vin1stStatic::Vin1stStatic(DirectX::XMFLOAT3 posVal, DirectX::XMFLOAT3 normalVal, DirectX::XMFLOAT3 tangentVal, 
+		DirectX::XMFLOAT4 colorVal, DirectX::XMFLOAT3 texVal, DirectX::XMFLOAT2 lightmapUVVal, float alphaVal, unsigned int objIDVal) :
+		_posL(posVal), _normalL(normalVal), _tangentL(tangentVal),
+		_color(colorVal), _texUV(texVal), _lightmapUV(lightmapUVVal), _alpha(alphaVal), _objectID(0)
 	{
-		//
+
 	}
 
 	LayoutDefine::VinCubemap::VinCubemap(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT2 uv) :

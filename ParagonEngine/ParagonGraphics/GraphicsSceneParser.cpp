@@ -50,7 +50,6 @@ namespace Pg::Graphics
 	void GraphicsSceneParser::Initialize()
 	{
 		InitializePrimitiveWireframeObjects();
-		PlaceCubemapList();
 	}
 
 	void GraphicsSceneParser::ParseSceneData(const Pg::Data::Scene* const newScene)
@@ -145,7 +144,9 @@ namespace Pg::Graphics
 				}
 			}
 		}
-		assert(true);
+	
+		//실제 리소스를 사용해야 하기에, Initialize에서 현재 호출하고 있지 않음.
+		PlaceCubemapList();
 	}
 
 	Pg::Graphics::RenderObject2DList* GraphicsSceneParser::GetRenderObject2DList()

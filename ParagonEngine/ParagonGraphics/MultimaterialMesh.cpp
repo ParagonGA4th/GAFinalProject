@@ -318,31 +318,37 @@ namespace Pg::Graphics
 			tTotalElapsedIndiceCount = _meshEntriesVector[i]._baseIndex;
 			for (uint32_t j = 0; j < m->mNumVertices; j++)
 			{
+				//문제 생기면 MultimaterialMesh (원본 참고)
 				auto& pos = m->mVertices[j];
 				auto& norm = m->mNormals[j];
 				auto& tan = m->mTangents[j];
-				auto& uv = m->mTextureCoords[0][j];
+				auto& texUV = m->mTextureCoords[0][j];
+				//일단은 하드코딩됨.
 
-				vertices[vid + j].posL = DirectX::XMFLOAT3{ pos.x, pos.y, pos.z };
-				vertices[vid + j].normalL = DirectX::XMFLOAT3{ norm.x, norm.y, norm.z };
-				vertices[vid + j].tangentL = DirectX::XMFLOAT3{ tan.x, tan.y, tan.z };
-				vertices[vid + j].color = DirectX::XMFLOAT4{ 1.0f,1.0f, 1.0f, 1.0f };
-				vertices[vid + j].tex = DirectX::XMFLOAT3{ uv.x, uv.y, uv.z };
-				vertices[vid + j].matID = m->mMaterialIndex;
+				vertices[vid + j]._posL = DirectX::XMFLOAT3{ pos.x, pos.y, pos.z };
+				vertices[vid + j]._normalL = DirectX::XMFLOAT3{ norm.x, norm.y, norm.z };
+				vertices[vid + j]._tangentL = DirectX::XMFLOAT3{ tan.x, tan.y, tan.z };
+				vertices[vid + j]._color = DirectX::XMFLOAT4{ 1.0f,1.0f, 1.0f, 1.0f };
+				vertices[vid + j]._texUV = DirectX::XMFLOAT3{ texUV.x, texUV.y, texUV.z };
 
-				vertices[vid + j].blendIndice0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0];
-				vertices[vid + j].blendIndice1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1];
-				vertices[vid + j].blendIndice2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[2];
-				vertices[vid + j].blendIndice3 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[3];
+				//일단 LightMapUV도 FBX딴에서 들어오는 것은 확인했지만, 일단은 파싱에서 받지 않는다.
+				vertices[vid + j]._lightmapUV = { 0.f, 0.f };
+				//ObjectID도 역시 하드코딩.
+				vertices[vid + j]._objectID = 0;
+
+				vertices[vid + j]._blendIndice0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0];
+				vertices[vid + j]._blendIndice1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1];
+				vertices[vid + j]._blendIndice2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[2];
+				vertices[vid + j]._blendIndice3 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[3];
 
 				//vertices[vid + j].blendIndice0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0] + tTotalElapsedIndiceCount;
 				//vertices[vid + j].blendIndice1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1] + tTotalElapsedIndiceCount;
 				//vertices[vid + j].blendIndice2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[2] + tTotalElapsedIndiceCount;
 				//vertices[vid + j].blendIndice3 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[3] + tTotalElapsedIndiceCount;
 
-				vertices[vid + j].blendWeight0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[0];
-				vertices[vid + j].blendWeight1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[1];
-				vertices[vid + j].blendWeight2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[2];
+				vertices[vid + j]._blendWeight0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[0];
+				vertices[vid + j]._blendWeight1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[1];
+				vertices[vid + j]._blendWeight2 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[2];
 
 				//vertices[vid + j].blendWeight0 = 0.2f;
 				//vertices[vid + j].blendWeight1 = 0.2f;
