@@ -226,6 +226,7 @@
     <ClInclude Include="GraphicsSceneParser.h">
       <Filter>8_Helpers\GraphicsSceneParser</Filter>
     </ClInclude>
+    <ClInclude Include="FinalRenderPass.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -417,6 +418,7 @@
     <ClCompile Include="GraphicsSceneParser.cpp">
       <Filter>8_Helpers\GraphicsSceneParser</Filter>
     </ClCompile>
+    <ClCompile Include="FinalRenderPass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -686,6 +688,12 @@
     <Filter Include="8_Helpers\GraphicsSceneParser">
       <UniqueIdentifier>{b052a2bd-ff95-4976-87eb-a72c2e8875d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="0_Main\RenderPass\FinalRenderPass">
+      <UniqueIdentifier>{eaa8e6b3-4a91-4e77-858e-d882be91ee71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\FinalStage">
+      <UniqueIdentifier>{878696b6-0a6a-428c-bcea-c8144f67c2ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
@@ -729,6 +737,12 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\PrimitiveVS.hlsl">
       <Filter>6_HLSL\System\Pipeline\Others</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FinalStage\FinalStage_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FinalStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FinalStage\FinalStage_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FinalStage</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

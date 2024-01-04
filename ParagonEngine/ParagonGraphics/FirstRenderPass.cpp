@@ -23,8 +23,11 @@ namespace Pg::Graphics
 	{
 		CreateD3DViews();
 		CreateShaders();
+	}
 
-		
+	void FirstRenderPass::ReceiveRequiredElements(void* place1, void* place2, void* place3, void* place4)
+	{
+
 	}
 
 	void FirstRenderPass::BindPass()
@@ -71,7 +74,7 @@ namespace Pg::Graphics
 		_ps->Unbind();
 	}
 
-	void FirstRenderPass::SetupNextRequirements()
+	void FirstRenderPass::PassOnNextRequirements(void** place1, void** place2, void** place3, void** place4)
 	{
 
 	}
@@ -127,7 +130,6 @@ namespace Pg::Graphics
 			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		_ps = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/FirstStage_PS.cso");
 	}
-
-
+	
 
 }

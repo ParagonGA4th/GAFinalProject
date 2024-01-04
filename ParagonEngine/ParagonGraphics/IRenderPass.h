@@ -14,9 +14,13 @@ namespace Pg::Graphics
 	{
 	public:
 		virtual void Initialize() abstract;
+
+		//전 패스에서 필요한 요소들을 패스 나름대로 받는 코드이다.
+		virtual void ReceiveRequiredElements(void* place1, void* place2, void* place3, void* place4) abstract;
 		virtual void BindPass() abstract;
 		virtual void RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData) abstract;
 		virtual void UnbindPass() abstract;
-		virtual void SetupNextRequirements() abstract;
+		//다음 패스에 필요할 요소를 
+		virtual void PassOnNextRequirements(void** place1, void** place2, void** place3, void** place4) abstract;
 	};
 }

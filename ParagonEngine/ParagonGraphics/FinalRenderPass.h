@@ -5,13 +5,11 @@
 #include <memory>
 
 /// <summary>
-/// First Render Pass. World Space -> Screen Space.
+/// Final Render Pass : Quad에서의 값을 MainRenderTarget에 뿌려준다.
 /// </summary>
 
 namespace Pg::Graphics
 {
-	class GBufferRender;
-	class GBufferDepthStencil;
 	class LowDX11Storage;
 	class SystemVertexShader;
 	class SystemPixelShader;
@@ -19,11 +17,11 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class FirstRenderPass : public IRenderPass
+	class FinalRenderPass : public IRenderPass
 	{
 	public:
-		FirstRenderPass();
-		~FirstRenderPass();
+		FinalRenderPass();
+		~FinalRenderPass();
 
 		virtual void Initialize() override;
 		virtual void ReceiveRequiredElements(void* place1, void* place2, void* place3, void* place4) override;
@@ -33,22 +31,17 @@ namespace Pg::Graphics
 		virtual void PassOnNextRequirements(void** place1, void** place2, void** place3, void** place4) override;
 
 	private:
-		std::vector<std::unique_ptr<GBufferRender>> _gBufferRenderList;
-		std::unique_ptr<GBufferDepthStencil> _gBufferDepthStencil;
-
-		std::vector<ID3D11RenderTargetView*> _RTVs;
-		std::vector<ID3D11ShaderResourceView*> _SRVs;
-
-		std::vector<ID3D11RenderTargetView*> NullRTV;
-		std::vector<ID3D11ShaderResourceView*> NullSRV;
-	private:
-		void CreateD3DViews();
 		void CreateShaders();
+		void CreateVertexIndexBuffer();
+		void BindVertexIndexBuffer();
 
 
 	private:
 		std::unique_ptr<SystemVertexShader> _vs;
 		std::unique_ptr<SystemPixelShader> _ps;
+
+		ID3D11Buffer* _quadVB;
+		ID3D11Buffer* _quadIB;
 
 	private:
 		LowDX11Storage* _DXStorage;
