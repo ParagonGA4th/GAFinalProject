@@ -25,17 +25,17 @@ namespace Pg::Data
 
 	float CapsuleCollider::GetWidth() const
 	{
-		return (_radius + _halfHeight) * _scaleOffset.x * _object->_transform.GetScale().x;
+		return (_radius + _halfHeight) * _scaleOffset.x * _object->_transform._scale.x;
 	}
 
 	float CapsuleCollider::GetHeight() const
 	{
-		return _radius * 2 * _scaleOffset.y * _object->_transform.GetScale().y;
+		return _radius * 2 * _scaleOffset.y * _object->_transform._scale.y;
 	}
 
 	float CapsuleCollider::GetDepth() const
 	{
-		return _radius * 2 * _scaleOffset.z * _object->_transform.GetScale().z;
+		return _radius * 2 * _scaleOffset.z * _object->_transform._scale.z;
 	}
 
 	float CapsuleCollider::GetRadius() const

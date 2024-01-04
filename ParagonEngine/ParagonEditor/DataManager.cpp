@@ -5,6 +5,8 @@
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
 
+#include "visit_struct_intrusive.hpp"
+
 #include <singleton-cpp/singleton.h>
 #include <sstream>
 
@@ -98,13 +100,13 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 			if (typeName == Pg::Serialize::Serializer::DeserializeString(&component, "type"))
 			{
 				pugi::xml_node trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "position"; });
-				obj->_transform.SetPosition(Pg::Serialize::Serializer::DeserializePGFloat3(&trans, "x"));
+				obj->_transform._position = Pg::Serialize::Serializer::DeserializePGFloat3(&trans, "x");
 
 				trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "rotation"; });
-				obj->_transform.SetRotation(Pg::Serialize::Serializer::DeserializePGQuaternion(&trans, "w"));
+				obj->_transform._rotation = Pg::Serialize::Serializer::DeserializePGQuaternion(&trans, "w");
 
 				trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "scale"; });
-				obj->_transform.SetScale(Pg::Serialize::Serializer::DeserializePGFloat3(&trans, "x"));
+				obj->_transform._scale = Pg::Serialize::Serializer::DeserializePGFloat3(&trans, "x");
 			}
 		}
 	}
@@ -136,12 +138,12 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 
 		pugi::xml_node componentData = objComponent.append_child("data");
 		Pg::Serialize::Serializer::SerializePGFloat3(&componentData, "position",
-			object->GetComponent<Pg::Data::Transform>()->GetPosition());		
-		
+			object->GetComponent<Pg::Data::Transform>()->_position);
+
 		Pg::Serialize::Serializer::SerializePGQuat(&componentData, "rotation",
-			object->GetComponent<Pg::Data::Transform>()->GetRotation());		
-		
+			object->GetComponent<Pg::Data::Transform>()->_rotation);
+
 		Pg::Serialize::Serializer::SerializePGFloat3(&componentData, "scale",
-			object->GetComponent<Pg::Data::Transform>()->GetScale());
+			object->GetComponent<Pg::Data::Transform>()->_scale);
 	}
 }

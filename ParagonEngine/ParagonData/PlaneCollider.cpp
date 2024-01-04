@@ -29,17 +29,17 @@ namespace Pg::Data
 
 	float PlaneCollider::GetDistance()
 	{
-		return PGFloat3Length(_object->_transform.GetLocalPosition());
+		return PGFloat3Length(_object->_transform._position);
 	}
 
 	float PlaneCollider::GetWidth()
 	{
-		return _width * _scaleOffset.x * _object->_transform.GetScale().x;
+		return _width * _scaleOffset.x * _object->_transform._scale.x;
 	}
 
 	float PlaneCollider::GetDepth()
 	{
-		return _depth * _scaleOffset.z * _object->_transform.GetScale().z;
+		return _depth * _scaleOffset.z * _object->_transform._scale.z;
 	}
 
 	PGFLOAT3 PlaneCollider::GetNormalVector() const

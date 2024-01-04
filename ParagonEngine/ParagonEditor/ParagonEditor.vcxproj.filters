@@ -117,6 +117,18 @@
     <ClInclude Include="MenuBar.h">
       <Filter>2_Windows\MenuBar</Filter>
     </ClInclude>
+    <ClInclude Include="visit_struct.hpp">
+      <Filter>Visit_Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="visit_struct_boost_fusion.hpp">
+      <Filter>Visit_Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="visit_struct_boost_hana.hpp">
+      <Filter>Visit_Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="visit_struct_intrusive.hpp">
+      <Filter>Visit_Struct</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="4_Event">

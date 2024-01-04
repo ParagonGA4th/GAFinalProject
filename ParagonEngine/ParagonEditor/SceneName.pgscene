@@ -2,8 +2,8 @@
 <scene>
 	<objects>
 		<object>
-			<name>Main Camera</name>
-			<tag>Main Camera</tag>
+			<name>New Object</name>
+			<tag>object</tag>
 			<active>true</active>
 			<parent>0</parent>
 			<components>
@@ -11,9 +11,9 @@
 					<type>class Pg::Data::Transform</type>
 					<data>
 						<position>
-							<x>15</x>
+							<x>-2</x>
 							<y>1</y>
-							<z>-1</z>
+							<z>0</z>
 						</position>
 						<rotation>
 							<w>1</w>
@@ -22,9 +22,9 @@
 							<z>0</z>
 						</rotation>
 						<scale>
-							<x>1</x>
-							<y>1</y>
-							<z>1</z>
+							<x>2</x>
+							<y>2</y>
+							<z>2</z>
 						</scale>
 					</data>
 				</component>

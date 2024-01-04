@@ -33,7 +33,6 @@ namespace Pg::Engine
 			_currentScene->Start();
 			_isStarted = true;
 		}
-	
 		_currentScene->Update();
 		_currentScene->FixedUpdate();
 		_currentScene->LateUpdate();
@@ -82,8 +81,6 @@ namespace Pg::Engine
 		return _currentScene;
 	}
 
-
-
 	void SceneSystem::DeleteCurrentScene()
 	{
 		if (_currentScene)
@@ -91,5 +88,10 @@ namespace Pg::Engine
 			delete _currentScene;
 			_currentScene = nullptr;
 		}
+	}
+
+	void SceneSystem::SetSceneData(Pg::Data::Scene* scene)
+	{
+		_testScene->SetScenesData(scene);
 	}
 }

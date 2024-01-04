@@ -94,7 +94,7 @@
       <Filter>2_Component\Collider\StaticCollider\PlaneCollider</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>2_Component\Script</Filter>
+      <Filter>2_Component\Transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +236,18 @@
     <ClInclude Include="ForceMode.h">
       <Filter>4_Structs</Filter>
     </ClInclude>
+    <ClInclude Include="visit_struct.hpp">
+      <Filter>9_DataSerializer\VisitStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="visit_struct_boost_fusion.hpp">
+      <Filter>9_DataSerializer\VisitStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="visit_struct_boost_hana.hpp">
+      <Filter>9_DataSerializer\VisitStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="visit_struct_intrusive.hpp">
+      <Filter>9_DataSerializer\VisitStruct</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -372,6 +384,9 @@
     </Filter>
     <Filter Include="2_Component\Collider\StaticCollider\PlaneCollider">
       <UniqueIdentifier>{34510aec-ad30-4dcd-9cd2-d6bc26aac2b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_DataSerializer\VisitStruct">
+      <UniqueIdentifier>{8c6a1fb3-01eb-4c53-aca7-4748ce9ca442}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

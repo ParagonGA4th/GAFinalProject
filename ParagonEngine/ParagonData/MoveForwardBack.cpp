@@ -16,13 +16,9 @@ namespace Pg::Data
 		tMoveVar += 0.0005f;
 
 		Transform& tTrans = this->_object->_transform;
-		PGFLOAT3 tCurPos = tTrans.GetPosition();
+		PGFLOAT3 tCurPos = tTrans._position;
 
-		tTrans.SetPosition(fmod(cos(tMoveVar), 2.0f) * 10, tCurPos.y, fmod(sin(tMoveVar), 2.0f) * 10);
-		tTrans.SetLocalRotationEuler(tMoveVar, tMoveVar, tMoveVar);
+		tTrans._position = { fmod(cos(tMoveVar), 2.0f) * 10, tCurPos.y, fmod(sin(tMoveVar), 2.0f) * 10 };
+		tTrans._rotation = tTrans.EulerToQuaternion(tMoveVar, tMoveVar, tMoveVar);
 	}
-
-	
-	
-
 }

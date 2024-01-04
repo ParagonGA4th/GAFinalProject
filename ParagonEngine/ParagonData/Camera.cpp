@@ -58,8 +58,8 @@ namespace Pg::Data
 
 	Pg::Data::CameraData* Camera::GetCameraData()
 	{
-		_cameraData->_position = _object->_transform.GetPosition();
-		_cameraData->_rotation = _object->_transform.GetRotation();
+		_cameraData->_position = _object->_transform._position;
+		_cameraData->_rotation = _object->_transform._rotation;
 
 		_cameraData->_farZ = GetFarZ();
 		_cameraData->_fovY = GetFovY();
@@ -77,7 +77,7 @@ namespace Pg::Data
 		PGFLOAT3 R = _object->_transform.GetRight();
 		PGFLOAT3 U = _object->_transform.GetUp();
 		PGFLOAT3 L = _object->_transform.GetForward();
-		PGFLOAT3 P = _object->_transform.GetPosition();
+		PGFLOAT3 P = _object->_transform._position;
 
 		// Keep camera's axes orthogonal to each other and of unit length.
 		L = PGFloat3Normalize(L);
