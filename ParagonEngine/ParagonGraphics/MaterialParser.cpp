@@ -2,7 +2,8 @@
 #include "RenderTexture.h"
 #include "GraphicsResourceManager.h"
 #include "GraphicsResourceHelper.h"
-
+#include "DX11Headers.h"
+#include "LowDX11Storage.h"
 #include <algorithm>
 #include <cassert>
 
@@ -47,10 +48,17 @@ namespace Pg::Graphics
 
 	void MaterialParser::LoadRenderMaterial(RenderMaterial* renderMat)
 	{
+		//ShaderIntrinsics 로딩.
 		//VS
 		LoadShaderIntrinsics(renderMat->_vsIntrinsics.get(), _vsParseData.get());
 		//PS
 		LoadShaderIntrinsics(renderMat->_psIntrinsics.get(), _psParseData.get());
+
+		//Constant Buffer 만들기.
+		//VS
+		CreateConstantBuffer(renderMat->_vsIntrinsics.get());
+		//PS
+		CreateConstantBuffer(renderMat->_psIntrinsics.get());
 	}
 
 	void MaterialParser::Reset()
@@ -345,4 +353,21 @@ namespace Pg::Graphics
 			_psParseData->_shaderName, Pg::Data::Enums::eAssetDefine::_RENDER_PIXELSHADER);
 		renderMat->_pixelShader = static_cast<RenderPixelShader*>(psRes.get());
 	}
+
+
+	void MaterialParser::CreateConstantBuffer(RenderMaterial::MatShaderIntrinsics* intrinsic)
+	{
+		int sizeCB = (((intrinsic->_cbBufferSize -1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
+		assert(sizeCB % 16 == 0);
+		D3D11_BUFFER_DESC tCBufferDesc;
+		tCBufferDesc.ByteWidth = sizeCB; // 상수버퍼는 16바이트 정렬
+		tCBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+		tCBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		tCBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		tCBufferDesc.MiscFlags = 0;
+		intrinsic->_cbSubResData->pSysMem = intrinsic->_cbByteUpdateBuffer->GetStartAddress();
+
+		HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tCBufferDesc, intrinsic->_cbSubResData.get(), &(intrinsic->_cBuffer)));
+	}
+	
 }

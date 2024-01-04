@@ -32,9 +32,9 @@ namespace Pg::Graphics
 		void Reset();
 
 	private:
-		void ParseShaderMat(pugi::xml_node* shdNode, ShaderParsingData* parsingData);
-		
+		void ParseShaderMat(pugi::xml_node* shdNode, ShaderParsingData* parsingData);	
 		void LoadShaderIntrinsics(RenderMaterial::MatShaderIntrinsics* intrinsic, ShaderParsingData* parseData);
+		void CreateConstantBuffer(RenderMaterial::MatShaderIntrinsics* intrinsic);
 	private:
 		void GetCbVarValue(pugi::xml_node* parNode, eCbVarType varType, CbVarValue& varValue);
 

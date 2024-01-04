@@ -28,11 +28,12 @@ namespace Pg::Graphics
 		~OpaqueQuadRenderPass();
 
 		virtual void Initialize() override;
+		virtual void ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount) override;
 		virtual void BindPass() override;
 		virtual void RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData) override;
 		virtual void UnbindPass() override;
-		virtual void ReceiveRequiredElements(void* place1, void* place2, void* place3, void* place4) override;
-		virtual void PassOnNextRequirements(void** place1, void** place2, void** place3, void** place4) override;
+		virtual void ExecuteNextRenderRequirements() override;
+		virtual void PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount) override;
 
 	private:
 		void GenerateQuadBuffer();
@@ -43,6 +44,10 @@ namespace Pg::Graphics
 		ID3D11Buffer* _quadIB;
 		RenderMaterial* _renderMaterial; //1 OpaqueQuadRenderPass = 1 Material Used.
 		//FilePath는 RenderMaterial 상위 GraphicsResource에 보관되어 있다.
+
+	private:
+		//전 패스들에서 전달되었던 
+
 
 	private:
 		LowDX11Storage* _DXStorage;

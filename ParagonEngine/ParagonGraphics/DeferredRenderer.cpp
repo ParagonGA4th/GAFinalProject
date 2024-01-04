@@ -37,13 +37,24 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::Render(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
+		//보관할 수 있는 포인터.
+		std::vector<ID3D11RenderTargetView*>* tRTVArray = nullptr;
+		UINT tRTVCount = 0;
+		std::vector<ID3D11ShaderResourceView*>* tSRVArray = nullptr;
+		UINT tSRVCount = 0;
+
+		//패스 외적으로 들어가야 하는 리소스들 GPU에 배치. 이 경우, SamplerState만 위로 배치.
+		PlaceRequiredResources();
+
 		//Pass를 순서대로 호출하는 방식.
 		for (auto& it : _renderPassVector)
 		{
+			it->ReceiveRequiredElements(tRTVArray, tRTVCount, tSRVArray, tSRVCount);
 			it->BindPass();
 			it->RenderPass(renderObjectList, camData);
 			it->UnbindPass();
-			it->SetupNextRequirements();
+			it->ExecuteNextRenderRequirements();
+			it->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount);
 		}
 	}
 
@@ -64,6 +75,8 @@ namespace Pg::Graphics
 			assert(tRM != nullptr);
 			_renderPassVector.push_back(new OpaqueQuadRenderPass(tRM));
 		}
+
+
 	}
 
 	void DeferredRenderer::InitializeRenderPasses()
@@ -74,6 +87,22 @@ namespace Pg::Graphics
 			it->Initialize();
 		}
 	}
+
+	void DeferredRenderer::PlaceRequiredResources()
+	{
+		//샘플러 함수. (Appends_SamplerStates.hlsli)
+		
+		//SamplerState fullScreenQuadSS : register(s0)
+		_DXStorage->_deviceContext->PSSetSamplers(0, 1, &(_DXStorage->_fullScreenQuadSamplerState));
+
+		//SamplerState lightmapSS : register(s1);
+		_DXStorage->_deviceContext->PSSetSamplers(1, 1, &(_DXStorage->_lightmapSamplerState));
+
+		//SamplerState defaultTextureSS : register(s2);
+		_DXStorage->_deviceContext->PSSetSamplers(2, 1, &(_DXStorage->_defaultSamplerState));
+
+	}
+	
 
 }
 

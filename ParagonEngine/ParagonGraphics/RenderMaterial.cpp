@@ -3,6 +3,8 @@
 #include "GraphicsResourceManager.h"
 #include "AssetCombinedLoader.h"
 #include "RenderTexture.h"
+#include "RenderVertexShader.h"
+#include "RenderPixelShader.h"
 
 namespace Pg::Graphics
 {
@@ -28,6 +30,9 @@ namespace Pg::Graphics
 		GraphicsResourceManager* tResManager = Pg::Graphics::Manager::GraphicsResourceManager::Instance();
 		AssetCombinedLoader* tComLoader = tResManager->GetCombinedLoader();
 		tComLoader->LoadRenderMaterial(_filePath, this);
+
+		//로딩된 정보를 기반으로, ConstantBuffer / SRV들을 만든다.
+
 	}
 
 	void RenderMaterial::InternalUnload()
@@ -303,12 +308,18 @@ namespace Pg::Graphics
 
 	void RenderMaterial::Bind()
 	{
+		//VS 바인딩.
+		_vertexShader->Bind();
+
+		//VS Constant Buffer Update. (현재로서는 각 Material 당 하나만 지원)
+		LowDX11Storage::GetInstance()->_deviceContext->VSSetConstantBuffers(_vsIntrinsics->_cbRegisterNum, 1, &(_vsIntrinsics->_cBuffer));
+		//LowDX11Storage::GetInstance()->_deviceContext->VSSetConstantBuffers(_vsIntrinsics->_cbRegisterNum, 1);
 
 	}
 
 	void RenderMaterial::Unbind()
 	{
-
+		_vertexShader->Unbind();
 	}
 
 }

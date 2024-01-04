@@ -25,9 +25,9 @@ namespace Pg::Graphics
 		CreateShaders();
 	}
 
-	void FirstRenderPass::ReceiveRequiredElements(void* place1, void* place2, void* place3, void* place4)
+	void FirstRenderPass::ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount)
 	{
-
+		//아무것도 받지 않는다.
 	}
 
 	void FirstRenderPass::BindPass()
@@ -74,9 +74,18 @@ namespace Pg::Graphics
 		_ps->Unbind();
 	}
 
-	void FirstRenderPass::PassOnNextRequirements(void** place1, void** place2, void** place3, void** place4)
+	void FirstRenderPass::ExecuteNextRenderRequirements()
 	{
+		//t0에, 5개의 SRV GBuffer 대응. (Depth 제외)
+		_DXStorage->_deviceContext->PSSetShaderResources(0, 5, _SRVs.data());
 
+		//t1에 Depth Buffer SRV 1개 대응.
+		_DXStorage->_deviceContext->PSSetShaderResources(1, 1, &(_SRVs.back()));
+	}
+
+	void FirstRenderPass::PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount)
+	{
+		//Execute 함수가 대신 실행해주었다.
 	}
 
 	void FirstRenderPass::CreateD3DViews()
@@ -130,6 +139,8 @@ namespace Pg::Graphics
 			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		_ps = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/FirstStage_PS.cso");
 	}
+
 	
+
 
 }
