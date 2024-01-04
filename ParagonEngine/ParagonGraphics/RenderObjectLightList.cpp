@@ -28,7 +28,7 @@ void Pg::Graphics::RenderObjectLightList::ParseLights(Pg::Data::Transform* trans
 	{
 		Pg::Data::Structs::DirectionalLight* tLightData = new Pg::Data::Structs::DirectionalLight();
 
-		tLightData->position = Pg::Math::PGFLOAT4(transform->GetPosition(), 0.0f);
+		tLightData->position = Pg::Math::PGFLOAT4(transform->_position, 0.0f);
 
 		tLightData->intensity = directionalLight->GetIntensity();
 		tLightData->color = directionalLight->GetLightColor();
@@ -44,7 +44,7 @@ void Pg::Graphics::RenderObjectLightList::ParseLights(Pg::Data::Transform* trans
 	{
 		Pg::Data::Structs::PointLight* tLightData = new Pg::Data::Structs::PointLight();
 
-		tLightData->position = Pg::Math::PGFLOAT4(transform->GetPosition(), 0.0f);
+		tLightData->position = Pg::Math::PGFLOAT4(transform->_position, 0.0f);
 
 		tLightData->intensity = pointLight->GetIntensity();
 		tLightData->color = pointLight->GetLightColor();
@@ -62,7 +62,7 @@ void Pg::Graphics::RenderObjectLightList::ParseLights(Pg::Data::Transform* trans
 	{
 		Pg::Data::Structs::SpotLight* tLightData = new Pg::Data::Structs::SpotLight();
 		
-		tLightData->position = Pg::Math::PGFLOAT4(transform->GetPosition(), 0.0f);
+		tLightData->position = Pg::Math::PGFLOAT4(transform->_position, 0.0f);
 
 		tLightData->intensity = SpotLight->GetIntensity();
 		tLightData->color = SpotLight->GetLightColor();

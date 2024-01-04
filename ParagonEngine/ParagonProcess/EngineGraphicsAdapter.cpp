@@ -123,6 +123,16 @@ namespace Pg::Core
 		return _graphics->GetGameCameraViewSRV();
 	}
 
+	void EngineGraphicsAdapter::SetSceneList(std::vector<Pg::Data::Scene*> sceneList)
+	{
+		return _engine->SetSceneList(sceneList);
+	}
+
+	void EngineGraphicsAdapter::SetCurrentScene(Pg::Data::Scene* currentScene)
+	{
+		return _engine->SetCurrentScene(currentScene);
+	}
+
 	Pg::Data::Scene* EngineGraphicsAdapter::GetCurrentScene()
 	{
 		return _engine->GetCurrentScene();
@@ -161,5 +171,4 @@ namespace Pg::Core
 	{
 		_engine->ClearDebugVectorData();
 	}
-
 }

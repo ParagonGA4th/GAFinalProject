@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "visit_struct_intrusive.hpp"
 #include "../ParagonMath/PgMath.h"
 
 #include <memory>
@@ -9,16 +10,16 @@
 /// 변지상이 프레임을 짜고 오수안이 구현한 Trasnform 클래스
 /// 오브젝트의 자식과 부모, transform 종속성 등은 모두 여기서 관리한다
 /// 또한 오브젝트의 오일러, 쿼터니언 변환을 위한 함수가 존재.
+/// 
+/// 24.01.03 최민서
+/// 기존 Get, Set 방식에서 DataSerializer에 쓰일 visit_struct 구조 방식으로 변경.
 /// </summary>
 
 namespace Pg::Data
 {
-	class GameObject;
-}
-
-namespace Pg::Data
-{
 	using namespace Pg::Math;
+
+	class GameObject;
 
 	class Transform : public Component
 	{
@@ -28,34 +29,34 @@ namespace Pg::Data
 		Transform() = default;
 		Transform(GameObject* obj);
 
-		// Get 월드 함수들
-		PGFLOAT3 GetPosition() const;
-		PGQuaternion GetRotation() const;
-		PGFLOAT3 GetScale() const;
+		//// Get 월드 함수들
+		//PGFLOAT3 GetPosition() const;
+		//PGQuaternion GetRotation() const;
+		//PGFLOAT3 GetScale() const;
 
-		// Get 로컬 함수들
-		PGFLOAT3 GetLocalScale();
-		PGFLOAT3 GetLocalPosition();
-		PGQuaternion GetLocalRotation();
+		//// Get 로컬 함수들
+		//PGFLOAT3 GetLocalScale();
+		//PGFLOAT3 GetLocalPosition();
+		//PGQuaternion GetLocalRotation();
 
-		// Set 월드 함수들
-		void SetPosition(const PGFLOAT3& pos);
-		void SetPosition(float x, float y, float z);
-		void SetRotation(const PGQuaternion& rot);
-		void SetRotation(float w, float x, float y, float z);
-		void SetScale(const PGFLOAT3& scale);
-		void SetScale(float x, float y, float z);
+		//// Set 월드 함수들
+		//void SetPosition(const PGFLOAT3& pos);
+		//void SetPosition(float x, float y, float z);
+		//void SetRotation(const PGQuaternion& rot);
+		//void SetRotation(float w, float x, float y, float z);
+		//void SetScale(const PGFLOAT3& scale);
+		//void SetScale(float x, float y, float z);
 
-		// Set 로컬 함수들
-		void SetLocalPosition(float x, float y, float z);
-		void SetLocalPosition(PGFLOAT3& pos);
+		//// Set 로컬 함수들
+		//void SetLocalPosition(float x, float y, float z);
+		//void SetLocalPosition(PGFLOAT3& pos);
 
-		void SetLocalRotation(float w, float x, float y, float z);
-		void SetLocalRotation(PGQuaternion& rot);
-		void SetLocalScale(float x, float y, float z);
-		void SetLocalScale(PGFLOAT3& sca);
-		void SetLocalRotationEuler(float x, float y, float z);
-		void SetLocalRotationEuler(PGFLOAT3& euler);
+		//void SetLocalRotation(float w, float x, float y, float z);
+		//void SetLocalRotation(PGQuaternion& rot);
+		//void SetLocalScale(float x, float y, float z);
+		//void SetLocalScale(PGFLOAT3& sca);
+		//void SetLocalRotationEuler(float x, float y, float z);
+		//void SetLocalRotationEuler(PGFLOAT3& euler);
 
 		// 각 로컬, 월드 transform을 위한 행렬
 		PGQuaternion NormalizeQuaternion(PGQuaternion q);
@@ -69,7 +70,6 @@ namespace Pg::Data
 		PGFLOAT4X4 GetWorldRotationMatrix();
 
 		// 오브젝트의 전방, 상단, 오른쪽 벡터 (기즈모를 그리거나... 할 때 활용)
-
 		PGFLOAT3 GetForward();
 		PGFLOAT3 GetUp();
 		PGFLOAT3 GetRight();
@@ -98,10 +98,12 @@ namespace Pg::Data
 		bool Is3D();
 
 	public:
-		//PRS (Serialize를 위해 public으로)
-		PGFLOAT3 _position;
-		PGQuaternion _rotation; // 기본적으로 쿼터니언으로 관리한다
-		PGFLOAT3 _scale;
+		/// visit_struct 방식
+		BEGIN_VISITABLES(Transform);
+		VISITABLE(PGFLOAT3, _position);
+		VISITABLE(PGQuaternion, _rotation);
+		VISITABLE(PGFLOAT3, _scale);
+		END_VISITABLES;
 
 	private:
 		// 카메라를 위한 transform 함수

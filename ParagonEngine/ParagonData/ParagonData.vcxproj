@@ -221,6 +221,10 @@
     <ClInclude Include="StaticMeshRenderer.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="visit_struct.hpp" />
+    <ClInclude Include="visit_struct_boost_fusion.hpp" />
+    <ClInclude Include="visit_struct_boost_hana.hpp" />
+    <ClInclude Include="visit_struct_intrusive.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseRenderer.cpp" />

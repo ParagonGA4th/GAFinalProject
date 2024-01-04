@@ -26,7 +26,7 @@ namespace Pg::Graphics
 	void RenderObjectImage2D::Render(DirectX::SpriteBatch* spriteBatch, Pg::Data::CameraData* camData)
 	{
 		//기본적인 Position 연동만 설정!
-		DirectX::XMFLOAT2 tPositionXM = { _baseRenderer->_object->_transform.GetPosition().x, _baseRenderer->_object->_transform.GetPosition().y };
+		DirectX::XMFLOAT2 tPositionXM = { _baseRenderer->_object->_transform._position.x, _baseRenderer->_object->_transform._position.y };
 		
 		spriteBatch->Draw(_texture2D->GetSRV(), tPositionXM);
 	}

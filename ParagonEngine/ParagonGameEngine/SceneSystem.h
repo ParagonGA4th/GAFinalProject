@@ -44,6 +44,9 @@ namespace Pg::Engine
 		//현재 씬으로 지정된 것을 삭제한다.
 		void DeleteCurrentScene();
 
+		// Editor와 Engine이 연결 되는지 확인을 위한 임시함수
+		void SetSceneData(Pg::Data::Scene* scene);
+
 	private:
 		Scene* _currentScene = nullptr;
 		TestScene* _testScene = nullptr;

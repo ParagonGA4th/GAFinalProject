@@ -26,17 +26,17 @@ namespace Pg::Data
 
 	float SphereCollider::GetWidth() const
 	{
-		return _rad * 2 * _scaleOffset.x * _object->_transform.GetScale().x;
+		return _rad * 2 * _scaleOffset.x * _object->_transform._scale.x;
 	}
 
 	float SphereCollider::GetHeight() const
 	{
-		return _rad * 2 * _scaleOffset.y * _object->_transform.GetScale().y;
+		return _rad * 2 * _scaleOffset.y * _object->_transform._scale.y;
 	}
 
 	float SphereCollider::GetDepth() const
 	{
-		return _rad * 2 * _scaleOffset.z * _object->_transform.GetScale().z;
+		return _rad * 2 * _scaleOffset.z * _object->_transform._scale.z;
 	}
 
 	float SphereCollider::GetRadius() const

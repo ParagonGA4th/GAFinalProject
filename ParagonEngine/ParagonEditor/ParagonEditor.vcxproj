@@ -186,6 +186,10 @@
     <ClInclude Include="ProcessManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Serializer.h" />
+    <ClInclude Include="visit_struct.hpp" />
+    <ClInclude Include="visit_struct_boost_fusion.hpp" />
+    <ClInclude Include="visit_struct_boost_hana.hpp" />
+    <ClInclude Include="visit_struct_intrusive.hpp" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

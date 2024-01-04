@@ -109,17 +109,17 @@ void Pg::Editor::Window::Inspector::DataSet(void* data)
 			_objName = obj->GetName();
 			_isObjActive = obj->GetActive();
 
-			_position[0] = obj->_transform.GetPosition().x;
-			_position[1] = obj->_transform.GetPosition().y;
-			_position[2] = obj->_transform.GetPosition().z;
+			_position[0] = obj->_transform._position.x;
+			_position[1] = obj->_transform._position.y;
+			_position[2] = obj->_transform._position.z;
 
-			_rotation[0] = obj->_transform.GetRotation().x;
-			_rotation[1] = obj->_transform.GetRotation().y;
-			_rotation[2] = obj->_transform.GetRotation().z;
+			_rotation[0] = obj->_transform._rotation.x;
+			_rotation[1] = obj->_transform._rotation.y;
+			_rotation[2] = obj->_transform._rotation.z;
 
-			_scale[0] = obj->_transform.GetScale().x;
-			_scale[1] = obj->_transform.GetScale().y;
-			_scale[2] = obj->_transform.GetScale().z;
+			_scale[0] = obj->_transform._scale.x;
+			_scale[1] = obj->_transform._scale.y;
+			_scale[2] = obj->_transform._scale.z;
 		}
 	}
 }
@@ -133,8 +133,8 @@ void Pg::Editor::Window::Inspector::DataUpate()
 		obj->SetActive(_isObjActive);
 		obj->SetName(_objName);
 
-		obj->_transform.SetPosition(_position[0], _position[1], _position[2]);
-		obj->_transform.SetRotation(1.f, _rotation[0], _rotation[1], _rotation[2]);
-		obj->_transform.SetScale(_scale[0], _scale[1], _scale[2]);
+		obj->_transform._position = { _position[0], _position[1], _position[2] };
+		obj->_transform._rotation = { 1.f, _rotation[0], _rotation[1], _rotation[2] };
+		obj->_transform._scale = { _scale[0], _scale[1], _scale[2] };
 	}
 }

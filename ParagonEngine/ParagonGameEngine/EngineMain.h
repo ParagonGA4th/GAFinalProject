@@ -67,6 +67,8 @@ namespace Pg::Engine
 		//AssetManager와의 교류를 위해, 엔진 리소스 매니저에 리소스를 언로드하는 함수.
 		PARAGON_ENGINE_DLL virtual void UnloadResource(const std::string& filePath) override;
 
+		PARAGON_ENGINE_DLL virtual void SetSceneList(std::vector<Pg::Data::Scene*> sceneList) override;
+		PARAGON_ENGINE_DLL virtual void SetCurrentScene(Pg::Data::Scene* currentScene) override;
 		PARAGON_ENGINE_DLL virtual Pg::Data::Scene* GetCurrentScene() override;
 
 		PARAGON_ENGINE_DLL virtual Pg::Data::CameraData* GetCameraData() override;

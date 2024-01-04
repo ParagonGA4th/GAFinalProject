@@ -310,7 +310,7 @@ void Pg::Serialize::Serializer::DeserializePGFloat2(pugi::xml_node* node, const 
 	if (nodeName)
 	{
 		result.x = nodeName.first_child().text().as_float();
-		result.y = nodeName.first_child().next_sibling().text().as_float();
+		result.y = nodeName.next_sibling().first_child().text().as_float();
 	}
 	else
 	{
@@ -325,7 +325,7 @@ Pg::Math::PGFLOAT2 Pg::Serialize::Serializer::DeserializePGFloat2(pugi::xml_node
 	{
 		Pg::Math::PGFLOAT2 result;
 		result.x = nodeName.first_child().text().as_float();
-		result.y = nodeName.first_child().next_sibling().text().as_float();
+		result.y = nodeName.next_sibling().first_child().text().as_float();
 		return result;
 	}
 	else
@@ -340,8 +340,8 @@ void Pg::Serialize::Serializer::DeserializePGFloat3(pugi::xml_node* node, const 
 	if (nodeName)
 	{
 		result.x = nodeName.first_child().text().as_float();
-		result.y = nodeName.first_child().next_sibling().text().as_float();
-		result.z = nodeName.first_child().next_sibling().next_sibling().text().as_float();
+		result.y = nodeName.next_sibling().first_child().text().as_float();
+		result.z = nodeName.next_sibling().next_sibling().first_child().text().as_float();
 	}
 	else
 	{
@@ -356,8 +356,8 @@ Pg::Math::PGFLOAT3 Pg::Serialize::Serializer::DeserializePGFloat3(pugi::xml_node
 	{
 		Pg::Math::PGFLOAT3 result;
 		result.x = nodeName.first_child().text().as_float();
-		result.y = nodeName.first_child().next_sibling().text().as_float();
-		result.z = nodeName.first_child().next_sibling().next_sibling().text().as_float();
+		result.y = nodeName.next_sibling().first_child().text().as_float();
+		result.z = nodeName.next_sibling().next_sibling().first_child().text().as_float();
 		return result;
 	}
 	else
@@ -372,10 +372,10 @@ void Pg::Serialize::Serializer::DeserializePGFloat4(pugi::xml_node* node, const 
 	pugi::xml_node nodeName = node->child(name.c_str());
 	if (nodeName)
 	{
-		result.x = nodeName.first_child().text().as_float();
-		result.y = nodeName.first_child().next_sibling().text().as_float();
-		result.z = nodeName.first_child().next_sibling().next_sibling().text().as_float();
-		result.w = nodeName.first_child().next_sibling().next_sibling().next_sibling().text().as_float();
+		result.w = nodeName.first_child().text().as_float();
+		result.x = nodeName.next_sibling().first_child().text().as_float();
+		result.y = nodeName.next_sibling().next_sibling().first_child().text().as_float();
+		result.z = nodeName.next_sibling().next_sibling().next_sibling().first_child().text().as_float();
 	}
 	else
 	{
@@ -389,10 +389,10 @@ Pg::Math::PGFLOAT4 Pg::Serialize::Serializer::DeserializePGFloat4(pugi::xml_node
 	if (nodeName)
 	{
 		Pg::Math::PGFLOAT4 result;
-		result.x = nodeName.first_child().text().as_float();
-		result.y = nodeName.first_child().next_sibling().text().as_float();
-		result.z = nodeName.first_child().next_sibling().next_sibling().text().as_float();
-		result.w = nodeName.first_child().next_sibling().next_sibling().next_sibling().text().as_float();
+		result.w = nodeName.first_child().text().as_float();
+		result.x = nodeName.next_sibling().first_child().text().as_float();
+		result.y = nodeName.next_sibling().next_sibling().first_child().text().as_float();
+		result.z = nodeName.next_sibling().next_sibling().next_sibling().first_child().text().as_float();
 		return result;
 	}
 	else
@@ -407,9 +407,9 @@ void Pg::Serialize::Serializer::DeserializePGQuaternion(pugi::xml_node* node, co
 	if (nodeName)
 	{
 		result.w = nodeName.first_child().text().as_float();
-		result.x = nodeName.first_child().next_sibling().text().as_float();
-		result.y = nodeName.first_child().next_sibling().next_sibling().text().as_float();
-		result.z = nodeName.first_child().next_sibling().next_sibling().next_sibling().text().as_float();
+		result.x = nodeName.next_sibling().first_child().text().as_float();
+		result.y = nodeName.next_sibling().next_sibling().first_child().text().as_float();
+		result.z = nodeName.next_sibling().next_sibling().next_sibling().first_child().text().as_float();
 	}
 	else
 	{
@@ -424,9 +424,9 @@ Pg::Math::PGQuaternion Pg::Serialize::Serializer::DeserializePGQuaternion(pugi::
 	{
 		Pg::Math::PGQuaternion result;
 		result.w = nodeName.first_child().text().as_float();
-		result.x = nodeName.first_child().next_sibling().text().as_float();
-		result.y = nodeName.first_child().next_sibling().next_sibling().text().as_float();
-		result.z = nodeName.first_child().next_sibling().next_sibling().next_sibling().text().as_float();
+		result.x = nodeName.next_sibling().first_child().text().as_float();
+		result.y = nodeName.next_sibling().next_sibling().first_child().text().as_float();
+		result.z = nodeName.next_sibling().next_sibling().next_sibling().first_child().text().as_float();
 		return result;
 	}
 	else
