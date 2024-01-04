@@ -1,58 +1,67 @@
-#include "OpaqueQuadRenderPass.h"
-#include "GBufferRender.h"
-#include "GBufferDepthStencil.h"
+#include "FinalRenderPass.h"
 #include "LowDX11Storage.h"
 #include "LayoutDefine.h"
+#include "SystemVertexShader.h"
+#include "SystemPixelShader.h"
 #include "GeometryGenerator.h"
-#include "RenderVertexShader.h"
-#include "RenderPixelShader.h"
-#include "RenderMaterial.h"
 
 namespace Pg::Graphics
 {
-	OpaqueQuadRenderPass::OpaqueQuadRenderPass(RenderMaterial* renderMat) :
-		_renderMaterial(renderMat)
+	FinalRenderPass::FinalRenderPass()
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
-
-		//생성자 순서대로 호출되는 매커닉 활용 위해서, 일단은 생성자에. 
-		GenerateQuadBuffer();
 	}
 
-	OpaqueQuadRenderPass::~OpaqueQuadRenderPass()
+	FinalRenderPass::~FinalRenderPass()
 	{
 
 	}
 
-	void OpaqueQuadRenderPass::Initialize()
+	void FinalRenderPass::Initialize()
 	{
+		CreateShaders();
 
 	}
 
-	void OpaqueQuadRenderPass::BindPass()
+	void FinalRenderPass::BindPass()
 	{
+		//이미 MainRenderTarget 관련된 Clear 등 상호작용은 ParagonRenderer의 시작에서 실행되었다.
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &_DXStorage->_mainRTV, _DXStorage->_depthStencilView);
+
+		//Quad의 Vertex, Index 바인딩.
 		BindVertexIndexBuffer();
-		_renderMaterial->Bind();
-		//BindShaders(); 바뀔 수 있어야 한다. -> 어떤 셰이더가 들어오고, 처리하는지.
+
+		// 셰이더 바인딩.
+		_vs->Bind();
+		_ps->Bind();
 	}
 
-	void OpaqueQuadRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	void FinalRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		for (auto& it : *(renderObjectList->_list.at(_renderMaterial->GetFilePath())))
-		{
-			it.second->UpdateConstantBuffers(camData);
-			it.second->BindBuffers();
-			it.second->Render();
-			it.second->UnbindBuffers();
-		}
+		//RenderPass로 받아야 하지만, 
+		//Quad 전체를 MainRenderTarget으로 옮기기만 하는 얘는 상관 없다.
+		
+		//PSSetShaderResources
+
+
 	}
 
-	void OpaqueQuadRenderPass::UnbindPass()
+	void FinalRenderPass::UnbindPass()
 	{
-		_renderMaterial->Unbind();
+		// Unbind Shaders
+		_vs->Unbind();
+		_ps->Unbind();
 	}
 
-	void OpaqueQuadRenderPass::GenerateQuadBuffer()
+	void FinalRenderPass::CreateShaders()
+	{
+		// 1st Pass
+		_vs = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/FinalStage_VS.cso", LayoutDefine::GetDeferredQuadLayout(),
+			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		_ps = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/FinalStage_PS.cso");
+	}
+
+	void FinalRenderPass::CreateVertexIndexBuffer()
 	{
 		GeometryGenerator::MeshData_PosNormalTex tMeshData;
 		GeometryGenerator::GenerateFullscreenQuad(tMeshData);
@@ -92,7 +101,7 @@ namespace Pg::Graphics
 		hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &_quadIB);
 	}
 
-	void OpaqueQuadRenderPass::BindVertexIndexBuffer()
+	void FinalRenderPass::BindVertexIndexBuffer()
 	{
 		// Bind Buffers
 		UINT stride = sizeof(GeometryGenerator::GeomVertex_PosNormalTex);
@@ -101,14 +110,14 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->IASetIndexBuffer(_quadIB, DXGI_FORMAT_R32_UINT, 0);
 	}
 
-	void OpaqueQuadRenderPass::ReceiveRequiredElements(void* place1, void* place2, void* place3, void* place4)
+	void FinalRenderPass::ReceiveRequiredElements(void* place1, void* place2, void* place3, void* place4)
 	{
 
 	}
 
-	void OpaqueQuadRenderPass::PassOnNextRequirements(void** place1, void** place2, void** place3, void** place4)
+	void FinalRenderPass::PassOnNextRequirements(void** place1, void** place2, void** place3, void** place4)
 	{
-
+		//마지막 Render Pass, 세팅할 이유가 없다.
 	}
 
 }

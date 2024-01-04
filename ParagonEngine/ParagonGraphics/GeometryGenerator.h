@@ -65,36 +65,36 @@ namespace Pg::Graphics
 		///<summary>
 		/// Creates a box centered at the origin with the given dimensions.
 		///</summary>
-		void CreateBox(float width, float height, float depth, MeshData_PosColor& meshData);
+		static void CreateBox(float width, float height, float depth, MeshData_PosColor& meshData);
 
 		///<summary>
 		/// Creates a sphere centered at the origin with the given radius.  The
 		/// slices and stacks parameters control the degree of tessellation.
 		///</summary>
-		void CreateSphere(float radius, UINT sliceCount, UINT stackCount, MeshData_PosColor& meshData);
+		static void CreateSphere(float radius, UINT sliceCount, UINT stackCount, MeshData_PosColor& meshData);
 
 		///<summary>
 		/// Creates a cylinder parallel to the y-axis, and centered about the origin.  
 		/// The bottom and top radius can vary to form various cone shapes rather than true
 		// cylinders.  The slices and stacks parameters control the degree of tessellation.
 		///</summary>
-		void CreateCylinder(float bottomRadius, float topRadius, float height, UINT sliceCount, UINT stackCount, MeshData_PosColor& meshData);
+		static void CreateCylinder(float bottomRadius, float topRadius, float height, UINT sliceCount, UINT stackCount, MeshData_PosColor& meshData);
 
 		///<summary>
 		/// Creates an mxn grid in the xz-plane with m rows and n columns, centered
 		/// at the origin with the specified width and depth.
 		///</summary>
-		void CreateGrid(float width, float depth, UINT m, UINT n, MeshData_PosColor& meshData);
+		static void CreateGrid(float width, float depth, UINT m, UINT n, MeshData_PosColor& meshData);
 
 		///<summary>
 		/// Creates a quad covering the screen in NDC coordinates.  This is useful for
 		/// postprocessing effects.
 		///</summary>
-		void GenerateFullscreenQuad(MeshData_PosNormalTex& a_meshData); //[TW] Deferred Rendering 위해 개조.
+		static void GenerateFullscreenQuad(MeshData_PosNormalTex& a_meshData); //[TW] Deferred Rendering 위해 개조.
 
 	private:
-		void BuildCylinderTopCap(float bottomRadius, float topRadius, float height, UINT sliceCount, UINT stackCount, MeshData_PosColor& meshData);
-		void BuildCylinderBottomCap(float bottomRadius, float topRadius, float height, UINT sliceCount, UINT stackCount, MeshData_PosColor& meshData);
+		static void BuildCylinderTopCap(float bottomRadius, float topRadius, float height, UINT sliceCount, UINT stackCount, MeshData_PosColor& meshData);
+		static void BuildCylinderBottomCap(float bottomRadius, float topRadius, float height, UINT sliceCount, UINT stackCount, MeshData_PosColor& meshData);
 		
 	};
 }

@@ -31,7 +31,8 @@ namespace Pg::Graphics
 		virtual void BindPass() override;
 		virtual void RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData) override;
 		virtual void UnbindPass() override;
-		virtual void SetupNextRequirements() override;
+		virtual void ReceiveRequiredElements(void* place1, void* place2, void* place3, void* place4) override;
+		virtual void PassOnNextRequirements(void** place1, void** place2, void** place3, void** place4) override;
 
 	private:
 		void GenerateQuadBuffer();
