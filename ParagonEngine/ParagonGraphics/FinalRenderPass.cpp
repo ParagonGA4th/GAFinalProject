@@ -23,6 +23,12 @@ namespace Pg::Graphics
 
 	}
 
+	void FinalRenderPass::ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, 
+		const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount)
+	{
+
+	}
+
 	void FinalRenderPass::BindPass()
 	{
 		//이미 MainRenderTarget 관련된 Clear 등 상호작용은 ParagonRenderer의 시작에서 실행되었다.
@@ -101,6 +107,16 @@ namespace Pg::Graphics
 		hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &_quadIB);
 	}
 
+	void FinalRenderPass::ExecuteNextRenderRequirements()
+	{
+
+	}
+
+	void FinalRenderPass::PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount)
+	{
+		//마지막 Render Pass, 세팅할 이유가 없다.
+	}
+
 	void FinalRenderPass::BindVertexIndexBuffer()
 	{
 		// Bind Buffers
@@ -110,14 +126,9 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->IASetIndexBuffer(_quadIB, DXGI_FORMAT_R32_UINT, 0);
 	}
 
-	void FinalRenderPass::ReceiveRequiredElements(void* place1, void* place2, void* place3, void* place4)
-	{
+	
 
-	}
 
-	void FinalRenderPass::PassOnNextRequirements(void** place1, void** place2, void** place3, void** place4)
-	{
-		//마지막 Render Pass, 세팅할 이유가 없다.
-	}
+	
 
 }

@@ -32,10 +32,10 @@ namespace Pg::Graphics
 	private:
 		void PushRenderPasses();
 		void InitializeRenderPasses();
+		void PlaceRequiredResources();
 		
 	private:
 		LowDX11Storage* _DXStorage;
 		std::vector<IRenderPass*> _renderPassVector;
-	
 	};
 }

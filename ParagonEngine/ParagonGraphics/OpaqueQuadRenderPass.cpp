@@ -29,6 +29,11 @@ namespace Pg::Graphics
 
 	}
 
+	void OpaqueQuadRenderPass::ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount)
+	{
+		
+	}
+
 	void OpaqueQuadRenderPass::BindPass()
 	{
 		BindVertexIndexBuffer();
@@ -92,6 +97,21 @@ namespace Pg::Graphics
 		hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &_quadIB);
 	}
 
+	void OpaqueQuadRenderPass::ExecuteNextRenderRequirements()
+	{
+
+	}
+
+	void OpaqueQuadRenderPass::PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, 
+		std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount)
+	{
+		//하는거 없으면, 기본값을 넘겨줘야.
+		rtvArray = nullptr;
+		rtvCount = 0;
+		srvArray = nullptr;
+		srvCount = 0;
+	}
+
 	void OpaqueQuadRenderPass::BindVertexIndexBuffer()
 	{
 		// Bind Buffers
@@ -101,14 +121,7 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->IASetIndexBuffer(_quadIB, DXGI_FORMAT_R32_UINT, 0);
 	}
 
-	void OpaqueQuadRenderPass::ReceiveRequiredElements(void* place1, void* place2, void* place3, void* place4)
-	{
-
-	}
-
-	void OpaqueQuadRenderPass::PassOnNextRequirements(void** place1, void** place2, void** place3, void** place4)
-	{
-
-	}
+	
+	
 
 }

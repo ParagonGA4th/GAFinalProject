@@ -231,19 +231,57 @@ namespace Pg::Graphics
 
 	HRESULT LowDX11Logic::CreateSamplerStates()
 	{
-		D3D11_SAMPLER_DESC tDesc;
+		//fullScreenQuadSS
+		{
+			D3D11_SAMPLER_DESC tDesc;
 
-		tDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
-		tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-		tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-		tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-		tDesc.MipLODBias = 0.0f;
-		tDesc.MaxAnisotropy = 1;
+			tDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+			tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.MipLODBias = 0.0f;
+			tDesc.MaxAnisotropy = 1;
 
-		hr = _DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_defaultSamplerState));
-		assert(SUCCEEDED(hr));
-	
-		return hr;
+			hr = _DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_fullScreenQuadSamplerState));
+			assert(SUCCEEDED(hr));
+
+			return hr;
+		}
+
+		//lightmapSS
+		{
+			D3D11_SAMPLER_DESC tDesc;
+
+			tDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+			tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.MipLODBias = 0.0f;
+			tDesc.MaxAnisotropy = 1;
+
+			hr = _DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_lightmapSamplerState));
+			assert(SUCCEEDED(hr));
+
+			return hr;
+		}
+
+		//DefaultTexturesSS
+		{
+			D3D11_SAMPLER_DESC tDesc;
+
+			tDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+			tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.MipLODBias = 0.0f;
+			tDesc.MaxAnisotropy = 1;
+
+			hr = _DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_defaultSamplerState));
+			assert(SUCCEEDED(hr));
+
+			return hr;
+		}
+		
 	}
 
 	HRESULT LowDX11Logic::CreateBlendState()
