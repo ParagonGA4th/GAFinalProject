@@ -88,7 +88,7 @@ namespace Pg::Graphics
 		_cBuffer->GetDataStruct()->gCBuf_CameraPositionW = tCameraPositionW;
 
 		//첫번째 Constant Buffer에는 얘만 넣어주면 된다.
-		_cBuffer->Update(0);
+		_cBuffer->Update();
 
 	}
 
