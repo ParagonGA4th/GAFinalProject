@@ -64,59 +64,55 @@ namespace Pg::Graphics
 
 	void LayoutDefine::CreateStatic1stLayout()
 	{
-		HRESULT hr = S_OK;
-
 		LowDX11Storage* tDXStorage = LowDX11Storage::GetInstance();
 		ID3D11Device* _device = tDXStorage->_device;
 		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
 
 		//FirstStatic_VS.cso
 		ID3DBlob* tStatic1stByteCode = nullptr;
-		hr = D3DReadFileToBlob(PG_1ST_STATIC_SHADER_PATH, &(tStatic1stByteCode));
-		if (FAILED(hr)) { assert(false); }
+		HR(D3DReadFileToBlob(PG_1ST_STATIC_SHADER_PATH, &(tStatic1stByteCode)));
 
 		D3D11_INPUT_ELEMENT_DESC vin1stStaticDesc[] =
 		{
 			{"POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 0,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"NORMAL",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 12,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"TANGENT",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 24,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, 36,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"TEXCOORD",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 52,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,		0, 64,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"ALPHA",		0, DXGI_FORMAT_R32_FLOAT,			0, 72,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"OBJECTID",	0, DXGI_FORMAT_R32_UINT,			0, 76,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"ALPHA",		0, DXGI_FORMAT_R32_FLOAT,			0, 12,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"NORMAL",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 16,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"OBJECTID",	0, DXGI_FORMAT_R32_UINT,			0, 28,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TANGENT",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 32,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"MATERIALID",	0, DXGI_FORMAT_R32_UINT,			0, 44,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"COLOR",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 48,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 60,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,		0, 72,	D3D11_INPUT_PER_VERTEX_DATA, 0},
 		};
 
 		// Static Mesh 인풋 레이아웃 만들기.
-		hr = _device->CreateInputLayout(vin1stStaticDesc, ARRAYSIZE(vin1stStaticDesc), tStatic1stByteCode->GetBufferPointer(),
-			tStatic1stByteCode->GetBufferSize(), &_static1stLayout);
-		if (FAILED(hr)) { assert(false); }
+		HR(_device->CreateInputLayout(vin1stStaticDesc, ARRAYSIZE(vin1stStaticDesc), tStatic1stByteCode->GetBufferPointer(),
+			tStatic1stByteCode->GetBufferSize(), &_static1stLayout));
 	}
 
 	void LayoutDefine::CreateSkinned1stLayout()
 	{
 		//FirstSkinned_VS.cso
-		HRESULT hr = S_OK;
 
 		LowDX11Storage* tDXStorage = LowDX11Storage::GetInstance();
 		ID3D11Device* _device = tDXStorage->_device;
 		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
 
 		ID3DBlob* tSkinned1stByteCode = nullptr;
-		hr = D3DReadFileToBlob(PG_1ST_SKINNED_SHADER_PATH, &(tSkinned1stByteCode));
-		if (FAILED(hr)) { assert(false); }
+		HR(D3DReadFileToBlob(PG_1ST_SKINNED_SHADER_PATH, &(tSkinned1stByteCode)));
 
 		// Skinned Mesh 인풋 구조체
 		D3D11_INPUT_ELEMENT_DESC vin1stSkinnedDesc[] =
 		{
 			{"POSITION",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 0,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"NORMAL",			0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 12,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"TANGENT",			0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 24,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"COLOR",			0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, 36,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"TEXCOORD",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 52,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"TEXCOORD",		1, DXGI_FORMAT_R32G32_FLOAT,		0, 64,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"ALPHA",			0, DXGI_FORMAT_R32_FLOAT,			0, 72,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"OBJECTID",		0, DXGI_FORMAT_R32_UINT,			0, 76,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"ALPHA",			0, DXGI_FORMAT_R32_FLOAT,			0, 12,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"NORMAL",			0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 16,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"OBJECTID",		0, DXGI_FORMAT_R32_UINT,			0, 28,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TANGENT",			0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 32,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"MATERIALID",		0, DXGI_FORMAT_R32_UINT,			0, 44,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"COLOR",			0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 48,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 60,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD",		1, DXGI_FORMAT_R32G32_FLOAT,		0, 72,	D3D11_INPUT_PER_VERTEX_DATA, 0},
 			{"BLENDINDICES",	0, DXGI_FORMAT_R32_UINT,			0, 80,	D3D11_INPUT_PER_VERTEX_DATA, 0},
 			{"BLENDINDICES",	1, DXGI_FORMAT_R32_UINT,			0, 84,	D3D11_INPUT_PER_VERTEX_DATA, 0},
 			{"BLENDINDICES",	2, DXGI_FORMAT_R32_UINT,			0, 88,	D3D11_INPUT_PER_VERTEX_DATA, 0},
@@ -127,22 +123,20 @@ namespace Pg::Graphics
 		};
 
 		// Static Mesh 인풋 레이아웃 만들기.
-		hr = _device->CreateInputLayout(vin1stSkinnedDesc, ARRAYSIZE(vin1stSkinnedDesc), tSkinned1stByteCode->GetBufferPointer(),
-			tSkinned1stByteCode->GetBufferSize(), &_skinned1stLayout);
+		HR(_device->CreateInputLayout(vin1stSkinnedDesc, ARRAYSIZE(vin1stSkinnedDesc), tSkinned1stByteCode->GetBufferPointer(),
+			tSkinned1stByteCode->GetBufferSize(), &_skinned1stLayout));
 	}
 
 	void LayoutDefine::CreateDeferredQuadLayout()
 	{
 		//SecondStage_VS.cso
-		HRESULT hr = S_OK;
 
 		LowDX11Storage* tDXStorage = LowDX11Storage::GetInstance();
 		ID3D11Device* _device = tDXStorage->_device;
 		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
 
 		ID3DBlob* tDefQuadByteCode = nullptr;
-		hr = D3DReadFileToBlob(PG_DEFERRED_QUAD_SHADER_PATH, &(tDefQuadByteCode));
-		if (FAILED(hr)) { assert(false); }
+		HR(D3DReadFileToBlob(PG_DEFERRED_QUAD_SHADER_PATH, &(tDefQuadByteCode)));
 
 		D3D11_INPUT_ELEMENT_DESC quadDesc[] =
 		{
@@ -151,21 +145,19 @@ namespace Pg::Graphics
 			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
-		hr = _device->CreateInputLayout(quadDesc, ARRAYSIZE(quadDesc), tDefQuadByteCode->GetBufferPointer(), tDefQuadByteCode->GetBufferSize(), &_deferredQuadLayout);
+		HR(_device->CreateInputLayout(quadDesc, ARRAYSIZE(quadDesc), tDefQuadByteCode->GetBufferPointer(), tDefQuadByteCode->GetBufferSize(), &_deferredQuadLayout));
 	}
 
 	void LayoutDefine::CreateWireframePrimitiveLayout()
 	{
 		//PrimitiveVS.cso
-		HRESULT hr = S_OK;
 
 		LowDX11Storage* tDXStorage = LowDX11Storage::GetInstance();
 		ID3D11Device* _device = tDXStorage->_device;
 		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
 
 		ID3DBlob* tByteCode = nullptr;
-		hr = D3DReadFileToBlob(PG_PRIMITIVE_SHADER_PATH, &(tByteCode));
-		if (FAILED(hr)) { assert(false); }
+		HR(D3DReadFileToBlob(PG_PRIMITIVE_SHADER_PATH, &(tByteCode)));
 		
 		D3D11_INPUT_ELEMENT_DESC tDesc[] =
 		{
@@ -173,21 +165,19 @@ namespace Pg::Graphics
 			{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 		
-		hr = _device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_wireframePrimitiveLayout);
+		HR(_device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_wireframePrimitiveLayout));
 	}
 
 	void LayoutDefine::CreateCubemapLayout()
 	{
 		//CubemapVS.cso
-		HRESULT hr = S_OK;
 
 		LowDX11Storage* tDXStorage = LowDX11Storage::GetInstance();
 		ID3D11Device* _device = tDXStorage->_device;
 		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
 
 		ID3DBlob* tByteCode = nullptr;
-		hr = D3DReadFileToBlob(PG_CUBEMAP_SHADER_PATH, &(tByteCode));
-		if (FAILED(hr)) { assert(false); }
+		HR(D3DReadFileToBlob(PG_CUBEMAP_SHADER_PATH, &(tByteCode)));
 
 		D3D11_INPUT_ELEMENT_DESC tDesc[] =
 		{
@@ -195,23 +185,15 @@ namespace Pg::Graphics
 			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
-		hr = _device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_cubemapLayout);
+		HR(_device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_cubemapLayout));
 	}
 
 	//개별적인 요소 Layout 생성자.
 	LayoutDefine::Vin1stStatic::Vin1stStatic(DirectX::XMFLOAT3 posVal) :
 		_posL(posVal), _normalL(0.0f, 0.0f, 0.0f), _tangentL(0.0f, 0.0f, 0.0f),
-		_color(1.0f, 0.0f, 0.0f, 1.0f), _texUV(0.f, 0.f, 0.f), _lightmapUV(0.f, 0.f), _alpha(0.f), _objectID(0)
+		_color(1.0f, 0.0f, 0.0f), _materialID(0), _tex(0.f, 0.f, 0.f), _lightmapUV(0.f, 0.f), _alpha(0.f), _objectID(0)
 	{
 		//
-	}
-
-	LayoutDefine::Vin1stStatic::Vin1stStatic(DirectX::XMFLOAT3 posVal, DirectX::XMFLOAT3 normalVal, DirectX::XMFLOAT3 tangentVal, 
-		DirectX::XMFLOAT4 colorVal, DirectX::XMFLOAT3 texVal, DirectX::XMFLOAT2 lightmapUVVal, float alphaVal, unsigned int objIDVal) :
-		_posL(posVal), _normalL(normalVal), _tangentL(tangentVal),
-		_color(colorVal), _texUV(texVal), _lightmapUV(lightmapUVVal), _alpha(alphaVal), _objectID(0)
-	{
-
 	}
 
 	LayoutDefine::VinCubemap::VinCubemap(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT2 uv) :
