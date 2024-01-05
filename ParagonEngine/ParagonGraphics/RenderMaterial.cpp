@@ -6,6 +6,8 @@
 #include "RenderVertexShader.h"
 #include "RenderPixelShader.h"
 
+#include <cassert>
+
 namespace Pg::Graphics
 {
 	using Pg::Data::Resources::GraphicsResource;
@@ -13,6 +15,8 @@ namespace Pg::Graphics
 	RenderMaterial::RenderMaterial(Pg::Data::Enums::eAssetDefine define, const std::string& filePath) :
 		GraphicsResource(define, typeid(this).name(), filePath)
 	{
+		_DXStorage = LowDX11Storage::GetInstance();
+
 		_vsIntrinsics = std::make_unique<RenderMaterial::MatShaderIntrinsics>();
 		_psIntrinsics = std::make_unique<RenderMaterial::MatShaderIntrinsics>();
 	}
@@ -30,9 +34,6 @@ namespace Pg::Graphics
 		GraphicsResourceManager* tResManager = Pg::Graphics::Manager::GraphicsResourceManager::Instance();
 		AssetCombinedLoader* tComLoader = tResManager->GetCombinedLoader();
 		tComLoader->LoadRenderMaterial(_filePath, this);
-
-		//로딩된 정보를 기반으로, ConstantBuffer / SRV들을 만든다.
-
 	}
 
 	void RenderMaterial::InternalUnload()
@@ -308,18 +309,79 @@ namespace Pg::Graphics
 
 	void RenderMaterial::Bind()
 	{
-		//VS 바인딩.
+		//VS Binding
 		_vertexShader->Bind();
+		_pixelShader->Bind();
 
-		//VS Constant Buffer Update. (현재로서는 각 Material 당 하나만 지원)
-		LowDX11Storage::GetInstance()->_deviceContext->VSSetConstantBuffers(_vsIntrinsics->_cbRegisterNum, 1, &(_vsIntrinsics->_cBuffer));
-		//LowDX11Storage::GetInstance()->_deviceContext->VSSetConstantBuffers(_vsIntrinsics->_cbRegisterNum, 1);
+		//Vertex Shader
+		{
+			//VS Constant Buffer Update. (현재로서는 각 Material 당 하나만 지원)
+			{
+				D3D11_MAPPED_SUBRESOURCE res;
+				ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
+				HR(_DXStorage->_deviceContext->Map(_vsIntrinsics->_cBuffer, _vsIntrinsics->_cbRegisterNum,
+					D3D11_MAP_WRITE_DISCARD, 0, &res));
 
+				//버퍼의 크기와 먼저 받았던 Constant Buffer의 크기가 같은지 확인.
+				assert(_vsIntrinsics->_cbBufferSize == _vsIntrinsics->_cbByteUpdateBuffer->size());
+
+				//ReadPos를 리셋.
+				_vsIntrinsics->_cbByteUpdateBuffer->setReadPos(0);
+				_vsIntrinsics->_cbByteUpdateBuffer->getBytes((uint8_t*)res.pData, _vsIntrinsics->_cbBufferSize);
+
+				_DXStorage->_deviceContext->Unmap(_vsIntrinsics->_cBuffer, 0);
+			}
+
+			//VS Constant Buffer Set.
+			_DXStorage->_deviceContext->VSSetConstantBuffers(_vsIntrinsics->_cbRegisterNum, 1, &(_vsIntrinsics->_cBuffer));
+
+			//VS Textures Update.
+			{
+				for (auto& it : _vsIntrinsics->_texPlaceVector)
+				{
+					const auto& [bTexType, bRegNum, bRenderTexture] = it.second;
+					_DXStorage->_deviceContext->VSSetShaderResources(bRegNum, 1, &(bRenderTexture->GetSRV()));
+				}
+			}
+		}
+
+		//Pixel Shader
+		{
+			//PS Constant Buffer Update. (현재로서는 각 Material 당 하나만 지원)
+			{
+				D3D11_MAPPED_SUBRESOURCE res;
+				ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
+				HR(_DXStorage->_deviceContext->Map(_psIntrinsics->_cBuffer, _psIntrinsics->_cbRegisterNum,
+					D3D11_MAP_WRITE_DISCARD, 0, &res));
+
+				//버퍼의 크기와 먼저 받았던 Constant Buffer의 크기가 같은지 확인.
+				assert(_psIntrinsics->_cbBufferSize == _psIntrinsics->_cbByteUpdateBuffer->size());
+
+				//ReadPos를 리셋.
+				_psIntrinsics->_cbByteUpdateBuffer->setReadPos(0);
+				_psIntrinsics->_cbByteUpdateBuffer->getBytes((uint8_t*)res.pData, _psIntrinsics->_cbBufferSize);
+
+				_DXStorage->_deviceContext->Unmap(_psIntrinsics->_cBuffer, 0);
+			}
+
+			//PS Constant Buffer Set.
+			_DXStorage->_deviceContext->PSSetConstantBuffers(_psIntrinsics->_cbRegisterNum, 1, &(_psIntrinsics->_cBuffer));
+
+			//PS Textures Update.
+			{
+				for (auto& it : _psIntrinsics->_texPlaceVector)
+				{
+					const auto& [bTexType, bRegNum, bRenderTexture] = it.second;
+					_DXStorage->_deviceContext->PSSetShaderResources(bRegNum, 1, &(bRenderTexture->GetSRV()));
+				}
+			}
+		}
 	}
 
 	void RenderMaterial::Unbind()
 	{
 		_vertexShader->Unbind();
+		_pixelShader->Unbind();
 	}
 
 }

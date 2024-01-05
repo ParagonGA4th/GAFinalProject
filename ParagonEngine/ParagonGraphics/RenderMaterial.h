@@ -94,6 +94,7 @@ namespace Pg::Graphics
 			std::vector<CbMaterialPair> _cbByteVector;
 			std::vector<TexMaterialPair> _texPlaceVector;
 		};
+
 	private:
 		std::unique_ptr<RenderMaterial::MatShaderIntrinsics> _vsIntrinsics;
 		std::unique_ptr<RenderMaterial::MatShaderIntrinsics> _psIntrinsics;

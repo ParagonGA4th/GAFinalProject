@@ -21,7 +21,7 @@ namespace Pg::Graphics
 		virtual ~ConstantBuffer();
 
 		//Constant Buffer의 기본이 되는 함수들.
-		void Update(unsigned int index);
+		void Update();
 		void BindVS(unsigned int index);
 		void UnbindVS(unsigned int index);
 		void BindPS(unsigned int index);
@@ -108,13 +108,13 @@ namespace Pg::Graphics
 	}
 
 	template<typename T>
-	void Pg::Graphics::ConstantBuffer<T>::Update(unsigned int index)
+	void Pg::Graphics::ConstantBuffer<T>::Update()
 	{
 		//Mapped Subresource 메모리 클린.
 		D3D11_MAPPED_SUBRESOURCE res;
 		ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
-		HR(_DXStorage->_deviceContext->Map(_Buffer, index, D3D11_MAP_WRITE_DISCARD, 0, &res));
+		HR(_DXStorage->_deviceContext->Map(_Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &res));
 
 		//자신의 Data 시작 포인터 받아오기.
 		T* data = reinterpret_cast<T*>(res.pData);
