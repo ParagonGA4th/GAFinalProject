@@ -13,51 +13,66 @@ Texture2D<float> DepthBuffer : register(t1);
 
 float3 GetUV_F3(float2 quadUV)
 {
+    //RT0 : Texture UV Coords. (xyz)
     return GBuffer[0].Sample(fullScreenQuadSS, quadUV).xyz;
 }
 
 float2 GetUV_F2(float2 quadUV)
 {
+    //RT0 : Texture UV Coords. (xyz)
     return GBuffer[0].Sample(fullScreenQuadSS, quadUV).xy;
 }
 
-float3 GetTangent(float2 quadUV)
+float GetAlpha(float2 quadUV)
 {
-   float tanx = GBuffer[0].Sample(fullScreenQuadSS, quadUV).w;
-   float tany = GBuffer[1].Sample(fullScreenQuadSS, quadUV).w;
-   float tanz = GBuffer[2].Sample(fullScreenQuadSS, quadUV).w;
-   
-   return float3(tanx, tany, tanz);
+    //RT0 : Alpha (w)
+    return GBuffer[0].Sample(fullScreenQuadSS, quadUV).w;
 }
 
 float3 GetNormal(float2 quadUV)
 {
+    //RT1 : World Space Normal. (xyz)
     return GBuffer[1].Sample(fullScreenQuadSS, quadUV).xyz;
 }
 
 float3 GetPosition(float2 quadUV)
 {
+    //RT2 : World Space Position. (xyz)
     return GBuffer[2].Sample(fullScreenQuadSS, quadUV).xyz;
 }
 
-float4 GetVertexColor(float2 quadUV)
+float3 GetVertexColor(float2 quadUV)
 {
-    return GBuffer[3].Sample(fullScreenQuadSS, quadUV).xyzw;
+    //RT3 : 3D Model Color. (For Blending) (xyz)
+    return GBuffer[3].Sample(fullScreenQuadSS, quadUV).xyz;
 }
 
-float2 GetLightmapUV(float2 quadUV)
+float3 GetTangent(float2 quadUV)
 {
-    return GBuffer[4].Sample(fullScreenQuadSS, quadUV).xy;
+   //Tangent Collection
+    float tanx = GBuffer[1].Sample(fullScreenQuadSS, quadUV).w;
+    float tany = GBuffer[2].Sample(fullScreenQuadSS, quadUV).w;
+    float tanz = GBuffer[3].Sample(fullScreenQuadSS, quadUV).w;
+   
+    return float3(tanx, tany, tanz);
 }
 
 uint GetObjectID(float2 quadUV)
 {
-    return asuint(GBuffer[4].Sample(fullScreenQuadSS, quadUV).z);
-
+    //RT4 :  Object ID. (x)
+    return asuint(GBuffer[4].Sample(fullScreenQuadSS, quadUV).x);
 }
-float GetAlpha(float2 quadUV)
+
+uint GetMaterialID(float2 quadUV)
 {
-    return GBuffer[4].Sample(fullScreenQuadSS, quadUV).w;
+    //RT4 :  Material ID. (y)
+    return asuint(GBuffer[4].Sample(fullScreenQuadSS, quadUV).y);
+}
+
+float2 GetLightmapUV(float2 quadUV)
+{
+    //RT4 : LightMap Texture UV Coords (zw)
+    return GBuffer[4].Sample(fullScreenQuadSS, quadUV).zw;
 }
 
 //Depth: 별도로 관리됨.
