@@ -55,7 +55,7 @@ namespace Pg::Graphics::Loader
 		_matParser->ParsePgMat(path);
 		_matParser->PlaceShaders(renderMat);
 		_matParser->LoadRenderMaterial(renderMat);
-		_matParser->Reset();
+		_matParser->ClearPreviousShaderData();
 	}
 
 }

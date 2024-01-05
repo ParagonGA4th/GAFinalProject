@@ -694,6 +694,9 @@
     <Filter Include="6_HLSL\System\Pipeline\FinalStage">
       <UniqueIdentifier>{878696b6-0a6a-428c-bcea-c8144f67c2ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="6_HLSL\Appends\Libraries\Required">
+      <UniqueIdentifier>{b3f843b3-e8ed-4158-b560-bea6631a5519}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
@@ -769,6 +772,9 @@
     </None>
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_QuadLayouts.hlsli">
       <Filter>6_HLSL\System\Libraries</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_ClipUnfit.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\Required</Filter>
     </None>
   </ItemGroup>
 </Project>

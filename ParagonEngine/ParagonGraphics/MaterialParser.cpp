@@ -59,9 +59,12 @@ namespace Pg::Graphics
 		CreateConstantBuffer(renderMat->_vsIntrinsics.get());
 		//PS
 		CreateConstantBuffer(renderMat->_psIntrinsics.get());
+
+		//고유한 MaterialID 부여
+		GiveMaterialID(renderMat);
 	}
 
-	void MaterialParser::Reset()
+	void MaterialParser::ClearPreviousShaderData()
 	{
 		if (_vsParseData != nullptr)
 		{
@@ -369,5 +372,14 @@ namespace Pg::Graphics
 
 		HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tCBufferDesc, intrinsic->_cbSubResData.get(), &(intrinsic->_cBuffer)));
 	}
-	
+
+	void MaterialParser::GiveMaterialID(RenderMaterial* renderMat)
+	{
+		//Material ID를 부여.
+		renderMat->_materialID = _matIdRecord;
+		//"Handle" 값, +1. 겹치게 하지 않기 위해.
+		_matIdRecord++;
+	}
+
+
 }

@@ -7,13 +7,6 @@
 cbuffer cbAppendsObject : register(b8)
 {
     bool isOne;
-   //float3 test1;
-   //int test2;
-   //uint test3;
-   //float4 test4;
-   //float2 test5;
-   //float3 test6;
-   //int test7;
 };
 
 //Texture2D는 무조건 t25에서 시작.
@@ -23,7 +16,10 @@ Texture2D<float4> t2_DiffuseTexture2 : register(t26);
 //반드시 인풋 = VOutQuad, 아웃풋 = POutQuad
 POutQuad main(VOutQuad pin)
 {
-    //일단 
+    //모든 PS 셰이더 실행 전에, ClipUnfits 함수를 실행해줘야 한다. 구조 특성 때문.
+    ClipUnfits(pin.UV);
+    
+    //본격적인 Shader Code.
     POutQuad res;
     
     [flatten]

@@ -57,6 +57,8 @@ namespace Pg::Graphics
 		void Bind();
 		void Unbind();
 
+		unsigned int& GetID();
+
 	public:
 		//SetXXX 함수들. Vertex Shader, Pixel Shader 전용이 다르다.
 		void SetBoolVS(const std::string& varName, bool value);
@@ -101,6 +103,9 @@ namespace Pg::Graphics
 
 		RenderVertexShader* _vertexShader;
 		RenderPixelShader* _pixelShader;
+
+		//렌더가 되면서 새로 Material ID가 부여된다.
+		unsigned int _materialID;
 
 	private:
 		LowDX11Storage* _DXStorage;
