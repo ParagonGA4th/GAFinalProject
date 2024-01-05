@@ -10,6 +10,8 @@ using namespace DirectX::PackedVector;
 
 namespace Pg::Graphics
 {
+	unsigned int GeometryGenerator::QUAD_VERTEX_COUNT = 4;
+	unsigned int GeometryGenerator::QUAD_INDICE_COUNT = 6;
 
 	void GeometryGenerator::CreateBox(float width, float height, float depth, MeshData_PosColor& meshData)
 	{
@@ -429,6 +431,7 @@ namespace Pg::Graphics
 		a_meshData.Indices[4] = 2;
 		a_meshData.Indices[5] = 3;
 	}
+
 
 	
 	

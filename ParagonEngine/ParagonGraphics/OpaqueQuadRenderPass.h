@@ -38,16 +38,14 @@ namespace Pg::Graphics
 	private:
 		void GenerateQuadBuffer();
 		void BindVertexIndexBuffer();
-
+		void BindMaterialIndexConstantBuffer();
+		void CreateMaterialIndexConstantBuffer();
 	private:
 		ID3D11Buffer* _quadVB;
 		ID3D11Buffer* _quadIB;
+		ID3D11Buffer* _cbMatID;
 		RenderMaterial* _renderMaterial; //1 OpaqueQuadRenderPass = 1 Material Used.
 		//FilePath는 RenderMaterial 상위 GraphicsResource에 보관되어 있다.
-
-	private:
-		//전 패스들에서 전달되었던 
-
 
 	private:
 		LowDX11Storage* _DXStorage;

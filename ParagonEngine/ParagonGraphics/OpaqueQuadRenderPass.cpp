@@ -7,6 +7,7 @@
 #include "RenderVertexShader.h"
 #include "RenderPixelShader.h"
 #include "RenderMaterial.h"
+#include "DX11Headers.h"
 
 namespace Pg::Graphics
 {
@@ -26,7 +27,7 @@ namespace Pg::Graphics
 
 	void OpaqueQuadRenderPass::Initialize()
 	{
-
+		CreateMaterialIndexConstantBuffer();
 	}
 
 	void OpaqueQuadRenderPass::ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount)
@@ -38,18 +39,12 @@ namespace Pg::Graphics
 	{
 		BindVertexIndexBuffer();
 		_renderMaterial->Bind();
-		//BindShaders(); 바뀔 수 있어야 한다. -> 어떤 셰이더가 들어오고, 처리하는지.
+		BindMaterialIndexConstantBuffer();
 	}
 
 	void OpaqueQuadRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		for (auto& it : *(renderObjectList->_list.at(_renderMaterial->GetFilePath())))
-		{
-			it.second->UpdateConstantBuffers(camData);
-			it.second->BindBuffers();
-			it.second->Render();
-			it.second->UnbindBuffers();
-		}
+		_DXStorage->_deviceContext->DrawIndexed(GeometryGenerator::QUAD_INDICE_COUNT, 0, 0);
 	}
 
 	void OpaqueQuadRenderPass::UnbindPass()
@@ -121,7 +116,45 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->IASetIndexBuffer(_quadIB, DXGI_FORMAT_R32_UINT, 0);
 	}
 
+	void OpaqueQuadRenderPass::BindMaterialIndexConstantBuffer()
+	{
+		//Mapped Subresource 메모리 클린.
+		D3D11_MAPPED_SUBRESOURCE res;
+		ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+		HR(_DXStorage->_deviceContext->Map(_cbMatID, 0, D3D11_MAP_WRITE_DISCARD, 0, &res));
+
+		//자신의 Data 시작 포인터 받아오기.
+		UINT* data = reinterpret_cast<UINT*>(res.pData);
+
+		//Material 부여.
+		*(data) = _renderMaterial->GetID();
+
+		_DXStorage->_deviceContext->Unmap(_cbMatID, 0);
+	}
+
+	void OpaqueQuadRenderPass::CreateMaterialIndexConstantBuffer()
+	{
+		//ID의 포인터를 받아온다.
+		UINT* _cbData = &(_renderMaterial->GetID());
 	
+		//Constant Buffer 자체를 만드는 코드.
+		int sizeCB = (((sizeof(T) - 1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
+		assert(sizeCB % 16 == 0);
+
+		D3D11_BUFFER_DESC tDesc;
+		tDesc.ByteWidth = sizeCB; // 상수버퍼는 16바이트 정렬
+		tDesc.Usage = D3D11_USAGE_DYNAMIC;
+		tDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		tDesc.MiscFlags = 0;
+
+		D3D11_SUBRESOURCE_DATA tSubResource;
+		tSubResource.pSysMem = _cbData;
+
+		HR(_DXStorage->_device->CreateBuffer(&tDesc, &tSubResource, &(_cbMatID)));
+	}
+
 	
 
 }

@@ -384,4 +384,9 @@ namespace Pg::Graphics
 		_pixelShader->Unbind();
 	}
 
+	unsigned int& RenderMaterial::GetID()
+	{
+		return _materialID;
+	}
+
 }
