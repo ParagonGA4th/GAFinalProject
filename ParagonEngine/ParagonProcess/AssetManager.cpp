@@ -152,24 +152,29 @@ namespace Pg::Core::Manager
 		using Pg::Data::Enums::eAssetDefine;
 
 		//CreateResource를 임시로 여기에 호출.
-		LoadResource("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx", eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/StaticMesh/JustCopyCube/JustCopyCube.fbx", eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx", eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx", eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbx", eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/StaticMesh/WoodRoadCone/WoodRoadCone.fbx", eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/StaticMesh/TwoRoadWoodTorus/TwoRoadWoodTorus.fbx", eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/BasicMesh/Plane/plane.fbx", eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/Textures/tw_normal.png", eAssetDefine::_TEXTURE2D);
-		LoadResource("../Resources/Textures/tw_diffuse.png", eAssetDefine::_TEXTURE2D);
-		LoadResource("../Resources/Textures/wook.jpg", eAssetDefine::_TEXTURE2D);
-		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", eAssetDefine::_FONT);
-		LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", eAssetDefine::_FONT);
-		LoadResource("../Resources/Textures/room.dds", eAssetDefine::_CUBEMAP);
+
+	
 
 		//현재 파이프라인에는 요구되지 않으나, 리플렉션을 보기 위해.
 		//LoadResource("../Builds/x64/Debug/AppendTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
 		
+		LoadResource("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/JustCopyCube/JustCopyCube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/WoodRoadCone/WoodRoadCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/TwoRoadWoodTorus/TwoRoadWoodTorus.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/BasicMesh/Cube/Cube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/BasicMesh/Sphere/Sphere.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/BasicMesh/Plane/plane.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/Textures/tw_normal.png", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+		LoadResource("../Resources/Textures/tw_diffuse.png", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+		LoadResource("../Resources/Textures/wook.jpg", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
+		LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
+	
 		//LoadResource("../Resources/3DModels/AnimMesh/twcylinder/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 	}
 

@@ -8,20 +8,32 @@
 
 namespace Pg::Engine
 {
-	void SceneSystem::Initialize()
+	SceneSystem::SceneSystem() : _isStarted(false)
 	{
-		// #Temporary: 임시로 원래 여기 이거 있으면 안되는데, 작동한다는 것 알기 위해!
-		// 제거 되어야 함. 여기에는 Scene 관리 로직 etc 있어야!
 		_testScene = new TestScene();
 		_currentScene = _testScene->GetCurrentScene();
+	}
+
+	SceneSystem::~SceneSystem()
+	{
+
+
+	}
+	void SceneSystem::Initialize()
+	{
+		//여기에는 (TBA) Scene 관리 로직 etc 있어야!
 		_testScene->Initialize();
-		_currentScene->Start();
 	}
 	
 	void SceneSystem::Update()
 	{
 		//현재 씬의 Update를 호출시켜주면 TestScene에 존재하는 Update도 호출이 된다.
-		_testScene->Update();
+		if (!_isStarted)
+		{
+			_currentScene->Start();
+			_isStarted = true;
+		}
+	
 		_currentScene->Update();
 		_currentScene->FixedUpdate();
 		_currentScene->LateUpdate();
@@ -34,10 +46,6 @@ namespace Pg::Engine
 
 		//씬을 생성해서
 		Pg::Data::Scene* scene = new Scene("Empty Scene");
-
-		//리스트에 집어 넣는다.
-
-
 	}
 
 	Pg::Data::Scene* SceneSystem::CreateScene(const std::string& sceneName)
@@ -70,8 +78,6 @@ namespace Pg::Engine
 		return _currentScene;
 	}
 
-
-
 	void SceneSystem::DeleteCurrentScene()
 	{
 		if (_currentScene)
@@ -80,5 +86,4 @@ namespace Pg::Engine
 			_currentScene = nullptr;
 		}
 	}
-
 }

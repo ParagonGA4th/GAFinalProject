@@ -12,9 +12,13 @@ namespace Pg::Data
 
 	void CapsuleCollider::Update()
 	{
+		//Capsule의 업데이트는 오브젝트의 Scale과 맞게 설정해주어야 함.
 		PGFLOAT4X4 worldTM = GetOffsetTM() * _object->_transform.GetWorldTM();
-		PGFLOAT3 Whd = { GetWidth(), GetHeight(), GetDepth() };
+		PGFLOAT3 Whd = { GetWidth() / _object->_transform._scale.x, 
+						GetHeight() / _object->_transform._scale.y, 
+						GetDepth()  / _object->_transform._scale.z };
 		PGFLOAT4 color = { 0.0f,1.0f,0.0f,1.0f };
+
 		_capsuleInfo.worldTM = worldTM;
 		_capsuleInfo.scale = Whd;
 		_capsuleInfo.color = color;
@@ -22,12 +26,12 @@ namespace Pg::Data
 
 	float CapsuleCollider::GetWidth() const
 	{
-		return (_radius + _halfHeight) * 2 * _scaleOffset.y * _object->_transform.GetScale().y;
+		return (_radius + _halfHeight) * _scaleOffset.x * _object->_transform.GetScale().x;
 	}
 
 	float CapsuleCollider::GetHeight() const
 	{
-		return _radius * 2 * _scaleOffset.x * _object->_transform.GetScale().x;
+		return _radius * 2 * _scaleOffset.y * _object->_transform.GetScale().y;
 	}
 
 	float CapsuleCollider::GetDepth() const
@@ -53,6 +57,12 @@ namespace Pg::Data
 	void CapsuleCollider::SetHalfHeight(float h)
 	{
 		_halfHeight = h;
+	}
+
+	void CapsuleCollider::SetCapsuleInfo(float rad, float halfHeight)
+	{
+		_radius = rad;
+		_halfHeight = halfHeight;
 	}
 
 }

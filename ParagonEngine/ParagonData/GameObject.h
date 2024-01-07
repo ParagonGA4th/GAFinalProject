@@ -29,6 +29,7 @@ namespace Pg::Data
 		GameObject(const std::string name);
 		virtual ~GameObject();
 
+	public:
 		void Awake();
 		void Start();
 		void Update();
@@ -39,6 +40,8 @@ namespace Pg::Data
 		void OnCollisionStay();
 		void OnCollisionEnter();
 		void OnCollisionExit();
+
+	public:
 		void OnDestroy();
 
 		const std::string& GetName() const;

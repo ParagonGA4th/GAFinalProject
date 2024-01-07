@@ -1,21 +1,12 @@
 #pragma once
 #include "Collider.h"
+#include "ForceMode.h"
 #include "../ParagonMath/PgMath.h"
 
 /// <summary>
 /// 변지상의 DynamicCollider.
 /// 2023.10.23
 /// </summary>
-
-namespace Pg::Data
-{
-	enum class ForceMode : int
-	{
-		FORCE,
-		IMPULSE,
-		ACCELERATION
-	};
-}
 
 namespace Pg::Data
 {
@@ -29,19 +20,44 @@ namespace physx
 
 namespace Pg::Data
 {
+	using namespace Pg::Math;
+
 	class DynamicCollider : public Collider
 	{
 	public:
 		DynamicCollider(GameObject* owner);
 
 	public:
+		virtual void Start() override;
 
+	public:
+		void UpdatePhysics(PGFLOAT3 pos, PGQuaternion quat);
+		virtual void UpdateTransform() override;
+
+	public:
 		//충돌판정 여부 체크
-		bool SetIsCollided();
-		bool GetIsCollided();
+		bool GetIsCollide();
+		bool GetWasCollided();
+
+		void SetPxRigidDynamic(physx::PxRigidDynamic* rigid);
+		physx::PxRigidDynamic* GetRigidBodyDynamic();
+
+		///속도의 증감
+		void SetVelocity(PGFLOAT3 velo);
+		void AddVelocity(PGFLOAT3 velo);
+		PGFLOAT3 GetVelocity() const;
 
 	public:
 		void AddForce(PGFLOAT3 dir, ForceMode mode);
+		
+		///Collider의 축을 고정
+		void FreezeAxisX(bool isActive);
+		void FreezeAxisY(bool isActive);
+		void FreezeAxisZ(bool isActive);
+
+	public:
+
+		void Flush();
 
 	public:
 
@@ -53,7 +69,15 @@ namespace Pg::Data
 	private:
 		physx::PxRigidDynamic* _rigid;
 
-		bool _isCollided;
+		//충돌의 여부를 판단하기 위해.
+		bool _isCollide;
+		bool _wasCollided;
+
+	private:
+		//플래그
+		bool _isActiveX;
+		bool _isActiveY;
+		bool _isActiveZ;
 	};
 }
 

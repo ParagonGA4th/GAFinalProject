@@ -28,6 +28,9 @@ namespace Pg::Data
 		float GetRadius() const;
 		float GetHalfHeight() const;
 
+		void SetCapsuleInfo(float rad, float halfHeight);
+
+	public:
 		Pg::Data::CapsuleInfo _capsuleInfo;
 
 	private:

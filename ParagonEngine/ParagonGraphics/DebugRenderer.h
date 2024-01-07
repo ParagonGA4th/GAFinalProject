@@ -40,7 +40,8 @@ namespace Pg::Graphics
 		void GetDebugSphereGeometryData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec);
 		void GetDebugCapsuleGeometryData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec);
 		void GetDebugLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec);
-		void Render(RenderObjectWireframeList* wireframeList, Pg::Data::CameraData* camData);
+		void GetDebugPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec);
+		void Render(Pg::Data::CameraData* camData);
 
 	private:
 		//내부적으로 Rendering 세팅 설정.
@@ -59,11 +60,14 @@ namespace Pg::Graphics
 		void DrawSphere(Pg::Data::CameraData* camData, Pg::Data::SphereInfo* sphereInfo);
 		void DrawCapsule(Pg::Data::CameraData* camData, Pg::Data::CapsuleInfo* capsuleInfo);
 		void DrawLine(Pg::Data::LineInfo* lineInfo);
+		void DrawPlane(Pg::Data::CameraData* camData, Pg::Data::PlaneInfo* planeInfo);
 
 	private:
 		void CreateSystemVertexShaders();
 		void InitGeometry();
+		void InitCapsule();
 		void InitLine();
+		void InitPlane();
 
 	private:
 		LowDX11Storage* _DXStorage;
@@ -82,10 +86,13 @@ namespace Pg::Graphics
 		//Sphere Wireframe Rendering
 		std::unique_ptr<DirectX::GeometricPrimitive> _sphereShape;
 
-		//Capsule Wireframe Rendering. (Sphere와 합쳐서 Capsule 구성에 활용)
-		std::unique_ptr<DirectX::GeometricPrimitive> _topHemisphereShape;
-		std::unique_ptr<DirectX::GeometricPrimitive> _cylinderShape;
-		std::unique_ptr<DirectX::GeometricPrimitive> _bottomHemisphereShape;
+
+		//Capsule Wireframe Rendering
+		std::unique_ptr<DirectX::GeometricPrimitive> _capsuleShape;
+		
+		//Plane Wireframe Rendering
+		std::unique_ptr<DirectX::GeometricPrimitive> _planeShape;
+		
 
 	private:
 		//렌더링을 위해 Pointer를 보관.
@@ -93,6 +100,7 @@ namespace Pg::Graphics
 		const std::vector<Pg::Data::SphereInfo*>* _sphereColVector = nullptr;
 		const std::vector<Pg::Data::CapsuleInfo*>* _capsuleColVector = nullptr;
 		const std::vector<Pg::Data::LineInfo>* _lineColVector = nullptr;
+		const std::vector<Pg::Data::PlaneInfo*>* _planeColVector = nullptr;
 
 	private:
 		//DebugLine을 위한 요구사항.

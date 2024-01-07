@@ -44,6 +44,7 @@ private:
 	Pg::Engine::Input::InputSystem* tInput = nullptr;
 	Pg::Data::Camera* _camera = nullptr;
 
-	float _moveSpeed = 0.02f; //FPS는 동일, 카메라의 스피드UP.
+	//float _moveSpeed = 0.02f; //FPS는 동일, 카메라의 스피드UP.
+	float _moveSpeed = 0.1f; //(변지상 컴퓨터)FPS는 동일, 카메라의 스피드UP.
 };
 

@@ -20,15 +20,23 @@ namespace Pg::API::Input
 		MouseRight,
 
 		EditorOnOff,
+		DebugOnOff,
 
 		NextRenderTarget,
 		PrevRenderTarget,
 
 		ShiftL, //이동 속도 조정 위해.
-		
+
 		Save,
 
 		CtrlL,
-		KeyS
+		KeyS,
+		KeyZ,
+
+		KeyLeft,
+		KeyRight,
+		KeyUp,
+		KeyDown,
+		Space
 	};
 }

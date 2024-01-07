@@ -36,7 +36,7 @@ namespace  Pg::Engine::Input
 
 		//[DELETE] 인스턴스 두개인지 디버깅중.
 		//std::string address = std::to_string((unsigned long long)(void**)this);
-		
+
 	}
 
 	InputSystem::~InputSystem()
@@ -49,7 +49,7 @@ namespace  Pg::Engine::Input
 	{
 		//PG_DEBUG("Input System Initialized.");
 		OutputDebugString(L"Input System Initialized.");
-		
+
 		_manager->SetDisplaySize(screenwidth, screenheight);
 
 		// 키와 액션을 맵핑
@@ -77,6 +77,7 @@ namespace  Pg::Engine::Input
 		assert(_map->MapBool(eKeyCode::MoveRight, _keyboardId, gainput::KeyD));
 		assert(_map->MapBool(eKeyCode::MoveUp, _keyboardId, gainput::KeyE));
 		assert(_map->MapBool(eKeyCode::MoveDown, _keyboardId, gainput::KeyQ));
+		assert(_map->MapBool(eKeyCode::KeyZ, _keyboardId, gainput::KeyZ));
 
 		assert(_map->MapBool(eKeyCode::ButtonConfirm, _keyboardId, gainput::KeyReturn));
 		assert(_map->MapBool(eKeyCode::ButtonConfirm, _padId, gainput::PadButtonA));
@@ -89,11 +90,18 @@ namespace  Pg::Engine::Input
 		assert(_map->MapFloat(eKeyCode::MouseY, _mouseId, gainput::MouseAxisY));
 
 		assert(_map->MapBool(eKeyCode::EditorOnOff, _keyboardId, gainput::KeyF1));
+		assert(_map->MapBool(eKeyCode::DebugOnOff, _keyboardId, gainput::KeyF2));
 
 		assert(_map->MapBool(eKeyCode::PrevRenderTarget, _keyboardId, gainput::Key9));
 		assert(_map->MapBool(eKeyCode::NextRenderTarget, _keyboardId, gainput::Key0));
 
 		assert(_map->MapBool(eKeyCode::ShiftL, _keyboardId, gainput::KeyShiftL));
+
+		assert(_map->MapBool(eKeyCode::KeyLeft, _keyboardId, gainput::KeyLeft));
+		assert(_map->MapBool(eKeyCode::KeyRight, _keyboardId, gainput::KeyRight));
+		assert(_map->MapBool(eKeyCode::KeyUp, _keyboardId, gainput::KeyUp));
+		assert(_map->MapBool(eKeyCode::KeyDown,_keyboardId, gainput::KeyDown));
+		assert(_map->MapBool(eKeyCode::Space,_keyboardId, gainput::KeySpace));
 
 		gainput::SimultaneouslyDownGesture* sdg = _manager->CreateAndGetDevice<gainput::SimultaneouslyDownGesture>();
 		sdg->AddButton(_keyboardId, gainput::KeyCtrlL);

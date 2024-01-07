@@ -152,6 +152,9 @@ namespace Pg::Core
 		const auto& tLineColVec = _engine->GetLineDebugData();
 		_graphics->SetLineDebugRenderData(tLineColVec);
 
+		const auto& tPlaneColVec = _engine->GetPlaneDebugData();
+		_graphics->SetPlaneDebugRenderData(tPlaneColVec);
+
 	}
 
 	void EngineGraphicsAdapter::ClearDebugVectorData()

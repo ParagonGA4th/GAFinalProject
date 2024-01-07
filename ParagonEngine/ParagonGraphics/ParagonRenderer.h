@@ -57,6 +57,7 @@ namespace Pg::Graphics
 		void PassLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec);
 		void PassCapsuleGeometryData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec);
 		void PassSphereGeometryData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec);
+		void PassPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec);
 
 		void BeginRender();
 		void Render(Pg::Data::CameraData* camData); //이미 컴포넌트 단계에서 RenderObject들과 연동되기에, 오브젝트 자체를 받을 필요가 없음.

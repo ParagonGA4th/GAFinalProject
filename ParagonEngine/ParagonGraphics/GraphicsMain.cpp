@@ -274,4 +274,9 @@ namespace Pg::Graphics
 		_renderer->PassSphereGeometryData(sphereColVec);
 	}
 
+	void GraphicsMain::SetPlaneDebugRenderData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec)
+	{
+		_renderer->PassPlaneGeometryData(planeColVec);
+	}
+
 }

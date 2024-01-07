@@ -8,8 +8,9 @@
 #include <singleton-cpp/singleton.h>
 
 
-Pg::Editor::Manager::ProcessManager::ProcessManager()
-	:_isCoreInitailized(false)
+Pg::Editor::Manager::ProcessManager::ProcessManager(float width, float height)
+	:_screenWidth(width), _screenHeight(height),
+	_isCoreInitailized(false), _isSceneSet(false)
 {
 	// core
 	_coreMain = std::make_unique<Pg::Core::ProcessMain>();
@@ -26,14 +27,12 @@ Pg::Editor::Manager::ProcessManager::~ProcessManager()
 {
 }
 
-void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd, float screenWidth, float screenHeight)
+void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd)
 {
-	_coreMain->Initialize(hWnd, screenWidth, screenHeight);
+	_coreMain->Initialize(hWnd, _screenWidth, _screenHeight);
 	_isCoreInitailized = true;
 
-	_dataContainer->SetDevice(_coreMain->GetGraphicsDevice());
-	_dataContainer->SetDeviceContext(_coreMain->GetGraphicsDeviceContext());
-
+	_dataContainer->SetGraphicsData(_coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
 	_dataContainer->SetSceneTexture(_coreMain->GetEditorAdapter()->GetEditorCameraViewSRV());
 }
 
@@ -49,13 +48,22 @@ void Pg::Editor::Manager::ProcessManager::Update()
 		_coreMain->GetEditorAdapter()->SetEditorMode(Pg::Data::Enums::eEditorMode::_EDIT);
 	}
 
-	if (_input->GetKeyDown(API::Input::eKeyCode::Save))
+	if (_dataContainer->GetEditorOnOff())
 	{
-		_dataContainer->SetSave(!_dataContainer->GetSave());
+		if (_dataContainer->GetSceneList().size() > 0)
+		{
+			if (!_isSceneSet)
+			{
+				_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
+				_isSceneSet = true;
+			}
+
+			_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
+		}
 	}
 }
 
-void Pg::Editor::Manager::ProcessManager::LastUpdate()
+void Pg::Editor::Manager::ProcessManager::LateUpdate()
 {
 	_coreMain->EndRender();
 }
@@ -65,7 +73,7 @@ void Pg::Editor::Manager::ProcessManager::Finalize()
 	_coreMain->Finalize();
 }
 
-void Pg::Editor::Manager::ProcessManager::ProcessHandler(MSG message)
+void Pg::Editor::Manager::ProcessManager::ManagerHandler(MSG message)
 {
 	if (_isCoreInitailized) _input->HandleMessage(message);
 }

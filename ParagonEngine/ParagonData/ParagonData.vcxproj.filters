@@ -13,14 +13,11 @@
     <ClCompile Include="Script.cpp">
       <Filter>2_Component\Script</Filter>
     </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>2_Component\Transform</Filter>
-    </ClCompile>
     <ClCompile Include="BaseRenderer.cpp">
       <Filter>2_Component\Renderer\BaseClass</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
-      <Filter>2_Component\Button</Filter>
+      <Filter>2_Component\UI\Button</Filter>
     </ClCompile>
     <ClCompile Include="EngineResource.cpp">
       <Filter>3_Resource</Filter>
@@ -76,9 +73,6 @@
     <ClCompile Include="StaticBoxCollider.cpp">
       <Filter>2_Component\Collider\StaticCollider\BoxCollider</Filter>
     </ClCompile>
-    <ClCompile Include="RigidBody.cpp">
-      <Filter>2_Component\RigidBody</Filter>
-    </ClCompile>
     <ClCompile Include="DirectionalLight.cpp">
       <Filter>2_Component\Light\DirectionalLight</Filter>
     </ClCompile>
@@ -95,6 +89,12 @@
     <ClCompile Include="ParagonDefines.cpp" />
     <ClCompile Include="SkinnedMeshRenderer.cpp">
       <Filter>2_Component\Renderer\3D\SkinnedMeshRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneCollider.cpp">
+      <Filter>2_Component\Collider\StaticCollider\PlaneCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>2_Component\Script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,7 +120,7 @@
       <Filter>7_ParagonDefines</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>2_Component\Button</Filter>
+      <Filter>2_Component\UI\Button</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>2_Component\Camera</Filter>
@@ -206,9 +206,6 @@
     <ClInclude Include="StaticBoxCollider.h">
       <Filter>2_Component\Collider\StaticCollider\BoxCollider</Filter>
     </ClInclude>
-    <ClInclude Include="RigidBody.h">
-      <Filter>2_Component\RigidBody</Filter>
-    </ClInclude>
     <ClInclude Include="DirectionalLight.h">
       <Filter>2_Component\Light\DirectionalLight</Filter>
     </ClInclude>
@@ -232,6 +229,12 @@
     </ClInclude>
     <ClInclude Include="SkinnedMeshRenderer.h">
       <Filter>2_Component\Renderer\3D\SkinnedMeshRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneCollider.h">
+      <Filter>2_Component\Collider\StaticCollider\PlaneCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="ForceMode.h">
+      <Filter>4_Structs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -285,9 +288,6 @@
     </Filter>
     <Filter Include="2_Component\Renderer\BaseClass">
       <UniqueIdentifier>{f92600e3-e432-4614-b52a-b07386de60d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Button">
-      <UniqueIdentifier>{b3e53bb0-eb90-4646-b909-89afba4cc3ed}</UniqueIdentifier>
     </Filter>
     <Filter Include="3_Resource\BaseClass">
       <UniqueIdentifier>{45458850-900a-49f8-912b-b811cde34b25}</UniqueIdentifier>
@@ -343,9 +343,6 @@
     <Filter Include="2_Component\Collider\StaticCollider\BoxCollider">
       <UniqueIdentifier>{94c65e16-27ab-47cb-a5c4-f6cd9d8856cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Component\RigidBody">
-      <UniqueIdentifier>{58672e29-ee52-4a0c-9ec4-b304b6d4104e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2_Component\Light\DirectionalLight">
       <UniqueIdentifier>{9423fd94-9e78-4939-a0e6-578e16b176b8}</UniqueIdentifier>
     </Filter>
@@ -363,6 +360,18 @@
     </Filter>
     <Filter Include="2_Component\Renderer\3D\SkinnedMeshRenderer">
       <UniqueIdentifier>{765ff04f-c71d-4daf-931c-cfa249af2d59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\UI">
+      <UniqueIdentifier>{924185cf-efa7-42c4-8eda-8fbfc742443c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\UI\Button">
+      <UniqueIdentifier>{b3e53bb0-eb90-4646-b909-89afba4cc3ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\UI\Slider">
+      <UniqueIdentifier>{070588a3-5e11-41b7-8963-d3fbd2a43f2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\StaticCollider\PlaneCollider">
+      <UniqueIdentifier>{34510aec-ad30-4dcd-9cd2-d6bc26aac2b6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

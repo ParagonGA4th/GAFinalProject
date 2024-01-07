@@ -1,18 +1,16 @@
 #include "DataContainer.h"
 
-void Pg::Editor::Data::DataContainer::SetDevice(ID3D11Device* device)
+#include "../ParagonData/Scene.h"
+
+void Pg::Editor::Data::DataContainer::SetGraphicsData(ID3D11Device* d, ID3D11DeviceContext* dc)
 {
-	_device = device;
+	_device = d;
+	_deviceContext = dc;
 }
 
 ID3D11Device* Pg::Editor::Data::DataContainer::GetDevice()
 {
 	return _device;
-}
-
-void Pg::Editor::Data::DataContainer::SetDeviceContext(ID3D11DeviceContext* deviceContext)
-{
-	_deviceContext = deviceContext;
 }
 
 ID3D11DeviceContext* Pg::Editor::Data::DataContainer::GetDeviceContext()
@@ -50,17 +48,30 @@ bool Pg::Editor::Data::DataContainer::GetEditorOnOff()
 	return _onOff;
 }
 
-void Pg::Editor::Data::DataContainer::SetScenes(std::vector<Pg::Data::Scene*> scenes)
+void Pg::Editor::Data::DataContainer::SetSceneList(std::vector<Pg::Data::Scene*> scenes)
 {
 	_scenes = scenes;
 
 	// юс╫ц
-	SetCurrentScene(_scenes.at(0));
+	SetCurrentScene(0);
 }
 
-std::vector<Pg::Data::Scene*> Pg::Editor::Data::DataContainer::GetScenes()
+std::vector<Pg::Data::Scene*> Pg::Editor::Data::DataContainer::GetSceneList()
 {
 	return _scenes;
+}
+
+void Pg::Editor::Data::DataContainer::SetCurrentScene(int sceneNumber)
+{
+	_currentScene = _scenes.at(sceneNumber);
+}
+
+void Pg::Editor::Data::DataContainer::SetCurrentScene(std::string sceneName)
+{
+	for (auto& scene : _scenes)
+	{
+		if (scene->GetSceneName() == sceneName) _currentScene = scene;
+	}
 }
 
 void Pg::Editor::Data::DataContainer::SetCurrentScene(Pg::Data::Scene* scene)
@@ -73,13 +84,5 @@ Pg::Data::Scene* Pg::Editor::Data::DataContainer::GetCurrentScene()
 	return _currentScene;
 }
 
-void Pg::Editor::Data::DataContainer::SetSave(bool isSave)
-{
-	_isSave = isSave;
-}
 
-bool Pg::Editor::Data::DataContainer::GetSave()
-{
-	return _isSave;
-}
 
