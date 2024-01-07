@@ -20,11 +20,11 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class ObjMatRenderPass : public IRenderPass
+	class ObjMatStaticRenderPass : public IRenderPass
 	{
 	public:
-		ObjMatRenderPass();
-		~ObjMatRenderPass();
+		ObjMatStaticRenderPass();
+		~ObjMatStaticRenderPass();
 
 		virtual void Initialize() override;
 		virtual void ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv) override;

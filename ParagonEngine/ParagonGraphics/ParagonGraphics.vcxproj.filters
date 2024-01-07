@@ -229,7 +229,7 @@
     <ClInclude Include="FinalRenderPass.h">
       <Filter>0_Main\RenderPass\3_FinalRenderPass</Filter>
     </ClInclude>
-    <ClInclude Include="ObjMatRenderPass.h">
+    <ClInclude Include="ObjMatStaticRenderPass.h">
       <Filter>0_Main\RenderPass\1_ObjMatRenderPass</Filter>
     </ClInclude>
   </ItemGroup>
@@ -426,7 +426,7 @@
     <ClCompile Include="FinalRenderPass.cpp">
       <Filter>0_Main\RenderPass\3_FinalRenderPass</Filter>
     </ClCompile>
-    <ClCompile Include="ObjMatRenderPass.cpp">
+    <ClCompile Include="ObjMatStaticRenderPass.cpp">
       <Filter>0_Main\RenderPass\1_ObjMatRenderPass</Filter>
     </ClCompile>
   </ItemGroup>
