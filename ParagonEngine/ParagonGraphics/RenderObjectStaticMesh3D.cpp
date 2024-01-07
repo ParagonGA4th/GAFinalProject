@@ -37,9 +37,14 @@ namespace Pg::Graphics
 
 	}
 
-	void RenderObjectStaticMesh3D::Render()
+	void RenderObjectStaticMesh3D::CreateObjMatBuffers()
 	{
-		BindVertexIndexBuffer();
+
+	}
+
+	void RenderObjectStaticMesh3D::First_Render()
+	{
+		BindMainVertexIndexBuffer();
 
 		int tMeshCount = _modelData->_assetSceneData->_totalMeshCount;
 
@@ -55,7 +60,7 @@ namespace Pg::Graphics
 		}
 	}
 
-	void RenderObjectStaticMesh3D::UpdateConstantBuffers(Pg::Data::CameraData* camData)
+	void RenderObjectStaticMesh3D::First_UpdateConstantBuffers(Pg::Data::CameraData* camData)
 	{
 		auto _DXStorage = LowDX11Storage::GetInstance();
 
@@ -92,17 +97,37 @@ namespace Pg::Graphics
 
 	}
 
-	void RenderObjectStaticMesh3D::BindBuffers()
+	void RenderObjectStaticMesh3D::First_BindBuffers()
 	{
 		_cBuffer->BindVS(0);
 	}
 
-	void RenderObjectStaticMesh3D::UnbindBuffers()
+	void RenderObjectStaticMesh3D::First_UnbindBuffers()
 	{
 		_cBuffer->UnbindVS(0);
 	}
 
-	void RenderObjectStaticMesh3D::BindVertexIndexBuffer()
+	void RenderObjectStaticMesh3D::ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData)
+	{
+
+	}
+
+	void RenderObjectStaticMesh3D::ObjMat_BindBuffers()
+	{
+
+	}
+
+	void RenderObjectStaticMesh3D::ObjMat_Render()
+	{
+
+	}
+
+	void RenderObjectStaticMesh3D::ObjMat_UnbindBuffers()
+	{
+
+	}
+
+	void RenderObjectStaticMesh3D::BindMainVertexIndexBuffer()
 	{
 		///
 		//Vertex Buffer Setting.
@@ -112,5 +137,17 @@ namespace Pg::Graphics
 		//Index Buffer Setting.
 		_DXStorage->_deviceContext->IASetIndexBuffer(_modelData->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	}
+
+	void RenderObjectStaticMesh3D::BindObjMatVertexIndexBuffer()
+	{
+		//Vertex Buffer Setting.
+		UINT stride = sizeof(LayoutDefine::VinPerObjMatIDStatic);
+		UINT offset = 0;
+		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(_objMatVB), &stride, &offset);
+		//Index Buffer Setting.
+		_DXStorage->_deviceContext->IASetIndexBuffer(_objMatIB, DXGI_FORMAT_R32_UINT, 0);
+	}
+
+	
 
 }

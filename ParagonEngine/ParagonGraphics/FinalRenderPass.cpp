@@ -24,7 +24,7 @@ namespace Pg::Graphics
 	}
 
 	void FinalRenderPass::ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, 
-		const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount)
+		const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv)
 	{
 
 	}
@@ -112,7 +112,7 @@ namespace Pg::Graphics
 
 	}
 
-	void FinalRenderPass::PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount)
+	void FinalRenderPass::PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
 	{
 		//마지막 Render Pass, 세팅할 이유가 없다.
 	}

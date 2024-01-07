@@ -46,19 +46,28 @@ namespace Pg::Graphics
 	public:
 		RenderObject3D(Pg::Data::BaseRenderer* baseRenderer);
 		virtual ~RenderObject3D();
-			
+		
+		//Object-Material 데이터가 전부 매칭/로드 된 후, 일괄적으로 발동될 함수이다.	
+		virtual void CreateObjMatBuffers() abstract;
+
+	public:
 		//FirstRenderPass에 쓰인다.
-		virtual void UpdateConstantBuffers(Pg::Data::CameraData* camData) abstract;
-		virtual void BindBuffers() abstract;
-		virtual void Render() abstract;
-		virtual void UnbindBuffers() abstract;
+		virtual void First_UpdateConstantBuffers(Pg::Data::CameraData* camData) abstract;
+		virtual void First_BindBuffers() abstract;
+		virtual void First_Render() abstract;
+		virtual void First_UnbindBuffers() abstract;
+
+		virtual void ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData) abstract;
+		virtual void ObjMat_BindBuffers() abstract;
+		virtual void ObjMat_Render() abstract;
+		virtual void ObjMat_UnbindBuffers() abstract;
 
 	protected:
 		LowDX11Storage* _DXStorage;
 		Asset3DModelData* _modelData = nullptr;
 		
-		//어떤 Material이랑 연동되었는지, 알 필요가 있다. -> 이미 RendererBase3D에 있다.
-		//Parsing 과정에서 알아내야 하기 때문. (Sorting 때문에)
-		//std::string _materialName;
+		//Model에 종속된 VB/IB와 다르게, Object, Material ID를 기록하기 위해 오브젝트 종속 VB/IB들.
+		ID3D11Buffer* _objMatVB = nullptr;
+		ID3D11Buffer* _objMatIB = nullptr;
 	};
 }

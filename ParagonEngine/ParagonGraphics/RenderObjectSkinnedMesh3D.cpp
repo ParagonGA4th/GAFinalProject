@@ -35,7 +35,12 @@ namespace Pg::Graphics
 		//delete _constantBufferStruct;
 	}
 
-	void RenderObjectSkinnedMesh3D::Render()
+	void RenderObjectSkinnedMesh3D::CreateObjMatBuffers()
+	{
+
+	}
+
+	void RenderObjectSkinnedMesh3D::First_Render()
 	{
 		////버퍼 바인딩.
 		//BindBuffers();
@@ -77,7 +82,7 @@ namespace Pg::Graphics
 		//}
 	}
 
-	void RenderObjectSkinnedMesh3D::BindBuffers()
+	void RenderObjectSkinnedMesh3D::First_BindBuffers()
 	{
 		////Vertex Buffer Setting.
 		//UINT stride = sizeof(LayoutDefine::Vin1stSkinned);
@@ -88,14 +93,33 @@ namespace Pg::Graphics
 		//_devCon->IASetIndexBuffer(_modelData->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	}
 
-	void RenderObjectSkinnedMesh3D::UpdateConstantBuffers(Pg::Data::CameraData* camData)
+	void RenderObjectSkinnedMesh3D::First_UpdateConstantBuffers(Pg::Data::CameraData* camData)
 	{
 
 	}
 
-	void RenderObjectSkinnedMesh3D::UnbindBuffers()
+	void RenderObjectSkinnedMesh3D::First_UnbindBuffers()
 	{
 
 	}
 
+	void RenderObjectSkinnedMesh3D::ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData)
+	{
+
+	}
+
+	void RenderObjectSkinnedMesh3D::ObjMat_BindBuffers()
+	{
+
+	}
+
+	void RenderObjectSkinnedMesh3D::ObjMat_Render()
+	{
+
+	}
+
+	void RenderObjectSkinnedMesh3D::ObjMat_UnbindBuffers()
+	{
+
+	}
 }
