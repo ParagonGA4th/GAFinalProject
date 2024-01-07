@@ -95,19 +95,19 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 
 		for (pugi::xml_node component = comps.first_child(); component; component = comps.next_sibling())
 		{
-			std::string typeName = typeid(Pg::Data::Transform).name();
+			std::string typeName = Pg::Serialize::Serializer::DeserializeString(&component, "type");
 
-			if (typeName == Pg::Serialize::Serializer::DeserializeString(&component, "type"))
-			{
-				pugi::xml_node trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "position"; });
-				obj->_transform._position = Pg::Serialize::Serializer::DeserializePGFloat3(&trans, "x");
+			obj->AddComponent<>();
 
-				trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "rotation"; });
-				obj->_transform._rotation = Pg::Serialize::Serializer::DeserializePGQuaternion(&trans, "w");
 
-				trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "scale"; });
-				obj->_transform._scale = Pg::Serialize::Serializer::DeserializePGFloat3(&trans, "x");
-			}
+			pugi::xml_node trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "position"; });
+			obj->_transform._position = Pg::Serialize::Serializer::DeserializePGFloat3(&trans, "x");
+
+			trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "rotation"; });
+			obj->_transform._rotation = Pg::Serialize::Serializer::DeserializePGQuaternion(&trans, "w");
+
+			trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "scale"; });
+			obj->_transform._scale = Pg::Serialize::Serializer::DeserializePGFloat3(&trans, "x");
 		}
 	}
 }
