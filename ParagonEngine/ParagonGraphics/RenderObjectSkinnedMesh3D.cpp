@@ -22,12 +22,11 @@ namespace Pg::Graphics
 
 	RenderObjectSkinnedMesh3D::RenderObjectSkinnedMesh3D(Pg::Data::BaseRenderer* baseRenderer) : RenderObject3D(baseRenderer)
 	{
-		////StaticMeshRenderer 따로 포인터를 받기.
-		//Pg::Data::SkinnedMeshRenderer* tSkinnedMeshRenderer = static_cast<Pg::Data::SkinnedMeshRenderer*>(GetBaseRenderer());
-		//
-		////Mesh 데이터를 받기.
-		//auto tModelData = GraphicsResourceManager::Instance()->GetResource(tSkinnedMeshRenderer->GetMeshFilePath(), eAssetDefine::_3DMODEL);
-		//_modelData = static_cast<Asset3DModelData*>(tModelData.get());
+		//SkinnedMesh도 똑같은 과정 거쳐야.
+		//StaticMeshRenderer 따로 포인터를 받기.
+		//Mesh 데이터를 받기.
+		//VB/IB 로드.
+		//Constant Buffer Data를 생성.
 	}
 
 	RenderObjectSkinnedMesh3D::~RenderObjectSkinnedMesh3D()

@@ -27,6 +27,8 @@ namespace Pg::Graphics
 	RenderObject3D::RenderObject3D(Pg::Data::BaseRenderer* baseRenderer) : RenderObjectBase(baseRenderer)
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
+
+		//하단에서 별도로 VB/IB (Static, Skinned Mesh 따로 만들어줘야 함)
 	}
 
 	RenderObject3D::~RenderObject3D()

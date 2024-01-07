@@ -72,6 +72,10 @@ namespace Pg::Graphics::Helper
 		static void AssimpToSceneAssetData(const aiScene* assimp, const std::string& path, Scene_AssetData* outSceneAssetData);
 		static void AssimpToMaterialClusterList(const aiScene* assimp, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory);
 		
+		//모델의 Path를 기반으로 ObjMatStatic/Skinned를 뽑아내는 함수.
+		static void AssimpToObjMatStatic();
+		static void AssimpToObjMatSkinned();
+
 		//후에, 여기에 Animation을 로드하는 함수가 들어가야 할 것.
 	
 	private:
@@ -99,6 +103,8 @@ namespace Pg::Graphics::Helper
 		static void StoreAssimpAnimation(const aiAnimation* assimp, Animation_AssetData* pgAnim);
 		//Bone Info도 있어야 하는데..
 
+
+		 
 		//Material 관련.
 
 	private:
