@@ -57,16 +57,9 @@ float3 GetTangent(float2 quadUV)
     return float3(tanx, tany, tanz);
 }
 
-uint GetObjectID(float2 quadUV)
+float2 GetUVSet2(float2 quadUV)
 {
-    //RT4 :  Object ID. (x)
-    return asuint(GBuffer[4].Sample(fullScreenQuadSS, quadUV).x);
-}
-
-uint GetMaterialID(float2 quadUV)
-{
-    //RT4 :  Material ID. (y)
-    return asuint(GBuffer[4].Sample(fullScreenQuadSS, quadUV).y);
+    return GBuffer[4].Sample(fullScreenQuadSS, quadUV).xy;
 }
 
 float2 GetLightmapUV(float2 quadUV)

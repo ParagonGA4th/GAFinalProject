@@ -87,9 +87,7 @@ namespace Pg::Graphics::Helper
 				tMeshVert._posL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mVertices[j]);
 				tMeshVert._alpha = 1.f; //하드코딩.
 				tMeshVert._normalL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mNormals[j]);
-				tMeshVert._objectID = 0; //하드코딩.
 				tMeshVert._tangentL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTangents[j]);
-				tMeshVert._materialID = 0; //하드코딩.
 				//없으면 {0.f,0.f,0.f,0.f}가 들어가 있음.
 				//IF_NOT_NULL(assimp->mMeshes[i]->mColors[j],
 				//	tMeshVert.color = MathHelper::AI2SM_COLOR_VECTOR4(assimp->mMeshes[i]->mColors[0][j]););
@@ -97,6 +95,7 @@ namespace Pg::Graphics::Helper
 				tMeshVert._color = { 1.0f,1.0f, 1.0f,}; //하드코딩.
 
 				tMeshVert._tex = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTextureCoords[0][j]);
+				tMeshVert._uvSet2 = { 0.f, 0.f }; //하드코딩.
 				//일단 LightMapUV도 FBX딴에서 들어오는 것은 확인했지만, 일단은 파싱에서 받지 않는다.
 				tMeshVert._lightmapUV = { 0.f, 0.f }; //하드코딩.
 
@@ -266,12 +265,10 @@ namespace Pg::Graphics::Helper
 				vertices[vid + j]._posL = DirectX::XMFLOAT3{ pos.x, pos.y, pos.z };
 				vertices[vid + j]._alpha = 1.f; //하드코딩.
 				vertices[vid + j]._normalL = DirectX::XMFLOAT3{ norm.x, norm.y, norm.z };
-				vertices[vid + j]._objectID = 0; //하드코딩.
 				vertices[vid + j]._tangentL = DirectX::XMFLOAT3{ tan.x, tan.y, tan.z };
-				vertices[vid + j]._materialID = 0; //하드코딩.
 				vertices[vid + j]._color = DirectX::XMFLOAT3{ 1.0f,1.0f, 1.0f}; //하드코딩.
 				vertices[vid + j]._tex = DirectX::XMFLOAT3{ texUV.x, texUV.y, texUV.z };
-
+				vertices[vid + j]._uvSet2 = { 0.f, 0.f }; //하드코딩.
 				//일단 LightMapUV도 FBX딴에서 들어오는 것은 확인했지만, 일단은 파싱에서 받지 않는다.
 				vertices[vid + j]._lightmapUV = { 0.f, 0.f }; //하드코딩.
 

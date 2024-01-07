@@ -29,16 +29,12 @@ POut1st main(VOut1st input)
     output.pout1st_RT3.xyz = input.vout1st_Color.xyz;
     //RT3 : World Space Tangent.z (w)
     output.pout1st_RT3.w = input.vout1st_TangentW.z;
-    //</Float4>
-    
-    //<Typeless>
-    //RT4 :  Object ID. 일단은 uint로 해석될 예정. (x)
-    output.pout1st_RT4.x = input.vout1st_ObjectID;
-    //RT4 :  Material ID. 일단은 uint로 해석될 예정. (y)
-    output.pout1st_RT4.y = input.vout1st_MaterialID;
+
+    //RT4 : UV Set2 (float2) (x)
+    output.pout1st_RT4.xy = input.vout1st_UVSet2;
     //RT4 : LightMap Texture UV Coords (zw)
     output.pout1st_RT4.zw = input.vout1st_LightmapUV;
-    //</Typeless>
+    //</Float4>
     
     return output;
 }

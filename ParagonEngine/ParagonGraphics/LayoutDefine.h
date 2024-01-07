@@ -21,11 +21,10 @@ namespace Pg::Graphics
 			DirectX::XMFLOAT3	_posL;
 			float				_alpha;
 			DirectX::XMFLOAT3	_normalL;
-			unsigned int		_objectID;
 			DirectX::XMFLOAT3	_tangentL;
-			unsigned int		_materialID;
 			DirectX::XMFLOAT3	_color;
 			DirectX::XMFLOAT3	_tex;
+			DirectX::XMFLOAT2	_uvSet2;
 			DirectX::XMFLOAT2	_lightmapUV;
 		};
 
@@ -37,11 +36,10 @@ namespace Pg::Graphics
 			DirectX::XMFLOAT3	_posL;
 			float				_alpha;
 			DirectX::XMFLOAT3	_normalL;
-			unsigned int		_objectID;
 			DirectX::XMFLOAT3	_tangentL;
-			unsigned int		_materialID;
 			DirectX::XMFLOAT3	_color;
 			DirectX::XMFLOAT3	_tex;
+			DirectX::XMFLOAT2	_uvSet2;
 			DirectX::XMFLOAT2	_lightmapUV;
 			
 			unsigned int	  _blendIndice0;
