@@ -17,6 +17,7 @@ namespace Pg::Data
 {
 	class GameObject;
 	class Transform;
+	class Collider;
 }
 
 namespace Pg::Engine
@@ -31,28 +32,40 @@ namespace Pg::Engine::Physic
 	public:
 		void Initialize();
 
-		void UpdatePhysics();
+		void UpdatePhysics(float dTime);
+		void UpdateTransform();
 
 		void Finalize();
 
+		void AddObjectToScene();
+
+		void Flush();
+
 	public:
+		//PhysX 抗力
 		void CreatePxScene();
 
 		void CreateStack(const physx::PxTransform& t, physx::PxU32 size, physx::PxReal halfExtent);
 
 	public:
-		void MakeCollider();
+		//Collider 傈眉 积己
+		void InitMakeColliders();
 
-		//Collider 积己
+		//StaticCollider 积己
+		void MakeStaticBoxCollider(Pg::Data::GameObject* obj);
+		void MakePlaneCollider(Pg::Data::GameObject* obj);
+		
+		//DynamicCollider 积己
 		void MakeDynamicBoxCollider(Pg::Data::GameObject* obj);
 		void MakeDynamicSphereCollider(Pg::Data::GameObject* obj);
 		void MakeDynamicCapsuleCollider(Pg::Data::GameObject* obj);
 
-		//RigidBody 积己
-		void CreateDynamicRigid(physx::PxShape* shape);
+		Pg::Data::Collider* MakeRayCast(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length);
 
 	private:
+		//Rigid 沥焊甫 淬酒初绰 氦磐
 		std::vector<physx::PxRigidDynamic*> _rigidDynamicVec;
+		std::vector<physx::PxRigidStatic*> _rigidStaticVec;
 
 
 	private:

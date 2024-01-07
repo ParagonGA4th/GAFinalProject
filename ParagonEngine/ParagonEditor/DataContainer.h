@@ -1,20 +1,18 @@
 #pragma once
 #include <vector>
+#include <string>
 
 struct ID3D11Device;
 struct ID3D11DeviceContext;
 
 namespace Pg::Data { class Scene; }
-
 namespace Pg::Editor::Data
 {
 	class DataContainer
 	{
 	public:
-		void SetDevice(ID3D11Device* device);
+		void SetGraphicsData(ID3D11Device* d, ID3D11DeviceContext* dc);
 		ID3D11Device* GetDevice();
-
-		void SetDeviceContext(ID3D11DeviceContext* deviceContext);
 		ID3D11DeviceContext* GetDeviceContext();
 
 		void SetSceneTexture(void* Texture);
@@ -26,15 +24,13 @@ namespace Pg::Editor::Data
 		void SetEditorOnOff(bool onoff);
 		bool GetEditorOnOff();
 
-		void SetScenes(std::vector<Pg::Data::Scene*> scenes);
-		std::vector<Pg::Data::Scene*> GetScenes();
+		void SetSceneList(std::vector<Pg::Data::Scene*> scenes);
+		std::vector<Pg::Data::Scene*> GetSceneList();
 
+		void SetCurrentScene(int sceneNumber);
+		void SetCurrentScene(std::string sceneName);
 		void SetCurrentScene(Pg::Data::Scene* scene);
 		Pg::Data::Scene* GetCurrentScene();	
-
-		// Event System 만들기 전 테스트 용도
-		void SetSave(bool isSave);
-		bool GetSave();
 
 	private:
 		ID3D11Device* _device;
@@ -47,6 +43,5 @@ namespace Pg::Editor::Data
 		void* _gameTexture;
 
 		bool _onOff;
-		bool _isSave;
 	};
 }

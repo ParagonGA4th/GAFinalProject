@@ -176,12 +176,12 @@
     <ClInclude Include="EngineResourceManager.h" />
     <ClInclude Include="EventSystem.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="MovingTest.h" />
     <ClInclude Include="PhysicSystem.h" />
     <ClInclude Include="PrintRuntimeData.h" />
     <ClInclude Include="SceneSystem.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="TimeSystem.h" />
-    <ClInclude Include="WorkSpace.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugSystem.cpp" />
@@ -190,12 +190,12 @@
     <ClCompile Include="EngineResourceManager.cpp" />
     <ClCompile Include="EventSystem.cpp" />
     <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="MovingTest.cpp" />
     <ClCompile Include="PhysicSystem.cpp" />
     <ClCompile Include="PrintRuntimeData.cpp" />
     <ClCompile Include="SceneSystem.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TimeSystem.cpp" />
-    <ClCompile Include="WorkSpace.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

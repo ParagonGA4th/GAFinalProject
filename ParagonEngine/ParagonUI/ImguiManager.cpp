@@ -4,13 +4,6 @@
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 
-
-/// юс╫ц
-#include <filesystem>
-
-namespace fs = std::filesystem;
-/// 
-
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 Pg::UI::Manager::ImGuiManager::ImGuiManager()
@@ -61,6 +54,12 @@ void Pg::UI::Manager::ImGuiManager::CreateFrame()
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+
+	ImGui::Begin(" ");
+	ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+	ImGuiID dockspace_id = ImGui::GetID("Paragon Engine");
+	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+	ImGui::End();
 }
 
 void Pg::UI::Manager::ImGuiManager::Render()
@@ -87,9 +86,15 @@ void Pg::UI::Manager::ImGuiManager::ImguiHandler(MSG message)
 	ImGui_ImplWin32_WndProcHandler(message.hwnd, message.message, message.wParam, message.lParam);
 }
 
-void Pg::UI::Manager::ImGuiManager::Begin(std::string panelName)
+void Pg::UI::Manager::ImGuiManager::Begin(std::string panelName, bool isMenu)
 {
-	ImGui::Begin(panelName.c_str());
+	if(!isMenu) ImGui::Begin(panelName.c_str());
+	else 
+	{
+		ImGuiWindowFlags window_flags = 0;
+		window_flags |= ImGuiWindowFlags_MenuBar;
+		ImGui::Begin(panelName.c_str(), &isMenu, window_flags);
+	}		
 }
 
 void Pg::UI::Manager::ImGuiManager::End()

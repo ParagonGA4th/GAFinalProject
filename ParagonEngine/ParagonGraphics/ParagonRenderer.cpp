@@ -115,6 +115,17 @@ namespace Pg::Graphics
 		_debugRenderer->GetDebugSphereGeometryData(sphereColVec);
 	}
 
+	void ParagonRenderer::PassPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec)
+	{
+		_debugRenderer->GetDebugPlaneGeometryData(planeColVec);
+	}
+
+
+	//void ParagonRenderer::SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene)
+	//{
+	//
+	//}
+
 	void ParagonRenderer::ParseSceneData(const Pg::Data::Scene* const newScene)
 	{
 		//ParseSceneData는 브랜치 합치기 전에 SyncComponent로 분리 불가.

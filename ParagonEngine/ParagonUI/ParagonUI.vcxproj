@@ -37,9 +37,7 @@
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="InputFloat3.h" />
     <ClInclude Include="InputText.h" />
-    <ClInclude Include="Panel.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="MenuBar.h" />
     <ClInclude Include="Selectable.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TreeNode.h" />
@@ -64,9 +62,7 @@
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="InputFloat3.cpp" />
     <ClCompile Include="InputText.cpp" />
-    <ClCompile Include="Panel.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="MenuBar.cpp" />
     <ClCompile Include="Selectable.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TreeNode.cpp" />

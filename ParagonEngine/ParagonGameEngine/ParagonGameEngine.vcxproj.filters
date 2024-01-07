@@ -13,9 +13,6 @@
     <ClInclude Include="EngineResourceManager.h">
       <Filter>3_GameEngineResources\EngineResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="WorkSpace.h">
-      <Filter>4_WorkSpace</Filter>
-    </ClInclude>
     <ClInclude Include="TestScene.h">
       <Filter>4_WorkSpace\SceneView</Filter>
     </ClInclude>
@@ -24,9 +21,6 @@
     </ClInclude>
     <ClInclude Include="SceneSystem.h">
       <Filter>2_System\SceneSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorCameraScript.h">
-      <Filter>4_WorkSpace\SceneView</Filter>
     </ClInclude>
     <ClInclude Include="EventSystem.h">
       <Filter>2_System\EventSystem</Filter>
@@ -37,8 +31,14 @@
     <ClInclude Include="TimeSystem.h">
       <Filter>2_System\TimeSystem</Filter>
     </ClInclude>
+    <ClInclude Include="EditorCameraScript.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\EditorCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingTest.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\ObjectMove</Filter>
+    </ClInclude>
     <ClInclude Include="PrintRuntimeData.h">
-      <Filter>4_WorkSpace\SceneView</Filter>
+      <Filter>4_WorkSpace\SceneView\Scripts\RuntimeData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -51,9 +51,6 @@
     <ClCompile Include="EngineResourceManager.cpp">
       <Filter>3_GameEngineResources\EngineResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="WorkSpace.cpp">
-      <Filter>4_WorkSpace</Filter>
-    </ClCompile>
     <ClCompile Include="TestScene.cpp">
       <Filter>4_WorkSpace\SceneView</Filter>
     </ClCompile>
@@ -62,9 +59,6 @@
     </ClCompile>
     <ClCompile Include="SceneSystem.cpp">
       <Filter>2_System\SceneSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorCameraScript.cpp">
-      <Filter>4_WorkSpace\SceneView</Filter>
     </ClCompile>
     <ClCompile Include="EventSystem.cpp">
       <Filter>2_System\EventSystem</Filter>
@@ -75,8 +69,14 @@
     <ClCompile Include="TimeSystem.cpp">
       <Filter>2_System\TimeSystem</Filter>
     </ClCompile>
+    <ClCompile Include="EditorCameraScript.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\EditorCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingTest.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\ObjectMove</Filter>
+    </ClCompile>
     <ClCompile Include="PrintRuntimeData.cpp">
-      <Filter>4_WorkSpace\SceneView</Filter>
+      <Filter>4_WorkSpace\SceneView\Scripts\RuntimeData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,9 +107,6 @@
     <Filter Include="2_System\PhysicSystem">
       <UniqueIdentifier>{ee935016-be10-42a9-86ba-64378ce5b25c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_System\SceneSystem">
-      <UniqueIdentifier>{b0b22550-0d8e-4869-9bb0-573c34426e6c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2_System\EventSystem">
       <UniqueIdentifier>{8ced1db1-43f1-40fa-8b55-a9cd484d6fe7}</UniqueIdentifier>
     </Filter>
@@ -118,6 +115,21 @@
     </Filter>
     <Filter Include="2_System\TimeSystem">
       <UniqueIdentifier>{9ea9fc35-ec73-4f0a-8052-37ab06cd79e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts">
+      <UniqueIdentifier>{92d6b3ef-5bd2-4ba8-adb4-d0bd1ba974c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\EditorCamera">
+      <UniqueIdentifier>{6dc1a60a-4d00-42c0-919a-3a87267cf93b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\ObjectMove">
+      <UniqueIdentifier>{307f5ee2-6199-407c-997e-79f2858007a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\RuntimeData">
+      <UniqueIdentifier>{29d7e73a-378f-4789-9310-d3b1a43df4e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\SceneSystem">
+      <UniqueIdentifier>{b0b22550-0d8e-4869-9bb0-573c34426e6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

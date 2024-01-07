@@ -7,6 +7,7 @@
 /// </summary>
 namespace Pg::Data
 {
+	//World TM에는 Scale 관련 정보가 들어오지 않는다.
 	struct BoxInfo
 	{
 		Pg::Math::PGFLOAT4X4 worldTM;
@@ -29,6 +30,13 @@ namespace Pg::Data
 	};
 
 	struct CapsuleInfo
+	{
+		Pg::Math::PGFLOAT4X4 worldTM;
+		Pg::Math::PGFLOAT3 scale;
+		Pg::Math::PGFLOAT4 color;
+	};
+
+	struct PlaneInfo
 	{
 		Pg::Math::PGFLOAT4X4 worldTM;
 		Pg::Math::PGFLOAT3 scale;

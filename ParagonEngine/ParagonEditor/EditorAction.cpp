@@ -1,43 +1,40 @@
 #include "EditorAction.h"
+#include "EditorDefine.h"
+
+#include "IEditorManager.h"
 #include "EditorManager.h"
 #include "ProcessManager.h"
-#include "FileManager.h"
 
-// Message 처리를 위해 필요한 define
-#define ID_OPEN_PROJECT 1000
-#define ID_NEW_PROJECT 1001
-#define ID_OPEN_SCENE 1002
-#define ID_NEW_SCENE 1003
-#define ID_SAVE 1004
-#define ID_EXIT 1005
+#include "FileSystem.h"
+
+#include "Event.h"
 
 Pg::Editor::Core::EditorAction::EditorAction()
 	:_hWnd(),
 	_screenWidth(1920), _screenHeight(1080),
 	_appName(L"ParagonEngine")
 {
-	_fileManager = std::make_unique<Pg::Editor::Manager::FileManager>();
-	_processManager = std::make_unique<Pg::Editor::Manager::ProcessManager>();
-	_editorManager = std::make_unique<Pg::Editor::Manager::EditorManager>();
+	_editorManagers.emplace_back(new Pg::Editor::Manager::ProcessManager(_screenWidth, _screenHeight));
+	_editorManagers.emplace_back(new Pg::Editor::Manager::EditorManager());
+
+	_fileSystem = std::make_unique<Pg::Editor::System::FileSystem>();
+
+	_editorEvent = std::make_unique<Pg::Editor::Event>();
 }
 
 Pg::Editor::Core::EditorAction::~EditorAction()
 {
-
+	_editorManagers.clear();
 }
 
 void Pg::Editor::Core::EditorAction::Initialize()
 {
-	HINSTANCE ins = GetModuleHandle(NULL);
+	HINSTANCE ins = GetModuleHandle(NULL);-
 	WindowRegisterClass(ins);
 	CreateWindows(ins);
 
-	_fileManager->Initialize();
-	// 임시로 비활성화
-	//_fileManager->FileOpen();
-	//_fileManager->FileSave();
-	_processManager->Initialize(static_cast<void*>(_hWnd), _screenWidth, _screenHeight);
-	_editorManager->Initialize(_hWnd);
+	for (auto& manager : _editorManagers) { manager->Initialize(_hWnd); }
+	_fileSystem->Initialize();
 }
 void Pg::Editor::Core::EditorAction::Loop()
 {
@@ -49,23 +46,29 @@ void Pg::Editor::Core::EditorAction::Loop()
 
 			DispatchMessage(&_msg);
 			TranslateMessage(&_msg);
-			_processManager->ProcessHandler(_msg);
-			_editorManager->WindowHandler(_msg);
+
+			for (auto& manager : _editorManagers) { manager->ManagerHandler(_msg); }
+			_editorEvent->EventHandler(_msg);
 		}
 		else
 		{
-			_processManager->Update();
-			_editorManager->Update();
-			_editorManager->LastUpdate();
-			_processManager->LastUpdate();
+			//for (auto& manager : _editorManagers) 
+			//{ 
+			//	manager->Update(); 
+			//	manager->LateUpdate(); 
+			//}
+
+			_editorManagers.at(0)->Update();
+			_editorManagers.at(1)->Update();
+			_editorManagers.at(1)->LateUpdate();
+			_editorManagers.at(0)->LateUpdate();
 		}
 	}
 }
 
 void Pg::Editor::Core::EditorAction::Finalize()
 {
-	_editorManager->Finalize();
-	_processManager->Finalize();
+	for (auto& manager : _editorManagers) { manager->Finalize(); }
 }
 
 ATOM Pg::Editor::Core::EditorAction::WindowRegisterClass(HINSTANCE hInstance)
@@ -109,11 +112,11 @@ BOOL Pg::Editor::Core::EditorAction::CreateWindows(HINSTANCE hInstance)
 	HMENU hSubMenu = CreatePopupMenu();
 
 	// 메뉴 항목 추가
-	AppendMenu(hSubMenu, MF_STRING, ID_OPEN_PROJECT, "Open Project");
-	AppendMenu(hSubMenu, MF_STRING, ID_NEW_PROJECT, "New Project");
-	AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL); // 구분선 추가
 	AppendMenu(hSubMenu, MF_STRING, ID_OPEN_SCENE, "Open Scene");
 	AppendMenu(hSubMenu, MF_STRING, ID_NEW_SCENE, "New Scene");
+	AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL); // 구분선 추가
+	AppendMenu(hSubMenu, MF_STRING, ID_OPEN_PROJECT, "Open Project");
+	AppendMenu(hSubMenu, MF_STRING, ID_NEW_PROJECT, "New Project");
 	AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL); // 구분선 추가
 	AppendMenu(hSubMenu, MF_STRING, ID_SAVE, "Save (Ctrl + S)");
 	AppendMenu(hSubMenu, MF_STRING, ID_EXIT, "Exit");
@@ -138,27 +141,7 @@ LRESULT CALLBACK Pg::Editor::Core::EditorAction::WndProc(HWND hWnd, UINT message
 	
 		case WM_COMMAND:
 			// 메뉴 항목 선택 이벤트 처리
-			switch (LOWORD(wParam)) 
-			{
-				case ID_OPEN_PROJECT:
-					break;
-				
-				case ID_NEW_PROJECT:
-					break;
-				
-				case ID_OPEN_SCENE:
-					break;
-				
-				case ID_NEW_SCENE:
-					break;
-	
-				case ID_SAVE:	
-					break;		
-				
-				case ID_EXIT:
-					PostMessage(hWnd, WM_CLOSE, 0, 0);
-					break;
-			}
+			if (LOWORD(wParam) == ID_EXIT) PostMessage(hWnd, WM_CLOSE, 0, 0);
 			break;
 
 		default:

@@ -41,7 +41,9 @@
 
 namespace Pg::Engine
 {
-	EngineMain::EngineMain(Pg::Core::ProcessMain* core) : _coreMain(core), _engineResourceManager(Manager::EngineResourceManager::Instance())
+	EngineMain::EngineMain(Pg::Core::ProcessMain* core) : 
+		_coreMain(core), 
+		_engineResourceManager(Manager::EngineResourceManager::Instance())
 	{
 		//Input
 		auto& tInputSystem = singleton<Input::InputSystem>();
@@ -81,11 +83,16 @@ namespace Pg::Engine
 
 	void EngineMain::Update()
 	{
-		_sceneSystem->Update();
-		_inputSystem->Update();
-		_physicSystem->UpdatePhysics();
-		_debugSystem->Update(_sceneSystem->GetCurrentScene());
+		///업데이트 순서 무조건 고정!!! 바뀌면 안됨
 		_timeSystem->TimeMeasure();
+		_inputSystem->Update();
+		_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
+		_physicSystem->Flush();
+		_sceneSystem->Update();
+		_physicSystem->UpdateTransform();
+		_debugSystem->Update(_sceneSystem->GetCurrentScene());
+		
+
 
 		 static bool tTest = false;
 		if (!tTest)
@@ -146,6 +153,11 @@ namespace Pg::Engine
 		return _debugSystem->GetCapsuleVector();
 	}
 
+	const std::vector<Pg::Data::PlaneInfo*>& EngineMain::GetPlaneDebugData() const
+	{
+		return _debugSystem->GetPlaneVector();
+	}
+
 	void EngineMain::ClearDebugVectorData()
 	{
 		//일단은 박스만 다루니.
@@ -153,8 +165,6 @@ namespace Pg::Engine
 		_debugSystem->DeleteSphereDebug();
 		_debugSystem->DeleteCapsuleDebug();
 		_debugSystem->DeleteLineDebug();
+		_debugSystem->DeletePlaneDebug();
 	}
-
-	
-
 }

@@ -2,8 +2,8 @@
 <scene>
 	<objects>
 		<object>
-			<name>New Object</name>
-			<tag></tag>
+			<name>Main Camera</name>
+			<tag>Main Camera</tag>
 			<active>true</active>
 			<parent>0</parent>
 			<components>
@@ -28,11 +28,29 @@
 						</scale>
 					</data>
 				</component>
+				<component>
+					<type>class Pg::Data::Camera</type>
+					<data>
+						<projection></projection>
+						<size></size>
+						<clipping>
+							<near>1</near>
+							<farz>1</farz>
+							<fary>1</fary>
+						</clipping>
+						<viewport>
+							<x>0</x>
+							<y>0</y>
+							<w>1</w>
+							<h>1</h>
+						</viewport>
+					</data>
+				</component>
 			</components>
 		</object>
 		<object>
-			<name>New Object2</name>
-			<tag></tag>
+			<name>New Object</name>
+			<tag>Untagged</tag>
 			<active>true</active>
 			<parent>0</parent>
 			<components>
@@ -58,7 +76,7 @@
 					</data>
 				</component>
 				<component>
-					<type>Transform</type>
+					<type>class Pg::Data::Transform</type>
 					<data>
 						<position>
 							<x>0</x>
