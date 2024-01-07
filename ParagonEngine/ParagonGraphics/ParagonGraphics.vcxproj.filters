@@ -697,6 +697,9 @@
     <Filter Include="6_HLSL\Appends\Libraries\Required">
       <UniqueIdentifier>{b3f843b3-e8ed-4158-b560-bea6631a5519}</UniqueIdentifier>
     </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\Individual">
+      <UniqueIdentifier>{172fa3d7-a211-4018-aea6-f68099cd80aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
@@ -747,6 +750,15 @@
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FinalStage\FinalStage_VS.hlsl">
       <Filter>6_HLSL\System\Pipeline\FinalStage</Filter>
     </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Individual\Individual_PerObjMatPS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Individual</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Individual\Individual_PerObjMatSkinnedVS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Individual</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Individual\Individual_PerObjMatStaticVS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Individual</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_GBufferTextures.hlsli">
@@ -773,8 +785,14 @@
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_QuadLayouts.hlsli">
       <Filter>6_HLSL\System\Libraries</Filter>
     </None>
-    <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_ClipUnfit.hlsli">
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_ObjMat.hlsli">
       <Filter>6_HLSL\Appends\Libraries\Required</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjMatLayouts.hlsli">
+      <Filter>6_HLSL\System\Libraries</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjMatBuffers.hlsli">
+      <Filter>6_HLSL\System\Libraries</Filter>
     </None>
   </ItemGroup>
 </Project>

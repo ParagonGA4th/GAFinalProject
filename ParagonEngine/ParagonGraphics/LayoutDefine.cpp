@@ -7,17 +7,21 @@
 #include <vector>
 
 #ifdef _DEBUG
-#define PG_1ST_STATIC_SHADER_PATH		L"..\\Builds\\x64\\Debug\\FirstStatic_VS.cso"
-#define PG_1ST_SKINNED_SHADER_PATH		L"..\\Builds\\x64\\Debug\\FirstSkinned_VS.cso"
-#define PG_DEFERRED_QUAD_SHADER_PATH	L"..\\Builds\\x64\\Debug\\SecondStage_VS.cso"
-#define PG_PRIMITIVE_SHADER_PATH		L"..\\Builds\\x64\\Debug\\PrimitiveVS.cso"
-#define PG_CUBEMAP_SHADER_PATH			L"..\\Builds\\x64\\Debug\\CubemapVS.cso"
+#define PG_1ST_STATIC_SHADER_PATH				L"..\\Builds\\x64\\Debug\\FirstStatic_VS.cso"
+#define PG_1ST_SKINNED_SHADER_PATH				L"..\\Builds\\x64\\Debug\\FirstSkinned_VS.cso"
+#define PG_DEFERRED_QUAD_SHADER_PATH			L"..\\Builds\\x64\\Debug\\SecondStage_VS.cso"
+#define PG_PRIMITIVE_SHADER_PATH				L"..\\Builds\\x64\\Debug\\PrimitiveVS.cso"
+#define PG_CUBEMAP_SHADER_PATH					L"..\\Builds\\x64\\Debug\\CubemapVS.cso"
+#define PG_INDIVIDUAL_PER_OBJMAT_STATIC_PATH	L"..\\Builds\\x64\\Debug\\Individual_PerObjMatStaticVS.cso"
+#define PG_INDIVIDUAL_PER_OBJMAT_SKINNED_PATH	L"..\\Builds\\x64\\Debug\\Individual_PerObjMatSkinnedVS.cso"
 #else
-#define PG_1ST_STATIC_SHADER_PATH		L"..\\Builds\\x64\\Release\\FirstStatic_VS.cso"
-#define PG_1ST_SKINNED_SHADER_PATH		L"..\\Builds\\x64\\Release\\FirstSkinned_VS.cso"
-#define PG_DEFERRED_QUAD_SHADER_PATH	L"..\\Builds\\x64\\Release\\SecondStage_VS.cso"
-#define PG_PRIMITIVE_SHADER_PATH		L"..\\Builds\\x64\\Release\\PrimitiveVS.cso"
-#define PG_CUBEMAP_SHADER_PATH			L"..\\Builds\\x64\\Release\\CubemapVS.cso"
+#define PG_1ST_STATIC_SHADER_PATH				L"..\\Builds\\x64\\Release\\FirstStatic_VS.cso"
+#define PG_1ST_SKINNED_SHADER_PATH				L"..\\Builds\\x64\\Release\\FirstSkinned_VS.cso"
+#define PG_DEFERRED_QUAD_SHADER_PATH			L"..\\Builds\\x64\\Release\\SecondStage_VS.cso"
+#define PG_PRIMITIVE_SHADER_PATH				L"..\\Builds\\x64\\Release\\PrimitiveVS.cso"
+#define PG_CUBEMAP_SHADER_PATH					L"..\\Builds\\x64\\Release\\CubemapVS.cso"
+#define PG_INDIVIDUAL_PER_OBJMAT_STATIC_PATH	L"..\\Builds\\x64\\Release\\Individual_PerObjMatStaticVS.cso"
+#define PG_INDIVIDUAL_PER_OBJMAT_SKINNED_PATH	L"..\\Builds\\x64\\Release\\Individual_PerObjMatSkinnedVS.cso"
 #endif // _DEBUG
 
 namespace Pg::Graphics
@@ -27,6 +31,8 @@ namespace Pg::Graphics
 	ID3D11InputLayout* LayoutDefine::_deferredQuadLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_cubemapLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_wireframePrimitiveLayout = nullptr;
+	ID3D11InputLayout* LayoutDefine::_vinPerObjMatStaticLayout = nullptr;
+	ID3D11InputLayout* LayoutDefine::_vinPerObjMatSkinnedLayout = nullptr;
 
 	void LayoutDefine::Initialize()
 	{
@@ -35,6 +41,8 @@ namespace Pg::Graphics
 		CreateDeferredQuadLayout();
 		CreateWireframePrimitiveLayout();
 		CreateCubemapLayout();
+		CreatePerObjMatStaticLayout();
+		CreatePerObjMatSkinnedLayout();
 	}
 
 	ID3D11InputLayout* LayoutDefine::GetStatic1stLayout()
@@ -60,6 +68,16 @@ namespace Pg::Graphics
 	ID3D11InputLayout* LayoutDefine::GetCubemapLayout()
 	{
 		return _cubemapLayout;
+	}
+
+	ID3D11InputLayout* LayoutDefine::GetPerObjMatStaticLayout()
+	{
+		return _vinPerObjMatStaticLayout;
+	}
+
+	ID3D11InputLayout* LayoutDefine::GetPerObjMatSkinnedLayout()
+	{
+		return _vinPerObjMatSkinnedLayout;
 	}
 
 	void LayoutDefine::CreateStatic1stLayout()
@@ -186,6 +204,51 @@ namespace Pg::Graphics
 		HR(_device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_cubemapLayout));
 	}
 
+	void LayoutDefine::CreatePerObjMatStaticLayout()
+	{
+		LowDX11Storage* tDXStorage = LowDX11Storage::GetInstance();
+		ID3D11Device* _device = tDXStorage->_device;
+		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
+
+		ID3DBlob* tByteCode = nullptr;
+		HR(D3DReadFileToBlob(PG_INDIVIDUAL_PER_OBJMAT_STATIC_PATH, &(tByteCode)));
+
+		D3D11_INPUT_ELEMENT_DESC tDesc[] =
+		{
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"OBJECTID", 0, DXGI_FORMAT_R32_UINT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"MATERIALID", 0, DXGI_FORMAT_R32_UINT, 0, 16, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		};
+
+		HR(_device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_vinPerObjMatStaticLayout));
+	}
+
+	void LayoutDefine::CreatePerObjMatSkinnedLayout()
+	{
+		LowDX11Storage* tDXStorage = LowDX11Storage::GetInstance();
+		ID3D11Device* _device = tDXStorage->_device;
+		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
+
+		ID3DBlob* tByteCode = nullptr;
+		HR(D3DReadFileToBlob(PG_INDIVIDUAL_PER_OBJMAT_SKINNED_PATH, &(tByteCode)));
+
+		D3D11_INPUT_ELEMENT_DESC tDesc[] =
+		{
+			{"POSITION",		0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"OBJECTID",		0, DXGI_FORMAT_R32_UINT,		0, 12,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"MATERIALID",		0, DXGI_FORMAT_R32_UINT,		0, 16,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDINDICES",	0, DXGI_FORMAT_R32_UINT,		0, 20,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDINDICES",	1, DXGI_FORMAT_R32_UINT,		0, 24,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDINDICES",	2, DXGI_FORMAT_R32_UINT,		0, 28,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDINDICES",	3, DXGI_FORMAT_R32_UINT,		0, 32,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDWEIGHT",		0, DXGI_FORMAT_R32_FLOAT,		0, 36,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDWEIGHT",		1, DXGI_FORMAT_R32_FLOAT,		0, 40,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDWEIGHT",		2, DXGI_FORMAT_R32_FLOAT,		0, 44,	D3D11_INPUT_PER_VERTEX_DATA, 0}
+		};
+
+		HR(_device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_vinPerObjMatSkinnedLayout));
+	}
+
 	//개별적인 요소 Layout 생성자.
 	LayoutDefine::Vin1stStatic::Vin1stStatic(DirectX::XMFLOAT3 posVal) :
 		_posL(posVal), _normalL(0.0f, 0.0f, 0.0f), _tangentL(0.0f, 0.0f, 0.0f),
@@ -212,4 +275,10 @@ namespace Pg::Graphics
 		//
 	}
 
+	LayoutDefine::VinPerObjMatIDStatic::VinPerObjMatIDStatic(DirectX::XMFLOAT3 pos,
+		unsigned int objID, unsigned int matID) :
+		_posL(pos), _objectID(objID), _matID(matID)
+	{
+		//
+	}
 }

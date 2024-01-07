@@ -9,6 +9,5 @@
 //Appends
 #include "TextureBuffers/Appends_GBufferTextures.hlsli"
 #include "TextureBuffers/Appends_LightmapTextures.hlsli"
-#include "Required/Appends_ClipUnfit.hlsli"
 
 #endif //__DEFINED_APPENDS_PS_COMMON_HLSL__
