@@ -217,16 +217,21 @@
     <ClInclude Include="IRenderPass.h">
       <Filter>0_Main\RenderPass</Filter>
     </ClInclude>
-    <ClInclude Include="FirstRenderPass.h">
-      <Filter>0_Main\RenderPass\FirstRenderPass</Filter>
+    <ClInclude Include="FirstStaticRenderPass.h">
+      <Filter>0_Main\RenderPass\0_FirstStaticRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="OpaqueQuadRenderPass.h">
-      <Filter>0_Main\RenderPass\OpaqueQuadRenderPass</Filter>
+      <Filter>0_Main\RenderPass\2_OpaqueQuadRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsSceneParser.h">
       <Filter>8_Helpers\GraphicsSceneParser</Filter>
     </ClInclude>
-    <ClInclude Include="FinalRenderPass.h" />
+    <ClInclude Include="FinalRenderPass.h">
+      <Filter>0_Main\RenderPass\3_FinalRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjMatRenderPass.h">
+      <Filter>0_Main\RenderPass\1_ObjMatRenderPass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -409,16 +414,21 @@
     <ClCompile Include="RenderTexture.cpp">
       <Filter>3_GraphicsResources\Resources\RenderTexture</Filter>
     </ClCompile>
-    <ClCompile Include="FirstRenderPass.cpp">
-      <Filter>0_Main\RenderPass\FirstRenderPass</Filter>
+    <ClCompile Include="FirstStaticRenderPass.cpp">
+      <Filter>0_Main\RenderPass\0_FirstStaticRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="OpaqueQuadRenderPass.cpp">
-      <Filter>0_Main\RenderPass\OpaqueQuadRenderPass</Filter>
+      <Filter>0_Main\RenderPass\2_OpaqueQuadRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsSceneParser.cpp">
       <Filter>8_Helpers\GraphicsSceneParser</Filter>
     </ClCompile>
-    <ClCompile Include="FinalRenderPass.cpp" />
+    <ClCompile Include="FinalRenderPass.cpp">
+      <Filter>0_Main\RenderPass\3_FinalRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjMatRenderPass.cpp">
+      <Filter>0_Main\RenderPass\1_ObjMatRenderPass</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -673,12 +683,6 @@
     <Filter Include="0_Main\RenderPass">
       <UniqueIdentifier>{b448a453-6fc8-4a56-bd6d-099ed77b88c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main\RenderPass\FirstRenderPass">
-      <UniqueIdentifier>{3157d69f-ab00-40e8-9704-a984429cdac2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_Main\RenderPass\OpaqueQuadRenderPass">
-      <UniqueIdentifier>{449cc130-19ee-4d9d-883c-be93c1eeaf50}</UniqueIdentifier>
-    </Filter>
     <Filter Include="9_Util">
       <UniqueIdentifier>{ac8e1c62-b6b6-4db3-9a29-773a07312fee}</UniqueIdentifier>
     </Filter>
@@ -688,9 +692,6 @@
     <Filter Include="8_Helpers\GraphicsSceneParser">
       <UniqueIdentifier>{b052a2bd-ff95-4976-87eb-a72c2e8875d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main\RenderPass\FinalRenderPass">
-      <UniqueIdentifier>{eaa8e6b3-4a91-4e77-858e-d882be91ee71}</UniqueIdentifier>
-    </Filter>
     <Filter Include="6_HLSL\System\Pipeline\FinalStage">
       <UniqueIdentifier>{878696b6-0a6a-428c-bcea-c8144f67c2ba}</UniqueIdentifier>
     </Filter>
@@ -699,6 +700,18 @@
     </Filter>
     <Filter Include="6_HLSL\System\Pipeline\Individual">
       <UniqueIdentifier>{172fa3d7-a211-4018-aea6-f68099cd80aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass\1_ObjMatRenderPass">
+      <UniqueIdentifier>{5ec93642-73ac-4d93-96c2-8f2b5950bb3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass\2_OpaqueQuadRenderPass">
+      <UniqueIdentifier>{449cc130-19ee-4d9d-883c-be93c1eeaf50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass\3_FinalRenderPass">
+      <UniqueIdentifier>{eaa8e6b3-4a91-4e77-858e-d882be91ee71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass\0_FirstStaticRenderPass">
+      <UniqueIdentifier>{3157d69f-ab00-40e8-9704-a984429cdac2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -30,7 +30,8 @@ namespace Pg::Graphics
 		CreateMaterialIndexConstantBuffer();
 	}
 
-	void OpaqueQuadRenderPass::ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount)
+	void OpaqueQuadRenderPass::ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, 
+		const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv)
 	{
 		
 	}
@@ -98,7 +99,7 @@ namespace Pg::Graphics
 	}
 
 	void OpaqueQuadRenderPass::PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, 
-		std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount)
+		std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
 	{
 		//하는거 없으면, 기본값을 넘겨줘야.
 		rtvArray = nullptr;

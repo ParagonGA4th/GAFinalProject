@@ -5,7 +5,8 @@
 #include <memory>
 
 /// <summary>
-/// First Render Pass. World Space -> Screen Space.
+/// Object && Material이 Screen Space에서 어디 있는지 표시해주기 위해
+/// (== ClipUnfit을 위해) 존재하는 RenderPass.
 /// </summary>
 
 namespace Pg::Graphics
@@ -19,33 +20,27 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class FirstRenderPass : public IRenderPass
+	class ObjMatRenderPass : public IRenderPass
 	{
 	public:
-		FirstRenderPass();
-		~FirstRenderPass();
+		ObjMatRenderPass();
+		~ObjMatRenderPass();
 
 		virtual void Initialize() override;
-		virtual void ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount) override;
+		virtual void ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv) override;
 		virtual void BindPass() override;
 		virtual void RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData) override;
 		virtual void UnbindPass() override;
 		virtual void ExecuteNextRenderRequirements() override;
-		virtual void PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount) override;
+		virtual void PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv) override;
 
 	private:
-		std::vector<std::unique_ptr<GBufferRender>> _gBufferRenderList;
+		std::unique_ptr<GBufferRender> _gBufferRender;
 		std::unique_ptr<GBufferDepthStencil> _gBufferDepthStencil;
 
-		std::vector<ID3D11RenderTargetView*> _RTVs;
-		std::vector<ID3D11ShaderResourceView*> _SRVs;
-
-		std::vector<ID3D11RenderTargetView*> NullRTV;
-		std::vector<ID3D11ShaderResourceView*> NullSRV;
 	private:
 		void CreateD3DViews();
 		void CreateShaders();
-
 
 	private:
 		std::unique_ptr<SystemVertexShader> _vs;
@@ -55,5 +50,3 @@ namespace Pg::Graphics
 		LowDX11Storage* _DXStorage;
 	};
 }
-
-

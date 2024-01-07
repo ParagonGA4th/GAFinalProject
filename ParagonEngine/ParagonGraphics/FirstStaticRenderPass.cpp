@@ -1,4 +1,4 @@
-#include "FirstRenderPass.h"
+#include "FirstStaticRenderPass.h"
 #include "GBufferRender.h"
 #include "GBufferDepthStencil.h"
 #include "LowDX11Storage.h"
@@ -9,28 +9,29 @@
 namespace Pg::Graphics
 {
 
-	FirstRenderPass::FirstRenderPass()
+	FirstStaticRenderPass::FirstStaticRenderPass()
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 	}
 
-	FirstRenderPass::~FirstRenderPass()
+	FirstStaticRenderPass::~FirstStaticRenderPass()
 	{
 
 	}
 
-	void FirstRenderPass::Initialize()
+	void FirstStaticRenderPass::Initialize()
 	{
 		CreateD3DViews();
 		CreateShaders();
 	}
 
-	void FirstRenderPass::ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount)
+	void FirstStaticRenderPass::ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount,
+		const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv)
 	{
 		//아무것도 받지 않는다.
 	}
 
-	void FirstRenderPass::BindPass()
+	void FirstStaticRenderPass::BindPass()
 	{
 		//자체적인 DSV Clear, Depth Stencil State 리셋, OMSetRenderTargets.
 		_DXStorage->_deviceContext->ClearDepthStencilView(_gBufferDepthStencil->GetDSV(), D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
@@ -48,7 +49,7 @@ namespace Pg::Graphics
 		_ps->Bind();
 	}
 
-	void FirstRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	void FirstStaticRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		//모든 오브젝트 렌더링.
 		for (auto& it : renderObjectList->_list)
@@ -58,23 +59,23 @@ namespace Pg::Graphics
 			{
 				if (it.second->at(i).second->GetBaseRenderer()->GetActive())
 				{
-					it.second->at(i).second->UpdateConstantBuffers(camData);
-					it.second->at(i).second->BindBuffers();
-					it.second->at(i).second->Render();
-					it.second->at(i).second->UnbindBuffers();
+					it.second->at(i).second->First_UpdateConstantBuffers(camData);
+					it.second->at(i).second->First_BindBuffers();
+					it.second->at(i).second->First_Render();
+					it.second->at(i).second->First_UnbindBuffers();
 				}
 			}
 		}
 	}
 
-	void FirstRenderPass::UnbindPass()
+	void FirstStaticRenderPass::UnbindPass()
 	{
 		// Unbind Shaders
 		_vs->Unbind();
 		_ps->Unbind();
 	}
 
-	void FirstRenderPass::ExecuteNextRenderRequirements()
+	void FirstStaticRenderPass::ExecuteNextRenderRequirements()
 	{
 		//t0에, 5개의 SRV GBuffer 대응. (Depth 제외)
 		_DXStorage->_deviceContext->PSSetShaderResources(0, 5, _SRVs.data());
@@ -83,12 +84,12 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(1, 1, &(_SRVs.back()));
 	}
 
-	void FirstRenderPass::PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount)
+	void FirstStaticRenderPass::PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
 	{
 		//Execute 함수가 대신 실행해주었다.
 	}
 
-	void FirstRenderPass::CreateD3DViews()
+	void FirstStaticRenderPass::CreateD3DViews()
 	{
 		//RT0
 		_gBufferRenderList.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
@@ -132,7 +133,7 @@ namespace Pg::Graphics
 		}
 	}
 
-	void FirstRenderPass::CreateShaders()
+	void FirstStaticRenderPass::CreateShaders()
 	{
 		// 1st Pass
 		_vs = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/FirstStatic_VS.cso", LayoutDefine::GetStatic1stLayout(),

@@ -9,7 +9,7 @@
 
 //RenderPasses
 #include "IRenderPass.h"
-#include "FirstRenderPass.h"
+#include "FirstStaticRenderPass.h"
 #include "OpaqueQuadRenderPass.h"
 
 #include "../ParagonData/GameObject.h"
@@ -63,7 +63,7 @@ namespace Pg::Graphics
 		//Render Pass Vector 구성.
 
 		//첫번째는 무조건 FirstRenderPass.
-		_renderPassVector.push_back(new FirstRenderPass());
+		_renderPassVector.push_back(new FirstStaticRenderPass());
 
 		//모든 Material의 목록을 받은 뒤, 순서대로 OpaqueQuadRenderPass 호출. (일반적인 경우)
 		//N개의 Material이 있으면, N개의 Pass가 만들어진다.

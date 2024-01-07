@@ -20,7 +20,7 @@ namespace Pg::Graphics
 		
 		//전 패스에서 필요한 요소들을 패스 나름대로 받는 코드이다. (원본 변형 불가)
 		virtual void ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, 
-			const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount) abstract;
+			const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv) abstract;
 		virtual void BindPass() abstract;
 		virtual void RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData) abstract;
 		virtual void UnbindPass() abstract;
@@ -28,7 +28,7 @@ namespace Pg::Graphics
 		virtual void ExecuteNextRenderRequirements() abstract;
 		//다음 패스에 넘겨줄 리스트를 (만약 있을 경우) 넘겨준다.		
 		virtual void PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, 
-			std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount) abstract;
+			std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv) abstract;
 	};
 }
 

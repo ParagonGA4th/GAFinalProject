@@ -18,12 +18,18 @@ namespace Pg::Graphics
 		RenderObjectSkinnedMesh3D(Pg::Data::BaseRenderer* baseRenderer);
 		virtual ~RenderObjectSkinnedMesh3D();
 
-		virtual void Render() override;
-
+		//Object-Material 데이터가 전부 매칭/로드 된 후, 일괄적으로 발동될 함수이다.	
+		virtual void CreateObjMatBuffers() override;
 	public:
-		virtual void UpdateConstantBuffers(Pg::Data::CameraData* camData) override;
-		virtual void BindBuffers() override;
-		virtual void UnbindBuffers() override;
+		virtual void First_Render() override;
+		virtual void First_UpdateConstantBuffers(Pg::Data::CameraData* camData) override;
+		virtual void First_BindBuffers() override;
+		virtual void First_UnbindBuffers() override;
+
+		virtual void ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData) override;
+		virtual void ObjMat_BindBuffers() override;
+		virtual void ObjMat_Render() override;
+		virtual void ObjMat_UnbindBuffers() override;
 
 	private:
 		//Skinned Mesh에 독립적임.
