@@ -12,6 +12,9 @@ cbuffer cbAppendsObjectVS : register(b8)
 //반드시 인풋 = VinQuad, 아웃풋 = VOutQuad.
 VOutQuad main(VinQuad vin)
 {
+    //모든 Appends의 Vertex Shader 실행 전에, ClipUnfits 함수가 들어있어야 한다. 구조 특성 때문.
+    ClipUnfits(vin.UV);
+    
     VOutQuad vout;
     
     vout.PositionH = float4(vin.Position, 1.0f);
