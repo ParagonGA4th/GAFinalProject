@@ -4,6 +4,7 @@
 #include "AssetAnimationDataDefine.h"
 #include "AssimpBufferParser.h"
 #include "RenderPrepStructs.h"
+#include "DX11Headers.h"
 #include "../ParagonUtil/ResourceHelper.h"
 
 #include <assimp/Importer.hpp>     
@@ -105,6 +106,15 @@ namespace Pg::Graphics::Loader
 		return tIsSkinned;
 	}
 
-	
+	void AssetBasic3DLoader::LoadObjMatBufferStatic(ID3D11Buffer*& vb, ID3D11Buffer*& ib, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID)
+	{
+		
+	}
+
+	void AssetBasic3DLoader::LoadObjMatBufferSkinned(ID3D11Buffer*& vb, ID3D11Buffer*& ib, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialI)
+	{
+
+	}
+
 
 }

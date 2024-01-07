@@ -21,12 +21,18 @@ namespace Pg::Graphics
 
 	RenderObjectStaticMesh3D::RenderObjectStaticMesh3D(Pg::Data::BaseRenderer* baseRenderer) : RenderObject3D(baseRenderer)
 	{
+		//SkinnedMesh도 똑같은 과정 거쳐야.
+
 		//StaticMeshRenderer 따로 포인터를 받기.
 		Pg::Data::StaticMeshRenderer* tStaticMeshRenderer = static_cast<Pg::Data::StaticMeshRenderer*>(GetBaseRenderer());
 
 		//Mesh 데이터를 받기.
 		auto tModelData = GraphicsResourceManager::Instance()->GetResource(tStaticMeshRenderer->GetMeshFilePath(), eAssetDefine::_3DMODEL);
 		_modelData = static_cast<Asset3DModelData*>(tModelData.get());
+
+		//VB/IB 로드.
+
+
 
 		//Constant Buffer Data를 생성.
 		_cBuffer = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>>();
