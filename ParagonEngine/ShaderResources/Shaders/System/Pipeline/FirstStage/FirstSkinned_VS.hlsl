@@ -47,17 +47,14 @@ VOut1st main(Vin1stSkinned input)
 	
 	// Normal을 Local -> World 이동.
 	output.vout1st_NormalW = mul(skinnedNormalL, (float3x3) gCBuf_WorldInvTranspose);
-	// Object ID
-    output.vout1st_ObjectID = input.vin1st_ObjectID;
 	
 	// Tangent를 Local -> World 이동.
     output.vout1st_TangentW = mul(skinnedTangentL, (float3x3) gCBuf_World);
-	//Material ID
-    output.vout1st_MaterialID = input.vin1st_MaterialID;
 	
 	// Color & UV(W) 값 전달.
 	output.vout1st_Color = input.vin1st_Color;
 	output.vout1st_Tex = input.vin1st_Tex;
+    output.vout1st_UVSet2 = input.vin1st_UVSet2;
     output.vout1st_LightmapUV = input.vin1st_LightmapUV;
     
     return output;
