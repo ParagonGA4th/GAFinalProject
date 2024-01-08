@@ -16,6 +16,7 @@ namespace Pg::Data
 namespace physx
 {
 	class PxRigidDynamic;
+	class PxShape;
 }
 
 namespace Pg::Data
@@ -36,17 +37,19 @@ namespace Pg::Data
 
 	public:
 		//충돌판정 여부 체크
+		void Collide();
 		bool GetIsCollide();
 		bool GetWasCollided();
 
 		void SetPxRigidDynamic(physx::PxRigidDynamic* rigid);
 		physx::PxRigidDynamic* GetRigidBodyDynamic();
 
+		void SetPxShape(physx::PxShape* shape);
+
 		///속도의 증감
 		void SetVelocity(PGFLOAT3 velo);
 		void AddVelocity(PGFLOAT3 velo);
 		PGFLOAT3 GetVelocity() const;
-
 	public:
 		void AddForce(PGFLOAT3 dir, ForceMode mode);
 		
@@ -68,10 +71,14 @@ namespace Pg::Data
 
 	private:
 		physx::PxRigidDynamic* _rigid;
+		physx::PxShape* _shape;
 
 		//충돌의 여부를 판단하기 위해.
 		bool _isCollide;
 		bool _wasCollided;
+
+		//트리거 판별 여부
+		bool _isTrigger;
 
 	private:
 		//플래그

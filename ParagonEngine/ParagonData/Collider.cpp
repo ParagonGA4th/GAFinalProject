@@ -116,5 +116,14 @@ namespace Pg::Data
 		return _pxScene;
 	}
 
+	void Collider::SetTrigger(bool isTrigger)
+	{
+		_isTrigger = isTrigger;
+	}
+
+	bool Collider::GetTrigger()
+	{
+		return _isTrigger;
+	}
 
 }
