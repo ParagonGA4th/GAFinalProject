@@ -84,17 +84,17 @@ namespace Pg::Graphics
 		HR(_DXStorage->_device->CreateDepthStencilState(&tDepthStencilDesc, &_dsState));
 	}
 
-	ID3D11DepthStencilView* GBufferDepthStencil::GetDSV()
+	ID3D11DepthStencilView*& GBufferDepthStencil::GetDSV()
 	{
 		return _DSV;
 	}
 
-	ID3D11ShaderResourceView* GBufferDepthStencil::GetSRV()
+	ID3D11ShaderResourceView*& GBufferDepthStencil::GetSRV()
 	{
 		return _SRV;
 	}
 
-	ID3D11DepthStencilState* GBufferDepthStencil::GetDSState()
+	ID3D11DepthStencilState*& GBufferDepthStencil::GetDSState()
 	{
 		return _dsState;
 	}

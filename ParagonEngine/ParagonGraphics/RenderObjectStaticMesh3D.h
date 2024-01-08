@@ -40,7 +40,8 @@ namespace Pg::Graphics
 		//ObjMat 판단 위한 Vertex / Index Buffer 바인딩.
 		void BindObjMatVertexIndexBuffer();
 
-		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>> _cBuffer;
+		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>> _cbFirst;
+		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjMatBase>> _cbObjMat;
 	};
 }
 

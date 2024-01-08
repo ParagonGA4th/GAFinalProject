@@ -56,12 +56,12 @@ void Pg::Graphics::GBufferRender::CreateSRV(DXGI_FORMAT format)
 	HR(_DXStorage->_device->CreateShaderResourceView(_Buffer, &tDesc, &_SRV));
 }
 
-ID3D11RenderTargetView* Pg::Graphics::GBufferRender::GetRTV()
+ID3D11RenderTargetView*& Pg::Graphics::GBufferRender::GetRTV()
 {
 	return _RTV;
 }
 
-ID3D11ShaderResourceView* Pg::Graphics::GBufferRender::GetSRV()
+ID3D11ShaderResourceView*& Pg::Graphics::GBufferRender::GetSRV()
 {
 	return _SRV;
 }

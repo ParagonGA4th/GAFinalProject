@@ -38,8 +38,8 @@ namespace Pg::Graphics::Loader
 		//RenderStatic/SkinnedMesh에서 호출되는 함수들.
 		//VB/IB를 모델의 정보에 맞게 로드한다.
 		//밑 함수들의 호출조건은 미리 Load3DModelBuffer가 호출되었다는 전제가 있다.
-		void LoadObjMatBufferStatic(ID3D11Buffer*& vb, ID3D11Buffer*& ib, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID);
-		void LoadObjMatBufferSkinned(ID3D11Buffer*& vb, ID3D11Buffer*& ib, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialI);
+		void LoadObjMatBufferStatic(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID);
+		void LoadObjMatBufferSkinned(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID);
 	private:
 		std::unique_ptr<Assimp::Importer>_importer;
 	};

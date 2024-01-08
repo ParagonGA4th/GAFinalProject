@@ -5,6 +5,8 @@
 #include "AssimpBufferParser.h"
 #include "RenderPrepStructs.h"
 #include "DX11Headers.h"
+#include "LowDX11Storage.h"
+#include "LayoutDefine.h"
 #include "../ParagonUtil/ResourceHelper.h"
 
 #include <assimp/Importer.hpp>     
@@ -106,14 +108,65 @@ namespace Pg::Graphics::Loader
 		return tIsSkinned;
 	}
 
-	void AssetBasic3DLoader::LoadObjMatBufferStatic(ID3D11Buffer*& vb, ID3D11Buffer*& ib, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID)
+	void AssetBasic3DLoader::LoadObjMatBufferStatic(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID)
 	{
-		
+		std::vector<LayoutDefine::VinPerObjMatIDStatic> tVBVector;
+		tVBVector.reserve(modelData->_assetSceneData->_totalVertexCount);
+		for (int i = 0; i < modelData->_assetSceneData->_totalVertexCount; i++)
+		{
+			LayoutDefine::VinPerObjMatIDStatic tVal;
+			tVal._posL = modelData->_assetSceneData->_posRecordVector[i];
+			tVal._objectID = objectID;
+			tVal._matID = materialID;
+
+			tVBVector.push_back(tVal);
+		}
+
+		D3D11_BUFFER_DESC tVBD;
+		tVBD.Usage = D3D11_USAGE_IMMUTABLE;
+		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::VinPerObjMatIDStatic) * modelData->_assetSceneData->_totalVertexCount);
+		tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		tVBD.CPUAccessFlags = 0;
+		tVBD.MiscFlags = 0;
+		D3D11_SUBRESOURCE_DATA vinitData;
+		vinitData.pSysMem = tVBVector.data();
+
+		HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tVBD, &vinitData, &vb));
 	}
 
-	void AssetBasic3DLoader::LoadObjMatBufferSkinned(ID3D11Buffer*& vb, ID3D11Buffer*& ib, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialI)
+	void AssetBasic3DLoader::LoadObjMatBufferSkinned(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID)
 	{
+		std::vector<LayoutDefine::VinPerObjMatIDSkinned> tVBVector;
+		tVBVector.reserve(modelData->_assetSceneData->_totalVertexCount);
 
+		for (int i = 0; i < modelData->_assetSceneData->_totalVertexCount; i++)
+		{
+			LayoutDefine::VinPerObjMatIDSkinned tVal;
+			tVal._posL = modelData->_assetSceneData->_posRecordVector[i];
+			tVal._objectID = objectID;
+			tVal._matID = materialID;
+
+			tVal._blendIndice0 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice0;
+			tVal._blendIndice1 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice1;
+			tVal._blendIndice2 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice2;
+			tVal._blendIndice3 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice3;
+			tVal._blendWeight0 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendWeight0;
+			tVal._blendWeight1 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendWeight1;
+			tVal._blendWeight2 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendWeight2;
+
+			tVBVector.push_back(tVal);
+		}
+
+		D3D11_BUFFER_DESC tVBD;
+		tVBD.Usage = D3D11_USAGE_IMMUTABLE;
+		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::VinPerObjMatIDSkinned) * modelData->_assetSceneData->_totalVertexCount);
+		tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		tVBD.CPUAccessFlags = 0;
+		tVBD.MiscFlags = 0;
+		D3D11_SUBRESOURCE_DATA vinitData;
+		vinitData.pSysMem = tVBVector.data();
+
+		HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tVBD, &vinitData, &vb));
 	}
 
 

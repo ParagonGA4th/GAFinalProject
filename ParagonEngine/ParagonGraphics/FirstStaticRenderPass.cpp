@@ -70,6 +70,9 @@ namespace Pg::Graphics
 
 	void FirstStaticRenderPass::UnbindPass()
 	{
+		// Unbind RenderTarget
+		_DXStorage->_deviceContext->OMSetRenderTargets(NullRTV.size(), nullptr, _gBufferDepthStencil->GetDSV());
+
 		// Unbind Shaders
 		_vs->Unbind();
 		_ps->Unbind();
@@ -77,6 +80,8 @@ namespace Pg::Graphics
 
 	void FirstStaticRenderPass::ExecuteNextRenderRequirements()
 	{
+		//FirstSkinnedRenderPass가 들어온다면, 이 호출부는 그 렌더 패스의 ExecuteNextRenderRequirements에 들어간다.
+		
 		//t0에, 5개의 SRV GBuffer 대응. (Depth 제외)
 		_DXStorage->_deviceContext->PSSetShaderResources(0, 5, _SRVs.data());
 

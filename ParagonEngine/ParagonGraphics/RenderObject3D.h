@@ -66,8 +66,13 @@ namespace Pg::Graphics
 		LowDX11Storage* _DXStorage;
 		Asset3DModelData* _modelData = nullptr;
 		
-		//Model에 종속된 VB/IB와 다르게, Object, Material ID를 기록하기 위해 오브젝트 종속 VB/IB들.
+		//Model에 종속된 VB/IB와 다르게, Object, Material ID를 기록하기 위해 오브젝트 종속 VB들.
 		ID3D11Buffer* _objMatVB = nullptr;
-		ID3D11Buffer* _objMatIB = nullptr;
+		//Index Buffer는 자신이 소속된 IndexBuffer와 동일.
+
+	protected:
+		//3D 오브젝트 한정.
+		unsigned int _objectID;
+		unsigned int _materialID;
 	};
 }

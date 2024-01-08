@@ -20,8 +20,8 @@ namespace Pg::Graphics
 		GBufferRender(DXGI_FORMAT BufferFormat, DXGI_FORMAT ViewFormat);
 		~GBufferRender();
 	public:
-		ID3D11RenderTargetView* GetRTV();
-		ID3D11ShaderResourceView* GetSRV();
+		ID3D11RenderTargetView*& GetRTV();
+		ID3D11ShaderResourceView*& GetSRV();
 
 	private:
 		void CreateBuffer(DXGI_FORMAT format);
