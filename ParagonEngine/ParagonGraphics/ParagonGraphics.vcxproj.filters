@@ -230,7 +230,7 @@
       <Filter>0_Main\RenderPass\3_FinalRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="ObjMatStaticRenderPass.h">
-      <Filter>0_Main\RenderPass\1_ObjMatRenderPass</Filter>
+      <Filter>0_Main\RenderPass\1_ObjMatStaticRenderPass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -427,7 +427,7 @@
       <Filter>0_Main\RenderPass\3_FinalRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="ObjMatStaticRenderPass.cpp">
-      <Filter>0_Main\RenderPass\1_ObjMatRenderPass</Filter>
+      <Filter>0_Main\RenderPass\1_ObjMatStaticRenderPass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -701,9 +701,6 @@
     <Filter Include="6_HLSL\System\Pipeline\Individual">
       <UniqueIdentifier>{172fa3d7-a211-4018-aea6-f68099cd80aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main\RenderPass\1_ObjMatRenderPass">
-      <UniqueIdentifier>{5ec93642-73ac-4d93-96c2-8f2b5950bb3b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0_Main\RenderPass\2_OpaqueQuadRenderPass">
       <UniqueIdentifier>{449cc130-19ee-4d9d-883c-be93c1eeaf50}</UniqueIdentifier>
     </Filter>
@@ -712,6 +709,9 @@
     </Filter>
     <Filter Include="0_Main\RenderPass\0_FirstStaticRenderPass">
       <UniqueIdentifier>{3157d69f-ab00-40e8-9704-a984429cdac2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass\1_ObjMatStaticRenderPass">
+      <UniqueIdentifier>{5ec93642-73ac-4d93-96c2-8f2b5950bb3b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

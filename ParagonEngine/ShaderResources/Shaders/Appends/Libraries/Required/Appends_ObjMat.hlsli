@@ -9,7 +9,7 @@
 
 //매 Material마다 업데이트해준다. 같은 Material인지 ID 검사를 하기 위해.
 //X : Object ID, Y : Material ID
-Texture2D<uint2> _objMatSRV;
+Texture2D<uint2> _objMatSRV : register(t3);
 
 cbuffer cbInputMaterial : register(b3)
 {

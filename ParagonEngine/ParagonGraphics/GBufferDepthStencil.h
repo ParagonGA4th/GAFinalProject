@@ -21,9 +21,9 @@ namespace Pg::Graphics
 		GBufferDepthStencil(DXGI_FORMAT BufferFormat, DXGI_FORMAT ViewFormat);
 		~GBufferDepthStencil();
 	public:
-		ID3D11DepthStencilView* GetDSV();
-		ID3D11ShaderResourceView* GetSRV();
-		ID3D11DepthStencilState* GetDSState();
+		ID3D11DepthStencilView*& GetDSV();
+		ID3D11ShaderResourceView*& GetSRV();
+		ID3D11DepthStencilState*& GetDSState();
 	private:
 		void CreateBuffer(DXGI_FORMAT format);
 		void CreateDSV(DXGI_FORMAT format);

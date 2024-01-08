@@ -102,10 +102,10 @@ namespace Pg::Graphics
 		std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
 	{
 		//하는거 없으면, 기본값을 넘겨줘야.
-		rtvArray = nullptr;
-		rtvCount = 0;
-		srvArray = nullptr;
-		srvCount = 0;
+		//rtvArray = nullptr;
+		//rtvCount = 0;
+		//srvArray = nullptr;
+		//srvCount = 0;
 	}
 
 	void OpaqueQuadRenderPass::BindVertexIndexBuffer()
