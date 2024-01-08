@@ -51,6 +51,8 @@ namespace Pg::Data
 
 		virtual void UpdateTransform() abstract;
 
+		void SetTrigger(bool isTrigger);
+		bool GetTrigger();
 
 	protected:
 		PGFLOAT3 _positionOffSet;
@@ -58,6 +60,8 @@ namespace Pg::Data
 		PGFLOAT3 _scaleOffset;
 
 		physx::PxScene* _pxScene;
+
+		bool _isTrigger;
 	};
 }
 

@@ -94,7 +94,7 @@
       <Filter>2_Component\Collider\StaticCollider\PlaneCollider</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>2_Component\Script</Filter>
+      <Filter>2_Component\Transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

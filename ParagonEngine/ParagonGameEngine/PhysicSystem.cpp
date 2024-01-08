@@ -46,15 +46,20 @@ namespace Pg::Engine::Physic
 		_material = _physics->createMaterial(0.1f, 0.1f, 0.5f);
 
 		///RayCast의 예시
-		physx::PxVec3 origin = { 0.0f,0.0f,0.0f };		// [in] Ray origin
-		physx::PxVec3 unitDir = { 1.0f, 1.0f, 1.0f };	// [in] Normalized ray direction
-		physx::PxReal maxDistance = 1.0f;				// [in] Raycast max distance
+		//physx::PxVec3 origin = { 0.0f,0.0f,0.0f };		// [in] Ray origin
+		//physx::PxVec3 unitDir = { 2.0f, 2.0f, 2.0f };	// [in] Normalized ray direction
+		//physx::PxReal maxDistance = 10.0f;				// [in] Raycast max distance
 
-		const physx::PxU32 bufferSize = 256;			// [in] size of 'hitBuffer'
-		physx::PxRaycastHit hitBuffer[bufferSize];		// [out] User provided buffer for results
-		physx::PxRaycastBuffer buf(hitBuffer, bufferSize); // [out] Blocking and touching hits stored here
+		//const physx::PxU32 bufferSize = 256;			// [in] size of 'hitBuffer'
+		//physx::PxRaycastHit hitBuffer[bufferSize];		// [out] User provided buffer for results
+		//physx::PxRaycastBuffer buf(hitBuffer, bufferSize); // [out] Blocking and touching hits stored here
 
-		_pxScene->raycast(origin, unitDir, maxDistance, buf);
+		//bool hit = _pxScene->raycast(origin, unitDir, maxDistance, buf);
+
+		//if (hit)
+		//{
+		//	PG_TRACE("Hit!!");
+		//}
 
 		//Collider 생성!
 		InitMakeColliders();
@@ -92,14 +97,17 @@ namespace Pg::Engine::Physic
 			if (!dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
 			{
 				gameObj->OnCollisionEnter();
+				PG_TRACE("CollisionEnter!");
 			}
 			else if (dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
 			{
 				gameObj->OnCollisionStay();
+				PG_TRACE("CollisionStay!");
 			}
 			else if (dynamicCol->GetWasCollided() && !dynamicCol->GetIsCollide())
 			{
 				gameObj->OnCollisionExit();
+				PG_TRACE("CollisionExit!");
 			}
 		}
 
@@ -263,6 +271,12 @@ namespace Pg::Engine::Physic
 				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(staticBoxcol->GetWidth() / 2,
 					staticBoxcol->GetHeight() / 2, staticBoxcol->GetDepth() / 2), *_material);
 
+				if (staticBoxcol->GetTrigger())
+				{
+					boxShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+					boxShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+				}
+
 				Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 
 				physx::PxTransform localTm(physx::PxVec3(position.x, position.y, position.z));
@@ -302,6 +316,16 @@ namespace Pg::Engine::Physic
 
 				physx::PxTransform local(physx::PxVec3(position.x, position.y, position.z));
 
+				//트리거를 위해 PXShape 지정.
+				boxcol->SetPxShape(boxShape);
+
+				if (boxcol->GetTrigger())
+				{
+					boxShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+					boxShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+				}
+
+				
 				//테스트를 위해 임시로 Rigid 넣어봄.
 				//임시 아닌 이렇게 합쳐서 갈 예정.
 				//2023.12.11
@@ -311,11 +335,6 @@ namespace Pg::Engine::Physic
 				rigid->setAngularDamping(0.5f);
 				rigid->setLinearDamping(0.5f);
 				rigid->attachShape(*boxShape);
-
-				///collider의 축 고정 시
-				/*rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, true);
-				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, true);
-				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, true);*/
 				
 				//_pxScene->addActor(*rigid);
 
@@ -353,6 +372,12 @@ namespace Pg::Engine::Physic
 				physx::PxTransform trans(physx::PxIdentity);
 				trans.q = physx::PxQuat(0, 0, 0.7071068f, 0.7071068f);
 				shape->setLocalPose(trans);
+
+				if (sphCol->GetTrigger())
+				{
+					shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+					shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+				}
 
 				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 				physx::PxTransform localTm(physx::PxVec3(pos.x, pos.y, pos.z));
@@ -396,6 +421,12 @@ namespace Pg::Engine::Physic
 				physx::PxTransform trans(physx::PxIdentity);
 				trans.q = physx::PxQuat(0, 0, 0.7071068f, 0.7071068f);
 				shape->setLocalPose(trans);
+
+				if (capCol->GetTrigger())
+				{
+					shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+					shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+				}
 
 				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 				physx::PxTransform localTm(physx::PxIdentity);
@@ -463,6 +494,11 @@ namespace Pg::Engine::Physic
 	///Rayscast 생성하기
 	Pg::Data::Collider* PhysicSystem::MakeRayCast(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length)
 	{
+		physx::PxVec3 rayCastOrigin;
+		rayCastOrigin.x = origin.x;
+		rayCastOrigin.y = origin.y;
+		rayCastOrigin.z = origin.z;
+
 		Pg::Data::Collider* raycastCol = nullptr;
 		return raycastCol;
 	}

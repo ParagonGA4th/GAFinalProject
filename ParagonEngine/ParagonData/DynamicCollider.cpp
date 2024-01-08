@@ -9,6 +9,7 @@ namespace Pg::Data
 		Collider(owner),
 		_isCollide(false),
 		_wasCollided(false),
+		_isTrigger(false),
 		_isActiveX(false),
 		_isActiveY(false),
 		_isActiveZ(false)
@@ -53,6 +54,11 @@ namespace Pg::Data
 		transform.q.w = rotation.w;
 
 		_rigid->setGlobalPose(transform);
+	}
+
+	void DynamicCollider::Collide()
+	{
+		_isCollide = true;
 	}
 
 	bool DynamicCollider::GetIsCollide()
@@ -100,6 +106,11 @@ namespace Pg::Data
 		return _rigid;
 	}
 
+	void DynamicCollider::SetPxShape(physx::PxShape* shape)
+	{
+		_shape = shape;
+	}
+
 	void DynamicCollider::SetVelocity(PGFLOAT3 velo)
 	{
 		_rigid->setLinearVelocity({ velo.x, velo.y, velo.z });
@@ -122,7 +133,7 @@ namespace Pg::Data
 	void DynamicCollider::Flush()
 	{
 		_wasCollided = _isCollide;
-		_isCollide = true;
+		_isCollide = false;
 	}
 
 	void DynamicCollider::FreezeAxisX(bool isActive)
@@ -139,7 +150,4 @@ namespace Pg::Data
 	{
 		_isActiveZ = isActive;
 	}
-
-
-
 }
