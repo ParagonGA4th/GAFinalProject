@@ -20,7 +20,7 @@ namespace Pg::Graphics
 	using Pg::Data::Enums::eAssetDefine;
 
 
-	RenderObjectSkinnedMesh3D::RenderObjectSkinnedMesh3D(Pg::Data::BaseRenderer* baseRenderer) : RenderObject3D(baseRenderer)
+	RenderObjectSkinnedMesh3D::RenderObjectSkinnedMesh3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID, unsigned int matID) : RenderObject3D(baseRenderer, objID, matID)
 	{
 		//SkinnedMesh도 똑같은 과정 거쳐야.
 		//StaticMeshRenderer 따로 포인터를 받기.

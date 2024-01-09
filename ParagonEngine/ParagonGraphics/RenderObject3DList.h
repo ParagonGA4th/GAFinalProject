@@ -15,15 +15,25 @@ namespace Pg::Graphics
 	struct RenderObject3DList
 	{
 	public:
-		std::vector<std::string> _materialPathSet;
+		//일단은 Material Index와 관계는 없을 것이다.
+		std::vector<std::pair<std::string, unsigned int>> _materialPathSet;
 
+		//FirstPath가 지나면 Static, Skinned의 차이가 없다.
+		//FirstStatic/Skinned에 한정해서 차이나게 기록하고, 나머지는 일괄적으로 렌더해버리자.
+
+		//Static
 		std::unordered_map<std::string, /* Material Path */ 
-			std::unique_ptr<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>> _list; /* Vector */
-	
+			std::unique_ptr<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>> _staticList; /* Vector */
+
+		//Skinned
+		std::unordered_map<std::string, /* Material Path */
+			std::unique_ptr<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>> _skinnedList; /* Vector */
+
 	public:
 		void Clear()
 		{
-			_list.clear();
+			_staticList.clear();
+			_skinnedList.clear();
 			_materialPathSet.clear();
 		}
 	};

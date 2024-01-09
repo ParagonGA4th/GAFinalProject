@@ -49,6 +49,10 @@ namespace Pg::Graphics
 		//FilePath는 RenderMaterial 상위 GraphicsResource에 보관되어 있다.
 
 	private:
+		//이 RenderTarget에다가 Set해야 한다.
+		ID3D11RenderTargetView* _passRenderTarget;
+
+	private:
 		LowDX11Storage* _DXStorage;
 	};
 }

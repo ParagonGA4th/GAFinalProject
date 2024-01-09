@@ -47,7 +47,7 @@ namespace Pg::Graphics
 	void ObjMatStaticRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		//모든 오브젝트 렌더링.
-		for (auto& it : renderObjectList->_list)
+		for (auto& it : renderObjectList->_staticList)
 		{
 			//Vector
 			for (int i = 0; i < it.second->size(); i++)

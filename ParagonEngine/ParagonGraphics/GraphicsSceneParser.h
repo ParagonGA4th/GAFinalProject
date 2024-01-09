@@ -37,6 +37,11 @@ namespace Pg::Graphics
 		RenderObjectWireframeList* GetRenderObjectWireframeList();
 
 	private:
+		void ClearObjectLists();
+		void ExtractMaterialPaths(const Pg::Data::Scene* const newScene);
+		void SyncRenderObjects(const Pg::Data::Scene* const newScene);
+
+	private:
 		//PrimitiveWireframeObject 하드코딩해서 완성.
 		void InitializePrimitiveWireframeObjects();
 		//일단은 Cubemap List는 하드코딩되어 있음.
@@ -48,6 +53,10 @@ namespace Pg::Graphics
 		std::unique_ptr<RenderObjectCubemapList> _cubeMapList;
 		//Axis/Grid
 		std::unique_ptr<RenderObjectWireframeList> _primObjectList;
+
+	private:
+		//3DObject들의 ID를 기록해서 렌더링 엔진에 올린다.
+		unsigned int _objectId3dCount = 0;
 	};
 }
 

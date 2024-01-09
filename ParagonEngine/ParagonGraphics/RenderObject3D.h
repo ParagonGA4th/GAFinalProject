@@ -44,7 +44,7 @@ namespace Pg::Graphics
 	class RenderObject3D : public Pg::Graphics::RenderObjectBase
 	{
 	public:
-		RenderObject3D(Pg::Data::BaseRenderer* baseRenderer);
+		RenderObject3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID, unsigned int matID);
 		virtual ~RenderObject3D();
 		
 		//Object-Material 데이터가 전부 매칭/로드 된 후, 일괄적으로 발동될 함수이다.	
