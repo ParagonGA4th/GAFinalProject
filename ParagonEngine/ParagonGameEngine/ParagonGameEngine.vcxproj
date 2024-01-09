@@ -177,6 +177,7 @@
     <ClInclude Include="EventSystem.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MovingTest.h" />
+    <ClInclude Include="PhysicsCallback.h" />
     <ClInclude Include="PhysicSystem.h" />
     <ClInclude Include="PrintRuntimeData.h" />
     <ClInclude Include="SceneSystem.h" />
@@ -191,6 +192,7 @@
     <ClCompile Include="EventSystem.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="MovingTest.cpp" />
+    <ClCompile Include="PhysicsCallback.cpp" />
     <ClCompile Include="PhysicSystem.cpp" />
     <ClCompile Include="PrintRuntimeData.cpp" />
     <ClCompile Include="SceneSystem.cpp" />

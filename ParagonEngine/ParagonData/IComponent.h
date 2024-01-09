@@ -22,5 +22,9 @@ namespace Pg::Data
 		virtual void OnCollisionEnter() abstract;
 		virtual void OnCollisionStay() abstract;
 		virtual void OnCollisionExit() abstract;
+
+		virtual void OnTriggerEnter() abstract;
+		virtual void OnTriggerStay() abstract;
+		virtual void OnTriggerExit() abstract;
 	};
 }
