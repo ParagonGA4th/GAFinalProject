@@ -84,6 +84,8 @@ namespace Pg::Graphics
 			_renderPassVector.push_back(new OpaqueQuadRenderPass(tRM));
 		}
 
+		
+
 
 	}
 
