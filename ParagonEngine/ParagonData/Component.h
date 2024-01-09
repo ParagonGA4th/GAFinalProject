@@ -33,6 +33,10 @@ namespace Pg::Data
 		virtual void OnCollisionStay() override {}
 		virtual void OnCollisionExit() override {}
 
+		virtual void OnTriggerEnter() override {}
+		virtual void OnTriggerStay() override {}
+		virtual void OnTriggerExit() override {}
+
 	public:
 		void SetActive(bool active);
 		bool GetActive();

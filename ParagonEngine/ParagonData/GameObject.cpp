@@ -136,6 +136,40 @@ namespace Pg::Data
 			{ iter.second->OnCollisionExit(); });
 	}
 
+	void GameObject::OnTriggerStay()
+	{
+		if (!_isActive)
+		{
+			return;
+		}
+
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->OnTriggerStay(); });
+	}
+
+	void GameObject::OnTriggerEnter()
+	{
+		if (!_isActive)
+		{
+			return;
+		}
+
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->OnTriggerEnter(); });
+	}
+
+	void GameObject::OnTriggerExit()
+	{
+		if (!_isActive)
+		{
+			return;
+		}
+
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->OnTriggerExit(); });
+	}
+
+
 	void GameObject::OnDestroy()
 	{
 		if (!_isActive)
@@ -151,5 +185,6 @@ namespace Pg::Data
 	{
 		return _componentList;
 	}
+
 
 }

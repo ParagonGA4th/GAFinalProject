@@ -41,6 +41,11 @@ namespace Pg::Data
 		void OnCollisionEnter();
 		void OnCollisionExit();
 
+		//트리거에 관한 함수.
+		void OnTriggerStay();
+		void OnTriggerEnter();
+		void OnTriggerExit();
+
 	public:
 		void OnDestroy();
 

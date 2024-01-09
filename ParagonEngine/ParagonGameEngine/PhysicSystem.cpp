@@ -87,6 +87,7 @@ namespace Pg::Engine::Physic
 		_pxScene->simulate(dTime);
 
 		_pxScene->fetchResults(true);
+		
 
 		///DynamucCollider 컴포넌트를 가진 오브젝트한테 물리 업데이트를 적용.
 		for (auto& rigid : _rigidDynamicVec)
@@ -108,6 +109,13 @@ namespace Pg::Engine::Physic
 			{
 				gameObj->OnCollisionExit();
 				PG_TRACE("CollisionExit!");
+			}
+
+			//트리거 감지를 위해 잠시 해둠
+			if (dynamicCol->GetTrigger() == true)
+			{
+				gameObj->OnTriggerStay();
+				PG_TRACE("TriggerStay!");
 			}
 		}
 

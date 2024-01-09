@@ -40,6 +40,9 @@
     <ClInclude Include="PrintRuntimeData.h">
       <Filter>4_WorkSpace\SceneView\Scripts\RuntimeData</Filter>
     </ClInclude>
+    <ClInclude Include="PhysicsCallback.h">
+      <Filter>2_System\PhysicSystem\PhysicsCallback</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -77,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="PrintRuntimeData.cpp">
       <Filter>4_WorkSpace\SceneView\Scripts\RuntimeData</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsCallback.cpp">
+      <Filter>2_System\PhysicSystem\PhysicsCallback</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +136,9 @@
     </Filter>
     <Filter Include="2_System\SceneSystem">
       <UniqueIdentifier>{b0b22550-0d8e-4869-9bb0-573c34426e6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\PhysicsCallback">
+      <UniqueIdentifier>{356183f5-6c8c-4046-81ca-003b8467c6ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
