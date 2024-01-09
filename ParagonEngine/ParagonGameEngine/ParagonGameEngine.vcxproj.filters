@@ -43,6 +43,15 @@
     <ClInclude Include="PhysicsCallback.h">
       <Filter>2_System\PhysicSystem\PhysicsCallback</Filter>
     </ClInclude>
+    <ClInclude Include="PhysicsCollision.h">
+      <Filter>2_System\PhysicSystem\PhysicsCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsContactPoint.h">
+      <Filter>2_System\PhysicSystem\PhysicsContactPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsColliderActor.h">
+      <Filter>2_System\PhysicSystem\PhysicsColliderActor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -83,6 +92,15 @@
     </ClCompile>
     <ClCompile Include="PhysicsCallback.cpp">
       <Filter>2_System\PhysicSystem\PhysicsCallback</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsCollision.cpp">
+      <Filter>2_System\PhysicSystem\PhysicsCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsContactPoint.cpp">
+      <Filter>2_System\PhysicSystem\PhysicsContactPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsColliderActor.cpp">
+      <Filter>2_System\PhysicSystem\PhysicsColliderActor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +157,15 @@
     </Filter>
     <Filter Include="2_System\PhysicSystem\PhysicsCallback">
       <UniqueIdentifier>{356183f5-6c8c-4046-81ca-003b8467c6ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\PhysicsCollision">
+      <UniqueIdentifier>{ad57e98a-9abd-49c1-a0ba-d347fb13c0e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\PhysicsContactPoint">
+      <UniqueIdentifier>{834b5d52-8dfa-4e4d-aa2f-94b6ea2b9515}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\PhysicsColliderActor">
+      <UniqueIdentifier>{8d65db41-c742-4133-aa5c-97eaf5b6c37b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
