@@ -45,6 +45,9 @@ namespace Pg::Graphics
 		ID3D11Buffer* _quadIB;
 
 	private:
+		ID3D11ShaderResourceView* _finalQuadSRV;
+
+	private:
 		LowDX11Storage* _DXStorage;
 	};
 }

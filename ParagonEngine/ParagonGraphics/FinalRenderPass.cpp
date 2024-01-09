@@ -26,7 +26,8 @@ namespace Pg::Graphics
 	void FinalRenderPass::ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, 
 		const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv)
 	{
-
+		//FinalQuadSRV 기록.
+		_finalQuadSRV = srvArray->at(0);
 	}
 
 	void FinalRenderPass::BindPass()
@@ -40,15 +41,17 @@ namespace Pg::Graphics
 		// 셰이더 바인딩.
 		_vs->Bind();
 		_ps->Bind();
+
+		//Register T5에 넣어줌.
+		_DXStorage->_deviceContext->PSSetShaderResources(5, 1, &_finalQuadSRV);
 	}
 
 	void FinalRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		//RenderPass로 받아야 하지만, 
 		//Quad 전체를 MainRenderTarget으로 옮기기만 하는 얘는 상관 없다.
-		
-		//PSSetShaderResources
-
+		//Quad만큼 마지막으로 MainRenderTarget에 렌더한다.
+		_DXStorage->_deviceContext->DrawIndexed(GeometryGenerator::QUAD_INDICE_COUNT, 0, 0);
 
 	}
 

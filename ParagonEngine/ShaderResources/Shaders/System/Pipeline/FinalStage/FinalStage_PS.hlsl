@@ -2,7 +2,7 @@
 #include "../../Libraries/System_QuadLayouts.hlsli"
 #include "../../../Appends/Libraries/SamplerStates/Appends_SamplerStates.hlsli"
 
-Texture2D<float4> QuadRTV : register(t0);
+Texture2D<float4> QuadRTV : register(t5);
 
 //π›µÂΩ√ ¿Œ«≤ = VOutQuad, æ∆øÙ«≤ = POutQuad
 POutQuad main(VOutQuad pin)

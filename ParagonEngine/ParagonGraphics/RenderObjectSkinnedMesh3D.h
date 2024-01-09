@@ -15,7 +15,7 @@ namespace Pg::Graphics
 	class RenderObjectSkinnedMesh3D : public RenderObject3D
 	{
 	public:
-		RenderObjectSkinnedMesh3D(Pg::Data::BaseRenderer* baseRenderer);
+		RenderObjectSkinnedMesh3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID, unsigned int matID);
 		virtual ~RenderObjectSkinnedMesh3D();
 
 		//Object-Material 데이터가 전부 매칭/로드 된 후, 일괄적으로 발동될 함수이다.	

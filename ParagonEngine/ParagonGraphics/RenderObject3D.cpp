@@ -24,7 +24,7 @@ namespace Pg::Graphics
 	using Pg::Graphics::Manager::GraphicsResourceManager;
 	using Pg::Util::Helper::ResourceHelper;
 
-	RenderObject3D::RenderObject3D(Pg::Data::BaseRenderer* baseRenderer) : RenderObjectBase(baseRenderer)
+	RenderObject3D::RenderObject3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID, unsigned int matID) : RenderObjectBase(baseRenderer), _objectID(objID), _materialID(matID)
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 

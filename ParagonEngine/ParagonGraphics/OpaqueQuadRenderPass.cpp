@@ -33,7 +33,10 @@ namespace Pg::Graphics
 	void OpaqueQuadRenderPass::ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, 
 		const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv)
 	{
-		
+		assert(rtvCount == 1);
+
+		//자신이 렌더할 RenderTarget을 받는다.
+		_passRenderTarget = rtvArray->at(0);
 	}
 
 	void OpaqueQuadRenderPass::BindPass()
@@ -101,11 +104,7 @@ namespace Pg::Graphics
 	void OpaqueQuadRenderPass::PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, 
 		std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
 	{
-		//하는거 없으면, 기본값을 넘겨줘야.
-		//rtvArray = nullptr;
-		//rtvCount = 0;
-		//srvArray = nullptr;
-		//srvCount = 0;
+		//하는거 없으면, 건드리지 말아야 한다.
 	}
 
 	void OpaqueQuadRenderPass::BindVertexIndexBuffer()
@@ -140,7 +139,7 @@ namespace Pg::Graphics
 		UINT* _cbData = &(_renderMaterial->GetID());
 	
 		//Constant Buffer 자체를 만드는 코드.
-		int sizeCB = (((sizeof(T) - 1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
+		int sizeCB = (((sizeof(unsigned int) - 1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
 		assert(sizeCB % 16 == 0);
 
 		D3D11_BUFFER_DESC tDesc;
