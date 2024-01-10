@@ -127,4 +127,18 @@ namespace Pg::Data
 		return _isTrigger;
 	}
 
+	void Collider::Collide()
+	{
+		_isCollide = true;
+	}
+
+	bool Collider::GetIsCollide()
+	{
+		return _isCollide;
+	}
+
+	bool Collider::GetWasCollided()
+	{
+		return _wasCollided;
+	}
 }
