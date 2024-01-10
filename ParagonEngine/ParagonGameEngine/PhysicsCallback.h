@@ -13,10 +13,21 @@ namespace Pg::Engine
 	// Flax Engine을 모델링해서 만듬. 
 	// https://flaxengine.com/
 
+	class CollidersPair
+	{
+	public:
+		CollidersPair() = default;
+		CollidersPair(PhysicsColliderActor* first, PhysicsColliderActor* second) :
+			_first(first), _second(second)
+		{}
+
+		PhysicsColliderActor* _first;
+		PhysicsColliderActor* _second;
+	};
+
 	class PhysicsCallback : public physx::PxSimulationEventCallback
 	{
 		//ColliderActor들의 Pair가 원래 되어야 한다. 
-		using CollidersPair = std::pair<PhysicsColliderActor*, PhysicsColliderActor*>;
 		using CollisionsPool = std::unordered_map<CollidersPair, PhysicsCollision>;
 
 	public:
@@ -57,17 +68,17 @@ namespace Pg::Engine
 
 	public:
 		// [PxSimulationEventCallback] -> PhysX 자체적인 인터페이스를 오버라이드해서 사용한다.
-		void onConstraintBreak(physx::PxConstraintInfo* constraints, physx::PxU32 count) override;
-		void onWake(physx::PxActor** actors, physx::PxU32 count) override;
-		void onSleep(physx::PxActor** actors, physx::PxU32 count) override;
-		void onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs) override;
-		void onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 count) override;
-		void onAdvance(const physx::PxRigidBody* const* bodyBuffer, const physx::PxTransform* poseBuffer, const physx::PxU32 count) override;
+		virtual void onConstraintBreak(physx::PxConstraintInfo* constraints, physx::PxU32 count) override;
+		virtual void onWake(physx::PxActor** actors, physx::PxU32 count) override;
+		virtual void onSleep(physx::PxActor** actors, physx::PxU32 count) override;
+		virtual void onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs) override;
+		virtual void onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 count) override;
+		virtual void onAdvance(const physx::PxRigidBody* const* bodyBuffer, const physx::PxTransform* poseBuffer, const physx::PxU32 count) override;
 
 	private:
 		//내부 헬퍼 함수들.
-		void ClearColliderFromCollection(PhysicsColliderActor* collider, std::vector<PhysicsCallback::CollidersPair>& collection);
-		void ClearColliderFromCollection(PhysicsColliderActor* collider, PhysicsCallback::CollisionsPool& collection);
+		void ClearColliderFromCollection(PhysicsColliderActor* collider, std::vector<CollidersPair>& collection);
+		void ClearColliderFromCollection(PhysicsColliderActor* collider, CollisionsPool& collection);
 	
 	
 	};
