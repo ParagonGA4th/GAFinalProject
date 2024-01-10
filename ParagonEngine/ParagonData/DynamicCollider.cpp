@@ -7,8 +7,6 @@ namespace Pg::Data
 {
 	DynamicCollider::DynamicCollider(GameObject* owner) :
 		Collider(owner),
-		_isCollide(false),
-		_wasCollided(false),
 		_isTrigger(false),
 		_isActiveX(false),
 		_isActiveY(false),

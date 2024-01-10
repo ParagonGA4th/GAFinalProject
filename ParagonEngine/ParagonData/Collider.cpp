@@ -10,7 +10,9 @@ namespace Pg::Data
 		_rotationOffset(1.0f, 0.0f, 0.0f, 0.0f),
 		_scaleOffset(1.0f, 1.0f, 1.0f),
 		_pxScene(nullptr),
-		_isTrigger(false)
+		_isTrigger(false),
+		_isCollide(false),
+		_wasCollided(false)
 	{
 		
 	}
