@@ -36,7 +36,6 @@ namespace Pg::Data
 		virtual void UpdateTransform() override;
 
 	public:
-
 		void SetPxRigidDynamic(physx::PxRigidDynamic* rigid);
 		physx::PxRigidDynamic* GetRigidBodyDynamic();
 
@@ -53,11 +52,6 @@ namespace Pg::Data
 		void FreezeAxisX(bool isActive);
 		void FreezeAxisY(bool isActive);
 		void FreezeAxisZ(bool isActive);
-
-	public:
-
-		void Flush();
-
 	public:
 
 		//Collider 클래스에 적용되어있기에 가상함수로...
@@ -68,9 +62,6 @@ namespace Pg::Data
 	private:
 		physx::PxRigidDynamic* _rigid;
 		physx::PxShape* _shape;
-
-		//트리거 판별 여부
-		bool _isTrigger;
 
 	private:
 		//플래그

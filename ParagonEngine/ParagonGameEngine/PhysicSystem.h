@@ -1,5 +1,7 @@
 #pragma once
 
+//PhysX <-> CPP 교류를 위한 헤더.
+#include "PhysicsCallback.h"
 #include "Pxphysics.h"
 #include "PxphysicsAPI.h"
 #include "extensions/PxDefaultAllocator.h"
@@ -7,12 +9,14 @@
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonMath/PgMath.h"
 #include <vector>
+#include <memory>
 
 /// <summary>
 /// ParagonEngine의 물리 시스템 클래스.
 /// PhysX 연동하여 물리엔진을 연동할 것이다
 /// 2023.10.06
 /// </summary>
+
 namespace Pg::Data
 {
 	class GameObject;
@@ -82,6 +86,8 @@ namespace Pg::Engine::Physic
 		physx::PxPvd*					_pvd = nullptr;
 
 		Pg::Engine::SceneSystem*		_sceneSystem;
+
+		std::unique_ptr<PhysicsCallback> _physicsCallback;
 	};
 }
 
