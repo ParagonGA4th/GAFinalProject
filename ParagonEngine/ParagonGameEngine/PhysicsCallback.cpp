@@ -32,7 +32,7 @@ namespace Pg::Engine
 	}
 
 	void PhysicsCallback::onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs)
-	{
+	{;
 		using namespace physx;
 
 		// 제거된 액터들에게 이벤트 보내는 것은 그만.
