@@ -56,21 +56,6 @@ namespace Pg::Data
 		_rigid->setGlobalPose(transform);
 	}
 
-	void DynamicCollider::Collide()
-	{
-		_isCollide = true;
-	}
-
-	bool DynamicCollider::GetIsCollide()
-	{
-		return _isCollide;
-	}
-
-	bool DynamicCollider::GetWasCollided()
-	{
-		return _wasCollided;
-	}
-
 	void DynamicCollider::AddForce(PGFLOAT3 dir, ForceMode mode)
 	{
 		physx::PxVec3 direction;

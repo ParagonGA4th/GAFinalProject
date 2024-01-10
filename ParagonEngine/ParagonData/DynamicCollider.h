@@ -36,10 +36,6 @@ namespace Pg::Data
 		virtual void UpdateTransform() override;
 
 	public:
-		//충돌판정 여부 체크
-		void Collide();
-		bool GetIsCollide();
-		bool GetWasCollided();
 
 		void SetPxRigidDynamic(physx::PxRigidDynamic* rigid);
 		physx::PxRigidDynamic* GetRigidBodyDynamic();
@@ -72,10 +68,6 @@ namespace Pg::Data
 	private:
 		physx::PxRigidDynamic* _rigid;
 		physx::PxShape* _shape;
-
-		//충돌의 여부를 판단하기 위해.
-		bool _isCollide;
-		bool _wasCollided;
 
 		//트리거 판별 여부
 		bool _isTrigger;

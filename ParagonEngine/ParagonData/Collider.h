@@ -54,6 +54,11 @@ namespace Pg::Data
 		void SetTrigger(bool isTrigger);
 		bool GetTrigger();
 
+		//충돌판정 여부 체크
+		void Collide();
+		bool GetIsCollide();
+		bool GetWasCollided();
+
 	protected:
 		PGFLOAT3 _positionOffSet;
 		PGQuaternion _rotationOffset;
@@ -62,6 +67,11 @@ namespace Pg::Data
 		physx::PxScene* _pxScene;
 
 		bool _isTrigger;
+
+	protected:
+		//충돌의 여부를 판단하기 위해.
+		bool _isCollide;
+		bool _wasCollided;
 	};
 }
 
