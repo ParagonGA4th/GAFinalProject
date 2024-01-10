@@ -10,6 +10,8 @@ namespace Pg::Engine
 /// <summary>
 /// 모든 콜라이더들의 부모클래스가 되어야 한다!
 /// 아마 Component들을 받게 되어, GameObject의 함수를 호출하는 방식 등으로 사용되어야 할 것.
+/// 
+/// Collider로 대체되어야.
 /// </summary>
 
 namespace Pg::Engine

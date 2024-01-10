@@ -89,6 +89,8 @@ namespace Pg::Engine::Physic
 		_pxScene->fetchResults(true);
 		
 
+		//Event 셋업.
+
 		///DynamucCollider 컴포넌트를 가진 오브젝트한테 물리 업데이트를 적용.
 		for (auto& rigid : _rigidDynamicVec)
 		{
