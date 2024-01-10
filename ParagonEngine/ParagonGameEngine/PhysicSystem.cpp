@@ -46,20 +46,20 @@ namespace Pg::Engine::Physic
 		_material = _physics->createMaterial(0.1f, 0.1f, 0.5f);
 
 		///RayCast의 예시
-		//physx::PxVec3 origin = { 0.0f,0.0f,0.0f };		// [in] Ray origin
-		//physx::PxVec3 unitDir = { 2.0f, 2.0f, 2.0f };	// [in] Normalized ray direction
-		//physx::PxReal maxDistance = 10.0f;				// [in] Raycast max distance
+		physx::PxVec3 origin = { 0.0f,0.0f,0.0f };		// [in] Ray origin
+		physx::PxVec3 unitDir = { 2.0f, 2.0f, 2.0f };	// [in] Normalized ray direction
+		physx::PxReal maxDistance = 100.0f;				// [in] Raycast max distance
 
-		//const physx::PxU32 bufferSize = 256;			// [in] size of 'hitBuffer'
-		//physx::PxRaycastHit hitBuffer[bufferSize];		// [out] User provided buffer for results
-		//physx::PxRaycastBuffer buf(hitBuffer, bufferSize); // [out] Blocking and touching hits stored here
+		const physx::PxU32 bufferSize = 256;			// [in] size of 'hitBuffer'
+		physx::PxRaycastHit hitBuffer[bufferSize];		// [out] User provided buffer for results
+		physx::PxRaycastBuffer buf(hitBuffer, bufferSize); // [out] Blocking and touching hits stored here
 
-		//bool hit = _pxScene->raycast(origin, unitDir, maxDistance, buf);
+		bool hit = _pxScene->raycast(origin, unitDir, maxDistance, buf);
 
-		//if (hit)
-		//{
-		//	PG_TRACE("Hit!!");
-		//}
+		if (hit)
+		{
+			PG_TRACE("Hit!!");
+		}
 
 		//Collider 생성!
 		InitMakeColliders();
@@ -507,10 +507,28 @@ namespace Pg::Engine::Physic
 		rayCastOrigin.y = origin.y;
 		rayCastOrigin.z = origin.z;
 
+		physx::PxVec3 rayCastDir;
+		rayCastDir.x = dir.x;
+		rayCastDir.y = dir.y;
+		rayCastDir.z = dir.z;
+
 		Pg::Data::Collider* raycastCol = nullptr;
+
+		//RayCast 버퍼 생성.
+		physx::PxRaycastBuffer _hitBuffer;
+		bool _isHit = _pxScene->raycast(rayCastOrigin, rayCastDir, length, _hitBuffer);
+
+		//만약 RayCast에 맞았다면
+		if (_isHit)
+		{
+			physx::PxRigidActor* actor = _hitBuffer.block.actor;
+		}
+
+
 		return raycastCol;
 	}
 
+	///만들어진 Collider 객체를 Scene으로 추가하는 역할.
 	void PhysicSystem::AddObjectToScene()
 	{
 		for (auto& rigidDynamic : _rigidDynamicVec)
@@ -526,6 +544,7 @@ namespace Pg::Engine::Physic
 		}
 	}
 
+	///매 프레임마다 충돌 이벤트 감지
 	void PhysicSystem::Flush()
 	{
 		for (auto& rigid : _rigidDynamicVec)
