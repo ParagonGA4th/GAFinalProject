@@ -8,9 +8,7 @@ namespace Pg::Data
 {
 	StaticCollider::StaticCollider(GameObject* owner) :
 		Collider(owner),
-		_rigid(nullptr),
-		_isCollide(false),
-		_wasCollided(false)
+		_rigid(nullptr)
 	{
 
 	}
@@ -48,22 +46,6 @@ namespace Pg::Data
 		rotation.w = transform.q.w;*/
 
 		_rigid->setGlobalPose(transform);
-	}
-
-	void StaticCollider::Flush()
-	{
-		_wasCollided = _isCollide;
-		_isCollide = false;
-	}
-
-	bool StaticCollider::GetIsCollide()
-	{
-		return _isCollide;
-	}
-
-	bool StaticCollider::GetWasCollided()
-	{
-		return _wasCollided;
 	}
 
 	void StaticCollider::SetPxRigidStatic(physx::PxRigidStatic* rigid)

@@ -1,6 +1,6 @@
 #include "PhysicsContactPoint.h"
 
-namespace Pg::Engine
+namespace Pg::Data
 {
 
 }
