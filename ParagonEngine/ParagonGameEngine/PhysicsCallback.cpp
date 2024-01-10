@@ -101,11 +101,11 @@ namespace Pg::Engine
 
 			//PhysX 연동 추가 기록.
 			c._activeContactCount = nbContacts;
-			c._impulse = {totalImpulse.x, totalImpulse.y, totalImpulse.z};
-			
-			///얘가 문제다. 
-			////Collision 목록 기록. (Callback 클래스에서)
-			//_collisions[CollidersPair(c._thisActor, c._otherActor)] = c;
+			c._impulse = { totalImpulse.x, totalImpulse.y, totalImpulse.z };
+
+
+			//Collision 목록 기록. (Callback 클래스에서)
+			_collisions[CollidersPair(c._thisActor, c._otherActor)] = c;
 		}
 
 		//Velocity를 빼내기.
@@ -127,12 +127,12 @@ namespace Pg::Engine
 				c._thisActor = static_cast<PhysicsColliderActor*>(pair.shapes[0]->userData);
 				c._otherActor = static_cast<PhysicsColliderActor*>(pair.shapes[1]->userData);
 
-				//PhysicsCollision& collision = _collisions[CollidersPair(c._thisActor, c._otherActor)];
-				////둘 다 유효한지 확인.
-				//assert(c._thisActor != nullptr && c._otherActor != nullptr);
-				//
-				//collision._thisVelocity = { linearVelocityActor0.x, linearVelocityActor0.y, linearVelocityActor0.z };
-				//collision._otherVelocity = { linearVelocityActor1.x, linearVelocityActor1.y, linearVelocityActor1.z };
+				PhysicsCollision& collision = _collisions[CollidersPair(c._thisActor, c._otherActor)];
+				//둘 다 유효한지 확인.
+				assert(c._thisActor != nullptr && c._otherActor != nullptr);
+
+				collision._thisVelocity = { linearVelocityActor0.x, linearVelocityActor0.y, linearVelocityActor0.z };
+				collision._otherVelocity = { linearVelocityActor1.x, linearVelocityActor1.y, linearVelocityActor1.z };
 			}
 		}
 	}
@@ -140,24 +140,24 @@ namespace Pg::Engine
 	void PhysicsCallback::onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 count)
 	{
 		using namespace physx;
-		
+
 		for (PxU32 i = 0; i < count; i++)
 		{
 			//Trigger Pair를 받아오기.
 			const PxTriggerPair& pair = pairs[i];
-		
+
 			// 지워진 Shape들의 Trigger들은 무시하기.
 			if (pair.flags & (PxTriggerPairFlag::eREMOVED_SHAPE_TRIGGER | PxTriggerPairFlag::eREMOVED_SHAPE_OTHER))
 				continue;
-		
+
 			//Trigger들의 주소를 받기.
-			
+
 			PhysicsColliderActor* trigger = static_cast<PhysicsColliderActor*>(pair.triggerShape->userData);
 			PhysicsColliderActor* otherCollider = static_cast<PhysicsColliderActor*>(pair.otherShape->userData);
-		
+
 			//둘 다 제대로 존재하는지 확인하기.
 			assert(trigger != nullptr && otherCollider != nullptr);
-		
+
 			//Collider들의 Pair 만들기.
 			CollidersPair collidersPair(trigger, otherCollider);
 
@@ -183,12 +183,12 @@ namespace Pg::Engine
 	void PhysicsCallback::Clear()
 	{
 		//서로를 바꿔주고, Clear.
-		//std::swap(_collisions, _prevCollisions);
-		//_collisions.clear();
-		//
+		std::swap(_collisions, _prevCollisions);
+		_collisions.clear();
+
 		_newCollisionPairs.clear();
 		_removedCollisionPairs.clear();
-		
+
 		_newTriggerPairs.clear();
 		_lostTriggerPairs.clear();
 	}
@@ -204,39 +204,41 @@ namespace Pg::Engine
 			collection.end());
 	}
 
-	void PhysicsCallback::ClearColliderFromCollection(PhysicsColliderActor* collider, PhysicsCallback::CollisionsPool& collection)
+	void PhysicsCallback::ClearColliderFromCollection(PhysicsColliderActor* collider, CollisionsPool& collection)
 	{
-		////C++ Erase-Remove Idiom
-		////특정 조건 충족 요건 제거
-		//collection.erase(std::remove_if(collection.begin(),
-		//	collection.end(),
-		//	[&collider](const std::pair<CollidersPair, PhysicsCollision>& colPair) -> bool
-		//	{ return (colPair.first._first == collider || colPair.first._second == collider); }),
-		//	collection.end());
+		//C++ Erase-Remove Idiom
+		//특정 조건 충족 요건 제거
+		//다만, Vector에는 충족했지만, std::unordered_map은 지원하지 않았음.
+
+		//C++20부터, erase_if를 std::unordered_map에도 지원.
+		const auto count = std::erase_if(collection, [&collider](const auto& item) {
+			auto const& [key, value] = item;
+			return (key._first == collider || key._second == collider);
+			});
 	}
 
 	void PhysicsCallback::CollectResults()
 	{
 		//빌드 안되는 문제.
-		//for (auto& it : _collisions)
-		//{
-		//	//전 목록에 Collision이 없는데 현재에는 있으면
-		//	if (!_prevCollisions.contains(it.first))
-		//	{
-		//		//Collision 생성.
-		//		_newCollisionPairs.push_back(it.first);
-		//	}
-		//}
-		//
-		//for (auto& it : _prevCollisions)
-		//{
-		//	//전 목록에 Collision이 없는데 현재에는 있으면
-		//	if (!_collisions.contains(it.first))
-		//	{
-		//		//Collision 생성.
-		//		_removedCollisionPairs.push_back(it.first);
-		//	}
-		//}
+		for (auto& it : _collisions)
+		{
+			//전 목록에 Collision이 없는데 현재에는 있으면
+			if (!_prevCollisions.contains(it.first))
+			{
+				//Collision 생성.
+				_newCollisionPairs.push_back(it.first);
+			}
+		}
+
+		for (auto& it : _prevCollisions)
+		{
+			//전 목록에 Collision이 없는데 현재에는 있으면
+			if (!_collisions.contains(it.first))
+			{
+				//Collision 생성.
+				_removedCollisionPairs.push_back(it.first);
+			}
+		}
 	}
 
 	void PhysicsCallback::SendCollisionEvents()
@@ -248,28 +250,28 @@ namespace Pg::Engine
 			const auto& pair = _removedCollisionPairs[i];
 
 			//해당 인덱스된 PhysicsCollision을 가져온다.
-			//auto& c = _prevCollisions[pair];
-			//
-			////OnCollisionExit 함수들 발동.
-			//pair._first->OnCollisionExit(c);
-			//c.SwapObjects();
-			//pair._second->OnCollisionExit(c);
-			//c.SwapObjects();
+			auto& c = _prevCollisions[pair];
+
+			//OnCollisionExit 함수들 발동.
+			pair._first->OnCollisionExit(c);
+			c.SwapObjects();
+			pair._second->OnCollisionExit(c);
+			c.SwapObjects();
 		}
 
 		for (int i = 0; i < _newCollisionPairs.size(); i++)
 		{
 			//막 추가된 CollisionPair.
 			const auto& pair = _newCollisionPairs[i];
-			//
-			////해당 인덱스된 PhysicsCollision을 가져온다.
-			//auto& c = _collisions[pair];
-			//
-			////OnCollisionEnter 함수를 발동.
-			//pair._first->OnCollisionEnter(c);
-			//c.SwapObjects();
-			//pair._second->OnCollisionEnter(c);
-			//c.SwapObjects();
+
+			//해당 인덱스된 PhysicsCollision을 가져온다.
+			auto& c = _collisions[pair];
+
+			//OnCollisionEnter 함수를 발동.
+			pair._first->OnCollisionEnter(c);
+			c.SwapObjects();
+			pair._second->OnCollisionEnter(c);
+			c.SwapObjects();
 		}
 	}
 
@@ -277,17 +279,17 @@ namespace Pg::Engine
 	{
 		for (int i = 0; i < _lostTriggerPairs.size(); i++)
 		{
-			const auto c = _lostTriggerPairs[i];
-		
+			const auto& c = _lostTriggerPairs[i];
+
 			//서로의 함수를 호출. (OnTriggerExit)
 			c._first->OnTriggerExit(c._second);
 			c._second->OnTriggerExit(c._first);
 		}
-		
+
 		for (int i = 0; i < _newTriggerPairs.size(); i++)
 		{
 			//서로의 함수를 호출. (OnTriggerEnter)
-			const auto c = _newTriggerPairs[i];
+			const auto& c = _newTriggerPairs[i];
 			c._first->OnTriggerEnter(c._second);
 			c._second->OnTriggerEnter(c._first);
 		}
