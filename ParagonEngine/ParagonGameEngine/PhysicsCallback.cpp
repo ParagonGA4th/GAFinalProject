@@ -1,11 +1,20 @@
 #include "PhysicsCallback.h"
+#include "../ParagonUtil/Log.h"
 
 #include <algorithm>
 #include <cassert>
 
 namespace Pg::Engine
 {
+	PhysicsCallback::PhysicsCallback()
+	{
+		//
+	}
 
+	PhysicsCallback::~PhysicsCallback()
+	{
+		//
+	}
 
 	void PhysicsCallback::onConstraintBreak(physx::PxConstraintInfo* constraints, physx::PxU32 count)
 	{
@@ -24,7 +33,6 @@ namespace Pg::Engine
 
 	void PhysicsCallback::onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs)
 	{
-
 		using namespace physx;
 
 		// 제거된 액터들에게 이벤트 보내는 것은 그만.
@@ -34,7 +42,7 @@ namespace Pg::Engine
 		}
 
 		//Collision 하나가 발생할 때마다 생성되는 객체.
-		PhysicsCollision c;
+		Pg::Data::PhysicsCollision c;
 		c._thisVelocity = { 0.f,0.f,0.f };
 		c._otherVelocity = { 0.f,0.f,0.f };
 
@@ -57,8 +65,8 @@ namespace Pg::Engine
 			PxVec3 totalImpulse = PxVec3(0.0f);
 
 			//부딪힌 This / Other 액터 포인터 옮기기.
-			c._thisActor = static_cast<PhysicsColliderActor*>(pair.shapes[0]->userData);
-			c._otherActor = static_cast<PhysicsColliderActor*>(pair.shapes[1]->userData);
+			c._thisActor = static_cast<Pg::Data::Collider*>(pair.shapes[0]->userData);
+			c._otherActor = static_cast<Pg::Data::Collider*>(pair.shapes[1]->userData);
 
 			//둘 다 유효한지 확인.
 			assert(c._thisActor != nullptr && c._otherActor != nullptr);
@@ -70,7 +78,7 @@ namespace Pg::Engine
 				i.nextPatch();
 
 				//다음 Contact가 있고, 감지할 수 있는 Contact의 포인트보다 작을 때 
-				while (i.hasNextContact() && nbContacts < PhysicsCollision::MAX_CONTACT_POINTS)
+				while (i.hasNextContact() && nbContacts < Pg::Data::PhysicsCollision::MAX_CONTACT_POINTS)
 				{
 					//다음 Contact로 Iterator++
 					i.nextContact();
@@ -89,7 +97,7 @@ namespace Pg::Engine
 					//[NOTUSED] PxU32 internalFaceIndex1 = flippedContacts ? iter.getFaceIndex0() : iter.getFaceIndex1();
 
 					//Collision의 Contact Point를 제어하기 위해.
-					PhysicsContactPoint& contact = c._contacts[nbContacts];
+					Pg::Data::PhysicsContactPoint& contact = c._contacts[nbContacts];
 					contact._point = { point.x, point.y, point.z };
 					contact._normal = { normal.x, normal.y, normal.z };
 					contact._separation = i.getSeparation();
@@ -124,10 +132,10 @@ namespace Pg::Engine
 				const PxContactPair& pair = pairs[i.contactPairIndex];
 
 				//콜라이더 Actor를 가져오는 과정이다.
-				c._thisActor = static_cast<PhysicsColliderActor*>(pair.shapes[0]->userData);
-				c._otherActor = static_cast<PhysicsColliderActor*>(pair.shapes[1]->userData);
+				c._thisActor = static_cast<Pg::Data::Collider*>(pair.shapes[0]->userData);
+				c._otherActor = static_cast<Pg::Data::Collider*>(pair.shapes[1]->userData);
 
-				PhysicsCollision& collision = _collisions[CollidersPair(c._thisActor, c._otherActor)];
+				Pg::Data::PhysicsCollision& collision = _collisions[CollidersPair(c._thisActor, c._otherActor)];
 				//둘 다 유효한지 확인.
 				assert(c._thisActor != nullptr && c._otherActor != nullptr);
 
@@ -151,9 +159,9 @@ namespace Pg::Engine
 				continue;
 
 			//Trigger들의 주소를 받기.
-
-			PhysicsColliderActor* trigger = static_cast<PhysicsColliderActor*>(pair.triggerShape->userData);
-			PhysicsColliderActor* otherCollider = static_cast<PhysicsColliderActor*>(pair.otherShape->userData);
+			
+			Pg::Data::Collider* trigger = static_cast<Pg::Data::Collider*>(pair.triggerShape->userData);
+			Pg::Data::Collider* otherCollider = static_cast<Pg::Data::Collider*>(pair.otherShape->userData);
 
 			//둘 다 제대로 존재하는지 확인하기.
 			assert(trigger != nullptr && otherCollider != nullptr);
@@ -193,7 +201,7 @@ namespace Pg::Engine
 		_lostTriggerPairs.clear();
 	}
 
-	void PhysicsCallback::ClearColliderFromCollection(PhysicsColliderActor* collider, std::vector<CollidersPair>& collection)
+	void PhysicsCallback::ClearColliderFromCollection(Pg::Data::Collider* collider, std::vector<CollidersPair>& collection)
 	{
 		//C++ Erase-Remove Idiom
 		//특정 조건 충족 요건 제거
@@ -204,7 +212,7 @@ namespace Pg::Engine
 			collection.end());
 	}
 
-	void PhysicsCallback::ClearColliderFromCollection(PhysicsColliderActor* collider, CollisionsPool& collection)
+	void PhysicsCallback::ClearColliderFromCollection(Pg::Data::Collider* collider, CollisionsPool& collection)
 	{
 		//C++ Erase-Remove Idiom
 		//특정 조건 충족 요건 제거
@@ -253,9 +261,9 @@ namespace Pg::Engine
 			auto& c = _prevCollisions[pair];
 
 			//OnCollisionExit 함수들 발동.
-			pair._first->OnCollisionExit(c);
+			pair._first->Collider_OnCollisionExit(c);
 			c.SwapObjects();
-			pair._second->OnCollisionExit(c);
+			pair._second->Collider_OnCollisionExit(c);
 			c.SwapObjects();
 		}
 
@@ -268,9 +276,9 @@ namespace Pg::Engine
 			auto& c = _collisions[pair];
 
 			//OnCollisionEnter 함수를 발동.
-			pair._first->OnCollisionEnter(c);
+			pair._first->Collider_OnCollisionEnter(c);
 			c.SwapObjects();
-			pair._second->OnCollisionEnter(c);
+			pair._second->Collider_OnCollisionEnter(c);
 			c.SwapObjects();
 		}
 	}
@@ -282,20 +290,20 @@ namespace Pg::Engine
 			const auto& c = _lostTriggerPairs[i];
 
 			//서로의 함수를 호출. (OnTriggerExit)
-			c._first->OnTriggerExit(c._second);
-			c._second->OnTriggerExit(c._first);
+			c._first->Collider_OnTriggerExit(c._second);
+			c._second->Collider_OnTriggerExit(c._first);
 		}
 
 		for (int i = 0; i < _newTriggerPairs.size(); i++)
 		{
 			//서로의 함수를 호출. (OnTriggerEnter)
 			const auto& c = _newTriggerPairs[i];
-			c._first->OnTriggerEnter(c._second);
-			c._second->OnTriggerEnter(c._first);
+			c._first->Collider_OnTriggerEnter(c._second);
+			c._second->Collider_OnTriggerEnter(c._first);
 		}
 	}
 
-	void PhysicsCallback::OnColliderRemoved(PhysicsColliderActor* collider)
+	void PhysicsCallback::OnColliderRemoved(Pg::Data::Collider* collider)
 	{
 		ClearColliderFromCollection(collider, _collisions);
 		ClearColliderFromCollection(collider, _prevCollisions);
@@ -303,5 +311,7 @@ namespace Pg::Engine
 		ClearColliderFromCollection(collider, _newTriggerPairs);
 		ClearColliderFromCollection(collider, _lostTriggerPairs);
 	}
+
+
 
 }

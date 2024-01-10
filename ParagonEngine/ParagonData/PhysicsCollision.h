@@ -2,12 +2,12 @@
 #include "../ParagonMath/PgMath.h"
 #include "PhysicsContactPoint.h"
 
-namespace Pg::Engine
+namespace Pg::Data
 {
-	class PhysicsColliderActor;
+	class Collider;
 }
 
-namespace Pg::Engine
+namespace Pg::Data
 {
 	class PhysicsCollision
 	{
@@ -30,10 +30,10 @@ namespace Pg::Engine
 		int _contactsCount;
 
 		// (This) 충돌한 Actor.
-		PhysicsColliderActor* _thisActor = nullptr;
+		Collider* _thisActor = nullptr;
 
 		// (Other) 충돌한 Actor.
-		PhysicsColliderActor* _otherActor = nullptr;
+		Collider* _otherActor = nullptr;
 
 		//Contact Point들.
 		PhysicsContactPoint _contacts[MAX_CONTACT_POINTS];

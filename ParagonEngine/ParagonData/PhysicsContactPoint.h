@@ -1,7 +1,7 @@
 #pragma once
 #include "../ParagonMath/PgMath.h"
 
-namespace Pg::Engine
+namespace Pg::Data
 {
 	class PhysicsContactPoint
 	{

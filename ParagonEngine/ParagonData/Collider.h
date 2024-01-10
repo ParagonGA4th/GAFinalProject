@@ -3,6 +3,11 @@
 #include "GameObject.h"
 #include "../ParagonMath/PgMath.h"
 
+#include <functional>
+#include <PxPhysicsAPI.h>
+
+
+
 /// <summary>
 /// 변지상의 Collider 컴포넌트
 /// 2D와 3D에 플래그 적용하여 오브젝트에 맞는 Collider 적용할 예정.
@@ -19,6 +24,11 @@ namespace physx
 {
 	class PxScene;
 }
+
+namespace Pg::Data
+{
+	class PhysicsCollision;
+}
 	
 namespace Pg::Data
 {
@@ -30,7 +40,6 @@ namespace Pg::Data
 		Collider(GameObject* owner);
 
 	public:
-
 		PGFLOAT3 GetPositionOffset() const;
 		PGQuaternion GetRotationOffset() const;
 		PGFLOAT3 GetScaleOffset() const;
@@ -58,6 +67,16 @@ namespace Pg::Data
 		void Collide();
 		bool GetIsCollide();
 		bool GetWasCollided();
+
+		void Flush();
+
+	public:
+
+
+		void Collider_OnCollisionEnter(const PhysicsCollision& c);
+		void Collider_OnCollisionExit(const PhysicsCollision& c);
+		void Collider_OnTriggerEnter(Collider* c);
+		void Collider_OnTriggerExit(Collider* c);
 
 	protected:
 		PGFLOAT3 _positionOffSet;

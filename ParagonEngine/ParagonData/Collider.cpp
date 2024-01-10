@@ -1,4 +1,5 @@
 #include "Collider.h"
+#include "PhysicsCollision.h"
 
 namespace Pg::Data
 {
@@ -143,4 +144,32 @@ namespace Pg::Data
 	{
 		return _wasCollided;
 	}
+
+	void Collider::Flush()
+	{
+		_wasCollided = _isCollide;
+		_isCollide = false;
+	}
+
+	//API¿ë.
+	void Collider::Collider_OnCollisionEnter(const PhysicsCollision& c)
+	{
+
+	}
+
+	void Collider::Collider_OnCollisionExit(const PhysicsCollision& c)
+	{
+
+	}
+
+	void Collider::Collider_OnTriggerEnter(Collider* c)
+	{
+
+	}
+
+	void Collider::Collider_OnTriggerExit(Collider* c)
+	{
+
+	}
+
 }
