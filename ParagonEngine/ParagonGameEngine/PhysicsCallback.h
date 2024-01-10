@@ -7,8 +7,8 @@
 #include <functional>
 #include <string>
 
-#include "PhysicsCollision.h"
-#include "PhysicsColliderActor.h"
+#include "../ParagonData/PhysicsCollision.h"
+#include "../ParagonData/Collider.h"
 
 namespace Pg::Engine
 {
@@ -19,12 +19,12 @@ namespace Pg::Engine
 	{
 	public:
 		CollidersPair() = default;
-		CollidersPair(PhysicsColliderActor* first, PhysicsColliderActor* second) :
+		CollidersPair(Pg::Data::Collider* first, Pg::Data::Collider* second) :
 			_first(first), _second(second)
 		{}
 
-		PhysicsColliderActor* _first;
-		PhysicsColliderActor* _second;
+		Pg::Data::Collider* _first;
+		Pg::Data::Collider* _second;
 	};
 }
 
@@ -36,7 +36,7 @@ namespace std {
 		size_t operator()(const Pg::Engine::CollidersPair& t) const 
 		{
 			//return (((size_t)t.a) << 16) + (((size_t)t.b) << 8) + ((size_t)t.c);
-			return std::hash<Pg::Engine::PhysicsColliderActor*>()(t._first) ^ std::hash<Pg::Engine::PhysicsColliderActor*>()(t._second);
+			return std::hash<Pg::Data::Collider*>()(t._first) ^ std::hash<Pg::Data::Collider*>()(t._second);
 		}
 	};
 	template <>
@@ -53,7 +53,10 @@ namespace Pg::Engine
 	class PhysicsCallback : public physx::PxSimulationEventCallback
 	{
 	public:
-		using CollisionsPool = std::unordered_map<CollidersPair, PhysicsCollision>;
+		PhysicsCallback();
+		~PhysicsCallback();
+
+		using CollisionsPool = std::unordered_map<CollidersPair, Pg::Data::PhysicsCollision>;
 		//관리되고 있는 목록을 Clear한다.
 		void Clear();
 
@@ -67,7 +70,7 @@ namespace Pg::Engine
 		void SendTriggerEvents();
 
 		//Collider가 제거되었을 때 호출됨. 캐시된 이벤트들은 해당 오브젝트에 대해 제거되어야 함.
-		void OnColliderRemoved(PhysicsColliderActor* collider);
+		void OnColliderRemoved(Pg::Data::Collider* collider);
 
 	public:
 		//Collision들이 보관되는 Pool.
@@ -99,8 +102,8 @@ namespace Pg::Engine
 
 	private:
 		//내부 헬퍼 함수들.
-		void ClearColliderFromCollection(PhysicsColliderActor* collider, std::vector<CollidersPair>& collection);
-		void ClearColliderFromCollection(PhysicsColliderActor* collider, CollisionsPool& collection);
+		void ClearColliderFromCollection(Pg::Data::Collider* collider, std::vector<CollidersPair>& collection);
+		void ClearColliderFromCollection(Pg::Data::Collider* collider, CollisionsPool& collection);
 	
 	
 	};

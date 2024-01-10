@@ -31,6 +31,9 @@ namespace Pg::Engine::Physic
 		_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, _pvd);
 		//_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), true, nullptr);
 
+		//Physics Callback 객체 생성.
+		_physicsCallback = std::make_unique<PhysicsCallback>();
+
 		CreatePxScene();
 
 		// Pvd에 정보 보내기
@@ -88,7 +91,6 @@ namespace Pg::Engine::Physic
 
 		_pxScene->fetchResults(true);
 		
-
 		//Event 셋업.
 
 		///DynamucCollider 컴포넌트를 가진 오브젝트한테 물리 업데이트를 적용.
@@ -115,6 +117,36 @@ namespace Pg::Engine::Physic
 
 			//트리거 감지를 위해 잠시 해둠
 			if (dynamicCol->GetTrigger() == true)
+			{
+				gameObj->OnTriggerStay();
+				PG_TRACE("TriggerStay!");
+			}
+		}
+
+		///Static을 위해서도 물리 업데이트 적용.
+		for (auto& rigid : _rigidStaticVec)
+		{
+			Pg::Data::StaticCollider* staticCol = static_cast<Pg::Data::StaticCollider*>(rigid->userData);
+			Pg::Data::GameObject* gameObj = staticCol->_object;
+
+			if (!staticCol->GetWasCollided() && staticCol->GetIsCollide())
+			{
+				gameObj->OnCollisionEnter();
+				PG_TRACE("CollisionEnter!");
+			}
+			else if (staticCol->GetWasCollided() && staticCol->GetIsCollide())
+			{
+				gameObj->OnCollisionStay();
+				PG_TRACE("CollisionStay!");
+			}
+			else if (staticCol->GetWasCollided() && !staticCol->GetIsCollide())
+			{
+				gameObj->OnCollisionExit();
+				PG_TRACE("CollisionExit!");
+			}
+
+			//트리거 감지를 위해 잠시 해둠
+			if (staticCol->GetTrigger() == true)
 			{
 				gameObj->OnTriggerStay();
 				PG_TRACE("TriggerStay!");
@@ -183,11 +215,14 @@ namespace Pg::Engine::Physic
 		// 씬에 대한 설정
 		physx::PxSceneDesc sceneDesc(_physics->getTolerancesScale());
 		
+		//중력 설정.
 		sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
-		//sceneDesc.gravity = physx::PxVec3(0.0f, 0.0f, 0.0f);
+
 		_dispatcher = physx::PxDefaultCpuDispatcherCreate(2);
 		sceneDesc.cpuDispatcher = _dispatcher;
 		sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
+		sceneDesc.simulationEventCallback = _physicsCallback.get();
+	
 		_pxScene = _physics->createScene(sceneDesc);
 
 		// Pvd에 정보 보내기

@@ -7,9 +7,6 @@ namespace Pg::Data
 {
 	DynamicCollider::DynamicCollider(GameObject* owner) :
 		Collider(owner),
-		_isCollide(false),
-		_wasCollided(false),
-		_isTrigger(false),
 		_isActiveX(false),
 		_isActiveY(false),
 		_isActiveZ(false)
@@ -113,12 +110,6 @@ namespace Pg::Data
 		physx::PxVec3 vec = { velo.x, velo.y , velo.z };
 		vec += _rigid->getLinearVelocity();
 		_rigid->setLinearVelocity(vec);
-	}
-
-	void DynamicCollider::Flush()
-	{
-		_wasCollided = _isCollide;
-		_isCollide = false;
 	}
 
 	void DynamicCollider::FreezeAxisX(bool isActive)

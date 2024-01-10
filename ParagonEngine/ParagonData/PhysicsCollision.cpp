@@ -1,8 +1,8 @@
 #include "PhysicsCollision.h"
-#include "PhysicsColliderActor.h"
+#include "Collider.h"
 #include <algorithm>
 
-namespace Pg::Engine
+namespace Pg::Data
 {
 	void PhysicsCollision::SwapObjects()
 	{

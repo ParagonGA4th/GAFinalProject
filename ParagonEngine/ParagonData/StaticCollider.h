@@ -29,20 +29,11 @@ namespace Pg::Data
 		void UpdateTransform();
 
 	public:
-		//충돌판정 여부 체크
-		bool GetIsCollide();
-		bool GetWasCollided();
-
-		void Flush();
-
 		void SetPxRigidStatic(physx::PxRigidStatic* rigid);
 		physx::PxRigidStatic* GetPxRigidStatic();
 
 	private:
 		physx::PxRigidStatic* _rigid;
-		
-		bool _isCollide;
-		bool _wasCollided;
 	};
 }
 
