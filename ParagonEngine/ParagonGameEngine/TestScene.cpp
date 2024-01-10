@@ -71,7 +71,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
 	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
 	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
-	tObj2_2->GetComponent<CapsuleCollider>()->SetTrigger(true);
+	//tObj2_2->GetComponent<CapsuleCollider>()->SetTrigger(true);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 1.0f, 0.0f, 0.0f });
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, 90.0f, 0.0f, 0.0f });
 	tObj2_2->AddComponent<StaticMeshRenderer>();
