@@ -14,6 +14,22 @@
 
 namespace Pg::Engine::Physic
 {
+
+	physx::PxFilterFlags ContactReportFilterShader(physx::PxFilterObjectAttributes
+		attributes0, physx::PxFilterData filterData0,
+		physx::PxFilterObjectAttributes attributes1, physx::PxFilterData filterData1,
+		physx::PxPairFlags& pairFlags, const void* constantBlock, physx::PxU32
+		constantBlockSize)
+	{
+		// all initial and persisting reports for
+	   //everything, with per-point data
+		pairFlags = physx::PxPairFlag::eCONTACT_DEFAULT
+			| physx::PxPairFlag::eTRIGGER_DEFAULT
+			| physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS
+			| physx::PxPairFlag::eNOTIFY_CONTACT_POINTS;
+		return physx::PxFilterFlag::eDEFAULT;
+	}
+	
 	void PhysicSystem::Initialize()
 	{
 		_foundation = PxCreateFoundation(PX_PHYSICS_VERSION, _allocator, _errorCallback);
@@ -87,6 +103,9 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::UpdatePhysics(float dTime)
 	{
+		//미리 쌓였던 EventCallback Clear.
+		_physicsCallback->Clear();
+
 		_pxScene->simulate(dTime);
 
 		_pxScene->fetchResults(true);
@@ -173,6 +192,11 @@ namespace Pg::Engine::Physic
 
 			static_cast<Pg::Data::DynamicCollider*>(rigid->userData)->UpdatePhysics(position, quat);
 		}
+
+		//Update가 다 끝났을 시, Callback 함수의 마무리 함수를 호출.
+		_physicsCallback->CollectResults();
+		_physicsCallback->SendTriggerEvents();
+		_physicsCallback->SendCollisionEvents();
 	}
 
 
@@ -220,8 +244,10 @@ namespace Pg::Engine::Physic
 
 		_dispatcher = physx::PxDefaultCpuDispatcherCreate(2);
 		sceneDesc.cpuDispatcher = _dispatcher;
-		sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
-		sceneDesc.simulationEventCallback = _physicsCallback.get();
+		sceneDesc.filterShader = ContactReportFilterShader;
+		//sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
+		//sceneDesc.filterShader = FilterShader;
+		//sceneDesc.simulationEventCallback = _physicsCallback.get();
 	
 		_pxScene = _physics->createScene(sceneDesc);
 
@@ -594,4 +620,6 @@ namespace Pg::Engine::Physic
 			static_cast<Pg::Data::StaticCollider*>(rigid->userData)->Flush();
 		}*/
 	}
+
+	
 }
