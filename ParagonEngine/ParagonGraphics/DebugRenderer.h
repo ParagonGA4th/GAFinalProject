@@ -41,7 +41,7 @@ namespace Pg::Graphics
 		void GetDebugCapsuleGeometryData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec);
 		void GetDebugLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec);
 		void GetDebugPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec);
-		void Render(Pg::Data::CameraData* camData);
+		void Render(RenderObjectWireframeList* wireframeList, Pg::Data::CameraData* camData);
 
 	private:
 		//내부적으로 Rendering 세팅 설정.

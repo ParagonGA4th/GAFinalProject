@@ -326,15 +326,17 @@ namespace Pg::Graphics
 				//일단은 하드코딩됨.
 
 				vertices[vid + j]._posL = DirectX::XMFLOAT3{ pos.x, pos.y, pos.z };
+				vertices[vid + j]._alpha = 1.f;
 				vertices[vid + j]._normalL = DirectX::XMFLOAT3{ norm.x, norm.y, norm.z };
 				vertices[vid + j]._tangentL = DirectX::XMFLOAT3{ tan.x, tan.y, tan.z };
-				vertices[vid + j]._color = DirectX::XMFLOAT4{ 1.0f,1.0f, 1.0f, 1.0f };
-				vertices[vid + j]._texUV = DirectX::XMFLOAT3{ texUV.x, texUV.y, texUV.z };
+				vertices[vid + j]._color = DirectX::XMFLOAT3{ 1.0f,1.0f, 1.0f};
+				vertices[vid + j]._tex = DirectX::XMFLOAT3{ texUV.x, texUV.y, texUV.z };
+
+				//_uvSet2도 역시 하드코딩.
+				vertices[vid + j]._uvSet2 = { 0.f,0.f };
 
 				//일단 LightMapUV도 FBX딴에서 들어오는 것은 확인했지만, 일단은 파싱에서 받지 않는다.
 				vertices[vid + j]._lightmapUV = { 0.f, 0.f };
-				//ObjectID도 역시 하드코딩.
-				vertices[vid + j]._objectID = 0;
 
 				vertices[vid + j]._blendIndice0 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0];
 				vertices[vid + j]._blendIndice1 = _vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1];

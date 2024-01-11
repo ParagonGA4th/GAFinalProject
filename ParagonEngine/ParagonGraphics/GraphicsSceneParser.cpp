@@ -61,9 +61,9 @@ namespace Pg::Graphics
 		ClearObjectLists();
 		ExtractMaterialPaths(newScene);
 		SyncRenderObjects(newScene);
-		
 
-		
+
+
 		//실제 리소스를 사용해야 하기에, Initialize에서 현재 호출하고 있지 않음.
 		PlaceCubemapList();
 	}
@@ -148,7 +148,7 @@ namespace Pg::Graphics
 		for (auto& it : tMaterialPathSet)
 		{
 			//일단은 Default Material ID를 설정해주기.
-			_renderObject3DList->_materialPathSet.push_back(std::make_pair(it,NULL));
+			_renderObject3DList->_materialPathSet.push_back(std::make_pair(it, NULL));
 		}
 
 		//3. Material Parser에 의해 부여된 MaterialID를 찾아서 순서에 맞게 기록하기. (Material Path Set)
@@ -161,7 +161,7 @@ namespace Pg::Graphics
 				-> bool {return (it.first.compare(val->GetFilePath()) == 0); });
 
 			assert(res != tMatVec.end() && "반드시 해당되는 Material을 여기서 찾았어야 한다.");
-			
+
 			RenderMaterial* tRenderMat = static_cast<RenderMaterial*>(res->get());
 			unsigned int tMatID = tRenderMat->GetID();
 			it.second = tMatID;
@@ -195,8 +195,12 @@ namespace Pg::Graphics
 					Pg::Data::RendererBase3D* tBaseR3D = static_cast<Pg::Data::RendererBase3D*>(tBaseRenderer);
 					std::string tMatPth = tBaseR3D->GetMaterialFilePath();
 
-					//Material Path Set를 RenderObject3DList에서 찾기 (Index), 없으면 로직 에러.
-					auto it = std::find(_renderObject3DList->_materialPathSet.begin(), _renderObject3DList->_materialPathSet.end(), tMatPth);
+					//Material Path Set를 RenderObject3DList에서 찾기(Index), 없으면 로직 에러.
+					//auto it = std::find(_renderObject3DList->_materialPathSet.begin(), _renderObject3DList->_materialPathSet.end(), tMatPth);
+					
+					auto it = std::find_if(_renderObject3DList->_materialPathSet.begin(), _renderObject3DList->_materialPathSet.end(),
+						[&tMatPth](const std::pair<std::string, unsigned int>& val)
+						-> bool {return (val.first == tMatPth); });
 					assert(it != _renderObject3DList->_materialPathSet.end() && "여기에서 걸렸으면 Material Path를 못 찾았음");
 					unsigned int tMaterialID = it->second;
 
@@ -213,7 +217,7 @@ namespace Pg::Graphics
 						_renderObject3DList->_skinnedList.at(tMatPth)->push_back(std::make_pair(tGameObject,
 							std::make_unique<RenderObjectSkinnedMesh3D>(tBaseRenderer, _objectId3dCount, tMaterialID)));
 					}
-					
+
 					//ObjectId3d가 겹치지 않도록 ++
 					_objectId3dCount++;
 				}

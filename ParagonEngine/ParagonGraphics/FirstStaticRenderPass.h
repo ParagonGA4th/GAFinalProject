@@ -26,12 +26,12 @@ namespace Pg::Graphics
 		~FirstStaticRenderPass();
 
 		virtual void Initialize() override;
-		virtual void ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv) override;
+		virtual void ReceiveRequiredElements(ID3D11RenderTargetView** rtvArray, unsigned int rtvCount, ID3D11ShaderResourceView** srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv) override;
 		virtual void BindPass() override;
 		virtual void RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData) override;
 		virtual void UnbindPass() override;
 		virtual void ExecuteNextRenderRequirements() override;
-		virtual void PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv) override;
+		virtual void PassNextRequirements(ID3D11RenderTargetView**& rtvArray, unsigned int& rtvCount, ID3D11ShaderResourceView**& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)  override;
 
 	private:
 		std::vector<std::unique_ptr<GBufferRender>> _gBufferRenderList;

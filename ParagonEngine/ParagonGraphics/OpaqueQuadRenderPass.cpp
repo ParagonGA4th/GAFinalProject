@@ -30,13 +30,13 @@ namespace Pg::Graphics
 		CreateMaterialIndexConstantBuffer();
 	}
 
-	void OpaqueQuadRenderPass::ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, 
-		const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv)
+	void OpaqueQuadRenderPass::ReceiveRequiredElements(ID3D11RenderTargetView** rtvArray, unsigned int rtvCount, 
+		ID3D11ShaderResourceView** srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv)
 	{
 		assert(rtvCount == 1);
 
 		//자신이 렌더할 RenderTarget을 받는다.
-		_passRenderTarget = rtvArray->at(0);
+		_passRenderTarget = rtvArray[0];
 	}
 
 	void OpaqueQuadRenderPass::BindPass()
@@ -101,8 +101,8 @@ namespace Pg::Graphics
 
 	}
 
-	void OpaqueQuadRenderPass::PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, 
-		std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
+	void OpaqueQuadRenderPass::PassNextRequirements(ID3D11RenderTargetView**& rtvArray, unsigned int& rtvCount, 
+		ID3D11ShaderResourceView**& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
 	{
 		//하는거 없으면, 건드리지 말아야 한다.
 	}

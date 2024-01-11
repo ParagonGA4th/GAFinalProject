@@ -165,7 +165,7 @@ namespace Pg::Graphics::Helper
 		unsigned int tTotalVertexCount = sceneData->_totalVertexCount;
 		unsigned int tTotalIndexCount = sceneData->_totalIndexCount;
 
-		ParseAssimpSkinned(assimp, sceneData, tVertexBoneVector, outVB, outIB, tTotalVertexCount, tTotalIndexCount);
+		ParseAssimpSkinned(assimp, sceneData, skinnedData, tVertexBoneVector, outVB, outIB, tTotalVertexCount, tTotalIndexCount);
 	}
 
 	//스키닝 데이터 중, 실시간 데이터와 상관 없는 스키닝 데이터 정보 입력.

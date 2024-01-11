@@ -25,8 +25,8 @@ namespace Pg::Graphics
 		CreateShaders();
 	}
 
-	void FirstStaticRenderPass::ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount,
-		const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv)
+	void FirstStaticRenderPass::ReceiveRequiredElements(ID3D11RenderTargetView** rtvArray, unsigned int rtvCount,
+		ID3D11ShaderResourceView** srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv)
 	{
 		//아무것도 받지 않는다.
 	}
@@ -89,7 +89,7 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(1, 1, &(_SRVs.back()));
 	}
 
-	void FirstStaticRenderPass::PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
+	void FirstStaticRenderPass::PassNextRequirements(ID3D11RenderTargetView**& rtvArray, unsigned int& rtvCount, ID3D11ShaderResourceView**& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
 	{
 		//Execute 함수가 대신 실행해주었다.
 	}

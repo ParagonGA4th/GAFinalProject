@@ -12,6 +12,7 @@
 #include "FirstStaticRenderPass.h"
 #include "ObjMatStaticRenderPass.h"
 #include "OpaqueQuadRenderPass.h"
+#include "FinalRenderPass.h"
 
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
@@ -39,9 +40,9 @@ namespace Pg::Graphics
 	void DeferredRenderer::Render(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		//보관할 수 있는 포인터.
-		std::vector<ID3D11RenderTargetView*>* tRTVArray = nullptr;
+		ID3D11RenderTargetView** tRTVArray = nullptr;
 		UINT tRTVCount = 0;
-		std::vector<ID3D11ShaderResourceView*>* tSRVArray = nullptr;
+		ID3D11ShaderResourceView** tSRVArray = nullptr;
 		UINT tSRVCount = 0;
 		ID3D11DepthStencilView* tDSV = nullptr;
 
@@ -83,6 +84,8 @@ namespace Pg::Graphics
 			assert(tRM != nullptr);
 			_renderPassVector.push_back(new OpaqueQuadRenderPass(tRM));
 		}
+
+		_renderPassVector.push_back(new FinalRenderPass());
 
 		
 
