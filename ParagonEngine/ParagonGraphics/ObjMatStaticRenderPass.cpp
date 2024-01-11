@@ -25,7 +25,7 @@ namespace Pg::Graphics
 		CreateShaders();
 	}
 
-	void ObjMatStaticRenderPass::ReceiveRequiredElements(const std::vector<ID3D11RenderTargetView*>* rtvArray, unsigned int rtvCount, const std::vector<ID3D11ShaderResourceView*>* srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv)
+	void ObjMatStaticRenderPass::ReceiveRequiredElements(ID3D11RenderTargetView** rtvArray, unsigned int rtvCount, ID3D11ShaderResourceView** srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv)
 	{
 
 	}
@@ -82,7 +82,7 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(3, 1, &(_gBufferRender->GetSRV()));
 	}
 
-	void ObjMatStaticRenderPass::PassNextRequirements(std::vector<ID3D11RenderTargetView*>*& rtvArray, unsigned int& rtvCount, std::vector<ID3D11ShaderResourceView*>*& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
+	void ObjMatStaticRenderPass::PassNextRequirements(ID3D11RenderTargetView**& rtvArray, unsigned int& rtvCount, ID3D11ShaderResourceView**& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
 	{
 
 	}

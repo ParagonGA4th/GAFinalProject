@@ -39,6 +39,6 @@ namespace Pg::Graphics
 		std::vector<IRenderPass*> _renderPassVector;
 
 		//메인 렌더 타겟으로 넘어갈 G-Buffer Render & Depth Stencil.
-
+		//
 	};
 }
