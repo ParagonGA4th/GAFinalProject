@@ -1,5 +1,6 @@
 #include "Collider.h"
 #include "PhysicsCollision.h"
+#include "../ParagonUtil/Log.h"
 
 namespace Pg::Data
 {
@@ -154,22 +155,32 @@ namespace Pg::Data
 	//API¿ë.
 	void Collider::Collider_OnCollisionEnter(const PhysicsCollision& c)
 	{
-
+		std::string tRes = "Collider_OnCollisionEnter : ";
+		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
 	}
 
 	void Collider::Collider_OnCollisionExit(const PhysicsCollision& c)
 	{
-
+		std::string tRes = "Collider_OnCollisionExit : ";
+		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
 	}
 
 	void Collider::Collider_OnTriggerEnter(Collider* c)
 	{
-
+		std::string tRes = "Collider_OnTriggerEnter : ";
+		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
 	}
 
 	void Collider::Collider_OnTriggerExit(Collider* c)
 	{
+		std::string tRes = "Collider_OnTriggerExit : ";
+		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+	}
 
+	void Collider::SetPxShape(physx::PxShape* shape)
+	{
+		_shape = shape;
+		_shape->userData = this;
 	}
 
 }

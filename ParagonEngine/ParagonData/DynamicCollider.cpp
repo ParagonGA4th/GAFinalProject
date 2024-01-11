@@ -88,11 +88,6 @@ namespace Pg::Data
 		return _rigid;
 	}
 
-	void DynamicCollider::SetPxShape(physx::PxShape* shape)
-	{
-		_shape = shape;
-	}
-
 	void DynamicCollider::SetVelocity(PGFLOAT3 velo)
 	{
 		_rigid->setLinearVelocity({ velo.x, velo.y, velo.z });
