@@ -39,7 +39,6 @@ namespace Pg::Data
 		void SetPxRigidDynamic(physx::PxRigidDynamic* rigid);
 		physx::PxRigidDynamic* GetRigidBodyDynamic();
 
-		void SetPxShape(physx::PxShape* shape);
 
 		///속도의 증감
 		void SetVelocity(PGFLOAT3 velo);
@@ -61,7 +60,6 @@ namespace Pg::Data
 
 	private:
 		physx::PxRigidDynamic* _rigid;
-		physx::PxShape* _shape;
 
 	private:
 		//플래그

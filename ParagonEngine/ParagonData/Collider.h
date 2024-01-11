@@ -70,9 +70,9 @@ namespace Pg::Data
 
 		void Flush();
 
+		void SetPxShape(physx::PxShape* shape);
 	public:
-
-
+		//API용 연결 함수, GameObject의 호출과 무관.
 		void Collider_OnCollisionEnter(const PhysicsCollision& c);
 		void Collider_OnCollisionExit(const PhysicsCollision& c);
 		void Collider_OnTriggerEnter(Collider* c);
@@ -83,6 +83,7 @@ namespace Pg::Data
 		PGQuaternion _rotationOffset;
 		PGFLOAT3 _scaleOffset;
 
+		physx::PxShape* _shape;
 		physx::PxScene* _pxScene;
 
 		bool _isTrigger;

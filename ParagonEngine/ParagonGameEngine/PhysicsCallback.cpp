@@ -33,6 +33,7 @@ namespace Pg::Engine
 
 	void PhysicsCallback::onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs)
 	{;
+		//PG_TRACE("On Contact");
 		using namespace physx;
 
 		// 제거된 액터들에게 이벤트 보내는 것은 그만.
@@ -147,28 +148,30 @@ namespace Pg::Engine
 
 	void PhysicsCallback::onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 count)
 	{
-		using namespace physx;
+		//PG_TRACE("On Trigger");
 
+		using namespace physx;
+		
 		for (PxU32 i = 0; i < count; i++)
 		{
 			//Trigger Pair를 받아오기.
 			const PxTriggerPair& pair = pairs[i];
-
+		
 			// 지워진 Shape들의 Trigger들은 무시하기.
 			if (pair.flags & (PxTriggerPairFlag::eREMOVED_SHAPE_TRIGGER | PxTriggerPairFlag::eREMOVED_SHAPE_OTHER))
 				continue;
-
+		
 			//Trigger들의 주소를 받기.
 			
 			Pg::Data::Collider* trigger = static_cast<Pg::Data::Collider*>(pair.triggerShape->userData);
 			Pg::Data::Collider* otherCollider = static_cast<Pg::Data::Collider*>(pair.otherShape->userData);
-
+		
 			//둘 다 제대로 존재하는지 확인하기.
 			assert(trigger != nullptr && otherCollider != nullptr);
-
+		
 			//Collider들의 Pair 만들기.
 			CollidersPair collidersPair(trigger, otherCollider);
-
+		
 			//상태를 확인했는데, 만약 이제 Trigger를 읽어버렸다면?
 			if (pair.status & PxPairFlag::eNOTIFY_TOUCH_LOST)
 			{
@@ -261,9 +264,21 @@ namespace Pg::Engine
 			auto& c = _prevCollisions[pair];
 
 			//OnCollisionExit 함수들 발동.
-			pair._first->Collider_OnCollisionExit(c);
+			//pair._first->Collider_OnCollisionExit(c);
+			//c.SwapObjects();
+			//pair._second->Collider_OnCollisionExit(c);
+			//c.SwapObjects();
+
+			//OnCollisionExit 함수들 발동.
+			if (!pair._first->GetTrigger())
+			{
+				pair._first->Collider_OnCollisionExit(c);
+			}
 			c.SwapObjects();
-			pair._second->Collider_OnCollisionExit(c);
+			if (!pair._second->GetTrigger())
+			{
+				pair._second->Collider_OnCollisionExit(c);
+			}
 			c.SwapObjects();
 		}
 
@@ -276,9 +291,16 @@ namespace Pg::Engine
 			auto& c = _collisions[pair];
 
 			//OnCollisionEnter 함수를 발동.
-			pair._first->Collider_OnCollisionEnter(c);
+			//OnCollisionExit 함수들 발동.
+			if (!pair._first->GetTrigger())
+			{
+				pair._first->Collider_OnCollisionEnter(c);
+			}
 			c.SwapObjects();
-			pair._second->Collider_OnCollisionEnter(c);
+			if (!pair._second->GetTrigger())
+			{
+				pair._second->Collider_OnCollisionEnter(c);
+			}
 			c.SwapObjects();
 		}
 	}
@@ -290,16 +312,29 @@ namespace Pg::Engine
 			const auto& c = _lostTriggerPairs[i];
 
 			//서로의 함수를 호출. (OnTriggerExit)
-			c._first->Collider_OnTriggerExit(c._second);
-			c._second->Collider_OnTriggerExit(c._first);
+			if (c._first->GetTrigger())
+			{
+				c._first->Collider_OnTriggerExit(c._second);
+			}
+			if (c._second->GetTrigger())
+			{
+				c._second->Collider_OnTriggerExit(c._first);
+			}
 		}
 
 		for (int i = 0; i < _newTriggerPairs.size(); i++)
 		{
 			//서로의 함수를 호출. (OnTriggerEnter)
 			const auto& c = _newTriggerPairs[i];
-			c._first->Collider_OnTriggerEnter(c._second);
-			c._second->Collider_OnTriggerEnter(c._first);
+
+			if (c._first->GetTrigger())
+			{
+				c._first->Collider_OnTriggerEnter(c._second);
+			}
+			if (c._second->GetTrigger())
+			{
+				c._second->Collider_OnTriggerEnter(c._first);
+			}
 		}
 	}
 
