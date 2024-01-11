@@ -190,6 +190,7 @@
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DynamicCollider.h" />
     <ClInclude Include="ForceMode.h" />
+    <ClInclude Include="IComponent.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="ModelData.h" />
     <ClInclude Include="MoveForwardBack.h" />
@@ -204,7 +205,6 @@
     <ClInclude Include="EngineResource.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsResource.h" />
-    <ClInclude Include="IComponent.h" />
     <ClInclude Include="RendererBase2D.h" />
     <ClInclude Include="RendererBase3D.h" />
     <ClInclude Include="RendererType.h" />
@@ -212,6 +212,7 @@
     <ClInclude Include="ResourceQueue.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Script.h" />
+    <ClInclude Include="SerializerHelper.h" />
     <ClInclude Include="SkinnedMeshRenderer.h" />
     <ClInclude Include="SoundData.h" />
     <ClInclude Include="SphereCollider.h" />
@@ -221,10 +222,6 @@
     <ClInclude Include="StaticMeshRenderer.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="visit_struct.hpp" />
-    <ClInclude Include="visit_struct_boost_fusion.hpp" />
-    <ClInclude Include="visit_struct_boost_hana.hpp" />
-    <ClInclude Include="visit_struct_intrusive.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseRenderer.cpp" />

@@ -1,6 +1,12 @@
 #include "Transform.h"
 
+#include <generic_factory/generic_factory.hpp>
 #include <cmath>
+
+using namespace Pg::Data;
+REGISTER_CHILD_INTO_FACTORY(Component, Transform, "class Pg::Data::Tranform", GameObject*);
+
+//REGISTER_SECONDARY_CHILD_INTO_FACTORY(Pg::Data::Component, Pg::Data::IComponent, Pg::Data::Transform, Pg::Data::Component);
 
 namespace Pg::Data
 {
@@ -14,6 +20,16 @@ namespace Pg::Data
 		_forward(0.f, 0.f, 1.f), _right(1.f, 0.f, 0.f), _up(0.f, 1.f, 0.f), _is3D(true)
 	{
 		
+	}
+
+	void Transform::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper<Transform>(this, sv);
+	}
+
+	void Transform::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper<Transform>(this, sv);
 	}
 
 	//PGFLOAT3 Transform::GetPosition() const
