@@ -66,12 +66,14 @@ namespace Pg::Engine::Physic
 
 		///RayCast의 예시
 		physx::PxVec3 origin = { 0.0f,0.0f,0.0f };		// [in] Ray origin
-		physx::PxVec3 unitDir = { 2.0f, 2.0f, 2.0f };	// [in] Normalized ray direction
+		physx::PxVec3 unitDir = { 10.0f, 10.0f, 10.0f };	// [in] Normalized ray direction
 		physx::PxReal maxDistance = 100.0f;				// [in] Raycast max distance
 
 		const physx::PxU32 bufferSize = 256;			// [in] size of 'hitBuffer'
 		physx::PxRaycastHit hitBuffer[bufferSize];		// [out] User provided buffer for results
 		physx::PxRaycastBuffer buf(hitBuffer, bufferSize); // [out] Blocking and touching hits stored here
+
+		//physx::PxDebugLine lineDebug = physx::PxVec3(2.0f,2.0f,2.0f);
 
 		bool hit = _pxScene->raycast(origin, unitDir, maxDistance, buf);
 
@@ -585,6 +587,12 @@ namespace Pg::Engine::Physic
 		if (_isHit)
 		{
 			physx::PxRigidActor* actor = _hitBuffer.block.actor;
+
+			//static에 충돌하면
+			if (actor->getType() == physx::PxActorType::eRIGID_STATIC)
+			{
+
+			}
 		}
 
 
