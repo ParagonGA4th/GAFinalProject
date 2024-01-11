@@ -85,7 +85,6 @@
     <ClCompile Include="Light.cpp">
       <Filter>2_Component\Light\BaseClass</Filter>
     </ClCompile>
-    <ClCompile Include="MoveForwardBack.cpp" />
     <ClCompile Include="ParagonDefines.cpp" />
     <ClCompile Include="SkinnedMeshRenderer.cpp">
       <Filter>2_Component\Renderer\3D\SkinnedMeshRenderer</Filter>
@@ -96,6 +95,9 @@
     <ClCompile Include="Transform.cpp">
       <Filter>2_Component\Transform</Filter>
     </ClCompile>
+    <ClCompile Include="MoveForwardBack.cpp">
+      <Filter>8_TestScripts\MoveForwardBack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -103,9 +105,6 @@
     </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>2_Component\BaseClass</Filter>
-    </ClInclude>
-    <ClInclude Include="IComponent.h">
-      <Filter>2_Component\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Script.h">
       <Filter>2_Component\Script</Filter>
@@ -236,17 +235,11 @@
     <ClInclude Include="ForceMode.h">
       <Filter>4_Structs</Filter>
     </ClInclude>
-    <ClInclude Include="visit_struct.hpp">
-      <Filter>9_DataSerializer\VisitStruct</Filter>
+    <ClInclude Include="IComponent.h">
+      <Filter>2_Component\0_Interface</Filter>
     </ClInclude>
-    <ClInclude Include="visit_struct_boost_fusion.hpp">
-      <Filter>9_DataSerializer\VisitStruct</Filter>
-    </ClInclude>
-    <ClInclude Include="visit_struct_boost_hana.hpp">
-      <Filter>9_DataSerializer\VisitStruct</Filter>
-    </ClInclude>
-    <ClInclude Include="visit_struct_intrusive.hpp">
-      <Filter>9_DataSerializer\VisitStruct</Filter>
+    <ClInclude Include="SerializerHelper.h">
+      <Filter>2_Component\1_Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -273,9 +266,6 @@
     </Filter>
     <Filter Include="8_TestScripts">
       <UniqueIdentifier>{98868859-c368-42bf-9040-543cb9ff8bfb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Interface">
-      <UniqueIdentifier>{c9566f24-9307-483a-8d2a-816a16645fe7}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Component\BaseClass">
       <UniqueIdentifier>{9168ff7f-900e-412c-8e28-b2e3cb5f1eb2}</UniqueIdentifier>
@@ -309,9 +299,6 @@
     </Filter>
     <Filter Include="2_Component\Collider\BaseClass">
       <UniqueIdentifier>{da968cf0-ea1d-49cf-bb46-0f0469308f43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="9_DataSerializer">
-      <UniqueIdentifier>{8e85e9fd-441e-4718-bc5c-cdaf85bf2be4}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Component\Collider\DynamicCollider">
       <UniqueIdentifier>{51a8fda0-dcc5-41de-89fd-93a38be98935}</UniqueIdentifier>
@@ -385,8 +372,11 @@
     <Filter Include="2_Component\Collider\StaticCollider\PlaneCollider">
       <UniqueIdentifier>{34510aec-ad30-4dcd-9cd2-d6bc26aac2b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9_DataSerializer\VisitStruct">
-      <UniqueIdentifier>{8c6a1fb3-01eb-4c53-aca7-4748ce9ca442}</UniqueIdentifier>
+    <Filter Include="2_Component\0_Interface">
+      <UniqueIdentifier>{abef100b-af6e-4814-8be2-cf2fb9d881de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\1_Helper">
+      <UniqueIdentifier>{0cab3ce3-54de-4268-8a7a-da6766709e25}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -5,9 +5,8 @@
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
 
-#include "visit_struct_intrusive.hpp"
-
 #include <singleton-cpp/singleton.h>
+#include <visit_struct/visit_struct_intrusive.hpp>
 #include <sstream>
 
 Pg::Editor::Manager::DataManager::DataManager()
@@ -16,7 +15,7 @@ Pg::Editor::Manager::DataManager::DataManager()
 	_dataContainer = &tdataCon;
 }
 
-Pg::Editor::Manager::DataManager::~DataManager() 
+Pg::Editor::Manager::DataManager::~DataManager()
 {}
 
 void Pg::Editor::Manager::DataManager::DataLoad(std::string path, std::string fileName)
@@ -27,7 +26,7 @@ void Pg::Editor::Manager::DataManager::DataLoad(std::string path, std::string fi
 	if (_path.find("pgproject") == std::string::npos) SceneLoad();
 	else ProjectLoad();
 
-	if(_scenes.size() > 0) _dataContainer->SetSceneList(_scenes);
+	if (_scenes.size() > 0) _dataContainer->SetSceneList(_scenes);
 }
 
 std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::DataSave()
@@ -59,7 +58,7 @@ void Pg::Editor::Manager::DataManager::SceneSave()
 	for (auto& scene : _dataContainer->GetSceneList())
 	{
 		pugi::xml_document doc;
-		
+
 		pugi::xml_node declarationNode = doc.prepend_child(pugi::node_declaration);
 		declarationNode.append_attribute("version") = "1.0";
 		declarationNode.append_attribute("encoding") = "utf-8";
@@ -89,24 +88,39 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 		Pg::Data::GameObject* obj = _scenes.at(sceneNum)->AddObject(Pg::Serialize::Serializer::DeserializeString(&object, "name"));
 
 		obj->SetActive(Pg::Serialize::Serializer::DeserializeBoolean(&object, "active"));
+		obj->SetTag(Pg::Serialize::Serializer::DeserializeString(&object, "tag"));
 
 		// 컴포넌트를 추가하기 위해 노드 가져오기
 		pugi::xml_node comps = object.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "components"; });
 
-		for (pugi::xml_node component = comps.first_child(); component; component = comps.next_sibling())
+		for (pugi::xml_node component = comps.first_child(); component; component = component.next_sibling())
 		{
-			std::string typeName = typeid(Pg::Data::Transform).name();
+			std::vector<std::tuple<std::string, std::string, void*>> tSerVec;
+			std::string typeName = Pg::Serialize::Serializer::DeserializeString(&component, "type");
 
-			if (typeName == Pg::Serialize::Serializer::DeserializeString(&component, "type"))
+			if (!typeName.empty())
 			{
-				pugi::xml_node trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "position"; });
-				obj->_transform._position = Pg::Serialize::Serializer::DeserializePGFloat3(&trans, "x");
+				if (typeName.find("Transform") != std::string::npos)
+				{
+					obj->_transform.OnDeserialize(tSerVec);
+				}
+				else
+				{
+					auto component = obj->AddComponent(typeName);
+					component->OnDeserialize(tSerVec);
+				}
 
-				trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "rotation"; });
-				obj->_transform._rotation = Pg::Serialize::Serializer::DeserializePGQuaternion(&trans, "w");
+				for (auto& [valName, typeInfo, val] : tSerVec)
+				{
+					pugi::xml_node node = component.find_node(
+						[&](const pugi::xml_node& node)
+						{
+							valName = valName.substr(valName.rfind("_") + 1);
+							return std::string(node.name()) == valName;
+						});
+					Pg::Serialize::Serializer::Deserialize(typeInfo, &node, val);
+				}
 
-				trans = component.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "scale"; });
-				obj->_transform._scale = Pg::Serialize::Serializer::DeserializePGFloat3(&trans, "x");
 			}
 		}
 	}
@@ -124,7 +138,8 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 
 		Pg::Serialize::Serializer::SerializeString(&xmlObject, "name", object->GetName());
 		Pg::Serialize::Serializer::SerializeBoolean(&xmlObject, "active", object->GetActive());
-	
+		Pg::Serialize::Serializer::SerializeString(&xmlObject, "tag", object->GetTag());
+
 		//xmlObject.append_child("parent");
 
 		pugi::xml_node objComponents = xmlObject.append_child("components");
@@ -134,16 +149,22 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 		// 현재는 transform만 
 
 		pugi::xml_node objComponent = objComponents.append_child("component");
-		Pg::Serialize::Serializer::SerializeString(&objComponent, "type", typeid(Pg::Data::Transform).name());
+		
+		for (auto& component : object->GetComponentList())
+		{
+			// 변수명, 타입, 값
+			std::vector<std::tuple<std::string, std::string, void*>> tSerVec;
 
-		pugi::xml_node componentData = objComponent.append_child("data");
-		Pg::Serialize::Serializer::SerializePGFloat3(&componentData, "position",
-			object->GetComponent<Pg::Data::Transform>()->_position);
+			Pg::Serialize::Serializer::SerializeString(&objComponent, "type", component.first);
+			pugi::xml_node componentData = objComponent.append_child("data");
 
-		Pg::Serialize::Serializer::SerializePGQuat(&componentData, "rotation",
-			object->GetComponent<Pg::Data::Transform>()->_rotation);
+			component.second->OnSerialize(tSerVec);
 
-		Pg::Serialize::Serializer::SerializePGFloat3(&componentData, "scale",
-			object->GetComponent<Pg::Data::Transform>()->_scale);
+			for (auto& [valName, typeInfo, val] : tSerVec)
+			{
+				valName = valName.substr(valName.rfind("_") + 1);
+				Pg::Serialize::Serializer::Serialize(typeInfo, &componentData, valName, val);
+			}
+		}
 	}
 }

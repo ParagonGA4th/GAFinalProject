@@ -1,5 +1,90 @@
 #include "Serializer.h"
 
+void Pg::Serialize::Serializer::Serialize(std::string typeName, pugi::xml_node* node, const std::string& name, void* result)
+{
+	std::variant<bool, int, float, double, std::string,
+		Pg::Math::PGFLOAT2, Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT4, Pg::Math::PGQuaternion,
+		Pg::Data::Model, Pg::Data::Texture, Pg::Data::Material, Pg::Data::Sound> vunion;
+
+	if (typeName == typeid(bool).name())
+	{
+		vunion = *(static_cast<bool*>(result));
+		auto tRes = std::get<bool>(vunion);
+		SerializeBoolean(node, name, tRes);
+	}
+	if (typeName == typeid(int).name())
+	{
+		vunion = *(static_cast<int*>(result));
+		auto tRes = std::get<int>(vunion);
+		SerializeInt(node, name, tRes);
+	}
+	if (typeName == typeid(float).name())
+	{
+		vunion = *(static_cast<float*>(result));
+		auto tRes = std::get<float>(vunion);
+		SerializeFloat(node, name, tRes);
+	}
+	if (typeName == typeid(double).name())
+	{
+		vunion = *(static_cast<double*>(result));
+		auto tRes = std::get<double>(vunion);
+		SerializeDouble(node, name, tRes);
+	}
+	if (typeName == typeid(std::string).name())
+	{
+		vunion = *(static_cast<std::string*>(result));
+		auto tRes = std::get<std::string>(vunion);
+		SerializeString(node, name, tRes);
+	}
+	if (typeName == typeid(Pg::Math::PGFLOAT2).name())
+	{
+		vunion = *(static_cast<Pg::Math::PGFLOAT2*>(result));
+		auto tRes = std::get<Pg::Math::PGFLOAT2>(vunion);
+		SerializePGFloat2(node, name, tRes);
+	}
+	if (typeName == typeid(Pg::Math::PGFLOAT3).name())
+	{
+		vunion = *(static_cast<Pg::Math::PGFLOAT3*>(result));
+		auto tRes = std::get<Pg::Math::PGFLOAT3>(vunion);
+		SerializePGFloat3(node, name, tRes);
+	}
+	if (typeName == typeid(Pg::Math::PGFLOAT4).name())
+	{
+		vunion = *(static_cast<Pg::Math::PGFLOAT4*>(result));
+		auto tRes = std::get<Pg::Math::PGFLOAT4>(vunion);
+		SerializePGFloat4(node, name, tRes);
+	}
+	if (typeName == typeid(Pg::Math::PGQuaternion).name())
+	{
+		vunion = *(static_cast<Pg::Math::PGQuaternion*>(result));
+		auto tRes = std::get<Pg::Math::PGQuaternion>(vunion);
+		SerializePGQuat(node, name, tRes);
+	}
+	if (typeName == typeid(Pg::Data::Model).name())
+	{
+		vunion = *(static_cast<Pg::Data::Model*>(result));
+		auto tRes = std::get<Pg::Data::Model>(vunion);
+		SerializeString(node, name, tRes.path);
+	}
+	if (typeName == typeid(Pg::Data::Texture).name())
+	{
+		vunion = *(static_cast<Pg::Data::Texture*>(result));
+		auto tRes = std::get<Pg::Data::Texture>(vunion);
+		SerializeString(node, name, tRes.path);
+	}
+	if (typeName == typeid(Pg::Data::Material).name())
+	{
+		vunion = *(static_cast<Pg::Data::Material*>(result));
+		auto tRes = std::get<Pg::Data::Material>(vunion);
+		SerializeString(node, name, tRes.path);
+	}
+	if (typeName == typeid(Pg::Data::Sound).name())
+	{
+		vunion = *(static_cast<Pg::Data::Sound*>(result));
+		auto tRes = std::get<Pg::Data::Sound>(vunion);
+		SerializeString(node, name, tRes.path);
+	}
+}
 
 void Pg::Serialize::Serializer::SerializeBoolean(pugi::xml_node* node, const std::string& name, bool val)
 {
@@ -7,11 +92,10 @@ void Pg::Serialize::Serializer::SerializeBoolean(pugi::xml_node* node, const std
 	boolNode.text().set(val ? "true" : "false");
 }
 
-
-void Pg::Serialize::Serializer::SerializeString(pugi::xml_node* node, const std::string& name, std::string val)
+void Pg::Serialize::Serializer::SerializeInt(pugi::xml_node* node, const std::string& name, int val)
 {
-	pugi::xml_node stringNode = node->append_child(name.c_str());
-	stringNode.text().set(val.c_str());
+	pugi::xml_node intNode = node->append_child(name.c_str());
+	intNode.text().set(std::to_string(val).c_str());
 }
 
 void Pg::Serialize::Serializer::SerializeFloat(pugi::xml_node* node, const std::string& name, float val)
@@ -20,16 +104,16 @@ void Pg::Serialize::Serializer::SerializeFloat(pugi::xml_node* node, const std::
 	floatNode.text().set(std::to_string(val).c_str());
 }
 
-void Pg::Serialize::Serializer::SerialzieDouble(pugi::xml_node* node, const std::string& name, double val)
+void Pg::Serialize::Serializer::SerializeDouble(pugi::xml_node* node, const std::string& name, double val)
 {
 	pugi::xml_node doubletNode = node->append_child(name.c_str());
 	doubletNode.text().set(std::to_string(val).c_str());
 }
 
-void Pg::Serialize::Serializer::SerializeInt(pugi::xml_node* node, const std::string& name, int val)
+void Pg::Serialize::Serializer::SerializeString(pugi::xml_node* node, const std::string& name, std::string val)
 {
-	pugi::xml_node intNode = node->append_child(name.c_str());
-	intNode.text().set(std::to_string(val).c_str());
+	pugi::xml_node stringNode = node->append_child(name.c_str());
+	stringNode.text().set(val.c_str());
 }
 
 void Pg::Serialize::Serializer::SerializePGFloat2(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT2 val)
@@ -96,231 +180,324 @@ void Pg::Serialize::Serializer::SerializeColor(pugi::xml_node* node, const std::
 	a.text().set(std::to_string(val.w).c_str());
 }
 
-void Pg::Serialize::Serializer::SerializeModelPath(pugi::xml_node* node, const std::string& name, Pg::Data::Model val)
+void Pg::Serialize::Serializer::Deserialize(std::string typeName, pugi::xml_node* node, void* result)
 {
-	SerializeString(node, name, val.name);
+	std::variant<bool, int, float, double, std::string, unsigned, int64_t,
+		Pg::Math::PGFLOAT2, Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT4, Pg::Math::PGQuaternion> vunion;
+
+	if (typeName == typeid(bool).name())
+	{
+		vunion = DeserializeBoolean(node, "");
+		auto tRes = std::get<bool>(vunion);
+		memcpy(result, &tRes, sizeof(bool));
+	}
+	if (typeName == typeid(int).name())
+	{
+		vunion = DeserializeInt(node, "");
+		auto tRes = std::get<int>(vunion);
+		memcpy(result, &tRes, sizeof(int));
+	}
+	if (typeName == typeid(float).name())
+	{
+		vunion = DeserializeFloat(node, "");
+		auto tRes = std::get<float>(vunion);
+		memcpy(result, &tRes, sizeof(float));
+	}
+	if (typeName == typeid(double).name())
+	{
+		vunion = DeserializeDouble(node, "");
+		auto tRes = std::get<double>(vunion);
+		memcpy(result, &tRes, sizeof(double));
+	}
+	if (typeName == typeid(std::string).name())
+	{
+		vunion = DeserializeString(node, "");
+		auto tRes = std::get<std::string>(vunion);
+		memcpy(result, &tRes, sizeof(std::string));
+	}
+	if (typeName == typeid(unsigned).name())
+	{
+		vunion = DeserializeUint(node, "");
+		auto tRes = std::get<unsigned>(vunion);
+		memcpy(result, &tRes, sizeof(unsigned));
+	}
+	if (typeName == typeid(int64_t).name())
+	{
+		vunion = DeserializeInt64(node, "");
+		auto tRes = std::get<int64_t>(vunion);
+		memcpy(result, &tRes, sizeof(int64_t));
+	}
+	if (typeName == typeid(Pg::Math::PGFLOAT2).name())
+	{
+		vunion = DeserializePGFloat2(node);
+		auto tRes = std::get<Pg::Math::PGFLOAT2>(vunion);
+		memcpy(result, &tRes, sizeof(Pg::Math::PGFLOAT2));
+	}
+	if (typeName == typeid(Pg::Math::PGFLOAT3).name())
+	{
+		vunion = DeserializePGFloat3(node);
+		auto tRes = std::get<Pg::Math::PGFLOAT3>(vunion);
+		memcpy(result, &tRes, sizeof(Pg::Math::PGFLOAT3));
+	}
+	if (typeName == typeid(Pg::Math::PGFLOAT4).name())
+	{
+		vunion = DeserializePGFloat4(node);
+		auto tRes = std::get<Pg::Math::PGFLOAT4>(vunion);
+		memcpy(result, &tRes, sizeof(Pg::Math::PGFLOAT4));
+	}
+	if (typeName == typeid(Pg::Math::PGQuaternion).name())
+	{
+		vunion = DeserializePGQuaternion(node);
+		auto tRes = std::get<Pg::Math::PGQuaternion>(vunion);
+		memcpy(result, &tRes, sizeof(Pg::Math::PGQuaternion));
+	}
 }
 
-void Pg::Serialize::Serializer::SerializeTexturePath(pugi::xml_node* node, const std::string& name, Pg::Data::Texture val)
-{
-	SerializeString(node, name, val.name);
-}
-
-void Pg::Serialize::Serializer::SerializeMaterialPath(pugi::xml_node* node, const std::string& name, Pg::Data::Material val)
-{
-	SerializeString(node, name, val.name);
-}
-
-void Pg::Serialize::Serializer::SerializeSoundPath(pugi::xml_node* node, const std::string& name, Pg::Data::Sound val)
-{
-	SerializeString(node, name, val.name);
-}
 
 void Pg::Serialize::Serializer::DeserializeBoolean(pugi::xml_node* node, const std::string& name, bool& result)
 {
-	// 이름으로 해당 노드값이 존재하는지 가져온다
-	pugi::xml_node nodeName = node->child(name.c_str());
-
-	if (nodeName)
+	if (name.empty())
 	{
-		// 해당 노드값에 존재하는 string 값을 가져와 비교한다
-		result = nodeName.text().as_string();
+		result = node->text().as_bool();
 	}
 	else
 	{
-		// 해당 노드가 존재하지 않음
+		// 이름으로 해당 노드값이 존재하는지 가져온다
+		pugi::xml_node nodeName = node->child(name.c_str());
+
+		if (nodeName)
+		{
+			// 해당 노드값에 존재하는 string 값을 가져와 비교한다
+			result = nodeName.text().as_bool();
+		}
 	}
 }
 
 bool Pg::Serialize::Serializer::DeserializeBoolean(pugi::xml_node* node, const std::string& name)
 {
-	pugi::xml_node nodeName = node->child(name.c_str());
-
-	if (nodeName)
+	if (name.empty())
 	{
-		return nodeName.text().as_bool();
+		return node->text().as_bool();
 	}
 	else
 	{
-		// 해당 노드가 존재하지 않음
-	}
-}
+		pugi::xml_node nodeName = node->child(name.c_str());
 
-void Pg::Serialize::Serializer::DeserializeString(pugi::xml_node* node, const std::string& name, std::string& result)
-{
-	pugi::xml_node nodeName = node->child(name.c_str());
-
-	if (nodeName)
-	{
-		result = nodeName.text().as_string();
-	}
-	else
-	{
-		// 해당 노드가 존재하지 않음
-	}
-}
-
-std::string Pg::Serialize::Serializer::DeserializeString(pugi::xml_node* node, const std::string& name)
-{
-	pugi::xml_node nodeName = node->child(name.c_str());
-
-	if (nodeName)
-	{
-		return nodeName.text().as_string();
-	}
-	else
-	{
-		// 해당 노드가 존재하지 않음
-	}
-}
-
-void Pg::Serialize::Serializer::DeserializeFloat(pugi::xml_node* node, const std::string& name, float& result)
-{
-	pugi::xml_node nodeName = node->child(name.c_str());
-	if (nodeName)
-	{
-		result = nodeName.text().as_float();
-	}
-	else
-	{
-		// 해당 노드가 존재하지 않음
-	}
-}
-
-float Pg::Serialize::Serializer::DeserializeFloat(pugi::xml_node* node, const std::string& name)
-{
-	pugi::xml_node nodeName = node->child(name.c_str());
-	if (nodeName)
-	{
-		return nodeName.text().as_float();
-	}
-	else
-	{
-		// 해당 노드가 존재하지 않음
-	}
-}
-
-void Pg::Serialize::Serializer::DeserializeDouble(pugi::xml_node* node, const std::string& name, double& result)
-{
-	pugi::xml_node nodeName = node->child(name.c_str());
-	if (nodeName)
-	{
-		result = nodeName.text().as_double();
-	}
-	else
-	{
-		// 해당 노드가 존재하지 않음
-	}
-}
-
-double Pg::Serialize::Serializer::DeserializeDouble(pugi::xml_node* node, const std::string& name)
-{
-	pugi::xml_node nodeName = node->child(name.c_str());
-	if (nodeName)
-	{
-		return nodeName.text().as_double();
-	}
-	else
-	{
-		// 해당 노드가 존재하지 않음
+		if (nodeName)
+		{
+			return nodeName.text().as_bool();
+		}
 	}
 }
 
 void Pg::Serialize::Serializer::DeserializeInt(pugi::xml_node* node, const std::string& name, int& result)
 {
-	pugi::xml_node nodeName = node->child(name.c_str());
-	if (nodeName)
+	if (name.empty())
 	{
-		result = nodeName.text().as_int();
+		result = node->text().as_int();
 	}
 	else
 	{
-		// 해당 노드가 존재하지 않음
+		pugi::xml_node nodeName = node->child(name.c_str());
+		if (nodeName)
+		{
+			result = nodeName.text().as_int();
+		}
 	}
 }
 
 bool Pg::Serialize::Serializer::DeserializeInt(pugi::xml_node* node, const std::string& name)
 {
-	pugi::xml_node nodeName = node->child(name.c_str());
-	if (nodeName)
+	if (name.empty())
 	{
-		return nodeName.text().as_int();
+		return node->text().as_int();
 	}
 	else
 	{
-		// 해당 노드가 존재하지 않음
+		pugi::xml_node nodeName = node->child(name.c_str());
+		if (nodeName)
+		{
+			return nodeName.text().as_int();
+		}
+	}
+}
+
+void Pg::Serialize::Serializer::DeserializeFloat(pugi::xml_node* node, const std::string& name, float& result)
+{
+	if (name.empty())
+	{
+		result = node->text().as_float();
+	}
+	else
+	{
+		pugi::xml_node nodeName = node->child(name.c_str());
+		if (nodeName)
+		{
+			result = nodeName.text().as_float();
+		}
+	}
+}
+
+float Pg::Serialize::Serializer::DeserializeFloat(pugi::xml_node* node, const std::string& name)
+{
+	if (name.empty())
+	{
+		return node->text().as_float();
+	}
+	else
+	{
+		pugi::xml_node nodeName = node->child(name.c_str());
+		if (nodeName)
+		{
+			return nodeName.text().as_float();
+		}
+	}
+}
+
+void Pg::Serialize::Serializer::DeserializeDouble(pugi::xml_node* node, const std::string& name, double& result)
+{
+	if (name.empty())
+	{
+		result = node->text().as_double();
+	}
+	else
+	{
+		pugi::xml_node nodeName = node->child(name.c_str());
+		if (nodeName)
+		{
+			result = nodeName.text().as_double();
+		}
+	}
+}
+
+double Pg::Serialize::Serializer::DeserializeDouble(pugi::xml_node* node, const std::string& name)
+{
+	if (name.empty())
+	{
+		return node->text().as_double();
+	}
+	else
+	{
+		pugi::xml_node nodeName = node->child(name.c_str());
+		if (nodeName)
+		{
+			return nodeName.text().as_double();
+		}
+	}
+}
+
+
+void Pg::Serialize::Serializer::DeserializeString(pugi::xml_node* node, const std::string& name, std::string& result)
+{
+	if (name.empty())
+	{
+		result = node->text().as_string();
+	}
+	else
+	{
+		pugi::xml_node nodeName = node->child(name.c_str());
+
+		if (nodeName)
+		{
+			result = nodeName.text().as_string();
+		}
+	}
+}
+
+std::string Pg::Serialize::Serializer::DeserializeString(pugi::xml_node* node, const std::string& name)
+{
+	if (name.empty())
+	{
+		return node->text().as_string();
+	}
+	else
+	{
+		pugi::xml_node nodeName = node->child(name.c_str());
+
+		if (nodeName)
+		{
+			return nodeName.text().as_string();
+		}
 	}
 }
 
 void Pg::Serialize::Serializer::DeserializeUint(pugi::xml_node* node, const std::string& name, unsigned& result)
 {
-	pugi::xml_node nodeName = node->child(name.c_str());
-	if (nodeName)
+	if (name.empty())
 	{
-		result = nodeName.text().as_uint();
+		result = node->text().as_uint();
 	}
 	else
 	{
-		// 해당 노드가 존재하지 않음
+		pugi::xml_node nodeName = node->child(name.c_str());
+		if (nodeName)
+		{
+			result = nodeName.text().as_uint();
+		}
 	}
 }
 
 unsigned Pg::Serialize::Serializer::DeserializeUint(pugi::xml_node* node, const std::string& name)
 {
-	pugi::xml_node nodeName = node->child(name.c_str());
-	if (nodeName)
+	if (name.empty())
 	{
-		return nodeName.text().as_uint();
+		return node->text().as_uint();
 	}
 	else
 	{
-		// 해당 노드가 존재하지 않음
+		pugi::xml_node nodeName = node->child(name.c_str());
+		if (nodeName)
+		{
+			return nodeName.text().as_uint();
+		}
 	}
 }
 
 void Pg::Serialize::Serializer::DeserializeInt64(pugi::xml_node* node, const std::string& name, int64_t& result)
 {
-	pugi::xml_node nodeName = node->child(name.c_str());
-	if (nodeName)
+	if (name.empty())
 	{
-		result = nodeName.text().as_int();
+		result = node->text().as_int();
 	}
 	else
 	{
-		// 해당 노드가 존재하지 않음
+		pugi::xml_node nodeName = node->child(name.c_str());
+		if (nodeName)
+		{
+			result = nodeName.text().as_int();
+		}
 	}
 }
 
 int64_t Pg::Serialize::Serializer::DeserializeInt64(pugi::xml_node* node, const std::string& name)
 {
-	pugi::xml_node nodeName = node->child(name.c_str());
-	if (nodeName)
+	if (name.empty())
 	{
-		return nodeName.text().as_int();
+		return node->text().as_int();
 	}
 	else
 	{
-		// 해당 노드가 존재하지 않음
+		pugi::xml_node nodeName = node->child(name.c_str());
+		if (nodeName)
+		{
+			return nodeName.text().as_int();
+		}
 	}
 }
 
-void Pg::Serialize::Serializer::DeserializePGFloat2(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT2& result)
+void Pg::Serialize::Serializer::DeserializePGFloat2(pugi::xml_node* node, Pg::Math::PGFLOAT2& result)
 {
-	pugi::xml_node nodeName = node->child(name.c_str());
+	pugi::xml_node nodeName = node->child("x");
 	if (nodeName)
 	{
 		result.x = nodeName.first_child().text().as_float();
 		result.y = nodeName.next_sibling().first_child().text().as_float();
 	}
-	else
-	{
-		// 해당 노드가 존재하지 않음
-	}
 }
 
-Pg::Math::PGFLOAT2 Pg::Serialize::Serializer::DeserializePGFloat2(pugi::xml_node* node, const std::string& name)
+Pg::Math::PGFLOAT2 Pg::Serialize::Serializer::DeserializePGFloat2(pugi::xml_node* node)
 {
-	pugi::xml_node nodeName = node->child(name.c_str());
+	pugi::xml_node nodeName = node->child("x");
 	if (nodeName)
 	{
 		Pg::Math::PGFLOAT2 result;
@@ -328,30 +505,22 @@ Pg::Math::PGFLOAT2 Pg::Serialize::Serializer::DeserializePGFloat2(pugi::xml_node
 		result.y = nodeName.next_sibling().first_child().text().as_float();
 		return result;
 	}
-	else
-	{
-		// 해당 노드가 존재하지 않음
-	}
 }
 
-void Pg::Serialize::Serializer::DeserializePGFloat3(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT3& result)
+void Pg::Serialize::Serializer::DeserializePGFloat3(pugi::xml_node* node, Pg::Math::PGFLOAT3& result)
 {
-	pugi::xml_node nodeName = node->child(name.c_str());
+	pugi::xml_node nodeName = node->child("x");
 	if (nodeName)
 	{
 		result.x = nodeName.first_child().text().as_float();
 		result.y = nodeName.next_sibling().first_child().text().as_float();
 		result.z = nodeName.next_sibling().next_sibling().first_child().text().as_float();
 	}
-	else
-	{
-		// 해당 노드가 존재하지 않음
-	}
 }
 
-Pg::Math::PGFLOAT3 Pg::Serialize::Serializer::DeserializePGFloat3(pugi::xml_node* node, const std::string& name)
+Pg::Math::PGFLOAT3 Pg::Serialize::Serializer::DeserializePGFloat3(pugi::xml_node* node)
 {
-	pugi::xml_node nodeName = node->child(name.c_str());
+	pugi::xml_node nodeName = node->child("x");
 	if (nodeName)
 	{
 		Pg::Math::PGFLOAT3 result;
@@ -360,16 +529,12 @@ Pg::Math::PGFLOAT3 Pg::Serialize::Serializer::DeserializePGFloat3(pugi::xml_node
 		result.z = nodeName.next_sibling().next_sibling().first_child().text().as_float();
 		return result;
 	}
-	else
-	{
-		// 해당 노드가 존재하지 않음
-	}
 }
 
 
-void Pg::Serialize::Serializer::DeserializePGFloat4(pugi::xml_node* node, const std::string& name, Pg::Math::PGFLOAT4& result)
+void Pg::Serialize::Serializer::DeserializePGFloat4(pugi::xml_node* node, Pg::Math::PGFLOAT4& result)
 {
-	pugi::xml_node nodeName = node->child(name.c_str());
+	pugi::xml_node nodeName = node->child("w");
 	if (nodeName)
 	{
 		result.w = nodeName.first_child().text().as_float();
@@ -377,15 +542,11 @@ void Pg::Serialize::Serializer::DeserializePGFloat4(pugi::xml_node* node, const 
 		result.y = nodeName.next_sibling().next_sibling().first_child().text().as_float();
 		result.z = nodeName.next_sibling().next_sibling().next_sibling().first_child().text().as_float();
 	}
-	else
-	{
-		// 해당 노드가 존재하지 않음
-	}
 }
 
-Pg::Math::PGFLOAT4 Pg::Serialize::Serializer::DeserializePGFloat4(pugi::xml_node* node, const std::string& name)
+Pg::Math::PGFLOAT4 Pg::Serialize::Serializer::DeserializePGFloat4(pugi::xml_node* node)
 {
-	pugi::xml_node nodeName = node->child(name.c_str());
+	pugi::xml_node nodeName = node->child("w");
 	if (nodeName)
 	{
 		Pg::Math::PGFLOAT4 result;
@@ -395,15 +556,11 @@ Pg::Math::PGFLOAT4 Pg::Serialize::Serializer::DeserializePGFloat4(pugi::xml_node
 		result.z = nodeName.next_sibling().next_sibling().next_sibling().first_child().text().as_float();
 		return result;
 	}
-	else
-	{
-		// 해당 노드가 존재하지 않음
-	}
 }
 
-void Pg::Serialize::Serializer::DeserializePGQuaternion(pugi::xml_node* node, const std::string& name, Pg::Math::PGQuaternion& result)
+void Pg::Serialize::Serializer::DeserializePGQuaternion(pugi::xml_node* node, Pg::Math::PGQuaternion& result)
 {
-	pugi::xml_node nodeName = node->child(name.c_str());
+	pugi::xml_node nodeName = node->child("w");
 	if (nodeName)
 	{
 		result.w = nodeName.first_child().text().as_float();
@@ -411,15 +568,11 @@ void Pg::Serialize::Serializer::DeserializePGQuaternion(pugi::xml_node* node, co
 		result.y = nodeName.next_sibling().next_sibling().first_child().text().as_float();
 		result.z = nodeName.next_sibling().next_sibling().next_sibling().first_child().text().as_float();
 	}
-	else
-	{
-		// 해당 노드가 존재하지 않음
-	}
 }
 
-Pg::Math::PGQuaternion Pg::Serialize::Serializer::DeserializePGQuaternion(pugi::xml_node* node, const std::string& name)
+Pg::Math::PGQuaternion Pg::Serialize::Serializer::DeserializePGQuaternion(pugi::xml_node* node)
 {
-	pugi::xml_node nodeName = node->child(name.c_str());
+	pugi::xml_node nodeName = node->child("w");
 	if (nodeName)
 	{
 		Pg::Math::PGQuaternion result;
@@ -429,8 +582,5 @@ Pg::Math::PGQuaternion Pg::Serialize::Serializer::DeserializePGQuaternion(pugi::
 		result.z = nodeName.next_sibling().next_sibling().next_sibling().first_child().text().as_float();
 		return result;
 	}
-	else
-	{
-		// 해당 노드가 존재하지 않음
-	}
 }
+

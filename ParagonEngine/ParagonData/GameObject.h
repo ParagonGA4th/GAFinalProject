@@ -45,12 +45,17 @@ namespace Pg::Data
 		void SetActive(bool active);
 		bool GetActive();
 
+		const std::string& GetTag() const;
+		void SetTag(const std::string& tag);
+
 	public:
 		template<typename T>
 		T* AddComponent();
 
+		Pg::Data::Component* AddComponent(std::string componentType);
+
 		template<typename T>
-		T* GetComponent();
+		T* GetComponent();		
 
 		//오브젝트가 가지고 있는 컴포넌트 리스트를 Get.
 		template<typename T>
@@ -82,7 +87,7 @@ namespace Pg::Data
 		T* component = new T(this);
 		_componentList.try_emplace(typeid(T).name(), component);
 		return component;
-	}
+	}	
 
 	template<typename T>
 	T* GameObject::GetComponent()
@@ -98,7 +103,6 @@ namespace Pg::Data
 				return res;
 			}
 		}
-
 		return nullptr;
 	}
 
@@ -122,7 +126,6 @@ namespace Pg::Data
 				res.push_back(tmp);
 			}
 		}
-
 
 		return res;
 	}
