@@ -21,15 +21,46 @@ namespace Pg::Engine::Physic
 		physx::PxPairFlags& pairFlags, const void* constantBlock, physx::PxU32
 		constantBlockSize)
 	{
-		// all initial and persisting reports for
-	   //everything, with per-point data
-		pairFlags = physx::PxPairFlag::eCONTACT_DEFAULT
-			| physx::PxPairFlag::eTRIGGER_DEFAULT
-			| physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS
-			| physx::PxPairFlag::eNOTIFY_CONTACT_POINTS;
-		return physx::PxFilterFlag::eDEFAULT;
+		using namespace physx;
+		
+		//원래는 이 공간에 LayerMask가 있어야 한다.
+		//const bool maskTest = (filterData0.word0 & filterData1.word1) && (filterData1.word0 & filterData0.word1);
+
+		// Let triggers through
+		if (PxFilterObjectIsTrigger(attributes0) || PxFilterObjectIsTrigger(attributes1))
+		{
+			// 트리거 Notify (일단은 Masking 없이)
+			pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
+			pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
+			pairFlags |= PxPairFlag::eDETECT_DISCRETE_CONTACT;
+
+			return PxFilterFlag::eDEFAULT;
+		}
+
+		// Send events for the kinematic actors but don't solve the contact
+		if (PxFilterObjectIsKinematic(attributes0) && PxFilterObjectIsKinematic(attributes1))
+		{
+			pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
+			pairFlags |= PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
+			pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
+			pairFlags |= PxPairFlag::eDETECT_DISCRETE_CONTACT;
+			return PxFilterFlag::eSUPPRESS;
+		}
+
+		// Trigger the contact callback for pairs (A,B) where the filtermask of A contains the ID of B and vice versa
+		pairFlags |= PxPairFlag::eSOLVE_CONTACT;
+		pairFlags |= PxPairFlag::eDETECT_DISCRETE_CONTACT;
+		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
+		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
+		pairFlags |= PxPairFlag::ePOST_SOLVER_VELOCITY;
+		pairFlags |= PxPairFlag::eNOTIFY_CONTACT_POINTS;
+		return PxFilterFlag::eDEFAULT;
+
+		//LayerMask가 활성화되면, 이 역시 활용될 것.
+		// Ignore pair (no collisions nor events)
+		//return PxFilterFlag::eKILL;
 	}
-	
+
 	void PhysicSystem::Initialize()
 	{
 		_foundation = PxCreateFoundation(PX_PHYSICS_VERSION, _allocator, _errorCallback);
@@ -109,7 +140,7 @@ namespace Pg::Engine::Physic
 		_pxScene->simulate(dTime);
 
 		_pxScene->fetchResults(true);
-		
+
 		//Event 셋업.
 
 		///DynamucCollider 컴포넌트를 가진 오브젝트한테 물리 업데이트를 적용.
@@ -137,8 +168,8 @@ namespace Pg::Engine::Physic
 			//트리거 감지를 위해 잠시 해둠
 			if (dynamicCol->GetTrigger() == true)
 			{
-				gameObj->OnTriggerStay();
-				PG_TRACE("TriggerStay!");
+				//gameObj->OnTriggerStay();
+				//PG_TRACE("TriggerStay!");
 			}
 		}
 
@@ -167,8 +198,8 @@ namespace Pg::Engine::Physic
 			//트리거 감지를 위해 잠시 해둠
 			if (staticCol->GetTrigger() == true)
 			{
-				gameObj->OnTriggerStay();
-				PG_TRACE("TriggerStay!");
+				//gameObj->OnTriggerStay();
+				//PG_TRACE("TriggerStay!");
 			}
 		}
 
@@ -238,7 +269,7 @@ namespace Pg::Engine::Physic
 	{
 		// 씬에 대한 설정
 		physx::PxSceneDesc sceneDesc(_physics->getTolerancesScale());
-		
+
 		//중력 설정.
 		sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
 
@@ -247,8 +278,8 @@ namespace Pg::Engine::Physic
 		sceneDesc.filterShader = ContactReportFilterShader;
 		//sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
 		//sceneDesc.filterShader = FilterShader;
-		//sceneDesc.simulationEventCallback = _physicsCallback.get();
-	
+		sceneDesc.simulationEventCallback = _physicsCallback.get();
+
 		_pxScene = _physics->createScene(sceneDesc);
 
 		// Pvd에 정보 보내기
@@ -351,6 +382,9 @@ namespace Pg::Engine::Physic
 				Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 
 				physx::PxTransform localTm(physx::PxVec3(position.x, position.y, position.z));
+
+				staticBoxcol->SetPxShape(boxShape);
+
 				physx::PxRigidStatic* rigid = _physics->createRigidStatic(localTm);
 				rigid->attachShape(*boxShape);
 
@@ -375,7 +409,7 @@ namespace Pg::Engine::Physic
 		if (col)
 		{
 			auto colliderVec = obj->GetComponents<Pg::Data::BoxCollider>();
-			
+
 			for (auto& collider : colliderVec)
 			{
 				Pg::Data::BoxCollider* boxcol = dynamic_cast<Pg::Data::BoxCollider*>(collider);
@@ -396,7 +430,7 @@ namespace Pg::Engine::Physic
 					boxShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
 				}
 
-				
+
 				//테스트를 위해 임시로 Rigid 넣어봄.
 				//임시 아닌 이렇게 합쳐서 갈 예정.
 				//2023.12.11
@@ -406,7 +440,7 @@ namespace Pg::Engine::Physic
 				rigid->setAngularDamping(0.5f);
 				rigid->setLinearDamping(0.5f);
 				rigid->attachShape(*boxShape);
-				
+
 				//_pxScene->addActor(*rigid);
 
 				boxcol->SetPxRigidDynamic(rigid);
@@ -422,7 +456,7 @@ namespace Pg::Engine::Physic
 			}
 
 		}
-		
+
 	}
 
 	void PhysicSystem::MakeDynamicSphereCollider(Pg::Data::GameObject* obj)
@@ -452,6 +486,9 @@ namespace Pg::Engine::Physic
 
 				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 				physx::PxTransform localTm(physx::PxVec3(pos.x, pos.y, pos.z));
+
+				sphCol->SetPxShape(shape);
+
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
 
 				//Rigid의 중력 조정
@@ -459,7 +496,7 @@ namespace Pg::Engine::Physic
 				rigid->setLinearDamping(0.5f);
 				rigid->attachShape(*shape);
 				//_pxScene->addActor(*rigid);
-				
+
 				///collider의 축 고정 시
 				/*rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, true);
 				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, true);
@@ -501,6 +538,9 @@ namespace Pg::Engine::Physic
 
 				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 				physx::PxTransform localTm(physx::PxIdentity);
+
+				capCol->SetPxShape(shape);
+
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
 
 				//Rigid의 중력 조정
@@ -514,7 +554,7 @@ namespace Pg::Engine::Physic
 				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, true);
 				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, true);*/
 
-			
+
 				//_pxScene->addActor(*rigid);
 
 				//Rigid 설정하기
@@ -551,8 +591,10 @@ namespace Pg::Engine::Physic
 				physx::PxTransform normalTm(physx::PxVec3(normal.x, normal.y, normal.z));
 				//physx::PxPlane plane = { normal.x, normal.y, normal.z, planeCol->GetDistance() };
 
+				planeCol->SetPxShape(shape);
+
 				//physx::PxRigidStatic* rigid = PxCreatePlane(*_physics, plane, *_material);
-				physx::PxRigidStatic* rigid =_physics->createRigidStatic(normalTm);
+				physx::PxRigidStatic* rigid = _physics->createRigidStatic(normalTm);
 				rigid->attachShape(*shape);
 				planeCol->SetPxRigidStatic(rigid);
 				rigid->userData = planeCol;
@@ -615,11 +657,11 @@ namespace Pg::Engine::Physic
 			static_cast<Pg::Data::DynamicCollider*>(rigid->userData)->Flush();
 		}
 
-		/*for (auto& rigid : _rigidStaticVec)
+		for (auto& rigid : _rigidStaticVec)
 		{
 			static_cast<Pg::Data::StaticCollider*>(rigid->userData)->Flush();
-		}*/
+		}
 	}
 
-	
+
 }
