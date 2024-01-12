@@ -6,6 +6,7 @@
 
 #include <variant>
 
+
 using var_t = std::variant<bool, int, float, double, std::string, unsigned, int64_t,
 	Pg::Math::PGFLOAT2, Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT4, Pg::Math::PGQuaternion>;
 

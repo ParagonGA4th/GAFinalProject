@@ -9,7 +9,7 @@ Pg::UI::Widget::Layout::Collaps::Collaps(std::string LayoutName, std::vector<Pg:
 
 void Pg::UI::Widget::Layout::Collaps::Update()
 {
-	if (ImGui::CollapsingHeader(_layoutName.c_str()))
+	if (ImGui::CollapsingHeader(_layoutName.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		for (auto& widget : _widgets)
 		{

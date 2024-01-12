@@ -1,24 +1,23 @@
 #include "InputFloat3.h"
 #include "imgui.h"
 
-Pg::UI::Widget::InputFloat3::InputFloat3(std::string label, float input[3])
-	: _label("##"), _inputfloat()
+Pg::UI::Widget::InputFloat3::InputFloat3(std::string label, Pg::Math::PGFLOAT3* input)
+	: _label("##"), _inputPGFloat(input)
 {
 	_label.append(label);
-	_inputPtr = input;
-	memcpy(_inputfloat, input, sizeof(float) * 3);
+
+	_inputFloat[0] = _inputPGFloat->x;
+	_inputFloat[1] = _inputPGFloat->y;
+	_inputFloat[2] = _inputPGFloat->z;
 } 
 
 void Pg::UI::Widget::InputFloat3::Update()
 {
-	memcpy(_inputfloat, _inputPtr, sizeof(float) * 3);
+	ImGui::InputFloat3(_label.c_str(), _inputFloat);
 
-	if (ImGui::InputFloat3(_label.c_str(), _inputfloat))
-	{
-		*_inputPtr = _inputfloat[0];
-		*(_inputPtr + 1) = _inputfloat[1];
-		*(_inputPtr + 2)= _inputfloat[2];
-	}
+	_inputPGFloat->x = _inputFloat[0];
+	_inputPGFloat->y = _inputFloat[1];
+	_inputPGFloat->z = _inputFloat[2];
 }
 
 

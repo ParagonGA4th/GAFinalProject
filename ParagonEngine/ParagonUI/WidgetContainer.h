@@ -11,6 +11,8 @@ namespace Pg::UI
 		std::vector<Pg::UI::IWidget*> GetColumnWidgets();
 		std::vector<Pg::UI::IWidget*> GetCollapsWidgets();
 		std::vector<Pg::UI::IWidget*> GetTreeNodeWidgets();
+
+		void ClearWidget(int index = 0);
 		void ClearColumnWidget();
 		void ClearCollapsWidget();
 		void ClearTreeNodeWidget();

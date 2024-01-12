@@ -4,11 +4,12 @@
 #include <memory>
 
 namespace Pg::Editor { class Event; }
-namespace Pg::UI { class WidgetContainer; }
+namespace Pg::Data { class GameObject; }
 namespace Pg::UI::Manager { class UIManager; }
 
 namespace Pg::Editor::Window
 {
+	class InspectorHelper;
 	class Inspector : public IEditorWindow
 	{
 	public:
@@ -23,8 +24,8 @@ namespace Pg::Editor::Window
 		virtual bool GetShow() override;	
 
 	private:
-		void DataSet(void* data);
-		void DataUpate();
+		void SetData(void* data);
+		void UpateData();
 
 	private:
 		/// inspector value
@@ -33,20 +34,12 @@ namespace Pg::Editor::Window
 
 		/// helper class
 		Pg::UI::Manager::UIManager* _uiManager;
-		Pg::UI::WidgetContainer* cons;
 
+		std::unique_ptr<Pg::Editor::Window::InspectorHelper> _insHelper;
 		std::unique_ptr<Pg::Editor::Event> _changeObjectData;
 
 		/// Data value
-		void* _gameObject;
-
-		std::string _objName;
-		std::string _objTag;
-		bool _isObjActive;
-
-		float _position[3] = { 0, };
-		float _rotation[3] = { 0, };
-		float _scale[3] = { 0, };
+		Pg::Data::GameObject* _selectGameObject;
 	};
 }
 
