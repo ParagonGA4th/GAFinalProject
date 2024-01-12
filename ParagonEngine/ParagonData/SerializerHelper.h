@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include <cassert>
-#include <typeinfo>
+
 #include <visit_struct/visit_struct_intrusive.hpp>
 
 using SerializeVector = std::vector<std::tuple<std::string, std::string, void*>>;

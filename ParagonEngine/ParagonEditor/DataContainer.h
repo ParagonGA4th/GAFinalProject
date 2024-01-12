@@ -1,9 +1,12 @@
 #pragma once
 #include <vector>
+#include <unordered_map>
 #include <string>
 
 struct ID3D11Device;
 struct ID3D11DeviceContext;
+
+using ScenesData = std::unordered_map<std::string, std::unordered_map<std::string, std::vector<std::tuple<std::string, std::string, void*>>>>;
 
 namespace Pg::Data { class Scene; }
 namespace Pg::Editor::Data
@@ -27,6 +30,9 @@ namespace Pg::Editor::Data
 		void SetSceneList(std::vector<Pg::Data::Scene*> scenes);
 		std::vector<Pg::Data::Scene*> GetSceneList();
 
+		void SetScenesData();
+		ScenesData GetScenesData();
+
 		void SetCurrentScene(int sceneNumber);
 		void SetCurrentScene(std::string sceneName);
 		void SetCurrentScene(Pg::Data::Scene* scene);
@@ -38,6 +44,8 @@ namespace Pg::Editor::Data
 
 		std::vector<Pg::Data::Scene*> _scenes;
 		Pg::Data::Scene* _currentScene;
+
+		ScenesData _scenesData;
 
 		void* _sceneTexture;
 		void* _gameTexture;

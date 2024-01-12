@@ -9,6 +9,7 @@
 #include <visit_struct/visit_struct_intrusive.hpp>
 #include <sstream>
 
+
 Pg::Editor::Manager::DataManager::DataManager()
 {
 	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
@@ -144,10 +145,7 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 
 		pugi::xml_node objComponents = xmlObject.append_child("components");
 
-		// flag를 이용해서 어떤 component가 있는지 확인한다
 		// 확인한 component의 type에 따라 serialize 한다
-		// 현재는 transform만 
-
 		pugi::xml_node objComponent = objComponents.append_child("component");
 		
 		for (auto& component : object->GetComponentList())

@@ -49,6 +49,9 @@
     <ClCompile Include="MenuBar.cpp">
       <Filter>2_Windows\MenuBar</Filter>
     </ClCompile>
+    <ClCompile Include="InspectorHelper.cpp">
+      <Filter>2_Windows\Inspector</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorManager.h">
@@ -128,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="visit_struct_intrusive.hpp">
       <Filter>Visit_Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectorHelper.h">
+      <Filter>2_Windows\Inspector</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
