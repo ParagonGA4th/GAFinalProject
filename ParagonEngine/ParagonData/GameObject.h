@@ -2,7 +2,6 @@
 #include "Transform.h"
 #include "../ParagonData/BaseRenderer.h"
 #include "../ParagonData/RendererChangeList.h"
-
 #include <vector>
 #include <unordered_map>
 #include <string>
@@ -38,8 +37,8 @@ namespace Pg::Data
 
 		//충돌에 관한 함수.
 		void OnCollisionStay();
-		void OnCollisionEnter();
-		void OnCollisionExit();
+		void OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count);
+		void OnCollisionExit(PhysicsCollision** _colArr, unsigned int count);
 
 		//트리거에 관한 함수.
 		void OnTriggerStay();

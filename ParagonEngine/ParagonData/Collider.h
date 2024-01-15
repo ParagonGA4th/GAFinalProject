@@ -64,7 +64,6 @@ namespace Pg::Data
 		bool GetTrigger();
 
 		//충돌판정 여부 체크
-		void Collide();
 		bool GetIsCollide();
 		bool GetWasCollided();
 
@@ -73,10 +72,12 @@ namespace Pg::Data
 		void SetPxShape(physx::PxShape* shape);
 	public:
 		//API용 연결 함수, GameObject의 호출과 무관.
-		void Collider_OnCollisionEnter(const PhysicsCollision& c);
-		void Collider_OnCollisionExit(const PhysicsCollision& c);
+		void Collider_OnCollisionEnter(PhysicsCollision& c);
+		void Collider_OnCollisionExit(PhysicsCollision& c);
 		void Collider_OnTriggerEnter(Collider* c);
 		void Collider_OnTriggerExit(Collider* c);
+
+		std::vector<PhysicsCollision*> _collisionStorage;
 
 	protected:
 		PGFLOAT3 _positionOffSet;
@@ -88,6 +89,10 @@ namespace Pg::Data
 
 		bool _isTrigger;
 
+		
+
+		//std::vector로 만들어서 1대n의 충돌을 최적화하기.
+		//void OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count);
 	protected:
 		//충돌의 여부를 판단하기 위해.
 		bool _isCollide;

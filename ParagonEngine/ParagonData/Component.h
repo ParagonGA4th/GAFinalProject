@@ -1,5 +1,6 @@
 #pragma once
 #include "IComponent.h"
+#include "PhysicsCollision.h"
 
 /// <summary>
 /// 컴포넌트 클래스
@@ -29,9 +30,9 @@ namespace Pg::Data
 		virtual void LateUpdate() override {}
 
 		virtual void OnDestroy() override {}
-		virtual void OnCollisionEnter() override {}
+		virtual void OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count) override {}
 		virtual void OnCollisionStay() override {}
-		virtual void OnCollisionExit() override {}
+		virtual void OnCollisionExit(PhysicsCollision** _colArr, unsigned int count) override {}
 
 		virtual void OnTriggerEnter() override {}
 		virtual void OnTriggerStay() override {}

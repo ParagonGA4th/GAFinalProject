@@ -16,7 +16,7 @@ namespace Pg::Data
 		_isCollide(false),
 		_wasCollided(false)
 	{
-		
+		_collisionStorage.reserve(5);	
 	}
 
 	void Collider::SetPoisitonOffset(PGFLOAT3 position)
@@ -131,10 +131,7 @@ namespace Pg::Data
 		return _isTrigger;
 	}
 
-	void Collider::Collide()
-	{
-		_isCollide = true;
-	}
+	
 
 	bool Collider::GetIsCollide()
 	{
@@ -145,24 +142,34 @@ namespace Pg::Data
 	{
 		return _wasCollided;
 	}
-
+	
 	void Collider::Flush()
 	{
 		_wasCollided = _isCollide;
 		_isCollide = false;
+
+		//매 프레임 체크할 때 마다 초기화.
+		_collisionStorage.clear();
 	}
 
-	//API용.
-	void Collider::Collider_OnCollisionEnter(const PhysicsCollision& c)
+	///API용.
+	void Collider::Collider_OnCollisionEnter(PhysicsCollision& c)
 	{
 		std::string tRes = "Collider_OnCollisionEnter : ";
 		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+
+		//bool값을 변경해주고 상태를 설정해줘야 Object의 이벤트와 연결이 가능하다.
+		this->_isCollide = true;
+		_collisionStorage.push_back(&c);
 	}
 
-	void Collider::Collider_OnCollisionExit(const PhysicsCollision& c)
+	void Collider::Collider_OnCollisionExit(PhysicsCollision& c)
 	{
 		std::string tRes = "Collider_OnCollisionExit : ";
 		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+
+		this->_isCollide = false;
+		_collisionStorage.push_back(&c);
 	}
 
 	void Collider::Collider_OnTriggerEnter(Collider* c)
@@ -182,5 +189,4 @@ namespace Pg::Data
 		_shape = shape;
 		_shape->userData = this;
 	}
-
 }

@@ -1,5 +1,6 @@
 
 #include "GameObject.h"
+#include "PhysicsCollision.h"
 #include <algorithm>
 namespace Pg::Data
 {
@@ -114,26 +115,26 @@ namespace Pg::Data
 			{ iter.second->OnCollisionStay(); });
 	}
 
-	void GameObject::OnCollisionEnter()
+	void GameObject::OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count)
 	{
 		if (!_isActive)
 		{
 			return;
 		}
 
-		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-			{ iter.second->OnCollisionEnter(); });
+		std::for_each(_componentList.begin(), _componentList.end(), [&_colArr, &count](auto& iter)
+			{ iter.second->OnCollisionEnter(_colArr, count); });
 	}
 
-	void GameObject::OnCollisionExit()
+	void GameObject::OnCollisionExit(PhysicsCollision** _colArr, unsigned int count)
 	{
 		if (!_isActive)
 		{
 			return;
 		}
 		 
-		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-			{ iter.second->OnCollisionExit(); });
+		std::for_each(_componentList.begin(), _componentList.end(), [&_colArr, &count](auto& iter)
+			{ iter.second->OnCollisionExit(_colArr, count); });
 	}
 
 	void GameObject::OnTriggerStay()

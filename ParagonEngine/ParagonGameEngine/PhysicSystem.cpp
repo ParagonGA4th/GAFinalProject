@@ -1,5 +1,6 @@
 #include "PhysicSystem.h"
 #include "SceneSystem.h"
+#include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Scene.h"
@@ -144,8 +145,13 @@ namespace Pg::Engine::Physic
 		_pxScene->fetchResults(true);
 
 		//Event 셋업.
+		//Update가 다 끝났을 시, Callback 함수의 마무리 함수를 호출.
+		_physicsCallback->CollectResults();
+		_physicsCallback->SendTriggerEvents();
+		_physicsCallback->SendCollisionEvents();
 
-		///DynamucCollider 컴포넌트를 가진 오브젝트한테 물리 업데이트를 적용.
+		//DynamicCollider 컴포넌트를 가진 오브젝트한테 물리 업데이트를 적용.
+		//EventCallBack 적용함. 구조는 그대로 유지
 		for (auto& rigid : _rigidDynamicVec)
 		{
 			Pg::Data::DynamicCollider* dynamicCol = static_cast<Pg::Data::DynamicCollider*>(rigid->userData);
@@ -153,9 +159,10 @@ namespace Pg::Engine::Physic
 
 			if (!dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
 			{
-				gameObj->OnCollisionEnter();
+				gameObj->OnCollisionEnter(_colArr, count);
 				PG_TRACE("CollisionEnter!");
 			}
+			//Stay는 잠시 보류해뒀다. PhysX 내부에서 지원해주지 않음.
 			else if (dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
 			{
 				gameObj->OnCollisionStay();
@@ -163,7 +170,7 @@ namespace Pg::Engine::Physic
 			}
 			else if (dynamicCol->GetWasCollided() && !dynamicCol->GetIsCollide())
 			{
-				gameObj->OnCollisionExit();
+				gameObj->OnCollisionExit(_colArr, count);
 				PG_TRACE("CollisionExit!");
 			}
 
@@ -175,7 +182,7 @@ namespace Pg::Engine::Physic
 			}
 		}
 
-		///Static을 위해서도 물리 업데이트 적용.
+		//Static을 위해서도 물리 업데이트 적용.
 		for (auto& rigid : _rigidStaticVec)
 		{
 			Pg::Data::StaticCollider* staticCol = static_cast<Pg::Data::StaticCollider*>(rigid->userData);
@@ -183,9 +190,11 @@ namespace Pg::Engine::Physic
 
 			if (!staticCol->GetWasCollided() && staticCol->GetIsCollide())
 			{
-				gameObj->OnCollisionEnter();
+				assert(staticCol->_collisionStorage.size() >= 1);
+				gameObj->OnCollisionEnter(staticCol->_collisionStorage.data(), staticCol->_collisionStorage.size());
 				PG_TRACE("CollisionEnter!");
 			}
+			//Stay는 잠시 보류해뒀다. PhysX 내부에서 지원해주지 않음.
 			else if (staticCol->GetWasCollided() && staticCol->GetIsCollide())
 			{
 				gameObj->OnCollisionStay();
@@ -193,7 +202,7 @@ namespace Pg::Engine::Physic
 			}
 			else if (staticCol->GetWasCollided() && !staticCol->GetIsCollide())
 			{
-				gameObj->OnCollisionExit();
+				gameObj->OnCollisionExit(_colArr, count);
 				PG_TRACE("CollisionExit!");
 			}
 
@@ -205,7 +214,7 @@ namespace Pg::Engine::Physic
 			}
 		}
 
-		///PxTransform 정보를 자체 엔진 내부의 Transform과 연결.
+		//PxTransform 정보를 자체 엔진 내부의 Transform과 연결.
 		Pg::Math::PGFLOAT3 position;
 		Pg::Math::PGQuaternion quat;
 		physx::PxTransform transform;
@@ -226,10 +235,7 @@ namespace Pg::Engine::Physic
 			static_cast<Pg::Data::DynamicCollider*>(rigid->userData)->UpdatePhysics(position, quat);
 		}
 
-		//Update가 다 끝났을 시, Callback 함수의 마무리 함수를 호출.
-		_physicsCallback->CollectResults();
-		_physicsCallback->SendTriggerEvents();
-		_physicsCallback->SendCollisionEvents();
+		
 	}
 
 
@@ -263,8 +269,6 @@ namespace Pg::Engine::Physic
 			PX_RELEASE(transport);
 		}
 		PX_RELEASE(_foundation);
-
-		//PG_TRACE("PhysicSystem released.");
 	}
 
 	void PhysicSystem::CreatePxScene()
