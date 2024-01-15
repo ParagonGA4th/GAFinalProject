@@ -70,6 +70,8 @@ namespace Pg::Engine::Physic
 		std::vector<physx::PxRigidDynamic*> _rigidDynamicVec;
 		std::vector<physx::PxRigidStatic*> _rigidStaticVec;
 
+		Pg::Data::PhysicsCollision** _colArr;
+		unsigned int count;
 
 	private:
 		

@@ -99,8 +99,8 @@ void Pg::Engine::TestScene::Initialize()
 	tObj4->GetComponent<Transform>()->SetPosition({ -2.0f, 1.0f, 0.0f });
 	tObj4->GetComponent<Transform>()->SetScale(1.0f, 1.0f, 1.0f);
 	//tObj4->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.5f, -2.0f);
-	//tObj4->AddComponent<StaticBoxCollider>();
-	//tObj4->GetComponent<StaticBoxCollider>()->SetTrigger(false);
+	tObj4->AddComponent<StaticBoxCollider>();
+	tObj4->GetComponent<StaticBoxCollider>()->SetTrigger(true);
 	//tObj4->GetComponent<StaticBoxCollider>()->SetScale(2.0f, 2.0f, 2.0f);
 	tObj4->AddComponent<StaticMeshRenderer>();
 	tObj4->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");

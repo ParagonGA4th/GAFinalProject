@@ -24,9 +24,9 @@ namespace Pg::Data
 		virtual void LateUpdate() override {}
 
 		virtual void OnDestroy() override {}
-		virtual void OnCollisionEnter() override {}
+		virtual void OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count) override {}
 		virtual void OnCollisionStay() override {}
-		virtual void OnCollisionExit() override {}
+		virtual void OnCollisionExit(PhysicsCollision** _colArr, unsigned int count) override {}
 	};
 }
 
