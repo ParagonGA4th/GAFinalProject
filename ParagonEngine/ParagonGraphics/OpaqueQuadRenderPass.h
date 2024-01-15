@@ -50,7 +50,8 @@ namespace Pg::Graphics
 
 	private:
 		//이 RenderTarget에다가 Set해야 한다.
-		ID3D11RenderTargetView* _passRenderTarget;
+		ID3D11RenderTargetView* _passRenderTargetView;
+		ID3D11DepthStencilView* _passDepthStencilView;
 
 	private:
 		LowDX11Storage* _DXStorage;

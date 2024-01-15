@@ -52,15 +52,43 @@ namespace Pg::Graphics
 		//Pass를 순서대로 호출하는 방식.
 		//나중에 Custom 동작이 필요하다고 한다면, 단순한 For문으로 안될 수도 있다.
 		//여튼, 특정한 Pass에 값을 전달하는 코드가 있어야 할 것이다.
-		for (auto& it : _renderPassVector)
+
+		//For문 대신, 명시적으로 값 호출. (나누기)
+
+		//초반 Static Mesh + ObjMat. 그대로 전달한다.
+		for (int i = 0; i < 2; i++)
 		{
-			it->ReceiveRequiredElements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
-			it->BindPass();
-			it->RenderPass(renderObjectList, camData);
-			it->UnbindPass();
-			it->ExecuteNextRenderRequirements();
-			it->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
+			_renderPassVector[i]->ReceiveRequiredElements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
+			_renderPassVector[i]->BindPass();
+			_renderPassVector[i]->RenderPass(renderObjectList, camData);
+			_renderPassVector[i]->UnbindPass();
+			_renderPassVector[i]->ExecuteNextRenderRequirements();
+			_renderPassVector[i]->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
 		}
+
+		//Opaque Quad 전용 RTV / DSV 클리어.
+		_DXStorage->_deviceContext->ClearRenderTargetView(_opaqueQuadRTV->GetRTV(), _DXStorage->_backgroundColor);
+		_DXStorage->_deviceContext->ClearDepthStencilView(_opaqueQuadDSV->GetDSV(), D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
+
+		//Opaque Quad Render Pass 
+		for (int i = 2; i < _renderPassVector.size() - 1; i++)
+		{
+			//Render Target, Shader Resource View는 이대로 전달할 것.
+			_renderPassVector[i]->ReceiveRequiredElements(&(_opaqueQuadRTV->GetRTV()), 1, tSRVArray, tSRVCount, _opaqueQuadDSV->GetDSV());
+			_renderPassVector[i]->BindPass();
+			_renderPassVector[i]->RenderPass(renderObjectList, camData);
+			_renderPassVector[i]->UnbindPass();
+			_renderPassVector[i]->ExecuteNextRenderRequirements();
+			_renderPassVector[i]->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
+		}
+
+		//Final Render Pass.
+		_renderPassVector.back()->ReceiveRequiredElements(tRTVArray, tRTVCount, &(_opaqueQuadRTV->GetSRV()), 1, tDSV);
+		_renderPassVector.back()->BindPass();
+		_renderPassVector.back()->RenderPass(renderObjectList, camData);
+		_renderPassVector.back()->UnbindPass();
+		_renderPassVector.back()->ExecuteNextRenderRequirements();
+		_renderPassVector.back()->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
 	}
 
 	void DeferredRenderer::PushRenderPasses()
@@ -86,10 +114,6 @@ namespace Pg::Graphics
 		}
 
 		_renderPassVector.push_back(new FinalRenderPass());
-
-		
-
-
 	}
 
 	void DeferredRenderer::InitializeRenderPasses()
@@ -104,7 +128,7 @@ namespace Pg::Graphics
 	void DeferredRenderer::PlaceRequiredResources()
 	{
 		//샘플러 함수. (Appends_SamplerStates.hlsli)
-		
+
 		//SamplerState fullScreenQuadSS : register(s0)
 		_DXStorage->_deviceContext->PSSetSamplers(0, 1, &(_DXStorage->_fullScreenQuadSamplerState));
 
@@ -115,7 +139,7 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetSamplers(2, 1, &(_DXStorage->_defaultSamplerState));
 
 	}
-	
+
 
 }
 
