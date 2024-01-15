@@ -1,6 +1,7 @@
 #pragma once
 #include "DX11Headers.h"
-
+#include "GBufferRender.h"
+#include "GBufferDepthStencil.h"
 #include <vector>
 #include <memory>
 
@@ -39,6 +40,8 @@ namespace Pg::Graphics
 		std::vector<IRenderPass*> _renderPassVector;
 
 		//메인 렌더 타겟으로 넘어갈 G-Buffer Render & Depth Stencil.
-		//
+		std::unique_ptr<GBufferRender> _opaqueQuadRTV;
+		std::unique_ptr<GBufferDepthStencil> _opaqueQuadDSV;
+
 	};
 }

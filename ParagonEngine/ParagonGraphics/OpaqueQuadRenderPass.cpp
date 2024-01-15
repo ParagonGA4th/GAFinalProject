@@ -36,7 +36,10 @@ namespace Pg::Graphics
 		assert(rtvCount == 1);
 
 		//자신이 렌더할 RenderTarget을 받는다.
-		_passRenderTarget = rtvArray[0];
+		_passRenderTargetView = rtvArray[0];
+
+		//자신이 렌더할 DepthStencil을 받는다.
+		_passDepthStencilView = dsv;
 	}
 
 	void OpaqueQuadRenderPass::BindPass()
@@ -44,6 +47,9 @@ namespace Pg::Graphics
 		BindVertexIndexBuffer();
 		_renderMaterial->Bind();
 		BindMaterialIndexConstantBuffer();
+
+		// Unbind RenderTarget
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, nullptr, _passDepthStencilView);
 	}
 
 	void OpaqueQuadRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
@@ -54,6 +60,9 @@ namespace Pg::Graphics
 	void OpaqueQuadRenderPass::UnbindPass()
 	{
 		_renderMaterial->Unbind();
+
+		// Unbind RenderTarget
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &_passRenderTargetView, _passDepthStencilView);
 	}
 
 	void OpaqueQuadRenderPass::GenerateQuadBuffer()
