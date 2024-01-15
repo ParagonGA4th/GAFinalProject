@@ -48,8 +48,8 @@ namespace Pg::Graphics
 		_renderMaterial->Bind();
 		BindMaterialIndexConstantBuffer();
 
-		// Unbind RenderTarget
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, nullptr, _passDepthStencilView);
+		// Bind RenderTarget
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &_passRenderTargetView, _passDepthStencilView);
 	}
 
 	void OpaqueQuadRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
@@ -61,8 +61,8 @@ namespace Pg::Graphics
 	{
 		_renderMaterial->Unbind();
 
-		// Unbind RenderTarget
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &_passRenderTargetView, _passDepthStencilView);
+		//더 이상 값을 설정하지 않을 때 이런 식으로 할당 해제해주면 된다.
+		_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 	}
 
 	void OpaqueQuadRenderPass::GenerateQuadBuffer()
