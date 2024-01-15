@@ -4,7 +4,7 @@
 
 namespace Pg::Graphics
 {
-	GBufferDepthStencil::GBufferDepthStencil(DXGI_FORMAT BufferFormat, DXGI_FORMAT ViewFormat)
+	GBufferDepthStencil::GBufferDepthStencil()
 		:_Buffer(), _DSV(), _SRV(),
 		_DXStorage(LowDX11Storage::GetInstance())
 	{
@@ -12,9 +12,14 @@ namespace Pg::Graphics
 		//DXGI_FORMAT_R32_TYPELESS -> Buffer Format
 		//DXGI_FORMAT_D32_FLOAT_S8X24_UINT -> DepthStencilView Format.
 		//가능한 이유 : Depth가 32비트(Float), Stencil(uint)이 32비트 중 8비트 활용해서 기록.
-		CreateBuffer(BufferFormat);
-		CreateDSV(ViewFormat);
-		CreateSRV(ViewFormat);
+
+		DXGI_FORMAT tBufferformat = DXGI_FORMAT_R24G8_TYPELESS;
+		DXGI_FORMAT tDSVformat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		DXGI_FORMAT tSRVformat = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+
+		CreateBuffer(tBufferformat);
+		CreateDSV(tDSVformat);
+		CreateSRV(tSRVformat);
 	}
 
 	GBufferDepthStencil::~GBufferDepthStencil()
@@ -25,10 +30,11 @@ namespace Pg::Graphics
 	void GBufferDepthStencil::CreateBuffer(DXGI_FORMAT format)
 	{
 		D3D11_TEXTURE2D_DESC tDesc;
+
 		tDesc.Width = _DXStorage->_screenWidth;
 		tDesc.Height = _DXStorage->_screenHeight;
-		tDesc.MipLevels = 0;
-		tDesc.ArraySize = 1;
+		tDesc.MipLevels = 1;
+		tDesc.ArraySize = 1; // 0이 아님.
 		tDesc.Format = format;
 		tDesc.SampleDesc.Count = 1;
 		tDesc.SampleDesc.Quality = 0;
@@ -43,8 +49,10 @@ namespace Pg::Graphics
 	void GBufferDepthStencil::CreateDSV(DXGI_FORMAT format)
 	{
 		D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+		ZeroMemory(&descDSV, sizeof(descDSV));
 		//Depth Stencil 
-		descDSV.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
+		descDSV.Flags = 0;
+		descDSV.Format = format;
 		descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 		descDSV.Texture2D.MipSlice = 0;
 

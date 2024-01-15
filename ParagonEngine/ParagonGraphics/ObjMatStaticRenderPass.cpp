@@ -66,7 +66,10 @@ namespace Pg::Graphics
 	void ObjMatStaticRenderPass::UnbindPass()
 	{
 		// Unbind RenderTarget
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, nullptr, _gBufferDepthStencil->GetDSV());
+		//_DXStorage->_deviceContext->OMSetRenderTargets(1, nullptr, _gBufferDepthStencil->GetDSV());
+		
+		//더 이상 값을 설정하지 않을 때 이런 식으로 할당 해제해주면 된다.
+		_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 
 		// Unbind Shaders
 		_vs->Unbind();
@@ -93,7 +96,7 @@ namespace Pg::Graphics
 		_gBufferRender = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32_TYPELESS, DXGI_FORMAT_R32G32_UINT);
 
 		//ObjMat 용도로 쓸 DepthStencil.
-		_gBufferDepthStencil = std::make_unique<GBufferDepthStencil>(DXGI_FORMAT_R32_TYPELESS, DXGI_FORMAT_D32_FLOAT_S8X24_UINT);
+		_gBufferDepthStencil = std::make_unique<GBufferDepthStencil>();
 	}
 
 	void ObjMatStaticRenderPass::CreateShaders()

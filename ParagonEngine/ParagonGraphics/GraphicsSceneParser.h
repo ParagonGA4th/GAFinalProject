@@ -40,7 +40,7 @@ namespace Pg::Graphics
 		void ClearObjectLists();
 		void ExtractMaterialPaths(const Pg::Data::Scene* const newScene);
 		void SyncRenderObjects(const Pg::Data::Scene* const newScene);
-
+		void CreateObjMatBuffersStatic();
 	private:
 		//PrimitiveWireframeObject 하드코딩해서 완성.
 		void InitializePrimitiveWireframeObjects();

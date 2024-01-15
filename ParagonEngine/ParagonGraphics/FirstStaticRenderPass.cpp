@@ -71,7 +71,7 @@ namespace Pg::Graphics
 	void FirstStaticRenderPass::UnbindPass()
 	{
 		// Unbind RenderTarget
-		_DXStorage->_deviceContext->OMSetRenderTargets(NullRTV.size(), nullptr, _gBufferDepthStencil->GetDSV());
+		_DXStorage->_deviceContext->OMSetRenderTargets(NullRTV.size(), NullRTV.data(), _gBufferDepthStencil->GetDSV());
 
 		// Unbind Shaders
 		_vs->Unbind();
@@ -107,7 +107,7 @@ namespace Pg::Graphics
 		//RT4
 		_gBufferRenderList.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 		//RT5 (Depth)
-		_gBufferDepthStencil = std::make_unique<GBufferDepthStencil>(DXGI_FORMAT_R32_TYPELESS, DXGI_FORMAT_D32_FLOAT_S8X24_UINT);
+		_gBufferDepthStencil = std::make_unique<GBufferDepthStencil>();
 
 		//FirstStage_PS에서 Binding될 Render Target들.
 		//Depth는 자동 연동 (DepthStencil 바인딩 공간 별도 존재)

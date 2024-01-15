@@ -10,6 +10,7 @@
 #include <DirectXMath.h>
 
 #include <windows.h>
+#include <cassert>
 
 #pragma comment(lib, "Dxgi.lib")
 #pragma comment(lib, "D3D11.lib")
@@ -47,3 +48,4 @@ using float4x4 = DirectX::XMMATRIX;
 #define HR(x) (x)
 #endif
 #endif 
+

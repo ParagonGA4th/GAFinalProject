@@ -61,8 +61,7 @@ namespace Pg::Graphics
 		ClearObjectLists();
 		ExtractMaterialPaths(newScene);
 		SyncRenderObjects(newScene);
-
-
+		CreateObjMatBuffersStatic();
 
 		//실제 리소스를 사용해야 하기에, Initialize에서 현재 호출하고 있지 않음.
 		PlaceCubemapList();
@@ -238,6 +237,19 @@ namespace Pg::Graphics
 							std::make_unique<RenderObjectImage2D>(tBaseRenderer));
 					}
 				}
+			}
+		}
+	}
+
+	void GraphicsSceneParser::CreateObjMatBuffersStatic()
+	{
+		//모든 오브젝트 렌더링.
+		for (auto& it : _renderObject3DList->_staticList)
+		{
+			//Vector
+			for (int i = 0; i < it.second->size(); i++)
+			{
+				it.second->at(i).second->CreateObjMatBuffers();
 			}
 		}
 	}
