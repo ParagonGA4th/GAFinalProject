@@ -174,7 +174,14 @@ namespace Pg::Core::Manager
 		LoadResource("../Resources/Textures/wook.jpg", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
 		LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
-	
+
+		//ShaderMaterial로 추가한 요소들.
+		//LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbm/road_1_diffuseOriginal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		//LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbm/lava_1_diffuseOriginal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		LoadResource("../Builds/x64/Debug/AppendObjectTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
+		LoadResource("../Builds/x64/Debug/AppendObjectTestPS.cso", eAssetDefine::_RENDER_PIXELSHADER);
+		LoadResource("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat", Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
+		LoadResource("../Resources/Textures/room.dds", eAssetDefine::_CUBEMAP);
 		//LoadResource("../Resources/3DModels/AnimMesh/twcylinder/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 	}
 

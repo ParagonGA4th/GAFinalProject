@@ -45,45 +45,57 @@ namespace Pg::Util::Debug
 }
 
 //0단계 : 평화
+#ifndef PG_TRACE
 #define PG_TRACE(...) \
 	do { \
 		Pg::Util::Debug::Log& tLogger = singleton<Pg::Util::Debug::Log>(); \
 		SPDLOG_LOGGER_TRACE(tLogger.GetLogger(), __VA_ARGS__); \
 	} while (false)
+#endif
 
 //1단계
+#ifndef PG_DEBUG
 #define PG_DEBUG(...) \
 	do { \
 		Pg::Util::Debug::Log& tLogger = singleton<Pg::Util::Debug::Log>(); \
 		SPDLOG_LOGGER_DEBUG(tLogger.GetLogger(), __VA_ARGS__); \
 	} while (false)
+#endif
 
 //2단계
+#ifndef PG_INFO
 #define PG_INFO(...) \
 	do { \
 		Pg::Util::Debug::Log& tLogger = singleton<Pg::Util::Debug::Log>(); \
 		SPDLOG_LOGGER_INFO(tLogger.GetLogger(), __VA_ARGS__); \
 	} while (false)
+#endif
 
 //3단계
+#ifndef PG_WARN
 #define PG_WARN(...) \
 	do { \
 		Pg::Util::Debug::Log& tLogger = singleton<Pg::Util::Debug::Log>(); \
 		SPDLOG_LOGGER_WARN(tLogger.GetLogger(), __VA_ARGS__); \
 	} while (false)
+#endif
 
 //4단계
+#ifndef PG_ERROR
 #define PG_ERROR(...) \
 	do { \
 		Pg::Util::Debug::Log& tLogger = singleton<Pg::Util::Debug::Log>(); \
 		SPDLOG_LOGGER_ERROR(tLogger.GetLogger(), __VA_ARGS__); \
 	} while (false)
+#endif
 
 //5단계
+#ifndef PG_CRITICAL
 #define PG_CRITICAL(...) \
 	do { \
 		Pg::Util::Debug::Log& tLogger = singleton<Pg::Util::Debug::Log>(); \
 		SPDLOG_LOGGER_CRITICAL(tLogger.GetLogger(), __VA_ARGS__); \
 	} while (false)
+#endif
 
 //</디버깅 함수들>
