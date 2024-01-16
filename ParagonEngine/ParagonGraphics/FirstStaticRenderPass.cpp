@@ -71,7 +71,7 @@ namespace Pg::Graphics
 	void FirstStaticRenderPass::UnbindPass()
 	{
 		// Unbind RenderTarget
-		_DXStorage->_deviceContext->OMSetRenderTargets(NullRTV.size(), NullRTV.data(), _gBufferDepthStencil->GetDSV());
+		_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), NullRTV.data(), nullptr);
 
 		// Unbind Shaders
 		_vs->Unbind();
@@ -126,7 +126,8 @@ namespace Pg::Graphics
 		_SRVs.emplace_back(_gBufferDepthStencil->GetSRV());
 
 		//지금까지 바인딩된 값만큼 RTV Null Array를 만들어준다.
-		for (int i = 0; i < _gBufferRenderList.size() + 1; ++i)
+		//DepthStencil을 더이상 RTV로 기록되지 않음.
+		for (int i = 0; i < _gBufferRenderList.size(); ++i)
 		{
 			NullRTV.emplace_back(nullptr);
 		}

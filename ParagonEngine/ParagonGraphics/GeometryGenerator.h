@@ -19,6 +19,7 @@
 
 #include "DirectXPackedVector.h"
 #include "MathHelper.h"
+#include <d3d11.h>
 
 typedef unsigned int UINT;
 
@@ -29,7 +30,8 @@ namespace Pg::Graphics
 	class GeometryGenerator
 	{
 	public:
-		
+		static void Initialize();
+
 		struct GeomVertex_PosColor
 		{
 			GeomVertex_PosColor() {}
@@ -96,6 +98,9 @@ namespace Pg::Graphics
 	public:
 		static unsigned int QUAD_VERTEX_COUNT;
 		static unsigned int QUAD_INDICE_COUNT;
+
+		static ID3D11Buffer* _QUAD_VB;
+		static ID3D11Buffer* _QUAD_IB;
 	private:
 		static void BuildCylinderTopCap(float bottomRadius, float topRadius, float height, UINT sliceCount, UINT stackCount, MeshData_PosColor& meshData);
 		static void BuildCylinderBottomCap(float bottomRadius, float topRadius, float height, UINT sliceCount, UINT stackCount, MeshData_PosColor& meshData);

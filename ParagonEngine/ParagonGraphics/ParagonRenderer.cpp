@@ -64,8 +64,7 @@ namespace Pg::Graphics
 		//ClearDepthStencilView. Depth Buffer // Stencil Buffer 지우기.
 		_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
 
-		//Render Target을 디폴트로 설정.
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
+		//Render Target Setup은 Forward 3D가 해줄 것이다.
 	}
 
 	void ParagonRenderer::Render(Pg::Data::CameraData* camData)
@@ -130,5 +129,8 @@ namespace Pg::Graphics
 	{
 		//ParseSceneData는 브랜치 합치기 전에 SyncComponent로 분리 불가.
 		_sceneParser->ParseSceneData(newScene);
+
+		//디퍼드 렌더러 Material 셋업하기.
+		_deferredRenderer->SetupRenderPasses();
 	}
 }

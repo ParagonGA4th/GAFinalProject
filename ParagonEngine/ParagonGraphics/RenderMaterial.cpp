@@ -319,6 +319,8 @@ namespace Pg::Graphics
 			{
 				D3D11_MAPPED_SUBRESOURCE res;
 				ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+				///240116 Map/Unmap ¿À·ù.
 				HR(_DXStorage->_deviceContext->Map(_vsIntrinsics->_cBuffer, _vsIntrinsics->_cbRegisterNum,
 					D3D11_MAP_WRITE_DISCARD, 0, &res));
 

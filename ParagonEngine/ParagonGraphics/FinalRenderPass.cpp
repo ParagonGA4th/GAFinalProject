@@ -70,49 +70,15 @@ namespace Pg::Graphics
 		_ps = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/FinalStage_PS.cso");
 	}
 
-	void FinalRenderPass::CreateVertexIndexBuffer()
-	{
-		GeometryGenerator::MeshData_PosNormalTex tMeshData;
-		GeometryGenerator::GenerateFullscreenQuad(tMeshData);
-
-		// Buffer Description
-		D3D11_BUFFER_DESC VBDesc;
-		VBDesc.Usage = D3D11_USAGE_DEFAULT;
-		VBDesc.ByteWidth = tMeshData.Vertices.size() * sizeof(GeometryGenerator::MeshData_PosNormalTex);
-		VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		VBDesc.CPUAccessFlags = 0;
-		VBDesc.MiscFlags = 0;
-
-		// Subresource Data
-		D3D11_SUBRESOURCE_DATA VBInitData;
-		VBInitData.pSysMem = tMeshData.Vertices.data();
-		VBInitData.SysMemPitch = 0;
-		VBInitData.SysMemSlicePitch = 0;
-
-		// Create the vertex buffer.
-		HRESULT hr = _DXStorage->_device->CreateBuffer(&VBDesc, &VBInitData, &_quadVB);
-
-		// Buffer Description
-		D3D11_BUFFER_DESC IBDesc;
-		IBDesc.Usage = D3D11_USAGE_DEFAULT;
-		IBDesc.ByteWidth = tMeshData.Indices.size() * sizeof(unsigned int);
-		IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-		IBDesc.CPUAccessFlags = 0;
-		IBDesc.MiscFlags = 0;
-
-		// Subresource Data
-		D3D11_SUBRESOURCE_DATA IBInitData;
-		IBInitData.pSysMem = tMeshData.Indices.data();
-		IBInitData.SysMemPitch = 0;
-		IBInitData.SysMemSlicePitch = 0;
-
-		// Create the Index buffer.
-		hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &_quadIB);
-	}
-
 	void FinalRenderPass::ExecuteNextRenderRequirements()
 	{
 
+		//더 이상 안쓰이는 Resource Slot들 -> nullptr로 설정.
+		ID3D11ShaderResourceView* pSRV = nullptr;
+		for (int i = 0; i < 6; i++)
+		{
+			_DXStorage->_deviceContext->PSSetShaderResources(i, 1, &pSRV);
+		}
 	}
 
 	void FinalRenderPass::PassNextRequirements(ID3D11RenderTargetView**& rtvArray, unsigned int& rtvCount, ID3D11ShaderResourceView**& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
@@ -122,11 +88,14 @@ namespace Pg::Graphics
 
 	void FinalRenderPass::BindVertexIndexBuffer()
 	{
+		assert(GeometryGenerator::_QUAD_VB != nullptr);
+		assert(GeometryGenerator::_QUAD_IB != nullptr);
+
 		// Bind Buffers
 		UINT stride = sizeof(GeometryGenerator::GeomVertex_PosNormalTex);
 		UINT offset = 0;
-		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &_quadVB, &stride, &offset);
-		_DXStorage->_deviceContext->IASetIndexBuffer(_quadIB, DXGI_FORMAT_R32_UINT, 0);
+		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(GeometryGenerator::_QUAD_VB), &stride, &offset);
+		_DXStorage->_deviceContext->IASetIndexBuffer(GeometryGenerator::_QUAD_IB, DXGI_FORMAT_R32_UINT, 0);
 	}
 
 	

@@ -33,9 +33,6 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::Initialize()
 	{
-		PushRenderPasses();
-		InitializeRenderPasses();
-
 		//요구되는 렌더 리소스 만들기 (GBufferRender & Depth Stencil)
 		_opaqueQuadRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
 		_opaqueQuadDSV = std::make_unique<GBufferDepthStencil>();
@@ -144,6 +141,11 @@ namespace Pg::Graphics
 
 	}
 
+	void DeferredRenderer::SetupRenderPasses()
+	{
+		PushRenderPasses();
+		InitializeRenderPasses();
+	}
 
 }
 

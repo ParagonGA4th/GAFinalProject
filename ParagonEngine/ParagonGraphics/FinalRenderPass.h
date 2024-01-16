@@ -33,16 +33,12 @@ namespace Pg::Graphics
 
 	private:
 		void CreateShaders();
-		void CreateVertexIndexBuffer();
 		void BindVertexIndexBuffer();
 
 
 	private:
 		std::unique_ptr<SystemVertexShader> _vs;
 		std::unique_ptr<SystemPixelShader> _ps;
-
-		ID3D11Buffer* _quadVB;
-		ID3D11Buffer* _quadIB;
 
 	private:
 		ID3D11ShaderResourceView* _finalQuadSRV;

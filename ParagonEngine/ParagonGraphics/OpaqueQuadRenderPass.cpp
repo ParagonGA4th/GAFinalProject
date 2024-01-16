@@ -15,9 +15,6 @@ namespace Pg::Graphics
 		_renderMaterial(renderMat)
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
-
-		//생성자 순서대로 호출되는 매커닉 활용 위해서, 일단은 생성자에. 
-		GenerateQuadBuffer();
 	}
 
 	OpaqueQuadRenderPass::~OpaqueQuadRenderPass()
@@ -65,46 +62,6 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 	}
 
-	void OpaqueQuadRenderPass::GenerateQuadBuffer()
-	{
-		GeometryGenerator::MeshData_PosNormalTex tMeshData;
-		GeometryGenerator::GenerateFullscreenQuad(tMeshData);
-
-		// Buffer Description
-		D3D11_BUFFER_DESC VBDesc;
-		VBDesc.Usage = D3D11_USAGE_DEFAULT;
-		VBDesc.ByteWidth = tMeshData.Vertices.size() * sizeof(GeometryGenerator::MeshData_PosNormalTex);
-		VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		VBDesc.CPUAccessFlags = 0;
-		VBDesc.MiscFlags = 0;
-
-		// Subresource Data
-		D3D11_SUBRESOURCE_DATA VBInitData;
-		VBInitData.pSysMem = tMeshData.Vertices.data();
-		VBInitData.SysMemPitch = 0;
-		VBInitData.SysMemSlicePitch = 0;
-
-		// Create the vertex buffer.
-		HRESULT hr = _DXStorage->_device->CreateBuffer(&VBDesc, &VBInitData, &_quadVB);
-
-		// Buffer Description
-		D3D11_BUFFER_DESC IBDesc;
-		IBDesc.Usage = D3D11_USAGE_DEFAULT;
-		IBDesc.ByteWidth = tMeshData.Indices.size() * sizeof(unsigned int);
-		IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-		IBDesc.CPUAccessFlags = 0;
-		IBDesc.MiscFlags = 0;
-
-		// Subresource Data
-		D3D11_SUBRESOURCE_DATA IBInitData;
-		IBInitData.pSysMem = tMeshData.Indices.data();
-		IBInitData.SysMemPitch = 0;
-		IBInitData.SysMemSlicePitch = 0;
-
-		// Create the Index buffer.
-		hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &_quadIB);
-	}
-
 	void OpaqueQuadRenderPass::ExecuteNextRenderRequirements()
 	{
 
@@ -118,11 +75,14 @@ namespace Pg::Graphics
 
 	void OpaqueQuadRenderPass::BindVertexIndexBuffer()
 	{
+		assert(GeometryGenerator::_QUAD_VB != nullptr);
+		assert(GeometryGenerator::_QUAD_IB != nullptr);
+
 		// Bind Buffers
 		UINT stride = sizeof(GeometryGenerator::GeomVertex_PosNormalTex);
 		UINT offset = 0;
-		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &_quadVB, &stride, &offset);
-		_DXStorage->_deviceContext->IASetIndexBuffer(_quadIB, DXGI_FORMAT_R32_UINT, 0);
+		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(GeometryGenerator::_QUAD_VB), &stride, &offset);
+		_DXStorage->_deviceContext->IASetIndexBuffer(GeometryGenerator::_QUAD_IB, DXGI_FORMAT_R32_UINT, 0);
 	}
 
 	void OpaqueQuadRenderPass::BindMaterialIndexConstantBuffer()
