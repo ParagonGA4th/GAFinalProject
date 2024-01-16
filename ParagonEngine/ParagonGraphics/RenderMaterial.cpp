@@ -321,19 +321,17 @@ namespace Pg::Graphics
 				D3D11_MAPPED_SUBRESOURCE res;
 				ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
-				///240116 Map/Unmap 오류 -> ByteBuffer 값 이상하다. 다시 체크.
+				///Map이 이상하다.
 				HR(_DXStorage->_deviceContext->Map(_vsIntrinsics->_cBuffer, _vsIntrinsics->_cbRegisterNum,
 					D3D11_MAP_WRITE_DISCARD, 0, &res));
 
 				//버퍼의 크기와 먼저 받았던 Constant Buffer의 크기가 같은지 확인.
 				assert(_vsIntrinsics->_cbBufferSize == _vsIntrinsics->_cbByteUpdateBuffer->size());
 
-				//ReadPos를 리셋. 
-				///240116 Map/Unmap 오류 -> 바이트 버퍼 값 이상하다. 다시 체크.
-				_vsIntrinsics->_cbByteUpdateBuffer->setReadPos(0);
-				_vsIntrinsics->_cbByteUpdateBuffer->getBytes((uint8_t*)res.pData, _vsIntrinsics->_cbBufferSize);
+				//_vsIntrinsics->_cbByteUpdateBuffer->setReadPos(0);
+				//_vsIntrinsics->_cbByteUpdateBuffer->getBytes(tGetByteArray, _vsIntrinsics->_cbBufferSize);
+				res.pData = _vsIntrinsics->_cbByteUpdateBuffer->GetStartAddress();
 
-				//res.pData = (void*)
 				_DXStorage->_deviceContext->Unmap(_vsIntrinsics->_cBuffer, 0);
 
 				//VS Constant Buffer Set.
@@ -365,8 +363,9 @@ namespace Pg::Graphics
 				assert(_psIntrinsics->_cbBufferSize == _psIntrinsics->_cbByteUpdateBuffer->size());
 
 				//ReadPos를 리셋.
-				_psIntrinsics->_cbByteUpdateBuffer->setReadPos(0);
-				_psIntrinsics->_cbByteUpdateBuffer->getBytes((uint8_t*)res.pData, _psIntrinsics->_cbBufferSize);
+				//_psIntrinsics->_cbByteUpdateBuffer->setReadPos(0);
+				//_psIntrinsics->_cbByteUpdateBuffer->getBytes((uint8_t*)res.pData, _psIntrinsics->_cbBufferSize);
+				res.pData = _psIntrinsics->_cbByteUpdateBuffer->GetStartAddress();
 
 				_DXStorage->_deviceContext->Unmap(_psIntrinsics->_cBuffer, 0);
 
