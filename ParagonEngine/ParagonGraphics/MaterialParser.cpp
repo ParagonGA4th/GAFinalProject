@@ -255,6 +255,8 @@ namespace Pg::Graphics
 
 	void MaterialParser::LoadShaderIntrinsics(RenderMaterial::MatShaderIntrinsics* intrinsic, ShaderParsingData* parseData)
 	{
+		///240116 바이트버퍼 문제 여기.
+		
 		//<ConstantBuffer>
 		//ByteCount만큼 Constant Buffer 값을 놓는다. + 기록.
 		intrinsic->_cbBufferSize = parseData->_cbData._byteCount;

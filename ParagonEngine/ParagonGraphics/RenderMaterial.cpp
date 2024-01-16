@@ -316,27 +316,31 @@ namespace Pg::Graphics
 		//Vertex Shader
 		{
 			//VS Constant Buffer Update. (현재로서는 각 Material 당 하나만 지원)
+			if (_vsIntrinsics->_cbBufferSize > 0)
 			{
 				D3D11_MAPPED_SUBRESOURCE res;
 				ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
-				///240116 Map/Unmap 오류.
+				///240116 Map/Unmap 오류 -> ByteBuffer 값 이상하다. 다시 체크.
 				HR(_DXStorage->_deviceContext->Map(_vsIntrinsics->_cBuffer, _vsIntrinsics->_cbRegisterNum,
 					D3D11_MAP_WRITE_DISCARD, 0, &res));
 
 				//버퍼의 크기와 먼저 받았던 Constant Buffer의 크기가 같은지 확인.
 				assert(_vsIntrinsics->_cbBufferSize == _vsIntrinsics->_cbByteUpdateBuffer->size());
 
-				//ReadPos를 리셋.
+				//ReadPos를 리셋. 
+				///240116 Map/Unmap 오류 -> 바이트 버퍼 값 이상하다. 다시 체크.
 				_vsIntrinsics->_cbByteUpdateBuffer->setReadPos(0);
 				_vsIntrinsics->_cbByteUpdateBuffer->getBytes((uint8_t*)res.pData, _vsIntrinsics->_cbBufferSize);
 
+				//res.pData = (void*)
 				_DXStorage->_deviceContext->Unmap(_vsIntrinsics->_cBuffer, 0);
+
+				//VS Constant Buffer Set.
+				_DXStorage->_deviceContext->VSSetConstantBuffers(_vsIntrinsics->_cbRegisterNum, 1, &(_vsIntrinsics->_cBuffer));
 			}
 
-			//VS Constant Buffer Set.
-			_DXStorage->_deviceContext->VSSetConstantBuffers(_vsIntrinsics->_cbRegisterNum, 1, &(_vsIntrinsics->_cBuffer));
-
+		
 			//VS Textures Update.
 			{
 				for (auto& it : _vsIntrinsics->_texPlaceVector)
@@ -350,6 +354,7 @@ namespace Pg::Graphics
 		//Pixel Shader
 		{
 			//PS Constant Buffer Update. (현재로서는 각 Material 당 하나만 지원)
+			if (_psIntrinsics->_cbBufferSize > 0)
 			{
 				D3D11_MAPPED_SUBRESOURCE res;
 				ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
@@ -364,10 +369,10 @@ namespace Pg::Graphics
 				_psIntrinsics->_cbByteUpdateBuffer->getBytes((uint8_t*)res.pData, _psIntrinsics->_cbBufferSize);
 
 				_DXStorage->_deviceContext->Unmap(_psIntrinsics->_cBuffer, 0);
-			}
 
-			//PS Constant Buffer Set.
-			_DXStorage->_deviceContext->PSSetConstantBuffers(_psIntrinsics->_cbRegisterNum, 1, &(_psIntrinsics->_cBuffer));
+				//PS Constant Buffer Set.
+				_DXStorage->_deviceContext->PSSetConstantBuffers(_psIntrinsics->_cbRegisterNum, 1, &(_psIntrinsics->_cBuffer));
+			}
 
 			//PS Textures Update.
 			{
