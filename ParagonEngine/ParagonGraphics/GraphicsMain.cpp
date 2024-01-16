@@ -14,6 +14,7 @@
 #include "../ParagonAPI/PgInput.h"
 
 #include "ParagonRenderer.h"
+#include "GeometryGenerator.h"
 #include "Sprite.h"
 #include "Font.h"
 
@@ -103,6 +104,7 @@ namespace Pg::Graphics
 
 		//Default Input Layout ¼¼ÆÃ.
 		LayoutDefine::Initialize();
+		GeometryGenerator::Initialize();
 
 		_renderer->Initialize();
 

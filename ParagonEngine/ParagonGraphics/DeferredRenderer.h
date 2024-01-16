@@ -28,6 +28,7 @@ namespace Pg::Graphics
 
 	public:
 		void Initialize();
+		void SetupRenderPasses();
 		void Render(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 	
 	private:

@@ -4,6 +4,7 @@
 
 
 #include "GeometryGenerator.h"
+#include "LowDX11Storage.h"
 
 using namespace DirectX;
 using namespace DirectX::PackedVector;
@@ -12,6 +13,9 @@ namespace Pg::Graphics
 {
 	unsigned int GeometryGenerator::QUAD_VERTEX_COUNT = 4;
 	unsigned int GeometryGenerator::QUAD_INDICE_COUNT = 6;
+
+	ID3D11Buffer* GeometryGenerator::_QUAD_IB = nullptr;
+	ID3D11Buffer* GeometryGenerator::_QUAD_VB = nullptr;
 
 	void GeometryGenerator::CreateBox(float width, float height, float depth, MeshData_PosColor& meshData)
 	{
@@ -430,6 +434,50 @@ namespace Pg::Graphics
 		a_meshData.Indices[3] = 0;
 		a_meshData.Indices[4] = 2;
 		a_meshData.Indices[5] = 3;
+	}
+
+	void GeometryGenerator::Initialize()
+	{
+		auto _DXStorage = LowDX11Storage::GetInstance();
+
+		GeometryGenerator::MeshData_PosNormalTex tMeshData;
+		GeometryGenerator::GenerateFullscreenQuad(tMeshData);
+
+		// Buffer Description
+		D3D11_BUFFER_DESC VBDesc;
+		VBDesc.Usage = D3D11_USAGE_DEFAULT;
+		VBDesc.ByteWidth = tMeshData.Vertices.size() * sizeof(GeometryGenerator::MeshData_PosNormalTex);
+		VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		VBDesc.CPUAccessFlags = 0;
+		VBDesc.MiscFlags = 0;
+
+		// Subresource Data
+		D3D11_SUBRESOURCE_DATA VBInitData;
+		VBInitData.pSysMem = tMeshData.Vertices.data();
+		VBInitData.SysMemPitch = 0;
+		VBInitData.SysMemSlicePitch = 0;
+
+		// Create the vertex buffer.
+		HRESULT hr = _DXStorage->_device->CreateBuffer(&VBDesc, &VBInitData, &_QUAD_VB);
+		assert(SUCCEEDED(hr));
+
+		// Buffer Description
+		D3D11_BUFFER_DESC IBDesc;
+		IBDesc.Usage = D3D11_USAGE_DEFAULT;
+		IBDesc.ByteWidth = tMeshData.Indices.size() * sizeof(unsigned int);
+		IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		IBDesc.CPUAccessFlags = 0;
+		IBDesc.MiscFlags = 0;
+
+		// Subresource Data
+		D3D11_SUBRESOURCE_DATA IBInitData;
+		IBInitData.pSysMem = tMeshData.Indices.data();
+		IBInitData.SysMemPitch = 0;
+		IBInitData.SysMemSlicePitch = 0;
+
+		// Create the Index buffer.
+		hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &_QUAD_IB);
+		assert(SUCCEEDED(hr));
 	}
 
 

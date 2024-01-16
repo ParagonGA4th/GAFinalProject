@@ -44,7 +44,8 @@ namespace Pg::Graphics
 		std::unique_ptr<ShaderParsingData> _psParseData = nullptr;
 	
 		//리셋되도 클리어되지 않는다. 지금까지 Material에게 부여한 ID이다.
-		unsigned int _matIdRecord = 0;
+		//1부터 시작.
+		unsigned int _matIdRecord = 1;
 	};
 }
 

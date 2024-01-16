@@ -56,7 +56,7 @@ namespace Pg::Graphics
 
 	private:
 		//3DObject들의 ID를 기록해서 렌더링 엔진에 올린다.
-		unsigned int _objectId3dCount = 0;
+		unsigned int _objectId3dCount = 1;
 	};
 }
 

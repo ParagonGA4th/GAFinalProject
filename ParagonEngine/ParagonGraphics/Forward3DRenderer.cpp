@@ -35,7 +35,7 @@ namespace Pg::Graphics
 
 	void Pg::Graphics::Forward3DRenderer::Render(RenderObjectCubemapList* cubeMapList, unsigned int cubeMapIndex, Pg::Data::CameraData* camData)
 	{
-		//일단은 Render Target을 Main으로 설정.
+		//디퍼드 이후, Render Target을 Main으로 설정.
 		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
 
 		RenderCubemapWithIndex(camData, cubeMapList, cubeMapIndex);
