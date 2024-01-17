@@ -81,7 +81,7 @@ namespace Pg::Graphics
 	void FirstStaticRenderPass::ExecuteNextRenderRequirements()
 	{
 		//FirstSkinnedRenderPass가 들어온다면, 이 호출부는 그 렌더 패스의 ExecuteNextRenderRequirements에 들어간다.
-		
+
 		//t0에, 5개의 SRV GBuffer 대응. (Depth 제외)
 		_DXStorage->_deviceContext->PSSetShaderResources(0, 5, _SRVs.data());
 
@@ -89,9 +89,10 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(1, 1, &(_SRVs.back()));
 	}
 
-	void FirstStaticRenderPass::PassNextRequirements(ID3D11RenderTargetView**& rtvArray, unsigned int& rtvCount, ID3D11ShaderResourceView**& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
+	void FirstStaticRenderPass::PassNextRequirements(ID3D11RenderTargetView**& rtvArray, unsigned int& rtvCount,
+		ID3D11ShaderResourceView**& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
 	{
-		//Execute 함수가 대신 실행해주었다.
+
 	}
 
 	void FirstStaticRenderPass::CreateD3DViews()
@@ -147,7 +148,7 @@ namespace Pg::Graphics
 		_ps = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/FirstStage_PS.cso");
 	}
 
-	
+
 
 
 }

@@ -30,12 +30,18 @@ namespace Pg::Graphics
 		void Initialize();
 		void SetupRenderPasses();
 		void Render(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
-	
+
 	private:
 		void PushRenderPasses();
 		void InitializeRenderPasses();
 		void PlaceRequiredResources();
-		
+
+	private:
+		void RenderFirstStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
+		void RenderObjMatStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
+		void RenderOpaqueQuadPasses(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
+		void RenderFinalRenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
+	
 	private:
 		LowDX11Storage* _DXStorage;
 		std::vector<IRenderPass*> _renderPassVector;
@@ -43,6 +49,7 @@ namespace Pg::Graphics
 		//메인 렌더 타겟으로 넘어갈 G-Buffer Render & Depth Stencil.
 		std::unique_ptr<GBufferRender> _opaqueQuadRTV;
 		std::unique_ptr<GBufferDepthStencil> _opaqueQuadDSV;
+		
 
 	};
 }

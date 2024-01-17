@@ -35,6 +35,9 @@ namespace Pg::Graphics
 		//이미 MainRenderTarget 관련된 Clear 등 상호작용은 ParagonRenderer의 시작에서 실행되었다.
 		_DXStorage->_deviceContext->OMSetRenderTargets(1, &_DXStorage->_mainRTV, _DXStorage->_depthStencilView);
 
+		//_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView,
+		//	D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 0.0f, 0.0f);
+
 		//Quad의 Vertex, Index 바인딩.
 		BindVertexIndexBuffer();
 
@@ -52,7 +55,6 @@ namespace Pg::Graphics
 		//Quad 전체를 MainRenderTarget으로 옮기기만 하는 얘는 상관 없다.
 		//Quad만큼 마지막으로 MainRenderTarget에 렌더한다.
 		_DXStorage->_deviceContext->DrawIndexed(GeometryGenerator::QUAD_INDICE_COUNT, 0, 0);
-
 	}
 
 	void FinalRenderPass::UnbindPass()
