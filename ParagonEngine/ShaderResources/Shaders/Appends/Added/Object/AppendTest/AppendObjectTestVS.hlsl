@@ -22,8 +22,8 @@ VOutQuad main(VinQuad vin)
     [flatten]
     if (toggleNoise)
     {
-        //VS에서의 Material 작동 확인 위해.
-        vout.UV = clamp(vin.UV + 0.3f, 0.0f, 1.0f);
+        vout.UV.x = vin.UV.x + 0.001f;
+        vout.UV.y = vin.UV.y + 0.001f;
     }
     else
     {

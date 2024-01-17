@@ -321,8 +321,9 @@ namespace Pg::Graphics
 				D3D11_MAPPED_SUBRESOURCE res;
 				ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
-				///Map이 이상하다.
-				HR(_DXStorage->_deviceContext->Map(_vsIntrinsics->_cBuffer, _vsIntrinsics->_cbRegisterNum,
+				//Buffer = Single Subresource. 레지스터 넘버가 아니다! 이 코드가 0이 맞는 이유.
+				//RegisterNumber는 실제로 GPU에 셋해줄 때 달라진다.
+				HR(_DXStorage->_deviceContext->Map(_vsIntrinsics->_cBuffer, 0,
 					D3D11_MAP_WRITE_DISCARD, 0, &res));
 
 				//버퍼의 크기와 먼저 받았던 Constant Buffer의 크기가 같은지 확인.
@@ -330,7 +331,8 @@ namespace Pg::Graphics
 
 				//_vsIntrinsics->_cbByteUpdateBuffer->setReadPos(0);
 				//_vsIntrinsics->_cbByteUpdateBuffer->getBytes(tGetByteArray, _vsIntrinsics->_cbBufferSize);
-				res.pData = _vsIntrinsics->_cbByteUpdateBuffer->GetStartAddress();
+				//res.pData = _vsIntrinsics->_cbByteUpdateBuffer->GetStartAddress();
+				memcpy(res.pData, _vsIntrinsics->_cbByteUpdateBuffer->GetStartAddress(), _vsIntrinsics->_cbBufferSize);
 
 				_DXStorage->_deviceContext->Unmap(_vsIntrinsics->_cBuffer, 0);
 
@@ -356,7 +358,10 @@ namespace Pg::Graphics
 			{
 				D3D11_MAPPED_SUBRESOURCE res;
 				ZeroMemory(&res, sizeof(D3D11_MAPPED_SUBRESOURCE));
-				HR(_DXStorage->_deviceContext->Map(_psIntrinsics->_cBuffer, _psIntrinsics->_cbRegisterNum,
+
+				//Buffer = Single Subresource. 레지스터 넘버가 아니다! 이 코드가 0이 맞는 이유.
+				//RegisterNumber는 실제로 GPU에 셋해줄 때 달라진다.
+				HR(_DXStorage->_deviceContext->Map(_psIntrinsics->_cBuffer, 0,
 					D3D11_MAP_WRITE_DISCARD, 0, &res));
 
 				//버퍼의 크기와 먼저 받았던 Constant Buffer의 크기가 같은지 확인.
@@ -365,7 +370,8 @@ namespace Pg::Graphics
 				//ReadPos를 리셋.
 				//_psIntrinsics->_cbByteUpdateBuffer->setReadPos(0);
 				//_psIntrinsics->_cbByteUpdateBuffer->getBytes((uint8_t*)res.pData, _psIntrinsics->_cbBufferSize);
-				res.pData = _psIntrinsics->_cbByteUpdateBuffer->GetStartAddress();
+				//res.pData = _psIntrinsics->_cbByteUpdateBuffer->GetStartAddress();
+				memcpy(res.pData, _psIntrinsics->_cbByteUpdateBuffer->GetStartAddress(), _psIntrinsics->_cbBufferSize);
 
 				_DXStorage->_deviceContext->Unmap(_psIntrinsics->_cBuffer, 0);
 

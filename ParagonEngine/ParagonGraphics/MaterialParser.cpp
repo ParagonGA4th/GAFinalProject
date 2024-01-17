@@ -370,6 +370,9 @@ namespace Pg::Graphics
 		tCBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 		tCBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		tCBufferDesc.MiscFlags = 0;
+
+		intrinsic->_cbSubResData->SysMemPitch = 0;
+		intrinsic->_cbSubResData->SysMemSlicePitch = 0;
 		intrinsic->_cbSubResData->pSysMem = intrinsic->_cbByteUpdateBuffer->GetStartAddress();
 
 		HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tCBufferDesc, intrinsic->_cbSubResData.get(), &(intrinsic->_cBuffer)));
