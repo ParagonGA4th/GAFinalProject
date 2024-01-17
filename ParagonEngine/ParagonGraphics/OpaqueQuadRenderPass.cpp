@@ -100,6 +100,9 @@ namespace Pg::Graphics
 		*(data) = _renderMaterial->GetID();
 
 		_DXStorage->_deviceContext->Unmap(_cbMatID, 0);
+
+		//이제 Binding. (Pixel Shader 3번 레지스터로 매핑)
+		_DXStorage->_deviceContext->PSSetConstantBuffers(3, 1, &_cbMatID);
 	}
 
 	void OpaqueQuadRenderPass::CreateMaterialIndexConstantBuffer()

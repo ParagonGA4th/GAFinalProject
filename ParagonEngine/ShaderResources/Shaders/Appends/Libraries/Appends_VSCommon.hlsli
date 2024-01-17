@@ -6,7 +6,4 @@
 //System
 #include "../../System/Libraries/System_QuadLayouts.hlsli"
 
-//Required
-#include "Required/Appends_ObjMat.hlsli"
-
 #endif //__DEFINED_APPENDS_VS_COMMON_HLSL__
