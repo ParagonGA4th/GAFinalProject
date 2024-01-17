@@ -9,7 +9,7 @@
 
 //매 Material마다 업데이트해준다. 같은 Material인지 ID 검사를 하기 위해.
 //X : Object ID, Y : Material ID
-Texture2D<uint2> _objMatSRV : register(t3);
+Texture2D<float2> _objMatSRV : register(t3);
 
 cbuffer cbInputMaterial : register(b3)
 {
@@ -18,21 +18,22 @@ cbuffer cbInputMaterial : register(b3)
 
 uint GetObjectID(float2 quadUV)
 {
-    return _objMatSRV.Sample(fullScreenQuadSS, quadUV).x;
+    return asuint(_objMatSRV.Sample(fullScreenQuadSS, quadUV).x);
 }
 
 uint GetMaterialID(float2 quadUV)
 {
-    return _objMatSRV.Sample(fullScreenQuadSS, quadUV).y;
+    return asuint(_objMatSRV.Sample(fullScreenQuadSS, quadUV).y);
 }
 
+//원본
 void ClipUnfits(float2 quadUV)
 {
-   uint sampledMatID = GetMaterialID(quadUV);
-   
-   const float DIVIDER = 0.2f;
-   clip(inputMatID - sampledMatID + DIVIDER);
-   clip(sampledMatID - inputMatID + DIVIDER);
+    float sampledMatID = asfloat(GetMaterialID(quadUV));
+
+    clip(inputMatID - sampledMatID + 0.1f);
+    clip(sampledMatID - inputMatID + 0.1f);
 }
+
 
 #endif //__DEFINED_APPENDS_CLIP_UNFIT_HLSL__

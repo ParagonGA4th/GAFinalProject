@@ -36,8 +36,8 @@ struct VOutPerObjMat
 
 struct POutPerObjMat //RG
 {
-    // DXGI_FORMAT_R32G32_UINT 기준.
-    uint2 pout_ObjMat : SV_Target; // x : ObjID / y : MatID 
+    // DXGI_FORMAT_R32G32_FLOAT 기준.
+    float2 pout_ObjMat : SV_Target; // x : ObjID / y : MatID 
 };
 
 #endif //__DEFINED_SYSTEM_PER_OBJMAT_LAYOUTS_HLSL__

@@ -16,6 +16,9 @@ Texture2D<float4> t2_DiffuseTexture2 : register(t26);
 //반드시 인풋 = VOutQuad, 아웃풋 = POutQuad
 POutQuad main(VOutQuad pin)
 {   
+    //모든 Appends의 Pixel Shader 실행 전에, ClipUnfits 함수가 들어있어야 한다. 구조 특성 때문.
+    ClipUnfits(pin.UV);
+    
     //본격적인 Shader Code.
     POutQuad res;
     

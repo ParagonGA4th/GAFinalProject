@@ -93,7 +93,7 @@ namespace Pg::Graphics
 	void ObjMatStaticRenderPass::CreateD3DViews()
 	{
 		//ObjMat RenderTarget
-		_gBufferRender = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32_TYPELESS, DXGI_FORMAT_R32G32_UINT);
+		_gBufferRender = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32_TYPELESS, DXGI_FORMAT_R32G32_FLOAT);
 
 		//ObjMat 용도로 쓸 DepthStencil.
 		_gBufferDepthStencil = std::make_unique<GBufferDepthStencil>();

@@ -79,8 +79,8 @@ namespace Pg::Graphics
 
 		ID3D11BlendState* _blendState;
 
-		const FLOAT _backgroundColor[4] = { 0.6f, 0.5f, 0.5f, 1.0f };
-		//const FLOAT _backgroundColor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+		//const FLOAT _backgroundColor[4] = { 0.6f, 0.5f, 0.5f, 1.0f };
+		const FLOAT _backgroundColor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 		
 
