@@ -40,12 +40,6 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::Render(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		//보관할 수 있는 포인터.
-		ID3D11RenderTargetView** tRTVArray = nullptr;
-		UINT tRTVCount = 0;
-		ID3D11ShaderResourceView** tSRVArray = nullptr;
-		UINT tSRVCount = 0;
-		ID3D11DepthStencilView* tDSV = nullptr;
 
 		//패스 외적으로 들어가야 하는 리소스들 GPU에 배치. 이 경우, SamplerState만 위로 배치.
 		PlaceRequiredResources();
@@ -55,41 +49,14 @@ namespace Pg::Graphics
 		//여튼, 특정한 Pass에 값을 전달하는 코드가 있어야 할 것이다.
 
 		//For문 대신, 명시적으로 값 호출. (나누기)
+		RenderFirstStaticPass(renderObjectList, camData);
+		RenderObjMatStaticPass(renderObjectList, camData);
+		RenderOpaqueQuadPasses(renderObjectList, camData);
+		RenderFinalRenderPass(renderObjectList, camData);
 
-		//초반 Static Mesh + ObjMat. 그대로 전달한다.
-		for (int i = 0; i < 2; i++)
-		{
-			_renderPassVector[i]->ReceiveRequiredElements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
-			_renderPassVector[i]->BindPass();
-			_renderPassVector[i]->RenderPass(renderObjectList, camData);
-			_renderPassVector[i]->UnbindPass();
-			_renderPassVector[i]->ExecuteNextRenderRequirements();
-			_renderPassVector[i]->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
-		}
+	
 
-		//Opaque Quad 전용 RTV / DSV 클리어.
-		_DXStorage->_deviceContext->ClearRenderTargetView(_opaqueQuadRTV->GetRTV(), _DXStorage->_backgroundColor);
-		_DXStorage->_deviceContext->ClearDepthStencilView(_opaqueQuadDSV->GetDSV(), D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
-
-		//Opaque Quad Render Pass 
-		for (int i = 2; i < _renderPassVector.size() - 1; i++)
-		{
-			//Render Target, Shader Resource View는 이대로 전달할 것.
-			_renderPassVector[i]->ReceiveRequiredElements(&(_opaqueQuadRTV->GetRTV()), 1, tSRVArray, tSRVCount, _opaqueQuadDSV->GetDSV());
-			_renderPassVector[i]->BindPass();
-			_renderPassVector[i]->RenderPass(renderObjectList, camData);
-			_renderPassVector[i]->UnbindPass();
-			_renderPassVector[i]->ExecuteNextRenderRequirements();
-			_renderPassVector[i]->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
-		}
-
-		//Final Render Pass.
-		_renderPassVector.back()->ReceiveRequiredElements(tRTVArray, tRTVCount, &(_opaqueQuadRTV->GetSRV()), 1, tDSV);
-		_renderPassVector.back()->BindPass();
-		_renderPassVector.back()->RenderPass(renderObjectList, camData);
-		_renderPassVector.back()->UnbindPass();
-		_renderPassVector.back()->ExecuteNextRenderRequirements();
-		_renderPassVector.back()->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
+	
 	}
 
 	void DeferredRenderer::PushRenderPasses()
@@ -145,6 +112,91 @@ namespace Pg::Graphics
 	{
 		PushRenderPasses();
 		InitializeRenderPasses();
+	}
+
+	void DeferredRenderer::RenderFirstStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		//보관할 수 있는 포인터.
+		ID3D11RenderTargetView** tRTVArray = nullptr;
+		UINT tRTVCount = 0;
+		ID3D11ShaderResourceView** tSRVArray = nullptr;
+		UINT tSRVCount = 0;
+		ID3D11DepthStencilView* tDSV = nullptr;
+
+
+		//0번째 RenderPass : 초반 Static Mesh 그대로 전달한다.
+		_renderPassVector[0]->ReceiveRequiredElements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
+		_renderPassVector[0]->BindPass();
+		_renderPassVector[0]->RenderPass(renderObjectList, camData);
+		_renderPassVector[0]->UnbindPass();
+		_renderPassVector[0]->ExecuteNextRenderRequirements();
+		_renderPassVector[0]->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
+		//[구상했던 것, 취소됨]
+		//Skinned가 들어오면 달라져야 하지만, DepthStencil을 전달할 수 있어야 한다.
+		//Forward에게 넘길 Deferred Object의 Depth Stencil을 전달한다.
+
+	}
+
+	void DeferredRenderer::RenderObjMatStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		//보관할 수 있는 포인터.
+		ID3D11RenderTargetView** tRTVArray = nullptr;
+		UINT tRTVCount = 0;
+		ID3D11ShaderResourceView** tSRVArray = nullptr;
+		UINT tSRVCount = 0;
+		ID3D11DepthStencilView* tDSV = nullptr;
+
+		//1번째 RenderPass : ObjMatStaticRenderPass.
+		_renderPassVector[1]->ReceiveRequiredElements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
+		_renderPassVector[1]->BindPass();
+		_renderPassVector[1]->RenderPass(renderObjectList, camData);
+		_renderPassVector[1]->UnbindPass();
+		_renderPassVector[1]->ExecuteNextRenderRequirements();
+		_renderPassVector[1]->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
+	}
+
+	void DeferredRenderer::RenderOpaqueQuadPasses(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		//보관할 수 있는 포인터.
+		ID3D11RenderTargetView** tRTVArray = nullptr;
+		UINT tRTVCount = 0;
+		ID3D11ShaderResourceView** tSRVArray = nullptr;
+		UINT tSRVCount = 0;
+		ID3D11DepthStencilView* tDSV = nullptr;
+
+		//Opaque Quad 전용 RTV / DSV 클리어.
+		_DXStorage->_deviceContext->ClearRenderTargetView(_opaqueQuadRTV->GetRTV(), _DXStorage->_backgroundColor);
+		_DXStorage->_deviceContext->ClearDepthStencilView(_opaqueQuadDSV->GetDSV(), D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
+
+		//Opaque Quad Render Pass 
+		for (int i = 2; i < _renderPassVector.size() - 1; i++)
+		{
+			//Render Target, Shader Resource View는 이대로 전달할 것.
+			_renderPassVector[i]->ReceiveRequiredElements(&(_opaqueQuadRTV->GetRTV()), 1, tSRVArray, tSRVCount, _opaqueQuadDSV->GetDSV());
+			_renderPassVector[i]->BindPass();
+			_renderPassVector[i]->RenderPass(renderObjectList, camData);
+			_renderPassVector[i]->UnbindPass();
+			_renderPassVector[i]->ExecuteNextRenderRequirements();
+			_renderPassVector[i]->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
+		}
+	}
+
+	void DeferredRenderer::RenderFinalRenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		//보관할 수 있는 포인터.
+		ID3D11RenderTargetView** tRTVArray = nullptr;
+		UINT tRTVCount = 0;
+		ID3D11ShaderResourceView** tSRVArray = nullptr;
+		UINT tSRVCount = 0;
+		ID3D11DepthStencilView* tDSV = nullptr;
+
+		//Final Render Pass.
+		_renderPassVector.back()->ReceiveRequiredElements(tRTVArray, tRTVCount, &(_opaqueQuadRTV->GetSRV()), 1, tDSV);
+		_renderPassVector.back()->BindPass();
+		_renderPassVector.back()->RenderPass(renderObjectList, camData);
+		_renderPassVector.back()->UnbindPass();
+		_renderPassVector.back()->ExecuteNextRenderRequirements();
+		_renderPassVector.back()->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
 	}
 
 }

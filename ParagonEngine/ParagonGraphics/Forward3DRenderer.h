@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <memory>
+#include <d3d11.h>
 
 #include "SystemVertexShader.h"
 #include "SystemPixelShader.h"

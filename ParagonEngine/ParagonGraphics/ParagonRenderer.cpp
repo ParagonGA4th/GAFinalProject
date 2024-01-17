@@ -62,7 +62,7 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_depthStencilState, 0);
 
 		//ClearDepthStencilView. Depth Buffer // Stencil Buffer 지우기.
-		_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
+		_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0.0f);
 
 		//Render Target Setup은 Forward 3D가 해줄 것이다.
 	}
@@ -71,7 +71,7 @@ namespace Pg::Graphics
 	{	
 		// Deferred w/ Pass
 		_deferredRenderer->Render(_sceneParser->GetRenderObject3DList(), camData);
-
+		
 		// Forward 3D
 		_forward3dRenderer->Render(_sceneParser->GetRenderObjectCubemapList(), 0, camData);
 

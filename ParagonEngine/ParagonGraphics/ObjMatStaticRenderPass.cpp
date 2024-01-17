@@ -39,6 +39,7 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->ClearRenderTargetView(_gBufferRender->GetRTV(), _DXStorage->_backgroundColor);
 
 		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_gBufferRender->GetRTV()), _gBufferDepthStencil->GetDSV());
+		//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_gBufferRender->GetRTV()), _DXStorage->_depthStencilView);
 
 		_vs->Bind();
 		_ps->Bind(); 
@@ -87,7 +88,7 @@ namespace Pg::Graphics
 
 	void ObjMatStaticRenderPass::PassNextRequirements(ID3D11RenderTargetView**& rtvArray, unsigned int& rtvCount, ID3D11ShaderResourceView**& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
 	{
-
+		
 	}
 
 	void ObjMatStaticRenderPass::CreateD3DViews()
@@ -95,7 +96,7 @@ namespace Pg::Graphics
 		//ObjMat RenderTarget
 		_gBufferRender = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32_TYPELESS, DXGI_FORMAT_R32G32_FLOAT);
 
-		//ObjMat 용도로 쓸 DepthStencil.
+		//ObjMat 용도로 쓸 DepthStencil. -> 곧바로 Main을 바인딩한다.
 		_gBufferDepthStencil = std::make_unique<GBufferDepthStencil>();
 	}
 

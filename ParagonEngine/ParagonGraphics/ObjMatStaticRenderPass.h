@@ -36,6 +36,12 @@ namespace Pg::Graphics
 
 	private:
 		std::unique_ptr<GBufferRender> _gBufferRender;
+
+		//[구상했던 것, 취소됨]
+		//자체적인 DepthStencil을 쓰지 않는다.
+		//FirstStatic/Skinned가 Depth을 활용한 판정을 할 수 있다면,
+		//여기서는 바로 MainDepthStencil을 바인딩을 한다. (ObjMatSkinned와 같이)
+		//-> 아니다.. 다른 방법을 갖고 올 것.
 		std::unique_ptr<GBufferDepthStencil> _gBufferDepthStencil;
 
 	private:
