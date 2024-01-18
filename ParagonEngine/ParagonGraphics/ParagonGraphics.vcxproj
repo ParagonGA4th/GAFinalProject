@@ -33,6 +33,7 @@
     </ClInclude>
     <ClInclude Include="FinalRenderPass.h" />
     <ClInclude Include="FirstStaticRenderPass.h" />
+    <ClInclude Include="GraphicsCarrier.h" />
     <ClInclude Include="GraphicsSceneParser.h" />
     <ClInclude Include="IRenderPass.h" />
     <ClInclude Include="ConstantBuffer.h" />

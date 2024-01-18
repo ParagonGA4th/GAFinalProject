@@ -232,6 +232,9 @@
     <ClInclude Include="ObjMatStaticRenderPass.h">
       <Filter>0_Main\RenderPass\1_ObjMatStaticRenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicsCarrier.h">
+      <Filter>0_Main\GraphicsCarrier</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -712,6 +715,9 @@
     </Filter>
     <Filter Include="0_Main\RenderPass\1_ObjMatStaticRenderPass">
       <UniqueIdentifier>{5ec93642-73ac-4d93-96c2-8f2b5950bb3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\GraphicsCarrier">
+      <UniqueIdentifier>{1a442d5c-d63c-4770-91c3-2230f437fc41}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -27,16 +27,13 @@ namespace Pg::Graphics
 		CreateMaterialIndexConstantBuffer();
 	}
 
-	void OpaqueQuadRenderPass::ReceiveRequiredElements(ID3D11RenderTargetView** rtvArray, unsigned int rtvCount, 
-		ID3D11ShaderResourceView** srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv)
+	void OpaqueQuadRenderPass::ReceiveRequiredElements(const GraphicsCarrier& carrier)
 	{
-		assert(rtvCount == 1);
-
 		//자신이 렌더할 RenderTarget을 받는다.
-		_passRenderTargetView = rtvArray[0];
+		_passRenderTargetView = carrier._rtvArray[0];
 
 		//자신이 렌더할 DepthStencil을 받는다.
-		_passDepthStencilView = dsv;
+		_passDepthStencilView = carrier._dsv;
 	}
 
 	void OpaqueQuadRenderPass::BindPass()
@@ -67,9 +64,8 @@ namespace Pg::Graphics
 
 	}
 
-	void OpaqueQuadRenderPass::PassNextRequirements(ID3D11RenderTargetView**& rtvArray, unsigned int& rtvCount, 
-		ID3D11ShaderResourceView**& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
-	{
+	void OpaqueQuadRenderPass::PassNextRequirements(GraphicsCarrier& gCarrier)
+{
 		//하는거 없으면, 건드리지 말아야 한다.
 	}
 

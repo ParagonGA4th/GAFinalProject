@@ -2,6 +2,7 @@
 #include "DX11Headers.h"
 #include "GBufferRender.h"
 #include "GBufferDepthStencil.h"
+#include "GraphicsCarrier.h"
 #include <vector>
 #include <memory>
 
@@ -43,12 +44,19 @@ namespace Pg::Graphics
 		void RenderFinalRenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 	
 	private:
+		//저장용 X, 객체를 임시로 보관할 수 있게 매개변수용 자료 세팅.
+		std::unique_ptr<GraphicsCarrier> _gCarrier;
+
+	private:
 		LowDX11Storage* _DXStorage;
 		std::vector<IRenderPass*> _renderPassVector;
 
 		//메인 렌더 타겟으로 넘어갈 G-Buffer Render & Depth Stencil.
 		std::unique_ptr<GBufferRender> _opaqueQuadRTV;
 		std::unique_ptr<GBufferDepthStencil> _opaqueQuadDSV;
+
+		//Depth Writing에 쓰일 SRV, Final Render Pass에서 활용됨.
+		ID3D11ShaderResourceView* _objMatDepthSRV = nullptr;
 		
 
 	};

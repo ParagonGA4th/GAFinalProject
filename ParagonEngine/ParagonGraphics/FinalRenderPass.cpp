@@ -23,11 +23,13 @@ namespace Pg::Graphics
 
 	}
 
-	void FinalRenderPass::ReceiveRequiredElements(ID3D11RenderTargetView** rtvArray, unsigned int rtvCount, 
-		ID3D11ShaderResourceView** srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv)
-	{
+	void FinalRenderPass::ReceiveRequiredElements(const GraphicsCarrier& carrier)
+{
 		//FinalQuadSRV 기록.
-		_finalQuadSRV = srvArray[0];
+		_finalQuadSRV = carrier._srvArray[0];
+
+		//ObjMatDepth SRV 기록.
+		_depthObjMatSRV = carrier._srvArray[1];
 	}
 
 	void FinalRenderPass::BindPass()
@@ -45,8 +47,10 @@ namespace Pg::Graphics
 		_vs->Bind();
 		_ps->Bind();
 
-		//Register T5에 넣어줌.
+		//Register T5에 넣어줌. Final Quad SRV.
 		_DXStorage->_deviceContext->PSSetShaderResources(5, 1, &_finalQuadSRV);
+
+		
 	}
 
 	void FinalRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
@@ -83,8 +87,8 @@ namespace Pg::Graphics
 		}
 	}
 
-	void FinalRenderPass::PassNextRequirements(ID3D11RenderTargetView**& rtvArray, unsigned int& rtvCount, ID3D11ShaderResourceView**& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
-	{
+	void FinalRenderPass::PassNextRequirements(GraphicsCarrier& gCarrier)
+{
 		//마지막 Render Pass, 세팅할 이유가 없다.
 	}
 
