@@ -144,8 +144,14 @@ namespace Pg::Graphics
 		assert(_currentScene != nullptr);
 
 		_renderer->Render(_camData);
+
 		//DebugRender 기능, 일단은 디폴트로 켜두었음.
 		_renderer->DebugRender(_camData);
+
+		_renderer->UiRender(_camData);
+
+		//Main Render Target으로 보내기.
+		_renderer->FinalRender(_camData);
 	}
 
 	void GraphicsMain::EndRender()
@@ -172,10 +178,10 @@ namespace Pg::Graphics
 		ReleaseCOM(_DXStorage->_depthStencilView);
 		ReleaseCOM(_DXStorage->_depthStencilSRV);
 		ReleaseCOM(_DXStorage->_depthStencilBuffer);
-		ReleaseCOM(_DXStorage->_backBuffer)
+		ReleaseCOM(_DXStorage->_backBuffer);
 
-			// 바뀐 사이즈로 재할당
-			hr = _DXLogic->ResizeSwapChainBuffers(screenWidth, screenHeight);
+		// 바뀐 사이즈로 재할당
+		hr = _DXLogic->ResizeSwapChainBuffers(screenWidth, screenHeight);
 		hr = _DXLogic->CreateMainRenderTarget();
 		hr = _DXLogic->CreateDepthStencilViewAndState();
 		_DXLogic->CreateAndSetViewports();

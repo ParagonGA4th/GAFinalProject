@@ -172,7 +172,7 @@
     <ClInclude Include="ParagonRenderer.h">
       <Filter>0_Main\Renderers</Filter>
     </ClInclude>
-    <ClInclude Include="Forward3DRenderer.h">
+    <ClInclude Include="CubemapRenderer.h">
       <Filter>0_Main\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="Forward2DRenderer.h">
@@ -232,8 +232,17 @@
     <ClInclude Include="ObjMatStaticRenderPass.h">
       <Filter>0_Main\RenderPass\1_ObjMatStaticRenderPass</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsCarrier.h">
+    <ClInclude Include="D3DCarrier.h">
       <Filter>0_Main\GraphicsCarrier</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseSpecificRenderer.h">
+      <Filter>0_Main\Renderers\BaseSpecificRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Forward3DRenderer.h">
+      <Filter>0_Main\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="FinalRenderer.h">
+      <Filter>0_Main\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -378,7 +387,7 @@
     <ClCompile Include="ParagonRenderer.cpp">
       <Filter>0_Main\Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="Forward3DRenderer.cpp">
+    <ClCompile Include="CubemapRenderer.cpp">
       <Filter>0_Main\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="Forward2DRenderer.cpp">
@@ -431,6 +440,15 @@
     </ClCompile>
     <ClCompile Include="ObjMatStaticRenderPass.cpp">
       <Filter>0_Main\RenderPass\1_ObjMatStaticRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseSpecificRenderer.cpp">
+      <Filter>0_Main\Renderers\BaseSpecificRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="FinalRenderer.cpp">
+      <Filter>0_Main\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Forward3DRenderer.cpp">
+      <Filter>0_Main\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -718,6 +736,9 @@
     </Filter>
     <Filter Include="0_Main\GraphicsCarrier">
       <UniqueIdentifier>{1a442d5c-d63c-4770-91c3-2230f437fc41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers\BaseSpecificRenderer">
+      <UniqueIdentifier>{2ab3de6d-bd70-41bd-8a2e-5fa81c309038}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -25,7 +25,7 @@ namespace Pg::Graphics
 		CreateShaders();
 	}
 
-	void FirstStaticRenderPass::ReceiveRequiredElements(const GraphicsCarrier& carrier)
+	void FirstStaticRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
 {
 		//아무것도 받지 않는다.
 	}
@@ -48,10 +48,12 @@ namespace Pg::Graphics
 		_ps->Bind();
 	}
 
-	void FirstStaticRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	void FirstStaticRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
 	{
+		RenderObject3DList* tRenderObjectList = reinterpret_cast<RenderObject3DList*>(renderObjectList);
+
 		//모든 오브젝트 렌더링.
-		for (auto& it : renderObjectList->_staticList)
+		for (auto& it : tRenderObjectList->_staticList)
 		{
 			//Vector
 			for (int i = 0; i < it.second->size(); i++)
@@ -88,8 +90,8 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(1, 1, &(_SRVs.back()));
 	}
 
-	void FirstStaticRenderPass::PassNextRequirements(GraphicsCarrier& gCarrier)
-{
+	void FirstStaticRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
+	{
 
 	}
 

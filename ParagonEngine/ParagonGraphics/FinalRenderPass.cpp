@@ -20,25 +20,26 @@ namespace Pg::Graphics
 	void FinalRenderPass::Initialize()
 	{
 		CreateShaders();
-
 	}
 
-	void FinalRenderPass::ReceiveRequiredElements(const GraphicsCarrier& carrier)
+	void FinalRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
 {
 		//FinalQuadSRV 기록.
-		_finalQuadSRV = carrier._srvArray[0];
-
-		//ObjMatDepth SRV 기록.
-		_depthObjMatSRV = carrier._srvArray[1];
+		_finalQuadSRV = carrier._quadMainRT->GetSRV();
 	}
 
 	void FinalRenderPass::BindPass()
 	{
-		//이미 MainRenderTarget 관련된 Clear 등 상호작용은 ParagonRenderer의 시작에서 실행되었다.
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &_DXStorage->_mainRTV, _DXStorage->_depthStencilView);
+		//Depth Stencil State 디폴트 상태로 바꾸기. 
+		_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_depthStencilState, 0);
 
-		//_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView,
-		//	D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 0.0f, 0.0f);
+		//<MAIN> ClearRenderTargetView. RenderTargetClear.
+		_DXStorage->_deviceContext->ClearRenderTargetView(_DXStorage->_mainRTV, _DXStorage->_backgroundColor);
+
+		//<MAIN> ClearDepthStencilView. Depth Buffer // Stencil Buffer 지우기.
+		_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0.0f);
+
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &_DXStorage->_mainRTV, _DXStorage->_depthStencilView);
 
 		//Quad의 Vertex, Index 바인딩.
 		BindVertexIndexBuffer();
@@ -49,11 +50,9 @@ namespace Pg::Graphics
 
 		//Register T5에 넣어줌. Final Quad SRV.
 		_DXStorage->_deviceContext->PSSetShaderResources(5, 1, &_finalQuadSRV);
-
-		
 	}
 
-	void FinalRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	void FinalRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		//RenderPass로 받아야 하지만, 
 		//Quad 전체를 MainRenderTarget으로 옮기기만 하는 얘는 상관 없다.
@@ -66,6 +65,12 @@ namespace Pg::Graphics
 		// Unbind Shaders
 		_vs->Unbind();
 		_ps->Unbind();
+
+		//Final Quad SRV - GPU 매핑 리셋.
+		{
+			ID3D11ShaderResourceView* pSRV = nullptr;
+			_DXStorage->_deviceContext->PSSetShaderResources(5, 1, &pSRV);
+		}
 	}
 
 	void FinalRenderPass::CreateShaders()
@@ -78,16 +83,10 @@ namespace Pg::Graphics
 
 	void FinalRenderPass::ExecuteNextRenderRequirements()
 	{
-
-		//더 이상 안쓰이는 Resource Slot들 -> nullptr로 설정.
-		ID3D11ShaderResourceView* pSRV = nullptr;
-		for (int i = 0; i < 6; i++)
-		{
-			_DXStorage->_deviceContext->PSSetShaderResources(i, 1, &pSRV);
-		}
+		
 	}
 
-	void FinalRenderPass::PassNextRequirements(GraphicsCarrier& gCarrier)
+	void FinalRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
 {
 		//마지막 Render Pass, 세팅할 이유가 없다.
 	}

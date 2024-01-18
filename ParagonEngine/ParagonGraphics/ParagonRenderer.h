@@ -1,4 +1,5 @@
 #pragma once
+#include "D3DCarrier.h"
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/DebugData.h"
 #include "../ParagonData/GameObject.h"
@@ -26,9 +27,10 @@ namespace Pg::Graphics
 	class LowDX11Logic;
 	class LowDX11Storage;
 	class DeferredRenderer;
-	class Forward3DRenderer;
+	class CubemapRenderer;
 	class Forward2DRenderer;
 	class DebugRenderer;
+	class FinalRenderer;
 	class GraphicsSceneParser;
 }
 
@@ -60,8 +62,10 @@ namespace Pg::Graphics
 		void PassPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec);
 
 		void BeginRender();
-		void Render(Pg::Data::CameraData* camData); //이미 컴포넌트 단계에서 RenderObject들과 연동되기에, 오브젝트 자체를 받을 필요가 없음.
-		void DebugRender(Pg::Data::CameraData* camData); // 별도로 Debug Render를 한다.
+		void Render(Pg::Data::CameraData* camData);			// 이미 컴포넌트 단계에서 RenderObject들과 연동되기에, 오브젝트 자체를 받을 필요가 없음.
+		void DebugRender(Pg::Data::CameraData* camData);	// 별도로 Debug Render를 한다.
+		void UiRender(Pg::Data::CameraData* camData);		// 2D UI를 렌더링한다.
+		void FinalRender(Pg::Data::CameraData* camData);	// MainRenderTarget으로 보내주는 역할을 한다.
 		void EndRender();
 
 	private:
@@ -71,10 +75,15 @@ namespace Pg::Graphics
 		std::unique_ptr<GraphicsSceneParser> _sceneParser;
 
 		std::unique_ptr<DeferredRenderer> _deferredRenderer;
-		std::unique_ptr<Forward3DRenderer> _forward3dRenderer;
+		std::unique_ptr<CubemapRenderer> _cubemapRenderer;
 		std::unique_ptr<Forward2DRenderer> _forward2dRenderer;
 		std::unique_ptr<DebugRenderer> _debugRenderer;
+		std::unique_ptr<FinalRenderer> _finalRenderer;
 
+	private:
+		//저장용 X, 객체를 임시로 보관할 수 있게 매개변수용 자료 세팅.
+		//스코프는 ParagonRenderer가 관리하고 있다.
+		std::unique_ptr<D3DCarrier> _gCarrier;
 	private:
 		//SkinningMk.2 한정.
 		//MultimaterialMesh* _tempMultiMesh;

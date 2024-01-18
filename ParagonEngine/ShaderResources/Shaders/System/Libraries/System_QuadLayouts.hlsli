@@ -20,4 +20,10 @@ struct POutQuad
     float4 Output : SV_Target;
 };
 
+//struct POutQuadWriteDepth
+//{
+//    float4 Output : SV_Target;
+    
+//};
+
 #endif //__DEFINED_SYSTEM_QUADLAYOUTS_HLSL__
