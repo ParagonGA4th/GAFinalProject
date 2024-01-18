@@ -24,12 +24,12 @@ namespace Pg::Graphics
 		~FinalRenderPass();
 
 		virtual void Initialize() override;
-		virtual void ReceiveRequiredElements(ID3D11RenderTargetView** rtvArray, unsigned int rtvCount, ID3D11ShaderResourceView** srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv) override;
+		virtual void ReceiveRequiredElements(const GraphicsCarrier& carrier) override;
 		virtual void BindPass() override;
 		virtual void RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData) override;
 		virtual void UnbindPass() override;
 		virtual void ExecuteNextRenderRequirements() override;
-		virtual void PassNextRequirements(ID3D11RenderTargetView**& rtvArray, unsigned int& rtvCount, ID3D11ShaderResourceView**& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)  override;
+		virtual void PassNextRequirements(GraphicsCarrier& gCarrier) override;
 
 	private:
 		void CreateShaders();
@@ -42,6 +42,7 @@ namespace Pg::Graphics
 
 	private:
 		ID3D11ShaderResourceView* _finalQuadSRV;
+		ID3D11ShaderResourceView* _depthObjMatSRV;
 
 	private:
 		LowDX11Storage* _DXStorage;

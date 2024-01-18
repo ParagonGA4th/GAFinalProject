@@ -33,6 +33,9 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::Initialize()
 	{
+		//렌더러 내부에서 오고 갈 GraphicsCarrier 객체 생성.
+		_gCarrier = std::make_unique<GraphicsCarrier>();
+
 		//요구되는 렌더 리소스 만들기 (GBufferRender & Depth Stencil)
 		_opaqueQuadRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
 		_opaqueQuadDSV = std::make_unique<GBufferDepthStencil>();
@@ -116,21 +119,14 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::RenderFirstStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		//보관할 수 있는 포인터.
-		ID3D11RenderTargetView** tRTVArray = nullptr;
-		UINT tRTVCount = 0;
-		ID3D11ShaderResourceView** tSRVArray = nullptr;
-		UINT tSRVCount = 0;
-		ID3D11DepthStencilView* tDSV = nullptr;
-
-
+		
 		//0번째 RenderPass : 초반 Static Mesh 그대로 전달한다.
-		_renderPassVector[0]->ReceiveRequiredElements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
+		_renderPassVector[0]->ReceiveRequiredElements(*(_gCarrier.get()));
 		_renderPassVector[0]->BindPass();
 		_renderPassVector[0]->RenderPass(renderObjectList, camData);
 		_renderPassVector[0]->UnbindPass();
 		_renderPassVector[0]->ExecuteNextRenderRequirements();
-		_renderPassVector[0]->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
+		_renderPassVector[0]->PassNextRequirements(*(_gCarrier.get()));
 		//[구상했던 것, 취소됨]
 		//Skinned가 들어오면 달라져야 하지만, DepthStencil을 전달할 수 있어야 한다.
 		//Forward에게 넘길 Deferred Object의 Depth Stencil을 전달한다.
@@ -139,64 +135,55 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::RenderObjMatStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		//보관할 수 있는 포인터.
-		ID3D11RenderTargetView** tRTVArray = nullptr;
-		UINT tRTVCount = 0;
-		ID3D11ShaderResourceView** tSRVArray = nullptr;
-		UINT tSRVCount = 0;
-		ID3D11DepthStencilView* tDSV = nullptr;
-
 		//1번째 RenderPass : ObjMatStaticRenderPass.
-		_renderPassVector[1]->ReceiveRequiredElements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
+		_renderPassVector[1]->ReceiveRequiredElements(*(_gCarrier.get()));
 		_renderPassVector[1]->BindPass();
 		_renderPassVector[1]->RenderPass(renderObjectList, camData);
 		_renderPassVector[1]->UnbindPass();
 		_renderPassVector[1]->ExecuteNextRenderRequirements();
-		_renderPassVector[1]->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
+		_renderPassVector[1]->PassNextRequirements(*(_gCarrier.get()));
+		
+		//ObjMat의 Depth SRV를 가져옴. Final Render Pass에서 Depth Writing할 예정.
+		_objMatDepthSRV = _gCarrier->_srvArray[0];
 	}
 
 	void DeferredRenderer::RenderOpaqueQuadPasses(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		//보관할 수 있는 포인터.
-		ID3D11RenderTargetView** tRTVArray = nullptr;
-		UINT tRTVCount = 0;
-		ID3D11ShaderResourceView** tSRVArray = nullptr;
-		UINT tSRVCount = 0;
-		ID3D11DepthStencilView* tDSV = nullptr;
-
 		//Opaque Quad 전용 RTV / DSV 클리어.
 		_DXStorage->_deviceContext->ClearRenderTargetView(_opaqueQuadRTV->GetRTV(), _DXStorage->_backgroundColor);
 		_DXStorage->_deviceContext->ClearDepthStencilView(_opaqueQuadDSV->GetDSV(), D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
+
+		//Opaque Quad에서 사용되는 정보들 캐리어에 투입.
+		_gCarrier->_rtvArray[0] = _opaqueQuadRTV->GetRTV();
+		_gCarrier->_dsv = _opaqueQuadDSV->GetDSV();
 
 		//Opaque Quad Render Pass 
 		for (int i = 2; i < _renderPassVector.size() - 1; i++)
 		{
 			//Render Target, Shader Resource View는 이대로 전달할 것.
-			_renderPassVector[i]->ReceiveRequiredElements(&(_opaqueQuadRTV->GetRTV()), 1, tSRVArray, tSRVCount, _opaqueQuadDSV->GetDSV());
+			_renderPassVector[i]->ReceiveRequiredElements(*(_gCarrier.get()));
 			_renderPassVector[i]->BindPass();
 			_renderPassVector[i]->RenderPass(renderObjectList, camData);
 			_renderPassVector[i]->UnbindPass();
 			_renderPassVector[i]->ExecuteNextRenderRequirements();
-			_renderPassVector[i]->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
+			_renderPassVector[i]->PassNextRequirements(*(_gCarrier.get()));
 		}
 	}
 
 	void DeferredRenderer::RenderFinalRenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		//보관할 수 있는 포인터.
-		ID3D11RenderTargetView** tRTVArray = nullptr;
-		UINT tRTVCount = 0;
-		ID3D11ShaderResourceView** tSRVArray = nullptr;
-		UINT tSRVCount = 0;
-		ID3D11DepthStencilView* tDSV = nullptr;
+		//SRV Index 0 : Opaque Quad의 인덱스 전달.
+		_gCarrier->_srvArray[0] = _opaqueQuadRTV->GetSRV();
+		//SRV Index 1 : ObjMat 레이어에서 나온 뎁스의 SRV 전달.
+		_gCarrier->_srvArray[1] = _objMatDepthSRV;
 
 		//Final Render Pass.
-		_renderPassVector.back()->ReceiveRequiredElements(tRTVArray, tRTVCount, &(_opaqueQuadRTV->GetSRV()), 1, tDSV);
+		_renderPassVector.back()->ReceiveRequiredElements(*(_gCarrier.get()));
 		_renderPassVector.back()->BindPass();
 		_renderPassVector.back()->RenderPass(renderObjectList, camData);
 		_renderPassVector.back()->UnbindPass();
 		_renderPassVector.back()->ExecuteNextRenderRequirements();
-		_renderPassVector.back()->PassNextRequirements(tRTVArray, tRTVCount, tSRVArray, tSRVCount, tDSV);
+		_renderPassVector.back()->PassNextRequirements(*(_gCarrier.get()));
 	}
 
 }

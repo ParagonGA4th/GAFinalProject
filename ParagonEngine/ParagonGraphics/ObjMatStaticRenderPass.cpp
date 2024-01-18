@@ -25,15 +25,16 @@ namespace Pg::Graphics
 		CreateShaders();
 	}
 
-	void ObjMatStaticRenderPass::ReceiveRequiredElements(ID3D11RenderTargetView** rtvArray, unsigned int rtvCount, ID3D11ShaderResourceView** srvArray, unsigned int srvCount, ID3D11DepthStencilView* dsv)
-	{
+	void ObjMatStaticRenderPass::ReceiveRequiredElements(const GraphicsCarrier& carrier)
+{
 
 	}
 
 	void ObjMatStaticRenderPass::BindPass()
 	{
 		//자체적인 DSV Clear, Depth Stencil State 리셋, OMSetRenderTargets.
-		_DXStorage->_deviceContext->ClearDepthStencilView(_gBufferDepthStencil->GetDSV(), D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
+		_DXStorage->_deviceContext->ClearDepthStencilView(_gBufferDepthStencil->GetDSV(), 
+			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0.0f);
 		_DXStorage->_deviceContext->OMSetDepthStencilState(_gBufferDepthStencil->GetDSState(), 0);
 
 		_DXStorage->_deviceContext->ClearRenderTargetView(_gBufferRender->GetRTV(), _DXStorage->_backgroundColor);
@@ -86,9 +87,10 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(3, 1, &(_gBufferRender->GetSRV()));
 	}
 
-	void ObjMatStaticRenderPass::PassNextRequirements(ID3D11RenderTargetView**& rtvArray, unsigned int& rtvCount, ID3D11ShaderResourceView**& srvArray, unsigned int& srvCount, ID3D11DepthStencilView*& dsv)
-	{
-		
+	void ObjMatStaticRenderPass::PassNextRequirements(GraphicsCarrier& gCarrier)
+{
+		//Object Static Render Pass에서 있는 Depth Stencil의 SRV를 넘겨주기.
+		gCarrier._srvArray[0] = _gBufferDepthStencil->GetSRV();
 	}
 
 	void ObjMatStaticRenderPass::CreateD3DViews()
