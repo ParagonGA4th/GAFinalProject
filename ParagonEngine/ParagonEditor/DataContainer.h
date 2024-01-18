@@ -6,7 +6,9 @@
 struct ID3D11Device;
 struct ID3D11DeviceContext;
 
-using ScenesData = std::unordered_map<std::string, std::unordered_map<std::string, std::vector<std::tuple<std::string, std::string, void*>>>>;
+using ComponentData = std::unordered_map<std::string, std::vector<std::tuple<std::string, std::string, void*>>>;
+using ObjectData = std::unordered_map<std::string, ComponentData>;
+using ScenesData = std::unordered_map<std::string, ObjectData>;
 
 namespace Pg::Data { class Scene; }
 namespace Pg::Editor::Data
@@ -15,24 +17,25 @@ namespace Pg::Editor::Data
 	{
 	public:
 		void SetGraphicsData(ID3D11Device* d, ID3D11DeviceContext* dc);
-		ID3D11Device* GetDevice();
-		ID3D11DeviceContext* GetDeviceContext();
+		ID3D11Device* GetDevice() const;
+		ID3D11DeviceContext* GetDeviceContext() const;
 
 		void SetSceneTexture(void* Texture);
-		void* GetSceneTexture();
+		void* GetSceneTexture() const;
 
 		void SetGameTexture(void* Texture);
-		void* GetGameTexture();
+		void* GetGameTexture() const;
 
 		void SetEditorOnOff(bool onoff);
-		bool GetEditorOnOff();
+		bool GetEditorOnOff() const;
 
 		void SetSceneList(std::vector<Pg::Data::Scene*> scenes);
 		std::vector<Pg::Data::Scene*> GetSceneList();
 
-		void SetScenesData();
-		ScenesData GetScenesData();
+		void SetScenesData(ScenesData* sceneData);
+		ScenesData* GetScenesData() const;
 
+		// sceneNumber == vector<Scene> index
 		void SetCurrentScene(int sceneNumber);
 		void SetCurrentScene(std::string sceneName);
 		void SetCurrentScene(Pg::Data::Scene* scene);
@@ -45,7 +48,7 @@ namespace Pg::Editor::Data
 		std::vector<Pg::Data::Scene*> _scenes;
 		Pg::Data::Scene* _currentScene;
 
-		ScenesData _scenesData;
+		ScenesData* _scenesData;
 
 		void* _sceneTexture;
 		void* _gameTexture;

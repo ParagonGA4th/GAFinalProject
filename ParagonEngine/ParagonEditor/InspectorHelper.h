@@ -6,6 +6,7 @@
 
 namespace Pg::Data { class GameObject; }
 namespace Pg::UI { class WidgetContainer; }
+namespace Pg::Editor::Data { class DataContainer; }
 
 namespace Pg::Editor::Window
 {
@@ -20,7 +21,6 @@ namespace Pg::Editor::Window
 		void SetData(Pg::Data::GameObject* object);
 
 	private:
-		void TransformComponent();
 		void ComponentUI();
 
 	private:
@@ -32,8 +32,11 @@ namespace Pg::Editor::Window
 
 		// 저장된 것은 quatrnion이지만, 보여지는 것은 float3
 		Pg::Math::PGFLOAT3 _tempFloat3;
-		Pg::Math::PGQuaternion _tempQut;
+		Pg::Math::PGFLOAT4* _tempFloat4;
+		Pg::Math::PGQuaternion* _tempQut;
 
 		Pg::Data::GameObject* _object;
+
+		Pg::Editor::Data::DataContainer* _dataContainer;
 	};
 }
