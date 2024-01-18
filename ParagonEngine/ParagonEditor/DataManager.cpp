@@ -1,6 +1,6 @@
 #include "DataManager.h"
 #include "Serializer.h"
-#include "DataContainer.h"
+
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
@@ -14,18 +14,18 @@ Pg::Editor::Manager::DataManager::DataManager()
 {
 	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
 	_dataContainer = &tdataCon;
+
+	_scenesData = new ScenesData();
 }
 
 Pg::Editor::Manager::DataManager::~DataManager()
 {}
 
-void Pg::Editor::Manager::DataManager::DataLoad(std::string path, std::string fileName)
+void Pg::Editor::Manager::DataManager::DataLoad(std::string path)
 {
 	_path = path;
-	_fileName = fileName;
 
-	if (_path.find("pgproject") == std::string::npos) SceneLoad();
-	else ProjectLoad();
+	ProjectLoad();
 
 	if (_scenes.size() > 0) _dataContainer->SetSceneList(_scenes);
 }
@@ -39,15 +39,30 @@ std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::D
 
 void Pg::Editor::Manager::DataManager::ProjectLoad()
 {
-
-}
-
-void Pg::Editor::Manager::DataManager::SceneLoad()
-{
 	pugi::xml_document doc;
+
 	if (doc.load_file(_path.c_str()))
 	{
-		_scenes.push_back(new Pg::Data::Scene(_fileName));
+		pugi::xml_node rootNode = doc.child("project");
+		for (pugi::xml_node scene = rootNode.first_child().first_child(); scene; scene = scene.next_sibling())
+		{
+			std::string scenePath = _path.substr(0, _path.rfind("\\") + 1).append("Asset\\");
+			scenePath.append(scene.text().as_string()).append(".pgscene");
+
+			SceneLoad(scenePath);
+		}
+	}
+}
+
+void Pg::Editor::Manager::DataManager::SceneLoad(std::string path)
+{
+	pugi::xml_document doc;
+	if (doc.load_file(path.c_str()))
+	{
+		std::string sceneName = path.substr(path.rfind("\\") + 1);
+		sceneName = sceneName.substr(0, path.rfind(".") + 1);
+
+		_scenes.push_back(new Pg::Data::Scene(sceneName));
 
 		pugi::xml_node rootNode = doc.child("scene");
 		DataDeserialize(rootNode.first_child(), _scenes.size() - 1);
@@ -82,6 +97,7 @@ void Pg::Editor::Manager::DataManager::SceneSave()
 
 void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int sceneNum)
 {
+	//ScenesData scenesData;
 	// <objects>를 순회 하며 pgscene에 있는 object를 가져온다
 	for (pugi::xml_node object = root.first_child(); object; object = root.next_sibling())
 	{
@@ -94,8 +110,12 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 		// 컴포넌트를 추가하기 위해 노드 가져오기
 		pugi::xml_node comps = object.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "components"; });
 
+		// insepector에서 쓰이게 될 오브젝트 데이터 덩어리
+		ObjectData objData;
+
 		for (pugi::xml_node component = comps.first_child(); component; component = component.next_sibling())
 		{
+			ComponentData comData;
 			std::vector<std::tuple<std::string, std::string, void*>> tSerVec;
 			std::string typeName = Pg::Serialize::Serializer::DeserializeString(&component, "type");
 
@@ -121,10 +141,17 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 						});
 					Pg::Serialize::Serializer::Deserialize(typeInfo, &node, val);
 				}
-
+				comData.insert({typeName, tSerVec});
 			}
+			auto it = objData.find(obj->GetName());
+
+			if (it != objData.end()) { it->second.insert({ typeName, tSerVec }); }
+			else objData.insert({ obj->GetName(), comData });
 		}
+		_scenesData->insert({ _scenes.at(sceneNum)->GetSceneName(), objData });
 	}
+
+	if (!_scenesData->empty()) _dataContainer->SetScenesData(_scenesData);
 }
 
 void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Data::Scene* scene)
@@ -147,7 +174,7 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 
 		// 확인한 component의 type에 따라 serialize 한다
 		pugi::xml_node objComponent = objComponents.append_child("component");
-		
+
 		for (auto& component : object->GetComponentList())
 		{
 			// 변수명, 타입, 값
