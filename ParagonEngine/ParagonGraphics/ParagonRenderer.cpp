@@ -8,9 +8,10 @@
 
 #include "GraphicsSceneParser.h"
 #include "DeferredRenderer.h"
-#include "Forward3DRenderer.h"
+#include "CubemapRenderer.h"
 #include "Forward2DRenderer.h"
 #include "DebugRenderer.h"
+#include "FinalRenderer.h"
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
@@ -26,7 +27,7 @@ namespace Pg::Graphics
 	ParagonRenderer::ParagonRenderer() :
 		_DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
 	{
-		
+
 	}
 
 	ParagonRenderer::~ParagonRenderer()
@@ -35,53 +36,66 @@ namespace Pg::Graphics
 	}
 
 	void ParagonRenderer::Initialize()
-	{		
+	{
 		//SceneParser 만들고 Initialize();
 		_sceneParser = std::make_unique<GraphicsSceneParser>();
 		_sceneParser->Initialize();
-		
-		_deferredRenderer = std::make_unique<DeferredRenderer>();
+
+		//렌더러들 내부에서 오고 갈 GraphicsCarrier 객체 생성.
+		_gCarrier = std::make_unique<D3DCarrier>();
+
+		_deferredRenderer = std::make_unique<DeferredRenderer>(_gCarrier.get());
 		_deferredRenderer->Initialize();
 
-		_forward3dRenderer = std::make_unique<Forward3DRenderer>();
-		_forward3dRenderer->Initialize();
+		_cubemapRenderer = std::make_unique<CubemapRenderer>(_gCarrier.get());
+		_cubemapRenderer->Initialize();
 
-		_forward2dRenderer = std::make_unique<Forward2DRenderer>();
+		_forward2dRenderer = std::make_unique<Forward2DRenderer>(_gCarrier.get());
 		_forward2dRenderer->Initialize();
 
-		_debugRenderer = std::make_unique<DebugRenderer>();
+		_debugRenderer = std::make_unique<DebugRenderer>(_gCarrier.get());
 		_debugRenderer->Initialize();
 
-		//SkinningMk.2
+		_finalRenderer = std::make_unique<FinalRenderer>(_gCarrier.get());
+		_finalRenderer->Initialize();
+
+		//SkinningMk.F
 		//_tempMultiMesh = new MultimaterialMesh("tFilePath");
 	}
 
 	void ParagonRenderer::BeginRender()
 	{
-		//Depth Stencil State 디폴트 상태로 바꾸기. 
-		_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_depthStencilState, 0);
-
-		//ClearDepthStencilView. Depth Buffer // Stencil Buffer 지우기.
-		_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0.0f);
-
-		//Render Target Setup은 Forward 3D가 해줄 것이다.
+		
 	}
 
 	void ParagonRenderer::Render(Pg::Data::CameraData* camData)
-	{	
+	{
 		// Deferred w/ Pass
-		_deferredRenderer->Render(_sceneParser->GetRenderObject3DList(), camData);
-		
-		// Forward 3D
-		_forward3dRenderer->Render(_sceneParser->GetRenderObjectCubemapList(), 0, camData);
+		_deferredRenderer->RenderContents(_sceneParser->GetRenderObject3DList(), camData);
+		_deferredRenderer->ConfirmCarrierData();
 
-		// Forward 2D
-		_forward2dRenderer->Render(_sceneParser->GetRenderObject2DList(), camData);
+		// Cubemap Renderer.
+		_cubemapRenderer->RenderContents(_sceneParser->GetRenderObjectCubemapList(), camData);
+		_cubemapRenderer->ConfirmCarrierData();
 	}
 
 	void ParagonRenderer::DebugRender(Pg::Data::CameraData* camData)
 	{
-		_debugRenderer->Render(_sceneParser->GetRenderObjectWireframeList(), camData);
+		_debugRenderer->RenderContents(_sceneParser->GetRenderObjectWireframeList(), camData);
+		_debugRenderer->ConfirmCarrierData();
+	}
+
+	void ParagonRenderer::UiRender(Pg::Data::CameraData* camData)
+	{
+		// Forward 2D
+		_forward2dRenderer->RenderContents(_sceneParser->GetRenderObject2DList(), camData);
+		_forward2dRenderer->ConfirmCarrierData();
+	}
+
+	void ParagonRenderer::FinalRender(Pg::Data::CameraData* camData)
+	{
+		_finalRenderer->RenderContents(nullptr, camData);
+		_finalRenderer->ConfirmCarrierData();
 	}
 
 	void ParagonRenderer::EndRender()
@@ -91,7 +105,7 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::SyncComponentToGraphics(const Pg::Data::Scene* const newScene)
 	{
-		
+
 	}
 
 	void ParagonRenderer::PassBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
@@ -130,7 +144,15 @@ namespace Pg::Graphics
 		//ParseSceneData는 브랜치 합치기 전에 SyncComponent로 분리 불가.
 		_sceneParser->ParseSceneData(newScene);
 
-		//디퍼드 렌더러 Material 셋업하기.
+		//모든 RenderPass들 셋업하기.
 		_deferredRenderer->SetupRenderPasses();
+		_cubemapRenderer->SetupRenderPasses();
+		_forward2dRenderer->SetupRenderPasses();
+		_debugRenderer->SetupRenderPasses();
+		_finalRenderer->SetupRenderPasses();
 	}
+
+
+	
+
 }

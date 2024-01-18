@@ -25,31 +25,28 @@ namespace Pg::Graphics
 		CreateShaders();
 	}
 
-	void ObjMatStaticRenderPass::ReceiveRequiredElements(const GraphicsCarrier& carrier)
-{
-
+	void ObjMatStaticRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
+	{
+		_quadSaveDSV = carrier._quadMainGDS->GetDSV();
 	}
 
 	void ObjMatStaticRenderPass::BindPass()
 	{
-		//자체적인 DSV Clear, Depth Stencil State 리셋, OMSetRenderTargets.
-		_DXStorage->_deviceContext->ClearDepthStencilView(_gBufferDepthStencil->GetDSV(), 
-			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0.0f);
-		_DXStorage->_deviceContext->OMSetDepthStencilState(_gBufferDepthStencil->GetDSState(), 0);
-
 		_DXStorage->_deviceContext->ClearRenderTargetView(_gBufferRender->GetRTV(), _DXStorage->_backgroundColor);
 
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_gBufferRender->GetRTV()), _gBufferDepthStencil->GetDSV());
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_gBufferRender->GetRTV()), _quadSaveDSV);
 		//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_gBufferRender->GetRTV()), _DXStorage->_depthStencilView);
 
 		_vs->Bind();
-		_ps->Bind(); 
+		_ps->Bind();
 	}
 
-	void ObjMatStaticRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	void ObjMatStaticRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
 	{
+		RenderObject3DList* tRenderObjectList = reinterpret_cast<RenderObject3DList*>(renderObjectList);
+
 		//모든 오브젝트 렌더링.
-		for (auto& it : renderObjectList->_staticList)
+		for (auto& it : tRenderObjectList->_staticList)
 		{
 			//Vector
 			for (int i = 0; i < it.second->size(); i++)
@@ -68,29 +65,26 @@ namespace Pg::Graphics
 	void ObjMatStaticRenderPass::UnbindPass()
 	{
 		// Unbind RenderTarget
-		//_DXStorage->_deviceContext->OMSetRenderTargets(1, nullptr, _gBufferDepthStencil->GetDSV());
-		
 		//더 이상 값을 설정하지 않을 때 이런 식으로 할당 해제해주면 된다.
 		_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 
 		// Unbind Shaders
 		_vs->Unbind();
 		_ps->Unbind();
-	}		 
+	}
 
 	void ObjMatStaticRenderPass::ExecuteNextRenderRequirements()
 	{
 		//만약 Skinned가 들어온다면, 이 코드는 ObjMatSkinnedRenderPass로 가야 한다.
 		//당연히 GBuffer-DepthStencil 역시 옮겨받아야 하고.
-		
+
 		//t3에, ObjMat GBuffer가 들어간다. 대응. (Depth 제외)
 		_DXStorage->_deviceContext->PSSetShaderResources(3, 1, &(_gBufferRender->GetSRV()));
 	}
 
-	void ObjMatStaticRenderPass::PassNextRequirements(GraphicsCarrier& gCarrier)
-{
-		//Object Static Render Pass에서 있는 Depth Stencil의 SRV를 넘겨주기.
-		gCarrier._srvArray[0] = _gBufferDepthStencil->GetSRV();
+	void ObjMatStaticRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
+	{
+
 	}
 
 	void ObjMatStaticRenderPass::CreateD3DViews()
@@ -98,8 +92,9 @@ namespace Pg::Graphics
 		//ObjMat RenderTarget
 		_gBufferRender = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32_TYPELESS, DXGI_FORMAT_R32G32_FLOAT);
 
-		//ObjMat 용도로 쓸 DepthStencil. -> 곧바로 Main을 바인딩한다.
-		_gBufferDepthStencil = std::make_unique<GBufferDepthStencil>();
+		//DepthStencil은 MainQuadDepthStencil이다. (Skinned도 마찬가지)
+		//OpaqueQuad 시리즈가 가능한 이유는,
+		//Rendering은 Main Render Target에 함에도 DepthStencil을 자체적으로 생성해서 쓰기 때문 (기존의 값이 영향을 주지 않음)
 	}
 
 	void ObjMatStaticRenderPass::CreateShaders()

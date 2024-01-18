@@ -6,6 +6,7 @@
 
 /// <summary>
 /// Final Render Pass : Quad에서의 값을 MainRenderTarget에 뿌려준다.
+/// 모든 렌더링을 포함해서 최종적인 렌더링 결과가 될 것.
 /// </summary>
 
 namespace Pg::Graphics
@@ -24,12 +25,12 @@ namespace Pg::Graphics
 		~FinalRenderPass();
 
 		virtual void Initialize() override;
-		virtual void ReceiveRequiredElements(const GraphicsCarrier& carrier) override;
+		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;
 		virtual void BindPass() override;
-		virtual void RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData) override;
+		virtual void RenderPass(void* renderObjectList, Pg::Data::CameraData* camData) override;
 		virtual void UnbindPass() override;
 		virtual void ExecuteNextRenderRequirements() override;
-		virtual void PassNextRequirements(GraphicsCarrier& gCarrier) override;
+		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
 	private:
 		void CreateShaders();
@@ -42,7 +43,6 @@ namespace Pg::Graphics
 
 	private:
 		ID3D11ShaderResourceView* _finalQuadSRV;
-		ID3D11ShaderResourceView* _depthObjMatSRV;
 
 	private:
 		LowDX11Storage* _DXStorage;

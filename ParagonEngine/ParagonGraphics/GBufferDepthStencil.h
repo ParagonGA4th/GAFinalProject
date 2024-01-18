@@ -6,6 +6,7 @@ class ID3D11ShaderResourceView;
 class ID3D11DepthStencilState;
 
 enum DXGI_FORMAT;
+struct D3D11_DEPTH_STENCIL_DESC;
 
 /// <summary>
 /// G-Buffer 중, 일반 DepthStencil에 대응하는 클래스.
@@ -18,7 +19,7 @@ namespace Pg::Graphics
 	class GBufferDepthStencil
 	{
 	public:
-		GBufferDepthStencil();
+		GBufferDepthStencil(D3D11_DEPTH_STENCIL_DESC* dsDesc = nullptr);
 		~GBufferDepthStencil();
 	public:
 		ID3D11DepthStencilView*& GetDSV();
@@ -29,7 +30,7 @@ namespace Pg::Graphics
 		void CreateBuffer(DXGI_FORMAT format);
 		void CreateDSV(DXGI_FORMAT format);
 		void CreateSRV(DXGI_FORMAT format);
-		void CreateDepthStencilState();
+		void CreateDepthStencilState(D3D11_DEPTH_STENCIL_DESC* dsDesc);
 
 	private:
 		ID3D11Texture2D* _Buffer;

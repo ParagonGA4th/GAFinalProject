@@ -17,7 +17,7 @@ namespace Pg::Graphics
 {
 	using Pg::Graphics::Helper::MathHelper;
 
-	DebugRenderer::DebugRenderer() : _DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
+	DebugRenderer::DebugRenderer(D3DCarrier* d3dCarrier) : BaseSpecificRenderer(d3dCarrier), _DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
 	{
 
 	}
@@ -29,8 +29,20 @@ namespace Pg::Graphics
 		InitLine();
 	}
 
+	void DebugRenderer::SetupRenderPasses()
+	{
+
+	}
+
+	void DebugRenderer::RenderContents(void* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		Render((RenderObjectWireframeList*)renderObjectList, camData);
+	}
+
 	void DebugRenderer::Render(RenderObjectWireframeList* wireframeList, Pg::Data::CameraData* camData)
 	{
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_quadMainGDS->GetDSV());
+
 		WireframeObjRender(wireframeList, camData);
 
 		BeginGeoPrimitiveRender();
@@ -40,6 +52,11 @@ namespace Pg::Graphics
 		BeginPrimitiveBatchRender(camData);
 		LineRender();
 		EndPrimitiveBatchRender();
+	}
+
+	void DebugRenderer::ConfirmCarrierData()
+	{
+
 	}
 
 	void DebugRenderer::InitGeometry()
@@ -529,5 +546,8 @@ namespace Pg::Graphics
 			LowDX11Storage::GetInstance()->_wireframeState, D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 		_primitivePS = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/PrimitivePS.cso");
 	}
+
+	
+
 
 }

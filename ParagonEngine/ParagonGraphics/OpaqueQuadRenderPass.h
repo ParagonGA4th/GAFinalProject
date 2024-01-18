@@ -28,12 +28,12 @@ namespace Pg::Graphics
 		~OpaqueQuadRenderPass();
 
 		virtual void Initialize() override;
-		virtual void ReceiveRequiredElements(const GraphicsCarrier& carrier) override;
+		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;
 		virtual void BindPass() override;
-		virtual void RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData) override;
+		virtual void RenderPass(void* renderObjectList, Pg::Data::CameraData* camData) override;
 		virtual void UnbindPass() override;
 		virtual void ExecuteNextRenderRequirements() override;
-		virtual void PassNextRequirements(GraphicsCarrier& gCarrier) override;
+		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
 	private:
 		void BindVertexIndexBuffer();
@@ -45,9 +45,9 @@ namespace Pg::Graphics
 		//FilePath는 RenderMaterial 상위 GraphicsResource에 보관되어 있다.
 
 	private:
-		//이 RenderTarget에다가 Set해야 한다.
-		ID3D11RenderTargetView* _passRenderTargetView;
-		ID3D11DepthStencilView* _passDepthStencilView;
+		////이 RenderTarget에다가 Set해야 한다. -> 밖에서 해준다.
+		//ID3D11RenderTargetView* _passRenderTargetView;
+		//ID3D11DepthStencilView* _passDepthStencilView;
 
 	private:
 		LowDX11Storage* _DXStorage;

@@ -26,12 +26,12 @@ namespace Pg::Graphics
 		~FirstStaticRenderPass();
 
 		virtual void Initialize() override;
-		virtual void ReceiveRequiredElements(const GraphicsCarrier& carrier) override;
+		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;
 		virtual void BindPass() override;
-		virtual void RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData) override;
+		virtual void RenderPass(void* renderObjectList, Pg::Data::CameraData* camData) override;
 		virtual void UnbindPass() override;
 		virtual void ExecuteNextRenderRequirements() override;
-		virtual void PassNextRequirements(GraphicsCarrier& gCarrier) override;
+		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
 	private:
 		std::vector<std::unique_ptr<GBufferRender>> _gBufferRenderList;

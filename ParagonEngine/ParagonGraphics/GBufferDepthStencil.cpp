@@ -4,7 +4,7 @@
 
 namespace Pg::Graphics
 {
-	GBufferDepthStencil::GBufferDepthStencil()
+	GBufferDepthStencil::GBufferDepthStencil(D3D11_DEPTH_STENCIL_DESC* dsDesc)
 		:_Buffer(), _DSV(), _SRV(),
 		_DXStorage(LowDX11Storage::GetInstance())
 	{
@@ -20,6 +20,7 @@ namespace Pg::Graphics
 		CreateBuffer(tBufferformat);
 		CreateDSV(tDSVformat);
 		CreateSRV(tSRVformat);
+		CreateDepthStencilState(dsDesc);
 	}
 
 	GBufferDepthStencil::~GBufferDepthStencil()
@@ -70,26 +71,33 @@ namespace Pg::Graphics
 		HR(_DXStorage->_device->CreateShaderResourceView(_Buffer, &tDesc, &_SRV));
 	}
 
-	void GBufferDepthStencil::CreateDepthStencilState()
+	void GBufferDepthStencil::CreateDepthStencilState(D3D11_DEPTH_STENCIL_DESC* dsDesc)
 	{
-		//일단은 Default로 만든다. 
-		D3D11_DEPTH_STENCIL_DESC tDepthStencilDesc;
-		tDepthStencilDesc.DepthEnable = TRUE;
-		tDepthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-		tDepthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
-		tDepthStencilDesc.StencilEnable = FALSE;
-		tDepthStencilDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
-		tDepthStencilDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
-		tDepthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-		tDepthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-		tDepthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-		tDepthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-		tDepthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-		tDepthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-		tDepthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-		tDepthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		if (dsDesc == nullptr)
+		{
+			//일단은 Default로 만든다. 
+			D3D11_DEPTH_STENCIL_DESC tDepthStencilDesc;
+			tDepthStencilDesc.DepthEnable = TRUE;
+			tDepthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+			tDepthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+			tDepthStencilDesc.StencilEnable = FALSE;
+			tDepthStencilDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+			tDepthStencilDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+			tDepthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+			tDepthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+			tDepthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+			tDepthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+			tDepthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+			tDepthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+			tDepthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+			tDepthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
 
-		HR(_DXStorage->_device->CreateDepthStencilState(&tDepthStencilDesc, &_dsState));
+			HR(_DXStorage->_device->CreateDepthStencilState(&tDepthStencilDesc, &_dsState));
+		}
+		else
+		{
+			HR(_DXStorage->_device->CreateDepthStencilState(dsDesc, &_dsState));
+		}
 	}
 
 	ID3D11DepthStencilView*& GBufferDepthStencil::GetDSV()

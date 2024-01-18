@@ -27,13 +27,13 @@ namespace Pg::Graphics
 		CreateMaterialIndexConstantBuffer();
 	}
 
-	void OpaqueQuadRenderPass::ReceiveRequiredElements(const GraphicsCarrier& carrier)
+	void OpaqueQuadRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
 	{
 		//자신이 렌더할 RenderTarget을 받는다.
-		_passRenderTargetView = carrier._rtvArray[0];
-
-		//자신이 렌더할 DepthStencil을 받는다.
-		_passDepthStencilView = carrier._dsv;
+		//_passRenderTargetView = carrier._quadMainRT->GetRTV();
+		//
+		////자신이 렌더할 DepthStencil을 받는다.
+		//_passDepthStencilView = carrier._dsv;
 	}
 
 	void OpaqueQuadRenderPass::BindPass()
@@ -42,11 +42,11 @@ namespace Pg::Graphics
 		_renderMaterial->Bind();
 		BindMaterialIndexConstantBuffer();
 
-		// Bind RenderTarget
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &_passRenderTargetView, _passDepthStencilView);
+		//// Bind RenderTarget
+		//_DXStorage->_deviceContext->OMSetRenderTargets(1, &_passRenderTargetView, _passDepthStencilView);
 	}
 
-	void OpaqueQuadRenderPass::RenderPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	void OpaqueQuadRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		_DXStorage->_deviceContext->DrawIndexed(GeometryGenerator::QUAD_INDICE_COUNT, 0, 0);
 	}
@@ -64,7 +64,7 @@ namespace Pg::Graphics
 
 	}
 
-	void OpaqueQuadRenderPass::PassNextRequirements(GraphicsCarrier& gCarrier)
+	void OpaqueQuadRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
 {
 		//하는거 없으면, 건드리지 말아야 한다.
 	}

@@ -1,6 +1,7 @@
 #pragma once
 #include "SystemVertexShader.h"
 #include "SystemPixelShader.h"
+#include "BaseSpecificRenderer.h"
 #include "../ParagonData/DebugData.h"
 
 #include <memory>
@@ -29,21 +30,28 @@ namespace Pg::Graphics
 	class LowDX11Logic;
 	class RenderObjectWireframeList;
 
-	class DebugRenderer
+	class DebugRenderer : public BaseSpecificRenderer
 	{
 	public:
-		DebugRenderer();
+		DebugRenderer(D3DCarrier* d3dCarrier);
 
 	public:
-		void Initialize();
+		virtual void Initialize() override;
+		virtual void SetupRenderPasses() override;
+
+		virtual void RenderContents(void* renderObjectList, Pg::Data::CameraData* camData) override;
+		virtual void ConfirmCarrierData() override;
+
 		void GetDebugBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec);
 		void GetDebugSphereGeometryData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec);
 		void GetDebugCapsuleGeometryData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec);
 		void GetDebugLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec);
 		void GetDebugPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec);
-		void Render(RenderObjectWireframeList* wireframeList, Pg::Data::CameraData* camData);
+		
 
 	private:
+
+		void Render(RenderObjectWireframeList* wireframeList, Pg::Data::CameraData* camData);
 		//내부적으로 Rendering 세팅 설정.
 		void WireframeObjRender(RenderObjectWireframeList* wireframeList, Pg::Data::CameraData* camData);
 
