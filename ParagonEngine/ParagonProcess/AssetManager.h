@@ -33,6 +33,9 @@ namespace Pg::Core::Manager
 		//실제로 세부 Graphics, Engine의 리소스 매니저를 조종하기 위해, 로직 업데이트.
 		void Update(Pg::Core::IEngine* engine, Pg::Core::IGraphics* graphics);
 
+		//애셋 매니저 특성상, 같은 이름을 가진 파일들이 여러 개 있으면 안된다.
+		void AssureNoNameDuplicates();
+
 		//리소스가 실제로 중앙 AssetManager 안에 존재하는지를 판단해준다. (*같은 파일 경로로 다른 Asset Enum 들어갈 오류의 경우의 수 곧 생각해야.)
 		bool IsExistResource(const std::string& filepath);
 

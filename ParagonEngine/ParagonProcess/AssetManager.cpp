@@ -8,13 +8,17 @@
 #include "../ParagonGameEngine/EngineResourceManager.h"
 
 #include "../ParagonUtil/ResourceHelper.h"
+#include "../ParagonUtil/Log.h"
 
 //<ResourcesList>
 #include "../ParagonGraphics/RenderMaterial.h"
 //</ResourcesList>
 
 #include <algorithm>
+#include <filesystem>
 #include <cassert>
+#include <set>
+#include <iterator>
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
@@ -89,6 +93,61 @@ namespace Pg::Core::Manager
 
 		//2차 발생 리소스들이 Graphics에서 나오지 않았다 체크해준다.
 		CheckForGraphicsToProcessLoad(graphics);
+	}
+
+	void AssetManager::AssureNoNameDuplicates()
+	{
+		std::vector<std::string> _pathNamesVector;
+		_pathNamesVector.reserve(_resourceMap.size());
+
+		//std::set
+		for (auto& [bPathName, bAssetDefine] : _resourceMap)
+		{
+			std::filesystem::path tPath = bPathName;
+			std::string tName = tPath.filename().generic_string();
+			assert(!tName.empty());
+
+			_pathNamesVector.push_back(tName);
+		}
+		std::sort(_pathNamesVector.begin(), _pathNamesVector.end());
+		std::vector<std::string>::iterator it = std::unique(_pathNamesVector.begin(), _pathNamesVector.end());
+
+		//중복 요소가 있는지 확인.
+		bool tWasUnique = (it == _pathNamesVector.end());
+
+
+		PG_WARN("Main 브랜치와 합친 뒤, 해당 줄의 리소스 중복 검사 로직 활성화해야.");
+		//if (!tWasUnique)
+		//{
+		//	//assert false 하기 전에, 오류 코드 등 출력.
+		//	std::set<std::string> _tempDupNameResourceSet;
+		//
+		//	//마지막으로 중복되지 않은 Iterator
+		//	auto tRend = std::make_reverse_iterator(std::prev(it));
+		//	for (auto endIt = _pathNamesVector.rbegin(); endIt != tRend; endIt++)
+		//	{
+		//		_tempDupNameResourceSet.insert(*endIt);
+		//	}
+		//
+		//	//std::unique 자체로 생기는 "" 제거. (크기를 바꾸지 않기 때문에)
+		//	_tempDupNameResourceSet.erase("");
+		//	
+		//	std::string tDebugLogString = "Duplicates : \n";
+		//	for (auto& itt : _tempDupNameResourceSet)
+		//	{
+		//		tDebugLogString += " < ";
+		//		tDebugLogString += itt;
+		//		tDebugLogString += " > ";
+		//	}
+		//
+		//	tDebugLogString += "\n";
+		//	tDebugLogString += "Total Repeated Count : ";
+		//	tDebugLogString += std::to_string(_tempDupNameResourceSet.size());
+		//
+		//	PG_ERROR(tDebugLogString.c_str());
+		//
+		//	assert(false && "여기서 걸리면 중복되는 파일 이름을 가진 다른 경로의 리소스들이 있다는 것이다. 제거해야.");
+		//}
 	}
 
 	bool AssetManager::IsExistResource(const std::string& filepath)
@@ -192,5 +251,7 @@ namespace Pg::Core::Manager
 		LoadResource(Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
 		LoadResource(Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
 	}
+
+
 
 }
