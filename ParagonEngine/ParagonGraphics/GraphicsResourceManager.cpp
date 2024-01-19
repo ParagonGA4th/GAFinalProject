@@ -174,6 +174,21 @@ namespace Pg::Graphics::Manager
 		return tIsFound;
 	}
 
+	bool GraphicsResourceManager::IsExistResourceByName(const std::string& name)
+	{
+		for (auto& it : _resources)
+		{
+			if (it.first.find(name) != std::string::npos)
+			{
+				//동일 이름의 리소스가 있을 경우.
+				return true;
+			}
+		}
+
+		//동일 이름의 리소스가 없을 경우.
+		return false;
+	}
+
 	std::map<std::string, Pg::Data::Enums::eAssetDefine>* GraphicsResourceManager::GetSecondaryResources()
 	{
 		if (_toAddSecondaryResourcesMap.empty())
@@ -260,6 +275,27 @@ namespace Pg::Graphics::Manager
 
 		return tRet;
 	}
+
+	std::string GraphicsResourceManager::GetResourcePathByName(const std::string& name, Pg::Data::Enums::eAssetDefine define)
+	{
+		std::string tFullPath = "";
+		for (auto& it : _resources)
+		{
+			if (it.first.find(name) != std::string::npos)
+			{
+				tFullPath = it.first;
+				break;
+			}
+		}
+
+		if (tFullPath.empty())
+		{
+			assert(false && "없는 리소스 파일 이름의 전체 파일 경로를 가지고 오려고 함!");
+		}
+
+		return tFullPath;
+	}
 	
+
 
 }

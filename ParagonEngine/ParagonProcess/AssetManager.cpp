@@ -131,7 +131,7 @@ namespace Pg::Core::Manager
 		//
 		//	//std::unique 자체로 생기는 "" 제거. (크기를 바꾸지 않기 때문에)
 		//	_tempDupNameResourceSet.erase("");
-		//	
+		//
 		//	std::string tDebugLogString = "Duplicates : \n";
 		//	for (auto& itt : _tempDupNameResourceSet)
 		//	{
@@ -218,7 +218,8 @@ namespace Pg::Core::Manager
 		//LoadResource("../Builds/x64/Debug/AppendTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
 		
 		//Art ARM 테스트용.
-		LoadResource("../Resources/3DModels/StaticMesh/240119_arm_test/240119_arm_test.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/StaticMesh/240119_arm_test/240119_arm_test.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/StaticMesh/CustomPropertyExportTest/CustomPropertyExportTest.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 
 		LoadResource("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/StaticMesh/JustCopyCube/JustCopyCube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
