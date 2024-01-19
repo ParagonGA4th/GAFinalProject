@@ -42,8 +42,8 @@ namespace Pg::Graphics
 		//AssetTextureType의 인덱스와 1대1 대응할 것. 
 		std::array<RenderTexture2D*, Pg::Defines::ASSET_MAXIMUM_TEXTURE_PROP_CNT> _atsList;
 
-		//디버그용, 실제로 유의미하게 쓰이지는 않을 것.
-		std::array<std::pair<eAssetTextureType, bool>, Pg::Defines::ASSET_MAXIMUM_TEXTURE_PROP_CNT> _debugList;
+		////디버그용, 실제로 유의미하게 쓰이지는 않을 것.
+		//std::array<std::pair<eAssetTextureType, bool>, Pg::Defines::ASSET_MAXIMUM_TEXTURE_PROP_CNT> _debugList;
 	};
 }
 

@@ -9,12 +9,12 @@ namespace Pg::Graphics
 	{
 		_atsList.fill(nullptr);
 
-		for (int i = 0; i < _debugList.size(); i++)
-		{
-			//it.first = 
-			_debugList[i].first = (eAssetTextureType)i;
-			_debugList[i].second = false;
-		}
+		//for (int i = 0; i < _debugList.size(); i++)
+		//{
+		//	//it.first = 
+		//	_debugList[i].first = (eAssetTextureType)i;
+		//	_debugList[i].second = false;
+		//}
 	}
 
 	Pg::Graphics::RenderTexture2D* MaterialCluster::GetTextureByType(eAssetTextureType type)

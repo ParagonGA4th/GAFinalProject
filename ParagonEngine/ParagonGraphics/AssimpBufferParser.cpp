@@ -382,20 +382,31 @@ namespace Pg::Graphics::Helper
 					{
 						//여기를 이제 Embedding 없이 내부 저장 경로만을 가지고 가져올 수 있게 손봐야 한다.
 						//Embedded Texture가 있는지도 검사할 필요 없이, Path만 가지고 있으면 무조건 .fbm 내부를 찾게 해야 함!
-						///CHANGING HERE 
+						
+						//일단, 동일 이름을 가지고 있는 리소스가 있는지부터 확인.
+						std::filesystem::path tPath = tCompletePath;
+						std::string tFilename = tPath.filename().string();
 
-						//일단은 해당 리소스대로 일단 GraphicsResourceManager에 추가.
-						tGraphicsResourceManager->LoadResource(tCompletePath, eAssetDefine::_TEXTURE2D);
-						//AssetManager와 연동 위해.
-						tGraphicsResourceManager->AddSecondaryResource(tCompletePath, eAssetDefine::_TEXTURE2D);
+						if (tGraphicsResourceManager->IsExistResourceByName(tFilename))
+						{
+							//동일 파일 이름을 가진 리소스가 있다. 기존의 "Complete" Path를 변경.
+							tCompletePath = tGraphicsResourceManager->GetResourcePathByName(tFilename, eAssetDefine::_TEXTURE2D);
+						}
+						else
+						{
+							//일단은 해당 리소스대로 일단 GraphicsResourceManager에 추가.
+							tGraphicsResourceManager->LoadResource(tCompletePath, eAssetDefine::_TEXTURE2D);
+							//AssetManager와 연동 위해.
+							tGraphicsResourceManager->AddSecondaryResource(tCompletePath, eAssetDefine::_TEXTURE2D);
+						}
 					}
-
+;
 					//이미 동일한 파일 이름으로 로드된 RenderTexture2D가 있다.
 					auto tTexture2dData = tGraphicsResourceManager->GetResource(tCompletePath, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 					tMatCluster->_atsList.at(j) = static_cast<RenderTexture2D*>(tTexture2dData.get());
 
-					//디버그 리스트에도 기록.
-					tMatCluster->_debugList.at(j).second = true;
+					////디버그 리스트에도 기록.
+					//tMatCluster->_debugList.at(j).second = true;
 				}
 			}
 			outMatClusterList.push_back(tMatCluster);
