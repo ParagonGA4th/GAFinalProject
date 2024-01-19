@@ -392,7 +392,10 @@ namespace Pg::Graphics::Helper
 
 					//이미 동일한 파일 이름으로 로드된 RenderTexture2D가 있다.
 					auto tTexture2dData = tGraphicsResourceManager->GetResource(tCompletePath, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
-					tMatCluster->_atsList[j] = static_cast<RenderTexture2D*>(tTexture2dData.get());
+					tMatCluster->_atsList.at(j) = static_cast<RenderTexture2D*>(tTexture2dData.get());
+
+					//디버그 리스트에도 기록.
+					tMatCluster->_debugList.at(j).second = true;
 				}
 			}
 			outMatClusterList.push_back(tMatCluster);

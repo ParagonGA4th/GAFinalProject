@@ -217,6 +217,9 @@ namespace Pg::Core::Manager
 		//현재 파이프라인에는 요구되지 않으나, 리플렉션을 보기 위해.
 		//LoadResource("../Builds/x64/Debug/AppendTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
 		
+		//Art ARM 테스트용.
+		LoadResource("../Resources/3DModels/StaticMesh/240119_arm_test/240119_arm_test.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+
 		LoadResource("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/StaticMesh/JustCopyCube/JustCopyCube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
