@@ -58,7 +58,9 @@ namespace Pg::Graphics::Helper
 		//Default Material을 위한 Default Texture2DArray 연동을 위해.
 		static std::string GetDefaultTex2DArrayNameFromValues(const std::string& varName, std::string* renderTextureNameSrc, unsigned int cnt);
 		static void GetTextureNamesFromDefaultTex2DArrayName(const std::string& defTex2DArrName, std::vector<std::string>& outStringVector);
-
+		
+		//Texture2DArray를 위한 확장자 .pgt2arr의 내용 String을 Vector로 바꾸어 내보낸다.
+		static void ReadPGT2ARRContents(const std::string& pgt2arrContent, std::vector<std::string>& outStringVector);
 	public:
 		// ^, $ 리소스 이름에 활용 금지!
 		

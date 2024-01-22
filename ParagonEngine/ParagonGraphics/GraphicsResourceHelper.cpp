@@ -271,6 +271,21 @@ namespace Pg::Graphics::Helper
 		assert(!outStringVector.empty());
 		return;
 	}
-	
+
+	void GraphicsResourceHelper::ReadPGT2ARRContents(const std::string& pgt2arrContent, std::vector<std::string>& outStringVector)
+	{
+		//위 함수에서 만든 String을 다시 "해석"하기.
+		assert(outStringVector.empty() && "미리 들어온 벡터가 비어 있지 않다!");
+
+		std::string token;
+		std::stringstream ss(pgt2arrContent);
+		while (std::getline(ss, token, '^'))
+		{
+			outStringVector.push_back(token);
+		}
+
+		assert(!outStringVector.empty());
+	}
+
 
 }

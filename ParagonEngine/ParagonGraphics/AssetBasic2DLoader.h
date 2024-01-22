@@ -35,6 +35,9 @@ namespace Pg::Graphics::Loader
 		//Texture2DArray를 로드한다.
 		void LoadTexture2DArray(const std::string& path, RenderTexture2DArray* outTextureData);
 
+		//LoadGIF (Texture2DArray를 내부적으로는 로드하나, 구성이 다르기에 분리할것)
+		void LoadGIF(const std::string& path, RenderTexture2DArray* outTextureData);
+
 		//TextureCube를 로드한다.
 		void LoadTextureCube(const std::string& path, RenderTextureCube* outTextureData);
 
