@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include "ShaderParsingData.h"
+#include "AssetTextureType.h"
 #include "RenderMaterial.h"
 #include "../ParagonUtil/pugixml.hpp"
 
@@ -14,7 +15,7 @@
 
 namespace Pg::Graphics
 {
-
+	class Asset3DModelData;
 }
 
 namespace Pg::Graphics
@@ -38,6 +39,12 @@ namespace Pg::Graphics
 		void PlaceShaders(RenderMaterial* renderMat);
 		void LoadRenderMaterial(RenderMaterial* renderMat);
 		void ClearPreviousShaderData();
+
+		//디폴트 셰이더들을 렌더 머테리얼 안에 배치한다.
+		void PlaceDefaultShaders(RenderMaterial* renderMat);
+		void LoadDefaultRenderMaterial(RenderMaterial* renderMat, const std::string& defInstMatName);
+		void PlaceDefaultMaterialTextureArrayBuffer(const std::string& defInstMatName, RenderMaterial::MatShaderIntrinsics* intrinsic,
+			Asset3DModelData* asset3dModel, eAssetTextureType type, const std::string& varName, unsigned int registerNum);
 
 	private:
 		//작은 레이어들.

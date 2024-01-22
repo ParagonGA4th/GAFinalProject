@@ -45,7 +45,7 @@ namespace Pg::Graphics
 
 		bool IsSkinned();
 		MaterialCluster* GetMaterialByIndex(short index);
-
+		unsigned int GetMaterialCount() const;
 
 		// 여기서, 실질적으로 Mesh 관련된 정보를 보관하는 
 		// 다른 요소 투입 예정. AssetSceneData 대신.

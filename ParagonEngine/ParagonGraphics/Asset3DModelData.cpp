@@ -59,4 +59,9 @@ namespace Pg::Graphics
 		return _materialClusterList.at(index);
 	}
 
+	unsigned int Asset3DModelData::GetMaterialCount() const
+	{
+		return _materialClusterList.size();
+	}
+
 }

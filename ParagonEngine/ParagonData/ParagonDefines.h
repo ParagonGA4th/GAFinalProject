@@ -17,4 +17,7 @@ namespace Pg::Defines
 
 	extern const std::string ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH;
 	extern const std::string ASSET_DEFAULT_NORMAL_TEXTURE_PATH;
+
+	extern const std::string DEFAULT_APPENDS_RENDER_VS_NAME;
+	extern const std::string DEFAULT_APPENDS_RENDER_PS_NAME;
 }

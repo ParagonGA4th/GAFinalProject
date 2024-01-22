@@ -1,6 +1,8 @@
 #include "RenderTexture2DArray.h"
 #include "AssetBasic2DLoader.h"
 #include "GraphicsResourceManager.h"
+#include "GraphicsResourceHelper.h"
+#include "RenderTexture2D.h"
 #include <typeinfo>
 
 namespace Pg::Graphics
@@ -20,10 +22,31 @@ namespace Pg::Graphics
 	{
 		//중복되었는지 찾는 것은 외부에서 이루어질 일!
 		using Pg::Graphics::Manager::GraphicsResourceManager;
+		using Pg::Graphics::Helper::GraphicsResourceHelper;
 		using Pg::Graphics::Loader::AssetBasic2DLoader;
 
 		AssetBasic2DLoader* t2DLoader = GraphicsResourceManager::Instance()->GetBasic2DLoader();
-		t2DLoader->LoadTexture2DArray(_filePath, this);
+
+		if (_filePath.find(GraphicsResourceHelper::DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX) != std::string::npos)
+		{
+			//디폴트 일시, Default 전용 Texture2DArray를 로드.
+			std::vector<std::string> tSingleTextureNameVector;
+			GraphicsResourceHelper::GetTextureNamesFromDefaultTex2DArrayName(_filePath, tSingleTextureNameVector);
+
+			std::vector<RenderTexture2D*> tSingleRenderTexture2DArray;
+			for (int i = 0; i < tSingleTextureNameVector.size(); i++)
+			{
+				auto tRes2D = GraphicsResourceManager::Instance()->GetResourceByName(tSingleTextureNameVector.at(i), Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+				tSingleRenderTexture2DArray.push_back(static_cast<RenderTexture2D*>(tRes2D.get()));
+			}
+			
+			t2DLoader->MultipleRenderTexture2DToTexture2DArray(tSingleRenderTexture2DArray.data(), tSingleRenderTexture2DArray.size(), this);
+		}
+		else
+		{
+			//디폴트가 아니다! 커스텀 파일 로드.
+			t2DLoader->LoadTexture2DArray(_filePath, this);
+		}
 	}
 
 	void RenderTexture2DArray::InternalUnload()

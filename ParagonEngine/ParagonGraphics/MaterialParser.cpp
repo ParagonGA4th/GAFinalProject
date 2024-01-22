@@ -4,8 +4,17 @@
 #include "GraphicsResourceHelper.h"
 #include "DX11Headers.h"
 #include "LowDX11Storage.h"
+#include "Asset3DModelData.h"
+#include "AssetBasic2DLoader.h"
+#include "MaterialCluster.h"
+#include "RenderTexture2D.h"
+#include "RenderTexture2DArray.h"
+#include "MaterialCluster.h"
+
+#include "../ParagonData/ParagonDefines.h"
 #include <algorithm>
 #include <cassert>
+#include <filesystem>
 
 namespace Pg::Graphics
 {
@@ -33,7 +42,11 @@ namespace Pg::Graphics
 	void MaterialParser::LoadDefaultRenderMaterialInstance(const std::string& defInstMatName, RenderMaterial* renderMat)
 	{
 		//디폴트 Material을 로드한다. 
-		///240122
+
+		PlaceDefaultShaders(renderMat);
+		LoadDefaultRenderMaterial(renderMat, defInstMatName);
+		ClearPreviousShaderData();
+		//intrinsic->_cbBufferSize = 0;
 	}
 
 	//대표적인 예시 : "test4.pgmat"
@@ -270,7 +283,7 @@ namespace Pg::Graphics
 	void MaterialParser::LoadShaderIntrinsics(RenderMaterial::MatShaderIntrinsics* intrinsic, ShaderParsingData* parseData)
 	{
 		///240116 바이트버퍼 문제 여기.
-		
+
 		//<ConstantBuffer>
 		//ByteCount만큼 Constant Buffer 값을 놓는다. + 기록.
 		intrinsic->_cbBufferSize = parseData->_cbData._byteCount;
@@ -351,7 +364,7 @@ namespace Pg::Graphics
 
 			bTexType = parseData->_texData._varData[i].second._textureType;
 			bRegisterNum = parseData->_texData._varData[i].second._registerCount;
-			
+
 			//실제 파일을 넣는 방식: 그래픽스 리소스 매니저에서 찾아야 한다!
 			auto it = GraphicsResourceManager::Instance()->GetResourceByName(
 				parseData->_texData._varData[i].second._fileName, GraphicsResourceHelper::GetAssetDefine(bTexType));
@@ -376,7 +389,7 @@ namespace Pg::Graphics
 
 	void MaterialParser::CreateConstantBuffer(RenderMaterial::MatShaderIntrinsics* intrinsic)
 	{
-		int sizeCB = (((intrinsic->_cbBufferSize -1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
+		int sizeCB = (((intrinsic->_cbBufferSize - 1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
 		assert(sizeCB % 16 == 0);
 		D3D11_BUFFER_DESC tCBufferDesc;
 		tCBufferDesc.ByteWidth = sizeCB; // 상수버퍼는 16바이트 정렬
@@ -400,7 +413,86 @@ namespace Pg::Graphics
 		_matIdRecord++;
 	}
 
-	
-	
+	void MaterialParser::PlaceDefaultShaders(RenderMaterial* renderMat)
+	{
+		//실제 파일을 넣는 방식: 그래픽스 리소스 매니저에서 찾아야 한다!
+		//VS
+		auto vsRes = GraphicsResourceManager::Instance()->GetResourceByName(
+			Pg::Defines::DEFAULT_APPENDS_RENDER_VS_NAME, Pg::Data::Enums::eAssetDefine::_RENDER_VERTEXSHADER);
+		renderMat->_vertexShader = static_cast<RenderVertexShader*>(vsRes.get());
+		//PS
+		auto psRes = GraphicsResourceManager::Instance()->GetResourceByName(
+			Pg::Defines::DEFAULT_APPENDS_RENDER_PS_NAME, Pg::Data::Enums::eAssetDefine::_RENDER_PIXELSHADER);
+		renderMat->_pixelShader = static_cast<RenderPixelShader*>(psRes.get());
+	}
+
+	void MaterialParser::LoadDefaultRenderMaterial(RenderMaterial* renderMat, const std::string& defInstMatName)
+	{
+		//아예 ConstantBuffer를 어느 쪽이든 활용하지 않는다.
+		renderMat->_vsIntrinsics->_cbBufferSize = 0;
+		renderMat->_psIntrinsics->_cbBufferSize = 0;
+		
+		std::string tMeshName = GraphicsResourceHelper::GetMeshNameFromDefaultMaterialName(defInstMatName);
+		auto tRes = GraphicsResourceManager::Instance()->GetResourceByName(tMeshName, Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		Asset3DModelData* tModelData = static_cast<Asset3DModelData*>(tRes.get());
+
+		//PS Intrinsics : Diffuse 값 넣기.
+		PlaceDefaultMaterialTextureArrayBuffer(defInstMatName, renderMat->_psIntrinsics.get(), tModelData, PG_TextureType_DIFFUSE, "t2_DiffuseTextureArray", 25);
+
+		//PS Intrinsics : Normal 값 넣기.
+		PlaceDefaultMaterialTextureArrayBuffer(defInstMatName, renderMat->_psIntrinsics.get(), tModelData, PG_TextureType_NORMALS, "t2_NormalTextureArray", 26);
+
+		//자신만의 독특한 MaterialID가 있어야 한다.
+		GiveMaterialID(renderMat);
+	}
+
+	void MaterialParser::PlaceDefaultMaterialTextureArrayBuffer(const std::string& defInstMatName, RenderMaterial::MatShaderIntrinsics* intrinsic,
+		Asset3DModelData* asset3dModel, eAssetTextureType type,
+		const std::string& varName, unsigned int registerNum)
+	{
+		//실제 파일을 넣는 방식: 그래픽스 리소스 매니저에서 찾아야 한다!
+		//Material Cluster로부터 값을 찾아와서, Texture값을 넣어야 한다.
+		
+		std::vector<std::string> tRenderT2Vec;
+		tRenderT2Vec.resize(asset3dModel->GetMaterialCount());
+		
+		//이름만 분리.
+		for (short i = 0; i < asset3dModel->GetMaterialCount(); i++)
+		{
+			MaterialCluster* tMatCluster = asset3dModel->GetMaterialByIndex(i);
+			std::string tPath = tMatCluster->GetTextureByType(type)->GetFilePath();
+			std::filesystem::path tFSP = tPath;
+			tRenderT2Vec.at(i) = tFSP.filename().string();
+		}
+
+		//어차피 모든 이 해당 MaterialCluster 내부의 Texture2DArray는 크게 관리받을 이유가 없다.
+		//리소스 매니저에 이미 값이 있기 때문. Material이 관리되고.
+		//그래도 보관한다.
+
+		//내부적으로 Default Material Texture2DArray 표시를 한다.
+		
+		std::string tTempTex2DArrName = GraphicsResourceHelper::GetDefaultTex2DArrayNameFromValues(varName, tRenderT2Vec.data(), tRenderT2Vec.size());
+
+		//$DefaultMaterial_Texture2DArray_$이 들어 있기에, Default Material 전용 Texture2DArray로 로드될 것.
+		Pg::Graphics::Manager::GraphicsResourceManager::Instance()->LoadResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
+		
+		//전체 저장목록에 갖고 있다고 기록. (Graphics에서 검사했기 때문에, AssetManager로 보내줘야)
+		Pg::Graphics::Manager::GraphicsResourceManager::Instance()->AddSecondaryResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
+
+		//이제 해당 Texture2DArray가 만들어졌다. 해당 값을 이제는 가져와서, Material 로드에 맞게 바꾸어줘야 한다.
+		intrinsic->_texPlaceVector.push_back(TexMaterialPair());
+		TexMaterialPair& tAddedTexMatPair = intrinsic->_texPlaceVector.back();
+		tAddedTexMatPair.first = varName;
+		auto& [bTexType, bRegisterNum, bRenderTexture] = tAddedTexMatPair.second;
+		bTexType = eTexVarType::_TEX_TEXTURE2DARRAY;
+		bRegisterNum = registerNum;
+		
+		//마지막으로, 로드했던 RenderTexture2DArray까지 투입.
+		auto tTex2DRes = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
+		bRenderTexture = static_cast<RenderTexture*>(tTex2DRes.get());
+
+		return;
+	}
+
 
 }
