@@ -10,8 +10,10 @@ POut1st main(VOut1st input)
     POut1st output;
 	
     //<Float4>
-    //RT0 : Texture UV Coords. (xyz)
-    output.pout1st_RT0.xyz = input.vout1st_Tex;
+    //RT0 : Texture UV Coords. (xy)
+    output.pout1st_RT0.xy = input.vout1st_Tex;
+    //RT0 : Mesh Material ID. (z)
+    output.pout1st_RT0.z = input.vout1st_MeshMatID;
     //RT0 : Alpha (w)
     output.pout1st_RT0.w = input.vout1st_Alpha;
     

@@ -323,6 +323,7 @@ namespace Pg::Graphics
 				auto& norm = m->mNormals[j];
 				auto& tan = m->mTangents[j];
 				auto& texUV = m->mTextureCoords[0][j];
+				unsigned int tMeshMatID = m->mMaterialIndex;
 				//일단은 하드코딩됨.
 
 				vertices[vid + j]._posL = DirectX::XMFLOAT3{ pos.x, pos.y, pos.z };
@@ -330,7 +331,8 @@ namespace Pg::Graphics
 				vertices[vid + j]._normalL = DirectX::XMFLOAT3{ norm.x, norm.y, norm.z };
 				vertices[vid + j]._tangentL = DirectX::XMFLOAT3{ tan.x, tan.y, tan.z };
 				vertices[vid + j]._color = DirectX::XMFLOAT3{ 1.0f,1.0f, 1.0f};
-				vertices[vid + j]._tex = DirectX::XMFLOAT3{ texUV.x, texUV.y, texUV.z };
+				vertices[vid + j]._meshMatID = tMeshMatID;
+				vertices[vid + j]._tex = DirectX::XMFLOAT2{ texUV.x, texUV.y };
 
 				//_uvSet2도 역시 하드코딩.
 				vertices[vid + j]._uvSet2 = { 0.f,0.f };

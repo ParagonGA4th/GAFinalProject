@@ -95,8 +95,13 @@ namespace Pg::Graphics::Helper
 				//	tMeshVert.color = MathHelper::AI2SM_COLOR_VECTOR4(assimp->mMeshes[i]->mColors[0][j]););
 				//일단은 Color 지원을 파싱에서 받지 않는다!
 				tMeshVert._color = { 1.0f,1.0f, 1.0f, }; //하드코딩.
+				
+				//Float3인데, Blender에서는 Float2까지만 지원되어 들어올 것이다. 
+				// 마지막 Z공간은 Assimp 자체 Material ID를 위해 활용될 것. 
+				tMeshVert._meshMatID = assimp->mMeshes[i]->mMaterialIndex;
 
-				tMeshVert._tex = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTextureCoords[0][j]);
+				auto tTex = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTextureCoords[0][j]);
+				tMeshVert._tex = { tTex.x, tTex.y };
 				tMeshVert._uvSet2 = { 0.f, 0.f }; //하드코딩.
 				//일단 LightMapUV도 FBX딴에서 들어오는 것은 확인했지만, 일단은 파싱에서 받지 않는다.
 				tMeshVert._lightmapUV = { 0.f, 0.f }; //하드코딩.
@@ -275,6 +280,7 @@ namespace Pg::Graphics::Helper
 				auto& norm = m->mNormals[j];
 				auto& tan = m->mTangents[j];
 				auto& texUV = m->mTextureCoords[0][j];
+				unsigned int tMeshMatID = m->mMaterialIndex;
 				//일단은 하드코딩됨.
 
 				vertices[vid + j]._posL = DirectX::XMFLOAT3{ pos.x, pos.y, pos.z };
@@ -282,7 +288,8 @@ namespace Pg::Graphics::Helper
 				vertices[vid + j]._normalL = DirectX::XMFLOAT3{ norm.x, norm.y, norm.z };
 				vertices[vid + j]._tangentL = DirectX::XMFLOAT3{ tan.x, tan.y, tan.z };
 				vertices[vid + j]._color = DirectX::XMFLOAT3{ 1.0f,1.0f, 1.0f }; //하드코딩.
-				vertices[vid + j]._tex = DirectX::XMFLOAT3{ texUV.x, texUV.y, texUV.z };
+				vertices[vid + j]._meshMatID = tMeshMatID;
+				vertices[vid + j]._tex = DirectX::XMFLOAT2{ texUV.x, texUV.y};
 				vertices[vid + j]._uvSet2 = { 0.f, 0.f }; //하드코딩.
 				//일단 LightMapUV도 FBX딴에서 들어오는 것은 확인했지만, 일단은 파싱에서 받지 않는다.
 				vertices[vid + j]._lightmapUV = { 0.f, 0.f }; //하드코딩.
