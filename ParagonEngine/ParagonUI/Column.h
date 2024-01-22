@@ -10,31 +10,34 @@ namespace Pg::UI::Widget::Layout
 	class Column : public Pg::UI::IWidget
 	{
 	public:
-		Column(std::vector<Pg::UI::IWidget*> widgets) :_widgets(widgets) {}
+		Column(std::string id, std::vector<Pg::UI::IWidget*> widgets) :_widgets(widgets), _id(id) {}
 
 		virtual void Update() override
 		{
-			ImGui::Columns(static_cast<int>(_size), "Test", false);
+			ImGui::Columns(static_cast<int>(_size), _id.c_str(), false);
 
 			int counter = 0;
 
 			for (auto& it : _widgets)
 			{
-					//if (widths[counter] != -1.f)
-					//	ImGui::SetColumnWidth(counter, widths[counter]);
+				ImGui::SetColumnWidth(0, 130.f);
 
-					it->Update();
-					ImGui::NextColumn();
-				//++counter;
+				if (counter % 2 == 1)
+				{
+					ImGui::PushItemWidth(-1);
+				}
 
-				//if (counter == _Size)
-				//	counter = 0;
+				it->Update();
+				ImGui::NextColumn();
+				++counter;
+
 			}
 			ImGui::Columns(1);
 		}
 
 	private:
 		std::vector<Pg::UI::IWidget*> _widgets;
+		std::string _id;
 	};
 }
 
