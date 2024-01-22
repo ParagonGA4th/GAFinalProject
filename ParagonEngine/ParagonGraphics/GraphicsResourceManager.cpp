@@ -295,7 +295,12 @@ namespace Pg::Graphics::Manager
 
 		return tFullPath;
 	}
-	
+
+	bool GraphicsResourceManager::IsExistDefaultMaterialByMeshName(const std::string& name)
+	{
+		return IsExistResourceByName(Pg::Graphics::Helper::GraphicsResourceHelper::GetDefaultMaterialNameFromMeshName(name));
+	}
+
 
 
 }

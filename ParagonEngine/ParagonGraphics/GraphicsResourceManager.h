@@ -58,6 +58,7 @@ namespace Pg::Graphics::Manager
 		friend class Pg::Core::Manager::AssetManager;
 		friend class Pg::Graphics::Helper::AssimpBufferParser;
 		friend class Pg::Graphics::GraphicsMain;
+		friend class Pg::Graphics::GraphicsSceneParser;
 	public:
 		GraphicsResourceManager(); 
 		~GraphicsResourceManager();
@@ -72,6 +73,9 @@ namespace Pg::Graphics::Manager
 
 		//특정 리소스의 파일 이름을 가지고 동일 파일이름의 리소스가 이미 로드되었는지 점검.
 		bool IsExistResourceByName(const std::string& name);
+
+		//해당 Mesh의 이름으로 디폴트 매터리얼이 존재하는지를 점검한다.
+		bool IsExistDefaultMaterialByMeshName(const std::string& name);
 
 		//리소스가 있는 경우가 강제될 때, 리소스를 반환한다. (eAssetDefine으로)
 		std::shared_ptr<GraphicsResource> GetResource(const std::string& path, Pg::Data::Enums::eAssetDefine define);

@@ -49,6 +49,8 @@ namespace Pg::Graphics::Helper
 		static eTexReturnVarType GetTexReturnVarType(const std::string& varString);
 		static eCbVarType GetCbVarType(const std::string& varString);
 		static eAssetDefine GetAssetDefine(eTexVarType texVarType);
+
+		static std::string GetDefaultMaterialNameFromMeshName(const std::string& name);
 	
 	};
 }

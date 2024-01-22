@@ -31,7 +31,13 @@ namespace Pg::Graphics::Loader
 		void LoadRenderPixelShader(const std::string& path, RenderPixelShader* renderPS);
 
 		//미리 VS/PS이 로드된 상태에서만, Material이 로드되어야 한다.
-		void LoadRenderMaterial(const std::string& path, RenderMaterial* renderMat);
+		void LoadCustomRenderMaterial(const std::string& path, RenderMaterial* renderMat);
+
+		//Default VS/PS와 Mesh의 정보를 활용해서, DefaultMaterial의 인스턴스를 만든다.
+		//해당 Material의 Instance는 DefaultMaterial_MeshName.pgmat으로 기록될 것이다. 
+		//역으로 실제 파일 탐색기에 파일이 생성되는 것은 아니다.
+		//Mesh가 중복되더라도, 각각의 Material을 만드는것을 막기 위해서이다.
+		void LoadDefaultRenderMaterial(const std::string& defInstMatName, RenderMaterial* renderMat);
 	
 	private:
 		std::unique_ptr<Pg::Graphics::MaterialParser> _matParser;

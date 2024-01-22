@@ -50,12 +50,15 @@ namespace Pg::Graphics::Loader
 			renderPS->_byteCode->GetBufferSize(), NULL, &(renderPS->_shader)));
 	}
 
-	void AssetCombinedLoader::LoadRenderMaterial(const std::string& path, RenderMaterial* renderMat)
+	void AssetCombinedLoader::LoadCustomRenderMaterial(const std::string& path, RenderMaterial* renderMat)
 	{
-		_matParser->ParsePgMat(path);
-		_matParser->PlaceShaders(renderMat);
-		_matParser->LoadRenderMaterial(renderMat);
-		_matParser->ClearPreviousShaderData();
+		_matParser->LoadCustomRenderMaterial(path, renderMat);
 	}
+
+	void AssetCombinedLoader::LoadDefaultRenderMaterial(const std::string& defInstMatName, RenderMaterial* renderMat)
+	{
+		_matParser->LoadDefaultRenderMaterialInstance(defInstMatName, renderMat);
+	}
+
 
 }
