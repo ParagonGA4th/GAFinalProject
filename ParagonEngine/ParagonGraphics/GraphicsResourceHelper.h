@@ -18,6 +18,7 @@
 
 //Macro Function 내부 - 모두 여기에 있어야 한다.
 #include <string>
+#include <vector>
 #include <cassert>
 #include <cstddef>
 
@@ -50,8 +51,22 @@ namespace Pg::Graphics::Helper
 		static eCbVarType GetCbVarType(const std::string& varString);
 		static eAssetDefine GetAssetDefine(eTexVarType texVarType);
 
+		//Default Material 연동 위해.
 		static std::string GetDefaultMaterialNameFromMeshName(const std::string& name);
-	
+		static std::string GetMeshNameFromDefaultMaterialName(const std::string& name);
+
+		//Default Material을 위한 Default Texture2DArray 연동을 위해.
+		static std::string GetDefaultTex2DArrayNameFromValues(const std::string& varName, std::string* renderTextureNameSrc, unsigned int cnt);
+		static void GetTextureNamesFromDefaultTex2DArrayName(const std::string& defTex2DArrName, std::vector<std::string>& outStringVector);
+
+	public:
+		// ^, $ 리소스 이름에 활용 금지!
+		
+		//모든 디폴트 매터리얼들이 부여받는 Prefix. 이는 일반 리소스 생성에서 활용할 수 없다.
+		static const std::string DEFAULT_MATERIAL_PREFIX;
+
+		//모든 디폴트 매터리얼 내부 활용되는 Texture2DArray가 부여받는 Prefix. 일반 리소스 생성에서 활용할 수 없다.
+		static const std::string DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX;
 	};
 }
 

@@ -32,6 +32,9 @@ namespace Pg::Core
 namespace Pg::Graphics
 {
 	class GraphicsMain;
+	class GraphicsSceneParser;
+	class MaterialParser;
+
 	namespace Loader
 	{
 		class AssetBasic3DLoader;
@@ -59,6 +62,7 @@ namespace Pg::Graphics::Manager
 		friend class Pg::Graphics::Helper::AssimpBufferParser;
 		friend class Pg::Graphics::GraphicsMain;
 		friend class Pg::Graphics::GraphicsSceneParser;
+		friend class Pg::Graphics::MaterialParser;
 	public:
 		GraphicsResourceManager(); 
 		~GraphicsResourceManager();

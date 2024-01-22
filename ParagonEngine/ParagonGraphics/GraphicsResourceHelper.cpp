@@ -13,9 +13,13 @@
 #include "../ParagonUtil/Log.h"
 
 #include <cassert>
+#include <sstream>
 
 namespace Pg::Graphics::Helper
 {
+	const std::string GraphicsResourceHelper::DEFAULT_MATERIAL_PREFIX = "$DefaultMaterial_$";
+	const std::string GraphicsResourceHelper::DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX = "$DefaultMaterial_Texture2DArray_$";
+
 	void GraphicsResourceHelper::Initialize()
 	{
 		//템플릿 특수화 초기화의 역할을 할 것이다.
@@ -193,9 +197,80 @@ namespace Pg::Graphics::Helper
 
 	std::string GraphicsResourceHelper::GetDefaultMaterialNameFromMeshName(const std::string& name)
 	{
-		std::string tStr = "DefaultMaterial_";
+		std::string tStr = DEFAULT_MATERIAL_PREFIX;
 		tStr += name;
 		return tStr;
 	}
+
+	std::string GraphicsResourceHelper::GetMeshNameFromDefaultMaterialName(const std::string& name)
+	{
+		std::string tRet = name;
+		std::string substring = DEFAULT_MATERIAL_PREFIX;
+
+		std::size_t ind = tRet.find(substring); //Substring 시작 위치 찾기.
+
+		if (ind != std::string::npos) 
+		{
+			tRet.erase(ind, substring.length());
+		}
+		else 
+		{
+			assert(false && "$DefaultMaterial_$이 안 들어있다!");
+		}
+
+		return tRet;
+	}
+
+	std::string GraphicsResourceHelper::GetDefaultTex2DArrayNameFromValues(const std::string& varName, std::string* renderTextureNameSrc, unsigned int cnt)
+	{
+		//Texture2DArray 감지를 위한 체계.
+		std::string tRet = DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX;
+		tRet.append(varName);
+
+		for (int i = 0; i < cnt; i++)
+		{
+			//캐럿으로 구분할 것.
+			tRet.append("^");
+			tRet.append(renderTextureNameSrc[i]);
+		}
+		//FileName으로 오해되지 않기 위해서.
+		//다만, GetLine할 때 하나를 빼어야 한다.
+		tRet.append("^.pgt2arr");
+
+		return tRet;
+	}
+
+	void GraphicsResourceHelper::GetTextureNamesFromDefaultTex2DArrayName(const std::string& defTex2DArrName, std::vector<std::string>& outStringVector)
+	{
+		//위 함수에서 만든 String을 다시 "해석"하기.
+		assert(outStringVector.empty() && "미리 들어온 벡터가 비어 있지 않다!");
+
+		std::string tMain = defTex2DArrName;
+		std::size_t ind = defTex2DArrName.find(DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX); //Substring 시작 위치 찾기.
+
+		if (ind != std::string::npos)
+		{
+			//찾았음.
+			tMain.erase(ind, DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX.length());
+		}
+		else
+		{
+			assert(false && "$DefaultMaterial_Texture2DArray$가 안 들어있다!");
+		}
+
+		std::string token;
+		std::stringstream ss(tMain);
+		while (std::getline(ss, token, '^')) 
+		{
+			outStringVector.push_back(token);
+		}
+
+		//확장자 표시 제거. (^.pgt2arr)
+		outStringVector.pop_back();
+
+		assert(!outStringVector.empty());
+		return;
+	}
+	
 
 }

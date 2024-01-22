@@ -80,7 +80,7 @@ namespace Pg::Graphics
 		//내부적인 VS / PS 운용을 위한 구조체.
 		struct MatShaderIntrinsics
 		{
-			MatShaderIntrinsics()
+			MatShaderIntrinsics() : _cbByteUpdateBuffer(), _cbBufferSize(0), _cBuffer(nullptr)
 			{
 				_cbByteUpdateBuffer = std::make_unique<Pg::Util::ByteBuffer>();
 				_cbSubResData = std::make_unique<D3D11_SUBRESOURCE_DATA>();

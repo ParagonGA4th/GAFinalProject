@@ -44,13 +44,16 @@ namespace Pg::Graphics::Loader
 		//Cubemap(Cubemap)를 로드한다.
 		void LoadCubemap(const std::string& path, RenderCubemap* outCubemapData);
 
+		//RenderTexture의 리스트로부터 RenderTexture2DArray를 만든다.
+		void MultipleRenderTexture2DToTexture2DArray(RenderTexture2D** textureSrc, unsigned int cnt, RenderTexture2DArray* outTextureData);
+
 	private:
 		Pg::Graphics::LowDX11Storage* _DXStorage;
 
 	private:
 		//일단 현재 RenderTexture 상속체들이 별개의 Create 함수를 필요로 하지 않으니, 
 		//내부적으로 일괄적으로 호출되는 코드이다.
-		void LoadInternalRenderTexture(const std::string& path, RenderTexture* outTextureData);
+		void LoadInternalRenderTexture2D(const std::string& path, RenderTexture* outTextureData);
 
 	private:
 		//Cubemap을 만들기 위한 별도의 함수.
