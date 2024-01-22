@@ -35,6 +35,7 @@
     <ClInclude Include="imstb_rectpack.h" />
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
+    <ClInclude Include="InputFloat.h" />
     <ClInclude Include="InputFloat3.h" />
     <ClInclude Include="InputText.h" />
     <ClInclude Include="MenuBar.h" />
@@ -60,6 +61,7 @@
     <ClCompile Include="imgui_impl_win32.cpp" />
     <ClCompile Include="imgui_tables.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
+    <ClCompile Include="InputFloat.cpp" />
     <ClCompile Include="InputFloat3.cpp" />
     <ClCompile Include="InputText.cpp" />
     <ClCompile Include="MenuBar.cpp" />

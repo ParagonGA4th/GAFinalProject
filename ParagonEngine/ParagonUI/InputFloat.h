@@ -1,19 +1,21 @@
 #pragma once
 #include "IWidget.h"
+#include "../ParagonMath/PgMath.h"
+
 #include <string>
 
 namespace Pg::UI::Widget
 {
-	class InputText : public Pg::UI::IWidget
+	class InputFloat : public IWidget
 	{
 	public:
-		InputText(std::string label, std::string* text);
+		InputFloat(std::string label, float* input);
 		virtual void Update() override;
 
 	private:
 		std::string _label;
-		std::string* _text;
-		char _inputText[256];
+		float* _inputFloat;
 	};
 }
+
 
