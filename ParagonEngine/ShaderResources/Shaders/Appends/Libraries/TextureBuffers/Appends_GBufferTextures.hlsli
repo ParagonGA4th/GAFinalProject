@@ -11,16 +11,22 @@ Texture2D<float4> GBuffer[5] : register(t0);
 //DXGI_FORMAT_R32_TYPELESS로 만들어질 예정 -> 이 중, D32로 해석될 것이다.
 Texture2D<float> DepthBuffer : register(t1);
 
-float3 GetUV_F3(float2 quadUV)
-{
-    //RT0 : Texture UV Coords. (xyz)
-    return GBuffer[0].Sample(fullScreenQuadSS, quadUV).xyz;
-}
-
 float2 GetUV_F2(float2 quadUV)
 {
-    //RT0 : Texture UV Coords. (xyz)
+    //RT0 : Texture UV Coords. (xy)
     return GBuffer[0].Sample(fullScreenQuadSS, quadUV).xy;
+}
+
+uint GetMeshMatID(float2 quadUV)
+{
+    //RT0 : Mesh Material ID. (z)
+    return asuint(GBuffer[0].Sample(fullScreenQuadSS, quadUV).z);
+}
+
+float3 GetTex2DArrayUV(float quadUV)
+{
+    //RT0 : Texture UV Coords w/ (xy) Mesh Material ID (z)
+    return GBuffer[0].Sample(fullScreenQuadSS, quadUV).xyz;
 }
 
 float GetAlpha(float2 quadUV)

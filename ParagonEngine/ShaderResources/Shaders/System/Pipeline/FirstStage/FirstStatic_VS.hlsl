@@ -25,6 +25,7 @@ VOut1st main(Vin1stStatic input)
 	
 	// Color & UV(W) АЊ РќДо.
 	output.vout1st_Color = input.vin1st_Color;
+    output.vout1st_MeshMatID = input.vin1st_MeshMatID;
 	output.vout1st_Tex = input.vin1st_Tex;
 	output.vout1st_UVSet2 = input.vin1st_UVSet2;
     output.vout1st_LightmapUV = input.vin1st_LightmapUV;
