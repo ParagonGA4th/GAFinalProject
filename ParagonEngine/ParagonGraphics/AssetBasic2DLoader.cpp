@@ -1,5 +1,7 @@
 #include "AssetBasic2DLoader.h"
 #include "LowDX11Storage.h"
+#include "GraphicsResourceHelper.h"
+#include "GraphicsResourceManager.h"
 
 #include "RenderTexture1D.h"
 #include "RenderTexture2D.h"
@@ -14,11 +16,13 @@
 
 #include <dxtk/DDSTextureLoader.h>
 #include <dxtk/WICTextureLoader.h>
+#include <fstream>
 #include <tuple>
 
 namespace Pg::Graphics::Loader
 {
 	using Pg::Util::Helper::ResourceHelper;
+	using Pg::Graphics::Manager::GraphicsResourceManager;
 
 	AssetBasic2DLoader::AssetBasic2DLoader() : _DXStorage(LowDX11Storage::GetInstance())
 	{
@@ -37,7 +41,26 @@ namespace Pg::Graphics::Loader
 
 	void AssetBasic2DLoader::LoadTexture2DArray(const std::string& path, RenderTexture2DArray* outTextureData)
 	{
-		LoadInternalRenderTexture2D(path, outTextureData);
+		std::ifstream in(path);
+		std::string tContentString = "";
+		in >> tContentString;
+		
+		std::vector<std::string> tSingleTextureNameVec;
+		Pg::Graphics::Helper::GraphicsResourceHelper::ReadPGT2ARRContents(tContentString, tSingleTextureNameVec);
+
+		std::vector<RenderTexture2D*> tSingleRenderTexture2DArray;
+		for (int i = 0; i < tSingleTextureNameVec.size(); i++)
+		{
+			auto tRes2D = GraphicsResourceManager::Instance()->GetResourceByName(tSingleTextureNameVec.at(i), Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+			tSingleRenderTexture2DArray.push_back(static_cast<RenderTexture2D*>(tRes2D.get()));
+		}
+
+		MultipleRenderTexture2DToTexture2DArray(tSingleRenderTexture2DArray.data(), tSingleRenderTexture2DArray.size(), outTextureData);
+	}
+
+	void AssetBasic2DLoader::LoadGIF(const std::string& path, RenderTexture2DArray* outTextureData)
+	{
+		assert(false && "texassemble을 통해 지원을 시작해야 이게 허용");
 	}
 
 	void AssetBasic2DLoader::LoadTextureCube(const std::string& path, RenderTextureCube* outTextureData)
@@ -249,11 +272,15 @@ namespace Pg::Graphics::Loader
 		ZeroMemory(&tSrvDesc, sizeof(tSrvDesc));
 		tSrvDesc.Format = tUniformDXGIFormat;
 		tSrvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+		tSrvDesc.Texture2DArray.MostDetailedMip = tUniformMipLevels - 1; //Mipmap Level Most Detailed : 하드웨어가 왔다갔다.
 		tSrvDesc.Texture2DArray.MipLevels = tUniformMipLevels;
+		tSrvDesc.Texture2DArray.FirstArraySlice = 0;
 		tSrvDesc.Texture2DArray.ArraySize = cnt;
 
 		ID3D11ShaderResourceView*& textureArraySRV = outTextureData->GetSRV();
 		HR(_DXStorage->_device->CreateShaderResourceView(texture2D, &tSrvDesc, &textureArraySRV));
 	}
+
+	
 
 }
