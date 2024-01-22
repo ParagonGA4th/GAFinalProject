@@ -33,7 +33,18 @@ namespace Pg::Graphics
 
 		GraphicsResourceManager* tResManager = Pg::Graphics::Manager::GraphicsResourceManager::Instance();
 		AssetCombinedLoader* tComLoader = tResManager->GetCombinedLoader();
-		tComLoader->LoadRenderMaterial(_filePath, this);
+
+		//만약 자신 내부에 "DefaultMaterial_"이 있으면 디폴트 매터리얼 로드, 아니면 커스텀 로드.
+		if (_filePath.find("DefaultMaterial_") != std::string::npos)
+		{
+			//디폴트 매터리얼이다.
+			tComLoader->LoadDefaultRenderMaterial(_filePath, this);
+		}
+		else
+		{
+			//커스텀 매터리얼이다.
+			tComLoader->LoadCustomRenderMaterial(_filePath, this);
+		}	
 	}
 
 	void RenderMaterial::InternalUnload()

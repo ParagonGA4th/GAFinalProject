@@ -241,6 +241,8 @@ namespace Pg::Core::Manager
 		//ShaderMaterial로 추가한 요소들.
 		//LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbm/road_1_diffuseOriginal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		//LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbm/lava_1_diffuseOriginal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+
+		
 		LoadResource("../Builds/x64/Debug/AppendObjectTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
 		LoadResource("../Builds/x64/Debug/AppendObjectTestPS.cso", eAssetDefine::_RENDER_PIXELSHADER);
 		LoadResource("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat", Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
@@ -254,6 +256,9 @@ namespace Pg::Core::Manager
 
 		LoadResource(Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
 		LoadResource(Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
+
+		LoadResource("../Builds/x64/Debug/AppendObjectDefaultVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
+		LoadResource("../Builds/x64/Debug/AppendObjectDefaultPS.cso", eAssetDefine::_RENDER_PIXELSHADER);
 	}
 
 

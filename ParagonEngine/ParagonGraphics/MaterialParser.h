@@ -25,6 +25,14 @@ namespace Pg::Graphics
 		MaterialParser();
 		~MaterialParser();
 
+		//커스텀 매터리얼.
+		void LoadCustomRenderMaterial(const std::string& pgmatPath, RenderMaterial* renderMat);
+	
+		//디폴트 매터리얼.
+		void LoadDefaultRenderMaterialInstance(const std::string& defInstMatName, RenderMaterial* renderMat);
+
+	private:
+		//큰 레이어들.
 		void ParsePgMat(const std::string& pgmatPath);
 		//실제로 리소스 매니저에 있는 VS, PS를 배치한다.
 		void PlaceShaders(RenderMaterial* renderMat);
@@ -32,6 +40,7 @@ namespace Pg::Graphics
 		void ClearPreviousShaderData();
 
 	private:
+		//작은 레이어들.
 		void ParseShaderMat(pugi::xml_node* shdNode, ShaderParsingData* parsingData);	
 		void LoadShaderIntrinsics(RenderMaterial::MatShaderIntrinsics* intrinsic, ShaderParsingData* parseData);
 		void CreateConstantBuffer(RenderMaterial::MatShaderIntrinsics* intrinsic);

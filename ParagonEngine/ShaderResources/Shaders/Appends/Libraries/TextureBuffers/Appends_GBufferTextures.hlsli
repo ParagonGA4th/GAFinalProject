@@ -23,7 +23,7 @@ uint GetMeshMatID(float2 quadUV)
     return asuint(GBuffer[0].Sample(fullScreenQuadSS, quadUV).z);
 }
 
-float3 GetTex2DArrayUV(float quadUV)
+float3 GetTex2DArrayUV_F3(float2 quadUV)
 {
     //RT0 : Texture UV Coords w/ (xy) Mesh Material ID (z)
     return GBuffer[0].Sample(fullScreenQuadSS, quadUV).xyz;

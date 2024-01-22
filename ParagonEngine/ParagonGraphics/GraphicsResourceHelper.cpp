@@ -191,4 +191,11 @@ namespace Pg::Graphics::Helper
 		return tRet;
 	}
 
+	std::string GraphicsResourceHelper::GetDefaultMaterialNameFromMeshName(const std::string& name)
+	{
+		std::string tStr = "DefaultMaterial_";
+		tStr += name;
+		return tStr;
+	}
+
 }

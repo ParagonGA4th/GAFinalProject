@@ -4,6 +4,7 @@
 #include "RenderObjectLight.h"
 #include "GraphicsResourceHelper.h"
 #include "GraphicsResourceManager.h"
+#include "AssetCombinedLoader.h"
 
 //세부적인 렌더 오브젝트들의 리스트.
 #include "RenderObjectStaticMesh3D.h"
@@ -31,6 +32,7 @@
 
 #include <set>
 #include <algorithm>
+#include <filesystem>
 
 namespace Pg::Graphics
 {
@@ -200,8 +202,49 @@ namespace Pg::Graphics
 					auto it = std::find_if(_renderObject3DList->_materialPathSet.begin(), _renderObject3DList->_materialPathSet.end(),
 						[&tMatPth](const std::pair<std::string, unsigned int>& val)
 						-> bool {return (val.first == tMatPth); });
-					assert(it != _renderObject3DList->_materialPathSet.end() && "여기에서 걸렸으면 Material Path를 못 찾았음");
-					unsigned int tMaterialID = it->second;
+					//곧 들어갈 Material ID;
+
+					unsigned int tMaterialID = NULL;
+
+					//못찼았으면, Default Material을 만들어서 넣어준다.
+					if (it == _renderObject3DList->_materialPathSet.end())
+					{
+						///CreateDefaultMaterialInstance;
+						std::filesystem::path tTempMeshPath = tBaseR3D->GetMeshFilePath();
+						std::string tTempMeshName = tTempMeshPath.filename().string();
+						std::string tDefaultMatInstName = Pg::Graphics::Helper::GraphicsResourceHelper::GetDefaultMaterialNameFromMeshName(tTempMeshName);
+
+						if (!(Pg::Graphics::Manager::GraphicsResourceManager::Instance()->IsExistDefaultMaterialByMeshName(tTempMeshName)))
+						{
+							//MeshName으로 만들어진 Default Material이 아직 없다.
+							
+							//DefaultMaterial 로드할 것이다. "DefaultMaterial_"이 들어있기 때문에, 디폴트로 로드될 것이다.
+							Pg::Graphics::Manager::GraphicsResourceManager::Instance()->LoadResource(tDefaultMatInstName, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
+							
+							//전체 저장목록에 갖고 있다고 기록. (Graphics에서 검사했기 때문에, AssetManager로 보내줘야)
+							Pg::Graphics::Manager::GraphicsResourceManager::Instance()->AddSecondaryResource(tDefaultMatInstName, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
+							
+							//이제는, vector 목록에 추가해줘야.
+							_renderObject3DList->_staticList.insert_or_assign(tDefaultMatInstName, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
+							_renderObject3DList->_skinnedList.insert_or_assign(tDefaultMatInstName, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
+						}
+
+						//일단은 Default Material ID를 설정해주기.
+						auto res = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tDefaultMatInstName, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL); 
+						RenderMaterial* tRenderMat = static_cast<RenderMaterial*>(res.get());
+						_renderObject3DList->_materialPathSet.push_back(std::make_pair(tDefaultMatInstName, tRenderMat->GetID()));
+
+						tMaterialID = tRenderMat->GetID();
+
+						std::string tMsg = tGameObject->GetName();
+						tMsg += " : 디폴트 매터리얼 객체 사용됨.";
+						PG_TRACE(tMsg.c_str());
+					}
+					else
+					{
+						//찾았다. 리소스에 있는 Material의 ID를 복사해서 입력한다.
+						tMaterialID = it->second;
+					}
 
 					//3D
 					//StaticMeshRenderer

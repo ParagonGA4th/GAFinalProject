@@ -22,6 +22,20 @@ namespace Pg::Graphics
 
 	}
 
+	void MaterialParser::LoadCustomRenderMaterial(const std::string& pgmatPath, RenderMaterial* renderMat)
+	{
+		ParsePgMat(pgmatPath);
+		PlaceShaders(renderMat);
+		LoadRenderMaterial(renderMat);
+		ClearPreviousShaderData();
+	}
+
+	void MaterialParser::LoadDefaultRenderMaterialInstance(const std::string& defInstMatName, RenderMaterial* renderMat)
+	{
+		//디폴트 Material을 로드한다. 
+		///240122
+	}
+
 	//대표적인 예시 : "test4.pgmat"
 	void MaterialParser::ParsePgMat(const std::string& pgmatPath)
 	{
@@ -386,5 +400,7 @@ namespace Pg::Graphics
 		_matIdRecord++;
 	}
 
+	
+	
 
 }

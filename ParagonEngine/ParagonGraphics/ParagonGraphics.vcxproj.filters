@@ -740,6 +740,9 @@
     <Filter Include="0_Main\Renderers\BaseSpecificRenderer">
       <UniqueIdentifier>{2ab3de6d-bd70-41bd-8a2e-5fa81c309038}</UniqueIdentifier>
     </Filter>
+    <Filter Include="6_HLSL\Appends\Added\Object\Default">
+      <UniqueIdentifier>{eea3932f-2258-46ec-8240-56c7dbf53ced}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
@@ -798,6 +801,12 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Individual\Individual_PerObjMatStaticVS.hlsl">
       <Filter>6_HLSL\System\Pipeline\Individual</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Default\AppendObjectDefaultPS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\Default</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Default\AppendObjectDefaultVS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\Default</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
