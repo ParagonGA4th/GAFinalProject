@@ -133,6 +133,10 @@ namespace Pg::Graphics
 		_debugRenderer->GetDebugPlaneGeometryData(planeColVec);
 	}
 
+	void ParagonRenderer::PassRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec)
+	{
+		_debugRenderer->GetDebugRayCastGeometryData(rayCastColVec);
+	}
 
 	//void ParagonRenderer::SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene)
 	//{
@@ -152,6 +156,7 @@ namespace Pg::Graphics
 		_finalRenderer->SetupRenderPasses();
 	}
 
+	
 
 	
 
