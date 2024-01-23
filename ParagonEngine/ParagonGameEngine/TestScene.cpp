@@ -57,7 +57,7 @@ void Pg::Engine::TestScene::Initialize()
 	GameObject* tObj2_1 = tCurrentScene->AddObject("Sphere1");
 	tObj2_1->GetComponent<Transform>()->SetPosition({ 3.0f, 10.0f, 0.0f });
 	tObj2_1->AddComponent<SphereCollider>();
-	tObj2_1->GetComponent<SphereCollider>()->SetRadius(2.0f);
+	//tObj2_1->GetComponent<SphereCollider>()->SetRadius(2.0f);
 	tObj2_1->AddComponent<StaticMeshRenderer>();
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/DefaultGeometry/DefaultGeometry.fbx");
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);

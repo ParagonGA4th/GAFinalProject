@@ -6,6 +6,7 @@
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/SphereCollider.h"
 #include "../ParagonData/PlaneCollider.h"
+#include "../ParagonData/RayCast.h"
 #include "../ParagonUtil/Log.h"
 
 #include <singleton-cpp/singleton.h>
@@ -56,6 +57,7 @@ namespace Pg::Engine
 				Pg::Data::SphereCollider* tShpereCol = it->GetComponent<Pg::Data::SphereCollider>();
 				Pg::Data::PlaneCollider* tPlaneCol = it->GetComponent<Pg::Data::PlaneCollider>();
 				Pg::Data::StaticBoxCollider* tStaticBoxCol = it->GetComponent<Pg::Data::StaticBoxCollider>();
+				Pg::Data::RayCast* tRayCast = it->GetComponent<Pg::Data::RayCast>();
 
 				if (tBoxCol != nullptr)
 				{
@@ -77,10 +79,11 @@ namespace Pg::Engine
 				{
 					DrawPlaneDebug(&(tPlaneCol->_planeInfo));
 				}
+				else if (tRayCast != nullptr)
+				{
+					DrawRayCastDebug(&(tRayCast->_rayCastInfo));
+				}
 			}
-
-			//DrawLineDebug({ 0.f,0.f,0.f }, { 10.f,8.f,0.f }, { 1.f,1.f,0.f,1.f });
-			//DrawLineDebug({ 0.f,0.f,0.f }, { 8.f,10.f,0.f }, { 1.f,1.f,0.f,1.f });
 		}
 
 		assert(true);
@@ -117,6 +120,11 @@ namespace Pg::Engine
 	void DebugSystem::DrawPlaneDebug(Pg::Data::PlaneInfo* planeInfo)
 	{
 		_planeVec.push_back(planeInfo);
+	}
+
+	void DebugSystem::DrawRayCastDebug(Pg::Data::RayCastInfo* rayCastInfo)
+	{
+		_rayCastVec.push_back(rayCastInfo);
 	}
 
 	void DebugSystem::DrawLineDebug(PGFLOAT3 begin, PGFLOAT3 end, PGFLOAT4 col)
@@ -157,6 +165,11 @@ namespace Pg::Engine
 		return _planeVec;
 	}
 
+	const std::vector<Pg::Data::RayCastInfo*>& DebugSystem::GetRayCastVector() const
+	{
+		return _rayCastVec;
+	}
+
 	void DebugSystem::DeleteBoxDebug()
 	{
 		_boxVec.clear();
@@ -180,5 +193,10 @@ namespace Pg::Engine
 	void DebugSystem::DeletePlaneDebug()
 	{
 		_planeVec.clear();
+	}
+
+	void DebugSystem::DeleteRayCastDebug()
+	{
+		_rayCastVec.clear();
 	}
 }

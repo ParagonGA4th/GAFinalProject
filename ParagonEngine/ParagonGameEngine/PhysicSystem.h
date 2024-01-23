@@ -13,7 +13,7 @@
 
 /// <summary>
 /// ParagonEngine의 물리 시스템 클래스.
-/// PhysX 연동하여 물리엔진을 연동할 것이다
+/// PhysX 연동하여 물리엔진을 만들 것이다
 /// 2023.10.06
 /// </summary>
 
@@ -38,6 +38,7 @@ namespace Pg::Engine::Physic
 
 		void UpdatePhysics(float dTime);
 		void UpdateTransform();
+		void UpdateRayCast();
 
 		void Finalize();
 
@@ -63,15 +64,15 @@ namespace Pg::Engine::Physic
 		void MakeDynamicBoxCollider(Pg::Data::GameObject* obj);
 		void MakeDynamicSphereCollider(Pg::Data::GameObject* obj);
 		void MakeDynamicCapsuleCollider(Pg::Data::GameObject* obj);
+		
+		//RayCast를 각각 다른 방식으로 구현해볼 예정.
+		void MakeRayCast(Pg::Data::GameObject* obj);
 
-		Pg::Data::Collider* MakeRayCast(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length);
+		Pg::Data::Collider* MakeRayCast(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length, int* type);
 	private:
 		//Rigid 정보를 담아놓는 벡터
 		std::vector<physx::PxRigidDynamic*> _rigidDynamicVec;
 		std::vector<physx::PxRigidStatic*> _rigidStaticVec;
-
-		Pg::Data::PhysicsCollision** _colArr;
-		unsigned int count;
 
 	private:
 		
