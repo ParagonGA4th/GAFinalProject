@@ -140,7 +140,12 @@ namespace Pg::Graphics
 				if (GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()) == 1)
 				{
 					Pg::Data::RendererBase3D* tBaseR3D = static_cast<Pg::Data::RendererBase3D*>(tBaseRenderer);
-					tMaterialPathSet.insert(tBaseR3D->GetMaterialFilePath());
+
+					//만약 비어있지 않다면 (비어있으면 Default Material)
+					if (!tBaseR3D->GetMaterialFilePath().empty())
+					{
+						tMaterialPathSet.insert(tBaseR3D->GetMaterialFilePath());
+					}
 				}
 			}
 		}
@@ -238,6 +243,10 @@ namespace Pg::Graphics
 
 						std::string tMsg = tGameObject->GetName();
 						tMsg += " : 디폴트 매터리얼 객체 사용됨.";
+
+						//나머지 로직과 호환되게 변수 재할당. 
+						tMatPth = tDefaultMatInstName;
+
 						PG_TRACE(tMsg.c_str());
 					}
 					else

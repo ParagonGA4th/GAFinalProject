@@ -9,7 +9,7 @@ namespace Pg::Data
 {
 	using Pg::Util::Helper::ResourceHelper;
 
-	RendererBase3D::RendererBase3D(GameObject* obj) : BaseRenderer(obj)
+	RendererBase3D::RendererBase3D(GameObject* obj) : BaseRenderer(obj), _meshFilePath(""), _renderMaterialPath("")
 	{
 		
 	}

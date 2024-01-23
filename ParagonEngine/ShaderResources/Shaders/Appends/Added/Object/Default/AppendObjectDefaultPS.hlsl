@@ -17,7 +17,11 @@ POutQuad main(VOutQuad pin)
     //본격적인 Shader Code.
     POutQuad res;
     
+    //이게 맞음!
     res.Output = t2_DiffuseTextureArray.Sample(defaultTextureSS, GetTex2DArrayUV_F3(pin.UV));
+    //테스트.
+    //res.Output = t2_DiffuseTextureArray.Sample(defaultTextureSS, float3(GetTex2DArrayUV_F3(pin.UV).xy, 0.0f));
+    
     // Normal은 일단은 반영하지 않았음.
         
     return res;
