@@ -11,6 +11,7 @@
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/SphereCollider.h"
 #include "../ParagonData/DynamicCollider.h"
+#include "../ParagonData/RayCast.h"
 #include "../ParagonUtil/Log.h"
 
 namespace Pg::Engine::Physic
@@ -97,22 +98,28 @@ namespace Pg::Engine::Physic
 		_material = _physics->createMaterial(0.1f, 0.1f, 0.5f);
 
 		///RayCast의 예시
-		physx::PxVec3 origin = { 0.0f,0.0f,0.0f };		// [in] Ray origin
-		physx::PxVec3 unitDir = { 10.0f, 10.0f, 10.0f };	// [in] Normalized ray direction
-		physx::PxReal maxDistance = 100.0f;				// [in] Raycast max distance
+		//physx::PxVec3 origin = { 0.0f,0.0f,0.0f };		// [in] Ray origin
+		//physx::PxVec3 unitDir = { 10.0f, 10.0f, 10.0f };	// [in] Normalized ray direction
+		//physx::PxReal maxDistance = 100.0f;				// [in] Raycast max distance
 
-		const physx::PxU32 bufferSize = 256;			// [in] size of 'hitBuffer'
-		physx::PxRaycastHit hitBuffer[bufferSize];		// [out] User provided buffer for results
-		physx::PxRaycastBuffer buf(hitBuffer, bufferSize); // [out] Blocking and touching hits stored here
+		//const physx::PxU32 bufferSize = 256;			// [in] size of 'hitBuffer'
+		//physx::PxRaycastHit hitBuffer[bufferSize];		// [out] User provided buffer for results
+		//physx::PxRaycastBuffer buf(hitBuffer, bufferSize); // [out] Blocking and touching hits stored here
 
-		//physx::PxDebugLine lineDebug = physx::PxVec3(2.0f,2.0f,2.0f);
 
-		bool hit = _pxScene->raycast(origin, unitDir, maxDistance, buf);
+		//const physx::PxRenderBuffer& rb = _pxScene->getRenderBuffer();
 
-		if (hit)
-		{
-			PG_TRACE("Hit!!");
-		}
+		//for (physx::PxU32 i = 0; i < rb.getNbLines(); i++)
+		//{
+		//	const physx::PxDebugLine& lineDebug = rb.getLines()[i];
+		//}
+
+		//bool hit = _pxScene->raycast(origin, unitDir, maxDistance, buf);
+
+		//if (hit)
+		//{
+		//	PG_TRACE("Hit!!");
+		//}
 
 		//Collider 생성!
 		InitMakeColliders();
@@ -159,7 +166,7 @@ namespace Pg::Engine::Physic
 
 			if (!dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
 			{
-				gameObj->OnCollisionEnter(_colArr, count);
+				gameObj->OnCollisionEnter(dynamicCol->_collisionStorage.data(), dynamicCol->_collisionStorage.size());
 				PG_TRACE("CollisionEnter!");
 			}
 			//Stay는 잠시 보류해뒀다. PhysX 내부에서 지원해주지 않음.
@@ -170,7 +177,7 @@ namespace Pg::Engine::Physic
 			}
 			else if (dynamicCol->GetWasCollided() && !dynamicCol->GetIsCollide())
 			{
-				gameObj->OnCollisionExit(_colArr, count);
+				gameObj->OnCollisionExit(dynamicCol->_collisionStorage.data(), dynamicCol->_collisionStorage.size());
 				PG_TRACE("CollisionExit!");
 			}
 
@@ -202,7 +209,7 @@ namespace Pg::Engine::Physic
 			}
 			else if (staticCol->GetWasCollided() && !staticCol->GetIsCollide())
 			{
-				gameObj->OnCollisionExit(_colArr, count);
+				gameObj->OnCollisionExit(staticCol->_collisionStorage.data(), staticCol->_collisionStorage.size());
 				PG_TRACE("CollisionExit!");
 			}
 
@@ -234,8 +241,6 @@ namespace Pg::Engine::Physic
 
 			static_cast<Pg::Data::DynamicCollider*>(rigid->userData)->UpdatePhysics(position, quat);
 		}
-
-		
 	}
 
 
@@ -335,6 +340,7 @@ namespace Pg::Engine::Physic
 			Pg::Data::SphereCollider* tSphCol = obj->GetComponent<Pg::Data::SphereCollider>();
 			Pg::Data::CapsuleCollider* tCapCol = obj->GetComponent<Pg::Data::CapsuleCollider>();
 			Pg::Data::PlaneCollider* tPlaneCol = obj->GetComponent<Pg::Data::PlaneCollider>();
+			Pg::Data::RayCast* tRayCast = obj->GetComponent<Pg::Data::RayCast>();               
 
 			//어떤 Collider인지에 따라 출력을 구분한다.
 			if (tBoxCol != nullptr)
@@ -357,6 +363,10 @@ namespace Pg::Engine::Physic
 			else if (tPlaneCol != nullptr)
 			{
 				MakePlaneCollider(obj);
+
+			}
+			else if (tRayCast != nullptr)
+			{
 
 			}
 			AddObjectToScene();
@@ -610,8 +620,42 @@ namespace Pg::Engine::Physic
 		}
 	}
 
+
+	void PhysicSystem::MakeRayCast(Pg::Data::GameObject* obj)
+	{
+		Pg::Data::RayCast* col = obj->GetComponent<Pg::Data::RayCast>();
+
+		if (col)
+		{
+			auto rayCastVec = obj->GetComponents<Pg::Data::RayCast>();
+
+			for (auto& rayCast : rayCastVec)
+			{
+				Pg::Data::RayCast* cRayCast = dynamic_cast<Pg::Data::RayCast*>(rayCast);
+
+				//raycast의 크기.
+				physx::PxVec3 rayCastOrigin;
+				rayCastOrigin.x = cRayCast->GetOrigin().x;
+				rayCastOrigin.y = cRayCast->GetOrigin().y;
+				rayCastOrigin.z = cRayCast->GetOrigin().z;
+
+				physx::PxVec3 rayCastDir;
+				rayCastDir.x = cRayCast->GetDir().x;
+				rayCastDir.y = cRayCast->GetDir().y;
+				rayCastDir.z = cRayCast->GetDir().z;
+
+				float length;
+				length = cRayCast->GetLength();
+
+				physx::PxRaycastBuffer _hitBuffer;
+				_pxScene->raycast(rayCastOrigin, rayCastDir, length, _hitBuffer);
+			}
+		}
+	}
+
+
 	///Rayscast 생성하기
-	Pg::Data::Collider* PhysicSystem::MakeRayCast(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length)
+	Pg::Data::Collider* PhysicSystem::MakeRayCast(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length, int* type)
 	{
 		physx::PxVec3 rayCastOrigin;
 		rayCastOrigin.x = origin.x;
@@ -632,16 +676,30 @@ namespace Pg::Engine::Physic
 		//만약 RayCast에 맞았다면
 		if (_isHit)
 		{
+			//충돌 오브젝트의 포인터
 			physx::PxRigidActor* actor = _hitBuffer.block.actor;
 
-			//static에 충돌하면
+			//정적 및 동적 충돌 객체 구분
 			if (actor->getType() == physx::PxActorType::eRIGID_STATIC)
 			{
+				actor = static_cast<physx::PxRigidStatic*>(actor);
 
+				if (type != nullptr)
+				{
+					*type = 1;
+				}
+			}
+
+			else if (actor->getType() == physx::PxActorType::eRIGID_DYNAMIC)
+			{
+				actor = static_cast<physx::PxRigidDynamic*>(actor);
+
+				if (type != nullptr)
+				{
+					*type = 2;
+				}
 			}
 		}
-
-
 		return raycastCol;
 	}
 
@@ -675,5 +733,9 @@ namespace Pg::Engine::Physic
 		}
 	}
 
+	void PhysicSystem::UpdateRayCast()
+	{
+
+	}
 
 }
