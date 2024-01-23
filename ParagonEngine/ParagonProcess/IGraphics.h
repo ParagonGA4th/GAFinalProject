@@ -75,5 +75,6 @@ namespace Pg::Core
 		virtual void SetCapsuleDebugRenderData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec) abstract;
 		virtual void SetSphereDebugRenderData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec) abstract;
 		virtual void SetPlaneDebugRenderData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec) abstract;
+		virtual void SetRayCastDebugRenderData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec) abstract;
 	};
 }
