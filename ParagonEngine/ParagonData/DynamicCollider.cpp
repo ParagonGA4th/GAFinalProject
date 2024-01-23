@@ -7,8 +7,6 @@ namespace Pg::Data
 {
 	DynamicCollider::DynamicCollider(GameObject* owner) :
 		Collider(owner),
-		_isCollide(false),
-		_wasCollided(false),
 		_isActiveX(false),
 		_isActiveY(false),
 		_isActiveZ(false)
@@ -53,16 +51,6 @@ namespace Pg::Data
 		transform.q.w = rotation.w;
 
 		_rigid->setGlobalPose(transform);
-	}
-
-	bool DynamicCollider::GetIsCollide()
-	{
-		return _isCollide;
-	}
-
-	bool DynamicCollider::GetWasCollided()
-	{
-		return _wasCollided;
 	}
 
 	void DynamicCollider::AddForce(PGFLOAT3 dir, ForceMode mode)
@@ -119,12 +107,6 @@ namespace Pg::Data
 		_rigid->setLinearVelocity(vec);
 	}
 
-	void DynamicCollider::Flush()
-	{
-		_wasCollided = _isCollide;
-		_isCollide = true;
-	}
-
 	void DynamicCollider::FreezeAxisX(bool isActive)
 	{
 		_isActiveX = isActive;
@@ -139,7 +121,4 @@ namespace Pg::Data
 	{
 		_isActiveZ = isActive;
 	}
-
-
-
 }

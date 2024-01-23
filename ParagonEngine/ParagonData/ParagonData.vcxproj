@@ -197,6 +197,8 @@
     <ClInclude Include="LightData.h" />
     <ClInclude Include="LightType.h" />
     <ClInclude Include="ImageRenderer.h" />
+    <ClInclude Include="PhysicsCollision.h" />
+    <ClInclude Include="PhysicsContactPoint.h" />
     <ClInclude Include="PlaneCollider.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="RendererChangeList.h" />
@@ -237,6 +239,8 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="MoveForwardBack.cpp" />
     <ClCompile Include="ParagonDefines.cpp" />
+    <ClCompile Include="PhysicsCollision.cpp" />
+    <ClCompile Include="PhysicsContactPoint.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RendererChangeList.cpp" />

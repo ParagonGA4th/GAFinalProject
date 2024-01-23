@@ -17,6 +17,7 @@
 
 namespace Pg::Graphics::Helper
 {
+	//마지막에는 항상 $을 넣어야 한다.
 	const std::string GraphicsResourceHelper::DEFAULT_MATERIAL_PREFIX = "$DefaultMaterial_$";
 	const std::string GraphicsResourceHelper::DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX = "$DefaultMaterial_Texture2DArray_$";
 
@@ -221,10 +222,12 @@ namespace Pg::Graphics::Helper
 		return tRet;
 	}
 
-	std::string GraphicsResourceHelper::GetDefaultTex2DArrayNameFromValues(const std::string& varName, std::string* renderTextureNameSrc, unsigned int cnt)
+	std::string GraphicsResourceHelper::GetDefaultTex2DArrayNameFromValues(const std::string& defMatName, const std::string& varName, std::string* renderTextureNameSrc, unsigned int cnt)
 	{
 		//Texture2DArray 감지를 위한 체계.
 		std::string tRet = DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX;
+		tRet.append(defMatName);
+		tRet.append("^");
 		tRet.append(varName);
 
 		for (int i = 0; i < cnt; i++)
@@ -236,7 +239,7 @@ namespace Pg::Graphics::Helper
 		//FileName으로 오해되지 않기 위해서.
 		//다만, GetLine할 때 하나를 빼어야 한다.
 		tRet.append("^.pgt2arr");
-
+		
 		return tRet;
 	}
 
@@ -267,7 +270,7 @@ namespace Pg::Graphics::Helper
 
 		while (std::getline(ss, token, '^')) 
 		{
-			if (tCount != 0)
+			if (tCount > 1)
 			{
 				outStringVector.push_back(token);
 			}
@@ -296,5 +299,26 @@ namespace Pg::Graphics::Helper
 		assert(!outStringVector.empty());
 	}
 
+	std::string GraphicsResourceHelper::GetDefaultTexturePath(eAssetTextureType textureType)
+	{
+		switch (textureType)
+		{
+			case PG_TextureType_DIFFUSE:
+			{
+				return Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH;
+			}
+			break;
+			case PG_TextureType_NORMALS:
+			{
+				return Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH;
+			}
+			break;
+			default:
+			{
+				assert(false && "아직 해당 종류 대해서는 디폴트 텍스쳐 경로 준비되지 않았음!");
+			}
+			break;
+		}
+	}
 
 }

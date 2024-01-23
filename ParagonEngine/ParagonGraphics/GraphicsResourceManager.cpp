@@ -242,10 +242,11 @@ namespace Pg::Graphics::Manager
 	std::shared_ptr<Pg::Data::Resources::GraphicsResource> GraphicsResourceManager::GetResourceByName(const std::string& name, Pg::Data::Enums::eAssetDefine define)
 	{
 		std::string tFullPath = "";
-		for (auto& it : _resources)
+		for (auto& it : _scopeResourceMap)
 		{
-			if (it.first.find(name) != std::string::npos)
+			if ((it.first.find(name) != std::string::npos) && (it.second->GetAssetDefine() == define))
 			{
+				//동일 이름의 리소스 w/ 동일한 File Path가 있을 경우.
 				tFullPath = it.first;
 				break;
 			}
@@ -255,6 +256,7 @@ namespace Pg::Graphics::Manager
 		{
 			assert(false && "없는 리소스를 가지고 오려고 함!");
 		}
+
 
 		return GetResource(tFullPath, define);
 	}
@@ -279,9 +281,9 @@ namespace Pg::Graphics::Manager
 	std::string GraphicsResourceManager::GetResourcePathByName(const std::string& name, Pg::Data::Enums::eAssetDefine define)
 	{
 		std::string tFullPath = "";
-		for (auto& it : _resources)
+		for (auto& it : _scopeResourceMap)
 		{
-			if (it.first.find(name) != std::string::npos)
+			if ((it.first.find(name) != std::string::npos) && (it.second->GetAssetDefine() == define))
 			{
 				tFullPath = it.first;
 				break;
@@ -301,6 +303,19 @@ namespace Pg::Graphics::Manager
 		return IsExistResourceByName(Pg::Graphics::Helper::GraphicsResourceHelper::GetDefaultMaterialNameFromMeshName(name));
 	}
 
+	bool GraphicsResourceManager::IsExistResourceByNameType(const std::string& name, Pg::Data::Enums::eAssetDefine define)
+	{
+		for (auto& it : _scopeResourceMap)
+		{
+			if ((it.first.find(name) != std::string::npos) && (it.second->GetAssetDefine() == define))
+			{
+				//동일 이름의 리소스 w/ 동일한 File Path가 있을 경우.
+				return true;
+			}
+		}
+		return false;
+	}
 
+	
 
 }
