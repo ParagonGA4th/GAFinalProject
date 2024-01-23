@@ -102,6 +102,9 @@
     <ClCompile Include="PhysicsCollision.cpp">
       <Filter>10_Physics\PhysicsCollision</Filter>
     </ClCompile>
+    <ClCompile Include="RayCast.cpp">
+      <Filter>2_Component\Collider\RayCast</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -248,6 +251,9 @@
     <ClInclude Include="PhysicsCollision.h">
       <Filter>10_Physics\PhysicsCollision</Filter>
     </ClInclude>
+    <ClInclude Include="RayCast.h">
+      <Filter>2_Component\Collider\RayCast</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -393,6 +399,9 @@
     </Filter>
     <Filter Include="10_Physics\PhysicsContactPoint">
       <UniqueIdentifier>{5ca282b1-8837-472f-a19f-ee3a5a7c2762}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\RayCast">
+      <UniqueIdentifier>{e22317fe-af60-4228-a3ad-b506fdb2234a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
