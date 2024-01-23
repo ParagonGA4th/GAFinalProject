@@ -17,10 +17,10 @@ float2 GetUV_F2(float2 quadUV)
     return GBuffer[0].Sample(fullScreenQuadSS, quadUV).xy;
 }
 
-uint GetMeshMatID(float2 quadUV)
+float GetMeshMatID(float2 quadUV)
 {
     //RT0 : Mesh Material ID. (z)
-    return asuint(GBuffer[0].Sample(fullScreenQuadSS, quadUV).z);
+    return GBuffer[0].Sample(fullScreenQuadSS, quadUV).z;
 }
 
 float3 GetTex2DArrayUV_F3(float2 quadUV)

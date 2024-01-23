@@ -23,7 +23,7 @@ namespace Pg::Graphics
 			DirectX::XMFLOAT3	_normalL;
 			DirectX::XMFLOAT3	_tangentL;
 			DirectX::XMFLOAT3	_color;
-			unsigned int		_meshMatID; //Multi-Mesh 包访.
+			float		_meshMatID; //Multi-Mesh 包访.
 			DirectX::XMFLOAT2	_tex;
 			DirectX::XMFLOAT2	_uvSet2;
 			DirectX::XMFLOAT2	_lightmapUV;
@@ -39,7 +39,7 @@ namespace Pg::Graphics
 			DirectX::XMFLOAT3	_normalL;
 			DirectX::XMFLOAT3	_tangentL;
 			DirectX::XMFLOAT3	_color;
-			unsigned int		_meshMatID; //Multi-Mesh 包访.
+			float		_meshMatID; //Multi-Mesh 包访.
 			DirectX::XMFLOAT2	_tex;
 			DirectX::XMFLOAT2	_uvSet2;
 			DirectX::XMFLOAT2	_lightmapUV;
