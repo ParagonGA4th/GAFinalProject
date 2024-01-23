@@ -166,5 +166,12 @@ namespace Pg::Engine
 		_debugSystem->DeleteCapsuleDebug();
 		_debugSystem->DeleteLineDebug();
 		_debugSystem->DeletePlaneDebug();
+		_debugSystem->DeleteRayCastDebug();
 	}
+
+	const std::vector<Pg::Data::RayCastInfo*>& EngineMain::GetRayCastDebugData() const
+	{
+		return _debugSystem->GetRayCastVector();
+	}
+
 }
