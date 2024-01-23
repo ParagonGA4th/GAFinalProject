@@ -10,7 +10,7 @@ struct Vin1stStatic
     float3  vin1st_NormalL      : NORMAL;
     float3  vin1st_TangentL     : TANGENT;
     float3  vin1st_Color        : COLOR;
-    uint    vin1st_MeshMatID    : MESH_MATID;
+    float   vin1st_MeshMatID    : MESH_MATID;
     float2  vin1st_Tex          : TEXCOORD0;
     float2  vin1st_UVSet2       : TEXCOORD1;
     float2  vin1st_LightmapUV   : TEXCOORD2;
@@ -23,7 +23,7 @@ struct Vin1stSkinned
     float3  vin1st_NormalL      : NORMAL;
     float3  vin1st_TangentL     : TANGENT;
     float3  vin1st_Color        : COLOR;
-    uint    vin1st_MeshMatID    : MESH_MATID;
+    float   vin1st_MeshMatID    : MESH_MATID;
     float2  vin1st_Tex          : TEXCOORD0;
     float2  vin1st_UVSet2       : TEXCOORD1;
     float2  vin1st_LightmapUV   : TEXCOORD2;
@@ -46,7 +46,7 @@ struct VOut1st
     float3  vout1st_NormalW     : NORMAL;
     float3  vout1st_TangentW    : TANGENT;
     float3  vout1st_Color       : COLOR;
-    uint    vout1st_MeshMatID   : MESH_MATID;
+    float   vout1st_MeshMatID   : MESH_MATID;
     float2  vout1st_Tex         : TEXCOORD0;
     float2  vout1st_UVSet2      : TEXCOORD1;
     float2  vout1st_LightmapUV  : TEXCOORD2;

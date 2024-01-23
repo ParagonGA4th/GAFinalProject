@@ -18,7 +18,9 @@ POutQuad main(VOutQuad pin)
     POutQuad res;
     
     //이게 맞음!
-    res.Output = t2_DiffuseTextureArray.Sample(defaultTextureSS, GetTex2DArrayUV_F3(pin.UV));
+    float3 tT2UV3 = GetTex2DArrayUV_F3(pin.UV);
+    res.Output = t2_DiffuseTextureArray.Sample(defaultTextureSS, tT2UV3);
+    //res.Output = t2_DiffuseTextureArray.Sample(defaultTextureSS, GetTex2DArrayUV_F3(pin.UV));
     //테스트.
     //res.Output = t2_DiffuseTextureArray.Sample(defaultTextureSS, float3(GetTex2DArrayUV_F3(pin.UV).xy, 0.0f));
     

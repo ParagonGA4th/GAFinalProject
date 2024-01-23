@@ -39,28 +39,30 @@ namespace Pg::Graphics::Loader
 		LoadInternalRenderTexture2D(path, outTextureData);
 	}
 
-	void AssetBasic2DLoader::LoadTexture2DArray(const std::string& path, RenderTexture2DArray* outTextureData)
+	void AssetBasic2DLoader::LoadTexture2DArray(bool isDDS, const std::string& path, RenderTexture2DArray* outTextureData)
 	{
-		std::ifstream in(path);
-		std::string tContentString = "";
-		in >> tContentString;
-		
-		std::vector<std::string> tSingleTextureNameVec;
-		Pg::Graphics::Helper::GraphicsResourceHelper::ReadPGT2ARRContents(tContentString, tSingleTextureNameVec);
-
-		std::vector<RenderTexture2D*> tSingleRenderTexture2DArray;
-		for (int i = 0; i < tSingleTextureNameVec.size(); i++)
+		if (isDDS)
 		{
-			auto tRes2D = GraphicsResourceManager::Instance()->GetResourceByName(tSingleTextureNameVec.at(i), Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
-			tSingleRenderTexture2DArray.push_back(static_cast<RenderTexture2D*>(tRes2D.get()));
+			LoadInternalRenderTexture2D(path, outTextureData);
 		}
+		else
+		{
+			std::ifstream in(path);
+			std::string tContentString = "";
+			in >> tContentString;
 
-		MultipleRenderTexture2DToTexture2DArray(tSingleRenderTexture2DArray.data(), tSingleRenderTexture2DArray.size(), outTextureData);
-	}
+			std::vector<std::string> tSingleTextureNameVec;
+			Pg::Graphics::Helper::GraphicsResourceHelper::ReadPGT2ARRContents(tContentString, tSingleTextureNameVec);
 
-	void AssetBasic2DLoader::LoadGIF(const std::string& path, RenderTexture2DArray* outTextureData)
-	{
-		assert(false && "texassemble을 통해 지원을 시작해야 이게 허용");
+			std::vector<RenderTexture2D*> tSingleRenderTexture2DArray;
+			for (int i = 0; i < tSingleTextureNameVec.size(); i++)
+			{
+				auto tRes2D = GraphicsResourceManager::Instance()->GetResourceByName(tSingleTextureNameVec.at(i), Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+				tSingleRenderTexture2DArray.push_back(static_cast<RenderTexture2D*>(tRes2D.get()));
+			}
+
+			MultipleRenderTexture2DToTexture2DArray(tSingleRenderTexture2DArray.data(), tSingleRenderTexture2DArray.size(), outTextureData);
+		}
 	}
 
 	void AssetBasic2DLoader::LoadTextureCube(const std::string& path, RenderTextureCube* outTextureData)
@@ -267,58 +269,22 @@ namespace Pg::Graphics::Loader
 		ID3D11Texture2D* arrayTexture2D = nullptr;
 		HR(_DXStorage->_device->CreateTexture2D(&arrayTextureDesc, nullptr, &arrayTexture2D));
 
-		//// Loop through each slice of the Texture2DArray and copy data from source textures
 		for (UINT sliceIndex = 0; sliceIndex < arrayTextureDesc.ArraySize; ++sliceIndex)
 		{
-			//저장되어 있는 모든 Vector.
-			for (int i = 0; i < tTexture2DStoreVec.size(); i++)
+			// Loop through each mip level
+			for (UINT mipLevel = 0; mipLevel < arrayTextureDesc.MipLevels; ++mipLevel)
 			{
-				// Use CopySubresourceRegion to copy data from sourceTex1 to destTexArray
+				// Copy data from the corresponding source texture and mipmap level to the current slice and mipmap level of the Texture2DArray
 				_DXStorage->_deviceContext->CopySubresourceRegion(
-					arrayTexture2D,        // Destination resource (Texture2DArray)
-					D3D11CalcSubresource(0, sliceIndex, arrayTextureDesc.MipLevels),
-					0, 0, 0,              // DestX, DestY, DestZ
-					tTexture2DStoreVec[i],          // Source resource (Texture2D)
-					0,                    // SrcSubresource
-					nullptr               // pSrcBox (use nullptr to copy the entire resource)
+					arrayTexture2D,                      // Destination (Texture2DArray)
+					D3D11CalcSubresource(mipLevel, sliceIndex, arrayTextureDesc.MipLevels),
+					0, 0, 0,                             // DestX, DestY, DestZ
+					tTexture2DStoreVec[sliceIndex],      // Source resource (Texture2D)
+					D3D11CalcSubresource(mipLevel, 0, tUniformMipLevels), // SrcSubresource (source mipmap level)
+					nullptr                              // pSrcBox (use nullptr to copy the entire resource)
 				);
 			}
 		}
-
-		//for (UINT sliceIndex = 0; sliceIndex < arrayTextureDesc.ArraySize; ++sliceIndex) {
-		//	// Loop through each mip level
-		//	for (UINT mipLevel = 0; mipLevel < tUniformMipLevels; ++mipLevel) {
-		//		// Determine the source SRV based on the slice index and mip level
-		//		//ID3D11ShaderResourceView* sourceSRV = sourceSRVs[sliceIndex * NUM_MIPMAPS + mipLevel];
-		//
-		//		// Use CopySubresourceRegion to copy data from the source SRV to destTexArray
-		//		_DXStorage->_deviceContext->CopySubresourceRegion(
-		//			arrayTexture2D,                // Destination resource (Texture2DArray)
-		//			D3D11CalcSubresource(mipLevel, sliceIndex, arrayTextureDesc.MipLevels),
-		//			0, 0, 0,                      // DestX, DestY, DestZ
-		//			tTexture2DStoreVec[mipLevel], // Helper function to get the source Texture2D from SRV
-		//			mipLevel,                     // SrcSubresource (mipmap level)
-		//			nullptr                       // pSrcBox (use nullptr to copy the entire resource)
-		//		);
-		//	}
-		//}
-
-		//for (UINT texElement = 0; texElement < arrayTextureDesc.ArraySize; ++texElement)
-		//{
-		//	// for each mipmap level...
-		//	for (UINT mipLevel = 0; mipLevel < arrayTextureDesc.MipLevels; ++mipLevel)
-		//	{
-		//		D3D11_MAPPED_SUBRESOURCE mappedTex2D;
-		//		//HR(_DXStorage->_deviceContext->Map(tTexture2DStoreVec[texElement], mipLevel, D3D11_MAP_READ, 0, &mappedTex2D));
-		//		HR(_DXStorage->_deviceContext->Map(tTexture2DStoreVec[texElement], mipLevel, D3D11_MAP_READ, 0, &mappedTex2D));
-		//
-		//		_DXStorage->_deviceContext->UpdateSubresource(arrayTexture2D,
-		//			D3D11CalcSubresource(mipLevel, texElement, arrayTextureDesc.MipLevels),
-		//			0, mappedTex2D.pData, mappedTex2D.RowPitch, mappedTex2D.DepthPitch);
-		//
-		//		_DXStorage->_deviceContext->Unmap(tTexture2DStoreVec[texElement], mipLevel);
-		//	}
-		//}
 		
 		HR(arrayTexture2D->QueryInterface(__uuidof(ID3D11Resource), (void**)&outTextureData->GetResource()));
 

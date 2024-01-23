@@ -31,11 +31,6 @@ namespace Pg::Graphics
 		std::filesystem::path tPath = _filePath;
 		std::string tExt = tPath.extension().string();
 
-		if (tExt == ".dds" || tExt == ".DDS")
-		{
-			t2DLoader->LoadGIF(_filePath, this);
-		}
-
 		if (_filePath.find(GraphicsResourceHelper::DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX) != std::string::npos)
 		{
 			//디폴트 일시, Default 전용 Texture2DArray를 로드.
@@ -53,9 +48,14 @@ namespace Pg::Graphics
 		}
 		else
 		{
+			if (tExt == ".dds" || tExt == ".DDS")
+			{
+				t2DLoader->LoadTexture2DArray(true, _filePath, this);
+			}
+
 			//디폴트가 아니다! 커스텀 파일 로드.
 			assert(tExt == ".pgt2arr" || tExt == ".PGT2ARR");
-			t2DLoader->LoadTexture2DArray(_filePath, this);
+			t2DLoader->LoadTexture2DArray(false, _filePath, this);
 		}
 	}
 
