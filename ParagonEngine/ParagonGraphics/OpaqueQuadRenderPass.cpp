@@ -54,9 +54,6 @@ namespace Pg::Graphics
 	void OpaqueQuadRenderPass::UnbindPass()
 	{
 		_renderMaterial->Unbind();
-
-		//더 이상 값을 설정하지 않을 때 이런 식으로 할당 해제해주면 된다.
-		_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 	}
 
 	void OpaqueQuadRenderPass::ExecuteNextRenderRequirements()

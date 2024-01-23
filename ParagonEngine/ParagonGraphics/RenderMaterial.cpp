@@ -405,6 +405,38 @@ namespace Pg::Graphics
 	{
 		_vertexShader->Unbind();
 		_pixelShader->Unbind();
+
+		//언바인딩 코드. 
+		if (_vsIntrinsics->_cbBufferSize > 0)
+		{
+			//할당해제.
+			ID3D11Buffer* nullBuffer = nullptr;
+			_DXStorage->_deviceContext->VSSetConstantBuffers(_vsIntrinsics->_cbRegisterNum, 1, &nullBuffer);
+		}
+		if (_psIntrinsics->_cbBufferSize > 0)
+		{
+			//할당해제.
+			ID3D11Buffer* nullBuffer = nullptr;
+			_DXStorage->_deviceContext->PSSetConstantBuffers(_psIntrinsics->_cbRegisterNum, 1, &nullBuffer);
+		}
+
+		for (int i = 0; i < _vsIntrinsics->_texPlaceVector.size(); i++)
+		{
+			auto bRegNum = std::get<1>(_vsIntrinsics->_texPlaceVector[i].second);
+
+			//할당해제.
+			ID3D11ShaderResourceView* nullSRV = nullptr;
+			_DXStorage->_deviceContext->VSSetShaderResources(bRegNum, 1, &nullSRV);
+		}
+
+		for (int i = 0; i < _psIntrinsics->_texPlaceVector.size(); i++)
+		{
+			auto bRegNum = std::get<1>(_psIntrinsics->_texPlaceVector[i].second);
+
+			//할당 해제.
+			ID3D11ShaderResourceView* nullSRV = nullptr;
+			_DXStorage->_deviceContext->PSSetShaderResources(bRegNum, 1, &nullSRV);
+		}
 	}
 
 	unsigned int& RenderMaterial::GetID()

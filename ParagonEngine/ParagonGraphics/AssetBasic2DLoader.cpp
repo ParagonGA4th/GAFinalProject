@@ -213,11 +213,13 @@ namespace Pg::Graphics::Loader
 		//개별적인 Texture2D의 Width / Height / MipLevels / Format / ArraySize.
 		//하나로 통일되어야 하는데, 이를 더블체크하는 코드.
 		std::vector<std::tuple<UINT, UINT, UINT, DXGI_FORMAT, UINT>> tSingleTextureStoreVec;
+		std::vector<ID3D11Texture2D*> tTexture2DStoreVec;
 
 		for (int i = 0; i < cnt; i++)
 		{
 			ID3D11Texture2D* tTexture2D = nullptr;
 			HR(textureSrc[i]->GetResource()->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&tTexture2D));
+			tTexture2DStoreVec.push_back(tTexture2D);
 
 			D3D11_TEXTURE2D_DESC tTextureDesc;
 			tTexture2D->GetDesc(&tTextureDesc);
@@ -233,7 +235,7 @@ namespace Pg::Graphics::Loader
 		UINT tUniformMipLevels = std::get<2>(tSingleTextureStoreVec.at(0));
 		DXGI_FORMAT tUniformDXGIFormat = std::get<3>(tSingleTextureStoreVec.at(0));
 		UINT tUniformArraySize = std::get<4>(tSingleTextureStoreVec.at(0));
-
+		
 		for (auto& [bWidth, bHeight, bMipLevels, bFormat, bArraySize] : tSingleTextureStoreVec)
 		{
 			//모든 Texture2D들은 같은 프로퍼티를 공유해야 Texture2DArray로 만들어질 수 있다.
@@ -247,38 +249,91 @@ namespace Pg::Graphics::Loader
 		//Texture2DArray를 실제로 만든다.
 		
 		//기록되었던 Texture2D를 활용.
-		D3D11_TEXTURE2D_DESC textureDesc;
-		ZeroMemory(&textureDesc, sizeof(textureDesc));
-		textureDesc.Width = tUniformWidth;
-		textureDesc.Height = tUniformHeight;
-		textureDesc.MipLevels = tUniformMipLevels;
-		textureDesc.ArraySize = cnt;
-		textureDesc.Format = tUniformDXGIFormat; 
-		textureDesc.SampleDesc.Count = 1;
-		textureDesc.SampleDesc.Quality = 0;
-		textureDesc.Usage = D3D11_USAGE_DEFAULT;
-		textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-		textureDesc.CPUAccessFlags = 0;
-		textureDesc.MiscFlags = 0;
+		D3D11_TEXTURE2D_DESC arrayTextureDesc;
+		ZeroMemory(&arrayTextureDesc, sizeof(arrayTextureDesc));
+		arrayTextureDesc.Width = tUniformWidth;
+		arrayTextureDesc.Height = tUniformHeight;
+		arrayTextureDesc.MipLevels = tUniformMipLevels;
+		arrayTextureDesc.ArraySize = cnt;
+		arrayTextureDesc.Format = tUniformDXGIFormat; 
+		arrayTextureDesc.SampleDesc.Count = 1;
+		arrayTextureDesc.SampleDesc.Quality = 0;
+		arrayTextureDesc.Usage = D3D11_USAGE_DEFAULT;
+		arrayTextureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		arrayTextureDesc.CPUAccessFlags = 0;
+		arrayTextureDesc.MiscFlags = 0;
 
 		//Resource가져와서 연동.
-		ID3D11Resource*& tResource = outTextureData->GetResource();
-		ID3D11Texture2D* texture2D = nullptr;
-		HR(tResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&texture2D));
+		ID3D11Texture2D* arrayTexture2D = nullptr;
+		HR(_DXStorage->_device->CreateTexture2D(&arrayTextureDesc, nullptr, &arrayTexture2D));
 
-		HR(_DXStorage->_device->CreateTexture2D(&textureDesc, nullptr, &texture2D));
+		//// Loop through each slice of the Texture2DArray and copy data from source textures
+		for (UINT sliceIndex = 0; sliceIndex < arrayTextureDesc.ArraySize; ++sliceIndex)
+		{
+			//저장되어 있는 모든 Vector.
+			for (int i = 0; i < tTexture2DStoreVec.size(); i++)
+			{
+				// Use CopySubresourceRegion to copy data from sourceTex1 to destTexArray
+				_DXStorage->_deviceContext->CopySubresourceRegion(
+					arrayTexture2D,        // Destination resource (Texture2DArray)
+					D3D11CalcSubresource(0, sliceIndex, arrayTextureDesc.MipLevels),
+					0, 0, 0,              // DestX, DestY, DestZ
+					tTexture2DStoreVec[i],          // Source resource (Texture2D)
+					0,                    // SrcSubresource
+					nullptr               // pSrcBox (use nullptr to copy the entire resource)
+				);
+			}
+		}
 
-		D3D11_SHADER_RESOURCE_VIEW_DESC tSrvDesc;
-		ZeroMemory(&tSrvDesc, sizeof(tSrvDesc));
-		tSrvDesc.Format = tUniformDXGIFormat;
-		tSrvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
-		tSrvDesc.Texture2DArray.MostDetailedMip = tUniformMipLevels - 1; //Mipmap Level Most Detailed : 하드웨어가 왔다갔다.
-		tSrvDesc.Texture2DArray.MipLevels = tUniformMipLevels;
-		tSrvDesc.Texture2DArray.FirstArraySlice = 0;
-		tSrvDesc.Texture2DArray.ArraySize = cnt;
+		//for (UINT sliceIndex = 0; sliceIndex < arrayTextureDesc.ArraySize; ++sliceIndex) {
+		//	// Loop through each mip level
+		//	for (UINT mipLevel = 0; mipLevel < tUniformMipLevels; ++mipLevel) {
+		//		// Determine the source SRV based on the slice index and mip level
+		//		//ID3D11ShaderResourceView* sourceSRV = sourceSRVs[sliceIndex * NUM_MIPMAPS + mipLevel];
+		//
+		//		// Use CopySubresourceRegion to copy data from the source SRV to destTexArray
+		//		_DXStorage->_deviceContext->CopySubresourceRegion(
+		//			arrayTexture2D,                // Destination resource (Texture2DArray)
+		//			D3D11CalcSubresource(mipLevel, sliceIndex, arrayTextureDesc.MipLevels),
+		//			0, 0, 0,                      // DestX, DestY, DestZ
+		//			tTexture2DStoreVec[mipLevel], // Helper function to get the source Texture2D from SRV
+		//			mipLevel,                     // SrcSubresource (mipmap level)
+		//			nullptr                       // pSrcBox (use nullptr to copy the entire resource)
+		//		);
+		//	}
+		//}
+
+		//for (UINT texElement = 0; texElement < arrayTextureDesc.ArraySize; ++texElement)
+		//{
+		//	// for each mipmap level...
+		//	for (UINT mipLevel = 0; mipLevel < arrayTextureDesc.MipLevels; ++mipLevel)
+		//	{
+		//		D3D11_MAPPED_SUBRESOURCE mappedTex2D;
+		//		//HR(_DXStorage->_deviceContext->Map(tTexture2DStoreVec[texElement], mipLevel, D3D11_MAP_READ, 0, &mappedTex2D));
+		//		HR(_DXStorage->_deviceContext->Map(tTexture2DStoreVec[texElement], mipLevel, D3D11_MAP_READ, 0, &mappedTex2D));
+		//
+		//		_DXStorage->_deviceContext->UpdateSubresource(arrayTexture2D,
+		//			D3D11CalcSubresource(mipLevel, texElement, arrayTextureDesc.MipLevels),
+		//			0, mappedTex2D.pData, mappedTex2D.RowPitch, mappedTex2D.DepthPitch);
+		//
+		//		_DXStorage->_deviceContext->Unmap(tTexture2DStoreVec[texElement], mipLevel);
+		//	}
+		//}
+		
+		HR(arrayTexture2D->QueryInterface(__uuidof(ID3D11Resource), (void**)&outTextureData->GetResource()));
+
+
+		D3D11_SHADER_RESOURCE_VIEW_DESC tSrvArrayDesc;
+		ZeroMemory(&tSrvArrayDesc, sizeof(tSrvArrayDesc));
+		tSrvArrayDesc.Format = tUniformDXGIFormat;
+		tSrvArrayDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+		tSrvArrayDesc.Texture2DArray.MipLevels = tUniformMipLevels;
+		tSrvArrayDesc.Texture2DArray.ArraySize = cnt;
 
 		ID3D11ShaderResourceView*& textureArraySRV = outTextureData->GetSRV();
-		HR(_DXStorage->_device->CreateShaderResourceView(texture2D, &tSrvDesc, &textureArraySRV));
+		HR(_DXStorage->_device->CreateShaderResourceView(arrayTexture2D, &tSrvArrayDesc, &textureArraySRV));
+		
+		assert("");
 	}
 
 	

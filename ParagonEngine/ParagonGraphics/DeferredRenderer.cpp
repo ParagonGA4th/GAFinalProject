@@ -215,6 +215,9 @@ namespace Pg::Graphics
 			_opaqueQuadPassesVector[i]->PassNextRequirements(*_carrier);
 		}
 
+		//더 이상 값을 설정하지 않을 때 이런 식으로 할당 해제해주면 된다.
+		_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
+
 		//Quad 렌더링하는데 쓰였던 Resources들 Clear.
 		//더 이상 안쓰이는 Resource Slot들 -> nullptr로 설정.
 		ID3D11ShaderResourceView* pSRV = nullptr;
