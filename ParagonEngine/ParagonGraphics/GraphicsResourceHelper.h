@@ -2,6 +2,7 @@
 #include "../ParagonData/AssetDefines.h"
 
 #include "ShaderParsingData.h"
+#include "AssetTextureType.h"
 
 //<실제 Graphics Resource의 목록>
 #include "RenderMaterial.h"
@@ -45,6 +46,9 @@ namespace Pg::Graphics::Helper
 		//Renderer 컴포넌트가 추가될 수록 업데이트되어야 한다.
 		static short IsRenderer3D(const std::string& rendererTypeName);
 
+		//Texture의 종류에 따라 기본 텍스쳐 경로를 반환한다.
+		static std::string GetDefaultTexturePath(eAssetTextureType textureType);
+
 		//그래픽스 : Material Loading!
 		static eTexVarType GetTexVarType(const std::string& varString);
 		static eTexReturnVarType GetTexReturnVarType(const std::string& varString);
@@ -56,7 +60,7 @@ namespace Pg::Graphics::Helper
 		static std::string GetMeshNameFromDefaultMaterialName(const std::string& name);
 
 		//Default Material을 위한 Default Texture2DArray 연동을 위해.
-		static std::string GetDefaultTex2DArrayNameFromValues(const std::string& varName, std::string* renderTextureNameSrc, unsigned int cnt);
+		static std::string GetDefaultTex2DArrayNameFromValues(const std::string& defMatName, const std::string& varName, std::string* renderTextureNameSrc, unsigned int cnt);
 		static void GetTextureNamesFromDefaultTex2DArrayName(const std::string& defTex2DArrName, std::vector<std::string>& outStringVector);
 		
 		//Texture2DArray를 위한 확장자 .pgt2arr의 내용 String을 Vector로 바꾸어 내보낸다.

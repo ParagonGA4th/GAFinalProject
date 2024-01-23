@@ -1,4 +1,6 @@
 #include "Collider.h"
+#include "PhysicsCollision.h"
+#include "../ParagonUtil/Log.h"
 
 namespace Pg::Data
 {
@@ -9,9 +11,12 @@ namespace Pg::Data
 		_positionOffSet(0.0f, 0.0f, 0.0f),
 		_rotationOffset(1.0f, 0.0f, 0.0f, 0.0f),
 		_scaleOffset(1.0f, 1.0f, 1.0f),
-		_pxScene(nullptr)
+		_pxScene(nullptr),
+		_isTrigger(false),
+		_isCollide(false),
+		_wasCollided(false)
 	{
-		
+		_collisionStorage.reserve(5);	
 	}
 
 	void Collider::SetPoisitonOffset(PGFLOAT3 position)
@@ -116,5 +121,72 @@ namespace Pg::Data
 		return _pxScene;
 	}
 
+	void Collider::SetTrigger(bool isTrigger)
+	{
+		_isTrigger = isTrigger;
+	}
 
+	bool Collider::GetTrigger()
+	{
+		return _isTrigger;
+	}
+
+	
+
+	bool Collider::GetIsCollide()
+	{
+		return _isCollide;
+	}
+
+	bool Collider::GetWasCollided()
+	{
+		return _wasCollided;
+	}
+	
+	void Collider::Flush()
+	{
+		_wasCollided = _isCollide;
+		_isCollide = false;
+
+		//매 프레임 체크할 때 마다 초기화.
+		_collisionStorage.clear();
+	}
+
+	///API용.
+	void Collider::Collider_OnCollisionEnter(PhysicsCollision& c)
+	{
+		std::string tRes = "Collider_OnCollisionEnter : ";
+		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+
+		//bool값을 변경해주고 상태를 설정해줘야 Object의 이벤트와 연결이 가능하다.
+		this->_isCollide = true;
+		_collisionStorage.push_back(&c);
+	}
+
+	void Collider::Collider_OnCollisionExit(PhysicsCollision& c)
+	{
+		std::string tRes = "Collider_OnCollisionExit : ";
+		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+
+		this->_isCollide = false;
+		_collisionStorage.push_back(&c);
+	}
+
+	void Collider::Collider_OnTriggerEnter(Collider* c)
+	{
+		std::string tRes = "Collider_OnTriggerEnter : ";
+		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+	}
+
+	void Collider::Collider_OnTriggerExit(Collider* c)
+	{
+		std::string tRes = "Collider_OnTriggerExit : ";
+		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+	}
+
+	void Collider::SetPxShape(physx::PxShape* shape)
+	{
+		_shape = shape;
+		_shape->userData = this;
+	}
 }

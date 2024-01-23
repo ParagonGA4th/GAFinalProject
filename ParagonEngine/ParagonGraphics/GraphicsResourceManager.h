@@ -78,6 +78,9 @@ namespace Pg::Graphics::Manager
 		//특정 리소스의 파일 이름을 가지고 동일 파일이름의 리소스가 이미 로드되었는지 점검.
 		bool IsExistResourceByName(const std::string& name);
 
+		//특정 리소스의 파일 이름과 타입을 가지고 동일 파일이름의 리소스가 이미 로드되었는지 점검.
+		bool IsExistResourceByNameType(const std::string& name, Pg::Data::Enums::eAssetDefine define);
+
 		//해당 Mesh의 이름으로 디폴트 매터리얼이 존재하는지를 점검한다.
 		bool IsExistDefaultMaterialByMeshName(const std::string& name);
 
@@ -105,7 +108,6 @@ namespace Pg::Graphics::Manager
 
 		//가져온 값이 없을 때 Texture의 종류에 따라 디폴트 값을 가져올 수 있다.
 		RenderTexture2D* GetDefaultTexture(eAssetTextureType textureType);
-
 	private:
 		//GraphicsMain에서, 리소스 로드할 때 활용된다.
 		void LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define);

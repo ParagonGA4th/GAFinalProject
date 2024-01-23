@@ -433,6 +433,7 @@ namespace Pg::Graphics
 		renderMat->_psIntrinsics->_cbBufferSize = 0;
 		
 		std::string tMeshName = GraphicsResourceHelper::GetMeshNameFromDefaultMaterialName(defInstMatName);
+
 		auto tRes = GraphicsResourceManager::Instance()->GetResourceByName(tMeshName, Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		Asset3DModelData* tModelData = static_cast<Asset3DModelData*>(tRes.get());
 
@@ -460,9 +461,19 @@ namespace Pg::Graphics
 		for (short i = 0; i < asset3dModel->GetMaterialCount(); i++)
 		{
 			MaterialCluster* tMatCluster = asset3dModel->GetMaterialByIndex(i);
-			std::string tPath = tMatCluster->GetTextureByType(type)->GetFilePath();
-			std::filesystem::path tFSP = tPath;
-			tRenderT2Vec.at(i) = tFSP.filename().string();
+			std::string tPath = "";
+			if (tMatCluster->GetTextureByType(type) != nullptr)
+			{
+				//실제로 값이 있을 경우, 값을 로딩해서 넣는다.
+				tPath = tMatCluster->GetTextureByType(type)->GetFilePath();
+				std::filesystem::path tFSP = tPath;
+				tRenderT2Vec.at(i) = tFSP.filename().string();
+			}
+			else
+			{
+				//없을 경우, 타입에 맞는 기본 리소스를 넣는다. 이 경우, Default Textures가 로드될 것.
+				tRenderT2Vec.at(i) = GraphicsResourceHelper::GetDefaultTexturePath(type);
+			}
 		}
 
 		//어차피 모든 이 해당 MaterialCluster 내부의 Texture2DArray는 크게 관리받을 이유가 없다.
@@ -471,7 +482,7 @@ namespace Pg::Graphics
 
 		//내부적으로 Default Material Texture2DArray 표시를 한다.
 		
-		std::string tTempTex2DArrName = GraphicsResourceHelper::GetDefaultTex2DArrayNameFromValues(varName, tRenderT2Vec.data(), tRenderT2Vec.size());
+		std::string tTempTex2DArrName = GraphicsResourceHelper::GetDefaultTex2DArrayNameFromValues(defInstMatName, varName, tRenderT2Vec.data(), tRenderT2Vec.size());
 
 		//$DefaultMaterial_Texture2DArray_$이 들어 있기에, Default Material 전용 Texture2DArray로 로드될 것.
 		Pg::Graphics::Manager::GraphicsResourceManager::Instance()->LoadResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
