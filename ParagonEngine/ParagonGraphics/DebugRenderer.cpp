@@ -175,6 +175,11 @@ namespace Pg::Graphics
 			Pg::Data::LineInfo it = _lineColVector->at(i);
 			DrawLine(&it);
 		}
+
+		for (int i = 0; i < _rayCastColVector->size(); i++)
+		{
+			DrawRayCast(_rayCastColVector->at(i));
+		}
 	}
 
 	void DebugRenderer::EndPrimitiveBatchRender()
@@ -200,6 +205,11 @@ namespace Pg::Graphics
 	void DebugRenderer::GetDebugLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec)
 	{
 		_lineColVector = &lineColVec;
+	}
+
+	void DebugRenderer::GetDebugRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec)
+	{
+		_rayCastColVector = &rayCastColVec;
 	}
 
 	void DebugRenderer::DrawBox(Pg::Data::CameraData* camData, Pg::Data::BoxInfo* boxInfo)
@@ -310,6 +320,19 @@ namespace Pg::Graphics
 		_primitiveBatch->DrawLine(
 			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(lineInfo->beginPoint), MathHelper::PG2XM_FLOAT4(lineInfo->color)),
 			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(lineInfo->endPoint), MathHelper::PG2XM_FLOAT4(lineInfo->color)));
+	}
+
+	void DebugRenderer::DrawRayCast(Pg::Data::RayCastInfo* rayCastInfo)
+	{
+		Pg::Math::PGFLOAT3 tBeginPoint = rayCastInfo->origin;
+		Pg::Math::PGFLOAT3 tEndPoint = (rayCastInfo->origin) + (rayCastInfo->dir) * (rayCastInfo->length);
+
+		DirectX::XMFLOAT4 tColor;
+		DirectX::XMStoreFloat4(&tColor, DirectX::Colors::MediumVioletRed);
+
+		_primitiveBatch->DrawLine(
+			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(tBeginPoint), tColor),
+			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(tEndPoint), tColor));
 	}
 
 	void DebugRenderer::DrawPlane(Pg::Data::CameraData* camData, Pg::Data::PlaneInfo* planeInfo)
@@ -546,6 +569,8 @@ namespace Pg::Graphics
 			LowDX11Storage::GetInstance()->_wireframeState, D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 		_primitivePS = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/PrimitivePS.cso");
 	}
+
+	
 
 	
 
