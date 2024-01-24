@@ -163,7 +163,12 @@ namespace Pg::Graphics
 
 		return _gCarrier->_quadMainRT->GetSRV();
 	}
-	
+
+	Pg::Data::GameObject* ParagonRenderer::GetPickedGameObjectWithRatios(int screenWidth, int screenHeight, float widthRatio, float heightRatio)
+	{
+		return nullptr;
+	}
+
 
 	
 
