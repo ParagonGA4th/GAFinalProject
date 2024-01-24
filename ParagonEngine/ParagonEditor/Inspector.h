@@ -6,6 +6,7 @@
 namespace Pg::Editor { class Event; }
 namespace Pg::Data { class GameObject; }
 namespace Pg::UI::Manager { class UIManager; }
+namespace Pg::UI { class WidgetContainer; }
 
 namespace Pg::Editor::Window
 {
@@ -25,7 +26,6 @@ namespace Pg::Editor::Window
 
 	private:
 		void SetData(void* data);
-		void UpateData();
 
 	private:
 		/// inspector value
@@ -34,12 +34,12 @@ namespace Pg::Editor::Window
 
 		/// helper class
 		Pg::UI::Manager::UIManager* _uiManager;
-
+		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
 		std::unique_ptr<Pg::Editor::Window::InspectorHelper> _insHelper;
-		std::unique_ptr<Pg::Editor::Event> _changeObjectData;
 
 		/// Data value
 		Pg::Data::GameObject* _selectGameObject;
+		bool* _isAddComponent;
 	};
 }
 

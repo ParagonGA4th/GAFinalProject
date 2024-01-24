@@ -32,9 +32,6 @@ Pg::UI::Manager::ImGuiManager::ImGuiManager()
 
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
-		style.WindowRounding = 0.0f;
-		style.WindowBorderSize = 0.0f;
-		style.WindowPadding = ImVec2(0.0f, 0.0f);
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
 
@@ -58,24 +55,6 @@ void Pg::UI::Manager::ImGuiManager::CreateFrame()
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-
-	ImGuiViewport* viewport = ImGui::GetMainViewport();
-	ImGui::SetNextWindowPos(viewport->Pos);
-	ImGui::SetNextWindowSize(viewport->Size);
-	ImGui::SetNextWindowViewport(viewport->ID);
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-
-	ImGui::Begin("##dockspace", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking);
-	ImGuiID dockspace_id = ImGui::GetID("Paragon Engine");
-	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
-	ImGui::SetWindowPos({ 0.f, 0.f });
-	ImVec2 displaySize = ImGui::GetIO().DisplaySize;
-	ImGui::SetWindowSize({ 1920, 1080 });
-	ImGui::End();
-
-	ImGui::PopStyleVar(3);
 }
 
 void Pg::UI::Manager::ImGuiManager::Render()
@@ -111,6 +90,38 @@ void Pg::UI::Manager::ImGuiManager::Begin(std::string panelName, bool isMenu)
 		window_flags |= ImGuiWindowFlags_MenuBar;
 		ImGui::Begin(panelName.c_str(), &isMenu, window_flags);
 	}		
+}
+
+void Pg::UI::Manager::ImGuiManager::DockSpaceBegin(std::string dockName)
+{
+	ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+
+	const ImGuiViewport* viewport = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(viewport->WorkPos);
+	ImGui::SetNextWindowSize(viewport->WorkSize);
+	ImGui::SetNextWindowViewport(viewport->ID);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+	window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+	window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+
+	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
+		window_flags |= ImGuiWindowFlags_NoBackground;
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+
+	ImGui::Begin(dockName.c_str(), nullptr, window_flags);
+
+	ImGui::PopStyleVar();
+	ImGui::PopStyleVar(2);
+
+	ImGuiID dockspace_id = ImGui::GetID("Paragon Engine");
+	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+
+	//ImGui::SetWindowPos({ 0.f, 0.f });
+	//ImVec2 displaySize = ImGui::GetIO().DisplaySize;
+	//ImGui::SetWindowSize({ 1920, 1080 });
 }
 
 void Pg::UI::Manager::ImGuiManager::End()

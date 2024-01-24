@@ -3,6 +3,9 @@
 #include "Event.h"
 
 #include "../ParagonUI/UIManager.h"
+#include "../ParagonUI/WidgetContainer.h"
+#include "../ParagonUI/Button.h"
+
 #include <singleton-cpp/singleton.h>
 
 Pg::Editor::Window::Inspector::Inspector()
@@ -11,8 +14,8 @@ Pg::Editor::Window::Inspector::Inspector()
 	auto& tUIManager = singleton<Pg::UI::Manager::UIManager>();
 	_uiManager = &tUIManager;
 
+	_widgetCon = std::make_unique<Pg::UI::WidgetContainer>();
 	_insHelper = std::make_unique<Pg::Editor::Window::InspectorHelper>();
-	_changeObjectData = std::make_unique<Pg::Editor::Event>();
 }
 
 Pg::Editor::Window::Inspector::~Inspector()
@@ -23,13 +26,19 @@ Pg::Editor::Window::Inspector::~Inspector()
 void Pg::Editor::Window::Inspector::Initialize()
 {	
 	_insHelper->Initialize();
-	_changeObjectData->AddEvent(Pg::Editor::eEventType::ChangeObjectData, [&](void* data) { SetData(data); });
+
+	std::unique_ptr<Pg::Editor::Event> changeObjectData = std::make_unique<Pg::Editor::Event>();
+	changeObjectData->AddEvent(Pg::Editor::eEventType::_OBJECTDATA, [&](void* data) { SetData(data); });
+
+	auto& btn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Add Component", 120.f, 25.f);
+	_isAddComponent = &btn._isButtonClick;
 }
 
 void Pg::Editor::Window::Inspector::Update()
 {
 	_uiManager->WindowBegin(_winName);
 	_insHelper->Update();
+	_widgetCon->Update();
 	_uiManager->WindowEnd();
 
 	//if (_dataContainer->GetSave())

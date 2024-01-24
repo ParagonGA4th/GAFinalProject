@@ -25,8 +25,8 @@ void Pg::Editor::System::FileSystem::Initialize()
 {
 	// project가 처음 open 될 때는 기존 폴더(Builds//x64//Relase//)에 있는 sample load.
 
-	_fileSaveEvent->AddEvent(Pg::Editor::eEventType::FileSave, [&]() { FileSave(); });
-	_fileOpenEvent->AddEvent(Pg::Editor::eEventType::FileOpen, [&]() { FileOpen(); });
+	_fileSaveEvent->AddEvent(Pg::Editor::eEventType::_FILESAVE, [&]() { FileSave(); });
+	_fileOpenEvent->AddEvent(Pg::Editor::eEventType::_FILEOPEN, [&]() { FileOpen(); });
 }
 
 void Pg::Editor::System::FileSystem::FileOpen()
