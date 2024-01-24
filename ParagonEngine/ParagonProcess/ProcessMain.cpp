@@ -109,6 +109,9 @@ namespace Pg::Core
 		_engineGraphicsAdapter->UpdateGraphics(
 			_engineGraphicsAdapter->GetCurrentScene(),
 			_engineGraphicsAdapter->GetCameraData());
+
+		// 에디터에서 변경 된 씬 정보 -> 게임엔진 
+		_engineGraphicsAdapter->SetCurrentScene(_editorAdapter->GetCurrentScene());
 	}
 
 	void ProcessMain::BeginRender()
@@ -119,6 +122,17 @@ namespace Pg::Core
 	void ProcessMain::Render()
 	{
 		_engineGraphicsAdapter->Render();
+	}
+
+	void ProcessMain::PassPickedObject()
+	{
+		//GameObject 전달. 동일 함수에서 EditorAdapter로 전달해야. Nullptr 전달 가능. 
+		Pg::Data::GameObject* tToPass = _engineGraphicsAdapter->GetPickedGameObjectWithRatios(0.f, 0.f);
+	}
+
+	void ProcessMain::FinalRender()
+	{
+		_engineGraphicsAdapter->FinalRender();
 	}
 
 	void ProcessMain::EndRender()
@@ -158,5 +172,7 @@ namespace Pg::Core
 	{
 		return _editorAdapter.get();
 	}
+
+	
 
 }

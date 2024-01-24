@@ -227,7 +227,7 @@
       <Filter>8_Helpers\GraphicsSceneParser</Filter>
     </ClInclude>
     <ClInclude Include="FinalRenderPass.h">
-      <Filter>0_Main\RenderPass\3_FinalRenderPass</Filter>
+      <Filter>0_Main\RenderPass\5_FinalRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="ObjMatStaticRenderPass.h">
       <Filter>0_Main\RenderPass\1_ObjMatStaticRenderPass</Filter>
@@ -243,6 +243,9 @@
     </ClInclude>
     <ClInclude Include="FinalRenderer.h">
       <Filter>0_Main\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="OpaqueLightingRenderPass.h">
+      <Filter>0_Main\RenderPass\3_OpaqueLightingPass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -436,7 +439,7 @@
       <Filter>8_Helpers\GraphicsSceneParser</Filter>
     </ClCompile>
     <ClCompile Include="FinalRenderPass.cpp">
-      <Filter>0_Main\RenderPass\3_FinalRenderPass</Filter>
+      <Filter>0_Main\RenderPass\5_FinalRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="ObjMatStaticRenderPass.cpp">
       <Filter>0_Main\RenderPass\1_ObjMatStaticRenderPass</Filter>
@@ -449,6 +452,9 @@
     </ClCompile>
     <ClCompile Include="Forward3DRenderer.cpp">
       <Filter>0_Main\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="OpaqueLightingRenderPass.cpp">
+      <Filter>0_Main\RenderPass\3_OpaqueLightingPass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -725,9 +731,6 @@
     <Filter Include="0_Main\RenderPass\2_OpaqueQuadRenderPass">
       <UniqueIdentifier>{449cc130-19ee-4d9d-883c-be93c1eeaf50}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main\RenderPass\3_FinalRenderPass">
-      <UniqueIdentifier>{eaa8e6b3-4a91-4e77-858e-d882be91ee71}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0_Main\RenderPass\0_FirstStaticRenderPass">
       <UniqueIdentifier>{3157d69f-ab00-40e8-9704-a984429cdac2}</UniqueIdentifier>
     </Filter>
@@ -742,6 +745,12 @@
     </Filter>
     <Filter Include="6_HLSL\Appends\Added\Object\Default">
       <UniqueIdentifier>{eea3932f-2258-46ec-8240-56c7dbf53ced}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass\3_OpaqueLightingPass">
+      <UniqueIdentifier>{f54e7a5e-4811-4fe0-a4b7-d2c4f483636e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass\5_FinalRenderPass">
+      <UniqueIdentifier>{eaa8e6b3-4a91-4e77-858e-d882be91ee71}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

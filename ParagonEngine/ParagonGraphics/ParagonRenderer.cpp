@@ -156,7 +156,19 @@ namespace Pg::Graphics
 		_finalRenderer->SetupRenderPasses();
 	}
 
-	
+	ID3D11ShaderResourceView* ParagonRenderer::GetFinalQuadSRV()
+	{
+		assert(_gCarrier->_quadMainRT != nullptr);
+		assert(_gCarrier->_quadMainRT->GetSRV() != nullptr);
+
+		return _gCarrier->_quadMainRT->GetSRV();
+	}
+
+	Pg::Data::GameObject* ParagonRenderer::GetPickedGameObjectWithRatios(int screenWidth, int screenHeight, float widthRatio, float heightRatio)
+	{
+		return nullptr;
+	}
+
 
 	
 

@@ -62,12 +62,18 @@ namespace Pg::Graphics
 		void PassPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec);
 		void PassRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec);
 
+		//Picking된 게임오브젝트를 보낸다.
+		Pg::Data::GameObject* GetPickedGameObjectWithRatios(int screenWidth, int screenHeight, float widthRatio, float heightRatio);
+		
 		void BeginRender();
 		void Render(Pg::Data::CameraData* camData);			// 이미 컴포넌트 단계에서 RenderObject들과 연동되기에, 오브젝트 자체를 받을 필요가 없음.
 		void DebugRender(Pg::Data::CameraData* camData);	// 별도로 Debug Render를 한다.
 		void UiRender(Pg::Data::CameraData* camData);		// 2D UI를 렌더링한다.
 		void FinalRender(Pg::Data::CameraData* camData);	// MainRenderTarget으로 보내주는 역할을 한다.
 		void EndRender();
+
+		//마지막 SRV Quad를 보낸다.
+		ID3D11ShaderResourceView* GetFinalQuadSRV();
 
 	private:
 		LowDX11Storage* _DXStorage = nullptr;
@@ -88,6 +94,8 @@ namespace Pg::Graphics
 	private:
 		//SkinningMk.2 한정.
 		//MultimaterialMesh* _tempMultiMesh;
+
+		
 
 	};
 }

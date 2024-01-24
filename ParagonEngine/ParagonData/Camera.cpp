@@ -1,12 +1,18 @@
 #include "Camera.h"
 #include "GameObject.h"
+
+#include <generic_factory/generic_factory.hpp>
 #include <cmath>
 #include <numbers>
+
+using namespace Pg::Data;
+REGISTER_CHILD_INTO_FACTORY(Component, Camera, "class Pg::Data::Camera", GameObject*);
 
 namespace Pg::Data
 {
 	Camera::Camera(Pg::Data::GameObject* obj) :
-		Pg::Data::Component(obj)
+		Pg::Data::Component(obj),
+		_nearZ(0.0001f), _farZ(1000.0f), _fovY(PG_PI * 0.4f)
 	{
 		_cameraData = std::make_unique<Pg::Data::CameraData>();
 
@@ -21,49 +27,59 @@ namespace Pg::Data
 		UpdateViewMatrix();
 	}
 
-	float Camera::GetNearZ() const
+	void Camera::OnDeserialize(SerializeVector& sv)
 	{
-		return _nearZ;
+		Pg::Data::SerializerHelper::OnDeserializerHelper(this, sv);
+	}	
+	
+	void Camera::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
 	}
 
-	float Camera::GetFarZ() const
-	{
-		return _farZ;
-	}
+	//float Camera::GetNearZ() const
+	//{
+	//	return _nearZ;
+	//}
 
-	float Camera::GetFovY() const
-	{
-		return _fovY;
-	}
+	//float Camera::GetFarZ() const
+	//{
+	//	return _farZ;
+	//}
+
+	//float Camera::GetFovY() const
+	//{
+	//	return _fovY;
+	//}
+
+	//void Camera::SetNearZ(float nearZ)
+	//{
+	//	_nearZ = nearZ;
+	//}
+
+	//void Camera::SetFarZ(float farZ)
+	//{
+	//	_farZ = farZ;
+	//}
+
+	//void Camera::SetFovY(float fovY)
+	//{
+	//	_fovY = fovY;
+	//}
 
 	Pg::Math::PGFLOAT4X4 Camera::GetViewMatrix() const
 	{
 		return _viewMatrix;
 	}
 
-	void Camera::SetNearZ(float nearZ)
-	{
-		_nearZ = nearZ;
-	}
-
-	void Camera::SetFarZ(float farZ)
-	{
-		_farZ = farZ;
-	}
-
-	void Camera::SetFovY(float fovY)
-	{
-		_fovY = fovY;
-	}
-
 	Pg::Data::CameraData* Camera::GetCameraData()
 	{
-		_cameraData->_position = _object->_transform.GetPosition();
-		_cameraData->_rotation = _object->_transform.GetRotation();
+		_cameraData->_position = _object->_transform._position;
+		_cameraData->_rotation = _object->_transform._rotation;
 
-		_cameraData->_farZ = GetFarZ();
-		_cameraData->_fovY = GetFovY();
-		_cameraData->_nearZ = GetNearZ();
+		_cameraData->_farZ = _farZ;
+		_cameraData->_fovY = _fovY;
+		_cameraData->_nearZ = _nearZ;
 
 		_cameraData->_viewMatrix = GetViewMatrix();
 
@@ -77,7 +93,7 @@ namespace Pg::Data
 		PGFLOAT3 R = _object->_transform.GetRight();
 		PGFLOAT3 U = _object->_transform.GetUp();
 		PGFLOAT3 L = _object->_transform.GetForward();
-		PGFLOAT3 P = _object->_transform.GetPosition();
+		PGFLOAT3 P = _object->_transform._position;
 
 		// Keep camera's axes orthogonal to each other and of unit length.
 		L = PGFloat3Normalize(L);
@@ -112,5 +128,4 @@ namespace Pg::Data
 		_viewMatrix.m[3][3] = 1.0f;
 
 	}
-
 }

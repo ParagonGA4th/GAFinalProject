@@ -4,9 +4,10 @@ namespace Pg::Editor
 {
 	enum class eEventType
 	{
-		NONE,
-		FileSave,
-		FileOpen,
-		ChangeObjectData,
+		_NONE,
+		_FILESAVE,
+		_FILEOPEN,
+		_OBJECTDATA,
+		_EDITORMODE,
 	};
 }

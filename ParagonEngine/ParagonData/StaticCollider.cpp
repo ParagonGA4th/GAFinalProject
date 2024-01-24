@@ -23,7 +23,7 @@ namespace Pg::Data
 		using namespace Pg::Math;
 
 		PGFLOAT4 position = PGFLOAT4(GetPositionOffset(), 1.0f) * _object->_transform.GetWorldTM();
-		PGQuaternion rotation = PGQuaternionMultiply(GetRotationOffset(), _object->_transform.GetRotation());
+		PGQuaternion rotation = PGQuaternionMultiply(GetRotationOffset(), _object->_transform._rotation);
 
 		physx::PxTransform transform;
 

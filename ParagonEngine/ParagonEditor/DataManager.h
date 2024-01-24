@@ -1,5 +1,8 @@
 #pragma once
+#include "DataContainer.h"
+
 #include "../ParagonUtil/pugixml.hpp"
+
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -19,12 +22,12 @@ namespace Pg::Editor::Manager
 		DataManager();
 		~DataManager();
 
-		void DataLoad(std::string path, std::string fileName);
+		void DataLoad(std::string path);
 		std::unordered_map<std::string, std::string> DataSave();
 
 	private:
 		void ProjectLoad();
-		void SceneLoad();
+		void SceneLoad(std::string path);
 
 		//void ProjectSave();
 		void SceneSave();
@@ -38,7 +41,12 @@ namespace Pg::Editor::Manager
 
 		std::vector<Pg::Data::Scene*> _scenes;
 		std::vector<Pg::Data::GameObject*> _changeObjects;
-		std::unordered_map<std::string, std::string> _sceneSerializeData;
+
+		// file을 쓰는 것은 FileSystem에서 담당하기 때문에
+		// first - SceneName, second - SerializeData
+		std::unordered_map<std::string, std::string> _sceneSerializeData; 
+
+		ScenesData* _scenesData;
 
 		Pg::Editor::Data::DataContainer* _dataContainer;
 	};

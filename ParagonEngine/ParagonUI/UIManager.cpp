@@ -51,3 +51,8 @@ void Pg::UI::Manager::UIManager::WindowEnd()
 {
 	_imguiManager->End();
 }
+
+void Pg::UI::Manager::UIManager::WindowDockSpaceBegin(std::string winName)
+{
+	_imguiManager->DockSpaceBegin(winName);
+}

@@ -72,9 +72,18 @@ namespace Pg::Core
 
 	void EngineGraphicsAdapter::Render()
 	{
-
 		//워크스페이스 버전
 		_graphics->Render(_engine->GetCurrentScene());
+	}
+
+	Pg::Data::GameObject* EngineGraphicsAdapter::GetPickedGameObjectWithRatios(float widthRatio, float heightRatio)
+	{
+		return _graphics->GetPickedGameObjectWithRatios(widthRatio, heightRatio);
+	}
+
+	void EngineGraphicsAdapter::FinalRender()
+	{
+		_graphics->FinalRender();
 	}
 
 	void EngineGraphicsAdapter::EndRender()
@@ -123,6 +132,16 @@ namespace Pg::Core
 		return _graphics->GetGameCameraViewSRV();
 	}
 
+	void EngineGraphicsAdapter::SetSceneList(std::vector<Pg::Data::Scene*> sceneList)
+	{
+		return _engine->SetSceneList(sceneList);
+	}
+
+	void EngineGraphicsAdapter::SetCurrentScene(Pg::Data::Scene* currentScene)
+	{
+		return _engine->SetCurrentScene(currentScene);
+	}
+
 	Pg::Data::Scene* EngineGraphicsAdapter::GetCurrentScene()
 	{
 		return _engine->GetCurrentScene();
@@ -163,5 +182,7 @@ namespace Pg::Core
 	{
 		_engine->ClearDebugVectorData();
 	}
+
+	
 
 }
