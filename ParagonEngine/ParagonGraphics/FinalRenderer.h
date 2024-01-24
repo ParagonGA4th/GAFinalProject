@@ -35,6 +35,8 @@ namespace Pg::Graphics
 		virtual void RenderContents(void* renderObjectList, Pg::Data::CameraData* camData) override;
 		virtual void ConfirmCarrierData() override;
 
+		//Unsigned Int로 Picking된 ID를 받는다.
+		unsigned int GetPickingID(unsigned int widthPixel, unsigned int widthHeight);
 
 	private:
 		std::unique_ptr<FinalRenderPass> _finalRenderPass;

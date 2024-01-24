@@ -257,6 +257,18 @@ namespace Pg::Engine::Physic
 			Pg::Data::StaticCollider* staticCol = static_cast<Pg::Data::StaticCollider*>(rigid->userData);
 			staticCol->UpdateTransform();
 		}
+
+
+		//rayCast는 매 프레임마다 받아와야 하므로 여기다가 임시로 해본다.
+		for (auto& obj : _sceneSystem->GetCurrentScene()->GetObjectList())
+		{
+			Pg::Data::RayCast* tRayCast = obj->GetComponent<Pg::Data::RayCast>();
+
+			if (tRayCast != nullptr)
+			{
+				MakeRayCast(obj);
+			}
+		}
 	}
 
 
@@ -367,7 +379,7 @@ namespace Pg::Engine::Physic
 			}
 			else if (tRayCast != nullptr)
 			{
-
+				//MakeRayCast(obj);
 			}
 			AddObjectToScene();
 		}

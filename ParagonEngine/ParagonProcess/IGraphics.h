@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../ParagonData/Scene.h"
+#include "../ParagonData/GameObject.h"
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/DebugData.h"
 #include "../ParagonData/AssetDefines.h"
@@ -20,11 +21,6 @@ struct ID3D11Device;
 struct ID3D11DeviceContext;
 struct ID3D11ShaderResourceView;
 
-namespace Pg::Data
-{
-	class Scene;
-}
-
 namespace Pg::Core
 {
 	class IGraphics abstract
@@ -38,6 +34,7 @@ namespace Pg::Core
 		virtual void Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData) abstract;
 		virtual void BeginRender() abstract;
 		virtual void Render(Pg::Data::Scene* scene) abstract;
+		virtual void FinalRender() abstract;
 		virtual void EndRender() abstract;
 
 		virtual void Finalize() abstract;
@@ -76,5 +73,10 @@ namespace Pg::Core
 		virtual void SetSphereDebugRenderData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec) abstract;
 		virtual void SetPlaneDebugRenderData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec) abstract;
 		virtual void SetRayCastDebugRenderData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec) abstract;
+	
+		//Picking을 허용할지 / 허용하지 않을지, 렌더링 파이프라인 비용을 ON/OFF 할 수 있다.
+		virtual void SetPickingEnableMode(bool val) abstract;
+		//Picking : Screen Space Coord의 비율에 따라서 GameObject*를 반환한다. 없으면 Nullptr 전달.
+		virtual Pg::Data::GameObject* GetPickedGameObjectWithRatios(float widthRatio, float heightRatio) abstract;
 	};
 }
