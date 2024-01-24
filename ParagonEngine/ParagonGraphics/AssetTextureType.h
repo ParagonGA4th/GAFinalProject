@@ -111,7 +111,9 @@ namespace Pg::Graphics
 		PG_TextureType_BASE_COLOR = 12,
 		PG_TextureType_NORMAL_CAMERA = 13,
 		PG_TextureType_EMISSION_COLOR = 14,
-		PG_TextureType_METALNESS = 15,
+
+		/// 240119 : 우리 엔진 기준으로 ARM이 적용될 것이다. (assimp에서는 metallic이지만, Paragon Engine에서는 ARM)
+		PG_TextureType_ARM = 15,
 		PG_TextureType_DIFFUSE_ROUGHNESS = 16,
 		PG_TextureType_AMBIENT_OCCLUSION = 17,
 

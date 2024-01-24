@@ -19,10 +19,21 @@ namespace Pg::Graphics
 			DirectX::XMMATRIX gCBuf_WorldView;
 			DirectX::XMMATRIX gCBuf_WorldViewProj;
 			DirectX::XMFLOAT3 gCBuf_CameraPositionW;
-			// gCBuf_Materials[10] //후에 Material이 들어가면 추가되어야.
 		};
 
 		struct cbPerObjectSkinned 
+		{
+			DirectX::XMMATRIX gCBuf_Bones[PG_MAX_BONECOUNT];
+		};
+
+		//ObjMat 기록 위해.
+		struct cbPerObjMatBase
+		{
+			DirectX::XMMATRIX gCBuf_World;
+			DirectX::XMMATRIX gCBuf_WorldViewProj;
+		};
+
+		struct cbPerObjMatSkinned
 		{
 			DirectX::XMMATRIX gCBuf_Bones[PG_MAX_BONECOUNT];
 		};

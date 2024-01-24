@@ -9,7 +9,7 @@ namespace Pg::Data
 {
 	using Pg::Util::Helper::ResourceHelper;
 
-	RendererBase3D::RendererBase3D(GameObject* obj) : BaseRenderer(obj)
+	RendererBase3D::RendererBase3D(GameObject* obj) : BaseRenderer(obj), _meshFilePath(""), _renderMaterialPath("")
 	{
 		
 	}
@@ -29,5 +29,14 @@ namespace Pg::Data
 		return _meshFilePath;
 	}
 
+	void RendererBase3D::SetMaterialFilePath(const std::string& materialFilePath)
+	{
+		this->_renderMaterialPath = ResourceHelper::ForcePathUniform(materialFilePath);
+	}
+
+	std::string RendererBase3D::GetMaterialFilePath()
+	{
+		return _renderMaterialPath;
+	}
 
 }

@@ -9,8 +9,8 @@
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 
-
 #include <windows.h>
+#include <cassert>
 
 #pragma comment(lib, "Dxgi.lib")
 #pragma comment(lib, "D3D11.lib")
@@ -20,11 +20,6 @@ using float2 = DirectX::XMFLOAT2;
 using float3 = DirectX::XMFLOAT3;
 using float4 = DirectX::XMFLOAT4;
 using float4x4 = DirectX::XMMATRIX;
-
-//using float2 = Pg::Math::PGFLOAT2;
-//using float3 = Pg::Math::PGFLOAT3;
-//using float4 = Pg::Math::PGFLOAT4;
-//using float4x4 = Pg::Math::PGFLOAT4X4;
 
 //DXTK의 ThrowIfFailed 매크로 함수 추가!
 #if defined(DEBUG) | defined(_DEBUG)
@@ -53,3 +48,4 @@ using float4x4 = DirectX::XMMATRIX;
 #define HR(x) (x)
 #endif
 #endif 
+

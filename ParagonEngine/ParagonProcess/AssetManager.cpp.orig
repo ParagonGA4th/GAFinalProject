@@ -1,0 +1,204 @@
+#include "AssetManager.h"
+#include "ProcessMain.h"
+#include "IEngine.h"
+#include "IGraphics.h"
+
+#include "../ParagonData/ParagonDefines.h"
+#include "../ParagonGraphics/GraphicsResourceManager.h"
+#include "../ParagonGameEngine/EngineResourceManager.h"
+
+#include "../ParagonUtil/ResourceHelper.h"
+
+//<ResourcesList>
+#include "../ParagonGraphics/RenderMaterial.h"
+//</ResourcesList>
+
+#include <algorithm>
+#include <cassert>
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonData.lib")
+#else
+#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonData.lib")
+#endif // _DEBUG
+
+namespace Pg::Core::Manager
+{
+	using Pg::Util::Helper::ResourceHelper;
+
+	AssetManager::AssetManager()
+	{
+		//
+	}
+
+	AssetManager::~AssetManager()
+	{
+
+	}
+
+	void AssetManager::Initialize(Pg::Core::ProcessMain* core) 
+	{
+		_coreMain = core;
+		_perFrameToLoadResources.reserve(30);
+		_perFrameToUnloadResources.reserve(30);
+
+		//디폴트 리소스들이 로드되는 함수. 필수!
+		LoadDefaultResources();
+
+		//Scene 단위 리소스 연동이 완료되지 않으면, 여기서 로드되지 않은 리소스들은 사용되지 못함.
+		TemporaryLoadResources();
+	}
+
+	void AssetManager::Update(Pg::Core::IEngine* engine, Pg::Core::IGraphics* graphics)
+	{
+		//실제 Loading 로직.
+		for (auto& it : _perFrameToLoadResources)
+		{
+			if (Pg::Util::Helper::ResourceHelper::IsGraphicsResource(it.second))
+			{
+				graphics->LoadResource(it.first, it.second);
+			}
+			else
+			{
+				engine->LoadResource(it.first, it.second);
+			}
+			
+			//실제로 로드되었으면, AssetManager의 목록에 연동해서 관리해야 한다.
+			this->_resourceMap.insert(std::make_pair(it.first, it.second));
+		}
+
+		//실제 Unloading 로직.
+		for (auto& it : _perFrameToUnloadResources)
+		{
+			graphics->UnloadResource(it);
+			engine->UnloadResource(it);
+
+			//실제로 언로드되었으면, AssetManager의 목록에 연동해서 관리해야 한다.
+			this->_resourceMap.erase(it);
+		}
+
+		//다음 Iteration을 위해 Clear.
+		_perFrameToLoadResources.clear();
+		_perFrameToUnloadResources.clear();
+
+		//2차 발생 리소스들이 Graphics에서 나오지 않았다 체크해준다.
+		CheckForGraphicsToProcessLoad(graphics);
+	}
+
+	bool AssetManager::IsExistResource(const std::string& filepath)
+	{
+		std::string tFilePath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(filepath);
+
+		auto res = std::find_if(_resourceMap.begin(), _resourceMap.end(),
+			[&tFilePath](const std::pair<std::string, Pg::Data::Enums::eAssetDefine>& val)
+			-> bool {return (val.first == tFilePath); });
+
+		bool tIsFound = (res != _resourceMap.end()) ? true : false;
+		return tIsFound;
+	}
+
+	void AssetManager::LoadResource(const std::string& filepath, Pg::Data::Enums::eAssetDefine define)
+	{
+		std::string tFilePath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(filepath);
+
+		//Load하기 전에, 이미 목록에 없는지 체크!
+		if (!IsExistResource(tFilePath))
+		{
+			auto tInfo = std::make_pair(tFilePath, define);
+			this->_perFrameToLoadResources.emplace_back(tInfo);
+		}
+	}
+
+	void AssetManager::UnloadResource(const std::string& filepath)
+	{
+		std::string tFilePath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(filepath);
+
+		//Unload하기 전에, 이미 목록에 있는지 체크!
+		if (IsExistResource(tFilePath))
+		{
+			auto tInfo = tFilePath;
+			this->_perFrameToUnloadResources.emplace_back(tInfo);
+		}
+	}
+
+	void AssetManager::CheckForGraphicsToProcessLoad(Pg::Core::IGraphics* graphics)
+	{
+		auto tSecondaryResources = graphics->SendAddedSecondaryResources();
+
+		if (tSecondaryResources == nullptr)
+		{
+			return;
+		}
+
+		//만약 있을 경우, 리스트에 목록을 추가한다.
+		for (auto& it : *tSecondaryResources)
+		{
+			//기존에 키가 없을 경우만 넣어준다.
+			_resourceMap.insert(std::make_pair(it.first, it.second));
+		}
+
+		//그래픽스 Secondary List 클리어.
+		graphics->ClearSecondaryResourcesList();
+	}
+
+	void AssetManager::TemporaryLoadResources()
+	{
+		using Pg::Data::Enums::eAssetDefine;
+
+		//CreateResource를 임시로 여기에 호출.
+<<<<<<< HEAD
+		LoadResource("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx", eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/JustCopyCube/JustCopyCube.fbx", eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx", eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx", eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbx", eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/WoodRoadCone/WoodRoadCone.fbx", eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/TwoRoadWoodTorus/TwoRoadWoodTorus.fbx", eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/BasicMesh/Plane/plane.fbx", eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/Textures/tw_normal.png", eAssetDefine::_TEXTURE2D);
+		LoadResource("../Resources/Textures/tw_diffuse.png", eAssetDefine::_TEXTURE2D);
+		LoadResource("../Resources/Textures/wook.jpg", eAssetDefine::_TEXTURE2D);
+		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", eAssetDefine::_FONT);
+		LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", eAssetDefine::_FONT);
+		LoadResource("../Resources/Textures/room.dds", eAssetDefine::_CUBEMAP);
+
+		//현재 파이프라인에는 요구되지 않으나, 리플렉션을 보기 위해.
+		//LoadResource("../Builds/x64/Debug/AppendTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
+		
+=======
+		LoadResource("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/JustCopyCube/JustCopyCube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/WoodRoadCone/WoodRoadCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/StaticMesh/TwoRoadWoodTorus/TwoRoadWoodTorus.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/BasicMesh/Cube/Cube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/BasicMesh/Sphere/Sphere.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/BasicMesh/Plane/plane.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/Textures/tw_normal.png", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+		LoadResource("../Resources/Textures/tw_diffuse.png", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+		LoadResource("../Resources/Textures/wook.jpg", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
+		LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
+	
+>>>>>>> main
+		//LoadResource("../Resources/3DModels/AnimMesh/twcylinder/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+	}
+
+	void AssetManager::LoadDefaultResources()
+	{
+		using Pg::Data::Enums::eAssetDefine;
+
+		LoadResource(Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
+		LoadResource(Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
+	}
+
+}

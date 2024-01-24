@@ -7,39 +7,50 @@
 /// </summary>
 namespace Pg::Data
 {
+	using namespace Pg::Math;
+
 	//World TM에는 Scale 관련 정보가 들어오지 않는다.
 	struct BoxInfo
 	{
-		Pg::Math::PGFLOAT4X4 worldTM;
-		Pg::Math::PGFLOAT3 scale;
-		Pg::Math::PGFLOAT4 color;
+		PGFLOAT4X4 worldTM;
+		PGFLOAT3 scale;
+		PGFLOAT4 color;
 	};
 
 	struct LineInfo
 	{
-		Pg::Math::PGFLOAT3 beginPoint;
-		Pg::Math::PGFLOAT3 endPoint;
-		Pg::Math::PGFLOAT4 color;
+		PGFLOAT3 beginPoint;
+		PGFLOAT3 endPoint;
+		PGFLOAT4 color;
+	};
+
+	//똑같은 Line의 형태이지만, 필요한 변수와 활용도가 다르기에 구분. 
+	struct RayCastInfo
+	{
+		PGFLOAT3 origin;
+		PGFLOAT3 dir;
+		float length;
 	};
 
 	struct SphereInfo
 	{
-		Pg::Math::PGFLOAT4X4 worldTM;
-		Pg::Math::PGFLOAT3 scale;
-		Pg::Math::PGFLOAT4 color;
+		PGFLOAT4X4 worldTM;
+		PGFLOAT3 scale;
+		PGFLOAT4 color;
 	};
 
 	struct CapsuleInfo
 	{
-		Pg::Math::PGFLOAT4X4 worldTM;
-		Pg::Math::PGFLOAT3 scale;
-		Pg::Math::PGFLOAT4 color;
+		PGFLOAT4X4 worldTM;
+		PGFLOAT3 scale;
+		PGFLOAT4 color;
 	};
 
 	struct PlaneInfo
 	{
-		Pg::Math::PGFLOAT4X4 worldTM;
-		Pg::Math::PGFLOAT3 scale;
-		Pg::Math::PGFLOAT4 color;
+		PGFLOAT4X4 worldTM;
+		PGFLOAT3 scale;
+		PGFLOAT4 color;
 	};
+
 }

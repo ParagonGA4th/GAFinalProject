@@ -46,10 +46,6 @@ namespace Pg::Engine
 
 		//씬을 생성해서
 		Pg::Data::Scene* scene = new Scene("Empty Scene");
-
-		//리스트에 집어 넣는다.
-
-
 	}
 
 	Pg::Data::Scene* SceneSystem::CreateScene(const std::string& sceneName)

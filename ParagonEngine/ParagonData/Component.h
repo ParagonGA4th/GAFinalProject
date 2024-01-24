@@ -1,5 +1,6 @@
 #pragma once
 #include "SerializerHelper.h"
+#include "PhysicsCollision.h"
 
 /// <summary>
 /// 컴포넌트 클래스
@@ -10,6 +11,7 @@
 namespace Pg::Data
 {
 	class GameObject;
+{
 	class Component
 	{
 	public:
@@ -18,16 +20,22 @@ namespace Pg::Data
 		virtual ~Component();
 
 	public:
+
 		virtual void Awake() {}
 		virtual void Start() {}
 		virtual void Update() {}
 		virtual void FixedUpdate() {}
 		virtual void LateUpdate() {}
 
+
 		virtual void OnDestroy() {}
-		virtual void OnCollisionEnter() {}
+		virtual void OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count) {}
 		virtual void OnCollisionStay() {}
-		virtual void OnCollisionExit() {}
+		virtual void OnCollisionExit(PhysicsCollision** _colArr, unsigned int count) {}
+
+		virtual void OnTriggerEnter() {}
+		virtual void OnTriggerStay() {}
+		virtual void OnTriggerExit() {}
 
 		virtual void OnSerialize(SerializeVector& sv) {}
 		virtual void OnDeserialize(SerializeVector& sv) {}

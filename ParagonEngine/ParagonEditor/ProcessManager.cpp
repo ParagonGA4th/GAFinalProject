@@ -36,6 +36,7 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd)
 	_isCoreInitailized = true;
 
 	_dataContainer->SetGraphicsData(_coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
+	//SRV (에디터 카메라 전달)
 	_dataContainer->SetSceneTexture(_coreMain->GetEditorAdapter()->GetEditorCameraViewSRV());
 
 	std::unique_ptr<Pg::Editor::Event> editorMode = std::make_unique<Pg::Editor::Event>();
@@ -47,6 +48,8 @@ void Pg::Editor::Manager::ProcessManager::Update()
 	_coreMain->Update();
 	_coreMain->BeginRender();
 	_coreMain->Render();
+
+	
 
 	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff))
 	{

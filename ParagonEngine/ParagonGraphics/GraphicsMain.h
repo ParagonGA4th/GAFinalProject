@@ -121,6 +121,7 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual void SetCapsuleDebugRenderData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec) override;
 		PARAGON_GRAPHICS_DLL virtual void SetSphereDebugRenderData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec) override;
 		PARAGON_GRAPHICS_DLL virtual void SetPlaneDebugRenderData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec) override;
+		PARAGON_GRAPHICS_DLL virtual void SetRayCastDebugRenderData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec) override;
 
 
 	public:

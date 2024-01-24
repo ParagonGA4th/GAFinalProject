@@ -198,11 +198,19 @@ namespace Pg::Util
 		return read<float>(index);
 	}
 
-	uint32_t ByteBuffer::getInt() const {
+	int32_t ByteBuffer::getInt() const {
+		return read<int32_t>();
+	}
+
+	int32_t ByteBuffer::getInt(uint32_t index) const {
+		return read<int32_t>(index);
+	}
+
+	uint32_t ByteBuffer::getUnsignedInt() const {
 		return read<uint32_t>();
 	}
 
-	uint32_t ByteBuffer::getInt(uint32_t index) const {
+	uint32_t ByteBuffer::getUnsignedInt(uint32_t index) const {
 		return read<uint32_t>(index);
 	}
 
@@ -275,12 +283,20 @@ namespace Pg::Util
 		insert<float>(value, index);
 	}
 
-	void ByteBuffer::putInt(uint32_t value) {
+	void ByteBuffer::putUnsignedInt(uint32_t value) {
 		append<uint32_t>(value);
 	}
 
-	void ByteBuffer::putInt(uint32_t value, uint32_t index) {
+	void ByteBuffer::putUnsignedInt(uint32_t value, uint32_t index) {
 		insert<uint32_t>(value, index);
+	}
+
+	void ByteBuffer::putInt(int32_t value) {
+		append<int32_t>(value);
+	}
+
+	void ByteBuffer::putInt(int32_t value, uint32_t index) {
+		insert<int32_t>(value, index);
 	}
 
 	void ByteBuffer::putLong(uint64_t value) {
@@ -300,23 +316,35 @@ namespace Pg::Util
 	}
 
 	///[TW]
-	void ByteBuffer::PutXMFloat2(DirectX::XMFLOAT2 _xmfloat2)
+	void ByteBuffer::PutXMFloat2(DirectX::XMFLOAT2 value)
 	{
-		append<DirectX::XMFLOAT2>(_xmfloat2);
+		append<DirectX::XMFLOAT2>(value);
 	}
 
-
-	void ByteBuffer::PutXMFloat3(DirectX::XMFLOAT3 _xmfloat3)
+	void ByteBuffer::PutXMFloat2(DirectX::XMFLOAT2 value, uint32_t index)
 	{
-		append<DirectX::XMFLOAT3>(_xmfloat3);
+		insert<DirectX::XMFLOAT2>(value, index);
 	}
 
-
-	void ByteBuffer::PutXMFloat4(DirectX::XMFLOAT4 _xmfloat4)
+	void ByteBuffer::PutXMFloat3(DirectX::XMFLOAT3 value)
 	{
-		append<DirectX::XMFLOAT4>(_xmfloat4);
+		append<DirectX::XMFLOAT3>(value);
 	}
 
+	void ByteBuffer::PutXMFloat3(DirectX::XMFLOAT3 value, uint32_t index)
+	{
+		insert<DirectX::XMFLOAT3>(value, index);
+	}
+
+	void ByteBuffer::PutXMFloat4(DirectX::XMFLOAT4 value)
+	{
+		append<DirectX::XMFLOAT4>(value);
+	}
+
+	void ByteBuffer::PutXMFloat4(DirectX::XMFLOAT4 value, uint32_t index)
+	{
+		insert<DirectX::XMFLOAT4>(value, index);
+	}
 
 	size_t ByteBuffer::ReturnAllFromBuffer(uint8_t* _buf)
 	{
