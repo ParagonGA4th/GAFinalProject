@@ -17,6 +17,7 @@ namespace Pg::Data
 
 	GameObject::~GameObject()
 	{
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
 			{ delete iter.second; });
 	}
 

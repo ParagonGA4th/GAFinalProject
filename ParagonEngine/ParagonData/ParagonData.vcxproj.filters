@@ -104,6 +104,7 @@
     <ClCompile Include="RayCast.cpp">
       <Filter>2_Component\Collider\RayCast</Filter>
     </ClCompile>
+    <ClCompile Include="MoveForwardBack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -253,6 +254,7 @@
     <ClInclude Include="SerializerHelper.h">
       <Filter>2_Component\1_Helper</Filter>
     </ClInclude>
+    <ClInclude Include="IComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -395,9 +397,6 @@
     </Filter>
     <Filter Include="2_Component\Collider\RayCast">
       <UniqueIdentifier>{e22317fe-af60-4228-a3ad-b506fdb2234a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\0_Interface">
-      <UniqueIdentifier>{abef100b-af6e-4814-8be2-cf2fb9d881de}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Component\1_Helper">
       <UniqueIdentifier>{0cab3ce3-54de-4268-8a7a-da6766709e25}</UniqueIdentifier>
