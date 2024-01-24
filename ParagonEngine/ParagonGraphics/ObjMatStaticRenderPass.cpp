@@ -28,13 +28,14 @@ namespace Pg::Graphics
 	void ObjMatStaticRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
 	{
 		_quadSaveDSV = carrier._quadMainGDS->GetDSV();
+		_quadSaveObjMatGBuffer = carrier._quadObjMatRT;
 	}
 
 	void ObjMatStaticRenderPass::BindPass()
 	{
-		_DXStorage->_deviceContext->ClearRenderTargetView(_gBufferRender->GetRTV(), _DXStorage->_backgroundColor);
+		_DXStorage->_deviceContext->ClearRenderTargetView(_quadSaveObjMatGBuffer->GetRTV(), _DXStorage->_backgroundColor);
 
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_gBufferRender->GetRTV()), _quadSaveDSV);
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_quadSaveObjMatGBuffer->GetRTV()), _quadSaveDSV);
 		//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_gBufferRender->GetRTV()), _DXStorage->_depthStencilView);
 
 		_vs->Bind();
@@ -79,7 +80,7 @@ namespace Pg::Graphics
 		//당연히 GBuffer-DepthStencil 역시 옮겨받아야 하고.
 
 		//t3에, ObjMat GBuffer가 들어간다. 대응. (Depth 제외)
-		_DXStorage->_deviceContext->PSSetShaderResources(3, 1, &(_gBufferRender->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(3, 1, &(_quadSaveObjMatGBuffer->GetSRV()));
 	}
 
 	void ObjMatStaticRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
@@ -89,9 +90,6 @@ namespace Pg::Graphics
 
 	void ObjMatStaticRenderPass::CreateD3DViews()
 	{
-		//ObjMat RenderTarget
-		_gBufferRender = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32_TYPELESS, DXGI_FORMAT_R32G32_FLOAT);
-
 		//DepthStencil은 MainQuadDepthStencil이다. (Skinned도 마찬가지)
 		//OpaqueQuad 시리즈가 가능한 이유는,
 		//Rendering은 Main Render Target에 함에도 DepthStencil을 자체적으로 생성해서 쓰기 때문 (기존의 값이 영향을 주지 않음)

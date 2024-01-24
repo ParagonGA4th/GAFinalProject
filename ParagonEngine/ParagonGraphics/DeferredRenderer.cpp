@@ -41,6 +41,8 @@ namespace Pg::Graphics
 	{
 		//요구되는 렌더 리소스 만들기 (GBufferRender & Depth Stencil)
 		_quadMainRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		//ObjMat RenderTarget
+		_quadObjMatRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32_TYPELESS, DXGI_FORMAT_R32G32_FLOAT);
 
 		//Depth Writing이 가능한 Description 투입. (현재는 Default랑 같음)
 		D3D11_DEPTH_STENCIL_DESC tDepthStencilDesc;
@@ -64,6 +66,7 @@ namespace Pg::Graphics
 		//Carrier에 값을 전달한다. (MainRenderTarget 전까지 모든 렌더링의 기본이 될 것)
 		_carrier->_quadMainRT = _quadMainRTV.get();
 		_carrier->_quadMainGDS = _quadMainDSV.get();
+		_carrier->_quadObjMatRT = _quadObjMatRTV.get();
 
 		//자체적인 OpaqueQuad DSV.
 		_opaqueQuadDSV = std::make_unique<GBufferDepthStencil>();
@@ -160,6 +163,9 @@ namespace Pg::Graphics
 		//Carrier에 값을 전달한다. (MainRenderTarget 전까지 모든 렌더링의 기본이 될 것)
 		_carrier->_quadMainRT = _quadMainRTV.get();
 		_carrier->_quadMainGDS = _quadMainDSV.get();
+
+		//Main ObjMat RT를 Carrier에 전달한다.
+		_carrier->_quadObjMatRT = _quadObjMatRTV.get();
 
 		//모든 RGBA값이 0이 되도록 초기화.
 		float zeroColArray[4] = {0.f, 0.f, 0.f, 0.f};

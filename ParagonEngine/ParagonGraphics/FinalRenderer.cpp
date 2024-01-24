@@ -49,4 +49,9 @@ namespace Pg::Graphics
 
 	}
 
+	unsigned int FinalRenderer::GetPickingID(unsigned int widthPixel, unsigned int widthHeight)
+	{
+		return 0;
+	}
+
 }
