@@ -19,9 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
     <ClInclude Include="CheckBox.h" />
     <ClInclude Include="Collaps.h" />
     <ClInclude Include="Column.h" />
+    <ClInclude Include="Combo.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
@@ -35,6 +37,7 @@
     <ClInclude Include="imstb_rectpack.h" />
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
+    <ClInclude Include="InputFloat.h" />
     <ClInclude Include="InputFloat3.h" />
     <ClInclude Include="InputText.h" />
     <ClInclude Include="MenuBar.h" />
@@ -46,8 +49,10 @@
     <ClInclude Include="WidgetContainer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="CheckBox.cpp" />
     <ClCompile Include="Collaps.cpp" />
+    <ClCompile Include="Combo.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="ImguiManager.cpp">
@@ -60,6 +65,7 @@
     <ClCompile Include="imgui_impl_win32.cpp" />
     <ClCompile Include="imgui_tables.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
+    <ClCompile Include="InputFloat.cpp" />
     <ClCompile Include="InputFloat3.cpp" />
     <ClCompile Include="InputText.cpp" />
     <ClCompile Include="MenuBar.cpp" />
@@ -172,6 +178,10 @@
       <OutputFile />
       <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ParagonMath.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -190,6 +200,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ParagonMath.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

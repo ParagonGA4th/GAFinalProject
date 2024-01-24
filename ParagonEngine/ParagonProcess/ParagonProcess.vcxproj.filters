@@ -36,9 +36,6 @@
     <ClInclude Include="IUtil.h">
       <Filter>0_Main\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="AssetDefines.h">
-      <Filter>2_Enums</Filter>
-    </ClInclude>
     <ClInclude Include="CoreSingleton.h">
       <Filter>0_Main\Singleton</Filter>
     </ClInclude>
@@ -52,9 +49,6 @@
     </Filter>
     <Filter Include="1_Manager">
       <UniqueIdentifier>{a1c31487-48a7-4190-97f3-cf2807be918d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Enums">
-      <UniqueIdentifier>{fc8eb263-9bf8-4bf7-bf2a-5a8ff9facf56}</UniqueIdentifier>
     </Filter>
     <Filter Include="0_Main\Adapter">
       <UniqueIdentifier>{c79f4698-0b67-4c2f-b561-cb1ddbe01d09}</UniqueIdentifier>

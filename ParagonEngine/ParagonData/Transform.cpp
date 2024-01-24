@@ -1,6 +1,12 @@
 #include "Transform.h"
 
+#include <generic_factory/generic_factory.hpp>
 #include <cmath>
+
+using namespace Pg::Data;
+REGISTER_CHILD_INTO_FACTORY(Component, Transform, "class Pg::Data::Tranform", GameObject*);
+
+//REGISTER_SECONDARY_CHILD_INTO_FACTORY(Pg::Data::Component, Pg::Data::IComponent, Pg::Data::Transform, Pg::Data::Component);
 
 namespace Pg::Data
 {
@@ -16,146 +22,156 @@ namespace Pg::Data
 		
 	}
 
-	PGFLOAT3 Transform::GetPosition() const
+	void Transform::OnDeserialize(SerializeVector& sv)
 	{
-		return _position;
+		Pg::Data::SerializerHelper::OnDeserializerHelper<Transform>(this, sv);
 	}
 
-	PGQuaternion Transform::GetRotation() const
+	void Transform::OnSerialize(SerializeVector& sv)
 	{
-		return _rotation;
-
+		Pg::Data::SerializerHelper::OnSerializerHelper<Transform>(this, sv);
 	}
 
-	PGFLOAT3 Transform::GetScale() const
-	{
-		return _scale;
+	//PGFLOAT3 Transform::GetPosition() const
+	//{
+	//	return _position;
+	//}
 
-	}
+	//PGQuaternion Transform::GetRotation() const
+	//{
+	//	return _rotation;
 
-	void Transform::SetPosition(const PGFLOAT3& pos)
-	{
-		SetPosition(pos.x, pos.y, pos.z);
-	}
+	//}
 
-	void Transform::SetPosition(float x, float y, float z)
-	{
-		PGFLOAT4 result = { x, y, z, 1.f };
+	//PGFLOAT3 Transform::GetScale() const
+	//{
+	//	return _scale;
 
-		if (HasParent())
-		{
-			// 부모가 있으면 부모 기준의 transform을 구하기 위해 역행렬을 곱해준다
-			result = PGFloat4MultiplyMatrix(result, _parent->GetWorldTM().Inverse());
-		}
-		
-		_position.x = result.x;
-		_position.y = result.y;
-		_position.z = result.z;
-	}
+	//}
 
-	void Transform::SetRotation(const PGQuaternion& rot)
-	{
-		SetRotation(rot.w, rot.x, rot.y, rot.z);
-	}
+	//void Transform::SetPosition(const PGFLOAT3& pos)
+	//{
+	//	SetPosition(pos.x, pos.y, pos.z);
+	//}
 
-	void Transform::SetRotation(float w, float x, float y, float z)
-	{
-		PGQuaternion result = { w, x, y, z };
+	//void Transform::SetPosition(float x, float y, float z)
+	//{
+	//	PGFLOAT4 result = { x, y, z, 1.f };
 
-		if (HasParent())
-		{
-			result = PGQuaternionMultiply(result, _parent->GetRotation().Conjugate());
-		}
+	//	if (HasParent())
+	//	{
+	//		// 부모가 있으면 부모 기준의 transform을 구하기 위해 역행렬을 곱해준다
+	//		result = PGFloat4MultiplyMatrix(result, _parent->GetWorldTM().Inverse());
+	//	}
+	//	
+	//	_position.x = result.x;
+	//	_position.y = result.y;
+	//	_position.z = result.z;
+	//}
 
-		_rotation.w = result.w;
-		_rotation.x = result.x;
-		_rotation.y = result.y;
-		_rotation.z = result.z;
-	}
+	//void Transform::SetRotation(const PGQuaternion& rot)
+	//{
+	//	SetRotation(rot.w, rot.x, rot.y, rot.z);
+	//}
 
-	void Transform::SetScale(const PGFLOAT3& scale)
-	{
-		SetScale(scale.x, scale.y, scale.z);
-	}
+	//void Transform::SetRotation(float w, float x, float y, float z)
+	//{
+	//	PGQuaternion result = { w, x, y, z };
 
-	void Transform::SetScale(float x, float y, float z)
-	{
-		PGFLOAT4 result = { x, y, z, 1.f };
+	//	if (HasParent())
+	//	{
+	//		result = PGQuaternionMultiply(result, _parent->GetRotation().Conjugate());
+	//	}
 
-		if (HasParent())
-		{
-			PGFLOAT4X4 scaleInverseMatrix = _parent->GetWorldScaleMatrix();
-			scaleInverseMatrix.m[0][0] = 1 / scaleInverseMatrix.m[0][0];
-			scaleInverseMatrix.m[1][1] = 1 / scaleInverseMatrix.m[1][1];
-			scaleInverseMatrix.m[2][2] = 1 / scaleInverseMatrix.m[2][2];
-			scaleInverseMatrix.m[3][3] = 1 / scaleInverseMatrix.m[3][3];
-			result = PGFloat4MultiplyMatrix(result, scaleInverseMatrix);
-		}
+	//	_rotation.w = result.w;
+	//	_rotation.x = result.x;
+	//	_rotation.y = result.y;
+	//	_rotation.z = result.z;
+	//}
 
-		_scale.x = result.x;
-		_scale.y = result.y;
-		_scale.z = result.z;
-	}
+	//void Transform::SetScale(const PGFLOAT3& scale)
+	//{
+	//	SetScale(scale.x, scale.y, scale.z);
+	//}
 
-	Pg::Math::PGFLOAT3 Transform::GetLocalScale()
-	{
-		return _scale;
-	}
+	//void Transform::SetScale(float x, float y, float z)
+	//{
+	//	PGFLOAT4 result = { x, y, z, 1.f };
 
-	Pg::Math::PGFLOAT3 Transform::GetLocalPosition()
-	{
-		return _position;
-	}
+	//	if (HasParent())
+	//	{
+	//		PGFLOAT4X4 scaleInverseMatrix = _parent->GetWorldScaleMatrix();
+	//		scaleInverseMatrix.m[0][0] = 1 / scaleInverseMatrix.m[0][0];
+	//		scaleInverseMatrix.m[1][1] = 1 / scaleInverseMatrix.m[1][1];
+	//		scaleInverseMatrix.m[2][2] = 1 / scaleInverseMatrix.m[2][2];
+	//		scaleInverseMatrix.m[3][3] = 1 / scaleInverseMatrix.m[3][3];
+	//		result = PGFloat4MultiplyMatrix(result, scaleInverseMatrix);
+	//	}
 
-	PGQuaternion Transform::GetLocalRotation()
-{
-		return _rotation;
-	}
+	//	_scale.x = result.x;
+	//	_scale.y = result.y;
+	//	_scale.z = result.z;
+	//}
 
-	void Transform::SetLocalPosition(float x, float y, float z)
-	{
-		PGFLOAT3 pos = { x, y, z };
-		SetLocalPosition(pos);
-	}
+	//Pg::Math::PGFLOAT3 Transform::GetLocalScale()
+	//{
+	//	return _scale;
+	//}
 
-	void Transform::SetLocalPosition(PGFLOAT3& pos)
-	{
-		_position = pos;
-	}
+	//Pg::Math::PGFLOAT3 Transform::GetLocalPosition()
+	//{
+	//	return _position;
+	//}
 
-	void Transform::SetLocalRotation(float w, float x, float y, float z)
-	{
-		PGQuaternion rot = { w, x, y, z };
-		SetLocalRotation(rot);
-	}
+//	PGQuaternion Transform::GetLocalRotation()
+//	{
+//		return _rotation;
+//	}
 
-	void Transform::SetLocalRotation(PGQuaternion& rot)
-	{
-		_rotation = rot;
-	}
+	//void Transform::SetLocalPosition(float x, float y, float z)
+	//{
+	//	PGFLOAT3 pos = { x, y, z };
+	//	SetLocalPosition(pos);
+	//}
 
-	void Transform::SetLocalScale(float x, float y, float z)
-	{
-		PGFLOAT3 scale = { x, y, z };
-		SetLocalScale(scale);
-	}
+	//void Transform::SetLocalPosition(PGFLOAT3& pos)
+	//{
+	//	_position = pos;
+	//}
 
-	void Transform::SetLocalScale(PGFLOAT3& sca)
-	{
-		_scale = sca;
-	}
+	//void Transform::SetLocalRotation(float w, float x, float y, float z)
+	//{
+	//	PGQuaternion rot = { w, x, y, z };
+	//	SetLocalRotation(rot);
+	//}
 
-	void Transform::SetLocalRotationEuler(float x, float y, float z)
-	{
-		PGQuaternion result = EulerToQuaternion(x, y, z);
-		_rotation = result;
-	}
+	//void Transform::SetLocalRotation(PGQuaternion& rot)
+	//{
+	//	_rotation = rot;
+	//}
 
-	void Transform::SetLocalRotationEuler(PGFLOAT3& euler)
-	{
-		PGQuaternion result = EulerToQuaternion(euler);
-		_rotation = result;
-	}
+	//void Transform::SetLocalScale(float x, float y, float z)
+	//{
+	//	PGFLOAT3 scale = { x, y, z };
+	//	SetLocalScale(scale);
+	//}
+
+	//void Transform::SetLocalScale(PGFLOAT3& sca)
+	//{
+	//	_scale = sca;
+	//}
+
+	//void Transform::SetLocalRotationEuler(float x, float y, float z)
+	//{
+	//	PGQuaternion result = EulerToQuaternion(x, y, z);
+	//	_rotation = result;
+	//}
+
+	//void Transform::SetLocalRotationEuler(PGFLOAT3& euler)
+	//{
+	//	PGQuaternion result = EulerToQuaternion(euler);
+	//	_rotation = result;
+	//}
 
 	///이 함수에 명시되어 있는 Euler는 degree 기준이다!!!!!
 	Pg::Math::PGQuaternion Transform::EulerToQuaternion(float x, float y, float z)

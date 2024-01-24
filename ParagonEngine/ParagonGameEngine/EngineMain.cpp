@@ -123,6 +123,19 @@ namespace Pg::Engine
 		//Load와 달리, 동시에 두 개의 리소스 매니저가 동시에 호출된다. //지우지 못했어도 오류 반환하지 말자!
 	}
 
+	void EngineMain::SetSceneList(std::vector<Pg::Data::Scene*> sceneList)
+	{
+		//return _sceneSystem->GetCurrentScene();
+	}
+
+	void EngineMain::SetCurrentScene(Pg::Data::Scene* currentScene)
+	{
+		// 임시
+		_sceneSystem->SetSceneData(currentScene);
+
+		//return _sceneSystem->SetCurrentScene(currentScene);
+	}
+
 	Pg::Data::Scene* EngineMain::GetCurrentScene()
 	{
 		return _sceneSystem->GetCurrentScene();

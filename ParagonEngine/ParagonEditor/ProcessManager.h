@@ -1,5 +1,6 @@
 #pragma  once
 #include "IEditorManager.h"
+#include "../ParagonData/EditorMode.h"
 #include <memory>
 
 namespace Pg::Core { class ProcessMain; }
@@ -20,6 +21,9 @@ namespace Pg::Editor::Manager
 		virtual void Finalize() override;
 
 		virtual void ManagerHandler(MSG message) override;
+
+		void SetEditorMode(void* mode); // Event Ã³¸®¿ë
+		void SetEditorMode(Pg::Data::Enums::eEditorMode mode);
 
 	private:
 		float _screenWidth;

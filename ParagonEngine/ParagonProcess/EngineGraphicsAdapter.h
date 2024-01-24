@@ -3,6 +3,7 @@
 #include "IGraphics.h"
 
 #include <memory>
+#include <vector>
 #include <d3d11.h>
 /// <summary>
 /// Process에서 Engine과 Graphics를 조종할 수 있는 어댑터의 역할을 수행한다.
@@ -80,6 +81,8 @@ namespace Pg::Core
 		//Editor 연동 : Game Camera 시점 SRV를 리턴.
 		void* GetGameCameraViewSRV();
 
+		void SetSceneList(std::vector<Pg::Data::Scene*> sceneList);
+		void SetCurrentScene(Pg::Data::Scene* currentScene);
 		Pg::Data::Scene* GetCurrentScene();
 
 		Pg::Data::CameraData* GetCameraData();

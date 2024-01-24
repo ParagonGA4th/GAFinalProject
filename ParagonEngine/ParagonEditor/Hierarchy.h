@@ -35,7 +35,7 @@ namespace Pg::Editor::Window
 		/// helper class
 		Pg::Editor::Data::DataContainer* _dataContainer;
 		Pg::UI::Manager::UIManager* _uiManager;
-		Pg::UI::WidgetContainer* cons;
+		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
 
 		std::unique_ptr<Pg::Editor::Event> _changeObjectData;
 

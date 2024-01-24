@@ -36,13 +36,16 @@ namespace Pg::Engine
 		void LoadEmptyScene();
 		void UnLoadSCene();
 		void SetCurrentScene(Scene* scene);
-		Pg::Data::Scene* GetCurrentScene();
+		Scene* GetCurrentScene();
 
 		//새로운 씬을 생성한다.
-		Pg::Data::Scene* CreateScene(const std::string& sceneName);
+		Scene* CreateScene(const std::string& sceneName);
 
 		//현재 씬으로 지정된 것을 삭제한다.
 		void DeleteCurrentScene();
+
+		// Editor와 Engine이 연결 되는지 확인을 위한 임시함수
+		void SetSceneData(Scene* scene);
 
 	private:
 		Scene* _currentScene = nullptr;

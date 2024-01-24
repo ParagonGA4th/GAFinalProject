@@ -29,7 +29,7 @@ namespace Pg::Graphics
 		Pg::Data::TextRenderer* tTextRenderer = static_cast<Pg::Data::TextRenderer*>(GetBaseRenderer());
 
 		//기본적인 Position 연동만 설정!
-		DirectX::XMFLOAT2 tPositionXM = { _baseRenderer->_object->_transform.GetPosition().x, _baseRenderer->_object->_transform.GetPosition().y };
+		DirectX::XMFLOAT2 tPositionXM = { _baseRenderer->_object->_transform._position.x, _baseRenderer->_object->_transform._position.y };
 
 		_renderFont->_font->DrawString(spriteBatch, tTextRenderer->GetString().c_str(), tPositionXM, DirectX::Colors::White);
 	}

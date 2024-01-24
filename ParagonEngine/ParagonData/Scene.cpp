@@ -18,7 +18,7 @@ namespace Pg::Data
 		_mainCamera = cameraObject->AddComponent<Pg::Data::Camera>();
 
 
-		_mainCamera->_object->_transform.SetRotation({ 0.0f, 0.0f, 0.0f, 0.0f });
+		_mainCamera->_object->_transform._rotation = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 		// 10.11 오수안
 		// Scene이 생성될 때 반드시 추가되는 main Light
@@ -130,7 +130,4 @@ namespace Pg::Data
 	{
 		_mainDirLight = mainLight;
 	}
-
-
-
 }

@@ -16,11 +16,6 @@
 
 namespace Pg::Data
 {
-	class IComponent;
-}
-
-namespace Pg::Data
-{
 	class GameObject
 	{
 	public:
@@ -54,12 +49,17 @@ namespace Pg::Data
 		void SetActive(bool active);
 		bool GetActive();
 
+		const std::string& GetTag() const;
+		void SetTag(const std::string& tag);
+
 	public:
 		template<typename T>
 		T* AddComponent();
 
+		Pg::Data::Component* AddComponent(std::string componentType);
+
 		template<typename T>
-		T* GetComponent();
+		T* GetComponent();		
 
 		//오브젝트가 가지고 있는 컴포넌트 리스트를 Get.
 		template<typename T>
@@ -67,11 +67,14 @@ namespace Pg::Data
 
 		//렌더러 호환을 위해, ComponentList 자체 반환.
 		std::unordered_map<std::string, Component*>& GetComponentList();
+
 	public:
 		Transform& _transform;
+
 	private:
 		bool _isActive;
 		std::string _objName;
+		std::string _objTag;
 
 	private:
 		//컴포넌트의 이름과 주소를 저장해놓는 리스트.
@@ -88,7 +91,7 @@ namespace Pg::Data
 		T* component = new T(this);
 		_componentList.try_emplace(typeid(T).name(), component);
 		return component;
-	}
+	}	
 
 	template<typename T>
 	T* GameObject::GetComponent()
@@ -104,7 +107,6 @@ namespace Pg::Data
 				return res;
 			}
 		}
-
 		return nullptr;
 	}
 
@@ -128,7 +130,6 @@ namespace Pg::Data
 				res.push_back(tmp);
 			}
 		}
-
 
 		return res;
 	}
