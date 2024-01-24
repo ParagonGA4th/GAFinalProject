@@ -31,7 +31,7 @@ void Pg::Editor::Window::Inspector::Initialize()
 	changeObjectData->AddEvent(Pg::Editor::eEventType::_OBJECTDATA, [&](void* data) { SetData(data); });
 
 	auto& btn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Add Component", 120.f, 25.f);
-	_isAddComponent = &btn._isButtonClick;
+	_isAddComponent = btn.GetBtnClick();
 }
 
 void Pg::Editor::Window::Inspector::Update()

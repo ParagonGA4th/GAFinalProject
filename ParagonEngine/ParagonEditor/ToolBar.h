@@ -1,7 +1,9 @@
 #include "IEditorWindow.h"
+
+#include "../ParagonData/EditorMode.h"
+
 #include <string>
 #include <memory>
-#include <map>
 
 namespace Pg::Editor { class Event; }
 namespace Pg::UI { class WidgetContainer; }
@@ -9,11 +11,11 @@ namespace Pg::UI::Manager { class UIManager; }
 
 namespace Pg::Editor::Window
 {
-	class MenuBar : public IEditorWindow
+	class ToolBar : public IEditorWindow
 	{
 	public:
-		MenuBar();
-		~MenuBar();
+		ToolBar();
+		~ToolBar();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
@@ -23,19 +25,20 @@ namespace Pg::Editor::Window
 		virtual bool GetShow() override;
 
 	private:
-		/// MenuBar value
+		/// ToolBar value
 		std::string _winName;
 		bool _isShow;
 
 		/// helper class
 		Pg::UI::Manager::UIManager* _uiManager;
-		Pg::UI::WidgetContainer* cons;
+		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
+		std::unique_ptr<Pg::Editor::Event> _editorMode;
 
-		//std::unique_ptr<Pg::Editor::Event> _changeObjectData;
+		Pg::Data::Enums::eEditorMode* _editorModeType;
 
 		/// Data value
-		std::map<std::string, std::map<std::string, bool*>> _menuBars;
-		bool _isOpenScene;
-		bool _isSaveScene;
+		bool* _isStartBtnClick;
+		bool* _isPauseBtnClick;
+		bool* _isStopBtnClick;
 	};
 }

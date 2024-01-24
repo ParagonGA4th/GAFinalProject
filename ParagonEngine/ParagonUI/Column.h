@@ -10,7 +10,7 @@ namespace Pg::UI::Widget::Layout
 	class Column : public Pg::UI::IWidget
 	{
 	public:
-		Column(std::string id, std::vector<Pg::UI::IWidget*> widgets) :_widgets(widgets), _id(id) {}
+		Column(std::string id, std::vector<Pg::UI::IWidget*> widgets, bool widthSet = true) :_widgets(widgets), _id(id), _widthSet(widthSet) {}
 
 		virtual void Update() override
 		{
@@ -20,11 +20,14 @@ namespace Pg::UI::Widget::Layout
 
 			for (auto& it : _widgets)
 			{
-				ImGui::SetColumnWidth(0, 130.f);
-
-				if (counter % 2 == 1)
+				if (_widthSet)
 				{
-					ImGui::PushItemWidth(-1);
+					ImGui::SetColumnWidth(0, 130.f);
+
+					if (counter % 2 == 1)
+					{
+						ImGui::PushItemWidth(-1);
+					}
 				}
 
 				it->Update();
@@ -38,6 +41,7 @@ namespace Pg::UI::Widget::Layout
 	private:
 		std::vector<Pg::UI::IWidget*> _widgets;
 		std::string _id;
+		bool _widthSet;
 	};
 }
 
