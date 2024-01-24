@@ -35,10 +35,12 @@ namespace Pg::Graphics
 		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
 	private:
-		std::unique_ptr<GBufferRender> _gBufferRender;
+		//std::unique_ptr<GBufferRender> _gBufferRender;
 
 		//잠시 Quad에 렌더링할 DSV를 저장해놓는다 (QuadMain)
 		ID3D11DepthStencilView* _quadSaveDSV = nullptr;
+		//잠시 Quad에 렌더링할 ObjMat GBufRender를 저장해놓는다. (ObjMat)
+		GBufferRender* _quadSaveObjMatGBuffer = nullptr;
 
 	private:
 		void CreateD3DViews();

@@ -11,6 +11,7 @@
 #include "IRenderPass.h"
 #include "FirstStaticRenderPass.h"
 #include "ObjMatStaticRenderPass.h"
+#include "OpaqueLightingRenderPass.h"
 #include "OpaqueQuadRenderPass.h"
 #include "FinalRenderPass.h"
 
@@ -40,6 +41,8 @@ namespace Pg::Graphics
 	{
 		//요구되는 렌더 리소스 만들기 (GBufferRender & Depth Stencil)
 		_quadMainRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		//ObjMat RenderTarget
+		_quadObjMatRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32_TYPELESS, DXGI_FORMAT_R32G32_FLOAT);
 
 		//Depth Writing이 가능한 Description 투입. (현재는 Default랑 같음)
 		D3D11_DEPTH_STENCIL_DESC tDepthStencilDesc;
@@ -63,6 +66,7 @@ namespace Pg::Graphics
 		//Carrier에 값을 전달한다. (MainRenderTarget 전까지 모든 렌더링의 기본이 될 것)
 		_carrier->_quadMainRT = _quadMainRTV.get();
 		_carrier->_quadMainGDS = _quadMainDSV.get();
+		_carrier->_quadObjMatRT = _quadObjMatRTV.get();
 
 		//자체적인 OpaqueQuad DSV.
 		_opaqueQuadDSV = std::make_unique<GBufferDepthStencil>();
@@ -88,6 +92,7 @@ namespace Pg::Graphics
 		//For문 대신, 명시적으로 값 호출. (나누기)
 		RenderFirstStaticPass(renderObjectList, camData);
 		RenderObjMatStaticPass(renderObjectList, camData);
+		RenderOpaqueLightingPass(renderObjectList, camData);
 		RenderOpaqueQuadPasses(renderObjectList, camData);
 
 
@@ -103,12 +108,15 @@ namespace Pg::Graphics
 		//Render Pass Vector 구성.
 		
 		//첫번째는 무조건 FirstRenderPass.
-		_firstStaticRenderPass = new FirstStaticRenderPass();
+		_firstStaticRenderPass = std::make_unique<FirstStaticRenderPass>();
 
 		//두번째는 일단 ObjMatStaticRenderPass.
-		_objMatStaticRenderPass = new ObjMatStaticRenderPass();
+		_objMatStaticRenderPass = std::make_unique<ObjMatStaticRenderPass>();
 
 		//Skinned가 들어오면 FirstStatic->FirstSkinned->ObjMatStatic->ObjMatSkinned일것.
+
+		//OpaqueLightingRenderPass.
+		_opaqueLightingPass = std::make_unique<OpaqueLightingRenderPass>();
 
 		//모든 Material의 목록을 받은 뒤, 순서대로 OpaqueQuadRenderPass 호출. (일반적인 경우)
 		//N개의 Material이 있으면, N개의 Pass가 만들어진다.
@@ -126,6 +134,7 @@ namespace Pg::Graphics
 	{
 		_firstStaticRenderPass->Initialize();
 		_objMatStaticRenderPass->Initialize();
+		_opaqueLightingPass->Initialize();
 
 		//일괄적으로 Initialize() 호출.
 		for (auto& it : _opaqueQuadPassesVector)
@@ -154,6 +163,9 @@ namespace Pg::Graphics
 		//Carrier에 값을 전달한다. (MainRenderTarget 전까지 모든 렌더링의 기본이 될 것)
 		_carrier->_quadMainRT = _quadMainRTV.get();
 		_carrier->_quadMainGDS = _quadMainDSV.get();
+
+		//Main ObjMat RT를 Carrier에 전달한다.
+		_carrier->_quadObjMatRT = _quadObjMatRTV.get();
 
 		//모든 RGBA값이 0이 되도록 초기화.
 		float zeroColArray[4] = {0.f, 0.f, 0.f, 0.f};
@@ -201,6 +213,17 @@ namespace Pg::Graphics
 	
 	}
 
+	void DeferredRenderer::RenderOpaqueLightingPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		// 모든 Static / Skinned가 렌더링된 이후, 라이팅 패스를 처리한다!
+		_opaqueLightingPass->ReceiveRequiredElements(*_carrier);
+		_opaqueLightingPass->BindPass();
+		_opaqueLightingPass->RenderPass(renderObjectList, camData);
+		_opaqueLightingPass->UnbindPass();
+		_opaqueLightingPass->ExecuteNextRenderRequirements();
+		_opaqueLightingPass->PassNextRequirements(*_carrier);
+	}
+
 	void DeferredRenderer::RenderOpaqueQuadPasses(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		//Opaque Quad 전용 RTV / DSV 클리어.
@@ -233,6 +256,8 @@ namespace Pg::Graphics
 			_DXStorage->_deviceContext->PSSetShaderResources(i, 1, &pSRV);
 		}
 	}
+
+
 
 }
 

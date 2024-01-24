@@ -53,7 +53,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Cube/Cube.fbx");
 	tObj2->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat");
 	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	
+
 	GameObject* tObj2_1 = tCurrentScene->AddObject("Sphere1");
 	tObj2_1->GetComponent<Transform>()->_position = { 3.0f, 10.0f, 0.0f };
 	tObj2_1->AddComponent<SphereCollider>();
@@ -137,8 +137,8 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	///새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 
-	
-	
+
+
 
 
 

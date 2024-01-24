@@ -149,7 +149,15 @@ namespace Pg::Graphics
 		_renderer->DebugRender(_camData);
 
 		_renderer->UiRender(_camData);
+	}
 
+	Pg::Data::GameObject* GraphicsMain::GetPickedGameObjectWithRatios(float widthRatio, float heightRatio)
+	{
+		return _renderer->GetPickedGameObjectWithRatios(_DXStorage->_screenWidth, _DXStorage->_screenHeight, widthRatio, heightRatio);
+	}
+
+	void GraphicsMain::FinalRender()
+	{
 		//Main Render Target으로 보내기.
 		_renderer->FinalRender(_camData);
 	}
@@ -292,5 +300,13 @@ namespace Pg::Graphics
 	{
 		_renderer->PassRayCastGeometryData(rayCastColVec);
 	}
+
+
+	void GraphicsMain::SetPickingEnableMode(bool val)
+	{
+		_internalPickingMode = val;
+	}
+
+	
 
 }

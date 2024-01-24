@@ -49,7 +49,6 @@ namespace Pg::API
 namespace Pg::Core
 {
 	class ProcessMain;
-	class Scene;
 
 	namespace Time
 	{
@@ -84,6 +83,11 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual void Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData) override;
 		PARAGON_GRAPHICS_DLL virtual void BeginRender() override;
 		PARAGON_GRAPHICS_DLL virtual void Render(Pg::Data::Scene* scene) override;
+
+		//Picking : Screen Space Coord의 비율에 따라서 GameObject*를 반환한다.
+		PARAGON_GRAPHICS_DLL virtual Pg::Data::GameObject* GetPickedGameObjectWithRatios(float widthRatio, float heightRatio) override;
+		
+		PARAGON_GRAPHICS_DLL virtual void FinalRender() override;
 		PARAGON_GRAPHICS_DLL virtual void EndRender() override;
 		PARAGON_GRAPHICS_DLL virtual void Finalize() override;
 
@@ -122,7 +126,11 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual void SetSphereDebugRenderData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec) override;
 		PARAGON_GRAPHICS_DLL virtual void SetPlaneDebugRenderData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec) override;
 		PARAGON_GRAPHICS_DLL virtual void SetRayCastDebugRenderData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec) override;
+		
+		//Picking을 허용할지 / 허용하지 않을지, 렌더링 파이프라인 비용을 ON/OFF 할 수 있다.
+		PARAGON_GRAPHICS_DLL virtual void SetPickingEnableMode(bool val) override;
 
+		
 
 	public:
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;
@@ -165,7 +173,7 @@ namespace Pg::Graphics
 		Pg::Data::Scene* _currentScene = nullptr;
 
 	private:
-
+		bool _internalPickingMode = true;
 
 	};
 }

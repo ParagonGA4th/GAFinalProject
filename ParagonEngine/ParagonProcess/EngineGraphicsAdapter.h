@@ -56,7 +56,13 @@ namespace Pg::Core
 
 		//실제로 렌더를 시행할 때.
 		void Render();
+		
+		//피킹된 오브젝트 받아야 함. (0-1 가로 비율 // 0-1 세로 비율)
+		Pg::Data::GameObject* GetPickedGameObjectWithRatios(float widthRatio, float heightRatio);
 
+		//Quad-Based 렌더링, Main RenderTarget으로.
+		void FinalRender();
+		
 		//렌더를 끝낼 때.
 		void EndRender();
 

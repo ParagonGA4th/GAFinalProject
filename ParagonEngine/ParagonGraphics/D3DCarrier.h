@@ -27,6 +27,7 @@ namespace Pg::Graphics
 		//단순 정보 전달과 차별화하기 위해 별도의 변수 설정.
 		GBufferDepthStencil* _quadMainGDS;
 		GBufferRender* _quadMainRT;
+		GBufferRender* _quadObjMatRT;
 
 		std::array<ID3D11RenderTargetView*, 15> _rtvArray;
 		unsigned int _rtvCount;

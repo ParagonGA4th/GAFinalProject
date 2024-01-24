@@ -48,6 +48,8 @@ void Pg::Editor::Manager::ProcessManager::Update()
 	_coreMain->Update();
 	_coreMain->BeginRender();
 	_coreMain->Render();
+	_coreMain->PassPickedObject();
+	_coreMain->FinalRender();
 
 	
 

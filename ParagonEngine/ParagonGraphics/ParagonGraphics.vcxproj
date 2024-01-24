@@ -44,6 +44,7 @@
     <ClInclude Include="GBufferDepthStencil.h" />
     <ClInclude Include="MaterialParser.h" />
     <ClInclude Include="ObjMatStaticRenderPass.h" />
+    <ClInclude Include="OpaqueLightingRenderPass.h" />
     <ClInclude Include="OpaqueQuadRenderPass.h" />
     <ClInclude Include="RenderCubemap.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -150,6 +151,7 @@
     <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="MaterialParser.cpp" />
     <ClCompile Include="ObjMatStaticRenderPass.cpp" />
+    <ClCompile Include="OpaqueLightingRenderPass.cpp" />
     <ClCompile Include="OpaqueQuadRenderPass.cpp" />
     <ClCompile Include="RenderCubemap.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
