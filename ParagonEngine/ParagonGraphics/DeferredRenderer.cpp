@@ -26,6 +26,9 @@ namespace Pg::Graphics
 	DeferredRenderer::DeferredRenderer(D3DCarrier* d3dCarrier) : BaseSpecificRenderer(d3dCarrier)
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
+
+		
+	
 	}
 
 	DeferredRenderer::~DeferredRenderer()
@@ -56,6 +59,10 @@ namespace Pg::Graphics
 		tDepthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
 
 		_quadMainDSV = std::make_unique<GBufferDepthStencil>(&tDepthStencilDesc);
+
+		//Carrier에 값을 전달한다. (MainRenderTarget 전까지 모든 렌더링의 기본이 될 것)
+		_carrier->_quadMainRT = _quadMainRTV.get();
+		_carrier->_quadMainGDS = _quadMainDSV.get();
 
 		//자체적인 OpaqueQuad DSV.
 		_opaqueQuadDSV = std::make_unique<GBufferDepthStencil>();

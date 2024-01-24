@@ -69,6 +69,9 @@ namespace Pg::Graphics
 		void FinalRender(Pg::Data::CameraData* camData);	// MainRenderTarget으로 보내주는 역할을 한다.
 		void EndRender();
 
+		//마지막 SRV Quad를 보낸다.
+		ID3D11ShaderResourceView* GetFinalQuadSRV();
+
 	private:
 		LowDX11Storage* _DXStorage = nullptr;
 		LowDX11Logic* _DXLogic = nullptr;

@@ -227,8 +227,9 @@ namespace Pg::Graphics
 
 	ID3D11ShaderResourceView* GraphicsMain::GetEditorCameraViewSRV()
 	{
-		_editorCameraSRV = tempEditorCamSprite->GetSRV();
-		return _editorCameraSRV;
+		//_editorCameraSRV = tempEditorCamSprite->GetSRV();
+		//return _editorCameraSRV;
+		return _renderer->GetFinalQuadSRV();
 	}
 
 	ID3D11ShaderResourceView* GraphicsMain::GetGameCameraViewSRV()
