@@ -89,6 +89,9 @@ namespace Pg::Graphics
 
 		//전체 Material Count;
 		unsigned int _totalMaterialCount = 0;
+
+		//Vertex Buffer와 일대일 대응하는 Position 기록.
+		std::vector<DirectX::XMFLOAT3> _posRecordVector;
 	};
 
 	//SkinnedMeshRenderer에 활용되는 데이터들, 해당 구조체에 모아서 관리.
@@ -108,5 +111,21 @@ namespace Pg::Graphics
 
 		//GPU에 바인딩될 Bone Tranform Vector. 크기는 100이 기본.
 		std::vector<DirectX::SimpleMath::Matrix> _boneTransformVector;
+
+
+		struct BlendDataRecord
+		{
+			unsigned int	  _blendIndice0;
+			unsigned int	  _blendIndice1;
+			unsigned int	  _blendIndice2;
+			unsigned int	  _blendIndice3;
+
+			float			  _blendWeight0;
+			float			  _blendWeight1;
+			float			  _blendWeight2;
+		};
+
+		//posRecordVector와 동일한 인덱스에 BlendIndice 등 정보가 등록된다.
+		std::vector<BlendDataRecord> _blendDataRecordVector;
 	};
 }

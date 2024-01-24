@@ -32,10 +32,14 @@ namespace Pg::Core
 namespace Pg::Graphics
 {
 	class GraphicsMain;
+	class GraphicsSceneParser;
+	class MaterialParser;
+
 	namespace Loader
 	{
 		class AssetBasic3DLoader;
 		class AssetBasic2DLoader;
+		class AssetCombinedLoader;
 	}
 	namespace Helper
 	{
@@ -57,6 +61,8 @@ namespace Pg::Graphics::Manager
 		friend class Pg::Core::Manager::AssetManager;
 		friend class Pg::Graphics::Helper::AssimpBufferParser;
 		friend class Pg::Graphics::GraphicsMain;
+		friend class Pg::Graphics::GraphicsSceneParser;
+		friend class Pg::Graphics::MaterialParser;
 	public:
 		GraphicsResourceManager(); 
 		~GraphicsResourceManager();
@@ -64,12 +70,31 @@ namespace Pg::Graphics::Manager
 		//메모리 관리와 관계없이, 포인터를 리턴한다.
 		Pg::Graphics::Loader::AssetBasic3DLoader* GetBasic3DLoader();
 		Pg::Graphics::Loader::AssetBasic2DLoader* GetBasic2DLoader();
+		Pg::Graphics::Loader::AssetCombinedLoader* GetCombinedLoader();
 
 		//특정 리소스가 이미 로딩되었는지를 확인한다.
 		bool IsExistResource(const std::string& path);
 
+		//특정 리소스의 파일 이름을 가지고 동일 파일이름의 리소스가 이미 로드되었는지 점검.
+		bool IsExistResourceByName(const std::string& name);
+
+		//특정 리소스의 파일 이름과 타입을 가지고 동일 파일이름의 리소스가 이미 로드되었는지 점검.
+		bool IsExistResourceByNameType(const std::string& name, Pg::Data::Enums::eAssetDefine define);
+
+		//해당 Mesh의 이름으로 디폴트 매터리얼이 존재하는지를 점검한다.
+		bool IsExistDefaultMaterialByMeshName(const std::string& name);
+
 		//리소스가 있는 경우가 강제될 때, 리소스를 반환한다. (eAssetDefine으로)
 		std::shared_ptr<GraphicsResource> GetResource(const std::string& path, Pg::Data::Enums::eAssetDefine define);
+
+		//이름만을 가지고 리소스를 반환받을 수 있는 함수.
+		std::shared_ptr<GraphicsResource> GetResourceByName(const std::string& name, Pg::Data::Enums::eAssetDefine define);
+
+		//이름만을 가지고 리소스의 전체 파일 경로를 반환받을 수 있는 함수.
+		std::string GetResourcePathByName(const std::string& name, Pg::Data::Enums::eAssetDefine define);
+
+		//한 타입을 명시하면 이에 속하는 모든 리소스를 반환하는 함수. 부하가 큰 편.
+		std::vector<std::shared_ptr<GraphicsResource>> GetAllResourcesByDefine(Pg::Data::Enums::eAssetDefine define);
 
 		//2차 리소스 등으로 AssetManager를 거치지 않고 GraphicsResourceManager에서 CreateResource되었을 때,
 		//명시적으로 SecondaryResourceList에 해당 사항을 추가할 수 있는 방법.
@@ -83,7 +108,6 @@ namespace Pg::Graphics::Manager
 
 		//가져온 값이 없을 때 Texture의 종류에 따라 디폴트 값을 가져올 수 있다.
 		RenderTexture2D* GetDefaultTexture(eAssetTextureType textureType);
-
 	private:
 		//GraphicsMain에서, 리소스 로드할 때 활용된다.
 		void LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define);
@@ -109,6 +133,7 @@ namespace Pg::Graphics::Manager
 	private:
 		std::unique_ptr<Pg::Graphics::Loader::AssetBasic3DLoader> _asset3DLoader;
 		std::unique_ptr<Pg::Graphics::Loader::AssetBasic2DLoader> _asset2DLoader;
+		std::unique_ptr<Pg::Graphics::Loader::AssetCombinedLoader> _assetCombinedLoader;
 	private:
 		//2차적인 애셋이 발생되어 (Ex. Embedded Texture), AssetManaeger랑 연동을 할 수 있게 하는 Map.
 		std::map<std::string, Pg::Data::Enums::eAssetDefine> _toAddSecondaryResourcesMap;

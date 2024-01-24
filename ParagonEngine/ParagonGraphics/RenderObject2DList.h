@@ -15,5 +15,10 @@ namespace Pg::Graphics
 	{
 	public:
 		std::unordered_map<Pg::Data::GameObject*, std::unique_ptr<RenderObject2D>> _list;
+	
+		void Clear()
+		{
+			_list.clear();
+		}
 	};
 }

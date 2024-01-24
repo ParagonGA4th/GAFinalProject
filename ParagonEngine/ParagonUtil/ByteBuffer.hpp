@@ -80,8 +80,10 @@ namespace Pg::Util
 		double getDouble(uint32_t index) const;
 		float getFloat() const;
 		float getFloat(uint32_t index) const;
-		uint32_t getInt() const;
-		uint32_t getInt(uint32_t index) const;
+		int32_t getInt() const;
+		int32_t getInt(uint32_t index) const;
+		uint32_t getUnsignedInt() const;
+		uint32_t getUnsignedInt(uint32_t index) const;
 		uint64_t getLong() const;
 		uint64_t getLong(uint32_t index) const;
 		uint16_t getShort() const;
@@ -100,17 +102,24 @@ namespace Pg::Util
 		void putDouble(double value, uint32_t index);
 		void putFloat(float value);
 		void putFloat(float value, uint32_t index);
-		void putInt(uint32_t value);
-		void putInt(uint32_t value, uint32_t index);
+		void putUnsignedInt(uint32_t value);
+		void putUnsignedInt(uint32_t value, uint32_t index);
+
+		//int32_t는 HLSL 딴에서 BOOL 값이랑 동일하게 활용되어야.
+		void putInt(int32_t value); // = Also HLSL BOOL
+		void putInt(int32_t value, uint32_t index); //// = Also HLSL BOOL
 		void putLong(uint64_t value);
 		void putLong(uint64_t value, uint32_t index);
 		void putShort(uint16_t value);
 		void putShort(uint16_t value, uint32_t index);
 
 		///[TW] DirectX 확장을 위해 확장.
-		void PutXMFloat2(DirectX::XMFLOAT2 _xmfloat2);
-		void PutXMFloat3(DirectX::XMFLOAT3 _xmfloat3);
-		void PutXMFloat4(DirectX::XMFLOAT4 _xmfloat4);
+		void PutXMFloat2(DirectX::XMFLOAT2 value);
+		void PutXMFloat2(DirectX::XMFLOAT2 value, uint32_t index);
+		void PutXMFloat3(DirectX::XMFLOAT3 value);
+		void PutXMFloat3(DirectX::XMFLOAT3 value, uint32_t index);
+		void PutXMFloat4(DirectX::XMFLOAT4 value);
+		void PutXMFloat4(DirectX::XMFLOAT4 value, uint32_t index);
 
 		///전체를 반환하기 위해 설정.
 		size_t ReturnAllFromBuffer(uint8_t* _buf);

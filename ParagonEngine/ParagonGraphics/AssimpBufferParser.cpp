@@ -28,6 +28,7 @@
 #include <dxtk/WICTextureLoader.h>
 
 #include <cassert>
+#include <vector>
 #include <filesystem>
 
 //NULL이 아닐 때만 값을 시행하는 Macro 함수.
@@ -69,10 +70,10 @@ namespace Pg::Graphics::Helper
 		unsigned int tTotalVertexCount = sceneData->_totalVertexCount;
 		unsigned int tTotalIndexCount = sceneData->_totalIndexCount;
 
-		ParseAssimpStatic(assimp, outVB, outIB, tTotalVertexCount, tTotalIndexCount);
+		ParseAssimpStatic(assimp, sceneData, outVB, outIB, tTotalVertexCount, tTotalIndexCount);
 	}
 
-	void AssimpBufferParser::ParseAssimpStatic(const aiScene* assimp, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt)
+	void AssimpBufferParser::ParseAssimpStatic(const aiScene* assimp, Scene_AssetData* sceneData, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt)
 	{
 		std::vector<LayoutDefine::Vin1stStatic> tVBVec;
 		tVBVec.reserve(vertexCnt);
@@ -84,21 +85,38 @@ namespace Pg::Graphics::Helper
 			for (size_t j = 0; j < assimp->mMeshes[i]->mNumVertices; j++)
 			{
 				LayoutDefine::Vin1stStatic tMeshVert;
-				tMeshVert.posL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mVertices[j]);
-				tMeshVert.normalL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mNormals[j]);
-				tMeshVert.tangentL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTangents[j]);
 
+				tMeshVert._posL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mVertices[j]);
+				tMeshVert._alpha = 1.f; //하드코딩.
+				tMeshVert._normalL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mNormals[j]);
+				tMeshVert._tangentL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTangents[j]);
 				//없으면 {0.f,0.f,0.f,0.f}가 들어가 있음.
 				//IF_NOT_NULL(assimp->mMeshes[i]->mColors[j],
 				//	tMeshVert.color = MathHelper::AI2SM_COLOR_VECTOR4(assimp->mMeshes[i]->mColors[0][j]););
 				//일단은 Color 지원을 파싱에서 받지 않는다!
-				tMeshVert.color = { 0.f, 0.f, 0.f, 0.f };
+				tMeshVert._color = { 1.0f,1.0f, 1.0f, }; //하드코딩.
+				
+				//Float3인데, Blender에서는 Float2까지만 지원되어 들어올 것이다. 
+				// 마지막 Z공간은 Assimp 자체 Material ID를 위해 활용될 것. 
+				tMeshVert._meshMatID = assimp->mMeshes[i]->mMaterialIndex;
 
-				tMeshVert.tex = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTextureCoords[0][j]);
-				tMeshVert.matID = assimp->mMeshes[i]->mMaterialIndex;
+				auto tTex = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTextureCoords[0][j]);
+				tMeshVert._tex = { tTex.x, tTex.y };
+				tMeshVert._uvSet2 = { 0.f, 0.f }; //하드코딩.
+				//일단 LightMapUV도 FBX딴에서 들어오는 것은 확인했지만, 일단은 파싱에서 받지 않는다.
+				tMeshVert._lightmapUV = { 0.f, 0.f }; //하드코딩.
 
 				tVBVec.push_back(tMeshVert);
 			}
+		}
+
+		//Object / Material ID 보관을 위해. 
+		sceneData->_posRecordVector.resize(vertexCnt);
+
+		//PosRecordVector 옮기기.
+		for (size_t i = 0; i < vertexCnt; i++)
+		{
+			sceneData->_posRecordVector[i] = tVBVec[i]._posL;
 		}
 
 		//Index Buffer
@@ -152,7 +170,7 @@ namespace Pg::Graphics::Helper
 		unsigned int tTotalVertexCount = sceneData->_totalVertexCount;
 		unsigned int tTotalIndexCount = sceneData->_totalIndexCount;
 
-		ParseAssimpSkinned(assimp, sceneData, tVertexBoneVector, outVB, outIB, tTotalVertexCount, tTotalIndexCount);
+		ParseAssimpSkinned(assimp, sceneData, skinnedData, tVertexBoneVector, outVB, outIB, tTotalVertexCount, tTotalIndexCount);
 	}
 
 	//스키닝 데이터 중, 실시간 데이터와 상관 없는 스키닝 데이터 정보 입력.
@@ -224,7 +242,7 @@ namespace Pg::Graphics::Helper
 				// Obtain an index to the affected vertex within the array of vertices.
 				//unsigned int VertexID = _meshEntriesVector[index]._baseVertex + mesh->mBones[i]->mWeights[j].mVertexId;
 				unsigned int VertexID = sceneData->_meshList[index]._vertexOffset + mesh->mBones[i]->mWeights[j].mVertexId;
-				
+
 				// The value of how much this bone influences the vertex. 
 				float Weight = mesh->mBones[i]->mWeights[j].mWeight;
 
@@ -235,7 +253,7 @@ namespace Pg::Graphics::Helper
 		assert(mesh);
 	}
 
-	void AssimpBufferParser::ParseAssimpSkinned(const aiScene* assimp, const Scene_AssetData* sceneData, const std::vector<RenderPrepVertexBone>& vertexBoneVector, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt)
+	void AssimpBufferParser::ParseAssimpSkinned(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, const std::vector<RenderPrepVertexBone>& vertexBoneVector, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt)
 	{
 		//지금까지 Bone Index/Weight Binding을 위해, 인덱스 카운팅 도입.
 		UINT tTotalElapsedVertexCount = 0;
@@ -244,6 +262,10 @@ namespace Pg::Graphics::Helper
 		LayoutDefine::Vin1stSkinned* vertices = new LayoutDefine::Vin1stSkinned[vertexCnt];
 		int32_t* indices = new int32_t[indexCnt];
 		uint32_t vid = 0, iid = 0;
+
+		//별개로, 나중에 Material ID, Object ID를 기록해야 하기에 필요한 정보인 Position만 기록. (&& Blend Data Info)
+		sceneData->_posRecordVector.resize(vertexCnt);
+		skinnedData->_blendDataRecordVector.resize(vertexCnt);
 
 		for (uint32_t i = 0; i < assimp->mNumMeshes; i++)
 		{
@@ -257,23 +279,40 @@ namespace Pg::Graphics::Helper
 				auto& pos = m->mVertices[j];
 				auto& norm = m->mNormals[j];
 				auto& tan = m->mTangents[j];
-				auto& uv = m->mTextureCoords[0][j];
+				auto& texUV = m->mTextureCoords[0][j];
+				unsigned int tMeshMatID = m->mMaterialIndex;
+				//일단은 하드코딩됨.
 
-				vertices[vid + j].posL = DirectX::XMFLOAT3{ pos.x, pos.y, pos.z };
-				vertices[vid + j].normalL = DirectX::XMFLOAT3{ norm.x, norm.y, norm.z };
-				vertices[vid + j].tangentL = DirectX::XMFLOAT3{ tan.x, tan.y, tan.z };
-				vertices[vid + j].color = DirectX::XMFLOAT4{ 1.0f,1.0f, 1.0f, 1.0f };
-				vertices[vid + j].tex = DirectX::XMFLOAT3{ uv.x, uv.y, uv.z };
-				vertices[vid + j].matID = m->mMaterialIndex;
+				vertices[vid + j]._posL = DirectX::XMFLOAT3{ pos.x, pos.y, pos.z };
+				vertices[vid + j]._alpha = 1.f; //하드코딩.
+				vertices[vid + j]._normalL = DirectX::XMFLOAT3{ norm.x, norm.y, norm.z };
+				vertices[vid + j]._tangentL = DirectX::XMFLOAT3{ tan.x, tan.y, tan.z };
+				vertices[vid + j]._color = DirectX::XMFLOAT3{ 1.0f,1.0f, 1.0f }; //하드코딩.
+				vertices[vid + j]._meshMatID = tMeshMatID;
+				vertices[vid + j]._tex = DirectX::XMFLOAT2{ texUV.x, texUV.y};
+				vertices[vid + j]._uvSet2 = { 0.f, 0.f }; //하드코딩.
+				//일단 LightMapUV도 FBX딴에서 들어오는 것은 확인했지만, 일단은 파싱에서 받지 않는다.
+				vertices[vid + j]._lightmapUV = { 0.f, 0.f }; //하드코딩.
 
-				vertices[vid + j].blendIndice0 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0];
-				vertices[vid + j].blendIndice1 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1];
-				vertices[vid + j].blendIndice2 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[2];
-				vertices[vid + j].blendIndice3 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[3];
+				vertices[vid + j]._blendIndice0 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0];
+				vertices[vid + j]._blendIndice1 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1];
+				vertices[vid + j]._blendIndice2 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[2];
+				vertices[vid + j]._blendIndice3 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[3];
 
-				vertices[vid + j].blendWeight0 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[0];
-				vertices[vid + j].blendWeight1 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[1];
-				vertices[vid + j].blendWeight2 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[2];
+				vertices[vid + j]._blendWeight0 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[0];
+				vertices[vid + j]._blendWeight1 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[1];
+				vertices[vid + j]._blendWeight2 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[2];
+
+				//PosRecordVector 기록 (나중에 Object / Material ID 관련 생성 위해)
+				sceneData->_posRecordVector.at(vid + j) = vertices[vid + j]._posL;
+				skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice0 = vertices[vid + j]._blendIndice0;
+				skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice1 = vertices[vid + j]._blendIndice1;
+				skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice2 = vertices[vid + j]._blendIndice2;
+				skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice3 = vertices[vid + j]._blendIndice3;
+
+				skinnedData->_blendDataRecordVector.at(vid + j)._blendWeight0 = vertices[vid + j]._blendWeight0;
+				skinnedData->_blendDataRecordVector.at(vid + j)._blendWeight1 = vertices[vid + j]._blendWeight1;
+				skinnedData->_blendDataRecordVector.at(vid + j)._blendWeight2 = vertices[vid + j]._blendWeight2;
 			}
 
 			for (uint32_t j = 0; j < m->mNumFaces; j++)
@@ -294,7 +333,7 @@ namespace Pg::Graphics::Helper
 				D3D11_BIND_VERTEX_BUFFER);
 			D3D11_SUBRESOURCE_DATA vbData = { vertices, 0, 0 };
 			HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&vbDesc, &vbData, &outVB));
-				assert(false);
+			assert(false);
 
 			CD3D11_BUFFER_DESC ibDesc(
 				indexCnt * sizeof(uint32_t),
@@ -312,7 +351,7 @@ namespace Pg::Graphics::Helper
 			if (nullptr != outIB) outIB->Release();
 		}
 	}
-	
+
 	void AssimpBufferParser::AssimpToMaterialClusterList(const aiScene* assimp, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory)
 	{
 		//미리 GraphicsResourceManager 받아오기.
@@ -350,17 +389,31 @@ namespace Pg::Graphics::Helper
 					{
 						//여기를 이제 Embedding 없이 내부 저장 경로만을 가지고 가져올 수 있게 손봐야 한다.
 						//Embedded Texture가 있는지도 검사할 필요 없이, Path만 가지고 있으면 무조건 .fbm 내부를 찾게 해야 함!
-						///CHANGING HERE 
 						
-						//일단은 해당 리소스대로 일단 GraphicsResourceManager에 추가.
-						tGraphicsResourceManager->LoadResource(tCompletePath, eAssetDefine::_2DTEXTURE);
-						//AssetManager와 연동 위해.
-						tGraphicsResourceManager->AddSecondaryResource(tCompletePath, eAssetDefine::_2DTEXTURE);
-					}
+						//일단, 동일 이름을 가지고 있는 리소스가 있는지부터 확인.
+						std::filesystem::path tPath = tCompletePath;
+						std::string tFilename = tPath.filename().string();
 
+						if (tGraphicsResourceManager->IsExistResourceByName(tFilename))
+						{
+							//동일 파일 이름을 가진 리소스가 있다. 기존의 "Complete" Path를 변경.
+							tCompletePath = tGraphicsResourceManager->GetResourcePathByName(tFilename, eAssetDefine::_TEXTURE2D);
+						}
+						else
+						{
+							//일단은 해당 리소스대로 일단 GraphicsResourceManager에 추가.
+							tGraphicsResourceManager->LoadResource(tCompletePath, eAssetDefine::_TEXTURE2D);
+							//AssetManager와 연동 위해.
+							tGraphicsResourceManager->AddSecondaryResource(tCompletePath, eAssetDefine::_TEXTURE2D);
+						}
+					}
+;
 					//이미 동일한 파일 이름으로 로드된 RenderTexture2D가 있다.
-					auto tTexture2dData = tGraphicsResourceManager->GetResource(tCompletePath, Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
-					tMatCluster->_atsList[j] = static_cast<RenderTexture2D*>(tTexture2dData.get());
+					auto tTexture2dData = tGraphicsResourceManager->GetResource(tCompletePath, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+					tMatCluster->_atsList.at(j) = static_cast<RenderTexture2D*>(tTexture2dData.get());
+
+					////디버그 리스트에도 기록.
+					//tMatCluster->_debugList.at(j).second = true;
 				}
 			}
 			outMatClusterList.push_back(tMatCluster);
@@ -368,7 +421,7 @@ namespace Pg::Graphics::Helper
 		assert(true);
 	}
 
-	
+
 
 	void AssimpBufferParser::AssimpToSceneAssetData(const aiScene* assimp, const std::string& path, Scene_AssetData* outSceneAssetData)
 	{
@@ -486,7 +539,8 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
-	
+
+
 
 	//void BufferParser::StoreAssimpBone(const aiBone* assimp, Bone_AssetData* pgAABB)
 	//{

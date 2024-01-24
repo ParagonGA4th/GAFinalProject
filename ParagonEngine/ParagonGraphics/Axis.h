@@ -1,25 +1,15 @@
 #pragma once
-
-#include "RenderableObject.h"
+#include "WireframeRenderObject.h"
 
 namespace Pg::Graphics
 {
-
-	class Axis : public RenderableObject
+	class Axis : public WireframeRenderObject
 	{
 	public:
 		Axis();
 		virtual ~Axis();
 
-	public:
-		virtual void Render() override;
-
+	private:
 		virtual void BuildBuffers() override;
-		virtual void BindBuffers() override;
-
-		virtual void BindInputLayout() override;
-
-	public:
-		CBDataBase _cbData;
 	};
 }

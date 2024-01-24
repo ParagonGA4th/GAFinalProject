@@ -95,8 +95,14 @@
     <ClCompile Include="Transform.cpp">
       <Filter>2_Component\Transform</Filter>
     </ClCompile>
-    <ClCompile Include="MoveForwardBack.cpp">
-      <Filter>8_TestScripts\MoveForwardBack</Filter>
+    <ClCompile Include="PhysicsContactPoint.cpp">
+      <Filter>10_Physics\PhysicsContactPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsCollision.cpp">
+      <Filter>10_Physics\PhysicsCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="RayCast.cpp">
+      <Filter>2_Component\Collider\RayCast</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,8 +241,14 @@
     <ClInclude Include="ForceMode.h">
       <Filter>4_Structs</Filter>
     </ClInclude>
-    <ClInclude Include="IComponent.h">
-      <Filter>2_Component\0_Interface</Filter>
+    <ClInclude Include="PhysicsContactPoint.h">
+      <Filter>10_Physics\PhysicsContactPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsCollision.h">
+      <Filter>10_Physics\PhysicsCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="RayCast.h">
+      <Filter>2_Component\Collider\RayCast</Filter>
     </ClInclude>
     <ClInclude Include="SerializerHelper.h">
       <Filter>2_Component\1_Helper</Filter>
@@ -371,6 +383,18 @@
     </Filter>
     <Filter Include="2_Component\Collider\StaticCollider\PlaneCollider">
       <UniqueIdentifier>{34510aec-ad30-4dcd-9cd2-d6bc26aac2b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Physics">
+      <UniqueIdentifier>{a08c6ece-cc21-4663-a345-b8e964068a7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Physics\PhysicsCollision">
+      <UniqueIdentifier>{8fcd22ad-9b92-4d44-8c15-1bf3df482043}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Physics\PhysicsContactPoint">
+      <UniqueIdentifier>{5ca282b1-8837-472f-a19f-ee3a5a7c2762}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\RayCast">
+      <UniqueIdentifier>{e22317fe-af60-4228-a3ad-b506fdb2234a}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Component\0_Interface">
       <UniqueIdentifier>{abef100b-af6e-4814-8be2-cf2fb9d881de}</UniqueIdentifier>

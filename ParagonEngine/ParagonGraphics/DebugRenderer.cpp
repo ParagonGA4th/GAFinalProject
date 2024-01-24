@@ -4,6 +4,9 @@
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
 #include "MathHelper.h"
+#include "RenderObjectWireframeList.h"
+#include "WireframeRenderObject.h"
+#include "LayoutDefine.h"
 
 #include "../ParagonData/CameraData.h"
 
@@ -14,19 +17,34 @@ namespace Pg::Graphics
 {
 	using Pg::Graphics::Helper::MathHelper;
 
-	DebugRenderer::DebugRenderer() : _DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
+	DebugRenderer::DebugRenderer(D3DCarrier* d3dCarrier) : BaseSpecificRenderer(d3dCarrier), _DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
 	{
 
 	}
 
 	void DebugRenderer::Initialize()
 	{
+		CreateSystemVertexShaders();
 		InitGeometry();
 		InitLine();
 	}
 
-	void DebugRenderer::Render(Pg::Data::CameraData* camData)
+	void DebugRenderer::SetupRenderPasses()
 	{
+
+	}
+
+	void DebugRenderer::RenderContents(void* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		Render((RenderObjectWireframeList*)renderObjectList, camData);
+	}
+
+	void DebugRenderer::Render(RenderObjectWireframeList* wireframeList, Pg::Data::CameraData* camData)
+	{
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_quadMainGDS->GetDSV());
+
+		WireframeObjRender(wireframeList, camData);
+
 		BeginGeoPrimitiveRender();
 		GeoPrimitiveRender(camData);
 		EndGeoPrimitiveRender();
@@ -34,6 +52,11 @@ namespace Pg::Graphics
 		BeginPrimitiveBatchRender(camData);
 		LineRender();
 		EndPrimitiveBatchRender();
+	}
+
+	void DebugRenderer::ConfirmCarrierData()
+	{
+
 	}
 
 	void DebugRenderer::InitGeometry()
@@ -73,6 +96,24 @@ namespace Pg::Graphics
 			&_debugLineInputLayout));
 
 		_commonStates = std::make_unique<DirectX::CommonStates>(_DXStorage->_device);
+	}
+
+	void DebugRenderer::WireframeObjRender(RenderObjectWireframeList* wireframeList, Pg::Data::CameraData* camData)
+	{
+		//Layout, Topology, Shader, RS
+		_primitiveVS->Bind();
+		_primitivePS->Bind();
+
+		for (auto& it : wireframeList->_list)
+		{
+			it->UpdateConstantBuffers(camData);
+			it->BindConstantBuffers();
+			it->Render();
+			it->UnbindConstantBuffers();
+		}
+
+		_primitiveVS->Unbind();
+		_primitivePS->Unbind();
 	}
 
 	void DebugRenderer::BeginGeoPrimitiveRender()
@@ -134,6 +175,11 @@ namespace Pg::Graphics
 			Pg::Data::LineInfo it = _lineColVector->at(i);
 			DrawLine(&it);
 		}
+
+		for (int i = 0; i < _rayCastColVector->size(); i++)
+		{
+			DrawRayCast(_rayCastColVector->at(i));
+		}
 	}
 
 	void DebugRenderer::EndPrimitiveBatchRender()
@@ -159,6 +205,11 @@ namespace Pg::Graphics
 	void DebugRenderer::GetDebugLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec)
 	{
 		_lineColVector = &lineColVec;
+	}
+
+	void DebugRenderer::GetDebugRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec)
+	{
+		_rayCastColVector = &rayCastColVec;
 	}
 
 	void DebugRenderer::DrawBox(Pg::Data::CameraData* camData, Pg::Data::BoxInfo* boxInfo)
@@ -269,6 +320,19 @@ namespace Pg::Graphics
 		_primitiveBatch->DrawLine(
 			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(lineInfo->beginPoint), MathHelper::PG2XM_FLOAT4(lineInfo->color)),
 			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(lineInfo->endPoint), MathHelper::PG2XM_FLOAT4(lineInfo->color)));
+	}
+
+	void DebugRenderer::DrawRayCast(Pg::Data::RayCastInfo* rayCastInfo)
+	{
+		Pg::Math::PGFLOAT3 tBeginPoint = rayCastInfo->origin;
+		Pg::Math::PGFLOAT3 tEndPoint = (rayCastInfo->origin) + (rayCastInfo->dir) * (rayCastInfo->length);
+
+		DirectX::XMFLOAT4 tColor;
+		DirectX::XMStoreFloat4(&tColor, DirectX::Colors::MediumVioletRed);
+
+		_primitiveBatch->DrawLine(
+			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(tBeginPoint), tColor),
+			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(tEndPoint), tColor));
 	}
 
 	void DebugRenderer::DrawPlane(Pg::Data::CameraData* camData, Pg::Data::PlaneInfo* planeInfo)
@@ -498,5 +562,17 @@ namespace Pg::Graphics
 		_planeShape = DirectX::GeometricPrimitive::CreateCustom(_DXStorage->_deviceContext, vertices, indices);
 	
 	}
+
+	void DebugRenderer::CreateSystemVertexShaders()
+	{
+		_primitiveVS = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/PrimitiveVS.cso", LayoutDefine::GetWireframePrimitiveLayout(),
+			LowDX11Storage::GetInstance()->_wireframeState, D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+		_primitivePS = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/PrimitivePS.cso");
+	}
+
+	
+
+	
+
 
 }

@@ -14,12 +14,13 @@
 #include "../ParagonAPI/PgInput.h"
 
 #include "ParagonRenderer.h"
+#include "GeometryGenerator.h"
 #include "Sprite.h"
 #include "Font.h"
 
 #include "Grid.h"
 #include "Axis.h"
-#include "Cubemap.h"
+#include "RenderCubemap.h"
 
 
 //<실제 Graphics Resource의 목록>
@@ -103,6 +104,7 @@ namespace Pg::Graphics
 
 		//Default Input Layout 세팅.
 		LayoutDefine::Initialize();
+		GeometryGenerator::Initialize();
 
 		_renderer->Initialize();
 
@@ -142,11 +144,14 @@ namespace Pg::Graphics
 		assert(_currentScene != nullptr);
 
 		_renderer->Render(_camData);
+
 		//DebugRender 기능, 일단은 디폴트로 켜두었음.
 		_renderer->DebugRender(_camData);
 
-		// 현재 렌더링되고 있는 3D 오브젝트의 갯수를 Scene으로 전달.
-		scene->_graphicsDebugData._renderedObjectCount = _renderer->Get3DObjectCount();
+		_renderer->UiRender(_camData);
+
+		//Main Render Target으로 보내기.
+		_renderer->FinalRender(_camData);
 	}
 
 	void GraphicsMain::EndRender()
@@ -173,10 +178,10 @@ namespace Pg::Graphics
 		ReleaseCOM(_DXStorage->_depthStencilView);
 		ReleaseCOM(_DXStorage->_depthStencilSRV);
 		ReleaseCOM(_DXStorage->_depthStencilBuffer);
-		ReleaseCOM(_DXStorage->_backBuffer)
+		ReleaseCOM(_DXStorage->_backBuffer);
 
-			// 바뀐 사이즈로 재할당
-			hr = _DXLogic->ResizeSwapChainBuffers(screenWidth, screenHeight);
+		// 바뀐 사이즈로 재할당
+		hr = _DXLogic->ResizeSwapChainBuffers(screenWidth, screenHeight);
 		hr = _DXLogic->CreateMainRenderTarget();
 		hr = _DXLogic->CreateDepthStencilViewAndState();
 		_DXLogic->CreateAndSetViewports();
@@ -222,8 +227,9 @@ namespace Pg::Graphics
 
 	ID3D11ShaderResourceView* GraphicsMain::GetEditorCameraViewSRV()
 	{
-		_editorCameraSRV = tempEditorCamSprite->GetSRV();
-		return _editorCameraSRV;
+		//_editorCameraSRV = tempEditorCamSprite->GetSRV();
+		//return _editorCameraSRV;
+		return _renderer->GetFinalQuadSRV();
 	}
 
 	ID3D11ShaderResourceView* GraphicsMain::GetGameCameraViewSRV()
@@ -280,6 +286,11 @@ namespace Pg::Graphics
 	void GraphicsMain::SetPlaneDebugRenderData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec)
 	{
 		_renderer->PassPlaneGeometryData(planeColVec);
+	}
+
+	void GraphicsMain::SetRayCastDebugRenderData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec)
+	{
+		_renderer->PassRayCastGeometryData(rayCastColVec);
 	}
 
 }

@@ -1,7 +1,8 @@
 #pragma once
-
 #include "DX11Headers.h"
-
+#include "GBufferRender.h"
+#include "GBufferDepthStencil.h"
+#include "BaseSpecificRenderer.h"
 #include <vector>
 #include <memory>
 
@@ -13,81 +14,54 @@ namespace Pg::Data
 
 namespace Pg::Graphics
 {
-	class TestCube;
 	class RenderObject3DList;
-	class RenderObjectLightList;
 	class LowDX11Storage;
-	class GBuffer;
-	class VertexShader;
-	class PixelShader;
-	class ConstantBufferBase;
+	class IRenderPass;
+
+	class FirstStaticRenderPass;
+	class ObjMatStaticRenderPass;
 }
 
 namespace Pg::Graphics
 {
-	class DeferredRenderer
+	class DeferredRenderer : public BaseSpecificRenderer
 	{
 	public:
-		DeferredRenderer();
+		DeferredRenderer(D3DCarrier* d3dCarrier);
+		~DeferredRenderer();
 
-	public:
-		void Initialize();
+		virtual void Initialize() override;
+		virtual void SetupRenderPasses() override;
 
-		void BeginRender();
-
-		void RenderFirstPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
-		void RenderLight(RenderObjectLightList* lightList, Pg::Data::CameraData* camData);
-		void RenderSecondPass();
-
-		void ClearGBuffers();
-	
-		void BindFirstPass();
-		void BindLightingPass();
-		void BindSecondPass();
-
-		void UnbindFirstPass();
-		void UnbindLightingPass();
-		void UnbindSecondPass();
-	private:
-
-		void BuildFullscreenQuad();
-		void BindFullscreenQuad();
-	private:
-		std::vector<GBuffer*> _gBuffers;
-		std::vector<ID3D11RenderTargetView*> _RTVs;
-		std::vector<ID3D11ShaderResourceView*> _SRVs;
-
-		std::vector<ID3D11RenderTargetView*> NullRTV;
-		std::vector<ID3D11ShaderResourceView*> NullSRV;
+		virtual void RenderContents(void* renderObjectList, Pg::Data::CameraData* camData) override;
+		virtual void ConfirmCarrierData() override;
 
 	private:
-		VertexShader* _firstVS;
-		PixelShader* _firstPS;
-
-		VertexShader* _lightingVS;
-		PixelShader* _lightingPS;
-		
-		VertexShader* _secondVS;
-		PixelShader* _secondPS;
+		void PushRenderPasses();
+		void InitializeRenderPasses();
+		void PlaceRequiredResources();
+		void UpdateCarrierResources();
 
 	private:
-		ID3D11Buffer* _VB;
-		ID3D11Buffer* _IB;
-
-	public:
-		std::vector< ConstantBufferBase* > _firstCBs;
-		std::vector< ConstantBufferBase* > _lightingCBs;
-		std::vector< ConstantBufferBase* > _secondCBs;
-
-	private:
-		void UpdateConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers);
-		void BindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers);
-		void UnbindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers);
+		void Render(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
+		void RenderFirstStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
+		void RenderObjMatStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
+		void RenderOpaqueQuadPasses(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 
 	private:
 		LowDX11Storage* _DXStorage;
 
-	private:
-		TestCube* cube;
+		FirstStaticRenderPass* _firstStaticRenderPass;
+		ObjMatStaticRenderPass* _objMatStaticRenderPass;
+
+		std::vector<IRenderPass*> _opaqueQuadPassesVector;
+
+		//메인 렌더 타겟으로 넘어갈 G-Buffer Render & Depth Stencil.
+		//모든 Renderer를 거치면서 값이 활용될 것이다.
+		std::unique_ptr<GBufferRender> _quadMainRTV;
+		std::unique_ptr<GBufferDepthStencil> _quadMainDSV;
+
+		//별도로 OpaqueQuad가 사용하는 DSV. (ObjMat 딴에서 기록된 Depth 값을 훼손하지 않기 위해서)
+		std::unique_ptr<GBufferDepthStencil> _opaqueQuadDSV;
 	};
 }
