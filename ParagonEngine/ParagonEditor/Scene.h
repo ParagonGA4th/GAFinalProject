@@ -1,6 +1,7 @@
 #pragma once
 #include "IEditorWindow.h"
 #include <string>
+#include <memory>
 
 namespace Pg::Editor::Data { class DataContainer; }
 namespace Pg::UI { class WidgetContainer; }
@@ -30,7 +31,7 @@ namespace Pg::Editor::Window
 		/// helper Class
 		Pg::Editor::Data::DataContainer* _dataContainer;
 		Pg::UI::Manager::UIManager* _uiManager;
-		Pg::UI::WidgetContainer* cons;
+		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
 
 		/// Data Value
 	};

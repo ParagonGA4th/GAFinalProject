@@ -76,6 +76,9 @@
     <ClInclude Include="Combo.h">
       <Filter>0_UI\1_Widget\Combo</Filter>
     </ClInclude>
+    <ClInclude Include="ImageButton.h">
+      <Filter>0_UI\1_Widget\Button\ImageButton</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UIManager.cpp">
@@ -144,6 +147,9 @@
     <ClCompile Include="Combo.cpp">
       <Filter>0_UI\1_Widget\Combo</Filter>
     </ClCompile>
+    <ClCompile Include="ImageButton.cpp">
+      <Filter>0_UI\1_Widget\Button\ImageButton</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_UI">
@@ -208,6 +214,9 @@
     </Filter>
     <Filter Include="0_UI\1_Widget\Combo">
       <UniqueIdentifier>{cb231de3-eb42-413d-a251-9c9475e5677e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Button\ImageButton">
+      <UniqueIdentifier>{3c29521f-733a-4b9b-ab7b-ad9b4723ff1d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

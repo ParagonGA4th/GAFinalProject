@@ -92,7 +92,7 @@ void Pg::Editor::Manager::ProcessManager::ManagerHandler(MSG message)
 void Pg::Editor::Manager::ProcessManager::SetEditorMode(void* mode)
 {
 	Pg::Data::Enums::eEditorMode* eMode = static_cast<Pg::Data::Enums::eEditorMode*>(mode);
-	SetEditorMode(&eMode);
+	SetEditorMode(*eMode);
 }
 
 void Pg::Editor::Manager::ProcessManager::SetEditorMode(Pg::Data::Enums::eEditorMode mode)
