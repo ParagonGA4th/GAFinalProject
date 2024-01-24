@@ -20,6 +20,7 @@ namespace Pg::Graphics
 
 	class FirstStaticRenderPass;
 	class ObjMatStaticRenderPass;
+	class OpaqueLightingRenderPass;
 }
 
 namespace Pg::Graphics
@@ -46,13 +47,15 @@ namespace Pg::Graphics
 		void Render(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderFirstStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderObjMatStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
+		void RenderOpaqueLightingPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderOpaqueQuadPasses(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 
 	private:
 		LowDX11Storage* _DXStorage;
 
-		FirstStaticRenderPass* _firstStaticRenderPass;
-		ObjMatStaticRenderPass* _objMatStaticRenderPass;
+		std::unique_ptr<FirstStaticRenderPass> _firstStaticRenderPass;
+		std::unique_ptr<ObjMatStaticRenderPass> _objMatStaticRenderPass;
+		std::unique_ptr<OpaqueLightingRenderPass> _opaqueLightingPass;
 
 		std::vector<IRenderPass*> _opaqueQuadPassesVector;
 
