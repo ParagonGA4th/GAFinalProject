@@ -11,6 +11,7 @@
 #include "IRenderPass.h"
 #include "FirstStaticRenderPass.h"
 #include "ObjMatStaticRenderPass.h"
+#include "OpaqueLightingRenderPass.h"
 #include "OpaqueQuadRenderPass.h"
 #include "FinalRenderPass.h"
 
@@ -88,6 +89,7 @@ namespace Pg::Graphics
 		//For문 대신, 명시적으로 값 호출. (나누기)
 		RenderFirstStaticPass(renderObjectList, camData);
 		RenderObjMatStaticPass(renderObjectList, camData);
+		RenderOpaqueLightingPass(renderObjectList, camData);
 		RenderOpaqueQuadPasses(renderObjectList, camData);
 
 
@@ -103,12 +105,15 @@ namespace Pg::Graphics
 		//Render Pass Vector 구성.
 		
 		//첫번째는 무조건 FirstRenderPass.
-		_firstStaticRenderPass = new FirstStaticRenderPass();
+		_firstStaticRenderPass = std::make_unique<FirstStaticRenderPass>();
 
 		//두번째는 일단 ObjMatStaticRenderPass.
-		_objMatStaticRenderPass = new ObjMatStaticRenderPass();
+		_objMatStaticRenderPass = std::make_unique<ObjMatStaticRenderPass>();
 
 		//Skinned가 들어오면 FirstStatic->FirstSkinned->ObjMatStatic->ObjMatSkinned일것.
+
+		//OpaqueLightingRenderPass.
+		_opaqueLightingPass = std::make_unique<OpaqueLightingRenderPass>();
 
 		//모든 Material의 목록을 받은 뒤, 순서대로 OpaqueQuadRenderPass 호출. (일반적인 경우)
 		//N개의 Material이 있으면, N개의 Pass가 만들어진다.
@@ -126,6 +131,7 @@ namespace Pg::Graphics
 	{
 		_firstStaticRenderPass->Initialize();
 		_objMatStaticRenderPass->Initialize();
+		_opaqueLightingPass->Initialize();
 
 		//일괄적으로 Initialize() 호출.
 		for (auto& it : _opaqueQuadPassesVector)
@@ -201,6 +207,17 @@ namespace Pg::Graphics
 	
 	}
 
+	void DeferredRenderer::RenderOpaqueLightingPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		// 모든 Static / Skinned가 렌더링된 이후, 라이팅 패스를 처리한다!
+		_opaqueLightingPass->ReceiveRequiredElements(*_carrier);
+		_opaqueLightingPass->BindPass();
+		_opaqueLightingPass->RenderPass(renderObjectList, camData);
+		_opaqueLightingPass->UnbindPass();
+		_opaqueLightingPass->ExecuteNextRenderRequirements();
+		_opaqueLightingPass->PassNextRequirements(*_carrier);
+	}
+
 	void DeferredRenderer::RenderOpaqueQuadPasses(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		//Opaque Quad 전용 RTV / DSV 클리어.
@@ -233,6 +250,8 @@ namespace Pg::Graphics
 			_DXStorage->_deviceContext->PSSetShaderResources(i, 1, &pSRV);
 		}
 	}
+
+
 
 }
 
