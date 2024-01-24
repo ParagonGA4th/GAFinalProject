@@ -7,9 +7,13 @@
 /// </summary>
 /// 
 
+namespace Pg::Core
+{
+	class ProcessMain;
+}
+
 namespace Pg::Engine
 {
-
 	class TestScene
 	{
 	public:
@@ -19,12 +23,14 @@ namespace Pg::Engine
 		void Initialize();
 		Pg::Data::Scene* GetCurrentScene();
 
+		// Editor와 Engine가 연결이 되는지 확인하기 위한
+		void SetScenesData(Pg::Data::Scene* currentScene);
+
 	private:
 		//testScene
 		Pg::Data::Scene* tCurrentScene = nullptr;
 
 		//CameraScriptTest* tCameraScript = nullptr;
 	};
-
 }
 

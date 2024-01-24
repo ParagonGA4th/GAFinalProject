@@ -21,6 +21,7 @@ namespace Pg::UI::Manager
 		void ImguiHandler(MSG message);
 
 		static void Begin(std::string windowName, bool isMenu);
+		static void DockSpaceBegin(std::string dockName);
 		static void End();
 	};
 }

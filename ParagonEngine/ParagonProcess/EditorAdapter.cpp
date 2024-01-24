@@ -58,5 +58,4 @@ namespace Pg::Core
 	{
 		return _currentScene;
 	}
-
 }

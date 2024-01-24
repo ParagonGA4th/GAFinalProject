@@ -149,7 +149,15 @@ namespace Pg::Graphics
 		_renderer->DebugRender(_camData);
 
 		_renderer->UiRender(_camData);
+	}
 
+	Pg::Data::GameObject* GraphicsMain::GetPickedGameObjectWithRatios(float widthRatio, float heightRatio)
+	{
+		return _renderer->GetPickedGameObjectWithRatios(_DXStorage->_screenWidth, _DXStorage->_screenHeight, widthRatio, heightRatio);
+	}
+
+	void GraphicsMain::FinalRender()
+	{
 		//Main Render Target으로 보내기.
 		_renderer->FinalRender(_camData);
 	}
@@ -227,8 +235,9 @@ namespace Pg::Graphics
 
 	ID3D11ShaderResourceView* GraphicsMain::GetEditorCameraViewSRV()
 	{
-		_editorCameraSRV = tempEditorCamSprite->GetSRV();
-		return _editorCameraSRV;
+		//_editorCameraSRV = tempEditorCamSprite->GetSRV();
+		//return _editorCameraSRV;
+		return _renderer->GetFinalQuadSRV();
 	}
 
 	ID3D11ShaderResourceView* GraphicsMain::GetGameCameraViewSRV()
@@ -291,5 +300,13 @@ namespace Pg::Graphics
 	{
 		_renderer->PassRayCastGeometryData(rayCastColVec);
 	}
+
+
+	void GraphicsMain::SetPickingEnableMode(bool val)
+	{
+		_internalPickingMode = val;
+	}
+
+	
 
 }
