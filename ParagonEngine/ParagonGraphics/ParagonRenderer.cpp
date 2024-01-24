@@ -14,6 +14,7 @@
 #include "FinalRenderer.h"
 
 #include "../ParagonData/Scene.h"
+#include "../ParagonUtil/Log.h"
 #include "../ParagonData/GameObject.h"
 
 #include <utility>
@@ -94,6 +95,8 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::FinalRender(Pg::Data::CameraData* camData)
 	{
+		//내부적으로 알아서 구분해줄 것. (Picking에 따라 Outline 모드가 내부적으로 호출될 것이기 때문에!
+		_finalRenderer->RenderOutlineStencil(camData);
 		_finalRenderer->RenderContents(nullptr, camData);
 		_finalRenderer->ConfirmCarrierData();
 	}
@@ -164,9 +167,22 @@ namespace Pg::Graphics
 		return _gCarrier->_quadMainRT->GetSRV();
 	}
 
-	Pg::Data::GameObject* ParagonRenderer::GetPickedGameObjectWithRatios(int screenWidth, int screenHeight, float widthRatio, float heightRatio)
+	Pg::Data::GameObject* ParagonRenderer::GetPickedID_SetOutlineMode(int selectedWidthPixel, int selectedHeightPixel)
 	{
-		return nullptr;
+		unsigned int tFoundID = _finalRenderer->GetPickingObjectID(selectedWidthPixel, selectedHeightPixel);
+
+		if (tFoundID == 0)
+		{
+			//없으니, Outline Buffer를 따로 그려줄 이유도 없다.
+			_finalRenderer->SetOutlineRenderingMode(false);
+			return nullptr;
+		}
+		
+		//해당 Material 값을 감싸는 Outline Shader Rendering 과정. -> 그려주게 Bool 값으로 설정.
+		_finalRenderer->SetOutlineRenderingMode(true);
+
+		//무조건 내부적으로 값을 찾아서 리턴해야 한다. 그렇지 않은 경우를 외부에서 예외처리함.
+		return _sceneParser->GetObjectWithObjID(tFoundID);
 	}
 
 

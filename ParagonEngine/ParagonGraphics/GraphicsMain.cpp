@@ -36,6 +36,7 @@
 #include <windows.h>
 #include <numbers>
 #include <cassert>
+#include <cmath>
 #include <limits>
 #include <singleton-cpp/singleton.h>
 
@@ -153,7 +154,40 @@ namespace Pg::Graphics
 
 	Pg::Data::GameObject* GraphicsMain::GetPickedGameObjectWithRatios(float widthRatio, float heightRatio)
 	{
-		return _renderer->GetPickedGameObjectWithRatios(_DXStorage->_screenWidth, _DXStorage->_screenHeight, widthRatio, heightRatio);
+		assert(0.0f <= widthRatio && widthRatio <= 1.0f);
+		assert(0.0f <= heightRatio && heightRatio <= 1.0f);
+
+		static bool tDB = false;
+		if (!tDB)
+		{
+			PG_WARN("현재 widthRatio와 heightRatio는 반영받고 있지 않는다. 나중에 에디터랑 연동할 떄 추가해 사용해야!");
+			tDB = true;
+		}
+
+		if (_internalPickingMode)
+		{
+			if (_input->GetKeyDown(API::Input::MouseLeft))
+			{
+				//Input이 0-1로 정규화된 Ratio로 값을 반환한다.
+				widthRatio = _input->GetMouseX();
+				heightRatio = _input->GetMouseY();
+
+				int selectedWidth = round(static_cast<float>(_DXStorage->_screenWidth) * widthRatio);
+				int selectedHeight = round(static_cast<float>(_DXStorage->_screenHeight) * heightRatio);
+
+				//std::string tVal = "X : ";
+				//tVal += std::to_string(selectedWidth);
+				//tVal += " / Y : ";
+				//tVal += std::to_string(selectedHeight);
+				//PG_INFO(tVal.c_str());
+				
+				return _renderer->GetPickedID_RenderOutline(selectedWidth, selectedHeight);
+			}
+			return nullptr;
+		}
+
+		//Picking Mode가 아니므로, 단순 nullptr를 리턴한다.
+		return nullptr;
 	}
 
 	void GraphicsMain::FinalRender()
@@ -301,12 +335,11 @@ namespace Pg::Graphics
 		_renderer->PassRayCastGeometryData(rayCastColVec);
 	}
 
-
 	void GraphicsMain::SetPickingEnableMode(bool val)
 	{
 		_internalPickingMode = val;
 	}
 
-	
+
 
 }

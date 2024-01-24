@@ -50,6 +50,8 @@ namespace Pg::Graphics
 		//Object-Material 데이터가 전부 매칭/로드 된 후, 일괄적으로 발동될 함수이다.	
 		virtual void CreateObjMatBuffers() abstract;
 
+		unsigned int GetObjectID() const;
+		unsigned int GetMaterialID() const;
 	public:
 		//FirstRenderPass에 쓰인다.
 		virtual void First_UpdateConstantBuffers(Pg::Data::CameraData* camData) abstract;
