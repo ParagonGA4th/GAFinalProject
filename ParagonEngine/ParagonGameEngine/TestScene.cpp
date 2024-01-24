@@ -9,6 +9,7 @@
 #include "../ParagonData/SphereCollider.h"
 #include "../ParagonData/PlaneCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/RayCast.h"
 
 //#include "../ParagonData/BaseRenderer.h" //Render 연동 보기 위해.
 //#include "../ParagonData/RendererBase2D.h" //Render 연동 보기 위해.
@@ -70,6 +71,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
 	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
 	tObj2_2->GetComponent<CapsuleCollider>()->SetTrigger(false);
+	//tObj2_2->AddComponent<RayCast>();
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 1.0f, 0.0f, 0.0f });
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, 90.0f, 0.0f, 0.0f });
 	tObj2_2->AddComponent<StaticMeshRenderer>();
@@ -101,6 +103,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj4->AddComponent<StaticBoxCollider>();
 	tObj4->GetComponent<StaticBoxCollider>()->SetTrigger(true);
 	//tObj4->GetComponent<StaticBoxCollider>()->SetScale(2.0f, 2.0f, 2.0f);
+	tObj4->AddComponent<RayCast>();
 	tObj4->AddComponent<StaticMeshRenderer>();
 	tObj4->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	tObj4->GetComponent<StaticMeshRenderer>()->SetActive(true);

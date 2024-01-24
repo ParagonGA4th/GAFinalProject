@@ -84,12 +84,12 @@ namespace Pg::Engine
 					DrawRayCastDebug(&(tRayCast->_rayCastInfo));
 				}
 
-				//static Pg::Data::RayCastInfo tVal;
-				//tVal.length = 3.0f;
-				//tVal.dir = { 1.0f,0.0f,0.f };
-				//tVal.origin = { 5.0f,5.f,5.f };
-				//
-				//DrawRayCastDebug(&tVal);
+				/*static Pg::Data::RayCastInfo tVal;
+				tVal.length = 3.0f;
+				tVal.dir = { 1.0f,0.0f,0.f };
+				tVal.origin = { 5.0f,5.f,5.f };
+				
+				DrawRayCastDebug(&tVal); */
 			}
 		}
 
