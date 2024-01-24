@@ -36,6 +36,7 @@ namespace Pg::UI::Manager
 		 void UIHandler(MSG message);
 
 		 void WindowBegin(std::string winName, bool isMenu = false);
+		 void WindowDockSpaceBegin(std::string winName);
 		 void WindowEnd();
 
 	private:

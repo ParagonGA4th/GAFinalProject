@@ -159,6 +159,7 @@
     <ClCompile Include="Hierarchy.cpp" />
     <ClCompile Include="InspectorHelper.cpp" />
     <ClCompile Include="Inspector.cpp" />
+    <ClCompile Include="Layout.cpp" />
     <ClCompile Include="MenuBar.cpp" />
     <ClCompile Include="ProcessManager.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="IEditor.h" />
     <ClInclude Include="InspectorHelper.h" />
     <ClInclude Include="Inspector.h" />
+    <ClInclude Include="Layout.h" />
     <ClInclude Include="MenuBar.h" />
     <ClInclude Include="ProcessManager.h" />
     <ClInclude Include="Scene.h" />

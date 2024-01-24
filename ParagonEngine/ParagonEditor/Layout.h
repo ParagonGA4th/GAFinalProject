@@ -5,17 +5,16 @@
 #include <memory>
 
 namespace Pg::Editor { class Event; }
-namespace Pg::Editor::Data { class DataContainer; }
 namespace Pg::UI { class WidgetContainer; }
 namespace Pg::UI::Manager { class UIManager; }
 
 namespace Pg::Editor::Window
 {
-	class Hierarchy : public IEditorWindow
+	class Layout : public IEditorWindow
 	{
 	public:
-		Hierarchy();
-		~Hierarchy();
+		Layout();
+		~Layout();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
@@ -25,19 +24,13 @@ namespace Pg::Editor::Window
 		virtual bool GetShow() override;
 
 	private:
-		void DataSet();
-
-	private:
-		/// hierarchy value
+		/// Layout value
 		std::string _winName;
 		bool _isShow;
 
 		/// helper class
-		Pg::Editor::Data::DataContainer* _dataContainer;
 		Pg::UI::Manager::UIManager* _uiManager;
-		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
-
-		std::unique_ptr<Pg::Editor::Event> _changeObjectData;
+		Pg::UI::WidgetContainer* cons;
 
 		/// Data value
 		std::vector<std::string> _objNames;
