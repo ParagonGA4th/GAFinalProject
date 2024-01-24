@@ -31,6 +31,8 @@ namespace Pg::Core
 		virtual void UnloadResource(const std::string& filePath) abstract;
 
 		//렌더링을 위해 현재의 씬을 받아올 필요가 있다.
+		virtual void SetSceneList(std::vector<Pg::Data::Scene*> sceneList) abstract;
+		virtual void SetCurrentScene(Pg::Data::Scene* currentScene) abstract;
 		virtual Pg::Data::Scene* GetCurrentScene() abstract;
 
 		virtual Pg::Data::CameraData* GetCameraData() abstract;

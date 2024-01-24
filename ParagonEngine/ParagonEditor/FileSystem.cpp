@@ -6,6 +6,7 @@
 #include <fstream>
 #include <filesystem>
 #include <cassert>
+#include <windows.h>
 
 namespace fs = std::filesystem;
 
@@ -24,14 +25,14 @@ void Pg::Editor::System::FileSystem::Initialize()
 {
 	// project가 처음 open 될 때는 기존 폴더(Builds//x64//Relase//)에 있는 sample load.
 
-	_fileSaveEvent->AddEvent(Pg::Editor::eEventType::FileSave, [&]() { FileSave(); });
-	_fileOpenEvent->AddEvent(Pg::Editor::eEventType::FileOpen, [&]() { FileOpen(); });
+	_fileSaveEvent->AddEvent(Pg::Editor::eEventType::_FILESAVE, [&]() { FileSave(); });
+	_fileOpenEvent->AddEvent(Pg::Editor::eEventType::_FILEOPEN, [&]() { FileOpen(); });
 }
 
 void Pg::Editor::System::FileSystem::FileOpen()
 {
 	ShowDialog(true);
-	_dataManager->DataLoad(_rootPath, SeparatingFileName());
+	_dataManager->DataLoad(_rootPath);
 }
 
 void Pg::Editor::System::FileSystem::FileSave()
@@ -60,8 +61,7 @@ void Pg::Editor::System::FileSystem::ShowDialog(bool isOpen)
 	// 파일 필터 설정: .ppt 확장자 필터
 	COMDLG_FILTERSPEC fileTypes[1];
 
-	if (isOpen) fileTypes[0] = { L"Pragon Scene", L"*.pgscene" };
-	else fileTypes[0] = { L"Pragon Project", L"*.pgproject" };
+	fileTypes[0] = { L"Pragon Project", L"*.pgproject" };
 
 	itemDialog->SetFileTypes(ARRAYSIZE(fileTypes), fileTypes);
 	itemDialog->SetFileTypeIndex(isOpen ? 1 : 0); // 기본 확장자 선택 (1부터 시작)
@@ -134,13 +134,12 @@ void Pg::Editor::System::FileSystem::CreateParagonFile(std::unordered_map<std::s
 	}
 }
 
-std::string Pg::Editor::System::FileSystem::SeparatingFileName()
-{
-	std::string fileName;
-
-	fileName = _rootPath.substr(_rootPath.rfind("\\") + 1);
-	fileName = fileName.substr(0, fileName.find(".", 0));
-
-	return fileName;
-}
-
+//std::string Pg::Editor::System::FileSystem::SeparatingFileName()
+//{
+//	std::string fileName;
+//
+//	fileName = _rootPath.substr(_rootPath.rfind("\\") + 1);
+//	fileName = fileName.substr(0, fileName.find(".", 0));
+//
+//	return fileName;
+//}

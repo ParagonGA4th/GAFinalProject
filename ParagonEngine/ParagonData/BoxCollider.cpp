@@ -33,16 +33,16 @@ namespace Pg::Data
 
 	float BoxCollider::GetWidth() const
 	{ 
-		return _width * _scaleOffset.x * _object->_transform.GetScale().x;
+		return _width * _scaleOffset.x * _object->_transform._scale.x;
 	}
 
 	float BoxCollider::GetHeight() const
 	{
-		return _height * _scaleOffset.y * _object->_transform.GetScale().y;
+		return _height * _scaleOffset.y * _object->_transform._scale.y;
 	}
 
 	float BoxCollider::GetDepth() const
 	{
-		return _depth * _scaleOffset.z * _object->_transform.GetScale().z;
+		return _depth * _scaleOffset.z * _object->_transform._scale.z;
 	}
 }

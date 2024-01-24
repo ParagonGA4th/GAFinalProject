@@ -4,9 +4,9 @@ namespace Pg::Data::Enums
 {
 	enum class eLightType : unsigned int
 	{
-		NONE = 0,
-		DIRECTIONALLIGHT = 1,
-		POINTLIGHT = 2,
-		SPOTLIGHT = 3
+		_NONE = 0,
+		_DIRECTIONALLIGHT = 1,
+		_POINTLIGHT = 2,
+		_SPOTLIGHT = 3
 	};
 }

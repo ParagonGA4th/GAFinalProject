@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "../ParagonMath/PgMath.h"
+
 #include <memory>
 #include <string>
 

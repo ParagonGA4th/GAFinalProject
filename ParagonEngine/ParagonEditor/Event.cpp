@@ -48,11 +48,11 @@ void Pg::Editor::Event::EventHandler(MSG message)
 		switch (LOWORD(message.wParam))
 		{
 		case ID_OPEN_SCENE:
-			Invoke(eEventType::FileOpen);
+			Invoke(eEventType::_FILEOPEN);
 			break;
 
 		case ID_SAVE:
-			Invoke(eEventType::FileSave);
+			Invoke(eEventType::_FILESAVE);
 			break;
 		}
 	}

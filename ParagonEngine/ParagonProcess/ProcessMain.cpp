@@ -109,6 +109,9 @@ namespace Pg::Core
 		_engineGraphicsAdapter->UpdateGraphics(
 			_engineGraphicsAdapter->GetCurrentScene(),
 			_engineGraphicsAdapter->GetCameraData());
+
+		// 에디터에서 변경 된 씬 정보 -> 게임엔진 
+		_engineGraphicsAdapter->SetCurrentScene(_editorAdapter->GetCurrentScene());
 	}
 
 	void ProcessMain::BeginRender()
