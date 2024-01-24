@@ -11,7 +11,6 @@
 namespace Pg::Data
 {
 	class GameObject;
-{
 	class Component
 	{
 	public:
