@@ -2,8 +2,10 @@
 #include "SystemVertexShader.h"
 #include "SystemPixelShader.h"
 #include "BaseSpecificRenderer.h"
+#include "DX11Headers.h"
 
 //RenderPass
+#include "OutlineRenderPass.h"
 #include "FinalRenderPass.h"
 
 namespace Pg::Data
@@ -36,10 +38,24 @@ namespace Pg::Graphics
 		virtual void ConfirmCarrierData() override;
 
 		//Unsigned Int로 Picking된 ID를 받는다.
-		unsigned int GetPickingID(unsigned int widthPixel, unsigned int widthHeight);
+		unsigned int GetPickingObjectID(unsigned int widthPixel, unsigned int heightPixel);
+		void SetOutlineRenderingMode(bool val);
+		//미리 그릴지 말지가 Picking Logic으로 정해진다.
+		void RenderOutlineStencil(Pg::Data::CameraData* camData);
 
 	private:
+		void CreateStagingPickingBuffer();
+
+
+
+	private:
+		std::unique_ptr<OutlineRenderPass> _outlineRenderPass;
 		std::unique_ptr<FinalRenderPass> _finalRenderPass;
+
+		ID3D11Texture2D* _pickingStagingBuffer = nullptr;
+		LowDX11Storage* _DXStorage = nullptr;
+
+		bool _outlineRenderingMode = false;
 	};
 }
-
+//finalRenderer->RenderOutlineStencil();
