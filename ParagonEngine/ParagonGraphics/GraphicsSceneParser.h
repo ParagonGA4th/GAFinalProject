@@ -5,6 +5,8 @@
 #include "RenderObjectCubemapList.h"
 #include "RenderObjectWireframeList.h"
 
+#include "../ParagonData/GameObject.h"
+
 #include <memory>
 #include <vector>
 
@@ -36,6 +38,8 @@ namespace Pg::Graphics
 		RenderObjectCubemapList* GetRenderObjectCubemapList();
 		RenderObjectWireframeList* GetRenderObjectWireframeList();
 
+		//함수가 호출되었다는 것은 무조건 찾아야 한다는 것. 미리 아무것도 안 클릭되었을 경우를 걸러내기 때문.
+		Pg::Data::GameObject* GetObjectWithObjID(unsigned int objID);
 	private:
 		void ClearObjectLists();
 		void ExtractMaterialPaths(const Pg::Data::Scene* const newScene);

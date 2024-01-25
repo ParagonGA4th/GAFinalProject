@@ -203,7 +203,7 @@ namespace Pg::Graphics
 
 					//Material Path Set를 RenderObject3DList에서 찾기(Index), 없으면 로직 에러.
 					//auto it = std::find(_renderObject3DList->_materialPathSet.begin(), _renderObject3DList->_materialPathSet.end(), tMatPth);
-					
+
 					auto it = std::find_if(_renderObject3DList->_materialPathSet.begin(), _renderObject3DList->_materialPathSet.end(),
 						[&tMatPth](const std::pair<std::string, unsigned int>& val)
 						-> bool {return (val.first == tMatPth); });
@@ -222,20 +222,20 @@ namespace Pg::Graphics
 						if (!(Pg::Graphics::Manager::GraphicsResourceManager::Instance()->IsExistDefaultMaterialByMeshName(tTempMeshName)))
 						{
 							//MeshName으로 만들어진 Default Material이 아직 없다.
-							
+
 							//DefaultMaterial 로드할 것이다. "DefaultMaterial_"이 들어있기 때문에, 디폴트로 로드될 것이다.
 							Pg::Graphics::Manager::GraphicsResourceManager::Instance()->LoadResource(tDefaultMatInstName, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
-							
+
 							//전체 저장목록에 갖고 있다고 기록. (Graphics에서 검사했기 때문에, AssetManager로 보내줘야)
 							Pg::Graphics::Manager::GraphicsResourceManager::Instance()->AddSecondaryResource(tDefaultMatInstName, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
-							
+
 							//이제는, vector 목록에 추가해줘야.
 							_renderObject3DList->_staticList.insert_or_assign(tDefaultMatInstName, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
 							_renderObject3DList->_skinnedList.insert_or_assign(tDefaultMatInstName, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
 						}
 
 						//일단은 Default Material ID를 설정해주기.
-						auto res = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tDefaultMatInstName, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL); 
+						auto res = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tDefaultMatInstName, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
 						RenderMaterial* tRenderMat = static_cast<RenderMaterial*>(res.get());
 						_renderObject3DList->_materialPathSet.push_back(std::make_pair(tDefaultMatInstName, tRenderMat->GetID()));
 
@@ -304,6 +304,48 @@ namespace Pg::Graphics
 				it.second->at(i).second->CreateObjMatBuffers();
 			}
 		}
+	}
+
+	Pg::Data::GameObject* GraphicsSceneParser::GetObjectWithObjID(unsigned int objID)
+	{
+		Pg::Data::GameObject* tRet = nullptr;
+
+		//Static List 내부 찾기.
+		for (auto& [bMatPath, bVectorPtr] : _renderObject3DList->_staticList)
+		{
+			for (int i = 0; i < bVectorPtr->size(); i++)
+			{
+				auto& [go, ro] = bVectorPtr->at(i);
+
+				if (ro->GetObjectID() == objID)
+				{
+					tRet = go;
+					goto gtFinished;
+				}
+			}
+		}
+
+		//Skinned List 내부 찾기.
+		for (auto& [bMatPath, bVectorPtr] : _renderObject3DList->_skinnedList)
+		{
+			for (int i = 0; i < bVectorPtr->size(); i++)
+			{
+				auto& [go, ro] = bVectorPtr->at(i);
+
+				if (ro->GetObjectID() == objID)
+				{
+					tRet = go;
+					goto gtFinished;
+				}
+			}
+		}
+
+	//유일하게 Goto 사용이 허용되는 예시 : nested loops, in single functions.
+	gtFinished:
+		assert(tRet != nullptr && "무조건 Picking한 GameObject를 찾았어야 하는 함수에서 값을 찾지 못했다.");
+		//PG_TRACE(tRet->GetName().c_str());
+		return tRet;
+
 	}
 
 }

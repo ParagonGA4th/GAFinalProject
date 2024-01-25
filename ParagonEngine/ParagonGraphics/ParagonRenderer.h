@@ -60,10 +60,10 @@ namespace Pg::Graphics
 		void PassCapsuleGeometryData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec);
 		void PassSphereGeometryData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec);
 		void PassPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec);
-		void PassRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec);
+		void PassRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec);
 
 		//Picking된 게임오브젝트를 보낸다.
-		Pg::Data::GameObject* GetPickedGameObjectWithRatios(int screenWidth, int screenHeight, float widthRatio, float heightRatio);
+		Pg::Data::GameObject* GetPickedID_SetOutlineMode(int selectedWidthPixel, int selectedHeightPixel);
 		
 		void BeginRender();
 		void Render(Pg::Data::CameraData* camData);			// 이미 컴포넌트 단계에서 RenderObject들과 연동되기에, 오브젝트 자체를 받을 필요가 없음.

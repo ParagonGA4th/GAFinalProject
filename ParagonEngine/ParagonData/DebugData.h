@@ -27,6 +27,11 @@ namespace Pg::Data
 	//똑같은 Line의 형태이지만, 필요한 변수와 활용도가 다르기에 구분. 
 	struct RayCastInfo
 	{
+		//맞았을 때
+		bool isHit;
+		PGFLOAT3 hitPoint;
+
+		//안 맞았을 때
 		PGFLOAT3 origin;
 		PGFLOAT3 dir;
 		float length;

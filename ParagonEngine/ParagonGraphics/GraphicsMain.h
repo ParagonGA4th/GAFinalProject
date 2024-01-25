@@ -125,7 +125,7 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual void SetCapsuleDebugRenderData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec) override;
 		PARAGON_GRAPHICS_DLL virtual void SetSphereDebugRenderData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec) override;
 		PARAGON_GRAPHICS_DLL virtual void SetPlaneDebugRenderData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec) override;
-		PARAGON_GRAPHICS_DLL virtual void SetRayCastDebugRenderData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec) override;
+		PARAGON_GRAPHICS_DLL virtual void SetRayCastDebugRenderData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec) override;
 		
 		//Picking을 허용할지 / 허용하지 않을지, 렌더링 파이프라인 비용을 ON/OFF 할 수 있다.
 		PARAGON_GRAPHICS_DLL virtual void SetPickingEnableMode(bool val) override;

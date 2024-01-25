@@ -66,4 +66,8 @@ ID3D11ShaderResourceView*& Pg::Graphics::GBufferRender::GetSRV()
 	return _SRV;
 }
 
+ID3D11Texture2D*& Pg::Graphics::GBufferRender::GetBuffer()
+{
+	return _Buffer;
+}
 

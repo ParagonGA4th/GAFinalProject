@@ -46,6 +46,7 @@
     <ClInclude Include="ObjMatStaticRenderPass.h" />
     <ClInclude Include="OpaqueLightingRenderPass.h" />
     <ClInclude Include="OpaqueQuadRenderPass.h" />
+    <ClInclude Include="OutlineRenderPass.h" />
     <ClInclude Include="RenderCubemap.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -153,6 +154,7 @@
     <ClCompile Include="ObjMatStaticRenderPass.cpp" />
     <ClCompile Include="OpaqueLightingRenderPass.cpp" />
     <ClCompile Include="OpaqueQuadRenderPass.cpp" />
+    <ClCompile Include="OutlineRenderPass.cpp" />
     <ClCompile Include="RenderCubemap.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>

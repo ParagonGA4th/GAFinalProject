@@ -72,7 +72,7 @@ namespace Pg::Core
 		virtual void SetCapsuleDebugRenderData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec) abstract;
 		virtual void SetSphereDebugRenderData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec) abstract;
 		virtual void SetPlaneDebugRenderData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec) abstract;
-		virtual void SetRayCastDebugRenderData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec) abstract;
+		virtual void SetRayCastDebugRenderData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec) abstract;
 	
 		//Picking을 허용할지 / 허용하지 않을지, 렌더링 파이프라인 비용을 ON/OFF 할 수 있다.
 		virtual void SetPickingEnableMode(bool val) abstract;
