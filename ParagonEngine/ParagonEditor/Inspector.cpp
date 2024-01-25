@@ -2,9 +2,14 @@
 #include "InspectorHelper.h"
 #include "Event.h"
 
+#include "../ParagonData/GameObject.h"
+#include "../ParagonData/Camera.h"
+
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
+#include "../ParagonUI/Column.h"
 #include "../ParagonUI/Button.h"
+#include "../ParagonUI/Combo.h"
 
 #include <singleton-cpp/singleton.h>
 
@@ -30,8 +35,16 @@ void Pg::Editor::Window::Inspector::Initialize()
 	std::unique_ptr<Pg::Editor::Event> changeObjectData = std::make_unique<Pg::Editor::Event>();
 	changeObjectData->AddEvent(Pg::Editor::eEventType::_OBJECTDATA, [&](void* data) { SetData(data); });
 
-	auto& btn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Add Component", 120.f, 25.f);
-	_isAddComponent = btn.GetBtnClick();
+	_componentList.emplace_back(typeid(Pg::Data::Transform).name());
+	_componentList.emplace_back(typeid(Pg::Data::Camera).name());
+
+	auto& combo = _widgetCon->CreateColumnsWidget<Pg::UI::Widget::Combo>("##Add Component", _componentList);
+	_componentIndex = combo.GetSelectedIndex();
+	
+	auto& btn = _widgetCon->CreateColumnsWidget<Pg::UI::Widget::Button>("Add Component", 115.f, 30.f);
+	_isClick = btn.GetBtnClick();
+
+	_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Column<2>>("AddComponent", _widgetCon->GetColumnWidgets(), true, 0);
 }
 
 void Pg::Editor::Window::Inspector::Update()
@@ -39,19 +52,8 @@ void Pg::Editor::Window::Inspector::Update()
 	_uiManager->WindowBegin(_winName);
 	_insHelper->Update();
 	_widgetCon->Update();
+	AddComponent();
 	_uiManager->WindowEnd();
-
-	//if (_dataContainer->GetSave())
-	//{
-	//	for (auto vobj : _dataContainer->GetCurrentScene()->GetObjectList())
-	//	{
-	//		if (vobj->GetName() == "New Object")
-	//		{
-	//			vobj->SetName(_objName);
-	//			vobj->SetActive(_isObjActive);
-	//		}
-	//	}
-	//}
 }
 
 void Pg::Editor::Window::Inspector::Finalize()
@@ -75,5 +77,17 @@ void Pg::Editor::Window::Inspector::SetData(void* data)
 	{
 		_selectGameObject = static_cast<Pg::Data::GameObject*>(data);
 		_insHelper->SetData(_selectGameObject);
+	}
+}
+
+void Pg::Editor::Window::Inspector::AddComponent()
+{
+	if (*_isClick)
+	{
+		if (_selectGameObject != nullptr)
+		{
+			_selectGameObject->AddComponent(_componentList.at(*_componentIndex));
+			_insHelper->SetData(_selectGameObject);
+		}
 	}
 }

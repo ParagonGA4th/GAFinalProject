@@ -11,11 +11,11 @@ namespace Pg::UI::Widget
 		Combo(std::string label, std::vector<std::string> itemList);
 		virtual void Update() override;
 
-		static int _itemType;
+		int* GetSelectedIndex();
 	protected:
 		std::string _label;
 		std::vector<std::string> _itemList;
-		bool _isStart;
+		int _selectedIndex;
 	};
 }
 
