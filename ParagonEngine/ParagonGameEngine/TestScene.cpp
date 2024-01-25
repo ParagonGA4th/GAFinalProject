@@ -24,6 +24,7 @@
 #include "PrintRuntimeData.h"
 #include "EditorCameraScript.h"
 #include "MovingTest.h"
+#include "RayCastTest.h"
 
 #include "../ParagonData/SpotLight.h"
 #include "../ParagonData/PointLight.h"
@@ -57,7 +58,7 @@ void Pg::Engine::TestScene::Initialize()
 	GameObject* tObj2_1 = tCurrentScene->AddObject("Sphere1");
 	tObj2_1->GetComponent<Transform>()->_position = { 3.0f, 10.0f, 0.0f };
 	tObj2_1->AddComponent<SphereCollider>();
-	//tObj2_1->GetComponent<SphereCollider>()->SetRadius(2.0f);
+	tObj2_1->GetComponent<SphereCollider>()->SetRadius(2.0f);
 	tObj2_1->AddComponent<StaticMeshRenderer>();
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/DefaultGeometry/DefaultGeometry.fbx");
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
@@ -65,10 +66,10 @@ void Pg::Engine::TestScene::Initialize()
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Capsule1");
 	tObj2_2->GetComponent<Transform>()->_position = { 1.0f, 5.0f, 0.0f };
-	//tObj2_2->AddComponent<CapsuleCollider>();
-	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
-	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
-	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+	tObj2_2->AddComponent<CapsuleCollider>();
+	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
+	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
+	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetTrigger(true);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 1.0f, 0.0f, 0.0f });
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, 90.0f, 0.0f, 0.0f });
@@ -77,6 +78,8 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj2_2->AddComponent<MovingTest>();
 	tObj2_2->AddComponent<MovingTest>()->SetActive(true);
+	tObj2_2->AddComponent<RayCastTest>();
+	tObj2_2->AddComponent<RayCastTest>()->SetActive(true);
 	//tObj2_2->AddComponent<MoveForwardBack>();
 	//tObj2_2->GetComponent<MoveForwardBack>()->SetActive(false);
 	//
