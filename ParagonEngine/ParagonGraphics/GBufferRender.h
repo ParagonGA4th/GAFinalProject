@@ -22,6 +22,7 @@ namespace Pg::Graphics
 	public:
 		ID3D11RenderTargetView*& GetRTV();
 		ID3D11ShaderResourceView*& GetSRV();
+		ID3D11Texture2D*& GetBuffer();
 
 	private:
 		void CreateBuffer(DXGI_FORMAT format);

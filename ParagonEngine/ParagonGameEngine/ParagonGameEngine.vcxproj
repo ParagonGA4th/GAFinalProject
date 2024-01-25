@@ -180,6 +180,7 @@
     <ClInclude Include="PhysicsCallback.h" />
     <ClInclude Include="PhysicSystem.h" />
     <ClInclude Include="PrintRuntimeData.h" />
+    <ClInclude Include="RayCastTest.h" />
     <ClInclude Include="SceneSystem.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="TimeSystem.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="PhysicsCallback.cpp" />
     <ClCompile Include="PhysicSystem.cpp" />
     <ClCompile Include="PrintRuntimeData.cpp" />
+    <ClCompile Include="RayCastTest.cpp" />
     <ClCompile Include="SceneSystem.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TimeSystem.cpp" />

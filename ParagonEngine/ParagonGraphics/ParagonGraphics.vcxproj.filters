@@ -227,7 +227,7 @@
       <Filter>8_Helpers\GraphicsSceneParser</Filter>
     </ClInclude>
     <ClInclude Include="FinalRenderPass.h">
-      <Filter>0_Main\RenderPass\5_FinalRenderPass</Filter>
+      <Filter>0_Main\RenderPass\10_FinalRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="ObjMatStaticRenderPass.h">
       <Filter>0_Main\RenderPass\1_ObjMatStaticRenderPass</Filter>
@@ -246,6 +246,9 @@
     </ClInclude>
     <ClInclude Include="OpaqueLightingRenderPass.h">
       <Filter>0_Main\RenderPass\3_OpaqueLightingPass</Filter>
+    </ClInclude>
+    <ClInclude Include="OutlineRenderPass.h">
+      <Filter>0_Main\RenderPass\9_OutlineRenderPass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -439,7 +442,7 @@
       <Filter>8_Helpers\GraphicsSceneParser</Filter>
     </ClCompile>
     <ClCompile Include="FinalRenderPass.cpp">
-      <Filter>0_Main\RenderPass\5_FinalRenderPass</Filter>
+      <Filter>0_Main\RenderPass\10_FinalRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="ObjMatStaticRenderPass.cpp">
       <Filter>0_Main\RenderPass\1_ObjMatStaticRenderPass</Filter>
@@ -455,6 +458,9 @@
     </ClCompile>
     <ClCompile Include="OpaqueLightingRenderPass.cpp">
       <Filter>0_Main\RenderPass\3_OpaqueLightingPass</Filter>
+    </ClCompile>
+    <ClCompile Include="OutlineRenderPass.cpp">
+      <Filter>0_Main\RenderPass\9_OutlineRenderPass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -749,8 +755,11 @@
     <Filter Include="0_Main\RenderPass\3_OpaqueLightingPass">
       <UniqueIdentifier>{f54e7a5e-4811-4fe0-a4b7-d2c4f483636e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main\RenderPass\5_FinalRenderPass">
+    <Filter Include="0_Main\RenderPass\10_FinalRenderPass">
       <UniqueIdentifier>{eaa8e6b3-4a91-4e77-858e-d882be91ee71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass\9_OutlineRenderPass">
+      <UniqueIdentifier>{923fdd6e-5157-47b0-8cac-b34658565252}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

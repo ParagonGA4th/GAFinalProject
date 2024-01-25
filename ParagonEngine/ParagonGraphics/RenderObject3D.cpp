@@ -37,6 +37,15 @@ namespace Pg::Graphics
 
 	}
 
-	
+	unsigned int RenderObject3D::GetObjectID() const
+	{
+		return _objectID;
+	}
+
+	unsigned int RenderObject3D::GetMaterialID() const
+	{
+		return _materialID;
+	}
+
 
 }

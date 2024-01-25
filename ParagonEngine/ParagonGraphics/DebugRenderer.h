@@ -47,7 +47,7 @@ namespace Pg::Graphics
 		void GetDebugCapsuleGeometryData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec);
 		void GetDebugLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec);
 		void GetDebugPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec);
-		void GetDebugRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec);
+		void GetDebugRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec);
 		
 		
 	private:
@@ -69,7 +69,7 @@ namespace Pg::Graphics
 		void DrawSphere(Pg::Data::CameraData* camData, Pg::Data::SphereInfo* sphereInfo);
 		void DrawCapsule(Pg::Data::CameraData* camData, Pg::Data::CapsuleInfo* capsuleInfo);
 		void DrawLine(Pg::Data::LineInfo* lineInfo);
-		void DrawRayCast(Pg::Data::RayCastInfo* rayCastInfo);
+		void DrawRayCast(Pg::Data::RayCastInfo rayCastInfo);
 		void DrawPlane(Pg::Data::CameraData* camData, Pg::Data::PlaneInfo* planeInfo);
 
 	private:
@@ -111,7 +111,7 @@ namespace Pg::Graphics
 		const std::vector<Pg::Data::CapsuleInfo*>* _capsuleColVector = nullptr;
 		const std::vector<Pg::Data::LineInfo>* _lineColVector = nullptr;
 		const std::vector<Pg::Data::PlaneInfo*>* _planeColVector = nullptr;
-		const std::vector<Pg::Data::RayCastInfo*>* _rayCastColVector = nullptr;
+		const std::vector<Pg::Data::RayCastInfo>* _rayCastColVector = nullptr;
 
 	private:
 		//DebugLine을 위한 요구사항.
