@@ -10,7 +10,15 @@ namespace Pg::UI::Widget::Layout
 	class Column : public Pg::UI::IWidget
 	{
 	public:
-		Column(std::string id, std::vector<Pg::UI::IWidget*> widgets, bool widthSet = true) :_widgets(widgets), _id(id), _widthSet(widthSet) {}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id">Column Id(Name)</param>
+		/// <param name="widgets">Columns Widgets</param>
+		/// <param name="widthSet">width setting</param>
+		/// <param name="wideColumn">first or second (0/1)</param>
+		Column(std::string id, std::vector<Pg::UI::IWidget*> widgets, bool widthSet = true, int wideColumn = 1) 
+			:_widgets(widgets), _id(id), _isWidthSet(widthSet), _wideColumn(wideColumn) {}
 
 		virtual void Update() override
 		{
@@ -20,11 +28,17 @@ namespace Pg::UI::Widget::Layout
 
 			for (auto& it : _widgets)
 			{
-				if (_widthSet)
+				if (_isWidthSet)
 				{
-					ImGui::SetColumnWidth(0, 130.f);
+					if (_wideColumn == 1)
+					{
+						ImGui::SetColumnWidth(0, 110.f);
+						ImGui::SetColumnWidth(_wideColumn, 290.f);
+					}
+					else
+						ImGui::SetColumnWidth(_wideColumn, 210.f);
 
-					if (counter % 2 == 1)
+					if (counter % 2 == _wideColumn)
 					{
 						ImGui::PushItemWidth(-1);
 					}
@@ -41,7 +55,8 @@ namespace Pg::UI::Widget::Layout
 	private:
 		std::vector<Pg::UI::IWidget*> _widgets;
 		std::string _id;
-		bool _widthSet;
+		bool _isWidthSet;
+		int _wideColumn;
 	};
 }
 

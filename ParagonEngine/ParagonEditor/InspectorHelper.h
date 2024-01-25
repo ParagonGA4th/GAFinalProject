@@ -38,5 +38,7 @@ namespace Pg::Editor::Window
 		Pg::Data::GameObject* _object;
 
 		Pg::Editor::Data::DataContainer* _dataContainer;
+
+		bool _isAddComponent;
 	};
 }
