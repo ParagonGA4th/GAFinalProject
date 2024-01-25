@@ -136,7 +136,7 @@ namespace Pg::Graphics
 		_debugRenderer->GetDebugPlaneGeometryData(planeColVec);
 	}
 
-	void ParagonRenderer::PassRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec)
+	void ParagonRenderer::PassRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec)
 	{
 		_debugRenderer->GetDebugRayCastGeometryData(rayCastColVec);
 	}

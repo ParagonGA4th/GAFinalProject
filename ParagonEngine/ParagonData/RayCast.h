@@ -10,6 +10,12 @@
 /// 시간 부족으로 컴포넌트로 제작
 /// 2024.01.17
 /// </summary>
+
+namespace physx
+{
+	class PxScene;
+}
+
 namespace Pg::Data
 {
 	using namespace Pg::Math; 
@@ -22,13 +28,11 @@ namespace Pg::Data
 	public:
 		RayCast(GameObject* owner);
 
-		void Update();
-		//void UpdateTransform();
+		virtual void Update() override;
+		virtual void UpdateTransform() override;
 
 		physx::PxScene* GetPxScene();
 		void SetPxScene(physx::PxScene* scene);
-
-
 
 		PGFLOAT3 GetOrigin();
 		PGFLOAT3 GetDir();

@@ -330,7 +330,7 @@ namespace Pg::Graphics
 		_renderer->PassPlaneGeometryData(planeColVec);
 	}
 
-	void GraphicsMain::SetRayCastDebugRenderData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec)
+	void GraphicsMain::SetRayCastDebugRenderData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec)
 	{
 		_renderer->PassRayCastGeometryData(rayCastColVec);
 	}

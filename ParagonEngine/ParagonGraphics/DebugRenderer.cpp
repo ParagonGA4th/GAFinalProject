@@ -207,7 +207,7 @@ namespace Pg::Graphics
 		_lineColVector = &lineColVec;
 	}
 
-	void DebugRenderer::GetDebugRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec)
+	void DebugRenderer::GetDebugRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec)
 	{
 		_rayCastColVector = &rayCastColVec;
 	}
@@ -322,13 +322,23 @@ namespace Pg::Graphics
 			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(lineInfo->endPoint), MathHelper::PG2XM_FLOAT4(lineInfo->color)));
 	}
 
-	void DebugRenderer::DrawRayCast(Pg::Data::RayCastInfo* rayCastInfo)
+	void DebugRenderer::DrawRayCast(Pg::Data::RayCastInfo rayCastInfo)
 	{
-		Pg::Math::PGFLOAT3 tBeginPoint = rayCastInfo->origin;
-		Pg::Math::PGFLOAT3 tEndPoint = (rayCastInfo->origin) + (rayCastInfo->dir) * (rayCastInfo->length);
-
+		Pg::Math::PGFLOAT3 tBeginPoint = rayCastInfo.origin;
+		Pg::Math::PGFLOAT3 tEndPoint;
 		DirectX::XMFLOAT4 tColor;
-		DirectX::XMStoreFloat4(&tColor, DirectX::Colors::MediumVioletRed);
+
+		if (rayCastInfo.isHit)
+		{
+			tEndPoint = rayCastInfo.hitPoint;
+			DirectX::XMStoreFloat4(&tColor, DirectX::Colors::Gold);
+		}
+		else
+		{
+			tEndPoint = (rayCastInfo.origin) + (rayCastInfo.dir) * (rayCastInfo.length);
+			DirectX::XMStoreFloat4(&tColor, DirectX::Colors::MediumVioletRed);
+		}
+		
 
 		_primitiveBatch->DrawLine(
 			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(tBeginPoint), tColor),
@@ -560,7 +570,7 @@ namespace Pg::Graphics
 
 
 		_planeShape = DirectX::GeometricPrimitive::CreateCustom(_DXStorage->_deviceContext, vertices, indices);
-	
+
 	}
 
 	void DebugRenderer::CreateSystemVertexShaders()
@@ -570,9 +580,9 @@ namespace Pg::Graphics
 		_primitivePS = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/PrimitivePS.cso");
 	}
 
-	
 
-	
+
+
 
 
 }

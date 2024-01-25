@@ -37,7 +37,7 @@ namespace Pg::UI::Manager
 
 		 void WindowBegin(std::string winName, bool isMenu = false);
 		 void WindowDockSpaceBegin(std::string winName);
-		 void WindowEnd();
+		 void WindowEnd(bool isDockspace = false);
 
 	private:
 		std::unique_ptr<Pg::UI::Manager::ImGuiManager> _imguiManager;
