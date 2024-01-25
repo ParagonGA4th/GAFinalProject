@@ -10,8 +10,8 @@ namespace Pg::Data
 	RayCast::RayCast(GameObject* owner) :
 		Collider(owner),
 		_origin(0.0f,0.0f,0.0f),
-		_dir(1.0f,1.0f,1.0f),
-		_length(1.0f)
+		_dir(1.0f,0.0f,0.0f),
+		_length(5.0f)
 	{
 
 	}
@@ -62,5 +62,10 @@ namespace Pg::Data
 	void RayCast::SetPxScene(physx::PxScene* scene)
 	{
 		_scene = scene;
+	}
+
+	void RayCast::UpdateTransform()
+	{
+
 	}
 }

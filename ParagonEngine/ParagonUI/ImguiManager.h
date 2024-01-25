@@ -22,7 +22,7 @@ namespace Pg::UI::Manager
 
 		static void Begin(std::string windowName, bool isMenu);
 		static void DockSpaceBegin(std::string dockName);
-		static void End();
+		static void End(bool isDockspace);
 	};
 }
 

@@ -11,6 +11,8 @@
 #include <vector>
 #include <memory>
 
+#include "EngineDLLExporter.h"
+
 /// <summary>
 /// ParagonEngine의 물리 시스템 클래스.
 /// PhysX 연동하여 물리엔진을 만들 것이다
@@ -27,6 +29,7 @@ namespace Pg::Data
 namespace Pg::Engine
 {
 	class SceneSystem;
+	class DebugSystem;
 }
 
 namespace Pg::Engine::Physic
@@ -34,7 +37,7 @@ namespace Pg::Engine::Physic
 	class PhysicSystem
 	{
 	public:
-		void Initialize();
+		void Initialize(Pg::Engine::DebugSystem* debugSystem);
 
 		void UpdatePhysics(float dTime);
 		void UpdateTransform();
@@ -66,9 +69,9 @@ namespace Pg::Engine::Physic
 		void MakeDynamicCapsuleCollider(Pg::Data::GameObject* obj);
 		
 		//RayCast를 각각 다른 방식으로 구현해볼 예정.
-		void MakeRayCast(Pg::Data::GameObject* obj);
+		//void MakeRayCast(Pg::Data::GameObject* obj);
 
-		Pg::Data::Collider* MakeRayCast(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length, int* type);
+		PARAGON_ENGINE_DLL Pg::Data::Collider* MakeRayCast(Pg::Math::PGFLOAT3 tOrigin, Pg::Math::PGFLOAT3 tDir, float tLength, int* bType);
 	private:
 		//Rigid 정보를 담아놓는 벡터
 		std::vector<physx::PxRigidDynamic*> _rigidDynamicVec;
@@ -87,7 +90,8 @@ namespace Pg::Engine::Physic
 		physx::PxMaterial*				_material = nullptr;
 		physx::PxPvd*					_pvd = nullptr;
 
-		Pg::Engine::SceneSystem*		_sceneSystem;
+		Pg::Engine::SceneSystem* _sceneSystem;
+		Pg::Engine::DebugSystem* _debugSystem = nullptr;
 
 		std::unique_ptr<PhysicsCallback> _physicsCallback;
 	};

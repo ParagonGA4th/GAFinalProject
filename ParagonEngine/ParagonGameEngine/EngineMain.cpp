@@ -76,8 +76,8 @@ namespace Pg::Engine
 	{
 		_inputSystem->Initialize(width, height);
 		_sceneSystem->Initialize();
-		_physicSystem->Initialize();
 		_debugSystem->Initialize();
+		_physicSystem->Initialize(_debugSystem);
 		_timeSystem->Initialize();
 	}
 
@@ -182,7 +182,7 @@ namespace Pg::Engine
 		_debugSystem->DeleteRayCastDebug();
 	}
 
-	const std::vector<Pg::Data::RayCastInfo*>& EngineMain::GetRayCastDebugData() const
+	const std::vector<Pg::Data::RayCastInfo>& EngineMain::GetRayCastDebugData() const
 	{
 		return _debugSystem->GetRayCastVector();
 	}

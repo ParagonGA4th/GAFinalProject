@@ -1,5 +1,7 @@
 #include "PhysicSystem.h"
 #include "SceneSystem.h"
+#include "DebugSystem.h"
+
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/GameObject.h"
@@ -63,8 +65,11 @@ namespace Pg::Engine::Physic
 		//return PxFilterFlag::eKILL;
 	}
 
-	void PhysicSystem::Initialize()
+	void PhysicSystem::Initialize(Pg::Engine::DebugSystem* debugSystem)
 	{
+		//DebugSystem 멤버변수 저장.
+		_debugSystem = debugSystem;
+
 		_foundation = PxCreateFoundation(PX_PHYSICS_VERSION, _allocator, _errorCallback);
 		if (!_foundation) throw("PxCreateFoundation Failed!");
 
@@ -257,6 +262,18 @@ namespace Pg::Engine::Physic
 			Pg::Data::StaticCollider* staticCol = static_cast<Pg::Data::StaticCollider*>(rigid->userData);
 			staticCol->UpdateTransform();
 		}
+
+
+		//rayCast는 매 프레임마다 받아와야 하므로 여기다가 임시로 해본다.
+		for (auto& obj : _sceneSystem->GetCurrentScene()->GetObjectList())
+		{
+			Pg::Data::RayCast* tRayCast = obj->GetComponent<Pg::Data::RayCast>();
+
+			if (tRayCast != nullptr)
+			{
+				//MakeRayCast(obj);
+			}
+		}
 	}
 
 
@@ -367,7 +384,7 @@ namespace Pg::Engine::Physic
 			}
 			else if (tRayCast != nullptr)
 			{
-
+				//MakeRayCast(obj);
 			}
 			AddObjectToScene();
 		}
@@ -621,61 +638,65 @@ namespace Pg::Engine::Physic
 	}
 
 
-	void PhysicSystem::MakeRayCast(Pg::Data::GameObject* obj)
-	{
-		Pg::Data::RayCast* col = obj->GetComponent<Pg::Data::RayCast>();
+	//void PhysicSystem::MakeRayCast(Pg::Data::GameObject* obj)
+	//{
+	//	Pg::Data::RayCast* col = obj->GetComponent<Pg::Data::RayCast>();
 
-		if (col)
-		{
-			auto rayCastVec = obj->GetComponents<Pg::Data::RayCast>();
+	//	if (col)
+	//	{
+	//		auto rayCastVec = obj->GetComponents<Pg::Data::RayCast>();
 
-			for (auto& rayCast : rayCastVec)
-			{
-				Pg::Data::RayCast* cRayCast = dynamic_cast<Pg::Data::RayCast*>(rayCast);
+	//		for (auto& rayCast : rayCastVec)
+	//		{
+	//			Pg::Data::RayCast* cRayCast = dynamic_cast<Pg::Data::RayCast*>(rayCast);
 
-				//raycast의 크기.
-				physx::PxVec3 rayCastOrigin;
-				rayCastOrigin.x = cRayCast->GetOrigin().x;
-				rayCastOrigin.y = cRayCast->GetOrigin().y;
-				rayCastOrigin.z = cRayCast->GetOrigin().z;
+	//			//raycast의 크기.
+	//			physx::PxVec3 rayCastOrigin;
+	//			rayCastOrigin.x = cRayCast->GetOrigin().x;
+	//			rayCastOrigin.y = cRayCast->GetOrigin().y;
+	//			rayCastOrigin.z = cRayCast->GetOrigin().z;
 
-				physx::PxVec3 rayCastDir;
-				rayCastDir.x = cRayCast->GetDir().x;
-				rayCastDir.y = cRayCast->GetDir().y;
-				rayCastDir.z = cRayCast->GetDir().z;
+	//			physx::PxVec3 rayCastDir;
+	//			rayCastDir.x = cRayCast->GetDir().x;
+	//			rayCastDir.y = cRayCast->GetDir().y;
+	//			rayCastDir.z = cRayCast->GetDir().z;
 
-				float length;
-				length = cRayCast->GetLength();
+	//			float length;
+	//			length = cRayCast->GetLength();
 
-				physx::PxRaycastBuffer _hitBuffer;
-				_pxScene->raycast(rayCastOrigin, rayCastDir, length, _hitBuffer);
-			}
-		}
-	}
+	//			physx::PxRaycastBuffer _hitBuffer;
+	//			_pxScene->raycast(rayCastOrigin, rayCastDir, length, _hitBuffer);
+	//		}
+	//	}
+	//}
 
 
 	///Rayscast 생성하기
-	Pg::Data::Collider* PhysicSystem::MakeRayCast(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length, int* type)
+	Pg::Data::Collider* PhysicSystem::MakeRayCast(Pg::Math::PGFLOAT3 tOrigin, Pg::Math::PGFLOAT3 tDir, float tLength, int* bType)
 	{
 		physx::PxVec3 rayCastOrigin;
-		rayCastOrigin.x = origin.x;
-		rayCastOrigin.y = origin.y;
-		rayCastOrigin.z = origin.z;
+		rayCastOrigin.x = tOrigin.x;
+		rayCastOrigin.y = tOrigin.y;
+		rayCastOrigin.z = tOrigin.z;
 
 		physx::PxVec3 rayCastDir;
-		rayCastDir.x = dir.x;
-		rayCastDir.y = dir.y;
-		rayCastDir.z = dir.z;
+		rayCastDir.x = tDir.x;
+		rayCastDir.y = tDir.y;
+		rayCastDir.z = tDir.z;
 
 		Pg::Data::Collider* raycastCol = nullptr;
 
 		//RayCast 버퍼 생성.
 		physx::PxRaycastBuffer _hitBuffer;
-		bool _isHit = _pxScene->raycast(rayCastOrigin, rayCastDir, length, _hitBuffer);
+		bool _isHit = _pxScene->raycast(rayCastOrigin, rayCastDir, tLength, _hitBuffer);
+
+		physx::PxVec3 tHitPoint = { 0.f,0.f,0.f };
 
 		//만약 RayCast에 맞았다면
 		if (_isHit)
 		{
+			PG_TRACE("RayCast Hit!");
+
 			//충돌 오브젝트의 포인터
 			physx::PxRigidActor* actor = _hitBuffer.block.actor;
 
@@ -684,9 +705,9 @@ namespace Pg::Engine::Physic
 			{
 				actor = static_cast<physx::PxRigidStatic*>(actor);
 
-				if (type != nullptr)
+				if (bType != nullptr)
 				{
-					*type = 1;
+					*bType = 1;
 				}
 			}
 
@@ -694,12 +715,32 @@ namespace Pg::Engine::Physic
 			{
 				actor = static_cast<physx::PxRigidDynamic*>(actor);
 
-				if (type != nullptr)
+				if (bType != nullptr)
 				{
-					*type = 2;
+					*bType = 2;
 				}
 			}
+
+			//피격 데이터 전달.
+			raycastCol = static_cast<Pg::Engine::Collider*>(actor->userData);
+
+			tHitPoint = _hitBuffer.block.position;
 		}
+
+		if (_debugSystem->GetDebugMode())
+		{
+			RayCastInfo tRayCastInfo;
+			tRayCastInfo.isHit = _isHit;
+			tRayCastInfo.hitPoint.x = tHitPoint.x;
+			tRayCastInfo.hitPoint.y = tHitPoint.y;
+			tRayCastInfo.hitPoint.z = tHitPoint.z;
+
+			tRayCastInfo.dir = tDir;
+			tRayCastInfo.origin = tOrigin;
+			tRayCastInfo.length = tLength;
+			_debugSystem->DrawRayCastDebug(tRayCastInfo);
+		}
+
 		return raycastCol;
 	}
 

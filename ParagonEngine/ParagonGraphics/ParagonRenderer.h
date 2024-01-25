@@ -60,7 +60,7 @@ namespace Pg::Graphics
 		void PassCapsuleGeometryData(const std::vector<Pg::Data::CapsuleInfo*>& const capsuleColVec);
 		void PassSphereGeometryData(const std::vector<Pg::Data::SphereInfo*>& const sphereColVec);
 		void PassPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec);
-		void PassRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec);
+		void PassRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec);
 
 		//Picking된 게임오브젝트를 보낸다.
 		Pg::Data::GameObject* GetPickedID_SetOutlineMode(int selectedWidthPixel, int selectedHeightPixel);

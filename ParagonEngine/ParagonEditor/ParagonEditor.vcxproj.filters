@@ -46,14 +46,17 @@
     <ClCompile Include="Editor.cpp">
       <Filter>1_Main\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="MenuBar.cpp">
-      <Filter>2_Windows\MenuBar</Filter>
+    <ClCompile Include="ToolBar.cpp">
+      <Filter>2_Windows\ToolBar</Filter>
     </ClCompile>
     <ClCompile Include="InspectorHelper.cpp">
       <Filter>2_Windows\Inspector</Filter>
     </ClCompile>
     <ClCompile Include="Layout.cpp">
       <Filter>2_Windows\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>2_Windows\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,8 +123,8 @@
     <ClInclude Include="IEditorManager.h">
       <Filter>0_Define\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="MenuBar.h">
-      <Filter>2_Windows\MenuBar</Filter>
+    <ClInclude Include="ToolBar.h">
+      <Filter>2_Windows\ToolBar</Filter>
     </ClInclude>
     <ClInclude Include="visit_struct.hpp">
       <Filter>Visit_Struct</Filter>
@@ -140,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="Layout.h">
       <Filter>2_Windows\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>2_Windows\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -215,14 +221,17 @@
     <Filter Include="2_Windows\WindowHelper">
       <UniqueIdentifier>{c893f9ce-67b9-410c-b0a8-0a7471917c8d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Windows\MenuBar">
-      <UniqueIdentifier>{70b38a76-d7bb-4df6-9e77-799c102a7b72}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Visit_Struct">
       <UniqueIdentifier>{ea5e6b9c-734c-465d-a4d8-52025f4060cd}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Windows\Layout">
       <UniqueIdentifier>{22ef4027-1948-44ca-834a-582a17202598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\Game">
+      <UniqueIdentifier>{6f62729f-b9c3-4053-8f4a-16c5cd3c998f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\ToolBar">
+      <UniqueIdentifier>{70b38a76-d7bb-4df6-9e77-799c102a7b72}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

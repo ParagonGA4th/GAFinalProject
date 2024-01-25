@@ -41,7 +41,7 @@ namespace Pg::Engine
 		void DrawCapsuleDebug(Pg::Data::CapsuleInfo* capsuleInfo);
 		void DrawSphereDebug(Pg::Data::SphereInfo* sphereInfo);
 		void DrawPlaneDebug(Pg::Data::PlaneInfo* planeInfo);
-		void DrawRayCastDebug(Pg::Data::RayCastInfo* rayCastInfo);
+		void DrawRayCastDebug(Pg::Data::RayCastInfo rayCastInfo);
 		void DrawLineDebug(PGFLOAT3 begin, PGFLOAT3 end, PGFLOAT4 col);
 
 		void DeleteBoxDebug();
@@ -52,6 +52,7 @@ namespace Pg::Engine
 		void DeleteRayCastDebug();
 
 		void SetDebugMode(bool isdebug);
+		bool GetDebugMode();
 
 	public:
 		const std::vector<Pg::Data::BoxInfo*>& GetBoxVector() const;
@@ -59,14 +60,14 @@ namespace Pg::Engine
 		const std::vector<Pg::Data::SphereInfo*>& GetSphereVector() const;
 		const std::vector<Pg::Data::CapsuleInfo*>& GetCapsuleVector() const;
 		const std::vector<Pg::Data::PlaneInfo*>& GetPlaneVector() const;
-		const std::vector<Pg::Data::RayCastInfo*>& GetRayCastVector() const;
+		const std::vector<Pg::Data::RayCastInfo>& GetRayCastVector() const;
 
 		//std::vector<Pg::Data::BoxInfo*>& GetDrawEnabledBoxVector() const;
 		//std::vector<Pg::Data::LineInfo*>& GetDrawEnabledLineVector();
 	private:
 		std::vector<Pg::Data::BoxInfo*> _boxVec;
 		std::vector<Pg::Data::LineInfo> _lineVec;
-		std::vector<Pg::Data::RayCastInfo*> _rayCastVec;
+		std::vector<Pg::Data::RayCastInfo> _rayCastVec;
 		std::vector<Pg::Data::CapsuleInfo*> _capsuleVec;
 		std::vector<Pg::Data::SphereInfo*> _sphereVec;
 		std::vector<Pg::Data::PlaneInfo*> _planeVec;

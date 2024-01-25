@@ -15,7 +15,7 @@ Pg::Editor::Window::Scene::Scene()
 	auto& tUIManager = singleton<Pg::UI::Manager::UIManager>();
 	_uiManager = &tUIManager;
 
-	cons = new Pg::UI::WidgetContainer();
+	_widgetCon = std::make_unique<Pg::UI::WidgetContainer>();
 }
 
 Pg::Editor::Window::Scene::~Scene()
@@ -25,13 +25,13 @@ Pg::Editor::Window::Scene::~Scene()
 
 void Pg::Editor::Window::Scene::Initialize()
 {
-	cons->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 1080.f, 920.f);
+	_widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 1080.f, 920.f);
 }
 
 void Pg::Editor::Window::Scene::Update()
 {
 	_uiManager->WindowBegin(_winName);
-	cons->Update();
+	_widgetCon->Update();
 	_uiManager->WindowEnd();
 }
 
