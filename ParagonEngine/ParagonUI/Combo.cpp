@@ -1,19 +1,37 @@
 #include "Combo.h"
-
-int Pg::UI::Widget::Combo::_itemType = 0;
+#include "imgui.h"
 
 Pg::UI::Widget::Combo::Combo(std::string label, std::vector<std::string> itemList)
-	:_label(label), _itemList(itemList), _isStart(true)
+	:_label(label), _itemList(itemList)
 {
-
 }
 
 void Pg::UI::Widget::Combo::Update()
 {
-	//if (_isStart)
-	//{
-	//const char* _itemNames[]
+	std::string itemName = _itemList.at(_selectedIndex).substr(_itemList.at(_selectedIndex).rfind("::") + 2);
 
-	//}
-	//ImGui::Combo(_label.c_str(), &_itemType, )
+	if (ImGui::BeginCombo(_label.c_str(), itemName.c_str()))
+	{
+		for (size_t i = 0; i < _itemList.size(); i++) 
+		{
+			const bool isSelected = (_selectedIndex == static_cast<int>(i));
+			itemName = _itemList.at(i).substr(_itemList.at(i).rfind("::") + 2);
+
+			if (ImGui::Selectable(itemName.c_str(), isSelected))
+			{
+				_selectedIndex = static_cast<int>(i);
+			}
+
+			if (isSelected) 
+			{
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+	}
+}
+
+int* Pg::UI::Widget::Combo::GetSelectedIndex()
+{
+	return &_selectedIndex;
 }

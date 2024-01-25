@@ -87,6 +87,20 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 		{
 			if (_object->GetName() == object.first)
 			{
+				if (_object->GetComponentList().size() != object.second.size())
+				{
+					_isAddComponent = true;
+					object.second.clear();
+
+					for (auto objComs : _object->GetComponentList())
+					{
+						std::vector<std::tuple<std::string, std::string, void*>> tTempVec;
+
+						objComs.second->OnDeserialize(tTempVec);
+						object.second[objComs.first] = tTempVec;
+					}
+				}
+
 				for (auto component : object.second)
 				{
 					_widgetCon->ClearColumnWidget();
@@ -94,6 +108,7 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 
 					for (auto& [valName, typeInfo, val] : component.second)
 					{
+						if (_isAddComponent) valName = valName.substr(valName.rfind("_") + 1);
 						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::Text>(valName);
 
 						if (typeInfo == typeid(std::string).name())
@@ -137,6 +152,7 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 					_widgetCon->CreateCollapsWidget<Pg::UI::Widget::Layout::Column<2>>(component.first.substr(component.first.rfind("::") + 2), _widgetCon->GetColumnWidgets());
 					_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Collaps>(component.first.substr(component.first.rfind("::") + 2), _widgetCon->GetCollapsWidgets());
 				}
+				_isAddComponent ? false : false;
 			}
 		}
 	}
