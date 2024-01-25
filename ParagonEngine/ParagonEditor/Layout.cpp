@@ -26,8 +26,7 @@ void Pg::Editor::Window::Layout::Initialize()
 void Pg::Editor::Window::Layout::Update()
 {
 	_uiManager->WindowDockSpaceBegin(_winName);
-
-	_uiManager->WindowEnd();
+	_uiManager->WindowEnd(true);
 }
 
 void Pg::Editor::Window::Layout::Finalize()

@@ -20,6 +20,8 @@ Pg::UI::Manager::ImGuiManager::ImGuiManager()
 	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
 	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
 
+	//io.DisplaySize = ImVec2(1920, 1080);
+
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
 
@@ -34,8 +36,6 @@ Pg::UI::Manager::ImGuiManager::ImGuiManager()
 	{
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
-
-	ImGui::GetIO().FontGlobalScale = 1.2;
 }
 
 Pg::UI::Manager::ImGuiManager::~ImGuiManager()
@@ -81,50 +81,39 @@ void Pg::UI::Manager::ImGuiManager::ImguiHandler(MSG message)
 	ImGui_ImplWin32_WndProcHandler(message.hwnd, message.message, message.wParam, message.lParam);
 }
 
-void Pg::UI::Manager::ImGuiManager::Begin(std::string panelName, bool isMenu)
+void Pg::UI::Manager::ImGuiManager::Begin(std::string panelName, bool isTool)
 {
-	if(!isMenu) ImGui::Begin(panelName.c_str(), NULL, ImGuiWindowFlags_NoCollapse);
-	else 
-	{
-		ImGuiWindowFlags window_flags = 0;
-		window_flags |= ImGuiWindowFlags_MenuBar;
-		ImGui::Begin(panelName.c_str(), &isMenu, window_flags);
-	}		
+	if(!isTool) ImGui::Begin(panelName.c_str(), NULL, ImGuiWindowFlags_NoCollapse);
+	else ImGui::Begin(panelName.c_str(), &isTool, ImGuiWindowFlags_NoTitleBar);	
 }
 
 void Pg::UI::Manager::ImGuiManager::DockSpaceBegin(std::string dockName)
 {
-	ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+	ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode;
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
-	ImGui::SetNextWindowPos(viewport->WorkPos);
-	ImGui::SetNextWindowSize(viewport->WorkSize);
+	ImGui::SetNextWindowPos(viewport->Pos);
+	ImGui::SetNextWindowSize(viewport->Size);
 	ImGui::SetNextWindowViewport(viewport->ID);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-	window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-	window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
-
-	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
-		window_flags |= ImGuiWindowFlags_NoBackground;
-
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize 
+		| ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus;
 
-	ImGui::Begin(dockName.c_str(), nullptr, window_flags);
-
-	ImGui::PopStyleVar();
-	ImGui::PopStyleVar(2);
+	ImGui::Begin("##dockspace", nullptr, window_flags);
 
 	ImGuiID dockspace_id = ImGui::GetID("Paragon Engine");
 	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 
-	//ImGui::SetWindowPos({ 0.f, 0.f });
-	//ImVec2 displaySize = ImGui::GetIO().DisplaySize;
-	//ImGui::SetWindowSize({ 1920, 1080 });
+	ImGui::SetWindowPos({ 0.f, 0.f });
+	ImVec2 displaySize = ImGui::GetIO().DisplaySize;
+	ImGui::SetWindowSize({ (float)displaySize.x, (float)displaySize.y });
 }
 
-void Pg::UI::Manager::ImGuiManager::End()
+void Pg::UI::Manager::ImGuiManager::End(bool isDockspace)
 {
 	ImGui::End();
+	if(isDockspace) ImGui::PopStyleVar(3);
 }

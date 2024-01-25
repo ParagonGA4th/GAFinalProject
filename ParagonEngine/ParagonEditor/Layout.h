@@ -1,11 +1,9 @@
 #pragma once
 #include "IEditorWindow.h"
 #include <string>
-#include <vector>
 #include <memory>
 
 namespace Pg::Editor { class Event; }
-namespace Pg::UI { class WidgetContainer; }
 namespace Pg::UI::Manager { class UIManager; }
 
 namespace Pg::Editor::Window
@@ -30,13 +28,6 @@ namespace Pg::Editor::Window
 
 		/// helper class
 		Pg::UI::Manager::UIManager* _uiManager;
-		Pg::UI::WidgetContainer* cons;
-
-		/// Data value
-		std::vector<std::string> _objNames;
-		int* _selectedNumber;
-
-		std::string _prevObjName;
 	};
 }
 

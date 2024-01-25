@@ -42,14 +42,14 @@ void Pg::UI::Manager::UIManager::UIHandler(MSG message)
 	_imguiManager->ImguiHandler(message);                                             
 }
 
-void Pg::UI::Manager::UIManager::WindowBegin(std::string winName, bool isMenu)
+void Pg::UI::Manager::UIManager::WindowBegin(std::string winName, bool isTool)
 {
-	_imguiManager->Begin(winName, isMenu);
+	_imguiManager->Begin(winName, isTool);
 }
 
-void Pg::UI::Manager::UIManager::WindowEnd()
+void Pg::UI::Manager::UIManager::WindowEnd(bool isDockspace)
 {
-	_imguiManager->End();
+	_imguiManager->End(isDockspace);
 }
 
 void Pg::UI::Manager::UIManager::WindowDockSpaceBegin(std::string winName)
