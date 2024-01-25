@@ -28,9 +28,6 @@ Pg::Editor::Window::ToolBar::~ToolBar()
 
 void Pg::Editor::Window::ToolBar::Initialize()
 {
-	//auto& startBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Start", 50.f, 25.f);
-	//_isStartBtnClick = &startBtn._isButtonClick;
-
 	auto& startBtn = _widgetCon->CreateColumnsWidget<Pg::UI::Widget::Button>("Start", 50.f, 25.f);
 	_isStartBtnClick = startBtn.GetBtnClick();
 
