@@ -25,6 +25,7 @@
     <ClInclude Include="Column.h" />
     <ClInclude Include="Combo.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="ImageButton.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="ImguiManager.h">
@@ -54,6 +55,7 @@
     <ClCompile Include="Collaps.cpp" />
     <ClCompile Include="Combo.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="ImageButton.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="ImguiManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>

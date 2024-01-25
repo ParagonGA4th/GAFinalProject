@@ -3,6 +3,7 @@
 
 #include "IEditorWindow.h"
 #include "Layout.h"
+#include "ToolBar.h"
 #include "Hierarchy.h"
 #include "Inspector.h"
 #include "Scene.h"
@@ -27,6 +28,7 @@ Pg::Editor::Manager::WindowManager::WindowManager()
 	// Editor window
 
 	_windows.emplace_back(new Pg::Editor::Window::Layout());
+	_windows.emplace_back(new Pg::Editor::Window::ToolBar());
 	_windows.emplace_back(new Pg::Editor::Window::Hierarchy());
 	_windows.emplace_back(new Pg::Editor::Window::Inspector());
 	_windows.emplace_back(new Pg::Editor::Window::Scene());

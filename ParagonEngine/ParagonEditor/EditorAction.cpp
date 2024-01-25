@@ -99,31 +99,31 @@ BOOL Pg::Editor::Core::EditorAction::CreateWindows(HINSTANCE hInstance)
 
 	if (!_hWnd) return FALSE;
 
-	RECT rect;
+	//RECT rect;
 
-	GetClientRect(_hWnd, &rect);
+	//GetClientRect(_hWnd, &rect);
 
-	_screenWidth = rect.right - rect.left;
-	_screenHeight = rect.bottom - rect.top;
+	//_screenWidth = rect.right - rect.left;
+	//_screenHeight = rect.bottom - rect.top;
 
-	/// Project를 Load 하기 위한 Menubar 생성 예제 코드
-	// 메뉴 핸들 생성
-	HMENU hMenu = CreateMenu();
-	HMENU hSubMenu = CreatePopupMenu();
+	///// Project를 Load 하기 위한 Menubar 생성 예제 코드
+	//// 메뉴 핸들 생성
+	//HMENU hMenu = CreateMenu();
+	//HMENU hSubMenu = CreatePopupMenu();
 
-	// 메뉴 항목 추가
-	AppendMenu(hSubMenu, MF_STRING, ID_OPEN_SCENE, "Open Scene");
-	AppendMenu(hSubMenu, MF_STRING, ID_NEW_SCENE, "New Scene");
-	AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL); // 구분선 추가
-	AppendMenu(hSubMenu, MF_STRING, ID_OPEN_PROJECT, "Open Project");
-	AppendMenu(hSubMenu, MF_STRING, ID_NEW_PROJECT, "New Project");
-	AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL); // 구분선 추가
-	AppendMenu(hSubMenu, MF_STRING, ID_SAVE, "Save (Ctrl + S)");
-	AppendMenu(hSubMenu, MF_STRING, ID_EXIT, "Exit");
-	AppendMenu(hMenu, MF_POPUP, (UINT_PTR)hSubMenu, "File");
+	//// 메뉴 항목 추가
+	//AppendMenu(hSubMenu, MF_STRING, ID_OPEN_SCENE, "Open Scene");
+	//AppendMenu(hSubMenu, MF_STRING, ID_NEW_SCENE, "New Scene");
+	//AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL); // 구분선 추가
+	//AppendMenu(hSubMenu, MF_STRING, ID_OPEN_PROJECT, "Open Project");
+	//AppendMenu(hSubMenu, MF_STRING, ID_NEW_PROJECT, "New Project");
+	//AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL); // 구분선 추가
+	//AppendMenu(hSubMenu, MF_STRING, ID_SAVE, "Save (Ctrl + S)");
+	//AppendMenu(hSubMenu, MF_STRING, ID_EXIT, "Exit");
+	//AppendMenu(hMenu, MF_POPUP, (UINT_PTR)hSubMenu, "File");
 
-	// 메뉴 핸들을 윈도우에 연결
-	SetMenu(_hWnd, hMenu);
+	//// 메뉴 핸들을 윈도우에 연결
+	//SetMenu(_hWnd, hMenu);
 
 	ShowWindow(_hWnd, SW_SHOWNORMAL);
 	UpdateWindow(_hWnd);
