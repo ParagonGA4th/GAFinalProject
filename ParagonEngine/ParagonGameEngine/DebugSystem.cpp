@@ -81,7 +81,7 @@ namespace Pg::Engine
 				}
 				else if (tRayCast != nullptr)
 				{
-					DrawRayCastDebug(&(tRayCast->_rayCastInfo));
+					DrawRayCastDebug(tRayCast->_rayCastInfo);
 				}
 
 				/*static Pg::Data::RayCastInfo tVal;
@@ -129,7 +129,7 @@ namespace Pg::Engine
 		_planeVec.push_back(planeInfo);
 	}
 
-	void DebugSystem::DrawRayCastDebug(Pg::Data::RayCastInfo* rayCastInfo)
+	void DebugSystem::DrawRayCastDebug(Pg::Data::RayCastInfo rayCastInfo)
 	{
 		_rayCastVec.push_back(rayCastInfo);
 	}
@@ -172,7 +172,7 @@ namespace Pg::Engine
 		return _planeVec;
 	}
 
-	const std::vector<Pg::Data::RayCastInfo*>& DebugSystem::GetRayCastVector() const
+	const std::vector<Pg::Data::RayCastInfo>& DebugSystem::GetRayCastVector() const
 	{
 		return _rayCastVec;
 	}
@@ -206,4 +206,10 @@ namespace Pg::Engine
 	{
 		_rayCastVec.clear();
 	}
+
+	bool DebugSystem::GetDebugMode()
+	{
+		return _isDebug;
+	}
+
 }

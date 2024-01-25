@@ -10,6 +10,9 @@
     <ClCompile Include="PgInput.cpp">
       <Filter>1_PgInput</Filter>
     </ClCompile>
+    <ClCompile Include="PgRayCast.cpp">
+      <Filter>3_RayCast</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyCodeType.h" />
@@ -21,6 +24,9 @@
     </ClInclude>
     <ClInclude Include="PgTime.h">
       <Filter>2_PgTime</Filter>
+    </ClInclude>
+    <ClInclude Include="PgRayCast.h">
+      <Filter>3_RayCast</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +46,9 @@
     </Filter>
     <Filter Include="2_PgTime">
       <UniqueIdentifier>{75c7ac1e-f195-4d67-98a1-2bd2d7a7568c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_RayCast">
+      <UniqueIdentifier>{effa09d3-2c43-41e8-b51d-a0728af63d62}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
