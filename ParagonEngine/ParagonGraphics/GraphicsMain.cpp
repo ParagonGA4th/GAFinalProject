@@ -181,7 +181,7 @@ namespace Pg::Graphics
 				//tVal += std::to_string(selectedHeight);
 				//PG_INFO(tVal.c_str());
 				
-				return _renderer->GetPickedID_RenderOutline(selectedWidth, selectedHeight);
+				return _renderer->GetPickedID_SetOutlineMode(selectedWidth, selectedHeight);
 			}
 			return nullptr;
 		}
