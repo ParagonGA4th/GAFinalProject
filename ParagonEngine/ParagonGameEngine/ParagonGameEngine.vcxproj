@@ -182,6 +182,7 @@
     <ClInclude Include="PrintRuntimeData.h" />
     <ClInclude Include="RayCastTest.h" />
     <ClInclude Include="SceneSystem.h" />
+    <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="TimeSystem.h" />
   </ItemGroup>
@@ -198,6 +199,7 @@
     <ClCompile Include="PrintRuntimeData.cpp" />
     <ClCompile Include="RayCastTest.cpp" />
     <ClCompile Include="SceneSystem.cpp" />
+    <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TimeSystem.cpp" />
   </ItemGroup>

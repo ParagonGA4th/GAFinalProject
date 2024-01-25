@@ -65,7 +65,7 @@ void Pg::Engine::TestScene::Initialize()
 
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Capsule1");
-	tObj2_2->GetComponent<Transform>()->_position = { 1.0f, 5.0f, 0.0f };
+	tObj2_2->GetComponent<Transform>()->_position = { 1.0f, 10.0f, 0.0f };
 	tObj2_2->AddComponent<CapsuleCollider>();
 	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
 	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
