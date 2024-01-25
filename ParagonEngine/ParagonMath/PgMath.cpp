@@ -1,6 +1,8 @@
 #include "PgMath.h"
 #include <cmath>
-#include <DirectXMath.h>
+#include <limits>
+
+using namespace DirectX;
 
 namespace Pg::Math
 {
@@ -169,27 +171,18 @@ namespace Pg::Math
 
 	Pg::Math::PGFLOAT4& PGFLOAT4::operator*=(const PGFLOAT4X4& rhs)
 	{
-		PGFLOAT4 temp;
+		using namespace DirectX;
 
-		temp.x = x * rhs.m[0][0] + y * rhs.m[1][0] + z * rhs.m[2][0] + w * rhs.m[3][0];
-		temp.y = x * rhs.m[0][1] + y * rhs.m[1][1] + z * rhs.m[2][1] + w * rhs.m[3][1];
-		temp.z = x * rhs.m[0][2] + y * rhs.m[1][2] + z * rhs.m[2][2] + w * rhs.m[3][2];
-		temp.w = x * rhs.m[0][3] + y * rhs.m[1][3] + z * rhs.m[2][3] + w * rhs.m[3][3];
+		XMFLOAT4 tSelf = { x,y,z,w };
+		*this = XM2PG_FLOAT4_VECTOR(XMVector4Transform(XMLoadFloat4(&tSelf), PG2XM_MATRIX4X4(rhs)));
 
-		*this = temp;
 		return *this;
 	}
 
 	Pg::Math::PGFLOAT4 PGFLOAT4::operator*(const PGFLOAT4X4& rhs)
 	{
-		PGFLOAT4 temp;
-
-		temp.x = x * rhs.m[0][0] + y * rhs.m[1][0] + z * rhs.m[2][0] + w * rhs.m[3][0];
-		temp.y = x * rhs.m[0][1] + y * rhs.m[1][1] + z * rhs.m[2][1] + w * rhs.m[3][1];
-		temp.z = x * rhs.m[0][2] + y * rhs.m[1][2] + z * rhs.m[2][2] + w * rhs.m[3][2];
-		temp.w = x * rhs.m[0][3] + y * rhs.m[1][3] + z * rhs.m[2][3] + w * rhs.m[3][3];
-
-		return temp;
+		XMFLOAT4 tSelf = { x,y,z,w };
+		return XM2PG_FLOAT4_VECTOR(XMVector4Transform(XMLoadFloat4(&tSelf), PG2XM_MATRIX4X4(rhs)));
 	}
 
 	Pg::Math::PGFLOAT4 PGFLOAT4::operator+(const PGFLOAT4& rhs)
@@ -266,40 +259,12 @@ namespace Pg::Math
 
 	Pg::Math::PGFLOAT4X4 PGFLOAT4X4::operator*(const PGFLOAT4X4& rhs)
 	{
-		PGFLOAT4X4 result;
-
-		for (int row = 0; row < 4; row++)
-		{
-			for (int col = 0; col < 4; col++)
-			{
-				result.m[row][col] =
-					m[row][0] * rhs.m[0][col] +
-					m[row][1] * rhs.m[1][col] +
-					m[row][2] * rhs.m[2][col] +
-					m[row][3] * rhs.m[3][col];
-			}
-		}
-
-		return result;
+		return XM2PG_MATRIX4X4(XMMatrixMultiply(PG2XM_MATRIX4X4(*this), PG2XM_MATRIX4X4(rhs)));
 	}
 
 	Pg::Math::PGFLOAT4X4& PGFLOAT4X4::operator*=(const PGFLOAT4X4& rhs)
 	{
-		PGFLOAT4X4 temp;
-
-		for (int row = 0; row < 4; row++)
-		{
-			for (int col = 0; col < 4; col++)
-			{
-				temp.m[row][col] =
-					m[row][0] * rhs.m[0][col] +
-					m[row][1] * rhs.m[1][col] +
-					m[row][2] * rhs.m[2][col] +
-					m[row][3] * rhs.m[3][col];
-			}
-		}
-
-		*this = temp;
+		*this = XM2PG_MATRIX4X4(XMMatrixMultiply(PG2XM_MATRIX4X4(*this), PG2XM_MATRIX4X4(rhs)));
 		return *this;
 	}
 
@@ -321,40 +286,16 @@ namespace Pg::Math
 
 	Pg::Math::PGFLOAT4X4 PGFLOAT4X4::Inverse() const
 	{
-		Pg::Math::PGFLOAT4X4 inv;
+		XMVECTOR tDet;
+		XMMATRIX tInv = XMMatrixInverse(&tDet, PG2XM_MATRIX4X4(*this));
 
-		float det =
-			_11 * (_22 * (_33 * _44 - _34 * _43) - _23 * (_32 * _44 - _34 * _42) + _24 * (_32 * _43 - _33 * _42)) -
-			_12 * (_21 * (_33 * _44 - _34 * _43) - _23 * (_31 * _44 - _34 * _41) + _24 * (_31 * _43 - _33 * _41)) +
-			_13 * (_21 * (_32 * _44 - _34 * _42) - _22 * (_31 * _44 - _34 * _41) + _24 * (_31 * _42 - _32 * _41)) -
-			_14 * (_21 * (_32 * _43 - _33 * _42) - _22 * (_31 * _43 - _33 * _41) + _23 * (_31 * _42 - _32 * _41));
-
-		if (std::abs(det) < 1e-8)
+		//만약 Inverse가 불가? -> Identity 반환.
+		if (XMVectorGetX(tDet) <= std::numeric_limits<float>::epsilon())
 		{
-			// 행렬식이 0에 가까우면 역행렬이 존재하지 않습니다.
-			return Pg::Math::PGFLOAT4X4::Identity();
+			return PGFLOAT4X4::Identity();
 		}
 
-		float invDet = 1.0f / det;
-
-		inv._11 = (_22 * (_33 * _44 - _34 * _43) - _23 * (_32 * _44 - _34 * _42) + _24 * (_32 * _43 - _33 * _42)) * invDet;
-		inv._12 = -(_12 * (_33 * _44 - _34 * _43) - _13 * (_32 * _44 - _34 * _42) + _14 * (_32 * _43 - _33 * _42)) * invDet;
-		inv._13 = (_12 * (_23 * _44 - _24 * _43) - _13 * (_22 * _44 - _24 * _42) + _14 * (_22 * _43 - _23 * _42)) * invDet;
-		inv._14 = -(_12 * (_23 * _34 - _24 * _33) - _13 * (_22 * _34 - _24 * _32) + _14 * (_22 * _33 - _23 * _32)) * invDet;
-		inv._21 = -(_21 * (_33 * _44 - _34 * _43) - _23 * (_31 * _44 - _34 * _41) + _24 * (_31 * _43 - _33 * _41)) * invDet;
-		inv._22 = (_11 * (_33 * _44 - _34 * _43) - _13 * (_31 * _44 - _34 * _41) + _14 * (_31 * _43 - _33 * _41)) * invDet;
-		inv._23 = -(_11 * (_23 * _44 - _24 * _43) - _13 * (_21 * _44 - _24 * _41) + _14 * (_21 * _43 - _23 * _41)) * invDet;
-		inv._24 = (_11 * (_23 * _34 - _24 * _33) - _13 * (_21 * _34 - _24 * _31) + _14 * (_21 * _33 - _23 * _31)) * invDet;
-		inv._31 = (_21 * (_32 * _44 - _34 * _42) - _22 * (_31 * _44 - _34 * _41) + _24 * (_31 * _42 - _32 * _41)) * invDet;
-		inv._32 = -(_11 * (_32 * _44 - _34 * _42) - _12 * (_31 * _44 - _34 * _41) + _14 * (_31 * _42 - _32 * _41)) * invDet;
-		inv._33 = (_11 * (_22 * _44 - _24 * _42) - _12 * (_21 * _44 - _24 * _41) + _14 * (_21 * _42 - _22 * _41)) * invDet;
-		inv._34 = -(_11 * (_22 * _34 - _24 * _32) - _12 * (_21 * _34 - _24 * _31) + _14 * (_21 * _32 - _22 * _31)) * invDet;
-		inv._41 = -(_21 * (_32 * _43 - _33 * _42) - _22 * (_31 * _43 - _33 * _41) + _23 * (_31 * _42 - _32 * _41)) * invDet;
-		inv._42 = (_11 * (_32 * _43 - _33 * _42) - _12 * (_31 * _43 - _33 * _41) + _13 * (_31 * _42 - _32 * _41)) * invDet;
-		inv._43 = -(_11 * (_22 * _43 - _23 * _42) - _12 * (_21 * _43 - _23 * _41) + _13 * (_21 * _42 - _22 * _41)) * invDet;
-		inv._44 = (_11 * (_22 * _33 - _23 * _32) - _12 * (_21 * _33 - _23 * _31) + _13 * (_21 * _32 - _22 * _31)) * invDet;
-
-		return inv;
+		return XM2PG_MATRIX4X4(tInv);
 	}
 
 	//PGFLOAT3X3
@@ -392,70 +333,49 @@ namespace Pg::Math
 
 	Pg::Math::PGFLOAT3X3 PGFLOAT3X3::operator*(const PGFLOAT3X3& rhs)
 	{
-		PGFLOAT3X3 result;
-
-		for (int row = 0; row < 3; row++)
-		{
-			for (int col = 0; col < 3; col++)
-			{
-				result.m[row][col] =
-					m[row][0] * rhs.m[0][col] +
-					m[row][1] * rhs.m[1][col] +
-					m[row][2] * rhs.m[2][col];
-			}
-		}
-
-		return result;
+		return XM2PG_MATRIX3X3(XMMatrixMultiply(PG2XM_MATRIX3X3(*this), PG2XM_MATRIX3X3(rhs)));
 	}
 
 	Pg::Math::PGFLOAT3X3& PGFLOAT3X3::operator*=(const PGFLOAT3X3& rhs)
 	{
-		PGFLOAT3X3 result;
-		for (int row = 0; row < 3; row++)
-		{
-			for (int col = 0; col < 3; col++)
-			{
-				result.m[row][col] =
-					m[row][0] * rhs.m[0][col] +
-					m[row][1] * rhs.m[1][col] +
-					m[row][2] * rhs.m[2][col];
-			}
-		}
-		*this = result;
+		*this = XM2PG_MATRIX3X3(XMMatrixMultiply(PG2XM_MATRIX3X3(*this), PG2XM_MATRIX3X3(rhs)));
 		return *this;
 	}
 
-	inline float PGFloat3Length(const PGFLOAT3& f) noexcept
+	float PGFloat3Length(const PGFLOAT3& f) noexcept
 	{
-		return sqrtf(f.x * f.x + f.y * f.y + f.z * f.z);
+		return XMVectorGetX(XMVector3Length(PG2XM_FLOAT3_VECTOR(f)));
 	}
 
-	inline Pg::Math::PGFLOAT3 PGFloat3Normalize(const PGFLOAT3& f) noexcept
+	float PGFloat4Length(const PGFLOAT4& f) noexcept
 	{
-		float len = PGFloat3Length(f);
-		return Pg::Math::PGFLOAT3(f.x / len, f.y / len, f.z / len);
+		return XMVectorGetX(XMVector4Length(PG2XM_FLOAT4_VECTOR(f)));
 	}
 
-	inline Pg::Math::PGFLOAT4 PGFloat4Normalize(const PGFLOAT4& f) noexcept
+	Pg::Math::PGFLOAT3 PGFloat3Normalize(const PGFLOAT3& f) noexcept
 	{
-		float length = std::sqrt(f.x * f.x + f.y * f.y + f.z * f.z + f.w * f.w);
-		return { f.x / length, f.y / length, f.z / length, f.w / length };
+		return XM2PG_FLOAT3_VECTOR(XMVector3Normalize(PG2XM_FLOAT3_VECTOR(f)));
+	}
+
+	Pg::Math::PGFLOAT4 PGFloat4Normalize(const PGFLOAT4& f) noexcept
+	{
+		return XM2PG_FLOAT4_VECTOR(XMVector4Normalize(PG2XM_FLOAT4_VECTOR(f)));
 	}
 
 	Pg::Math::PGQuaternion PGQuaternionNormalize(const PGQuaternion& f) noexcept
 	{
-		float length = std::sqrt(f.x * f.x + f.y * f.y + f.z * f.z + f.w * f.w);
-		return { f.w / length, f.x / length, f.y / length, f.z / length };
+		return XM2PG_QUATERNION(XMQuaternionNormalize(PG2XM_QUATERNION_VECTOR(f)));
 	}
 
 	float PGFloat3Dot(const PGFLOAT3& lhs, const PGFLOAT3& rhs)
 	{
-		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+		//복제된 Dot Product 반환.
+		return XM2PG_FLOAT3_VECTOR(XMVector3Dot(PG2XM_FLOAT3_VECTOR(lhs), PG2XM_FLOAT3_VECTOR(rhs))).x;
 	}
 
 	Pg::Math::PGFLOAT3 PGFloat3Cross(const PGFLOAT3& lhs, const PGFLOAT3& rhs)
 	{
-		return Pg::Math::PGFLOAT3(lhs.y * rhs.z - lhs.z * rhs.y, lhs.z * rhs.x - lhs.x * rhs.z, lhs.x * rhs.y - lhs.y * rhs.x);
+		return XM2PG_FLOAT3_VECTOR(XMVector3Cross(PG2XM_FLOAT3_VECTOR(lhs), PG2XM_FLOAT3_VECTOR(rhs)));
 	}
 
 	Pg::Math::PGFLOAT3 PGFloat3MultiplyMatrix(const PGFLOAT3& lhs, const PGFLOAT4X4& rhs)
@@ -466,205 +386,47 @@ namespace Pg::Math
 
 	Pg::Math::PGFLOAT4 PGFloat4MultiplyMatrix(const PGFLOAT4& lhs, const PGFLOAT4X4& rhs)
 	{
-		Pg::Math::PGFLOAT4 result;
-
-		result.x =
-			lhs.x * rhs.m[0][0] +
-			lhs.y * rhs.m[1][0] +
-			lhs.z * rhs.m[2][0] +
-			lhs.w * rhs.m[3][0];
-
-		result.y =
-			lhs.x * rhs.m[0][1] +
-			lhs.y * rhs.m[1][1] +
-			lhs.z * rhs.m[2][1] +
-			lhs.w * rhs.m[3][1];
-
-		result.z =
-			lhs.x * rhs.m[0][2] +
-			lhs.y * rhs.m[1][2] +
-			lhs.z * rhs.m[2][2] +
-			lhs.w * rhs.m[3][2];
-
-		result.w =
-			lhs.x * rhs.m[0][3] +
-			lhs.y * rhs.m[1][3] +
-			lhs.z * rhs.m[2][3] +
-			lhs.w * rhs.m[3][3];
-
-		return result;
+		return XM2PG_FLOAT4_VECTOR(XMVector4Transform(PG2XM_FLOAT4_VECTOR(lhs), PG2XM_MATRIX4X4(rhs)));
 	}
 
 	Pg::Math::PGQuaternion PGRotateQuaternionY(const PGQuaternion& quaternion, float radian)
 	{
-		float halfAngleRad = radian * 0.5f;
-		float sinHalfAngle = std::sin(halfAngleRad);
-		float cosHalfAngle = std::cos(halfAngleRad);
-
-		Pg::Math::PGQuaternion rotation;
-		rotation.x = 0.0f;
-		rotation.y = sinHalfAngle;
-		rotation.z = 0.0f;
-		rotation.w = cosHalfAngle;
-
-		// 회전 쿼터니언을 정규화하여 사용
-		rotation = PGQuaternionNormalize(rotation);
-
-		// 원본 쿼터니언과 회전 쿼터니언의 곱으로 결과 쿼터니언 계산
-		Pg::Math::PGQuaternion result;
-		//	result = RMQuaternionMultiply(quaternion, rotation);
-		result.x = quaternion.w * rotation.x + quaternion.x * rotation.w + quaternion.y * rotation.z - quaternion.z * rotation.y;
-		result.y = quaternion.w * rotation.y - quaternion.x * rotation.z + quaternion.y * rotation.w + quaternion.z * rotation.x;
-		result.z = quaternion.w * rotation.z + quaternion.x * rotation.y - quaternion.y * rotation.x + quaternion.z * rotation.w;
-		result.w = quaternion.w * rotation.w - quaternion.x * rotation.x - quaternion.y * rotation.y - quaternion.z * rotation.z;
-
-		return result;
+		return PGRotateQuaternion(quaternion, { 0.f, 1.f,0.f }, radian);
 	}
 
 	Pg::Math::PGQuaternion PGRotateQuaternion(const PGQuaternion& quaternion, const PGFLOAT3& axis, float radian)
 	{
-		// 축 벡터를 정규화합니다.
-		Pg::Math::PGFLOAT3 normalizedAxis = PGFloat3Normalize(axis);
-
-		// 회전 각도의 반을 구합니다.
-		float halfAngleRad = radian * 0.5f;
-
-		// 회전 각도의 부호를 쿼터니언에 반영합니다.
-		float cosHalfAngle = std::cos(halfAngleRad);
-		float sinHalfAngle = std::sin(halfAngleRad);
-
-		float w = cosHalfAngle;
-		float x = normalizedAxis.x * sinHalfAngle;
-		float y = normalizedAxis.y * sinHalfAngle;
-		float z = normalizedAxis.z * sinHalfAngle;
-
-		// 회전 쿼터니언을 정규화하여 사용합니다.
-		Pg::Math::PGQuaternion rotation = { w, x, y, z };
-		rotation = PGQuaternionNormalize(rotation);
-
-		// 원본 쿼터니언과 회전 쿼터니언의 곱으로 결과 쿼터니언을 계산합니다.
-		Pg::Math::PGQuaternion result;
-
-		//	result = PGQuaternionMultiply(quaternion, rotation);
-		result.w = rotation.w * quaternion.w - rotation.x * quaternion.x - rotation.y * quaternion.y - rotation.z * quaternion.z;
-		result.x = rotation.w * quaternion.x + rotation.x * quaternion.w + rotation.y * quaternion.z - rotation.z * quaternion.y;
-		result.y = rotation.w * quaternion.y - rotation.x * quaternion.z + rotation.y * quaternion.w + rotation.z * quaternion.x;
-		result.z = rotation.w * quaternion.z + rotation.x * quaternion.y - rotation.y * quaternion.x + rotation.z * quaternion.w;
-
-		return result;
+		XMVECTOR tPre = XMQuaternionRotationAxis(PG2XM_FLOAT3_VECTOR(axis), radian);
+		return XM2PG_QUATERNION(XMQuaternionMultiply(PG2XM_QUATERNION_VECTOR(quaternion), tPre));
 	}
 
 	Pg::Math::PGQuaternion PGQuaternionMultiply(const PGQuaternion& lhs, const PGQuaternion& rhs)
 	{
-		Pg::Math::PGQuaternion lhsNorm = PGQuaternionNormalize(lhs);
-		Pg::Math::PGQuaternion rhsNorm = PGQuaternionNormalize(rhs);
-
-		// 원본 쿼터니언과 회전 쿼터니언의 곱으로 결과 쿼터니언을 계산합니다.
-		Pg::Math::PGQuaternion result;
-
-		result.x = rhsNorm.w * lhsNorm.x + rhsNorm.x * lhsNorm.w + rhsNorm.y * lhsNorm.z - rhsNorm.z * lhsNorm.y;
-		result.y = rhsNorm.w * lhsNorm.y - rhsNorm.x * lhsNorm.z + rhsNorm.y * lhsNorm.w + rhsNorm.z * lhsNorm.x;
-		result.z = rhsNorm.w * lhsNorm.z + rhsNorm.x * lhsNorm.y - rhsNorm.y * lhsNorm.x + rhsNorm.z * lhsNorm.w;
-		result.w = rhsNorm.w * lhsNorm.w - rhsNorm.x * lhsNorm.x - rhsNorm.y * lhsNorm.y - rhsNorm.z * lhsNorm.z;
-
-		// 	result.w = lhsNorm.w * rhsNorm.w - lhsNorm.x * rhsNorm.x - lhsNorm.y * rhsNorm.y - lhsNorm.z * rhsNorm.z;
-		// 	result.x = lhsNorm.w * rhsNorm.x + lhsNorm.x * rhsNorm.w + lhsNorm.y * rhsNorm.z - lhsNorm.z * rhsNorm.y;
-		// 	result.y = lhsNorm.w * rhsNorm.y - lhsNorm.x * rhsNorm.z + lhsNorm.y * rhsNorm.w + lhsNorm.z * rhsNorm.x;
-		// 	result.z = lhsNorm.w * rhsNorm.z + lhsNorm.x * rhsNorm.y - lhsNorm.y * rhsNorm.x + lhsNorm.z * rhsNorm.w;
-
-		result = PGQuaternionNormalize(result);
-
-		return result;
+		return XM2PG_QUATERNION(XMQuaternionMultiply(PG2XM_QUATERNION_VECTOR(lhs), PG2XM_QUATERNION_VECTOR(rhs)));
 	}
 
 	Pg::Math::PGFLOAT4X4 PGMatrixRotationX(float angle)
 	{
-		float    fSinAngle = std::sin(angle);
-		float    fCosAngle = std::cos(angle);
-		//XMScalarSinCos(&fSinAngle, &fCosAngle, Angle);
-
-		Pg::Math::PGFLOAT4X4 M;
-		M.m[0][0] = 1.0f;
-		M.m[0][1] = 0.0f;
-		M.m[0][2] = 0.0f;
-		M.m[0][3] = 0.0f;
-
-		M.m[1][0] = 0.0f;
-		M.m[1][1] = fCosAngle;
-		M.m[1][2] = -fSinAngle;
-		M.m[1][3] = 0.0f;
-
-		M.m[2][0] = 0.0f;
-		M.m[2][1] = fSinAngle;
-		M.m[2][2] = fCosAngle;
-		M.m[2][3] = 0.0f;
-
-		M.m[3][0] = 0.0f;
-		M.m[3][1] = 0.0f;
-		M.m[3][2] = 0.0f;
-		M.m[3][3] = 1.0f;
-
-		return M;
+		return XM2PG_MATRIX4X4(XMMatrixRotationX(angle));
 	}
 
 	Pg::Math::PGFLOAT4X4 PGMatrixRotationY(float angle)
 	{
-		float    fSinAngle = std::sin(angle);
-		float    fCosAngle = std::cos(angle);
-		//XMScalarSinCos(&fSinAngle, &fCosAngle, Angle);
-
-		Pg::Math::PGFLOAT4X4 M;
-		M.m[0][0] = fCosAngle;
-		M.m[0][1] = 0.0f;
-		M.m[0][2] = -fSinAngle;
-		M.m[0][3] = 0.0f;
-
-		M.m[1][0] = 0.0f;
-		M.m[1][1] = 1.0f;
-		M.m[1][2] = 0.0f;
-		M.m[1][3] = 0.0f;
-
-		M.m[2][0] = fSinAngle;
-		M.m[2][1] = 0.0f;
-		M.m[2][2] = fCosAngle;
-		M.m[2][3] = 0.0f;
-
-		M.m[3][0] = 0.0f;
-		M.m[3][1] = 0.0f;
-		M.m[3][2] = 0.0f;
-		M.m[3][3] = 1.0f;
-
-		return M;
+		return XM2PG_MATRIX4X4(XMMatrixRotationY(angle));
 	}
 
 	Pg::Math::PGFLOAT3X3 PGInverseMatrix(const PGFLOAT3X3& mat)
 	{
-		// 3x3 행렬의 행렬식 계산
-		float det = mat.m[0][0] * (mat.m[1][1] * mat.m[2][2] - mat.m[1][2] * mat.m[2][1]) -
-			mat.m[0][1] * (mat.m[1][0] * mat.m[2][2] - mat.m[1][2] * mat.m[2][0]) +
-			mat.m[0][2] * (mat.m[1][0] * mat.m[2][1] - mat.m[1][1] * mat.m[2][0]);
+		XMVECTOR tDet;
+		XMMATRIX tInv = XMMatrixInverse(&tDet, PG2XM_MATRIX3X3(mat));
 
-		// 행렬식이 0인 경우 역행렬이 존재하지 않음
-		if (det == 0)
+		//만약 Inverse가 불가? -> Identity 반환.
+		if (XMVectorGetX(tDet) <= std::numeric_limits<float>::epsilon())
 		{
-			return Pg::Math::PGFLOAT3X3::Identity();
+			return PGFLOAT3X3::Identity();
 		}
 
-		Pg::Math::PGFLOAT3X3 inv;
-
-		// 역행렬 계산
-		float invDet = 1.0f / det;
-		inv.m[0][0] = (mat.m[1][1] * mat.m[2][2] - mat.m[1][2] * mat.m[2][1]) * invDet;
-		inv.m[0][1] = (mat.m[0][2] * mat.m[2][1] - mat.m[0][1] * mat.m[2][2]) * invDet;
-		inv.m[0][2] = (mat.m[0][1] * mat.m[1][2] - mat.m[0][2] * mat.m[1][1]) * invDet;
-		inv.m[1][0] = (mat.m[1][2] * mat.m[2][0] - mat.m[1][0] * mat.m[2][2]) * invDet;
-		inv.m[1][1] = (mat.m[0][0] * mat.m[2][2] - mat.m[0][2] * mat.m[2][0]) * invDet;
-		inv.m[1][2] = (mat.m[0][2] * mat.m[1][0] - mat.m[0][0] * mat.m[1][2]) * invDet;
-		inv.m[2][0] = (mat.m[1][0] * mat.m[2][1] - mat.m[1][1] * mat.m[2][0]) * invDet;
-		inv.m[2][1] = (mat.m[0][1] * mat.m[2][0] - mat.m[0][0] * mat.m[2][1]) * invDet;
-		inv.m[2][2] = (mat.m[0][0] * mat.m[1][1] - mat.m[0][1] * mat.m[1][0]) * invDet;
-
-		return inv;
+		return XM2PG_MATRIX3X3(tInv);
 	}
 
 	Pg::Math::PGFLOAT4 PGQuaternionToFloat4(const PGQuaternion& quaternion)
@@ -679,174 +441,49 @@ namespace Pg::Math
 
 	Pg::Math::PGQuaternion PGMatrixToQuaternion(const PGFLOAT4X4& matrix)
 	{
-		Pg::Math::PGQuaternion quaternion;
-
-		float trace = matrix.m[0][0] + matrix.m[1][1] + matrix.m[2][2];
-		if (trace > 0)
-		{
-			float s = 0.5f / sqrtf(trace + 1.0f);
-			quaternion.x = (matrix.m[1][2] - matrix.m[2][1]) * s;
-			quaternion.y = (matrix.m[2][0] - matrix.m[0][2]) * s;
-			quaternion.z = (matrix.m[0][1] - matrix.m[1][0]) * s;
-			quaternion.w = 0.25f / s;
-		}
-		else
-		{
-			if (matrix.m[0][0] > matrix.m[1][1] && matrix.m[0][0] > matrix.m[2][2])
-			{
-				float s = 2.0f * sqrtf(1.0f + matrix.m[0][0] - matrix.m[1][1] - matrix.m[2][2]);
-				quaternion.x = 0.25f * s;
-				quaternion.y = (matrix.m[1][0] + matrix.m[0][1]) / s;
-				quaternion.z = (matrix.m[2][0] + matrix.m[0][2]) / s;
-				quaternion.w = (matrix.m[1][2] - matrix.m[2][1]) / s;
-			}
-			else if (matrix.m[1][1] > matrix.m[2][2])
-			{
-				float s = 2.0f * sqrtf(1.0f + matrix.m[1][1] - matrix.m[0][0] - matrix.m[2][2]);
-				quaternion.x = (matrix.m[1][0] + matrix.m[0][1]) / s;
-				quaternion.y = 0.25f * s;
-				quaternion.z = (matrix.m[2][1] + matrix.m[1][2]) / s;
-				quaternion.w = (matrix.m[2][0] - matrix.m[0][2]) / s;
-			}
-			else
-			{
-				float s = 2.0f * sqrtf(1.0f + matrix.m[2][2] - matrix.m[0][0] - matrix.m[1][1]);
-				quaternion.x = (matrix.m[2][0] + matrix.m[0][2]) / s;
-				quaternion.y = (matrix.m[2][1] + matrix.m[1][2]) / s;
-				quaternion.z = 0.25f * s;
-				quaternion.w = (matrix.m[0][1] - matrix.m[1][0]) / s;
-			}
-		}
-
-		return quaternion;
+		return XM2PG_QUATERNION(XMQuaternionRotationMatrix(PG2XM_MATRIX4X4(matrix)));
 	}
 
 	Pg::Math::PGFLOAT4X4 PGScaleMatrix(const PGFLOAT3 scale)
 	{
-		Pg::Math::PGFLOAT4X4 scaleMatrix =
-		{
-			scale.x,	0,		0,		0,
-			0,		scale.y,	0,		0,
-			0,		0,		scale.z,	0,
-			0,		0,		0,			1
-		};
-
-		return scaleMatrix;
+		return XM2PG_MATRIX4X4(XMMatrixScaling(scale.x, scale.y, scale.z));
 	}
 
 	Pg::Math::PGFLOAT4X4 PGRotationMatrix(const PGQuaternion rotation)
 	{
-		Pg::Math::PGFLOAT4X4 rotationMatrix =
-		{
-			1.0f - 2.0f * (rotation.y * rotation.y + rotation.z * rotation.z),
-			2.0f * (rotation.x * rotation.y + rotation.z * rotation.w),
-			2.0f * (rotation.x * rotation.z - rotation.y * rotation.w),
-			0,
+		XMFLOAT4 tXMFF = PG2XM_QUATERNION(rotation);
+		XMVECTOR tXMQuat = XMLoadFloat4(&tXMFF);
+		XMMATRIX tMat = XMMatrixRotationQuaternion(tXMQuat);
 
-			2.0f * (rotation.x * rotation.y - rotation.z * rotation.w),
-			1.0f - 2.0f * (rotation.x * rotation.x + rotation.z * rotation.z),
-			2.0f * (rotation.y * rotation.z + rotation.x * rotation.w),
-			0,
-
-			2.0f * (rotation.x * rotation.z + rotation.y * rotation.w),
-			2.0f * (rotation.y * rotation.z - rotation.x * rotation.w),
-			1.0f - 2.0f * (rotation.x * rotation.x + rotation.y * rotation.y),
-			0,
-
-			0,
-			0,
-			0,
-			1
-		};
-
-// 		Pg::Math::PGFLOAT4X4 rotationMatrix =
-// 		{
-// 			1.0f - 2.0f * (rotation.y * rotation.y + rotation.z * rotation.z),
-// 			2.0f * (rotation.x * rotation.y - rotation.z * rotation.w),
-// 			2.0f * (rotation.x * rotation.z + rotation.y * rotation.w),
-// 			0,
-// 
-// 			2.0f * (rotation.x * rotation.y + rotation.z * rotation.w),
-// 			1.0f - 2.0f * (rotation.x * rotation.x + rotation.z * rotation.z),
-// 			2.0f * (rotation.y * rotation.z - rotation.x * rotation.w),
-// 			0,
-// 
-// 			2.0f * (rotation.x * rotation.z - rotation.y * rotation.w),
-// 			2.0f * (rotation.y * rotation.z + rotation.x * rotation.w),
-// 			1.0f - 2.0f * (rotation.x * rotation.x + rotation.y * rotation.y),
-// 			0,
-// 
-// 			0,
-// 			0,
-// 			0,
-// 			1
-// 		};
-
-		return rotationMatrix;
+		return XM2PG_MATRIX4X4(tMat);
 	}
 
 	Pg::Math::PGFLOAT4X4 PGTranslateMatrix(const PGFLOAT3 position)
 	{
-		Pg::Math::PGFLOAT4X4 translateMatrix =
-		{
-			1,				0,				0,				0,
-			0,				1,				0,				0,
-			0,				0,				1,				0,
-			position.x,		position.y,		position.z,	1
-		};
-
-		return translateMatrix;
+		XMFLOAT4X4 tRet;
+		XMStoreFloat4x4(&tRet, XMMatrixTranslation(position.x, position.y, position.z));
+		return XM2PG_FLOAT4X4(tRet);
 	}
 
 	//												Field Of View Y각			종횡비			Near Z Plane	Far Z Plane
 	Pg::Math::PGFLOAT4X4 PGMatrixPerspectiveFovLH(float fovAngleY, float aspectRatio, float nearZ, float farZ)
 	{
-		//tan(theta/2)의 역수 
-		//여기서 theta는 FOV의 Y각이다.
-		float scaleY = 1.0f / tanf(fovAngleY / 2.0f);
-		float scaleX = scaleY / aspectRatio;
-
-		float tempPers[16] =
-		{
-			scaleX, 0, 0, 0,
-			0, scaleY, 0, 0,
-			0, 0, farZ / (farZ - nearZ), 1, //이건 Z Divide 위해! Depth 보존.
-			0, 0, -nearZ * farZ / (farZ - nearZ), 0
-		};
-
-		return Pg::Math::PGFLOAT4X4(tempPers);
+		XMFLOAT4X4 tRet;
+		XMStoreFloat4x4(&tRet, XMMatrixPerspectiveFovLH(fovAngleY, aspectRatio, nearZ, farZ));
+		return XM2PG_FLOAT4X4(tRet);
 	}
 
 	Pg::Math::PGFLOAT4X4 PGMatrixOrthographicLH(float viewWidth, float viewHeight, float nearZ, float farZ)
 	{
-		float tempOrtho[16] =
-		{
-			2.0f / viewWidth, 0, 0, 0,
-			0, 2.0f / viewHeight, 0, 0,
-			0, 0, 1.0f / farZ - nearZ, 0,
-			0, 0, -nearZ / farZ - nearZ, 1
-		};
-		return Pg::Math::PGFLOAT4X4(tempOrtho);
+		XMFLOAT4X4 tRet;
+		XMStoreFloat4x4(&tRet, XMMatrixOrthographicLH(viewWidth, viewHeight, nearZ, farZ));
+		return XM2PG_FLOAT4X4(tRet);
 	}
 
 	Pg::Math::PGQuaternion PGEulerToQuaternion(float x, float y, float z)
 	{
-		PGQuaternion quaternion;
-
-		// 각 축의 값을 반으로 나눈 뒤... 계산
-		double cy = cos(x * 0.5);
-		double sy = sin(x * 0.5);
-		double cp = cos(y * 0.5);
-		double sp = sin(y * 0.5);
-		double cr = cos(z * 0.5);
-		double sr = sin(z * 0.5);
-
-		quaternion.w = cy * cp * cr + sy * sp * sr;
-		quaternion.x = cy * cp * sr - sy * sp * cr;
-		quaternion.y = sy * cp * sr + cy * sp * cr;
-		quaternion.z = sy * cp * cr - cy * sp * sr;
-
-		return quaternion;
+		XMFLOAT3 tVal = { x,y,z };
+		return XM2PG_QUATERNION(XMQuaternionRotationRollPitchYawFromVector(XMLoadFloat3(&tVal)));
 	}
 
 	Pg::Math::PGQuaternion PGEulerToQuaternion(const Pg::Math::PGFLOAT3& euler)
@@ -861,26 +498,17 @@ namespace Pg::Math
 
 	Pg::Math::PGFLOAT3 PGQuaternionToEuler(float w, float x, float y, float z)
 	{
-		Pg::Math::PGFLOAT3 euler;
+		XMFLOAT4 tQuat = { x,y,z,w };
+		XMMATRIX rotationMatrix = XMMatrixRotationQuaternion(XMLoadFloat4(&tQuat));
 
-		// Roll (X 축 회전)
-		double sinr_cosp = 2.0 * (w * x + y * z);
-		double cosr_cosp = 1.0 - 2.0 * (x * x + y * y);
-		euler.x = std::atan2(sinr_cosp, cosr_cosp);
+		// Extracting the euler angles from the rotation matrix
+		float pitch, yaw, roll;
+		XMVECTOR rotation = XMQuaternionRotationMatrix(rotationMatrix);
 
-		// Pitch (Y 축 회전)
-		double sinp = 2.0 * (w * y - z * x);
-		if (std::abs(sinp) >= 1)
-			euler.y = std::copysign(PG_PI / 2.0, sinp); // use 90 degrees if out of range
-		else
-			euler.y = std::asin(sinp);
+		XMFLOAT3 tRetPre;
+		XMStoreFloat3(&tRetPre, rotation);
 
-		// Yaw (Z 축 회전)
-		double siny_cosp = 2.0 * (w * z + x * y);
-		double cosy_cosp = 1.0 - 2.0 * (y * y + z * z);
-		euler.z = std::atan2(siny_cosp, cosy_cosp);
-
-		return euler;
+		return XM2PG_FLOAT3(tRetPre);
 	}
 
 	Pg::Math::PGFLOAT3 PGRotateVectorAroundAxis(Pg::Math::PGFLOAT3 vecToRotate, Pg::Math::PGFLOAT3 rotAxis, float angleInRad)
@@ -906,6 +534,148 @@ namespace Pg::Math
 		return { rotatedVector.x, rotatedVector.y, rotatedVector.z };
 	}
 
+	Pg::Math::PGFLOAT2 XM2PG_FLOAT2(const DirectX::XMFLOAT2& val)
+	{
+		return { val.x, val.y };
+	}
+
+	Pg::Math::PGFLOAT3 XM2PG_FLOAT3(const DirectX::XMFLOAT3& val)
+	{
+		return { val.x, val.y, val.z };
+	}
+
+	Pg::Math::PGFLOAT3 XM2PG_FLOAT3_VECTOR(const DirectX::XMVECTOR& val)
+	{
+		XMFLOAT3 tVal;
+		XMStoreFloat3(&tVal, val);
+		return { tVal.x, tVal.y, tVal.z };
+	}
+
+	Pg::Math::PGFLOAT4 XM2PG_FLOAT4(const DirectX::XMFLOAT4& val)
+	{
+		return { val.x, val.y, val.z, val.w };
+	}
+
+	Pg::Math::PGFLOAT4 XM2PG_FLOAT4_VECTOR(const DirectX::XMVECTOR& val)
+	{
+		XMFLOAT4 tVal;
+		XMStoreFloat4(&tVal, val);
+		return { tVal.x, tVal.y, tVal.z, tVal.w };
+	}
+
+	Pg::Math::PGQuaternion XM2PG_QUATERNION(const DirectX::XMFLOAT4& val)
+	{
+		return { val.w, val.x, val.y, val.z };
+	}
+
+	Pg::Math::PGQuaternion XM2PG_QUATERNION(const DirectX::XMVECTOR& val)
+	{
+		DirectX::XMFLOAT4 tVal;
+		XMStoreFloat4(&tVal, val);
+		return { tVal.w, tVal.x, tVal.y, tVal.z };
+	}
+
+	Pg::Math::PGFLOAT3X3 XM2PG_FLOAT3X3(const DirectX::XMFLOAT3X3& val)
+	{
+		Pg::Math::PGFLOAT3X3 tRet;
+		memcpy(&tRet, &val, sizeof(DirectX::XMFLOAT3X3));
+		return tRet;
+	}
+
+	Pg::Math::PGFLOAT3X3 XM2PG_MATRIX3X3(const DirectX::XMMATRIX& val)
+	{
+		XMFLOAT3X3 tVal;
+		XMStoreFloat3x3(&tVal, val);
+
+		Pg::Math::PGFLOAT3X3 tRet;
+		memcpy(&tRet, &tVal, sizeof(DirectX::XMFLOAT3X3));
+		return tRet;
+	}
+
+	Pg::Math::PGFLOAT4X4 XM2PG_FLOAT4X4(const DirectX::XMFLOAT4X4& val)
+	{
+		Pg::Math::PGFLOAT4X4 tRet;
+		memcpy(&tRet, &val, sizeof(DirectX::XMFLOAT4X4));
+		return tRet;
+	}
+
+	Pg::Math::PGFLOAT4X4 XM2PG_MATRIX4X4(const DirectX::XMMATRIX& val)
+	{
+		XMFLOAT4X4 tVal;
+		XMStoreFloat4x4(&tVal, val);
+
+		Pg::Math::PGFLOAT4X4 tRet;
+		memcpy(&tRet, &tVal, sizeof(DirectX::XMFLOAT4X4));
+		return tRet;
+	}
+
+	DirectX::XMFLOAT2 PG2XM_FLOAT2(const PGFLOAT2& val)
+	{
+		return { val.x, val.y };
+	}
+
+	DirectX::XMFLOAT3 PG2XM_FLOAT3(const PGFLOAT3& val)
+	{
+		return { val.x, val.y, val.z };
+	}
+
+	DirectX::XMVECTOR PG2XM_FLOAT3_VECTOR(const PGFLOAT3& val)
+	{
+		DirectX::XMFLOAT3 tVal = { val.x, val.y, val.z };
+		return XMLoadFloat3(&tVal);
+	}
+
+	DirectX::XMFLOAT4 PG2XM_FLOAT4(const PGFLOAT4& val)
+	{
+		return { val.x, val.y, val.z, val.w };
+	}
+
+	DirectX::XMVECTOR PG2XM_FLOAT4_VECTOR(const PGFLOAT4& val)
+	{
+		DirectX::XMFLOAT4 tVal = { val.x, val.y, val.z, val.w };
+		return XMLoadFloat4(&tVal);
+	}
+
+	DirectX::XMFLOAT4 PG2XM_QUATERNION(const PGQuaternion& val)
+	{
+		return { val.x, val.y, val.z, val.w };
+	}
+
+	DirectX::XMVECTOR PG2XM_QUATERNION_VECTOR(const PGQuaternion& val)
+	{
+		XMFLOAT4 tVal = { val.x, val.y, val.z, val.w };
+		return XMLoadFloat4(&tVal);
+	}
+
+	DirectX::XMFLOAT3X3 PG2XM_FLOAT3X3(const PGFLOAT3X3& val)
+	{
+		DirectX::XMFLOAT3X3 tRet;
+		memcpy(&tRet, &val, sizeof(DirectX::XMFLOAT3X3));
+		return tRet;
+	}
+
+	DirectX::XMFLOAT4X4 PG2XM_FLOAT4X4(const PGFLOAT4X4& val)
+	{
+		DirectX::XMFLOAT4X4 tRet;
+		memcpy(&tRet, &val, sizeof(DirectX::XMFLOAT4X4));
+		return tRet;
+	}
+
+	DirectX::XMMATRIX PG2XM_MATRIX3X3(const PGFLOAT3X3& val)
+	{
+		DirectX::XMFLOAT3X3 tRet;
+		memcpy(&tRet, &val, sizeof(DirectX::XMFLOAT3X3));
+		return XMLoadFloat3x3(&tRet);
+	}
+
+	DirectX::XMMATRIX PG2XM_MATRIX4X4(const PGFLOAT4X4& val)
+	{
+		DirectX::XMFLOAT4X4 tRet;
+		memcpy(&tRet, &val, sizeof(DirectX::XMFLOAT4X4));
+		return XMLoadFloat4x4(&tRet);
+	}
+
+	
 
 }
 

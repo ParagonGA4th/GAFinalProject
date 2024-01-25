@@ -28,17 +28,9 @@
 						</scale>
 					</data>
 				</component>
-				<component>
-					<type>class Pg::Data::Camera</type>
-					<data>
-						<nearZ>0.0001</nearZ>
-						<farZ>1000.0</farZ>
-						<fovY>1.25663710</fovY>
-					</data>
-				</component>
 			</components>
 		</object>
-		<object>
+		<!--<object>
 			<name>New Object</name>
 			<tag>Untagged</tag>
 			<active>true</active>
@@ -87,6 +79,6 @@
 					</data>
 				</component>
 			</components>
-		</object>
+		</object>-->
 	</objects>
 </scene>

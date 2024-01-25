@@ -2,6 +2,7 @@
 #include "IEditorWindow.h"
 #include <string>
 #include <memory>
+#include <vector>
 
 namespace Pg::Editor { class Event; }
 namespace Pg::Data { class GameObject; }
@@ -26,6 +27,7 @@ namespace Pg::Editor::Window
 
 	private:
 		void SetData(void* data);
+		void AddComponent();
 
 	private:
 		/// inspector value
@@ -38,8 +40,10 @@ namespace Pg::Editor::Window
 		std::unique_ptr<Pg::Editor::Window::InspectorHelper> _insHelper;
 
 		/// Data value
+		std::vector<std::string> _componentList;
 		Pg::Data::GameObject* _selectGameObject;
-		bool* _isAddComponent;
+		int* _componentIndex;
+		bool* _isClick;
 	};
 }
 
