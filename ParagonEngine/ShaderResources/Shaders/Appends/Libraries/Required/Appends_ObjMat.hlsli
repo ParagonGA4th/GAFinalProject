@@ -44,5 +44,14 @@ void ClipUnfitsObjectID(float2 quadUV)
     clip(sampledMatID - inputID + 0.1f);
 }
 
+bool CheckIfFitObjectID(float2 quadUV)
+{
+    float sampledMatID = asfloat(GetObjectID(quadUV));
+    float tVal1 = inputID - sampledMatID + 0.1f;
+    float tVal2 = sampledMatID - inputID + 0.1f;
+    bool tRet = ((tVal1 >= 0.0f) && (tVal2 >= 0.0f));
+    return tRet;
+}
+
 
 #endif //__DEFINED_APPENDS_CLIP_UNFIT_HLSL__
