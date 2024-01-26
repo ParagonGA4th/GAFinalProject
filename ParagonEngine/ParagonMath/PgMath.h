@@ -1,5 +1,6 @@
 #pragma once
 #include <functional>
+#include <DirectXMath.h>
 
 /// ParagonEngine에서 쓰일 Math 기본 형태.
 /// 추가적인 종속성을 막기 위해서, 커스텀 구조체로 관리.
@@ -224,10 +225,11 @@ namespace Pg::Math
 	inline float PGConvertToRadians(float fDegrees) noexcept { return fDegrees * (PG_PI / 180.0f); }
 	inline float PGConvertToDegrees(float fRadians) noexcept { return fRadians * (180.0f / PG_PI); }
 
-	inline float PGFloat3Length(const Pg::Math::PGFLOAT3& f) noexcept;
-	inline Pg::Math::PGFLOAT3 PGFloat3Normalize(const Pg::Math::PGFLOAT3& f) noexcept;
-	inline Pg::Math::PGFLOAT4 PGFloat4Normalize(const Pg::Math::PGFLOAT4& f) noexcept;
-	inline Pg::Math::PGQuaternion PGQuaternionNormalize(const Pg::Math::PGQuaternion& f) noexcept;
+	float PGFloat3Length(const Pg::Math::PGFLOAT3& f) noexcept;
+	float PGFloat4Length(const Pg::Math::PGFLOAT4& f) noexcept;
+	Pg::Math::PGFLOAT3 PGFloat3Normalize(const Pg::Math::PGFLOAT3& f) noexcept;
+	Pg::Math::PGFLOAT4 PGFloat4Normalize(const Pg::Math::PGFLOAT4& f) noexcept;
+	Pg::Math::PGQuaternion PGQuaternionNormalize(const Pg::Math::PGQuaternion& f) noexcept;
 	float PGFloat3Dot(const Pg::Math::PGFLOAT3& lhs, const Pg::Math::PGFLOAT3& rhs);
 	Pg::Math::PGFLOAT3 PGFloat3Cross(const Pg::Math::PGFLOAT3& lhs, const Pg::Math::PGFLOAT3& rhs);
 	Pg::Math::PGFLOAT3 PGFloat3MultiplyMatrix(const Pg::Math::PGFLOAT3& lhs, const Pg::Math::PGFLOAT4X4& rhs);
@@ -257,6 +259,31 @@ namespace Pg::Math
 
 	//RotateVectorAroundAxis 
 	Pg::Math::PGFLOAT3 PGRotateVectorAroundAxis(Pg::Math::PGFLOAT3 vecToRotate, Pg::Math::PGFLOAT3 rotAxis, float angleInRad);
+
+	//SimpleMath <-> PGMath
+	Pg::Math::PGFLOAT2 XM2PG_FLOAT2(const DirectX::XMFLOAT2& val);
+	Pg::Math::PGFLOAT3 XM2PG_FLOAT3(const DirectX::XMFLOAT3& val);
+	Pg::Math::PGFLOAT3 XM2PG_FLOAT3_VECTOR(const DirectX::XMVECTOR& val);
+	Pg::Math::PGFLOAT4 XM2PG_FLOAT4(const DirectX::XMFLOAT4& val);
+	Pg::Math::PGFLOAT4 XM2PG_FLOAT4_VECTOR(const DirectX::XMVECTOR& val);
+	Pg::Math::PGQuaternion XM2PG_QUATERNION(const DirectX::XMFLOAT4& val);
+	Pg::Math::PGQuaternion XM2PG_QUATERNION(const DirectX::XMVECTOR& val);
+	Pg::Math::PGFLOAT3X3 XM2PG_FLOAT3X3(const DirectX::XMFLOAT3X3& val);
+	Pg::Math::PGFLOAT4X4 XM2PG_FLOAT4X4(const DirectX::XMFLOAT4X4& val);
+	Pg::Math::PGFLOAT3X3 XM2PG_MATRIX3X3(const DirectX::XMMATRIX& val);
+	Pg::Math::PGFLOAT4X4 XM2PG_MATRIX4X4(const DirectX::XMMATRIX& val);
+	
+	DirectX::XMFLOAT2 PG2XM_FLOAT2(const Pg::Math::PGFLOAT2& val);
+	DirectX::XMFLOAT3 PG2XM_FLOAT3(const Pg::Math::PGFLOAT3& val);
+	DirectX::XMVECTOR PG2XM_FLOAT3_VECTOR(const Pg::Math::PGFLOAT3& val);
+	DirectX::XMFLOAT4 PG2XM_FLOAT4(const Pg::Math::PGFLOAT4& val);
+	DirectX::XMVECTOR PG2XM_FLOAT4_VECTOR(const Pg::Math::PGFLOAT4& val);
+	DirectX::XMFLOAT4 PG2XM_QUATERNION(const Pg::Math::PGQuaternion& val);
+	DirectX::XMVECTOR PG2XM_QUATERNION_VECTOR(const Pg::Math::PGQuaternion& val);
+	DirectX::XMFLOAT3X3 PG2XM_FLOAT3X3(const Pg::Math::PGFLOAT3X3& val);
+	DirectX::XMMATRIX PG2XM_MATRIX3X3(const Pg::Math::PGFLOAT3X3& val);
+	DirectX::XMFLOAT4X4 PG2XM_FLOAT4X4(const Pg::Math::PGFLOAT4X4& val);
+	DirectX::XMMATRIX PG2XM_MATRIX4X4(const Pg::Math::PGFLOAT4X4& val);
 
 }
 
