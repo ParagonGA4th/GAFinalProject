@@ -829,10 +829,13 @@
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Default\AppendObjectDefaultVS.hlsl">
       <Filter>6_HLSL\Appends\Added\Object\Default</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_PS.hlsl">
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_SingleColor_PS.hlsl">
       <Filter>6_HLSL\System\Pipeline\Outline</Filter>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Outline</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_Blur_PS.hlsl">
       <Filter>6_HLSL\System\Pipeline\Outline</Filter>
     </FxCompile>
   </ItemGroup>
