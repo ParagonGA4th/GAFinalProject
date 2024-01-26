@@ -84,7 +84,7 @@ namespace Pg::Graphics
 			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0.0f);
 
 		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_outlineBufferRender->GetRTV()), _outlineMaskingGDS->GetDSV());
-		//_DXStorage->_deviceContext->OMSetDepthStencilState(_outlineMaskingGDS->GetDSState(), 0xFF);
+		_DXStorage->_deviceContext->OMSetDepthStencilState(_outlineMaskingGDS->GetDSState(), 0xFF);
 
 		_vs->Bind();
 		_singleColorPs->Bind();
@@ -120,7 +120,10 @@ namespace Pg::Graphics
 		BindWidthHeightConstantBuffer();
 		
 		//다시금 OMSetRenderTargets. -> Main Quad.
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_quadMainSaveRTV), nullptr);
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_quadMainSaveRTV), _outlineMaskingGDS->GetDSV());
+
+		//DepthStencilState
+		_DXStorage->_deviceContext->OMSetDepthStencilState(_writeModeDSS, 0xFF);
 
 		//그리기.
 		_DXStorage->_deviceContext->DrawIndexed(GeometryGenerator::QUAD_INDICE_COUNT, 0, 0);
@@ -145,6 +148,8 @@ namespace Pg::Graphics
 
 		//7번 Slot에 SRV Nullptr를 넣는다. (Blur GBuffer SRV 리셋)
 		_DXStorage->_deviceContext->PSSetShaderResources(7, 1, &tNullSRV);
+
+		_DXStorage->_deviceContext->OMSetDepthStencilState(nullptr, 0xFF);
 	}
 
 	void OutlineRenderPass::ExecuteNextRenderRequirements()

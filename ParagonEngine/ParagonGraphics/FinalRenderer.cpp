@@ -125,7 +125,7 @@ namespace Pg::Graphics
 
 	void FinalRenderer::SetObjectIDSelected(unsigned int val)
 	{
-		PG_TRACE(val);
+		//PG_TRACE(val);
 		_pickedObjID = val;
 	}
 	
