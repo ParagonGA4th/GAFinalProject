@@ -124,11 +124,12 @@ namespace Pg::Core
 		_engineGraphicsAdapter->Render();
 	}
 
-	void ProcessMain::PassPickedObject()
+	Pg::Data::GameObject* ProcessMain::PassPickedObject()
 	{
 		//GameObject 전달. 동일 함수에서 EditorAdapter로 전달해야. Nullptr 전달 가능. 
-
 		Pg::Data::GameObject* tToPass = _engineGraphicsAdapter->GetPickedGameObjectWithRatios(0.f, 0.f);
+
+		return tToPass;
 	}
 
 	void ProcessMain::FinalRender()
