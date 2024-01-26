@@ -39,6 +39,7 @@ namespace Pg::Graphics
 		{
 			DirectX::XMFLOAT4X4 worldMatrix;
 			DirectX::XMFLOAT4X4 viewProjMatrix;
+			DirectX::XMFLOAT3 camPos;
 		};
 
 	protected:
