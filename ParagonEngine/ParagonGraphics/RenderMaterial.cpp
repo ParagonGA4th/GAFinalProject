@@ -350,8 +350,7 @@ namespace Pg::Graphics
 				//VS Constant Buffer Set.
 				_DXStorage->_deviceContext->VSSetConstantBuffers(_vsIntrinsics->_cbRegisterNum, 1, &(_vsIntrinsics->_cBuffer));
 			}
-
-		
+			
 			//VS Textures Update.
 			{
 				for (auto& it : _vsIntrinsics->_texPlaceVector)

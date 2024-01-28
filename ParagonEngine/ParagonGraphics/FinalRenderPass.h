@@ -1,5 +1,5 @@
 #pragma once
-#include "IRenderPass.h"
+#include "IRenderSinglePass.h"
 #include "DX11Headers.h"
 #include <vector>
 #include <memory>
@@ -18,7 +18,7 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class FinalRenderPass : public IRenderPass
+	class FinalRenderPass : public IRenderSinglePass
 	{
 	public:
 		FinalRenderPass();
