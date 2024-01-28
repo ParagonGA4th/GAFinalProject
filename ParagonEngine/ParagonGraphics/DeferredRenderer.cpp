@@ -8,9 +8,9 @@
 #include "RenderObject3DList.h"
 
 //RenderPasses
-#include "IRenderPass.h"
+#include "IRenderSinglePass.h"
 #include "FirstStaticRenderPass.h"
-#include "ObjMatStaticRenderPass.h"
+#include "PreparationStaticRenderPass.h"
 #include "OpaqueLightingRenderPass.h"
 #include "OpaqueQuadRenderPass.h"
 #include "FinalRenderPass.h"
@@ -111,7 +111,7 @@ namespace Pg::Graphics
 		_firstStaticRenderPass = std::make_unique<FirstStaticRenderPass>();
 
 		//두번째는 일단 ObjMatStaticRenderPass.
-		_objMatStaticRenderPass = std::make_unique<ObjMatStaticRenderPass>();
+		_objMatStaticRenderPass = std::make_unique<PreparationStaticRenderPass>();
 
 		//Skinned가 들어오면 FirstStatic->FirstSkinned->ObjMatStatic->ObjMatSkinned일것.
 

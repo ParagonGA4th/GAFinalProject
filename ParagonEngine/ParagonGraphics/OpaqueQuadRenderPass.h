@@ -1,5 +1,5 @@
 #pragma once
-#include "IRenderPass.h"
+#include "IRenderSinglePass.h"
 #include "DX11Headers.h"
 #include <vector>
 #include <memory>
@@ -21,7 +21,7 @@ namespace Pg::Graphics
 /// </summary>
 namespace Pg::Graphics
 {
-	class OpaqueQuadRenderPass : public IRenderPass
+	class OpaqueQuadRenderPass : public IRenderSinglePass
 	{
 	public:
 		OpaqueQuadRenderPass(RenderMaterial* renderMat);

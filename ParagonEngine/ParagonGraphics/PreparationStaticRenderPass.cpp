@@ -1,4 +1,4 @@
-#include "ObjMatStaticRenderPass.h"
+#include "PreparationStaticRenderPass.h"
 #include "GBufferRender.h"
 #include "GBufferDepthStencil.h"
 #include "LowDX11Storage.h"
@@ -9,29 +9,29 @@
 namespace Pg::Graphics
 {
 
-	ObjMatStaticRenderPass::ObjMatStaticRenderPass()
+	PreparationStaticRenderPass::PreparationStaticRenderPass()
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 	}
 
-	ObjMatStaticRenderPass::~ObjMatStaticRenderPass()
+	PreparationStaticRenderPass::~PreparationStaticRenderPass()
 	{
 
 	}
 
-	void ObjMatStaticRenderPass::Initialize()
+	void PreparationStaticRenderPass::Initialize()
 	{
 		CreateD3DViews();
 		CreateShaders();
 	}
 
-	void ObjMatStaticRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
+	void PreparationStaticRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
 	{
 		_quadSaveDSV = carrier._quadMainGDS->GetDSV();
 		_quadSaveObjMatGBuffer = carrier._quadObjMatRT;
 	}
 
-	void ObjMatStaticRenderPass::BindPass()
+	void PreparationStaticRenderPass::BindPass()
 	{
 		_DXStorage->_deviceContext->ClearRenderTargetView(_quadSaveObjMatGBuffer->GetRTV(), _DXStorage->_backgroundColor);
 
@@ -42,7 +42,7 @@ namespace Pg::Graphics
 		_ps->Bind();
 	}
 
-	void ObjMatStaticRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
+	void PreparationStaticRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		RenderObject3DList* tRenderObjectList = reinterpret_cast<RenderObject3DList*>(renderObjectList);
 
@@ -63,7 +63,7 @@ namespace Pg::Graphics
 		}
 	}
 
-	void ObjMatStaticRenderPass::UnbindPass()
+	void PreparationStaticRenderPass::UnbindPass()
 	{
 		// Unbind RenderTarget
 		//더 이상 값을 설정하지 않을 때 이런 식으로 할당 해제해주면 된다.
@@ -74,7 +74,7 @@ namespace Pg::Graphics
 		_ps->Unbind();
 	}
 
-	void ObjMatStaticRenderPass::ExecuteNextRenderRequirements()
+	void PreparationStaticRenderPass::ExecuteNextRenderRequirements()
 	{
 		//만약 Skinned가 들어온다면, 이 코드는 ObjMatSkinnedRenderPass로 가야 한다.
 		//당연히 GBuffer-DepthStencil 역시 옮겨받아야 하고.
@@ -83,19 +83,19 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(3, 1, &(_quadSaveObjMatGBuffer->GetSRV()));
 	}
 
-	void ObjMatStaticRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
+	void PreparationStaticRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
 	{
 
 	}
 
-	void ObjMatStaticRenderPass::CreateD3DViews()
+	void PreparationStaticRenderPass::CreateD3DViews()
 	{
 		//DepthStencil은 MainQuadDepthStencil이다. (Skinned도 마찬가지)
 		//OpaqueQuad 시리즈가 가능한 이유는,
 		//Rendering은 Main Render Target에 함에도 DepthStencil을 자체적으로 생성해서 쓰기 때문 (기존의 값이 영향을 주지 않음)
 	}
 
-	void ObjMatStaticRenderPass::CreateShaders()
+	void PreparationStaticRenderPass::CreateShaders()
 	{
 		//ObjMatStatic 용도 셰이더 갖고 오기.
 		_vs = std::make_unique<SystemVertexShader>(L"../Builds/x64/Debug/Individual_PerObjMatStaticVS.cso", LayoutDefine::GetPerObjMatStaticLayout(),
