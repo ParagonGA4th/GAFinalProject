@@ -22,8 +22,8 @@ namespace Pg::Graphics
 
 		GeometryGenerator tGeometryGenerator;
 
-		float width = 30.f;
-		float depth = 30.f;
+		float width = 300.f;
+		float depth = 300.f;
 		UINT m = 70;
 		UINT n = 70;
 		tGeometryGenerator.CreateGrid(width, depth, m, n, _MeshData);
