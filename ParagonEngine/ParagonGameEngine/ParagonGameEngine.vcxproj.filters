@@ -46,6 +46,9 @@
     <ClInclude Include="RayCastTest.h">
       <Filter>4_WorkSpace\SceneView\Scripts\RayCastTest</Filter>
     </ClInclude>
+    <ClInclude Include="SoundSystem.h">
+      <Filter>2_System\SoundSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -89,6 +92,9 @@
     </ClCompile>
     <ClCompile Include="RayCastTest.cpp">
       <Filter>4_WorkSpace\SceneView\Scripts\RayCastTest</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSystem.cpp">
+      <Filter>2_System\SoundSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +154,9 @@
     </Filter>
     <Filter Include="4_WorkSpace\SceneView\Scripts\RayCastTest">
       <UniqueIdentifier>{00531c1f-6b13-4d0b-8bad-297affd0826f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\SoundSystem">
+      <UniqueIdentifier>{e5bb6dc6-c6ca-4c02-a2a8-b7675dcf0dd4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

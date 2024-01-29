@@ -31,6 +31,7 @@ namespace Pg::Graphics
 	void FinalRenderer::SetupRenderPasses()
 	{
 		_finalRenderPass->Initialize();
+		_outlineRenderPass->Initialize();
 	}
 
 	unsigned int FinalRenderer::GetPickingObjectID(unsigned int widthPixel, unsigned int heightPixel)
@@ -68,6 +69,7 @@ namespace Pg::Graphics
 		if (_outlineRenderingMode)
 		{
 			//안에서만 렌더링.
+			_outlineRenderPass->SetOutlinePlannedObjectID(_pickedObjID);
 			_outlineRenderPass->ReceiveRequiredElements(*_carrier);
 			_outlineRenderPass->BindPass();
 			_outlineRenderPass->RenderPass(nullptr, camData);
@@ -121,6 +123,11 @@ namespace Pg::Graphics
 		_outlineRenderingMode = val;
 	}
 
+	void FinalRenderer::SetObjectIDSelected(unsigned int val)
+	{
+		//PG_TRACE(val);
+		_pickedObjID = val;
+	}
 	
 
 }

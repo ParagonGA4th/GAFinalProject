@@ -17,7 +17,7 @@ struct PixelOut
 PixelOut main(VertexOut pin)
 {   
 	PixelOut pout;
-	pout.Color = float4(pin.Color, 1.0f);
+	pout.Color = float4(pin.Color, 1.f);
 
 	return pout;
 }

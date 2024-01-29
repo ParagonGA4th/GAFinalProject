@@ -25,6 +25,7 @@ namespace Pg::Graphics
 	void DebugRenderer::Initialize()
 	{
 		CreateSystemVertexShaders();
+		CreateDepthWriteOffDSS();
 		InitGeometry();
 		InitLine();
 	}
@@ -104,6 +105,8 @@ namespace Pg::Graphics
 		_primitiveVS->Bind();
 		_primitivePS->Bind();
 
+		_DXStorage->_deviceContext->OMSetDepthStencilState(_depthWriteOffDSS, 0xFF);
+
 		for (auto& it : wireframeList->_list)
 		{
 			it->UpdateConstantBuffers(camData);
@@ -111,6 +114,8 @@ namespace Pg::Graphics
 			it->Render();
 			it->UnbindConstantBuffers();
 		}
+
+		_DXStorage->_deviceContext->OMSetDepthStencilState(nullptr, 0xFF);
 
 		_primitiveVS->Unbind();
 		_primitivePS->Unbind();
@@ -151,7 +156,7 @@ namespace Pg::Graphics
 
 	void DebugRenderer::EndGeoPrimitiveRender()
 	{
-		//
+		
 	}
 
 	void DebugRenderer::BeginPrimitiveBatchRender(Pg::Data::CameraData* camData)
@@ -578,6 +583,18 @@ namespace Pg::Graphics
 		_primitiveVS = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/PrimitiveVS.cso", LayoutDefine::GetWireframePrimitiveLayout(),
 			LowDX11Storage::GetInstance()->_wireframeState, D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 		_primitivePS = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/PrimitivePS.cso");
+	}
+
+
+	void DebugRenderer::CreateDepthWriteOffDSS()
+	{
+		//Write Mode: Depth를 끄고 출력한다.
+		D3D11_DEPTH_STENCIL_DESC tDepthWriteOffDesc = CD3D11_DEPTH_STENCIL_DESC{ D3D11_DEFAULT };
+		tDepthWriteOffDesc.DepthEnable = TRUE;
+		tDepthWriteOffDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+		tDepthWriteOffDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+
+		HR(_DXStorage->_device->CreateDepthStencilState(&tDepthWriteOffDesc, &_depthWriteOffDSS));
 	}
 
 

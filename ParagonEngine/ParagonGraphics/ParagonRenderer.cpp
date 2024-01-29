@@ -180,6 +180,7 @@ namespace Pg::Graphics
 		
 		//해당 Material 값을 감싸는 Outline Shader Rendering 과정. -> 그려주게 Bool 값으로 설정.
 		_finalRenderer->SetOutlineRenderingMode(true);
+		_finalRenderer->SetObjectIDSelected(tFoundID);
 
 		//무조건 내부적으로 값을 찾아서 리턴해야 한다. 그렇지 않은 경우를 외부에서 예외처리함.
 		return _sceneParser->GetObjectWithObjID(tFoundID);
