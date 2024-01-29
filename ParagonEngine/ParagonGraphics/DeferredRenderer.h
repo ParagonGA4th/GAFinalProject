@@ -16,10 +16,10 @@ namespace Pg::Graphics
 {
 	class RenderObject3DList;
 	class LowDX11Storage;
-	class IRenderPass;
+	class IRenderSinglePass;
 
 	class FirstStaticRenderPass;
-	class ObjMatStaticRenderPass;
+	class PreparationStaticRenderPass;
 	class OpaqueLightingRenderPass;
 }
 
@@ -54,10 +54,10 @@ namespace Pg::Graphics
 		LowDX11Storage* _DXStorage;
 
 		std::unique_ptr<FirstStaticRenderPass> _firstStaticRenderPass;
-		std::unique_ptr<ObjMatStaticRenderPass> _objMatStaticRenderPass;
+		std::unique_ptr<PreparationStaticRenderPass> _objMatStaticRenderPass;
 		std::unique_ptr<OpaqueLightingRenderPass> _opaqueLightingPass;
 
-		std::vector<IRenderPass*> _opaqueQuadPassesVector;
+		std::vector<IRenderSinglePass*> _opaqueQuadPassesVector;
 
 		//메인 렌더 타겟으로 넘어갈 G-Buffer Render & Depth Stencil.
 		//모든 Renderer를 거치면서 값이 활용될 것이다.
