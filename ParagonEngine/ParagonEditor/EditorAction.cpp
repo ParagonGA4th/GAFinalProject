@@ -52,12 +52,6 @@ void Pg::Editor::Core::EditorAction::Loop()
 		}
 		else
 		{
-			//for (auto& manager : _editorManagers) 
-			//{ 
-			//	manager->Update(); 
-			//	manager->LateUpdate(); 
-			//}
-
 			_editorManagers.at(0)->Update();
 			_editorManagers.at(1)->Update();
 			_editorManagers.at(1)->LateUpdate();

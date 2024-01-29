@@ -4,6 +4,8 @@
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 
+#include <d3d11.h>
+
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 Pg::UI::Manager::ImGuiManager::ImGuiManager()
@@ -60,6 +62,9 @@ void Pg::UI::Manager::ImGuiManager::CreateFrame()
 void Pg::UI::Manager::ImGuiManager::Render()
 {
 	ImGui::Render();
+	//_deviceContext->OMSetRenderTargets(1, &_renderTarget, nullptr);
+	//const float clear_color_with_alpha[4] = { 0,0,0,0 };
+	//_deviceContext->ClearRenderTargetView(_renderTarget, clear_color_with_alpha);
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -89,7 +94,7 @@ void Pg::UI::Manager::ImGuiManager::Begin(std::string panelName, bool isTool)
 
 void Pg::UI::Manager::ImGuiManager::DockSpaceBegin(std::string dockName)
 {
-	ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode;
+	ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -99,23 +104,21 @@ void Pg::UI::Manager::ImGuiManager::DockSpaceBegin(std::string dockName)
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-	window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize 
+	window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize
 		| ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus;
+
+	ImGui::Begin("DockSpace Demo", nullptr, window_flags);
+	ImGui::PopStyleVar(3);
 	
-	ImGui::DockSpaceOverViewport(nullptr, dockspace_flags);
-
-	ImGui::Begin("##dockspace", nullptr, window_flags);
-
-	ImGuiID dockspace_id = ImGui::GetID("Paragon Engine");
-	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-
-	ImGui::SetWindowPos({ 0.f, 0.f });
-	ImVec2 displaySize = ImGui::GetIO().DisplaySize;
-	ImGui::SetWindowSize({ (float)displaySize.x, (float)displaySize.y });
+	ImGuiIO& io = ImGui::GetIO();
+	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+	{
+		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+	}
 }
 
 void Pg::UI::Manager::ImGuiManager::End(bool isDockspace)
 {
 	ImGui::End();
-	if(isDockspace) ImGui::PopStyleVar(3);
 }
