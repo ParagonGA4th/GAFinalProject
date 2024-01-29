@@ -44,7 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableUnitySupport>false</EnableUnitySupport>
+    <EnableUnitySupport>true</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -52,7 +52,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableUnitySupport>false</EnableUnitySupport>
+    <EnableUnitySupport>true</EnableUnitySupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -90,7 +90,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -113,7 +113,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -130,17 +130,28 @@
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\physx</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
+      <MaxFilesInUnityFile>5</MaxFilesInUnityFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
+      <Command>copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysX_64.dll $(OutDir)
+copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXCommon_64.dll $(OutDir)
+copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXFoundation_64.dll $(OutDir)
+copy $(SolutionDir)lib\fmod\$(PlatformTarget)\fmod.dll $(OutDir)</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
       <Command>
       </Command>
-    </PreBuildEvent>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -154,19 +165,30 @@
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\physx</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
+      <MaxFilesInUnityFile>5</MaxFilesInUnityFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
+      <Command>copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysX_64.dll $(OutDir)
+copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXCommon_64.dll $(OutDir)
+copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXFoundation_64.dll $(OutDir)
+copy $(SolutionDir)lib\fmod\$(PlatformTarget)\fmod.dll $(OutDir)</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
       <Command>
       </Command>
-    </PreBuildEvent>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DebugSystem.h" />
@@ -182,6 +204,7 @@
     <ClInclude Include="PrintRuntimeData.h" />
     <ClInclude Include="RayCastTest.h" />
     <ClInclude Include="SceneSystem.h" />
+    <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="TimeSystem.h" />
   </ItemGroup>
@@ -198,6 +221,7 @@
     <ClCompile Include="PrintRuntimeData.cpp" />
     <ClCompile Include="RayCastTest.cpp" />
     <ClCompile Include="SceneSystem.cpp" />
+    <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TimeSystem.cpp" />
   </ItemGroup>

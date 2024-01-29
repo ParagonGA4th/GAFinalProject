@@ -8,9 +8,9 @@
 #include "RenderObject3DList.h"
 
 //RenderPasses
-#include "IRenderPass.h"
+#include "IRenderSinglePass.h"
 #include "FirstStaticRenderPass.h"
-#include "ObjMatStaticRenderPass.h"
+#include "PreparationStaticRenderPass.h"
 #include "OpaqueLightingRenderPass.h"
 #include "OpaqueQuadRenderPass.h"
 #include "FinalRenderPass.h"
@@ -111,7 +111,7 @@ namespace Pg::Graphics
 		_firstStaticRenderPass = std::make_unique<FirstStaticRenderPass>();
 
 		//두번째는 일단 ObjMatStaticRenderPass.
-		_objMatStaticRenderPass = std::make_unique<ObjMatStaticRenderPass>();
+		_objMatStaticRenderPass = std::make_unique<PreparationStaticRenderPass>();
 
 		//Skinned가 들어오면 FirstStatic->FirstSkinned->ObjMatStatic->ObjMatSkinned일것.
 
@@ -155,7 +155,9 @@ namespace Pg::Graphics
 
 		//SamplerState defaultTextureSS : register(s2);
 		_DXStorage->_deviceContext->PSSetSamplers(2, 1, &(_DXStorage->_defaultSamplerState));
-
+		
+		//SamplerState blurSS : register(s3);
+		_DXStorage->_deviceContext->PSSetSamplers(3, 1, &(_DXStorage->_blurSamplerState));
 	}
 
 	void DeferredRenderer::UpdateCarrierResources()

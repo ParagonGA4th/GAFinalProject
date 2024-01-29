@@ -9,7 +9,7 @@
 #ifdef _DEBUG
 #define PG_1ST_STATIC_SHADER_PATH				L"..\\Builds\\x64\\Debug\\FirstStatic_VS.cso"
 #define PG_1ST_SKINNED_SHADER_PATH				L"..\\Builds\\x64\\Debug\\FirstSkinned_VS.cso"
-#define PG_DEFERRED_QUAD_SHADER_PATH			L"..\\Builds\\x64\\Debug\\SecondStage_VS.cso"
+#define PG_DEFERRED_QUAD_SHADER_PATH			L"..\\Builds\\x64\\Debug\\FinalStage_VS.cso"
 #define PG_PRIMITIVE_SHADER_PATH				L"..\\Builds\\x64\\Debug\\PrimitiveVS.cso"
 #define PG_CUBEMAP_SHADER_PATH					L"..\\Builds\\x64\\Debug\\CubemapVS.cso"
 #define PG_INDIVIDUAL_PER_OBJMAT_STATIC_PATH	L"..\\Builds\\x64\\Debug\\Individual_PerObjMatStaticVS.cso"
@@ -17,7 +17,7 @@
 #else
 #define PG_1ST_STATIC_SHADER_PATH				L"..\\Builds\\x64\\Release\\FirstStatic_VS.cso"
 #define PG_1ST_SKINNED_SHADER_PATH				L"..\\Builds\\x64\\Release\\FirstSkinned_VS.cso"
-#define PG_DEFERRED_QUAD_SHADER_PATH			L"..\\Builds\\x64\\Release\\SecondStage_VS.cso"
+#define PG_DEFERRED_QUAD_SHADER_PATH			L"..\\Builds\\x64\\Release\\FinalStage_VS.cso"
 #define PG_PRIMITIVE_SHADER_PATH				L"..\\Builds\\x64\\Release\\PrimitiveVS.cso"
 #define PG_CUBEMAP_SHADER_PATH					L"..\\Builds\\x64\\Release\\CubemapVS.cso"
 #define PG_INDIVIDUAL_PER_OBJMAT_STATIC_PATH	L"..\\Builds\\x64\\Release\\Individual_PerObjMatStaticVS.cso"

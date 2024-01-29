@@ -214,7 +214,7 @@
     <ClInclude Include="RenderTexture.h">
       <Filter>3_GraphicsResources\Resources\RenderTexture</Filter>
     </ClInclude>
-    <ClInclude Include="IRenderPass.h">
+    <ClInclude Include="IRenderSinglePass.h">
       <Filter>0_Main\RenderPass</Filter>
     </ClInclude>
     <ClInclude Include="FirstStaticRenderPass.h">
@@ -229,8 +229,8 @@
     <ClInclude Include="FinalRenderPass.h">
       <Filter>0_Main\RenderPass\10_FinalRenderPass</Filter>
     </ClInclude>
-    <ClInclude Include="ObjMatStaticRenderPass.h">
-      <Filter>0_Main\RenderPass\1_ObjMatStaticRenderPass</Filter>
+    <ClInclude Include="PreparationStaticRenderPass.h">
+      <Filter>0_Main\RenderPass\1_PreparationStaticRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="D3DCarrier.h">
       <Filter>0_Main\GraphicsCarrier</Filter>
@@ -444,8 +444,8 @@
     <ClCompile Include="FinalRenderPass.cpp">
       <Filter>0_Main\RenderPass\10_FinalRenderPass</Filter>
     </ClCompile>
-    <ClCompile Include="ObjMatStaticRenderPass.cpp">
-      <Filter>0_Main\RenderPass\1_ObjMatStaticRenderPass</Filter>
+    <ClCompile Include="PreparationStaticRenderPass.cpp">
+      <Filter>0_Main\RenderPass\1_PreparationStaticRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="BaseSpecificRenderer.cpp">
       <Filter>0_Main\Renderers\BaseSpecificRenderer</Filter>
@@ -740,9 +740,6 @@
     <Filter Include="0_Main\RenderPass\0_FirstStaticRenderPass">
       <UniqueIdentifier>{3157d69f-ab00-40e8-9704-a984429cdac2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main\RenderPass\1_ObjMatStaticRenderPass">
-      <UniqueIdentifier>{5ec93642-73ac-4d93-96c2-8f2b5950bb3b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0_Main\GraphicsCarrier">
       <UniqueIdentifier>{1a442d5c-d63c-4770-91c3-2230f437fc41}</UniqueIdentifier>
     </Filter>
@@ -760,6 +757,12 @@
     </Filter>
     <Filter Include="0_Main\RenderPass\9_OutlineRenderPass">
       <UniqueIdentifier>{923fdd6e-5157-47b0-8cac-b34658565252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\Outline">
+      <UniqueIdentifier>{a2aba0b7-51aa-4956-90fe-50969b2b3bd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass\1_PreparationStaticRenderPass">
+      <UniqueIdentifier>{5ec93642-73ac-4d93-96c2-8f2b5950bb3b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -825,6 +828,15 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Default\AppendObjectDefaultVS.hlsl">
       <Filter>6_HLSL\Appends\Added\Object\Default</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_SingleColor_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Outline</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Outline</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_Blur_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Outline</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

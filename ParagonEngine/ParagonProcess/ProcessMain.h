@@ -46,7 +46,7 @@ namespace Pg::Core
 		void Update();
 		void BeginRender();    
 		void Render();
-		void PassPickedObject();
+		Pg::Data::GameObject* PassPickedObject();
 		void FinalRender();
 		void EndRender();
 		void Finalize();

@@ -40,6 +40,8 @@ namespace Pg::Graphics
 		//Unsigned Int로 Picking된 ID를 받는다.
 		unsigned int GetPickingObjectID(unsigned int widthPixel, unsigned int heightPixel);
 		void SetOutlineRenderingMode(bool val);
+		void SetObjectIDSelected(unsigned int val);
+
 		//미리 그릴지 말지가 Picking Logic으로 정해진다.
 		void RenderOutlineStencil(Pg::Data::CameraData* camData);
 
@@ -56,6 +58,7 @@ namespace Pg::Graphics
 		LowDX11Storage* _DXStorage = nullptr;
 
 		bool _outlineRenderingMode = false;
+		unsigned int _pickedObjID = 0;
 	};
 }
 //finalRenderer->RenderOutlineStencil();

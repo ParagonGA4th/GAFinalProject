@@ -38,12 +38,12 @@
     <ClInclude Include="Forward3DRenderer.h" />
     <ClInclude Include="D3DCarrier.h" />
     <ClInclude Include="GraphicsSceneParser.h" />
-    <ClInclude Include="IRenderPass.h" />
+    <ClInclude Include="IRenderSinglePass.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantBufferDefine.h" />
     <ClInclude Include="GBufferDepthStencil.h" />
     <ClInclude Include="MaterialParser.h" />
-    <ClInclude Include="ObjMatStaticRenderPass.h" />
+    <ClInclude Include="PreparationStaticRenderPass.h" />
     <ClInclude Include="OpaqueLightingRenderPass.h" />
     <ClInclude Include="OpaqueQuadRenderPass.h" />
     <ClInclude Include="OutlineRenderPass.h" />
@@ -151,7 +151,7 @@
     <ClCompile Include="GraphicsSceneParser.cpp" />
     <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="MaterialParser.cpp" />
-    <ClCompile Include="ObjMatStaticRenderPass.cpp" />
+    <ClCompile Include="PreparationStaticRenderPass.cpp" />
     <ClCompile Include="OpaqueLightingRenderPass.cpp" />
     <ClCompile Include="OpaqueQuadRenderPass.cpp" />
     <ClCompile Include="OutlineRenderPass.cpp" />
@@ -304,6 +304,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_Blur_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_SingleColor_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\TempForward\TempForwardPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -356,7 +368,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableUnitySupport>false</EnableUnitySupport>
+    <EnableUnitySupport>true</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -364,7 +376,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableUnitySupport>false</EnableUnitySupport>
+    <EnableUnitySupport>true</EnableUnitySupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -439,6 +451,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
+      <MaxFilesInUnityFile>5</MaxFilesInUnityFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -450,9 +463,8 @@
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysX_64.dll $(OutDir)
-copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXCommon_64.dll $(OutDir)
-copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXFoundation_64.dll $(OutDir)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -466,6 +478,7 @@ copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXFoundation_
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalIncludeDirectories>
       <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
+      <MaxFilesInUnityFile>5</MaxFilesInUnityFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -479,9 +492,8 @@ copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXFoundation_
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysX_64.dll $(OutDir)
-copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXCommon_64.dll $(OutDir)
-copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXFoundation_64.dll $(OutDir)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

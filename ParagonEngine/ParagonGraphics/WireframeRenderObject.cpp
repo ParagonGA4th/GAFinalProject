@@ -35,7 +35,7 @@ namespace Pg::Graphics
 
 		DirectX::XMStoreFloat4x4(&(_cbData.worldMatrix), tWorldTMMat);
 		DirectX::XMStoreFloat4x4(&(_cbData.viewProjMatrix), DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
-
+		memcpy(&(_cbData.camPos), &(camData->_position), sizeof(DirectX::XMFLOAT3));
 		//_DXStorage->_deviceContext->UpdateSubresource(_cBuffer, 0, NULL, &_cbData, 0, 0);
 
 		//Mapping.

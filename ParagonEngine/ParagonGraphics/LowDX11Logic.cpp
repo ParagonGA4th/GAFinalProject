@@ -26,7 +26,7 @@ namespace Pg::Graphics
 
 		// TODO: Feature Level 설정
 		// D3D11 Device 생성
-		hr = D3D11CreateDevice(
+		HR(D3D11CreateDevice(
 			NULL,															// [in, optional]	IDXGIAdapter				*pAdapter
 			D3D_DRIVER_TYPE_HARDWARE,										// D3D_Driver_Type				DriverType
 			NULL,															// HMODULE						Software
@@ -37,64 +37,132 @@ namespace Pg::Graphics
 			&(_DXStorage->_device),											// [out, optional]	ID3D11Device				**ppDevice
 			NULL,															// [out, optional]	D3D_FEATUER_LEVEL			*pFeatureLevel
 			&(_DXStorage->_deviceContext)									// [out, optional]	ID3D11DeviceContext			**ppImmediateContext
-		);
+		));
 
-		return hr;
+		return S_OK;
 	}
 
 	HRESULT LowDX11Logic::CreateSwapChain(int screenWidth, int screenHeight)
 	{
-		// Swap Chain Description 정의
-		_DXStorage->_swapChainDesc.BufferDesc.Width = screenWidth;
-		_DXStorage->_swapChainDesc.BufferDesc.Height = screenHeight;
-		_DXStorage->_swapChainDesc.BufferDesc.RefreshRate.Numerator = 120;
-		_DXStorage->_swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
-		_DXStorage->_swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		_DXStorage->_swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-		_DXStorage->_swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_CENTERED;
-		_DXStorage->_swapChainDesc.SampleDesc.Count = 1;
-		_DXStorage->_swapChainDesc.SampleDesc.Quality = 0;
-		_DXStorage->_swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		_DXStorage->_swapChainDesc.BufferCount = 2;
-		_DXStorage->_swapChainDesc.OutputWindow = _DXStorage->_hWnd;
-		_DXStorage->_swapChainDesc.Windowed = true;
-		_DXStorage->_swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
-		_DXStorage->_swapChainDesc.Flags = 0;
+		DXGI_SWAP_CHAIN_DESC& swapChainDesc = _DXStorage->_swapChainDesc;
 
-		// DXGI Factory 생성
-		hr = CreateDXGIFactory1(__uuidof(IDXGIFactory2), (void**)(&_DXStorage->_factory));
+		/// BufferDesc : 생성하고자 하는 후면 버퍼들의 속성
+	  // 해상도 폭을 나타내는 가로, 세로 크기
+		swapChainDesc.BufferDesc.Width = 0;               // 0으로 지정하면 런타임이 출력창에서 너비를 가져와 그 너비값을 스왑체인에 할당함
+		swapChainDesc.BufferDesc.Height = 0;               // 0으로 지정하면 런타임이 출력창에서 너비를 가져와 그 너비값을 스왑체인에 할당함
+		// RefreshRate : 새로고침 빈도르르 헤르츠 단위로 설정
+		swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;            // 분자
+		swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;            // 분모, 정수를 표현하는 경우 분모는 1이어야 함
+		// Format : 디스플레이 포맷을 설정
+		swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;      // 각 원소는 [0,1] 구간으로 사상되는 8비트 부호없는 성분 네 개로 이루어짐
+		// ScanlineOrdering : 스캔라인 그리기 모드를 설명하는 열거형 멤버
+		swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+		// Scaling : 스케일링 모드를 설명하는 열거형 멤버
+		swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 
-		if (hr != S_OK)
+		// SampleDesc : 다중 표본화를 위해 추출할 표본 개수와 품질 수준 -> 현재 사용하지 않도록 1,0으로 지정
+		// 삼중버퍼링을 사용하기 위해서는 다중표본화를 사용해선안됨
+		//if (_enable4xMsaa)
+		//{
+		//   // Count : 픽셀 당 멀티 셈플 수
+		//   swapChainDesc.SampleDesc.Count = 4;
+		//   // Quality : 이미지 품질 수준 -> CheckMultisampleQualityLevels가 반환하는 레벨보다 작아야 함
+		//   swapChainDesc.SampleDesc.Quality = _4xMsaaQuality - 1;
+		//}
+		//else
+
 		{
-			return hr;
+			// 안티엘리어싱이 없는 기본 셈플러 모드 
+			swapChainDesc.SampleDesc.Count = 1;
+			swapChainDesc.SampleDesc.Quality = 0;
 		}
 
-		// 스왑체인 생성
-		hr = _DXStorage->_factory->CreateSwapChain(_DXStorage->_device, &(_DXStorage->_swapChainDesc), &(_DXStorage->_swapChain));
+		// BufferUsage : 버퍼의 용도를 서술, 백 버퍼의 표면 사용량과 cpu 액세스 옵션을 설명하는 열거형 멤버 -> 후면 버퍼에 렌더링을 할 것
+		swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 
-		return hr;
+		// BufferCount : 교환 사슬에서 사용할 후면 버퍼의 갯수 -> 일반적으로 이중버퍼링일 때 하나, 삼중버퍼링일 때 두 개
+		swapChainDesc.BufferCount = 2;
+
+		// OutputWindow : 렌더링 결과를 표시할 창의 핸들 -> 창 모드로 스왑 체인을 생성하고 사용자가 IDXGISwapChain::SetFullscreenState를 통해 스왑 체인을 전체 화면으로 변경할 수 있도록 허용하는 것이 좋음
+		swapChainDesc.OutputWindow = (HWND)(_DXStorage->_hWnd);
+
+		// Windowed : 창 모드를 원하면 true, 전체화면 모드를 원하면 false
+		swapChainDesc.Windowed = true;
+
+		// SwapEffect : 표면을 표시한 후 presentation 버퍼의 내용을 처리하는 옵션을 설명하는 열거형 멤버로 DXGI_SWAP_EFFECT_DISCARD를 지정하면 디스플레이 구동기가 가장 효율적인 제시방법을 선택
+		swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+
+		// Flags : 스왑 체인 동작에 대한 옵션을 설명하는 열거형 멤버 -> DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH를 지정하면 전체화면 모드로 전환될 때 현재의 후면 버퍼 설정에 가장 잘 부합하는 디스플레이가 자동으로 선택됨
+		swapChainDesc.Flags = 0;
+
+		// IDXGIDevice : 이미지 데이터를 생성하는 DXGI 객체에 대한 파생 클래스를 구현
+		IDXGIDevice* p_dxgiDevice = 0;
+		// queryinterface의 첫번째 매개변수 : COM 객체에서 내가 요청한 IID를 넘겨줌
+		// queryinterface의 두번째 매개변수 : COM 객체가 가지고 있는 인터페이스를 이 변수에 담아줌
+		HR(_DXStorage->_device->QueryInterface(__uuidof(IDXGIDevice), (void**)&p_dxgiDevice));
+
+		// IDXGIAdapter : 디스플레이 서브시스템 (하나 이상의 GPU, DAC 및 비디오 메모리 포함)을 나타냄
+		IDXGIAdapter* p_dxgiAdapter = 0;
+		HR(p_dxgiDevice->GetAdapter(&p_dxgiAdapter));                           // msdn에서는 이 방법 사용
+		//p_dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&p_dxgiAdapter);   // 책에서는 이 방법 사용
+
+		// IDXGIFactory : 전체 화면 전환을 처리하는 DXGI 객체를 생성하는 매서드를 구현
+		IDXGIFactory* p_dxgiFactory = 0;
+		HR(p_dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&p_dxgiFactory));
+
+		// CreateSwapChain (ID3D11Device를 가리키는 포인터, 교환사슬 서술 구조체를 가리키는 포인터, 생성된 교환사슬 인터페이스를 돌려줄 변수)
+		DXGI_SWAP_CHAIN_DESC tempSwapChainDesc = swapChainDesc;
+		HR(p_dxgiFactory->CreateSwapChain(_DXStorage->_device, &tempSwapChainDesc, &(_DXStorage->_swapChain)));
+
+		// 획득한 COM 인터페이스들을 다 사용했으므로 해제
+		p_dxgiFactory->Release();
+		p_dxgiAdapter->Release();
+		p_dxgiDevice->Release();
+
+		return S_OK;
+
+
+		/////여기서부터
+		//// Swap Chain Description 정의
+		//_DXStorage->_swapChainDesc.BufferDesc.Width = screenWidth;
+		//_DXStorage->_swapChainDesc.BufferDesc.Height = screenHeight;
+		//_DXStorage->_swapChainDesc.BufferDesc.RefreshRate.Numerator = 120;
+		//_DXStorage->_swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
+		//_DXStorage->_swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		//_DXStorage->_swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+		//_DXStorage->_swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_CENTERED;
+		//_DXStorage->_swapChainDesc.SampleDesc.Count = 1;
+		//_DXStorage->_swapChainDesc.SampleDesc.Quality = 0;
+		//_DXStorage->_swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		//_DXStorage->_swapChainDesc.BufferCount = 2;
+		//_DXStorage->_swapChainDesc.OutputWindow = _DXStorage->_hWnd;
+		//_DXStorage->_swapChainDesc.Windowed = true;
+		//_DXStorage->_swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
+		//_DXStorage->_swapChainDesc.Flags = 0;
+		//
+		//// DXGI Factory 생성
+		//hr = CreateDXGIFactory1(__uuidof(IDXGIFactory2), (void**)(&_DXStorage->_factory));
+		//
+		//if (hr != S_OK)
+		//{
+		//	return hr;
+		//}
+		//
+		//// 스왑체인 생성
+		//hr = _DXStorage->_factory->CreateSwapChain(_DXStorage->_device, &(_DXStorage->_swapChainDesc), &(_DXStorage->_swapChain));
+		//
+		//return hr;
 	}
 
 	HRESULT LowDX11Logic::CreateMainRenderTarget()
 	{
-		hr = _DXStorage->_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&(_DXStorage->_backBuffer));
-
-		if (hr != S_OK)
-		{
-			return hr;
-		}
-
-		hr = _DXStorage->_device->CreateRenderTargetView(_DXStorage->_backBuffer, nullptr, &(_DXStorage->_mainRTV));
-
-		if (hr != S_OK)
-		{
-			return hr;
-		}
+		HR(_DXStorage->_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&(_DXStorage->_backBuffer)));
+		HR(_DXStorage->_device->CreateRenderTargetView(_DXStorage->_backBuffer, nullptr, &(_DXStorage->_mainRTV)));
 
 		// TODO: 메인렌더타겟 SRV 생성 및 쿼드로 출력하기
 		//hr = _DXStorage->_device->CreateShaderResourceView(_DXStorage->_backBuffer, &_DXStorage->_shaderResourceViewDesc, &_DXStorage->_mainRTSRV);
 		
-		return hr;
+		return S_OK;
 	}
 
 	HRESULT LowDX11Logic::CreateDepthStencilViewAndState()
@@ -271,6 +339,20 @@ namespace Pg::Graphics
 			tDesc.MaxAnisotropy = 1;
 
 			HR(_DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_defaultSamplerState)));
+		}
+
+		//blurSS
+		{
+			D3D11_SAMPLER_DESC tDesc;
+
+			tDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+			tDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+			tDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+			tDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+			tDesc.MipLODBias = 0.0f;
+			tDesc.MaxAnisotropy = 1;
+
+			HR(_DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_blurSamplerState)));
 		}
 		return S_OK;
 	}
