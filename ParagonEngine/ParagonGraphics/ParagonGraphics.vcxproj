@@ -462,9 +462,8 @@
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysX_64.dll $(OutDir)
-copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXCommon_64.dll $(OutDir)
-copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXFoundation_64.dll $(OutDir)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -491,9 +490,8 @@ copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXFoundation_
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysX_64.dll $(OutDir)
-copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXCommon_64.dll $(OutDir)
-copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXFoundation_64.dll $(OutDir)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
