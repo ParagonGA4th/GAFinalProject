@@ -155,7 +155,9 @@ namespace Pg::Graphics
 
 		//SamplerState defaultTextureSS : register(s2);
 		_DXStorage->_deviceContext->PSSetSamplers(2, 1, &(_DXStorage->_defaultSamplerState));
-
+		
+		//SamplerState blurSS : register(s3);
+		_DXStorage->_deviceContext->PSSetSamplers(3, 1, &(_DXStorage->_blurSamplerState));
 	}
 
 	void DeferredRenderer::UpdateCarrierResources()

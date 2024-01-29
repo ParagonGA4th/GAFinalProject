@@ -101,6 +101,8 @@ void Pg::UI::Manager::ImGuiManager::DockSpaceBegin(std::string dockName)
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize 
 		| ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus;
+	
+	ImGui::DockSpaceOverViewport(nullptr, dockspace_flags);
 
 	ImGui::Begin("##dockspace", nullptr, window_flags);
 

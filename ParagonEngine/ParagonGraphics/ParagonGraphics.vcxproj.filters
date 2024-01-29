@@ -761,6 +761,9 @@
     <Filter Include="0_Main\RenderPass\9_OutlineRenderPass">
       <UniqueIdentifier>{923fdd6e-5157-47b0-8cac-b34658565252}</UniqueIdentifier>
     </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\Outline">
+      <UniqueIdentifier>{a2aba0b7-51aa-4956-90fe-50969b2b3bd5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
@@ -825,6 +828,15 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Default\AppendObjectDefaultVS.hlsl">
       <Filter>6_HLSL\Appends\Added\Object\Default</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_SingleColor_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Outline</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Outline</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_Blur_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Outline</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
