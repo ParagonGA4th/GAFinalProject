@@ -873,5 +873,8 @@
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjMatBuffers.hlsli">
       <Filter>6_HLSL\System\Libraries</Filter>
     </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_PBRBufferTextures.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\TextureBuffers</Filter>
+    </None>
   </ItemGroup>
 </Project>

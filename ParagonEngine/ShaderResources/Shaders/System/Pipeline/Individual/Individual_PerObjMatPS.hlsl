@@ -1,4 +1,10 @@
 #include "../../Libraries/System_PerObjMatLayouts.hlsli"
+#include "../../../Appends/Libraries/TextureBuffers/Appends_GBufferTextures.hlsli"
+
+Texture2DArray<float4> t2_AlbedoTextureArray  : register(t8);
+Texture2DArray<float4> t2_NormalTextureArray   : register(t9);
+Texture2DArray<float4> t2_SpecularTextureArray : register(t10);
+Texture2DArray<float4> t2_ArmTextureArray      : register(t11);
 
 POutPerObjMat main(VOutPerObjMat input)
 {
@@ -10,5 +16,6 @@ POutPerObjMat main(VOutPerObjMat input)
     //Material ID РќДо.
     output.pout_ObjMat.y = input.vout1st_MatID;
     
+   // output.pout_AlbedoAO.xyz = 
     return output;
 }
