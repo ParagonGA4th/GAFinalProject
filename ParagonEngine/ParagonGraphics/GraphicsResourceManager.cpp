@@ -231,6 +231,24 @@ namespace Pg::Graphics::Manager
 			return static_cast<RenderTexture2D*>(tRes.get());
 		}
 		break;
+		case PG_TextureType_ARM: //Metallic인데 Stolen Youth 내부 컨벤션.
+		{
+			auto tRes = GetResource(Pg::Defines::ASSET_DEFAULT_ARM_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+			return static_cast<RenderTexture2D*>(tRes.get());
+		}
+		break;
+		case PG_TextureType_SPECULAR:
+		{
+			auto tRes = GetResource(Pg::Defines::ASSET_DEFAULT_SPECULAR_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+			return static_cast<RenderTexture2D*>(tRes.get());
+		}
+		break;
+		case PG_TextureType_DISPLACEMENT:
+		{
+			auto tRes = GetResource(Pg::Defines::ASSET_DEFAULT_DISPLACEMENT_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+			return static_cast<RenderTexture2D*>(tRes.get());
+		}
+		break;
 		default:
 		{
 			assert(false && "아직 해당 종류 대해서는 디폴트 텍스쳐 준비되지 않았음!");

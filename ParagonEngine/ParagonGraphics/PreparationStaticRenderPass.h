@@ -1,5 +1,5 @@
 #pragma once
-#include "IRenderPass.h"
+#include "IRenderSinglePass.h"
 #include "DX11Headers.h"
 #include <vector>
 #include <memory>
@@ -20,11 +20,11 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class ObjMatStaticRenderPass : public IRenderPass
+	class PreparationStaticRenderPass : public IRenderSinglePass
 	{
 	public:
-		ObjMatStaticRenderPass();
-		~ObjMatStaticRenderPass();
+		PreparationStaticRenderPass();
+		~PreparationStaticRenderPass();
 
 		virtual void Initialize() override;
 		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;
