@@ -173,7 +173,4 @@ namespace Pg::Core
 	{
 		return _editorAdapter.get();
 	}
-
-	
-
 }

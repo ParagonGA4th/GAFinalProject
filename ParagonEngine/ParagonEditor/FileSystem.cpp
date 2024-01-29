@@ -105,9 +105,16 @@ void Pg::Editor::System::FileSystem::CreateFolder()
 	_scriptPath = rootPath.string() + "\\Scripts";
 	fs::path subFolder_2 = _scriptPath;
 
-	fs::create_directory(rootPath);
-	fs::create_directory(subFolder_1);
-	fs::create_directory(subFolder_2);
+	try
+	{
+		fs::create_directory(rootPath);
+		fs::create_directory(subFolder_1);
+		fs::create_directory(subFolder_2);
+	}
+	catch (const std::exception& e)
+	{
+		return;
+	}
 }
 
 void Pg::Editor::System::FileSystem::CreateParagonFile(std::unordered_map<std::string, std::string> fileData)
