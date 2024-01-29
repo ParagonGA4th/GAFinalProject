@@ -116,7 +116,16 @@ void Pg::Editor::System::FileSystem::CreateParagonFile(std::unordered_map<std::s
 	{
 		for (auto& data : fileData)
 		{
-			fs::path filePath = _assetsPath + "\\" + data.first + ".pgscene";
+			fs::path filePath;
+			if (data.first != "project")
+			{
+				filePath = _assetsPath + "\\" + data.first;
+			}
+			else
+			{
+				std::string rootPath = _rootPath.substr(0, _rootPath.rfind(".")) + "\\";
+				filePath = rootPath.append(rootPath.substr(_rootPath.rfind("\\") + 1));
+			}
 
 			// 파일 생성
 			std::ofstream file(filePath, std::ios::out | std::ios::trunc);

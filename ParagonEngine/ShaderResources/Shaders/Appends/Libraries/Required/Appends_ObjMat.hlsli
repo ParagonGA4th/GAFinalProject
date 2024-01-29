@@ -13,7 +13,7 @@ Texture2D<float2> _objMatSRV : register(t3);
 
 cbuffer cbInputMaterial : register(b3)
 {
-    uint inputMatID;
+    uint inputID;
 }
 
 uint GetObjectID(float2 quadUV)
@@ -31,8 +31,26 @@ void ClipUnfits(float2 quadUV)
 {
     float sampledMatID = asfloat(GetMaterialID(quadUV));
 
-    clip(inputMatID - sampledMatID + 0.1f);
-    clip(sampledMatID - inputMatID + 0.1f);
+    clip(inputID - sampledMatID + 0.1f);
+    clip(sampledMatID - inputID + 0.1f);
+}
+
+//Outline PickingÀ» À§ÇØ.
+void ClipUnfitsObjectID(float2 quadUV)
+{
+    float sampledMatID = asfloat(GetObjectID(quadUV));
+
+    clip(inputID - sampledMatID + 0.1f);
+    clip(sampledMatID - inputID + 0.1f);
+}
+
+bool CheckIfFitObjectID(float2 quadUV)
+{
+    float sampledMatID = asfloat(GetObjectID(quadUV));
+    float tVal1 = inputID - sampledMatID + 0.1f;
+    float tVal2 = sampledMatID - inputID + 0.1f;
+    bool tRet = ((tVal1 >= 0.0f) && (tVal2 >= 0.0f));
+    return tRet;
 }
 
 

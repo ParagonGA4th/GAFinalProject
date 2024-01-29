@@ -71,6 +71,10 @@ void Pg::Editor::Manager::DataManager::SceneLoad(std::string path)
 
 void Pg::Editor::Manager::DataManager::SceneSave()
 {
+	pugi::xml_document proejctDoc;
+	proejctDoc.append_child("proejct");
+	pugi::xml_node scenesNode = proejctDoc.child("proejct").append_child("scenes");
+
 	for (auto& scene : _dataContainer->GetSceneList())
 	{
 		pugi::xml_document doc;
@@ -90,7 +94,17 @@ void Pg::Editor::Manager::DataManager::SceneSave()
 		std::string docToString = ss.str();
 
 		_sceneSerializeData.insert({ scene->GetSceneName(), docToString });
+
+		std::string sceneName = scene->GetSceneName().substr(0, scene->GetSceneName().rfind("."));
+		Pg::Serialize::Serializer::SerializeString(&scenesNode, "scene", sceneName);
 	}
+
+	std::stringstream ss;
+	proejctDoc.save(ss, "\t"); // save 함수를 사용하여 스트림에 XML을 저장
+
+	std::string docToString = ss.str();
+
+	_sceneSerializeData.insert({ "project", docToString});
 	// 파일 덮어쓰기
 }
 

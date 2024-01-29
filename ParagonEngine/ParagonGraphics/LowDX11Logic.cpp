@@ -272,6 +272,20 @@ namespace Pg::Graphics
 
 			HR(_DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_defaultSamplerState)));
 		}
+
+		//blurSS
+		{
+			D3D11_SAMPLER_DESC tDesc;
+
+			tDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+			tDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+			tDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+			tDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+			tDesc.MipLODBias = 0.0f;
+			tDesc.MaxAnisotropy = 1;
+
+			HR(_DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_blurSamplerState)));
+		}
 		return S_OK;
 	}
 
