@@ -18,6 +18,7 @@
 /// 디버그 렌더 과정을 담당한다.
 
 struct ID3D11InputLayout;
+struct ID3D11DepthStencilState;
 
 namespace Pg::Data
 {
@@ -74,6 +75,7 @@ namespace Pg::Graphics
 
 	private:
 		void CreateSystemVertexShaders();
+		void CreateDepthWriteOffDSS();
 		void InitGeometry();
 		void InitCapsule();
 		void InitLine();
@@ -123,6 +125,10 @@ namespace Pg::Graphics
 
 		//CommonState
 		std::unique_ptr<DirectX::CommonStates> _commonStates;
+
+	private:
+		//DepthWrite를 끄기.
+		ID3D11DepthStencilState* _depthWriteOffDSS;
 	};
 }
 
