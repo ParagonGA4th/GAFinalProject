@@ -72,7 +72,7 @@ namespace Pg::Graphics::Helper
 		static void AssimpToSkinnedDataDXBuffer(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB);
 		static void AssimpToSceneAssetData(const aiScene* assimp, const std::string& path, Scene_AssetData* outSceneAssetData);
 		static void AssimpToMaterialClusterList(const aiScene* assimp, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory);
-		static void AssimpToPBRTextureArray(std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData);
+		static void AssimpToPBRTextureArray(const std::string& modelName, std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData);
 
 		//후에, 여기에 Animation을 로드하는 함수가 들어가야 할 것.
 	

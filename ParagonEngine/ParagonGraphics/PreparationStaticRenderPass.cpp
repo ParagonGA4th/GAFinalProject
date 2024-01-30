@@ -90,7 +90,10 @@ namespace Pg::Graphics
 		//t3에, ObjMat GBuffer가 들어간다. 대응. (Depth 제외)
 		_DXStorage->_deviceContext->PSSetShaderResources(3, 1, &(_quadSaveObjMatGBuffer->GetSRV()));
 
-		//
+		//t12-14 - internalPBRTextures Bind
+		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, &(_albedoAmbiBuffer->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(13, 1, &(_normalRoughBuffer->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(14, 1, &(_specularMetalBuffer->GetSRV()));
 	}
 
 	void PreparationStaticRenderPass::PassNextRequirements(D3DCarrier& gCarrier)

@@ -20,6 +20,7 @@ namespace Pg::Data::Resources
 		virtual void InternalUnload() abstract;
 
 		std::string GetFilePath();
+		std::string GetFileName();
 		Pg::Data::Enums::eAssetDefine GetAssetDefine();
 
 	protected:

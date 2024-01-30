@@ -179,12 +179,14 @@ namespace Pg::Graphics
 	{
 		_cbObjMat->UnbindVS(0);
 
+		//PBR Texture를 다 썼으니, 이제 할당 해제!
 		ID3D11ShaderResourceView* tNullSRV = nullptr;
 		// PBR Texture Arrays To NULL
 		_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(tNullSRV));
 		_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(tNullSRV));
 		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(tNullSRV));
 		_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &(tNullSRV));
+
 	}
 
 	void RenderObjectStaticMesh3D::BindMainVertexIndexBuffer()

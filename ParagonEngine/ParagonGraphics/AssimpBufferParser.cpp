@@ -546,7 +546,7 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
-	void AssimpBufferParser::AssimpToPBRTextureArray(std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData)
+	void AssimpBufferParser::AssimpToPBRTextureArray(const std::string& modelName, std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData)
 	{
 		//먼저 MaterialClusterList가 실행되었어야 실행될 수 있는 코드!
 
@@ -557,6 +557,11 @@ namespace Pg::Graphics::Helper
 			eAssetTextureType::PG_TextureType_DIFFUSE, eAssetTextureType::PG_TextureType_NORMALS,
 			eAssetTextureType::PG_TextureType_SPECULAR, eAssetTextureType::PG_TextureType_ARM };
 
+		std::string tIdentifierString[4] =
+		{
+			"DIFFUSE", "NORMALS", "SPECULAR", "ARM"
+		};
+
 		//outArrayData의 인덱스와 의미 동일.
 		for (int k = 0; k < 4; k++)
 		{
@@ -564,8 +569,8 @@ namespace Pg::Graphics::Helper
 			{
 				MaterialCluster* tMatCluster = outMatClusterList.at(i);
 				std::string tPath = "";
-				const auto& type = tAllRequiredPBRTypes[k];
-				if (tMatCluster->GetTextureByType(tAllRequiredPBRTypes[k]) != nullptr)
+				eAssetTextureType type = tAllRequiredPBRTypes[k];
+				if (tMatCluster->GetTextureByType(type) != nullptr)
 				{
 					//실제로 값이 있을 경우, 값을 로딩해서 넣는다.
 					tPath = tMatCluster->GetTextureByType(type)->GetFilePath();
@@ -575,17 +580,20 @@ namespace Pg::Graphics::Helper
 				else
 				{
 					//없을 경우, 타입에 맞는 기본 리소스를 넣는다. 이 경우, Default Textures가 로드될 것.
-					UINT tWidth = tMatCluster->GetTextureByType(type)->GetFileWidth();
-					UINT tHeight = tMatCluster->GetTextureByType(type)->GetFileHeight();
-
-					eSizeTexture tSize = GraphicsResourceHelper::GetSizeTextureFromUINT(tWidth, tHeight);
-					tRenderT2Vec.at(i) = GraphicsResourceHelper::GetDefaultTexturePath(type, tSize);
+					//UINT tWidth = tMatCluster->GetTextureByType(type)->GetFileWidth();
+					//UINT tHeight = tMatCluster->GetTextureByType(type)->GetFileHeight();
+					//
+					//eSizeTexture tSize = GraphicsResourceHelper::GetSizeTextureFromUINT(tWidth, tHeight);
+					//tRenderT2Vec.at(i) = GraphicsResourceHelper::GetDefaultTexturePath(type, tSize);
+					tRenderT2Vec.at(i) = GraphicsResourceHelper::GetDefaultTexturePath(type);
 				}
 			}
 			
 			//어차피 누락되지만, 디버깅하면서 확인하기 위해서.
-			std::string defInstMatName = "PBRTexArray";
-			std::string varName = "NotVar";
+			std::string defInstMatName = modelName;
+			defInstMatName += "_";
+			defInstMatName += tIdentifierString[k];
+			std::string varName = "PBRTexArray";
 			std::string tTempTex2DArrName = GraphicsResourceHelper::GetGeneratedTex2DArrayNameFromValues(defInstMatName, varName, tRenderT2Vec.data(), tRenderT2Vec.size());
 			Pg::Graphics::Manager::GraphicsResourceManager::Instance()->LoadResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
 			Pg::Graphics::Manager::GraphicsResourceManager::Instance()->AddSecondaryResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);

@@ -18,7 +18,10 @@ POutQuad main(VOutQuad pin)
     //res.Output = t2_DiffuseTextureArray.Sample(defaultTextureSS, tT2UV3);
     
     //미리 넣어놓았던 Albedo Map Sampling.
-    res.Output = GetAlbedoMap(pin.UV);
+    res.Output = float4(GetAlbedoMap(pin.UV), 1.0f);
+    
+    //Gamma Correction.
+    res.Output = pow(res.Output, 1.0 / 2.2);
     
     return res;
 }
