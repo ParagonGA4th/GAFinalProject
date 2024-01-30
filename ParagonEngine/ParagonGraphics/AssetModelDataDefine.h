@@ -92,6 +92,10 @@ namespace Pg::Graphics
 
 		//Vertex Buffer와 일대일 대응하는 Position 기록.
 		std::vector<DirectX::XMFLOAT3> _posRecordVector;
+		//Vertex Buffer랑 1대1 대응하는 Texture0 (Float2) 기록.
+		std::vector<DirectX::XMFLOAT2> _texRecordVector;
+		//Vertex Buffer랑 1대1 대응하는 MeshMatID 기록.
+		std::vector<float> _meshMatIDRecordVector;
 	};
 
 	//SkinnedMeshRenderer에 활용되는 데이터들, 해당 구조체에 모아서 관리.

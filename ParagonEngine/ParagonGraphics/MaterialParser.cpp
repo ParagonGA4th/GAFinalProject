@@ -475,14 +475,13 @@ namespace Pg::Graphics
 				tRenderT2Vec.at(i) = GraphicsResourceHelper::GetDefaultTexturePath(type);
 			}
 		}
-
 		//어차피 모든 이 해당 MaterialCluster 내부의 Texture2DArray는 크게 관리받을 이유가 없다.
 		//리소스 매니저에 이미 값이 있기 때문. Material이 관리되고.
 		//그래도 보관한다.
 
 		//내부적으로 Default Material Texture2DArray 표시를 한다.
 		
-		std::string tTempTex2DArrName = GraphicsResourceHelper::GetDefaultTex2DArrayNameFromValues(defInstMatName, varName, tRenderT2Vec.data(), tRenderT2Vec.size());
+		std::string tTempTex2DArrName = GraphicsResourceHelper::GetGeneratedTex2DArrayNameFromValues(defInstMatName, varName, tRenderT2Vec.data(), tRenderT2Vec.size());
 
 		//$DefaultMaterial_Texture2DArray_$이 들어 있기에, Default Material 전용 Texture2DArray로 로드될 것.
 		Pg::Graphics::Manager::GraphicsResourceManager::Instance()->LoadResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);

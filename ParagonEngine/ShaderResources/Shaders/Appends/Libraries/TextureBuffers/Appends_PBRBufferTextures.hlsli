@@ -4,7 +4,7 @@
 
 #include "../SamplerStates/Appends_SamplerStates.hlsli"
 
-//모두 RGB / A.
+//모두 RGB / A. Quad-Based.
 Texture2D<float4> t2_AlbedoAOTexture : register(t12);
 Texture2D<float4> t2_NormalRoughnessTexture : register(t13);
 Texture2D<float4> t2_SpecularMetallicTexture : register(t14);

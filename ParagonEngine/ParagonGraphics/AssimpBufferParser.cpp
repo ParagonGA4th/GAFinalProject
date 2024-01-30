@@ -4,6 +4,7 @@
 #include "LayoutDefine.h"
 #include "MaterialCluster.h"
 #include "RenderTexture2D.h"
+#include "RenderTexture2DArray.h"
 #include "AssetModelDataDefine.h"
 #include "AssetAnimationDataDefine.h"
 #include "GraphicsResourceManager.h"
@@ -110,13 +111,17 @@ namespace Pg::Graphics::Helper
 			}
 		}
 
-		//Object / Material ID 보관을 위해. 
+		//Object / Material ID 보관을 위해 + 디폴트 처리를 위해.
 		sceneData->_posRecordVector.resize(vertexCnt);
+		sceneData->_texRecordVector.resize(vertexCnt);
+		sceneData->_meshMatIDRecordVector.resize(vertexCnt);
 
-		//PosRecordVector 옮기기.
+		//RecordVector들 옮기기.
 		for (size_t i = 0; i < vertexCnt; i++)
 		{
 			sceneData->_posRecordVector[i] = tVBVec[i]._posL;
+			sceneData->_texRecordVector[i] = tVBVec[i]._tex;
+			sceneData->_meshMatIDRecordVector[i] = tVBVec[i]._meshMatID;
 		}
 
 		//Index Buffer
@@ -263,8 +268,10 @@ namespace Pg::Graphics::Helper
 		int32_t* indices = new int32_t[indexCnt];
 		uint32_t vid = 0, iid = 0;
 
-		//별개로, 나중에 Material ID, Object ID를 기록해야 하기에 필요한 정보인 Position만 기록. (&& Blend Data Info)
+		//별개로, 나중에 Material ID, Object ID를 기록해야 하기에 필요한 정보인 Position만 기록. (&& Blend Data Info + 디폴트 데이터)
 		sceneData->_posRecordVector.resize(vertexCnt);
+		sceneData->_texRecordVector.resize(vertexCnt);
+		sceneData->_meshMatIDRecordVector.resize(vertexCnt);
 		skinnedData->_blendDataRecordVector.resize(vertexCnt);
 
 		for (uint32_t i = 0; i < assimp->mNumMeshes; i++)
@@ -303,8 +310,10 @@ namespace Pg::Graphics::Helper
 				vertices[vid + j]._blendWeight1 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[1];
 				vertices[vid + j]._blendWeight2 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[2];
 
-				//PosRecordVector 기록 (나중에 Object / Material ID 관련 생성 위해)
+				//RecordVector들 기록 (나중에 Object / Material ID 관련 생성 위해) + 디폴트 데이터 관리 위해.
 				sceneData->_posRecordVector.at(vid + j) = vertices[vid + j]._posL;
+				sceneData->_texRecordVector.at(vid + j) = vertices[vid + j]._tex;
+				sceneData->_meshMatIDRecordVector.at(vid + j) = vertices[vid + j]._meshMatID;
 				skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice0 = vertices[vid + j]._blendIndice0;
 				skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice1 = vertices[vid + j]._blendIndice1;
 				skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice2 = vertices[vid + j]._blendIndice2;
@@ -418,10 +427,8 @@ namespace Pg::Graphics::Helper
 			}
 			outMatClusterList.push_back(tMatCluster);
 		}
-		assert(true);
+		//
 	}
-
-
 
 	void AssimpBufferParser::AssimpToSceneAssetData(const aiScene* assimp, const std::string& path, Scene_AssetData* outSceneAssetData)
 	{
@@ -539,6 +546,60 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
+	void AssimpBufferParser::AssimpToPBRTextureArray(std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData)
+	{
+		//먼저 MaterialClusterList가 실행되었어야 실행될 수 있는 코드!
+
+		std::vector<std::string> tRenderT2Vec;
+		tRenderT2Vec.resize(outMatClusterList.size());
+
+		eAssetTextureType tAllRequiredPBRTypes[4] = {
+			eAssetTextureType::PG_TextureType_DIFFUSE, eAssetTextureType::PG_TextureType_NORMALS,
+			eAssetTextureType::PG_TextureType_SPECULAR, eAssetTextureType::PG_TextureType_ARM };
+
+		//outArrayData의 인덱스와 의미 동일.
+		for (int k = 0; k < 4; k++)
+		{
+			for (short i = 0; i < outMatClusterList.size(); i++)
+			{
+				MaterialCluster* tMatCluster = outMatClusterList.at(i);
+				std::string tPath = "";
+				const auto& type = tAllRequiredPBRTypes[k];
+				if (tMatCluster->GetTextureByType(tAllRequiredPBRTypes[k]) != nullptr)
+				{
+					//실제로 값이 있을 경우, 값을 로딩해서 넣는다.
+					tPath = tMatCluster->GetTextureByType(type)->GetFilePath();
+					std::filesystem::path tFSP = tPath;
+					tRenderT2Vec.at(i) = tFSP.filename().string();
+				}
+				else
+				{
+					//없을 경우, 타입에 맞는 기본 리소스를 넣는다. 이 경우, Default Textures가 로드될 것.
+					UINT tWidth = tMatCluster->GetTextureByType(type)->GetFileWidth();
+					UINT tHeight = tMatCluster->GetTextureByType(type)->GetFileHeight();
+
+					eSizeTexture tSize = GraphicsResourceHelper::GetSizeTextureFromUINT(tWidth, tHeight);
+					tRenderT2Vec.at(i) = GraphicsResourceHelper::GetDefaultTexturePath(type, tSize);
+				}
+			}
+			
+			//어차피 누락되지만, 디버깅하면서 확인하기 위해서.
+			std::string defInstMatName = "PBRTexArray";
+			std::string varName = "NotVar";
+			std::string tTempTex2DArrName = GraphicsResourceHelper::GetGeneratedTex2DArrayNameFromValues(defInstMatName, varName, tRenderT2Vec.data(), tRenderT2Vec.size());
+			Pg::Graphics::Manager::GraphicsResourceManager::Instance()->LoadResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
+			Pg::Graphics::Manager::GraphicsResourceManager::Instance()->AddSecondaryResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
+
+			//로드했으니 이제 가져올 수 있다.
+			auto tTex2DRes = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
+			
+			//값이 해당되는 것처럼 할당된다.
+			outArrayData[k] = static_cast<RenderTexture2DArray*>(tTex2DRes.get());
+		}
+		
+
+
+	}
 
 
 

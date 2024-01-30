@@ -257,11 +257,11 @@ namespace Pg::Core::Manager
 	{
 		using Pg::Data::Enums::eAssetDefine;
 
-		LoadResource(Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
-		LoadResource(Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
-		LoadResource(Pg::Defines::ASSET_DEFAULT_ARM_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
-		LoadResource(Pg::Defines::ASSET_DEFAULT_SPECULAR_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
-		LoadResource(Pg::Defines::ASSET_DEFAULT_DISPLACEMENT_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
+		LoadResource(Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH_512, eAssetDefine::_TEXTURE2D);
+		LoadResource(Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH_512, eAssetDefine::_TEXTURE2D);
+		LoadResource(Pg::Defines::ASSET_DEFAULT_ARM_TEXTURE_PATH_512, eAssetDefine::_TEXTURE2D);
+		LoadResource(Pg::Defines::ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_512, eAssetDefine::_TEXTURE2D);
+		LoadResource(Pg::Defines::ASSET_DEFAULT_DISPLACEMENT_TEXTURE_PATH_512, eAssetDefine::_TEXTURE2D);
 
 		LoadResource("../Builds/x64/Debug/AppendObjectDefaultVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
 		LoadResource("../Builds/x64/Debug/AppendObjectDefaultPS.cso", eAssetDefine::_RENDER_PIXELSHADER);

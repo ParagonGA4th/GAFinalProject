@@ -250,6 +250,9 @@
     <ClInclude Include="OutlineRenderPass.h">
       <Filter>0_Main\RenderPass\9_OutlineRenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="SizeTexture.h">
+      <Filter>3_GraphicsResources\Resources\RenderTexture\Defines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -763,6 +766,9 @@
     </Filter>
     <Filter Include="0_Main\RenderPass\1_PreparationStaticRenderPass">
       <UniqueIdentifier>{5ec93642-73ac-4d93-96c2-8f2b5950bb3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Resources\RenderTexture\Defines">
+      <UniqueIdentifier>{36619f65-7405-4494-ba90-282a1642d679}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

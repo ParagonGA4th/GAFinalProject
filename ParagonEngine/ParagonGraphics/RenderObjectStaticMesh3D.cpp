@@ -13,6 +13,7 @@
 #include "MaterialCluster.h"
 
 #include "dxtk/WICTextureLoader.h"
+#include <algorithm>
 
 namespace Pg::Graphics
 {
@@ -140,6 +141,10 @@ namespace Pg::Graphics
 	void RenderObjectStaticMesh3D::ObjMat_BindBuffers()
 	{
 		_cbObjMat->BindVS(0);
+
+		//PixelShader : 이제 Albedo / Normal / Specular / Arm 데이터를 넣어줘야 한다.
+		//디폴트 매터리얼 상관하지 않고, 모든 오브젝트가 값 자체는 이제 필요하게 될 것이라는 말이다. Texture 투입.
+		//그냥 예전방식대로, Texture2D 자체를 투입할 것.
 	}
 
 	void RenderObjectStaticMesh3D::ObjMat_Render()
@@ -150,6 +155,16 @@ namespace Pg::Graphics
 
 		for (int i = 0; i < tMeshCount; i++)
 		{
+			//해당 MeshCount에 해당하는 MatCluster 반환받기.
+			MaterialCluster* tMatCluster = _modelData->_materialClusterList[_modelData->_assetSceneData->_meshList[i]._materialID];
+			
+			//tMatCluster->GetTextureByType()
+			
+			_DXStorage->_deviceContext->PSSetShaderResources()
+
+
+
+
 			//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
 			UINT tToDrawIndexCount = _modelData->_assetSceneData->_meshList[i]._numIndices;
 
