@@ -437,11 +437,12 @@ namespace Pg::Graphics
 		auto tRes = GraphicsResourceManager::Instance()->GetResourceByName(tMeshName, Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		Asset3DModelData* tModelData = static_cast<Asset3DModelData*>(tRes.get());
 
+		//PBR 기본으로 바뀌고 난 뒤, 디폴트 매터리얼의 SRV에 일단 뭐를 넣을 필요가 사라짐.
 		//PS Intrinsics : Diffuse 값 넣기.
-		PlaceDefaultMaterialTextureArrayBuffer(defInstMatName, renderMat->_psIntrinsics.get(), tModelData, PG_TextureType_DIFFUSE, "t2_DiffuseTextureArray", 25);
-
-		//PS Intrinsics : Normal 값 넣기.
-		PlaceDefaultMaterialTextureArrayBuffer(defInstMatName, renderMat->_psIntrinsics.get(), tModelData, PG_TextureType_NORMALS, "t2_NormalTextureArray", 26);
+		//PlaceDefaultMaterialTextureArrayBuffer(defInstMatName, renderMat->_psIntrinsics.get(), tModelData, PG_TextureType_DIFFUSE, "t2_DiffuseTextureArray", 25);
+		//
+		////PS Intrinsics : Normal 값 넣기.
+		//PlaceDefaultMaterialTextureArrayBuffer(defInstMatName, renderMat->_psIntrinsics.get(), tModelData, PG_TextureType_NORMALS, "t2_NormalTextureArray", 26);
 
 		//자신만의 독특한 MaterialID가 있어야 한다.
 		GiveMaterialID(renderMat);
