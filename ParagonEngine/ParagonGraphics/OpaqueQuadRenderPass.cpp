@@ -58,7 +58,7 @@ namespace Pg::Graphics
 
 	void OpaqueQuadRenderPass::ExecuteNextRenderRequirements()
 	{
-
+	
 	}
 
 	void OpaqueQuadRenderPass::PassNextRequirements(D3DCarrier& gCarrier)

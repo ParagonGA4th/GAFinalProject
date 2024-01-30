@@ -29,4 +29,10 @@ namespace Pg::Data::Resources
 		return _assetDefine;
 	}
 
+	std::string BaseResource::GetFileName()
+	{
+		std::filesystem::path tPath = _filePath;
+		return tPath.filename().string();
+	}
+
 }
