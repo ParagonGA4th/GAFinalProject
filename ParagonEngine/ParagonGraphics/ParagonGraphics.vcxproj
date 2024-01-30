@@ -64,6 +64,7 @@
     <ClInclude Include="RenderTextureCube.h" />
     <ClInclude Include="RenderVertexShader.h" />
     <ClInclude Include="ShaderParsingData.h" />
+    <ClInclude Include="SizeTexture.h" />
     <ClInclude Include="SystemPixelShader.h" />
     <ClInclude Include="WireframeRenderObject.h" />
     <ClInclude Include="RenderFont.h" />

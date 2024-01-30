@@ -61,6 +61,7 @@ namespace Pg::Graphics::Loader
 			AssimpBufferParser::AssimpToSceneAssetData(pScene, path, modelData->_assetSceneData);
 			AssimpBufferParser::AssimpToSkinnedDataDXBuffer(pScene, modelData->_assetSceneData, modelData->_assetSkinnedData, modelData->_vertexBuffer, modelData->_indexBuffer);
 			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList, path);
+			AssimpBufferParser::AssimpToPBRTextureArray(modelData->_materialClusterList, modelData->_pbrTextureArrays);
 		}
 		else
 		{
@@ -74,6 +75,7 @@ namespace Pg::Graphics::Loader
 			AssimpBufferParser::AssimpToSceneAssetData(pScene, path, modelData->_assetSceneData);
 			AssimpBufferParser::AssimpToStaticDataDXBuffer(pScene, modelData->_assetSceneData, modelData->_vertexBuffer, modelData->_indexBuffer);
 			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList, path);
+			AssimpBufferParser::AssimpToPBRTextureArray(modelData->_materialClusterList, modelData->_pbrTextureArrays);
 		}
 
 		//Importer를 다 썼으니, 이제 메모리를 풀어준다.
@@ -118,6 +120,8 @@ namespace Pg::Graphics::Loader
 			tVal._posL = modelData->_assetSceneData->_posRecordVector[i];
 			tVal._objectID = objectID;
 			tVal._matID = materialID;
+			tVal._tex = modelData->_assetSceneData->_texRecordVector[i];
+			tVal._meshMatID = modelData->_assetSceneData->_meshMatIdRecordVector[i];
 
 			tVBVector.push_back(tVal);
 		}
@@ -143,6 +147,8 @@ namespace Pg::Graphics::Loader
 		{
 			LayoutDefine::VinPerObjMatIDSkinned tVal;
 			tVal._posL = modelData->_assetSceneData->_posRecordVector[i];
+			tVal._tex = modelData->_assetSceneData->_texRecordVector[i];
+			tVal._meshMatID = modelData->_assetSceneData->_meshMatIdRecordVector[i];
 			tVal._objectID = objectID;
 			tVal._matID = materialID;
 

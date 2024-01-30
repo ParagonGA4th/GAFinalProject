@@ -6,10 +6,11 @@
 #include "SystemVertexShader.h"
 #include "SystemPixelShader.h"
 
+#include <algorithm> 
 namespace Pg::Graphics
 {
 
-	PreparationStaticRenderPass::PreparationStaticRenderPass()
+	PreparationStaticRenderPass::PreparationStaticRenderPass() : _rtBindArray(), _rtNullBindArray()
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 	}
@@ -29,13 +30,20 @@ namespace Pg::Graphics
 	{
 		_quadSaveDSV = carrier._quadMainGDS->GetDSV();
 		_quadSaveObjMatGBuffer = carrier._quadObjMatRT;
+		
+		//OMSetRenderTargets 바인딩을 위해 사용. 나머지 인덱스는 초기에 바인딩.
+		_rtBindArray[0] = _quadSaveObjMatGBuffer->GetRTV();
 	}
 
 	void PreparationStaticRenderPass::BindPass()
 	{
-		_DXStorage->_deviceContext->ClearRenderTargetView(_quadSaveObjMatGBuffer->GetRTV(), _DXStorage->_backgroundColor);
+		//전체 RenderTargetView 클리어.
+		for (int i = 0; i < 4; i++)
+		{
+			_DXStorage->_deviceContext->ClearRenderTargetView(_rtBindArray[i], _DXStorage->_backgroundColor);
+		}
 
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_quadSaveObjMatGBuffer->GetRTV()), _quadSaveDSV);
+		_DXStorage->_deviceContext->OMSetRenderTargets(_rtBindArray.size(), _rtBindArray.data(), _quadSaveDSV);
 		//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_gBufferRender->GetRTV()), _DXStorage->_depthStencilView);
 
 		_vs->Bind();
@@ -67,7 +75,7 @@ namespace Pg::Graphics
 	{
 		// Unbind RenderTarget
 		//더 이상 값을 설정하지 않을 때 이런 식으로 할당 해제해주면 된다.
-		_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
+		_DXStorage->_deviceContext->OMSetRenderTargets(_rtNullBindArray.size(), _rtNullBindArray.data(), nullptr);
 
 		// Unbind Shaders
 		_vs->Unbind();
@@ -81,6 +89,8 @@ namespace Pg::Graphics
 
 		//t3에, ObjMat GBuffer가 들어간다. 대응. (Depth 제외)
 		_DXStorage->_deviceContext->PSSetShaderResources(3, 1, &(_quadSaveObjMatGBuffer->GetSRV()));
+
+		//
 	}
 
 	void PreparationStaticRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
@@ -93,6 +103,19 @@ namespace Pg::Graphics
 		//DepthStencil은 MainQuadDepthStencil이다. (Skinned도 마찬가지)
 		//OpaqueQuad 시리즈가 가능한 이유는,
 		//Rendering은 Main Render Target에 함에도 DepthStencil을 자체적으로 생성해서 쓰기 때문 (기존의 값이 영향을 주지 않음)
+
+		_albedoAmbiBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		_normalRoughBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		_specularMetalBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+		//일단 값을 OMSetRenderTargets를 위해 설정.
+		_rtBindArray[0] = nullptr;
+		_rtBindArray[1] = _albedoAmbiBuffer->GetRTV();
+		_rtBindArray[2] = _normalRoughBuffer->GetRTV();
+		_rtBindArray[3] = _specularMetalBuffer->GetRTV();
+
+		//NullRTV Array를 위해, nullptr 채우기!
+		std::fill(_rtNullBindArray.begin(), _rtNullBindArray.end(), nullptr);
 	}
 
 	void PreparationStaticRenderPass::CreateShaders()

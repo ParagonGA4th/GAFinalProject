@@ -28,5 +28,7 @@ VOutPerObjMat main(VinPerObjMatSkinned input)
     output.vout1st_ObjID = input.vin1st_ObjID;
     output.vout1st_MatID = input.vin1st_MatID;
     
+    output.vout1st_Tex          = input.vin1st_Tex;
+    
     return output;
 }

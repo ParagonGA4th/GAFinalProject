@@ -215,37 +215,41 @@ namespace Pg::Graphics::Manager
 		_toAddSecondaryResourcesMap.insert(std::make_pair(tFilePath, define));
 	}
 
-	RenderTexture2D* GraphicsResourceManager::GetDefaultTexture(eAssetTextureType textureType)
+	RenderTexture2D* GraphicsResourceManager::GetDefaultTexture(eAssetTextureType textureType, eSizeTexture textureSize)
 	{
+		using namespace Pg::Defines;
+
+		//256/512/1024/2048
+		const std::string* tDiffuseTexture[4] = { &ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH_256, &ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH_512, &ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH_1024, &ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH_2048 };
+		const std::string* tNormalTexture[4] = { &ASSET_DEFAULT_NORMAL_TEXTURE_PATH_256, &ASSET_DEFAULT_NORMAL_TEXTURE_PATH_512, &ASSET_DEFAULT_NORMAL_TEXTURE_PATH_1024, &ASSET_DEFAULT_NORMAL_TEXTURE_PATH_2048 };
+		const std::string* tArmTexture[4] = { &ASSET_DEFAULT_ARM_TEXTURE_PATH_256, &ASSET_DEFAULT_ARM_TEXTURE_PATH_512, &ASSET_DEFAULT_ARM_TEXTURE_PATH_1024, &ASSET_DEFAULT_ARM_TEXTURE_PATH_2048 };
+		const std::string* tSpecularTexture[4] = { &ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_256, &ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_512, &ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_1024, &ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_2048 };
+
+		unsigned int tIndex = (unsigned int)textureSize;
+
 		switch (textureType)
 		{
 		case PG_TextureType_DIFFUSE:
 		{
-			auto tRes = GetResource(Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+			auto tRes = GetResource(*(tDiffuseTexture[tIndex]), Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 			return static_cast<RenderTexture2D*>(tRes.get());
 		}
 		break;
 		case PG_TextureType_NORMALS:
 		{
-			auto tRes = GetResource(Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+			auto tRes = GetResource(*(tNormalTexture[tIndex]), Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 			return static_cast<RenderTexture2D*>(tRes.get());
 		}
 		break;
 		case PG_TextureType_ARM: //Metallic인데 Stolen Youth 내부 컨벤션.
 		{
-			auto tRes = GetResource(Pg::Defines::ASSET_DEFAULT_ARM_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+			auto tRes = GetResource(*(tArmTexture[tIndex]), Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 			return static_cast<RenderTexture2D*>(tRes.get());
 		}
 		break;
 		case PG_TextureType_SPECULAR:
 		{
-			auto tRes = GetResource(Pg::Defines::ASSET_DEFAULT_SPECULAR_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
-			return static_cast<RenderTexture2D*>(tRes.get());
-		}
-		break;
-		case PG_TextureType_DISPLACEMENT:
-		{
-			auto tRes = GetResource(Pg::Defines::ASSET_DEFAULT_DISPLACEMENT_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+			auto tRes = GetResource(*(tSpecularTexture[tIndex]), Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 			return static_cast<RenderTexture2D*>(tRes.get());
 		}
 		break;
