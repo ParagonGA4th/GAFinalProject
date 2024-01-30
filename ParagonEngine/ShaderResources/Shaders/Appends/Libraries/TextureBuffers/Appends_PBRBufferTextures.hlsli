@@ -5,38 +5,38 @@
 #include "../SamplerStates/Appends_SamplerStates.hlsli"
 
 //¸ðµÎ RGB / A. Quad-Based.
-Texture2D<float4> t2_AlbedoAOTexture : register(t12);
-Texture2D<float4> t2_NormalRoughnessTexture : register(t13);
-Texture2D<float4> t2_SpecularMetallicTexture : register(t14);
+Texture2D<float4> internal_t2_AlbedoAOTexture : register(t12);
+Texture2D<float4> internal_t2_NormalRoughnessTexture : register(t13);
+Texture2D<float4> internal_t2_SpecularMetallicTexture : register(t14);
 
-float3 GetAlbedo(float2 quadUV)
+float3 GetAlbedoMap(float2 quadUV)
 {
-    return t2_AlbedoAOTexture.Sample(fullScreenQuadSS, quadUV).xyz;
+    return internal_t2_AlbedoAOTexture.Sample(fullScreenQuadSS, quadUV).xyz;
 }
 
-float3 GetNormal(float2 quadUV)
+float3 GetNormalMap(float2 quadUV)
 {
-    return t2_NormalRoughnessTexture.Sample(fullScreenQuadSS, quadUV).xyz;
+    return internal_t2_NormalRoughnessTexture.Sample(fullScreenQuadSS, quadUV).xyz;
 }
 
-float3 GetSpecular(float2 quadUV)
+float3 GetSpecularMap(float2 quadUV)
 {
-    return t2_SpecularMetallicTexture.Sample(fullScreenQuadSS, quadUV).xyz;
+    return internal_t2_SpecularMetallicTexture.Sample(fullScreenQuadSS, quadUV).xyz;
 }
 
-float GetAmbientOcclusion(float2 quadUV)
+float GetAmbientOcclusionMap(float2 quadUV)
 {
-    return t2_AlbedoAOTexture.Sample(fullScreenQuadSS, quadUV).w;
+    return internal_t2_AlbedoAOTexture.Sample(fullScreenQuadSS, quadUV).w;
 }
 
-float GetRoughness(float2 quadUV)
+float GetRoughnessMap(float2 quadUV)
 {
-    return t2_NormalRoughnessTexture.Sample(fullScreenQuadSS, quadUV).w;
+    return internal_t2_NormalRoughnessTexture.Sample(fullScreenQuadSS, quadUV).w;
 }
 
-float GetMetallic(float2 quadUV)
+float GetMetallicMap(float2 quadUV)
 {
-    return t2_SpecularMetallicTexture.Sample(fullScreenQuadSS, quadUV).w;
+    return internal_t2_SpecularMetallicTexture.Sample(fullScreenQuadSS, quadUV).w;
 }
 
 #endif //__DEFINED_SYSTEM_PBR_BUFFER_TEXTURE_HLSL__

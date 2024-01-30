@@ -1,6 +1,7 @@
 #include "RenderMaterial.h"
 #include "LowDX11Storage.h"
 #include "GraphicsResourceManager.h"
+#include "GraphicsResourceHelper.h"
 #include "AssetCombinedLoader.h"
 #include "RenderTexture.h"
 #include "RenderVertexShader.h"
@@ -29,13 +30,14 @@ namespace Pg::Graphics
 	void RenderMaterial::InternalLoad()
 	{
 		using Pg::Graphics::Manager::GraphicsResourceManager;
+		using Pg::Graphics::Helper::GraphicsResourceHelper;
 		using Pg::Graphics::Loader::AssetCombinedLoader;
 
 		GraphicsResourceManager* tResManager = Pg::Graphics::Manager::GraphicsResourceManager::Instance();
 		AssetCombinedLoader* tComLoader = tResManager->GetCombinedLoader();
 
 		//만약 자신 내부에 "DefaultMaterial_"이 있으면 디폴트 매터리얼 로드, 아니면 커스텀 로드.
-		if (_filePath.find("DefaultMaterial_") != std::string::npos)
+		if (_filePath.find(GraphicsResourceHelper::GENERATED_MATERIAL_PREFIX) != std::string::npos)
 		{
 			//디폴트 매터리얼이다.
 			tComLoader->LoadDefaultRenderMaterial(_filePath, this);
