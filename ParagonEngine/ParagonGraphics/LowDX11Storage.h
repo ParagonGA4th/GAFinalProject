@@ -74,6 +74,8 @@ namespace Pg::Graphics
 
 		// Sampler State
 		ID3D11SamplerState* _defaultSamplerState;
+		ID3D11SamplerState* _lightmapSamplerState;
+		ID3D11SamplerState* _fullScreenQuadSamplerState;
 
 		ID3D11BlendState* _blendState;
 

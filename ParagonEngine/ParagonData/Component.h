@@ -1,5 +1,6 @@
 #pragma once
-#include "IComponent.h"
+#include "SerializerHelper.h"
+#include "PhysicsCollision.h"
 
 /// <summary>
 /// 컴포넌트 클래스
@@ -10,11 +11,7 @@
 namespace Pg::Data
 {
 	class GameObject;
-}
-
-namespace Pg::Data
-{
-	class Component : public IComponent
+	class Component
 	{
 	public:
 		Component(GameObject* obj);
@@ -22,20 +19,29 @@ namespace Pg::Data
 		virtual ~Component();
 
 	public:
-		virtual void Awake() override {}
-		virtual void Start() override {}
-		virtual void Update() override {}
-		virtual void FixedUpdate() override {}
-		virtual void LateUpdate() override {}
 
-		virtual void OnDestroy() override {}
-		virtual void OnCollisionEnter() override {}
-		virtual void OnCollisionStay() override {}
-		virtual void OnCollisionExit() override {}
+		virtual void Awake() {}
+		virtual void Start() {}
+		virtual void Update() {}
+		virtual void FixedUpdate() {}
+		virtual void LateUpdate() {}
 
+
+		virtual void OnDestroy() {}
+		virtual void OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count) {}
+		virtual void OnCollisionStay() {}
+		virtual void OnCollisionExit(PhysicsCollision** _colArr, unsigned int count) {}
+
+		virtual void OnTriggerEnter() {}
+		virtual void OnTriggerStay() {}
+		virtual void OnTriggerExit() {}
+
+		virtual void OnSerialize(SerializeVector& sv) {}
+		virtual void OnDeserialize(SerializeVector& sv) {}
 	public:
 		void SetActive(bool active);
 		bool GetActive();
+
 
 	public:
 		GameObject* _object;

@@ -19,4 +19,14 @@ namespace Pg::Data::Resources
 
 	}
 
+	std::string BaseResource::GetFilePath()
+	{
+		return _filePath;
+	}
+
+	Pg::Data::Enums::eAssetDefine BaseResource::GetAssetDefine()
+	{
+		return _assetDefine;
+	}
+
 }

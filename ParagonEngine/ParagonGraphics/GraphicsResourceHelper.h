@@ -1,16 +1,25 @@
 #pragma once
 #include "../ParagonData/AssetDefines.h"
 
+#include "ShaderParsingData.h"
+#include "AssetTextureType.h"
+
 //<실제 Graphics Resource의 목록>
 #include "RenderMaterial.h"
-#include "RenderShader.h"
+#include "RenderVertexShader.h"
+#include "RenderPixelShader.h"
+#include "RenderTexture1D.h"
 #include "RenderTexture2D.h"
+#include "RenderTexture2DArray.h"
+#include "RenderTextureCube.h"
 #include "RenderFont.h"
+#include "RenderCubemap.h"
 #include "Asset3DModelData.h"
 //</>
 
 //Macro Function 내부 - 모두 여기에 있어야 한다.
 #include <string>
+#include <vector>
 #include <cassert>
 #include <cstddef>
 
@@ -23,6 +32,8 @@
 // GraphicResourcesHelper
 namespace Pg::Graphics::Helper
 {
+	using Pg::Data::Enums::eAssetDefine;
+
 	//GraphicsResourceHelper 그 자체.
 	class GraphicsResourceHelper
 	{
@@ -35,9 +46,34 @@ namespace Pg::Graphics::Helper
 		//Renderer 컴포넌트가 추가될 수록 업데이트되어야 한다.
 		static short IsRenderer3D(const std::string& rendererTypeName);
 
-	};
+		//Texture의 종류에 따라 기본 텍스쳐 경로를 반환한다.
+		static std::string GetDefaultTexturePath(eAssetTextureType textureType);
 
-	
+		//그래픽스 : Material Loading!
+		static eTexVarType GetTexVarType(const std::string& varString);
+		static eTexReturnVarType GetTexReturnVarType(const std::string& varString);
+		static eCbVarType GetCbVarType(const std::string& varString);
+		static eAssetDefine GetAssetDefine(eTexVarType texVarType);
+
+		//Default Material 연동 위해.
+		static std::string GetDefaultMaterialNameFromMeshName(const std::string& name);
+		static std::string GetMeshNameFromDefaultMaterialName(const std::string& name);
+
+		//Default Material을 위한 Default Texture2DArray 연동을 위해.
+		static std::string GetDefaultTex2DArrayNameFromValues(const std::string& defMatName, const std::string& varName, std::string* renderTextureNameSrc, unsigned int cnt);
+		static void GetTextureNamesFromDefaultTex2DArrayName(const std::string& defTex2DArrName, std::vector<std::string>& outStringVector);
+		
+		//Texture2DArray를 위한 확장자 .pgt2arr의 내용 String을 Vector로 바꾸어 내보낸다.
+		static void ReadPGT2ARRContents(const std::string& pgt2arrContent, std::vector<std::string>& outStringVector);
+	public:
+		// ^, $ 리소스 이름에 활용 금지!
+		
+		//모든 디폴트 매터리얼들이 부여받는 Prefix. 이는 일반 리소스 생성에서 활용할 수 없다.
+		static const std::string DEFAULT_MATERIAL_PREFIX;
+
+		//모든 디폴트 매터리얼 내부 활용되는 Texture2DArray가 부여받는 Prefix. 일반 리소스 생성에서 활용할 수 없다.
+		static const std::string DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX;
+	};
 }
 
 namespace Pg::Graphics::Helper
@@ -54,9 +90,27 @@ namespace Pg::Graphics::Helper
 	};
 
 	template <>
-	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_2DTEXTURE>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_TEXTURE1D>
+	{
+		using type = Pg::Graphics::RenderTexture1D; //2D Texture로 타입 변환.
+	};
+
+	template <>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_TEXTURE2D>
 	{
 		using type = Pg::Graphics::RenderTexture2D; //2D Texture로 타입 변환.
+	};
+
+	template <>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY>
+	{
+		using type = Pg::Graphics::RenderTexture2DArray; //2D Texture로 타입 변환.
+	};
+
+	template <>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_TEXTURECUBE>
+	{
+		using type = Pg::Graphics::RenderTextureCube; //2D Texture로 타입 변환.
 	};
 
 	template <>
@@ -66,15 +120,27 @@ namespace Pg::Graphics::Helper
 	};
 
 	template <>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_CUBEMAP>
+	{
+		using type = Pg::Graphics::RenderCubemap; //RenderMaterial로 타입 변환.
+	};
+
+	template <>
 	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_3DMODEL>
 	{
 		using type = Pg::Graphics::Asset3DModelData; //3D Model로 타입 변환.
 	};
 
 	template <>
-	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDERSHADER>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDER_VERTEXSHADER>
 	{
-		using type = Pg::Graphics::RenderShader; //RenderMaterial로 타입 변환.
+		using type = Pg::Graphics::RenderVertexShader; //RenderMaterial로 타입 변환.
+	};
+
+	template <>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDER_PIXELSHADER>
+	{
+		using type = Pg::Graphics::RenderPixelShader; //RenderMaterial로 타입 변환.
 	};
 
 	template <>

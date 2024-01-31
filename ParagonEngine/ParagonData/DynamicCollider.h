@@ -16,6 +16,7 @@ namespace Pg::Data
 namespace physx
 {
 	class PxRigidDynamic;
+	class PxShape;
 }
 
 namespace Pg::Data
@@ -35,18 +36,14 @@ namespace Pg::Data
 		virtual void UpdateTransform() override;
 
 	public:
-		//충돌판정 여부 체크
-		bool GetIsCollide();
-		bool GetWasCollided();
-
 		void SetPxRigidDynamic(physx::PxRigidDynamic* rigid);
 		physx::PxRigidDynamic* GetRigidBodyDynamic();
+
 
 		///속도의 증감
 		void SetVelocity(PGFLOAT3 velo);
 		void AddVelocity(PGFLOAT3 velo);
 		PGFLOAT3 GetVelocity() const;
-
 	public:
 		void AddForce(PGFLOAT3 dir, ForceMode mode);
 		
@@ -54,11 +51,6 @@ namespace Pg::Data
 		void FreezeAxisX(bool isActive);
 		void FreezeAxisY(bool isActive);
 		void FreezeAxisZ(bool isActive);
-
-	public:
-
-		void Flush();
-
 	public:
 
 		//Collider 클래스에 적용되어있기에 가상함수로...
@@ -68,10 +60,6 @@ namespace Pg::Data
 
 	private:
 		physx::PxRigidDynamic* _rigid;
-
-		//충돌의 여부를 판단하기 위해.
-		bool _isCollide;
-		bool _wasCollided;
 
 	private:
 		//플래그

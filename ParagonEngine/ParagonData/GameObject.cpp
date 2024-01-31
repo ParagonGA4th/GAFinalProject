@@ -1,6 +1,8 @@
-
 #include "GameObject.h"
+#include "PhysicsCollision.h"
+#include <generic_factory/generic_factory.hpp>
 #include <algorithm>
+
 namespace Pg::Data
 {
 	GameObject::GameObject(const std::string name) :
@@ -15,7 +17,6 @@ namespace Pg::Data
 
 	GameObject::~GameObject()
 	{
-		//게임 오브젝트가 소멸 시 컴포넌트도 모두 삭제된다.
 		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
 			{ delete iter.second; });
 	}
@@ -103,6 +104,26 @@ namespace Pg::Data
 		return _isActive;
 	}
 
+	const std::string& GameObject::GetTag() const
+	{
+		return _objTag;
+	}
+
+	void GameObject::SetTag(const std::string& tag)
+	{
+		_objTag = tag;
+	}
+
+	Pg::Data::Component* GameObject::AddComponent(std::string componentType)
+	{
+		Pg::Data::Component* component = 
+			dynamic_cast<Pg::Data::Component*>(GenericFactory<Pg::Data::Component, Pg::Data::GameObject*>::createChild(componentType, this).release());
+
+		_componentList.try_emplace(componentType, component);
+
+		return component;
+	}
+
 	void GameObject::OnCollisionStay()
 	{
 		if (!_isActive)
@@ -114,27 +135,62 @@ namespace Pg::Data
 			{ iter.second->OnCollisionStay(); });
 	}
 
-	void GameObject::OnCollisionEnter()
+	void GameObject::OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count)
 	{
 		if (!_isActive)
 		{
 			return;
 		}
 
-		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-			{ iter.second->OnCollisionEnter(); });
+		std::for_each(_componentList.begin(), _componentList.end(), [&_colArr, &count](auto& iter)
+			{ iter.second->OnCollisionEnter(_colArr, count); });
 	}
 
-	void GameObject::OnCollisionExit()
+
+	void GameObject::OnCollisionExit(PhysicsCollision** _colArr, unsigned int count)
 	{
 		if (!_isActive)
 		{
 			return;
 		}
 		 
-		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-			{ iter.second->OnCollisionExit(); });
+		std::for_each(_componentList.begin(), _componentList.end(), [&_colArr, &count](auto& iter)
+			{ iter.second->OnCollisionExit(_colArr, count); });
 	}
+
+	void GameObject::OnTriggerStay()
+	{
+		if (!_isActive)
+		{
+			return;
+		}
+
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->OnTriggerStay(); });
+	}
+
+	void GameObject::OnTriggerEnter()
+	{
+		if (!_isActive)
+		{
+			return;
+		}
+
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->OnTriggerEnter(); });
+	}
+
+	void GameObject::OnTriggerExit()
+	{
+		if (!_isActive)
+		{
+			return;
+		}
+
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->OnTriggerExit(); });
+	}
+
 
 	void GameObject::OnDestroy()
 	{

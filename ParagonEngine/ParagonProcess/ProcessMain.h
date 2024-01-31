@@ -46,6 +46,8 @@ namespace Pg::Core
 		void Update();
 		void BeginRender();    
 		void Render();
+		void PassPickedObject();
+		void FinalRender();
 		void EndRender();
 		void Finalize();
 

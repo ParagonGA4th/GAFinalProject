@@ -40,6 +40,9 @@
     <ClInclude Include="PrintRuntimeData.h">
       <Filter>4_WorkSpace\SceneView\Scripts\RuntimeData</Filter>
     </ClInclude>
+    <ClInclude Include="PhysicsCallback.h">
+      <Filter>2_System\PhysicSystem\PhysicsCallback</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -78,6 +81,9 @@
     <ClCompile Include="PrintRuntimeData.cpp">
       <Filter>4_WorkSpace\SceneView\Scripts\RuntimeData</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsCallback.cpp">
+      <Filter>2_System\PhysicSystem\PhysicsCallback</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -107,9 +113,6 @@
     <Filter Include="2_System\PhysicSystem">
       <UniqueIdentifier>{ee935016-be10-42a9-86ba-64378ce5b25c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_System\SceneSystem">
-      <UniqueIdentifier>{b0b22550-0d8e-4869-9bb0-573c34426e6c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2_System\EventSystem">
       <UniqueIdentifier>{8ced1db1-43f1-40fa-8b55-a9cd484d6fe7}</UniqueIdentifier>
     </Filter>
@@ -130,6 +133,12 @@
     </Filter>
     <Filter Include="4_WorkSpace\SceneView\Scripts\RuntimeData">
       <UniqueIdentifier>{29d7e73a-378f-4789-9310-d3b1a43df4e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\SceneSystem">
+      <UniqueIdentifier>{b0b22550-0d8e-4869-9bb0-573c34426e6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\PhysicsCallback">
+      <UniqueIdentifier>{356183f5-6c8c-4046-81ca-003b8467c6ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #include "RenderFont.h"
 #include "AssetBasic2DLoader.h"
 #include "GraphicsResourceManager.h"
-#include <typeinfo>
+
 
 namespace Pg::Graphics
 {

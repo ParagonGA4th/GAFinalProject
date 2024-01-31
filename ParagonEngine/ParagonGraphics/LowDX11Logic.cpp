@@ -1,7 +1,7 @@
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
 
-#include "RenderShader.h"
+//#include "RenderShader.h"
 #include "DX11Headers.h"
 
 #include <vector>
@@ -231,18 +231,48 @@ namespace Pg::Graphics
 
 	HRESULT LowDX11Logic::CreateSamplerStates()
 	{
-		D3D11_SAMPLER_DESC tDesc;
+		//fullScreenQuadSS
+		{
+			D3D11_SAMPLER_DESC tDesc;
 
-		tDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
-		tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-		tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-		tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-		tDesc.MipLODBias = 0.0f;
-		tDesc.MaxAnisotropy = 1;
+			tDesc.Filter = D3D11_FILTER_ANISOTROPIC;
+			tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.MipLODBias = 0.0f;
+			tDesc.MaxAnisotropy = 1;
 
-		hr = _DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_defaultSamplerState));
-	
-		return hr;
+			HR(_DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_fullScreenQuadSamplerState)));
+		}
+
+		//lightmapSS
+		{
+			D3D11_SAMPLER_DESC tDesc;
+
+			tDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+			tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.MipLODBias = 0.0f;
+			tDesc.MaxAnisotropy = 1;
+
+			HR(_DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_lightmapSamplerState)));
+		}
+
+		//DefaultTexturesSS
+		{
+			D3D11_SAMPLER_DESC tDesc;
+
+			tDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+			tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.MipLODBias = 0.0f;
+			tDesc.MaxAnisotropy = 1;
+
+			HR(_DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_defaultSamplerState)));
+		}
+		return S_OK;
 	}
 
 	HRESULT LowDX11Logic::CreateBlendState()

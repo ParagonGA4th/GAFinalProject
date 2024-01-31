@@ -2,7 +2,6 @@
 #include "Transform.h"
 #include "../ParagonData/BaseRenderer.h"
 #include "../ParagonData/RendererChangeList.h"
-
 #include <vector>
 #include <unordered_map>
 #include <string>
@@ -33,8 +32,13 @@ namespace Pg::Data
 
 		//충돌에 관한 함수.
 		void OnCollisionStay();
-		void OnCollisionEnter();
-		void OnCollisionExit();
+		void OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count);
+		void OnCollisionExit(PhysicsCollision** _colArr, unsigned int count);
+
+		//트리거에 관한 함수.
+		void OnTriggerStay();
+		void OnTriggerEnter();
+		void OnTriggerExit();
 
 	public:
 		void OnDestroy();
@@ -45,12 +49,17 @@ namespace Pg::Data
 		void SetActive(bool active);
 		bool GetActive();
 
+		const std::string& GetTag() const;
+		void SetTag(const std::string& tag);
+
 	public:
 		template<typename T>
 		T* AddComponent();
 
+		Pg::Data::Component* AddComponent(std::string componentType);
+
 		template<typename T>
-		T* GetComponent();
+		T* GetComponent();		
 
 		//오브젝트가 가지고 있는 컴포넌트 리스트를 Get.
 		template<typename T>
@@ -82,7 +91,7 @@ namespace Pg::Data
 		T* component = new T(this);
 		_componentList.try_emplace(typeid(T).name(), component);
 		return component;
-	}
+	}	
 
 	template<typename T>
 	T* GameObject::GetComponent()
@@ -98,7 +107,6 @@ namespace Pg::Data
 				return res;
 			}
 		}
-
 		return nullptr;
 	}
 
@@ -122,7 +130,6 @@ namespace Pg::Data
 				res.push_back(tmp);
 			}
 		}
-
 
 		return res;
 	}

@@ -1,6 +1,7 @@
 #pragma once
-#include <dxtk/SpriteBatch.h>
+#include "BaseSpecificRenderer.h"
 
+#include <dxtk/SpriteBatch.h>
 #include <memory>
 #include <string>
 /// <summary>
@@ -21,14 +22,21 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class Forward2DRenderer
+	class Forward2DRenderer : public BaseSpecificRenderer
 	{
 	public:
-		void Initialize();
-		void Render(RenderObject2DList* render2DList, Pg::Data::CameraData* camData);
-		void Finalize();
+		Forward2DRenderer(D3DCarrier* d3dCarrier);
+
+		virtual void Initialize() override;
+		virtual void SetupRenderPasses() override;
+
+		virtual void RenderContents(void* renderObjectList, Pg::Data::CameraData* camData) override;
+		virtual void ConfirmCarrierData() override;
+	
 
 	private:
+		void Render(RenderObject2DList* render2DList, Pg::Data::CameraData* camData);
+
 		//Sprite Rendering¿ª ¿ß«ÿ.
 		std::unique_ptr<DirectX::SpriteBatch> _spriteBatch;
 

@@ -1,6 +1,5 @@
 #pragma once
 #include "Component.h"
-#include "visit_struct_intrusive.hpp"
 #include "../ParagonMath/PgMath.h"
 
 #include <memory>
@@ -28,6 +27,9 @@ namespace Pg::Data
 		// 임시 기본생성자
 		Transform() = default;
 		Transform(GameObject* obj);
+
+		virtual void OnDeserialize(SerializeVector& sv) override;
+		virtual void OnSerialize(SerializeVector& sv) override;
 
 		//// Get 월드 함수들
 		//PGFLOAT3 GetPosition() const;

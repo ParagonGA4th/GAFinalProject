@@ -190,6 +190,7 @@
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DynamicCollider.h" />
     <ClInclude Include="ForceMode.h" />
+    <ClInclude Include="IComponent.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="ModelData.h" />
     <ClInclude Include="MoveForwardBack.h" />
@@ -197,14 +198,16 @@
     <ClInclude Include="LightData.h" />
     <ClInclude Include="LightType.h" />
     <ClInclude Include="ImageRenderer.h" />
+    <ClInclude Include="PhysicsCollision.h" />
+    <ClInclude Include="PhysicsContactPoint.h" />
     <ClInclude Include="PlaneCollider.h" />
     <ClInclude Include="PointLight.h" />
+    <ClInclude Include="RayCast.h" />
     <ClInclude Include="RendererChangeList.h" />
     <ClInclude Include="EditorMode.h" />
     <ClInclude Include="EngineResource.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsResource.h" />
-    <ClInclude Include="IComponent.h" />
     <ClInclude Include="RendererBase2D.h" />
     <ClInclude Include="RendererBase3D.h" />
     <ClInclude Include="RendererType.h" />
@@ -212,6 +215,7 @@
     <ClInclude Include="ResourceQueue.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Script.h" />
+    <ClInclude Include="SerializerHelper.h" />
     <ClInclude Include="SkinnedMeshRenderer.h" />
     <ClInclude Include="SoundData.h" />
     <ClInclude Include="SphereCollider.h" />
@@ -221,10 +225,6 @@
     <ClInclude Include="StaticMeshRenderer.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="visit_struct.hpp" />
-    <ClInclude Include="visit_struct_boost_fusion.hpp" />
-    <ClInclude Include="visit_struct_boost_hana.hpp" />
-    <ClInclude Include="visit_struct_intrusive.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseRenderer.cpp" />
@@ -241,8 +241,11 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="MoveForwardBack.cpp" />
     <ClCompile Include="ParagonDefines.cpp" />
+    <ClCompile Include="PhysicsCollision.cpp" />
+    <ClCompile Include="PhysicsContactPoint.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
     <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="RayCast.cpp" />
     <ClCompile Include="RendererChangeList.cpp" />
     <ClCompile Include="EngineResource.cpp" />
     <ClCompile Include="GameObject.cpp" />

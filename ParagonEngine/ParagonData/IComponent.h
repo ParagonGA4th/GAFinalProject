@@ -1,4 +1,5 @@
 #pragma once
+#include "PhysicsCollision.h"
 
 /// <summary>
 /// 컴포넌트의 인터페이스.
@@ -19,8 +20,12 @@ namespace Pg::Data
 		virtual void LateUpdate() abstract;
 
 		virtual void OnDestroy() abstract;
-		virtual void OnCollisionEnter() abstract;
+		virtual void OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count) abstract;
 		virtual void OnCollisionStay() abstract;
-		virtual void OnCollisionExit() abstract;
+		virtual void OnCollisionExit(PhysicsCollision** _colArr, unsigned int count) abstract;
+
+		virtual void OnTriggerEnter() abstract;
+		virtual void OnTriggerStay() abstract;
+		virtual void OnTriggerExit() abstract;
 	};
 }

@@ -52,9 +52,6 @@
     <ClInclude Include="Collaps.h">
       <Filter>0_UI\1_Widget\Layout\Collaps</Filter>
     </ClInclude>
-    <ClInclude Include="InputFloat3.h">
-      <Filter>0_UI\1_Widget\InputFloat</Filter>
-    </ClInclude>
     <ClInclude Include="Selectable.h">
       <Filter>0_UI\1_Widget\Selectable</Filter>
     </ClInclude>
@@ -66,6 +63,18 @@
     </ClInclude>
     <ClInclude Include="MenuBar.h">
       <Filter>0_UI\1_Widget\MenuBar</Filter>
+    </ClInclude>
+    <ClInclude Include="InputFloat.h">
+      <Filter>0_UI\1_Widget\InputFloat</Filter>
+    </ClInclude>
+    <ClInclude Include="InputFloat3.h">
+      <Filter>0_UI\1_Widget\InputFloat\InputFloat3</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>0_UI\1_Widget\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Combo.h">
+      <Filter>0_UI\1_Widget\Combo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -111,9 +120,6 @@
     <ClCompile Include="Collaps.cpp">
       <Filter>0_UI\1_Widget\Layout\Collaps</Filter>
     </ClCompile>
-    <ClCompile Include="InputFloat3.cpp">
-      <Filter>0_UI\1_Widget\InputFloat</Filter>
-    </ClCompile>
     <ClCompile Include="Selectable.cpp">
       <Filter>0_UI\1_Widget\Selectable</Filter>
     </ClCompile>
@@ -125,6 +131,18 @@
     </ClCompile>
     <ClCompile Include="MenuBar.cpp">
       <Filter>0_UI\1_Widget\MenuBar</Filter>
+    </ClCompile>
+    <ClCompile Include="InputFloat.cpp">
+      <Filter>0_UI\1_Widget\InputFloat</Filter>
+    </ClCompile>
+    <ClCompile Include="InputFloat3.cpp">
+      <Filter>0_UI\1_Widget\InputFloat\InputFloat3</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>0_UI\1_Widget\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Combo.cpp">
+      <Filter>0_UI\1_Widget\Combo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +199,15 @@
     </Filter>
     <Filter Include="0_UI\1_Widget\MenuBar">
       <UniqueIdentifier>{fd1a8c70-7862-4f7b-a987-1bc31db80ec8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\InputFloat\InputFloat3">
+      <UniqueIdentifier>{0cc46938-25f9-419d-a26e-be37d8dccf4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Button">
+      <UniqueIdentifier>{6a0ec460-e73c-4122-8941-7f7e7d697393}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Combo">
+      <UniqueIdentifier>{cb231de3-eb42-413d-a251-9c9475e5677e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

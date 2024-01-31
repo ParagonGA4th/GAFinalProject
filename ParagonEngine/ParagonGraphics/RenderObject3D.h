@@ -5,6 +5,7 @@
 #include "ConstantBuffer.h"
 
 #include "DX11Headers.h"
+#include <string>
 
 /// <summary>
 /// GameObject가 그래픽엔진의 렌더링 로직이랑 1대1 연동될 수 있게 하는 클래스이다.
@@ -30,12 +31,12 @@ namespace Pg::Graphics
 {
 	class LowDX11Storage;
 	class Asset3DModelData;
-	class VertexShader;
-	class PixelShader;
+	class RenderVertexShader;
+	class RenderPixelShader;
 	class ConstantBufferDefine;
 	struct ConstantBufferDefine::cbPerObjectBase;
 	class RenderTexture2D;
-
+	class RenderMaterial;
 }
 
 namespace Pg::Graphics
@@ -43,72 +44,35 @@ namespace Pg::Graphics
 	class RenderObject3D : public Pg::Graphics::RenderObjectBase
 	{
 	public:
-		RenderObject3D(Pg::Data::BaseRenderer* baseRenderer);
+		RenderObject3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID, unsigned int matID);
 		virtual ~RenderObject3D();
 		
-		virtual void Initialize();
-		virtual void Render();
-
-	protected:
-		Asset3DModelData* _modelData = nullptr;
+		//Object-Material 데이터가 전부 매칭/로드 된 후, 일괄적으로 발동될 함수이다.	
+		virtual void CreateObjMatBuffers() abstract;
 
 	public:
-		ConstantBufferDefine::cbPerObjectBase* _constantBufferStruct;
+		//FirstRenderPass에 쓰인다.
+		virtual void First_UpdateConstantBuffers(Pg::Data::CameraData* camData) abstract;
+		virtual void First_BindBuffers() abstract;
+		virtual void First_Render() abstract;
+		virtual void First_UnbindBuffers() abstract;
+
+		virtual void ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData) abstract;
+		virtual void ObjMat_BindBuffers() abstract;
+		virtual void ObjMat_Render() abstract;
+		virtual void ObjMat_UnbindBuffers() abstract;
 
 	protected:
 		LowDX11Storage* _DXStorage;
-
-		ID3D11Buffer* VB;
-		ID3D11Buffer* IB;
-		VertexShader* _vertexShader;
-		PixelShader* _pixelShader;
-
-		ID3D11InputLayout* _inputLayout;
-
-	protected:
-		virtual void BindBuffers() abstract;
-
-		void BindShaders();
-		void UnbindShaders();
-
-		virtual void BindInputLayout();
-		void UnbindInputLayout();
-	
-	protected:
-		std::vector<RenderTexture2D*> _textures;
-
+		Asset3DModelData* _modelData = nullptr;
 		
-	public:	
-		void BindTextures();
-
-	public:
-		void SetVertexShader(VertexShader* shader);
-		void SetPixelShader(PixelShader* shader);
-
-		VertexShader* GetVertexShader();
-		PixelShader* GetPixelShader();
+		//Model에 종속된 VB/IB와 다르게, Object, Material ID를 기록하기 위해 오브젝트 종속 VB들.
+		ID3D11Buffer* _objMatVB = nullptr;
+		//Index Buffer는 자신이 소속된 IndexBuffer와 동일.
 
 	protected:
-		ID3D11Device* _device;
-		ID3D11DeviceContext* _devCon;
-
-	public:
-		virtual void UpdateConstantBuffers(Pg::Data::CameraData* camData) abstract;
-		virtual void BindConstantBuffers() abstract;
-		virtual void UnbindConstantBuffers() abstract;
-
-
-	public:
-		// 상수 버퍼들을 저장하는 벡터
-		std::vector< ConstantBufferBase* > _constantBuffers;
-
-		// 상수 버퍼 데이터를 추가하는 함수
-		template <typename T>
-		void CreateConstantBuffer(T* cbData)
-		{
-			ConstantBufferBase* tCBuffer = new ConstantBuffer<T>(cbData);
-			_constantBuffers.emplace_back(tCBuffer);
-		}
-
+		//3D 오브젝트 한정.
+		unsigned int _objectID;
+		unsigned int _materialID;
 	};
 }

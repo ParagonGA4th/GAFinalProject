@@ -3,37 +3,18 @@
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
 #include "GraphicsResourceHelper.h"
+#include "GraphicsResourceManager.h"
 #include "MathHelper.h"
 
+#include "GraphicsSceneParser.h"
 #include "DeferredRenderer.h"
-#include "Forward3DRenderer.h"
+#include "CubemapRenderer.h"
 #include "Forward2DRenderer.h"
 #include "DebugRenderer.h"
-
-#include "LayoutDefine.h"
-#include "../ParagonData/LightType.h"
-#include "RenderObjectLight.h"
+#include "FinalRenderer.h"
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
-#include "../ParagonData/BaseRenderer.h"
-#include "../ParagonData/RendererChangeList.h"
-#include "../ParagonData/CameraData.h"
-#include "../ParagonUtil/Log.h"
-
-//세부적인 렌더러들의 리스트.
-#include "../ParagonData/StaticMeshRenderer.h"
-#include "../ParagonData/SkinnedMeshRenderer.h"
-
-#include "../ParagonData/ImageRenderer.h"
-#include "../ParagonData/TextRenderer.h"
-
-//세부적인 렌더 오브젝트들의 리스트.
-#include "RenderObjectStaticMesh3D.h"
-#include "RenderObjectSkinnedMesh3D.h"
-#include "RenderObjectText2D.h"
-#include "RenderObjectImage2D.h"
-
 
 #include <utility>
 #include <singleton-cpp/singleton.h>
@@ -46,12 +27,7 @@ namespace Pg::Graphics
 	ParagonRenderer::ParagonRenderer() :
 		_DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
 	{
-		auto& tRendererChangeList = singleton<Pg::Data::RendererChangeList>();
-		_rendererChangeList = &tRendererChangeList;
 
-		_renderObject2DList = std::make_unique<RenderObject2DList>();
-		_renderObject3DList = std::make_unique<RenderObject3DList>();
-		
 	}
 
 	ParagonRenderer::~ParagonRenderer()
@@ -60,55 +36,66 @@ namespace Pg::Graphics
 	}
 
 	void ParagonRenderer::Initialize()
-	{		
-		_deferredRenderer = std::make_unique<DeferredRenderer>();
+	{
+		//SceneParser 만들고 Initialize();
+		_sceneParser = std::make_unique<GraphicsSceneParser>();
+		_sceneParser->Initialize();
+
+		//렌더러들 내부에서 오고 갈 GraphicsCarrier 객체 생성.
+		_gCarrier = std::make_unique<D3DCarrier>();
+
+		_deferredRenderer = std::make_unique<DeferredRenderer>(_gCarrier.get());
 		_deferredRenderer->Initialize();
 
-		_forward3dRenderer = std::make_unique<Forward3DRenderer>();
-		_forward3dRenderer->Initialize();
+		_cubemapRenderer = std::make_unique<CubemapRenderer>(_gCarrier.get());
+		_cubemapRenderer->Initialize();
 
-		_forward2dRenderer = std::make_unique<Forward2DRenderer>();
+		_forward2dRenderer = std::make_unique<Forward2DRenderer>(_gCarrier.get());
 		_forward2dRenderer->Initialize();
 
-		_debugRenderer = std::make_unique<DebugRenderer>();
+		_debugRenderer = std::make_unique<DebugRenderer>(_gCarrier.get());
 		_debugRenderer->Initialize();
 
-		// 내부적으로 DXStorage를 쓰고 있기 때문에 생성자가 아닌 Initialize()에 있어야 함
-		_lights = std::make_unique<RenderObjectLightList>();
+		_finalRenderer = std::make_unique<FinalRenderer>(_gCarrier.get());
+		_finalRenderer->Initialize();
 
-		//SkinningMk.2
-		_tempMultiMesh = new MultimaterialMesh("tFilePath");
+		//SkinningMk.F
+		//_tempMultiMesh = new MultimaterialMesh("tFilePath");
 	}
 
 	void ParagonRenderer::BeginRender()
 	{
-		_deferredRenderer->BeginRender();
+		
 	}
 
 	void ParagonRenderer::Render(Pg::Data::CameraData* camData)
-	{	
-		// Deferred 1st Pass
-		_deferredRenderer->BindFirstPass();
-		_deferredRenderer->RenderFirstPass(_renderObject3DList.get(), camData);
-		_deferredRenderer->UnbindFirstPass();
+	{
+		// Deferred w/ Pass
+		_deferredRenderer->RenderContents(_sceneParser->GetRenderObject3DList(), camData);
+		_deferredRenderer->ConfirmCarrierData();
 
-		// Deferred Lighting Pass
-		_deferredRenderer->BindLightingPass();
-		_deferredRenderer->RenderLight(_lights.get(), camData);
-		_deferredRenderer->UnbindLightingPass();
+		// Cubemap Renderer.
+		_cubemapRenderer->RenderContents(_sceneParser->GetRenderObjectCubemapList(), camData);
+		_cubemapRenderer->ConfirmCarrierData();
+	}
 
-		// Deferred Final Pass
-		_deferredRenderer->BindSecondPass();
-		_deferredRenderer->RenderSecondPass();
-		_deferredRenderer->UnbindSecondPass();
+	void ParagonRenderer::DebugRender(Pg::Data::CameraData* camData)
+	{
+		_debugRenderer->RenderContents(_sceneParser->GetRenderObjectWireframeList(), camData);
+		_debugRenderer->ConfirmCarrierData();
+	}
 
-		// Forward
-		_forward3dRenderer->Render(*camData);
+	void ParagonRenderer::UiRender(Pg::Data::CameraData* camData)
+	{
+		// Forward 2D
+		_forward2dRenderer->RenderContents(_sceneParser->GetRenderObject2DList(), camData);
+		_forward2dRenderer->ConfirmCarrierData();
+	}
 
-		//SkinningMk.2
-		//_tempMultiMesh->Render(camData);
-
-		_forward2dRenderer->Render(_renderObject2DList.get(), camData);
+	void ParagonRenderer::FinalRender(Pg::Data::CameraData* camData)
+	{
+		_finalRenderer->RenderContents(nullptr, camData);
+		_finalRenderer->ConfirmCarrierData();
 	}
 
 	void ParagonRenderer::EndRender()
@@ -116,102 +103,9 @@ namespace Pg::Graphics
 		_DXLogic->Present();
 	}
 
-	void ParagonRenderer::ParseSceneData(const Pg::Data::Scene* const newScene)
-	{
-		//Scene을 파싱해서, 실제 렌더되어야 하는 Object를 연동한다.
-		//나중에 같은 씬을 유지하는 중에 오브젝트들 중 하나의 렌더러가 꺼진다거나 
-		//상황은 아직 유지 못함. 나중에 _rendererChangeList를 활용하면 된다!
-		
-		//기존의 직접적 RenderObject 리스트들 클리어.
-		_renderObject2DList->_list.clear();
-		_renderObject3DList->_list.clear();
-		_lights->ClearLightData();
-
-		using Pg::Graphics::Helper::GraphicsResourceHelper;
-
-		//컴포넌트 내부적으로 -> 자신이 어떤 타입인지 Renderer에게 전달. 내부적으로 호출.
-		
-
-		//이제 실제 오브젝트 내부 RenderObject 연동.
-		for (auto& tGameObject : newScene->GetObjectList())
-		{
-			// RenderObject
-			Pg::Data::BaseRenderer* tBaseRenderer = tGameObject->GetComponent<Pg::Data::BaseRenderer>();
-			
-			if (tBaseRenderer != nullptr)
-			{
-				//원래는 여기에 Active한지도 검사해야 한다.
-				
-				if (GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()) == 1)
-				{
-					//3D
-					//StaticMeshRenderer
-					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
-					{
-						auto tRes = _renderObject3DList->_list.insert_or_assign(tGameObject,
-							std::make_unique<RenderObjectStaticMesh3D>(tBaseRenderer));
-					}
-
-					//SkinnedMeshRenderer
-					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::SkinnedMeshRenderer*).name())) == 0)
-					{
-						auto tRes = _renderObject3DList->_list.insert_or_assign(tGameObject,
-							std::make_unique<RenderObjectSkinnedMesh3D>(tBaseRenderer));
-					}
-				}
-				else if (GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()) == 0)
-				{
-					//2D
-					//TextRenderer
-					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::TextRenderer*).name())) == 0)
-					{
-						auto tRes = _renderObject2DList->_list.insert_or_assign(tGameObject,
-							std::make_unique<RenderObjectText2D>(tBaseRenderer));
-					}
-
-					//ImageRenderer
-					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::ImageRenderer*).name())) == 0)
-					{
-						auto tRes = _renderObject2DList->_list.insert_or_assign(tGameObject,
-							std::make_unique<RenderObjectImage2D>(tBaseRenderer));
-					}
-				}
-			}
-
-			// Light Component가 붙은 오브젝트들을 파싱하여 Light list에 넣는다. 이는 이후에 Lighting Pass에서 사용됨
-			Pg::Data::Light* tLightComponent = tGameObject->GetComponent<Pg::Data::Light>();
-			if (tLightComponent != nullptr)
-			{
-				Pg::Data::Transform* tLightTransform = tGameObject->GetComponent<Pg::Data::Transform>();
-				_lights->ParseLights(tLightTransform, tLightComponent);
-			}
-
-		}
-
-		// 리스트에 파싱된 조명 정보로 라이팅 패스에 쓰일 상수 버퍼를 만든다
-		_lights->BuildConstantBuffers();
-
-		// 디퍼드 렌더러의 멤버에 상수 버퍼을 저장해둔다 (패스별 바인딩을 위해)
-		_deferredRenderer->_lightingCBs = _lights->_constantBuffers;
-		//_deferredRenderer->_firstCBs = _renderObject3DList->_list
-		//_deferredRenderer->_secondCBs
-
-		assert(true);
-	}
-
-	void ParagonRenderer::DebugRender(Pg::Data::CameraData* camData)
-	{
-		_debugRenderer->Render(camData);
-	}
-
 	void ParagonRenderer::SyncComponentToGraphics(const Pg::Data::Scene* const newScene)
 	{
-		
-	}
 
-	unsigned int ParagonRenderer::Get3DObjectCount()
-	{
-		return _renderObject3DList->_list.size();
 	}
 
 	void ParagonRenderer::PassBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
@@ -239,10 +133,43 @@ namespace Pg::Graphics
 		_debugRenderer->GetDebugPlaneGeometryData(planeColVec);
 	}
 
+	void ParagonRenderer::PassRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo*>& const rayCastColVec)
+	{
+		_debugRenderer->GetDebugRayCastGeometryData(rayCastColVec);
+	}
 
 	//void ParagonRenderer::SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene)
 	//{
 	//
 	//}
+
+	void ParagonRenderer::ParseSceneData(const Pg::Data::Scene* const newScene)
+	{
+		//ParseSceneData는 브랜치 합치기 전에 SyncComponent로 분리 불가.
+		_sceneParser->ParseSceneData(newScene);
+
+		//모든 RenderPass들 셋업하기.
+		_deferredRenderer->SetupRenderPasses();
+		_cubemapRenderer->SetupRenderPasses();
+		_forward2dRenderer->SetupRenderPasses();
+		_debugRenderer->SetupRenderPasses();
+		_finalRenderer->SetupRenderPasses();
+	}
+
+	ID3D11ShaderResourceView* ParagonRenderer::GetFinalQuadSRV()
+	{
+		assert(_gCarrier->_quadMainRT != nullptr);
+		assert(_gCarrier->_quadMainRT->GetSRV() != nullptr);
+
+		return _gCarrier->_quadMainRT->GetSRV();
+	}
+
+	Pg::Data::GameObject* ParagonRenderer::GetPickedGameObjectWithRatios(int screenWidth, int screenHeight, float widthRatio, float heightRatio)
+	{
+		return nullptr;
+	}
+
+
+	
 
 }
