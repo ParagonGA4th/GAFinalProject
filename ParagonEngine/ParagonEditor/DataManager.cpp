@@ -60,7 +60,7 @@ void Pg::Editor::Manager::DataManager::SceneLoad(std::string path)
 	if (doc.load_file(path.c_str()))
 	{
 		std::string sceneName = path.substr(path.rfind("\\") + 1);
-		sceneName = sceneName.substr(0, path.rfind(".") + 1);
+		sceneName = sceneName.substr(0, sceneName.rfind("."));
 
 		_scenes.push_back(new Pg::Data::Scene(sceneName));
 
@@ -113,7 +113,7 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 {
 	//ScenesData scenesData;
 	// <objects>를 순회 하며 pgscene에 있는 object를 가져온다
-	for (pugi::xml_node object = root.first_child(); object; object = root.next_sibling())
+	for (pugi::xml_node object = root.first_child(); object; object = object.next_sibling())
 	{
 		// GameObject 생성
 		Pg::Data::GameObject* obj = _scenes.at(sceneNum)->AddObject(Pg::Serialize::Serializer::DeserializeString(&object, "name"));
