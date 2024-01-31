@@ -131,7 +131,7 @@ void Pg::Editor::System::FileSystem::CreateParagonFile(std::unordered_map<std::s
 			else
 			{
 				std::string rootPath = _rootPath.substr(0, _rootPath.rfind(".")) + "\\";
-				filePath = rootPath.append(rootPath.substr(_rootPath.rfind("\\") + 1));
+				filePath = rootPath.append(_rootPath.substr(_rootPath.rfind("\\") + 1));
 			}
 
 			// 파일 생성
