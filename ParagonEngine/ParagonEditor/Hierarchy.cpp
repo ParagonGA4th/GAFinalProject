@@ -51,7 +51,7 @@ void Pg::Editor::Window::Hierarchy::Finalize()
 void Pg::Editor::Window::Hierarchy::SetShow(bool show)
 {
 	_isShow = show;
-}
+} 
 
 bool Pg::Editor::Window::Hierarchy::GetShow()
 {
