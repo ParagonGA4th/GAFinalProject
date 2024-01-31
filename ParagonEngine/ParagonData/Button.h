@@ -4,8 +4,8 @@
 #include <functional>
 
 /// <summary>
-/// 23.10.10 오수안
 /// 버튼을 위한 클래스. 
+/// 23.10.10
 /// </summary>
 
 namespace Pg::Data

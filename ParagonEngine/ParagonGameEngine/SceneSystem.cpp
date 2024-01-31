@@ -34,6 +34,8 @@ namespace Pg::Engine
 			_isStarted = true;
 		}
 
+		//if(SetCurrentScene(_currentScene))
+
 		_currentScene->Update();
 		_currentScene->FixedUpdate();
 		_currentScene->LateUpdate();

@@ -80,7 +80,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_2->AddComponent<MovingTest>();
 	tObj2_2->AddComponent<MovingTest>()->SetActive(true);
 	tObj2_2->AddComponent<RayCastTest>();
-	tObj2_2->AddComponent<RayCastTest>()->SetActive(true);
+	//tObj2_2->AddComponent<RayCastTest>()->SetActive(true);
 	//tObj2_2->AddComponent<MoveForwardBack>();
 	//tObj2_2->GetComponent<MoveForwardBack>()->SetActive(false);
 	//

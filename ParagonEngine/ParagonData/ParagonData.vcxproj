@@ -179,6 +179,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AssetDefines.h" />
+    <ClInclude Include="AudioListener.h" />
+    <ClInclude Include="AudioSource.h" />
     <ClInclude Include="BaseRenderer.h" />
     <ClInclude Include="BaseResource.h" />
     <ClInclude Include="BoxCollider.h" />
@@ -229,6 +231,8 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioListener.cpp" />
+    <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="BaseRenderer.cpp" />
     <ClCompile Include="BaseResource.cpp" />
     <ClCompile Include="BoxCollider.cpp" />

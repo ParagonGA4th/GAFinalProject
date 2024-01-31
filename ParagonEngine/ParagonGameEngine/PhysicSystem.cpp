@@ -727,6 +727,7 @@ namespace Pg::Engine::Physic
 			tHitPoint = _hitBuffer.block.position;
 		}
 
+		//피격 객체의 position 데이터를 이용한 디버깅.
 		if (_debugSystem->GetDebugMode())
 		{
 			RayCastInfo tRayCastInfo;

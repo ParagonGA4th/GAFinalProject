@@ -24,8 +24,8 @@ namespace Pg::Data
 		virtual void OnCollisionStay() abstract;
 		virtual void OnCollisionExit(PhysicsCollision** _colArr, unsigned int count) abstract;
 
-		virtual void OnTriggerEnter() abstract;
+		virtual void OnTriggerEnter(Collider* c) abstract;
 		virtual void OnTriggerStay() abstract;
-		virtual void OnTriggerExit() abstract;
+		virtual void OnTriggerExit(Collider* c) abstract;
 	};
 }
