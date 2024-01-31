@@ -18,8 +18,8 @@
 namespace Pg::Graphics::Helper
 {
 	//마지막에는 항상 $을 넣어야 한다.
-	const std::string GraphicsResourceHelper::DEFAULT_MATERIAL_PREFIX = "$DefaultMaterial_$";
-	const std::string GraphicsResourceHelper::DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX = "$DefaultMaterial_Texture2DArray_$";
+	const std::string GraphicsResourceHelper::GENERATED_MATERIAL_PREFIX = "$GeneratedMaterial_$";
+	const std::string GraphicsResourceHelper::GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX = "$GeneratedMaterial_Texture2DArray_$";
 
 	void GraphicsResourceHelper::Initialize()
 	{
@@ -198,7 +198,7 @@ namespace Pg::Graphics::Helper
 
 	std::string GraphicsResourceHelper::GetDefaultMaterialNameFromMeshName(const std::string& name)
 	{
-		std::string tStr = DEFAULT_MATERIAL_PREFIX;
+		std::string tStr = GENERATED_MATERIAL_PREFIX;
 		tStr += name;
 		return tStr;
 	}
@@ -206,7 +206,7 @@ namespace Pg::Graphics::Helper
 	std::string GraphicsResourceHelper::GetMeshNameFromDefaultMaterialName(const std::string& name)
 	{
 		std::string tRet = name;
-		std::string substring = DEFAULT_MATERIAL_PREFIX;
+		std::string substring = GENERATED_MATERIAL_PREFIX;
 
 		std::size_t ind = tRet.find(substring); //Substring 시작 위치 찾기.
 
@@ -222,10 +222,10 @@ namespace Pg::Graphics::Helper
 		return tRet;
 	}
 
-	std::string GraphicsResourceHelper::GetDefaultTex2DArrayNameFromValues(const std::string& defMatName, const std::string& varName, std::string* renderTextureNameSrc, unsigned int cnt)
+	std::string GraphicsResourceHelper::GetGeneratedTex2DArrayNameFromValues(const std::string& defMatName, const std::string& varName, std::string* renderTextureNameSrc, unsigned int cnt)
 	{
 		//Texture2DArray 감지를 위한 체계.
-		std::string tRet = DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX;
+		std::string tRet = GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX;
 		tRet.append(defMatName);
 		tRet.append("^");
 		tRet.append(varName);
@@ -249,12 +249,12 @@ namespace Pg::Graphics::Helper
 		assert(outStringVector.empty() && "미리 들어온 벡터가 비어 있지 않다!");
 
 		std::string tMain = defTex2DArrName;
-		std::size_t ind = defTex2DArrName.find(DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX); //Substring 시작 위치 찾기.
+		std::size_t ind = defTex2DArrName.find(GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX); //Substring 시작 위치 찾기.
 
 		if (ind != std::string::npos)
 		{
 			//찾았음.
-			tMain.erase(ind, DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX.length());
+			tMain.erase(ind, GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX.length());
 		}
 		else
 		{
@@ -299,18 +299,38 @@ namespace Pg::Graphics::Helper
 		assert(!outStringVector.empty());
 	}
 
-	std::string GraphicsResourceHelper::GetDefaultTexturePath(eAssetTextureType textureType)
+	std::string GraphicsResourceHelper::GetDefaultTexturePath(eAssetTextureType textureType, eSizeTexture sizeType)
 	{
+		using namespace Pg::Defines;
+
+		//256/512/1024/2048
+		const std::string* tDiffuseTexture[4] = { &ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH_256, &ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH_512, &ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH_1024, &ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH_2048};
+		const std::string* tNormalTexture[4] = { &ASSET_DEFAULT_NORMAL_TEXTURE_PATH_256, &ASSET_DEFAULT_NORMAL_TEXTURE_PATH_512, &ASSET_DEFAULT_NORMAL_TEXTURE_PATH_1024, &ASSET_DEFAULT_NORMAL_TEXTURE_PATH_2048 };
+		const std::string* tArmTexture[4] = { &ASSET_DEFAULT_ARM_TEXTURE_PATH_256, &ASSET_DEFAULT_ARM_TEXTURE_PATH_512, &ASSET_DEFAULT_ARM_TEXTURE_PATH_1024, &ASSET_DEFAULT_ARM_TEXTURE_PATH_2048 };
+		const std::string* tSpecularTexture[4] = { &ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_256, &ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_512, &ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_1024, &ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_2048 };
+
+		unsigned int tIndex = (unsigned int)sizeType;
+
 		switch (textureType)
 		{
 			case PG_TextureType_DIFFUSE:
 			{
-				return Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH;
+				return *(tDiffuseTexture[tIndex]);
 			}
 			break;
 			case PG_TextureType_NORMALS:
 			{
-				return Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH;
+				return *(tNormalTexture[tIndex]);
+			}
+			break;
+			case PG_TextureType_ARM:
+			{
+				return *(tArmTexture[tIndex]);
+			}
+			break;
+			case PG_TextureType_SPECULAR:
+			{
+				return *(tSpecularTexture[tIndex]);
 			}
 			break;
 			default:
@@ -319,6 +339,34 @@ namespace Pg::Graphics::Helper
 			}
 			break;
 		}
+	}
+
+	Pg::Graphics::eSizeTexture GraphicsResourceHelper::GetSizeTextureFromUINT(unsigned int width, unsigned int height)
+	{
+		Pg::Graphics::eSizeTexture tRet = static_cast<Pg::Graphics::eSizeTexture>(0);
+
+		if (width == 256 && height == 256)
+		{
+			tRet = _256x256;
+		}
+		else if (width == 512 && height == 512)
+		{
+			tRet = _512x512;
+		}
+		else if (width == 1024 && height == 1024)
+		{
+			tRet = _1024x1024;
+		}
+		else if (width == 2048 && height == 2048)
+		{
+			tRet = _2048x2048;
+		}
+		else
+		{
+			assert(false && "Default PBR Texture Array로 호환되지 않는 리소스의 Width와 Height.");
+		}
+
+		return tRet;
 	}
 
 }

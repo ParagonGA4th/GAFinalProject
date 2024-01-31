@@ -3,6 +3,7 @@
 
 #include "ShaderParsingData.h"
 #include "AssetTextureType.h"
+#include "SizeTexture.h"
 
 //<실제 Graphics Resource의 목록>
 #include "RenderMaterial.h"
@@ -47,7 +48,7 @@ namespace Pg::Graphics::Helper
 		static short IsRenderer3D(const std::string& rendererTypeName);
 
 		//Texture의 종류에 따라 기본 텍스쳐 경로를 반환한다.
-		static std::string GetDefaultTexturePath(eAssetTextureType textureType);
+		static std::string GetDefaultTexturePath(eAssetTextureType textureType, eSizeTexture sizeType = eSizeTexture::_512x512);
 
 		//그래픽스 : Material Loading!
 		static eTexVarType GetTexVarType(const std::string& varString);
@@ -60,19 +61,21 @@ namespace Pg::Graphics::Helper
 		static std::string GetMeshNameFromDefaultMaterialName(const std::string& name);
 
 		//Default Material을 위한 Default Texture2DArray 연동을 위해.
-		static std::string GetDefaultTex2DArrayNameFromValues(const std::string& defMatName, const std::string& varName, std::string* renderTextureNameSrc, unsigned int cnt);
+		static std::string GetGeneratedTex2DArrayNameFromValues(const std::string& defMatName, const std::string& varName, std::string* renderTextureNameSrc, unsigned int cnt);
 		static void GetTextureNamesFromDefaultTex2DArrayName(const std::string& defTex2DArrName, std::vector<std::string>& outStringVector);
 		
 		//Texture2DArray를 위한 확장자 .pgt2arr의 내용 String을 Vector로 바꾸어 내보낸다.
 		static void ReadPGT2ARRContents(const std::string& pgt2arrContent, std::vector<std::string>& outStringVector);
+
+		static eSizeTexture GetSizeTextureFromUINT(unsigned int width, unsigned int height);
 	public:
 		// ^, $ 리소스 이름에 활용 금지!
 		
 		//모든 디폴트 매터리얼들이 부여받는 Prefix. 이는 일반 리소스 생성에서 활용할 수 없다.
-		static const std::string DEFAULT_MATERIAL_PREFIX;
+		static const std::string GENERATED_MATERIAL_PREFIX;
 
 		//모든 디폴트 매터리얼 내부 활용되는 Texture2DArray가 부여받는 Prefix. 일반 리소스 생성에서 활용할 수 없다.
-		static const std::string DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX;
+		static const std::string GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX;
 	};
 }
 

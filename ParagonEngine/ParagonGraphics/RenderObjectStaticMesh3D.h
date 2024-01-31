@@ -4,6 +4,7 @@
 #include "ConstantBufferDefine.h"
 #include <memory>
 
+
 /// <summary>
 /// StaticMeshRenderer 컴포넌트와 1대1 대응하는 렌더오브젝트.
 /// </summary>
@@ -39,7 +40,7 @@ namespace Pg::Graphics
 		void BindMainVertexIndexBuffer();
 		//ObjMat 판단 위한 Vertex / Index Buffer 바인딩.
 		void BindObjMatVertexIndexBuffer();
-
+	
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>> _cbFirst;
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjMatBase>> _cbObjMat;
 	};

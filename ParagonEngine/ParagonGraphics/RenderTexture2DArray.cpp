@@ -31,7 +31,7 @@ namespace Pg::Graphics
 		std::filesystem::path tPath = _filePath;
 		std::string tExt = tPath.extension().string();
 
-		if (_filePath.find(GraphicsResourceHelper::DEFAULT_MATERIAL_TEXTURE2DARRAY_PREFIX) != std::string::npos)
+		if (_filePath.find(GraphicsResourceHelper::GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX) != std::string::npos)
 		{
 			//디폴트 일시, Default 전용 Texture2DArray를 로드.
 			std::vector<std::string> tSingleTextureNameVector;

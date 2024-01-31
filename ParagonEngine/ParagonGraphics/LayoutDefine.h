@@ -88,6 +88,8 @@ namespace Pg::Graphics
 			DirectX::XMFLOAT3 _posL;
 			unsigned int  _objectID;
 			unsigned int  _matID;
+			DirectX::XMFLOAT2 _tex;
+			float _meshMatID;
 		};
 
 
@@ -98,6 +100,8 @@ namespace Pg::Graphics
 			DirectX::XMFLOAT3 _posL;
 			unsigned int  _objectID;
 			unsigned int  _matID;
+			DirectX::XMFLOAT2 _tex;
+			float _meshMatID;
 
 			unsigned int	  _blendIndice0;
 			unsigned int	  _blendIndice1;

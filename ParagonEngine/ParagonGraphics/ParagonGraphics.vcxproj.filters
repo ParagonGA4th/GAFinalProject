@@ -250,6 +250,9 @@
     <ClInclude Include="OutlineRenderPass.h">
       <Filter>0_Main\RenderPass\9_OutlineRenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="SizeTexture.h">
+      <Filter>3_GraphicsResources\Resources\RenderTexture\Defines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -764,6 +767,15 @@
     <Filter Include="0_Main\RenderPass\1_PreparationStaticRenderPass">
       <UniqueIdentifier>{5ec93642-73ac-4d93-96c2-8f2b5950bb3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3_GraphicsResources\Resources\RenderTexture\Defines">
+      <UniqueIdentifier>{36619f65-7405-4494-ba90-282a1642d679}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Libraries\SceneInfo">
+      <UniqueIdentifier>{7fc4aead-73f6-4b2d-832f-baa42d9ccb11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Libraries\MathFunctions">
+      <UniqueIdentifier>{e9a1063c-bc0e-4256-a6c8-3abcac342bf6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
@@ -872,6 +884,15 @@
     </None>
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjMatBuffers.hlsli">
       <Filter>6_HLSL\System\Libraries</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_PBRBufferTextures.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\TextureBuffers</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\SceneInfo\Appends_SceneInfoPS.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\SceneInfo</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_MathFunctions.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\MathFunctions</Filter>
     </None>
   </ItemGroup>
 </Project>

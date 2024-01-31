@@ -43,6 +43,7 @@ namespace Pg::Graphics
 		//디폴트 셰이더들을 렌더 머테리얼 안에 배치한다.
 		void PlaceDefaultShaders(RenderMaterial* renderMat);
 		void LoadDefaultRenderMaterial(RenderMaterial* renderMat, const std::string& defInstMatName);
+		//디폴트 매터리얼에서 기본적으로 올려주는 리소스들을 먼저 올려주기로 약속되었기 때문에, 본래의 기능을 전만큼 다하지는 않을 것이다.
 		void PlaceDefaultMaterialTextureArrayBuffer(const std::string& defInstMatName, RenderMaterial::MatShaderIntrinsics* intrinsic,
 			Asset3DModelData* asset3dModel, eAssetTextureType type, const std::string& varName, unsigned int registerNum);
 

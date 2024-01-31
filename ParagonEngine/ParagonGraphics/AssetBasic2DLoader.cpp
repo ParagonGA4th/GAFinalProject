@@ -37,6 +37,17 @@ namespace Pg::Graphics::Loader
 	void AssetBasic2DLoader::LoadTexture2D(const std::string& path, RenderTexture2D* outTextureData)
 	{
 		LoadInternalRenderTexture2D(path, outTextureData);
+
+		//Width / Height 기록.
+		ID3D11Texture2D* tTexture2D = nullptr;
+		HR(outTextureData->GetResource()->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&tTexture2D));
+
+		D3D11_TEXTURE2D_DESC tTextureDesc;
+		tTexture2D->GetDesc(&tTextureDesc);
+
+		//Width / Height 옮기기.
+		outTextureData->_fileWidth = tTextureDesc.Width;
+		outTextureData->_fileHeight = tTextureDesc.Height;
 	}
 
 	void AssetBasic2DLoader::LoadTexture2DArray(bool isDDS, const std::string& path, RenderTexture2DArray* outTextureData)

@@ -4,6 +4,7 @@
 #include "GBufferDepthStencil.h"
 #include "BaseSpecificRenderer.h"
 #include <vector>
+#include <array>
 #include <memory>
 
 namespace Pg::Data
@@ -68,5 +69,9 @@ namespace Pg::Graphics
 
 		//별도로 OpaqueQuad가 사용하는 DSV. (ObjMat 딴에서 기록된 Depth 값을 훼손하지 않기 위해서)
 		std::unique_ptr<GBufferDepthStencil> _opaqueQuadDSV;
+
+	private:
+		//NullSRV, 그냥 만들어놓고 사용.
+		std::array<ID3D11ShaderResourceView*, 10> _nullSRVArray;
 	};
 }

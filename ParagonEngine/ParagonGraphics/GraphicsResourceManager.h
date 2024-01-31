@@ -11,6 +11,7 @@
 #include "../ParagonData/GraphicsResource.h"
 #include "../ParagonProcess/CoreSingleton.h"
 #include "AssetTextureType.h"
+#include "SizeTexture.h"
 
 /// <summary>
 /// AssetManager에 의해 제어되는 그래픽스 리소스 관리 전담 매니저. 독단적 사용 불가.
@@ -107,7 +108,7 @@ namespace Pg::Graphics::Manager
 		void ClearSecondaryResourcesList();
 
 		//가져온 값이 없을 때 Texture의 종류에 따라 디폴트 값을 가져올 수 있다.
-		RenderTexture2D* GetDefaultTexture(eAssetTextureType textureType);
+		RenderTexture2D* GetDefaultTexture(eAssetTextureType textureType, eSizeTexture textureSize = _512x512);
 	private:
 		//GraphicsMain에서, 리소스 로드할 때 활용된다.
 		void LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define);

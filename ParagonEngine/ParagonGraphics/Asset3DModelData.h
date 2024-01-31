@@ -17,6 +17,7 @@ namespace Pg::Graphics
 	struct Scene_AssetData;
 	struct Skinned_AssetData;
 	class MaterialCluster;
+	class RenderTexture2DArray;
 
 	namespace Helper
 	{
@@ -54,8 +55,13 @@ namespace Pg::Graphics
 		Scene_AssetData* _assetSceneData = nullptr;
 		Skinned_AssetData* _assetSkinnedData = nullptr;
 
-		//해당 Vector의 인덱스는, 매터리얼의 인덱스와 같다.
+		//해당 Vector의 인덱스는, Mesh 매터리얼의 인덱스와 같다. -> 개별 material cluster 보관.
 		std::vector<MaterialCluster*> _materialClusterList;
+		//이를 기반으로, 전체적인 Texture2DArray가 만들어졌다.
+
+		// Texture2DArray 기반, PSSRV(T2DArray) 위해.
+		//0: albedo / 1: normal / 2: specular / 3: arm
+		RenderTexture2DArray* _pbrTextureArrays[4];
 
 		//Vertex Buffer
 		ID3D11Buffer* _vertexBuffer;

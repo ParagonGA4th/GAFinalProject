@@ -13,6 +13,7 @@
 #include "MaterialCluster.h"
 
 #include "dxtk/WICTextureLoader.h"
+#include <algorithm>
 
 namespace Pg::Graphics
 {
@@ -140,6 +141,20 @@ namespace Pg::Graphics
 	void RenderObjectStaticMesh3D::ObjMat_BindBuffers()
 	{
 		_cbObjMat->BindVS(0);
+
+		// PixelShader : 이제 Albedo / Normal / Specular / Arm 데이터를 넣어줘야 한다.
+		// 디폴트 매터리얼 상관하지 않고, 모든 오브젝트가 값 자체는 이제 필요하게 될 것이라는 말이다. Texture 투입.
+		// 그냥 예전방식대로, Texture2DArray 자체를 투입할 것.
+		// 나중에는 같은 오브젝트 + 인스턴싱의 영향을 받는다면 해당 스텝을 누락하던가, 
+
+		// Albedo
+		_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(_modelData->_pbrTextureArrays[0]->GetSRV()));
+		// Normal
+		_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(_modelData->_pbrTextureArrays[1]->GetSRV()));
+		// Specular
+		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(_modelData->_pbrTextureArrays[2]->GetSRV()));
+		// ARM
+		_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &(_modelData->_pbrTextureArrays[3]->GetSRV()));
 	}
 
 	void RenderObjectStaticMesh3D::ObjMat_Render()
@@ -163,6 +178,15 @@ namespace Pg::Graphics
 	void RenderObjectStaticMesh3D::ObjMat_UnbindBuffers()
 	{
 		_cbObjMat->UnbindVS(0);
+
+		//PBR Texture를 다 썼으니, 이제 할당 해제!
+		ID3D11ShaderResourceView* tNullSRV = nullptr;
+		// PBR Texture Arrays To NULL
+		_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(tNullSRV));
+		_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(tNullSRV));
+		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(tNullSRV));
+		_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &(tNullSRV));
+
 	}
 
 	void RenderObjectStaticMesh3D::BindMainVertexIndexBuffer()
