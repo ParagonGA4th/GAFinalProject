@@ -23,10 +23,13 @@ namespace Pg::Data
 		//실제로 (에디터에서 접근권한이 없는) Mesh Path / Material Path를 못 찾았을 때 (상위 레이어에서 보관)
 		//디폴트 경로/매터리얼로 바뀔 것.
 		//Name -> 통해서 Path를 찾고 -> 다시 못 찾거나 등등 상황일시 역으로 Name을 바꿀 수 있음.
-		
+
 		//VISITABLE로 바꿀 목록.
-		std::string _meshName;
-		std::string _materialName;
-		bool _isInstanced;
+		/// visit_struct 방식
+		BEGIN_VISITABLES(StaticMeshRenderer);
+		VISITABLE(std::string, _meshName);
+		VISITABLE(std::string, _materialName);
+		VISITABLE(bool, _isInstanced);
+		END_VISITABLES;
 	};
 }

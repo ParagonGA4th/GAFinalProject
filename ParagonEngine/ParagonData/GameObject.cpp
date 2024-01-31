@@ -1,5 +1,8 @@
 #include "GameObject.h"
 #include "PhysicsCollision.h"
+
+#include "RendererBase3D.h"
+
 #include <generic_factory/generic_factory.hpp>
 #include <algorithm>
 
@@ -116,8 +119,21 @@ namespace Pg::Data
 
 	Pg::Data::Component* GameObject::AddComponent(std::string componentType)
 	{
-		Pg::Data::Component* component = 
-			dynamic_cast<Pg::Data::Component*>(GenericFactory<Pg::Data::Component, Pg::Data::GameObject*>::createChild(componentType, this).release());
+		Pg::Data::Component* component;
+
+		if (componentType.find("Render") != std::string::npos)
+		{
+			if (componentType.find("Mesh") != std::string::npos)
+			{
+				component =
+					dynamic_cast<Pg::Data::Component*>(GenericFactory<Pg::Data::RendererBase3D, Pg::Data::GameObject*>::createChild(componentType, this).release());
+			}
+		}
+		else
+		{
+			component =
+			dynamic_cast<Pg::Data::Component*>(GenericFactory<Pg::Data::Component, Pg::Data::GameObject*>::createChild(componentType, this).release());			
+		}
 
 		_componentList.try_emplace(componentType, component);
 
