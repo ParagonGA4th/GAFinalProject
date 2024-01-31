@@ -4,6 +4,9 @@
 
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Camera.h"
+#include "../ParagonData/Light.h"
+#include "../ParagonData/StaticMeshRenderer.h"
+#include "../ParagonData/Script.h"
 
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
@@ -37,6 +40,9 @@ void Pg::Editor::Window::Inspector::Initialize()
 
 	_componentList.emplace_back(typeid(Pg::Data::Transform).name());
 	_componentList.emplace_back(typeid(Pg::Data::Camera).name());
+	_componentList.emplace_back(typeid(Pg::Data::Light).name());
+	_componentList.emplace_back(typeid(Pg::Data::StaticMeshRenderer).name());
+	_componentList.emplace_back(typeid(Pg::Data::Script).name());
 
 	auto& combo = _widgetCon->CreateColumnsWidget<Pg::UI::Widget::Combo>("##Add Component", _componentList);
 	_componentIndex = combo.GetSelectedIndex();

@@ -124,14 +124,14 @@ namespace Pg::Data
 		{
 			if (componentType.find("Mesh") != std::string::npos)
 			{
-				component =
-					dynamic_cast<Pg::Data::Component*>(GenericFactory<Pg::Data::RendererBase3D, Pg::Data::GameObject*>::createChild(componentType, this).release());
+				component = dynamic_cast<Pg::Data::Component*>(GenericFactory<Pg::Data::RendererBase3D, 
+						Pg::Data::GameObject*>::createChild(componentType, this).release());
 			}
 		}
 		else
 		{
-			component =
-			dynamic_cast<Pg::Data::Component*>(GenericFactory<Pg::Data::Component, Pg::Data::GameObject*>::createChild(componentType, this).release());			
+			component = dynamic_cast<Pg::Data::Component*>(GenericFactory<Pg::Data::Component, 
+				Pg::Data::GameObject*>::createChild(componentType, this).release());			
 		}
 
 		_componentList.try_emplace(componentType, component);

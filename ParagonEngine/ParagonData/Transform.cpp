@@ -1,7 +1,7 @@
 #include "Transform.h"
 
-#include <generic_factory/generic_factory.hpp>
 #include <cmath>
+#include <generic_factory/generic_factory.hpp>
 
 using namespace Pg::Data;
 REGISTER_CHILD_INTO_FACTORY(Component, Transform, "class Pg::Data::Tranform", GameObject*);
