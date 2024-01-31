@@ -59,7 +59,10 @@ namespace Pg::Data
 		Pg::Data::Component* AddComponent(std::string componentType);
 
 		template<typename T>
-		T* GetComponent();		
+		T* GetComponent();
+
+		template<typename T>
+		bool RemoveComponent();
 
 		//오브젝트가 가지고 있는 컴포넌트 리스트를 Get.
 		template<typename T>
@@ -80,6 +83,7 @@ namespace Pg::Data
 		//컴포넌트의 이름과 주소를 저장해놓는 리스트.
 		std::unordered_map<std::string, Component*> _componentList;
 	};
+
 
 	///템플릿을 활용한 GetComponent/AddComponent.
 	///지금은 아는 방식이 이것뿐이라 PT까지는 이 방식으로 가져가되
@@ -108,6 +112,24 @@ namespace Pg::Data
 			}
 		}
 		return nullptr;
+	}
+
+	///컴포넌트를 제거하는 템플릿.
+	/// typeid를 활용해서 리스트에 있는 컴포넌트를 erase한다.
+	/// 2024.01.31
+	template<typename T>
+	bool GameObject::RemoveComponent()
+	{
+		//리스트를 쭉 돌아서 해당 값이 존재하면 지운다.
+		auto iter = _componentList.find(typeid(T).name());
+		if (iter != _componentList.end())
+		{
+			delete iter->second;
+			_componentList.erase(iter);
+			return true;
+		}
+
+		return false;
 	}
 
 	///따로 추가한 GetComponents.
