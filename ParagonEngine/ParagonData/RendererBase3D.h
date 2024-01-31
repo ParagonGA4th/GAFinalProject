@@ -13,6 +13,8 @@ namespace Pg::Data
 		RendererBase3D(GameObject* obj);
 		virtual ~RendererBase3D();
 
+		virtual void InitializePathsFromName() abstract;
+
 		void SetMeshFilePath(const std::string& meshFilePath);
 		std::string GetMeshFilePath();
 

@@ -13,6 +13,7 @@ namespace Pg::Data
 
 	private:
 		PGFLOAT3 _direction;
+		float _radiance;
 	};
 
 }
