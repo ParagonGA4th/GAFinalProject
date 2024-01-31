@@ -56,12 +56,28 @@ void Pg::Editor::Window::InspectorHelper::SetData(Pg::Data::GameObject* object)
 	_objTag = _object->GetTag();
 
 	_widgetCon->ClearWidget(1);
-	ComponentUI();	
+	ComponentUI();
 }
 
 void Pg::Editor::Window::InspectorHelper::Update()
 {
 	_widgetCon->Update();
+
+	for (auto& [name, val] : _componentExistence)
+	{
+		if (*val == false)
+		{
+			_object->RemoveComponent(name);
+			
+			_widgetCon->ClearWidget(1);
+			ComponentUI();
+
+			auto iter = _componentExistence.find(name);
+			delete iter->second;
+			_componentExistence.erase(iter);
+			break;
+		}
+	}
 
 	if (_object != nullptr)
 	{
@@ -78,7 +94,7 @@ void Pg::Editor::Window::InspectorHelper::Update()
 
 void Pg::Editor::Window::InspectorHelper::ComponentUI()
 {
-	if (_dataContainer->GetScenesData()->empty()) return;
+	if (_dataContainer->GetScenesData() == nullptr || _dataContainer->GetScenesData()->empty()) return;
 
 	auto it = _dataContainer->GetScenesData()->find(_dataContainer->GetCurrentScene()->GetSceneName());
 	if (it != _dataContainer->GetScenesData()->end())
@@ -90,7 +106,7 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 				continue;
 			}
 
-			// Add Component
+			// Component Data Reset
 			if (_object->GetComponentList().size() != object.second.size())
 			{
 				_isAddComponent = true;
@@ -105,23 +121,14 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 				}
 			}
 
-			// Remove Component
-			for (auto& [name, val] : _componentExistence)
-			{
-				if (*val == false)
-				{
-					//_object->
-				}
-			}
-
 			for (auto component : object.second)
 			{
 				std::string componentName = component.first.substr(component.first.rfind("::") + 2);
 
-				if (_componentExistence.find(componentName) == _componentExistence.end())
-					_componentExistence.insert({ componentName , new bool(true) });
+				if (_componentExistence.find(component.first) == _componentExistence.end())
+					_componentExistence.insert({ component.first , new bool(true) });
 				else
-					*_componentExistence.at(componentName) = true;
+					*_componentExistence.at(component.first) = true;
 
 				_widgetCon->ClearColumnWidget();
 				_widgetCon->ClearCollapsWidget();
@@ -171,7 +178,7 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 
 				_widgetCon->CreateCollapsWidget<Pg::UI::Widget::Layout::Column<2>>(componentName, _widgetCon->GetColumnWidgets());
 				_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Collaps>
-					(componentName, _widgetCon->GetCollapsWidgets(), _componentExistence.at(componentName));
+					(componentName, _widgetCon->GetCollapsWidgets(), _componentExistence.at(component.first));
 			}
 
 			_isAddComponent ? false : false;

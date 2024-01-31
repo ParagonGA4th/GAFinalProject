@@ -55,7 +55,6 @@ namespace Pg::Data
 	public:
 		template<typename T>
 		T* AddComponent();
-
 		Pg::Data::Component* AddComponent(std::string componentType);
 
 		template<typename T>
@@ -63,6 +62,7 @@ namespace Pg::Data
 
 		template<typename T>
 		bool RemoveComponent();
+		bool RemoveComponent(std::string componentType);
 
 		//오브젝트가 가지고 있는 컴포넌트 리스트를 Get.
 		template<typename T>
