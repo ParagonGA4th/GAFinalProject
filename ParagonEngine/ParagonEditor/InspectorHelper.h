@@ -2,6 +2,7 @@
 #include "../ParagonMath/PgMath.h"
 
 #include <string>
+#include <unordered_map>
 #include <memory>
 
 namespace Pg::Data { class GameObject; }
@@ -38,6 +39,8 @@ namespace Pg::Editor::Window
 		Pg::Data::GameObject* _object;
 
 		Pg::Editor::Data::DataContainer* _dataContainer;
+
+		std::unordered_map<std::string, bool*> _componentExistence;
 
 		bool _isAddComponent;
 	};

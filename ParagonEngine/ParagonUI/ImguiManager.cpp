@@ -4,7 +4,7 @@
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 
-#include <d3d11.h>
+#include "ImGuizmo.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -57,6 +57,12 @@ void Pg::UI::Manager::ImGuiManager::CreateFrame()
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+
+	ImGuizmo::BeginFrame();
+
+	ImVec2 windowSize = ImGui::GetWindowSize();
+	ImGuizmo::SetOrthographic(false);
+	ImGuizmo::SetRect(0, 0, windowSize.x, windowSize.y);
 }
 
 void Pg::UI::Manager::ImGuiManager::Render()
@@ -89,7 +95,7 @@ void Pg::UI::Manager::ImGuiManager::ImguiHandler(MSG message)
 void Pg::UI::Manager::ImGuiManager::Begin(std::string panelName, bool isTool)
 {
 	if(!isTool) ImGui::Begin(panelName.c_str(), NULL, ImGuiWindowFlags_NoCollapse);
-	else ImGui::Begin(panelName.c_str(), &isTool, ImGuiWindowFlags_NoTitleBar);	
+	else ImGui::Begin(panelName.c_str(), &isTool, ImGuiWindowFlags_NoCollapse);
 }
 
 void Pg::UI::Manager::ImGuiManager::DockSpaceBegin(std::string dockName)
