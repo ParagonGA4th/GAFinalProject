@@ -32,9 +32,9 @@ namespace Pg::Data
 		virtual void OnCollisionStay() {}
 		virtual void OnCollisionExit(PhysicsCollision** _colArr, unsigned int count) {}
 
-		virtual void OnTriggerEnter() {}
+		virtual void OnTriggerEnter(Collider* c) {}
 		virtual void OnTriggerStay() {}
-		virtual void OnTriggerExit() {}
+		virtual void OnTriggerExit(Collider* c) {}
 
 		virtual void OnSerialize(SerializeVector& sv) {}
 		virtual void OnDeserialize(SerializeVector& sv) {}

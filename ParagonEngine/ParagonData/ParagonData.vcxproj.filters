@@ -105,6 +105,12 @@
       <Filter>2_Component\Collider\RayCast</Filter>
     </ClCompile>
     <ClCompile Include="MoveForwardBack.cpp" />
+    <ClCompile Include="AudioSource.cpp">
+      <Filter>2_Component\Audio\AudioSource</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioListener.cpp">
+      <Filter>2_Component\Audio\AudioListener</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -255,6 +261,12 @@
       <Filter>2_Component\1_Helper</Filter>
     </ClInclude>
     <ClInclude Include="IComponent.h" />
+    <ClInclude Include="AudioSource.h">
+      <Filter>2_Component\Audio\AudioSource</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioListener.h">
+      <Filter>2_Component\Audio\AudioListener</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -400,6 +412,15 @@
     </Filter>
     <Filter Include="2_Component\1_Helper">
       <UniqueIdentifier>{0cab3ce3-54de-4268-8a7a-da6766709e25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Audio">
+      <UniqueIdentifier>{b80aa566-f134-427a-83e2-c88e559d4016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Audio\AudioSource">
+      <UniqueIdentifier>{35c0e4b5-5260-42bb-a4de-4dcc45d4a758}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Audio\AudioListener">
+      <UniqueIdentifier>{97aa7c46-ba85-430b-b226-22e3293a1770}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

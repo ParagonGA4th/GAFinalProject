@@ -31,7 +31,7 @@ namespace Pg::Engine
 
 	void SoundSystem::CreateSound(std::string path)
 	{
-
+		//_system->createSound(path.c_str(), FMOD_LOOP_NORMAL , FMOD_DEFAULT, NULL, &());
 	}
 
 }

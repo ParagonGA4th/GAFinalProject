@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "PhysicsCollision.h"
+#include "Collider.h"
 #include <generic_factory/generic_factory.hpp>
 #include <algorithm>
 
@@ -169,26 +170,26 @@ namespace Pg::Data
 			{ iter.second->OnTriggerStay(); });
 	}
 
-	void GameObject::OnTriggerEnter()
+	void GameObject::OnTriggerEnter(Collider* c)
 	{
 		if (!_isActive)
 		{
 			return;
 		}
 
-		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-			{ iter.second->OnTriggerEnter(); });
+		std::for_each(_componentList.begin(), _componentList.end(), [&c](auto& iter)
+			{ iter.second->OnTriggerEnter(c); });
 	}
 
-	void GameObject::OnTriggerExit()
+	void GameObject::OnTriggerExit(Collider* c)
 	{
 		if (!_isActive)
 		{
 			return;
 		}
 
-		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-			{ iter.second->OnTriggerExit(); });
+		std::for_each(_componentList.begin(), _componentList.end(), [&c](auto& iter)
+			{ iter.second->OnTriggerExit(c); });
 	}
 
 
