@@ -12,7 +12,7 @@ namespace Pg::Data
 {
 	Camera::Camera(Pg::Data::GameObject* obj) :
 		Pg::Data::Component(obj),
-		_nearZ(0.0001f), _farZ(1000.0f), _fovY(PG_PI * 0.4f)
+		_nearZ(0.1f), _farZ(300.0f), _fovY(PG_PI * 0.4f)
 	{
 		_cameraData = std::make_unique<Pg::Data::CameraData>();
 

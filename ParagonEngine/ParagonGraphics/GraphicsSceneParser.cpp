@@ -61,6 +61,7 @@ namespace Pg::Graphics
 		//상황은 아직 유지 못함. 나중에 _rendererChangeList를 활용하면 된다!
 
 		ClearObjectLists();
+
 		ExtractMaterialPaths(newScene);
 		SyncRenderObjects(newScene);
 		CreateObjMatBuffersStatic();
@@ -214,7 +215,7 @@ namespace Pg::Graphics
 					//못찼았으면, Default Material을 만들어서 넣어준다.
 					if (it == _renderObject3DList->_materialPathSet.end())
 					{
-						///CreateDefaultMaterialInstance;
+						//CreateDefaultMaterialInstance;
 						std::filesystem::path tTempMeshPath = tBaseR3D->GetMeshFilePath();
 						std::string tTempMeshName = tTempMeshPath.filename().string();
 						std::string tDefaultMatInstName = Pg::Graphics::Helper::GraphicsResourceHelper::GetDefaultMaterialNameFromMeshName(tTempMeshName);
