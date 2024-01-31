@@ -42,7 +42,7 @@ void Pg::Editor::Window::InspectorHelper::Initialize()
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::InputText>("Tag", &_objTag);
 	
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::Text>("Active");
-	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::CheckBox>("Active", _isActive);
+	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::CheckBox>("Active", &_isActive);
 
 	_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Column<2>>("BasicInfo", _widgetCon->GetColumnWidgets());
 }
@@ -137,6 +137,11 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 				{
 					if (_isAddComponent) valName = valName.substr(valName.rfind("_") + 1);
 					_widgetCon->CreateColumnsWidget<Pg::UI::Widget::Text>(valName);
+
+					if (typeInfo == typeid(bool).name())
+					{
+						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::CheckBox>(valName, static_cast<bool*>(val));
+					}
 
 					if (typeInfo == typeid(std::string).name())
 					{
