@@ -1,6 +1,9 @@
 #pragma once
 #include "IRenderSinglePass.h"
 #include "DX11Headers.h"
+#include "ConstantBuffer.h"
+#include "ConstantBufferDefine.h"
+
 #include <vector>
 #include <memory>
 #include <array>
@@ -41,6 +44,10 @@ namespace Pg::Graphics
 		//잠시 Quad에 렌더링할 ObjMat GBufRender를 저장해놓는다. (ObjMat)
 		GBufferRender* _quadSaveObjMatGBuffer = nullptr;
 
+		//잠시 CameraData 구조체를 보관해놓는다.
+		Pg::Data::CameraData* _savedCamData;
+
+	private:
 		//PBR G-Buffer들 투입.
 		std::unique_ptr<GBufferRender> _albedoAmbiBuffer;
 		std::unique_ptr<GBufferRender> _normalRoughBuffer;
@@ -50,10 +57,12 @@ namespace Pg::Graphics
 		std::array<ID3D11RenderTargetView*, 4> _rtBindArray;
 		std::array<ID3D11RenderTargetView*, 4> _rtNullBindArray;
 
-
+		//SceneInfo Constant Buffer.
+		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbSceneInfo>> _cbSceneInfo;
 	private:
 		void CreateD3DViews();
 		void CreateShaders();
+		void CreateBuffers();
 
 	private:
 		std::unique_ptr<SystemVertexShader> _vs;

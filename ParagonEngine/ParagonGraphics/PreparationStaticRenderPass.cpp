@@ -24,6 +24,7 @@ namespace Pg::Graphics
 	{
 		CreateD3DViews();
 		CreateShaders();
+		CreateBuffers();
 	}
 
 	void PreparationStaticRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
@@ -69,6 +70,9 @@ namespace Pg::Graphics
 				}
 			}
 		}
+
+		//Camera Data 변수 저장.
+		_savedCamData = camData;
 	}
 
 	void PreparationStaticRenderPass::UnbindPass()
@@ -94,6 +98,15 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, &(_albedoAmbiBuffer->GetSRV()));
 		_DXStorage->_deviceContext->PSSetShaderResources(13, 1, &(_normalRoughBuffer->GetSRV()));
 		_DXStorage->_deviceContext->PSSetShaderResources(14, 1, &(_specularMetalBuffer->GetSRV()));
+
+		//Constant Buffer (SceneInfo) 업데이트.
+		_cbSceneInfo->GetDataStruct()->gCBuf_ViewMatrix = PG2XM_MATRIX4X4(_savedCamData->_viewMatrix);
+		_cbSceneInfo->GetDataStruct()->gCBuf_ProjMatrix = PG2XM_MATRIX4X4(_savedCamData->_projMatrix);
+		_cbSceneInfo->GetDataStruct()->gCBuf_EyePosition = PG2XM_FLOAT3(_savedCamData->_position);
+		//업데이트.
+		_cbSceneInfo->Update();
+		//SceneInfo Constant Buffer Bind -> 나중에 CBCarrier뭐 이런 클래스 있어야 할 것이다.
+		_cbSceneInfo->BindPS(4);
 	}
 
 	void PreparationStaticRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
@@ -127,6 +140,11 @@ namespace Pg::Graphics
 		_vs = std::make_unique<SystemVertexShader>(L"../Builds/x64/Debug/Individual_PerObjMatStaticVS.cso", LayoutDefine::GetPerObjMatStaticLayout(),
 			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		_ps = std::make_unique<SystemPixelShader>(L"../Builds/x64/Debug/Individual_PerObjMatPS.cso");
+	}
+
+	void PreparationStaticRenderPass::CreateBuffers()
+	{
+		_cbSceneInfo = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbSceneInfo>>();
 	}
 
 }

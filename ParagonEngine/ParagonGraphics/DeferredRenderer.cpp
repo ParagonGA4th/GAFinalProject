@@ -21,6 +21,7 @@
 #include "../ParagonData/LightType.h"
 
 #include <cassert>
+#include <algorithm>
 
 namespace Pg::Graphics
 {
@@ -28,8 +29,8 @@ namespace Pg::Graphics
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 
-		
-	
+		//NullSRV Array nullptr로 채우기.
+		std::fill(_nullSRVArray.begin(), _nullSRVArray.end(), nullptr);
 	}
 
 	DeferredRenderer::~DeferredRenderer()
@@ -262,6 +263,14 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, &tNullSRV);
 		_DXStorage->_deviceContext->PSSetShaderResources(13, 1, &tNullSRV);
 		_DXStorage->_deviceContext->PSSetShaderResources(14, 1, &tNullSRV);
+
+		//VS Constant Buffer -> SceneInfo 값 리셋.
+		ID3D11Buffer* tNullBuffer = nullptr;
+		_DXStorage->_deviceContext->PSSetConstantBuffers(4, 1, &tNullBuffer);
+
+		//GBufferTextures-> GBuffer / Depth Buffer Unbind.
+		_DXStorage->_deviceContext->PSSetShaderResources(15, 5, _nullSRVArray.data());
+		_DXStorage->_deviceContext->PSSetShaderResources(20, 1, _nullSRVArray.data());
 	}
 
 

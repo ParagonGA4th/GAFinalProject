@@ -83,11 +83,11 @@ namespace Pg::Graphics
 	{
 		//FirstSkinnedRenderPass가 들어온다면, 이 호출부는 그 렌더 패스의 ExecuteNextRenderRequirements에 들어간다.
 
-		//t0에, 5개의 SRV GBuffer 대응. (Depth 제외)
-		_DXStorage->_deviceContext->PSSetShaderResources(0, 5, _SRVs.data());
+		//t15에, 5개의 SRV GBuffer 대응. (Depth 제외)
+		_DXStorage->_deviceContext->PSSetShaderResources(15, 5, _SRVs.data());
 
-		//t1에 Depth Buffer SRV 1개 대응.
-		_DXStorage->_deviceContext->PSSetShaderResources(1, 1, &(_SRVs.back()));
+		//t20에 Depth Buffer SRV 1개 대응.
+		_DXStorage->_deviceContext->PSSetShaderResources(20, 1, &(_SRVs.back()));
 	}
 
 	void FirstStaticRenderPass::PassNextRequirements(D3DCarrier& gCarrier)

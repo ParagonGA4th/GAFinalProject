@@ -1,5 +1,5 @@
-#ifndef __DEFINED_APPENDS_CLIP_UNFIT_HLSL__
-#define __DEFINED_APPENDS_CLIP_UNFIT_HLSL__
+#ifndef __DEFINED_APPENDS_OBJMAT_HLSL__
+#define __DEFINED_APPENDS_OBJMAT_HLSL__
 
 #include "../SamplerStates/Appends_SamplerStates.hlsli"
 
@@ -15,7 +15,7 @@ Texture2D<float2> _objMatSRV : register(t3);
 cbuffer cbInputMaterial : register(b3)
 {
     uint inputID;
-}
+};
 
 uint GetObjectID(float2 quadUV)
 {
@@ -55,4 +55,4 @@ bool CheckIfFitObjectID(float2 quadUV)
 }
 
 
-#endif //__DEFINED_APPENDS_CLIP_UNFIT_HLSL__
+#endif //__DEFINED_APPENDS_OBJMAT_HLSL__

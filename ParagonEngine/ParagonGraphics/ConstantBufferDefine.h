@@ -37,5 +37,12 @@ namespace Pg::Graphics
 		{
 			DirectX::XMMATRIX gCBuf_Bones[PG_MAX_BONECOUNT];
 		};
+
+		struct cbSceneInfo
+		{
+			DirectX::XMMATRIX gCBuf_ViewMatrix;
+			DirectX::XMMATRIX gCBuf_ProjMatrix;
+			DirectX::XMFLOAT3 gCBuf_EyePosition;
+		};
 	};
 }
