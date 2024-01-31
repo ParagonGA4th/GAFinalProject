@@ -158,7 +158,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AssetDefines.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="ProcessMain.h" />
     <ClInclude Include="EditorAdapter.h" />

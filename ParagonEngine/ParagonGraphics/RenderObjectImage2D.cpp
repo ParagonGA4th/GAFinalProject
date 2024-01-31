@@ -19,7 +19,7 @@ namespace Pg::Graphics
 		Pg::Data::ImageRenderer* tImageRenderer = static_cast<Pg::Data::ImageRenderer*>(GetBaseRenderer());
 
 		//Image 데이터를 받기.
-		auto tTexture2dData = GraphicsResourceManager::Instance()->GetResource(tImageRenderer->GetImagePath(), eAssetDefine::_2DTEXTURE);
+		auto tTexture2dData = GraphicsResourceManager::Instance()->GetResource(tImageRenderer->GetImagePath(), eAssetDefine::_TEXTURE2D);
 		_texture2D = static_cast<RenderTexture2D*>(tTexture2dData.get());
 	}
 

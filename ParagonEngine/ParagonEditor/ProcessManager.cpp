@@ -1,9 +1,12 @@
 #include "ProcessManager.h"
 #include "DataContainer.h"
+#include "Event.h"
 
 #include "../ParagonProcess/ProcessMain.h"
 #include "../ParagonProcess/EditorAdapter.h"
 #include "../ParagonAPI/PgInput.h"
+
+#include "../ParagonUtil/Log.h"
 
 #include <singleton-cpp/singleton.h>
 
@@ -33,7 +36,11 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd)
 	_isCoreInitailized = true;
 
 	_dataContainer->SetGraphicsData(_coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
+	//SRV (에디터 카메라 전달)
 	_dataContainer->SetSceneTexture(_coreMain->GetEditorAdapter()->GetEditorCameraViewSRV());
+
+	std::unique_ptr<Pg::Editor::Event> editorMode = std::make_unique<Pg::Editor::Event>();
+	editorMode->AddEvent(Pg::Editor::eEventType::_EDITORMODE, [&](void* mode) { SetEditorMode(mode); });
 }
 
 void Pg::Editor::Manager::ProcessManager::Update()
@@ -41,11 +48,14 @@ void Pg::Editor::Manager::ProcessManager::Update()
 	_coreMain->Update();
 	_coreMain->BeginRender();
 	_coreMain->Render();
+	_coreMain->PassPickedObject();
+	_coreMain->FinalRender();
+
+	
 
 	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff))
 	{
 		_dataContainer->SetEditorOnOff(!_dataContainer->GetEditorOnOff());
-		_coreMain->GetEditorAdapter()->SetEditorMode(Pg::Data::Enums::eEditorMode::_EDIT);
 	}
 
 	if (_dataContainer->GetEditorOnOff())
@@ -60,7 +70,10 @@ void Pg::Editor::Manager::ProcessManager::Update()
 
 			_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
 		}
-	}
+	}	
+
+	SetEditorMode(_dataContainer->GetEditorOnOff() ? Pg::Data::Enums::eEditorMode::_EDIT : Pg::Data::Enums::eEditorMode::_NONE);
+	//PG_TRACE(_dataContainer->GetEditorOnOff());
 }
 
 void Pg::Editor::Manager::ProcessManager::LateUpdate()
@@ -77,4 +90,16 @@ void Pg::Editor::Manager::ProcessManager::ManagerHandler(MSG message)
 {
 	if (_isCoreInitailized) _input->HandleMessage(message);
 }
+
+void Pg::Editor::Manager::ProcessManager::SetEditorMode(void* mode)
+{
+	Pg::Data::Enums::eEditorMode* eMode = static_cast<Pg::Data::Enums::eEditorMode*>(mode);
+	SetEditorMode(&eMode);
+}
+
+void Pg::Editor::Manager::ProcessManager::SetEditorMode(Pg::Data::Enums::eEditorMode mode)
+{
+	_coreMain->GetEditorAdapter()->SetEditorMode(mode);
+}
+
 

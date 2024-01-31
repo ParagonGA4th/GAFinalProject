@@ -1,308 +1,264 @@
 #include "DeferredRenderer.h"
-
-#include "TestCube.h"
-#include "VertexShader.h"
-#include "PixelShader.h"
-
-#include "GBuffer.h"
 #include "LowDX11Storage.h"
-
 #include "LayoutDefine.h"
+#include "GraphicsResourceManager.h"
+#include "RenderMaterial.h"
+
+#include "RenderObject3D.h"
+#include "RenderObject3DList.h"
+
+//RenderPasses
+#include "IRenderPass.h"
+#include "FirstStaticRenderPass.h"
+#include "ObjMatStaticRenderPass.h"
+#include "OpaqueLightingRenderPass.h"
+#include "OpaqueQuadRenderPass.h"
+#include "FinalRenderPass.h"
 
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/LightType.h"
 
-#include "RenderObjectBase.h"
+#include <cassert>
 
-#include "RenderObject3D.h"
-#include "RenderObject3DList.h"
-#include "RenderObjectLightList.h"
-
-#include "ConstantBufferDefine.h"
-
-#include "GeometryGenerator.h"
-
-Pg::Graphics::DeferredRenderer::DeferredRenderer()
+namespace Pg::Graphics
 {
-
-}
-
-void Pg::Graphics::DeferredRenderer::Initialize()
-{
-	_DXStorage = LowDX11Storage::GetInstance();
-
-	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
-	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
-	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
-	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
-	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R16G16B16A16_TYPELESS, DXGI_FORMAT_R16G16B16A16_FLOAT));
-	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
-	_gBuffers.emplace_back(new GBuffer(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT)); // phong lighting results
-
-	for (auto& e : _gBuffers)
+	DeferredRenderer::DeferredRenderer(D3DCarrier* d3dCarrier) : BaseSpecificRenderer(d3dCarrier)
 	{
-		_RTVs.emplace_back(e->GetRTV());
+		_DXStorage = LowDX11Storage::GetInstance();
+
+		
+	
 	}
 
-	for (auto& e : _gBuffers)
+	DeferredRenderer::~DeferredRenderer()
 	{
-		_SRVs.emplace_back(e->GetSRV());
+
 	}
 
-	for (int i = 0; i < _gBuffers.size(); ++i)
+	void DeferredRenderer::Initialize()
 	{
-		NullRTV.emplace_back(nullptr);
+		//요구되는 렌더 리소스 만들기 (GBufferRender & Depth Stencil)
+		_quadMainRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		//ObjMat RenderTarget
+		_quadObjMatRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32_TYPELESS, DXGI_FORMAT_R32G32_FLOAT);
+
+		//Depth Writing이 가능한 Description 투입. (현재는 Default랑 같음)
+		D3D11_DEPTH_STENCIL_DESC tDepthStencilDesc;
+		tDepthStencilDesc.DepthEnable = TRUE;
+		tDepthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		tDepthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+		tDepthStencilDesc.StencilEnable = FALSE;
+		tDepthStencilDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+		tDepthStencilDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+		tDepthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+		tDepthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+		tDepthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+		tDepthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		tDepthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+		tDepthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+		tDepthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+		tDepthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+
+		_quadMainDSV = std::make_unique<GBufferDepthStencil>(&tDepthStencilDesc);
+
+		//Carrier에 값을 전달한다. (MainRenderTarget 전까지 모든 렌더링의 기본이 될 것)
+		_carrier->_quadMainRT = _quadMainRTV.get();
+		_carrier->_quadMainGDS = _quadMainDSV.get();
+		_carrier->_quadObjMatRT = _quadObjMatRTV.get();
+
+		//자체적인 OpaqueQuad DSV.
+		_opaqueQuadDSV = std::make_unique<GBufferDepthStencil>();
 	}
 
-	for (int i = 0; i < _gBuffers.size(); ++i)
+	void DeferredRenderer::RenderContents(void* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		NullSRV.emplace_back(nullptr);
+		Render((RenderObject3DList*)renderObjectList, camData);
 	}
 
-	BuildFullscreenQuad();
-
-	// 1st Pass
-	_firstVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/FirstStatic_VS.cso");
-	_firstVS->_inputLayout = LayoutDefine::GetStatic1stLayout();
-	_firstPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/FirstStage_PS.cso");
-
-	_lightingVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/PhongVS.cso");
-	_lightingVS->_inputLayout = LayoutDefine::Get2ndLayout();
-	_lightingPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/PhongPS.cso");
-
-	// 2nd Pass
-	_secondVS = new VertexShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/SecondStage_VS.cso");
-	_secondVS->_inputLayout = LayoutDefine::Get2ndLayout();
-	_secondPS = new PixelShader(Pg::Data::Enums::eAssetDefine::_RENDERSHADER, "../Builds/x64/debug/SecondStage_PS.cso");
-}
-
-void Pg::Graphics::DeferredRenderer::BeginRender()
-{
-	// Set Depth Stencil State
-	_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_depthStencilState, 0);
-
-	_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
-	ClearGBuffers();
-
-	_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
-}
-
-void Pg::Graphics::DeferredRenderer::BindFirstPass()
-{
-	// Bind Shaders
-	_firstVS->Bind();
-	_firstPS->Bind();
-
-	_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidState);
-	_DXStorage->_deviceContext->PSSetShaderResources(0, 1, &NullSRV[0]);
-	_DXStorage->_deviceContext->PSSetSamplers(0, 1, &_DXStorage->_defaultSamplerState);
-
-	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), _RTVs.data(), _DXStorage->_depthStencilView);
-}
-
-void Pg::Graphics::DeferredRenderer::RenderFirstPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
-{
-
-	for (auto& it : renderObjectList->_list)
+	void DeferredRenderer::Render(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		if (it.second->GetBaseRenderer()->GetActive())
+		//패스 외적으로 들어가야 하는 리소스들 GPU에 배치. 이 경우, SamplerState만 위로 배치.
+		PlaceRequiredResources();
+
+		//렌더러들 사이로 돌 D3DCarrier의 리소스 기본 설정.
+		UpdateCarrierResources();
+
+		//Pass를 순서대로 호출하는 방식.
+		//나중에 Custom 동작이 필요하다고 한다면, 단순한 For문으로 안될 수도 있다.
+		//여튼, 특정한 Pass에 값을 전달하는 코드가 있어야 할 것이다.
+
+		//For문 대신, 명시적으로 값 호출. (나누기)
+		RenderFirstStaticPass(renderObjectList, camData);
+		RenderObjMatStaticPass(renderObjectList, camData);
+		RenderOpaqueLightingPass(renderObjectList, camData);
+		RenderOpaqueQuadPasses(renderObjectList, camData);
+
+
+	}
+
+	void DeferredRenderer::ConfirmCarrierData()
+	{
+		//		_carrier->_quadMainGDS = 
+	}
+
+	void DeferredRenderer::PushRenderPasses()
+	{
+		//Render Pass Vector 구성.
+		
+		//첫번째는 무조건 FirstRenderPass.
+		_firstStaticRenderPass = std::make_unique<FirstStaticRenderPass>();
+
+		//두번째는 일단 ObjMatStaticRenderPass.
+		_objMatStaticRenderPass = std::make_unique<ObjMatStaticRenderPass>();
+
+		//Skinned가 들어오면 FirstStatic->FirstSkinned->ObjMatStatic->ObjMatSkinned일것.
+
+		//OpaqueLightingRenderPass.
+		_opaqueLightingPass = std::make_unique<OpaqueLightingRenderPass>();
+
+		//모든 Material의 목록을 받은 뒤, 순서대로 OpaqueQuadRenderPass 호출. (일반적인 경우)
+		//N개의 Material이 있으면, N개의 Pass가 만들어진다.
+		using Pg::Graphics::Manager::GraphicsResourceManager;
+		auto tMatVec = GraphicsResourceManager::Instance()->GetAllResourcesByDefine(Data::Enums::eAssetDefine::_RENDERMATERIAL);
+		for (auto& it : tMatVec)
 		{
-			it.second->UpdateConstantBuffers(camData);
-			it.second->BindConstantBuffers();
-			it.second->Render();
-			it.second->UnbindConstantBuffers();
+			RenderMaterial* tRM = static_cast<RenderMaterial*>(it.get());
+			assert(tRM != nullptr);
+			_opaqueQuadPassesVector.push_back(new OpaqueQuadRenderPass(tRM));
 		}
 	}
 
-}
-
-void Pg::Graphics::DeferredRenderer::UnbindFirstPass()
-{
-	// Unbind Shaders
-	_firstVS->UnBind();
-	_firstPS->UnBind();
-
-	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), NullRTV.data(), _DXStorage->_depthStencilView);
-}
-
-void Pg::Graphics::DeferredRenderer::BindSecondPass()
-{
-	// Bind Quad
-	BindFullscreenQuad();
-
-	// Bind Shaders
-	_secondVS->Bind();
-	_secondPS->Bind();
-
-	// Bind Constant Buffers
-
-	// Set Shader Resources to Sample
-	_DXStorage->_deviceContext->VSSetShaderResources(0, _SRVs.size(), _SRVs.data());
-	_DXStorage->_deviceContext->PSSetShaderResources(0, _SRVs.size(), _SRVs.data());
-
-	// Set Sampler State
-	_DXStorage->_deviceContext->PSSetSamplers(0, 1, &_DXStorage->_defaultSamplerState);
-
-	_DXStorage->_deviceContext->ClearRenderTargetView(_DXStorage->_mainRTV, _DXStorage->_backgroundColor);
-	// Render to Main Render Target
-	_DXStorage->_deviceContext->OMSetRenderTargets(1, &_DXStorage->_mainRTV, _DXStorage->_depthStencilView);
-	_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_2ndPassDepthStencilState, 0);
-}
-
-void Pg::Graphics::DeferredRenderer::RenderSecondPass()
-{
-	//Quad를 그린다.
-	_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
-
-	//_DXStorage->_deviceContext->OMSetBlendState(nullptr, NULL, 0xffffffff);
-	//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
-}
-
-void Pg::Graphics::DeferredRenderer::UnbindSecondPass()
-{
-	_secondVS->UnBind();
-	_secondPS->UnBind();
-
-	UnbindConstantBuffers(_lightingCBs);
-
-	_DXStorage->_deviceContext->VSSetShaderResources(0, _SRVs.size(), NullSRV.data());
-	_DXStorage->_deviceContext->PSSetShaderResources(0, _SRVs.size(), NullSRV.data());
-
-	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), NullRTV.data(), _DXStorage->_depthStencilView);
-	_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_depthStencilState, 0);
-}
-
-void Pg::Graphics::DeferredRenderer::BuildFullscreenQuad()
-{
-	GeometryGenerator tGeometryGenerator;
-	GeometryGenerator::MeshData_PosNormalTex tMeshData;
-	tGeometryGenerator.GenerateFullscreenQuad(tMeshData);
-
-	// Buffer Description
-	D3D11_BUFFER_DESC VBDesc;
-	VBDesc.Usage = D3D11_USAGE_DEFAULT;
-	VBDesc.ByteWidth = tMeshData.Vertices.size() * sizeof(GeometryGenerator::MeshData_PosNormalTex);
-	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	VBDesc.CPUAccessFlags = 0;
-	VBDesc.MiscFlags = 0;
-
-	// Subresource Data
-	D3D11_SUBRESOURCE_DATA VBInitData;
-	VBInitData.pSysMem = tMeshData.Vertices.data();
-	VBInitData.SysMemPitch = 0;
-	VBInitData.SysMemSlicePitch = 0;
-
-	// Create the vertex buffer.
-	HRESULT hr = _DXStorage->_device->CreateBuffer(&VBDesc, &VBInitData, &_VB);
-
-	// Buffer Description
-	D3D11_BUFFER_DESC IBDesc;
-	IBDesc.Usage = D3D11_USAGE_DEFAULT;
-	IBDesc.ByteWidth = tMeshData.Indices.size() * sizeof(int);
-	IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	IBDesc.CPUAccessFlags = 0;
-	IBDesc.MiscFlags = 0;
-
-	// Subresource Data
-	D3D11_SUBRESOURCE_DATA IBInitData;
-	IBInitData.pSysMem = tMeshData.Indices.data();
-	IBInitData.SysMemPitch = 0;
-	IBInitData.SysMemSlicePitch = 0;
-
-	// Create the Index buffer.
-	hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &_IB);
-}
-
-void Pg::Graphics::DeferredRenderer::ClearGBuffers()
-{
-	for (auto& e : _RTVs)
+	void DeferredRenderer::InitializeRenderPasses()
 	{
-		_DXStorage->_deviceContext->ClearRenderTargetView(e, _DXStorage->_backgroundColor);
+		_firstStaticRenderPass->Initialize();
+		_objMatStaticRenderPass->Initialize();
+		_opaqueLightingPass->Initialize();
+
+		//일괄적으로 Initialize() 호출.
+		for (auto& it : _opaqueQuadPassesVector)
+		{
+			it->Initialize();
+		}
 	}
-}
 
-void Pg::Graphics::DeferredRenderer::BindLightingPass()
-{
-	auto LightingBuffer = _gBuffers[6];
-	auto LightingBufferSRV = LightingBuffer->GetSRV();
-	auto LightingBufferRTV = LightingBuffer->GetRTV();
-
-	// Bind Quad
-	BindFullscreenQuad();
-
-	// Bind Shaders
-	// TODO: 라이팅 모델에 따라 쉐이더가 바뀔 수 있어야 한다.
-	// ex) Lit / Unlit / Blinn-Phong / PBR ,,, 
-	_lightingVS->Bind();
-	_lightingPS->Bind();
-
-	BindConstantBuffers(_lightingCBs);
-
-	// Set Shader Resources to Sample
-	_DXStorage->_deviceContext->VSSetShaderResources(0, _SRVs.size() - 1, _SRVs.data());
-	_DXStorage->_deviceContext->PSSetShaderResources(0, _SRVs.size() - 1, _SRVs.data());
-
-	// Set Sampler State
-	_DXStorage->_deviceContext->PSSetSamplers(0, 1, &_DXStorage->_defaultSamplerState);
-
-	_DXStorage->_deviceContext->ClearRenderTargetView(LightingBufferRTV, _DXStorage->_backgroundColor);
-	// Render to Main Render Target
-	_DXStorage->_deviceContext->OMSetRenderTargets(1, &LightingBufferRTV, _DXStorage->_depthStencilView);
-	_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_2ndPassDepthStencilState, 0);
-
-}
-
-void Pg::Graphics::DeferredRenderer::UnbindLightingPass()
-{
-	//UnbindConstantBuffers(_lightingCBs);
-
-	_lightingVS->UnBind();
-	_lightingPS->UnBind();
-
-	_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), NullRTV.data(), _DXStorage->_depthStencilView);
-}
-
-void Pg::Graphics::DeferredRenderer::RenderLight(RenderObjectLightList* lightList, Pg::Data::CameraData* camData)
-{
-	// 조명 정보를 담고 있는 상수버퍼를 조립하고 업데이트
-	lightList->Update(camData);
-	UpdateConstantBuffers(_lightingCBs);
-
-	// 조명을 연산한다
-	_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
-}
-
-void Pg::Graphics::DeferredRenderer::UpdateConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers)
-{
-	for (int i = 0; i < _constantBuffers.size(); ++i)
+	void DeferredRenderer::PlaceRequiredResources()
 	{
-		_constantBuffers[i]->Update(i);
-	}
-}
+		//샘플러 함수. (Appends_SamplerStates.hlsli)
 
-void Pg::Graphics::DeferredRenderer::BindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers)
-{
-	for (int i = 0; i < _constantBuffers.size(); ++i)
+		//SamplerState fullScreenQuadSS : register(s0)
+		_DXStorage->_deviceContext->PSSetSamplers(0, 1, &(_DXStorage->_fullScreenQuadSamplerState));
+
+		//SamplerState lightmapSS : register(s1);
+		_DXStorage->_deviceContext->PSSetSamplers(1, 1, &(_DXStorage->_lightmapSamplerState));
+
+		//SamplerState defaultTextureSS : register(s2);
+		_DXStorage->_deviceContext->PSSetSamplers(2, 1, &(_DXStorage->_defaultSamplerState));
+
+	}
+
+	void DeferredRenderer::UpdateCarrierResources()
 	{
-		_constantBuffers[i]->Bind(i);
-	}
-}
+		//Carrier에 값을 전달한다. (MainRenderTarget 전까지 모든 렌더링의 기본이 될 것)
+		_carrier->_quadMainRT = _quadMainRTV.get();
+		_carrier->_quadMainGDS = _quadMainDSV.get();
 
-void Pg::Graphics::DeferredRenderer::UnbindConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers)
-{
-	for (int i = 0; i < _constantBuffers.size(); ++i)
+		//Main ObjMat RT를 Carrier에 전달한다.
+		_carrier->_quadObjMatRT = _quadObjMatRTV.get();
+
+		//모든 RGBA값이 0이 되도록 초기화.
+		float zeroColArray[4] = {0.f, 0.f, 0.f, 0.f};
+
+		//자체적인 DSV Clear, Depth Stencil State 리셋, OMSetRenderTargets.
+		_DXStorage->_deviceContext->ClearRenderTargetView(_carrier->_quadMainRT->GetRTV(), zeroColArray);
+
+		_DXStorage->_deviceContext->ClearDepthStencilView(_carrier->_quadMainGDS->GetDSV(),
+			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0.0f);
+		_DXStorage->_deviceContext->OMSetDepthStencilState(_carrier->_quadMainGDS->GetDSState(), 0);
+	}
+
+	void DeferredRenderer::SetupRenderPasses()
 	{
-		_constantBuffers[i]->Unbind(i);
+		PushRenderPasses();
+		InitializeRenderPasses();
 	}
+
+	void DeferredRenderer::RenderFirstStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		
+		//0번째 RenderPass : 초반 Static Mesh 그대로 전달한다.
+		_firstStaticRenderPass->ReceiveRequiredElements(*_carrier);
+		_firstStaticRenderPass->BindPass();
+		_firstStaticRenderPass->RenderPass(renderObjectList, camData);
+		_firstStaticRenderPass->UnbindPass();
+		_firstStaticRenderPass->ExecuteNextRenderRequirements();
+		_firstStaticRenderPass->PassNextRequirements(*_carrier);
+
+		//[구상했던 것, 취소됨]
+		//Skinned가 들어오면 달라져야 하지만, DepthStencil을 전달할 수 있어야 한다.
+		//Forward에게 넘길 Deferred Object의 Depth Stencil을 전달한다.
+
+	}
+
+	void DeferredRenderer::RenderObjMatStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		//1번째 RenderPass : ObjMatStaticRenderPass.
+		_objMatStaticRenderPass->ReceiveRequiredElements(*_carrier);
+		_objMatStaticRenderPass->BindPass();
+		_objMatStaticRenderPass->RenderPass(renderObjectList, camData);
+		_objMatStaticRenderPass->UnbindPass();
+		_objMatStaticRenderPass->ExecuteNextRenderRequirements();
+		_objMatStaticRenderPass->PassNextRequirements(*_carrier);
+	
+	}
+
+	void DeferredRenderer::RenderOpaqueLightingPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		// 모든 Static / Skinned가 렌더링된 이후, 라이팅 패스를 처리한다!
+		_opaqueLightingPass->ReceiveRequiredElements(*_carrier);
+		_opaqueLightingPass->BindPass();
+		_opaqueLightingPass->RenderPass(renderObjectList, camData);
+		_opaqueLightingPass->UnbindPass();
+		_opaqueLightingPass->ExecuteNextRenderRequirements();
+		_opaqueLightingPass->PassNextRequirements(*_carrier);
+	}
+
+	void DeferredRenderer::RenderOpaqueQuadPasses(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		//Opaque Quad 전용 RTV / DSV 클리어.
+		_DXStorage->_deviceContext->ClearDepthStencilView(_opaqueQuadDSV->GetDSV(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0.0f);
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_quadMainRTV->GetRTV()), _opaqueQuadDSV->GetDSV());
+
+		//Opaque Quad에서 사용되는 정보들 캐리어에 투입.
+		_carrier->_dsv = _opaqueQuadDSV->GetDSV();
+
+		//Opaque Quad Render Pass 
+		for (int i = 0; i < _opaqueQuadPassesVector.size(); i++)
+		{
+			//Render Target, Shader Resource View는 이대로 전달할 것.
+			_opaqueQuadPassesVector[i]->ReceiveRequiredElements(*_carrier);
+			_opaqueQuadPassesVector[i]->BindPass();
+			_opaqueQuadPassesVector[i]->RenderPass(renderObjectList, camData);
+			_opaqueQuadPassesVector[i]->UnbindPass();
+			_opaqueQuadPassesVector[i]->ExecuteNextRenderRequirements();
+			_opaqueQuadPassesVector[i]->PassNextRequirements(*_carrier);
+		}
+
+		//더 이상 값을 설정하지 않을 때 이런 식으로 할당 해제해주면 된다.
+		_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
+
+		//Quad 렌더링하는데 쓰였던 Resources들 Clear.
+		//더 이상 안쓰이는 Resource Slot들 -> nullptr로 설정.
+		ID3D11ShaderResourceView* pSRV = nullptr;
+		for (int i = 0; i < 7; i++)
+		{
+			_DXStorage->_deviceContext->PSSetShaderResources(i, 1, &pSRV);
+		}
+	}
+
+
+
 }
 
-void Pg::Graphics::DeferredRenderer::BindFullscreenQuad()
-{
-	// Bind Buffers
-	UINT stride = sizeof(GeometryGenerator::GeomVertex_PosNormalTex);
-	UINT offset = 0;
-	_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &_VB, &stride, &offset);
-	_DXStorage->_deviceContext->IASetIndexBuffer(_IB, DXGI_FORMAT_R32_UINT, 0);
-}
+

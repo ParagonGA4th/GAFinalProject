@@ -8,12 +8,12 @@ void Pg::Editor::Data::DataContainer::SetGraphicsData(ID3D11Device* d, ID3D11Dev
 	_deviceContext = dc;
 }
 
-ID3D11Device* Pg::Editor::Data::DataContainer::GetDevice()
+ID3D11Device* Pg::Editor::Data::DataContainer::GetDevice() const
 {
 	return _device;
 }
 
-ID3D11DeviceContext* Pg::Editor::Data::DataContainer::GetDeviceContext()
+ID3D11DeviceContext* Pg::Editor::Data::DataContainer::GetDeviceContext() const
 {
 	return _deviceContext;
 }
@@ -23,7 +23,7 @@ void Pg::Editor::Data::DataContainer::SetSceneTexture(void* Texture)
 	_sceneTexture = Texture;
 }
 
-void* Pg::Editor::Data::DataContainer::GetSceneTexture()
+void* Pg::Editor::Data::DataContainer::GetSceneTexture() const
 {
 	return _sceneTexture;
 }
@@ -33,7 +33,7 @@ void Pg::Editor::Data::DataContainer::SetGameTexture(void* Texture)
 	_gameTexture = Texture;
 }
 
-void* Pg::Editor::Data::DataContainer::GetGameTexture()
+void* Pg::Editor::Data::DataContainer::GetGameTexture() const
 {
 	return _gameTexture;
 }
@@ -43,7 +43,7 @@ void Pg::Editor::Data::DataContainer::SetEditorOnOff(bool onoff)
 	_onOff = onoff;
 }
 
-bool Pg::Editor::Data::DataContainer::GetEditorOnOff()
+bool Pg::Editor::Data::DataContainer::GetEditorOnOff() const
 {
 	return _onOff;
 }
@@ -84,5 +84,13 @@ Pg::Data::Scene* Pg::Editor::Data::DataContainer::GetCurrentScene()
 	return _currentScene;
 }
 
+void Pg::Editor::Data::DataContainer::SetScenesData(ScenesData* sceneData)
+{
+	_scenesData = sceneData;
+}
 
+ScenesData* Pg::Editor::Data::DataContainer::GetScenesData() const
+{
+	return _scenesData;
+}
 

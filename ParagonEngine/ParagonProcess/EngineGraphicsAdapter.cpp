@@ -72,9 +72,18 @@ namespace Pg::Core
 
 	void EngineGraphicsAdapter::Render()
 	{
-
 		//워크스페이스 버전
 		_graphics->Render(_engine->GetCurrentScene());
+	}
+
+	Pg::Data::GameObject* EngineGraphicsAdapter::GetPickedGameObjectWithRatios(float widthRatio, float heightRatio)
+	{
+		return _graphics->GetPickedGameObjectWithRatios(widthRatio, heightRatio);
+	}
+
+	void EngineGraphicsAdapter::FinalRender()
+	{
+		_graphics->FinalRender();
 	}
 
 	void EngineGraphicsAdapter::EndRender()
@@ -165,10 +174,15 @@ namespace Pg::Core
 		const auto& tPlaneColVec = _engine->GetPlaneDebugData();
 		_graphics->SetPlaneDebugRenderData(tPlaneColVec);
 
+		const auto& tRayCastColVec = _engine->GetRayCastDebugData();
+		_graphics->SetRayCastDebugRenderData(tRayCastColVec);
 	}
 
 	void EngineGraphicsAdapter::ClearDebugVectorData()
 	{
 		_engine->ClearDebugVectorData();
 	}
+
+	
+
 }

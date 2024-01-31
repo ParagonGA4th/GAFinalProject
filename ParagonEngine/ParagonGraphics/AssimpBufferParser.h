@@ -72,12 +72,13 @@ namespace Pg::Graphics::Helper
 		static void AssimpToSceneAssetData(const aiScene* assimp, const std::string& path, Scene_AssetData* outSceneAssetData);
 		static void AssimpToMaterialClusterList(const aiScene* assimp, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory);
 		
+
 		//후에, 여기에 Animation을 로드하는 함수가 들어가야 할 것.
 	
 	private:
 		//직접적으로 VB/IB를 만들어내보내는 함수들.
-		static void ParseAssimpStatic(const aiScene* assimp, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt);
-		static void ParseAssimpSkinned(const aiScene* assimp, const Scene_AssetData* sceneData, const std::vector<RenderPrepVertexBone>& vertexBoneVector, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt);
+		static void ParseAssimpStatic(const aiScene* assimp, Scene_AssetData* sceneData, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt);
+		static void ParseAssimpSkinned(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, const std::vector<RenderPrepVertexBone>& vertexBoneVector, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt);
 
 		//Skinned Data 저장하는 함수.
 		static void StoreIndependentSkinnedData(const aiScene* assimp, Skinned_AssetData* skinnedData);
@@ -99,6 +100,8 @@ namespace Pg::Graphics::Helper
 		static void StoreAssimpAnimation(const aiAnimation* assimp, Animation_AssetData* pgAnim);
 		//Bone Info도 있어야 하는데..
 
+
+		 
 		//Material 관련.
 
 	private:

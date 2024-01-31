@@ -130,7 +130,4 @@ namespace Pg::Data
 	{
 		_mainDirLight = mainLight;
 	}
-
-
-
 }

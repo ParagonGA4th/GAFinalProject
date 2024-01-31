@@ -8,13 +8,17 @@
 #include "../ParagonGameEngine/EngineResourceManager.h"
 
 #include "../ParagonUtil/ResourceHelper.h"
+#include "../ParagonUtil/Log.h"
 
 //<ResourcesList>
 #include "../ParagonGraphics/RenderMaterial.h"
 //</ResourcesList>
 
 #include <algorithm>
+#include <filesystem>
 #include <cassert>
+#include <set>
+#include <iterator>
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
@@ -91,6 +95,61 @@ namespace Pg::Core::Manager
 		CheckForGraphicsToProcessLoad(graphics);
 	}
 
+	void AssetManager::AssureNoNameDuplicates()
+	{
+		std::vector<std::string> _pathNamesVector;
+		_pathNamesVector.reserve(_resourceMap.size());
+
+		//std::set
+		for (auto& [bPathName, bAssetDefine] : _resourceMap)
+		{
+			std::filesystem::path tPath = bPathName;
+			std::string tName = tPath.filename().generic_string();
+			assert(!tName.empty());
+
+			_pathNamesVector.push_back(tName);
+		}
+		std::sort(_pathNamesVector.begin(), _pathNamesVector.end());
+		std::vector<std::string>::iterator it = std::unique(_pathNamesVector.begin(), _pathNamesVector.end());
+
+		//중복 요소가 있는지 확인.
+		bool tWasUnique = (it == _pathNamesVector.end());
+
+
+		PG_WARN("Main 브랜치와 합친 뒤, 해당 줄의 리소스 중복 검사 로직 활성화해야.");
+		//if (!tWasUnique)
+		//{
+		//	//assert false 하기 전에, 오류 코드 등 출력.
+		//	std::set<std::string> _tempDupNameResourceSet;
+		//
+		//	//마지막으로 중복되지 않은 Iterator
+		//	auto tRend = std::make_reverse_iterator(std::prev(it));
+		//	for (auto endIt = _pathNamesVector.rbegin(); endIt != tRend; endIt++)
+		//	{
+		//		_tempDupNameResourceSet.insert(*endIt);
+		//	}
+		//
+		//	//std::unique 자체로 생기는 "" 제거. (크기를 바꾸지 않기 때문에)
+		//	_tempDupNameResourceSet.erase("");
+		//
+		//	std::string tDebugLogString = "Duplicates : \n";
+		//	for (auto& itt : _tempDupNameResourceSet)
+		//	{
+		//		tDebugLogString += " < ";
+		//		tDebugLogString += itt;
+		//		tDebugLogString += " > ";
+		//	}
+		//
+		//	tDebugLogString += "\n";
+		//	tDebugLogString += "Total Repeated Count : ";
+		//	tDebugLogString += std::to_string(_tempDupNameResourceSet.size());
+		//
+		//	PG_ERROR(tDebugLogString.c_str());
+		//
+		//	assert(false && "여기서 걸리면 중복되는 파일 이름을 가진 다른 경로의 리소스들이 있다는 것이다. 제거해야.");
+		//}
+	}
+
 	bool AssetManager::IsExistResource(const std::string& filepath)
 	{
 		std::string tFilePath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(filepath);
@@ -149,7 +208,22 @@ namespace Pg::Core::Manager
 
 	void AssetManager::TemporaryLoadResources()
 	{
+		using Pg::Data::Enums::eAssetDefine;
+
 		//CreateResource를 임시로 여기에 호출.
+
+	
+
+		//현재 파이프라인에는 요구되지 않으나, 리플렉션을 보기 위해.
+		//LoadResource("../Builds/x64/Debug/AppendTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
+		
+		//Art ARM 테스트용.
+		//LoadResource("../Resources/3DModels/StaticMesh/240119_arm_test/240119_arm_test.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/StaticMesh/CustomPropertyExportTest/CustomPropertyExportTest.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+
+		
+
+		LoadResource("../Resources/3DModels/StaticMesh/DefaultGeometry/DefaultGeometry.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/StaticMesh/JustCopyCube/JustCopyCube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
@@ -161,19 +235,35 @@ namespace Pg::Core::Manager
 		LoadResource("../Resources/3DModels/BasicMesh/Sphere/Sphere.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/BasicMesh/Plane/plane.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/Textures/tw_normal.png", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
-		LoadResource("../Resources/Textures/tw_diffuse.png", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
-		LoadResource("../Resources/Textures/wook.jpg", Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+		LoadResource("../Resources/Textures/tw_normal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		LoadResource("../Resources/Textures/tw_diffuse.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		LoadResource("../Resources/Textures/wook.jpg", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
 		LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
-	
+
+		//ShaderMaterial로 추가한 요소들.
+		//LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbm/road_1_diffuseOriginal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		//LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbm/lava_1_diffuseOriginal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+
+		
+		LoadResource("../Builds/x64/Debug/AppendObjectTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
+		LoadResource("../Builds/x64/Debug/AppendObjectTestPS.cso", eAssetDefine::_RENDER_PIXELSHADER);
+		LoadResource("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat", Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
+		LoadResource("../Resources/Textures/room.dds", eAssetDefine::_CUBEMAP);
 		//LoadResource("../Resources/3DModels/AnimMesh/twcylinder/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 	}
 
 	void AssetManager::LoadDefaultResources()
 	{
-		LoadResource(Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
-		LoadResource(Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_2DTEXTURE);
+		using Pg::Data::Enums::eAssetDefine;
+
+		LoadResource(Pg::Defines::ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
+		LoadResource(Pg::Defines::ASSET_DEFAULT_NORMAL_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
+
+		LoadResource("../Builds/x64/Debug/AppendObjectDefaultVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
+		LoadResource("../Builds/x64/Debug/AppendObjectDefaultPS.cso", eAssetDefine::_RENDER_PIXELSHADER);
 	}
+
+
 
 }

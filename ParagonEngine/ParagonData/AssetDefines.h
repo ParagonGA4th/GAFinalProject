@@ -10,11 +10,15 @@ namespace Pg::Data::Enums
 	enum class eAssetDefine
 	{
 		_NONE,
-		_2DTEXTURE,
+		_TEXTURE1D,
+		_TEXTURE2D,
+		_TEXTURE2DARRAY,
+		_TEXTURECUBE,
 		_CUBEMAP,
 		_3DMODEL, //Graphic Engine에서 Static / Skinned를 구분할 것.
 		_FONT,
-		_RENDERSHADER,
+		_RENDER_VERTEXSHADER,
+		_RENDER_PIXELSHADER,
 		_RENDERMATERIAL
 	};
 }

@@ -6,9 +6,9 @@ namespace Pg::Data
 
 	StaticBoxCollider::StaticBoxCollider(GameObject* owner) :
 		StaticCollider(owner),
-		_width(1.0f),
-		_height(1.0f),
-		_depth(1.0f)
+		_width(2.0f),
+		_height(2.0f),
+		_depth(2.0f)
 	{
 
 	}

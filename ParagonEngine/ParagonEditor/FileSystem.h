@@ -27,7 +27,7 @@ namespace Pg::Editor::System
 		void CreateFolder();
 		void CreateParagonFile(std::unordered_map<std::string, std::string> fileData);
 
-		std::string SeparatingFileName();
+		//std::string SeparatingFileName();
 
 	private:
 		FilePath _rootPath;
