@@ -7,4 +7,10 @@ namespace Pg::Data
 	{
 		SetRendererTypeName(typeid(this).name());
 	}
+
+	void StaticMeshRenderer::InitializePathsFromName()
+	{
+		//후에 호출될 예정.
+	}
+
 }
