@@ -25,7 +25,7 @@ Pg::Editor::Window::Scene::~Scene()
 
 void Pg::Editor::Window::Scene::Initialize()
 {
-	_widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 1080.f, 920.f);
+	_widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 1920.f, 1080.f);
 }
 
 void Pg::Editor::Window::Scene::Update()
