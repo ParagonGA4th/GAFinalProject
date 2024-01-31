@@ -41,8 +41,8 @@
 				<Case>t2_DiffuseTexture2</Case>
 			</VariableOrder>
 			<Variables>
-				<Case Name="t2_DiffuseTexture" Type="Texture2D" ResourceReturnType="PG_RETURN_TYPE_FLOAT" RegisterCount="25" Value="road_1_diffuseOriginal.png" />
-				<Case Name="t2_DiffuseTexture2" Type="Texture2D" ResourceReturnType="PG_RETURN_TYPE_FLOAT" RegisterCount="26" Value="lava_1_diffuseOriginal.png" />
+				<Case Name="t2_DiffuseTexture" Type="Texture2D" ResourceReturnType="PG_RETURN_TYPE_FLOAT" RegisterCount="25" Value="road_1_diffuseOriginal.dds" />
+				<Case Name="t2_DiffuseTexture2" Type="Texture2D" ResourceReturnType="PG_RETURN_TYPE_FLOAT" RegisterCount="26" Value="lava_1_diffuseOriginal.dds" />
 			</Variables>
 		</Textures>
 	</PixelShader>

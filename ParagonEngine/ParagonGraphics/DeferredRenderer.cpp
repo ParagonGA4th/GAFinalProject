@@ -21,6 +21,7 @@
 #include "../ParagonData/LightType.h"
 
 #include <cassert>
+#include <algorithm>
 
 namespace Pg::Graphics
 {
@@ -28,8 +29,8 @@ namespace Pg::Graphics
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 
-		
-	
+		//NullSRV Array nullptr로 채우기.
+		std::fill(_nullSRVArray.begin(), _nullSRVArray.end(), nullptr);
 	}
 
 	DeferredRenderer::~DeferredRenderer()
@@ -252,11 +253,24 @@ namespace Pg::Graphics
 
 		//Quad 렌더링하는데 쓰였던 Resources들 Clear.
 		//더 이상 안쓰이는 Resource Slot들 -> nullptr로 설정.
-		ID3D11ShaderResourceView* pSRV = nullptr;
+		ID3D11ShaderResourceView* tNullSRV = nullptr;
 		for (int i = 0; i < 7; i++)
 		{
-			_DXStorage->_deviceContext->PSSetShaderResources(i, 1, &pSRV);
+			_DXStorage->_deviceContext->PSSetShaderResources(i, 1, &tNullSRV);
 		}
+
+		//t12-14 - internalPBRTextures Unbind
+		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, &tNullSRV);
+		_DXStorage->_deviceContext->PSSetShaderResources(13, 1, &tNullSRV);
+		_DXStorage->_deviceContext->PSSetShaderResources(14, 1, &tNullSRV);
+
+		//VS Constant Buffer -> SceneInfo 값 리셋.
+		ID3D11Buffer* tNullBuffer = nullptr;
+		_DXStorage->_deviceContext->PSSetConstantBuffers(4, 1, &tNullBuffer);
+
+		//GBufferTextures-> GBuffer / Depth Buffer Unbind.
+		_DXStorage->_deviceContext->PSSetShaderResources(15, 5, _nullSRVArray.data());
+		_DXStorage->_deviceContext->PSSetShaderResources(20, 1, _nullSRVArray.data());
 	}
 
 

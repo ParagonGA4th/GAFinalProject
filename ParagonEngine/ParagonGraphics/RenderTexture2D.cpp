@@ -31,4 +31,15 @@ namespace Pg::Graphics
 	{
 
 	}
+
+	unsigned int RenderTexture2D::GetFileWidth()
+	{
+		return _fileWidth;
+	}
+
+	unsigned int RenderTexture2D::GetFileHeight()
+	{
+		return _fileHeight;
+	}
+
 }

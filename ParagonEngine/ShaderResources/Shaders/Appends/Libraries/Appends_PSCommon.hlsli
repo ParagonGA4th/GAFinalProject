@@ -8,9 +8,12 @@
 
 //Appends
 #include "TextureBuffers/Appends_GBufferTextures.hlsli"
+#include "TextureBuffers/Appends_PBRBufferTextures.hlsli"
 #include "TextureBuffers/Appends_LightmapTextures.hlsli"
 
 //Required
 #include "Required/Appends_ObjMat.hlsli"
+
+
 
 #endif //__DEFINED_APPENDS_PS_COMMON_HLSL__

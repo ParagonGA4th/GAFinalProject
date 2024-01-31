@@ -3,10 +3,8 @@
 
 //Append Shader에 쓰일 셰이더 Commons
 #include "../../../Libraries/Appends_PSCommon.hlsli"
-
-//Texture2D는 무조건 t25에서 시작.
-Texture2DArray<float4> t2_DiffuseTextureArray : register(t25);
-Texture2DArray<float4> t2_NormalTextureArray : register(t26);
+#include "../../../Libraries/SceneInfo/Appends_SceneInfoPS.hlsli"
+#include "../../../Libraries/MathFunctions/Appends_MathFunctions.hlsli"
 
 //반드시 인풋 = VOutQuad, 아웃풋 = POutQuad
 POutQuad main(VOutQuad pin)
@@ -17,14 +15,83 @@ POutQuad main(VOutQuad pin)
     //본격적인 Shader Code.
     POutQuad res;
     
-    //이게 맞음!
-    float3 tT2UV3 = GetTex2DArrayUV_F3(pin.UV);
-    res.Output = t2_DiffuseTextureArray.Sample(defaultTextureSS, tT2UV3);
-    //res.Output = t2_DiffuseTextureArray.Sample(defaultTextureSS, GetTex2DArrayUV_F3(pin.UV));
-    //테스트.
-    //res.Output = t2_DiffuseTextureArray.Sample(defaultTextureSS, float3(GetTex2DArrayUV_F3(pin.UV).xy, 0.0f));
+    //PBR 적용.
+    float3 albedo = GetAlbedoMap(pin.UV);
+    float metalness = GetMetallicMap(pin.UV);
+    float roughness = GetRoughnessMap(pin.UV);
     
-    // Normal은 일단은 반영하지 않았음.
+    //라이팅 패스가 자리잡기 전까지, 일단 대체용 코드로 셰이더 돌리기.
+    float3 lightDirArr[3] = { firstLightDir, secondLightDir, thirdLightDir };
+    float lightRadianceArr[3] = { firstRad, secondRad, secondRad };
+    
+;   //Outgoing 빛의 방향 (WorldPos -> Eye 벡터 방향)
+    float3 Lo = normalize(GetEyePosition() - GetPosition(pin.UV));
+    
+    //Normal Mapping. 
+    float3 N = NormalSampleToWorldSpace(GetNormalMap(pin.UV), GetNormal(pin.UV), GetTangent(pin.UV));
+    N = normalize(N);
+    //float3 N = GetNormal(pin.UV);
+    
+    // 표면 노말 <-> Outgoing 빛 방향 사이의 각.
+    float cosLo = max(0.0, dot(N, Lo)); //NdotV
+    
+    // 스페큨러 반사 벡터.
+    float3 Lr = 2.0 * cosLo * N - Lo;
+    
+    //노말 입사각에서의 프레넬 반사 정도. (Metal들은 Albedo Color를 사용해야 한다)
+    float3 F0 = lerp(Fdielectric, albedo, metalness);
+    
+    // 위치/빛 정보가 있는 라이팅을 위한 직접과 연산.
+    float3 directLighting = 0.0;
+    for (uint i = 0; i < NumLights; ++i)
+    {
+        //float3 Li = -lights[i].direction;
+        //float3 Lradiance = lights[i].radiance;
         
+        //라이팅이 시스템 상으로 들어오기 전까지는 해당값 처럼.
+        float3 Li = -lightDirArr[i];
+        float3 Lradiance = lightRadianceArr[i];
+
+        //빛 입사 / 아웃 사이 하프벡터
+        float3 Lh = normalize(Li + Lo); 
+
+        //표면 법선과 여러 라이트 벡터 사이의 각도 계산.
+        float cosLi = max(0.0, dot(N, Li)); //NdotL
+        float cosLh = max(0.0, dot(N, Lh)); //NdotH
+
+        // 직접광을 위한 프레넬 값 계산.
+        float3 F = PBR_fresnelSchlick(F0, max(0.0, dot(Lh, Lo)));
+        //Specular BRDF : 법선 분포 계산.
+        float D = PBR_ndfGGX(cosLh, roughness);
+		//Specular BRDF : 기하적 감쇠 계산 (Attenuation)
+        float G = PBR_gaSchlickGGX(cosLi, cosLo, roughness);
+
+		// Diffuse scattering happens due to light being refracted multiple times by a dielectric medium.
+		// Metals on the other hand either reflect or absorb energy, so diffuse contribution is always zero.
+		// To be energy conserving we must scale diffuse BRDF contribution based on Fresnel factor & metalness.
+        //에너지 보존.
+        float3 kd = lerp(float3(1, 1, 1) - F, float3(0, 0, 0), metalness);
+
+		// Lambert diffuse BRDF.
+		// We don't scale by 1/PI for lighting & material units to be more convenient.
+		// See: https://seblagarde.wordpress.com/2012/01/08/pi-or-not-to-pi-in-game-lighting-equation/
+        float3 diffuseBRDF = kd * albedo;
+
+		// Cook-Torrance specular microfacet BRDF.
+        float3 specularBRDF = (F * D * G) / max(Epsilon, 4.0 * cosLi * cosLo);
+
+		// Total contribution for this light.
+        directLighting += (diffuseBRDF + specularBRDF) * Lradiance * cosLi;
+    }
+    
+    //현재로서는 IBL을 사용하고 있지는 않음. 미래를 위해 남겨만 두자.
+    float3 ambientLighting = { 0.0f, 0.0f, 0.0f };
+    
+    //리턴.
+    res.Output = float4(directLighting + ambientLighting, 1.0);
+    
+    //GammaCorrection까지!
+    res.Output = pow(res.Output, 1.0 / 2.2);
+    
     return res;
 }

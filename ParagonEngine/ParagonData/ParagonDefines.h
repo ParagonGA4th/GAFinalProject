@@ -15,11 +15,29 @@ namespace Pg::Defines
 
 	constexpr unsigned int ASSET_MAXIMUM_BONE_NUMBER_PER_MESH = 100;
 
-	extern const std::string ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH;
-	extern const std::string ASSET_DEFAULT_NORMAL_TEXTURE_PATH;
-	extern const std::string ASSET_DEFAULT_ARM_TEXTURE_PATH;
-	extern const std::string ASSET_DEFAULT_SPECULAR_TEXTURE_PATH;
-	extern const std::string ASSET_DEFAULT_DISPLACEMENT_TEXTURE_PATH;
+	extern const std::string ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH_256;
+	extern const std::string ASSET_DEFAULT_NORMAL_TEXTURE_PATH_256;
+	extern const std::string ASSET_DEFAULT_ARM_TEXTURE_PATH_256;
+	extern const std::string ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_256;
+	//extern const std::string ASSET_DEFAULT_DISPLACEMENT_TEXTURE_PATH_256;
+
+	extern const std::string ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH_512;
+	extern const std::string ASSET_DEFAULT_NORMAL_TEXTURE_PATH_512;
+	extern const std::string ASSET_DEFAULT_ARM_TEXTURE_PATH_512;
+	extern const std::string ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_512;
+	//extern const std::string ASSET_DEFAULT_DISPLACEMENT_TEXTURE_PATH_512;
+
+	extern const std::string ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH_1024;
+	extern const std::string ASSET_DEFAULT_NORMAL_TEXTURE_PATH_1024;
+	extern const std::string ASSET_DEFAULT_ARM_TEXTURE_PATH_1024;
+	extern const std::string ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_1024;
+	//extern const std::string ASSET_DEFAULT_DISPLACEMENT_TEXTURE_PATH_1024;
+
+	extern const std::string ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH_2048;
+	extern const std::string ASSET_DEFAULT_NORMAL_TEXTURE_PATH_2048;
+	extern const std::string ASSET_DEFAULT_ARM_TEXTURE_PATH_2048;
+	extern const std::string ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_2048;
+	//extern const std::string ASSET_DEFAULT_DISPLACEMENT_TEXTURE_PATH_2048;
 
 	extern const std::string DEFAULT_APPENDS_RENDER_VS_NAME;
 	extern const std::string DEFAULT_APPENDS_RENDER_PS_NAME;
