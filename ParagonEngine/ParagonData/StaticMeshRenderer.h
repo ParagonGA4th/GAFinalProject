@@ -27,9 +27,9 @@ namespace Pg::Data
 		//VISITABLE로 바꿀 목록.
 		/// visit_struct 방식
 		BEGIN_VISITABLES(StaticMeshRenderer);
+		VISITABLE(bool, _isInstanced);
 		VISITABLE(std::string, _meshName);
 		VISITABLE(std::string, _materialName);
-		VISITABLE(bool, _isInstanced);
 		END_VISITABLES;
 	};
 }
