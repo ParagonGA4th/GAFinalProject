@@ -18,4 +18,14 @@ namespace Pg::Data
 		//후에 호출될 예정.
 	}
 
+	void StaticMeshRenderer::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper<StaticMeshRenderer>(this, sv);
+	}
+
+	void StaticMeshRenderer::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper<StaticMeshRenderer>(this, sv);
+	}
+
 }

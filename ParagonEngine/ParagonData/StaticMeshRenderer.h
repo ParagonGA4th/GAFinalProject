@@ -16,6 +16,8 @@ namespace Pg::Data
 		StaticMeshRenderer(GameObject* obj);
 
 		virtual void InitializePathsFromName() override;
+		virtual void OnSerialize(SerializeVector& sv) override;
+		virtual void OnDeserialize(SerializeVector& sv) override;
 
 	public:
 		//일단은 에디터에서 값을 받아서 만들어지지만,
