@@ -79,6 +79,9 @@
     <ClInclude Include="ImageButton.h">
       <Filter>0_UI\1_Widget\Button\ImageButton</Filter>
     </ClInclude>
+    <ClInclude Include="ImGuizmo.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UIManager.cpp">
@@ -149,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="ImageButton.cpp">
       <Filter>0_UI\1_Widget\Button\ImageButton</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuizmo.cpp">
+      <Filter>Imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
