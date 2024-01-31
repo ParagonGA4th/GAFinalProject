@@ -124,6 +124,20 @@ namespace Pg::Data
 		return component;
 	}
 
+	bool GameObject::RemoveComponent(std::string componentType)
+	{
+		//리스트를 쭉 돌아서 해당 값이 존재하면 지운다.
+		auto iter = _componentList.find(componentType);
+		if (iter != _componentList.end())
+		{
+			delete iter->second;
+			_componentList.erase(iter);
+			return true;
+		}
+
+		return false;
+	}
+
 	void GameObject::OnCollisionStay()
 	{
 		if (!_isActive)
@@ -207,5 +221,4 @@ namespace Pg::Data
 	{
 		return _componentList;
 	}
-
 }
