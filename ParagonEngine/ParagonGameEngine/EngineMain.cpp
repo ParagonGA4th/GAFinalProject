@@ -131,8 +131,11 @@ namespace Pg::Engine
 	void EngineMain::SetCurrentScene(Pg::Data::Scene* currentScene)
 	{
 		// юс╫ц
-		if(currentScene != nullptr)
+		if (currentScene != nullptr)
+		{
 			_sceneSystem->SetCurrentScene(currentScene);
+			_sceneSystem->_isStarted = false;
+		}
 
 		//_sceneSystem->SetSceneData(currentScene);
 

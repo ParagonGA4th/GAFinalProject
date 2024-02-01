@@ -28,9 +28,14 @@ namespace Pg::Engine
 
 		void CreateSound(std::string path);
 
+		void SetVolume(std::string path, float vol);
+
 	private:
 		FMOD::System* _system;
-		FMOD::ChannelGroup* _channelGroup;  
+		FMOD::ChannelGroup* _channelGroup; 
+
+		unsigned int _maxSound;		//사운드 최대 갯수
+		unsigned int _maxGroup;		//사운드 그룹 최대 갯수
 	};
 }
 
