@@ -1,5 +1,6 @@
 #include "SceneSystem.h"
 #include "TestScene.h"
+#include "EditorCameraScript.h"
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/RendererBase2D.h"
@@ -30,11 +31,13 @@ namespace Pg::Engine
 		//현재 씬의 Update를 호출시켜주면 TestScene에 존재하는 Update도 호출이 된다.
 		if (!_isStarted)
 		{
+			///급하게 리소스를 보기 위해서 사용. 클라이언트 작업 시 무조건 삭제!!!!!
+			PG_WARN("이건 여기 있어서는 안된다!!! 아쿠마다!!!!!!");
+			_currentScene->GetMainCamera()->_object->AddComponent<EditorCameraScript>();
+
 			_currentScene->Start();
 			_isStarted = true;
 		}
-
-		//if(SetCurrentScene(_currentScene))
 
 		_currentScene->Update();
 		_currentScene->FixedUpdate();

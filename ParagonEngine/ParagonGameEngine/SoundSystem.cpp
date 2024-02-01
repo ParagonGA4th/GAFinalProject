@@ -34,4 +34,9 @@ namespace Pg::Engine
 		//_system->createSound(path.c_str(), FMOD_LOOP_NORMAL , FMOD_DEFAULT, NULL, &());
 	}
 
+	void SoundSystem::SetVolume(std::string path, float vol)
+	{
+
+	}
+
 }
