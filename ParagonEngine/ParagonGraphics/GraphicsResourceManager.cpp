@@ -11,6 +11,7 @@
 #include "../ParagonUtil/ResourceHelper.h"
 
 #include <cassert>
+#include <filesystem>
 #include <algorithm>
 
 namespace Pg::Graphics::Manager
@@ -178,11 +179,19 @@ namespace Pg::Graphics::Manager
 	{
 		for (auto& it : _resources)
 		{
-			if (it.first.find(name) != std::string::npos)
+			std::filesystem::path tPath = it.first;
+			std::string tVal = tPath.filename().string();
+
+			if (tVal.compare(name) == 0)
 			{
 				//동일 이름의 리소스가 있을 경우.
 				return true;
 			}
+			//if (it.first.find(name) != std::string::npos)
+			//{
+			//	//동일 이름의 리소스가 있을 경우.
+			//	return true;
+			//}
 		}
 
 		//동일 이름의 리소스가 없을 경우.
@@ -266,11 +275,20 @@ namespace Pg::Graphics::Manager
 		std::string tFullPath = "";
 		for (auto& it : _scopeResourceMap)
 		{
-			if ((it.first.find(name) != std::string::npos) && (it.second->GetAssetDefine() == define))
+			//if ((it.first.find(name) != std::string::npos) && (it.second->GetAssetDefine() == define))
+			//{
+			//	//동일 이름의 리소스 w/ 동일한 File Path가 있을 경우.
+			//	tFullPath = it.first;
+			//	break;
+			//}
+
+			std::filesystem::path tPath = it.first;
+			std::string tVal = tPath.filename().string();
+
+			if (tVal.compare(name) == 0 && (it.second->GetAssetDefine() == define))
 			{
-				//동일 이름의 리소스 w/ 동일한 File Path가 있을 경우.
+				//동일 이름의 리소스가 있을 경우.
 				tFullPath = it.first;
-				break;
 			}
 		}
 	
@@ -305,7 +323,10 @@ namespace Pg::Graphics::Manager
 		std::string tFullPath = "";
 		for (auto& it : _scopeResourceMap)
 		{
-			if ((it.first.find(name) != std::string::npos) && (it.second->GetAssetDefine() == define))
+			std::filesystem::path tPath = it.first;
+			std::string tVal = tPath.filename().string();
+
+			if ((tVal.compare(name) == 0) && (it.second->GetAssetDefine() == define))
 			{
 				tFullPath = it.first;
 				break;
@@ -329,7 +350,10 @@ namespace Pg::Graphics::Manager
 	{
 		for (auto& it : _scopeResourceMap)
 		{
-			if ((it.first.find(name) != std::string::npos) && (it.second->GetAssetDefine() == define))
+			std::filesystem::path tPath = it.first;
+			std::string tVal = tPath.filename().string();
+
+			if ((tVal.compare(name) == 0) && (it.second->GetAssetDefine() == define))
 			{
 				//동일 이름의 리소스 w/ 동일한 File Path가 있을 경우.
 				return true;

@@ -62,6 +62,7 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj2_1->RemoveComponent<SphereCollider>();
 	tObj2_1->AddComponent<StaticMeshRenderer>();
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/DefaultGeometry/DefaultGeometry.fbx");
+	//tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/test.fbx");
 	tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 

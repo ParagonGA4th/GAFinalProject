@@ -222,7 +222,7 @@ namespace Pg::Core::Manager
 		//LoadResource("../Resources/3DModels/StaticMesh/CustomPropertyExportTest/CustomPropertyExportTest.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 
 		
-
+		
 		LoadResource("../Resources/3DModels/StaticMesh/DefaultGeometry/DefaultGeometry.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
@@ -239,7 +239,9 @@ namespace Pg::Core::Manager
 		LoadResource("../Resources/Textures/wook.jpg", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
 		LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
-
+		LoadResource("../Resources/3DModels/UnrealTest/gizmo.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		LoadResource("../Resources/3DModels/UnrealTest/test.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		///로드 위치에 따라 언리얼 뻑난다. 고치자.
 		//ShaderMaterial로 추가한 요소들.
 		//LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbm/road_1_diffuseOriginal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		//LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbm/lava_1_diffuseOriginal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
