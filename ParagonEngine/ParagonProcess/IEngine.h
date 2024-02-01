@@ -10,6 +10,7 @@
 /// 변지상의 엔진 인터페이스. 코어에 들어갈 예정
 /// 2023.09.11
 /// </summary>
+
 namespace Pg::Core
 {
 	class IEngine abstract
@@ -47,5 +48,7 @@ namespace Pg::Core
 
 		//디버그 데이터 디버그 시스템에서 클리어.
 		virtual void ClearDebugVectorData() abstract;
+
+		virtual Pg::Data::Scene* CreateScene(const std::string& sceneName) abstract;
 	};
 }

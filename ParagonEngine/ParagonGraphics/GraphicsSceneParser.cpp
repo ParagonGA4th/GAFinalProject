@@ -164,7 +164,7 @@ namespace Pg::Graphics
 						tActualRenderer->_meshName, eAssetDefine::_3DMODEL));
 
 					//리소스 매니저에서 확인 -> MaterialName / MaterialPath
-					if (!tActualRenderer->_meshName.empty())
+					if (!tActualRenderer->_materialName.empty())
 					{ 
 						tActualRenderer->SetMaterialFilePath(Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResourcePathByName(
 							tActualRenderer->_materialName, eAssetDefine::_RENDERMATERIAL));
