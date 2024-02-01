@@ -191,10 +191,4 @@ namespace Pg::Engine
 	{
 		return _debugSystem->GetRayCastVector();
 	}
-
-	Pg::Data::Scene* EngineMain::CreateScene(const std::string& sceneName)
-	{
-		return _sceneSystem->CreateScene(sceneName);
-	}
-
 }
