@@ -17,7 +17,6 @@ namespace Pg::Data
 		GameObject* cameraObject = AddObject("MainCamera");
 		_mainCamera = cameraObject->AddComponent<Pg::Data::Camera>();
 
-
 		_mainCamera->_object->_transform._rotation = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 		// 10.11 ¿À¼ö¾È

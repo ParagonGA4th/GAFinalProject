@@ -13,6 +13,10 @@ Pg::UI::Widget::InputFloat3::InputFloat3(std::string label, Pg::Math::PGFLOAT3* 
 
 void Pg::UI::Widget::InputFloat3::Update()
 {
+	_inputFloat[0] = _inputPGFloat->x;
+	_inputFloat[1] = _inputPGFloat->y;
+	_inputFloat[2] = _inputPGFloat->z;
+
 	ImGui::InputFloat3(_label.c_str(), _inputFloat);
 
 	_inputPGFloat->x = _inputFloat[0];
