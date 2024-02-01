@@ -72,12 +72,6 @@ namespace Pg::Graphics::Loader
 				aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_PreTransformVertices | aiProcess_GenBoundingBoxes); //aiProcess_EmbedTextures |
 			assert(pScene != nullptr);
 
-			///Assert
-			if (path == "../Resources/3DModels/UnrealTest/gizmo.fbx")
-			{
-				assert("");
-			}
-
 			AssimpBufferParser::AssimpToSceneAssetData(pScene, path, modelData->_assetSceneData);
 			AssimpBufferParser::AssimpToStaticDataDXBuffer(pScene, modelData->_assetSceneData, modelData->_vertexBuffer, modelData->_indexBuffer);
 			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList, path);
