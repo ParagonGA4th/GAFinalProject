@@ -191,61 +191,63 @@ void Pg::Serialize::Serializer::Deserialize(std::string typeName, pugi::xml_node
 		auto tRes = std::get<bool>(vunion);
 		memcpy(result, &tRes, sizeof(bool));
 	}
-	if (typeName == typeid(int).name())
+	else if (typeName == typeid(int).name())
 	{
 		vunion = DeserializeInt(node, "");
 		auto tRes = std::get<int>(vunion);
 		memcpy(result, &tRes, sizeof(int));
 	}
-	if (typeName == typeid(float).name())
+	else if (typeName == typeid(float).name())
 	{
 		vunion = DeserializeFloat(node, "");
 		auto tRes = std::get<float>(vunion);
 		memcpy(result, &tRes, sizeof(float));
 	}
-	if (typeName == typeid(double).name())
+	else if (typeName == typeid(double).name())
 	{
 		vunion = DeserializeDouble(node, "");
 		auto tRes = std::get<double>(vunion);
 		memcpy(result, &tRes, sizeof(double));
 	}
-	if (typeName == typeid(std::string).name())
+	else if (typeName == typeid(std::string).name())
 	{
 		vunion = DeserializeString(node, "");
 		auto tRes = std::get<std::string>(vunion);
-		memcpy(result, &tRes, sizeof(std::string));
+		//memcpy(result, &tRes, sizeof(std::string));
+		std::string* tResultStr = static_cast<std::string*>(result);
+		*tResultStr = tRes;
 	}
-	if (typeName == typeid(unsigned).name())
+	else if (typeName == typeid(unsigned).name())
 	{
 		vunion = DeserializeUint(node, "");
 		auto tRes = std::get<unsigned>(vunion);
 		memcpy(result, &tRes, sizeof(unsigned));
 	}
-	if (typeName == typeid(int64_t).name())
+	else if (typeName == typeid(int64_t).name())
 	{
 		vunion = DeserializeInt64(node, "");
 		auto tRes = std::get<int64_t>(vunion);
 		memcpy(result, &tRes, sizeof(int64_t));
 	}
-	if (typeName == typeid(Pg::Math::PGFLOAT2).name())
+	else if (typeName == typeid(Pg::Math::PGFLOAT2).name())
 	{
 		vunion = DeserializePGFloat2(node);
 		auto tRes = std::get<Pg::Math::PGFLOAT2>(vunion);
 		memcpy(result, &tRes, sizeof(Pg::Math::PGFLOAT2));
 	}
-	if (typeName == typeid(Pg::Math::PGFLOAT3).name())
+	else if (typeName == typeid(Pg::Math::PGFLOAT3).name())
 	{
 		vunion = DeserializePGFloat3(node);
 		auto tRes = std::get<Pg::Math::PGFLOAT3>(vunion);
 		memcpy(result, &tRes, sizeof(Pg::Math::PGFLOAT3));
 	}
-	if (typeName == typeid(Pg::Math::PGFLOAT4).name())
+	else if (typeName == typeid(Pg::Math::PGFLOAT4).name())
 	{
 		vunion = DeserializePGFloat4(node);
 		auto tRes = std::get<Pg::Math::PGFLOAT4>(vunion);
 		memcpy(result, &tRes, sizeof(Pg::Math::PGFLOAT4));
 	}
-	if (typeName == typeid(Pg::Math::PGQuaternion).name())
+	else if (typeName == typeid(Pg::Math::PGQuaternion).name())
 	{
 		vunion = DeserializePGQuaternion(node);
 		auto tRes = std::get<Pg::Math::PGQuaternion>(vunion);
