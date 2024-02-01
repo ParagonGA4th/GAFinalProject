@@ -46,8 +46,6 @@ namespace Pg::Editor::Manager
 		// first - SceneName, second - SerializeData
 		std::unordered_map<std::string, std::string> _sceneSerializeData; 
 
-		ScenesData* _scenesData;
-
 		Pg::Editor::Data::DataContainer* _dataContainer;
 	};
 }

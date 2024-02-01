@@ -41,7 +41,5 @@ namespace Pg::Editor::Window
 		Pg::Editor::Data::DataContainer* _dataContainer;
 
 		std::unordered_map<std::string, bool*> _componentExistence;
-
-		bool _isAddComponent;
 	};
 }

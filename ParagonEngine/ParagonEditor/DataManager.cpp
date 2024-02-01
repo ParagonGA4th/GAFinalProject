@@ -1,7 +1,6 @@
 #include "DataManager.h"
 #include "Serializer.h"
 
-
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
 
@@ -14,8 +13,6 @@ Pg::Editor::Manager::DataManager::DataManager()
 {
 	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
 	_dataContainer = &tdataCon;
-
-	_scenesData = new ScenesData();
 }
 
 Pg::Editor::Manager::DataManager::~DataManager()
@@ -62,7 +59,9 @@ void Pg::Editor::Manager::DataManager::SceneLoad(std::string path)
 		std::string sceneName = path.substr(path.rfind("\\") + 1);
 		sceneName = sceneName.substr(0, sceneName.rfind("."));
 
-		_scenes.push_back(new Pg::Data::Scene(sceneName));
+		Pg::Data::Scene* newScene = new Pg::Data::Scene(sceneName);
+		newScene->GetObjectList().at(0)->AddComponent("class Pg::Data::Camera");
+		_scenes.push_back(newScene);
 
 		pugi::xml_node rootNode = doc.child("scene");
 		DataDeserialize(rootNode.first_child(), _scenes.size() - 1);
@@ -125,11 +124,9 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 		pugi::xml_node comps = object.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "components"; });
 
 		// insepector에서 쓰이게 될 오브젝트 데이터 덩어리
-		ObjectData objData;
 
 		for (pugi::xml_node component = comps.first_child(); component; component = component.next_sibling())
 		{
-			ComponentData comData;
 			std::vector<std::tuple<std::string, std::string, void*>> tSerVec;
 			std::string typeName = Pg::Serialize::Serializer::DeserializeString(&component, "type");
 
@@ -155,17 +152,9 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 						});
 					Pg::Serialize::Serializer::Deserialize(typeInfo, &node, val);
 				}
-				comData.insert({typeName, tSerVec});
 			}
-			auto it = objData.find(obj->GetName());
-
-			if (it != objData.end()) { it->second.insert({ typeName, tSerVec }); }
-			else objData.insert({ obj->GetName(), comData });
 		}
-		_scenesData->insert({ _scenes.at(sceneNum)->GetSceneName(), objData });
 	}
-
-	if (!_scenesData->empty()) _dataContainer->SetScenesData(_scenesData);
 }
 
 void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Data::Scene* scene)
