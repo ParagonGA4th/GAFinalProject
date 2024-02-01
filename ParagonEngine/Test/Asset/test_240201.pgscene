@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<scene xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <objects :anonymous="">
+    <object :anonymous="">
+      <uuid :anonymous="">B97371CB4E569B1BC7178AB108C75DD4</uuid>
+      <name :anonymous="">test6.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">B97371CB4E569B1BC7178AB108C75DD4</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">340.0</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.0</w>
+              <x :anonymous="">-0.707107</x>
+              <y :anonymous="">0.707107</y>
+              <z :anonymous="">-0.0</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">2.0</x>
+              <y :anonymous="">2.0</y>
+              <z :anonymous="">2.0</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">test.test</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+    <object :anonymous="">
+      <uuid :anonymous="">BCE69B644540E6670DE0F9A1B7971924</uuid>
+      <name :anonymous="">test4.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">BCE69B644540E6670DE0F9A1B7971924</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">250.0</y>
+              <z :anonymous="">0.0</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.0</w>
+              <x :anonymous="">1.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">0.0</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">1.0</x>
+              <y :anonymous="">1.0</y>
+              <z :anonymous="">1.0</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">test.test</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+    <object :anonymous="">
+      <uuid :anonymous="">4F6092CD4AA4D8647BA7DA9B368253C5</uuid>
+      <name :anonymous="">test5.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">4F6092CD4AA4D8647BA7DA9B368253C5</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">290.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">0.0</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.0</w>
+              <x :anonymous="">0.707107</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">-0.707107</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">1.0</x>
+              <y :anonymous="">1.0</y>
+              <z :anonymous="">1.0</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">test.test</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+    <object :anonymous="">
+      <uuid :anonymous="">D2F61E2347370D2E6D882693D461418F</uuid>
+      <name :anonymous="">gizmo2.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">D2F61E2347370D2E6D882693D461418F</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">0.0</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.0</w>
+              <x :anonymous="">1.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">0.0</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">0.5</x>
+              <y :anonymous="">0.5</y>
+              <z :anonymous="">0.5</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">gizmo.gizmo</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+  </objects>
+</scene>

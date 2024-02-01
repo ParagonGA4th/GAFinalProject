@@ -473,7 +473,8 @@ namespace Pg::Graphics
 			else
 			{
 				//없을 경우, 타입에 맞는 기본 리소스를 넣는다. 이 경우, Default Textures가 로드될 것.
-				tRenderT2Vec.at(i) = GraphicsResourceHelper::GetDefaultTexturePath(type);
+				std::filesystem::path tFSP = GraphicsResourceHelper::GetDefaultTexturePath(type);
+				tRenderT2Vec.at(i) = tFSP.filename().string();
 			}
 		}
 		//어차피 모든 이 해당 MaterialCluster 내부의 Texture2DArray는 크게 관리받을 이유가 없다.

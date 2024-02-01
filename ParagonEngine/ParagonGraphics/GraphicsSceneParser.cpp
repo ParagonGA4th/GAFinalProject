@@ -62,6 +62,7 @@ namespace Pg::Graphics
 
 		ClearObjectLists();
 
+		PlacePathsFromName(newScene);
 		ExtractMaterialPaths(newScene);
 		SyncRenderObjects(newScene);
 		CreateObjMatBuffersStatic();
@@ -121,6 +122,66 @@ namespace Pg::Graphics
 		//기존의 직접적 RenderObject 리스트들 클리어.
 		_renderObject2DList->Clear();
 		_renderObject3DList->Clear();
+	}
+
+	void GraphicsSceneParser::PlacePathsFromName(const Pg::Data::Scene* const newScene)
+	{
+		using Pg::Graphics::Helper::GraphicsResourceHelper;
+		using Pg::Data::Enums::eAssetDefine;
+
+		PG_WARN("Mesh File Path가 비어있을 때만 Unreal 컨버터가 작동할 것. 유의.");
+
+		for (auto& tGameObject : newScene->GetObjectList())
+		{
+			// RenderObject
+			Pg::Data::BaseRenderer* tBaseRenderer = tGameObject->GetComponent<Pg::Data::BaseRenderer>();
+
+			if (tBaseRenderer != nullptr && GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()) == 1)
+			{
+				Pg::Data::RendererBase3D* tBaseR3D = static_cast<Pg::Data::RendererBase3D*>(tBaseRenderer);
+
+				if (!tBaseR3D->GetMeshFilePath().empty())
+				{
+					//이미 MeshFilePath가 있다는 뜻이다.
+					//현재 시스템 상으로 들어간 값. 
+					//호환을 위해 해당 코드 작성.
+					continue;
+				}
+
+				//언리얼식 표기 바꾸기. (만약 해당될 경우)
+				tBaseR3D->ConvertPotentialUnrealValues();
+
+				//저장된 Name 가지고 GraphicsResourceManager에서 상호 확인 :
+				//전체 Path 명시 + 정리.
+				if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
+				{
+					//렌더러 정보.
+					Pg::Data::StaticMeshRenderer* tActualRenderer = static_cast<Pg::Data::StaticMeshRenderer*>(tBaseRenderer);
+
+					//리소스 매니저에서 확인 -> MeshName / MeshPath.
+					//무조건 이 시점에서는 존재해야 한다.
+					tActualRenderer->SetMeshFilePath(Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResourcePathByName(
+						tActualRenderer->_meshName, eAssetDefine::_3DMODEL));
+
+					//리소스 매니저에서 확인 -> MaterialName / MaterialPath
+					if (!tActualRenderer->_meshName.empty())
+					{ 
+						tActualRenderer->SetMaterialFilePath(Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResourcePathByName(
+							tActualRenderer->_materialName, eAssetDefine::_RENDERMATERIAL));
+					}
+
+					//Mesh Path Set / 만약 Default Material이 아닌 경우 MaterialPath까지 배치 완료.
+				}
+				else if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::SkinnedMeshRenderer*).name())) == 0)
+				{
+					//나중에 Static이 연동된다면 모두 추가되어야 한다.
+				}
+				
+				//모든 Conversion이 끝난 후일 것이다. 
+			}
+		}
+
+		assert("");
 	}
 
 	void GraphicsSceneParser::ExtractMaterialPaths(const Pg::Data::Scene* const newScene)
@@ -341,12 +402,11 @@ namespace Pg::Graphics
 			}
 		}
 
-	//유일하게 Goto 사용이 허용되는 예시 : nested loops, in single functions.
+		//유일하게 Goto 사용이 허용되는 예시 : nested loops, in single functions.
 	gtFinished:
 		assert(tRet != nullptr && "무조건 Picking한 GameObject를 찾았어야 하는 함수에서 값을 찾지 못했다.");
 		//PG_TRACE(tRet->GetName().c_str());
 		return tRet;
 
 	}
-
 }

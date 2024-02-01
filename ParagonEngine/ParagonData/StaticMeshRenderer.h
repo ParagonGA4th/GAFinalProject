@@ -15,7 +15,9 @@ namespace Pg::Data
 	public:
 		StaticMeshRenderer(GameObject* obj);
 
-		virtual void InitializePathsFromName() override;
+		//InitializePath가 호출될 때, 외부에서 Path 연동하는 과정이 있어야 한다.
+		virtual void ConvertPotentialUnrealValues() override;
+
 		virtual void OnSerialize(SerializeVector& sv) override;
 		virtual void OnDeserialize(SerializeVector& sv) override;
 
