@@ -82,9 +82,6 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::RayCastInfo>& GetRayCastDebugData() const override;
 
 		PARAGON_ENGINE_DLL virtual void ClearDebugVectorData() override;
-
-		//SceneSystem에서의 사용. (Editor)
-		PARAGON_ENGINE_DLL virtual Pg::Data::Scene* CreateScene(const std::string& sceneName) override;
 	private:
 
 		Pg::Core::ProcessMain* _coreMain = nullptr;
