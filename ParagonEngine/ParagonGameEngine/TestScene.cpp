@@ -46,7 +46,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj1->AddComponent<Camera>();
 	tObj1->GetComponent<Transform>()->_position = { 0.f, 3.0f, -10.f };
 	tObj1->GetComponent<Transform>()->_rotation = tObj1->GetComponent<Transform>()->EulerToQuaternion(0.f, 0.f, 0.f);
-	tObj1->AddComponent<EditorCameraScript>();
+	//tObj1->AddComponent<EditorCameraScript>();
 
 	Pg::Data::GameObject* tObj2 = tCurrentScene->AddObject("RoadLavaConeTest");
 	tObj2->GetComponent<Transform>()->_position = { 0.0f, 10.0f, 0.0f };
