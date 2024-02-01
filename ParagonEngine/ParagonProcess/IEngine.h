@@ -48,7 +48,5 @@ namespace Pg::Core
 
 		//디버그 데이터 디버그 시스템에서 클리어.
 		virtual void ClearDebugVectorData() abstract;
-
-		virtual Pg::Data::Scene* CreateScene(const std::string& sceneName) abstract;
 	};
 }
