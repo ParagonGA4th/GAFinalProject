@@ -42,6 +42,7 @@ namespace Pg::Graphics
 		Pg::Data::GameObject* GetObjectWithObjID(unsigned int objID);
 	private:
 		void ClearObjectLists();
+		void PlacePathsFromName(const Pg::Data::Scene* const newScene);
 		void ExtractMaterialPaths(const Pg::Data::Scene* const newScene);
 		void SyncRenderObjects(const Pg::Data::Scene* const newScene);
 		void CreateObjMatBuffersStatic();

@@ -585,7 +585,8 @@ namespace Pg::Graphics::Helper
 					//
 					//eSizeTexture tSize = GraphicsResourceHelper::GetSizeTextureFromUINT(tWidth, tHeight);
 					//tRenderT2Vec.at(i) = GraphicsResourceHelper::GetDefaultTexturePath(type, tSize);
-					tRenderT2Vec.at(i) = GraphicsResourceHelper::GetDefaultTexturePath(type);
+					std::filesystem::path tFSP = GraphicsResourceHelper::GetDefaultTexturePath(type);
+					tRenderT2Vec.at(i) = tFSP.filename().string();
 				}
 			}
 			

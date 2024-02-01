@@ -16,7 +16,7 @@ namespace Pg::Data
 	public:
 		SkinnedMeshRenderer(GameObject* obj);
 
-		virtual void InitializePathsFromName() override;
+		virtual void ConvertPotentialUnrealValues() override;
 
 
 	};
