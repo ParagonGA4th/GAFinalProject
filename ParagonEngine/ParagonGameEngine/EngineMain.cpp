@@ -131,8 +131,11 @@ namespace Pg::Engine
 	void EngineMain::SetCurrentScene(Pg::Data::Scene* currentScene)
 	{
 		// юс╫ц
-		if(currentScene != nullptr)
+		if (currentScene != nullptr)
+		{
 			_sceneSystem->SetCurrentScene(currentScene);
+			_sceneSystem->_isStarted = false;
+		}
 
 		//_sceneSystem->SetSceneData(currentScene);
 
@@ -188,10 +191,4 @@ namespace Pg::Engine
 	{
 		return _debugSystem->GetRayCastVector();
 	}
-
-	Pg::Data::Scene* EngineMain::CreateScene(const std::string& sceneName)
-	{
-		return _sceneSystem->CreateScene(sceneName);
-	}
-
 }
