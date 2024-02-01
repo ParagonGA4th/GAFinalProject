@@ -54,27 +54,18 @@ void Pg::Editor::Manager::ProcessManager::Update()
 
 	
 
-	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff))
-	{
-		_dataContainer->SetEditorOnOff(!_dataContainer->GetEditorOnOff());
-	}
+	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff)) { _dataContainer->SetEditorOnOff(!_dataContainer->GetEditorOnOff()); }
 
 	if (_dataContainer->GetEditorOnOff())
 	{
 		if (_dataContainer->GetSceneList().size() > 0)
 		{
-			if (!_isSceneSet)
-			{
-				_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
-				_isSceneSet = true;
-			}
-
+			_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
 			_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
 		}
 	}	
 
 	SetEditorMode(_dataContainer->GetEditorOnOff() ? Pg::Data::Enums::eEditorMode::_EDIT : Pg::Data::Enums::eEditorMode::_NONE);
-	//PG_TRACE(_dataContainer->GetEditorOnOff());
 }
 
 void Pg::Editor::Manager::ProcessManager::LateUpdate()

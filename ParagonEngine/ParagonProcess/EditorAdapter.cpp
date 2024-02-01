@@ -41,6 +41,7 @@ namespace Pg::Core
 
 	void EditorAdapter::SetSceneList(std::vector<Pg::Data::Scene*> scenes)
 	{
+		if (_scenes == scenes) return;
 		_scenes = scenes;
 	}
 
@@ -51,6 +52,7 @@ namespace Pg::Core
 
 	void EditorAdapter::SetCurrentScene(Pg::Data::Scene* scene)
 	{
+		if (_currentScene == scene) return;
 		_currentScene = scene;
 	}
 
