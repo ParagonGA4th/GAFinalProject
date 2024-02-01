@@ -84,13 +84,3 @@ Pg::Data::Scene* Pg::Editor::Data::DataContainer::GetCurrentScene()
 	return _currentScene;
 }
 
-void Pg::Editor::Data::DataContainer::SetScenesData(ScenesData* sceneData)
-{
-	_scenesData = sceneData;
-}
-
-ScenesData* Pg::Editor::Data::DataContainer::GetScenesData() const
-{
-	return _scenesData;
-}
-

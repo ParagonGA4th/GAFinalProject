@@ -18,7 +18,6 @@
 #include <singleton-cpp/singleton.h>
 
 
-
 Pg::Editor::Window::InspectorHelper::InspectorHelper()
 {
 	_widgetCon = std::make_unique<Pg::UI::WidgetContainer>();
@@ -40,7 +39,7 @@ void Pg::Editor::Window::InspectorHelper::Initialize()
 
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::Text>("Tag");
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::InputText>("Tag", &_objTag);
-	
+
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::Text>("Active");
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::CheckBox>("Active", &_isActive);
 
@@ -68,7 +67,7 @@ void Pg::Editor::Window::InspectorHelper::Update()
 		if (*val == false)
 		{
 			_object->RemoveComponent(name);
-			
+
 			_widgetCon->ClearWidget(1);
 			ComponentUI();
 
@@ -94,48 +93,36 @@ void Pg::Editor::Window::InspectorHelper::Update()
 
 void Pg::Editor::Window::InspectorHelper::ComponentUI()
 {
-	if (_dataContainer->GetScenesData() == nullptr || _dataContainer->GetScenesData()->empty()) return;
+	auto scene = _dataContainer->GetCurrentScene();
+	std::unordered_map<std::string, std::vector<std::tuple<std::string, std::string, void*>>> componentData;
 
-	auto it = _dataContainer->GetScenesData()->find(_dataContainer->GetCurrentScene()->GetSceneName());
-	if (it != _dataContainer->GetScenesData()->end())
+	for (auto object : scene->GetObjectList())
 	{
-		for (auto object : it->second)
+		if (_object->GetName() == object->GetName())
 		{
-			if (_object->GetName() != object.first)
+			for (auto objComs : object->GetComponentList())
 			{
-				continue;
+				std::vector<std::tuple<std::string, std::string, void*>> tTempVec;
+
+				objComs.second->OnDeserialize(tTempVec);
+				componentData[objComs.first] = tTempVec;
 			}
 
-			// Component Data Reset
-			if (_object->GetComponentList().size() != object.second.size())
+			for (auto data : componentData)
 			{
-				_isAddComponent = true;
-				object.second.clear();
+				std::string componentName = data.first.substr(data.first.rfind("::") + 2);
 
-				for (auto objComs : _object->GetComponentList())
-				{
-					std::vector<std::tuple<std::string, std::string, void*>> tTempVec;
-
-					objComs.second->OnDeserialize(tTempVec);
-					object.second[objComs.first] = tTempVec;
-				}
-			}
-
-			for (auto component : object.second)
-			{
-				std::string componentName = component.first.substr(component.first.rfind("::") + 2);
-
-				if (_componentExistence.find(component.first) == _componentExistence.end())
-					_componentExistence.insert({ component.first , new bool(true) });
+				if (_componentExistence.find(data.first) == _componentExistence.end())
+					_componentExistence.insert({ data.first , new bool(true) });
 				else
-					*_componentExistence.at(component.first) = true;
+					*_componentExistence.at(data.first) = true;
 
 				_widgetCon->ClearColumnWidget();
 				_widgetCon->ClearCollapsWidget();
 
-				for (auto& [valName, typeInfo, val] : component.second)
+				for (auto& [valName, typeInfo, val] : data.second)
 				{
-					if (_isAddComponent) valName = valName.substr(valName.rfind("_") + 1);
+					valName = valName.substr(valName.rfind("_") + 1);
 					_widgetCon->CreateColumnsWidget<Pg::UI::Widget::Text>(valName);
 
 					if (typeInfo == typeid(bool).name())
@@ -183,10 +170,8 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 
 				_widgetCon->CreateCollapsWidget<Pg::UI::Widget::Layout::Column<2>>(componentName, _widgetCon->GetColumnWidgets());
 				_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Collaps>
-					(componentName, _widgetCon->GetCollapsWidgets(), _componentExistence.at(component.first));
+					(componentName, _widgetCon->GetCollapsWidgets(), _componentExistence.at(data.first));
 			}
-
-			_isAddComponent ? false : false;
 		}
 	}
 }
