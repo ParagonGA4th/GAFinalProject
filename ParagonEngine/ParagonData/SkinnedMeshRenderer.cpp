@@ -7,7 +7,7 @@ namespace Pg::Data
 		SetRendererTypeName(typeid(this).name());
 	}
 
-	void SkinnedMeshRenderer::InitializePathsFromName()
+	void SkinnedMeshRenderer::ConvertPotentialUnrealValues()
 	{
 		//
 	}
