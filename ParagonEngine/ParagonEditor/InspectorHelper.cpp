@@ -53,9 +53,6 @@ void Pg::Editor::Window::InspectorHelper::SetData(Pg::Data::GameObject* object)
 	_isActive = _object->GetActive();
 	_objName = _object->GetName();
 	_objTag = _object->GetTag();
-
-	_widgetCon->ClearWidget(1);
-	ComponentUI();
 }
 
 void Pg::Editor::Window::InspectorHelper::Update()
@@ -68,8 +65,6 @@ void Pg::Editor::Window::InspectorHelper::Update()
 		{
 			_object->RemoveComponent(name);
 
-			_widgetCon->ClearWidget(1);
-			ComponentUI();
 
 			auto iter = _componentExistence.find(name);
 			delete iter->second;
@@ -78,6 +73,9 @@ void Pg::Editor::Window::InspectorHelper::Update()
 		}
 	}
 
+	_widgetCon->ClearWidget(1);
+	ComponentUI();
+
 	if (_object != nullptr)
 	{
 		// object의 기본 정보 및 타입 변환 후 정보
@@ -85,15 +83,17 @@ void Pg::Editor::Window::InspectorHelper::Update()
 		_object->SetName(_objName);
 		_object->SetTag(_objTag);
 
-		_object->_transform._rotation.x = _tempFloat3.x;
-		_object->_transform._rotation.y = _tempFloat3.y;
-		_object->_transform._rotation.z = _tempFloat3.z;
+		//_object->_transform._rotation = Pg::Math::PGEulerToQuaternion(_tempFloat3);
+		//_object->_transform._rotation.x = _tempFloat3.x;
+		//_object->_transform._rotation.y = _tempFloat3.y;
+		//_object->_transform._rotation.z = _tempFloat3.z;
 	}
 }
 
 void Pg::Editor::Window::InspectorHelper::ComponentUI()
 {
 	auto scene = _dataContainer->GetCurrentScene();
+	if(scene == nullptr) return;
 	std::unordered_map<std::string, std::vector<std::tuple<std::string, std::string, void*>>> componentData;
 
 	for (auto object : scene->GetObjectList())
@@ -147,24 +147,21 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 
 					if (typeInfo == typeid(Pg::Math::PGFLOAT4).name())
 					{
-						_tempFloat4 = static_cast<Pg::Math::PGFLOAT4*>(val);
+						//_tempFloat4 = static_cast<Pg::Math::PGFLOAT4*>(val);
 
-						_tempFloat3.x = _tempFloat4->x;
-						_tempFloat3.y = _tempFloat4->y;
-						_tempFloat3.z = _tempFloat4->z;
+						//_tempFloat3.x = _tempFloat4->x;
+						//_tempFloat3.y = _tempFloat4->y;
+						//_tempFloat3.z = _tempFloat4->z;
 
-						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::InputFloat3>(valName, &_tempFloat3);
+						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::InputFloat3>(valName, static_cast<Pg::Math::PGFLOAT4*>(val));
 					}
 
 					if (typeInfo == typeid(Pg::Math::PGQuaternion).name())
 					{
-						_tempQut = static_cast<Pg::Math::PGQuaternion*>(val);
+						//_tempQut = static_cast<Pg::Math::PGQuaternion*>(val);
+						//_tempFloat3 = Pg::Math::PGQuaternionToEuler(*_tempQut);
 
-						_tempFloat3.x = _tempQut->x;
-						_tempFloat3.y = _tempQut->y;
-						_tempFloat3.z = _tempQut->z;
-
-						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::InputFloat3>(valName, &_tempFloat3);
+						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::InputFloat3>(valName, static_cast<Pg::Math::PGQuaternion*>(val));
 					}
 				}
 
