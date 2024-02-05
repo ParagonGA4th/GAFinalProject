@@ -29,6 +29,7 @@
 
 #include "../ParagonData/ImageRenderer.h"
 #include "../ParagonData/TextRenderer.h"
+#include "../ParagonData/ParagonDefines.h"
 
 #include <set>
 #include <algorithm>
@@ -112,7 +113,7 @@ namespace Pg::Graphics
 		//Index : 1 추가.
 		{
 			//Cubemap 데이터를 받기.
-			auto tCubemapData = GraphicsResourceManager::Instance()->GetResource("../Resources/Textures/room.dds", eAssetDefine::_CUBEMAP);
+			auto tCubemapData = GraphicsResourceManager::Instance()->GetResource(Pg::Defines::ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH, eAssetDefine::_CUBEMAP);
 			_cubeMapList->_list.push_back(static_cast<RenderCubemap*>(tCubemapData.get()));
 		}
 	}

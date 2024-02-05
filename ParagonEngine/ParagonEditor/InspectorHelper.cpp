@@ -82,11 +82,6 @@ void Pg::Editor::Window::InspectorHelper::Update()
 		_object->SetActive(_isActive);
 		_object->SetName(_objName);
 		_object->SetTag(_objTag);
-
-		//_object->_transform._rotation = Pg::Math::PGEulerToQuaternion(_tempFloat3);
-		//_object->_transform._rotation.x = _tempFloat3.x;
-		//_object->_transform._rotation.y = _tempFloat3.y;
-		//_object->_transform._rotation.z = _tempFloat3.z;
 	}
 }
 
@@ -147,20 +142,11 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 
 					if (typeInfo == typeid(Pg::Math::PGFLOAT4).name())
 					{
-						//_tempFloat4 = static_cast<Pg::Math::PGFLOAT4*>(val);
-
-						//_tempFloat3.x = _tempFloat4->x;
-						//_tempFloat3.y = _tempFloat4->y;
-						//_tempFloat3.z = _tempFloat4->z;
-
 						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::InputFloat3>(valName, static_cast<Pg::Math::PGFLOAT4*>(val));
 					}
 
 					if (typeInfo == typeid(Pg::Math::PGQuaternion).name())
 					{
-						//_tempQut = static_cast<Pg::Math::PGQuaternion*>(val);
-						//_tempFloat3 = Pg::Math::PGQuaternionToEuler(*_tempQut);
-
 						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::InputFloat3>(valName, static_cast<Pg::Math::PGQuaternion*>(val));
 					}
 				}

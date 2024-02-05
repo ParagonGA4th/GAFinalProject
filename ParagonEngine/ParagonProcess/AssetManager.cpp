@@ -223,6 +223,7 @@ namespace Pg::Core::Manager
 
 		
 		
+		LoadResource("../Resources/3DModels/StaticMesh/Cuptower/Cuptower.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/StaticMesh/DefaultGeometry/DefaultGeometry.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
@@ -239,9 +240,10 @@ namespace Pg::Core::Manager
 		LoadResource("../Resources/Textures/wook.jpg", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
 		LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
+		
 		LoadResource("../Resources/3DModels/UnrealTest/gizmo.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/UnrealTest/test.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		///로드 위치에 따라 언리얼 뻑난다. 고치자.
+
 		//ShaderMaterial로 추가한 요소들.
 		//LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbm/road_1_diffuseOriginal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		//LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbm/lava_1_diffuseOriginal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
@@ -250,7 +252,7 @@ namespace Pg::Core::Manager
 		LoadResource("../Builds/x64/Debug/AppendObjectTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
 		LoadResource("../Builds/x64/Debug/AppendObjectTestPS.cso", eAssetDefine::_RENDER_PIXELSHADER);
 		LoadResource("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat", Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
-		LoadResource("../Resources/Textures/room.dds", eAssetDefine::_CUBEMAP);
+		
 		//LoadResource("../Resources/3DModels/AnimMesh/twcylinder/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 	}
 
@@ -282,8 +284,16 @@ namespace Pg::Core::Manager
 		LoadResource(Pg::Defines::ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_2048, eAssetDefine::_TEXTURE2D);
 		//LoadResource(Pg::Defines::ASSET_DEFAULT_DISPLACEMENT_TEXTURE_PATH_2048, eAssetDefine::_TEXTURE2D);
 
-		LoadResource("../Builds/x64/Debug/AppendObjectDefaultVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
-		LoadResource("../Builds/x64/Debug/AppendObjectDefaultPS.cso", eAssetDefine::_RENDER_PIXELSHADER);
+		//일반 Cubemap
+		LoadResource(Pg::Defines::ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH, eAssetDefine::_CUBEMAP);
+
+		//IBL에 활용.
+		LoadResource(Pg::Defines::ASSET_DEFAULT_IBL_DIFFUSE_IRRADIANCE_CUBEMAP_PATH, eAssetDefine::_CUBEMAP);
+		LoadResource(Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_IRRADIANCE_CUBEMAP_PATH, eAssetDefine::_CUBEMAP);
+		LoadResource(Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
+
+		LoadResource(Pg::Defines::DEFAULT_APPENDS_RENDER_VS_PATH, eAssetDefine::_RENDER_VERTEXSHADER);
+		LoadResource(Pg::Defines::DEFAULT_APPENDS_RENDER_PS_PATH, eAssetDefine::_RENDER_PIXELSHADER);
 	}
 
 
