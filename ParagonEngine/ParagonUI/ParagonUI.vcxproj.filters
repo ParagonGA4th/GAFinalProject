@@ -82,6 +82,9 @@
     <ClInclude Include="ImGuizmo.h">
       <Filter>Imgui</Filter>
     </ClInclude>
+    <ClInclude Include="Gizmo.h">
+      <Filter>0_UI\Gizmo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UIManager.cpp">
@@ -156,6 +159,9 @@
     <ClCompile Include="ImGuizmo.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
+    <ClCompile Include="Gizmo.cpp">
+      <Filter>0_UI\Gizmo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_UI">
@@ -223,6 +229,9 @@
     </Filter>
     <Filter Include="0_UI\1_Widget\Button\ImageButton">
       <UniqueIdentifier>{3c29521f-733a-4b9b-ab7b-ad9b4723ff1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\Gizmo">
+      <UniqueIdentifier>{0073f77d-cd8b-4d3e-a9cd-ee4c3aef5175}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -4,7 +4,7 @@
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 
-#include "ImGuizmo.h"
+#include "Gizmo.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -38,6 +38,8 @@ Pg::UI::Manager::ImGuiManager::ImGuiManager()
 	{
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
+
+	_imGizmo = std::make_unique<Pg::UI::Helper::Gizmo>();
 }
 
 Pg::UI::Manager::ImGuiManager::~ImGuiManager()
@@ -58,11 +60,7 @@ void Pg::UI::Manager::ImGuiManager::CreateFrame()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	ImGuizmo::BeginFrame();
-
-	ImVec2 windowSize = ImGui::GetWindowSize();
-	ImGuizmo::SetOrthographic(false);
-	ImGuizmo::SetRect(0, 0, windowSize.x, windowSize.y);
+	_imGizmo->CreateFrame();
 }
 
 void Pg::UI::Manager::ImGuiManager::Render()

@@ -35,7 +35,10 @@ namespace Pg::Data
 		//void SetFarZ(float farZ);
 		//void SetFovY(float fovY);
 
+		void SetScreenSize(float width, float height);
+
 		PGFLOAT4X4 GetViewMatrix() const;
+		PGFLOAT4X4 GetProjMatrix() const;
 		Pg::Data::CameraData* GetCameraData();
 
 	private:
@@ -58,7 +61,12 @@ namespace Pg::Data
 		//float _farZ = 1000.0f;
 
 		//float _fovY = PG_PI * 0.4f;
+
+		float _screenWidth;
+		float _screenHeight;
+
 		Pg::Math::PGFLOAT4X4 _viewMatrix;
+		Pg::Math::PGFLOAT4X4 _projMatrix;
 
 	};
 
