@@ -38,7 +38,15 @@ namespace Pg::Defines
 	extern const std::string ASSET_DEFAULT_ARM_TEXTURE_PATH_2048;
 	extern const std::string ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_2048;
 	//extern const std::string ASSET_DEFAULT_DISPLACEMENT_TEXTURE_PATH_2048;
+	
+	extern const std::string ASSET_DEFAULT_IBL_DIFFUSE_IRRADIANCE_CUBEMAP_PATH;
+	extern const std::string ASSET_DEFAULT_IBL_SPECULAR_IRRADIANCE_CUBEMAP_PATH;
+	extern const std::string ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH;
+	extern const std::string ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH;
 
 	extern const std::string DEFAULT_APPENDS_RENDER_VS_NAME;
 	extern const std::string DEFAULT_APPENDS_RENDER_PS_NAME;
+
+	extern const std::string DEFAULT_APPENDS_RENDER_VS_PATH;
+	extern const std::string DEFAULT_APPENDS_RENDER_PS_PATH;
 }
