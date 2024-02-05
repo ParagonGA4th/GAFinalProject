@@ -20,6 +20,8 @@ namespace Pg::Graphics
 	class LowDX11Storage;
 	class SystemVertexShader;
 	class SystemPixelShader;
+	class RenderCubemap;
+	class RenderTexture2D;
 }
 
 namespace Pg::Graphics
@@ -45,7 +47,7 @@ namespace Pg::Graphics
 		GBufferRender* _quadSaveObjMatGBuffer = nullptr;
 
 		//잠시 CameraData 구조체를 보관해놓는다.
-		Pg::Data::CameraData* _savedCamData;
+		Pg::Data::CameraData* _savedCamData = nullptr;
 
 	private:
 		//PBR G-Buffer들 투입.
@@ -59,10 +61,17 @@ namespace Pg::Graphics
 
 		//SceneInfo Constant Buffer.
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbSceneInfo>> _cbSceneInfo;
+
+		//IBL Textures. (Textures 21-22)
+		RenderCubemap* _iblDiffuseIrradianceMap = nullptr;
+		RenderCubemap* _iblSpecularIrradianceMap = nullptr;
+		RenderTexture2D* _iblSpecularLutTextureMap = nullptr;
+
 	private:
 		void CreateD3DViews();
 		void CreateShaders();
 		void CreateBuffers();
+		void FetchIBLBuffers();
 
 	private:
 		std::unique_ptr<SystemVertexShader> _vs;

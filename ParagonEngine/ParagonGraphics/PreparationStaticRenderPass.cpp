@@ -4,7 +4,11 @@
 #include "LowDX11Storage.h"
 #include "LayoutDefine.h"
 #include "SystemVertexShader.h"
+#include "RenderTexture2D.h"
+#include "RenderCubemap.h"
 #include "SystemPixelShader.h"
+#include "GraphicsResourceManager.h"
+#include "../ParagonData/ParagonDefines.h"
 
 #include <algorithm> 
 namespace Pg::Graphics
@@ -25,6 +29,7 @@ namespace Pg::Graphics
 		CreateD3DViews();
 		CreateShaders();
 		CreateBuffers();
+		FetchIBLBuffers();
 	}
 
 	void PreparationStaticRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
@@ -99,6 +104,12 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(13, 1, &(_normalRoughBuffer->GetSRV()));
 		_DXStorage->_deviceContext->PSSetShaderResources(14, 1, &(_specularMetalBuffer->GetSRV()));
 
+		//독립적인 IBL Texture들, 여기서 바인딩.
+		//t21-23 - internal IBL TextureCubes Bind
+		_DXStorage->_deviceContext->PSSetShaderResources(21, 1, &(_iblDiffuseIrradianceMap->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(22, 1, &(_iblSpecularIrradianceMap->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &(_iblSpecularLutTextureMap->GetSRV()));
+
 		//Constant Buffer (SceneInfo) 업데이트.
 		_cbSceneInfo->GetDataStruct()->gCBuf_ViewMatrix = PG2XM_MATRIX4X4(_savedCamData->_viewMatrix);
 		_cbSceneInfo->GetDataStruct()->gCBuf_ProjMatrix = PG2XM_MATRIX4X4(_savedCamData->_projMatrix);
@@ -145,6 +156,21 @@ namespace Pg::Graphics
 	void PreparationStaticRenderPass::CreateBuffers()
 	{
 		_cbSceneInfo = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbSceneInfo>>();
+	}
+
+	void PreparationStaticRenderPass::FetchIBLBuffers()
+	{
+		auto tDiff = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(
+			Pg::Defines::ASSET_DEFAULT_IBL_DIFFUSE_IRRADIANCE_CUBEMAP_PATH, Pg::Data::Enums::eAssetDefine::_CUBEMAP);
+		_iblDiffuseIrradianceMap = static_cast<RenderCubemap*>(tDiff.get());
+
+		auto tSpec = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(
+			Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_IRRADIANCE_CUBEMAP_PATH, Pg::Data::Enums::eAssetDefine::_CUBEMAP);
+		_iblSpecularIrradianceMap = static_cast<RenderCubemap*>(tSpec.get());
+
+		auto tSpecLUT = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(
+			Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		_iblSpecularLutTextureMap = static_cast<RenderTexture2D*>(tSpecLUT.get());
 	}
 
 }
