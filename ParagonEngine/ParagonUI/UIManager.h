@@ -17,6 +17,7 @@
 struct ID3D11Device;
 struct ID3D11DeviceContext;
 
+namespace Pg::Data { class Camera; class Transform; }
 namespace Pg::UI::Manager
 {
 	class ImGuiManager;
@@ -31,9 +32,12 @@ namespace Pg::UI::Manager
 		 void LastUpdate();
 		 void Finalize();
 
-		//void SetFont();
-
 		 void UIHandler(MSG message);
+
+
+		 void SetCameraForGizmo(Pg::Data::Camera* camera);
+		 void SetTransformForGizmo(Pg::Data::Transform* trans);
+		 void SetWindowSizeForGizmo(float width, float height);
 
 		 void WindowBegin(std::string winName, bool isMenu = false);
 		 void WindowDockSpaceBegin(std::string winName);

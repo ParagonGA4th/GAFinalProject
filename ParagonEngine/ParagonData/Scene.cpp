@@ -17,8 +17,12 @@ namespace Pg::Data
 		GameObject* cameraObject = AddObject("MainCamera");
 		_mainCamera = cameraObject->AddComponent<Pg::Data::Camera>();
 
+		_mainCamera->_object->_transform._position = { 0.f, 3.0f, -10.f };
 		_mainCamera->_object->_transform._rotation = { 0.0f, 0.0f, 0.0f, 0.0f };
+		_mainCamera->SetScreenSize(1920.0f, 1080.0f);
 
+		OutputDebugString(L"1920x1080으로 사이즈 전달을 위해 Scene의 생성자에서 하드코딩되어 있다. 나중에 해상도 변경 발생 시 고쳐야.");
+		
 		// 10.11 오수안
 		// Scene이 생성될 때 반드시 추가되는 main Light
 		//GameObject* dirLight = AddObject("MainDirLight");

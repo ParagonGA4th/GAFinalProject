@@ -53,7 +53,7 @@ namespace Pg::Graphics
 
 		ID3D11Buffer* GetVB() { return _VB; }
 		ID3D11Buffer* GetIB() { return _IB; }
-		ID3D11ShaderResourceView* GetSRV() { return _srv; }
+		ID3D11ShaderResourceView*& GetSRV() { return _srv; }
 
 		//일단은 Cubemap 오브젝트들 전부 동일한 CBuffer를 공유.
 		struct CB

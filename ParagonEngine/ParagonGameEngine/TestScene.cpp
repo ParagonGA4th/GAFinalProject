@@ -38,15 +38,7 @@ void Pg::Engine::TestScene::Initialize()
 {
 	using namespace Pg::Data;
 
-
-	///새로 추가한 스크립트 컴포넌트의 테스트를 위한 코드 
-
-	//카메라 하나 더 생성
-	Pg::Data::GameObject* tObj1 = tCurrentScene->AddObject("Camera1");
-	tObj1->AddComponent<Camera>();
-	tObj1->GetComponent<Transform>()->_position = { 0.f, 3.0f, -10.f };
-	tObj1->GetComponent<Transform>()->_rotation = tObj1->GetComponent<Transform>()->EulerToQuaternion(0.f, 0.f, 0.f);
-	//tObj1->AddComponent<EditorCameraScript>();
+	//이제 여기서 MainCamera 넣기 금지.
 
 	Pg::Data::GameObject* tObj2 = tCurrentScene->AddObject("RoadLavaConeTest");
 	tObj2->GetComponent<Transform>()->_position = { 0.0f, 10.0f, 0.0f };
@@ -143,13 +135,6 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	///새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 
-
-
-
-
-
-	//이렇게 하면 메인 카메라 바뀜!!
-	tCurrentScene->SetMainCamera(tObj1->GetComponent<Camera>());
 
 	assert(true);
 }
