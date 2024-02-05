@@ -4,6 +4,7 @@
 #include "SceneSystem.h"
 #include "DebugSystem.h"
 #include "TimeSystem.h"
+#include "SoundSystem.h"
 #include "EngineResourceManager.h"
 
 
@@ -64,6 +65,10 @@ namespace Pg::Engine
 		//Debug
 		auto& tDebugSystem = singleton<DebugSystem>();
 		_debugSystem = &tDebugSystem;
+
+		//Sound
+		auto& tSoundSystem = singleton<SoundSystem>();
+		_soundSystem = &tSoundSystem;
 	}
 
 	EngineMain::~EngineMain()
@@ -79,6 +84,7 @@ namespace Pg::Engine
 		_debugSystem->Initialize();
 		_physicSystem->Initialize(_debugSystem);
 		_timeSystem->Initialize();
+		_soundSystem->Initialize();
 	}
 
 	void EngineMain::Update()
