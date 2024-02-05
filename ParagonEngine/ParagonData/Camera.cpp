@@ -1,6 +1,8 @@
 #include "Camera.h"
 #include "GameObject.h"
 
+#include "CameraData.h"
+
 #include <generic_factory/generic_factory.hpp>
 #include <cmath>
 #include <numbers>
@@ -67,9 +69,20 @@ namespace Pg::Data
 	//	_fovY = fovY;
 	//}
 
+	void Camera::SetScreenSize(float width, float height)
+	{
+		_screenWidth = width;
+		_screenHeight = height;
+	}
+
 	Pg::Math::PGFLOAT4X4 Camera::GetViewMatrix() const
 	{
 		return _viewMatrix;
+	}
+
+	Pg::Math::PGFLOAT4X4 Camera::GetProjMatrix() const
+	{
+		return _projMatrix;
 	}
 
 	Pg::Data::CameraData* Camera::GetCameraData()
@@ -127,5 +140,11 @@ namespace Pg::Data
 		_viewMatrix.m[2][3] = 0.0f;
 		_viewMatrix.m[3][3] = 1.0f;
 
+		_cameraData->_nearWindowHeight = 2.0f * _nearZ * tanf(0.5f * _fovY);
+		_cameraData->_farWindowHeight = 2.0f * _farZ * tanf(0.5f * _fovY);
+
+		_cameraData->_aspect = _screenWidth / _screenHeight;
+		_projMatrix = Pg::Math::PGMatrixPerspectiveFovLH(_fovY, _cameraData->_aspect, _nearZ, _farZ);
+		_cameraData->_projMatrix = _projMatrix;
 	}
 }

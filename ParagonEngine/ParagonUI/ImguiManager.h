@@ -1,9 +1,12 @@
 #pragma once
 #include <windows.h>
 #include <string>
+#include <memory>
 
 struct ID3D11Device;
 struct ID3D11DeviceContext;
+
+namespace Pg::UI::Helper { class Gizmo; }
 
 namespace Pg::UI::Manager
 {
@@ -23,6 +26,9 @@ namespace Pg::UI::Manager
 		static void Begin(std::string windowName, bool isMenu);
 		static void DockSpaceBegin(std::string dockName);
 		static void End(bool isDockspace);
+
+	private:
+		std::unique_ptr<Pg::UI::Helper::Gizmo> _imGizmo;
 	};
 }
 
