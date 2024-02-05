@@ -27,10 +27,11 @@ namespace Pg::Defines
 	const std::string ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_2048 = "../Resources/Textures/Default/2048x2048/Paragon_DefaultSpecularMap2048x2048.dds";
 	//const std::string ASSET_DEFAULT_DISPLACEMENT_TEXTURE_PATH_2048 = "../Resources/Textures/Default/2048x2048/Paragon_DefaultDisplacementMap2048x2048.dds";
 	
-	const std::string ASSET_DEFAULT_IBL_DIFFUSE_IRRADIANCE_CUBEMAP_PATH = "../Resources/Textures/Cubemaps/IBL/Factory/FactoryIBLDiffuseHDR.dds";
-	const std::string ASSET_DEFAULT_IBL_SPECULAR_IRRADIANCE_CUBEMAP_PATH = "../Resources/Textures/Cubemaps/IBL/Factory/FactoryIBLSpecularHDR.dds";
-	const std::string ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH = "../Resources/Textures/Cubemaps/IBL/Factory/FactoryIBLBrdf.dds";
+	const std::string ASSET_DEFAULT_IBL_DIFFUSE_IRRADIANCE_CUBEMAP_PATH = "../Resources/Textures/Cubemaps/IBL/PaperMill/PaperMill_IBLMapDiffuseHDR.dds";
+	const std::string ASSET_DEFAULT_IBL_SPECULAR_IRRADIANCE_CUBEMAP_PATH = "../Resources/Textures/Cubemaps/IBL/PaperMill/PaperMill_IBLMapSpecularHDR.dds";
+	const std::string ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH = "../Resources/Textures/Cubemaps/IBL/PaperMill/PaperMill_IBLMapBrdf.dds";
 	const std::string ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH = "../Resources/Textures/room.dds";
+	//const std::string ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH = "../Resources/Textures/PaperMill_IBLMapEnvHDR.dds";
 
 	const std::string DEFAULT_APPENDS_RENDER_VS_NAME = "AppendObjectDefaultVS.cso";
 	const std::string DEFAULT_APPENDS_RENDER_PS_NAME = "AppendObjectDefaultPS.cso";

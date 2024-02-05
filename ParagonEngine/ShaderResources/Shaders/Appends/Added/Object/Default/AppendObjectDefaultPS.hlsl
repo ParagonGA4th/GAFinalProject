@@ -120,7 +120,7 @@ POutQuad main(VOutQuad pin)
     res.Output = float4(directLighting + ambientLighting, 1.0);
     
     //GammaCorrection±îÁö!
-    res.Output = pow(res.Output, 1.0 / 2.2);
+    //res.Output = pow(res.Output, 1.0 / 2.2);
     
     return res;
 }
