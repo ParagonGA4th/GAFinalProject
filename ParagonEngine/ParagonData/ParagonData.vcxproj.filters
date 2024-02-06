@@ -267,6 +267,9 @@
     <ClInclude Include="AudioListener.h">
       <Filter>2_Component\Audio\AudioListener</Filter>
     </ClInclude>
+    <ClInclude Include="AudioData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">

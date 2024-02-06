@@ -1,4 +1,5 @@
 #include "SoundSystem.h"
+#include "../ParagonData/Transform.h"
 
 namespace Pg::Engine
 {
@@ -21,17 +22,38 @@ namespace Pg::Engine
 
 	void SoundSystem::Initialize()
 	{
+		_maxSound = _soundMap.size();
+	}
 
+
+	void SoundSystem::Update()
+	{
+		_system->update();
 	}
 
 	void SoundSystem::Finalize()
 	{
+		//채널 그룹 싹 다 해제.
+		for (int i = 0; i < _maxGroup; i++)
+		{
+			_channelGroupVec[i]->release();
+		}
 
+		_system->close();
+		_system->release();
 	}
 
 	void SoundSystem::CreateSound(std::string path)
 	{
-		//_system->createSound(path.c_str(), FMOD_LOOP_NORMAL , FMOD_DEFAULT, NULL, &());
+		//사운드 객체 생성
+		Pg::Data::AudioData audioData;
+
+		_system->createSound(path.c_str(), FMOD_LOOP_NORMAL | FMOD_DEFAULT, NULL, &(audioData.sound));
+	}
+
+	void SoundSystem::PlaySound(std::string path, bool isLoop)
+	{
+
 	}
 
 	void SoundSystem::SetVolume(std::string path, float vol)
@@ -39,4 +61,8 @@ namespace Pg::Engine
 
 	}
 
+	void SoundSystem::SoundPause(std::string path)
+	{
+
+	}
 }
