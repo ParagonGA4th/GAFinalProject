@@ -6,8 +6,8 @@
 struct ID3D11Device;
 struct ID3D11DeviceContext;
 
+namespace Pg::Data { class Camera; class Transform; }
 namespace Pg::UI::Helper { class Gizmo; }
-
 namespace Pg::UI::Manager
 {
 	class ImGuiManager
@@ -23,9 +23,14 @@ namespace Pg::UI::Manager
 
 		void ImguiHandler(MSG message);
 
-		static void Begin(std::string windowName, bool isMenu);
-		static void DockSpaceBegin(std::string dockName);
-		static void End(bool isDockspace);
+		void Begin(std::string windowName, bool isMenu);
+		void DockSpaceBegin(std::string dockName);
+		void End(bool isDockspace);
+
+		void SetGizmoCamera(Pg::Data::Camera* camera);
+		void SetGizmoTransform(Pg::Data::Transform* trans);
+		void SetGizmoSize();
+		void DrawGizmo();
 
 	private:
 		std::unique_ptr<Pg::UI::Helper::Gizmo> _imGizmo;

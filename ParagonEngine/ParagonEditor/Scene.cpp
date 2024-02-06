@@ -1,10 +1,14 @@
 #include "Scene.h"
 #include "DataContainer.h"
+
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
-#include <singleton-cpp/singleton.h>
-
 #include "../ParagonUI/Image.h"
+
+#include "../ParagonData/Scene.h"
+#include "../ParagonData/Transform.h"
+
+#include <singleton-cpp/singleton.h>
 
 Pg::Editor::Window::Scene::Scene()
 	:_winName("Scene"), _isShow(true)
@@ -31,7 +35,18 @@ void Pg::Editor::Window::Scene::Initialize()
 void Pg::Editor::Window::Scene::Update()
 {
 	_uiManager->WindowBegin(_winName);
-	_widgetCon->Update();
+
+	if (_dataContainer->GetCurrentScene() != nullptr)
+		_uiManager->SetCameraForGizmo(_dataContainer->GetCurrentScene()->GetMainCamera());
+
+	if (_dataContainer->GetPickObject() != nullptr)
+		_uiManager->SetTransformForGizmo(&_dataContainer->GetPickObject()->_transform);
+
+	_uiManager->SetWindowSizeForGizmo();
+
+	_widgetCon->Update();	
+	_uiManager->DrawGizmo();
+	
 	_uiManager->WindowEnd();
 }
 

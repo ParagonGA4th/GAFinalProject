@@ -126,3 +126,25 @@ void Pg::UI::Manager::ImGuiManager::End(bool isDockspace)
 {
 	ImGui::End();
 }
+
+void Pg::UI::Manager::ImGuiManager::SetGizmoCamera(Pg::Data::Camera* camera)
+{
+	_imGizmo->SetCamera(camera);
+}
+
+void Pg::UI::Manager::ImGuiManager::SetGizmoTransform(Pg::Data::Transform* trans)
+{
+	_imGizmo->SetTransform(trans);
+}
+
+void Pg::UI::Manager::ImGuiManager::SetGizmoSize()
+{
+	ImVec2 size = ImGui::GetWindowSize();
+
+	_imGizmo->SetWindowSize(size.x, size.y);
+}
+
+void Pg::UI::Manager::ImGuiManager::DrawGizmo()
+{
+	_imGizmo->DrawGizmo();
+}

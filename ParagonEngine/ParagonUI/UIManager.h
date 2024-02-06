@@ -34,10 +34,10 @@ namespace Pg::UI::Manager
 
 		 void UIHandler(MSG message);
 
-
 		 void SetCameraForGizmo(Pg::Data::Camera* camera);
 		 void SetTransformForGizmo(Pg::Data::Transform* trans);
-		 void SetWindowSizeForGizmo(float width, float height);
+		 void SetWindowSizeForGizmo();
+		 void DrawGizmo();
 
 		 void WindowBegin(std::string winName, bool isMenu = false);
 		 void WindowDockSpaceBegin(std::string winName);
