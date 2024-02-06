@@ -49,7 +49,7 @@ void Pg::Editor::Manager::ProcessManager::Update()
 	_coreMain->BeginRender();
 	_coreMain->Render();
 	//Picking + Outline Effect. Editor에서 Edit Mode일때만 발동할 것. 그래픽스 리소스를 아끼기 위해.
-	//Pg::Data::GameObject* tPickedObject = _coreMain->PassPickedObject();
+	_dataContainer->SetPickObject(_coreMain->PassPickedObject());
 	_coreMain->FinalRender();
 
 	

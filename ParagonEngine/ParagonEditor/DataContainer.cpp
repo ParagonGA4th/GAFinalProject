@@ -84,3 +84,13 @@ Pg::Data::Scene* Pg::Editor::Data::DataContainer::GetCurrentScene()
 	return _currentScene;
 }
 
+void Pg::Editor::Data::DataContainer::SetPickObject(Pg::Data::GameObject* object)
+{
+	_pickObject = object;
+}
+
+Pg::Data::GameObject* Pg::Editor::Data::DataContainer::GetPickObject()
+{
+	return _pickObject;
+}
+

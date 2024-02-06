@@ -37,17 +37,22 @@ void Pg::UI::Manager::UIManager::UIHandler(MSG message)
 
 void Pg::UI::Manager::UIManager::SetCameraForGizmo(Pg::Data::Camera* camera)
 {
-
+	_imguiManager->SetGizmoCamera(camera);
 }
 
 void Pg::UI::Manager::UIManager::SetTransformForGizmo(Pg::Data::Transform* trans)
 {
-
+	_imguiManager->SetGizmoTransform(trans);
 }
 
-void Pg::UI::Manager::UIManager::SetWindowSizeForGizmo(float width, float height)
+void Pg::UI::Manager::UIManager::SetWindowSizeForGizmo()
 {
+	_imguiManager->SetGizmoSize();
+}
 
+void Pg::UI::Manager::UIManager::DrawGizmo()
+{
+	_imguiManager->DrawGizmo();
 }
 
 void Pg::UI::Manager::UIManager::WindowBegin(std::string winName, bool isTool)
