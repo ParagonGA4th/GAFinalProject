@@ -121,7 +121,6 @@ namespace Pg::Graphics
 	void GraphicsMain::Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData)
 	{
 		//Projection 행렬을 채운다.
-		//FillCamDataProjection(cameraData);
 		this->_camData = cameraData;
 
 	}
