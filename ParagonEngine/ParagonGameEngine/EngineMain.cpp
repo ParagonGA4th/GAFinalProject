@@ -94,6 +94,7 @@ namespace Pg::Engine
 		_inputSystem->Update();
 		_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
 		_physicSystem->Flush();
+		_soundSystem->Update();
 		_sceneSystem->Update();
 		_physicSystem->UpdateTransform();
 		_debugSystem->Update(_sceneSystem->GetCurrentScene());
@@ -117,6 +118,7 @@ namespace Pg::Engine
 	void EngineMain::Finalize()
 	{
 		_physicSystem->Finalize();
+		_soundSystem->Finalize();
 	}
 
 	void EngineMain::LoadResource(const std::string& filePath, Pg::Data::Enums::eAssetDefine define)
