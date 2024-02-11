@@ -49,6 +49,7 @@
     <ClInclude Include="SoundSystem.h">
       <Filter>2_System\SoundSystem</Filter>
     </ClInclude>
+    <ClInclude Include="BTTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
