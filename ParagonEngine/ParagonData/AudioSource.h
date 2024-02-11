@@ -16,6 +16,7 @@ namespace Pg::Engine
 namespace Pg::Data
 {
 	class GameObject;
+	enum class eSoundState;
 
 	class AudioSource : public Component
 	{
@@ -31,7 +32,7 @@ namespace Pg::Data
 
 		//재생 상태 싹 다 리셋.
 		void ResetPlayingState();
-	private:
+	public:
 		eSoundState _soundState;
 
 	};
