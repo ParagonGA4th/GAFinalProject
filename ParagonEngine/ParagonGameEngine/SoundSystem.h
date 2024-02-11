@@ -20,6 +20,12 @@
 /// 3D 사운드는 게임 구현에 있어 필요 없다고 판단.
 /// 2024.01.31
 /// </summary>
+
+namespace Pg::Data
+{
+	enum class eSoundState;
+}
+
 namespace Pg::Engine
 {
 	class SceneSystem;
@@ -62,9 +68,6 @@ namespace Pg::Engine
 	private:
 
 		SceneSystem* _sceneSystem = nullptr;
-
-		//사운드들의 재생 상태를 관리해주기 위한 클래스.
-		Pg::Data::eSoundState _soundState;
 
 		//3D 사운드를 위한 변수
 		//3D 사운드 필요없다고 판단.

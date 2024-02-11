@@ -9,7 +9,8 @@
 namespace Pg::Data
 {
 	AudioSource::AudioSource(GameObject* owner) :
-		Component(owner)
+		Component(owner),
+		_soundState(eSoundState::_NONE)
 	{
 		
 	}
