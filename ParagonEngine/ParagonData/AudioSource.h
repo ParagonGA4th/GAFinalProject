@@ -24,6 +24,7 @@ namespace Pg::Data
 
 	public:
 		virtual void Start() override;
+
 		void Play(std::string audioName);
 
 		void Stop(std::string audioName);
