@@ -193,6 +193,7 @@ copy $(SolutionDir)lib\fmod\$(PlatformTarget)\fmod.dll $(OutDir)</Command>
   <ItemGroup>
     <ClInclude Include="BTTest.h" />
     <ClInclude Include="DebugSystem.h" />
+    <ClInclude Include="dummy_nodes.h" />
     <ClInclude Include="EditorCameraScript.h" />
     <ClInclude Include="EngineDLLExporter.h" />
     <ClInclude Include="EngineMain.h" />
@@ -211,6 +212,7 @@ copy $(SolutionDir)lib\fmod\$(PlatformTarget)\fmod.dll $(OutDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugSystem.cpp" />
+    <ClCompile Include="dummy_nodes.cpp" />
     <ClCompile Include="EditorCameraScript.cpp" />
     <ClCompile Include="EngineMain.cpp" />
     <ClCompile Include="EngineResourceManager.cpp" />
