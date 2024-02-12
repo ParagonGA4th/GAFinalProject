@@ -196,6 +196,7 @@ copy $(SolutionDir)lib\fmod\$(PlatformTarget)\fmod.dll $(OutDir)</Command>
     <ClInclude Include="EngineDLLExporter.h" />
     <ClInclude Include="EngineMain.h" />
     <ClInclude Include="EngineResourceManager.h" />
+    <ClInclude Include="eSoundGroup.h" />
     <ClInclude Include="EventSystem.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MovingTest.h" />
