@@ -49,7 +49,12 @@
     <ClInclude Include="SoundSystem.h">
       <Filter>2_System\SoundSystem</Filter>
     </ClInclude>
-    <ClInclude Include="BTTest.h" />
+    <ClInclude Include="BTTest.h">
+      <Filter>5_BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="dummy_nodes.h">
+      <Filter>5_BehaviorTree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -96,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="SoundSystem.cpp">
       <Filter>2_System\SoundSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="dummy_nodes.cpp">
+      <Filter>5_BehaviorTree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +166,9 @@
     </Filter>
     <Filter Include="2_System\SoundSystem">
       <UniqueIdentifier>{e5bb6dc6-c6ca-4c02-a2a8-b7675dcf0dd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree">
+      <UniqueIdentifier>{d63029ea-6b15-4b04-bf52-a170485ceaa4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
