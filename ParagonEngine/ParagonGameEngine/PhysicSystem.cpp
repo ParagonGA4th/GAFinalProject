@@ -356,8 +356,7 @@ namespace Pg::Engine::Physic
 			Pg::Data::StaticBoxCollider* tStaticBoxCol = obj->GetComponent<Pg::Data::StaticBoxCollider>();
 			Pg::Data::SphereCollider* tSphCol = obj->GetComponent<Pg::Data::SphereCollider>();
 			Pg::Data::CapsuleCollider* tCapCol = obj->GetComponent<Pg::Data::CapsuleCollider>();
-			Pg::Data::PlaneCollider* tPlaneCol = obj->GetComponent<Pg::Data::PlaneCollider>();
-			Pg::Data::RayCast* tRayCast = obj->GetComponent<Pg::Data::RayCast>();               
+			Pg::Data::PlaneCollider* tPlaneCol = obj->GetComponent<Pg::Data::PlaneCollider>();              
 
 			//어떤 Collider인지에 따라 출력을 구분한다.
 			if (tBoxCol != nullptr)
@@ -381,10 +380,6 @@ namespace Pg::Engine::Physic
 			{
 				MakePlaneCollider(obj);
 
-			}
-			else if (tRayCast != nullptr)
-			{
-				//MakeRayCast(obj);
 			}
 			AddObjectToScene();
 		}
