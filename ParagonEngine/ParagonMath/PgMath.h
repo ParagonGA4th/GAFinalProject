@@ -285,6 +285,7 @@ namespace Pg::Math
 	DirectX::XMFLOAT4X4 PG2XM_FLOAT4X4(const Pg::Math::PGFLOAT4X4& val);
 	DirectX::XMMATRIX PG2XM_MATRIX4X4(const Pg::Math::PGFLOAT4X4& val);
 
+
 }
 
 
