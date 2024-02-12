@@ -18,12 +18,6 @@ namespace Pg::UI::Helper
 		void SetWindowSize(float width, float height);
 
 	private:
-		// matType 0 = CameraView
-		// matType 1 = CameraProj
-		// matType 3 = Transform
-		void ParagonMatrixToImGizmoMatrix(Pg::Math::PGFLOAT4X4 matrix, int matType);
-
-	private:
 		Pg::Data::Camera* _camera;
 		Pg::Data::Transform* _trans;
 
