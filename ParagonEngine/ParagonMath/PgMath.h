@@ -181,6 +181,8 @@ namespace Pg::Math
 
 		// ¿ªÇà·Ä
 		PGFLOAT4X4 Inverse() const;
+
+		PGFLOAT4X4 Transpose() const;
 	};
 
 	struct PGFLOAT3X3
