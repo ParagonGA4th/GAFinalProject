@@ -7,13 +7,6 @@
 #include "../ParagonData/Transform.h"
 
 Pg::UI::Helper::Gizmo::Gizmo()
-	//: _imGizmocamera->GetProjMatrix()rix
-	//(
-		//1.f, 0.f, 0.f, 0.f,
-	//	0.f, 1.f, 0.f, 0.f,
-	//	0.f, 0.f, -1.f, 0.f,
-	//	0.f, 0.f, 0.f, 1.f
-	//)
 {
 }
 
@@ -36,11 +29,9 @@ void Pg::UI::Helper::Gizmo::SetCamera(Pg::Data::Camera* camera)
 	_cameraProj[3][2] = camera->GetProjMatrix()._43; _cameraProj[3][3] = camera->GetProjMatrix()._44;
 
 	// view
-	//auto wtm = GetInversecamera->GetProjMatrix()rix(camera->GetProjMatrix());
-	//DirectX::XMcamera->GetProjMatrix()RIX wtm = *reinterpret_cast<DirectX::XMcamera->GetProjMatrix()RIX*>(const_cast<yunuGI::camera->GetProjMatrix()rix4x4*>(&camera->GetProjMatrix()));
+	//DirectX::XMMATRIX wtm = *reinterpret_cast<DirectX::XMMATRIX*>(const_cast<Pg::Math::PGFLOAT4X4*>(&camera->GetViewMatrix()));
 	//DirectX::XMVECTOR d;
-	//auto im = DirectX::XMcamera->GetProjMatrix()rixInverse(&d, wtm);
-	//return glm::inverse(ConvertWTM(wtm));
+	//auto im = *reinterpret_cast<Pg::Math::PGFLOAT4X4*>(&DirectX::XMMatrixInverse(&d, wtm));
 
 }
 
@@ -69,9 +60,24 @@ void Pg::UI::Helper::Gizmo::SetWindowSize(float width, float height)
 	_displayHeight = height;
 }
 
+void Pg::UI::Helper::Gizmo::ConvertPTM(Pg::Math::PGFLOAT4X4& mt)
+{
+
+}
+
+void Pg::UI::Helper::Gizmo::ConvertVTM(Pg::Math::PGFLOAT4X4& mt)
+{
+
+}
+
+void Pg::UI::Helper::Gizmo::ConvertWTM(Pg::Math::PGFLOAT4X4& mt)
+{
+
+}
+
 void Pg::UI::Helper::Gizmo::DrawGizmo()
 {
-	//ImGuizmo::SetRect(0, 0, _displayWidth, _displayHeight);
+	ImGuizmo::SetRect(0, 0, _displayWidth, _displayHeight);
 
 	//ImGuizmo::Manipulate(
 	//	&(_cameraView[0][0]),
