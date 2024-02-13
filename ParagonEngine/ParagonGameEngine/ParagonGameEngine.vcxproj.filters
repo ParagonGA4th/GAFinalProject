@@ -55,6 +55,12 @@
     <ClInclude Include="dummy_nodes.h">
       <Filter>5_BehaviorTree</Filter>
     </ClInclude>
+    <ClInclude Include="CSync_ApproachPosition.h">
+      <Filter>5_BehaviorTree\CustomSyncActionNodes\CSync_ApproachPosition</Filter>
+    </ClInclude>
+    <ClInclude Include="CAsync_Sleeper.h">
+      <Filter>5_BehaviorTree\CustomAsyncActionNodes\CAsync_Sleeper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -104,6 +110,12 @@
     </ClCompile>
     <ClCompile Include="dummy_nodes.cpp">
       <Filter>5_BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="CSync_ApproachPosition.cpp">
+      <Filter>5_BehaviorTree\CustomSyncActionNodes\CSync_ApproachPosition</Filter>
+    </ClCompile>
+    <ClCompile Include="CAsync_Sleeper.cpp">
+      <Filter>5_BehaviorTree\CustomAsyncActionNodes\CAsync_Sleeper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +181,18 @@
     </Filter>
     <Filter Include="5_BehaviorTree">
       <UniqueIdentifier>{d63029ea-6b15-4b04-bf52-a170485ceaa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\CustomSyncActionNodes">
+      <UniqueIdentifier>{5052b9d2-658f-4d5c-a8fc-561b683e9cd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\CustomSyncActionNodes\CSync_ApproachPosition">
+      <UniqueIdentifier>{5a079e3a-053e-4e6b-ba3e-2603539e18b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\CustomAsyncActionNodes">
+      <UniqueIdentifier>{765ac92b-17ec-4edc-8dda-3d939e02a472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\CustomAsyncActionNodes\CAsync_Sleeper">
+      <UniqueIdentifier>{0aa85dcc-1f0b-40e3-984a-d1603b7b8258}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
