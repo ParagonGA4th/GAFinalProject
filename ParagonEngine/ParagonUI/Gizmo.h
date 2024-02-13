@@ -18,10 +18,13 @@ namespace Pg::UI::Helper
 		void SetWindowSize(float width, float height);
 
 	private:
+		void ConvertPTM(Pg::Math::PGFLOAT4X4& mt);
+		void ConvertVTM(Pg::Math::PGFLOAT4X4& mt);
+		void ConvertWTM(Pg::Math::PGFLOAT4X4& mt);
+
+	private:
 		Pg::Data::Camera* _camera;
 		Pg::Data::Transform* _trans;
-
-		Pg::Math::PGFLOAT4X4 _imGizmoMatrix;
 
 		float _cameraView[4][4];
 		float _cameraProj[4][4];
