@@ -191,7 +191,9 @@ copy $(SolutionDir)lib\fmod\$(PlatformTarget)\fmod.dll $(OutDir)</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CSync_ApproachPosition.h" />
     <ClInclude Include="BTTest.h" />
+    <ClInclude Include="CAsync_Sleeper.h" />
     <ClInclude Include="DebugSystem.h" />
     <ClInclude Include="dummy_nodes.h" />
     <ClInclude Include="EditorCameraScript.h" />
@@ -211,6 +213,8 @@ copy $(SolutionDir)lib\fmod\$(PlatformTarget)\fmod.dll $(OutDir)</Command>
     <ClInclude Include="TimeSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CSync_ApproachPosition.cpp" />
+    <ClCompile Include="CAsync_Sleeper.cpp" />
     <ClCompile Include="DebugSystem.cpp" />
     <ClCompile Include="dummy_nodes.cpp" />
     <ClCompile Include="EditorCameraScript.cpp" />
