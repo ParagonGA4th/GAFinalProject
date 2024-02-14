@@ -31,8 +31,6 @@ namespace Pg::UI::Helper
 		glm::mat4 ConvertVTM(Pg::Math::PGFLOAT4X4 mt);
 		glm::mat4 ConvertWTM(Pg::Math::PGFLOAT4X4 mt);		
 		
-		void ConvertPTM(glm::mat4 mt);
-		void ConvertVTM(glm::mat4 mt);
 		void ConvertWTM(glm::mat4 mt);
 
 	private:

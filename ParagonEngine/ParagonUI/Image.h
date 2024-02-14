@@ -9,8 +9,14 @@ namespace Pg::UI::Widget
 		Image(void* image, float width, float height);
 		virtual void Update() override;
 
+		float* GetWidth();
+		float* GetHeight();
 	private:
 		void* _image;
+
+		float _orgWidth;
+		float _orgHeight;
+
 		float _width;
 		float _height;
 	};
