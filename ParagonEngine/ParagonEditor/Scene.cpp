@@ -29,7 +29,9 @@ Pg::Editor::Window::Scene::~Scene()
 
 void Pg::Editor::Window::Scene::Initialize()
 {
-	_widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 1920.f, 1080.f);
+	auto con = _widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 1920.f, 1080.f);
+	_imgWidth = con.GetWidth();
+	_imgHeight = con.GetHeight();
 }
 
 void Pg::Editor::Window::Scene::Update()
@@ -42,7 +44,7 @@ void Pg::Editor::Window::Scene::Update()
 	if (_dataContainer->GetPickObject() != nullptr)
 		_uiManager->SetTransformForGizmo(&_dataContainer->GetPickObject()->_transform);
 
-	_uiManager->SetWindowSizeForGizmo();
+	_uiManager->SetWindowSizeForGizmo(*_imgWidth, *_imgHeight);
 
 	_widgetCon->Update();	
 	_uiManager->DrawGizmo();
