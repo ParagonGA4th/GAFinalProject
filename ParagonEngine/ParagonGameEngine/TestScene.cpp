@@ -9,6 +9,7 @@
 #include "../ParagonData/SphereCollider.h"
 #include "../ParagonData/PlaneCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/AudioSource.h"
 
 //#include "../ParagonData/BaseRenderer.h" //Render 연동 보기 위해.
 //#include "../ParagonData/RendererBase2D.h" //Render 연동 보기 위해.
@@ -72,6 +73,9 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj2_2->AddComponent<MovingTest>();
 	tObj2_2->AddComponent<MovingTest>()->SetActive(true);
+	tObj2_2->AddComponent<AudioSource>();
+	tObj2_2->GetComponent<AudioSource>()->SetAudioName("../Resources/Sounds/Test/jump.mp3");
+	tObj2_2->GetComponent<AudioSource>()->SetEffectVolume(0.5f);
 	tObj2_2->AddComponent<RayCastTest>();
 	//tObj2_2->AddComponent<RayCastTest>()->SetActive(true);
 	//tObj2_2->AddComponent<MoveForwardBack>();
@@ -87,6 +91,10 @@ void Pg::Engine::TestScene::Initialize()
 	tObj3->AddComponent<StaticMeshRenderer>();
 	tObj3->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj3->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx");
+	tObj3->AddComponent<AudioSource>();
+	tObj3->GetComponent<AudioSource>()->SetAudioName("../Resources/Sounds/Test/TitleBGM.mp3");
+	tObj3->GetComponent<AudioSource>()->SetBGMVolume(1.0f);
+	tObj3->GetComponent<AudioSource>()->Play();
 	//tObj3->AddComponent<MoveForwardBack>();
 	//tObj3->GetComponent<MoveForwardBack>()->SetActive(false);
 
@@ -133,6 +141,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7->AddComponent<StaticMeshRenderer>();
 	tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
 	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	
 
 	///새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 
 

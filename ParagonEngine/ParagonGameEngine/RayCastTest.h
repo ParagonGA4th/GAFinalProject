@@ -27,6 +27,11 @@ namespace Pg::API
 	}
 }
 
+namespace Pg::Data
+{
+	class AudioSource;
+}
+
 class RayCastTest : public Pg::Data::Script
 {
 public:
@@ -39,6 +44,8 @@ private:
 	Pg::Engine::Input::InputSystem* tInput = nullptr;
 
 	Pg::Engine::Physic::PhysicSystem* tPhysic = nullptr;
+
+	Pg::Data::AudioSource* tAudioSource;
 };
 
  

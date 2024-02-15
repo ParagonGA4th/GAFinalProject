@@ -83,8 +83,8 @@ namespace Pg::Engine
 		_sceneSystem->Initialize();
 		_debugSystem->Initialize();
 		_physicSystem->Initialize(_debugSystem);
-		_timeSystem->Initialize();
 		_soundSystem->Initialize();
+		_timeSystem->Initialize();
 	}
 
 	void EngineMain::Update()
@@ -94,8 +94,8 @@ namespace Pg::Engine
 		_inputSystem->Update();
 		_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
 		_physicSystem->Flush();
-		_soundSystem->Update();
 		_sceneSystem->Update();
+		_soundSystem->Update();
 		_physicSystem->UpdateTransform();
 		_debugSystem->Update(_sceneSystem->GetCurrentScene());
 		

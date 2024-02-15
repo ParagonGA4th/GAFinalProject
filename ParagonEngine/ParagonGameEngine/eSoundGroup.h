@@ -8,6 +8,10 @@ namespace Pg::Engine
 	enum class eSoundGroup
 	{
 		BGM,
-		Effect
+		InGame,
+		Effect,
+
+		//enumÀÇ °¹¼ö
+		Count
 	};
 }
