@@ -45,9 +45,9 @@ void Pg::UI::Manager::UIManager::SetTransformForGizmo(Pg::Data::Transform* trans
 	_imguiManager->SetGizmoTransform(trans);
 }
 
-void Pg::UI::Manager::UIManager::SetWindowSizeForGizmo(float width, float height)
+void Pg::UI::Manager::UIManager::SetWindowSizeForGizmo()
 {
-	_imguiManager->SetGizmoSize(width, height);
+	_imguiManager->SetGizmoSize();
 }
 
 void Pg::UI::Manager::UIManager::DrawGizmo()

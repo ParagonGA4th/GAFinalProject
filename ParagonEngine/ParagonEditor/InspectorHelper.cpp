@@ -50,6 +50,11 @@ void Pg::Editor::Window::InspectorHelper::SetData(Pg::Data::GameObject* object)
 {
 	_object = object;
 
+	if (_dataContainer->GetPickObject() != nullptr)
+	{
+		_pickedObjName = _dataContainer->GetPickObject()->GetName();
+	}
+
 	_isActive = _object->GetActive();
 	_objName = _object->GetName();
 	_objTag = _object->GetTag();
@@ -64,7 +69,6 @@ void Pg::Editor::Window::InspectorHelper::Update()
 		if (*val == false)
 		{
 			_object->RemoveComponent(name);
-
 
 			auto iter = _componentExistence.find(name);
 			delete iter->second;
@@ -154,6 +158,11 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 				_widgetCon->CreateCollapsWidget<Pg::UI::Widget::Layout::Column<2>>(componentName, _widgetCon->GetColumnWidgets());
 				_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Collaps>
 					(componentName, _widgetCon->GetCollapsWidgets(), _componentExistence.at(data.first));
+			}
+			
+			if (_pickedObjName == _object->GetName())
+			{
+				_dataContainer->SetPickObject(_object);
 			}
 		}
 	}

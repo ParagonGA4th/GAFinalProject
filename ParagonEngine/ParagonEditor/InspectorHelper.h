@@ -38,6 +38,9 @@ namespace Pg::Editor::Window
 
 		Pg::Data::GameObject* _object;
 
+		bool _isPicked;
+		std::string _pickedObjName;
+
 		Pg::Editor::Data::DataContainer* _dataContainer;
 
 		std::unordered_map<std::string, bool*> _componentExistence;
