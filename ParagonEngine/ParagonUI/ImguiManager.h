@@ -29,7 +29,7 @@ namespace Pg::UI::Manager
 
 		void SetGizmoCamera(Pg::Data::Camera* camera);
 		void SetGizmoTransform(Pg::Data::Transform* trans);
-		void SetGizmoSize(float width = 0.f, float height = 0.f);
+		void SetGizmoSize();
 		void DrawGizmo();
 
 	private:

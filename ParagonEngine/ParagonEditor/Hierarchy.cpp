@@ -68,13 +68,33 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 			_objNames.emplace_back(i->GetName());
 		}
 
+		if (_dataContainer->GetPickObject() != nullptr)
+		{
+			_prevObjName = _dataContainer->GetPickObject()->GetName();
+			_pickedObjName = _dataContainer->GetPickObject()->GetName();
+		}
+
 		if (_prevObjName != _objNames.at(*_selectedNumber))
 		{
-			_prevObjName = _objNames.at(*_selectedNumber);
+			if (_prevObjName.empty() || _dataContainer->GetPickObject() == nullptr)
+			{
+				_prevObjName = _objNames.at(*_selectedNumber);
+			}
+
+			int count = 0;
 			for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
 			{
 				if (i->GetName() == _prevObjName)
+				{
+					*_selectedNumber = count;
+					
+					if (_dataContainer->GetPickObject() == nullptr ||
+						_dataContainer->GetPickObject()->GetName() != i->GetName()) _dataContainer->SetPickObject(i);
+
 					_changeObjectData->Invoke(eEventType::_OBJECTDATA, static_cast<void*>(i));
+					break;
+				}
+				count++;
 			}
 		}
 	}

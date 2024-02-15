@@ -137,16 +137,11 @@ void Pg::UI::Manager::ImGuiManager::SetGizmoTransform(Pg::Data::Transform* trans
 	_imGizmo->SetTransform(trans);
 }
 
-void Pg::UI::Manager::ImGuiManager::SetGizmoSize(float width, float height)
+void Pg::UI::Manager::ImGuiManager::SetGizmoSize()
 {
-	if (width == 0.f && height == 0.f)
-	{
-		ImVec2 size = ImGui::GetWindowSize();
-		width = size.x;
-		height = size.y;
-	}
-
-	_imGizmo->SetWindowSize(width, height);
+	ImVec2 pos = ImGui::GetWindowPos();
+	ImVec2 size = ImGui::GetWindowSize();
+	_imGizmo->SetWindowSize(pos.x, pos.y, size.x, size.y);
 }
 
 void Pg::UI::Manager::ImGuiManager::DrawGizmo()

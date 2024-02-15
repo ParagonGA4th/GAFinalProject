@@ -30,8 +30,8 @@ Pg::Editor::Manager::WindowManager::WindowManager()
 	_windows.emplace_back(new Pg::Editor::Window::Layout());
 	_windows.emplace_back(new Pg::Editor::Window::ToolBar());
 	_windows.emplace_back(new Pg::Editor::Window::Hierarchy());
-	_windows.emplace_back(new Pg::Editor::Window::Scene());
 	_windows.emplace_back(new Pg::Editor::Window::Inspector());
+	_windows.emplace_back(new Pg::Editor::Window::Scene());
 	_windows.emplace_back(new Pg::Editor::Window::Filter());
 }
 
