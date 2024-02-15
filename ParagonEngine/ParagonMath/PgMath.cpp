@@ -298,6 +298,13 @@ namespace Pg::Math
 		return XM2PG_MATRIX4X4(tInv);
 	}
 
+	Pg::Math::PGFLOAT4X4 PGFLOAT4X4::Transpose() const
+	{
+		auto tDX = PG2XM_FLOAT4X4(*this);
+		XMMATRIX tXMMat = DirectX::XMMatrixTranspose(XMLoadFloat4x4(&tDX));
+		return XM2PG_MATRIX4X4(tXMMat);
+	}
+
 	//PGFLOAT3X3
 
 	PGFLOAT3X3::PGFLOAT3X3()

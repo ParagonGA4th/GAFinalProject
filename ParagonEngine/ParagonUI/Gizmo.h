@@ -1,5 +1,14 @@
 #pragma once
+#define GLM_ENABLE_EXPERIMENTAL
 #include "../ParagonMath/PgMath.h"
+
+#include <glm/gtc/constants.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include "../ParagonData/Camera.h"
+#include "../ParagonData/Transform.h"
 
 namespace Pg::Data { class Camera; class Transform; }
 namespace Pg::UI::Helper
@@ -18,17 +27,19 @@ namespace Pg::UI::Helper
 		void SetWindowSize(float width, float height);
 
 	private:
-		void ConvertPTM(Pg::Math::PGFLOAT4X4& mt);
-		void ConvertVTM(Pg::Math::PGFLOAT4X4& mt);
-		void ConvertWTM(Pg::Math::PGFLOAT4X4& mt);
+		glm::mat4 ConvertPTM(Pg::Math::PGFLOAT4X4 mt);
+		glm::mat4 ConvertVTM(Pg::Math::PGFLOAT4X4 mt);
+		glm::mat4 ConvertWTM(Pg::Math::PGFLOAT4X4 mt);		
+		
+		void ConvertWTM(glm::mat4 mt);
 
 	private:
 		Pg::Data::Camera* _camera;
 		Pg::Data::Transform* _trans;
 
-		float _cameraView[4][4];
-		float _cameraProj[4][4];
-		float _transMatrix[4][4];
+		glm::mat4 _vtm;
+		glm::mat4 _ptm;
+		glm::mat4 _wtm;
 
 		float _displayWidth;
 		float _displayHeight;
