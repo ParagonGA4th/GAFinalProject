@@ -36,7 +36,7 @@ namespace Pg::UI::Manager
 
 		 void SetCameraForGizmo(Pg::Data::Camera* camera);
 		 void SetTransformForGizmo(Pg::Data::Transform* trans);
-		 void SetWindowSizeForGizmo();
+		 void SetWindowSizeForGizmo(float width = 0.f, float height = 0.f);
 		 void DrawGizmo();
 
 		 void WindowBegin(std::string winName, bool isMenu = false);
