@@ -1,9 +1,18 @@
 #include "CAsync_Sleeper.h"
 
-namespace Pg::Engine::BTNode
+namespace Pg::Engine::BTree::Node
 {
+	BT::NodeStatus CAsync_Sleeper::onStart()
+	{
 
-	CAsync_Sleeper::~CAsync_Sleeper()
+	}
+
+	BT::NodeStatus CAsync_Sleeper::onRunning()
+	{
+
+	}
+
+	void CAsync_Sleeper::onHalted()
 	{
 
 	}
