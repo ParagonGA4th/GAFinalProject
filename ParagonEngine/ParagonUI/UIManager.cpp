@@ -69,3 +69,13 @@ void Pg::UI::Manager::UIManager::WindowDockSpaceBegin(std::string winName)
 {
 	_imguiManager->DockSpaceBegin(winName);
 }
+
+float Pg::UI::Manager::UIManager::GetWindowWidth()
+{
+	return _imguiManager->GetWindowWidth();
+}
+
+float Pg::UI::Manager::UIManager::GetWindowHeight()
+{
+	return _imguiManager->GetWindowHeight();
+}

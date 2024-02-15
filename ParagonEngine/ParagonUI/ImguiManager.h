@@ -32,6 +32,9 @@ namespace Pg::UI::Manager
 		void SetGizmoSize();
 		void DrawGizmo();
 
+		float GetWindowWidth();
+		float GetWindowHeight();
+
 	private:
 		std::unique_ptr<Pg::UI::Helper::Gizmo> _imGizmo;
 	};

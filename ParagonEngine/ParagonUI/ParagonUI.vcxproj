@@ -24,6 +24,8 @@
     <ClInclude Include="Collaps.h" />
     <ClInclude Include="Column.h" />
     <ClInclude Include="Combo.h" />
+    <ClInclude Include="DragFloat.h" />
+    <ClInclude Include="DragFloat3.h" />
     <ClInclude Include="Gizmo.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="ImageButton.h" />
@@ -56,6 +58,8 @@
     <ClCompile Include="CheckBox.cpp" />
     <ClCompile Include="Collaps.cpp" />
     <ClCompile Include="Combo.cpp" />
+    <ClCompile Include="DragFloat.cpp" />
+    <ClCompile Include="DragFloat3.cpp" />
     <ClCompile Include="Gizmo.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="ImageButton.cpp" />
