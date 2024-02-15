@@ -43,6 +43,9 @@ namespace Pg::UI::Manager
 		 void WindowDockSpaceBegin(std::string winName);
 		 void WindowEnd(bool isDockspace = false);
 
+		 float GetWindowWidth();
+		 float GetWindowHeight();
+
 	private:
 		std::unique_ptr<Pg::UI::Manager::ImGuiManager> _imguiManager;
 	};
