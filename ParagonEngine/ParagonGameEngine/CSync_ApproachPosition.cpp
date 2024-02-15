@@ -1,17 +1,8 @@
 #include "CSync_ApproachPosition.h"
-
-namespace Pg::Engine::BTNode
+namespace Pg::Engine::BTree::Node
 {
-	CSync_ApproachPosition::~CSync_ApproachPosition()
-	{
-
-	}
-
 	BT::NodeStatus CSync_ApproachPosition::tick()
 	{
 
 	}
-
-	
-
 }
