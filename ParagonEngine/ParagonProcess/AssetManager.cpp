@@ -223,6 +223,7 @@ namespace Pg::Core::Manager
 
 		LoadResource("../Resources/Textures/Sprites/LPDiskAlpha.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		LoadResource("../Resources/Textures/Sprites/GameProgressBar.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		LoadResource("../Resources/Textures/Sprites/StartCrunch.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		
 		LoadResource("../Resources/3DModels/StaticMesh/Cuptower/Cuptower.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		LoadResource("../Resources/3DModels/StaticMesh/DefaultGeometry/DefaultGeometry.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
