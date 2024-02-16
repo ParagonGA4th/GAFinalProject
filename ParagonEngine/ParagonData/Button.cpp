@@ -32,8 +32,8 @@ namespace Pg::Data
 	{
 		PGFLOAT3 worldPos = _object->_transform._position;
 
-		_box2dInfo.LT = { worldPos.x - *_imageWidth / 2, worldPos.y - *_imageHeight / 2 };
-		_box2dInfo.RB = { worldPos.x + *_imageWidth / 2, worldPos.y + *_imageHeight / 2 };
+		_box2dInfo.LT = { worldPos.x - (*_imageWidth / 2.0f), worldPos.y - (*_imageHeight / 2.f) };
+		_box2dInfo.RB = { worldPos.x + (*_imageWidth / 2.0f), worldPos.y + (*_imageHeight / 2.f) };
 		_box2dInfo.color = { 1.0f,0.0f,0.0f,1.0f };
 	}
 
@@ -63,4 +63,21 @@ namespace Pg::Data
 	{
 		_imageRenderer->SetImagePath(path);
 	}
+
+	void Button::SetImageSize(float width, float height)
+	{
+		SetImageWidth(width);
+		SetImageHeight(height);
+	}
+
+	void Button::SetImageWidth(float width)
+	{
+		*_imageWidth = width;
+	}
+
+	void Button::SetImageHeight(float height)
+	{
+		*_imageHeight = height;
+	}
+
 }
