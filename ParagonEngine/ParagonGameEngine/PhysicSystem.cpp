@@ -344,6 +344,13 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::InitMakeColliders()
 	{
+		//씬 전환 시 콜라이더 전부 해제 후 재로드.
+		if (!_rigidDynamicVec.empty() || !_rigidStaticVec.empty())
+		{
+			_rigidDynamicVec.clear();
+			_rigidStaticVec.clear();
+		}
+
 		//싱글턴
 		auto& tSceneSystem = singleton<SceneSystem>();
 		_sceneSystem = &tSceneSystem;
