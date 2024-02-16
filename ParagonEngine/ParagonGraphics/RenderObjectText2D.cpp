@@ -21,17 +21,32 @@ namespace Pg::Graphics
 		//Image 데이터를 받기.
 		auto tFontData = GraphicsResourceManager::Instance()->GetResource(tTextRenderer->GetFontName(), eAssetDefine::_FONT);
 		_renderFont = static_cast<RenderFont*>(tFontData.get());
+
+		_textWidth = &(tTextRenderer->_width);
+		_textHeight = &(tTextRenderer->_height);
+		_textColor = &(tTextRenderer->_fontColor);
+		_sortingLayer = &(tTextRenderer->_sortingLayer);
 	}
 
 	void RenderObjectText2D::Render(DirectX::SpriteBatch* spriteBatch, Pg::Data::CameraData* camData)
 	{
 		//TextRenderer 따로 포인터를 받기.
 		Pg::Data::TextRenderer* tTextRenderer = static_cast<Pg::Data::TextRenderer*>(GetBaseRenderer());
+		//
+		////기본적인 Position 연동만 설정!
+		//DirectX::XMFLOAT2 tPositionXM = { _baseRenderer->_object->_transform._position.x, _baseRenderer->_object->_transform._position.y };
+		//
+		//_renderFont->_font->DrawString(spriteBatch, tTextRenderer->GetString().c_str(), tPositionXM, DirectX::Colors::White);
 
-		//기본적인 Position 연동만 설정!
-		DirectX::XMFLOAT2 tPositionXM = { _baseRenderer->_object->_transform._position.x, _baseRenderer->_object->_transform._position.y };
+		DirectX::XMFLOAT2 ttTrans = { _baseRenderer->_object->_transform._position.x, _baseRenderer->_object->_transform._position.y };
+		DirectX::XMFLOAT2 ttScale = { _baseRenderer->_object->_transform._scale.x, _baseRenderer->_object->_transform._scale.y };
+		float ttScaleAverage = (ttScale.x + ttScale.y) / 2.0f;
 
-		_renderFont->_font->DrawString(spriteBatch, tTextRenderer->GetString().c_str(), tPositionXM, DirectX::Colors::White);
+		DirectX::XMFLOAT2 ttOrigin = DirectX::XMFLOAT2((*_textWidth) / 2.0f, (*_textHeight) / 2.0f);
+		DirectX::XMVECTOR ttColor = PG2XM_FLOAT4_VECTOR(*_textColor);
+
+		//tTextRenderer->GetString().c_str()
+		_renderFont->_font->DrawString(spriteBatch, tTextRenderer->_string.c_str(), ttTrans, ttColor, 0.f, ttOrigin,
+			ttScaleAverage, DirectX::SpriteEffects_None, *_sortingLayer);
 	}
-
 }
