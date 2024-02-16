@@ -184,6 +184,7 @@
     <ClInclude Include="BaseRenderer.h" />
     <ClInclude Include="BaseResource.h" />
     <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="BoxCollider2D.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraData.h" />
@@ -222,6 +223,7 @@
     <ClInclude Include="Script.h" />
     <ClInclude Include="SerializerHelper.h" />
     <ClInclude Include="SkinnedMeshRenderer.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="SoundData.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="SpotLight.h" />
@@ -236,6 +238,7 @@
     <ClCompile Include="BaseRenderer.cpp" />
     <ClCompile Include="BaseResource.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="BoxCollider2D.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
@@ -262,6 +265,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="SkinnedMeshRenderer.cpp" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="StaticBoxCollider.cpp" />
