@@ -166,7 +166,7 @@ namespace Pg::Graphics
 
 					//리소스 매니저에서 확인 -> MaterialName / MaterialPath
 					if (!tActualRenderer->_materialName.empty())
-					{ 
+					{
 						tActualRenderer->SetMaterialFilePath(Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResourcePathByName(
 							tActualRenderer->_materialName, eAssetDefine::_RENDERMATERIAL));
 					}
@@ -177,7 +177,7 @@ namespace Pg::Graphics
 				{
 					//나중에 Static이 연동된다면 모두 추가되어야 한다.
 				}
-				
+
 				//모든 Conversion이 끝난 후일 것이다. 
 			}
 		}
@@ -252,11 +252,17 @@ namespace Pg::Graphics
 		//3. 이제 실제 오브젝트 내부 RenderObject 연동.
 		for (auto& tGameObject : newScene->GetObjectList())
 		{
-			// RenderObject
-			Pg::Data::BaseRenderer* tBaseRenderer = tGameObject->GetComponent<Pg::Data::BaseRenderer>();
-
-			if (tBaseRenderer != nullptr)
+			auto tComponentVector = tGameObject->GetComponents<Pg::Data::BaseRenderer>();
+			if (tComponentVector.empty())
 			{
+				continue;
+			}
+			for (int i = 0; i < tComponentVector.size(); i++)
+			{
+				// RenderObject
+				Pg::Data::BaseRenderer* tBaseRenderer = tComponentVector.at(i);
+				assert(tBaseRenderer != nullptr && "이 시점에서는 반드시 있어야 한다.");
+
 				//원래는 여기에 Active한지도 검사해야 한다.
 				if (GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()) == 1)
 				{
@@ -341,15 +347,15 @@ namespace Pg::Graphics
 					//TextRenderer
 					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::TextRenderer*).name())) == 0)
 					{
-						auto tRes = _renderObject2DList->_list.insert_or_assign(tGameObject,
-							std::make_unique<RenderObjectText2D>(tBaseRenderer));
+						_renderObject2DList->_list.push_back(std::make_pair(tGameObject,
+							std::make_unique<RenderObjectText2D>(tBaseRenderer)));
 					}
 
 					//ImageRenderer
 					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::ImageRenderer*).name())) == 0)
 					{
-						auto tRes = _renderObject2DList->_list.insert_or_assign(tGameObject,
-							std::make_unique<RenderObjectImage2D>(tBaseRenderer));
+						_renderObject2DList->_list.push_back(std::make_pair(tGameObject,
+							std::make_unique<RenderObjectImage2D>(tBaseRenderer)));
 					}
 				}
 			}
@@ -408,6 +414,5 @@ namespace Pg::Graphics
 		assert(tRet != nullptr && "무조건 Picking한 GameObject를 찾았어야 하는 함수에서 값을 찾지 못했다.");
 		//PG_TRACE(tRet->GetName().c_str());
 		return tRet;
-
 	}
 }

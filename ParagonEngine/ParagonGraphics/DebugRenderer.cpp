@@ -53,6 +53,10 @@ namespace Pg::Graphics
 		BeginPrimitiveBatchRender(camData);
 		LineRender();
 		EndPrimitiveBatchRender();
+		
+		//BeginDebug2dRender(camData);
+		//Debug2dRender();
+		//EndDebug2dRender();
 	}
 
 	void DebugRenderer::ConfirmCarrierData()
@@ -190,6 +194,50 @@ namespace Pg::Graphics
 	void DebugRenderer::EndPrimitiveBatchRender()
 	{
 		_primitiveBatch->End();
+	}
+
+	void DebugRenderer::BeginDebug2dRender(Pg::Data::CameraData* camData)
+	{
+		//CameraPositionRotationScaleMatrix.
+		//Pg::Math::PGFLOAT4X4 result = Pg::Math::PGRotationMatrix(camData->_rotation) * Pg::Math::PGTranslateMatrix(camData->_position);
+		//Pg::Math::PGFLOAT4X4 result = Pg::Math::PGTranslateMatrix(camData->_position);
+		//DirectX::XMMATRIX tCamWorldMatrix = PG2XM_MATRIX4X4(result);
+		//
+		//_basicEffect->SetWorld(tCamWorldMatrix);
+		//_basicEffect->SetView(MathHelper::PG2XM_MATRIX(camData->_viewMatrix));
+		////
+		//////Orthographics Matrix: 일단 매번 계산. (NearZ, FarZ가 런타임에 바뀔 수 있기 때문에)
+		//DirectX::XMMATRIX tOrtho = DirectX::XMMatrixOrthographicLH(_DXStorage->_screenWidth, _DXStorage->_screenHeight,
+		//	0, camData->_farZ);
+		//
+		//_basicEffect->SetProjection(tOrtho);
+		//
+		//_basicEffect->Apply(_DXStorage->_deviceContext);
+		//
+		//_primitiveBatch->Begin();
+	}
+
+	void DebugRenderer::Debug2dRender()
+	{
+		//{
+		//	DirectX::VertexPositionColor tBegin(DirectX::XMFLOAT3{ 100,100,0, }, DirectX::XMFLOAT4{ 1,0,1,1 });
+		//	DirectX::VertexPositionColor tEnd(DirectX::XMFLOAT3{ 200,100,0 }, DirectX::XMFLOAT4{ 1,1,1,1 });
+		//
+		//	_primitiveBatch->DrawLine(tBegin, tEnd);
+		//}
+		//
+		//{
+		//	DirectX::VertexPositionColor tBegin(DirectX::XMFLOAT3{ 100,0,0 }, DirectX::XMFLOAT4{ 1,0,1,1 });
+		//	DirectX::VertexPositionColor tEnd(DirectX::XMFLOAT3{ 200,0,0 }, DirectX::XMFLOAT4{ 1,1,1,1 });
+		//
+		//	_primitiveBatch->DrawLine(tBegin, tEnd);
+		//}
+		
+	}
+
+	void DebugRenderer::EndDebug2dRender()
+	{
+		//_primitiveBatch->End();
 	}
 
 	void DebugRenderer::GetDebugBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
@@ -597,8 +645,7 @@ namespace Pg::Graphics
 		HR(_DXStorage->_device->CreateDepthStencilState(&tDepthWriteOffDesc, &_depthWriteOffDSS));
 	}
 
-
-
+	
 
 
 
