@@ -20,9 +20,13 @@ namespace Pg::Data
 		void SetImagePath(std::string path);
 		std::string GetImagePath();
 
+		//100.f 가 가장 최대.
+		float _fillRatio = 100.f;
 
 	private:
 		std::string _imagePath;
+
+		
 	};
 }
 
