@@ -24,10 +24,9 @@ namespace Pg::UI::Helper
 
 		void SetCamera(Pg::Data::Camera* camera);
 		void SetTransform(Pg::Data::Transform* trans);
-		void SetWindowSize(float width, float height);
+		void SetWindowSize(float posX, float posY, float width, float height);
 
 	private:
-		glm::mat4 ConvertPTM(Pg::Math::PGFLOAT4X4 mt);
 		glm::mat4 ConvertVTM(Pg::Math::PGFLOAT4X4 mt);
 		glm::mat4 ConvertWTM(Pg::Math::PGFLOAT4X4 mt);		
 		
@@ -41,6 +40,8 @@ namespace Pg::UI::Helper
 		glm::mat4 _ptm;
 		glm::mat4 _wtm;
 
+		float _displayPosX;
+		float _displayPosY;
 		float _displayWidth;
 		float _displayHeight;
 	};

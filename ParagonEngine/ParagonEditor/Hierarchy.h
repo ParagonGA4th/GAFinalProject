@@ -44,6 +44,8 @@ namespace Pg::Editor::Window
 		int* _selectedNumber;
 
 		std::string _prevObjName;
+		std::string _pickedObjName;
+		bool _isPicked;
 	};
 }
 
