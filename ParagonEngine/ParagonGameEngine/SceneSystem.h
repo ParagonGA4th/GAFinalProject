@@ -23,6 +23,12 @@ namespace Pg::Engine
 {
 	using namespace Pg::Data;
 
+	class SoundSystem;
+	namespace Physic
+	{
+		class PhysicSystem;
+	}
+
 	class SceneSystem
 	{
 	public:
@@ -55,6 +61,9 @@ namespace Pg::Engine
 		std::unordered_map<std::string, Scene*> _sceneList;
 
 	private:
+
+		SoundSystem* _soundSystem = nullptr;
+		Physic::PhysicSystem* _physicSystem = nullptr;
 	};
 }
 
