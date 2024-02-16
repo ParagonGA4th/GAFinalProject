@@ -108,9 +108,6 @@
     <ClCompile Include="AudioSource.cpp">
       <Filter>2_Component\Audio\AudioSource</Filter>
     </ClCompile>
-    <ClCompile Include="AudioListener.cpp">
-      <Filter>2_Component\Audio\AudioListener</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -263,9 +260,6 @@
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="AudioSource.h">
       <Filter>2_Component\Audio\AudioSource</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioListener.h">
-      <Filter>2_Component\Audio\AudioListener</Filter>
     </ClInclude>
     <ClInclude Include="AudioData.h">
       <Filter>4_Structs</Filter>
@@ -424,9 +418,6 @@
     </Filter>
     <Filter Include="2_Component\Audio\AudioSource">
       <UniqueIdentifier>{35c0e4b5-5260-42bb-a4de-4dcc45d4a758}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Audio\AudioListener">
-      <UniqueIdentifier>{97aa7c46-ba85-430b-b226-22e3293a1770}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

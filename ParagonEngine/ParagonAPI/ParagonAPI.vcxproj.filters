@@ -7,15 +7,17 @@
     <ClCompile Include="PgTime.cpp">
       <Filter>2_PgTime</Filter>
     </ClCompile>
-    <ClCompile Include="PgInput.cpp">
-      <Filter>1_PgInput</Filter>
-    </ClCompile>
     <ClCompile Include="PgRayCast.cpp">
       <Filter>3_RayCast</Filter>
     </ClCompile>
+    <ClCompile Include="PgSound.cpp">
+      <Filter>4_Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="PgInput.cpp">
+      <Filter>1_PgInput</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="KeyCodeType.h" />
     <ClInclude Include="APIMain.h">
       <Filter>0_Main</Filter>
     </ClInclude>
@@ -27,6 +29,12 @@
     </ClInclude>
     <ClInclude Include="PgRayCast.h">
       <Filter>3_RayCast</Filter>
+    </ClInclude>
+    <ClInclude Include="PgSound.h">
+      <Filter>4_Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyCodeType.h">
+      <Filter>1_PgInput</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +57,9 @@
     </Filter>
     <Filter Include="3_RayCast">
       <UniqueIdentifier>{effa09d3-2c43-41e8-b51d-a0728af63d62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Sound">
+      <UniqueIdentifier>{ff144cda-2e42-4bf7-af2a-76b5a8d95f8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
