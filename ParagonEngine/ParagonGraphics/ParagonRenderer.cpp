@@ -141,6 +141,11 @@ namespace Pg::Graphics
 		_debugRenderer->GetDebugRayCastGeometryData(rayCastColVec);
 	}
 
+	void ParagonRenderer::PassBox2dGeometryData(const std::vector<Pg::Data::Box2DInfo>& const box2dColVec)
+	{
+		_debugRenderer->GetDebugBox2dGeometryData(box2dColVec);
+	}
+
 	//void ParagonRenderer::SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene)
 	//{
 	//
@@ -186,6 +191,7 @@ namespace Pg::Graphics
 		return _sceneParser->GetObjectWithObjID(tFoundID);
 	}
 
+	
 
 	
 

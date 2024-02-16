@@ -54,9 +54,9 @@ namespace Pg::Graphics
 		LineRender();
 		EndPrimitiveBatchRender();
 		
-		//BeginDebug2dRender(camData);
-		//Debug2dRender();
-		//EndDebug2dRender();
+		BeginDebug2dRender(camData);
+		Debug2dRender();
+		EndDebug2dRender();
 	}
 
 	void DebugRenderer::ConfirmCarrierData()
@@ -89,6 +89,8 @@ namespace Pg::Graphics
 		_primitiveBatch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(_DXStorage->_deviceContext);
 		_basicEffect = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
 		_basicEffect->SetVertexColorEnabled(true);
+		_basicEffect2d = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
+		_basicEffect2d->SetVertexColorEnabled(true);
 
 		void const* shaderByteCode;
 		size_t byteCodeLength;
@@ -198,46 +200,23 @@ namespace Pg::Graphics
 
 	void DebugRenderer::BeginDebug2dRender(Pg::Data::CameraData* camData)
 	{
-		//CameraPositionRotationScaleMatrix.
-		//Pg::Math::PGFLOAT4X4 result = Pg::Math::PGRotationMatrix(camData->_rotation) * Pg::Math::PGTranslateMatrix(camData->_position);
-		//Pg::Math::PGFLOAT4X4 result = Pg::Math::PGTranslateMatrix(camData->_position);
-		//DirectX::XMMATRIX tCamWorldMatrix = PG2XM_MATRIX4X4(result);
-		//
-		//_basicEffect->SetWorld(tCamWorldMatrix);
-		//_basicEffect->SetView(MathHelper::PG2XM_MATRIX(camData->_viewMatrix));
-		////
-		//////Orthographics Matrix: 일단 매번 계산. (NearZ, FarZ가 런타임에 바뀔 수 있기 때문에)
-		//DirectX::XMMATRIX tOrtho = DirectX::XMMatrixOrthographicLH(_DXStorage->_screenWidth, _DXStorage->_screenHeight,
-		//	0, camData->_farZ);
-		//
-		//_basicEffect->SetProjection(tOrtho);
-		//
-		//_basicEffect->Apply(_DXStorage->_deviceContext);
-		//
-		//_primitiveBatch->Begin();
+		_basicEffect2d->Apply(_DXStorage->_deviceContext);
+
+		_primitiveBatch->Begin();
 	}
 
 	void DebugRenderer::Debug2dRender()
 	{
-		//{
-		//	DirectX::VertexPositionColor tBegin(DirectX::XMFLOAT3{ 100,100,0, }, DirectX::XMFLOAT4{ 1,0,1,1 });
-		//	DirectX::VertexPositionColor tEnd(DirectX::XMFLOAT3{ 200,100,0 }, DirectX::XMFLOAT4{ 1,1,1,1 });
-		//
-		//	_primitiveBatch->DrawLine(tBegin, tEnd);
-		//}
-		//
-		//{
-		//	DirectX::VertexPositionColor tBegin(DirectX::XMFLOAT3{ 100,0,0 }, DirectX::XMFLOAT4{ 1,0,1,1 });
-		//	DirectX::VertexPositionColor tEnd(DirectX::XMFLOAT3{ 200,0,0 }, DirectX::XMFLOAT4{ 1,1,1,1 });
-		//
-		//	_primitiveBatch->DrawLine(tBegin, tEnd);
-		//}
-		
+		for (int i = 0; i < _box2dVector->size(); i++)
+		{
+			Pg::Data::Box2DInfo it = _box2dVector->at(i);
+			DrawBox2D(it);
+		}
 	}
 
 	void DebugRenderer::EndDebug2dRender()
 	{
-		//_primitiveBatch->End();
+		_primitiveBatch->End();
 	}
 
 	void DebugRenderer::GetDebugBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
@@ -263,6 +242,11 @@ namespace Pg::Graphics
 	void DebugRenderer::GetDebugRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec)
 	{
 		_rayCastColVector = &rayCastColVec;
+	}
+	
+	void DebugRenderer::GetDebugBox2dGeometryData(const std::vector<Pg::Data::Box2DInfo>& const box2DColVec)
+	{
+		_box2dVector = &box2DColVec;
 	}
 
 	void DebugRenderer::DrawBox(Pg::Data::CameraData* camData, Pg::Data::BoxInfo* boxInfo)
@@ -432,6 +416,30 @@ namespace Pg::Graphics
 		_planeShape->Draw(tWorld, tView, tProj, tLineColor, nullptr, true);
 	}
 
+	void DebugRenderer::DrawBox2D(Pg::Data::Box2DInfo box2dInfo)
+	{
+		float tScreenWidth = _DXStorage->_screenWidth;
+		float tScreenHeight = _DXStorage->_screenHeight;
+
+		// Z는 0.5로 고정.
+		//스크린 전체의 LT가 (-1,-1) // RB가 (1,1)로 생각하자.
+		//이를 기초한 비율이어야!
+		float tLeftRatio = (box2dInfo.LT.x / tScreenWidth) * 2 - 1;
+		float tTopRatio = (box2dInfo.LT.y / tScreenHeight) * 2 - 1;
+		float tRightRatio = (box2dInfo.RB.x / tScreenWidth) * 2 - 1;
+		float tBottomRatio = (box2dInfo.RB.y / tScreenHeight) * 2 - 1;
+
+		// -1 ~ 1의 범위의 NDC로 초기화.	
+		DirectX::VertexPositionColor v1(DirectX::XMFLOAT3(tLeftRatio,	tBottomRatio, 0.5f), DirectX::XMFLOAT4{ 1,0,1,1 });
+		DirectX::VertexPositionColor v2(DirectX::XMFLOAT3(tRightRatio,	tBottomRatio, 0.5f), DirectX::XMFLOAT4{ 1,0,1,1 });
+		DirectX::VertexPositionColor v3(DirectX::XMFLOAT3(tRightRatio, tTopRatio, 0.5f), DirectX::XMFLOAT4{ 1,0,1,1 });
+		DirectX::VertexPositionColor v4(DirectX::XMFLOAT3(tLeftRatio, tTopRatio, 0.5f), DirectX::XMFLOAT4{ 1,0,1,1 });
+
+		_primitiveBatch->DrawLine(v1, v2);
+		_primitiveBatch->DrawLine(v2, v3);
+		_primitiveBatch->DrawLine(v3, v4);
+		_primitiveBatch->DrawLine(v4, v1);
+	}
 
 	void DebugRenderer::InitCapsule()
 	{
@@ -645,6 +653,9 @@ namespace Pg::Graphics
 		HR(_DXStorage->_device->CreateDepthStencilState(&tDepthWriteOffDesc, &_depthWriteOffDSS));
 	}
 
+
+	
+	
 	
 
 

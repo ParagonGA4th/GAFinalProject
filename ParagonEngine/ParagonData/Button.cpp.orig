@@ -31,10 +31,15 @@ namespace Pg::Data
 	void Button::Update()
 	{
 		PGFLOAT3 worldPos = _object->_transform._position;
-
-		_box2dInfo.LT = { worldPos.x - *_imageWidth / 2, worldPos.y - *_imageHeight / 2 };
-		_box2dInfo.RB = { worldPos.x + *_imageWidth / 2, worldPos.y + *_imageHeight / 2 };
+<<<<<<< HEAD
+		PGFLOAT2 LT = { worldPos.x - *_imageWidth / 2, worldPos.y - *_imageHeight / 2 };
+		PGFLOAT2 RB = { worldPos.x + *_imageWidth / 2, worldPos.y + *_imageHeight / 2 };
+		PGFLOAT4 color = { 1.0f,0.0f,0.0f,1.0f };
+=======
+		_box2dInfo.LT = { worldPos.x - _width / 2, worldPos.y - _height / 2 };
+		_box2dInfo.RB = { worldPos.x + _width / 2, worldPos.y + _height / 2 };
 		_box2dInfo.color = { 1.0f,0.0f,0.0f,1.0f };
+>>>>>>> b5d892865a09f09e2da2ac932e460b324f3fd248
 	}
 
 	void Button::SetOnClickEvent(std::function<void()> onClickEvent)
