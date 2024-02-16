@@ -31,6 +31,8 @@ namespace Pg::Data
 
 		float _width;
 		float _height;
+
+		unsigned int _sortingLayer = 1;
 	};
 }
 

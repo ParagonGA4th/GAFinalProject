@@ -30,6 +30,9 @@ namespace Pg::Data
 		std::function<void()> GetOnClickEvent() const;
 
 		void SetImagePath(const std::string& path);
+		void SetImageSize(float width, float height);
+		void SetImageWidth(float width);
+		void SetImageHeight(float height);
 
 	public:
 		//Debug System¿ë »ç¿ë
