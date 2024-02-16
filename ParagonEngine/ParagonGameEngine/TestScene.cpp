@@ -141,11 +141,20 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7->AddComponent<StaticMeshRenderer>();
 	tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
 	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+
+	Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Image");
+	tObj8->GetComponent<Transform>()->_position = { 50.0f, 100.0f, 0.0f };
+	tObj8->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	tObj8->GetComponent<Transform>()->_rotation = tObj8->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	tObj8->AddComponent<ImageRenderer>()->SetImagePath("../Resources/Textures/Sprites/GameProgressBar.png");
+	tObj8->AddComponent<ImageRenderer>()->SetImagePath("../Resources/Textures/Sprites/LPDiskAlpha.png");
+	
+	
 	
 
 	///새로 추가한 라이트와 UI 컴포넌트 테스트를 위한 코드 
 
-	assert(true);
+	assert("true");
 }
 
 /*tObj2->GetComponent<Pg::Data::BoxCollider>()->FreezeAxisX(true);

@@ -68,8 +68,13 @@ namespace Pg::Data
 		template<typename T>
 		std::vector<T*> GetComponents();
 
+		//오브젝트가 갖고 있는 특정 컴포넌트들의 개수를 구한다.
+		template<typename T>
+		unsigned int GetComponentCount();
+
 		//렌더러 호환을 위해, ComponentList 자체 반환.
-		std::unordered_map<std::string, Component*>& GetComponentList();
+		//std::unordered_map<std::string, Component*>& GetComponentList();
+		std::vector<std::pair<std::string, Component*>>& GetComponentList();
 
 	public:
 		Transform& _transform;
@@ -81,9 +86,9 @@ namespace Pg::Data
 
 	private:
 		//컴포넌트의 이름과 주소를 저장해놓는 리스트.
-		std::unordered_map<std::string, Component*> _componentList;
+		//std::unordered_map<std::string, Component*> _componentList;
+		std::vector<std::pair<std::string, Component*>> _componentList;
 	};
-
 
 	///템플릿을 활용한 GetComponent/AddComponent.
 	///지금은 아는 방식이 이것뿐이라 PT까지는 이 방식으로 가져가되
@@ -93,7 +98,7 @@ namespace Pg::Data
 	T* GameObject::AddComponent()
 	{
 		T* component = new T(this);
-		_componentList.try_emplace(typeid(T).name(), component);
+		_componentList.push_back(std::make_pair(typeid(T).name(), component));
 		return component;
 	}	
 
@@ -120,12 +125,29 @@ namespace Pg::Data
 	template<typename T>
 	bool GameObject::RemoveComponent()
 	{
-		//리스트를 쭉 돌아서 해당 값이 존재하면 지운다.
-		auto iter = _componentList.find(typeid(T).name());
-		if (iter != _componentList.end())
+		////리스트를 쭉 돌아서 해당 값이 존재하면 지운다.
+		//auto iter = _componentList.find(typeid(T).name());
+		//if (iter != _componentList.end())
+		//{
+		//	delete iter->second;
+		//	_componentList.erase(iter);
+		//	return true;
+		//}
+		//
+		//return false;
+		std::string componentType = typeid(T).name();
+
+
+		auto res = std::find_if(_componentList.begin(), _componentList.end(),
+			[&componentType](const std::pair<std::string, Component*>& val)
+			-> bool {return (val.first == componentType); });
+
+		if (res != _componentList.end())
 		{
-			delete iter->second;
-			_componentList.erase(iter);
+			delete res->second;
+			_componentList.erase(std::remove_if(_componentList.begin(), _componentList.end(), [&componentType](const std::pair<std::string, Component*>& val)
+				-> bool {return (val.first == componentType); }),
+				_componentList.end());
 			return true;
 		}
 
@@ -154,6 +176,26 @@ namespace Pg::Data
 		}
 
 		return res;
+	}
+
+	template<typename T>
+	unsigned int Pg::Data::GameObject::GetComponentCount()
+	{
+		T* tmp;
+		unsigned int tCount = 0;
+
+		///Structured Binding
+		for (const auto& [typeName, component] : _componentList)
+		{
+			tmp = dynamic_cast<T*>(component);
+
+			if (tmp)
+			{
+				tCount++;
+			}
+		}
+
+		return tCount;
 	}
 }
 
