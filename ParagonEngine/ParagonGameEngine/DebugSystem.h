@@ -38,7 +38,7 @@ namespace Pg::Engine
 	public:
 		//디버그 정보를 벡터에 저장.
 		void DrawBoxDebug(Pg::Data::BoxInfo* boxInfo);
-		void DrawBox2DDebug(Pg::Data::Box2DInfo* box2DInfo);
+		void DrawBox2DDebug(Pg::Data::Box2DInfo box2DInfo);
 		void DrawCapsuleDebug(Pg::Data::CapsuleInfo* capsuleInfo);
 		void DrawSphereDebug(Pg::Data::SphereInfo* sphereInfo);
 		void DrawPlaneDebug(Pg::Data::PlaneInfo* planeInfo);
@@ -58,7 +58,7 @@ namespace Pg::Engine
 
 	public:
 		const std::vector<Pg::Data::BoxInfo*>& GetBoxVector() const;
-		const std::vector<Pg::Data::Box2DInfo*>& GetBox2DVector() const;
+		const std::vector<Pg::Data::Box2DInfo>& GetBox2DVector() const;
 		const std::vector<Pg::Data::LineInfo>& GetLineVector() const;
 		const std::vector<Pg::Data::SphereInfo*>& GetSphereVector() const;
 		const std::vector<Pg::Data::CapsuleInfo*>& GetCapsuleVector() const;
@@ -69,7 +69,7 @@ namespace Pg::Engine
 		//std::vector<Pg::Data::LineInfo*>& GetDrawEnabledLineVector();
 	private:
 		std::vector<Pg::Data::BoxInfo*> _boxVec;
-		std::vector<Pg::Data::Box2DInfo*> _box2dVec;
+		std::vector<Pg::Data::Box2DInfo> _box2dVec;
 		std::vector<Pg::Data::LineInfo> _lineVec;
 		std::vector<Pg::Data::RayCastInfo> _rayCastVec;
 		std::vector<Pg::Data::CapsuleInfo*> _capsuleVec;

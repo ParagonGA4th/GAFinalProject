@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
 #include "../ParagonMath/PgMath.h"
+#include "../ParagonData/DebugData.h"
+
 
 #include <functional>
 
@@ -28,6 +30,10 @@ namespace Pg::Data
 		std::function<void()> GetOnClickEvent() const;
 
 		void SetImagePath(const std::string& path);
+
+	public:
+		//Debug System¿ë »ç¿ë
+		Box2DInfo _box2dInfo;
 
 	private:
 		ImageRenderer* _imageRenderer = nullptr;

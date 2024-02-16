@@ -176,6 +176,9 @@ namespace Pg::Core
 
 		const auto& tRayCastColVec = _engine->GetRayCastDebugData();
 		_graphics->SetRayCastDebugRenderData(tRayCastColVec);
+
+		const auto& tBox2dVec = _engine->GetBox2dDebugData();
+		_graphics->SetRayCastDebugRenderData(tRayCastColVec);
 	}
 
 	void EngineGraphicsAdapter::ClearDebugVectorData()
