@@ -88,6 +88,7 @@ namespace Pg::Engine
 				else if (tButton != nullptr)
 				{
 					//버튼 디버그 넣어야 함.
+					DrawBox2DDebug(tButton->_box2dInfo);
 				}
 			}
 		}
@@ -111,7 +112,7 @@ namespace Pg::Engine
 		_boxVec.push_back(boxInfo);
 	}
 
-	void DebugSystem::DrawBox2DDebug(Pg::Data::Box2DInfo* box2DInfo)
+	void DebugSystem::DrawBox2DDebug(Pg::Data::Box2DInfo box2DInfo)
 	{
 		_box2dVec.push_back(box2DInfo);
 	}
@@ -155,7 +156,7 @@ namespace Pg::Engine
 		return _boxVec;
 	}
 
-	const std::vector<Pg::Data::Box2DInfo*>& DebugSystem::GetBox2DVector() const
+	const std::vector<Pg::Data::Box2DInfo>& DebugSystem::GetBox2DVector() const
 	{
 		return _box2dVec;
 	}

@@ -21,9 +21,9 @@ namespace Pg::Data
 	void Button::Update()
 	{
 		PGFLOAT3 worldPos = _object->_transform._position;
-		PGFLOAT2 LT = { worldPos.x - _width / 2, worldPos.y - _height / 2 };
-		PGFLOAT2 RB = { worldPos.x + _width / 2, worldPos.y + _height / 2 };
-		PGFLOAT4 color = { 1.0f,0.0f,0.0f,1.0f };
+		_box2dInfo.LT = { worldPos.x - _width / 2, worldPos.y - _height / 2 };
+		_box2dInfo.RB = { worldPos.x + _width / 2, worldPos.y + _height / 2 };
+		_box2dInfo.color = { 1.0f,0.0f,0.0f,1.0f };
 	}
 
 	void Button::SetOnClickEvent(std::function<void()> onClickEvent)

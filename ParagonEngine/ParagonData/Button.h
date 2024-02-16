@@ -1,6 +1,8 @@
 #pragma once
 #include "RendererBase2D.h"
 #include "../ParagonMath/PgMath.h"
+#include "../ParagonData/DebugData.h"
+
 
 #include <functional>
 
@@ -25,6 +27,10 @@ namespace Pg::Data
 
 		void SetOnClickEvent(std::function<void()> onClickEvent);
 		std::function<void()> GetOnClickEvent() const;
+
+	public:
+		//Debug System용 사용
+		Box2DInfo _box2dInfo;
 
 	private:
 		//TODO 나중에 필요하면 템플릿으로 바꿀 것

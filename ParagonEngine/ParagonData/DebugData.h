@@ -20,7 +20,6 @@ namespace Pg::Data
 	//버튼 디버그.
 	struct Box2DInfo
 	{
-		PGFLOAT3 worldPos;
 		PGFLOAT2 LT;
 		PGFLOAT2 RB;
 		PGFLOAT4 color;
