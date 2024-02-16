@@ -62,19 +62,19 @@ void Pg::Engine::TestScene::Initialize()
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Capsule1");
 	tObj2_2->GetComponent<Transform>()->_position = { 1.0f, 10.0f, 0.0f };
-	tObj2_2->AddComponent<CapsuleCollider>();
-	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
-	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
-	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+	//tObj2_2->AddComponent<CapsuleCollider>();
+	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
+	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
+	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetTrigger(true);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 1.0f, 0.0f, 0.0f });
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, 90.0f, 0.0f, 0.0f });
-	tObj2_2->AddComponent<StaticMeshRenderer>();
-	tObj2_2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx");
-	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	//tObj2_2->AddComponent<StaticMeshRenderer>();
+	//tObj2_2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx");
+	//tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj2_2->AddComponent<MovingTest>();
 	tObj2_2->AddComponent<MovingTest>()->SetActive(true);
-	tObj2_2->AddComponent<Button>();
+	tObj2_2->AddComponent<Button>()->SetImagePath("../Resources/Textures/Sprites/LPDiskAlpha.png");
 	tObj2_2->AddComponent<AudioSource>();
 	tObj2_2->GetComponent<AudioSource>()->SetAudioName("../Resources/Sounds/Test/jump.mp3");
 	tObj2_2->GetComponent<AudioSource>()->SetEffectVolume(0.5f);
@@ -144,12 +144,12 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
 	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
-	Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Image");
-	tObj8->GetComponent<Transform>()->_position = { 50.0f, 100.0f, 0.0f };
-	tObj8->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
-	tObj8->GetComponent<Transform>()->_rotation = tObj8->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
-	tObj8->AddComponent<ImageRenderer>()->SetImagePath("../Resources/Textures/Sprites/GameProgressBar.png");
-	tObj8->AddComponent<ImageRenderer>()->SetImagePath("../Resources/Textures/Sprites/LPDiskAlpha.png");
+	//Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Image");
+	//tObj8->GetComponent<Transform>()->_position = { 50.0f, 100.0f, 0.0f };
+	//tObj8->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	//tObj8->GetComponent<Transform>()->_rotation = tObj8->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	//tObj8->AddComponent<ImageRenderer>()->SetImagePath("../Resources/Textures/Sprites/GameProgressBar.png");
+	//tObj8->AddComponent<ImageRenderer>()->SetImagePath("../Resources/Textures/Sprites/LPDiskAlpha.png");
 
 	Pg::Data::GameObject* tObj9 = tCurrentScene->AddObject("Button1");
 	tObj9->AddComponent<Button>();

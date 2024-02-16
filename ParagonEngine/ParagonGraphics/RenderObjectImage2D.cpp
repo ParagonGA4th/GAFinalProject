@@ -18,6 +18,8 @@ namespace Pg::Graphics
 		//ImageRenderer 따로 포인터를 받기.
 		Pg::Data::ImageRenderer* tImageRenderer = static_cast<Pg::Data::ImageRenderer*>(GetBaseRenderer());
 
+
+		assert(!tImageRenderer->GetImagePath().empty() && "로드할 때 이미지 Path 비어 있으면 안됨. ");
 		//Image 데이터를 받기.
 		auto tTexture2dData = GraphicsResourceManager::Instance()->GetResource(tImageRenderer->GetImagePath(), eAssetDefine::_TEXTURE2D);
 		_texture2D = static_cast<RenderTexture2D*>(tTexture2dData.get());
