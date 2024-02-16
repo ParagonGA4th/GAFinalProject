@@ -1,6 +1,7 @@
 #include "Transform.h"
 
 #include <cmath>
+#include <limits>
 #include <generic_factory/generic_factory.hpp>
 
 using namespace Pg::Data;
@@ -14,12 +15,12 @@ namespace Pg::Data
 
 	Transform::Transform(GameObject* obj) :
 		Component(obj),
-		_position(0.0f,0.0f,0.0f),
-		_rotation(1.0f,0.0f,0.0f,0.0f),
-		_scale(1.0f,1.0f,1.0f),
+		_position(0.0f, 0.0f, 0.0f),
+		_rotation(1.0f, 0.0f, 0.0f, 0.0f),
+		_scale(1.0f, 1.0f, 1.0f),
 		_forward(0.f, 0.f, 1.f), _right(1.f, 0.f, 0.f), _up(0.f, 1.f, 0.f), _is3D(true)
 	{
-		
+
 	}
 
 	void Transform::OnDeserialize(SerializeVector& sv)
@@ -245,8 +246,18 @@ namespace Pg::Data
 
 	Pg::Math::PGFLOAT4X4 Transform::GetWorldTM()
 	{
+		//Scale: 0값 되는 것 막기.
+		bool tValidScale = (_scale.x > std::numeric_limits<float>::epsilon()) ||
+			(_scale.y > std::numeric_limits<float>::epsilon()) ||
+			(_scale.z > std::numeric_limits<float>::epsilon());
+
+		if (!tValidScale)
+		{
+			_scale = { 0.1f,0.1f, 0.1f };
+		}
+
 		PGFLOAT4X4 result = Pg::Math::PGScaleMatrix(_scale) * Pg::Math::PGRotationMatrix(_rotation) * Pg::Math::PGTranslateMatrix(_position);
-		
+
 		if (_parent)
 		{
 			PGFLOAT4X4 tParentWorldTM = _parent->GetWorldTM();
@@ -411,12 +422,12 @@ namespace Pg::Data
 
 	Pg::Math::PGQuaternion Transform::NormalizeQuaternion(PGQuaternion q)
 	{
-		double length = std::sqrt(q.w * q.w 
-						+ q.x * q.x 
-						+ q.y * q.y 
-						+ q.z * q.z);
-		
-		if (length != 0.0) 
+		double length = std::sqrt(q.w * q.w
+			+ q.x * q.x
+			+ q.y * q.y
+			+ q.z * q.z);
+
+		if (length != 0.0)
 		{
 			q.w /= length;
 			q.x /= length;

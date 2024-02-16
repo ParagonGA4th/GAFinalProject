@@ -34,8 +34,6 @@ namespace Pg::Editor::Window
 		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
 
 		/// Data Value
-		float* _imgWidth;
-		float* _imgHeight;
 	};
 }
 

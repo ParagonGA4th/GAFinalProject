@@ -8,8 +8,8 @@
 
 #include "../ParagonUI/Text.h"
 #include "../ParagonUI/InputText.h"
-#include "../ParagonUI/InputFloat.h"
-#include "../ParagonUI/InputFloat3.h"
+#include "../ParagonUI/DragFloat.h"
+#include "../ParagonUI/DragFloat3.h"
 #include "../ParagonUI/CheckBox.h"
 #include "../ParagonUI/Column.h"
 #include "../ParagonUI/Collaps.h"
@@ -31,8 +31,10 @@ Pg::Editor::Window::InspectorHelper::~InspectorHelper()
 
 }
 
-void Pg::Editor::Window::InspectorHelper::Initialize()
+void Pg::Editor::Window::InspectorHelper::Initialize(float* windowWidth)
 {
+	_windowWidth = windowWidth;
+
 	// 기본 정보
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::Text>("Name");
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::InputText>("Name", &_objName);
@@ -43,12 +45,17 @@ void Pg::Editor::Window::InspectorHelper::Initialize()
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::Text>("Active");
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::CheckBox>("Active", &_isActive);
 
-	_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Column<2>>("BasicInfo", _widgetCon->GetColumnWidgets());
+	_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Column<2>>("BasicInfo", _widgetCon->GetColumnWidgets(), _windowWidth);
 }
 
 void Pg::Editor::Window::InspectorHelper::SetData(Pg::Data::GameObject* object)
 {
 	_object = object;
+
+	if (_dataContainer->GetPickObject() != nullptr)
+	{
+		_pickedObjName = _dataContainer->GetPickObject()->GetName();
+	}
 
 	_isActive = _object->GetActive();
 	_objName = _object->GetName();
@@ -64,7 +71,6 @@ void Pg::Editor::Window::InspectorHelper::Update()
 		if (*val == false)
 		{
 			_object->RemoveComponent(name);
-
 
 			auto iter = _componentExistence.find(name);
 			delete iter->second;
@@ -132,28 +138,33 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 
 					if (typeInfo == typeid(float).name())
 					{
-						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::InputFloat>(valName, static_cast<float*>(val));
+						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::DragFloat>(valName, static_cast<float*>(val));
 					}
 
 					if (typeInfo == typeid(Pg::Math::PGFLOAT3).name())
 					{
-						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::InputFloat3>(valName, static_cast<Pg::Math::PGFLOAT3*>(val));
+						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGFLOAT3*>(val));
 					}
 
 					if (typeInfo == typeid(Pg::Math::PGFLOAT4).name())
 					{
-						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::InputFloat3>(valName, static_cast<Pg::Math::PGFLOAT4*>(val));
+						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGFLOAT4*>(val));
 					}
 
 					if (typeInfo == typeid(Pg::Math::PGQuaternion).name())
 					{
-						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::InputFloat3>(valName, static_cast<Pg::Math::PGQuaternion*>(val));
+						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGQuaternion*>(val));
 					}
 				}
 
-				_widgetCon->CreateCollapsWidget<Pg::UI::Widget::Layout::Column<2>>(componentName, _widgetCon->GetColumnWidgets());
+				_widgetCon->CreateCollapsWidget<Pg::UI::Widget::Layout::Column<2>>(componentName, _widgetCon->GetColumnWidgets(), _windowWidth);
 				_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Collaps>
 					(componentName, _widgetCon->GetCollapsWidgets(), _componentExistence.at(data.first));
+			}
+			
+			if (_pickedObjName == _object->GetName())
+			{
+				_dataContainer->SetPickObject(_object);
 			}
 		}
 	}

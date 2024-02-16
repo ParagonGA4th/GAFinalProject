@@ -37,7 +37,7 @@ void Pg::Editor::Window::ToolBar::Initialize()
 	auto& stopBtn = _widgetCon->CreateColumnsWidget<Pg::UI::Widget::Button>("Stop", 50.f, 25.f);
 	_isStopBtnClick = stopBtn.GetBtnClick();
 
-	_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Column<3>>("Buttons", _widgetCon->GetColumnWidgets(), false);
+	//_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Column<3>>("Buttons", _widgetCon->GetColumnWidgets(), false);
 }
 
 void Pg::Editor::Window::ToolBar::Update()
