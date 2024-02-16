@@ -54,9 +54,9 @@ namespace Pg::Graphics
 		LineRender();
 		EndPrimitiveBatchRender();
 
-		//BeginDebug2dRender(camData);
-		//Debug2dRender();
-		//EndDebug2dRender();
+		BeginDebug2dRender(camData);
+		Debug2dRender();
+		EndDebug2dRender();
 	}
 
 	void DebugRenderer::ConfirmCarrierData()

@@ -25,8 +25,6 @@ namespace Pg::Graphics
 
 		//일단은 임의로 FILL RATIO 100.0f 로 설정.
 		float* _fillRatio = nullptr;
-		
-		unsigned int* _sortingLayer = nullptr;
 
 		float* _imageWidth = nullptr;
 		float* _imageHeight = nullptr;
