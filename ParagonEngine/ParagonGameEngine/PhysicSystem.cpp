@@ -697,7 +697,7 @@ namespace Pg::Engine::Physic
 		//만약 RayCast에 맞았다면
 		if (_isHit)
 		{
-			PG_TRACE("RayCast Hit!");
+			//PG_TRACE("RayCast Hit!");
 
 			//충돌 오브젝트의 포인터
 			physx::PxRigidActor* actor = _hitBuffer.block.actor;

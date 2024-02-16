@@ -10,19 +10,29 @@ namespace Pg::Data
 	class GameObject;
 
 	Button::Button(GameObject* obj)
-		:RendererBase2D(obj),
+		:Component(obj),
 		_onClickEvent(),
 		_isPressed(false)
 	{
-		obj->AddComponent<ImageRenderer>();
-		obj->AddComponent<TextRenderer>();
+		
+		if (obj->GetComponent<ImageRenderer>())
+		{
+			assert(false);
+		}
+		
+		
+		_imageRenderer = obj->AddComponent<ImageRenderer>();
+		_imageWidth = &(_imageRenderer->_width);
+		_imageHeight = &(_imageRenderer->_height);
+		
+		//j->AddComponent<TextRenderer>();
 	}
 
 	void Button::Update()
 	{
 		PGFLOAT3 worldPos = _object->_transform._position;
-		PGFLOAT2 LT = { worldPos.x - _width / 2, worldPos.y - _height / 2 };
-		PGFLOAT2 RB = { worldPos.x + _width / 2, worldPos.y + _height / 2 };
+		PGFLOAT2 LT = { worldPos.x - *_imageWidth / 2, worldPos.y - *_imageHeight / 2 };
+		PGFLOAT2 RB = { worldPos.x + *_imageWidth / 2, worldPos.y + *_imageHeight / 2 };
 		PGFLOAT4 color = { 1.0f,0.0f,0.0f,1.0f };
 	}
 
@@ -45,6 +55,11 @@ namespace Pg::Data
 
 		_isPressed = !_isPressed;
 
-		PG_TRACE("Button Click!");
+		//PG_TRACE("Button Click!");
+	}
+
+	void Button::SetImagePath(const std::string& path)
+	{
+		_imageRenderer->SetImagePath(path);
 	}
 }
