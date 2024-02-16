@@ -1,5 +1,9 @@
 #include "TextRenderer.h"
 
+#include <atlconv.h>
+#include <windows.h>
+#include <stringapiset.h>
+
 namespace Pg::Data
 {
 
@@ -11,9 +15,18 @@ namespace Pg::Data
 		SetRendererTypeName(typeid(this).name());
 	}
 
-	void TextRenderer::SetString(std::string str)
+	void TextRenderer::SetString(const std::string& str)
 	{
 		_string = str;
+
+		////String을 셋할 때는 무조건 SetString을 써야 한다.
+		//for (int i = 0; i < MAXIMUM_TEXTBUFFER_COUNT; i++)
+		//{
+		//	_wBuffer[i] = '\0';
+		//}
+		//
+		//int _tStringSize = min(str.size(), MAXIMUM_TEXTBUFFER_COUNT);
+		//MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.length() + 1, _wBuffer, _tStringSize);
 	}
 
 	std::string TextRenderer::GetString()
@@ -50,5 +63,11 @@ namespace Pg::Data
 	{
 		return _fontColor;
 	}
+
+	//const wchar_t* TextRenderer::GetWCharPointer() const
+	//{
+	//	return _wBuffer;
+	//}
+	
 
 }
