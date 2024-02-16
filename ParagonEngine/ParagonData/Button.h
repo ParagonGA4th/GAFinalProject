@@ -1,5 +1,6 @@
 #pragma once
 #include "RendererBase2D.h"
+#include "../ParagonMath/PgMath.h"
 
 #include <functional>
 
@@ -12,15 +13,24 @@ namespace Pg::Data
 {
 	class GameObject;
 
-	class Button : public Component
+	class Button : public RendererBase2D
 	{
 	public:
 		Button(GameObject* obj);
+
+	public:
+		virtual void Update() override;
+
+		void Click();
+
+		void SetOnClickEvent(std::function<void()> onClickEvent);
+		std::function<void()> GetOnClickEvent() const;
 
 	private:
 		//TODO 나중에 필요하면 템플릿으로 바꿀 것
 		std::function<void()> _onClickEvent;
 
+		bool _isPressed;	//버튼 누른 여부 체크.
 	};
 }
 

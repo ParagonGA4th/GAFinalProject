@@ -6,6 +6,7 @@
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/SphereCollider.h"
 #include "../ParagonData/PlaneCollider.h"
+#include "../ParagonData/Button.h"
 #include "../ParagonData/RayCast.h"
 #include "../ParagonUtil/Log.h"
 
@@ -58,6 +59,7 @@ namespace Pg::Engine
 				Pg::Data::PlaneCollider* tPlaneCol = it->GetComponent<Pg::Data::PlaneCollider>();
 				Pg::Data::StaticBoxCollider* tStaticBoxCol = it->GetComponent<Pg::Data::StaticBoxCollider>();
 				Pg::Data::RayCast* tRayCast = it->GetComponent<Pg::Data::RayCast>();
+				Pg::Data::Button* tButton = it->GetComponent<Pg::Data::Button>();
 
 				if (tBoxCol != nullptr)
 				{
@@ -83,13 +85,10 @@ namespace Pg::Engine
 				{
 					DrawRayCastDebug(tRayCast->_rayCastInfo);
 				}
-
-				/*static Pg::Data::RayCastInfo tVal;
-				tVal.length = 3.0f;
-				tVal.dir = { 1.0f,0.0f,0.f };
-				tVal.origin = { 5.0f,5.f,5.f };
-				
-				DrawRayCastDebug(&tVal); */
+				else if (tButton != nullptr)
+				{
+					//버튼 디버그 넣어야 함.
+				}
 			}
 		}
 
@@ -112,6 +111,10 @@ namespace Pg::Engine
 		_boxVec.push_back(boxInfo);
 	}
 
+	void DebugSystem::DrawBox2DDebug(Pg::Data::Box2DInfo* box2DInfo)
+	{
+		_box2dVec.push_back(box2DInfo);
+	}
 
 	void DebugSystem::DrawCapsuleDebug(Pg::Data::CapsuleInfo* capsuleInfo)
 	{
@@ -152,6 +155,11 @@ namespace Pg::Engine
 		return _boxVec;
 	}
 
+	const std::vector<Pg::Data::Box2DInfo*>& DebugSystem::GetBox2DVector() const
+	{
+		return _box2dVec;
+	}
+
 	const std::vector<Pg::Data::LineInfo>& DebugSystem::GetLineVector() const
 	{
 		return _lineVec;                                
@@ -180,6 +188,11 @@ namespace Pg::Engine
 	void DebugSystem::DeleteBoxDebug()
 	{
 		_boxVec.clear();
+	}
+
+	void DebugSystem::DeleteBox2DDebug()
+	{
+		_box2dVec.clear();
 	}
 
 	void DebugSystem::DeleteSphereDebug()
@@ -211,5 +224,4 @@ namespace Pg::Engine
 	{
 		return _isDebug;
 	}
-
 }
