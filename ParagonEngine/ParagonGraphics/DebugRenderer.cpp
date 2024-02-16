@@ -430,9 +430,9 @@ namespace Pg::Graphics
 		//float tBottomRatio = ((box2dInfo.RB.y / tScreenHeight) - 0.5f) * 2.f;
 
 		float tLeftRatio = ((box2dInfo.LT.x / tScreenWidth) * 2.f) - 1.0f;
-		float tTopRatio = ((box2dInfo.RB.y / tScreenHeight) * 2.f) - 1.0f;
+		float tTopRatio = ((box2dInfo.LT.y / tScreenHeight) * 2.f) - 1.0f;
 		float tRightRatio = ((box2dInfo.RB.x / tScreenWidth) * 2.f) - 1.0f;
-		float tBottomRatio = ((box2dInfo.LT.y / tScreenHeight) * 2.f) - 1.0f;
+		float tBottomRatio = ((box2dInfo.RB.y / tScreenHeight) * 2.f) - 1.0f;
 
 		//float tLeftRatio = -1.0f;
 		//float tTopRatio = -1.0f; // 늘어나면 y+
@@ -447,10 +447,10 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT4 tColor = PG2XM_FLOAT4(box2dInfo.color);
 
 		// -1 ~ 1의 범위의 NDC로 초기화.	
-		DirectX::VertexPositionColor v1(DirectX::XMFLOAT3(tLeftRatio, tBottomRatio, 0.5f), tColor);
-		DirectX::VertexPositionColor v2(DirectX::XMFLOAT3(tRightRatio, tBottomRatio, 0.5f), tColor);
-		DirectX::VertexPositionColor v3(DirectX::XMFLOAT3(tRightRatio, tTopRatio, 0.5f), tColor);
-		DirectX::VertexPositionColor v4(DirectX::XMFLOAT3(tLeftRatio, tTopRatio, 0.5f), tColor);
+		DirectX::VertexPositionColor v1(DirectX::XMFLOAT3(tLeftRatio, -tBottomRatio, 0.5f), tColor);
+		DirectX::VertexPositionColor v2(DirectX::XMFLOAT3(tRightRatio, -tBottomRatio, 0.5f), tColor);
+		DirectX::VertexPositionColor v3(DirectX::XMFLOAT3(tRightRatio, -tTopRatio, 0.5f), tColor);
+		DirectX::VertexPositionColor v4(DirectX::XMFLOAT3(tLeftRatio, -tTopRatio, 0.5f), tColor);
 
 		_primitiveBatch->DrawLine(v1, v2);
 		_primitiveBatch->DrawLine(v2, v3);
