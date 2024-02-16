@@ -6,7 +6,7 @@ class BTTest
 	BTTest()
 	{
 		BT::BehaviorTreeFactory factory;
-		factory.createTree("adsk");
+		BT::Tree t = factory.createTree("adsk");
 	}
 };
 
