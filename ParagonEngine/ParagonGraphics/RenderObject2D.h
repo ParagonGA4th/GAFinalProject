@@ -21,6 +21,8 @@ namespace Pg::Graphics
 
 		virtual void Render(DirectX::SpriteBatch* spriteBatch, Pg::Data::CameraData* camData) abstract;
 
+	protected:
+		unsigned int* _sortingLayer = nullptr;
 	};
 }
 
