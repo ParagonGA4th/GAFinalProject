@@ -65,6 +65,11 @@ namespace Pg::Graphics
 		void LineRender();
 		void EndPrimitiveBatchRender();
 
+		void BeginDebug2dRender(Pg::Data::CameraData* camData);
+		void Debug2dRender();
+		void EndDebug2dRender();
+		
+
 	private:
 		void DrawBox(Pg::Data::CameraData* camData, Pg::Data::BoxInfo* boxInfo);
 		void DrawSphere(Pg::Data::CameraData* camData, Pg::Data::SphereInfo* sphereInfo);
