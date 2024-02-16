@@ -19,6 +19,7 @@
 #include "../ParagonData/StaticMeshRenderer.h" //Render 연동 보기 위해.
 
 
+#include "../ParagonUtil/Log.h"
 
 // Script<->Component 확인하기 위해.
 #include "../ParagonData/MoveForwardBack.h"
@@ -73,6 +74,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj2_2->AddComponent<MovingTest>();
 	tObj2_2->AddComponent<MovingTest>()->SetActive(true);
+	tObj2_2->AddComponent<Button>();
 	tObj2_2->AddComponent<AudioSource>();
 	tObj2_2->GetComponent<AudioSource>()->SetAudioName("../Resources/Sounds/Test/jump.mp3");
 	tObj2_2->GetComponent<AudioSource>()->SetEffectVolume(0.5f);
@@ -148,6 +150,16 @@ void Pg::Engine::TestScene::Initialize()
 	tObj8->GetComponent<Transform>()->_rotation = tObj8->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 	tObj8->AddComponent<ImageRenderer>()->SetImagePath("../Resources/Textures/Sprites/GameProgressBar.png");
 	tObj8->AddComponent<ImageRenderer>()->SetImagePath("../Resources/Textures/Sprites/LPDiskAlpha.png");
+
+	Pg::Data::GameObject* tObj9 = tCurrentScene->AddObject("Button1");
+	tObj9->AddComponent<Button>();
+	tObj9->GetComponent<Button>()->SetImagePath("../Resources/Textures/wook.jpg");
+	/*tObj9->GetComponent<Button>()->SetOnClickEvent([]() 
+		{
+			PG_TRACE("ButtonClick!!!");
+		});*/
+	//tObj9->GetComponent<Button>()->Click();
+
 	
 	
 	
