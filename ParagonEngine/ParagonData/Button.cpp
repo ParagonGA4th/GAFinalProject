@@ -33,7 +33,7 @@ namespace Pg::Data
 		PGFLOAT3 worldPos = _object->_transform._position;
 
 		_box2dInfo.LT = { worldPos.x - *_imageWidth / 2, worldPos.y - *_imageHeight / 2 };
-		_box2dInfo.RB = { worldPos.x + *_imageWidth / 2, worldPos.y + *_imageHeight / 2 };
+		_box2dInfo.RB = { worldPos.x + *_imageWidth / 2, worldPos.y + *_imageHeight / 2 }; 
 		_box2dInfo.color = { 1.0f,0.0f,0.0f,1.0f };
 	}
 
