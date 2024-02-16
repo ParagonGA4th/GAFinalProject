@@ -136,10 +136,14 @@ void Pg::Engine::TestScene::Initialize()
 
 	///���� �߰��� ����Ʈ�� UI ������Ʈ �׽�Ʈ�� ���� �ڵ� 
 	/// 
-	//Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("2D");
-	//tObj8->GetComponent<Transform>()->_position = { 100.0f, 80.0f, 0.0f };
+	Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("2D");
+	tObj8->GetComponent<Transform>()->_position = { 960.0f, 540.0f, 0.0f };
+	tObj8->AddComponent<Button>();
+	tObj8->GetComponent<Button>()->SetImagePath("../Resources/Textures/Sprites/StartCrunch.png");
+	tObj8->GetComponent<Button>()->SetImageSize(200.0f, 300.0f);
 	//tObj8->AddComponent<ImageRenderer>();
-	//tObj8->GetComponent<ImageRenderer>()->SetImagePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
+	//tObj8->GetComponent<ImageRenderer>()->SetImagePath("../Resources/Textures/Sprites/StartCrunch.png");
+	//tObj8->GetComponent<ImageRenderer>()->SetSize(200.0f, 300.0f);
 	//tObj8->GetComponent<ImageRenderer>()->SetActive(true);
 
 	assert(true);
