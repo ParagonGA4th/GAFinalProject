@@ -46,11 +46,11 @@ void RayCastTest::Update()
 	//사운드 테스트.
 	if (tInput->GetKeyDown(Space))
 	{
-		tButton->SetOnClickEvent([]()
+		/*tButton->SetOnClickEvent([]()
 			{
 				PG_TRACE("Click!");
 			});
-		tButton->Click();
+		tButton->Click();*/
 		if (tAudioSource != nullptr)
 		{
 			//tAudioSource->Play();
