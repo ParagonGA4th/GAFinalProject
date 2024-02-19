@@ -39,6 +39,11 @@ namespace Pg::Engine
 		class TimeSystem;
 	}
 
+	namespace BTree
+	{
+		class BehaviorTreeSystem;
+	}
+
 	namespace Manager
 	{
 		class EngineResourceManager;
@@ -91,6 +96,7 @@ namespace Pg::Engine
 		Input::InputSystem* _inputSystem = nullptr;
 		Physic::PhysicSystem* _physicSystem = nullptr;
 		Time::TimeSystem* _timeSystem = nullptr;
+		BTree::BehaviorTreeSystem* _behaviorTreeSystem = nullptr;
 		SceneSystem* _sceneSystem = nullptr;
 		DebugSystem* _debugSystem = nullptr;
 		SoundSystem* _soundSystem = nullptr;

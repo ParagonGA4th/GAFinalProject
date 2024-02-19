@@ -8,7 +8,16 @@
 
 /// <summary>
 ///	Animator Component. Update가 되면서, 내부적으로 BehaviorTree를 동작시킨다.
+/// 자체적으로 Update를 돌지 않고, BehaviorTreeSystem 내부 Update() 함수에서 동작 수행.
 /// </summary>
+
+namespace Pg::Engine
+{
+	namespace BTree
+	{
+		class BehaviorTreeSystem;
+	}
+}
 
 namespace Pg::Data
 {
@@ -17,6 +26,7 @@ namespace Pg::Data
 
 	class Animator : public Component
 	{
+		friend class Pg::Engine::BTree::BehaviorTreeSystem;
 	public:
 		Animator(GameObject* owner);
 		~Animator();
@@ -27,13 +37,22 @@ namespace Pg::Data
 		//나중에 직렬화될 부분.
 		std::string _behaviorTreePath;
 		
+		//인스턴스된 별개의 Tree로서 동작할지, 
+		//게임 엔진 내부에서 유일한 같은 내용의 Tree로 동작할지를 선택한다.
+		//만약 Uniform한 Animator인 경우, 객체별로 존재하지 않고, Component가 Object 하위에 있다고 해서 동작하지 않는다.
+		//AddUniformRunningAnimator()를 호출해서 (API) -> Update 루프에 포함시키고,
+		//RemoveUniformRunningAnimator()를 호출해서 Update 루프에서 제거한다.
+		//다르게 말해, _isUniform이 true가 되는 순간 BT::Tree의 ReadOnly만 되는 것이다. 
+		bool _isUniform = false;
+
 		//Renderer와 접속, false = AlwaysAnimate <-> true = CullCompletely.
 		// Cull되어도 업데이트할 것인가, 아닌가를 보여준다. 
 		bool _isCulled = false;
 
 		//ENDVISITABLES
 	public:
-		void SetBehaviorTree(BT::Tree* behaviorTree);
+		//일단 별도로 Behavior Tree Path의 세터를 만들어놓았다.
+		void SetBehaviorTreePath(const std::string& path);
 
 	private:
 		//실제로 로직에 따라 작동할 BehaviorTree의 예시.
