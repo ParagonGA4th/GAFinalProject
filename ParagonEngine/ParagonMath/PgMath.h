@@ -181,6 +181,8 @@ namespace Pg::Math
 
 		// ¿ªÇà·Ä
 		PGFLOAT4X4 Inverse() const;
+
+		PGFLOAT4X4 Transpose() const;
 	};
 
 	struct PGFLOAT3X3
@@ -284,6 +286,7 @@ namespace Pg::Math
 	DirectX::XMMATRIX PG2XM_MATRIX3X3(const Pg::Math::PGFLOAT3X3& val);
 	DirectX::XMFLOAT4X4 PG2XM_FLOAT4X4(const Pg::Math::PGFLOAT4X4& val);
 	DirectX::XMMATRIX PG2XM_MATRIX4X4(const Pg::Math::PGFLOAT4X4& val);
+
 
 }
 

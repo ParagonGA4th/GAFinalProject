@@ -45,11 +45,6 @@ void Pg::UI::Manager::UIManager::SetTransformForGizmo(Pg::Data::Transform* trans
 	_imguiManager->SetGizmoTransform(trans);
 }
 
-void Pg::UI::Manager::UIManager::SetWindowSizeForGizmo()
-{
-	_imguiManager->SetGizmoSize();
-}
-
 void Pg::UI::Manager::UIManager::DrawGizmo()
 {
 	_imguiManager->DrawGizmo();
@@ -69,3 +64,10 @@ void Pg::UI::Manager::UIManager::WindowDockSpaceBegin(std::string winName)
 {
 	_imguiManager->DockSpaceBegin(winName);
 }
+
+void Pg::UI::Manager::UIManager::SetAlignCenter(int widgetCount, float widgetWidth)
+{
+	_imguiManager->AlignForWidth(widgetCount, widgetWidth);
+}
+
+

@@ -1,4 +1,4 @@
-#include "TestScene.h"
+ï»¿#include "TestScene.h"
 #include "../ParagonData/Camera.h"
 #include "../ParagonData/ImageRenderer.h"
 #include "../ParagonData/Button.h"
@@ -10,16 +10,16 @@
 #include "../ParagonData/PlaneCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
 
-//#include "../ParagonData/BaseRenderer.h" //Render ¿¬µ¿ º¸±â À§ÇØ.
-//#include "../ParagonData/RendererBase2D.h" //Render ¿¬µ¿ º¸±â À§ÇØ.
-//#include "../ParagonData/RendererBase3D.h" //Render ¿¬µ¿ º¸±â À§ÇØ.
-#include "../ParagonData/ImageRenderer.h" //Render ¿¬µ¿ º¸±â À§ÇØ.
-#include "../ParagonData/TextRenderer.h" //Render ¿¬µ¿ º¸±â À§ÇØ.
-#include "../ParagonData/StaticMeshRenderer.h" //Render ¿¬µ¿ º¸±â À§ÇØ.
+//#include "../ParagonData/BaseRenderer.h" //Render ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+//#include "../ParagonData/RendererBase2D.h" //Render ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+//#include "../ParagonData/RendererBase3D.h" //Render ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+#include "../ParagonData/ImageRenderer.h" //Render ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+#include "../ParagonData/TextRenderer.h" //Render ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+#include "../ParagonData/StaticMeshRenderer.h" //Render ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 
 
 
-// Script<->Component È®ÀÎÇÏ±â À§ÇØ.
+// Script<->Component È®ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½.
 #include "../ParagonData/MoveForwardBack.h"
 #include "PrintRuntimeData.h"
 #include "EditorCameraScript.h"
@@ -38,7 +38,7 @@ void Pg::Engine::TestScene::Initialize()
 {
 	using namespace Pg::Data;
 
-	//ÀÌÁ¦ ¿©±â¼­ MainCamera ³Ö±â ±ÝÁö.
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¼­ MainCamera ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½.
 
 	Pg::Data::GameObject* tObj2 = tCurrentScene->AddObject("RoadLavaConeTest");
 	tObj2->GetComponent<Transform>()->_position = { 0.0f, 10.0f, 0.0f };
@@ -134,7 +134,17 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
 	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
-	///»õ·Î Ãß°¡ÇÑ ¶óÀÌÆ®¿Í UI ÄÄÆ÷³ÍÆ® Å×½ºÆ®¸¦ À§ÇÑ ÄÚµå 
+	///ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ UI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½×½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ 
+	/// 
+	Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("2D");
+	tObj8->GetComponent<Transform>()->_position = { 100.0f, 200.0f, 0.0f };
+	tObj8->AddComponent<Button>();
+	tObj8->GetComponent<Button>()->SetImagePath("../Resources/Textures/Sprites/StartCrunch.png");
+	tObj8->GetComponent<Button>()->SetImageSize(200.0f, 300.0f);
+	//tObj8->AddComponent<ImageRenderer>();
+	//tObj8->GetComponent<ImageRenderer>()->SetImagePath("../Resources/Textures/Sprites/StartCrunch.png");
+	//tObj8->GetComponent<ImageRenderer>()->SetSize(200.0f, 300.0f);
+	//tObj8->GetComponent<ImageRenderer>()->SetActive(true);
 
 	assert(true);
 }

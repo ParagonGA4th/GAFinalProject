@@ -24,20 +24,15 @@ namespace Pg::Data
 		void SetSize(float width, float height);
 		void SetWidth(float width);
 		void SetHeight(float height);
-		void SetIsFocused(bool isFocused);
-		void SetIsClicked(bool isClicked);
 
 		PGFLOAT2 GetSize();
 		float GetWidth();
 		float GetHeight();
-		bool IsFocused();
-		bool IsClicked();
 
-	protected:
 		float _width;
 		float _height;
-		bool _isFocused;
-		bool _isClicked;
+
+		unsigned int _sortingLayer = 1;
 	};
 }
 

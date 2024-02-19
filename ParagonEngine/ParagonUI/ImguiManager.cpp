@@ -137,14 +137,19 @@ void Pg::UI::Manager::ImGuiManager::SetGizmoTransform(Pg::Data::Transform* trans
 	_imGizmo->SetTransform(trans);
 }
 
-void Pg::UI::Manager::ImGuiManager::SetGizmoSize()
-{
-	ImVec2 size = ImGui::GetWindowSize();
-
-	_imGizmo->SetWindowSize(size.x, size.y);
-}
-
 void Pg::UI::Manager::ImGuiManager::DrawGizmo()
 {
 	_imGizmo->DrawGizmo();
+}
+
+void Pg::UI::Manager::ImGuiManager::AlignForWidth(int widgetCount, float widgetWidth)
+{
+	ImGuiStyle& style = ImGui::GetStyle();
+	
+	float width = (style.ItemSpacing.x * (widgetCount - 1)) + widgetWidth;
+	float avail = ImGui::GetContentRegionAvail().x;
+	float off = (avail - width) * 0.5f;
+	
+	if (off > 0.0f)
+		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + off);
 }

@@ -142,7 +142,8 @@
       <Command>copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysX_64.dll $(OutDir)
 copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXCommon_64.dll $(OutDir)
 copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXFoundation_64.dll $(OutDir)
-copy $(SolutionDir)lib\fmod\$(PlatformTarget)\fmod.dll $(OutDir)</Command>
+copy $(SolutionDir)lib\fmod\$(PlatformTarget)\fmod.dll $(OutDir)
+copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\behaviortree_cpp_v3d.dll $(OutDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -179,7 +180,8 @@ copy $(SolutionDir)lib\fmod\$(PlatformTarget)\fmod.dll $(OutDir)</Command>
       <Command>copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysX_64.dll $(OutDir)
 copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXCommon_64.dll $(OutDir)
 copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXFoundation_64.dll $(OutDir)
-copy $(SolutionDir)lib\fmod\$(PlatformTarget)\fmod.dll $(OutDir)</Command>
+copy $(SolutionDir)lib\fmod\$(PlatformTarget)\fmod.dll $(OutDir)
+copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\behaviortree_cpp_v3.dll $(OutDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -201,6 +203,7 @@ copy $(SolutionDir)lib\fmod\$(PlatformTarget)\fmod.dll $(OutDir)</Command>
     <ClInclude Include="EngineDLLExporter.h" />
     <ClInclude Include="EngineMain.h" />
     <ClInclude Include="EngineResourceManager.h" />
+    <ClInclude Include="eSoundGroup.h" />
     <ClInclude Include="EventSystem.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MovingTest.h" />

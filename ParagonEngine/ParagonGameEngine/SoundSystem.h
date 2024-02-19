@@ -23,12 +23,13 @@
 
 namespace Pg::Data
 {
-	enum class eSoundState;
+	class AudioSource;
 }
 
 namespace Pg::Engine
 {
 	class SceneSystem;
+	enum class eSoundGroup;
 
 	class SoundSystem
 	{
@@ -41,23 +42,33 @@ namespace Pg::Engine
 
 		void Finalize();
 
-		void CreateSound(std::string path, bool isLoop);
+		void CreateSound(std::string path, eSoundGroup soundGroup, bool isLoop);
 
+		//1차로 작업한 PlaySound. 사실상 지금은 쓰지 않음.
 		void PlaySound(std::string path);
+		//2차로 작업한 PlaySound.
+		void UpdateSounds();
 
-		void SetVolume(std::string path, float vol);
+		void SetAllGroupVolume();
+		void SetGroupVolume(eSoundGroup soundGroup);
+		void SetAllVolume();
 
 		void SoundPause(std::string path, bool isPause);
 
+		void SyncAudioSources();
 	public:
-		std::unordered_map<std::string, Pg::Data::AudioData>& GetSoundMap();
+		std::unordered_map<std::string, Pg::Data::AudioData*>& GetSoundMap();
+
+	private:
+		void CreateSingleSounds();
 
 	private:
 		FMOD::System* _system;
 		FMOD::ChannelGroup* _channelGroup;
-		std::vector<FMOD::ChannelGroup*> _channelGroupVec;
+		std::unordered_map<eSoundGroup, FMOD::ChannelGroup*> _channelGroupVec;
 
-		std::unordered_map<std::string, Pg::Data::AudioData> _soundMap;
+		std::unordered_map<std::string, Pg::Data::AudioData*> _soundMap;
+		std::unordered_map<std::string, Pg::Data::AudioSource*> _audioSoureceMap;
 
 		unsigned int _maxSound;		//사운드 최대 갯수
 		unsigned int _maxGroup;		//사운드 그룹 최대 갯수
@@ -68,6 +79,7 @@ namespace Pg::Engine
 	private:
 
 		SceneSystem* _sceneSystem = nullptr;
+
 
 		//3D 사운드를 위한 변수
 		//3D 사운드 필요없다고 판단.

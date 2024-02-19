@@ -15,39 +15,32 @@ namespace Pg::UI::Widget::Layout
 		/// </summary>
 		/// <param name="id">Column Id(Name)</param>
 		/// <param name="widgets">Columns Widgets</param>
-		/// <param name="widthSet">width setting</param>
 		/// <param name="wideColumn">first or second (0/1)</param>
-		Column(std::string id, std::vector<Pg::UI::IWidget*> widgets, bool widthSet = true, int wideColumn = 1) 
-			:_widgets(widgets), _id(id), _isWidthSet(widthSet), _wideColumn(wideColumn) {}
+		Column(std::string id, std::vector<Pg::UI::IWidget*> widgets, int wideColumn = 1) 
+			:_widgets(widgets), _id(id),  _wideColumn(wideColumn) {}
 
 		virtual void Update() override
 		{
-			ImGui::Columns(static_cast<int>(_size), _id.c_str(), false);
+			int columnCount = static_cast<int>(_size);
+			ImGui::Columns(columnCount, _id.c_str(), false);
 
 			int counter = 0;
 
 			for (auto& it : _widgets)
 			{
-				if (_isWidthSet)
-				{
-					if (_wideColumn == 1)
-					{
-						ImGui::SetColumnWidth(0, 110.f);
-						ImGui::SetColumnWidth(_wideColumn, 290.f);
-					}
-					else
-						ImGui::SetColumnWidth(_wideColumn, 210.f);
+				float orgColSize = ImGui::GetWindowSize().x / (columnCount + 1);
 
-					if (counter % 2 == _wideColumn)
-					{
-						ImGui::PushItemWidth(-1);
-					}
+				if (_wideColumn == 1) ImGui::SetColumnWidth(0, orgColSize);
+				else ImGui::SetColumnWidth(0, orgColSize * 2);
+
+				if (counter % 2 == _wideColumn)
+				{
+					ImGui::PushItemWidth(-1);
 				}
 
 				it->Update();
 				ImGui::NextColumn();
 				++counter;
-
 			}
 			ImGui::Columns(1);
 		}
@@ -55,7 +48,6 @@ namespace Pg::UI::Widget::Layout
 	private:
 		std::vector<Pg::UI::IWidget*> _widgets;
 		std::string _id;
-		bool _isWidthSet;
 		int _wideColumn;
 	};
 }

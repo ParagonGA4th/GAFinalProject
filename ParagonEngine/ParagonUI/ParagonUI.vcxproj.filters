@@ -85,6 +85,12 @@
     <ClInclude Include="Gizmo.h">
       <Filter>0_UI\Gizmo</Filter>
     </ClInclude>
+    <ClInclude Include="DragFloat3.h">
+      <Filter>0_UI\1_Widget\InputFloat\DragFloat3</Filter>
+    </ClInclude>
+    <ClInclude Include="DragFloat.h">
+      <Filter>0_UI\1_Widget\InputFloat\DragFloat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UIManager.cpp">
@@ -162,6 +168,12 @@
     <ClCompile Include="Gizmo.cpp">
       <Filter>0_UI\Gizmo</Filter>
     </ClCompile>
+    <ClCompile Include="DragFloat3.cpp">
+      <Filter>0_UI\1_Widget\InputFloat\DragFloat3</Filter>
+    </ClCompile>
+    <ClCompile Include="DragFloat.cpp">
+      <Filter>0_UI\1_Widget\InputFloat\DragFloat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_UI">
@@ -232,6 +244,12 @@
     </Filter>
     <Filter Include="0_UI\Gizmo">
       <UniqueIdentifier>{0073f77d-cd8b-4d3e-a9cd-ee4c3aef5175}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\InputFloat\DragFloat3">
+      <UniqueIdentifier>{c3b399a5-6522-4ce0-84cf-f963d3b75e72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\InputFloat\DragFloat">
+      <UniqueIdentifier>{8fddf2c4-e475-4226-8379-fba8c1c5f46a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

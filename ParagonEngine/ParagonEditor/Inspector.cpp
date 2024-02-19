@@ -50,7 +50,7 @@ void Pg::Editor::Window::Inspector::Initialize()
 	auto& btn = _widgetCon->CreateColumnsWidget<Pg::UI::Widget::Button>("Add Component", 115.f, 30.f);
 	_isClick = btn.GetBtnClick();
 
-	_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Column<2>>("AddComponent", _widgetCon->GetColumnWidgets(), true, 0);
+	_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Column<2>>("AddComponent", _widgetCon->GetColumnWidgets(), 0);
 }
 
 void Pg::Editor::Window::Inspector::Update()
