@@ -513,6 +513,12 @@ namespace rapidcsv
       ReadCsv(pStream);
     }
 
+    ///필요에 의한 mData의 참조 자체를 반환하는 함수.
+    std::vector<std::vector<std::string>>& GetPureData()
+    {
+        return mData;
+    }
+
     /**
      * @brief   Read Document data from file.
      * @param   pPath                 specifies the path of an existing CSV-file to populate the Document

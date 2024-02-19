@@ -28,7 +28,7 @@ namespace Pg::Core::Manager
 		~AssetManager();
 		
 		//AssetManager 초기화. Engine/Graphics의 리소스 매니저를 받아온다.
-		void Initialize(Pg::Core::ProcessMain* core);
+		void Initialize(Pg::Core::ProcessMain* core, const std::string& resourceListPath);
 
 		//실제로 세부 Graphics, Engine의 리소스 매니저를 조종하기 위해, 로직 업데이트.
 		void Update(Pg::Core::IEngine* engine, Pg::Core::IGraphics* graphics);
@@ -55,7 +55,7 @@ namespace Pg::Core::Manager
 		void LoadDefaultResources();
 
 		//임시로 미리 로드할 리소스들을 로드해놓는다!
-		void TemporaryLoadResources();
+		void LoadResourcesFromCSV(const std::string& resourceListPath);
 
 	private:
 		Pg::Core::ProcessMain* _coreMain;
