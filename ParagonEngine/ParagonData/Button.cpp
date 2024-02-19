@@ -80,4 +80,14 @@ namespace Pg::Data
 		*_imageHeight = height;
 	}
 
+	float Button::GetImageWidth()
+	{
+		return *_imageWidth;
+	}
+
+	float Button::GetImageHeight()
+	{
+		return *_imageHeight;
+	}
+
 }
