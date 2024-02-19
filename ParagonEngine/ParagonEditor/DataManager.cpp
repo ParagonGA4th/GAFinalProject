@@ -45,7 +45,7 @@ void Pg::Editor::Manager::DataManager::ProjectLoad()
 		{
 			_dataContainer->SetProjectPath(_path.substr(0, _path.rfind("\\") + 1));
 
-			std::string scenePath = _path.substr(0, _path.rfind("\\") + 1).append("Asset\\");
+			std::string scenePath = _path.substr(0, _path.rfind("\\") + 1).append("Asset\\Scene\\");
 			scenePath.append(scene.text().as_string()).append(".pgscene");
 
 			SceneLoad(scenePath);
