@@ -29,22 +29,21 @@ Pg::Editor::Window::Scene::~Scene()
 
 void Pg::Editor::Window::Scene::Initialize()
 {
-	_widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 1920.f, 1080.f);
+	auto& con = _widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 1920.f, 1080.f);
 }
 
 void Pg::Editor::Window::Scene::Update()
 {
 	_uiManager->WindowBegin(_winName);
 
-	if (_dataContainer->GetCurrentScene() != nullptr)
-		_uiManager->SetCameraForGizmo(_dataContainer->GetCurrentScene()->GetMainCamera());
-
-	if (_dataContainer->GetPickObject() != nullptr)
-		_uiManager->SetTransformForGizmo(&_dataContainer->GetPickObject()->_transform);
-
-	_uiManager->SetWindowSizeForGizmo();
-
 	_widgetCon->Update();	
+	
+	if (_dataContainer->GetPickObject() != nullptr)
+	{
+		_uiManager->SetCameraForGizmo(_dataContainer->GetCurrentScene()->GetMainCamera());
+		_uiManager->SetTransformForGizmo(&_dataContainer->GetPickObject()->_transform);
+	}
+
 	_uiManager->DrawGizmo();
 	
 	_uiManager->WindowEnd();

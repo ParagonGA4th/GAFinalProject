@@ -83,8 +83,8 @@ namespace Pg::Engine
 		_sceneSystem->Initialize();
 		_debugSystem->Initialize();
 		_physicSystem->Initialize(_debugSystem);
-		_timeSystem->Initialize();
 		_soundSystem->Initialize();
+		_timeSystem->Initialize();
 	}
 
 	void EngineMain::Update()
@@ -94,8 +94,8 @@ namespace Pg::Engine
 		_inputSystem->Update();
 		_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
 		_physicSystem->Flush();
-		_soundSystem->Update();
 		_sceneSystem->Update();
+		_soundSystem->Update();
 		_physicSystem->UpdateTransform();
 		_debugSystem->Update(_sceneSystem->GetCurrentScene());
 		
@@ -184,6 +184,16 @@ namespace Pg::Engine
 		return _debugSystem->GetPlaneVector();
 	}
 
+	const std::vector<Pg::Data::RayCastInfo>& EngineMain::GetRayCastDebugData() const
+	{
+		return _debugSystem->GetRayCastVector();
+	}
+
+	const std::vector<Pg::Data::Box2DInfo>& EngineMain::GetBox2dDebugData() const
+	{
+		return _debugSystem->GetBox2DVector();
+	}
+
 	void EngineMain::ClearDebugVectorData()
 	{
 		//일단은 박스만 다루니.
@@ -193,10 +203,9 @@ namespace Pg::Engine
 		_debugSystem->DeleteLineDebug();
 		_debugSystem->DeletePlaneDebug();
 		_debugSystem->DeleteRayCastDebug();
+		_debugSystem->DeleteBox2DDebug();
 	}
 
-	const std::vector<Pg::Data::RayCastInfo>& EngineMain::GetRayCastDebugData() const
-	{
-		return _debugSystem->GetRayCastVector();
-	}
+
+	
 }

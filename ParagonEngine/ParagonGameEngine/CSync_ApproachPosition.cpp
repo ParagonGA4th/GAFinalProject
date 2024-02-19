@@ -3,6 +3,6 @@ namespace Pg::Engine::BTree::Node
 {
 	BT::NodeStatus CSync_ApproachPosition::tick()
 	{
-
+		return BT::NodeStatus::SUCCESS;
 	}
 }

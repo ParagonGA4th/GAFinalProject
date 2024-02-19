@@ -64,6 +64,9 @@
     <ClInclude Include="BehaviorTreeSystem.h">
       <Filter>5_BehaviorTree\BehaviorTreeSystem</Filter>
     </ClInclude>
+    <ClInclude Include="eSoundGroup.h">
+      <Filter>2_System\SoundSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">

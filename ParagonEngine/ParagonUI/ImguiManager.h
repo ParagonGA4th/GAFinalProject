@@ -29,8 +29,9 @@ namespace Pg::UI::Manager
 
 		void SetGizmoCamera(Pg::Data::Camera* camera);
 		void SetGizmoTransform(Pg::Data::Transform* trans);
-		void SetGizmoSize();
 		void DrawGizmo();
+
+		void AlignForWidth(int widgetCount, float widgetWidth);
 
 	private:
 		std::unique_ptr<Pg::UI::Helper::Gizmo> _imGizmo;

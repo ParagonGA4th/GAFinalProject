@@ -14,7 +14,8 @@ namespace Pg::Graphics
 	struct RenderObject2DList
 	{
 	public:
-		std::unordered_map<Pg::Data::GameObject*, std::unique_ptr<RenderObject2D>> _list;
+		//std::unordered_map<Pg::Data::GameObject*, std::unique_ptr<RenderObject2D>> _list;
+		std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject2D>>> _list;
 	
 		void Clear()
 		{

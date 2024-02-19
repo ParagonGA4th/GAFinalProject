@@ -1,15 +1,24 @@
 #include "SoundSystem.h"
 #include "SceneSystem.h"
+#include "eSoundGroup.h"
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonData/eSoundState.h"
 #include "../ParagonData/Transform.h"
 
+#include <cassert>
+#include <algorithm>
+#include <singleton-cpp/singleton.h>
+
 namespace Pg::Engine
 {
 	SoundSystem::SoundSystem() :
 		_system(),
-		_channelGroup()
+		_channelGroup(),
+		_channelGroupVec(),
+		_soundMap(),
+		_maxSound(),
+		_maxGroup(3)
 	{
 		//FMOD 초기화
 		FMOD::System_Create(&_system);
@@ -19,6 +28,20 @@ namespace Pg::Engine
 		//채널 그룹 초기화
 		_system->getMasterChannelGroup(&_channelGroup);
 
+
+		// FMOD::ChannelGroup 초기화
+		for (int i = 0; i < (int)_maxGroup; ++i) 
+		{
+			eSoundGroup soundGroup = static_cast<eSoundGroup>(i);
+
+			// 개별 그룹 초기화
+			_channelGroupVec[soundGroup] = nullptr;
+			std::string groupName = "GroupName" + std::to_string(i);
+			_system->createChannelGroup(groupName.c_str(), &_channelGroupVec[soundGroup]);
+
+			_channelGroup->addGroup(_channelGroupVec[soundGroup]);
+		}
+
 		//3D 사운드의 크기나 거리 등을 설정
 		//_system->set3DSettings(1.0f, 1.0f, 1.0f);
 
@@ -26,87 +49,225 @@ namespace Pg::Engine
 
 	void SoundSystem::Initialize()
 	{
-		//싱글턴
-		auto& tSceneSystem = singleton<SceneSystem>();
-		_sceneSystem = &tSceneSystem;
+		CreateSingleSounds();
 
-		_maxSound = _soundMap.size();
-
-		
+		//얘는 Scene이 바뀔때마다 호출되어야 함.
+		SyncAudioSources();
 	}
 
 
 	void SoundSystem::Update()
 	{
-		for (auto& obj : _sceneSystem->GetCurrentScene()->GetObjectList())
-		{
-			//if ()
-			//{
-			//	//CreateSound()
-			//}
-		}
+		//사운드의 재생 상태를 업데이트해서 받아옴.
+		UpdateSounds();
+
+		//사운드 들림.
 		_system->update();
 	}
 
 	void SoundSystem::Finalize()
 	{
 		//채널 그룹 싹 다 해제.
-		for (int i = 0; i < _maxGroup; i++)
+		for (int i = 0; i < (int)_maxGroup; ++i)
 		{
-			_channelGroupVec[i]->release();
+			eSoundGroup soundGroup = static_cast<eSoundGroup>(i);
+			auto iter = _channelGroupVec.find(soundGroup);
+
+			if (iter != _channelGroupVec.end())
+			{
+				iter->second->release();
+			}
 		}
 
+		_channelGroup->release();
 		_system->close();
 		_system->release();
 	}
 
-	void SoundSystem::CreateSound(std::string path, bool isLoop)
+	void SoundSystem::CreateSound(std::string path, eSoundGroup soundGroup, bool isLoop)
 	{
 		//사운드 객체 생성
-		Pg::Data::AudioData audioData;
+		Pg::Data::AudioData* audioData = new Pg::Data::AudioData();
 
 		if (!isLoop)
 		{
-			_system->createSound(path.c_str(), FMOD_LOOP_OFF | FMOD_DEFAULT, NULL, &(audioData.sound));
+			_system->createSound(path.c_str(), FMOD_LOOP_OFF | FMOD_DEFAULT, NULL, &(audioData->sound));
 		}
 		else
 		{
-			_system->createSound(path.c_str(), FMOD_LOOP_NORMAL | FMOD_DEFAULT, NULL, &(audioData.sound));
+			_system->createSound(path.c_str(), FMOD_LOOP_NORMAL | FMOD_DEFAULT, NULL, &(audioData->sound));
 		}
 
-		audioData.isPlaying = false;
-		audioData.channel = 0;
-		//audioData.channel->setChannelGroup(_channelGroupVec[_channelGroup]);
-		audioData.soundPath = path;
+		audioData->soundPath = path;
+		audioData->group = soundGroup;
+		audioData->channel = 0;
+		audioData->channel->setChannelGroup(_channelGroupVec[soundGroup]);
 
 		_soundMap.insert({ path, audioData });
 	}
 
 	void SoundSystem::PlaySound(std::string path)
 	{
-		for (int i = 0; i < (int)_maxSound; i++)
+
+		_system->playSound(_soundMap.at(path)->sound, NULL, true, &_soundMap.at(path)->channel);
+		_soundMap.at(path)->channel->setPaused(false);
+
+		//for (int i = 0; i < (int)_maxSound; i++)
+		//{
+		//	if (_soundMap.at(path).soundPath == path)
+		//	{
+		//		_system->playSound(_soundMap.at(path).sound, NULL, true, &_soundMap.at(path).channel);
+		//		_soundMap.at(path).channel->setPaused(false);
+		//		_soundMap.at(path).isPlaying =
+		//			_soundMap.at(path).channel->getCurrentSound(&_soundMap.at(path).sound);
+		//	}
+		//}
+	}
+
+
+	void SoundSystem::UpdateSounds()
+	{
+		//무조건 볼륨 설정 후 재생.
+		SetAllGroupVolume();
+
+		for (auto& iter : _audioSoureceMap)
 		{
-			if (_soundMap.at(path).soundPath == path)
+			Pg::Data::AudioSource*& audioSource = iter.second;
+			Pg::Data::AudioData*& audioData = audioSource->_audioData;
+			Pg::Data::eSoundState& tSoundState = audioSource->_soundState;
+
+			if (tSoundState == Pg::Data::eSoundState::_PLAY)
 			{
-				_system->playSound(_soundMap.at(path).sound, NULL, false, &_soundMap.at(path).channel);
-				_soundMap.at(path).isPlaying = true;
+				audioData->channel->setPaused(false);
+
+				_system->playSound(audioData->sound, NULL, false, &audioData->channel);
+
+				//소리 중복 재생을 위해 상태를 NONE으로 바꿔줌.
+				tSoundState = Data::eSoundState::_NONE;
+			}
+			else if (tSoundState == Pg::Data::eSoundState::_STOP)
+			{
+				//_system->stopSound(audioData.sound, NULL, true, &audioData.channel);
+				audioData->channel->stop();
+				
+				//소리 중복 재생을 위해 상태를 NONE으로 바꿔줌.
+				tSoundState = Data::eSoundState::_NONE;
+			}
+			else if (tSoundState == Pg::Data::eSoundState::_PAUSE)
+			{
+				audioData->channel->setPaused(true);
+
+				//소리 중복 재생을 위해 상태를 NONE으로 바꿔줌.
+				tSoundState = Data::eSoundState::_NONE;
+			}
+
+		}
+	}
+
+
+	void SoundSystem::SetAllGroupVolume()
+	{
+
+		for (auto iter = _audioSoureceMap.begin(); iter != _audioSoureceMap.end(); iter++)
+		{
+			Pg::Data::AudioSource*& audioSource = iter->second;
+			Pg::Data::AudioData*& audioData = audioSource->_audioData;
+
+			if (audioData->group == eSoundGroup::BGM)
+			{
+				audioData->channel->setVolume(audioSource->GetBGMVolume());
+				//_channelGroupVec[soundGroup]->setVolume(audioSource->GetBGMVolume());
+			}
+			else if (audioData->group == eSoundGroup::Effect)
+			{
+				audioData->channel->setVolume(audioSource->GetEffectVolume());
+			}
+		}
+	}
+	 
+	void SoundSystem::SetGroupVolume(eSoundGroup soundGroup)
+	{
+		for (auto iter = _audioSoureceMap.begin(); iter != _audioSoureceMap.end(); iter++)
+		{
+			Pg::Data::AudioSource*& audioSource = iter->second;
+			Pg::Data::AudioData*& audioData = audioSource->_audioData;
+
+			if (audioData->group == soundGroup)
+			{
+				audioData->channel->setVolume(audioSource->GetBGMVolume());
+				_channelGroupVec[soundGroup]->setVolume(audioSource->GetBGMVolume());
 			}
 		}
 	}
 
-	void SoundSystem::SetVolume(std::string path, float vol)
+
+	void SoundSystem::SetAllVolume()
 	{
-		_soundMap.at(path).channel->setVolume(vol);
+		//사운드 객체 생성
+		//for (auto& iter : _soundMap)
+		//{
+		//	Pg::Data::AudioData& audioData = iter.second;
+		//	audioData.channel->setVolume(_audioSource->GetVolume());
+		//}
+
+		for (auto& iter : _audioSoureceMap)
+		{
+			Pg::Data::AudioSource*& audioSource = iter.second;
+			Pg::Data::AudioData*& audioData = audioSource->_audioData;
+			//audioData->channel->setVolume(audioSource->GetVolume());
+		}
 	}
 
 	void SoundSystem::SoundPause(std::string path, bool isPause)
 	{
-		_soundMap.at(path).channel->setPaused(true);
+		_soundMap.at(path)->channel->setPaused(true);
 	}
 
-	std::unordered_map<std::string, Pg::Data::AudioData>& SoundSystem::GetSoundMap()
+	std::unordered_map<std::string, Pg::Data::AudioData*>& SoundSystem::GetSoundMap()
 	{
 		return _soundMap;
+	}
+
+	void SoundSystem::CreateSingleSounds()
+	{
+		_maxSound = _soundMap.size();
+
+		//여기다가 전부 사운드 만들어줘야함. 조절은 AudioSource에서.
+		CreateSound("../Resources/Sounds/Test/TitleBGM.mp3", eSoundGroup::BGM, false);
+		CreateSound("../Resources/Sounds/Test/Ingame.mp3", eSoundGroup::BGM, false);
+		CreateSound("../Resources/Sounds/Test/jump.mp3", eSoundGroup::Effect, false);
+	}
+
+	void SoundSystem::SyncAudioSources()
+	{
+		//원래 있던 AudioSourceList();
+		if (!_audioSoureceMap.empty())
+		{
+			_audioSoureceMap.clear();
+		}
+		
+		//싱글턴
+		auto& tSceneSystem = singleton<SceneSystem>();
+		_sceneSystem = &tSceneSystem;
+
+		for (auto& it : _sceneSystem->GetCurrentScene()->GetObjectList())
+		{
+			Pg::Data::AudioSource* tAudioSource = it->GetComponent<Pg::Data::AudioSource>();
+
+			if (tAudioSource != nullptr)
+			{
+				assert(!tAudioSource->GetAudioName().empty() && "AudioSource의 Audio Name이 비워져 있으면 안됨");
+				auto tAudioDataIt = _soundMap.find(tAudioSource->GetAudioName());
+				assert(tAudioDataIt != _soundMap.end() && "SoundMap 내부에서 들어온 String 값의 AudioData를 찾지 못함");
+
+				tAudioSource->_audioData = tAudioDataIt->second;
+
+				_audioSoureceMap.insert(std::make_pair(tAudioDataIt->second->soundPath, tAudioSource));
+			}
+
+		}
+
+		assert("");
 	}
 
 }
