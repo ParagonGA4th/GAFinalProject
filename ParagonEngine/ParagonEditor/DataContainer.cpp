@@ -8,6 +8,16 @@ void Pg::Editor::Data::DataContainer::SetGraphicsData(ID3D11Device* d, ID3D11Dev
 	_deviceContext = dc;
 }
 
+void Pg::Editor::Data::DataContainer::SetProjectPath(std::string path)
+{
+	_projectPath = path;
+}
+
+std::string Pg::Editor::Data::DataContainer::GetProjectPath()
+{
+	return _projectPath;
+}
+
 ID3D11Device* Pg::Editor::Data::DataContainer::GetDevice() const
 {
 	return _device;
@@ -93,4 +103,3 @@ Pg::Data::GameObject* Pg::Editor::Data::DataContainer::GetPickObject()
 {
 	return _pickObject;
 }
-
