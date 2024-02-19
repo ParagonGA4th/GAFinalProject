@@ -28,21 +28,21 @@ Pg::Editor::Window::ToolBar::~ToolBar()
 
 void Pg::Editor::Window::ToolBar::Initialize()
 {
-	auto& startBtn = _widgetCon->CreateColumnsWidget<Pg::UI::Widget::Button>("Start", 50.f, 25.f);
+	auto& startBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Start", 50.f, 25.f);
 	_isStartBtnClick = startBtn.GetBtnClick();
 
-	auto& pauseBtn = _widgetCon->CreateColumnsWidget<Pg::UI::Widget::Button>("Pause", 50.f, 25.f);
+	auto& pauseBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Pause", 50.f, 25.f);
 	_isPauseBtnClick = pauseBtn.GetBtnClick();
 
-	auto& stopBtn = _widgetCon->CreateColumnsWidget<Pg::UI::Widget::Button>("Stop", 50.f, 25.f);
+	auto& stopBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Stop", 50.f, 25.f);
 	_isStopBtnClick = stopBtn.GetBtnClick();
-
-	//_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Column<3>>("Buttons", _widgetCon->GetColumnWidgets(), false);
 }
 
 void Pg::Editor::Window::ToolBar::Update()
 {
 	_uiManager->WindowBegin(_winName);
+	_uiManager->SetAlignCenter(3, 50.0f);
+	_widgetCon->SameLine(true);
 	_widgetCon->Update();
 
 	if (*_isStartBtnClick)

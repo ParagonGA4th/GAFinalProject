@@ -38,8 +38,6 @@ void Pg::Editor::Window::Scene::Update()
 
 	_widgetCon->Update();	
 	
-	_uiManager->SetWindowSizeForGizmo();
-
 	if (_dataContainer->GetPickObject() != nullptr)
 	{
 		_uiManager->SetCameraForGizmo(_dataContainer->GetCurrentScene()->GetMainCamera());

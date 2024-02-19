@@ -44,7 +44,6 @@ namespace Pg::Editor::Window
 		Pg::Data::GameObject* _selectGameObject;
 		int* _componentIndex;
 		bool* _isClick;
-		float* _windowWidth;
 	};
 }
 

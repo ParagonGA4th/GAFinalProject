@@ -137,22 +137,19 @@ void Pg::UI::Manager::ImGuiManager::SetGizmoTransform(Pg::Data::Transform* trans
 	_imGizmo->SetTransform(trans);
 }
 
-void Pg::UI::Manager::ImGuiManager::SetGizmoSize()
-{
-	_imGizmo->SetWindowSize(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, GetWindowWidth(), GetWindowHeight());
-}
-
 void Pg::UI::Manager::ImGuiManager::DrawGizmo()
 {
 	_imGizmo->DrawGizmo();
 }
 
-float Pg::UI::Manager::ImGuiManager::GetWindowWidth()
+void Pg::UI::Manager::ImGuiManager::AlignForWidth(int widgetCount, float widgetWidth)
 {
-	return ImGui::GetWindowSize().x;
-}
-
-float Pg::UI::Manager::ImGuiManager::GetWindowHeight()
-{
-	return ImGui::GetWindowSize().y;
+	ImGuiStyle& style = ImGui::GetStyle();
+	
+	float width = (style.ItemSpacing.x * (widgetCount - 1)) + widgetWidth;
+	float avail = ImGui::GetContentRegionAvail().x;
+	float off = (avail - width) * 0.5f;
+	
+	if (off > 0.0f)
+		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + off);
 }

@@ -12,6 +12,8 @@ namespace Pg::UI
 		std::vector<Pg::UI::IWidget*> GetCollapsWidgets();
 		std::vector<Pg::UI::IWidget*> GetTreeNodeWidgets();
 
+		void SameLine(bool isSameLine);
+
 		void ClearWidget(int index = 0);
 		void ClearColumnWidget();
 		void ClearCollapsWidget();
@@ -54,6 +56,8 @@ namespace Pg::UI
 		std::vector<Pg::UI::IWidget*> _columnWidgets;
 		std::vector<Pg::UI::IWidget*> _collapsWidgets;
 		std::vector<Pg::UI::IWidget*> _treeNodeWidgets;
+
+		bool _isSameLine;
 	};
 }
 
