@@ -17,7 +17,7 @@ namespace Pg::Editor::Window
 		InspectorHelper();
 		~InspectorHelper();
 
-		void Initialize(float* windowWidth);
+		void Initialize();
 		void Update();
 		void SetData(Pg::Data::GameObject* object);
 
@@ -40,7 +40,5 @@ namespace Pg::Editor::Window
 
 		// Component UI Helper Value
 		std::unordered_map<std::string, bool*> _componentExistence;
-
-		float* _windowWidth;
 	};
 }

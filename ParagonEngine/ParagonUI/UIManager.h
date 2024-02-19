@@ -34,17 +34,15 @@ namespace Pg::UI::Manager
 
 		 void UIHandler(MSG message);
 
+		 void SetAlignCenter(int widgetCount, float widgetWidth);
+
 		 void SetCameraForGizmo(Pg::Data::Camera* camera);
 		 void SetTransformForGizmo(Pg::Data::Transform* trans);
-		 void SetWindowSizeForGizmo();
 		 void DrawGizmo();
 
 		 void WindowBegin(std::string winName, bool isMenu = false);
 		 void WindowDockSpaceBegin(std::string winName);
 		 void WindowEnd(bool isDockspace = false);
-
-		 float GetWindowWidth();
-		 float GetWindowHeight();
 
 	private:
 		std::unique_ptr<Pg::UI::Manager::ImGuiManager> _imguiManager;

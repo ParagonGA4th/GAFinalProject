@@ -16,8 +16,8 @@ namespace Pg::UI::Widget::Layout
 		/// <param name="id">Column Id(Name)</param>
 		/// <param name="widgets">Columns Widgets</param>
 		/// <param name="wideColumn">first or second (0/1)</param>
-		Column(std::string id, std::vector<Pg::UI::IWidget*> widgets, float* widgetWidth, int wideColumn = 1) 
-			:_widgets(widgets), _id(id), _widgetWidth(widgetWidth), _wideColumn(wideColumn) {}
+		Column(std::string id, std::vector<Pg::UI::IWidget*> widgets, int wideColumn = 1) 
+			:_widgets(widgets), _id(id),  _wideColumn(wideColumn) {}
 
 		virtual void Update() override
 		{
@@ -28,13 +28,10 @@ namespace Pg::UI::Widget::Layout
 
 			for (auto& it : _widgets)
 			{
-				float orgColSize = *_widgetWidth / (columnCount + 1);
+				float orgColSize = ImGui::GetWindowSize().x / (columnCount + 1);
 
 				if (_wideColumn == 1) ImGui::SetColumnWidth(0, orgColSize);
 				else ImGui::SetColumnWidth(0, orgColSize * 2);
-
-				//if (_wideColumn == 1) ImGui::SetColumnWidth(_wideColumn, orgColSize * columnCount);
-				//else ImGui::SetColumnWidth(_wideColumn, orgColSize);
 
 				if (counter % 2 == _wideColumn)
 				{
@@ -44,7 +41,6 @@ namespace Pg::UI::Widget::Layout
 				it->Update();
 				ImGui::NextColumn();
 				++counter;
-
 			}
 			ImGui::Columns(1);
 		}
@@ -53,7 +49,6 @@ namespace Pg::UI::Widget::Layout
 		std::vector<Pg::UI::IWidget*> _widgets;
 		std::string _id;
 		int _wideColumn;
-		float* _widgetWidth;
 	};
 }
 

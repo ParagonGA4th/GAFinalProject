@@ -24,7 +24,6 @@ Pg::Editor::Window::Inspector::Inspector()
 
 	_widgetCon = std::make_unique<Pg::UI::WidgetContainer>();
 	_insHelper = std::make_unique<Pg::Editor::Window::InspectorHelper>();
-	_windowWidth = new float(0.f);
 }
 
 Pg::Editor::Window::Inspector::~Inspector()
@@ -34,7 +33,7 @@ Pg::Editor::Window::Inspector::~Inspector()
 
 void Pg::Editor::Window::Inspector::Initialize()
 {	
-	_insHelper->Initialize(_windowWidth);
+	_insHelper->Initialize();
 
 	std::unique_ptr<Pg::Editor::Event> changeObjectData = std::make_unique<Pg::Editor::Event>();
 	changeObjectData->AddEvent(Pg::Editor::eEventType::_OBJECTDATA, [&](void* data) { SetData(data); });
@@ -51,13 +50,12 @@ void Pg::Editor::Window::Inspector::Initialize()
 	auto& btn = _widgetCon->CreateColumnsWidget<Pg::UI::Widget::Button>("Add Component", 115.f, 30.f);
 	_isClick = btn.GetBtnClick();
 
-	_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Column<2>>("AddComponent", _widgetCon->GetColumnWidgets(), _windowWidth, 0);
+	_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Column<2>>("AddComponent", _widgetCon->GetColumnWidgets(), 0);
 }
 
 void Pg::Editor::Window::Inspector::Update()
 {
 	_uiManager->WindowBegin(_winName);
-	*_windowWidth = _uiManager->GetWindowWidth();
 	_insHelper->Update();
 	_widgetCon->Update();
 	AddComponent();

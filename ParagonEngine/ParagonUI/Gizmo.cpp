@@ -21,7 +21,7 @@ void Pg::UI::Helper::Gizmo::SetCamera(Pg::Data::Camera* camera)
 	_camera = camera;
 
 	//proj
-	_ptm = glm::perspective(camera->_fovY, _displayWidth / _displayHeight, camera->_nearZ, camera->_farZ);
+	_ptm = glm::perspective(camera->_fovY, ImGui::GetWindowSize().x / ImGui::GetWindowSize().y, camera->_nearZ, camera->_farZ);
 
 	// view
 	_vtm = ConvertVTM(camera->GetViewMatrix());
@@ -33,14 +33,6 @@ void Pg::UI::Helper::Gizmo::SetTransform(Pg::Data::Transform* trans)
 {
 	_trans = trans;
 	_wtm = ConvertWTM(trans->GetWorldTM());
-}
-
-void Pg::UI::Helper::Gizmo::SetWindowSize(float posX, float posY, float width, float height)
-{
-	_displayPosX = posX;
-	_displayPosY = posY;
-	_displayWidth = width;
-	_displayHeight = height;
 }
 
 glm::mat4 Pg::UI::Helper::Gizmo::ConvertVTM(Pg::Math::PGFLOAT4X4 mt)
@@ -91,7 +83,7 @@ void Pg::UI::Helper::Gizmo::DrawGizmo()
 {
 	if (_trans != nullptr)
 	{
-		ImGuizmo::SetRect(_displayPosX, _displayPosY, _displayWidth, _displayHeight);
+		ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, ImGui::GetWindowSize().x, ImGui::GetWindowSize().y);
 
 		ImGuizmo::Manipulate(
 			&(_vtm[0][0]),		// cameraView

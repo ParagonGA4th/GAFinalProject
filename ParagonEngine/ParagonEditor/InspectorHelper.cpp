@@ -31,10 +31,8 @@ Pg::Editor::Window::InspectorHelper::~InspectorHelper()
 
 }
 
-void Pg::Editor::Window::InspectorHelper::Initialize(float* windowWidth)
+void Pg::Editor::Window::InspectorHelper::Initialize()
 {
-	_windowWidth = windowWidth;
-
 	// 기본 정보
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::Text>("Name");
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::InputText>("Name", &_objName);
@@ -45,7 +43,7 @@ void Pg::Editor::Window::InspectorHelper::Initialize(float* windowWidth)
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::Text>("Active");
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::CheckBox>("Active", &_isActive);
 
-	_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Column<2>>("BasicInfo", _widgetCon->GetColumnWidgets(), _windowWidth);
+	_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Column<2>>("BasicInfo", _widgetCon->GetColumnWidgets());
 }
 
 void Pg::Editor::Window::InspectorHelper::SetData(Pg::Data::GameObject* object)
@@ -157,7 +155,7 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 					}
 				}
 
-				_widgetCon->CreateCollapsWidget<Pg::UI::Widget::Layout::Column<2>>(componentName, _widgetCon->GetColumnWidgets(), _windowWidth);
+				_widgetCon->CreateCollapsWidget<Pg::UI::Widget::Layout::Column<2>>(componentName, _widgetCon->GetColumnWidgets());
 				_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Collaps>
 					(componentName, _widgetCon->GetCollapsWidgets(), _componentExistence.at(data.first));
 			}

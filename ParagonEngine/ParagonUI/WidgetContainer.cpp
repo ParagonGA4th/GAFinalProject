@@ -1,11 +1,15 @@
 #include "WidgetContainer.h"
+#include "imgui.h"
 
 void Pg::UI::WidgetContainer::Update()
 {
 	for (auto& i : _widgets)
 	{
 		i->Update();
+		if (_isSameLine) ImGui::SameLine();
 	}
+
+	if (_isSameLine) _isSameLine = false;
 }
 
 std::vector<Pg::UI::IWidget*> Pg::UI::WidgetContainer::GetColumnWidgets()
@@ -43,4 +47,8 @@ void Pg::UI::WidgetContainer::ClearTreeNodeWidget()
 	_treeNodeWidgets.clear();	
 }
 
+void Pg::UI::WidgetContainer::SameLine(bool isSameLine)
+{
+	_isSameLine = isSameLine;
+}
 
