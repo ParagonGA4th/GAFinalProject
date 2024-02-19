@@ -2,6 +2,8 @@
 #include "PhysicsCollision.h"
 #include "Collider.h"
 #include "RendererBase3D.h"
+#include "StaticMeshRenderer.h" //임시
+#include "../ParagonUtil/Log.h"
 #include <generic_factory/generic_factory.hpp>
 #include <algorithm>
 
@@ -14,7 +16,8 @@ namespace Pg::Data
 		_componentList()
 	{
 		//기본적으로 무조건 GameObject가 생성되면 Transform을 컴포넌트로 갖는다.
-		_componentList.insert(std::make_pair(typeid(_transform).name(), &_transform));
+		//_componentList.insert(std::make_pair(typeid(_transform).name(), &_transform));
+		_componentList.push_back(std::make_pair(typeid(_transform).name(), &_transform));
 	}
 
 	GameObject::~GameObject()
@@ -124,8 +127,12 @@ namespace Pg::Data
 		{
 			if (componentType.find("Mesh") != std::string::npos)
 			{
-				component = dynamic_cast<Pg::Data::Component*>(GenericFactory<Pg::Data::RendererBase3D, 
-						Pg::Data::GameObject*>::createChild(componentType, this).release());
+				//component = dynamic_cast<Pg::Data::Component*>(GenericFactory<Pg::Data::RendererBase3D, 
+				//		Pg::Data::GameObject*>::createChild(componentType, this).release());
+				
+				PG_WARN("GENERIC FACTORY가 제대로 작동하지 않은 채로 하드코딩된 Component 추가. 버그 고쳐야!");
+
+				component = new Pg::Data::StaticMeshRenderer(this);
 			}
 		}
 		else
@@ -134,7 +141,7 @@ namespace Pg::Data
 				Pg::Data::GameObject*>::createChild(componentType, this).release());			
 		}
 
-		_componentList.try_emplace(componentType, component);
+		_componentList.push_back(std::make_pair(componentType, component));
 
 		return component;
 	}
@@ -142,11 +149,18 @@ namespace Pg::Data
 	bool GameObject::RemoveComponent(std::string componentType)
 	{
 		//리스트를 쭉 돌아서 해당 값이 존재하면 지운다.
-		auto iter = _componentList.find(componentType);
-		if (iter != _componentList.end())
+		//auto iter = _componentList.find(componentType);
+
+		auto res = std::find_if(_componentList.begin(), _componentList.end(),
+			[&componentType](const std::pair<std::string, Component*>& val)
+			-> bool {return (val.first == componentType); });
+		
+		if (res != _componentList.end())
 		{
-			delete iter->second;
-			_componentList.erase(iter);
+			delete res->second;
+			_componentList.erase(std::remove_if(_componentList.begin(), _componentList.end(), [&componentType](const std::pair<std::string, Component*>& val)
+				-> bool {return (val.first == componentType); }),
+				_componentList.end());
 			return true;
 		}
 
@@ -232,7 +246,7 @@ namespace Pg::Data
 			{ iter.second->OnDestroy(); });
 	}
 
-	std::unordered_map<std::string, Component*>& GameObject::GetComponentList()
+	std::vector<std::pair<std::string, Component*>>& GameObject::GetComponentList()
 	{
 		return _componentList;
 	}

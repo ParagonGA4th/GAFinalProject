@@ -49,6 +49,7 @@ namespace Pg::Graphics
 		void GetDebugLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec);
 		void GetDebugPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec);
 		void GetDebugRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec);
+		void GetDebugBox2dGeometryData(const std::vector<Pg::Data::Box2DInfo>& const box2DColVec);
 		
 		
 	private:
@@ -65,6 +66,11 @@ namespace Pg::Graphics
 		void LineRender();
 		void EndPrimitiveBatchRender();
 
+		void BeginDebug2dRender(Pg::Data::CameraData* camData);
+		void Debug2dRender();
+		void EndDebug2dRender();
+		
+
 	private:
 		void DrawBox(Pg::Data::CameraData* camData, Pg::Data::BoxInfo* boxInfo);
 		void DrawSphere(Pg::Data::CameraData* camData, Pg::Data::SphereInfo* sphereInfo);
@@ -72,7 +78,7 @@ namespace Pg::Graphics
 		void DrawLine(Pg::Data::LineInfo* lineInfo);
 		void DrawRayCast(Pg::Data::RayCastInfo rayCastInfo);
 		void DrawPlane(Pg::Data::CameraData* camData, Pg::Data::PlaneInfo* planeInfo);
-
+		void DrawBox2D(Pg::Data::Box2DInfo box2dInfo);
 	private:
 		void CreateSystemVertexShaders();
 		void CreateDepthWriteOffDSS();
@@ -114,6 +120,7 @@ namespace Pg::Graphics
 		const std::vector<Pg::Data::LineInfo>* _lineColVector = nullptr;
 		const std::vector<Pg::Data::PlaneInfo*>* _planeColVector = nullptr;
 		const std::vector<Pg::Data::RayCastInfo>* _rayCastColVector = nullptr;
+		const std::vector<Pg::Data::Box2DInfo>* _box2dVector = nullptr;
 
 	private:
 		//DebugLine을 위한 요구사항.
@@ -122,6 +129,7 @@ namespace Pg::Graphics
 		std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> _primitiveBatch;
 		ID3D11InputLayout* _debugLineInputLayout = nullptr;
 		std::unique_ptr<DirectX::BasicEffect> _basicEffect = nullptr;
+		std::unique_ptr<DirectX::BasicEffect> _basicEffect2d = nullptr;
 
 		//CommonState
 		std::unique_ptr<DirectX::CommonStates> _commonStates;

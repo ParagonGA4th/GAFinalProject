@@ -55,12 +55,12 @@ namespace Pg::Engine
 
 		void SoundPause(std::string path, bool isPause);
 
+		void SyncAudioSources();
 	public:
 		std::unordered_map<std::string, Pg::Data::AudioData*>& GetSoundMap();
 
 	private:
 		void CreateSingleSounds();
-		void SyncAudioSources();
 
 	private:
 		FMOD::System* _system;

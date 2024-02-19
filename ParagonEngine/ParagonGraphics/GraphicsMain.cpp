@@ -334,11 +334,17 @@ namespace Pg::Graphics
 		_renderer->PassRayCastGeometryData(rayCastColVec);
 	}
 
+	void GraphicsMain::SetBox2dDebugRenderData(const std::vector<Pg::Data::Box2DInfo>& const box2dColVec)
+	{
+		_renderer->PassBox2dGeometryData(box2dColVec);
+	}
+
 	void GraphicsMain::SetPickingEnableMode(bool val)
 	{
 		_internalPickingMode = val;
 	}
 
+	
 
 
 }

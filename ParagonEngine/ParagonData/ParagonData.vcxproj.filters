@@ -38,13 +38,13 @@
       <Filter>2_Component\Collider\BaseClass</Filter>
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
-      <Filter>2_Component\Collider\DynamicCollider\BoxCollider</Filter>
+      <Filter>2_Component\Collider\3D\DynamicCollider\BoxCollider</Filter>
     </ClCompile>
     <ClCompile Include="CapsuleCollider.cpp">
-      <Filter>2_Component\Collider\DynamicCollider\CapsuleCollider</Filter>
+      <Filter>2_Component\Collider\3D\DynamicCollider\CapsuleCollider</Filter>
     </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
-      <Filter>2_Component\Collider\DynamicCollider\SphereCollider</Filter>
+      <Filter>2_Component\Collider\3D\DynamicCollider\SphereCollider</Filter>
     </ClCompile>
     <ClCompile Include="TextRenderer.cpp">
       <Filter>2_Component\Renderer\2D\TextRenderer</Filter>
@@ -65,13 +65,13 @@
       <Filter>6_DataChangeList\ResourceQueue</Filter>
     </ClCompile>
     <ClCompile Include="DynamicCollider.cpp">
-      <Filter>2_Component\Collider\DynamicCollider\BaseClass</Filter>
+      <Filter>2_Component\Collider\3D\DynamicCollider\BaseClass</Filter>
     </ClCompile>
     <ClCompile Include="StaticCollider.cpp">
-      <Filter>2_Component\Collider\StaticCollider\BaseClass</Filter>
+      <Filter>2_Component\Collider\3D\StaticCollider\BaseClass</Filter>
     </ClCompile>
     <ClCompile Include="StaticBoxCollider.cpp">
-      <Filter>2_Component\Collider\StaticCollider\BoxCollider</Filter>
+      <Filter>2_Component\Collider\3D\StaticCollider\BoxCollider</Filter>
     </ClCompile>
     <ClCompile Include="DirectionalLight.cpp">
       <Filter>2_Component\Light\DirectionalLight</Filter>
@@ -90,7 +90,7 @@
       <Filter>2_Component\Renderer\3D\SkinnedMeshRenderer</Filter>
     </ClCompile>
     <ClCompile Include="PlaneCollider.cpp">
-      <Filter>2_Component\Collider\StaticCollider\PlaneCollider</Filter>
+      <Filter>2_Component\Collider\3D\StaticCollider\PlaneCollider</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>2_Component\Transform</Filter>
@@ -108,8 +108,11 @@
     <ClCompile Include="AudioSource.cpp">
       <Filter>2_Component\Audio\AudioSource</Filter>
     </ClCompile>
-    <ClCompile Include="AudioListener.cpp">
-      <Filter>2_Component\Audio\AudioListener</Filter>
+    <ClCompile Include="Slider.cpp">
+      <Filter>2_Component\UI\Slider</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider2D.cpp">
+      <Filter>2_Component\Collider\2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -177,19 +180,19 @@
       <Filter>4_Structs</Filter>
     </ClInclude>
     <ClInclude Include="BoxCollider.h">
-      <Filter>2_Component\Collider\DynamicCollider\BoxCollider</Filter>
+      <Filter>2_Component\Collider\3D\DynamicCollider\BoxCollider</Filter>
     </ClInclude>
     <ClInclude Include="CapsuleCollider.h">
-      <Filter>2_Component\Collider\DynamicCollider\CapsuleCollider</Filter>
+      <Filter>2_Component\Collider\3D\DynamicCollider\CapsuleCollider</Filter>
     </ClInclude>
     <ClInclude Include="SphereCollider.h">
-      <Filter>2_Component\Collider\DynamicCollider\SphereCollider</Filter>
+      <Filter>2_Component\Collider\3D\DynamicCollider\SphereCollider</Filter>
     </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>2_Component\Collider\BaseClass</Filter>
     </ClInclude>
     <ClInclude Include="DynamicCollider.h">
-      <Filter>2_Component\Collider\DynamicCollider</Filter>
+      <Filter>2_Component\Collider\3D\DynamicCollider</Filter>
     </ClInclude>
     <ClInclude Include="TextRenderer.h">
       <Filter>2_Component\Renderer\2D\TextRenderer</Filter>
@@ -213,10 +216,10 @@
       <Filter>2_Component\Collider\DynamicCollider\BaseClass</Filter>
     </ClInclude>
     <ClInclude Include="StaticCollider.h">
-      <Filter>2_Component\Collider\StaticCollider\BaseClass</Filter>
+      <Filter>2_Component\Collider\3D\StaticCollider\BaseClass</Filter>
     </ClInclude>
     <ClInclude Include="StaticBoxCollider.h">
-      <Filter>2_Component\Collider\StaticCollider\BoxCollider</Filter>
+      <Filter>2_Component\Collider\3D\StaticCollider\BoxCollider</Filter>
     </ClInclude>
     <ClInclude Include="DirectionalLight.h">
       <Filter>2_Component\Light\DirectionalLight</Filter>
@@ -243,7 +246,7 @@
       <Filter>2_Component\Renderer\3D\SkinnedMeshRenderer</Filter>
     </ClInclude>
     <ClInclude Include="PlaneCollider.h">
-      <Filter>2_Component\Collider\StaticCollider\PlaneCollider</Filter>
+      <Filter>2_Component\Collider\3D\StaticCollider\PlaneCollider</Filter>
     </ClInclude>
     <ClInclude Include="ForceMode.h">
       <Filter>4_Structs</Filter>
@@ -264,15 +267,16 @@
     <ClInclude Include="AudioSource.h">
       <Filter>2_Component\Audio\AudioSource</Filter>
     </ClInclude>
-    <ClInclude Include="AudioListener.h">
-      <Filter>2_Component\Audio\AudioListener</Filter>
-    </ClInclude>
     <ClInclude Include="AudioData.h">
       <Filter>4_Structs</Filter>
     </ClInclude>
     <ClInclude Include="eSoundState.h">
       <Filter>2_Component\Audio\AudioSource</Filter>
     </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>2_Component\UI\Slider</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider2D.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -332,9 +336,6 @@
     <Filter Include="2_Component\Collider\BaseClass">
       <UniqueIdentifier>{da968cf0-ea1d-49cf-bb46-0f0469308f43}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Component\Collider\DynamicCollider">
-      <UniqueIdentifier>{51a8fda0-dcc5-41de-89fd-93a38be98935}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2_Component\Renderer\3D">
       <UniqueIdentifier>{fd84d26f-d4c3-4172-9049-9d0100a57e05}</UniqueIdentifier>
     </Filter>
@@ -352,27 +353,6 @@
     </Filter>
     <Filter Include="6_DataChangeList\ResourceQueue">
       <UniqueIdentifier>{821c629c-71f3-45f1-aa90-034383729b81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Collider\DynamicCollider\BaseClass">
-      <UniqueIdentifier>{1addae72-f26e-4dca-a9c3-cff00f7ea7c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Collider\DynamicCollider\BoxCollider">
-      <UniqueIdentifier>{65cd6fac-dea3-4df8-96e3-e40208df9e12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Collider\DynamicCollider\CapsuleCollider">
-      <UniqueIdentifier>{d0f0cb7a-d7a9-4ea9-bc7b-a551e630b35f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Collider\DynamicCollider\SphereCollider">
-      <UniqueIdentifier>{209bfa5b-6385-49ed-b021-6c8efd240396}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Collider\StaticCollider">
-      <UniqueIdentifier>{50ebdce7-0ca3-4c8c-a882-148ef1c683e4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Collider\StaticCollider\BaseClass">
-      <UniqueIdentifier>{f53ca70a-f2f8-4087-97db-e1edfcdd8a68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Collider\StaticCollider\BoxCollider">
-      <UniqueIdentifier>{94c65e16-27ab-47cb-a5c4-f6cd9d8856cc}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Component\Light\DirectionalLight">
       <UniqueIdentifier>{9423fd94-9e78-4939-a0e6-578e16b176b8}</UniqueIdentifier>
@@ -401,9 +381,6 @@
     <Filter Include="2_Component\UI\Slider">
       <UniqueIdentifier>{070588a3-5e11-41b7-8963-d3fbd2a43f2e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Component\Collider\StaticCollider\PlaneCollider">
-      <UniqueIdentifier>{34510aec-ad30-4dcd-9cd2-d6bc26aac2b6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="10_Physics">
       <UniqueIdentifier>{a08c6ece-cc21-4663-a345-b8e964068a7f}</UniqueIdentifier>
     </Filter>
@@ -425,8 +402,38 @@
     <Filter Include="2_Component\Audio\AudioSource">
       <UniqueIdentifier>{35c0e4b5-5260-42bb-a4de-4dcc45d4a758}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Component\Audio\AudioListener">
-      <UniqueIdentifier>{97aa7c46-ba85-430b-b226-22e3293a1770}</UniqueIdentifier>
+    <Filter Include="2_Component\Collider\3D">
+      <UniqueIdentifier>{3e0f61ea-a1ce-4d11-9bc4-156079cd3ed1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\DynamicCollider">
+      <UniqueIdentifier>{51a8fda0-dcc5-41de-89fd-93a38be98935}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\DynamicCollider\BaseClass">
+      <UniqueIdentifier>{1addae72-f26e-4dca-a9c3-cff00f7ea7c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\DynamicCollider\BoxCollider">
+      <UniqueIdentifier>{65cd6fac-dea3-4df8-96e3-e40208df9e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\DynamicCollider\CapsuleCollider">
+      <UniqueIdentifier>{d0f0cb7a-d7a9-4ea9-bc7b-a551e630b35f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\DynamicCollider\SphereCollider">
+      <UniqueIdentifier>{209bfa5b-6385-49ed-b021-6c8efd240396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\StaticCollider">
+      <UniqueIdentifier>{50ebdce7-0ca3-4c8c-a882-148ef1c683e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\StaticCollider\BaseClass">
+      <UniqueIdentifier>{f53ca70a-f2f8-4087-97db-e1edfcdd8a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\StaticCollider\BoxCollider">
+      <UniqueIdentifier>{94c65e16-27ab-47cb-a5c4-f6cd9d8856cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\StaticCollider\PlaneCollider">
+      <UniqueIdentifier>{34510aec-ad30-4dcd-9cd2-d6bc26aac2b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\2D">
+      <UniqueIdentifier>{52e33170-5d69-44b5-a4ce-6089e7f8cbb8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

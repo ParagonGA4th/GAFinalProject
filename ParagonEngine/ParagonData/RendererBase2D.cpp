@@ -34,11 +34,6 @@ namespace Pg::Data
 		_height = height;
 	}
 
-	void RendererBase2D::SetIsFocused(bool isFocused)
-	{
-		_isFocused = isFocused;
-	}
-
 	PGFLOAT2 RendererBase2D::GetSize()
 	{
 		PGFLOAT2 result;
@@ -58,21 +53,4 @@ namespace Pg::Data
 	{
 		return _height;
 	}
-
-	bool RendererBase2D::IsFocused()
-	{
-		return _isFocused;
-	}
-
-	void RendererBase2D::SetIsClicked(bool isClicked)
-	{
-		_isClicked = isClicked;
-	}
-
-	bool RendererBase2D::IsClicked()
-	{
-		return _isClicked;
-	}
-
-
 }
