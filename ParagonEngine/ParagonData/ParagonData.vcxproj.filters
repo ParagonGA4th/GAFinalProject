@@ -111,6 +111,9 @@
     <ClCompile Include="Slider.cpp">
       <Filter>2_Component\UI\Slider</Filter>
     </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>2_Component\Animator</Filter>
+    </ClCompile>
     <ClCompile Include="BoxCollider2D.cpp">
       <Filter>2_Component\Collider\2D</Filter>
     </ClCompile>
@@ -273,6 +276,9 @@
     <ClInclude Include="eSoundState.h">
       <Filter>2_Component\Audio\AudioSource</Filter>
     </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>2_Component\Animator</Filter>
+    </ClInclude>
     <ClInclude Include="Slider.h">
       <Filter>2_Component\UI\Slider</Filter>
     </ClInclude>
@@ -404,6 +410,9 @@
     </Filter>
     <Filter Include="2_Component\Collider\3D">
       <UniqueIdentifier>{3e0f61ea-a1ce-4d11-9bc4-156079cd3ed1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Animator">
+      <UniqueIdentifier>{2cffbd03-cfa7-4306-a369-89497a5f3d83}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Component\Collider\3D\DynamicCollider">
       <UniqueIdentifier>{51a8fda0-dcc5-41de-89fd-93a38be98935}</UniqueIdentifier>
