@@ -111,9 +111,6 @@
     <ClCompile Include="Slider.cpp">
       <Filter>2_Component\UI\Slider</Filter>
     </ClCompile>
-    <ClCompile Include="Animator.cpp">
-      <Filter>2_Component\Animator</Filter>
-    </ClCompile>
     <ClCompile Include="BoxCollider2D.cpp">
       <Filter>2_Component\Collider\2D</Filter>
     </ClCompile>
@@ -283,6 +280,9 @@
       <Filter>2_Component\UI\Slider</Filter>
     </ClInclude>
     <ClInclude Include="BoxCollider2D.h" />
+    <ClInclude Include="GameConstantData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">

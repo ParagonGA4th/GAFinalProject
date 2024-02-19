@@ -9,6 +9,7 @@
 
 #include "../ParagonUtil/ResourceHelper.h"
 #include "../ParagonUtil/Log.h"
+#include "../ParagonUtil/CSVHelper.h"
 
 //<ResourcesList>
 #include "../ParagonGraphics/RenderMaterial.h"
@@ -46,7 +47,7 @@ namespace Pg::Core::Manager
 
 	}
 
-	void AssetManager::Initialize(Pg::Core::ProcessMain* core) 
+	void AssetManager::Initialize(Pg::Core::ProcessMain* core, const std::string& resourceListPath) 
 	{
 		_coreMain = core;
 		_perFrameToLoadResources.reserve(30);
@@ -56,7 +57,7 @@ namespace Pg::Core::Manager
 		LoadDefaultResources();
 
 		//Scene 단위 리소스 연동이 완료되지 않으면, 여기서 로드되지 않은 리소스들은 사용되지 못함.
-		TemporaryLoadResources();
+		LoadResourcesFromCSV(resourceListPath);
 	}
 
 	void AssetManager::Update(Pg::Core::IEngine* engine, Pg::Core::IGraphics* graphics)
@@ -206,13 +207,15 @@ namespace Pg::Core::Manager
 		graphics->ClearSecondaryResourcesList();
 	}
 
-	void AssetManager::TemporaryLoadResources()
+	void AssetManager::LoadResourcesFromCSV(const std::string& resourceListPath)
 	{
 		using Pg::Data::Enums::eAssetDefine;
 
-		//CreateResource를 임시로 여기에 호출.
+		std::string tUniformPath = ResourceHelper::ForcePathUniformFull(resourceListPath);
 
-	
+		//CreateResource를 임시로 여기에 호출.
+		std::string t3DModelPath = tUniformPath + "/5_3DModel.csv";
+		Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(t3DModelPath);
 
 		//현재 파이프라인에는 요구되지 않으나, 리플렉션을 보기 위해.
 		//LoadResource("../Builds/x64/Debug/AppendTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
