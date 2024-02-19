@@ -31,8 +31,17 @@ namespace Pg::Data
 
 		void SetImagePath(const std::string& path);
 		void SetImageSize(float width, float height);
+		
 		void SetImageWidth(float width);
+		float GetImageWidth();
+		
 		void SetImageHeight(float height);
+		float GetImageHeight();
+
+	public:
+		//이미지의 사이즈
+		float* _imageWidth;
+		float* _imageHeight;
 
 	public:
 		//Debug System용 사용
@@ -45,9 +54,6 @@ namespace Pg::Data
 		std::function<void()> _onClickEvent;
 
 		bool _isPressed;	//버튼 누른 여부 체크.
-
-		float* _imageWidth;
-		float* _imageHeight;
 	};
 }
 

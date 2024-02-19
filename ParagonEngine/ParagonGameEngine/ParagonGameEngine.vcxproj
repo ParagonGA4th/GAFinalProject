@@ -205,6 +205,7 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClInclude Include="EngineResourceManager.h" />
     <ClInclude Include="eSoundGroup.h" />
     <ClInclude Include="EventSystem.h" />
+    <ClInclude Include="EventTest.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MovingTest.h" />
     <ClInclude Include="PhysicsCallback.h" />
@@ -226,6 +227,7 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClCompile Include="EngineMain.cpp" />
     <ClCompile Include="EngineResourceManager.cpp" />
     <ClCompile Include="EventSystem.cpp" />
+    <ClCompile Include="EventTest.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="MovingTest.cpp" />
     <ClCompile Include="PhysicsCallback.cpp" />

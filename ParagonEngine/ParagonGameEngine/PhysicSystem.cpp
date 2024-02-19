@@ -359,31 +359,31 @@ namespace Pg::Engine::Physic
 		//Collider 존재할 경우 Collider를 전부 생성한다.
 		for (auto& obj : _sceneSystem->GetCurrentScene()->GetObjectList())
 		{
-			Pg::Data::BoxCollider* tBoxCol = obj->GetComponent<Pg::Data::BoxCollider>();
-			Pg::Data::StaticBoxCollider* tStaticBoxCol = obj->GetComponent<Pg::Data::StaticBoxCollider>();
-			Pg::Data::SphereCollider* tSphCol = obj->GetComponent<Pg::Data::SphereCollider>();
-			Pg::Data::CapsuleCollider* tCapCol = obj->GetComponent<Pg::Data::CapsuleCollider>();
-			Pg::Data::PlaneCollider* tPlaneCol = obj->GetComponent<Pg::Data::PlaneCollider>();              
+			std::vector<Pg::Data::BoxCollider*> tBoxCol = obj->GetComponents<Pg::Data::BoxCollider>();
+			std::vector<Pg::Data::StaticBoxCollider*> tStaticBoxCol = obj->GetComponents<Pg::Data::StaticBoxCollider>();
+			std::vector<Pg::Data::SphereCollider*> tSphCol = obj->GetComponents<Pg::Data::SphereCollider>();
+			std::vector<Pg::Data::CapsuleCollider*> tCapCol = obj->GetComponents<Pg::Data::CapsuleCollider>();
+			std::vector<Pg::Data::PlaneCollider*> tPlaneCol = obj->GetComponents<Pg::Data::PlaneCollider>();
 
 			//어떤 Collider인지에 따라 출력을 구분한다.
-			if (tBoxCol != nullptr)
+			if (!tBoxCol.empty())
 			{
 				MakeDynamicBoxCollider(obj);
 			}
-			else if (tStaticBoxCol != nullptr)
+			else if (!tStaticBoxCol.empty())
 			{
 				MakeStaticBoxCollider(obj);
 			}
-			else if (tSphCol != nullptr)
+			else if (!tSphCol.empty())
 			{
 				MakeDynamicSphereCollider(obj);
 			}
-			else if (tCapCol != nullptr)
+			else if (!tCapCol.empty())
 			{
 				MakeDynamicCapsuleCollider(obj);
 
 			}
-			else if (tPlaneCol != nullptr)
+			else if (!tPlaneCol.empty())
 			{
 				MakePlaneCollider(obj);
 
