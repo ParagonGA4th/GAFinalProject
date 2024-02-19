@@ -16,6 +16,9 @@ namespace Pg::Editor::Data
 		ID3D11Device* GetDevice() const;
 		ID3D11DeviceContext* GetDeviceContext() const;
 
+		void SetProjectPath(std::string path);
+		std::string GetProjectPath();
+
 		void SetSceneTexture(void* Texture);
 		void* GetSceneTexture() const;
 
@@ -40,6 +43,8 @@ namespace Pg::Editor::Data
 	private:
 		ID3D11Device* _device;
 		ID3D11DeviceContext* _deviceContext;
+
+		std::string _projectPath;
 
 		std::vector<Pg::Data::Scene*> _scenes;
 		Pg::Data::Scene* _currentScene;
