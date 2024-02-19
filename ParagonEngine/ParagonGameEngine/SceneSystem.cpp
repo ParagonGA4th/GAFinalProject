@@ -1,4 +1,6 @@
 #include "SceneSystem.h"
+#include "SoundSystem.h"
+#include "PhysicSystem.h"
 #include "TestScene.h"
 #include "EditorCameraScript.h"
 #include "../ParagonData/Scene.h"
@@ -6,6 +8,8 @@
 #include "../ParagonData/RendererBase2D.h"
 #include "../ParagonData/RendererBase3D.h"
 #include "../ParagonUtil/Log.h"
+
+#include <singleton-cpp/singleton.h>
 
 namespace Pg::Engine
 {
@@ -76,6 +80,18 @@ namespace Pg::Engine
 	void SceneSystem::SetCurrentScene(Pg::Data::Scene* scene)
 	{
 		_currentScene = scene;
+
+		//씬이 바뀔 시 사운드 전부 다시 로드.
+		auto& tSoundSystem = singleton<SoundSystem>();
+		_soundSystem = &tSoundSystem;
+
+		_soundSystem->SyncAudioSources();
+
+		//충돌 객체 또한 전부 다시 로드.
+		auto& tPhysicSystem = singleton<Physic::PhysicSystem>();
+		_physicSystem = &tPhysicSystem;
+
+		_physicSystem->InitMakeColliders();
 	}
 
 	Pg::Data::Scene* SceneSystem::GetCurrentScene()

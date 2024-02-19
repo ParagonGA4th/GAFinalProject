@@ -1,6 +1,7 @@
 #include "RayCastTest.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/AudioSource.h"
+#include "../ParagonData/Button.h"
 #include "../ParagonMath/PgMath.h"
 
 // 업데이트에서 임시로 인풋을 돌리기 위해...
@@ -28,6 +29,7 @@ void RayCastTest::Start()
 
 	//사운드 테스트.
 	tAudioSource = _object->GetComponent<Pg::Data::AudioSource>();
+	tButton = _object->GetComponent<Pg::Data::Button>();
 }
 
 void RayCastTest::Update()
@@ -44,9 +46,14 @@ void RayCastTest::Update()
 	//사운드 테스트.
 	if (tInput->GetKeyDown(Space))
 	{
+		/*tButton->SetOnClickEvent([]()
+			{
+				PG_TRACE("Click!");
+			});
+		tButton->Click();*/
 		if (tAudioSource != nullptr)
 		{
-			tAudioSource->Play();
+			//tAudioSource->Play();
 			//tAudioSource->Stop();
 		}
 	}

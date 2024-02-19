@@ -17,6 +17,14 @@ namespace Pg::Data
 		PGFLOAT4 color;
 	};
 
+	//버튼 디버그.
+	struct Box2DInfo
+	{
+		PGFLOAT2 LT;
+		PGFLOAT2 RB;
+		PGFLOAT4 color;
+	};
+
 	struct LineInfo
 	{
 		PGFLOAT3 beginPoint;

@@ -53,6 +53,10 @@ namespace Pg::Graphics
 		BeginPrimitiveBatchRender(camData);
 		LineRender();
 		EndPrimitiveBatchRender();
+
+		BeginDebug2dRender(camData);
+		Debug2dRender();
+		EndDebug2dRender();
 	}
 
 	void DebugRenderer::ConfirmCarrierData()
@@ -85,6 +89,8 @@ namespace Pg::Graphics
 		_primitiveBatch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(_DXStorage->_deviceContext);
 		_basicEffect = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
 		_basicEffect->SetVertexColorEnabled(true);
+		_basicEffect2d = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
+		_basicEffect2d->SetVertexColorEnabled(true);
 
 		void const* shaderByteCode;
 		size_t byteCodeLength;
@@ -156,7 +162,7 @@ namespace Pg::Graphics
 
 	void DebugRenderer::EndGeoPrimitiveRender()
 	{
-		
+
 	}
 
 	void DebugRenderer::BeginPrimitiveBatchRender(Pg::Data::CameraData* camData)
@@ -192,6 +198,27 @@ namespace Pg::Graphics
 		_primitiveBatch->End();
 	}
 
+	void DebugRenderer::BeginDebug2dRender(Pg::Data::CameraData* camData)
+	{
+		_basicEffect2d->Apply(_DXStorage->_deviceContext);
+
+		_primitiveBatch->Begin();
+	}
+
+	void DebugRenderer::Debug2dRender()
+	{
+		for (int i = 0; i < _box2dVector->size(); i++)
+		{
+			Pg::Data::Box2DInfo it = _box2dVector->at(i);
+			DrawBox2D(it);
+		}
+	}
+
+	void DebugRenderer::EndDebug2dRender()
+	{
+		_primitiveBatch->End();
+	}
+
 	void DebugRenderer::GetDebugBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
 	{
 		_boxColVector = &boxColVec;
@@ -215,6 +242,11 @@ namespace Pg::Graphics
 	void DebugRenderer::GetDebugRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec)
 	{
 		_rayCastColVector = &rayCastColVec;
+	}
+
+	void DebugRenderer::GetDebugBox2dGeometryData(const std::vector<Pg::Data::Box2DInfo>& const box2DColVec)
+	{
+		_box2dVector = &box2DColVec;
 	}
 
 	void DebugRenderer::DrawBox(Pg::Data::CameraData* camData, Pg::Data::BoxInfo* boxInfo)
@@ -343,7 +375,7 @@ namespace Pg::Graphics
 			tEndPoint = (rayCastInfo.origin) + (rayCastInfo.dir) * (rayCastInfo.length);
 			DirectX::XMStoreFloat4(&tColor, DirectX::Colors::MediumVioletRed);
 		}
-		
+
 
 		_primitiveBatch->DrawLine(
 			DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(tBeginPoint), tColor),
@@ -384,6 +416,47 @@ namespace Pg::Graphics
 		_planeShape->Draw(tWorld, tView, tProj, tLineColor, nullptr, true);
 	}
 
+	void DebugRenderer::DrawBox2D(Pg::Data::Box2DInfo box2dInfo)
+	{
+		float tScreenWidth = _DXStorage->_screenWidth;
+		float tScreenHeight = _DXStorage->_screenHeight;
+
+		// Z는 0.5로 고정.
+		//스크린 전체의 LT가 (-1,-1) // RB가 (1,1)로 생각하자.
+		//이를 기초한 비율이어야!
+		//float tLeftRatio = ((box2dInfo.LT.x / tScreenWidth) - 0.5f) * 2.f;
+		//float tTopRatio = ((box2dInfo.LT.y / tScreenHeight) - 0.5f) * 2.f;
+		//float tRightRatio = ((box2dInfo.RB.x / tScreenWidth) - 0.5f) * 2.f;
+		//float tBottomRatio = ((box2dInfo.RB.y / tScreenHeight) - 0.5f) * 2.f;
+
+		float tLeftRatio = ((box2dInfo.LT.x / tScreenWidth) * 2.f) - 1.0f;
+		float tTopRatio = ((box2dInfo.LT.y / tScreenHeight) * 2.f) - 1.0f;
+		float tRightRatio = ((box2dInfo.RB.x / tScreenWidth) * 2.f) - 1.0f;
+		float tBottomRatio = ((box2dInfo.RB.y / tScreenHeight) * 2.f) - 1.0f;
+
+		//float tLeftRatio = -1.0f;
+		//float tTopRatio = -1.0f; // 늘어나면 y+
+		//float tRightRatio = 1.0f;
+		//float tBottomRatio = 1.0f; // 늘어나면 y-
+
+		//float tLeftRatio = -0.5f;
+		//float tTopRatio = -0.3f; // 늘어나면 y+
+		//float tRightRatio = 0.5f;
+		//float tBottomRatio = 0.5f; // 늘어나면 y-
+
+		DirectX::XMFLOAT4 tColor = PG2XM_FLOAT4(box2dInfo.color);
+
+		// -1 ~ 1의 범위의 NDC로 초기화.	
+		DirectX::VertexPositionColor v1(DirectX::XMFLOAT3(tLeftRatio, -tBottomRatio, 0.5f), tColor);
+		DirectX::VertexPositionColor v2(DirectX::XMFLOAT3(tRightRatio, -tBottomRatio, 0.5f), tColor);
+		DirectX::VertexPositionColor v3(DirectX::XMFLOAT3(tRightRatio, -tTopRatio, 0.5f), tColor);
+		DirectX::VertexPositionColor v4(DirectX::XMFLOAT3(tLeftRatio, -tTopRatio, 0.5f), tColor);
+
+		_primitiveBatch->DrawLine(v1, v2);
+		_primitiveBatch->DrawLine(v2, v3);
+		_primitiveBatch->DrawLine(v3, v4);
+		_primitiveBatch->DrawLine(v4, v1);
+	}
 
 	void DebugRenderer::InitCapsule()
 	{
@@ -596,6 +669,8 @@ namespace Pg::Graphics
 
 		HR(_DXStorage->_device->CreateDepthStencilState(&tDepthWriteOffDesc, &_depthWriteOffDSS));
 	}
+
+
 
 
 
