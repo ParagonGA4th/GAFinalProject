@@ -43,6 +43,8 @@ void Pg::Editor::Manager::DataManager::ProjectLoad()
 		pugi::xml_node rootNode = doc.child("project");
 		for (pugi::xml_node scene = rootNode.first_child().first_child(); scene; scene = scene.next_sibling())
 		{
+			_dataContainer->SetProjectPath(_path.substr(0, _path.rfind("\\") + 1));
+
 			std::string scenePath = _path.substr(0, _path.rfind("\\") + 1).append("Asset\\");
 			scenePath.append(scene.text().as_string()).append(".pgscene");
 
