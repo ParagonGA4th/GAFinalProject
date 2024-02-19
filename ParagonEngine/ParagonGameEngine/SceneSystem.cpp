@@ -1,6 +1,7 @@
 #include "SceneSystem.h"
 #include "SoundSystem.h"
 #include "PhysicSystem.h"
+#include "BehaviorTreeSystem.h"
 #include "TestScene.h"
 #include "EditorCameraScript.h"
 #include "../ParagonData/Scene.h"
@@ -79,19 +80,23 @@ namespace Pg::Engine
 
 	void SceneSystem::SetCurrentScene(Pg::Data::Scene* scene)
 	{
+		//현재 씬 저장된거 바꾸기.
 		_currentScene = scene;
 
 		//씬이 바뀔 시 사운드 전부 다시 로드.
 		auto& tSoundSystem = singleton<SoundSystem>();
 		_soundSystem = &tSoundSystem;
-
 		_soundSystem->SyncAudioSources();
 
 		//충돌 객체 또한 전부 다시 로드.
 		auto& tPhysicSystem = singleton<Physic::PhysicSystem>();
 		_physicSystem = &tPhysicSystem;
-
 		_physicSystem->InitMakeColliders();
+
+		//현재 업데이트시켜야 하는 Behavior Tree List 역시 다시 로드.
+		auto& tBTSystem = singleton<BTree::BehaviorTreeSystem>();
+		_btSystem = &tBTSystem;
+		_btSystem->SyncSceneActiveBT();
 	}
 
 	Pg::Data::Scene* SceneSystem::GetCurrentScene()

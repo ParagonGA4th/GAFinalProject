@@ -165,16 +165,19 @@
   <ItemGroup>
     <ClInclude Include="ByteBuffer.hpp" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="UUIDGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pugiconfig.hpp" />
     <ClInclude Include="pugixml.hpp" />
+    <ClInclude Include="rapidcsv.h" />
     <ClInclude Include="ResourceHelper.h" />
     <ClInclude Include="UtilMain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ByteBuffer.cpp" />
     <ClCompile Include="Log.cpp" />
+    <ClCompile Include="UUIDGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pugixml.cpp" />

@@ -5,6 +5,7 @@
 #include "DebugSystem.h"
 #include "TimeSystem.h"
 #include "SoundSystem.h"
+#include "BehaviorTreeSystem.h"
 #include "EngineResourceManager.h"
 
 
@@ -69,6 +70,10 @@ namespace Pg::Engine
 		//Sound
 		auto& tSoundSystem = singleton<SoundSystem>();
 		_soundSystem = &tSoundSystem;
+
+		//BehaviorTree
+		auto& tBTreeSystem = singleton<BTree::BehaviorTreeSystem>();
+		_behaviorTreeSystem = &tBTreeSystem;
 	}
 
 	EngineMain::~EngineMain()
@@ -84,6 +89,7 @@ namespace Pg::Engine
 		_debugSystem->Initialize();
 		_physicSystem->Initialize(_debugSystem);
 		_soundSystem->Initialize();
+		_behaviorTreeSystem->Initialize();
 		_timeSystem->Initialize();
 	}
 
@@ -96,10 +102,10 @@ namespace Pg::Engine
 		_physicSystem->Flush();
 		_sceneSystem->Update();
 		_soundSystem->Update();
+		_behaviorTreeSystem->Update();
 		_physicSystem->UpdateTransform();
 		_debugSystem->Update(_sceneSystem->GetCurrentScene());
 		
-
 
 		 static bool tTest = false;
 		if (!tTest)
