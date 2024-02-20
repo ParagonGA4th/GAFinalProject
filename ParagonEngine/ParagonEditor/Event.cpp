@@ -1,6 +1,5 @@
 #include "Event.h"
 #include "EventSystem.h"
-#include "EditorDefine.h"
 
 #include <singleton-cpp/singleton.h>
 
@@ -40,22 +39,3 @@ void Pg::Editor::Event::Invoke(eEventType eventType, void* value)
 {
 	_eventSystem->TriggerEvent(eventType, value);
 }
-
-void Pg::Editor::Event::EventHandler(MSG message)
-{
-	if (message.message == WM_COMMAND)
-	{
-		switch (LOWORD(message.wParam))
-		{
-		case ID_OPEN_SCENE:
-			Invoke(eEventType::_FILEOPEN);
-			break;
-
-		case ID_SAVE:
-			Invoke(eEventType::_FILESAVE);
-			break;
-		}
-	}
-
-}
-

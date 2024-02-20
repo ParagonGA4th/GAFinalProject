@@ -1,12 +1,18 @@
 #pragma once
 #include "IEditorWindow.h"
+#include <unordered_map>
+#include <vector>
 #include <string>
+#include <memory>
 
 namespace Pg::UI { class WidgetContainer; }
 namespace Pg::UI::Manager { class UIManager; }
+namespace Pg::Editor::Data { class DataContainer; }
 
 namespace Pg::Editor::Window
 {
+	using FilterData = std::unordered_map<std::string, std::vector<std::string>>;
+
 	class Filter : public IEditorWindow
 	{
 	public:
@@ -21,7 +27,8 @@ namespace Pg::Editor::Window
 		virtual bool GetShow() override;
 
 	private:
-		void TestFilter(std::string path);
+		void DataSet(std::string path);
+		FilterData SeparateFiles(std::string path, std::string folderName);
 
 	private:
 		/// filter Value
@@ -29,10 +36,12 @@ namespace Pg::Editor::Window
 		bool _isShow;
 
 		/// helper class
+		Pg::Editor::Data::DataContainer* _dataContainer;
 		Pg::UI::Manager::UIManager* _uiManager;
-		Pg::UI::WidgetContainer* cons;
+		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
 
 		/// Data Value
+		
 	};
 }
 
