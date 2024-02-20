@@ -160,6 +160,13 @@ void Pg::Engine::TestScene::Initialize()
 	tObj20->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/PlainDiffuseMaterial.pgmat");
 	tObj20->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
+	GameObject* tObj21 = tCurrentScene->AddObject("TestingShadow");
+	tObj21->GetComponent<Transform>()->_position = { 30.0f, 1.0f, 0.0f };
+	tObj21->AddComponent<StaticMeshRenderer>();
+	tObj21->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Cube/Cube.fbx");
+	tObj21->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat");
+	tObj21->GetComponent<StaticMeshRenderer>()->SetActive(true);
+
 	assert(true);
 }
 
