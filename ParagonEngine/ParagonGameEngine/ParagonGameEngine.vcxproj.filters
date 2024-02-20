@@ -67,6 +67,9 @@
     <ClInclude Include="eSoundGroup.h">
       <Filter>2_System\SoundSystem</Filter>
     </ClInclude>
+    <ClInclude Include="EventTest.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\EventTest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -125,6 +128,9 @@
     </ClCompile>
     <ClCompile Include="BehaviorTreeSystem.cpp">
       <Filter>5_BehaviorTree\BehaviorTreeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="EventTest.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\EventTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +223,9 @@
     </Filter>
     <Filter Include="5_BehaviorTree\Nodes\CustomSyncActionNodes\CSync_ApproachPosition">
       <UniqueIdentifier>{5a079e3a-053e-4e6b-ba3e-2603539e18b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\EventTest">
+      <UniqueIdentifier>{cc8ad5aa-37ea-4ef4-82aa-d94dad1e2c71}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
