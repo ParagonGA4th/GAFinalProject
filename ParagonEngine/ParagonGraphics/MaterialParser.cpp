@@ -389,6 +389,13 @@ namespace Pg::Graphics
 
 	void MaterialParser::CreateConstantBuffer(RenderMaterial::MatShaderIntrinsics* intrinsic)
 	{
+		//Constant Buffer가 만들어지지 않았다면, 버퍼 자체를 만들지 않는다.
+		if (intrinsic->_cbBufferSize == 0)
+		{
+			//Constant Buffer가 없다는 말.
+			return;
+		}
+
 		int sizeCB = (((intrinsic->_cbBufferSize - 1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
 		assert(sizeCB % 16 == 0);
 		D3D11_BUFFER_DESC tCBufferDesc;

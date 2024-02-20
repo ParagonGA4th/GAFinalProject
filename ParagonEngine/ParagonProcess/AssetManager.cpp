@@ -240,6 +240,7 @@ namespace Pg::Core::Manager
 		LoadResource("../Resources/Textures/tw_normal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		LoadResource("../Resources/Textures/tw_diffuse.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		LoadResource("../Resources/Textures/wook.jpg", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		LoadResource("../Resources/Textures/TileTexture2048x2048.dds", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
 		LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
 		
@@ -253,7 +254,10 @@ namespace Pg::Core::Manager
 		
 		LoadResource("../Builds/x64/Debug/AppendObjectTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
 		LoadResource("../Builds/x64/Debug/AppendObjectTestPS.cso", eAssetDefine::_RENDER_PIXELSHADER);
+		LoadResource("../Builds/x64/Debug/AppendShadowTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
+		LoadResource("../Builds/x64/Debug/AppendShadowTestPS.cso", eAssetDefine::_RENDER_PIXELSHADER);
 		LoadResource("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat", Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
+		LoadResource("../ShaderResources/Materials/PlainDiffuseMaterial.pgmat", Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
 		
 		//LoadResource("../Resources/3DModels/AnimMesh/twcylinder/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 	}

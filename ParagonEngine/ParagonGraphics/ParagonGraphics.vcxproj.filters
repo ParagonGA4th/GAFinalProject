@@ -776,6 +776,9 @@
     <Filter Include="6_HLSL\Appends\Libraries\MathFunctions">
       <UniqueIdentifier>{e9a1063c-bc0e-4256-a6c8-3abcac342bf6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="6_HLSL\Appends\Added\Object\ShadowTest">
+      <UniqueIdentifier>{47b10104-dd45-4fa0-8d52-15bf986d7562}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
@@ -849,6 +852,12 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_Blur_PS.hlsl">
       <Filter>6_HLSL\System\Pipeline\Outline</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\ShadowTest\AppendShadowTestPS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\ShadowTest</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\ShadowTest\AppendShadowTestVS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\ShadowTest</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

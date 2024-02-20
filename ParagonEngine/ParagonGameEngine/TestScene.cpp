@@ -149,6 +149,17 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj8->GetComponent<ImageRenderer>()->SetSize(200.0f, 300.0f);
 	//tObj8->GetComponent<ImageRenderer>()->SetActive(true);
 
+
+	Pg::Data::GameObject* tObj20 = tCurrentScene->AddObject("TestingPlane");
+	tObj20->GetComponent<Transform>()->_position = { 30.0f, 0.0f, 0.0f };
+	tObj20->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	tObj20->GetComponent<Transform>()->_rotation = tObj20->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	tObj20->AddComponent<PlaneCollider>();
+	tObj20->AddComponent<StaticMeshRenderer>();
+	tObj20->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
+	tObj20->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/PlainDiffuseMaterial.pgmat");
+	tObj20->GetComponent<StaticMeshRenderer>()->SetActive(true);
+
 	assert(true);
 }
 

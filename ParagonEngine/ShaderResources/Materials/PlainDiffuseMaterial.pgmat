@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<PgMaterial>
+	<VertexShader>
+		<FileName>AppendShadowTestVS.cso</FileName>
+		<ConstantBuffer>
+			<BufferName></BufferName>
+			<ByteCount>0</ByteCount>
+			<RegisterCount>0</RegisterCount>
+			<VariableOrder />
+			<Variables />
+		</ConstantBuffer>
+		<Textures>
+			<VariableOrder />
+			<Variables />
+		</Textures>
+	</VertexShader>
+	<PixelShader>
+		<FileName>AppendShadowTestPS.cso</FileName>
+		<ConstantBuffer>
+			<BufferName></BufferName>
+			<ByteCount>0</ByteCount>
+			<RegisterCount>0</RegisterCount>
+			<VariableOrder />
+			<Variables />
+		</ConstantBuffer>
+		<Textures>
+			<VariableOrder>
+				<Case>t2_DiffuseTexture</Case>
+			</VariableOrder>
+			<Variables>
+				<Case Name="t2_DiffuseTexture" Type="Texture2D" ResourceReturnType="PG_RETURN_TYPE_FLOAT" RegisterCount="25" Value="TileTexture2048x2048.dds" />
+			</Variables>
+		</Textures>
+	</PixelShader>
+</PgMaterial>
