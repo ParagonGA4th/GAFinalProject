@@ -86,6 +86,7 @@ POutQuad main(VOutQuad pin)
     
     //현재로서는 IBL 디폴트 사용.
     float3 ambientLighting = { 0.0f, 0.0f, 0.0f };
+    
     {
         // 노말 방향에서 디퓨즈 Irradiance 샘플링.
 	    // ...DiffuseHDR.
