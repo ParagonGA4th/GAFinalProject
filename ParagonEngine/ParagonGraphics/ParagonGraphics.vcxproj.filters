@@ -172,18 +172,6 @@
     <ClInclude Include="ParagonRenderer.h">
       <Filter>0_Main\Renderers</Filter>
     </ClInclude>
-    <ClInclude Include="CubemapRenderer.h">
-      <Filter>0_Main\Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="Forward2DRenderer.h">
-      <Filter>0_Main\Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="DeferredRenderer.h">
-      <Filter>0_Main\Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugRenderer.h">
-      <Filter>0_Main\Renderers</Filter>
-    </ClInclude>
     <ClInclude Include="GBufferRender.h">
       <Filter>0_Main\GBuffers\GBufferRender</Filter>
     </ClInclude>
@@ -238,12 +226,6 @@
     <ClInclude Include="BaseSpecificRenderer.h">
       <Filter>0_Main\Renderers\BaseSpecificRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="Forward3DRenderer.h">
-      <Filter>0_Main\Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="FinalRenderer.h">
-      <Filter>0_Main\Renderers</Filter>
-    </ClInclude>
     <ClInclude Include="OpaqueLightingRenderPass.h">
       <Filter>0_Main\RenderPass\3_OpaqueLightingPass</Filter>
     </ClInclude>
@@ -252,6 +234,27 @@
     </ClInclude>
     <ClInclude Include="SizeTexture.h">
       <Filter>3_GraphicsResources\Resources\RenderTexture\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="CubemapRenderer.h">
+      <Filter>0_Main\Renderers\CubemapRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugRenderer.h">
+      <Filter>0_Main\Renderers\DebugRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="FinalRenderer.h">
+      <Filter>0_Main\Renderers\FinalRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="DeferredRenderer.h">
+      <Filter>0_Main\Renderers\DeferredRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Forward2DRenderer.h">
+      <Filter>0_Main\Renderers\Forward2DRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Forward3DRenderer.h">
+      <Filter>0_Main\Renderers\Forward3DRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="OpaqueShadowRenderPass.h">
+      <Filter>0_Main\RenderPass\4_OpaqueShadowPass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -396,18 +399,6 @@
     <ClCompile Include="ParagonRenderer.cpp">
       <Filter>0_Main\Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="CubemapRenderer.cpp">
-      <Filter>0_Main\Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="Forward2DRenderer.cpp">
-      <Filter>0_Main\Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="DeferredRenderer.cpp">
-      <Filter>0_Main\Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugRenderer.cpp">
-      <Filter>0_Main\Renderers</Filter>
-    </ClCompile>
     <ClCompile Include="GBufferRender.cpp">
       <Filter>0_Main\GBuffers\GBufferRender</Filter>
     </ClCompile>
@@ -453,17 +444,32 @@
     <ClCompile Include="BaseSpecificRenderer.cpp">
       <Filter>0_Main\Renderers\BaseSpecificRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="FinalRenderer.cpp">
-      <Filter>0_Main\Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="Forward3DRenderer.cpp">
-      <Filter>0_Main\Renderers</Filter>
-    </ClCompile>
     <ClCompile Include="OpaqueLightingRenderPass.cpp">
       <Filter>0_Main\RenderPass\3_OpaqueLightingPass</Filter>
     </ClCompile>
     <ClCompile Include="OutlineRenderPass.cpp">
       <Filter>0_Main\RenderPass\9_OutlineRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="CubemapRenderer.cpp">
+      <Filter>0_Main\Renderers\CubemapRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugRenderer.cpp">
+      <Filter>0_Main\Renderers\DebugRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="FinalRenderer.cpp">
+      <Filter>0_Main\Renderers\FinalRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="DeferredRenderer.cpp">
+      <Filter>0_Main\Renderers\DeferredRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Forward2DRenderer.cpp">
+      <Filter>0_Main\Renderers\Forward2DRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Forward3DRenderer.cpp">
+      <Filter>0_Main\Renderers\Forward3DRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="OpaqueShadowRenderPass.cpp">
+      <Filter>0_Main\RenderPass\4_OpaqueShadowPass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -778,6 +784,27 @@
     </Filter>
     <Filter Include="6_HLSL\Appends\Added\Object\ShadowTest">
       <UniqueIdentifier>{47b10104-dd45-4fa0-8d52-15bf986d7562}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers\CubemapRenderer">
+      <UniqueIdentifier>{d2fd682a-24a1-48b3-a2c6-49673c3e95ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers\DebugRenderer">
+      <UniqueIdentifier>{d36b3578-4d54-4744-b5a0-8def4d664bcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers\FinalRenderer">
+      <UniqueIdentifier>{a67629e7-2a17-4d0a-9b27-47d6cd83ef01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers\DeferredRenderer">
+      <UniqueIdentifier>{fee1d174-d870-429a-ae2b-da3630e7d65f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers\Forward2DRenderer">
+      <UniqueIdentifier>{aa62bd4a-cef9-425f-8754-9645905a3e22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers\Forward3DRenderer">
+      <UniqueIdentifier>{120f146f-438a-4e33-a792-36b513f5f8fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass\4_OpaqueShadowPass">
+      <UniqueIdentifier>{ce2af1b9-0ea1-45ac-81ce-f6fe2f9857b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

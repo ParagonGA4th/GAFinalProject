@@ -11,8 +11,9 @@
 #include "IRenderSinglePass.h"
 #include "FirstStaticRenderPass.h"
 #include "PreparationStaticRenderPass.h"
-#include "OpaqueLightingRenderPass.h"
 #include "OpaqueQuadRenderPass.h"
+#include "OpaqueLightingRenderPass.h"
+#include "OpaqueShadowRenderPass.h"
 #include "FinalRenderPass.h"
 
 #include "../ParagonData/GameObject.h"
@@ -95,8 +96,9 @@ namespace Pg::Graphics
 		RenderObjMatStaticPass(renderObjectList, camData);
 		RenderOpaqueLightingPass(renderObjectList, camData);
 		RenderOpaqueQuadPasses(renderObjectList, camData);
+		RenderOpaqueShadowPass(renderObjectList, camData);
 
-
+		UnbindExpiredResources();
 	}
 
 	void DeferredRenderer::ConfirmCarrierData()
@@ -119,6 +121,9 @@ namespace Pg::Graphics
 		//OpaqueLightingRenderPass.
 		_opaqueLightingPass = std::make_unique<OpaqueLightingRenderPass>();
 
+		//OpaqueShadowRenderPass.
+		_opaqueShadowPass = std::make_unique<OpaqueShadowRenderPass>();
+
 		//모든 Material의 목록을 받은 뒤, 순서대로 OpaqueQuadRenderPass 호출. (일반적인 경우)
 		//N개의 Material이 있으면, N개의 Pass가 만들어진다.
 		using Pg::Graphics::Manager::GraphicsResourceManager;
@@ -136,6 +141,7 @@ namespace Pg::Graphics
 		_firstStaticRenderPass->Initialize();
 		_objMatStaticRenderPass->Initialize();
 		_opaqueLightingPass->Initialize();
+		_opaqueShadowPass->Initialize();
 
 		//일괄적으로 Initialize() 호출.
 		for (auto& it : _opaqueQuadPassesVector)
@@ -198,10 +204,7 @@ namespace Pg::Graphics
 		_firstStaticRenderPass->ExecuteNextRenderRequirements();
 		_firstStaticRenderPass->PassNextRequirements(*_carrier);
 
-		//[구상했던 것, 취소됨]
-		//Skinned가 들어오면 달라져야 하지만, DepthStencil을 전달할 수 있어야 한다.
-		//Forward에게 넘길 Deferred Object의 Depth Stencil을 전달한다.
-
+		//이미 Depth가 올라간 상황.
 	}
 
 	void DeferredRenderer::RenderObjMatStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
@@ -258,7 +261,26 @@ namespace Pg::Graphics
 		{
 			_DXStorage->_deviceContext->PSSetShaderResources(i, 1, &tNullSRV);
 		}
+	}
 
+	void DeferredRenderer::RenderOpaqueShadowPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		//Quad에 담겨 있는 상태에서, Light의 위치를 받아 실행.
+		//MainLight만을 가지고, Single-DirectionalLight PCF Shadow Mapping을 할 것.
+
+		_opaqueShadowPass->ReceiveRequiredElements(*_carrier);
+		_opaqueShadowPass->BindPass();
+		_opaqueShadowPass->RenderPass(renderObjectList, camData);
+		_opaqueShadowPass->UnbindPass();
+		_opaqueShadowPass->ExecuteNextRenderRequirements();
+		_opaqueShadowPass->PassNextRequirements(*_carrier);
+
+	}
+
+	void DeferredRenderer::UnbindExpiredResources()
+	{
+		//Unbing
+		ID3D11ShaderResourceView* tNullSRV = nullptr;
 		//t12-14 - internalPBRTextures Unbind
 		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, &tNullSRV);
 		_DXStorage->_deviceContext->PSSetShaderResources(13, 1, &tNullSRV);
@@ -277,8 +299,6 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(22, 1, &tNullSRV);
 		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &tNullSRV);
 	}
-
-
 
 }
 
