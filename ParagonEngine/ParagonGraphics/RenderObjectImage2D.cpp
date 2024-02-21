@@ -59,9 +59,12 @@ namespace Pg::Graphics
 		//여기에 있는 비율은 Fill 값을 대변
 		RECT tImageRect = { 0,0, static_cast<LONG>((*_imageWidth) * (tCorrectedRatio / 100.0f)), static_cast<LONG>(*_imageHeight) };
 
+		//SortingLayer 정리.
+		float tTrueSortingLayer = static_cast<float>(std::clamp(*_sortingLayer, (UINT)0, (UINT)100)) / 100.f;
+
 		//이미지 쏠리는 문제 고침!
 		spriteBatch->Draw(_texture2D->GetSRV(), ttTrans, &tImageRect, ttTintColor,
-			ttRotation, ttOrigin, ttScaleAverage, DirectX::SpriteEffects::SpriteEffects_None, *_sortingLayer);
+			ttRotation, ttOrigin, ttScaleAverage, DirectX::SpriteEffects::SpriteEffects_None, tTrueSortingLayer);
 		//_spriteBatch->Draw(_textureData->GetSRV(), ttTrans, &tImageRect, NULL,
 		//	ttRotation, ttOrigin, ttScaleAverage, DirectX::SpriteEffects::SpriteEffects_None, _sortingLayer);
 	}

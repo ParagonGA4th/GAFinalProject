@@ -73,7 +73,7 @@ namespace Pg::Core
 
 		//엔진 초기화
 		_util->Initialize();
-		_engineGraphicsAdapter->InitializeEngine(screenWidth, screenHeight);
+		_engineGraphicsAdapter->InitializeEngine(hwnd, screenWidth, screenHeight);
 		_api->Initialize();
 		_engineGraphicsAdapter->InitializeGraphics(static_cast<HWND>(hwnd), screenWidth, screenHeight);
 
