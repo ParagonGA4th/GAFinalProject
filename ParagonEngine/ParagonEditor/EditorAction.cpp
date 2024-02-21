@@ -1,12 +1,8 @@
 #include "EditorAction.h"
-#include "EditorDefine.h"
-
 #include "IEditorManager.h"
 #include "EditorManager.h"
 #include "ProcessManager.h"
-
 #include "FileSystem.h"
-
 #include "Event.h"
 
 Pg::Editor::Core::EditorAction::EditorAction()
@@ -29,7 +25,7 @@ Pg::Editor::Core::EditorAction::~EditorAction()
 
 void Pg::Editor::Core::EditorAction::Initialize()
 {
-	HINSTANCE ins = GetModuleHandle(NULL);-
+	HINSTANCE ins = GetModuleHandle(NULL);
 	WindowRegisterClass(ins);
 	CreateWindows(ins);
 
@@ -44,11 +40,10 @@ void Pg::Editor::Core::EditorAction::Loop()
 		{
 			if (_msg.message == WM_QUIT) break;
 
-			DispatchMessage(&_msg);
+			DispatchMessageW(&_msg);
 			TranslateMessage(&_msg);
 
 			for (auto& manager : _editorManagers) { manager->ManagerHandler(_msg); }
-			_editorEvent->EventHandler(_msg);
 		}
 		else
 		{
@@ -80,7 +75,7 @@ ATOM Pg::Editor::Core::EditorAction::WindowRegisterClass(HINSTANCE hInstance)
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wcex.lpszMenuName = NULL;
-	wcex.lpszClassName = _appName;
+	wcex.lpszClassName = _appName.c_str();
 	wcex.hIconSm = NULL;
 
 	return RegisterClassExW(&wcex);
@@ -88,7 +83,7 @@ ATOM Pg::Editor::Core::EditorAction::WindowRegisterClass(HINSTANCE hInstance)
 
 BOOL Pg::Editor::Core::EditorAction::CreateWindows(HINSTANCE hInstance)
 {
-	_hWnd = CreateWindowW(_appName, _appName, WS_OVERLAPPEDWINDOW,
+	_hWnd = CreateWindowW(_appName.c_str(), _appName.c_str(), WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, _screenWidth, _screenHeight, nullptr, nullptr, hInstance, nullptr);
 
 	if (!_hWnd) return FALSE;
@@ -99,25 +94,6 @@ BOOL Pg::Editor::Core::EditorAction::CreateWindows(HINSTANCE hInstance)
 
 	//_screenWidth = rect.right - rect.left;
 	//_screenHeight = rect.bottom - rect.top;
-
-	///// Project를 Load 하기 위한 Menubar 생성 예제 코드
-	//// 메뉴 핸들 생성
-	//HMENU hMenu = CreateMenu();
-	//HMENU hSubMenu = CreatePopupMenu();
-
-	//// 메뉴 항목 추가
-	//AppendMenu(hSubMenu, MF_STRING, ID_OPEN_SCENE, "Open Scene");
-	//AppendMenu(hSubMenu, MF_STRING, ID_NEW_SCENE, "New Scene");
-	//AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL); // 구분선 추가
-	//AppendMenu(hSubMenu, MF_STRING, ID_OPEN_PROJECT, "Open Project");
-	//AppendMenu(hSubMenu, MF_STRING, ID_NEW_PROJECT, "New Project");
-	//AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL); // 구분선 추가
-	//AppendMenu(hSubMenu, MF_STRING, ID_SAVE, "Save (Ctrl + S)");
-	//AppendMenu(hSubMenu, MF_STRING, ID_EXIT, "Exit");
-	//AppendMenu(hMenu, MF_POPUP, (UINT_PTR)hSubMenu, "File");
-
-	//// 메뉴 핸들을 윈도우에 연결
-	//SetMenu(_hWnd, hMenu);
 
 	ShowWindow(_hWnd, SW_SHOWNORMAL);
 	UpdateWindow(_hWnd);
@@ -132,14 +108,9 @@ LRESULT CALLBACK Pg::Editor::Core::EditorAction::WndProc(HWND hWnd, UINT message
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			break;
-	
-		case WM_COMMAND:
-			// 메뉴 항목 선택 이벤트 처리
-			if (LOWORD(wParam) == ID_EXIT) PostMessage(hWnd, WM_CLOSE, 0, 0);
-			break;
 
 		default:
-			return DefWindowProc(hWnd, message, wParam, lParam);
+			return DefWindowProcW(hWnd, message, wParam, lParam);
 	}
 	return 0;
 }

@@ -8,16 +8,21 @@ namespace Pg::UI
 	{
 	public:
 		void Update();
+
 		std::vector<Pg::UI::IWidget*> GetColumnWidgets();
 		std::vector<Pg::UI::IWidget*> GetCollapsWidgets();
 		std::vector<Pg::UI::IWidget*> GetTreeNodeWidgets();
+
+		void SetTempWidgets(std::vector<Pg::UI::IWidget*> tempWidget);
+		std::vector<Pg::UI::IWidget*> GetTempWidgets();
 
 		void SameLine(bool isSameLine);
 
 		void ClearWidget(int index = 0);
 		void ClearColumnWidget();
 		void ClearCollapsWidget();
-		void ClearTreeNodeWidget();
+		void ClearTreeNodeWidget(int index = -1);
+		void ClearTempWidgets();
 
 		template<typename T, typename ... Args>
 		T& CreateWidget(Args&&... args)
@@ -49,13 +54,14 @@ namespace Pg::UI
 			_treeNodeWidgets.emplace_back(new T(args...));
 			T& ins = *reinterpret_cast<T*>(_treeNodeWidgets.back());
 			return ins;
-		}
+		}		
 
 	private:
 		std::vector<Pg::UI::IWidget*> _widgets;
 		std::vector<Pg::UI::IWidget*> _columnWidgets;
 		std::vector<Pg::UI::IWidget*> _collapsWidgets;
 		std::vector<Pg::UI::IWidget*> _treeNodeWidgets;
+		std::vector<Pg::UI::IWidget*> _tempWidgets;
 
 		bool _isSameLine;
 	};

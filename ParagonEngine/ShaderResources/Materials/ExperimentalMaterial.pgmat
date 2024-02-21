@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<PgMaterial>
+	<VertexShader>
+		<FileName>AppendExperimentalTestVS.cso</FileName>
+		<ConstantBuffer>
+			<BufferName></BufferName>
+			<ByteCount>0</ByteCount>
+			<RegisterCount>0</RegisterCount>
+			<VariableOrder />
+			<Variables />
+		</ConstantBuffer>
+		<Textures>
+			<VariableOrder />
+			<Variables />
+		</Textures>
+	</VertexShader>
+	<PixelShader>
+		<FileName>AppendExperimentalTestPS.cso</FileName>
+		<ConstantBuffer>
+			<BufferName></BufferName>
+			<ByteCount>0</ByteCount>
+			<RegisterCount>0</RegisterCount>
+			<VariableOrder />
+			<Variables />
+		</ConstantBuffer>
+		<Textures>
+			<VariableOrder />
+			<Variables />
+		</Textures>
+	</PixelShader>
+</PgMaterial>

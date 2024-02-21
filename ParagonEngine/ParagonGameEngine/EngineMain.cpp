@@ -82,7 +82,8 @@ namespace Pg::Engine
 	}
 
 
-	void EngineMain::Initialize(float width, float height)
+
+	void EngineMain::Initialize(void* hwnd, float width, float height)
 	{
 		_inputSystem->Initialize(width, height);
 		_sceneSystem->Initialize();
@@ -90,7 +91,7 @@ namespace Pg::Engine
 		_physicSystem->Initialize(_debugSystem);
 		_soundSystem->Initialize();
 		_behaviorTreeSystem->Initialize();
-		_timeSystem->Initialize();
+		_timeSystem->Initialize(hwnd);
 	}
 
 	void EngineMain::Update()

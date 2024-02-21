@@ -35,11 +35,11 @@ VertexOut main(VertexIn vin)
     vout.PosH = mul(WVP, vec);
 	
 	//최대 거리를 구한다.
-    float tLength = length(vout.PosW - camPos);
-    tLength = min(maxDistance, tLength);
-    float tRatio = saturate(tLength / maxDistance);
-	
-    vout.Color = mul(vin.Color, tRatio);
+    //float tLength = length(vout.PosW - camPos);
+    //tLength = min(maxDistance, tLength);
+    //float tRatio = saturate(tLength / maxDistance);
+    //vout.Color = mul(vin.Color, tRatio);
+    vout.Color = vin.Color;
  
     return vout;
 }

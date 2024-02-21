@@ -42,6 +42,7 @@ namespace Pg::Editor::Window
 		/// Data value
 		std::vector<std::string> _objNames;
 		int* _selectedNumber;
+		int _prevObjListSize;
 
 		std::string _prevObjName;
 		std::string _pickedObjName;
