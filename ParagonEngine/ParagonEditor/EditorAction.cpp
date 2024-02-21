@@ -29,7 +29,7 @@ Pg::Editor::Core::EditorAction::~EditorAction()
 
 void Pg::Editor::Core::EditorAction::Initialize()
 {
-	HINSTANCE ins = GetModuleHandle(NULL);-
+	HINSTANCE ins = GetModuleHandle(NULL);
 	WindowRegisterClass(ins);
 	CreateWindows(ins);
 
@@ -44,7 +44,7 @@ void Pg::Editor::Core::EditorAction::Loop()
 		{
 			if (_msg.message == WM_QUIT) break;
 
-			DispatchMessage(&_msg);
+			DispatchMessageW(&_msg);
 			TranslateMessage(&_msg);
 
 			for (auto& manager : _editorManagers) { manager->ManagerHandler(_msg); }
@@ -80,7 +80,7 @@ ATOM Pg::Editor::Core::EditorAction::WindowRegisterClass(HINSTANCE hInstance)
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wcex.lpszMenuName = NULL;
-	wcex.lpszClassName = _appName;
+	wcex.lpszClassName = _appName.c_str();
 	wcex.hIconSm = NULL;
 
 	return RegisterClassExW(&wcex);
@@ -88,7 +88,7 @@ ATOM Pg::Editor::Core::EditorAction::WindowRegisterClass(HINSTANCE hInstance)
 
 BOOL Pg::Editor::Core::EditorAction::CreateWindows(HINSTANCE hInstance)
 {
-	_hWnd = CreateWindowW(_appName, _appName, WS_OVERLAPPEDWINDOW,
+	_hWnd = CreateWindowW(_appName.c_str(), _appName.c_str(), WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, _screenWidth, _screenHeight, nullptr, nullptr, hInstance, nullptr);
 
 	if (!_hWnd) return FALSE;
@@ -139,7 +139,7 @@ LRESULT CALLBACK Pg::Editor::Core::EditorAction::WndProc(HWND hWnd, UINT message
 			break;
 
 		default:
-			return DefWindowProc(hWnd, message, wParam, lParam);
+			return DefWindowProcW(hWnd, message, wParam, lParam);
 	}
 	return 0;
 }

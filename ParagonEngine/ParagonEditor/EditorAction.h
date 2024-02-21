@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <memory>
 #include <vector>
+#include <string>
 
 namespace Pg::Editor::Manager { class IEditorManager; }
 namespace Pg::Editor::System { class FileSystem; }
@@ -31,7 +32,8 @@ namespace Pg::Editor::Core
 		float _screenWidth;
 		float _screenHeight;
 
-		const WCHAR* _appName;
+		//const WCHAR* _appName;
+		const std::wstring _appName;
 	private:
 		std::vector<Pg::Editor::Manager::IEditorManager*> _editorManagers;
 		std::unique_ptr<Pg::Editor::System::FileSystem> _fileSystem;
