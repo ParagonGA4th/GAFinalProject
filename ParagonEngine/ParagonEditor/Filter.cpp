@@ -38,6 +38,10 @@ void Pg::Editor::Window::Filter::Initialize()
 void Pg::Editor::Window::Filter::Update()
 {
 	_uiManager->WindowBegin(_winName);
+	
+	_widgetCon->ClearWidget();
+	_fileNames.clear();
+	
 	DataSet(_dataContainer->GetProjectPath());
 	_widgetCon->Update();
 	_uiManager->WindowEnd();
@@ -62,15 +66,14 @@ void Pg::Editor::Window::Filter::DataSet(std::string path)
 {
 	if (path.empty()) return;
 
-	_widgetCon->ClearWidget();
-
 	std::string rootFolderName = path.substr(0, path.rfind("\\"));
 	rootFolderName = rootFolderName.substr(rootFolderName.rfind("\\") + 1);
+	
+	static bool isEnter = false;
+	static int depth = 0;
 
 	// 1차 폴더 및 파일 구분
 	auto firstFiles = SeparateFiles(path, rootFolderName);
-
-	static std::vector<std::string> fileNames;
 
 	for (auto& f : firstFiles)
 	{
@@ -80,13 +83,42 @@ void Pg::Editor::Window::Filter::DataSet(std::string path)
 
 			auto secondFiles = SeparateFiles(f.first, folderName);
 
-			if (secondFiles[folderName].size() > 0)
+			for (auto& fn : secondFiles)
 			{
-				fileNames.clear();
-				fileNames.swap(secondFiles[folderName]);
+				if (fn.first == folderName)
+				{
+					_fileNames.insert({ folderName, secondFiles[folderName] });
 
-				_widgetCon->CreateTreeNodeWidget<Pg::UI::Widget::Selectable>(fileNames);
-				_widgetCon->CreateWidget<Pg::UI::Widget::TreeNode>(folderName, _widgetCon->GetTreeNodeWidgets());
+					_widgetCon->CreateTreeNodeWidget<Pg::UI::Widget::Selectable>(_fileNames[folderName]);
+					if (depth > 0 && !isEnter) isEnter = true;
+				}
+				else if (fn.first != folderName && !isEnter && depth < 1)
+				{
+					depth++;
+					DataSet(f.first);
+				}
+			}
+
+			if (isEnter)
+			{
+				isEnter = false;
+				_widgetCon->CreateTreeNodeWidget<Pg::UI::Widget::TreeNode>(folderName, _widgetCon->GetTreeNodeWidgets());
+				_widgetCon->ClearTreeNodeWidget(depth - 1);
+				_widgetCon->SetTempWidgets(_widgetCon->GetTreeNodeWidgets());
+				_widgetCon->ClearTreeNodeWidget();
+			}
+			else
+			{
+				if (_widgetCon->GetTempWidgets().size() > 0)
+				{
+					_widgetCon->CreateWidget<Pg::UI::Widget::TreeNode>(folderName, _widgetCon->GetTempWidgets());
+					_widgetCon->ClearTempWidgets();
+				}
+				else
+				{
+					_widgetCon->CreateWidget<Pg::UI::Widget::TreeNode>(folderName, _widgetCon->GetTreeNodeWidgets());
+					depth--;
+				}
 				_widgetCon->ClearTreeNodeWidget();
 			}
 		}

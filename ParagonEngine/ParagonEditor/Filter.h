@@ -41,7 +41,7 @@ namespace Pg::Editor::Window
 		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
 
 		/// Data Value
-		
+		std::unordered_map<std::string, std::vector<std::string>> _fileNames;
 	};
 }
 
