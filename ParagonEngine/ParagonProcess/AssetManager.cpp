@@ -213,9 +213,111 @@ namespace Pg::Core::Manager
 
 		std::string tUniformPath = ResourceHelper::ForcePathUniformFull(resourceListPath);
 
+		//Texture1D
+		{
+			std::string tPath = tUniformPath + "/0_Texture1D.csv";
+			auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(tPath);
+			for (auto& it : tPathVec)
+			{
+				LoadResource(it, Pg::Data::Enums::eAssetDefine::_TEXTURE1D);
+			}
+		}
+
+		//Texture2D
+		{
+			std::string tPath = tUniformPath + "/1_Texture2D.csv";
+			auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(tPath);
+			for (auto& it : tPathVec)
+			{
+				LoadResource(it, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+			}
+		}
+
+		//Texture2DArray
+		{
+			std::string tPath = tUniformPath + "/2_Texture2DArray.csv";
+			auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(tPath);
+			for (auto& it : tPathVec)
+			{
+				LoadResource(it, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
+			}
+		}
+
+		//TextureCube
+		{
+			std::string tPath = tUniformPath + "/3_TextureCube.csv";
+			auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(tPath);
+			for (auto& it : tPathVec)
+			{
+				LoadResource(it, Pg::Data::Enums::eAssetDefine::_TEXTURECUBE);
+			}
+		}
+
+		//Cubemap
+		{
+			std::string tPath = tUniformPath + "/4_Cubemap.csv";
+			auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(tPath);
+			for (auto& it : tPathVec)
+			{
+				LoadResource(it, Pg::Data::Enums::eAssetDefine::_CUBEMAP);
+			}
+		}
+
+		//3DModel
+		{
+			std::string tPath = tUniformPath + "/5_3DModel.csv";
+			auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(tPath);
+			for (auto& it : tPathVec)
+			{
+				LoadResource(it, Pg::Data::Enums::eAssetDefine::_3DMODEL);
+			}
+		}
+
+		//RenderVertexShader
+		{
+			std::string tPath = tUniformPath + "/6_RenderVertexShader.csv";
+			auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(tPath);
+			for (auto& it : tPathVec)
+			{
+				LoadResource(it, Pg::Data::Enums::eAssetDefine::_RENDER_VERTEXSHADER);
+			}
+		}
+
+		//RenderPixelShader
+		{
+			std::string tPath = tUniformPath + "/7_RenderPixelShader.csv";
+			auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(tPath);
+			for (auto& it : tPathVec)
+			{
+				LoadResource(it, Pg::Data::Enums::eAssetDefine::_RENDER_PIXELSHADER);
+			}
+		}
+
+		//RenderMaterial
+		{
+			std::string tPath = tUniformPath + "/8_RenderMaterial.csv";
+			auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(tPath);
+			for (auto& it : tPathVec)
+			{
+				LoadResource(it, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
+			}
+		}
+
+		//RenderFont
+		{
+			std::string tPath = tUniformPath + "/9_RenderFont.csv";
+			auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(tPath);
+			for (auto& it : tPathVec)
+			{
+				LoadResource(it, Pg::Data::Enums::eAssetDefine::_FONT);
+			}
+		}
+
+		//Sounds / BehaviorTree는 따로 작동될 것! 비슷한 코드를 사용하기는 하겠지만.
+
+
 		//CreateResource를 임시로 여기에 호출.
-		std::string t3DModelPath = tUniformPath + "/5_3DModel.csv";
-		Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(t3DModelPath);
+		
 
 		//현재 파이프라인에는 요구되지 않으나, 리플렉션을 보기 위해.
 		//LoadResource("../Builds/x64/Debug/AppendTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
@@ -224,39 +326,39 @@ namespace Pg::Core::Manager
 		//LoadResource("../Resources/3DModels/StaticMesh/240119_arm_test/240119_arm_test.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		//LoadResource("../Resources/3DModels/StaticMesh/CustomPropertyExportTest/CustomPropertyExportTest.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 
-		LoadResource("../Resources/Textures/Sprites/LPDiskAlpha.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
-		LoadResource("../Resources/Textures/Sprites/GameProgressBar.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
-		LoadResource("../Resources/Textures/Sprites/StartCrunch.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
-		
-		LoadResource("../Resources/3DModels/StaticMesh/Cuptower/Cuptower.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/StaticMesh/DefaultGeometry/DefaultGeometry.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/StaticMesh/WoodRoadCone/WoodRoadCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/StaticMesh/TwoRoadWoodTorus/TwoRoadWoodTorus.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/BasicMesh/Cube/Cube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/BasicMesh/Sphere/Sphere.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/BasicMesh/Plane/plane.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/Textures/tw_normal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
-		LoadResource("../Resources/Textures/tw_diffuse.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
-		LoadResource("../Resources/Textures/wook.jpg", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
-		LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
-		LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
-		
-		LoadResource("../Resources/3DModels/UnrealTest/gizmo.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
-		LoadResource("../Resources/3DModels/UnrealTest/test.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/Textures/Sprites/LPDiskAlpha.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		//LoadResource("../Resources/Textures/Sprites/GameProgressBar.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		//LoadResource("../Resources/Textures/Sprites/StartCrunch.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		//
+		//LoadResource("../Resources/3DModels/StaticMesh/Cuptower/Cuptower.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/StaticMesh/DefaultGeometry/DefaultGeometry.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/StaticMesh/WoodRoadCone/WoodRoadCone.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/StaticMesh/TwoRoadWoodTorus/TwoRoadWoodTorus.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/BasicMesh/Cube/Cube.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/BasicMesh/Sphere/Sphere.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/BasicMesh/Plane/plane.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/Textures/tw_normal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		//LoadResource("../Resources/Textures/tw_diffuse.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		//LoadResource("../Resources/Textures/wook.jpg", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		//LoadResource("../Resources/Fonts/NotoSansKR_16.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
+		//LoadResource("../Resources/Fonts/NotoSansKR_13.spritefont", Pg::Data::Enums::eAssetDefine::_FONT);
+		//
+		//LoadResource("../Resources/3DModels/UnrealTest/gizmo.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
+		//LoadResource("../Resources/3DModels/UnrealTest/test.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 
 		//ShaderMaterial로 추가한 요소들.
 		//LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbm/road_1_diffuseOriginal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		//LoadResource("../Resources/3DModels/StaticMesh/RoadLavaCone/RoadLavaCone.fbm/lava_1_diffuseOriginal.png", Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 
 		
-		LoadResource("../Builds/x64/Debug/AppendObjectTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
-		LoadResource("../Builds/x64/Debug/AppendObjectTestPS.cso", eAssetDefine::_RENDER_PIXELSHADER);
-		LoadResource("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat", Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
+		//LoadResource("../Builds/x64/Debug/AppendObjectTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
+		//LoadResource("../Builds/x64/Debug/AppendObjectTestPS.cso", eAssetDefine::_RENDER_PIXELSHADER);
+		//LoadResource("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat", Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
 		
 		//LoadResource("../Resources/3DModels/AnimMesh/twcylinder/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 	}
