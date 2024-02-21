@@ -1,1 +1,4 @@
-Type,Path
+PS
+../Builds/x64/Debug/AppendObjectTestPS.cso
+../Builds/x64/Debug/AppendShadowTestPS.cso
+../Builds/x64/Debug/AppendExperimentalTestPS.cso

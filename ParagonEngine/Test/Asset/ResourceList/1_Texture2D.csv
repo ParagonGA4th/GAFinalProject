@@ -1,1 +1,8 @@
-Type,Path
+Texture2D
+../Resources/Textures/Sprites/LPDiskAlpha.png
+../Resources/Textures/Sprites/GameProgressBar.png
+../Resources/Textures/Sprites/StartCrunch.png
+../Resources/Textures/tw_normal.png
+../Resources/Textures/tw_diffuse.png
+../Resources/Textures/wook.jpg
+../Resources/Textures/TileTexture2048x2048.dds
