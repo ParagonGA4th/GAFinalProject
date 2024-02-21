@@ -18,14 +18,15 @@ namespace Pg::Graphics
 	{
 		LayoutDefine::VinWireframePrimitive vertices[] =
 		{
-			{ float3(0.0f, 0.0f, 0.0f), float4(1.0f, 0.0f, 0.0f, 1.0f) },	// x축 (빨강)
-			{ float3(30.f, 0.0f, 0.0f), float4(1.0f, 0.0f, 0.0f, 1.0f) },
+			//일괄적인 Wireframe의 역수 (0.35의 역수)
+			{ float3(0.0f, 0.0f, 0.0f), float4(2.85714f, 0.0f, 0.0f, 1.0f) },	// x축 (빨강)
+			{ float3(30.f, 0.0f, 0.0f), float4(2.85714f, 0.0f, 0.0f, 1.0f) },
 
-			{ float3(0.0f, 0.0f, 0.0f), float4(0.0f, 1.0f, 0.0f, 1.0f) },	// y축 (초록)
-			{ float3(0.0f, 30.f, 0.0f), float4(0.0f, 1.0f, 0.0f, 1.0f) },
+			{ float3(0.0f, 0.0f, 0.0f), float4(0.0f, 2.85714f, 0.0f, 1.0f) },	// y축 (초록)
+			{ float3(0.0f, 30.f, 0.0f), float4(0.0f, 2.85714f, 0.0f, 1.0f) },
 
-			{ float3(0.0f, 0.0f, 0.0f), float4(0.0f, 0.0f, 1.0f, 1.0f) },	// z축 (파랑)
-			{ float3(0.0f, 0.0f, 30.f), float4(0.0f, 0.0f, 1.0f, 1.0f) }
+			{ float3(0.0f, 0.0f, 0.0f), float4(0.0f, 0.0f, 2.85714f, 1.0f) },	// z축 (파랑)
+			{ float3(0.0f, 0.0f, 30.f), float4(0.0f, 0.0f, 2.85714f, 1.0f) }
 		};
 
 		D3D11_BUFFER_DESC vbd;

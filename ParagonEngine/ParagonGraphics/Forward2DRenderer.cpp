@@ -31,7 +31,7 @@ namespace Pg::Graphics
 		//Sprite
 		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_quadMainGDS->GetDSV());
 
-		_spriteBatch->Begin();
+		_spriteBatch->Begin(DirectX::SpriteSortMode_BackToFront);
 
 		for (auto& it : render2DList->_list)
 		{

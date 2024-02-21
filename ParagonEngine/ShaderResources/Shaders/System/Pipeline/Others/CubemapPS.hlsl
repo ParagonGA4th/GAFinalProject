@@ -15,6 +15,6 @@ struct VertexOut
 float4 main(VertexOut pin) : SV_Target0
 {
     float4 output = cubeMap.Sample(state, pin.PosL);
-	
+   
     return output;
 }

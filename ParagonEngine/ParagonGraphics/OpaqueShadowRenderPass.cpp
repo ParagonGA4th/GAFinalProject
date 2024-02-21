@@ -30,7 +30,9 @@ namespace Pg::Graphics
 
 	void OpaqueShadowRenderPass::BindPass()
 	{
+		//MainLight의 시점에서 Render한 DepthMap이 있을 것이다.
 
+		
 	}
 
 	void OpaqueShadowRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)

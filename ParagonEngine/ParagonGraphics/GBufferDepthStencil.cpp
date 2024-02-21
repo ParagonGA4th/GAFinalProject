@@ -11,7 +11,7 @@ namespace Pg::Graphics
 		//Default.
 		//DXGI_FORMAT_R32_TYPELESS -> Buffer Format
 		//DXGI_FORMAT_D32_FLOAT_S8X24_UINT -> DepthStencilView Format.
-		//가능한 이유 : Depth가 32비트(Float), Stencil(uint)이 32비트 중 8비트 활용해서 기록.
+		//가능한 이유 : Depth가 24비트(Float), Stencil(uint)이 32비트 중 8비트 활용해서 기록.
 
 		DXGI_FORMAT tBufferformat = DXGI_FORMAT_R24G8_TYPELESS;
 		DXGI_FORMAT tDSVformat = DXGI_FORMAT_D24_UNORM_S8_UINT;

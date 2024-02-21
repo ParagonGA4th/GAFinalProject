@@ -806,6 +806,12 @@
     <Filter Include="0_Main\RenderPass\4_OpaqueShadowPass">
       <UniqueIdentifier>{ce2af1b9-0ea1-45ac-81ce-f6fe2f9857b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="6_HLSL\Appends\Added\Object\Experimental">
+      <UniqueIdentifier>{aea3b6ef-17bd-488e-83f4-53c007fc85ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\Shadow">
+      <UniqueIdentifier>{349ef2f9-9719-4232-8e4f-72e60cd16b44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
@@ -885,6 +891,18 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\ShadowTest\AppendShadowTestVS.hlsl">
       <Filter>6_HLSL\Appends\Added\Object\ShadowTest</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Experimental\AppendExperimentalTestPS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\Experimental</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Experimental\AppendExperimentalTestVS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\Experimental</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\ShadowMapping_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Shadow</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\ShadowMapping_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Shadow</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

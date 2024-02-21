@@ -167,6 +167,14 @@ void Pg::Engine::TestScene::Initialize()
 	tObj21->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat");
 	tObj21->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
+	GameObject* tObj22 = tCurrentScene->AddObject("TestingShadow2");
+	tObj22->GetComponent<Transform>()->_position = { 40.0f, 10.0f, 0.0f };
+	tObj22->GetComponent<Transform>()->_rotation = tObj22->GetComponent<Transform>()->EulerToQuaternion(1.5708f, -1.5708f, 0.f);
+	tObj22->AddComponent<StaticMeshRenderer>();
+	tObj22->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
+	tObj22->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/ExperimentalMaterial.pgmat");
+	tObj22->GetComponent<StaticMeshRenderer>()->SetActive(true);
+
 	assert(true);
 }
 
