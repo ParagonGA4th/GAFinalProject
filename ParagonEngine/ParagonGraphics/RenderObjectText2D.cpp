@@ -5,6 +5,7 @@
 #include "GraphicsResourceManager.h"
 #include "../ParagonData/TextRenderer.h"
 
+#include <algorithm>
 #include <DirectXMath.h>
 
 namespace Pg::Graphics
@@ -45,8 +46,11 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT2 ttOrigin = DirectX::XMFLOAT2((*_textWidth) / 2.0f, (*_textHeight) / 2.0f);
 		DirectX::XMVECTOR ttColor = PG2XM_FLOAT4_VECTOR(*_textColor);
 
+		//SortingLayer Á¤¸®.
+		float tTrueSortingLayer = static_cast<float>(std::clamp(*_sortingLayer, (UINT)0, (UINT)100)) / 100.f;
+
 		//tTextRenderer->GetString().c_str()
 		_renderFont->_font->DrawString(spriteBatch, tTextRenderer->_string.c_str(), ttTrans, ttColor, 0.f, ttOrigin,
-			ttScaleAverage, DirectX::SpriteEffects_None, *_sortingLayer);
+			ttScaleAverage, DirectX::SpriteEffects_None, tTrueSortingLayer);
 	}
 }

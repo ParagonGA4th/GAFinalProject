@@ -256,8 +256,11 @@ namespace Pg::Core::Manager
 		LoadResource("../Builds/x64/Debug/AppendObjectTestPS.cso", eAssetDefine::_RENDER_PIXELSHADER);
 		LoadResource("../Builds/x64/Debug/AppendShadowTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
 		LoadResource("../Builds/x64/Debug/AppendShadowTestPS.cso", eAssetDefine::_RENDER_PIXELSHADER);
+		LoadResource("../Builds/x64/Debug/AppendExperimentalTestVS.cso", eAssetDefine::_RENDER_VERTEXSHADER);
+		LoadResource("../Builds/x64/Debug/AppendExperimentalTestPS.cso", eAssetDefine::_RENDER_PIXELSHADER);
 		LoadResource("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat", Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
 		LoadResource("../ShaderResources/Materials/PlainDiffuseMaterial.pgmat", Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
+		LoadResource("../ShaderResources/Materials/ExperimentalMaterial.pgmat", Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
 		
 		//LoadResource("../Resources/3DModels/AnimMesh/twcylinder/twcylinder.fbx", Pg::Data::Enums::eAssetDefine::_3DMODEL);
 	}

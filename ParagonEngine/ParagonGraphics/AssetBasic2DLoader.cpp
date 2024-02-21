@@ -219,6 +219,9 @@ namespace Pg::Graphics::Loader
 		{
 			HR(DirectX::CreateWICTextureFromFile(_DXStorage->_device, tWStrPath.c_str(), &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
 		}
+
+		//GenerateMips 테스트.
+		_DXStorage->_deviceContext->GenerateMips(outTextureData->GetSRV());
 	}
 
 	void AssetBasic2DLoader::MultipleRenderTexture2DToTexture2DArray(RenderTexture2D** textureSrc, unsigned int cnt, RenderTexture2DArray* outTextureData)
@@ -309,6 +312,9 @@ namespace Pg::Graphics::Loader
 
 		ID3D11ShaderResourceView*& textureArraySRV = outTextureData->GetSRV();
 		HR(_DXStorage->_device->CreateShaderResourceView(arrayTexture2D, &tSrvArrayDesc, &textureArraySRV));
+
+		//GenerateMips 테스트.
+		//_DXStorage->_deviceContext->GenerateMips(outTextureData->GetSRV());
 		
 		assert("");
 	}
