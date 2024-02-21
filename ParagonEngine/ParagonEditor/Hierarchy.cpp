@@ -11,7 +11,7 @@
 #include <singleton-cpp/singleton.h>
 
 Pg::Editor::Window::Hierarchy::Hierarchy()
-	:_winName("Hierarchy"), _isShow(true)
+	:_winName("Hierarchy"), _isShow(true), _prevObjListSize(0)
 {
 	auto& tUIManager = singleton<Pg::UI::Manager::UIManager>();
 	_uiManager = &tUIManager;
@@ -62,10 +62,14 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 {
 	if (_dataContainer->GetCurrentScene() != NULL)
 	{
-		_objNames.clear();
-		for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
+		if (_prevObjListSize != _dataContainer->GetCurrentScene()->GetObjectList().size())
 		{
-			_objNames.emplace_back(i->GetName());
+			_prevObjListSize = _dataContainer->GetCurrentScene()->GetObjectList().size();
+			_objNames.clear();
+			for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
+			{
+				_objNames.emplace_back(i->GetName());
+			}
 		}
 
 		if (_dataContainer->GetPickObject() != nullptr)
@@ -81,12 +85,17 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 				_prevObjName = _objNames.at(*_selectedNumber);
 			}
 
-			int count = 0;
 			for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
 			{
 				if (i->GetName() == _prevObjName)
 				{
-					*_selectedNumber = count;
+					int count = 0;
+					for (auto name : _objNames)
+					{
+						if(name == i->GetName()) *_selectedNumber = count;
+
+						count++;
+					}
 					
 					if (_dataContainer->GetPickObject() == nullptr ||
 						_dataContainer->GetPickObject()->GetName() != i->GetName()) _dataContainer->SetPickObject(i);
@@ -94,7 +103,6 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 					_changeObjectData->Invoke(eEventType::_OBJECTDATA, static_cast<void*>(i));
 					break;
 				}
-				count++;
 			}
 		}
 	}
