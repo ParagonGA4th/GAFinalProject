@@ -174,7 +174,8 @@ namespace Pg::Data
 	//	_rotation = result;
 	//}
 
-	///이 함수에 명시되어 있는 Euler는 degree 기준이다!!!!!
+	//이 함수에 명시되어 있는 Euler는 degree 기준이다!!!!!
+	// 인줄 알았지만.. 라디안이었다..
 	Pg::Math::PGQuaternion Transform::EulerToQuaternion(float x, float y, float z)
 	{
 		PGQuaternion quaternion;

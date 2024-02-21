@@ -304,12 +304,18 @@ namespace Pg::Graphics
 			D3D11_SAMPLER_DESC tDesc;
 
 			tDesc.Filter = D3D11_FILTER_ANISOTROPIC;
+			//tDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
 			tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 			tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 			tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 			tDesc.MipLODBias = 0.0f;
 			tDesc.MaxAnisotropy = 1;
 
+			//tDesc.MipLODBias = 0.0f;
+			//tDesc.MinLOD = 0.0f;
+			//tDesc.MaxLOD = D3D11_FLOAT32_MAX;
+			//tDesc.MaxAnisotropy = 1;
+			
 			HR(_DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_fullScreenQuadSamplerState)));
 		}
 
@@ -337,6 +343,11 @@ namespace Pg::Graphics
 			tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 			tDesc.MipLODBias = 0.0f;
 			tDesc.MaxAnisotropy = 1;
+
+			//tDesc.MipLODBias = 0.0f;
+			//tDesc.MinLOD = 0.0f;
+			//tDesc.MaxLOD = D3D11_FLOAT32_MAX;
+			//tDesc.MaxAnisotropy = 1;
 
 			HR(_DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_defaultSamplerState)));
 		}

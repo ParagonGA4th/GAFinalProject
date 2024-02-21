@@ -15,7 +15,7 @@ namespace Pg::Engine::Time
 	public:
 		PARAGON_ENGINE_DLL TimeSystem();
 
-		PARAGON_ENGINE_DLL void Initialize();
+		PARAGON_ENGINE_DLL void Initialize(void* hWnd);
 		PARAGON_ENGINE_DLL void TimeMeasure();
 		PARAGON_ENGINE_DLL void MeasureFrame(float deltaTime);
 
@@ -35,6 +35,8 @@ namespace Pg::Engine::Time
 	private:
 		double totalTime = 0.0;
 		int frameCount = 0;
+
+		HWND _hWnd;
 	};
 }
 
