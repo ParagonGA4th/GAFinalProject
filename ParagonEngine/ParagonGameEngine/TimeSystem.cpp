@@ -1,5 +1,6 @@
 #include "TimeSystem.h"
 #include "../ParagonUtil/Log.h"
+#include <string>
 
 namespace Pg::Engine::Time
 {
@@ -38,11 +39,26 @@ namespace Pg::Engine::Time
 		QueryPerformanceCounter(&_startTick);
 
 		//hWnd가 들어왔으니, 
-		//Windows Title을 FPS 기록용으로 사용.
+		//Windows Title을 FPS 기록용으로 사용. (밑부터 성능 자체에 상관 X)
 		{
-			std::wstring tVal = L"FPS : ";
-			tVal.append(std::to_wstring(_frameRate));
-			assert(SetWindowTextW(_hWnd, tVal.c_str()));
+			//+Frame이 돌아간다는 표시. (하드코딩 일부 포함)
+			std::wstring tTitleString = L"FPS : ";
+			tTitleString.append(std::to_wstring(_frameRate));
+			tTitleString.append(L" // ");
+
+			for (int i = 0; i < tCounter; i++)
+			{
+				tTitleString += L"|";
+			}
+
+			tCounter++;
+
+			if (tCounter > 40)
+			{
+				tCounter = 0;
+			}
+			
+			assert(SetWindowTextW(_hWnd, tTitleString.c_str()));
 		}
 	}
 

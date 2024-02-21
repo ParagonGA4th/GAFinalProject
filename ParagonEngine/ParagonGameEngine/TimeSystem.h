@@ -2,6 +2,7 @@
 #include "EngineDLLExporter.h"
 
 #include <windows.h>
+#include <string>
 
 /// <summary>
 /// 변지상의 TimeSystem
@@ -37,6 +38,10 @@ namespace Pg::Engine::Time
 		int frameCount = 0;
 
 		HWND _hWnd;
+
+	private:
+		//전혀 실제 기능에는 영향 X, 비주얼을 위해
+		int tCounter = 0;
 	};
 }
 
