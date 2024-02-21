@@ -8,7 +8,7 @@
 //정확한 사용처 : "Render Target DXGI Format"에 정리되어 있음.
 Texture2D<float4> internal_GBuffer[5] : register(t15);
 
-//DXGI_FORMAT_R32_TYPELESS로 만들어질 예정 -> 이 중, D32로 해석될 것이다.
+//DXGI_FORMAT_R32_TYPELESS로 만들어질 예정 -> 이 중, D24로 해석될 것이다.
 Texture2D<float> internal_DepthBuffer : register(t20);
 
 float2 GetUV_F2(float2 quadUV)

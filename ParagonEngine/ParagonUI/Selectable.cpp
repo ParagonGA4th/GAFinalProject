@@ -10,42 +10,22 @@ void Pg::UI::Widget::Selectable::Update()
 {
 	for (int i = 0; i < _selectList.size(); i++)
 	{
+		std::string temp;
 		if (ImGui::Selectable(_selectList.at(i).c_str(), i == _selectedNumber))
 		{
 			_selectedNumber = i;
 		}
 
-		// Our buttons are both drag sources and drag targets here!
-		if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+		if (ImGui::IsItemActive() && !ImGui::IsItemHovered())
 		{
-			// Set payload to carry the index of our item (could be anything)
-			ImGui::SetDragDropPayload("DND_DEMO_CELL", &_selectedNumber, sizeof(int));
-			ImGui::EndDragDropSource();
-		}
-
-		if (ImGui::BeginDragDropTarget())
-		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_DEMO_CELL"))
+			int n_next = i + (ImGui::GetMouseDragDelta(0).y < 0.f ? -1 : 1);
+			if (n_next >= 0 && n_next < _selectList.size())
 			{
-				IM_ASSERT(payload->DataSize == sizeof(int));
-				int payload_n = *(const int*)payload->Data;
-				//if (mode == Mode_Copy)
-				//{
-				//	names[n] = names[payload_n];
-				//}
-				//if (mode == Mode_Move)
-				//{
-				//	names[n] = names[payload_n];
-				//	names[payload_n] = "";
-				//}
-				//if (mode == Mode_Swap)
-				//{
-				std::string tmp = std::move(_selectList.at(_selectedNumber));
-				_selectList.at(_selectedNumber) = _selectList.at(payload_n);
-				_selectList.at(payload_n) = tmp;
-				//}
+				temp = _selectList.at(n_next);
+				_selectList.at(n_next) = _selectList.at(i);
+				_selectList.at(i) = temp;
+				ImGui::ResetMouseDragDelta();
 			}
-			ImGui::EndDragDropTarget();
 		}
 	}
 }

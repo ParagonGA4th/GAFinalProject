@@ -12,8 +12,10 @@ namespace Pg::Engine::Time
 
 	}
 
-	void TimeSystem::Initialize()
+	void TimeSystem::Initialize(void* hWnd)
 	{
+		_hWnd = (HWND)hWnd;
+
 		QueryPerformanceFrequency(&_frequency);
 		QueryPerformanceCounter(&_startTick);
 	}
@@ -34,6 +36,14 @@ namespace Pg::Engine::Time
 		}
 
 		QueryPerformanceCounter(&_startTick);
+
+		//hWnd가 들어왔으니, 
+		//Windows Title을 FPS 기록용으로 사용.
+		{
+			std::wstring tVal = L"FPS : ";
+			tVal.append(std::to_wstring(_frameRate));
+			assert(SetWindowTextW(_hWnd, tVal.c_str()));
+		}
 	}
 
 	void TimeSystem::MeasureFrame(float deltaTime)

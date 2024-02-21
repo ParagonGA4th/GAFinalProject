@@ -70,6 +70,9 @@
     <ClInclude Include="BTreeShareData.h">
       <Filter>5_BehaviorTree\BTreeShareData</Filter>
     </ClInclude>
+    <ClInclude Include="EventTest.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\EventTest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -128,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="BehaviorTreeSystem.cpp">
       <Filter>5_BehaviorTree\BehaviorTreeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="EventTest.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\EventTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +229,9 @@
     </Filter>
     <Filter Include="5_BehaviorTree\BTreeShareData">
       <UniqueIdentifier>{7397357f-2ca9-4c3c-9628-80f863b69c2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\EventTest">
+      <UniqueIdentifier>{cc8ad5aa-37ea-4ef4-82aa-d94dad1e2c71}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
