@@ -12,9 +12,9 @@ namespace Pg::Data
 
 	}
 
-	void Animator::SetBehaviorTree(BT::Tree* behaviorTree)
+	void Animator::SetBehaviorTreePath(const std::string& path)
 	{
-		_behavTree = behaviorTree;
+		_behaviorTreePath = path;
 	}
 
 }

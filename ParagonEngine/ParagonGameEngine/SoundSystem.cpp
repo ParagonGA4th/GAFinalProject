@@ -5,6 +5,7 @@
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonData/eSoundState.h"
 #include "../ParagonData/Transform.h"
+#include "../ParagonUtil/rapidcsv.h"
 
 #include <cassert>
 #include <algorithm>
@@ -230,12 +231,12 @@ namespace Pg::Engine
 
 	void SoundSystem::CreateSingleSounds()
 	{
-		_maxSound = _soundMap.size();
-
 		//여기다가 전부 사운드 만들어줘야함. 조절은 AudioSource에서.
 		CreateSound("../Resources/Sounds/Test/TitleBGM.mp3", eSoundGroup::BGM, false);
 		CreateSound("../Resources/Sounds/Test/Ingame.mp3", eSoundGroup::BGM, false);
 		CreateSound("../Resources/Sounds/Test/jump.mp3", eSoundGroup::Effect, false);
+
+		_maxSound = _soundMap.size();
 	}
 
 	void SoundSystem::SyncAudioSources()

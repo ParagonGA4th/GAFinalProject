@@ -32,6 +32,8 @@ namespace Pg::Data
 		float _width;
 		float _height;
 
+		//0-100 사이의 범위 안에 있어야 한다!
+		//0이 가장 앞, 100이 가장 뒤.
 		unsigned int _sortingLayer = 1;
 	};
 }

@@ -39,6 +39,11 @@ namespace Pg::Engine
 		class TimeSystem;
 	}
 
+	namespace BTree
+	{
+		class BehaviorTreeSystem;
+	}
+
 	namespace Manager
 	{
 		class EngineResourceManager;
@@ -59,7 +64,7 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL EngineMain(Pg::Core::ProcessMain* core);
 		virtual ~EngineMain();
 
-		PARAGON_ENGINE_DLL virtual void Initialize(float width, float height) override;
+		PARAGON_ENGINE_DLL virtual void Initialize(void* hwnd, float width, float height) override;
 		PARAGON_ENGINE_DLL virtual void Update() override;
 		PARAGON_ENGINE_DLL virtual void Finalize() override;
 
@@ -91,11 +96,11 @@ namespace Pg::Engine
 		Input::InputSystem* _inputSystem = nullptr;
 		Physic::PhysicSystem* _physicSystem = nullptr;
 		Time::TimeSystem* _timeSystem = nullptr;
+		BTree::BehaviorTreeSystem* _behaviorTreeSystem = nullptr;
 		SceneSystem* _sceneSystem = nullptr;
 		DebugSystem* _debugSystem = nullptr;
 		SoundSystem* _soundSystem = nullptr;
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
-
 	};
 }
 

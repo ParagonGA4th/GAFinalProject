@@ -67,6 +67,9 @@
     <ClInclude Include="eSoundGroup.h">
       <Filter>2_System\SoundSystem</Filter>
     </ClInclude>
+    <ClInclude Include="BTreeShareData.h">
+      <Filter>5_BehaviorTree\BTreeShareData</Filter>
+    </ClInclude>
     <ClInclude Include="EventTest.h">
       <Filter>4_WorkSpace\SceneView\Scripts\EventTest</Filter>
     </ClInclude>
@@ -223,6 +226,9 @@
     </Filter>
     <Filter Include="5_BehaviorTree\Nodes\CustomSyncActionNodes\CSync_ApproachPosition">
       <UniqueIdentifier>{5a079e3a-053e-4e6b-ba3e-2603539e18b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\BTreeShareData">
+      <UniqueIdentifier>{7397357f-2ca9-4c3c-9628-80f863b69c2c}</UniqueIdentifier>
     </Filter>
     <Filter Include="4_WorkSpace\SceneView\Scripts\EventTest">
       <UniqueIdentifier>{cc8ad5aa-37ea-4ef4-82aa-d94dad1e2c71}</UniqueIdentifier>
