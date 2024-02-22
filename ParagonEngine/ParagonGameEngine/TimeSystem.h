@@ -2,6 +2,7 @@
 #include "EngineDLLExporter.h"
 
 #include <windows.h>
+#include <string>
 
 /// <summary>
 /// 변지상의 TimeSystem
@@ -15,7 +16,7 @@ namespace Pg::Engine::Time
 	public:
 		PARAGON_ENGINE_DLL TimeSystem();
 
-		PARAGON_ENGINE_DLL void Initialize();
+		PARAGON_ENGINE_DLL void Initialize(void* hWnd);
 		PARAGON_ENGINE_DLL void TimeMeasure();
 		PARAGON_ENGINE_DLL void MeasureFrame(float deltaTime);
 
@@ -35,6 +36,12 @@ namespace Pg::Engine::Time
 	private:
 		double totalTime = 0.0;
 		int frameCount = 0;
+
+		HWND _hWnd;
+
+	private:
+		//전혀 실제 기능에는 영향 X, 비주얼을 위해
+		int tCounter = 0;
 	};
 }
 

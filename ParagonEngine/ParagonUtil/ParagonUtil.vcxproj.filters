@@ -16,6 +16,12 @@
     <ClCompile Include="UtilMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
+    <ClCompile Include="UUIDGenerator.cpp">
+      <Filter>6_UUID</Filter>
+    </ClCompile>
+    <ClCompile Include="CSVHelper.cpp">
+      <Filter>5_RapidCSV\CSVHelper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ByteBuffer.hpp">
@@ -36,6 +42,15 @@
     <ClInclude Include="pugiconfig.hpp">
       <Filter>3_PugiXML</Filter>
     </ClInclude>
+    <ClInclude Include="UUIDGenerator.h">
+      <Filter>6_UUID</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidcsv.h">
+      <Filter>5_RapidCSV</Filter>
+    </ClInclude>
+    <ClInclude Include="CSVHelper.h">
+      <Filter>5_RapidCSV\CSVHelper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -52,6 +67,15 @@
     </Filter>
     <Filter Include="4_ByteBuffer">
       <UniqueIdentifier>{9307f650-aade-4339-9033-f2b5998f2eb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_RapidCSV">
+      <UniqueIdentifier>{e640a5a1-e396-4262-9bdb-0db960244ae7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_UUID">
+      <UniqueIdentifier>{1db409fd-06e9-48e6-b20e-be2658ed7b19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_RapidCSV\CSVHelper">
+      <UniqueIdentifier>{230d97a7-09af-4a14-a34e-097bb6d093d4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

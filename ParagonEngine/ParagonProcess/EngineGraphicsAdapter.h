@@ -34,7 +34,7 @@ namespace Pg::Core
 		~EngineGraphicsAdapter();
 
 		//엔진 초기화.
-		void InitializeEngine(int screenWidth, int screenHeight);
+		void InitializeEngine(void* hwnd, int screenWidth, int screenHeight);
 
 		//그래픽스 초기화.
 		void InitializeGraphics(void* hwnd, int screenWidth, int screenHeight);

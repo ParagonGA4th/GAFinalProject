@@ -43,6 +43,7 @@
     <ClInclude Include="ConstantBufferDefine.h" />
     <ClInclude Include="GBufferDepthStencil.h" />
     <ClInclude Include="MaterialParser.h" />
+    <ClInclude Include="OpaqueShadowRenderPass.h" />
     <ClInclude Include="PreparationStaticRenderPass.h" />
     <ClInclude Include="OpaqueLightingRenderPass.h" />
     <ClInclude Include="OpaqueQuadRenderPass.h" />
@@ -152,6 +153,7 @@
     <ClCompile Include="GraphicsSceneParser.cpp" />
     <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="MaterialParser.cpp" />
+    <ClCompile Include="OpaqueShadowRenderPass.cpp" />
     <ClCompile Include="PreparationStaticRenderPass.cpp" />
     <ClCompile Include="OpaqueLightingRenderPass.cpp" />
     <ClCompile Include="OpaqueQuadRenderPass.cpp" />
@@ -245,6 +247,22 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Experimental\AppendExperimentalTestPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Experimental\AppendExperimentalTestVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\ShadowTest\AppendShadowTestPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\ShadowTest\AppendShadowTestVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -316,6 +334,14 @@
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\ShadowMapping_PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\ShadowMapping_VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\TempForward\TempForwardPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -460,8 +486,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\msdfgen\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxmesh\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;assimp-vc143-mtd.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\msdfgen\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxmesh\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDIr)lib\FastNoise2;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib;assimp-vc143-mtd.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;FastNoiseD.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
@@ -489,8 +515,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\msdfgen\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxmesh\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;assimp-vc143-mt.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\msdfgen\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxmesh\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDIr)lib\FastNoise2;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib;assimp-vc143-mt.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;FastNoise.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>

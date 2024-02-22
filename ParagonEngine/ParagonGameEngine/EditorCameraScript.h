@@ -19,6 +19,11 @@ namespace Pg::Engine
 	{
 		class InputSystem;
 	}
+
+	namespace Time
+	{
+		class TimeSystem;
+	}
 }
 
 class EditorCameraScript : public Pg::Data::Script
@@ -41,9 +46,10 @@ private:
 private:
 	// 인풋 시스템으로 카메라의 이동을 체크한다
 	Pg::Engine::Input::InputSystem* tInput = nullptr;
+	Pg::Engine::Time::TimeSystem* tTime = nullptr;
 	Pg::Data::Camera* _camera = nullptr;
 
 	//float _moveSpeed = 0.02f; //FPS는 동일, 카메라의 스피드UP.
-	float _moveSpeed = 0.1f; //(변지상 컴퓨터)FPS는 동일, 카메라의 스피드UP.
+	float _setMoveSpeed = 8.f; //(변지상 컴퓨터)FPS는 동일, 카메라의 스피드UP.
 };
 

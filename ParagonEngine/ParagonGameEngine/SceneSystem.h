@@ -24,9 +24,15 @@ namespace Pg::Engine
 	using namespace Pg::Data;
 
 	class SoundSystem;
+
 	namespace Physic
 	{
 		class PhysicSystem;
+	}
+
+	namespace BTree
+	{
+		class BehaviorTreeSystem;
 	}
 
 	class SceneSystem
@@ -64,6 +70,7 @@ namespace Pg::Engine
 
 		SoundSystem* _soundSystem = nullptr;
 		Physic::PhysicSystem* _physicSystem = nullptr;
+		BTree::BehaviorTreeSystem* _btSystem = nullptr;
 	};
 }
 

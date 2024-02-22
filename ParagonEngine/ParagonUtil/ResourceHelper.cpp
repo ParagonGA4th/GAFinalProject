@@ -23,6 +23,19 @@ namespace Pg::Util::Helper
 		return tPath.generic_string();
 	}
 
+	std::string ResourceHelper::ForcePathUniformFull(const std::string& filePath)
+	{
+		std::filesystem::path tPath(filePath);
+
+		if (tPath.is_absolute())
+		{
+			return tPath.generic_string();
+		}
+
+		//이제 상대적 경로.
+		return std::filesystem::absolute(tPath).generic_string();
+	}
+
 	bool ResourceHelper::IsGraphicsResource(Pg::Data::Enums::eAssetDefine define)
 	{
 		bool tIsGraphicsResource = false;
@@ -105,5 +118,7 @@ namespace Pg::Util::Helper
 		std::string tExtString = tPath.extension().string();
 		return (tExtString == ".dds" || tExtString == ".DDS");
 	}
+
+	
 
 }

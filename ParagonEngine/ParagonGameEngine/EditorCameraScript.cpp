@@ -5,6 +5,7 @@
 
 // 업데이트에서 임시로 인풋을 돌리기 위해...
 #include "../ParagonGameEngine/InputSystem.h"
+#include "../ParagonGameEngine/TimeSystem.h"
 
 #include <singleton-cpp/singleton.h>
 #include <cassert>
@@ -25,6 +26,10 @@ void EditorCameraScript::Start()
 	auto& tInputSystem = singleton<Pg::Engine::Input::InputSystem>();
 	tInput = &tInputSystem;
 
+	// Time
+	auto& tTimeSystem = singleton<Pg::Engine::Time::TimeSystem>();
+	tTime = &tTimeSystem;
+
 	// Camera
 	_camera = _object->GetComponent<Pg::Data::Camera>();
 	assert(_camera != nullptr);
@@ -34,6 +39,8 @@ void EditorCameraScript::Update()
 {
 	using namespace Pg::Engine::Input;
 	using namespace Pg::API::Input;
+
+	float _moveSpeed = _setMoveSpeed * tTime->GetDeltaTime();
 
 	if (tInput->GetKey(MoveFront))
 	{
@@ -117,11 +124,11 @@ void EditorCameraScript::Update()
 
 	if (tInput->GetKeyDown(ShiftL))
 	{
-		_moveSpeed *= 2.f;
+		_setMoveSpeed *= 2.f;
 	}
 	if (tInput->GetKeyUp(ShiftL))
 	{
-		_moveSpeed /= 2.f;
+		_setMoveSpeed /= 2.f;
 	}
 }
 
