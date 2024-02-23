@@ -35,6 +35,7 @@
     <ClInclude Include="FinalRenderer.h" />
     <ClInclude Include="FinalRenderPass.h" />
     <ClInclude Include="FirstStaticRenderPass.h" />
+    <ClInclude Include="FogProcessingPass.h" />
     <ClInclude Include="Forward3DRenderer.h" />
     <ClInclude Include="D3DCarrier.h" />
     <ClInclude Include="GraphicsSceneParser.h" />
@@ -148,6 +149,7 @@
     <ClCompile Include="FinalRenderPass.cpp" />
     <ClCompile Include="FirstStaticRenderPass.cpp" />
     <ClCompile Include="CubemapRenderer.cpp" />
+    <ClCompile Include="FogProcessingPass.cpp" />
     <ClCompile Include="Forward3DRenderer.cpp" />
     <ClCompile Include="GBufferDepthStencil.cpp" />
     <ClCompile Include="GraphicsSceneParser.cpp" />
