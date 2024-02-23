@@ -85,7 +85,6 @@
     <ClCompile Include="Light.cpp">
       <Filter>2_Component\Light\BaseClass</Filter>
     </ClCompile>
-    <ClCompile Include="ParagonDefines.cpp" />
     <ClCompile Include="SkinnedMeshRenderer.cpp">
       <Filter>2_Component\Renderer\3D\SkinnedMeshRenderer</Filter>
     </ClCompile>
@@ -104,7 +103,6 @@
     <ClCompile Include="RayCast.cpp">
       <Filter>2_Component\Collider\RayCast</Filter>
     </ClCompile>
-    <ClCompile Include="MoveForwardBack.cpp" />
     <ClCompile Include="AudioSource.cpp">
       <Filter>2_Component\Audio\AudioSource</Filter>
     </ClCompile>
@@ -113,6 +111,12 @@
     </ClCompile>
     <ClCompile Include="BoxCollider2D.cpp">
       <Filter>2_Component\Collider\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveForwardBack.cpp">
+      <Filter>8_TestScripts\MoveForwardBack</Filter>
+    </ClCompile>
+    <ClCompile Include="ParagonDefines.cpp">
+      <Filter>7_ParagonDefines</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -191,9 +195,6 @@
     <ClInclude Include="Collider.h">
       <Filter>2_Component\Collider\BaseClass</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicCollider.h">
-      <Filter>2_Component\Collider\3D\DynamicCollider</Filter>
-    </ClInclude>
     <ClInclude Include="TextRenderer.h">
       <Filter>2_Component\Renderer\2D\TextRenderer</Filter>
     </ClInclude>
@@ -263,7 +264,6 @@
     <ClInclude Include="SerializerHelper.h">
       <Filter>2_Component\1_Helper</Filter>
     </ClInclude>
-    <ClInclude Include="IComponent.h" />
     <ClInclude Include="AudioSource.h">
       <Filter>2_Component\Audio\AudioSource</Filter>
     </ClInclude>
@@ -279,9 +279,17 @@
     <ClInclude Include="Slider.h">
       <Filter>2_Component\UI\Slider</Filter>
     </ClInclude>
-    <ClInclude Include="BoxCollider2D.h" />
     <ClInclude Include="GameConstantData.h">
       <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider2D.h">
+      <Filter>2_Component\Collider\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicCollider.h">
+      <Filter>2_Component\Collider\3D\DynamicCollider\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="IComponent.h">
+      <Filter>2_Component\BaseClass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

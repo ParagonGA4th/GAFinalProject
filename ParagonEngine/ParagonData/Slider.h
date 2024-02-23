@@ -23,8 +23,12 @@ namespace Pg::Data
 
 		void SetImagePath(const std::string path);
 
+		void SetImageSize(float width, float height);
 		void SetImageWidth(float width);
 		void SetImageHeight(float height);
+
+		float GetImageWidth();
+		float GetImageHeight();
 
 		void SetValue(float val);
 		float GetValue();

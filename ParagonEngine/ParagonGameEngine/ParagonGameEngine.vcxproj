@@ -209,6 +209,7 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClInclude Include="EventTest.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MovingTest.h" />
+    <ClInclude Include="NavigationSystem.h" />
     <ClInclude Include="PhysicsCallback.h" />
     <ClInclude Include="PhysicSystem.h" />
     <ClInclude Include="PrintRuntimeData.h" />
@@ -231,6 +232,7 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClCompile Include="EventTest.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="MovingTest.cpp" />
+    <ClCompile Include="NavigationSystem.cpp" />
     <ClCompile Include="PhysicsCallback.cpp" />
     <ClCompile Include="PhysicSystem.cpp" />
     <ClCompile Include="PrintRuntimeData.cpp" />

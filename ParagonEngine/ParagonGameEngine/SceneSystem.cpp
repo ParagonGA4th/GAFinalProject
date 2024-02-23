@@ -17,7 +17,7 @@ namespace Pg::Engine
 	SceneSystem::SceneSystem() : _isStarted(false)
 	{
 		///이거 클라이언트로 빼면서 지우고
-		///.pgscene파일을 이용해 받아와야함.
+		///.pgproject파일을 이용해 받아와야함.
 		_testScene = new TestScene();
 		_currentScene = _testScene->GetCurrentScene();
 	}

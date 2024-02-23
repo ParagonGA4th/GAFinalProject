@@ -66,12 +66,11 @@ namespace Pg::Data
 
 	float Slider::GetImageWidth()
 	{
-
+		return *_imageWidth;
 	}
 
 	float Slider::GetImageHeight()
 	{
-
+		return *_imageHeight;
 	}
-
 }

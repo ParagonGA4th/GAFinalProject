@@ -73,6 +73,9 @@
     <ClInclude Include="EventTest.h">
       <Filter>4_WorkSpace\SceneView\Scripts\EventTest</Filter>
     </ClInclude>
+    <ClInclude Include="NavigationSystem.h">
+      <Filter>2_System\NavigationSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -134,6 +137,9 @@
     </ClCompile>
     <ClCompile Include="EventTest.cpp">
       <Filter>4_WorkSpace\SceneView\Scripts\EventTest</Filter>
+    </ClCompile>
+    <ClCompile Include="NavigationSystem.cpp">
+      <Filter>2_System\NavigationSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +238,12 @@
     </Filter>
     <Filter Include="4_WorkSpace\SceneView\Scripts\EventTest">
       <UniqueIdentifier>{cc8ad5aa-37ea-4ef4-82aa-d94dad1e2c71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem">
+      <UniqueIdentifier>{513cce2e-c81a-4425-8135-5cf527832f8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\Navigation">
+      <UniqueIdentifier>{113c57ad-a223-4445-87a3-0941135ea498}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
