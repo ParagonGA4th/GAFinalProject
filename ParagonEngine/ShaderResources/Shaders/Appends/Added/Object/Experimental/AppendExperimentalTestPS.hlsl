@@ -14,9 +14,23 @@ POutQuad main(VOutQuad pin)
     
     float2 tActualUV = GetUV_F2(pin.UV);
     float tVal = GetDepth(tActualUV);
-  
-   // res.Output = float4(tVal, tVal, tVal, 1.0f);
-    res.Output = float4(tVal, tVal, tVal, 1.0f);
+    
+    //0이랑 가까울수록 카메라 근접,
+    //1 가까울수록 카메라 멀리.
+    float fogRatio = 0.5f;
+    if (tVal > fogRatio)
+    {
+        //영향을 받는 범위.
+        //실제로 White로 표시.
+        res.Output = float4(tVal, tVal, tVal, 1.0f);
+        
+        
+    }
+    else
+    {
+        //영향을 안 받는 범위.
+        res.Output = float4(0.0f, 1.0f, 0.0f, 1.0f);
+    }
 
     return res;
 }
