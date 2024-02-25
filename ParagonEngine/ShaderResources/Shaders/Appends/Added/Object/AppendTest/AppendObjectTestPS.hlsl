@@ -31,6 +31,11 @@ POutQuad main(VOutQuad pin)
     {
         res.Output = t2_DiffuseTexture2.Sample(defaultTextureSS, GetUV_F2(pin.UV));
     }
+    
+    //Pseudo-Fog Test.
+    float fogFactor = saturate(1.0f - GetPseudoLinearDepth(pin.UV));
+    float4 fogColor = 1.0f;
+    res.Output = saturate(fogFactor * res.Output + (1.0 - fogFactor) * fogColor);
         
     return res;
 }

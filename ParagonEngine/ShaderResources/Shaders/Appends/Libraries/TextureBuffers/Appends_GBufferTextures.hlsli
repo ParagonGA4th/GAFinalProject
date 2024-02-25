@@ -80,21 +80,22 @@ float GetDepth(float2 quadUV)
     return internal_DepthBuffer.Sample(fullScreenQuadSS, quadUV);
 }
 
-//float GetLinearDepth(float2 quadUV)
-//{
-//    float d = internal_DepthBuffer.Sample(fullScreenQuadSS, quadUV);
-//    //float depth = internal_DepthBuffer.Sample(fullScreenQuadSS, quadUV);
-//    
-//   //// NDC로 다시 변환.
-//   //float z = depth * 2.0 - 1.0; 
-//   //
-//   // //현재로서는 Near : 0.1 / Far : 300. 나중에 연동되면 좋을 듯.
-//   //float near = 0.1f;
-//   //float far = 300.0f;
-//   //
-//   //return (2.0 * near * far) / (far + near - z * (far - near));
-//    float farNearRatio = 300.0f / 0.1f;
-//   return d / (farNearRatio * (1.0f - d) + d);
-//}  
+float GetPseudoLinearDepth(float2 quadUV)
+{
+    float depthVal = internal_DepthBuffer.Sample(fullScreenQuadSS, quadUV);
+    
+    //float near = 0.1f;
+    //float far = 300.0f;
+    //
+    //float tZ = (1.0f - far / near) / far;
+    //float tW = (far / near) / far;
+    //
+    //return 1.0f / (tZ * depthVal + tW);
+    
+    //return saturate(pow(depthVal, 2.2f));
+    
+    return saturate(pow(depthVal,5.f));
+
+}
 
 #endif //__DEFINED_APPENDS_GBUFFER_TEXTURES_HLSL__
