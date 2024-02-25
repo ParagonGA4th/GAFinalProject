@@ -76,7 +76,8 @@ namespace Pg::Engine::BTree
 		
 		//Storage
 		//자체적인 (Uniform) BT::Tree 관리. List. 현재로서는 ResourceManager의 역할까지 한꺼번에 수행하고 있는 것. 
-		std::unordered_map<std::string, BT::Tree*> _uniformTreeStorage;
+		//Tree 객체 자체를 보관한다. (주소만 할당해주는 방식이 되어야 한다 개별 Animator한테는)
+		std::unordered_map<std::string, BT::Tree> _uniformTreeStorage;
 
 		//Instanced Animator Component의 경우, 
 		//그럼에도 List 보관 이유 -> 해당 File Location에 Tree가 반드시 있을 수 있게 보장하는 것.
