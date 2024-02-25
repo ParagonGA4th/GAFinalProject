@@ -213,9 +213,6 @@
     <ClInclude Include="ResourceQueue.h">
       <Filter>6_DataChangeList\ResourceQueue</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicCollider.h">
-      <Filter>2_Component\Collider\DynamicCollider\BaseClass</Filter>
-    </ClInclude>
     <ClInclude Include="StaticCollider.h">
       <Filter>2_Component\Collider\3D\StaticCollider\BaseClass</Filter>
     </ClInclude>
@@ -270,9 +267,6 @@
     <ClInclude Include="AudioData.h">
       <Filter>4_Structs</Filter>
     </ClInclude>
-    <ClInclude Include="eSoundState.h">
-      <Filter>2_Component\Audio\AudioSource</Filter>
-    </ClInclude>
     <ClInclude Include="Animator.h">
       <Filter>2_Component\Animator</Filter>
     </ClInclude>
@@ -290,6 +284,13 @@
     </ClInclude>
     <ClInclude Include="IComponent.h">
       <Filter>2_Component\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicCollider.h" />
+    <ClInclude Include="eSoundState.h">
+      <Filter>2_Component\Audio\AudioSource\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="eSoundGroup.h">
+      <Filter>2_Component\Audio\AudioSource\Enums</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -451,6 +452,9 @@
     </Filter>
     <Filter Include="2_Component\Collider\2D">
       <UniqueIdentifier>{52e33170-5d69-44b5-a4ce-6089e7f8cbb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Audio\AudioSource\Enums">
+      <UniqueIdentifier>{d9c0e331-1e6d-4205-92a2-bac0027d31ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

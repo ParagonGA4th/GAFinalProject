@@ -1,11 +1,13 @@
 #include "SoundSystem.h"
 #include "SceneSystem.h"
-#include "eSoundGroup.h"
+
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonData/eSoundState.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonUtil/rapidcsv.h"
+#include "../ParagonUtil/ResourceHelper.h"
+#include "../ParagonUtil/CSVHelper.h"
 
 #include <cassert>
 #include <algorithm>
@@ -33,7 +35,7 @@ namespace Pg::Engine
 		// FMOD::ChannelGroup 초기화
 		for (int i = 0; i < (int)_maxGroup; ++i) 
 		{
-			eSoundGroup soundGroup = static_cast<eSoundGroup>(i);
+			Pg::Data::eSoundGroup soundGroup = static_cast<Pg::Data::eSoundGroup>(i);
 
 			// 개별 그룹 초기화
 			_channelGroupVec[soundGroup] = nullptr;
@@ -71,7 +73,7 @@ namespace Pg::Engine
 		//채널 그룹 싹 다 해제.
 		for (int i = 0; i < (int)_maxGroup; ++i)
 		{
-			eSoundGroup soundGroup = static_cast<eSoundGroup>(i);
+			Pg::Data::eSoundGroup soundGroup = static_cast<Pg::Data::eSoundGroup>(i);
 			auto iter = _channelGroupVec.find(soundGroup);
 
 			if (iter != _channelGroupVec.end())
@@ -85,7 +87,7 @@ namespace Pg::Engine
 		_system->release();
 	}
 
-	void SoundSystem::CreateSound(std::string path, eSoundGroup soundGroup, bool isLoop)
+	void SoundSystem::CreateSound(std::string path, Pg::Data::eSoundGroup soundGroup, bool isLoop)
 	{
 		//사운드 객체 생성
 		Pg::Data::AudioData* audioData = new Pg::Data::AudioData();
@@ -174,19 +176,19 @@ namespace Pg::Engine
 			Pg::Data::AudioSource*& audioSource = iter->second;
 			Pg::Data::AudioData*& audioData = audioSource->_audioData;
 
-			if (audioData->group == eSoundGroup::BGM)
+			if (audioData->group == Pg::Data::eSoundGroup::BGM)
 			{
 				audioData->channel->setVolume(audioSource->GetBGMVolume());
 				//_channelGroupVec[soundGroup]->setVolume(audioSource->GetBGMVolume());
 			}
-			else if (audioData->group == eSoundGroup::Effect)
+			else if (audioData->group == Pg::Data::eSoundGroup::Effect)
 			{
 				audioData->channel->setVolume(audioSource->GetEffectVolume());
 			}
 		}
 	}
 	 
-	void SoundSystem::SetGroupVolume(eSoundGroup soundGroup)
+	void SoundSystem::SetGroupVolume(Pg::Data::eSoundGroup soundGroup)
 	{
 		for (auto iter = _audioSoureceMap.begin(); iter != _audioSoureceMap.end(); iter++)
 		{
@@ -231,10 +233,21 @@ namespace Pg::Engine
 
 	void SoundSystem::CreateSingleSounds()
 	{
+		//경로가 바뀐다면 이 역시 변할 것이다.
+		std::string tResourceListPath = "../Test/Asset/ResourceList";
+		std::string tUniformPath = Pg::Util::Helper::ResourceHelper::ForcePathUniformFull(tResourceListPath);
+		std::string tPath = tUniformPath + "/11_Sounds.csv";
+		auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromSoundFileCSV(tPath);
+
+		for (auto& [bFilePath, bSoundGroup, bLoopBool] : tPathVec)
+		{
+			CreateSound(bFilePath, bSoundGroup, bLoopBool);
+		}
+
 		//여기다가 전부 사운드 만들어줘야함. 조절은 AudioSource에서.
-		CreateSound("../Resources/Sounds/Test/TitleBGM.mp3", eSoundGroup::BGM, false);
-		CreateSound("../Resources/Sounds/Test/Ingame.mp3", eSoundGroup::BGM, false);
-		CreateSound("../Resources/Sounds/Test/jump.mp3", eSoundGroup::Effect, false);
+		//CreateSound("../Resources/Sounds/Test/TitleBGM.mp3", eSoundGroup::BGM, false);
+		//CreateSound("../Resources/Sounds/Test/Ingame.mp3", eSoundGroup::BGM, false);
+		//CreateSound("../Resources/Sounds/Test/jump.mp3", eSoundGroup::Effect, false);
 
 		_maxSound = _soundMap.size();
 	}
