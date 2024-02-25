@@ -50,9 +50,9 @@ namespace Pg::Engine
 
 	}
 
-	void SoundSystem::Initialize()
+	void SoundSystem::Initialize(const std::string& resourceListPath)
 	{
-		CreateSingleSounds();
+		CreateSingleSounds(resourceListPath);
 
 		//얘는 Scene이 바뀔때마다 호출되어야 함.
 		SyncAudioSources();
@@ -231,11 +231,9 @@ namespace Pg::Engine
 		return _soundMap;
 	}
 
-	void SoundSystem::CreateSingleSounds()
+	void SoundSystem::CreateSingleSounds(const std::string& resourceListPath)
 	{
-		//경로가 바뀐다면 이 역시 변할 것이다.
-		std::string tResourceListPath = "../Test/Asset/ResourceList";
-		std::string tUniformPath = Pg::Util::Helper::ResourceHelper::ForcePathUniformFull(tResourceListPath);
+		std::string tUniformPath = Pg::Util::Helper::ResourceHelper::ForcePathUniformFull(resourceListPath);
 		std::string tPath = tUniformPath + "/11_Sounds.csv";
 		auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromSoundFileCSV(tPath);
 

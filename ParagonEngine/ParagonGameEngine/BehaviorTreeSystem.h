@@ -31,7 +31,7 @@ namespace Pg::Engine::BTree
 		BehaviorTreeSystem();
 		~BehaviorTreeSystem();
 
-		void Initialize();
+		void Initialize(const std::string& resourceListPath);
 
 		//Scene이 바뀌었을 때 (+ Initialize) 때 호출되는 함수. BT 리스트 업데이트.
 		void SyncSceneActiveBT();
@@ -51,10 +51,13 @@ namespace Pg::Engine::BTree
 
 		//모든 Leaf Node들은 내부적으로 이 함수에서 Register되어야 한다.
 		void InitAllLeafNodes();
-		//모든 XML (Uniform) 파일들 BT::Tree로 로드.
-		void LoadAllUniformXMLFiles();
-		//모든 XML (Instanced) 파일들 미리 TEXT를 받아오기. 
-		void LoadAllInstancedXMLFiles();
+		//모든 XML 파일들 BehaviorTreeSystem에 맞게 로드.
+		void LoadAllXMLFiles(const std::string& resourceListPath);
+
+		//XML (Uniform) 파일 하나 BT::Tree로 로드.
+		void LoadSingleUniformXMLFile(const std::string& path);
+		//XML (Instanced) 파일 하나 미리 TEXT를 받아오기. 
+		void LoadSingleInstancedXMLFile(const std::string& path);
 
 		//Update 내부에 호출되는 함수들.
 		void UpdateAnimators();

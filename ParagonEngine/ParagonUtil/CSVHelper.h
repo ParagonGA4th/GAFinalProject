@@ -15,5 +15,8 @@ namespace Pg::Util::Helper
 		
 		//Sound를 위한 CSV Helper.
 		static std::vector<std::tuple<std::string, Pg::Data::eSoundGroup, bool>> ReturnFilePathFromSoundFileCSV(const std::string& csvPath);
+
+		//Behavior Tree를 위한 CSV Helper. bool = isUniform.
+		static std::vector<std::pair<std::string, bool>> ReturnFilePathFromBTreeCSV(const std::string& csvPath);
 	};
 }

@@ -3,6 +3,8 @@
 
 #include "../ParagonData/Animator.h"
 #include "../ParagonUtil/Log.h"
+#include "../ParagonUtil/ResourceHelper.h"
+#include "../ParagonUtil/CSVHelper.h"
 
 #include <fstream>
 #include <algorithm>
@@ -21,11 +23,10 @@ namespace Pg::Engine::BTree
 
 	}
 
-	void BehaviorTreeSystem::Initialize()
+	void BehaviorTreeSystem::Initialize(const std::string& resourceListPath)
 	{
 		InitAllLeafNodes();
-		LoadAllUniformXMLFiles();
-		LoadAllInstancedXMLFiles();
+		LoadAllXMLFiles(resourceListPath);
 
 		//SceneSystem에서 역시 SetCurrentScene에 연동해놓았으나, 별개로 Initialize.
 		SyncSceneActiveBT();
@@ -40,17 +41,7 @@ namespace Pg::Engine::BTree
 	void BehaviorTreeSystem::InitAllLeafNodes()
 	{
 		//XML Node를 매칭해서 하는 것. 
-
-	}
-
-	void BehaviorTreeSystem::LoadAllUniformXMLFiles()
-	{
-
-	}
-
-	void BehaviorTreeSystem::LoadAllInstancedXMLFiles()
-	{
-
+		
 	}
 
 	void BehaviorTreeSystem::SyncSceneActiveBT()
@@ -185,6 +176,33 @@ namespace Pg::Engine::BTree
 		_toRemovePerFrameUniformPathList.push_back(path);
 	}
 
-	
+	void BehaviorTreeSystem::LoadAllXMLFiles(const std::string& resourceListPath)
+	{
+		std::string tUniformPath = Pg::Util::Helper::ResourceHelper::ForcePathUniformFull(resourceListPath);
+		std::string tPath = tUniformPath + "/10_BehaviorTree.csv";
 
+		auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromBTreeCSV(tPath);
+		for (auto& it : tPathVec)
+		{
+			if (it.second)
+			{
+				//isUniform.
+				LoadSingleUniformXMLFile(it.first);
+			}
+			else
+			{
+				LoadSingleInstancedXMLFile(it.first);
+			}
+		}		
+	}
+	
+	void BehaviorTreeSystem::LoadSingleUniformXMLFile(const std::string& path)
+	{
+
+	}
+
+	void BehaviorTreeSystem::LoadSingleInstancedXMLFile(const std::string& path)
+	{
+
+	}
 }
