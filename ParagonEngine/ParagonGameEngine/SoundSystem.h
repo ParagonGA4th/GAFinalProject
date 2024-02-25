@@ -35,7 +35,7 @@ namespace Pg::Engine
 	public:
 		SoundSystem();
 
-		void Initialize();
+		void Initialize(const std::string& resourceListPath);
 
 		void Update();
 
@@ -59,7 +59,7 @@ namespace Pg::Engine
 		std::unordered_map<std::string, Pg::Data::AudioData*>& GetSoundMap();
 
 	private:
-		void CreateSingleSounds();
+		void CreateSingleSounds(const std::string& resourceListPath);
 
 	private:
 		FMOD::System* _system;

@@ -10,7 +10,7 @@ namespace Pg::Util::Helper
 		rapidcsv::Document doc(csvPath);
 
 		auto& tPureData = doc.GetPureData();
-		
+		assert(tPureData.size() >= 1 && "안 그러면 기본적인 리소스 포맷에 일치 X");
 		std::vector<std::string> tRet;
 
 		bool tPassedFirst = false;
@@ -81,5 +81,29 @@ namespace Pg::Util::Helper
 		return tRet;
 	}
 
+	std::vector<std::pair<std::string,bool>> CSVHelper::ReturnFilePathFromBTreeCSV(const std::string& csvPath)
+	{
+		rapidcsv::Document doc(csvPath);
+
+		auto& tPureData = doc.GetPureData();
+		assert(tPureData.size() >= 1 && "안 그러면 기본적인 리소스 포맷에 일치 X");
+
+		std::vector<std::pair<std::string, bool>> tRet;
+		tRet.resize(tPureData.size() - 1);
+
+		for (int i = 0; i < tPureData.size() - 1; i++)
+		{
+			//처음에 있는 안내용 Text 스킵.
+			auto& it = tPureData.at(i + 1);
+
+			tRet.at(i).first = it.at(0);
+
+			int tBoolInt = std::stoi(it.at(1));
+			assert((tBoolInt == 0 || tBoolInt == 1) && "0/1이 아니면 Bool 치환 불가능.");
+			tRet.at(i).second = static_cast<bool>(tBoolInt);
+		}
+
+		return tRet;
+	}
 
 }
