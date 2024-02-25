@@ -3,7 +3,7 @@
 /// <summary>
 /// 여러개의 사운드로 이루어진 그룹.
 /// </summary>
-namespace Pg::Engine
+namespace Pg::Data
 {
 	enum class eSoundGroup
 	{

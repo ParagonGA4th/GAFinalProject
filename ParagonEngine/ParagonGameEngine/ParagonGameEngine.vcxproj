@@ -204,7 +204,6 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClInclude Include="EngineDLLExporter.h" />
     <ClInclude Include="EngineMain.h" />
     <ClInclude Include="EngineResourceManager.h" />
-    <ClInclude Include="eSoundGroup.h" />
     <ClInclude Include="EventSystem.h" />
     <ClInclude Include="EventTest.h" />
     <ClInclude Include="InputSystem.h" />

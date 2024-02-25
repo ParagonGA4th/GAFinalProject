@@ -64,9 +64,6 @@
     <ClInclude Include="BehaviorTreeSystem.h">
       <Filter>5_BehaviorTree\BehaviorTreeSystem</Filter>
     </ClInclude>
-    <ClInclude Include="eSoundGroup.h">
-      <Filter>2_System\SoundSystem</Filter>
-    </ClInclude>
     <ClInclude Include="BTreeShareData.h">
       <Filter>5_BehaviorTree\BTreeShareData</Filter>
     </ClInclude>
