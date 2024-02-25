@@ -75,7 +75,7 @@ namespace Pg::Engine::BTree
 					assert(tFound != _uniformTreeStorage.end() && "무조건 Uniform이 체크된 BehaviorTreePath는 미리 로드된 Uniform XML List 내부에 있어야!");
 
 					//값 할당. 다만, READ-ONLY처럼 사용해야 하고 자동적으로 Animator가 동작하는 것이 아니다 (UNIFORM)
-					tAnimator->_behavTree = tFound->second;
+					tAnimator->_behavTree = &(tFound->second);
 				}
 				else
 				{
@@ -140,7 +140,7 @@ namespace Pg::Engine::BTree
 
 				auto tTree = _uniformTreeStorage.find(path);
 				assert(tTree != _uniformTreeStorage.end() && "무조건 해당 Path를 찾았어야 한다. 유효하지 않은 Tree를 추가하려고 함.");
-				_activeUniformAnimatorList.push_back(std::make_pair(path, tTree->second));
+				_activeUniformAnimatorList.push_back(std::make_pair(path, &(tTree->second)));
 			}
 		}
 
@@ -202,7 +202,12 @@ namespace Pg::Engine::BTree
 	
 	void BehaviorTreeSystem::LoadSingleUniformXMLFile(const std::string& path)
 	{
+		//이미 해당 XML 경로 자체는 무조건 존재하고, Tree를 만들어야 한다.
+		_uniformTreeStorage.insert(std::make_pair(path, _factory->createTreeFromFile(path, BT::Blackboard::create())));
 
+		//자동으로 Blackboard사이 공유되는 자료 리스트 포인터 추가.
+		auto blackboard = _uniformTreeStorage.at(path).rootBlackboard();
+		blackboard->set(BTree::BTreeShareData::KEY, _bBoardSharedData.get());
 	}
 
 	void BehaviorTreeSystem::LoadSingleInstancedXMLFile(const std::string& path)
