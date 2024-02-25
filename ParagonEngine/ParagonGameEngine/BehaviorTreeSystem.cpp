@@ -4,7 +4,9 @@
 #include "../ParagonData/Animator.h"
 #include "../ParagonUtil/Log.h"
 
+#include <fstream>
 #include <algorithm>
+#include <sstream>
 
 namespace Pg::Engine::BTree
 {
