@@ -16,6 +16,9 @@ namespace Pg::Util::Helper
 		ResourceHelper();
 		~ResourceHelper();
 
+		//리소스가 해당 위치에 존재하는지 알려주는 Wrapper 함수.
+		static bool IsFileExist(const std::string& filePath);
+
 		//다양한 상대적 경로 기록 양식을 하나의 양식으로 강제로 통합해 저장해주는 함수이다. 
 		static std::string ForcePathUniform(const std::string& filePath);
 

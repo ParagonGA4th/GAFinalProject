@@ -1,7 +1,7 @@
 #pragma once
 #include "Transform.h"
 #include "eSoundState.h"
-#include "../ParagonGameEngine/eSoundGroup.h"
+#include "../ParagonData/eSoundGroup.h"
 
 #include "../include/fmod/fmod.hpp"
 #include "../include/fmod/fmod_common.h"
@@ -20,7 +20,7 @@ namespace Pg::Data
 		std::string soundPath;	//사운드 파일 경로
 		FMOD::Channel* channel;	//사운드 채널
 		FMOD::Sound* sound;		//사운드 컨테이너
-		Pg::Engine::eSoundGroup group;	//사운드 그룹
+		Pg::Data::eSoundGroup group;	//사운드 그룹
 		
 	};
 }
