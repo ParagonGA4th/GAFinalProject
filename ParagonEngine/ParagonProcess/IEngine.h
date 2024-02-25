@@ -16,7 +16,7 @@ namespace Pg::Core
 	class IEngine abstract
 	{
 	public:
-		virtual void Initialize(void* hwnd, float width, float height) abstract;
+		virtual void Initialize(void* hwnd, float width, float height, const std::string& resourceListPath) abstract;
 
 		virtual void Update() abstract;
 

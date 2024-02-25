@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <vector>
+#include <string>
 #include <d3d11.h>
 /// <summary>
 /// Process에서 Engine과 Graphics를 조종할 수 있는 어댑터의 역할을 수행한다.
@@ -34,7 +35,7 @@ namespace Pg::Core
 		~EngineGraphicsAdapter();
 
 		//엔진 초기화.
-		void InitializeEngine(void* hwnd, int screenWidth, int screenHeight);
+		void InitializeEngine(void* hwnd, int screenWidth, int screenHeight, const std::string& resourceListPath);
 
 		//그래픽스 초기화.
 		void InitializeGraphics(void* hwnd, int screenWidth, int screenHeight);

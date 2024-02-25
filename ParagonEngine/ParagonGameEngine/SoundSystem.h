@@ -2,7 +2,7 @@
 #include "../ParagonProcess/CoreSingleton.h"
 
 #include "../ParagonData/AudioData.h"
-
+#include "../ParagonData/eSoundGroup.h"
 //FMOD 라이브러리
 //#pragma comment(lib, "fmod_vc.lib")
 
@@ -29,20 +29,19 @@ namespace Pg::Data
 namespace Pg::Engine
 {
 	class SceneSystem;
-	enum class eSoundGroup;
-
+	
 	class SoundSystem
 	{
 	public:
 		SoundSystem();
 
-		void Initialize();
+		void Initialize(const std::string& resourceListPath);
 
 		void Update();
 
 		void Finalize();
 
-		void CreateSound(std::string path, eSoundGroup soundGroup, bool isLoop);
+		void CreateSound(std::string path, Pg::Data::eSoundGroup soundGroup, bool isLoop);
 
 		//1차로 작업한 PlaySound. 사실상 지금은 쓰지 않음.
 		void PlaySound(std::string path);
@@ -50,7 +49,7 @@ namespace Pg::Engine
 		void UpdateSounds();
 
 		void SetAllGroupVolume();
-		void SetGroupVolume(eSoundGroup soundGroup);
+		void SetGroupVolume(Pg::Data::eSoundGroup soundGroup);
 		void SetAllVolume();
 
 		void SoundPause(std::string path, bool isPause);
@@ -60,12 +59,12 @@ namespace Pg::Engine
 		std::unordered_map<std::string, Pg::Data::AudioData*>& GetSoundMap();
 
 	private:
-		void CreateSingleSounds();
+		void CreateSingleSounds(const std::string& resourceListPath);
 
 	private:
 		FMOD::System* _system;
 		FMOD::ChannelGroup* _channelGroup;
-		std::unordered_map<eSoundGroup, FMOD::ChannelGroup*> _channelGroupVec;
+		std::unordered_map<Pg::Data::eSoundGroup, FMOD::ChannelGroup*> _channelGroupVec;
 
 		std::unordered_map<std::string, Pg::Data::AudioData*> _soundMap;
 		std::unordered_map<std::string, Pg::Data::AudioSource*> _audioSoureceMap;

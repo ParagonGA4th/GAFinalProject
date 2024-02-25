@@ -83,14 +83,14 @@ namespace Pg::Engine
 
 
 
-	void EngineMain::Initialize(void* hwnd, float width, float height)
+	void EngineMain::Initialize(void* hwnd, float width, float height, const std::string& resourceListPath)
 	{
 		_inputSystem->Initialize(width, height);
 		_sceneSystem->Initialize();
 		_debugSystem->Initialize();
 		_physicSystem->Initialize(_debugSystem);
-		_soundSystem->Initialize();
-		_behaviorTreeSystem->Initialize();
+		_soundSystem->Initialize(resourceListPath);
+		_behaviorTreeSystem->Initialize(resourceListPath);
 		_timeSystem->Initialize(hwnd);
 	}
 
