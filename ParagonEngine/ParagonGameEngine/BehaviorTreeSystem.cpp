@@ -184,6 +184,8 @@ namespace Pg::Engine::BTree
 		auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromBTreeCSV(tPath);
 		for (auto& it : tPathVec)
 		{
+			assert(Pg::Util::Helper::ResourceHelper::IsFileExist(it.first) && "무조건 존재하는 파일만 로드해야!");
+
 			if (it.second)
 			{
 				//isUniform.
@@ -194,6 +196,8 @@ namespace Pg::Engine::BTree
 				LoadSingleInstancedXMLFile(it.first);
 			}
 		}		
+
+		assert("");
 	}
 	
 	void BehaviorTreeSystem::LoadSingleUniformXMLFile(const std::string& path)
@@ -203,6 +207,13 @@ namespace Pg::Engine::BTree
 
 	void BehaviorTreeSystem::LoadSingleInstancedXMLFile(const std::string& path)
 	{
+		//파일 자체 파싱.
+		std::ifstream file(path);
+		std::stringstream buffer;
+		buffer << file.rdbuf();
+		std::string xmlString = buffer.str();
 
+		//Path / XML 버퍼 순서대로 집어넣는다.
+		_instancedTreePathContentStorage.insert(std::make_pair(path, buffer.str()));
 	}
 }
