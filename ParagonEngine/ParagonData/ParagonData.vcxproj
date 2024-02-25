@@ -195,6 +195,7 @@
     <ClInclude Include="DebugData.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DynamicCollider.h" />
+    <ClInclude Include="eSoundGroup.h" />
     <ClInclude Include="eSoundState.h" />
     <ClInclude Include="ForceMode.h" />
     <ClInclude Include="GameConstantData.h" />
