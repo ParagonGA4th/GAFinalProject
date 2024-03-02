@@ -1,5 +1,6 @@
 #include "BehaviorTreeSystem.h"
 #include "SceneSystem.h"
+#include "BTDefines.h"
 
 #include "../ParagonData/Animator.h"
 #include "../ParagonUtil/Log.h"
@@ -41,6 +42,8 @@ namespace Pg::Engine::BTree
 	void BehaviorTreeSystem::InitAllLeafNodes()
 	{
 		//XML Node를 매칭해서 하는 것. 
+		//일일히 만든 컨디션 노가다가 필요하다!
+
 		
 	}
 
@@ -90,7 +93,9 @@ namespace Pg::Engine::BTree
 
 					//자동으로 Blackboard사이 공유되는 자료 리스트 포인터 추가.
 					auto blackboard = tAnimator->_behavTree->rootBlackboard();
-					blackboard->set(BTree::BTreeShareData::KEY, _bBoardSharedData.get());
+					//Blackboard를 두고 자체적으로 공유하는 데이터 + 개별적 소속 오브젝트의 경우 Object 포인터 자체를 기록.
+					blackboard->set(BTree::SHARED_DATA_KEY, _bBoardSharedData.get());
+					blackboard->set(BTree::PRIVATE_OBJECT_KEY, tAnimator->_object);
 
 					//업데이트되는 리스트에서 추가.
 					_activeInstancedAnimatorList.push_back(tAnimator);
@@ -207,7 +212,7 @@ namespace Pg::Engine::BTree
 
 		//자동으로 Blackboard사이 공유되는 자료 리스트 포인터 추가.
 		auto blackboard = _uniformTreeStorage.at(path).rootBlackboard();
-		blackboard->set(BTree::BTreeShareData::KEY, _bBoardSharedData.get());
+		blackboard->set(BTree::SHARED_DATA_KEY, _bBoardSharedData.get());
 	}
 
 	void BehaviorTreeSystem::LoadSingleInstancedXMLFile(const std::string& path)
