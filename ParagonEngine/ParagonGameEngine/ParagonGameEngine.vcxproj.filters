@@ -73,6 +73,27 @@
     <ClInclude Include="NavigationSystem.h">
       <Filter>2_System\NavigationSystem</Filter>
     </ClInclude>
+    <ClInclude Include="PgCustomBTNodes.h">
+      <Filter>5_BehaviorTree\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoConditionComp1.h">
+      <Filter>5_BehaviorTree\Nodes\CustomConditionNodes\DemoConditionComps</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_CCond_CheckInBound.h">
+      <Filter>5_BehaviorTree\Nodes\CustomConditionNodes\Test_CCond_CheckInBound</Filter>
+    </ClInclude>
+    <ClInclude Include="BTDefines.h">
+      <Filter>5_BehaviorTree\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="BTHelper.h">
+      <Filter>5_BehaviorTree\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="BTTemplateSpecialization.h">
+      <Filter>5_BehaviorTree\TemplateSpecialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_CSync_RecordCurrentPos.h">
+      <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_RecordCurrentPos</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -137,6 +158,18 @@
     </ClCompile>
     <ClCompile Include="NavigationSystem.cpp">
       <Filter>2_System\NavigationSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_CCond_CheckInBound.cpp">
+      <Filter>5_BehaviorTree\Nodes\CustomConditionNodes\Test_CCond_CheckInBound</Filter>
+    </ClCompile>
+    <ClCompile Include="BTDefines.cpp">
+      <Filter>5_BehaviorTree\Defines</Filter>
+    </ClCompile>
+    <ClCompile Include="BTHelper.cpp">
+      <Filter>5_BehaviorTree\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_CSync_RecordCurrentPos.cpp">
+      <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_RecordCurrentPos</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,9 +254,6 @@
     <Filter Include="5_BehaviorTree\Nodes\CustomAsyncActionNodes\CAsync_Sleeper">
       <UniqueIdentifier>{0aa85dcc-1f0b-40e3-984a-d1603b7b8258}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5_BehaviorTree\Nodes\CustomSimpleConditions">
-      <UniqueIdentifier>{eef7991a-a360-4682-bf86-3d081e1eed31}</UniqueIdentifier>
-    </Filter>
     <Filter Include="5_BehaviorTree\Nodes\CustomSyncActionNodes">
       <UniqueIdentifier>{5052b9d2-658f-4d5c-a8fc-561b683e9cd4}</UniqueIdentifier>
     </Filter>
@@ -241,6 +271,27 @@
     </Filter>
     <Filter Include="2_System\NavigationSystem\Navigation">
       <UniqueIdentifier>{113c57ad-a223-4445-87a3-0941135ea498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomConditionNodes">
+      <UniqueIdentifier>{eef7991a-a360-4682-bf86-3d081e1eed31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomConditionNodes\DemoConditionComps">
+      <UniqueIdentifier>{2ef4bd83-9090-4e45-96b6-b28dd4b84af4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomConditionNodes\Test_CCond_CheckInBound">
+      <UniqueIdentifier>{4460af6d-a55e-4d73-a367-a7bda81915b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Defines">
+      <UniqueIdentifier>{ee4fe62c-a3b6-43af-a566-13c901997cf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_RecordCurrentPos">
+      <UniqueIdentifier>{51a687ce-2d8e-41cc-b6fb-c77817540298}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Helper">
+      <UniqueIdentifier>{47e31f23-488e-4a2d-86bb-769badd55bfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\TemplateSpecialization">
+      <UniqueIdentifier>{f757db61-27fe-4798-a6c2-2ee3279020c2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
