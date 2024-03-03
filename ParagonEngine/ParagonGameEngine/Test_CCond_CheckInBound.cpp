@@ -3,6 +3,8 @@
 
 namespace Pg::Engine::BTree::Node
 {
+	using Pg::Engine::BTree::BTHelper;
+
 	BT::NodeStatus Test_CCond_CheckInBound::tick()
 	{
 		//탑 다운 관점. X / Z 의미.

@@ -94,6 +94,10 @@
     <ClInclude Include="Test_CSync_RecordCurrentPos.h">
       <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_RecordCurrentPos</Filter>
     </ClInclude>
+    <ClInclude Include="Test_CSync_ChooseNewDir.h">
+      <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_CSync_MoveToNewDir.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -171,6 +175,10 @@
     <ClCompile Include="Test_CSync_RecordCurrentPos.cpp">
       <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_RecordCurrentPos</Filter>
     </ClCompile>
+    <ClCompile Include="Test_CSync_ChooseNewDir.cpp">
+      <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_CSync_MoveToNewDir.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -292,6 +300,12 @@
     </Filter>
     <Filter Include="5_BehaviorTree\TemplateSpecialization">
       <UniqueIdentifier>{f757db61-27fe-4798-a6c2-2ee3279020c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir">
+      <UniqueIdentifier>{fc20d435-11e3-4911-b812-30bd21446cec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_MoveToNewDir">
+      <UniqueIdentifier>{bac5eb6c-83c1-4103-b778-0035c96058d5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

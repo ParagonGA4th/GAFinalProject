@@ -222,6 +222,8 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="Test_CCond_CheckInBound.h" />
+    <ClInclude Include="Test_CSync_ChooseNewDir.h" />
+    <ClInclude Include="Test_CSync_MoveToNewDir.h" />
     <ClInclude Include="Test_CSync_RecordCurrentPos.h" />
     <ClInclude Include="TimeSystem.h" />
   </ItemGroup>
@@ -249,6 +251,8 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="Test_CCond_CheckInBound.cpp" />
+    <ClCompile Include="Test_CSync_ChooseNewDir.cpp" />
+    <ClCompile Include="Test_CSync_MoveToNewDir.cpp" />
     <ClCompile Include="Test_CSync_RecordCurrentPos.cpp" />
     <ClCompile Include="TimeSystem.cpp" />
   </ItemGroup>
