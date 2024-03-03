@@ -222,10 +222,13 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClInclude Include="SceneSystem.h" />
     <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="TestScene.h" />
+    <ClInclude Include="Test_CSync_AddBumpCount.h" />
     <ClInclude Include="Test_CCond_CheckInBound.h" />
     <ClInclude Include="Test_CSync_ChooseNewDir.h" />
+    <ClInclude Include="Test_CSync_JumpAtBumpLimit.h" />
     <ClInclude Include="Test_CSync_MoveToNewDir.h" />
     <ClInclude Include="Test_CSync_RecordCurrentPos.h" />
+    <ClInclude Include="Test_CSync_ReturnToCenter.h" />
     <ClInclude Include="TimeSystem.h" />
   </ItemGroup>
   <ItemGroup>
@@ -251,10 +254,13 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClCompile Include="SceneSystem.cpp" />
     <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="Test_CSync_AddBumpCount.cpp" />
     <ClCompile Include="Test_CCond_CheckInBound.cpp" />
     <ClCompile Include="Test_CSync_ChooseNewDir.cpp" />
+    <ClCompile Include="Test_CSync_JumpAtBumpLimit.cpp" />
     <ClCompile Include="Test_CSync_MoveToNewDir.cpp" />
     <ClCompile Include="Test_CSync_RecordCurrentPos.cpp" />
+    <ClCompile Include="Test_CSync_ReturnToCenter.cpp" />
     <ClCompile Include="TimeSystem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

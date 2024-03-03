@@ -11,6 +11,8 @@
 /// 무조건 tick(), 그리고 인풋/아웃풋 포트가 있을 경우 정적 providedPorts()가 있어야 한다.
 /// 모든 Custom Node들은 무조건 PgBtNode를 받아야 한다. 
 /// (그래야 GetSharedData()와 그래야 만약 Instanced인 경우 GetObject()를 쓸 수 있음)
+/// System 딴에서 추가적으로 Custom Initialize해서 멤버 변수 등을 셋업하고 싶다면, 해당 함수 호출.
+///	virtual void InitCustom() override;
 /// </summary>
 
 /// <summary>
@@ -32,6 +34,9 @@ namespace Pg::Engine::BTree::Node
 		
 		// 무조건 해당 Function을 오버라이드 해야 한다.
 		virtual BT::NodeStatus tick() override;
+
+		//System 딴에서 추가적으로 Custom Initialize해서 멤버 변수 등을 셋업하고 싶다면, 해당 함수 호출.
+		virtual void InitCustom() override;
 
 		//Port가 있는 Node는 무조건 해당 정적 메서드가 구현되어 있어야 한다.
 		//Port 없으면 그냥 {} 반환하는게 Good Practice.

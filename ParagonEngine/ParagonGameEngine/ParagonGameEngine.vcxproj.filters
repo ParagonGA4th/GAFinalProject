@@ -56,10 +56,10 @@
       <Filter>5_BehaviorTree</Filter>
     </ClInclude>
     <ClInclude Include="CSync_ApproachPosition.h">
-      <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\CSync_ApproachPosition</Filter>
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\CSync_ApproachPosition %28Example%29</Filter>
     </ClInclude>
     <ClInclude Include="CAsync_Sleeper.h">
-      <Filter>5_BehaviorTree\Nodes\CustomAsyncActionNodes\CAsync_Sleeper</Filter>
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomAsyncActionNodes\CAsync_Sleeper</Filter>
     </ClInclude>
     <ClInclude Include="BehaviorTreeSystem.h">
       <Filter>5_BehaviorTree\BehaviorTreeSystem</Filter>
@@ -77,10 +77,10 @@
       <Filter>5_BehaviorTree\Nodes</Filter>
     </ClInclude>
     <ClInclude Include="DemoConditionComp1.h">
-      <Filter>5_BehaviorTree\Nodes\CustomConditionNodes\DemoConditionComps</Filter>
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomConditionNodes\DemoConditionComps</Filter>
     </ClInclude>
     <ClInclude Include="Test_CCond_CheckInBound.h">
-      <Filter>5_BehaviorTree\Nodes\CustomConditionNodes\Test_CCond_CheckInBound</Filter>
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomConditionNodes\Test_CCond_CheckInBound</Filter>
     </ClInclude>
     <ClInclude Include="BTDefines.h">
       <Filter>5_BehaviorTree\Defines</Filter>
@@ -92,16 +92,25 @@
       <Filter>5_BehaviorTree\TemplateSpecialization</Filter>
     </ClInclude>
     <ClInclude Include="Test_CSync_RecordCurrentPos.h">
-      <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_RecordCurrentPos</Filter>
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_RecordCurrentPos</Filter>
     </ClInclude>
     <ClInclude Include="Test_CSync_ChooseNewDir.h">
-      <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir</Filter>
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir</Filter>
     </ClInclude>
     <ClInclude Include="PgBtNode.h">
-      <Filter>5_BehaviorTree\Interface</Filter>
+      <Filter>5_BehaviorTree\Nodes\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Test_CSync_MoveToNewDir.h">
-      <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_MoveToNewDir</Filter>
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_MoveToNewDir</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_CSync_AddBumpCount.h">
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir\Test_CSync_AddBumpCount</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_CSync_JumpAtBumpLimit.h">
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_JumpAtBumpLimit</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_CSync_ReturnToCenter.h">
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_ReturnToCenter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -154,10 +163,10 @@
       <Filter>5_BehaviorTree</Filter>
     </ClCompile>
     <ClCompile Include="CSync_ApproachPosition.cpp">
-      <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\CSync_ApproachPosition</Filter>
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\CSync_ApproachPosition %28Example%29</Filter>
     </ClCompile>
     <ClCompile Include="CAsync_Sleeper.cpp">
-      <Filter>5_BehaviorTree\Nodes\CustomAsyncActionNodes\CAsync_Sleeper</Filter>
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomAsyncActionNodes\CAsync_Sleeper</Filter>
     </ClCompile>
     <ClCompile Include="BehaviorTreeSystem.cpp">
       <Filter>5_BehaviorTree\BehaviorTreeSystem</Filter>
@@ -169,7 +178,7 @@
       <Filter>2_System\NavigationSystem</Filter>
     </ClCompile>
     <ClCompile Include="Test_CCond_CheckInBound.cpp">
-      <Filter>5_BehaviorTree\Nodes\CustomConditionNodes\Test_CCond_CheckInBound</Filter>
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomConditionNodes\Test_CCond_CheckInBound</Filter>
     </ClCompile>
     <ClCompile Include="BTDefines.cpp">
       <Filter>5_BehaviorTree\Defines</Filter>
@@ -178,13 +187,22 @@
       <Filter>5_BehaviorTree\Helper</Filter>
     </ClCompile>
     <ClCompile Include="Test_CSync_RecordCurrentPos.cpp">
-      <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_RecordCurrentPos</Filter>
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_RecordCurrentPos</Filter>
     </ClCompile>
     <ClCompile Include="Test_CSync_ChooseNewDir.cpp">
-      <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir</Filter>
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir</Filter>
     </ClCompile>
     <ClCompile Include="Test_CSync_MoveToNewDir.cpp">
-      <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_MoveToNewDir</Filter>
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_MoveToNewDir</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_CSync_AddBumpCount.cpp">
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir\Test_CSync_AddBumpCount</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_CSync_JumpAtBumpLimit.cpp">
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_JumpAtBumpLimit</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_CSync_ReturnToCenter.cpp">
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_ReturnToCenter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -263,18 +281,6 @@
     <Filter Include="5_BehaviorTree\Nodes">
       <UniqueIdentifier>{a525676f-e9be-45b1-af3e-5126215b7986}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5_BehaviorTree\Nodes\CustomAsyncActionNodes">
-      <UniqueIdentifier>{765ac92b-17ec-4edc-8dda-3d939e02a472}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_BehaviorTree\Nodes\CustomAsyncActionNodes\CAsync_Sleeper">
-      <UniqueIdentifier>{0aa85dcc-1f0b-40e3-984a-d1603b7b8258}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_BehaviorTree\Nodes\CustomSyncActionNodes">
-      <UniqueIdentifier>{5052b9d2-658f-4d5c-a8fc-561b683e9cd4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_BehaviorTree\Nodes\CustomSyncActionNodes\CSync_ApproachPosition">
-      <UniqueIdentifier>{5a079e3a-053e-4e6b-ba3e-2603539e18b7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="5_BehaviorTree\BTreeShareData">
       <UniqueIdentifier>{7397357f-2ca9-4c3c-9628-80f863b69c2c}</UniqueIdentifier>
     </Filter>
@@ -287,20 +293,8 @@
     <Filter Include="2_System\NavigationSystem\Navigation">
       <UniqueIdentifier>{113c57ad-a223-4445-87a3-0941135ea498}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5_BehaviorTree\Nodes\CustomConditionNodes">
-      <UniqueIdentifier>{eef7991a-a360-4682-bf86-3d081e1eed31}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_BehaviorTree\Nodes\CustomConditionNodes\DemoConditionComps">
-      <UniqueIdentifier>{2ef4bd83-9090-4e45-96b6-b28dd4b84af4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_BehaviorTree\Nodes\CustomConditionNodes\Test_CCond_CheckInBound">
-      <UniqueIdentifier>{4460af6d-a55e-4d73-a367-a7bda81915b2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="5_BehaviorTree\Defines">
       <UniqueIdentifier>{ee4fe62c-a3b6-43af-a566-13c901997cf6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_RecordCurrentPos">
-      <UniqueIdentifier>{51a687ce-2d8e-41cc-b6fb-c77817540298}</UniqueIdentifier>
     </Filter>
     <Filter Include="5_BehaviorTree\Helper">
       <UniqueIdentifier>{47e31f23-488e-4a2d-86bb-769badd55bfd}</UniqueIdentifier>
@@ -308,14 +302,50 @@
     <Filter Include="5_BehaviorTree\TemplateSpecialization">
       <UniqueIdentifier>{f757db61-27fe-4798-a6c2-2ee3279020c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir">
+    <Filter Include="5_BehaviorTree\Nodes\Interface">
+      <UniqueIdentifier>{e4dd91bb-6315-4c65-a5de-883e4a7c068c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomNodes">
+      <UniqueIdentifier>{b5eb3c75-5326-4035-a9cd-82cf59e8ce42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes">
+      <UniqueIdentifier>{5052b9d2-658f-4d5c-a8fc-561b683e9cd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_RecordCurrentPos">
+      <UniqueIdentifier>{51a687ce-2d8e-41cc-b6fb-c77817540298}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir">
       <UniqueIdentifier>{fc20d435-11e3-4911-b812-30bd21446cec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_MoveToNewDir">
+    <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_MoveToNewDir">
       <UniqueIdentifier>{bac5eb6c-83c1-4103-b778-0035c96058d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5_BehaviorTree\Interface">
-      <UniqueIdentifier>{e4dd91bb-6315-4c65-a5de-883e4a7c068c}</UniqueIdentifier>
+    <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomAsyncActionNodes">
+      <UniqueIdentifier>{765ac92b-17ec-4edc-8dda-3d939e02a472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomAsyncActionNodes\CAsync_Sleeper">
+      <UniqueIdentifier>{0aa85dcc-1f0b-40e3-984a-d1603b7b8258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomConditionNodes">
+      <UniqueIdentifier>{eef7991a-a360-4682-bf86-3d081e1eed31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomConditionNodes\DemoConditionComps">
+      <UniqueIdentifier>{2ef4bd83-9090-4e45-96b6-b28dd4b84af4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomConditionNodes\Test_CCond_CheckInBound">
+      <UniqueIdentifier>{4460af6d-a55e-4d73-a367-a7bda81915b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\CSync_ApproachPosition %28Example%29">
+      <UniqueIdentifier>{5a079e3a-053e-4e6b-ba3e-2603539e18b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_JumpAtBumpLimit">
+      <UniqueIdentifier>{694f3525-609e-45ff-8ad8-a8940e3c0cf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir\Test_CSync_AddBumpCount">
+      <UniqueIdentifier>{a780bb0a-b633-4a1f-b329-54e3b508ab89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_ReturnToCenter">
+      <UniqueIdentifier>{2eb56b22-2696-4dd6-a9b7-2a0125082fff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

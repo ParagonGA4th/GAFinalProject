@@ -279,9 +279,6 @@
     <ClInclude Include="BoxCollider2D.h">
       <Filter>2_Component\Collider\2D</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicCollider.h">
-      <Filter>2_Component\Collider\3D\DynamicCollider\BaseClass</Filter>
-    </ClInclude>
     <ClInclude Include="IComponent.h">
       <Filter>2_Component\BaseClass</Filter>
     </ClInclude>
@@ -291,6 +288,9 @@
     </ClInclude>
     <ClInclude Include="eSoundGroup.h">
       <Filter>2_Component\Audio\AudioSource\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicCollider.h">
+      <Filter>2_Component\Collider\3D\DynamicCollider\BaseClass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

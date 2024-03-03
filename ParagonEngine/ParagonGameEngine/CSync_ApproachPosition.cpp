@@ -5,4 +5,10 @@ namespace Pg::Engine::BTree::Node
 	{
 		return BT::NodeStatus::SUCCESS;
 	}
+
+	void CSync_ApproachPosition::InitCustom()
+	{
+		//
+	}
+
 }
