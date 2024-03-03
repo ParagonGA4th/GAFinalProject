@@ -10,6 +10,26 @@
 
 namespace BT
 {
+	//String -> PGFLOAT2 변환 파이프라인 마련.
+	template <> inline Pg::Math::PGFLOAT2 convertFromString(StringView str)
+	{
+		//유리수들이 Semicolon에 의해 나뉘었다고 예상.
+		auto parts = splitString(str, ';');
+
+		//PGFloat2이니. 2개로 체크.
+		if (parts.size() != 2)
+		{
+			throw RuntimeError("Invalid Input For ParagonEngine Data");
+		}
+		else
+		{
+			Pg::Math::PGFLOAT2 output;
+			output.x = convertFromString<double>(parts[0]);
+			output.y = convertFromString<double>(parts[1]);
+			return output;
+		}
+	}
+
 	//String -> PGFLOAT3 변환 파이프라인 마련.
 	template <> inline Pg::Math::PGFLOAT3 convertFromString(StringView str)
 	{
@@ -27,6 +47,50 @@ namespace BT
 			output.x = convertFromString<double>(parts[0]);
 			output.y = convertFromString<double>(parts[1]);
 			output.z = convertFromString<double>(parts[2]);
+			return output;
+		}
+	}
+
+	//String -> PGFLOAT4 변환 파이프라인 마련.
+	template <> inline Pg::Math::PGFLOAT4 convertFromString(StringView str)
+	{
+		//유리수들이 Semicolon에 의해 나뉘었다고 예상.
+		auto parts = splitString(str, ';');
+
+		//PGFloat4이니. 4개로 체크.
+		if (parts.size() != 4)
+		{
+			throw RuntimeError("Invalid Input For ParagonEngine Data");
+		}
+		else
+		{
+			Pg::Math::PGFLOAT4 output;
+			output.x = convertFromString<double>(parts[0]);
+			output.y = convertFromString<double>(parts[1]);
+			output.z = convertFromString<double>(parts[2]);
+			output.w = convertFromString<double>(parts[3]);
+			return output;
+		}
+	}
+
+	//String -> PGQuaternion 변환 파이프라인 마련.
+	template <> inline Pg::Math::PGQuaternion convertFromString(StringView str)
+	{
+		//유리수들이 Semicolon에 의해 나뉘었다고 예상.
+		auto parts = splitString(str, ';');
+
+		//PGQuaternion이니. 4개로 체크.
+		if (parts.size() != 4)
+		{
+			throw RuntimeError("Invalid Input For ParagonEngine Data");
+		}
+		else
+		{
+			Pg::Math::PGQuaternion output;
+			output.w = convertFromString<double>(parts[0]);
+			output.x = convertFromString<double>(parts[1]);
+			output.y = convertFromString<double>(parts[2]);
+			output.z = convertFromString<double>(parts[3]);
 			return output;
 		}
 	}

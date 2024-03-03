@@ -102,6 +102,7 @@ namespace Pg::Engine::BTree
 						if (auto it = dynamic_cast<Pg::Engine::BTree::Node::PgBtNode*>(tPlainNode))
 						{
 							it->InitializeTreeNode(obj, _bBoardSharedData.get());
+							it->InitCustom();
 						}
 					}
 
@@ -227,6 +228,7 @@ namespace Pg::Engine::BTree
 			{
 				//uniform이니, 자신이 "소속된" GameObject는 없다.
 				it->InitializeTreeNode(nullptr, _bBoardSharedData.get());
+				it->InitCustom();
 			}
 		}
 	}

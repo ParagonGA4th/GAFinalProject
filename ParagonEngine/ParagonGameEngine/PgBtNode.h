@@ -17,6 +17,10 @@ namespace Pg::Engine::BTree::Node
 			_sharedData = sharedData;
 		}
 
+		//구현한다면, InitializeTreeNode 이후 호출. 미리 멤버변수 등을 받아올 수 있다.
+		//하부 클래스에 따라 달라진다.
+		virtual void InitCustom() {}
+
 	protected:
 		Pg::Data::GameObject* GetObject() { return _object; }
 		Pg::Engine::BTree::BTreeShareData* GetSharedData() { return _sharedData; }
