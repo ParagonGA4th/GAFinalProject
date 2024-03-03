@@ -97,7 +97,12 @@
     <ClInclude Include="Test_CSync_ChooseNewDir.h">
       <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir</Filter>
     </ClInclude>
-    <ClInclude Include="Test_CSync_MoveToNewDir.h" />
+    <ClInclude Include="PgBtNode.h">
+      <Filter>5_BehaviorTree\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_CSync_MoveToNewDir.h">
+      <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_MoveToNewDir</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -178,7 +183,9 @@
     <ClCompile Include="Test_CSync_ChooseNewDir.cpp">
       <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir</Filter>
     </ClCompile>
-    <ClCompile Include="Test_CSync_MoveToNewDir.cpp" />
+    <ClCompile Include="Test_CSync_MoveToNewDir.cpp">
+      <Filter>5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_MoveToNewDir</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -306,6 +313,9 @@
     </Filter>
     <Filter Include="5_BehaviorTree\Nodes\CustomSyncActionNodes\Test_CSync_MoveToNewDir">
       <UniqueIdentifier>{bac5eb6c-83c1-4103-b778-0035c96058d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Interface">
+      <UniqueIdentifier>{e4dd91bb-6315-4c65-a5de-883e4a7c068c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

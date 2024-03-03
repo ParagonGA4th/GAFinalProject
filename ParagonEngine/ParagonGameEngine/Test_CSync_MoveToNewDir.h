@@ -4,12 +4,12 @@
 
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
-
+#include "PgBtNode.h"
 #include "BTDefines.h"
 
 namespace Pg::Engine::BTree::Node
 {
-	class Test_CSync_MoveToNewDir : public BT::SyncActionNode
+	class Test_CSync_MoveToNewDir : public BT::SyncActionNode, public PgBtNode
 	{
 	public:
 		//BehaviorTree 필수 요구 사항.
@@ -25,8 +25,7 @@ namespace Pg::Engine::BTree::Node
 		static BT::PortsList providedPorts()
 		{
 			BT::PortsList tRet;
-			tRet.insert(BT::InputPort<Pg::Data::GameObject*>(Pg::Engine::BTree::PRIVATE_OBJECT_KEY));
-			tRet.insert(BT::InputPort<Pg::Math::PGQuaternion>("_moveDir"));
+			tRet.insert(BT::InputPort<Pg::Math::PGFLOAT3>("_moveDir"));
 			return tRet;
 		}
 	};

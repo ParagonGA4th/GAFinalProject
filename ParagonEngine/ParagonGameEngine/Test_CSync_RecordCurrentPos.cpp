@@ -9,11 +9,9 @@ namespace Pg::Engine::BTree::Node
 
 	BT::NodeStatus Test_CSync_RecordCurrentPos::tick()
 	{
-		Pg::Data::GameObject* tObject;
 		//현재 자신이 속한 오브젝트를 받아왔다. (InputPort)
 		//이후, 어떤 포지션을 가지고 있는지 OutputPort로 기록한다.)
-		BTHelper::Validate(getInput<Pg::Data::GameObject*>(BTree::PRIVATE_OBJECT_KEY, tObject));
-		BTHelper::Validate(setOutput<Pg::Math::PGFLOAT3>("_currentPos", tObject->_transform._position));
+		BTHelper::Validate(setOutput<Pg::Math::PGFLOAT3>("_currentPos", GetObject()->_transform._position));
 		//또한, Tree당 하나의 Blackboard를 가지고 있으므로, 동일 Node 사이에서 공유된다.
 		//걱정할 내용 X.
 

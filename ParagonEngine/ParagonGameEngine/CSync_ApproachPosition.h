@@ -2,12 +2,15 @@
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 #include <chrono>
+#include "PgBtNode.h"
 
 /// <summary>
 /// BT::SyncActionNode
 /// 커스텀 조절할 수 있는 싱글스레드 노드. 개별적으로 구현체가 있어야 한다.
 /// Single 쓰레드 기반, Leaf Node의 예시.
-/// 무조건 tick(), 그리고 인풋/아웃풋 포트가 있을 경우 정적 providedPorts()가 있어야 한다. 
+/// 무조건 tick(), 그리고 인풋/아웃풋 포트가 있을 경우 정적 providedPorts()가 있어야 한다.
+/// 모든 Custom Node들은 무조건 PgBtNode를 받아야 한다. 
+/// (그래야 GetSharedData()와 그래야 만약 Instanced인 경우 GetObject()를 쓸 수 있음)
 /// </summary>
 
 /// <summary>
@@ -19,7 +22,7 @@
 
 namespace Pg::Engine::BTree::Node
 {
-	class CSync_ApproachPosition : public BT::SyncActionNode
+	class CSync_ApproachPosition : public BT::SyncActionNode, public PgBtNode
 	{
 	public:
 		//BehaviorTree 필수 요구 사항.

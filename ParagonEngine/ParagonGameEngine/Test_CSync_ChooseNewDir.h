@@ -2,11 +2,12 @@
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
+#include "PgBtNode.h"
 #include "../ParagonMath/PgMath.h"
 
 namespace Pg::Engine::BTree::Node
 {
-	class Test_CSync_ChooseNewDir : public BT::SyncActionNode
+	class Test_CSync_ChooseNewDir : public BT::SyncActionNode, public PgBtNode
 	{
 	public:
 		//BehaviorTree 필수 요구 사항.
@@ -21,7 +22,7 @@ namespace Pg::Engine::BTree::Node
 		//Port 없으면 그냥 {} 반환하는게 Good Practice.
 		static BT::PortsList providedPorts()
 		{
-			return { BT::OutputPort<Pg::Math::PGQuaternion>("_moveDir") };
+			return { BT::OutputPort<Pg::Math::PGFLOAT3>("_moveDir") };
 		}
 	};
 }

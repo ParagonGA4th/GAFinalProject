@@ -7,20 +7,16 @@ namespace Pg::Engine::BTree::Node
 
 	BT::NodeStatus Test_CSync_MoveToNewDir::tick()
 	{
-		Pg::Data::GameObject* tObject;
-		//현재 자신이 속한 오브젝트를 받아왔다. (InputPort)
-		BTHelper::Validate(getInput<Pg::Data::GameObject*>(BTree::PRIVATE_OBJECT_KEY, tObject));
-		Pg::Math::PGQuaternion tRot;
-		BTHelper::Validate(getInput<Pg::Math::PGQuaternion>("_moveDir", tRot));
+		Pg::Math::PGFLOAT3 LOOK;
+		BTHelper::Validate(getInput<Pg::Math::PGFLOAT3>("_moveDir", LOOK));
 
-		//오브젝트의 Rotation에 대입. 
-		///tObject->_transform._rotation = tRot;
-		
-		
-		
+		//현재 방향을 받았으니, 해당 방향으로 이동.
+		Pg::Math::PGFLOAT3 POS = GetObject()->_transform._position;
+		float DISTANCE = 0.1f; // 임시로 거리를 설정함 (distance * camera speed * deltaTime)
 
+		LOOK = { LOOK.x * DISTANCE, LOOK.y * DISTANCE, LOOK.z * DISTANCE };
+		POS += LOOK;
 
-
+		GetObject()->_transform._position = POS;
 	}
-
 }
