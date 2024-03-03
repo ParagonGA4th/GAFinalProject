@@ -3,15 +3,11 @@
 #include <behaviortree_cpp_v3/bt_factory.h>
 #include "../ParagonMath/PgMath.h"
 #include "BTDefines.h"
-
-namespace Pg::Data
-{
-	class GameObject;
-}
+#include "PgBtNode.h"
 
 namespace Pg::Engine::BTree::Node
 {
-	class Test_CSync_RecordCurrentPos : public BT::SyncActionNode
+	class Test_CSync_RecordCurrentPos : public BT::SyncActionNode, public PgBtNode
 	{
 	public:
 		//BehaviorTree 필수 요구 사항.
@@ -28,7 +24,6 @@ namespace Pg::Engine::BTree::Node
 		static BT::PortsList providedPorts()
 		{
 			BT::PortsList tRet;
-			tRet.insert(BT::InputPort<Pg::Data::GameObject*>(BTree::PRIVATE_OBJECT_KEY));
 			tRet.insert(BT::OutputPort<Pg::Math::PGFLOAT3>("_currentPos"));
 
 			return tRet;

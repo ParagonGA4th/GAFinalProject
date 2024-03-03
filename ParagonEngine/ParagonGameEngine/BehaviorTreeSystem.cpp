@@ -1,6 +1,7 @@
 #include "BehaviorTreeSystem.h"
 #include "SceneSystem.h"
 #include "BTDefines.h"
+#include "PgBtNode.h"
 
 #include "../ParagonData/Animator.h"
 #include "../ParagonUtil/Log.h"
@@ -92,10 +93,17 @@ namespace Pg::Engine::BTree
 					*(tAnimator->_behavTree) = _factory->createTreeFromText(tFound->second.c_str(), BT::Blackboard::create());
 
 					//자동으로 Blackboard사이 공유되는 자료 리스트 포인터 추가.
-					auto blackboard = tAnimator->_behavTree->rootBlackboard();
 					//Blackboard를 두고 자체적으로 공유하는 데이터 + 개별적 소속 오브젝트의 경우 Object 포인터 자체를 기록.
-					blackboard->set(BTree::SHARED_DATA_KEY, _bBoardSharedData.get());
-					blackboard->set(BTree::PRIVATE_OBJECT_KEY, tAnimator->_object);
+					//자체 속한 GameObject의 포인터를 내부적으로 저장할 수 있게. (Instanced만 가능) + Shared Data
+					//V4.5+에는 자체적으로 ApplyVisitor가 있지만, 지금 이 자체로는 (재귀 없는 거 아님) 라이브러리 구현체 기반으로 Iterate해야.
+					for (auto& itt : tAnimator->_behavTree->nodes)
+					{
+						::BT::TreeNode* tPlainNode = itt.get();
+						if (auto it = dynamic_cast<Pg::Engine::BTree::Node::PgBtNode*>(tPlainNode))
+						{
+							it->InitializeTreeNode(obj, _bBoardSharedData.get());
+						}
+					}
 
 					//업데이트되는 리스트에서 추가.
 					_activeInstancedAnimatorList.push_back(tAnimator);
@@ -211,8 +219,16 @@ namespace Pg::Engine::BTree
 		_uniformTreeStorage.insert(std::make_pair(path, _factory->createTreeFromFile(path, BT::Blackboard::create())));
 
 		//자동으로 Blackboard사이 공유되는 자료 리스트 포인터 추가.
-		auto blackboard = _uniformTreeStorage.at(path).rootBlackboard();
-		blackboard->set(BTree::SHARED_DATA_KEY, _bBoardSharedData.get());
+		//V4.5+에는 자체적으로 ApplyVisitor가 있지만, 지금 이 자체로는 (재귀 없는 거 아님) 라이브러리 구현체 기반으로 Iterate해야.
+		for (auto& itt : _uniformTreeStorage.at(path).nodes)
+		{
+			::BT::TreeNode* tPlainNode = itt.get();
+			if (auto it = dynamic_cast<Pg::Engine::BTree::Node::PgBtNode*>(tPlainNode))
+			{
+				//uniform이니, 자신이 "소속된" GameObject는 없다.
+				it->InitializeTreeNode(nullptr, _bBoardSharedData.get());
+			}
+		}
 	}
 
 	void BehaviorTreeSystem::LoadSingleInstancedXMLFile(const std::string& path)

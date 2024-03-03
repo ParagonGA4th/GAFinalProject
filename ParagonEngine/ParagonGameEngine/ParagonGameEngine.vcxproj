@@ -210,6 +210,7 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClInclude Include="EngineResourceManager.h" />
     <ClInclude Include="EventSystem.h" />
     <ClInclude Include="EventTest.h" />
+    <ClInclude Include="PgBtNode.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MovingTest.h" />
     <ClInclude Include="NavigationSystem.h" />

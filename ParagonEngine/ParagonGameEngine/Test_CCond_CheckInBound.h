@@ -2,7 +2,7 @@
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 #include <chrono>
-
+#include "PgBtNode.h"
 #include "../ParagonMath/PgMath.h"
 
 /// <summary>
@@ -12,7 +12,7 @@
 
 namespace Pg::Engine::BTree::Node
 {
-	class Test_CCond_CheckInBound : public BT::SyncActionNode
+	class Test_CCond_CheckInBound : public BT::SyncActionNode, public PgBtNode
 	{
 	public:
 		//BehaviorTree 필수 요구 사항.

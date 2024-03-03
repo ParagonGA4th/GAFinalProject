@@ -27,6 +27,6 @@ namespace Pg::Engine::BTree::Node
 		//방향으로 쓰일 것이기에, 정규화.
 		tOut = Pg::Math::PGFloat3Normalize(tOut);
 
-		BTHelper::Validate(setOutput<Pg::Math::PGQuaternion>("_moveDir", PGEulerToQuaternion(tOut)));
+		BTHelper::Validate(setOutput<Pg::Math::PGFLOAT3>("_moveDir", tOut));
 	}
 }

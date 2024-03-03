@@ -6,7 +6,6 @@
 /// </summary>
 namespace Pg::Engine::BTree
 {
-	extern const std::string PRIVATE_OBJECT_KEY;
-	extern const std::string SHARED_DATA_KEY;
+	
 }
 
