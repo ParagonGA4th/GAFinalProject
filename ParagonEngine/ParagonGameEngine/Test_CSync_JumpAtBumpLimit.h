@@ -5,11 +5,6 @@
 #include "BasePgBtNode.h"
 #include "../ParagonMath/PgMath.h"
 
-namespace Pg::Data
-{
-	class DynamicCollider;
-}
-
 namespace Pg::Engine::BTree::Node
 {
 	class Test_CSync_JumpAtBumpLimit : public BT::SyncActionNode, public BasePgBtNode
@@ -34,9 +29,6 @@ namespace Pg::Engine::BTree::Node
 			tRet.insert(BT::InputPort<int>("_jumpCount"));
 			return tRet;
 		}
-
-	private:
-		Pg::Data::DynamicCollider* _collider = nullptr;
 	};
 }
 

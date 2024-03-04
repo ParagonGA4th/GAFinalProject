@@ -11,7 +11,7 @@
 namespace BT
 {
 	//String -> PGFLOAT2 변환 파이프라인 마련.
-	template <> inline Pg::Math::PGFLOAT2 convertFromString(StringView str)
+	template <> inline Pg::Math::PGFLOAT2 convertFromString<Pg::Math::PGFLOAT2>(StringView str)
 	{
 		//유리수들이 Semicolon에 의해 나뉘었다고 예상.
 		auto parts = splitString(str, ';');
@@ -31,7 +31,7 @@ namespace BT
 	}
 
 	//String -> PGFLOAT3 변환 파이프라인 마련.
-	template <> inline Pg::Math::PGFLOAT3 convertFromString(StringView str)
+	template <> inline Pg::Math::PGFLOAT3 convertFromString<Pg::Math::PGFLOAT3>(StringView str)
 	{
 		//유리수들이 Semicolon에 의해 나뉘었다고 예상.
 		auto parts = splitString(str, ';');
@@ -52,7 +52,7 @@ namespace BT
 	}
 
 	//String -> PGFLOAT4 변환 파이프라인 마련.
-	template <> inline Pg::Math::PGFLOAT4 convertFromString(StringView str)
+	template <> inline Pg::Math::PGFLOAT4 convertFromString<Pg::Math::PGFLOAT4>(StringView str)
 	{
 		//유리수들이 Semicolon에 의해 나뉘었다고 예상.
 		auto parts = splitString(str, ';');
@@ -74,7 +74,7 @@ namespace BT
 	}
 
 	//String -> PGQuaternion 변환 파이프라인 마련.
-	template <> inline Pg::Math::PGQuaternion convertFromString(StringView str)
+	template <> inline Pg::Math::PGQuaternion convertFromString<Pg::Math::PGQuaternion>(StringView str)
 	{
 		//유리수들이 Semicolon에 의해 나뉘었다고 예상.
 		auto parts = splitString(str, ';');

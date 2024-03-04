@@ -237,6 +237,7 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animator.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="BaseRenderer.cpp" />
     <ClCompile Include="BaseResource.cpp" />

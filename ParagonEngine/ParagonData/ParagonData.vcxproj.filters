@@ -118,6 +118,9 @@
     <ClCompile Include="ParagonDefines.cpp">
       <Filter>7_ParagonDefines</Filter>
     </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>2_Component\Animator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">

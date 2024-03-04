@@ -3,6 +3,7 @@
 #include "BTDefines.h"
 #include "BasePgBtNode.h"
 #include "PgCustomBTNodes.h"
+#include "BTTemplateSpecialization.h"
 
 #include "../ParagonData/Animator.h"
 #include "../ParagonUtil/Log.h"
@@ -103,8 +104,9 @@ namespace Pg::Engine::BTree
 					auto tFound = _instancedTreePathContentStorage.find(tAnimator->_behaviorTreePath);
 					assert(tFound != _instancedTreePathContentStorage.end() && "무조건 Instanced이 체크된 BehaviorTreePath는 미리 로드된 Instanced XML List 내부에 있어야!");
 
-					//BehaviorTree 투입.
+					//BehaviorTree 투입. (이게 맞다)
 					*(tAnimator->_behavTree) = _factory->createTreeFromText(tFound->second.c_str(), BT::Blackboard::create());
+					//*(tAnimator->_behavTree) = _factory->createTreeFromFile(tAnimator->_behaviorTreePath, BT::Blackboard::create());
 
 					//자동으로 Blackboard사이 공유되는 자료 리스트 포인터 추가.
 					//Blackboard를 두고 자체적으로 공유하는 데이터 + 개별적 소속 오브젝트의 경우 Object 포인터 자체를 기록.
