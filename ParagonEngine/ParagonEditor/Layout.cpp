@@ -7,6 +7,7 @@
 #include "../ParagonUI/MenuBar.h"
 
 #include <singleton-cpp/singleton.h>
+#include <map>
 
 Pg::Editor::Window::Layout::Layout()
 	:_winName("dockSpace"), _isShow(true)
@@ -25,11 +26,16 @@ Pg::Editor::Window::Layout::~Layout()
 
 void Pg::Editor::Window::Layout::Initialize()
 {
-	std::unordered_map<std::string, std::unordered_map<std::string, bool*>> menubar;
+	std::map<std::string, std::map<std::string, bool*>> menubar;
 
-	menubar.insert({ "File", {} });
-	menubar.at("File").insert({"Open Project", &_isOpen});
-	menubar.at("File").insert({"Save Project", &_isSave});
+	menubar.insert({ "0 File", {} });
+	menubar.at("0 File").insert({ "0 New Scene (Ctrl + N)", &_isNewScene });
+	menubar.at("0 File").insert({ "1 Open Scene (Ctrl + O)", &_isOpenScene });
+	menubar.at("0 File").insert({ "2 Save Scene (Ctrl + S)", &_isSaveScene });
+	menubar.at("0 File").insert({ "3 Line", nullptr });
+	menubar.at("0 File").insert({ "4 New Project", &_isNewProj });
+	menubar.at("0 File").insert({ "5 Open Project", &_isOpenProj });
+	menubar.at("0 File").insert({ "6 Save Project", &_isSaveProj });
 
 	_widgetCon->CreateWidget<Pg::UI::Widget::MenuBar>(menubar);
 }
@@ -59,6 +65,39 @@ bool Pg::Editor::Window::Layout::GetShow()
 
 void Pg::Editor::Window::Layout::FileUpdate()
 {
-	if (_isOpen) _fileState->Invoke(eEventType::_FILEOPEN); _isOpen = false;
-	if (_isSave) _fileState->Invoke(eEventType::_FILESAVE); _isSave = false;
+	if (_isNewScene) 
+	{
+		_fileState->Invoke(eEventType::_NEWSCENE); 
+		_isNewScene = false;
+	}
+
+	if (_isOpenScene)
+	{
+		_fileState->Invoke(eEventType::_OPENSCENE); 
+		_isOpenScene = false;
+	}
+
+	if (_isSaveScene)
+	{
+		_fileState->Invoke(eEventType::_SAVESCENE); 
+		_isSaveScene = false;
+	}
+
+	if (_isNewProj)
+	{
+		_fileState->Invoke(eEventType::_NEWPROJECT);
+		_isNewProj = false;
+	}
+
+	if (_isOpenProj)
+	{
+		_fileState->Invoke(eEventType::_OPENPROJECT); 
+		_isOpenProj = false;
+	}
+
+	if (_isSaveProj)
+	{
+		_fileState->Invoke(eEventType::_SAVEPROJECT); 
+		_isSaveProj = false;
+	}
 }

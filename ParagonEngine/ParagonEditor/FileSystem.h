@@ -17,10 +17,13 @@ namespace Pg::Editor::System
 
 		void Initialize();
 
-		void FileOpen();
-		void FileSave();
-
 	private:
+		void OpenScene();
+		void SaveScene();
+
+		void OpenProject();
+		void SaveProject();
+
 		// Get File Data
 		void ShowDialog(bool isOpen);
 		
@@ -35,7 +38,6 @@ namespace Pg::Editor::System
 		FilePath _scriptPath;
 
 		std::unique_ptr<Pg::Editor::Manager::DataManager> _dataManager;
-		std::unique_ptr<Pg::Editor::Event> _fileSaveEvent;
-		std::unique_ptr<Pg::Editor::Event> _fileOpenEvent;
+		std::unique_ptr<Pg::Editor::Event> _fileEvent;
 	};
 }
