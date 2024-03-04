@@ -4,12 +4,12 @@
 
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
-#include "PgBtNode.h"
+#include "BasePgBtNode.h"
 #include "BTDefines.h"
 
 namespace Pg::Engine::BTree::Node
 {
-	class Test_CSync_MoveToNewDir : public BT::SyncActionNode, public PgBtNode
+	class Test_CSync_MoveToNewDir : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
 		//BehaviorTree 필수 요구 사항.
