@@ -13,8 +13,7 @@ namespace fs = std::filesystem;
 Pg::Editor::System::FileSystem::FileSystem()
 {
 	_dataManager = std::make_unique<Pg::Editor::Manager::DataManager>();
-	_fileSaveEvent = std::make_unique<Pg::Editor::Event>();
-	_fileOpenEvent = std::make_unique<Pg::Editor::Event>();
+	_fileEvent = std::make_unique<Pg::Editor::Event>();
 }
 
 Pg::Editor::System::FileSystem::~FileSystem()
@@ -25,17 +24,30 @@ void Pg::Editor::System::FileSystem::Initialize()
 {
 	// project가 처음 open 될 때는 기존 폴더(Builds//x64//Relase//)에 있는 sample load.
 
-	_fileSaveEvent->AddEvent(Pg::Editor::eEventType::_FILESAVE, [&]() { FileSave(); });
-	_fileOpenEvent->AddEvent(Pg::Editor::eEventType::_FILEOPEN, [&]() { FileOpen(); });
+	_fileEvent->AddEvent(Pg::Editor::eEventType::_OPENSCENE, [&]() { OpenScene(); });
+	_fileEvent->AddEvent(Pg::Editor::eEventType::_SAVESCENE, [&]() { SaveScene(); });
+	_fileEvent->AddEvent(Pg::Editor::eEventType::_OPENPROJECT, [&]() { OpenProject(); });
+	_fileEvent->AddEvent(Pg::Editor::eEventType::_SAVEPROJECT, [&]() { SaveProject(); });
 }
 
-void Pg::Editor::System::FileSystem::FileOpen()
+void Pg::Editor::System::FileSystem::OpenScene()
 {
 	ShowDialog(true);
-	_dataManager->DataLoad(_rootPath);
+	_dataManager->DataLoad(true, _rootPath);
 }
 
-void Pg::Editor::System::FileSystem::FileSave()
+void Pg::Editor::System::FileSystem::SaveScene()
+{
+	ShowDialog(false);
+}
+
+void Pg::Editor::System::FileSystem::OpenProject()
+{
+	ShowDialog(true);
+	_dataManager->DataLoad(false, _rootPath);
+}
+
+void Pg::Editor::System::FileSystem::SaveProject()
 {
 	ShowDialog(false);
 	CreateFolder();
@@ -59,9 +71,10 @@ void Pg::Editor::System::FileSystem::ShowDialog(bool isOpen)
 	else itemDialog->SetFileName(L"NewProject.pgproject");
 
 	// 파일 필터 설정: .ppt 확장자 필터
-	COMDLG_FILTERSPEC fileTypes[1];
+	COMDLG_FILTERSPEC fileTypes[2];
 
 	fileTypes[0] = { L"Pragon Project", L"*.pgproject" };
+	fileTypes[1] = { L"Pragon Scene", L"*.pgscene" };
 
 	itemDialog->SetFileTypes(ARRAYSIZE(fileTypes), fileTypes);
 	itemDialog->SetFileTypeIndex(isOpen ? 1 : 0); // 기본 확장자 선택 (1부터 시작)

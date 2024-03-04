@@ -18,13 +18,38 @@ Pg::Editor::Manager::DataManager::DataManager()
 Pg::Editor::Manager::DataManager::~DataManager()
 {}
 
-void Pg::Editor::Manager::DataManager::DataLoad(std::string path)
+void Pg::Editor::Manager::DataManager::DataLoad(bool isScene, std::string path)
 {
-	_path = path;
+	if (isScene)
+	{
+		if (_dataContainer->GetSceneList().size() > 0)
+		{
+			for (auto& scene : _dataContainer->GetSceneList())
+			{
+				if (path.find(scene->GetSceneName()) != std::string::npos)
+				{
+					_dataContainer->SetCurrentScene(scene->GetSceneName());
+				}
+				else
+				{
+					SceneLoad(path);
+					_dataContainer->GetSceneList().emplace_back(_scenes.at(0));
+				}
+			}
+		}
+		else
+		{
+			SceneLoad(path);
+			if (_scenes.size() > 0) _dataContainer->SetSceneList(_scenes);
+		}
+	}
+	else
+	{
+		_path = path;
+		ProjectLoad();
 
-	ProjectLoad();
-
-	if (_scenes.size() > 0) _dataContainer->SetSceneList(_scenes);
+		if (_scenes.size() > 0) _dataContainer->SetSceneList(_scenes);
+	}
 }
 
 std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::DataSave()

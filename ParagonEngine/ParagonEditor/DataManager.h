@@ -22,7 +22,7 @@ namespace Pg::Editor::Manager
 		DataManager();
 		~DataManager();
 
-		void DataLoad(std::string path);
+		void DataLoad(bool isScene, std::string path);
 		std::unordered_map<std::string, std::string> DataSave();
 
 	private:
