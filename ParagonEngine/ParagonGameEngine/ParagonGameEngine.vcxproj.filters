@@ -97,7 +97,7 @@
     <ClInclude Include="Test_CSync_ChooseNewDir.h">
       <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir</Filter>
     </ClInclude>
-    <ClInclude Include="PgBtNode.h">
+    <ClInclude Include="BasePgBtNode.h">
       <Filter>5_BehaviorTree\Nodes\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Test_CSync_MoveToNewDir.h">

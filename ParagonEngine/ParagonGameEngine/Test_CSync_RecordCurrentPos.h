@@ -3,11 +3,11 @@
 #include <behaviortree_cpp_v3/bt_factory.h>
 #include "../ParagonMath/PgMath.h"
 #include "BTDefines.h"
-#include "PgBtNode.h"
+#include "BasePgBtNode.h"
 
 namespace Pg::Engine::BTree::Node
 {
-	class Test_CSync_RecordCurrentPos : public BT::SyncActionNode, public PgBtNode
+	class Test_CSync_RecordCurrentPos : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
 		//BehaviorTree 필수 요구 사항.

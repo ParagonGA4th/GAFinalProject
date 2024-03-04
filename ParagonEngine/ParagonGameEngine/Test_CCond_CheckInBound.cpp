@@ -31,3 +31,6 @@ namespace Pg::Engine::BTree::Node
 	}
 
 }
+
+
+//BT_REGISTER_FACTORY();

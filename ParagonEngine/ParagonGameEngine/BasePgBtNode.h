@@ -7,7 +7,7 @@
 /// </summary>
 namespace Pg::Engine::BTree::Node
 {
-	class PgBtNode
+	class BasePgBtNode
 	{
 	public:
 		//미리 GameObject의 포인터를 소속된 Tree에 따라서 (Instanced) 넣을 수 있게 설정해야 한다.

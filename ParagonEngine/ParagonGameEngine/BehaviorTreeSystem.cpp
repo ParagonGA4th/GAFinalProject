@@ -1,7 +1,8 @@
 #include "BehaviorTreeSystem.h"
 #include "SceneSystem.h"
 #include "BTDefines.h"
-#include "PgBtNode.h"
+#include "BasePgBtNode.h"
+#include "PgCustomBTNodes.h"
 
 #include "../ParagonData/Animator.h"
 #include "../ParagonUtil/Log.h"
@@ -43,9 +44,22 @@ namespace Pg::Engine::BTree
 	void BehaviorTreeSystem::InitAllLeafNodes()
 	{
 		//XML Node를 매칭해서 하는 것. 
-		//일일히 만든 컨디션 노가다가 필요하다!
+		//일일히 만든 컨디션 노가다가 필요하다
 
-		
+#pragma region ACTUAL_NODE_REGISTRATION
+		//CCond
+		_factory->registerNodeType<Pg::Engine::BTree::Node::Test_CCond_CheckInBound>("Test_CCond_CheckInBound");
+
+		//CSync
+		_factory->registerNodeType<Pg::Engine::BTree::Node::Test_CSync_AddBumpCount>("Test_CSync_AddBumpCount");
+		_factory->registerNodeType<Pg::Engine::BTree::Node::Test_CSync_ChooseNewDir>("Test_CSync_ChooseNewDir");
+		_factory->registerNodeType<Pg::Engine::BTree::Node::Test_CSync_JumpAtBumpLimit>("Test_CSync_JumpAtBumpLimit");
+		_factory->registerNodeType<Pg::Engine::BTree::Node::Test_CSync_MoveToNewDir>("Test_CSync_MoveToNewDir");
+		_factory->registerNodeType<Pg::Engine::BTree::Node::Test_CSync_RecordCurrentPos>("Test_CSync_RecordCurrentPos");
+		_factory->registerNodeType<Pg::Engine::BTree::Node::Test_CSync_ReturnToCenter>("Test_CSync_ReturnToCenter");
+
+#pragma endregion ACTUAL_NODE_REGISTRATION
+
 	}
 
 	void BehaviorTreeSystem::SyncSceneActiveBT()
@@ -99,7 +113,7 @@ namespace Pg::Engine::BTree
 					for (auto& itt : tAnimator->_behavTree->nodes)
 					{
 						::BT::TreeNode* tPlainNode = itt.get();
-						if (auto it = dynamic_cast<Pg::Engine::BTree::Node::PgBtNode*>(tPlainNode))
+						if (auto it = dynamic_cast<Pg::Engine::BTree::Node::BasePgBtNode*>(tPlainNode))
 						{
 							it->InitializeTreeNode(obj, _bBoardSharedData.get());
 							it->InitCustom();
@@ -224,7 +238,7 @@ namespace Pg::Engine::BTree
 		for (auto& itt : _uniformTreeStorage.at(path).nodes)
 		{
 			::BT::TreeNode* tPlainNode = itt.get();
-			if (auto it = dynamic_cast<Pg::Engine::BTree::Node::PgBtNode*>(tPlainNode))
+			if (auto it = dynamic_cast<Pg::Engine::BTree::Node::BasePgBtNode*>(tPlainNode))
 			{
 				//uniform이니, 자신이 "소속된" GameObject는 없다.
 				it->InitializeTreeNode(nullptr, _bBoardSharedData.get());

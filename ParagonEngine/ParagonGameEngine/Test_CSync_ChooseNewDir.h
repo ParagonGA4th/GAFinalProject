@@ -2,12 +2,12 @@
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
-#include "PgBtNode.h"
+#include "BasePgBtNode.h"
 #include "../ParagonMath/PgMath.h"
 
 namespace Pg::Engine::BTree::Node
 {
-	class Test_CSync_ChooseNewDir : public BT::SyncActionNode, public PgBtNode
+	class Test_CSync_ChooseNewDir : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
 		//BehaviorTree 필수 요구 사항.
