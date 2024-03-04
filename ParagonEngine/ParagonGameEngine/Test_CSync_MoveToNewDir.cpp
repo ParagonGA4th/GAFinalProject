@@ -18,5 +18,7 @@ namespace Pg::Engine::BTree::Node
 		POS += LOOK;
 
 		GetObject()->_transform._position = POS;
+
+		return BT::NodeStatus::SUCCESS;
 	}
 }

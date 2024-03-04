@@ -23,7 +23,7 @@ namespace Pg::Engine::BTree::Node
 		static BT::PortsList providedPorts()
 		{
 			BT::PortsList tRet;
-			tRet.insert(BT::BidirectionalPort<unsigned int>("_jumpCount"));
+			tRet.insert(BT::BidirectionalPort<int>("_jumpCount"));
 			return tRet;
 		}
 	};

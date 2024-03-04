@@ -11,12 +11,14 @@ namespace Pg::Engine::BTree::Node
 
 	BT::NodeStatus Test_CSync_JumpAtBumpLimit::tick()
 	{
-		unsigned int tVal;
-		getInput<unsigned int>("_jumpCount", tVal);
+		int tVal;
+		getInput<int>("_jumpCount", tVal);
 
 		if (tVal == 5)
 		{
 			_collider->AddForce({ 0.0f, 10.0f ,0.0f }, Pg::Data::ForceMode::eIMPULSE);
 		}
+
+		return BT::NodeStatus::SUCCESS;
 	}
 }

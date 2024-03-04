@@ -31,7 +31,7 @@ namespace Pg::Engine::BTree::Node
 		static BT::PortsList providedPorts()
 		{
 			BT::PortsList tRet;
-			tRet.insert(BT::InputPort<unsigned int>("_jumpCount"));
+			tRet.insert(BT::InputPort<int>("_jumpCount"));
 			return tRet;
 		}
 

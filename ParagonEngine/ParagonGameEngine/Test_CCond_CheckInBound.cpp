@@ -17,15 +17,17 @@ namespace Pg::Engine::BTree::Node
 		Pg::Math::PGFLOAT3 tPos;
 		BTHelper::Validate(getInput<Pg::Math::PGFLOAT3>("_currentPos", tPos));
 
-		bool tIn = false;
+		//Fallback Node에 의해 제어받을 것. 일단 Failure
+		BT::NodeStatus tStat = BT::NodeStatus::FAILURE;
+
 		if (tPos.x > tLT.x && tPos.z > tLT.y &&
 			tPos.x < tRB.x && tPos.z < tRB.y)
 		{
-			tIn = true;
+			//InBound
+			tStat = BT::NodeStatus::SUCCESS;
 		}
 
-		BTHelper::Validate(setOutput<bool>("_isInBound", tIn));
-
+		return tStat;
 	}
 
 }

@@ -104,7 +104,7 @@
       <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_MoveToNewDir</Filter>
     </ClInclude>
     <ClInclude Include="Test_CSync_AddBumpCount.h">
-      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir\Test_CSync_AddBumpCount</Filter>
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_AddBumpCount</Filter>
     </ClInclude>
     <ClInclude Include="Test_CSync_JumpAtBumpLimit.h">
       <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_JumpAtBumpLimit</Filter>
@@ -196,7 +196,7 @@
       <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_MoveToNewDir</Filter>
     </ClCompile>
     <ClCompile Include="Test_CSync_AddBumpCount.cpp">
-      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir\Test_CSync_AddBumpCount</Filter>
+      <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_AddBumpCount</Filter>
     </ClCompile>
     <ClCompile Include="Test_CSync_JumpAtBumpLimit.cpp">
       <Filter>5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_JumpAtBumpLimit</Filter>
@@ -341,11 +341,11 @@
     <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_JumpAtBumpLimit">
       <UniqueIdentifier>{694f3525-609e-45ff-8ad8-a8940e3c0cf2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_ChooseNewDir\Test_CSync_AddBumpCount">
-      <UniqueIdentifier>{a780bb0a-b633-4a1f-b329-54e3b508ab89}</UniqueIdentifier>
-    </Filter>
     <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_ReturnToCenter">
       <UniqueIdentifier>{2eb56b22-2696-4dd6-a9b7-2a0125082fff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree\Nodes\CustomNodes\CustomSyncActionNodes\Test_CSync_AddBumpCount">
+      <UniqueIdentifier>{a780bb0a-b633-4a1f-b329-54e3b508ab89}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

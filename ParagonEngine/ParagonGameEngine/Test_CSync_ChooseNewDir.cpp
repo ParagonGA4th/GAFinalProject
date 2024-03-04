@@ -28,5 +28,7 @@ namespace Pg::Engine::BTree::Node
 		tOut = Pg::Math::PGFloat3Normalize(tOut);
 
 		BTHelper::Validate(setOutput<Pg::Math::PGFLOAT3>("_moveDir", tOut));
+
+		return BT::NodeStatus::SUCCESS;
 	}
 }
