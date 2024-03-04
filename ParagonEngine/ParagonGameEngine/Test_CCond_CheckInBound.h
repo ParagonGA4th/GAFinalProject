@@ -31,7 +31,6 @@ namespace Pg::Engine::BTree::Node
 			tRet.insert(BT::InputPort<Pg::Math::PGFLOAT2>("_LT")); // {30,30} 로 Groot에서 세팅하자.
 			tRet.insert(BT::InputPort<Pg::Math::PGFLOAT2>("_RB")); // {50,50} 로 Groot에서 세팅하자.
 			tRet.insert(BT::InputPort<Pg::Math::PGFLOAT3>("_currentPos"));
-			tRet.insert(BT::OutputPort<bool>("_isInBound"));
 			return tRet;
 		}
 	};

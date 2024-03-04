@@ -16,5 +16,8 @@ namespace Pg::Engine::BTree::Node
 		float tMidZ = (tLT.y + tRB.y) / 2.0f;
 
 		GetObject()->_transform._position = { tMidX, 0.f, tMidZ };
+
+		//항상 성공할 수밖에 없는 위치.
+		return BT::NodeStatus::SUCCESS;
 	}
 }
