@@ -29,6 +29,9 @@ namespace Pg::Engine::BTree::Node
 			tRet.insert(BT::InputPort<int>("_jumpCount"));
 			return tRet;
 		}
+
+	private:
+		bool tToggle;
 	};
 }
 

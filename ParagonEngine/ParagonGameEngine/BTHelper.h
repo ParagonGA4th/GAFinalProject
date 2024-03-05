@@ -13,3 +13,11 @@ namespace Pg::Engine::BTree
 		static void Validate(const BT::Result& tOpValue);
 	};
 }
+
+#define BT_VALIDATE(tExpected) 						  				    \
+{																	    \
+	if (!tExpected)													    \
+	{																    \
+		assert(false && tExpected.error().c_str());						\
+	}																    \
+}													  
