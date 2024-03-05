@@ -68,17 +68,17 @@ namespace Pg::Core
 
 	long ProcessMain::Initialize(void* hwnd, int screenWidth, int screenHeight)
 	{
-		//deltaTime 초기화
-		//_timeManager->Initialize();
+		//나중에 일괄적으로 Editor와 ResourceList 연동이 이루어져야 한다 (string)
+		std::string tResourceListPath = "../Test/Asset/ResourceList";
 
 		//엔진 초기화
 		_util->Initialize();
-		_engineGraphicsAdapter->InitializeEngine(hwnd, screenWidth, screenHeight);
+		_engineGraphicsAdapter->InitializeEngine(hwnd, screenWidth, screenHeight, tResourceListPath);
 		_api->Initialize();
 		_engineGraphicsAdapter->InitializeGraphics(static_cast<HWND>(hwnd), screenWidth, screenHeight);
 
 		//AssetManager 세팅. (현재 씬에서 리소스 목록 받아오는 것 아님, 받아올 리소스 하드코딩!)
-		_assetManager->Initialize(this, "../Test/Asset/ResourceList");
+		_assetManager->Initialize(this, tResourceListPath);
 		_engineGraphicsAdapter->UpdateAssetManager(_assetManager);
 		//AssetManager 내부 리소스 이름이 겹치지 않게 관리.
 		_assetManager->AssureNoNameDuplicates();

@@ -1,0 +1,4 @@
+Path,SoundGroup,isLoop
+../Resources/Sounds/Test/TitleBGM.mp3,BGM,0
+../Resources/Sounds/Test/Ingame.mp3,BGM,0
+../Resources/Sounds/Test/jump.mp3,Effect,0

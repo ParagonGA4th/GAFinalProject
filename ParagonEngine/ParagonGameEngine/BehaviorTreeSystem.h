@@ -31,7 +31,7 @@ namespace Pg::Engine::BTree
 		BehaviorTreeSystem();
 		~BehaviorTreeSystem();
 
-		void Initialize();
+		void Initialize(const std::string& resourceListPath);
 
 		//Scene이 바뀌었을 때 (+ Initialize) 때 호출되는 함수. BT 리스트 업데이트.
 		void SyncSceneActiveBT();
@@ -51,10 +51,13 @@ namespace Pg::Engine::BTree
 
 		//모든 Leaf Node들은 내부적으로 이 함수에서 Register되어야 한다.
 		void InitAllLeafNodes();
-		//모든 XML (Uniform) 파일들 BT::Tree로 로드.
-		void LoadAllUniformXMLFiles();
-		//모든 XML (Instanced) 파일들 미리 TEXT를 받아오기. 
-		void LoadAllInstancedXMLFiles();
+		//모든 XML 파일들 BehaviorTreeSystem에 맞게 로드.
+		void LoadAllXMLFiles(const std::string& resourceListPath);
+
+		//XML (Uniform) 파일 하나 BT::Tree로 로드.
+		void LoadSingleUniformXMLFile(const std::string& path);
+		//XML (Instanced) 파일 하나 미리 TEXT를 받아오기. 
+		void LoadSingleInstancedXMLFile(const std::string& path);
 
 		//Update 내부에 호출되는 함수들.
 		void UpdateAnimators();
@@ -73,7 +76,8 @@ namespace Pg::Engine::BTree
 		
 		//Storage
 		//자체적인 (Uniform) BT::Tree 관리. List. 현재로서는 ResourceManager의 역할까지 한꺼번에 수행하고 있는 것. 
-		std::unordered_map<std::string, BT::Tree*> _uniformTreeStorage;
+		//Tree 객체 자체를 보관한다. (주소만 할당해주는 방식이 되어야 한다 개별 Animator한테는)
+		std::unordered_map<std::string, BT::Tree> _uniformTreeStorage;
 
 		//Instanced Animator Component의 경우, 
 		//그럼에도 List 보관 이유 -> 해당 File Location에 Tree가 반드시 있을 수 있게 보장하는 것.
