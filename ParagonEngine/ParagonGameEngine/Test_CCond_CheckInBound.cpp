@@ -10,20 +10,20 @@ namespace Pg::Engine::BTree::Node
 		//PG_TRACE(typeid(this).name());
 
 		//탑 다운 관점. X / Z 의미.
-		Pg::Math::PGFLOAT2 tLT;
-		Pg::Math::PGFLOAT2 tRB;
-		BTHelper::Validate(getInput<Pg::Math::PGFLOAT2>("_LT", tLT));
-		BTHelper::Validate(getInput<Pg::Math::PGFLOAT2>("_RB", tRB));
+		auto tLT = getInput<Pg::Math::PGFLOAT2>("_LT");
+		auto tRB = getInput<Pg::Math::PGFLOAT2>("_RB");
+		BT_VALIDATE(tLT);
+		BT_VALIDATE(tRB);
 
 		//단순히 Position이 위치 안에 있는지 검사.
-		Pg::Math::PGFLOAT3 tPos;
-		BTHelper::Validate(getInput<Pg::Math::PGFLOAT3>("_currentPos", tPos));
+		auto tPos = getInput<Pg::Math::PGFLOAT3>("_currentPos");
+		BT_VALIDATE(tPos);
 
 		//Fallback Node에 의해 제어받을 것. 일단 Failure
 		BT::NodeStatus tStat = BT::NodeStatus::FAILURE;
 
-		if (tPos.x > tLT.x && tPos.z > tLT.y &&
-			tPos.x < tRB.x && tPos.z < tRB.y)
+		if (tPos.value().x > tLT.value().x && tPos.value().z > tLT.value().y &&
+			tPos.value().x < tRB.value().x && tPos.value().z < tRB.value().y)
 		{
 			//InBound
 			tStat = BT::NodeStatus::SUCCESS;
