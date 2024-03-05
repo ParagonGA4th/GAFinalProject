@@ -172,18 +172,18 @@ namespace Pg::Engine::Physic
 			if (!dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
 			{
 				gameObj->OnCollisionEnter(dynamicCol->_collisionStorage.data(), dynamicCol->_collisionStorage.size());
-				PG_TRACE("CollisionEnter!");
+				//PG_TRACE("CollisionEnter!");
 			}
 			//Stay는 잠시 보류해뒀다. PhysX 내부에서 지원해주지 않음.
 			else if (dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
 			{
 				gameObj->OnCollisionStay();
-				PG_TRACE("CollisionStay!");
+				//PG_TRACE("CollisionStay!");
 			}
 			else if (dynamicCol->GetWasCollided() && !dynamicCol->GetIsCollide())
 			{
 				gameObj->OnCollisionExit(dynamicCol->_collisionStorage.data(), dynamicCol->_collisionStorage.size());
-				PG_TRACE("CollisionExit!");
+				//PG_TRACE("CollisionExit!");
 			}
 
 			//트리거 감지를 위해 잠시 해둠
@@ -204,18 +204,18 @@ namespace Pg::Engine::Physic
 			{
 				assert(staticCol->_collisionStorage.size() >= 1);
 				gameObj->OnCollisionEnter(staticCol->_collisionStorage.data(), staticCol->_collisionStorage.size());
-				PG_TRACE("CollisionEnter!");
+				//PG_TRACE("CollisionEnter!");
 			}
 			//Stay는 잠시 보류해뒀다. PhysX 내부에서 지원해주지 않음.
 			else if (staticCol->GetWasCollided() && staticCol->GetIsCollide())
 			{
 				gameObj->OnCollisionStay();
-				PG_TRACE("CollisionStay!");
+				//PG_TRACE("CollisionStay!");
 			}
 			else if (staticCol->GetWasCollided() && !staticCol->GetIsCollide())
 			{
 				gameObj->OnCollisionExit(staticCol->_collisionStorage.data(), staticCol->_collisionStorage.size());
-				PG_TRACE("CollisionExit!");
+				//PG_TRACE("CollisionExit!");
 			}
 
 			//트리거 감지를 위해 잠시 해둠

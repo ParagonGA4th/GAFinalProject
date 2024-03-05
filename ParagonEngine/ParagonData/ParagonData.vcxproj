@@ -186,6 +186,22 @@
     <ClInclude Include="BaseResource.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="BoxCollider2D.h" />
+    <ClInclude Include="BtNodes\BasePgBtNode.h" />
+    <ClInclude Include="BtNodes\BTDefines.h" />
+    <ClInclude Include="BtNodes\BTHelper.h" />
+    <ClInclude Include="BtNodes\BTreeShareData.h" />
+    <ClInclude Include="BtNodes\BTTemplateSpecialization.h" />
+    <ClInclude Include="BtNodes\Concrete\CAsync_Sleeper.h" />
+    <ClInclude Include="BtNodes\Concrete\CSync_ApproachPosition.h" />
+    <ClInclude Include="BtNodes\Concrete\DemoConditionComp1.h" />
+    <ClInclude Include="BtNodes\Concrete\Test_CCond_CheckInBound.h" />
+    <ClInclude Include="BtNodes\Concrete\Test_CSync_AddBumpCount.h" />
+    <ClInclude Include="BtNodes\Concrete\Test_CSync_ChooseNewDir.h" />
+    <ClInclude Include="BtNodes\Concrete\Test_CSync_JumpAtBumpLimit.h" />
+    <ClInclude Include="BtNodes\Concrete\Test_CSync_MoveToNewDir.h" />
+    <ClInclude Include="BtNodes\Concrete\Test_CSync_RecordCurrentPos.h" />
+    <ClInclude Include="BtNodes\Concrete\Test_CSync_ReturnToCenter.h" />
+    <ClInclude Include="BtNodes\PgCustomBTNodes.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraData.h" />
@@ -237,11 +253,23 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animator.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="BaseRenderer.cpp" />
     <ClCompile Include="BaseResource.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="BoxCollider2D.cpp" />
+    <ClCompile Include="BtNodes\BTDefines.cpp" />
+    <ClCompile Include="BtNodes\BTHelper.cpp" />
+    <ClCompile Include="BtNodes\Concrete\CAsync_Sleeper.cpp" />
+    <ClCompile Include="BtNodes\Concrete\CSync_ApproachPosition.cpp" />
+    <ClCompile Include="BtNodes\Concrete\Test_CCond_CheckInBound.cpp" />
+    <ClCompile Include="BtNodes\Concrete\Test_CSync_AddBumpCount.cpp" />
+    <ClCompile Include="BtNodes\Concrete\Test_CSync_ChooseNewDir.cpp" />
+    <ClCompile Include="BtNodes\Concrete\Test_CSync_JumpAtBumpLimit.cpp" />
+    <ClCompile Include="BtNodes\Concrete\Test_CSync_MoveToNewDir.cpp" />
+    <ClCompile Include="BtNodes\Concrete\Test_CSync_RecordCurrentPos.cpp" />
+    <ClCompile Include="BtNodes\Concrete\Test_CSync_ReturnToCenter.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
