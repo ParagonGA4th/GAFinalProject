@@ -1,7 +1,7 @@
 #include "Test_CSync_AddBumpCount.h"
 #include "../ParagonUtil/Log.h"
-#include "BTHelper.h"
-namespace Pg::Engine::BTree::Node
+#include "../BTHelper.h"
+namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Test_CSync_AddBumpCount::tick()
 	{

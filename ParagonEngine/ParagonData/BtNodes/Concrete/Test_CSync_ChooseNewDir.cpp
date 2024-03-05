@@ -1,12 +1,10 @@
 #include "Test_CSync_ChooseNewDir.h"
-#include "BTHelper.h"
+#include "../BTHelper.h"
 #include <cstdlib>
 #include "../ParagonUtil/Log.h"
 
-namespace Pg::Engine::BTree::Node
+namespace Pg::Data::BTree::Node
 {
-	using Pg::Engine::BTree::BTHelper;
-
 	BT::NodeStatus Test_CSync_ChooseNewDir::tick()
 	{
 		//PG_TRACE(typeid(this).name());
@@ -30,7 +28,7 @@ namespace Pg::Engine::BTree::Node
 		//방향으로 쓰일 것이기에, 정규화.
 		tOut = Pg::Math::PGFloat3Normalize(tOut);
 
-		BTHelper::Validate(setOutput("_moveDir", tOut));
+		setOutput("_moveDir", tOut);
 
 		return BT::NodeStatus::SUCCESS;
 	}

@@ -1,11 +1,11 @@
 #include "Test_CSync_MoveToNewDir.h"
-#include "BTHelper.h"
+#include "../BTHelper.h"
 #include "../ParagonUtil/Log.h"
 #include <cassert>
 
-namespace Pg::Engine::BTree::Node
+namespace Pg::Data::BTree::Node
 {
-	using Pg::Engine::BTree::BTHelper;
+	using Pg::Data::BTree::BTHelper;
 
 	void Test_CSync_MoveToNewDir::InitCustom()
 	{

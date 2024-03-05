@@ -2,7 +2,7 @@
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 #include <chrono>
-#include "BasePgBtNode.h"
+#include "../BasePgBtNode.h"
 
 /// <summary>
 /// BT::SyncActionNode
@@ -22,7 +22,7 @@
 /// 이 경우, 개별적으로 클래스를 만들 필요가 없다.
 /// </summary>
 
-namespace Pg::Engine::BTree::Node
+namespace Pg::Data::BTree::Node
 {
 	class CSync_ApproachPosition : public BT::SyncActionNode, public BasePgBtNode
 	{

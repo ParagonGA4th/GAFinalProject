@@ -10,7 +10,7 @@
 ///// 코루틴 등에 유용한 Async Leaf Node의 예시. (StatefulActionNode)
 ///// </summary>
 //
-//namespace Pg::Engine::BTree::Node
+//namespace Pg::Data::BTree::Node
 //{
 //	class CAsync_Sleeper : public BT::StatefulActionNode
 //	{

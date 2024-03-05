@@ -1,9 +1,9 @@
 #include "BehaviorTreeSystem.h"
 #include "SceneSystem.h"
-#include "BTDefines.h"
-#include "BasePgBtNode.h"
-#include "PgCustomBTNodes.h"
-#include "BTTemplateSpecialization.h"
+#include "../ParagonData/BtNodes/BTDefines.h"
+#include "../ParagonData/BtNodes/BasePgBtNode.h"
+#include "../ParagonData/BtNodes/PgCustomBTNodes.h"
+#include "../ParagonData/BtNodes/BTTemplateSpecialization.h"
 
 #include "../ParagonData/Animator.h"
 #include "../ParagonUtil/Log.h"
@@ -19,7 +19,7 @@ namespace Pg::Engine::BTree
 	BehaviorTreeSystem::BehaviorTreeSystem()
 	{
 		_factory = std::make_unique<::BT::BehaviorTreeFactory>();
-		_bBoardSharedData = std::make_unique<BTree::BTreeShareData>();
+		_bBoardSharedData = std::make_unique<Pg::Data::BTree::BTreeShareData>();
 	}
 
 	BehaviorTreeSystem::~BehaviorTreeSystem()
@@ -48,16 +48,18 @@ namespace Pg::Engine::BTree
 		//일일히 만든 컨디션 노가다가 필요하다
 
 #pragma region ACTUAL_NODE_REGISTRATION
+
+		using namespace Pg::Data::BTree;
 		//CCond
-		_factory->registerNodeType<Pg::Engine::BTree::Node::Test_CCond_CheckInBound>("Test_CCond_CheckInBound");
+		_factory->registerNodeType<Node::Test_CCond_CheckInBound>("Test_CCond_CheckInBound");
 
 		//CSync
-		_factory->registerNodeType<Pg::Engine::BTree::Node::Test_CSync_AddBumpCount>("Test_CSync_AddBumpCount");
-		_factory->registerNodeType<Pg::Engine::BTree::Node::Test_CSync_ChooseNewDir>("Test_CSync_ChooseNewDir");
-		_factory->registerNodeType<Pg::Engine::BTree::Node::Test_CSync_JumpAtBumpLimit>("Test_CSync_JumpAtBumpLimit");
-		_factory->registerNodeType<Pg::Engine::BTree::Node::Test_CSync_MoveToNewDir>("Test_CSync_MoveToNewDir");
-		_factory->registerNodeType<Pg::Engine::BTree::Node::Test_CSync_RecordCurrentPos>("Test_CSync_RecordCurrentPos");
-		_factory->registerNodeType<Pg::Engine::BTree::Node::Test_CSync_ReturnToCenter>("Test_CSync_ReturnToCenter");
+		_factory->registerNodeType<Node::Test_CSync_AddBumpCount>("Test_CSync_AddBumpCount");
+		_factory->registerNodeType<Node::Test_CSync_ChooseNewDir>("Test_CSync_ChooseNewDir");
+		_factory->registerNodeType<Node::Test_CSync_JumpAtBumpLimit>("Test_CSync_JumpAtBumpLimit");
+		_factory->registerNodeType<Node::Test_CSync_MoveToNewDir>("Test_CSync_MoveToNewDir");
+		_factory->registerNodeType<Node::Test_CSync_RecordCurrentPos>("Test_CSync_RecordCurrentPos");
+		_factory->registerNodeType<Node::Test_CSync_ReturnToCenter>("Test_CSync_ReturnToCenter");
 
 #pragma endregion ACTUAL_NODE_REGISTRATION
 
@@ -115,7 +117,7 @@ namespace Pg::Engine::BTree
 					for (auto& itt : tAnimator->_behavTree->nodes)
 					{
 						::BT::TreeNode* tPlainNode = itt.get();
-						if (auto it = dynamic_cast<Pg::Engine::BTree::Node::BasePgBtNode*>(tPlainNode))
+						if (auto it = dynamic_cast<Pg::Data::BTree::Node::BasePgBtNode*>(tPlainNode))
 						{
 							it->InitializeTreeNode(obj, _bBoardSharedData.get());
 							it->InitCustom();
@@ -244,7 +246,7 @@ namespace Pg::Engine::BTree
 		for (auto& itt : _uniformTreeStorage.at(path).nodes)
 		{
 			::BT::TreeNode* tPlainNode = itt.get();
-			if (auto it = dynamic_cast<Pg::Engine::BTree::Node::BasePgBtNode*>(tPlainNode))
+			if (auto it = dynamic_cast<Pg::Data::BTree::Node::BasePgBtNode*>(tPlainNode))
 			{
 				//uniform이니, 자신이 "소속된" GameObject는 없다.
 				it->InitializeTreeNode(nullptr, _bBoardSharedData.get());

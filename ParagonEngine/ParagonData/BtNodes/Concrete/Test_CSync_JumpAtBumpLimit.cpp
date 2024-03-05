@@ -1,8 +1,8 @@
 #include "Test_CSync_JumpAtBumpLimit.h"
 #include "../ParagonUtil/Log.h"
-#include "BTHelper.h"
+#include "../BTHelper.h"
 
-namespace Pg::Engine::BTree::Node
+namespace Pg::Data::BTree::Node
 {
 	void Test_CSync_JumpAtBumpLimit::InitCustom()
 	{

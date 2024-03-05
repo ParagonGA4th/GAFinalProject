@@ -4,10 +4,10 @@
 
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
-#include "BasePgBtNode.h"
-#include "BTDefines.h"
+#include "../BasePgBtNode.h"
+#include "../BTDefines.h"
 
-namespace Pg::Engine::BTree::Node
+namespace Pg::Data::BTree::Node
 {
 	class Test_CSync_MoveToNewDir : public BT::SyncActionNode, public BasePgBtNode
 	{
