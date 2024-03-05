@@ -146,6 +146,10 @@ namespace Pg::Engine::BTree
 			{	
 				//È°¼ºÈ­.
 				it->_behavTree->tickRoot();
+				//while (status != NodeStatus::SUCCESS || status == NodeStatus::FAILURE)
+				//{
+				//	
+				//}
 			}
 		}
 
