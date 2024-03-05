@@ -243,6 +243,7 @@ namespace Pg::Engine
 		}
 
 		//여기다가 전부 사운드 만들어줘야함. 조절은 AudioSource에서.
+		///사운드 파일은 엑셀의 csv 파일에 적을 예정.
 		//CreateSound("../Resources/Sounds/Test/TitleBGM.mp3", eSoundGroup::BGM, false);
 		//CreateSound("../Resources/Sounds/Test/Ingame.mp3", eSoundGroup::BGM, false);
 		//CreateSound("../Resources/Sounds/Test/jump.mp3", eSoundGroup::Effect, false);

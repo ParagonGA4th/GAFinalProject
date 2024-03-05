@@ -1,5 +1,4 @@
 #include "PgSound.h"
-#include "../ParagonData/AudioSource.h"
 
 #ifdef _DEBUG
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonGameEngine.lib")

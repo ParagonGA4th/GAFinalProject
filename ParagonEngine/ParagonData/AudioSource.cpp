@@ -25,7 +25,7 @@ namespace Pg::Data
 
 	void AudioSource::Play()
 	{
-		_soundState = eSoundState::_PLAY;
+		_soundState = eSoundState::_PLAY;                                  
 	}
 
 	void AudioSource::Stop()

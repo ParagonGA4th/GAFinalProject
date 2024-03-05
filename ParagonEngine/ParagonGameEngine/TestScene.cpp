@@ -16,7 +16,7 @@
 #include "../ParagonData/ImageRenderer.h" //Render ���� ���� ����.
 #include "../ParagonData/TextRenderer.h" //Render ���� ���� ����.
 #include "../ParagonData/StaticMeshRenderer.h" //Render ���� ���� ����.
-
+#include "../ParagonData/Animator.h"
 
 
 // Script<->Component Ȯ���ϱ� ����.
@@ -150,7 +150,7 @@ void Pg::Engine::TestScene::Initialize()
 
 
 	Pg::Data::GameObject* tObj20 = tCurrentScene->AddObject("TestingPlane");
-	tObj20->GetComponent<Transform>()->_position = { 30.0f, 0.0f, 0.0f };
+	tObj20->GetComponent<Transform>()->_position = { 30.0f, -4.0f, 0.0f };
 	tObj20->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	tObj20->GetComponent<Transform>()->_rotation = tObj20->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 	tObj20->AddComponent<PlaneCollider>();
@@ -160,20 +160,40 @@ void Pg::Engine::TestScene::Initialize()
 	tObj20->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	GameObject* tObj21 = tCurrentScene->AddObject("TestingShadow");
-	tObj21->GetComponent<Transform>()->_position = { 30.0f, 1.0f, 0.0f };
+	tObj21->GetComponent<Transform>()->_position = { 30.0f, 3.0f, 0.0f };
 	tObj21->AddComponent<StaticMeshRenderer>();
 	tObj21->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Cube/Cube.fbx");
 	tObj21->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat");
 	tObj21->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	GameObject* tObj22 = tCurrentScene->AddObject("TestingShadow2");
-	tObj22->GetComponent<Transform>()->_position = { 40.0f, 10.0f, 0.0f };
+	tObj22->GetComponent<Transform>()->_position = { 40.0f, 6.0f, 0.0f };
 	tObj22->GetComponent<Transform>()->_rotation = tObj22->GetComponent<Transform>()->EulerToQuaternion(1.5708f, -1.5708f, 0.f);
 	tObj22->AddComponent<StaticMeshRenderer>();
 	tObj22->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
 	tObj22->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/ExperimentalMaterial.pgmat");
 	tObj22->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
+	Pg::Data::GameObject* tObj23 = tCurrentScene->AddObject("TestingBT_Plane");
+	tObj23->GetComponent<Transform>()->_position = { 40.0f, -4.0f, 40.0f };
+	tObj23->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	tObj23->GetComponent<Transform>()->_rotation = tObj23->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	tObj23->AddComponent<PlaneCollider>();
+	tObj23->AddComponent<StaticMeshRenderer>();
+	tObj23->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
+	tObj23->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/PlainDiffuseMaterial.pgmat");
+	tObj23->GetComponent<StaticMeshRenderer>()->SetActive(true);
+
+	Pg::Data::GameObject* tObj24 = tCurrentScene->AddObject("TestingBT_Box");
+	tObj24->GetComponent<Transform>()->_position = { 40.0f, -4.0f, 40.0f };
+	tObj24->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	tObj24->GetComponent<Transform>()->_rotation = tObj24->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	tObj24->AddComponent<StaticMeshRenderer>();
+	tObj24->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Cube/Cube.fbx");
+	tObj24->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat");
+	tObj24->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	//Animator 추가.
+	tObj24->AddComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Test/BTree_Testing1.xml");
 	assert(true);
 }
 
