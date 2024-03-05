@@ -5,8 +5,12 @@ namespace Pg::Editor
 	enum class eEventType
 	{
 		_NONE,
-		_FILESAVE,
-		_FILEOPEN,
+		_NEWSCENE,
+		_OPENSCENE,
+		_SAVESCENE,
+		_NEWPROJECT,
+		_OPENPROJECT,
+		_SAVEPROJECT,
 		_OBJECTDATA,
 		_EDITORMODE,
 	};
