@@ -20,10 +20,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="EventTest.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlayerMove.cpp" />
+    <ClCompile Include="RayCastTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="EventTest.h" />
+    <ClInclude Include="PlayerMove.h" />
+    <ClInclude Include="RayCastTest.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

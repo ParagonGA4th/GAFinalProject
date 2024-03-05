@@ -3,9 +3,7 @@
 #include "../ParagonData/Camera.h"
 
 /// <summary>
-/// 23.10.12 오수안
-/// 카메라 스크립트 테스트
-/// -> Editor가 움직이는 카메라에 국한되어야 한다!
+/// 플레이어 스크립트 테스트
 /// </summary>
 
 namespace Pg::Data
