@@ -16,7 +16,7 @@ namespace Pg::Engine::BTree::Node
 		BTHelper::Validate(setOutput<Pg::Math::PGFLOAT3>("_currentPos", GetGameObject()->_transform._position));
 		//또한, Tree당 하나의 Blackboard를 가지고 있으므로, 동일 Node 사이에서 공유된다.
 		//걱정할 내용 X.
-
+		
 		//여기까지 오면 해당 작용에는 성공했으므로, SUCCESS 반환. 
 		return BT::NodeStatus::SUCCESS;
 	}
