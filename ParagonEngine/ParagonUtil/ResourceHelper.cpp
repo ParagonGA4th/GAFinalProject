@@ -17,6 +17,12 @@ namespace Pg::Util::Helper
 
 	}
 
+	bool ResourceHelper::IsFileExist(const std::string& filePath)
+	{
+		std::filesystem::path tPath(filePath);
+		return std::filesystem::exists(tPath);
+	}
+
 	std::string ResourceHelper::ForcePathUniform(const std::string& filePath)
 	{
 		std::filesystem::path tPath(filePath);
@@ -119,6 +125,7 @@ namespace Pg::Util::Helper
 		return (tExtString == ".dds" || tExtString == ".DDS");
 	}
 
+	
 	
 
 }

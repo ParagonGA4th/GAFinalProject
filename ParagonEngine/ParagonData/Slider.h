@@ -8,6 +8,9 @@
 /// </summary>
 namespace Pg::Data
 {
+	class GameObject;
+	class ImageRenderer;
+
 	class Slider : Component
 	{
 	public:
@@ -15,12 +18,32 @@ namespace Pg::Data
 
 		virtual void Update() override;
 
+		void SetValueEvent(std::function<void(float)> event);
+		std::function<void(float)> GetvalueEvent();
+
+		void SetImagePath(const std::string path);
+
+		void SetImageSize(float width, float height);
+		void SetImageWidth(float width);
+		void SetImageHeight(float height);
+
+		float GetImageWidth();
+		float GetImageHeight();
+
 		void SetValue(float val);
 		float GetValue();
+
 
 	private:
 		//슬라이더의 값이 변경될 때 발생하는 이벤트.
 		std::function<void(float)> _onValueEvent;
 		float _value;
+
+		ImageRenderer* _imageRenderer = nullptr;
+
+	public:
+		//이미지의 사이즈
+		float* _imageWidth;
+		float* _imageHeight;
 	};
 }

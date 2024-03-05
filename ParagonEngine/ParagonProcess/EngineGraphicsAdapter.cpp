@@ -40,9 +40,9 @@ namespace Pg::Core
 
 	}
 
-	void EngineGraphicsAdapter::InitializeEngine(void* hwnd, int screenWidth, int screenHeight)
+	void EngineGraphicsAdapter::InitializeEngine(void* hwnd, int screenWidth, int screenHeight, const std::string& resourceListPath)
 	{
-		_engine->Initialize(hwnd, screenWidth, screenHeight);
+		_engine->Initialize(hwnd, screenWidth, screenHeight, resourceListPath);
 	}
 
 	void EngineGraphicsAdapter::InitializeGraphics(void* hwnd, int screenWidth, int screenHeight)

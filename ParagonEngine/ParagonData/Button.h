@@ -50,7 +50,6 @@ namespace Pg::Data
 	private:
 		ImageRenderer* _imageRenderer = nullptr;
 
-		//TODO 나중에 필요하면 템플릿으로 바꿀 것
 		std::function<void()> _onClickEvent;
 
 		bool _isPressed;	//버튼 누른 여부 체크.

@@ -26,7 +26,7 @@ namespace Pg::Engine
 		tButton->SetOnClickEvent([]
 			{
 				//assert(false, "너의 프로그램은 해킹 당했다. 으하하하하");
-				//PG_TRACE("Button Clicked!!");
+				PG_TRACE("Button Clicked!!");
 			});
 	}
 
