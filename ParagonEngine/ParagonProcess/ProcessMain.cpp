@@ -110,6 +110,9 @@ namespace Pg::Core
 			_engineGraphicsAdapter->GetCurrentScene(),
 			_engineGraphicsAdapter->GetCameraData());
 
+		if (_editorAdapter->GetCurrentScene() == nullptr)
+			_editorAdapter->SetCurrentScene(_engineGraphicsAdapter->GetCurrentScene());
+
 		// 에디터에서 변경 된 씬 정보 -> 게임엔진 
 		if(_engineGraphicsAdapter->GetCurrentScene() != _editorAdapter->GetCurrentScene())
 			_engineGraphicsAdapter->SetCurrentScene(_editorAdapter->GetCurrentScene());

@@ -4,7 +4,7 @@
 
 #include <vector>
 
-namespace Pg::UI::Widget::Layout
+namespace Pg::UI::Layout
 {
 	template <size_t _size>
 	class Column : public Pg::UI::IWidget
