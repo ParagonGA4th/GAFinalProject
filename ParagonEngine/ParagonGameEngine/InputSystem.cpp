@@ -8,17 +8,17 @@
 #include <cassert>
 #include <string>
 
-#ifdef _DEBUG
-#pragma comment (lib, "gainput-d.lib")
-#else
-#pragma comment (lib, "ginaput.lib")
-#endif // _DEBUG
+//#ifdef _DEBUG
+//#pragma comment (lib, "gainput-d.lib")
+//#else
+//#pragma comment (lib, "ginaput.lib")
+//#endif // _DEBUG
 
-#ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
-#else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
-#endif // _DEBUG
+//#ifdef _DEBUG
+//#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
+//#else
+//#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
+//#endif // _DEBUG
 
 namespace  Pg::Engine::Input
 {

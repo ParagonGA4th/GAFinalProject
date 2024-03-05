@@ -49,7 +49,6 @@ namespace Pg::Engine
 		void UpdateSounds();
 
 		void SetAllGroupVolume();
-		void SetGroupVolume(Pg::Data::eSoundGroup soundGroup);
 		void SetAllVolume();
 
 		void SoundPause(std::string path, bool isPause);
