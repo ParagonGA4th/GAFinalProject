@@ -1,11 +1,14 @@
 #include "Test_CSync_ReturnToCenter.h"
 #include "BTHelper.h"
 #include "../ParagonData/Transform.h"
+#include "../ParagonUtil/Log.h"
 
 namespace Pg::Engine::BTree::Node
 {
 	BT::NodeStatus Test_CSync_ReturnToCenter::tick()
 	{
+		//PG_TRACE(typeid(this).name());
+
 		//탑 다운 관점. X / Z 의미.
 		Pg::Math::PGFLOAT2 tLT;
 		Pg::Math::PGFLOAT2 tRB;
@@ -15,7 +18,7 @@ namespace Pg::Engine::BTree::Node
 		float tMidX = (tLT.x + tRB.x) / 2.0f;
 		float tMidZ = (tLT.y + tRB.y) / 2.0f;
 
-		GetObject()->_transform._position = { tMidX, 0.f, tMidZ };
+		GetGameObject()->_transform._position = { tMidX, GetGameObject()->_transform._position.y, tMidZ };
 
 		//항상 성공할 수밖에 없는 위치.
 		return BT::NodeStatus::SUCCESS;

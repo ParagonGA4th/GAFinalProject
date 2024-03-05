@@ -22,7 +22,7 @@ namespace Pg::Engine::BTree::Node
 		virtual void InitCustom() {}
 
 	protected:
-		Pg::Data::GameObject* GetObject() { return _object; }
+		Pg::Data::GameObject* GetGameObject() { return _object; }
 		Pg::Engine::BTree::BTreeShareData* GetSharedData() { return _sharedData; }
 
 	private:
