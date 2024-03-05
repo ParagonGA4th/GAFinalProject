@@ -21,6 +21,7 @@ namespace Pg::Editor::System
 		void OpenScene();
 		void SaveScene();
 
+		void NewProject();
 		void OpenProject();
 		void SaveProject();
 
@@ -34,10 +35,13 @@ namespace Pg::Editor::System
 
 	private:
 		FilePath _rootPath;
+		FilePath _scenePath;
 		FilePath _assetsPath;
 		FilePath _scriptPath;
 
 		std::unique_ptr<Pg::Editor::Manager::DataManager> _dataManager;
 		std::unique_ptr<Pg::Editor::Event> _fileEvent;
+
+		bool _isScene;
 	};
 }

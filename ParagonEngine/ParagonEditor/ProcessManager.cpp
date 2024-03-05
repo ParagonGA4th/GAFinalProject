@@ -53,6 +53,11 @@ void Pg::Editor::Manager::ProcessManager::Update()
 	_coreMain->FinalRender();
 
 	
+	if (_coreMain->GetEditorAdapter()->GetCurrentScene() != nullptr
+		&& _dataContainer->GetCurrentScene() == nullptr)
+	{
+		_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
+	}
 
 	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff)) { _dataContainer->SetEditorOnOff(!_dataContainer->GetEditorOnOff()); }
 

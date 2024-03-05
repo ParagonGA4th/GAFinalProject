@@ -46,18 +46,65 @@ void Pg::Editor::Manager::DataManager::DataLoad(bool isScene, std::string path)
 	else
 	{
 		_path = path;
-		ProjectLoad();
+		
+		_scenes.clear();
 
+		ProjectLoad();
 		if (_scenes.size() > 0) _dataContainer->SetSceneList(_scenes);
 	}
 }
 
-std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::DataSave()
+std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::DataSave(bool isScene)
 {
+	_sceneSerializeData.clear();
+
 	// Data를 가져와서 Serialize
 	SceneSave();
+	if(!isScene) ProjectSave();
+
 	return _sceneSerializeData;
 }
+
+std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::DataCreate()
+{
+	_sceneSerializeData.clear();
+
+	std::string sceneName = "Sample Scene";
+	std::string docToString;
+	std::stringstream ss;
+	
+	// project 생성
+	{
+		pugi::xml_document proejctDoc;
+		proejctDoc.append_child("proejct");
+
+		pugi::xml_node scenesNode = proejctDoc.child("proejct").append_child("scenes");
+		Pg::Serialize::Serializer::SerializeString(&scenesNode, "scene", sceneName);
+
+		proejctDoc.save(ss, "\t");
+		docToString = ss.str();
+		_sceneSerializeData.insert({ "project", docToString });
+	}
+
+	// scene 생성
+	{
+		pugi::xml_document doc;
+
+		pugi::xml_node declarationNode = doc.prepend_child(pugi::node_declaration);
+		declarationNode.append_attribute("version") = "1.0";
+		declarationNode.append_attribute("encoding") = "utf-8";
+
+		doc.append_child("scene");
+
+		doc.save(ss, "\t"); // save 함수를 사용하여 스트림에 XML을 저장
+		docToString = ss.str();
+
+		_sceneSerializeData.insert({ sceneName, docToString });
+	}
+
+	return _sceneSerializeData;
+}
+
 
 void Pg::Editor::Manager::DataManager::ProjectLoad()
 {
@@ -65,7 +112,7 @@ void Pg::Editor::Manager::DataManager::ProjectLoad()
 
 	if (doc.load_file(_path.c_str()))
 	{
-		pugi::xml_node rootNode = doc.child("project");
+		pugi::xml_node rootNode = doc.first_child();
 		for (pugi::xml_node scene = rootNode.first_child().first_child(); scene; scene = scene.next_sibling())
 		{
 			_dataContainer->SetProjectPath(_path.substr(0, _path.rfind("\\") + 1));
@@ -95,34 +142,15 @@ void Pg::Editor::Manager::DataManager::SceneLoad(std::string path)
 	}
 }
 
-void Pg::Editor::Manager::DataManager::SceneSave()
+void Pg::Editor::Manager::DataManager::ProjectSave()
 {
 	pugi::xml_document proejctDoc;
 	proejctDoc.append_child("proejct");
 	pugi::xml_node scenesNode = proejctDoc.child("proejct").append_child("scenes");
 
-	for (auto& scene : _dataContainer->GetSceneList())
+	for (auto& scene : _sceneSerializeData)
 	{
-		pugi::xml_document doc;
-
-		pugi::xml_node declarationNode = doc.prepend_child(pugi::node_declaration);
-		declarationNode.append_attribute("version") = "1.0";
-		declarationNode.append_attribute("encoding") = "utf-8";
-
-		doc.append_child("scene");
-		pugi::xml_node node = doc.child("scene").append_child("objects");
-
-		DataSerialize(node, scene);
-
-		std::stringstream ss;
-		doc.save(ss, "\t"); // save 함수를 사용하여 스트림에 XML을 저장
-
-		std::string docToString = ss.str();
-
-		_sceneSerializeData.insert({ scene->GetSceneName(), docToString });
-
-		std::string sceneName = scene->GetSceneName().substr(0, scene->GetSceneName().rfind("."));
-		Pg::Serialize::Serializer::SerializeString(&scenesNode, "scene", sceneName);
+		Pg::Serialize::Serializer::SerializeString(&scenesNode, "scene", scene.first);
 	}
 
 	std::stringstream ss;
@@ -130,8 +158,35 @@ void Pg::Editor::Manager::DataManager::SceneSave()
 
 	std::string docToString = ss.str();
 
-	_sceneSerializeData.insert({ "project", docToString});
-	// 파일 덮어쓰기
+	_sceneSerializeData.insert({ "project", docToString });
+}
+
+void Pg::Editor::Manager::DataManager::SceneSave()
+{
+	//for (auto& scene : _dataContainer->GetSceneList())
+	//{
+
+	pugi::xml_document doc;
+
+	pugi::xml_node declarationNode = doc.prepend_child(pugi::node_declaration);
+	declarationNode.append_attribute("version") = "1.0";
+	declarationNode.append_attribute("encoding") = "utf-8";
+
+	doc.append_child("scene");
+	pugi::xml_node node = doc.child("scene").append_child("objects");
+
+	DataSerialize(node, _dataContainer->GetCurrentScene());
+
+	std::stringstream ss;
+	doc.save(ss, "\t"); // save 함수를 사용하여 스트림에 XML을 저장
+
+	std::string docToString = ss.str();
+
+	_sceneSerializeData.insert({ _dataContainer->GetCurrentScene()->GetSceneName(), docToString });
+
+	std::string sceneName = _dataContainer->GetCurrentScene()->GetSceneName().substr(0, _dataContainer->GetCurrentScene()->GetSceneName().rfind("."));
+
+	//}
 }
 
 

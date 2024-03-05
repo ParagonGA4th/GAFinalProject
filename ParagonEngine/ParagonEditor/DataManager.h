@@ -23,13 +23,14 @@ namespace Pg::Editor::Manager
 		~DataManager();
 
 		void DataLoad(bool isScene, std::string path);
-		std::unordered_map<std::string, std::string> DataSave();
+		std::unordered_map<std::string, std::string> DataSave(bool isScene);
+		std::unordered_map<std::string, std::string> DataCreate();
 
 	private:
 		void ProjectLoad();
 		void SceneLoad(std::string path);
 
-		//void ProjectSave();
+		void ProjectSave();
 		void SceneSave();
 
 		void DataDeserialize(pugi::xml_node root, int sceneNum);
