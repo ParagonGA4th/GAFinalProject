@@ -118,6 +118,42 @@
     <ClCompile Include="ParagonDefines.cpp">
       <Filter>7_ParagonDefines</Filter>
     </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>2_Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="BtNodes\Concrete\CAsync_Sleeper.cpp">
+      <Filter>11_BtNodes\Concrete\CustomAsyncActionNodes\CASync_Sleeper</Filter>
+    </ClCompile>
+    <ClCompile Include="BtNodes\Concrete\Test_CCond_CheckInBound.cpp">
+      <Filter>11_BtNodes\Concrete\CustomConditionNodes\Test_CCond_CheckInBound</Filter>
+    </ClCompile>
+    <ClCompile Include="BtNodes\Concrete\CSync_ApproachPosition.cpp">
+      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\CSync_ApproachPosition %28Example%29</Filter>
+    </ClCompile>
+    <ClCompile Include="BtNodes\Concrete\Test_CSync_AddBumpCount.cpp">
+      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_AddBumpCount</Filter>
+    </ClCompile>
+    <ClCompile Include="BtNodes\Concrete\Test_CSync_ChooseNewDir.cpp">
+      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_ChooseNewDir</Filter>
+    </ClCompile>
+    <ClCompile Include="BtNodes\Concrete\Test_CSync_JumpAtBumpLimit.cpp">
+      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_JumpAtBumpLimit</Filter>
+    </ClCompile>
+    <ClCompile Include="BtNodes\Concrete\Test_CSync_MoveToNewDir.cpp">
+      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_MoveToNewDir</Filter>
+    </ClCompile>
+    <ClCompile Include="BtNodes\Concrete\Test_CSync_RecordCurrentPos.cpp">
+      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_RecordCurrentPos</Filter>
+    </ClCompile>
+    <ClCompile Include="BtNodes\Concrete\Test_CSync_ReturnToCenter.cpp">
+      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_ReturnToCenter</Filter>
+    </ClCompile>
+    <ClCompile Include="BtNodes\BTHelper.cpp">
+      <Filter>11_BtNodes\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="BtNodes\BTDefines.cpp">
+      <Filter>11_BtNodes\Defines</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -292,6 +328,54 @@
     <ClInclude Include="DynamicCollider.h">
       <Filter>2_Component\Collider\3D\DynamicCollider\BaseClass</Filter>
     </ClInclude>
+    <ClInclude Include="BtNodes\Concrete\CAsync_Sleeper.h">
+      <Filter>11_BtNodes\Concrete\CustomAsyncActionNodes\CASync_Sleeper</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\Concrete\Test_CCond_CheckInBound.h">
+      <Filter>11_BtNodes\Concrete\CustomConditionNodes\Test_CCond_CheckInBound</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\Concrete\DemoConditionComp1.h">
+      <Filter>11_BtNodes\Concrete\CustomConditionNodes\DemoConditionComp1</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\Concrete\CSync_ApproachPosition.h">
+      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\CSync_ApproachPosition %28Example%29</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\Concrete\Test_CSync_AddBumpCount.h">
+      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_AddBumpCount</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\Concrete\Test_CSync_ChooseNewDir.h">
+      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_ChooseNewDir</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\Concrete\Test_CSync_JumpAtBumpLimit.h">
+      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_JumpAtBumpLimit</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\Concrete\Test_CSync_MoveToNewDir.h">
+      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_MoveToNewDir</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\Concrete\Test_CSync_RecordCurrentPos.h">
+      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_RecordCurrentPos</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\Concrete\Test_CSync_ReturnToCenter.h">
+      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_ReturnToCenter</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\BTHelper.h">
+      <Filter>11_BtNodes\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\BTDefines.h">
+      <Filter>11_BtNodes\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\BTreeShareData.h">
+      <Filter>11_BtNodes\ShareData</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\BTTemplateSpecialization.h">
+      <Filter>11_BtNodes\TemplateSpecialization</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\BasePgBtNode.h">
+      <Filter>11_BtNodes\Concrete\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\PgCustomBTNodes.h">
+      <Filter>11_BtNodes\Collection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -455,6 +539,69 @@
     </Filter>
     <Filter Include="2_Component\Audio\AudioSource\Enums">
       <UniqueIdentifier>{d9c0e331-1e6d-4205-92a2-bac0027d31ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes">
+      <UniqueIdentifier>{590d7338-e96a-455d-a77e-ab7218be50b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Concrete">
+      <UniqueIdentifier>{ded05e09-c5b4-4e66-9d4c-48ccfe78231d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Concrete\CustomAsyncActionNodes">
+      <UniqueIdentifier>{778b3b65-42d7-4bdb-8067-0fd449708901}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Concrete\CustomAsyncActionNodes\CASync_Sleeper">
+      <UniqueIdentifier>{1c4d5a84-d298-4f56-8c9c-84e5e94f8aaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Concrete\CustomConditionNodes">
+      <UniqueIdentifier>{88c854dd-8f2e-465f-8137-e6c5e0dec8c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Concrete\CustomConditionNodes\Test_CCond_CheckInBound">
+      <UniqueIdentifier>{d3dfa8ad-e989-4c2c-9fa6-38715324b081}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Concrete\CustomConditionNodes\DemoConditionComp1">
+      <UniqueIdentifier>{de6eb2cb-0c24-4b06-bccd-148142bd768b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes">
+      <UniqueIdentifier>{7160ae05-e2ab-450a-ba93-7c91c8c2ce97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes\CSync_ApproachPosition %28Example%29">
+      <UniqueIdentifier>{6adda5ab-148a-43d9-a60d-819c326eec08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_AddBumpCount">
+      <UniqueIdentifier>{f57dd4f1-16e8-4aa6-8179-6bb1d1532331}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_ChooseNewDir">
+      <UniqueIdentifier>{759b415b-a9f8-4c70-9a45-cbf8a45c17b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_JumpAtBumpLimit">
+      <UniqueIdentifier>{7f7918c5-07af-4d4a-99fb-792d59a69529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_MoveToNewDir">
+      <UniqueIdentifier>{ee0ee4df-5139-4642-9d28-b2f002f5ff4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_RecordCurrentPos">
+      <UniqueIdentifier>{d4d0d611-c0d6-47c1-bf90-e571d7e529fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_ReturnToCenter">
+      <UniqueIdentifier>{c39b14c8-a4b3-4bf0-937b-42740c34ac38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Defines">
+      <UniqueIdentifier>{6d6d1119-e9b4-4745-b3c0-a9cc26f5a811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Helper">
+      <UniqueIdentifier>{e8d5f3e2-0521-4181-ae9f-d012ff371e20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\ShareData">
+      <UniqueIdentifier>{2220a51e-ca93-47d9-a826-4d1aae2438c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\TemplateSpecialization">
+      <UniqueIdentifier>{adcd6377-dea3-4e2a-a129-ea8665b5cdd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Concrete\BaseClass">
+      <UniqueIdentifier>{ce158e48-9c1d-4152-9952-3698beffdd2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\Collection">
+      <UniqueIdentifier>{f7d1b6d9-84e9-497a-b896-f63a80e1b8e2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

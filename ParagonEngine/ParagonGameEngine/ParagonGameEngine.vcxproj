@@ -194,10 +194,7 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BehaviorTreeSystem.h" />
-    <ClInclude Include="BTreeShareData.h" />
-    <ClInclude Include="CSync_ApproachPosition.h" />
     <ClInclude Include="BTTest.h" />
-    <ClInclude Include="CAsync_Sleeper.h" />
     <ClInclude Include="DebugSystem.h" />
     <ClInclude Include="dummy_nodes.h" />
     <ClInclude Include="EditorCameraScript.h" />
@@ -220,8 +217,6 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BehaviorTreeSystem.cpp" />
-    <ClCompile Include="CSync_ApproachPosition.cpp" />
-    <ClCompile Include="CAsync_Sleeper.cpp" />
     <ClCompile Include="DebugSystem.cpp" />
     <ClCompile Include="dummy_nodes.cpp" />
     <ClCompile Include="EditorCameraScript.cpp" />
