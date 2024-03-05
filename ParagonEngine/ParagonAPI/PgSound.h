@@ -1,4 +1,5 @@
 #pragma once
+#include "../ParagonData/AudioSource.h"
 
 namespace Pg::Data
 {
