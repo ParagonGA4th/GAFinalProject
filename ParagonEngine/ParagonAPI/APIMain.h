@@ -26,6 +26,11 @@ namespace Pg::API
 	{
 		class PgSound;
 	}
+
+	namespace UI
+	{
+		class PgUI;
+	}
 }
 namespace Pg::API
 {
@@ -39,6 +44,7 @@ namespace Pg::API
 		Pg::API::Input::PgInput* _pgInput = nullptr;
 		Pg::API::Time::PgTime* _pgTime = nullptr;
 		Pg::API::Raycast::PgRayCast* _pgRayCast = nullptr;
+		Pg::API::UI::PgUI* _pgUi = nullptr;
 		Pg::API::Sound::PgSound* _pgSound = nullptr;
 		//PhysXTest* _test;
 

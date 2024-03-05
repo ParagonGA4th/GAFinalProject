@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BTreeShareData.h"
+#include "../ParagonData/BtNodes/BTreeShareData.h"
 
 #include <vector>
 #include <string>
@@ -92,7 +92,7 @@ namespace Pg::Engine::BTree
 	private:
 		//BTree를 만들어 내는 Factory.
 		std::unique_ptr<BT::BehaviorTreeFactory> _factory;
-		std::unique_ptr<BTree::BTreeShareData> _bBoardSharedData;
+		std::unique_ptr<Pg::Data::BTree::BTreeShareData> _bBoardSharedData;
 	};
 }
 

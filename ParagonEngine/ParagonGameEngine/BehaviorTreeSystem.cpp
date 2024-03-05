@@ -1,5 +1,9 @@
 #include "BehaviorTreeSystem.h"
 #include "SceneSystem.h"
+#include "../ParagonData/BtNodes/BTDefines.h"
+#include "../ParagonData/BtNodes/BasePgBtNode.h"
+#include "../ParagonData/BtNodes/PgCustomBTNodes.h"
+#include "../ParagonData/BtNodes/BTTemplateSpecialization.h"
 
 #include "../ParagonData/Animator.h"
 #include "../ParagonUtil/Log.h"
@@ -15,7 +19,7 @@ namespace Pg::Engine::BTree
 	BehaviorTreeSystem::BehaviorTreeSystem()
 	{
 		_factory = std::make_unique<::BT::BehaviorTreeFactory>();
-		_bBoardSharedData = std::make_unique<BTree::BTreeShareData>();
+		_bBoardSharedData = std::make_unique<Pg::Data::BTree::BTreeShareData>();
 	}
 
 	BehaviorTreeSystem::~BehaviorTreeSystem()
@@ -41,7 +45,24 @@ namespace Pg::Engine::BTree
 	void BehaviorTreeSystem::InitAllLeafNodes()
 	{
 		//XML Node를 매칭해서 하는 것. 
-		
+		//일일히 만든 컨디션 노가다가 필요하다
+
+#pragma region ACTUAL_NODE_REGISTRATION
+
+		using namespace Pg::Data::BTree;
+		//CCond
+		_factory->registerNodeType<Node::Test_CCond_CheckInBound>("Test_CCond_CheckInBound");
+
+		//CSync
+		_factory->registerNodeType<Node::Test_CSync_AddBumpCount>("Test_CSync_AddBumpCount");
+		_factory->registerNodeType<Node::Test_CSync_ChooseNewDir>("Test_CSync_ChooseNewDir");
+		_factory->registerNodeType<Node::Test_CSync_JumpAtBumpLimit>("Test_CSync_JumpAtBumpLimit");
+		_factory->registerNodeType<Node::Test_CSync_MoveToNewDir>("Test_CSync_MoveToNewDir");
+		_factory->registerNodeType<Node::Test_CSync_RecordCurrentPos>("Test_CSync_RecordCurrentPos");
+		_factory->registerNodeType<Node::Test_CSync_ReturnToCenter>("Test_CSync_ReturnToCenter");
+
+#pragma endregion ACTUAL_NODE_REGISTRATION
+
 	}
 
 	void BehaviorTreeSystem::SyncSceneActiveBT()
@@ -85,12 +106,23 @@ namespace Pg::Engine::BTree
 					auto tFound = _instancedTreePathContentStorage.find(tAnimator->_behaviorTreePath);
 					assert(tFound != _instancedTreePathContentStorage.end() && "무조건 Instanced이 체크된 BehaviorTreePath는 미리 로드된 Instanced XML List 내부에 있어야!");
 
-					//BehaviorTree 투입.
+					//BehaviorTree 투입. (이게 맞다)
 					*(tAnimator->_behavTree) = _factory->createTreeFromText(tFound->second.c_str(), BT::Blackboard::create());
+					//*(tAnimator->_behavTree) = _factory->createTreeFromFile(tAnimator->_behaviorTreePath, BT::Blackboard::create());
 
 					//자동으로 Blackboard사이 공유되는 자료 리스트 포인터 추가.
-					auto blackboard = tAnimator->_behavTree->rootBlackboard();
-					blackboard->set(BTree::BTreeShareData::KEY, _bBoardSharedData.get());
+					//Blackboard를 두고 자체적으로 공유하는 데이터 + 개별적 소속 오브젝트의 경우 Object 포인터 자체를 기록.
+					//자체 속한 GameObject의 포인터를 내부적으로 저장할 수 있게. (Instanced만 가능) + Shared Data
+					//V4.5+에는 자체적으로 ApplyVisitor가 있지만, 지금 이 자체로는 (재귀 없는 거 아님) 라이브러리 구현체 기반으로 Iterate해야.
+					for (auto& itt : tAnimator->_behavTree->nodes)
+					{
+						::BT::TreeNode* tPlainNode = itt.get();
+						if (auto it = dynamic_cast<Pg::Data::BTree::Node::BasePgBtNode*>(tPlainNode))
+						{
+							it->InitializeTreeNode(obj, _bBoardSharedData.get());
+							it->InitCustom();
+						}
+					}
 
 					//업데이트되는 리스트에서 추가.
 					_activeInstancedAnimatorList.push_back(tAnimator);
@@ -116,6 +148,10 @@ namespace Pg::Engine::BTree
 			{	
 				//활성화.
 				it->_behavTree->tickRoot();
+				//while (status != NodeStatus::SUCCESS || status == NodeStatus::FAILURE)
+				//{
+				//	
+				//}
 			}
 		}
 
@@ -206,8 +242,17 @@ namespace Pg::Engine::BTree
 		_uniformTreeStorage.insert(std::make_pair(path, _factory->createTreeFromFile(path, BT::Blackboard::create())));
 
 		//자동으로 Blackboard사이 공유되는 자료 리스트 포인터 추가.
-		auto blackboard = _uniformTreeStorage.at(path).rootBlackboard();
-		blackboard->set(BTree::BTreeShareData::KEY, _bBoardSharedData.get());
+		//V4.5+에는 자체적으로 ApplyVisitor가 있지만, 지금 이 자체로는 (재귀 없는 거 아님) 라이브러리 구현체 기반으로 Iterate해야.
+		for (auto& itt : _uniformTreeStorage.at(path).nodes)
+		{
+			::BT::TreeNode* tPlainNode = itt.get();
+			if (auto it = dynamic_cast<Pg::Data::BTree::Node::BasePgBtNode*>(tPlainNode))
+			{
+				//uniform이니, 자신이 "소속된" GameObject는 없다.
+				it->InitializeTreeNode(nullptr, _bBoardSharedData.get());
+				it->InitCustom();
+			}
+		}
 	}
 
 	void BehaviorTreeSystem::LoadSingleInstancedXMLFile(const std::string& path)

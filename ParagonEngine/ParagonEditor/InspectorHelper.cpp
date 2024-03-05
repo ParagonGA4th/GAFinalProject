@@ -43,7 +43,7 @@ void Pg::Editor::Window::InspectorHelper::Initialize()
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::Text>("Active");
 	_widgetCon->CreateColumnsWidget<Pg::UI::Widget::CheckBox>("Active", &_isActive);
 
-	_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Column<2>>("BasicInfo", _widgetCon->GetColumnWidgets());
+	_widgetCon->CreateWidget<Pg::UI::Layout::Column<2>>("BasicInfo", _widgetCon->GetColumnWidgets());
 }
 
 void Pg::Editor::Window::InspectorHelper::SetData(Pg::Data::GameObject* object)
@@ -109,7 +109,9 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 
 			for (auto data : componentData)
 			{
-				std::string componentName = data.first.substr(data.first.rfind("::") + 2);
+				std::string componentName;
+				if (data.first.find("::") == std::string::npos) componentName = data.first.substr(data.first.rfind("class") + 6);
+				else componentName = data.first.substr(data.first.rfind("::") + 2);
 
 				if (_componentExistence.find(data.first) == _componentExistence.end())
 					_componentExistence.insert({ data.first , new bool(true) });
@@ -155,8 +157,8 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 					}
 				}
 
-				_widgetCon->CreateCollapsWidget<Pg::UI::Widget::Layout::Column<2>>(componentName, _widgetCon->GetColumnWidgets());
-				_widgetCon->CreateWidget<Pg::UI::Widget::Layout::Collaps>
+				_widgetCon->CreateCollapsWidget<Pg::UI::Layout::Column<2>>(componentName, _widgetCon->GetColumnWidgets());
+				_widgetCon->CreateWidget<Pg::UI::Layout::Collaps>
 					(componentName, _widgetCon->GetCollapsWidgets(), _componentExistence.at(data.first));
 			}
 			

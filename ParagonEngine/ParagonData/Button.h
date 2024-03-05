@@ -26,6 +26,7 @@ namespace Pg::Data
 
 		void Click();
 
+		//Script 사용 위해 API로 전향
 		void SetOnClickEvent(std::function<void()> onClickEvent);
 		std::function<void()> GetOnClickEvent() const;
 

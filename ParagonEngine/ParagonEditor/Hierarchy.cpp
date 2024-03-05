@@ -51,7 +51,7 @@ void Pg::Editor::Window::Hierarchy::Finalize()
 void Pg::Editor::Window::Hierarchy::SetShow(bool show)
 {
 	_isShow = show;
-} 
+}
 
 bool Pg::Editor::Window::Hierarchy::GetShow()
 {
@@ -60,49 +60,53 @@ bool Pg::Editor::Window::Hierarchy::GetShow()
 
 void Pg::Editor::Window::Hierarchy::DataSet()
 {
-	if (_dataContainer->GetCurrentScene() != NULL)
+	 // datacontainer에 현재 씬에 대한 정보가 없다면 실행하지 않음
+	if (_dataContainer->GetCurrentScene() == NULL) return;
+
+	// 여러 번 오브젝트 리스트를 가져오는 것을 막기 위해
+	if (_prevObjListSize != _dataContainer->GetCurrentScene()->GetObjectList().size())
 	{
-		if (_prevObjListSize != _dataContainer->GetCurrentScene()->GetObjectList().size())
+		_prevObjListSize = _dataContainer->GetCurrentScene()->GetObjectList().size();
+		_objNames.clear();
+
+		for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
 		{
-			_prevObjListSize = _dataContainer->GetCurrentScene()->GetObjectList().size();
-			_objNames.clear();
-			for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
-			{
-				_objNames.emplace_back(i->GetName());
-			}
+			_objNames.emplace_back(i->GetName());
+		}
+	}
+
+	// picking된 오브젝트가 있다면 Hierarchy 창에 선택되어야 함
+	if (_dataContainer->GetPickObject() != nullptr)
+	{
+		_prevObjName = _dataContainer->GetPickObject()->GetName();
+		_pickedObjName = _dataContainer->GetPickObject()->GetName();
+	}
+
+
+	if (_prevObjName != _objNames.at(*_selectedNumber))
+	{
+		if (_prevObjName.empty() || _dataContainer->GetPickObject() == nullptr)
+		{
+			_prevObjName = _objNames.at(*_selectedNumber);
 		}
 
-		if (_dataContainer->GetPickObject() != nullptr)
+		for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
 		{
-			_prevObjName = _dataContainer->GetPickObject()->GetName();
-			_pickedObjName = _dataContainer->GetPickObject()->GetName();
-		}
-
-		if (_prevObjName != _objNames.at(*_selectedNumber))
-		{
-			if (_prevObjName.empty() || _dataContainer->GetPickObject() == nullptr)
+			if (i->GetName() == _prevObjName)
 			{
-				_prevObjName = _objNames.at(*_selectedNumber);
-			}
-
-			for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
-			{
-				if (i->GetName() == _prevObjName)
+				int count = 0;
+				for (auto name : _objNames)
 				{
-					int count = 0;
-					for (auto name : _objNames)
-					{
-						if(name == i->GetName()) *_selectedNumber = count;
+					if (name == i->GetName()) *_selectedNumber = count;
 
-						count++;
-					}
-					
-					if (_dataContainer->GetPickObject() == nullptr ||
-						_dataContainer->GetPickObject()->GetName() != i->GetName()) _dataContainer->SetPickObject(i);
-
-					_changeObjectData->Invoke(eEventType::_OBJECTDATA, static_cast<void*>(i));
-					break;
+					count++;
 				}
+
+				if (_dataContainer->GetPickObject() == nullptr ||
+					_dataContainer->GetPickObject()->GetName() != i->GetName()) _dataContainer->SetPickObject(i);
+
+				_changeObjectData->Invoke(eEventType::_OBJECTDATA, static_cast<void*>(i));
+				break;
 			}
 		}
 	}
