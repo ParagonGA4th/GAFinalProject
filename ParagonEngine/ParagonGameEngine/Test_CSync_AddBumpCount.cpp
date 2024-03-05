@@ -1,9 +1,11 @@
 #include "Test_CSync_AddBumpCount.h"
-
+#include "../ParagonUtil/Log.h"
 namespace Pg::Engine::BTree::Node
 {
 	BT::NodeStatus Test_CSync_AddBumpCount::tick()
 	{
+		//PG_TRACE(typeid(this).name());
+
 		int tVal;
 		//초기값은 0이어야 한다.
 		getInput<int>("_jumpCount", tVal);

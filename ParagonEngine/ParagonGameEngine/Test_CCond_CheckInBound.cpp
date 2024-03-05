@@ -1,12 +1,14 @@
 #include "Test_CCond_CheckInBound.h"
 #include "BTHelper.h"
-
+#include "../ParagonUtil/Log.h"
 namespace Pg::Engine::BTree::Node
 {
 	using Pg::Engine::BTree::BTHelper;
 
 	BT::NodeStatus Test_CCond_CheckInBound::tick()
 	{
+		//PG_TRACE(typeid(this).name());
+
 		//탑 다운 관점. X / Z 의미.
 		Pg::Math::PGFLOAT2 tLT;
 		Pg::Math::PGFLOAT2 tRB;

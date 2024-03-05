@@ -156,7 +156,7 @@ namespace Pg::Data
 	void Collider::Collider_OnCollisionEnter(PhysicsCollision& c)
 	{
 		std::string tRes = "Collider_OnCollisionEnter : ";
-		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+		//PG_TRACE(tRes.append(this->_object->GetName()).c_str());
 
 		//bool값을 변경해주고 상태를 설정해줘야 Object의 이벤트와 연결이 가능하다.
 		this->_isCollide = true;
@@ -166,7 +166,7 @@ namespace Pg::Data
 	void Collider::Collider_OnCollisionExit(PhysicsCollision& c)
 	{
 		std::string tRes = "Collider_OnCollisionExit : ";
-		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+		//PG_TRACE(tRes.append(this->_object->GetName()).c_str());
 
 		this->_isCollide = false;
 		_collisionStorage.push_back(&c);
@@ -175,13 +175,13 @@ namespace Pg::Data
 	void Collider::Collider_OnTriggerEnter(Collider* c)
 	{
 		std::string tRes = "Collider_OnTriggerEnter : ";
-		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+		//PG_TRACE(tRes.append(this->_object->GetName()).c_str());
 	}
 
 	void Collider::Collider_OnTriggerExit(Collider* c)
 	{
 		std::string tRes = "Collider_OnTriggerExit : ";
-		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+		//PG_TRACE(tRes.append(this->_object->GetName()).c_str());
 	}
 
 	void Collider::SetPxShape(physx::PxShape* shape)

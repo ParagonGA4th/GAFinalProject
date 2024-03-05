@@ -1,13 +1,15 @@
 #include "Test_CSync_ChooseNewDir.h"
 #include "BTHelper.h"
 #include <cstdlib>
-
+#include "../ParagonUtil/Log.h"
 namespace Pg::Engine::BTree::Node
 {
 	using Pg::Engine::BTree::BTHelper;
 
 	BT::NodeStatus Test_CSync_ChooseNewDir::tick()
 	{
+		//PG_TRACE(typeid(this).name());
+
 		//0-RAND_MAX까지의 하드한 랜덤 값을 받는다.
 		int val1 = rand();
 		int val2 = rand();

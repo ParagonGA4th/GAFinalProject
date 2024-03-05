@@ -1,5 +1,5 @@
 #include "Test_CSync_JumpAtBumpLimit.h"
-
+#include "../ParagonUtil/Log.h"
 namespace Pg::Engine::BTree::Node
 {
 	void Test_CSync_JumpAtBumpLimit::InitCustom()
@@ -10,12 +10,14 @@ namespace Pg::Engine::BTree::Node
 
 	BT::NodeStatus Test_CSync_JumpAtBumpLimit::tick()
 	{
+		//PG_TRACE(typeid(this).name());
+
 		int tVal;
 		getInput<int>("_jumpCount", tVal);
 
 		if (tVal == 5)
 		{
-			GetObject()->_transform._position.y += 1.0f;
+			GetGameObject()->_transform._position.y += 1.0f;
 		}
 
 		return BT::NodeStatus::SUCCESS;
