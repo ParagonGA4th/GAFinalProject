@@ -91,6 +91,12 @@
     <ClInclude Include="DragFloat.h">
       <Filter>0_UI\1_Widget\InputFloat\DragFloat</Filter>
     </ClInclude>
+    <ClInclude Include="Popup.h">
+      <Filter>0_UI\1_Widget\Popup</Filter>
+    </ClInclude>
+    <ClInclude Include="ChildWindow.h">
+      <Filter>0_UI\1_Widget\Layout\ChildWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UIManager.cpp">
@@ -174,6 +180,12 @@
     <ClCompile Include="DragFloat.cpp">
       <Filter>0_UI\1_Widget\InputFloat\DragFloat</Filter>
     </ClCompile>
+    <ClCompile Include="Popup.cpp">
+      <Filter>0_UI\1_Widget\Popup</Filter>
+    </ClCompile>
+    <ClCompile Include="ChildWindow.cpp">
+      <Filter>0_UI\1_Widget\Layout\ChildWindow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_UI">
@@ -250,6 +262,12 @@
     </Filter>
     <Filter Include="0_UI\1_Widget\InputFloat\DragFloat">
       <UniqueIdentifier>{8fddf2c4-e475-4226-8379-fba8c1c5f46a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Popup">
+      <UniqueIdentifier>{a4f0e7bf-5ad8-42fe-9583-d66fc9a85f86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Layout\ChildWindow">
+      <UniqueIdentifier>{b37f62f8-edf8-4802-93a8-092e4f263393}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

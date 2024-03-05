@@ -35,8 +35,12 @@ namespace Pg::Editor::Window
 		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
 		std::unique_ptr<Pg::Editor::Event> _fileState;
 
-		bool _isOpen;
-		bool _isSave;
+		bool _isNewScene;
+		bool _isOpenScene;
+		bool _isSaveScene;
+		bool _isNewProj;
+		bool _isOpenProj;
+		bool _isSaveProj;
 	};
 }
 

@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 
-namespace Pg::UI::Widget::Layout
+namespace Pg::UI::Layout
 {
 	class Collaps : public Pg::UI::IWidget
 	{
