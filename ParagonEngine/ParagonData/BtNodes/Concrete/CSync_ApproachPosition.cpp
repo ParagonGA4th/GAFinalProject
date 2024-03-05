@@ -1,5 +1,5 @@
 #include "CSync_ApproachPosition.h"
-namespace Pg::Engine::BTree::Node
+namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus CSync_ApproachPosition::tick()
 	{

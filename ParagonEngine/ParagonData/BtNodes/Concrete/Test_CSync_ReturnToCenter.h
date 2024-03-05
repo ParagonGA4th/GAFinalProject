@@ -2,18 +2,18 @@
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 #include <chrono>
-#include "BasePgBtNode.h"
+#include "../BasePgBtNode.h"
 #include "../ParagonMath/PgMath.h"
 
-namespace Pg::Engine::BTree::Node
+namespace Pg::Data::BTree::Node
 {
-	class Test_CSync_AddBumpCount : public BT::SyncActionNode, public BasePgBtNode
+	class Test_CSync_ReturnToCenter : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
 		//BehaviorTree 필수 요구 사항.
-		Test_CSync_AddBumpCount(const std::string& name, const BT::NodeConfiguration& config) :
+		Test_CSync_ReturnToCenter(const std::string& name, const BT::NodeConfiguration& config) :
 			BT::SyncActionNode(name, config) {}
-		virtual ~Test_CSync_AddBumpCount() = default;
+		virtual ~Test_CSync_ReturnToCenter() = default;
 
 		// 무조건 해당 Function을 오버라이드 해야 한다.
 		virtual BT::NodeStatus tick() override;
@@ -23,10 +23,9 @@ namespace Pg::Engine::BTree::Node
 		static BT::PortsList providedPorts()
 		{
 			BT::PortsList tRet;
-			tRet.insert(BT::BidirectionalPort<int>("_jumpCount"));
+			tRet.insert(BT::InputPort<Pg::Math::PGFLOAT2>("_LT")); // {30,30} 로 Groot에서 세팅하자.
+			tRet.insert(BT::InputPort<Pg::Math::PGFLOAT2>("_RB")); // {50,50} 로 Groot에서 세팅하자.
 			return tRet;
 		}
 	};
 }
-
-

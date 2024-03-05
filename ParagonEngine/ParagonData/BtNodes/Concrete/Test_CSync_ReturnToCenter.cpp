@@ -1,9 +1,9 @@
 #include "Test_CSync_ReturnToCenter.h"
-#include "BTHelper.h"
+#include "../BTHelper.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonUtil/Log.h"
 
-namespace Pg::Engine::BTree::Node
+namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Test_CSync_ReturnToCenter::tick()
 	{

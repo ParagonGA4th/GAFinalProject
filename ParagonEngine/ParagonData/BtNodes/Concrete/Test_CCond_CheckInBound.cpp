@@ -1,9 +1,9 @@
 #include "Test_CCond_CheckInBound.h"
-#include "BTHelper.h"
+#include "../BTHelper.h"
 #include "../ParagonUtil/Log.h"
-namespace Pg::Engine::BTree::Node
+namespace Pg::Data::BTree::Node
 {
-	using Pg::Engine::BTree::BTHelper;
+	using Pg::Data::BTree::BTHelper;
 
 	BT::NodeStatus Test_CCond_CheckInBound::tick()
 	{

@@ -1,6 +1,6 @@
 #include "BTHelper.h"
 
-namespace Pg::Engine::BTree
+namespace Pg::Data::BTree
 {
 	void BTHelper::Validate(const BT::Result& tOpValue)
 	{

@@ -1,11 +1,12 @@
 #include "Test_CSync_RecordCurrentPos.h"
-#include "BTHelper.h"
+#include "../BTHelper.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonUtil/Log.h"
-namespace Pg::Engine::BTree::Node
+
+namespace Pg::Data::BTree::Node
 {
-	using Pg::Engine::BTree::BTHelper;
+	using Pg::Data::BTree::BTHelper;
 
 	BT::NodeStatus Test_CSync_RecordCurrentPos::tick()
 	{
