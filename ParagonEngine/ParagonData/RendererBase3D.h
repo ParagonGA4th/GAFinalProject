@@ -14,6 +14,7 @@ namespace Pg::Data
 		virtual ~RendererBase3D();
 
 		virtual void ConvertPotentialUnrealValues() abstract;
+		virtual void CheckForPathNameErrors() abstract;
 
 		void SetMeshFilePath(const std::string& meshFilePath);
 		std::string GetMeshFilePath();
@@ -21,7 +22,7 @@ namespace Pg::Data
 		void SetMaterialFilePath(const std::string& materialFilePath);
 		std::string GetMaterialFilePath();
 
-	private:
+	protected:
 		std::string _meshFilePath;
 		std::string _renderMaterialPath;
 	};

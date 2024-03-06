@@ -60,4 +60,27 @@ namespace Pg::Data
 		Pg::Data::SerializerHelper::OnDeserializerHelper<StaticMeshRenderer>(this, sv);
 	}
 
+	void StaticMeshRenderer::CheckForPathNameErrors()
+	{
+		//결과적으로 Path만 있으면 작동하기 때문에 문제는 없지만, 
+		//Name이 기록안되면 문제가 있다.
+		using Pg::Util::Helper::ResourceHelper;
+		if (_meshName.empty())
+		{
+			assert(!_meshFilePath.empty() && "이러면 애초에 동작하지 않는 값이 들어왔다는 소리.");
+			assert(ResourceHelper::IsFileExist(_meshFilePath) && "유효한 파일 경로가 들어있어야 한다.");
+			_meshName = ResourceHelper::GetNameFromPath(_meshFilePath);
+		}
+
+		if (_materialName.empty())
+		{
+			if (_renderMaterialPath.empty())
+			{
+				return;
+			}
+			//여기서는 유효한 Material Path 검사를 할 수 없다. Default Material의 경우 Path가 없기 때문!
+			_materialName = ResourceHelper::GetNameFromPath(_renderMaterialPath);
+		}
+	}
+
 }
