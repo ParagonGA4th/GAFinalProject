@@ -4,13 +4,11 @@
 #include <limits>
 #include <generic_factory/generic_factory.hpp>
 
-using namespace Pg::Data;
-REGISTER_CHILD_INTO_FACTORY(Component, Transform, "class Pg::Data::Tranform", GameObject*);
-
 //REGISTER_SECONDARY_CHILD_INTO_FACTORY(Pg::Data::Component, Pg::Data::IComponent, Pg::Data::Transform, Pg::Data::Component);
 
 namespace Pg::Data
 {
+	REGISTER_CHILD_INTO_FACTORY(Component, Transform, "class Pg::Data::Tranform", GameObject*);
 	using namespace Pg::Math;
 
 	Transform::Transform(GameObject* obj) :

@@ -25,6 +25,8 @@ namespace Pg::Data
 		AudioSource(GameObject* owner);
 
 		virtual void Start() override;
+		virtual void OnDeserialize(SerializeVector& sv) override;
+		virtual void OnSerialize(SerializeVector& sv) override;
 
 		void Play();
 
@@ -49,12 +51,10 @@ namespace Pg::Data
 		AudioData* _audioData;
 		eSoundState _soundState;
 
-		std::string _audioName;
-
-
-	private:
-		float _bgmVolume;
-		float _effectVolume;
-
+		BEGIN_VISITABLES(Pg::Data::AudioSource);
+		VISITABLE(std::string, _audioName);
+		VISITABLE(float, _bgmVolume);
+		VISITABLE(float, _effectVolume);
+		END_VISITABLES;
 	};
 }
