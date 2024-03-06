@@ -12,4 +12,9 @@ namespace Pg::Data
 		//
 	}
 
+	void SkinnedMeshRenderer::CheckForPathNameErrors()
+	{
+
+	}
+
 }
