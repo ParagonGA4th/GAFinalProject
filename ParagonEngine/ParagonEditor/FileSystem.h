@@ -42,6 +42,7 @@ namespace Pg::Editor::System
 		std::unique_ptr<Pg::Editor::Manager::DataManager> _dataManager;
 		std::unique_ptr<Pg::Editor::Event> _fileEvent;
 
+		bool _isCancel = false;
 		bool _isScene;
 	};
 }

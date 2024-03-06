@@ -33,7 +33,8 @@ void Pg::Editor::Manager::DataManager::DataLoad(bool isScene, std::string path)
 				else
 				{
 					SceneLoad(path);
-					_dataContainer->GetSceneList().emplace_back(_scenes.at(0));
+					_dataContainer->SetSceneList(_scenes);
+					_dataContainer->SetCurrentScene(_scenes.size() - 1);
 				}
 			}
 		}
