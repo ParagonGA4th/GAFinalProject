@@ -43,6 +43,7 @@ namespace Pg::Graphics
 	private:
 		void ClearObjectLists();
 		void PlacePathsFromName(const Pg::Data::Scene* const newScene);
+		void CheckForPathNameErrors(const Pg::Data::Scene* const newScene);
 		void ExtractMaterialPaths(const Pg::Data::Scene* const newScene);
 		void SyncRenderObjects(const Pg::Data::Scene* const newScene);
 		void CreateObjMatBuffersStatic();
