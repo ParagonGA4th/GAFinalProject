@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "../ParagonMath/PgMath.h"
 
+#include <auto_register/factory.h> // Auto Register를 위한 필수요건.
 #include <behaviortree_cpp_v3/bt_factory.h>
 #include <memory>
 #include <string>
@@ -24,12 +25,17 @@ namespace Pg::Data
 	using namespace Pg::Math;
 	class GameObject;
 
-	class Animator : public Component
+	//														부모			자신		매개변수..
+	class Animator : public Component, RegisteredInFactory<Component, Animator, GameObject*>
 	{
 		friend class Pg::Engine::BTree::BehaviorTreeSystem;
 	public:
 		Animator(GameObject* owner);
 		~Animator();
+
+		//자동화된 Auto-Registration 작동 위해 필수.
+		static Component* CreateInstance(GameObject* go) { return new Animator(go); }
+		static const char* GetFactoryKey() { return "class Pg::Data::Animator"; }
 
 		virtual void OnDeserialize(SerializeVector& sv) override;
 		virtual void OnSerialize(SerializeVector& sv) override;

@@ -1,15 +1,13 @@
 #include "Animator.h"
 
-#include <generic_factory/generic_factory.hpp>
-
-using namespace Pg::Data;
-REGISTER_CHILD_INTO_FACTORY(Component, Animator, "class Pg::Data::Animator", GameObject*);
-
 namespace Pg::Data
 {
 	Animator::Animator(GameObject* owner) : Component(owner),
 		_isUniform(false), _isCulled(false)
 	{
+		//무조건 Auto-Register를 위해 사용되어야 하는 매크로.
+		FACTORY_INIT;
+
 		//역참조자로 값 전달하므로, 명시적으로 Heap에 있기는 해야 한다.
 		_behavTree = new BT::Tree();
 	}
