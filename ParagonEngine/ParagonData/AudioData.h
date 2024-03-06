@@ -1,5 +1,4 @@
 #pragma once
-#include "Transform.h"
 #include "eSoundState.h"
 #include "../ParagonData/eSoundGroup.h"
 
@@ -10,8 +9,6 @@
 
 namespace Pg::Data
 {
-	class Transform;
-
 	/// <summary>
 	/// AudioClip 컴포넌트 생성 시 들어갈 구조체.
 	/// </summary>
