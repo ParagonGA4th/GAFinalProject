@@ -2,6 +2,7 @@
 #include "Component.h"
 
 #include <string>
+#include <auto_register/factory.h> // Auto Register를 위한 필수요건.
 
 namespace Pg::Engine
 {
@@ -19,10 +20,15 @@ namespace Pg::Data
 	struct AudioData;
 	enum class eSoundState;
 
-	class AudioSource : public Component
+	//														부모			자신		매개변수..
+	class AudioSource : public Component, RegisteredInFactory<Component, AudioSource, GameObject*>
 	{
 	public:
 		AudioSource(GameObject* owner);
+
+		//자동화된 Auto-Registration 작동 위해 필수.
+		static Component* CreateInstance(GameObject* go) { return new AudioSource(go); }
+		static const char* GetFactoryKey() { return "class Pg::Data::AudioSource"; }
 
 		virtual void Start() override;
 		virtual void OnDeserialize(SerializeVector& sv) override;

@@ -4,7 +4,7 @@
 #include "RendererBase3D.h"
 #include "StaticMeshRenderer.h" //임시
 #include "../ParagonUtil/Log.h"
-#include <generic_factory/generic_factory.hpp>
+#include <auto_register/factory.h> // Auto Register를 위한 필수요건.
 #include <algorithm>
 
 namespace Pg::Data
@@ -130,15 +130,19 @@ namespace Pg::Data
 				//component = dynamic_cast<Pg::Data::Component*>(GenericFactory<Pg::Data::RendererBase3D, 
 				//		Pg::Data::GameObject*>::createChild(componentType, this).release());
 				
-				PG_WARN("GENERIC FACTORY가 제대로 작동하지 않은 채로 하드코딩된 Component 추가. 버그 고쳐야!");
+				//PG_WARN("GENERIC FACTORY가 제대로 작동하지 않은 채로 하드코딩된 Component 추가. 버그 고쳐야!");
 
-				component = new Pg::Data::StaticMeshRenderer(this);
+				//component = new Pg::Data::StaticMeshRenderer(this);
+
+				component = Factory<Pg::Data::RendererBase3D, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
 			}
 		}
 		else
 		{
-			component = dynamic_cast<Pg::Data::Component*>(GenericFactory<Pg::Data::Component, 
-				Pg::Data::GameObject*>::createChild(componentType, this).release());			
+			//component = dynamic_cast<Pg::Data::Component*>(GenericFactory<Pg::Data::Component, 
+			//	Pg::Data::GameObject*>::createChild(componentType, this).release());
+
+			component = Factory<Pg::Data::Component, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
 		}
 
 		_componentList.push_back(std::make_pair(componentType, component));

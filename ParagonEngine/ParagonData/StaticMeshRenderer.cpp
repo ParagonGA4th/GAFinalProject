@@ -3,14 +3,13 @@
 
 #include <sstream>
 #include <vector>
-#include <generic_factory/generic_factory.hpp>
 
 namespace Pg::Data
 {
-	REGISTER_CHILD_INTO_FACTORY(RendererBase3D, StaticMeshRenderer, "class Pg::Data::StaticMeshRenderer", GameObject*);
-	
 	StaticMeshRenderer::StaticMeshRenderer(GameObject* obj) : RendererBase3D(obj)
 	{
+		FACTORY_INIT;
+
 		SetRendererTypeName(typeid(this).name());
 	}
 

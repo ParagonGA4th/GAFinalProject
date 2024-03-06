@@ -6,19 +6,18 @@
 #include "../ParagonGameEngine/SoundSystem.h"
 
 #include <singleton-cpp/singleton.h>
-#include <generic_factory/generic_factory.hpp>
+
 
 namespace Pg::Data
-{
-	REGISTER_CHILD_INTO_FACTORY(Component, AudioSource, "class Pg::Data::AudioSource", GameObject*);
-	
+{	
 	AudioSource::AudioSource(GameObject* owner) :
 		Component(owner),
 		_bgmVolume(1.0f),
 		_effectVolume(1.0f),
 		_soundState(eSoundState::_NONE)
 	{
-		
+		//Auto-Register µî·Ï.
+		FACTORY_INIT;
 	}
 
 	void AudioSource::OnDeserialize(SerializeVector& sv)

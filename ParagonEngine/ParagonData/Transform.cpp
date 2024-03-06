@@ -2,13 +2,9 @@
 
 #include <cmath>
 #include <limits>
-#include <generic_factory/generic_factory.hpp>
-
-//REGISTER_SECONDARY_CHILD_INTO_FACTORY(Pg::Data::Component, Pg::Data::IComponent, Pg::Data::Transform, Pg::Data::Component);
 
 namespace Pg::Data
 {
-	REGISTER_CHILD_INTO_FACTORY(Component, Transform, "class Pg::Data::Tranform", GameObject*);
 	using namespace Pg::Math;
 
 	Transform::Transform(GameObject* obj) :
@@ -18,7 +14,7 @@ namespace Pg::Data
 		_scale(1.0f, 1.0f, 1.0f),
 		_forward(0.f, 0.f, 1.f), _right(1.f, 0.f, 0.f), _up(0.f, 1.f, 0.f), _is3D(true)
 	{
-
+		FACTORY_INIT;
 	}
 
 	void Transform::OnDeserialize(SerializeVector& sv)
