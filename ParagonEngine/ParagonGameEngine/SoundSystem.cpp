@@ -170,7 +170,6 @@ namespace Pg::Engine
 
 	void SoundSystem::SetAllGroupVolume()
 	{
-
 		for (auto iter = _audioSoureceMap.begin(); iter != _audioSoureceMap.end(); iter++)
 		{
 			Pg::Data::AudioSource*& audioSource = iter->second;
@@ -187,22 +186,6 @@ namespace Pg::Engine
 			}
 		}
 	}
-	 
-	void SoundSystem::SetGroupVolume(Pg::Data::eSoundGroup soundGroup)
-	{
-		for (auto iter = _audioSoureceMap.begin(); iter != _audioSoureceMap.end(); iter++)
-		{
-			Pg::Data::AudioSource*& audioSource = iter->second;
-			Pg::Data::AudioData*& audioData = audioSource->_audioData;
-
-			if (audioData->group == soundGroup)
-			{
-				audioData->channel->setVolume(audioSource->GetBGMVolume());
-				_channelGroupVec[soundGroup]->setVolume(audioSource->GetBGMVolume());
-			}
-		}
-	}
-
 
 	void SoundSystem::SetAllVolume()
 	{

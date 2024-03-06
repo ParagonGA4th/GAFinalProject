@@ -10,12 +10,6 @@
     <ClCompile Include="PgRayCast.cpp">
       <Filter>3_Physics</Filter>
     </ClCompile>
-    <ClCompile Include="PgSound.cpp">
-      <Filter>4_Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="PgUI.cpp">
-      <Filter>5_UI</Filter>
-    </ClCompile>
     <ClCompile Include="PgInput.cpp">
       <Filter>1_PgInput</Filter>
     </ClCompile>
@@ -33,14 +27,8 @@
     <ClInclude Include="PgRayCast.h">
       <Filter>3_Physics</Filter>
     </ClInclude>
-    <ClInclude Include="PgSound.h">
-      <Filter>4_Sound</Filter>
-    </ClInclude>
     <ClInclude Include="KeyCodeType.h">
       <Filter>1_PgInput</Filter>
-    </ClInclude>
-    <ClInclude Include="PgUI.h">
-      <Filter>5_UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -60,12 +48,6 @@
     </Filter>
     <Filter Include="2_PgTime">
       <UniqueIdentifier>{75c7ac1e-f195-4d67-98a1-2bd2d7a7568c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="4_Sound">
-      <UniqueIdentifier>{ff144cda-2e42-4bf7-af2a-76b5a8d95f8f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_UI">
-      <UniqueIdentifier>{959e4163-db0b-4cdc-bf32-7f421387788a}</UniqueIdentifier>
     </Filter>
     <Filter Include="3_Physics">
       <UniqueIdentifier>{effa09d3-2c43-41e8-b51d-a0728af63d62}</UniqueIdentifier>

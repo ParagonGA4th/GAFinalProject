@@ -1,6 +1,4 @@
 #include "PgInput.h"
-
-
 #include "../ParagonGameEngine/InputSystem.h"
 #include <singleton-cpp/singleton.h>
 

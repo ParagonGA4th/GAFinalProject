@@ -159,17 +159,13 @@
     <ClInclude Include="KeyCodeType.h" />
     <ClInclude Include="PgInput.h" />
     <ClInclude Include="PgRayCast.h" />
-    <ClInclude Include="PgSound.h" />
     <ClInclude Include="PgTime.h" />
-    <ClInclude Include="PgUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="APIMain.cpp" />
     <ClCompile Include="PgInput.cpp" />
     <ClCompile Include="PgRayCast.cpp" />
-    <ClCompile Include="PgSound.cpp" />
     <ClCompile Include="PgTime.cpp" />
-    <ClCompile Include="PgUI.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
