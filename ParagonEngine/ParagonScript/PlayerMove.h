@@ -1,5 +1,17 @@
 #pragma once
-#include "ParagonScript.h"
+#include "../ParagonData/Script.h"
+#include <auto_register/factory.h>
+
+namespace Pg::Data
+{
+	class GameObject;
+	class DynamicCollider;
+}
+
+namespace Pg::API::Input
+{
+	class PgInput;
+}
 
 /// <summary>
 /// 플레이어 관련 스크립트
@@ -8,9 +20,9 @@
 class PlayerMove : public Pg::Data::Script, RegisteredInFactory<Pg::Data::Script, PlayerMove, Pg::Data::GameObject*>
 {
 public:
-	PlayerMove(GameObject* obj);
+	PlayerMove(Pg::Data::GameObject* obj);
 
-	static Script* CreateInstance(GameObject* go) { return new PlayerMove(go); }
+	static Script* CreateInstance(Pg::Data::GameObject* go) { return new PlayerMove(go); }
 	static const char* GetFactoryKey() { return "class PlayerMove"; }
 
 public:
@@ -19,6 +31,6 @@ public:
 
 private:
 	Pg::Data::DynamicCollider* dynamicCol;
-	PgInput* _pgInput = nullptr;
+	Pg::API::Input::PgInput* _pgInput = nullptr;
 };
 
