@@ -12,7 +12,7 @@ namespace Pg::Data
 		_width(20.0f),
 		_depth(20.0f)
 	{
-
+		FACTORY_INIT;
 	}
 
 	void PlaneCollider::Update()

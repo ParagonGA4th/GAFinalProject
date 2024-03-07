@@ -1,28 +1,17 @@
 #pragma once
-#include "../ParagonData/Script.h"
+#include "ParagonScript.h"
 
 /// <summary>
 /// 플레이어 관련 스크립트
 /// </summary>
 
-namespace Pg::Data
-{
-	class GameObject;
-	class DynamicCollider;
-}
-
-namespace Pg::API
-{
-	namespace Input
-	{
-		class PgInput;
-	}
-}
-
-class PlayerMove : public Pg::Data::Script
+class PlayerMove : public Pg::Data::Script, RegisteredInFactory<Pg::Data::Script, PlayerMove, Pg::Data::GameObject*>
 {
 public:
-	PlayerMove(Pg::Data::GameObject* obj);
+	PlayerMove(GameObject* obj);
+
+	static Script* CreateInstance(GameObject* go) { return new PlayerMove(go); }
+	static const char* GetFactoryKey() { return "class PlayerMove"; }
 
 public:
 	virtual void Start() override;
@@ -30,6 +19,6 @@ public:
 
 private:
 	Pg::Data::DynamicCollider* dynamicCol;
-	Pg::API::Input::PgInput* _pgInput = nullptr;
+	PgInput* _pgInput = nullptr;
 };
 

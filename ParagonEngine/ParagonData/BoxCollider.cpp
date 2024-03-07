@@ -10,7 +10,7 @@ namespace Pg::Data
 		_height(1.0f),
 		_depth(1.0f)
 	{
-
+		FACTORY_INIT;
 	}
 
 	void BoxCollider::Update()

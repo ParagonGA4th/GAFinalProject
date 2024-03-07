@@ -28,6 +28,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="EventTest.h" />
+    <ClInclude Include="ParagonScript.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="RayCastTest.h" />
   </ItemGroup>

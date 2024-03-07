@@ -3,14 +3,19 @@
 #include "DebugData.h"
 #include "../ParagonMath/PgMath.h"
 
+#include <auto_register/factory.h>
+
 namespace Pg::Data
 {
 	class GameObject;
 
-	class StaticBoxCollider : public StaticCollider
+	class StaticBoxCollider : public StaticCollider, RegisteredInFactory<StaticCollider, StaticBoxCollider, GameObject*>
 	{
 	public:
 		StaticBoxCollider(GameObject* owner);
+
+		static StaticCollider* CreateInstance(GameObject* go) { return new StaticBoxCollider(go); }
+		static const char* GetFactoryKey() { return "class Pg::Data::StaticBoxCollider"; }
 
 	public:
 		virtual void Update() override;

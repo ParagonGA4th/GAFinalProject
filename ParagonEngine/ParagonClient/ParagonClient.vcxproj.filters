@@ -19,6 +19,9 @@
     <Filter Include="2_Script\RaycastTest">
       <UniqueIdentifier>{e91d7939-516a-4040-88e7-c35c790a5a3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2_Script\0_Define">
+      <UniqueIdentifier>{a50b4d44-faa3-4f0b-a3ec-937a8fd688dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="RayCastTest.h">
       <Filter>2_Script\RaycastTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ParagonScript.h">
+      <Filter>2_Script\0_Define</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
