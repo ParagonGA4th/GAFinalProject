@@ -154,6 +154,7 @@
     <ClCompile Include="BtNodes\BTDefines.cpp">
       <Filter>11_BtNodes\Defines</Filter>
     </ClCompile>
+    <ClCompile Include="Image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -376,6 +377,7 @@
     <ClInclude Include="BtNodes\PgCustomBTNodes.h">
       <Filter>11_BtNodes\Collection</Filter>
     </ClInclude>
+    <ClInclude Include="Image.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">

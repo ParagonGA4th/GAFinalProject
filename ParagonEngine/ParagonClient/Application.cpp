@@ -11,6 +11,7 @@
 Pg::Client::Core::Application::Application()
 {
 	_editor = new Pg::Editor::Editor();
+	
 }
 
 Pg::Client::Core::Application::~Application()

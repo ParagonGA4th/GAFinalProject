@@ -1,5 +1,5 @@
 #include "ResourceQueue.h"
-#include "../ParagonUtil/ResourceHelper.h"
+#include "../ParagonHelper/ResourceHelper.h"
 
 namespace Pg::Data
 {

@@ -1,5 +1,5 @@
 #include "EngineMain.h"
-#include "InputSystem.h"
+
 #include "PhysicSystem.h"
 #include "SceneSystem.h"
 #include "DebugSystem.h"
@@ -47,10 +47,6 @@ namespace Pg::Engine
 		_coreMain(core), 
 		_engineResourceManager(Manager::EngineResourceManager::Instance())
 	{
-		//Input
-		auto& tInputSystem = singleton<Input::InputSystem>();
-		_inputSystem = &tInputSystem;
-
 		//Physic
 		auto& tphysicSystem = singleton<Physic::PhysicSystem>();
 		_physicSystem = &tphysicSystem;
@@ -85,7 +81,7 @@ namespace Pg::Engine
 
 	void EngineMain::Initialize(void* hwnd, float width, float height, const std::string& resourceListPath)
 	{
-		_inputSystem->Initialize(width, height);
+		
 		_sceneSystem->Initialize();
 		_debugSystem->Initialize();
 		_physicSystem->Initialize(_debugSystem);
@@ -98,7 +94,7 @@ namespace Pg::Engine
 	{
 		///업데이트 순서 무조건 고정!!! 바뀌면 안됨
 		_timeSystem->TimeMeasure();
-		_inputSystem->Update();
+		
 		_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
 		_physicSystem->Flush();
 		_sceneSystem->Update();

@@ -1,7 +1,7 @@
 #include "RenderObject2D.h"
 #include "GraphicsResourceManager.h"
 #include "../ParagonData/BaseRenderer.h"
-#include "../ParagonUtil/ResourceHelper.h"
+#include "../ParagonHelper/ResourceHelper.h"
 
 #include <cassert>
 
