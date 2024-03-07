@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "../ParagonMath/PgMath.h"
 
+#include <auto_register/factory.h> // Auto Register를 위한 필수요건.
 #include <behaviortree_cpp_v3/bt_factory.h>
 #include <memory>
 #include <string>
@@ -24,18 +25,27 @@ namespace Pg::Data
 	using namespace Pg::Math;
 	class GameObject;
 
-	class Animator : public Component
+	//														부모			자신		매개변수..
+	class Animator : public Component, RegisteredInFactory<Component, Animator, GameObject*>
 	{
 		friend class Pg::Engine::BTree::BehaviorTreeSystem;
 	public:
 		Animator(GameObject* owner);
 		~Animator();
 
+		//자동화된 Auto-Registration 작동 위해 필수.
+		static Component* CreateInstance(GameObject* go) { return new Animator(go); }
+		static const char* GetFactoryKey() { return "class Pg::Data::Animator"; }
+
+		virtual void OnDeserialize(SerializeVector& sv) override;
+		virtual void OnSerialize(SerializeVector& sv) override;
+
 	public:
 		//VISITABLES
-		
+		BEGIN_VISITABLES(Pg::Data::Animator);
+
 		//나중에 직렬화될 부분.
-		std::string _behaviorTreePath;
+		VISITABLE(std::string, _behaviorTreePath);
 		
 		//인스턴스된 별개의 Tree로서 동작할지, 
 		//게임 엔진 내부에서 유일한 같은 내용의 Tree로 동작할지를 선택한다.
@@ -43,13 +53,14 @@ namespace Pg::Data
 		//AddUniformRunningAnimator()를 호출해서 (API) -> Update 루프에 포함시키고,
 		//RemoveUniformRunningAnimator()를 호출해서 Update 루프에서 제거한다.
 		//다르게 말해, _isUniform이 true가 되는 순간 BT::Tree의 ReadOnly만 되는 것이다. 
-		bool _isUniform = false;
+		VISITABLE(bool, _isUniform);
 
 		//Renderer와 접속, false = AlwaysAnimate <-> true = CullCompletely.
 		// Cull되어도 업데이트할 것인가, 아닌가를 보여준다. 
-		bool _isCulled = false;
+		VISITABLE(bool, _isCulled);
 
 		//ENDVISITABLES
+		END_VISITABLES;
 	public:
 		//일단 별도로 Behavior Tree Path의 세터를 만들어놓았다.
 		void SetBehaviorTreePath(const std::string& path);

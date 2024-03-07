@@ -69,7 +69,7 @@ namespace Pg::Core
 	long ProcessMain::Initialize(void* hwnd, int screenWidth, int screenHeight)
 	{
 		//나중에 일괄적으로 Editor와 ResourceList 연동이 이루어져야 한다 (string)
-		std::string tResourceListPath = "../Test/Asset/ResourceList";
+		std::string tResourceListPath = "../ResourceList";
 
 		//엔진 초기화
 		_util->Initialize();

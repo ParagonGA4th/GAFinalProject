@@ -125,6 +125,11 @@ namespace Pg::Util::Helper
 		return (tExtString == ".dds" || tExtString == ".DDS");
 	}
 
+	std::string ResourceHelper::GetNameFromPath(const std::string& filePath)
+	{
+		std::filesystem::path tPath(filePath);
+		return tPath.filename().string();
+	}
 	
 	
 

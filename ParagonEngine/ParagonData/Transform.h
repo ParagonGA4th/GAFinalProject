@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "../ParagonMath/PgMath.h"
-
+#include <auto_register/factory.h> // Auto Register를 위한 필수요건.
 #include <memory>
 
 /// <summary>
@@ -20,13 +20,17 @@ namespace Pg::Data
 
 	class GameObject;
 
-	class Transform : public Component
+	class Transform : public Component, RegisteredInFactory<Component, Transform, GameObject*>
 	{
 		friend class Camera;
 	public:
 		// 임시 기본생성자
 		Transform() = default;
 		Transform(GameObject* obj);
+
+		//자동화된 Auto-Registration 작동 위해 필수.
+		static Component* CreateInstance(GameObject* go) { return new Transform(go); }
+		static const char* GetFactoryKey() { return "class Pg::Data::Transform"; }
 
 		virtual void OnDeserialize(SerializeVector& sv) override;
 		virtual void OnSerialize(SerializeVector& sv) override;
