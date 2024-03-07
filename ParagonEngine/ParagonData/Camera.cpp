@@ -2,13 +2,8 @@
 #include "GameObject.h"
 
 #include "CameraData.h"
-
-#include <generic_factory/generic_factory.hpp>
 #include <cmath>
 #include <numbers>
-
-using namespace Pg::Data;
-REGISTER_CHILD_INTO_FACTORY(Component, Camera, "class Pg::Data::Camera", GameObject*);
 
 namespace Pg::Data
 {
@@ -16,6 +11,8 @@ namespace Pg::Data
 		Pg::Data::Component(obj),
 		_nearZ(0.1f), _farZ(300.0f), _fovY(PG_PI * 0.4f)
 	{
+		FACTORY_INIT;
+
 		_cameraData = std::make_unique<Pg::Data::CameraData>();
 
 		//ProjectionMatrix¸¦ ¸¶·Ã.

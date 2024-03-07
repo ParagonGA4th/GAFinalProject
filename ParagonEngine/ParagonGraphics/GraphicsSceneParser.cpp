@@ -64,6 +64,8 @@ namespace Pg::Graphics
 		ClearObjectLists();
 
 		PlacePathsFromName(newScene);
+		CheckForPathNameErrors(newScene);
+
 		ExtractMaterialPaths(newScene);
 		SyncRenderObjects(newScene);
 		CreateObjMatBuffersStatic();
@@ -183,6 +185,24 @@ namespace Pg::Graphics
 		}
 
 		assert("");
+	}
+
+	void GraphicsSceneParser::CheckForPathNameErrors(const Pg::Data::Scene* const newScene)
+	{
+		using Pg::Graphics::Helper::GraphicsResourceHelper;
+
+		for (auto& tGameObject : newScene->GetObjectList())
+		{
+			// RenderObject
+			Pg::Data::BaseRenderer* tBaseRenderer = tGameObject->GetComponent<Pg::Data::BaseRenderer>();
+
+			if (tBaseRenderer != nullptr && GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()) == 1)
+			{
+				Pg::Data::RendererBase3D* tBaseR3D = static_cast<Pg::Data::RendererBase3D*>(tBaseRenderer);
+				//이름<->경로 연동 더블 체크.
+				tBaseR3D->CheckForPathNameErrors();
+			}
+		}
 	}
 
 	void GraphicsSceneParser::ExtractMaterialPaths(const Pg::Data::Scene* const newScene)
@@ -415,4 +435,7 @@ namespace Pg::Graphics
 		//PG_TRACE(tRet->GetName().c_str());
 		return tRet;
 	}
+
+	
+
 }

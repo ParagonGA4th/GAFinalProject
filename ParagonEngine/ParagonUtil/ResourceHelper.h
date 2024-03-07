@@ -35,6 +35,8 @@ namespace Pg::Util::Helper
 		//리소스의 확장자가 DDS인지, 아닌지를 알려준다.
 		static bool IsResourceDDS(const std::string& filePath);
 		static bool IsResourceDDS(const std::wstring& filePath);
+
+		static std::string GetNameFromPath(const std::string& filePath);
 	private:
 
 	};

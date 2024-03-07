@@ -2,7 +2,7 @@
 #include "Component.h"
 #include "CameraData.h"
 #include "../ParagonMath/PgMath.h"
-
+#include <auto_register/factory.h> // Auto Register를 위한 필수요건.
 #include <memory>
 
 /// <summary>
@@ -16,24 +16,20 @@ namespace Pg::Data
 	using namespace Pg::Math;
 
 	class GameObject;
-	class Camera : public Component
+	class Camera : public Component, RegisteredInFactory<Component, Camera, GameObject*>
 	{
 	public:
 		Camera(Pg::Data::GameObject* obj);
 		virtual ~Camera() = default;
 
+		//자동화된 Auto-Registration 작동 위해 필수.
+		static Component* CreateInstance(GameObject* go) { return new Camera(go); }
+		static const char* GetFactoryKey() { return "class Pg::Data::Camera"; }
+
 		//실제로 쓰이는 Camera들의 정보를 Scene의 정보와 일치시키기 위해서.
 		virtual void Update() override;
 		virtual void OnDeserialize(SerializeVector& sv) override;
 		virtual void OnSerialize(SerializeVector& sv) override;
-
-		//float GetNearZ() const;
-		//float GetFarZ() const;
-		//float GetFovY() const;
-
-		//void SetNearZ(float nearZ);
-		//void SetFarZ(float farZ);
-		//void SetFovY(float fovY);
 
 		void SetScreenSize(float width, float height);
 

@@ -17,7 +17,8 @@ namespace Pg::Data
 		SkinnedMeshRenderer(GameObject* obj);
 
 		virtual void ConvertPotentialUnrealValues() override;
-
+		//혹시 Path만 있고 Name은 없는 상황을 막기 위해.
+		virtual void CheckForPathNameErrors() override;
 
 	};
 }

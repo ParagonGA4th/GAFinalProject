@@ -1,7 +1,7 @@
 #pragma once
 #include "RendererBase3D.h"
 #include <string>
-
+#include <auto_register/factory.h> // Auto Register를 위한 필수요건.
 /// <summary>
 /// 앞으로 3D Static Mesh 출력을 담당할 렌더러.
 /// </summary>
@@ -10,13 +10,20 @@ namespace Pg::Data
 {
 	class GameObject;
 
-	class StaticMeshRenderer : public RendererBase3D
+	class StaticMeshRenderer : public RendererBase3D, RegisteredInFactory<RendererBase3D, StaticMeshRenderer, GameObject*>
 	{
 	public:
 		StaticMeshRenderer(GameObject* obj);
 
+		//자동화된 Auto-Registration 작동 위해 필수.
+		static RendererBase3D* CreateInstance(GameObject* go) { return new StaticMeshRenderer(go); }
+		static const char* GetFactoryKey() { return "class Pg::Data::StaticMeshRenderer"; }
+
 		//InitializePath가 호출될 때, 외부에서 Path 연동하는 과정이 있어야 한다.
 		virtual void ConvertPotentialUnrealValues() override;
+		//혹시 Path만 있고 Name은 없는 상황을 막기 위해.
+		virtual void CheckForPathNameErrors() override;
+
 
 		virtual void OnSerialize(SerializeVector& sv) override;
 		virtual void OnDeserialize(SerializeVector& sv) override;

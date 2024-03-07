@@ -35,6 +35,13 @@ void Pg::Editor::System::FileSystem::OpenScene()
 {
 	_isScene = true;
 	ShowDialog(true);
+
+	if (_isCancel)
+	{
+		_isCancel = false;
+		return;
+	}
+
 	_dataManager->DataLoad(true, _rootPath);
 }
 
@@ -48,6 +55,13 @@ void Pg::Editor::System::FileSystem::NewProject()
 {
 	_isScene = false;
 	ShowDialog(false);
+	
+	if (_isCancel)
+	{
+		_isCancel = false;
+		return;
+	}
+	
 	CreateFolder();
 	CreateParagonFile(_dataManager->DataCreate());
 	_dataManager->DataLoad(false, _rootPath);
@@ -65,6 +79,13 @@ void Pg::Editor::System::FileSystem::SaveProject()
 {
 	_isScene = false;
 	ShowDialog(false);
+	
+	if (_isCancel)
+	{
+		_isCancel = false;
+		return;
+	}
+
 	CreateFolder();
 	CreateParagonFile(_dataManager->DataSave(false));
 }
@@ -109,6 +130,7 @@ void Pg::Editor::System::FileSystem::ShowDialog(bool isOpen)
 			pItem->Release();
 		}
 	}
+	else _isCancel = true;
 
 	if (filePath != NULL)
 	{
