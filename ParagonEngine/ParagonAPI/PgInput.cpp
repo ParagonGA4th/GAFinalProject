@@ -1,12 +1,12 @@
 #include "PgInput.h"
-#include "../ParagonGameEngine/InputSystem.h"
+#include "../ParagonUtil/InputSystem.h"
 #include <singleton-cpp/singleton.h>
 
-#ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonGameEngine.lib")
-#else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonGameEngine.lib")
-#endif // _DEBUG
+//#ifdef _DEBUG
+//#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonGameEngine.lib")
+//#else
+//#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonGameEngine.lib")
+//#endif // _DEBUG
 
 namespace Pg::API::Input
 {
@@ -14,7 +14,7 @@ namespace Pg::API::Input
 
 	void PgInput::Initialize()
 	{
-		auto& tInputSystem = singleton<Pg::Engine::Input::InputSystem>();
+		auto& tInputSystem = singleton<Pg::Util::Input::InputSystem>();
 		_inputSystem = &tInputSystem;
 	}
 

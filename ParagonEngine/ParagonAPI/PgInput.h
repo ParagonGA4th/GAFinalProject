@@ -7,7 +7,7 @@
 /// </summary>
 
 
-namespace Pg::Engine
+namespace Pg::Util
 {
 	namespace Input
 	{
@@ -44,7 +44,7 @@ namespace Pg::API::Input
 		void Initialize();
 
 	private:
-		Pg::Engine::Input::InputSystem* _inputSystem;
+		Pg::Util::Input::InputSystem* _inputSystem;
 	};
 
 

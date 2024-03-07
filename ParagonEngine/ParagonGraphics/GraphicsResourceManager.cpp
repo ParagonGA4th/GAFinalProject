@@ -8,7 +8,7 @@
 #include "AssetTextureType.h"
 
 #include "../ParagonData/ParagonDefines.h" 
-#include "../ParagonUtil/ResourceHelper.h"
+#include "../ParagonHelper/ResourceHelper.h"
 
 #include <cassert>
 #include <filesystem>

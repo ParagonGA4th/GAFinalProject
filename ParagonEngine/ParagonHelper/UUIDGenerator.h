@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 
 /// <summary>
@@ -10,9 +11,7 @@ namespace Pg::Util
 	class UUIDGenerator
 	{
 	public:
-		static std::string GetNewUUID();
+		 static std::string GetNewUUID();
 	};
 }
-
-
 

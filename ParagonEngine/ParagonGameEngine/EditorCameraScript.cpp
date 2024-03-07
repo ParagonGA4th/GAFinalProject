@@ -4,7 +4,7 @@
 #include "../ParagonMath/PgMath.h"
 
 // 업데이트에서 임시로 인풋을 돌리기 위해...
-#include "../ParagonGameEngine/InputSystem.h"
+#include "../ParagonUtil/InputSystem.h"
 #include "../ParagonGameEngine/TimeSystem.h"
 
 #include <singleton-cpp/singleton.h>
@@ -23,7 +23,7 @@ EditorCameraScript::EditorCameraScript(Pg::Data::GameObject* obj)
 void EditorCameraScript::Start()
 {
 	// Input
-	auto& tInputSystem = singleton<Pg::Engine::Input::InputSystem>();
+	auto& tInputSystem = singleton<Pg::Util::Input::InputSystem>();
 	tInput = &tInputSystem;
 
 	// Time
@@ -37,7 +37,7 @@ void EditorCameraScript::Start()
 
 void EditorCameraScript::Update()
 {
-	using namespace Pg::Engine::Input;
+	using namespace Pg::Util::Input;
 	using namespace Pg::API::Input;
 
 	float _moveSpeed = _setMoveSpeed * tTime->GetDeltaTime();

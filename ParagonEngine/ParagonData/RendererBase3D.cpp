@@ -1,7 +1,7 @@
 #include "RendererBase3D.h"
 #include "GameObject.h"
 
-#include "../ParagonUtil/ResourceHelper.h"
+#include "../ParagonHelper/ResourceHelper.h"
 
 #include <cassert>
 

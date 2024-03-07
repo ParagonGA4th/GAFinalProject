@@ -1,55 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="ByteBuffer.cpp">
-      <Filter>4_ByteBuffer</Filter>
-    </ClCompile>
     <ClCompile Include="Log.cpp">
       <Filter>1_Log</Filter>
-    </ClCompile>
-    <ClCompile Include="pugixml.cpp">
-      <Filter>3_PugiXML</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceHelper.cpp">
-      <Filter>2_Helpers</Filter>
     </ClCompile>
     <ClCompile Include="UtilMain.cpp">
       <Filter>0_Main</Filter>
     </ClCompile>
-    <ClCompile Include="UUIDGenerator.cpp">
-      <Filter>6_UUID</Filter>
-    </ClCompile>
-    <ClCompile Include="CSVHelper.cpp">
-      <Filter>5_RapidCSV\CSVHelper</Filter>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>2_Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ByteBuffer.hpp">
-      <Filter>4_ByteBuffer</Filter>
-    </ClInclude>
     <ClInclude Include="Log.h">
       <Filter>1_Log</Filter>
-    </ClInclude>
-    <ClInclude Include="pugixml.hpp">
-      <Filter>3_PugiXML</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceHelper.h">
-      <Filter>2_Helpers</Filter>
     </ClInclude>
     <ClInclude Include="UtilMain.h">
       <Filter>0_Main</Filter>
     </ClInclude>
-    <ClInclude Include="pugiconfig.hpp">
-      <Filter>3_PugiXML</Filter>
+    <ClInclude Include="InputSystem.h">
+      <Filter>2_Input</Filter>
     </ClInclude>
-    <ClInclude Include="UUIDGenerator.h">
-      <Filter>6_UUID</Filter>
-    </ClInclude>
-    <ClInclude Include="rapidcsv.h">
-      <Filter>5_RapidCSV</Filter>
-    </ClInclude>
-    <ClInclude Include="CSVHelper.h">
-      <Filter>5_RapidCSV\CSVHelper</Filter>
+    <ClInclude Include="UtilDLLExporter.h">
+      <Filter>0_Main\DLLExporter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -59,23 +32,11 @@
     <Filter Include="1_Log">
       <UniqueIdentifier>{37d8d201-062b-4e60-8cfd-2746348f124b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Helpers">
-      <UniqueIdentifier>{f594ddca-11be-404b-8dbf-0ec9210780f1}</UniqueIdentifier>
+    <Filter Include="0_Main\DLLExporter">
+      <UniqueIdentifier>{42d99310-7ada-4718-835b-8d721e6c1f51}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3_PugiXML">
-      <UniqueIdentifier>{f2edf92f-4cad-4d88-bb06-2710b090d0c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="4_ByteBuffer">
-      <UniqueIdentifier>{9307f650-aade-4339-9033-f2b5998f2eb9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_RapidCSV">
-      <UniqueIdentifier>{e640a5a1-e396-4262-9bdb-0db960244ae7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6_UUID">
-      <UniqueIdentifier>{1db409fd-06e9-48e6-b20e-be2658ed7b19}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5_RapidCSV\CSVHelper">
-      <UniqueIdentifier>{230d97a7-09af-4a14-a34e-097bb6d093d4}</UniqueIdentifier>
+    <Filter Include="2_Input">
+      <UniqueIdentifier>{9f799264-5035-42e0-abe1-25693e2258c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

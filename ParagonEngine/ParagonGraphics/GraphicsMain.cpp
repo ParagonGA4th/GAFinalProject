@@ -10,7 +10,7 @@
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/RendererChangeList.h"
 #include "../ParagonProcess/ProcessMain.h"
-#include "../ParagonUtil/ResourceHelper.h"
+#include "../ParagonHelper/ResourceHelper.h"
 #include "../ParagonAPI/PgInput.h"
 
 #include "ParagonRenderer.h"

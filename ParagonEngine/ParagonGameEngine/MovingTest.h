@@ -31,7 +31,7 @@ public:
 
 private:
 	// 인풋 시스템으로 카메라의 이동을 체크한다
-	Pg::Engine::Input::InputSystem* tInput = nullptr;
+	//Pg::Engine::Input::InputSystem* tInput = nullptr;
 
 	Pg::Data::DynamicCollider* dynamicCol;
 };
