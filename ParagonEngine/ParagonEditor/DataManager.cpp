@@ -135,7 +135,6 @@ void Pg::Editor::Manager::DataManager::SceneLoad(std::string path)
 		sceneName = sceneName.substr(0, sceneName.rfind("."));
 
 		Pg::Data::Scene* newScene = new Pg::Data::Scene(sceneName);
-		newScene->GetObjectList().at(0)->AddComponent("class Pg::Data::Camera");
 		_scenes.push_back(newScene);
 
 		pugi::xml_node rootNode = doc.child("scene");
@@ -198,10 +197,22 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 	for (pugi::xml_node object = root.first_child(); object; object = object.next_sibling())
 	{
 		// GameObject 생성
-		Pg::Data::GameObject* obj = _scenes.at(sceneNum)->AddObject(Pg::Serialize::Serializer::DeserializeString(&object, "name"));
+		std::string objName = Pg::Serialize::Serializer::DeserializeString(&object, "name");
+		Pg::Data::GameObject* obj = nullptr;
 
-		obj->SetActive(Pg::Serialize::Serializer::DeserializeBoolean(&object, "active"));
-		obj->SetTag(Pg::Serialize::Serializer::DeserializeString(&object, "tag"));
+		if (objName != "MainCamera")
+		{
+			obj = _scenes.at(sceneNum)->AddObject(objName);
+			obj->SetActive(Pg::Serialize::Serializer::DeserializeBoolean(&object, "active"));
+			obj->SetTag(Pg::Serialize::Serializer::DeserializeString(&object, "tag"));
+		}
+		else
+		{
+			for (auto& cameraObj : _scenes.at(sceneNum)->GetObjectList())
+			{
+				obj = cameraObj;
+			}
+		}
 
 		// 컴포넌트를 추가하기 위해 노드 가져오기
 		pugi::xml_node comps = object.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "components"; });
@@ -218,6 +229,13 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 				if (typeName.find("Transform") != std::string::npos)
 				{
 					obj->_transform.OnDeserialize(tSerVec);
+				}
+				else if (typeName.find("Camera") != std::string::npos)
+				{
+					for (auto& cComp : obj->GetComponentList())
+					{
+						if (cComp.first.find("Camera") != std::string::npos) cComp.second->OnDeserialize(tSerVec); break;
+					}
 				}
 				else
 				{
@@ -258,11 +276,13 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 
 		pugi::xml_node objComponents = xmlObject.append_child("components");
 
-		// 확인한 component의 type에 따라 serialize 한다
-		pugi::xml_node objComponent = objComponents.append_child("component");
+
 
 		for (auto& component : object->GetComponentList())
 		{
+			// 확인한 component의 type에 따라 serialize 한다
+			pugi::xml_node objComponent = objComponents.append_child("component");
+
 			// 변수명, 타입, 값
 			std::vector<std::tuple<std::string, std::string, void*>> tSerVec;
 

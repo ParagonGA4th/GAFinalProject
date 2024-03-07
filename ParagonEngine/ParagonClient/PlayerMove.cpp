@@ -13,7 +13,7 @@
 PlayerMove::PlayerMove(Pg::Data::GameObject* obj) :
 	Pg::Data::Script(obj)
 {
-
+	FACTORY_INIT;
 }
 
 void PlayerMove::Start()

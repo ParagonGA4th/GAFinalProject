@@ -3,6 +3,8 @@
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/DebugData.h"
 
+#include <auto_register/factory.h>
+
 /// <summary>
 /// 변지상의 BoxCollider
 /// Box형 충돌 디버그를 띄우기 위한 정보만 컴포넌트로 가지고 있을 예정
@@ -16,10 +18,13 @@ namespace Pg::Data
 
 namespace Pg::Data
 {
-	class BoxCollider : public DynamicCollider
+	class BoxCollider : public DynamicCollider, RegisteredInFactory<DynamicCollider, BoxCollider, GameObject*>
 	{
 	public:
 		BoxCollider(GameObject* owner);
+
+		static DynamicCollider* CreateInstance(GameObject* go) { return new BoxCollider(go); }
+		static const char* GetFactoryKey() { return "class Pg::Data::BoxCollider"; }
 
 		void Update();
 
