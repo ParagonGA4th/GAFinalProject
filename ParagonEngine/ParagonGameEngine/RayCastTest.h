@@ -6,13 +6,16 @@
 /// 2024.01.25
 /// </summary>
 
+//namespace Pg::Util
+//{
+//	namespace Input
+//	{
+//		class InputSystem;
+//	}
+//}
+
 namespace Pg::Engine
 {
-	namespace Input
-	{
-		class InputSystem;
-	}
-
 	namespace Physic
 	{
 		class PhysicSystem;
@@ -42,7 +45,7 @@ public:
 	virtual void Update() override;
 
 private:
-	Pg::Engine::Input::InputSystem* tInput = nullptr;
+	//Pg::Util::Input::InputSystem* tInput = nullptr;
 
 	Pg::Engine::Physic::PhysicSystem* tPhysic = nullptr;
 

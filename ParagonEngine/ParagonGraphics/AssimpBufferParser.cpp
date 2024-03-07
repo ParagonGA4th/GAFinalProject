@@ -12,7 +12,7 @@
 
 #include "DX11Headers.h"
 #include "MathHelper.h"
-#include "../ParagonUtil/ResourceHelper.h"
+#include "../ParagonHelper/ResourceHelper.h"
 #include "../ParagonData/AssetDefines.h"
 
 //Assimp

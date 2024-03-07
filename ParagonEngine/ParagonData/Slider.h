@@ -50,5 +50,7 @@ namespace Pg::Data
 		//슬라이더의 최대 최소값
 		int _min = 0;
 		int _max = 100;
+
+		bool _isClick;
 	};
 }

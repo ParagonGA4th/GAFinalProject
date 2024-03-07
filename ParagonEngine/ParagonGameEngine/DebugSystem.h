@@ -1,5 +1,5 @@
 #pragma once
-#include "InputSystem.h"
+#include "../ParagonUtil/InputSystem.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonData/DebugData.h"
@@ -82,7 +82,7 @@ namespace Pg::Engine
 		//디버그 모드 플래그
 		bool _isDebug;
 
-		Input::InputSystem* tInput = nullptr;
+		Pg::Util::Input::InputSystem* tInput = nullptr;
 	};
 
 }

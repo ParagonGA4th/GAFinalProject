@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="1_RapidCSV">
+      <UniqueIdentifier>{26eb6b46-52b7-41b5-924a-a94203903663}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_UUID">
+      <UniqueIdentifier>{6411a00a-0041-4944-ad9f-67fe9ca5c0ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_ByteBuffer">
+      <UniqueIdentifier>{f091558f-79a3-41de-abd2-3e70ed9b8273}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Helpers">
+      <UniqueIdentifier>{240f583e-329d-4e29-8d26-cbc86045ce5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_PugiXML">
+      <UniqueIdentifier>{27ea6325-6081-42c9-a217-f0054761c27d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Helpers\ResourceHelper">
+      <UniqueIdentifier>{6d268e1b-a39e-4b48-93aa-96b8bcaba759}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Helpers\CSVHelper">
+      <UniqueIdentifier>{ffa36c9a-a6b7-4f48-af89-d36cae26416a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="rapidcsv.h">
+      <Filter>1_RapidCSV</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceHelper.h">
+      <Filter>0_Helpers\ResourceHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="CSVHelper.h">
+      <Filter>0_Helpers\CSVHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="UUIDGenerator.h">
+      <Filter>2_UUID</Filter>
+    </ClInclude>
+    <ClInclude Include="ByteBuffer.hpp">
+      <Filter>3_ByteBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="pugiconfig.hpp">
+      <Filter>4_PugiXML</Filter>
+    </ClInclude>
+    <ClInclude Include="pugixml.hpp">
+      <Filter>4_PugiXML</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ResourceHelper.cpp">
+      <Filter>0_Helpers\ResourceHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="CSVHelper.cpp">
+      <Filter>0_Helpers\CSVHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="UUIDGenerator.cpp">
+      <Filter>2_UUID</Filter>
+    </ClCompile>
+    <ClCompile Include="ByteBuffer.cpp">
+      <Filter>3_ByteBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="pugixml.cpp">
+      <Filter>4_PugiXML</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

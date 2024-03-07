@@ -16,6 +16,7 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonUtil", "ParagonUtil\ParagonUtil.vcxproj", "{CE49D5CD-6B7E-47E7-AD1B-BB93BA556CAC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0AB5B10A-8B4A-4859-989C-637F962E1667} = {0AB5B10A-8B4A-4859-989C-637F962E1667}
+		{4C60326A-42CC-4793-B95B-3E70014098B5} = {4C60326A-42CC-4793-B95B-3E70014098B5}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonAPI", "ParagonAPI\ParagonAPI.vcxproj", "{42B02262-C7F1-450A-B5D4-A070546F6F18}"
@@ -50,6 +51,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonScript", "ParagonScript\ParagonScript.vcxproj", "{39080680-F7BB-4BBB-A507-78003575CDDB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{42B02262-C7F1-450A-B5D4-A070546F6F18} = {42B02262-C7F1-450A-B5D4-A070546F6F18}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonHelper", "ParagonHelper\ParagonHelper.vcxproj", "{4C60326A-42CC-4793-B95B-3E70014098B5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0AB5B10A-8B4A-4859-989C-637F962E1667} = {0AB5B10A-8B4A-4859-989C-637F962E1667}
 	EndProjectSection
 EndProject
 Global
@@ -148,6 +154,14 @@ Global
 		{39080680-F7BB-4BBB-A507-78003575CDDB}.Release|x64.Build.0 = Release|x64
 		{39080680-F7BB-4BBB-A507-78003575CDDB}.Release|x86.ActiveCfg = Release|Win32
 		{39080680-F7BB-4BBB-A507-78003575CDDB}.Release|x86.Build.0 = Release|Win32
+		{4C60326A-42CC-4793-B95B-3E70014098B5}.Debug|x64.ActiveCfg = Debug|x64
+		{4C60326A-42CC-4793-B95B-3E70014098B5}.Debug|x64.Build.0 = Debug|x64
+		{4C60326A-42CC-4793-B95B-3E70014098B5}.Debug|x86.ActiveCfg = Debug|Win32
+		{4C60326A-42CC-4793-B95B-3E70014098B5}.Debug|x86.Build.0 = Debug|Win32
+		{4C60326A-42CC-4793-B95B-3E70014098B5}.Release|x64.ActiveCfg = Release|x64
+		{4C60326A-42CC-4793-B95B-3E70014098B5}.Release|x64.Build.0 = Release|x64
+		{4C60326A-42CC-4793-B95B-3E70014098B5}.Release|x86.ActiveCfg = Release|Win32
+		{4C60326A-42CC-4793-B95B-3E70014098B5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

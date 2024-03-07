@@ -12,7 +12,7 @@
 
 #include "DX11Headers.h"
 #include "LayoutDefine.h"
-#include "../ParagonUtil/ResourceHelper.h"
+#include "../ParagonHelper/ResourceHelper.h"
 
 #include <dxtk/DDSTextureLoader.h>
 #include <dxtk/WICTextureLoader.h>

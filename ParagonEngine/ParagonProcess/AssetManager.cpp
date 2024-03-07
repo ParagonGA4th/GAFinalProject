@@ -7,9 +7,9 @@
 #include "../ParagonGraphics/GraphicsResourceManager.h"
 #include "../ParagonGameEngine/EngineResourceManager.h"
 
-#include "../ParagonUtil/ResourceHelper.h"
+#include "../ParagonHelper/ResourceHelper.h"
 #include "../ParagonUtil/Log.h"
-#include "../ParagonUtil/CSVHelper.h"
+#include "../ParagonHelper/CSVHelper.h"
 
 //<ResourcesList>
 #include "../ParagonGraphics/RenderMaterial.h"
