@@ -6,7 +6,6 @@
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/KeyCodeType.h"
 
-// 업데이트에서 임시로 인풋을 돌리기 위해...
 #include <singleton-cpp/singleton.h>
 #include <cassert>
 
