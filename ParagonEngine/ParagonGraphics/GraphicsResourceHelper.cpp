@@ -34,6 +34,7 @@ namespace Pg::Graphics::Helper
 		AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDER_VERTEXSHADER>();
 		AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDER_PIXELSHADER>();
 		AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL>();
+		AssetDefineType<Pg::Data::Enums::eAssetDefine::_ANIMATION>();
 	}
 
 	short GraphicsResourceHelper::IsRenderer3D(const std::string& rendererTypeName)
