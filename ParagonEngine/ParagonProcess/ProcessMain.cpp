@@ -72,7 +72,7 @@ namespace Pg::Core
 		std::string tResourceListPath = "../ResourceList";
 
 		//엔진 초기화
-		_util->Initialize();
+		_util->Initialize(screenWidth, screenHeight);
 		_engineGraphicsAdapter->InitializeEngine(hwnd, screenWidth, screenHeight, tResourceListPath);
 		_api->Initialize();
 		_engineGraphicsAdapter->InitializeGraphics(static_cast<HWND>(hwnd), screenWidth, screenHeight);
@@ -94,7 +94,7 @@ namespace Pg::Core
 		//deltaTime 업데이트
 		//_timeManager->TimeMeasure();
 		//_timeManager->MeasureFrame(_timeManager->GetDeltaTime());
-
+		_util->Update();
 		//AssetManager 로직 업데이트.
 		_engineGraphicsAdapter->UpdateAssetManager(_assetManager);
 

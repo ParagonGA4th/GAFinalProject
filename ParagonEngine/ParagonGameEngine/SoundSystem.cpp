@@ -5,9 +5,9 @@
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonData/eSoundState.h"
 #include "../ParagonData/Transform.h"
-#include "../ParagonUtil/rapidcsv.h"
-#include "../ParagonUtil/ResourceHelper.h"
-#include "../ParagonUtil/CSVHelper.h"
+#include "../ParagonHelper/rapidcsv.h"
+#include "../ParagonHelper/ResourceHelper.h"
+#include "../ParagonHelper/CSVHelper.h"
 
 #include <cassert>
 #include <algorithm>

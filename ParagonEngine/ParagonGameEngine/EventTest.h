@@ -12,10 +12,10 @@ namespace Pg::Data
 
 namespace Pg::Engine
 {
-	namespace Input
-	{
-		class InputSystem;
-	}
+	//namespace Input
+	//{
+	//	class InputSystem;
+	//}
 
 	class EventTest : public Pg::Data::Script
 	{
@@ -27,7 +27,7 @@ namespace Pg::Engine
 		virtual void Update() override;
 
 	private:
-		Input::InputSystem* _inputSystem = nullptr;
+		//Input::InputSystem* _inputSystem = nullptr;
 		Pg::Data::Button* tButton;
 	};
 }

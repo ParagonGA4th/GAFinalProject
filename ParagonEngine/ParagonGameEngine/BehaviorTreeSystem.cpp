@@ -7,8 +7,8 @@
 
 #include "../ParagonData/Animator.h"
 #include "../ParagonUtil/Log.h"
-#include "../ParagonUtil/ResourceHelper.h"
-#include "../ParagonUtil/CSVHelper.h"
+#include "../ParagonHelper/ResourceHelper.h"
+#include "../ParagonHelper/CSVHelper.h"
 
 #include <fstream>
 #include <algorithm>

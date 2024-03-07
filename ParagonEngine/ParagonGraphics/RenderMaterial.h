@@ -1,6 +1,6 @@
 #pragma once
 #include "../ParagonData/GraphicsResource.h"
-#include "../ParagonUtil/ByteBuffer.hpp"
+#include "../ParagonHelper/ByteBuffer.hpp"
 #include "ShaderParsingData.h"
 #include <vector>
 #include <string>

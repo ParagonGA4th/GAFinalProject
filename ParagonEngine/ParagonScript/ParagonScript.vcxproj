@@ -117,7 +117,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)lib\Recast\$(Configuration);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;ParagonAPI.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;fmod_vc.lib;behaviortree_cpp_v3d.lib;gmock_maind.lib;gmockd.lib;gtest_maind.lib;gtestd.lib;gainput-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonAPI.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;ParagonHelper.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;fmod_vc.lib;behaviortree_cpp_v3d.lib;gmock_maind.lib;gmockd.lib;gtest_maind.lib;gtestd.lib;gainput-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,7 +137,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)lib\Recast\$(Configuration);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;ParagonAPI.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;fmod_vc.lib;behaviortree_cpp_v3d.lib;gmock_maind.lib;gmockd.lib;gtest_maind.lib;gtestd.lib;gainput-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonAPI.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;ParagonHelper.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;fmod_vc.lib;behaviortree_cpp_v3d.lib;gmock_maind.lib;gmockd.lib;gtest_maind.lib;gtestd.lib;gainput-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

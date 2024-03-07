@@ -1,6 +1,6 @@
 #include "BaseResource.h"
 #include "AssetDefines.h"
-#include "../ParagonUtil/ResourceHelper.h"
+#include "../ParagonHelper/ResourceHelper.h"
 
 #include <filesystem>
 

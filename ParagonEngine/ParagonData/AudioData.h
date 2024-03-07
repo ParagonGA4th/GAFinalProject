@@ -18,6 +18,5 @@ namespace Pg::Data
 		FMOD::Channel* channel;	//사운드 채널
 		FMOD::Sound* sound;		//사운드 컨테이너
 		Pg::Data::eSoundGroup group;	//사운드 그룹
-		
 	};
 }
