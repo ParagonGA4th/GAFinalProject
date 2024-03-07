@@ -1,5 +1,6 @@
 #include "Slider.h"
 #include "GameObject.h"
+#include "Button.h"
 #include "ImageRenderer.h"
 namespace Pg::Data
 {
@@ -16,6 +17,16 @@ namespace Pg::Data
 		_imageRenderer = owner->AddComponent<ImageRenderer>();
 		_imageWidth = &(_imageRenderer->_width);
 		_imageHeight = &(_imageRenderer->_height);
+	}
+
+	void Slider::Start()
+	{
+		//버튼이 자식 객체로써 존재한다.
+		GameObject* buttonObject = new GameObject("sliderBtn");
+		buttonObject->AddComponent<Button>();
+		
+		GameObject* handleObject = new GameObject("handle");
+		handleObject->AddComponent<ImageRenderer>();
 	}
 
 	void Slider::Update()
