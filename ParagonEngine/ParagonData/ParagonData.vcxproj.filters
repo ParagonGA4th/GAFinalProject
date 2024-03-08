@@ -155,6 +155,9 @@
       <Filter>11_BtNodes\Defines</Filter>
     </ClCompile>
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Handle.cpp">
+      <Filter>2_Component\UI\Handle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -378,6 +381,9 @@
       <Filter>11_BtNodes\Collection</Filter>
     </ClInclude>
     <ClInclude Include="Image.h" />
+    <ClInclude Include="Handle.h">
+      <Filter>2_Component\UI\Handle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -604,6 +610,9 @@
     </Filter>
     <Filter Include="11_BtNodes\Collection">
       <UniqueIdentifier>{f7d1b6d9-84e9-497a-b896-f63a80e1b8e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\UI\Handle">
+      <UniqueIdentifier>{d103ae49-ebd4-46a9-afaf-e3bd59f61851}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
