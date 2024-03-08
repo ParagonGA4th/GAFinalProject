@@ -128,35 +128,35 @@ namespace Pg::Data
 
 	Pg::Data::Component* GameObject::AddComponent(std::string componentType)
 	{
-		//Pg::Data::Component* component;
-		//component = Factory<Pg::Data::Component, Pg::Data::GameObject*>::Create(componentType.c_str(), this);		
-		//if (component != nullptr)
-		//{
-		//	_componentList.push_back(std::make_pair(componentType, component));
-		//	return component;
-		//}
-		//
-		//component = Factory<Pg::Data::RendererBase3D, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
-		//if (component != nullptr)
-		//{
-		//	_componentList.push_back(std::make_pair(componentType, component));
-		//	return component;
-		//}
-		//
-		//component = Factory<Pg::Data::StaticCollider, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
-		//if (component != nullptr)
-		//{
-		//	_componentList.push_back(std::make_pair(componentType, component));
-		//	return component;
-		//}
-		//
-		//component = Factory<Pg::Data::DynamicCollider, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
-		//if (component != nullptr)
-		//{
-		//	_componentList.push_back(std::make_pair(componentType, component));
-		//	return component;
-		//}		
-		//
+		Pg::Data::Component* component;
+		component = Pg::Factory::Data::Factory<Pg::Data::Component, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
+		if (component != nullptr)
+		{
+			_componentList.push_back(std::make_pair(componentType, component));
+			return component;
+		}
+
+		component = Pg::Factory::Data::Factory<Pg::Data::RendererBase3D, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
+		if (component != nullptr)
+		{
+			_componentList.push_back(std::make_pair(componentType, component));
+			return component;
+		}
+
+		component = Pg::Factory::Data::Factory<Pg::Data::StaticCollider, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
+		if (component != nullptr)
+		{
+			_componentList.push_back(std::make_pair(componentType, component));
+			return component;
+		}
+
+		component = Pg::Factory::Data::Factory<Pg::Data::DynamicCollider, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
+		if (component != nullptr)
+		{
+			_componentList.push_back(std::make_pair(componentType, component));
+			return component;
+		}
+
 		//component = Factory<Pg::Data::Script, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
 		//if (component != nullptr)
 		//{
