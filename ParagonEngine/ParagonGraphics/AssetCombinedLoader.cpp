@@ -3,17 +3,20 @@
 #include "LayoutDefine.h"
 #include "DX11Headers.h"
 #include "MaterialParser.h"
+#include "AnimationParser.h"
 
 //Made Resources
 #include "RenderVertexShader.h"
 #include "RenderPixelShader.h"
 #include "RenderMaterial.h"
+#include "RenderAnimation.h"
 
 namespace Pg::Graphics::Loader
 {
 	AssetCombinedLoader::AssetCombinedLoader() : _DXStorage(LowDX11Storage::GetInstance())
 	{
 		_matParser = std::make_unique<Pg::Graphics::MaterialParser>();
+		_animParser = std::make_unique<Pg::Graphics::AnimationParser>();
 	}
 
 	AssetCombinedLoader::~AssetCombinedLoader()
@@ -60,5 +63,10 @@ namespace Pg::Graphics::Loader
 		_matParser->LoadDefaultRenderMaterialInstance(defInstMatName, renderMat);
 	}
 
+	void AssetCombinedLoader::LoadAnimation(const std::string& path, RenderAnimation* anim)
+	{
+		_animParser->ParseAnimation(path, anim);
+		_animParser->Clean();
+	}
 
 }
