@@ -3,6 +3,8 @@
 #include "DebugData.h"
 #include "../ParagonMath/PgMath.h"
 
+#include <auto_register/factory.h>
+
 /// <summary>
 /// 변지상의 PlaneCollider. 이거는 그냥 Static으로...
 /// 동적으로 움직일 일 없음.
@@ -12,10 +14,13 @@ namespace Pg::Data
 {
 	class GameObject;
 
-	class PlaneCollider : public StaticCollider
+	class PlaneCollider : public StaticCollider, RegisteredInFactory<StaticCollider, PlaneCollider, GameObject*>
 	{
 	public:
 		PlaneCollider(GameObject* owner);
+
+		static StaticCollider* CreateInstance(GameObject* go) { return new PlaneCollider(go); }
+		static const char* GetFactoryKey() { return "class Pg::Data::PlaneCollider"; }
 
 	protected:
 		virtual void Update() override;

@@ -7,7 +7,7 @@
 #include "DX11Headers.h"
 #include "LowDX11Storage.h"
 #include "LayoutDefine.h"
-#include "../ParagonUtil/ResourceHelper.h"
+#include "../ParagonHelper/ResourceHelper.h"
 
 #include <assimp/Importer.hpp>     
 #include <assimp/scene.h>          

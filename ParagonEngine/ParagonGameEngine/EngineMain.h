@@ -93,7 +93,7 @@ namespace Pg::Engine
 	private:
 
 		Pg::Core::ProcessMain* _coreMain = nullptr;
-		Input::InputSystem* _inputSystem = nullptr;
+
 		Physic::PhysicSystem* _physicSystem = nullptr;
 		Time::TimeSystem* _timeSystem = nullptr;
 		BTree::BehaviorTreeSystem* _behaviorTreeSystem = nullptr;

@@ -9,6 +9,7 @@
 #include <iostream>
 #include <stdarg.h>
 #include <singleton-cpp/singleton.h>
+#include "UtilDLLExporter.h"
 
 /// 엔진 개발에 사용할 Logger.
 /// 실제로 클래스의 멤버함수를 사용하는 것이 아닌, 매크로를 활용해,
@@ -28,9 +29,9 @@ namespace Pg::Util::Debug
 		void Finalize();
 
 		//Logger의 레벨 바꾸기 : 0-5단계가 있다. 높아질 수록 더 심각한 오류만 캐치. -1이 들어가면 디버거 작동을 끄는 것.
-		void SetLoggerLevel(int level);
+		PARAGON_UTIL_DLL void SetLoggerLevel(int level);
 
-		std::shared_ptr<spdlog::logger>& GetLogger();
+		PARAGON_UTIL_DLL std::shared_ptr<spdlog::logger>& GetLogger();
 	private:
 		void CreateConsoleWindow();
 

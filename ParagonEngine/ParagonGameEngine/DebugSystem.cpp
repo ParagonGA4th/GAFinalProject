@@ -25,14 +25,14 @@ namespace Pg::Engine
 	void DebugSystem::Initialize()
 	{
 		// Input
-		auto& tInputSystem = singleton<Input::InputSystem>();
+		auto& tInputSystem = singleton<Pg::Util::Input::InputSystem>();
 		tInput = &tInputSystem;
 	}
 
 
 	void DebugSystem::Update(Pg::Data::Scene* scene)
 	{
-		using namespace Pg::Engine::Input;
+		using namespace Pg::Util::Input;
 		using namespace Pg::API::Input;
 
 		//디버그 껐다 켜기.
