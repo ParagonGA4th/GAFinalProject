@@ -16,6 +16,7 @@
 #include "RenderFont.h"
 #include "RenderCubemap.h"
 #include "Asset3DModelData.h"
+#include "RenderAnimation.h"
 //</>
 
 //Macro Function 내부 - 모두 여기에 있어야 한다.
@@ -150,6 +151,12 @@ namespace Pg::Graphics::Helper
 	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL>
 	{
 		using type = Pg::Graphics::RenderMaterial; //RenderMaterial로 타입 변환.
+	};
+
+	template <>
+	struct AssetDefineType<Pg::Data::Enums::eAssetDefine::_ANIMATION>
+	{
+		using type = Pg::Graphics::RenderAnimation; //RenderMaterial로 타입 변환.
 	};
 }
 

@@ -88,7 +88,7 @@ void Pg::UI::Helper::Gizmo::DrawGizmo()
 		ImGuizmo::Manipulate(
 			&(_vtm[0][0]),		// cameraView
 			&(_ptm[0][0]),		// cameraProj
-			ImGuizmo::TRANSLATE,
+			ImGuizmo::ROTATE,
 			ImGuizmo::LOCAL,
 			&(_wtm[0][0])		// object Transform
 		);

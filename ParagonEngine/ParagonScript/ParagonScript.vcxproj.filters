@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="PlayerMove">
+      <UniqueIdentifier>{3b3d32f2-0726-45ec-9098-cb1669f8990d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EventTest">
+      <UniqueIdentifier>{21ea2018-edb4-4732-9965-50cd5f75b003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RayCastTest">
+      <UniqueIdentifier>{1fb7514c-5cfa-4514-82ab-bfd52144e937}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PlayerMove.cpp">
+      <Filter>PlayerMove</Filter>
+    </ClCompile>
+    <ClCompile Include="EventTest.cpp">
+      <Filter>EventTest</Filter>
+    </ClCompile>
+    <ClCompile Include="RayCastTest.cpp">
+      <Filter>RayCastTest</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PlayerMove.h">
+      <Filter>PlayerMove</Filter>
+    </ClInclude>
+    <ClInclude Include="EventTest.h">
+      <Filter>EventTest</Filter>
+    </ClInclude>
+    <ClInclude Include="RayCastTest.h">
+      <Filter>RayCastTest</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
