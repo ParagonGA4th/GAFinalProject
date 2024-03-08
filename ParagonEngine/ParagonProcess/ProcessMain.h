@@ -5,7 +5,7 @@
 #include "IAPI.h"
 #include "../ParagonUtil/Log.h"
 
-#include "../ParagonGameEngine/InputSystem.h"
+//#include "../ParagonGameEngine/InputSystem.h"
 #include <d3d11.h>
 
 #include <memory>

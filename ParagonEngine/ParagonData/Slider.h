@@ -11,11 +11,12 @@ namespace Pg::Data
 	class GameObject;
 	class ImageRenderer;
 
-	class Slider : Component
+	class Slider : public Component
 	{
 	public:
 		Slider(GameObject* owner);
 
+		virtual void Start() override;
 		virtual void Update() override;
 
 		void SetValueEvent(std::function<void(float)> event);
@@ -45,5 +46,11 @@ namespace Pg::Data
 		//이미지의 사이즈
 		float* _imageWidth;
 		float* _imageHeight;
+
+		//슬라이더의 최대 최소값
+		int _min = 0;
+		int _max = 100;
+
+		bool _isClick;
 	};
 }

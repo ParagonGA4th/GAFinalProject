@@ -17,26 +17,26 @@ namespace Pg::Util::Helper
 		~ResourceHelper();
 
 		//리소스가 해당 위치에 존재하는지 알려주는 Wrapper 함수.
-		static bool IsFileExist(const std::string& filePath);
+		 static bool IsFileExist(const std::string& filePath);
 
 		//다양한 상대적 경로 기록 양식을 하나의 양식으로 강제로 통합해 저장해주는 함수이다. 
-		static std::string ForcePathUniform(const std::string& filePath);
+		 static std::string ForcePathUniform(const std::string& filePath);
 
 		//ForcePathUniform + Relative Path인 경우 Full Path로 만들어준다.
-		static std::string ForcePathUniformFull(const std::string& filePath);
+		 static std::string ForcePathUniformFull(const std::string& filePath);
 
 		//eAssetDefine이 Graphics 리소스 소속인지, Engine 리소스 소속인지 구분해준다. (리소스가 추가되면서 점점 업데이트되어야 할 함수)
-		static bool IsGraphicsResource(Pg::Data::Enums::eAssetDefine define);
+		 static bool IsGraphicsResource(Pg::Data::Enums::eAssetDefine define);
 
 		//그 자체로 : 렌더될 수 없는지 <-1> / 2D <0> / 3D <1> 인지를 구분해준다.
 		//IsGraphicsResource를 포괄한다.
-		static short IsPlainRenderable(Pg::Data::Enums::eAssetDefine define);
+		 static short IsPlainRenderable(Pg::Data::Enums::eAssetDefine define);
 
 		//리소스의 확장자가 DDS인지, 아닌지를 알려준다.
-		static bool IsResourceDDS(const std::string& filePath);
-		static bool IsResourceDDS(const std::wstring& filePath);
+		 static bool IsResourceDDS(const std::string& filePath);
+		 static bool IsResourceDDS(const std::wstring& filePath);
 
-		static std::string GetNameFromPath(const std::string& filePath);
+		 static std::string GetNameFromPath(const std::string& filePath);
 	private:
 
 	};

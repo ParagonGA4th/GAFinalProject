@@ -1,5 +1,5 @@
 #include "StaticMeshRenderer.h"
-#include "../ParagonUtil/ResourceHelper.h"
+#include "../ParagonHelper/ResourceHelper.h"
 
 #include <sstream>
 #include <vector>

@@ -3,6 +3,8 @@
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/DebugData.h"
 
+#include <auto_register/factory.h>
+
 namespace Pg::Data
 {
 	class GameObject;
@@ -10,10 +12,13 @@ namespace Pg::Data
 
 namespace Pg::Data
 {
-	class CapsuleCollider : public DynamicCollider
+	class CapsuleCollider : public DynamicCollider, RegisteredInFactory<DynamicCollider, CapsuleCollider, GameObject*>
 	{
 	public:
 		CapsuleCollider(GameObject* owner);
+
+		static DynamicCollider* CreateInstance(GameObject* go) { return new CapsuleCollider(go); }
+		static const char* GetFactoryKey() { return "class Pg::Data::CapsuleCollider"; }
 
 	protected:
 		virtual void Update() override;

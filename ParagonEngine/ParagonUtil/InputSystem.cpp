@@ -20,7 +20,7 @@
 //#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
 //#endif // _DEBUG
 
-namespace  Pg::Engine::Input
+namespace  Pg::Util::Input
 {
 	InputSystem::InputSystem()
 		:_manager(), _map(),
@@ -100,8 +100,8 @@ namespace  Pg::Engine::Input
 		assert(_map->MapBool(eKeyCode::KeyLeft, _keyboardId, gainput::KeyLeft));
 		assert(_map->MapBool(eKeyCode::KeyRight, _keyboardId, gainput::KeyRight));
 		assert(_map->MapBool(eKeyCode::KeyUp, _keyboardId, gainput::KeyUp));
-		assert(_map->MapBool(eKeyCode::KeyDown,_keyboardId, gainput::KeyDown));
-		assert(_map->MapBool(eKeyCode::Space,_keyboardId, gainput::KeySpace));
+		assert(_map->MapBool(eKeyCode::KeyDown, _keyboardId, gainput::KeyDown));
+		assert(_map->MapBool(eKeyCode::Space, _keyboardId, gainput::KeySpace));
 
 		gainput::SimultaneouslyDownGesture* sdg = _manager->CreateAndGetDevice<gainput::SimultaneouslyDownGesture>();
 		sdg->AddButton(_keyboardId, gainput::KeyCtrlL);
@@ -155,8 +155,4 @@ namespace  Pg::Engine::Input
 	{
 		return _map->GetFloatDelta(Pg::API::Input::eKeyCode::MouseY);
 	}
-
-	
-
 }
-

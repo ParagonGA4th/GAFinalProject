@@ -1,12 +1,16 @@
 #include "Slider.h"
 #include "GameObject.h"
+#include "Button.h"
 #include "ImageRenderer.h"
+//#include "../ParagonEngine/"
+
 namespace Pg::Data
 {
 	Slider::Slider(GameObject* owner) :
 		Component(owner),
 		_onValueEvent(),
-		_value(0.0f)
+		_value(0.0f),
+		_isClick(false)
 	{
 		if (owner->GetComponent<ImageRenderer>())
 		{
@@ -16,6 +20,18 @@ namespace Pg::Data
 		_imageRenderer = owner->AddComponent<ImageRenderer>();
 		_imageWidth = &(_imageRenderer->_width);
 		_imageHeight = &(_imageRenderer->_height);
+	}
+
+	void Slider::Start()
+	{
+		//버튼이 자식 객체로써 존재한다.
+		GameObject* buttonObject = new GameObject("sliderBtn");
+		buttonObject->AddComponent<Button>();
+		
+		GameObject* handleObject = new GameObject("handle");
+		handleObject->AddComponent<ImageRenderer>();
+
+		//_min = this->_transform
 	}
 
 	void Slider::Update()
