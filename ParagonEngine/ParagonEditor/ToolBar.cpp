@@ -49,6 +49,7 @@ void Pg::Editor::Window::ToolBar::Update()
 	{
 		*_editorModeType = Pg::Data::Enums::eEditorMode::_PLAY;
 		_editorMode->Invoke(eEventType::_EDITORMODE, _editorModeType);
+		_editorMode->Invoke(eEventType::_EDITORDISABLE, static_cast<void*>(_isStartBtnClick));
 	}
 
 	if (*_isPauseBtnClick)
@@ -61,6 +62,9 @@ void Pg::Editor::Window::ToolBar::Update()
 	{
 		*_editorModeType = Pg::Data::Enums::eEditorMode::_EDIT;
 		_editorMode->Invoke(eEventType::_EDITORMODE, _editorModeType);
+
+		*_isStopBtnClick = false;
+		_editorMode->Invoke(eEventType::_EDITORDISABLE, static_cast<void*>(_isStartBtnClick));
 	}
 
 	_uiManager->WindowEnd();
@@ -79,4 +83,9 @@ void Pg::Editor::Window::ToolBar::SetShow(bool show)
 bool Pg::Editor::Window::ToolBar::GetShow()
 {
 	return _isShow;
+}
+
+std::string Pg::Editor::Window::ToolBar::GetWindowName()
+{
+	return _winName;
 }

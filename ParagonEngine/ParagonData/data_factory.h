@@ -13,7 +13,8 @@
 #include <cstring>
 #include <string>
 
-
+namespace Pg::Factory::Data
+{
  // define this if you want to use unique_ptr<T> as the return type of Factory<>::Create()
  //#define FACTORY_USE_UNIQUEPTR
  // define this if you're using unique_ptr<T>, but don't want the code to include a C++11 shim version of make_unique<T>
@@ -180,5 +181,7 @@ bool RegisteredInFactory<TParent, TClass, TArgs...>::_FACTORY_INIT = FACTORY_TYP
 
 // if you've got one constructor, reference this in your class constructor to prevent the compiler from yeeting the initialiser and template during optimisation
 #define FACTORY_INIT (void)_FACTORY_INIT;
-// if you've got multiple constructors, reference this in each of your class constructors, using the same type parameters as you applied to RegisteredInFactory<...>
-#define FACTORY_INIT_MANY(...) (void)(RegisteredInFactory<__VA_ARGS__>::_FACTORY_INIT);
+// if you've got multiple constructors, reference this in each of your class constructors, using the same type parameters as you applied to Pg::Factory::Data::RegisteredInFactory<...>
+#define FACTORY_INIT_MANY(...) (void)(Pg::Factory::Data::RegisteredInFactory<__VA_ARGS__>::_FACTORY_INIT);
+
+}

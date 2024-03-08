@@ -2,13 +2,13 @@
 #include "DynamicCollider.h"
 #include "../ParagonData/DebugData.h"
 
-#include <auto_register/factory.h>
+#include "data_factory.h"
 
 namespace Pg::Data
 {
 	class GameObject;
 
-	class SphereCollider : public DynamicCollider, RegisteredInFactory<DynamicCollider, SphereCollider, GameObject*>
+	class SphereCollider : public DynamicCollider, Pg::Factory::Data::RegisteredInFactory<DynamicCollider, SphereCollider, GameObject*>
 	{
 	public:
 		SphereCollider(GameObject* owner);

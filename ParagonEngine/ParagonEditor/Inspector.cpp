@@ -6,7 +6,7 @@
 #include "../ParagonData/Camera.h"
 #include "../ParagonData/Light.h"
 #include "../ParagonData/StaticMeshRenderer.h"
-#include "../ParagonData/Script.h"
+#include "../ParagonScript/Script.h"
 
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
@@ -96,4 +96,9 @@ void Pg::Editor::Window::Inspector::AddComponent()
 			_insHelper->SetData(_selectGameObject);
 		}
 	}
+}
+
+std::string Pg::Editor::Window::Inspector::GetWindowName()
+{
+	return _winName;
 }

@@ -208,6 +208,7 @@
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="data_factory.h" />
     <ClInclude Include="DebugData.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DynamicCollider.h" />
@@ -240,7 +241,6 @@
     <ClInclude Include="RenderTextData.h" />
     <ClInclude Include="ResourceQueue.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Script.h" />
     <ClInclude Include="SerializerHelper.h" />
     <ClInclude Include="SkinnedMeshRenderer.h" />
     <ClInclude Include="Slider.h" />
@@ -296,7 +296,6 @@
     <ClCompile Include="RendererBase3D.cpp" />
     <ClCompile Include="ResourceQueue.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Script.cpp" />
     <ClCompile Include="SkinnedMeshRenderer.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SphereCollider.cpp" />

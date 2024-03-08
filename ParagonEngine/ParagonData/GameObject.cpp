@@ -9,11 +9,9 @@
 #include "RendererBase3D.h"
 #include "../ParagonData/StaticMeshRenderer.h"
 
-#include "Script.h"
-
 #include "../ParagonUtil/Log.h"
 
-#include <auto_register/factory.h> // Auto Register를 위한 필수요건.
+#include "data_factory.h" // Auto Register를 위한 필수요건.
 #include <algorithm>
 
 namespace Pg::Data
@@ -130,41 +128,43 @@ namespace Pg::Data
 
 	Pg::Data::Component* GameObject::AddComponent(std::string componentType)
 	{
-		Pg::Data::Component* component;
-		component = Factory<Pg::Data::Component, Pg::Data::GameObject*>::Create(componentType.c_str(), this);		
-		if (component != nullptr)
-		{
-			_componentList.push_back(std::make_pair(componentType, component));
-			return component;
-		}
+		//Pg::Data::Component* component;
+		//component = Factory<Pg::Data::Component, Pg::Data::GameObject*>::Create(componentType.c_str(), this);		
+		//if (component != nullptr)
+		//{
+		//	_componentList.push_back(std::make_pair(componentType, component));
+		//	return component;
+		//}
+		//
+		//component = Factory<Pg::Data::RendererBase3D, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
+		//if (component != nullptr)
+		//{
+		//	_componentList.push_back(std::make_pair(componentType, component));
+		//	return component;
+		//}
+		//
+		//component = Factory<Pg::Data::StaticCollider, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
+		//if (component != nullptr)
+		//{
+		//	_componentList.push_back(std::make_pair(componentType, component));
+		//	return component;
+		//}
+		//
+		//component = Factory<Pg::Data::DynamicCollider, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
+		//if (component != nullptr)
+		//{
+		//	_componentList.push_back(std::make_pair(componentType, component));
+		//	return component;
+		//}		
+		//
+		//component = Factory<Pg::Data::Script, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
+		//if (component != nullptr)
+		//{
+		//	_componentList.push_back(std::make_pair(componentType, component));
+		//	return component;
+		//}
 
-		component = Factory<Pg::Data::RendererBase3D, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
-		if (component != nullptr)
-		{
-			_componentList.push_back(std::make_pair(componentType, component));
-			return component;
-		}
-
-		component = Factory<Pg::Data::StaticCollider, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
-		if (component != nullptr)
-		{
-			_componentList.push_back(std::make_pair(componentType, component));
-			return component;
-		}
-
-		component = Factory<Pg::Data::DynamicCollider, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
-		if (component != nullptr)
-		{
-			_componentList.push_back(std::make_pair(componentType, component));
-			return component;
-		}		
-
-		component = Factory<Pg::Data::Script, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
-		if (component != nullptr)
-		{
-			_componentList.push_back(std::make_pair(componentType, component));
-			return component;
-		}
+		return nullptr;
 	}
 
 	bool GameObject::RemoveComponent(std::string componentType)

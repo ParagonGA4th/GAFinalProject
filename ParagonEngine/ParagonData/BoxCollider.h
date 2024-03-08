@@ -3,7 +3,7 @@
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/DebugData.h"
 
-#include <auto_register/factory.h>
+#include "data_factory.h"
 
 /// <summary>
 /// 변지상의 BoxCollider
@@ -18,7 +18,7 @@ namespace Pg::Data
 
 namespace Pg::Data
 {
-	class BoxCollider : public DynamicCollider, RegisteredInFactory<DynamicCollider, BoxCollider, GameObject*>
+	class BoxCollider : public DynamicCollider, Pg::Factory::Data::RegisteredInFactory<DynamicCollider, BoxCollider, GameObject*>
 	{
 	public:
 		BoxCollider(GameObject* owner);

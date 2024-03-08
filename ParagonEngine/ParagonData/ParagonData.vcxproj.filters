@@ -10,9 +10,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>2_Component\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Script.cpp">
-      <Filter>2_Component\Script</Filter>
-    </ClCompile>
     <ClCompile Include="BaseRenderer.cpp">
       <Filter>2_Component\Renderer\BaseClass</Filter>
     </ClCompile>
@@ -162,9 +159,6 @@
     </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>2_Component\BaseClass</Filter>
-    </ClInclude>
-    <ClInclude Include="Script.h">
-      <Filter>2_Component\Script</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>2_Component\Transform</Filter>
@@ -378,6 +372,9 @@
       <Filter>11_BtNodes\Collection</Filter>
     </ClInclude>
     <ClInclude Include="Image.h" />
+    <ClInclude Include="data_factory.h">
+      <Filter>12_Factory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -604,6 +601,9 @@
     </Filter>
     <Filter Include="11_BtNodes\Collection">
       <UniqueIdentifier>{f7d1b6d9-84e9-497a-b896-f63a80e1b8e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="12_Factory">
+      <UniqueIdentifier>{f444fc16-6341-47b9-a960-e843f33a3db1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
