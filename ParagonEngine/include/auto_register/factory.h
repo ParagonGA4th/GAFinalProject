@@ -11,6 +11,7 @@
 
 #include <map>
 #include <cstring>
+#include <string>
 
 
  // define this if you want to use unique_ptr<T> as the return type of Factory<>::Create()
@@ -97,6 +98,12 @@ public:
     static size_t GetCount()
     {
         return GetMap()->size();
+    }
+
+    //Added (Paragon) (C++20~)
+    static bool Contains(const std::string& name)
+    {
+        return GetMap()->contains(name.c_str());
     }
 
     // get the key of the type at the given index

@@ -26,12 +26,16 @@
 							<z>1.000000</z>
 						</scale>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::Camera</type>
 					<data>
 						<nearZ>0.100000</nearZ>
 						<farZ>300.000000</farZ>
 						<fovY>1.256637</fovY>
 					</data>
+				</component>
+				<component>
 					<type>class EditorCameraScript</type>
 					<data />
 				</component>
@@ -62,6 +66,8 @@
 							<z>1.000000</z>
 						</scale>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
 						<isInstanced>false</isInstanced>
@@ -96,8 +102,12 @@
 							<z>1.000000</z>
 						</scale>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::SphereCollider</type>
 					<data />
+				</component>
+				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
 						<isInstanced>false</isInstanced>
@@ -132,18 +142,28 @@
 							<z>1.000000</z>
 						</scale>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::CapsuleCollider</type>
 					<data />
+				</component>
+				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
 						<isInstanced>false</isInstanced>
 						<meshName>Capsule.fbx</meshName>
 						<materialName></materialName>
 					</data>
-					<type>class MovingTest</type>
+				</component>
+				<component>
+					<type>class PlayerMove</type>
 					<data />
-					<type>class MovingTest</type>
+				</component>
+				<component>
+					<type>class PlayerMove</type>
 					<data />
+				</component>
+				<component>
 					<type>class RayCastTest</type>
 					<data />
 				</component>
@@ -174,6 +194,8 @@
 							<z>3.000000</z>
 						</scale>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
 						<isInstanced>false</isInstanced>
@@ -208,8 +230,12 @@
 							<z>1.000000</z>
 						</scale>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::StaticBoxCollider</type>
 					<data />
+				</component>
+				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
 						<isInstanced>false</isInstanced>
@@ -244,6 +270,8 @@
 							<z>1.000000</z>
 						</scale>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
 						<isInstanced>false</isInstanced>
@@ -278,6 +306,8 @@
 							<z>2.000000</z>
 						</scale>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
 						<isInstanced>false</isInstanced>
@@ -312,8 +342,12 @@
 							<z>1.000000</z>
 						</scale>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::PlaneCollider</type>
 					<data />
+				</component>
+				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
 						<isInstanced>false</isInstanced>
@@ -348,10 +382,16 @@
 							<z>1.000000</z>
 						</scale>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::ImageRenderer</type>
 					<data />
+				</component>
+				<component>
 					<type>class Pg::Data::Button</type>
 					<data />
+				</component>
+				<component>
 					<type>class Pg::Engine::EventTest</type>
 					<data />
 				</component>
@@ -382,8 +422,12 @@
 							<z>1.000000</z>
 						</scale>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::PlaneCollider</type>
 					<data />
+				</component>
+				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
 						<isInstanced>false</isInstanced>
@@ -418,6 +462,8 @@
 							<z>1.000000</z>
 						</scale>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
 						<isInstanced>false</isInstanced>
@@ -452,6 +498,8 @@
 							<z>1.000000</z>
 						</scale>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
 						<isInstanced>false</isInstanced>
@@ -486,8 +534,12 @@
 							<z>1.000000</z>
 						</scale>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::PlaneCollider</type>
 					<data />
+				</component>
+				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
 						<isInstanced>false</isInstanced>
@@ -506,9 +558,9 @@
 					<type>class Pg::Data::Transform</type>
 					<data>
 						<position>
-							<x>40.526588</x>
+							<x>38.917160</x>
 							<y>0.000000</y>
-							<z>40.729870</z>
+							<z>38.962021</z>
 						</position>
 						<rotation>
 							<w>1.000000</w>
@@ -522,12 +574,16 @@
 							<z>1.000000</z>
 						</scale>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
 						<isInstanced>false</isInstanced>
 						<meshName>Cube.fbx</meshName>
 						<materialName>RoadLavaConeTestMat.pgmat</materialName>
 					</data>
+				</component>
+				<component>
 					<type>class Pg::Data::Animator</type>
 					<data>
 						<behaviorTreePath>../Resources/BehaviorTrees/Test/BTree_Testing1.xml</behaviorTreePath>

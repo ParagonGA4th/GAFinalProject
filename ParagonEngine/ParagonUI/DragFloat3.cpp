@@ -29,9 +29,9 @@ Pg::UI::Widget::DragFloat3::DragFloat3(std::string label, Pg::Math::PGQuaternion
 	_inputPGFloat3 = new Pg::Math::PGFLOAT3;
 	*_inputPGFloat3 = Pg::Math::PGQuaternionToEuler(*_inputPGQuat);
 
-	_inputFloat[0] = _inputPGFloat3->x;
-	_inputFloat[1] = _inputPGFloat3->y;
-	_inputFloat[2] = _inputPGFloat3->z;
+	_inputFloat[0] = Pg::Math::PGConvertToDegrees(_inputPGFloat3->x);
+	_inputFloat[2] = Pg::Math::PGConvertToDegrees(_inputPGFloat3->z);
+	_inputFloat[1] = Pg::Math::PGConvertToDegrees(_inputPGFloat3->y);
 }
 
 void Pg::UI::Widget::DragFloat3::Update()
@@ -52,9 +52,9 @@ void Pg::UI::Widget::DragFloat3::Update()
 	{
 		*_inputPGFloat3 = Pg::Math::PGQuaternionToEuler(*_inputPGQuat);
 
-		_inputFloat[0] = _inputPGFloat3->x;
-		_inputFloat[1] = _inputPGFloat3->y;
-		_inputFloat[2] = _inputPGFloat3->z;
+		_inputFloat[0] = Pg::Math::PGConvertToDegrees(_inputPGFloat3->x);
+		_inputFloat[2] = Pg::Math::PGConvertToDegrees(_inputPGFloat3->z);
+		_inputFloat[1] = Pg::Math::PGConvertToDegrees(_inputPGFloat3->y);
 	}
 
 	if (ImGui::DragFloat3(_label.c_str(), _inputFloat, 0.005f))
@@ -73,9 +73,9 @@ void Pg::UI::Widget::DragFloat3::Update()
 		}
 		else
 		{
-			_inputPGFloat3->x = _inputFloat[0];
-			_inputPGFloat3->y = _inputFloat[1];
-			_inputPGFloat3->z = _inputFloat[2];
+			_inputPGFloat3->x = Pg::Math::PGConvertToRadians(_inputFloat[0]);
+			_inputPGFloat3->y = Pg::Math::PGConvertToRadians(_inputFloat[1]);
+			_inputPGFloat3->z = Pg::Math::PGConvertToRadians(_inputFloat[2]);
 
 			*_inputPGQuat = Pg::Math::PGEulerToQuaternion(*_inputPGFloat3);
 		}

@@ -10,7 +10,7 @@ namespace Pg::Data
 		_height(2.0f),
 		_depth(2.0f)
 	{
-
+		FACTORY_INIT;
 	}
 
 	void StaticBoxCollider::Update()

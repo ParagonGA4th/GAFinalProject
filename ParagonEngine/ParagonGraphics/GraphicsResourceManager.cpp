@@ -98,6 +98,10 @@ namespace Pg::Graphics::Manager
 		{
 			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_RENDERMATERIAL)>(tFilePath, define);
 		}
+		else if (define == eAssetDefine::_ANIMATION)
+		{
+			CreateResource<ASSETDEFINE_TYPE(eAssetDefine::_ANIMATION)>(tFilePath, define);
+		}
 		else
 		{
 			assert(false); //여기까지 와도 안된다.
@@ -154,6 +158,10 @@ namespace Pg::Graphics::Manager
 		else if (define == eAssetDefine::_RENDERMATERIAL)
 		{
 			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_RENDERMATERIAL)>(tFilePath);
+		}
+		else if (define == eAssetDefine::_ANIMATION)
+		{
+			return GetResourceTemplated<ASSETDEFINE_TYPE(eAssetDefine::_ANIMATION)>(tFilePath);
 		}
 		else
 		{
