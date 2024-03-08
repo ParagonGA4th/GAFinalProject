@@ -1,6 +1,5 @@
 #pragma once
 #include "IEditorWindow.h"
-#include <string>
 #include <memory>
 
 namespace Pg::Editor::Data { class DataContainer; }
@@ -22,6 +21,8 @@ namespace Pg::Editor::Window
 
 		virtual void SetShow(bool show) override;
 		virtual bool GetShow() override;
+
+		virtual std::string GetWindowName() override;
 	
 	private:
 		/// Scene Value

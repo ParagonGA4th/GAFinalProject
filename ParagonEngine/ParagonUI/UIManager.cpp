@@ -70,4 +70,13 @@ void Pg::UI::Manager::UIManager::SetAlignCenter(int widgetCount, float widgetWid
 	_imguiManager->AlignForWidth(widgetCount, widgetWidth);
 }
 
+void Pg::UI::Manager::UIManager::BeginDisable(bool disable)
+{
+	_imguiManager->BeginDisable(disable);
+}
+
+void Pg::UI::Manager::UIManager::EndDisable()
+{
+	_imguiManager->EndDisable();
+}
 

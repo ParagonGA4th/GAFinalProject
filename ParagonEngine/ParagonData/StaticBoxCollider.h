@@ -3,13 +3,13 @@
 #include "DebugData.h"
 #include "../ParagonMath/PgMath.h"
 
-#include <auto_register/factory.h>
+#include "data_factory.h"
 
 namespace Pg::Data
 {
 	class GameObject;
 
-	class StaticBoxCollider : public StaticCollider, RegisteredInFactory<StaticCollider, StaticBoxCollider, GameObject*>
+	class StaticBoxCollider : public StaticCollider, Pg::Factory::Data::RegisteredInFactory<StaticCollider, StaticBoxCollider, GameObject*>
 	{
 	public:
 		StaticBoxCollider(GameObject* owner);

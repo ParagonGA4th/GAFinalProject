@@ -10,6 +10,12 @@
     <Filter Include="RayCastTest">
       <UniqueIdentifier>{1fb7514c-5cfa-4514-82ab-bfd52144e937}</UniqueIdentifier>
     </Filter>
+    <Filter Include="0_Factory">
+      <UniqueIdentifier>{73e23ad8-e0ab-4252-8e9c-896ea732a5ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_BaseClass">
+      <UniqueIdentifier>{70ddfed8-cbb9-437f-801f-ea992bf132b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -21,6 +27,9 @@
     <ClCompile Include="RayCastTest.cpp">
       <Filter>RayCastTest</Filter>
     </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>1_BaseClass</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -31,6 +40,12 @@
     </ClInclude>
     <ClInclude Include="RayCastTest.h">
       <Filter>RayCastTest</Filter>
+    </ClInclude>
+    <ClInclude Include="script_factory.h">
+      <Filter>0_Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>1_BaseClass</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

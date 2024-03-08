@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "../ParagonMath/PgMath.h"
-#include <auto_register/factory.h> // Auto Register를 위한 필수요건.
+#include "data_factory.h" // Auto Register를 위한 필수요건.
 #include <memory>
 
 /// <summary>
@@ -20,7 +20,7 @@ namespace Pg::Data
 
 	class GameObject;
 
-	class Transform : public Component, RegisteredInFactory<Component, Transform, GameObject*>
+	class Transform : public Component, Pg::Factory::Data::RegisteredInFactory<Component, Transform, GameObject*>
 	{
 		friend class Camera;
 	public:

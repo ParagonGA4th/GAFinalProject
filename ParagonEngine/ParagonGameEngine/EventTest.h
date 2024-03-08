@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonData/Script.h"
+#include "../ParagonData/Component.h"
 
 /// <summary>
 /// 구현한 각종 이벤트들을 테스트할 스크립트.
@@ -17,7 +17,7 @@ namespace Pg::Engine
 	//	class InputSystem;
 	//}
 
-	class EventTest : public Pg::Data::Script
+	class EventTest : public Pg::Data::Component
 	{
 	public:
 		EventTest(Pg::Data::GameObject* owner);

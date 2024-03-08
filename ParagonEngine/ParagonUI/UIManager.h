@@ -44,6 +44,9 @@ namespace Pg::UI::Manager
 		 void WindowDockSpaceBegin(std::string winName);
 		 void WindowEnd(bool isDockspace = false);
 
+		 void BeginDisable(bool disable);
+		 void EndDisable();
+
 	private:
 		std::unique_ptr<Pg::UI::Manager::ImGuiManager> _imguiManager;
 	};
