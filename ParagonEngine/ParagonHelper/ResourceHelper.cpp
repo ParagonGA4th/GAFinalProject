@@ -44,34 +44,36 @@ namespace Pg::Util::Helper
 
 	bool ResourceHelper::IsGraphicsResource(Pg::Data::Enums::eAssetDefine define)
 	{
+		///
 		bool tIsGraphicsResource = false;
 
 		switch (define)
 		{
-		case eAssetDefine::_NONE:
-		{
-			assert(false);
-		}
-		break;
-		//<Graphics>
-		case eAssetDefine::_TEXTURE1D: [[fallthrough]];
-		case eAssetDefine::_TEXTURE2D: [[fallthrough]];
-		case eAssetDefine::_TEXTURE2DARRAY: [[fallthrough]];
-		case eAssetDefine::_TEXTURECUBE: [[fallthrough]];
-		case eAssetDefine::_CUBEMAP: [[fallthrough]];
-		case eAssetDefine::_3DMODEL: [[fallthrough]];
-		case eAssetDefine::_FONT: [[fallthrough]];
-		case eAssetDefine::_RENDER_VERTEXSHADER: [[fallthrough]];
-		case eAssetDefine::_RENDER_PIXELSHADER: [[fallthrough]];
-		case eAssetDefine::_RENDERMATERIAL:
-			tIsGraphicsResource = true;
+			case eAssetDefine::_NONE:
+			{
+				assert(false);
+			}
 			break;
-			//</Graphics>
-		default:
-		{
-			tIsGraphicsResource = false;
-		}
-		break;
+			//<Graphics>
+			case eAssetDefine::_TEXTURE1D: [[fallthrough]];
+			case eAssetDefine::_TEXTURE2D: [[fallthrough]];
+			case eAssetDefine::_TEXTURE2DARRAY: [[fallthrough]];
+			case eAssetDefine::_TEXTURECUBE: [[fallthrough]];
+			case eAssetDefine::_CUBEMAP: [[fallthrough]];
+			case eAssetDefine::_3DMODEL: [[fallthrough]];
+			case eAssetDefine::_FONT: [[fallthrough]];
+			case eAssetDefine::_RENDER_VERTEXSHADER: [[fallthrough]];
+			case eAssetDefine::_RENDER_PIXELSHADER: [[fallthrough]];
+			case eAssetDefine::_RENDERMATERIAL: [[fallthrough]];
+			case eAssetDefine::_ANIMATION:
+				tIsGraphicsResource = true;
+				break;
+				//</Graphics>
+			default:
+			{
+				tIsGraphicsResource = false;
+			}
+			break;
 		}
 
 		return tIsGraphicsResource;
