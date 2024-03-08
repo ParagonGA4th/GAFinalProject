@@ -14,8 +14,11 @@ namespace Pg::Graphics
 	class RenderVertexShader;
 	class RenderPixelShader;
 	class RenderMaterial;
-
+	
 	class MaterialParser;
+	class AnimationParser;
+
+	class RenderAnimation;
 }
 
 namespace Pg::Graphics::Loader
@@ -39,8 +42,11 @@ namespace Pg::Graphics::Loader
 		//Mesh가 중복되더라도, 각각의 Material을 만드는것을 막기 위해서이다.
 		void LoadDefaultRenderMaterial(const std::string& defInstMatName, RenderMaterial* renderMat);
 	
+		//Animation Load.
+		void LoadAnimation(const std::string& path, RenderAnimation* anim);
 	private:
 		std::unique_ptr<Pg::Graphics::MaterialParser> _matParser;
+		std::unique_ptr<Pg::Graphics::AnimationParser> _animParser;
 
 	private:
 		Pg::Graphics::LowDX11Storage* _DXStorage;

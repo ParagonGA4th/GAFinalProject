@@ -8,13 +8,9 @@
 
 namespace Pg::Graphics
 {
-	namespace Helper
-	{
-		class AssimpBufferParser;
-	}
 	namespace Loader
 	{
-		class AssetBasic3DLoader;
+		class AssetCombinedLoader;
 	}
 }
 
@@ -22,8 +18,8 @@ namespace Pg::Graphics
 {
 	class RenderAnimation : public Pg::Data::Resources::GraphicsResource
 	{
-		friend class Pg::Graphics::Helper::AssimpBufferParser;
-		friend class Pg::Graphics::Loader::AssetBasic3DLoader;
+		friend class Pg::Graphics::Loader::AssetCombinedLoader;
+		friend class Pg::Graphics::AnimationParser;
 	public:
 		RenderAnimation(Pg::Data::Enums::eAssetDefine define, const std::string& filePath);
 		virtual ~RenderAnimation();
@@ -33,6 +29,12 @@ namespace Pg::Graphics
 		virtual void InternalLoad() override;
 		virtual void InternalUnload() override;
 
+	private:
+		std::string _internalAnimName;
+		std::string _basedModelName;
+		double _durationTick;
+		double _ticksPerSecond;
+		unsigned int _numChannels;
 	};
 }
 

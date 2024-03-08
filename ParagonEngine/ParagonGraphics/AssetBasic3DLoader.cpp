@@ -175,19 +175,4 @@ namespace Pg::Graphics::Loader
 		HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tVBD, &vinitData, &vb));
 	}
 
-	void AssetBasic3DLoader::LoadAnimation(const std::string& path, RenderAnimation* anim)
-	{
-		//Skinned
-		//const aiScene* pScene = _importer->ReadFile(path.c_str(),
-		//	aiProcess_Triangulate |
-		//	aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_GenBoundingBoxes |
-		//	aiProcess_CalcTangentSpace | aiProcess_PopulateArmatureData |
-		//	aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_FixInfacingNormals | aiProcess_LimitBoneWeights); //aiProcess_EmbedTextures |
-		//assert(pScene != nullptr);
-		//
-		//pSce
-
-
-	}
-
 }
