@@ -13,7 +13,7 @@ namespace Pg::Util
 
 		_logger.Initialize();
 		_inputSystem->Initialize(screenWidth, screenHeight);
-		
+
 		_logger.SetLoggerLevel(0);
 	}
 
@@ -24,6 +24,6 @@ namespace Pg::Util
 
 	void UtilMain::Finalize()
 	{
-
+		
 	}
 }

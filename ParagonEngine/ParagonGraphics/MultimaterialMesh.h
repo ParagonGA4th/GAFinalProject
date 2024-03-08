@@ -28,11 +28,11 @@ namespace Assimp
 	class Importer;
 }
 
-namespace Pg::API
+namespace Pg::Util
 {
 	namespace Input
 	{
-		class PgInput;
+		class InputSystem;
 	}
 }
 namespace Pg::Data
@@ -116,7 +116,7 @@ namespace Pg::Graphics
 		unsigned int FindTranslation(double animTick, const aiNodeAnim* pNodeAnim);
 
 	private:
-		Pg::API::Input::PgInput* _tempInput;
+		Pg::Util::Input::InputSystem* _tempInput;
 	private:
 		//Boss_Test_NonDeform_MultiMat.fbx를 렌더하기 위해서, 개별적으로 SRV들 마련. (임베딩X, 작동을 보려고)
 		std::array< ID3D11ShaderResourceView*, 3> _tempSRVArray;
