@@ -10,7 +10,7 @@
 #include "../ParagonData/AssetDefines.h"
 #include "../ParagonData/CameraData.h"
 
-#include "../ParagonAPI/PgInput.h"
+#include "../ParagonUtil/InputSystem.h"
 
 #include <dxtk/DDSTextureLoader.h>
 #include <dxtk/WICTextureLoader.h>
@@ -24,12 +24,6 @@
 #include <algorithm> 
 
 #include "../ParagonUtil/Log.h"
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
-#else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
-#endif // _DEBUG
 
 namespace Pg::Graphics
 {
@@ -53,7 +47,7 @@ namespace Pg::Graphics
 		_device = LowDX11Storage::GetInstance()->_device;
 		_devCon = LowDX11Storage::GetInstance()->_deviceContext;
 
-		auto& tTempInput = singleton<Pg::API::Input::PgInput>();
+		auto& tTempInput = singleton<Pg::Util::Input::InputSystem>();
 		_tempInput = &tTempInput;
 
 		CreateVertexPixelShader();
