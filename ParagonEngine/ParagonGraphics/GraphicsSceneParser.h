@@ -46,6 +46,7 @@ namespace Pg::Graphics
 		void CheckForPathNameErrors(const Pg::Data::Scene* const newScene);
 		void ExtractMaterialPaths(const Pg::Data::Scene* const newScene);
 		void SyncRenderObjects(const Pg::Data::Scene* const newScene);
+		void BindAdequateFunctions(const Pg::Data::Scene* const newScene); //내부적으로 작동을 위한 bind될 함수들이 있으면, 이를 발동하기 위해.
 		void CreateObjMatBuffersStatic();
 	private:
 		//PrimitiveWireframeObject 하드코딩해서 완성.

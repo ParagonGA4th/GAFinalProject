@@ -23,7 +23,7 @@ namespace Pg::Graphics::Helper
 		//실제 .pganim 파싱.
 		void ParsePgAnim(const std::string& path, RenderAnimation* anim);
 		//이미 존재하는 3DModel과 RenderAnimation 관련짓기. (포인터만 받아오기, 개별 다른 Component마다 다른 프레임으로 연산을 해야 하니!)
-		void TurnModelToAnimCompatible(RenderAnimation* anim);
+		void TurnModelToAnimCompatible(const std::string& path, RenderAnimation* anim);
 	};
 }
 

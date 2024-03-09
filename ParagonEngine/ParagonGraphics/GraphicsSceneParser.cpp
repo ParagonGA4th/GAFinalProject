@@ -34,6 +34,7 @@
 #include <set>
 #include <algorithm>
 #include <filesystem>
+#include <functional>
 
 namespace Pg::Graphics
 {
@@ -68,6 +69,7 @@ namespace Pg::Graphics
 
 		ExtractMaterialPaths(newScene);
 		SyncRenderObjects(newScene);
+		BindAdequateFunctions(newScene);
 		CreateObjMatBuffersStatic();
 
 		//실제 리소스를 사용해야 하기에, Initialize에서 현재 호출하고 있지 않음.
@@ -382,6 +384,31 @@ namespace Pg::Graphics
 		}
 	}
 
+	void GraphicsSceneParser::BindAdequateFunctions(const Pg::Data::Scene* const newScene)
+	{
+		using Pg::Graphics::Helper::GraphicsResourceHelper;
+
+		
+		for (auto& it : _renderObject3DList->_skinnedList)
+		{
+			for (auto& [go, ro] : *(it.second.get()))
+			{
+				auto tSkinnedRO = static_cast<RenderObjectSkinnedMesh3D*>(ro.get());
+				Pg::Data::SkinnedMeshRenderer* tSkinnedRenderer = static_cast<Pg::Data::SkinnedMeshRenderer*>(tSkinnedRO->GetBaseRenderer());
+
+				//SetAnimation Function Bind.
+				//tSkinnedRenderer->_setAnimationFunction = std::bind(&RenderObjectSkinnedMesh3D::SetAnimation, &tSkinnedRO, std::placeholders::_1);
+				//tSkinnedRenderer->_setAnimationFunction = std::bind(&RenderObjectSkinnedMesh3D::SetAnimation, &tSkinnedRO, std::placeholders::_1);
+			}
+		}
+		/*
+		*
+						
+						//tSkinnedRenderer->SetAnimation()
+						
+		*/
+	}
+
 	void GraphicsSceneParser::CreateObjMatBuffersStatic()
 	{
 		//모든 오브젝트 렌더링.
@@ -436,6 +463,7 @@ namespace Pg::Graphics
 		return tRet;
 	}
 
-	
+
+
 
 }
