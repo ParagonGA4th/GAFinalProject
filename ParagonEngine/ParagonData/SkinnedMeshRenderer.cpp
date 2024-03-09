@@ -29,7 +29,7 @@ namespace Pg::Data
 			PG_WARN(tPrint.c_str());
 		}
 		//제대로 된 실행 여부를 확인.
-		assert(_setAnimationFunction(animName));
+		_setAnimationFunction(animName);
 	}
 
 }

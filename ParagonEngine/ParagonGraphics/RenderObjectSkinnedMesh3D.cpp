@@ -127,9 +127,9 @@ namespace Pg::Graphics
 
 	}
 
-	bool RenderObjectSkinnedMesh3D::SetAnimation(const std::string& animName)
+	void RenderObjectSkinnedMesh3D::SetAnimation(const std::string& animName)
 	{
-		return true;
+		
 	}
 
 }
