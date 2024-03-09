@@ -1,6 +1,6 @@
 #pragma once
 #include "RenderPrepStructs.h"
-
+#include "AssetAnimationDataDefine.h"
 #include <string>
 #include <memory>
 #include <vector>
@@ -107,7 +107,7 @@ namespace Pg::Graphics
 		DirectX::SimpleMath::Matrix _meshGlobalInverseTransform;
 
 		//매핑될 Bone Info 벡터.
-		std::vector<RenderPrepBoneInfo> _renderBoneInfoVector;
+		std::vector<BoneInfo_AssetData> _renderBoneInfoVector;
 
 		//Bone Mapping 정보 저장.
 		std::map<std::string, unsigned int> _mappedBones;

@@ -225,7 +225,7 @@ namespace Pg::Graphics::Helper
 				skinnedData->_numFormationBone++;
 
 				// Push new bone info into bones vector. 
-				RenderPrepBoneInfo tBi;
+				BoneInfo_AssetData tBi;
 				skinnedData->_renderBoneInfoVector.push_back(tBi);
 			}
 			else {
