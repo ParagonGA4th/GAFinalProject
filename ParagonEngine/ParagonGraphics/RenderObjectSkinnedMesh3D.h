@@ -34,7 +34,7 @@ namespace Pg::Graphics
 		virtual void ObjMat_UnbindBuffers() override;
 
 		//내부적으로 SetAnimation 호출. (Client 딴 제어 아닌 Internal Mechanic)
-		bool SetAnimation(const std::string& animName);
+		void SetAnimation(const std::string& animName);
 	private:
 		//Skinned Mesh에 독립적임.
 		//void BoneTransformUpdate();

@@ -393,20 +393,18 @@ namespace Pg::Graphics
 		{
 			for (auto& [go, ro] : *(it.second.get()))
 			{
-				auto tSkinnedRO = static_cast<RenderObjectSkinnedMesh3D*>(ro.get());
+				RenderObjectSkinnedMesh3D* tSkinnedRO = static_cast<RenderObjectSkinnedMesh3D*>(ro.get());
 				Pg::Data::SkinnedMeshRenderer* tSkinnedRenderer = static_cast<Pg::Data::SkinnedMeshRenderer*>(tSkinnedRO->GetBaseRenderer());
+				//std::bind로 Data쪽에서 원격으로 함수를 호출할 수 있게.
+				tSkinnedRenderer->_setAnimationFunction = std::bind(&RenderObjectSkinnedMesh3D::SetAnimation, tSkinnedRO, std::placeholders::_1);
 
 				//SetAnimation Function Bind.
-				//tSkinnedRenderer->_setAnimationFunction = std::bind(&RenderObjectSkinnedMesh3D::SetAnimation, &tSkinnedRO, std::placeholders::_1);
-				//tSkinnedRenderer->_setAnimationFunction = std::bind(&RenderObjectSkinnedMesh3D::SetAnimation, &tSkinnedRO, std::placeholders::_1);
+				//std::function<void(const std::string&)> tSetAnimFunction = [tSkinnedRO](const std::string& animName) {
+				//	tSkinnedRO->SetAnimation(animName);
+				//};
+				//tSkinnedRenderer->_setAnimationFunction = tSetAnimFunction;
 			}
 		}
-		/*
-		*
-						
-						//tSkinnedRenderer->SetAnimation()
-						
-		*/
 	}
 
 	void GraphicsSceneParser::CreateObjMatBuffersStatic()

@@ -36,7 +36,7 @@ namespace Pg::Data
 	//private:
 		//RenderObjectSkinnedMesh가 등록한다.
 		//return bool == 해당 함수가 성공했는지. (GraphicsSceneParser가 별도로 연결해준다)
-		std::function<bool(const std::string&)> _setAnimationFunction;
+		std::function<void(const std::string&)> _setAnimationFunction;
 		
 
 	};
