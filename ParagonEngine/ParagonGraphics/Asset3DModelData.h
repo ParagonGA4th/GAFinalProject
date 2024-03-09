@@ -22,6 +22,7 @@ namespace Pg::Graphics
 	namespace Helper
 	{
 		class AssimpBufferParser;
+		class AnimationParser;
 	}
 	namespace Loader
 	{
@@ -34,6 +35,7 @@ namespace Pg::Graphics
 	class Asset3DModelData : public Pg::Data::Resources::GraphicsResource
 	{
 		friend class Pg::Graphics::Helper::AssimpBufferParser;
+		friend class Pg::Graphics::Helper::AnimationParser;
 		friend class Pg::Graphics::Loader::AssetBasic3DLoader;
 
 	public:
