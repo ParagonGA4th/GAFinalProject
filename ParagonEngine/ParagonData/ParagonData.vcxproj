@@ -217,10 +217,10 @@
     <ClInclude Include="GameConstantData.h" />
     <ClInclude Include="Handle.h" />
     <ClInclude Include="IComponent.h" />
-    <ClInclude Include="Image.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="ModelData.h" />
     <ClInclude Include="MoveForwardBack.h" />
+    <ClInclude Include="NavMeshAgent.h" />
     <ClInclude Include="ParagonDefines.h" />
     <ClInclude Include="LightData.h" />
     <ClInclude Include="LightType.h" />
@@ -280,10 +280,10 @@
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DynamicCollider.cpp" />
     <ClCompile Include="Handle.cpp" />
-    <ClCompile Include="Image.cpp" />
     <ClCompile Include="ImageRenderer.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="MoveForwardBack.cpp" />
+    <ClCompile Include="NavMeshAgent.cpp" />
     <ClCompile Include="ParagonDefines.cpp" />
     <ClCompile Include="PhysicsCollision.cpp" />
     <ClCompile Include="PhysicsContactPoint.cpp" />
