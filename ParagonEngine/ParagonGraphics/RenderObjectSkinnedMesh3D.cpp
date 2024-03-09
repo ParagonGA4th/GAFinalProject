@@ -10,7 +10,7 @@
 #include "AssetModelDataDefine.h"
 #include "AssetTextureType.h"
 #include "MaterialCluster.h"
-
+#include "../ParagonData/ParagonDefines.h"
 #include "dxtk/WICTextureLoader.h"
 
 namespace Pg::Graphics
@@ -27,6 +27,11 @@ namespace Pg::Graphics
 		//Mesh 데이터를 받기.
 		//VB/IB 로드.
 		//Constant Buffer Data를 생성.
+
+		//Bone의 수만큼 GPU에 들어갈 벡터의 크기를 설정해야 한다. (ASSET_MAXIMUM_BONE_NUMBER_PER_MESH)
+		_boneTransformVector.resize(Pg::Defines::ASSET_MAXIMUM_BONE_NUMBER_PER_MESH);
+		std::fill(_boneTransformVector.begin(), _boneTransformVector.end(), DirectX::SimpleMath::Matrix::Identity);
+
 	}
 
 	RenderObjectSkinnedMesh3D::~RenderObjectSkinnedMesh3D()
@@ -121,4 +126,10 @@ namespace Pg::Graphics
 	{
 
 	}
+
+	bool RenderObjectSkinnedMesh3D::SetAnimation(const std::string& animName)
+	{
+		return true;
+	}
+
 }

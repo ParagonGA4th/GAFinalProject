@@ -24,10 +24,6 @@ namespace Pg::Graphics
 
 	Skinned_AssetData::Skinned_AssetData() : _numFormationBone(0)
 	{
-		//Bone의 수만큼 GPU에 들어갈 벡터의 크기를 설정해야 한다. (ASSET_MAXIMUM_BONE_NUMBER_PER_MESH)
-		_boneTransformVector.resize(Pg::Defines::ASSET_MAXIMUM_BONE_NUMBER_PER_MESH);
-		std::fill(_boneTransformVector.begin(), _boneTransformVector.end(), DirectX::SimpleMath::Matrix::Identity);
-	
 		//우선적으로, Global Inverse Transform Vector 초기화.
 		_meshGlobalInverseTransform = DirectX::SimpleMath::Matrix::Identity;
 	}

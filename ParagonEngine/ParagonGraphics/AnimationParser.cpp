@@ -3,8 +3,11 @@
 #include "GraphicsResourceManager.h"
 #include "Asset3DModelData.h"
 #include "AssetModelDataDefine.h"
+
 #include "../ParagonHelper/pugixml.hpp"
+
 #include <utility>
+#include <filesystem>
 #include <sstream>
 #include <cassert>
 
@@ -23,7 +26,7 @@ namespace Pg::Graphics::Helper
 	void AnimationParser::ParseAnimation(const std::string& path, RenderAnimation* anim)
 	{
 		ParsePgAnim(path, anim);
-		TurnModelToAnimCompatible(anim);
+		TurnModelToAnimCompatible(path, anim);
 	}
 
 	void AnimationParser::Clean()
@@ -168,10 +171,10 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
-	void AnimationParser::TurnModelToAnimCompatible(RenderAnimation* anim)
+	void AnimationParser::TurnModelToAnimCompatible(const std::string& path, RenderAnimation* anim)
 	{
 		using Pg::Graphics::Manager::GraphicsResourceManager;
-
+		using Pg::Graphics::Helper::GraphicsResourceHelper;
 
 		//RenderAnimation이라는 리소스 자료 자체는 1개여야 하지만, 이로 인해 재생되는 애니메이션은 한 씬 안에서 1개-N개가 될 수 있다.
 		//SkinnedMeshRenderObject등 RenderObject에서 개별적으로 직접적으로 GPU에 대입할 행렬 목록을 가지고 있어야 하고,
@@ -188,8 +191,14 @@ namespace Pg::Graphics::Helper
 		//원래는 3DModel 안에 애니메이션 내부에 저장된 모든 Node들이 있는지 역시 검사해야 하지만,
 		//TBA.
 
-		//ModelBoneInfo 저장.
+		//ModelBoneInfo 저장 -> Animation 안에 저장.
 		anim->_modelBoneInfoData = &(tBasedModelPtr->_assetSkinnedData->_renderBoneInfoVector);
+
+		//Path에서 Animation을 호출할 때 활용될 이름을 Path로부터 추출, -> stem 투입.
+		//이제, 자기 자신이 호환된다는 것을 AssetSkinnedData에게 알려주자.
+		//Ex. test_run.pganim이라면, test_run이 이름으로 등록될 것.
+		std::filesystem::path tPath(path);
+		tBasedModelPtr->_assetSkinnedData->_viableAnimations.insert(std::make_pair(tPath.stem().generic_string(), anim));
 	}
 
 }
