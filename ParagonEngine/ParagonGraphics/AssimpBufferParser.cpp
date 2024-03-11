@@ -176,6 +176,10 @@ namespace Pg::Graphics::Helper
 		unsigned int tTotalIndexCount = sceneData->_totalIndexCount;
 
 		ParseAssimpSkinned(assimp, sceneData, skinnedData, tVertexBoneVector, outVB, outIB, tTotalVertexCount, tTotalIndexCount);
+	
+		//추후 렌더링을 위해, 재귀적인 노드 구조를 선형적으로 편동해 기록한다.
+		//RenderAnimation 딴에서 해당 노드의 인덱스에 맞는 값을 넣어놓을 것. (없으면 nullptr)
+		LinearizeRecursiveNodes(sceneData->_rootNode.get(), skinnedData);
 	}
 
 	//스키닝 데이터 중, 실시간 데이터와 상관 없는 스키닝 데이터 정보 입력.
@@ -342,7 +346,7 @@ namespace Pg::Graphics::Helper
 				D3D11_BIND_VERTEX_BUFFER);
 			D3D11_SUBRESOURCE_DATA vbData = { vertices, 0, 0 };
 			HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&vbDesc, &vbData, &outVB));
-			assert(false);
+			//assert(false);
 
 			CD3D11_BUFFER_DESC ibDesc(
 				indexCnt * sizeof(uint32_t),
@@ -435,7 +439,7 @@ namespace Pg::Graphics::Helper
 		outSceneAssetData->_directory = path;
 
 		outSceneAssetData->_rootNode = std::make_unique<Node_AssetData>(nullptr);
-		StoreAssimpNode(assimp->mRootNode, outSceneAssetData->_rootNode.get());
+		StoreAssimpNode(assimp->mRootNode, outSceneAssetData, outSceneAssetData->_rootNode.get());
 
 		outSceneAssetData->_totalMeshCount = assimp->mNumMeshes;
 		outSceneAssetData->_meshList.resize(outSceneAssetData->_totalMeshCount);
@@ -458,7 +462,7 @@ namespace Pg::Graphics::Helper
 	}
 
 	//Parent를 빼고 나머지 정보를 저장한다.
-	void AssimpBufferParser::StoreAssimpNode(const aiNode* assimp, Node_AssetData* pgNode)
+	void AssimpBufferParser::StoreAssimpNode(const aiNode* assimp, Scene_AssetData* sceneData, Node_AssetData* pgNode)
 	{
 		pgNode->_nodeName = assimp->mName.C_Str();
 		pgNode->_relTransform = MathHelper::AI2SM_MATRIX(assimp->mTransformation);
@@ -473,10 +477,11 @@ namespace Pg::Graphics::Helper
 
 		pgNode->_numChildren = assimp->mNumChildren;
 		pgNode->_childrenList.reserve(pgNode->_numChildren);
+
 		for (int i = 0; i < pgNode->_numChildren; i++)
 		{
 			pgNode->_childrenList.push_back(std::make_unique<Node_AssetData>(pgNode));
-			StoreAssimpNode(assimp->mChildren[i], pgNode->_childrenList[i].get());
+			StoreAssimpNode(assimp->mChildren[i], sceneData, pgNode->_childrenList[i].get());
 		}
 	}
 
@@ -607,11 +612,23 @@ namespace Pg::Graphics::Helper
 			//값이 해당되는 것처럼 할당된다.
 			outArrayData[k] = static_cast<RenderTexture2DArray*>(tTex2DRes.get());
 		}
-		
-
-
 	}
 
+	void AssimpBufferParser::LinearizeRecursiveNodes(const Node_AssetData* toBeParent, Skinned_AssetData* skinData)
+	{
+		//일단 본인(의 부모)을 기록.
+		skinData->_linearizedNodeHierarchy.push_back(toBeParent);
+
+		if (toBeParent->_childrenList.empty())
+		{
+			return;
+		}
+
+		for (const auto& it : toBeParent->_childrenList)
+		{
+			LinearizeRecursiveNodes(it.get(), skinData);
+		}
+	}
 
 
 	//void BufferParser::StoreAssimpBone(const aiBone* assimp, Bone_AssetData* pgAABB)

@@ -79,7 +79,7 @@ namespace Pg::Graphics
 	{
 		std::string _directory; //Material Load를 위해 보관.
 		std::unique_ptr<Node_AssetData> _rootNode = nullptr;
-		
+
 		//렌더에 필요한 Mesh의 정보 한정 보관.
 		std::vector<Mesh_AssetData> _meshList;
 
@@ -117,6 +117,13 @@ namespace Pg::Graphics
 		//Bone Mapping 정보 저장.
 		std::map<std::string, unsigned int> _mappedBones;
 		unsigned int _numFormationBone;
+
+		//재귀식으로 나열된 Node들의 리스트를 Linear하게 나열. 렌더될 때 활용될 것이다.
+		//이에 호환되는 NodeAnim들의 리스트는 RenderAnimation에 저장.
+		//(NodeAnim이 결부 안된 노드들은, 해당 인덱스를 nullptr로 RenderAnimation에 저장.)
+		//SceneData에 호환되는 데이터의 RawPointer들로 나열되어 있다.
+		//이론상, 순서대로 돌리면 재귀와 같은 값이 나와야 한다.
+		std::vector<const Node_AssetData* const> _linearizedNodeHierarchy;
 
 		//RenderAnimation 자체가 자료에 접근해서, 호환되는 자신을 추가한다.
 		std::map<std::string, RenderAnimation*> _viableAnimations;
