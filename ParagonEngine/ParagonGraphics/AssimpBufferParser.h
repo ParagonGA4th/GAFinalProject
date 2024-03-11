@@ -89,7 +89,7 @@ namespace Pg::Graphics::Helper
 		static void SetupRenderBones(unsigned int index, aiMesh* mesh, const Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, std::vector<RenderPrepVertexBone>& vBoneList);
 
 		//개별적인 Assimp 구조체를 AssetData로 옮겨서 저장한다.
-		static void StoreAssimpNode(const aiNode* assimp, Node_AssetData* pgNode);
+		static void StoreAssimpNode(const aiNode* assimp, Scene_AssetData* sceneData, Node_AssetData* pgNode);
 		static void StoreAssimpMesh(const aiMesh* assimp, Mesh_AssetData* pgMesh, unsigned int vOffset, unsigned int iOffset);
 		static void StoreAssimpAABB(const aiAABB* assimp, AABB_AssetData* pgAABB);
 		//static void StoreAssimpBone(const aiBone* assimp, Bone_AssetData* pgAABB); 
@@ -101,7 +101,7 @@ namespace Pg::Graphics::Helper
 		static void StoreAssimpAnimation(const aiAnimation* assimp, Animation_AssetData* pgAnim);
 		//Bone Info도 있어야 하는데..
 
-
+		static void LinearizeRecursiveNodes(const Node_AssetData* toBeParent, Skinned_AssetData* skinData);
 		 
 		//Material 관련.
 
