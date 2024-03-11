@@ -59,7 +59,52 @@
       <Filter>4_WorkSpace\SceneView\Scripts\EventTest</Filter>
     </ClInclude>
     <ClInclude Include="NavigationSystem.h">
-      <Filter>2_System\NavigationSystem</Filter>
+      <Filter>2_System\NavigationSystem\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAlloc.h">
+      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAssert.h">
+      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourCommon.h">
+      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourMath.h">
+      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMesh.h">
+      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshBuilder.h">
+      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshQuery.h">
+      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNode.h">
+      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourStatus.h">
+      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourCrowd.h">
+      <Filter>2_System\NavigationSystem\Navigation\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourLocalBoundary.h">
+      <Filter>2_System\NavigationSystem\Navigation\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourObstacleAvoidance.h">
+      <Filter>2_System\NavigationSystem\Navigation\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathCorridor.h">
+      <Filter>2_System\NavigationSystem\Navigation\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathQueue.h">
+      <Filter>2_System\NavigationSystem\Navigation\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourProximityGrid.h">
+      <Filter>2_System\NavigationSystem\Navigation\DetourCrowd</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -115,7 +160,7 @@
       <Filter>4_WorkSpace\SceneView\Scripts\EventTest</Filter>
     </ClCompile>
     <ClCompile Include="NavigationSystem.cpp">
-      <Filter>2_System\NavigationSystem</Filter>
+      <Filter>2_System\NavigationSystem\BaseClass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +235,15 @@
     </Filter>
     <Filter Include="2_System\BehaviorTreeSystem">
       <UniqueIdentifier>{1f20ea8e-00e6-405d-ab94-eb72b4357e06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\BaseClass">
+      <UniqueIdentifier>{a3744ab7-c65a-4d7b-86fb-d3f09a0a479d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\Navigation\Detour">
+      <UniqueIdentifier>{e9731f64-4c3a-4480-97a8-2db20a289440}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\Navigation\DetourCrowd">
+      <UniqueIdentifier>{3cc85887-02c3-4942-aa1b-2854cdb471da}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

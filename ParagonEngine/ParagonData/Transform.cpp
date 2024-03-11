@@ -1,5 +1,5 @@
 #include "Transform.h"
-
+#include "GameObject.h"
 #include <cmath>
 #include <limits>
 
@@ -229,7 +229,7 @@ namespace Pg::Data
 		return _parent != nullptr;
 	}
 
-	std::shared_ptr<Transform> Transform::GetParent()
+	Transform* Transform::GetParent()
 	{
 		if (HasParent())
 		{
@@ -262,11 +262,11 @@ namespace Pg::Data
 		return result;
 	}
 
-	std::shared_ptr<Transform> Transform::GetChild(int index)
+	Transform* Transform::GetChild(int index)
 	{
 		if (!_children.empty())
 		{
-			return _children.at(index);
+			return _children[index];
 		}
 		// 자식이 없으면 nullptr을 리턴
 		return nullptr;
@@ -274,20 +274,20 @@ namespace Pg::Data
 
 	void Transform::SetParent(Transform* parent)
 	{
-		_parent = std::make_shared<Transform>(parent->_object);
+		//_parent = std::make_shared<Transform>(parent->_object);
 	}
 
 	void Transform::SetParent(GameObject* obj)
 	{
-		_parent = std::make_shared<Transform>(obj);
+		_parent = &(obj->_transform);
 	}
 
-	const std::vector<std::shared_ptr<Transform>>& Transform::GetChildren()
+	const std::vector<Transform*>& Transform::GetChildren()
 	{
 		return _children;
 	}
 
-	void Transform::AddChild(std::shared_ptr<Transform> child)
+	void Transform::AddChild(Transform* child)
 	{
 		_children.emplace_back(child);
 	}
