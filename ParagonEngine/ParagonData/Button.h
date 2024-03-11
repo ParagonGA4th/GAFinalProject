@@ -10,6 +10,14 @@
 /// 버튼을 위한 클래스. 
 /// 23.10.10
 /// </summary>
+namespace Pg::Util
+{
+	namespace Input
+	{
+		class InputSystem;
+	}
+}
+
 
 namespace Pg::Data
 {
@@ -19,7 +27,7 @@ namespace Pg::Data
 	class Button : public Component
 	{
 	public:
-		Button(GameObject* obj);
+		Button(GameObject* owner);
 
 	public:
 		virtual void Update() override;
@@ -50,6 +58,7 @@ namespace Pg::Data
 
 	private:
 		ImageRenderer* _imageRenderer = nullptr;
+		Pg::Util::Input::InputSystem* _inputSystem;
 
 		std::function<void()> _onClickEvent;
 
