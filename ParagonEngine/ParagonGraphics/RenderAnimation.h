@@ -16,11 +16,7 @@ namespace Pg::Graphics
 	{
 		class AssetCombinedLoader;
 	}
-
-	namespace Helper
-	{
-		class AnimationParser;
-	}
+	class AnimationParser;
 }
 
 namespace Pg::Graphics
@@ -28,7 +24,7 @@ namespace Pg::Graphics
 	class RenderAnimation : public Pg::Data::Resources::GraphicsResource
 	{
 		friend class Pg::Graphics::Loader::AssetCombinedLoader;
-		friend class Pg::Graphics::Helper::AnimationParser;
+		friend class Pg::Graphics::AnimationParser;
 	public:
 		RenderAnimation(Pg::Data::Enums::eAssetDefine define, const std::string& filePath);
 		virtual ~RenderAnimation();

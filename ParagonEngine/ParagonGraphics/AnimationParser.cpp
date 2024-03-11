@@ -1,6 +1,7 @@
 #include "AnimationParser.h"
 #include "RenderAnimation.h"
 #include "GraphicsResourceManager.h"
+#include "GraphicsResourceHelper.h"
 #include "Asset3DModelData.h"
 #include "AssetModelDataDefine.h"
 
@@ -11,7 +12,7 @@
 #include <sstream>
 #include <cassert>
 
-namespace Pg::Graphics::Helper
+namespace Pg::Graphics
 {
 	AnimationParser::AnimationParser()
 	{

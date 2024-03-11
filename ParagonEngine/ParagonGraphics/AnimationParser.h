@@ -8,7 +8,7 @@ namespace Pg::Graphics
 {
 	class RenderAnimation;
 }
-namespace Pg::Graphics::Helper
+namespace Pg::Graphics
 {
 	class AnimationParser
 	{
