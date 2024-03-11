@@ -196,7 +196,7 @@ namespace Pg::Graphics
 
 		anim->_animAssetData->_linearizedNodeAnimList.resize(tBasedModelPtr->_assetSkinnedData->_linearizedNodeHierarchy.size());
 		int tNodeCount = 0;
-		for (const auto& tNode : tBasedModelPtr->_assetSkinnedData->_linearizedNodeHierarchy)
+		for (const auto& [tNode,parentIndex] : tBasedModelPtr->_assetSkinnedData->_linearizedNodeHierarchy)
 		{
 			const std::string& tNodeName = tNode->_nodeName;
 

@@ -179,7 +179,7 @@ namespace Pg::Graphics::Helper
 	
 		//추후 렌더링을 위해, 재귀적인 노드 구조를 선형적으로 편동해 기록한다.
 		//RenderAnimation 딴에서 해당 노드의 인덱스에 맞는 값을 넣어놓을 것. (없으면 nullptr)
-		LinearizeRecursiveNodes(sceneData->_rootNode.get(), skinnedData);
+		LinearizeRecursiveNodes(sceneData->_rootNode.get(), -1, skinnedData);
 	}
 
 	//스키닝 데이터 중, 실시간 데이터와 상관 없는 스키닝 데이터 정보 입력.
@@ -614,10 +614,11 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
-	void AssimpBufferParser::LinearizeRecursiveNodes(const Node_AssetData* toBeParent, Skinned_AssetData* skinData)
+	void AssimpBufferParser::LinearizeRecursiveNodes(const Node_AssetData* toBeParent, int toBeParentIndex, Skinned_AssetData* skinData)
 	{
+		///이 알고리즘이 맞는지는 나중에 검증하자!!!
 		//일단 본인(의 부모)을 기록.
-		skinData->_linearizedNodeHierarchy.push_back(toBeParent);
+		skinData->_linearizedNodeHierarchy.push_back(std::make_pair(toBeParent, toBeParentIndex));
 
 		if (toBeParent->_childrenList.empty())
 		{
@@ -626,7 +627,7 @@ namespace Pg::Graphics::Helper
 
 		for (const auto& it : toBeParent->_childrenList)
 		{
-			LinearizeRecursiveNodes(it.get(), skinData);
+			LinearizeRecursiveNodes(it.get(), skinData->_linearizedNodeHierarchy.size()-1, skinData); 
 		}
 	}
 
