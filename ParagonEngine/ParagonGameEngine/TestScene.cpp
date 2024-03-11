@@ -2,6 +2,8 @@
 #include "../ParagonData/Camera.h"
 #include "../ParagonData/ImageRenderer.h"
 #include "../ParagonData/Button.h"
+#include "../ParagonData/Slider.h"
+#include "../ParagonData/Handle.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/BoxCollider.h"
@@ -135,19 +137,40 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
 	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
-	///���� �߰��� ����Ʈ�� UI ������Ʈ �׽�Ʈ�� ���� �ڵ� 
-	/// 
-	Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("2DButton");
+
+	///버튼 
+	Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Button");
 	tObj8->GetComponent<Transform>()->_position = { 100.0f, 200.0f, 0.0f };
 	tObj8->AddComponent<Button>();
 	tObj8->GetComponent<Button>()->SetImagePath("../Resources/Textures/Sprites/StartCrunch.png");
 	tObj8->GetComponent<Button>()->SetImageSize(200.0f, 200.0f);
-	tObj8->AddComponent<EventTest>();
-	//tObj8->AddComponent<ImageRenderer>();
-	//tObj8->GetComponent<ImageRenderer>()->SetImagePath("../Resources/Textures/Sprites/StartCrunch.png");
-	//tObj8->GetComponent<ImageRenderer>()->SetSize(200.0f, 300.0f);
-	//tObj8->GetComponent<ImageRenderer>()->SetActive(true);
 
+	///슬라이더
+	Pg::Data::GameObject* tObj9 = tCurrentScene->AddObject("Slider");
+	tObj9->GetComponent<Transform>()->_position = { 600.0f, 500.0f, 0.0f };
+	tObj9->AddComponent<Slider>();
+	tObj9->GetComponent<Slider>()->SetImagePath("../Resources/Textures/Sprites/GameProgressBar.png");
+	tObj9->GetComponent<Slider>()->SetImageSize(1000.0f, 200.0f);
+
+	Pg::Data::GameObject* tObj10 = tCurrentScene->AddObject("Handle");
+	tObj10->GetComponent<Transform>()->SetParent(tObj9);
+	tObj10->GetComponent<Transform>()->_position = { 500.0f, 600.0f, 0.0f };
+	tObj10->AddComponent<Handle>();
+	tObj10->GetComponent<Handle>()->SetImagePath("../Resources/Textures/Sprites/LPDiskAlpha.png");
+	tObj10->GetComponent<Handle>()->SetImageSize(500.0f, 500.0f);
+
+	/*Pg::Data::GameObject* tObj10 = tCurrentScene->AddObject("Image1");
+	tObj10->GetComponent<Transform>()->_position = { 600.0f, 500.0f, 0.0f };
+	auto tComp1 = tObj10->AddComponent<ImageRenderer>();
+	tComp1->SetImagePath("../Resources/Textures/Sprites/GameProgressBar.png");
+	tComp1->SetSize(1000.0f, 200.0f);
+	tComp1->_sortingLayer = 2;
+	auto tComp2 = tObj10->AddComponent<ImageRenderer>();
+	tComp2->SetImagePath("../Resources/Textures/Sprites/LPDiskAlpha.png");
+	tComp2->SetSize(1000.0f, 200.0f);
+	tComp2->_sortingLayer = 0;*/
+
+	
 
 	Pg::Data::GameObject* tObj20 = tCurrentScene->AddObject("TestingPlane");
 	tObj20->GetComponent<Transform>()->_position = { 30.0f, -4.0f, 0.0f };

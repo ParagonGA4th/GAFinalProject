@@ -19,9 +19,9 @@ namespace Pg::Graphics
 	HRESULT LowDX11Logic::CreateDevice()
 	{
 		UINT createDeviceFlags = 0;
-#ifdef _DEBUG
-		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
-#endif // DEBUG
+//#ifdef _DEBUG
+//		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+//#endif // DEBUG
 
 
 		// TODO: Feature Level ¼³Á¤

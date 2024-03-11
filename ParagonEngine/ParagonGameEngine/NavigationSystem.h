@@ -1,5 +1,8 @@
 #pragma once
 
+#include <Detour/DetourNavMesh.h>
+#include <Detour/DetourNavMeshQuery.h>
+
 /// <summary>
 /// 변지상의 Recast를 적용한 Navigation.
 /// AI를 위해서는 pathFinding이 적용되어야 한다.
@@ -11,6 +14,8 @@ namespace Pg::Engine
 	{
 	public:
 		NavigationSystem();
+
+		void Initialize();
 	};
 }
 

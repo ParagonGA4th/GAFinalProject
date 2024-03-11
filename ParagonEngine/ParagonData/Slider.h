@@ -6,10 +6,19 @@
 /// 변지상의 Slider 컴포넌트.
 /// Slider의 변경값에 따라 콜백되는 이벤트가 있어야 한다.
 /// </summary>
+namespace Pg::Util
+{
+	namespace Input
+	{
+		class InputSystem;
+	}
+}
+
 namespace Pg::Data
 {
 	class GameObject;
 	class ImageRenderer;
+	class Handle;
 
 	class Slider : public Component
 	{
@@ -41,6 +50,9 @@ namespace Pg::Data
 		float _value;
 
 		ImageRenderer* _imageRenderer = nullptr;
+		Pg::Util::Input::InputSystem* _inputSystem;
+
+		Handle* _handle;
 
 	public:
 		//이미지의 사이즈
@@ -48,8 +60,8 @@ namespace Pg::Data
 		float* _imageHeight;
 
 		//슬라이더의 최대 최소값
-		int _min = 0;
-		int _max = 100;
+		float _min = 0.f;
+		float _max = 100.f;
 
 		bool _isClick;
 	};

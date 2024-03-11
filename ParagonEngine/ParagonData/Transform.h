@@ -90,14 +90,14 @@ namespace Pg::Data
 		PGFLOAT4X4 GetWorldTM();
 
 		// 종속성 세팅 함수
-		std::shared_ptr<Transform> GetParent();
-		const std::vector<std::shared_ptr<Transform>>& GetChildren();
-		std::shared_ptr<Transform> GetChild(int index);
+		Transform* GetParent();
+		const std::vector<Transform*>& GetChildren();
+		Transform* GetChild(int index);
 
 		bool HasParent();
 		void SetParent(Transform* parent);
 		void SetParent(GameObject* obj);
-		void AddChild(std::shared_ptr<Transform> child);
+		void AddChild(Transform* child);
 
 		/// 오브젝트의 3D 여부를 세팅... Transform에 있는게 맞을까?
 		void SetIs3D(bool is3D);
@@ -117,8 +117,8 @@ namespace Pg::Data
 		//PGFLOAT3 SetForwardUpRight(PGFLOAT3 up, PGFLOAT3 right, PGFLOAT3 forward);
 		
 		// 부모, 자식 객체를 가리키는 transform
-		std::shared_ptr<Transform> _parent;
-		std::vector<std::shared_ptr<Transform>> _children;
+		Transform* _parent;
+		std::vector<Transform*> _children;
 
 		// Forward, Right, Up
 		PGFLOAT3 _forward;
