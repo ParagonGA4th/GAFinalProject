@@ -3,7 +3,7 @@
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/DebugData.h"
 
-#include <auto_register/factory.h>
+#include "data_factory.h"
 
 namespace Pg::Data
 {
@@ -12,7 +12,7 @@ namespace Pg::Data
 
 namespace Pg::Data
 {
-	class CapsuleCollider : public DynamicCollider, RegisteredInFactory<DynamicCollider, CapsuleCollider, GameObject*>
+	class CapsuleCollider : public DynamicCollider, Pg::Factory::Data::RegisteredInFactory<DynamicCollider, CapsuleCollider, GameObject*>
 	{
 	public:
 		CapsuleCollider(GameObject* owner);

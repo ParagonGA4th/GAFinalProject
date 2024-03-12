@@ -2,7 +2,6 @@
 #include "IEditorWindow.h"
 #include <unordered_map>
 #include <vector>
-#include <string>
 #include <memory>
 
 namespace Pg::UI { class WidgetContainer; }
@@ -25,6 +24,10 @@ namespace Pg::Editor::Window
 		
 		virtual void SetShow(bool show) override;
 		virtual bool GetShow() override;
+
+		virtual std::string GetWindowName() override;
+
+		virtual void SetDisable(bool disable) override;
 
 	private:
 		void DataSet(std::string path);

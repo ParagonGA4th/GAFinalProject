@@ -2,7 +2,7 @@
 #include "Component.h"
 #include "CameraData.h"
 #include "../ParagonMath/PgMath.h"
-#include <auto_register/factory.h> // Auto Register를 위한 필수요건.
+#include "data_factory.h" // Auto Register를 위한 필수요건.
 #include <memory>
 
 /// <summary>
@@ -16,7 +16,7 @@ namespace Pg::Data
 	using namespace Pg::Math;
 
 	class GameObject;
-	class Camera : public Component, RegisteredInFactory<Component, Camera, GameObject*>
+	class Camera : public Component, Pg::Factory::Data::RegisteredInFactory<Component, Camera, GameObject*>
 	{
 	public:
 		Camera(Pg::Data::GameObject* obj);

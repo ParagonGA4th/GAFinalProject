@@ -3,7 +3,7 @@
 #include "DebugData.h"
 #include "../ParagonMath/PgMath.h"
 
-#include <auto_register/factory.h>
+#include "data_factory.h"
 
 /// <summary>
 /// 변지상의 PlaneCollider. 이거는 그냥 Static으로...
@@ -14,7 +14,7 @@ namespace Pg::Data
 {
 	class GameObject;
 
-	class PlaneCollider : public StaticCollider, RegisteredInFactory<StaticCollider, PlaneCollider, GameObject*>
+	class PlaneCollider : public StaticCollider, Pg::Factory::Data::RegisteredInFactory<StaticCollider, PlaneCollider, GameObject*>
 	{
 	public:
 		PlaneCollider(GameObject* owner);
