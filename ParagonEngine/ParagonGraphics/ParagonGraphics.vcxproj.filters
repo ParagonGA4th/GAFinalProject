@@ -262,6 +262,12 @@
     <ClInclude Include="RenderAnimation.h">
       <Filter>3_GraphicsResources\Resources\RenderAnimation</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>RC</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationParser.h">
+      <Filter>8_Helpers\AnimationParser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -482,6 +488,9 @@
     </ClCompile>
     <ClCompile Include="RenderAnimation.cpp">
       <Filter>3_GraphicsResources\Resources\RenderAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationParser.cpp">
+      <Filter>8_Helpers\AnimationParser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -830,6 +839,12 @@
     <Filter Include="3_GraphicsResources\Resources\RenderAnimation">
       <UniqueIdentifier>{e7522d58-315f-465d-a85d-89dfb48e9477}</UniqueIdentifier>
     </Filter>
+    <Filter Include="8_Helpers\AnimationParser">
+      <UniqueIdentifier>{ae9dd685-f003-4ca8-94a6-35b19e3d8dff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RC">
+      <UniqueIdentifier>{ae741498-e1a1-488b-8b50-8ba348182e47}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
@@ -966,5 +981,10 @@
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_MathFunctions.hlsli">
       <Filter>6_HLSL\Appends\Libraries\MathFunctions</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ParagonGraphics.rc">
+      <Filter>RC</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

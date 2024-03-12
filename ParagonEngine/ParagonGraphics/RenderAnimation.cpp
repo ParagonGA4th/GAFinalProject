@@ -1,7 +1,6 @@
 #include "RenderAnimation.h"
-#include "AssetBasic3DLoader.h"
+#include "AssetCombinedLoader.h"
 #include "GraphicsResourceManager.h"
-#include "AssimpBufferParser.h"
 
 namespace Pg::Graphics
 {
@@ -19,13 +18,12 @@ namespace Pg::Graphics
 	void RenderAnimation::InternalLoad()
 	{
 		//중복되었는지 찾는 것은 외부에서 이루어질 일!
-
 		using Pg::Graphics::Manager::GraphicsResourceManager;
-		using Pg::Graphics::Loader::AssetBasic3DLoader;
+		using Pg::Graphics::Loader::AssetCombinedLoader;
 
 		//로드 및 구분.
-		AssetBasic3DLoader* t3DLoader = GraphicsResourceManager::Instance()->GetBasic3DLoader();
-		t3DLoader->LoadAnimation(_filePath, this);
+		AssetCombinedLoader* tLoader = GraphicsResourceManager::Instance()->GetCombinedLoader();
+		tLoader->LoadAnimation(_filePath, this);
 	}
 
 	void RenderAnimation::InternalUnload()

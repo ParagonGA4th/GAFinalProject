@@ -1,6 +1,6 @@
 #pragma once
 #include "RenderPrepStructs.h"
-
+#include "AssetAnimationDataDefine.h"
 #include <string>
 #include <memory>
 #include <vector>
@@ -13,6 +13,11 @@
 /// 구조체들의 선언부.
 /// 기존의 선언부를 결국 대체할 용도이다!
 /// </summary>
+
+namespace Pg::Graphics
+{
+	class RenderAnimation;
+}
 
 namespace Pg::Graphics
 {
@@ -106,16 +111,15 @@ namespace Pg::Graphics
 		//Bone 연산에 필요한 Global Inverse Transform.
 		DirectX::SimpleMath::Matrix _meshGlobalInverseTransform;
 
-		//매핑될 Bone Info 벡터.
-		std::vector<RenderPrepBoneInfo> _renderBoneInfoVector;
+		//매핑될 Bone Info 벡터, 포인터가 RenderAnimation 쪽에서도 계산의 편의를 위해 저장됨.
+		std::vector<BoneInfo_AssetData> _renderBoneInfoVector;
 
 		//Bone Mapping 정보 저장.
 		std::map<std::string, unsigned int> _mappedBones;
 		unsigned int _numFormationBone;
 
-		//GPU에 바인딩될 Bone Tranform Vector. 크기는 100이 기본.
-		std::vector<DirectX::SimpleMath::Matrix> _boneTransformVector;
-
+		//RenderAnimation 자체가 자료에 접근해서, 호환되는 자신을 추가한다.
+		std::map<std::string, RenderAnimation*> _viableAnimations;
 
 		struct BlendDataRecord
 		{

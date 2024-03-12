@@ -19,7 +19,6 @@ namespace Assimp
 namespace Pg::Graphics
 {
 	class Asset3DModelData;
-	class RenderAnimation;
 }
 
 namespace Pg::Graphics::Loader
@@ -41,8 +40,6 @@ namespace Pg::Graphics::Loader
 		//밑 함수들의 호출조건은 미리 Load3DModelBuffer가 호출되었다는 전제가 있다.
 		void LoadObjMatBufferStatic(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID);
 		void LoadObjMatBufferSkinned(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID);
-	
-		void LoadAnimation(const std::string& path, RenderAnimation* anim);
 	
 	private:
 		std::unique_ptr<Assimp::Importer>_importer;

@@ -15,7 +15,7 @@ namespace Pg::Graphics
 	BoneInfo_AssetData::BoneInfo_AssetData()
 	{
 		_boneOffset = DirectX::SimpleMath::Matrix::Identity;
-		_finalTransformation = DirectX::SimpleMath::Matrix(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		//_finalTransformation = DirectX::SimpleMath::Matrix(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 
 
