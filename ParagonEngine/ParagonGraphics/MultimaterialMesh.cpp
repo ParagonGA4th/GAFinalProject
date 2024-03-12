@@ -329,7 +329,7 @@ namespace Pg::Graphics
 				vertices[vid + j]._tex = DirectX::XMFLOAT2{ texUV.x, texUV.y };
 
 				//_uvSet2도 역시 하드코딩.
-				vertices[vid + j]._uvSet2 = { 0.f,0.f };
+				//vertices[vid + j]._uvSet2 = { 0.f,0.f };
 
 				//일단 LightMapUV도 FBX딴에서 들어오는 것은 확인했지만, 일단은 파싱에서 받지 않는다.
 				vertices[vid + j]._lightmapUV = { 0.f, 0.f };

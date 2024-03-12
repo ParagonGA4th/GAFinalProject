@@ -103,7 +103,7 @@ namespace Pg::Graphics::Helper
 
 				auto tTex = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTextureCoords[0][j]);
 				tMeshVert._tex = { tTex.x, tTex.y };
-				tMeshVert._uvSet2 = { 0.f, 0.f }; //하드코딩.
+				//tMeshVert._uvSet2 = { 0.f, 0.f }; //하드코딩.
 				//일단 LightMapUV도 FBX딴에서 들어오는 것은 확인했지만, 일단은 파싱에서 받지 않는다.
 				tMeshVert._lightmapUV = { 0.f, 0.f }; //하드코딩.
 
@@ -301,7 +301,7 @@ namespace Pg::Graphics::Helper
 				vertices[vid + j]._color = DirectX::XMFLOAT3{ 1.0f,1.0f, 1.0f }; //하드코딩.
 				vertices[vid + j]._meshMatID = tMeshMatID;
 				vertices[vid + j]._tex = DirectX::XMFLOAT2{ texUV.x, texUV.y};
-				vertices[vid + j]._uvSet2 = { 0.f, 0.f }; //하드코딩.
+				//vertices[vid + j]._uvSet2 = { 0.f, 0.f }; //하드코딩.
 				//일단 LightMapUV도 FBX딴에서 들어오는 것은 확인했지만, 일단은 파싱에서 받지 않는다.
 				vertices[vid + j]._lightmapUV = { 0.f, 0.f }; //하드코딩.
 
