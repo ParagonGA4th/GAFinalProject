@@ -225,7 +225,7 @@ namespace Pg::Graphics::Helper
 				skinnedData->_numFormationBone++;
 
 				// Push new bone info into bones vector. 
-				RenderPrepBoneInfo tBi;
+				BoneInfo_AssetData tBi;
 				skinnedData->_renderBoneInfoVector.push_back(tBi);
 			}
 			else {
@@ -531,10 +531,12 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
+	//Now Defunct.
 	void AssimpBufferParser::StoreAssimpAnimation(const aiAnimation* assimp, Animation_AssetData* pgAnim)
 	{
-		pgAnim->_name = assimp->mName.C_Str();
-		pgAnim->_duration = assimp->mDuration;
+		//Now Defunct.
+		//pgAnim->_name = assimp->mName.C_Str();
+		//pgAnim->_duration = assimp->mDuration;
 		pgAnim->_ticksPerSecond = assimp->mTicksPerSecond;
 		pgAnim->_numChannels = assimp->mNumChannels;
 

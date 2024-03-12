@@ -317,8 +317,15 @@ namespace Pg::Core::Manager
 
 		//Sounds / BehaviorTree는 따로 작동될 것! 비슷한 코드를 사용하기는 하겠지만.
 
-
-		
+		//RenderAnimation
+		{
+			std::string tPath = tUniformPath + "/12_Animation.csv";
+			auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(tPath);
+			for (auto& it : tPathVec)
+			{
+				LoadResource(it, Pg::Data::Enums::eAssetDefine::_ANIMATION);
+			}
+		}
 	}
 
 	void AssetManager::LoadDefaultResources()

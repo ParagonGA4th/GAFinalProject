@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationParser.h" />
     <ClInclude Include="Asset3DModelData.h" />
     <ClInclude Include="AssetAnimationDataDefine.h" />
     <ClInclude Include="AssetBasic2DLoader.h" />
@@ -66,6 +67,7 @@
     <ClInclude Include="RenderTexture2DArray.h" />
     <ClInclude Include="RenderTextureCube.h" />
     <ClInclude Include="RenderVertexShader.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ShaderParsingData.h" />
     <ClInclude Include="SizeTexture.h" />
     <ClInclude Include="SystemPixelShader.h" />
@@ -134,6 +136,7 @@
     <ClInclude Include="LightStructs.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationParser.cpp" />
     <ClCompile Include="Asset3DModelData.cpp" />
     <ClCompile Include="AssetAnimationDataDefine.cpp" />
     <ClCompile Include="AssetBasic2DLoader.cpp" />
@@ -375,6 +378,9 @@
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjMatBuffers.hlsli" />
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjMatLayouts.hlsli" />
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_QuadLayouts.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ParagonGraphics.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

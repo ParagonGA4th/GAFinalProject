@@ -11,7 +11,7 @@
 #include "../ParagonData/RendererChangeList.h"
 #include "../ParagonProcess/ProcessMain.h"
 #include "../ParagonHelper/ResourceHelper.h"
-#include "../ParagonAPI/PgInput.h"
+#include "../ParagonUtil/InputSystem.h"
 
 #include "ParagonRenderer.h"
 #include "GeometryGenerator.h"
@@ -46,12 +46,6 @@
 #pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonData.lib")
 #endif // _DEBUG
 
-#ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonAPI.lib")
-#else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonAPI.lib")
-#endif // _DEBUG
-
 namespace Pg::Graphics
 {
 	using Pg::Graphics::Helper::MathHelper;
@@ -67,7 +61,7 @@ namespace Pg::Graphics
 		_renderer = std::make_unique<ParagonRenderer>();
 		_tempObj = new Pg::Data::GameObject("Test");
 
-		auto& tInput = singleton<Pg::API::Input::PgInput>();
+		auto& tInput = singleton<Pg::Util::Input::InputSystem>();
 		_input = &tInput;
 	}
 

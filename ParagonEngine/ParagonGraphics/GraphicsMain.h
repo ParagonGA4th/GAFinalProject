@@ -38,11 +38,11 @@
 
 class ID3D11ShaderResourceView;
 
-namespace Pg::API
+namespace Pg::Util
 {
 	namespace Input
 	{
-		class PgInput;
+		class InputSystem;
 	}
 }
 
@@ -166,7 +166,7 @@ namespace Pg::Graphics
 		ID3D11ShaderResourceView* _gameCameraSRV = nullptr;
 	
 	private:
-		Pg::API::Input::PgInput* _input;
+		Pg::Util::Input::InputSystem* _input;
 		Pg::Data::CameraData* _camData;
 
 	private:

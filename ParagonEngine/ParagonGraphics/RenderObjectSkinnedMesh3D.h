@@ -1,5 +1,7 @@
 #pragma once
 #include "RenderObject3D.h"
+#include <dxtk/SimpleMath.h>
+#include <vector>
 
 /// <summary>
 /// SkinnedMeshRenderer 컴포넌트와 1대1 대응하는 렌더오브젝트.
@@ -31,6 +33,8 @@ namespace Pg::Graphics
 		virtual void ObjMat_Render() override;
 		virtual void ObjMat_UnbindBuffers() override;
 
+		//내부적으로 SetAnimation 호출. (Client 딴 제어 아닌 Internal Mechanic)
+		void SetAnimation(const std::string& animName);
 	private:
 		//Skinned Mesh에 독립적임.
 		//void BoneTransformUpdate();
@@ -43,7 +47,8 @@ namespace Pg::Graphics
 		//unsigned int FindTranslation(double animTick, const aiNodeAnim* pNodeAnim);
 
 	private:
-		RenderTexture2D* _normal = nullptr;
-		RenderTexture2D* _diffuse = nullptr;
+		//GPU에 바인딩될 Bone Tranform Vector. 크기는 100이 기본.
+		//얘는 이제 개별적인 RenderObject에 소속될 것이다!
+		std::vector<DirectX::SimpleMath::Matrix> _boneTransformVector;
 	};
 }

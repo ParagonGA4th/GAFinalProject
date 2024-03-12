@@ -21,6 +21,11 @@ namespace Pg::Util::Helper
 				tPassedFirst = true;
 				continue;
 			}
+
+			//빈 String Path가 있으면 CSV Error 명시적으로 내면서 뻑내기.
+			assert(!(it.at(0).empty()) && "Empty String Detected - CSV ERROR!");
+
+			//실제로 값 투입.
 			tRet.push_back(it.at(0));
 		}
 		
@@ -44,6 +49,7 @@ namespace Pg::Util::Helper
 
 			////옮겨담을 원소.
 			//tRet.push_back(std::make_tuple("", Pg::Data::eSoundGroup::Count, false));
+			assert(!(it.at(0).empty()) && "Empty String Detected - CSV ERROR!");
 
 			//Path String 옮겨담기.
 			std::get<0>(tRet.at(i)) = it.at(0);
@@ -95,6 +101,8 @@ namespace Pg::Util::Helper
 		{
 			//처음에 있는 안내용 Text 스킵.
 			auto& it = tPureData.at(i + 1);
+
+			assert(!(it.at(0).empty()) && "Empty String Detected - CSV ERROR!");
 
 			tRet.at(i).first = it.at(0);
 

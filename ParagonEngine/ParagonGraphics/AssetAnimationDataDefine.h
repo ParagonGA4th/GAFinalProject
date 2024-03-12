@@ -110,10 +110,13 @@ namespace Pg::Graphics
 	{
 	public:
 		//Animation 이름.
-		std::string _name;
+		std::string _animName;
+
+		//Based Model 이름.
+		std::string _basedModelName;
 
 		//Tick 기준 Animation의 길이.
-		double _duration;
+		double _durationTick;
 
 		//초 당 Tick의 개수.
 		double _ticksPerSecond;
@@ -129,7 +132,8 @@ namespace Pg::Graphics
 	struct BoneInfo_AssetData
 	{
 		BoneInfo_AssetData();
-		DirectX::SimpleMath::Matrix _finalTransformation; // Final transformation to apply to vertices 
+		///FinalTransformation은 Animation 자체에서 관리하고 있을 것이다.
+		//DirectX::SimpleMath::Matrix _finalTransformation; // Final transformation to apply to vertices 
 		DirectX::SimpleMath::Matrix _boneOffset; // Initial offset from local to bone space. 
 	};
 }
