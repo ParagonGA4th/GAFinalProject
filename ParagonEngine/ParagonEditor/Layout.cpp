@@ -106,3 +106,8 @@ std::string Pg::Editor::Window::Layout::GetWindowName()
 {
 	return _winName;
 }
+
+void Pg::Editor::Window::Layout::SetDisable(bool disable)
+{
+
+}

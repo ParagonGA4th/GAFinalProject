@@ -18,6 +18,7 @@
 #include <singleton-cpp/singleton.h>
 
 Pg::Editor::Manager::WindowManager::WindowManager()
+	:_isDisable(false)
 {
 	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
 	_dataContainer = &tdataCon;
@@ -54,18 +55,12 @@ void Pg::Editor::Manager::WindowManager::Initialize(void* hWnd)
 void Pg::Editor::Manager::WindowManager::Update()
 {
 	_uiManager->Update();
-	for (auto& ewindow : _windows)
-	{	
-		if (ewindow->GetWindowName() != "Layout" || ewindow->GetWindowName() != "ToolBar")
+	for_each(_windows.begin(), _windows.end(),
+		[&](Pg::Editor::Window::IEditorWindow* ewindow) 
 		{
-			_uiManager->BeginDisable(_isDisable);
-		}
-
-		if (ewindow->GetShow()) ewindow->Update();
-
-		if (_isDisable) _uiManager->EndDisable();
-	}
-
+			ewindow->SetDisable(_isDisable);
+			if (ewindow->GetShow()) ewindow->Update();
+		});
 	_uiManager->LastUpdate();
 }
 
@@ -81,6 +76,6 @@ void Pg::Editor::Manager::WindowManager::WindowHandler(MSG message)
 
 void Pg::Editor::Manager::WindowManager::WindowAble(void* disable)
 {
-	_isDisable = static_cast<bool>(disable);
+	_isDisable = *(static_cast<bool*>(disable));
 }
 

@@ -16,7 +16,7 @@
 #include <singleton-cpp/singleton.h>
 
 Pg::Editor::Window::Scene::Scene()
-	:_winName("Scene"), _isShow(true)
+	:_winName("Scene"), _isShow(true), _isDisable(false)
 {
 	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
 	_dataContainer = &tdataCon;
@@ -44,6 +44,7 @@ void Pg::Editor::Window::Scene::Update()
 {
 	_uiManager->WindowBegin(_winName);
 
+	_uiManager->BeginDisable(_isDisable);
 	_widgetCon->Update();	
 	
 	if (_dataContainer->GetPickObject() != nullptr)
@@ -53,7 +54,8 @@ void Pg::Editor::Window::Scene::Update()
 	}
 
 	_uiManager->DrawGizmo();
-	
+	if (_isDisable) _uiManager->EndDisable();
+
 	_uiManager->WindowEnd();
 }
 
@@ -75,5 +77,10 @@ bool Pg::Editor::Window::Scene::GetShow()
 std::string Pg::Editor::Window::Scene::GetWindowName()
 {
 	return _winName;
+}
+
+void Pg::Editor::Window::Scene::SetDisable(bool disable)
+{
+	_isDisable = disable;
 }
 

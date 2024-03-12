@@ -40,13 +40,13 @@ void Pg::Editor::Window::ToolBar::Initialize()
 	auto& scaleBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Scale", 80.f, 25.f);
 	_isScaleBtnClick = scaleBtn.GetBtnClick();
 
-	auto& startBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Start", 50.f, 25.f);
+	auto& startBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Start", 80.f, 25.f);
 	_isStartBtnClick = startBtn.GetBtnClick();
 
-	auto& pauseBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Pause", 50.f, 25.f);
+	auto& pauseBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Pause", 80.f, 25.f);
 	_isPauseBtnClick = pauseBtn.GetBtnClick();
 
-	auto& stopBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Stop", 50.f, 25.f);
+	auto& stopBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Stop", 80.f, 25.f);
 	_isStopBtnClick = stopBtn.GetBtnClick();
 }
 
@@ -119,4 +119,9 @@ bool Pg::Editor::Window::ToolBar::GetShow()
 std::string Pg::Editor::Window::ToolBar::GetWindowName()
 {
 	return _winName;
+}
+
+void Pg::Editor::Window::ToolBar::SetDisable(bool disable)
+{
+
 }

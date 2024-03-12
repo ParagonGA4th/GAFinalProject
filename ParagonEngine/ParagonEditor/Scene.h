@@ -24,11 +24,14 @@ namespace Pg::Editor::Window
 		virtual bool GetShow() override;
 
 		virtual std::string GetWindowName() override;
+
+		virtual void SetDisable(bool disable) override;
 	
 	private:
 		/// Scene Value
 		std::string _winName;
 		bool _isShow;
+		bool _isDisable;
 
 		/// helper Class
 		Pg::Editor::Data::DataContainer* _dataContainer;

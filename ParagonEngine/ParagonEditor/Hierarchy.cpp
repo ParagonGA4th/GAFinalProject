@@ -38,8 +38,10 @@ void Pg::Editor::Window::Hierarchy::Initialize()
 void Pg::Editor::Window::Hierarchy::Update()
 {
 	_uiManager->WindowBegin(_winName);
+	_uiManager->BeginDisable(_isDisable);
 	DataSet();
 	_widgetCon->Update();
+	if(_isDisable) _uiManager->EndDisable();
 	_uiManager->WindowEnd();
 }
 
@@ -115,4 +117,9 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 std::string Pg::Editor::Window::Hierarchy::GetWindowName()
 {
 	return _winName;
+}
+
+void Pg::Editor::Window::Hierarchy::SetDisable(bool disable)
+{
+	_isDisable = disable;
 }
