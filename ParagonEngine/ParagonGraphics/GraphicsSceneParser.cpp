@@ -31,6 +31,12 @@
 #include "../ParagonData/TextRenderer.h"
 #include "../ParagonData/ParagonDefines.h"
 
+//SceneInformation.
+#include "../ParagonData/Light.h"
+#include "../ParagonData/DirectionalLight.h"
+#include "../ParagonData/SpotLight.h"
+#include "../ParagonData/PointLight.h"
+
 #include <set>
 #include <algorithm>
 #include <filesystem>
@@ -40,10 +46,7 @@ namespace Pg::Graphics
 {
 	GraphicsSceneParser::GraphicsSceneParser()
 	{
-		_renderObject2DList = std::make_unique<RenderObject2DList>();
-		_renderObject3DList = std::make_unique<RenderObject3DList>();
-		_cubeMapList = std::make_unique<RenderObjectCubemapList>();
-		_primObjectList = std::make_unique<RenderObjectWireframeList>();
+		
 	}
 
 	GraphicsSceneParser::~GraphicsSceneParser()
@@ -53,7 +56,7 @@ namespace Pg::Graphics
 
 	void GraphicsSceneParser::Initialize()
 	{
-		InitializePrimitiveWireframeObjects();
+		//
 	}
 
 	void GraphicsSceneParser::ParseSceneData(const Pg::Data::Scene* const newScene)
@@ -62,16 +65,21 @@ namespace Pg::Graphics
 		//나중에 같은 씬을 유지하는 중에 오브젝트들 중 하나의 렌더러가 꺼진다거나 
 		//상황은 아직 유지 못함. 나중에 _rendererChangeList를 활용하면 된다!
 
-		ClearObjectLists();
+		ClearMakeObjectLists();
 
 		PlacePathsFromName(newScene);
 		CheckForPathNameErrors(newScene);
 
 		ExtractMaterialPaths(newScene);
 		SyncRenderObjects(newScene);
+		SetupPrimitiveWireframeObjects();
+		SyncSceneInformation(newScene);
 		BindAdequateFunctions(newScene);
+		//이제 별도로 렌더링과 관련된 오브젝트들을 받아야 한다.
+
 		CreateObjMatBuffersStatic();
 
+	
 		//실제 리소스를 사용해야 하기에, Initialize에서 현재 호출하고 있지 않음.
 		PlaceCubemapList();
 	}
@@ -96,7 +104,12 @@ namespace Pg::Graphics
 		return _primObjectList.get();
 	}
 
-	void GraphicsSceneParser::InitializePrimitiveWireframeObjects()
+	Pg::Graphics::SceneInformationList* GraphicsSceneParser::GetSceneInformationList()
+	{
+		return _sceneInfoList.get();
+	}
+
+	void GraphicsSceneParser::SetupPrimitiveWireframeObjects()
 	{
 		// Primitive RenderObject 투입 + Initialize();
 		_primObjectList->_list.push_back(std::make_unique<Grid>());
@@ -122,11 +135,14 @@ namespace Pg::Graphics
 		}
 	}
 
-	void GraphicsSceneParser::ClearObjectLists()
+	void GraphicsSceneParser::ClearMakeObjectLists()
 	{
-		//기존의 직접적 RenderObject 리스트들 클리어.
-		_renderObject2DList->Clear();
-		_renderObject3DList->Clear();
+		//기존의 직접적 RenderObject 리스트들 클리어. + SceneInformationList.
+		_renderObject2DList.reset(new RenderObject2DList());
+		_renderObject3DList.reset(new RenderObject3DList());
+		_cubeMapList.reset(new RenderObjectCubemapList());
+		_primObjectList.reset(new RenderObjectWireframeList());
+		_sceneInfoList.reset(new SceneInformationList());
 	}
 
 	void GraphicsSceneParser::PlacePathsFromName(const Pg::Data::Scene* const newScene)
@@ -384,6 +400,65 @@ namespace Pg::Graphics
 		}
 	}
 
+	void GraphicsSceneParser::SyncSceneInformation(const Pg::Data::Scene* const newScene)
+	{
+		using Pg::Graphics::Helper::GraphicsResourceHelper;
+
+		//Light들의 Component 리스트 일단은 연동.
+		for (auto& tGameObject : newScene->GetObjectList())
+		{
+			//1. 라이트가 있는지 체크한다.
+			auto tLightComponentVector = tGameObject->GetComponents<Pg::Data::Light>();
+
+			for (auto& tSingleLight: tLightComponentVector)
+			{
+				//Directional Light일 경우.
+				Pg::Data::DirectionalLight* tDirLight = dynamic_cast<Pg::Data::DirectionalLight*>(tSingleLight);
+				if (tDirLight != nullptr)
+				{
+					_sceneInfoList->_dirLightList.push_back(tDirLight);
+					continue;
+				}
+
+				//Spot Light일 경우.
+				Pg::Data::SpotLight* tSpotLight = dynamic_cast<Pg::Data::SpotLight*>(tSingleLight);
+				if (tSpotLight != nullptr)
+				{
+					_sceneInfoList->_spotLightList.push_back(tSpotLight);
+					continue;
+				}
+
+				//Point Light일 경우.
+				Pg::Data::PointLight* tPointLight = dynamic_cast<Pg::Data::PointLight*>(tSingleLight);
+				if (tPointLight != nullptr)
+				{
+					_sceneInfoList->_pointLightList.push_back(tPointLight);
+					continue;
+				}
+			}
+		}
+
+		//Intensity를 기반으로 Sort. ( '>' Operator Overloading )
+		if (!(_sceneInfoList->_dirLightList.empty()))
+		{
+			std::sort(_sceneInfoList->_dirLightList.begin(), _sceneInfoList->_dirLightList.end(),
+				[](Pg::Data::DirectionalLight* a, Pg::Data::DirectionalLight* b) {return a > b; });
+		}
+
+		if (!(_sceneInfoList->_spotLightList.empty()))
+		{
+			std::sort(_sceneInfoList->_spotLightList.begin(), _sceneInfoList->_spotLightList.end(),
+				[](Pg::Data::SpotLight* a, Pg::Data::SpotLight* b) {return a > b; });
+		}
+
+		if (!(_sceneInfoList->_pointLightList.empty()))
+		{
+			std::sort(_sceneInfoList->_pointLightList.begin(), _sceneInfoList->_pointLightList.end(),
+				[](Pg::Data::PointLight* a, Pg::Data::PointLight* b) {return a > b; });
+		}
+
+	}
+
 	void GraphicsSceneParser::BindAdequateFunctions(const Pg::Data::Scene* const newScene)
 	{
 		using Pg::Graphics::Helper::GraphicsResourceHelper;
@@ -461,7 +536,6 @@ namespace Pg::Graphics
 		return tRet;
 	}
 
-
-
+	
 
 }

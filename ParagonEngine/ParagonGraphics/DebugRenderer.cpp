@@ -35,7 +35,7 @@ namespace Pg::Graphics
 
 	}
 
-	void DebugRenderer::RenderContents(void* renderObjectList, Pg::Data::CameraData* camData)
+	void DebugRenderer::RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData)
 	{
 		Render((RenderObjectWireframeList*)renderObjectList, camData);
 	}

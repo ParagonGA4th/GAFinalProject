@@ -1,5 +1,6 @@
 #pragma once
 #include "D3DCarrier.h"
+#include "SceneInformationList.h"
 #include "../ParagonData/CameraData.h"
 
 namespace Pg::Graphics
@@ -10,7 +11,7 @@ namespace Pg::Graphics
 		BaseSpecificRenderer(D3DCarrier* d3dCarrier);
 		virtual void Initialize() abstract;
 		virtual void SetupRenderPasses() abstract;
-		virtual void RenderContents(void* renderObjectList, Pg::Data::CameraData* camData) abstract;
+		virtual void RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData) abstract;
 		virtual void ConfirmCarrierData() abstract;
 
 	protected:

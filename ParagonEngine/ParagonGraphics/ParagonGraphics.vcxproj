@@ -40,14 +40,16 @@
     <ClInclude Include="Forward3DRenderer.h" />
     <ClInclude Include="D3DCarrier.h" />
     <ClInclude Include="GraphicsSceneParser.h" />
+    <ClInclude Include="SceneInformationList.h" />
     <ClInclude Include="IRenderSinglePass.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantBufferDefine.h" />
     <ClInclude Include="GBufferDepthStencil.h" />
+    <ClInclude Include="ISendReceiver.h" />
     <ClInclude Include="MaterialParser.h" />
     <ClInclude Include="OpaqueShadowRenderPass.h" />
     <ClInclude Include="PreparationStaticRenderPass.h" />
-    <ClInclude Include="OpaqueLightingRenderPass.h" />
+    <ClInclude Include="BlendingRenderPass.h" />
     <ClInclude Include="OpaqueQuadRenderPass.h" />
     <ClInclude Include="OutlineRenderPass.h" />
     <ClInclude Include="RenderAnimation.h" />
@@ -68,6 +70,7 @@
     <ClInclude Include="RenderTextureCube.h" />
     <ClInclude Include="RenderVertexShader.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SceneInformationSender.h" />
     <ClInclude Include="ShaderParsingData.h" />
     <ClInclude Include="SizeTexture.h" />
     <ClInclude Include="SystemPixelShader.h" />
@@ -161,7 +164,7 @@
     <ClCompile Include="MaterialParser.cpp" />
     <ClCompile Include="OpaqueShadowRenderPass.cpp" />
     <ClCompile Include="PreparationStaticRenderPass.cpp" />
-    <ClCompile Include="OpaqueLightingRenderPass.cpp" />
+    <ClCompile Include="BlendingRenderPass.cpp" />
     <ClCompile Include="OpaqueQuadRenderPass.cpp" />
     <ClCompile Include="OutlineRenderPass.cpp" />
     <ClCompile Include="RenderAnimation.cpp" />
@@ -199,6 +202,7 @@
     <ClCompile Include="RenderTexture2DArray.cpp" />
     <ClCompile Include="RenderTextureCube.cpp" />
     <ClCompile Include="RenderVertexShader.cpp" />
+    <ClCompile Include="SceneInformationSender.cpp" />
     <ClCompile Include="SystemPixelShader.cpp" />
     <ClCompile Include="WireframeRenderObject.cpp" />
     <ClCompile Include="RenderFont.cpp" />

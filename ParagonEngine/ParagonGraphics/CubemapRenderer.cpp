@@ -38,7 +38,7 @@ namespace Pg::Graphics
 
 	}
 
-	void CubemapRenderer::RenderContents(void* renderObjectList, Pg::Data::CameraData* camData)
+	void CubemapRenderer::RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData)
 	{
 		Render((RenderObjectCubemapList*)renderObjectList, camData);
 	}
