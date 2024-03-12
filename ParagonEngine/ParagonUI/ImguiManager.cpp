@@ -127,6 +127,16 @@ void Pg::UI::Manager::ImGuiManager::End(bool isDockspace)
 	ImGui::End();
 }
 
+void Pg::UI::Manager::ImGuiManager::BeginDisable(bool disable)
+{
+	ImGui::BeginDisabled(disable);
+}
+
+void Pg::UI::Manager::ImGuiManager::EndDisable()
+{
+	ImGui::EndDisabled();
+}
+
 void Pg::UI::Manager::ImGuiManager::SetGizmoCamera(Pg::Data::Camera* camera)
 {
 	_imGizmo->SetCamera(camera);

@@ -72,4 +72,8 @@ bool Pg::Editor::Window::Scene::GetShow()
 	return _isShow;
 }
 
+std::string Pg::Editor::Window::Scene::GetWindowName()
+{
+	return _winName;
+}
 

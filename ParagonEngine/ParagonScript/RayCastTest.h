@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonData/Script.h"
+#include "Script.h"
 /// <summary>
 /// RayCast를 테스트하기 위한 스크립트.
 /// 2024.01.25

@@ -10,7 +10,7 @@
 namespace Pg::Engine
 {
 	EventTest::EventTest(Pg::Data::GameObject* owner) :
-		Script(owner)
+		Component(owner)
 	{
 
 	}

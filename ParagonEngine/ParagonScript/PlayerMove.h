@@ -1,6 +1,6 @@
 #pragma once
-#include "../ParagonData/Script.h"
-#include <auto_register/factory.h>
+#include "Script.h"
+#include "script_factory.h"
 
 namespace Pg::Data
 {
@@ -17,7 +17,7 @@ namespace Pg::API::Input
 /// 플레이어 관련 스크립트
 /// </summary>
 
-class PlayerMove : public Pg::Data::Script, RegisteredInFactory<Pg::Data::Script, PlayerMove, Pg::Data::GameObject*>
+class PlayerMove : public Pg::Data::Script, Pg::Factory::Script::RegisteredInFactory<Pg::Data::Script, PlayerMove, Pg::Data::GameObject*>
 {
 public:
 	PlayerMove(Pg::Data::GameObject* obj);

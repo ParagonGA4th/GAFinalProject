@@ -111,3 +111,8 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 		}
 	}
 }
+
+std::string Pg::Editor::Window::Hierarchy::GetWindowName()
+{
+	return _winName;
+}

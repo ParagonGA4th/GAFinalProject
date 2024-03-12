@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonData/Script.h"
+#include "../ParagonData/Component.h"
 #include "../ParagonData/Camera.h"
 
 /// <summary>
@@ -28,7 +28,7 @@ namespace Pg::Engine
 	}
 }
 
-class EditorCameraScript : public Pg::Data::Script
+class EditorCameraScript : public Pg::Data::Component
 {
 public:
 	EditorCameraScript(Pg::Data::GameObject* obj);

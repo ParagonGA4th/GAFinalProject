@@ -1,6 +1,5 @@
 #pragma once
 #include "IEditorWindow.h"
-#include <string>
 #include <memory>
 
 namespace Pg::Editor { class Event; }
@@ -21,6 +20,8 @@ namespace Pg::Editor::Window
 
 		virtual void SetShow(bool show) override;
 		virtual bool GetShow() override;
+
+		virtual std::string GetWindowName() override;
 
 	private:
 		void FileUpdate();
