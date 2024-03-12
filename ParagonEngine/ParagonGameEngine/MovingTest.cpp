@@ -11,7 +11,7 @@
 #include <singleton-cpp/singleton.h>
 #include <cassert>
 
-MovingTest::MovingTest(Pg::Data::GameObject* obj) :Pg::Data::Script(obj)
+MovingTest::MovingTest(Pg::Data::GameObject* obj) :Pg::Data::Component(obj)
 {
 
 }

@@ -18,6 +18,7 @@ Pg::Editor::Window::ToolBar::ToolBar()
 	_uiManager = &tUIManager;
 
 	_widgetCon = std::make_unique<Pg::UI::WidgetContainer>();
+
 	_editorManaged = std::make_unique<Pg::Editor::Event>();
 
 	_editorModeType = new Pg::Data::Enums::eEditorMode();
@@ -52,6 +53,7 @@ void Pg::Editor::Window::ToolBar::Initialize()
 void Pg::Editor::Window::ToolBar::Update()
 {
 	_uiManager->WindowBegin(_winName);
+
 	_uiManager->SetAlignCenter(5, 80.0f);
 	_widgetCon->SameLine(true);
 	_widgetCon->Update();
@@ -60,6 +62,7 @@ void Pg::Editor::Window::ToolBar::Update()
 	{
 		*_editorModeType = Pg::Data::Enums::eEditorMode::_PLAY;
 		_editorManaged->Invoke(eEventType::_EDITORMODE, _editorModeType);
+		_editorManaged->Invoke(eEventType::_EDITORDISABLE, static_cast<void*>(_isStartBtnClick));
 	}
 
 	if (*_isPauseBtnClick)
@@ -72,6 +75,9 @@ void Pg::Editor::Window::ToolBar::Update()
 	{
 		*_editorModeType = Pg::Data::Enums::eEditorMode::_EDIT;
 		_editorManaged->Invoke(eEventType::_EDITORMODE, _editorModeType);
+
+		*_isStopBtnClick = false;
+		_editorManaged->Invoke(eEventType::_EDITORDISABLE, static_cast<void*>(_isStartBtnClick));
 	}	
 	
 	if (*_isTransBtnClick)
@@ -108,4 +114,9 @@ void Pg::Editor::Window::ToolBar::SetShow(bool show)
 bool Pg::Editor::Window::ToolBar::GetShow()
 {
 	return _isShow;
+}
+
+std::string Pg::Editor::Window::ToolBar::GetWindowName()
+{
+	return _winName;
 }

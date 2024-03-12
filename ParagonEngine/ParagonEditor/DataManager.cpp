@@ -3,6 +3,7 @@
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/Component.h"
 
 #include <singleton-cpp/singleton.h>
 #include <visit_struct/visit_struct_intrusive.hpp>
@@ -239,6 +240,7 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 				}
 				else
 				{
+					//auto component = AddComponentToObject(typeName, obj);
 					auto component = obj->AddComponent(typeName);
 					component->OnDeserialize(tSerVec);
 				}
@@ -298,4 +300,9 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 			}
 		}
 	}
+}
+
+Pg::Data::Component* Pg::Editor::Manager::DataManager::AddComponentToObject(const std::string& typeName, Pg::Data::GameObject* go)
+{
+	return nullptr;
 }

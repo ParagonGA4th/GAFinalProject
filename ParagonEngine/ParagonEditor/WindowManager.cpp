@@ -1,5 +1,6 @@
 #include "WindowManager.h"
 #include "DataContainer.h"
+#include "Event.h"
 
 #include "IEditorWindow.h"
 #include "Layout.h"
@@ -25,8 +26,9 @@ Pg::Editor::Manager::WindowManager::WindowManager()
 	auto& tUIManager = singleton<Pg::UI::Manager::UIManager>();
 	_uiManager = &tUIManager;
 
-	// Editor window
+	_windowAble = std::make_unique<Pg::Editor::Event>();
 
+	// Editor window
 	_windows.emplace_back(new Pg::Editor::Window::Layout());
 	_windows.emplace_back(new Pg::Editor::Window::ToolBar());
 	_windows.emplace_back(new Pg::Editor::Window::Hierarchy());
@@ -45,13 +47,25 @@ void Pg::Editor::Manager::WindowManager::Initialize(void* hWnd)
 	_uiManager->Initialize(hWnd, _dataContainer->GetDevice(),_dataContainer->GetDeviceContext());
 	for_each(_windows.begin(), _windows.end(), 
 		[](Pg::Editor::Window::IEditorWindow* ewindow) { ewindow->Initialize(); });
+
+	_windowAble->AddEvent(Pg::Editor::eEventType::_EDITORDISABLE, { [&](void* data) { WindowAble(data); }});
 }
 
 void Pg::Editor::Manager::WindowManager::Update()
 {
 	_uiManager->Update();
-	for_each(_windows.begin(), _windows.end(), 
-		[](Pg::Editor::Window::IEditorWindow* ewindow) { if(ewindow->GetShow()) ewindow->Update(); });
+	for (auto& ewindow : _windows)
+	{	
+		if (ewindow->GetWindowName() != "Layout" || ewindow->GetWindowName() != "ToolBar")
+		{
+			_uiManager->BeginDisable(_isDisable);
+		}
+
+		if (ewindow->GetShow()) ewindow->Update();
+
+		if (_isDisable) _uiManager->EndDisable();
+	}
+
 	_uiManager->LastUpdate();
 }
 
@@ -63,5 +77,10 @@ void Pg::Editor::Manager::WindowManager::Finalize()
 void Pg::Editor::Manager::WindowManager::WindowHandler(MSG message)
 {
 	_uiManager->UIHandler(message);
+}
+
+void Pg::Editor::Manager::WindowManager::WindowAble(void* disable)
+{
+	_isDisable = static_cast<bool>(disable);
 }
 

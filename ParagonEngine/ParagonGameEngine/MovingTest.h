@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonData/Script.h"
+#include "../ParagonData/Component.h"
 #include "../ParagonData/Camera.h"
 
 /// <summary>
@@ -20,7 +20,7 @@ namespace Pg::Engine
 	}
 }
 
-class MovingTest : public Pg::Data::Script
+class MovingTest : public Pg::Data::Component
 {
 public:
 	MovingTest(Pg::Data::GameObject* obj);

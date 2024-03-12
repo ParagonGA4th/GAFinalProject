@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 namespace Pg::Editor::Window
 {
@@ -11,6 +12,8 @@ namespace Pg::Editor::Window
 
 		virtual void SetShow(bool show) abstract;
 		virtual bool GetShow() abstract;
+
+		virtual std::string GetWindowName() abstract;
 	};
 }
 

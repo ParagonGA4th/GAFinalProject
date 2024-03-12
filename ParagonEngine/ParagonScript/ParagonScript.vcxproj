@@ -144,11 +144,14 @@
     <ClInclude Include="EventTest.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="RayCastTest.h" />
+    <ClInclude Include="Script.h" />
+    <ClInclude Include="script_factory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EventTest.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="RayCastTest.cpp" />
+    <ClCompile Include="Script.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,7 +2,7 @@
 #include "Component.h"
 
 #include <string>
-#include <auto_register/factory.h> // Auto Register를 위한 필수요건.
+#include "data_factory.h" // Auto Register를 위한 필수요건.
 
 namespace Pg::Engine
 {
@@ -21,7 +21,7 @@ namespace Pg::Data
 	enum class eSoundState;
 
 	//														부모			자신		매개변수..
-	class AudioSource : public Component, RegisteredInFactory<Component, AudioSource, GameObject*>
+	class AudioSource : public Component, Pg::Factory::Data::RegisteredInFactory<Component, AudioSource, GameObject*>
 	{
 	public:
 		AudioSource(GameObject* owner);
