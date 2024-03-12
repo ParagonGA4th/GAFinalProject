@@ -100,6 +100,7 @@ namespace Pg::Engine
 		SceneSystem* _sceneSystem = nullptr;
 		DebugSystem* _debugSystem = nullptr;
 		SoundSystem* _soundSystem = nullptr;
+		NavigationSystem* _navSystem = nullptr;
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
 	};
 }

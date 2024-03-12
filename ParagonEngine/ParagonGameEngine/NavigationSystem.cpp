@@ -14,4 +14,9 @@ namespace Pg::Engine
 
 	}
 
+	void NavigationSystem::Update(float deltaTime)
+	{
+
+	}
+
 }
