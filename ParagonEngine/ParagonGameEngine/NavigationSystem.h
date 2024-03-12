@@ -2,6 +2,10 @@
 
 #include <Detour/DetourNavMesh.h>
 #include <Detour/DetourNavMeshQuery.h>
+#include <Detour/DetourCommon.h>
+#include <DetourCrowd/DetourCrowd.h>
+
+#include <unordered_map>
 
 /// <summary>
 /// 변지상의 Recast를 적용한 Navigation.
@@ -16,6 +20,14 @@ namespace Pg::Engine
 		NavigationSystem();
 
 		void Initialize();
+
+		void Update(float deltaTime);
+
+	private:
+		//Recast에 필요한 변수들
+		dtNavMesh* _navMesh;
+		dtCrowd* _crowd;
+		dtNavMeshQuery* _navMeshQuery;
 	};
 }
 
