@@ -26,6 +26,8 @@ namespace Pg::Editor::Window
 
 		virtual std::string GetWindowName() override;
 
+		virtual void SetDisable(bool disable) override;
+
 	private:
 		void SetData(void* data);
 		void AddComponent();
@@ -34,6 +36,7 @@ namespace Pg::Editor::Window
 		/// inspector value
 		std::string _winName;
 		bool _isShow;
+		bool _isDisable;
 
 		/// helper class
 		Pg::UI::Manager::UIManager* _uiManager;

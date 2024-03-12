@@ -22,6 +22,7 @@ namespace Pg::Editor::Window
 		virtual bool GetShow() override;
 
 		virtual std::string GetWindowName() override;
+		virtual void SetDisable(bool disable) override;
 
 	private:
 		void FileUpdate();

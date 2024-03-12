@@ -56,9 +56,11 @@ void Pg::Editor::Window::Inspector::Initialize()
 void Pg::Editor::Window::Inspector::Update()
 {
 	_uiManager->WindowBegin(_winName);
+	_uiManager->BeginDisable(_isDisable);
 	_insHelper->Update();
 	_widgetCon->Update();
 	AddComponent();
+	if (_isDisable) _uiManager->EndDisable();
 	_uiManager->WindowEnd();
 }
 
@@ -101,4 +103,9 @@ void Pg::Editor::Window::Inspector::AddComponent()
 std::string Pg::Editor::Window::Inspector::GetWindowName()
 {
 	return _winName;
+}
+
+void Pg::Editor::Window::Inspector::SetDisable(bool disable)
+{
+	_isDisable = disable;
 }

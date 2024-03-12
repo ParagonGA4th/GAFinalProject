@@ -14,6 +14,8 @@ namespace Pg::Editor::Window
 		virtual bool GetShow() abstract;
 
 		virtual std::string GetWindowName() abstract;
+
+		virtual void SetDisable(bool disable) abstract;
 	};
 }
 

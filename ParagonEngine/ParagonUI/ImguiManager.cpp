@@ -129,6 +129,7 @@ void Pg::UI::Manager::ImGuiManager::End(bool isDockspace)
 
 void Pg::UI::Manager::ImGuiManager::BeginDisable(bool disable)
 {
+	if (!disable) return;
 	ImGui::BeginDisabled(disable);
 }
 

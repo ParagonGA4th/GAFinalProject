@@ -27,6 +27,8 @@ namespace Pg::Editor::Window
 
 		virtual std::string GetWindowName() override;
 
+		virtual void SetDisable(bool disable) override;
+
 	private:
 		void DataSet(std::string path);
 		FilterData SeparateFiles(std::string path, std::string folderName);

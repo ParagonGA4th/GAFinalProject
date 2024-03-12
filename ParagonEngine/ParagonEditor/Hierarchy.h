@@ -24,6 +24,8 @@ namespace Pg::Editor::Window
 		virtual bool GetShow() override;
 
 		virtual std::string GetWindowName() override;
+	
+		virtual void SetDisable(bool disable) override;
 	private:
 		void DataSet();
 
@@ -31,6 +33,7 @@ namespace Pg::Editor::Window
 		/// hierarchy value
 		std::string _winName;
 		bool _isShow;
+		bool _isDisable;
 
 		/// helper class
 		Pg::Editor::Data::DataContainer* _dataContainer;
