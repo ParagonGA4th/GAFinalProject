@@ -181,6 +181,7 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="Filter.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GizmoType.h" />
     <ClInclude Include="Hierarchy.h" />
     <ClInclude Include="IEditorManager.h" />
     <ClInclude Include="IEditorWindow.h" />

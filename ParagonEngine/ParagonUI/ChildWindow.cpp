@@ -9,7 +9,7 @@ Pg::UI::Layout::ChildWindow::ChildWindow(std::string layoutName, Pg::Math::PGFLO
 
 void Pg::UI::Layout::ChildWindow::Update()
 {
-	ImGui::BeginChild(_layoutName.c_str(), {_size.x, _size.y});
+	ImGui::BeginChild(_layoutName.c_str(), {_size.x, _size.y}, true);
 
 	for (auto& it : _widgets)
 	{

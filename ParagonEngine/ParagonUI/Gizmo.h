@@ -20,7 +20,7 @@ namespace Pg::UI::Helper
 		~Gizmo() {};
 
 		void CreateFrame();
-		void DrawGizmo();
+		void DrawGizmo(int type);
 
 		void SetCamera(Pg::Data::Camera* camera);
 		void SetTransform(Pg::Data::Transform* trans);

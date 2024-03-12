@@ -137,9 +137,9 @@ void Pg::UI::Manager::ImGuiManager::SetGizmoTransform(Pg::Data::Transform* trans
 	_imGizmo->SetTransform(trans);
 }
 
-void Pg::UI::Manager::ImGuiManager::DrawGizmo()
+void Pg::UI::Manager::ImGuiManager::DrawGizmo(int type)
 {
-	_imGizmo->DrawGizmo();
+	_imGizmo->DrawGizmo(type);
 }
 
 void Pg::UI::Manager::ImGuiManager::AlignForWidth(int widgetCount, float widgetWidth)

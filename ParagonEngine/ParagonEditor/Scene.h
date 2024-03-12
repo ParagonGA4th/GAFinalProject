@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 
+namespace Pg::Editor { class Event; }
 namespace Pg::Editor::Data { class DataContainer; }
 namespace Pg::UI { class WidgetContainer; }
 namespace Pg::UI::Manager { class UIManager; }
@@ -32,6 +33,7 @@ namespace Pg::Editor::Window
 		Pg::Editor::Data::DataContainer* _dataContainer;
 		Pg::UI::Manager::UIManager* _uiManager;
 		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
+		std::unique_ptr<Pg::Editor::Event> _gizmoType;
 
 		/// Data Value
 	};
