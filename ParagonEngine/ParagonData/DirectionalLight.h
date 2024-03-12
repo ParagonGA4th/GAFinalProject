@@ -8,12 +8,18 @@ namespace Pg::Data
 	{
 	public:
 		DirectionalLight(GameObject* obj);
-		void SetDirection(const PGFLOAT3& direction);
-		PGFLOAT3& GetDirection();
 
-	private:
-		PGFLOAT3 _direction;
+		bool operator>(const DirectionalLight& rhs) const {
+			return this->_radiance > rhs._radiance;
+		}
+
+		//VISITABLE
+		PGFLOAT3 _color;
 		float _radiance;
+		PGFLOAT3 _direction;
+		//ENDVISITABLE
+
+		float tTempPadding; // ¾²¸é ¾ÈµÊ.
 	};
 
 }

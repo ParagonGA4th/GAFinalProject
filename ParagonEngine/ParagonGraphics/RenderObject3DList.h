@@ -29,13 +29,7 @@ namespace Pg::Graphics
 		std::unordered_map<std::string, /* Material Path */
 			std::unique_ptr<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>> _skinnedList; /* Vector */
 
-	public:
-		void Clear()
-		{
-			_staticList.clear();
-			_skinnedList.clear();
-			_materialPathSet.clear();
-		}
+
 	};
 
 }

@@ -5,6 +5,7 @@
 #include "GraphicsResourceHelper.h"
 #include "GraphicsResourceManager.h"
 #include "MathHelper.h"
+#include "SceneInformationList.h"
 
 #include "GraphicsSceneParser.h"
 #include "DeferredRenderer.h"
@@ -72,24 +73,24 @@ namespace Pg::Graphics
 	void ParagonRenderer::Render(Pg::Data::CameraData* camData)
 	{
 		// Deferred w/ Pass
-		_deferredRenderer->RenderContents(_sceneParser->GetRenderObject3DList(), camData);
+		_deferredRenderer->RenderContents(_sceneParser->GetRenderObject3DList(), _sceneParser->GetSceneInformationList(), camData);
 		_deferredRenderer->ConfirmCarrierData();
 
 		// Cubemap Renderer.
-		_cubemapRenderer->RenderContents(_sceneParser->GetRenderObjectCubemapList(), camData);
+		_cubemapRenderer->RenderContents(_sceneParser->GetRenderObjectCubemapList(), nullptr, camData);
 		_cubemapRenderer->ConfirmCarrierData();
 	}
 
 	void ParagonRenderer::DebugRender(Pg::Data::CameraData* camData)
 	{
-		_debugRenderer->RenderContents(_sceneParser->GetRenderObjectWireframeList(), camData);
+		_debugRenderer->RenderContents(_sceneParser->GetRenderObjectWireframeList(), nullptr, camData);
 		_debugRenderer->ConfirmCarrierData();
 	}
 
 	void ParagonRenderer::UiRender(Pg::Data::CameraData* camData)
 	{
 		// Forward 2D
-		_forward2dRenderer->RenderContents(_sceneParser->GetRenderObject2DList(), camData);
+		_forward2dRenderer->RenderContents(_sceneParser->GetRenderObject2DList(), nullptr, camData);
 		_forward2dRenderer->ConfirmCarrierData();
 	}
 
@@ -97,7 +98,7 @@ namespace Pg::Graphics
 	{
 		//내부적으로 알아서 구분해줄 것. (Picking에 따라 Outline 모드가 내부적으로 호출될 것이기 때문에!
 		_finalRenderer->RenderOutlineStencil(camData);
-		_finalRenderer->RenderContents(nullptr, camData);
+		_finalRenderer->RenderContents(nullptr, nullptr, camData);
 		_finalRenderer->ConfirmCarrierData();
 	}
 
