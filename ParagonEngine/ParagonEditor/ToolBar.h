@@ -32,13 +32,19 @@ namespace Pg::Editor::Window
 		/// helper class
 		Pg::UI::Manager::UIManager* _uiManager;
 		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
-		std::unique_ptr<Pg::Editor::Event> _editorMode;
+		std::unique_ptr<Pg::Editor::Event> _editorManaged;
 
 		Pg::Data::Enums::eEditorMode* _editorModeType;
 
 		/// Data value
 		bool* _isStartBtnClick;
 		bool* _isPauseBtnClick;
-		bool* _isStopBtnClick;
+		bool* _isStopBtnClick;		
+		
+		bool* _isTransBtnClick;
+		bool* _isRotateBtnClick;
+		bool* _isScaleBtnClick;
+
+		int _type;
 	};
 }
