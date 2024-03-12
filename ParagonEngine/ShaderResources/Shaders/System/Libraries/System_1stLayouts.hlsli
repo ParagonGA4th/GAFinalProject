@@ -12,8 +12,7 @@ struct Vin1stStatic
     float3  vin1st_Color        : COLOR;
     float   vin1st_MeshMatID    : MESH_MATID;
     float2  vin1st_Tex          : TEXCOORD0;
-    float2  vin1st_UVSet2       : TEXCOORD1;
-    float2  vin1st_LightmapUV   : TEXCOORD2;
+    float2  vin1st_LightmapUV   : TEXCOORD1;
 };
 
 struct Vin1stSkinned
@@ -25,8 +24,7 @@ struct Vin1stSkinned
     float3  vin1st_Color        : COLOR;
     float   vin1st_MeshMatID    : MESH_MATID;
     float2  vin1st_Tex          : TEXCOORD0;
-    float2  vin1st_UVSet2       : TEXCOORD1;
-    float2  vin1st_LightmapUV   : TEXCOORD2;
+    float2  vin1st_LightmapUV   : TEXCOORD1;
     
     uint vin1st_BlendIndice0 : BLENDINDICES0;
     uint vin1st_BlendIndice1 : BLENDINDICES1;
@@ -48,8 +46,7 @@ struct VOut1st
     float3  vout1st_Color       : COLOR;
     float   vout1st_MeshMatID   : MESH_MATID;
     float2  vout1st_Tex         : TEXCOORD0;
-    float2  vout1st_UVSet2      : TEXCOORD1;
-    float2  vout1st_LightmapUV  : TEXCOORD2;
+    float2  vout1st_LightmapUV  : TEXCOORD1;
 };
 
 struct POut1st //RGBA

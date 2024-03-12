@@ -63,9 +63,9 @@ float3 GetTangent(float2 quadUV)
     return float3(tanx, tany, tanz);
 }
 
-float2 GetUVSet2(float2 quadUV)
+float2 GetDepth_WDivide(float2 quadUV)
 {
-    return internal_GBuffer[4].Sample(fullScreenQuadSS, quadUV).xy;
+    return internal_GBuffer[4].Sample(fullScreenQuadSS, quadUV).x;
 }
 
 float2 GetLightmapUV(float2 quadUV)
@@ -75,27 +75,9 @@ float2 GetLightmapUV(float2 quadUV)
 }
 
 //Depth: 별도로 관리됨.
-float GetDepth(float2 quadUV)
+float GetDepth_DSV(float2 quadUV)
 {
     return internal_DepthBuffer.Sample(fullScreenQuadSS, quadUV);
-}
-
-float GetPseudoLinearDepth(float2 quadUV)
-{
-    float depthVal = internal_DepthBuffer.Sample(fullScreenQuadSS, quadUV);
-    
-    //float near = 0.1f;
-    //float far = 300.0f;
-    //
-    //float tZ = (1.0f - far / near) / far;
-    //float tW = (far / near) / far;
-    //
-    //return 1.0f / (tZ * depthVal + tW);
-    
-    //return saturate(pow(depthVal, 2.2f));
-    
-    return saturate(pow(depthVal,5.f));
-
 }
 
 #endif //__DEFINED_APPENDS_GBUFFER_TEXTURES_HLSL__

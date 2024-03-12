@@ -32,8 +32,9 @@ POut1st main(VOut1st input)
     //RT3 : World Space Tangent.z (w)
     output.pout1st_RT3.w = input.vout1st_TangentW.z;
 
-    //RT4 : UV Set2 (float2) (x)
-    output.pout1st_RT4.xy = input.vout1st_UVSet2;
+   //RT4 : Linearized Depth(x) / TempValue (y)
+    output.pout1st_RT4.x = input.vout1st_PosH.z / input.vout1st_PosH.w;
+    output.pout1st_RT4.y = 0.f;
     //RT4 : LightMap Texture UV Coords (zw)
     output.pout1st_RT4.zw = input.vout1st_LightmapUV;
     //</Float4>
