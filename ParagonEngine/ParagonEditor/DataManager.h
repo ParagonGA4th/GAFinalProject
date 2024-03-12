@@ -11,6 +11,7 @@ namespace Pg::Data
 {
 	class Scene;
 	class GameObject;
+	class Component;
 }
 namespace Pg::Serialize { class Serializer; }
 namespace Pg::Editor::Data { class DataContainer; }
@@ -35,6 +36,9 @@ namespace Pg::Editor::Manager
 
 		void DataDeserialize(pugi::xml_node root, int sceneNum);
 		void DataSerialize(pugi::xml_node node, Pg::Data::Scene* scene);
+
+	private:
+		Pg::Data::Component* AddComponentToObject(const std::string& typeName, Pg::Data::GameObject* go);
 
 	private:
 		std::string _path;

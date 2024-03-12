@@ -59,7 +59,10 @@ void Pg::Editor::Manager::ProcessManager::Update()
 		_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
 	}
 
-	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff)) { _dataContainer->SetEditorOnOff(!_dataContainer->GetEditorOnOff()); }
+	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff)) 
+	{ 
+		_dataContainer->SetEditorOnOff(!_dataContainer->GetEditorOnOff()); 
+	}
 
 	if (_dataContainer->GetEditorOnOff())
 	{

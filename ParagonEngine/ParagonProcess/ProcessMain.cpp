@@ -15,24 +15,6 @@
 #include <windows.h>
 #include <singleton-cpp/singleton.h>
 
-#ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
-#else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
-#endif // _DEBUG
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonData.lib")
-#else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonData.lib")
-#endif // _DEBUG
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonMath.lib")
-#else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonMath.lib")
-#endif // _DEBUG
-
 #pragma once
 #ifdef _DEBUG
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonGameEngine.lib")

@@ -79,16 +79,23 @@ void Pg::UI::Helper::Gizmo::ConvertWTM(glm::mat4 mt)
 	_trans->_scale = { scale.x, scale.y, scale.z };
 }
 
-void Pg::UI::Helper::Gizmo::DrawGizmo()
+void Pg::UI::Helper::Gizmo::DrawGizmo(int type)
 {
 	if (_trans != nullptr)
 	{
+		ImGuizmo::OPERATION oper;
+
+		if (type == 0) oper = ImGuizmo::TRANSLATE;
+		if (type == 1) oper = ImGuizmo::ROTATE;
+		if (type == 2) oper = ImGuizmo::SCALE;
+
+
 		ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, ImGui::GetWindowSize().x, ImGui::GetWindowSize().y);
 
 		ImGuizmo::Manipulate(
 			&(_vtm[0][0]),		// cameraView
 			&(_ptm[0][0]),		// cameraProj
-			ImGuizmo::ROTATE,
+			oper,
 			ImGuizmo::LOCAL,
 			&(_wtm[0][0])		// object Transform
 		);

@@ -1,6 +1,5 @@
 #pragma once
 #include "IEditorWindow.h"
-#include <string>
 #include <vector>
 #include <memory>
 
@@ -24,6 +23,9 @@ namespace Pg::Editor::Window
 		virtual void SetShow(bool show) override;
 		virtual bool GetShow() override;
 
+		virtual std::string GetWindowName() override;
+	
+		virtual void SetDisable(bool disable) override;
 	private:
 		void DataSet();
 
@@ -31,6 +33,7 @@ namespace Pg::Editor::Window
 		/// hierarchy value
 		std::string _winName;
 		bool _isShow;
+		bool _isDisable;
 
 		/// helper class
 		Pg::Editor::Data::DataContainer* _dataContainer;
