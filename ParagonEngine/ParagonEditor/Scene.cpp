@@ -1,17 +1,22 @@
 #include "Scene.h"
+#include "Event.h"
 #include "DataContainer.h"
 
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
 #include "../ParagonUI/Image.h"
+#include "../ParagonUI/Button.h"
+#include "../ParagonUI/ChildWindow.h"
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/Transform.h"
 
+#include "../ParagonMath/PgMath.h"
+
 #include <singleton-cpp/singleton.h>
 
 Pg::Editor::Window::Scene::Scene()
-	:_winName("Scene"), _isShow(true)
+	:_winName("Scene"), _isShow(true), _isDisable(false)
 {
 	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
 	_dataContainer = &tdataCon;
@@ -20,6 +25,8 @@ Pg::Editor::Window::Scene::Scene()
 	_uiManager = &tUIManager;
 
 	_widgetCon = std::make_unique<Pg::UI::WidgetContainer>();
+
+	_gizmoType = std::make_unique<Pg::Editor::Event>();
 }
 
 Pg::Editor::Window::Scene::~Scene()
@@ -30,12 +37,14 @@ Pg::Editor::Window::Scene::~Scene()
 void Pg::Editor::Window::Scene::Initialize()
 {
 	auto& con = _widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 1920.f, 1080.f);
+	_gizmoType->AddEvent(Pg::Editor::eEventType::_GIZMOTYPE, [&](void* data) { _uiManager->DrawGizmo(data); });
 }
 
 void Pg::Editor::Window::Scene::Update()
 {
 	_uiManager->WindowBegin(_winName);
 
+	_uiManager->BeginDisable(_isDisable);
 	_widgetCon->Update();	
 	
 	if (_dataContainer->GetPickObject() != nullptr)
@@ -45,7 +54,8 @@ void Pg::Editor::Window::Scene::Update()
 	}
 
 	_uiManager->DrawGizmo();
-	
+	if (_isDisable) _uiManager->EndDisable();
+
 	_uiManager->WindowEnd();
 }
 
@@ -64,4 +74,13 @@ bool Pg::Editor::Window::Scene::GetShow()
 	return _isShow;
 }
 
+std::string Pg::Editor::Window::Scene::GetWindowName()
+{
+	return _winName;
+}
+
+void Pg::Editor::Window::Scene::SetDisable(bool disable)
+{
+	_isDisable = disable;
+}
 

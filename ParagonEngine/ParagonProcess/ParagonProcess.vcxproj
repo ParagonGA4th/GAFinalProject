@@ -161,7 +161,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
-    <ClInclude Include="ProcessMain.h" />
     <ClInclude Include="EditorAdapter.h" />
     <ClInclude Include="EngineGraphicsAdapter.h" />
     <ClInclude Include="IAPI.h" />
@@ -169,12 +168,13 @@
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="CoreSingleton.h" />
+    <ClInclude Include="ProcessMain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssetManager.cpp" />
-    <ClCompile Include="ProcessMain.cpp" />
     <ClCompile Include="EditorAdapter.cpp" />
     <ClCompile Include="EngineGraphicsAdapter.cpp" />
+    <ClCompile Include="ProcessMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

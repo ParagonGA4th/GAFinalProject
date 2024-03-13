@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "../ParagonData/Component.h"
 
 /// <summary>
 /// 엔진의 스크립트 클래스.

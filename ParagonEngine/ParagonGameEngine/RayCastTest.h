@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonData/Script.h"
+#include "../ParagonData/Component.h"
 
 /// <summary>
 /// RayCast를 테스트하기 위한 스크립트.
@@ -36,7 +36,7 @@ namespace Pg::Data
 	class Button;
 }
 
-class RayCastTest : public Pg::Data::Script
+class RayCastTest : public Pg::Data::Component
 {
 public:
 	RayCastTest(Pg::Data::GameObject* obj);

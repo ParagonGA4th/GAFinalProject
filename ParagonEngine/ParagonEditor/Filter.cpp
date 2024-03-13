@@ -146,3 +146,13 @@ Pg::Editor::Window::FilterData Pg::Editor::Window::Filter::SeparateFiles(std::st
 
 	return files;
 }
+
+std::string Pg::Editor::Window::Filter::GetWindowName()
+{
+	return _winName;
+}
+
+void Pg::Editor::Window::Filter::SetDisable(bool disable)
+{
+
+}

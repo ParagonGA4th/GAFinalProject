@@ -6,7 +6,7 @@
 #include "../ParagonData/Camera.h"
 #include "../ParagonData/Light.h"
 #include "../ParagonData/StaticMeshRenderer.h"
-#include "../ParagonData/Script.h"
+#include "../ParagonScript/Script.h"
 
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
@@ -56,9 +56,11 @@ void Pg::Editor::Window::Inspector::Initialize()
 void Pg::Editor::Window::Inspector::Update()
 {
 	_uiManager->WindowBegin(_winName);
+	_uiManager->BeginDisable(_isDisable);
 	_insHelper->Update();
 	_widgetCon->Update();
 	AddComponent();
+	if (_isDisable) _uiManager->EndDisable();
 	_uiManager->WindowEnd();
 }
 
@@ -96,4 +98,14 @@ void Pg::Editor::Window::Inspector::AddComponent()
 			_insHelper->SetData(_selectGameObject);
 		}
 	}
+}
+
+std::string Pg::Editor::Window::Inspector::GetWindowName()
+{
+	return _winName;
+}
+
+void Pg::Editor::Window::Inspector::SetDisable(bool disable)
+{
+	_isDisable = disable;
 }

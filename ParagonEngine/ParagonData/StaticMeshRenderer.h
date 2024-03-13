@@ -1,7 +1,7 @@
 #pragma once
 #include "RendererBase3D.h"
 #include <string>
-#include <auto_register/factory.h> // Auto Register를 위한 필수요건.
+#include "data_factory.h" // Auto Register를 위한 필수요건.
 /// <summary>
 /// 앞으로 3D Static Mesh 출력을 담당할 렌더러.
 /// </summary>
@@ -10,7 +10,7 @@ namespace Pg::Data
 {
 	class GameObject;
 
-	class StaticMeshRenderer : public RendererBase3D, RegisteredInFactory<RendererBase3D, StaticMeshRenderer, GameObject*>
+	class StaticMeshRenderer : public RendererBase3D, Pg::Factory::Data::RegisteredInFactory<RendererBase3D, StaticMeshRenderer, GameObject*>
 	{
 	public:
 		StaticMeshRenderer(GameObject* obj);
