@@ -146,18 +146,20 @@ void Pg::Engine::TestScene::Initialize()
 	tObj8->GetComponent<Button>()->SetImageSize(200.0f, 200.0f);
 
 	///슬라이더
+	Pg::Data::GameObject* tObj10 = tCurrentScene->AddObject("Handle");
+	tObj10->AddComponent<Handle>();
+	tObj10->GetComponent<Handle>()->SetImagePath("../Resources/Textures/Sprites/UI/Test_SliderBarDown.png");
+	tObj10->GetComponent<Handle>()->SetImageSize(28.f, 42.f);
+
 	Pg::Data::GameObject* tObj9 = tCurrentScene->AddObject("Slider");
 	tObj9->GetComponent<Transform>()->_position = { 600.0f, 500.0f, 0.0f };
+	//tObj9->GetComponent<Transform>()->AddChild(tObj10);
 	tObj9->AddComponent<Slider>();
-	tObj9->GetComponent<Slider>()->SetImagePath("../Resources/Textures/Sprites/GameProgressBar.png");
-	tObj9->GetComponent<Slider>()->SetImageSize(1000.0f, 200.0f);
+	tObj9->GetComponent<Slider>()->SetImagePath("../Resources/Textures/Sprites/UI/Test_SliderBarUI.png");
+	tObj9->GetComponent<Slider>()->SetImageSize(600.0f, 50.0f);
+	tObj9->GetComponent<Slider>()->_handle = tObj10->GetComponent<Handle>();
 
-	Pg::Data::GameObject* tObj10 = tCurrentScene->AddObject("Handle");
-	tObj10->GetComponent<Transform>()->SetParent(tObj9);
-	tObj10->GetComponent<Transform>()->_position = { 500.0f, 600.0f, 0.0f };
-	tObj10->AddComponent<Handle>();
-	tObj10->GetComponent<Handle>()->SetImagePath("../Resources/Textures/Sprites/LPDiskAlpha.png");
-	tObj10->GetComponent<Handle>()->SetImageSize(500.0f, 500.0f);
+	
 
 	/*Pg::Data::GameObject* tObj10 = tCurrentScene->AddObject("Image1");
 	tObj10->GetComponent<Transform>()->_position = { 600.0f, 500.0f, 0.0f };

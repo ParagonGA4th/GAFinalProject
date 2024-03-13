@@ -33,7 +33,8 @@ namespace Pg::Data
 
 		void SetImagePath(const std::string path);
 
-		void SetImageSize(float width, float height);
+		void SetImageSize(float 
+			, float height);
 		void SetImageWidth(float width);
 		void SetImageHeight(float height);
 
@@ -43,6 +44,8 @@ namespace Pg::Data
 		void SetValue(float val);
 		float GetValue();
 
+		
+		Handle* _handle;
 
 	private:
 		//슬라이더의 값이 변경될 때 발생하는 이벤트.
@@ -52,7 +55,7 @@ namespace Pg::Data
 		ImageRenderer* _imageRenderer = nullptr;
 		Pg::Util::Input::InputSystem* _inputSystem;
 
-		Handle* _handle;
+		
 
 	public:
 		//이미지의 사이즈
@@ -60,8 +63,10 @@ namespace Pg::Data
 		float* _imageHeight;
 
 		//슬라이더의 최대 최소값
-		float _min = 0.f;
-		float _max = 100.f;
+		float _minWidth = 0.f;
+		float _maxWidth = 1.f;
+		float _minHeight = 0.f;
+		float _maxHeight = 1.f;
 
 		bool _isClick;
 	};
