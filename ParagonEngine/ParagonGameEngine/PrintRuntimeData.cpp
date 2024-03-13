@@ -8,7 +8,7 @@
 #include <singleton-cpp/singleton.h>
 #include <string>
 
-PrintRuntimeData::PrintRuntimeData(Pg::Data::GameObject* obj) : Pg::Data::Script(obj)
+PrintRuntimeData::PrintRuntimeData(Pg::Data::GameObject* obj) : Pg::Data::Component(obj)
 {
 	auto& tPgTime = singleton<Pg::Engine::Time::TimeSystem>();
 	this->_timeSystem = &tPgTime;

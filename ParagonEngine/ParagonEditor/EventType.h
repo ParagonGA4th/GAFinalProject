@@ -13,5 +13,7 @@ namespace Pg::Editor
 		_SAVEPROJECT,
 		_OBJECTDATA,
 		_EDITORMODE,
+		_EDITORDISABLE,
+		_GIZMOTYPE,
 	};
 }

@@ -27,12 +27,14 @@ namespace Pg::UI::Manager
 		void DockSpaceBegin(std::string dockName);
 		void End(bool isDockspace);
 
+		void BeginDisable(bool disable);
+		void EndDisable();
+
 		void SetGizmoCamera(Pg::Data::Camera* camera);
 		void SetGizmoTransform(Pg::Data::Transform* trans);
-		void DrawGizmo();
+		void DrawGizmo(int type);
 
 		void AlignForWidth(int widgetCount, float widgetWidth);
-
 	private:
 		std::unique_ptr<Pg::UI::Helper::Gizmo> _imGizmo;
 	};

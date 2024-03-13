@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonData/Script.h"
+#include "../ParagonData/Component.h"
 #include "../ParagonMath/PgMath.h"
 
 #include <cstdlib>
@@ -22,7 +22,7 @@ namespace Pg::Engine
 	}
 }
 
-class PrintRuntimeData : public Pg::Data::Script
+class PrintRuntimeData : public Pg::Data::Component
 {
 public:
 	PrintRuntimeData(Pg::Data::GameObject* obj);

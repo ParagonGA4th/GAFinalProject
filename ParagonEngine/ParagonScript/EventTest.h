@@ -1,5 +1,5 @@
 #pragma once
-#include "../ParagonData/Script.h"
+#include "Script.h"
 /// <summary>
 /// 구현한 각종 이벤트들을 테스트할 스크립트.
 /// </summary>

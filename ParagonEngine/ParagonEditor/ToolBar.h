@@ -1,8 +1,6 @@
 #include "IEditorWindow.h"
-
 #include "../ParagonData/EditorMode.h"
 
-#include <string>
 #include <memory>
 
 namespace Pg::Editor { class Event; }
@@ -24,6 +22,9 @@ namespace Pg::Editor::Window
 		virtual void SetShow(bool show) override;
 		virtual bool GetShow() override;
 
+		virtual std::string GetWindowName() override; 
+		virtual void SetDisable(bool disable) override;
+
 	private:
 		/// ToolBar value
 		std::string _winName;
@@ -32,13 +33,19 @@ namespace Pg::Editor::Window
 		/// helper class
 		Pg::UI::Manager::UIManager* _uiManager;
 		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
-		std::unique_ptr<Pg::Editor::Event> _editorMode;
+		std::unique_ptr<Pg::Editor::Event> _editorManaged;
 
 		Pg::Data::Enums::eEditorMode* _editorModeType;
 
 		/// Data value
 		bool* _isStartBtnClick;
 		bool* _isPauseBtnClick;
-		bool* _isStopBtnClick;
+		bool* _isStopBtnClick;		
+		
+		bool* _isTransBtnClick;
+		bool* _isRotateBtnClick;
+		bool* _isScaleBtnClick;
+
+		int _type;
 	};
 }

@@ -144,6 +144,9 @@
     <ClInclude Include="Game.h">
       <Filter>2_Windows\Game</Filter>
     </ClInclude>
+    <ClInclude Include="GizmoType.h">
+      <Filter>2_Windows\ToolBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="4_Event">

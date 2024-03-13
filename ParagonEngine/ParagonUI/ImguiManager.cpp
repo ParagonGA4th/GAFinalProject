@@ -127,6 +127,17 @@ void Pg::UI::Manager::ImGuiManager::End(bool isDockspace)
 	ImGui::End();
 }
 
+void Pg::UI::Manager::ImGuiManager::BeginDisable(bool disable)
+{
+	if (!disable) return;
+	ImGui::BeginDisabled(disable);
+}
+
+void Pg::UI::Manager::ImGuiManager::EndDisable()
+{
+	ImGui::EndDisabled();
+}
+
 void Pg::UI::Manager::ImGuiManager::SetGizmoCamera(Pg::Data::Camera* camera)
 {
 	_imGizmo->SetCamera(camera);
@@ -137,9 +148,9 @@ void Pg::UI::Manager::ImGuiManager::SetGizmoTransform(Pg::Data::Transform* trans
 	_imGizmo->SetTransform(trans);
 }
 
-void Pg::UI::Manager::ImGuiManager::DrawGizmo()
+void Pg::UI::Manager::ImGuiManager::DrawGizmo(int type)
 {
-	_imGizmo->DrawGizmo();
+	_imGizmo->DrawGizmo(type);
 }
 
 void Pg::UI::Manager::ImGuiManager::AlignForWidth(int widgetCount, float widgetWidth)

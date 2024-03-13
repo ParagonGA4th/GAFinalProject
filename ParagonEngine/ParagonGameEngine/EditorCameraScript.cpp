@@ -15,7 +15,7 @@
 #include <dxtk/SimpleMath.h>
 
 EditorCameraScript::EditorCameraScript(Pg::Data::GameObject* obj)
-	:Pg::Data::Script(obj)
+	:Pg::Data::Component(obj)
 {
 
 }

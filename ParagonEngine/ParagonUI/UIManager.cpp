@@ -45,9 +45,12 @@ void Pg::UI::Manager::UIManager::SetTransformForGizmo(Pg::Data::Transform* trans
 	_imguiManager->SetGizmoTransform(trans);
 }
 
-void Pg::UI::Manager::UIManager::DrawGizmo()
+void Pg::UI::Manager::UIManager::DrawGizmo(void* gizmoType)
 {
-	_imguiManager->DrawGizmo();
+	if (gizmoType == nullptr && _gizmoType == -1) _gizmoType = 0;
+	else if (gizmoType != nullptr) _gizmoType = *(static_cast<int*>(gizmoType));
+
+	_imguiManager->DrawGizmo(_gizmoType);
 }
 
 void Pg::UI::Manager::UIManager::WindowBegin(std::string winName, bool isTool)
@@ -70,4 +73,13 @@ void Pg::UI::Manager::UIManager::SetAlignCenter(int widgetCount, float widgetWid
 	_imguiManager->AlignForWidth(widgetCount, widgetWidth);
 }
 
+void Pg::UI::Manager::UIManager::BeginDisable(bool disable)
+{
+	_imguiManager->BeginDisable(disable);
+}
+
+void Pg::UI::Manager::UIManager::EndDisable()
+{
+	_imguiManager->EndDisable();
+}
 

@@ -101,3 +101,13 @@ void Pg::Editor::Window::Layout::FileUpdate()
 		_isSaveProj = false;
 	}
 }
+
+std::string Pg::Editor::Window::Layout::GetWindowName()
+{
+	return _winName;
+}
+
+void Pg::Editor::Window::Layout::SetDisable(bool disable)
+{
+
+}
