@@ -1,7 +1,7 @@
 #ifndef DETOURTILECACHE_H
 #define DETOURTILECACHE_H
 
-#include "DUOLGameEngine/Navigation/Detour/DetourStatus.h"
+#include <Detour/DetourStatus.h>
 
 typedef unsigned int dtObstacleRef;
 typedef unsigned int dtCompressedTileRef;

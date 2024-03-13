@@ -19,8 +19,8 @@
 #ifndef DETOURTILECACHEBUILDER_H
 #define DETOURTILECACHEBUILDER_H
 
-#include "DUOLGameEngine/Navigation/Detour/DetourAlloc.h"
-#include "DUOLGameEngine/Navigation/Detour/DetourStatus.h"
+#include <Detour/DetourAlloc.h>
+#include <Detour/DetourStatus.h>
 
 static const int DT_TILECACHE_MAGIC = 'D'<<24 | 'T'<<16 | 'L'<<8 | 'R'; ///< 'DTLR';
 static const int DT_TILECACHE_VERSION = 1;
