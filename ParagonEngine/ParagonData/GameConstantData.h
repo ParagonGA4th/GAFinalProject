@@ -16,4 +16,6 @@ namespace Pg::Data
 	__declspec(selectany) unsigned int GameConstantData::HEIGHT = 1920;
 	__declspec(selectany) unsigned int GameConstantData::WIDTH = 1080;
 
+	
+
 }

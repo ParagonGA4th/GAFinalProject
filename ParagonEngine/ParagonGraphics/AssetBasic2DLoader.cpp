@@ -26,7 +26,7 @@ namespace Pg::Graphics::Loader
 
 	AssetBasic2DLoader::AssetBasic2DLoader() : _DXStorage(LowDX11Storage::GetInstance())
 	{
-		
+
 	}
 
 	void AssetBasic2DLoader::LoadTexture1D(const std::string& path, RenderTexture1D* outTextureData)
@@ -213,11 +213,31 @@ namespace Pg::Graphics::Loader
 
 		if (ResourceHelper::IsResourceDDS(path))
 		{
-			HR(DirectX::CreateDDSTextureFromFile(_DXStorage->_device, tWStrPath.c_str(), &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
+			//HR(DirectX::CreateDDSTextureFromFileEx(_DXStorage->_device, tWStrPath.c_str(), &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
+			//HR(DirectX::CreateDDSTextureFromFile(_DXStorage->_device, tWStrPath.c_str(), &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
+
+			////이게 되는게 목표.
+			//UINT tBindingFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET; //밉맵 생성 허용 위해.
+			//UINT tCPUAccessFlags = 0;
+			//UINT tMiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
+
+			//이게 되는게 목표.
+			UINT tBindingFlags = D3D11_BIND_SHADER_RESOURCE; //밉맵 생성 허용 위해.
+			UINT tCPUAccessFlags = 0;
+			UINT tMiscFlags = 0;
+
+			HR(DirectX::CreateDDSTextureFromFileEx(_DXStorage->_device, _DXStorage->_deviceContext, tWStrPath.c_str(), NULL, D3D11_USAGE_DEFAULT, tBindingFlags, tCPUAccessFlags, tMiscFlags,
+				DirectX::DDS_LOADER_DEFAULT, &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
+		
 		}
 		else
 		{
-			HR(DirectX::CreateWICTextureFromFile(_DXStorage->_device, tWStrPath.c_str(), &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
+			UINT tBindingFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET; //밉맵 생성 허용 위해.
+			UINT tCPUAccessFlags = 0;
+			UINT tMiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
+
+			HR(DirectX::CreateWICTextureFromFileEx(_DXStorage->_device, tWStrPath.c_str(), NULL, D3D11_USAGE_DEFAULT, tBindingFlags, tCPUAccessFlags, tMiscFlags,
+				DirectX::WIC_LOADER_DEFAULT, &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
 		}
 
 		//GenerateMips 테스트.
@@ -251,7 +271,7 @@ namespace Pg::Graphics::Loader
 		UINT tUniformMipLevels = std::get<2>(tSingleTextureStoreVec.at(0));
 		DXGI_FORMAT tUniformDXGIFormat = std::get<3>(tSingleTextureStoreVec.at(0));
 		UINT tUniformArraySize = std::get<4>(tSingleTextureStoreVec.at(0));
-		
+
 		for (auto& [bWidth, bHeight, bMipLevels, bFormat, bArraySize] : tSingleTextureStoreVec)
 		{
 			//모든 Texture2D들은 같은 프로퍼티를 공유해야 Texture2DArray로 만들어질 수 있다.
@@ -263,7 +283,7 @@ namespace Pg::Graphics::Loader
 		}
 
 		//Texture2DArray를 실제로 만든다.
-		
+
 		//기록되었던 Texture2D를 활용.
 		D3D11_TEXTURE2D_DESC arrayTextureDesc;
 		ZeroMemory(&arrayTextureDesc, sizeof(arrayTextureDesc));
@@ -271,7 +291,7 @@ namespace Pg::Graphics::Loader
 		arrayTextureDesc.Height = tUniformHeight;
 		arrayTextureDesc.MipLevels = tUniformMipLevels;
 		arrayTextureDesc.ArraySize = cnt;
-		arrayTextureDesc.Format = tUniformDXGIFormat; 
+		arrayTextureDesc.Format = tUniformDXGIFormat;
 		arrayTextureDesc.SampleDesc.Count = 1;
 		arrayTextureDesc.SampleDesc.Quality = 0;
 		arrayTextureDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -299,7 +319,7 @@ namespace Pg::Graphics::Loader
 				);
 			}
 		}
-		
+
 		HR(arrayTexture2D->QueryInterface(__uuidof(ID3D11Resource), (void**)&outTextureData->GetResource()));
 
 
@@ -315,10 +335,10 @@ namespace Pg::Graphics::Loader
 
 		//GenerateMips 테스트.
 		//_DXStorage->_deviceContext->GenerateMips(outTextureData->GetSRV());
-		
+
 		assert("");
 	}
 
-	
+
 
 }
