@@ -54,6 +54,8 @@ namespace Pg::Engine
 	class DebugSystem;
 
 	class SoundSystem;
+
+	class NavigationSystem;
 }
 
 namespace Pg::Engine

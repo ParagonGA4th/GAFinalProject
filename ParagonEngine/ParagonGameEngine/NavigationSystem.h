@@ -1,5 +1,4 @@
 #pragma once
-
 #include <Detour/DetourNavMesh.h>
 #include <Detour/DetourNavMeshQuery.h>
 #include <Detour/DetourCommon.h>
@@ -22,6 +21,16 @@ namespace Pg::Engine
 		void Initialize();
 
 		void Update(float deltaTime);
+
+		void Finalize();
+
+		void AddAgent();
+
+		dtNavMesh* GetNavMesh() const;
+
+		dtCrowd* GetCrowd() const;
+
+		dtNavMeshQuery* GetNavMeshQuery() const;
 
 	private:
 		//Recast에 필요한 변수들
