@@ -26,6 +26,8 @@ namespace Pg::Data
 		void SetImageHeight(float height);
 		float GetImageHeight();
 
+		//virtual void Update() override;
+
 	private:
 		ImageRenderer* _imageRenderer = nullptr;
 

@@ -95,9 +95,8 @@ namespace Pg::Data
 		Transform* GetChild(int index);
 
 		bool HasParent();
-		void SetParent(Transform* parent);
-		void SetParent(GameObject* obj);
 		void AddChild(Transform* child);
+		void AddChild(GameObject* child);
 
 		/// 오브젝트의 3D 여부를 세팅... Transform에 있는게 맞을까?
 		void SetIs3D(bool is3D);

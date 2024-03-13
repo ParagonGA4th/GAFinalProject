@@ -2,11 +2,14 @@
 #include "GameObject.h"
 #include "Button.h"
 #include "Handle.h"
+#include "GameConstantData.h"
 #include "ImageRenderer.h"
 
 ///슬라이더는 기본적으로 Input이 존재해야 한다.
 #include "../ParagonUtil/InputSystem.h"
+#include "../ParagonUtil/Log.h"
 #include <algorithm>
+#include <cassert>
 
 namespace Pg::Data
 {
@@ -30,13 +33,21 @@ namespace Pg::Data
 		_imageWidth = &(_imageRenderer->_width);
 		_imageHeight = &(_imageRenderer->_height);
 
-		//Scene에서 설정했던 Handle객체를 찾는다.
-		auto handleObj = owner->GetComponent<Transform>()->GetChildren();
-
-		for (auto iter : handleObj)
-		{
-
-		}
+		////Scene에서 설정했던 Handle객체를 찾는다.
+		//auto handleObj = owner->GetComponent<Transform>()->GetChildren();
+		//
+		//for (auto iter : handleObj)
+		//{
+		//	Pg::Data::GameObject* tGO = iter->_object;
+		//	auto tHandle = tGO->GetComponent<Handle>();
+		//	if (tHandle != nullptr)
+		//	{
+		//		_handle = tHandle;
+		//		break;
+		//	}
+		//}
+		//
+		//
 	}
 
 	void Slider::Start()
@@ -44,16 +55,31 @@ namespace Pg::Data
 		//버튼이 자식 객체로써 존재한다.
 		//GameObject* buttonObject = new GameObject("sliderBtn");
 		//buttonObject->AddComponent<Button>();
+		assert(_handle != nullptr && "이 시점에서 무조건 Handle 있어야 함");
+		//핸들의 위치 한정.
+		_handle->_object->_transform._position = this->_object->_transform._position;
 
-		_min = _object->_transform._position.x - (_imageRenderer->_width / 2);
-		_max = _object->_transform._position.x + _imageRenderer->_width / 2;
+		{
+			float tPixelMin = _object->_transform._position.x - (_imageRenderer->_width / 2);
+			float tPixelMax = _object->_transform._position.x + (_imageRenderer->_width / 2);
+			_minWidth = tPixelMin / GameConstantData::WIDTH;
+			_maxWidth = tPixelMax / GameConstantData::WIDTH;
+		}
+		{
+			float tPixelMin = _object->_transform._position.y - (_imageRenderer->_height / 2);
+			float tPixelMax = _object->_transform._position.y + (_imageRenderer->_height / 2);
+			_minHeight = tPixelMin / GameConstantData::HEIGHT;
+			_maxHeight = tPixelMax / GameConstantData::HEIGHT;
+		}
+		
 	}
 
 	void Slider::Update()
 	{
 		if (_inputSystem->GetKeyDown(API::Input::MouseLeft))
 		{
-			if (_inputSystem->GetMouseDX() >= _min && _inputSystem->GetMouseDX() <= _max)
+			if (_inputSystem->GetMouseX() >= _minWidth && _inputSystem->GetMouseX() <= _maxWidth &&
+				_inputSystem->GetMouseY() >= _minHeight && _inputSystem->GetMouseY() <= _maxHeight)
 			{
 				_isClick = true;
 			}
@@ -61,13 +87,14 @@ namespace Pg::Data
 
 		if (_isClick)
 		{
-			float newPosition = _inputSystem->GetMouseDX();
+			//PG_TRACE("SLIDE~~");
+			float newPosition = _inputSystem->GetMouseX();
 
-			newPosition = std::clamp(newPosition, _min, _max);
+			newPosition = std::clamp(newPosition, _minWidth, _maxWidth);
 
-			_handle->_object->_transform._position.x = newPosition;
+			_handle->_object->_transform._position.x = newPosition * GameConstantData::WIDTH;
 
-			_value = (newPosition - _min) / (_max - _min);
+			_value = (newPosition - _minWidth) / (_maxWidth - _minWidth);
 
 			if (_onValueEvent)
 			{
