@@ -29,7 +29,7 @@ namespace Pg::Graphics
 	ParagonRenderer::ParagonRenderer() :
 		_DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
 	{
-
+		
 	}
 
 	ParagonRenderer::~ParagonRenderer()
@@ -60,7 +60,6 @@ namespace Pg::Graphics
 
 		_finalRenderer = std::make_unique<FinalRenderer>(_gCarrier.get());
 		_finalRenderer->Initialize();
-
 		//SkinningMk.F
 		//_tempMultiMesh = new MultimaterialMesh("tFilePath");
 	}
@@ -192,6 +191,11 @@ namespace Pg::Graphics
 		return _sceneParser->GetObjectWithObjID(tFoundID);
 	}
 
+	void ParagonRenderer::SetDeltaTime(float dt)
+	{
+		//¹Ì¸® AnimationÀ» µ¹¸± ·»´õ·¯ : µ¨Å¸Å¸ÀÓ ³Ñ°å´Ù.
+		_deferredRenderer->SetDeltaTime(dt);
+	}
 	
 
 	

@@ -33,6 +33,8 @@ namespace Pg::Graphics
 		virtual void ExecuteNextRenderRequirements() override;
 		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
+	public:
+
 	private:
 		std::vector<std::unique_ptr<GBufferRender>> _gBufferRenderList;
 		std::unique_ptr<GBufferDepthStencil> _gBufferDepthStencil;

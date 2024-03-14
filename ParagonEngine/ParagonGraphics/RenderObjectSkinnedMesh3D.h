@@ -16,6 +16,8 @@ namespace Pg::Graphics
 {
 	class RenderObjectSkinnedMesh3D : public RenderObject3D
 	{
+		friend class ParagonRenderer;
+
 	public:
 		RenderObjectSkinnedMesh3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID, unsigned int matID);
 		virtual ~RenderObjectSkinnedMesh3D();
@@ -35,7 +37,14 @@ namespace Pg::Graphics
 
 		//내부적으로 SetAnimation 호출. (Client 딴 제어 아닌 Internal Mechanic)
 		void SetAnimation(const std::string& animName);
+
+
 	private:
+		unsigned int tick;
+
+
+
+
 		//Skinned Mesh에 독립적임.
 		//void BoneTransformUpdate();
 
@@ -47,7 +56,10 @@ namespace Pg::Graphics
 		//unsigned int FindTranslation(double animTick, const aiNodeAnim* pNodeAnim);
 
 	private:
+
+	private:
 		//GPU에 바인딩될 Bone Tranform Vector. 크기는 100이 기본.
+		//FinalTransform 그자체.
 		//얘는 이제 개별적인 RenderObject에 소속될 것이다!
 		std::vector<DirectX::SimpleMath::Matrix> _boneTransformVector;
 	};

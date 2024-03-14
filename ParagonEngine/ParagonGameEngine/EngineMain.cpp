@@ -216,6 +216,10 @@ namespace Pg::Engine
 		_debugSystem->DeleteBox2DDebug();
 	}
 
+	float EngineMain::GetDeltaTime()
+	{
+		return _timeSystem->GetDeltaTime();
+	}
 
 	
 }
