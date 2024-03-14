@@ -159,18 +159,6 @@ void Pg::Engine::TestScene::Initialize()
 	tObj9->GetComponent<Slider>()->SetImageSize(600.0f, 50.0f);
 	tObj9->GetComponent<Slider>()->_handle = tObj10->GetComponent<Handle>();
 
-	
-
-	/*Pg::Data::GameObject* tObj10 = tCurrentScene->AddObject("Image1");
-	tObj10->GetComponent<Transform>()->_position = { 600.0f, 500.0f, 0.0f };
-	auto tComp1 = tObj10->AddComponent<ImageRenderer>();
-	tComp1->SetImagePath("../Resources/Textures/Sprites/GameProgressBar.png");
-	tComp1->SetSize(1000.0f, 200.0f);
-	tComp1->_sortingLayer = 2;
-	auto tComp2 = tObj10->AddComponent<ImageRenderer>();
-	tComp2->SetImagePath("../Resources/Textures/Sprites/LPDiskAlpha.png");
-	tComp2->SetSize(1000.0f, 200.0f);
-	tComp2->_sortingLayer = 0;*/
 
 	
 
