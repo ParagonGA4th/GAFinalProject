@@ -1,5 +1,5 @@
 #pragma once
-#include "RenderPrepStructs.h"
+#include "AssetAnimationDataDefine.h"
 
 #include <string>
 #include <vector>
@@ -79,14 +79,14 @@ namespace Pg::Graphics::Helper
 	private:
 		//직접적으로 VB/IB를 만들어내보내는 함수들.
 		static void ParseAssimpStatic(const aiScene* assimp, Scene_AssetData* sceneData, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt);
-		static void ParseAssimpSkinned(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, const std::vector<RenderPrepVertexBone>& vertexBoneVector, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt);
+		static void ParseAssimpSkinned(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, const std::vector<VertexBone_TempAssetData>& vertexBoneVector, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt);
 
 		//Skinned Data 저장하는 함수.
 		static void StoreIndependentSkinnedData(const aiScene* assimp, Skinned_AssetData* skinnedData);
 
 		//참조형으로 VB 만들 때 쓰이는 VertexBone 벡터 반환.
-		static void StoreGetDependentSkinnedData(const aiScene* assimp, const Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, std::vector<RenderPrepVertexBone>& outVertexBoneVector);
-		static void SetupRenderBones(unsigned int index, aiMesh* mesh, const Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, std::vector<RenderPrepVertexBone>& vBoneList);
+		static void StoreGetDependentSkinnedData(const aiScene* assimp, const Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, std::vector<VertexBone_TempAssetData>& outVertexBoneVector);
+		static void SetupRenderBones(unsigned int index, aiMesh* mesh, const Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, std::vector<VertexBone_TempAssetData>& vBoneList);
 
 		//개별적인 Assimp 구조체를 AssetData로 옮겨서 저장한다.
 		static void StoreAssimpNode(const aiNode* assimp, Scene_AssetData* sceneData, Node_AssetData* pgNode);
@@ -101,7 +101,7 @@ namespace Pg::Graphics::Helper
 		static void StoreAssimpAnimation(const aiAnimation* assimp, Animation_AssetData* pgAnim);
 		//Bone Info도 있어야 하는데..
 
-		static void LinearizeRecursiveNodes(const Node_AssetData* toBeParent, int toBeParentIndex, Skinned_AssetData* skinData);
+		static void LinearizeRecursiveNodes(const Node_AssetData* toBeParent, const Node_AssetData* parent, Skinned_AssetData* skinData);
 		 
 		//Material 관련.
 
