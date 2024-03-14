@@ -6,7 +6,6 @@
 #include "RenderTexture2D.h"
 #include "RenderTexture2DArray.h"
 #include "AssetModelDataDefine.h"
-#include "AssetAnimationDataDefine.h"
 #include "GraphicsResourceManager.h"
 #include "GraphicsResourceHelper.h"
 
@@ -167,7 +166,7 @@ namespace Pg::Graphics::Helper
 		//우선적으로, Skinned Data부터 보관.
 		StoreIndependentSkinnedData(assimp, skinnedData);
 
-		std::vector<RenderPrepVertexBone> tVertexBoneVector;
+		std::vector<VertexBone_TempAssetData> tVertexBoneVector;
 		tVertexBoneVector.resize(sceneData->_totalVertexCount);
 		StoreGetDependentSkinnedData(assimp, sceneData, skinnedData, tVertexBoneVector);
 
@@ -179,7 +178,7 @@ namespace Pg::Graphics::Helper
 	
 		//추후 렌더링을 위해, 재귀적인 노드 구조를 선형적으로 편동해 기록한다.
 		//RenderAnimation 딴에서 해당 노드의 인덱스에 맞는 값을 넣어놓을 것. (없으면 nullptr)
-		LinearizeRecursiveNodes(sceneData->_rootNode.get(), -1, skinnedData);
+		LinearizeRecursiveNodes(sceneData->_rootNode.get(), nullptr, skinnedData);
 	}
 
 	//스키닝 데이터 중, 실시간 데이터와 상관 없는 스키닝 데이터 정보 입력.
@@ -194,7 +193,7 @@ namespace Pg::Graphics::Helper
 		//나머지는 Dependent에서 옮겨질 것. 
 	}
 
-	void AssimpBufferParser::StoreGetDependentSkinnedData(const aiScene* assimp, const Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, std::vector<RenderPrepVertexBone>& outVertexBoneVector)
+	void AssimpBufferParser::StoreGetDependentSkinnedData(const aiScene* assimp, const Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, std::vector<VertexBone_TempAssetData>& outVertexBoneVector)
 	{
 		for (unsigned int i = 0; i < assimp->mNumMeshes; i++)
 		{
@@ -208,7 +207,7 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
-	void AssimpBufferParser::SetupRenderBones(unsigned int index, aiMesh* mesh, const Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, std::vector<RenderPrepVertexBone>& vBoneList)
+	void AssimpBufferParser::SetupRenderBones(unsigned int index, aiMesh* mesh, const Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, std::vector<VertexBone_TempAssetData>& vBoneList)
 	{
 		using DirectX::SimpleMath::Matrix;
 
@@ -262,7 +261,7 @@ namespace Pg::Graphics::Helper
 		assert(mesh);
 	}
 
-	void AssimpBufferParser::ParseAssimpSkinned(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, const std::vector<RenderPrepVertexBone>& vertexBoneVector, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt)
+	void AssimpBufferParser::ParseAssimpSkinned(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, const std::vector<VertexBone_TempAssetData>& vertexBoneVector, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt)
 	{
 		//지금까지 Bone Index/Weight Binding을 위해, 인덱스 카운팅 도입.
 		UINT tTotalElapsedVertexCount = 0;
@@ -613,12 +612,10 @@ namespace Pg::Graphics::Helper
 			outArrayData[k] = static_cast<RenderTexture2DArray*>(tTex2DRes.get());
 		}
 	}
-
-	void AssimpBufferParser::LinearizeRecursiveNodes(const Node_AssetData* toBeParent, int toBeParentIndex, Skinned_AssetData* skinData)
+	void AssimpBufferParser::LinearizeRecursiveNodes(const Node_AssetData* toBeParent, const Node_AssetData* parent, Skinned_AssetData* skinData)
 	{
-		///이 알고리즘이 맞는지는 나중에 검증하자!!!
 		//일단 본인(의 부모)을 기록.
-		skinData->_linearizedNodeHierarchy.push_back(std::make_pair(toBeParent, toBeParentIndex));
+		skinData->_linearizedNodeHierarchy.push_back(std::make_pair(toBeParent, parent));
 
 		if (toBeParent->_childrenList.empty())
 		{
@@ -627,10 +624,9 @@ namespace Pg::Graphics::Helper
 
 		for (const auto& it : toBeParent->_childrenList)
 		{
-			LinearizeRecursiveNodes(it.get(), skinData->_linearizedNodeHierarchy.size()-1, skinData); 
+			LinearizeRecursiveNodes(it.get(), toBeParent, skinData);
 		}
 	}
-
 
 	//void BufferParser::StoreAssimpBone(const aiBone* assimp, Bone_AssetData* pgAABB)
 	//{
