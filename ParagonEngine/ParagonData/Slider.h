@@ -44,7 +44,8 @@ namespace Pg::Data
 		void SetValue(float val);
 		float GetValue();
 
-		
+	public:
+		//Serialize를 위해 public으로.
 		Handle* _handle;
 
 	private:
