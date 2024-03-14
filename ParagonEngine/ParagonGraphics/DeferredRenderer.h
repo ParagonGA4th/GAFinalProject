@@ -49,6 +49,10 @@ namespace Pg::Graphics
 		void InitializeRenderPasses();
 		void PlaceRequiredResources();
 		void UpdateCarrierResources();
+	private:
+		void InitOpaqueQuadDirectX();
+		void InitFirstQuadDirectX();
+
 
 	private:
 		void Render(RenderObject3DList* renderObjectList, SceneInformationList* sceneInfoList, Pg::Data::CameraData* camData);

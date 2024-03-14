@@ -160,23 +160,24 @@ namespace Pg::Graphics
 
 		if (_internalPickingMode)
 		{
-			if (_input->GetKeyDown(API::Input::MouseLeft))
-			{
-				//Input이 0-1로 정규화된 Ratio로 값을 반환한다.
-				widthRatio = _input->GetMouseX();
-				heightRatio = _input->GetMouseY();
-
-				int selectedWidth = round(static_cast<float>(_DXStorage->_screenWidth) * widthRatio);
-				int selectedHeight = round(static_cast<float>(_DXStorage->_screenHeight) * heightRatio);
-
-				//std::string tVal = "X : ";
-				//tVal += std::to_string(selectedWidth);
-				//tVal += " / Y : ";
-				//tVal += std::to_string(selectedHeight);
-				//PG_INFO(tVal.c_str());
-				
-				return _renderer->GetPickedID_SetOutlineMode(selectedWidth, selectedHeight);
-			}
+			///눈물의 피킹 코드 주석처리. 에디터가 게임오브젝트 선택한 거 줄 것! 이건 다음에 남겨놓자. 
+			//if (_input->GetKeyDown(API::Input::MouseLeft))
+			//{
+			//	//Input이 0-1로 정규화된 Ratio로 값을 반환한다.
+			//	widthRatio = _input->GetMouseX();
+			//	heightRatio = _input->GetMouseY();
+			//
+			//	int selectedWidth = round(static_cast<float>(_DXStorage->_screenWidth) * widthRatio);
+			//	int selectedHeight = round(static_cast<float>(_DXStorage->_screenHeight) * heightRatio);
+			//
+			//	//std::string tVal = "X : ";
+			//	//tVal += std::to_string(selectedWidth);
+			//	//tVal += " / Y : ";
+			//	//tVal += std::to_string(selectedHeight);
+			//	//PG_INFO(tVal.c_str());
+			//	
+			//	return _renderer->GetPickedID_SetOutlineMode(selectedWidth, selectedHeight);
+			//}
 			return nullptr;
 		}
 
