@@ -11,7 +11,9 @@
 //RenderPasses
 #include "IRenderSinglePass.h"
 #include "FirstStaticRenderPass.h"
+#include "FirstSkinnedRenderPass.h"
 #include "PreparationStaticRenderPass.h"
+#include "PreparationSkinnedRenderPass.h"
 #include "SceneInformationSender.h"
 #include "OpaqueQuadRenderPass.h"
 #include "OpaqueShadowRenderPass.h"
@@ -77,7 +79,7 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::SetDeltaTime(float dt)
 	{
-		//_firstStaticRenderPass->SetDeltaTime(dt);
+		_deltaTimeStorage = dt;
 	}
 
 	void DeferredRenderer::RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData)
@@ -99,7 +101,9 @@ namespace Pg::Graphics
 
 		//For문 대신, 명시적으로 값 호출. (나누기)
 		RenderFirstStaticPass(renderObjectList, camData);
+		RenderFirstSkinnedPass(renderObjectList, camData);
 		RenderObjMatStaticPass(renderObjectList, camData);
+		RenderObjMatSkinnedPass(renderObjectList, camData);
 		SendSceneInformation(sceneInfoList, camData);
 		RenderOpaqueQuadPasses(renderObjectList, camData);
 		RenderOpaqueShadowPass(renderObjectList, camData);
@@ -116,20 +120,22 @@ namespace Pg::Graphics
 	{
 		//Render Pass Vector 구성.
 		
-		//첫번째는 무조건 FirstRenderPass.
+		//0. FirstStaticRenderPass.
 		_firstStaticRenderPass = std::make_unique<FirstStaticRenderPass>();
 
-		//두번째는 일단 ObjMatStaticRenderPass.
+		//1. FirstSkinnedRenderPass.
+		_firstSkinnedRenderPass = std::make_unique<FirstSkinnedRenderPass>();
+
+		//2. ObjMatStaticRenderPass.
 		_objMatStaticRenderPass = std::make_unique<PreparationStaticRenderPass>();
 
-		//Skinned가 들어오면 FirstStatic->FirstSkinned->ObjMatStatic->ObjMatSkinned일것.
+		//3. ObjMatSkinnedRenderPass.
+		_objMatSkinnedRenderPass = std::make_unique<PreparationSkinnedRenderPass>();
 
-		//OpaqueLightingRenderPass.
+		//4. SceneInfromationSender.
 		_sceneInformationSender = std::make_unique<SceneInformationSender>();
 
-		//OpaqueShadowRenderPass.
-		_opaqueShadowPass = std::make_unique<OpaqueShadowRenderPass>();
-
+		//5. OpaqueQuadRenderPass
 		//모든 Material의 목록을 받은 뒤, 순서대로 OpaqueQuadRenderPass 호출. (일반적인 경우)
 		//N개의 Material이 있으면, N개의 Pass가 만들어진다.
 		using Pg::Graphics::Manager::GraphicsResourceManager;
@@ -140,20 +146,26 @@ namespace Pg::Graphics
 			assert(tRM != nullptr);
 			_opaqueQuadPassesVector.push_back(new OpaqueQuadRenderPass(tRM));
 		}
+
+		//6. OpaqueShadowRenderPass.
+		_opaqueShadowPass = std::make_unique<OpaqueShadowRenderPass>();
 	}
 
 	void DeferredRenderer::InitializeRenderPasses()
 	{
 		_firstStaticRenderPass->Initialize();
+		_firstSkinnedRenderPass->Initialize();
 		_objMatStaticRenderPass->Initialize();
+		_objMatSkinnedRenderPass->Initialize();
 		_sceneInformationSender->Initialize();
-		_opaqueShadowPass->Initialize();
 
 		//일괄적으로 Initialize() 호출.
 		for (auto& it : _opaqueQuadPassesVector)
 		{
 			it->Initialize();
 		}
+
+		_opaqueShadowPass->Initialize();
 	}
 
 	void DeferredRenderer::PlaceRequiredResources()
@@ -201,7 +213,6 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::RenderFirstStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		
 		//0번째 RenderPass : 초반 Static Mesh 그대로 전달한다.
 		_firstStaticRenderPass->ReceiveRequiredElements(*_carrier);
 		_firstStaticRenderPass->BindPass();
@@ -213,6 +224,20 @@ namespace Pg::Graphics
 		//이미 Depth가 올라간 상황.
 	}
 
+	void DeferredRenderer::RenderFirstSkinnedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		//1번째 RenderPass : 초반 Skinned Mesh 그대로 전달한다.
+		//DeltaTime은 이미 전달된 상황.
+		_firstSkinnedRenderPass->ReceiveRequiredElements(*_carrier);
+		//Skinning 활용 패스에 DeltaTime 내부적으로 전달.
+		_firstSkinnedRenderPass->SetDeltaTime(_deltaTimeStorage);
+		_firstSkinnedRenderPass->BindPass();
+		_firstSkinnedRenderPass->RenderPass(renderObjectList, camData);
+		_firstSkinnedRenderPass->UnbindPass();
+		_firstSkinnedRenderPass->ExecuteNextRenderRequirements();
+		_firstSkinnedRenderPass->PassNextRequirements(*_carrier);
+	}
+
 	void DeferredRenderer::RenderObjMatStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		//1번째 RenderPass : ObjMatStaticRenderPass.
@@ -222,7 +247,17 @@ namespace Pg::Graphics
 		_objMatStaticRenderPass->UnbindPass();
 		_objMatStaticRenderPass->ExecuteNextRenderRequirements();
 		_objMatStaticRenderPass->PassNextRequirements(*_carrier);
-	
+	}
+
+	void DeferredRenderer::RenderObjMatSkinnedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		_objMatSkinnedRenderPass->ReceiveRequiredElements(*_carrier);
+		_objMatSkinnedRenderPass->SetDeltaTime(_deltaTimeStorage);
+		_objMatSkinnedRenderPass->BindPass();
+		_objMatSkinnedRenderPass->RenderPass(renderObjectList, camData);
+		_objMatSkinnedRenderPass->UnbindPass();
+		_objMatSkinnedRenderPass->ExecuteNextRenderRequirements();
+		_objMatSkinnedRenderPass->PassNextRequirements(*_carrier);
 	}
 
 	void DeferredRenderer::SendSceneInformation(SceneInformationList* infoList, Pg::Data::CameraData* camData)
@@ -278,7 +313,6 @@ namespace Pg::Graphics
 		_opaqueShadowPass->UnbindPass();
 		_opaqueShadowPass->ExecuteNextRenderRequirements();
 		_opaqueShadowPass->PassNextRequirements(*_carrier);
-
 	}
 
 	void DeferredRenderer::UnbindExpiredResources()
@@ -305,6 +339,7 @@ namespace Pg::Graphics
 	}
 
 	
+
 
 }
 

@@ -1,11 +1,12 @@
 #pragma once
+#pragma once
 #include "IRenderSinglePass.h"
 #include "DX11Headers.h"
 #include <vector>
 #include <memory>
 
 /// <summary>
-/// First Render Pass. World Space -> Screen Space. (Static)
+/// First Render Pass. World Space -> Screen Space. (Skinned)
 /// </summary>
 
 namespace Pg::Graphics
@@ -19,13 +20,14 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class FirstStaticRenderPass : public IRenderSinglePass
+	class FirstSkinnedRenderPass : public IRenderSinglePass
 	{
 	public:
-		FirstStaticRenderPass();
-		~FirstStaticRenderPass();
+		FirstSkinnedRenderPass();
+		~FirstSkinnedRenderPass();
 
 		virtual void Initialize() override;
+		void SetDeltaTime(float dt);
 		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;
 		virtual void BindPass() override;
 		virtual void RenderPass(void* renderObjectList, Pg::Data::CameraData* camData) override;
@@ -33,25 +35,9 @@ namespace Pg::Graphics
 		virtual void ExecuteNextRenderRequirements() override;
 		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
-	public:
 
 	private:
-		std::vector<std::unique_ptr<GBufferRender>> _gBufferRenderList;
-		std::unique_ptr<GBufferDepthStencil> _gBufferDepthStencil;
-
-		std::vector<ID3D11RenderTargetView*> _RTVs;
-		std::vector<ID3D11ShaderResourceView*> _SRVs;
-
-		std::vector<ID3D11RenderTargetView*> NullRTV;
-		std::vector<ID3D11ShaderResourceView*> NullSRV;
-	private:
-		void CreateD3DViews();
-		void CreateShaders();
-
-
-	private:
-		std::unique_ptr<SystemVertexShader> _vs;
-		std::unique_ptr<SystemPixelShader> _ps;
+		float _deltaTimeStorage = 0.16f;
 
 	private:
 		LowDX11Storage* _DXStorage;

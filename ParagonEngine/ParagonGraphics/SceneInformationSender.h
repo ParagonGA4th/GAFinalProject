@@ -3,6 +3,11 @@
 
 namespace Pg::Graphics
 {
+	class LowDX11Storage;
+}
+
+namespace Pg::Graphics
+{
 	class SceneInformationSender : public ISendReceiver
 	{
 	public:
@@ -14,6 +19,9 @@ namespace Pg::Graphics
 		virtual void SendData(const SceneInformationList& info, const Pg::Data::CameraData* const camData) override;
 		virtual void ProcessData() override;
 		virtual void ReceiveData(SceneInformationList& info) override;
+
+	private:
+		LowDX11Storage* _DXStorage = nullptr;
 
 	};
 }
