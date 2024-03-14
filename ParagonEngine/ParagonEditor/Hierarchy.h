@@ -51,7 +51,7 @@ namespace Pg::Editor::Window
 		std::map<int, std::pair<std::string, std::vector<std::string>>> _objNameList;
 		int _prevObjListSize;
 
-		std::string _prevObjName;
+		std::string* _prevObjName;
 		std::string _pickingObjName;
 	};
 }

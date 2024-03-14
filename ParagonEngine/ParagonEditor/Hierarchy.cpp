@@ -32,7 +32,7 @@ Pg::Editor::Window::Hierarchy::~Hierarchy()
 void Pg::Editor::Window::Hierarchy::Initialize()
 {
 	auto& selectable = _widgetCon->CreateWidget<Pg::UI::Widget::Hierarchy>(_objNameList);
-	//_selectedNumber = selectable.GetSelectIndex();
+	_prevObjName = selectable.GetSelectObjectName();
 }
 
 void Pg::Editor::Window::Hierarchy::Update()
@@ -79,23 +79,25 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 	GetCurrentSceneObjectList();
 	GetPickedObject();
 
-	//if (_prevObjName != _objNameList.at(*_selectedNumber))
-	//{
-	//	_prevObjName = _objNameList.at(*_selectedNumber);
+	for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
+	{
+		if (_prevObjName->empty())
+		{
+			_changeObjectData->Invoke(eEventType::_OBJECTDATA,
+				static_cast<void*>(_dataContainer->GetCurrentScene()->GetObjectList().at(0)));
+		}
+		
+		if (i->GetName() == *_prevObjName)
+		{
+			if (_dataContainer->GetPickObject() == nullptr || _dataContainer->GetPickObject()->GetName() != i->GetName())
+				_dataContainer->SetPickObject(i);
 
-	//	for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
-	//	{
-	//		if (i->GetName() == _prevObjName)
-	//		{
-	//			if (_dataContainer->GetPickObject() == nullptr || _dataContainer->GetPickObject()->GetName() != i->GetName()) 
-	//				_dataContainer->SetPickObject(i);
-
-				_changeObjectData->Invoke(eEventType::_OBJECTDATA, static_cast<void*>(_dataContainer->GetCurrentScene()->GetObjectList().at(0)));
-	//			break;
-	//		}
-	//	}
-	//}
+			_changeObjectData->Invoke(eEventType::_OBJECTDATA, static_cast<void*>(i));
+			break;
+		}
+	}
 }
+
 
 void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 {
@@ -118,7 +120,11 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 			}
 			else
 			{
-
+				for (auto& child : i->_transform.GetChildren())
+				{
+					childObject.emplace_back(child->_object->GetName());
+				}
+				_objNameList[count++] = std::make_pair(i->GetName(), childObject);
 			}
 		}
 	}
