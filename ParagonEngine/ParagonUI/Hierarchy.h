@@ -19,12 +19,17 @@ namespace Pg::UI::Widget
 	public:
 		Hierarchy(std::map<int, std::pair<std::string, std::vector<std::string>>>& objNameList);
 		virtual void Update() override;
+
+		std::string* GetSelectObjectName();
 		
 	private:
 		// Selectable
 		std::map<int, std::pair<std::string, std::vector<std::string>>>& _objNameList;
-		int _selectedNumber;
+		std::string selectObj;
 		int _mode;
+
+		bool _isNodeOpen;
+		bool _isNodeSelected;
 	};
 }
 

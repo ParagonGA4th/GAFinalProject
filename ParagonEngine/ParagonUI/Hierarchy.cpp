@@ -4,7 +4,7 @@
 #include <algorithm>
 
 Pg::UI::Widget::Hierarchy::Hierarchy(std::map<int, std::pair<std::string, std::vector<std::string>>>& objNameList)
-	:_objNameList(objNameList), _selectedNumber(0), _mode(1)
+	:_objNameList(objNameList), _mode(1), _isNodeOpen(false), _isNodeSelected(false)
 {
 }
 
@@ -18,24 +18,33 @@ void Pg::UI::Widget::Hierarchy::Update()
 		// Child가 없는 Object
 		if (obj.second.second.size() <= 0)
 		{
-			if (ImGui::Selectable(obj.second.first.c_str(), obj.first == _selectedNumber))
+			if (ImGui::Selectable(obj.second.first.c_str(), selectObj == obj.second.first))
 			{
-				_selectedNumber = obj.first;
+				selectObj = obj.second.first;
 			}
 		}
 
 		// Child가 존재하는 Object
 		else
 		{
-			if (ImGui::TreeNode(obj.second.first.c_str()))
+			ImGuiTreeNodeFlags flags = (selectObj == obj.second.first ? ImGuiTreeNodeFlags_Selected : 0);
+
+			if (ImGui::TreeNodeEx(obj.second.first.c_str(), flags))
 			{
+				_isNodeSelected = ImGui::IsItemClicked();
+				if (_isNodeSelected)
+				{
+					selectObj = obj.second.first;
+				}
+
 				for (auto& child : obj.second.second)
 				{
-					if (ImGui::Selectable(child.c_str()))
+					if (ImGui::Selectable(child.c_str(), selectObj == child))
 					{
-
+						selectObj = child;
 					}
 				}
+				ImGui::TreePop();
 			}
 		}
 
@@ -67,4 +76,9 @@ void Pg::UI::Widget::Hierarchy::Update()
 			ImGui::EndDragDropTarget();
 		}
 	}
+}
+
+std::string* Pg::UI::Widget::Hierarchy::GetSelectObjectName()
+{
+	return &selectObj;
 }
