@@ -36,8 +36,8 @@ namespace Pg::Graphics
 	public:
 
 	private:
-		std::vector<std::unique_ptr<GBufferRender>> _gBufferRenderList;
-		std::unique_ptr<GBufferDepthStencil> _gBufferDepthStencil;
+		std::vector<std::unique_ptr<GBufferRender>> _gBufRequiredInfoRT;
+		std::unique_ptr<GBufferDepthStencil> _gBufRequiredInfoDSV;
 
 		std::vector<ID3D11RenderTargetView*> _RTVs;
 		std::vector<ID3D11ShaderResourceView*> _SRVs;

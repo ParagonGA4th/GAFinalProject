@@ -33,15 +33,15 @@ namespace Pg::Graphics
 	void FirstStaticRenderPass::BindPass()
 	{
 		//자체적인 DSV Clear, Depth Stencil State 리셋, OMSetRenderTargets.
-		_DXStorage->_deviceContext->ClearDepthStencilView(_gBufferDepthStencil->GetDSV(), D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
-		_DXStorage->_deviceContext->OMSetDepthStencilState(_gBufferDepthStencil->GetDSState(), 0);
+		_DXStorage->_deviceContext->ClearDepthStencilView(_gBufRequiredInfoDSV->GetDSV(), D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
+		_DXStorage->_deviceContext->OMSetDepthStencilState(_gBufRequiredInfoDSV->GetDSState(), 0);
 
 		for (auto& e : _RTVs)
 		{
 			_DXStorage->_deviceContext->ClearRenderTargetView(e, _DXStorage->_backgroundColor);
 		}
 
-		_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), _RTVs.data(), _gBufferDepthStencil->GetDSV());
+		_DXStorage->_deviceContext->OMSetRenderTargets(_RTVs.size(), _RTVs.data(), _gBufRequiredInfoDSV->GetDSV());
 
 		// 셰이더 바인딩.
 		_vs->Bind();
@@ -98,37 +98,37 @@ namespace Pg::Graphics
 	void FirstStaticRenderPass::CreateD3DViews()
 	{
 		//RT0
-		_gBufferRenderList.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 		//RT1
-		_gBufferRenderList.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 		//RT2
-		_gBufferRenderList.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 		//RT3
-		_gBufferRenderList.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 		//RT4
-		_gBufferRenderList.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 		//RT5 (Depth)
-		_gBufferDepthStencil = std::make_unique<GBufferDepthStencil>();
+		_gBufRequiredInfoDSV = std::make_unique<GBufferDepthStencil>();
 
 		//FirstStage_PS에서 Binding될 Render Target들.
 		//Depth는 자동 연동 (DepthStencil 바인딩 공간 별도 존재)
-		for (auto& e : _gBufferRenderList)
+		for (auto& e : _gBufRequiredInfoRT)
 		{
-			_RTVs.emplace_back(e->GetRTV());
+		 	_RTVs.emplace_back(e->GetRTV());
 		}
 
 		//SecondStage들에서 Binding될 SRV들. (GBufferRender, ~5/6)
-		for (auto& e : _gBufferRenderList)
+		for (auto& e : _gBufRequiredInfoRT)
 		{
 			_SRVs.emplace_back(e->GetSRV());
 		}
 
 		//SecondStage들에서 Binding될 Depth SRV. (GBufferDepthStencil, 6/6)
-		_SRVs.emplace_back(_gBufferDepthStencil->GetSRV());
+		_SRVs.emplace_back(_gBufRequiredInfoDSV->GetSRV());
 
 		//지금까지 바인딩된 값만큼 RTV Null Array를 만들어준다.
 		//DepthStencil을 더이상 RTV로 기록되지 않음.
-		for (int i = 0; i < _gBufferRenderList.size(); ++i)
+		for (int i = 0; i < _gBufRequiredInfoRT.size(); ++i)
 		{
 			NullRTV.emplace_back(nullptr);
 		}

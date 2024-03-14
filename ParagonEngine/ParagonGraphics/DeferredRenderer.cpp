@@ -44,37 +44,8 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::Initialize()
 	{
-		//요구되는 렌더 리소스 만들기 (GBufferRender & Depth Stencil)
-		_quadMainRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
-		//ObjMat RenderTarget
-		_quadObjMatRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32_TYPELESS, DXGI_FORMAT_R32G32_FLOAT);
-
-		//Depth Writing이 가능한 Description 투입. (현재는 Default랑 같음)
-		D3D11_DEPTH_STENCIL_DESC tDepthStencilDesc;
-		tDepthStencilDesc.DepthEnable = TRUE;
-		tDepthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-		tDepthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
-		tDepthStencilDesc.StencilEnable = FALSE;
-		tDepthStencilDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
-		tDepthStencilDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
-		tDepthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-		tDepthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-		tDepthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-		tDepthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-		tDepthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-		tDepthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-		tDepthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-		tDepthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-
-		_quadMainDSV = std::make_unique<GBufferDepthStencil>(&tDepthStencilDesc);
-
-		//Carrier에 값을 전달한다. (MainRenderTarget 전까지 모든 렌더링의 기본이 될 것)
-		_carrier->_quadMainRT = _quadMainRTV.get();
-		_carrier->_quadMainGDS = _quadMainDSV.get();
-		_carrier->_quadObjMatRT = _quadObjMatRTV.get();
-
-		//자체적인 OpaqueQuad DSV.
-		_opaqueQuadDSV = std::make_unique<GBufferDepthStencil>();
+		InitOpaqueQuadDirectX();
+		InitFirstQuadDirectX();
 	}
 
 	void DeferredRenderer::SetDeltaTime(float dt)
@@ -229,8 +200,7 @@ namespace Pg::Graphics
 		//1번째 RenderPass : 초반 Skinned Mesh 그대로 전달한다.
 		//DeltaTime은 이미 전달된 상황.
 		_firstSkinnedRenderPass->ReceiveRequiredElements(*_carrier);
-		//Skinning 활용 패스에 DeltaTime 내부적으로 전달.
-		_firstSkinnedRenderPass->SetDeltaTime(_deltaTimeStorage);
+		_firstSkinnedRenderPass->SetDeltaTime(_deltaTimeStorage); 	//Skinning 활용 패스에 DeltaTime 내부적으로 전달.
 		_firstSkinnedRenderPass->BindPass();
 		_firstSkinnedRenderPass->RenderPass(renderObjectList, camData);
 		_firstSkinnedRenderPass->UnbindPass();
@@ -252,7 +222,7 @@ namespace Pg::Graphics
 	void DeferredRenderer::RenderObjMatSkinnedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		_objMatSkinnedRenderPass->ReceiveRequiredElements(*_carrier);
-		_objMatSkinnedRenderPass->SetDeltaTime(_deltaTimeStorage);
+		_objMatSkinnedRenderPass->SetDeltaTime(_deltaTimeStorage); 	//Skinning 활용 패스에 DeltaTime 내부적으로 전달.
 		_objMatSkinnedRenderPass->BindPass();
 		_objMatSkinnedRenderPass->RenderPass(renderObjectList, camData);
 		_objMatSkinnedRenderPass->UnbindPass();
@@ -338,7 +308,51 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &tNullSRV);
 	}
 
-	
+	void DeferredRenderer::InitOpaqueQuadDirectX()
+	{
+		//요구되는 렌더 리소스 만들기 (GBufferRender & Depth Stencil)
+		_quadMainRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		//ObjMat RenderTarget
+		_quadObjMatRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32_TYPELESS, DXGI_FORMAT_R32G32_FLOAT);
+
+		//Depth Writing이 가능한 Description 투입. (현재는 Default랑 같음)
+		D3D11_DEPTH_STENCIL_DESC tDepthStencilDesc;
+		tDepthStencilDesc.DepthEnable = TRUE;
+		tDepthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		tDepthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+		tDepthStencilDesc.StencilEnable = FALSE;
+		tDepthStencilDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+		tDepthStencilDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+		tDepthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+		tDepthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+		tDepthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+		tDepthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		tDepthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+		tDepthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+		tDepthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+		tDepthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+
+		_quadMainDSV = std::make_unique<GBufferDepthStencil>(&tDepthStencilDesc);
+
+		//Carrier에 값을 전달한다. (MainRenderTarget 전까지 모든 렌더링의 기본이 될 것)
+		_carrier->_quadMainRT = _quadMainRTV.get();
+		_carrier->_quadMainGDS = _quadMainDSV.get();
+		_carrier->_quadObjMatRT = _quadObjMatRTV.get();
+
+		//자체적인 OpaqueQuad DSV.
+		_opaqueQuadDSV = std::make_unique<GBufferDepthStencil>();
+	}
+
+	void DeferredRenderer::InitFirstQuadDirectX()
+	{
+		
+
+
+
+
+
+	}
+
 
 
 }
