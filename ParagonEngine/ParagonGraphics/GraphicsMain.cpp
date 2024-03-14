@@ -112,18 +112,19 @@ namespace Pg::Graphics
 	}
 
 
-	void GraphicsMain::Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData)
+	void GraphicsMain::Update(const Pg::Data::Scene* const scene, float deltaTime, Pg::Data::CameraData* cameraData)
 	{
 		//Projection 행렬을 채운다.
 		this->_camData = cameraData;
-
+		
+		//DeltaTime 넘겨주기.
+		_renderer->SetDeltaTime(deltaTime);
 	}
 
 	void GraphicsMain::BeginRender()
 	{
 		_renderer->BeginRender();
 	}
-
 
 	void GraphicsMain::Render(Pg::Data::Scene* scene)
 	{

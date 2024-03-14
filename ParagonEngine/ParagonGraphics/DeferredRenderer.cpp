@@ -75,6 +75,11 @@ namespace Pg::Graphics
 		_opaqueQuadDSV = std::make_unique<GBufferDepthStencil>();
 	}
 
+	void DeferredRenderer::SetDeltaTime(float dt)
+	{
+		//_firstStaticRenderPass->SetDeltaTime(dt);
+	}
+
 	void DeferredRenderer::RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData)
 	{
 		Render((RenderObject3DList*)renderObjectList, (SceneInformationList*)optionalRequirement, camData);
@@ -298,6 +303,8 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(22, 1, &tNullSRV);
 		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &tNullSRV);
 	}
+
+	
 
 }
 

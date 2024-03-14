@@ -13,21 +13,9 @@
 #include <memory>
 
 #ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
-#else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
-#endif // _DEBUG
-
-#ifdef _DEBUG
 #pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonData.lib")
 #else
 #pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonData.lib")
-#endif // _DEBUG
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonMath.lib")
-#else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonMath.lib")
 #endif // _DEBUG
 
 /// <summary>
@@ -80,13 +68,13 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) override;
 		PARAGON_GRAPHICS_DLL virtual void SyncLoadGraphicsResources() override;
 
-		PARAGON_GRAPHICS_DLL virtual void Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData) override;
+		PARAGON_GRAPHICS_DLL virtual void Update(const Pg::Data::Scene* const scene, float deltaTime, Pg::Data::CameraData* cameraData) override;
 		PARAGON_GRAPHICS_DLL virtual void BeginRender() override;
 		PARAGON_GRAPHICS_DLL virtual void Render(Pg::Data::Scene* scene) override;
 
 		//Picking : Screen Space Coord의 비율에 따라서 GameObject*를 반환한다. 이 함수 호출 안하면 그래픽 리소스 아낄 수 있음.
 		PARAGON_GRAPHICS_DLL virtual Pg::Data::GameObject* GetPickedGameObjectWithRatios(float widthRatio, float heightRatio) override;
-		
+
 		PARAGON_GRAPHICS_DLL virtual void FinalRender() override;
 		PARAGON_GRAPHICS_DLL virtual void EndRender() override;
 		PARAGON_GRAPHICS_DLL virtual void Finalize() override;
@@ -115,7 +103,7 @@ namespace Pg::Graphics
 
 		//Editor 연동 : Editor Camera 시점 SRV를 리턴.
 		PARAGON_GRAPHICS_DLL virtual ID3D11ShaderResourceView* GetEditorCameraViewSRV() override;
-			
+
 		//Editor 연동 : Game Camera 시점 SRV를 리턴.
 		PARAGON_GRAPHICS_DLL virtual ID3D11ShaderResourceView* GetGameCameraViewSRV() override;
 
@@ -130,8 +118,6 @@ namespace Pg::Graphics
 
 		//Picking을 허용할지 / 허용하지 않을지, 렌더링 파이프라인 비용을 ON/OFF 할 수 있다.
 		PARAGON_GRAPHICS_DLL virtual void SetPickingEnableMode(bool val) override;
-
-		
 
 	public:
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;
@@ -164,7 +150,7 @@ namespace Pg::Graphics
 		// Editor 연동 & 나중에 이 SRV들이 최종 렌더되는 Quad의 SRV여야 한다.
 		ID3D11ShaderResourceView* _editorCameraSRV = nullptr;
 		ID3D11ShaderResourceView* _gameCameraSRV = nullptr;
-	
+
 	private:
 		Pg::Util::Input::InputSystem* _input;
 		Pg::Data::CameraData* _camData;

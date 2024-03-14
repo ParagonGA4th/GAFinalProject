@@ -31,7 +31,7 @@ namespace Pg::Core
 		//그래픽스 리소스, 애셋 매니저와 연동.
 		virtual void SyncLoadGraphicsResources() abstract; 
 
-		virtual void Update(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData) abstract;
+		virtual void Update(const Pg::Data::Scene* const scene, float deltaTime, Pg::Data::CameraData* cameraData) abstract;
 		virtual void BeginRender() abstract;
 		virtual void Render(Pg::Data::Scene* scene) abstract;
 		virtual void FinalRender() abstract;

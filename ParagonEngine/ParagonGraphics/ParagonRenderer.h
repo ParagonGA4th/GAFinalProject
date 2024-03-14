@@ -78,6 +78,9 @@ namespace Pg::Graphics
 		//마지막 SRV Quad를 보낸다.
 		ID3D11ShaderResourceView* GetFinalQuadSRV();
 
+		//DeltaTime을 넘겨받는다.
+		void SetDeltaTime(float dt);
+
 	private:
 		LowDX11Storage* _DXStorage = nullptr;
 		LowDX11Logic* _DXLogic = nullptr;

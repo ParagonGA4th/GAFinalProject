@@ -92,6 +92,8 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::Box2DInfo>& GetBox2dDebugData() const override;
 
 		PARAGON_ENGINE_DLL virtual void ClearDebugVectorData() override;
+
+		PARAGON_ENGINE_DLL virtual float GetDeltaTime() override;
 	private:
 
 		Pg::Core::ProcessMain* _coreMain = nullptr;
