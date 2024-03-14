@@ -21,7 +21,7 @@ namespace Pg::Graphics
 
 	}
 
-	void Forward2DRenderer::RenderContents(void* renderObjectList, Pg::Data::CameraData* camData)
+	void Forward2DRenderer::RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData)
 	{
 		Render((RenderObject2DList*)renderObjectList, camData);
 	}

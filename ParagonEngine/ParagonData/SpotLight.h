@@ -8,18 +8,19 @@ namespace Pg::Data
 	public:
 		SpotLight(GameObject* obj);
 
-	public:
-		void SetAttenuation(PGFLOAT3 attenuation);
-		virtual PGFLOAT3 GetAttenuation();
-		void SetRange(float d);
-		virtual float GetRange();
-		void SetDirection(const PGFLOAT3& direction);
-		PGFLOAT3& GetDirection();
+		bool operator>(const SpotLight& rhs) const {
+			return this->_radiance > rhs._radiance;
+		}
 
-	private:
+		//VISITABLE
+		PGFLOAT3 _color;
+		float _radiance;
+		PGFLOAT3 _direction;
 		float _range;
 		PGFLOAT3 _attenuation;
-		PGFLOAT3 _direction;
+		//ENDVISITABLE
+
+		float tTempPadding; //¾²¸é ¾ÈµÊ.
 	};
 }
 

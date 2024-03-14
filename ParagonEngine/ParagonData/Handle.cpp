@@ -1,8 +1,8 @@
 #include "Handle.h"
 #include "GameObject.h"
 #include "ImageRenderer.h"
-
-namespace Pg::Data 
+#include "../ParagonUtil/Log.h"
+namespace Pg::Data
 {
 	Handle::Handle(GameObject* owner) :
 		Component(owner)

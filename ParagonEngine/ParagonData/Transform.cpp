@@ -272,15 +272,15 @@ namespace Pg::Data
 		return nullptr;
 	}
 
-	void Transform::SetParent(Transform* parent)
-	{
-		//_parent = std::make_shared<Transform>(parent->_object);
-	}
-
-	void Transform::SetParent(GameObject* obj)
-	{
-		_parent = &(obj->_transform);
-	}
+	//void Transform::SetParent(Transform* parent)
+	//{
+	//	//_parent = std::make_shared<Transform>(parent->_object);
+	//}
+	//
+	//void Transform::SetParent(GameObject* obj)
+	//{
+	//	_parent = &(obj->_transform);
+	//}
 
 	const std::vector<Transform*>& Transform::GetChildren()
 	{
@@ -289,7 +289,13 @@ namespace Pg::Data
 
 	void Transform::AddChild(Transform* child)
 	{
+		child->_parent = this;
 		_children.emplace_back(child);
+	}
+
+	void Transform::AddChild(GameObject* child)
+	{
+		this->AddChild(&child->_transform);
 	}
 
 	bool Transform::Is3D()

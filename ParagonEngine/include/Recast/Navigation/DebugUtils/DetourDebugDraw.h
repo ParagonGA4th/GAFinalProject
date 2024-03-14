@@ -19,9 +19,9 @@
 #ifndef DETOURDEBUGDRAW_H
 #define DETOURDEBUGDRAW_H
 
-#include "DUOLGameEngine/Navigation/Detour/DetourNavMesh.h"
-#include "DUOLGameEngine/Navigation/Detour/DetourNavMeshQuery.h"
-#include "DUOLGameEngine/Navigation/DetourTileCache/DetourTileCacheBuilder.h"
+#include <Detour/DetourNavMesh.h>
+#include <Detour/DetourNavMeshQuery.h>
+#include <DetourTileCache/DetourTileCacheBuilder.h>
 
 enum DrawNavMeshFlags
 {

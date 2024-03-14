@@ -79,7 +79,7 @@ namespace Pg::Graphics
 		}
 	}
 
-	void FinalRenderer::RenderContents(void* renderObjectList, Pg::Data::CameraData* camData)
+	void FinalRenderer::RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData)
 	{
 		////SRV Index 0 : Opaque Quad의 인덱스 전달.
 		//_carrier->_srvArray[0] = _opaqueQuadRTV->GetSRV();

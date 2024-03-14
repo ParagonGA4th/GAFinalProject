@@ -41,5 +41,37 @@ static const float secondRad = 1.0f;
 static const float thirdRad = 1.0f;
 //</Temp>
 
+//<ActualLighting>
+struct PgDirectionalLight
+{
+    //8Byte
+    float3 color;
+    float radiance;
+    float3 direction;
+    float tTempPadding; // ¾²¸é ¾ÈµÊ.
+};
+
+struct PgPointLight
+{
+    //8Byte, declspec(align(16)) ÀÚµ¿.
+    float3 color;
+    float radiance;
+    float range;
+    float3 attenuation;
+};
+
+struct PgSpotLight
+{
+    //12Byte
+    float3 color;
+    float radiance;
+    float3 direction;
+    float range;
+    float3 attenuation;
+    float tTempPadding; // ¾²¸é ¾ÈµÊ.
+};
+
+//</ActualLighting>
+
 
 #endif //__DEFINED_APPENDS_SCENEINFO_PS_HLSL__

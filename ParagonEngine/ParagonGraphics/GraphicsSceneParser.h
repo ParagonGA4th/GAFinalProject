@@ -1,9 +1,9 @@
 #pragma once
 #include "RenderObject2DList.h"
 #include "RenderObject3DList.h"
-#include "RenderObjectLightList.h"
 #include "RenderObjectCubemapList.h"
 #include "RenderObjectWireframeList.h"
+#include "SceneInformationList.h"
 
 #include "../ParagonData/GameObject.h"
 
@@ -37,20 +37,23 @@ namespace Pg::Graphics
 		RenderObject3DList* GetRenderObject3DList();
 		RenderObjectCubemapList* GetRenderObjectCubemapList();
 		RenderObjectWireframeList* GetRenderObjectWireframeList();
+		SceneInformationList* GetSceneInformationList();
 
 		//함수가 호출되었다는 것은 무조건 찾아야 한다는 것. 미리 아무것도 안 클릭되었을 경우를 걸러내기 때문.
 		Pg::Data::GameObject* GetObjectWithObjID(unsigned int objID);
 	private:
-		void ClearObjectLists();
+		void ClearMakeObjectLists();
 		void PlacePathsFromName(const Pg::Data::Scene* const newScene);
 		void CheckForPathNameErrors(const Pg::Data::Scene* const newScene);
 		void ExtractMaterialPaths(const Pg::Data::Scene* const newScene);
 		void SyncRenderObjects(const Pg::Data::Scene* const newScene);
+		void SyncSceneInformation(const Pg::Data::Scene* const newScene);
 		void BindAdequateFunctions(const Pg::Data::Scene* const newScene); //내부적으로 작동을 위한 bind될 함수들이 있으면, 이를 발동하기 위해.
 		void CreateObjMatBuffersStatic();
+
 	private:
 		//PrimitiveWireframeObject 하드코딩해서 완성.
-		void InitializePrimitiveWireframeObjects();
+		void SetupPrimitiveWireframeObjects();
 		//일단은 Cubemap List는 하드코딩되어 있음.
 		void PlaceCubemapList();
 	private:
@@ -60,7 +63,8 @@ namespace Pg::Graphics
 		std::unique_ptr<RenderObjectCubemapList> _cubeMapList;
 		//Axis/Grid
 		std::unique_ptr<RenderObjectWireframeList> _primObjectList;
-
+		//Scene 관련된 정보 Syncing을 위해 존재한다.
+		std::unique_ptr<SceneInformationList> _sceneInfoList;
 	private:
 		//3DObject들의 ID를 기록해서 렌더링 엔진에 올린다.
 		unsigned int _objectId3dCount = 1;

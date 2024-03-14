@@ -11,16 +11,16 @@ namespace Pg::Data
 	public:
 		PointLight(GameObject* obj);
 
-	public:
-		void SetAttenuation(PGFLOAT3 attenuation);
-		virtual PGFLOAT3 GetAttenuation();
-		void SetRange(float d);
-		virtual float GetRange();
+		bool operator>(const PointLight& rhs) const {
+			return this->_radiance > rhs._radiance;
+		}
 
-
-	private:
-		PGFLOAT3 _attenuation;
+		//VISITABLE
+		PGFLOAT3 _color;
+		float _radiance;
 		float _range;
+		PGFLOAT3 _attenuation;
+		//ENDVISITABLE
 	};
 	
 }
