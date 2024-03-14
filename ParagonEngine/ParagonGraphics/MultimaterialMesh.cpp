@@ -495,7 +495,7 @@ namespace Pg::Graphics
 		if (S_OK == _devCon->Map(_constantBuffer[0], 0, D3D11_MAP_WRITE_DISCARD, 0, &res2))
 		{
 			ConstantBufferDefine::cbPerObjectBase* data = reinterpret_cast<ConstantBufferDefine::cbPerObjectBase*>(res2.pData);
-
+			
 			UpdateConstantBufferBase(camData, tWorldMatScaledFF);
 			*(data) = *_constantBufferStruct;
 
