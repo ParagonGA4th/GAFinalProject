@@ -97,6 +97,12 @@
     <ClInclude Include="ChildWindow.h">
       <Filter>0_UI\1_Widget\Layout\ChildWindow</Filter>
     </ClInclude>
+    <ClInclude Include="Hierarchy.h">
+      <Filter>0_UI\1_Widget\Selectable</Filter>
+    </ClInclude>
+    <ClInclude Include="RadioButton.h">
+      <Filter>0_UI\1_Widget\Button\RadioButton</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UIManager.cpp">
@@ -186,6 +192,12 @@
     <ClCompile Include="ChildWindow.cpp">
       <Filter>0_UI\1_Widget\Layout\ChildWindow</Filter>
     </ClCompile>
+    <ClCompile Include="Hierarchy.cpp">
+      <Filter>0_UI\1_Widget\Selectable</Filter>
+    </ClCompile>
+    <ClCompile Include="RadioButton.cpp">
+      <Filter>0_UI\1_Widget\Button\RadioButton</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_UI">
@@ -268,6 +280,9 @@
     </Filter>
     <Filter Include="0_UI\1_Widget\Layout\ChildWindow">
       <UniqueIdentifier>{b37f62f8-edf8-4802-93a8-092e4f263393}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Button\RadioButton">
+      <UniqueIdentifier>{4564f80d-7b03-48a4-892d-3703cbca3516}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

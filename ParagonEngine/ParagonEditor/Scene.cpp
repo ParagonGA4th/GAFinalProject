@@ -5,8 +5,6 @@
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
 #include "../ParagonUI/Image.h"
-#include "../ParagonUI/Button.h"
-#include "../ParagonUI/ChildWindow.h"
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/Transform.h"
@@ -36,7 +34,7 @@ Pg::Editor::Window::Scene::~Scene()
 
 void Pg::Editor::Window::Scene::Initialize()
 {
-	auto& con = _widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 1920.f, 1080.f);
+	_widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 1920.f, 1080.f);
 	_gizmoType->AddEvent(Pg::Editor::eEventType::_GIZMOTYPE, [&](void* data) { _uiManager->DrawGizmo(data); });
 }
 
