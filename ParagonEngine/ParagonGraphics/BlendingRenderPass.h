@@ -14,16 +14,16 @@ namespace Pg::Graphics
 }
 
 /// <summary>
-/// Opaque Object Lighting Pass.
+/// BlendingRenderPass
 /// </summary>
 
 namespace Pg::Graphics
 {
-	class OpaqueLightingRenderPass : public IRenderSinglePass
+	class BlendingRenderPass : public IRenderSinglePass
 	{
 	public:
-		OpaqueLightingRenderPass();
-		~OpaqueLightingRenderPass();
+		BlendingRenderPass();
+		~BlendingRenderPass();
 
 		virtual void Initialize() override;
 		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;

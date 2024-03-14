@@ -6,13 +6,14 @@
 
 #include "RenderObject3D.h"
 #include "RenderObject3DList.h"
+#include "SceneInformationList.h"
 
 //RenderPasses
 #include "IRenderSinglePass.h"
 #include "FirstStaticRenderPass.h"
 #include "PreparationStaticRenderPass.h"
+#include "SceneInformationSender.h"
 #include "OpaqueQuadRenderPass.h"
-#include "OpaqueLightingRenderPass.h"
 #include "OpaqueShadowRenderPass.h"
 #include "FinalRenderPass.h"
 
@@ -74,12 +75,12 @@ namespace Pg::Graphics
 		_opaqueQuadDSV = std::make_unique<GBufferDepthStencil>();
 	}
 
-	void DeferredRenderer::RenderContents(void* renderObjectList, Pg::Data::CameraData* camData)
+	void DeferredRenderer::RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData)
 	{
-		Render((RenderObject3DList*)renderObjectList, camData);
+		Render((RenderObject3DList*)renderObjectList, (SceneInformationList*)optionalRequirement, camData);
 	}
 
-	void DeferredRenderer::Render(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	void DeferredRenderer::Render(RenderObject3DList* renderObjectList, SceneInformationList* sceneInfoList, Pg::Data::CameraData* camData)
 	{
 		//패스 외적으로 들어가야 하는 리소스들 GPU에 배치. 이 경우, SamplerState만 위로 배치.
 		PlaceRequiredResources();
@@ -94,7 +95,7 @@ namespace Pg::Graphics
 		//For문 대신, 명시적으로 값 호출. (나누기)
 		RenderFirstStaticPass(renderObjectList, camData);
 		RenderObjMatStaticPass(renderObjectList, camData);
-		RenderOpaqueLightingPass(renderObjectList, camData);
+		SendSceneInformation(sceneInfoList, camData);
 		RenderOpaqueQuadPasses(renderObjectList, camData);
 		RenderOpaqueShadowPass(renderObjectList, camData);
 
@@ -119,7 +120,7 @@ namespace Pg::Graphics
 		//Skinned가 들어오면 FirstStatic->FirstSkinned->ObjMatStatic->ObjMatSkinned일것.
 
 		//OpaqueLightingRenderPass.
-		_opaqueLightingPass = std::make_unique<OpaqueLightingRenderPass>();
+		_sceneInformationSender = std::make_unique<SceneInformationSender>();
 
 		//OpaqueShadowRenderPass.
 		_opaqueShadowPass = std::make_unique<OpaqueShadowRenderPass>();
@@ -140,7 +141,7 @@ namespace Pg::Graphics
 	{
 		_firstStaticRenderPass->Initialize();
 		_objMatStaticRenderPass->Initialize();
-		_opaqueLightingPass->Initialize();
+		_sceneInformationSender->Initialize();
 		_opaqueShadowPass->Initialize();
 
 		//일괄적으로 Initialize() 호출.
@@ -219,15 +220,13 @@ namespace Pg::Graphics
 	
 	}
 
-	void DeferredRenderer::RenderOpaqueLightingPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	void DeferredRenderer::SendSceneInformation(SceneInformationList* infoList, Pg::Data::CameraData* camData)
 	{
-		// 모든 Static / Skinned가 렌더링된 이후, 라이팅 패스를 처리한다!
-		_opaqueLightingPass->ReceiveRequiredElements(*_carrier);
-		_opaqueLightingPass->BindPass();
-		_opaqueLightingPass->RenderPass(renderObjectList, camData);
-		_opaqueLightingPass->UnbindPass();
-		_opaqueLightingPass->ExecuteNextRenderRequirements();
-		_opaqueLightingPass->PassNextRequirements(*_carrier);
+		//이 Send/Receive는 CPU <-> GPU 기준.
+		//Send = CPU->GPU. // Receive = GPU -> CPU
+		_sceneInformationSender->SendData(*infoList, camData);
+		_sceneInformationSender->ProcessData();
+		_sceneInformationSender->ReceiveData(*infoList);
 	}
 
 	void DeferredRenderer::RenderOpaqueQuadPasses(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)

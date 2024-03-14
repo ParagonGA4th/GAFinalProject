@@ -32,6 +32,8 @@ namespace Pg::Graphics
 	class DebugRenderer;
 	class FinalRenderer;
 	class GraphicsSceneParser;
+
+	class SceneInformationList;
 }
 
 namespace Pg::Graphics

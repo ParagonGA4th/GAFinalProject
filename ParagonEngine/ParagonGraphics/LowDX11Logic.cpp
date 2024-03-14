@@ -19,12 +19,11 @@ namespace Pg::Graphics
 	HRESULT LowDX11Logic::CreateDevice()
 	{
 		UINT createDeviceFlags = 0;
-//#ifdef _DEBUG
-//		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
-//#endif // DEBUG
 
+#ifdef _DEBUG
+		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif // DEBUG
 
-		// TODO: Feature Level 설정
 		// D3D11 Device 생성
 		HR(D3D11CreateDevice(
 			NULL,															// [in, optional]	IDXGIAdapter				*pAdapter
@@ -39,6 +38,8 @@ namespace Pg::Graphics
 			&(_DXStorage->_deviceContext)									// [out, optional]	ID3D11DeviceContext			**ppImmediateContext
 		));
 
+		D3D_FEATURE_LEVEL tCheckFeatureLevel = _DXStorage->_device->GetFeatureLevel();
+		assert(tCheckFeatureLevel == D3D_FEATURE_LEVEL_11_0 || tCheckFeatureLevel == D3D_FEATURE_LEVEL_11_1);
 		return S_OK;
 	}
 
@@ -304,17 +305,16 @@ namespace Pg::Graphics
 			D3D11_SAMPLER_DESC tDesc;
 
 			tDesc.Filter = D3D11_FILTER_ANISOTROPIC;
-			//tDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+			//tDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 			tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 			tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 			tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.MaxAnisotropy = 16;
 			tDesc.MipLODBias = 0.0f;
-			tDesc.MaxAnisotropy = 1;
-
-			//tDesc.MipLODBias = 0.0f;
 			//tDesc.MinLOD = 0.0f;
 			//tDesc.MaxLOD = D3D11_FLOAT32_MAX;
-			//tDesc.MaxAnisotropy = 1;
+			
+			//Full Screen 그 자체, Do not touch.
 			
 			HR(_DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_fullScreenQuadSamplerState)));
 		}
@@ -323,12 +323,14 @@ namespace Pg::Graphics
 		{
 			D3D11_SAMPLER_DESC tDesc;
 
-			tDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+			tDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 			tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 			tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 			tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-			tDesc.MipLODBias = 0.0f;
 			tDesc.MaxAnisotropy = 1;
+			tDesc.MipLODBias = 0.0f;
+
+			//얘도 한치의 오차가 있으면 안됨.
 
 			HR(_DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_lightmapSamplerState)));
 		}
@@ -337,18 +339,18 @@ namespace Pg::Graphics
 		{
 			D3D11_SAMPLER_DESC tDesc;
 
-			tDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+			// = Trilinear.
+			//tDesc.Filter = D3D11_FILTER_ANISOTROPIC;
+			tDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 			tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 			tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 			tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+			tDesc.MaxAnisotropy = 16;
 			tDesc.MipLODBias = 0.0f;
-			tDesc.MaxAnisotropy = 1;
 
-			//tDesc.MipLODBias = 0.0f;
-			//tDesc.MinLOD = 0.0f;
-			//tDesc.MaxLOD = D3D11_FLOAT32_MAX;
-			//tDesc.MaxAnisotropy = 1;
-
+			tDesc.MinLOD = 0.0f;
+			tDesc.MaxLOD = D3D11_FLOAT32_MAX;
+			
 			HR(_DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_defaultSamplerState)));
 		}
 

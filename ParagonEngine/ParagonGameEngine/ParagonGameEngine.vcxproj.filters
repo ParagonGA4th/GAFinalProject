@@ -62,49 +62,76 @@
       <Filter>2_System\NavigationSystem\BaseClass</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAlloc.h">
-      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAssert.h">
-      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourCommon.h">
-      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourMath.h">
-      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMesh.h">
-      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshBuilder.h">
-      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshQuery.h">
-      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNode.h">
-      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourStatus.h">
-      <Filter>2_System\NavigationSystem\Navigation\Detour</Filter>
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourCrowd.h">
-      <Filter>2_System\NavigationSystem\Navigation\DetourCrowd</Filter>
+      <Filter>2_System\NavigationSystem\include\DetourCrowd</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourLocalBoundary.h">
-      <Filter>2_System\NavigationSystem\Navigation\DetourCrowd</Filter>
+      <Filter>2_System\NavigationSystem\include\DetourCrowd</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourObstacleAvoidance.h">
-      <Filter>2_System\NavigationSystem\Navigation\DetourCrowd</Filter>
+      <Filter>2_System\NavigationSystem\include\DetourCrowd</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathCorridor.h">
-      <Filter>2_System\NavigationSystem\Navigation\DetourCrowd</Filter>
+      <Filter>2_System\NavigationSystem\include\DetourCrowd</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathQueue.h">
-      <Filter>2_System\NavigationSystem\Navigation\DetourCrowd</Filter>
+      <Filter>2_System\NavigationSystem\include\DetourCrowd</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourProximityGrid.h">
-      <Filter>2_System\NavigationSystem\Navigation\DetourCrowd</Filter>
+      <Filter>2_System\NavigationSystem\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DebugDraw.h">
+      <Filter>2_System\NavigationSystem\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DetourDebugDraw.h">
+      <Filter>2_System\NavigationSystem\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDebugDraw.h">
+      <Filter>2_System\NavigationSystem\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDump.h">
+      <Filter>2_System\NavigationSystem\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCache.h">
+      <Filter>2_System\NavigationSystem\include\DetourTileCache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCacheBuilder.h">
+      <Filter>2_System\NavigationSystem\include\DetourTileCache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Recast\Recast.h">
+      <Filter>2_System\NavigationSystem\include\Recast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Recast\RecastAlloc.h">
+      <Filter>2_System\NavigationSystem\include\Recast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Recast\RecastAssert.h">
+      <Filter>2_System\NavigationSystem\include\Recast</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +188,96 @@
     </ClCompile>
     <ClCompile Include="NavigationSystem.cpp">
       <Filter>2_System\NavigationSystem\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Detour\DetourAlloc.cpp">
+      <Filter>2_System\NavigationSystem\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Detour\DetourAssert.cpp">
+      <Filter>2_System\NavigationSystem\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Detour\DetourCommon.cpp">
+      <Filter>2_System\NavigationSystem\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Detour\DetourNavMesh.cpp">
+      <Filter>2_System\NavigationSystem\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Detour\DetourNavMeshBuilder.cpp">
+      <Filter>2_System\NavigationSystem\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Detour\DetourNavMeshQuery.cpp">
+      <Filter>2_System\NavigationSystem\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Detour\DetourNode.cpp">
+      <Filter>2_System\NavigationSystem\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourCrowd\DetourCrowd.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourCrowd\DetourLocalBoundary.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourCrowd\DetourObstacleAvoidance.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourCrowd\DetourPathCorridor.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourCrowd\DetourPathQueue.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourCrowd\DetourProximityGrid.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourTileCache\DetourTileCache.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourTileCache</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourTileCache\DetourTileCacheBuilder.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourTileCache</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DebugUtils\DebugDraw.cpp">
+      <Filter>2_System\NavigationSystem\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DebugUtils\DetourDebugDraw.cpp">
+      <Filter>2_System\NavigationSystem\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DebugUtils\RecastDebugDraw.cpp">
+      <Filter>2_System\NavigationSystem\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DebugUtils\RecastDump.cpp">
+      <Filter>2_System\NavigationSystem\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\Recast.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastAlloc.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastArea.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastAssert.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastContour.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastFilter.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastLayers.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastMesh.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastMeshDetail.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastRasterization.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastRegion.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,20 +347,47 @@
     <Filter Include="2_System\NavigationSystem">
       <UniqueIdentifier>{513cce2e-c81a-4425-8135-5cf527832f8d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_System\NavigationSystem\Navigation">
-      <UniqueIdentifier>{113c57ad-a223-4445-87a3-0941135ea498}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2_System\BehaviorTreeSystem">
       <UniqueIdentifier>{1f20ea8e-00e6-405d-ab94-eb72b4357e06}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_System\NavigationSystem\BaseClass">
-      <UniqueIdentifier>{a3744ab7-c65a-4d7b-86fb-d3f09a0a479d}</UniqueIdentifier>
+      <UniqueIdentifier>{ddf371fd-dc38-445b-9422-d3dfddcea169}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_System\NavigationSystem\Navigation\Detour">
-      <UniqueIdentifier>{e9731f64-4c3a-4480-97a8-2db20a289440}</UniqueIdentifier>
+    <Filter Include="2_System\NavigationSystem\include">
+      <UniqueIdentifier>{4286fe4a-c8a2-4bd3-87ac-8e1b2f5922c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_System\NavigationSystem\Navigation\DetourCrowd">
-      <UniqueIdentifier>{3cc85887-02c3-4942-aa1b-2854cdb471da}</UniqueIdentifier>
+    <Filter Include="2_System\NavigationSystem\src">
+      <UniqueIdentifier>{cd918d2c-392f-4d00-bd12-9d434edc70fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\Detour">
+      <UniqueIdentifier>{20d8495e-2ec2-4864-8f04-4094038c7d67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\DetourCrowd">
+      <UniqueIdentifier>{e4477320-fe9b-4b1c-8ed9-46df265d7d98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\DebugUtils">
+      <UniqueIdentifier>{0f1f770c-dd07-4e99-9853-c97aaa97fb0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\DetourTileCache">
+      <UniqueIdentifier>{bce8ef7e-19af-4a2a-b1bb-e678abac40c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\Recast">
+      <UniqueIdentifier>{b9315cbb-d01b-46f1-9598-660f0d5705ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\src\Detour">
+      <UniqueIdentifier>{959c66f1-64f4-437c-981e-d4d5848a1c81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\src\DetourCrowd">
+      <UniqueIdentifier>{8da16e09-b90c-4e43-9323-ca863204d673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\src\DetourTileCache">
+      <UniqueIdentifier>{98483c69-b642-4b8d-9099-8463f951a2a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\src\Recast">
+      <UniqueIdentifier>{70a4c220-df30-424b-b6f3-aa6dc90071af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\src\DebugUtils">
+      <UniqueIdentifier>{45327d6d-6e0b-4355-8dfb-d093c891ec05}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

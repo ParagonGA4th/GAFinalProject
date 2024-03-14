@@ -17,42 +17,44 @@ Texture2D<float4> internal_IBL_SpecularLutTexture : register(t23);
 
 float3 GetAlbedoMap(float2 quadUV)
 {
-    return internal_t2_AlbedoAOTexture.Sample(fullScreenQuadSS, quadUV).xyz;
+    return internal_t2_AlbedoAOTexture.Sample(defaultTextureSS, quadUV).xyz;
 }
 
 float3 GetNormalMap(float2 quadUV)
 {
-    return internal_t2_NormalRoughnessTexture.Sample(fullScreenQuadSS, quadUV).xyz;
+    return internal_t2_NormalRoughnessTexture.Sample(defaultTextureSS, quadUV).xyz;
 }
 
 float3 GetSpecularMap(float2 quadUV)
 {
-    return internal_t2_SpecularMetallicTexture.Sample(fullScreenQuadSS, quadUV).xyz;
+    return internal_t2_SpecularMetallicTexture.Sample(defaultTextureSS, quadUV).xyz;
 }
 
 float GetAmbientOcclusionMap(float2 quadUV)
 {
-    return internal_t2_AlbedoAOTexture.Sample(fullScreenQuadSS, quadUV).w;
+    return internal_t2_AlbedoAOTexture.Sample(defaultTextureSS, quadUV).w;
 }
 
 float GetRoughnessMap(float2 quadUV)
 {
-    return internal_t2_NormalRoughnessTexture.Sample(fullScreenQuadSS, quadUV).w;
+    return internal_t2_NormalRoughnessTexture.Sample(defaultTextureSS, quadUV).w;
 }
 
 float GetMetallicMap(float2 quadUV)
 {
-    return internal_t2_SpecularMetallicTexture.Sample(fullScreenQuadSS, quadUV).w;
+    return internal_t2_SpecularMetallicTexture.Sample(defaultTextureSS, quadUV).w;
 }
 
 float3 GetDiffuseIrradianceMap(float3 sampleUV)
 {
-    return internal_IBL_DiffuseIrrCubemap.Sample(defaultTextureSS, sampleUV).rgb;
+    //return internal_IBL_DiffuseIrrCubemap.Sample(defaultTextureSS, sampleUV).rgb;
+    return internal_IBL_DiffuseIrrCubemap.Sample(fullScreenQuadSS, sampleUV).rgb;
 }
 
 float3 GetSpecularIrradianceMap(float3 sampleUV, float LOD)
 {
-    return internal_IBL_SpecularIrrCubemap.SampleLevel(defaultTextureSS, sampleUV, LOD).rgb;
+    //return internal_IBL_SpecularIrrCubemap.SampleLevel(defaultTextureSS, sampleUV, LOD).rgb;
+    return internal_IBL_SpecularIrrCubemap.SampleLevel(fullScreenQuadSS, sampleUV, LOD).rgb;
 }
 
 uint IBL_querySpecularTextureLevels()
@@ -64,6 +66,7 @@ uint IBL_querySpecularTextureLevels()
 
 float2 IBL_GetSpecularBRDF(float2 sampleUV)
 {
-    return internal_IBL_SpecularLutTexture.Sample(defaultTextureSS, sampleUV).rg;
+    //return internal_IBL_SpecularLutTexture.Sample(defaultTextureSS, sampleUV).rg;
+    return internal_IBL_SpecularLutTexture.Sample(fullScreenQuadSS, sampleUV).rg;
 }
 #endif //__DEFINED_SYSTEM_PBR_BUFFER_TEXTURE_HLSL__

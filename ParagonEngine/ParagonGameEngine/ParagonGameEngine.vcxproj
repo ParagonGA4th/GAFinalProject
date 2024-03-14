@@ -135,7 +135,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\Recast\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;ParagonHelper.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;fmod_vc.lib;behaviortree_cpp_v3d.lib;gmock_maind.lib;gmockd.lib;gtest_maind.lib;gtestd.lib;gainput-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
@@ -174,7 +174,7 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\Recast\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;ParagonHelper.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;fmod_vc.lib;behaviortree_cpp_v3.lib;gmock.lib;gmock_main.lib;gtest.lib;gtest_main.lib;gainput.lib;%(AdditionalDependencies);ParagonHelper.lib</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;ParagonHelper.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;fmod_vc.lib;Recast.lib;Detour.lib;DetourCrowd.lib;DetourTileCache.lib;DebugUtils.lib;behaviortree_cpp_v3.lib;gmock.lib;gmock_main.lib;gtest.lib;gtest_main.lib;gainput.lib;%(AdditionalDependencies);ParagonHelper.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysX_64.dll $(OutDir)
@@ -193,12 +193,18 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DebugDraw.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DetourDebugDraw.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDebugDraw.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDump.h" />
     <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourCrowd.h" />
     <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourLocalBoundary.h" />
     <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourObstacleAvoidance.h" />
     <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathCorridor.h" />
     <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathQueue.h" />
     <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourProximityGrid.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCache.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCacheBuilder.h" />
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAlloc.h" />
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAssert.h" />
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourCommon.h" />
@@ -208,6 +214,9 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshQuery.h" />
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNode.h" />
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourStatus.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Recast\Recast.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Recast\RecastAlloc.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Recast\RecastAssert.h" />
     <ClInclude Include="BehaviorTreeSystem.h" />
     <ClInclude Include="BTTest.h" />
     <ClInclude Include="DebugSystem.h" />
@@ -255,6 +264,36 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="NavigationSystem.cpp" />
+    <ClCompile Include="Navigation\DebugUtils\DebugDraw.cpp" />
+    <ClCompile Include="Navigation\DebugUtils\DetourDebugDraw.cpp" />
+    <ClCompile Include="Navigation\DebugUtils\RecastDebugDraw.cpp" />
+    <ClCompile Include="Navigation\DebugUtils\RecastDump.cpp" />
+    <ClCompile Include="Navigation\DetourCrowd\DetourCrowd.cpp" />
+    <ClCompile Include="Navigation\DetourCrowd\DetourLocalBoundary.cpp" />
+    <ClCompile Include="Navigation\DetourCrowd\DetourObstacleAvoidance.cpp" />
+    <ClCompile Include="Navigation\DetourCrowd\DetourPathCorridor.cpp" />
+    <ClCompile Include="Navigation\DetourCrowd\DetourPathQueue.cpp" />
+    <ClCompile Include="Navigation\DetourCrowd\DetourProximityGrid.cpp" />
+    <ClCompile Include="Navigation\DetourTileCache\DetourTileCache.cpp" />
+    <ClCompile Include="Navigation\DetourTileCache\DetourTileCacheBuilder.cpp" />
+    <ClCompile Include="Navigation\Detour\DetourAlloc.cpp" />
+    <ClCompile Include="Navigation\Detour\DetourAssert.cpp" />
+    <ClCompile Include="Navigation\Detour\DetourCommon.cpp" />
+    <ClCompile Include="Navigation\Detour\DetourNavMesh.cpp" />
+    <ClCompile Include="Navigation\Detour\DetourNavMeshBuilder.cpp" />
+    <ClCompile Include="Navigation\Detour\DetourNavMeshQuery.cpp" />
+    <ClCompile Include="Navigation\Detour\DetourNode.cpp" />
+    <ClCompile Include="Navigation\Recast\Recast.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastAlloc.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastArea.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastAssert.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastContour.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastFilter.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastLayers.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastMesh.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastMeshDetail.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastRasterization.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastRegion.cpp" />
     <ClCompile Include="PhysicsCallback.cpp" />
     <ClCompile Include="PhysicSystem.cpp" />
     <ClCompile Include="PrintRuntimeData.cpp" />

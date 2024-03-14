@@ -15,13 +15,6 @@
 //#include <assimp/material.h> 
 #include <cassert>
 
-
-#ifdef _DEBUG
-#pragma comment(lib,"..\\Builds\\x64\\Debug\\ParagonUtil.lib")
-#else
-#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
-#endif // _DEBUG
-
 namespace Pg::Graphics::Loader
 {
 	using Pg::Graphics::Helper::AssimpBufferParser;

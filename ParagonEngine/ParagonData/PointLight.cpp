@@ -11,26 +11,5 @@ namespace Pg::Data
 
 	}
 
-	void Pg::Data::PointLight::SetAttenuation(PGFLOAT3 attenuation)
-	{
-		_attenuation = attenuation;
-	}
-
-	Pg::Math::PGFLOAT3 Pg::Data::PointLight::GetAttenuation()
-	{
-		return _attenuation;
-	}
-
-	void PointLight::SetRange(float d)
-	{
-		_range = d;
-	}
-
-	float PointLight::GetRange()
-	{
-		return _range;
-	}
-
-
 }
 

@@ -34,7 +34,7 @@ namespace Pg::Graphics
 		virtual void Initialize() override;
 		virtual void SetupRenderPasses() override;
 
-		virtual void RenderContents(void* renderObjectList, Pg::Data::CameraData* camData) override;
+		virtual void RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData) override;
 		virtual void ConfirmCarrierData() override;
 
 		//Unsigned Int로 Picking된 ID를 받는다.
