@@ -17,7 +17,7 @@ namespace Pg::Graphics
 	{
 	public:
 		RenderPrepVertexBone();
-	
+
 		void AddBoneData(unsigned int BoneID, float Weight);
 		bool isInit = false;
 
@@ -36,7 +36,7 @@ namespace Pg::Graphics
 		DirectX::SimpleMath::Matrix _boneOffset; // Initial offset from local to bone space. 
 	};
 
-	//기존 Tofu에서 쓰이던 Mesh 방식.
+	////기존 Tofu에서 쓰이던 Mesh 방식.
 	struct Mesh
 	{
 		float			matrix[12];
