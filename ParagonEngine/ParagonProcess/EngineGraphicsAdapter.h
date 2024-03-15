@@ -47,7 +47,7 @@ namespace Pg::Core
 		void UpdateEngine();
 
 		//Graphics Update.
-		void UpdateGraphics(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData);
+		void UpdateGraphics(const Pg::Data::Scene* const scene, float deltaTime, Pg::Data::CameraData* cameraData);
 
 		//AssetManager Update.
 		void UpdateAssetManager(Manager::AssetManager* assetManager);
@@ -99,6 +99,9 @@ namespace Pg::Core
 
 		//디버그 시스템 지오메트리 데이터 클리어.
 		void ClearDebugVectorData();
+
+		//델타 타임 넘기기.
+		float GetDeltaTime();
 
 	private:
 		std::unique_ptr<IEngine> _engine;					//게임 엔진

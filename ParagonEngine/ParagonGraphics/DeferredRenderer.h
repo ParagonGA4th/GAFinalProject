@@ -21,7 +21,9 @@ namespace Pg::Graphics
 	class IRenderSinglePass;
 
 	class FirstStaticRenderPass;
+	class FirstSkinnedRenderPass;
 	class PreparationStaticRenderPass;
+	class PreparationSkinnedRenderPass;
 	class SceneInformationSender;
 	class OpaqueShadowRenderPass;
 }
@@ -36,6 +38,9 @@ namespace Pg::Graphics
 
 		virtual void Initialize() override;
 		virtual void SetupRenderPasses() override;
+
+		//매 프레임마다 Skinned 동작을 위해 사용.
+		void SetDeltaTime(float dt);
 		virtual void RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData) override;
 		virtual void ConfirmCarrierData() override;
 
@@ -44,11 +49,17 @@ namespace Pg::Graphics
 		void InitializeRenderPasses();
 		void PlaceRequiredResources();
 		void UpdateCarrierResources();
+	private:
+		void InitOpaqueQuadDirectX();
+		void InitFirstQuadDirectX();
+
 
 	private:
 		void Render(RenderObject3DList* renderObjectList, SceneInformationList* sceneInfoList, Pg::Data::CameraData* camData);
 		void RenderFirstStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
+		void RenderFirstSkinnedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderObjMatStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
+		void RenderObjMatSkinnedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void SendSceneInformation(SceneInformationList* infoList, Pg::Data::CameraData* camData);
 		void RenderOpaqueQuadPasses(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderOpaqueShadowPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
@@ -58,11 +69,13 @@ namespace Pg::Graphics
 		LowDX11Storage* _DXStorage;
 
 		std::unique_ptr<FirstStaticRenderPass> _firstStaticRenderPass;
+		std::unique_ptr<FirstSkinnedRenderPass> _firstSkinnedRenderPass;
 		std::unique_ptr<PreparationStaticRenderPass> _objMatStaticRenderPass;
+		std::unique_ptr<PreparationSkinnedRenderPass> _objMatSkinnedRenderPass;
 		std::unique_ptr<SceneInformationSender> _sceneInformationSender;
+		std::vector<IRenderSinglePass*> _opaqueQuadPassesVector;
 		std::unique_ptr<OpaqueShadowRenderPass> _opaqueShadowPass;
 
-		std::vector<IRenderSinglePass*> _opaqueQuadPassesVector;
 
 		//메인 렌더 타겟으로 넘어갈 G-Buffer Render & Depth Stencil.
 		//모든 Renderer를 거치면서 값이 활용될 것이다.
@@ -77,5 +90,8 @@ namespace Pg::Graphics
 	private:
 		//NullSRV, 그냥 만들어놓고 사용.
 		std::array<ID3D11ShaderResourceView*, 10> _nullSRVArray;
+
+	private:
+		float _deltaTimeStorage;
 	};
 }

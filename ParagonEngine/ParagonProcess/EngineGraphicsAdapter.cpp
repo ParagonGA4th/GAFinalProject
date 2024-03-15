@@ -55,9 +55,9 @@ namespace Pg::Core
 		_engine->Update();
 	}
 
-	void EngineGraphicsAdapter::UpdateGraphics(const Pg::Data::Scene* const scene, Pg::Data::CameraData* cameraData)
+	void EngineGraphicsAdapter::UpdateGraphics(const Pg::Data::Scene* const scene, float deltaTime, Pg::Data::CameraData* cameraData)
 	{
-		_graphics->Update(scene, cameraData);
+		_graphics->Update(scene, deltaTime, cameraData);
 	}
 
 	void EngineGraphicsAdapter::UpdateAssetManager(Manager::AssetManager* assetManager)
@@ -186,6 +186,10 @@ namespace Pg::Core
 		_engine->ClearDebugVectorData();
 	}
 
+	float EngineGraphicsAdapter::GetDeltaTime()
+	{
+		return _engine->GetDeltaTime();
+	}
 	
 
 }

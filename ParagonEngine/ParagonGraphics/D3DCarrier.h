@@ -22,6 +22,17 @@ namespace Pg::Graphics
 			std::fill(_rtvArray.begin(), _rtvArray.end(), nullptr);
 			std::fill(_srvArray.begin(), _srvArray.end(), nullptr);
 		}
+		
+		//GBuffer 관련 RTVs & SRVs. (Pos, UV Coords, Etc)
+		std::vector<std::unique_ptr<GBufferRender>> _gBufRequiredInfoRT;
+		std::unique_ptr<GBufferDepthStencil> _gBufRequiredInfoDSV;
+
+		std::vector<ID3D11RenderTargetView*> _gBufRequiredRTVArray;
+		std::vector<ID3D11ShaderResourceView*> _gBufRequiredSRVArray;
+
+		//GBuffer 관련 RTV/SRV 맞춰 nullptr 배열 마련.
+		std::vector<ID3D11RenderTargetView*> NullRTV;
+		std::vector<ID3D11ShaderResourceView*> NullSRV;
 
 		//MainRenderTarget에 도달하기 전까지 모든 렌더링은 Quad에 이루어진다.
 		//단순 정보 전달과 차별화하기 위해 별도의 변수 설정.

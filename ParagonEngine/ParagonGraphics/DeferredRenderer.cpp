@@ -11,7 +11,9 @@
 //RenderPasses
 #include "IRenderSinglePass.h"
 #include "FirstStaticRenderPass.h"
+#include "FirstSkinnedRenderPass.h"
 #include "PreparationStaticRenderPass.h"
+#include "PreparationSkinnedRenderPass.h"
 #include "SceneInformationSender.h"
 #include "OpaqueQuadRenderPass.h"
 #include "OpaqueShadowRenderPass.h"
@@ -42,37 +44,13 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::Initialize()
 	{
-		//요구되는 렌더 리소스 만들기 (GBufferRender & Depth Stencil)
-		_quadMainRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
-		//ObjMat RenderTarget
-		_quadObjMatRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32_TYPELESS, DXGI_FORMAT_R32G32_FLOAT);
+		InitOpaqueQuadDirectX();
+		InitFirstQuadDirectX();
+	}
 
-		//Depth Writing이 가능한 Description 투입. (현재는 Default랑 같음)
-		D3D11_DEPTH_STENCIL_DESC tDepthStencilDesc;
-		tDepthStencilDesc.DepthEnable = TRUE;
-		tDepthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-		tDepthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
-		tDepthStencilDesc.StencilEnable = FALSE;
-		tDepthStencilDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
-		tDepthStencilDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
-		tDepthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-		tDepthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-		tDepthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-		tDepthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-		tDepthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-		tDepthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-		tDepthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-		tDepthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-
-		_quadMainDSV = std::make_unique<GBufferDepthStencil>(&tDepthStencilDesc);
-
-		//Carrier에 값을 전달한다. (MainRenderTarget 전까지 모든 렌더링의 기본이 될 것)
-		_carrier->_quadMainRT = _quadMainRTV.get();
-		_carrier->_quadMainGDS = _quadMainDSV.get();
-		_carrier->_quadObjMatRT = _quadObjMatRTV.get();
-
-		//자체적인 OpaqueQuad DSV.
-		_opaqueQuadDSV = std::make_unique<GBufferDepthStencil>();
+	void DeferredRenderer::SetDeltaTime(float dt)
+	{
+		_deltaTimeStorage = dt;
 	}
 
 	void DeferredRenderer::RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData)
@@ -94,7 +72,9 @@ namespace Pg::Graphics
 
 		//For문 대신, 명시적으로 값 호출. (나누기)
 		RenderFirstStaticPass(renderObjectList, camData);
+		RenderFirstSkinnedPass(renderObjectList, camData);
 		RenderObjMatStaticPass(renderObjectList, camData);
+		RenderObjMatSkinnedPass(renderObjectList, camData);
 		SendSceneInformation(sceneInfoList, camData);
 		RenderOpaqueQuadPasses(renderObjectList, camData);
 		RenderOpaqueShadowPass(renderObjectList, camData);
@@ -111,20 +91,22 @@ namespace Pg::Graphics
 	{
 		//Render Pass Vector 구성.
 		
-		//첫번째는 무조건 FirstRenderPass.
+		//0. FirstStaticRenderPass.
 		_firstStaticRenderPass = std::make_unique<FirstStaticRenderPass>();
 
-		//두번째는 일단 ObjMatStaticRenderPass.
+		//1. FirstSkinnedRenderPass.
+		_firstSkinnedRenderPass = std::make_unique<FirstSkinnedRenderPass>();
+
+		//2. ObjMatStaticRenderPass.
 		_objMatStaticRenderPass = std::make_unique<PreparationStaticRenderPass>();
 
-		//Skinned가 들어오면 FirstStatic->FirstSkinned->ObjMatStatic->ObjMatSkinned일것.
+		//3. ObjMatSkinnedRenderPass.
+		_objMatSkinnedRenderPass = std::make_unique<PreparationSkinnedRenderPass>();
 
-		//OpaqueLightingRenderPass.
+		//4. SceneInfromationSender.
 		_sceneInformationSender = std::make_unique<SceneInformationSender>();
 
-		//OpaqueShadowRenderPass.
-		_opaqueShadowPass = std::make_unique<OpaqueShadowRenderPass>();
-
+		//5. OpaqueQuadRenderPass
 		//모든 Material의 목록을 받은 뒤, 순서대로 OpaqueQuadRenderPass 호출. (일반적인 경우)
 		//N개의 Material이 있으면, N개의 Pass가 만들어진다.
 		using Pg::Graphics::Manager::GraphicsResourceManager;
@@ -135,20 +117,26 @@ namespace Pg::Graphics
 			assert(tRM != nullptr);
 			_opaqueQuadPassesVector.push_back(new OpaqueQuadRenderPass(tRM));
 		}
+
+		//6. OpaqueShadowRenderPass.
+		_opaqueShadowPass = std::make_unique<OpaqueShadowRenderPass>();
 	}
 
 	void DeferredRenderer::InitializeRenderPasses()
 	{
 		_firstStaticRenderPass->Initialize();
+		_firstSkinnedRenderPass->Initialize();
 		_objMatStaticRenderPass->Initialize();
+		_objMatSkinnedRenderPass->Initialize();
 		_sceneInformationSender->Initialize();
-		_opaqueShadowPass->Initialize();
 
 		//일괄적으로 Initialize() 호출.
 		for (auto& it : _opaqueQuadPassesVector)
 		{
 			it->Initialize();
 		}
+
+		_opaqueShadowPass->Initialize();
 	}
 
 	void DeferredRenderer::PlaceRequiredResources()
@@ -196,7 +184,6 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::RenderFirstStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		
 		//0번째 RenderPass : 초반 Static Mesh 그대로 전달한다.
 		_firstStaticRenderPass->ReceiveRequiredElements(*_carrier);
 		_firstStaticRenderPass->BindPass();
@@ -208,6 +195,19 @@ namespace Pg::Graphics
 		//이미 Depth가 올라간 상황.
 	}
 
+	void DeferredRenderer::RenderFirstSkinnedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		//1번째 RenderPass : 초반 Skinned Mesh 그대로 전달한다.
+		//DeltaTime은 이미 전달된 상황.
+		_firstSkinnedRenderPass->ReceiveRequiredElements(*_carrier);
+		_firstSkinnedRenderPass->SetDeltaTime(_deltaTimeStorage); 	//Skinning 활용 패스에 DeltaTime 내부적으로 전달.
+		_firstSkinnedRenderPass->BindPass();
+		_firstSkinnedRenderPass->RenderPass(renderObjectList, camData);
+		_firstSkinnedRenderPass->UnbindPass();
+		_firstSkinnedRenderPass->ExecuteNextRenderRequirements();
+		_firstSkinnedRenderPass->PassNextRequirements(*_carrier);
+	}
+
 	void DeferredRenderer::RenderObjMatStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		//1번째 RenderPass : ObjMatStaticRenderPass.
@@ -217,7 +217,17 @@ namespace Pg::Graphics
 		_objMatStaticRenderPass->UnbindPass();
 		_objMatStaticRenderPass->ExecuteNextRenderRequirements();
 		_objMatStaticRenderPass->PassNextRequirements(*_carrier);
-	
+	}
+
+	void DeferredRenderer::RenderObjMatSkinnedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		_objMatSkinnedRenderPass->ReceiveRequiredElements(*_carrier);
+		_objMatSkinnedRenderPass->SetDeltaTime(_deltaTimeStorage); 	//Skinning 활용 패스에 DeltaTime 내부적으로 전달.
+		_objMatSkinnedRenderPass->BindPass();
+		_objMatSkinnedRenderPass->RenderPass(renderObjectList, camData);
+		_objMatSkinnedRenderPass->UnbindPass();
+		_objMatSkinnedRenderPass->ExecuteNextRenderRequirements();
+		_objMatSkinnedRenderPass->PassNextRequirements(*_carrier);
 	}
 
 	void DeferredRenderer::SendSceneInformation(SceneInformationList* infoList, Pg::Data::CameraData* camData)
@@ -273,7 +283,6 @@ namespace Pg::Graphics
 		_opaqueShadowPass->UnbindPass();
 		_opaqueShadowPass->ExecuteNextRenderRequirements();
 		_opaqueShadowPass->PassNextRequirements(*_carrier);
-
 	}
 
 	void DeferredRenderer::UnbindExpiredResources()
@@ -298,6 +307,88 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(22, 1, &tNullSRV);
 		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &tNullSRV);
 	}
+
+	void DeferredRenderer::InitOpaqueQuadDirectX()
+	{
+		//요구되는 렌더 리소스 만들기 (GBufferRender & Depth Stencil)
+		_quadMainRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		//ObjMat RenderTarget
+		_quadObjMatRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32_TYPELESS, DXGI_FORMAT_R32G32_FLOAT);
+
+		//Depth Writing이 가능한 Description 투입. (현재는 Default랑 같음)
+		D3D11_DEPTH_STENCIL_DESC tDepthStencilDesc;
+		tDepthStencilDesc.DepthEnable = TRUE;
+		tDepthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		tDepthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+		tDepthStencilDesc.StencilEnable = FALSE;
+		tDepthStencilDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+		tDepthStencilDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+		tDepthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+		tDepthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+		tDepthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+		tDepthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		tDepthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+		tDepthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+		tDepthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+		tDepthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+
+		_quadMainDSV = std::make_unique<GBufferDepthStencil>(&tDepthStencilDesc);
+
+		//Carrier에 값을 전달한다. (MainRenderTarget 전까지 모든 렌더링의 기본이 될 것)
+		_carrier->_quadMainRT = _quadMainRTV.get();
+		_carrier->_quadMainGDS = _quadMainDSV.get();
+		_carrier->_quadObjMatRT = _quadObjMatRTV.get();
+
+		//자체적인 OpaqueQuad DSV.
+		_opaqueQuadDSV = std::make_unique<GBufferDepthStencil>();
+	}
+
+	void DeferredRenderer::InitFirstQuadDirectX()
+	{
+		//RT0
+		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		//RT1
+		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		//RT2
+		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		//RT3
+		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		//RT4
+		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		//RT5 (Depth)
+		_carrier->_gBufRequiredInfoDSV = std::make_unique<GBufferDepthStencil>();
+
+		//FirstStage_PS에서 Binding될 Render Target들.
+		//Depth는 자동 연동 (DepthStencil 바인딩 공간 별도 존재)
+		for (auto& e : _carrier->_gBufRequiredInfoRT)
+		{
+			_carrier->_gBufRequiredRTVArray.emplace_back(e->GetRTV());
+		}
+
+		//SecondStage들에서 Binding될 SRV들. (GBufferRender, ~5/6)
+		for (auto& e : _carrier->_gBufRequiredInfoRT)
+		{
+			_carrier->_gBufRequiredSRVArray.emplace_back(e->GetSRV());
+		}
+
+		//SecondStage들에서 Binding될 Depth SRV. (GBufferDepthStencil, 6/6)
+		_carrier->_gBufRequiredSRVArray.emplace_back(_carrier->_gBufRequiredInfoDSV->GetSRV());
+
+		//지금까지 바인딩된 값만큼 RTV Null Array를 만들어준다.
+		//DepthStencil을 더이상 RTV로 기록되지 않음.
+		for (int i = 0; i < _carrier->_gBufRequiredInfoRT.size(); ++i)
+		{
+			_carrier->NullRTV.emplace_back(nullptr);
+		}
+
+		//지금까지 바인딩된 값만큼 SRV Null Array를 만들어준다.
+		for (int i = 0; i < _carrier->_gBufRequiredSRVArray.size(); ++i)
+		{
+			_carrier->NullSRV.emplace_back(nullptr);
+		}
+	}
+
+
 
 }
 

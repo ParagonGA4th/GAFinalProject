@@ -12,6 +12,7 @@
 #include "MaterialCluster.h"
 #include "../ParagonData/ParagonDefines.h"
 #include "dxtk/WICTextureLoader.h"
+#include <cassert>
 
 namespace Pg::Graphics
 {
@@ -129,7 +130,10 @@ namespace Pg::Graphics
 
 	void RenderObjectSkinnedMesh3D::SetAnimation(const std::string& animName)
 	{
-		
+		assert(_modelData->_assetSkinnedData->_viableAnimations.contains(animName) && 
+			"걸리면 유효하지 않은 Animation 로드 시도한 것");
+
+
 	}
 
 }

@@ -35,11 +35,13 @@
     <ClInclude Include="BaseSpecificRenderer.h" />
     <ClInclude Include="FinalRenderer.h" />
     <ClInclude Include="FinalRenderPass.h" />
+    <ClInclude Include="FirstSkinnedRenderPass.h" />
     <ClInclude Include="FirstStaticRenderPass.h" />
     <ClInclude Include="FogProcessingPass.h" />
     <ClInclude Include="Forward3DRenderer.h" />
     <ClInclude Include="D3DCarrier.h" />
     <ClInclude Include="GraphicsSceneParser.h" />
+    <ClInclude Include="PreparationSkinnedRenderPass.h" />
     <ClInclude Include="SceneInformationList.h" />
     <ClInclude Include="IRenderSinglePass.h" />
     <ClInclude Include="ConstantBuffer.h" />
@@ -154,6 +156,7 @@
     <ClCompile Include="BaseSpecificRenderer.cpp" />
     <ClCompile Include="FinalRenderer.cpp" />
     <ClCompile Include="FinalRenderPass.cpp" />
+    <ClCompile Include="FirstSkinnedRenderPass.cpp" />
     <ClCompile Include="FirstStaticRenderPass.cpp" />
     <ClCompile Include="CubemapRenderer.cpp" />
     <ClCompile Include="FogProcessingPass.cpp" />
@@ -163,6 +166,7 @@
     <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="MaterialParser.cpp" />
     <ClCompile Include="OpaqueShadowRenderPass.cpp" />
+    <ClCompile Include="PreparationSkinnedRenderPass.cpp" />
     <ClCompile Include="PreparationStaticRenderPass.cpp" />
     <ClCompile Include="BlendingRenderPass.cpp" />
     <ClCompile Include="OpaqueQuadRenderPass.cpp" />

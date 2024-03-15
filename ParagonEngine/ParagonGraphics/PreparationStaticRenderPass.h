@@ -10,7 +10,7 @@
 
 /// <summary>
 /// Object && Material이 Screen Space에서 어디 있는지 표시해주기 위해
-/// (== ClipUnfit을 위해) 존재하는 RenderPass.
+/// (== ClipUnfit을 위해) 존재하는 RenderPass. (Static)
 /// </summary>
 
 namespace Pg::Graphics

@@ -90,6 +90,7 @@ namespace Pg::Core
 
 		_engineGraphicsAdapter->UpdateGraphics(
 			_engineGraphicsAdapter->GetCurrentScene(),
+			_engineGraphicsAdapter->GetDeltaTime(),
 			_engineGraphicsAdapter->GetCameraData());
 
 		if (_editorAdapter->GetCurrentScene() == nullptr)
