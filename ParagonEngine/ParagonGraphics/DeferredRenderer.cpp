@@ -345,12 +345,47 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::InitFirstQuadDirectX()
 	{
-		
+		//RT0
+		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		//RT1
+		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		//RT2
+		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		//RT3
+		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		//RT4
+		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		//RT5 (Depth)
+		_carrier->_gBufRequiredInfoDSV = std::make_unique<GBufferDepthStencil>();
 
+		//FirstStage_PS에서 Binding될 Render Target들.
+		//Depth는 자동 연동 (DepthStencil 바인딩 공간 별도 존재)
+		for (auto& e : _carrier->_gBufRequiredInfoRT)
+		{
+			_carrier->_gBufRequiredRTVArray.emplace_back(e->GetRTV());
+		}
 
+		//SecondStage들에서 Binding될 SRV들. (GBufferRender, ~5/6)
+		for (auto& e : _carrier->_gBufRequiredInfoRT)
+		{
+			_carrier->_gBufRequiredSRVArray.emplace_back(e->GetSRV());
+		}
 
+		//SecondStage들에서 Binding될 Depth SRV. (GBufferDepthStencil, 6/6)
+		_carrier->_gBufRequiredSRVArray.emplace_back(_carrier->_gBufRequiredInfoDSV->GetSRV());
 
+		//지금까지 바인딩된 값만큼 RTV Null Array를 만들어준다.
+		//DepthStencil을 더이상 RTV로 기록되지 않음.
+		for (int i = 0; i < _carrier->_gBufRequiredInfoRT.size(); ++i)
+		{
+			_carrier->NullRTV.emplace_back(nullptr);
+		}
 
+		//지금까지 바인딩된 값만큼 SRV Null Array를 만들어준다.
+		for (int i = 0; i < _carrier->_gBufRequiredSRVArray.size(); ++i)
+		{
+			_carrier->NullSRV.emplace_back(nullptr);
+		}
 	}
 
 

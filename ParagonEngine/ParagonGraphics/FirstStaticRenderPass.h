@@ -15,6 +15,7 @@ namespace Pg::Graphics
 	class LowDX11Storage;
 	class SystemVertexShader;
 	class SystemPixelShader;
+	class D3DCarrier;
 }
 
 namespace Pg::Graphics
@@ -33,21 +34,8 @@ namespace Pg::Graphics
 		virtual void ExecuteNextRenderRequirements() override;
 		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
-	public:
-
 	private:
-		std::vector<std::unique_ptr<GBufferRender>> _gBufRequiredInfoRT;
-		std::unique_ptr<GBufferDepthStencil> _gBufRequiredInfoDSV;
-
-		std::vector<ID3D11RenderTargetView*> _RTVs;
-		std::vector<ID3D11ShaderResourceView*> _SRVs;
-
-		std::vector<ID3D11RenderTargetView*> NullRTV;
-		std::vector<ID3D11ShaderResourceView*> NullSRV;
-	private:
-		void CreateD3DViews();
 		void CreateShaders();
-
 
 	private:
 		std::unique_ptr<SystemVertexShader> _vs;
@@ -55,6 +43,7 @@ namespace Pg::Graphics
 
 	private:
 		LowDX11Storage* _DXStorage;
+		const D3DCarrier* _d3dCarrierTempStorage;
 	};
 }
 
