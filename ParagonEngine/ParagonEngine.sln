@@ -32,6 +32,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonMath", "ParagonMath\ParagonMath.vcxproj", "{0AB5B10A-8B4A-4859-989C-637F962E1667}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonProcess", "ParagonProcess\ParagonProcess.vcxproj", "{3F21CDC8-F127-4135-BB69-A870BE2D973B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{42B02262-C7F1-450A-B5D4-A070546F6F18} = {42B02262-C7F1-450A-B5D4-A070546F6F18}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonClient", "ParagonClient\ParagonClient.vcxproj", "{D9BDE3D7-2C72-4669-A69E-8AB0979481D3}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -50,7 +53,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonUI", "ParagonUI\Para
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonScript", "ParagonScript\ParagonScript.vcxproj", "{39080680-F7BB-4BBB-A507-78003575CDDB}"
 	ProjectSection(ProjectDependencies) = postProject
-		{42B02262-C7F1-450A-B5D4-A070546F6F18} = {42B02262-C7F1-450A-B5D4-A070546F6F18}
+		{3F21CDC8-F127-4135-BB69-A870BE2D973B} = {3F21CDC8-F127-4135-BB69-A870BE2D973B}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParagonHelper", "ParagonHelper\ParagonHelper.vcxproj", "{4C60326A-42CC-4793-B95B-3E70014098B5}"

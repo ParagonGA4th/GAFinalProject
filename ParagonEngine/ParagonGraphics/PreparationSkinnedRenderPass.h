@@ -1,11 +1,18 @@
 #pragma once
+
+#pragma once
 #include "IRenderSinglePass.h"
 #include "DX11Headers.h"
+#include "ConstantBuffer.h"
+#include "ConstantBufferDefine.h"
+
 #include <vector>
 #include <memory>
+#include <array>
 
 /// <summary>
-/// First Render Pass. World Space -> Screen Space. (Static)
+/// Object && Material이 Screen Space에서 어디 있는지 표시해주기 위해
+/// (== ClipUnfit을 위해) 존재하는 RenderPass. (Skinned)
 /// </summary>
 
 namespace Pg::Graphics
@@ -15,18 +22,20 @@ namespace Pg::Graphics
 	class LowDX11Storage;
 	class SystemVertexShader;
 	class SystemPixelShader;
-	class D3DCarrier;
+	class RenderCubemap;
+	class RenderTexture2D;
 }
 
 namespace Pg::Graphics
 {
-	class FirstStaticRenderPass : public IRenderSinglePass
+	class PreparationSkinnedRenderPass : public IRenderSinglePass
 	{
 	public:
-		FirstStaticRenderPass();
-		~FirstStaticRenderPass();
+		PreparationSkinnedRenderPass();
+		~PreparationSkinnedRenderPass();
 
 		virtual void Initialize() override;
+		void SetDeltaTime(float dt);
 		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;
 		virtual void BindPass() override;
 		virtual void RenderPass(void* renderObjectList, Pg::Data::CameraData* camData) override;
@@ -34,16 +43,12 @@ namespace Pg::Graphics
 		virtual void ExecuteNextRenderRequirements() override;
 		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
-	private:
-		void CreateShaders();
 
 	private:
-		std::unique_ptr<SystemVertexShader> _vs;
-		std::unique_ptr<SystemPixelShader> _ps;
+		float _deltaTimeStorage = 0.16f;
 
 	private:
 		LowDX11Storage* _DXStorage;
-		const D3DCarrier* _d3dCarrierTempStorage;
 	};
 }
 

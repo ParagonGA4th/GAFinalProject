@@ -1,11 +1,12 @@
 #pragma once
+#pragma once
 #include "IRenderSinglePass.h"
 #include "DX11Headers.h"
 #include <vector>
 #include <memory>
 
 /// <summary>
-/// First Render Pass. World Space -> Screen Space. (Static)
+/// First Render Pass. World Space -> Screen Space. (Skinned)
 /// </summary>
 
 namespace Pg::Graphics
@@ -15,18 +16,18 @@ namespace Pg::Graphics
 	class LowDX11Storage;
 	class SystemVertexShader;
 	class SystemPixelShader;
-	class D3DCarrier;
 }
 
 namespace Pg::Graphics
 {
-	class FirstStaticRenderPass : public IRenderSinglePass
+	class FirstSkinnedRenderPass : public IRenderSinglePass
 	{
 	public:
-		FirstStaticRenderPass();
-		~FirstStaticRenderPass();
+		FirstSkinnedRenderPass();
+		~FirstSkinnedRenderPass();
 
 		virtual void Initialize() override;
+		void SetDeltaTime(float dt);
 		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;
 		virtual void BindPass() override;
 		virtual void RenderPass(void* renderObjectList, Pg::Data::CameraData* camData) override;
@@ -34,16 +35,12 @@ namespace Pg::Graphics
 		virtual void ExecuteNextRenderRequirements() override;
 		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
-	private:
-		void CreateShaders();
 
 	private:
-		std::unique_ptr<SystemVertexShader> _vs;
-		std::unique_ptr<SystemPixelShader> _ps;
+		float _deltaTimeStorage = 0.16f;
 
 	private:
 		LowDX11Storage* _DXStorage;
-		const D3DCarrier* _d3dCarrierTempStorage;
 	};
 }
 
