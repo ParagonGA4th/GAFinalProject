@@ -108,7 +108,7 @@ namespace Pg::Graphics
 		//t21-23 - internal IBL TextureCubes Bind
 		_DXStorage->_deviceContext->PSSetShaderResources(21, 1, &(_iblDiffuseIrradianceMap->GetSRV()));
 		_DXStorage->_deviceContext->PSSetShaderResources(22, 1, &(_iblSpecularIrradianceMap->GetSRV()));
-		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &(_iblSpecularLutTextureMap->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &(_iblSpecularLutTextureMap->GetSRV()));  
 
 		//Constant Buffer (SceneInfo) 업데이트.
 		_cbSceneInfo->GetDataStruct()->gCBuf_ViewMatrix = PG2XM_MATRIX4X4(_savedCamData->_viewMatrix);

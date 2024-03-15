@@ -45,7 +45,7 @@ namespace Pg::Graphics
 
 	}
 
-	void RenderObjectSkinnedMesh3D::First_Render()
+	void RenderObjectSkinnedMesh3D::First_Render(const float* const dt)
 	{
 		////버퍼 바인딩.
 		//BindBuffers();
@@ -118,7 +118,7 @@ namespace Pg::Graphics
 
 	}
 
-	void RenderObjectSkinnedMesh3D::ObjMat_Render()
+	void RenderObjectSkinnedMesh3D::ObjMat_Render(const float* const dt)
 	{
 
 	}
