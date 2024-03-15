@@ -71,6 +71,7 @@ void Pg::UI::Widget::Hierarchy::Update()
 				{
 					obj.second.second.emplace_back(_objNameList[payload_n].first);
 					_objNameList.erase(payload_n);
+					selectObj = obj.second.second.at(obj.second.second.size() - 1);
 				}
 			}
 			ImGui::EndDragDropTarget();
