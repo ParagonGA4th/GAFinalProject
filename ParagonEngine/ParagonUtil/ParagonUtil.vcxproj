@@ -167,8 +167,12 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EasingMode.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="Tween.h" />
+    <ClInclude Include="TweenSystem.h" />
+    <ClInclude Include="TweenTimer.h" />
     <ClInclude Include="UtilDLLExporter.h" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +183,9 @@
     <ClCompile Include="Log.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Tween.cpp" />
+    <ClCompile Include="TweenSystem.cpp" />
+    <ClCompile Include="TweenTimer.cpp" />
     <ClCompile Include="UtilMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

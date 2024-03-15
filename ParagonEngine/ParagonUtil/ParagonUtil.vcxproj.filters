@@ -10,6 +10,13 @@
     <ClCompile Include="InputSystem.cpp">
       <Filter>2_Input</Filter>
     </ClCompile>
+    <ClCompile Include="TweenSystem.cpp">
+      <Filter>3_Tween\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Tween.cpp">
+      <Filter>3_Tween\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="TweenTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -24,6 +31,16 @@
     <ClInclude Include="UtilDLLExporter.h">
       <Filter>0_Main\DLLExporter</Filter>
     </ClInclude>
+    <ClInclude Include="TweenSystem.h">
+      <Filter>3_Tween\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Tween.h">
+      <Filter>3_Tween\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="EasingMode.h">
+      <Filter>3_Tween\eEasingMode</Filter>
+    </ClInclude>
+    <ClInclude Include="TweenTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -37,6 +54,21 @@
     </Filter>
     <Filter Include="2_Input">
       <UniqueIdentifier>{9f799264-5035-42e0-abe1-25693e2258c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Tween">
+      <UniqueIdentifier>{b101049f-aa93-4af5-8902-82a79bc8cc75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Tween\System">
+      <UniqueIdentifier>{8c951b54-156f-4492-b87f-20ccd27db9aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Tween\Instance">
+      <UniqueIdentifier>{2c913d93-aba3-40ae-8e67-64fb0935cb37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Tween\eEasingMode">
+      <UniqueIdentifier>{74a38206-8116-4383-a8b9-a4539765e3ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Tween\TweenTimer">
+      <UniqueIdentifier>{5304ecb1-e833-48dc-8f11-70a874e2bc4a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
