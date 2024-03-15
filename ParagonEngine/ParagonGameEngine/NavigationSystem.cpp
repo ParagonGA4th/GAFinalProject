@@ -11,7 +11,6 @@ namespace Pg::Engine
 {
 	NavigationSystem::NavigationSystem() :
 		_navMesh(nullptr),
-		_crowd(nullptr),
 		_navMeshQuery(nullptr)
 	{
 
@@ -37,19 +36,19 @@ namespace Pg::Engine
 
 		//Crowd와 NavMeshQuery의 구조체 초기화 및 할당
 
-		_crowd = dtAllocCrowd();
+		//_navMeshAgent->GetCrowd() = dtAllocCrowd();
 
-		_navMeshQuery = dtAllocNavMeshQuery();
+		//_navMeshQuery = dtAllocNavMeshQuery();
 	}
 
 	void NavigationSystem::Update(float deltaTime)
 	{
-		if (_navMesh == nullptr || _crowd == nullptr)
+		if (_navMesh == nullptr || _navMeshAgent->GetCrowd() == nullptr)
 		{
 			return;
 		}
 
-		_crowd->update(deltaTime, nullptr);
+		_navMeshAgent->GetCrowd()->update(deltaTime, nullptr);
 	}
 
 	void NavigationSystem::Finalize()
@@ -57,7 +56,7 @@ namespace Pg::Engine
 		//전부 해제.
 		_navMeshFieldVec.clear();
 
-		dtFreeCrowd(_crowd);
+		dtFreeCrowd(_navMeshAgent->GetCrowd());
 		
 		dtFreeNavMeshQuery(_navMeshQuery);
 	}
@@ -70,11 +69,6 @@ namespace Pg::Engine
 	dtNavMesh* NavigationSystem::GetNavMesh() const
 	{
 		return _navMesh;
-	}
-
-	dtCrowd* NavigationSystem::GetCrowd() const
-	{
-		return _crowd;
 	}
 
 	dtNavMeshQuery* NavigationSystem::GetNavMeshQuery() const
