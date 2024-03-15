@@ -14,6 +14,21 @@ namespace Pg::Data
 	{
 	public:
 		NavMeshAgent(GameObject* owner);
+
+		virtual void Update() override;
+
+		void SetMaxSpeed(float speed);
+		void SetRadius(float rad);
+		void SetHeight(float height);
+
+		float GetMaxSpeed();
+		float GetRadius();
+		float GetHeight();
+
+	private:
+		float _radius;
+		float _height;
+		float _maxSpeed;
 	};
 }
 

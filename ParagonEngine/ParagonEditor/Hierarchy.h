@@ -1,5 +1,7 @@
 #pragma once
 #include "IEditorWindow.h"
+#include <map>
+#include <utility>
 #include <vector>
 #include <memory>
 
@@ -28,6 +30,8 @@ namespace Pg::Editor::Window
 		virtual void SetDisable(bool disable) override;
 	private:
 		void DataSet();
+		void GetCurrentSceneObjectList();
+		void GetPickedObject();
 
 	private:
 		/// hierarchy value
@@ -43,14 +47,12 @@ namespace Pg::Editor::Window
 		std::unique_ptr<Pg::Editor::Event> _changeObjectData;
 
 		/// Data value
-		std::vector<std::string> _objNames;
-		std::vector<std::string> _popupList;
-		int* _selectedNumber;
+		// key - parent, value - child
+		std::map<int, std::pair<std::string, std::vector<std::string>>> _objNameList;
 		int _prevObjListSize;
 
-		std::string _prevObjName;
-		std::string _pickedObjName;
-		bool _isPicked;
+		std::string* _prevObjName;
+		std::string _pickingObjName;
 	};
 }
 

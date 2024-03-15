@@ -155,7 +155,100 @@
       <Filter>2_Component\UI\Handle</Filter>
     </ClCompile>
     <ClCompile Include="NavMeshAgent.cpp">
-      <Filter>2_Component\NavMeshAgent</Filter>
+      <Filter>2_Component\Navigation\NavMeshAgent</Filter>
+    </ClCompile>
+    <ClCompile Include="NavigationField.cpp">
+      <Filter>2_Component\Navigation\NavigationField</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\DebugDraw.cpp">
+      <Filter>2_Component\Navigation\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\DetourDebugDraw.cpp">
+      <Filter>2_Component\Navigation\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\RecastDebugDraw.cpp">
+      <Filter>2_Component\Navigation\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\RecastDump.cpp">
+      <Filter>2_Component\Navigation\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourAlloc.cpp">
+      <Filter>2_Component\Navigation\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourAssert.cpp">
+      <Filter>2_Component\Navigation\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourCommon.cpp">
+      <Filter>2_Component\Navigation\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNavMesh.cpp">
+      <Filter>2_Component\Navigation\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNavMeshBuilder.cpp">
+      <Filter>2_Component\Navigation\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNavMeshQuery.cpp">
+      <Filter>2_Component\Navigation\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNode.cpp">
+      <Filter>2_Component\Navigation\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourCrowd.cpp">
+      <Filter>2_Component\Navigation\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourLocalBoundary.cpp">
+      <Filter>2_Component\Navigation\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourObstacleAvoidance.cpp">
+      <Filter>2_Component\Navigation\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourPathCorridor.cpp">
+      <Filter>2_Component\Navigation\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourPathQueue.cpp">
+      <Filter>2_Component\Navigation\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourProximityGrid.cpp">
+      <Filter>2_Component\Navigation\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourTileCache\DetourTileCache.cpp">
+      <Filter>2_Component\Navigation\src\DetourTileCache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourTileCache\DetourTileCacheBuilder.cpp">
+      <Filter>2_Component\Navigation\src\DetourTileCache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\Recast.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastAlloc.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastArea.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastAssert.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastContour.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastFilter.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastLayers.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastMesh.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastMeshDetail.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastRasterization.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastRegion.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -380,10 +473,76 @@
       <Filter>2_Component\UI\Handle</Filter>
     </ClInclude>
     <ClInclude Include="NavMeshAgent.h">
-      <Filter>2_Component\NavMeshAgent</Filter>
+      <Filter>2_Component\Navigation\NavMeshAgent</Filter>
     </ClInclude>
     <ClInclude Include="data_factory.h">
       <Filter>12_Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="NavigationField.h">
+      <Filter>2_Component\Navigation\NavigationField</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DebugDraw.h">
+      <Filter>2_Component\Navigation\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DetourDebugDraw.h">
+      <Filter>2_Component\Navigation\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDebugDraw.h">
+      <Filter>2_Component\Navigation\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDump.h">
+      <Filter>2_Component\Navigation\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAlloc.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAssert.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourCommon.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourMath.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMesh.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshBuilder.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshQuery.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNode.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourStatus.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourCrowd.h">
+      <Filter>2_Component\Navigation\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourLocalBoundary.h">
+      <Filter>2_Component\Navigation\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourObstacleAvoidance.h">
+      <Filter>2_Component\Navigation\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathCorridor.h">
+      <Filter>2_Component\Navigation\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathQueue.h">
+      <Filter>2_Component\Navigation\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourProximityGrid.h">
+      <Filter>2_Component\Navigation\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCache.h">
+      <Filter>2_Component\Navigation\include\DetourTileCache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCacheBuilder.h">
+      <Filter>2_Component\Navigation\include\DetourTileCache</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -425,9 +584,6 @@
     </Filter>
     <Filter Include="2_Component\Collider">
       <UniqueIdentifier>{4417d714-ca78-49d0-9888-1c06b9c31ca5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Component\Script">
-      <UniqueIdentifier>{80ed792a-3d04-4ec7-957d-52f6f5d52400}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Component\Renderer">
       <UniqueIdentifier>{3845d0cb-630d-471a-8b81-07a323c027f8}</UniqueIdentifier>
@@ -618,8 +774,47 @@
     <Filter Include="2_Component\UI\Handle">
       <UniqueIdentifier>{d103ae49-ebd4-46a9-afaf-e3bd59f61851}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Component\NavMeshAgent">
+    <Filter Include="2_Component\Navigation">
+      <UniqueIdentifier>{de463ef8-6fcc-433b-9b6a-8eeb0ac41ad7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\NavMeshAgent">
       <UniqueIdentifier>{4af22f03-26d7-434c-94e3-693a05ffe7ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\NavigationField">
+      <UniqueIdentifier>{90d4b14c-769e-48be-9559-3a9f2aba613a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\include">
+      <UniqueIdentifier>{5968cffe-9894-4689-9a76-a5042f0dfa17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\src">
+      <UniqueIdentifier>{2622817f-6f7c-430c-9daa-69145ef89a3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\include\DebugUtils">
+      <UniqueIdentifier>{ac820931-8d87-4065-b629-6674e7d8058e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\include\Detour">
+      <UniqueIdentifier>{35922c75-dbc1-4ad6-a51a-87df38157eb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\include\DetourCrowd">
+      <UniqueIdentifier>{f49c63a6-706b-4cdb-b32a-d55820aa9a6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\include\DetourTileCache">
+      <UniqueIdentifier>{4921842c-84a0-4c1a-a224-8262321cdacd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\src\DebugUtils">
+      <UniqueIdentifier>{6b8c7940-824f-46d4-bcbb-3935e594437b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\src\Detour">
+      <UniqueIdentifier>{fbd07f0e-6e9f-4e60-abb9-e78371b7310e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\src\DetourCrowd">
+      <UniqueIdentifier>{cb7bd880-1efd-4b91-9d45-fb9df174c923}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\src\DetourTileCache">
+      <UniqueIdentifier>{4308231e-f593-44a3-bab2-ca36749418ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\src\Recast">
+      <UniqueIdentifier>{9a3e22ad-0a1b-40e6-919b-ca49452e69f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
