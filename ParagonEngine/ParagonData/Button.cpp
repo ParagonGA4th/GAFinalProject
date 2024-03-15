@@ -1,6 +1,7 @@
 #include "Button.h"
 #include "ImageRenderer.h"
 #include "TextRenderer.h"
+#include "GameConstantData.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonUtil/InputSystem.h"
 
@@ -24,7 +25,7 @@ namespace Pg::Data
 			assert(false);
 		}
 		
-		
+		//이미지 기본으로 들어있어야 함.
 		_imageRenderer = owner->AddComponent<ImageRenderer>();
 		_imageWidth = &(_imageRenderer->_width);
 		_imageHeight = &(_imageRenderer->_height);
@@ -44,16 +45,12 @@ namespace Pg::Data
 		const float mouseX = _inputSystem->GetMouseX();
 		const float mouseY = _inputSystem->GetMouseY();
 
-		//화면 크기 고정이기에 수치 때려넣음.
-		const float screenWidth = 1920;
-		const float screenHeight = 1080;
-
 		const float objectX = _object->_transform._position.x;
 		const float objectY = _object->_transform._position.y;
 
 		// 화면 비율에 따라 마우스 위치 변환
-		const float scaledMouseX = mouseX * screenWidth;
-		const float scaledMouseY = mouseY * screenHeight;
+		const float scaledMouseX = mouseX * GameConstantData::WIDTH;
+		const float scaledMouseY = mouseY * GameConstantData::HEIGHT;
 
 		if (scaledMouseX > (objectX - GetImageWidth() / 2.0f) &&
 			scaledMouseX <  (objectX + GetImageWidth() / 2.0f) &&

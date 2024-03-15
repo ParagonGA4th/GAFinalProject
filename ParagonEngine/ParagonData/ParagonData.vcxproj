@@ -136,7 +136,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\physx;$(SolutionDir)include\Recast\Navigation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
       <MaxFilesInUnityFile>5</MaxFilesInUnityFile>
     </ClCompile>
@@ -160,7 +160,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\physx;$(SolutionDir)include\Recast\Navigation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
       <MaxFilesInUnityFile>5</MaxFilesInUnityFile>
     </ClCompile>
@@ -178,6 +178,27 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DebugDraw.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DetourDebugDraw.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDebugDraw.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDump.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourCrowd.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourLocalBoundary.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourObstacleAvoidance.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathCorridor.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathQueue.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourProximityGrid.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCache.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCacheBuilder.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAlloc.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAssert.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourCommon.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourMath.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMesh.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshBuilder.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshQuery.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNode.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourStatus.h" />
     <ClInclude Include="Animator.h" />
     <ClInclude Include="AssetDefines.h" />
     <ClInclude Include="AudioData.h" />
@@ -221,6 +242,7 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="ModelData.h" />
     <ClInclude Include="MoveForwardBack.h" />
+    <ClInclude Include="NavigationField.h" />
     <ClInclude Include="NavMeshAgent.h" />
     <ClInclude Include="ParagonDefines.h" />
     <ClInclude Include="LightData.h" />
@@ -255,6 +277,36 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\DebugDraw.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\DetourDebugDraw.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\RecastDebugDraw.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\RecastDump.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourCrowd.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourLocalBoundary.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourObstacleAvoidance.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourPathCorridor.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourPathQueue.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourProximityGrid.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourTileCache\DetourTileCache.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourTileCache\DetourTileCacheBuilder.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourAlloc.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourAssert.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourCommon.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNavMesh.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNavMeshBuilder.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNavMeshQuery.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNode.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\Recast.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastAlloc.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastArea.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastAssert.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastContour.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastFilter.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastLayers.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastMesh.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastMeshDetail.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastRasterization.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastRegion.cpp" />
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="BaseRenderer.cpp" />
@@ -283,6 +335,7 @@
     <ClCompile Include="ImageRenderer.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="MoveForwardBack.cpp" />
+    <ClCompile Include="NavigationField.cpp" />
     <ClCompile Include="NavMeshAgent.cpp" />
     <ClCompile Include="ParagonDefines.cpp" />
     <ClCompile Include="PhysicsCollision.cpp" />

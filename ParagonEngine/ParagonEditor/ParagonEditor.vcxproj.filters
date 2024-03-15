@@ -78,9 +78,6 @@
     <ClInclude Include="Inspector.h">
       <Filter>2_Windows\Inspector</Filter>
     </ClInclude>
-    <ClInclude Include="IEditorWindow.h">
-      <Filter>2_Windows</Filter>
-    </ClInclude>
     <ClInclude Include="Hierarchy.h">
       <Filter>2_Windows\Hierarchy</Filter>
     </ClInclude>
@@ -146,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="GizmoType.h">
       <Filter>2_Windows\ToolBar</Filter>
+    </ClInclude>
+    <ClInclude Include="IEditorWindow.h">
+      <Filter>2_Windows\WindowHelper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

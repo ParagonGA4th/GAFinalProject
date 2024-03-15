@@ -55,7 +55,9 @@ namespace Pg::Data
 		//버튼이 자식 객체로써 존재한다.
 		//GameObject* buttonObject = new GameObject("sliderBtn");
 		//buttonObject->AddComponent<Button>();
+		
 		assert(_handle != nullptr && "이 시점에서 무조건 Handle 있어야 함");
+		
 		//핸들의 위치 한정.
 		_handle->_object->_transform._position = this->_object->_transform._position;
 
@@ -87,7 +89,8 @@ namespace Pg::Data
 
 		if (_isClick)
 		{
-			//PG_TRACE("SLIDE~~");
+			PG_TRACE("SLIDE~~");
+			
 			float newPosition = _inputSystem->GetMouseX();
 
 			newPosition = std::clamp(newPosition, _minWidth, _maxWidth);

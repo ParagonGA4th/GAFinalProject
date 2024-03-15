@@ -8,6 +8,7 @@
 #include "Hierarchy.h"
 #include "Inspector.h"
 #include "Scene.h"
+#include "Game.h"
 #include "Filter.h"
 
 #include "../ParagonUI/UIManager.h"
@@ -35,6 +36,7 @@ Pg::Editor::Manager::WindowManager::WindowManager()
 	_windows.emplace_back(new Pg::Editor::Window::Hierarchy());
 	_windows.emplace_back(new Pg::Editor::Window::Inspector());
 	_windows.emplace_back(new Pg::Editor::Window::Scene());
+	_windows.emplace_back(new Pg::Editor::Window::Game());
 	_windows.emplace_back(new Pg::Editor::Window::Filter());
 }
 
