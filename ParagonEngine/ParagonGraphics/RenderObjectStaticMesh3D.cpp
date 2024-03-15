@@ -50,7 +50,7 @@ namespace Pg::Graphics
 		_cbObjMat = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjMatBase>>();
 	}
 
-	void RenderObjectStaticMesh3D::First_Render()
+	void RenderObjectStaticMesh3D::First_Render(const float* const dt)
 	{
 		BindMainVertexIndexBuffer();
 
@@ -157,7 +157,7 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &(_modelData->_pbrTextureArrays[3]->GetSRV()));
 	}
 
-	void RenderObjectStaticMesh3D::ObjMat_Render()
+	void RenderObjectStaticMesh3D::ObjMat_Render(const float* const dt)
 	{
 		BindObjMatVertexIndexBuffer();
 

@@ -25,14 +25,14 @@ namespace Pg::Graphics
 		//Object-Material 데이터가 전부 매칭/로드 된 후, 일괄적으로 발동될 함수이다.	
 		virtual void CreateObjMatBuffers() override;
 	public:
-		virtual void First_Render() override;
 		virtual void First_UpdateConstantBuffers(Pg::Data::CameraData* camData) override;
 		virtual void First_BindBuffers() override;
+		virtual void First_Render(const float* const dt) override;
 		virtual void First_UnbindBuffers() override;
 
 		virtual void ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData) override;
 		virtual void ObjMat_BindBuffers() override;
-		virtual void ObjMat_Render() override;
+		virtual void ObjMat_Render(const float* const dt) override;
 		virtual void ObjMat_UnbindBuffers() override;
 
 		//내부적으로 SetAnimation 호출. (Client 딴 제어 아닌 Internal Mechanic)
