@@ -7,12 +7,12 @@
 /// 추후에 GameObject에 존재하는 componentList와 scriptList를 분리시킬 예정.
 /// 2023.10.12
 /// </summary>
-namespace Pg::Data
+namespace Pg::script
 {
-	class Script : public Component
+	class Script : public Pg::Data::Component
 	{
 	public:
-		Script(GameObject* obj);
+		Script(Pg::Data::GameObject* obj);
 		//가상 소멸자
 		virtual ~Script();
 
@@ -24,9 +24,9 @@ namespace Pg::Data
 		virtual void LateUpdate() override {}
 
 		virtual void OnDestroy() override {}
-		virtual void OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count) override {}
+		virtual void OnCollisionEnter(Pg::Data::PhysicsCollision * *_colArr, unsigned int count) override {}
 		virtual void OnCollisionStay() override {}
-		virtual void OnCollisionExit(PhysicsCollision** _colArr, unsigned int count) override {}
+		virtual void OnCollisionExit(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override {}
 	};
 }
 

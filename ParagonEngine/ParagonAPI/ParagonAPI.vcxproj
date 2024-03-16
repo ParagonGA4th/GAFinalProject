@@ -157,14 +157,18 @@
   <ItemGroup>
     <ClInclude Include="APIMain.h" />
     <ClInclude Include="KeyCodeType.h" />
+    <ClInclude Include="PgAudio.h" />
     <ClInclude Include="PgInput.h" />
     <ClInclude Include="PgRayCast.h" />
+    <ClInclude Include="PgSound.h" />
     <ClInclude Include="PgTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="APIMain.cpp" />
+    <ClCompile Include="PgAudio.cpp" />
     <ClCompile Include="PgInput.cpp" />
     <ClCompile Include="PgRayCast.cpp" />
+    <ClCompile Include="PgSound.cpp" />
     <ClCompile Include="PgTime.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
