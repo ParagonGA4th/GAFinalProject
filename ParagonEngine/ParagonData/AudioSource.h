@@ -40,17 +40,17 @@ namespace Pg::Data
 		
 		void Pause();
 
-		void SetBGMVolume(float vol);
-		float GetBGMVolume();
-
-		void SetEffectVolume(float vol);
-		float GetEffectVolume();
-
 		//재생 상태 싹 다 리셋.
 		void ResetPlayingState();
 
 		void SetAudioName(const std::string& audioName);
 		std::string GetAudioName();
+
+		//void SetBGMVolume(float vol);
+		//void SetEffectVolume(float vol);
+
+		//float GetBGMVolume();
+		//float GetEffectVolume();
 	public:
 		//재생 상태를 나타내는 클래스.
 		//조절은 API에서 해줄꺼임.
