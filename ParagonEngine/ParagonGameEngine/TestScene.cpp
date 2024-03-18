@@ -221,18 +221,4 @@ Pg::Data::Scene* Pg::Engine::TestScene::GetCurrentScene()
 
 void Pg::Engine::TestScene::SetScenesData(Pg::Data::Scene* scene)
 {
-	if (scene != nullptr)
-	{
-		for (auto i : tCurrentScene->GetObjectList())
-		{
-			for (auto j : scene->GetObjectList())
-			{
-				if (i->GetName() == "Cube6" && j->GetName() == "New Object")
-				{
-					i->_transform = j->_transform;
-				}
-				else continue;
-			}
-		}
-	}
 }
