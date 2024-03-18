@@ -17,15 +17,14 @@ namespace Pg::Util
 	Tween* TweenSystem::CreateTween()
 	{
 		///여기서 오브젝트 풀링이 사용되어야.
-		RocketEngine::Tween* temp = new RocketEngine::Tween();
+		Pg::Util::Tween* temp = new Pg::Util::Tween();
 		_dotweens.push_back(temp);
-		return *_dotweens.back();
+		return _dotweens.back();
 	}
 
 	void TweenSystem::Update()
 	{
-
-		for (RocketEngine::Tween* tween : _dotweens)
+		for (Pg::Util::Tween* tween : _dotweens)
 		{
 			if (tween->_timer->_isActive == true)
 			{
@@ -34,9 +33,9 @@ namespace Pg::Util
 			else
 			{
 				// 끝난 오브젝트를 모아두는 벡터에 현재 사용이 끝난 이터레이터를 넣는다
-				if (tween->onCompleteFunc != nullptr)
+				if (tween->_onCompleteFunc != nullptr)
 				{
-					tween->onCompleteFunc();
+					tween->_onCompleteFunc();
 				}
 				_deleteObj.push_back(tween);
 			}
@@ -44,7 +43,7 @@ namespace Pg::Util
 
 		// 지울 오브젝트를 모아둔 벡터와 현재 벡터를 비교해서 지운다
 		auto findObj = _deleteObj.begin();
-		for (RocketEngine::Tween* i : _deleteObj)
+		for (Pg::Util::Tween* i : _deleteObj)
 		{
 			auto dotweenIterator = std::find(_dotweens.begin(), _dotweens.end(), *findObj);
 			if (dotweenIterator != _dotweens.end())
