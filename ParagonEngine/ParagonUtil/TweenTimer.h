@@ -4,12 +4,14 @@
 namespace Pg::Util
 {
 	class Tween;
+	class TweenSystem;
 }
 namespace Pg::Util
 {
 	class TweenTimer
 	{
 		friend class Tween;
+		friend class TweenSystem;
 
 	public:
 		TweenTimer();

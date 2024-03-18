@@ -23,7 +23,7 @@ namespace Pg::Util
 		void Update();
 		void Finalize();
 
-		//private:
+	private:
 			// 사용하고 있는 닷트윈 객체의 벡터
 		std::vector<Tween*> _dotweens;
 		// 사용이 끝나서 지우기 위한 닷트윈 객체의 벡터

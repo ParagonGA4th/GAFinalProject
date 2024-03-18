@@ -71,7 +71,9 @@ namespace Pg::Util
 		//distance._x = destination._x - this->data2V->_x;
 		//distance._y = destination._y - this->data2V->_y;
 
-		distance = destination - *this->data2V;
+		//distance = destination - *this->data2V;
+		distance.x = destination.x - this->data2V->x;
+		distance.y = destination.y - this->data2V->y;
 
 		Pg::Math::PGFLOAT2 start = *this->data2V;
 
