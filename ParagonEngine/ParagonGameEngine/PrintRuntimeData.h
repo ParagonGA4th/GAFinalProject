@@ -14,7 +14,7 @@ namespace Pg::Data
 	class TextRenderer;
 }
 
-namespace Pg::Engine
+namespace Pg::Util
 {
 	namespace Time
 	{
@@ -31,7 +31,7 @@ public:
 	virtual void Update() override;
 
 private:
-	Pg::Engine::Time::TimeSystem* _timeSystem = nullptr;
+	Pg::Util::Time::TimeSystem* _timeSystem = nullptr;
 	Pg::Data::TextRenderer* _textRenderer = nullptr;
 };
 

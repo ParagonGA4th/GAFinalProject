@@ -170,6 +170,7 @@
     <ClInclude Include="EasingMode.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="TimeSystem.h" />
     <ClInclude Include="Tween.h" />
     <ClInclude Include="TweenSystem.h" />
     <ClInclude Include="TweenTimer.h" />
@@ -183,6 +184,7 @@
     <ClCompile Include="Log.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="TimeSystem.cpp" />
     <ClCompile Include="Tween.cpp" />
     <ClCompile Include="TweenSystem.cpp" />
     <ClCompile Include="TweenTimer.cpp" />

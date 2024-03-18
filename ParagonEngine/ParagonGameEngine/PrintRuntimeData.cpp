@@ -3,14 +3,14 @@
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/TextRenderer.h"
 
-#include "TimeSystem.h"
+#include "../ParagonUtil/TimeSystem.h"
 
 #include <singleton-cpp/singleton.h>
 #include <string>
 
 PrintRuntimeData::PrintRuntimeData(Pg::Data::GameObject* obj) : Pg::Data::Component(obj)
 {
-	auto& tPgTime = singleton<Pg::Engine::Time::TimeSystem>();
+	auto& tPgTime = singleton<Pg::Util::Time::TimeSystem>();
 	this->_timeSystem = &tPgTime;
 }
 
