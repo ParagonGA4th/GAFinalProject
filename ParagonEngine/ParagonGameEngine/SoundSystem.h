@@ -35,6 +35,7 @@ namespace Pg::Engine
 	public:
 		SoundSystem();
 
+	public:
 		void Initialize(const std::string& resourceListPath);
 
 		void Update();
@@ -50,6 +51,14 @@ namespace Pg::Engine
 
 		void SetAllGroupVolume();
 		void SetAllVolume();
+
+		void SetBGMVolume(float vol);
+		void SetIngameVolume(float vol);
+		void SetEffectVolume(float vol);
+
+		float GetBGMVolume();
+		float GetIngameVolume();
+		float GetEffectVolume();
 
 		void SoundPause(std::string path, bool isPause);
 
@@ -78,6 +87,10 @@ namespace Pg::Engine
 
 		SceneSystem* _sceneSystem = nullptr;
 
+		//각 SoundGroup별 볼륨 설정.
+		float _bgmVolume;
+		float _ingameVolume;
+		float _effectVolume;
 
 		//3D 사운드를 위한 변수
 		//3D 사운드 필요없다고 판단.
