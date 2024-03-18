@@ -471,7 +471,7 @@ namespace Pg::Graphics
 				RenderObjectSkinnedMesh3D* tSkinnedRO = static_cast<RenderObjectSkinnedMesh3D*>(ro.get());
 				Pg::Data::SkinnedMeshRenderer* tSkinnedRenderer = static_cast<Pg::Data::SkinnedMeshRenderer*>(tSkinnedRO->GetBaseRenderer());
 				//std::bind로 Data쪽에서 원격으로 함수를 호출할 수 있게.
-				tSkinnedRenderer->_setAnimationFunction = std::bind(&RenderObjectSkinnedMesh3D::SetAnimation, tSkinnedRO, std::placeholders::_1);
+				tSkinnedRenderer->_setAnimationFunction = std::bind(&RenderObjectSkinnedMesh3D::SetAnimation, tSkinnedRO, std::placeholders::_1, std::placeholders::_2);
 
 				//SetAnimation Function Bind.
 				//std::function<void(const std::string&)> tSetAnimFunction = [tSkinnedRO](const std::string& animName) {

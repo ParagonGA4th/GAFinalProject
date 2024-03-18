@@ -63,7 +63,7 @@ namespace Pg::Graphics
 				{
 					it.second->at(i).second->First_UpdateConstantBuffers(camData);
 					it.second->at(i).second->First_BindBuffers();
-					it.second->at(i).second->First_Render();
+					it.second->at(i).second->First_Render(nullptr);
 					it.second->at(i).second->First_UnbindBuffers();
 				}
 			}

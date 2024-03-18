@@ -70,7 +70,7 @@ namespace Pg::Graphics
 				{
 					it.second->at(i).second->ObjMat_UpdateConstantBuffers(camData);
 					it.second->at(i).second->ObjMat_BindBuffers();
-					it.second->at(i).second->ObjMat_Render();
+					it.second->at(i).second->ObjMat_Render(nullptr);
 					it.second->at(i).second->ObjMat_UnbindBuffers();
 				}
 			}

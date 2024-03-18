@@ -1,5 +1,6 @@
 #pragma once
-#include "RenderObject3D.h"
+#include "RenderObjectSkinnedMesh3D.h"
+#include "RenderObjectStaticMesh3D.h"
 #include "../ParagonData/GameObject.h"
 #include <unordered_map>
 #include <vector>
@@ -23,11 +24,11 @@ namespace Pg::Graphics
 
 		//Static
 		std::unordered_map<std::string, /* Material Path */ 
-			std::unique_ptr<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>> _staticList; /* Vector */
+			std::unique_ptr<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectStaticMesh3D>>>>> _staticList; /* Vector */
 
 		//Skinned
 		std::unordered_map<std::string, /* Material Path */
-			std::unique_ptr<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>> _skinnedList; /* Vector */
+			std::unique_ptr<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectSkinnedMesh3D>>>>> _skinnedList; /* Vector */
 
 
 	};
