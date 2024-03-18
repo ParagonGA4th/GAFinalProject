@@ -9,7 +9,7 @@ namespace Pg::Core
 	class IUtil abstract
 	{
 	public:
-		virtual void Initialize(float screenWidth, float screenHeight) abstract;
+		virtual void Initialize(float screenWidth, float screenHeight, void* hwnd) abstract;
 		virtual void Update() abstract;
 		virtual void Finalize() abstract;
 	};

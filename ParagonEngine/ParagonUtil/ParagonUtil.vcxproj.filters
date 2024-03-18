@@ -16,7 +16,12 @@
     <ClCompile Include="Tween.cpp">
       <Filter>3_Tween\Instance</Filter>
     </ClCompile>
-    <ClCompile Include="TweenTimer.cpp" />
+    <ClCompile Include="TweenTimer.cpp">
+      <Filter>3_Tween\TweenTimer</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeSystem.cpp">
+      <Filter>4_TimeSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -40,7 +45,12 @@
     <ClInclude Include="EasingMode.h">
       <Filter>3_Tween\eEasingMode</Filter>
     </ClInclude>
-    <ClInclude Include="TweenTimer.h" />
+    <ClInclude Include="TweenTimer.h">
+      <Filter>3_Tween\TweenTimer</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeSystem.h">
+      <Filter>4_TimeSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -69,6 +79,9 @@
     </Filter>
     <Filter Include="3_Tween\TweenTimer">
       <UniqueIdentifier>{5304ecb1-e833-48dc-8f11-70a874e2bc4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_TimeSystem">
+      <UniqueIdentifier>{318fd7da-a003-46b1-98cc-e5fba8bf1baa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

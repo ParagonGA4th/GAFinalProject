@@ -5,7 +5,7 @@
 
 // 업데이트에서 임시로 인풋을 돌리기 위해...
 #include "../ParagonUtil/InputSystem.h"
-#include "../ParagonGameEngine/TimeSystem.h"
+#include "../ParagonUtil/TimeSystem.h"
 
 #include <singleton-cpp/singleton.h>
 #include <cassert>
@@ -27,7 +27,7 @@ void EditorCameraScript::Start()
 	tInput = &tInputSystem;
 
 	// Time
-	auto& tTimeSystem = singleton<Pg::Engine::Time::TimeSystem>();
+	auto& tTimeSystem = singleton<Pg::Util::Time::TimeSystem>();
 	tTime = &tTimeSystem;
 
 	// Camera
