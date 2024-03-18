@@ -32,7 +32,7 @@ namespace Pg::Data
 		virtual void CheckForPathNameErrors() override;
 
 		//Animation Path - SetAnimation()
-		void SetAnimation(const std::string& animName);
+		void SetAnimation(const std::string& animName, bool isLoop);
 
 	public:
 		//Scene이 시작할 때 일괄적으로 호출하기 위해서.
@@ -55,7 +55,7 @@ namespace Pg::Data
 		//RenderObjectSkinnedMesh가 등록한다.
 		//return bool == 해당 함수가 성공했는지. (GraphicsSceneParser가 별도로 연결해준다)
 		//일단 직접 호출 금지.
-		std::function<void(const std::string&)> _setAnimationFunction;
+		std::function<void(const std::string&, bool)> _setAnimationFunction;
 
 
 	

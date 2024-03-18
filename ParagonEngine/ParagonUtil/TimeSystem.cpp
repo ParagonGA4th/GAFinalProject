@@ -86,4 +86,9 @@ namespace Pg::Util::Time
 		return _frameRate;
 	}
 
+	const float* const TimeSystem::GetDeltaTimePointer()
+	{
+		return &_deltaTime;
+	}
+
 }
