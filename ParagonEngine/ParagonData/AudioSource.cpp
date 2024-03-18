@@ -55,25 +55,25 @@ namespace Pg::Data
 		_soundState = eSoundState::_NONE;
 	}
 
-	void AudioSource::SetBGMVolume(float vol)
-	{
-		_bgmVolume = vol;
-	}
+	//void AudioSource::SetBGMVolume(float vol)
+	//{
+	//	_bgmVolume = vol;
+	//}
 
-	float AudioSource::GetBGMVolume()
-	{
-		return _bgmVolume;
-	}
+	//float AudioSource::GetBGMVolume()
+	//{
+	//	return _bgmVolume;
+	//}
 
-	void AudioSource::SetEffectVolume(float vol)
-	{
-		_effectVolume = vol;
-	}
+	//void AudioSource::SetEffectVolume(float vol)
+	//{
+	//	_effectVolume = vol;
+	//}
 
-	float AudioSource::GetEffectVolume()
-	{
-		return _effectVolume;
-	}
+	//float AudioSource::GetEffectVolume()
+	//{
+	//	return _effectVolume;
+	//}
 
 	void AudioSource::SetAudioName(const std::string& audioName)
 	{
