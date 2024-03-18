@@ -2,8 +2,11 @@
 #include "PgInput.h"
 #include "PgTime.h"
 #include "PgAudio.h"
+#include "PgTween.h"
 #include "PgRayCast.h"
+
 #include <singleton-cpp/singleton.h>
+
 namespace Pg::API
 {
 	void APIMain::Initialize()
@@ -23,10 +26,14 @@ namespace Pg::API
 		auto& tPgRayCast = singleton<Pg::API::Raycast::PgRayCast>();
 		this->_pgRayCast = &tPgRayCast;
 
+		auto& tPgTween = singleton<Pg::API::Tween::PgTween>();
+		this->_pgTween = &tPgTween;
+
 		_pgInput->Initialize();
 		_pgTime->Initialize();
 		_pgRayCast->Initialize();
 		_pgAudio->Initialize();
+		_pgTween->Initialize();
 	}
 
 	void APIMain::Finalize()

@@ -9,6 +9,11 @@ namespace Pg::Util
 
 	}
 
+	TweenSystem::~TweenSystem()
+	{
+
+	}
+
 	void TweenSystem::Initialize()
 	{
 
@@ -63,4 +68,7 @@ namespace Pg::Util
 	{
 
 	}
+
+	
+
 }
