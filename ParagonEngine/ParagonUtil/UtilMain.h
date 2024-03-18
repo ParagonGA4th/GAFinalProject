@@ -12,15 +12,21 @@ namespace Pg::Util
 		class InputSystem;
 	}
 
+	namespace Time
+	{
+		class TimeSystem;
+	}
+
 	class UtilMain : public Pg::Core::IUtil
 	{
 	public: 
-		PARAGON_UTIL_DLL virtual void Initialize(float screenWidth, float screenHeight) override;
+		PARAGON_UTIL_DLL virtual void Initialize(float screenWidth, float screenHeight, void* hwnd) override;
 		PARAGON_UTIL_DLL virtual void Update() override;
 		PARAGON_UTIL_DLL virtual void Finalize() override;
 
 	private:
 		Input::InputSystem* _inputSystem;
+		Time::TimeSystem* _timeSystem;
 	};
 }
 

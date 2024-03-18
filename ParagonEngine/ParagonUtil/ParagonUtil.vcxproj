@@ -132,8 +132,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gainput-d.lib;%(AdditionalDependencies);singleton.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>gainput-d.lib;%(AdditionalDependencies);singleton.lib;ParagonMath.lib</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\spdlog\x64\Debug;$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories);$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
@@ -158,8 +158,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gainput.lib;%(AdditionalDependencies);singleton.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>gainput.lib;%(AdditionalDependencies);singleton.lib;ParagonMath.lib</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\spdlog\x64\Release;$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
@@ -167,8 +167,13 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EasingMode.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="TimeSystem.h" />
+    <ClInclude Include="Tween.h" />
+    <ClInclude Include="TweenSystem.h" />
+    <ClInclude Include="TweenTimer.h" />
     <ClInclude Include="UtilDLLExporter.h" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +184,10 @@
     <ClCompile Include="Log.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="TimeSystem.cpp" />
+    <ClCompile Include="Tween.cpp" />
+    <ClCompile Include="TweenSystem.cpp" />
+    <ClCompile Include="TweenTimer.cpp" />
     <ClCompile Include="UtilMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

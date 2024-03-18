@@ -22,9 +22,6 @@
     <ClInclude Include="DebugSystem.h">
       <Filter>2_System\DebugSystem</Filter>
     </ClInclude>
-    <ClInclude Include="TimeSystem.h">
-      <Filter>2_System\TimeSystem</Filter>
-    </ClInclude>
     <ClInclude Include="EditorCameraScript.h">
       <Filter>4_WorkSpace\SceneView\Scripts\EditorCamera</Filter>
     </ClInclude>
@@ -155,9 +152,6 @@
     </ClCompile>
     <ClCompile Include="DebugSystem.cpp">
       <Filter>2_System\DebugSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="TimeSystem.cpp">
-      <Filter>2_System\TimeSystem</Filter>
     </ClCompile>
     <ClCompile Include="EditorCameraScript.cpp">
       <Filter>4_WorkSpace\SceneView\Scripts\EditorCamera</Filter>
@@ -310,9 +304,6 @@
     </Filter>
     <Filter Include="2_System\DebugSystem">
       <UniqueIdentifier>{0c5d9658-5dcb-4e7a-ab78-73ae6f8c64df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_System\TimeSystem">
-      <UniqueIdentifier>{9ea9fc35-ec73-4f0a-8052-37ab06cd79e8}</UniqueIdentifier>
     </Filter>
     <Filter Include="4_WorkSpace\SceneView\Scripts">
       <UniqueIdentifier>{92d6b3ef-5bd2-4ba8-adb4-d0bd1ba974c8}</UniqueIdentifier>

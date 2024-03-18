@@ -21,7 +21,10 @@ namespace Pg::Engine
 		_channelGroupVec(),
 		_soundMap(),
 		_maxSound(),
-		_maxGroup(3)
+		_maxGroup(3),
+		_bgmVolume(0.5f),
+		_ingameVolume(0.5f),
+		_effectVolume(0.5f)
 	{
 		//FMOD ÃÊ±âÈ­
 		FMOD::System_Create(&_system);
@@ -177,12 +180,16 @@ namespace Pg::Engine
 
 			if (audioData->group == Pg::Data::eSoundGroup::BGM)
 			{
-				audioData->channel->setVolume(audioSource->GetBGMVolume());
+				audioData->channel->setVolume(_bgmVolume);
 				//_channelGroupVec[soundGroup]->setVolume(audioSource->GetBGMVolume());
 			}
 			else if (audioData->group == Pg::Data::eSoundGroup::Effect)
 			{
-				audioData->channel->setVolume(audioSource->GetEffectVolume());
+				audioData->channel->setVolume(_effectVolume);
+			}
+			else if (audioData->group == Pg::Data::eSoundGroup::InGame)
+			{
+				audioData->channel->setVolume(_ingameVolume);
 			}
 		}
 	}
@@ -264,6 +271,36 @@ namespace Pg::Engine
 		}
 
 		assert("");
+	}
+
+	void SoundSystem::SetBGMVolume(float vol)
+	{
+		_bgmVolume = vol;
+	}
+
+	float SoundSystem::GetBGMVolume()
+	{
+		return _bgmVolume;
+	}
+
+	void SoundSystem::SetIngameVolume(float vol)
+	{
+		_ingameVolume = vol;
+	}
+
+	float SoundSystem::GetIngameVolume()
+	{
+		return _ingameVolume;
+	}
+
+	void SoundSystem::SetEffectVolume(float vol)
+	{
+		_effectVolume = vol;
+	}
+
+	float SoundSystem::GetEffectVolume()
+	{
+		return _effectVolume;
 	}
 
 }

@@ -31,7 +31,7 @@ namespace Pg::Editor::Window
 	private:
 		void DataSet();
 		void GetCurrentSceneObjectList();
-		void GetPickedObject();
+		void GetSelectedObject();
 
 	private:
 		/// hierarchy value
@@ -52,7 +52,7 @@ namespace Pg::Editor::Window
 		int _prevObjListSize;
 
 		std::string* _prevObjName;
-		std::string _pickingObjName;
+		std::string _prevSceneName;
 	};
 }
 

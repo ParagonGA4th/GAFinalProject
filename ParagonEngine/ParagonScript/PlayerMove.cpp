@@ -10,7 +10,7 @@
 #include <cassert>
 
 PlayerMove::PlayerMove(Pg::Data::GameObject* obj) :
-	Pg::Data::Script(obj)
+	Pg::script::Script(obj)
 {
 	FACTORY_INIT;
 }
