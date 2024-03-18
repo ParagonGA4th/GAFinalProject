@@ -1,10 +1,10 @@
 #pragma once
 
 
-//namespace Pg::Engine
-//{
-//	class SoundSystem;
-//}
+namespace Pg::Engine
+{
+	class SoundSystem;
+}
 
 /// <summary>
 /// 스크립팅 시 필요한 사운드 관련 함수 API.
@@ -12,10 +12,10 @@
 /// </summary>
 namespace Pg::API::Sound
 {
-	class PgSound
+	class PgAudio
 	{
 	public:
-		//void Initialize();
+		void Initialize();
 
 		//void SetBGMVolume(float vol);
 		//void SetEffectVolume(float vol);
@@ -26,7 +26,6 @@ namespace Pg::API::Sound
 		//float GetEffectVolume();
 
 	private:
-		//Pg::Engine::SoundSystem* _soundSystem;
+		Pg::Engine::SoundSystem* _soundSystem;
 	};
 }
-

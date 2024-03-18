@@ -77,23 +77,35 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 	if (_dataContainer->GetCurrentScene() == NULL) return;
 
 	GetCurrentSceneObjectList();
-	GetPickedObject();
+	GetSelectedObject();
 
-	for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
+	for (auto& name : _objNameList)
 	{
-		if (_prevObjName->empty())
+		if (name.second.second.size() > 0)
 		{
-			_changeObjectData->Invoke(eEventType::_OBJECTDATA,
-				static_cast<void*>(_dataContainer->GetCurrentScene()->GetObjectList().at(0)));
-		}
-		
-		if (i->GetName() == *_prevObjName)
-		{
-			if (_dataContainer->GetPickObject() == nullptr || _dataContainer->GetPickObject()->GetName() != i->GetName())
-				_dataContainer->SetPickObject(i);
+			Pg::Data::GameObject* tobj = nullptr;
+			for (auto& obj : _dataContainer->GetCurrentScene()->GetObjectList())
+			{
+				if (obj->GetName() == name.second.first)
+				{
+					tobj = obj;
+					break;
+				}
+			}
 
-			_changeObjectData->Invoke(eEventType::_OBJECTDATA, static_cast<void*>(i));
-			break;
+			if (tobj != nullptr && tobj->_transform.GetChildren().size() != name.second.second.size())
+			{
+				for (auto& obj : _dataContainer->GetCurrentScene()->GetObjectList())
+				{
+					for (auto& child : name.second.second)
+					{
+						if (child == obj->GetName())
+						{
+							tobj->_transform.AddChild(obj);
+						}
+					}
+				}
+			}
 		}
 	}
 }
@@ -101,12 +113,12 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 
 void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 {
-	int objSize = _dataContainer->GetCurrentScene()->GetObjectList().size();
+	std::string sceneName = _dataContainer->GetCurrentScene()->GetSceneName();
 
 	// 여러 번 오브젝트 리스트를 가져오는 것을 막기 위해
-	if (_prevObjListSize != objSize)
+	if (_prevSceneName != sceneName)
 	{
-		_prevObjListSize = objSize;
+		_prevSceneName = sceneName;
 		_objNameList.clear();
 
 		int count = 0;
@@ -130,20 +142,22 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 	}
 }
 
-void Pg::Editor::Window::Hierarchy::GetPickedObject()
+void Pg::Editor::Window::Hierarchy::GetSelectedObject()
 {
-	// picking된 오브젝트가 있다면 Hierarchy 창에 선택되어야 함
-	if (_dataContainer->GetPickObject() != nullptr) 
-		_pickingObjName = _dataContainer->GetPickObject()->GetName();
-
-	if (!_pickingObjName.empty())
+	for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
 	{
-		for (auto& objName : _objNameList)
+		if (_prevObjName->empty())
 		{
-			if (objName.second.first == _pickingObjName)
-			{
-				break;
-			}
+			_changeObjectData->Invoke(eEventType::_OBJECTDATA,
+				static_cast<void*>(_dataContainer->GetCurrentScene()->GetObjectList().at(0)));
+		}
+
+		if (i->GetName() == *_prevObjName)
+		{
+			_dataContainer->SetPickObject(i);
+
+			_changeObjectData->Invoke(eEventType::_OBJECTDATA, static_cast<void*>(i));
+			break;
 		}
 	}
 }

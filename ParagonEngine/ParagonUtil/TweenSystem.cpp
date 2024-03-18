@@ -1,0 +1,74 @@
+#include "TweenSystem.h"
+#include "Tween.h"
+#include "TweenTimer.h"
+
+namespace Pg::Util
+{
+	TweenSystem::TweenSystem()
+	{
+
+	}
+
+	TweenSystem::~TweenSystem()
+	{
+
+	}
+
+	void TweenSystem::Initialize()
+	{
+
+	}
+
+	Tween* TweenSystem::CreateTween()
+	{
+		///여기서 오브젝트 풀링이 사용되어야.
+		Pg::Util::Tween* temp = new Pg::Util::Tween();
+		_dotweens.push_back(temp);
+		return _dotweens.back();
+	}
+
+	void TweenSystem::Update()
+	{
+		for (Pg::Util::Tween* tween : _dotweens)
+		{
+			if (tween->_timer->_isActive == true)
+			{
+				tween->_timer->Update();
+			}
+			else
+			{
+				// 끝난 오브젝트를 모아두는 벡터에 현재 사용이 끝난 이터레이터를 넣는다
+				if (tween->_onCompleteFunc != nullptr)
+				{
+					tween->_onCompleteFunc();
+				}
+				_deleteObj.push_back(tween);
+			}
+		}
+
+		// 지울 오브젝트를 모아둔 벡터와 현재 벡터를 비교해서 지운다
+		auto findObj = _deleteObj.begin();
+		for (Pg::Util::Tween* i : _deleteObj)
+		{
+			auto dotweenIterator = std::find(_dotweens.begin(), _dotweens.end(), *findObj);
+			if (dotweenIterator != _dotweens.end())
+			{
+				delete* dotweenIterator;
+				_dotweens.erase(dotweenIterator); //ERASE-REMOVEIF
+			}
+			++findObj;
+		}
+
+		// 지울 오브젝트를 모아둔 벡터를 클리어한다
+		_deleteObj.clear();
+
+	}
+
+	void TweenSystem::Finalize()
+	{
+
+	}
+
+	
+
+}

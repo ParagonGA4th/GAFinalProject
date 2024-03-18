@@ -1,0 +1,110 @@
+#pragma once
+
+#include "../ParagonMath/PgMath.h"
+#include "EasingMode.h"
+#include <memory>
+
+/// <summary>
+/// Tween에 요구되는 개별 객체. 
+/// Special Thanks To : @chloe980504
+/// </summary>
+
+namespace Pg::Util
+{
+	class TweenTimer;
+	class TweenSystem;
+}
+
+namespace Pg::Util
+{
+	class Tween
+	{
+		friend class Pg::Util::TweenSystem;
+
+	private:
+		Tween(); //TweenSystem만 Tween의 객체를 만들 수 있다.
+
+	public:
+		~Tween();
+		//데이터 가져오기.
+		Tween& GetData(int* data);
+		Tween& GetData(float* data);
+		Tween& GetData(Pg::Math::PGFLOAT2* data);
+		Tween& GetData(Pg::Math::PGFLOAT3* data);
+		Tween& GetData(Pg::Math::PGQuaternion* data);
+
+		//기본 자료형 Move.  (Tween)
+		Tween& DoMove(const int& destination, const float duration);
+		Tween& DoMove(const float& destination, const float duration);
+		Tween& DoMove(Pg::Math::PGFLOAT2& destination, const float duration);
+		Tween& DoMove(const Pg::Math::PGFLOAT3& destination, const float duration);
+		Tween& DoMove(const Pg::Math::PGQuaternion& destination, const float duration);
+
+		// Addition Functions
+		Tween& Delay(float delayTime);					//이건 되는지 모름.
+		Tween& OnComplete(std::function<void()> func);	//이건 Tween이 끝났을시 등록하는데 쓰임.
+
+		// Easing 세팅 함수
+		Tween& SetEase(Enums::eEasingMode type);
+
+		// Easing 수학 함수
+		static float Linear(float x);
+
+		static float InBack(float x);
+		static float OutBack(float x);
+		static float InOutBack(float x);
+
+		static float InBounce(float x);
+		static float OutBounce(float x);
+		static float InOutBounce(float x);
+
+		static float InElastic(float x);
+		static float OutElastic(float x);
+		static float InOutElastic(float x);
+
+		static float InSine(float x);
+		static float OutSine(float x);
+		static float InOutSine(float x);
+
+		static float InExpo(float x);
+		static float OutExpo(float x);
+		static float InOutExpo(float x);
+
+		static float InCirc(float x);
+		static float OutCirc(float x);
+		static float InOutCirc(float x);
+		// 제곱
+		static float InQuad(float x);
+		static float OutQuad(float x);
+		static float InOutQuad(float x);
+		// 세제곱
+		static float InCubic(float x);
+		static float OutCubic(float x);
+		static float InOutCubic(float x);
+		// 네제곱
+		static float InQuart(float x);
+		static float OutQuart(float x);
+		static float InOutQuart(float x);
+		// 다섯제곱
+		static float InQuint(float x);
+		static float OutQuint(float x);
+		static float InOutQuint(float x);
+		
+	private:
+		//데이터 세이브.
+		int* dataI;
+		float* dataF;
+		Pg::Math::PGFLOAT2* data2V;
+		Pg::Math::PGFLOAT3* data3V;
+		Pg::Math::PGQuaternion* dataQuat = nullptr;
+		std::function<void()> _onCompleteFunc = nullptr;
+
+		/// easing functions
+		std::unique_ptr<Pg::Util::TweenTimer> _timer;
+
+		// easing data
+		static std::function<float(float)> _easings[31];
+		std::function<float(float)> _myEase;
+
+	};
+}
