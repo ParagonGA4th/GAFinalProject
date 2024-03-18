@@ -1,4 +1,5 @@
 #include <vector>
+#include "UtilDLLExporter.h"
 
 /// <summary>
 /// Tween에 요구되는 개별 객체. 
@@ -15,8 +16,8 @@ namespace Pg::Util
 	class TweenSystem
 	{
 	public:
-		TweenSystem();		// Singleton으로 쓰일 예정, singleton-cpp.
-		~TweenSystem();
+		PARAGON_UTIL_DLL TweenSystem();		// Singleton으로 쓰일 예정, singleton-cpp.
+		PARAGON_UTIL_DLL ~TweenSystem();
 
 	public:
 		void Initialize();
@@ -31,7 +32,7 @@ namespace Pg::Util
 
 	public:
 		//API로 익스포팅용 : 트윈을 만들기.
-		Tween* CreateTween();
+		PARAGON_UTIL_DLL Tween* CreateTween();
 		
 	};
 }

@@ -127,7 +127,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;ParagonMath.lib</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonGameEngine.lib;ParagonGraphics.lib;ParagonUtil.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,7 +151,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;ParagonMath.lib</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonGameEngine.lib;ParagonGraphics.lib;ParagonUtil.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -162,6 +162,7 @@
     <ClInclude Include="PgRayCast.h" />
     <ClInclude Include="PgSound.h" />
     <ClInclude Include="PgTime.h" />
+    <ClInclude Include="PgTween.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="APIMain.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="PgRayCast.cpp" />
     <ClCompile Include="PgSound.cpp" />
     <ClCompile Include="PgTime.cpp" />
+    <ClCompile Include="PgTween.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
