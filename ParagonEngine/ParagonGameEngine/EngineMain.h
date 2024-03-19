@@ -11,6 +11,14 @@
 /// 2023.09.08
 /// </summary>
 
+namespace Pg::Util
+{
+	namespace Time
+	{
+		class TimeSystem;
+	}
+}
+
 namespace Pg::Core
 {
 	class ProcessMain;
@@ -32,11 +40,6 @@ namespace Pg::Engine
 	namespace Physic
 	{
 		class PhysicSystem;
-	}
-
-	namespace Time
-	{
-		class TimeSystem;
 	}
 
 	namespace BTree
@@ -99,13 +102,14 @@ namespace Pg::Engine
 		Pg::Core::ProcessMain* _coreMain = nullptr;
 
 		Physic::PhysicSystem* _physicSystem = nullptr;
-		Time::TimeSystem* _timeSystem = nullptr;
 		BTree::BehaviorTreeSystem* _behaviorTreeSystem = nullptr;
 		SceneSystem* _sceneSystem = nullptr;
 		DebugSystem* _debugSystem = nullptr;
 		SoundSystem* _soundSystem = nullptr;
 		NavigationSystem* _navSystem = nullptr;
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
+
+		Pg::Util::Time::TimeSystem* _timeSystem = nullptr; //제어권은 더이상 엔진에는 없다.
 	};
 }
 

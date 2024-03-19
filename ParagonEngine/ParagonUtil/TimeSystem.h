@@ -1,5 +1,5 @@
 #pragma once
-#include "EngineDLLExporter.h"
+#include "UtilDLLExporter.h"
 
 #include <windows.h>
 #include <string>
@@ -9,19 +9,20 @@
 /// DeltaTime 및 FPS 출력 담당
 /// 2023.09.12
 /// </summary>
-namespace Pg::Engine::Time
+
+namespace Pg::Util::Time
 {
 	class TimeSystem
 	{
 	public:
-		PARAGON_ENGINE_DLL TimeSystem();
-
-		PARAGON_ENGINE_DLL void Initialize(void* hWnd);
-		PARAGON_ENGINE_DLL void TimeMeasure();
-		PARAGON_ENGINE_DLL void MeasureFrame(float deltaTime);
-
-		PARAGON_ENGINE_DLL float GetDeltaTime();
-		PARAGON_ENGINE_DLL int GetFrameRate();
+		PARAGON_UTIL_DLL TimeSystem();
+				
+		PARAGON_UTIL_DLL void Initialize(void* hWnd);
+		PARAGON_UTIL_DLL void TimeMeasure();
+		PARAGON_UTIL_DLL void MeasureFrame(float deltaTime);
+				
+		PARAGON_UTIL_DLL float GetDeltaTime();
+		PARAGON_UTIL_DLL int GetFrameRate();
 
 	public:
 		float _deltaTime = 0.f; 

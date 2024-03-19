@@ -3,7 +3,6 @@
 #include "PhysicSystem.h"
 #include "SceneSystem.h"
 #include "DebugSystem.h"
-#include "TimeSystem.h"
 #include "SoundSystem.h"
 #include "NavigationSystem.h"
 #include "BehaviorTreeSystem.h"
@@ -21,6 +20,7 @@
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/Camera.h"
 #include "../ParagonUtil/Log.h"
+#include "../ParagonUtil/TimeSystem.h"
 #include "../ParagonAPI/KeyCodeType.h"
 #include <singleton-cpp/singleton.h>
 
@@ -56,10 +56,6 @@ namespace Pg::Engine
 		auto& tSceneSystem = singleton<SceneSystem>();
 		_sceneSystem = &tSceneSystem;
 
-		//Time
-		auto& tTimeSystem = singleton<Time::TimeSystem>();
-		_timeSystem = &tTimeSystem;
-
 		//Debug
 		auto& tDebugSystem = singleton<DebugSystem>();
 		_debugSystem = &tDebugSystem;
@@ -75,6 +71,11 @@ namespace Pg::Engine
 		//Navigation
 		auto& tNavSystem = singleton<NavigationSystem>();
 		_navSystem = &tNavSystem;
+
+		//DeltaTime을 받기 위해 외부적으로 Util의 싱글턴을 갖고 와서 활용.
+		//더 이상 엔진에서 제어권은 없다.
+		auto& tTimeSystem = singleton<Pg::Util::Time::TimeSystem>();
+		_timeSystem = &tTimeSystem;
 	}
 
 	EngineMain::~EngineMain()
@@ -82,25 +83,18 @@ namespace Pg::Engine
 
 	}
 
-
-
 	void EngineMain::Initialize(void* hwnd, float width, float height, const std::string& resourceListPath)
 	{
-		
 		_sceneSystem->Initialize();
 		_debugSystem->Initialize();
 		_physicSystem->Initialize(_debugSystem);
 		_soundSystem->Initialize(resourceListPath);
 		_navSystem->Initialize();
 		_behaviorTreeSystem->Initialize(resourceListPath);
-		_timeSystem->Initialize(hwnd);
 	}
 
 	void EngineMain::Update()
-	{
-		///업데이트 순서 무조건 고정!!! 바뀌면 안됨
-		_timeSystem->TimeMeasure();
-		
+	{	
 		_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
 		_physicSystem->Flush();
 		_sceneSystem->Update();

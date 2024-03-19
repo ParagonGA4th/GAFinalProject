@@ -16,6 +16,9 @@
     <Filter Include="1_BaseClass">
       <UniqueIdentifier>{70ddfed8-cbb9-437f-801f-ea992bf132b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SoundTest">
+      <UniqueIdentifier>{a1a6b945-4cd4-42b0-bd0e-d8971d330898}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -29,6 +32,9 @@
     </ClCompile>
     <ClCompile Include="Script.cpp">
       <Filter>1_BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundTest.cpp">
+      <Filter>SoundTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="Script.h">
       <Filter>1_BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundTest.h">
+      <Filter>SoundTest</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

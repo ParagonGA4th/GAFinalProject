@@ -20,7 +20,7 @@ namespace Pg::Util
 		class InputSystem;
 	}
 }
-namespace Pg::Engine
+namespace Pg::Util
 {
 	namespace Time
 	{
@@ -48,7 +48,7 @@ private:
 private:
 	// 인풋 시스템으로 카메라의 이동을 체크한다
 	Pg::Util::Input::InputSystem* tInput = nullptr;
-	Pg::Engine::Time::TimeSystem* tTime = nullptr;
+	Pg::Util::Time::TimeSystem* tTime = nullptr;
 	Pg::Data::Camera* _camera = nullptr;
 
 	//float _moveSpeed = 0.02f; //FPS는 동일, 카메라의 스피드UP.
