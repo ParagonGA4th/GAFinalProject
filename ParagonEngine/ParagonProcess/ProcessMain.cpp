@@ -54,7 +54,7 @@ namespace Pg::Core
 		std::string tResourceListPath = "../ResourceList";
 
 		//엔진 초기화
-		_util->Initialize(screenWidth, screenHeight);
+		_util->Initialize(screenWidth, screenHeight, hwnd);
 		_engineGraphicsAdapter->InitializeEngine(hwnd, screenWidth, screenHeight, tResourceListPath);
 		_api->Initialize();
 		_engineGraphicsAdapter->InitializeGraphics(static_cast<HWND>(hwnd), screenWidth, screenHeight);

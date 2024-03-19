@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include <cmath>
 #include <limits>
+#include <algorithm>
 
 namespace Pg::Data
 {
@@ -241,6 +242,19 @@ namespace Pg::Data
 
 	Pg::Math::PGFLOAT4X4 Transform::GetWorldTM()
 	{
+		PGFLOAT4X4 result = GetLocalTM();
+
+		if (_parent)
+		{
+			PGFLOAT4X4 tParentWorldTM = _parent->GetWorldTM();
+			result = result * tParentWorldTM;
+		}
+
+		return result;
+	}
+
+	Pg::Math::PGFLOAT4X4 Transform::GetLocalTM()
+	{
 		//Scale: 0값 되는 것 막기.
 		bool tValidScale = (_scale.x > std::numeric_limits<float>::epsilon()) ||
 			(_scale.y > std::numeric_limits<float>::epsilon()) ||
@@ -252,13 +266,6 @@ namespace Pg::Data
 		}
 
 		PGFLOAT4X4 result = Pg::Math::PGScaleMatrix(_scale) * Pg::Math::PGRotationMatrix(_rotation) * Pg::Math::PGTranslateMatrix(_position);
-
-		if (_parent)
-		{
-			PGFLOAT4X4 tParentWorldTM = _parent->GetWorldTM();
-			result = result * tParentWorldTM;
-		}
-
 		return result;
 	}
 
@@ -437,5 +444,24 @@ namespace Pg::Data
 		}
 
 		return q;
+	}
+
+	void Transform::RemoveChild(GameObject* child)
+	{
+		RemoveChild(child->GetName());
+	}
+
+	void Transform::RemoveChild(std::string child)
+	{
+		auto res = std::find_if(_children.begin(), _children.end(),
+			[&](Transform* trans)
+			{
+				return trans->_object->GetName() == child;
+			});
+
+		if (res != _children.end())
+		{
+			_children.erase(res);
+		}
 	}
 }

@@ -1,8 +1,8 @@
 #include "TimeSystem.h"
-#include "../ParagonUtil/Log.h"
+#include "Log.h"
 #include <string>
 
-namespace Pg::Engine::Time
+namespace Pg::Util::Time
 {
 	TimeSystem::TimeSystem() :
 		_frequency(LARGE_INTEGER()),

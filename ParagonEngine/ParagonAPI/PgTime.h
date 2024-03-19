@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Pg::Engine
+namespace Pg::Util
 {
 	namespace Time
 	{
@@ -23,7 +23,7 @@ namespace Pg::API::Time
 		float GetFrameRate();
 
 	private:
-		Pg::Engine::Time::TimeSystem* _timeSystem;
+		Pg::Util::Time::TimeSystem* _timeSystem;
 	};
 }
 

@@ -17,7 +17,7 @@ namespace Pg::API::Input
 /// 플레이어 관련 스크립트
 /// </summary>
 
-class PlayerMove : public Pg::Data::Script, Pg::Factory::Script::RegisteredInFactory<Pg::Data::Script, PlayerMove, Pg::Data::GameObject*>
+class PlayerMove : public Pg::script::Script, Pg::Factory::Script::RegisteredInFactory<Pg::script::Script, PlayerMove, Pg::Data::GameObject*>
 {
 public:
 	PlayerMove(Pg::Data::GameObject* obj);
