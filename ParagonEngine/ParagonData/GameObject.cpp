@@ -136,6 +136,14 @@ namespace Pg::Data
 			return component;
 		}
 
+		///TODO: 현재 StaticMeshRenderer가 먹지 않고 있다. UE를 급하게 고쳐야 하기에, 하드코딩으로 일단 투입.
+		if (componentType.compare("class Pg::Data::StaticMeshRenderer") == 0)
+		{
+			component = new StaticMeshRenderer(this);
+			_componentList.push_back(std::make_pair("class Pg::Data::StaticMeshRenderer", component));
+			return component;
+		}
+	
 		component = Pg::Factory::Data::Factory<Pg::Data::RendererBase3D, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
 		if (component != nullptr)
 		{
