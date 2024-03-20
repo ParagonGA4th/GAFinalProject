@@ -122,6 +122,7 @@ namespace Pg::Engine
 	void EngineMain::Finalize()
 	{
 		_physicSystem->Finalize();
+		_navSystem->Finalize();
 		_soundSystem->Finalize();
 	}
 
