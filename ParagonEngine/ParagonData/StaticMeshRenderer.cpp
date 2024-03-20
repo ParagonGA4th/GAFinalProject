@@ -3,6 +3,8 @@
 
 #include <sstream>
 #include <vector>
+#include "GameObject.h"
+#include <DirectXMath.h>
 
 namespace Pg::Data
 {
@@ -45,6 +47,14 @@ namespace Pg::Data
 		if (_materialName.compare("fromUnrealExample") == 0)
 		{
 			_materialName.clear();
+
+			//UE Exporter¿Í È£È¯.
+			//DirectX::XMFLOAT3 tEulerRot = { _object->_transform._rotation.x, _object->_transform._rotation.y,_object->_transform._rotation.z };
+			//DirectX::XMVECTOR tEulerRotQuat = DirectX::XMLoadFloat3(&tEulerRot);
+			//tEulerRotQuat = DirectX::XMQuaternionRotationRollPitchYawFromVector(tEulerRotQuat);
+			//
+			//_object->_transform._rotation = XM2PG_QUATERNION(tEulerRotQuat);
+		
 		}
 	}
 
