@@ -49,7 +49,7 @@ namespace Pg::Graphics
 		void SyncRenderObjects(const Pg::Data::Scene* const newScene);
 		void SyncSceneInformation(const Pg::Data::Scene* const newScene);
 		void BindAdequateFunctions(const Pg::Data::Scene* const newScene); //내부적으로 작동을 위한 bind될 함수들이 있으면, 이를 발동하기 위해.
-		void CreateObjMatBuffersStatic();
+		void CreateObjMatBuffersAll();
 
 	private:
 		//PrimitiveWireframeObject 하드코딩해서 완성.
