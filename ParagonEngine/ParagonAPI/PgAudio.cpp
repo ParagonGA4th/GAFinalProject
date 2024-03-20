@@ -1,5 +1,6 @@
 #include "PgAudio.h"
 #include "../ParagonGameEngine/SoundSystem.h"
+#include "../ParagonGameEngine/PhysicSystem.h"
 
 #include <singleton-cpp/singleton.h>
 
@@ -13,6 +14,9 @@ namespace Pg::API::Sound
 {
 	void PgAudio::Initialize()
 	{
+		//auto& tSoundSystem = singleton<Pg::Engine::Physic::PhysicSystem>();
+		//_physicSystem = &tSoundSystem;
+
 		//auto& tSoundSystem = singleton<Pg::Engine::SoundSystem>();
 		//_soundSystem = &tSoundSystem;
 	}
