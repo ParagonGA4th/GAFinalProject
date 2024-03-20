@@ -77,9 +77,8 @@ namespace Pg::Graphics
 		BindAdequateFunctions(newScene);
 		//이제 별도로 렌더링과 관련된 오브젝트들을 받아야 한다.
 
-		CreateObjMatBuffersStatic();
+		CreateObjMatBuffersAll();
 
-	
 		//실제 리소스를 사용해야 하기에, Initialize에서 현재 호출하고 있지 않음.
 		PlaceCubemapList();
 	}
@@ -195,7 +194,23 @@ namespace Pg::Graphics
 				}
 				else if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::SkinnedMeshRenderer*).name())) == 0)
 				{
-					//나중에 Static이 연동된다면 모두 추가되어야 한다.
+					//Skinned를 연동하려고 하니, 모두 추가되어야 한다.
+					//렌더러 정보.
+					Pg::Data::SkinnedMeshRenderer* tActualRenderer = static_cast<Pg::Data::SkinnedMeshRenderer*>(tBaseRenderer);
+
+					//리소스 매니저에서 확인 -> MeshName / MeshPath.
+					//무조건 이 시점에서는 존재해야 한다.
+					tActualRenderer->SetMeshFilePath(Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResourcePathByName(
+						tActualRenderer->_meshName, eAssetDefine::_3DMODEL));
+
+					//리소스 매니저에서 확인 -> MaterialName / MaterialPath
+					if (!tActualRenderer->_materialName.empty())
+					{
+						tActualRenderer->SetMaterialFilePath(Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResourcePathByName(
+							tActualRenderer->_materialName, eAssetDefine::_RENDERMATERIAL));
+					}
+
+					//Mesh Path Set / 만약 Default Material이 아닌 경우 MaterialPath까지 배치 완료.
 				}
 
 				//모든 Conversion이 끝난 후일 것이다. 
@@ -281,11 +296,15 @@ namespace Pg::Graphics
 			_renderObject3DList->_skinnedList.insert_or_assign(it.first, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
 		}
 
+		//이때까지는 실제로 명시적으로 지정된 Material만 반영이 된다.
 	}
 
 	void GraphicsSceneParser::SyncRenderObjects(const Pg::Data::Scene* const newScene)
 	{
 		using Pg::Graphics::Helper::GraphicsResourceHelper;
+
+		//새로운 씬을 로드하니, 자체적인 Object Count를 리셋한다.
+		this->_objectId3dCount = 1;
 
 		//3. 이제 실제 오브젝트 내부 RenderObject 연동.
 		for (auto& tGameObject : newScene->GetObjectList())
@@ -335,11 +354,13 @@ namespace Pg::Graphics
 
 							//전체 저장목록에 갖고 있다고 기록. (Graphics에서 검사했기 때문에, AssetManager로 보내줘야)
 							Pg::Graphics::Manager::GraphicsResourceManager::Instance()->AddSecondaryResource(tDefaultMatInstName, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
-
-							//이제는, vector 목록에 추가해줘야.
-							_renderObject3DList->_staticList.insert_or_assign(tDefaultMatInstName, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
-							_renderObject3DList->_skinnedList.insert_or_assign(tDefaultMatInstName, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
+						
+							//씬 재시작 경우의 수를 위해, 없을 경우에는 로드만 하고 일괄적으로 insert/assign하는 것으로 변경.
 						}
+
+						//이제는, vector 목록에 추가해줘야.
+						_renderObject3DList->_staticList.insert_or_assign(tDefaultMatInstName, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
+						_renderObject3DList->_skinnedList.insert_or_assign(tDefaultMatInstName, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
 
 						//일단은 Default Material ID를 설정해주기.
 						auto res = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tDefaultMatInstName, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
@@ -482,10 +503,20 @@ namespace Pg::Graphics
 		}
 	}
 
-	void GraphicsSceneParser::CreateObjMatBuffersStatic()
+	void GraphicsSceneParser::CreateObjMatBuffersAll()
 	{
 		//모든 오브젝트 렌더링.
 		for (auto& it : _renderObject3DList->_staticList)
+		{
+			//Vector
+			for (int i = 0; i < it.second->size(); i++)
+			{
+				it.second->at(i).second->CreateObjMatBuffers();
+			}
+		}
+
+		//모든 오브젝트 렌더링.
+		for (auto& it : _renderObject3DList->_skinnedList)
 		{
 			//Vector
 			for (int i = 0; i < it.second->size(); i++)
@@ -535,7 +566,6 @@ namespace Pg::Graphics
 		//PG_TRACE(tRet->GetName().c_str());
 		return tRet;
 	}
-
 	
 
 }
