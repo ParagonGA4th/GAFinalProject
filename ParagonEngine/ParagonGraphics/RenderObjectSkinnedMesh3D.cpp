@@ -47,7 +47,8 @@ namespace Pg::Graphics
 		_cbAltogetherSkinned = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinned>>();
 
 		//Bone의 수만큼 GPU에 들어갈 벡터의 크기를 설정해야 한다. (ASSET_MAXIMUM_BONE_NUMBER_PER_MESH)
-		//BoneTransformVector 자체를 두지 않는다. ConstantBuffer 자체의 PureData에 투입 계획.
+		_boneTransformVector.resize(_modelData->_assetSkinnedData->_renderBoneInfoVector.size());
+
 		for (int i = 0; i < Pg::Defines::ASSET_MAXIMUM_BONE_NUMBER_PER_MESH; i++)
 		{
 			_cbAltogetherSkinned->GetDataStruct()->gCBuf_Bones[i] = DirectX::SimpleMath::Matrix::Identity;
@@ -100,7 +101,8 @@ namespace Pg::Graphics
 
 	void RenderObjectSkinnedMesh3D::ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData)
 	{
-
+		UpdateObjMatBaseCB(camData);
+		UpdateObjMatSkinnedCB();
 	}
 
 	void RenderObjectSkinnedMesh3D::ObjMat_BindBuffers()
@@ -161,6 +163,32 @@ namespace Pg::Graphics
 				this->_currentTick = _currentAnim->_animAssetData->_durationTick;
 			}
 		}
+
+	}
+
+	void RenderObjectSkinnedMesh3D::UpdateAnimMatrices(float dt)
+	{
+		//더 이상 Recursive하게 들어갈 필요가 없다.
+		//Linear하게 되었기 때문.
+
+		//0번째 인덱스 == RootNode. pair의 second가 비었다.
+		//부모가 없다는 얘기, RootNode이어서이다. 딱 한번 발생. -> SKIP.
+	
+		//현재 Tick, Animation, Parent Matrix.
+		//둘 다 인덱스 동일하게 적용.
+		const auto& tHierNodes = _modelData->_assetSkinnedData->_linearizedNodeHierarchy;
+		const auto& tNodeAnims = _currentAnim->_animAssetData->_linearizedNodeAnimList;
+
+		//RootNode는 별도로 업데이트. If문 타지 않기 위해.
+		const auto& tRootNode = _modelData->_assetSkinnedData->_linearizedNodeHierarchy.at(0);
+		const auto& tRootNodeAnim = _currentAnim->_animAssetData->_linearizedNodeAnimList.at(0);
+
+		//NodeAnim이 있을 때만.
+		if (tRootNodeAnim != nullptr)
+		{
+
+		}
+
 
 	}
 
@@ -228,20 +256,64 @@ namespace Pg::Graphics
 
 	void RenderObjectSkinnedMesh3D::UpdateSkinnedCB()
 	{
+		//이미 UpdateAnimation으로 인해 업데이트가 되어 있는 상태.
+		assert(_boneTransformVector.size() < 100 && "100 이내, 하드웨어의 한도!");
 
+		for (int i = 0; i < _boneTransformVector.size(); i++)
+		{
+			_cbAltogetherSkinned->GetDataStruct()->gCBuf_Bones[i] = _boneTransformVector.at(i);
+		}
+
+		//값이 맞게 들어갔으니, 업데이트.
+		_cbAltogetherSkinned->Update();
 	}
 
-	void RenderObjectSkinnedMesh3D::UpdateObjMatCB()
+	void RenderObjectSkinnedMesh3D::UpdateObjMatBaseCB(Pg::Data::CameraData* camData)
+	{
+		DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());
+		DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
+
+		//0.01 스케일링 적용.
+		tWorldTMMat = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f), tWorldTMMat);
+
+		DirectX::XMFLOAT4X4 tViewTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData->_viewMatrix);
+		DirectX::XMMATRIX tViewTMMat = DirectX::XMLoadFloat4x4(&tViewTM);
+
+		DirectX::XMFLOAT4X4 tProjTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
+		DirectX::XMMATRIX tProjTMMat = DirectX::XMLoadFloat4x4(&tProjTM);
+
+		_cbObjMatBase->GetDataStruct()->gCBuf_World = tWorldTMMat;
+		_cbObjMatBase->GetDataStruct()->gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
+
+		//값이 맞게 들어갔으니, 업데이트.
+		_cbObjMatBase->Update();
+	}
+
+	void RenderObjectSkinnedMesh3D::UpdateObjMatSkinnedCB()
+	{
+		//값이 이미 맞게 들어가 있으니, 업데이트.
+		_cbAltogetherSkinned->Update();
+	}
+
+	void RenderObjectSkinnedMesh3D::CalcInterpolatedRotation(DirectX::SimpleMath::Quaternion& outQuat, double animTick, const NodeAnim_AssetData const* pNodeAnim)
 	{
 
 	}
 
-	void RenderObjectSkinnedMesh3D::UpdateAnimMatrices(float dt)
+	void RenderObjectSkinnedMesh3D::CalcInterpolatedTranslation(DirectX::SimpleMath::Vector3& outVec, double animTick, const NodeAnim_AssetData const* pNodeAnim)
 	{
-		//더 이상 Recursive하게 들어갈 필요가 없다.
-		//Linear하게 되었기 때문.
-
 
 	}
+
+	unsigned int RenderObjectSkinnedMesh3D::FindRotationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim)
+	{
+
+	}
+
+	unsigned int RenderObjectSkinnedMesh3D::FindTranslationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim)
+	{
+
+	}
+
 
 }

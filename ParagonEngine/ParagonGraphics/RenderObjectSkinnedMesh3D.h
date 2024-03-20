@@ -16,6 +16,7 @@ namespace Pg::Data
 namespace Pg::Graphics
 {
 	class RenderAnimation;
+	class NodeAnim_AssetData;
 }
 
 namespace Pg::Graphics
@@ -60,7 +61,8 @@ namespace Pg::Graphics
 		//ConstantBufferUpdate.
 		void UpdateMainCB(Pg::Data::CameraData* camData);
 		void UpdateSkinnedCB();
-		void UpdateObjMatCB();
+		void UpdateObjMatBaseCB(Pg::Data::CameraData* camData);
+		void UpdateObjMatSkinnedCB();
 
 	private:
 		//현재 재생 중인 애니메이션.
@@ -76,11 +78,12 @@ namespace Pg::Graphics
 		//void BoneTransformUpdate();
 
 		//void ReadNodeHierarchy(double animTick, const aiNode* pNode, const aiAnimation* pAnim, DirectX::SimpleMath::Matrix parentTransform);
-		//void CalcInterpolatedRotation(DirectX::SimpleMath::Quaternion& outQuat, double animTick, const aiNodeAnim* pNodeAnim);
-		//void CalcInterpolatedTranslation(DirectX::SimpleMath::Vector3& outVec, double animTick, const aiNodeAnim* pNodeAnim);
-		//
-		//unsigned int FindRotation(double animTick, const aiNodeAnim* pNodeAnim);
-		//unsigned int FindTranslation(double animTick, const aiNodeAnim* pNodeAnim);
+	private:
+		void CalcInterpolatedRotation(DirectX::SimpleMath::Quaternion& outQuat, double animTick, const NodeAnim_AssetData const* pNodeAnim);
+		void CalcInterpolatedTranslation(DirectX::SimpleMath::Vector3& outVec, double animTick, const NodeAnim_AssetData const* pNodeAnim);
+		 
+		unsigned int FindRotationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim);
+		unsigned int FindTranslationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim);
 
 	private:
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>> _cbFirstBase;
@@ -93,6 +96,7 @@ namespace Pg::Graphics
 		//GPU에 바인딩될 Bone Tranform Vector. 크기는 100이 기본.
 		//FinalTransform 그자체.
 		//얘는 이제 개별적인 RenderObject에 소속될 것이다!
-		//근데, ConstantBuffer 자체의 구조체를 활용할 것.
+		std::vector<DirectX::SimpleMath::Matrix> _boneTransformVector;
+
 	};
 }
