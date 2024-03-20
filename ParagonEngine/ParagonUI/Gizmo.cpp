@@ -32,7 +32,9 @@ void Pg::UI::Helper::Gizmo::SetCamera(Pg::Data::Camera* camera)
 void Pg::UI::Helper::Gizmo::SetTransform(Pg::Data::Transform* trans)
 {
 	_trans = trans;
-	_wtm = ConvertWTM(trans->GetWorldTM());
+
+	if(_trans->GetParent() != nullptr) 	_wtm = ConvertWTM(trans->GetLocalTM());
+	else _wtm = ConvertWTM(trans->GetWorldTM());
 }
 
 glm::mat4 Pg::UI::Helper::Gizmo::ConvertVTM(Pg::Math::PGFLOAT4X4 mt)
@@ -83,7 +85,7 @@ void Pg::UI::Helper::Gizmo::DrawGizmo(int type)
 {
 	if (_trans != nullptr)
 	{
-		ImGuizmo::OPERATION oper;
+		ImGuizmo::OPERATION oper = ImGuizmo::TRANSLATE;
 
 		if (type == 0) oper = ImGuizmo::TRANSLATE;
 		if (type == 1) oper = ImGuizmo::ROTATE;
@@ -96,7 +98,7 @@ void Pg::UI::Helper::Gizmo::DrawGizmo(int type)
 			&(_vtm[0][0]),		// cameraView
 			&(_ptm[0][0]),		// cameraProj
 			oper,
-			ImGuizmo::LOCAL,
+			ImGuizmo::WORLD,
 			&(_wtm[0][0])		// object Transform
 		);
 
