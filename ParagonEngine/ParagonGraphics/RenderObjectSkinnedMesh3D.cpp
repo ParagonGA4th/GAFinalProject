@@ -307,12 +307,12 @@ namespace Pg::Graphics
 
 	unsigned int RenderObjectSkinnedMesh3D::FindRotationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim)
 	{
-
+		return NULL;
 	}
 
 	unsigned int RenderObjectSkinnedMesh3D::FindTranslationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim)
 	{
-
+		return NULL;
 	}
 
 
