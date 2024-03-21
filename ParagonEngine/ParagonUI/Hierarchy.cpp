@@ -13,6 +13,8 @@ void Pg::UI::Widget::Hierarchy::Update()
 	if (ImGui::RadioButton("Group", _mode == GROUP)) { _mode = GROUP; } ImGui::SameLine();
 	if (ImGui::RadioButton("Move", _mode == MOVE)) { _mode = MOVE; }
 
+	if (selectObj.empty()) selectObj = _objNameList.at(0).first;
+
 	for (auto& obj : _objNameList)
 	{
 		// Child°¡ ¾ø´Â Object

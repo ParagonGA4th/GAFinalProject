@@ -24,11 +24,19 @@ void Pg::Editor::System::FileSystem::Initialize()
 {
 	// project가 처음 open 될 때는 기존 폴더(Builds//x64//Relase//)에 있는 sample load.
 
+	_fileEvent->AddEvent(Pg::Editor::eEventType::_NEWSCENE, [&]() { NewScene(); });
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_OPENSCENE, [&]() { OpenScene(); });
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_SAVESCENE, [&]() { SaveScene(); });
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_NEWPROJECT, [&]() { NewProject(); });
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_OPENPROJECT, [&]() { OpenProject(); });
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_SAVEPROJECT, [&]() { SaveProject(); });
+}
+
+void Pg::Editor::System::FileSystem::NewScene()
+{
+	if(_scenePath.empty()) CreateFolderPath();
+	CreateParagonFile(_dataManager->DataCreate(true));
+	_dataManager->DataLoad(_scenePathWithFileName, true);
 }
 
 void Pg::Editor::System::FileSystem::OpenScene()
@@ -42,29 +50,34 @@ void Pg::Editor::System::FileSystem::OpenScene()
 		return;
 	}
 
-	_dataManager->DataLoad(true, _rootPath);
+	_dataManager->DataLoad(_rootPathWithFileName, _isScene);
+
+	if (_rootPathWithFileName.find("Asset") != std::string::npos)
+	{
+		_rootPathWithFileName = _rootPathWithFileName.substr(0, _rootPathWithFileName.rfind("\\Asset"));
+	}
 }
 
 void Pg::Editor::System::FileSystem::SaveScene()
 {
 	_isScene = true;
-	CreateParagonFile(_dataManager->DataSave(true));
+	CreateParagonFile(_dataManager->DataSave(_isScene));
 }
 
 void Pg::Editor::System::FileSystem::NewProject()
 {
 	_isScene = false;
 	ShowDialog(false);
-	
+
 	if (_isCancel)
 	{
 		_isCancel = false;
 		return;
 	}
-	
+
 	CreateFolder();
 	CreateParagonFile(_dataManager->DataCreate());
-	_dataManager->DataLoad(false, _rootPath);
+	_dataManager->DataLoad(_rootPathWithFileName);
 }
 
 
@@ -72,22 +85,23 @@ void Pg::Editor::System::FileSystem::OpenProject()
 {
 	_isScene = false;
 	ShowDialog(true);
-	_dataManager->DataLoad(false, _rootPath);
+	_dataManager->DataLoad(_rootPathWithFileName);
+	CreateFolderPath();
 }
 
 void Pg::Editor::System::FileSystem::SaveProject()
 {
 	_isScene = false;
 	ShowDialog(false);
-	
+
 	if (_isCancel)
 	{
 		_isCancel = false;
 		return;
 	}
 
-	CreateFolder();
-	CreateParagonFile(_dataManager->DataSave(false));
+	if (_rootPathWithFileName.empty()) CreateFolder();
+	CreateParagonFile(_dataManager->DataSave());
 }
 
 void Pg::Editor::System::FileSystem::ShowDialog(bool isOpen)
@@ -109,7 +123,7 @@ void Pg::Editor::System::FileSystem::ShowDialog(bool isOpen)
 	// 파일 필터 설정: .ppt 확장자 필터
 	COMDLG_FILTERSPEC fileTypes[1];
 
-	if(_isScene) fileTypes[0] = { L"Pragon Scene", L"*.pgscene" };
+	if (_isScene) fileTypes[0] = { L"Pragon Scene", L"*.pgscene" };
 	else fileTypes[0] = { L"Pragon Project", L"*.pgproject" };
 
 	itemDialog->SetFileTypes(ARRAYSIZE(fileTypes), fileTypes);
@@ -137,25 +151,29 @@ void Pg::Editor::System::FileSystem::ShowDialog(bool isOpen)
 		std::wstring wString;
 		wString.append(&filePath[0]);
 
-		_rootPath.clear();
-		_rootPath.append(wString.begin(), wString.end());
+		_rootPathWithFileName.clear();
+		_rootPathWithFileName.append(wString.begin(), wString.end());
 	}
 
 	itemDialog->Release();
 	CoUninitialize();
 }
 
+void Pg::Editor::System::FileSystem::CreateFolderPath()
+{
+	_rootPath = _rootPathWithFileName.substr(0, _rootPathWithFileName.rfind("\\"));
+	_assetsPath = _rootPath + "\\Asset";
+	_scriptPath = _rootPath + "\\Script";
+	_scenePath = _assetsPath + "\\Scene";
+}
+
 void Pg::Editor::System::FileSystem::CreateFolder()
 {
-	fs::path rootPath = _rootPath.substr(0, _rootPath.rfind("."));
+	CreateFolderPath();
 
-	_assetsPath = rootPath.string() + "\\Asset";
+	fs::path rootPath = _rootPath;
 	fs::path subFolder_1 = _assetsPath;
-
-	_scriptPath = rootPath.string() + "\\Script";
 	fs::path subFolder_2 = _scriptPath;
-
-	_scenePath = _assetsPath + "\\Scene";
 	fs::path subFolder_3 = _scenePath;
 
 	try
@@ -178,14 +196,7 @@ void Pg::Editor::System::FileSystem::CreateParagonFile(std::unordered_map<std::s
 		for (auto& data : fileData)
 		{
 			fs::path filePath;
-			if (data.first != "project")
-			{
-				filePath = _scenePath + "\\" + data.first;
-				
-				if(filePath.string().find(".pgscene") == std::string::npos) 
-					filePath = filePath.string() + ".pgscene";
-			}
-			else
+			if (data.first == "project")
 			{
 				std::string rootPath = _rootPath.substr(0, _rootPath.rfind(".")) + "\\";
 				filePath = rootPath.append(_rootPath.substr(_rootPath.rfind("\\") + 1));
@@ -193,22 +204,33 @@ void Pg::Editor::System::FileSystem::CreateParagonFile(std::unordered_map<std::s
 				if (filePath.string().find(".pgproject") == std::string::npos)
 					filePath = filePath.string() + ".pgproject";
 			}
+			else
+			{
+				filePath = _scenePath + "\\" + data.first;
+
+				if (filePath.string().find(".pgscene") == std::string::npos)
+					filePath = filePath.string() + ".pgscene";
+
+				_scenePathWithFileName = filePath.string();
+			}
 
 			// 파일 생성
 			std::ofstream file(filePath, std::ios::out | std::ios::trunc);
 
-			if (file.is_open()) 
+			if (file.is_open())
 			{
 				file << data.second; // 파일에 내용 쓰기
 				file.close(); // 파일 닫기
 			}
 		}
 	}
-	catch (const std::exception& e) 
+	catch (const std::exception& e)
 	{
 		// 파일 생성 실패 시 예외 처리
 	}
 }
+
+
 
 //std::string Pg::Editor::System::FileSystem::SeparatingFileName()
 //{

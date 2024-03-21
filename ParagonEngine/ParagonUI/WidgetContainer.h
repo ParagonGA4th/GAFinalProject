@@ -17,7 +17,7 @@ namespace Pg::UI
 		void SetTempWidgets(std::vector<Pg::UI::IWidget*> tempWidget);
 		std::vector<Pg::UI::IWidget*> GetTempWidgets();
 
-		void SameLine(bool isSameLine);
+		void SameLine(bool isSameLine, int lineCount = 0);
 
 		void ClearWidget(int index = 0);
 		void ClearColumnWidget();
@@ -74,6 +74,7 @@ namespace Pg::UI
 		std::vector<Pg::UI::IWidget*> _tempWidgets;
 
 		bool _isSameLine;
+		int _lineCount;
 	};
 }
 
