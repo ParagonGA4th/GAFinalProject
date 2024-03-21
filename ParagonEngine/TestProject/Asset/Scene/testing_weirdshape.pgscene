@@ -2,12 +2,12 @@
 <scene xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <objects :anonymous="">
     <object :anonymous="">
-      <uuid :anonymous="">9D34BE68480669A2A0E5D8818718045C</uuid>
+      <uuid :anonymous="">E074F21044B63B9F90BE90AE77A0F50B</uuid>
       <name :anonymous="">gizmo.00</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">9D34BE68480669A2A0E5D8818718045C</parent_uuid>
+      <parent_uuid :anonymous="">E074F21044B63B9F90BE90AE77A0F50B</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
@@ -18,9 +18,9 @@
               <z :anonymous="">0.0</z>
             </position>
             <rotation :anonymous="">
-              <w :anonymous="">0.707</w>
+              <w :anonymous="">1.0</w>
               <x :anonymous="">0.0</x>
-              <y :anonymous="">0.707</y>
+              <y :anonymous="">0.0</y>
               <z :anonymous="">0.0</z>
             </rotation>
             <scale :anonymous="">
@@ -41,12 +41,12 @@
       </components>
     </object>
     <object :anonymous="">
-      <uuid :anonymous="">ECF924F54A32FF86234085BF160BE536</uuid>
+      <uuid :anonymous="">601CD5FD4095165E951013A07BCB2976</uuid>
       <name :anonymous="">test4.00</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">ECF924F54A32FF86234085BF160BE536</parent_uuid>
+      <parent_uuid :anonymous="">601CD5FD4095165E951013A07BCB2976</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
@@ -57,9 +57,9 @@
               <z :anonymous="">0.0</z>
             </position>
             <rotation :anonymous="">
-              <w :anonymous="">0.707</w>
+              <w :anonymous="">1.0</w>
               <x :anonymous="">0.0</x>
-              <y :anonymous="">0.707</y>
+              <y :anonymous="">0.0</y>
               <z :anonymous="">0.0</z>
             </rotation>
             <scale :anonymous="">
@@ -80,26 +80,26 @@
       </components>
     </object>
     <object :anonymous="">
-      <uuid :anonymous="">3C16A8AC4544D8906BB25FBD8E341645</uuid>
+      <uuid :anonymous="">59A606D340E028C57202CABF7E53A64C</uuid>
       <name :anonymous="">test5.00</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">3C16A8AC4544D8906BB25FBD8E341645</parent_uuid>
+      <parent_uuid :anonymous="">59A606D340E028C57202CABF7E53A64C</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
           <data :anonymous="">
             <position :anonymous="">
-              <x :anonymous="">2.5</x>
+              <x :anonymous="">0.0</x>
               <y :anonymous="">0.0</y>
-              <z :anonymous="">0.0</z>
+              <z :anonymous="">2.5</z>
             </position>
             <rotation :anonymous="">
-              <w :anonymous="">0.0</w>
-              <x :anonymous="">-0.707</x>
-              <y :anonymous="">-0.707</y>
-              <z :anonymous="">0.0</z>
+              <w :anonymous="">0.5</w>
+              <x :anonymous="">-0.5</x>
+              <y :anonymous="">0.5</y>
+              <z :anonymous="">0.5</z>
             </rotation>
             <scale :anonymous="">
               <x :anonymous="">1.0</x>
@@ -119,26 +119,26 @@
       </components>
     </object>
     <object :anonymous="">
-      <uuid :anonymous="">C27E7B684D05FC5D1980D2924C023475</uuid>
+      <uuid :anonymous="">152E02254B9131AA6017228AD6949302</uuid>
       <name :anonymous="">test6.00</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">C27E7B684D05FC5D1980D2924C023475</parent_uuid>
+      <parent_uuid :anonymous="">152E02254B9131AA6017228AD6949302</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
           <data :anonymous="">
             <position :anonymous="">
-              <x :anonymous="">0.0</x>
+              <x :anonymous="">-2.9</x>
               <y :anonymous="">0.0</y>
-              <z :anonymous="">2.9</z>
+              <z :anonymous="">0.0</z>
             </position>
             <rotation :anonymous="">
-              <w :anonymous="">0.5</w>
-              <x :anonymous="">0.5</x>
-              <y :anonymous="">0.5</y>
-              <z :anonymous="">0.5</z>
+              <w :anonymous="">0.707107</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.707107</y>
+              <z :anonymous="">0.0</z>
             </rotation>
             <scale :anonymous="">
               <x :anonymous="">2.0</x>
