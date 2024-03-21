@@ -23,12 +23,12 @@ namespace Pg::Editor::Manager
 		DataManager();
 		~DataManager();
 
-		void DataLoad(bool isScene, std::string path);
-		std::unordered_map<std::string, std::string> DataSave(bool isScene);
-		std::unordered_map<std::string, std::string> DataCreate();
+		void DataLoad(std::string path, bool isScene = false);
+		std::unordered_map<std::string, std::string> DataSave(bool isScene = false);
+		std::unordered_map<std::string, std::string> DataCreate(bool isScene = false);
 
 	private:
-		void ProjectLoad();
+		void ProjectLoad(std::string path);
 		void SceneLoad(std::string path);
 
 		void ProjectSave();
@@ -41,9 +41,6 @@ namespace Pg::Editor::Manager
 		Pg::Data::Component* AddComponentToObject(const std::string& typeName, Pg::Data::GameObject* go);
 
 	private:
-		std::string _path;
-		std::string _fileName;
-
 		std::vector<Pg::Data::Scene*> _scenes;
 		std::vector<Pg::Data::GameObject*> _changeObjects;
 

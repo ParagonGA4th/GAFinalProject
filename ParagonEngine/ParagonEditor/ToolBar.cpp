@@ -31,15 +31,6 @@ Pg::Editor::Window::ToolBar::~ToolBar()
 
 void Pg::Editor::Window::ToolBar::Initialize()
 {
-	auto& transBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Translate", 80.f, 25.f);
-	_isTransBtnClick = transBtn.GetBtnClick();
-	
-	auto& rotBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Rotate", 80.f, 25.f);
-	_isRotateBtnClick = rotBtn.GetBtnClick();
-		
-	auto& scaleBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Scale", 80.f, 25.f);
-	_isScaleBtnClick = scaleBtn.GetBtnClick();
-
 	auto& startBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Start", 80.f, 25.f);
 	_isStartBtnClick = startBtn.GetBtnClick();
 
@@ -48,14 +39,23 @@ void Pg::Editor::Window::ToolBar::Initialize()
 
 	auto& stopBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Stop", 80.f, 25.f);
 	_isStopBtnClick = stopBtn.GetBtnClick();
+
+	auto& transBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Translate", 80.f, 25.f);
+	_isTransBtnClick = transBtn.GetBtnClick();
+	
+	auto& rotBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Rotate", 80.f, 25.f);
+	_isRotateBtnClick = rotBtn.GetBtnClick();
+		
+	auto& scaleBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Scale", 80.f, 25.f);
+	_isScaleBtnClick = scaleBtn.GetBtnClick();
 }
 
 void Pg::Editor::Window::ToolBar::Update()
 {
 	_uiManager->WindowBegin(_winName);
 
-	_uiManager->SetAlignCenter(5, 80.0f);
-	_widgetCon->SameLine(true);
+	_uiManager->SetAlignCenter(3, 80.0f);
+	_widgetCon->SameLine(true, 2);
 	_widgetCon->Update();
 
 	if (*_isStartBtnClick)
