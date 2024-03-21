@@ -13,6 +13,8 @@ void Pg::UI::Widget::Hierarchy::Update()
 	if (ImGui::RadioButton("Group", _mode == GROUP)) { _mode = GROUP; } ImGui::SameLine();
 	if (ImGui::RadioButton("Move", _mode == MOVE)) { _mode = MOVE; }
 
+	if (selectObj.empty()) selectObj = _objNameList.at(0).first;
+
 	for (auto& obj : _objNameList)
 	{
 		// Child°¡ ¾ø´Â Object
@@ -42,6 +44,7 @@ void Pg::UI::Widget::Hierarchy::Update()
 					if (ImGui::Selectable(child.c_str(), selectObj == child))
 					{
 						selectObj = child;
+						selectObjParent = obj.second.first;
 					}
 				}
 				ImGui::TreePop();
@@ -65,7 +68,31 @@ void Pg::UI::Widget::Hierarchy::Update()
 
 				if (_mode == MOVE)
 				{
-					std::swap(_objNameList[payload_n], _objNameList[obj.first]);
+					if (selectObj == _objNameList[payload_n].first)
+					{
+						std::swap(_objNameList[payload_n], _objNameList[obj.first]);
+					}
+					else
+					{
+						auto& it = _objNameList[payload_n];
+
+						if (it.first == selectObjParent)
+						{
+							for (auto& child : it.second)
+							{
+								if (child == selectObj)
+								{
+									std::vector<std::string> childObject;
+									_objNameList[_objNameList.size()] = std::make_pair(child, childObject);
+
+									auto vec = std::find(it.second.begin(), it.second.end(), child);
+									it.second.erase(vec);
+
+									std::swap(_objNameList[obj.first], _objNameList[_objNameList.size()]);
+								}
+							}
+						}
+					}
 				}
 				else
 				{

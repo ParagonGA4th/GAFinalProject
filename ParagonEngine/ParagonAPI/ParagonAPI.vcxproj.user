@@ -6,7 +6,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerEnvironment>PATH=$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%PATH%
+    <LocalDebuggerEnvironment>PATH=$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration)$(SolutionDir)lib\fmod\$(PlatformTarget);%PATH%
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>

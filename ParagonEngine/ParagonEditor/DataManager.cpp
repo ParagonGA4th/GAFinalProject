@@ -5,9 +5,10 @@
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Component.h"
 
+#include <sstream>
+#include <algorithm>
 #include <singleton-cpp/singleton.h>
 #include <visit_struct/visit_struct_intrusive.hpp>
-#include <sstream>
 
 
 Pg::Editor::Manager::DataManager::DataManager()
@@ -19,39 +20,44 @@ Pg::Editor::Manager::DataManager::DataManager()
 Pg::Editor::Manager::DataManager::~DataManager()
 {}
 
-void Pg::Editor::Manager::DataManager::DataLoad(bool isScene, std::string path)
+void Pg::Editor::Manager::DataManager::DataLoad(std::string path, bool isScene)
 {
 	if (isScene)
 	{
-		if (_dataContainer->GetSceneList().size() > 0)
-		{
-			for (auto& scene : _dataContainer->GetSceneList())
-			{
-				if (path.find(scene->GetSceneName()) != std::string::npos)
-				{
-					_dataContainer->SetCurrentScene(scene->GetSceneName());
-				}
-				else
-				{
-					SceneLoad(path);
-					_dataContainer->SetSceneList(_scenes);
-					_dataContainer->SetCurrentScene(_scenes.size() - 1);
-				}
-			}
-		}
-		else
+		if (_dataContainer->GetSceneList().empty())
 		{
 			SceneLoad(path);
 			if (_scenes.size() > 0) _dataContainer->SetSceneList(_scenes);
 		}
+		else
+		{
+			bool isFind = false;
+			for (auto& scene : _scenes)
+			{
+				std::string fileName = path.substr(path.rfind("\\") + 1);
+				fileName = fileName.substr(0, fileName.rfind("."));
+
+				if (fileName == scene->GetSceneName())
+				{
+					_dataContainer->SetCurrentScene(scene->GetSceneName());
+					isFind = true;
+					break;
+				}
+			}
+
+			if (!isFind)
+			{
+				SceneLoad(path);
+				_dataContainer->SetSceneList(_scenes);
+				_dataContainer->SetCurrentScene(_scenes.size() - 1);
+			}
+		}
 	}
 	else
 	{
-		_path = path;
-		
 		_scenes.clear();
 
-		ProjectLoad();
+		ProjectLoad(path);
 		if (_scenes.size() > 0) _dataContainer->SetSceneList(_scenes);
 	}
 }
@@ -62,21 +68,22 @@ std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::D
 
 	// Data甫 啊廉客辑 Serialize
 	SceneSave();
-	if(!isScene) ProjectSave();
+	if (!isScene) ProjectSave();
 
 	return _sceneSerializeData;
 }
 
-std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::DataCreate()
+std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::DataCreate(bool isScene)
 {
 	_sceneSerializeData.clear();
 
 	std::string sceneName = "Sample Scene";
 	std::string docToString;
 	std::stringstream ss;
-	
-	// project 积己
+
+	if (!isScene)
 	{
+		// project 积己
 		pugi::xml_document proejctDoc;
 		proejctDoc.append_child("proejct");
 
@@ -86,6 +93,34 @@ std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::D
 		proejctDoc.save(ss, "\t");
 		docToString = ss.str();
 		_sceneSerializeData.insert({ "project", docToString });
+	}
+	else
+	{
+		if (!_dataContainer->GetSceneList().empty())
+		{
+			int newSceneNum = 0;
+
+			for (auto scene : _dataContainer->GetSceneList())
+			{
+				if (scene->GetSceneName().find("New Scene") != std::string::npos)
+				{
+					try 
+					{
+						newSceneNum = std::stoi(scene->GetSceneName());
+					}
+					catch (const std::invalid_argument&) 
+					{
+						newSceneNum++;
+						continue;
+					}
+
+				}
+			}
+
+			if (newSceneNum != 0) sceneName = "New Scene " + std::to_string(newSceneNum);
+			else sceneName = "New Scene";
+
+		}
 	}
 
 	// scene 积己
@@ -108,18 +143,18 @@ std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::D
 }
 
 
-void Pg::Editor::Manager::DataManager::ProjectLoad()
+void Pg::Editor::Manager::DataManager::ProjectLoad(std::string path)
 {
 	pugi::xml_document doc;
 
-	if (doc.load_file(_path.c_str()))
+	if (doc.load_file(path.c_str()))
 	{
 		pugi::xml_node rootNode = doc.first_child();
 		for (pugi::xml_node scene = rootNode.first_child().first_child(); scene; scene = scene.next_sibling())
 		{
-			_dataContainer->SetProjectPath(_path.substr(0, _path.rfind("\\") + 1));
+			_dataContainer->SetProjectPath(path.substr(0, path.rfind("\\") + 1));
 
-			std::string scenePath = _path.substr(0, _path.rfind("\\") + 1).append("Asset\\Scene\\");
+			std::string scenePath = path.substr(0, path.rfind("\\") + 1).append("Asset\\Scene\\");
 			scenePath.append(scene.text().as_string()).append(".pgscene");
 
 			SceneLoad(scenePath);
