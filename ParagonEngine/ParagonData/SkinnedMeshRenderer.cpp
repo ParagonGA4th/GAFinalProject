@@ -58,13 +58,13 @@ namespace Pg::Data
 		{
 			_materialName.clear();
 
-			////UE Exporter¿Í È£È¯.
-			//DirectX::XMFLOAT3 tEulerRot = { _object->_transform._rotation.x, _object->_transform._rotation.y,_object->_transform._rotation.z };
-			//
-			//DirectX::XMVECTOR tEulerRotQuat = DirectX::XMLoadFloat3(&tEulerRot);
-			//tEulerRotQuat = DirectX::XMQuaternionRotationRollPitchYawFromVector(tEulerRotQuat);
-			//
-			//_object->_transform._rotation = XM2PG_QUATERNION(tEulerRotQuat);
+			//Unreal Coordinate System¿¡ ´ëÇÑ Solution. (¿Þ¼Õ / ¿À¸¥¼Õ ÁÂÇ¥°è È¥¿ë)
+			Pg::Math::PGQuaternion tTemp = _object->_transform._rotation;
+
+			_object->_transform._rotation.x = tTemp.x * -1.0f;
+			_object->_transform._rotation.y = tTemp.z;
+			_object->_transform._rotation.z = tTemp.y;
+			_object->_transform._rotation.w = tTemp.w;
 		}
 	}
 
