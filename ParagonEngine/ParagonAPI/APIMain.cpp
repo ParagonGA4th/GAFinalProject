@@ -17,9 +17,6 @@ namespace Pg::API
 		auto& tPgTime = singleton<Pg::API::Time::PgTime>();
 		this->_pgTime = &tPgTime;
 
-		//auto& tPgSound = singleton<Pg::API::Sound::PgSound>();
-		//this->_pgSound = &tPgSound;
-
 		auto& tPgAudio = singleton<Pg::API::Sound::PgAudio>();
 		this->_pgAudio = &tPgAudio;
 
