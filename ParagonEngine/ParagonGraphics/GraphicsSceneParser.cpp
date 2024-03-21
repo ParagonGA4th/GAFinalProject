@@ -46,7 +46,7 @@ namespace Pg::Graphics
 {
 	GraphicsSceneParser::GraphicsSceneParser()
 	{
-		
+
 	}
 
 	GraphicsSceneParser::~GraphicsSceneParser()
@@ -337,7 +337,7 @@ namespace Pg::Graphics
 
 					unsigned int tMaterialID = NULL;
 
-					//못찼았으면, Default Material을 만들어서 넣어준다.
+					//못 찾았으면, Default Material을 만들어서 넣어준다.
 					if (it == _renderObject3DList->_materialPathSet.end())
 					{
 						//CreateDefaultMaterialInstance;
@@ -354,13 +354,12 @@ namespace Pg::Graphics
 
 							//전체 저장목록에 갖고 있다고 기록. (Graphics에서 검사했기 때문에, AssetManager로 보내줘야)
 							Pg::Graphics::Manager::GraphicsResourceManager::Instance()->AddSecondaryResource(tDefaultMatInstName, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
-						
-							//씬 재시작 경우의 수를 위해, 없을 경우에는 로드만 하고 일괄적으로 insert/assign하는 것으로 변경.
-						}
 
-						//이제는, vector 목록에 추가해줘야.
-						_renderObject3DList->_staticList.insert_or_assign(tDefaultMatInstName, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
-						_renderObject3DList->_skinnedList.insert_or_assign(tDefaultMatInstName, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
+							//씬 재시작 경우의 수를 위해, 없을 경우에는 로드만 하고 일괄적으로 insert/assign하는 것으로 변경.
+							//이제는, vector 목록에 추가해줘야.
+							_renderObject3DList->_staticList.insert_or_assign(tDefaultMatInstName, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
+							_renderObject3DList->_skinnedList.insert_or_assign(tDefaultMatInstName, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
+						}
 
 						//일단은 Default Material ID를 설정해주기.
 						auto res = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tDefaultMatInstName, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
@@ -419,6 +418,7 @@ namespace Pg::Graphics
 				}
 			}
 		}
+		assert("");
 	}
 
 	void GraphicsSceneParser::SyncSceneInformation(const Pg::Data::Scene* const newScene)
@@ -431,7 +431,7 @@ namespace Pg::Graphics
 			//1. 라이트가 있는지 체크한다.
 			auto tLightComponentVector = tGameObject->GetComponents<Pg::Data::Light>();
 
-			for (auto& tSingleLight: tLightComponentVector)
+			for (auto& tSingleLight : tLightComponentVector)
 			{
 				//Directional Light일 경우.
 				Pg::Data::DirectionalLight* tDirLight = dynamic_cast<Pg::Data::DirectionalLight*>(tSingleLight);
@@ -484,7 +484,7 @@ namespace Pg::Graphics
 	{
 		using Pg::Graphics::Helper::GraphicsResourceHelper;
 
-		
+
 		for (auto& it : _renderObject3DList->_skinnedList)
 		{
 			for (auto& [go, ro] : *(it.second.get()))
@@ -566,6 +566,6 @@ namespace Pg::Graphics
 		//PG_TRACE(tRet->GetName().c_str());
 		return tRet;
 	}
-	
+
 
 }
