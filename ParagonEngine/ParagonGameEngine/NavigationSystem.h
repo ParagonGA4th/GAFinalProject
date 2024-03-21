@@ -25,6 +25,8 @@ namespace Pg::Data
 
 namespace Pg::Engine
 {
+	class SceneSystem;
+
 	class NavigationSystem
 	{
 	public:
@@ -37,7 +39,8 @@ namespace Pg::Engine
 
 		void Finalize();
 
-		void AddAgent();
+		//Agent 생성.
+		void SyncAgents();
 
 		void CreatePlaneNavMesh();
 
@@ -46,9 +49,17 @@ namespace Pg::Engine
 		dtNavMeshQuery* GetNavMeshQuery() const;
 
 	private:
+
+		///런타임에 설정값이 변경될 때 필요함.
+		void UpdateSingleDtParam(const Pg::Data::NavMeshAgent* navAgent);
+
+	private:
 		//Recast에 필요한 변수들
 		dtNavMesh* _navMesh;
 		dtNavMeshQuery* _navMeshQuery;
+		dtCrowd* _crowd;
+
+		SceneSystem* _sceneSystem = nullptr;
 
 		//Recast.h 관련 클래스(설정)
 		rcContext* _rcContext;
@@ -56,10 +67,7 @@ namespace Pg::Engine
 
 		//컴포넌트 관리할 벡터
 		std::vector<Pg::Data::NavigationField*> _navMeshFieldVec;
-
-		//NavMesh를 생성할 컴포넌트들
-		Pg::Data::NavigationField* _navMeshField;
-		Pg::Data::NavMeshAgent* _navMeshAgent;
+		std::vector<Pg::Data::NavMeshAgent*> _navMeshAgentVec;
 	};
 }
 
