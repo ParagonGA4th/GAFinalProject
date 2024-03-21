@@ -8,6 +8,7 @@
 
 #include "../ParagonUtil/Log.h"
 
+#include <algorithm>
 #include <singleton-cpp/singleton.h>
 
 
@@ -24,6 +25,8 @@ Pg::Editor::Manager::ProcessManager::ProcessManager(float width, float height)
 
 	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer> ();
 	_dataContainer = &tdataCon;
+
+	
 }
 
 Pg::Editor::Manager::ProcessManager::~ProcessManager()
@@ -38,9 +41,10 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd)
 	_dataContainer->SetGraphicsData(_coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
 	//SRV (에디터 카메라 전달)
 	_dataContainer->SetSceneTexture(_coreMain->GetEditorAdapter()->GetEditorCameraViewSRV());
+	_dataContainer->SetGameTexture(_coreMain->GetEditorAdapter()->GetGameCameraViewSRV());
 
-	std::unique_ptr<Pg::Editor::Event> editorMode = std::make_unique<Pg::Editor::Event>();
-	editorMode->AddEvent(Pg::Editor::eEventType::_EDITORMODE, [&](void* mode) { SetEditorMode(mode); });
+	std::unique_ptr<Pg::Editor::Event> _editorEvent = std::make_unique<Pg::Editor::Event>();
+	_editorEvent->AddEvent(Pg::Editor::eEventType::_EDITORMODE, [&](void* mode) { SetEditorMode(mode); });
 }
 
 void Pg::Editor::Manager::ProcessManager::Update()
@@ -59,10 +63,7 @@ void Pg::Editor::Manager::ProcessManager::Update()
 		_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
 	}
 
-	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff)) 
-	{ 
-		_dataContainer->SetEditorOnOff(!_dataContainer->GetEditorOnOff()); 
-	}
+	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff)) _dataContainer->SetEditorOnOff(!_dataContainer->GetEditorOnOff()); 
 
 	if (_dataContainer->GetEditorOnOff())
 	{
@@ -71,6 +72,8 @@ void Pg::Editor::Manager::ProcessManager::Update()
 			_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
 			_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
 		}
+
+		//if (_input->GetKeyDown(API::Input::eKeyCode::Save)) _editorEvent->Invoke(eEventType::_SAVEPROJECT);
 	}	
 
 	SetEditorMode(_dataContainer->GetEditorOnOff() ? Pg::Data::Enums::eEditorMode::_EDIT : Pg::Data::Enums::eEditorMode::_NONE);
@@ -101,5 +104,4 @@ void Pg::Editor::Manager::ProcessManager::SetEditorMode(Pg::Data::Enums::eEditor
 {
 	_coreMain->GetEditorAdapter()->SetEditorMode(mode);
 }
-
 

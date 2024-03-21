@@ -11,6 +11,7 @@
 #include "../ParagonData/SphereCollider.h"
 #include "../ParagonData/PlaneCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/NavMeshAgent.h"
 
 //#include "../ParagonData/BaseRenderer.h" //Render ���� ���� ����.
 //#include "../ParagonData/RendererBase2D.h" //Render ���� ���� ����.
@@ -77,10 +78,8 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_2->AddComponent<MovingTest>()->SetActive(true);
 	tObj2_2->AddComponent<RayCastTest>();
 	//tObj2_2->AddComponent<RayCastTest>()->SetActive(true);
-	//tObj2_2->AddComponent<MoveForwardBack>();
-	//tObj2_2->GetComponent<MoveForwardBack>()->SetActive(false);
-	//
-	//
+	//tObj2_2->AddComponent<NavMeshAgent>();
+
 	Pg::Data::GameObject* tObj3 = tCurrentScene->AddObject("Capsule2");
 	tObj3->GetComponent<Transform>()->_position = { -1.0f, 5.0f, 5.0f };
 	tObj3->GetComponent<Transform>()->_scale = { 3.0f, 3.0f, 3.0f };
@@ -221,18 +220,4 @@ Pg::Data::Scene* Pg::Engine::TestScene::GetCurrentScene()
 
 void Pg::Engine::TestScene::SetScenesData(Pg::Data::Scene* scene)
 {
-	if (scene != nullptr)
-	{
-		for (auto i : tCurrentScene->GetObjectList())
-		{
-			for (auto j : scene->GetObjectList())
-			{
-				if (i->GetName() == "Cube6" && j->GetName() == "New Object")
-				{
-					i->_transform = j->_transform;
-				}
-				else continue;
-			}
-		}
-	}
 }

@@ -1,12 +1,12 @@
 #pragma once
 #include "../ParagonMath/PgMath.h"
 
+#include <DetourTileCache/DetourTileCache.h>
 #include <Detour/DetourNavMesh.h>
 #include <Detour/DetourNavMeshBuilder.h>
 #include <Detour/DetourNavMeshQuery.h>
 #include <Detour/DetourCommon.h>
 #include <DetourCrowd/DetourCrowd.h>
-#include <DetourTileCache/DetourTileCache.h>
 #include <Recast/Recast.h>
 
 #include <unordered_map>
@@ -17,46 +17,57 @@
 /// AI를 위해서는 pathFinding이 적용되어야 한다.
 /// 2024.02.23
 /// </summary>
-namespace Pg::Engine
+namespace Pg::Data
 {
 	class NavigationField;
+	class NavMeshAgent;
+}
+
+namespace Pg::Engine
+{
+	class SceneSystem;
 
 	class NavigationSystem
 	{
 	public:
 		NavigationSystem();
 
+	public:
 		void Initialize();
 
 		void Update(float deltaTime);
 
 		void Finalize();
 
-		void AddAgent();
+		//Agent 생성.
+		void SyncAgents();
 
 		void CreatePlaneNavMesh();
 
 		dtNavMesh* GetNavMesh() const;
 
-		dtCrowd* GetCrowd() const;
-
 		dtNavMeshQuery* GetNavMeshQuery() const;
+
+	private:
+
+		///런타임에 설정값이 변경될 때 필요함.
+		void UpdateSingleDtParam(const Pg::Data::NavMeshAgent* navAgent);
 
 	private:
 		//Recast에 필요한 변수들
 		dtNavMesh* _navMesh;
-		dtCrowd* _crowd;
 		dtNavMeshQuery* _navMeshQuery;
+		dtCrowd* _crowd;
+
+		SceneSystem* _sceneSystem = nullptr;
 
 		//Recast.h 관련 클래스(설정)
 		rcContext* _rcContext;
 		rcConfig _rcConfig;
 
 		//컴포넌트 관리할 벡터
-		std::vector<NavigationField*> _navMeshFieldVec;
-
-		//NavMesh를 생성할 컴포넌트들
-		NavigationField* _navMeshField;
+		std::vector<Pg::Data::NavigationField*> _navMeshFieldVec;
+		std::vector<Pg::Data::NavMeshAgent*> _navMeshAgentVec;
 	};
 }
 

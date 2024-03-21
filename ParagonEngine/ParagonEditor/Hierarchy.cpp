@@ -8,6 +8,7 @@
 
 #include "../ParagonData/Scene.h"
 
+#include <algorithm>
 #include <singleton-cpp/singleton.h>
 
 Pg::Editor::Window::Hierarchy::Hierarchy()
@@ -42,7 +43,7 @@ void Pg::Editor::Window::Hierarchy::Update()
 
 	DataSet();
 	_widgetCon->Update();
-	if(_isDisable) _uiManager->EndDisable();
+	if (_isDisable) _uiManager->EndDisable();
 	_uiManager->WindowEnd();
 }
 
@@ -81,27 +82,45 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 
 	for (auto& name : _objNameList)
 	{
-		if (name.second.second.size() > 0)
+		if (name.second.second.empty())
+		{
+			for (auto& obj : _dataContainer->GetCurrentScene()->GetObjectList())
+			{
+				if (obj->_transform._object->GetName() == name.second.first)
+				{
+					if (obj->_transform.HasParent())
+					{
+						obj->_transform.GetParent()->RemoveChild(obj->GetName());
+						obj->_transform._parent = nullptr;
+					}
+				}
+			}
+		}
+		else
 		{
 			Pg::Data::GameObject* tobj = nullptr;
 			for (auto& obj : _dataContainer->GetCurrentScene()->GetObjectList())
 			{
-				if (obj->GetName() == name.second.first)
-				{
-					tobj = obj;
-					break;
-				}
+				if (obj->GetName() == name.second.first) tobj = obj;
 			}
 
-			if (tobj != nullptr && tobj->_transform.GetChildren().size() != name.second.second.size())
+			if (tobj != nullptr)
 			{
-				for (auto& obj : _dataContainer->GetCurrentScene()->GetObjectList())
+				for (auto& childName : name.second.second)
 				{
-					for (auto& child : name.second.second)
+					for (auto& obj : _dataContainer->GetCurrentScene()->GetObjectList())
 					{
-						if (child == obj->GetName())
+						if (childName == obj->GetName())
 						{
-							tobj->_transform.AddChild(obj);
+							if (tobj->_transform.GetChildren().empty())	tobj->_transform.AddChild(obj);
+
+							auto it = std::find_if(tobj->_transform.GetChildren().begin(), tobj->_transform.GetChildren().end(),
+								[&](Pg::Data::Transform* trans)
+								{
+									return trans->_object->GetName() == childName;
+								});
+
+							if (it == tobj->_transform.GetChildren().end()) tobj->_transform.AddChild(obj);
 						}
 					}
 				}
@@ -109,6 +128,7 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 		}
 	}
 }
+
 
 
 void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
@@ -125,7 +145,7 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 		for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
 		{
 			std::vector<std::string> childObject;
-			
+
 			if (i->_transform.GetChildren().size() < 0)
 			{
 				_objNameList[count++] = std::make_pair(i->GetName(), childObject);

@@ -126,8 +126,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonGameEngine.lib;ParagonGraphics.lib;ParagonUtil.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\fmod\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib;fmod_vc.lib;ParagonMath.lib;ParagonGameEngine.lib;ParagonGraphics.lib;ParagonUtil.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -160,7 +160,6 @@
     <ClInclude Include="PgAudio.h" />
     <ClInclude Include="PgInput.h" />
     <ClInclude Include="PgRayCast.h" />
-    <ClInclude Include="PgSound.h" />
     <ClInclude Include="PgTime.h" />
     <ClInclude Include="PgTween.h" />
   </ItemGroup>
@@ -169,7 +168,6 @@
     <ClCompile Include="PgAudio.cpp" />
     <ClCompile Include="PgInput.cpp" />
     <ClCompile Include="PgRayCast.cpp" />
-    <ClCompile Include="PgSound.cpp" />
     <ClCompile Include="PgTime.cpp" />
     <ClCompile Include="PgTween.cpp" />
   </ItemGroup>

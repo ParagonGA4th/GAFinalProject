@@ -1,9 +1,15 @@
 #pragma once
 
+//#pragma comment(lib, "fmod_vc.lib")
 
 namespace Pg::Engine
 {
 	class SoundSystem;
+
+	namespace Physic
+	{
+		class PhysicSystem;
+	}
 }
 
 /// <summary>
@@ -27,5 +33,6 @@ namespace Pg::API::Sound
 
 	private:
 		Pg::Engine::SoundSystem* _soundSystem;
+		Pg::Engine::Physic::PhysicSystem* _physicSystem;
 	};
 }

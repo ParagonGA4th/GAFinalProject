@@ -26,6 +26,7 @@ namespace Pg::UI::Widget
 		// Selectable
 		std::map<int, std::pair<std::string, std::vector<std::string>>>& _objNameList;
 		std::string selectObj;
+		std::string selectObjParent;
 		int _mode;
 
 		bool _isNodeOpen;
