@@ -73,7 +73,7 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual void Render(Pg::Data::Scene* scene) override;
 
 		//Picking : Screen Space Coord의 비율에 따라서 GameObject*를 반환한다. 이 함수 호출 안하면 그래픽 리소스 아낄 수 있음.
-		PARAGON_GRAPHICS_DLL virtual Pg::Data::GameObject* GetPickedGameObjectWithRatios(float widthRatio, float heightRatio) override;
+		//PARAGON_GRAPHICS_DLL virtual Pg::Data::GameObject* GetPickedGameObjectWithRatios(float widthRatio, float heightRatio) override;
 
 		PARAGON_GRAPHICS_DLL virtual void FinalRender() override;
 		PARAGON_GRAPHICS_DLL virtual void EndRender() override;
@@ -118,6 +118,9 @@ namespace Pg::Graphics
 
 		//Picking을 허용할지 / 허용하지 않을지, 렌더링 파이프라인 비용을 ON/OFF 할 수 있다.
 		PARAGON_GRAPHICS_DLL virtual void SetPickingEnableMode(bool val) override;
+
+		//아웃라이닝할 게임오브젝트를 고른다.
+		PARAGON_GRAPHICS_DLL virtual void SetOutlinedObject(Pg::Data::GameObject* obj) override;
 
 	public:
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;

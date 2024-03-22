@@ -14,13 +14,14 @@
 #include "DebugRenderer.h"
 #include "FinalRenderer.h"
 
+
 #include "../ParagonData/Scene.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/RendererBase3D.h"
 
 #include <utility>
 #include <singleton-cpp/singleton.h>
-
 
 namespace Pg::Graphics
 {
@@ -172,23 +173,37 @@ namespace Pg::Graphics
 		return _gCarrier->_quadMainRT->GetSRV();
 	}
 
-	Pg::Data::GameObject* ParagonRenderer::GetPickedID_SetOutlineMode(int selectedWidthPixel, int selectedHeightPixel)
+	//Pg::Data::GameObject* ParagonRenderer::GetPickedID_SetOutlineMode(int selectedWidthPixel, int selectedHeightPixel)
+	//{
+	//	unsigned int tFoundID = _finalRenderer->GetPickingObjectID(selectedWidthPixel, selectedHeightPixel);
+	//
+	//	if (tFoundID == 0)
+	//	{
+	//		//없으니, Outline Buffer를 따로 그려줄 이유도 없다.
+	//		_finalRenderer->SetOutlineRenderingMode(false);
+	//		return nullptr;
+	//	}
+	//	
+	//	//해당 Material 값을 감싸는 Outline Shader Rendering 과정. -> 그려주게 Bool 값으로 설정.
+	//	_finalRenderer->SetOutlineRenderingMode(true);
+	//	_finalRenderer->SetObjectIDSelected(tFoundID);
+	//
+	//	//무조건 내부적으로 값을 찾아서 리턴해야 한다. 그렇지 않은 경우를 외부에서 예외처리함.
+	//	return _sceneParser->GetObjectWithObjID(tFoundID);
+	//}
+
+	void ParagonRenderer::SetOutlinedGameObject(Pg::Data::GameObject* outlinedObj)
 	{
-		unsigned int tFoundID = _finalRenderer->GetPickingObjectID(selectedWidthPixel, selectedHeightPixel);
-
-		if (tFoundID == 0)
+		if ((outlinedObj == nullptr) || (outlinedObj->GetComponent<Pg::Data::RendererBase3D>() == nullptr))
 		{
-			//없으니, Outline Buffer를 따로 그려줄 이유도 없다.
 			_finalRenderer->SetOutlineRenderingMode(false);
-			return nullptr;
+			return;
 		}
-		
-		//해당 Material 값을 감싸는 Outline Shader Rendering 과정. -> 그려주게 Bool 값으로 설정.
-		_finalRenderer->SetOutlineRenderingMode(true);
-		_finalRenderer->SetObjectIDSelected(tFoundID);
 
-		//무조건 내부적으로 값을 찾아서 리턴해야 한다. 그렇지 않은 경우를 외부에서 예외처리함.
-		return _sceneParser->GetObjectWithObjID(tFoundID);
+		_finalRenderer->SetOutlineRenderingMode(true);
+
+		//Object ID를 찾으려면, 기존에 있는 GraphicsSceneParser 내부를 찾아야 한다...
+		_finalRenderer->SetObjectIDSelected(_sceneParser->GetObjIDWithObject(outlinedObj));
 	}
 
 	void ParagonRenderer::SetDeltaTime(float dt)
@@ -196,7 +211,9 @@ namespace Pg::Graphics
 		//미리 Animation을 돌릴 렌더러 : 델타타임 넘겼다.
 		_deferredRenderer->SetDeltaTime(dt);
 	}
+
 	
+
 
 	
 

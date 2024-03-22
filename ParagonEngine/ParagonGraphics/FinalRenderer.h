@@ -37,8 +37,10 @@ namespace Pg::Graphics
 		virtual void RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData) override;
 		virtual void ConfirmCarrierData() override;
 
-		//Unsigned Int로 Picking된 ID를 받는다.
+		//[DEPRECATED] Unsigned Int로 Picking된 ID를 받는다.
+		[[deprecated("Not Using Picking Anymore")]]
 		unsigned int GetPickingObjectID(unsigned int widthPixel, unsigned int heightPixel);
+
 		void SetOutlineRenderingMode(bool val);
 		void SetObjectIDSelected(unsigned int val);
 

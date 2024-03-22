@@ -50,10 +50,12 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd)
 void Pg::Editor::Manager::ProcessManager::Update()
 {
 	_coreMain->Update();
+	_coreMain->SetOutlinedObject(_dataContainer->GetPickObject());
 	_coreMain->BeginRender();
 	_coreMain->Render();
 	//Picking + Outline Effect. Editor에서 Edit Mode일때만 발동할 것. 그래픽스 리소스를 아끼기 위해.
-	_dataContainer->SetPickObject(_coreMain->PassPickedObject());
+	//_dataContainer->SetPickObject(_coreMain->PassPickedObject());
+	
 	_coreMain->FinalRender();
 
 	
