@@ -20,12 +20,12 @@ namespace Pg::Data
 
 	void Transform::OnDeserialize(SerializeVector& sv)
 	{
-		Pg::Data::SerializerHelper::OnDeserializerHelper<Transform>(this, sv);
+		Pg::Data::SerializerHelper::OnDeserializerHelper<Transform, 3>(this, sv);
 	}
 
 	void Transform::OnSerialize(SerializeVector& sv)
 	{
-		Pg::Data::SerializerHelper::OnSerializerHelper<Transform>(this, sv);
+		//Pg::Data::SerializerHelper::OnSerializerHelper<Transform, 3>(this, sv);
 	}
 
 	//PGFLOAT3 Transform::GetPosition() const
