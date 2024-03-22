@@ -204,9 +204,9 @@ namespace Pg::Engine
 		//processResult = rcBuildPolyMesh(_rcContext, *contourSet, _rcConfig.maxVertsPerPoly, *polyMesh);
 		//assert(processResult == true);
 		//
-		//// 디테일 메시 생성
-		//auto& detailMesh{ impl->polyMeshDetail = rcAllocPolyMeshDetail() };
-		//assert(detailMesh != nullptr);
+		// 디테일 메시 생성
+		auto& detailMesh{ _polyMeshDetail = rcAllocPolyMeshDetail() };
+		assert(detailMesh != nullptr);
 		//
 		//processResult = rcBuildPolyMeshDetail(_rcContext, *polyMesh, *compactHeightField, _rcConfig.detailSampleDist, _rcConfig.detailSampleMaxError, *detailMesh);
 		//assert(processResult == true);
@@ -215,8 +215,50 @@ namespace Pg::Engine
 		//rcFreeContourSet(contourSet);
 
 
+		//NavMesh 설정
 		dtNavMeshCreateParams params;
 		memset(&params, 0, sizeof(params));
+
+		params.verts = _polyMesh->verts;
+		params.vertCount = _polyMesh->nverts;
+		params.polys = _polyMesh->polys;
+		params.polyAreas = _polyMesh->areas;
+		params.polyFlags = _polyMesh->flags;
+		params.polyCount = _polyMesh->npolys;
+		params.nvp = _polyMesh->nvp;
+		params.detailMeshes = detailMesh->meshes;
+		params.detailVerts = detailMesh->verts;
+		params.detailVertsCount = detailMesh->nverts;
+		params.detailTris = detailMesh->tris;
+		params.detailTriCount = detailMesh->ntris;
+		params.offMeshConVerts = 0;
+		params.offMeshConRad = 0;
+		params.offMeshConDir = 0;
+		params.offMeshConAreas = 0;
+		params.offMeshConFlags = 0;
+		params.offMeshConUserID = 0;
+		params.offMeshConCount = 0;
+		params.walkableHeight = _rcConfig.walkableHeight;
+		params.walkableRadius = _rcConfig.walkableRadius;
+		params.walkableClimb = _rcConfig.walkableClimb;
+		rcVcopy(params.bmin, _polyMesh->bmin);
+		rcVcopy(params.bmax, _polyMesh->bmax);
+		params.cs = _rcConfig.cs;
+		params.ch = _rcConfig.ch;
+		params.buildBvTree = true;
+
+		//processResult = dtCreateNavMeshData(&params, &navData, &navDataSize);
+		//assert(processResult == true);
+
+		//dtStatus status;
+		//status = _navMesh->init(navData, navDataSize, DT_TILE_FREE_DATA);
+		////dtFree(navData);
+		//assert(dtStatusFailed(status) == false);
+
+		//status = _navMeshQuery->init(navMesh, 2048);
+		//assert(dtStatusFailed(status) == false);
+
+		//_crowd->init(1024, buildSettings.maxAgentRadius, _navMesh);
 	}
 
 	dtNavMesh* NavigationSystem::GetNavMesh() const
