@@ -15,12 +15,13 @@
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/ParagonDefines.h"
 
-
 #include <dxtk/WICTextureLoader.h>
+#include <dxtk/SimpleMath.h>
 #include <singleton-cpp/singleton.h>
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <type_traits>
 
 namespace Pg::Graphics
 {
@@ -35,7 +36,7 @@ namespace Pg::Graphics
 		//Mesh 데이터를 받기.
 		//VB/IB 로드.
 		//Constant Buffer Data를 생성.
-		
+
 		//StaticMeshRenderer 따로 포인터를 받기.
 		Pg::Data::SkinnedMeshRenderer* tSkinnedMeshRenderer = static_cast<Pg::Data::SkinnedMeshRenderer*>(GetBaseRenderer());
 
@@ -88,13 +89,13 @@ namespace Pg::Graphics
 	}
 
 	void RenderObjectSkinnedMesh3D::First_Render(const float* const dt)
-	{	
+	{
 
 		BindMainVertexIndexBuffer();
-		
+
 
 	}
-	
+
 	void RenderObjectSkinnedMesh3D::First_UnbindBuffers()
 	{
 
@@ -123,11 +124,11 @@ namespace Pg::Graphics
 
 	void RenderObjectSkinnedMesh3D::SetAnimation(const std::string& animName, bool isLoop)
 	{
-		assert(_modelData->_assetSkinnedData->_viableAnimations.contains(animName) && 
+		assert(_modelData->_assetSkinnedData->_viableAnimations.contains(animName) &&
 			"걸리면 유효하지 않은 Animation 로드 시도한 것");
-		
+
 		this->_currentAnim = _modelData->_assetSkinnedData->_viableAnimations.at(animName);
-	
+
 		RefreshStartEndAnim();
 
 		//isLoop따라 값 설정. 해당 값은 일반적으로 데스등 장면에 활용될 것이니, 명시적으로 TPOSE를 넣지는 않을 것이다.
@@ -142,14 +143,14 @@ namespace Pg::Graphics
 		//Script 딴에서 로직 처리가 되었을 것이다.
 		const auto tNowTime = std::chrono::steady_clock::now();
 		const auto tPassedDuration = std::chrono::duration_cast<std::chrono::milliseconds>(tNowTime - _startedTime);
-		
+
 		if (tNowTime <= _expectedEndTime)
 		{
 			//아직까지는 예전에 정의된 애니메이션이 마무리되지 않은 것이다.
 			float tPassedDurSec = static_cast<float>(tPassedDuration.count()) / 1000.0f;
-			int tUnmanagedTick = static_cast<int>(round((_currentAnim->_animAssetData->_ticksPerSecond) * tPassedDurSec));
+			double tUnmanagedTick = (_currentAnim->_animAssetData->_ticksPerSecond) * tPassedDurSec;
 			//Time 연산 실패로 값이 빠져나가는 것을 막기 위해서, CLAMP. 현재 Tick 값 투입.
-			this->_currentTick = std::clamp<int>(tUnmanagedTick, 0, _currentAnim->_animAssetData->_durationTick);
+			this->_currentTick = std::clamp<double>(tUnmanagedTick, 0, _currentAnim->_animAssetData->_durationTick);
 		}
 		else
 		{
@@ -174,23 +175,20 @@ namespace Pg::Graphics
 
 		//0번째 인덱스 == RootNode. pair의 second가 비었다.
 		//부모가 없다는 얘기, RootNode이어서이다. 딱 한번 발생. -> SKIP.
-	
+
 		//현재 Tick, Animation, Parent Matrix.
 		//둘 다 인덱스 동일하게 적용.
 		const auto& tHierNodes = _modelData->_assetSkinnedData->_linearizedNodeHierarchy;
 		const auto& tNodeAnims = _currentAnim->_animAssetData->_linearizedNodeAnimList;
 
-		//RootNode는 별도로 업데이트. If문 타지 않기 위해.
-		const auto& tRootNode = _modelData->_assetSkinnedData->_linearizedNodeHierarchy.at(0);
-		const auto& tRootNodeAnim = _currentAnim->_animAssetData->_linearizedNodeAnimList.at(0);
-
-		//NodeAnim이 있을 때만.
-		if (tRootNodeAnim != nullptr)
+		//모든 Node들 검사.
+		for (int i = 0; i < tHierNodes.size(); i++)
 		{
-
+			if (tNodeAnims.at(i) != nullptr)
+			{
+				UpdateSingleNodeWithAnim(tHierNodes[i].first, tHierNodes[i].second, tNodeAnims.at(i));
+			}
 		}
-
-
 	}
 
 	void RenderObjectSkinnedMesh3D::RefreshStartEndAnim()
@@ -298,23 +296,166 @@ namespace Pg::Graphics
 
 	void RenderObjectSkinnedMesh3D::CalcInterpolatedRotation(DirectX::SimpleMath::Quaternion& outQuat, double animTick, const NodeAnim_AssetData const* pNodeAnim)
 	{
+		using namespace DirectX::SimpleMath;
+		using namespace DirectX;
 
+		//키가 한개 밖에 없으면 보간할 수 없다.
+		if (pNodeAnim->_numRotationKeys == 1)
+		{
+			outQuat = pNodeAnim->_rotationKeyList[0]._value;
+			return;
+		}
+
+		// 현재 Rotation 키프레임 획득.
+		unsigned int RotationIndex = FindRotationIndex(animTick, pNodeAnim);
+
+		// 다음 Rotation Key Index 범위 내부인지 체크.
+		unsigned int NextRotationIndex = (RotationIndex + 1);
+		assert(NextRotationIndex < pNodeAnim->_numRotationKeys);
+
+		//키프레임 사이에서의 시간 차이를 구한다.
+		float DeltaTime = pNodeAnim->_rotationKeyList[NextRotationIndex]._time - pNodeAnim->_rotationKeyList[RotationIndex]._time;
+
+		// 시간 변화 내부 현재 지난 시간을 구한다 -> 보간 비율.  
+		float Factor = (animTick - (float)pNodeAnim->_rotationKeyList[RotationIndex]._time) / DeltaTime;
+
+		///오류 : Factor가 0~1 사이로 결정되지 않는 오류 확인!
+		// 현재-다음 키프레임들의 회전을 위한 쿼터니언 둘 다 구한다.
+		const Quaternion StartRotationQ = pNodeAnim->_rotationKeyList[RotationIndex]._value;
+		const Quaternion EndRotationQ = pNodeAnim->_rotationKeyList[NextRotationIndex]._value;
+
+		// Interpolate between them using the Factor. 
+		//Quaternion::Slerp(StartRotationQ, EndRotationQ, Factor, outQuat);
+
+		//더 안전한 Slerp를 사용.
+		//TRY:
+		outQuat = MathHelper::QuaternionSlerpNoFlip(StartRotationQ, EndRotationQ, Factor);
+
+		// 정규화 후 참조자로 리턴.
+		outQuat.Normalize();
 	}
 
 	void RenderObjectSkinnedMesh3D::CalcInterpolatedTranslation(DirectX::SimpleMath::Vector3& outVec, double animTick, const NodeAnim_AssetData const* pNodeAnim)
 	{
+		//키가 한개 밖에 없으면 보간할 수 없다.
+		if (pNodeAnim->_numPositionKeys == 1)
+		{
+			outVec = pNodeAnim->_positionKeyList[0]._value;
+			return;
+		}
 
+		//적합한 Position 인덱스인지 확인.
+		unsigned int PositionIndex = FindTranslationIndex(animTick, pNodeAnim);
+		unsigned int NextPositionIndex = (PositionIndex + 1);
+		assert(NextPositionIndex < pNodeAnim->_numPositionKeys);
+
+		//키프레임 사이에서의 시간 차이를 구한다.
+		float DeltaTime = pNodeAnim->_positionKeyList[NextPositionIndex]._time - pNodeAnim->_positionKeyList[PositionIndex]._time;
+		
+		// 시간 변화 내부 현재 지난 시간을 구한다 -> 보간 비율.  
+		float Factor = (animTick - (float)pNodeAnim->_positionKeyList[PositionIndex]._time) / DeltaTime;
+
+		//전/후 보간할 Vector3 값 구하기.
+		const DirectX::SimpleMath::Vector3 Start = pNodeAnim->_positionKeyList[PositionIndex]._value;
+		const DirectX::SimpleMath::Vector3 End = pNodeAnim->_positionKeyList[NextPositionIndex]._value;
+
+		DirectX::SimpleMath::Vector3 Delta = End - Start;
+
+		//참조자로 리턴.
+		outVec = Start + Factor * Delta;
 	}
 
 	unsigned int RenderObjectSkinnedMesh3D::FindRotationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim)
 	{
-		return NULL;
+		// Rotation 키 프레임들이 있는지 확인.
+		assert(pNodeAnim->_numRotationKeys > 0);
+
+		//현재 애니메이션 시간 직전의 Rotation을 찾고 인덱스 리턴.
+		for (unsigned int i = 0; i < pNodeAnim->_numRotationKeys - 1; i++)
+		{
+			//FIX.
+			if (animTick < (float)pNodeAnim->_rotationKeyList[i + 1]._time)
+			{
+				return i;
+			}
+		}
+
+		//여기까지 오면 못찾은 것 == 실패한 것.
+		assert(false);
+
+		return 0;
 	}
 
 	unsigned int RenderObjectSkinnedMesh3D::FindTranslationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim)
 	{
-		return NULL;
+		assert(pNodeAnim->_numPositionKeys > 0);
+
+		// Find the translation key just before the current animation time and return the index. 
+		for (unsigned int i = 0; i < pNodeAnim->_numPositionKeys - 1; i++)
+		{
+			//FIX.
+			if (animTick < (float)pNodeAnim->_positionKeyList[i + 1]._time)
+			{
+				return i;
+			}
+		}
+
+		//여기까지 오면 못찾은 것 == 실패한 것.
+		assert(false);
+
+		return 0;
 	}
+
+	void RenderObjectSkinnedMesh3D::UpdateSingleNodeWithAnim(const Node_AssetData* const selfNode, const Node_AssetData* const parentNode, const NodeAnim_AssetData* const nodeAnim)
+	{
+		using namespace DirectX::SimpleMath;
+		using namespace DirectX;
+
+		Matrix tNodeTransformation = selfNode->_relTransform;
+
+		//일단 남겨두기. Single-Mesh Animation이기에 가능. 
+		Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(XMConvertToRadians(0.0f), XMConvertToRadians(0.0f), XMConvertToRadians(0.0f));
+		tNodeTransformation = rotationMatrix;
+
+		// Rotation 보간.
+		Quaternion RotationQ;
+		CalcInterpolatedRotation(RotationQ, _currentTick, nodeAnim);
+		Matrix RotationM = DirectX::XMMatrixRotationQuaternion(RotationQ);
+
+		//Translation 보간.
+		DirectX::SimpleMath::Vector3 Translation;
+		CalcInterpolatedTranslation(Translation, _currentTick, nodeAnim);
+		Matrix TranslationM;
+		TranslationM = DirectX::XMMatrixTranslation(Translation.x, Translation.y, Translation.z);
+
+		//Rotation, Translation 결합.
+		tNodeTransformation = RotationM * TranslationM;
+
+		//RootNode <-> 일반 Node 구별을 위해.
+		Matrix tParentTransform = Matrix::Identity;
+		if (parentNode != nullptr)
+		{
+			tParentTransform = parentNode->_relTransform;
+		}
+
+		//Global Transformation 찾기.
+		Matrix tGlobalTransformation = tNodeTransformation * tParentTransform;
+
+		const auto& tMappedBones = _modelData->_assetSkinnedData->_mappedBones;
+		const auto& tBoneInfoVec = _modelData->_assetSkinnedData->_renderBoneInfoVector;
+		const auto& tMeshGlobalInvTRS = _modelData->_assetSkinnedData->_meshGlobalInverseTransform;
+
+		//최적화적으로 과히 좋지는 않지만, MappedBones 찾기.
+		if (tMappedBones.find(selfNode->_nodeName) != tMappedBones.end())
+		{
+			UINT tBoneIndex = tMappedBones.at(selfNode->_nodeName);
+
+			// = Final Transform의 역할까지 수행.
+			_boneTransformVector[tBoneIndex] =
+				tBoneInfoVec[tBoneIndex]._boneOffset * tGlobalTransformation * tMeshGlobalInvTRS;
+		}
+	}
+
 
 
 }
