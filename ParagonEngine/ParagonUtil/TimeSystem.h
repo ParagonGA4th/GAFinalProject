@@ -24,6 +24,9 @@ namespace Pg::Util::Time
 		PARAGON_UTIL_DLL float GetDeltaTime();
 		PARAGON_UTIL_DLL int GetFrameRate();
 
+		//일괄적으로 델타타임의 포인터를 받아서 갖다가 쓸 수 있게. 변경 불가하게 const * const 처리.
+		PARAGON_UTIL_DLL const float* const GetDeltaTimePointer();
+
 	public:
 		float _deltaTime = 0.f; 
 		int _frameRate = 0;

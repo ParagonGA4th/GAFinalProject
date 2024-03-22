@@ -16,7 +16,6 @@ namespace Pg::Data
 
 	void SkinnedMeshRenderer::OnSerialize(SerializeVector& sv)
 	{
-
 		Pg::Data::SerializerHelper::OnSerializerHelper<SkinnedMeshRenderer>(this, sv);
 	}
 
@@ -93,7 +92,7 @@ namespace Pg::Data
 		}
 	}
 
-	void SkinnedMeshRenderer::SetAnimation(const std::string& animName)
+	void SkinnedMeshRenderer::SetAnimation(const std::string& animName, bool isLoop)
 	{
 		//단순한 존재여부를 파악
 		if (!_setAnimationFunction)
@@ -103,13 +102,13 @@ namespace Pg::Data
 			PG_WARN(tPrint.c_str());
 		}
 		//제대로 된 실행 여부를 확인.
-		_setAnimationFunction(animName);
+		_setAnimationFunction(animName, isLoop);
 	}
 
 	void SkinnedMeshRenderer::Start()
 	{
 		assert(!_initAnimName.empty() && "처음에 들어갈 Animation이 비어있으면 안된다");
-		_setAnimationFunction(_initAnimName);
+		_setAnimationFunction(_initAnimName,true); //기본적으로 처음 애니메이션은 Loop한다고 가정한다.
 	}
 
 }

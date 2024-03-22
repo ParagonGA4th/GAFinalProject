@@ -27,12 +27,12 @@ namespace Pg::Graphics
 	public:
 		virtual void First_UpdateConstantBuffers(Pg::Data::CameraData* camData) override;
 		virtual void First_BindBuffers() override;
-		virtual void First_Render() override;
+		virtual void First_Render(const float* const dt) override;
 		virtual void First_UnbindBuffers() override;
 
 		virtual void ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData) override;
 		virtual void ObjMat_BindBuffers() override;
-		virtual void ObjMat_Render() override;
+		virtual void ObjMat_Render(const float* const dt) override;
 		virtual void ObjMat_UnbindBuffers() override;
 
 	private:

@@ -36,6 +36,7 @@ namespace Pg::Graphics
 
 	unsigned int FinalRenderer::GetPickingObjectID(unsigned int widthPixel, unsigned int heightPixel)
 	{
+		//[DEPRECATED]
 		//이미 Obj SRV는 ObjMat 쪽에 기록되어 있다.
 
 		//일단 USAGE_DEFAULT에서 USAGE_STAGING으로 값을 가져온다. (CopyResource)
@@ -125,7 +126,6 @@ namespace Pg::Graphics
 
 	void FinalRenderer::SetObjectIDSelected(unsigned int val)
 	{
-		//PG_TRACE(val);
 		_pickedObjID = val;
 	}
 	

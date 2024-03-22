@@ -26,9 +26,9 @@ namespace Pg::API::Input
 		PrevRenderTarget,
 
 		ShiftL, //이동 속도 조정 위해.
+		ShiftR, //일단 Editor Camera 위치 리셋을 위해 만들어놓았음.
 
 		Save,
-
 		CtrlL,
 		KeyS,
 		KeyZ,

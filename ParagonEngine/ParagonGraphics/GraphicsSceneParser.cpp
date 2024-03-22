@@ -303,8 +303,8 @@ namespace Pg::Graphics
 		//4. unordered_map (_renderObject3DList->_list) 세팅.
 		for (auto& it : _renderObject3DList->_materialPathSet)
 		{
-			_renderObject3DList->_staticList.insert_or_assign(it.second, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
-			_renderObject3DList->_skinnedList.insert_or_assign(it.second, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
+			_renderObject3DList->_staticList.insert_or_assign(it.second, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectStaticMesh3D>>>>());
+			_renderObject3DList->_skinnedList.insert_or_assign(it.second, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectSkinnedMesh3D>>>>());
 		}
 
 		//이때까지는 실제로 명시적으로 지정된 Material만 반영이 된다.
@@ -378,8 +378,8 @@ namespace Pg::Graphics
 						//이미 존재할 시에는 넣어주면 안됨.
 						//있으면 새로운 벡터를 만들지 않음. (insert_or_assign에서 TryEmplace로 변경)
 
-						_renderObject3DList->_staticList.try_emplace(tRenderMat, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
-						_renderObject3DList->_skinnedList.try_emplace(tRenderMat, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
+						_renderObject3DList->_staticList.try_emplace(tRenderMat, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectStaticMesh3D>>>>());
+						_renderObject3DList->_skinnedList.try_emplace(tRenderMat, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectSkinnedMesh3D>>>>());
 
 						//일단은 Default Material ID를 설정해주기.
 						_renderObject3DList->_materialPathSet.push_back(std::make_pair(tDefaultMatInstName, tRenderMat));
@@ -548,7 +548,7 @@ namespace Pg::Graphics
 				RenderObjectSkinnedMesh3D* tSkinnedRO = static_cast<RenderObjectSkinnedMesh3D*>(ro.get());
 				Pg::Data::SkinnedMeshRenderer* tSkinnedRenderer = static_cast<Pg::Data::SkinnedMeshRenderer*>(tSkinnedRO->GetBaseRenderer());
 				//std::bind로 Data쪽에서 원격으로 함수를 호출할 수 있게.
-				tSkinnedRenderer->_setAnimationFunction = std::bind(&RenderObjectSkinnedMesh3D::SetAnimation, tSkinnedRO, std::placeholders::_1);
+				tSkinnedRenderer->_setAnimationFunction = std::bind(&RenderObjectSkinnedMesh3D::SetAnimation, tSkinnedRO, std::placeholders::_1, std::placeholders::_2);
 
 				//SetAnimation Function Bind.
 				//std::function<void(const std::string&)> tSetAnimFunction = [tSkinnedRO](const std::string& animName) {
@@ -620,6 +620,49 @@ namespace Pg::Graphics
 	gtFinished:
 		assert(tRet != nullptr && "무조건 Picking한 GameObject를 찾았어야 하는 함수에서 값을 찾지 못했다.");
 		//PG_TRACE(tRet->GetName().c_str());
+		return tRet;
+	}
+
+	unsigned int GraphicsSceneParser::GetObjIDWithObject(const Pg::Data::GameObject* const obj)
+	{
+		unsigned int tRet = NULL;
+
+		//Static List 내부 찾기.
+		for (auto& [bMatPath, bVectorPtr] : _renderObject3DList->_staticList)
+		{
+			for (int i = 0; i < bVectorPtr->size(); i++)
+			{
+				auto& [go, ro] = bVectorPtr->at(i);
+
+				if (go == obj)
+				{
+					tRet = ro->GetObjectID();
+					goto jobFinished;
+				}
+			}
+		}
+
+		//Skinned List 내부 찾기.
+		for (auto& [bMatPath, bVectorPtr] : _renderObject3DList->_staticList)
+		{
+			for (int i = 0; i < bVectorPtr->size(); i++)
+			{
+				auto& [go, ro] = bVectorPtr->at(i);
+
+				if (go == obj)
+				{
+					tRet = ro->GetObjectID();
+					goto jobFinished;
+				}
+			}
+		}
+
+		//유일하게 Goto 사용이 허용되는 예시 : nested loops, in single functions.
+	jobFinished:
+		//만약 tRet이 NULL이라면, Render되지 않는 게임오브젝트를 선택했다는 뜻.
+		//한번 필터링되어오기 때문에, 해당 상황은 불가.
+		assert(tRet != NULL && "불가능한 상황, 필터링되어 온 게임오브젝트의 렌더 목록에서 발견X");
+
 		return tRet;
 	}
 

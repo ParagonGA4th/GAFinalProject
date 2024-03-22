@@ -33,10 +33,11 @@ namespace Pg::Graphics
 			DirectX::XMMATRIX gCBuf_WorldViewProj;
 		};
 
-		struct cbPerObjMatSkinned
-		{
-			DirectX::XMMATRIX gCBuf_Bones[PG_MAX_BONECOUNT];
-		};
+		//같은 구성이므로 하나로 사용.
+		//struct cbPerObjMatSkinned
+		//{
+		//	DirectX::XMMATRIX gCBuf_Bones[PG_MAX_BONECOUNT];
+		//};
 
 		struct cbSceneInfo
 		{

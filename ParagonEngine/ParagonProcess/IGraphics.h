@@ -77,7 +77,11 @@ namespace Pg::Core
 	
 		//Picking을 허용할지 / 허용하지 않을지, 렌더링 파이프라인 비용을 ON/OFF 할 수 있다.
 		virtual void SetPickingEnableMode(bool val) abstract;
+		//어떤 오브젝트를 아웃라이닝할지 정할 수 있다.
+		virtual void SetOutlinedObject(Pg::Data::GameObject* obj) abstract;
+
 		//Picking : Screen Space Coord의 비율에 따라서 GameObject*를 반환한다. 없으면 Nullptr 전달.
-		virtual Pg::Data::GameObject* GetPickedGameObjectWithRatios(float widthRatio, float heightRatio) abstract;
+		//virtual Pg::Data::GameObject* GetPickedGameObjectWithRatios(float widthRatio, float heightRatio) abstract;
 	};
+
 }
