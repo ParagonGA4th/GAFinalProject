@@ -9,7 +9,9 @@ namespace Pg::Data
 		_radius(1.0f),
 		_height(1.0f),
 		_maxSpeed(5.0f),
-		_maxAcceleration(1.0f)
+		_maxAcceleration(1.0f),
+		_obstacleAvoidance(false),
+		_separation(false)
 	{
 
 	}
@@ -43,6 +45,16 @@ namespace Pg::Data
 		_maxAcceleration = accel;
 	}
 
+	void NavMeshAgent::SetObstacleAvoidance(bool ob)
+	{
+		_obstacleAvoidance = ob;
+	}
+
+	void NavMeshAgent::SetSeperation(bool sep)
+	{
+		_separation = sep;
+	}
+
 	float NavMeshAgent::GetMaxSpeed()
 	{
 		return _maxSpeed;
@@ -62,4 +74,15 @@ namespace Pg::Data
 	{
 		return _maxAcceleration;
 	}
+
+	bool NavMeshAgent::GetObstacleAvoidance()
+	{
+		return _obstacleAvoidance;
+	}
+
+	bool NavMeshAgent::GetSeparation()
+	{
+		return _separation;
+	}
+
 }

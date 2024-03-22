@@ -66,6 +66,8 @@ namespace Pg::Engine
 		rcContext* _rcContext;
 		rcConfig _rcConfig;
 		rcPolyMesh* _polyMesh;
+		rcPolyMeshDetail* _polyMeshDetail;
+		
 
 		//컴포넌트 관리할 벡터
 		std::vector<Pg::Data::NavigationField*> _navMeshFieldVec;
