@@ -39,8 +39,9 @@ namespace Pg::Engine
 
 		void Finalize();
 
-		//Agent 생성.
+		//Agent 생성 및 제거
 		void SyncAgents();
+		void RemoveAgent(int index);
 
 		void CreatePlaneNavMesh();
 
@@ -64,6 +65,7 @@ namespace Pg::Engine
 		//Recast.h 관련 클래스(설정)
 		rcContext* _rcContext;
 		rcConfig _rcConfig;
+		rcPolyMesh* _polyMesh;
 
 		//컴포넌트 관리할 벡터
 		std::vector<Pg::Data::NavigationField*> _navMeshFieldVec;

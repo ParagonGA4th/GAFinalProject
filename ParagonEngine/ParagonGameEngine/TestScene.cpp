@@ -11,6 +11,7 @@
 #include "../ParagonData/SphereCollider.h"
 #include "../ParagonData/PlaneCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonData/NavMeshAgent.h"
 
 //#include "../ParagonData/BaseRenderer.h" //Render ���� ���� ����.
@@ -76,7 +77,9 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj2_2->AddComponent<MovingTest>();
 	tObj2_2->AddComponent<MovingTest>()->SetActive(true);
-	tObj2_2->AddComponent<RayCastTest>();
+	tObj2_2->AddComponent<AudioSource>();
+	tObj2_2->GetComponent<AudioSource>()->SetAudioName("../Resources/Sounds/Test/jump.mp3");
+	//tObj2_2->AddComponent<RayCastTest>();
 	//tObj2_2->AddComponent<RayCastTest>()->SetActive(true);
 	//tObj2_2->AddComponent<NavMeshAgent>();
 
@@ -137,12 +140,16 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 
-	///버튼 
+	///버튼 & 오디오
 	Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Button");
 	tObj8->GetComponent<Transform>()->_position = { 100.0f, 200.0f, 0.0f };
 	tObj8->AddComponent<Button>();
 	tObj8->GetComponent<Button>()->SetImagePath("../Resources/Textures/Sprites/StartCrunch.png");
 	tObj8->GetComponent<Button>()->SetImageSize(200.0f, 200.0f);
+	tObj8->AddComponent<AudioSource>();
+	tObj8->GetComponent<AudioSource>()->SetAudioName("../Resources/Sounds/Test/TitleBGM.mp3");
+	tObj8->GetComponent<AudioSource>()->Play();
+	tObj8->AddComponent<EventTest>();
 
 	///슬라이더
 	Pg::Data::GameObject* tObj10 = tCurrentScene->AddObject("Handle");
@@ -157,9 +164,6 @@ void Pg::Engine::TestScene::Initialize()
 	tObj9->GetComponent<Slider>()->SetImagePath("../Resources/Textures/Sprites/UI/Test_SliderBarUI.png");
 	tObj9->GetComponent<Slider>()->SetImageSize(600.0f, 50.0f);
 	tObj9->GetComponent<Slider>()->_handle = tObj10->GetComponent<Handle>();
-
-
-	
 
 	Pg::Data::GameObject* tObj20 = tCurrentScene->AddObject("TestingPlane");
 	tObj20->GetComponent<Transform>()->_position = { 30.0f, -4.0f, 0.0f };
