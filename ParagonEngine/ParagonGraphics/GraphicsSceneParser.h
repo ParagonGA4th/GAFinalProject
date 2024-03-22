@@ -39,8 +39,13 @@ namespace Pg::Graphics
 		RenderObjectWireframeList* GetRenderObjectWireframeList();
 		SceneInformationList* GetSceneInformationList();
 
-		//함수가 호출되었다는 것은 무조건 찾아야 한다는 것. 미리 아무것도 안 클릭되었을 경우를 걸러내기 때문.
+		//[DEPRECATED] 함수가 호출되었다는 것은 무조건 찾아야 한다는 것. 미리 아무것도 안 클릭되었을 경우를 걸러내기 때문.
+		[[deprecated("Not Using Picking Anymore")]]
 		Pg::Data::GameObject* GetObjectWithObjID(unsigned int objID);
+
+		//게임오브젝트 포인터를 가지고 ObjectID 아이디를 반환할 수 있다.
+		unsigned int GetObjIDWithObject(const Pg::Data::GameObject* const obj);
+
 	private:
 		void ClearMakeObjectLists();
 		void PlacePathsFromName(const Pg::Data::Scene* const newScene);

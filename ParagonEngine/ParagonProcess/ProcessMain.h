@@ -20,6 +20,11 @@
 /// ->
 /// </summary>
 
+namespace Pg::Data
+{
+	class GameObject;
+}
+
 namespace Pg::Core
 {
 	class EngineGraphicsAdapter;
@@ -46,7 +51,8 @@ namespace Pg::Core
 		void Update();
 		void BeginRender();    
 		void Render();
-		Pg::Data::GameObject* PassPickedObject();
+		//Pg::Data::GameObject* PassPickedObject();
+		void SetOutlinedObject(Pg::Data::GameObject* obj);
 		void FinalRender();
 		void EndRender();
 		void Finalize();

@@ -623,6 +623,49 @@ namespace Pg::Graphics
 		return tRet;
 	}
 
+	unsigned int GraphicsSceneParser::GetObjIDWithObject(const Pg::Data::GameObject* const obj)
+	{
+		unsigned int tRet = NULL;
+
+		//Static List 내부 찾기.
+		for (auto& [bMatPath, bVectorPtr] : _renderObject3DList->_staticList)
+		{
+			for (int i = 0; i < bVectorPtr->size(); i++)
+			{
+				auto& [go, ro] = bVectorPtr->at(i);
+
+				if (go == obj)
+				{
+					tRet = ro->GetObjectID();
+					goto jobFinished;
+				}
+			}
+		}
+
+		//Skinned List 내부 찾기.
+		for (auto& [bMatPath, bVectorPtr] : _renderObject3DList->_staticList)
+		{
+			for (int i = 0; i < bVectorPtr->size(); i++)
+			{
+				auto& [go, ro] = bVectorPtr->at(i);
+
+				if (go == obj)
+				{
+					tRet = ro->GetObjectID();
+					goto jobFinished;
+				}
+			}
+		}
+
+		//유일하게 Goto 사용이 허용되는 예시 : nested loops, in single functions.
+	jobFinished:
+		//만약 tRet이 NULL이라면, Render되지 않는 게임오브젝트를 선택했다는 뜻.
+		//한번 필터링되어오기 때문에, 해당 상황은 불가.
+		assert(tRet != NULL && "불가능한 상황, 필터링되어 온 게임오브젝트의 렌더 목록에서 발견X");
+
+		return tRet;
+	}
+
 
 
 }

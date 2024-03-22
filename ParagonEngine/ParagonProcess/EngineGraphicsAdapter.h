@@ -23,6 +23,7 @@ namespace Pg::Core
 namespace Pg::Data
 {
 	class Scene;
+	class GameObject;
 	class RendererChangeList;
 }
 
@@ -58,8 +59,11 @@ namespace Pg::Core
 		//실제로 렌더를 시행할 때.
 		void Render();
 		
-		//피킹된 오브젝트 받아야 함. (0-1 가로 비율 // 0-1 세로 비율)
-		Pg::Data::GameObject* GetPickedGameObjectWithRatios(float widthRatio, float heightRatio);
+		////피킹된 오브젝트 받아야 함. (0-1 가로 비율 // 0-1 세로 비율)
+		//Pg::Data::GameObject* GetPickedGameObjectWithRatios(float widthRatio, float heightRatio);
+		
+		//아웃라인되어야 할 게임오브젝트 선택.
+		void SetOutlinedGameObject(Pg::Data::GameObject* obj);
 
 		//Quad-Based 렌더링, Main RenderTarget으로.
 		void FinalRender();
