@@ -76,9 +76,14 @@ namespace Pg::Core
 		_graphics->Render(_engine->GetCurrentScene());
 	}
 
-	Pg::Data::GameObject* EngineGraphicsAdapter::GetPickedGameObjectWithRatios(float widthRatio, float heightRatio)
+	//Pg::Data::GameObject* EngineGraphicsAdapter::GetPickedGameObjectWithRatios(float widthRatio, float heightRatio)
+	//{
+	//	return _graphics->GetPickedGameObjectWithRatios(widthRatio, heightRatio);
+	//}
+
+	void EngineGraphicsAdapter::SetOutlinedGameObject(Pg::Data::GameObject* obj)
 	{
-		return _graphics->GetPickedGameObjectWithRatios(widthRatio, heightRatio);
+		_graphics->SetOutlinedObject(obj);
 	}
 
 	void EngineGraphicsAdapter::FinalRender()
@@ -190,6 +195,8 @@ namespace Pg::Core
 	{
 		return _engine->GetDeltaTime();
 	}
+
 	
+
 
 }

@@ -17,6 +17,7 @@ namespace Pg::Graphics
 		class AssetCombinedLoader;
 	}
 	class AnimationParser;
+	class RenderObjectSkinnedMesh3D;
 }
 
 namespace Pg::Graphics
@@ -25,6 +26,8 @@ namespace Pg::Graphics
 	{
 		friend class Pg::Graphics::Loader::AssetCombinedLoader;
 		friend class Pg::Graphics::AnimationParser;
+		friend class RenderObjectSkinnedMesh3D;
+
 	public:
 		RenderAnimation(Pg::Data::Enums::eAssetDefine define, const std::string& filePath);
 		virtual ~RenderAnimation();

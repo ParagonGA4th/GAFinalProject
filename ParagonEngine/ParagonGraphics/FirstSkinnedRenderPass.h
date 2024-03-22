@@ -35,12 +35,17 @@ namespace Pg::Graphics
 		virtual void ExecuteNextRenderRequirements() override;
 		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
+	private:
+		void CreateShaders();
 
 	private:
-		float _deltaTimeStorage = 0.16f;
+		std::unique_ptr<SystemVertexShader> _vs;
+		std::unique_ptr<SystemPixelShader> _ps;
 
 	private:
-		LowDX11Storage* _DXStorage;
+		float _deltaTimeStorage{ 0.f };
+		LowDX11Storage* _DXStorage{ nullptr };
+		const D3DCarrier* _d3dCarrierTempStorage{ nullptr };
 	};
 }
 

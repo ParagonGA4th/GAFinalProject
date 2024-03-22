@@ -66,8 +66,12 @@ namespace Pg::Graphics
 		void PassBox2dGeometryData(const std::vector<Pg::Data::Box2DInfo>& const box2dColVec);
 
 		//Picking된 게임오브젝트를 보낸다.
-		Pg::Data::GameObject* GetPickedID_SetOutlineMode(int selectedWidthPixel, int selectedHeightPixel);
+		//[[deprecated("Not Using Picking Anymore")]]
+		//Pg::Data::GameObject* GetPickedID_SetOutlineMode(int selectedWidthPixel, int selectedHeightPixel);
 		
+		//자체적으로 렌더러가 없는 게임오브젝트라면 아웃라인 패스를 실행하지 않는다.
+		void SetOutlinedGameObject(Pg::Data::GameObject* outlinedObj);
+
 		void BeginRender();
 		void Render(Pg::Data::CameraData* camData);			// 이미 컴포넌트 단계에서 RenderObject들과 연동되기에, 오브젝트 자체를 받을 필요가 없음.
 		void DebugRender(Pg::Data::CameraData* camData);	// 별도로 Debug Render를 한다.

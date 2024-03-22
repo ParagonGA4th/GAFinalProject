@@ -96,6 +96,7 @@ namespace  Pg::Util::Input
 		assert(_map->MapBool(eKeyCode::NextRenderTarget, _keyboardId, gainput::Key0));
 
 		assert(_map->MapBool(eKeyCode::ShiftL, _keyboardId, gainput::KeyShiftL));
+		assert(_map->MapBool(eKeyCode::ShiftR, _keyboardId, gainput::KeyShiftR));
 
 		assert(_map->MapBool(eKeyCode::KeyLeft, _keyboardId, gainput::KeyLeft));
 		assert(_map->MapBool(eKeyCode::KeyRight, _keyboardId, gainput::KeyRight));

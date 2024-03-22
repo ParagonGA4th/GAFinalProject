@@ -59,12 +59,12 @@ namespace Pg::Graphics
 		//FirstRenderPass에 쓰인다.
 		virtual void First_UpdateConstantBuffers(Pg::Data::CameraData* camData) abstract;
 		virtual void First_BindBuffers() abstract;
-		virtual void First_Render() abstract;
+		virtual void First_Render(const float* const dt) abstract;
 		virtual void First_UnbindBuffers() abstract;
 
 		virtual void ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData) abstract;
 		virtual void ObjMat_BindBuffers() abstract;
-		virtual void ObjMat_Render() abstract;
+		virtual void ObjMat_Render(const float* const dt) abstract;
 		virtual void ObjMat_UnbindBuffers() abstract;
 
 	protected:
