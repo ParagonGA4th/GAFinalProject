@@ -27,12 +27,12 @@ namespace Pg::Data
 
 	void Animator::OnDeserialize(SerializeVector& sv)
 	{
-		//Pg::Data::SerializerHelper::OnDeserializerHelper(this, sv);
+		Pg::Data::SerializerHelper::OnDeserializerHelper(this, sv);
 	}
 
 	void Animator::OnSerialize(SerializeVector& sv)
 	{
-		//Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
+		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
 	}
 
 }

@@ -15,12 +15,12 @@ namespace Pg::Data
 
 	void SkinnedMeshRenderer::OnSerialize(SerializeVector& sv)
 	{
-		//Pg::Data::SerializerHelper::OnSerializerHelper<SkinnedMeshRenderer>(this, sv);
+		Pg::Data::SerializerHelper::OnSerializerHelper<SkinnedMeshRenderer>(this, sv);
 	}
 
 	void SkinnedMeshRenderer::OnDeserialize(SerializeVector& sv)
 	{
-		//Pg::Data::SerializerHelper::OnDeserializerHelper<SkinnedMeshRenderer>(this, sv);
+		Pg::Data::SerializerHelper::OnDeserializerHelper<SkinnedMeshRenderer>(this, sv);
 	}
 
 	void SkinnedMeshRenderer::ConvertPotentialUnrealValues()
