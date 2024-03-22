@@ -37,6 +37,10 @@ namespace Pg::API::Input
 		KeyRight,
 		KeyUp,
 		KeyDown,
-		Space
+		Space,
+
+		KeyB,
+		KeyN,
+		KeyM
 	};
 }
