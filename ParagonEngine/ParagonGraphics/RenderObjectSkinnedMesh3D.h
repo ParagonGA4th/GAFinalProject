@@ -17,6 +17,7 @@ namespace Pg::Graphics
 {
 	class RenderAnimation;
 	class NodeAnim_AssetData;
+	class Node_AssetData;
 }
 
 namespace Pg::Graphics
@@ -70,7 +71,7 @@ namespace Pg::Graphics
 		bool _isLoop{false};
 
 		//애니메이션 재생 관리. 
-		int _currentTick;
+		double _currentTick;
 		std::chrono::time_point<std::chrono::steady_clock> _startedTime;
 		std::chrono::time_point<std::chrono::steady_clock> _expectedEndTime;
 
@@ -84,7 +85,9 @@ namespace Pg::Graphics
 		 
 		unsigned int FindRotationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim);
 		unsigned int FindTranslationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim);
-
+		
+		//Node를 업데이트시킨다.
+		void UpdateSingleNodeWithAnim(const Node_AssetData* const selfNode, const Node_AssetData* const parentNode, const NodeAnim_AssetData* const nodeAnim);
 	private:
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>> _cbFirstBase;
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinned>> _cbAltogetherSkinned;

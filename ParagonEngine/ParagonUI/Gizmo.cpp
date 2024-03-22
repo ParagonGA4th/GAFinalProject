@@ -83,6 +83,8 @@ void Pg::UI::Helper::Gizmo::ConvertWTM(glm::mat4 mt)
 
 void Pg::UI::Helper::Gizmo::DrawGizmo(int type)
 {
+	ImGuizmo::SetDrawlist();
+
 	if (_trans != nullptr)
 	{
 		ImGuizmo::OPERATION oper = ImGuizmo::TRANSLATE;
