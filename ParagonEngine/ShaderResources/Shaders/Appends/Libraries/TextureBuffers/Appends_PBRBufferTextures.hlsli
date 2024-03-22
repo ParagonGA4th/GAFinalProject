@@ -47,14 +47,23 @@ float GetMetallicMap(float2 quadUV)
 
 float3 GetDiffuseIrradianceMap(float3 sampleUV)
 {
+    //덜 상세하게 나오지만, 상관X.
     //return internal_IBL_DiffuseIrrCubemap.Sample(defaultTextureSS, sampleUV).rgb;
+    
     return internal_IBL_DiffuseIrrCubemap.Sample(fullScreenQuadSS, sampleUV).rgb;
 }
 
 float3 GetSpecularIrradianceMap(float3 sampleUV, float LOD)
 {
+     //덜 상세하게 나오지만, 상관X.
     //return internal_IBL_SpecularIrrCubemap.SampleLevel(defaultTextureSS, sampleUV, LOD).rgb;
     return internal_IBL_SpecularIrrCubemap.SampleLevel(fullScreenQuadSS, sampleUV, LOD).rgb;
+}
+
+float2 IBL_GetSpecularBRDF(float2 sampleUV)
+{
+    //return internal_IBL_SpecularLutTexture.Sample(defaultTextureSS, sampleUV).rg;
+    return internal_IBL_SpecularLutTexture.Sample(fullScreenQuadSS, sampleUV).rg;
 }
 
 uint IBL_querySpecularTextureLevels()
@@ -64,9 +73,5 @@ uint IBL_querySpecularTextureLevels()
     return levels;
 }
 
-float2 IBL_GetSpecularBRDF(float2 sampleUV)
-{
-    //return internal_IBL_SpecularLutTexture.Sample(defaultTextureSS, sampleUV).rg;
-    return internal_IBL_SpecularLutTexture.Sample(fullScreenQuadSS, sampleUV).rg;
-}
+
 #endif //__DEFINED_SYSTEM_PBR_BUFFER_TEXTURE_HLSL__
