@@ -32,7 +32,7 @@ namespace Pg::Engine
 
 	void NavigationSystem::Update(float deltaTime)
 	{
-		if (_crowd == nullptr)
+		if (_crowd == nullptr || _navMesh == nullptr)
 		{
 			//PG_TRACE("Crowd 존재하지 않음.");
 			return;
@@ -160,13 +160,13 @@ namespace Pg::Engine
 		assert(processResult == true);
 
 		std::vector<unsigned char> triareas;
-		triareas.resize(facesNum);
+		//triareas.resize(facesNum);
 		//unsigned char * triareas = new unsigned char[facesNum];
 		//memset(triareas, 0, facesNum*sizeof(unsigned char));
 
-		rcMarkWalkableTriangles(_rcContext, _rcConfig.walkableSlopeAngle, worldVertices, verticesNum, faces, facesNum, triareas.data());
-		processResult = rcRasterizeTriangles(_rcContext, worldVertices, verticesNum, faces, triareas.data(), facesNum, *heightField, _rcConfig.walkableClimb);
-		assert(processResult == true);
+		//rcMarkWalkableTriangles(_rcContext, _rcConfig.walkableSlopeAngle, worldVertices, verticesNum, faces, facesNum, triareas.data());
+		//processResult = rcRasterizeTriangles(_rcContext, worldVertices, verticesNum, faces, triareas.data(), facesNum, *heightField, _rcConfig.walkableClimb);
+		//assert(processResult == true);
 
 		// 필요없는 부분 필터링
 		rcFilterLowHangingWalkableObstacles(_rcContext, _rcConfig.walkableClimb, *heightField);
@@ -198,18 +198,18 @@ namespace Pg::Engine
 		assert(processResult == true);
 
 		// 윤곽선으로부터 폴리곤 생성
-		_p = rcAllocPolyMesh();
-		assert(polyMesh != nullptr);
-
-		processResult = rcBuildPolyMesh(_rcContext, *contourSet, _rcConfig.maxVertsPerPoly, *polyMesh);
-		assert(processResult == true);
-
-		// 디테일 메시 생성
-		auto& detailMesh{ impl->polyMeshDetail = rcAllocPolyMeshDetail() };
-		assert(detailMesh != nullptr);
-
-		processResult = rcBuildPolyMeshDetail(_rcContext, *polyMesh, *compactHeightField, _rcConfig.detailSampleDist, _rcConfig.detailSampleMaxError, *detailMesh);
-		assert(processResult == true);
+		//_p = rcAllocPolyMesh();
+		//assert(polyMesh != nullptr);
+		//
+		//processResult = rcBuildPolyMesh(_rcContext, *contourSet, _rcConfig.maxVertsPerPoly, *polyMesh);
+		//assert(processResult == true);
+		//
+		//// 디테일 메시 생성
+		//auto& detailMesh{ impl->polyMeshDetail = rcAllocPolyMeshDetail() };
+		//assert(detailMesh != nullptr);
+		//
+		//processResult = rcBuildPolyMeshDetail(_rcContext, *polyMesh, *compactHeightField, _rcConfig.detailSampleDist, _rcConfig.detailSampleMaxError, *detailMesh);
+		//assert(processResult == true);
 
 		//rcFreeCompactHeightfield(compactHeightField);
 		//rcFreeContourSet(contourSet);
