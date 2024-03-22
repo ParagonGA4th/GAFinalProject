@@ -1,7 +1,8 @@
 #include "SkinnedMeshRenderer.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonHelper/ResourceHelper.h"
-
+#include "GameObject.h"
+#include <DirectXMath.h>
 #include <cassert>
 #include <sstream>
 #include <vector>
@@ -15,6 +16,7 @@ namespace Pg::Data
 
 	void SkinnedMeshRenderer::OnSerialize(SerializeVector& sv)
 	{
+
 		Pg::Data::SerializerHelper::OnSerializerHelper<SkinnedMeshRenderer>(this, sv);
 	}
 
@@ -56,6 +58,14 @@ namespace Pg::Data
 		if (_materialName.compare("fromUnrealExample") == 0)
 		{
 			_materialName.clear();
+
+			//Unreal Coordinate System¿¡ ´ëÇÑ Solution. (¿Þ¼Õ / ¿À¸¥¼Õ ÁÂÇ¥°è È¥¿ë)
+			Pg::Math::PGQuaternion tTemp = _object->_transform._rotation;
+
+			_object->_transform._rotation.x = tTemp.x * -1.0f;
+			_object->_transform._rotation.y = tTemp.z;
+			_object->_transform._rotation.z = tTemp.y;
+			_object->_transform._rotation.w = tTemp.w;
 		}
 	}
 

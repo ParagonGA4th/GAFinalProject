@@ -387,9 +387,6 @@
     <ClInclude Include="RayCast.h">
       <Filter>2_Component\Collider\RayCast</Filter>
     </ClInclude>
-    <ClInclude Include="SerializerHelper.h">
-      <Filter>2_Component\1_Helper</Filter>
-    </ClInclude>
     <ClInclude Include="AudioSource.h">
       <Filter>2_Component\Audio\AudioSource</Filter>
     </ClInclude>
@@ -543,6 +540,9 @@
     </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCacheBuilder.h">
       <Filter>2_Component\Navigation\include\DetourTileCache</Filter>
+    </ClInclude>
+    <ClInclude Include="SerializerHelper.h">
+      <Filter>2_Component\1_Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

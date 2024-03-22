@@ -19,7 +19,7 @@ namespace Pg::Graphics
 	class RenderObjectStaticMesh3D : public RenderObject3D
 	{
 	public:
-		RenderObjectStaticMesh3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID, unsigned int matID);
+		RenderObjectStaticMesh3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID);
 		virtual ~RenderObjectStaticMesh3D();
 		
 		//Object-Material 데이터가 전부 매칭/로드 된 후, 일괄적으로 발동될 함수이다.	

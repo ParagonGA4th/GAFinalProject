@@ -49,6 +49,23 @@ namespace Pg::Graphics
 		//intrinsic->_cbBufferSize = 0;
 	}
 
+	void MaterialParser::RemapMaterialIDs()
+	{
+		//다시 부여를 해야 하니 값을 리셋.
+		this->_matIdRecord = 1;
+		auto tMatVec = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetAllResourcesByDefine(Data::Enums::eAssetDefine::_RENDERMATERIAL);
+
+		for (auto& it : tMatVec)
+		{
+			//참조라 재할당 가능.
+			RenderMaterial* tRenderMat = static_cast<RenderMaterial*>(it.get());
+			tRenderMat->GetID() = _matIdRecord;
+
+			//겹치게 하지 않기 위해서.
+			_matIdRecord++;
+		}
+	}
+
 	//대표적인 예시 : "test4.pgmat"
 	void MaterialParser::ParsePgMat(const std::string& pgmatPath)
 	{
@@ -87,8 +104,8 @@ namespace Pg::Graphics
 		//PS
 		CreateConstantBuffer(renderMat->_psIntrinsics.get());
 
-		//고유한 MaterialID 부여
-		GiveMaterialID(renderMat);
+		//MaterialID 부여 -> 디폴트 매터리얼의 경우, Scene을 파싱해서 로드하는데, 기존에 있는 리스트와 상관없이 로드하기 위해서.
+		//GiveMaterialID(renderMat);
 	}
 
 	void MaterialParser::ClearPreviousShaderData()
@@ -414,7 +431,7 @@ namespace Pg::Graphics
 
 	void MaterialParser::GiveMaterialID(RenderMaterial* renderMat)
 	{
-		//Material ID를 부여.
+		//Material ID를 부여. -> Default Material의 런타임 로드를 위해, 추가 할당.
 		renderMat->_materialID = _matIdRecord;
 		//"Handle" 값, +1. 겹치게 하지 않기 위해.
 		_matIdRecord++;
@@ -451,8 +468,8 @@ namespace Pg::Graphics
 		////PS Intrinsics : Normal 값 넣기.
 		//PlaceDefaultMaterialTextureArrayBuffer(defInstMatName, renderMat->_psIntrinsics.get(), tModelData, PG_TextureType_NORMALS, "t2_NormalTextureArray", 26);
 
-		//자신만의 독특한 MaterialID가 있어야 한다.
-		GiveMaterialID(renderMat);
+		//고유한 MaterialID 부여 -> 이제는 여기서 하지 않는다. Scene이 리로드되었을 때 일괄적으로 Material ID가 재부여되기 때문.
+		//GiveMaterialID(renderMat);
 	}
 
 	void MaterialParser::PlaceDefaultMaterialTextureArrayBuffer(const std::string& defInstMatName, RenderMaterial::MatShaderIntrinsics* intrinsic,
@@ -512,6 +529,7 @@ namespace Pg::Graphics
 
 		return;
 	}
+
 
 
 }

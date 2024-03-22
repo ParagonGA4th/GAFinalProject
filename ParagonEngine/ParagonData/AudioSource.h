@@ -59,8 +59,10 @@ namespace Pg::Data
 
 		BEGIN_VISITABLES(Pg::Data::AudioSource);
 		VISITABLE(std::string, _audioName);
-		VISITABLE(float, _bgmVolume);
-		VISITABLE(float, _effectVolume);
 		END_VISITABLES;
+
+	private:
+		float _bgmVolume;
+		float _effectVolume;
 	};
 }

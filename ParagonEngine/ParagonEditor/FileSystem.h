@@ -18,6 +18,7 @@ namespace Pg::Editor::System
 		void Initialize();
 
 	private:
+		void NewScene();
 		void OpenScene();
 		void SaveScene();
 
@@ -28,6 +29,7 @@ namespace Pg::Editor::System
 		// Get File Data
 		void ShowDialog(bool isOpen);
 		
+		void CreateFolderPath();
 		void CreateFolder();
 		void CreateParagonFile(std::unordered_map<std::string, std::string> fileData);
 
@@ -38,6 +40,8 @@ namespace Pg::Editor::System
 		FilePath _scenePath;
 		FilePath _assetsPath;
 		FilePath _scriptPath;
+		std::string _rootPathWithFileName;
+		std::string _scenePathWithFileName;
 
 		std::unique_ptr<Pg::Editor::Manager::DataManager> _dataManager;
 		std::unique_ptr<Pg::Editor::Event> _fileEvent;
