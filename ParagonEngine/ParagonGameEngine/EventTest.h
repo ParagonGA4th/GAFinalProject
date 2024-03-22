@@ -8,14 +8,11 @@
 namespace Pg::Data
 {
 	class Button;
+	class AudioSource;
 }
 
 namespace Pg::Engine
 {
-	//namespace Input
-	//{
-	//	class InputSystem;
-	//}
 
 	class EventTest : public Pg::Data::Component
 	{
@@ -27,8 +24,8 @@ namespace Pg::Engine
 		virtual void Update() override;
 
 	private:
-		//Input::InputSystem* _inputSystem = nullptr;
 		Pg::Data::Button* tButton;
+		Pg::Data::AudioSource* audioSource;
 	};
 }
 

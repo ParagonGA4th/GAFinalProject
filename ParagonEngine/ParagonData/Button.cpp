@@ -82,8 +82,6 @@ namespace Pg::Data
 		}
 
 		_isPressed = !_isPressed;
-
-		PG_TRACE("Button Click!");
 	}
 
 	void Button::SetImagePath(const std::string& path)

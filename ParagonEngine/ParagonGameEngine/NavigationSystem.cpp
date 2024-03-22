@@ -21,29 +21,13 @@ namespace Pg::Engine
 
 	void NavigationSystem::Initialize()
 	{
-		memset(&_rcConfig, 0, sizeof(_rcConfig));
-
-		_rcConfig.cs = 0.3f; // 셀 사이즈
-		_rcConfig.ch = 0.2f; // 셀 높이
-		_rcConfig.walkableSlopeAngle = 45.0f;	//경사
-		_rcConfig.walkableHeight = 2.0f;
-		_rcConfig.walkableClimb = 0.9f;
-		_rcConfig.walkableRadius = 0.6f;
-		_rcConfig.maxEdgeLen = 12.0f;
-		_rcConfig.maxSimplificationError = 1.3f;
-		_rcConfig.minRegionArea = 8.0f;
-		_rcConfig.mergeRegionArea = 20.0f;
-		_rcConfig.maxVertsPerPoly = 6;
-		_rcConfig.detailSampleDist = 6.0f;
-		_rcConfig.detailSampleMaxError = 1.0f;
-
 		//Crowd와 NavMeshQuery의 구조체 초기화 및 할당
 		_crowd = dtAllocCrowd();
 
 		_navMeshQuery = dtAllocNavMeshQuery();
 
 		//에이전트 모두 생성.
-		//SyncAgents();
+		SyncAgents();
 	}
 
 	void NavigationSystem::Update(float deltaTime)
@@ -130,13 +114,109 @@ namespace Pg::Engine
 			}
 
 		}
+	}
 
-		assert("");
+	void NavigationSystem::RemoveAgent(int index)
+	{
+		_crowd->removeAgent(index);
 	}
 
 	void NavigationSystem::CreatePlaneNavMesh()
 	{
+		float bmin[3]{ std::numeric_limits<float>::max(),
+						std::numeric_limits<float>::max(),std::numeric_limits<float>::max() };
 
+		float bmax[3]{ -std::numeric_limits<float>::max(),
+						-std::numeric_limits<float>::max(),-std::numeric_limits<float>::max() };
+		
+		// 바운더리 정보부터 설정
+		memset(&_rcConfig, 0, sizeof(_rcConfig));
+
+		_rcConfig.cs = 0.3f; // 셀 사이즈
+		_rcConfig.ch = 0.2f; // 셀 높이
+		_rcConfig.walkableSlopeAngle = 45.0f;	//경사
+		_rcConfig.walkableHeight = 2.0f;
+		_rcConfig.walkableClimb = 0.9f;
+		_rcConfig.walkableRadius = 0.6f;
+		_rcConfig.maxEdgeLen = 12.0f;
+		_rcConfig.maxSimplificationError = 1.3f;
+		_rcConfig.minRegionArea = 8.0f;
+		_rcConfig.mergeRegionArea = 20.0f;
+		_rcConfig.maxVertsPerPoly = 6;
+		_rcConfig.detailSampleDist = 6.0f;
+		_rcConfig.detailSampleMaxError = _rcConfig.ch * 1.0f;
+
+		rcVcopy(_rcConfig.bmin, bmin);
+		rcVcopy(_rcConfig.bmax, bmax);
+		
+		bool processResult{ false };
+	
+		// 복셀 높이필드 공간 할당
+		rcHeightfield* heightField{ rcAllocHeightfield() };
+		assert(heightField != nullptr);
+
+
+		processResult = rcCreateHeightfield(_rcContext, *heightField, _rcConfig.width, _rcConfig.height, _rcConfig.bmin, _rcConfig.bmax, _rcConfig.cs, _rcConfig.ch);
+		assert(processResult == true);
+
+		std::vector<unsigned char> triareas;
+		//triareas.resize(facesNum);
+		//unsigned char * triareas = new unsigned char[facesNum];
+		//memset(triareas, 0, facesNum*sizeof(unsigned char));
+
+		//rcMarkWalkableTriangles(_rcContext, _rcConfig.walkableSlopeAngle, worldVertices, verticesNum, faces, facesNum, triareas.data());
+		//processResult = rcRasterizeTriangles(_rcContext, worldVertices, verticesNum, faces, triareas.data(), facesNum, *heightField, _rcConfig.walkableClimb);
+		//assert(processResult == true);
+
+		// 필요없는 부분 필터링
+		rcFilterLowHangingWalkableObstacles(_rcContext, _rcConfig.walkableClimb, *heightField);
+		rcFilterLedgeSpans(_rcContext, _rcConfig.walkableHeight, _rcConfig.walkableClimb, *heightField);
+		rcFilterWalkableLowHeightSpans(_rcContext, _rcConfig.walkableHeight, *heightField);
+
+		// 밀집 높이 필드 만들기
+		rcCompactHeightfield* compactHeightField{ rcAllocCompactHeightfield() };
+		assert(compactHeightField != nullptr);
+
+		processResult = rcBuildCompactHeightfield(_rcContext, _rcConfig.walkableHeight, _rcConfig.walkableClimb, *heightField, *compactHeightField);
+		//rcFreeHeightField(heightField);
+		assert(processResult == true);
+
+		//processResult = rcErodeWalkableArea(context, config.walkableRadius, *compactHeightField);
+		//assert(processResult == true);
+
+		processResult = rcBuildDistanceField(_rcContext, *compactHeightField);
+		assert(processResult == true);
+
+		rcBuildRegions(_rcContext, *compactHeightField, 0, _rcConfig.minRegionArea, _rcConfig.mergeRegionArea);
+		assert(processResult == true);
+
+		// 윤곽선 만들기
+		rcContourSet* contourSet{ rcAllocContourSet() };
+		assert(contourSet != nullptr);
+
+		processResult = rcBuildContours(_rcContext, *compactHeightField, _rcConfig.maxSimplificationError, _rcConfig.maxEdgeLen, *contourSet);
+		assert(processResult == true);
+
+		// 윤곽선으로부터 폴리곤 생성
+		//_p = rcAllocPolyMesh();
+		//assert(polyMesh != nullptr);
+		//
+		//processResult = rcBuildPolyMesh(_rcContext, *contourSet, _rcConfig.maxVertsPerPoly, *polyMesh);
+		//assert(processResult == true);
+		//
+		//// 디테일 메시 생성
+		//auto& detailMesh{ impl->polyMeshDetail = rcAllocPolyMeshDetail() };
+		//assert(detailMesh != nullptr);
+		//
+		//processResult = rcBuildPolyMeshDetail(_rcContext, *polyMesh, *compactHeightField, _rcConfig.detailSampleDist, _rcConfig.detailSampleMaxError, *detailMesh);
+		//assert(processResult == true);
+
+		//rcFreeCompactHeightfield(compactHeightField);
+		//rcFreeContourSet(contourSet);
+
+
+		dtNavMeshCreateParams params;
+		memset(&params, 0, sizeof(params));
 	}
 
 	dtNavMesh* NavigationSystem::GetNavMesh() const
