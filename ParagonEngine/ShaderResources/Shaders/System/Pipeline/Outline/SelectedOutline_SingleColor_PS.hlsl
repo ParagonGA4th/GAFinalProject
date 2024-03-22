@@ -14,7 +14,7 @@ POutQuad main(VOutQuad pin)
    ClipUnfitsObjectID(pin.UV);
    
    //float4 tOutlineColor = { 0.871f, 0.996f, 0.f, 1.f };
-   float4 tOutlineColor = { 1.0f, 0.f, 0.f, 1.f };
+   float4 tOutlineColor = { 0.0f, 1.f, 0.f, 1.f };
    
    //Stencil을 파이프라인 상으로 기록하는 동시에, 색깔을 칠한다.
    res.Output = tOutlineColor;
