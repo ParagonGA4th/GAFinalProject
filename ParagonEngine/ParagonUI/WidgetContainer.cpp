@@ -3,10 +3,17 @@
 
 void Pg::UI::WidgetContainer::Update()
 {
+	int count = 0;
 	for (auto& i : _widgets)
 	{
 		i->Update();
-		if (_isSameLine) ImGui::SameLine();
+		if (_isSameLine)
+		{
+			if (count < _lineCount) ImGui::SameLine();
+			if (count > _lineCount)	ImGui::SameLine();
+
+			count++;
+		}
 	}
 
 	if (_isSameLine) _isSameLine = false;
@@ -66,9 +73,10 @@ void Pg::UI::WidgetContainer::ClearTreeNodeWidget(int index)
 	else _treeNodeWidgets.erase(_treeNodeWidgets.begin() + index);
 }
 
-void Pg::UI::WidgetContainer::SameLine(bool isSameLine)
+void Pg::UI::WidgetContainer::SameLine(bool isSameLine, int lineCount)
 {
 	_isSameLine = isSameLine;
+	_lineCount = lineCount;
 }
 
 void Pg::UI::WidgetContainer::ClearTempWidgets()

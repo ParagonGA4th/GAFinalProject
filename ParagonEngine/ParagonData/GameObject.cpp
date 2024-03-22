@@ -165,7 +165,7 @@ namespace Pg::Data
 			return component;
 		}
 
-		//component = Factory<Pg::Data::Script, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
+		//component = Pg::Factory::Script::Factory<Pg::Data::Script, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
 		//if (component != nullptr)
 		//{
 		//	_componentList.push_back(std::make_pair(componentType, component));

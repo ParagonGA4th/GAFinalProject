@@ -21,7 +21,7 @@ namespace Pg::Graphics
 	using Pg::Graphics::Manager::GraphicsResourceManager;
 	using Pg::Data::Enums::eAssetDefine;
 
-	RenderObjectStaticMesh3D::RenderObjectStaticMesh3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID, unsigned int matID) : RenderObject3D(baseRenderer, objID, matID)
+	RenderObjectStaticMesh3D::RenderObjectStaticMesh3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID) : RenderObject3D(baseRenderer, objID)
 	{
 		//SkinnedMesh도 똑같은 과정 거쳐야.
 

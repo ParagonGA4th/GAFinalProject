@@ -3,6 +3,9 @@
 
 #include <sstream>
 #include <vector>
+#include "GameObject.h"
+#include <DirectXMath.h>
+#include <singleton-cpp/singleton.h>
 
 namespace Pg::Data
 {
@@ -45,6 +48,14 @@ namespace Pg::Data
 		if (_materialName.compare("fromUnrealExample") == 0)
 		{
 			_materialName.clear();
+
+			//Unreal Coordinate System¿¡ ´ëÇÑ Solution. (¿Þ¼Õ / ¿À¸¥¼Õ ÁÂÇ¥°è È¥¿ë)
+			Pg::Math::PGQuaternion tTemp = _object->_transform._rotation;
+
+			_object->_transform._rotation.x = tTemp.x * -1.0f;
+			_object->_transform._rotation.y = tTemp.z;
+			_object->_transform._rotation.z = tTemp.y;
+			_object->_transform._rotation.w = tTemp.w;
 		}
 	}
 
@@ -80,5 +91,45 @@ namespace Pg::Data
 			_materialName = ResourceHelper::GetNameFromPath(_renderMaterialPath);
 		}
 	}
+
+	//void StaticMeshRenderer::Update()
+	//{
+	//	using namespace DirectX;
+	//
+	//	Pg::Util::Input::InputSystem* tInput = (Pg::Util::Input::InputSystem*)_input;
+	//	if (tInput->GetKeyDown(Pg::API::Input::KeyB))
+	//	{
+	//		DirectX::XMFLOAT4 tQuat = { _object->_transform._rotation.x, _object->_transform._rotation.y,
+	//									_object->_transform._rotation.z, _object->_transform._rotation.w };
+	//		DirectX::XMVECTOR tQuatVec = DirectX::XMLoadFloat4(&tQuat);
+	//		XMVECTOR q = XMQuaternionRotationAxis(XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f), XM_PI / 2.0f); // Rotation quaternion around X-axis by 90 degrees
+	//		XMVECTOR tAns = XMQuaternionMultiply(tQuatVec, q);
+	//		XMFLOAT4 tAnsFF;
+	//		XMStoreFloat4(&tAnsFF, tAns);
+	//		_object->_transform._rotation = { tAnsFF.w, tAnsFF.x, tAnsFF.y, tAnsFF.z };
+	//	}
+	//	if (tInput->GetKeyDown(Pg::API::Input::KeyN))
+	//	{
+	//		DirectX::XMFLOAT4 tQuat = { _object->_transform._rotation.x, _object->_transform._rotation.y,
+	//									_object->_transform._rotation.z, _object->_transform._rotation.w };
+	//		DirectX::XMVECTOR tQuatVec = DirectX::XMLoadFloat4(&tQuat);
+	//		XMVECTOR q = XMQuaternionRotationAxis(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f), XM_PI / 2.0f); // Rotation quaternion around Y-axis by 90 degrees
+	//		XMVECTOR tAns = XMQuaternionMultiply(tQuatVec, q);
+	//		XMFLOAT4 tAnsFF;
+	//		XMStoreFloat4(&tAnsFF, tAns);
+	//		_object->_transform._rotation = { tAnsFF.w, tAnsFF.x, tAnsFF.y, tAnsFF.z };
+	//	}
+	//	if (tInput->GetKeyDown(Pg::API::Input::KeyM))
+	//	{
+	//		DirectX::XMFLOAT4 tQuat = { _object->_transform._rotation.x, _object->_transform._rotation.y,
+	//									_object->_transform._rotation.z, _object->_transform._rotation.w };
+	//		DirectX::XMVECTOR tQuatVec = DirectX::XMLoadFloat4(&tQuat);
+	//		XMVECTOR q = XMQuaternionRotationAxis(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), XM_PI / 2.0f); // Rotation quaternion around Z-axis by 90 degrees
+	//		XMVECTOR tAns = XMQuaternionMultiply(tQuatVec, q);
+	//		XMFLOAT4 tAnsFF;
+	//		XMStoreFloat4(&tAnsFF, tAns);
+	//		_object->_transform._rotation = { tAnsFF.w, tAnsFF.x, tAnsFF.y, tAnsFF.z };
+	//	}
+	//}
 
 }

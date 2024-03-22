@@ -104,6 +104,10 @@ namespace  Pg::Util::Input
 		assert(_map->MapBool(eKeyCode::KeyDown, _keyboardId, gainput::KeyDown));
 		assert(_map->MapBool(eKeyCode::Space, _keyboardId, gainput::KeySpace));
 
+		assert(_map->MapBool(eKeyCode::KeyB, _keyboardId, gainput::KeyB));
+		assert(_map->MapBool(eKeyCode::KeyN, _keyboardId, gainput::KeyN));
+		assert(_map->MapBool(eKeyCode::KeyM, _keyboardId, gainput::KeyM));
+
 		gainput::SimultaneouslyDownGesture* sdg = _manager->CreateAndGetDevice<gainput::SimultaneouslyDownGesture>();
 		sdg->AddButton(_keyboardId, gainput::KeyCtrlL);
 		sdg->AddButton(_keyboardId, gainput::KeyS);

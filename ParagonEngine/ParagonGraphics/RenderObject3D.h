@@ -44,9 +44,12 @@ namespace Pg::Graphics
 	class RenderObject3D : public Pg::Graphics::RenderObjectBase
 	{
 	public:
-		RenderObject3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID, unsigned int matID);
+		RenderObject3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID);
 		virtual ~RenderObject3D();
 		
+		//일괄적으로 GraphicsParser에서 받을 수 있게, 설정.
+		void SetMaterialID(unsigned int matID);
+
 		//Object-Material 데이터가 전부 매칭/로드 된 후, 일괄적으로 발동될 함수이다.	
 		virtual void CreateObjMatBuffers() abstract;
 
