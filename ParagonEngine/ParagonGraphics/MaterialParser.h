@@ -32,6 +32,8 @@ namespace Pg::Graphics
 		//디폴트 매터리얼.
 		void LoadDefaultRenderMaterialInstance(const std::string& defInstMatName, RenderMaterial* renderMat);
 
+		//Scene이 바뀔 때 마다 전체 매터리얼마다 전부 부여.
+		void RemapMaterialIDs();
 	private:
 		//큰 레이어들.
 		void ParsePgMat(const std::string& pgmatPath);
@@ -59,8 +61,10 @@ namespace Pg::Graphics
 	private:
 		std::unique_ptr<ShaderParsingData> _vsParseData = nullptr;
 		std::unique_ptr<ShaderParsingData> _psParseData = nullptr;
-	
-		//리셋되도 클리어되지 않는다. 지금까지 Material에게 부여한 ID이다.
+
+		//리셋되면 다시 1로 돌아간다. 
+		//지금까지 Material에게 부여한 ID이다.
+		//Scene이 바뀔때마다 모든 Material들의 ID가 다시 부여된다.
 		//1부터 시작.
 		unsigned int _matIdRecord = 1;
 	};

@@ -45,6 +45,7 @@ namespace Pg::Graphics
 		void ClearMakeObjectLists();
 		void PlacePathsFromName(const Pg::Data::Scene* const newScene);
 		void CheckForPathNameErrors(const Pg::Data::Scene* const newScene);
+		void RemapMaterialIDs();
 		void ExtractMaterialPaths(const Pg::Data::Scene* const newScene);
 		void SyncRenderObjects(const Pg::Data::Scene* const newScene);
 		void SyncSceneInformation(const Pg::Data::Scene* const newScene);

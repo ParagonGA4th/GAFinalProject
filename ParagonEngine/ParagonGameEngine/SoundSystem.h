@@ -3,8 +3,6 @@
 
 #include "../ParagonData/AudioData.h"
 #include "../ParagonData/eSoundGroup.h"
-//FMOD 라이브러리
-//#pragma comment(lib, "fmod_vc.lib")
 
 #include "../include/fmod/fmod.h"
 #include "../include/fmod/fmod.hpp"
