@@ -69,4 +69,9 @@ namespace Pg::Graphics::Loader
 		_animParser->Clean();
 	}
 
+	void AssetCombinedLoader::RemapMaterialIDs()
+	{
+		_matParser->RemapMaterialIDs();
+	}
+
 }

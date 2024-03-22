@@ -24,7 +24,6 @@ namespace Pg::Data
 		//혹시 Path만 있고 Name은 없는 상황을 막기 위해.
 		virtual void CheckForPathNameErrors() override;
 
-
 		virtual void OnSerialize(SerializeVector& sv) override;
 		virtual void OnDeserialize(SerializeVector& sv) override;
 
