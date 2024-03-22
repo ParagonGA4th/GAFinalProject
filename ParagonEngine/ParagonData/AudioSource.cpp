@@ -22,12 +22,12 @@ namespace Pg::Data
 
 	void AudioSource::OnDeserialize(SerializeVector& sv)
 	{
-		Pg::Data::SerializerHelper::OnDeserializerHelper(this, sv);
+		Pg::Data::SerializerHelper::OnDeserializerHelper<Pg::Data::AudioSource, 1>(this, sv);
 	}
 
 	void AudioSource::OnSerialize(SerializeVector& sv)
 	{
-		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
+		//Pg::Data::SerializerHelper::OnSerializerHelper<Pg::Data::AudioSource, 1>(this, sv);
 	}
 
 	void AudioSource::Start()

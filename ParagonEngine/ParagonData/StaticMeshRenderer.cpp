@@ -50,12 +50,12 @@ namespace Pg::Data
 
 	void StaticMeshRenderer::OnSerialize(SerializeVector& sv)
 	{
-		Pg::Data::SerializerHelper::OnSerializerHelper<StaticMeshRenderer>(this, sv);
+		//Pg::Data::SerializerHelper::OnSerializerHelper<StaticMeshRenderer>(this, sv);
 	}
 
 	void StaticMeshRenderer::OnDeserialize(SerializeVector& sv)
 	{
-		Pg::Data::SerializerHelper::OnDeserializerHelper<StaticMeshRenderer>(this, sv);
+		//Pg::Data::SerializerHelper::OnDeserializerHelper<StaticMeshRenderer>(this, sv);
 	}
 
 	void StaticMeshRenderer::CheckForPathNameErrors()
