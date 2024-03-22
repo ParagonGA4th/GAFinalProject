@@ -72,6 +72,7 @@ namespace Pg::Graphics
 
 		ExtractMaterialPaths(newScene);
 		SyncRenderObjects(newScene);
+		RemapMaterialIDs();
 		SetupPrimitiveWireframeObjects();
 		SyncSceneInformation(newScene);
 		BindAdequateFunctions(newScene);
@@ -81,6 +82,11 @@ namespace Pg::Graphics
 
 		//실제 리소스를 사용해야 하기에, Initialize에서 현재 호출하고 있지 않음.
 		PlaceCubemapList();
+
+		{
+			auto tMatVec = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetAllResourcesByDefine(Data::Enums::eAssetDefine::_RENDERMATERIAL);
+			assert("");
+		}
 	}
 
 	Pg::Graphics::RenderObject2DList* GraphicsSceneParser::GetRenderObject2DList()
@@ -269,31 +275,36 @@ namespace Pg::Graphics
 		//2. set의 값을 RenderObject3DList의 Vector로 옮기기. (중복을 없앤 상태.)
 		for (auto& it : tMaterialPathSet)
 		{
+			auto res = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(it, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
+			RenderMaterial* tRenderMat = static_cast<RenderMaterial*>(res.get());
 			//일단은 Default Material ID를 설정해주기.
-			_renderObject3DList->_materialPathSet.push_back(std::make_pair(it, NULL));
+			_renderObject3DList->_materialPathSet.push_back(std::make_pair(it, tRenderMat));
 		}
 
+		//ID는 이제 상관 없다. 따로 일괄적으로 부여하기 때문에.
+		//기록하는 방식을 String -> RenderMat 포인터로 변경!
+		
 		//3. Material Parser에 의해 부여된 MaterialID를 찾아서 순서에 맞게 기록하기. (Material Path Set)
-		auto tMatVec = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetAllResourcesByDefine(Data::Enums::eAssetDefine::_RENDERMATERIAL);
-		for (auto& it : _renderObject3DList->_materialPathSet)
-		{
-			//같은 것 찾기.
-			auto res = std::find_if(tMatVec.begin(), tMatVec.end(),
-				[&it](const std::shared_ptr<Pg::Data::Resources::GraphicsResource>& val)
-				-> bool {return (it.first.compare(val->GetFilePath()) == 0); });
-
-			assert(res != tMatVec.end() && "반드시 해당되는 Material을 여기서 찾았어야 한다.");
-
-			RenderMaterial* tRenderMat = static_cast<RenderMaterial*>(res->get());
-			unsigned int tMatID = tRenderMat->GetID();
-			it.second = tMatID;
-		}
+		//auto tMatVec = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetAllResourcesByDefine(Data::Enums::eAssetDefine::_RENDERMATERIAL);
+		//for (auto& it : _renderObject3DList->_materialPathSet)
+		//{
+		//	//같은 것 찾기.
+		//	auto res = std::find_if(tMatVec.begin(), tMatVec.end(),
+		//		[&it](const std::shared_ptr<Pg::Data::Resources::GraphicsResource>& val)
+		//		-> bool {return (it.first.compare(val->GetFilePath()) == 0); });
+		//
+		//	assert(res != tMatVec.end() && "반드시 해당되는 Material을 여기서 찾았어야 한다.");
+		//
+		//	RenderMaterial* tRenderMat = static_cast<RenderMaterial*>(res->get());
+		//	unsigned int tMatID = tRenderMat->GetID();
+		//	it.second = tMatID;
+		//}
 
 		//4. unordered_map (_renderObject3DList->_list) 세팅.
 		for (auto& it : _renderObject3DList->_materialPathSet)
 		{
-			_renderObject3DList->_staticList.insert_or_assign(it.first, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
-			_renderObject3DList->_skinnedList.insert_or_assign(it.first, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
+			_renderObject3DList->_staticList.insert_or_assign(it.second, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
+			_renderObject3DList->_skinnedList.insert_or_assign(it.second, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
 		}
 
 		//이때까지는 실제로 명시적으로 지정된 Material만 반영이 된다.
@@ -331,11 +342,12 @@ namespace Pg::Graphics
 					//auto it = std::find(_renderObject3DList->_materialPathSet.begin(), _renderObject3DList->_materialPathSet.end(), tMatPth);
 
 					auto it = std::find_if(_renderObject3DList->_materialPathSet.begin(), _renderObject3DList->_materialPathSet.end(),
-						[&tMatPth](const std::pair<std::string, unsigned int>& val)
+						[&tMatPth](const std::pair<std::string, RenderMaterial*>& val)
 						-> bool {return (val.first == tMatPth); });
 					//곧 들어갈 Material ID;
 
-					unsigned int tMaterialID = NULL;
+					//unsigned int tMaterialID = NULL;
+					RenderMaterial* tMaterialInput = nullptr;
 
 					//못 찾았으면, Default Material을 만들어서 넣어준다.
 					if (it == _renderObject3DList->_materialPathSet.end())
@@ -354,20 +366,28 @@ namespace Pg::Graphics
 
 							//전체 저장목록에 갖고 있다고 기록. (Graphics에서 검사했기 때문에, AssetManager로 보내줘야)
 							Pg::Graphics::Manager::GraphicsResourceManager::Instance()->AddSecondaryResource(tDefaultMatInstName, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
-
-							//씬 재시작 경우의 수를 위해, 없을 경우에는 로드만 하고 일괄적으로 insert/assign하는 것으로 변경.
-							//이제는, vector 목록에 추가해줘야.
-							_renderObject3DList->_staticList.insert_or_assign(tDefaultMatInstName, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
-							_renderObject3DList->_skinnedList.insert_or_assign(tDefaultMatInstName, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
 						}
 
-						//일단은 Default Material ID를 설정해주기.
+						//씬 재시작 경우의 수를 위해, 없을 경우에는 로드만 하고 일괄적으로 insert/assign하는 것으로 변경.
+						//이제는, vector 목록에 추가해줘야.
+						// => 어떻게 되었든, Skinned/Static에 없는 것이니 넣어!
 						auto res = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tDefaultMatInstName, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
 						RenderMaterial* tRenderMat = static_cast<RenderMaterial*>(res.get());
-						_renderObject3DList->_materialPathSet.push_back(std::make_pair(tDefaultMatInstName, tRenderMat->GetID()));
+							
+						//런타임에서 오브젝트를 파싱해주며 만들어주는 특성상, => 무조건 있는지 체크해야. 
+						//이미 존재할 시에는 넣어주면 안됨.
+						//있으면 새로운 벡터를 만들지 않음. (insert_or_assign에서 TryEmplace로 변경)
 
-						tMaterialID = tRenderMat->GetID();
+						_renderObject3DList->_staticList.try_emplace(tRenderMat, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
+						_renderObject3DList->_skinnedList.try_emplace(tRenderMat, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObject3D>>>>());
 
+						//일단은 Default Material ID를 설정해주기.
+						_renderObject3DList->_materialPathSet.push_back(std::make_pair(tDefaultMatInstName, tRenderMat));
+
+						//일괄적 부여를 위해 Material 포인터 부여.
+						tMaterialInput = tRenderMat;
+
+						//로직 후 디버깅.
 						std::string tMsg = tGameObject->GetName();
 						tMsg += " : 디폴트 매터리얼 객체 사용됨.";
 
@@ -378,22 +398,21 @@ namespace Pg::Graphics
 					}
 					else
 					{
-						//찾았다. 리소스에 있는 Material의 ID를 복사해서 입력한다.
-						tMaterialID = it->second;
+						tMaterialInput = it->second;
 					}
 
 					//3D
 					//StaticMeshRenderer
 					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
 					{
-						_renderObject3DList->_staticList.at(tMatPth)->push_back(std::make_pair(tGameObject,
-							std::make_unique<RenderObjectStaticMesh3D>(tBaseRenderer, _objectId3dCount, tMaterialID)));
+						_renderObject3DList->_staticList.at(tMaterialInput)->push_back(std::make_pair(tGameObject,
+							std::make_unique<RenderObjectStaticMesh3D>(tBaseRenderer, _objectId3dCount)));
 					}
 					//SkinnedMeshRenderer
 					else if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::SkinnedMeshRenderer*).name())) == 0)
 					{
-						_renderObject3DList->_skinnedList.at(tMatPth)->push_back(std::make_pair(tGameObject,
-							std::make_unique<RenderObjectSkinnedMesh3D>(tBaseRenderer, _objectId3dCount, tMaterialID)));
+						_renderObject3DList->_skinnedList.at(tMaterialInput)->push_back(std::make_pair(tGameObject,
+							std::make_unique<RenderObjectSkinnedMesh3D>(tBaseRenderer, _objectId3dCount)));
 					}
 
 					//ObjectId3d가 겹치지 않도록 ++
@@ -419,6 +438,43 @@ namespace Pg::Graphics
 			}
 		}
 		assert("");
+	}
+
+	void GraphicsSceneParser::RemapMaterialIDs()
+	{
+		//실제로 이제 존재하는 모든 Material에 ID를 새로 부여.
+		Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetCombinedLoader()->RemapMaterialIDs();
+
+		//이를 Static/Skinned List에 반영!
+
+		//Material Path. (first)
+		for (auto& it : _renderObject3DList->_staticList)
+		{
+			//일단은 자기 자신이 속한 Material ID를 부여해줘야 한다.
+			RenderMaterial* tRenderMat = it.first;
+
+			for (auto& itt : *(it.second))
+			{
+				//Material ID를 일괄적으로 부여.
+				itt.second->SetMaterialID(tRenderMat->GetID());
+			}
+		}
+
+		//Material Path. (first)
+		for (auto& it : _renderObject3DList->_skinnedList)
+		{
+			//일단은 자기 자신이 속한 Material ID를 부여해줘야 한다.
+			RenderMaterial* tRenderMat = it.first;
+
+			for (auto& itt : *(it.second))
+			{
+				//Material ID를 일괄적으로 부여.
+				itt.second->SetMaterialID(tRenderMat->GetID());
+			}
+		}
+
+		//auto tMatVec = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetAllResourcesByDefine(Data::Enums::eAssetDefine::_RENDERMATERIAL);
+		//assert("");
 	}
 
 	void GraphicsSceneParser::SyncSceneInformation(const Pg::Data::Scene* const newScene)
@@ -566,6 +622,7 @@ namespace Pg::Graphics
 		//PG_TRACE(tRet->GetName().c_str());
 		return tRet;
 	}
+
 
 
 }

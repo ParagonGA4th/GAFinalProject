@@ -18,10 +18,10 @@
               <z :anonymous="">0.0</z>
             </position>
             <rotation :anonymous="">
-              <w :anonymous="">0.270598</w>
-              <x :anonymous="">-0.653282</x>
-              <y :anonymous="">0.270598</y>
-              <z :anonymous="">0.653282</z>
+              <w :anonymous="">0.0</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.707107</y>
+              <z :anonymous="">0.707107</z>
             </rotation>
             <scale :anonymous="">
               <x :anonymous="">1.0</x>
@@ -57,10 +57,10 @@
               <z :anonymous="">0.0</z>
             </position>
             <rotation :anonymous="">
-              <w :anonymous="">0.707107</w>
-              <x :anonymous="">-0.707107</x>
-              <y :anonymous="">0.0</y>
-              <z :anonymous="">0.0</z>
+              <w :anonymous="">0.0</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.707107</y>
+              <z :anonymous="">0.707107</z>
             </rotation>
             <scale :anonymous="">
               <x :anonymous="">1.0</x>
