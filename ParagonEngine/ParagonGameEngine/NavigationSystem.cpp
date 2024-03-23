@@ -9,14 +9,16 @@
 
 #include <singleton-cpp/singleton.h>
 #include <functional>
+#include <cassert>
 
 namespace Pg::Engine
 {
 	NavigationSystem::NavigationSystem() :
 		_navMesh(nullptr),
-		_navMeshQuery(nullptr)
+		_navMeshQuery(nullptr),
+		_crowd(nullptr)
 	{
-
+		_rcContext = std::make_unique<rcContext>(rcContext());
 	}
 
 	void NavigationSystem::Initialize()
@@ -26,19 +28,31 @@ namespace Pg::Engine
 
 		_navMeshQuery = dtAllocNavMeshQuery();
 
+		//NavMesh 생성하고 빌드.
+		SyncNavMesh();
+
 		//에이전트 모두 생성.
 		SyncAgents();
 	}
 
 	void NavigationSystem::Update(float deltaTime)
 	{
-		if (_crowd == nullptr || _navMesh == nullptr)
+		if (_crowd == nullptr)
 		{
-			//PG_TRACE("Crowd 존재하지 않음.");
+			PG_TRACE("Crowd 존재하지 않음.");
 			return;
 		}
 
 		_crowd->update(deltaTime, nullptr);
+		//_tileCache->update(deltaTime, _navMesh, nullptr);
+
+		for (auto& it : _navMeshAgentVec)
+		{
+			const dtCrowdAgent* agent = _crowd->getAgent(it->_agentidx);
+			it->_object->_transform._position = {agent->npos[0], agent->npos[1], agent->npos[2]};
+
+			
+		}
 	}
 
 	void NavigationSystem::Finalize()
@@ -105,14 +119,14 @@ namespace Pg::Engine
 				//agent의 현재 위치는 설정해놓은 포지션으로 정해놓는다.
 				Pg::Math::PGFLOAT3 agentPos = tNavMeshAgent->_object->_transform._position;
 
-				_crowd->addAgent(reinterpret_cast<const float*>(&agentPos), &ap);
+				tNavMeshAgent->_agentidx = _crowd->addAgent(reinterpret_cast<const float*>(&agentPos), &ap);
 
 				_navMeshAgentVec.push_back(tNavMeshAgent);
 				
 				///런타임에 설정값이 변경될 때 필요함.
-				//tNavMeshAgent->_updateSystemFunc = std::bind(&NavigationSystem::UpdateSingleDtParam, this, std::placeholders::_1);
+				tNavMeshAgent->_updateSystemFunc = std::bind(&NavigationSystem::UpdateSingleDtParam, this, std::placeholders::_1);
+				tNavMeshAgent->_destinationFunc = std::bind(&NavigationSystem::MoveTo, this, std::placeholders::_1, std::placeholders::_2);
 			}
-
 		}
 	}
 
@@ -121,8 +135,49 @@ namespace Pg::Engine
 		_crowd->removeAgent(index);
 	}
 
-	void NavigationSystem::CreatePlaneNavMesh()
+
+	void NavigationSystem::SyncNavMesh()
 	{
+		//원래 있던 NavMeshAgentVec();
+		if (!_navMeshFieldVec.empty())
+		{
+			_navMeshFieldVec.clear();
+		}
+		if (!worldVertices.empty())
+		{
+			worldVertices.clear();
+		}
+		if (!worldIndices.empty())
+		{
+			worldIndices.clear();
+		}
+
+		//싱글턴
+		auto& tSceneSystem = singleton<SceneSystem>();
+		_sceneSystem = &tSceneSystem;
+
+		for (auto& it : _sceneSystem->GetCurrentScene()->GetObjectList())
+		{
+			Pg::Data::NavigationField* tNavigationField = it->GetComponent<Pg::Data::NavigationField>();
+
+			if (tNavigationField != nullptr)
+			{
+				Pg::Data::PlaneCollider* planeCollider = it->GetComponent<Pg::Data::PlaneCollider>();
+				assert(planeCollider != nullptr);
+
+				CreatePlaneNavMesh(planeCollider, worldVertices, worldIndices);
+
+				_navMeshFieldVec.push_back(tNavigationField);
+			}
+		}
+
+		BuildPlaneNavMesh(worldVertices, worldIndices);
+	}
+
+	void NavigationSystem::BuildPlaneNavMesh(const float* worldVertices, size_t verticesNum, const int* faces, size_t facesNum, const Pg::Data::BuildSettings& buildSettings)
+	{
+		//auto success = handleBuild(worldVertices, verticesNum, faces, facesNum, buildSettings);
+
 		float bmin[3]{ std::numeric_limits<float>::max(),
 						std::numeric_limits<float>::max(),std::numeric_limits<float>::max() };
 
@@ -130,6 +185,23 @@ namespace Pg::Engine
 						-std::numeric_limits<float>::max(),-std::numeric_limits<float>::max() };
 		
 		// 바운더리 정보부터 설정
+		for (auto i = 0; i < verticesNum; i++)
+		{
+			if (bmin[0] > worldVertices[i * 3])
+				bmin[0] = worldVertices[i * 3];
+			if (bmin[1] > worldVertices[i * 3 + 1])
+				bmin[1] = worldVertices[i * 3 + 1];
+			if (bmin[2] > worldVertices[i * 3 + 2])
+				bmin[2] = worldVertices[i * 3 + 2];
+
+			if (bmax[0] < worldVertices[i * 3])
+				bmax[0] = worldVertices[i * 3];
+			if (bmax[1] < worldVertices[i * 3 + 1])
+				bmax[1] = worldVertices[i * 3 + 1];
+			if (bmax[2] < worldVertices[i * 3 + 2])
+				bmax[2] = worldVertices[i * 3 + 2];
+		}
+
 		memset(&_rcConfig, 0, sizeof(_rcConfig));
 
 		_rcConfig.cs = 0.3f; // 셀 사이즈
@@ -148,6 +220,7 @@ namespace Pg::Engine
 
 		rcVcopy(_rcConfig.bmin, bmin);
 		rcVcopy(_rcConfig.bmax, bmax);
+		rcCalcGridSize(_rcConfig.bmin, _rcConfig.bmax, _rcConfig.cs, &_rcConfig.width, &_rcConfig.height);
 		
 		bool processResult{ false };
 	
@@ -155,65 +228,80 @@ namespace Pg::Engine
 		rcHeightfield* heightField{ rcAllocHeightfield() };
 		assert(heightField != nullptr);
 
-
-		processResult = rcCreateHeightfield(_rcContext, *heightField, _rcConfig.width, _rcConfig.height, _rcConfig.bmin, _rcConfig.bmax, _rcConfig.cs, _rcConfig.ch);
+		processResult = rcCreateHeightfield(_rcContext.get(), *heightField, _rcConfig.width, _rcConfig.height, _rcConfig.bmin, _rcConfig.bmax, _rcConfig.cs, _rcConfig.ch);
 		assert(processResult == true);
 
 		std::vector<unsigned char> triareas;
-		//triareas.resize(facesNum);
-		//unsigned char * triareas = new unsigned char[facesNum];
-		//memset(triareas, 0, facesNum*sizeof(unsigned char));
+		triareas.resize(facesNum);
 
-		//rcMarkWalkableTriangles(_rcContext, _rcConfig.walkableSlopeAngle, worldVertices, verticesNum, faces, facesNum, triareas.data());
-		//processResult = rcRasterizeTriangles(_rcContext, worldVertices, verticesNum, faces, triareas.data(), facesNum, *heightField, _rcConfig.walkableClimb);
-		//assert(processResult == true);
+		//unsigned char* triareas = new unsigned char[facesNum];
+		//memset(triareas, 0, facesNum * sizeof(unsigned char));
+
+		rcMarkWalkableTriangles(_rcContext.get(), _rcConfig.walkableSlopeAngle, worldVertices, verticesNum, faces, facesNum, triareas.data());
+		processResult = rcRasterizeTriangles(_rcContext.get(), worldVertices, verticesNum, faces, triareas.data(), facesNum, *heightField, _rcConfig.walkableClimb);
+		assert(processResult == true);
 
 		// 필요없는 부분 필터링
-		rcFilterLowHangingWalkableObstacles(_rcContext, _rcConfig.walkableClimb, *heightField);
-		rcFilterLedgeSpans(_rcContext, _rcConfig.walkableHeight, _rcConfig.walkableClimb, *heightField);
-		rcFilterWalkableLowHeightSpans(_rcContext, _rcConfig.walkableHeight, *heightField);
+		rcFilterLowHangingWalkableObstacles(_rcContext.get(), _rcConfig.walkableClimb, *heightField);
+		rcFilterLedgeSpans(_rcContext.get(), _rcConfig.walkableHeight, _rcConfig.walkableClimb, *heightField);
+		rcFilterWalkableLowHeightSpans(_rcContext.get(), _rcConfig.walkableHeight, *heightField);
 
 		// 밀집 높이 필드 만들기
 		rcCompactHeightfield* compactHeightField{ rcAllocCompactHeightfield() };
 		assert(compactHeightField != nullptr);
 
-		processResult = rcBuildCompactHeightfield(_rcContext, _rcConfig.walkableHeight, _rcConfig.walkableClimb, *heightField, *compactHeightField);
+		processResult = rcBuildCompactHeightfield(_rcContext.get(), _rcConfig.walkableHeight, _rcConfig.walkableClimb, *heightField, *compactHeightField);
 		//rcFreeHeightField(heightField);
 		assert(processResult == true);
 
-		//processResult = rcErodeWalkableArea(context, config.walkableRadius, *compactHeightField);
+		//processResult = rcErodeWalkableArea(_rcContext, _rcConfig.walkableRadius, *compactHeightField);
 		//assert(processResult == true);
 
-		processResult = rcBuildDistanceField(_rcContext, *compactHeightField);
+		processResult = rcBuildDistanceField(_rcContext.get(), *compactHeightField);
 		assert(processResult == true);
 
-		rcBuildRegions(_rcContext, *compactHeightField, 0, _rcConfig.minRegionArea, _rcConfig.mergeRegionArea);
+		rcBuildRegions(_rcContext.get(), *compactHeightField, 0, _rcConfig.minRegionArea, _rcConfig.mergeRegionArea);
 		assert(processResult == true);
 
 		// 윤곽선 만들기
 		rcContourSet* contourSet{ rcAllocContourSet() };
 		assert(contourSet != nullptr);
 
-		processResult = rcBuildContours(_rcContext, *compactHeightField, _rcConfig.maxSimplificationError, _rcConfig.maxEdgeLen, *contourSet);
+		processResult = rcBuildContours(_rcContext.get(), *compactHeightField, _rcConfig.maxSimplificationError, _rcConfig.maxEdgeLen, *contourSet);
 		assert(processResult == true);
 
 		// 윤곽선으로부터 폴리곤 생성
-		//_p = rcAllocPolyMesh();
-		//assert(polyMesh != nullptr);
-		//
-		//processResult = rcBuildPolyMesh(_rcContext, *contourSet, _rcConfig.maxVertsPerPoly, *polyMesh);
-		//assert(processResult == true);
-		//
+		_polyMesh = rcAllocPolyMesh();
+		assert(_polyMesh != nullptr);
+		
+		processResult = rcBuildPolyMesh(_rcContext.get(), *contourSet, _rcConfig.maxVertsPerPoly, *_polyMesh);
+		assert(processResult == true);
+		
 		// 디테일 메시 생성
 		auto& detailMesh{ _polyMeshDetail = rcAllocPolyMeshDetail() };
 		assert(detailMesh != nullptr);
-		//
-		//processResult = rcBuildPolyMeshDetail(_rcContext, *polyMesh, *compactHeightField, _rcConfig.detailSampleDist, _rcConfig.detailSampleMaxError, *detailMesh);
-		//assert(processResult == true);
+		
+		processResult = rcBuildPolyMeshDetail(_rcContext.get(), *_polyMesh, *compactHeightField, _rcConfig.detailSampleDist, _rcConfig.detailSampleMaxError, *detailMesh);
+		assert(processResult == true);
 
 		//rcFreeCompactHeightfield(compactHeightField);
 		//rcFreeContourSet(contourSet);
 
+		 // detour 데이터 생성
+		unsigned char* navData{ nullptr };
+		int navDataSize{ 0 };
+
+		assert(_rcConfig.maxVertsPerPoly <= DT_VERTS_PER_POLYGON);
+
+		// Update poly flags from areas.
+		for (int i = 0; i < _polyMesh->npolys; ++i)
+		{
+			if (_polyMesh->areas[i] == RC_WALKABLE_AREA)
+			{
+				_polyMesh->areas[i] = 0;
+				_polyMesh->flags[i] = 1;
+			}
+		}
 
 		//NavMesh 설정
 		dtNavMeshCreateParams params;
@@ -247,18 +335,284 @@ namespace Pg::Engine
 		params.ch = _rcConfig.ch;
 		params.buildBvTree = true;
 
-		//processResult = dtCreateNavMeshData(&params, &navData, &navDataSize);
-		//assert(processResult == true);
+		processResult = dtCreateNavMeshData(&params, &navData, &navDataSize);
+		assert(processResult == true);
 
-		//dtStatus status;
-		//status = _navMesh->init(navData, navDataSize, DT_TILE_FREE_DATA);
-		////dtFree(navData);
-		//assert(dtStatusFailed(status) == false);
+		dtStatus status;
+		_navMesh = dtAllocNavMesh();
 
-		//status = _navMeshQuery->init(navMesh, 2048);
-		//assert(dtStatusFailed(status) == false);
+		status = _navMesh->init(navData, navDataSize, DT_TILE_FREE_DATA);
+		dtFree(navData);
+		assert(dtStatusFailed(status) == false);
 
-		//_crowd->init(1024, buildSettings.maxAgentRadius, _navMesh);
+		status = _navMeshQuery->init(_navMesh, 2048);
+		assert(dtStatusFailed(status) == false);
+
+		_crowd->init(1024, buildSettings.maxAgentRadius, _navMesh);
+	}
+
+
+	void NavigationSystem::CreatePlaneNavMesh(Pg::Data::PlaneCollider* planeCollider, std::vector<Pg::Math::PGFLOAT3>& worldVertices, std::vector<int>& worldIndices)
+	{
+		// PlaneCollider의 위치, 너비, 높이 및 회전 정보를 가져옵니다.
+		Pg::Math::PGFLOAT3 planePos = planeCollider->_object->_transform._position;
+		float width = planeCollider->GetWidth();
+		float depth = planeCollider->GetDepth();
+		Pg::Math::PGQuaternion rotationAxis = planeCollider->_object->_transform._rotation; // 회전 축
+		DirectX::XMFLOAT4 tPre = { rotationAxis.x,rotationAxis.y, rotationAxis.z, rotationAxis.w };
+		DirectX::XMVECTOR quaternion = DirectX::XMLoadFloat4(&tPre);
+
+
+		// 각 점을 회전시킵니다.
+		DirectX::XMFLOAT3 botleft = { -width / 2.0f, 0.0f, -depth / 2.0f };
+		DirectX::XMFLOAT3 botright = { width / 2.0f, 0.0f, -depth / 2.0f };
+		DirectX::XMFLOAT3 topleft = { -width / 2.0f, 0.0f, depth / 2.0f };
+		DirectX::XMFLOAT3 topright = { width / 2.0f, 0.0f, depth / 2.0f };
+
+		// 회전을 적용합니다.
+		DirectX::XMVECTOR botleftRotated = DirectX::XMVector3Rotate(DirectX::XMLoadFloat3(&botleft), quaternion);
+		DirectX::XMVECTOR botrightRotated = DirectX::XMVector3Rotate(DirectX::XMLoadFloat3(&botright), quaternion);
+		DirectX::XMVECTOR topleftRotated = DirectX::XMVector3Rotate(DirectX::XMLoadFloat3(&topleft), quaternion);
+		DirectX::XMVECTOR toprightRotated = DirectX::XMVector3Rotate(DirectX::XMLoadFloat3(&topright), quaternion);
+
+		// DirectX 좌표계에 맞게 좌표를 조정합니다.
+		DirectX::XMFLOAT3 result;
+		DirectX::XMStoreFloat3(&result, botleftRotated);
+		botleft.x = result.x + planePos.x;
+		botleft.y = result.y + planePos.y;
+		botleft.z = result.z + planePos.z;
+
+		DirectX::XMStoreFloat3(&result, botrightRotated);
+		botright.x = result.x + planePos.x;
+		botright.y = result.y + planePos.y;
+		botright.z = result.z + planePos.z;
+
+		DirectX::XMStoreFloat3(&result, topleftRotated);
+		topleft.x = result.x + planePos.x;
+		topleft.y = result.y + planePos.y;
+		topleft.z = result.z + planePos.z;
+
+		DirectX::XMStoreFloat3(&result, toprightRotated);
+		topright.x = result.x + planePos.x;
+		topright.y = result.y + planePos.y;
+		topright.z = result.z + planePos.z;
+
+		// 꼭짓점을 worldVertices에 추가합니다.
+		int startingIdx = worldVertices.size();
+		worldVertices.push_back(Pg::Math::XM2PG_FLOAT3(botleft));
+		worldVertices.push_back(Pg::Math::XM2PG_FLOAT3(botright));
+		worldVertices.push_back(Pg::Math::XM2PG_FLOAT3(topleft));
+		worldVertices.push_back(Pg::Math::XM2PG_FLOAT3(topright));
+
+		// 인덱스를 worldIndices에 추가합니다.
+		worldIndices.push_back(startingIdx + 2);
+		worldIndices.push_back(startingIdx + 1);
+		worldIndices.push_back(startingIdx + 0);
+		worldIndices.push_back(startingIdx + 3);
+		worldIndices.push_back(startingIdx + 2);
+		worldIndices.push_back(startingIdx + 0);
+
+		/*DirectX::XMFLOAT3 botleft{ -10.f, 0.f, -10.f };
+		DirectX::XMFLOAT3 topright{ 10.f, 0.f, 10.f };
+
+		int startingIdx = worldVertices.size();
+		worldVertices.push_back({ botleft.x,0,topright.z });
+		worldVertices.push_back({ botleft.x,0,botleft.z });
+		worldVertices.push_back({ topright.x,0,botleft.z });
+		worldVertices.push_back({ topright.x,0,topright.z });
+
+		worldIndices.push_back(startingIdx + 2);
+		worldIndices.push_back(startingIdx + 1);
+		worldIndices.push_back(startingIdx + 0);
+		worldIndices.push_back(startingIdx + 3);
+		worldIndices.push_back(startingIdx + 2);
+		worldIndices.push_back(startingIdx + 0);*/
+
+		
+
+	}
+
+	void NavigationSystem::MoveTo(Pg::Data::NavMeshAgent* agent, Pg::Math::PGFLOAT3 des)
+	{
+		if (_navMeshFieldVec.empty())
+		{
+			return;
+		}
+		_filter = _crowd->getFilter(0);
+		agent->_crowdAgent = _crowd->getAgent(agent->_agentidx);
+		_halfExtents = _crowd->getQueryExtents();
+
+		_navMeshQuery->findNearestPoly(reinterpret_cast<const float*>(&des), _halfExtents,
+			_filter, &(agent->_targetRef), agent->_targetPos);
+
+		_crowd->requestMoveTarget(agent->_agentidx, agent->_targetRef, agent->_targetPos);
+	
+	}
+
+	int NavigationSystem::rasterizeTileLayers(const float* worldVertices, size_t verticesNum, const int* faces, size_t facesNum, const int tx, const int ty, const rcConfig& cfg, struct TileCacheData* tiles, const int maxTiles)
+	{
+		//FastLZCompressor comp;
+		//RasterizationContext rc;
+
+		//const float* verts = worldVertices;
+		//const int nverts = verticesNum;
+		//rcChunkyTriMesh chunkyMesh;
+		//rcCreateChunkyTriMesh(verts, faces, facesNum, 256, &chunkyMesh);
+
+		//// Tile bounds.
+		//const float tcs = cfg.tileSize * cfg.cs;
+
+		//rcConfig tcfg;
+		//memcpy(&tcfg, &cfg, sizeof(tcfg));
+
+		//tcfg.bmin[0] = cfg.bmin[0] + tx * tcs;
+		//tcfg.bmin[1] = cfg.bmin[1];
+		//tcfg.bmin[2] = cfg.bmin[2] + ty * tcs;
+		//tcfg.bmax[0] = cfg.bmin[0] + (tx + 1) * tcs;
+		//tcfg.bmax[1] = cfg.bmax[1];
+		//tcfg.bmax[2] = cfg.bmin[2] + (ty + 1) * tcs;
+		//tcfg.bmin[0] -= tcfg.borderSize * tcfg.cs;
+		//tcfg.bmin[2] -= tcfg.borderSize * tcfg.cs;
+		//tcfg.bmax[0] += tcfg.borderSize * tcfg.cs;
+		//tcfg.bmax[2] += tcfg.borderSize * tcfg.cs;
+
+		//// Allocate voxel heightfield where we rasterize our input data to.
+		//rc.solid = rcAllocHeightfield();
+		//if (!rc.solid)
+		//{
+		//	m_ctx->log(RC_LOG_ERROR, "buildNavigation: Out of memory 'solid'.");
+		//	return 0;
+		//}
+		//if (!rcCreateHeightfield(m_ctx, *rc.solid, tcfg.width, tcfg.height, tcfg.bmin, tcfg.bmax, tcfg.cs, tcfg.ch))
+		//{
+		//	m_ctx->log(RC_LOG_ERROR, "buildNavigation: Could not create solid heightfield.");
+		//	return 0;
+		//}
+
+		//// Allocate array that can hold triangle flags.
+		//// If you have multiple meshes you need to process, allocate
+		//// and array which can hold the max number of triangles you need to process.
+		//rc.triareas = new unsigned char[chunkyMesh.maxTrisPerChunk];
+		//if (!rc.triareas)
+		//{
+		//	m_ctx->log(RC_LOG_ERROR, "buildNavigation: Out of memory 'm_triareas' (%d).", chunkyMesh.maxTrisPerChunk);
+		//	return 0;
+		//}
+
+		//float tbmin[2], tbmax[2];
+		//tbmin[0] = tcfg.bmin[0];
+		//tbmin[1] = tcfg.bmin[2];
+		//tbmax[0] = tcfg.bmax[0];
+		//tbmax[1] = tcfg.bmax[2];
+		//int cid[512];// TODO: Make grow when returning too many items.
+		//const int ncid = rcGetChunksOverlappingRect(&chunkyMesh, tbmin, tbmax, cid, 512);
+		//if (!ncid)
+		//{
+		//	return 0; // empty
+		//}
+
+		//for (int i = 0; i < ncid; ++i)
+		//{
+		//	const rcChunkyTriMeshNode& node = chunkyMesh.nodes[cid[i]];
+		//	const int* tris = &chunkyMesh.tris[node.i * 3];
+		//	const int ntris = node.n;
+
+		//	memset(rc.triareas, 0, ntris * sizeof(unsigned char));
+		//	rcMarkWalkableTriangles(m_ctx, tcfg.walkableSlopeAngle,
+		//		verts, nverts, tris, ntris, rc.triareas);
+
+		//	if (!rcRasterizeTriangles(m_ctx, verts, nverts, tris, rc.triareas, ntris, *rc.solid, tcfg.walkableClimb))
+		//		return 0;
+		//}
+
+		//// Once all geometry is rasterized, we do initial pass of filtering to
+		//// remove unwanted overhangs caused by the conservative rasterization
+		//// as well as filter spans where the character cannot possibly stand.
+		//if (m_filterLowHangingObstacles)
+		//	rcFilterLowHangingWalkableObstacles(m_ctx, tcfg.walkableClimb, *rc.solid);
+		//if (m_filterLedgeSpans)
+		//	rcFilterLedgeSpans(m_ctx, tcfg.walkableHeight, tcfg.walkableClimb, *rc.solid);
+		//if (m_filterWalkableLowHeightSpans)
+		//	rcFilterWalkableLowHeightSpans(m_ctx, tcfg.walkableHeight, *rc.solid);
+
+
+		//rc.chf = rcAllocCompactHeightfield();
+		//if (!rc.chf)
+		//{
+		//	m_ctx->log(RC_LOG_ERROR, "buildNavigation: Out of memory 'chf'.");
+		//	return 0;
+		//}
+		//if (!rcBuildCompactHeightfield(m_ctx, tcfg.walkableHeight, tcfg.walkableClimb, *rc.solid, *rc.chf))
+		//{
+		//	m_ctx->log(RC_LOG_ERROR, "buildNavigation: Could not build compact data.");
+		//	return 0;
+		//}
+
+		//// Erode the walkable area by agent radius.
+		//if (!rcErodeWalkableArea(m_ctx, tcfg.walkableRadius, *rc.chf))
+		//{
+		//	m_ctx->log(RC_LOG_ERROR, "buildNavigation: Could not erode.");
+		//	return 0;
+		//}
+
+		//rc.lset = rcAllocHeightfieldLayerSet();
+		//if (!rc.lset)
+		//{
+		//	m_ctx->log(RC_LOG_ERROR, "buildNavigation: Out of memory 'lset'.");
+		//	return 0;
+		//}
+		//if (!rcBuildHeightfieldLayers(m_ctx, *rc.chf, tcfg.borderSize, tcfg.walkableHeight, *rc.lset))
+		//{
+		//	m_ctx->log(RC_LOG_ERROR, "buildNavigation: Could not build heighfield layers.");
+		//	return 0;
+		//}
+
+		//rc.ntiles = 0;
+		//for (int i = 0; i < rcMin(rc.lset->nlayers, MAX_LAYERS); ++i)
+		//{
+		//	TileCacheData* tile = &rc.tiles[rc.ntiles++];
+		//	const rcHeightfieldLayer* layer = &rc.lset->layers[i];
+
+		//	// Store header
+		//	dtTileCacheLayerHeader header;
+		//	header.magic = DT_TILECACHE_MAGIC;
+		//	header.version = DT_TILECACHE_VERSION;
+
+		//	// Tile layer location in the navmesh.
+		//	header.tx = tx;
+		//	header.ty = ty;
+		//	header.tlayer = i;
+		//	dtVcopy(header.bmin, layer->bmin);
+		//	dtVcopy(header.bmax, layer->bmax);
+
+		//	// Tile info.
+		//	header.width = (unsigned char)layer->width;
+		//	header.height = (unsigned char)layer->height;
+		//	header.minx = (unsigned char)layer->minx;
+		//	header.maxx = (unsigned char)layer->maxx;
+		//	header.miny = (unsigned char)layer->miny;
+		//	header.maxy = (unsigned char)layer->maxy;
+		//	header.hmin = (unsigned short)layer->hmin;
+		//	header.hmax = (unsigned short)layer->hmax;
+
+		//	dtStatus status = dtBuildTileCacheLayer(&comp, &header, layer->heights, layer->areas, layer->cons,
+		//		&tile->data, &tile->dataSize);
+		//	if (dtStatusFailed(status))
+		//	{
+		//		return 0;
+		//	}
+		//}
+
+		//// Transfer ownsership of tile data from build context to the caller.
+		//int n = 0;
+		//for (int i = 0; i < rcMin(rc.ntiles, maxTiles); ++i)
+		//{
+		//	tiles[n++] = rc.tiles[i];
+		//	rc.tiles[i].data = 0;
+		//	rc.tiles[i].dataSize = 0;
+		//}
+
+		return 0;
 	}
 
 	dtNavMesh* NavigationSystem::GetNavMesh() const
