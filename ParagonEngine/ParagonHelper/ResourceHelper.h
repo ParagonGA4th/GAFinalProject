@@ -32,9 +32,13 @@ namespace Pg::Util::Helper
 		//IsGraphicsResource를 포괄한다.
 		 static short IsPlainRenderable(Pg::Data::Enums::eAssetDefine define);
 
-		//리소스의 확장자가 DDS인지, 아닌지를 알려준다.
+		 //리소스의 확장자가 DDS인지, 아닌지를 알려준다.
 		 static bool IsResourceDDS(const std::string& filePath);
 		 static bool IsResourceDDS(const std::wstring& filePath);
+
+		 //리소스의 확장자가 TGA인지, 아닌지를 알려준다.
+		 static bool IsResourceTGA(const std::string& filePath);
+		 static bool IsResourceTGA(const std::wstring& filePath);
 
 		 static std::string GetNameFromPath(const std::string& filePath);
 	private:

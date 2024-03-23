@@ -16,6 +16,7 @@
 
 #include <dxtk/DDSTextureLoader.h>
 #include <dxtk/WICTextureLoader.h>
+#include <dxtex/DirectXTex.h>
 #include <fstream>
 #include <tuple>
 
@@ -229,6 +230,26 @@ namespace Pg::Graphics::Loader
 			HR(DirectX::CreateDDSTextureFromFileEx(_DXStorage->_device, _DXStorage->_deviceContext, tWStrPath.c_str(), NULL, D3D11_USAGE_DEFAULT, tBindingFlags, tCPUAccessFlags, tMiscFlags,
 				DirectX::DDS_LOADER_DEFAULT, &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
 		
+		}
+		else if (ResourceHelper::IsResourceTGA(path))
+		{
+			auto image = std::make_unique<DirectX::ScratchImage>();
+			auto mipChain = std::make_unique<DirectX::ScratchImage>();
+
+			//TGA 파일 자체 로딩.
+			HR(DirectX::LoadFromTGAFile(tWStrPath.c_str(), DirectX::TGA_FLAGS_NONE, nullptr, *image));
+			
+			//TGA 기준 MipMap 생성.
+			HR(DirectX::GenerateMipMaps(image->GetImages(), image->GetImageCount(), image->GetMetadata(), DirectX::TEX_FILTER_DEFAULT, (size_t)NULL, *(mipChain.get())));
+
+			//내부적으로 처리됨.
+			HR(DirectX::CreateShaderResourceView(
+				_DXStorage->_device, mipChain->GetImages(), mipChain->GetImageCount(), mipChain->GetMetadata(), &(outTextureData->GetSRV())));
+
+			//ID3D11Resource 자체 역시 포함해야 일괄적으로 쓰일 수 있다.
+			ID3D11Resource* res = nullptr;
+			outTextureData->GetSRV()->GetResource(&res);
+			outTextureData->GetResource() = res;
 		}
 		else
 		{
