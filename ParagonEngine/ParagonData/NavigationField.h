@@ -1,10 +1,14 @@
 #pragma once
+#include "../ParagonMath/PgMath.h"
+#include "BuildSettings.h"
 #include "Component.h"
 
 #include <DetourTileCache/DetourTileCache.h>
 #include <Detour/DetourNavMesh.h>
 #include <Detour/DetourNavMeshBuilder.h>
 #include <Detour/DetourNavMeshQuery.h>
+
+#include <vector>
 
 /// <summary>
 /// Recast Navigation이 적용될 필드.
@@ -23,6 +27,8 @@ namespace Pg::Data
 
 		virtual void Start() override;
 		virtual void Update() override;
+	
+	private:
 	};
 }
 
