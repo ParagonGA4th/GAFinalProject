@@ -22,6 +22,7 @@ namespace Pg::Graphics
 	class SystemPixelShader;
 	class RenderCubemap;
 	class RenderTexture2D;
+	class D3DCarrier;
 }
 
 namespace Pg::Graphics
@@ -41,37 +42,25 @@ namespace Pg::Graphics
 		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
 	private:
-		//잠시 Quad에 렌더링할 DSV를 저장해놓는다 (QuadMain)
-		ID3D11DepthStencilView* _quadSaveDSV = nullptr;
-		//잠시 Quad에 렌더링할 ObjMat GBufRender를 저장해놓는다. (ObjMat)
-		GBufferRender* _quadSaveObjMatGBuffer = nullptr;
 
 		//잠시 CameraData 구조체를 보관해놓는다.
 		Pg::Data::CameraData* _savedCamData = nullptr;
 
 	private:
-		//PBR G-Buffer들 투입.
-		std::unique_ptr<GBufferRender> _albedoAmbiBuffer;
-		std::unique_ptr<GBufferRender> _normalRoughBuffer;
-		std::unique_ptr<GBufferRender> _specularMetalBuffer;
+		const D3DCarrier* _d3dCarrierStorage;
 
 		//OMSetRenderTarget을 위해서 하나의 Array를 두고 관리.
-		std::array<ID3D11RenderTargetView*, 4> _rtBindArray;
-		std::array<ID3D11RenderTargetView*, 4> _rtNullBindArray;
+		
 
 		//SceneInfo Constant Buffer.
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbSceneInfo>> _cbSceneInfo;
 
-		//IBL Textures. (Textures 21-22)
-		RenderCubemap* _iblDiffuseIrradianceMap = nullptr;
-		RenderCubemap* _iblSpecularIrradianceMap = nullptr;
-		RenderTexture2D* _iblSpecularLutTextureMap = nullptr;
+		
 
 	private:
-		void CreateD3DViews();
 		void CreateShaders();
 		void CreateBuffers();
-		void FetchIBLBuffers();
+		
 
 	private:
 		std::unique_ptr<SystemVertexShader> _vs;

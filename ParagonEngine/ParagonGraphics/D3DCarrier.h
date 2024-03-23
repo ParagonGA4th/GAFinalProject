@@ -40,6 +40,15 @@ namespace Pg::Graphics
 		GBufferRender* _quadMainRT;
 		GBufferRender* _quadObjMatRT;
 
+		//PBR Buffers
+		std::unique_ptr<GBufferRender> _albedoAmbiBuffer;
+		std::unique_ptr<GBufferRender> _normalRoughBuffer;
+		std::unique_ptr<GBufferRender> _specularMetalBuffer;
+
+		//PBRBuffer : Binding¿ª ¿ß«— Array.
+		std::array<ID3D11RenderTargetView*, 4> _pbrBindArray;
+		std::array<ID3D11RenderTargetView*, 4> _pbrNullBindArray;
+
 		std::array<ID3D11RenderTargetView*, 15> _rtvArray;
 		unsigned int _rtvCount;
 		std::array<ID3D11ShaderResourceView*, 15> _srvArray;

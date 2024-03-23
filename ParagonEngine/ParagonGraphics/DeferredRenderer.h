@@ -52,6 +52,7 @@ namespace Pg::Graphics
 	private:
 		void InitOpaqueQuadDirectX();
 		void InitFirstQuadDirectX();
+		void InitPBRDirectX();
 
 
 	private:
