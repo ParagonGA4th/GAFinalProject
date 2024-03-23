@@ -46,6 +46,11 @@ namespace Pg::Graphics
 
 	private:
 		void FetchIBLBuffers();
+		void CreateShaders();
+
+	private:
+		std::unique_ptr<SystemVertexShader> _vs;
+		std::unique_ptr<SystemPixelShader> _ps;
 
 	private:
 		float _deltaTimeStorage = 0.16f;
