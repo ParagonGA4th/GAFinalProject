@@ -27,6 +27,7 @@ namespace Pg::Graphics
 
 	void PreparationSkinnedRenderPass::Initialize()
 	{
+		CreateShaders();
 		FetchIBLBuffers();
 	}
 
@@ -42,17 +43,45 @@ namespace Pg::Graphics
 
 	void PreparationSkinnedRenderPass::BindPass()
 	{
+		//이미 Static에서 OMSetRenderTarget들은 원한대로 설정되었다.
+		//_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierStorage->_pbrBindArray.size(), _d3dCarrierStorage->_pbrBindArray.data(), _d3dCarrierStorage->_quadMainGDS->GetDSV());
+		//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_gBufferRender->GetRTV()), _DXStorage->_depthStencilView);
 
+		_vs->Bind();
+		_ps->Bind();
 	}
 
 	void PreparationSkinnedRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
 	{
+		RenderObject3DList* tRenderObjectList = reinterpret_cast<RenderObject3DList*>(renderObjectList);
 
+		//모든 오브젝트 렌더링.
+		for (auto& it : tRenderObjectList->_skinnedList)
+		{
+			//Vector
+			for (int i = 0; i < it.second->size(); i++)
+			{
+				if (it.second->at(i).second->GetBaseRenderer()->GetActive())
+				{
+					it.second->at(i).second->ObjMat_UpdateConstantBuffers(camData);
+					it.second->at(i).second->ObjMat_BindBuffers();
+					it.second->at(i).second->ObjMat_Render(&_deltaTimeStorage);
+					it.second->at(i).second->ObjMat_UnbindBuffers();
+				}
+			}
+		}
 	}
 
 	void PreparationSkinnedRenderPass::UnbindPass()
 	{
+		// Unbind RenderTarget
+		//더 이상 값을 설정하지 않을 때 이런 식으로 할당 해제해주면 된다.
+		//여기에서는 해주어야 함.
+		_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierStorage->_pbrNullBindArray.size(), _d3dCarrierStorage->_pbrNullBindArray.data(), nullptr);
 
+		// Unbind Shaders
+		_vs->Unbind();
+		_ps->Unbind();
 	}
 
 	void PreparationSkinnedRenderPass::ExecuteNextRenderRequirements()
@@ -93,6 +122,14 @@ namespace Pg::Graphics
 		auto tSpecLUT = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(
 			Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		_iblSpecularLutTextureMap = static_cast<RenderTexture2D*>(tSpecLUT.get());
+	}
+
+	void PreparationSkinnedRenderPass::CreateShaders()
+	{
+		//ObjMatSkinned 용도 셰이더 갖고 오기.
+		_vs = std::make_unique<SystemVertexShader>(L"../Builds/x64/Debug/Individual_PerObjMatSkinnedVS.cso", LayoutDefine::GetPerObjMatSkinnedLayout(),
+			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		_ps = std::make_unique<SystemPixelShader>(L"../Builds/x64/Debug/Individual_PerObjMatPS.cso");
 	}
 
 }

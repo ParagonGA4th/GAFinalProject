@@ -1,5 +1,7 @@
 #pragma once
 #include "ISendReceiver.h"
+#include "ConstantBuffer.h"
+#include "ConstantBufferDefine.h"
 
 namespace Pg::Graphics
 {
@@ -21,7 +23,17 @@ namespace Pg::Graphics
 		virtual void ReceiveData(SceneInformationList& info) override;
 
 	private:
+		void CreateBuffers();
+
+	private:
 		LowDX11Storage* _DXStorage = nullptr;
+		//잠시 CameraData 구조체를 보관해놓는다.
+		const Pg::Data::CameraData* _savedCamData = nullptr;
+		const SceneInformationList* _savedSceneInfo = nullptr;
+
+	private:
+		//SceneInfo Constant Buffer.
+		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbSceneInfo>> _cbSceneInfo;
 
 	};
 }

@@ -42,25 +42,16 @@ namespace Pg::Graphics
 		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
 	private:
-
-		//잠시 CameraData 구조체를 보관해놓는다.
-		Pg::Data::CameraData* _savedCamData = nullptr;
-
-	private:
 		const D3DCarrier* _d3dCarrierStorage;
 
 		//OMSetRenderTarget을 위해서 하나의 Array를 두고 관리.
 		
 
-		//SceneInfo Constant Buffer.
-		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbSceneInfo>> _cbSceneInfo;
-
+		
 		
 
 	private:
 		void CreateShaders();
-		void CreateBuffers();
-		
 
 	private:
 		std::unique_ptr<SystemVertexShader> _vs;
