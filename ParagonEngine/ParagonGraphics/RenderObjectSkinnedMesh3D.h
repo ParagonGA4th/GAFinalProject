@@ -65,6 +65,7 @@ namespace Pg::Graphics
 		void UpdateObjMatBaseCB(Pg::Data::CameraData* camData);
 		void UpdateObjMatSkinnedCB();
 
+		void BindObjMatVertexIndexBuffer();
 	private:
 		//현재 재생 중인 애니메이션.
 		RenderAnimation* _currentAnim;

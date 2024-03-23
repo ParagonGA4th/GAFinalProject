@@ -79,26 +79,35 @@ namespace Pg::Graphics
 
 	void RenderObjectSkinnedMesh3D::First_BindBuffers()
 	{
-		//Vertex Buffer Setting.
-		UINT stride = sizeof(LayoutDefine::Vin1stSkinned);
-		UINT offset = 0;
-		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(_modelData->_vertexBuffer), &stride, &offset);
-
-		//Index Buffer Setting.
-		_DXStorage->_deviceContext->IASetIndexBuffer(_modelData->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+		_cbFirstBase->BindVS(0);
+		_cbAltogetherSkinned->BindVS(1);
 	}
 
 	void RenderObjectSkinnedMesh3D::First_Render(const float* const dt)
 	{
-
 		BindMainVertexIndexBuffer();
 
+		//아트에서 들어오는 리소스들은 모두 싱글Mesh이지만,
+		//FBX에 들어오면서부터는 내부의 다른 Material 사용으로 쪼개질 것이다.
+		//애니메이션 연산에는 연관X, 형식 유지를 위해 출력.
 
+		int tMeshCount = _modelData->_assetSceneData->_totalMeshCount;
+		for (int i = 0; i < tMeshCount; i++)
+		{
+			//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
+			UINT tToDrawIndexCount = _modelData->_assetSceneData->_meshList[i]._numIndices;
+
+			//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
+			_DXStorage->_deviceContext->DrawIndexed(tToDrawIndexCount,
+				_modelData->_assetSceneData->_meshList[i]._indexOffset,
+				_modelData->_assetSceneData->_meshList[i]._vertexOffset);
+		}
 	}
 
 	void RenderObjectSkinnedMesh3D::First_UnbindBuffers()
 	{
-
+		_cbFirstBase->UnbindVS(0);
+		_cbAltogetherSkinned->UnbindVS(1);
 	}
 
 	void RenderObjectSkinnedMesh3D::ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData)
@@ -109,17 +118,54 @@ namespace Pg::Graphics
 
 	void RenderObjectSkinnedMesh3D::ObjMat_BindBuffers()
 	{
+		_cbObjMatBase->BindVS(0);
+		_cbAltogetherSkinned->BindVS(1);
 
+		// PixelShader : 이제 Albedo / Normal / Specular / Arm 데이터를 넣어줘야 한다.
+		// 디폴트 매터리얼 상관하지 않고, 모든 오브젝트가 값 자체는 이제 필요하게 될 것이라는 말이다. Texture 투입.
+		// 그냥 예전방식대로, Texture2DArray 자체를 투입할 것.
+		// 나중에는 같은 오브젝트 + 인스턴싱의 영향을 받는다면 해당 스텝을 누락하던가, 
+
+		// Albedo
+		_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(_modelData->_pbrTextureArrays[0]->GetSRV()));
+		// Normal
+		_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(_modelData->_pbrTextureArrays[1]->GetSRV()));
+		// Specular
+		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(_modelData->_pbrTextureArrays[2]->GetSRV()));
+		// ARM
+		_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &(_modelData->_pbrTextureArrays[3]->GetSRV()));
 	}
 
 	void RenderObjectSkinnedMesh3D::ObjMat_Render(const float* const dt)
 	{
+		BindObjMatVertexIndexBuffer();
 
+		int tMeshCount = _modelData->_assetSceneData->_totalMeshCount;
+
+		for (int i = 0; i < tMeshCount; i++)
+		{
+			//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
+			UINT tToDrawIndexCount = _modelData->_assetSceneData->_meshList[i]._numIndices;
+
+			//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
+			_DXStorage->_deviceContext->DrawIndexed(tToDrawIndexCount,
+				_modelData->_assetSceneData->_meshList[i]._indexOffset,
+				_modelData->_assetSceneData->_meshList[i]._vertexOffset);
+		}
 	}
 
 	void RenderObjectSkinnedMesh3D::ObjMat_UnbindBuffers()
 	{
+		_cbObjMatBase->UnbindVS(0);
+		_cbAltogetherSkinned->UnbindVS(1);
 
+		//PBR Texture를 다 썼으니, 이제 할당 해제!
+		ID3D11ShaderResourceView* tNullSRV = nullptr;
+		// PBR Texture Arrays To NULL
+		_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(tNullSRV));
+		_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(tNullSRV));
+		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(tNullSRV));
+		_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &(tNullSRV));
 	}
 
 	void RenderObjectSkinnedMesh3D::SetAnimation(const std::string& animName, bool isLoop)
@@ -290,7 +336,7 @@ namespace Pg::Graphics
 
 	void RenderObjectSkinnedMesh3D::UpdateObjMatSkinnedCB()
 	{
-		//값이 이미 맞게 들어가 있으니, 업데이트.
+		// 이미 FirstBase 단계에서 값이 맞게 들어갔으니, 업데이트.
 		_cbAltogetherSkinned->Update();
 	}
 
@@ -351,7 +397,7 @@ namespace Pg::Graphics
 
 		//키프레임 사이에서의 시간 차이를 구한다.
 		float DeltaTime = pNodeAnim->_positionKeyList[NextPositionIndex]._time - pNodeAnim->_positionKeyList[PositionIndex]._time;
-		
+
 		// 시간 변화 내부 현재 지난 시간을 구한다 -> 보간 비율.  
 		float Factor = (animTick - (float)pNodeAnim->_positionKeyList[PositionIndex]._time) / DeltaTime;
 
@@ -456,6 +502,17 @@ namespace Pg::Graphics
 		}
 	}
 
+	void RenderObjectSkinnedMesh3D::BindObjMatVertexIndexBuffer()
+	{
+		//Vertex Buffer Setting.
+		UINT stride = sizeof(LayoutDefine::VinPerObjMatIDSkinned);
+		UINT offset = 0;
+		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(_objMatVB), &stride, &offset);
+		//Index Buffer Setting. (Model Data와 공유)
+		_DXStorage->_deviceContext->IASetIndexBuffer(_modelData->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
+	}
+
+	
 
 }
