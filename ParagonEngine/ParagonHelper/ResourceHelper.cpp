@@ -132,7 +132,20 @@ namespace Pg::Util::Helper
 		std::filesystem::path tPath(filePath);
 		return tPath.filename().string();
 	}
-	
+
+	bool ResourceHelper::IsResourceTGA(const std::string& filePath)
+	{
+		std::filesystem::path tPath(filePath);
+		std::string tExtString = tPath.extension().string();
+		return (tExtString == ".tga" || tExtString == ".TGA");
+	}
+
+	bool ResourceHelper::IsResourceTGA(const std::wstring& filePath)
+	{
+		std::filesystem::path tPath(filePath);
+		std::string tExtString = tPath.extension().string();
+		return (tExtString == ".tga" || tExtString == ".TGA");
+	}
 	
 
 }
