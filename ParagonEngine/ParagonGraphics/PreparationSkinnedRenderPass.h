@@ -24,6 +24,7 @@ namespace Pg::Graphics
 	class SystemPixelShader;
 	class RenderCubemap;
 	class RenderTexture2D;
+	class D3DCarrier;
 }
 
 namespace Pg::Graphics
@@ -43,12 +44,20 @@ namespace Pg::Graphics
 		virtual void ExecuteNextRenderRequirements() override;
 		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
+	private:
+		void FetchIBLBuffers();
 
 	private:
 		float _deltaTimeStorage = 0.16f;
+		const D3DCarrier* _d3dCarrierStorage = nullptr;
 
 	private:
 		LowDX11Storage* _DXStorage;
+
+		//IBL Textures. (Textures 21-22)
+		RenderCubemap* _iblDiffuseIrradianceMap = nullptr;
+		RenderCubemap* _iblSpecularIrradianceMap = nullptr;
+		RenderTexture2D* _iblSpecularLutTextureMap = nullptr;
 	};
 }
 

@@ -14,7 +14,7 @@
 namespace Pg::Graphics
 {
 
-	PreparationStaticRenderPass::PreparationStaticRenderPass() : _rtBindArray(), _rtNullBindArray()
+	PreparationStaticRenderPass::PreparationStaticRenderPass() 
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 	}
@@ -26,19 +26,20 @@ namespace Pg::Graphics
 
 	void PreparationStaticRenderPass::Initialize()
 	{
-		CreateD3DViews();
 		CreateShaders();
 		CreateBuffers();
-		FetchIBLBuffers();
+		
 	}
 
 	void PreparationStaticRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
 	{
-		_quadSaveDSV = carrier._quadMainGDS->GetDSV();
-		_quadSaveObjMatGBuffer = carrier._quadObjMatRT;
+		_d3dCarrierStorage = &carrier;
+
+		//_quadSaveDSV = _d3dCarrierStorage->_quadMainGDS->GetDSV();
+		//_quadSaveObjMatGBuffer = _d3dCarrierStorage->_quadObjMatRT;
 		
 		//OMSetRenderTargets 바인딩을 위해 사용. 나머지 인덱스는 초기에 바인딩.
-		_rtBindArray[0] = _quadSaveObjMatGBuffer->GetRTV();
+		//_rtBindArray[0] = _quadSaveObjMatGBuffer->GetRTV();
 	}
 
 	void PreparationStaticRenderPass::BindPass()
@@ -46,10 +47,10 @@ namespace Pg::Graphics
 		//전체 RenderTargetView 클리어.
 		for (int i = 0; i < 4; i++)
 		{
-			_DXStorage->_deviceContext->ClearRenderTargetView(_rtBindArray[i], _DXStorage->_backgroundColor);
+			_DXStorage->_deviceContext->ClearRenderTargetView(_d3dCarrierStorage->_pbrBindArray[i], _DXStorage->_backgroundColor);
 		}
 
-		_DXStorage->_deviceContext->OMSetRenderTargets(_rtBindArray.size(), _rtBindArray.data(), _quadSaveDSV);
+		_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierStorage->_pbrBindArray.size(), _d3dCarrierStorage->_pbrBindArray.data(), _d3dCarrierStorage->_quadMainGDS->GetDSV());
 		//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_gBufferRender->GetRTV()), _DXStorage->_depthStencilView);
 
 		_vs->Bind();
@@ -84,7 +85,7 @@ namespace Pg::Graphics
 	{
 		// Unbind RenderTarget
 		//더 이상 값을 설정하지 않을 때 이런 식으로 할당 해제해주면 된다.
-		_DXStorage->_deviceContext->OMSetRenderTargets(_rtNullBindArray.size(), _rtNullBindArray.data(), nullptr);
+		_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierStorage->_pbrNullBindArray.size(), _d3dCarrierStorage->_pbrNullBindArray.data(), nullptr);
 
 		// Unbind Shaders
 		_vs->Unbind();
@@ -93,23 +94,6 @@ namespace Pg::Graphics
 
 	void PreparationStaticRenderPass::ExecuteNextRenderRequirements()
 	{
-		//만약 Skinned가 들어온다면, 이 코드는 ObjMatSkinnedRenderPass로 가야 한다.
-		//당연히 GBuffer-DepthStencil 역시 옮겨받아야 하고.
-
-		//t3에, ObjMat GBuffer가 들어간다. 대응. (Depth 제외)
-		_DXStorage->_deviceContext->PSSetShaderResources(3, 1, &(_quadSaveObjMatGBuffer->GetSRV()));
-
-		//t12-14 - internalPBRTextures Bind
-		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, &(_albedoAmbiBuffer->GetSRV()));
-		_DXStorage->_deviceContext->PSSetShaderResources(13, 1, &(_normalRoughBuffer->GetSRV()));
-		_DXStorage->_deviceContext->PSSetShaderResources(14, 1, &(_specularMetalBuffer->GetSRV()));
-
-		//독립적인 IBL Texture들, 여기서 바인딩.
-		//t21-23 - internal IBL TextureCubes Bind
-		_DXStorage->_deviceContext->PSSetShaderResources(21, 1, &(_iblDiffuseIrradianceMap->GetSRV()));
-		_DXStorage->_deviceContext->PSSetShaderResources(22, 1, &(_iblSpecularIrradianceMap->GetSRV()));
-		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &(_iblSpecularLutTextureMap->GetSRV()));  
-
 		//Constant Buffer (SceneInfo) 업데이트.
 		_cbSceneInfo->GetDataStruct()->gCBuf_ViewMatrix = PG2XM_MATRIX4X4(_savedCamData->_viewMatrix);
 		_cbSceneInfo->GetDataStruct()->gCBuf_ProjMatrix = PG2XM_MATRIX4X4(_savedCamData->_projMatrix);
@@ -125,26 +109,6 @@ namespace Pg::Graphics
 
 	}
 
-	void PreparationStaticRenderPass::CreateD3DViews()
-	{
-		//DepthStencil은 MainQuadDepthStencil이다. (Skinned도 마찬가지)
-		//OpaqueQuad 시리즈가 가능한 이유는,
-		//Rendering은 Main Render Target에 함에도 DepthStencil을 자체적으로 생성해서 쓰기 때문 (기존의 값이 영향을 주지 않음)
-
-		_albedoAmbiBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
-		_normalRoughBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
-		_specularMetalBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
-
-		//일단 값을 OMSetRenderTargets를 위해 설정.
-		_rtBindArray[0] = nullptr;
-		_rtBindArray[1] = _albedoAmbiBuffer->GetRTV();
-		_rtBindArray[2] = _normalRoughBuffer->GetRTV();
-		_rtBindArray[3] = _specularMetalBuffer->GetRTV();
-
-		//NullRTV Array를 위해, nullptr 채우기!
-		std::fill(_rtNullBindArray.begin(), _rtNullBindArray.end(), nullptr);
-	}
-
 	void PreparationStaticRenderPass::CreateShaders()
 	{
 		//ObjMatStatic 용도 셰이더 갖고 오기.
@@ -158,19 +122,6 @@ namespace Pg::Graphics
 		_cbSceneInfo = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbSceneInfo>>();
 	}
 
-	void PreparationStaticRenderPass::FetchIBLBuffers()
-	{
-		auto tDiff = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(
-			Pg::Defines::ASSET_DEFAULT_IBL_DIFFUSE_IRRADIANCE_CUBEMAP_PATH, Pg::Data::Enums::eAssetDefine::_CUBEMAP);
-		_iblDiffuseIrradianceMap = static_cast<RenderCubemap*>(tDiff.get());
-
-		auto tSpec = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(
-			Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_IRRADIANCE_CUBEMAP_PATH, Pg::Data::Enums::eAssetDefine::_CUBEMAP);
-		_iblSpecularIrradianceMap = static_cast<RenderCubemap*>(tSpec.get());
-
-		auto tSpecLUT = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(
-			Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
-		_iblSpecularLutTextureMap = static_cast<RenderTexture2D*>(tSpecLUT.get());
-	}
+	
 
 }

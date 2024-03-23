@@ -46,6 +46,7 @@ namespace Pg::Graphics
 	{
 		InitOpaqueQuadDirectX();
 		InitFirstQuadDirectX();
+		InitPBRDirectX();
 	}
 
 	void DeferredRenderer::SetDeltaTime(float dt)
@@ -387,6 +388,29 @@ namespace Pg::Graphics
 			_carrier->NullSRV.emplace_back(nullptr);
 		}
 	}
+
+	void DeferredRenderer::InitPBRDirectX()
+	{
+		//DepthStencil은 MainQuadDepthStencil이다. (Skinned도 마찬가지)
+		//OpaqueQuad 시리즈가 가능한 이유는,
+		//Rendering은 Main Render Target에 함에도 DepthStencil을 자체적으로 생성해서 쓰기 때문 (기존의 값이 영향을 주지 않음)
+
+		_carrier->_albedoAmbiBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		_carrier->_normalRoughBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		_carrier->_specularMetalBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	
+		//일단 값을 OMSetRenderTargets를 위해 설정.
+		_carrier->_pbrBindArray[0] = _carrier->_quadObjMatRT->GetRTV();
+		_carrier->_pbrBindArray[1] = _carrier->_albedoAmbiBuffer->GetRTV();
+		_carrier->_pbrBindArray[2] = _carrier->_normalRoughBuffer->GetRTV();
+		_carrier->_pbrBindArray[3] = _carrier->_specularMetalBuffer->GetRTV();
+
+		//NullRTV Array를 위해, nullptr 채우기!
+		std::fill(_carrier->_pbrNullBindArray.begin(), _carrier->_pbrNullBindArray.end(), nullptr);
+
+
+	}
+
 
 
 
