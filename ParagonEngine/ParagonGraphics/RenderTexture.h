@@ -1,6 +1,7 @@
 #pragma once
 #include "../ParagonData/GraphicsResource.h"
 #include "../ParagonData/AssetDefines.h"
+#include "TextureExtension.h"
 
 #include <string>
 /// <summary>
@@ -12,8 +13,16 @@ struct ID3D11ShaderResourceView;
 
 namespace Pg::Graphics
 {
+	namespace Loader
+	{
+		class AssetBasic2DLoader;
+	}
+}
+namespace Pg::Graphics
+{
 	class RenderTexture : public Pg::Data::Resources::GraphicsResource
 	{
+		friend class Pg::Graphics::Loader::AssetBasic2DLoader;
 	public:
 		RenderTexture(Pg::Data::Enums::eAssetDefine define, const std::string& typeInfoStr, const std::string& filePath);
 		~RenderTexture();
@@ -27,11 +36,15 @@ namespace Pg::Graphics
 
 		std::wstring GetFilePathWide();
 
+		//Texture Extension 반환.
+		eTextureExtension GetTextureExtension() { return _textureExt; }
+		
 	private:
 		//Load하는 로직이 이를 채워야 한다!
 		ID3D11ShaderResourceView* _textureSRV = nullptr;
 		ID3D11Resource* _textureBuffer = nullptr;
 
+		eTextureExtension _textureExt = _UNMANAGED;
 	};
 }
 

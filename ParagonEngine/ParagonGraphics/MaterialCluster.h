@@ -44,6 +44,7 @@ namespace Pg::Graphics
 
 		////디버그용, 실제로 유의미하게 쓰이지는 않을 것.
 		//std::array<std::pair<eAssetTextureType, bool>, Pg::Defines::ASSET_MAXIMUM_TEXTURE_PROP_CNT> _debugList;
+		//eSizeTexture _size = _512x512;
 	};
 }
 
