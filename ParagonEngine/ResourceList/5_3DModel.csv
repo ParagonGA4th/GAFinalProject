@@ -1,4 +1,12 @@
 3DModels
+../Resources/3DModels/UnrealTest/SM_floor.fbx
+../Resources/3DModels/UnrealTest/SM_rock.fbx
+../Resources/3DModels/UnrealTest/SM_pillar.fbx
+../Resources/3DModels/UnrealTest/SM_templestairs.fbx
+../Resources/3DModels/UnrealTest/SM_brazierstand.fbx
+../Resources/3DModels/UnrealTest/SM_rockpillar.fbx
+../Resources/3DModels/UnrealTest/gizmo.fbx
+../Resources/3DModels/UnrealTest/test.fbx
 ../Resources/3DModels/StaticMesh/Cuptower/Cuptower.fbx
 ../Resources/3DModels/StaticMesh/DefaultGeometry/DefaultGeometry.fbx
 ../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx
@@ -11,6 +19,3 @@
 ../Resources/3DModels/BasicMesh/Sphere/Sphere.fbx
 ../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx
 ../Resources/3DModels/BasicMesh/Plane/plane.fbx
-../Resources/3DModels/UnrealTest/gizmo.fbx
-../Resources/3DModels/UnrealTest/test.fbx
-../Resources/3DModels/UnrealTest/gizmo_ue.fbx

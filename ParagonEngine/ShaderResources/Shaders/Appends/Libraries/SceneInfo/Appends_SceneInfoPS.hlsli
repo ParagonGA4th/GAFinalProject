@@ -36,9 +36,9 @@ static const float3 firstLightDir = { -1.0f, 0.0f, 1.0f };
 static const float3 secondLightDir = { 1.0f, 0.0f, 0.0f };
 static const float3 thirdLightDir = { 0.0f, -1.0f, 0.0f };
 
-static const float firstRad = 1.0f;
-static const float secondRad = 1.0f;
-static const float thirdRad = 1.0f;
+static const float firstRad = 0.1f;
+static const float secondRad = 0.1f;
+static const float thirdRad = 0.1f;
 //</Temp>
 
 //<ActualLighting>
