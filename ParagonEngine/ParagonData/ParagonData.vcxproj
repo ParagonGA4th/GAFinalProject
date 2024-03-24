@@ -223,6 +223,7 @@
     <ClInclude Include="BtNodes\Concrete\Test_CSync_RecordCurrentPos.h" />
     <ClInclude Include="BtNodes\Concrete\Test_CSync_ReturnToCenter.h" />
     <ClInclude Include="BtNodes\PgCustomBTNodes.h" />
+    <ClInclude Include="BuildSettings.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraData.h" />

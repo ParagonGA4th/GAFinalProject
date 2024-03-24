@@ -1,6 +1,7 @@
 #include "NavMeshAgent.h"
 #include "GameObject.h"
 
+
 namespace Pg::Data
 {
 
@@ -9,9 +10,23 @@ namespace Pg::Data
 		_radius(1.0f),
 		_height(1.0f),
 		_maxSpeed(5.0f),
-		_maxAcceleration(1.0f)
+		_maxAcceleration(1.0f),
+		_obstacleAvoidance(false),
+		_separation(false)
 	{
 
+	}
+
+
+	NavMeshAgent::~NavMeshAgent()
+	{
+		//std::bind를 통해 제거된 Agent를 전달
+	}
+
+
+	void NavMeshAgent::Start()
+	{
+		SetDestination({ 10.0f, 0.0f, 10.0f });
 	}
 
 	void NavMeshAgent::Update()
@@ -43,6 +58,16 @@ namespace Pg::Data
 		_maxAcceleration = accel;
 	}
 
+	void NavMeshAgent::SetObstacleAvoidance(bool ob)
+	{
+		_obstacleAvoidance = ob;
+	}
+
+	void NavMeshAgent::SetSeperation(bool sep)
+	{
+		_separation = sep;
+	}
+
 	float NavMeshAgent::GetMaxSpeed()
 	{
 		return _maxSpeed;
@@ -61,5 +86,27 @@ namespace Pg::Data
 	float NavMeshAgent::GetMaxAcceleration()
 	{
 		return _maxAcceleration;
+	}
+
+	bool NavMeshAgent::GetObstacleAvoidance()
+	{
+		return _obstacleAvoidance;
+	}
+
+	bool NavMeshAgent::GetSeparation()
+	{
+		return _separation;
+	}
+
+	void NavMeshAgent::SetDestination(Pg::Math::PGFLOAT3 des)
+	{
+		_destination = des;
+		_destinationFunc(this, _destination);
+		
+	}
+
+	Pg::Math::PGFLOAT3 NavMeshAgent::GetDestination()
+	{
+		return _destination;
 	}
 }

@@ -13,6 +13,7 @@
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonData/NavMeshAgent.h"
+#include "../ParagonData/NavigationField.h"
 
 //#include "../ParagonData/BaseRenderer.h" //Render ���� ���� ����.
 //#include "../ParagonData/RendererBase2D.h" //Render ���� ���� ����.
@@ -64,24 +65,24 @@ void Pg::Engine::TestScene::Initialize()
 
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Capsule1");
-	tObj2_2->GetComponent<Transform>()->_position = { 1.0f, 10.0f, 0.0f };
-	tObj2_2->AddComponent<CapsuleCollider>();
-	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
-	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
-	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+	tObj2_2->GetComponent<Transform>()->_position = { 5.0f, 0.0f, 5.0f };
+	//tObj2_2->AddComponent<CapsuleCollider>();
+	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
+	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
+	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetTrigger(true);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 1.0f, 0.0f, 0.0f });
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, 90.0f, 0.0f, 0.0f });
 	tObj2_2->AddComponent<StaticMeshRenderer>();
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx");
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	tObj2_2->AddComponent<MovingTest>();
-	tObj2_2->AddComponent<MovingTest>()->SetActive(true);
+	//tObj2_2->AddComponent<MovingTest>();
+	//tObj2_2->AddComponent<MovingTest>()->SetActive(true);
 	tObj2_2->AddComponent<AudioSource>();
 	tObj2_2->GetComponent<AudioSource>()->SetAudioName("../Resources/Sounds/Test/jump.mp3");
 	//tObj2_2->AddComponent<RayCastTest>();
 	//tObj2_2->AddComponent<RayCastTest>()->SetActive(true);
-	//tObj2_2->AddComponent<NavMeshAgent>();
+	tObj2_2->AddComponent<NavMeshAgent>();
 
 	Pg::Data::GameObject* tObj3 = tCurrentScene->AddObject("Capsule2");
 	tObj3->GetComponent<Transform>()->_position = { -1.0f, 5.0f, 5.0f };
@@ -121,7 +122,7 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj5->GetComponent<MoveForwardBack>()->SetActive(true);
 
 	Pg::Data::GameObject* tObj6 = tCurrentScene->AddObject("Cube8");
-	tObj6->GetComponent<Transform>()->_position = { -5.0f, 0.0f, 0.0f };
+	tObj6->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
 	tObj6->GetComponent<Transform>()->_scale = { 2.0f, 2.0f, 2.0f };
 	tObj6->GetComponent<Transform>()->_rotation = tObj6->GetComponent<Transform>()->EulerToQuaternion(0.0f, -1.57f, 0.0f);
 	//tObj6->AddComponent<BoxCollider>();
@@ -138,6 +139,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7->AddComponent<StaticMeshRenderer>();
 	tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
 	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	tObj7->AddComponent<NavigationField>();
 
 
 	///버튼 & 오디오
