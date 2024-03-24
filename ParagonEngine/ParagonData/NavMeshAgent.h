@@ -28,7 +28,11 @@ namespace Pg::Data
 	public:
 		NavMeshAgent(GameObject* owner);
 
+		virtual ~NavMeshAgent();
+
 	public:
+		virtual void Start() override;
+
 		virtual void Update() override;
 
 		void SetMaxSpeed(float speed);
@@ -37,6 +41,7 @@ namespace Pg::Data
 		void SetMaxAcceleration(float accel);
 		void SetObstacleAvoidance(bool ob);
 		void SetSeperation(bool sep);
+		void SetDestination(Pg::Math::PGFLOAT3 des);
 
 		float GetMaxSpeed();
 		float GetRadius();
@@ -44,6 +49,8 @@ namespace Pg::Data
 		float GetMaxAcceleration();
 		bool  GetObstacleAvoidance();
 		bool GetSeparation();
+
+		Pg::Math::PGFLOAT3 GetDestination();
 
 	private:
 		//Agent 설정값들.
@@ -69,8 +76,20 @@ namespace Pg::Data
 
 		bool _optimizeTopology;
 
+	private:
+		int _agentidx{ -1 };
+
+		float _targetPos[3];
+
+		dtPolyRef _targetRef;
+		const dtCrowdAgent* _crowdAgent;
+
 		///런타임에 설정값 변경 시 필요.
 		std::function<void(const Pg::Data::NavMeshAgent*)> _updateSystemFunc;
+		std::function<void(Pg::Data::NavMeshAgent*, Pg::Math::PGFLOAT3)> _destinationFunc;
+
+	private:
+		Pg::Math::PGFLOAT3 _destination;
 	};
 }
 

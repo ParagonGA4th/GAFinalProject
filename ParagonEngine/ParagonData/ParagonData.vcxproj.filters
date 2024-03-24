@@ -544,6 +544,9 @@
     <ClInclude Include="SerializerHelper.h">
       <Filter>2_Component\1_Helper</Filter>
     </ClInclude>
+    <ClInclude Include="BuildSettings.h">
+      <Filter>2_Component\Navigation\NavigationField\FieldSetting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -815,6 +818,9 @@
     </Filter>
     <Filter Include="2_Component\Navigation\src\Recast">
       <UniqueIdentifier>{9a3e22ad-0a1b-40e6-919b-ca49452e69f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\NavigationField\FieldSetting">
+      <UniqueIdentifier>{8dbd8285-3186-42ae-9f92-577cca93dcc4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
