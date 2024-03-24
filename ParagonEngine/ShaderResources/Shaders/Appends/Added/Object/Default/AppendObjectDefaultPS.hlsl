@@ -18,8 +18,8 @@ POutQuad main(VOutQuad pin)
     //PBR Àû¿ë.
     float3 albedo = GetAlbedoMap(pin.UV);
     //TODELETE
-   //res.Output = float4(albedo, 1.0f);
-   //return res;
+     //res.Output = float4(albedo, 1.0f);
+     //return res;
     
     float metalness = GetMetallicMap(pin.UV);
     float roughness = GetRoughnessMap(pin.UV);
