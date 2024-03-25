@@ -14,6 +14,7 @@
 
 #include <cassert>
 #include <sstream>
+#include <filesystem>
 
 namespace Pg::Graphics::Helper
 {
@@ -368,6 +369,26 @@ namespace Pg::Graphics::Helper
 		}
 
 		return tRet;
+	}
+
+	Pg::Graphics::eTextureExtension GraphicsResourceHelper::GetTexExtFromPath(const std::string& path)
+	{
+		std::filesystem::path tPath(path);
+		std::string tExtString = tPath.extension().string();
+		
+		if (tExtString == ".dds" || tExtString == ".DDS")
+		{
+			return eTextureExtension::_DDS;
+		}
+		if (tExtString == ".tga" || tExtString == ".TGA")
+		{
+			return eTextureExtension::_TGA;
+		}
+		if (tExtString == ".png" || tExtString == ".PNG")
+		{
+			return eTextureExtension::_PNG;
+		}
+		return eTextureExtension::_UNMANAGED;
 	}
 
 }

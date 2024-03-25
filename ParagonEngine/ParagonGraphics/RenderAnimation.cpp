@@ -8,6 +8,7 @@ namespace Pg::Graphics
 		GraphicsResource(define, typeid(this).name(), filePath)
 	{
 		//생성자가 호출된 시점에서 이미 새로운 모델 데이터가 중복없이 만들어진다고 확신됨.
+		_animAssetData = std::make_unique<Animation_AssetData>();
 	}
 
 	RenderAnimation::~RenderAnimation()
