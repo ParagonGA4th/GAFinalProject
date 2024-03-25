@@ -37,6 +37,7 @@ namespace Pg::UI::Manager
 		void AlignForWidth(int widgetCount, float widgetWidth);
 	private:
 		std::unique_ptr<Pg::UI::Helper::Gizmo> _imGizmo;
+		void* _pretendardFont{ nullptr };
 	};
 }
 
