@@ -7,6 +7,7 @@ namespace Pg::Editor
 		_NONE,
 		_NEWSCENE,
 		_OPENSCENE,
+		_LOADSCENE,
 		_SAVESCENE,
 		_NEWPROJECT,
 		_OPENPROJECT,

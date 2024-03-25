@@ -38,7 +38,8 @@ namespace Pg::UI::Manager
 
 		 void SetCameraForGizmo(Pg::Data::Camera* camera);
 		 void SetTransformForGizmo(Pg::Data::Transform* trans);
-		 void DrawGizmo(void* gizmoType = nullptr);
+		 void SetGizmoType(void* gizmoType = nullptr);
+		 void DrawGizmo();
 
 		 void WindowBegin(std::string winName, bool isMenu = false);
 		 void WindowDockSpaceBegin(std::string winName);
@@ -49,6 +50,6 @@ namespace Pg::UI::Manager
 
 	private:
 		std::unique_ptr<Pg::UI::Manager::ImGuiManager> _imguiManager;
-		int _gizmoType = -1;
+		std::string _gizmoType = "Translate";
 	};
 }

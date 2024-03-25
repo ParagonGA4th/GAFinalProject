@@ -1,15 +1,15 @@
 #include "RadioButton.h"
 #include "imgui.h"
 
-Pg::UI::Widget::RadioButton::RadioButton(std::string label, bool& active)
-	:_btnName(label), _isButtonClick(active)
+Pg::UI::Widget::RadioButton::RadioButton(std::string label, std::string& selectRadio)
+	:_btnName(label), _selectRadio(selectRadio)
 {
 }
 
 void Pg::UI::Widget::RadioButton::Update()
 {
-	if (ImGui::RadioButton(_btnName.c_str(), _isButtonClick))
+	if (ImGui::RadioButton(_btnName.c_str(), _btnName == _selectRadio))
 	{
-		_isButtonClick = true;
+		_selectRadio = _btnName;
 	}
 }

@@ -32,7 +32,7 @@ namespace Pg::UI::Manager
 
 		void SetGizmoCamera(Pg::Data::Camera* camera);
 		void SetGizmoTransform(Pg::Data::Transform* trans);
-		void DrawGizmo(int type);
+		void DrawGizmo(std::string type);
 
 		void AlignForWidth(int widgetCount, float widgetWidth);
 	private:

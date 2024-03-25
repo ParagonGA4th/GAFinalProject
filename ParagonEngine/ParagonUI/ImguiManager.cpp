@@ -148,7 +148,7 @@ void Pg::UI::Manager::ImGuiManager::SetGizmoTransform(Pg::Data::Transform* trans
 	_imGizmo->SetTransform(trans);
 }
 
-void Pg::UI::Manager::ImGuiManager::DrawGizmo(int type)
+void Pg::UI::Manager::ImGuiManager::DrawGizmo(std::string type)
 {
 	_imGizmo->DrawGizmo(type);
 }

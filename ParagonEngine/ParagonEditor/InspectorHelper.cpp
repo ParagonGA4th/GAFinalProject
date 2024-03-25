@@ -143,7 +143,10 @@ void Pg::Editor::Window::InspectorHelper::ComponentUI()
 
 					if (typeInfo == typeid(Pg::Math::PGFLOAT3).name())
 					{
-						_widgetCon->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGFLOAT3*>(val));
+						if(valName.find("scale") != std::string::npos)
+							_widgetCon->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGFLOAT3*>(val), 0.01f);
+						else
+							_widgetCon->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGFLOAT3*>(val));
 					}
 
 					if (typeInfo == typeid(Pg::Math::PGFLOAT4).name())

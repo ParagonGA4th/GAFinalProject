@@ -18,7 +18,7 @@ namespace Pg::API
 	}
 }
 
-class RayCastTest : public Pg::script::Script
+class RayCastTest : public Pg::DataScript::Script
 {
 public:
 	RayCastTest(Pg::Data::GameObject* obj);

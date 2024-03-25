@@ -35,7 +35,7 @@ Pg::Editor::Window::Scene::~Scene()
 void Pg::Editor::Window::Scene::Initialize()
 {
 	_widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 1920.f, 1080.f);
-	_gizmoType->AddEvent(Pg::Editor::eEventType::_GIZMOTYPE, [&](void* data) { _uiManager->DrawGizmo(data); });
+	_gizmoType->AddEvent(Pg::Editor::eEventType::_GIZMOTYPE, [&](void* data) { _uiManager->SetGizmoType(data); });
 }
 
 void Pg::Editor::Window::Scene::Update()

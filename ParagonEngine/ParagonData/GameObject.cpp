@@ -132,7 +132,7 @@ namespace Pg::Data
 		component = Pg::Factory::Data::Factory<Pg::Data::Component, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
 		if (component != nullptr)
 		{
-			_componentList.push_back(std::make_pair(componentType, component));
+			AddComponent(componentType, component);
 			return component;
 		}
 
@@ -140,39 +140,37 @@ namespace Pg::Data
 		if (componentType.compare("class Pg::Data::StaticMeshRenderer") == 0)
 		{
 			component = new StaticMeshRenderer(this);
-			_componentList.push_back(std::make_pair("class Pg::Data::StaticMeshRenderer", component));
+			AddComponent("class Pg::Data::StaticMeshRenderer", component);
 			return component;
 		}
 	
 		component = Pg::Factory::Data::Factory<Pg::Data::RendererBase3D, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
 		if (component != nullptr)
 		{
-			_componentList.push_back(std::make_pair(componentType, component));
+			AddComponent(componentType, component);
 			return component;
 		}
 
 		component = Pg::Factory::Data::Factory<Pg::Data::StaticCollider, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
 		if (component != nullptr)
 		{
-			_componentList.push_back(std::make_pair(componentType, component));
+			AddComponent(componentType, component);
 			return component;
 		}
 
 		component = Pg::Factory::Data::Factory<Pg::Data::DynamicCollider, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
 		if (component != nullptr)
 		{
-			_componentList.push_back(std::make_pair(componentType, component));
+			AddComponent(componentType, component);
 			return component;
 		}
 
-		//component = Pg::Factory::Script::Factory<Pg::Data::Script, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
-		//if (component != nullptr)
-		//{
-		//	_componentList.push_back(std::make_pair(componentType, component));
-		//	return component;
-		//}
-
 		return nullptr;
+	}
+
+	void GameObject::AddComponent(std::string componentType, Pg::Data::Component* component)
+	{
+		_componentList.emplace_back(std::make_pair(componentType, component));
 	}
 
 	bool GameObject::RemoveComponent(std::string componentType)

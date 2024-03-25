@@ -22,7 +22,7 @@
 ///// <summary>
 ///// 사운드 API를 테스트 하기 위한 스크립트.
 ///// </summary>
-//class SoundTest : public Pg::script::Script
+//class SoundTest : public Pg::DataScript::Script
 //{
 //public:
 //	SoundTest(Pg::Data::GameObject* owner);

@@ -1,6 +1,6 @@
 #include "Script.h"
 
-namespace Pg::script
+namespace Pg::DataScript
 {
 	Script::Script(Pg::Data::GameObject* obj): 
 		Component(obj)

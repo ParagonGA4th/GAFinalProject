@@ -10,6 +10,8 @@
 #include "../ParagonData/Camera.h"
 #include "../ParagonData/Transform.h"
 
+#include <string>
+
 namespace Pg::Data { class Camera; class Transform; }
 namespace Pg::UI::Helper
 {
@@ -20,7 +22,7 @@ namespace Pg::UI::Helper
 		~Gizmo() {};
 
 		void CreateFrame();
-		void DrawGizmo(int type);
+		void DrawGizmo(std::string type);
 
 		void SetCamera(Pg::Data::Camera* camera);
 		void SetTransform(Pg::Data::Transform* trans);

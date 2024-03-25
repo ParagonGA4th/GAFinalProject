@@ -45,11 +45,14 @@ void Pg::UI::Manager::UIManager::SetTransformForGizmo(Pg::Data::Transform* trans
 	_imguiManager->SetGizmoTransform(trans);
 }
 
-void Pg::UI::Manager::UIManager::DrawGizmo(void* gizmoType)
+void Pg::UI::Manager::UIManager::SetGizmoType(void* gizmoType)
 {
-	if (gizmoType == nullptr && _gizmoType == -1) _gizmoType = 0;
-	else if (gizmoType != nullptr) _gizmoType = *(static_cast<int*>(gizmoType));
+	if (gizmoType == nullptr) _gizmoType = "Translate";
+	else if (gizmoType != nullptr) _gizmoType = *(static_cast<std::string*>(gizmoType));
+}
 
+void Pg::UI::Manager::UIManager::DrawGizmo()
+{
 	_imguiManager->DrawGizmo(_gizmoType);
 }
 
@@ -82,4 +85,3 @@ void Pg::UI::Manager::UIManager::EndDisable()
 {
 	_imguiManager->EndDisable();
 }
-

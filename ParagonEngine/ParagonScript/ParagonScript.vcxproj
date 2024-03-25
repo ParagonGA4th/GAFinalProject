@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="EventTest.h" />
+    <ClInclude Include="FactoryHelper.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="RayCastTest.h" />
     <ClInclude Include="Script.h" />
@@ -150,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EventTest.cpp" />
+    <ClCompile Include="FactoryHelper.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="RayCastTest.cpp" />
     <ClCompile Include="Script.cpp" />

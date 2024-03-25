@@ -17,7 +17,7 @@ namespace Pg::API
 	}
 }
 
-class EventTest : public Pg::script::Script
+class EventTest : public Pg::DataScript::Script
 {
 public:
 	EventTest(Pg::Data::GameObject* owner);

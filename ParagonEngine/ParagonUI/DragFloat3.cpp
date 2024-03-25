@@ -1,8 +1,8 @@
 #include "DragFloat3.h"
 #include "imgui.h"
 
-Pg::UI::Widget::DragFloat3::DragFloat3(std::string label, Pg::Math::PGFLOAT3* input)
-	: _label("##"), _inputIndex(0), _inputPGFloat3(input)
+Pg::UI::Widget::DragFloat3::DragFloat3(std::string label, Pg::Math::PGFLOAT3* input, float min)
+	: _label("##"), _inputIndex(0), _inputPGFloat3(input), _minFloat(min)
 {
 	_label.append(label);
 
@@ -11,8 +11,8 @@ Pg::UI::Widget::DragFloat3::DragFloat3(std::string label, Pg::Math::PGFLOAT3* in
 	_inputFloat[2] = _inputPGFloat3->z;
 }
 
-Pg::UI::Widget::DragFloat3::DragFloat3(std::string label, Pg::Math::PGFLOAT4* input)
-	: _label("##"), _inputIndex(1), _inputPGFloat4(input)
+Pg::UI::Widget::DragFloat3::DragFloat3(std::string label, Pg::Math::PGFLOAT4* input, float min)
+	: _label("##"), _inputIndex(1), _inputPGFloat4(input), _minFloat(min)
 {
 	_label.append(label);
 
@@ -21,8 +21,8 @@ Pg::UI::Widget::DragFloat3::DragFloat3(std::string label, Pg::Math::PGFLOAT4* in
 	_inputFloat[2] = _inputPGFloat4->z;
 }
 
-Pg::UI::Widget::DragFloat3::DragFloat3(std::string label, Pg::Math::PGQuaternion* input)
-	: _label("##"), _inputIndex(2), _inputPGQuat(input)
+Pg::UI::Widget::DragFloat3::DragFloat3(std::string label, Pg::Math::PGQuaternion* input, float min)
+	: _label("##"), _inputIndex(2), _inputPGQuat(input), _minFloat(min)
 {
 	_label.append(label);
 
@@ -57,7 +57,7 @@ void Pg::UI::Widget::DragFloat3::Update()
 		_inputFloat[1] = Pg::Math::PGConvertToDegrees(_inputPGFloat3->y);
 	}
 
-	if (ImGui::DragFloat3(_label.c_str(), _inputFloat, 0.005f))
+	if (ImGui::DragFloat3(_label.c_str(), _inputFloat, 0.005f, _minFloat))
 	{
 		if (_inputIndex == 0)
 		{
