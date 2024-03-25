@@ -40,6 +40,11 @@ Pg::UI::Manager::ImGuiManager::ImGuiManager()
 	}
 
 	_imGizmo = std::make_unique<Pg::UI::Helper::Gizmo>();
+
+	//PretendardFont »ç¿ë.
+	_pretendardFont = (void*)io.Fonts->AddFontFromFileTTF("../Resources/Fonts/TTF/Pretendard-Medium.ttf", 13.0f, NULL,
+		io.Fonts->GetGlyphRangesDefault());
+	IM_ASSERT(_pretendardFont != NULL);
 }
 
 Pg::UI::Manager::ImGuiManager::~ImGuiManager()
@@ -61,6 +66,10 @@ void Pg::UI::Manager::ImGuiManager::CreateFrame()
 	ImGui::NewFrame();
 
 	_imGizmo->CreateFrame();
+
+	//Pretendard Font Push
+	//ImFont* tPreFont = (ImFont*)_pretendardFont;
+	//ImGui::PushFont(tPreFont);
 }
 
 void Pg::UI::Manager::ImGuiManager::Render()
@@ -69,6 +78,7 @@ void Pg::UI::Manager::ImGuiManager::Render()
 	//_deviceContext->OMSetRenderTargets(1, &_renderTarget, nullptr);
 	//const float clear_color_with_alpha[4] = { 0,0,0,0 };
 	//_deviceContext->ClearRenderTargetView(_renderTarget, clear_color_with_alpha);
+
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
