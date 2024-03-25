@@ -76,6 +76,7 @@
     <ClInclude Include="ShaderParsingData.h" />
     <ClInclude Include="SizeTexture.h" />
     <ClInclude Include="SystemPixelShader.h" />
+    <ClInclude Include="TextureExtension.h" />
     <ClInclude Include="WireframeRenderObject.h" />
     <ClInclude Include="RenderFont.h" />
     <ClInclude Include="RenderObject2DList.h" />

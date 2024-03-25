@@ -8,6 +8,7 @@
 #include "AssetModelDataDefine.h"
 #include "GraphicsResourceManager.h"
 #include "GraphicsResourceHelper.h"
+#include "TextureExtension.h"
 
 #include "DX11Headers.h"
 #include "MathHelper.h"
@@ -568,6 +569,12 @@ namespace Pg::Graphics::Helper
 			"DIFFUSE", "NORMALS", "SPECULAR", "ARM"
 		};
 
+		///완벽하지는 않지만, 직전의 Width/Height을 저장한 뒤, 값을 가져올 수 있게 한다.
+		/// (디폴트 텍스쳐 제작을 위해)
+		unsigned int tPrevWidth = 512;
+		unsigned int tPrevHeight = 512;
+		eTextureExtension tPrevExt = eTextureExtension::_DDS;
+
 		//outArrayData의 인덱스와 의미 동일.
 		for (int k = 0; k < 4; k++)
 		{
@@ -580,6 +587,11 @@ namespace Pg::Graphics::Helper
 				{
 					//실제로 값이 있을 경우, 값을 로딩해서 넣는다.
 					tPath = tMatCluster->GetTextureByType(type)->GetFilePath();
+
+					//별도로 다음을 위해 자신의 W/H 기록.
+					tPrevWidth = tMatCluster->GetTextureByType(type)->GetFileWidth();
+					tPrevHeight = tMatCluster->GetTextureByType(type)->GetFileHeight();
+
 					std::filesystem::path tFSP = tPath;
 					tRenderT2Vec.at(i) = tFSP.filename().string();
 				}
@@ -589,9 +601,10 @@ namespace Pg::Graphics::Helper
 					//UINT tWidth = tMatCluster->GetTextureByType(type)->GetFileWidth();
 					//UINT tHeight = tMatCluster->GetTextureByType(type)->GetFileHeight();
 					//
-					//eSizeTexture tSize = GraphicsResourceHelper::GetSizeTextureFromUINT(tWidth, tHeight);
+					//
 					//tRenderT2Vec.at(i) = GraphicsResourceHelper::GetDefaultTexturePath(type, tSize);
-					std::filesystem::path tFSP = GraphicsResourceHelper::GetDefaultTexturePath(type);
+					eSizeTexture tSize = GraphicsResourceHelper::GetSizeTextureFromUINT(tPrevWidth, tPrevHeight);
+					std::filesystem::path tFSP = GraphicsResourceHelper::GetDefaultTexturePath(type, tSize);
 					tRenderT2Vec.at(i) = tFSP.filename().string();
 				}
 			}

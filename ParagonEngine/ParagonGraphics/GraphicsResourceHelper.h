@@ -4,6 +4,7 @@
 #include "ShaderParsingData.h"
 #include "AssetTextureType.h"
 #include "SizeTexture.h"
+#include "TextureExtension.h"
 
 //<실제 Graphics Resource의 목록>
 #include "RenderMaterial.h"
@@ -69,6 +70,8 @@ namespace Pg::Graphics::Helper
 		static void ReadPGT2ARRContents(const std::string& pgt2arrContent, std::vector<std::string>& outStringVector);
 
 		static eSizeTexture GetSizeTextureFromUINT(unsigned int width, unsigned int height);
+
+		static eTextureExtension GetTexExtFromPath(const std::string& path);
 	public:
 		// ^, $ 리소스 이름에 활용 금지!
 		

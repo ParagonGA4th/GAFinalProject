@@ -24,6 +24,7 @@ namespace Pg::Graphics::Loader
 {
 	using Pg::Util::Helper::ResourceHelper;
 	using Pg::Graphics::Manager::GraphicsResourceManager;
+	using Pg::Graphics::Helper::GraphicsResourceHelper;
 
 	AssetBasic2DLoader::AssetBasic2DLoader() : _DXStorage(LowDX11Storage::GetInstance())
 	{
@@ -33,11 +34,14 @@ namespace Pg::Graphics::Loader
 	void AssetBasic2DLoader::LoadTexture1D(const std::string& path, RenderTexture1D* outTextureData)
 	{
 		LoadInternalRenderTexture2D(path, outTextureData);
+
+		outTextureData->_textureExt = GraphicsResourceHelper::GetTexExtFromPath(path);
 	}
 
 	void AssetBasic2DLoader::LoadTexture2D(const std::string& path, RenderTexture2D* outTextureData)
 	{
 		LoadInternalRenderTexture2D(path, outTextureData);
+		outTextureData->_textureExt = GraphicsResourceHelper::GetTexExtFromPath(path);
 
 		//Width / Height 기록.
 		ID3D11Texture2D* tTexture2D = nullptr;
@@ -53,6 +57,8 @@ namespace Pg::Graphics::Loader
 
 	void AssetBasic2DLoader::LoadTexture2DArray(bool isDDS, const std::string& path, RenderTexture2DArray* outTextureData)
 	{
+		outTextureData->_textureExt = GraphicsResourceHelper::GetTexExtFromPath(path);
+
 		if (isDDS)
 		{
 			LoadInternalRenderTexture2D(path, outTextureData);
@@ -79,6 +85,7 @@ namespace Pg::Graphics::Loader
 
 	void AssetBasic2DLoader::LoadTextureCube(const std::string& path, RenderTextureCube* outTextureData)
 	{
+		outTextureData->_textureExt = GraphicsResourceHelper::GetTexExtFromPath(path);
 		LoadInternalRenderTexture2D(path, outTextureData);
 	}
 
@@ -257,8 +264,12 @@ namespace Pg::Graphics::Loader
 			UINT tCPUAccessFlags = 0;
 			UINT tMiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
 
+			//HR(DirectX::CreateWICTextureFromFileEx(_DXStorage->_device, tWStrPath.c_str(), NULL, D3D11_USAGE_DEFAULT, tBindingFlags, tCPUAccessFlags, tMiscFlags,
+			//	DirectX::WIC_LOADER_DEFAULT, &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
+
+			//FORCE -> RGBA32
 			HR(DirectX::CreateWICTextureFromFileEx(_DXStorage->_device, tWStrPath.c_str(), NULL, D3D11_USAGE_DEFAULT, tBindingFlags, tCPUAccessFlags, tMiscFlags,
-				DirectX::WIC_LOADER_DEFAULT, &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
+				DirectX::WIC_LOADER_FORCE_RGBA32, &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
 		}
 
 		//GenerateMips 테스트.

@@ -60,6 +60,7 @@ namespace Pg::Data
 			if (_inputSystem->GetKeyDown(API::Input::MouseLeft))
 			{
 				Click();
+				PG_TRACE("Click!");
 			}
 		}
 	}
