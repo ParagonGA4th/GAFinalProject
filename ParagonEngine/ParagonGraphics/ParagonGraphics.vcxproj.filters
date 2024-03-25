@@ -283,6 +283,9 @@
     <ClInclude Include="PreparationSkinnedRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\3_PreparationSkinnedRenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="TextureExtension.h">
+      <Filter>3_GraphicsResources\Resources\RenderTexture\Defines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
