@@ -7,7 +7,7 @@
 /// 추후에 GameObject에 존재하는 componentList와 scriptList를 분리시킬 예정.
 /// 2023.10.12
 /// </summary>
-namespace Pg::script
+namespace Pg::DataScript
 {
 	class Script : public Pg::Data::Component
 	{

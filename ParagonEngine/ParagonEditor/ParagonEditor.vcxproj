@@ -123,7 +123,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;ParagonAPI.lib;ParagonUtil.lib;ParagonUI.lib;ParagonProcess.lib;ParagonHelper.lib;ParagonGameEngine.lib;ParagonGraphics.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonAPI.lib;ParagonUtil.lib;ParagonUI.lib;ParagonProcess.lib;ParagonHelper.lib;ParagonScript.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -145,7 +145,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;ParagonAPI.lib;ParagonUtil.lib;ParagonUI.lib;ParagonProcess.lib;ParagonHelper.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonAPI.lib;ParagonUtil.lib;ParagonUI.lib;ParagonProcess.lib;ParagonHelper.lib;ParagonScript.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -181,7 +181,6 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="Filter.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GizmoType.h" />
     <ClInclude Include="Hierarchy.h" />
     <ClInclude Include="IEditorManager.h" />
     <ClInclude Include="IEditorWindow.h" />

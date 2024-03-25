@@ -42,10 +42,7 @@ namespace Pg::Editor::Window
 		bool* _isPauseBtnClick;
 		bool* _isStopBtnClick;		
 		
-		bool* _isTransBtnClick;
-		bool* _isRotateBtnClick;
-		bool* _isScaleBtnClick;
-
-		int _type;
+		std::string _gizmoType = "Translate";
+		std::string _prevGizmoType;
 	};
 }

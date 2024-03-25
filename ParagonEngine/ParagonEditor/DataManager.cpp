@@ -4,6 +4,7 @@
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Component.h"
+#include "../ParagonScript/FactoryHelper.h"
 
 #include <sstream>
 #include <algorithm>
@@ -113,13 +114,11 @@ std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::D
 						newSceneNum++;
 						continue;
 					}
-
 				}
 			}
 
 			if (newSceneNum != 0) sceneName = "New Scene " + std::to_string(newSceneNum);
 			else sceneName = "New Scene";
-
 		}
 	}
 
@@ -277,7 +276,11 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 				{
 					//auto component = AddComponentToObject(typeName, obj);
 					auto component = obj->AddComponent(typeName);
-					component->OnDeserialize(tSerVec);
+					if(component != nullptr) component->OnDeserialize(tSerVec);
+					else
+					{
+						Pg::DataScript::FactoryHelper::AddScript(obj, typeName);
+					}
 				}
 
 				for (auto& [valName, typeInfo, val] : tSerVec)

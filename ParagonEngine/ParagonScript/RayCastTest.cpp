@@ -10,7 +10,7 @@
 #include <cassert>
 
 RayCastTest::RayCastTest(Pg::Data::GameObject* obj) :
-	Script(obj)
+	Pg::DataScript::Script(obj)
 {
 
 }

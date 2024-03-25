@@ -10,7 +10,7 @@
 //
 //
 //SoundTest::SoundTest(Pg::Data::GameObject* owner) :
-//	Script(owner)
+//	Pg::DataScript::Script(owner)
 //{
 //
 //}

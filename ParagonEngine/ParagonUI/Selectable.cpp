@@ -1,24 +1,31 @@
 #include "Selectable.h"
 #include "imgui.h"
 
-Pg::UI::Widget::Selectable::Selectable(std::vector<std::string> objNameList)
-	:_selectList(objNameList), _selectedNumber(0)
+Pg::UI::Widget::Selectable::Selectable(std::vector<std::string> objNameList, std::string& selectedObject)
+	:_selectList(objNameList), _selectObj(selectedObject)
 {
+	_prevSelectObj = _selectObj;
 }
 
 void Pg::UI::Widget::Selectable::Update()
 {
 	for (int i = 0; i < _selectList.size(); i++)
 	{
-		if (ImGui::Selectable(_selectList.at(i).c_str(), i == _selectedNumber))
+		if (ImGui::Selectable(_selectList.at(i).c_str(), _selectList.at(i) == _selectObj))
 		{
-			_selectedNumber = i;
+			_prevSelectObj = _selectObj;
+			_selectObj = _selectList.at(i);
 		}
 	}
+
+	if (ImGui::IsMouseDoubleClicked(0) && _prevSelectObj.compare(_selectObj) == 0)
+	{
+		_isDoubleClicked = true;
+	}
+	else _isDoubleClicked = false;
 }
 
-int* Pg::UI::Widget::Selectable::GetSelectableNumber()
+bool* Pg::UI::Widget::Selectable::GetSelectedObjectDoubleClicked()
 {
-	return &_selectedNumber;
+	return &_isDoubleClicked;
 }
-

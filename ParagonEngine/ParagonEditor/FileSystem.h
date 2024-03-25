@@ -20,6 +20,7 @@ namespace Pg::Editor::System
 	private:
 		void NewScene();
 		void OpenScene();
+		void LoadScene(void* path);
 		void SaveScene();
 
 		void NewProject();

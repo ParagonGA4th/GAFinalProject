@@ -81,7 +81,7 @@ void Pg::UI::Helper::Gizmo::ConvertWTM(glm::mat4 mt)
 	_trans->_scale = { scale.x, scale.y, scale.z };
 }
 
-void Pg::UI::Helper::Gizmo::DrawGizmo(int type)
+void Pg::UI::Helper::Gizmo::DrawGizmo(std::string type)
 {
 	ImGuizmo::SetDrawlist();
 
@@ -89,9 +89,9 @@ void Pg::UI::Helper::Gizmo::DrawGizmo(int type)
 	{
 		ImGuizmo::OPERATION oper = ImGuizmo::TRANSLATE;
 
-		if (type == 0) oper = ImGuizmo::TRANSLATE;
-		if (type == 1) oper = ImGuizmo::ROTATE;
-		if (type == 2) oper = ImGuizmo::SCALE;
+		if (type.compare("Translate") == 0) oper = ImGuizmo::TRANSLATE;
+		if (type.compare("Rotate") == 0) oper = ImGuizmo::ROTATE;
+		if (type.compare("Scale") == 0) oper = ImGuizmo::SCALE;
 
 
 		ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, ImGui::GetWindowSize().x, ImGui::GetWindowSize().y);

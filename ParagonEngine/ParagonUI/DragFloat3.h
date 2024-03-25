@@ -9,9 +9,9 @@ namespace Pg::UI::Widget
 	class DragFloat3 : public IWidget
 	{
 	public:
-		DragFloat3(std::string label, Pg::Math::PGFLOAT3* input);
-		DragFloat3(std::string label, Pg::Math::PGFLOAT4* input);
-		DragFloat3(std::string label, Pg::Math::PGQuaternion* input);
+		DragFloat3(std::string label, Pg::Math::PGFLOAT3* input, float min = 0.f);
+		DragFloat3(std::string label, Pg::Math::PGFLOAT4* input, float min = 0.f);
+		DragFloat3(std::string label, Pg::Math::PGQuaternion* input, float min = 0.f);
 		virtual void Update() override;
 
 	private:
@@ -24,6 +24,8 @@ namespace Pg::UI::Widget
 		Pg::Math::PGQuaternion* _inputPGQuat;
 
 		int _inputIndex;
+
+		float _minFloat;
 	};
 }
 

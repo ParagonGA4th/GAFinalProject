@@ -1,5 +1,6 @@
 #include "Filter.h"
 #include "DataContainer.h"
+#include "Event.h"
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
 
@@ -43,8 +44,10 @@ void Pg::Editor::Window::Filter::Update()
 	_widgetCon->ClearWidget();
 	_fileNames.clear();
 	
-	DataSet(_dataContainer->GetProjectPath());
+	DataSet(_dataContainer->GetProjectPath());	
 	_widgetCon->Update();
+	FileSelected();
+
 	_uiManager->WindowEnd();
 }
 
@@ -90,7 +93,9 @@ void Pg::Editor::Window::Filter::DataSet(std::string path)
 				{
 					_fileNames.insert({ folderName, secondFiles[folderName] });
 
-					_widgetCon->CreateTreeNodeWidget<Pg::UI::Widget::Selectable>(_fileNames[folderName]);
+					auto& selectable = _widgetCon->CreateTreeNodeWidget<Pg::UI::Widget::Selectable>(_fileNames[folderName], _selectObject);
+					_isDoubleClicked = selectable.GetSelectedObjectDoubleClicked();
+					
 					if (depth > 0 && !isEnter) isEnter = true;
 				}
 				else if (fn.first != folderName && !isEnter && depth < 1)
@@ -145,6 +150,17 @@ Pg::Editor::Window::FilterData Pg::Editor::Window::Filter::SeparateFiles(std::st
 	}
 
 	return files;
+}
+
+void Pg::Editor::Window::Filter::FileSelected()
+{
+	if (_isDoubleClicked != nullptr && *_isDoubleClicked)
+	{
+		std::string filePath = _dataContainer->GetProjectPath() + "Asset\\Scene\\" + _selectObject;
+
+		std::unique_ptr<Pg::Editor::Event> sceneLoad = std::make_unique<Pg::Editor::Event>();
+		sceneLoad->Invoke(eEventType::_LOADSCENE, static_cast<void*>(&filePath));
+	}
 }
 
 std::string Pg::Editor::Window::Filter::GetWindowName()

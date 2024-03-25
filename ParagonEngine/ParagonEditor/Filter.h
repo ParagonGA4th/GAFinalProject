@@ -32,6 +32,7 @@ namespace Pg::Editor::Window
 	private:
 		void DataSet(std::string path);
 		FilterData SeparateFiles(std::string path, std::string folderName);
+		void FileSelected();
 
 	private:
 		/// filter Value
@@ -45,6 +46,8 @@ namespace Pg::Editor::Window
 
 		/// Data Value
 		std::unordered_map<std::string, std::vector<std::string>> _fileNames;
+		std::string _selectObject;
+		bool* _isDoubleClicked;
 	};
 }
 

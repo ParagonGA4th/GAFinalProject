@@ -26,6 +26,7 @@ void Pg::Editor::System::FileSystem::Initialize()
 
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_NEWSCENE, [&]() { NewScene(); });
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_OPENSCENE, [&]() { OpenScene(); });
+	_fileEvent->AddEvent(Pg::Editor::eEventType::_LOADSCENE, [&](void* data) { LoadScene(data); });
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_SAVESCENE, [&]() { SaveScene(); });
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_NEWPROJECT, [&]() { NewProject(); });
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_OPENPROJECT, [&]() { OpenProject(); });
@@ -57,6 +58,15 @@ void Pg::Editor::System::FileSystem::OpenScene()
 		_rootPathWithFileName = _rootPathWithFileName.substr(0, _rootPathWithFileName.rfind("\\Asset"));
 	}
 }
+
+void Pg::Editor::System::FileSystem::LoadScene(void* path)
+{
+	if (path == nullptr) return;
+	
+	std::string filePath = *(static_cast<std::string*>(path));
+	_dataManager->DataLoad(filePath, true);
+}
+
 
 void Pg::Editor::System::FileSystem::SaveScene()
 {
@@ -229,8 +239,6 @@ void Pg::Editor::System::FileSystem::CreateParagonFile(std::unordered_map<std::s
 		// 파일 생성 실패 시 예외 처리
 	}
 }
-
-
 
 //std::string Pg::Editor::System::FileSystem::SeparatingFileName()
 //{

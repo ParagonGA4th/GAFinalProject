@@ -9,7 +9,7 @@
 #include <cassert>
 
 EventTest::EventTest(Pg::Data::GameObject* owner) :
-	Script(owner)
+	Pg::DataScript::Script(owner)
 {
 
 }

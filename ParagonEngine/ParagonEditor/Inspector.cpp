@@ -42,7 +42,7 @@ void Pg::Editor::Window::Inspector::Initialize()
 	_componentList.emplace_back(typeid(Pg::Data::Camera).name());
 	_componentList.emplace_back(typeid(Pg::Data::Light).name());
 	_componentList.emplace_back(typeid(Pg::Data::StaticMeshRenderer).name());
-	_componentList.emplace_back(typeid(Pg::script::Script).name());
+	_componentList.emplace_back(typeid(Pg::DataScript::Script).name());
 
 	auto& combo = _widgetCon->CreateColumnsWidget<Pg::UI::Widget::Combo>("##Add Component", _componentList);
 	_componentIndex = combo.GetSelectedIndex();

@@ -1,11 +1,10 @@
 #include "StaticMeshRenderer.h"
+#include "GameObject.h"
 #include "../ParagonHelper/ResourceHelper.h"
 
 #include <sstream>
 #include <vector>
-#include "GameObject.h"
 #include <DirectXMath.h>
-#include <singleton-cpp/singleton.h>
 
 namespace Pg::Data
 {

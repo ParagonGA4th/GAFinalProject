@@ -9,18 +9,18 @@
 #include <singleton-cpp/singleton.h>
 #include <cassert>
 
-PlayerMove::PlayerMove(Pg::Data::GameObject* obj) :
-	Pg::script::Script(obj)
+Pg::DataScript::PlayerMove::PlayerMove(Pg::Data::GameObject* obj) :
+	Pg::DataScript::Script(obj)
 {
 	FACTORY_INIT;
 }
 
-void PlayerMove::Start()
+void  Pg::DataScript::PlayerMove::Start()
 {
 	dynamicCol = _object->GetComponent<Pg::Data::DynamicCollider>();
 }
 
-void PlayerMove::Update()
+void Pg::DataScript::PlayerMove::Update()
 {
 	//using namespace Pg::API::Input;
 

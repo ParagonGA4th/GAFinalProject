@@ -36,6 +36,9 @@
     <ClCompile Include="SoundTest.cpp">
       <Filter>SoundTest</Filter>
     </ClCompile>
+    <ClCompile Include="FactoryHelper.cpp">
+      <Filter>0_Factory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -55,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="SoundTest.h">
       <Filter>SoundTest</Filter>
+    </ClInclude>
+    <ClInclude Include="FactoryHelper.h">
+      <Filter>0_Factory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,12 +2,11 @@
 #include "DataContainer.h"
 #include "Event.h"
 
-#include "GizmoType.h"
-
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
 #include "../ParagonUI/Column.h"
 #include "../ParagonUI/Button.h"
+#include "../ParagonUI/RadioButton.h"
 
 #include <singleton-cpp/singleton.h>
 
@@ -40,14 +39,9 @@ void Pg::Editor::Window::ToolBar::Initialize()
 	auto& stopBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Stop", 80.f, 25.f);
 	_isStopBtnClick = stopBtn.GetBtnClick();
 
-	auto& transBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Translate", 80.f, 25.f);
-	_isTransBtnClick = transBtn.GetBtnClick();
-	
-	auto& rotBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Rotate", 80.f, 25.f);
-	_isRotateBtnClick = rotBtn.GetBtnClick();
-		
-	auto& scaleBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Scale", 80.f, 25.f);
-	_isScaleBtnClick = scaleBtn.GetBtnClick();
+	_widgetCon->CreateWidget<Pg::UI::Widget::RadioButton>("Translate", _gizmoType);
+	_widgetCon->CreateWidget<Pg::UI::Widget::RadioButton>("Rotate", _gizmoType);
+	_widgetCon->CreateWidget<Pg::UI::Widget::RadioButton>("Scale", _gizmoType);
 }
 
 void Pg::Editor::Window::ToolBar::Update()
@@ -80,24 +74,7 @@ void Pg::Editor::Window::ToolBar::Update()
 		_editorManaged->Invoke(eEventType::_EDITORDISABLE, static_cast<void*>(_isStartBtnClick));
 	}	
 	
-	if (*_isTransBtnClick)
-	{
-		_type = eGizmoType::TRANSLATE;
-		_editorManaged->Invoke(eEventType::_GIZMOTYPE, static_cast<void*>(&_type));
-	}
-
-	if (*_isRotateBtnClick)
-	{
-		_type = eGizmoType::ROTATE;
-		_editorManaged->Invoke(eEventType::_GIZMOTYPE, static_cast<void*>(&_type));
-	}
-
-	if (*_isScaleBtnClick)
-	{
-		_type = eGizmoType::SCALE;
-		_editorManaged->Invoke(eEventType::_GIZMOTYPE, static_cast<void*>(&_type));
-	}
-
+	if(_prevGizmoType.compare(_gizmoType) == -1) _editorManaged->Invoke(eEventType::_GIZMOTYPE, static_cast<void*>(&_gizmoType));
 	_uiManager->WindowEnd();
 }
 

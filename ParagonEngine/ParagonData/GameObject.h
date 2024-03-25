@@ -56,6 +56,7 @@ namespace Pg::Data
 		template<typename T>
 		T* AddComponent();
 		Pg::Data::Component* AddComponent(std::string componentType);
+		void AddComponent(std::string componentType, Pg::Data::Component* component);
 
 		template<typename T>
 		T* GetComponent();
