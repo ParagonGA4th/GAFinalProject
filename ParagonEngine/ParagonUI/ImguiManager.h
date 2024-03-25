@@ -35,6 +35,10 @@ namespace Pg::UI::Manager
 		void DrawGizmo(int type);
 
 		void AlignForWidth(int widgetCount, float widgetWidth);
+
+	private:
+		//IMGUI 테마를 바꾼다.
+		void ChangeStyle();
 	private:
 		std::unique_ptr<Pg::UI::Helper::Gizmo> _imGizmo;
 		void* _pretendardFont{ nullptr };
