@@ -50,7 +50,6 @@ namespace Pg::Engine
 		{
 			const dtCrowdAgent* agent = _crowd->getAgent(it->_agentidx);
 			it->_object->_transform._position = {agent->npos[0], agent->npos[1], agent->npos[2]};
-
 			
 		}
 	}
@@ -134,7 +133,6 @@ namespace Pg::Engine
 	{
 		_crowd->removeAgent(index);
 	}
-
 
 	void NavigationSystem::SyncNavMesh()
 	{
