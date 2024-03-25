@@ -22,7 +22,7 @@ namespace Pg::Engine
 		tButton->SetOnClickEvent([this]
 			{
 				this->audioSource->Stop();
-				PG_TRACE("BGM Stop.");
+				//PG_TRACE("BGM Stop.");
 			});
 	}
 
