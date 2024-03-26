@@ -20,6 +20,26 @@ namespace Pg::Engine
 		_crowd(nullptr)
 	{
 		_rcContext = std::make_unique<rcContext>(rcContext());
+		m_talloc = new LinearAllocator(32000);
+		m_tcomp = new FastLZCompressor;
+		m_tmproc = new MeshProcess;
+	}
+
+	NavigationSystem::~NavigationSystem()
+	{
+		if (_navMesh)
+		{
+			dtFreeNavMesh(_navMesh);
+			_navMesh = nullptr;
+		}
+		if (_tileCache)
+		{
+			dtFreeTileCache(_tileCache);
+			_tileCache = nullptr;
+		}
+		delete m_talloc;
+		delete m_tcomp;
+		delete m_tmproc;
 	}
 
 	void NavigationSystem::Initialize()

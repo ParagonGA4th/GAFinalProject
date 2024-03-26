@@ -64,25 +64,25 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 
-	//GameObject* tObj2_2 = tCurrentScene->AddObject("Capsule1");
-	//tObj2_2->GetComponent<Transform>()->_position = { 5.0f, 0.0f, 5.0f };
-	////tObj2_2->AddComponent<CapsuleCollider>();
-	////tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
-	////tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
-	////tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
-	////tObj2_2->GetComponent<CapsuleCollider>()->SetTrigger(true);
-	////tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 1.0f, 0.0f, 0.0f });
-	////tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, 90.0f, 0.0f, 0.0f });
-	//tObj2_2->AddComponent<StaticMeshRenderer>();
-	//tObj2_2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx");
-	//tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	////tObj2_2->AddComponent<MovingTest>();
-	////tObj2_2->AddComponent<MovingTest>()->SetActive(true);
-	//tObj2_2->AddComponent<AudioSource>();
-	//tObj2_2->GetComponent<AudioSource>()->SetAudioName("../Resources/Sounds/Test/jump.mp3");
-	////tObj2_2->AddComponent<RayCastTest>();
-	////tObj2_2->AddComponent<RayCastTest>()->SetActive(true);
-	//tObj2_2->AddComponent<NavMeshAgent>();
+	GameObject* tObj2_2 = tCurrentScene->AddObject("Capsule1");
+	tObj2_2->GetComponent<Transform>()->_position = { 5.0f, 0.0f, 5.0f };
+	//tObj2_2->AddComponent<CapsuleCollider>();
+	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
+	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
+	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+	//tObj2_2->GetComponent<CapsuleCollider>()->SetTrigger(true);
+	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 1.0f, 0.0f, 0.0f });
+	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, 90.0f, 0.0f, 0.0f });
+	tObj2_2->AddComponent<StaticMeshRenderer>();
+	tObj2_2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx");
+	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	//tObj2_2->AddComponent<MovingTest>();
+	//tObj2_2->AddComponent<MovingTest>()->SetActive(true);
+	tObj2_2->AddComponent<AudioSource>();
+	tObj2_2->GetComponent<AudioSource>()->SetAudioName("../Resources/Sounds/Test/jump.mp3");
+	//tObj2_2->AddComponent<RayCastTest>();
+	//tObj2_2->AddComponent<RayCastTest>()->SetActive(true);
+	tObj2_2->AddComponent<NavMeshAgent>();
 
 	//Pg::Data::GameObject* tObj3 = tCurrentScene->AddObject("Capsule2");
 	//tObj3->GetComponent<Transform>()->_position = { -1.0f, 5.0f, 5.0f };
