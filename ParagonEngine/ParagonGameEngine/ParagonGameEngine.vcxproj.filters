@@ -130,6 +130,15 @@
     <ClInclude Include="..\include\Recast\Navigation\Recast\RecastAssert.h">
       <Filter>2_System\NavigationSystem\include\Recast</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\RecastDemo\ChunkyTriMesh.h">
+      <Filter>2_System\NavigationSystem\include\RecastDemo</Filter>
+    </ClInclude>
+    <ClInclude Include="ParagonRecast.h">
+      <Filter>2_System\NavigationSystem\CustomClass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\fastlz\fastlz.h">
+      <Filter>2_System\NavigationSystem\include\fastlz</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -273,6 +282,9 @@
     <ClCompile Include="Navigation\Recast\RecastRegion.cpp">
       <Filter>2_System\NavigationSystem\src\Recast</Filter>
     </ClCompile>
+    <ClCompile Include="..\include\fastlz\fastlz.c">
+      <Filter>2_System\NavigationSystem\include\fastlz</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -379,6 +391,15 @@
     </Filter>
     <Filter Include="2_System\NavigationSystem\src\DebugUtils">
       <UniqueIdentifier>{45327d6d-6e0b-4355-8dfb-d093c891ec05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\RecastDemo">
+      <UniqueIdentifier>{b0a20b95-bb99-4faf-a72a-37111042caa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\CustomClass">
+      <UniqueIdentifier>{c93f6ce7-9915-44bd-9667-7787dc0c6e5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\fastlz">
+      <UniqueIdentifier>{f49539ee-5b99-42ec-aac4-507fa9908e04}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

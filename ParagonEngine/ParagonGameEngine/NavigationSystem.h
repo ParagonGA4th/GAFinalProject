@@ -2,6 +2,7 @@
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/BuildSettings.h"
 
+
 #include <Detour/DetourNavMesh.h>
 #include <Detour/DetourNavMeshBuilder.h>
 #include <Recast/Recast.h>
@@ -13,6 +14,7 @@
 #include <Detour/DetourMath.h>
 #include <Detour/DetourAlloc.h>
 #include <DetourCrowd/DetourCrowd.h>
+#include <RecastDemo/ChunkyTriMesh.h>
 
 #include <unordered_map>
 #include <vector>
@@ -72,6 +74,8 @@ namespace Pg::Engine
 
 		int rasterizeTileLayers(const float* worldVertices, size_t verticesNum, const int* faces, size_t facesNum, const int tx, const int ty, const rcConfig& cfg, struct TileCacheData* tiles, const int maxTiles);
 
+		int calcLayerBufferSize(const int gridWidth, const int gridHeight);
+
 		dtNavMesh* GetNavMesh() const;
 
 		dtNavMeshQuery* GetNavMeshQuery() const;
@@ -98,14 +102,29 @@ namespace Pg::Engine
 		rcConfig _rcConfig;
 		rcPolyMesh* _polyMesh;
 		rcPolyMeshDetail* _polyMeshDetail;
-		
+
+		//커스텀 구조체
+		struct LinearAllocator* m_talloc;
+		struct FastLZCompressor* m_tcomp;
+		struct MeshProcess* m_tmproc;
 
 		//컴포넌트 관리할 벡터
 		std::vector<Pg::Data::NavigationField*> _navMeshFieldVec;
 		std::vector<Pg::Data::NavMeshAgent*> _navMeshAgentVec;
 
+		//navMeshField의 버텍스 및 인덱스
 		std::vector<Pg::Math::PGFLOAT3> worldVertices;
 		std::vector<int> worldIndices;
+
+		//TileCache의 정보
+		float m_cacheBuildTimeMs;
+		int m_cacheCompressedSize;
+		int m_cacheRawSize;
+		int m_cacheLayerCount;
+		unsigned int m_cacheBuildMemUsage;
+		int m_maxTiles;
+		int m_maxPolysPerTile;
+		float m_tileSize;
 	};
 }
 
