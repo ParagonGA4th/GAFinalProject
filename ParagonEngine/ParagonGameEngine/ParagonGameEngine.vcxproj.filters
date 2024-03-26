@@ -285,6 +285,9 @@
     <ClCompile Include="..\include\fastlz\fastlz.c">
       <Filter>2_System\NavigationSystem\include\fastlz</Filter>
     </ClCompile>
+    <ClCompile Include="Navigation\RecastDemo\ChunkyTriMesh.cpp">
+      <Filter>2_System\NavigationSystem\src\RecastDemo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -400,6 +403,9 @@
     </Filter>
     <Filter Include="2_System\NavigationSystem\include\fastlz">
       <UniqueIdentifier>{f49539ee-5b99-42ec-aac4-507fa9908e04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\src\RecastDemo">
+      <UniqueIdentifier>{6eb82696-ca2e-4377-a920-916449bc53a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
