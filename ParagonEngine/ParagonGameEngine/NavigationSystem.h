@@ -40,6 +40,7 @@ namespace Pg::Engine
 	{
 	public:
 		NavigationSystem();
+		~NavigationSystem();
 
 	public:
 		void Initialize();

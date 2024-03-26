@@ -26,7 +26,7 @@ namespace Pg::Data
 
 	void NavMeshAgent::Start()
 	{
-		SetDestination({ 10.0f, 0.0f, 10.0f });
+		SetDestination({ 0.0f, 0.0f, 0.0f });
 	}
 
 	void NavMeshAgent::Update()
