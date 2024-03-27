@@ -49,6 +49,11 @@ namespace Pg::Data
 		//오브젝트 리스트 자체를 반환.
 		const std::vector<GameObject*>& GetObjectList() const;
 
+		//오브젝트의 이름을 가지고 단일 오브젝트를 찾는다.
+		Pg::Data::GameObject* FindObjectWithName(const std::string& name);
+
+		//태그를 갖고 오브젝트들을 찾아서 반환한다.
+		std::vector<Pg::Data::GameObject*> FindObjectsWithTag(const std::string& tag);
 	private:
 
 		//씬 이름
