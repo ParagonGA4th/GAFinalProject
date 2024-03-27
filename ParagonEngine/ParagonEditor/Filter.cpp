@@ -6,7 +6,7 @@
 
 #include "../ParagonUI/Selectable.h"
 #include "../ParagonUI/TreeNode.h"
-#include "../ParagonUI/ChildWindow.h"
+#include "../ParagonUI/TextPopup.h"
 
 #include <filesystem>
 #include <singleton-cpp/singleton.h>
