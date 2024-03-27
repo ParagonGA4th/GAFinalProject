@@ -61,8 +61,8 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::Initialize()
 	{		
-		_deferredRenderer = std::make_unique<DeferredRenderer>();
-		_deferredRenderer->Initialize();
+		//_deferredRenderer = std::make_unique<DeferredRenderer>();
+		//_deferredRenderer->Initialize();
 
 		_forward3dRenderer = std::make_unique<Forward3DRenderer>();
 		_forward3dRenderer->Initialize();
@@ -82,25 +82,33 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::BeginRender()
 	{
-		_deferredRenderer->BeginRender();
+		//_deferredRenderer->BeginRender();
+
+		// Set Depth Stencil State
+		_DXStorage->_deviceContext->OMSetDepthStencilState(_DXStorage->_depthStencilState, 0);
+
+		_DXStorage->_deviceContext->ClearDepthStencilView(_DXStorage->_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
+		//ClearGBuffers();
+
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_DXStorage->_mainRTV), _DXStorage->_depthStencilView);
 	}
 
 	void ParagonRenderer::Render(Pg::Data::CameraData* camData)
 	{	
 		// Deferred 1st Pass
-		_deferredRenderer->BindFirstPass();
-		_deferredRenderer->RenderFirstPass(_renderObject3DList.get(), camData);
-		_deferredRenderer->UnbindFirstPass();
-
-		// Deferred Lighting Pass
-		_deferredRenderer->BindLightingPass();
-		_deferredRenderer->RenderLight(_lights.get(), camData);
-		_deferredRenderer->UnbindLightingPass();
-
-		// Deferred Final Pass
-		_deferredRenderer->BindSecondPass();
-		_deferredRenderer->RenderSecondPass();
-		_deferredRenderer->UnbindSecondPass();
+		//_deferredRenderer->BindFirstPass();
+		//_deferredRenderer->RenderFirstPass(_renderObject3DList.get(), camData);
+		//_deferredRenderer->UnbindFirstPass();
+		//
+		//// Deferred Lighting Pass
+		//_deferredRenderer->BindLightingPass();
+		//_deferredRenderer->RenderLight(_lights.get(), camData);
+		//_deferredRenderer->UnbindLightingPass();
+		//
+		//// Deferred Final Pass
+		//_deferredRenderer->BindSecondPass();
+		//_deferredRenderer->RenderSecondPass();
+		//_deferredRenderer->UnbindSecondPass();
 
 		// Forward
 		_forward3dRenderer->Render(*camData);
@@ -192,7 +200,7 @@ namespace Pg::Graphics
 		_lights->BuildConstantBuffers();
 
 		// 디퍼드 렌더러의 멤버에 상수 버퍼을 저장해둔다 (패스별 바인딩을 위해)
-		_deferredRenderer->_lightingCBs = _lights->_constantBuffers;
+		//_deferredRenderer->_lightingCBs = _lights->_constantBuffers;
 		//_deferredRenderer->_firstCBs = _renderObject3DList->_list
 		//_deferredRenderer->_secondCBs
 

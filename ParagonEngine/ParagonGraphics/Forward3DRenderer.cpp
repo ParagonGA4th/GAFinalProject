@@ -6,6 +6,7 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "MathHelper.h"
+#include "MultimaterialMesh.h"
 
 #include "../ParagonData/CameraData.h"
 
@@ -22,7 +23,7 @@ namespace Pg::Graphics
 	Pg::Graphics::Forward3DRenderer::Forward3DRenderer()
 		: _DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
 	{
-
+		tMMesh = new MultimaterialMesh("");
 	}
 
 	void Pg::Graphics::Forward3DRenderer::Initialize()
@@ -113,6 +114,8 @@ namespace Pg::Graphics
 		cubemap->Render();
 		grid->Render();
 		axis->Render();
+
+		tMMesh->Render(&camData);
 	}
 }
 

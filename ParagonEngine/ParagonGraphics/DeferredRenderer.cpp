@@ -267,11 +267,11 @@ void Pg::Graphics::DeferredRenderer::UnbindLightingPass()
 void Pg::Graphics::DeferredRenderer::RenderLight(RenderObjectLightList* lightList, Pg::Data::CameraData* camData)
 {
 	// 조명 정보를 담고 있는 상수버퍼를 조립하고 업데이트
-	lightList->Update(camData);
-	UpdateConstantBuffers(_lightingCBs);
-
-	// 조명을 연산한다
-	_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
+	//lightList->Update(camData);
+	//UpdateConstantBuffers(_lightingCBs);
+	//
+	//// 조명을 연산한다
+	//_DXStorage->_deviceContext->DrawIndexed(6, 0, 0);
 }
 
 void Pg::Graphics::DeferredRenderer::UpdateConstantBuffers(std::vector< ConstantBufferBase*> _constantBuffers)

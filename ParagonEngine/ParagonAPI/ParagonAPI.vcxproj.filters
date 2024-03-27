@@ -30,9 +30,6 @@
     <ClCompile Include="PgInput.cpp">
       <Filter>2_Input</Filter>
     </ClCompile>
-    <ClCompile Include="PhysXTest.cpp">
-      <Filter>3_PhysX</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
