@@ -1,6 +1,7 @@
 #include "SceneSystem.h"
 #include "SoundSystem.h"
 #include "PhysicSystem.h"
+#include "EngineMain.h"
 #include "BehaviorTreeSystem.h"
 #include "TestScene.h"
 #include "EditorCameraScript.h"
@@ -16,6 +17,7 @@ namespace Pg::Engine
 {
 	SceneSystem::SceneSystem() : _isStarted(false)
 	{
+
 		///이거 클라이언트로 빼면서 지우고
 		///.pgproject파일을 이용해 받아와야함.
 		_testScene = new TestScene();
@@ -85,6 +87,9 @@ namespace Pg::Engine
 		//현재 씬 저장된거 바꾸기.
 		_currentScene = scene;
 
+		//자기 자신의 값 설정.
+		this->_isStarted = false;
+
 		//씬이 바뀔 시 사운드 전부 다시 로드.
 		auto& tSoundSystem = singleton<SoundSystem>();
 		_soundSystem = &tSoundSystem;
@@ -119,4 +124,10 @@ namespace Pg::Engine
 	{
 		_testScene->SetScenesData(scene);
 	}
+
+	bool SceneSystem::GetIsStartedScene()
+	{
+		return _isStarted;
+	}
+
 }

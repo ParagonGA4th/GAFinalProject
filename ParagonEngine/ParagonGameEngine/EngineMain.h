@@ -28,6 +28,7 @@ namespace Pg::Data
 {
 	struct CameraData;
 	struct BoxInfo;
+	class Scene;
 }
 
 namespace Pg::Engine
@@ -97,6 +98,10 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL virtual void ClearDebugVectorData() override;
 
 		PARAGON_ENGINE_DLL virtual float GetDeltaTime() override;
+
+		//씬이 바뀌었는지 다른 파트들에게 알려줄 수 있다. nullptr이면 안 변했던 것.
+		PARAGON_ENGINE_DLL virtual Pg::Data::Scene* NotifyIfChangedScene() override;
+			
 	private:
 
 		Pg::Core::ProcessMain* _coreMain = nullptr;
@@ -110,6 +115,7 @@ namespace Pg::Engine
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
 
 		Pg::Util::Time::TimeSystem* _timeSystem = nullptr; //제어권은 더이상 엔진에는 없다.
+
 	};
 }
 

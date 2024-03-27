@@ -59,8 +59,12 @@ namespace Pg::Engine
 		// Editor와 Engine이 연결 되는지 확인을 위한 임시함수
 		void SetSceneData(Scene* scene);
 
+		//isStarted 반영.
+		bool GetIsStartedScene();
+
 		//Scene Change 시 중요.
 		bool _isStarted;
+
 	private:
 		Scene* _currentScene = nullptr;
 		TestScene* _testScene = nullptr;

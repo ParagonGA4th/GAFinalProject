@@ -53,9 +53,6 @@ namespace Pg::Graphics
 	public:
 		void Initialize();
 
-		//씬 데이터 받아들이기. (렌더에 적합한 형태로)
-		void ParseSceneData(const Pg::Data::Scene* const newScene);
-
 		//DebugRenderer로 Debug Geometry를 넘겼다.
 		void PassBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec);
 		void PassLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec);
@@ -84,6 +81,11 @@ namespace Pg::Graphics
 
 		//DeltaTime을 넘겨받는다.
 		void SetDeltaTime(float dt);
+
+
+	private:
+		//씬 데이터 받아들이기. (렌더에 적합한 형태로)
+		void ParseSceneData(const Pg::Data::Scene* const newScene);
 
 	private:
 		LowDX11Storage* _DXStorage = nullptr;

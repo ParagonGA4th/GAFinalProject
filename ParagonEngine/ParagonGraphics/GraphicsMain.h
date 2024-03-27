@@ -66,7 +66,7 @@ namespace Pg::Graphics
 
 	public:
 		PARAGON_GRAPHICS_DLL virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) override;
-		PARAGON_GRAPHICS_DLL virtual void SyncLoadGraphicsResources() override;
+		//PARAGON_GRAPHICS_DLL virtual void SyncLoadGraphicsResources() override;
 
 		PARAGON_GRAPHICS_DLL virtual void Update(const Pg::Data::Scene* const scene, float deltaTime, Pg::Data::CameraData* cameraData) override;
 		PARAGON_GRAPHICS_DLL virtual void BeginRender() override;
@@ -160,7 +160,6 @@ namespace Pg::Graphics
 
 	private:
 		std::unique_ptr<ParagonRenderer> _renderer;
-		Pg::Data::Scene* _currentScene = nullptr;
 
 	private:
 		bool _internalPickingMode = true;
