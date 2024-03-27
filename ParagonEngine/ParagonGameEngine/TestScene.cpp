@@ -66,10 +66,10 @@ void Pg::Engine::TestScene::Initialize()
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Capsule1");
 	tObj2_2->GetComponent<Transform>()->_position = { 5.0f, 0.0f, 5.0f };
-	//tObj2_2->AddComponent<CapsuleCollider>();
-	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
-	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
-	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+	tObj2_2->AddComponent<CapsuleCollider>();
+	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
+	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
+	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetTrigger(true);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 1.0f, 0.0f, 0.0f });
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, 90.0f, 0.0f, 0.0f });
@@ -82,7 +82,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_2->GetComponent<AudioSource>()->SetAudioName("../Resources/Sounds/Test/jump.mp3");
 	//tObj2_2->AddComponent<RayCastTest>();
 	//tObj2_2->AddComponent<RayCastTest>()->SetActive(true);
-	tObj2_2->AddComponent<NavMeshAgent>();
+	//tObj2_2->AddComponent<NavMeshAgent>();
 
 	//Pg::Data::GameObject* tObj3 = tCurrentScene->AddObject("Capsule2");
 	//tObj3->GetComponent<Transform>()->_position = { -1.0f, 5.0f, 5.0f };
@@ -97,15 +97,17 @@ void Pg::Engine::TestScene::Initialize()
 	////tObj3->GetComponent<MoveForwardBack>()->SetActive(false);
 
 	Pg::Data::GameObject* tObj4 = tCurrentScene->AddObject("Cube6");
-	tObj4->GetComponent<Transform>()->_position = { -2.0f, 1.0f, 0.0f };
+	tObj4->GetComponent<Transform>()->_position = { -5.0f, 1.0f, -5.0f };
 	tObj4->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	//tObj4->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.5f, -2.0f);
 	tObj4->AddComponent<StaticBoxCollider>();
-	tObj4->GetComponent<StaticBoxCollider>()->SetTrigger(true);
+	//tObj4->GetComponent<StaticBoxCollider>()->SetTrigger(true);
 	//tObj4->GetComponent<StaticBoxCollider>()->_scale(2.0f, 2.0f, 2.0f);
 	tObj4->AddComponent<StaticMeshRenderer>();
 	tObj4->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	tObj4->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	//tObj4->AddComponent<NavMeshAgent>();
+	tObj4->AddComponent<MovingTest>();
 	//tObj4->RemoveComponent<StaticMeshRenderer>();
 	//tObj4->AddComponent<MoveForwardBack>();
 	//tObj4->GetComponent<MoveForwardBack>()->SetActive(true);
@@ -133,7 +135,7 @@ void Pg::Engine::TestScene::Initialize()
 	Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject(" ");
 	tObj7->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
 	tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
-	tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	//tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 	tObj7->AddComponent<PlaneCollider>();
 	//tObj7->GetComponent<PlaneCollider>();
 	tObj7->AddComponent<StaticMeshRenderer>();

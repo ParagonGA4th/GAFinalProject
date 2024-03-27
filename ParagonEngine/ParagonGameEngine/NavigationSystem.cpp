@@ -64,15 +64,14 @@ namespace Pg::Engine
 			return;
 		}
 
-		_crowd->update(deltaTime, nullptr);
-		_tileCache->update(deltaTime, _navMesh, nullptr);
-
 		for (auto& it : _navMeshAgentVec)
 		{
-			const dtCrowdAgent* agent = _crowd->getAgent(it->_agentidx);
-			it->_object->_transform._position = {agent->npos[0], agent->npos[1], agent->npos[2]};
-			
+			const dtCrowdAgent* crowdAgent = _crowd->getAgent(it->_agentidx);
+			it->_object->_transform._position = { crowdAgent->npos[0], crowdAgent->npos[1], crowdAgent->npos[2] };
 		}
+
+		_crowd->update(deltaTime, nullptr);
+		_tileCache->update(deltaTime, _navMesh, nullptr);
 	}
 
 	void NavigationSystem::Finalize()
@@ -112,13 +111,17 @@ namespace Pg::Engine
 				ap.radius = tNavMeshAgent->GetRadius();
 				ap.maxSpeed = tNavMeshAgent->GetMaxSpeed();
 				ap.height = tNavMeshAgent->GetHeight();
-				ap.maxAcceleration = tNavMeshAgent->GetMaxAcceleration();
+				//ap.maxAcceleration = tNavMeshAgent->GetMaxAcceleration();
+				ap.maxAcceleration = std::numeric_limits<float>::max();
 				ap.collisionQueryRange = ap.radius * 12.0f;
 				ap.pathOptimizationRange = ap.radius * 30.0f;
+				ap.obstacleAvoidanceType = (unsigned char)3;
 
-				ap.updateFlags = 0;
+				ap.updateFlags = DT_CROWD_OPTIMIZE_TOPO |
+					DT_CROWD_OPTIMIZE_VIS |
+					DT_CROWD_OBSTACLE_AVOIDANCE;
 
-				if (tNavMeshAgent->_anticipateTurns)
+				/*if (tNavMeshAgent->_anticipateTurns)
 					ap.updateFlags |= DT_CROWD_ANTICIPATE_TURNS;
 
 				if (tNavMeshAgent->_optimizeVisibility)
@@ -133,7 +136,7 @@ namespace Pg::Engine
 				if (tNavMeshAgent->_separation)
 					ap.updateFlags |= DT_CROWD_SEPARATION;
 
-				ap.obstacleAvoidanceType = static_cast<unsigned char>(tNavMeshAgent->_obstacleAvoidanceType);
+				ap.obstacleAvoidanceType = static_cast<unsigned char>(tNavMeshAgent->_obstacleAvoidanceType);*/
 				ap.separationWeight = tNavMeshAgent->_separationWeight;
 
 				//agent의 현재 위치는 설정해놓은 포지션으로 정해놓는다.
@@ -146,6 +149,7 @@ namespace Pg::Engine
 				///런타임에 설정값이 변경될 때 필요함.
 				tNavMeshAgent->_updateSystemFunc = std::bind(&NavigationSystem::UpdateSingleDtParam, this, std::placeholders::_1);
 				tNavMeshAgent->_destinationFunc = std::bind(&NavigationSystem::MoveTo, this, std::placeholders::_1, std::placeholders::_2);
+				tNavMeshAgent->_relocateFunc = std::bind(&NavigationSystem::Relocate, this, std::placeholders::_1, std::placeholders::_2);
 			}
 		}
 	}
@@ -185,12 +189,12 @@ namespace Pg::Engine
 				assert(planeCollider != nullptr);
 
 				CreatePlaneNavMesh(planeCollider, worldVertices, worldIndices);
+				BuildPlaneNavMesh(worldVertices, worldIndices);
 
 				_navMeshFieldVec.push_back(tNavigationField);
 			}
 		}
 
-		BuildPlaneNavMesh(worldVertices, worldIndices);
 	}
 
 	void NavigationSystem::BuildPlaneNavMesh(const float* worldVertices, size_t verticesNum, const int* faces, size_t facesNum, const Pg::Data::BuildSettings& buildSettings)
@@ -224,6 +228,13 @@ namespace Pg::Engine
 				bmax[2] = worldVertices[i * 3 + 2];
 		}
 
+		//TileCache 초기화
+		int gw = 0, gh = 0;
+		rcCalcGridSize(bmin, bmax, buildSettings.divisionSizeXZ, &gw, &gh);
+		const int ts = (int)buildSettings.tileSize;
+		const int tw = (gw + ts - 1) / ts;
+		const int th = (gh + ts - 1) / ts;
+
 		memset(&_rcConfig, 0, sizeof(_rcConfig));
 
 		_rcConfig.cs = buildSettings.divisionSizeXZ;
@@ -246,13 +257,6 @@ namespace Pg::Engine
 		rcVcopy(_rcConfig.bmin, bmin);
 		rcVcopy(_rcConfig.bmax, bmax);
 		rcCalcGridSize(_rcConfig.bmin, _rcConfig.bmax, _rcConfig.cs, &_rcConfig.width, &_rcConfig.height);
-
-		//TileCache 초기화
-		int gw = 0, gh = 0;
-		rcCalcGridSize(bmin, bmax, buildSettings.divisionSizeXZ, &gw, &gh);
-		const int ts = (int)buildSettings.tileSize;
-		const int tw = (gw + ts - 1) / ts;
-		const int th = (gh + ts - 1) / ts;
 
 		// Tile cache params.
 		dtTileCacheParams tcparams;
@@ -442,7 +446,7 @@ namespace Pg::Engine
 
 					m_cacheLayerCount++;
 					m_cacheCompressedSize += tile->dataSize;
-					//m_cacheRawSize += calcLayerBufferSize(tcparams.width, tcparams.height);
+					m_cacheRawSize += calcLayerBufferSize(tcparams.width, tcparams.height);
 				}
 			}
 		}
@@ -475,64 +479,21 @@ namespace Pg::Engine
 	{
 		// PlaneCollider의 위치, 너비, 높이 및 회전 정보를 가져옵니다.
 		Pg::Math::PGFLOAT3 planePos = planeCollider->_object->_transform._position;
+
 		float width = planeCollider->GetWidth();
 		float depth = planeCollider->GetDepth();
+
 		Pg::Math::PGQuaternion rotationAxis = planeCollider->_object->_transform._rotation; // 회전 축
 		DirectX::XMFLOAT4 tPre = { rotationAxis.x,rotationAxis.y, rotationAxis.z, rotationAxis.w };
 		DirectX::XMVECTOR quaternion = DirectX::XMLoadFloat4(&tPre);
 
-
-		// 각 점을 회전시킵니다.
 		DirectX::XMFLOAT3 botleft = { -width / 2.0f, 0.0f, -depth / 2.0f };
-		DirectX::XMFLOAT3 botright = { width / 2.0f, 0.0f, -depth / 2.0f };
 		DirectX::XMFLOAT3 topleft = { -width / 2.0f, 0.0f, depth / 2.0f };
+		DirectX::XMFLOAT3 botright = { width / 2.0f, 0.0f, -depth / 2.0f };
 		DirectX::XMFLOAT3 topright = { width / 2.0f, 0.0f, depth / 2.0f };
 
-		// 회전을 적용합니다.
-		DirectX::XMVECTOR botleftRotated = DirectX::XMVector3Rotate(DirectX::XMLoadFloat3(&botleft), quaternion);
-		DirectX::XMVECTOR botrightRotated = DirectX::XMVector3Rotate(DirectX::XMLoadFloat3(&botright), quaternion);
-		DirectX::XMVECTOR topleftRotated = DirectX::XMVector3Rotate(DirectX::XMLoadFloat3(&topleft), quaternion);
-		DirectX::XMVECTOR toprightRotated = DirectX::XMVector3Rotate(DirectX::XMLoadFloat3(&topright), quaternion);
-
-		// DirectX 좌표계에 맞게 좌표를 조정합니다.
-		DirectX::XMFLOAT3 result;
-		DirectX::XMStoreFloat3(&result, botleftRotated);
-		botleft.x = result.x + planePos.x;
-		botleft.y = result.y + planePos.y;
-		botleft.z = result.z + planePos.z;
-
-		DirectX::XMStoreFloat3(&result, botrightRotated);
-		botright.x = result.x + planePos.x;
-		botright.y = result.y + planePos.y;
-		botright.z = result.z + planePos.z;
-
-		DirectX::XMStoreFloat3(&result, topleftRotated);
-		topleft.x = result.x + planePos.x;
-		topleft.y = result.y + planePos.y;
-		topleft.z = result.z + planePos.z;
-
-		DirectX::XMStoreFloat3(&result, toprightRotated);
-		topright.x = result.x + planePos.x;
-		topright.y = result.y + planePos.y;
-		topright.z = result.z + planePos.z;
-
-		// 꼭짓점을 worldVertices에 추가합니다.
-		int startingIdx = worldVertices.size();
-		worldVertices.push_back(Pg::Math::XM2PG_FLOAT3(botleft));
-		worldVertices.push_back(Pg::Math::XM2PG_FLOAT3(botright));
-		worldVertices.push_back(Pg::Math::XM2PG_FLOAT3(topleft));
-		worldVertices.push_back(Pg::Math::XM2PG_FLOAT3(topright));
-
-		// 인덱스를 worldIndices에 추가합니다.
-		worldIndices.push_back(startingIdx + 2);
-		worldIndices.push_back(startingIdx + 1);
-		worldIndices.push_back(startingIdx + 0);
-		worldIndices.push_back(startingIdx + 3);
-		worldIndices.push_back(startingIdx + 2);
-		worldIndices.push_back(startingIdx + 0);
-
-		/*DirectX::XMFLOAT3 botleft{ -10.f, 0.f, -10.f };
-		DirectX::XMFLOAT3 topright{ 10.f, 0.f, 10.f };
+		//DirectX::XMFLOAT3 botleft{ -10.f, 0.f, -10.f };
+		//DirectX::XMFLOAT3 topright{ 10.f, 0.f, 10.f };
 
 		int startingIdx = worldVertices.size();
 		worldVertices.push_back({ botleft.x,0,topright.z });
@@ -545,10 +506,50 @@ namespace Pg::Engine
 		worldIndices.push_back(startingIdx + 0);
 		worldIndices.push_back(startingIdx + 3);
 		worldIndices.push_back(startingIdx + 2);
-		worldIndices.push_back(startingIdx + 0);*/
+		worldIndices.push_back(startingIdx + 0);
 
-		
+		// 회전을 적용합니다.
+		//DirectX::XMVECTOR botleftRotated = DirectX::XMVector3Rotate(DirectX::XMLoadFloat3(&botleft), quaternion);
+		//DirectX::XMVECTOR botrightRotated = DirectX::XMVector3Rotate(DirectX::XMLoadFloat3(&botright), quaternion);
+		//DirectX::XMVECTOR topleftRotated = DirectX::XMVector3Rotate(DirectX::XMLoadFloat3(&topleft), quaternion);
+		//DirectX::XMVECTOR toprightRotated = DirectX::XMVector3Rotate(DirectX::XMLoadFloat3(&topright), quaternion);
+		//
+		//// DirectX 좌표계에 맞게 좌표를 조정합니다.
+		//DirectX::XMFLOAT3 result;
+		//DirectX::XMStoreFloat3(&result, botleftRotated);
+		//botleft.x = result.x + planePos.x;
+		//botleft.y = result.y + planePos.y;
+		//botleft.z = result.z + planePos.z;
+		//
+		//DirectX::XMStoreFloat3(&result, botrightRotated);
+		//botright.x = result.x + planePos.x;
+		//botright.y = result.y + planePos.y;
+		//botright.z = result.z + planePos.z;
+		//
+		//DirectX::XMStoreFloat3(&result, topleftRotated);
+		//topleft.x = result.x + planePos.x;
+		//topleft.y = result.y + planePos.y;
+		//topleft.z = result.z + planePos.z;
+		//
+		//DirectX::XMStoreFloat3(&result, toprightRotated);
+		//topright.x = result.x + planePos.x;
+		//topright.y = result.y + planePos.y;
+		//topright.z = result.z + planePos.z;
 
+		// 꼭짓점을 worldVertices에 추가합니다.
+		//int startingIdx = worldVertices.size();
+		//worldVertices.push_back(Pg::Math::XM2PG_FLOAT3(botleft));
+		//worldVertices.push_back(Pg::Math::XM2PG_FLOAT3(botright));
+		//worldVertices.push_back(Pg::Math::XM2PG_FLOAT3(topleft));
+		//worldVertices.push_back(Pg::Math::XM2PG_FLOAT3(topright));
+		//
+		//// 인덱스를 worldIndices에 추가합니다.
+		//worldIndices.push_back(startingIdx + 2);
+		//worldIndices.push_back(startingIdx + 1);
+		//worldIndices.push_back(startingIdx + 0);
+		//worldIndices.push_back(startingIdx + 3);
+		//worldIndices.push_back(startingIdx + 2);
+		//worldIndices.push_back(startingIdx + 0);
 	}
 
 	void NavigationSystem::MoveTo(Pg::Data::NavMeshAgent* agent, Pg::Math::PGFLOAT3 des)
@@ -557,15 +558,71 @@ namespace Pg::Engine
 		{
 			return;
 		}
+
 		_filter = _crowd->getFilter(0);
 		agent->_crowdAgent = _crowd->getAgent(agent->_agentidx);
-		_halfExtents = _crowd->getQueryExtents();
+		//_halfExtents = _crowd->getQueryExtents();
+		static constexpr float halfExtents[]{ 100,100,100 };
 
-		_navMeshQuery->findNearestPoly(reinterpret_cast<const float*>(&des), _halfExtents,
-			_filter, &(agent->_targetRef), agent->_targetPos);
+		const int maxAttempts = 10;
 
-		_crowd->requestMoveTarget(agent->_agentidx, agent->_targetRef, agent->_targetPos);
-	
+		for (int attempt = 0; attempt < maxAttempts; ++attempt)
+		{
+			dtStatus status = _navMeshQuery->findNearestPoly(reinterpret_cast<const float*>(&des), halfExtents,
+				_filter, &(agent->_targetRef), agent->_targetPos);
+
+			if (status == DT_SUCCESS && agent->_targetRef != 0)
+			{
+				// 유효한 다각형을 찾은 경우 이동 명령을 요청하고 함수를 종료합니다.
+				_crowd->requestMoveTarget(agent->_agentidx, agent->_targetRef, agent->_targetPos);
+				return;
+			}
+			else
+			{
+				des.x += 1.0f;
+				des.z += 1.0f;
+			}
+		}
+
+		//_crowd->requestMoveTarget(agent->_agentidx, agent->_targetRef, agent->_targetPos);
+	}
+
+	void NavigationSystem::Relocate(Pg::Data::NavMeshAgent* agent, Pg::Math::PGFLOAT3 des)
+	{
+		const float* pos = &des.x;
+		constexpr float agentPlacementHalfExtents[3]{ 1000,1000,1000 };
+		float nearest[3];
+		dtPolyRef ref = 0;
+		dtVcopy(nearest, pos);
+
+		dtStatus status = _navMeshQuery->findNearestPoly(pos, agentPlacementHalfExtents, _crowd->getFilter(0), &ref, nearest);
+		if (dtStatusFailed(status))
+		{
+			dtVcopy(nearest, pos);
+			ref = 0;
+		}
+		dtCrowdAgent* ag = _crowd->getEditableAgent(agent->_agentidx);
+		ag->corridor.reset(ref, nearest);
+		ag->boundary.reset();
+		ag->partial = false;
+
+		ag->topologyOptTime = 0;
+		ag->targetReplanTime = 0;
+		ag->nneis = 0;
+
+		dtVset(ag->dvel, 0, 0, 0);
+		dtVset(ag->nvel, 0, 0, 0);
+		dtVset(ag->vel, 0, 0, 0);
+		dtVcopy(ag->npos, nearest);
+
+		ag->desiredSpeed = 0;
+
+		if (ref)
+			ag->state = DT_CROWDAGENT_STATE_WALKING;
+		else
+			ag->state = DT_CROWDAGENT_STATE_INVALID;
+
+		ag->targetState = DT_CROWDAGENT_TARGET_NONE;
 	}
 
 	int NavigationSystem::rasterizeTileLayers(const float* worldVertices, size_t verticesNum, const int* faces, size_t facesNum, const int tx, const int ty, const rcConfig& cfg, struct TileCacheData* tiles, const int maxTiles)
