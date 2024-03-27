@@ -73,6 +73,8 @@ namespace Pg::Engine
 
 		void MoveTo(Pg::Data::NavMeshAgent* agent, Pg::Math::PGFLOAT3 des);
 
+		void Relocate(Pg::Data::NavMeshAgent* agent, Pg::Math::PGFLOAT3 des);
+
 		int rasterizeTileLayers(const float* worldVertices, size_t verticesNum, const int* faces, size_t facesNum, const int tx, const int ty, const rcConfig& cfg, struct TileCacheData* tiles, const int maxTiles);
 
 		int calcLayerBufferSize(const int gridWidth, const int gridHeight);

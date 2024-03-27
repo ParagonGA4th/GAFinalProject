@@ -11,6 +11,7 @@ namespace Pg::Data
 	class GameObject;
 	class DynamicCollider;
 	class AudioSource;
+	class NavMeshAgent;
 }
 
 namespace Pg::Engine
@@ -18,6 +19,14 @@ namespace Pg::Engine
 	namespace Input
 	{
 		class InputSystem;
+	}
+}
+
+namespace Pg::Util
+{
+	namespace Time
+	{
+		class TimeSystem;
 	}
 }
 
@@ -33,8 +42,12 @@ public:
 private:
 	// 인풋 시스템으로 카메라의 이동을 체크한다
 	Pg::Util::Input::InputSystem* tInput = nullptr;
+	Pg::Util::Time::TimeSystem* _timeSystem = nullptr;
 
 	Pg::Data::DynamicCollider* dynamicCol;
 	Pg::Data::AudioSource* audioSource;
+	Pg::Data::NavMeshAgent* navMeshAgent;
+
+	bool _isLocate = false;
 };
 
