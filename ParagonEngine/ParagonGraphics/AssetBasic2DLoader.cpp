@@ -249,6 +249,7 @@ namespace Pg::Graphics::Loader
 			//TGA 扁霖 MipMap 积己.
 			HR(DirectX::GenerateMipMaps(image->GetImages(), image->GetImageCount(), image->GetMetadata(), DirectX::TEX_FILTER_DEFAULT, (size_t)NULL, *(mipChain.get())));
 
+
 			//郴何利栏肺 贸府凳.
 			HR(DirectX::CreateShaderResourceView(
 				_DXStorage->_device, mipChain->GetImages(), mipChain->GetImageCount(), mipChain->GetMetadata(), &(outTextureData->GetSRV())));

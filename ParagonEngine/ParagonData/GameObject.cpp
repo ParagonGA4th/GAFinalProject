@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "Scene.h"
 #include "PhysicsCollision.h"
 
 // Component
@@ -16,10 +17,11 @@
 
 namespace Pg::Data
 {
-	GameObject::GameObject(const std::string name) :
+	GameObject::GameObject(const std::string name, Scene* belongScene) :
 		_transform(*(new Transform(this))),
 		_objName(name),
 		_isActive(true),
+		_belongScene(belongScene),
 		_componentList()
 	{
 		//기본적으로 무조건 GameObject가 생성되면 Transform을 컴포넌트로 갖는다.
@@ -277,4 +279,11 @@ namespace Pg::Data
 	{
 		return _componentList;
 	}
+
+	Pg::Data::Scene* GameObject::GetScene()
+	{
+		assert(_belongScene != nullptr);
+		return _belongScene;
+	}
+
 }

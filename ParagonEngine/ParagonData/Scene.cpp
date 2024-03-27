@@ -80,7 +80,8 @@ namespace Pg::Data
 
 	GameObject* Scene::AddObject(std::string obj)
 	{
-		GameObject* gameObj = new GameObject(obj);
+		GameObject* gameObj = new GameObject(obj, this);
+		//Unity의 GameObject.Find() 등이 가능하게 하려고 게임오브젝트에다가 소속된 Scene을 받아갈 수 있게함.
 		_objectList.push_back(gameObj);
 
 		return gameObj;
@@ -133,4 +134,33 @@ namespace Pg::Data
 	{
 		_mainDirLight = mainLight;
 	}
+
+	Pg::Data::GameObject* Scene::FindObjectWithName(const std::string& name)
+	{
+		for (auto& it : _objectList)
+		{
+			if (name.compare(it->GetName()) == 0)
+			{
+				return it;
+			}
+		}
+
+		return nullptr;
+	}
+
+	std::vector<Pg::Data::GameObject*> Scene::FindObjectsWithTag(const std::string& tag)
+	{
+		std::vector<Pg::Data::GameObject*> tRet;
+
+		for (auto& it : _objectList)
+		{
+			if (tag.compare(it->GetTag()) == 0)
+			{
+				tRet.push_back(it);
+			}
+		}
+
+		return tRet;
+	}
+
 }

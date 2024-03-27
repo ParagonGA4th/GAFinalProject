@@ -16,11 +16,16 @@
 
 namespace Pg::Data
 {
+	class Scene;
+}
+
+namespace Pg::Data
+{
 	class GameObject
 	{
 	public:
 		//게임 오브젝트는 기본적으로 생성 시 무조건 이름을 갖는다.
-		GameObject(const std::string name);
+		GameObject(const std::string name, Scene* belongScene = nullptr);
 		virtual ~GameObject();
 
 	public:
@@ -77,6 +82,9 @@ namespace Pg::Data
 		//std::unordered_map<std::string, Component*>& GetComponentList();
 		std::vector<std::pair<std::string, Component*>>& GetComponentList();
 
+		//오브젝트 본인이 속한 Scene 접속.
+		Pg::Data::Scene* GetScene();
+
 	public:
 		Transform& _transform;
 
@@ -84,6 +92,9 @@ namespace Pg::Data
 		bool _isActive;
 		std::string _objName;
 		std::string _objTag;
+
+	private:
+		Pg::Data::Scene* _belongScene;
 
 	private:
 		//컴포넌트의 이름과 주소를 저장해놓는 리스트.
