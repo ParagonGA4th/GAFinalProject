@@ -9,6 +9,7 @@ namespace Pg::Graphics
 {
 	class LowDX11Storage;
 	class LowDX11Logic;
+	class MultimaterialMesh;
 
 	class Forward3DRenderer
 	{
@@ -23,6 +24,8 @@ namespace Pg::Graphics
 	private:
 		LowDX11Storage* _DXStorage;
 		LowDX11Logic* _DXLogic;
+
+		MultimaterialMesh* tMMesh;
 	};
 }
 

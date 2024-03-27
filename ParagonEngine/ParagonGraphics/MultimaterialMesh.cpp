@@ -66,6 +66,7 @@ namespace Pg::Graphics
 		//std::string tFilePath = "../Resources/3DModels/AnimMesh/Timmy_Shooting/Timmy_Shooting.fbx";
 		//std::string tFilePath = "../Resources/3DModels/AnimMesh/Cylinder/Cylinder.fbx";
 		std::string tFilePath = "../Resources/3DModels/AnimMesh/FallFlatMonster/FallFlatMonster.fbx";
+		//std::string tFilePath = "../Resources/3DModels/AnimMesh/ErikaMixamo/ErikaMixamo.fbx";
 		ImportSkinnedAsset(tFilePath);
 	}
 
@@ -210,7 +211,7 @@ namespace Pg::Graphics
 		//4Q SRV
 		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
 			LowDX11Storage::GetInstance()->_deviceContext,
-			L"../Resources/3DModels/AnimMesh/4QCharacter_idle_ani/4QCharacter_idle_ani.fbm/BaseColor.png", nullptr, &_temp4QSRV));
+			L"../Resources/3DModels/AnimMesh/ErikaMixamo/ErikaMixamo.fbm/Erika_Archer_Clothes_diffuse.png", nullptr, &_tempErikaSRV));
 	
 		//FallFlatMonster
 		HR(DirectX::CreateWICTextureFromFile(LowDX11Storage::GetInstance()->_device,
