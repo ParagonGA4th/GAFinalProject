@@ -21,6 +21,7 @@
 #include "../ParagonData/ImageRenderer.h" //Render ���� ���� ����.
 #include "../ParagonData/TextRenderer.h" //Render ���� ���� ����.
 #include "../ParagonData/StaticMeshRenderer.h" //Render ���� ���� ����.
+#include "../ParagonData/SkinnedMeshRenderer.h" //Render ���� ���� ����.
 #include "../ParagonData/Animator.h"
 
 
@@ -96,16 +97,16 @@ void Pg::Engine::TestScene::Initialize()
 	////tObj3->AddComponent<MoveForwardBack>();
 	////tObj3->GetComponent<MoveForwardBack>()->SetActive(false);
 
-	Pg::Data::GameObject* tObj4 = tCurrentScene->AddObject("Cube6");
-	tObj4->GetComponent<Transform>()->_position = { -2.0f, 1.0f, 0.0f };
-	tObj4->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
-	//tObj4->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.5f, -2.0f);
-	tObj4->AddComponent<StaticBoxCollider>();
-	tObj4->GetComponent<StaticBoxCollider>()->SetTrigger(true);
-	//tObj4->GetComponent<StaticBoxCollider>()->_scale(2.0f, 2.0f, 2.0f);
-	tObj4->AddComponent<StaticMeshRenderer>();
-	tObj4->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
-	tObj4->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	//Pg::Data::GameObject* tObj4 = tCurrentScene->AddObject("Cube6");
+	//tObj4->GetComponent<Transform>()->_position = { -2.0f, 1.0f, 0.0f };
+	//tObj4->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	////tObj4->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.5f, -2.0f);
+	//tObj4->AddComponent<StaticBoxCollider>();
+	//tObj4->GetComponent<StaticBoxCollider>()->SetTrigger(true);
+	////tObj4->GetComponent<StaticBoxCollider>()->_scale(2.0f, 2.0f, 2.0f);
+	//tObj4->AddComponent<StaticMeshRenderer>();
+	//tObj4->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
+	//tObj4->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	//tObj4->RemoveComponent<StaticMeshRenderer>();
 	//tObj4->AddComponent<MoveForwardBack>();
 	//tObj4->GetComponent<MoveForwardBack>()->SetActive(true);
@@ -121,16 +122,16 @@ void Pg::Engine::TestScene::Initialize()
 	////tObj5->AddComponent<MoveForwardBack>();
 	////tObj5->GetComponent<MoveForwardBack>()->SetActive(true);
 
-	Pg::Data::GameObject* tObj6 = tCurrentScene->AddObject("Cube8");
-	tObj6->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
-	tObj6->GetComponent<Transform>()->_scale = { 2.0f, 2.0f, 2.0f };
-	tObj6->GetComponent<Transform>()->_rotation = tObj6->GetComponent<Transform>()->EulerToQuaternion(0.0f, -1.57f, 0.0f);
-	//tObj6->AddComponent<BoxCollider>();
-	tObj6->AddComponent<StaticMeshRenderer>();
-	tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
-	tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	//Pg::Data::GameObject* tObj6 = tCurrentScene->AddObject("Cube8");
+	//tObj6->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
+	//tObj6->GetComponent<Transform>()->_scale = { 2.0f, 2.0f, 2.0f };
+	//tObj6->GetComponent<Transform>()->_rotation = tObj6->GetComponent<Transform>()->EulerToQuaternion(0.0f, -1.57f, 0.0f);
+	////tObj6->AddComponent<BoxCollider>();
+	//tObj6->AddComponent<StaticMeshRenderer>();
+	//tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
+	//tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
-	Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject(" ");
+	Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
 	tObj7->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
 	tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
@@ -212,6 +213,17 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj24->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	////Animator 추가.
 	//tObj24->AddComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Test/BTree_Testing1.xml");
+	
+	//Pg::Data::GameObject* tObj25 = tCurrentScene->AddObject("AnimTest");
+	//tObj25->GetComponent<Transform>()->_position = { 0.0f, 4.0f, 0.0f };
+	//tObj25->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	//tObj25->GetComponent<Transform>()->_rotation = tObj25->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	//tObj25->AddComponent<SkinnedMeshRenderer>();
+	//tObj25->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/AnimMesh/ErikaMixamo/ErikaMixamo.fbx");
+	//tObj25->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
+	//tObj25->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_idle";
+	
+
 	assert(true);
 }
 

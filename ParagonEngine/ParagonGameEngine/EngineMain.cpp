@@ -147,7 +147,6 @@ namespace Pg::Engine
 		if (currentScene != nullptr)
 		{
 			_sceneSystem->SetCurrentScene(currentScene);
-			_sceneSystem->_isStarted = false;
 		}
 
 		//_sceneSystem->SetSceneData(currentScene);
@@ -216,5 +215,16 @@ namespace Pg::Engine
 		return _timeSystem->GetDeltaTime();
 	}
 
-	
+	Pg::Data::Scene* EngineMain::NotifyIfChangedScene()
+	{
+		if (!_sceneSystem->GetIsStartedScene())
+		{
+			return _sceneSystem->GetCurrentScene();
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
+
 }

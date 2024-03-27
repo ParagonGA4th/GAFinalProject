@@ -159,7 +159,10 @@ namespace Pg::Core
 
 	void EngineGraphicsAdapter::SyncLoadGraphicsResources()
 	{
-		_graphics->SyncLoadGraphicsResources();
+		if (_engine->NotifyIfChangedScene() != nullptr)
+		{
+			_graphics->SyncComponentToGraphics(_engine->GetCurrentScene());
+		}
 	}
 
 	void EngineGraphicsAdapter::PassDebugRenderData()

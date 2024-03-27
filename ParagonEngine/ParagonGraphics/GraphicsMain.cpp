@@ -128,16 +128,6 @@ namespace Pg::Graphics
 
 	void GraphicsMain::Render(Pg::Data::Scene* scene)
 	{
-		//렌더하기 전에 Scene이 바뀌었는지 체크.
-		if (scene != _currentScene)
-		{
-			//새로 Scene이 바뀌었을 경우 RenderObject 구성을 바꾼다.
-			//나중에는 Load 로직이 별도로 들어가야.
-			_renderer->ParseSceneData(scene);
-			_currentScene = scene;
-		}
-		assert(_currentScene != nullptr);
-
 		_renderer->Render(_camData);
 
 		//DebugRender 기능, 일단은 디폴트로 켜두었음.
@@ -284,10 +274,10 @@ namespace Pg::Graphics
 		camData->_projMatrix = Pg::Math::PGMatrixPerspectiveFovLH(camData->_fovY, camData->_aspect, camData->_nearZ, camData->_farZ);
 	}
 
-	void GraphicsMain::SyncLoadGraphicsResources()
-	{
-		//TempResourceMeshLoad();
-	}
+	//void GraphicsMain::SyncLoadGraphicsResources()
+	//{
+	//	
+	//}
 
 	void GraphicsMain::TempResourceMeshLoad()
 	{

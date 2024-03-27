@@ -83,6 +83,9 @@ namespace Pg::Core
 		//업데이트된 Renderer-Graphics 연동 위해.
 		_engineGraphicsAdapter->UpdateRendererChangeList();
 
+		//엔진이 업데이트되기 전에, 바뀌었는지를 기반으로 그래픽스 리소스를 재로드할지를 설정.
+		_engineGraphicsAdapter->SyncLoadGraphicsResources();
+
 		//여기다가 시스템 싹 다 업데이트!!
 		_engineGraphicsAdapter->UpdateEngine();
 

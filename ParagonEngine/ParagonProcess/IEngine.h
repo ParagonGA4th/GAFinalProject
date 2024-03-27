@@ -53,5 +53,8 @@ namespace Pg::Core
 
 		//델타타임 반환.
 		virtual float GetDeltaTime() abstract;
+
+		//씬이 바뀌었다고 다른 파트들에게 알려줄 수 있다. 안 바뀌었을시 Nullptr.
+		virtual Pg::Data::Scene* NotifyIfChangedScene() abstract;
 	};
 }
