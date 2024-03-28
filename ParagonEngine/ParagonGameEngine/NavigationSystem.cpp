@@ -67,15 +67,17 @@ namespace Pg::Engine
 
 	void NavigationSystem::SyncAgents()
 	{
+		//싱글턴
+		auto& tSceneSystem = singleton<SceneSystem>();
+		_sceneSystem = &tSceneSystem;
+
+		if (_sceneSystem->GetCurrentScene() == nullptr) return;
+
 		//원래 있던 NavMeshAgentVec();
 		if (!_navMeshAgentVec.empty())
 		{
 			_navMeshAgentVec.clear();
 		}
-
-		//싱글턴
-		auto& tSceneSystem = singleton<SceneSystem>();
-		_sceneSystem = &tSceneSystem;
 
 		for (auto& it : _sceneSystem->GetCurrentScene()->GetObjectList())
 		{
@@ -136,6 +138,12 @@ namespace Pg::Engine
 
 	void NavigationSystem::SyncNavMesh()
 	{
+		//싱글턴
+		auto& tSceneSystem = singleton<SceneSystem>();
+		_sceneSystem = &tSceneSystem;
+
+		if (_sceneSystem->GetCurrentScene() == nullptr) return;
+
 		//원래 있던 NavMeshAgentVec();
 		if (!_navMeshFieldVec.empty())
 		{
@@ -149,10 +157,6 @@ namespace Pg::Engine
 		{
 			worldIndices.clear();
 		}
-
-		//싱글턴
-		auto& tSceneSystem = singleton<SceneSystem>();
-		_sceneSystem = &tSceneSystem;
 
 		for (auto& it : _sceneSystem->GetCurrentScene()->GetObjectList())
 		{
