@@ -35,6 +35,8 @@ namespace Pg::Engine
 	
 	void SceneSystem::Update()
 	{
+		if (_currentScene == nullptr) return;
+
 		//현재 씬의 Update를 호출시켜주면 TestScene에 존재하는 Update도 호출이 된다.
 		if (!_isStarted)
 		{

@@ -67,6 +67,12 @@ namespace Pg::Engine::BTree
 
 	void BehaviorTreeSystem::SyncSceneActiveBT()
 	{
+		//SceneSystem 포인터 받기.
+		auto& tSceneSystem = singleton<SceneSystem>();
+		_sceneSystem = &tSceneSystem;
+
+		if (_sceneSystem->GetCurrentScene() == nullptr) return;
+
 		//Scene이 바뀌면 무조건 Active Uniform Animator List 클리어.
 		if (!_activeUniformAnimatorList.empty())
 		{
@@ -78,10 +84,6 @@ namespace Pg::Engine::BTree
 		{
 			_activeInstancedAnimatorList.clear();
 		}
-
-		//SceneSystem 포인터 받기.
-		auto& tSceneSystem = singleton<SceneSystem>();
-		_sceneSystem = &tSceneSystem;
 
 		for (auto& obj : _sceneSystem->GetCurrentScene()->GetObjectList())
 		{

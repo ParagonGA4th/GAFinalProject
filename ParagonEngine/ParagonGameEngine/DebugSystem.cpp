@@ -47,6 +47,8 @@ namespace Pg::Engine
 			return;
 		}*/
 
+		if (scene == nullptr) return;
+
 		///Event System 들어오면 지울 것.
 		//디버그 활성화 시 렌더링.
 		if (_isDebug)
