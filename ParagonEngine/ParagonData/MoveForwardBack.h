@@ -8,9 +8,18 @@
 /// GameObject 내부 스크립트가 Graphics랑 연동해서 작동하는지 알아보기 위해.
 /// </summary>
 
+namespace Pg::Util
+{
+	namespace Input
+	{
+		class InputSystem;
+	}
+}
+
 namespace Pg::Data
 {
 	class GameObject;
+	class DynamicCollider;
 }
 namespace Pg::Data
 {
@@ -18,12 +27,14 @@ namespace Pg::Data
 	{
 	public:
 		MoveForwardBack(GameObject* obj);
+
 		virtual void Update() override;
 
 	private:
-		int random1 = rand();
-		int random2 = rand();
-		float tMoveVar = (float)random1 / random2 * 2.0f;
+		DynamicCollider* _col;
+
+		Pg::Util::Input::InputSystem* _input;
+
 	};
 
 }
