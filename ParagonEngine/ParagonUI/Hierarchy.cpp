@@ -4,12 +4,17 @@
 #include <algorithm>
 
 Pg::UI::Widget::Hierarchy::Hierarchy(std::map<int, std::pair<std::string, std::vector<std::string>>>& objNameList)
-	:_objNameList(objNameList), _mode(1), _isNodeOpen(false), _isNodeSelected(false)
+	:_objNameList(objNameList), _mode(1), _isNodeOpen(false), _isNodeSelected(false), _btnClick(false)
 {
 }
 
 void Pg::UI::Widget::Hierarchy::Update()
 {
+	if (ImGui::Button("+", ImVec2(30, 30))) { _btnClick = true; }
+	//if (ImGui::Button("-", ImVec2(30, 30))) { _btnClick = true; }
+	else _btnClick = false; 
+
+	ImGui::SameLine();
 	if (ImGui::RadioButton("Group", _mode == GROUP)) { _mode = GROUP; } ImGui::SameLine();
 	if (ImGui::RadioButton("Move", _mode == MOVE)) { _mode = MOVE; }
 
@@ -109,4 +114,9 @@ void Pg::UI::Widget::Hierarchy::Update()
 std::string* Pg::UI::Widget::Hierarchy::GetSelectObjectName()
 {
 	return &selectObj;
+}
+
+bool* Pg::UI::Widget::Hierarchy::GetBtnClick()
+{
+	return &_btnClick;
 }

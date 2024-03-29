@@ -344,18 +344,16 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::InitMakeColliders()
 	{		
-		//싱글턴
-		auto& tSceneSystem = singleton<SceneSystem>();
-		_sceneSystem = &tSceneSystem;
-
-		if (_sceneSystem->GetCurrentScene() == nullptr) return;
-		
 		//씬 전환 시 콜라이더 전부 해제 후 재로드.
 		if (!_rigidDynamicVec.empty() || !_rigidStaticVec.empty())
 		{
 			_rigidDynamicVec.clear();
 			_rigidStaticVec.clear();
 		}
+
+		//싱글턴
+		auto& tSceneSystem = singleton<SceneSystem>();
+		_sceneSystem = &tSceneSystem;
 
 		//현재 씬에 존재하는 오브젝트 리스트를 받아와 
 		//Collider 존재할 경우 Collider를 전부 생성한다.

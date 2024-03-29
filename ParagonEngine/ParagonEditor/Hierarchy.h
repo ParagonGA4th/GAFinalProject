@@ -53,6 +53,7 @@ namespace Pg::Editor::Window
 
 		std::string* _prevObjName;
 		std::string _prevSceneName;
+		bool* _isNewObject;
 	};
 }
 

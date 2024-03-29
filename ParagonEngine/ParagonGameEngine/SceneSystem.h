@@ -2,6 +2,7 @@
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonData/Scene.h"
 #include <unordered_map>
+#include <vector>
 
 /// <summary>
 /// 변지상의 SceneSystem.
@@ -48,7 +49,10 @@ namespace Pg::Engine
 		void LoadEmptyScene();
 		void UnLoadSCene();
 		void SetCurrentScene(Scene* scene);
-		Scene* GetCurrentScene();
+		Scene* GetCurrentScene();		
+		
+		void SetSceneList(std::vector<Scene*> scenes);
+		//Scene* GetSceneList();
 
 		//새로운 씬을 생성한다.
 		Scene* CreateScene(const std::string& sceneName);
@@ -56,18 +60,13 @@ namespace Pg::Engine
 		//현재 씬으로 지정된 것을 삭제한다.
 		void DeleteCurrentScene();
 
-		// Editor와 Engine이 연결 되는지 확인을 위한 임시함수
-		void SetSceneData(Scene* scene);
-
 		//Scene Change 시 중요.
 		bool _isStarted;
 	private:
 		Scene* _currentScene = nullptr;
-		TestScene* _testScene = nullptr;
 		std::unordered_map<std::string, Scene*> _sceneList;
 
 	private:
-
 		SoundSystem* _soundSystem = nullptr;
 		Physic::PhysicSystem* _physicSystem = nullptr;
 		BTree::BehaviorTreeSystem* _btSystem = nullptr;

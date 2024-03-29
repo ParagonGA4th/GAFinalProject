@@ -34,6 +34,7 @@ void Pg::Editor::Window::Hierarchy::Initialize()
 {
 	auto& selectable = _widgetCon->CreateWidget<Pg::UI::Widget::Hierarchy>(_objNameList);
 	_prevObjName = selectable.GetSelectObjectName();
+	_isNewObject = selectable.GetBtnClick();
 }
 
 void Pg::Editor::Window::Hierarchy::Update()
@@ -52,7 +53,7 @@ void Pg::Editor::Window::Hierarchy::Finalize()
 
 }
 
-void Pg::Editor::Window::Hierarchy::SetShow(bool show)
+void Pg::Editor::Window::Hierarchy::SetShow(bool show)    
 {
 	_isShow = show;
 }
@@ -136,8 +137,10 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 	std::string sceneName = _dataContainer->GetCurrentScene()->GetSceneName();
 
 	// 여러 번 오브젝트 리스트를 가져오는 것을 막기 위해
-	if (_prevSceneName != sceneName)
+	if (_prevSceneName != sceneName || (* _isNewObject))
 	{
+		//if (*_isNewObject) _dataContainer->GetCurrentScene()->AddObject("New Object");
+
 		_prevSceneName = sceneName;
 		_objNameList.clear();
 

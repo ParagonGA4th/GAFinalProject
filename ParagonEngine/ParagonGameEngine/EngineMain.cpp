@@ -138,7 +138,7 @@ namespace Pg::Engine
 
 	void EngineMain::SetSceneList(std::vector<Pg::Data::Scene*> sceneList)
 	{
-		//return _sceneSystem->GetCurrentScene();
+		_sceneSystem->SetSceneList(sceneList);
 	}
 
 	void EngineMain::SetCurrentScene(Pg::Data::Scene* currentScene)
@@ -149,9 +149,6 @@ namespace Pg::Engine
 			_sceneSystem->SetCurrentScene(currentScene);
 			_sceneSystem->_isStarted = false;
 		}
-
-		//_sceneSystem->SetSceneData(currentScene);
-
 	}
 
 	Pg::Data::Scene* EngineMain::GetCurrentScene()

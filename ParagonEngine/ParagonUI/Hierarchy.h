@@ -21,6 +21,7 @@ namespace Pg::UI::Widget
 		virtual void Update() override;
 
 		std::string* GetSelectObjectName();
+		bool* GetBtnClick();
 		
 	private:
 		// Selectable
@@ -31,6 +32,7 @@ namespace Pg::UI::Widget
 
 		bool _isNodeOpen;
 		bool _isNodeSelected;
+		bool _btnClick;
 	};
 }
 

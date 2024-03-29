@@ -130,16 +130,16 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	//tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
-	Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject(" ");
-	tObj7->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
-	tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
-	tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
-	tObj7->AddComponent<PlaneCollider>();
-	//tObj7->GetComponent<PlaneCollider>();
-	tObj7->AddComponent<StaticMeshRenderer>();
-	tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
-	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	tObj7->AddComponent<NavigationField>();
+	//Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
+	//tObj7->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
+	//tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	//tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	//tObj7->AddComponent<PlaneCollider>();
+	////tObj7->GetComponent<PlaneCollider>();
+	//tObj7->AddComponent<StaticMeshRenderer>();
+	//tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
+	//tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	//tObj7->AddComponent<NavigationField>();
 
 
 	///버튼 & 오디오
