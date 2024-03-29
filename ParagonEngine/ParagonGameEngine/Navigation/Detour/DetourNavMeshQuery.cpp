@@ -949,7 +949,7 @@ dtStatus dtNavMeshQuery::queryPolygons(const float* center, const float* halfExt
 		for (int x = minx; x <= maxx; ++x)
 		{
 			const int nneis = m_nav->getTilesAt(x,y,neis,MAX_NEIS);
-			for (int j = 0; j < nneis; ++j)
+ 			for (int j = 0; j < nneis; ++j)
 			{
 				queryPolygonsInTile(neis[j], bmin, bmax, filter, query);
 			}

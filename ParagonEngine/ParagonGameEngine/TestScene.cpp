@@ -106,7 +106,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj4->AddComponent<StaticMeshRenderer>();
 	tObj4->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	tObj4->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	//tObj4->AddComponent<NavMeshAgent>();
+	tObj4->AddComponent<NavMeshAgent>();
 	tObj4->AddComponent<MovingTest>();
 	//tObj4->RemoveComponent<StaticMeshRenderer>();
 	//tObj4->AddComponent<MoveForwardBack>();
