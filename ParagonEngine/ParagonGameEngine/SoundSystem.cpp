@@ -243,17 +243,15 @@ namespace Pg::Engine
 
 	void SoundSystem::SyncAudioSources()
 	{
-		//싱글턴
-		auto& tSceneSystem = singleton<SceneSystem>();
-		_sceneSystem = &tSceneSystem;
-
-		if (_sceneSystem->GetCurrentScene() == nullptr) return;
-
 		//원래 있던 AudioSourceList();
 		if (!_audioSoureceMap.empty())
 		{
 			_audioSoureceMap.clear();
 		}
+
+		//싱글턴
+		auto& tSceneSystem = singleton<SceneSystem>();
+		_sceneSystem = &tSceneSystem;
 
 		for (auto& it : _sceneSystem->GetCurrentScene()->GetObjectList())
 		{
