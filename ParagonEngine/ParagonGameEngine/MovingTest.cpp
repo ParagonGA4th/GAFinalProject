@@ -29,7 +29,7 @@ void MovingTest::Start()
 	auto& tPgTime = singleton<Pg::Util::Time::TimeSystem>();
 	this->_timeSystem = &tPgTime;
 
-	dynamicCol = _object->GetComponent<Pg::Data::DynamicCollider>();
+	//dynamicCol = _object->GetComponent<Pg::Data::DynamicCollider>();
 
 	audioSource = _object->GetComponent<Pg::Data::AudioSource>();
 
@@ -94,7 +94,7 @@ void MovingTest::Update()
 		//}
 
 		//_object->_transform._position = { -10.0f, 5.0f, 0.0f };
-		//navMeshAgent->SetDestination({ -10.0f,1.0f,0.0f });
+		navMeshAgent->SetDestination({ 0.0f,0.0f,0.0f });
 		//dynamicCol->AddForce({ 0.0f, 5.0f ,0.0f }, Pg::Data::ForceMode::eIMPULSE);
 		//audioSource->Play();
 	}

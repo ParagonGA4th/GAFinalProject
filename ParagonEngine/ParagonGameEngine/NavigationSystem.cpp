@@ -189,12 +189,12 @@ namespace Pg::Engine
 				assert(planeCollider != nullptr);
 
 				CreatePlaneNavMesh(planeCollider, worldVertices, worldIndices);
-				BuildPlaneNavMesh(worldVertices, worldIndices);
 
 				_navMeshFieldVec.push_back(tNavigationField);
 			}
 		}
 
+		BuildPlaneNavMesh(worldVertices, worldIndices);
 	}
 
 	void NavigationSystem::BuildPlaneNavMesh(const float* worldVertices, size_t verticesNum, const int* faces, size_t facesNum, const Pg::Data::BuildSettings& buildSettings)
@@ -564,27 +564,31 @@ namespace Pg::Engine
 		//_halfExtents = _crowd->getQueryExtents();
 		static constexpr float halfExtents[]{ 100,100,100 };
 
-		const int maxAttempts = 10;
+		_navMeshQuery->findNearestPoly(reinterpret_cast<const float*>(&des), halfExtents,
+					_filter, &(agent->_targetRef), agent->_targetPos);
 
-		for (int attempt = 0; attempt < maxAttempts; ++attempt)
-		{
-			dtStatus status = _navMeshQuery->findNearestPoly(reinterpret_cast<const float*>(&des), halfExtents,
-				_filter, &(agent->_targetRef), agent->_targetPos);
+		_crowd->requestMoveTarget(agent->_agentidx, agent->_targetRef, agent->_targetPos);
 
-			if (status == DT_SUCCESS && agent->_targetRef != 0)
-			{
-				// 유효한 다각형을 찾은 경우 이동 명령을 요청하고 함수를 종료합니다.
-				_crowd->requestMoveTarget(agent->_agentidx, agent->_targetRef, agent->_targetPos);
-				return;
-			}
-			else
-			{
-				des.x += 1.0f;
-				des.z += 1.0f;
-			}
-		}
+		//const int maxAttempts = 10;
+		//
+		//for (int attempt = 0; attempt < maxAttempts; ++attempt)
+		//{
+		//	dtStatus status = _navMeshQuery->findNearestPoly(reinterpret_cast<const float*>(&des), halfExtents,
+		//		_filter, &(agent->_targetRef), agent->_targetPos);
 
-		//_crowd->requestMoveTarget(agent->_agentidx, agent->_targetRef, agent->_targetPos);
+		//	if (status == DT_SUCCESS && agent->_targetRef != 0)
+		//	{
+		//		// 유효한 다각형을 찾은 경우 이동 명령을 요청하고 함수를 종료합니다.
+		//		_crowd->requestMoveTarget(agent->_agentidx, agent->_targetRef, agent->_targetPos);
+		//		//return;
+		//	}
+		//	else
+		//	{
+		//		des.x += 1.0f;
+		//		des.z += 1.0f;
+		//	}
+		//}
+
 	}
 
 	void NavigationSystem::Relocate(Pg::Data::NavMeshAgent* agent, Pg::Math::PGFLOAT3 des)
@@ -704,12 +708,12 @@ namespace Pg::Engine
 		// Once all geometry is rasterized, we do initial pass of filtering to
 		// remove unwanted overhangs caused by the conservative rasterization
 		// as well as filter spans where the character cannot possibly stand.
-		//if (m_filterLowHangingObstacles)
-		//	rcFilterLowHangingWalkableObstacles(m_ctx, tcfg.walkableClimb, *rc.solid);
-		//if (m_filterLedgeSpans)
-		//	rcFilterLedgeSpans(m_ctx, tcfg.walkableHeight, tcfg.walkableClimb, *rc.solid);
-		//if (m_filterWalkableLowHeightSpans)
-		//	rcFilterWalkableLowHeightSpans(m_ctx, tcfg.walkableHeight, *rc.solid);
+		if (m_filterLowHangingObstacles)
+			rcFilterLowHangingWalkableObstacles(_rcContext.get(), tcfg.walkableClimb, *rc.solid);
+		if (m_filterLedgeSpans)
+			rcFilterLedgeSpans(_rcContext.get(), tcfg.walkableHeight, tcfg.walkableClimb, *rc.solid);
+		if (m_filterWalkableLowHeightSpans)
+			rcFilterWalkableLowHeightSpans(_rcContext.get(), tcfg.walkableHeight, *rc.solid);
 
 
 		rc.chf = rcAllocCompactHeightfield();
@@ -788,7 +792,7 @@ namespace Pg::Engine
 			rc.tiles[i].dataSize = 0;
 		}
 
-		return 0;
+		return n;
 	}
 
 	int NavigationSystem::calcLayerBufferSize(const int gridWidth, const int gridHeight)

@@ -128,6 +128,10 @@ namespace Pg::Engine
 		int m_maxTiles;
 		int m_maxPolysPerTile;
 		float m_tileSize;
+
+		bool m_filterLowHangingObstacles;
+		bool m_filterLedgeSpans;
+		bool m_filterWalkableLowHeightSpans;
 	};
 }
 
