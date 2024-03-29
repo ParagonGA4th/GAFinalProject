@@ -168,6 +168,9 @@ namespace Pg::Engine::Physic
 		{
 			Pg::Data::DynamicCollider* dynamicCol = static_cast<Pg::Data::DynamicCollider*>(rigid->userData);
 			Pg::Data::GameObject* gameObj = dynamicCol->_object;
+			
+			//런타임에 Collider 껐다켰다 가능.
+			rigid->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !dynamicCol->GetActive());
 
 			if (!dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
 			{
@@ -192,6 +195,7 @@ namespace Pg::Engine::Physic
 				//gameObj->OnTriggerStay();
 				//PG_TRACE("TriggerStay!");
 			}
+			
 		}
 
 		//Static을 위해서도 물리 업데이트 적용.
@@ -199,6 +203,8 @@ namespace Pg::Engine::Physic
 		{
 			Pg::Data::StaticCollider* staticCol = static_cast<Pg::Data::StaticCollider*>(rigid->userData);
 			Pg::Data::GameObject* gameObj = staticCol->_object;
+
+			rigid->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !staticCol->GetActive());
 
 			if (!staticCol->GetWasCollided() && staticCol->GetIsCollide())
 			{
