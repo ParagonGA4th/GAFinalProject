@@ -14,6 +14,9 @@ void Pg::UI::Widget::InputText::Update()
 
 	if (ImGui::InputText(_label.c_str(), _inputText, IM_ARRAYSIZE(_inputText)), ImGuiInputTextFlags_EnterReturnsTrue)
 	{
-		*_text = _inputText;
+		if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)))
+		{
+			*_text = _inputText;
+		}
 	}
 }

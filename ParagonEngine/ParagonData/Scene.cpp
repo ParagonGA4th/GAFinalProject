@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "../ParagonData/Camera.h"
 
+#include <algorithm>
 #include <windows.h>
 
 
@@ -88,7 +89,16 @@ namespace Pg::Data
 
 	void Scene::DeleteObject(std::string obj)
 	{
-		
+		auto object = std::find_if(_objectList.begin(), _objectList.end(),
+			[&](GameObject* tobj)
+			{
+				if (tobj->GetName() == obj) return true;
+			});
+
+		if (object != _objectList.end())
+		{
+			_objectList.erase(object);
+		}
 	}
 
 	std::string Scene::GetSceneName()
