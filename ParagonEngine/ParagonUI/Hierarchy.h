@@ -22,6 +22,7 @@ namespace Pg::UI::Widget
 
 		std::string* GetSelectObjectName();
 		bool* GetBtnClick();
+		bool* GetKeyDeleteInput();
 		
 	private:
 		// Selectable
@@ -32,7 +33,8 @@ namespace Pg::UI::Widget
 
 		bool _isNodeOpen;
 		bool _isNodeSelected;
-		bool _btnClick;
+		bool _isAddObject;
+		bool _isDeleteObject;
 	};
 }
 

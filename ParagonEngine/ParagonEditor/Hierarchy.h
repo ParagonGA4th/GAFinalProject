@@ -46,14 +46,18 @@ namespace Pg::Editor::Window
 
 		std::unique_ptr<Pg::Editor::Event> _changeObjectData;
 
+		std::string _prevSceneName;
+		int _prevObjListSize;
+		bool _isObjectChange;
+		int count = 0;
+
 		/// Data value
 		// key - parent, value - child
 		std::map<int, std::pair<std::string, std::vector<std::string>>> _objNameList;
-		int _prevObjListSize;
 
 		std::string* _prevObjName;
-		std::string _prevSceneName;
 		bool* _isNewObject;
+		bool* _isDeleteObject;
 	};
 }
 
