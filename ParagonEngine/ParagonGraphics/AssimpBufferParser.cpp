@@ -186,8 +186,9 @@ namespace Pg::Graphics::Helper
 	void AssimpBufferParser::StoreIndependentSkinnedData(const aiScene* assimp, Skinned_AssetData* skinnedData)
 	{
 		//Global Inverse Transform 기록.
-		DirectX::SimpleMath::Matrix tGlobalTrans = MathHelper::AI2SM_MATRIX(assimp->mRootNode->mTransformation);
-		tGlobalTrans = tGlobalTrans.Transpose();
+		aiMatrix4x4 tStoreMat = assimp->mRootNode->mTransformation;
+		DirectX::XMMATRIX tGlobalTrans = MathHelper::AI2XM_MATRIX(tStoreMat.Transpose());
+
 		DirectX::XMVECTOR tDet = DirectX::XMVectorZero();
 		skinnedData->_meshGlobalInverseTransform = DirectX::XMMatrixInverse(&tDet, tGlobalTrans);
 
@@ -301,9 +302,10 @@ namespace Pg::Graphics::Helper
 				vertices[vid + j]._color = DirectX::XMFLOAT3{ 1.0f,1.0f, 1.0f }; //하드코딩.
 				vertices[vid + j]._meshMatID = tMeshMatID;
 				vertices[vid + j]._tex = DirectX::XMFLOAT2{ texUV.x, texUV.y};
-				//vertices[vid + j]._uvSet2 = { 0.f, 0.f }; //하드코딩.
-				//일단 LightMapUV도 FBX딴에서 들어오는 것은 확인했지만, 일단은 파싱에서 받지 않는다.
-				vertices[vid + j]._lightmapUV = { 0.f, 0.f }; //하드코딩.
+				
+				//SKINNED는 Lightmap UV가 불가능하다! Node Index로 값 바꿀 것. 
+				//Node Index 값 투입.
+				vertices[vid + j]._nodeIndex = sceneData->_meshList[i]._belongNodeIndex;
 
 				vertices[vid + j]._blendIndice0 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0];
 				vertices[vid + j]._blendIndice1 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1];
@@ -438,9 +440,7 @@ namespace Pg::Graphics::Helper
 	{
 		outSceneAssetData->_directory = path;
 
-		outSceneAssetData->_rootNode = std::make_unique<Node_AssetData>(nullptr);
-		StoreAssimpNode(assimp->mRootNode, outSceneAssetData, outSceneAssetData->_rootNode.get());
-
+		//Mesh에 Node 기록을 위해, Mesh를 우선으로 기록한다.
 		outSceneAssetData->_totalMeshCount = assimp->mNumMeshes;
 		outSceneAssetData->_meshList.resize(outSceneAssetData->_totalMeshCount);
 
@@ -457,22 +457,38 @@ namespace Pg::Graphics::Helper
 
 		outSceneAssetData->_totalVertexCount = tTotalVertexCnt;
 		outSceneAssetData->_totalIndexCount = tTotalIndexCnt;
-
 		outSceneAssetData->_totalMaterialCount = assimp->mNumMaterials;
+
+		//이제, 실제로 Node와 Mesh랑 연결하기 위해 Node 기록과 함께 Mesh-Node 연결한다.
+		outSceneAssetData->_rootNode = std::make_unique<Node_AssetData>(nullptr);
+		UINT tIndexForNode = 0;
+		StoreAssimpNode(assimp->mRootNode, outSceneAssetData, outSceneAssetData->_rootNode.get(), tIndexForNode);
+
 	}
 
 	//Parent를 빼고 나머지 정보를 저장한다.
-	void AssimpBufferParser::StoreAssimpNode(const aiNode* assimp, Scene_AssetData* sceneData, Node_AssetData* pgNode)
+	void AssimpBufferParser::StoreAssimpNode(const aiNode* assimp, Scene_AssetData* sceneData, Node_AssetData* pgNode, UINT& index)
 	{
 		pgNode->_nodeName = assimp->mName.C_Str();
-		pgNode->_relTransform = MathHelper::AI2SM_MATRIX(assimp->mTransformation);
+
 		//Transpose해서 보관 (Column Major <-> Row Major)
-		pgNode->_relTransform = pgNode->_relTransform.Transpose();
+		aiMatrix4x4 tStoreTrans = assimp->mTransformation;
+		pgNode->_relTransform = MathHelper::AI2XM_MATRIX(tStoreTrans.Transpose());
+
+		//이제 각각 FBX 내부에서 차지하는 Index 역시 보관. 기록 후 Increment.
+		pgNode->_index = index;
+		index++;
+
+		//Assimp와 PgNode 연결하는 unordered_map에 저장. (후에 Bone-Binding)
+		_aiNodeToNodeMap.insert({ assimp,pgNode });
 
 		pgNode->_numMeshes = assimp->mNumMeshes;
 		for (int i = 0; i < pgNode->_numMeshes; i++)
 		{
 			pgNode->_meshIndexList.push_back(assimp->mMeshes[i]);
+
+			//Node 딴에서 MeshIndexList 역시 보관하지만, 직접적으로 Node의 인덱스 역시 Mesh가 보관하게 한다.
+			sceneData->_meshList.at(assimp->mMeshes[i])._belongNodeIndex = pgNode->_index;
 		}
 
 		pgNode->_numChildren = assimp->mNumChildren;
@@ -481,15 +497,17 @@ namespace Pg::Graphics::Helper
 		for (int i = 0; i < pgNode->_numChildren; i++)
 		{
 			pgNode->_childrenList.push_back(std::make_unique<Node_AssetData>(pgNode));
-			StoreAssimpNode(assimp->mChildren[i], sceneData, pgNode->_childrenList[i].get());
+			StoreAssimpNode(assimp->mChildren[i], sceneData, pgNode->_childrenList[i].get(), index);
 		}
 	}
 
 	void AssimpBufferParser::StoreAssimpMesh(const aiMesh* assimp, Mesh_AssetData* pgMesh, unsigned int vOffset, unsigned int iOffset)
 	{
+		//Belong Node Index 빼고 모든 Mesh 정보 이동.
+
 		pgMesh->_vertexOffset = vOffset;
 		pgMesh->_indexOffset = iOffset;
-
+		 
 		pgMesh->_numVertices = assimp->mNumVertices;
 		pgMesh->_numIndices = assimp->mNumFaces * 3; //aiProcess_Triangulate를 썼기 때문에 항상 각 Face당 Index 3개.
 		pgMesh->_materialID = assimp->mMaterialIndex;
@@ -638,6 +656,14 @@ namespace Pg::Graphics::Helper
 		for (const auto& it : toBeParent->_childrenList)
 		{
 			LinearizeRecursiveNodes(it.get(), toBeParent, skinData);
+		}
+	}
+
+	void AssimpBufferParser::Reset()
+	{
+		if (!_aiNodeToNodeMap.empty())
+		{
+			_aiNodeToNodeMap.clear();
 		}
 	}
 
