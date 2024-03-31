@@ -38,8 +38,9 @@ namespace Pg::Graphics::Helper
 		static DirectX::SimpleMath::Quaternion AI2SM_QUATERNION(const aiQuaternion& quat);
 		static DirectX::SimpleMath::Vector3 AI2SM_VECTOR3(const aiVector3D& vec);
 		
-
-
+		//Assimp의 Matrix를 DirectXMath로 바꿔준다.
+		static DirectX::XMMATRIX AI2XM_MATRIX(const aiMatrix4x4& matrix);
+		
 		//Experimental
 		static void DecomposeAssembleMatrix(DirectX::SimpleMath::Matrix& mat);
 		//static void DecomposeAssembleFlipMatrix(DirectX::SimpleMath::Matrix& mat);

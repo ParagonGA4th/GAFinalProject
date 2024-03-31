@@ -24,7 +24,8 @@ struct Vin1stSkinned
     float3  vin1st_Color        : COLOR;
     float   vin1st_MeshMatID    : MESH_MATID;
     float2  vin1st_Tex          : TEXCOORD0;
-    float2  vin1st_LightmapUV   : TEXCOORD1;
+    //float2  vin1st_LightmapUV   : TEXCOORD1; -> 스킨드라 존재할 수 없다.
+    uint vin1st_NodeIndex       : NODE_INDEX;
     
     uint vin1st_BlendIndice0 : BLENDINDICES0;
     uint vin1st_BlendIndice1 : BLENDINDICES1;

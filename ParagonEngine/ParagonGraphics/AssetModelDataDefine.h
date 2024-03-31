@@ -28,8 +28,9 @@ namespace Pg::Graphics
 		Node_AssetData(Node_AssetData* parentNode);
 		~Node_AssetData();
 
+		UINT _index;
 		std::string _nodeName;
-		DirectX::SimpleMath::Matrix _relTransform;
+		DirectX::XMMATRIX _relTransform;
 		Node_AssetData* _parentNode = nullptr;
 		unsigned int _numChildren; //해당 Node의 Children 개수.
 		std::vector<std::unique_ptr<Node_AssetData>> _childrenList; //이 Node의 Children Node들. (자식 노드 없으면 nullptr)
@@ -57,6 +58,9 @@ namespace Pg::Graphics
 	//렌더에 필요한 Mesh의 정보만 보관 및, 렌더에 활용될 것. 
 	struct Mesh_AssetData
 	{
+		//자기 자신이 속한 노드 인덱스.
+		UINT _belongNodeIndex = 0;
+
 		//Vertex Starting Points Per Mesh (이때부터 자신을 Draw) == BaseVertex
 		unsigned int _vertexOffset = 0;
 
@@ -109,7 +113,7 @@ namespace Pg::Graphics
 		Skinned_AssetData();
 
 		//Bone 연산에 필요한 Global Inverse Transform.
-		DirectX::SimpleMath::Matrix _meshGlobalInverseTransform;
+		DirectX::XMMATRIX _meshGlobalInverseTransform;
 
 		//매핑될 Bone Info 벡터, 포인터가 RenderAnimation 쪽에서도 계산의 편의를 위해 저장됨.
 		std::vector<BoneInfo_AssetData> _renderBoneInfoVector;
