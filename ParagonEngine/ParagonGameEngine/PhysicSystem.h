@@ -4,6 +4,7 @@
 #include "PhysicsCallback.h"
 #include "Pxphysics.h"
 #include "PxphysicsAPI.h"
+#include <PxSimulationEventCallback.h>
 #include "extensions/PxDefaultAllocator.h"
 #include "extensions/PxDefaultErrorCallback.h"
 #include "../ParagonProcess/CoreSingleton.h"
@@ -41,7 +42,6 @@ namespace Pg::Engine::Physic
 
 		void UpdatePhysics(float dTime);
 		void UpdateTransform();
-		void UpdateRayCast();
 
 		void Finalize();
 
@@ -55,6 +55,8 @@ namespace Pg::Engine::Physic
 
 		void CreateStack(const physx::PxTransform& t, physx::PxU32 size, physx::PxReal halfExtent);
 
+		void SetLayerMask(physx::PxShape* shape, physx::PxU32 layer, physx::PxU32 mask);	
+	
 	public:
 		//Collider 전체 생성
 		void InitMakeColliders();

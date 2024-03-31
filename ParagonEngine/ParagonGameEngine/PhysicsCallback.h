@@ -13,7 +13,6 @@
 namespace Pg::Engine
 {
 	// Flax EngineÀ» ¸ðµ¨¸µÇØ¼­ ¸¸µë. 
-	// https://flaxengine.com/
 
 	class CollidersPair
 	{

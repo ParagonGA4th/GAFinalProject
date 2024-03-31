@@ -139,6 +139,7 @@
     <ClInclude Include="..\include\fastlz\fastlz.h">
       <Filter>2_System\NavigationSystem\include\fastlz</Filter>
     </ClInclude>
+    <ClInclude Include="FilterCallBack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -288,6 +289,9 @@
     <ClCompile Include="Navigation\RecastDemo\ChunkyTriMesh.cpp">
       <Filter>2_System\NavigationSystem\src\RecastDemo</Filter>
     </ClCompile>
+    <ClCompile Include="FilterCallBack.cpp">
+      <Filter>2_System\PhysicSystem\FilterCallBack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -406,6 +410,9 @@
     </Filter>
     <Filter Include="2_System\NavigationSystem\src\RecastDemo">
       <UniqueIdentifier>{6eb82696-ca2e-4377-a920-916449bc53a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\FilterCallBack">
+      <UniqueIdentifier>{8f8b4248-4aef-4f64-ac42-bfa33eb0cd5f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

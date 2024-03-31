@@ -30,6 +30,20 @@ namespace Pg::Engine::Physic
 		//원래는 이 공간에 LayerMask가 있어야 한다.
 		//const bool maskTest = (filterData0.word0 & filterData1.word1) && (filterData1.word0 & filterData0.word1);
 
+		// 두 객체의 Layer를 확인
+		physx::PxU32 layer0 = filterData0.word0;
+		physx::PxU32 layer1 = filterData1.word0;
+
+		// Layer Mask 설정
+		int layerMask0 = 0x00000003; // Layer 1, 2와 충돌 011
+		int layerMask1 = 0x00000001; // Layer 1과만 충돌 001
+
+		// Layer Mask를 사용하여 충돌 여부 결정
+		if (!(layer0 & layerMask1) || !(layer1 & layerMask0))
+			return physx::PxFilterFlag::eSUPPRESS;
+
+		//return PxFilterFlag::eKILL;
+
 		// Let triggers through
 		if (PxFilterObjectIsTrigger(attributes0) || PxFilterObjectIsTrigger(attributes1))
 		{
@@ -62,7 +76,30 @@ namespace Pg::Engine::Physic
 
 		//LayerMask가 활성화되면, 이 역시 활용될 것.
 		// Ignore pair (no collisions nor events)
-		//return PxFilterFlag::eKILL;
+	}
+
+	// 충돌 필터 셰이더 설정
+	physx::PxFilterFlags filterShaderCallBack(
+		physx::PxFilterObjectAttributes attributes0, physx::PxFilterData filterData0,
+		physx::PxFilterObjectAttributes attributes1, physx::PxFilterData filterData1,
+		physx::PxPairFlags& pairFlags, const void* constantBlock, physx::PxU32 constantBlockSize)
+	{
+		// 두 객체의 Layer를 확인
+		//physx::PxU32 layer0 = filterData0.word0;
+		//physx::PxU32 layer1 = filterData1.word0;
+
+		physx::PxU32 layer0 = 1;
+		physx::PxU32 layer1 = 2;
+		
+		// Layer Mask 설정
+		int layerMask0 = 2; // Layer 1, 2와 충돌
+		int layerMask1 = 1; // Layer 1과만 충돌
+
+		// Layer Mask를 사용하여 충돌 여부 결정
+		if (!(layer0 & layerMask1) || !(layer1 & layerMask0))
+			return physx::PxFilterFlag::eSUPPRESS;
+
+		return physx::PxFilterFlags();
 	}
 
 	void PhysicSystem::Initialize(Pg::Engine::DebugSystem* debugSystem)
@@ -88,6 +125,9 @@ namespace Pg::Engine::Physic
 		//Physics Callback 객체 생성.
 		_physicsCallback = std::make_unique<PhysicsCallback>();
 
+		// 머티리얼 생성(임의)
+		_material = _physics->createMaterial(0.5f, 0.5f, 0.5f);
+
 		CreatePxScene();
 
 		// Pvd에 정보 보내기
@@ -99,52 +139,8 @@ namespace Pg::Engine::Physic
 			pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 		}
 
-		// 머티리얼 생성(임의)
-		_material = _physics->createMaterial(0.1f, 0.1f, 0.5f);
-
-		///RayCast의 예시
-		//physx::PxVec3 origin = { 0.0f,0.0f,0.0f };		// [in] Ray origin
-		//physx::PxVec3 unitDir = { 10.0f, 10.0f, 10.0f };	// [in] Normalized ray direction
-		//physx::PxReal maxDistance = 100.0f;				// [in] Raycast max distance
-
-		//const physx::PxU32 bufferSize = 256;			// [in] size of 'hitBuffer'
-		//physx::PxRaycastHit hitBuffer[bufferSize];		// [out] User provided buffer for results
-		//physx::PxRaycastBuffer buf(hitBuffer, bufferSize); // [out] Blocking and touching hits stored here
-
-
-		//const physx::PxRenderBuffer& rb = _pxScene->getRenderBuffer();
-
-		//for (physx::PxU32 i = 0; i < rb.getNbLines(); i++)
-		//{
-		//	const physx::PxDebugLine& lineDebug = rb.getLines()[i];
-		//}
-
-		//bool hit = _pxScene->raycast(origin, unitDir, maxDistance, buf);
-
-		//if (hit)
-		//{
-		//	PG_TRACE("Hit!!");
-		//}
-
 		//Collider 생성!
 		InitMakeColliders();
-
-		// ground 생성 후, 임의로 shape 붙여주기
-		/*physx::PxRigidStatic* groundPlane = PxCreatePlane(*_physics, physx::PxPlane(0, 1, 0, 0), *_material);
-		physx::PxShape* gpShape = _physics->createShape(physx::PxBoxGeometry(0.1f, 20.0f, 20.0f), *_material);
-		groundPlane->attachShape(*gpShape);
-		_pxScene->addActor(*groundPlane);*/
-
-		/*for (physx::PxU32 i = 0; i < 5; i++)
-		{
-			CreateStack(physx::PxTransform(physx::PxVec3(0, 0,10.0f)), 10, 2.0f);
-		}*/
-
-		//예시로 도형 하나 만들기
-		/*physx::PxRigidDynamic* exRigid = _physics->createRigidDynamic(physx::PxTransform(10.0f, 10.0f, 10.0f));
-		physx::PxShape* exShape = _physics->createShape(physx::PxBoxGeometry(1.0f, 1.0f, 1.0f), *_material);
-		exRigid->attachShape(*exShape);
-		_pxScene->addActor(*exRigid);*/
 	}
 
 	void PhysicSystem::UpdatePhysics(float dTime)
@@ -315,6 +311,7 @@ namespace Pg::Engine::Physic
 		sceneDesc.simulationEventCallback = _physicsCallback.get();
 
 		_pxScene = _physics->createScene(sceneDesc);
+		//_pxScene->setFilterShaderData(filterShaderCallBack,  0);
 
 		// Pvd에 정보 보내기
 		physx::PxPvdSceneClient* pvdClient = _pxScene->getScenePvdClient();
@@ -347,6 +344,14 @@ namespace Pg::Engine::Physic
 		shape->release();
 	}
 
+	// Layer Mask 설정 함수
+	void PhysicSystem::SetLayerMask(physx::PxShape* shape, physx::PxU32 layer, physx::PxU32 mask) {
+		physx::PxFilterData filterData;
+		filterData.word0 = mask;
+		filterData.word1 = layer; // 레이어 설정
+
+		shape->setQueryFilterData(filterData);
+	}
 
 	void PhysicSystem::InitMakeColliders()
 	{
@@ -472,10 +477,14 @@ namespace Pg::Engine::Physic
 				}
 
 
+
 				//테스트를 위해 임시로 Rigid 넣어봄.
 				//임시 아닌 이렇게 합쳐서 갈 예정.
 				//2023.12.11
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
+
+				// Layer Mask 설정
+				//boxShape->setSimulationFilterData(physx::PxFilterData(0x00000001, 0, 0, 0)); // Layer 2
 
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
@@ -577,6 +586,7 @@ namespace Pg::Engine::Physic
 					shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
 				}
 
+
 				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 				physx::PxTransform localTm(physx::PxIdentity);
 
@@ -584,6 +594,10 @@ namespace Pg::Engine::Physic
 
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
 
+				
+				// Layer Mask 설정
+				shape->setSimulationFilterData(physx::PxFilterData(0x00000002, 0, 0, 0));
+				
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
 				rigid->setLinearDamping(0.5f);
@@ -610,11 +624,6 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::MakePlaneCollider(Pg::Data::GameObject* obj)
 	{
-		/// ground 생성 후, 임의로 shape 붙여주기
-		/*physx::PxRigidStatic* groundPlane = PxCreatePlane(*_physics, physx::PxPlane(0, 1, 0, 0), *_material);
-		physx::PxShape* gpShape = _physics->createShape(physx::PxBoxGeometry(0.1f, 20.0f, 20.0f), *_material);
-		groundPlane->attachShape(*gpShape);
-		_pxScene->addActor(*groundPlane);*/
 
 		Pg::Data::Collider* col = obj->GetComponent<Pg::Data::PlaneCollider>();
 
@@ -633,6 +642,9 @@ namespace Pg::Engine::Physic
 				//physx::PxPlane plane = { normal.x, normal.y, normal.z, planeCol->GetDistance() };
 
 				planeCol->SetPxShape(shape);
+
+				// Layer Mask 설정
+				shape->setSimulationFilterData(physx::PxFilterData(0x00000001, 0, 0, 0));
 
 				//physx::PxRigidStatic* rigid = PxCreatePlane(*_physics, plane, *_material);
 				physx::PxRigidStatic* rigid = _physics->createRigidStatic(normalTm);
@@ -782,10 +794,4 @@ namespace Pg::Engine::Physic
 			static_cast<Pg::Data::StaticCollider*>(rigid->userData)->Flush();
 		}
 	}
-
-	void PhysicSystem::UpdateRayCast()
-	{
-
-	}
-
 }
