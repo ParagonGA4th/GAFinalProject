@@ -14,6 +14,7 @@
 #include "MathHelper.h"
 #include "../ParagonHelper/ResourceHelper.h"
 #include "../ParagonData/AssetDefines.h"
+#include "../ParagonData/Transform.h"
 
 //Assimp
 #include <assimp/Importer.hpp>     
@@ -179,7 +180,7 @@ namespace Pg::Graphics::Helper
 	
 		//추후 렌더링을 위해, 재귀적인 노드 구조를 선형적으로 편동해 기록한다.
 		//RenderAnimation 딴에서 해당 노드의 인덱스에 맞는 값을 넣어놓을 것. (없으면 nullptr)
-		LinearizeRecursiveNodes(sceneData->_rootNode.get(), nullptr, skinnedData);
+		RecordNodeToList(sceneData->_rootNode.get(), skinnedData);
 	}
 
 	//스키닝 데이터 중, 실시간 데이터와 상관 없는 스키닝 데이터 정보 입력.
@@ -495,6 +496,9 @@ namespace Pg::Graphics::Helper
 
 		//이제, 실제로 Node와 Mesh랑 연결하기 위해 Node 기록과 함께 Mesh-Node 연결한다.
 		outSceneAssetData->_rootNode = std::make_unique<Node_AssetData>(nullptr);
+		//outSceneAssetData->_rootNode->_relTransform = std::make_unique<Pg::Data::Transform>(nullptr); 
+		//자식 노드의 Transform 없는 객체를 그대로 전달해준다. (겜옵젝 소속 Transform 아님)
+
 		UINT tIndexForNode = 0;
 		StoreAssimpNode(assimp->mRootNode, outSceneAssetData, outSceneAssetData->_rootNode.get(), tIndexForNode);
 
@@ -507,8 +511,23 @@ namespace Pg::Graphics::Helper
 
 		//Transpose해서 보관 (Column Major <-> Row Major)
 		aiMatrix4x4 tStoreTrans = assimp->mTransformation;
-		pgNode->_relTransform = MathHelper::AI2XM_MATRIX(tStoreTrans.Transpose());
+		{
+			DirectX::SimpleMath::Matrix tRelTrans = MathHelper::AI2XM_MATRIX(tStoreTrans.Transpose());
+			pgNode->_offsetMatrix = tRelTrans;
 
+			//복사본에!
+			//DirectX::SimpleMath::Vector3 position;
+			//DirectX::SimpleMath::Quaternion rotation;
+			//DirectX::SimpleMath::Vector3 scale;
+			//
+			//tRelTrans.Decompose(scale, rotation, position);
+			//
+			////Local Transform 세팅, 먼저 만들어져서 들어온다.
+			//pgNode->_relTransform->_position	= { position.x, position.y, position.z };
+			//pgNode->_relTransform->_rotation	= { rotation.w, rotation.x, rotation.y, rotation.z};
+			//pgNode->_relTransform->_scale		= { scale.x, scale.y, scale.z };
+		}
+		
 		//이제 각각 FBX 내부에서 차지하는 Index 역시 보관. 기록 후 Increment.
 		pgNode->_index = index;
 		index++;
@@ -531,6 +550,9 @@ namespace Pg::Graphics::Helper
 		for (int i = 0; i < pgNode->_numChildren; i++)
 		{
 			pgNode->_childrenList.push_back(std::make_unique<Node_AssetData>(pgNode));
+			//pgNode->_childrenList.back()->_relTransform = std::make_unique<Pg::Data::Transform>(nullptr); //자식 노드의 Transform 없는 객체를 그대로 전달해준다. (겜옵젝 없이)
+			//pgNode->_relTransform->AddChild(pgNode->_childrenList.back()->_relTransform.get());
+
 			StoreAssimpNode(assimp->mChildren[i], sceneData, pgNode->_childrenList[i].get(), index);
 		}
 	}
@@ -681,19 +703,19 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
-	void AssimpBufferParser::LinearizeRecursiveNodes(const Node_AssetData* toBeParent, const Node_AssetData* parent, Skinned_AssetData* skinData)
+	void AssimpBufferParser::RecordNodeToList(const Node_AssetData* self, Skinned_AssetData* skinData)
 	{
-		//일단 본인(의 부모)을 기록.
-		skinData->_linearizedNodeHierarchy.push_back(std::make_pair(toBeParent, parent));
+		//NodeAnim 매핑 때 활용될 요소들 투입.
+		skinData->_animatedNodeMap.insert(std::make_pair(self->_nodeName, self));
 
-		if (toBeParent->_childrenList.empty())
+		if (self->_childrenList.empty())
 		{
 			return;
 		}
 
-		for (const auto& it : toBeParent->_childrenList)
+		for (const auto& it : self->_childrenList)
 		{
-			LinearizeRecursiveNodes(it.get(), toBeParent, skinData);
+			RecordNodeToList(it.get(), skinData);
 		}
 	}
 

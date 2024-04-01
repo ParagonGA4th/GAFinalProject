@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <DirectXMath.h>
 #include <dxtk/SimpleMath.h>
 
@@ -13,6 +14,11 @@
 /// 구조체들의 선언부.
 /// 기존의 선언부를 결국 대체할 용도이다!
 /// </summary>
+
+namespace Pg::Data
+{
+	class Transform;
+}
 
 namespace Pg::Graphics
 {
@@ -30,7 +36,8 @@ namespace Pg::Graphics
 
 		UINT _index;
 		std::string _nodeName;
-		DirectX::XMMATRIX _relTransform;
+		DirectX::XMMATRIX _offsetMatrix; 
+		//std::unique_ptr<Pg::Data::Transform> _relTransform; -> 이는 NodeHierarchy를 따라한 복사본에서 만들어질 것이다.
 		Node_AssetData* _parentNode = nullptr;
 		unsigned int _numChildren; //해당 Node의 Children 개수.
 		std::vector<std::unique_ptr<Node_AssetData>> _childrenList; //이 Node의 Children Node들. (자식 노드 없으면 nullptr)
@@ -118,23 +125,8 @@ namespace Pg::Graphics
 		//Bone 연산에 필요한 Global Inverse Transform.
 		DirectX::SimpleMath::Matrix _meshGlobalInverseTransform;
 
-		////매핑될 Bone Info 벡터, 포인터가 RenderAnimation 쪽에서도 계산의 편의를 위해 저장됨.
-		////더 이상 Render하는데 사용되지 않을 것.
-		//std::vector<BoneInfo_AssetData*> _renderBoneInfoVector;
-		//
-		////Bone Mapping 정보 저장.
-		//std::map<std::string, unsigned int> _mappedBones;
-		//unsigned int _numFormationBone;
-
-		//재귀식으로 나열된 Node들의 리스트를 Linear하게 나열. 렌더될 때 활용될 것이다.
-		//이에 호환되는 NodeAnim들의 리스트는 RenderAnimation에 저장.
-		//(NodeAnim이 결부 안된 노드들은, 해당 인덱스를 nullptr로 RenderAnimation에 저장.)
-		//SceneData에 호환되는 데이터의 RawPointer들로 나열되어 있다.
-		//이론상, 순서대로 돌리면 재귀와 같은 값이 나와야 한다.
-		//first는 nullptr일 수 없다. second는 nullptr라면 RootNode이다.
-		//자기 자신의 NodeAssetData / 부모의 NodeAssetData.]
-		///일단은 자체적으로 사용되지는 않을 것. 노드 기록용으로 유지.
-		std::vector<std::pair<const Node_AssetData* const, const Node_AssetData* const>> _linearizedNodeHierarchy;
+		//명시적으로 Node들의 List를 가지고 있음 -> String 값을 통해 Node들을 찾을 수 있음.
+		std::unordered_map<std::string, const Node_AssetData*> _animatedNodeMap;
 
 		//RenderAnimation 자체가 자료에 접근해서, 호환되는 자신을 추가한다.
 		std::map<std::string, RenderAnimation*> _viableAnimations;

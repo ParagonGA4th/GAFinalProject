@@ -75,20 +75,10 @@ namespace Pg::Graphics
 		double _currentTick;
 		std::chrono::time_point<std::chrono::steady_clock> _startedTime;
 		std::chrono::time_point<std::chrono::steady_clock> _expectedEndTime;
-
-		//Skinned Mesh에 독립적임.
-		//void BoneTransformUpdate();
-
-		//void ReadNodeHierarchy(double animTick, const aiNode* pNode, const aiAnimation* pAnim, DirectX::SimpleMath::Matrix parentTransform);
+	
 	private:
-		void CalcInterpolatedRotation(DirectX::SimpleMath::Quaternion& outQuat, double animTick, const NodeAnim_AssetData const* pNodeAnim);
-		void CalcInterpolatedTranslation(DirectX::SimpleMath::Vector3& outVec, double animTick, const NodeAnim_AssetData const* pNodeAnim);
-		 
-		unsigned int FindRotationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim);
-		unsigned int FindTranslationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim);
-		
-		//Node를 업데이트시킨다.
-		void UpdateSingleNodeWithAnim(const Node_AssetData* const selfNode, const Node_AssetData* const parentNode, const NodeAnim_AssetData* const nodeAnim);
+		void FillInNodeBuffer(const Node_AssetData* const selfNode);
+		void FillInBoneBuffer(const Node_AssetData* const selfNode);
 	private:
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>> _cbFirstBase;
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinnedNodes>> _cbAllSkinnedNodes;
@@ -96,12 +86,22 @@ namespace Pg::Graphics
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjMatBase>> _cbObjMatBase;
 
 
-
-	private:
-		//GPU에 바인딩될 Bone Tranform Vector. 크기는 100이 기본.
-		//FinalTransform 그자체.
-		//얘는 이제 개별적인 RenderObject에 소속될 것이다!
-		std::vector<DirectX::SimpleMath::Matrix> _boneTransformVector;
-
 	};
 }
+
+#pragma region OldSkinningHeaderFunc
+//Skinned Mesh에 독립적임.
+		//void BoneTransformUpdate();
+
+		//void ReadNodeHierarchy(double animTick, const aiNode* pNode, const aiAnimation* pAnim, DirectX::SimpleMath::Matrix parentTransform);
+
+		//void CalcInterpolatedRotation(DirectX::SimpleMath::Quaternion& outQuat, double animTick, const NodeAnim_AssetData const* pNodeAnim);
+		//void CalcInterpolatedTranslation(DirectX::SimpleMath::Vector3& outVec, double animTick, const NodeAnim_AssetData const* pNodeAnim);
+		// 
+		//unsigned int FindRotationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim);
+		//unsigned int FindTranslationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim);
+		//
+		//Node를 업데이트시킨다.
+		//void UpdateSingleNodeWithAnim(const Node_AssetData* const selfNode, const Node_AssetData* const parentNode, const NodeAnim_AssetData* const nodeAnim);
+
+#pragma endregion OldSkinningHeaderFunc
