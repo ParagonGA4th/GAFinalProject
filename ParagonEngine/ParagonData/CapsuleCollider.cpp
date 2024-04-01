@@ -5,7 +5,8 @@ namespace Pg::Data
 	CapsuleCollider::CapsuleCollider(GameObject* owner) :
 		DynamicCollider(owner),
 		_radius(1.0f),
-		_halfHeight(1.0f)
+		_halfHeight(1.0f),
+		_layer(0x00000001)
 	{
 		FACTORY_INIT;
 	}
@@ -63,6 +64,16 @@ namespace Pg::Data
 	{
 		_radius = rad;
 		_halfHeight = halfHeight;
+	}
+
+	void CapsuleCollider::SetLayer(int lay)
+	{
+		_layer = lay;
+	}
+
+	int CapsuleCollider::GetLayer()
+	{
+		return _layer;
 	}
 
 }
