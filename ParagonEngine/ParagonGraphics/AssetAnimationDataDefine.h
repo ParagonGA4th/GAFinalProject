@@ -2,8 +2,11 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <unordered_map>
 #include <DirectXMath.h>
 #include <dxtk/SimpleMath.h>
+
+#include "../ParagonData/Transform.h"
 
 /// <summary>
 /// 리팩토링된, 새로 필요한 만큼만 Animation의 데이터를 들고 있을
@@ -158,4 +161,28 @@ namespace Pg::Graphics
 		unsigned int IDs[4]; //!< An array of 4 bone Ids that influence a single vertex.
 		float Weights[4]; //!< An array of the weight influence per bone. 
 	};
+
+	//기존 Node와는 달리, 원본 데이터와 별도로 개별 SkinnedMesh3D의 인스턴스를 제어할 수 있게 하기 위해.
+	struct ModifiedNode_SkinnedMesh
+	{
+	public:
+		ModifiedNode_SkinnedMesh(ModifiedNode_SkinnedMesh* parentNode);
+		~ModifiedNode_SkinnedMesh();
+
+		void RecursiveInitFromNode(Node_AssetData* nodeAssetData, std::unordered_map<std::string, const ModifiedNode_SkinnedMesh*>& recordMap);
+
+		UINT _index{ 0 };
+		std::string _nodeName;
+		const Node_AssetData* _originData;
+		std::unique_ptr<Pg::Data::Transform> _relTransform; //-> 이는 NodeHierarchy를 따라한 복사본에서 만들어질 것이다.
+		ModifiedNode_SkinnedMesh* _parentNode;
+		unsigned int _numChildren{ 0 }; //해당 Node의 Children 개수.
+		std::vector<std::unique_ptr<ModifiedNode_SkinnedMesh>> _childrenList; //이 Node의 Children Node들. (자식 노드 없으면 nullptr)
+		unsigned int _numMeshes{ 0 }; //해당 Node의 Mesh 개수.
+		std::vector<unsigned int> _meshIndexList; //Mesh Index 저장. (각자 aiScene의 MeshList에 대응)
+
+		//만약 바인딩된 Bone이 있으면, 포인터 보관.
+		BoneInfo_AssetData* _bindedBone{ nullptr };
+	};
+
 }
