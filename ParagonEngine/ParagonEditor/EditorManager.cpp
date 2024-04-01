@@ -23,7 +23,7 @@ void Pg::Editor::Manager::EditorManager::Initialize(void* hWnd)
 
 void Pg::Editor::Manager::EditorManager::Update()
 {
-	if (_dataContainer->GetEditorOnOff()) _windowManager->Update();
+	_windowManager->Update();
 }
 
 void Pg::Editor::Manager::EditorManager::LateUpdate()

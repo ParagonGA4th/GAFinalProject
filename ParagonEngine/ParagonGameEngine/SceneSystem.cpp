@@ -3,14 +3,15 @@
 #include "PhysicSystem.h"
 #include "EngineMain.h"
 #include "BehaviorTreeSystem.h"
-#include "TestScene.h"
 #include "EditorCameraScript.h"
+
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/RendererBase2D.h"
 #include "../ParagonData/RendererBase3D.h"
 #include "../ParagonUtil/Log.h"
 
+#include <algorithm>
 #include <singleton-cpp/singleton.h>
 
 namespace Pg::Engine
@@ -20,8 +21,6 @@ namespace Pg::Engine
 
 		///이거 클라이언트로 빼면서 지우고
 		///.pgproject파일을 이용해 받아와야함.
-		_testScene = new TestScene();
-		_currentScene = _testScene->GetCurrentScene();
 	}
 
 	SceneSystem::~SceneSystem()
@@ -32,7 +31,8 @@ namespace Pg::Engine
 	void SceneSystem::Initialize()
 	{
 		//여기에는 (TBA) Scene 관리 로직 etc 있어야!
-		_testScene->Initialize();
+		_sceneList.insert({"SampleScene", new Pg::Data::Scene("SampleScene")});
+		_currentScene = _sceneList.at("SampleScene");
 	}
 	
 	void SceneSystem::Update()
@@ -61,20 +61,6 @@ namespace Pg::Engine
 		//씬을 생성해서
 		Pg::Data::Scene* scene = new Scene("Empty Scene");
 	}
-
-	Pg::Data::Scene* SceneSystem::CreateScene(const std::string& sceneName)
-	{
-		auto it = _sceneList.find(sceneName);
-		if (it != _sceneList.end())
-		{
-			return _sceneList[sceneName];
-		}
-
-		Pg::Data::Scene* scene;
-		scene = new Pg::Data::Scene(sceneName);
-		return scene;
-	}
-
 
 	void SceneSystem::UnLoadSCene()
 	{
@@ -111,6 +97,19 @@ namespace Pg::Engine
 		return _currentScene;
 	}
 
+	Pg::Data::Scene* SceneSystem::CreateScene(const std::string& sceneName)
+	{
+		auto it = _sceneList.find(sceneName);
+		if (it != _sceneList.end())
+		{
+			return _sceneList[sceneName];
+		}
+
+		Pg::Data::Scene* scene;
+		scene = new Pg::Data::Scene(sceneName);
+		return scene;
+	}
+
 	void SceneSystem::DeleteCurrentScene()
 	{
 		if (_currentScene)
@@ -120,9 +119,16 @@ namespace Pg::Engine
 		}
 	}
 
-	void SceneSystem::SetSceneData(Pg::Data::Scene* scene)
+	void SceneSystem::SetSceneList(std::vector<Scene*> scenes)
 	{
-		_testScene->SetScenesData(scene);
+		for (auto& vscene : scenes)
+		{
+			auto tscene = _sceneList.find(vscene->GetSceneName());
+			if (tscene == _sceneList.end())
+			{
+				_sceneList.insert({ vscene->GetSceneName(), vscene });
+			}
+		}
 	}
 
 	bool SceneSystem::GetIsStartedScene()

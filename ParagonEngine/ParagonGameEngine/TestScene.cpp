@@ -21,7 +21,6 @@
 #include "../ParagonData/ImageRenderer.h" //Render ���� ���� ����.
 #include "../ParagonData/TextRenderer.h" //Render ���� ���� ����.
 #include "../ParagonData/StaticMeshRenderer.h" //Render ���� ���� ����.
-#include "../ParagonData/SkinnedMeshRenderer.h" //Render ���� ���� ����.
 #include "../ParagonData/Animator.h"
 
 
@@ -131,16 +130,16 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	//tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
-	Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
-	tObj7->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
-	tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
-	tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
-	tObj7->AddComponent<PlaneCollider>();
-	//tObj7->GetComponent<PlaneCollider>();
-	tObj7->AddComponent<StaticMeshRenderer>();
-	tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
-	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	tObj7->AddComponent<NavigationField>();
+	//Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
+	//tObj7->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
+	//tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	//tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	//tObj7->AddComponent<PlaneCollider>();
+	////tObj7->GetComponent<PlaneCollider>();
+	//tObj7->AddComponent<StaticMeshRenderer>();
+	//tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
+	//tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	//tObj7->AddComponent<NavigationField>();
 
 
 	///버튼 & 오디오
@@ -213,17 +212,6 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj24->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	////Animator 추가.
 	//tObj24->AddComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Test/BTree_Testing1.xml");
-	
-	//Pg::Data::GameObject* tObj25 = tCurrentScene->AddObject("AnimTest");
-	//tObj25->GetComponent<Transform>()->_position = { 0.0f, 4.0f, 0.0f };
-	//tObj25->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
-	//tObj25->GetComponent<Transform>()->_rotation = tObj25->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
-	//tObj25->AddComponent<SkinnedMeshRenderer>();
-	//tObj25->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/AnimMesh/ErikaMixamo/ErikaMixamo.fbx");
-	//tObj25->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
-	//tObj25->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_idle";
-	
-
 	assert(true);
 }
 
