@@ -10,7 +10,8 @@ namespace Pg::Data
 	PlaneCollider::PlaneCollider(GameObject* owner) :
 		StaticCollider(owner),
 		_width(20.0f),
-		_depth(20.0f)
+		_depth(20.0f),
+		_layer(0x00000001)
 	{
 		FACTORY_INIT;
 	}
@@ -47,4 +48,15 @@ namespace Pg::Data
 		PGFLOAT3 tmp = _object->_transform.GetRight();
 		return PGFloat3Normalize(tmp);
 	}
+
+	void PlaneCollider::SetLayer(int lay)
+	{
+		_layer = lay;
+	}
+
+	int PlaneCollider::GetLayer()
+	{
+		return _layer;
+	}
+
 }

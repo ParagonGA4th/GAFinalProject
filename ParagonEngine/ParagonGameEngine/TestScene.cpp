@@ -101,7 +101,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj4->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	//tObj4->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.5f, -2.0f);
 	tObj4->AddComponent<StaticBoxCollider>();
-	//tObj4->GetComponent<StaticBoxCollider>()->SetTrigger(true);
+	//tObj4->GetComponent<StaticBoxCollider>()->SetTrigger(false);
 	//tObj4->GetComponent<StaticBoxCollider>()->_scale(2.0f, 2.0f, 2.0f);
 	tObj4->AddComponent<StaticMeshRenderer>();
 	tObj4->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
@@ -118,6 +118,7 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj5->GetComponent<Transform>()->_rotation = tObj5->GetComponent<Transform>()->EulerToQuaternion(1.5f, 2.0f, 4.0f);
 	tObj5->AddComponent<BoxCollider>();
 	tObj5->GetComponent<BoxCollider>()->SetScale(2.0f, 2.0f, 2.0f);
+	tObj5->GetComponent<BoxCollider>()->SetLayer(0x00000002);
 	//tObj5->GetComponent<BoxCollider>()->SetPoisitonOffset({ 1.0f,0.0f,0.0f });
 	tObj5->AddComponent<StaticMeshRenderer>();
 	tObj5->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
@@ -139,7 +140,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	//tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 	tObj7->AddComponent<PlaneCollider>();
-	//tObj7->GetComponent<PlaneCollider>();
+	tObj7->GetComponent<PlaneCollider>()->SetLayer(0x00000002);
 	tObj7->AddComponent<StaticMeshRenderer>();
 	tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
 	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);

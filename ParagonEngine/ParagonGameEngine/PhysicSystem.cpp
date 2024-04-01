@@ -35,7 +35,7 @@ namespace Pg::Engine::Physic
 		physx::PxU32 layer1 = filterData1.word0;
 
 		// Layer Mask 설정
-		int layerMask0 = 0x00000003; // Layer 1, 2와 충돌 011
+		int layerMask0 = 0x00000002; // Layer 1, 2와 충돌 011
 		int layerMask1 = 0x00000001; // Layer 1과만 충돌 001
 
 		// Layer Mask를 사용하여 충돌 여부 결정
@@ -431,6 +431,9 @@ namespace Pg::Engine::Physic
 
 				staticBoxcol->SetPxShape(boxShape);
 
+				// Layer Mask 설정
+				boxShape->setSimulationFilterData(physx::PxFilterData(staticBoxcol->GetLayer(), 0, 0, 0));
+
 				physx::PxRigidStatic* rigid = _physics->createRigidStatic(localTm);
 				rigid->attachShape(*boxShape);
 
@@ -484,7 +487,7 @@ namespace Pg::Engine::Physic
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
 
 				// Layer Mask 설정
-				//boxShape->setSimulationFilterData(physx::PxFilterData(0x00000001, 0, 0, 0)); // Layer 2
+				boxShape->setSimulationFilterData(physx::PxFilterData(boxcol->GetLayer(), 0, 0, 0));
 
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
@@ -538,6 +541,9 @@ namespace Pg::Engine::Physic
 				physx::PxTransform localTm(physx::PxVec3(pos.x, pos.y, pos.z));
 
 				sphCol->SetPxShape(shape);
+
+				// Layer Mask 설정
+				shape->setSimulationFilterData(physx::PxFilterData(sphCol->GetLayer(), 0, 0, 0));
 
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
 
@@ -596,7 +602,7 @@ namespace Pg::Engine::Physic
 
 				
 				// Layer Mask 설정
-				shape->setSimulationFilterData(physx::PxFilterData(0x00000002, 0, 0, 0));
+				shape->setSimulationFilterData(physx::PxFilterData(capCol->GetLayer(), 0, 0, 0));
 				
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
@@ -608,7 +614,6 @@ namespace Pg::Engine::Physic
 				/*rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, true);
 				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, true);
 				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, true);*/
-
 
 				//_pxScene->addActor(*rigid);
 
@@ -644,7 +649,7 @@ namespace Pg::Engine::Physic
 				planeCol->SetPxShape(shape);
 
 				// Layer Mask 설정
-				shape->setSimulationFilterData(physx::PxFilterData(0x00000001, 0, 0, 0));
+				shape->setSimulationFilterData(physx::PxFilterData(planeCol->GetLayer(), 0, 0, 0));
 
 				//physx::PxRigidStatic* rigid = PxCreatePlane(*_physics, plane, *_material);
 				physx::PxRigidStatic* rigid = _physics->createRigidStatic(normalTm);

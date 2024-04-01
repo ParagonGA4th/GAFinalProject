@@ -139,7 +139,9 @@
     <ClInclude Include="..\include\fastlz\fastlz.h">
       <Filter>2_System\NavigationSystem\include\fastlz</Filter>
     </ClInclude>
-    <ClInclude Include="FilterCallBack.h" />
+    <ClInclude Include="FilterCallBack.h">
+      <Filter>2_System\PhysicSystem\FilterCallBack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
