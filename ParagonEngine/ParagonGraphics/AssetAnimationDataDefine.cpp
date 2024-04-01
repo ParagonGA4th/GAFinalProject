@@ -46,12 +46,12 @@ namespace Pg::Graphics
 
 	ModifiedNode_SkinnedMesh::ModifiedNode_SkinnedMesh(ModifiedNode_SkinnedMesh* parentNode) : _parentNode(parentNode)
 	{
-		_relTransform = std::make_unique<Pg::Data::Transform>();
+		_relTransform = std::make_unique<Pg::Data::Transform>(nullptr);
 	}
 
 	ModifiedNode_SkinnedMesh::~ModifiedNode_SkinnedMesh()
 	{
-
+		
 	}
 
 	void ModifiedNode_SkinnedMesh::RecursiveInitFromNode(Node_AssetData* nodeAssetData, std::unordered_map<std::string, const ModifiedNode_SkinnedMesh*>& recordMap)
@@ -97,16 +97,17 @@ namespace Pg::Graphics
 		}
 		
 		//새롭게 만들어진 ChildrenList (기존 node 데이터 복사)
-		_childrenList.resize(_numChildren, std::make_unique<ModifiedNode_SkinnedMesh>(this));
+		_childrenList.reserve(_numChildren);
 
 		for (int i = 0; i < this->_numChildren; i++)
 		{
+			_childrenList.push_back(std::move(std::make_unique<ModifiedNode_SkinnedMesh>(this)));
 			//자식 노드의 Transform 없는 객체를 그대로 전달해준다. (겜옵젝 없이)
 			//AddChild만 우리 Transform에서 열려 있는데, 이에 맞게 넣어준다.
-			this->_relTransform->AddChild(this->_childrenList[i]->_relTransform.get());
+			this->_relTransform->AddChild(this->_childrenList.at(i)->_relTransform.get());
 
 			//재귀적으로 기록.
-			this->_childrenList[i]->RecursiveInitFromNode(nodeAssetData->_childrenList[i].get(), recordMap);
+			this->_childrenList.at(i)->RecursiveInitFromNode(nodeAssetData->_childrenList.at(i).get(), recordMap);
 		}
 
 		//RecursiveInitFromNode(nodeAssetData->_childrenList.at(i));

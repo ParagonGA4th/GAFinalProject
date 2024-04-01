@@ -51,6 +51,10 @@
 
 namespace Pg::Graphics::Helper
 {
+	std::unordered_map<const aiMesh*, Mesh_AssetData*> AssimpBufferParser::_aiMeshToMeshMap{};
+
+	std::unordered_map<const aiNode*, Node_AssetData*> AssimpBufferParser::_aiNodeToNodeMap{};
+
 	using Pg::Graphics::Helper::MathHelper;
 	using Pg::Util::Helper::ResourceHelper;
 	using Pg::Data::Enums::eAssetDefine;
@@ -663,6 +667,9 @@ namespace Pg::Graphics::Helper
 			_aiMeshToMeshMap.clear();
 		}
 	}
+
+
+
 }
 
 #pragma region OldCode
