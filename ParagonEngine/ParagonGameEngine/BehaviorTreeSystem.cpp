@@ -82,7 +82,7 @@ namespace Pg::Engine::BTree
 		//SceneSystem 포인터 받기.
 		auto& tSceneSystem = singleton<SceneSystem>();
 		_sceneSystem = &tSceneSystem;
-
+		
 		for (auto& obj : _sceneSystem->GetCurrentScene()->GetObjectList())
 		{
 			Pg::Data::Animator* tAnimator = obj->GetComponent<Pg::Data::Animator>();

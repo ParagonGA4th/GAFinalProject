@@ -42,15 +42,16 @@ namespace Pg::Engine
 			PG_TRACE("Crowd 존재하지 않음.");
 			return;
 		}
-
-		_crowd->update(deltaTime, nullptr);
-		//_tileCache->update(deltaTime, _navMesh, nullptr);
+		if (!_navMeshAgentVec.empty())
+		{
+			_crowd->update(deltaTime, nullptr);
+			//_tileCache->update(deltaTime, _navMesh, nullptr);
+		}
 
 		for (auto& it : _navMeshAgentVec)
 		{
 			const dtCrowdAgent* agent = _crowd->getAgent(it->_agentidx);
-			it->_object->_transform._position = {agent->npos[0], agent->npos[1], agent->npos[2]};
-			
+			it->_object->_transform._position = { agent->npos[0], agent->npos[1], agent->npos[2] };
 		}
 	}
 
@@ -61,7 +62,7 @@ namespace Pg::Engine
 		_navMeshAgentVec.clear();
 
 		dtFreeCrowd(_crowd);
-		
+
 		dtFreeNavMeshQuery(_navMeshQuery);
 	}
 
@@ -87,7 +88,7 @@ namespace Pg::Engine
 				//Agent의 속성 부여
 				dtCrowdAgentParams ap;
 				memset(&ap, 0, sizeof(ap));
-				
+
 				ap.radius = tNavMeshAgent->GetRadius();
 				ap.maxSpeed = tNavMeshAgent->GetMaxSpeed();
 				ap.height = tNavMeshAgent->GetHeight();
@@ -121,7 +122,7 @@ namespace Pg::Engine
 				tNavMeshAgent->_agentidx = _crowd->addAgent(reinterpret_cast<const float*>(&agentPos), &ap);
 
 				_navMeshAgentVec.push_back(tNavMeshAgent);
-				
+
 				///런타임에 설정값이 변경될 때 필요함.
 				tNavMeshAgent->_updateSystemFunc = std::bind(&NavigationSystem::UpdateSingleDtParam, this, std::placeholders::_1);
 				tNavMeshAgent->_destinationFunc = std::bind(&NavigationSystem::MoveTo, this, std::placeholders::_1, std::placeholders::_2);
@@ -181,7 +182,7 @@ namespace Pg::Engine
 
 		float bmax[3]{ -std::numeric_limits<float>::max(),
 						-std::numeric_limits<float>::max(),-std::numeric_limits<float>::max() };
-		
+
 		// 바운더리 정보부터 설정
 		for (auto i = 0; i < verticesNum; i++)
 		{
@@ -219,9 +220,9 @@ namespace Pg::Engine
 		rcVcopy(_rcConfig.bmin, bmin);
 		rcVcopy(_rcConfig.bmax, bmax);
 		rcCalcGridSize(_rcConfig.bmin, _rcConfig.bmax, _rcConfig.cs, &_rcConfig.width, &_rcConfig.height);
-		
+
 		bool processResult{ false };
-	
+
 		// 복셀 높이필드 공간 할당
 		rcHeightfield* heightField{ rcAllocHeightfield() };
 		assert(heightField != nullptr);
@@ -271,14 +272,14 @@ namespace Pg::Engine
 		// 윤곽선으로부터 폴리곤 생성
 		_polyMesh = rcAllocPolyMesh();
 		assert(_polyMesh != nullptr);
-		
+
 		processResult = rcBuildPolyMesh(_rcContext.get(), *contourSet, _rcConfig.maxVertsPerPoly, *_polyMesh);
 		assert(processResult == true);
-		
+
 		// 디테일 메시 생성
 		auto& detailMesh{ _polyMeshDetail = rcAllocPolyMeshDetail() };
 		assert(detailMesh != nullptr);
-		
+
 		processResult = rcBuildPolyMeshDetail(_rcContext.get(), *_polyMesh, *compactHeightField, _rcConfig.detailSampleDist, _rcConfig.detailSampleMaxError, *detailMesh);
 		assert(processResult == true);
 
@@ -426,7 +427,7 @@ namespace Pg::Engine
 		worldIndices.push_back(startingIdx + 2);
 		worldIndices.push_back(startingIdx + 0);*/
 
-		
+
 
 	}
 
@@ -444,7 +445,7 @@ namespace Pg::Engine
 			_filter, &(agent->_targetRef), agent->_targetPos);
 
 		_crowd->requestMoveTarget(agent->_agentidx, agent->_targetRef, agent->_targetPos);
-	
+
 	}
 
 	int NavigationSystem::rasterizeTileLayers(const float* worldVertices, size_t verticesNum, const int* faces, size_t facesNum, const int tx, const int ty, const rcConfig& cfg, struct TileCacheData* tiles, const int maxTiles)

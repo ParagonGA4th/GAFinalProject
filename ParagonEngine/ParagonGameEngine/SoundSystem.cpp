@@ -248,7 +248,7 @@ namespace Pg::Engine
 		{
 			_audioSoureceMap.clear();
 		}
-		
+
 		//╫л╠шео
 		auto& tSceneSystem = singleton<SceneSystem>();
 		_sceneSystem = &tSceneSystem;
