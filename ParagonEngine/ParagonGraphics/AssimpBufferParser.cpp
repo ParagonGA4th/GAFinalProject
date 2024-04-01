@@ -211,56 +211,90 @@ namespace Pg::Graphics::Helper
 
 	void AssimpBufferParser::SetupRenderBones(unsigned int index, aiMesh* mesh, const Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, std::vector<VertexBone_TempAssetData>& vBoneList)
 	{
-		using DirectX::SimpleMath::Matrix;
+		//기존 구현체 교체.
+		//다르게 동일한 버퍼 VB/IB를 기반으로 인덱스를 다르게 읽어서 렌더를 하는 구조.
+		//이식을 다르게 해야 한다.
+		//VertexBoneVector는 이미 Model의 전체 Vertex 개수로 리사이즈가 되었다.
+		
+		//Bone Data를 실제로 추가해야 한다.
+		//우리는 VB/IB가 하나. 그러니, 얼마나 추가해서 계산해야 하는지를 파악해야 한다! (Base Vertex)
+		Mesh_AssetData* tMeshData = _aiMeshToMeshMap.at(mesh);
+		
+		for (unsigned int i = 0; i < mesh->mNumBones; i++)
+		{
+			aiBone* aibone = mesh->mBones[i];
 
-		for (unsigned int i = 0; i < mesh->mNumBones; i++) {
+			//상호 저장.
+			BoneInfo_AssetData* tPgBone = new BoneInfo_AssetData();
+			tPgBone->_name = aibone->mName.C_Str();
+			tPgBone->_index = _aiNodeToNodeMap.at(aibone->mNode)->_index;
+			tPgBone->_bindedNode = _aiNodeToNodeMap.at(aibone->mNode);
+			tPgBone->_offsetMatrix = MathHelper::AI2XM_MATRIX(aibone->mOffsetMatrix.Transpose());
+			_aiNodeToNodeMap.at(aibone->mNode)->_bindedBone = tPgBone;
 
-			unsigned int BoneIndex = 0;
-
-			// Obtain the bone name.
-			std::string BoneName(mesh->mBones[i]->mName.C_Str());
-
-			// If bone isn't already in the map. 
-			if (skinnedData->_mappedBones.find(BoneName) == skinnedData->_mappedBones.end())
+			//여러 가지 Mesh가 존재한다는 점 반영해 VertexOffset 기반으로 설정.
+			for (unsigned int j = 0; j < aibone->mNumWeights; j++)
 			{
-				// Set the bone ID to be the current total number of bones. 
-				BoneIndex = skinnedData->_numFormationBone;
+				UINT tVertexIndex = aibone->mWeights[j].mVertexId;
+				float tWeight = aibone->mWeights[j].mWeight;
+				UINT tCombinedVertexIndex = tVertexIndex + tMeshData->_vertexOffset;
 
-				// Increment total bones. 
-				skinnedData->_numFormationBone++;
-
-				// Push new bone info into bones vector. 
-				BoneInfo_AssetData tBi;
-				skinnedData->_renderBoneInfoVector.push_back(tBi);
-			}
-			else {
-				// Bone ID is already in map. 
-				BoneIndex = skinnedData->_mappedBones[BoneName];
+				assert((tCombinedVertexIndex < vBoneList.size()) && "유효한 인덱스가 나와야 한다. 합쳐진 VB/IB 이기 때문에.");
+				vBoneList.at(tCombinedVertexIndex).AddBoneData(tPgBone->_index, tWeight);
 			}
 
-			skinnedData->_mappedBones[BoneName] = BoneIndex;
-
-			// Obtains the offset matrix which transforms the bone from mesh space into bone space. 
-			Matrix tBoneOffset = MathHelper::AI2SM_MATRIX(mesh->mBones[i]->mOffsetMatrix);
-			///기존
-			//MathHelper::DecomposeAssembleMatrix(tBoneOffset);
-			skinnedData->_renderBoneInfoVector[BoneIndex]._boneOffset = tBoneOffset.Transpose();
-
-			// Iterate over all the affected vertices by this bone i.e weights. 
-			for (unsigned int j = 0; j < mesh->mBones[i]->mNumWeights; j++) {
-
-				// Obtain an index to the affected vertex within the array of vertices.
-				//unsigned int VertexID = _meshEntriesVector[index]._baseVertex + mesh->mBones[i]->mWeights[j].mVertexId;
-				unsigned int VertexID = sceneData->_meshList[index]._vertexOffset + mesh->mBones[i]->mWeights[j].mVertexId;
-
-				// The value of how much this bone influences the vertex. 
-				float Weight = mesh->mBones[i]->mWeights[j].mWeight;
-
-				// Insert bone data for particular vertex ID. A maximum of 4 bones can influence the same vertex. 
-				vBoneList[VertexID].AddBoneData(BoneIndex, Weight);
-			}
 		}
-		assert(mesh);
+		assert("값 조정 중.");
+
+
+		//for (unsigned int i = 0; i < mesh->mNumBones; i++) 
+		//{
+		//	unsigned int BoneIndex = 0;
+
+		//	// Obtain the bone name.
+		//	std::string BoneName(mesh->mBones[i]->mName.C_Str());
+
+		//	// If bone isn't already in the map. 
+		//	if (skinnedData->_mappedBones.find(BoneName) == skinnedData->_mappedBones.end())
+		//	{
+		//		// Set the bone ID to be the current total number of bones. 
+		//		BoneIndex = skinnedData->_numFormationBone;
+
+		//		// Increment total bones. 
+		//		skinnedData->_numFormationBone++;
+
+		//		// Push new bone info into bones vector. 
+		//		BoneInfo_AssetData tBi;
+		//		skinnedData->_renderBoneInfoVector.push_back(tBi);
+		//	}
+		//	else {
+		//		// Bone ID is already in map. 
+		//		BoneIndex = skinnedData->_mappedBones[BoneName];
+		//	}
+
+		//	skinnedData->_mappedBones[BoneName] = BoneIndex;
+
+		//	// Obtains the offset matrix which transforms the bone from mesh space into bone space. 
+		//	Matrix tBoneOffset = MathHelper::AI2SM_MATRIX(mesh->mBones[i]->mOffsetMatrix);
+		//	///기존
+		//	//MathHelper::DecomposeAssembleMatrix(tBoneOffset);
+		//	skinnedData->_renderBoneInfoVector[BoneIndex]._boneOffset = tBoneOffset.Transpose();
+
+		//	// Iterate over all the affected vertices by this bone i.e weights. 
+		//	for (unsigned int j = 0; j < mesh->mBones[i]->mNumWeights; j++) {
+
+		//		// Obtain an index to the affected vertex within the array of vertices.
+		//		//unsigned int VertexID = _meshEntriesVector[index]._baseVertex + mesh->mBones[i]->mWeights[j].mVertexId;
+		//		unsigned int VertexID = sceneData->_meshList[index]._vertexOffset + mesh->mBones[i]->mWeights[j].mVertexId;
+
+		//		// The value of how much this bone influences the vertex. 
+		//		float Weight = mesh->mBones[i]->mWeights[j].mWeight;
+
+		//		// Insert bone data for particular vertex ID. A maximum of 4 bones can influence the same vertex. 
+		//		vBoneList[VertexID].AddBoneData(BoneIndex, Weight);
+		//	}
+		//}
+		//assert(mesh);
 	}
 
 	void AssimpBufferParser::ParseAssimpSkinned(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, const std::vector<VertexBone_TempAssetData>& vertexBoneVector, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt)
@@ -480,7 +514,7 @@ namespace Pg::Graphics::Helper
 		index++;
 
 		//Assimp와 PgNode 연결하는 unordered_map에 저장. (후에 Bone-Binding)
-		_aiNodeToNodeMap.insert({ assimp,pgNode });
+		_aiNodeToNodeMap.insert(std::make_pair(assimp,pgNode));
 
 		pgNode->_numMeshes = assimp->mNumMeshes;
 		for (int i = 0; i < pgNode->_numMeshes; i++)
@@ -513,6 +547,9 @@ namespace Pg::Graphics::Helper
 		pgMesh->_materialID = assimp->mMaterialIndex;
 
 		StoreAssimpAABB(&(assimp->mAABB), &(pgMesh->_AABB));
+
+		//이제 aiMesh 역시 MeshAssetData로 파싱 한정 매핑해서 보관.
+		_aiMeshToMeshMap.insert(std::make_pair(assimp, pgMesh));
 	}
 
 	void AssimpBufferParser::StoreAssimpAABB(const aiAABB* assimp, AABB_AssetData* pgAABB)
@@ -643,6 +680,7 @@ namespace Pg::Graphics::Helper
 			outArrayData[k] = static_cast<RenderTexture2DArray*>(tTex2DRes.get());
 		}
 	}
+
 	void AssimpBufferParser::LinearizeRecursiveNodes(const Node_AssetData* toBeParent, const Node_AssetData* parent, Skinned_AssetData* skinData)
 	{
 		//일단 본인(의 부모)을 기록.
@@ -659,13 +697,31 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
+	void AssimpBufferParser::D3DSetPrivateData(const std::string& modelName, Asset3DModelData* modelData)
+	{
+		std::string tVbString = "VB : ";
+		tVbString.append(modelName);
+		HR(modelData->_vertexBuffer->SetPrivateData(WKPDID_D3DDebugObjectNameW, tVbString.length(), tVbString.data()));
+
+		std::string tIbString = "IB : ";
+		tIbString.append(modelName);
+		HR(modelData->_indexBuffer->SetPrivateData(WKPDID_D3DDebugObjectNameW, tIbString.length(), tIbString.data()));
+	}
+
 	void AssimpBufferParser::Reset()
 	{
 		if (!_aiNodeToNodeMap.empty())
 		{
 			_aiNodeToNodeMap.clear();
 		}
+
+		if (!_aiMeshToMeshMap.empty())
+		{
+			_aiMeshToMeshMap.clear();
+		}
 	}
+
+	
 
 	//void BufferParser::StoreAssimpBone(const aiBone* assimp, Bone_AssetData* pgAABB)
 	//{

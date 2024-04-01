@@ -46,14 +46,20 @@ namespace Pg::Graphics
 
 		//Constant Buffer Data를 생성.
 		_cbFirstBase = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>>();
-		_cbAltogetherSkinned = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinned>>();
+		_cbAllSkinnedNodes = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinnedNodes>>();
+		_cbAllSkinnedBones = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinnedBones>>();
 
 		//Bone의 수만큼 GPU에 들어갈 벡터의 크기를 설정해야 한다. (ASSET_MAXIMUM_BONE_NUMBER_PER_MESH)
 		_boneTransformVector.resize(_modelData->_assetSkinnedData->_renderBoneInfoVector.size());
 
+		for (int i = 0; i < Pg::Defines::ASSET_MAXIMUM_NODE_NUMBER_PER_MESH; i++)
+		{
+			_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[i] = DirectX::SimpleMath::Matrix::Identity;
+		}
+
 		for (int i = 0; i < Pg::Defines::ASSET_MAXIMUM_BONE_NUMBER_PER_MESH; i++)
 		{
-			_cbAltogetherSkinned->GetDataStruct()->gCBuf_Bones[i] = DirectX::SimpleMath::Matrix::Identity;
+			_cbAllSkinnedBones->GetDataStruct()->gCBuf_Bones[i] = DirectX::SimpleMath::Matrix::Identity;
 		}
 	}
 
@@ -80,7 +86,8 @@ namespace Pg::Graphics
 	void RenderObjectSkinnedMesh3D::First_BindBuffers()
 	{
 		_cbFirstBase->BindVS(0);
-		_cbAltogetherSkinned->BindVS(1);
+		_cbAllSkinnedNodes->BindVS(1);
+		_cbAllSkinnedBones->BindVS(2);
 	}
 
 	void RenderObjectSkinnedMesh3D::First_Render(const float* const dt)
@@ -107,7 +114,8 @@ namespace Pg::Graphics
 	void RenderObjectSkinnedMesh3D::First_UnbindBuffers()
 	{
 		_cbFirstBase->UnbindVS(0);
-		_cbAltogetherSkinned->UnbindVS(1);
+		_cbAllSkinnedNodes->UnbindVS(1);
+		_cbAllSkinnedBones->UnbindVS(2);
 	}
 
 	void RenderObjectSkinnedMesh3D::ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData)
@@ -119,7 +127,8 @@ namespace Pg::Graphics
 	void RenderObjectSkinnedMesh3D::ObjMat_BindBuffers()
 	{
 		_cbObjMatBase->BindVS(0);
-		_cbAltogetherSkinned->BindVS(1);
+		_cbAllSkinnedNodes->BindVS(1);
+		_cbAllSkinnedBones->BindVS(2);
 
 		// PixelShader : 이제 Albedo / Normal / Specular / Arm 데이터를 넣어줘야 한다.
 		// 디폴트 매터리얼 상관하지 않고, 모든 오브젝트가 값 자체는 이제 필요하게 될 것이라는 말이다. Texture 투입.
@@ -157,7 +166,8 @@ namespace Pg::Graphics
 	void RenderObjectSkinnedMesh3D::ObjMat_UnbindBuffers()
 	{
 		_cbObjMatBase->UnbindVS(0);
-		_cbAltogetherSkinned->UnbindVS(1);
+		_cbAllSkinnedNodes->UnbindVS(1);
+		_cbAllSkinnedBones->UnbindVS(2);
 
 		//PBR Texture를 다 썼으니, 이제 할당 해제!
 		ID3D11ShaderResourceView* tNullSRV = nullptr;

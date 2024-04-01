@@ -45,6 +45,7 @@ namespace Pg::Graphics
 	class NodeAnim_AssetData;
 	class Animation_AssetData;
 	class BoneInfo_AssetData;
+	class Asset3DModelData;
 
 	//Material Cluster.
 	class MaterialCluster;
@@ -74,6 +75,7 @@ namespace Pg::Graphics::Helper
 		static void AssimpToSceneAssetData(const aiScene* assimp, const std::string& path, Scene_AssetData* outSceneAssetData);
 		static void AssimpToMaterialClusterList(const aiScene* assimp, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory);
 		static void AssimpToPBRTextureArray(const std::string& modelName, std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData);
+		static void D3DSetPrivateData(const std::string& modelName, Asset3DModelData* modelData);
 		//매 프레임마다 값 관리, Reset()을 통해서 명시적으로 AssimpBufferParser가 재사용하다는 사실을 드러내야 한다.
 		static void Reset();
 		//후에, 여기에 Animation을 로드하는 함수가 들어가야 할 것.
@@ -105,6 +107,7 @@ namespace Pg::Graphics::Helper
 		static void StoreAssimpAnimation(const aiAnimation* assimp, Animation_AssetData* pgAnim);
 		//Bone Info도 있어야 하는데..
 
+		//더 이상 Linear하게 쓰이지는 않지만, => 노드 기록용으로.
 		static void LinearizeRecursiveNodes(const Node_AssetData* toBeParent, const Node_AssetData* parent, Skinned_AssetData* skinData);
 		 
 		//Material 관련.
@@ -112,7 +115,7 @@ namespace Pg::Graphics::Helper
 
 	private:
 		static std::unordered_map<const aiNode*, Node_AssetData*> _aiNodeToNodeMap;	// Bone에서 aiNode를 통해 Node를 찾기위한 맵
-
+		static std::unordered_map<const aiMesh*, Mesh_AssetData*> _aiMeshToMeshMap; // aiMesh를 통해 Mesh를 찾기 위한 맵.
 	};
 }
 

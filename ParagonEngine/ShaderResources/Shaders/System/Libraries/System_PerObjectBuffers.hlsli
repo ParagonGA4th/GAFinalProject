@@ -4,7 +4,8 @@
 #define __DEFINED_SYSTEM_PER_OBJECT_BUFFERS_HLSL__
 
 //Defines
-#define PG_MAX_BONECOUNT 100
+#define PG_MAX_BONECOUNT 256
+#define PG_MAX_NODECOUNT 256
 
 //Constant Buffers
 cbuffer cbPerObjectBase : register(b0)
@@ -17,8 +18,14 @@ cbuffer cbPerObjectBase : register(b0)
     // gCBuf_Materials[10] //후에 Material이 들어가면 추가되어야.
 };
 
-cbuffer cbPerObjectSkinned : register(b1)
+cbuffer cbPerObjectSkinnedNodes : register(b1)
+{
+    float4x4 gCBuf_Nodes[PG_MAX_NODECOUNT];
+};
+
+cbuffer cbPerObjectSkinnedBones : register(b2)
 {
     float4x4 gCBuf_Bones[PG_MAX_BONECOUNT];
 };
+
 #endif //__DEFINED_SYSTEM_PER_OBJECT_BUFFERS_HLSL__

@@ -40,7 +40,7 @@ namespace Pg::Graphics
 	private:
 		std::unique_ptr<Animation_AssetData> _animAssetData;
 		
-		const std::vector<BoneInfo_AssetData>* _modelBoneInfoData;
+		
 	};
 }
 

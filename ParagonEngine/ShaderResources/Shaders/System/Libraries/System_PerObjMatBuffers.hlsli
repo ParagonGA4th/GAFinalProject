@@ -5,7 +5,8 @@
 #define __DEFINED_SYSTEM_PER_OBJMAT_BUFFERS_HLSL__
 
 //Defines
-#define PG_MAX_OBJMAT_BONECOUNT 100
+#define PG_MAX_OBJMAT_BONECOUNT 256
+#define PG_MAX_OBJMAT_NODECOUNT 256
 
 //Constant Buffers
 cbuffer cbPerObjMatBase : register(b0)
@@ -14,8 +15,14 @@ cbuffer cbPerObjMatBase : register(b0)
     float4x4 gCBuf_WorldViewProj;
 };
 
-cbuffer cbPerObjMatSkinned : register(b1)
+cbuffer cbPerObjMatSkinnedNodes : register(b1)
+{
+    float4x4 gCBuf_Nodes[PG_MAX_OBJMAT_NODECOUNT];
+};
+
+cbuffer cbPerObjMatSkinnedBones : register(b2)
 {
     float4x4 gCBuf_Bones[PG_MAX_OBJMAT_BONECOUNT];
 };
+
 #endif //__DEFINED_SYSTEM_PER_OBJMAT_BUFFERS_HLSL__

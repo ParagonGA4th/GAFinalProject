@@ -218,7 +218,7 @@ namespace Pg::Graphics
 		}
 
 		//ModelBoneInfo 저장 -> Animation 안에 저장.
-		anim->_modelBoneInfoData = &(tBasedModelPtr->_assetSkinnedData->_renderBoneInfoVector);
+		//anim->_modelBoneInfoData = &(tBasedModelPtr->_assetSkinnedData->_renderBoneInfoVector);
 
 		//Path에서 Animation을 호출할 때 활용될 이름을 Path로부터 추출, -> stem 투입.
 		//이제, 자기 자신이 호환된다는 것을 AssetSkinnedData에게 알려주자.

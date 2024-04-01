@@ -1,5 +1,5 @@
 #include "AssetAnimationDataDefine.h"
-
+#include "AssetModelDataDefine.h"
 namespace Pg::Graphics
 {
 	NodeAnim_AssetData::NodeAnim_AssetData()
@@ -12,9 +12,9 @@ namespace Pg::Graphics
 
 	}
 
-	BoneInfo_AssetData::BoneInfo_AssetData()
+	BoneInfo_AssetData::BoneInfo_AssetData() : 
+		 _name(), _index(0), _bindedNode(nullptr), _offsetMatrix(DirectX::XMMatrixIdentity())
 	{
-		_boneOffset = DirectX::SimpleMath::Matrix::Identity;
 		//_finalTransformation = DirectX::SimpleMath::Matrix(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 

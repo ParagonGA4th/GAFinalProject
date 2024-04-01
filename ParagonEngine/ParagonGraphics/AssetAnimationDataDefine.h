@@ -13,6 +13,8 @@
 
 namespace Pg::Graphics
 {
+	struct Node_AssetData;
+
 	//NodeAnim에 활용, Vector Key (Animation)
 	struct VectorKey_AssetData
 	{
@@ -135,6 +137,7 @@ namespace Pg::Graphics
 		//그러니, 선형적으로 쭉 렌더해버린다고 해도 기존 구조는 유지.
 		//Animation에 따라 행렬이 매번 달라지니, 
 		//Skinned 인스턴스 쪽에서는 인덱스 등을 따로 저장해서 Linear 공간 사이를 오가며 렌더.
+		///일단은 그대로 사용되지는 않음. NodeAnim 기록 용도로.
 		std::vector<const NodeAnim_AssetData*> _linearizedNodeAnimList;
 		
 	};
@@ -143,9 +146,13 @@ namespace Pg::Graphics
 	struct BoneInfo_AssetData
 	{
 		BoneInfo_AssetData();
-		///FinalTransformation은 Animation 자체에서 관리하고 있을 것이다.
+		//FinalTransformation은 Animation 자체에서 관리하고 있을 것이다.
 		//DirectX::SimpleMath::Matrix _finalTransformation; // Final transformation to apply to vertices 
-		DirectX::SimpleMath::Matrix _boneOffset; // Initial offset from local to bone space. 
+		
+		std::string _name;
+		UINT _index;
+		Node_AssetData* _bindedNode;
+		DirectX::SimpleMath::Matrix _offsetMatrix; // Initial offset from local to bone space. 
 	};
 
 	class VertexBone_TempAssetData

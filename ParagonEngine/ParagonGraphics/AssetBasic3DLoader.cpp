@@ -61,6 +61,7 @@ namespace Pg::Graphics::Loader
 			AssimpBufferParser::AssimpToSkinnedDataDXBuffer(pScene, modelData->_assetSceneData, modelData->_assetSkinnedData, modelData->_vertexBuffer, modelData->_indexBuffer);
 			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList, path);
 			AssimpBufferParser::AssimpToPBRTextureArray(modelData->GetFileName(), modelData->_materialClusterList, modelData->_pbrTextureArrays);
+			AssimpBufferParser::D3DSetPrivateData(modelData->GetFileName(), modelData);
 			AssimpBufferParser::Reset();
 		}
 		else
@@ -82,6 +83,7 @@ namespace Pg::Graphics::Loader
 			AssimpBufferParser::AssimpToStaticDataDXBuffer(pScene, modelData->_assetSceneData, modelData->_vertexBuffer, modelData->_indexBuffer);
 			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList, path);
 			AssimpBufferParser::AssimpToPBRTextureArray(modelData->GetFileName(), modelData->_materialClusterList, modelData->_pbrTextureArrays);
+			AssimpBufferParser::D3DSetPrivateData(modelData->GetFileName(), modelData);
 			AssimpBufferParser::Reset();
 		}
 
