@@ -107,8 +107,8 @@ namespace Pg::Graphics::Helper
 		static void StoreAssimpAnimation(const aiAnimation* assimp, Animation_AssetData* pgAnim);
 		//Bone Info도 있어야 하는데..
 
-		//더 이상 Linear하게 쓰이지는 않지만, => 노드 기록용으로.
-		static void LinearizeRecursiveNodes(const Node_AssetData* toBeParent, const Node_AssetData* parent, Skinned_AssetData* skinData);
+		//노드 기록용으로.
+		static void RecordNodeToList(const Node_AssetData* self, Skinned_AssetData* skinData);
 		 
 		//Material 관련.
 		//static void ConnectMeshToNode();
