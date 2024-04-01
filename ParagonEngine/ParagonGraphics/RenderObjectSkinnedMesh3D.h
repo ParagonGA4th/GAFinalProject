@@ -87,6 +87,7 @@ namespace Pg::Graphics
 		//배열대로 실제로 행렬들을 투입하는 것.
 		void FillInNodeBuffer(const ModifiedNode_SkinnedMesh* const selfNode);
 		void FillInBoneBuffer(const ModifiedNode_SkinnedMesh* const selfNode);
+	
 	private:
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>> _cbFirstBase;
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinnedNodes>> _cbAllSkinnedNodes;
