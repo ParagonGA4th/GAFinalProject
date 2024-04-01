@@ -108,7 +108,6 @@ namespace Pg::Graphics::Helper
 		//Bone Info도 있어야 하는데..
 
 		//노드 기록용으로.
-		static void RecordNodeToList(const Node_AssetData* self, Skinned_AssetData* skinData);
 		 
 		//Material 관련.
 		//static void ConnectMeshToNode();

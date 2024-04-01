@@ -1,7 +1,9 @@
 #pragma once
 #include "RenderObject3D.h"
+#include "AssetAnimationDataDefine.h"
 #include <dxtk/SimpleMath.h>
 #include <vector>
+#include <memory>
 #include <chrono>
 
 /// <summary>
@@ -75,17 +77,21 @@ namespace Pg::Graphics
 		double _currentTick;
 		std::chrono::time_point<std::chrono::steady_clock> _startedTime;
 		std::chrono::time_point<std::chrono::steady_clock> _expectedEndTime;
-	
+
 	private:
-		void FillInNodeBuffer(const Node_AssetData* const selfNode);
-		void FillInBoneBuffer(const Node_AssetData* const selfNode);
+		//개별 Skinning 객체별 독립적인 애니메이션을 실행하기 위해 존재하는 CopyNode.
+		std::unique_ptr<ModifiedNode_SkinnedMesh> _copiedModifyRootNode;
+		std::unordered_map<std::string, const ModifiedNode_SkinnedMesh*> _animatedModifNodeMap;
+
+	private:
+		//배열대로 실제로 행렬들을 투입하는 것.
+		void FillInNodeBuffer(const ModifiedNode_SkinnedMesh* const selfNode);
+		void FillInBoneBuffer(const ModifiedNode_SkinnedMesh* const selfNode);
 	private:
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>> _cbFirstBase;
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinnedNodes>> _cbAllSkinnedNodes;
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinnedBones>> _cbAllSkinnedBones;
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjMatBase>> _cbObjMatBase;
-
-
 	};
 }
 

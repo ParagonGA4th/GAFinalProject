@@ -125,8 +125,9 @@ namespace Pg::Graphics
 		//Bone 연산에 필요한 Global Inverse Transform.
 		DirectX::SimpleMath::Matrix _meshGlobalInverseTransform;
 
+		//개별적인 인스턴스로 이동.
 		//명시적으로 Node들의 List를 가지고 있음 -> String 값을 통해 Node들을 찾을 수 있음.
-		std::unordered_map<std::string, const Node_AssetData*> _animatedNodeMap;
+		//std::unordered_map<std::string, const Node_AssetData*> _animatedNodeMap;
 
 		//RenderAnimation 자체가 자료에 접근해서, 호환되는 자신을 추가한다.
 		std::map<std::string, RenderAnimation*> _viableAnimations;

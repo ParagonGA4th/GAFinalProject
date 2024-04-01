@@ -44,6 +44,10 @@ namespace Pg::Graphics
 		auto tModelData = GraphicsResourceManager::Instance()->GetResource(tSkinnedMeshRenderer->GetMeshFilePath(), eAssetDefine::_3DMODEL);
 		_modelData = static_cast<Asset3DModelData*>(tModelData.get());
 
+		//개별적으로 렌더에 쓰일 CopyModifiableNode : 생성.
+		_copiedModifyRootNode = std::make_unique<ModifiedNode_SkinnedMesh>(nullptr);
+		_copiedModifyRootNode->RecursiveInitFromNode(_modelData->_assetSceneData->_rootNode.get(), _animatedModifNodeMap);
+
 		//Constant Buffer Data를 생성.
 		_cbFirstBase = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>>();
 		_cbAllSkinnedNodes = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinnedNodes>>();
@@ -76,6 +80,10 @@ namespace Pg::Graphics
 
 	void RenderObjectSkinnedMesh3D::First_UpdateConstantBuffers(Pg::Data::CameraData* camData)
 	{
+		//실제로 Animation대로 연산된 값을 알맞은 행렬의 배열로 투입.
+		FillInNodeBuffer(_copiedModifyRootNode.get());
+		FillInBoneBuffer(_copiedModifyRootNode.get());
+
 		UpdateMainCB(camData);
 		UpdateSkinnedCB();
 	}
@@ -228,9 +236,7 @@ namespace Pg::Graphics
 			DirectX::SimpleMath::Vector3 position;
 			DirectX::SimpleMath::Vector4 rotation;
 
-			auto& tAnimatedNodeMap = _modelData->_assetSkinnedData->_animatedNodeMap;
-
-			const Node_AssetData* node = tAnimatedNodeMap[nodeAnim->_nodeName];
+			const ModifiedNode_SkinnedMesh* node = _animatedModifNodeMap[nodeAnim->_nodeName];
 
 			//TODO : NodeAnim 없는 경우 대비.
 			
@@ -399,7 +405,7 @@ namespace Pg::Graphics
 
 	}
 
-	void RenderObjectSkinnedMesh3D::FillInNodeBuffer(const Node_AssetData* const selfNode)
+	void RenderObjectSkinnedMesh3D::FillInNodeBuffer(const ModifiedNode_SkinnedMesh* const selfNode)
 	{
 		// DX에서 HLSL 로 넘어갈때 자동으로 전치가 되서 넘어간다.
 		// HLSL 에서도 Row Major 하게 작성하고 싶으므로 미리 전치를 시켜놓는다.
@@ -414,6 +420,12 @@ namespace Pg::Graphics
 				DirectX::XMMatrixTranspose(MathHelper::PG2XM_MATRIX(selfNode->_relTransform->GetWorldTM()));
 		}
 
+		//Early Return
+		if (selfNode->_numChildren == 0)
+		{
+			return;
+		}
+
 		//nodeBuffer->transformMatrix[node->index] = DirectX::XMMatrixTranspose(node->worldTM);
 		for (int i = 0; i < selfNode->_childrenList.size(); i++)
 		{
@@ -421,13 +433,19 @@ namespace Pg::Graphics
 		}
 	}
 
-	void RenderObjectSkinnedMesh3D::FillInBoneBuffer(const Node_AssetData* const selfNode)
+	void RenderObjectSkinnedMesh3D::FillInBoneBuffer(const ModifiedNode_SkinnedMesh* const selfNode)
 	{
 		BoneInfo_AssetData* bone = selfNode->_bindedBone;
 
 		if (bone)
 		{
 			_cbAllSkinnedBones->GetDataStruct()->gCBuf_Bones[bone->_index] = DirectX::XMMatrixTranspose(bone->_offsetMatrix);
+		}
+
+		//Early Return
+		if (selfNode->_numChildren == 0)
+		{
+			return;
 		}
 
 		for (int i = 0; i < selfNode->_childrenList.size(); i++)
