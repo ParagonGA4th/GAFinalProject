@@ -1,4 +1,5 @@
 #pragma once
+#include "../ParagonData/ParagonDefines.h"
 #include <DirectXMath.h>
 
 /// <summary>
@@ -7,7 +8,8 @@
 
 namespace Pg::Graphics
 {
-	constexpr int PG_MAX_BONECOUNT = 100;
+	//constexpr int PG_MAX_BONECOUNT = 256;
+	//constexpr int PG_MAX_NODECOUNT = 256;
 
 	class ConstantBufferDefine
 	{
@@ -21,11 +23,17 @@ namespace Pg::Graphics
 			DirectX::XMFLOAT3 gCBuf_CameraPositionW;
 		};
 
-		struct cbPerObjectSkinned 
+		struct cbPerObjectSkinnedNodes
 		{
-			DirectX::XMMATRIX gCBuf_Bones[PG_MAX_BONECOUNT];
+			DirectX::XMMATRIX gCBuf_Nodes[Pg::Defines::ASSET_MAXIMUM_BONE_NUMBER_PER_MESH];
 		};
 
+		struct cbPerObjectSkinnedBones
+		{
+			DirectX::XMMATRIX gCBuf_Bones[Pg::Defines::ASSET_MAXIMUM_BONE_NUMBER_PER_MESH];
+		};
+
+		
 		//ObjMat 기록 위해.
 		struct cbPerObjMatBase
 		{
@@ -36,7 +44,7 @@ namespace Pg::Graphics
 		//같은 구성이므로 하나로 사용.
 		//struct cbPerObjMatSkinned
 		//{
-		//	DirectX::XMMATRIX gCBuf_Bones[PG_MAX_BONECOUNT];
+		//	DirectX::XMMATRIX gCBuf_Bones[Pg::Defines::ASSET_MAXIMUM_BONE_NUMBER_PER_MESH];
 		//};
 
 		struct cbSceneInfo

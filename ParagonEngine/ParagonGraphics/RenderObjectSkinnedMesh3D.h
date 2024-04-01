@@ -91,7 +91,8 @@ namespace Pg::Graphics
 		void UpdateSingleNodeWithAnim(const Node_AssetData* const selfNode, const Node_AssetData* const parentNode, const NodeAnim_AssetData* const nodeAnim);
 	private:
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>> _cbFirstBase;
-		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinned>> _cbAltogetherSkinned;
+		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinnedNodes>> _cbAllSkinnedNodes;
+		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinnedBones>> _cbAllSkinnedBones;
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjMatBase>> _cbObjMatBase;
 
 
