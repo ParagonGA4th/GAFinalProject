@@ -46,7 +46,7 @@ namespace Pg::Graphics
 
 	ModifiedNode_SkinnedMesh::ModifiedNode_SkinnedMesh(ModifiedNode_SkinnedMesh* parentNode) : _parentNode(parentNode)
 	{
-		_relTransform = std::make_unique<Pg::Data::Transform>(nullptr);
+		_relTransform = std::make_unique<Pg::Data::AnimTransform>();
 	}
 
 	ModifiedNode_SkinnedMesh::~ModifiedNode_SkinnedMesh()
@@ -74,9 +74,9 @@ namespace Pg::Graphics
 		assert(tOffMat.Decompose(scale, rotation, position) && "이거 실패하면 Decompose 실패한 것.");
 
 		//Local Transform 세팅, 먼저 만들어져서 들어온다.
-		this->_relTransform->_position = { position.x, position.y, position.z };
-		this->_relTransform->_rotation = { rotation.w, rotation.x, rotation.y, rotation.z };
-		this->_relTransform->_scale = { scale.x, scale.y, scale.z };
+		this->_relTransform->SetLocalPosition(position);
+		this->_relTransform->SetLocalRotation(rotation);
+		this->_relTransform->SetLocalScale(scale);
 
 		this->_numMeshes = nodeAssetData->_numMeshes;
 
@@ -102,9 +102,10 @@ namespace Pg::Graphics
 		for (int i = 0; i < this->_numChildren; i++)
 		{
 			_childrenList.push_back(std::move(std::make_unique<ModifiedNode_SkinnedMesh>(this)));
+			
 			//자식 노드의 Transform 없는 객체를 그대로 전달해준다. (겜옵젝 없이)
-			//AddChild만 우리 Transform에서 열려 있는데, 이에 맞게 넣어준다.
-			this->_relTransform->AddChild(this->_childrenList.at(i)->_relTransform.get());
+			//AnimTransform 방식으로 , 이에 맞게 넣어준다.
+			_childrenList.back()->_relTransform->SetParent(this->_relTransform.get(), false);
 
 			//재귀적으로 기록.
 			this->_childrenList.at(i)->RecursiveInitFromNode(nodeAssetData->_childrenList.at(i).get(), recordMap);
