@@ -71,12 +71,12 @@ ATOM Pg::Editor::Core::EditorAction::WindowRegisterClass(HINSTANCE hInstance)
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInstance;
-	wcex.hIcon = NULL;
+	wcex.hIcon = ExtractIconW(hInstance, L"../Resources/Icons/ParagonEngineLogo.ico", 0);
+	wcex.hIconSm = wcex.hIcon;
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wcex.lpszMenuName = NULL;
 	wcex.lpszClassName = _appName.c_str();
-	wcex.hIconSm = NULL;
 
 	return RegisterClassExW(&wcex);
 }
