@@ -17,7 +17,8 @@ VOut1st main(Vin1stSkinned input)
                                mul(mul(gCBuf_Bones[input.vin1st_BlendIndice1], gCBuf_Nodes[input.vin1st_BlendIndice1]), input.vin1st_BlendWeight1) +
                                mul(mul(gCBuf_Bones[input.vin1st_BlendIndice2], gCBuf_Nodes[input.vin1st_BlendIndice2]), input.vin1st_BlendWeight2) +
                                mul(mul(gCBuf_Bones[input.vin1st_BlendIndice3], gCBuf_Nodes[input.vin1st_BlendIndice3]), LastWeight);
-    
+	
+	
     float3 skinnedPosL = mul(float4(input.vin1st_PosL, 1.0f), finalOffsetMatrix);
 	
 	//NodeIndex를 쓰지 않는다..?? 일단 보류.
