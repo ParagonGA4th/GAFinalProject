@@ -83,7 +83,11 @@ ATOM Pg::Editor::Core::EditorAction::WindowRegisterClass(HINSTANCE hInstance)
 
 BOOL Pg::Editor::Core::EditorAction::CreateWindows(HINSTANCE hInstance)
 {
-	_hWnd = CreateWindowW(_appName.c_str(), _appName.c_str(), WS_OVERLAPPEDWINDOW,
+	//_hWnd = CreateWindowW(_appName.c_str(), _appName.c_str(), WS_OVERLAPPEDWINDOW,
+	//	CW_USEDEFAULT, CW_USEDEFAULT, _screenWidth, _screenHeight, nullptr, nullptr, hInstance, nullptr);
+
+	//Minimize && Resize 허용하지 않음.
+	_hWnd = CreateWindowW(_appName.c_str(), _appName.c_str(), WS_OVERLAPPED | WS_SYSMENU | WS_MINIMIZEBOX,
 		CW_USEDEFAULT, CW_USEDEFAULT, _screenWidth, _screenHeight, nullptr, nullptr, hInstance, nullptr);
 
 	if (!_hWnd) return FALSE;
@@ -108,7 +112,6 @@ LRESULT CALLBACK Pg::Editor::Core::EditorAction::WndProc(HWND hWnd, UINT message
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			break;
-
 		default:
 			return DefWindowProcW(hWnd, message, wParam, lParam);
 	}
