@@ -202,10 +202,13 @@ namespace Pg::Graphics
 			return;
 		}
 
-		_finalRenderer->SetOutlineRenderingMode(true);
-
 		//Object ID를 찾으려면, 기존에 있는 GraphicsSceneParser 내부를 찾아야 한다...
-		_finalRenderer->SetObjectIDSelected(_sceneParser->GetObjIDWithObject(outlinedObj));
+		UINT tSelectedID = _sceneParser->GetObjIDWithObject(outlinedObj);
+		if (tSelectedID != NULL)
+		{
+			_finalRenderer->SetOutlineRenderingMode(true);
+			_finalRenderer->SetObjectIDSelected(tSelectedID);
+		}
 	}
 
 	void ParagonRenderer::SetDeltaTime(float dt)
