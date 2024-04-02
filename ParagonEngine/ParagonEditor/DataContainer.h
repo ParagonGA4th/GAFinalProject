@@ -25,6 +25,9 @@ namespace Pg::Editor::Data
 		void SetGameTexture(void* Texture);
 		void* GetGameTexture() const;
 
+		void SetEditorOnOff(bool onoff);
+		bool GetEditorOnOff() const;
+
 		void SetSceneList(std::vector<Pg::Data::Scene*> scenes);
 		std::vector<Pg::Data::Scene*> GetSceneList();
 
