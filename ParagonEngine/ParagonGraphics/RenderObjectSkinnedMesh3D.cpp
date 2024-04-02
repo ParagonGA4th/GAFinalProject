@@ -297,9 +297,11 @@ namespace Pg::Graphics
 
 			auto tMat = DirectX::XMMatrixAffineTransformation({1,1,1}, { 0,0,0,0 }, rotation, position);
 
-			node->_relTransform->_position = { position.x, position.y, position.z};
-			node->_relTransform->_rotation = { rotation.w, rotation.x, rotation.y, rotation.z };
+			//node->_relTransform->_position = { position.x, position.y, position.z};
+			//node->_relTransform->_rotation = { rotation.w, rotation.x, rotation.y, rotation.z };
 
+			node->_relTransform->SetLocalPosition(position);
+			node->_relTransform->SetLocalRotation(rotation);
 			//Scale은 서포트하지 않는다.
 		}
 	}
@@ -425,7 +427,7 @@ namespace Pg::Graphics
 			
 			//일단 외적으로 Decompose 및 재투입은 하지 않은 상황.
 			_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] =
-				DirectX::XMMatrixTranspose(MathHelper::PG2XM_MATRIX(selfNode->_relTransform->GetWorldTM()));
+				DirectX::XMMatrixTranspose(selfNode->_relTransform->GetWorldTM());
 
 			//_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] =
 			//	PG2XM_MATRIX4X4(selfNode->_relTransform->GetWorldTM());

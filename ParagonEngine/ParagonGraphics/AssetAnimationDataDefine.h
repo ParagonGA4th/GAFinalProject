@@ -6,7 +6,7 @@
 #include <DirectXMath.h>
 #include <dxtk/SimpleMath.h>
 
-#include "../ParagonData/Transform.h"
+#include "../ParagonData/AnimTransform.h"
 
 /// <summary>
 /// 리팩토링된, 새로 필요한 만큼만 Animation의 데이터를 들고 있을
@@ -174,7 +174,7 @@ namespace Pg::Graphics
 		UINT _index{ 0 };
 		std::string _nodeName;
 		const Node_AssetData* _originData;
-		std::unique_ptr<Pg::Data::Transform> _relTransform; //-> 이는 NodeHierarchy를 따라한 복사본에서 만들어질 것이다.
+		std::unique_ptr<Pg::Data::AnimTransform> _relTransform; //-> 이는 NodeHierarchy를 따라한 복사본에서 만들어질 것이다.
 		ModifiedNode_SkinnedMesh* _parentNode;
 		unsigned int _numChildren{ 0 }; //해당 Node의 Children 개수.
 		std::vector<std::unique_ptr<ModifiedNode_SkinnedMesh>> _childrenList; //이 Node의 Children Node들. (자식 노드 없으면 nullptr)
