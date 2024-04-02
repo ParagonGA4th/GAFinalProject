@@ -25,8 +25,8 @@ VOut1st main(Vin1stSkinned input)
 	
 	// TODO : offsetMatrix와 node matrix도 곱한 matrix의 역전치를 곱해야될거같은데 일단 보류
 	//역전치 밑에서 곱함.
-    float3 skinnedNormalL = normalize(mul(float4(input.vin1st_NormalL, 0.0f), finalOffsetMatrix));
-    float3 skinnedTangentL = normalize(mul(float4(input.vin1st_TangentL, 0.0f), finalOffsetMatrix));
+    float3 skinnedNormalL = normalize(mul(float4(input.vin1st_NormalL, 1.0f), finalOffsetMatrix));
+    float3 skinnedTangentL = normalize(mul(float4(input.vin1st_TangentL, 1.0f), finalOffsetMatrix));
 	
 	// Position을 Local -> World 이동.
     output.vout1st_PosW = mul(float4(skinnedPosL, 1.0f), gCBuf_World).xyz;
