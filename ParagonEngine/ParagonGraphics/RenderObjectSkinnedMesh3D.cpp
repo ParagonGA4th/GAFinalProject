@@ -425,12 +425,15 @@ namespace Pg::Graphics
 		{
 			// nodeBuffer->transformMatrix[node->index] = DirectX::XMMatrixTranspose(node->GetWorldMatrix());
 			
-			//일단 외적으로 Decompose 및 재투입은 하지 않은 상황.
-			_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] =
-				DirectX::XMMatrixTranspose(selfNode->_relTransform->GetWorldTM());
+			DirectX::SimpleMath::Matrix tInputData = DirectX::XMMatrixTranspose(selfNode->_relTransform->GetWorldTM());
+			DirectX::SimpleMath::Matrix tZeroMat = DirectX::XMMatrixSet(0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
+			assert(tInputData != tZeroMat);
 
-			//_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] =
-			//	PG2XM_MATRIX4X4(selfNode->_relTransform->GetWorldTM());
+			//일단 외적으로 Decompose 및 재투입은 하지 않은 상황.
+			_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] = tInputData;
+				
+
+			//_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] = selfNode->_relTransform->GetWorldTM();
 		}
 
 		//Early Return
@@ -452,7 +455,11 @@ namespace Pg::Graphics
 
 		if (bone)
 		{
-			_cbAllSkinnedBones->GetDataStruct()->gCBuf_Bones[bone->_index] = DirectX::XMMatrixTranspose(bone->_offsetMatrix);
+			DirectX::SimpleMath::Matrix tInputData = DirectX::XMMatrixTranspose(bone->_offsetMatrix);
+			DirectX::SimpleMath::Matrix tZeroMat = DirectX::XMMatrixSet(0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
+
+			assert(tInputData != tZeroMat);
+			_cbAllSkinnedBones->GetDataStruct()->gCBuf_Bones[bone->_index] = tInputData;
 			//_cbAllSkinnedBones->GetDataStruct()->gCBuf_Bones[bone->_index] = bone->_offsetMatrix;
 		}
 
