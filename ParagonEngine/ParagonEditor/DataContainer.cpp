@@ -48,6 +48,16 @@ void* Pg::Editor::Data::DataContainer::GetGameTexture() const
 	return _gameTexture;
 }
 
+void Pg::Editor::Data::DataContainer::SetEditorOnOff(bool onoff)
+{
+	_onOff = onoff;
+}
+
+bool Pg::Editor::Data::DataContainer::GetEditorOnOff() const
+{
+	return _onOff;
+}
+
 void Pg::Editor::Data::DataContainer::SetSceneList(std::vector<Pg::Data::Scene*> scenes)
 {
 	_scenes = scenes;

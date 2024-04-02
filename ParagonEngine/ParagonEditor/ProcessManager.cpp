@@ -57,18 +57,40 @@ void Pg::Editor::Manager::ProcessManager::Update()
 	//_dataContainer->SetPickObject(_coreMain->PassPickedObject());
 	
 	_coreMain->FinalRender();
-	
-	if (_coreMain->GetEditorAdapter()->GetCurrentScene() != nullptr
-		&& _dataContainer->GetCurrentScene() == nullptr)
+
+	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff))
 	{
-		_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
+		_dataContainer->SetEditorOnOff(!_dataContainer->GetEditorOnOff());
 	}
 
-	if (_dataContainer->GetSceneList().size() > 0)
+	if (_dataContainer->GetEditorOnOff())
 	{
+		if (_dataContainer->GetSceneList().size() > 0)
+		{
+			if (_dataContainer->GetSceneList().size() > 0)
+			{
+				_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
+				_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
+			}
+
+			//if (_input->GetKeyDown(API::Input::eKeyCode::Save)) _editorEvent->Invoke(eEventType::_SAVEPROJECT);
+		}
 		_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
 		_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
 	}
+
+
+	//if (_coreMain->GetEditorAdapter()->GetCurrentScene() != nullptr
+	//	&& _dataContainer->GetCurrentScene() == nullptr)
+	//{
+	//	_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
+	//}
+
+	//if (_dataContainer->GetSceneList().size() > 0)
+	//{
+	//	_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
+	//	_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
+	//}
 
 	//if (_input->GetKeyDown(API::Input::eKeyCode::Save)) _editorEvent->Invoke(eEventType::_SAVEPROJECT);
 }
