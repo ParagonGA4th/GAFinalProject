@@ -1,2 +1,0 @@
-1-N개 파일 선택 후 (1Animation 담겨있는 FBX)
--> PgAnimParser.exe 위로 드래그. 그렇다면, 각각 드래그한 경로에 .pganim 폴더가 생겨난다. 
