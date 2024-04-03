@@ -82,10 +82,6 @@ namespace Pg::Graphics
 
 	void RenderObjectSkinnedMesh3D::First_UpdateConstantBuffers(Pg::Data::CameraData* camData)
 	{
-		//실제로 Animation대로 연산된 값을 알맞은 행렬의 배열로 투입.
-		FillInNodeBuffer(_copiedModifyRootNode.get());
-		FillInBoneBuffer(_copiedModifyRootNode.get());
-
 		UpdateMainCB(camData);
 		UpdateSkinnedCB();
 	}
@@ -229,6 +225,10 @@ namespace Pg::Graphics
 			}
 		}
 
+		//실제로 Animation대로 연산된 값을 알맞은 행렬의 배열로 투입.
+		FillInNodeBuffer(_copiedModifyRootNode.get());
+		FillInBoneBuffer(_copiedModifyRootNode.get());
+		assert("");
 	}
 
 	void RenderObjectSkinnedMesh3D::UpdateAnimMatrices(float dt)
@@ -305,8 +305,9 @@ namespace Pg::Graphics
 			node->_relTransform->SetLocalPosition(position);
 			node->_relTransform->SetLocalRotation(rotation);
 		
-			//Scale은 서포트하지 않는다.
-			node->_relTransform->SetLocalScale({ 1.0f,1.0f, 1.0f });
+			//Scale은 서포트하지 않는다. 다만, 0.01을 반영..?
+			//node->_relTransform->SetLocalScale({ 1.0f,1.0f, 1.0f });
+			//node->_relTransform->SetLocalScale({ 0.01f, 0.01f, 0.01f });
 		}
 	}
 
