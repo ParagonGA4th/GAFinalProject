@@ -259,8 +259,11 @@ namespace Pg::Graphics::Helper
 		UINT tTotalElapsedVertexCount = 0;
 		UINT tTotalElapsedIndiceCount = 0;
 
-		LayoutDefine::Vin1stSkinned* vertices = new LayoutDefine::Vin1stSkinned[vertexCnt];
-		int32_t* indices = new int32_t[indexCnt];
+		std::vector<LayoutDefine::Vin1stSkinned> vertices;
+		vertices.resize(vertexCnt);
+
+		std::vector<int32_t> indices;
+		indices.resize(indexCnt);
 		uint32_t vid = 0, iid = 0;
 
 		//별개로, 나중에 Material ID, Object ID를 기록해야 하기에 필요한 정보인 Position만 기록. (&& Blend Data Info + 디폴트 데이터)
@@ -339,19 +342,19 @@ namespace Pg::Graphics::Helper
 			CD3D11_BUFFER_DESC vbDesc(
 				vertexCnt * sizeof(LayoutDefine::Vin1stSkinned),
 				D3D11_BIND_VERTEX_BUFFER);
-			D3D11_SUBRESOURCE_DATA vbData = { vertices, 0, 0 };
+			D3D11_SUBRESOURCE_DATA vbData = { vertices.data(), 0, 0};
 			HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&vbDesc, &vbData, &outVB));
 			//assert(false);
 
 			CD3D11_BUFFER_DESC ibDesc(
 				indexCnt * sizeof(uint32_t),
 				D3D11_BIND_INDEX_BUFFER);
-			D3D11_SUBRESOURCE_DATA ibData = { indices, 0, 0 };
+			D3D11_SUBRESOURCE_DATA ibData = { indices.data(), 0, 0};
 			HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&ibDesc, &ibData, &outIB));
 		} while (0);
 
-		delete[] vertices;
-		delete[] indices;
+		//delete[] vertices;
+		//delete[] indices;
 
 		if (nullptr == outVB || nullptr == outIB)
 		{

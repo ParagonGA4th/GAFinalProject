@@ -44,19 +44,20 @@ namespace Pg::Graphics::Loader
 			modelData->_assetSkinnedData = new Skinned_AssetData;
 
 			//Skinned 
-			const aiScene* pScene = _importer->ReadFile(path.c_str(),
-				aiProcess_Triangulate |
-				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_GenBoundingBoxes |
-				aiProcess_CalcTangentSpace | aiProcess_PopulateArmatureData |
-				aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_FixInfacingNormals | aiProcess_LimitBoneWeights); //aiProcess_EmbedTextures |
-			
 			//const aiScene* pScene = _importer->ReadFile(path.c_str(),
-			//	aiProcess_Triangulate
-			//	| aiProcess_ConvertToLeftHanded
-			//	| aiProcess_PopulateArmatureData
-			//	| aiProcess_CalcTangentSpace
-			//	| aiProcess_LimitBoneWeights
-			//);
+			//	aiProcess_Triangulate |
+			//	aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_GenBoundingBoxes |
+			//	aiProcess_CalcTangentSpace | aiProcess_PopulateArmatureData |
+			//	aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_FixInfacingNormals | aiProcess_LimitBoneWeights); //aiProcess_EmbedTextures |
+			//
+
+			const aiScene* pScene = _importer->ReadFile(path.c_str(),
+				aiProcess_Triangulate
+				| aiProcess_ConvertToLeftHanded
+				| aiProcess_PopulateArmatureData
+				| aiProcess_CalcTangentSpace
+				| aiProcess_LimitBoneWeights
+			);
 
 			assert(pScene != nullptr);
 
