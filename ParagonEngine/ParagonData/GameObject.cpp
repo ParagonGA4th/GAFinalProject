@@ -9,6 +9,7 @@
 
 #include "RendererBase3D.h"
 #include "../ParagonData/StaticMeshRenderer.h"
+#include "../ParagonData/SkinnedMeshRenderer.h"
 
 #include "../ParagonUtil/Log.h"
 
@@ -138,11 +139,18 @@ namespace Pg::Data
 			return component;
 		}
 
-		///TODO: 현재 StaticMeshRenderer가 먹지 않고 있다. UE를 급하게 고쳐야 하기에, 하드코딩으로 일단 투입.
+		///TODO: 현재 Static/SkinnedMeshRenderer가 먹지 않고 있다. UE를 급하게 고쳐야 하기에, 하드코딩으로 일단 투입.
 		if (componentType.compare("class Pg::Data::StaticMeshRenderer") == 0)
 		{
 			component = new StaticMeshRenderer(this);
 			AddComponent("class Pg::Data::StaticMeshRenderer", component);
+			return component;
+		}
+
+		if (componentType.compare("class Pg::Data::SkinnedMeshRenderer") == 0)
+		{
+			component = new SkinnedMeshRenderer(this);
+			AddComponent("class Pg::Data::SkinnedMeshRenderer", component);
 			return component;
 		}
 	
