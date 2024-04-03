@@ -48,6 +48,8 @@ namespace Pg::UI::Manager
 		 void BeginDisable(bool disable);
 		 void EndDisable();
 
+		 int IsWindowFocus(std::string windowName);
+
 	private:
 		std::unique_ptr<Pg::UI::Manager::ImGuiManager> _imguiManager;
 		std::string _gizmoType = "Translate";

@@ -85,3 +85,8 @@ void Pg::UI::Manager::UIManager::EndDisable()
 {
 	_imguiManager->EndDisable();
 }
+
+int Pg::UI::Manager::UIManager::IsWindowFocus(std::string windowName)
+{
+	return _imguiManager->IsFocus(windowName);
+}

@@ -22,9 +22,6 @@ namespace Pg::Editor::Data
 		void SetSceneTexture(void* Texture);
 		void* GetSceneTexture() const;
 
-		void SetGameTexture(void* Texture);
-		void* GetGameTexture() const;
-
 		void SetEditorOnOff(bool onoff);
 		bool GetEditorOnOff() const;
 
@@ -44,16 +41,12 @@ namespace Pg::Editor::Data
 		ID3D11Device* _device;
 		ID3D11DeviceContext* _deviceContext;
 
-		std::string _projectPath;
-
 		std::vector<Pg::Data::Scene*> _scenes;
 		Pg::Data::Scene* _currentScene;
-
 		Pg::Data::GameObject* _pickObject;
 
+		std::string _projectPath;
 		void* _sceneTexture;
-		void* _gameTexture;
-
 		bool _onOff;
 	};
 }

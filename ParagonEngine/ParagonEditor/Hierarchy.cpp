@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <singleton-cpp/singleton.h>
 
+
 Pg::Editor::Window::Hierarchy::Hierarchy()
 	:_winName("Hierarchy"), _isShow(true), _prevObjListSize(0)
 {
@@ -45,6 +46,7 @@ void Pg::Editor::Window::Hierarchy::Update()
 
 	DataSet();
 	_widgetCon->Update();
+
 	if (_isDisable) _uiManager->EndDisable();
 	_uiManager->WindowEnd();
 }
@@ -142,13 +144,18 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 	{
 		if (*_isNewObject)
 		{
-			_dataContainer->GetCurrentScene()->AddObject("New Object" + std::to_string(count));
-			count++;
+			if (_count == 0)
+			{
+				_dataContainer->GetCurrentScene()->AddObject("New Object");
+				_count++;
+			}
+			else _dataContainer->GetCurrentScene()->AddObject("New Object " + std::to_string(_count++));
 		}
 
 		if (*_isDeleteObject)
 		{
 			_dataContainer->GetCurrentScene()->DeleteObject((*_prevObjName));
+			_count--;
 		}
 
 		_prevSceneName = sceneName;

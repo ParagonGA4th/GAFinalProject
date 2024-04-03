@@ -39,22 +39,20 @@ namespace Pg::Editor::Window
 		bool _isShow;
 		bool _isDisable;
 
+		std::string _prevSceneName;
+		int _prevObjListSize;
+		bool _isObjectChange;
+		int _count = 0;
+
 		/// helper class
 		Pg::Editor::Data::DataContainer* _dataContainer;
 		Pg::UI::Manager::UIManager* _uiManager;
 		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
-
 		std::unique_ptr<Pg::Editor::Event> _changeObjectData;
-
-		std::string _prevSceneName;
-		int _prevObjListSize;
-		bool _isObjectChange;
-		int count = 0;
 
 		/// Data value
 		// key - parent, value - child
 		std::map<int, std::pair<std::string, std::vector<std::string>>> _objNameList;
-
 		std::string* _prevObjName;
 		bool* _isNewObject;
 		bool* _isDeleteObject;

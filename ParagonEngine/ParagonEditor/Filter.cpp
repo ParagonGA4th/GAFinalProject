@@ -1,9 +1,9 @@
 #include "Filter.h"
 #include "DataContainer.h"
 #include "Event.h"
+
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
-
 #include "../ParagonUI/Selectable.h"
 #include "../ParagonUI/TreeNode.h"
 #include "../ParagonUI/TextPopup.h"

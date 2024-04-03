@@ -7,9 +7,6 @@
 #include "../ParagonUI/Image.h"
 
 #include "../ParagonData/Scene.h"
-#include "../ParagonData/Transform.h"
-
-#include "../ParagonMath/PgMath.h"
 
 #include <singleton-cpp/singleton.h>
 
@@ -23,8 +20,6 @@ Pg::Editor::Window::Scene::Scene()
 	_uiManager = &tUIManager;
 
 	_widgetCon = std::make_unique<Pg::UI::WidgetContainer>();
-
-	_gizmoType = std::make_unique<Pg::Editor::Event>();
 }
 
 Pg::Editor::Window::Scene::~Scene()
@@ -35,14 +30,16 @@ Pg::Editor::Window::Scene::~Scene()
 void Pg::Editor::Window::Scene::Initialize()
 {
 	_widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 1920.f, 1080.f);
+
+	std::unique_ptr<Pg::Editor::Event> _gizmoType = std::make_unique<Pg::Editor::Event>();
 	_gizmoType->AddEvent(Pg::Editor::eEventType::_GIZMOTYPE, [&](void* data) { _uiManager->SetGizmoType(data); });
 }
 
 void Pg::Editor::Window::Scene::Update()
 {
 	_uiManager->WindowBegin(_winName);
-
 	_uiManager->BeginDisable(_isDisable);
+	
 	_widgetCon->Update();	
 	
 	if (_dataContainer->GetPickObject() != nullptr)
@@ -52,8 +49,8 @@ void Pg::Editor::Window::Scene::Update()
 	}
 
 	_uiManager->DrawGizmo();
-	if (_isDisable) _uiManager->EndDisable();
 
+	if (_isDisable) _uiManager->EndDisable();
 	_uiManager->WindowEnd();
 }
 

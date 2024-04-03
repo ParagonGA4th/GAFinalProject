@@ -13,8 +13,7 @@
 
 
 Pg::Editor::Manager::ProcessManager::ProcessManager(float width, float height)
-	:_screenWidth(width), _screenHeight(height),
-	_isCoreInitailized(false), _isSceneSet(false)
+	:_screenWidth(width), _screenHeight(height), _isCoreInit(false)
 {
 	// core
 	_coreMain = std::make_unique<Pg::Core::ProcessMain>();
@@ -23,10 +22,9 @@ Pg::Editor::Manager::ProcessManager::ProcessManager(float width, float height)
 	auto& tInputSystem = singleton<Pg::API::Input::PgInput>();
 	_input = &tInputSystem;
 
-	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer> ();
+	// editor helper
+	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
 	_dataContainer = &tdataCon;
-
-	
 }
 
 Pg::Editor::Manager::ProcessManager::~ProcessManager()
@@ -36,12 +34,10 @@ Pg::Editor::Manager::ProcessManager::~ProcessManager()
 void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd)
 {
 	_coreMain->Initialize(hWnd, _screenWidth, _screenHeight);
-	_isCoreInitailized = true;
+	_isCoreInit = true;
 
 	_dataContainer->SetGraphicsData(_coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
-	//SRV (에디터 카메라 전달)
-	_dataContainer->SetSceneTexture(_coreMain->GetEditorAdapter()->GetEditorCameraViewSRV());
-	_dataContainer->SetGameTexture(_coreMain->GetEditorAdapter()->GetGameCameraViewSRV());
+	_dataContainer->SetSceneTexture(_coreMain->GetEditorAdapter()->GetEditorCameraViewSRV()); //SRV (에디터 카메라 전달)
 
 	std::unique_ptr<Pg::Editor::Event> _editorEvent = std::make_unique<Pg::Editor::Event>();
 	_editorEvent->AddEvent(Pg::Editor::eEventType::_EDITORMODE, [&](void* mode) { SetEditorMode(mode); });
@@ -55,7 +51,7 @@ void Pg::Editor::Manager::ProcessManager::Update()
 	_coreMain->Render();
 	//Picking + Outline Effect. Editor에서 Edit Mode일때만 발동할 것. 그래픽스 리소스를 아끼기 위해.
 	//_dataContainer->SetPickObject(_coreMain->PassPickedObject());
-	
+
 	_coreMain->FinalRender();
 
 	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff))
@@ -107,7 +103,7 @@ void Pg::Editor::Manager::ProcessManager::Finalize()
 
 void Pg::Editor::Manager::ProcessManager::ManagerHandler(MSG message)
 {
-	if (_isCoreInitailized) _input->HandleMessage(message);
+	if (_isCoreInit) _input->HandleMessage(message);
 }
 
 void Pg::Editor::Manager::ProcessManager::SetEditorMode(void* mode)

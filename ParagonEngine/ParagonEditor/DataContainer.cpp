@@ -38,16 +38,6 @@ void* Pg::Editor::Data::DataContainer::GetSceneTexture() const
 	return _sceneTexture;
 }
 
-void Pg::Editor::Data::DataContainer::SetGameTexture(void* Texture)
-{
-	_gameTexture = Texture;
-}
-
-void* Pg::Editor::Data::DataContainer::GetGameTexture() const
-{
-	return _gameTexture;
-}
-
 void Pg::Editor::Data::DataContainer::SetEditorOnOff(bool onoff)
 {
 	_onOff = onoff;

@@ -24,7 +24,7 @@ namespace Pg::Data
 		float _fillRatio = 100.f;
 
 	private:
-		std::string _imagePath;
+		std::string _imagePath; // 필수 조건
 
 		
 	};
