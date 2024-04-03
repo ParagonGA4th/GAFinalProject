@@ -648,11 +648,11 @@ namespace Pg::Graphics::Helper
 	{
 		std::string tVbString = "VB : ";
 		tVbString.append(modelName);
-		HR(modelData->_vertexBuffer->SetPrivateData(WKPDID_D3DDebugObjectNameW, tVbString.length(), tVbString.data()));
+		HR(modelData->_vertexBuffer->SetPrivateData(WKPDID_D3DDebugObjectName, tVbString.length(), tVbString.data()));
 
 		std::string tIbString = "IB : ";
 		tIbString.append(modelName);
-		HR(modelData->_indexBuffer->SetPrivateData(WKPDID_D3DDebugObjectNameW, tIbString.length(), tIbString.data()));
+		HR(modelData->_indexBuffer->SetPrivateData(WKPDID_D3DDebugObjectName, tIbString.length(), tIbString.data()));
 	}
 
 	void AssimpBufferParser::Reset()

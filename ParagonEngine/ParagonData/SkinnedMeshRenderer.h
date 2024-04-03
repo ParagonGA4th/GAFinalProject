@@ -27,6 +27,10 @@ namespace Pg::Data
 	public:
 		SkinnedMeshRenderer(GameObject* obj);
 
+		//자동화된 Auto-Registration 작동 위해 필수.
+		static RendererBase3D* CreateInstance(GameObject* go) { return new SkinnedMeshRenderer(go); }
+		static const char* GetFactoryKey() { return "class Pg::Data::SkinnedMeshRenderer"; }
+
 		virtual void ConvertPotentialUnrealValues() override;
 		//혹시 Path만 있고 Name은 없는 상황을 막기 위해.
 		virtual void CheckForPathNameErrors() override;

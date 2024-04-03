@@ -237,6 +237,14 @@ namespace Pg::Graphics
 			DirectX::SimpleMath::Vector4 rotation;
 
 			const ModifiedNode_SkinnedMesh* node = _animatedModifNodeMap[nodeAnim->_nodeName];
+			//무조건 NodeAnim은 Node와 매칭되어야 하는데..?
+			if (node == nullptr)
+			{
+				//애초에 못 찾았으면 안되는데.. 원래 FBX에 없었던 값이 채워지는 것 같다.
+				//Armature.002라는 프로퍼티가 문제됨.
+				//일단은 무시할 것.
+				continue;
+			}
 
 			//TODO : NodeAnim 없는 경우 대비.
 			
@@ -418,6 +426,9 @@ namespace Pg::Graphics
 			//일단 외적으로 Decompose 및 재투입은 하지 않은 상황.
 			_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] =
 				DirectX::XMMatrixTranspose(MathHelper::PG2XM_MATRIX(selfNode->_relTransform->GetWorldTM()));
+
+			//_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] =
+			//	PG2XM_MATRIX4X4(selfNode->_relTransform->GetWorldTM());
 		}
 
 		//Early Return
@@ -440,6 +451,7 @@ namespace Pg::Graphics
 		if (bone)
 		{
 			_cbAllSkinnedBones->GetDataStruct()->gCBuf_Bones[bone->_index] = DirectX::XMMatrixTranspose(bone->_offsetMatrix);
+			//_cbAllSkinnedBones->GetDataStruct()->gCBuf_Bones[bone->_index] = bone->_offsetMatrix;
 		}
 
 		//Early Return
