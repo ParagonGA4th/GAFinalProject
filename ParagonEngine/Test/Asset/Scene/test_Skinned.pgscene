@@ -37,7 +37,7 @@
             <isInstanced>0</isInstanced>
             <meshName>ErikaMixamo.fbx</meshName>
             <materialName></materialName>
-            <initAnimName>test_idle</initAnimName>
+            <initAnimName>test_run</initAnimName>
           </data>
         </component>
       </components>
