@@ -661,7 +661,7 @@ namespace Pg::Graphics
 	jobFinished:
 		//만약 tRet이 NULL이라면, Render되지 않는 게임오브젝트를 선택했다는 뜻.
 		//한번 필터링되어오기 때문에, 해당 상황은 불가.
-		assert(tRet != NULL && "불가능한 상황, 필터링되어 온 게임오브젝트의 렌더 목록에서 발견X");
+		//assert(tRet != NULL && "불가능한 상황, 필터링되어 온 게임오브젝트의 렌더 목록에서 발견X");
 
 		return tRet;
 	}

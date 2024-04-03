@@ -33,11 +33,11 @@ namespace Pg::Data
 		void SetFontColor(PGFLOAT4 color);
 		PGFLOAT4 GetFontColor();
 
-		PGFLOAT4 _fontColor;
+		PGFLOAT4 _fontColor; // 필수 조건
 		std::string _string;
-		std::string _font;
+		std::string _font;  // 필수 조건
 		
-		float _fontSize;
+		float _fontSize; // 필수 조건
 
 	private:
 		//wchar_t _wBuffer[MAXIMUM_TEXTBUFFER_COUNT];

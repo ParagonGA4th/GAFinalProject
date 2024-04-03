@@ -4,7 +4,7 @@
 #include <algorithm>
 
 Pg::UI::Widget::Hierarchy::Hierarchy(std::map<int, std::pair<std::string, std::vector<std::string>>>& objNameList)
-	:_objNameList(objNameList), _mode(1), _isNodeOpen(false), _isNodeSelected(false), _isAddObject(false)
+	:_objNameList(objNameList), _mode(1), _isNodeOpen(false), _isNodeSelected(false), _isAddObject(false), _isDeleteObject(false)
 {
 }
 

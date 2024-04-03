@@ -8,19 +8,20 @@
 #include "Hierarchy.h"
 #include "Inspector.h"
 #include "Scene.h"
-#include "Game.h"
 #include "Filter.h"
 
 #include "../ParagonUI/UIManager.h"
 
 #include "../ParagonData/Scene.h"
 
+#include <memory>
 #include <algorithm>
 #include <singleton-cpp/singleton.h>
 
 Pg::Editor::Manager::WindowManager::WindowManager()
 	:_isDisable(false)
 {
+	// editor helper
 	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
 	_dataContainer = &tdataCon;
 
@@ -28,15 +29,12 @@ Pg::Editor::Manager::WindowManager::WindowManager()
 	auto& tUIManager = singleton<Pg::UI::Manager::UIManager>();
 	_uiManager = &tUIManager;
 
-	_windowAble = std::make_unique<Pg::Editor::Event>();
-
 	// Editor window
 	_windows.emplace_back(new Pg::Editor::Window::Layout());
 	_windows.emplace_back(new Pg::Editor::Window::ToolBar());
 	_windows.emplace_back(new Pg::Editor::Window::Hierarchy());
 	_windows.emplace_back(new Pg::Editor::Window::Inspector());
 	_windows.emplace_back(new Pg::Editor::Window::Scene());
-	_windows.emplace_back(new Pg::Editor::Window::Game());
 	_windows.emplace_back(new Pg::Editor::Window::Filter());
 }
 
@@ -51,6 +49,7 @@ void Pg::Editor::Manager::WindowManager::Initialize(void* hWnd)
 	for_each(_windows.begin(), _windows.end(), 
 		[](Pg::Editor::Window::IEditorWindow* ewindow) { ewindow->Initialize(); });
 
+	std::unique_ptr<Pg::Editor::Event> _windowAble = std::make_unique<Pg::Editor::Event>();
 	_windowAble->AddEvent(Pg::Editor::eEventType::_EDITORDISABLE, { [&](void* data) { WindowAble(data); }});
 }
 

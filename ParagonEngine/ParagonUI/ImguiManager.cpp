@@ -1,6 +1,7 @@
 #include "ImGuiManager.h"
 
 #include "imgui.h"
+#include "imgui_internal.h"
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 
@@ -34,17 +35,15 @@ Pg::UI::Manager::ImGuiManager::ImGuiManager()
 	//style.Colors[ImGuiCol_Text] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // 텍스트 색상을 하얀색으로 설정
 	//style.Colors[ImGuiCol_FrameBg] = ImVec4(0.2f, 0.2f, 0.2f, 1.0f); // 프레임 색상을 진회색으로 설정
 
-	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-	{
-		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-	}
-
 	_imGizmo = std::make_unique<Pg::UI::Helper::Gizmo>();
 
 	//PretendardFont 사용.
-	_pretendardFont = (void*)io.Fonts->AddFontFromFileTTF("../Resources/Fonts/TTF/Pretendard-Medium.ttf", 13.0f, NULL,
+	_pretendardFont = (void*)io.Fonts->AddFontFromFileTTF("../Resources/Fonts/TTF/Pretendard-Medium.ttf", 14.0f, NULL,
 		io.Fonts->GetGlyphRangesDefault());
 	IM_ASSERT(_pretendardFont != NULL);
+
+	//스타일 바꾸기 (IMGUI)
+	ChangeStyle();
 }
 
 Pg::UI::Manager::ImGuiManager::~ImGuiManager()
@@ -56,9 +55,6 @@ void Pg::UI::Manager::ImGuiManager::Initialize(void* hWnd, ID3D11Device* device,
 {
 	ImGui_ImplWin32_Init(hWnd);
 	ImGui_ImplDX11_Init(device, deviceContext);
-
-	//스타일 바꾸기 (IMGUI)
-	ChangeStyle();
 }
 
 void Pg::UI::Manager::ImGuiManager::CreateFrame()
@@ -257,4 +253,42 @@ void Pg::UI::Manager::ImGuiManager::ChangeStyle()
 	style.FrameRounding = 3;
 	style.PopupRounding = 4;
 	style.ChildRounding = 4;
+}
+
+int Pg::UI::Manager::ImGuiManager::IsFocus(std::string windowName)
+{
+	if (ImGui::GetCurrentContext()->HoveredWindow != NULL &&
+		windowName == ImGui::GetCurrentContext()->HoveredWindow->Name)
+	{
+		// 진입
+		if (!_isHoverd)
+		{
+			_focusFlag++;
+			_isHoverd = true;
+		}
+
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+		{
+			// 실행
+			_focusFlag++;
+		}
+	}
+	else
+	{
+		// 진입 하였음, 따라서 퇴출
+		if (_focusFlag == 0)
+		{
+			_focusFlag--;
+			_isHoverd = false;
+		}
+
+		// 다른 context 클릭, 초기화
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+		{
+			_focusFlag = -1;
+			_isHoverd = false;
+		}
+	}
+
+	return _focusFlag;
 }

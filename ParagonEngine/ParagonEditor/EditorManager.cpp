@@ -39,6 +39,3 @@ void Pg::Editor::Manager::EditorManager::ManagerHandler(MSG message)
 {
 	_windowManager->WindowHandler(message);
 }
-
-
-

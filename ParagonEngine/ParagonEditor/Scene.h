@@ -19,7 +19,6 @@ namespace Pg::Editor::Window
 		virtual void Update() override;
 		virtual void Finalize() override;
 		
-
 		virtual void SetShow(bool show) override;
 		virtual bool GetShow() override;
 
@@ -37,7 +36,6 @@ namespace Pg::Editor::Window
 		Pg::Editor::Data::DataContainer* _dataContainer;
 		Pg::UI::Manager::UIManager* _uiManager;
 		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
-		std::unique_ptr<Pg::Editor::Event> _gizmoType;
 
 		/// Data Value
 	};

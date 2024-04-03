@@ -18,6 +18,3 @@ namespace Pg::Editor
 		std::unique_ptr<Pg::Editor::Core::EditorAction> _action;
 	};
 }
-
-
-

@@ -12,7 +12,7 @@ void Pg::UI::Widget::InputText::Update()
 {
 	strcpy(_inputText, (*_text).c_str());
 
-	if (ImGui::InputText(_label.c_str(), _inputText, IM_ARRAYSIZE(_inputText)), ImGuiInputTextFlags_EnterReturnsTrue)
+	if (ImGui::InputText(_label.c_str(), _inputText, IM_ARRAYSIZE(_inputText)))
 	{
 		if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)))
 		{
