@@ -17,6 +17,7 @@
 namespace Pg::Graphics
 {
 	struct Node_AssetData;
+	struct Mesh_AssetData;
 
 	//NodeAnim¿¡ È°¿ë, Vector Key (Animation)
 	struct VectorKey_AssetData
