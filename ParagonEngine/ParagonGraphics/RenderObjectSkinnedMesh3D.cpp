@@ -46,6 +46,8 @@ namespace Pg::Graphics
 
 		//개별적으로 렌더에 쓰일 CopyModifiableNode : 생성.
 		_copiedModifyRootNode = std::make_unique<ModifiedNode_SkinnedMesh>(nullptr);
+
+		_copiedModifyRootNode->_relTransform->SetParent(nullptr, false);
 		_copiedModifyRootNode->RecursiveInitFromNode(_modelData->_assetSceneData->_rootNode.get(), _animatedModifNodeMap);
 
 		//Constant Buffer Data를 생성.
@@ -302,7 +304,9 @@ namespace Pg::Graphics
 
 			node->_relTransform->SetLocalPosition(position);
 			node->_relTransform->SetLocalRotation(rotation);
+		
 			//Scale은 서포트하지 않는다.
+			node->_relTransform->SetLocalScale({ 1.0f,1.0f, 1.0f });
 		}
 	}
 

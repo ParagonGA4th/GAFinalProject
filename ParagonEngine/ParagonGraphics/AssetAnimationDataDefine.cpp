@@ -80,10 +80,11 @@ namespace Pg::Graphics
 
 		this->_numMeshes = nodeAssetData->_numMeshes;
 
-		this->_meshIndexList.resize(nodeAssetData->_meshIndexList.size());
-		for (int i = 0; i< nodeAssetData->_meshIndexList.size(); i++)
+		this->_meshList.resize(nodeAssetData->_meshList.size());
+		for (int i = 0; i< nodeAssetData->_meshList.size(); i++)
 		{
-			this->_meshIndexList[i] = nodeAssetData->_meshIndexList[i];
+			//Mesh들의 포인터도 할당.
+			this->_meshList[i] = nodeAssetData->_meshList[i];
 		}
 		this->_bindedBone = nodeAssetData->_bindedBone;
 
