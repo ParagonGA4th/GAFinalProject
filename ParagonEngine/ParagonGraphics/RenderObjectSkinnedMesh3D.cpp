@@ -196,9 +196,6 @@ namespace Pg::Graphics
 
 	void RenderObjectSkinnedMesh3D::UpdateAnimationInfo(const float* const dt)
 	{
-		//실제로 값 업데이트.
-		UpdateAnimMatrices(*dt);
-
 		//Script 딴에서 로직 처리가 되었을 것이다.
 		const auto tNowTime = std::chrono::steady_clock::now();
 		const auto tPassedDuration = std::chrono::duration_cast<std::chrono::milliseconds>(tNowTime - _startedTime);
@@ -224,6 +221,9 @@ namespace Pg::Graphics
 				this->_currentTick = _currentAnim->_animAssetData->_durationTick;
 			}
 		}
+
+		//실제로 값 업데이트.
+		UpdateAnimMatrices(*dt);
 
 		//실제로 Animation대로 연산된 값을 알맞은 행렬의 배열로 투입.
 		FillInNodeBuffer(_copiedModifyRootNode.get());
@@ -369,7 +369,7 @@ namespace Pg::Graphics
 
 		_cbFirstBase->GetDataStruct()->gCBuf_World = tWorldTMMat;
 		_cbFirstBase->GetDataStruct()->gCBuf_WorldInvTranspose = tWorldInvTransposeMat;
-		_cbFirstBase->GetDataStruct()->gCBuf_WorldView = tViewTMMat;
+		_cbFirstBase->GetDataStruct()->gCBuf_WorldView = DirectX::XMMatrixMultiply(tWorldTMMat, tViewTMMat);
 		_cbFirstBase->GetDataStruct()->gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
 		_cbFirstBase->GetDataStruct()->gCBuf_CameraPositionW = tCameraPositionW;
 
