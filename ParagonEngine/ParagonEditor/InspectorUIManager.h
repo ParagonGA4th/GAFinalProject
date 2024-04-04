@@ -1,46 +1,46 @@
 #pragma once
 #include <string>
-#include <unordered_map>
 #include <memory>
+#include <unordered_map>
 
 namespace Pg::UI { class WidgetContainer; }
 namespace Pg::Editor::Window
 {
+	class InspectorDataManager;
 	class InspectorUIManager
 	{
+		friend class InspectorDataManager;
 	public:
 		InspectorUIManager();
 		~InspectorUIManager();
 
-		void Initialize();
+		void Initialize(InspectorDataManager* manager);
 		void Update();
-		//void SetData(Pg::Data::GameObject* object);
 
 	private:
-		//void ComponentUI();
+		void ChangedUI();
+		void SetData();
+		void UpdateData();
 
 	private:
 		std::unique_ptr<Pg::UI::WidgetContainer> _defaultUI;
 		std::unique_ptr<Pg::UI::WidgetContainer> _changedUI;
-		//Pg::Editor::Data::DataContainer* _dataContainer;
 
 		/// default UI value
 		std::vector<std::string> _componentList;
 		int* _componentIndex;
 		bool* _isClick;
+		bool* _isRefresh;
 
-		// Object Info
-		//Pg::Data::GameObject* _object;
-		//std::string _objName;
-		//std::string _objTag;
-		//bool _isActive;
+		// object value;
+		std::string _objName;
+		std::string _objTag;
+		bool _isActive;
 
-		// Picking Object Info
-		//bool _isPicked;
-		//std::string _pickedObjName;
+		InspectorDataManager* _dataManager;
 
 		// Component UI Helper Value
-		//std::unordered_map<std::string, bool*> _componentExistence;
+		std::unordered_map<std::string, bool*> _componentExistence;
 
 	};
 }

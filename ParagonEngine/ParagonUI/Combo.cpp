@@ -1,8 +1,8 @@
 #include "Combo.h"
 #include "imgui.h"
 
-Pg::UI::Widget::Combo::Combo(std::string label, std::vector<std::string> itemList)
-	:_label(label), _itemList(itemList)
+Pg::UI::Widget::Combo::Combo(std::string label, std::vector<std::string> itemList, int index)
+	:_label(label), _itemList(itemList), _selectedIndex(index)
 {
 }
 

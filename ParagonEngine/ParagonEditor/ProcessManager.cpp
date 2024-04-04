@@ -41,6 +41,7 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd)
 
 	std::unique_ptr<Pg::Editor::Event> _editorEvent = std::make_unique<Pg::Editor::Event>();
 	_editorEvent->AddEvent(Pg::Editor::eEventType::_EDITORMODE, [&](void* mode) { SetEditorMode(mode); });
+	_editorEvent->AddEvent(Pg::Editor::eEventType::_MODIFIEDOBJECT, [&](void* objList) { SetModifiedObject(objList); });
 }
 
 void Pg::Editor::Manager::ProcessManager::Update()
@@ -115,5 +116,10 @@ void Pg::Editor::Manager::ProcessManager::SetEditorMode(void* mode)
 void Pg::Editor::Manager::ProcessManager::SetEditorMode(Pg::Data::Enums::eEditorMode mode)
 {
 	_coreMain->GetEditorAdapter()->SetEditorMode(mode);
+}
+
+void Pg::Editor::Manager::ProcessManager::SetModifiedObject(void* objectList)
+{
+	//static_cast<std::vector<Pg::Data::GameObject*>*>(objectList);
 }
 

@@ -16,5 +16,6 @@ namespace Pg::Editor
 		_EDITORMODE,
 		_EDITORDISABLE,
 		_GIZMOTYPE,
+		_MODIFIEDOBJECT,
 	};
 }

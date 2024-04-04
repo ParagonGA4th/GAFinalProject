@@ -52,7 +52,7 @@
     <ClCompile Include="Layout.cpp">
       <Filter>2_Windows\Layout</Filter>
     </ClCompile>
-    <ClCompile Include="InspectorHelper.cpp">
+    <ClCompile Include="InspectorDataManager.cpp">
       <Filter>2_Windows\Inspector\Manager\DataManager</Filter>
     </ClCompile>
     <ClCompile Include="InspectorUIManager.cpp">
@@ -138,7 +138,7 @@
     <ClInclude Include="IEditorWindow.h">
       <Filter>2_Windows\1_Interface</Filter>
     </ClInclude>
-    <ClInclude Include="InspectorHelper.h">
+    <ClInclude Include="InspectorDataManager.h">
       <Filter>2_Windows\Inspector\Manager\DataManager</Filter>
     </ClInclude>
     <ClInclude Include="InspectorUIManager.h">
