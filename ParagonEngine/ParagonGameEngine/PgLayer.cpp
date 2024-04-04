@@ -2,7 +2,7 @@
 
 namespace Pg::Engine
 {
-	std::map<uint32_t, std::bitset<32>> layerData = {};
+	std::map<uint32_t, std::bitset<32>> PgLayer::layerData = {};
 
 	void PgLayer::ValidateLayer(uint32_t _layerID)
 	{
@@ -11,6 +11,15 @@ namespace Pg::Engine
 
 	void PgLayer::SetCollisionData(uint32_t _layerID, const std::initializer_list<uint32_t>& _collisionLayers)
 	{
+		ValidateLayer(_layerID);
+
+		for (const auto layer : _collisionLayers)
+		{
+			ValidateLayer(layer);
+
+			layerData[_layerID].set(layer);
+			layerData[layer].set(_layerID);
+		}
 
 	}
 
@@ -34,6 +43,11 @@ namespace Pg::Engine
 
 	bool PgLayer::CanCollide(uint32_t _layerID0, uint32_t _layerID1)
 	{
+		ValidateLayer(_layerID0);
+		ValidateLayer(_layerID1);
+
+		// 해당 비트를 확인해보고 1이면 true를 반환함
+		return layerData[_layerID0].test(_layerID1);
 
 	}
 

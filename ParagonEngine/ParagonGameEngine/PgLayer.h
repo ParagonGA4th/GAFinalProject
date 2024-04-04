@@ -5,6 +5,10 @@
 #include <bitset>
 #include <initializer_list>
 
+/// <summary>
+/// Collision Layer를 담당하는 클래스.
+/// 2024.04.04
+/// </summary>
 namespace Pg::Engine
 {
 	class PgLayer

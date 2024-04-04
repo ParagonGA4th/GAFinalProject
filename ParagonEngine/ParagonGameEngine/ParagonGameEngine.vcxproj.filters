@@ -139,6 +139,9 @@
     <ClInclude Include="..\include\fastlz\fastlz.h">
       <Filter>2_System\NavigationSystem\include\fastlz</Filter>
     </ClInclude>
+    <ClInclude Include="PgLayer.h">
+      <Filter>2_System\PhysicSystem\PhysicsLayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -288,6 +291,9 @@
     <ClCompile Include="Navigation\RecastDemo\ChunkyTriMesh.cpp">
       <Filter>2_System\NavigationSystem\src\RecastDemo</Filter>
     </ClCompile>
+    <ClCompile Include="PgLayer.cpp">
+      <Filter>2_System\PhysicSystem\PhysicsLayer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -406,6 +412,9 @@
     </Filter>
     <Filter Include="2_System\NavigationSystem\src\RecastDemo">
       <UniqueIdentifier>{6eb82696-ca2e-4377-a920-916449bc53a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\PhysicsLayer">
+      <UniqueIdentifier>{f2a4720f-ff13-4657-9fcb-360cbffb9a16}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
