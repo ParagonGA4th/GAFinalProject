@@ -159,7 +159,7 @@
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="Filter.cpp" />
     <ClCompile Include="Hierarchy.cpp" />
-    <ClCompile Include="InspectorHelper.cpp" />
+    <ClCompile Include="InspectorDataManager.cpp" />
     <ClCompile Include="Inspector.cpp" />
     <ClCompile Include="InspectorUIManager.cpp" />
     <ClCompile Include="Layout.cpp" />
@@ -185,7 +185,7 @@
     <ClInclude Include="IEditorWindow.h" />
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="IEditor.h" />
-    <ClInclude Include="InspectorHelper.h" />
+    <ClInclude Include="InspectorDataManager.h" />
     <ClInclude Include="Inspector.h" />
     <ClInclude Include="InspectorUIManager.h" />
     <ClInclude Include="Layout.h" />

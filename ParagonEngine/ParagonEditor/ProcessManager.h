@@ -24,6 +24,7 @@ namespace Pg::Editor::Manager
 
 		void SetEditorMode(void* mode); // Event Ã³¸®¿ë
 		void SetEditorMode(Pg::Data::Enums::eEditorMode mode);
+		void SetModifiedObject(void* objectList);
 
 	private:
 		std::unique_ptr<Pg::Core::ProcessMain> _coreMain;
