@@ -188,7 +188,9 @@ namespace Pg::Graphics
 
 		this->_currentAnim = _modelData->_assetSkinnedData->_viableAnimations.at(animName);
 
-		RefreshStartEndAnim();
+		//명시적으로 돌리는 시간 리셋.
+		_animationTime = 0.0;
+		_currentTick = 0.0;
 
 		//isLoop따라 값 설정. 해당 값은 일반적으로 데스등 장면에 활용될 것이니, 명시적으로 TPOSE를 넣지는 않을 것이다.
 		this->_isLoop = isLoop;
@@ -197,28 +199,28 @@ namespace Pg::Graphics
 	void RenderObjectSkinnedMesh3D::UpdateAnimationInfo(const float* const dt)
 	{
 		//Script 딴에서 로직 처리가 되었을 것이다.
-		const auto tNowTime = std::chrono::steady_clock::now();
-		const auto tPassedDuration = std::chrono::duration_cast<std::chrono::milliseconds>(tNowTime - _startedTime);
+		float deltaTime = *dt;
 
-		if (tNowTime <= _expectedEndTime)
+		_animationTime += deltaTime;
+		_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
+
+		if (_currentTick > _currentAnim->_animAssetData->_durationTick)
 		{
-			//아직까지는 예전에 정의된 애니메이션이 마무리되지 않은 것이다.
-			float tPassedDurSec = static_cast<float>(tPassedDuration.count()) / 1000.0f;
-			double tUnmanagedTick = (_currentAnim->_animAssetData->_ticksPerSecond) * tPassedDurSec;
-			//Time 연산 실패로 값이 빠져나가는 것을 막기 위해서, CLAMP. 현재 Tick 값 투입.
-			this->_currentTick = std::clamp<double>(tUnmanagedTick, 0, _currentAnim->_animAssetData->_durationTick);
-		}
-		else
-		{
-			//마무리 예정 시간보다 더 오랜 시간이 지났다. 판단을 내릴 때.
 			if (_isLoop)
 			{
-				RefreshStartEndAnim();
+				double secondPerTick = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
+				int count = 0;
+				while (secondPerTick * (count + 1) < _animationTime)
+				{
+					count++;
+				}
+				_animationTime -= count * secondPerTick;
+				_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
 			}
 			else
 			{
-				//마지막 프레임에 머물러 있게 해야 한다.
-				this->_currentTick = _currentAnim->_animAssetData->_durationTick;
+				_animationTime = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
+				_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
 			}
 		}
 
@@ -235,7 +237,7 @@ namespace Pg::Graphics
 	{
 		/////TOREMOVE
 		//this->_currentTick = 0;
-		///여기가 문제다!
+
 
 		for (auto& nodeAnim : _currentAnim->_animAssetData->_channelList)
 		{
@@ -315,21 +317,21 @@ namespace Pg::Graphics
 		}
 	}
 
-	void RenderObjectSkinnedMesh3D::RefreshStartEndAnim()
-	{
-		//다시 시간을 설정한 뒤에 시작한다.
-		this->_startedTime = std::chrono::steady_clock::now();
-
-		double tSecondsPerTick = 1.0f / (_currentAnim->_animAssetData->_durationTick);
-		float tDurationTickSec = static_cast<float>(tSecondsPerTick * (_currentAnim->_animAssetData->_durationTick));
-		//Ex. 3.5초면 3500 millisecond가 되어야 한다.
-		int tMS_TS = tDurationTickSec * 1000;
-
-		this->_expectedEndTime = _startedTime + std::chrono::milliseconds(tMS_TS);
-
-		//현재 Tick Reset.
-		this->_currentTick = 0;
-	}
+	//void RenderObjectSkinnedMesh3D::RefreshStartEndAnim()
+	//{
+	//	//다시 시간을 설정한 뒤에 시작한다.
+	//	this->_startedTime = std::chrono::steady_clock::now();
+	//
+	//	double tSecondsPerTick = 1.0f / (_currentAnim->_animAssetData->_durationTick);
+	//	float tDurationTickSec = static_cast<float>(tSecondsPerTick * (_currentAnim->_animAssetData->_durationTick));
+	//	//Ex. 3.5초면 3500 millisecond가 되어야 한다.
+	//	int tMS_TS = tDurationTickSec * 1000;
+	//
+	//	this->_expectedEndTime = _startedTime + std::chrono::milliseconds(tMS_TS);
+	//
+	//	//현재 Tick Reset.
+	//	this->_currentTick = 0;
+	//}
 
 	void RenderObjectSkinnedMesh3D::BindMainVertexIndexBuffer()
 	{

@@ -643,7 +643,7 @@ namespace Pg::Graphics
 		}
 
 		//Skinned List 내부 찾기.
-		for (auto& [bMatPath, bVectorPtr] : _renderObject3DList->_staticList)
+		for (auto& [bMatPath, bVectorPtr] : _renderObject3DList->_skinnedList)
 		{
 			for (int i = 0; i < bVectorPtr->size(); i++)
 			{
