@@ -34,6 +34,7 @@ namespace Pg::Graphics
 	class RenderVertexShader;
 	class RenderPixelShader;
 	class ConstantBufferDefine;
+	class GraphicsSceneParser;
 	struct ConstantBufferDefine::cbPerObjectBase;
 	class RenderTexture2D;
 	class RenderMaterial;
@@ -43,12 +44,14 @@ namespace Pg::Graphics
 {
 	class RenderObject3D : public Pg::Graphics::RenderObjectBase
 	{
+		friend class GraphicsSceneParser;
 	public:
 		RenderObject3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID);
 		virtual ~RenderObject3D();
 		
 		//일괄적으로 GraphicsParser에서 받을 수 있게, 설정.
-		void SetMaterialID(unsigned int matID);
+		//일괄적으로 Material ID Pointer를 부여해서, 나중에 연동되어도 문제 생기지 않게.
+		void SetMaterialIdPointer(unsigned int* matID);
 
 		//Object-Material 데이터가 전부 매칭/로드 된 후, 일괄적으로 발동될 함수이다.	
 		virtual void CreateObjMatBuffers() abstract;
@@ -77,7 +80,9 @@ namespace Pg::Graphics
 
 	protected:
 		//3D 오브젝트 한정.
-		unsigned int _objectID;
-		unsigned int _materialID;
+		UINT _objectID;
+		const UINT* _materialIdPointer;
+
+		bool _isObjMatBufferUsable{ false };
 	};
 }

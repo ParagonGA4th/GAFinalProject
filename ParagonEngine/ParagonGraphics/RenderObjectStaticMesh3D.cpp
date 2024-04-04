@@ -44,7 +44,7 @@ namespace Pg::Graphics
 	void RenderObjectStaticMesh3D::CreateObjMatBuffers()
 	{
 		//VB 로드. *(Index Buffer는 공유)
-		GraphicsResourceManager::Instance()->GetBasic3DLoader()->LoadObjMatBufferStatic(_objMatVB, _modelData, _objectID, _materialID);
+		GraphicsResourceManager::Instance()->GetBasic3DLoader()->LoadObjMatBufferStatic(_objMatVB, _modelData, _objectID, GetMaterialID());
 		
 		//Constant Buffer Data를 생성.
 		_cbObjMat = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjMatBase>>();

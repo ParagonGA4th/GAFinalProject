@@ -199,7 +199,24 @@ namespace Pg::Core
 		return _engine->GetDeltaTime();
 	}
 
-	
+	void EngineGraphicsAdapter::AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_graphics->AddRenderObject_Runtime(objVecP);
+	}
 
+	void EngineGraphicsAdapter::ModifyRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_graphics->ModifyRenderObject_Runtime(objVecP);
+	}
+
+	void EngineGraphicsAdapter::DeleteRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_graphics->DeleteRenderObject_Runtime(objVecP);
+	}
+
+	void EngineGraphicsAdapter::HandleRenderObjectsRuntime()
+	{
+		_graphics->HandleRenderObjectsRuntime();
+	}
 
 }
