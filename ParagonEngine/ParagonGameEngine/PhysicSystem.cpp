@@ -16,12 +16,8 @@
 #include "../ParagonData/RayCast.h"
 #include "../ParagonUtil/Log.h"
 
-//비트 연산을 위한 알고리즘
-#include <bitset>
-
 namespace Pg::Engine::Physic
 {
-
 	physx::PxFilterFlags ContactReportFilterShader(physx::PxFilterObjectAttributes
 		attributes0, physx::PxFilterData filterData0,
 		physx::PxFilterObjectAttributes attributes1, physx::PxFilterData filterData1,
@@ -494,7 +490,7 @@ namespace Pg::Engine::Physic
 
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
-				rigid->setLinearDamping(0.5f);
+				rigid->setLinearDamping(boxcol->GetLinearDamping());
 				rigid->attachShape(*boxShape);
 
 				//_pxScene->addActor(*rigid);
@@ -552,7 +548,7 @@ namespace Pg::Engine::Physic
 
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
-				rigid->setLinearDamping(0.5f);
+				rigid->setLinearDamping(sphCol->GetLinearDamping());
 				rigid->attachShape(*shape);
 				//_pxScene->addActor(*rigid);
 
@@ -609,7 +605,7 @@ namespace Pg::Engine::Physic
 				
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
-				rigid->setLinearDamping(0.5f);
+				rigid->setLinearDamping(capCol->GetLinearDamping());
 
 				rigid->attachShape(*shape);
 
@@ -664,40 +660,6 @@ namespace Pg::Engine::Physic
 			}
 		}
 	}
-
-
-	//void PhysicSystem::MakeRayCast(Pg::Data::GameObject* obj)
-	//{
-	//	Pg::Data::RayCast* col = obj->GetComponent<Pg::Data::RayCast>();
-
-	//	if (col)
-	//	{
-	//		auto rayCastVec = obj->GetComponents<Pg::Data::RayCast>();
-
-	//		for (auto& rayCast : rayCastVec)
-	//		{
-	//			Pg::Data::RayCast* cRayCast = dynamic_cast<Pg::Data::RayCast*>(rayCast);
-
-	//			//raycast의 크기.
-	//			physx::PxVec3 rayCastOrigin;
-	//			rayCastOrigin.x = cRayCast->GetOrigin().x;
-	//			rayCastOrigin.y = cRayCast->GetOrigin().y;
-	//			rayCastOrigin.z = cRayCast->GetOrigin().z;
-
-	//			physx::PxVec3 rayCastDir;
-	//			rayCastDir.x = cRayCast->GetDir().x;
-	//			rayCastDir.y = cRayCast->GetDir().y;
-	//			rayCastDir.z = cRayCast->GetDir().z;
-
-	//			float length;
-	//			length = cRayCast->GetLength();
-
-	//			physx::PxRaycastBuffer _hitBuffer;
-	//			_pxScene->raycast(rayCastOrigin, rayCastDir, length, _hitBuffer);
-	//		}
-	//	}
-	//}
-
 
 	///Rayscast 생성하기
 	Pg::Data::Collider* PhysicSystem::MakeRayCast(Pg::Math::PGFLOAT3 tOrigin, Pg::Math::PGFLOAT3 tDir, float tLength, int* bType)
