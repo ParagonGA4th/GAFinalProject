@@ -19,7 +19,7 @@ namespace Pg::Graphics
 	{
 	public:
 		//일단은 Material Index와 관계는 없을 것이다.
-		std::vector<std::pair<std::string, RenderMaterial*>> _materialPathSet;
+		std::unordered_map<std::string, RenderMaterial*> _materialPathSet;
 
 		//FirstPath가 지나면 Static, Skinned의 차이가 없다.
 		//FirstStatic/Skinned에 한정해서 차이나게 기록하고, 나머지는 일괄적으로 렌더해버리자.
