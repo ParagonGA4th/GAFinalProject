@@ -25,23 +25,23 @@ VOut1st main(Vin1stSkinned input)
 	
 	// TODO : offsetMatrix와 node matrix도 곱한 matrix의 역전치를 곱해야될거같은데 일단 보류
 	//역전치 밑에서 곱함.
-    float3 skinnedNormalL = normalize(mul(float4(input.vin1st_NormalL, 0.0f), finalOffsetMatrix));
-    float3 skinnedTangentL = normalize(mul(float4(input.vin1st_TangentL, 0.0f), finalOffsetMatrix));
+    float3 skinnedNormalL = normalize(mul(float4(input.vin1st_NormalL, 1.0f), finalOffsetMatrix));
+    float3 skinnedTangentL = normalize(mul(float4(input.vin1st_TangentL, 1.0f), finalOffsetMatrix));
 	
 	// Position을 Local -> World 이동.
-    output.vout1st_PosW = mul(float4(skinnedPosL, 1.0f), gCBuf_World).xyz;
+    output.vout1st_PosW = mul(gCBuf_World, float4(skinnedPosL, 1.0f)).xyz;
 	
     // 동차좌표계 내 Position 계산.
-    output.vout1st_PosH = mul(float4(skinnedPosL, 1.0f), gCBuf_WorldViewProj);
+    output.vout1st_PosH = mul(gCBuf_WorldViewProj, float4(skinnedPosL, 1.0f));
 	
 	// Alpha
     output.vout1st_Alpha = input.vin1st_Alpha;
 	
 	// Normal을 Local -> World 이동.
-	output.vout1st_NormalW = mul(skinnedNormalL, (float3x3) gCBuf_WorldInvTranspose);
+    output.vout1st_NormalW = mul((float3x3) gCBuf_WorldInvTranspose, skinnedNormalL);
 	
 	// Tangent를 Local -> World 이동.
-    output.vout1st_TangentW = mul(skinnedTangentL, (float3x3) gCBuf_WorldInvTranspose);
+    output.vout1st_TangentW = mul((float3x3) gCBuf_WorldInvTranspose, skinnedTangentL);
 	
 	output.vout1st_Color = input.vin1st_Color;
 	output.vout1st_MeshMatID = input.vin1st_MeshMatID;
