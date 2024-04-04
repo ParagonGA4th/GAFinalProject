@@ -1,6 +1,7 @@
 #include "PhysicSystem.h"
 #include "SceneSystem.h"
 #include "DebugSystem.h"
+#include "PgLayer.h"
 
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/Transform.h"
@@ -25,34 +26,37 @@ namespace Pg::Engine::Physic
 		constantBlockSize)
 	{
 		using namespace physx;
-		
-		//원래는 이 공간에 LayerMask가 있어야 한다.
-		//const bool maskTest = (filterData0.word0 & filterData1.word1) && (filterData1.word0 & filterData0.word1);
 
 		// 두 객체의 Layer를 확인
-		physx::PxU32 layer0 = filterData0.word0;
-		physx::PxU32 layer1 = filterData1.word0;
+		//physx::PxU32 layer0 = filterData0.word0;
+		//physx::PxU32 layer1 = filterData1.word0;
 
-		// Layer Mask 설정
-		int layerMask0 = 0x00000002; // Layer 1, 2와 충돌 011
-		int layerMask1 = 0x00000001; // Layer 1과만 충돌 001
+		//// Layer Mask 설정
+		//int layerMask0 = 0x00000002; // Layer 1, 2와 충돌 011
+		//int layerMask1 = 0x00000001; // Layer 1과만 충돌 001
 
-		// Layer Mask를 사용하여 충돌 여부 결정
-		if (!(layer0 & layerMask1) || !(layer1 & layerMask0))
-			return physx::PxFilterFlag::eSUPPRESS;
+		//// Layer Mask를 사용하여 충돌 여부 결정
+		//if (!(layer0 & layerMask1) || !(layer1 & layerMask0))
+		//	return physx::PxFilterFlag::eSUPPRESS;
 
-		//return PxFilterFlag::eKILL;
+		
+
+		//원래는 이 공간에 LayerMask가 있어야 한다.
+		const bool maskTest = Pg::Engine::PgLayer::CanCollide(filterData0.word0, filterData1.word0);
 
 		// Let triggers through
 		if (PxFilterObjectIsTrigger(attributes0) || PxFilterObjectIsTrigger(attributes1))
 		{
-			// 트리거 Notify (일단은 Masking 없이)
-			pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
-			pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
+			if (maskTest)
+			{
+				// Notify trigger if masks specify it
+				pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
+				pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
+			}
 			pairFlags |= PxPairFlag::eDETECT_DISCRETE_CONTACT;
-
 			return PxFilterFlag::eDEFAULT;
 		}
+
 
 		// Send events for the kinematic actors but don't solve the contact
 		if (PxFilterObjectIsKinematic(attributes0) && PxFilterObjectIsKinematic(attributes1))
@@ -75,30 +79,8 @@ namespace Pg::Engine::Physic
 
 		//LayerMask가 활성화되면, 이 역시 활용될 것.
 		// Ignore pair (no collisions nor events)
-	}
 
-	// 충돌 필터 셰이더 설정
-	physx::PxFilterFlags filterShaderCallBack(
-		physx::PxFilterObjectAttributes attributes0, physx::PxFilterData filterData0,
-		physx::PxFilterObjectAttributes attributes1, physx::PxFilterData filterData1,
-		physx::PxPairFlags& pairFlags, const void* constantBlock, physx::PxU32 constantBlockSize)
-	{
-		// 두 객체의 Layer를 확인
-		//physx::PxU32 layer0 = filterData0.word0;
-		//physx::PxU32 layer1 = filterData1.word0;
-
-		physx::PxU32 layer0 = 1;
-		physx::PxU32 layer1 = 2;
-		
-		// Layer Mask 설정
-		int layerMask0 = 2; // Layer 1, 2와 충돌
-		int layerMask1 = 1; // Layer 1과만 충돌
-
-		// Layer Mask를 사용하여 충돌 여부 결정
-		if (!(layer0 & layerMask1) || !(layer1 & layerMask0))
-			return physx::PxFilterFlag::eSUPPRESS;
-
-		return physx::PxFilterFlags();
+		return PxFilterFlag::eKILL;
 	}
 
 	void PhysicSystem::Initialize(Pg::Engine::DebugSystem* debugSystem)
@@ -123,6 +105,10 @@ namespace Pg::Engine::Physic
 
 		//Physics Callback 객체 생성.
 		_physicsCallback = std::make_unique<PhysicsCallback>();
+
+		//충돌 레이어 설정.
+		Pg::Engine::PgLayer::Clear();
+		Pg::Engine::PgLayer::SetCollisionData(0, { 0, 1, 3 });
 
 		// 머티리얼 생성(임의)
 		_material = _physics->createMaterial(0.5f, 0.5f, 0.5f);
@@ -291,7 +277,11 @@ namespace Pg::Engine::Physic
 			_pvd->release();
 			PX_RELEASE(transport);
 		}
+
 		PX_RELEASE(_foundation);
+
+		//레이어 해제.
+		Pg::Engine::PgLayer::Clear();
 	}
 
 	void PhysicSystem::CreatePxScene()
@@ -431,7 +421,7 @@ namespace Pg::Engine::Physic
 				staticBoxcol->SetPxShape(boxShape);
 
 				// Layer Mask 설정
-				boxShape->setSimulationFilterData(physx::PxFilterData(staticBoxcol->GetLayer(), 0, 0, 0));
+				//boxShape->setSimulationFilterData({ staticBoxcol->GetLayer(), 0, 0, 0 });
 
 				physx::PxRigidStatic* rigid = _physics->createRigidStatic(localTm);
 				rigid->attachShape(*boxShape);
@@ -486,7 +476,7 @@ namespace Pg::Engine::Physic
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
 
 				// Layer Mask 설정
-				boxShape->setSimulationFilterData(physx::PxFilterData(boxcol->GetLayer(), 0, 0, 0));
+				boxShape->setSimulationFilterData({ 2, 0, 0, 0 });
 
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
@@ -542,7 +532,7 @@ namespace Pg::Engine::Physic
 				sphCol->SetPxShape(shape);
 
 				// Layer Mask 설정
-				shape->setSimulationFilterData(physx::PxFilterData(sphCol->GetLayer(), 0, 0, 0));
+				//shape->setSimulationFilterData(physx::PxFilterData(sphCol->GetLayer(), 0, 0, 0));
 
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
 
@@ -601,7 +591,7 @@ namespace Pg::Engine::Physic
 
 				
 				// Layer Mask 설정
-				shape->setSimulationFilterData(physx::PxFilterData(capCol->GetLayer(), 0, 0, 0));
+				//shape->setSimulationFilterData(physx::PxFilterData(capCol->GetLayer(), 0, 0, 0));
 				
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
@@ -648,7 +638,7 @@ namespace Pg::Engine::Physic
 				planeCol->SetPxShape(shape);
 
 				// Layer Mask 설정
-				shape->setSimulationFilterData(physx::PxFilterData(planeCol->GetLayer(), 0, 0, 0));
+				shape->setSimulationFilterData({ 0, 0, 0, 0 });
 
 				//physx::PxRigidStatic* rigid = PxCreatePlane(*_physics, plane, *_material);
 				physx::PxRigidStatic* rigid = _physics->createRigidStatic(normalTm);
