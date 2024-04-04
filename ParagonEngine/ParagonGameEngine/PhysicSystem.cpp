@@ -16,6 +16,9 @@
 #include "../ParagonData/RayCast.h"
 #include "../ParagonUtil/Log.h"
 
+//비트 연산을 위한 알고리즘
+#include <bitset>
+
 namespace Pg::Engine::Physic
 {
 
