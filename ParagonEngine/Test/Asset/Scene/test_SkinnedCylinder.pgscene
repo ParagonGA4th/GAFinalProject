@@ -3,12 +3,12 @@
 	   LSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <objects>
     <object>
-      <uuid>BD167D87493128952CB3B79ECE3D0FA4</uuid>
-      <name>gizmo.00</name>
-      <tag>FromUnreal</tag>
+      <uuid></uuid>
+      <name>Cylinder</name>
+      <tag></tag>
       <active>true</active>
       <parent>0</parent>
-      <parent_uuid>BD167D87493128952CB3B79ECE3D0FA4</parent_uuid>
+      <parent_uuid></parent_uuid>
       <components>
         <component>
           <type>class Pg::Data::Transform</type>
@@ -35,9 +35,9 @@
           <type>class Pg::Data::SkinnedMeshRenderer</type>
           <data>
             <isInstanced>0</isInstanced>
-            <meshName>ErikaMixamo.fbx</meshName>
+            <meshName>CylinderRemastered.fbx</meshName>
             <materialName></materialName>
-            <initAnimName>test_run</initAnimName>
+            <initAnimName>CylinderAnim</initAnimName>
           </data>
         </component>
       </components>

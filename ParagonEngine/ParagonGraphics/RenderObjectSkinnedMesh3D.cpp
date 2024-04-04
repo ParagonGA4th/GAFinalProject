@@ -46,6 +46,8 @@ namespace Pg::Graphics
 
 		//개별적으로 렌더에 쓰일 CopyModifiableNode : 생성.
 		_copiedModifyRootNode = std::make_unique<ModifiedNode_SkinnedMesh>(nullptr);
+
+		_copiedModifyRootNode->_relTransform->SetParent(nullptr, false);
 		_copiedModifyRootNode->RecursiveInitFromNode(_modelData->_assetSceneData->_rootNode.get(), _animatedModifNodeMap);
 
 		//Constant Buffer Data를 생성.
@@ -80,10 +82,6 @@ namespace Pg::Graphics
 
 	void RenderObjectSkinnedMesh3D::First_UpdateConstantBuffers(Pg::Data::CameraData* camData)
 	{
-		//실제로 Animation대로 연산된 값을 알맞은 행렬의 배열로 투입.
-		FillInNodeBuffer(_copiedModifyRootNode.get());
-		FillInBoneBuffer(_copiedModifyRootNode.get());
-
 		UpdateMainCB(camData);
 		UpdateSkinnedCB();
 	}
@@ -190,7 +188,9 @@ namespace Pg::Graphics
 
 		this->_currentAnim = _modelData->_assetSkinnedData->_viableAnimations.at(animName);
 
-		RefreshStartEndAnim();
+		//명시적으로 돌리는 시간 리셋.
+		_animationTime = 0.0;
+		_currentTick = 0.0;
 
 		//isLoop따라 값 설정. 해당 값은 일반적으로 데스등 장면에 활용될 것이니, 명시적으로 TPOSE를 넣지는 않을 것이다.
 		this->_isLoop = isLoop;
@@ -198,39 +198,47 @@ namespace Pg::Graphics
 
 	void RenderObjectSkinnedMesh3D::UpdateAnimationInfo(const float* const dt)
 	{
-		//실제로 값 업데이트.
-		UpdateAnimMatrices(*dt);
-
 		//Script 딴에서 로직 처리가 되었을 것이다.
-		const auto tNowTime = std::chrono::steady_clock::now();
-		const auto tPassedDuration = std::chrono::duration_cast<std::chrono::milliseconds>(tNowTime - _startedTime);
+		float deltaTime = *dt;
 
-		if (tNowTime <= _expectedEndTime)
+		_animationTime += deltaTime;
+		_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
+
+		if (_currentTick > _currentAnim->_animAssetData->_durationTick)
 		{
-			//아직까지는 예전에 정의된 애니메이션이 마무리되지 않은 것이다.
-			float tPassedDurSec = static_cast<float>(tPassedDuration.count()) / 1000.0f;
-			double tUnmanagedTick = (_currentAnim->_animAssetData->_ticksPerSecond) * tPassedDurSec;
-			//Time 연산 실패로 값이 빠져나가는 것을 막기 위해서, CLAMP. 현재 Tick 값 투입.
-			this->_currentTick = std::clamp<double>(tUnmanagedTick, 0, _currentAnim->_animAssetData->_durationTick);
-		}
-		else
-		{
-			//마무리 예정 시간보다 더 오랜 시간이 지났다. 판단을 내릴 때.
 			if (_isLoop)
 			{
-				RefreshStartEndAnim();
+				double secondPerTick = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
+				int count = 0;
+				while (secondPerTick * (count + 1) < _animationTime)
+				{
+					count++;
+				}
+				_animationTime -= count * secondPerTick;
+				_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
 			}
 			else
 			{
-				//마지막 프레임에 머물러 있게 해야 한다.
-				this->_currentTick = _currentAnim->_animAssetData->_durationTick;
+				_animationTime = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
+				_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
 			}
 		}
 
+		//실제로 값 업데이트.
+		UpdateAnimMatrices(*dt);
+
+		//실제로 Animation대로 연산된 값을 알맞은 행렬의 배열로 투입.
+		FillInNodeBuffer(_copiedModifyRootNode.get());
+		FillInBoneBuffer(_copiedModifyRootNode.get());
+		assert("");
 	}
 
 	void RenderObjectSkinnedMesh3D::UpdateAnimMatrices(float dt)
 	{
+		/////TOREMOVE
+		//this->_currentTick = 0;
+
+
 		for (auto& nodeAnim : _currentAnim->_animAssetData->_channelList)
 		{
 			DirectX::SimpleMath::Vector3 position;
@@ -238,13 +246,13 @@ namespace Pg::Graphics
 
 			const ModifiedNode_SkinnedMesh* node = _animatedModifNodeMap[nodeAnim->_nodeName];
 			//무조건 NodeAnim은 Node와 매칭되어야 하는데..?
-			if (node == nullptr)
-			{
-				//애초에 못 찾았으면 안되는데.. 원래 FBX에 없었던 값이 채워지는 것 같다.
-				//Armature.002라는 프로퍼티가 문제됨.
-				//일단은 무시할 것.
-				continue;
-			}
+			//if (node == nullptr)
+			//{
+			//	//애초에 못 찾았으면 안되는데.. 원래 FBX에 없었던 값이 채워지는 것 같다.
+			//	//Armature.002라는 프로퍼티가 문제됨.
+			//	//일단은 무시할 것.
+			//	continue;
+			//}
 
 			//TODO : NodeAnim 없는 경우 대비.
 			
@@ -297,28 +305,33 @@ namespace Pg::Graphics
 
 			auto tMat = DirectX::XMMatrixAffineTransformation({1,1,1}, { 0,0,0,0 }, rotation, position);
 
-			node->_relTransform->_position = { position.x, position.y, position.z};
-			node->_relTransform->_rotation = { rotation.w, rotation.x, rotation.y, rotation.z };
+			//node->_relTransform->_position = { position.x, position.y, position.z};
+			//node->_relTransform->_rotation = { rotation.w, rotation.x, rotation.y, rotation.z };
 
-			//Scale은 서포트하지 않는다.
+			node->_relTransform->SetLocalPosition(position);
+			node->_relTransform->SetLocalRotation(rotation);
+		
+			//Scale은 서포트하지 않는다. 다만, 0.01을 반영..?
+			//node->_relTransform->SetLocalScale({ 1.0f,1.0f, 1.0f });
+			//node->_relTransform->SetLocalScale({ 0.01f, 0.01f, 0.01f });
 		}
 	}
 
-	void RenderObjectSkinnedMesh3D::RefreshStartEndAnim()
-	{
-		//다시 시간을 설정한 뒤에 시작한다.
-		this->_startedTime = std::chrono::steady_clock::now();
-
-		double tSecondsPerTick = 1.0f / (_currentAnim->_animAssetData->_durationTick);
-		float tDurationTickSec = static_cast<float>(tSecondsPerTick * (_currentAnim->_animAssetData->_durationTick));
-		//Ex. 3.5초면 3500 millisecond가 되어야 한다.
-		int tMS_TS = tDurationTickSec * 1000;
-
-		this->_expectedEndTime = _startedTime + std::chrono::milliseconds(tMS_TS);
-
-		//현재 Tick Reset.
-		this->_currentTick = 0;
-	}
+	//void RenderObjectSkinnedMesh3D::RefreshStartEndAnim()
+	//{
+	//	//다시 시간을 설정한 뒤에 시작한다.
+	//	this->_startedTime = std::chrono::steady_clock::now();
+	//
+	//	double tSecondsPerTick = 1.0f / (_currentAnim->_animAssetData->_durationTick);
+	//	float tDurationTickSec = static_cast<float>(tSecondsPerTick * (_currentAnim->_animAssetData->_durationTick));
+	//	//Ex. 3.5초면 3500 millisecond가 되어야 한다.
+	//	int tMS_TS = tDurationTickSec * 1000;
+	//
+	//	this->_expectedEndTime = _startedTime + std::chrono::milliseconds(tMS_TS);
+	//
+	//	//현재 Tick Reset.
+	//	this->_currentTick = 0;
+	//}
 
 	void RenderObjectSkinnedMesh3D::BindMainVertexIndexBuffer()
 	{
@@ -358,7 +371,7 @@ namespace Pg::Graphics
 
 		_cbFirstBase->GetDataStruct()->gCBuf_World = tWorldTMMat;
 		_cbFirstBase->GetDataStruct()->gCBuf_WorldInvTranspose = tWorldInvTransposeMat;
-		_cbFirstBase->GetDataStruct()->gCBuf_WorldView = tViewTMMat;
+		_cbFirstBase->GetDataStruct()->gCBuf_WorldView = DirectX::XMMatrixMultiply(tWorldTMMat, tViewTMMat);
 		_cbFirstBase->GetDataStruct()->gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
 		_cbFirstBase->GetDataStruct()->gCBuf_CameraPositionW = tCameraPositionW;
 
@@ -423,12 +436,15 @@ namespace Pg::Graphics
 		{
 			// nodeBuffer->transformMatrix[node->index] = DirectX::XMMatrixTranspose(node->GetWorldMatrix());
 			
-			//일단 외적으로 Decompose 및 재투입은 하지 않은 상황.
-			_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] =
-				DirectX::XMMatrixTranspose(MathHelper::PG2XM_MATRIX(selfNode->_relTransform->GetWorldTM()));
+			DirectX::SimpleMath::Matrix tInputData = DirectX::XMMatrixTranspose(selfNode->_relTransform->GetWorldTM());
+			DirectX::SimpleMath::Matrix tZeroMat = DirectX::XMMatrixSet(0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
+			assert(tInputData != tZeroMat);
 
-			//_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] =
-			//	PG2XM_MATRIX4X4(selfNode->_relTransform->GetWorldTM());
+			//일단 외적으로 Decompose 및 재투입은 하지 않은 상황.
+			_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] = tInputData;
+				
+
+			//_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] = selfNode->_relTransform->GetWorldTM();
 		}
 
 		//Early Return
@@ -450,7 +466,11 @@ namespace Pg::Graphics
 
 		if (bone)
 		{
-			_cbAllSkinnedBones->GetDataStruct()->gCBuf_Bones[bone->_index] = DirectX::XMMatrixTranspose(bone->_offsetMatrix);
+			DirectX::SimpleMath::Matrix tInputData = DirectX::XMMatrixTranspose(bone->_offsetMatrix);
+			DirectX::SimpleMath::Matrix tZeroMat = DirectX::XMMatrixSet(0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
+
+			assert(tInputData != tZeroMat);
+			_cbAllSkinnedBones->GetDataStruct()->gCBuf_Bones[bone->_index] = tInputData;
 			//_cbAllSkinnedBones->GetDataStruct()->gCBuf_Bones[bone->_index] = bone->_offsetMatrix;
 		}
 

@@ -53,7 +53,7 @@ namespace Pg::Graphics
 
 	private:
 		//Start-End 애니메이션 시간 입력. Refresh
-		void RefreshStartEndAnim();
+		//void RefreshStartEndAnim();
 
 		//실제로 행렬을 업데이트하기.
 		void UpdateAnimMatrices(float dt);
@@ -71,12 +71,14 @@ namespace Pg::Graphics
 	private:
 		//현재 재생 중인 애니메이션.
 		RenderAnimation* _currentAnim;
-		bool _isLoop{false};
 
 		//애니메이션 재생 관리. 
-		double _currentTick;
-		std::chrono::time_point<std::chrono::steady_clock> _startedTime;
-		std::chrono::time_point<std::chrono::steady_clock> _expectedEndTime;
+		//double _currentTick;
+		//std::chrono::time_point<std::chrono::steady_clock> _startedTime;
+		//std::chrono::time_point<std::chrono::steady_clock> _expectedEndTime;
+		bool _isLoop{false};
+		double _animationTime{ 0.0 }; // 현재 애니메이션이 재생된 시간
+		double _currentTick{ 0.0 };	  // 현재 재생되고 있는 틱.
 
 	private:
 		//개별 Skinning 객체별 독립적인 애니메이션을 실행하기 위해 존재하는 CopyNode.

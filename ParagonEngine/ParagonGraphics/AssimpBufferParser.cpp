@@ -259,8 +259,11 @@ namespace Pg::Graphics::Helper
 		UINT tTotalElapsedVertexCount = 0;
 		UINT tTotalElapsedIndiceCount = 0;
 
-		LayoutDefine::Vin1stSkinned* vertices = new LayoutDefine::Vin1stSkinned[vertexCnt];
-		int32_t* indices = new int32_t[indexCnt];
+		std::vector<LayoutDefine::Vin1stSkinned> vertices;
+		vertices.resize(vertexCnt);
+
+		std::vector<int32_t> indices;
+		indices.resize(indexCnt);
 		uint32_t vid = 0, iid = 0;
 
 		//별개로, 나중에 Material ID, Object ID를 기록해야 하기에 필요한 정보인 Position만 기록. (&& Blend Data Info + 디폴트 데이터)
@@ -297,6 +300,7 @@ namespace Pg::Graphics::Helper
 				//Node Index 값 투입.
 				vertices[vid + j]._nodeIndex = sceneData->_meshList[i]._belongNodeIndex;
 
+				//일단은 로직 상 맞는 것 같다.
 				vertices[vid + j]._blendIndice0 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0];
 				vertices[vid + j]._blendIndice1 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1];
 				vertices[vid + j]._blendIndice2 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[2];
@@ -310,6 +314,8 @@ namespace Pg::Graphics::Helper
 				sceneData->_posRecordVector.at(vid + j) = vertices[vid + j]._posL;
 				sceneData->_texRecordVector.at(vid + j) = vertices[vid + j]._tex;
 				sceneData->_meshMatIDRecordVector.at(vid + j) = vertices[vid + j]._meshMatID;
+
+				//일단은 로직 상 맞는 것 같다.
 				skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice0 = vertices[vid + j]._blendIndice0;
 				skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice1 = vertices[vid + j]._blendIndice1;
 				skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice2 = vertices[vid + j]._blendIndice2;
@@ -322,9 +328,9 @@ namespace Pg::Graphics::Helper
 
 			for (uint32_t j = 0; j < m->mNumFaces; j++)
 			{
-				indices[iid + j * 3] = m->mFaces[j].mIndices[0];
-				indices[iid + j * 3 + 1] = m->mFaces[j].mIndices[1];
-				indices[iid + j * 3 + 2] = m->mFaces[j].mIndices[2];
+				indices[iid + (j * 3)] = m->mFaces[j].mIndices[0];
+				indices[iid + (j * 3) + 1] = m->mFaces[j].mIndices[1];
+				indices[iid + (j * 3) + 2] = m->mFaces[j].mIndices[2];
 			}
 
 			vid += m->mNumVertices;
@@ -336,19 +342,19 @@ namespace Pg::Graphics::Helper
 			CD3D11_BUFFER_DESC vbDesc(
 				vertexCnt * sizeof(LayoutDefine::Vin1stSkinned),
 				D3D11_BIND_VERTEX_BUFFER);
-			D3D11_SUBRESOURCE_DATA vbData = { vertices, 0, 0 };
+			D3D11_SUBRESOURCE_DATA vbData = { vertices.data(), 0, 0};
 			HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&vbDesc, &vbData, &outVB));
 			//assert(false);
 
 			CD3D11_BUFFER_DESC ibDesc(
 				indexCnt * sizeof(uint32_t),
 				D3D11_BIND_INDEX_BUFFER);
-			D3D11_SUBRESOURCE_DATA ibData = { indices, 0, 0 };
+			D3D11_SUBRESOURCE_DATA ibData = { indices.data(), 0, 0};
 			HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&ibDesc, &ibData, &outIB));
 		} while (0);
 
-		delete[] vertices;
-		delete[] indices;
+		//delete[] vertices;
+		//delete[] indices;
 
 		if (nullptr == outVB || nullptr == outIB)
 		{
@@ -454,6 +460,7 @@ namespace Pg::Graphics::Helper
 		//outSceneAssetData->_rootNode->_relTransform = std::make_unique<Pg::Data::Transform>(nullptr); 
 		//자식 노드의 Transform 없는 객체를 그대로 전달해준다. (겜옵젝 소속 Transform 아님)
 
+		//Node 이동 발동될 시기 : -> Mesh를 다 받았을 때.
 		UINT tIndexForNode = 0;
 		StoreAssimpNode(assimp->mRootNode, outSceneAssetData, outSceneAssetData->_rootNode.get(), tIndexForNode);
 
@@ -481,9 +488,10 @@ namespace Pg::Graphics::Helper
 		pgNode->_numMeshes = assimp->mNumMeshes;
 		for (int i = 0; i < pgNode->_numMeshes; i++)
 		{
-			pgNode->_meshIndexList.push_back(assimp->mMeshes[i]);
+			//이미 저장된 정보를 기준으로 옮긴다. (Mesh_AssetData)
+			pgNode->_meshList.push_back(&(sceneData->_meshList.at(assimp->mMeshes[i])));
 
-			//Node 딴에서 MeshIndexList 역시 보관하지만, 직접적으로 Node의 인덱스 역시 Mesh가 보관하게 한다.
+			//Node 딴에서 MeshList 역시 보관하지만, 직접적으로 Node의 인덱스 역시 Mesh가 보관하게 한다.
 			sceneData->_meshList.at(assimp->mMeshes[i])._belongNodeIndex = pgNode->_index;
 		}
 
@@ -492,6 +500,7 @@ namespace Pg::Graphics::Helper
 
 		for (int i = 0; i < pgNode->_numChildren; i++)
 		{
+			//이때 Parent 전달했던 것이다.
 			pgNode->_childrenList.push_back(std::make_unique<Node_AssetData>(pgNode));
 		
 			StoreAssimpNode(assimp->mChildren[i], sceneData, pgNode->_childrenList[i].get(), index);

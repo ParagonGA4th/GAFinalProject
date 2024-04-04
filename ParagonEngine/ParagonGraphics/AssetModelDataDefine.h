@@ -14,15 +14,11 @@
 /// 구조체들의 선언부.
 /// 기존의 선언부를 결국 대체할 용도이다!
 /// </summary>
-
-namespace Pg::Data
-{
-	class Transform;
-}
-
+/// 
 namespace Pg::Graphics
 {
 	class RenderAnimation;
+	class Mesh_AssetData;
 }
 
 namespace Pg::Graphics
@@ -42,7 +38,7 @@ namespace Pg::Graphics
 		unsigned int _numChildren; //해당 Node의 Children 개수.
 		std::vector<std::unique_ptr<Node_AssetData>> _childrenList; //이 Node의 Children Node들. (자식 노드 없으면 nullptr)
 		unsigned int _numMeshes; //해당 Node의 Mesh 개수.
-		std::vector<unsigned int> _meshIndexList; //Mesh Index 저장. (각자 aiScene의 MeshList에 대응)
+		std::vector<const Mesh_AssetData*> _meshList; //Node에 소속될 Mesh들 저장. (각자 aiScene의 MeshList에 대응)
 	
 		//만약 바인딩된 Bone이 있으면, 포인터 보관.
 		BoneInfo_AssetData* _bindedBone{ nullptr };
