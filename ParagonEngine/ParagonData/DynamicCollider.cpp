@@ -9,7 +9,8 @@ namespace Pg::Data
 		Collider(owner),
 		_isActiveX(false),
 		_isActiveY(false),
-		_isActiveZ(false)
+		_isActiveZ(false),
+		_linearDamping(0.5f)
 	{
 
 	}
@@ -120,5 +121,15 @@ namespace Pg::Data
 	void DynamicCollider::FreezeAxisZ(bool isActive)
 	{
 		_isActiveZ = isActive;
+	}
+
+	void DynamicCollider::SetLinearDamping(float val)
+	{
+		_linearDamping = val;
+	}
+
+	float DynamicCollider::GetLinearDamping()
+	{
+		return _linearDamping;
 	}
 }

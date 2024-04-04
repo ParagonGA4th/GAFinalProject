@@ -46,6 +46,9 @@ namespace Pg::Data
 		PGFLOAT3 GetVelocity() const;
 	public:
 		void AddForce(PGFLOAT3 dir, ForceMode mode);
+
+		void SetLinearDamping(float val);
+		float GetLinearDamping();
 		
 		///Collider의 축을 고정
 		void FreezeAxisX(bool isActive);
@@ -66,6 +69,8 @@ namespace Pg::Data
 		bool _isActiveX;
 		bool _isActiveY;
 		bool _isActiveZ;
+
+		float _linearDamping;
 	};
 }
 
