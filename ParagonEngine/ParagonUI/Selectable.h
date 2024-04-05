@@ -1,7 +1,6 @@
 #pragma once
 #include "IWidget.h"
 
-#include <string>
 #include <vector>
 
 namespace Pg::UI::Widget
@@ -11,6 +10,7 @@ namespace Pg::UI::Widget
 	public:
 		Selectable(std::vector<std::string> objNameList, std::string& selectedObject);
 		virtual void Update() override;
+		virtual std::string GetWidgetLabel() override;
 		bool* GetSelectedObjectDoubleClicked();
 
 	private:

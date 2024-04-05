@@ -1,6 +1,5 @@
 #pragma once
 #include "IWidget.h"
-#include <string>
 
 namespace Pg::UI::Widget
 {
@@ -9,6 +8,7 @@ namespace Pg::UI::Widget
 	public:
 		InputText(std::string label, std::string* text);
 		virtual void Update() override;
+		virtual std::string GetWidgetLabel() override;
 
 	private:
 		std::string _label;

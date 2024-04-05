@@ -17,3 +17,8 @@ void Pg::UI::Widget::ImageButton::Update()
 	}
 	_isButtonClick = false;
 }
+
+std::string Pg::UI::Widget::ImageButton::GetWidgetLabel()
+{
+	return "ImageButton";
+}

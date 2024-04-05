@@ -1,6 +1,5 @@
 #pragma once
 #include "IWidget.h"
-#include <string>
 
 namespace Pg::UI::Widget
 {
@@ -9,7 +8,7 @@ namespace Pg::UI::Widget
 	public:
 		RadioButton(std::string label, std::string& selectRadio);
 		virtual void Update() override;
-
+		virtual std::string GetWidgetLabel() override;
 
 	protected:
 		std::string _btnName;

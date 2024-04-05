@@ -8,6 +8,7 @@ namespace Pg::UI::Widget
 	public:
 		ImageButton(void* texture, float width, float height);
 		virtual void Update() override;
+		virtual std::string GetWidgetLabel() override;
 
 		static bool _isButtonClick;
 

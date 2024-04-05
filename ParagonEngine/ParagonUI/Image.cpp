@@ -60,3 +60,8 @@ float* Pg::UI::Widget::Image::GetHeight()
 	return &_height;
 }
 
+std::string Pg::UI::Widget::Image::GetWidgetLabel()
+{
+	return "Image";
+}
+
