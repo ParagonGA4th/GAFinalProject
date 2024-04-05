@@ -39,8 +39,7 @@ void Pg::Editor::Window::Inspector::Update()
 	_uiManager->WindowBegin(_winName);
 	_uiManager->BeginDisable(_isDisable);
 
-	_insDataManager->SetFlag(_uiManager->IsWindowFocus(_winName));
-	PG_TRACE(_uiManager->IsWindowFocus(_winName));
+	//_insDataManager->SetFlag(_uiManager->IsWindowFocus(_winName));
 	_insDataManager->Update();
 	_insUIManager->Update();
 

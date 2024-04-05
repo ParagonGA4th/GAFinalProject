@@ -201,6 +201,8 @@ void Pg::Editor::Window::InspectorUIManager::UpdateData()
 		{
 			_dataManager->RemoveComponent(name);
 
+			if (name.find("StaticMeshRenderer") != std::string::npos) _dataManager->AddModifiedObject();
+
 			auto iter = _componentExistence.find(name);
 			delete iter->second;
 			_componentExistence.erase(iter);
@@ -215,4 +217,3 @@ void Pg::Editor::Window::InspectorUIManager::UpdateData()
 	if (_isRefresh)
 		_dataManager->ModifiedObject(_isRefresh);
 }
-
