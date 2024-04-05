@@ -2,11 +2,13 @@
 #include "RenderObject3D.h"
 #include "RenderObjectStaticMesh3D.h"
 #include "RenderObjectSkinnedMesh3D.h"
+#include "RenderMaterial.h"
 #include "../ParagonData/GameObject.h"
+
 #include <unordered_map>
 #include <vector>
 #include <memory>
-#include "RenderMaterial.h"
+#include <algorithm>
 
 /// <summary>
 /// Paragon Renderer가 Render되는 오브젝트들을 들고 있을 용도로,
@@ -18,6 +20,49 @@ namespace Pg::Graphics
 	struct RenderObject3DList
 	{
 	public:
+
+		std::vector<RenderObject3D*> GetRenderObjectWithGameObject(Pg::Data::GameObject* obj)
+		{
+			std::vector<RenderObject3D*> tRet;
+
+			for (auto& it : this->_staticList)
+			{
+				for (auto& [go, ro] : *(it.second.get()))
+				{
+					if (go == obj)
+					{
+						tRet.push_back(ro.get());
+					}
+				}
+			}
+
+			for (auto& it : this->_skinnedList)
+			{
+				for (auto& [go, ro] : *(it.second.get()))
+				{
+					tRet.push_back(ro.get());
+				}
+			}
+			return tRet;
+		}
+
+		void DeleteRenderObjectWithGameObject(Pg::Data::GameObject* obj)
+		{
+			//하나하나 vector.
+			for (auto& [bMat, bVec] : this->_staticList)
+			{
+				auto tVec = bVec.get();
+				tVec->erase(std::remove_if(tVec->begin(), tVec->end(), [&obj](auto& tPair) { return tPair.first == obj; }));
+			}
+
+			for (auto& [bMat, bVec] : this->_skinnedList)
+			{
+				auto tVec = bVec.get();
+				tVec->erase(std::remove_if(tVec->begin(), tVec->end(), [&obj](auto& tPair) { return tPair.first == obj; }));
+			}
+		}
+
+
 		//일단은 Material Index와 관계는 없을 것이다.
 		std::unordered_map<std::string, RenderMaterial*> _materialPathSet;
 

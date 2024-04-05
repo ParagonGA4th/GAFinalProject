@@ -83,6 +83,8 @@ namespace Pg::Graphics
 		UINT _objectID;
 		const UINT* _materialIdPointer;
 
-		bool _isObjMatBufferUsable{ false };
+		//현재 정보가 GameObject의 정보와 문제 없이 연동되었는가?
+		//최신 정보인가/
+		bool _isInternalUpToDate{ false };
 	};
 }
