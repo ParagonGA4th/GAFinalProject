@@ -22,4 +22,8 @@ namespace Pg::API::Raycast
 		return _physicSystem->MakeRayCast(origin, dir, length, type);
 	}
 
+	void PgRayCast::MakeSphereRay(const Pg::Math::PGFLOAT3& tOrigin, const Pg::Math::PGFLOAT3& tDir, float tRad, float max, unsigned int maxColCnt, Pg::Data::Collider**& colDataPointer)
+	{
+		_physicSystem->MakeSphereCast(tOrigin, tDir, tRad, max, maxColCnt, colDataPointer);
+	}
 }

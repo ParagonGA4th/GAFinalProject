@@ -8,6 +8,7 @@
 #include "extensions/PxDefaultAllocator.h"
 #include "extensions/PxDefaultErrorCallback.h"
 #include "../ParagonProcess/CoreSingleton.h"
+#include "../ParagonData/DebugData.h"
 #include "../ParagonMath/PgMath.h"
 #include <vector>
 #include <memory>
@@ -70,10 +71,13 @@ namespace Pg::Engine::Physic
 		void MakeDynamicSphereCollider(Pg::Data::GameObject* obj);
 		void MakeDynamicCapsuleCollider(Pg::Data::GameObject* obj);
 		
-		//RayCast를 각각 다른 방식으로 구현해볼 예정.
-		//void MakeRayCast(Pg::Data::GameObject* obj);
+		//RayCast 생성
+		PARAGON_ENGINE_DLL Pg::Data::Collider* MakeRayCast(Pg::Math::PGFLOAT3 tOrigin, Pg::Math::PGFLOAT3 tDir, 
+			float tLength, int* bType);
 
-		PARAGON_ENGINE_DLL Pg::Data::Collider* MakeRayCast(Pg::Math::PGFLOAT3 tOrigin, Pg::Math::PGFLOAT3 tDir, float tLength, int* bType);
+		PARAGON_ENGINE_DLL void MakeSphereCast(const Pg::Math::PGFLOAT3& tOrigin, const Pg::Math::PGFLOAT3& tDir, 
+			float tRad, float max, unsigned int maxColCnt, Pg::Data::Collider**& colDataPointer);
+
 	private:
 		//Rigid 정보를 담아놓는 벡터
 		std::vector<physx::PxRigidDynamic*> _rigidDynamicVec;
@@ -96,6 +100,8 @@ namespace Pg::Engine::Physic
 		Pg::Engine::DebugSystem* _debugSystem = nullptr;
 
 		std::unique_ptr<PhysicsCallback> _physicsCallback;
+
+		std::unique_ptr<Pg::Data::SphereInfo> _forSweepSphereInfo{ nullptr };
 	};
 }
 

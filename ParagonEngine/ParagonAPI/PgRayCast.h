@@ -1,6 +1,8 @@
 #pragma once
 #include "../ParagonMath/PgMath.h"
 
+#include <memory>
+
 namespace Pg::Engine
 {
 	namespace Physic
@@ -28,6 +30,8 @@ namespace Pg::API::Raycast
 
 		//스크립팅 시 호출!
 		Pg::Data::Collider* MakeRay(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length, int* type = nullptr);
+		void MakeSphereRay(const Pg::Math::PGFLOAT3& tOrigin, const Pg::Math::PGFLOAT3& tDir,
+			float tRad, float max, unsigned int maxColCnt, Pg::Data::Collider**& colDataPointer);
 
 	private:
 		Pg::Engine::Physic::PhysicSystem* _physicSystem;

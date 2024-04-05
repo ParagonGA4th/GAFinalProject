@@ -65,12 +65,12 @@ void Pg::Engine::TestScene::Initialize()
 
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Capsule1");
-	tObj2_2->GetComponent<Transform>()->_position = { 5.0f, 0.0f, 5.0f };
-	tObj2_2->AddComponent<CapsuleCollider>();
-	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
-	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
-	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
-	tObj2_2->GetComponent<CapsuleCollider>()->SetLayer(4);
+	tObj2_2->GetComponent<Transform>()->_position = { 10.0f, 5.0f, 5.0f };
+	//tObj2_2->AddComponent<CapsuleCollider>();
+	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
+	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
+	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+	//tObj2_2->GetComponent<CapsuleCollider>()->SetLayer(0);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetTrigger(true);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 1.0f, 0.0f, 0.0f });
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, 90.0f, 0.0f, 0.0f });
@@ -81,7 +81,7 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj2_2->AddComponent<MovingTest>()->SetActive(true);
 	tObj2_2->AddComponent<AudioSource>();
 	tObj2_2->GetComponent<AudioSource>()->SetAudioName("../Resources/Sounds/Test/jump.mp3");
-	//tObj2_2->AddComponent<RayCastTest>();
+	tObj2_2->AddComponent<RayCastTest>();
 	//tObj2_2->AddComponent<RayCastTest>()->SetActive(true);
 	//tObj2_2->AddComponent<NavMeshAgent>();
 
@@ -125,7 +125,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj5->AddComponent<StaticMeshRenderer>();
 	tObj5->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	tObj5->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	//tObj5->AddComponent<MoveForwardBack>();
+	//tObj5->AddComponent<RayCastTest>();
 	//tObj5->GetComponent<MoveForwardBack>()->SetActive(true);
 
 	//Pg::Data::GameObject* tObj6 = tCurrentScene->AddObject("Cube8");
