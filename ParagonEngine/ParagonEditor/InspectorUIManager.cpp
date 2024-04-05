@@ -1,5 +1,7 @@
 #include "InspectorUIManager.h"
 #include "InspectorDataManager.h"
+#include "DataContainer.h"
+#include "Event.h"
 
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Camera.h"
@@ -7,7 +9,6 @@
 #include "../ParagonData/StaticMeshRenderer.h"
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonScript/Script.h"
-
 
 #include "../ParagonUI/WidgetContainer.h"
 #include "../ParagonUI/Text.h"
@@ -21,10 +22,16 @@
 #include "../ParagonUI/Column.h"
 #include "../ParagonUI/Collaps.h"
 
+
+
 Pg::Editor::Window::InspectorUIManager::InspectorUIManager()
 {
+	auto& tdcon = singleton<Pg::Editor::Data::DataContainer>();
+	_dataContainer = &tdcon;
+
 	_defaultUI = std::make_unique<Pg::UI::WidgetContainer>();
 	_changedUI = std::make_unique<Pg::UI::WidgetContainer>();
+	_assetList = std::make_unique<Pg::Editor::Event>();
 }
 
 Pg::Editor::Window::InspectorUIManager::~InspectorUIManager()
@@ -56,12 +63,8 @@ void Pg::Editor::Window::InspectorUIManager::Initialize(InspectorDataManager* ma
 	//_componentList.emplace_back(typeid(Pg::Data::Light).name());
 	//_componentList.emplace_back(typeid(Pg::DataScript::Script).name()); 
 
-	auto& combo = _defaultUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##Add Component", _componentList);
-	_componentIndex = combo.GetSelectedIndex();
-
-	auto& btn = _defaultUI->CreateColumnsWidget<Pg::UI::Widget::Button>("Add Component", 115.f, 30.f);
-	_isClick = btn.GetBtnClick();
-
+	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##Add Component", _componentList, _componentIndex);
+	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::Button>("Add Component", 115.f, 30.f, _isClick);
 	_defaultUI->CreateWidget<Pg::UI::Layout::Column<2>>("AddComponent", _defaultUI->GetColumnWidgets(), 0);
 }
 
@@ -69,8 +72,9 @@ void Pg::Editor::Window::InspectorUIManager::Update()
 {
 	SetData();
 	_defaultUI->Update();
-	UpdateData();
+	_changedUI->Update();
 	ChangedUI();
+	UpdateData();
 }
 
 void Pg::Editor::Window::InspectorUIManager::ChangedUI()
@@ -93,10 +97,8 @@ void Pg::Editor::Window::InspectorUIManager::ChangedUI()
 			else
 				*_componentExistence.at(component.first) = true;
 
-
 			_changedUI->ClearColumnWidget();
 			_changedUI->ClearCollapsWidget();
-
 
 			/// component Data
 			for (auto& [valName, typeInfo, val] : component.second)
@@ -111,9 +113,43 @@ void Pg::Editor::Window::InspectorUIManager::ChangedUI()
 				{
 					if (comName.find("StaticMeshRenderer") != std::string::npos)
 					{
-						// assetManager의 namelist 를 받아와서 출력,
-						//_changedUI->CreateColumnsWidget<Pg::UI::Widget::Combo>(valName, static_cast<std::string*>(val));
+						if (valName == "meshName") _define = Pg::Data::Enums::eAssetDefine::_3DMODEL;
+						else _define = Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL;
 
+						_assetList->Invoke(eEventType::_ASSETLIST, static_cast<void*>(&_define));
+
+						std::string* value = static_cast<std::string*>(val);
+
+						if (valName == "meshName")
+						{
+							if (*value == _dataContainer->GetAssetList().at(_prevNameIndex))
+								_prevNameIndex = _dataContainer->GetAssetIndex(*value);
+						}
+						else
+						{
+							if (*value == _dataContainer->GetAssetList().at(_prevMaterialIndex))
+								_prevMaterialIndex = _dataContainer->GetAssetIndex(*value);
+						}
+						_changedUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##" + valName, _dataContainer->GetAssetList(),
+							valName == "meshName" ? _prevNameIndex : _prevMaterialIndex);
+
+						if (valName == "meshName")
+						{
+							if (_prevNameIndex != _staticMeshNameIndex)
+							{
+								_dataManager->AddModifiedObject();
+								_staticMeshNameIndex = _prevNameIndex;
+							}
+						}
+						else
+						{
+							if (_prevMaterialIndex != _staticMeshMaterialIndex)
+							{
+								_dataManager->AddModifiedObject();
+								_staticMeshMaterialIndex = _prevMaterialIndex;
+							}
+						}
+						*value = _dataContainer->GetAssetList().at(valName == "meshName" ? _staticMeshNameIndex : _staticMeshMaterialIndex);
 					}
 					else
 						_changedUI->CreateColumnsWidget<Pg::UI::Widget::InputText>(valName, static_cast<std::string*>(val));
@@ -138,19 +174,14 @@ void Pg::Editor::Window::InspectorUIManager::ChangedUI()
 			}
 
 			_changedUI->CreateCollapsWidget<Pg::UI::Layout::Column<2>>(comName, _changedUI->GetColumnWidgets());
-			
+
 			_changedUI->CreateWidget<Pg::UI::Layout::Collaps>
 				(comName, _changedUI->GetCollapsWidgets(), _componentExistence.at(component.first));
 
 			if (comName.find("StaticMeshRenderer") != std::string::npos)
-			{
-				auto& btn = _changedUI->CreateWidget<Pg::UI::Widget::Button>("Refresh", 115.f, 30.f);
-				_isRefresh = btn.GetBtnClick();
-			}
+				_changedUI->CreateWidget<Pg::UI::Widget::Button>("Refresh", 115.f, 30.f, _isRefresh);
 		}
 	}
-
-	_changedUI->Update();
 }
 
 void Pg::Editor::Window::InspectorUIManager::SetData()
@@ -162,7 +193,7 @@ void Pg::Editor::Window::InspectorUIManager::SetData()
 
 void Pg::Editor::Window::InspectorUIManager::UpdateData()
 {
-	if (*_isClick) _dataManager->AddComponent(_componentList.at(*_componentIndex));
+	if (_isClick) _dataManager->AddComponent(_componentList.at(_componentIndex));
 
 	for (auto& [name, val] : _componentExistence)
 	{
@@ -181,9 +212,7 @@ void Pg::Editor::Window::InspectorUIManager::UpdateData()
 	_dataManager->_object->SetTag(_objTag);
 	_dataManager->_object->SetActive(_isActive);
 
-	if (_isRefresh != nullptr && *_isRefresh)
-	{
-		_dataManager->ModifiedObject();
-	}
+	if (_isRefresh)
+		_dataManager->ModifiedObject(_isRefresh);
 }
 

@@ -19,3 +19,8 @@ void Pg::UI::Layout::ChildWindow::Update()
 	ImGui::EndChild();
 }
 
+std::string Pg::UI::Layout::ChildWindow::GetWidgetLabel()
+{
+	return _layoutName;
+}
+

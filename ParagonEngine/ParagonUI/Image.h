@@ -8,6 +8,7 @@ namespace Pg::UI::Widget
 	public:
 		Image(void* image, float width, float height);
 		virtual void Update() override;
+		virtual std::string GetWidgetLabel() override;
 
 		float* GetWidth();
 		float* GetHeight();

@@ -20,3 +20,8 @@ void Pg::UI::Widget::TextPopup::Update()
 		ImGui::EndPopup();
 	}
 }
+
+std::string Pg::UI::Widget::TextPopup::GetWidgetLabel()
+{
+	return _popupName;
+}

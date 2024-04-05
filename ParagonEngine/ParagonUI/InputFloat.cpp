@@ -12,4 +12,8 @@ void Pg::UI::Widget::InputFloat::Update()
 	ImGui::InputFloat(_label.c_str(), _inputFloat);
 }
 
+std::string Pg::UI::Widget::InputFloat::GetWidgetLabel()
+{
+	return _label;
+}
 

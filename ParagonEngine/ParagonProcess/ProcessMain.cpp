@@ -173,4 +173,8 @@ namespace Pg::Core
 		return _editorAdapter.get();
 	}
 
+	std::vector<std::string> ProcessMain::GetAssetList(Pg::Data::Enums::eAssetDefine define)
+	{
+		return _assetManager->GetResourcesNameByDefine(define);
+	}
 }

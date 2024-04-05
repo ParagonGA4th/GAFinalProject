@@ -82,4 +82,8 @@ void Pg::UI::Widget::DragFloat3::Update()
 	}
 }
 
+std::string Pg::UI::Widget::DragFloat3::GetWidgetLabel()
+{
+	return _label;
+}
 

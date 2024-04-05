@@ -18,4 +18,8 @@ void Pg::UI::Layout::Collaps::Update()
 	}
 }
 
+std::string Pg::UI::Layout::Collaps::GetWidgetLabel()
+{
+	return _layoutName;
+}
 

@@ -18,3 +18,8 @@ void Pg::UI::Widget::TreeNode::Update()
 		ImGui::TreePop();
 	}
 }
+
+std::string Pg::UI::Widget::TreeNode::GetWidgetLabel()
+{
+	return _nodeName;
+}
