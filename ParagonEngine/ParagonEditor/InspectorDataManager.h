@@ -30,7 +30,8 @@ namespace Pg::Editor::Window
 		void GetCurrentSceneObjects(bool isRefresh = false);
 		void AddComponent(std::string componentName);
 		void RemoveComponent(std::string componentName);
-		void ModifiedObject();
+		void ModifiedObject(bool isModified);
+		void AddModifiedObject();
 		void RefreshData(std::string componentName, bool isRemove);
 
 	private:
@@ -47,6 +48,6 @@ namespace Pg::Editor::Window
 		std::string _prevSceneName;
 
 		// Event
-		std::unique_ptr<Pg::Editor::Event> modifiedObject;
+		std::unique_ptr<Pg::Editor::Event> _modifiedObject;
 	};
 }

@@ -31,3 +31,8 @@ void Pg::UI::Widget::MenuBar::Update()
 		ImGui::EndMenuBar();
 	}
 }
+
+std::string Pg::UI::Widget::MenuBar::GetWidgetLabel()
+{
+	return "MenuBar";
+}

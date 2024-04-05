@@ -20,3 +20,8 @@ void Pg::UI::Widget::InputText::Update()
 		}
 	}
 }
+
+std::string Pg::UI::Widget::InputText::GetWidgetLabel()
+{
+	return _label;
+}

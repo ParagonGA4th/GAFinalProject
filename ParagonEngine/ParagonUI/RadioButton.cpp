@@ -13,3 +13,8 @@ void Pg::UI::Widget::RadioButton::Update()
 		_selectRadio = _btnName;
 	}
 }
+
+std::string Pg::UI::Widget::RadioButton::GetWidgetLabel()
+{
+	return _btnName;
+}
