@@ -1,7 +1,6 @@
 #pragma once
 #include "IWidget.h"
 #include <vector>
-#include <string>
 
 namespace Pg::UI::Widget
 {
@@ -10,7 +9,8 @@ namespace Pg::UI::Widget
 	public:
 		TreeNode(std::string nodeName, std::vector<IWidget*> widgets);
 		virtual void Update() override;
-		
+		virtual std::string GetWidgetLabel() override;
+
 	private:
 		std::string _nodeName;
 		std::vector<IWidget*> _widgets;

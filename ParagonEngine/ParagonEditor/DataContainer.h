@@ -37,6 +37,10 @@ namespace Pg::Editor::Data
 		void SetPickObject(Pg::Data::GameObject* object);
 		Pg::Data::GameObject* GetPickObject();
 
+		void SetAssetList(std::vector<std::string> list);
+		std::vector<std::string> GetAssetList();
+		int GetAssetIndex(std::string assetName);
+
 	private:
 		ID3D11Device* _device;
 		ID3D11DeviceContext* _deviceContext;
@@ -48,5 +52,7 @@ namespace Pg::Editor::Data
 		std::string _projectPath;
 		void* _sceneTexture;
 		bool _onOff;
+
+		std::vector<std::string> _assetList;
 	};
 }

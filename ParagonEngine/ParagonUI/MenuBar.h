@@ -1,7 +1,6 @@
 #pragma once
 #include "IWidget.h"
 
-#include <string>
 #include <utility>
 #include <map>
 
@@ -12,6 +11,7 @@ namespace Pg::UI::Widget
 	public:
 		MenuBar(std::map<std::string, std::map<std::string, bool*>> menubars);
 		virtual void Update() override;
+		virtual std::string GetWidgetLabel() override;
 
 	protected:
 		std::map<std::string, std::map<std::string, bool*>> _menubars;

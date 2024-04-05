@@ -6,6 +6,7 @@
 #include "../ParagonProcess/EditorAdapter.h"
 #include "../ParagonAPI/PgInput.h"
 
+#include "../ParagonData/AssetDefines.h"
 #include "../ParagonUtil/Log.h"
 
 #include <algorithm>
@@ -42,6 +43,7 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd)
 	std::unique_ptr<Pg::Editor::Event> _editorEvent = std::make_unique<Pg::Editor::Event>();
 	_editorEvent->AddEvent(Pg::Editor::eEventType::_EDITORMODE, [&](void* mode) { SetEditorMode(mode); });
 	_editorEvent->AddEvent(Pg::Editor::eEventType::_MODIFIEDOBJECT, [&](void* objList) { SetModifiedObject(objList); });
+	_editorEvent->AddEvent(Pg::Editor::eEventType::_ASSETLIST, [&](void* define) { GetAssetList(define); });
 }
 
 void Pg::Editor::Manager::ProcessManager::Update()
@@ -120,6 +122,13 @@ void Pg::Editor::Manager::ProcessManager::SetEditorMode(Pg::Data::Enums::eEditor
 
 void Pg::Editor::Manager::ProcessManager::SetModifiedObject(void* objectList)
 {
-	//static_cast<std::vector<Pg::Data::GameObject*>*>(objectList);
+	auto list = static_cast<std::vector<Pg::Data::GameObject*>*>(objectList);
+
+}
+
+void Pg::Editor::Manager::ProcessManager::GetAssetList(void* define)
+{
+	auto tvec = _coreMain->GetAssetList(*(static_cast<Pg::Data::Enums::eAssetDefine*>(define)));
+	_dataContainer->SetAssetList(tvec);
 }
 

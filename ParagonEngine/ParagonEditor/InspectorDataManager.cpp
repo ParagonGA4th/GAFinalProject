@@ -15,7 +15,7 @@ Pg::Editor::Window::InspectorDataManager::InspectorDataManager()
 	auto& tdcon = singleton<Pg::Editor::Data::DataContainer>();
 	_dataContainer = &tdcon;
 
-	modifiedObject = std::make_unique<Pg::Editor::Event>();
+	_modifiedObject = std::make_unique<Pg::Editor::Event>();
 }
 
 Pg::Editor::Window::InspectorDataManager::~InspectorDataManager()
@@ -44,7 +44,7 @@ void Pg::Editor::Window::InspectorDataManager::SetObject(Pg::Data::GameObject* o
 void Pg::Editor::Window::InspectorDataManager::Update()
 {
 	GetCurrentSceneObjects();
-	ModifiedObject();
+	ModifiedObject(false);
 }
 
 
@@ -75,7 +75,79 @@ void Pg::Editor::Window::InspectorDataManager::GetCurrentSceneObjects(bool isRef
 void Pg::Editor::Window::InspectorDataManager::AddComponent(std::string componentName)
 {
 	_object->AddComponent(componentName);
+	AddModifiedObject();
+	RefreshData(componentName, false);
+}
 
+void Pg::Editor::Window::InspectorDataManager::RemoveComponent(std::string componentName)
+{
+	_object->RemoveComponent(componentName);
+	RefreshData(componentName, true);
+}
+
+void Pg::Editor::Window::InspectorDataManager::ModifiedObject(bool isModified)
+{
+	if (/*_flag == -1 || */isModified)
+	{
+		if (_modifiedObjList.empty()) return;
+
+		_modifiedObject->Invoke(Pg::Editor::eEventType::_MODIFIEDOBJECT, static_cast<void*>(&_modifiedObjList));
+		_modifiedObjList.clear();
+
+		{		
+			//std::vector<Pg::Data::GameObject*> tobjList(_modifiedObjList.size());
+		//std::copy(_modifiedObjList.begin(), _modifiedObjList.end(), tobjList.begin());
+
+		//tobjList.erase(std::remove_if(tobjList.begin(), tobjList.end(),
+		//	[&](Pg::Data::GameObject* obj)
+		//	{
+		//		bool result = false;
+		//		for (auto datas : _objectData)
+		//		{
+		//			if (obj->GetName() == datas.first)
+		//			{
+		//				for (auto data : datas.second)
+		//				{
+		//					std::string valueName = "";
+		//					if (data.first.find("StaticMeshRenderer") != std::string::npos) valueName = "meshName";
+		//					else continue;
+
+		//					for (auto& [valName, typeInfo, val] : data.second)
+		//					{
+		//						if (valName == valueName)
+		//						{
+		//							if (typeInfo == typeid(std::string).name())
+		//							{
+		//								std::string temp = *(static_cast<std::string*>(val));
+		//								result = temp.empty();
+		//								break;
+		//							}
+		//						}
+		//					}
+		//				}
+		//				break;
+		//			}
+		//		}
+		//		return result;
+		//	}), tobjList.end());
+
+		//if (!tobjList.empty())
+		//{
+		//	// process로 넘기기 
+		//	if (tobjList.size() != _modifiedObjList.size())
+		//	{
+		//		_modifiedObjList.clear();
+		//		_modifiedObjList.resize(tobjList.size());
+		//		std::copy(tobjList.begin(), tobjList.end(), _modifiedObjList.begin());
+		//	}
+		//}
+
+		}
+	}
+}
+
+void Pg::Editor::Window::InspectorDataManager::AddModifiedObject()
+{
 	if (!_modifiedObjList.empty())
 	{
 		auto tchObj = std::find_if(_modifiedObjList.begin(), _modifiedObjList.end(),
@@ -87,69 +159,7 @@ void Pg::Editor::Window::InspectorDataManager::AddComponent(std::string componen
 		if (tchObj != _modifiedObjList.end()) return;
 	}
 
-	_modifiedObjList.emplace_back(_object);	
-	RefreshData(componentName, false);
-}
-
-void Pg::Editor::Window::InspectorDataManager::RemoveComponent(std::string componentName)
-{
-	_object->RemoveComponent(componentName);
-	RefreshData(componentName, true);
-}
-
-void Pg::Editor::Window::InspectorDataManager::ModifiedObject()
-{
-	if (_flag == -1 || _flag >= 1)
-	{
-		if (_modifiedObjList.empty()) return;
-
-		std::vector<Pg::Data::GameObject*> tobjList(_modifiedObjList.size());
-		std::copy(_modifiedObjList.begin(), _modifiedObjList.end(), tobjList.begin());
-
-		tobjList.erase(std::remove_if(tobjList.begin(), tobjList.end(),
-			[&](Pg::Data::GameObject* obj)
-			{
-				bool result = false;
-				for (auto datas : _objectData)
-				{
-					if (obj->GetName() == datas.first)
-					{
-						for (auto data : datas.second)
-						{
-							std::string valueName = "";
-							if (data.first.find("StaticMeshRenderer") != std::string::npos) valueName = "meshName";
-							else continue;
-
-							for (auto& [valName, typeInfo, val] : data.second)
-							{
-								if (valName == valueName)
-								{
-									if (typeInfo == typeid(std::string).name())
-									{
-										std::string temp = *(static_cast<std::string*>(val));
-										result = temp.empty();
-										break;
-									}
-								}
-							}
-						}
-						break;
-					}
-				}
-				return result;
-			}), tobjList.end());
-
-		if (!tobjList.empty())
-		{
-			// process로 넘기기 
-			_modifiedObjList.clear();
-			_modifiedObjList.resize(tobjList.size());
-			std::copy(tobjList.begin(), tobjList.end(), _modifiedObjList.begin());
-
-			modifiedObject->Invoke(Pg::Editor::eEventType::_MODIFIEDOBJECT, static_cast<void*>(&_modifiedObjList));
-			_modifiedObjList.clear();
-		}
-	}
+	_modifiedObjList.emplace_back(_object);
 }
 
 void Pg::Editor::Window::InspectorDataManager::RefreshData(std::string componentName, bool isRemove)

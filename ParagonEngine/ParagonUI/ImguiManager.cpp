@@ -101,7 +101,7 @@ void Pg::UI::Manager::ImGuiManager::ImguiHandler(MSG message)
 
 void Pg::UI::Manager::ImGuiManager::Begin(std::string panelName, bool isTool)
 {
-	if(!isTool) ImGui::Begin(panelName.c_str(), NULL, ImGuiWindowFlags_NoCollapse);
+	if (!isTool) ImGui::Begin(panelName.c_str(), NULL, ImGuiWindowFlags_NoCollapse);
 	else ImGui::Begin(panelName.c_str(), &isTool, ImGuiWindowFlags_NoCollapse);
 }
 
@@ -122,7 +122,7 @@ void Pg::UI::Manager::ImGuiManager::DockSpaceBegin(std::string dockName)
 
 	ImGui::Begin("DockSpace Demo", nullptr, window_flags);
 	ImGui::PopStyleVar(3);
-	
+
 	ImGuiIO& io = ImGui::GetIO();
 	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 	{
@@ -165,17 +165,17 @@ void Pg::UI::Manager::ImGuiManager::DrawGizmo(std::string type)
 void Pg::UI::Manager::ImGuiManager::AlignForWidth(int widgetCount, float widgetWidth)
 {
 	ImGuiStyle& style = ImGui::GetStyle();
-	
+
 	float width = (style.ItemSpacing.x * (widgetCount - 1)) + widgetWidth;
 	float avail = ImGui::GetContentRegionAvail().x;
 	float off = (avail - width) * 0.5f;
-	
+
 	if (off > 0.0f)
 		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + off);
 }
 
 void Pg::UI::Manager::ImGuiManager::ChangeStyle()
-{	
+{
 	//From : Trippasch
 	//https://github.com/ocornut/imgui/issues/707#issuecomment-1372640066
 
@@ -257,8 +257,9 @@ void Pg::UI::Manager::ImGuiManager::ChangeStyle()
 
 int Pg::UI::Manager::ImGuiManager::IsFocus(std::string windowName)
 {
-	if (ImGui::GetCurrentContext()->HoveredWindow != NULL &&
-		windowName == ImGui::GetCurrentContext()->HoveredWindow->Name)
+	if (ImGui::GetCurrentContext()->HoveredWindow == NULL) return -10;
+
+	if (windowName == ImGui::GetCurrentContext()->HoveredWindow->Name)
 	{
 		// 진입
 		if (!_isHoverd)
@@ -280,6 +281,11 @@ int Pg::UI::Manager::ImGuiManager::IsFocus(std::string windowName)
 		{
 			_focusFlag--;
 			_isHoverd = false;
+		}
+
+		if (_focusFlag >= 1)
+		{
+		
 		}
 
 		// 다른 context 클릭, 초기화

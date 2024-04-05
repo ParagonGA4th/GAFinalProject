@@ -93,3 +93,32 @@ Pg::Data::GameObject* Pg::Editor::Data::DataContainer::GetPickObject()
 {
 	return _pickObject;
 }
+
+void Pg::Editor::Data::DataContainer::SetAssetList(std::vector<std::string> list)
+{
+	_assetList = list;
+}
+
+std::vector<std::string> Pg::Editor::Data::DataContainer::GetAssetList()
+{
+	return _assetList;
+}
+
+int Pg::Editor::Data::DataContainer::GetAssetIndex(std::string assetName)
+{
+	int count = 0;
+
+	for (auto asset : _assetList)
+	{
+		if (asset != assetName)
+		{
+			count++; 
+			continue;
+		}
+		else
+		{
+			return count;
+		}
+	}
+	if (count == _assetList.size())	return 0;
+}

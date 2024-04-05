@@ -127,3 +127,8 @@ bool* Pg::UI::Widget::Hierarchy::GetKeyDeleteInput()
 {
 	return &_isDeleteObject;
 }
+
+std::string Pg::UI::Widget::Hierarchy::GetWidgetLabel()
+{
+	return "Hierarchy";
+}

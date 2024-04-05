@@ -21,7 +21,7 @@ namespace Pg::UI
 
 		void ClearWidget(int index = 0);
 		void ClearColumnWidget();
-		void ClearCollapsWidget();
+		void ClearCollapsWidget(std::string label = "");
 		void ClearTreeNodeWidget(int index = -1);
 		void ClearTempWidgets();
 

@@ -1,7 +1,5 @@
 #pragma once
 #include "IWidget.h"
-
-#include <string>
 #include <vector>
 
 namespace Pg::UI::Widget
@@ -11,6 +9,7 @@ namespace Pg::UI::Widget
 	public:
 		TextPopup(std::string TextPopupName, bool& popupShow, std::string text);
 		virtual void Update() override;
+		virtual std::string GetWidgetLabel() override;
 
 	private:
 		std::string _popupName;

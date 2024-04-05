@@ -1,9 +1,9 @@
 #include "Button.h"
 #include "imgui.h"
 
-Pg::UI::Widget::Button::Button(std::string label, float width, float height)
+Pg::UI::Widget::Button::Button(std::string label, float width, float height, bool& btnClick)
 	:_btnName(label), _width(width), _height(height),
-	_isButtonClick(false)
+	_isButtonClick(btnClick)
 {
 }
 
@@ -19,7 +19,7 @@ void Pg::UI::Widget::Button::Update()
 	}
 }
 
-bool* Pg::UI::Widget::Button::GetBtnClick()
+std::string Pg::UI::Widget::Button::GetWidgetLabel()
 {
-	return &_isButtonClick;
+	return _btnName;
 }

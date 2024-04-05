@@ -72,6 +72,7 @@ namespace Pg::Core
 		//Editor <-> CoreMain 교류하는 어댑터 리턴.
 		EditorAdapter* GetEditorAdapter();
 
+		std::vector<std::string> GetAssetList(Pg::Data::Enums::eAssetDefine define);
 	private:
 		std::unique_ptr<IUtil> _util;
 		std::unique_ptr<IAPI> _api;					
