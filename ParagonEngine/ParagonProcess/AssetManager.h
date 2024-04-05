@@ -51,6 +51,9 @@ namespace Pg::Core::Manager
 		//어셋 종류 기반 전체 Name List 반환.
 		std::vector<std::string> GetResourcesNameByDefine(Pg::Data::Enums::eAssetDefine define);
 
+		//어셋 중 Material을 가지고 올 때, Default Material을 빼고 반환.
+		std::vector<std::string> GetMaterialNamesWithoutDefault();
+
 	private:
 		//FBX를 들여올 때 임베딩된 텍스쳐 연동 등, 
 		//역으로 그래픽스/엔진에서 피할 수 없게 로드 뒤에 추가해야 하는 리소스 존재 -> 호환 위한 함수.

@@ -192,7 +192,7 @@
             <isInstanced>0</isInstanced>
             <meshName>ErikaMixamo.fbx</meshName>
             <materialName></materialName>
-            <initAnimName>test_run</initAnimName>
+            <initAnimName>test_run.pganim</initAnimName>
           </data>
         </component>
       </components>
