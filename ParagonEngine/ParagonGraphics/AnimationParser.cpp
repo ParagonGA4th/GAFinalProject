@@ -196,7 +196,7 @@ namespace Pg::Graphics
 		//이제, 자기 자신이 호환된다는 것을 AssetSkinnedData에게 알려주자.
 		//Ex. test_run.pganim이라면, test_run이 이름으로 등록될 것.
 		std::filesystem::path tPath(path);
-		tBasedModelPtr->_assetSkinnedData->_viableAnimations.insert(std::make_pair(tPath.stem().generic_string(), anim));
+		tBasedModelPtr->_assetSkinnedData->_viableAnimations.insert(std::make_pair(tPath.filename().generic_string(), anim));
 	}
 
 }

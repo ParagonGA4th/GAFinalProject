@@ -37,7 +37,7 @@
             <isInstanced>0</isInstanced>
             <meshName>CylinderRemastered.fbx</meshName>
             <materialName></materialName>
-            <initAnimName>CylinderAnim</initAnimName>
+            <initAnimName>CylinderAnim.pganim</initAnimName>
           </data>
         </component>
       </components>
