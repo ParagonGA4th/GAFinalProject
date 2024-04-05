@@ -9,7 +9,7 @@ namespace Pg::Data
 		_width(2.0f),
 		_height(2.0f),
 		_depth(2.0f),
-		_layer(0x00000001)
+		_layer(1)
 	{
 		FACTORY_INIT;
 	}
@@ -53,7 +53,7 @@ namespace Pg::Data
 		_layer = lay;
 	}
 
-	int StaticBoxCollider::GetLayer()
+	uint32_t StaticBoxCollider::GetLayer()
 	{
 		return _layer;
 	}

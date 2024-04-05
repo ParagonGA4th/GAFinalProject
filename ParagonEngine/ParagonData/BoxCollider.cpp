@@ -9,7 +9,7 @@ namespace Pg::Data
 		_width(1.0f),
 		_height(1.0f),
 		_depth(1.0f),
-		_layer(0x00000001)
+		_layer(1)
 	{
 		FACTORY_INIT;
 	}
@@ -52,7 +52,7 @@ namespace Pg::Data
 		return _depth * _scaleOffset.z * _object->_transform._scale.z;
 	}
 
-	int BoxCollider::GetLayer() const
+	uint32_t BoxCollider::GetLayer() const
 	{
 		return _layer;
 	}

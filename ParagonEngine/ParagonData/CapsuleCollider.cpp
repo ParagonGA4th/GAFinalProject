@@ -6,7 +6,7 @@ namespace Pg::Data
 		DynamicCollider(owner),
 		_radius(1.0f),
 		_halfHeight(1.0f),
-		_layer(0x00000001)
+		_layer(1)
 	{
 		FACTORY_INIT;
 	}
@@ -71,7 +71,7 @@ namespace Pg::Data
 		_layer = lay;
 	}
 
-	int CapsuleCollider::GetLayer()
+	uint32_t CapsuleCollider::GetLayer()
 	{
 		return _layer;
 	}

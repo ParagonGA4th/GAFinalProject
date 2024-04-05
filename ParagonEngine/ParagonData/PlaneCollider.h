@@ -33,7 +33,7 @@ namespace Pg::Data
 		float GetDepth();
 
 		void SetLayer(int lay);
-		int GetLayer();
+		uint32_t GetLayer();
 
 		//디버깅을 위한 구조체
 		PlaneInfo _planeInfo;
@@ -43,7 +43,7 @@ namespace Pg::Data
 		float _width;
 		float _depth;
 
-		int _layer;
+		uint32_t _layer;
 	};
 
 }
