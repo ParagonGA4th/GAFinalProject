@@ -18,12 +18,12 @@ namespace Pg::API::Input
 /// </summary>
 namespace Pg::DataScript
 {
-	class PlayerMove : public Script, Pg::Factory::Script::RegisteredInFactory<Script, PlayerMove, Pg::Data::GameObject*>
+	class PlayerMove : public Script, Pg::Factory::Script::RegisteredInFactory<Pg::DataScript::Script, PlayerMove, Pg::Data::GameObject*>
 	{
 	public:
 		PlayerMove(Pg::Data::GameObject* obj);
 
-		static Script* CreateInstance(Pg::Data::GameObject* go) { return new PlayerMove(go); }
+		static Pg::DataScript::Script* CreateInstance(Pg::Data::GameObject* go) { return new PlayerMove(go); }
 		static const char* GetFactoryKey() { return "class PlayerMove"; }
 
 	public:

@@ -44,7 +44,6 @@ void Pg::Editor::Window::InspectorDataManager::SetObject(Pg::Data::GameObject* o
 void Pg::Editor::Window::InspectorDataManager::Update()
 {
 	GetCurrentSceneObjects();
-	ModifiedObject(false);
 }
 
 
