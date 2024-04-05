@@ -42,8 +42,14 @@ namespace Pg::Graphics::Loader
 		//Mesh가 중복되더라도, 각각의 Material을 만드는것을 막기 위해서이다.
 		void LoadDefaultRenderMaterial(const std::string& defInstMatName, RenderMaterial* renderMat);
 	
-		//Material Parser 내부의 Material ID Remapping (씬이 바뀔 게임)
-		void RemapMaterialIDs();
+		//Material Parser 내부의 Material ID Remapping (씬이 바뀔 게임) 전체!
+		void RemapMaterialIdAll();
+
+		//중간에 추가되는 Material Parser 내부의 Material ID 일부 매핑, 추가만!
+		void RemapAppendedMatID();
+
+		//Scene Parsing 시작할 때 모든 Material Init State 리셋.
+		void ResetAllKnownMatInitStates();
 
 		//Animation Load.
 		void LoadAnimation(const std::string& path, RenderAnimation* anim);

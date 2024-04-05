@@ -59,11 +59,11 @@ namespace Pg::Graphics
 		void ResetParser();
 		void PlacePathsFromName(const Pg::Data::Scene* const newScene);
 		void CheckForPathNameErrors(const Pg::Data::Scene* const newScene);
-		void RemapMaterialIDs();
+		void RemapMaterialIdAll();
 		void ExtractMaterialPaths(const Pg::Data::Scene* const newScene);
 		void SyncRenderObjects(const Pg::Data::Scene* const newScene);
 		void SyncSceneAllLights(const Pg::Data::Scene* const newScene);
-		void BindAdequateFunctions(const Pg::Data::Scene* const newScene); //내부적으로 작동을 위한 bind될 함수들이 있으면, 이를 발동하기 위해.
+		void CheckBindAdequateFunctions(); //내부적으로 작동을 위한 bind될 함수들이 있으면, 이를 발동하기 위해.
 		void CheckCreateObjMatBuffersAll();
 
 	private:
@@ -71,6 +71,11 @@ namespace Pg::Graphics
 		void SetupPrimitiveWireframeObjects();
 		//일단은 Cubemap List는 하드코딩되어 있음.
 		void PlaceCubemapList();
+
+		//중간에 추가될 때를 대비해서, 
+		//단순히 현재 있는 material Id와 별도로 새로운 값이 있었을 시 추가하기 위해.
+		//제거 되어도 삭제되지는 않는다.
+		void RemapAppendedMatID(); 
 
 	private:
 		//개별적으로 Name -> Path Converting + Unreal 연동.

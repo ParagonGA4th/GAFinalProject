@@ -73,16 +73,97 @@ namespace Pg::Graphics
 
 		ExtractMaterialPaths(newScene);
 		SyncRenderObjects(newScene);
-		RemapMaterialIDs();
+		RemapMaterialIdAll();
 		SetupPrimitiveWireframeObjects();
 		SyncSceneAllLights(newScene);
-		BindAdequateFunctions(newScene);
+		CheckBindAdequateFunctions();
 		//이제 별도로 렌더링과 관련된 오브젝트들을 받아야 한다.
 
 		CheckCreateObjMatBuffersAll();
 
 		//실제 리소스를 사용해야 하기에, Initialize에서 현재 호출하고 있지 않음.
 		PlaceCubemapList();
+	}
+
+	void GraphicsSceneParser::HandleRenderObjectsRuntime()
+	{
+		//CheckCreate는 쓸데없는 파싱 비용이 든다.
+		//미리 체크해서, EarlyReturn 가능하면 하기!
+		if (_runtimeAddedObjectList.empty() &&
+			_runtimeModifiedObjectList.empty() &&
+			_runtimeDeletedObjectList.empty())
+		{
+			return;
+		}
+
+		//Added Objects : 미리 PlaceCorrectPath & Error Check.
+		std::for_each(_runtimeAddedObjectList.begin(), _runtimeAddedObjectList.end(), [this](Pg::Data::GameObject*& it)
+			{
+				PlaceCorrectPathSingleRenderer(it);
+				CheckPathNameErrorSingleRenderer(it);
+			});
+
+		//Modified Objects : 미리 PlaceCorrectPath & Error Check.
+		std::for_each(_runtimeModifiedObjectList.begin(), _runtimeModifiedObjectList.end(), [this](Pg::Data::GameObject*& it)
+			{
+				PlaceCorrectPathSingleRenderer(it);
+				CheckPathNameErrorSingleRenderer(it);
+			});
+
+		//미리 Material을 추가 / 삭제해야 한다면, 미리 값을 받아야 한다.
+		RuntimeExtractMaterialPathsVector(&_runtimeAddedObjectList);
+		RuntimeExtractMaterialPathsVector(&_runtimeModifiedObjectList);
+
+		//Skinned일 경우, BindAdequateFunctions 역시 호출되어야 한다!
+		//Add 처리.
+		//별도로 ObjectBuffer 만들어야 함.-> Toggle해야 (기본적으로 되어 있음)
+		
+		for (auto& it : _runtimeAddedObjectList)
+		{
+			AddSingleRenderObject(it);
+		}
+		for (auto& it : _runtimeModifiedObjectList)
+		{
+			ModifySingleRenderObject(it);
+		}
+		for (auto& it : _runtimeDeletedObjectList)
+		{
+			DeleteSingleRenderObject(it);
+		}
+
+		//추가된 것만 검사해서 만든다!
+		RemapAppendedMatID();
+
+		//Light 관련된 일관된 연관.
+		RuntimeAddLightsVector(&_runtimeAddedObjectList);
+		RuntimeModifyLightsVector(&_runtimeModifiedObjectList);
+		RuntimeDeleteLightsVector(&_runtimeDeletedObjectList);
+
+
+		//EarlyReturn이 안되었다는 건 뭐라도 바꿀게 있다는 말.
+		//SceneParser 내부에 추가된 / 변경된 오브젝트만 가지고 호출하자.
+		//미리 받아서 하면 오류 생길 것 같다.
+		CheckBindAdequateFunctions();
+		CheckCreateObjMatBuffersAll();
+
+		///TODO : 그리고 중간에 Material이 새롭게 발견되면 미리 해당 옵젝들만 관련해서 MaterialPath를 새로 만들어 넣어줘야 한다.
+		///
+
+		//일괄적으로 Clear & Update.
+		if (!_runtimeAddedObjectList.empty())
+		{
+			_runtimeAddedObjectList.clear();
+		}
+
+		if (!_runtimeModifiedObjectList.empty())
+		{
+			_runtimeModifiedObjectList.clear();
+		}
+
+		if (!_runtimeDeletedObjectList.empty())
+		{
+			_runtimeDeletedObjectList.clear();
+		}
 	}
 
 	Pg::Graphics::RenderObject2DList* GraphicsSceneParser::GetRenderObject2DList()
@@ -148,17 +229,29 @@ namespace Pg::Graphics
 		//새로운 씬을 로드하니, 자체적인 Object Count를 리셋한다.
 		//씬이 바뀌기 전까지는 ObjectId3dCount가 바뀌지 않을 것.
 		this->_objectId3dCount = 1;
+
+		//Material에 InitState를 전부 다 None으로 부여.
+		Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetCombinedLoader()->ResetAllKnownMatInitStates();
+
 	}
 
 	void GraphicsSceneParser::PlacePathsFromName(const Pg::Data::Scene* const newScene)
 	{
 		PG_WARN("Mesh File Path가 비어있을 때만 Unreal 컨버터가 작동할 것. 유의.");
-		std::for_each(newScene->GetObjectList().begin(), newScene->GetObjectList().end(), std::mem_fn(&PlaceCorrectPathSingleRenderer));
+		//std::for_each(newScene->GetObjectList().begin(), newScene->GetObjectList().end(), std::mem_fn(&PlaceCorrectPathSingleRenderer));
+		for (auto& it : newScene->GetObjectList())
+		{
+			PlaceCorrectPathSingleRenderer(it);
+		}
 	}
 
 	void GraphicsSceneParser::CheckForPathNameErrors(const Pg::Data::Scene* const newScene)
 	{
-		std::for_each(newScene->GetObjectList().begin(), newScene->GetObjectList().end(), std::mem_fn(&CheckPathNameErrorSingleRenderer));
+		for (auto& it : newScene->GetObjectList())
+		{
+			CheckPathNameErrorSingleRenderer(it);
+		}
+		//std::for_each(newScene->GetObjectList().begin(), newScene->GetObjectList().end(), std::mem_fn(&CheckPathNameErrorSingleRenderer));
 	}
 
 	void GraphicsSceneParser::ExtractMaterialPaths(const Pg::Data::Scene* const newScene)
@@ -171,7 +264,12 @@ namespace Pg::Graphics
 	void GraphicsSceneParser::SyncRenderObjects(const Pg::Data::Scene* const newScene)
 	{
 		//3. 이제 실제 오브젝트 내부 RenderObject 연동.
-		std::for_each(newScene->GetObjectList().begin(), newScene->GetObjectList().end(), std::mem_fn(&AddSingleRenderObject));
+		//std::for_each(newScene->GetObjectList().begin(), newScene->GetObjectList().end(), std::mem_fn(&AddSingleRenderObject));
+
+		for (auto& it : newScene->GetObjectList())
+		{
+			AddSingleRenderObject(it);
+		}
 	}
 
 	void GraphicsSceneParser::AddSingleRenderObject(Pg::Data::GameObject* obj)
@@ -302,49 +400,12 @@ namespace Pg::Graphics
 		}
 	}
 
-	void GraphicsSceneParser::RemapMaterialIDs()
-	{
-		//실제로 이제 존재하는 모든 Material에 ID를 새로 부여.
-		Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetCombinedLoader()->RemapMaterialIDs();
-
-		//이를 Static/Skinned List에 반영!
-
-		//Material Path. (first)
-		for (auto& it : _renderObject3DList->_staticList)
-		{
-			//일단은 자기 자신이 속한 Material ID를 부여해줘야 한다.
-			RenderMaterial* tRenderMat = it.first;
-
-			for (auto& itt : *(it.second))
-			{
-				//Material ID를 일괄적으로 부여.
-				itt.second->SetMaterialIdPointer(&(tRenderMat->GetID()));
-			}
-		}
-
-		//Material Path. (first)
-		for (auto& it : _renderObject3DList->_skinnedList)
-		{
-			//일단은 자기 자신이 속한 Material ID를 부여해줘야 한다.
-			RenderMaterial* tRenderMat = it.first;
-
-			for (auto& itt : *(it.second))
-			{
-				//Material ID를 일괄적으로 부여.
-				itt.second->SetMaterialIdPointer(&(tRenderMat->GetID()));
-			}
-		}
-
-		//auto tMatVec = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetAllResourcesByDefine(Data::Enums::eAssetDefine::_RENDERMATERIAL);
-		//assert("");
-	}
-
 	void GraphicsSceneParser::SyncSceneAllLights(const Pg::Data::Scene* const newScene)
 	{
 		RuntimeAddLightsVector(&(newScene->GetObjectList()));
 	}
 
-	void GraphicsSceneParser::BindAdequateFunctions(const Pg::Data::Scene* const newScene)
+	void GraphicsSceneParser::CheckBindAdequateFunctions()
 	{
 		using Pg::Graphics::Helper::GraphicsResourceHelper;
 
@@ -356,7 +417,11 @@ namespace Pg::Graphics
 				RenderObjectSkinnedMesh3D* tSkinnedRO = static_cast<RenderObjectSkinnedMesh3D*>(ro.get());
 				Pg::Data::SkinnedMeshRenderer* tSkinnedRenderer = static_cast<Pg::Data::SkinnedMeshRenderer*>(tSkinnedRO->GetBaseRenderer());
 				//std::bind로 Data쪽에서 원격으로 함수를 호출할 수 있게.
-				tSkinnedRenderer->_setAnimationFunction = std::bind(&RenderObjectSkinnedMesh3D::SetAnimation, tSkinnedRO, std::placeholders::_1, std::placeholders::_2);
+				//준비 안되었을 때만,
+				if (!(ro->_isInternalUpToDate))
+				{
+					tSkinnedRenderer->_setAnimationFunction = std::bind(&RenderObjectSkinnedMesh3D::SetAnimation, tSkinnedRO, std::placeholders::_1, std::placeholders::_2);
+				}
 
 				//SetAnimation Function Bind.
 				//std::function<void(const std::string&)> tSetAnimFunction = [tSkinnedRO](const std::string& animName) {
@@ -376,11 +441,11 @@ namespace Pg::Graphics
 			for (int i = 0; i < it.second->size(); i++)
 			{
 				//ObjectMaterial Buffer가 만들어지지 않은 애들만 호출, 실행.
-				if (!(it.second->at(i).second->_isObjMatBufferUsable))
+				if (!(it.second->at(i).second->_isInternalUpToDate))
 				{
 					it.second->at(i).second->CreateObjMatBuffers();
 					//세팅 됨.
-					it.second->at(i).second->_isObjMatBufferUsable = true;
+					it.second->at(i).second->_isInternalUpToDate = true;
 				}
 			}
 		}
@@ -392,11 +457,11 @@ namespace Pg::Graphics
 			for (int i = 0; i < it.second->size(); i++)
 			{
 				//ObjectMaterial Buffer가 만들어지지 않은 애들만 호출, 실행.
-				if (!(it.second->at(i).second->_isObjMatBufferUsable))
+				if (!(it.second->at(i).second->_isInternalUpToDate))
 				{
 					it.second->at(i).second->CreateObjMatBuffers();
 					//세팅 됨.
-					it.second->at(i).second->_isObjMatBufferUsable = true;
+					it.second->at(i).second->_isInternalUpToDate = true;
 				}
 			}
 		}
@@ -503,84 +568,48 @@ namespace Pg::Graphics
 		std::copy(objVecP->begin(), objVecP->end(), std::back_inserter(_runtimeDeletedObjectList));
 	}
 
-	void GraphicsSceneParser::HandleRenderObjectsRuntime()
-	{
-		//CheckCreate는 쓸데없는 파싱 비용이 든다.
-		//미리 체크해서, EarlyReturn 가능하면 하기!
-		if (_runtimeAddedObjectList.empty() &&
-			_runtimeModifiedObjectList.empty() &&
-			_runtimeDeletedObjectList.empty())
+	void GraphicsSceneParser::ModifySingleRenderObject(Pg::Data::GameObject* obj)
+	{	
+		//뭐가 되었든, 다시 지우고 바로 만들거나 / 그렇지 않아야 한다.
+		
+		//일단, 지금 오브젝트가 렌더러를 가지고 있는지부터.
+		auto renderVec = obj->GetComponents<Pg::Data::BaseRenderer>();
+		if (renderVec.empty())
 		{
+			//해당 컴포넌트 있던 겜옵젝 -> 컴포넌트가 사라지는 경우. (없으면 아무것도 하지 않음)
+			_renderObject2DList->DeleteRenderObjectWithGameObject(obj);
+			_renderObject3DList->DeleteRenderObjectWithGameObject(obj);
+
 			return;
 		}
 
-		//Added Objects : 미리 PlaceCorrectPath & Error Check.
-		std::for_each(_runtimeAddedObjectList.begin(), _runtimeAddedObjectList.end(), [this](Pg::Data::GameObject*& it)
-			{
-				PlaceCorrectPathSingleRenderer(it);
-				CheckPathNameErrorSingleRenderer(it);
-			});
-
-		//Modified Objects : 미리 PlaceCorrectPath & Error Check.
-		std::for_each(_runtimeModifiedObjectList.begin(), _runtimeModifiedObjectList.end(), [this](Pg::Data::GameObject*& it)
-			{
-				PlaceCorrectPathSingleRenderer(it);
-				CheckPathNameErrorSingleRenderer(it);
-			});
-
-		//미리 Material을 추가 / 삭제해야 한다면, 미리 값을 받아야 한다.
-		RuntimeExtractMaterialPathsVector(&_runtimeAddedObjectList);
-		RuntimeExtractMaterialPathsVector(&_runtimeModifiedObjectList);
-
-		//Skinned일 경우, BindAdequateFunctions 역시 호출되어야 한다!
-		//Add 처리.
-		//별도로 ObjectBuffer 만들어야 함.-> Toggle해야 (기본적으로 되어 있음)
-		std::for_each(_runtimeAddedObjectList.begin(), _runtimeAddedObjectList.end(), std::mem_fn(&AddSingleRenderObject));
-		std::for_each(_runtimeModifiedObjectList.begin(), _runtimeModifiedObjectList.end(), std::mem_fn(&ModifySingleRenderObject));
-		std::for_each(_runtimeDeletedObjectList.begin(), _runtimeDeletedObjectList.end(), std::mem_fn(&DeleteSingleRenderObject));
-
-		//Light 관련된 일관된 연관.
-		RuntimeAddLightsVector(&_runtimeAddedObjectList);
-		RuntimeModifyLightsVector(&_runtimeModifiedObjectList);
-		RuntimeDeleteLightsVector(&_runtimeDeletedObjectList);
-
-
-		//EarlyReturn이 안되었다는 건 뭐라도 바꿀게 있다는 말.
-		//SceneParser 내부에 추가된 / 변경된 오브젝트만 가지고 호출하자.
-		//미리 받아서 하면 오류 생길 것 같다.
-		CheckCreateObjMatBuffersAll();
-
-		///TODO : 그리고 중간에 Material이 새롭게 발견되면 미리 해당 옵젝들만 관련해서 MaterialPath를 새로 만들어 넣어줘야 한다.
-		///
-
-		//일괄적으로 Clear & Update.
-		if (!_runtimeAddedObjectList.empty())
+		auto tRo2d = _renderObject2DList->GetRenderObjectWithGameObject(obj);
+		auto tRo3d = _renderObject2DList->GetRenderObjectWithGameObject(obj);
+		if (tRo2d.empty() && tRo3d.empty())
 		{
-			_runtimeAddedObjectList.clear();
+			// 1. 해당 컴포넌트 없는 겜옵젝 -> 컴포넌트가 생기는 경우.
+			//원래 없는데, 지금은 생긴 것!
+			AddSingleRenderObject(obj);
+
+			return;
 		}
 
-		if (!_runtimeModifiedObjectList.empty())
-		{
-			_runtimeModifiedObjectList.clear();
-		}
-
-		if (!_runtimeDeletedObjectList.empty())
-		{
-			_runtimeDeletedObjectList.clear();
-		}
-	}
-
-	void GraphicsSceneParser::ModifySingleRenderObject(Pg::Data::GameObject* obj)
-	{
+		// 2. 해당 컴포넌트 있던 겜옵젝 -> 컴포넌트 값이 수정되는 경우.
+		//어쨌든 지우고 다시 만들어야 한다.
+		_renderObject2DList->DeleteRenderObjectWithGameObject(obj);
+		_renderObject3DList->DeleteRenderObjectWithGameObject(obj);
+		AddSingleRenderObject(obj);
 
 	}
 
 	void GraphicsSceneParser::DeleteSingleRenderObject(Pg::Data::GameObject* obj)
 	{
+		auto renderVec = obj->GetComponents<Pg::Data::BaseRenderer>();
 
+		//(없으면 아무것도 하지 않음)
+		_renderObject2DList->DeleteRenderObjectWithGameObject(obj);
+		_renderObject3DList->DeleteRenderObjectWithGameObject(obj);
 	}
-
-
 	void GraphicsSceneParser::PlaceCorrectPathSingleRenderer(Pg::Data::GameObject* tGameObject)
 	{
 		using Pg::Graphics::Manager::GraphicsResourceManager;
@@ -769,6 +798,85 @@ namespace Pg::Graphics
 			return;
 		}
 
+		///총 3가지 경우.
+		/// 1. 해당 컴포넌트 없는 겜옵젝 -> 컴포넌트가 생기는 경우.
+		/// 2. 해당 컴포넌트 있던 겜옵젝 -> 컴포넌트가 사라지는 경우.
+		/// 3. 해당 컴포넌트 있던 겜옵젝 -> 컴포넌트가 수정되는 경우.
+	
+		std::vector<Pg::Data::DirectionalLight*> tEnteredDirLights;
+		std::vector<Pg::Data::SpotLight*> tEnteredSpotLights;
+		std::vector<Pg::Data::PointLight*> tEnteredPointLights;
+
+		//Light들의 Component 리스트 별도로 저장.
+		for (auto& tGameObject : *objList)
+		{
+			//1. 라이트가 있는지 체크한다.
+			auto tLightComponentVector = tGameObject->GetComponents<Pg::Data::Light>();
+
+			for (auto& tSingleLight : tLightComponentVector)
+			{
+				//Directional Light일 경우.
+				Pg::Data::DirectionalLight* tDirLight = dynamic_cast<Pg::Data::DirectionalLight*>(tSingleLight);
+				if (tDirLight != nullptr)
+				{
+					tEnteredDirLights.push_back(tDirLight);
+					continue;
+				}
+
+				//Spot Light일 경우.
+				Pg::Data::SpotLight* tSpotLight = dynamic_cast<Pg::Data::SpotLight*>(tSingleLight);
+				if (tSpotLight != nullptr)
+				{
+					tEnteredSpotLights.push_back(tSpotLight);
+					continue;
+				}
+
+				//Point Light일 경우.
+				Pg::Data::PointLight* tPointLight = dynamic_cast<Pg::Data::PointLight*>(tSingleLight);
+				if (tPointLight != nullptr)
+				{
+					tEnteredPointLights.push_back(tPointLight);
+					continue;
+				}
+			}
+		}
+
+		//이제 SceneInfo 리스트에서 범위 안에 있으면 다 삭제하기.
+		//이미 있는지 체크. 
+		//Filter해서 겹치는 것은 삭제.
+		{
+			auto tIsDirAlready = [&](Pg::Data::DirectionalLight* val)
+				{
+					//임시 리스트에서 찾았다는 얘기 -> 그러니까, 밑의 Erase-Remove_If Idiom에서 찾은 애들만 지우라는 말!
+					return std::ranges::find(tEnteredDirLights, val) != tEnteredDirLights.end();
+				};
+			_sceneInfoList->_dirLightList.erase(std::remove_if(_sceneInfoList->_dirLightList.begin(),
+				_sceneInfoList->_dirLightList.end(), tIsDirAlready), _sceneInfoList->_dirLightList.end());
+		}
+		{
+			auto tIsSpotAlready = [&](Pg::Data::SpotLight* val)
+				{
+					//임시 리스트에서 찾았다는 얘기 -> 그러니까, 밑의 Erase-Remove_If Idiom에서 찾은 애들만 지우라는 말!
+					return std::ranges::find(tEnteredSpotLights, val) != tEnteredSpotLights.end();
+				};
+			_sceneInfoList->_spotLightList.erase(std::remove_if(_sceneInfoList->_spotLightList.begin(),
+				_sceneInfoList->_spotLightList.end(), tIsSpotAlready), _sceneInfoList->_spotLightList.end());
+		}
+		{
+			auto tIsPointAlready = [&](Pg::Data::PointLight* val)
+				{
+					//임시 리스트에서 찾았다는 얘기 -> 그러니까, 밑의 Erase-Remove_If Idiom에서 찾은 애들만 지우라는 말!
+					return std::ranges::find(tEnteredPointLights, val) != tEnteredPointLights.end();
+				};
+			_sceneInfoList->_pointLightList.erase(std::remove_if(_sceneInfoList->_pointLightList.begin(),
+				_sceneInfoList->_pointLightList.end(), tIsPointAlready), _sceneInfoList->_pointLightList.end());
+		}
+
+		//겹친거 삭제한 다음에, 다시 값을 넣는다. (수정이기 때문)
+		std::copy(tEnteredDirLights.begin(), tEnteredDirLights.end(), std::back_inserter(_sceneInfoList->_dirLightList));
+		std::copy(tEnteredSpotLights.begin(), tEnteredSpotLights.end(), std::back_inserter(_sceneInfoList->_spotLightList));
+		std::copy(tEnteredPointLights.begin(), tEnteredPointLights.end(), std::back_inserter(_sceneInfoList->_pointLightList));
+		
 		//Data 자체를 가져다가 쓰기 때문에, 같은 경우는 별도의 연동이 필요 없음.
 		//Intensity를 기반으로 Sort. ( '>' Operator Overloading )
 		//그냥 데이터 Sort만 다시 돌리면 된다!
@@ -851,6 +959,7 @@ namespace Pg::Graphics
 			_sceneInfoList->_pointLightList.erase(std::remove_if(_sceneInfoList->_pointLightList.begin(),
 				_sceneInfoList->_pointLightList.end(), tIsPointAlready), _sceneInfoList->_pointLightList.end());
 		}
+
 		//원본 리스트에서 삭제를 했음.
 		//정렬만 해주면 끝.
 		SortSceneInfoLightsVector();
@@ -875,6 +984,18 @@ namespace Pg::Graphics
 			std::sort(_sceneInfoList->_pointLightList.begin(), _sceneInfoList->_pointLightList.end(),
 				[](Pg::Data::PointLight* a, Pg::Data::PointLight* b) {return a > b; });
 		}
+	}
+
+	void GraphicsSceneParser::RemapMaterialIdAll()
+	{
+		//실제로 이제 존재하는 모든 Material에 ID를 새로 부여.
+		Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetCombinedLoader()->RemapMaterialIdAll();
+	}
+
+	void GraphicsSceneParser::RemapAppendedMatID()
+	{
+		//실제로 이제 존재하는 모든 Material에 ID를 새로 부여.
+		Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetCombinedLoader()->RemapAppendedMatID();
 	}
 
 }

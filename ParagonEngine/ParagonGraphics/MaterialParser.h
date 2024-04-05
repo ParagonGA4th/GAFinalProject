@@ -33,7 +33,13 @@ namespace Pg::Graphics
 		void LoadDefaultRenderMaterialInstance(const std::string& defInstMatName, RenderMaterial* renderMat);
 
 		//Scene이 바뀔 때 마다 전체 매터리얼마다 전부 부여.
-		void RemapMaterialIDs();
+		void RemapMaterialIdAll();
+
+		//중간에 추가될 때 마다 일부 매터리얼 추가만 부여.
+		void RemapAppendedMatID();
+
+		//처음 Scene을 로드하기 전에 eInitState를 _NONE으로 리셋.
+		void ResetAllKnownInitStates();
 	private:
 		//큰 레이어들.
 		void ParsePgMat(const std::string& pgmatPath);
