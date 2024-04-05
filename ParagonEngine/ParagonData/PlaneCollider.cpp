@@ -11,7 +11,7 @@ namespace Pg::Data
 		StaticCollider(owner),
 		_width(20.0f),
 		_depth(20.0f),
-		_layer(0x00000001)
+		_layer(1)
 	{
 		FACTORY_INIT;
 	}
@@ -54,7 +54,7 @@ namespace Pg::Data
 		_layer = lay;
 	}
 
-	int PlaneCollider::GetLayer()
+	uint32_t PlaneCollider::GetLayer()
 	{
 		return _layer;
 	}

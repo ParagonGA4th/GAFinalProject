@@ -29,13 +29,13 @@ namespace Pg::Data
 		void SetRadius(float rad);
 
 		void SetLayer(int lay);
-		int GetLayer();
+		uint32_t GetLayer();
 
 		Pg::Data::SphereInfo _sphereInfo;
 
 	private:
 		float _rad;
-		int _layer;
+		uint32_t _layer;
 	};
 }
 

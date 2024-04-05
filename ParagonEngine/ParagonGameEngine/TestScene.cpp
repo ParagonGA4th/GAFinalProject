@@ -70,6 +70,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
 	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
 	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+	tObj2_2->GetComponent<CapsuleCollider>()->SetLayer(4);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetTrigger(true);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 1.0f, 0.0f, 0.0f });
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, 90.0f, 0.0f, 0.0f });
@@ -89,6 +90,7 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj3->GetComponent<Transform>()->_scale = { 3.0f, 3.0f, 3.0f };
 	//tObj3->GetComponent<Transform>()->SetLocalRotationEuler(0.0f, 100.0f, 0.0f);
 	tObj3->AddComponent<CapsuleCollider>();
+	tObj3->GetComponent<CapsuleCollider>()->SetLayer(2);
 	//tObj3->GetComponent<CapsuleCollider>()->SetCapsuleInfo(3.0f, 3.0f);
 	tObj3->AddComponent<StaticMeshRenderer>();
 	tObj3->GetComponent<StaticMeshRenderer>()->SetActive(true);
@@ -118,7 +120,7 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj5->GetComponent<Transform>()->_rotation = tObj5->GetComponent<Transform>()->EulerToQuaternion(1.5f, 2.0f, 4.0f);
 	tObj5->AddComponent<BoxCollider>();
 	tObj5->GetComponent<BoxCollider>()->SetScale(2.0f, 2.0f, 2.0f);
-	tObj5->GetComponent<BoxCollider>()->SetLayer(0x00000002);
+	tObj5->GetComponent<BoxCollider>()->SetLayer(0);
 	//tObj5->GetComponent<BoxCollider>()->SetPoisitonOffset({ 1.0f,0.0f,0.0f });
 	tObj5->AddComponent<StaticMeshRenderer>();
 	tObj5->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
@@ -140,7 +142,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	//tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 	tObj7->AddComponent<PlaneCollider>();
-	tObj7->GetComponent<PlaneCollider>()->SetLayer(0x00000002);
+	tObj7->GetComponent<PlaneCollider>()->SetLayer(3);
 	tObj7->AddComponent<StaticMeshRenderer>();
 	tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
 	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);

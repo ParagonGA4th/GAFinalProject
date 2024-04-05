@@ -36,7 +36,7 @@ namespace Pg::Data
 		void SetCapsuleInfo(float rad, float halfHeight);
 
 		void SetLayer(int lay);
-		int GetLayer();
+		uint32_t GetLayer();
 
 	public:
 		Pg::Data::CapsuleInfo _capsuleInfo;
@@ -46,7 +46,7 @@ namespace Pg::Data
 		float _halfHeight;
 
 		//Collision Layer Mask
-		int _layer;
+		uint32_t _layer;
 	};
 }
 

@@ -25,7 +25,7 @@ namespace Pg::Data
 		float GetDepth() const;
 
 		void SetLayer(int lay);
-		int GetLayer();
+		uint32_t GetLayer();
 
 	public:
 		void SetScale(float w, float h, float d);
@@ -37,7 +37,7 @@ namespace Pg::Data
 		float _height;
 		float _depth;
 
-		int _layer;
+		uint32_t _layer;
 	};
 }
 
