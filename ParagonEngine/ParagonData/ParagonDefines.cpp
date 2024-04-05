@@ -26,7 +26,7 @@ namespace Pg::Defines
 	const std::string ASSET_DEFAULT_ARM_TEXTURE_PATH_2048 = "../Resources/Textures/Default/2048x2048/Paragon_DefaultArmMap2048x2048.dds";
 	const std::string ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_2048 = "../Resources/Textures/Default/2048x2048/Paragon_DefaultSpecularMap2048x2048.dds";
 	//const std::string ASSET_DEFAULT_DISPLACEMENT_TEXTURE_PATH_2048 = "../Resources/Textures/Default/2048x2048/Paragon_DefaultDisplacementMap2048x2048.dds";
-	
+
 	const std::string ASSET_DEFAULT_IBL_DIFFUSE_IRRADIANCE_CUBEMAP_PATH = "../Resources/Textures/Cubemaps/IBL/PaperMill/PaperMill_IBLMapDiffuseHDR.dds";
 	const std::string ASSET_DEFAULT_IBL_SPECULAR_IRRADIANCE_CUBEMAP_PATH = "../Resources/Textures/Cubemaps/IBL/PaperMill/PaperMill_IBLMapSpecularHDR.dds";
 	const std::string ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH = "../Resources/Textures/Cubemaps/IBL/PaperMill/PaperMill_IBLMapBrdf.dds";
@@ -38,6 +38,9 @@ namespace Pg::Defines
 
 	const std::string DEFAULT_APPENDS_RENDER_VS_PATH = "../Builds/x64/Debug/AppendObjectDefaultVS.cso";
 	const std::string DEFAULT_APPENDS_RENDER_PS_PATH = "../Builds/x64/Debug/AppendObjectDefaultPS.cso";
+
+	const std::string GENERATED_MATERIAL_PREFIX = "$GeneratedMaterial_$";
+	const std::string GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX = "$GeneratedMaterial_Texture2DArray_$";
 }
 
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "../ParagonData/AssetDefines.h"
+#include "../ParagonData/ParagonDefines.h"
 
 #include "ShaderParsingData.h"
 #include "AssetTextureType.h"
@@ -72,14 +73,6 @@ namespace Pg::Graphics::Helper
 		static eSizeTexture GetSizeTextureFromUINT(unsigned int width, unsigned int height);
 
 		static eTextureExtension GetTexExtFromPath(const std::string& path);
-	public:
-		// ^, $ 리소스 이름에 활용 금지!
-		
-		//모든 디폴트 매터리얼들이 부여받는 Prefix. 이는 일반 리소스 생성에서 활용할 수 없다.
-		static const std::string GENERATED_MATERIAL_PREFIX;
-
-		//모든 디폴트 매터리얼 내부 활용되는 Texture2DArray가 부여받는 Prefix. 일반 리소스 생성에서 활용할 수 없다.
-		static const std::string GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX;
 	};
 }
 

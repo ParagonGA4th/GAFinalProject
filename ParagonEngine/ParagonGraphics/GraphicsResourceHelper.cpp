@@ -1,6 +1,7 @@
 #include "GraphicsResourceHelper.h"
 
 //RendererComponent들이 더 추가될 수록 여기도 변해야 한다.
+#include "../ParagonData/ParagonDefines.h"
 #include "../ParagonData/BaseRenderer.h"
 #include "../ParagonData/RendererBase2D.h"
 #include "../ParagonData/RendererBase3D.h" 
@@ -17,11 +18,7 @@
 #include <filesystem>
 
 namespace Pg::Graphics::Helper
-{
-	//마지막에는 항상 $을 넣어야 한다.
-	const std::string GraphicsResourceHelper::GENERATED_MATERIAL_PREFIX = "$GeneratedMaterial_$";
-	const std::string GraphicsResourceHelper::GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX = "$GeneratedMaterial_Texture2DArray_$";
-
+{	
 	void GraphicsResourceHelper::Initialize()
 	{
 		//템플릿 특수화 초기화의 역할을 할 것이다.
@@ -200,7 +197,7 @@ namespace Pg::Graphics::Helper
 
 	std::string GraphicsResourceHelper::GetDefaultMaterialNameFromMeshName(const std::string& name)
 	{
-		std::string tStr = GENERATED_MATERIAL_PREFIX;
+		std::string tStr = Pg::Defines::GENERATED_MATERIAL_PREFIX;
 		tStr += name;
 		return tStr;
 	}
@@ -208,7 +205,7 @@ namespace Pg::Graphics::Helper
 	std::string GraphicsResourceHelper::GetMeshNameFromDefaultMaterialName(const std::string& name)
 	{
 		std::string tRet = name;
-		std::string substring = GENERATED_MATERIAL_PREFIX;
+		std::string substring = Pg::Defines::GENERATED_MATERIAL_PREFIX;
 
 		std::size_t ind = tRet.find(substring); //Substring 시작 위치 찾기.
 
@@ -227,7 +224,7 @@ namespace Pg::Graphics::Helper
 	std::string GraphicsResourceHelper::GetGeneratedTex2DArrayNameFromValues(const std::string& defMatName, const std::string& varName, std::string* renderTextureNameSrc, unsigned int cnt)
 	{
 		//Texture2DArray 감지를 위한 체계.
-		std::string tRet = GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX;
+		std::string tRet = Pg::Defines::GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX;
 		tRet.append(defMatName);
 		tRet.append("^");
 		tRet.append(varName);
@@ -251,12 +248,12 @@ namespace Pg::Graphics::Helper
 		assert(outStringVector.empty() && "미리 들어온 벡터가 비어 있지 않다!");
 
 		std::string tMain = defTex2DArrName;
-		std::size_t ind = defTex2DArrName.find(GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX); //Substring 시작 위치 찾기.
+		std::size_t ind = defTex2DArrName.find(Pg::Defines::GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX); //Substring 시작 위치 찾기.
 
 		if (ind != std::string::npos)
 		{
 			//찾았음.
-			tMain.erase(ind, GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX.length());
+			tMain.erase(ind, Pg::Defines::GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX.length());
 		}
 		else
 		{
