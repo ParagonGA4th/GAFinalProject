@@ -5,6 +5,9 @@
 #include "BehaviorTreeSystem.h"
 #include "EditorCameraScript.h"
 
+//Script System 마련 전 Test 용.
+#include "TestScene.h"
+
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/RendererBase2D.h"
@@ -30,9 +33,17 @@ namespace Pg::Engine
 	}
 	void SceneSystem::Initialize()
 	{
-		//여기에는 (TBA) Scene 관리 로직 etc 있어야!
-		_sceneList.insert({"SampleScene", new Pg::Data::Scene("SampleScene")});
-		_currentScene = _sceneList.at("SampleScene");
+		////여기에는 (TBA) Scene 관리 로직 etc 있어야!
+		//_sceneList.insert({"SampleScene", new Pg::Data::Scene("SampleScene")});
+		//_currentScene = _sceneList.at("SampleScene");
+
+		///<임시Test용: TO REMOVE>
+		TestScene* tTestScene = new TestScene();
+		tTestScene->Initialize();
+
+		_currentScene = tTestScene->GetCurrentScene();
+		_sceneList.insert({ "TestSceneToRemove", tTestScene->GetCurrentScene() });
+		///<임시Test용: TO REMOVE>
 	}
 	
 	void SceneSystem::Update()
