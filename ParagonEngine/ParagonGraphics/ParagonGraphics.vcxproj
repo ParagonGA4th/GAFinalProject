@@ -40,6 +40,7 @@
     <ClInclude Include="FogProcessingPass.h" />
     <ClInclude Include="Forward3DRenderer.h" />
     <ClInclude Include="D3DCarrier.h" />
+    <ClInclude Include="GraphicsApiExporter.h" />
     <ClInclude Include="GraphicsSceneParser.h" />
     <ClInclude Include="PreparationSkinnedRenderPass.h" />
     <ClInclude Include="SceneInformationList.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="FogProcessingPass.cpp" />
     <ClCompile Include="Forward3DRenderer.cpp" />
     <ClCompile Include="GBufferDepthStencil.cpp" />
+    <ClCompile Include="GraphicsApiExporter.cpp" />
     <ClCompile Include="GraphicsSceneParser.cpp" />
     <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="MaterialParser.cpp" />
