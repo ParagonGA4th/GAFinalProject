@@ -56,7 +56,7 @@ namespace Pg::Engine
 		//	{ iter.second->HandleAddDeleteInScene(); });
 	}
 	
-	void SceneSystem::Update()
+	void SceneSystem::DebounceSceneLoadStatus()
 	{
 		//씬 자체의 Start를 보기 위해서.
 		if (!_isStarted)
@@ -66,8 +66,12 @@ namespace Pg::Engine
 			_currentScene->GetMainCamera()->_object->AddComponent<EditorCameraScript>();
 			_isStarted = true;
 		}
+	}
 
+	void SceneSystem::Update()
+	{
 		//Object 단위로 내부적으로 실행할지 말지를 판단하기에, 상관없다.
+		
 		_currentScene->Awake();
 		_currentScene->Start();
 		_currentScene->Update();
@@ -163,5 +167,7 @@ namespace Pg::Engine
 	{
 		return _isStarted;
 	}
+
+
 
 }

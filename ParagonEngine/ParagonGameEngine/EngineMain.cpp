@@ -95,22 +95,27 @@ namespace Pg::Engine
 
 	void EngineMain::Update()
 	{
+		//외적인 SceneLoad 로직 Start 관련, 항상 SceneSystem 체크한다.
+		_sceneSystem->DebounceSceneLoadStatus();
+
 		//기록된 Edit Mode가 EDIT/NONE으로 설정되었을시, 실행을 Update를 실행하지 않는다.
 		//Early Return.
 		if (_prevRecordedEditMode == Data::Enums::eEditorMode::_NONE ||
-			_prevRecordedEditMode == Data::Enums::eEditorMode::_EDIT )
+			_prevRecordedEditMode == Data::Enums::eEditorMode::_EDIT)
 		{
-			return;
+			_sceneSystem->Update();
 		}
-
-		_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
-		_physicSystem->Flush();
-		_sceneSystem->Update();
-		_soundSystem->Update();
-		_navSystem->Update(_timeSystem->GetDeltaTime());
-		_behaviorTreeSystem->Update();
-		_physicSystem->UpdateTransform();
-		_debugSystem->Update(_sceneSystem->GetCurrentScene());
+		else
+		{
+			_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
+			_physicSystem->Flush();
+			_sceneSystem->Update();
+			_soundSystem->Update();
+			_navSystem->Update(_timeSystem->GetDeltaTime());
+			_behaviorTreeSystem->Update();
+			_physicSystem->UpdateTransform();
+			_debugSystem->Update(_sceneSystem->GetCurrentScene());
+		}
 	}
 
 	void EngineMain::Finalize()

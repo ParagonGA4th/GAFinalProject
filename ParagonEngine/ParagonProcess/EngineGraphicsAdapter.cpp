@@ -159,6 +159,7 @@ namespace Pg::Core
 
 	void EngineGraphicsAdapter::SyncLoadGraphicsResources()
 	{
+		//얘가 발동되었을 때만 1차 로드해주어야 한다. 
 		if (_engine->NotifyIfChangedScene() != nullptr)
 		{
 			_graphics->SyncComponentToGraphics(_engine->GetCurrentScene());
