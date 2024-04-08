@@ -9,12 +9,12 @@ namespace Pg::Data
 	struct GameConstantData
 	{
 	public:
-		static unsigned int WIDTH;
-		static unsigned int HEIGHT;
+		static const unsigned int WIDTH;
+		static const unsigned int HEIGHT;
 	};
 
-	__declspec(selectany) unsigned int GameConstantData::WIDTH = 1920;
-	__declspec(selectany) unsigned int GameConstantData::HEIGHT = 1080;
+	__declspec(selectany) const unsigned int GameConstantData::WIDTH = 1920;
+	__declspec(selectany) const unsigned int GameConstantData::HEIGHT = 1080;
 
 	
 

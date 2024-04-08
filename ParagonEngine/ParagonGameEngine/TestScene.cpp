@@ -37,7 +37,7 @@
 
 Pg::Engine::TestScene::TestScene()
 {
-	tCurrentScene = new Pg::Data::Scene("TestCurrentSceneWorkspace");
+	tCurrentScene = new Pg::Data::Scene("TestSceneToRemove");
 }
 
 void Pg::Engine::TestScene::Initialize()
@@ -46,12 +46,12 @@ void Pg::Engine::TestScene::Initialize()
 
 	//���� ���⼭ MainCamera �ֱ� ����.
 
-	//Pg::Data::GameObject* tObj2 = tCurrentScene->AddObject("RoadLavaConeTest");
-	//tObj2->GetComponent<Transform>()->_position = { 0.0f, 10.0f, 0.0f };
-	//tObj2->AddComponent<StaticMeshRenderer>();
-	//tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Cube/Cube.fbx");
-	//tObj2->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat");
-	//tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	Pg::Data::GameObject* tObj2 = tCurrentScene->AddObject("RoadLavaConeTest");
+	tObj2->GetComponent<Transform>()->_position = { 0.0f, 10.0f, 0.0f };
+	tObj2->AddComponent<StaticMeshRenderer>();
+	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Cube/Cube.fbx");
+	tObj2->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat");
+	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	//GameObject* tObj2_1 = tCurrentScene->AddObject("Sphere1");
 	//tObj2_1->GetComponent<Transform>()->_position = { 3.0f, 10.0f, 0.0f };

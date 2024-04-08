@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "../ParagonData/Camera.h"
-
+#include "../ParagonData/GameConstantData.h"
 #include <algorithm>
 #include <windows.h>
 
@@ -20,9 +20,9 @@ namespace Pg::Data
 
 		_mainCamera->_object->_transform._position = { 0.f, 3.0f, -10.f };
 		_mainCamera->_object->_transform._rotation = { 0.0f, 0.0f, 0.0f, 0.0f };
-		_mainCamera->SetScreenSize(1920.0f, 1080.0f);
-
-		OutputDebugString(L"1920x1080으로 사이즈 전달을 위해 Scene의 생성자에서 하드코딩되어 있다. 나중에 해상도 변경 발생 시 고쳐야.");
+		_mainCamera->SetScreenSize((float)Pg::Data::GameConstantData::WIDTH, (float)Pg::Data::GameConstantData::HEIGHT);
+		
+		OutputDebugString(L"Scene의 생성자에서 하드코딩되어 있다. : 이제 GameConstantData를 받는다. /// 나중에 해상도 변경 발생 시 고쳐야.");
 		
 		// 10.11 오수안
 		// Scene이 생성될 때 반드시 추가되는 main Light
@@ -49,6 +49,8 @@ namespace Pg::Data
 
 	void Scene::Start()
 	{
+		//나중에 SceneSystem의 isStarted 외적으로 Object의 런타임 추가 고려해서
+		//If문 검사 매번 있어야 한다.
 		for (auto& object : _objectList)
 		{
 			object->Start();
