@@ -44,8 +44,8 @@
 
 namespace Pg::Engine
 {
-	EngineMain::EngineMain(Pg::Core::ProcessMain* core) : 
-		_coreMain(core), 
+	EngineMain::EngineMain(Pg::Core::ProcessMain* core) :
+		_coreMain(core),
 		_engineResourceManager(Manager::EngineResourceManager::Instance())
 	{
 		//Physic
