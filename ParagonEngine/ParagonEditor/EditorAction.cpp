@@ -5,9 +5,11 @@
 #include "FileSystem.h"
 #include "Event.h"
 
+#include "../ParagonData/GameConstantData.h"
+
 Pg::Editor::Core::EditorAction::EditorAction()
 	:_hWnd(),
-	_screenWidth(1920), _screenHeight(1080),
+	_screenWidth(Pg::Data::GameConstantData::WIDTH), _screenHeight(Pg::Data::GameConstantData::HEIGHT),
 	_appName(L"ParagonEngine")
 {
 	_editorManagers.emplace_back(new Pg::Editor::Manager::ProcessManager(_screenWidth, _screenHeight));

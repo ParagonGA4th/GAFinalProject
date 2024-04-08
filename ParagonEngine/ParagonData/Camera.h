@@ -37,6 +37,11 @@ namespace Pg::Data
 		PGFLOAT4X4 GetProjMatrix() const;
 		Pg::Data::CameraData* GetCameraData();
 
+		//유니티의 Camera.ScreenPointToRay와 동일 기능을 할 것.
+		//ScreenPoint : 0-1 정규화된 범위를 받는다.
+		//해당 함수의 리턴값 -> MakeRay에 사용.
+		void ScreenPointToRayInfo(Pg::Math::PGFLOAT2 screenPointNormalized, Pg::Math::PGFLOAT3& outRayOrigin, Pg::Math::PGFLOAT3& outRayDir);
+
 	private:
 		void UpdateViewMatrix();
 
