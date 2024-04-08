@@ -334,7 +334,25 @@ namespace Pg::Graphics
 	{
 		_renderer->SetOutlinedGameObject(obj);
 	}
-	
 
+	void GraphicsMain::AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_renderer->AddRenderObject_Runtime(objVecP);
+	}
+
+	void GraphicsMain::ModifyRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_renderer->ModifyRenderObject_Runtime(objVecP);
+	}
+
+	void GraphicsMain::DeleteRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_renderer->DeleteRenderObject_Runtime(objVecP);
+	}
+
+	void GraphicsMain::HandleRenderObjectsRuntime()
+	{
+		_renderer->HandleRenderObjectsRuntime();
+	}
 
 }

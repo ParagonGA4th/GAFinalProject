@@ -138,6 +138,9 @@ namespace Pg::Core
 
 		//디버그 렌더 데이터 클리어 (디버그 시스템)
 		_engineGraphicsAdapter->ClearDebugVectorData();
+
+		//런타임에 추가 / 수정 / 삭제된 오브젝트 연동.
+		_engineGraphicsAdapter->HandleRenderObjectsRuntime();
 	}
 
 	void ProcessMain::Finalize()
