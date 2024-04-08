@@ -82,6 +82,15 @@ namespace Pg::Core
 
 		//Picking : Screen Space Coord의 비율에 따라서 GameObject*를 반환한다. 없으면 Nullptr 전달.
 		//virtual Pg::Data::GameObject* GetPickedGameObjectWithRatios(float widthRatio, float heightRatio) abstract;
+	
+		//에디터를 위해서 런타임에 추가 / 수정 / 삭제 로직 열었다.
+		virtual void AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP) abstract; 
+		virtual void ModifyRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP) abstract;
+		virtual void DeleteRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP) abstract;
+
+		//직접 호출 X, 프로세스에 의해 일괄적으로 Add/Modify/Delete된 오브젝트 실제로 반영하는데 쓰일 것.
+		virtual void HandleRenderObjectsRuntime() abstract;
+	
 	};
 
 }

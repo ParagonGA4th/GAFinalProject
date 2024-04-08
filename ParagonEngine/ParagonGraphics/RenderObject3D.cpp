@@ -24,7 +24,7 @@ namespace Pg::Graphics
 	using Pg::Graphics::Manager::GraphicsResourceManager;
 	using Pg::Util::Helper::ResourceHelper;
 
-	RenderObject3D::RenderObject3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID) : RenderObjectBase(baseRenderer), _objectID(objID), _materialID(NULL)
+	RenderObject3D::RenderObject3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID) : RenderObjectBase(baseRenderer), _objectID(objID), _materialIdPointer(nullptr), _isInternalUpToDate(false)
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 
@@ -44,12 +44,12 @@ namespace Pg::Graphics
 
 	unsigned int RenderObject3D::GetMaterialID() const
 	{
-		return _materialID;
+		return *_materialIdPointer;
 	}
 
-	void RenderObject3D::SetMaterialID(unsigned int matID)
+	void RenderObject3D::SetMaterialIdPointer(unsigned int* matID)
 	{
-		this->_materialID = matID;
+		this->_materialIdPointer = matID;
 	}
 
 }

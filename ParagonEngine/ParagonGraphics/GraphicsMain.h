@@ -122,6 +122,13 @@ namespace Pg::Graphics
 		//아웃라이닝할 게임오브젝트를 고른다.
 		PARAGON_GRAPHICS_DLL virtual void SetOutlinedObject(Pg::Data::GameObject* obj) override;
 
+		//에디터를 위해서 / Instantiate 등을 위해 런타임에 추가 / 수정 / 삭제 로직 열었다.
+		PARAGON_GRAPHICS_DLL virtual void AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP) override;
+		PARAGON_GRAPHICS_DLL virtual void ModifyRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP) override;
+		PARAGON_GRAPHICS_DLL virtual void DeleteRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP) override;
+
+		//직접 호출 X, 프로세스에 의해 일괄적으로 Add/Modify/Delete된 오브젝트 실제로 반영하는데 쓰일 것.
+		PARAGON_GRAPHICS_DLL virtual void HandleRenderObjectsRuntime() override;
 	public:
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;
 	private:

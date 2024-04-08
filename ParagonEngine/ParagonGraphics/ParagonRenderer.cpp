@@ -217,8 +217,25 @@ namespace Pg::Graphics
 		_deferredRenderer->SetDeltaTime(dt);
 	}
 
-	
+	void ParagonRenderer::AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_sceneParser->AddRenderObject_Runtime(objVecP);
+	}
 
+	void ParagonRenderer::ModifyRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_sceneParser->ModifyRenderObject_Runtime(objVecP);
+	}
+
+	void ParagonRenderer::DeleteRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_sceneParser->DeleteRenderObject_Runtime(objVecP);
+	}
+
+	void ParagonRenderer::HandleRenderObjectsRuntime()
+	{
+		_sceneParser->HandleRenderObjectsRuntime();
+	}
 
 	
 
