@@ -221,6 +221,7 @@ namespace Pg::Core
 
 	void EngineGraphicsAdapter::SetEditorMode(Pg::Data::Enums::eEditorMode mode)
 	{
-
+		//_graphics->
+		//_engine->
 	}
 }
