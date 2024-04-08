@@ -219,4 +219,8 @@ namespace Pg::Core
 		_graphics->HandleRenderObjectsRuntime();
 	}
 
+	void EngineGraphicsAdapter::SetEditorMode(Pg::Data::Enums::eEditorMode mode)
+	{
+
+	}
 }

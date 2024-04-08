@@ -1,6 +1,7 @@
 #pragma once
 #include "IEngine.h"
 #include "IGraphics.h"
+#include "../ParagonData/EditorMode.h"
 
 #include <memory>
 #include <vector>
@@ -116,6 +117,9 @@ namespace Pg::Core
 		void HandleRenderObjectsRuntime();
 
 		//이미 전달된 
+
+		// 현재 에디터의 상태를 받는 함수
+		void SetEditorMode(Pg::Data::Enums::eEditorMode mode);
 
 	private:
 		std::unique_ptr<IEngine> _engine;					//게임 엔진
