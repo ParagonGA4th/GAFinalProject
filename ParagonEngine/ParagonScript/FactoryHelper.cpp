@@ -11,13 +11,13 @@ void Pg::DataScript::FactoryHelper::AddScript(Pg::Data::GameObject* obj, std::st
 	Pg::DataScript::Script* script;
 	script = Pg::Factory::Script::ScriptFactory<Pg::DataScript::Script, Pg::Data::GameObject*>::Create(scriptType.c_str(), obj);
 	
-	if (script == nullptr)
-	{
-		if (scriptType.find("PlayerMove") != std::string::npos)
-		{
-			script = new PlayerMove(obj);
-		}
-	}
-	
-	obj->AddComponent(scriptType, script);
+	//if (script == nullptr)
+	//{
+	//	if (scriptType.find("PlayerMove") != std::string::npos)
+	//	{
+	//		script = new PlayerMove(obj);
+	//	}
+	//}
+	if(script != nullptr)
+		obj->AddComponent(scriptType, script);
 }
