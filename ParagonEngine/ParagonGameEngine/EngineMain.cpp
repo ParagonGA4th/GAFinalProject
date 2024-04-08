@@ -103,13 +103,15 @@ namespace Pg::Engine
 		if (_prevRecordedEditMode == Data::Enums::eEditorMode::_NONE ||
 			_prevRecordedEditMode == Data::Enums::eEditorMode::_EDIT)
 		{
-			_sceneSystem->Update();
+			//Internal 함수들만 호출.
+			_sceneSystem->Update(false);
 		}
 		else
 		{
+			//Internal 함수들 + 게임 내부 로직 업데이트 함수 활용.
 			_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
 			_physicSystem->Flush();
-			_sceneSystem->Update();
+			_sceneSystem->Update(true);
 			_soundSystem->Update();
 			_navSystem->Update(_timeSystem->GetDeltaTime());
 			_behaviorTreeSystem->Update();

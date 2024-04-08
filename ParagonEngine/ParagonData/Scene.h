@@ -35,12 +35,19 @@ namespace Pg::Data
 		Scene(std::string sceneName);
 		virtual ~Scene();
 
+		//Internal_NNN : 게임 로직이랑 분리된 엔진 내부 구성 유지하기 위해. (GameLoop w/ Editor Only)
+		//에디터를 여전히 돌리고 있음에도 PlayMode가 아닐 경우,
+		//요구되는 정보가 안 들어갈 수도 있다. 이때 활용하기 위해. 게임 개발 로직이랑 분리되어야 한다.
+		void Internal_EngineAwake();
 		void Awake();
 		void Start();
+
+		void Internal_EngineUpdate(); //Internal의 Update 버전. Ex. Camera 등에 의해 활용.
 		void Update();
 		void FixedUpdate();
 		void LateUpdate();
 
+	
 		//Editor / TestScene이 발동되기 위해 필요한 (오브젝트 "에디터 시간" 생성) 함수들.
 		GameObject* AddObject(const std::string& obj);
 		void DeleteObject(const std::string& obj);

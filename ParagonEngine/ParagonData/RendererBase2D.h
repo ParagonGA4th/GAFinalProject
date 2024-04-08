@@ -17,7 +17,7 @@ namespace Pg::Data
 		virtual ~RendererBase2D();
 
 	protected:
-		virtual void Start() override;
+		//virtual void Start() override;
 
 
 	public:

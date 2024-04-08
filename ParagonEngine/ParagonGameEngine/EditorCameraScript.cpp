@@ -20,7 +20,7 @@ EditorCameraScript::EditorCameraScript(Pg::Data::GameObject* obj)
 
 }
 
-void EditorCameraScript::Start()
+void EditorCameraScript::Internal_EngineAwake()
 {
 	// Input
 	auto& tInputSystem = singleton<Pg::Util::Input::InputSystem>();
@@ -35,7 +35,7 @@ void EditorCameraScript::Start()
 	assert(_camera != nullptr);
 }
 
-void EditorCameraScript::Update()
+void EditorCameraScript::Internal_EngineUpdate()
 {
 	using namespace Pg::Util::Input;
 	using namespace Pg::API::Input;
