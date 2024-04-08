@@ -29,7 +29,6 @@ Pg::Editor::Window::ToolBar::~ToolBar()
 void Pg::Editor::Window::ToolBar::Initialize()
 {
 	_widgetCon->CreateWidget<Pg::UI::Widget::Button>("Start", 80.f, 25.f, _isStartBtnClick);
-	_widgetCon->CreateWidget<Pg::UI::Widget::Button>("Pause", 80.f, 25.f, _isPauseBtnClick);
 	_widgetCon->CreateWidget<Pg::UI::Widget::Button>("Stop", 80.f, 25.f, _isStopBtnClick);
 	_widgetCon->CreateWidget<Pg::UI::Widget::RadioButton>("Translate", _gizmoType);
 	_widgetCon->CreateWidget<Pg::UI::Widget::RadioButton>("Rotate", _gizmoType);
@@ -40,7 +39,7 @@ void Pg::Editor::Window::ToolBar::Update()
 {
 	_uiManager->WindowBegin(_winName);
 
-	_uiManager->SetAlignCenter(3, 80.0f);
+	_uiManager->SetAlignCenter(2, 80.0f);
 	_widgetCon->SameLine(true, 2);
 	_widgetCon->Update();
 
@@ -51,12 +50,6 @@ void Pg::Editor::Window::ToolBar::Update()
 		_editorManaged->Invoke(eEventType::_EDITORDISABLE, static_cast<void*>(&_isStartBtnClick));
 	}
 
-	if (_isPauseBtnClick)
-	{
-		_editorModeType = Pg::Data::Enums::eEditorMode::_PAUSE;
-		_editorManaged->Invoke(eEventType::_EDITORMODE, static_cast<void*>(&_editorModeType));
-	}	
-	
 	if (_isStopBtnClick)
 	{
 		_editorModeType = Pg::Data::Enums::eEditorMode::_EDIT;
