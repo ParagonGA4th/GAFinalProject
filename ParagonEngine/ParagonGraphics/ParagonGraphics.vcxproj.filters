@@ -286,6 +286,9 @@
     <ClInclude Include="TextureExtension.h">
       <Filter>3_GraphicsResources\Resources\RenderTexture\Defines</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicsApiExporter.h">
+      <Filter>12_GraphicsAPI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -518,6 +521,9 @@
     </ClCompile>
     <ClCompile Include="PreparationSkinnedRenderPass.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\3_PreparationSkinnedRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsApiExporter.cpp">
+      <Filter>12_GraphicsAPI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -883,6 +889,9 @@
     </Filter>
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\7_BlendingRenderPass">
       <UniqueIdentifier>{f54e7a5e-4811-4fe0-a4b7-d2c4f483636e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="12_GraphicsAPI">
+      <UniqueIdentifier>{5bb9308d-f793-4e7b-b7c3-293e28b8d88e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

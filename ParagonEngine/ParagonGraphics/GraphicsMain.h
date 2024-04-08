@@ -50,6 +50,8 @@ namespace Pg::Graphics
 	{
 		class GraphicsResourceManager;
 	}
+
+	class GraphicsApiExporter;
 }
 
 namespace Pg::Graphics
@@ -145,8 +147,9 @@ namespace Pg::Graphics
 
 	private:
 		HRESULT hr;
-		Pg::Core::ProcessMain* _coreMain;
-		Pg::Graphics::Manager::GraphicsResourceManager* _graphicsResourceManager = nullptr;
+		Pg::Core::ProcessMain* _coreMain{ nullptr };
+		Pg::Graphics::Manager::GraphicsResourceManager* _graphicsResourceManager{ nullptr };
+		Pg::Graphics::GraphicsApiExporter* _graphicsApiExporter{ nullptr };
 	private:
 		LowDX11Logic* _DXLogic;
 		LowDX11Storage* _DXStorage;

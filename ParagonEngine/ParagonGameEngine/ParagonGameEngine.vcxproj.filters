@@ -133,7 +133,12 @@
     <ClInclude Include="DemoPlayerAction.h">
       <Filter>4_WorkSpace\SceneView\Scripts\DemoPlayerAction</Filter>
     </ClInclude>
-    <ClInclude Include="ArrowAction.h" />
+    <ClInclude Include="ArrowAction.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\ArrowAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenPointTest.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\ScreenPointTest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -280,7 +285,12 @@
     <ClCompile Include="DemoPlayerAction.cpp">
       <Filter>4_WorkSpace\SceneView\Scripts\DemoPlayerAction</Filter>
     </ClCompile>
-    <ClCompile Include="ArrowAction.cpp" />
+    <ClCompile Include="ArrowAction.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\ArrowAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenPointTest.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\ScreenPointTest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -393,6 +403,9 @@
     </Filter>
     <Filter Include="4_WorkSpace\SceneView\Scripts\ArrowAction">
       <UniqueIdentifier>{e1b6b78d-6f76-4d7e-b8cb-b2fbb2b597df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\ScreenPointTest">
+      <UniqueIdentifier>{0bfb62db-bdd1-4fe6-a7b9-086e2cff171b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

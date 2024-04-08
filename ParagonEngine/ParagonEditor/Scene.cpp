@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include "Event.h"
 #include "DataContainer.h"
-
+#include "../ParagonData/GameConstantData.h"
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
 #include "../ParagonUI/Image.h"
@@ -29,7 +29,8 @@ Pg::Editor::Window::Scene::~Scene()
 
 void Pg::Editor::Window::Scene::Initialize()
 {
-	_widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 1920.f, 1080.f);
+	_widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 
+		(float)Pg::Data::GameConstantData::WIDTH, (float)Pg::Data::GameConstantData::HEIGHT);
 
 	std::unique_ptr<Pg::Editor::Event> _gizmoType = std::make_unique<Pg::Editor::Event>();
 	_gizmoType->AddEvent(Pg::Editor::eEventType::_GIZMOTYPE, [&](void* data) { _uiManager->SetGizmoType(data); });

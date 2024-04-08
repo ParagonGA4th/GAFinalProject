@@ -3,6 +3,7 @@
 #include "LowDX11Storage.h"
 #include "ConstantBuffer.h"
 #include "MathHelper.h"
+#include "GraphicsApiExporter.h"
 #include "GraphicsResourceManager.h"
 #include "LayoutDefine.h"
 
@@ -76,6 +77,11 @@ namespace Pg::Graphics
 
 	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
 	{
+		//API 사용 용도로 본인의 포인터 GraphicsApiExporter로 전달.
+		auto& tApiExporter = singleton<Pg::Graphics::GraphicsApiExporter>();
+		_graphicsApiExporter = &tApiExporter;
+		_graphicsApiExporter->Initialize(this);
+
 		// 초기화 관련
 		_DXStorage->_hWnd = hWnd;
 
