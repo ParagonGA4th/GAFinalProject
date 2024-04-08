@@ -11,6 +11,5 @@ namespace Pg::Data::Enums
 		_NONE, // 에디터가 실행이 되지 않은 상태.
 		_EDIT, // 멈춘 상태, 에디터 빌드 가능한 상태.
 		_PLAY, // 재생하는 상태.
-		_PAUSE // 일시정지 상태.
 	};
 }

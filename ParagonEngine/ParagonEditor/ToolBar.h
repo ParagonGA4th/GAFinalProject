@@ -40,7 +40,6 @@ namespace Pg::Editor::Window
 
 		/// Data value
 		bool _isStartBtnClick;
-		bool _isPauseBtnClick;
 		bool _isStopBtnClick;		
 		
 		std::string _gizmoType = "Translate";
