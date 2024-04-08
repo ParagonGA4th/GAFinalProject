@@ -14,6 +14,14 @@
 //	}
 //}
 
+namespace Pg::Util
+{
+	namespace Input
+	{
+		class InputSystem;
+	}
+}
+
 namespace Pg::Engine
 {
 	namespace Physic
@@ -41,10 +49,11 @@ namespace Pg::Engine
 		virtual void Start() override;
 		virtual void Update() override;
 
-		Pg::Data::Camera* sceneMainCamera{ nullptr };
+		Pg::Data::Camera* _sceneMainCamera{ nullptr };
 
 	private:
 		Pg::Engine::Physic::PhysicSystem* _pgPhysics{ nullptr };
+		Pg::Util::Input::InputSystem* _pgInput{ nullptr };
 	};
 }
 

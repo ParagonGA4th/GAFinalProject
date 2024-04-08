@@ -31,6 +31,7 @@
 #include "MovingTest.h"
 #include "RayCastTest.h"
 #include "EventTest.h"
+#include "ScreenPointTest.h"
 
 #include "../ParagonData/SpotLight.h"
 #include "../ParagonData/PointLight.h"
@@ -52,16 +53,17 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Cube/Cube.fbx");
 	tObj2->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat");
 	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	tObj2->AddComponent<ScreenPointTest>();
 
-	//GameObject* tObj2_1 = tCurrentScene->AddObject("Sphere1");
-	//tObj2_1->GetComponent<Transform>()->_position = { 3.0f, 10.0f, 0.0f };
-	//tObj2_1->AddComponent<SphereCollider>();
-	//tObj2_1->GetComponent<SphereCollider>()->SetRadius(2.0f);
-	////tObj2_1->RemoveComponent<SphereCollider>();
-	//tObj2_1->AddComponent<StaticMeshRenderer>();
-	//tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/DefaultGeometry/DefaultGeometry.fbx");
-	////tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/test.fbx");
-	//tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	GameObject* tObj2_1 = tCurrentScene->AddObject("Sphere1");
+	tObj2_1->GetComponent<Transform>()->_position = { 3.0f, 10.0f, 0.0f };
+	tObj2_1->AddComponent<SphereCollider>();
+	tObj2_1->GetComponent<SphereCollider>()->SetRadius(2.0f);
+	//tObj2_1->RemoveComponent<SphereCollider>();
+	tObj2_1->AddComponent<StaticMeshRenderer>();
+	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/DefaultGeometry/DefaultGeometry.fbx");
+	//tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/test.fbx");
+	tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 
 	//GameObject* tObj2_2 = tCurrentScene->AddObject("Capsule1");
@@ -130,15 +132,15 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	//tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
-	//Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
-	//tObj7->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
-	//tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
-	//tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
-	//tObj7->AddComponent<PlaneCollider>();
-	////tObj7->GetComponent<PlaneCollider>();
-	//tObj7->AddComponent<StaticMeshRenderer>();
-	//tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
-	//tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
+	tObj7->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
+	tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	tObj7->AddComponent<PlaneCollider>();
+	//tObj7->GetComponent<PlaneCollider>();
+	tObj7->AddComponent<StaticMeshRenderer>();
+	tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
+	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	//tObj7->AddComponent<NavigationField>();
 
 
