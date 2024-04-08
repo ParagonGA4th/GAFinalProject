@@ -31,6 +31,11 @@ namespace Pg::API
 	{
 		class PgTween;
 	}
+
+	namespace Graphics
+	{
+		class PgGraphics;
+	}
 }
 namespace Pg::API
 {
@@ -46,6 +51,7 @@ namespace Pg::API
 		Pg::API::Sound::PgAudio* _pgAudio = nullptr;
 		Pg::API::Raycast::PgRayCast* _pgRayCast = nullptr;
 		Pg::API::Tween::PgTween* _pgTween = nullptr;
+		Pg::API::Graphics::PgGraphics* _pgGraphics = nullptr;
 		//PhysXTest* _test;
 
 	};

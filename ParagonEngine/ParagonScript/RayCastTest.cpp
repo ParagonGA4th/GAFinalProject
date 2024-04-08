@@ -26,10 +26,12 @@ void RayCastTest::Update()
 
 	int type = 0;
 
+	Pg::Math::PGFLOAT3 tHitPoint;
+
 	if (_pgInput->GetKey(CtrlL))
 	{
 		_pgRayCast->MakeRay({ _object->_transform._position.x + 0.8f,
 						_object->_transform._position.y,
-						_object->_transform._position.z + 0.8f }, { 1.0f,0.0f,0.0f }, 10.0f, &type);
+						_object->_transform._position.z + 0.8f }, { 1.0f,0.0f,0.0f }, 10.0f, tHitPoint, &type);
 	}
 }
