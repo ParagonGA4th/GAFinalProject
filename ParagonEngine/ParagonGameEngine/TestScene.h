@@ -7,11 +7,6 @@
 /// </summary>
 /// 
 
-namespace Pg::Core
-{
-	class ProcessMain;
-}
-
 namespace Pg::Engine
 {
 	class TestScene

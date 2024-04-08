@@ -1,8 +1,8 @@
 #include "LowDX11Logic.h"
 #include "LowDX11Storage.h"
-
 //#include "RenderShader.h"
 #include "DX11Headers.h"
+#include "../ParagonData/GameConstantData.h"
 
 #include <vector>
 #include <string>
