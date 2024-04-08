@@ -142,20 +142,42 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 	// 여러 번 오브젝트 리스트를 가져오는 것을 막기 위해
 	if (_prevSceneName != sceneName || (* _isNewObject) || (*_isDeleteObject) || _isObjectChange)
 	{
+		std::vector<Pg::Data::GameObject*> tObjList;
+
 		if (*_isNewObject)
 		{
 			if (_count == 0)
 			{
-				_dataContainer->GetCurrentScene()->AddObject("New Object");
+				auto obj = _dataContainer->GetCurrentScene()->AddObject("New Object");
+				tObjList.emplace_back(obj);
 				_count++;
 			}
-			else _dataContainer->GetCurrentScene()->AddObject("New Object " + std::to_string(_count++));
+			else
+			{
+				auto obj = _dataContainer->GetCurrentScene()->AddObject("New Object " + std::to_string(_count++));
+				tObjList.emplace_back(obj);
+			}
+		
+			_changeObjectData->Invoke(eEventType::_ADDOBJECT, static_cast<void*>(&tObjList));
+			tObjList.clear();
 		}
 
 		if (*_isDeleteObject)
 		{
+			for (auto& obj : _dataContainer->GetCurrentScene()->GetObjectList())
+			{
+				if (obj->GetName() == *_prevObjName)
+				{
+					tObjList.emplace_back(obj);
+					break;
+				}
+			}
+				
+			_changeObjectData->Invoke(eEventType::_ADDOBJECT, static_cast<void*>(&tObjList));
+			tObjList.clear();
 			_dataContainer->GetCurrentScene()->DeleteObject((*_prevObjName));
-			_count--;
+
+			if(_count > 0) _count--;
 		}
 
 		_prevSceneName = sceneName;

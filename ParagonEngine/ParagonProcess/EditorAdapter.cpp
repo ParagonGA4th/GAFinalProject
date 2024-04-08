@@ -4,14 +4,13 @@
 
 namespace Pg::Core
 {
-	EditorAdapter::EditorAdapter(ProcessMain* core) : _processMain(core), _editorMode{}
+	EditorAdapter::EditorAdapter(ProcessMain* core) 
+		: _processMain(core)
 	{
-
 	}
 
 	EditorAdapter::~EditorAdapter()
 	{
-
 	}
 
 	void EditorAdapter::SetSceneEditorCameraData(Pg::Data::CameraData camData)
@@ -31,33 +30,37 @@ namespace Pg::Core
 
 	void EditorAdapter::SetEditorMode(Pg::Data::Enums::eEditorMode mode)
 	{
-		_editorMode = mode;
-	}
-
-	void EditorAdapter::LoadEditorResource(Pg::Data::Enums::eAssetDefine define, void* memory, int sizeInBytes)
-	{
-		//
+		_processMain->GetEngineGraphicsAdapter()->SetEditorMode(mode);
 	}
 
 	void EditorAdapter::SetSceneList(std::vector<Pg::Data::Scene*> scenes)
 	{
 		if (_scenes == scenes) return;
-		_scenes = scenes;
-	}
 
-	std::vector<Pg::Data::Scene*> EditorAdapter::GetSceneList()
-	{
-		return _scenes;
+		_scenes = scenes;
+		_processMain->GetEngineGraphicsAdapter()->SetSceneList(_scenes);
 	}
 
 	void EditorAdapter::SetCurrentScene(Pg::Data::Scene* scene)
 	{
 		if (_currentScene == scene) return;
+		
 		_currentScene = scene;
+		_processMain->GetEngineGraphicsAdapter()->SetCurrentScene(_currentScene);
 	}
 
-	Pg::Data::Scene* EditorAdapter::GetCurrentScene()
+	void EditorAdapter::SetAddObjectList(const std::vector<Pg::Data::GameObject*>* addObjList)
 	{
-		return _currentScene;
+		_processMain->GetEngineGraphicsAdapter()->AddRenderObject_Runtime(addObjList);
+	}
+
+	void EditorAdapter::SetModifyObjectList(const std::vector<Pg::Data::GameObject*>* modifyObjList)
+	{
+		_processMain->GetEngineGraphicsAdapter()->ModifyRenderObject_Runtime(modifyObjList);
+	}
+
+	void EditorAdapter::SetDeleteObjectList(const std::vector<Pg::Data::GameObject*>* deleteObjList)
+	{
+		_processMain->GetEngineGraphicsAdapter()->DeleteRenderObject_Runtime(deleteObjList);
 	}
 }
