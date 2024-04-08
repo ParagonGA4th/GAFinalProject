@@ -107,7 +107,7 @@ namespace Pg::Data
 		_setAnimationFunction(animName, isLoop);
 	}
 
-	void SkinnedMeshRenderer::Start()
+	void SkinnedMeshRenderer::Internal_EngineAwake()
 	{
 		assert(!_initAnimName.empty() && "처음에 들어갈 Animation이 비어있으면 안된다");
 		_setAnimationFunction(_initAnimName,true); //기본적으로 처음 애니메이션은 Loop한다고 가정한다.

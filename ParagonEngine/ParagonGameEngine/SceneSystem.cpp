@@ -68,18 +68,28 @@ namespace Pg::Engine
 		}
 	}
 
-	void SceneSystem::Update()
+	void SceneSystem::Update(bool isActualInGame)
 	{
 		//Object 단위로 내부적으로 실행할지 말지를 판단하기에, 상관없다.
-		
-		_currentScene->Awake();
-		_currentScene->Start();
-		_currentScene->Update();
-		_currentScene->FixedUpdate();
-		_currentScene->LateUpdate();
+		if (isActualInGame)
+		{
+			_currentScene->Internal_EngineAwake();
+			_currentScene->Awake();
+			_currentScene->Start();
+			_currentScene->Internal_EngineUpdate();
+			_currentScene->Update();
+			_currentScene->FixedUpdate();
+			_currentScene->LateUpdate();
 
-		//런타임 Add/Remove 오브젝트 관리.
-		_currentScene->HandleAddDeleteInScene();
+			//런타임 Add/Remove 오브젝트 관리.
+			_currentScene->HandleAddDeleteInScene();
+		}
+		else
+		{
+			_currentScene->Internal_EngineAwake();
+			_currentScene->Internal_EngineUpdate();
+		}
+		
 	}
 
 	void SceneSystem::LoadEmptyScene()

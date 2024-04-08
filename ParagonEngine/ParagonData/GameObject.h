@@ -29,8 +29,14 @@ namespace Pg::Data
 		virtual ~GameObject();
 
 	public:
+
+		//게임 로직 스크립트들이 사용해서는 안된다.
+		void Internal_EngineAwake();
 		void Awake();
 		void Start();
+
+		//게임 로직 스크립트들이 사용해서는 안된다.
+		void Internal_EngineUpdate();
 		void Update();
 		void FixedUpdate();
 		void LateUpdate();
@@ -93,6 +99,7 @@ namespace Pg::Data
 
 	private:
 	//이제 오브젝트 단위의 isStarted / isAwake 역시 가능.
+		bool _isInternalEngineAwake{ false };
 		bool _isAwake{ false };
 		bool _isStarted{ false };
 

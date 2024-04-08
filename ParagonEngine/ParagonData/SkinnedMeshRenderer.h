@@ -40,8 +40,9 @@ namespace Pg::Data
 
 	public:
 		//Scene이 시작할 때 일괄적으로 호출하기 위해서.
-		virtual void Start() override;
-
+		//Internal Logic으로 연관.
+		virtual void Internal_EngineAwake() override;
+		
 	public:
 		//Serializers.
 		virtual void OnSerialize(SerializeVector& sv) override;

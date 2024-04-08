@@ -47,6 +47,12 @@ namespace Pg::Data
 		_objectList.clear();
 	}
 
+	void Scene::Internal_EngineAwake()
+	{
+		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
+			{ iter->Internal_EngineAwake(); });
+	}
+
 	void Scene::Awake()
 	{
 		//나중에 SceneSystem의 isAwake 외적으로 Object의 런타임 추가 고려해서
@@ -61,6 +67,12 @@ namespace Pg::Data
 		//If문 검사 매번 있어야 한다. -> 반영됨.
 		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
 			{ iter->Start(); });
+	}
+
+	void Scene::Internal_EngineUpdate()
+	{
+		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
+			{ iter->Internal_EngineUpdate(); });
 	}
 
 	void Scene::Update()
@@ -212,5 +224,7 @@ namespace Pg::Data
 				return stored->GetName() == obj;
 			}));
 	}
+
+	
 
 }

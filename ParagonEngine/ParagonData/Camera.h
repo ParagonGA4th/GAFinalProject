@@ -27,7 +27,7 @@ namespace Pg::Data
 		static const char* GetFactoryKey() { return "class Pg::Data::Camera"; }
 
 		//실제로 쓰이는 Camera들의 정보를 Scene의 정보와 일치시키기 위해서.
-		virtual void Update() override;
+		virtual void Internal_EngineUpdate() override;
 		virtual void OnDeserialize(SerializeVector& sv) override;
 		virtual void OnSerialize(SerializeVector& sv) override;
 
