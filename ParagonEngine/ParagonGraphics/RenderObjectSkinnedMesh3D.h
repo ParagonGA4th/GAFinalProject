@@ -1,6 +1,7 @@
 #pragma once
 #include "RenderObject3D.h"
 #include "AssetAnimationDataDefine.h"
+#include "../ParagonData/EditorMode.h"
 #include <dxtk/SimpleMath.h>
 #include <vector>
 #include <memory>
@@ -36,7 +37,7 @@ namespace Pg::Graphics
 		virtual void CreateObjMatBuffers() override;
 	public:
 		//SkinnedMesh에 예외적으로 활용됨. 프레임을 진행시키기 위해서, 애니메이션 로직을 딱 한번, 미리 판단한다.
-		void UpdateAnimationInfo(const float* const dt);
+		void UpdateAnimationInfo(const float* const dt, const Pg::Data::Enums::eEditorMode* const editorMode);
 		virtual void First_UpdateConstantBuffers(Pg::Data::CameraData* camData) override;
 		virtual void First_BindBuffers() override;
 		virtual void First_Render(const float* const dt) override;

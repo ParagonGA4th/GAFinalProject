@@ -1,4 +1,6 @@
 #pragma once
+#include "../ParagonData/EditorMode.h"
+
 #include "DX11Headers.h"
 #include "GBufferRender.h"
 #include "GBufferDepthStencil.h"
@@ -33,7 +35,7 @@ namespace Pg::Graphics
 	class DeferredRenderer : public BaseSpecificRenderer
 	{
 	public:
-		DeferredRenderer(D3DCarrier* d3dCarrier);
+		DeferredRenderer(D3DCarrier* d3dCarrier, const Pg::Data::Enums::eEditorMode* const editorMode);
 		~DeferredRenderer();
 
 		virtual void Initialize() override;
@@ -94,5 +96,8 @@ namespace Pg::Graphics
 
 	private:
 		float _deltaTimeStorage;
+	
+	private:
+		const Pg::Data::Enums::eEditorMode* const _editorMode;
 	};
 }

@@ -94,7 +94,15 @@ namespace Pg::Engine
 	}
 
 	void EngineMain::Update()
-	{	
+	{
+		//기록된 Edit Mode가 EDIT/NONE으로 설정되었을시, 실행을 Update를 실행하지 않는다.
+		//Early Return.
+		if (_prevRecordedEditMode == Data::Enums::eEditorMode::_NONE ||
+			_prevRecordedEditMode == Data::Enums::eEditorMode::_EDIT )
+		{
+			return;
+		}
+
 		_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
 		_physicSystem->Flush();
 		_sceneSystem->Update();
@@ -103,20 +111,6 @@ namespace Pg::Engine
 		_behaviorTreeSystem->Update();
 		_physicSystem->UpdateTransform();
 		_debugSystem->Update(_sceneSystem->GetCurrentScene());
-		
-
-		 static bool tTest = false;
-		if (!tTest)
-		{
-			PG_TRACE("Debugger Used In ParagonGameEngine!");
-			tTest = true;
-		}
-
-		/*if(_inputSystem->GetKey(API::Input::MouseLeft))
-		{
-			PG_TRACE("INPUTSYSTEM WORKS!");
-		}*/
-		
 	}
 
 	void EngineMain::Finalize()
@@ -222,6 +216,12 @@ namespace Pg::Engine
 		{
 			return nullptr;
 		}
+	}
+
+	void EngineMain::SetEditorMode(Pg::Data::Enums::eEditorMode editorMode)
+	{
+		//기존의 Editor Mode Enum 기록.
+		_prevRecordedEditMode = editorMode;
 	}
 
 }

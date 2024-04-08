@@ -69,6 +69,7 @@ namespace Pg::Graphics
 	public:
 		PARAGON_GRAPHICS_DLL virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) override;
 		//PARAGON_GRAPHICS_DLL virtual void SyncLoadGraphicsResources() override;
+		PARAGON_GRAPHICS_DLL virtual void SetEditorMode(Pg::Data::Enums::eEditorMode editorMode) override;
 
 		PARAGON_GRAPHICS_DLL virtual void Update(const Pg::Data::Scene* const scene, float deltaTime, Pg::Data::CameraData* cameraData) override;
 		PARAGON_GRAPHICS_DLL virtual void BeginRender() override;
@@ -174,6 +175,8 @@ namespace Pg::Graphics
 	private:
 		bool _internalPickingMode = true;
 
+		//해당 지역변수의 포인터가 Skinned 진행 / 미 진행에 영향을 끼친다.
+		Pg::Data::Enums::eEditorMode _prevRecordedEditMode{ Data::Enums::eEditorMode::_NONE };
 	};
 }
 

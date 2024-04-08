@@ -196,36 +196,47 @@ namespace Pg::Graphics
 		this->_isLoop = isLoop;
 	}
 
-	void RenderObjectSkinnedMesh3D::UpdateAnimationInfo(const float* const dt)
+	void RenderObjectSkinnedMesh3D::UpdateAnimationInfo(const float* const dt, const Pg::Data::Enums::eEditorMode* const editorMode)
 	{
-		//Script 딴에서 로직 처리가 되었을 것이다.
-		float deltaTime = *dt;
-
-		_animationTime += deltaTime;
-		_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
-
-		if (_currentTick > _currentAnim->_animAssetData->_durationTick)
+		if ((*editorMode) == Data::Enums::eEditorMode::_NONE ||
+			(*editorMode) == Data::Enums::eEditorMode::_EDIT)
 		{
-			if (_isLoop)
-			{
-				double secondPerTick = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
-				int count = 0;
-				while (secondPerTick * (count + 1) < _animationTime)
-				{
-					count++;
-				}
-				_animationTime -= count * secondPerTick;
-				_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
-			}
-			else
-			{
-				_animationTime = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
-				_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
-			}
-		}
+			_animationTime = 0.0;
+			_currentTick = 0.0;
 
-		//실제로 값 업데이트.
-		UpdateAnimMatrices(*dt);
+			//Animation을 돌리지 않는다.
+			UpdateAnimMatrices(0.0f);
+		}
+		else
+		{
+			//Script 딴에서 로직 처리가 되었을 것이다.
+			_animationTime += (*dt);
+			_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
+
+			if (_currentTick > _currentAnim->_animAssetData->_durationTick)
+			{
+				if (_isLoop)
+				{
+					double secondPerTick = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
+					int count = 0;
+					while (secondPerTick * (count + 1) < _animationTime)
+					{
+						count++;
+					}
+					_animationTime -= count * secondPerTick;
+					_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
+				}
+				else
+				{
+					_animationTime = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
+					_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
+				}
+			}
+
+			//실제로 값 업데이트.
+			UpdateAnimMatrices(*dt);
+
+		}
 
 		//실제로 Animation대로 연산된 값을 알맞은 행렬의 배열로 투입.
 		FillInNodeBuffer(_copiedModifyRootNode.get());

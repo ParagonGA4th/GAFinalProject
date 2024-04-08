@@ -23,7 +23,9 @@ namespace Pg::Data
 		_objName(name),
 		_isActive(true),
 		_belongScene(belongScene),
-		_componentList()
+		_componentList(),
+		_isAwake(false),
+		_isStarted(false)
 	{
 		//기본적으로 무조건 GameObject가 생성되면 Transform을 컴포넌트로 갖는다.
 		//_componentList.insert(std::make_pair(typeid(_transform).name(), &_transform));
@@ -44,9 +46,14 @@ namespace Pg::Data
 			return;
 		}
 
-		//for_each구문을 이용하여 componentList를 싹다 돌리기.
-		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-			{ iter.second->Awake(); });
+		if (!_isAwake)
+		{
+			//for_each구문을 이용하여 componentList를 싹다 돌리기.
+			std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+				{ iter.second->Awake(); });
+
+			_isAwake = true;
+		}
 	}
 
 	void GameObject::Start()
@@ -57,9 +64,14 @@ namespace Pg::Data
 			return;
 		}
 
-		//for_each구문을 이용하여 componentList를 싹다 돌리기.
-		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter) 
-			{ iter.second->Start(); });
+		if (!_isStarted)
+		{
+			//for_each구문을 이용하여 componentList를 싹다 돌리기.
+			std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+				{ iter.second->Start(); });
+
+			_isStarted = true;
+		}
 	}
 
 	void GameObject::Update()
@@ -292,6 +304,12 @@ namespace Pg::Data
 	{
 		assert(_belongScene != nullptr);
 		return _belongScene;
+	}
+
+	void GameObject::ResetDebouncerBoolean()
+	{
+		_isAwake = false;
+		_isStarted = false;
 	}
 
 }

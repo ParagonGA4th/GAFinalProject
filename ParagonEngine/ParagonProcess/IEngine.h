@@ -3,6 +3,7 @@
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/DebugData.h"
+#include "../ParagonData/EditorMode.h"
 #include <string>
 #include <vector>
 
@@ -17,6 +18,8 @@ namespace Pg::Core
 	{
 	public:
 		virtual void Initialize(void* hwnd, float width, float height, const std::string& resourceListPath) abstract;
+
+		virtual void SetEditorMode(Pg::Data::Enums::eEditorMode editorMode) abstract;
 
 		virtual void Update() abstract;
 

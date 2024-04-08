@@ -85,8 +85,16 @@ namespace Pg::Data
 		//오브젝트 본인이 속한 Scene 접속.
 		Pg::Data::Scene* GetScene();
 
+		//Awake / Start 함수 다시금 실행 할 수 있게 만들어놓는다.
+		void ResetDebouncerBoolean();
+
 	public:
 		Transform& _transform;
+
+	private:
+	//이제 오브젝트 단위의 isStarted / isAwake 역시 가능.
+		bool _isAwake{ false };
+		bool _isStarted{ false };
 
 	private:
 		bool _isActive;
