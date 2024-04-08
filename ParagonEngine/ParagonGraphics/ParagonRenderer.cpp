@@ -38,7 +38,7 @@ namespace Pg::Graphics
 
 	}
 
-	void ParagonRenderer::Initialize()
+	void ParagonRenderer::Initialize(const Pg::Data::Enums::eEditorMode* const editorMode)
 	{
 		//SceneParser 만들고 Initialize();
 		_sceneParser = std::make_unique<GraphicsSceneParser>();
@@ -47,7 +47,7 @@ namespace Pg::Graphics
 		//렌더러들 내부에서 오고 갈 GraphicsCarrier 객체 생성.
 		_gCarrier = std::make_unique<D3DCarrier>();
 
-		_deferredRenderer = std::make_unique<DeferredRenderer>(_gCarrier.get());
+		_deferredRenderer = std::make_unique<DeferredRenderer>(_gCarrier.get(), editorMode);
 		_deferredRenderer->Initialize();
 
 		_cubemapRenderer = std::make_unique<CubemapRenderer>(_gCarrier.get());

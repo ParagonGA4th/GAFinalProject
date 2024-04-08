@@ -107,7 +107,7 @@ namespace Pg::Graphics
 		LayoutDefine::Initialize();
 		GeometryGenerator::Initialize();
 
-		_renderer->Initialize();
+		_renderer->Initialize(&_prevRecordedEditMode);
 
 		//BasicRendersInitialize();
 		tempEditorCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/EditorCamDummy.dds");
@@ -359,6 +359,12 @@ namespace Pg::Graphics
 	void GraphicsMain::HandleRenderObjectsRuntime()
 	{
 		_renderer->HandleRenderObjectsRuntime();
+	}
+
+	void GraphicsMain::SetEditorMode(Pg::Data::Enums::eEditorMode editorMode)
+	{
+		//기존의 Editor Mode Enum 기록.
+		_prevRecordedEditMode = editorMode;
 	}
 
 }

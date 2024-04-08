@@ -8,8 +8,9 @@ namespace Pg::Data::Enums
 {
 	enum class eEditorMode
 	{
-		_NONE, // 에디터가 실행이 되지 않은 상태.
+		_NONE, // 초기값
 		_EDIT, // 멈춘 상태, 에디터 빌드 가능한 상태.
 		_PLAY, // 재생하는 상태.
+		_GAME, // 실제 게임이 실행되는 상태, EDITOR GUI 안 보임.
 	};
 }

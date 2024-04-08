@@ -3,6 +3,7 @@
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/DebugData.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/EditorMode.h"
 
 //SkinningMk.2
 //#include "MultimaterialMesh.h"
@@ -51,7 +52,7 @@ namespace Pg::Graphics
 		//메모리 추가 할당을 막기 위해, Scene당 렌더오브젝트 생성 로직 중복을 막아야 한다!
 		
 	public:
-		void Initialize();
+		void Initialize(const Pg::Data::Enums::eEditorMode* const editorMode);
 
 		//DebugRenderer로 Debug Geometry를 넘겼다.
 		void PassBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec);

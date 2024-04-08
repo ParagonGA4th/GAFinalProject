@@ -15,7 +15,7 @@
 namespace Pg::Graphics
 {
 
-	FirstSkinnedRenderPass::FirstSkinnedRenderPass()
+	FirstSkinnedRenderPass::FirstSkinnedRenderPass(const Pg::Data::Enums::eEditorMode* const editorMode) : _editorMode(editorMode)
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 	}
@@ -64,7 +64,7 @@ namespace Pg::Graphics
 			{
 				if (it.second->at(i).second->GetBaseRenderer()->GetActive())
 				{
-					it.second->at(i).second->UpdateAnimationInfo(&_deltaTimeStorage);
+					it.second->at(i).second->UpdateAnimationInfo(&_deltaTimeStorage, _editorMode);
 					it.second->at(i).second->First_UpdateConstantBuffers(camData);
 					it.second->at(i).second->First_BindBuffers();
 					it.second->at(i).second->First_Render(&_deltaTimeStorage);

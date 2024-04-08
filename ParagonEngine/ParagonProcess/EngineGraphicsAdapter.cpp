@@ -221,7 +221,8 @@ namespace Pg::Core
 
 	void EngineGraphicsAdapter::SetEditorMode(Pg::Data::Enums::eEditorMode mode)
 	{
-		//_graphics->
-		//_engine->
+		//개별적으로 Editor Mode를 전달.
+		_graphics->SetEditorMode(mode);
+		_engine->SetEditorMode(mode);
 	}
 }

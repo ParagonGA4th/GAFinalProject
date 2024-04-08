@@ -47,61 +47,49 @@ namespace Pg::Data
 		_objectList.clear();
 	}
 
+	void Scene::Awake()
+	{
+		//나중에 SceneSystem의 isAwake 외적으로 Object의 런타임 추가 고려해서
+		//If문 검사 매번 있어야 한다. -> 반영됨.
+		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
+			{ iter->Awake(); });
+	}
+
 	void Scene::Start()
 	{
 		//나중에 SceneSystem의 isStarted 외적으로 Object의 런타임 추가 고려해서
-		//If문 검사 매번 있어야 한다.
-		for (auto& object : _objectList)
-		{
-			object->Start();
-		}
+		//If문 검사 매번 있어야 한다. -> 반영됨.
+		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
+			{ iter->Start(); });
 	}
 
 	void Scene::Update()
 	{
-		for (auto& object : _objectList)
-		{
-			object->Update();
-		}
+		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
+			{ iter->Update(); });
 	}
 
 	void Scene::FixedUpdate()
 	{
-		for (auto& object : _objectList)
-		{
-			object->FixedUpdate();
-		}
+		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
+			{ iter->FixedUpdate(); });
 	}
 
 	void Scene::LateUpdate()
 	{
-		for (auto& object : _objectList)
-		{
-			object->LateUpdate();
-		}
+		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
+			{ iter->LateUpdate(); });
 	}
 
-	GameObject* Scene::AddObject(std::string obj)
+	//이제는 void를 반환. 일괄적으로 Scene Loop 기준 연산하기 때문.
+	void Scene::AddObjectRuntime(const std::string& obj)
 	{
-		GameObject* gameObj = new GameObject(obj, this);
-		//Unity의 GameObject.Find() 등이 가능하게 하려고 게임오브젝트에다가 소속된 Scene을 받아갈 수 있게함.
-		_objectList.push_back(gameObj);
-
-		return gameObj;
+		_addObjectPlanList.push_back(obj);
 	}
 
-	void Scene::DeleteObject(std::string obj)
+	void Scene::DeleteObjectRuntime(const std::string& obj)
 	{
-		auto object = std::find_if(_objectList.begin(), _objectList.end(),
-			[&](GameObject* tobj)
-			{
-				if (tobj->GetName() == obj) return true;
-			});
-
-		if (object != _objectList.end())
-		{
-			_objectList.erase(object);
-		}
+		_deleteObjectPlanList.push_back(obj);
 	}
 
 	std::string Scene::GetSceneName()
@@ -173,6 +161,56 @@ namespace Pg::Data
 		}
 
 		return tRet;
+	}
+
+	void Scene::HandleAddDeleteInScene()
+	{
+		//AddObject 일괄적으로 처리.
+		for (auto& it : _addObjectPlanList)
+		{
+			GameObject* gameObj = new GameObject(it, this);
+
+			//Unity의 GameObject.Find() 등이 가능하게 하려고 게임오브젝트에다가 소속된 Scene을 받아갈 수 있게함.
+			_objectList.push_back(gameObj);
+		}
+
+		//DeleteObject 일괄적으로 처리.
+		for (auto& it : _deleteObjectPlanList)
+		{
+			_objectList.erase(std::remove_if(_objectList.begin(), _objectList.end(), [it](GameObject* obj)
+				{
+					return obj->GetName() == it;
+				}));
+		}
+
+		//다 처리 했으니 Clear 하기.
+		if (!_addObjectPlanList.empty())
+		{
+			_addObjectPlanList.clear();
+		}
+
+		if (!_deleteObjectPlanList.empty())
+		{
+			_deleteObjectPlanList.clear();
+		}
+	}
+
+	Pg::Data::GameObject* Scene::AddObject(const std::string& obj)
+	{
+		GameObject* gameObj = new GameObject(obj, this);
+
+		//Unity의 GameObject.Find() 등이 가능하게 하려고 게임오브젝트에다가 소속된 Scene을 받아갈 수 있게함.
+		_objectList.push_back(gameObj);
+
+		return gameObj;
+	}
+
+	void Scene::DeleteObject(const std::string& obj)
+	{
+		_objectList.erase(std::remove_if(_objectList.begin(), _objectList.end(), [obj](GameObject* stored)
+			{
+				return stored->GetName() == obj;
+			}));
 	}
 
 }

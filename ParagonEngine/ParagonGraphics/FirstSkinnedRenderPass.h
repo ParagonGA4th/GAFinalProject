@@ -1,6 +1,7 @@
 #pragma once
 #pragma once
 #include "IRenderSinglePass.h"
+#include "../ParagonData/EditorMode.h"
 #include "DX11Headers.h"
 #include <vector>
 #include <memory>
@@ -23,7 +24,7 @@ namespace Pg::Graphics
 	class FirstSkinnedRenderPass : public IRenderSinglePass
 	{
 	public:
-		FirstSkinnedRenderPass();
+		FirstSkinnedRenderPass(const Pg::Data::Enums::eEditorMode* const editorMode);
 		~FirstSkinnedRenderPass();
 
 		virtual void Initialize() override;
@@ -46,6 +47,9 @@ namespace Pg::Graphics
 		float _deltaTimeStorage{ 0.f };
 		LowDX11Storage* _DXStorage{ nullptr };
 		const D3DCarrier* _d3dCarrierTempStorage{ nullptr };
+
+	private:
+		const Pg::Data::Enums::eEditorMode* const _editorMode;
 	};
 }
 
