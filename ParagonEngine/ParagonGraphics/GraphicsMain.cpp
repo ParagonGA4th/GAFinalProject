@@ -60,7 +60,6 @@ namespace Pg::Graphics
 		_DXLogic = LowDX11Logic::GetInstance();
 
 		_renderer = std::make_unique<ParagonRenderer>();
-		_tempObj = new Pg::Data::GameObject("Test");
 
 		auto& tInput = singleton<Pg::Util::Input::InputSystem>();
 		_input = &tInput;
@@ -68,11 +67,10 @@ namespace Pg::Graphics
 
 	GraphicsMain::~GraphicsMain()
 	{
-		delete _tempObj;
+		
 	}
 
-	const float cameraSpeed = 10.0f;
-	Pg::Graphics::Sprite* tempEditorCamSprite;
+	//
 	Pg::Graphics::Sprite* tempGameCamSprite;
 
 	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
@@ -109,12 +107,7 @@ namespace Pg::Graphics
 
 		_renderer->Initialize(&_prevRecordedEditMode);
 
-		//BasicRendersInitialize();
-		tempEditorCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/EditorCamDummy.dds");
-		tempEditorCamSprite->SetPosition(100.0f, 200.0f);
-
 		tempGameCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/GameCamDummy.dds");
-		tempGameCamSprite->SetPosition(400.0f, 200.0f);
 	}
 
 

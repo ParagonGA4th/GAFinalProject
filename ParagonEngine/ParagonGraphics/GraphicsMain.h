@@ -156,13 +156,7 @@ namespace Pg::Graphics
 		LowDX11Storage* _DXStorage;
 
 	private:
-		//TempCamera* _camera;
-		//TestCube* _box;
-		Pg::Data::GameObject* _tempObj;
-
-	private:
 		// Editor 연동 & 나중에 이 SRV들이 최종 렌더되는 Quad의 SRV여야 한다.
-		ID3D11ShaderResourceView* _editorCameraSRV = nullptr;
 		ID3D11ShaderResourceView* _gameCameraSRV = nullptr;
 
 	private:
