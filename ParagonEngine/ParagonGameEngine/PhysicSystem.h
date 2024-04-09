@@ -76,7 +76,7 @@ namespace Pg::Engine::Physic
 			float tLength, int* bType);
 
 		PARAGON_ENGINE_DLL void MakeSphereCast(const Pg::Math::PGFLOAT3& tOrigin, const Pg::Math::PGFLOAT3& tDir, 
-			float tRad, float max, unsigned int maxColCnt, Pg::Data::Collider**& colDataPointer);
+			float tRad, float max, unsigned int maxColCnt, Pg::Data::Collider** colDataPointer);
 
 	private:
 		//Rigid 정보를 담아놓는 벡터

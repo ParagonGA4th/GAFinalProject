@@ -131,12 +131,12 @@ void EditorCameraScript::Update()
 		_setMoveSpeed /= 2.f;
 	}
 
-	//이건 그래픽 디버깅용.
-	if (tInput->GetKeyDown(ShiftR))
-	{
-		_object->_transform._position = { 0,0,0 };
-		_object->_transform._rotation = { 1,0,0,0 };
-	}
+	////이건 그래픽 디버깅용.
+	//if (tInput->GetKeyDown(ShiftR))
+	//{
+	//	_object->_transform._position = { 0,0,0 };
+	//	_object->_transform._rotation = { 1,0,0,0 };
+	//}
 }
 
 //Now Defunct

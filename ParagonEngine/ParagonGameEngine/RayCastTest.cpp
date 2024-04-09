@@ -11,6 +11,8 @@
 #include "../ParagonUtil/Log.h"
 #include <singleton-cpp/singleton.h>
 #include <cassert>
+#include <array>
+#include <algorithm>
 
 RayCastTest::RayCastTest(Pg::Data::GameObject* obj) :
 	Component(obj)
@@ -38,11 +40,14 @@ void RayCastTest::Update()
 	//using namespace Pg::Engine::Input;
 	//using namespace Pg::API::Input;
 	
-	float sphereRadius = 5.f; // 구체 반지름
+	float sphereRadius = 2.f; // 구체 반지름
 	float maxDistance = 1.0f; // 최대 감지 거리
 	const int maxColliders = 100; // 최대 충돌 객체 수
 
-	Pg::Data::Collider** colliderHits[maxColliders] = { 0 };
+	//Pg::Data::Collider** colliderHits[maxColliders] = { 0, 0, 0 };
+	std::array<Pg::Data::Collider*,10> colVec;
+	std::fill(colVec.begin(), colVec.end(), nullptr);
+	
 	
 	//int type = 0;
 	//tPhysic->MakeRayCast({_object->_transform._position.x + 0.8f,
@@ -51,18 +56,18 @@ void RayCastTest::Update()
 
 	tPhysic->MakeSphereCast({ _object->_transform._position.x,
 						_object->_transform._position.y,
-						_object->_transform._position.z }, { 1.0f,0.0f,0.0f }, sphereRadius, maxDistance, maxColliders, *colliderHits);
+						_object->_transform._position.z }, { 1.0f,0.0f,0.0f }, sphereRadius, maxDistance, colVec.size(), colVec.data());
 
-	// 충돌한 객체들 처리
-		for (int i = 0; i < maxColliders; ++i)
-		{
-			if (colliderHits[i])
-			{
-				Pg::Data::Collider* hitCollider = *colliderHits[i];
-
-				// 충돌한 객체 처리 로직
-			}
-		}
+	//// 충돌한 객체들 처리
+	//	for (int i = 0; i < maxColliders; ++i)
+	//	{
+	//		if (colliderHits[i])
+	//		{
+	//			Pg::Data::Collider* hitCollider = *colliderHits[i];
+	//
+	//			// 충돌한 객체 처리 로직
+	//		}
+	//	}
 	
 	////사운드 테스트.
 	//if (tInput->GetKeyDown(Space))
