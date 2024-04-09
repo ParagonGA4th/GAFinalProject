@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scene>
+	<objects>
+		<object>
+			<name>MainCamera</name>
+			<active>true</active>
+			<tag></tag>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>0.000000</x>
+							<y>3.000000</y>
+							<z>-10.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>-0.000000</x>
+							<y>-0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::Camera</type>
+					<data>
+						<nearZ>0.100000</nearZ>
+						<farZ>300.000000</farZ>
+						<fovY>1.256637</fovY>
+					</data>
+				</component>
+				<component>
+					<type>class EditorCameraScript</type>
+					<data />
+				</component>
+			</components>
+		</object>
+		<object>
+			<name>ColorCorrected</name>
+			<active>true</active>
+			<tag></tag>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>0.000000</x>
+							<y>5.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::StaticMeshRenderer</type>
+					<data>
+						<isInstanced>false</isInstanced>
+						<meshName>mon_golemmini.fbx</meshName>
+						<materialName></materialName>
+					</data>
+				</component>
+			</components>
+		</object>
+	</objects>
+</scene>

@@ -57,4 +57,11 @@ float3 PBR_fresnelSchlick(float3 F0, float cosTheta)
     return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
 }
 
+//언리얼 구현체 참조.
+half3 sRGBToLinear(half3 Color)
+{
+    Color = max(6.10352e-5, Color); // minimum positive non-denormal (fixes black problem on DX11 AMD and NV)
+    return Color > 0.04045 ? pow(Color * (1.0 / 1.055) + 0.0521327, 2.4) : Color * (1.0 / 12.92);
+}
+
 #endif // __DEFINED_APPENDS_MATH_FUNCTIONS_PS_HLSL__
