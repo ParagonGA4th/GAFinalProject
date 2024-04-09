@@ -29,16 +29,12 @@ float3 GetEyePosition()
 
 //곧 실제로 라이트가 업데이트되겠지만, 일단은 하드코딩된 값으로.
 
-static const uint NumLights = 3;
+static const uint NumLights = 1;
 
 //<Temp>
-static const float3 firstLightDir = { -1.0f, 0.0f, 1.0f };
-static const float3 secondLightDir = { 1.0f, 0.0f, 0.0f };
-static const float3 thirdLightDir = { 0.0f, -1.0f, 0.0f };
-
+static const float3 firstLightDir = { 0,-1,0 };
 static const float firstRad = 0.1f;
-static const float secondRad = 0.1f;
-static const float thirdRad = 0.1f;
+
 //</Temp>
 
 //<ActualLighting>
