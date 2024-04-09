@@ -722,7 +722,7 @@ namespace Pg::Engine::Physic
 	}
 
 
-	void PhysicSystem::MakeSphereCast(const Pg::Math::PGFLOAT3& tOrigin, const Pg::Math::PGFLOAT3& tDir, float tRad, float max, unsigned int maxColCnt, Pg::Data::Collider**& colDataPointer)
+	void PhysicSystem::MakeSphereCast(const Pg::Math::PGFLOAT3& tOrigin, const Pg::Math::PGFLOAT3& tDir, float tRad, float max, unsigned int maxColCnt, Pg::Data::Collider** colDataPointer)
 	{
 		if (!_forSweepSphereInfo)
 		{
@@ -733,16 +733,8 @@ namespace Pg::Engine::Physic
 		physx::PxSphereGeometry sphereGeo(tRad);
 
 		//Position 설정
-		physx::PxVec3 sphereCastOrigin;
-		sphereCastOrigin.x = tOrigin.x;
-		sphereCastOrigin.y = tOrigin.y;
-		sphereCastOrigin.z = tOrigin.z;
-
-		physx::PxVec3 sphereCastDir;
-		sphereCastDir.x = tDir.x;
-		sphereCastDir.y = tDir.y;
-		sphereCastDir.z = tDir.z;
-
+		physx::PxVec3 sphereCastOrigin(tOrigin.x, tOrigin.y, tOrigin.z);
+		physx::PxVec3 sphereCastDir(tDir.x, tDir.y, tDir.z);
 		physx::PxTransform shperePose(sphereCastOrigin);
 
 		//충돌 버퍼
@@ -750,32 +742,31 @@ namespace Pg::Engine::Physic
 		
 		bool isSweepHit = _pxScene->sweep(sphereGeo, shperePose, sphereCastDir, max, sweepBuffer);
 
-		physx::PxVec3 tHitPoint = { 0.f,0.f,0.f };
+		physx::PxVec3 tHitPoint;
 
 		//만약 RayCast에 맞았다면
 		if (isSweepHit)
 		{
 			PG_TRACE("SphereCast Hit!");
 
-			//충돌 오브젝트의 포인터
-			physx::PxRigidActor* actor = sweepBuffer.block.actor;
-			
-
 			for (int i = 0; i < sweepBuffer.getNbTouches(); i++)
 			{
-				Pg::Data::Collider* sphereCastCol = nullptr;
 				const physx::PxSweepHit& tTouch = sweepBuffer.getTouch(i);
 
-				//피격 데이터 전달.
-				sphereCastCol = static_cast<Pg::Engine::Collider*>(tTouch.actor->userData);
+				//충돌 객체가 유효한가?
+				if (tTouch.actor && tTouch.actor->userData)
+				{
+					//피격 데이터 전달.
+					Pg::Data::Collider* sphereCastCol = static_cast<Pg::Engine::Collider*>(tTouch.actor->userData);
 
-				if (i <= maxColCnt)
-				{
-					colDataPointer[i] = sphereCastCol;
-				}
-				else
-				{
-					PG_TRACE("");
+					if (i < maxColCnt)
+					{
+						colDataPointer[i] = sphereCastCol;
+					}
+					else
+					{
+						PG_TRACE("");
+					}
 				}
 			}
 
@@ -805,8 +796,6 @@ namespace Pg::Engine::Physic
 			}
 			_debugSystem->DrawSphereDebug(_forSweepSphereInfo.get());
 		}
-
-		sweepBuffer.maxNbTouches = 0;
 	}
 
 	///만들어진 Collider 객체를 Scene으로 추가하는 역할.

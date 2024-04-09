@@ -85,6 +85,7 @@ void MovingTest::Update()
 	}
 	if (tInput->GetKeyDown(Space))
 	{
+
 		//_isLocate = true;
 
 		//if (!_isLocate)
@@ -95,7 +96,11 @@ void MovingTest::Update()
 
 		//_object->_transform._position = { -10.0f, 5.0f, 0.0f };
 		//navMeshAgent->SetDestination({ 0.0f,0.0f,0.0f });
-		dynamicCol->AddForce({ 0.0f, 5.0f ,0.0f }, Pg::Data::ForceMode::eIMPULSE);
+		//dynamicCol->AddForce({ 0.0f, 5.0f ,0.0f }, Pg::Data::ForceMode::eIMPULSE);
 		//audioSource->Play();
+	}
+	if (tInput->GetKey(ShiftR))
+	{
+		_object->_transform._position.y -= _timeSystem->GetDeltaTime() * 3.0f;
 	}
 }
