@@ -43,7 +43,7 @@ POutQuad main(VOutQuad pin)
     
     // 위치/빛 정보가 있는 라이팅을 위한 직접과 연산.
     float3 directLighting = 0.0;
-    uint tNumLight = 1;
+    uint tNumLight = 3;
     for (uint i = 0; i < tNumLight; ++i)
     {
         //float3 Li = -lights[i].direction;
