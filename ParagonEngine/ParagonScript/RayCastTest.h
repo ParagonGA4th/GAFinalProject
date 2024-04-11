@@ -1,5 +1,6 @@
 #pragma once
-#include "Script.h"
+#include "ScriptInterface.h"
+
 /// <summary>
 /// RayCast를 테스트하기 위한 스크립트.
 /// 2024.01.25
@@ -18,8 +19,14 @@ namespace Pg::API
 	}
 }
 
-class RayCastTest : public Pg::DataScript::Script
+namespace Pg::DataScript
 {
+class RayCastTest : public ScriptInterface<RayCastTest>
+{
+public:
+	static inline const std::string class_identifier = "class RayCastTest";
+	static std::unique_ptr<Script> create_instance(Pg::Data::GameObject* obj) { return std::make_unique<RayCastTest>(obj); }
+
 public:
 	RayCastTest(Pg::Data::GameObject* obj);
 
@@ -31,4 +38,5 @@ private:
 	Pg::API::Input::PgInput* _pgInput = nullptr;
 
 };
+}
 

@@ -19,6 +19,9 @@
     <Filter Include="SoundTest">
       <UniqueIdentifier>{a1a6b945-4cd4-42b0-bd0e-d8971d330898}</UniqueIdentifier>
     </Filter>
+    <Filter Include="1_BaseClass\ScriptInterface">
+      <UniqueIdentifier>{e619930e-65f8-4488-8ab2-0c39dca1fabd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -61,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="FactoryHelper.h">
       <Filter>0_Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptInterface.h">
+      <Filter>1_BaseClass\ScriptInterface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
