@@ -29,7 +29,7 @@
 
 namespace Pg::Graphics
 {
-	DeferredRenderer::DeferredRenderer(D3DCarrier* d3dCarrier) : BaseSpecificRenderer(d3dCarrier)
+	DeferredRenderer::DeferredRenderer(D3DCarrier* d3dCarrier, const Pg::Data::Enums::eEditorMode* const editorMode) : BaseSpecificRenderer(d3dCarrier), _editorMode(editorMode)
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 
@@ -96,13 +96,13 @@ namespace Pg::Graphics
 		_firstStaticRenderPass = std::make_unique<FirstStaticRenderPass>();
 
 		//1. FirstSkinnedRenderPass.
-		_firstSkinnedRenderPass = std::make_unique<FirstSkinnedRenderPass>();
+		_firstSkinnedRenderPass = std::make_unique<FirstSkinnedRenderPass>(_editorMode);
 
 		//2. ObjMatStaticRenderPass.
 		_objMatStaticRenderPass = std::make_unique<PreparationStaticRenderPass>();
 
 		//3. ObjMatSkinnedRenderPass.
-		_objMatSkinnedRenderPass = std::make_unique<PreparationSkinnedRenderPass>();
+		_objMatSkinnedRenderPass = std::make_unique<PreparationSkinnedRenderPass>(_editorMode);
 
 		//4. SceneInfromationSender.
 		_sceneInformationSender = std::make_unique<SceneInformationSender>();
@@ -410,7 +410,6 @@ namespace Pg::Graphics
 
 
 	}
-
 
 
 

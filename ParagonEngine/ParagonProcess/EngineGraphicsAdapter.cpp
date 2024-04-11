@@ -159,7 +159,11 @@ namespace Pg::Core
 
 	void EngineGraphicsAdapter::SyncLoadGraphicsResources()
 	{
-		_graphics->SyncLoadGraphicsResources();
+		//얘가 발동되었을 때만 1차 로드해주어야 한다. 
+		if (_engine->NotifyIfChangedScene() != nullptr)
+		{
+			_graphics->SyncComponentToGraphics(_engine->GetCurrentScene());
+		}
 	}
 
 	void EngineGraphicsAdapter::PassDebugRenderData()
@@ -196,7 +200,30 @@ namespace Pg::Core
 		return _engine->GetDeltaTime();
 	}
 
-	
+	void EngineGraphicsAdapter::AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_graphics->AddRenderObject_Runtime(objVecP);
+	}
 
+	void EngineGraphicsAdapter::ModifyRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_graphics->ModifyRenderObject_Runtime(objVecP);
+	}
 
+	void EngineGraphicsAdapter::DeleteRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_graphics->DeleteRenderObject_Runtime(objVecP);
+	}
+
+	void EngineGraphicsAdapter::HandleRenderObjectsRuntime()
+	{
+		_graphics->HandleRenderObjectsRuntime();
+	}
+
+	void EngineGraphicsAdapter::SetEditorMode(Pg::Data::Enums::eEditorMode mode)
+	{
+		//개별적으로 Editor Mode를 전달.
+		_graphics->SetEditorMode(mode);
+		_engine->SetEditorMode(mode);
+	}
 }

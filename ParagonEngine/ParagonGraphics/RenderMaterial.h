@@ -97,6 +97,9 @@ namespace Pg::Graphics
 			std::vector<TexMaterialPair> _texPlaceVector;
 		};
 
+		//Remapping을 위해.
+		enum class eInitState { _NONE, _FROM_SCENE, _ADDED_LATER };
+
 	private:
 		std::unique_ptr<RenderMaterial::MatShaderIntrinsics> _vsIntrinsics;
 		std::unique_ptr<RenderMaterial::MatShaderIntrinsics> _psIntrinsics;
@@ -106,6 +109,9 @@ namespace Pg::Graphics
 
 		//렌더가 되면서 새로 Material ID가 부여된다.
 		unsigned int _materialID;
+
+		//외부에서 Scene이 시작되었을 때 마킹됨.
+		RenderMaterial::eInitState _initState{ RenderMaterial::eInitState::_NONE };
 
 	private:
 		LowDX11Storage* _DXStorage;

@@ -43,18 +43,36 @@ namespace Pg::Graphics::Loader
 			//SkinnedAssetData 역시 할당.
 			modelData->_assetSkinnedData = new Skinned_AssetData;
 
-			//Skinned
+			//Skinned 
+			//const aiScene* pScene = _importer->ReadFile(path.c_str(),
+			//	aiProcess_Triangulate |
+			//	aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_GenBoundingBoxes |
+			//	aiProcess_CalcTangentSpace | aiProcess_PopulateArmatureData |
+			//	aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_FixInfacingNormals | aiProcess_LimitBoneWeights); //aiProcess_EmbedTextures |
+			//
+
 			const aiScene* pScene = _importer->ReadFile(path.c_str(),
-				aiProcess_Triangulate |
-				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_GenBoundingBoxes |
-				aiProcess_CalcTangentSpace | aiProcess_PopulateArmatureData |
-				aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_FixInfacingNormals | aiProcess_LimitBoneWeights); //aiProcess_EmbedTextures |
+				aiProcess_Triangulate
+				| aiProcess_ConvertToLeftHanded
+				| aiProcess_PopulateArmatureData
+				| aiProcess_CalcTangentSpace
+				| aiProcess_LimitBoneWeights
+			);
+
 			assert(pScene != nullptr);
+
+			if (pScene == nullptr || pScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || pScene->mRootNode == nullptr)
+			{
+				MessageBox(NULL, L"모델 파일을 로드할 수 없다. Assimp Skinned 문제!", L"Error!", MB_ICONERROR | MB_OK);
+				assert(false);
+			}
 
 			AssimpBufferParser::AssimpToSceneAssetData(pScene, path, modelData->_assetSceneData);
 			AssimpBufferParser::AssimpToSkinnedDataDXBuffer(pScene, modelData->_assetSceneData, modelData->_assetSkinnedData, modelData->_vertexBuffer, modelData->_indexBuffer);
 			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList, path);
 			AssimpBufferParser::AssimpToPBRTextureArray(modelData->GetFileName(), modelData->_materialClusterList, modelData->_pbrTextureArrays);
+			AssimpBufferParser::D3DSetPrivateData(modelData->GetFileName(), modelData);
+			AssimpBufferParser::Reset();
 		}
 		else
 		{
@@ -65,10 +83,18 @@ namespace Pg::Graphics::Loader
 				aiProcess_CalcTangentSpace | aiProcess_GenSmoothNormals | aiProcess_PreTransformVertices | aiProcess_GenBoundingBoxes); //aiProcess_EmbedTextures |
 			assert(pScene != nullptr);
 
+			if (pScene == nullptr || pScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || pScene->mRootNode == nullptr)
+			{
+				MessageBox(NULL, L"모델 파일을 로드할 수 없다. Assimp Static 문제!", L"Error!", MB_ICONERROR | MB_OK);
+				assert(false);
+			}
+
 			AssimpBufferParser::AssimpToSceneAssetData(pScene, path, modelData->_assetSceneData);
 			AssimpBufferParser::AssimpToStaticDataDXBuffer(pScene, modelData->_assetSceneData, modelData->_vertexBuffer, modelData->_indexBuffer);
 			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_materialClusterList, path);
 			AssimpBufferParser::AssimpToPBRTextureArray(modelData->GetFileName(), modelData->_materialClusterList, modelData->_pbrTextureArrays);
+			AssimpBufferParser::D3DSetPrivateData(modelData->GetFileName(), modelData);
+			AssimpBufferParser::Reset();
 		}
 
 		//Importer를 다 썼으니, 이제 메모리를 풀어준다.

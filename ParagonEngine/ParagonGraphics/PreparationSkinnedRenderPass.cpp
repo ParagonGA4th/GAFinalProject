@@ -15,7 +15,7 @@
 namespace Pg::Graphics
 {
 
-	PreparationSkinnedRenderPass::PreparationSkinnedRenderPass()
+	PreparationSkinnedRenderPass::PreparationSkinnedRenderPass(const Pg::Data::Enums::eEditorMode* const editorMode) : _editorMode(editorMode)
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 	}

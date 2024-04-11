@@ -38,8 +38,15 @@ namespace Pg::Graphics::Helper
 		static DirectX::SimpleMath::Quaternion AI2SM_QUATERNION(const aiQuaternion& quat);
 		static DirectX::SimpleMath::Vector3 AI2SM_VECTOR3(const aiVector3D& vec);
 		
+		//Assimp의 Matrix를 DirectXMath로 바꿔준다.
+		static DirectX::XMMATRIX AI2XM_MATRIX(const aiMatrix4x4& matrix);
 
+		//ScreenSpace <-> WorldSpace 관련.
+		static DirectX::XMVECTOR UnprojectScreenPointToWorldSpaceRay(DirectX::XMVECTOR screenPoint, DirectX::XMMATRIX viewProjection, DirectX::XMVECTOR viewportSize, DirectX::XMVECTOR viewportOrigin);
+		static DirectX::XMVECTOR GetWorldPointFromScreenPoint_Depth(float screenPtX, float screenPtY, DirectX::XMMATRIX viewProjection, DirectX::XMMATRIX projectionMatrix,
+			DirectX::XMVECTOR viewportSize, DirectX::XMVECTOR viewportOrigin, float depth);
 
+		
 		//Experimental
 		static void DecomposeAssembleMatrix(DirectX::SimpleMath::Matrix& mat);
 		//static void DecomposeAssembleFlipMatrix(DirectX::SimpleMath::Matrix& mat);

@@ -38,7 +38,7 @@ namespace Pg::Graphics
 
 	}
 
-	void ParagonRenderer::Initialize()
+	void ParagonRenderer::Initialize(const Pg::Data::Enums::eEditorMode* const editorMode)
 	{
 		//SceneParser 만들고 Initialize();
 		_sceneParser = std::make_unique<GraphicsSceneParser>();
@@ -47,7 +47,7 @@ namespace Pg::Graphics
 		//렌더러들 내부에서 오고 갈 GraphicsCarrier 객체 생성.
 		_gCarrier = std::make_unique<D3DCarrier>();
 
-		_deferredRenderer = std::make_unique<DeferredRenderer>(_gCarrier.get());
+		_deferredRenderer = std::make_unique<DeferredRenderer>(_gCarrier.get(), editorMode);
 		_deferredRenderer->Initialize();
 
 		_cubemapRenderer = std::make_unique<CubemapRenderer>(_gCarrier.get());
@@ -109,7 +109,9 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::SyncComponentToGraphics(const Pg::Data::Scene* const newScene)
 	{
-
+		//현재 ParseSceneData 내부 구현체에 왜 매번 Graphics 객체를 다시 만드는지 모르겠지만..
+		//일단 급하니 나중에 TODO.
+		ParseSceneData(newScene);
 	}
 
 	void ParagonRenderer::PassBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
@@ -200,10 +202,13 @@ namespace Pg::Graphics
 			return;
 		}
 
-		_finalRenderer->SetOutlineRenderingMode(true);
-
 		//Object ID를 찾으려면, 기존에 있는 GraphicsSceneParser 내부를 찾아야 한다...
-		_finalRenderer->SetObjectIDSelected(_sceneParser->GetObjIDWithObject(outlinedObj));
+		UINT tSelectedID = _sceneParser->GetObjIDWithObject(outlinedObj);
+		if (tSelectedID != NULL)
+		{
+			_finalRenderer->SetOutlineRenderingMode(true);
+			_finalRenderer->SetObjectIDSelected(tSelectedID);
+		}
 	}
 
 	void ParagonRenderer::SetDeltaTime(float dt)
@@ -212,8 +217,25 @@ namespace Pg::Graphics
 		_deferredRenderer->SetDeltaTime(dt);
 	}
 
-	
+	void ParagonRenderer::AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_sceneParser->AddRenderObject_Runtime(objVecP);
+	}
 
+	void ParagonRenderer::ModifyRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_sceneParser->ModifyRenderObject_Runtime(objVecP);
+	}
+
+	void ParagonRenderer::DeleteRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_sceneParser->DeleteRenderObject_Runtime(objVecP);
+	}
+
+	void ParagonRenderer::HandleRenderObjectsRuntime()
+	{
+		_sceneParser->HandleRenderObjectsRuntime();
+	}
 
 	
 

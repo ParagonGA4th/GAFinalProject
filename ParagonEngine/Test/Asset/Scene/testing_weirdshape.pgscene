@@ -157,5 +157,45 @@
         </component>
       </components>
     </object>
+	<object>
+      <uuid>BD167D87493128952CB3B79ECE3D0FA4</uuid>
+      <name>Erika</name>
+      <tag>FromUnreal</tag>
+      <active>true</active>
+      <parent>0</parent>
+      <parent_uuid>BD167D87493128952CB3B79ECE3D0FA4</parent_uuid>
+      <components>
+        <component>
+          <type>class Pg::Data::Transform</type>
+          <data>
+            <position>
+              <x>0.0</x>
+              <y>0.0</y>
+              <z>0.0</z>
+            </position>
+            <rotation>
+              <w>1.0</w>
+              <x>0.0</x>
+              <y>0.0</y>
+              <z>0.0</z>
+            </rotation>
+            <scale>
+              <x>1.0</x>
+              <y>1.0</y>
+              <z>1.0</z>
+            </scale>
+          </data>
+        </component>
+		<component>
+          <type>class Pg::Data::SkinnedMeshRenderer</type>
+          <data>
+            <isInstanced>0</isInstanced>
+            <meshName>ErikaMixamo.fbx</meshName>
+            <materialName></materialName>
+            <initAnimName>test_run.pganim</initAnimName>
+          </data>
+        </component>
+      </components>
+    </object>
   </objects>
 </scene>

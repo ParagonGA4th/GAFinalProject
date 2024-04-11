@@ -12,7 +12,7 @@
 Pg::DataScript::PlayerMove::PlayerMove(Pg::Data::GameObject* obj) :
 	Pg::DataScript::Script(obj)
 {
-	FACTORY_INIT;
+	SCRIPT_FACTORY_INIT;
 }
 
 void  Pg::DataScript::PlayerMove::Start()
@@ -22,47 +22,47 @@ void  Pg::DataScript::PlayerMove::Start()
 
 void Pg::DataScript::PlayerMove::Update()
 {
-	//using namespace Pg::API::Input;
+	using namespace Pg::API::Input;
 
-	//if (_pgInput->GetKey(KeyLeft))
-	//{
-	//	_object->_transform._position.x -= 0.01f;
+	if (_pgInput->GetKey(KeyLeft))
+	{
+		_object->_transform._position.x -= 0.01f;
 
-	//	if (_pgInput->GetKey(KeyZ))
-	//	{
-	//		dynamicCol->AddVelocity({ -0.1f, 0.0f, 0.0f });
-	//	}
-	//}
-	//if (_pgInput->GetKey(KeyRight))
-	//{
-	//	_object->_transform._position.x += 0.01f;
+		if (_pgInput->GetKey(KeyZ))
+		{
+			dynamicCol->AddVelocity({ -0.1f, 0.0f, 0.0f });
+		}
+	}
+	if (_pgInput->GetKey(KeyRight))
+	{
+		_object->_transform._position.x += 0.01f;
 
-	//	if (_pgInput->GetKey(KeyZ))
-	//	{
-	//		dynamicCol->AddVelocity({ 0.1f, 0.0f, 0.0f });
-	//	}
-	//}
-	//if (_pgInput->GetKey(KeyUp))
-	//{
-	//	_object->_transform._position.z += 0.01f;
+		if (_pgInput->GetKey(KeyZ))
+		{
+			dynamicCol->AddVelocity({ 0.1f, 0.0f, 0.0f });
+		}
+	}
+	if (_pgInput->GetKey(KeyUp))
+	{
+		_object->_transform._position.z += 0.01f;
 
-	//	if (_pgInput->GetKey(KeyZ))
-	//	{
-	//		dynamicCol->AddVelocity({ 0.0f, 0.0f, 0.1f });
-	//	}
-	//}
+		if (_pgInput->GetKey(KeyZ))
+		{
+			dynamicCol->AddVelocity({ 0.0f, 0.0f, 0.1f });
+		}
+	}
 
-	//if (_pgInput->GetKey(KeyDown))
-	//{
-	//	_object->_transform._position.z -= 0.01f;
+	if (_pgInput->GetKey(KeyDown))
+	{
+		_object->_transform._position.z -= 0.01f;
 
-	//	if (_pgInput->GetKey(KeyZ))
-	//	{
-	//		dynamicCol->AddVelocity({ 0.0f, 0.0f, -0.1f });
-	//	}
-	//}
-	//if (_pgInput->GetKeyDown(Space))
-	//{
-	//	dynamicCol->AddForce({ 0.0f, 10.0f ,0.0f }, Pg::Data::ForceMode::eIMPULSE);
-	//}
+		if (_pgInput->GetKey(KeyZ))
+		{
+			dynamicCol->AddVelocity({ 0.0f, 0.0f, -0.1f });
+		}
+	}
+	if (_pgInput->GetKeyDown(Space))
+	{
+		dynamicCol->AddForce({ 0.0f, 10.0f ,0.0f }, Pg::Data::ForceMode::eIMPULSE);
+	}
 }

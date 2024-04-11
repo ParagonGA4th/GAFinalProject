@@ -91,9 +91,6 @@
     <ClInclude Include="DragFloat.h">
       <Filter>0_UI\1_Widget\InputFloat\DragFloat</Filter>
     </ClInclude>
-    <ClInclude Include="Popup.h">
-      <Filter>0_UI\1_Widget\Popup</Filter>
-    </ClInclude>
     <ClInclude Include="ChildWindow.h">
       <Filter>0_UI\1_Widget\Layout\ChildWindow</Filter>
     </ClInclude>
@@ -102,6 +99,9 @@
     </ClInclude>
     <ClInclude Include="RadioButton.h">
       <Filter>0_UI\1_Widget\Button\RadioButton</Filter>
+    </ClInclude>
+    <ClInclude Include="TextPopup.h">
+      <Filter>0_UI\1_Widget\Popup</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -186,9 +186,6 @@
     <ClCompile Include="DragFloat.cpp">
       <Filter>0_UI\1_Widget\InputFloat\DragFloat</Filter>
     </ClCompile>
-    <ClCompile Include="Popup.cpp">
-      <Filter>0_UI\1_Widget\Popup</Filter>
-    </ClCompile>
     <ClCompile Include="ChildWindow.cpp">
       <Filter>0_UI\1_Widget\Layout\ChildWindow</Filter>
     </ClCompile>
@@ -197,6 +194,9 @@
     </ClCompile>
     <ClCompile Include="RadioButton.cpp">
       <Filter>0_UI\1_Widget\Button\RadioButton</Filter>
+    </ClCompile>
+    <ClCompile Include="TextPopup.cpp">
+      <Filter>0_UI\1_Widget\Popup</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

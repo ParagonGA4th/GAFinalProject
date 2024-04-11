@@ -3,7 +3,6 @@
 #include "../ParagonMath/PgMath.h"
 
 #include <vector>
-#include <string>
 
 namespace Pg::UI::Layout
 {
@@ -12,6 +11,7 @@ namespace Pg::UI::Layout
 	public:
 		ChildWindow(std::string layoutName, Pg::Math::PGFLOAT2 size, std::vector<Pg::UI::IWidget*> widgets);
 		virtual void Update() override;
+		virtual std::string GetWidgetLabel() override;
 
 	private:
 		std::string _layoutName;

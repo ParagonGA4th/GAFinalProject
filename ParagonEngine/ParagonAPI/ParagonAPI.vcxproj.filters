@@ -19,6 +19,9 @@
     <ClCompile Include="PgInput.cpp">
       <Filter>1_PgInput</Filter>
     </ClCompile>
+    <ClCompile Include="PgGraphics.cpp">
+      <Filter>6_PgGraphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="APIMain.h">
@@ -41,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="PgTween.h">
       <Filter>5_PgTween</Filter>
+    </ClInclude>
+    <ClInclude Include="PgGraphics.h">
+      <Filter>6_PgGraphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +75,9 @@
     </Filter>
     <Filter Include="5_PgTween">
       <UniqueIdentifier>{98998a1f-f7c3-439e-a708-38a2224e83bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_PgGraphics">
+      <UniqueIdentifier>{d5aa7e7c-ef3b-4903-b43d-472dd14e0473}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -62,9 +62,13 @@ void Pg::UI::WidgetContainer::ClearColumnWidget()
 	_columnWidgets.clear();
 }
 
-void Pg::UI::WidgetContainer::ClearCollapsWidget()
+void Pg::UI::WidgetContainer::ClearCollapsWidget(std::string label)
 {
-	_collapsWidgets.clear();
+	_collapsWidgets.erase(std::remove_if(_collapsWidgets.begin(), _collapsWidgets.end(),
+		[&](Pg::UI::IWidget* widget)
+		{
+			if (widget->GetWidgetLabel() != label) return true;
+		}), _collapsWidgets.end());
 }
 
 void Pg::UI::WidgetContainer::ClearTreeNodeWidget(int index)

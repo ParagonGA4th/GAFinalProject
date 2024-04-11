@@ -369,5 +369,60 @@ namespace Pg::Core::Manager
 	}
 
 
+	std::vector<std::string> AssetManager::GetResourcesPathByDefine(Pg::Data::Enums::eAssetDefine define)
+	{
+		std::vector<std::string> tRet;
 
+		for (const auto& [path, saveDefine] : _resourceMap)
+		{
+			if (saveDefine == define)
+			{
+				tRet.push_back(path);
+			}
+		}
+
+		return tRet;
+	}
+
+	std::vector<std::string> AssetManager::GetResourcesNameByDefine(Pg::Data::Enums::eAssetDefine define)
+	{
+		std::vector<std::string> tRet;
+
+		for (const auto& [path, saveDefine] : _resourceMap)
+		{
+			if (saveDefine == define)
+			{
+				tRet.push_back(path);
+			}
+		}
+
+		for (auto& it : tRet)
+		{
+			it = ResourceHelper::GetNameFromPath(it);
+		}
+
+		return tRet;
+	}
+
+	std::vector<std::string> AssetManager::GetMaterialNamesWithoutDefault()
+	{
+		std::vector<std::string> tRet;
+
+		for (const auto& [path, saveDefine] : _resourceMap)
+		{
+			if (saveDefine == Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL &&
+				path.find(Pg::Defines::GENERATED_MATERIAL_PREFIX) == std::string::npos)
+			{
+				//디폴트 프리픽스를 못찾았을 때 (== Custom Material)
+				tRet.push_back(path);
+			}
+		}
+
+		for (auto& it : tRet)
+		{
+			it = ResourceHelper::GetNameFromPath(it);
+		}
+
+		return tRet;
+	}
 }

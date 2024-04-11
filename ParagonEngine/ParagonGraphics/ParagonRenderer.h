@@ -3,6 +3,7 @@
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/DebugData.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/EditorMode.h"
 
 //SkinningMk.2
 //#include "MultimaterialMesh.h"
@@ -51,10 +52,7 @@ namespace Pg::Graphics
 		//메모리 추가 할당을 막기 위해, Scene당 렌더오브젝트 생성 로직 중복을 막아야 한다!
 		
 	public:
-		void Initialize();
-
-		//씬 데이터 받아들이기. (렌더에 적합한 형태로)
-		void ParseSceneData(const Pg::Data::Scene* const newScene);
+		void Initialize(const Pg::Data::Enums::eEditorMode* const editorMode);
 
 		//DebugRenderer로 Debug Geometry를 넘겼다.
 		void PassBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec);
@@ -84,6 +82,18 @@ namespace Pg::Graphics
 
 		//DeltaTime을 넘겨받는다.
 		void SetDeltaTime(float dt);
+
+		//에디터 연동을 위해.
+		void AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP);
+		void ModifyRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP);
+		void DeleteRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP);
+
+		//실제로 연동해서 처리 (기존에 Add/Modify/Delete되었던 오브젝트 변화 실제 반영)
+		void HandleRenderObjectsRuntime();
+
+	private:
+		//씬 데이터 받아들이기. (렌더에 적합한 형태로)
+		void ParseSceneData(const Pg::Data::Scene* const newScene);
 
 	private:
 		LowDX11Storage* _DXStorage = nullptr;

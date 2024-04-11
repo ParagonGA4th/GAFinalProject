@@ -123,7 +123,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;ParagonAPI.lib;ParagonUtil.lib;ParagonUI.lib;ParagonProcess.lib;ParagonHelper.lib;ParagonScript.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonAPI.lib;ParagonUtil.lib;ParagonUI.lib;ParagonProcess.lib;ParagonHelper.lib;ParagonScript.lib;ParagonData.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -145,7 +145,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;ParagonAPI.lib;ParagonUtil.lib;ParagonUI.lib;ParagonProcess.lib;ParagonHelper.lib;ParagonScript.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonAPI.lib;ParagonUtil.lib;ParagonUI.lib;ParagonProcess.lib;ParagonHelper.lib;ParagonScript.lib;ParagonData.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -158,10 +158,10 @@
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="Filter.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Hierarchy.cpp" />
-    <ClCompile Include="InspectorHelper.cpp" />
+    <ClCompile Include="InspectorDataManager.cpp" />
     <ClCompile Include="Inspector.cpp" />
+    <ClCompile Include="InspectorUIManager.cpp" />
     <ClCompile Include="Layout.cpp" />
     <ClCompile Include="ToolBar.cpp" />
     <ClCompile Include="ProcessManager.cpp" />
@@ -180,14 +180,14 @@
     <ClInclude Include="EventType.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Filter.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="Hierarchy.h" />
     <ClInclude Include="IEditorManager.h" />
     <ClInclude Include="IEditorWindow.h" />
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="IEditor.h" />
-    <ClInclude Include="InspectorHelper.h" />
+    <ClInclude Include="InspectorDataManager.h" />
     <ClInclude Include="Inspector.h" />
+    <ClInclude Include="InspectorUIManager.h" />
     <ClInclude Include="Layout.h" />
     <ClInclude Include="ToolBar.h" />
     <ClInclude Include="ProcessManager.h" />

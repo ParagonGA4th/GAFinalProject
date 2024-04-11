@@ -83,6 +83,9 @@ namespace Pg::Core
 		//업데이트된 Renderer-Graphics 연동 위해.
 		_engineGraphicsAdapter->UpdateRendererChangeList();
 
+		//엔진이 업데이트되기 전에, 바뀌었는지를 기반으로 그래픽스 리소스를 재로드할지를 설정.
+		_engineGraphicsAdapter->SyncLoadGraphicsResources();
+
 		//여기다가 시스템 싹 다 업데이트!!
 		_engineGraphicsAdapter->UpdateEngine();
 
@@ -92,13 +95,6 @@ namespace Pg::Core
 			_engineGraphicsAdapter->GetCurrentScene(),
 			_engineGraphicsAdapter->GetDeltaTime(),
 			_engineGraphicsAdapter->GetCameraData());
-
-		if (_editorAdapter->GetCurrentScene() == nullptr)
-			_editorAdapter->SetCurrentScene(_engineGraphicsAdapter->GetCurrentScene());
-
-		// 에디터에서 변경 된 씬 정보 -> 게임엔진 
-		if(_engineGraphicsAdapter->GetCurrentScene() != _editorAdapter->GetCurrentScene())
-			_engineGraphicsAdapter->SetCurrentScene(_editorAdapter->GetCurrentScene());
 	}
 
 	void ProcessMain::BeginRender()
@@ -135,6 +131,9 @@ namespace Pg::Core
 
 		//디버그 렌더 데이터 클리어 (디버그 시스템)
 		_engineGraphicsAdapter->ClearDebugVectorData();
+
+		//런타임에 추가 / 수정 / 삭제된 오브젝트 연동.
+		_engineGraphicsAdapter->HandleRenderObjectsRuntime();
 	}
 
 	void ProcessMain::Finalize()
@@ -167,4 +166,8 @@ namespace Pg::Core
 		return _editorAdapter.get();
 	}
 
+	std::vector<std::string> ProcessMain::GetAssetList(Pg::Data::Enums::eAssetDefine define)
+	{
+		return _assetManager->GetResourcesNameByDefine(define);
+	}
 }

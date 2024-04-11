@@ -5,6 +5,7 @@
 #include "DX11Headers.h"
 #include "ConstantBuffer.h"
 #include "ConstantBufferDefine.h"
+#include "../ParagonData/EditorMode.h"
 
 #include <vector>
 #include <memory>
@@ -32,7 +33,7 @@ namespace Pg::Graphics
 	class PreparationSkinnedRenderPass : public IRenderSinglePass
 	{
 	public:
-		PreparationSkinnedRenderPass();
+		PreparationSkinnedRenderPass(const Pg::Data::Enums::eEditorMode* const editorMode);
 		~PreparationSkinnedRenderPass();
 
 		virtual void Initialize() override;
@@ -63,6 +64,9 @@ namespace Pg::Graphics
 		RenderCubemap* _iblDiffuseIrradianceMap = nullptr;
 		RenderCubemap* _iblSpecularIrradianceMap = nullptr;
 		RenderTexture2D* _iblSpecularLutTextureMap = nullptr;
+
+	private:
+		const Pg::Data::Enums::eEditorMode* const _editorMode;
 	};
 }
 

@@ -23,6 +23,7 @@ namespace Pg::Editor::Window
 		virtual bool GetShow() override;
 
 		virtual std::string GetWindowName() override; 
+
 		virtual void SetDisable(bool disable) override;
 
 	private:
@@ -35,12 +36,11 @@ namespace Pg::Editor::Window
 		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
 		std::unique_ptr<Pg::Editor::Event> _editorManaged;
 
-		Pg::Data::Enums::eEditorMode* _editorModeType;
+		Pg::Data::Enums::eEditorMode _editorModeType;
 
 		/// Data value
-		bool* _isStartBtnClick;
-		bool* _isPauseBtnClick;
-		bool* _isStopBtnClick;		
+		bool _isStartBtnClick;
+		bool _isStopBtnClick;		
 		
 		std::string _gizmoType = "Translate";
 		std::string _prevGizmoType;

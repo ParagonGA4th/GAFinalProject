@@ -10,7 +10,8 @@ namespace Pg::UI { class WidgetContainer; }
 
 namespace Pg::Editor::Window
 {
-	class InspectorHelper;
+	class InspectorDataManager;
+	class InspectorUIManager;
 	class Inspector : public IEditorWindow
 	{
 	public:
@@ -30,24 +31,21 @@ namespace Pg::Editor::Window
 
 	private:
 		void SetData(void* data);
-		void AddComponent();
 
 	private:
 		/// inspector value
 		std::string _winName;
 		bool _isShow;
-		bool _isDisable;
+		bool _isDisable;	
+
+
 
 		/// helper class
 		Pg::UI::Manager::UIManager* _uiManager;
-		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
-		std::unique_ptr<Pg::Editor::Window::InspectorHelper> _insHelper;
+		std::unique_ptr<Pg::Editor::Window::InspectorDataManager> _insDataManager;
+		std::unique_ptr<Pg::Editor::Window::InspectorUIManager> _insUIManager;
 
-		/// Data value
-		std::vector<std::string> _componentList;
-		Pg::Data::GameObject* _selectGameObject;
-		int* _componentIndex;
-		bool* _isClick;
+		Pg::Data::GameObject* _selectObject;
 	};
 }
 

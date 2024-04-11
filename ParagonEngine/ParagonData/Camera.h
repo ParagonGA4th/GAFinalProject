@@ -27,7 +27,7 @@ namespace Pg::Data
 		static const char* GetFactoryKey() { return "class Pg::Data::Camera"; }
 
 		//실제로 쓰이는 Camera들의 정보를 Scene의 정보와 일치시키기 위해서.
-		virtual void Update() override;
+		virtual void Internal_EngineUpdate() override;
 		virtual void OnDeserialize(SerializeVector& sv) override;
 		virtual void OnSerialize(SerializeVector& sv) override;
 
@@ -36,6 +36,11 @@ namespace Pg::Data
 		PGFLOAT4X4 GetViewMatrix() const;
 		PGFLOAT4X4 GetProjMatrix() const;
 		Pg::Data::CameraData* GetCameraData();
+
+		//유니티의 Camera.ScreenPointToRay와 동일 기능을 할 것.
+		//ScreenPoint : 0-1 정규화된 범위를 받는다.
+		//해당 함수의 리턴값 -> MakeRay에 사용.
+		void ScreenPointToRayInfo(Pg::Math::PGFLOAT2 screenPointNormalized, Pg::Math::PGFLOAT3& outRayOrigin, Pg::Math::PGFLOAT3& outRayDir);
 
 	private:
 		void UpdateViewMatrix();

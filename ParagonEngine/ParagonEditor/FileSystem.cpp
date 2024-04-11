@@ -24,6 +24,12 @@ void Pg::Editor::System::FileSystem::Initialize()
 {
 	// project가 처음 open 될 때는 기존 폴더(Builds//x64//Relase//)에 있는 sample load.
 
+	_rootPathWithFileName = fs::current_path().string();
+	_rootPathWithFileName = _rootPathWithFileName.substr(0, _rootPathWithFileName.rfind("\\"));
+	_rootPathWithFileName += "\\SampleProject\\SampleProject.pgproject";
+
+	_dataManager->DataLoad(_rootPathWithFileName);
+
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_NEWSCENE, [&]() { NewScene(); });
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_OPENSCENE, [&]() { OpenScene(); });
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_LOADSCENE, [&](void* data) { LoadScene(data); });

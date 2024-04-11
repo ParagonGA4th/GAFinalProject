@@ -189,42 +189,14 @@ namespace Pg::Graphics
 			tBasedModelName, Pg::Data::Enums::eAssetDefine::_3DMODEL).get());
 		assert(tBasedModelPtr->IsSkinned() && "무조건 Skinned 모델이어야 Animation이 호환된다.");
 
-		//원래는 3DModel 안에 애니메이션 내부에 저장된 모든 Node들이 있는지 역시 검사해야 한다.
-		//SkinnedMeshRenderer 딴에서는 그냥 돌릴 수 있게.
-		//만약 이를 Animation 돌릴 수 있게 레이어로 돌렸으면 밑 방식이 맞고, 아니면 노우.
-		//인덱스 똑같게.
-
-		anim->_animAssetData->_linearizedNodeAnimList.resize(tBasedModelPtr->_assetSkinnedData->_linearizedNodeHierarchy.size());
-		int tNodeCount = 0;
-		for (const auto& [tNode,parentIndex] : tBasedModelPtr->_assetSkinnedData->_linearizedNodeHierarchy)
-		{
-			const std::string& tNodeName = tNode->_nodeName;
-
-			//실제로 해당 NodeName이랑 일치하는 애니메이션이 있는지를 보기.
-			NodeAnim_AssetData* tInput = nullptr;
-			for (auto& it : anim->_animAssetData->_channelList)
-			{
-				if (it->_nodeName.compare(tNodeName) == 0)
-				{
-					tInput = it.get();
-					break;
-				}
-			}
-			//실제로 LinearizeNode와 대응된 Linear NodeAnim 투입. 없으면 렌더시 누락하고 연산할 것.
-			anim->_animAssetData->_linearizedNodeAnimList.at(tNodeCount) = tInput;
-
-			//다음 인덱스.
-			tNodeCount++;
-		}
-
-		//ModelBoneInfo 저장 -> Animation 안에 저장.
-		anim->_modelBoneInfoData = &(tBasedModelPtr->_assetSkinnedData->_renderBoneInfoVector);
+		//기존의 Linearize하지 않기로 함.
+		//바로 값 투입!
 
 		//Path에서 Animation을 호출할 때 활용될 이름을 Path로부터 추출, -> stem 투입.
 		//이제, 자기 자신이 호환된다는 것을 AssetSkinnedData에게 알려주자.
 		//Ex. test_run.pganim이라면, test_run이 이름으로 등록될 것.
 		std::filesystem::path tPath(path);
-		tBasedModelPtr->_assetSkinnedData->_viableAnimations.insert(std::make_pair(tPath.stem().generic_string(), anim));
+		tBasedModelPtr->_assetSkinnedData->_viableAnimations.insert(std::make_pair(tPath.filename().generic_string(), anim));
 	}
 
 }

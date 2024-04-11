@@ -1,6 +1,7 @@
 #pragma once
 #include "IEngine.h"
 #include "IGraphics.h"
+#include "../ParagonData/EditorMode.h"
 
 #include <memory>
 #include <vector>
@@ -106,6 +107,19 @@ namespace Pg::Core
 
 		//델타 타임 넘기기.
 		float GetDeltaTime();
+
+		//에디터가 명시적으로 EndRender 전에 사용가능.  에디터/게임 로직 위해서 런타임에 추가 / 수정 / 삭제 로직 열었다.
+		void AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP);
+		void ModifyRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP);
+		void DeleteRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP);
+
+		//에디터에 의해 직접 호출 X, 프로세스에 의해 일괄적으로 Add/Modify/Delete된 오브젝트 실제로 반영하는데 쓰일 것.
+		void HandleRenderObjectsRuntime();
+
+		//이미 전달된 
+
+		// 현재 에디터의 상태를 받는 함수
+		void SetEditorMode(Pg::Data::Enums::eEditorMode mode);
 
 	private:
 		std::unique_ptr<IEngine> _engine;					//게임 엔진

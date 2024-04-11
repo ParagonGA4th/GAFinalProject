@@ -124,7 +124,7 @@ namespace Pg::Data
 		//PGFLOAT3 SetForwardUpRight(PGFLOAT3 up, PGFLOAT3 right, PGFLOAT3 forward);
 		
 		// 부모, 자식 객체를 가리키는 transform
-		Transform* _parent;
+		Transform* _parent{ nullptr };
 		std::vector<Transform*> _children;
 
 		// Forward, Right, Up

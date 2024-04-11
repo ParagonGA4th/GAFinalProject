@@ -6,6 +6,7 @@
 #include "../ParagonProcess/EditorAdapter.h"
 #include "../ParagonAPI/PgInput.h"
 
+#include "../ParagonData/AssetDefines.h"
 #include "../ParagonUtil/Log.h"
 
 #include <algorithm>
@@ -13,8 +14,7 @@
 
 
 Pg::Editor::Manager::ProcessManager::ProcessManager(float width, float height)
-	:_screenWidth(width), _screenHeight(height),
-	_isCoreInitailized(false), _isSceneSet(false)
+	:_screenWidth(width), _screenHeight(height), _isCoreInit(false)
 {
 	// core
 	_coreMain = std::make_unique<Pg::Core::ProcessMain>();
@@ -23,10 +23,9 @@ Pg::Editor::Manager::ProcessManager::ProcessManager(float width, float height)
 	auto& tInputSystem = singleton<Pg::API::Input::PgInput>();
 	_input = &tInputSystem;
 
-	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer> ();
+	// editor helper
+	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
 	_dataContainer = &tdataCon;
-
-	
 }
 
 Pg::Editor::Manager::ProcessManager::~ProcessManager()
@@ -36,15 +35,17 @@ Pg::Editor::Manager::ProcessManager::~ProcessManager()
 void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd)
 {
 	_coreMain->Initialize(hWnd, _screenWidth, _screenHeight);
-	_isCoreInitailized = true;
+	_isCoreInit = true;
 
 	_dataContainer->SetGraphicsData(_coreMain->GetGraphicsDevice(), _coreMain->GetGraphicsDeviceContext());
-	//SRV (에디터 카메라 전달)
-	_dataContainer->SetSceneTexture(_coreMain->GetEditorAdapter()->GetEditorCameraViewSRV());
-	_dataContainer->SetGameTexture(_coreMain->GetEditorAdapter()->GetGameCameraViewSRV());
+	_dataContainer->SetSceneTexture(_coreMain->GetEditorAdapter()->GetEditorCameraViewSRV()); //SRV (에디터 카메라 전달)
 
 	std::unique_ptr<Pg::Editor::Event> _editorEvent = std::make_unique<Pg::Editor::Event>();
 	_editorEvent->AddEvent(Pg::Editor::eEventType::_EDITORMODE, [&](void* mode) { SetEditorMode(mode); });
+	_editorEvent->AddEvent(Pg::Editor::eEventType::_ADDOBJECT, [&](void* objList) { SetAddObject(objList); });
+	_editorEvent->AddEvent(Pg::Editor::eEventType::_MODIFIEDOBJECT, [&](void* objList) { SetModifiedObject(objList); });
+	_editorEvent->AddEvent(Pg::Editor::eEventType::_DELETEOBJECT, [&](void* objList) { SetDeleteObject(objList); });
+	_editorEvent->AddEvent(Pg::Editor::eEventType::_ASSETLIST, [&](void* define) { GetAssetList(define); });
 }
 
 void Pg::Editor::Manager::ProcessManager::Update()
@@ -55,30 +56,44 @@ void Pg::Editor::Manager::ProcessManager::Update()
 	_coreMain->Render();
 	//Picking + Outline Effect. Editor에서 Edit Mode일때만 발동할 것. 그래픽스 리소스를 아끼기 위해.
 	//_dataContainer->SetPickObject(_coreMain->PassPickedObject());
-	
+
 	_coreMain->FinalRender();
 
-	
-	if (_coreMain->GetEditorAdapter()->GetCurrentScene() != nullptr
-		&& _dataContainer->GetCurrentScene() == nullptr)
+	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff))
 	{
-		_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
+		_dataContainer->SetEditorOnOff(!_dataContainer->GetEditorOnOff());
 	}
-
-	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff)) _dataContainer->SetEditorOnOff(!_dataContainer->GetEditorOnOff()); 
 
 	if (_dataContainer->GetEditorOnOff())
 	{
 		if (_dataContainer->GetSceneList().size() > 0)
 		{
-			_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
-			_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
+			if (_dataContainer->GetSceneList().size() > 0)
+			{
+				_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
+				_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
+			}
+
+			//if (_input->GetKeyDown(API::Input::eKeyCode::Save)) _editorEvent->Invoke(eEventType::_SAVEPROJECT);
 		}
+		_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
+		_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
+	}
 
-		//if (_input->GetKeyDown(API::Input::eKeyCode::Save)) _editorEvent->Invoke(eEventType::_SAVEPROJECT);
-	}	
 
-	SetEditorMode(_dataContainer->GetEditorOnOff() ? Pg::Data::Enums::eEditorMode::_EDIT : Pg::Data::Enums::eEditorMode::_NONE);
+	//if (_coreMain->GetEditorAdapter()->GetCurrentScene() != nullptr
+	//	&& _dataContainer->GetCurrentScene() == nullptr)
+	//{
+	//	_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
+	//}
+
+	//if (_dataContainer->GetSceneList().size() > 0)
+	//{
+	//	_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
+	//	_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
+	//}
+
+	//if (_input->GetKeyDown(API::Input::eKeyCode::Save)) _editorEvent->Invoke(eEventType::_SAVEPROJECT);
 }
 
 void Pg::Editor::Manager::ProcessManager::LateUpdate()
@@ -93,7 +108,7 @@ void Pg::Editor::Manager::ProcessManager::Finalize()
 
 void Pg::Editor::Manager::ProcessManager::ManagerHandler(MSG message)
 {
-	if (_isCoreInitailized) _input->HandleMessage(message);
+	if (_isCoreInit) _input->HandleMessage(message);
 }
 
 void Pg::Editor::Manager::ProcessManager::SetEditorMode(void* mode)
@@ -107,3 +122,23 @@ void Pg::Editor::Manager::ProcessManager::SetEditorMode(Pg::Data::Enums::eEditor
 	_coreMain->GetEditorAdapter()->SetEditorMode(mode);
 }
 
+void Pg::Editor::Manager::ProcessManager::SetAddObject(void* objectList)
+{
+	_coreMain->GetEditorAdapter()->SetAddObjectList(static_cast<std::vector<Pg::Data::GameObject*>*>(objectList));
+}
+
+void Pg::Editor::Manager::ProcessManager::SetModifiedObject(void* objectList)
+{
+	_coreMain->GetEditorAdapter()->SetModifyObjectList(static_cast<std::vector<Pg::Data::GameObject*>*>(objectList));
+}
+
+void Pg::Editor::Manager::ProcessManager::SetDeleteObject(void* objectList)
+{
+	_coreMain->GetEditorAdapter()->SetDeleteObjectList(static_cast<std::vector<Pg::Data::GameObject*>*>(objectList));
+}
+
+void Pg::Editor::Manager::ProcessManager::GetAssetList(void* define)
+{
+	auto tvec = _coreMain->GetAssetList(*(static_cast<Pg::Data::Enums::eAssetDefine*>(define)));
+	_dataContainer->SetAssetList(tvec);
+}

@@ -49,14 +49,14 @@
     <ClCompile Include="ToolBar.cpp">
       <Filter>2_Windows\ToolBar</Filter>
     </ClCompile>
-    <ClCompile Include="InspectorHelper.cpp">
-      <Filter>2_Windows\Inspector</Filter>
-    </ClCompile>
     <ClCompile Include="Layout.cpp">
       <Filter>2_Windows\Layout</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>2_Windows\Game</Filter>
+    <ClCompile Include="InspectorDataManager.cpp">
+      <Filter>2_Windows\Inspector\Manager\DataManager</Filter>
+    </ClCompile>
+    <ClCompile Include="InspectorUIManager.cpp">
+      <Filter>2_Windows\Inspector\Manager\UIManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -132,17 +132,17 @@
     <ClInclude Include="visit_struct_intrusive.hpp">
       <Filter>Visit_Struct</Filter>
     </ClInclude>
-    <ClInclude Include="InspectorHelper.h">
-      <Filter>2_Windows\Inspector</Filter>
-    </ClInclude>
     <ClInclude Include="Layout.h">
       <Filter>2_Windows\Layout</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>2_Windows\Game</Filter>
-    </ClInclude>
     <ClInclude Include="IEditorWindow.h">
-      <Filter>2_Windows\WindowHelper</Filter>
+      <Filter>2_Windows\1_Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectorDataManager.h">
+      <Filter>2_Windows\Inspector\Manager\DataManager</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectorUIManager.h">
+      <Filter>2_Windows\Inspector\Manager\UIManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -215,20 +215,26 @@
     <Filter Include="3_File\FileSystem">
       <UniqueIdentifier>{2e9788a1-cb70-46ee-9880-2e87ffcefa55}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Windows\WindowHelper">
-      <UniqueIdentifier>{c893f9ce-67b9-410c-b0a8-0a7471917c8d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Visit_Struct">
       <UniqueIdentifier>{ea5e6b9c-734c-465d-a4d8-52025f4060cd}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_Windows\Layout">
       <UniqueIdentifier>{22ef4027-1948-44ca-834a-582a17202598}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Windows\Game">
-      <UniqueIdentifier>{6f62729f-b9c3-4053-8f4a-16c5cd3c998f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2_Windows\ToolBar">
       <UniqueIdentifier>{70b38a76-d7bb-4df6-9e77-799c102a7b72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\1_Interface">
+      <UniqueIdentifier>{c893f9ce-67b9-410c-b0a8-0a7471917c8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\Inspector\Manager">
+      <UniqueIdentifier>{60a87bed-b7aa-49a2-b9a3-3d9c267869fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\Inspector\Manager\UIManager">
+      <UniqueIdentifier>{e5ab064b-6b27-4c26-89ce-af43b125a0ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\Inspector\Manager\DataManager">
+      <UniqueIdentifier>{d760a842-7e00-41cb-882f-807c9a06a0b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

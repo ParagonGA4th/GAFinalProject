@@ -2,8 +2,6 @@
 #include "IWidget.h"
 #include "../ParagonMath/PgMath.h"
 
-#include <string>
-
 namespace Pg::UI::Widget
 {
 	class InputFloat : public IWidget
@@ -11,6 +9,7 @@ namespace Pg::UI::Widget
 	public:
 		InputFloat(std::string label, float* input);
 		virtual void Update() override;
+		virtual std::string GetWidgetLabel() override;
 
 	private:
 		std::string _label;

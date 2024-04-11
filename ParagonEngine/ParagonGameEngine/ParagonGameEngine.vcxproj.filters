@@ -130,6 +130,15 @@
     <ClInclude Include="..\include\Recast\Navigation\Recast\RecastAssert.h">
       <Filter>2_System\NavigationSystem\include\Recast</Filter>
     </ClInclude>
+    <ClInclude Include="DemoPlayerAction.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\DemoPlayerAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrowAction.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\ArrowAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenPointTest.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\ScreenPointTest</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\Recast\Navigation\RecastDemo\ChunkyTriMesh.h">
       <Filter>2_System\NavigationSystem\include\RecastDemo</Filter>
     </ClInclude>
@@ -285,6 +294,15 @@
     <ClCompile Include="Navigation\Recast\RecastRegion.cpp">
       <Filter>2_System\NavigationSystem\src\Recast</Filter>
     </ClCompile>
+    <ClCompile Include="DemoPlayerAction.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\DemoPlayerAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrowAction.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\ArrowAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenPointTest.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\ScreenPointTest</Filter>
+    </ClCompile>
     <ClCompile Include="..\include\fastlz\fastlz.c">
       <Filter>2_System\NavigationSystem\include\fastlz</Filter>
     </ClCompile>
@@ -400,6 +418,15 @@
     </Filter>
     <Filter Include="2_System\NavigationSystem\src\DebugUtils">
       <UniqueIdentifier>{45327d6d-6e0b-4355-8dfb-d093c891ec05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\DemoPlayerAction">
+      <UniqueIdentifier>{ad23cbfa-e0d5-4551-97e2-7659e6137be6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\ArrowAction">
+      <UniqueIdentifier>{e1b6b78d-6f76-4d7e-b8cb-b2fbb2b597df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\ScreenPointTest">
+      <UniqueIdentifier>{0bfb62db-bdd1-4fe6-a7b9-086e2cff171b}</UniqueIdentifier>
     </Filter>
     <Filter Include="2_System\NavigationSystem\include\RecastDemo">
       <UniqueIdentifier>{b0a20b95-bb99-4faf-a72a-37111042caa8}</UniqueIdentifier>

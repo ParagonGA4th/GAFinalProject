@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <DirectXMath.h>
 #include <dxtk/SimpleMath.h>
 
@@ -13,10 +14,11 @@
 /// 구조체들의 선언부.
 /// 기존의 선언부를 결국 대체할 용도이다!
 /// </summary>
-
+/// 
 namespace Pg::Graphics
 {
 	class RenderAnimation;
+	class Mesh_AssetData;
 }
 
 namespace Pg::Graphics
@@ -28,24 +30,29 @@ namespace Pg::Graphics
 		Node_AssetData(Node_AssetData* parentNode);
 		~Node_AssetData();
 
+		UINT _index;
 		std::string _nodeName;
-		DirectX::SimpleMath::Matrix _relTransform;
+		DirectX::XMMATRIX _offsetMatrix; 
+		//std::unique_ptr<Pg::Data::Transform> _relTransform; -> 이는 NodeHierarchy를 따라한 복사본에서 만들어질 것이다.
 		Node_AssetData* _parentNode = nullptr;
 		unsigned int _numChildren; //해당 Node의 Children 개수.
 		std::vector<std::unique_ptr<Node_AssetData>> _childrenList; //이 Node의 Children Node들. (자식 노드 없으면 nullptr)
 		unsigned int _numMeshes; //해당 Node의 Mesh 개수.
-		std::vector<unsigned int> _meshIndexList; //Mesh Index 저장. (각자 aiScene의 MeshList에 대응)
+		std::vector<const Mesh_AssetData*> _meshList; //Node에 소속될 Mesh들 저장. (각자 aiScene의 MeshList에 대응)
+	
+		//만약 바인딩된 Bone이 있으면, 포인터 보관.
+		BoneInfo_AssetData* _bindedBone{ nullptr };
 	};
 
 	//Skinned Renderer 도입시 쓰일 예정.
-	struct Bone_AssetData
-	{
-		Bone_AssetData();
-
-		std::string _name; //Bone 이름, NodeName과 1대1 매칭될 것.
-		unsigned int _numWeights; // 이 Bone에 의해 영향 받는 Vertex 개수.
-		DirectX::SimpleMath::Matrix _offsetMatrix; //Mesh Space -> Bone Space로 바꿔주는 Inverse Bind Pose Matrix.
-	};
+	//struct Bone_AssetData
+	//{
+	//	Bone_AssetData();
+	//
+	//	std::string _name; //Bone 이름, NodeName과 1대1 매칭될 것.
+	//	unsigned int _numWeights; // 이 Bone에 의해 영향 받는 Vertex 개수.
+	//	DirectX::SimpleMath::Matrix _offsetMatrix; //Mesh Space -> Bone Space로 바꿔주는 Inverse Bind Pose Matrix.
+	//};
 
 	//각 Mesh당 저장될 AABB 데이터.
 	struct AABB_AssetData
@@ -57,6 +64,9 @@ namespace Pg::Graphics
 	//렌더에 필요한 Mesh의 정보만 보관 및, 렌더에 활용될 것. 
 	struct Mesh_AssetData
 	{
+		//자기 자신이 속한 노드 인덱스.
+		UINT _belongNodeIndex = 0;
+
 		//Vertex Starting Points Per Mesh (이때부터 자신을 Draw) == BaseVertex
 		unsigned int _vertexOffset = 0;
 
@@ -111,21 +121,9 @@ namespace Pg::Graphics
 		//Bone 연산에 필요한 Global Inverse Transform.
 		DirectX::SimpleMath::Matrix _meshGlobalInverseTransform;
 
-		//매핑될 Bone Info 벡터, 포인터가 RenderAnimation 쪽에서도 계산의 편의를 위해 저장됨.
-		std::vector<BoneInfo_AssetData> _renderBoneInfoVector;
-
-		//Bone Mapping 정보 저장.
-		std::map<std::string, unsigned int> _mappedBones;
-		unsigned int _numFormationBone;
-
-		//재귀식으로 나열된 Node들의 리스트를 Linear하게 나열. 렌더될 때 활용될 것이다.
-		//이에 호환되는 NodeAnim들의 리스트는 RenderAnimation에 저장.
-		//(NodeAnim이 결부 안된 노드들은, 해당 인덱스를 nullptr로 RenderAnimation에 저장.)
-		//SceneData에 호환되는 데이터의 RawPointer들로 나열되어 있다.
-		//이론상, 순서대로 돌리면 재귀와 같은 값이 나와야 한다.
-		//first는 nullptr일 수 없다. second는 nullptr라면 RootNode이다.
-		//자기 자신의 NodeAssetData / 부모의 NodeAssetData.
-		std::vector<std::pair<const Node_AssetData* const, const Node_AssetData* const>> _linearizedNodeHierarchy;
+		//개별적인 인스턴스로 이동.
+		//명시적으로 Node들의 List를 가지고 있음 -> String 값을 통해 Node들을 찾을 수 있음.
+		//std::unordered_map<std::string, const Node_AssetData*> _animatedNodeMap;
 
 		//RenderAnimation 자체가 자료에 접근해서, 호환되는 자신을 추가한다.
 		std::map<std::string, RenderAnimation*> _viableAnimations;

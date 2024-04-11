@@ -19,8 +19,6 @@ Pg::Editor::Window::ToolBar::ToolBar()
 	_widgetCon = std::make_unique<Pg::UI::WidgetContainer>();
 
 	_editorManaged = std::make_unique<Pg::Editor::Event>();
-
-	_editorModeType = new Pg::Data::Enums::eEditorMode();
 }
 
 Pg::Editor::Window::ToolBar::~ToolBar()
@@ -30,15 +28,8 @@ Pg::Editor::Window::ToolBar::~ToolBar()
 
 void Pg::Editor::Window::ToolBar::Initialize()
 {
-	auto& startBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Start", 80.f, 25.f);
-	_isStartBtnClick = startBtn.GetBtnClick();
-
-	auto& pauseBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Pause", 80.f, 25.f);
-	_isPauseBtnClick = pauseBtn.GetBtnClick();
-
-	auto& stopBtn = _widgetCon->CreateWidget<Pg::UI::Widget::Button>("Stop", 80.f, 25.f);
-	_isStopBtnClick = stopBtn.GetBtnClick();
-
+	_widgetCon->CreateWidget<Pg::UI::Widget::Button>("Start", 80.f, 25.f, _isStartBtnClick);
+	_widgetCon->CreateWidget<Pg::UI::Widget::Button>("Stop", 80.f, 25.f, _isStopBtnClick);
 	_widgetCon->CreateWidget<Pg::UI::Widget::RadioButton>("Translate", _gizmoType);
 	_widgetCon->CreateWidget<Pg::UI::Widget::RadioButton>("Rotate", _gizmoType);
 	_widgetCon->CreateWidget<Pg::UI::Widget::RadioButton>("Scale", _gizmoType);
@@ -48,30 +39,24 @@ void Pg::Editor::Window::ToolBar::Update()
 {
 	_uiManager->WindowBegin(_winName);
 
-	_uiManager->SetAlignCenter(3, 80.0f);
+	_uiManager->SetAlignCenter(2, 80.0f);
 	_widgetCon->SameLine(true, 2);
 	_widgetCon->Update();
 
-	if (*_isStartBtnClick)
+	if (_isStartBtnClick)
 	{
-		*_editorModeType = Pg::Data::Enums::eEditorMode::_PLAY;
-		_editorManaged->Invoke(eEventType::_EDITORMODE, _editorModeType);
-		_editorManaged->Invoke(eEventType::_EDITORDISABLE, static_cast<void*>(_isStartBtnClick));
+		_editorModeType = Pg::Data::Enums::eEditorMode::_PLAY;
+		_editorManaged->Invoke(eEventType::_EDITORMODE, static_cast<void*>(&_editorModeType));
+		_editorManaged->Invoke(eEventType::_EDITORDISABLE, static_cast<void*>(&_isStartBtnClick));
 	}
 
-	if (*_isPauseBtnClick)
+	if (_isStopBtnClick)
 	{
-		*_editorModeType = Pg::Data::Enums::eEditorMode::_PAUSE;
-		_editorManaged->Invoke(eEventType::_EDITORMODE, _editorModeType);
-	}	
-	
-	if (*_isStopBtnClick)
-	{
-		*_editorModeType = Pg::Data::Enums::eEditorMode::_EDIT;
-		_editorManaged->Invoke(eEventType::_EDITORMODE, _editorModeType);
+		_editorModeType = Pg::Data::Enums::eEditorMode::_EDIT;
+		_editorManaged->Invoke(eEventType::_EDITORMODE, static_cast<void*>(&_editorModeType));
 
-		*_isStopBtnClick = false;
-		_editorManaged->Invoke(eEventType::_EDITORDISABLE, static_cast<void*>(_isStartBtnClick));
+		_isStopBtnClick = false;
+		_editorManaged->Invoke(eEventType::_EDITORDISABLE, static_cast<void*>(&_isStartBtnClick));
 	}	
 	
 	if(_prevGizmoType.compare(_gizmoType) == -1) _editorManaged->Invoke(eEventType::_GIZMOTYPE, static_cast<void*>(&_gizmoType));

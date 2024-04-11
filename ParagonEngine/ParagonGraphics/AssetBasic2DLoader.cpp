@@ -249,6 +249,7 @@ namespace Pg::Graphics::Loader
 			//TGA 기준 MipMap 생성.
 			HR(DirectX::GenerateMipMaps(image->GetImages(), image->GetImageCount(), image->GetMetadata(), DirectX::TEX_FILTER_DEFAULT, (size_t)NULL, *(mipChain.get())));
 
+
 			//내부적으로 처리됨.
 			HR(DirectX::CreateShaderResourceView(
 				_DXStorage->_device, mipChain->GetImages(), mipChain->GetImageCount(), mipChain->GetMetadata(), &(outTextureData->GetSRV())));
@@ -257,6 +258,9 @@ namespace Pg::Graphics::Loader
 			ID3D11Resource* res = nullptr;
 			outTextureData->GetSRV()->GetResource(&res);
 			outTextureData->GetResource() = res;
+			
+			//GenerateMips 테스트.
+			_DXStorage->_deviceContext->GenerateMips(outTextureData->GetSRV());
 		}
 		else
 		{
@@ -270,10 +274,10 @@ namespace Pg::Graphics::Loader
 			//FORCE -> RGBA32
 			HR(DirectX::CreateWICTextureFromFileEx(_DXStorage->_device, tWStrPath.c_str(), NULL, D3D11_USAGE_DEFAULT, tBindingFlags, tCPUAccessFlags, tMiscFlags,
 				DirectX::WIC_LOADER_FORCE_RGBA32, &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
+		
+			//GenerateMips 테스트.
+			_DXStorage->_deviceContext->GenerateMips(outTextureData->GetSRV());
 		}
-
-		//GenerateMips 테스트.
-		_DXStorage->_deviceContext->GenerateMips(outTextureData->GetSRV());
 	}
 
 	void AssetBasic2DLoader::MultipleRenderTexture2DToTexture2DArray(RenderTexture2D** textureSrc, unsigned int cnt, RenderTexture2DArray* outTextureData)

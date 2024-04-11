@@ -126,6 +126,11 @@ namespace Pg::Graphics
 
 	void FinalRenderer::SetObjectIDSelected(unsigned int val)
 	{
+		if (val == 0)
+		{
+			return;
+		}
+
 		_pickedObjID = val;
 	}
 	

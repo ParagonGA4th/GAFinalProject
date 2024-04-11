@@ -64,6 +64,8 @@ namespace Pg::Engine
 			const Pg::Data::BuildSettings& buildSettings = Pg::Data::BuildSettings{})
 		{
 			static_assert(sizeof(Pg::Math::PGFLOAT3) == sizeof(float) * 3);
+			if(worldVertices.empty() && faces.empty()) return;
+
 			assert(!worldVertices.empty() && !faces.empty());
 			assert(faces.size() % 3 == 0);
 			BuildPlaneNavMesh(reinterpret_cast<float*>(&(worldVertices[0].x)), worldVertices.size(), &faces[0], faces.size() / 3, buildSettings);

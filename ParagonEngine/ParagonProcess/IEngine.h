@@ -3,6 +3,7 @@
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/DebugData.h"
+#include "../ParagonData/EditorMode.h"
 #include <string>
 #include <vector>
 
@@ -17,6 +18,8 @@ namespace Pg::Core
 	{
 	public:
 		virtual void Initialize(void* hwnd, float width, float height, const std::string& resourceListPath) abstract;
+
+		virtual void SetEditorMode(Pg::Data::Enums::eEditorMode editorMode) abstract;
 
 		virtual void Update() abstract;
 
@@ -53,5 +56,8 @@ namespace Pg::Core
 
 		//델타타임 반환.
 		virtual float GetDeltaTime() abstract;
+
+		//씬이 바뀌었다고 다른 파트들에게 알려줄 수 있다. 안 바뀌었을시 Nullptr.
+		virtual Pg::Data::Scene* NotifyIfChangedScene() abstract;
 	};
 }
