@@ -45,10 +45,18 @@ namespace Pg::UI::Layout
 			ImGui::Columns(1);
 		}
 
+		virtual std::string GetWidgetLabel() override;
+
 	private:
 		std::vector<Pg::UI::IWidget*> _widgets;
 		std::string _id;
 		int _wideColumn;
 	};
+
+	template <size_t _size>
+	std::string Pg::UI::Layout::Column<_size>::GetWidgetLabel()
+	{
+		return _id;
+	}
 }
 

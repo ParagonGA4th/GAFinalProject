@@ -91,32 +91,39 @@ namespace Pg::Engine
 		_soundSystem->Initialize(resourceListPath);
 		_navSystem->Initialize();
 		_behaviorTreeSystem->Initialize(resourceListPath);
+
+		PG_WARN("현재 TestScene 바뀔 시 씬 내부 정보가 날아가서 Start/Stop 조정이 안되는 상황. 강제로 Engine에 일단은 Editor Mode 영향 안 미치게 바꿔놓음. Engine Main Update에 오버라이드 코드 있음. (TOFIX)");
 	}
 
 	void EngineMain::Update()
-	{	
-		_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
-		_physicSystem->Flush();
-		_sceneSystem->Update();
-		_soundSystem->Update();
-		_navSystem->Update(_timeSystem->GetDeltaTime());
-		_behaviorTreeSystem->Update();
-		_physicSystem->UpdateTransform();
-		_debugSystem->Update(_sceneSystem->GetCurrentScene());
-		
+	{
+		//외적인 SceneLoad 로직 Start 관련, 항상 SceneSystem 체크한다.
+		_sceneSystem->DebounceSceneLoadStatus();
 
-		 static bool tTest = false;
-		if (!tTest)
+		///여기가 바뀜, 이거 유지되면 안돼!!!
+		_prevRecordedEditMode = Data::Enums::eEditorMode::_PLAY;
+		///
+		
+		//기록된 Edit Mode가 EDIT/NONE으로 설정되었을시, 실행을 Update를 실행하지 않는다.
+		//Early Return.
+		if (_prevRecordedEditMode == Data::Enums::eEditorMode::_NONE ||
+			_prevRecordedEditMode == Data::Enums::eEditorMode::_EDIT)
 		{
-			PG_TRACE("Debugger Used In ParagonGameEngine!");
-			tTest = true;
+			//Internal 함수들만 호출.
+			_sceneSystem->Update(false);
 		}
-
-		/*if(_inputSystem->GetKey(API::Input::MouseLeft))
+		else
 		{
-			PG_TRACE("INPUTSYSTEM WORKS!");
-		}*/
-		
+			//Internal 함수들 + 게임 내부 로직 업데이트 함수 활용.
+			_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
+			_physicSystem->Flush();
+			_sceneSystem->Update(true);
+			_soundSystem->Update();
+			_navSystem->Update(_timeSystem->GetDeltaTime());
+			_behaviorTreeSystem->Update();
+			_physicSystem->UpdateTransform();
+			_debugSystem->Update(_sceneSystem->GetCurrentScene());
+		}
 	}
 
 	void EngineMain::Finalize()
@@ -138,7 +145,7 @@ namespace Pg::Engine
 
 	void EngineMain::SetSceneList(std::vector<Pg::Data::Scene*> sceneList)
 	{
-		//return _sceneSystem->GetCurrentScene();
+		_sceneSystem->SetSceneList(sceneList);
 	}
 
 	void EngineMain::SetCurrentScene(Pg::Data::Scene* currentScene)
@@ -147,11 +154,7 @@ namespace Pg::Engine
 		if (currentScene != nullptr)
 		{
 			_sceneSystem->SetCurrentScene(currentScene);
-			_sceneSystem->_isStarted = false;
 		}
-
-		//_sceneSystem->SetSceneData(currentScene);
-
 	}
 
 	Pg::Data::Scene* EngineMain::GetCurrentScene()
@@ -216,5 +219,22 @@ namespace Pg::Engine
 		return _timeSystem->GetDeltaTime();
 	}
 
-	
+	Pg::Data::Scene* EngineMain::NotifyIfChangedScene()
+	{
+		if (!_sceneSystem->GetIsStartedScene())
+		{
+			return _sceneSystem->GetCurrentScene();
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
+
+	void EngineMain::SetEditorMode(Pg::Data::Enums::eEditorMode editorMode)
+	{
+		//기존의 Editor Mode Enum 기록.
+		_prevRecordedEditMode = editorMode;
+	}
+
 }

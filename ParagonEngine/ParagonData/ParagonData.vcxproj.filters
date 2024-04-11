@@ -250,6 +250,9 @@
     <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastRegion.cpp">
       <Filter>2_Component\Navigation\src\Recast</Filter>
     </ClCompile>
+    <ClCompile Include="AnimTransform.cpp">
+      <Filter>2_Component\AnimTransform</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -547,6 +550,9 @@
     <ClInclude Include="BuildSettings.h">
       <Filter>2_Component\Navigation\NavigationField\FieldSetting</Filter>
     </ClInclude>
+    <ClInclude Include="AnimTransform.h">
+      <Filter>2_Component\AnimTransform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -821,6 +827,9 @@
     </Filter>
     <Filter Include="2_Component\Navigation\NavigationField\FieldSetting">
       <UniqueIdentifier>{8dbd8285-3186-42ae-9f92-577cca93dcc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\AnimTransform">
+      <UniqueIdentifier>{6bd232b2-bcfc-48ef-b9c7-e6249f57f0fc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

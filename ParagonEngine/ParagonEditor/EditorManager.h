@@ -24,5 +24,3 @@ namespace Pg::Editor::Manager
 		std::unique_ptr<Pg::Editor::Manager::WindowManager> _windowManager;
 	};
 }
-
-

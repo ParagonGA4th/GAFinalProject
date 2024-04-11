@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 namespace Pg::UI
 {
@@ -8,6 +9,7 @@ namespace Pg::UI
 	public:
 		// Draw 
 		virtual void Update() abstract;
+		virtual std::string GetWidgetLabel() abstract;
 	};
 }
 

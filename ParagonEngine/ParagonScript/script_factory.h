@@ -23,21 +23,21 @@ namespace Pg::Factory::Script
  //#define FACTORY_NO_ARDUINO_ASSERT
 
  // define FACTORY_TYPE_NAME in your code if you want to change Factory<...> to some other name, in case of a name conflict.
-#ifndef FACTORY_TYPE_NAME
-#define FACTORY_TYPE_NAME Factory
+#ifndef SCRIPT_FACTORY_TYPE_NAME
+#define SCRIPT_FACTORY_TYPE_NAME ScriptFactory
 #endif
 
 // define FACTORY_KEY_TYPE in your code if you want to change the type of the key from const char* to something else.
-#ifndef FACTORY_KEY_TYPE
+#ifndef SCRIPT_FACTORY_KEY_TYPE
 #define FACTORY_KEY_TYPE_IS_DEFAULT
-#define FACTORY_KEY_TYPE const char*
+#define SCRIPT_FACTORY_KEY_TYPE const char*
 #endif
 
 // define FACTORY_KEY_COMPARATOR in your code if you want to change the comparator that is used for the map key.
 // by default it will use cmp_cstr (defined in this header) as a comparison, or std::equal_to<T> if you've defined FACTORY_KEY_TYPE
-#ifndef FACTORY_KEY_COMPARATOR
+#ifndef SCRIPT_FACTORY_KEY_COMPARATOR
 #ifdef FACTORY_KEY_TYPE_IS_DEFAULT
-#define FACTORY_KEY_COMPARATOR cmp_cstr
+#define SCRIPT_FACTORY_KEY_COMPARATOR cmp_cstr
 #else
 #define FACTORY_KEY_COMPARATOR std::equal_to<FACTORY_KEY_TYPE>
 #endif
@@ -56,7 +56,7 @@ std::unique_ptr<T> make_unique(Args&&... args)
 #endif
 #define FACTORY_T_PTR std::unique_ptr<T>
 #else
-#define FACTORY_T_PTR T*
+#define SCRIPT_FACTORY_T_PTR T*
 #endif
 
 // compare type for map<> so we can use const char* as a key
@@ -70,27 +70,27 @@ struct cmp_cstr
 
 // main factory type. T is the base type for the factory, TArgs are the types of the arguments passed to the constructor
 template<typename T, typename ...TArgs>
-class FACTORY_TYPE_NAME
+class SCRIPT_FACTORY_TYPE_NAME
 {
 public:
-    FACTORY_TYPE_NAME() = delete;
+    SCRIPT_FACTORY_TYPE_NAME() = delete;
 
     // registration function. takes a unique key for the type, and a pointer to a function that creates an instance of the type.
     // FACTORY_T_PTR is usually T*, but it may be unique_ptr<T>
-    static bool Register(FACTORY_KEY_TYPE key, FACTORY_T_PTR(*funcCreate)(TArgs...));
+    static bool Register(SCRIPT_FACTORY_KEY_TYPE key, SCRIPT_FACTORY_T_PTR(*funcCreate)(TArgs...));
 
     // creates an instance of a type, by its key, with the provided constructor arguments.
-    static FACTORY_T_PTR Create(FACTORY_KEY_TYPE key, TArgs... args);
+    static SCRIPT_FACTORY_T_PTR Create(SCRIPT_FACTORY_KEY_TYPE key, TArgs... args);
 
     // returns true if a type is registered with a factory with the given key.
-    static bool IsRegistered(FACTORY_KEY_TYPE key);
+    static bool IsRegistered(SCRIPT_FACTORY_KEY_TYPE key);
 
 private:
     // internal function that is used to get at the map, initialising it on first access.
     // this is how we avoid undefined behaviour with static member initialisation order >:)
-    static std::map<FACTORY_KEY_TYPE, FACTORY_T_PTR(*)(TArgs...), FACTORY_KEY_COMPARATOR>* GetMap()
+    static std::map<SCRIPT_FACTORY_KEY_TYPE, SCRIPT_FACTORY_T_PTR(*)(TArgs...), SCRIPT_FACTORY_KEY_COMPARATOR>* GetMap()
     {
-        static std::map<FACTORY_KEY_TYPE, FACTORY_T_PTR(*)(TArgs...), FACTORY_KEY_COMPARATOR> registeredTypesInternal;
+        static std::map<SCRIPT_FACTORY_KEY_TYPE, SCRIPT_FACTORY_T_PTR(*)(TArgs...), SCRIPT_FACTORY_KEY_COMPARATOR> registeredTypesInternal;
         return &registeredTypesInternal;
     }
 
@@ -110,7 +110,7 @@ public:
     // get the key of the type at the given index
     // WARNING: this is O(n) on the index, so if you call this for every index in the factory this is O(n log n). this only matters in critical paths.
     // if you want to access by index instead of key, I recommend keeping your own map of the indices to keys.
-    static FACTORY_KEY_TYPE GetKeyByIndex(size_t index)
+    static SCRIPT_FACTORY_KEY_TYPE GetKeyByIndex(size_t index)
     {
 #if ARDUINO && !FACTORY_NO_ARDUINO_ASSERT
         // assertion fail on Arduino, rather than returning nullptr.
@@ -129,7 +129,7 @@ public:
 
 // register a type with the factory
 template<typename T, typename ...TArgs>
-bool FACTORY_TYPE_NAME<T, TArgs...>::Register(FACTORY_KEY_TYPE key, FACTORY_T_PTR(*funcCreate)(TArgs...))
+bool SCRIPT_FACTORY_TYPE_NAME<T, TArgs...>::Register(SCRIPT_FACTORY_KEY_TYPE key, SCRIPT_FACTORY_T_PTR(*funcCreate)(TArgs...))
 {
     auto registeredTypes = GetMap();
     auto typeTuple = registeredTypes->find(key);
@@ -143,13 +143,13 @@ bool FACTORY_TYPE_NAME<T, TArgs...>::Register(FACTORY_KEY_TYPE key, FACTORY_T_PT
 
 // create a type by its key
 template<typename T, typename ...TArgs>
-FACTORY_T_PTR FACTORY_TYPE_NAME<T, TArgs...>::Create(FACTORY_KEY_TYPE key, TArgs... args)
+SCRIPT_FACTORY_T_PTR SCRIPT_FACTORY_TYPE_NAME<T, TArgs...>::Create(SCRIPT_FACTORY_KEY_TYPE key, TArgs... args)
 {
     auto registeredTypes = GetMap();
     auto typeTuple = registeredTypes->find(key);
     if (typeTuple != registeredTypes->end())
     {
-        FACTORY_T_PTR(*funcCreate)(TArgs...) = typeTuple->second;
+        SCRIPT_FACTORY_T_PTR(*funcCreate)(TArgs...) = typeTuple->second;
         return funcCreate(args...);
     }
     return nullptr;
@@ -157,7 +157,7 @@ FACTORY_T_PTR FACTORY_TYPE_NAME<T, TArgs...>::Create(FACTORY_KEY_TYPE key, TArgs
 
 // return true if the given type is registered
 template<typename T, typename ...TArgs>
-bool FACTORY_TYPE_NAME<T, TArgs...>::IsRegistered(FACTORY_KEY_TYPE key)
+bool SCRIPT_FACTORY_TYPE_NAME<T, TArgs...>::IsRegistered(SCRIPT_FACTORY_KEY_TYPE key)
 {
     auto registeredTypes = GetMap();
     auto typeTuple = registeredTypes->find(key);
@@ -172,16 +172,16 @@ class RegisteredInFactory
 {
 protected:
     // this is the static field whose initialisation triggers the registration
-    static bool _FACTORY_INIT;
+    static bool _SCRIPT_FACTORY_INIT;
 };
 
 // registration initialiser
 template<typename TParent, typename TClass, typename ...TArgs>
-bool RegisteredInFactory<TParent, TClass, TArgs...>::_FACTORY_INIT = FACTORY_TYPE_NAME<TParent, TArgs...>::Register(TClass::GetFactoryKey(), TClass::CreateInstance);
+bool RegisteredInFactory<TParent, TClass, TArgs...>::_SCRIPT_FACTORY_INIT = SCRIPT_FACTORY_TYPE_NAME<TParent, TArgs...>::Register(TClass::GetFactoryKey(), TClass::CreateInstance);
 
 // if you've got one constructor, reference this in your class constructor to prevent the compiler from yeeting the initialiser and template during optimisation
-#define FACTORY_INIT (void)_FACTORY_INIT;
+#define SCRIPT_FACTORY_INIT (void)_SCRIPT_FACTORY_INIT;
 // if you've got multiple constructors, reference this in each of your class constructors, using the same type parameters as you applied to RegisteredInFactory<...>
-#define FACTORY_INIT_MANY(...) (void)(RegisteredInFactory<__VA_ARGS__>::_FACTORY_INIT);
+//#define FACTORY_INIT_MANY(...) (void)(RegisteredInFactory<__VA_ARGS__>::_FACTORY_INIT);
 
 }

@@ -29,3 +29,8 @@ bool* Pg::UI::Widget::Selectable::GetSelectedObjectDoubleClicked()
 {
 	return &_isDoubleClicked;
 }
+
+std::string Pg::UI::Widget::Selectable::GetWidgetLabel()
+{
+	return "Selectable";
+}

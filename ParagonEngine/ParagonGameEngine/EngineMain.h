@@ -28,6 +28,7 @@ namespace Pg::Data
 {
 	struct CameraData;
 	struct BoxInfo;
+	class Scene;
 }
 
 namespace Pg::Engine
@@ -70,6 +71,7 @@ namespace Pg::Engine
 		virtual ~EngineMain();
 
 		PARAGON_ENGINE_DLL virtual void Initialize(void* hwnd, float width, float height, const std::string& resourceListPath) override;
+		PARAGON_ENGINE_DLL virtual void SetEditorMode(Pg::Data::Enums::eEditorMode editorMode) override;
 		PARAGON_ENGINE_DLL virtual void Update() override;
 		PARAGON_ENGINE_DLL virtual void Finalize() override;
 
@@ -97,8 +99,11 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL virtual void ClearDebugVectorData() override;
 
 		PARAGON_ENGINE_DLL virtual float GetDeltaTime() override;
-	private:
 
+		//씬이 바뀌었는지 다른 파트들에게 알려줄 수 있다. nullptr이면 안 변했던 것.
+		PARAGON_ENGINE_DLL virtual Pg::Data::Scene* NotifyIfChangedScene() override;
+			
+	private:
 		Pg::Core::ProcessMain* _coreMain = nullptr;
 
 		Physic::PhysicSystem* _physicSystem = nullptr;
@@ -110,6 +115,8 @@ namespace Pg::Engine
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
 
 		Pg::Util::Time::TimeSystem* _timeSystem = nullptr; //제어권은 더이상 엔진에는 없다.
+
+		Pg::Data::Enums::eEditorMode _prevRecordedEditMode{ Data::Enums::eEditorMode::_NONE };
 	};
 }
 

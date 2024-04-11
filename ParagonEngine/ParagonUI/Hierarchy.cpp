@@ -4,12 +4,19 @@
 #include <algorithm>
 
 Pg::UI::Widget::Hierarchy::Hierarchy(std::map<int, std::pair<std::string, std::vector<std::string>>>& objNameList)
-	:_objNameList(objNameList), _mode(1), _isNodeOpen(false), _isNodeSelected(false)
+	:_objNameList(objNameList), _mode(1), _isNodeOpen(false), _isNodeSelected(false), _isAddObject(false), _isDeleteObject(false)
 {
 }
 
 void Pg::UI::Widget::Hierarchy::Update()
 {
+	_isDeleteObject = ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Delete));
+
+	if (ImGui::Button("+", ImVec2(30, 30))) { _isAddObject = true; }
+	else _isAddObject = false;
+	
+	ImGui::SameLine();
+	
 	if (ImGui::RadioButton("Group", _mode == GROUP)) { _mode = GROUP; } ImGui::SameLine();
 	if (ImGui::RadioButton("Move", _mode == MOVE)) { _mode = MOVE; }
 
@@ -109,4 +116,19 @@ void Pg::UI::Widget::Hierarchy::Update()
 std::string* Pg::UI::Widget::Hierarchy::GetSelectObjectName()
 {
 	return &selectObj;
+}
+
+bool* Pg::UI::Widget::Hierarchy::GetBtnClick()
+{
+	return &_isAddObject;
+}
+
+bool* Pg::UI::Widget::Hierarchy::GetKeyDeleteInput()
+{
+	return &_isDeleteObject;
+}
+
+std::string Pg::UI::Widget::Hierarchy::GetWidgetLabel()
+{
+	return "Hierarchy";
 }

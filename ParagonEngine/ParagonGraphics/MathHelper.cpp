@@ -1,5 +1,7 @@
 #include "MathHelper.h"
+#include "../ParagonData/GameConstantData.h"
 #include <cstring>
+#include <cassert>
 
 namespace Pg::Graphics::Helper
 {
@@ -55,41 +57,41 @@ namespace Pg::Graphics::Helper
 	{
 		// IIFE 람다 즉시 호출, goto문 사용을 피했다!
 		bool tIsEqual = [&first, &second]
-		{
-			for (short i = 0; i < 3; i++)
 			{
-				for (short j = 0; j < 3; j++)
+				for (short i = 0; i < 3; i++)
 				{
-					if (first.m[j][i] != second.m[j][i])
+					for (short j = 0; j < 3; j++)
 					{
-						return false;
+						if (first.m[j][i] != second.m[j][i])
+						{
+							return false;
+						}
 					}
 				}
-			}
-			return true;
-		}();
+				return true;
+			}();
 
-		return tIsEqual;
+			return tIsEqual;
 	}
 
 	bool MathHelper::IsEqualXMFloat4X4(DirectX::XMFLOAT4X4 first, DirectX::XMFLOAT4X4 second)
 	{
 		bool tIsEqual = [&first, &second]
-		{
-			for (short i = 0; i < 4; i++)
 			{
-				for (short j = 0; j < 4; j++)
+				for (short i = 0; i < 4; i++)
 				{
-					if (first.m[j][i] != second.m[j][i])
+					for (short j = 0; j < 4; j++)
 					{
-						return false;
+						if (first.m[j][i] != second.m[j][i])
+						{
+							return false;
+						}
 					}
 				}
-			}
-			return true;
-		}(); // IIFE 람다 즉시 호출, goto문 사용을 피했다!
+				return true;
+			}(); // IIFE 람다 즉시 호출, goto문 사용을 피했다!
 
-		return tIsEqual;
+			return tIsEqual;
 	}
 
 	DirectX::SimpleMath::Matrix MathHelper::AI2SM_MATRIX(const aiMatrix4x4& mat)
@@ -143,7 +145,7 @@ namespace Pg::Graphics::Helper
 			DirectX::XMMatrixTranslationFromVector(ttTranslate) *
 			DirectX::XMMatrixRotationQuaternion(ttRotQuat) *
 			DirectX::XMMatrixScalingFromVector(ttScale);*/
-			
+
 		mat = tAssembleTransform;
 	}
 
@@ -220,6 +222,78 @@ namespace Pg::Graphics::Helper
 
 		return { rotatedVector.x, rotatedVector.y, rotatedVector.z };
 	}
-	
+
+	DirectX::XMMATRIX MathHelper::AI2XM_MATRIX(const aiMatrix4x4& matrix)
+	{
+		DirectX::XMMATRIX m;
+
+		m.r[0].m128_f32[0] = matrix.a1;
+		m.r[0].m128_f32[1] = matrix.a2;
+		m.r[0].m128_f32[2] = matrix.a3;
+		m.r[0].m128_f32[3] = matrix.a4;
+
+		m.r[1].m128_f32[0] = matrix.b1;
+		m.r[1].m128_f32[1] = matrix.b2;
+		m.r[1].m128_f32[2] = matrix.b3;
+		m.r[1].m128_f32[3] = matrix.b4;
+
+		m.r[2].m128_f32[0] = matrix.c1;
+		m.r[2].m128_f32[1] = matrix.c2;
+		m.r[2].m128_f32[2] = matrix.c3;
+		m.r[2].m128_f32[3] = matrix.c4;
+
+		m.r[3].m128_f32[0] = matrix.d1;
+		m.r[3].m128_f32[1] = matrix.d2;
+		m.r[3].m128_f32[2] = matrix.d3;
+		m.r[3].m128_f32[3] = matrix.d4;
+
+		return m;
+	}
+
+	DirectX::XMVECTOR MathHelper::UnprojectScreenPointToWorldSpaceRay(DirectX::XMVECTOR screenPoint, DirectX::XMMATRIX viewProjection, DirectX::XMVECTOR viewportSize, DirectX::XMVECTOR viewportOrigin)
+	{
+		using namespace DirectX;
+
+		// 스크린 스페이스를 NDC Range [-1, 1]로 조절.
+		XMVECTOR point = XMVectorSet(
+			(screenPoint.m128_f32[0] - viewportOrigin.m128_f32[0]) / viewportSize.m128_f32[0] * 2.0f - 1.0f,
+			(screenPoint.m128_f32[1] - viewportOrigin.m128_f32[1]) / viewportSize.m128_f32[1] * -2.0f + 1.0f,
+			screenPoint.m128_f32[2],
+			1.0f
+		);
+
+		//스크린 스페이스에서 월드 스페이스 Ray로 "역투영".
+		XMMATRIX viewProjectionInverse = XMMatrixInverse(nullptr, viewProjection);
+		XMVECTOR rayOrigin = XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f);
+		XMVECTOR rayDir = XMVector3TransformCoord(point, viewProjectionInverse);
+		rayDir = XMVector3Normalize(rayDir);
+
+		return rayDir;
+	}
+
+	DirectX::XMVECTOR MathHelper::GetWorldPointFromScreenPoint_Depth(float screenPtX, float screenPtY, DirectX::XMMATRIX viewProjection, DirectX::XMMATRIX projectionMatrix, DirectX::XMVECTOR viewportSize, DirectX::XMVECTOR viewportOrigin, float depth)
+	{
+		using namespace DirectX;
+
+		XMVECTOR screenPoint = XMVectorSet(screenPtX, screenPtY, 0.0f, 0.0f);
+		XMVECTOR rayDir = UnprojectScreenPointToWorldSpaceRay(screenPoint, viewProjection, viewportSize, viewportOrigin);
+		XMVECTOR rayOrigin = XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f);
+
+		//유효한 범위 안이어야 한다. 아닐 시 assert.
+		assert(screenPtX >= 0 && screenPtX < Pg::Data::GameConstantData::WIDTH && 
+			screenPtY >= 0 && screenPtY < Pg::Data::GameConstantData::HEIGHT);
+		
+		//Depth 값은 밖에서 연산해 온다.
+		XMVECTOR projectedPoint = XMVectorSet(screenPoint.m128_f32[0], screenPoint.m128_f32[1], depth, 1.0f);
+		XMVECTOR worldPoint = XMVector3TransformCoord(projectedPoint, XMMatrixInverse(nullptr, projectionMatrix));
+		return worldPoint;
+
+		//사용 용례:
+		//XMVECTOR viewportSize = XMVectorSet(viewportWidth, viewportHeight, 1.0f, 1.0f);
+		//XMVECTOR viewportOrigin = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
+		//
+		//// View-projection matrix (combined from view and projection matrices)
+		//XMMATRIX viewProjection = viewMatrix * projectionMatrix;
+	}
 
 }

@@ -10,3 +10,8 @@ void Pg::UI::Widget::Text::Update()
 {
 	ImGui::Text(_context.c_str());
 }
+
+std::string Pg::UI::Widget::Text::GetWidgetLabel()
+{
+	return "Text";
+}

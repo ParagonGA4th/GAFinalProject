@@ -6,8 +6,8 @@
 #include "../ParagonUI/WidgetContainer.h"
 #include "../ParagonUI/MenuBar.h"
 
-#include <singleton-cpp/singleton.h>
 #include <map>
+#include <singleton-cpp/singleton.h>
 
 Pg::Editor::Window::Layout::Layout()
 	:_winName("dockSpace"), _isShow(true)

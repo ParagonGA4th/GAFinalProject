@@ -1,6 +1,6 @@
 #include "Camera.h"
 #include "GameObject.h"
-
+#include "GameConstantData.h"
 #include "CameraData.h"
 #include <cmath>
 #include <numbers>
@@ -19,7 +19,7 @@ namespace Pg::Data
 		//SetProjectionLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 	}
 
-	void Camera::Update()
+	void Camera::Internal_EngineUpdate()
 	{
 		//Projection Matrix는 종횡비를 Data딴에서 알 수 없기 때문에 이를 알고 있는 곳에서 만들어진다.
 		//반면, View Matrix는 Camera가 전적으로 담당해야 한다.
@@ -144,4 +144,33 @@ namespace Pg::Data
 		_projMatrix = Pg::Math::PGMatrixPerspectiveFovLH(_fovY, _cameraData->_aspect, _nearZ, _farZ);
 		_cameraData->_projMatrix = _projMatrix;
 	}
+
+	void Camera::ScreenPointToRayInfo(Pg::Math::PGFLOAT2 screenPointNormalized, Pg::Math::PGFLOAT3& outRayOrigin, Pg::Math::PGFLOAT3& outRayDir)
+	{
+		using namespace Pg::Math;
+		using namespace DirectX;
+
+		//역투영 : 정규화된 ScreenPoint를 뷰 공간으로!
+		Pg::Data::CameraData* tCamData = GetCameraData();
+		XMMATRIX viewMat = PG2XM_MATRIX4X4(tCamData->_viewMatrix);
+		XMMATRIX projMat = PG2XM_MATRIX4X4(tCamData->_projMatrix);
+
+		//Pixel 기준으로 받기. GameConstantData 기준.
+		XMFLOAT2 tSP = PG2XM_FLOAT2(screenPointNormalized);
+		tSP.x *= GameConstantData::WIDTH;
+		tSP.y *= GameConstantData::HEIGHT;
+		XMVECTOR screenPointInPixels = XMLoadFloat2(&tSP);
+
+		//RayNear / Ray Far 구하기 (Direction을 구하기 위해.
+		XMVECTOR rayNear = XMVector3Unproject(screenPointInPixels, 0, 0, GameConstantData::WIDTH, GameConstantData::HEIGHT,
+			tCamData->_nearZ, tCamData->_nearZ, projMat, viewMat, PG2XM_MATRIX4X4(_object->_transform.GetWorldTM()));
+
+		XMVECTOR rayFar = XMVector3Unproject(screenPointInPixels, 0, 0, GameConstantData::WIDTH, GameConstantData::HEIGHT,
+			tCamData->_nearZ, tCamData->_farZ, projMat, viewMat, PG2XM_MATRIX4X4(_object->_transform.GetWorldTM()));
+
+		// 레이 방향과 오리진 -> 참조자로 리턴.
+		outRayDir = XM2PG_FLOAT3_VECTOR(XMVector3Normalize(XMVectorSubtract(rayFar, rayNear)));
+		outRayOrigin = XM2PG_FLOAT3_VECTOR(rayNear);
+	}
+
 }

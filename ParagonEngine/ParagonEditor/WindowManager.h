@@ -1,7 +1,6 @@
 #pragma once
 #include <windows.h>
 #include <vector>
-#include <memory>
 
 namespace Pg::Editor { class Event; }
 namespace Pg::Editor::Data { class DataContainer; }
@@ -28,7 +27,6 @@ namespace Pg::Editor::Manager
 		Pg::UI::Manager::UIManager* _uiManager;
 		Pg::Editor::Data::DataContainer* _dataContainer;
 		std::vector<Pg::Editor::Window::IEditorWindow*> _windows;
-		std::unique_ptr<Pg::Editor::Event> _windowAble;
 
 		bool _isDisable;
 	};

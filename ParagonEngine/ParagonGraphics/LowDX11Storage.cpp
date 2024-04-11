@@ -1,10 +1,10 @@
 #include "LowDX11Storage.h"
-
+#include "../ParagonData/GameConstantData.h"
 namespace Pg::Graphics
 {
 	LowDX11Storage::LowDX11Storage()
 		:_hWnd(NULL),
-		_screenWidth(0), _screenHeight(0),
+		_screenWidth(Pg::Data::GameConstantData::WIDTH), _screenHeight(Pg::Data::GameConstantData::HEIGHT),
 		_device(nullptr), _deviceContext(nullptr),
 		_swapChainDesc(), _bufferDesc(), _depthStencilDesc(), _depthStencilViewDesc(), _shaderResourceViewDesc(),
 		_factory(nullptr), _swapChain(nullptr),_backBuffer(nullptr), _mainRTV(nullptr),

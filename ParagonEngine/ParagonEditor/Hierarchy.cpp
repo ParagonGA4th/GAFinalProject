@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <singleton-cpp/singleton.h>
 
+
 Pg::Editor::Window::Hierarchy::Hierarchy()
 	:_winName("Hierarchy"), _isShow(true), _prevObjListSize(0)
 {
@@ -34,6 +35,8 @@ void Pg::Editor::Window::Hierarchy::Initialize()
 {
 	auto& selectable = _widgetCon->CreateWidget<Pg::UI::Widget::Hierarchy>(_objNameList);
 	_prevObjName = selectable.GetSelectObjectName();
+	_isNewObject = selectable.GetBtnClick();
+	_isDeleteObject = selectable.GetKeyDeleteInput();
 }
 
 void Pg::Editor::Window::Hierarchy::Update()
@@ -43,6 +46,7 @@ void Pg::Editor::Window::Hierarchy::Update()
 
 	DataSet();
 	_widgetCon->Update();
+
 	if (_isDisable) _uiManager->EndDisable();
 	_uiManager->WindowEnd();
 }
@@ -52,7 +56,7 @@ void Pg::Editor::Window::Hierarchy::Finalize()
 
 }
 
-void Pg::Editor::Window::Hierarchy::SetShow(bool show)
+void Pg::Editor::Window::Hierarchy::SetShow(bool show)    
 {
 	_isShow = show;
 }
@@ -136,8 +140,46 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 	std::string sceneName = _dataContainer->GetCurrentScene()->GetSceneName();
 
 	// 여러 번 오브젝트 리스트를 가져오는 것을 막기 위해
-	if (_prevSceneName != sceneName)
+	if (_prevSceneName != sceneName || (* _isNewObject) || (*_isDeleteObject) || _isObjectChange)
 	{
+		std::vector<Pg::Data::GameObject*> tObjList;
+
+		if (*_isNewObject)
+		{
+			if (_count == 0)
+			{
+				auto obj = _dataContainer->GetCurrentScene()->AddObject("New Object");
+				tObjList.emplace_back(obj);
+				_count++;
+			}
+			else
+			{
+				auto obj = _dataContainer->GetCurrentScene()->AddObject("New Object " + std::to_string(_count++));
+				tObjList.emplace_back(obj);
+			}
+		
+			_changeObjectData->Invoke(eEventType::_ADDOBJECT, static_cast<void*>(&tObjList));
+			tObjList.clear();
+		}
+
+		if (*_isDeleteObject)
+		{
+			for (auto& obj : _dataContainer->GetCurrentScene()->GetObjectList())
+			{
+				if (obj->GetName() == *_prevObjName)
+				{
+					tObjList.emplace_back(obj);
+					break;
+				}
+			}
+				
+			_changeObjectData->Invoke(eEventType::_ADDOBJECT, static_cast<void*>(&tObjList));
+			tObjList.clear();
+			_dataContainer->GetCurrentScene()->DeleteObject((*_prevObjName));
+
+			if(_count > 0) _count--;
+		}
+
 		_prevSceneName = sceneName;
 		_objNameList.clear();
 
@@ -174,10 +216,12 @@ void Pg::Editor::Window::Hierarchy::GetSelectedObject()
 
 		if (i->GetName() == *_prevObjName)
 		{
+			_isObjectChange = false;
 			_dataContainer->SetPickObject(i);
 
 			_changeObjectData->Invoke(eEventType::_OBJECTDATA, static_cast<void*>(i));
 			break;
 		}
+		else _isObjectChange = true;
 	}
 }

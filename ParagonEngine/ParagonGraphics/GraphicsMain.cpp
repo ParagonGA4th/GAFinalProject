@@ -3,6 +3,7 @@
 #include "LowDX11Storage.h"
 #include "ConstantBuffer.h"
 #include "MathHelper.h"
+#include "GraphicsApiExporter.h"
 #include "GraphicsResourceManager.h"
 #include "LayoutDefine.h"
 
@@ -59,7 +60,6 @@ namespace Pg::Graphics
 		_DXLogic = LowDX11Logic::GetInstance();
 
 		_renderer = std::make_unique<ParagonRenderer>();
-		_tempObj = new Pg::Data::GameObject("Test");
 
 		auto& tInput = singleton<Pg::Util::Input::InputSystem>();
 		_input = &tInput;
@@ -67,15 +67,19 @@ namespace Pg::Graphics
 
 	GraphicsMain::~GraphicsMain()
 	{
-		delete _tempObj;
+		
 	}
 
-	const float cameraSpeed = 10.0f;
-	Pg::Graphics::Sprite* tempEditorCamSprite;
+	//
 	Pg::Graphics::Sprite* tempGameCamSprite;
 
 	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
 	{
+		//API 사용 용도로 본인의 포인터 GraphicsApiExporter로 전달.
+		auto& tApiExporter = singleton<Pg::Graphics::GraphicsApiExporter>();
+		_graphicsApiExporter = &tApiExporter;
+		_graphicsApiExporter->Initialize(this);
+
 		// 초기화 관련
 		_DXStorage->_hWnd = hWnd;
 
@@ -101,14 +105,9 @@ namespace Pg::Graphics
 		LayoutDefine::Initialize();
 		GeometryGenerator::Initialize();
 
-		_renderer->Initialize();
-
-		//BasicRendersInitialize();
-		tempEditorCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/EditorCamDummy.dds");
-		tempEditorCamSprite->SetPosition(100.0f, 200.0f);
+		_renderer->Initialize(&_prevRecordedEditMode);
 
 		tempGameCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/GameCamDummy.dds");
-		tempGameCamSprite->SetPosition(400.0f, 200.0f);
 	}
 
 
@@ -128,16 +127,6 @@ namespace Pg::Graphics
 
 	void GraphicsMain::Render(Pg::Data::Scene* scene)
 	{
-		//렌더하기 전에 Scene이 바뀌었는지 체크.
-		if (scene != _currentScene)
-		{
-			//새로 Scene이 바뀌었을 경우 RenderObject 구성을 바꾼다.
-			//나중에는 Load 로직이 별도로 들어가야.
-			_renderer->ParseSceneData(scene);
-			_currentScene = scene;
-		}
-		assert(_currentScene != nullptr);
-
 		_renderer->Render(_camData);
 
 		//DebugRender 기능, 일단은 디폴트로 켜두었음.
@@ -284,10 +273,10 @@ namespace Pg::Graphics
 		camData->_projMatrix = Pg::Math::PGMatrixPerspectiveFovLH(camData->_fovY, camData->_aspect, camData->_nearZ, camData->_farZ);
 	}
 
-	void GraphicsMain::SyncLoadGraphicsResources()
-	{
-		//TempResourceMeshLoad();
-	}
+	//void GraphicsMain::SyncLoadGraphicsResources()
+	//{
+	//	
+	//}
 
 	void GraphicsMain::TempResourceMeshLoad()
 	{
@@ -344,7 +333,31 @@ namespace Pg::Graphics
 	{
 		_renderer->SetOutlinedGameObject(obj);
 	}
-	
 
+	void GraphicsMain::AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_renderer->AddRenderObject_Runtime(objVecP);
+	}
+
+	void GraphicsMain::ModifyRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_renderer->ModifyRenderObject_Runtime(objVecP);
+	}
+
+	void GraphicsMain::DeleteRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_renderer->DeleteRenderObject_Runtime(objVecP);
+	}
+
+	void GraphicsMain::HandleRenderObjectsRuntime()
+	{
+		_renderer->HandleRenderObjectsRuntime();
+	}
+
+	void GraphicsMain::SetEditorMode(Pg::Data::Enums::eEditorMode editorMode)
+	{
+		//기존의 Editor Mode Enum 기록.
+		_prevRecordedEditMode = editorMode;
+	}
 
 }

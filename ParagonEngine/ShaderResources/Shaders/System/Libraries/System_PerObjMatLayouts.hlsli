@@ -19,6 +19,7 @@ struct VinPerObjMatSkinned
     uint    vin1st_MatID        : MATERIALID;
     float2  vin1st_Tex          : TEXCOORD;
     float   vin1st_MeshMatID    : MESH_MATID;
+    uint    vin1st_NodeIndex    : NODE_INDEX;
     
     uint vin1st_BlendIndice0 : BLENDINDICES0;
     uint vin1st_BlendIndice1 : BLENDINDICES1;

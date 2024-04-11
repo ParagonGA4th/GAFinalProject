@@ -44,7 +44,7 @@ namespace Pg::Graphics
 	void RenderObjectStaticMesh3D::CreateObjMatBuffers()
 	{
 		//VB 로드. *(Index Buffer는 공유)
-		GraphicsResourceManager::Instance()->GetBasic3DLoader()->LoadObjMatBufferStatic(_objMatVB, _modelData, _objectID, _materialID);
+		GraphicsResourceManager::Instance()->GetBasic3DLoader()->LoadObjMatBufferStatic(_objMatVB, _modelData, _objectID, GetMaterialID());
 		
 		//Constant Buffer Data를 생성.
 		_cbObjMat = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjMatBase>>();
@@ -96,7 +96,7 @@ namespace Pg::Graphics
 
 		_cbFirst->GetDataStruct()->gCBuf_World = tWorldTMMat;
 		_cbFirst->GetDataStruct()->gCBuf_WorldInvTranspose = tWorldInvTransposeMat;
-		_cbFirst->GetDataStruct()->gCBuf_WorldView = tViewTMMat;
+		_cbFirst->GetDataStruct()->gCBuf_WorldView = DirectX::XMMatrixMultiply(tWorldTMMat, tViewTMMat);
 		_cbFirst->GetDataStruct()->gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
 		_cbFirst->GetDataStruct()->gCBuf_CameraPositionW = tCameraPositionW;
 

@@ -13,7 +13,8 @@ namespace Pg::Defines
 	constexpr unsigned int ASSET_HINTMAXTEXTURELEN = 9;
 	constexpr unsigned int ASSET_MAXIMUM_TEXTURE_PROP_CNT = 21;
 
-	constexpr unsigned int ASSET_MAXIMUM_BONE_NUMBER_PER_MESH = 100;
+	constexpr unsigned int ASSET_MAXIMUM_BONE_NUMBER_PER_MESH = 256;
+	constexpr unsigned int ASSET_MAXIMUM_NODE_NUMBER_PER_MESH = 256;
 
 	extern const std::string ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH_256;
 	extern const std::string ASSET_DEFAULT_NORMAL_TEXTURE_PATH_256;
@@ -49,4 +50,12 @@ namespace Pg::Defines
 
 	extern const std::string DEFAULT_APPENDS_RENDER_VS_PATH;
 	extern const std::string DEFAULT_APPENDS_RENDER_PS_PATH;
+	
+	// ^, $ 리소스 이름에 활용 금지!
+	//모든 디폴트 매터리얼들이 부여받는 Prefix. 이는 일반 리소스 생성에서 활용할 수 없다.
+	extern const std::string GENERATED_MATERIAL_PREFIX;
+
+	//모든 디폴트 매터리얼 내부 활용되는 Texture2DArray가 부여받는 Prefix. 일반 리소스 생성에서 활용할 수 없다.
+	extern const std::string GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX;
+
 }

@@ -16,19 +16,15 @@ POutQuad main(VOutQuad pin)
     POutQuad res;
     
     //PBR 적용.
-    float3 albedo = GetAlbedoMap(pin.UV);
-    //TODELETE
-     //res.Output = float4(albedo, 1.0f);
-     //return res;
-    
-    float metalness = GetMetallicMap(pin.UV);
-    float roughness = GetRoughnessMap(pin.UV);
+    float3 albedo =   sRGB2Lin(GetAlbedoMap(pin.UV));
+    float metalness = sRGB2Lin(GetMetallicMap(pin.UV));
+    float roughness = sRGB2Lin(GetRoughnessMap(pin.UV));
     
     //라이팅 패스가 자리잡기 전까지, 일단 대체용 코드로 셰이더 돌리기.
-    float3 lightDirArr[3] = { firstLightDir, secondLightDir, thirdLightDir };
-    float lightRadianceArr[3] = { firstRad, secondRad, secondRad };
+    float3 lightDirArr[3] = { firstLightDir, firstLightDir, firstLightDir };
+    float lightRadianceArr[3] = { firstRad, firstRad, firstRad };
     
-;   //Outgoing 빛의 방향 (WorldPos -> Eye 벡터 방향)
+; //Outgoing 빛의 방향 (WorldPos -> Eye 벡터 방향)
     float3 Lo = normalize(GetEyePosition() - GetPosition(pin.UV));
     
     //Normal Mapping. 
@@ -47,7 +43,8 @@ POutQuad main(VOutQuad pin)
     
     // 위치/빛 정보가 있는 라이팅을 위한 직접과 연산.
     float3 directLighting = 0.0;
-    for (uint i = 0; i < NumLights; ++i)
+    uint tNumLight = 1;
+    for (uint i = 0; i < tNumLight; ++i)
     {
         //float3 Li = -lights[i].direction;
         //float3 Lradiance = lights[i].radiance;
@@ -57,7 +54,7 @@ POutQuad main(VOutQuad pin)
         float3 Lradiance = lightRadianceArr[i];
     
         //빛 입사 / 아웃 사이 하프벡터
-        float3 Lh = normalize(Li + Lo); 
+        float3 Lh = normalize(Li + Lo);
     
         //표면 법선과 여러 라이트 벡터 사이의 각도 계산.
         float cosLi = max(0.0, dot(N, Li)); //NdotL
@@ -90,7 +87,6 @@ POutQuad main(VOutQuad pin)
     
     //현재로서는 IBL 디폴트 사용.
     float3 ambientLighting = { 0.0f, 0.0f, 0.0f };
-    
     {
         // 노말 방향에서 디퓨즈 Irradiance 샘플링.
 	    // ...DiffuseHDR.
@@ -122,7 +118,7 @@ POutQuad main(VOutQuad pin)
     }
    
     //리턴.
-    res.Output = float4(directLighting + ambientLighting, 1.0);
+    res.Output = float4(gammaCorrection(directLighting) + ambientLighting, 1.0);
     
     //GammaCorrection까지!
     //res.Output = pow(res.Output, 1.0 / 2.2);

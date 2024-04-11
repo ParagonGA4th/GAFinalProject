@@ -38,16 +38,6 @@ void* Pg::Editor::Data::DataContainer::GetSceneTexture() const
 	return _sceneTexture;
 }
 
-void Pg::Editor::Data::DataContainer::SetGameTexture(void* Texture)
-{
-	_gameTexture = Texture;
-}
-
-void* Pg::Editor::Data::DataContainer::GetGameTexture() const
-{
-	return _gameTexture;
-}
-
 void Pg::Editor::Data::DataContainer::SetEditorOnOff(bool onoff)
 {
 	_onOff = onoff;
@@ -102,4 +92,33 @@ void Pg::Editor::Data::DataContainer::SetPickObject(Pg::Data::GameObject* object
 Pg::Data::GameObject* Pg::Editor::Data::DataContainer::GetPickObject()
 {
 	return _pickObject;
+}
+
+void Pg::Editor::Data::DataContainer::SetAssetList(std::vector<std::string> list)
+{
+	_assetList = list;
+}
+
+std::vector<std::string> Pg::Editor::Data::DataContainer::GetAssetList()
+{
+	return _assetList;
+}
+
+int Pg::Editor::Data::DataContainer::GetAssetIndex(std::string assetName)
+{
+	int count = 0;
+
+	for (auto asset : _assetList)
+	{
+		if (asset != assetName)
+		{
+			count++; 
+			continue;
+		}
+		else
+		{
+			return count;
+		}
+	}
+	if (count == _assetList.size())	return 0;
 }

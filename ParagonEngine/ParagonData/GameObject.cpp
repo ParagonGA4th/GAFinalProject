@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "Scene.h"
 #include "PhysicsCollision.h"
 
 // Component
@@ -8,6 +9,7 @@
 
 #include "RendererBase3D.h"
 #include "../ParagonData/StaticMeshRenderer.h"
+#include "../ParagonData/SkinnedMeshRenderer.h"
 
 #include "../ParagonUtil/Log.h"
 
@@ -16,11 +18,14 @@
 
 namespace Pg::Data
 {
-	GameObject::GameObject(const std::string name) :
+	GameObject::GameObject(const std::string name, Scene* belongScene) :
 		_transform(*(new Transform(this))),
 		_objName(name),
 		_isActive(true),
-		_componentList()
+		_belongScene(belongScene),
+		_componentList(),
+		_isAwake(false),
+		_isStarted(false)
 	{
 		//기본적으로 무조건 GameObject가 생성되면 Transform을 컴포넌트로 갖는다.
 		//_componentList.insert(std::make_pair(typeid(_transform).name(), &_transform));
@@ -33,6 +38,24 @@ namespace Pg::Data
 			{ delete iter.second; });
 	}
 
+	void GameObject::Internal_EngineAwake()
+	{
+		//활성화되지 않으면 시작 안함.
+		if (!_isActive)
+		{
+			return;
+		}
+
+		if (!_isInternalEngineAwake)
+		{
+			//for_each구문을 이용하여 componentList를 싹다 돌리기.
+			std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+				{ iter.second->Internal_EngineAwake(); });
+
+			_isInternalEngineAwake = true;
+		}
+	}
+
 	void GameObject::Awake()
 	{
 		//활성화되지 않으면 시작 안함.
@@ -41,9 +64,14 @@ namespace Pg::Data
 			return;
 		}
 
-		//for_each구문을 이용하여 componentList를 싹다 돌리기.
-		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-			{ iter.second->Awake(); });
+		if (!_isAwake)
+		{
+			//for_each구문을 이용하여 componentList를 싹다 돌리기.
+			std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+				{ iter.second->Awake(); });
+
+			_isAwake = true;
+		}
 	}
 
 	void GameObject::Start()
@@ -54,9 +82,26 @@ namespace Pg::Data
 			return;
 		}
 
-		//for_each구문을 이용하여 componentList를 싹다 돌리기.
-		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter) 
-			{ iter.second->Start(); });
+		if (!_isStarted)
+		{
+			//for_each구문을 이용하여 componentList를 싹다 돌리기.
+			std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+				{ iter.second->Start(); });
+
+			_isStarted = true;
+		}
+	}
+
+	void GameObject::Internal_EngineUpdate()
+	{
+		//활성화되지 않으면 업데이트 안함.
+		if (!_isActive)
+		{
+			return;
+		}
+
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->Internal_EngineUpdate(); });
 	}
 
 	void GameObject::Update()
@@ -136,13 +181,20 @@ namespace Pg::Data
 			return component;
 		}
 
-		///TODO: 현재 StaticMeshRenderer가 먹지 않고 있다. UE를 급하게 고쳐야 하기에, 하드코딩으로 일단 투입.
-		if (componentType.compare("class Pg::Data::StaticMeshRenderer") == 0)
-		{
-			component = new StaticMeshRenderer(this);
-			AddComponent("class Pg::Data::StaticMeshRenderer", component);
-			return component;
-		}
+		///TODO: 현재 Static/SkinnedMeshRenderer가 먹지 않고 있다. UE를 급하게 고쳐야 하기에, 하드코딩으로 일단 투입.
+		//if (componentType.compare("class Pg::Data::StaticMeshRenderer") == 0)
+		//{
+		//	component = new StaticMeshRenderer(this);
+		//	AddComponent("class Pg::Data::StaticMeshRenderer", component);
+		//	return component;
+		//}
+
+		//if (componentType.compare("class Pg::Data::SkinnedMeshRenderer") == 0)
+		//{
+		//	component = new SkinnedMeshRenderer(this);
+		//	AddComponent("class Pg::Data::SkinnedMeshRenderer", component);
+		//	return component;
+		//}
 	
 		component = Pg::Factory::Data::Factory<Pg::Data::RendererBase3D, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
 		if (component != nullptr)
@@ -276,5 +328,18 @@ namespace Pg::Data
 	std::vector<std::pair<std::string, Component*>>& GameObject::GetComponentList()
 	{
 		return _componentList;
+	}
+
+	Pg::Data::Scene* GameObject::GetScene()
+	{
+		assert(_belongScene != nullptr);
+		return _belongScene;
+	}
+
+	void GameObject::ResetDebouncerBoolean()
+	{
+		_isAwake = false;
+		_isStarted = false;
+		_isInternalEngineAwake = false;
 	}
 }

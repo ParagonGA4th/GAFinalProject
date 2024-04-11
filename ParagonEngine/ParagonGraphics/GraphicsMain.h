@@ -50,6 +50,8 @@ namespace Pg::Graphics
 	{
 		class GraphicsResourceManager;
 	}
+
+	class GraphicsApiExporter;
 }
 
 namespace Pg::Graphics
@@ -66,7 +68,8 @@ namespace Pg::Graphics
 
 	public:
 		PARAGON_GRAPHICS_DLL virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) override;
-		PARAGON_GRAPHICS_DLL virtual void SyncLoadGraphicsResources() override;
+		//PARAGON_GRAPHICS_DLL virtual void SyncLoadGraphicsResources() override;
+		PARAGON_GRAPHICS_DLL virtual void SetEditorMode(Pg::Data::Enums::eEditorMode editorMode) override;
 
 		PARAGON_GRAPHICS_DLL virtual void Update(const Pg::Data::Scene* const scene, float deltaTime, Pg::Data::CameraData* cameraData) override;
 		PARAGON_GRAPHICS_DLL virtual void BeginRender() override;
@@ -122,6 +125,13 @@ namespace Pg::Graphics
 		//아웃라이닝할 게임오브젝트를 고른다.
 		PARAGON_GRAPHICS_DLL virtual void SetOutlinedObject(Pg::Data::GameObject* obj) override;
 
+		//에디터를 위해서 / Instantiate 등을 위해 런타임에 추가 / 수정 / 삭제 로직 열었다.
+		PARAGON_GRAPHICS_DLL virtual void AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP) override;
+		PARAGON_GRAPHICS_DLL virtual void ModifyRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP) override;
+		PARAGON_GRAPHICS_DLL virtual void DeleteRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP) override;
+
+		//직접 호출 X, 프로세스에 의해 일괄적으로 Add/Modify/Delete된 오브젝트 실제로 반영하는데 쓰일 것.
+		PARAGON_GRAPHICS_DLL virtual void HandleRenderObjectsRuntime() override;
 	public:
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;
 	private:
@@ -138,20 +148,15 @@ namespace Pg::Graphics
 
 	private:
 		HRESULT hr;
-		Pg::Core::ProcessMain* _coreMain;
-		Pg::Graphics::Manager::GraphicsResourceManager* _graphicsResourceManager = nullptr;
+		Pg::Core::ProcessMain* _coreMain{ nullptr };
+		Pg::Graphics::Manager::GraphicsResourceManager* _graphicsResourceManager{ nullptr };
+		Pg::Graphics::GraphicsApiExporter* _graphicsApiExporter{ nullptr };
 	private:
 		LowDX11Logic* _DXLogic;
 		LowDX11Storage* _DXStorage;
 
 	private:
-		//TempCamera* _camera;
-		//TestCube* _box;
-		Pg::Data::GameObject* _tempObj;
-
-	private:
 		// Editor 연동 & 나중에 이 SRV들이 최종 렌더되는 Quad의 SRV여야 한다.
-		ID3D11ShaderResourceView* _editorCameraSRV = nullptr;
 		ID3D11ShaderResourceView* _gameCameraSRV = nullptr;
 
 	private:
@@ -160,11 +165,12 @@ namespace Pg::Graphics
 
 	private:
 		std::unique_ptr<ParagonRenderer> _renderer;
-		Pg::Data::Scene* _currentScene = nullptr;
 
 	private:
 		bool _internalPickingMode = true;
 
+		//해당 지역변수의 포인터가 Skinned 진행 / 미 진행에 영향을 끼친다.
+		Pg::Data::Enums::eEditorMode _prevRecordedEditMode{ Data::Enums::eEditorMode::_NONE };
 	};
 }
 

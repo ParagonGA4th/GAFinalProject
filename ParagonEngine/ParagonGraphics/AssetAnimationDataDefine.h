@@ -2,8 +2,11 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <unordered_map>
 #include <DirectXMath.h>
 #include <dxtk/SimpleMath.h>
+
+#include "../ParagonData/AnimTransform.h"
 
 /// <summary>
 /// 리팩토링된, 새로 필요한 만큼만 Animation의 데이터를 들고 있을
@@ -13,6 +16,9 @@
 
 namespace Pg::Graphics
 {
+	struct Node_AssetData;
+	struct Mesh_AssetData;
+
 	//NodeAnim에 활용, Vector Key (Animation)
 	struct VectorKey_AssetData
 	{
@@ -127,25 +133,19 @@ namespace Pg::Graphics
 		//각각 하나의 Node에 영향을 미치는, NodeAnim Channel들의 리스트.
 		std::vector<std::unique_ptr<NodeAnim_AssetData>> _channelList;
 
-		//실제 Animation 렌더시, 모델과 매핑된 (우리 엔진은 1:1 FBX / Animation 대응이니)
-		//Linearize된 노드의 인덱스에 맞게 NodeAnim 나열. (SkinnedData 내부 LinearizedNode와 연동)
-		//이제 매번 Animation에서 Node있는지 확인 안해도 됨.
-		//SkinnedMeshRenderer에서 접근시, GlobalTransformation 전달은? 
-		//내부에 Parent를 저장할 것. 무조건 자신의 부모는 자신보다 먼저 업데이트될 것.
-		//그러니, 선형적으로 쭉 렌더해버린다고 해도 기존 구조는 유지.
-		//Animation에 따라 행렬이 매번 달라지니, 
-		//Skinned 인스턴스 쪽에서는 인덱스 등을 따로 저장해서 Linear 공간 사이를 오가며 렌더.
-		std::vector<const NodeAnim_AssetData*> _linearizedNodeAnimList;
-		
 	};
 
 	//렌더될 때, Shader에 Bone들의 목록 활용 구조체.
 	struct BoneInfo_AssetData
 	{
 		BoneInfo_AssetData();
-		///FinalTransformation은 Animation 자체에서 관리하고 있을 것이다.
+		//FinalTransformation은 Animation 자체에서 관리하고 있을 것이다.
 		//DirectX::SimpleMath::Matrix _finalTransformation; // Final transformation to apply to vertices 
-		DirectX::SimpleMath::Matrix _boneOffset; // Initial offset from local to bone space. 
+		
+		std::string _name;
+		UINT _index;
+		Node_AssetData* _bindedNode;
+		DirectX::SimpleMath::Matrix _offsetMatrix; // Initial offset from local to bone space. 
 	};
 
 	class VertexBone_TempAssetData
@@ -162,4 +162,28 @@ namespace Pg::Graphics
 		unsigned int IDs[4]; //!< An array of 4 bone Ids that influence a single vertex.
 		float Weights[4]; //!< An array of the weight influence per bone. 
 	};
+
+	//기존 Node와는 달리, 원본 데이터와 별도로 개별 SkinnedMesh3D의 인스턴스를 제어할 수 있게 하기 위해.
+	struct ModifiedNode_SkinnedMesh
+	{
+	public:
+		ModifiedNode_SkinnedMesh(ModifiedNode_SkinnedMesh* parentNode);
+		~ModifiedNode_SkinnedMesh();
+
+		void RecursiveInitFromNode(Node_AssetData* nodeAssetData, std::unordered_map<std::string, const ModifiedNode_SkinnedMesh*>& recordMap);
+
+		UINT _index{ 0 };
+		std::string _nodeName;
+		const Node_AssetData* _originData;
+		std::unique_ptr<Pg::Data::AnimTransform> _relTransform; //-> 이는 NodeHierarchy를 따라한 복사본에서 만들어질 것이다.
+		ModifiedNode_SkinnedMesh* _parentNode;
+		unsigned int _numChildren{ 0 }; //해당 Node의 Children 개수.
+		std::vector<std::unique_ptr<ModifiedNode_SkinnedMesh>> _childrenList; //이 Node의 Children Node들. (자식 노드 없으면 nullptr)
+		unsigned int _numMeshes{ 0 }; //해당 Node의 Mesh 개수.
+		std::vector<const Mesh_AssetData*> _meshList; //Mesh Index 저장. (각자 aiScene의 MeshList에 대응)
+
+		//만약 바인딩된 Bone이 있으면, 포인터 보관.
+		BoneInfo_AssetData* _bindedBone{ nullptr };
+	};
+
 }

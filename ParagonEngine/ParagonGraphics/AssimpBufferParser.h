@@ -2,6 +2,7 @@
 #include "AssetAnimationDataDefine.h"
 
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include <memory>
 
@@ -44,6 +45,7 @@ namespace Pg::Graphics
 	class NodeAnim_AssetData;
 	class Animation_AssetData;
 	class BoneInfo_AssetData;
+	class Asset3DModelData;
 
 	//Material Cluster.
 	class MaterialCluster;
@@ -73,7 +75,9 @@ namespace Pg::Graphics::Helper
 		static void AssimpToSceneAssetData(const aiScene* assimp, const std::string& path, Scene_AssetData* outSceneAssetData);
 		static void AssimpToMaterialClusterList(const aiScene* assimp, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory);
 		static void AssimpToPBRTextureArray(const std::string& modelName, std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData);
-
+		static void D3DSetPrivateData(const std::string& modelName, Asset3DModelData* modelData);
+		//매 프레임마다 값 관리, Reset()을 통해서 명시적으로 AssimpBufferParser가 재사용하다는 사실을 드러내야 한다.
+		static void Reset();
 		//후에, 여기에 Animation을 로드하는 함수가 들어가야 할 것.
 	
 	private:
@@ -89,7 +93,9 @@ namespace Pg::Graphics::Helper
 		static void SetupRenderBones(unsigned int index, aiMesh* mesh, const Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, std::vector<VertexBone_TempAssetData>& vBoneList);
 
 		//개별적인 Assimp 구조체를 AssetData로 옮겨서 저장한다.
-		static void StoreAssimpNode(const aiNode* assimp, Scene_AssetData* sceneData, Node_AssetData* pgNode);
+		static void StoreAssimpNode(const aiNode* assimp, Scene_AssetData* sceneData, Node_AssetData* pgNode, UINT& index);
+		
+		//자체에서는 Mesh_AssetData의 전부만 기록하지는
 		static void StoreAssimpMesh(const aiMesh* assimp, Mesh_AssetData* pgMesh, unsigned int vOffset, unsigned int iOffset);
 		static void StoreAssimpAABB(const aiAABB* assimp, AABB_AssetData* pgAABB);
 		//static void StoreAssimpBone(const aiBone* assimp, Bone_AssetData* pgAABB); 
@@ -101,14 +107,14 @@ namespace Pg::Graphics::Helper
 		static void StoreAssimpAnimation(const aiAnimation* assimp, Animation_AssetData* pgAnim);
 		//Bone Info도 있어야 하는데..
 
-		static void LinearizeRecursiveNodes(const Node_AssetData* toBeParent, const Node_AssetData* parent, Skinned_AssetData* skinData);
+		//노드 기록용으로.
 		 
 		//Material 관련.
+		//static void ConnectMeshToNode();
 
 	private:
-		//Skinned 렌더위한 값을 가져오기 위해서.
-
-
+		static std::unordered_map<const aiNode*, Node_AssetData*> _aiNodeToNodeMap;	// Bone에서 aiNode를 통해 Node를 찾기위한 맵
+		static std::unordered_map<const aiMesh*, Mesh_AssetData*> _aiMeshToMeshMap; // aiMesh를 통해 Mesh를 찾기 위한 맵.
 	};
 }
 

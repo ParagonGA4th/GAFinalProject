@@ -14,10 +14,6 @@ namespace Pg::Data
 		//
 	}
 
-	void Pg::Data::RendererBase2D::Start()
-	{
-	}
-
 	void RendererBase2D::SetSize(float width, float height)
 	{
 		_height = height;

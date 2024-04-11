@@ -336,7 +336,7 @@ namespace Pg::Engine::Physic
 	}
 
 	void PhysicSystem::InitMakeColliders()
-	{
+	{		
 		//씬 전환 시 콜라이더 전부 해제 후 재로드.
 		if (!_rigidDynamicVec.empty() || !_rigidStaticVec.empty())
 		{
@@ -647,8 +647,8 @@ namespace Pg::Engine::Physic
 		}
 	}
 
-	///Rayscast 생성하기
-	Pg::Data::Collider* PhysicSystem::MakeRayCast(Pg::Math::PGFLOAT3 tOrigin, Pg::Math::PGFLOAT3 tDir, float tLength, int* bType)
+	///Raycast 생성하기
+	Pg::Data::Collider* PhysicSystem::MakeRayCast(Pg::Math::PGFLOAT3 tOrigin, Pg::Math::PGFLOAT3 tDir, float tLength, Pg::Math::PGFLOAT3& outHitPoint, int* bType)
 	{
 		physx::PxVec3 rayCastOrigin;
 		rayCastOrigin.x = tOrigin.x;
@@ -701,6 +701,12 @@ namespace Pg::Engine::Physic
 			raycastCol = static_cast<Pg::Engine::Collider*>(actor->userData);
 
 			tHitPoint = _hitBuffer.block.position;
+
+			//명시적으로 HitPoint를 내보낸다.
+			//참조자로 리턴할 친구.
+			outHitPoint.x = tHitPoint.x;
+			outHitPoint.y = tHitPoint.y;
+			outHitPoint.z = tHitPoint.z;
 		}
 
 		//피격 객체의 position 데이터를 이용한 디버깅.

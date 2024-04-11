@@ -19,8 +19,11 @@ namespace Pg::UI::Widget
 	public:
 		Hierarchy(std::map<int, std::pair<std::string, std::vector<std::string>>>& objNameList);
 		virtual void Update() override;
+		virtual std::string GetWidgetLabel() override;
 
 		std::string* GetSelectObjectName();
+		bool* GetBtnClick();
+		bool* GetKeyDeleteInput();
 		
 	private:
 		// Selectable
@@ -31,6 +34,8 @@ namespace Pg::UI::Widget
 
 		bool _isNodeOpen;
 		bool _isNodeSelected;
+		bool _isAddObject;
+		bool _isDeleteObject;
 	};
 }
 

@@ -82,4 +82,8 @@ void Pg::UI::Widget::InputFloat3::Update()
 	}
 }
 
+std::string Pg::UI::Widget::InputFloat3::GetWidgetLabel()
+{
+	return _label;
+}
 

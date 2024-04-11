@@ -24,19 +24,18 @@ namespace Pg::Editor::Manager
 
 		void SetEditorMode(void* mode); // Event Ã³¸®¿ë
 		void SetEditorMode(Pg::Data::Enums::eEditorMode mode);
+		void SetAddObject(void* objectList);
+		void SetModifiedObject(void* objectList);
+		void SetDeleteObject(void* objectList);
+		void GetAssetList(void* define);
 
 	private:
-		float _screenWidth;
-		float _screenHeight;
-
-		bool _isCoreInitailized;
-		bool _isSceneSet;
-		
 		std::unique_ptr<Pg::Core::ProcessMain> _coreMain;
-
 		Pg::API::Input::PgInput* _input;
 		Pg::Editor::Data::DataContainer* _dataContainer;
 
+		float _screenWidth;
+		float _screenHeight;
+		bool _isCoreInit;
 	};
 }
-
