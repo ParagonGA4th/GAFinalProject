@@ -8,24 +8,26 @@
 #include <singleton-cpp/singleton.h>
 #include <cassert>
 
-EventTest::EventTest(Pg::Data::GameObject* owner) :
-	Pg::DataScript::Script(owner)
+namespace Pg::DataScript
 {
+	EventTest::EventTest(Pg::Data::GameObject* owner) : ScriptInterface(owner)
+	{
 
-}
+	}
 
-void EventTest::Start()
-{
-	tButton = _object->GetComponent<Pg::Data::Button>();
+	void EventTest::Start()
+	{
+		tButton = _object->GetComponent<Pg::Data::Button>();
 
-	tButton->SetOnClickEvent([]
-		{
-			//assert(false, "너의 프로그램은 해킹 당했다. 으하하하하"); 
-			//PG_TRACE("Button Clicked!!");
-		});
-}
+		tButton->SetOnClickEvent([]
+			{
+				//assert(false, "너의 프로그램은 해킹 당했다. 으하하하하"); 
+				PG_TRACE("Button Clicked!!");
+			});
+	}
 
-void EventTest::Update()
-{
-	
+	void EventTest::Update()
+	{
+
+	}
 }
