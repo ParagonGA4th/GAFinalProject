@@ -25,6 +25,8 @@
 			assert(t != nullptr);
 			_arrowObjects.push_back(t);
 		}
+
+		assert(!_arrowObjects.empty());
 	}
 
 	void DemoPlayerAction::Update()

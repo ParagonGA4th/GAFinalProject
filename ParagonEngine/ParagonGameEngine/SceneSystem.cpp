@@ -42,9 +42,9 @@ namespace Pg::Engine
 		///<임시Test용: TO REMOVE>
 		TestScene* tTestScene = new TestScene();
 		tTestScene->Initialize();
-
-		_currentScene = tTestScene->GetCurrentScene();
-		_sceneList.insert({ "TestSceneToRemove", tTestScene->GetCurrentScene() });
+		
+		_sceneList.insert({ "SampleScene",  tTestScene->GetCurrentScene() });
+		_currentScene = _sceneList.at("SampleScene");
 		///<임시Test용: TO REMOVE>
 		
 		//일단 별도로 Initialize할 때 기존 로직을 무너뜨리지 않기 위해서 Scene의 내용을 추가했음.
