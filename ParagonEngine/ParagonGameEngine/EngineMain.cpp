@@ -91,6 +91,8 @@ namespace Pg::Engine
 		_soundSystem->Initialize(resourceListPath);
 		_navSystem->Initialize();
 		_behaviorTreeSystem->Initialize(resourceListPath);
+
+		PG_WARN("현재 TestScene 바뀔 시 씬 내부 정보가 날아가서 Start/Stop 조정이 안되는 상황. 강제로 Engine에 일단은 Editor Mode 영향 안 미치게 바꿔놓음. Engine Main Update에 오버라이드 코드 있음. (TOFIX)");
 	}
 
 	void EngineMain::Update()
@@ -98,6 +100,10 @@ namespace Pg::Engine
 		//외적인 SceneLoad 로직 Start 관련, 항상 SceneSystem 체크한다.
 		_sceneSystem->DebounceSceneLoadStatus();
 
+		///여기가 바뀜, 이거 유지되면 안돼!!!
+		_prevRecordedEditMode = Data::Enums::eEditorMode::_PLAY;
+		///
+		
 		//기록된 Edit Mode가 EDIT/NONE으로 설정되었을시, 실행을 Update를 실행하지 않는다.
 		//Early Return.
 		if (_prevRecordedEditMode == Data::Enums::eEditorMode::_NONE ||

@@ -2,6 +2,7 @@
 #include "../ParagonUtil/InputSystem.h"
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/DynamicCollider.h"
+#include "../ParagonMath/PgMath.h"
 #include <singleton-cpp/singleton.h>
 #include <cassert>
 
@@ -25,6 +26,8 @@ void ArrowAction::Update()
 	{
 		Pg::Math::PGFLOAT3 DIR = { _object->_transform.GetForward().x * 0.1f,
 			0, _object->_transform.GetForward().z * 0.1f };
+
+		//_object->_transform._rotation = Pg::Math::PGEulerToQuaternion(DIR);
 		
 		_object->_transform._position += DIR;
 	}

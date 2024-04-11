@@ -31,13 +31,15 @@
 #include "MovingTest.h"
 #include "RayCastTest.h"
 #include "EventTest.h"
+#include "ArrowAction.h"
+#include "DemoPlayerAction.h"
 
 #include "../ParagonData/SpotLight.h"
 #include "../ParagonData/PointLight.h"
 
 Pg::Engine::TestScene::TestScene()
 {
-	tCurrentScene = new Pg::Data::Scene("TestSceneToRemove");
+	tCurrentScene = new Pg::Data::Scene("SampleScene");
 }
 
 void Pg::Engine::TestScene::Initialize()
@@ -130,16 +132,50 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 	//tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
-	//Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
-	//tObj7->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
-	//tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
-	//tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
-	//tObj7->AddComponent<PlaneCollider>();
-	////tObj7->GetComponent<PlaneCollider>();
-	//tObj7->AddComponent<StaticMeshRenderer>();
-	//tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
-	//tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	//tObj7->AddComponent<NavigationField>();
+	{
+		Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
+		tObj7->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
+		tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+		tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+		tObj7->AddComponent<PlaneCollider>();
+		//tObj7->GetComponent<PlaneCollider>();
+		tObj7->AddComponent<StaticMeshRenderer>();
+		tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Plane/plane.fbx");
+		tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	}
+	
+	{
+		Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Player");
+		tObj7->GetComponent<Transform>()->_position = { 0.0f, 3.0f, 0.0f };
+		tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+		tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+		tObj7->AddComponent<CapsuleCollider>();
+		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
+		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
+		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+		tObj7->AddComponent<StaticMeshRenderer>();
+		tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx");
+		tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+		tObj7->AddComponent<DemoPlayerAction>();
+	}
+
+	for (int i = 0; i < 30; i++)
+	{
+		std::string tName = "Arrow";
+		tName += std::to_string(i);
+		Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject(tName);
+		tObj7->GetComponent<Transform>()->_position = { 0.0f, 1.0f, 0.0f };
+		tObj7->GetComponent<Transform>()->_scale = { 5.0f, 5.0f, 5.0f };
+		tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+		tObj7->AddComponent<StaticMeshRenderer>();
+		tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/arrow/arrow.fbx");
+		tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+		tObj7->AddComponent<ArrowAction>();
+		tObj7->SetTag("ArrowTag");
+	}
+	
+
+
 
 
 	///버튼 & 오디오
