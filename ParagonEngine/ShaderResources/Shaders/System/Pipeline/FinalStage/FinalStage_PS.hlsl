@@ -19,7 +19,11 @@ POutQuad main(VOutQuad pin)
     float d = 0.59f;
     float e = 0.14f;
     
-    float3 val = gammaCorrection(saturate((x * (a * x + b)) / (x * (c * x + d) + e)));
+    // float3 val = gammaCorrection(saturate((x * (a * x + b)) / (x * (c * x + d) + e)));
+    float3 val = saturate((x * (a * x + b)) / (x * (c * x + d) + e));
+    //인터넷에는 -> gammaCorrection을 했었지만, 난 이미 gammaCorrection 된 거에다 적용한 거니까
+    //굳이 필요 없을 것 같다!! => 김용준 교수님 PPT 참고.
+    
     //</ACES Filmic Tone Mapping Curve>
     res.Output = float4(val, 1.0f);
     
