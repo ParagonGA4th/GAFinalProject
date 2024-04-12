@@ -1,6 +1,7 @@
 #include "ScreenPointTest.h"
 #include "PhysicSystem.h"
 #include "../ParagonUtil/InputSystem.h"
+#include "../ParagonUtil/Log.h"
 #include "../ParagonData/Collider.h"
 #include "../ParagonData/Camera.h"
 #include "../ParagonData/GameObject.h"
@@ -48,8 +49,9 @@ namespace Pg::Engine
 			//그냥 값 투입.
 			int tColVal;
 
-			if (_pgPhysics->MakeRayCast(tRayOrig, tRayDir, 30, outHitPoint, &tColVal))
+			if (_pgPhysics->MakeRayCast(tRayOrig, tRayDir, 1, outHitPoint, &tColVal))
 			{
+				PG_TRACE("RAYCAST HIT");
 				_object->_transform._position = outHitPoint;
 			}
 		}
