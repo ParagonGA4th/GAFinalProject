@@ -35,7 +35,7 @@ namespace Pg::DataScript
 		Pg::API::Input::PgInput* _pgInput = nullptr;
 	};
 
-	const bool PlayerMove::registered_ = ScriptInterface::register_type();
+	//const bool PlayerMove::registered_ = ScriptInterface<PlayerMove>::register_type();
 }
 
 
