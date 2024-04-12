@@ -49,7 +49,7 @@ namespace Pg::Engine
 			//그냥 값 투입.
 			int tColVal;
 
-			if (_pgPhysics->MakeRayCast(tRayOrig, tRayDir, 1, outHitPoint, &tColVal))
+			if (_pgPhysics->MakeRayCast(tRayOrig, tRayDir, 100.0f, outHitPoint, &tColVal))
 			{
 				PG_TRACE("RAYCAST HIT");
 				_object->_transform._position = outHitPoint;
