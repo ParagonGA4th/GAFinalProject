@@ -22,6 +22,9 @@
     <Filter Include="1_BaseClass\ScriptInterface">
       <UniqueIdentifier>{e619930e-65f8-4488-8ab2-0c39dca1fabd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="1_BaseClass\ParagonScriptList">
+      <UniqueIdentifier>{9c0b6d1c-0ad3-4940-8e52-95a9ebf81b5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -64,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="ScriptInterface.h">
       <Filter>1_BaseClass\ScriptInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="ParagonScriptList.h">
+      <Filter>1_BaseClass\ParagonScriptList</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

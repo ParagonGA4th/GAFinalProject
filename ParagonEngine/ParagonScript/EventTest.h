@@ -22,9 +22,7 @@ namespace Pg::DataScript
 {
 	class EventTest : public ScriptInterface<EventTest>
 	{
-	public:
-		static inline const std::string class_identifier = "class EventTest";
-		static std::unique_ptr<Script> create_instance(Pg::Data::GameObject* obj) { return std::make_unique<EventTest>(obj); }
+		DEFINE_PARAGON_SCRIPT(EventTest);
 
 	public:
 		EventTest(Pg::Data::GameObject* owner);
@@ -40,5 +38,6 @@ namespace Pg::DataScript
 
 	//const bool EventTest::registered_ = ScriptInterface<EventTest>::register_type();
 }
+
 
 

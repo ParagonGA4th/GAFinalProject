@@ -16,6 +16,9 @@ Pg::Editor::Manager::DataManager::DataManager()
 {
 	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
 	_dataContainer = &tdataCon;
+
+	//FactoryHelper의 Initialize 역시 해당 단계에서 수행된다.
+	Pg::DataScript::FactoryHelper::Initialize();
 }
 
 Pg::Editor::Manager::DataManager::~DataManager()

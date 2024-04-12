@@ -7,6 +7,21 @@
 
 namespace Pg::DataScript
 {
+	void FactoryHelper::Initialize()
+	{
+		//'>' 같은, XML 내부에서 허용되지 않는 character 지우기.
+		for (auto& [typeName, createFunc] : Script::get_registry())
+		{
+			std::string tChangedString = typeName.substr(0, typeName.find(">"));
+	
+			//키 값을, XML이 담을 수 없는 문자를 누락하게 바꾼다.
+			auto nodeHandler = Script::get_registry().extract(typeName);
+			nodeHandler.key() = tChangedString;
+			Script::get_registry().insert(std::move(nodeHandler));
+		}
+		
+	}
+
 	void FactoryHelper::AddScript(Pg::Data::GameObject* obj, const std::string& scriptType)
 	{
 		//명시적으로 include가 되어야 Registry가 반응한다.

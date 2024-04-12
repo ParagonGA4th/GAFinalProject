@@ -19,9 +19,7 @@ namespace Pg::DataScript
 {
 	class PlayerMove : public ScriptInterface<PlayerMove>				//, Pg::Factory::Script::RegisteredInFactory<Pg::DataScript::Script, PlayerMove, Pg::Data::GameObject*>
 	{
-	public:
-		static inline const std::string class_identifier = "class PlayerMove";
-		static std::unique_ptr<Script> create_instance(Pg::Data::GameObject* obj) { return std::make_unique<PlayerMove>(obj); }
+		DEFINE_PARAGON_SCRIPT(PlayerMove);
 
 	public:
 		PlayerMove(Pg::Data::GameObject* obj);

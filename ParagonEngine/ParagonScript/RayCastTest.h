@@ -23,9 +23,7 @@ namespace Pg::DataScript
 {
 class RayCastTest : public ScriptInterface<RayCastTest>
 {
-public:
-	static inline const std::string class_identifier = "class RayCastTest";
-	static std::unique_ptr<Script> create_instance(Pg::Data::GameObject* obj) { return std::make_unique<RayCastTest>(obj); }
+	DEFINE_PARAGON_SCRIPT(RayCastTest);
 
 public:
 	RayCastTest(Pg::Data::GameObject* obj);

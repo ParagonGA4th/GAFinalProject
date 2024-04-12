@@ -148,6 +148,7 @@
     <ClInclude Include="RayCastTest.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="ScriptInterface.h" />
+    <ClInclude Include="ParagonScriptList.h" />
     <ClInclude Include="SoundTest.h" />
   </ItemGroup>
   <ItemGroup>
