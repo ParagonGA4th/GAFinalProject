@@ -1,5 +1,6 @@
 #pragma once
 #include "Script.h"
+#include <ctti/type_id.hpp>
 
 /// <summary>
 /// 모든 Script들의 부모가 될 클래스 (인터페이스)
@@ -45,3 +46,10 @@ namespace Pg::DataScript
 	template<class T>
 	const bool ScriptInterface<T>::registered_ = ScriptInterface<T>::register_type();
 }
+
+//명시적으로 CTTI 등을 활용해 Script 상속 클래스들이 모두 이를 선언해야 한다 내부에!
+#define DEFINE_PARAGON_SCRIPT(T) \
+public: \
+    static inline const std::string class_identifier = ctti::type_id<T>().name().begin(); \
+    static std::unique_ptr<Script> create_instance(Pg::Data::GameObject* obj) { return std::make_unique<T>(obj); }
+

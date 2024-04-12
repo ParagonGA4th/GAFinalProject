@@ -156,15 +156,11 @@
 					</data>
 				</component>
 				<component>
-					<type>class PlayerMove</type>
+					<type>class Pg::DataScript::PlayerMove</type>
 					<data />
 				</component>
 				<component>
-					<type>class PlayerMove</type>
-					<data />
-				</component>
-				<component>
-					<type>class RayCastTest</type>
+					<type>class Pg::DataScript::RayCastTest</type>
 					<data />
 				</component>
 			</components>
@@ -392,7 +388,7 @@
 					<data />
 				</component>
 				<component>
-					<type>class Pg::Engine::EventTest</type>
+					<type>class Pg::DataScript::EventTest</type>
 					<data />
 				</component>
 			</components>
