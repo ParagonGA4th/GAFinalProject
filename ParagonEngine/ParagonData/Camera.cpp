@@ -202,17 +202,12 @@ namespace Pg::Data
 
 		// view 공간에 view 행렬의 역행렬을 곱해 world 공간으로 변환
 		DirectX::XMVECTOR rayDirToWorld = DirectX::XMVector3TransformCoord(rayDir, invView);
+
+		//Direction은 normalize해서 내보내기. (원본에는 없었다!)
+		rayDirToWorld = DirectX::XMVector3Normalize(rayDirToWorld);
+
 		outRayDir = XM2PG_FLOAT3_VECTOR(rayDirToWorld);
 
+
 		//우리는 Plane으로 Intersection을 하지 않는다.
-		//DirectX::XMVECTOR intersectionPoint = DirectX::XMPlaneIntersectLine(
-		//	DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f),        // 평면의 방정식 계수
-		//	rayOrigin,      // 라인의 시작점 (카메라 위치)
-		//	rayDirToWorld   // 라인의 방향
-		//);
-		//
-		//return DirectX::XMFLOAT3(intersectionPoint.m128_f32[0], intersectionPoint.m128_f32[1], intersectionPoint.m128_f32[2]);
-
-	}
-
-}
+		//DirectX::XMVECTOR interㄴㄴㄴㄴㄴㄴㄴㄴㄴ
