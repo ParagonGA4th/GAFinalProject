@@ -38,7 +38,7 @@ namespace Pg::DataScript
 		Pg::API::Input::PgInput* _pgInput = nullptr;
 	};
 
-	const bool EventTest::registered_ = ScriptInterface::register_type();
+	//const bool EventTest::registered_ = ScriptInterface<EventTest>::register_type();
 }
 
 

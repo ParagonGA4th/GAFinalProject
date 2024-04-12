@@ -54,6 +54,12 @@ void Pg::Engine::TestScene::Initialize()
 	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/mon_golemmini.fbx");
 	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
+	Pg::Data::GameObject* tObj3 = tCurrentScene->AddObject("RoadLavaConeTest2");
+	tObj3->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 5.0f };
+	tObj3->AddComponent<StaticMeshRenderer>();
+	tObj3->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/final_mon_boss.fbx");
+	tObj3->GetComponent<StaticMeshRenderer>()->SetActive(true);
+
 	//GameObject* tObj2_1 = tCurrentScene->AddObject("Sphere1");
 	//tObj2_1->GetComponent<Transform>()->_position = { 3.0f, 10.0f, 0.0f };
 	//tObj2_1->AddComponent<SphereCollider>();

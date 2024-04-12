@@ -53,9 +53,6 @@
     <ClInclude Include="RayCastTest.h">
       <Filter>RayCastTest</Filter>
     </ClInclude>
-    <ClInclude Include="script_factory.h">
-      <Filter>0_Factory</Filter>
-    </ClInclude>
     <ClInclude Include="Script.h">
       <Filter>1_BaseClass</Filter>
     </ClInclude>

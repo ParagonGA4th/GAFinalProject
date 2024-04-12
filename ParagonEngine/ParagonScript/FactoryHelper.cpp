@@ -1,8 +1,9 @@
 #include "FactoryHelper.h"
-#include "script_factory.h"
 
 #include "Script.h"
 #include "PlayerMove.h"
+#include "EventTest.h"
+#include "RayCastTest.h"
 
 #include "../ParagonData/GameObject.h"
 
@@ -15,17 +16,8 @@ namespace Pg::DataScript
 
 	void FactoryHelper::AddScript(Pg::Data::GameObject* obj, const std::string& scriptType)
 	{
-		//Pg::DataScript::Script* script;
-		//script = Pg::Factory::Script::ScriptFactory<Pg::DataScript::Script, Pg::Data::GameObject*>::Create(scriptType.c_str(), obj);
 
-		//if (script == nullptr)
-		//{
-		//	if (scriptType.find("PlayerMove") != std::string::npos)
-		//	{
-		//		script = new PlayerMove(obj);
-		//	}
-		//}
-
+		//명시적으로 include가 되어야 Registry가 반응한다.
 		for (auto& iter : Script::get_registry()) 
 		{
 			if (scriptType.compare(iter.first) == 0)
