@@ -5,8 +5,7 @@
 #include <memory>
 
 /// <summary>
-/// Final Render Pass : Quad에서의 값을 MainRenderTarget에 뿌려준다.
-/// 모든 렌더링을 포함해서 최종적인 렌더링 결과가 될 것.
+/// PostProcessing Render Pass : Quad 기준 Screen-Space PostProcessing.
 /// </summary>
 
 namespace Pg::Graphics
@@ -19,11 +18,11 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class FinalRenderPass : public IRenderSinglePass
+	class TonemappingRenderPass : public IRenderSinglePass
 	{
 	public:
-		FinalRenderPass(GBufferRender* from);
-		~FinalRenderPass();
+		TonemappingRenderPass(GBufferRender* from, GBufferRender* to);
+		~TonemappingRenderPass();
 
 		virtual void Initialize() override;
 		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;
@@ -36,14 +35,17 @@ namespace Pg::Graphics
 	private:
 		void CreateShaders();
 		void BindVertexIndexBuffer();
-
+	
 
 	private:
 		std::unique_ptr<SystemVertexShader> _vs;
 		std::unique_ptr<SystemPixelShader> _ps;
 
 	private:
-		ID3D11ShaderResourceView* _toSampleBuffer{ nullptr };
+		const D3DCarrier* _tempStoreCarrier{ nullptr };
+
+		GBufferRender* _postProcessingFrom{ nullptr };
+		GBufferRender* _postProcessingTo{ nullptr };
 
 	private:
 		LowDX11Storage* _DXStorage;
