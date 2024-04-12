@@ -29,8 +29,8 @@ namespace Pg::Data
 	void Camera::OnDeserialize(SerializeVector& sv)
 	{
 		Pg::Data::SerializerHelper::OnDeserializerHelper(this, sv);
-	}	
-	
+	}
+
 	void Camera::OnSerialize(SerializeVector& sv)
 	{
 		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
@@ -97,7 +97,7 @@ namespace Pg::Data
 	}
 
 	void Camera::UpdateViewMatrix()
-{
+	{
 		using namespace Pg::Math;
 
 		PGFLOAT3 R = _object->_transform.GetRight();
@@ -147,7 +147,7 @@ namespace Pg::Data
 
 	void Camera::ScreenPointToRayInfo(Pg::Math::PGFLOAT2 screenPointNormalized, Pg::Math::PGFLOAT3& outRayOrigin, Pg::Math::PGFLOAT3& outRayDir)
 	{
-		
+
 		//
 		////역투영 : 정규화된 ScreenPoint를 뷰 공간으로!
 		//Pg::Data::CameraData* tCamData = GetCameraData();
@@ -186,7 +186,7 @@ namespace Pg::Data
 		Pg::Data::CameraData* tCamData = GetCameraData();
 		XMMATRIX viewMat = PG2XM_MATRIX4X4(tCamData->_viewMatrix);
 		XMMATRIX projMat = PG2XM_MATRIX4X4(tCamData->_projMatrix);
-		
+
 
 		// ndc에 proj 역행렬을 곱해 view 공간으로 변환
 		float viewX = normalizedX / projMat.r[0].m128_f32[0];
@@ -211,3 +211,5 @@ namespace Pg::Data
 
 		//우리는 Plane으로 Intersection을 하지 않는다.
 		//DirectX::XMVECTOR interㄴㄴㄴㄴㄴㄴㄴㄴㄴ
+	}
+}
