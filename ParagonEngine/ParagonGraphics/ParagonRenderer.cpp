@@ -12,7 +12,7 @@
 #include "CubemapRenderer.h"
 #include "Forward2DRenderer.h"
 #include "DebugRenderer.h"
-#include "FinalRenderer.h"
+#include "PPFinalRenderer.h"
 
 
 #include "../ParagonData/Scene.h"
@@ -59,7 +59,7 @@ namespace Pg::Graphics
 		_debugRenderer = std::make_unique<DebugRenderer>(_gCarrier.get());
 		_debugRenderer->Initialize();
 
-		_finalRenderer = std::make_unique<FinalRenderer>(_gCarrier.get());
+		_finalRenderer = std::make_unique<PPFinalRenderer>(_gCarrier.get());
 		_finalRenderer->Initialize();
 		//SkinningMk.F
 		//_tempMultiMesh = new MultimaterialMesh("tFilePath");
@@ -92,6 +92,11 @@ namespace Pg::Graphics
 		// Forward 2D
 		_forward2dRenderer->RenderContents(_sceneParser->GetRenderObject2DList(), nullptr, camData);
 		_forward2dRenderer->ConfirmCarrierData();
+	}
+
+	void ParagonRenderer::PostProcessingRender(Pg::Data::CameraData* camData)
+	{
+		_finalRenderer->RenderPostProcessingStages(nullptr, camData);
 	}
 
 	void ParagonRenderer::FinalRender(Pg::Data::CameraData* camData)
@@ -169,10 +174,9 @@ namespace Pg::Graphics
 
 	ID3D11ShaderResourceView* ParagonRenderer::GetFinalQuadSRV()
 	{
-		assert(_gCarrier->_quadMainRT != nullptr);
-		assert(_gCarrier->_quadMainRT->GetSRV() != nullptr);
+		assert(_gCarrier->_toSendSRVToEngine != nullptr);
 
-		return _gCarrier->_quadMainRT->GetSRV();
+		return _gCarrier->_toSendSRVToEngine;
 	}
 
 	//Pg::Data::GameObject* ParagonRenderer::GetPickedID_SetOutlineMode(int selectedWidthPixel, int selectedHeightPixel)
@@ -237,6 +241,8 @@ namespace Pg::Graphics
 		_sceneParser->HandleRenderObjectsRuntime();
 	}
 
+	
+	
 	
 
 }

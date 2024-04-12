@@ -31,7 +31,7 @@ namespace Pg::Graphics
 	class CubemapRenderer;
 	class Forward2DRenderer;
 	class DebugRenderer;
-	class FinalRenderer;
+	class PPFinalRenderer;
 	class GraphicsSceneParser;
 
 	class SceneInformationList;
@@ -74,6 +74,7 @@ namespace Pg::Graphics
 		void Render(Pg::Data::CameraData* camData);			// 이미 컴포넌트 단계에서 RenderObject들과 연동되기에, 오브젝트 자체를 받을 필요가 없음.
 		void DebugRender(Pg::Data::CameraData* camData);	// 별도로 Debug Render를 한다.
 		void UiRender(Pg::Data::CameraData* camData);		// 2D UI를 렌더링한다.
+		void PostProcessingRender(Pg::Data::CameraData* camData); //PostProcessing을 렌더링한다.
 		void FinalRender(Pg::Data::CameraData* camData);	// MainRenderTarget으로 보내주는 역할을 한다.
 		void EndRender();
 
@@ -105,7 +106,7 @@ namespace Pg::Graphics
 		std::unique_ptr<CubemapRenderer> _cubemapRenderer;
 		std::unique_ptr<Forward2DRenderer> _forward2dRenderer;
 		std::unique_ptr<DebugRenderer> _debugRenderer;
-		std::unique_ptr<FinalRenderer> _finalRenderer;
+		std::unique_ptr<PPFinalRenderer> _finalRenderer;
 
 	private:
 		//저장용 X, 객체를 임시로 보관할 수 있게 매개변수용 자료 세팅.

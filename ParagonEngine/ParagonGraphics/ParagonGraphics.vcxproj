@@ -33,7 +33,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="BaseSpecificRenderer.h" />
-    <ClInclude Include="FinalRenderer.h" />
+    <ClInclude Include="PPFinalRenderer.h" />
     <ClInclude Include="FinalRenderPass.h" />
     <ClInclude Include="FirstSkinnedRenderPass.h" />
     <ClInclude Include="FirstStaticRenderPass.h" />
@@ -42,6 +42,7 @@
     <ClInclude Include="D3DCarrier.h" />
     <ClInclude Include="GraphicsApiExporter.h" />
     <ClInclude Include="GraphicsSceneParser.h" />
+    <ClInclude Include="TonemappingRenderPass.h" />
     <ClInclude Include="PreparationSkinnedRenderPass.h" />
     <ClInclude Include="SceneInformationList.h" />
     <ClInclude Include="IRenderSinglePass.h" />
@@ -156,7 +157,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="BaseSpecificRenderer.cpp" />
-    <ClCompile Include="FinalRenderer.cpp" />
+    <ClCompile Include="PPFinalRenderer.cpp" />
     <ClCompile Include="FinalRenderPass.cpp" />
     <ClCompile Include="FirstSkinnedRenderPass.cpp" />
     <ClCompile Include="FirstStaticRenderPass.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="MaterialParser.cpp" />
     <ClCompile Include="OpaqueShadowRenderPass.cpp" />
+    <ClCompile Include="TonemappingRenderPass.cpp" />
     <ClCompile Include="PreparationSkinnedRenderPass.cpp" />
     <ClCompile Include="PreparationStaticRenderPass.cpp" />
     <ClCompile Include="BlendingRenderPass.cpp" />
@@ -352,6 +354,14 @@
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\PostProcessingDefault_VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Tonemapping\ToneMapping_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\ShadowMapping_PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
