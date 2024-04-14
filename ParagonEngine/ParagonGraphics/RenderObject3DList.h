@@ -48,17 +48,31 @@ namespace Pg::Graphics
 
 		void DeleteRenderObjectWithGameObject(Pg::Data::GameObject* obj)
 		{
-			//하나하나 vector.
-			for (auto& [bMat, bVec] : this->_staticList)
-			{
-				auto tVec = bVec.get();
-				tVec->erase(std::remove_if(tVec->begin(), tVec->end(), [&obj](auto& tPair) { return tPair.first == obj; }));
-			}
+			//없다면 점검할 필요 조차 없다.
 
-			for (auto& [bMat, bVec] : this->_skinnedList)
+			//하나하나 vector.
+			if (!_staticList.empty()) 
 			{
-				auto tVec = bVec.get();
-				tVec->erase(std::remove_if(tVec->begin(), tVec->end(), [&obj](auto& tPair) { return tPair.first == obj; }));
+				for (auto& [bMat, bVec] : this->_staticList)
+				{
+					auto tVec = bVec.get();
+					if (!tVec->empty())
+					{
+						tVec->erase(std::remove_if(tVec->begin(), tVec->end(), [&obj](auto& tPair) { return tPair.first == obj; }));
+					}
+				}
+			}
+			
+			if (!_skinnedList.empty())
+			{
+				for (auto& [bMat, bVec] : this->_skinnedList)
+				{
+					auto tVec = bVec.get();
+					if (!tVec->empty())
+					{
+						tVec->erase(std::remove_if(tVec->begin(), tVec->end(), [&obj](auto& tPair) { return tPair.first == obj; }));
+					}
+				}
 			}
 		}
 
