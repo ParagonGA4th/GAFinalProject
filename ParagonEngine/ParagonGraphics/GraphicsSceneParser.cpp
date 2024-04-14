@@ -584,7 +584,7 @@ namespace Pg::Graphics
 		}
 
 		auto tRo2d = _renderObject2DList->GetRenderObjectWithGameObject(obj);
-		auto tRo3d = _renderObject2DList->GetRenderObjectWithGameObject(obj);
+		auto tRo3d = _renderObject3DList->GetRenderObjectWithGameObject(obj);
 		if (tRo2d.empty() && tRo3d.empty())
 		{
 			// 1. 해당 컴포넌트 없는 겜옵젝 -> 컴포넌트가 생기는 경우.
