@@ -422,12 +422,6 @@ namespace Pg::Graphics
 				{
 					tSkinnedRenderer->_setAnimationFunction = std::bind(&RenderObjectSkinnedMesh3D::SetAnimation, tSkinnedRO, std::placeholders::_1, std::placeholders::_2);
 				}
-
-				//SetAnimation Function Bind.
-				//std::function<void(const std::string&)> tSetAnimFunction = [tSkinnedRO](const std::string& animName) {
-				//	tSkinnedRO->SetAnimation(animName);
-				//};
-				//tSkinnedRenderer->_setAnimationFunction = tSetAnimFunction;
 			}
 		}
 	}
