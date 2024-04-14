@@ -147,9 +147,9 @@ namespace Pg::Data
 
 	void Camera::ScreenPointToRayInfo(Pg::Math::PGFLOAT2 screenPointNormalized, Pg::Math::PGFLOAT3& outRayOrigin, Pg::Math::PGFLOAT3& outRayDir)
 	{
-
-		//
-		////역투영 : 정규화된 ScreenPoint를 뷰 공간으로!
+		///기존.
+		{
+			////역투영 : 정규화된 ScreenPoint를 뷰 공간으로!
 		//Pg::Data::CameraData* tCamData = GetCameraData();
 		//XMMATRIX viewMat = PG2XM_MATRIX4X4(tCamData->_viewMatrix);
 		//XMMATRIX projMat = PG2XM_MATRIX4X4(tCamData->_projMatrix);
@@ -170,46 +170,171 @@ namespace Pg::Data
 		//// 레이 방향과 오리진 -> 참조자로 리턴.
 		//outRayDir = XM2PG_FLOAT3_VECTOR(XMVector3Normalize(XMVectorSubtract(rayFar, rayNear)));
 		//outRayOrigin = XM2PG_FLOAT3_VECTOR(rayNear);
+		}
 
-		//Thanks To 종화 형
+		///종화형 Ver.
+		//{
+		//	//Thanks To 종화 형
+		//	using namespace Pg::Math;
+		//	using namespace DirectX;
+		//
+		//	//제대로 된 범위의 WIDTH/HEIGHT 반영.
+		//	int mouseX = screenPointNormalized.x * GameConstantData::WIDTH;
+		//	int mouseY = screenPointNormalized.y * GameConstantData::HEIGHT;
+		//
+		//	// Screen 좌표계를 NDC로 변환
+		//	float normalizedX = ((float)mouseX / (float)GameConstantData::WIDTH) * 2 - 1;
+		//	float normalizedY = 1 - ((float)mouseY / (float)GameConstantData::HEIGHT) * 2;
+		//
+		//	Pg::Data::CameraData* tCamData = GetCameraData();
+		//	XMMATRIX viewMat = PG2XM_MATRIX4X4(tCamData->_viewMatrix);
+		//	XMMATRIX projMat = PG2XM_MATRIX4X4(tCamData->_projMatrix);
+		//
+		//
+		//	// ndc에 proj 역행렬을 곱해 view 공간으로 변환
+		//	float viewX = normalizedX / projMat.r[0].m128_f32[0];
+		//	float viewY = normalizedY / projMat.r[1].m128_f32[1];
+		//
+		//	DirectX::XMVECTOR rayDir = DirectX::XMVectorSet(viewX, viewY, 1.0f, 1.0f);
+		//	rayDir = DirectX::XMVector3Normalize(rayDir);
+		//
+		//	DirectX::XMMATRIX invView = DirectX::XMMatrixInverse(nullptr, viewMat);
+		//
+		//	DirectX::XMVECTOR rayOrigin = DirectX::XMVectorSet(tCamData->_position.x, tCamData->_position.y, tCamData->_position.z, 1.0f);
+		//	outRayOrigin = XM2PG_FLOAT3_VECTOR(rayOrigin);
+		//
+		//	// view 공간에 view 행렬의 역행렬을 곱해 world 공간으로 변환
+		//	DirectX::XMVECTOR rayDirToWorld = DirectX::XMVector3TransformCoord(rayDir, invView);
+		//
+		//	//Direction은 normalize해서 내보내기. (원본에는 없었다!)
+		//	rayDirToWorld = DirectX::XMVector3Normalize(rayDirToWorld);
+		//
+		//	outRayDir = XM2PG_FLOAT3_VECTOR(rayDirToWorld);
+		//}
+
+		/////Flax + StackOverflow 기준 Ver. 1
+		//{
+		//	using namespace Pg::Math;
+		//	using namespace DirectX;
+		//
+		//	//NDC 리매핑.
+		//	XMFLOAT2 p = { screenPointNormalized.x * (float)GameConstantData::WIDTH, screenPointNormalized.y * (float)GameConstantData::HEIGHT };
+		//	p.x = (2.0f * p.x) / ((float)GameConstantData::WIDTH) - 1.0f;
+		//	p.y = 1.0f - (2.0f * p.y) / ((float)GameConstantData::HEIGHT);
+		//
+		//	//값 DX 내부로 담기.
+		//	XMVECTOR det; //Determinant
+		//	XMFLOAT3 tOrigin = XMFLOAT3(p.x, p.y, 0);
+		//	XMVECTOR origin = XMLoadFloat3(&tOrigin);
+		//	XMFLOAT3 tFaraway = XMFLOAT3(p.x, p.y, 1);
+		//	XMVECTOR faraway = XMLoadFloat3(&tFaraway);
+		//
+		//	//Inverse ViewProj 연산.
+		//	Pg::Data::CameraData* tCamData = GetCameraData();
+		//	XMMATRIX viewMat = PG2XM_MATRIX4X4(tCamData->_viewMatrix);
+		//	XMMATRIX projMat = PG2XM_MATRIX4X4(tCamData->_projMatrix);
+		//	XMMATRIX viewProj = XMMatrixMultiply(viewMat, projMat);
+		//	XMMATRIX ivp = XMMatrixInverse(nullptr, viewProj);
+		//
+		//	//실제 연산.
+		//	XMVECTOR rayorigin = XMVector3Transform(origin, ivp);
+		//	XMVECTOR rayend = XMVector3Transform(faraway, ivp);
+		//	XMVECTOR raydirection = rayend - rayorigin;
+		//	raydirection = XMVector3Normalize(raydirection);
+		//
+		//	//값을 자체엔진에 알맞게 이동.
+		//	outRayDir = XM2PG_FLOAT3_VECTOR(raydirection);
+		//	outRayOrigin = XM2PG_FLOAT3_VECTOR(rayorigin);
+		//	//outRayOrigin = tCamData->_position;
+		//}
+
+		/////Flax + StackOverflow 기준 Ver. 1
+		//{
+		//	using namespace Pg::Math;
+		//	using namespace DirectX;
+		//
+		//	//NDC 리매핑.
+		//	XMFLOAT2 p = { screenPointNormalized.x * (float)GameConstantData::WIDTH, screenPointNormalized.y * (float)GameConstantData::HEIGHT };
+		//	p.x = (2.0f * p.x) / ((float)GameConstantData::WIDTH) - 1.0f;
+		//	p.y = 1.0f - (2.0f * p.y) / ((float)GameConstantData::HEIGHT);
+		//
+		//	//값 DX 내부로 담기.
+		//	XMVECTOR det; //Determinant
+		//	XMFLOAT3 tOrigin = XMFLOAT3(p.x, p.y, 0);
+		//	XMVECTOR origin = XMLoadFloat3(&tOrigin);
+		//	XMFLOAT3 tFaraway = XMFLOAT3(p.x, p.y, 1);
+		//	XMVECTOR faraway = XMLoadFloat3(&tFaraway);
+		//
+		//	//Inverse ViewProj 연산.
+		//	Pg::Data::CameraData* tCamData = GetCameraData();
+		//	XMMATRIX worldMat = PG2XM_MATRIX4X4(_object->_transform.GetWorldTM());
+		//	XMMATRIX viewMat = PG2XM_MATRIX4X4(tCamData->_viewMatrix);
+		//	XMMATRIX projMat = PG2XM_MATRIX4X4(tCamData->_projMatrix);
+		//	XMMATRIX worldviewProj = worldMat * viewMat * projMat;
+		//	XMMATRIX ivp = XMMatrixInverse(nullptr, worldviewProj);
+		//
+		//	//실제 연산.
+		//	XMVECTOR rayorigin = XMVector3Transform(origin, ivp);
+		//	XMVECTOR rayend = XMVector3Transform(faraway, ivp);
+		//	XMVECTOR raydirection = rayend - rayorigin;
+		//	raydirection = XMVector3Normalize(raydirection);
+		//
+		//	//값을 자체엔진에 알맞게 이동.
+		//	outRayDir = XM2PG_FLOAT3_VECTOR(raydirection);
+		//	outRayOrigin = XM2PG_FLOAT3_VECTOR(rayorigin);
+		//}
+//우리는 Plane으로 Intersection을 하지 않는다.
+		//DirectX::XMVECTOR interㄴㄴㄴㄴㄴㄴㄴㄴㄴ
+
+		///SimpleMath Version.
 		using namespace Pg::Math;
 		using namespace DirectX;
 
-		//제대로 된 범위의 WIDTH/HEIGHT 반영.
-		int mouseX = screenPointNormalized.x * GameConstantData::WIDTH;
-		int mouseY = screenPointNormalized.y * GameConstantData::HEIGHT;
-
-		// Screen 좌표계를 NDC로 변환
-		float normalizedX = ((float)mouseX / (float)GameConstantData::WIDTH) * 2 - 1;
-		float normalizedY = 1 - ((float)mouseY / (float)GameConstantData::HEIGHT) * 2;
-
 		Pg::Data::CameraData* tCamData = GetCameraData();
+		XMMATRIX worldMat = PG2XM_MATRIX4X4(_object->_transform.GetWorldTM());
 		XMMATRIX viewMat = PG2XM_MATRIX4X4(tCamData->_viewMatrix);
 		XMMATRIX projMat = PG2XM_MATRIX4X4(tCamData->_projMatrix);
 
+		XMFLOAT2 p = { screenPointNormalized.x * (float)GameConstantData::WIDTH, screenPointNormalized.y * (float)GameConstantData::HEIGHT };
+		p.x = (2.0f * p.x) / ((float)GameConstantData::WIDTH) - 1.0f;
+		p.y = 1.0f - (2.0f * p.y) / ((float)GameConstantData::HEIGHT);
 
-		// ndc에 proj 역행렬을 곱해 view 공간으로 변환
-		float viewX = normalizedX / projMat.r[0].m128_f32[0];
-		float viewY = normalizedY / projMat.r[1].m128_f32[1];
+		XMFLOAT3 p0 = { p.x, p.y, 0.f };
+		XMVECTOR P0 = XMLoadFloat3(&p0);
+		XMFLOAT3 p1 = { p.x, p.y, 1.f };
+		XMVECTOR P1 = XMLoadFloat3(&p1);
 
-		DirectX::XMVECTOR rayDir = DirectX::XMVectorSet(viewX, viewY, 1.0f, 1.0f);
-		rayDir = DirectX::XMVector3Normalize(rayDir);
+		XMVECTOR orig = XMVector3Unproject(P0,
+			0,
+			0,
+			(float)GameConstantData::WIDTH,
+			(float)GameConstantData::HEIGHT,
+			0,
+			1,
+			projMat,
+			viewMat,
+			worldMat);
 
-		DirectX::XMMATRIX invView = DirectX::XMMatrixInverse(nullptr, viewMat);
+		XMVECTOR dest = XMVector3Unproject(P1,
+			0,
+			0,
+			(float)GameConstantData::WIDTH,
+			(float)GameConstantData::HEIGHT,
+			0,
+			1,
+			projMat,
+			viewMat,
+			worldMat);
 
-		DirectX::XMVECTOR rayOrigin = DirectX::XMVectorSet(tCamData->_position.x, tCamData->_position.y, tCamData->_position.z, 1.0f);
-		outRayOrigin = XM2PG_FLOAT3_VECTOR(rayOrigin);
+		XMVECTOR direction = XMVectorSubtract(dest, orig);
+		direction = XMVector3Normalize(direction);
 
-		// view 공간에 view 행렬의 역행렬을 곱해 world 공간으로 변환
-		DirectX::XMVECTOR rayDirToWorld = DirectX::XMVector3TransformCoord(rayDir, invView);
+		XMFLOAT3 finOrig;
+		XMStoreFloat3(&finOrig, orig);
+		XMFLOAT3 finDir;
+		XMStoreFloat3(&finDir, direction);
 
-		//Direction은 normalize해서 내보내기. (원본에는 없었다!)
-		rayDirToWorld = DirectX::XMVector3Normalize(rayDirToWorld);
-
-		outRayDir = XM2PG_FLOAT3_VECTOR(rayDirToWorld);
-
-
-		//우리는 Plane으로 Intersection을 하지 않는다.
-		//DirectX::XMVECTOR interㄴㄴㄴㄴㄴㄴㄴㄴㄴ
+		outRayOrigin = { finOrig.x, finOrig.y, finOrig.z };
+		outRayDir = { finDir.x, finDir.y, finDir.z };
 	}
 }
