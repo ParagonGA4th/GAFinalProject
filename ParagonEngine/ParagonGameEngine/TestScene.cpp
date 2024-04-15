@@ -40,7 +40,7 @@
 
 Pg::Engine::TestScene::TestScene()
 {
-	tCurrentScene = new Pg::Data::Scene("SampleScene");
+	tCurrentScene = new Pg::Data::Scene("TestScene");
 }
 
 void Pg::Engine::TestScene::Initialize()
