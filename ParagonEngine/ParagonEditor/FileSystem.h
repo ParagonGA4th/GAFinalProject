@@ -5,6 +5,7 @@
 
 namespace Pg::Editor { class Event; }
 namespace Pg::Editor::Manager { class DataManager; }
+namespace Pg::Editor::Data { class DataContainer; }
 
 namespace Pg::Editor::System
 {
@@ -46,6 +47,7 @@ namespace Pg::Editor::System
 
 		std::unique_ptr<Pg::Editor::Manager::DataManager> _dataManager;
 		std::unique_ptr<Pg::Editor::Event> _fileEvent;
+		Pg::Editor::Data::DataContainer* _dataContainer;
 
 		bool _isCancel = false;
 		bool _isScene;
