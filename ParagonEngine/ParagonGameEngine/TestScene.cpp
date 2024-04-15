@@ -68,31 +68,31 @@ void Pg::Engine::TestScene::Initialize()
 
 	GameObject* tObj2_2 = tCurrentScene->AddObject("Capsule1");
 	tObj2_2->GetComponent<Transform>()->_position = { 10.0f, 5.0f, 5.0f };
-	//tObj2_2->AddComponent<CapsuleCollider>();
-	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
-	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
-	//tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
-	//tObj2_2->GetComponent<CapsuleCollider>()->SetLayer(0);
+	tObj2_2->AddComponent<CapsuleCollider>();
+	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
+	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
+	tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+	tObj2_2->GetComponent<CapsuleCollider>()->SetLayer(0);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetTrigger(true);
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 1.0f, 0.0f, 0.0f });
 	//tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, 90.0f, 0.0f, 0.0f });
 	tObj2_2->AddComponent<StaticMeshRenderer>();
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx");
 	tObj2_2->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	tObj2_2->AddComponent<DemoPlayerAction>();
 	tObj2_2->AddComponent<MovingTest>();
 	//tObj2_2->AddComponent<MovingTest>()->SetActive(true);
 	tObj2_2->AddComponent<AudioSource>();
 	tObj2_2->GetComponent<AudioSource>()->SetAudioName("../Resources/Sounds/Test/jump.mp3");
 	tObj2_2->AddComponent<RayCastTest>();
 	//tObj2_2->AddComponent<RayCastTest>()->SetActive(true);
-	//tObj2_2->AddComponent<NavMeshAgent>();
 
 	Pg::Data::GameObject* tObj3 = tCurrentScene->AddObject("Capsule2");
 	tObj3->GetComponent<Transform>()->_position = { -1.0f, 5.0f, 5.0f };
 	//tObj3->GetComponent<Transform>()->_scale = { 3.0f, 3.0f, 3.0f };
 	//tObj3->GetComponent<Transform>()->SetLocalRotationEuler(0.0f, 100.0f, 0.0f);
 	tObj3->AddComponent<CapsuleCollider>();
-	tObj3->GetComponent<CapsuleCollider>()->SetLayer(2);
+	tObj3->GetComponent<CapsuleCollider>()->SetLayer(0);
 	//tObj3->GetComponent<CapsuleCollider>()->SetCapsuleInfo(3.0f, 3.0f);
 	tObj3->AddComponent<StaticMeshRenderer>();
 	tObj3->GetComponent<StaticMeshRenderer>()->SetActive(true);
@@ -105,7 +105,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj4->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	//tObj4->GetComponent<Transform>()->SetLocalRotationEuler(0.5f, 1.5f, -2.0f);
 	tObj4->AddComponent<StaticBoxCollider>();
-	//tObj4->GetComponent<StaticBoxCollider>()->SetTrigger(false);
+	tObj4->GetComponent<StaticBoxCollider>()->SetTrigger(true);
 	//tObj4->GetComponent<StaticBoxCollider>()->_scale(2.0f, 2.0f, 2.0f);
 	tObj4->AddComponent<StaticMeshRenderer>();
 	tObj4->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
@@ -161,13 +161,28 @@ void Pg::Engine::TestScene::Initialize()
 		tObj7->AddComponent<StaticMeshRenderer>();
 		tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/arrow/arrow.fbx");
 		tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+		tObj7->AddComponent<StaticBoxCollider>();
+		tObj7->GetComponent<StaticBoxCollider>()->SetScaleOffset({0.1f, 0.1f, 0.1f});
+		tObj7->GetComponent<StaticBoxCollider>()->SetTrigger(false);
+		tObj7->GetComponent<StaticBoxCollider>()->SetLayer(4);
 		tObj7->AddComponent<ArrowAction>();
 		tObj7->SetTag("ArrowTag");
 	}
-	
 
-
-
+	///AI 1차
+	Pg::Data::GameObject* tObj11 = tCurrentScene->AddObject("Enemy");
+	tObj11->GetComponent<Transform>()->_position = { 0.0f, 5.0f, 0.0f };
+	tObj11->AddComponent<CapsuleCollider>();
+	tObj11->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
+	tObj11->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
+	tObj11->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+	tObj11->GetComponent<CapsuleCollider>()->SetLayer(0);
+	//tObj11->AddComponent<StaticBoxCollider>();
+	//tObj11->GetComponent<StaticBoxCollider>()->SetTrigger(true);
+	//tObj11->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ 0.f, 5.f, 0.f });
+	tObj11->AddComponent<StaticMeshRenderer>();
+	tObj11->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx");
+	tObj11->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	///버튼 & 오디오
 	//Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Button");

@@ -43,20 +43,21 @@ void RayCastTest::Update()
 	float sphereRadius = 2.f; // 구체 반지름
 	float maxDistance = 1.0f; // 최대 감지 거리
 	const int maxColliders = 100; // 최대 충돌 객체 수
+	Pg::Math::PGFLOAT3 outHitPoint;
 
 	//Pg::Data::Collider** colliderHits[maxColliders] = { 0, 0, 0 };
 	std::array<Pg::Data::Collider*,10> colVec;
 	std::fill(colVec.begin(), colVec.end(), nullptr);
 	
 	
-	//int type = 0;
-	//tPhysic->MakeRayCast({_object->_transform._position.x + 0.8f,
-	//					_object->_transform._position.y,
-	//					_object->_transform._position.z + 0.8f }, { 1.0f,0.0f,0.0f }, 10.0f, &type);
+	int type = 0;
+	tPhysic->MakeRayCast({_object->_transform._position.x + 0.8f,
+						_object->_transform._position.y - 0.5f,
+						_object->_transform._position.z + 0.8f }, { 0.0f,0.0f,1.0f }, 10.0f, outHitPoint, &type);
 
-	tPhysic->MakeSphereCast({ _object->_transform._position.x,
-						_object->_transform._position.y,
-						_object->_transform._position.z }, { 1.0f,0.0f,0.0f }, sphereRadius, maxDistance, colVec.size(), colVec.data());
+	//tPhysic->MakeSphereCast({ _object->_transform._position.x,
+	//					_object->_transform._position.y,
+	//					_object->_transform._position.z }, { 1.0f,0.0f,0.0f }, sphereRadius, maxDistance, colVec.size(), colVec.data());
 
 	//// 충돌한 객체들 처리
 	//	for (int i = 0; i < maxColliders; ++i)

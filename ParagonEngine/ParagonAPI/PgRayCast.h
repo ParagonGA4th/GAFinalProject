@@ -37,9 +37,6 @@ namespace Pg::API::Raycast
 		void MakeSphereRay(const Pg::Math::PGFLOAT3& tOrigin, const Pg::Math::PGFLOAT3& tDir,
 			float tRad, float max, unsigned int maxColCnt, Pg::Data::Collider**& colDataPointer);
 
-		void MakeSphereRay(const Pg::Math::PGFLOAT3& tOrigin, const Pg::Math::PGFLOAT3& tDir,
-			float tRad, float max, unsigned int maxColCnt, Pg::Data::Collider**& colDataPointer);
-
 	private:
 		Pg::Engine::Physic::PhysicSystem* _physicSystem;
 	};
