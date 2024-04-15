@@ -173,7 +173,7 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 				}
 			}
 				
-			_changeObjectData->Invoke(eEventType::_ADDOBJECT, static_cast<void*>(&tObjList));
+			_changeObjectData->Invoke(eEventType::_DELETEOBJECT, static_cast<void*>(&tObjList));
 			tObjList.clear();
 			_dataContainer->GetCurrentScene()->DeleteObject((*_prevObjName));
 
