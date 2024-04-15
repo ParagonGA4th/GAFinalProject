@@ -40,7 +40,7 @@ void Pg::Editor::Window::ToolBar::Update()
 	_uiManager->WindowBegin(_winName);
 
 	_uiManager->SetAlignCenter(2, 80.0f);
-	_widgetCon->SameLine(true, 2);
+	_widgetCon->SameLine(true, 1);
 	_widgetCon->Update();
 
 	if (_isStartBtnClick)
