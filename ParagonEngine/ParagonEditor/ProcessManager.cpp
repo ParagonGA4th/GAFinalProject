@@ -46,6 +46,9 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd)
 	_editorEvent->AddEvent(Pg::Editor::eEventType::_MODIFIEDOBJECT, [&](void* objList) { SetModifiedObject(objList); });
 	_editorEvent->AddEvent(Pg::Editor::eEventType::_DELETEOBJECT, [&](void* objList) { SetDeleteObject(objList); });
 	_editorEvent->AddEvent(Pg::Editor::eEventType::_ASSETLIST, [&](void* define) { GetAssetList(define); });
+
+	if (_dataContainer->GetCurrentScene() == nullptr)
+		_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
 }
 
 void Pg::Editor::Manager::ProcessManager::Update()
