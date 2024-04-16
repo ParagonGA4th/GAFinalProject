@@ -168,6 +168,7 @@ namespace Pg::Core
 
 	std::vector<std::string> ProcessMain::GetAssetList(Pg::Data::Enums::eAssetDefine define)
 	{
-		return _assetManager->GetResourcesNameByDefine(define);
+		if (define == Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL) return _assetManager->GetMaterialNamesWithoutDefault();
+		else return _assetManager->GetResourcesNameByDefine(define);
 	}
 }

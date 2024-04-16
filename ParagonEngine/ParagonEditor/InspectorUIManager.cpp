@@ -4,9 +4,10 @@
 #include "Event.h"
 
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/StaticMeshRenderer.h"
+#include "../ParagonData/Button.h"
 #include "../ParagonData/Camera.h"
 #include "../ParagonData/Light.h"
-#include "../ParagonData/StaticMeshRenderer.h"
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonScript/Script.h"
 
@@ -60,6 +61,7 @@ void Pg::Editor::Window::InspectorUIManager::Initialize(InspectorDataManager* ma
 	//_componentList.emplace_back(typeid(Pg::Data::Transform).name());
 	//_componentList.emplace_back(typeid(Pg::Data::AudioSource).name());
 	_componentList.emplace_back(typeid(Pg::Data::StaticMeshRenderer).name());
+	_componentList.emplace_back(typeid(Pg::Data::Button).name());
 	//_componentList.emplace_back(typeid(Pg::Data::Light).name());
 	//_componentList.emplace_back(typeid(Pg::DataScript::Script).name()); 
 
@@ -122,12 +124,12 @@ void Pg::Editor::Window::InspectorUIManager::ChangedUI()
 
 						if (valName == "meshName")
 						{
-							if (*value == _dataContainer->GetAssetList().at(_prevNameIndex))
+							if (*value != _dataContainer->GetAssetList().at(_prevNameIndex))
 								_prevNameIndex = _dataContainer->GetAssetIndex(*value);
 						}
 						else
 						{
-							if (*value == _dataContainer->GetAssetList().at(_prevMaterialIndex))
+							if (*value != _dataContainer->GetAssetList().at(_prevMaterialIndex))
 								_prevMaterialIndex = _dataContainer->GetAssetIndex(*value);
 						}
 						_changedUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##" + valName, _dataContainer->GetAssetList(),
@@ -175,11 +177,11 @@ void Pg::Editor::Window::InspectorUIManager::ChangedUI()
 
 			_changedUI->CreateCollapsWidget<Pg::UI::Layout::Column<2>>(comName, _changedUI->GetColumnWidgets());
 
+			if (comName.find("StaticMeshRenderer") != std::string::npos)
+				_changedUI->CreateCollapsWidget<Pg::UI::Widget::Button>("Refresh", 115.f, 30.f, _isRefresh);
+			
 			_changedUI->CreateWidget<Pg::UI::Layout::Collaps>
 				(comName, _changedUI->GetCollapsWidgets(), _componentExistence.at(component.first));
-
-			if (comName.find("StaticMeshRenderer") != std::string::npos)
-				_changedUI->CreateWidget<Pg::UI::Widget::Button>("Refresh", 115.f, 30.f, _isRefresh);
 		}
 	}
 }
@@ -193,7 +195,11 @@ void Pg::Editor::Window::InspectorUIManager::SetData()
 
 void Pg::Editor::Window::InspectorUIManager::UpdateData()
 {
-	if (_isClick) _dataManager->AddComponent(_componentList.at(_componentIndex));
+	if (_isClick)
+	{
+		_dataManager->AddComponent(_componentList.at(_componentIndex));
+		_componentExistence.insert({ _componentList.at(_componentIndex), new bool(true) });
+	}
 
 	for (auto& [name, val] : _componentExistence)
 	{
@@ -201,7 +207,11 @@ void Pg::Editor::Window::InspectorUIManager::UpdateData()
 		{
 			_dataManager->RemoveComponent(name);
 
-			if (name.find("StaticMeshRenderer") != std::string::npos) _dataManager->AddModifiedObject();
+			if (name.find("StaticMeshRenderer") != std::string::npos)
+			{
+				_dataManager->AddModifiedObject();
+				_dataManager->ModifiedObject(true);
+			}
 
 			auto iter = _componentExistence.find(name);
 			delete iter->second;
