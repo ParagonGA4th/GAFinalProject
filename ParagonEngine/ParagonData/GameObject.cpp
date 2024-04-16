@@ -3,14 +3,7 @@
 #include "PhysicsCollision.h"
 
 // Component
-#include "Collider.h"
-#include "StaticCollider.h"
-#include "DynamicCollider.h"
-
-#include "RendererBase3D.h"
-#include "../ParagonData/StaticMeshRenderer.h"
-#include "../ParagonData/SkinnedMeshRenderer.h"
-
+#include "ComponentList.h"
 #include "../ParagonUtil/Log.h"
 
 #include "data_factory.h" // Auto Register를 위한 필수요건.
@@ -217,26 +210,26 @@ namespace Pg::Data
 		}
 
 		///TODO: 현재 Static/SkinnedMeshRenderer가 먹지 않고 있다. UE를 급하게 고쳐야 하기에, 하드코딩으로 일단 투입.
-		//if (componentType.compare("class Pg::Data::StaticMeshRenderer") == 0)
-		//{
-		//	component = new StaticMeshRenderer(this);
-		//	AddComponent("class Pg::Data::StaticMeshRenderer", component);
-		//	return component;
-		//}
-
-		//if (componentType.compare("class Pg::Data::SkinnedMeshRenderer") == 0)
-		//{
-		//	component = new SkinnedMeshRenderer(this);
-		//	AddComponent("class Pg::Data::SkinnedMeshRenderer", component);
-		//	return component;
-		//}
-
-		component = Pg::Factory::Data::Factory<Pg::Data::RendererBase3D, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
-		if (component != nullptr)
+		if (componentType.compare("class Pg::Data::StaticMeshRenderer") == 0)
 		{
-			AddComponent(componentType, component);
+			component = new StaticMeshRenderer(this);
+			AddComponent("class Pg::Data::StaticMeshRenderer", component);
 			return component;
 		}
+
+		if (componentType.compare("class Pg::Data::SkinnedMeshRenderer") == 0)
+		{
+			component = new SkinnedMeshRenderer(this);
+			AddComponent("class Pg::Data::SkinnedMeshRenderer", component);
+			return component;
+		}
+
+		//component = Pg::Factory::Data::Factory<Pg::Data::RendererBase3D, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
+		//if (component != nullptr)
+		//{
+		//	AddComponent(componentType, component);
+		//	return component;
+		//}
 
 		component = Pg::Factory::Data::Factory<Pg::Data::StaticCollider, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
 		if (component != nullptr)

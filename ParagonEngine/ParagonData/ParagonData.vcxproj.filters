@@ -547,9 +547,6 @@
     <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCacheBuilder.h">
       <Filter>2_Component\Navigation\include\DetourTileCache</Filter>
     </ClInclude>
-    <ClInclude Include="SerializerHelper.h">
-      <Filter>2_Component\1_Helper</Filter>
-    </ClInclude>
     <ClInclude Include="BuildSettings.h">
       <Filter>2_Component\Navigation\NavigationField\FieldSetting</Filter>
     </ClInclude>
@@ -558,6 +555,12 @@
     </ClInclude>
     <ClInclude Include="EditorCameraScript.h">
       <Filter>13_EngineScripts\EditorCameraScript</Filter>
+    </ClInclude>
+    <ClInclude Include="SerializerHelper.h">
+      <Filter>2_Component\1_Helper\SerializerHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentList.h">
+      <Filter>2_Component\1_Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -842,6 +845,9 @@
     </Filter>
     <Filter Include="13_EngineScripts\EditorCameraScript">
       <UniqueIdentifier>{baaa2dab-5a8d-4839-83e7-26e03160a912}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\1_Helper\SerializerHelper">
+      <UniqueIdentifier>{2e2cd2ef-5cb5-4fca-afc4-e98602257c67}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
