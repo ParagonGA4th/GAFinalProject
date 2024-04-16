@@ -22,9 +22,6 @@
     <ClInclude Include="DebugSystem.h">
       <Filter>2_System\DebugSystem</Filter>
     </ClInclude>
-    <ClInclude Include="EditorCameraScript.h">
-      <Filter>4_WorkSpace\SceneView\Scripts\EditorCamera</Filter>
-    </ClInclude>
     <ClInclude Include="MovingTest.h">
       <Filter>4_WorkSpace\SceneView\Scripts\ObjectMove</Filter>
     </ClInclude>
@@ -161,9 +158,6 @@
     </ClCompile>
     <ClCompile Include="DebugSystem.cpp">
       <Filter>2_System\DebugSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorCameraScript.cpp">
-      <Filter>4_WorkSpace\SceneView\Scripts\EditorCamera</Filter>
     </ClCompile>
     <ClCompile Include="MovingTest.cpp">
       <Filter>4_WorkSpace\SceneView\Scripts\ObjectMove</Filter>
