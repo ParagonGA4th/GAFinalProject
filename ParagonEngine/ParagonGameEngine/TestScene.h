@@ -12,7 +12,12 @@ namespace Pg::Engine
 	class TestScene
 	{
 	public:
-		TestScene();
+		//Conflict가 너무 많아서 생성자를 헤더에다가 넣었다.
+		///TestScene.cpp 안된다면 생성자를 제거해라.
+		TestScene()
+		{
+			tCurrentScene = new Pg::Data::Scene(TESTSCENENAME);
+		}
 
 	public:
 		void Initialize();
@@ -26,6 +31,8 @@ namespace Pg::Engine
 		Pg::Data::Scene* tCurrentScene = nullptr;
 
 		//CameraScriptTest* tCameraScript = nullptr;
+
+		inline const static std::string TESTSCENENAME = "TestScene";
 	};
 }
 

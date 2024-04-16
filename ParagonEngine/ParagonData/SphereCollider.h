@@ -28,10 +28,14 @@ namespace Pg::Data
 		float GetRadius() const;
 		void SetRadius(float rad);
 
+		void SetLayer(int lay);
+		uint32_t GetLayer();
+
 		Pg::Data::SphereInfo _sphereInfo;
 
 	private:
 		float _rad;
+		uint32_t _layer;
 	};
 }
 

@@ -11,3 +11,6 @@
 #include "PlayerMove.h"
 #include "EventTest.h"
 #include "RayCastTest.h"
+
+//실제 사용될 Content용 Script들.
+#include "PlayerBehavior.h"

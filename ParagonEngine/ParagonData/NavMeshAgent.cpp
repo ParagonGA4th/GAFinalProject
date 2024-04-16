@@ -12,7 +12,8 @@ namespace Pg::Data
 		_maxSpeed(5.0f),
 		_maxAcceleration(1.0f),
 		_obstacleAvoidance(false),
-		_separation(false)
+		_separation(false),
+		_separationWeight(2.0f)
 	{
 
 	}
@@ -26,12 +27,13 @@ namespace Pg::Data
 
 	void NavMeshAgent::Start()
 	{
-		SetDestination({ 10.0f, 0.0f, 10.0f });
+		//SetDestination({ 0.0f, 0.0f, 0.0f });
 	}
 
 	void NavMeshAgent::Update()
 	{
-
+		//SetRelocate({ -10.0f, 1.0f, 0.0f });
+		//SetDestination({ 0.0f, 0.0f, 0.0f });
 	}
 
 	void NavMeshAgent::SetMaxSpeed(float speed)
@@ -101,12 +103,18 @@ namespace Pg::Data
 	void NavMeshAgent::SetDestination(Pg::Math::PGFLOAT3 des)
 	{
 		_destination = des;
-		_destinationFunc(this, _destination);
-		
+		_destinationFunc(this, des);
 	}
 
 	Pg::Math::PGFLOAT3 NavMeshAgent::GetDestination()
 	{
 		return _destination;
 	}
+
+	void NavMeshAgent::SetRelocate(Pg::Math::PGFLOAT3 des)
+	{
+		//_destination = des;
+		//_relocateFunc(this, des);
+	}
+
 }

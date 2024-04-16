@@ -31,14 +31,19 @@ namespace Pg::Data
 		float GetWidth() const;
 		float GetHeight() const;
 		float GetDepth() const;
+		uint32_t GetLayer() const;
 
 		void SetScale(float w, float h, float d);
+		void SetLayer(int lay);
 
 		Pg::Data::BoxInfo _boxInfo;
 	private:
 		float _width;
 		float _height;
 		float _depth;
+
+		//Collision Layer Mask
+		uint32_t _layer;
 
 
 	};

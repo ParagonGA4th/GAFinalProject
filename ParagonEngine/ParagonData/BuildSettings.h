@@ -27,5 +27,8 @@ namespace Pg::Data
 
 		// 공간 분할은 xz축으로 250*330, y축으로 200개 정도 분할되는 정도면 순식간에 네비게이션 빌드도 되면서 길찾기도 무리없이 하게 되는 정도다.
 		// xz축으로 743* 989개 정도 분할이 되도 큰 부하는 없다.
+		float tileSize{ 48 };
+		float agentRadius{ 0.6 };
+		float edgeMaxError{ 1.3 };
 	};
 }
