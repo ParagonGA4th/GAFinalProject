@@ -223,7 +223,6 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClInclude Include="DebugSystem.h" />
     <ClInclude Include="DemoPlayerAction.h" />
     <ClInclude Include="dummy_nodes.h" />
-    <ClInclude Include="EditorCameraScript.h" />
     <ClInclude Include="EngineDLLExporter.h" />
     <ClInclude Include="EngineMain.h" />
     <ClInclude Include="EngineResourceManager.h" />
@@ -258,7 +257,6 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClCompile Include="DebugSystem.cpp" />
     <ClCompile Include="DemoPlayerAction.cpp" />
     <ClCompile Include="dummy_nodes.cpp" />
-    <ClCompile Include="EditorCameraScript.cpp" />
     <ClCompile Include="EngineMain.cpp" />
     <ClCompile Include="EngineResourceManager.cpp" />
     <ClCompile Include="EventSystem.cpp" />

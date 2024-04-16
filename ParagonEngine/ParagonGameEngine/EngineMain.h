@@ -116,7 +116,9 @@ namespace Pg::Engine
 
 		Pg::Util::Time::TimeSystem* _timeSystem = nullptr; //제어권은 더이상 엔진에는 없다.
 
-		Pg::Data::Enums::eEditorMode _prevRecordedEditMode{ Data::Enums::eEditorMode::_NONE };
+		Pg::Data::Enums::eEditorMode _currentRecordedEditMode{ Data::Enums::eEditorMode::_NONE };
+		Pg::Data::Enums::eEditorMode _previousEditMode{ Data::Enums::eEditorMode::_NONE };
+
 	};
 }
 

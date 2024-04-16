@@ -3,7 +3,7 @@
 #include "PhysicSystem.h"
 #include "EngineMain.h"
 #include "BehaviorTreeSystem.h"
-#include "EditorCameraScript.h"
+//#include "EditorCameraScript.h"
 
 //Script System 마련 전 Test 용.
 #include "TestScene.h"
@@ -61,9 +61,9 @@ namespace Pg::Engine
 		//씬 자체의 Start를 보기 위해서.
 		if (!_isStarted)
 		{
-			///급하게 리소스를 보기 위해서 사용. 클라이언트 작업 시 무조건 삭제!!!!!
-			PG_WARN("이건 여기 있어서는 안된다!!! 아쿠마다!!!!!!");
-			_currentScene->GetMainCamera()->_object->AddComponent<EditorCameraScript>();
+			/////급하게 리소스를 보기 위해서 사용. 클라이언트 작업 시 무조건 삭제!!!!!
+			//PG_WARN("이건 여기 있어서는 안된다!!! 아쿠마다!!!!!!");
+			//_currentScene->GetMainCamera()->_object->AddComponent<EditorCameraScript>();
 			_isStarted = true;
 		}
 	}
