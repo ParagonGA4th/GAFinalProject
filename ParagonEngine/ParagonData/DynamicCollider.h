@@ -46,7 +46,13 @@ namespace Pg::Data
 		PGFLOAT3 GetVelocity() const;
 	public:
 		void AddForce(PGFLOAT3 dir, ForceMode mode);
+
+		void SetLinearDamping(float val);
+		float GetLinearDamping();
 		
+		//Move Rotation (리지드 바디가 해당 방향을 바라보게)
+		void MoveRotation(PGQuaternion rot);
+
 		///Collider의 축을 고정
 		void FreezeAxisX(bool isActive);
 		void FreezeAxisY(bool isActive);
@@ -59,13 +65,15 @@ namespace Pg::Data
 		virtual float GetDepth() const abstract;
 
 	private:
-		physx::PxRigidDynamic* _rigid;
+		physx::PxRigidDynamic* _rigid{ nullptr };
 
 	private:
 		//플래그
 		bool _isActiveX;
 		bool _isActiveY;
 		bool _isActiveZ;
+
+		float _linearDamping;
 	};
 }
 

@@ -34,6 +34,7 @@ namespace Pg::Data
 {
 	class AudioSource;
 	class Button;
+	class Collider;
 }
 
 class RayCastTest : public Pg::Data::Component

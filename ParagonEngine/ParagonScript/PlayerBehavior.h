@@ -7,6 +7,19 @@ namespace Pg::Data
 	class DynamicCollider;
 }
 
+namespace Pg::API
+{
+	namespace Input
+	{
+		class PgInput;
+	}
+
+	namespace Time
+	{
+		class PgTime;
+	}
+}
+
 namespace Pg::DataScript
 {
 	class PlayerBehavior : public ScriptInterface<PlayerBehavior>
@@ -20,10 +33,30 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
-	private:
-		Pg::Data::Camera* mainCam{ nullptr };
-		Pg::Data::DynamicCollider* selfCol{ nullptr };
+		float moveSpeed{ 5.0f };
 
+	private:
+
+		//WASD로 카메라 기준 이동.
+		void UpdateWASD();
+		//클릭한 곳 기준 바라보기.
+		void UpdateFacingDirection(float yLevelPlane);
+
+
+
+	private:
+		Pg::Data::Camera* _mainCam{ nullptr };
+		Pg::Data::DynamicCollider* _selfCol{ nullptr };
+		Pg::API::Input::PgInput* _pgInput{ nullptr };
+		Pg::API::Time::PgTime* _pgTime{ nullptr };
+		Pg::Math::PGFLOAT3 _targetPos;
+		Pg::Math::PGQuaternion _targetRotation;
+
+	private:
+		bool _isJustSetRestraint{ false };
+
+		bool _shouldRotate = false;
+		float _rotBeginRatio = 0.0f;
 
 	};
 }

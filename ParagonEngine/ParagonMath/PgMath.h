@@ -1,7 +1,6 @@
 #pragma once
 #include <functional>
 #include <DirectXMath.h>
-//#include <dxtk/SimpleMath.h>
 
 /// ParagonEngine에서 쓰일 Math 기본 형태.
 /// 추가적인 종속성을 막기 위해서, 커스텀 구조체로 관리.
@@ -35,6 +34,14 @@ namespace Pg::Math
 		constexpr PGFLOAT2 operator*(float rhs) const noexcept;
 
 		constexpr PGFLOAT2 operator+(const PGFLOAT2& rhs) const noexcept;
+
+		// Unary Minus Operator Overload
+		PGFLOAT2 operator-() const {
+			PGFLOAT2 v;
+			v.x = -x;
+			v.y = -y;
+			return v;
+		}
 	};
 
 	struct PGFLOAT3
@@ -70,6 +77,20 @@ namespace Pg::Math
 		bool operator>=(const PGFLOAT3& rhs) const;
 
 		bool operator<=(const PGFLOAT3& rhs) const;
+
+		// Unary Minus Operator Overload
+		PGFLOAT3 operator-() const {
+			PGFLOAT3 v;
+			v.x = -x;
+			v.y = -y;
+			v.z = -z;
+			return v;
+		}
+
+		//단위 행렬
+		static PGFLOAT3 GlobalUp();
+		static PGFLOAT3 GlobalRight();
+		static PGFLOAT3 GlobalForward();
 	};
 
 	struct PGFLOAT4
@@ -288,7 +309,11 @@ namespace Pg::Math
 	DirectX::XMFLOAT4X4 PG2XM_FLOAT4X4(const Pg::Math::PGFLOAT4X4& val);
 	DirectX::XMMATRIX PG2XM_MATRIX4X4(const Pg::Math::PGFLOAT4X4& val);
 
+	//UtilityFunctions - Unity, SimpleMath 모델링.
+	Pg::Math::PGQuaternion FromToRotation(const Pg::Math::PGFLOAT3& fromDirection, const Pg::Math::PGFLOAT3& toDirection);
 
+	Pg::Math::PGQuaternion PGLookRotation(const Pg::Math::PGFLOAT3& forward, const Pg::Math::PGFLOAT3& up);
+	Pg::Math::PGQuaternion PGQuaternionSlerp(Pg::Math::PGQuaternion a, Pg::Math::PGQuaternion b, float t);
 }
 
 

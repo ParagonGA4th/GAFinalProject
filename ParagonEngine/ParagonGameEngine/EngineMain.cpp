@@ -106,21 +106,22 @@ namespace Pg::Engine
 				_sceneSystem->GetCurrentScene()->SetMainCamera(_sceneSystem->GetCurrentScene()->GetEditorCamera());
 				
 				//Editor Camera 오브젝트 살리기.
+
 				_sceneSystem->GetCurrentScene()->GetEditorCamera()->SetActive(true);
 				_sceneSystem->GetCurrentScene()->GetEditorCamera()->_object->SetActive(true);
 			}
 			else
 			{
 				//Editor Camera 오브젝트 작동 정지.
-				_sceneSystem->GetCurrentScene()->GetEditorCamera()->SetActive(false);
-				_sceneSystem->GetCurrentScene()->GetEditorCamera()->_object->SetActive(false);
+				PG_WARN("에디터 카메라가 저 멀리 가 있더라도, SetMainCamera 스크립트 내부 호출 안했을 때 Unity SceneView 처럼 볼 수 있어야. 불편 감수.");
+				//_sceneSystem->GetCurrentScene()->GetEditorCamera()->SetActive(false);
+				//_sceneSystem->GetCurrentScene()->GetEditorCamera()->_object->SetActive(false);
 
 				//Scene에서 다시 InternalAwake / Awake / Start가 호출될 수 있게.
 				std::for_each(_sceneSystem->GetCurrentScene()->GetObjectList().begin(),
 					_sceneSystem->GetCurrentScene()->GetObjectList().end(), [](auto& iter)
 					{ iter->ResetDebouncerBoolean(); });
 
-				PG_WARN("클라이언트 딴에서 명시적으로 SetMainCamera 카메라 객체에 해주지 않으면 뻑나게 해놓음");
 
 				//리셋, 클라이언트 딴에서 SetMainCamera 명시적으로 해줘야 하게. -> 이거 호환 위해 nullptr set은 꺼놨지만, 인게임에서 오버라이드 되어야 함.
 				//_sceneSystem->GetCurrentScene()->SetMainCamera(nullptr);
@@ -143,17 +144,22 @@ namespace Pg::Engine
 			_physicSystem->Flush();
 			_sceneSystem->Update(true);
 			_soundSystem->Update();
-			_navSystem->Update(_timeSystem->GetDeltaTime());
+			//_navSystem->Update(_timeSystem->GetDeltaTime());
 			_behaviorTreeSystem->Update();
 			_physicSystem->UpdateTransform();
 			_debugSystem->Update(_sceneSystem->GetCurrentScene());
 		}
+
+		//명시적으로 바뀔 때 감지를 할 수 있게 하기 위해, 
+		//현재의 Editor Mode를 전의 것이라고 대입한다.
+		//EditorMode가 매프레임마다 호출되는 것이 아니기 때문.
+		_previousEditMode = _currentRecordedEditMode;
 	}
 
 	void EngineMain::Finalize()
 	{
 		_physicSystem->Finalize();
-		_navSystem->Finalize();
+		//_navSystem->Finalize();
 		_soundSystem->Finalize();
 	}
 
