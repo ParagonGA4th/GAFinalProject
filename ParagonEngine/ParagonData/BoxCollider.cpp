@@ -9,7 +9,7 @@ namespace Pg::Data
 		_width(1.0f),
 		_height(1.0f),
 		_depth(1.0f),
-		_layer(1)
+		_layer(0)
 	{
 		FACTORY_INIT;
 	}
