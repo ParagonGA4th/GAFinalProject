@@ -151,6 +151,9 @@
     <ClInclude Include="PgLayer.h">
       <Filter>2_System\PhysicSystem\PhysicsLayer</Filter>
     </ClInclude>
+    <ClInclude Include="AISeight.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -312,6 +315,9 @@
     <ClCompile Include="PgLayer.cpp">
       <Filter>2_System\PhysicSystem\PhysicsLayer</Filter>
     </ClCompile>
+    <ClCompile Include="AISeight.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -442,6 +448,9 @@
     </Filter>
     <Filter Include="2_System\PhysicSystem\PhysicsLayer">
       <UniqueIdentifier>{f2a4720f-ff13-4657-9fcb-360cbffb9a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\AI">
+      <UniqueIdentifier>{d01096b5-f5a8-4e70-847d-71dd8716b3be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
