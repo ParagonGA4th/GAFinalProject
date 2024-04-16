@@ -25,6 +25,9 @@
     <Filter Include="1_BaseClass\ParagonScriptList">
       <UniqueIdentifier>{9c0b6d1c-0ad3-4940-8e52-95a9ebf81b5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ComboSystem">
+      <UniqueIdentifier>{98345f97-48e6-4681-94f4-95356979c0c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -44,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="FactoryHelper.cpp">
       <Filter>0_Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="ComboSystem.cpp">
+      <Filter>ComboSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="ParagonScriptList.h">
       <Filter>1_BaseClass\ParagonScriptList</Filter>
+    </ClInclude>
+    <ClInclude Include="ComboSystem.h">
+      <Filter>ComboSystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
