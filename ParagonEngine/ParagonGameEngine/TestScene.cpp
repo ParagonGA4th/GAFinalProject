@@ -27,7 +27,7 @@
 // Script<->Component Ȯ���ϱ� ����.
 #include "../ParagonData/MoveForwardBack.h"
 #include "PrintRuntimeData.h"
-#include "EditorCameraScript.h"
+//#include "EditorCameraScript.h"
 #include "MovingTest.h"
 #include "RayCastTest.h"
 #include "EventTest.h"

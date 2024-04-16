@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "../ParagonData/Camera.h"
 #include "../ParagonData/GameConstantData.h"
+#include "../ParagonData/EditorCameraScript.h"
 #include <algorithm>
 #include <windows.h>
 
@@ -15,14 +16,16 @@ namespace Pg::Data
 		_graphicsDebugData()
 	{
 		//Scene이 만들어질 경우 무조건 MainCamera가 오브젝트로 생성이 되어 있어야 함!
-		GameObject* cameraObject = AddObject("MainCamera");
-		_mainCamera = cameraObject->AddComponent<Pg::Data::Camera>();
+		{
+			GameObject* cameraObject = AddObject("EditorCamera");
+			Camera* tEditorCam = cameraObject->AddComponent<Pg::Data::Camera>();
+			cameraObject->AddComponent<Pg::Data::EditorCameraScript>();
 
-		_mainCamera->_object->_transform._position = { 0.f, 3.0f, -10.f };
-		_mainCamera->_object->_transform._rotation = { 0.0f, 0.0f, 0.0f, 0.0f };
-		_mainCamera->SetScreenSize((float)Pg::Data::GameConstantData::WIDTH, (float)Pg::Data::GameConstantData::HEIGHT);
+			_editorCamera = tEditorCam;
+			SetMainCamera(_editorCamera);
+		}
 		
-		OutputDebugString(L"Scene의 생성자에서 하드코딩되어 있다. : 이제 GameConstantData를 받는다. /// 나중에 해상도 변경 발생 시 고쳐야.");
+		//OutputDebugString(L"Scene의 생성자에서 하드코딩되어 있다. : 이제 GameConstantData를 받는다. /// 나중에 해상도 변경 발생 시 고쳐야.");
 		
 		// 10.11 오수안
 		// Scene이 생성될 때 반드시 추가되는 main Light
@@ -31,7 +34,7 @@ namespace Pg::Data
 		//_mainDirLight->_object->_transform.SetPosition(5.f, 5.f, 5.f);
 		//_mainDirLight->SetLightColor(1.f, 0.f, 0.f, 1.f);
 
-		SetMainCamera(_mainCamera);
+		//SetMainCamera(_mainCamera);
 		//SetMainLight(_mainDirLight);
 	}
 
@@ -50,7 +53,12 @@ namespace Pg::Data
 	void Scene::Internal_EngineAwake()
 	{
 		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
-			{ iter->Internal_EngineAwake(); });
+			{
+				if (iter->GetActive())
+				{
+					iter->Internal_EngineAwake();
+				}
+			});
 	}
 
 	void Scene::Awake()
@@ -58,7 +66,12 @@ namespace Pg::Data
 		//나중에 SceneSystem의 isAwake 외적으로 Object의 런타임 추가 고려해서
 		//If문 검사 매번 있어야 한다. -> 반영됨.
 		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
-			{ iter->Awake(); });
+			{ 
+				if (iter->GetActive())
+				{
+					iter->Awake();
+				}
+			});
 	}
 
 	void Scene::Start()
@@ -66,31 +79,56 @@ namespace Pg::Data
 		//나중에 SceneSystem의 isStarted 외적으로 Object의 런타임 추가 고려해서
 		//If문 검사 매번 있어야 한다. -> 반영됨.
 		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
-			{ iter->Start(); });
+			{ 
+				if (iter->GetActive())
+				{
+					iter->Start();
+				}
+			});
 	}
 
 	void Scene::Internal_EngineUpdate()
 	{
 		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
-			{ iter->Internal_EngineUpdate(); });
+			{ 
+				if (iter->GetActive())
+				{
+					iter->Internal_EngineUpdate();
+				}
+			});
 	}
 
 	void Scene::Update()
 	{
 		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
-			{ iter->Update(); });
+			{ 
+				if (iter->GetActive())
+				{
+					iter->Update();
+				}
+			});
 	}
 
 	void Scene::FixedUpdate()
 	{
 		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
-			{ iter->FixedUpdate(); });
+			{ 
+				if (iter->GetActive())
+				{
+					iter->FixedUpdate();
+				}
+			});
 	}
 
 	void Scene::LateUpdate()
 	{
 		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
-			{ iter->LateUpdate(); });
+			{ 
+				if (iter->GetActive())
+				{
+					iter->LateUpdate();
+				}
+			});
 	}
 
 	//이제는 void를 반환. 일괄적으로 Scene Loop 기준 연산하기 때문.
@@ -225,6 +263,10 @@ namespace Pg::Data
 			}));
 	}
 
+	Pg::Data::Camera* Scene::GetEditorCamera()
+	{
+		return _editorCamera;
+	}
 	
 
 }

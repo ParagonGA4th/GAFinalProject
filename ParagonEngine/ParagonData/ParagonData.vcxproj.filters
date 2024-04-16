@@ -253,6 +253,9 @@
     <ClCompile Include="AnimTransform.cpp">
       <Filter>2_Component\AnimTransform</Filter>
     </ClCompile>
+    <ClCompile Include="EditorCameraScript.cpp">
+      <Filter>13_EngineScripts\EditorCameraScript</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -553,6 +556,9 @@
     <ClInclude Include="AnimTransform.h">
       <Filter>2_Component\AnimTransform</Filter>
     </ClInclude>
+    <ClInclude Include="EditorCameraScript.h">
+      <Filter>13_EngineScripts\EditorCameraScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -830,6 +836,12 @@
     </Filter>
     <Filter Include="2_Component\AnimTransform">
       <UniqueIdentifier>{6bd232b2-bcfc-48ef-b9c7-e6249f57f0fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="13_EngineScripts">
+      <UniqueIdentifier>{93d4cb98-3dcb-45a6-91b7-fca442321fd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="13_EngineScripts\EditorCameraScript">
+      <UniqueIdentifier>{baaa2dab-5a8d-4839-83e7-26e03160a912}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

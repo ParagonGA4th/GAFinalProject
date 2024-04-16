@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <DirectXMath.h>
+//#include <dxtk/SimpleMath.h>
 
 /// ParagonEngine에서 쓰일 Math 기본 형태.
 /// 추가적인 종속성을 막기 위해서, 커스텀 구조체로 관리.

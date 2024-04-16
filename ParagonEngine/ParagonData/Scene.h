@@ -62,6 +62,8 @@ namespace Pg::Data
 		Camera* GetMainCamera();
 		void SetMainCamera(Camera* mainCamera);
 
+		Camera* GetEditorCamera();
+
 		DirectionalLight* GetMainLight();
 		void SetMainLight(DirectionalLight* mainLight);
 
@@ -83,6 +85,7 @@ namespace Pg::Data
 
 		//Ä«¸Þ¶ó
 		Camera* _mainCamera;
+		Camera* _editorCamera;
 		DirectionalLight* _mainDirLight;
 
 	public:

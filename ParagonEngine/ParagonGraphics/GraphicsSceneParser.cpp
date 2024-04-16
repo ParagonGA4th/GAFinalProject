@@ -87,6 +87,11 @@ namespace Pg::Graphics
 
 	void GraphicsSceneParser::HandleRenderObjectsRuntime()
 	{
+		///미리 로드되었던 오브젝트를 없애려고 할 경우, Delete가 호출되지 않는다.
+		///Modify도 갑자기 Add Logic을 발생시킨다.
+		///버그 발생 경우 : test_colorCorrect에서 오브젝트 자체를 삭제하려고 할 때.
+		///처음부터 생성된 오브젝트들이 감지 안되는 것인가?
+
 		//CheckCreate는 쓸데없는 파싱 비용이 든다.
 		//미리 체크해서, EarlyReturn 가능하면 하기!
 		if (_runtimeAddedObjectList.empty() &&
