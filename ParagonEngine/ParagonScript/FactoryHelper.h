@@ -8,7 +8,8 @@ namespace Pg::DataScript
 	class FactoryHelper
 	{
 	public:
-		static void AddScript(Pg::Data::GameObject* obj, std::string scriptType);
+		static void Initialize();
+		static void AddScript(Pg::Data::GameObject* obj, const std::string& scriptType);
 	};
 }
 

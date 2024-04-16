@@ -44,8 +44,8 @@
 
 namespace Pg::Engine
 {
-	EngineMain::EngineMain(Pg::Core::ProcessMain* core) : 
-		_coreMain(core), 
+	EngineMain::EngineMain(Pg::Core::ProcessMain* core) :
+		_coreMain(core),
 		_engineResourceManager(Manager::EngineResourceManager::Instance())
 	{
 		//Physic
@@ -91,8 +91,6 @@ namespace Pg::Engine
 		_soundSystem->Initialize(resourceListPath);
 		_navSystem->Initialize();
 		_behaviorTreeSystem->Initialize(resourceListPath);
-
-		PG_WARN("현재 TestScene 바뀔 시 씬 내부 정보가 날아가서 Start/Stop 조정이 안되는 상황. 강제로 Engine에 일단은 Editor Mode 영향 안 미치게 바꿔놓음. Engine Main Update에 오버라이드 코드 있음. (TOFIX)");
 	}
 
 	void EngineMain::Update()
@@ -100,17 +98,43 @@ namespace Pg::Engine
 		//외적인 SceneLoad 로직 Start 관련, 항상 SceneSystem 체크한다.
 		_sceneSystem->DebounceSceneLoadStatus();
 
-		///여기가 바뀜, 이거 유지되면 안돼!!!
-		_prevRecordedEditMode = Data::Enums::eEditorMode::_PLAY;
-		///
-		
+		if (_currentRecordedEditMode != _previousEditMode)
+		{
+			if (_currentRecordedEditMode == Data::Enums::eEditorMode::_NONE ||
+				_currentRecordedEditMode == Data::Enums::eEditorMode::_EDIT)
+			{
+				_sceneSystem->GetCurrentScene()->SetMainCamera(_sceneSystem->GetCurrentScene()->GetEditorCamera());
+				
+				//Editor Camera 오브젝트 살리기.
+				_sceneSystem->GetCurrentScene()->GetEditorCamera()->SetActive(true);
+				_sceneSystem->GetCurrentScene()->GetEditorCamera()->_object->SetActive(true);
+			}
+			else
+			{
+				//Editor Camera 오브젝트 작동 정지.
+				_sceneSystem->GetCurrentScene()->GetEditorCamera()->SetActive(false);
+				_sceneSystem->GetCurrentScene()->GetEditorCamera()->_object->SetActive(false);
+
+				//Scene에서 다시 InternalAwake / Awake / Start가 호출될 수 있게.
+				std::for_each(_sceneSystem->GetCurrentScene()->GetObjectList().begin(),
+					_sceneSystem->GetCurrentScene()->GetObjectList().end(), [](auto& iter)
+					{ iter->ResetDebouncerBoolean(); });
+
+				PG_WARN("클라이언트 딴에서 명시적으로 SetMainCamera 카메라 객체에 해주지 않으면 뻑나게 해놓음");
+
+				//리셋, 클라이언트 딴에서 SetMainCamera 명시적으로 해줘야 하게. -> 이거 호환 위해 nullptr set은 꺼놨지만, 인게임에서 오버라이드 되어야 함.
+				//_sceneSystem->GetCurrentScene()->SetMainCamera(nullptr);
+			}
+		}
+
 		//기록된 Edit Mode가 EDIT/NONE으로 설정되었을시, 실행을 Update를 실행하지 않는다.
 		//Early Return.
-		if (_prevRecordedEditMode == Data::Enums::eEditorMode::_NONE ||
-			_prevRecordedEditMode == Data::Enums::eEditorMode::_EDIT)
+		if (_currentRecordedEditMode == Data::Enums::eEditorMode::_NONE ||
+			_currentRecordedEditMode == Data::Enums::eEditorMode::_EDIT)
 		{
 			//Internal 함수들만 호출.
 			_sceneSystem->Update(false);
+			//
 		}
 		else
 		{
@@ -233,8 +257,11 @@ namespace Pg::Engine
 
 	void EngineMain::SetEditorMode(Pg::Data::Enums::eEditorMode editorMode)
 	{
+		//이미 있던거 기록.
+		_previousEditMode = _currentRecordedEditMode;
+
 		//기존의 Editor Mode Enum 기록.
-		_prevRecordedEditMode = editorMode;
+		_currentRecordedEditMode = editorMode;
 	}
 
 }

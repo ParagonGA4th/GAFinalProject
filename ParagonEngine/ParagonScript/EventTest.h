@@ -1,5 +1,6 @@
 #pragma once
-#include "Script.h"
+#include "ScriptInterface.h"
+
 /// <summary>
 /// 구현한 각종 이벤트들을 테스트할 스크립트.
 /// </summary>
@@ -17,17 +18,26 @@ namespace Pg::API
 	}
 }
 
-class EventTest : public Pg::DataScript::Script
+namespace Pg::DataScript
 {
-public:
-	EventTest(Pg::Data::GameObject* owner);
+	class EventTest : public ScriptInterface<EventTest>
+	{
+		DEFINE_PARAGON_SCRIPT(EventTest);
 
-public:
-	virtual void Start() override;
-	virtual void Update() override;
+	public:
+		EventTest(Pg::Data::GameObject* owner);
 
-private:
-	Pg::Data::Button* tButton;
-	Pg::API::Input::PgInput* _pgInput = nullptr;
-};
+	public:
+		virtual void Start() override;
+		virtual void Update() override;
+
+	private:
+		Pg::Data::Button* tButton;
+		Pg::API::Input::PgInput* _pgInput = nullptr;
+	};
+
+	//const bool EventTest::registered_ = ScriptInterface<EventTest>::register_type();
+}
+
+
 

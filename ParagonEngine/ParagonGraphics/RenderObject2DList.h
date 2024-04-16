@@ -33,6 +33,13 @@ namespace Pg::Graphics
 
 		void DeleteRenderObjectWithGameObject(Pg::Data::GameObject* obj)
 		{
+			//만약 없다면, 지울 필요가 없다.
+			if (_list.empty())
+			{
+				return;
+			}
+
+			//기존.
 			_list.erase(std::remove_if(_list.begin(), _list.end(), [&obj](auto& tPair) { return tPair.first == obj; }));
 		}
 

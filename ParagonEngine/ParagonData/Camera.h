@@ -38,9 +38,9 @@ namespace Pg::Data
 		Pg::Data::CameraData* GetCameraData();
 
 		//유니티의 Camera.ScreenPointToRay와 동일 기능을 할 것.
-		//ScreenPoint : 0-1 정규화된 범위를 받는다.
-		//해당 함수의 리턴값 -> MakeRay에 사용.
-		void ScreenPointToRayInfo(Pg::Math::PGFLOAT2 screenPointNormalized, Pg::Math::PGFLOAT3& outRayOrigin, Pg::Math::PGFLOAT3& outRayDir);
+		//Plane Intersection 기반 구현.
+		//[Parameters] : gainput 기준 정규화 Screen 좌표 / Plane의 노말 벡터 / 원점으로부터 해당 노말벡터 기준 거리.
+		Pg::Math::PGFLOAT3 ScreenPointToWorldPlanePoint(Pg::Math::PGFLOAT2 screenPointNormalized, Pg::Math::PGFLOAT3 normalVec, float distance);
 
 	private:
 		void UpdateViewMatrix();

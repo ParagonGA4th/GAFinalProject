@@ -45,6 +45,7 @@ namespace Pg::Core
 
 		//에디터에 따라 현재 씬을 설정한다
 		void SetCurrentScene(Pg::Data::Scene* scene);
+		Pg::Data::Scene* GetCurrentScene();
 
 		void SetAddObjectList(const std::vector<Pg::Data::GameObject*>* addObjList);
 		void SetModifyObjectList(const std::vector<Pg::Data::GameObject*>* modifyObjList);

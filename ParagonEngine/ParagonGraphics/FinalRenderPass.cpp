@@ -7,7 +7,7 @@
 
 namespace Pg::Graphics
 {
-	FinalRenderPass::FinalRenderPass()
+	FinalRenderPass::FinalRenderPass(GBufferRender* from) : _toSampleBuffer(from->GetSRV())
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 	}
@@ -25,7 +25,7 @@ namespace Pg::Graphics
 	void FinalRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
 {
 		//FinalQuadSRV 기록.
-		_finalQuadSRV = carrier._quadMainRT->GetSRV();
+		//_finalQuadSRV = carrier._quadMainRT->GetSRV();
 	}
 
 	void FinalRenderPass::BindPass()
@@ -49,7 +49,7 @@ namespace Pg::Graphics
 		_ps->Bind();
 
 		//Register T5에 넣어줌. Final Quad SRV.
-		_DXStorage->_deviceContext->PSSetShaderResources(5, 1, &_finalQuadSRV);
+		_DXStorage->_deviceContext->PSSetShaderResources(5, 1, &_toSampleBuffer);
 	}
 
 	void FinalRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)

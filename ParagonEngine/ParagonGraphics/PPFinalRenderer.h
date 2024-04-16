@@ -7,6 +7,7 @@
 //RenderPass
 #include "OutlineRenderPass.h"
 #include "FinalRenderPass.h"
+#include "TonemappingRenderPass.h"
 
 namespace Pg::Data
 {
@@ -17,6 +18,7 @@ namespace Pg::Data
 namespace Pg::Graphics
 {
 	class LowDX11Storage;
+	class SystemVertexShader;
 }
 
 /// <summary>
@@ -26,13 +28,15 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class FinalRenderer : public BaseSpecificRenderer
+	class PPFinalRenderer : public BaseSpecificRenderer
 	{
 	public:
-		FinalRenderer(D3DCarrier* d3dCarrier);
+		PPFinalRenderer(D3DCarrier* d3dCarrier);
 		
 		virtual void Initialize() override;
 		virtual void SetupRenderPasses() override;
+
+		void RenderPostProcessingStages(void* renderObjectList, Pg::Data::CameraData* camData);
 
 		virtual void RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData) override;
 		virtual void ConfirmCarrierData() override;
@@ -48,19 +52,28 @@ namespace Pg::Graphics
 		void RenderOutlineStencil(Pg::Data::CameraData* camData);
 
 	private:
+		void InitPostProcessingQuads();
 		void CreateStagingPickingBuffer();
-
-
-
+	private:
+		//PostProcessing은 전부 같은 버텍스 셰이더 활용, 이를 분리했다.
+		std::unique_ptr<SystemVertexShader> _ppSystemVertexShader;
 	private:
 		std::unique_ptr<OutlineRenderPass> _outlineRenderPass;
 		std::unique_ptr<FinalRenderPass> _finalRenderPass;
+
+		//PostProcessing Passes.
+		std::vector<std::unique_ptr<IRenderSinglePass>> _postprocessingRenderPassList;
+
+	
 
 		ID3D11Texture2D* _pickingStagingBuffer = nullptr;
 		LowDX11Storage* _DXStorage = nullptr;
 
 		bool _outlineRenderingMode = false;
 		unsigned int _pickedObjID = 0;
+
+		std::unique_ptr<GBufferRender> _postProcessingBuffer1;
+		std::unique_ptr<GBufferRender> _postProcessingBuffer2;
 	};
 }
 //finalRenderer->RenderOutlineStencil();

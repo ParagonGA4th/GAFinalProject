@@ -14,6 +14,7 @@ namespace Pg::Graphics
 	class LowDX11Storage;
 	class SystemVertexShader;
 	class SystemPixelShader;
+	class GBufferRender;
 }
 
 namespace Pg::Graphics
@@ -21,7 +22,7 @@ namespace Pg::Graphics
 	class FinalRenderPass : public IRenderSinglePass
 	{
 	public:
-		FinalRenderPass();
+		FinalRenderPass(GBufferRender* from);
 		~FinalRenderPass();
 
 		virtual void Initialize() override;
@@ -42,7 +43,7 @@ namespace Pg::Graphics
 		std::unique_ptr<SystemPixelShader> _ps;
 
 	private:
-		ID3D11ShaderResourceView* _finalQuadSRV;
+		ID3D11ShaderResourceView* _toSampleBuffer{ nullptr };
 
 	private:
 		LowDX11Storage* _DXStorage;
