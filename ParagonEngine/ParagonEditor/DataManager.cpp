@@ -108,11 +108,11 @@ std::unordered_map<std::string, std::string> Pg::Editor::Manager::DataManager::D
 			{
 				if (scene->GetSceneName().find("New Scene") != std::string::npos)
 				{
-					try 
+					try
 					{
 						newSceneNum = std::stoi(scene->GetSceneName());
 					}
-					catch (const std::invalid_argument&) 
+					catch (const std::invalid_argument&)
 					{
 						newSceneNum++;
 						continue;
@@ -238,19 +238,11 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 		std::string objName = Pg::Serialize::Serializer::DeserializeString(&object, "name");
 		Pg::Data::GameObject* obj = nullptr;
 
-		if (objName != "MainCamera")
-		{
-			obj = _scenes.at(sceneNum)->AddObject(objName);
-			obj->SetActive(Pg::Serialize::Serializer::DeserializeBoolean(&object, "active"));
-			obj->SetTag(Pg::Serialize::Serializer::DeserializeString(&object, "tag"));
-		}
-		else
-		{
-			for (auto& cameraObj : _scenes.at(sceneNum)->GetObjectList())
-			{
-				obj = cameraObj;
-			}
-		}
+		//Scene 딴에서 EditorCameraScript를 추가하게 되면서, 외적인 검사가 불필요해졌다.
+		obj = _scenes.at(sceneNum)->AddObject(objName);
+		obj->SetActive(Pg::Serialize::Serializer::DeserializeBoolean(&object, "active"));
+		obj->SetTag(Pg::Serialize::Serializer::DeserializeString(&object, "tag"));
+
 
 		// 컴포넌트를 추가하기 위해 노드 가져오기
 		pugi::xml_node comps = object.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "components"; });
@@ -268,18 +260,18 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 				{
 					obj->_transform.OnDeserialize(tSerVec);
 				}
-				else if (typeName.find("Camera") != std::string::npos)
-				{
-					for (auto& cComp : obj->GetComponentList())
-					{
-						if (cComp.first.find("Camera") != std::string::npos) cComp.second->OnDeserialize(tSerVec); break;
-					}
-				}
+				//else if (typeName.find("Camera") != std::string::npos)
+				//{
+				//	for (auto& cComp : obj->GetComponentList())
+				//	{
+				//		if (cComp.first.find("Camera") != std::string::npos) cComp.second->OnDeserialize(tSerVec); break;
+				//	}
+				//}
 				else
 				{
 					//auto component = AddComponentToObject(typeName, obj);
 					auto component = obj->AddComponent(typeName);
-					if(component != nullptr) component->OnDeserialize(tSerVec);
+					if (component != nullptr) component->OnDeserialize(tSerVec);
 					else
 					{
 						Pg::DataScript::FactoryHelper::AddScript(obj, typeName);

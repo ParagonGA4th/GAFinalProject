@@ -50,7 +50,12 @@ namespace Pg::Data
 		{
 			//for_each구문을 이용하여 componentList를 싹다 돌리기.
 			std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-				{ iter.second->Internal_EngineAwake(); });
+				{
+					if (iter.second->GetActive())
+					{
+						iter.second->Internal_EngineAwake();
+					}
+				});
 
 			_isInternalEngineAwake = true;
 		}
@@ -68,7 +73,12 @@ namespace Pg::Data
 		{
 			//for_each구문을 이용하여 componentList를 싹다 돌리기.
 			std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-				{ iter.second->Awake(); });
+				{
+					if (iter.second->GetActive())
+					{
+						iter.second->Awake();
+					}
+				});
 
 			_isAwake = true;
 		}
@@ -86,7 +96,12 @@ namespace Pg::Data
 		{
 			//for_each구문을 이용하여 componentList를 싹다 돌리기.
 			std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-				{ iter.second->Start(); });
+				{
+					if (iter.second->GetActive())
+					{
+						iter.second->Start();
+					}
+				});
 
 			_isStarted = true;
 		}
@@ -101,7 +116,12 @@ namespace Pg::Data
 		}
 
 		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-			{ iter.second->Internal_EngineUpdate(); });
+			{
+				if (iter.second->GetActive())
+				{
+					iter.second->Internal_EngineUpdate();
+				}
+			});
 	}
 
 	void GameObject::Update()
@@ -113,7 +133,12 @@ namespace Pg::Data
 		}
 
 		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-			{ iter.second->Update(); });
+			{
+				if (iter.second->GetActive())
+				{
+					iter.second->Update();
+				}
+			});
 	}
 
 	void GameObject::FixedUpdate()
@@ -124,7 +149,12 @@ namespace Pg::Data
 		}
 
 		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-			{ iter.second->FixedUpdate(); });
+			{
+				if (iter.second->GetActive())
+				{
+					iter.second->FixedUpdate();
+				}
+			});
 	}
 
 	void GameObject::LateUpdate()
@@ -135,7 +165,12 @@ namespace Pg::Data
 		}
 
 		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-			{ iter.second->LateUpdate(); });
+			{
+				if (iter.second->GetActive())
+				{
+					iter.second->LateUpdate();
+				}
+			});
 	}
 
 	const std::string& GameObject::GetName() const
@@ -195,7 +230,7 @@ namespace Pg::Data
 		//	AddComponent("class Pg::Data::SkinnedMeshRenderer", component);
 		//	return component;
 		//}
-	
+
 		component = Pg::Factory::Data::Factory<Pg::Data::RendererBase3D, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
 		if (component != nullptr)
 		{
@@ -233,7 +268,7 @@ namespace Pg::Data
 		auto res = std::find_if(_componentList.begin(), _componentList.end(),
 			[&componentType](const std::pair<std::string, Component*>& val)
 			-> bool {return (val.first == componentType); });
-		
+
 		if (res != _componentList.end())
 		{
 			delete res->second;
@@ -275,7 +310,7 @@ namespace Pg::Data
 		{
 			return;
 		}
-		 
+
 		std::for_each(_componentList.begin(), _componentList.end(), [&_colArr, &count](auto& iter)
 			{ iter.second->OnCollisionExit(_colArr, count); });
 	}

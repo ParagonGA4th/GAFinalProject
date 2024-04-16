@@ -15,6 +15,10 @@ namespace Pg::Data
 
 		_cameraData = std::make_unique<Pg::Data::CameraData>();
 
+		//기본 정보 설정.
+		this->_object->_transform._position = { 0.f, 3.0f, -10.f };
+		this->_object->_transform._rotation = { 0.0f, 0.0f, 0.0f, 0.0f };
+		this->SetScreenSize((float)Pg::Data::GameConstantData::WIDTH, (float)Pg::Data::GameConstantData::HEIGHT);
 		//ProjectionMatrix를 마련.
 		//SetProjectionLens(0.4f * std::numbers::pi, static_cast<float>(screenWidth) / screenHeight, 0.0001f, 1000.0f);
 	}
