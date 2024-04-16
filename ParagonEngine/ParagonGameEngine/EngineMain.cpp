@@ -149,6 +149,11 @@ namespace Pg::Engine
 			_physicSystem->UpdateTransform();
 			_debugSystem->Update(_sceneSystem->GetCurrentScene());
 		}
+
+		//명시적으로 바뀔 때 감지를 할 수 있게 하기 위해, 
+		//현재의 Editor Mode를 전의 것이라고 대입한다.
+		//EditorMode가 매프레임마다 호출되는 것이 아니기 때문.
+		_previousEditMode = _currentRecordedEditMode;
 	}
 
 	void EngineMain::Finalize()

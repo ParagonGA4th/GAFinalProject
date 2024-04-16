@@ -20,6 +20,12 @@ POutQuad main(VOutQuad pin)
     float metalness = sRGB2Lin(GetMetallicMap(pin.UV));
     float roughness = sRGB2Lin(GetRoughnessMap(pin.UV));
     
+    //아트와 반짝거리는 것 없애기 매핑 중이었음.
+     //float roughness = sRGB2Lin(GetRoughnessMap(pin.UV));
+    //float roughness = saturate(sRGB2Lin(1.0f - GetRoughnessMap(pin.UV))); //Roughness 문제? 나중에 아트와 빛나는 때깔 맞춰야 한다. 성찬이 형이 말한 "따로"하는 문제일수도.
+    //float roughness = saturate(1.0f - GetRoughnessMap(pin.UV));
+    //float roughness = 0.0f;
+    
     //라이팅 패스가 자리잡기 전까지, 일단 대체용 코드로 셰이더 돌리기.
     float3 lightDirArr[3] = { firstLightDir, firstLightDir, firstLightDir };
     float lightRadianceArr[3] = { firstRad, firstRad, firstRad };
