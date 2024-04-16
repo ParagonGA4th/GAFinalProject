@@ -6,7 +6,7 @@ namespace Pg::Data
 		DynamicCollider(owner),
 		_radius(1.0f),
 		_halfHeight(1.0f),
-		_layer(1)
+		_layer(0)
 	{
 		FACTORY_INIT;
 	}
