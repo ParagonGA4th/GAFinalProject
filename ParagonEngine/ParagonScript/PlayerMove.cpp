@@ -9,60 +9,65 @@
 #include <singleton-cpp/singleton.h>
 #include <cassert>
 
-Pg::DataScript::PlayerMove::PlayerMove(Pg::Data::GameObject* obj) :
-	Pg::DataScript::Script(obj)
+namespace Pg::DataScript
 {
-	SCRIPT_FACTORY_INIT;
-}
-
-void  Pg::DataScript::PlayerMove::Start()
-{
-	dynamicCol = _object->GetComponent<Pg::Data::DynamicCollider>();
-}
-
-void Pg::DataScript::PlayerMove::Update()
-{
-	using namespace Pg::API::Input;
-
-	if (_pgInput->GetKey(KeyLeft))
+	PlayerMove::PlayerMove(Pg::Data::GameObject* obj) : ScriptInterface(obj)
 	{
-		_object->_transform._position.x -= 0.01f;
+		//SCRIPT_FACTORY_INIT;
+	}
 
-		if (_pgInput->GetKey(KeyZ))
+	void PlayerMove::Start()
+	{
+		dynamicCol = _object->GetComponent<Pg::Data::DynamicCollider>();
+	}
+
+	void PlayerMove::Update()
+	{
+		using namespace Pg::API::Input;
+
+		if (_pgInput->GetKey(KeyLeft))
 		{
-			dynamicCol->AddVelocity({ -0.1f, 0.0f, 0.0f });
+			_object->_transform._position.x -= 0.01f;
+
+			if (_pgInput->GetKey(KeyZ))
+			{
+				dynamicCol->AddVelocity({ -0.1f, 0.0f, 0.0f });
+			}
+		}
+		if (_pgInput->GetKey(KeyRight))
+		{
+			_object->_transform._position.x += 0.01f;
+
+			if (_pgInput->GetKey(KeyZ))
+			{
+				dynamicCol->AddVelocity({ 0.1f, 0.0f, 0.0f });
+			}
+		}
+		if (_pgInput->GetKey(KeyUp))
+		{
+			_object->_transform._position.z += 0.01f;
+
+			if (_pgInput->GetKey(KeyZ))
+			{
+				dynamicCol->AddVelocity({ 0.0f, 0.0f, 0.1f });
+			}
+		}
+
+		if (_pgInput->GetKey(KeyDown))
+		{
+			_object->_transform._position.z -= 0.01f;
+
+			if (_pgInput->GetKey(KeyZ))
+			{
+				dynamicCol->AddVelocity({ 0.0f, 0.0f, -0.1f });
+			}
+		}
+		if (_pgInput->GetKeyDown(Space))
+		{
+			dynamicCol->AddForce({ 0.0f, 10.0f ,0.0f }, Pg::Data::ForceMode::eIMPULSE);
 		}
 	}
-	if (_pgInput->GetKey(KeyRight))
-	{
-		_object->_transform._position.x += 0.01f;
 
-		if (_pgInput->GetKey(KeyZ))
-		{
-			dynamicCol->AddVelocity({ 0.1f, 0.0f, 0.0f });
-		}
-	}
-	if (_pgInput->GetKey(KeyUp))
-	{
-		_object->_transform._position.z += 0.01f;
 
-		if (_pgInput->GetKey(KeyZ))
-		{
-			dynamicCol->AddVelocity({ 0.0f, 0.0f, 0.1f });
-		}
-	}
 
-	if (_pgInput->GetKey(KeyDown))
-	{
-		_object->_transform._position.z -= 0.01f;
-
-		if (_pgInput->GetKey(KeyZ))
-		{
-			dynamicCol->AddVelocity({ 0.0f, 0.0f, -0.1f });
-		}
-	}
-	if (_pgInput->GetKeyDown(Space))
-	{
-		dynamicCol->AddForce({ 0.0f, 10.0f ,0.0f }, Pg::Data::ForceMode::eIMPULSE);
-	}
 }

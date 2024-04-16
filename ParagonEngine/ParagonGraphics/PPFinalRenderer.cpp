@@ -1,10 +1,9 @@
-#include "FinalRenderer.h"
+#include "PPFinalRenderer.h"
 
 #include "LowDX11Storage.h"
 #include "LayoutDefine.h"
 #include "GraphicsResourceManager.h"
-
-
+#include "SystemVertexShader.h"
 
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
@@ -15,26 +14,47 @@
 
 namespace Pg::Graphics
 {
-	FinalRenderer::FinalRenderer(D3DCarrier* d3dCarrier) : BaseSpecificRenderer(d3dCarrier)
+	PPFinalRenderer::PPFinalRenderer(D3DCarrier* d3dCarrier) : BaseSpecificRenderer(d3dCarrier)
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 	}
 
-	void FinalRenderer::Initialize()
+	void PPFinalRenderer::Initialize()
 	{
 		CreateStagingPickingBuffer();
+		InitPostProcessingQuads();
+
+		
 
 		_outlineRenderPass = std::make_unique<OutlineRenderPass>();
-		_finalRenderPass = std::make_unique<FinalRenderPass>();
+
+		//Initialize PostProcessing RenderPassses. (여기다) (모두 From-To의 양식을 따른다)
+		_postprocessingRenderPassList.push_back(std::make_unique<TonemappingRenderPass>(_carrier->_quadMainRT, _carrier->_PPSwitch1));
+		
+
+		//</PostProcessing>
+		
+
+		//Final Render Pass. (From을 요구한다) -> 매개변수로.
+		_finalRenderPass = std::make_unique<FinalRenderPass>(_carrier->_PPSwitch1);
 	}
 
-	void FinalRenderer::SetupRenderPasses()
+	void PPFinalRenderer::SetupRenderPasses()
 	{
+		//개별적으로 쓰일 Vertex Shader 별도로 분리.
+		_ppSystemVertexShader = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/PostProcessingDefault_VS.cso", LayoutDefine::GetDeferredQuadLayout(),
+			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 		_finalRenderPass->Initialize();
 		_outlineRenderPass->Initialize();
+
+		for (auto& it : _postprocessingRenderPassList)
+		{
+			it->Initialize();
+		}
 	}
 
-	unsigned int FinalRenderer::GetPickingObjectID(unsigned int widthPixel, unsigned int heightPixel)
+	unsigned int PPFinalRenderer::GetPickingObjectID(unsigned int widthPixel, unsigned int heightPixel)
 	{
 		//[DEPRECATED]
 		//이미 Obj SRV는 ObjMat 쪽에 기록되어 있다.
@@ -65,7 +85,7 @@ namespace Pg::Graphics
 		return float2Value[0];
 	}
 
-	void FinalRenderer::RenderOutlineStencil(Pg::Data::CameraData* camData)
+	void PPFinalRenderer::RenderOutlineStencil(Pg::Data::CameraData* camData)
 	{
 		if (_outlineRenderingMode)
 		{
@@ -80,7 +100,7 @@ namespace Pg::Graphics
 		}
 	}
 
-	void FinalRenderer::RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData)
+	void PPFinalRenderer::RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData)
 	{
 		////SRV Index 0 : Opaque Quad의 인덱스 전달.
 		//_carrier->_srvArray[0] = _opaqueQuadRTV->GetSRV();
@@ -96,12 +116,27 @@ namespace Pg::Graphics
 		_finalRenderPass->PassNextRequirements(*_carrier);
 	}
 
-	void FinalRenderer::ConfirmCarrierData()
+	void PPFinalRenderer::ConfirmCarrierData()
 	{
 
 	}
 
-	void FinalRenderer::CreateStagingPickingBuffer()
+	void PPFinalRenderer::InitPostProcessingQuads()
+	{
+		//요구되는 렌더 리소스 만들기 (GBufferRender & Depth Stencil)
+		_postProcessingBuffer1 = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		_postProcessingBuffer2 = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+		_carrier->_PPSwitch1 = _postProcessingBuffer1.get();
+		_carrier->_PPSwitch2 = _postProcessingBuffer2.get();
+
+		//만약 PostProcessing Stage가 없으면, Editor에서 받을 SRV가 없을 수도. 
+		//일단, 임의의 값으로 맞춰놓기.
+		///Processing Buffer 1로 맞춰놓음!
+		_carrier->_toSendSRVToEngine = _carrier->_PPSwitch1->GetSRV();
+	}
+
+	void PPFinalRenderer::CreateStagingPickingBuffer()
 	{
 		D3D11_TEXTURE2D_DESC stagingBufferDesc;
 		ZeroMemory(&stagingBufferDesc, sizeof(D3D11_TEXTURE2D_DESC));
@@ -119,12 +154,12 @@ namespace Pg::Graphics
 		HR(_DXStorage->_device->CreateTexture2D(&stagingBufferDesc, nullptr, &_pickingStagingBuffer));
 	}
 
-	void FinalRenderer::SetOutlineRenderingMode(bool val)
+	void PPFinalRenderer::SetOutlineRenderingMode(bool val)
 	{
 		_outlineRenderingMode = val;
 	}
 
-	void FinalRenderer::SetObjectIDSelected(unsigned int val)
+	void PPFinalRenderer::SetObjectIDSelected(unsigned int val)
 	{
 		if (val == 0)
 		{
@@ -133,6 +168,35 @@ namespace Pg::Graphics
 
 		_pickedObjID = val;
 	}
+
+	void PPFinalRenderer::RenderPostProcessingStages(void* renderObjectList, Pg::Data::CameraData* camData)
+	{	
+		
+
+		//미리 RenderTarget Clear. Depth Buffer는 바인딩 자체가 안 될 것이니, Clear 필요 X.
+		_DXStorage->_deviceContext->ClearRenderTargetView(_carrier->_PPSwitch1->GetRTV(), _DXStorage->_backgroundColor);
+		_DXStorage->_deviceContext->ClearRenderTargetView(_carrier->_PPSwitch2->GetRTV(), _DXStorage->_backgroundColor);
+
+		//Default Quad Vertex Shader Bind.
+		_ppSystemVertexShader->Bind();
+
+		for (auto& it : _postprocessingRenderPassList)
+		{
+			it->ReceiveRequiredElements(*_carrier);
+			it->BindPass();
+			it->RenderPass(renderObjectList, camData);
+			it->UnbindPass();
+			it->ExecuteNextRenderRequirements();
+			it->PassNextRequirements(*_carrier);
+		}
+
+		//Default Quad Vertex Shader Unbind.
+		_ppSystemVertexShader->Unbind();
+	}
+
+	
+
+	
 	
 
 }

@@ -215,7 +215,7 @@
       <Filter>8_Helpers\GraphicsSceneParser</Filter>
     </ClInclude>
     <ClInclude Include="FinalRenderPass.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\10_FinalRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\20_ProcessFinalRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="PreparationStaticRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\2_PreparationStaticRenderPass</Filter>
@@ -241,7 +241,7 @@
     <ClInclude Include="DebugRenderer.h">
       <Filter>0_Main\Renderers\DebugRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="FinalRenderer.h">
+    <ClInclude Include="PPFinalRenderer.h">
       <Filter>0_Main\Renderers\FinalRenderer</Filter>
     </ClInclude>
     <ClInclude Include="DeferredRenderer.h">
@@ -288,6 +288,9 @@
     </ClInclude>
     <ClInclude Include="GraphicsApiExporter.h">
       <Filter>12_GraphicsAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="TonemappingRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\19_TonemappingRenderPass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -469,7 +472,7 @@
       <Filter>8_Helpers\GraphicsSceneParser</Filter>
     </ClCompile>
     <ClCompile Include="FinalRenderPass.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\10_FinalRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\20_ProcessFinalRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="PreparationStaticRenderPass.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\2_PreparationStaticRenderPass</Filter>
@@ -489,7 +492,7 @@
     <ClCompile Include="DebugRenderer.cpp">
       <Filter>0_Main\Renderers\DebugRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="FinalRenderer.cpp">
+    <ClCompile Include="PPFinalRenderer.cpp">
       <Filter>0_Main\Renderers\FinalRenderer</Filter>
     </ClCompile>
     <ClCompile Include="DeferredRenderer.cpp">
@@ -524,6 +527,9 @@
     </ClCompile>
     <ClCompile Include="GraphicsApiExporter.cpp">
       <Filter>12_GraphicsAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="TonemappingRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\19_TonemappingRenderPass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -842,9 +848,6 @@
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\0_FirstStaticRenderPass">
       <UniqueIdentifier>{3157d69f-ab00-40e8-9704-a984429cdac2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\10_FinalRenderPass">
-      <UniqueIdentifier>{eaa8e6b3-4a91-4e77-858e-d882be91ee71}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\9_OutlineRenderPass">
       <UniqueIdentifier>{923fdd6e-5157-47b0-8cac-b34658565252}</UniqueIdentifier>
     </Filter>
@@ -892,6 +895,18 @@
     </Filter>
     <Filter Include="12_GraphicsAPI">
       <UniqueIdentifier>{5bb9308d-f793-4e7b-b7c3-293e28b8d88e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\PostProcessing">
+      <UniqueIdentifier>{e476e259-2429-49d8-9752-72d8194edf37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\PostProcessing\Tonemapping">
+      <UniqueIdentifier>{67542de1-60b6-4a3d-9928-1db047191542}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\20_ProcessFinalRenderPass">
+      <UniqueIdentifier>{eaa8e6b3-4a91-4e77-858e-d882be91ee71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\19_TonemappingRenderPass">
+      <UniqueIdentifier>{8aa14f88-db08-4907-a027-750d80991ea5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -984,6 +999,12 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\ShadowMapping_VS.hlsl">
       <Filter>6_HLSL\System\Pipeline\Shadow</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\PostProcessingDefault_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\PostProcessing</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Tonemapping\ToneMapping_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\PostProcessing\Tonemapping</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 #pragma once
-#include "Script.h"
+#include "ScriptInterface.h"
+
 /// <summary>
 /// RayCast를 테스트하기 위한 스크립트.
 /// 2024.01.25
@@ -18,8 +19,12 @@ namespace Pg::API
 	}
 }
 
-class RayCastTest : public Pg::DataScript::Script
+namespace Pg::DataScript
 {
+class RayCastTest : public ScriptInterface<RayCastTest>
+{
+	DEFINE_PARAGON_SCRIPT(RayCastTest);
+
 public:
 	RayCastTest(Pg::Data::GameObject* obj);
 
@@ -31,4 +36,5 @@ private:
 	Pg::API::Input::PgInput* _pgInput = nullptr;
 
 };
+}
 

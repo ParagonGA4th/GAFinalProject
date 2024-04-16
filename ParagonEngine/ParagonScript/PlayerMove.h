@@ -1,6 +1,5 @@
 #pragma once
-#include "Script.h"
-#include "script_factory.h"
+#include "ScriptInterface.h"
 
 namespace Pg::Data
 {
@@ -18,13 +17,12 @@ namespace Pg::API::Input
 /// </summary>
 namespace Pg::DataScript
 {
-	class PlayerMove : public Script, Pg::Factory::Script::RegisteredInFactory<Pg::DataScript::Script, PlayerMove, Pg::Data::GameObject*>
+	class PlayerMove : public ScriptInterface<PlayerMove>				//, Pg::Factory::Script::RegisteredInFactory<Pg::DataScript::Script, PlayerMove, Pg::Data::GameObject*>
 	{
+		DEFINE_PARAGON_SCRIPT(PlayerMove);
+
 	public:
 		PlayerMove(Pg::Data::GameObject* obj);
-
-		static Pg::DataScript::Script* CreateInstance(Pg::Data::GameObject* go) { return new PlayerMove(go); }
-		static const char* GetFactoryKey() { return "class PlayerMove"; }
 
 	public:
 		virtual void Start() override;
@@ -34,6 +32,8 @@ namespace Pg::DataScript
 		Pg::Data::DynamicCollider* dynamicCol;
 		Pg::API::Input::PgInput* _pgInput = nullptr;
 	};
+
+	//const bool PlayerMove::registered_ = ScriptInterface<PlayerMove>::register_type();
 }
 
 

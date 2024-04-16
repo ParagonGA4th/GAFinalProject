@@ -87,6 +87,11 @@ namespace Pg::Graphics
 
 	void GraphicsSceneParser::HandleRenderObjectsRuntime()
 	{
+		///미리 로드되었던 오브젝트를 없애려고 할 경우, Delete가 호출되지 않는다.
+		///Modify도 갑자기 Add Logic을 발생시킨다.
+		///버그 발생 경우 : test_colorCorrect에서 오브젝트 자체를 삭제하려고 할 때.
+		///처음부터 생성된 오브젝트들이 감지 안되는 것인가?
+
 		//CheckCreate는 쓸데없는 파싱 비용이 든다.
 		//미리 체크해서, EarlyReturn 가능하면 하기!
 		if (_runtimeAddedObjectList.empty() &&
@@ -422,12 +427,6 @@ namespace Pg::Graphics
 				{
 					tSkinnedRenderer->_setAnimationFunction = std::bind(&RenderObjectSkinnedMesh3D::SetAnimation, tSkinnedRO, std::placeholders::_1, std::placeholders::_2);
 				}
-
-				//SetAnimation Function Bind.
-				//std::function<void(const std::string&)> tSetAnimFunction = [tSkinnedRO](const std::string& animName) {
-				//	tSkinnedRO->SetAnimation(animName);
-				//};
-				//tSkinnedRenderer->_setAnimationFunction = tSetAnimFunction;
 			}
 		}
 	}
@@ -584,7 +583,7 @@ namespace Pg::Graphics
 		}
 
 		auto tRo2d = _renderObject2DList->GetRenderObjectWithGameObject(obj);
-		auto tRo3d = _renderObject2DList->GetRenderObjectWithGameObject(obj);
+		auto tRo3d = _renderObject3DList->GetRenderObjectWithGameObject(obj);
 		if (tRo2d.empty() && tRo3d.empty())
 		{
 			// 1. 해당 컴포넌트 없는 겜옵젝 -> 컴포넌트가 생기는 경우.

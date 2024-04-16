@@ -44,9 +44,15 @@ namespace Pg::Core
 	void EditorAdapter::SetCurrentScene(Pg::Data::Scene* scene)
 	{
 		if (_currentScene == scene) return;
-		
+
 		_currentScene = scene;
 		_processMain->GetEngineGraphicsAdapter()->SetCurrentScene(_currentScene);
+	}
+
+	Pg::Data::Scene* EditorAdapter::GetCurrentScene()
+	{
+		if (_currentScene == nullptr) return _processMain->GetEngineGraphicsAdapter()->GetCurrentScene();
+		else return _currentScene;
 	}
 
 	void EditorAdapter::SetAddObjectList(const std::vector<Pg::Data::GameObject*>* addObjList)

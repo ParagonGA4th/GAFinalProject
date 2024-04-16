@@ -1,6 +1,7 @@
 #pragma once
 #include <d3d11.h>
 #include <array>
+#include <memory>
 #include <algorithm>
 
 #include "GBufferDepthStencil.h"
@@ -39,6 +40,13 @@ namespace Pg::Graphics
 		GBufferDepthStencil* _quadMainGDS;
 		GBufferRender* _quadMainRT;
 		GBufferRender* _quadObjMatRT;
+
+		//Post Processing에 활용된다.
+		GBufferRender* _PPSwitch1{ nullptr };
+		GBufferRender* _PPSwitch2{ nullptr };
+
+		//PostProcessing이 추가되지만, 보내야 하는 값은 일치해야 한다.
+		ID3D11ShaderResourceView* _toSendSRVToEngine{ nullptr };
 
 		//PBR Buffers
 		std::unique_ptr<GBufferRender> _albedoAmbiBuffer;
