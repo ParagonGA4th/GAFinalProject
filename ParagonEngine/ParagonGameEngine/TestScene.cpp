@@ -21,6 +21,7 @@
 #include "../ParagonData/ImageRenderer.h" //Render ���� ���� ����.
 #include "../ParagonData/TextRenderer.h" //Render ���� ���� ����.
 #include "../ParagonData/StaticMeshRenderer.h" //Render ���� ���� ����.
+#include "../ParagonData/SkinnedMeshRenderer.h" //Render ���� ���� ����.
 #include "../ParagonData/Animator.h"
 
 
@@ -156,9 +157,11 @@ void Pg::Engine::TestScene::Initialize()
 		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
 		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
 		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
-		tObj7->AddComponent<StaticMeshRenderer>();
-		tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx");
-		tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+		tObj7->AddComponent<SkinnedMeshRenderer>();
+		tObj7->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/AnimMesh/ErikaMixamo/ErikaMixamo.fbx");
+		//tObj7->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_idle.pganim";
+		tObj7->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_run.pganim";
+		tObj7->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
 		tObj7->AddComponent<DemoPlayerAction>();
 	}
 
@@ -177,9 +180,24 @@ void Pg::Engine::TestScene::Initialize()
 		tObj7->SetTag("ArrowTag");
 	}
 	
+	Pg::Data::GameObject* tObj7_2 = tCurrentScene->AddObject("Seight1");
+	tObj7_2->AddComponent<StaticBoxCollider>();
+	tObj7_2->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ 0.f, 0.f, 5.f });
 
-
-
+	///AI
+	Pg::Data::GameObject* tObj7_1 = tCurrentScene->AddObject("Enemy");
+	tObj7_1->GetComponent<Transform>()->_position = { 5.0f, 3.0f, 0.0f };
+	tObj7_1->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_2);
+	tObj7_1->GetComponent<Transform>()->_rotation = tObj7_1->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	tObj7_1->AddComponent<CapsuleCollider>();
+	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
+	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
+	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+	tObj7_1->AddComponent<StaticMeshRenderer>();
+	tObj7_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/final_mon_boss.fbx");
+	tObj7_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	tObj7_1->AddComponent<MovingTest>();
 
 	///버튼 & 오디오
 	//Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Button");

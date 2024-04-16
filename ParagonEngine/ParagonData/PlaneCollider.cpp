@@ -11,7 +11,7 @@ namespace Pg::Data
 		StaticCollider(owner),
 		_width(20.0f),
 		_depth(20.0f),
-		_layer(1)
+		_layer(0)
 	{
 		FACTORY_INIT;
 	}
