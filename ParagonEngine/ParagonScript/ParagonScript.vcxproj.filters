@@ -25,6 +25,15 @@
     <Filter Include="1_BaseClass\ParagonScriptList">
       <UniqueIdentifier>{9c0b6d1c-0ad3-4940-8e52-95a9ebf81b5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content">
+      <UniqueIdentifier>{09670d3c-a87a-4f81-b154-42cb1b745625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\CombatSystem">
+      <UniqueIdentifier>{0674ed6d-3008-448f-9db0-e3cabd7ed726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\PlayerBehavior">
+      <UniqueIdentifier>{2e6ac2b5-bce0-4ab8-8854-bab3a583a260}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -45,6 +54,10 @@
     <ClCompile Include="FactoryHelper.cpp">
       <Filter>0_Factory</Filter>
     </ClCompile>
+    <ClCompile Include="CombatSystem.cpp">
+      <Filter>Content\CombatSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -71,5 +84,9 @@
     <ClInclude Include="ParagonScriptList.h">
       <Filter>1_BaseClass\ParagonScriptList</Filter>
     </ClInclude>
+    <ClInclude Include="CombatSystem.h">
+      <Filter>Content\CombatSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBehavior.h" />
   </ItemGroup>
 </Project>

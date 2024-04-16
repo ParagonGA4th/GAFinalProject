@@ -142,8 +142,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="EventTest.h" />
     <ClInclude Include="FactoryHelper.h" />
+    <ClInclude Include="PlayerBehavior.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="RayCastTest.h" />
     <ClInclude Include="Script.h" />
@@ -152,8 +154,10 @@
     <ClInclude Include="SoundTest.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="EventTest.cpp" />
     <ClCompile Include="FactoryHelper.cpp" />
+    <ClCompile Include="PlayerBehavior.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="RayCastTest.cpp" />
     <ClCompile Include="Script.cpp" />
