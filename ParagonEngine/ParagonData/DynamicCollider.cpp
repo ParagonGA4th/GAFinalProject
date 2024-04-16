@@ -110,15 +110,48 @@ namespace Pg::Data
 	void DynamicCollider::FreezeAxisX(bool isActive)
 	{
 		_isActiveX = isActive;
+
+		//바로 반영하게 고침, 240416.
+		if (_rigid != nullptr)
+		{
+			_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, _isActiveX);
+		}
 	}
 
 	void DynamicCollider::FreezeAxisY(bool isActive)
 	{
 		_isActiveY = isActive;
+
+		//바로 반영하게 고침, 240416.
+		//TestScene 세팅을 고려. 
+		if (_rigid != nullptr)
+		{
+			_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, _isActiveY);
+		}
 	}
 
 	void DynamicCollider::FreezeAxisZ(bool isActive)
 	{
 		_isActiveZ = isActive;
+
+		if (_rigid != nullptr)
+		{
+			//바로 반영하게 고침, 240416.
+			_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, _isActiveZ);
+		}
 	}
+
+	void DynamicCollider::MoveRotation(PGQuaternion rot)
+	{
+		using namespace physx;
+		PxTransform currentTransform = _rigid->getGlobalPose();
+
+		// 로테이션 반영하는 새 PxTransform 만든다.
+		PxQuat rotation = PxQuat(rot.x, rot.y, rot.z, rot.w); //우리가 원하는 Rotation.
+		PxTransform newTransform = PxTransform(currentTransform.p, rotation);
+
+		// 실제 Rigidbody에 세팅.
+		_rigid->setGlobalPose(newTransform);
+	}
+
 }

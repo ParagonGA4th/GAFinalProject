@@ -1,6 +1,7 @@
 #include "PgMath.h"
 #include <cmath>
 #include <limits>
+#include <dxtk/SimpleMath.h>
 
 using namespace DirectX;
 
@@ -101,6 +102,21 @@ namespace Pg::Math
 			&& y <= rhs.y
 			&& z <= rhs.z
 		};
+	}
+
+	Pg::Math::PGFLOAT3 PGFLOAT3::GlobalUp()
+	{
+		return { 0,1,0 };
+	}
+
+	Pg::Math::PGFLOAT3 PGFLOAT3::GlobalRight()
+	{
+		return { 1,0,0 };
+	}
+
+	Pg::Math::PGFLOAT3 PGFLOAT3::GlobalForward()
+	{
+		return { 0,0,1 };
 	}
 
 	//PGFLOAT4
@@ -682,7 +698,97 @@ namespace Pg::Math
 		return XMLoadFloat4x4(&tRet);
 	}
 
+	Pg::Math::PGQuaternion FromToRotation(const PGFLOAT3& fromDirection, const PGFLOAT3& toDirection)
+	{
+		using namespace DirectX;
+
+		//Quaternion
+		//DXTK 기반, 방향 뒤집힐 때 막아버린 구현체.
+		XMFLOAT4 result;
+
+		//DX 자료형 이동.
+		XMVECTOR fromDir = PG2XM_FLOAT3_VECTOR(fromDirection);
+		XMVECTOR toDir = PG2XM_FLOAT3_VECTOR(toDirection);
+
+		const XMVECTOR F = XMVector3Normalize(fromDir);
+		const XMVECTOR T = XMVector3Normalize(toDir);
+
+		const float dot = XMVectorGetX(XMVector3Dot(F, T));
+		if (dot >= 1.f)
+		{
+			//Identity.
+			result = { 0,0,0,1 };
+		}
+		else if (dot <= -1.f)
+		{
+			XMFLOAT3 tRight = { 1,0,0 };
+			XMVECTOR tRightVec = XMLoadFloat3(&tRight);
+
+			XMVECTOR axis = XMVector3Cross(F, tRightVec);
+			if (XMVector3NearEqual(XMVector3LengthSq(axis), g_XMZero, g_XMEpsilon))
+			{
+				XMFLOAT3 tUp = { 0,1,0 };
+				XMVECTOR tUpVec = XMLoadFloat3(&tUp);
+
+				axis = XMVector3Cross(F, tUpVec);
+			}
+
+			const XMVECTOR Q = XMQuaternionRotationAxis(axis, XM_PI);
+			XMStoreFloat4(&result, Q);
+		}
+		else
+		{
+			const XMVECTOR C = XMVector3Cross(F, T);
+			XMStoreFloat4(&result, C);
+
+			const float s = sqrtf((1.f + dot) * 2.f);
+			result.x /= s;
+			result.y /= s;
+			result.z /= s;
+			result.w = s * 0.5f;
+		}
+
+		return XM2PG_QUATERNION(result);
+
+	}
+
+	Pg::Math::PGQuaternion PGLookRotation(const Pg::Math::PGFLOAT3& forward, const Pg::Math::PGFLOAT3& up)
+	{
+		//PGQuaternion q1;
+		////GlobalForward 
+		//q1 = FromToRotation({0,0,1}, forward);
+		//
+		//const XMVECTOR C = XMVector3Cross(PG2XM_FLOAT3_VECTOR(forward), PG2XM_FLOAT3_VECTOR(up));
+		//
+		//if (XMVector3NearEqual(XMVector3LengthSq(C), g_XMZero, g_XMEpsilon))
+		//{
+		//	// forward and up are co-linear
+		//	result = q1;
+		//	return;
+		//}
+		//
+		//XMFLOAT3 tgUp = { 0,1,0 };
+		//XMVECTOR tGlobalUp = XMLoadFloat3(&tgUp);
+		//const XMVECTOR U = XMQuaternionMultiply(PG2XM_QUATERNION_VECTOR(q1), tGlobalUp);
+		//
+		//PGQuaternion q2;
+		//FromToRotation(U, up, );
+		//
+		//XMStoreFloat4(&result, XMQuaternionMultiply(q2, q1));
+
+		DirectX::SimpleMath::Quaternion tQuat = DirectX::SimpleMath::Quaternion::LookRotation(PG2XM_FLOAT3_VECTOR(forward), PG2XM_FLOAT3_VECTOR(up));
+		return XM2PG_QUATERNION(tQuat);
+	}
+
+	Pg::Math::PGQuaternion PGQuaternionSlerp(PGQuaternion a, PGQuaternion b, float t)
+	{
+		using namespace DirectX::SimpleMath;
+		Quaternion tA = PG2XM_QUATERNION_VECTOR(a);
+		Quaternion tB = PG2XM_QUATERNION_VECTOR(b);
+		return XM2PG_QUATERNION(Quaternion::Slerp(tA, tB, t));
+	}
 	
+
 
 }
 
