@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ComboSystem.h" />
     <ClInclude Include="EventTest.h" />
     <ClInclude Include="FactoryHelper.h" />
     <ClInclude Include="PlayerMove.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="SoundTest.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ComboSystem.cpp" />
     <ClCompile Include="EventTest.cpp" />
     <ClCompile Include="FactoryHelper.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
