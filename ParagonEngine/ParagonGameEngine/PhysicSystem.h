@@ -4,9 +4,11 @@
 #include "PhysicsCallback.h"
 #include "Pxphysics.h"
 #include "PxphysicsAPI.h"
+#include <PxSimulationEventCallback.h>
 #include "extensions/PxDefaultAllocator.h"
 #include "extensions/PxDefaultErrorCallback.h"
 #include "../ParagonProcess/CoreSingleton.h"
+#include "../ParagonData/DebugData.h"
 #include "../ParagonMath/PgMath.h"
 #include <vector>
 #include <memory>
@@ -41,7 +43,6 @@ namespace Pg::Engine::Physic
 
 		void UpdatePhysics(float dTime);
 		void UpdateTransform();
-		void UpdateRayCast();
 
 		void Finalize();
 
@@ -55,6 +56,8 @@ namespace Pg::Engine::Physic
 
 		void CreateStack(const physx::PxTransform& t, physx::PxU32 size, physx::PxReal halfExtent);
 
+		void SetLayerMask(physx::PxShape* shape, physx::PxU32 layer, physx::PxU32 mask);	
+	
 	public:
 		//Collider 전체 생성
 		void InitMakeColliders();
@@ -68,11 +71,14 @@ namespace Pg::Engine::Physic
 		void MakeDynamicSphereCollider(Pg::Data::GameObject* obj);
 		void MakeDynamicCapsuleCollider(Pg::Data::GameObject* obj);
 		
-		//RayCast를 각각 다른 방식으로 구현해볼 예정.
-		//void MakeRayCast(Pg::Data::GameObject* obj);
-
+		//RayCast 생성
+		//PARAGON_ENGINE_DLL Pg::Data::Collider* MakeRayCast(Pg::Math::PGFLOAT3 tOrigin, Pg::Math::PGFLOAT3 tDir, 
+		//	float tLength, int* bType);
 		//히트한 포인트도 참조자로 리턴하게 설정, Collider가 Nullptr가 아닐 경우 참조자 리턴값은 내부에서 변경된 것이다.
 		PARAGON_ENGINE_DLL Pg::Data::Collider* MakeRayCast(Pg::Math::PGFLOAT3 tOrigin, Pg::Math::PGFLOAT3 tDir, float tLength, Pg::Math::PGFLOAT3& outHitPoint, int* bType);
+		PARAGON_ENGINE_DLL void MakeSphereCast(const Pg::Math::PGFLOAT3& tOrigin, const Pg::Math::PGFLOAT3& tDir, 
+			float tRad, float max, unsigned int maxColCnt, Pg::Data::Collider** colDataPointer);
+
 	private:
 		//Rigid 정보를 담아놓는 벡터
 		std::vector<physx::PxRigidDynamic*> _rigidDynamicVec;
@@ -95,6 +101,8 @@ namespace Pg::Engine::Physic
 		Pg::Engine::DebugSystem* _debugSystem = nullptr;
 
 		std::unique_ptr<PhysicsCallback> _physicsCallback;
+
+		std::unique_ptr<Pg::Data::SphereInfo> _forSweepSphereInfo{ nullptr };
 	};
 }
 

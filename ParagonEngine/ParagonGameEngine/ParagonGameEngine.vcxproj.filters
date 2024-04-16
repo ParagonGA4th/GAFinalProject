@@ -136,6 +136,21 @@
     <ClInclude Include="ScreenPointTest.h">
       <Filter>4_WorkSpace\SceneView\Scripts\ScreenPointTest</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\RecastDemo\ChunkyTriMesh.h">
+      <Filter>2_System\NavigationSystem\include\RecastDemo</Filter>
+    </ClInclude>
+    <ClInclude Include="ParagonRecast.h">
+      <Filter>2_System\NavigationSystem\CustomClass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\fastlz\fastlz.h">
+      <Filter>2_System\NavigationSystem\include\fastlz</Filter>
+    </ClInclude>
+    <ClInclude Include="PgLayer.h">
+      <Filter>2_System\PhysicSystem\PhysicsLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="AISeight.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -285,6 +300,18 @@
     <ClCompile Include="ScreenPointTest.cpp">
       <Filter>4_WorkSpace\SceneView\Scripts\ScreenPointTest</Filter>
     </ClCompile>
+    <ClCompile Include="..\include\fastlz\fastlz.c">
+      <Filter>2_System\NavigationSystem\include\fastlz</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\RecastDemo\ChunkyTriMesh.cpp">
+      <Filter>2_System\NavigationSystem\src\RecastDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="PgLayer.cpp">
+      <Filter>2_System\PhysicSystem\PhysicsLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="AISeight.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -400,6 +427,24 @@
     </Filter>
     <Filter Include="4_WorkSpace\SceneView\Scripts\ScreenPointTest">
       <UniqueIdentifier>{0bfb62db-bdd1-4fe6-a7b9-086e2cff171b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\RecastDemo">
+      <UniqueIdentifier>{b0a20b95-bb99-4faf-a72a-37111042caa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\CustomClass">
+      <UniqueIdentifier>{c93f6ce7-9915-44bd-9667-7787dc0c6e5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\fastlz">
+      <UniqueIdentifier>{f49539ee-5b99-42ec-aac4-507fa9908e04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\src\RecastDemo">
+      <UniqueIdentifier>{6eb82696-ca2e-4377-a920-916449bc53a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\PhysicsLayer">
+      <UniqueIdentifier>{f2a4720f-ff13-4657-9fcb-360cbffb9a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\AI">
+      <UniqueIdentifier>{d01096b5-f5a8-4e70-847d-71dd8716b3be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -193,6 +193,7 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\fastlz\fastlz.h" />
     <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DebugDraw.h" />
     <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DetourDebugDraw.h" />
     <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDebugDraw.h" />
@@ -214,9 +215,11 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshQuery.h" />
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNode.h" />
     <ClInclude Include="..\include\Recast\Navigation\Detour\DetourStatus.h" />
+    <ClInclude Include="..\include\Recast\Navigation\RecastDemo\ChunkyTriMesh.h" />
     <ClInclude Include="..\include\Recast\Navigation\Recast\Recast.h" />
     <ClInclude Include="..\include\Recast\Navigation\Recast\RecastAlloc.h" />
     <ClInclude Include="..\include\Recast\Navigation\Recast\RecastAssert.h" />
+    <ClInclude Include="AISeight.h" />
     <ClInclude Include="ArrowAction.h" />
     <ClInclude Include="BehaviorTreeSystem.h" />
     <ClInclude Include="BTTest.h" />
@@ -236,6 +239,8 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="NavigationSystem.h" />
+    <ClInclude Include="ParagonRecast.h" />
+    <ClInclude Include="PgLayer.h" />
     <ClInclude Include="PhysicsCallback.h" />
     <ClInclude Include="PhysicSystem.h" />
     <ClInclude Include="PrintRuntimeData.h" />
@@ -252,7 +257,9 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AISeight.cpp" />
     <ClCompile Include="ArrowAction.cpp" />
+    <ClCompile Include="..\include\fastlz\fastlz.c" />
     <ClCompile Include="BehaviorTreeSystem.cpp" />
     <ClCompile Include="DebugSystem.cpp" />
     <ClCompile Include="DemoPlayerAction.cpp" />
@@ -288,6 +295,7 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClCompile Include="Navigation\Detour\DetourNavMeshBuilder.cpp" />
     <ClCompile Include="Navigation\Detour\DetourNavMeshQuery.cpp" />
     <ClCompile Include="Navigation\Detour\DetourNode.cpp" />
+    <ClCompile Include="Navigation\RecastDemo\ChunkyTriMesh.cpp" />
     <ClCompile Include="Navigation\Recast\Recast.cpp" />
     <ClCompile Include="Navigation\Recast\RecastAlloc.cpp" />
     <ClCompile Include="Navigation\Recast\RecastArea.cpp" />
@@ -299,6 +307,7 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
     <ClCompile Include="Navigation\Recast\RecastMeshDetail.cpp" />
     <ClCompile Include="Navigation\Recast\RecastRasterization.cpp" />
     <ClCompile Include="Navigation\Recast\RecastRegion.cpp" />
+    <ClCompile Include="PgLayer.cpp" />
     <ClCompile Include="PhysicsCallback.cpp" />
     <ClCompile Include="PhysicSystem.cpp" />
     <ClCompile Include="PrintRuntimeData.cpp" />

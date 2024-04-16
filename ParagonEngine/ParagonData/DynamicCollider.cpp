@@ -9,7 +9,8 @@ namespace Pg::Data
 		Collider(owner),
 		_isActiveX(false),
 		_isActiveY(false),
-		_isActiveZ(false)
+		_isActiveZ(false),
+		_linearDamping(0.5f)
 	{
 
 	}
@@ -139,6 +140,16 @@ namespace Pg::Data
 			//바로 반영하게 고침, 240416.
 			_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, _isActiveZ);
 		}
+	}
+
+	void DynamicCollider::SetLinearDamping(float val)
+	{
+		_linearDamping = val;
+	}
+
+	float DynamicCollider::GetLinearDamping()
+	{
+		return _linearDamping;
 	}
 
 	void DynamicCollider::MoveRotation(PGQuaternion rot)

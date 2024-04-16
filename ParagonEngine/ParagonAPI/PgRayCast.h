@@ -1,6 +1,8 @@
 #pragma once
 #include "../ParagonMath/PgMath.h"
 
+#include <memory>
+
 namespace Pg::Engine
 {
 	namespace Physic
@@ -32,6 +34,8 @@ namespace Pg::API::Raycast
 		Pg::Data::Collider* MakeRay(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length, Pg::Math::PGFLOAT3& outHitPoint, int* type = nullptr);
 		//Pg::Data::Collider* ScreenPointToRay(Pg::Data::Camera* cam, Pg::Math::PGFLOAT2 screenPointNormalized, float length, Pg::Math::PGFLOAT3& outHitPoint, int* type = nullptr);
 		
+		void MakeSphereRay(const Pg::Math::PGFLOAT3& tOrigin, const Pg::Math::PGFLOAT3& tDir,
+			float tRad, float max, unsigned int maxColCnt, Pg::Data::Collider**& colDataPointer);
 
 	private:
 		Pg::Engine::Physic::PhysicSystem* _physicSystem;
