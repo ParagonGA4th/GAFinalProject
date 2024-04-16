@@ -42,6 +42,7 @@ namespace Pg::Data
 		void SetObstacleAvoidance(bool ob);
 		void SetSeperation(bool sep);
 		void SetDestination(Pg::Math::PGFLOAT3 des);
+		void SetRelocate(Pg::Math::PGFLOAT3 des);
 
 		float GetMaxSpeed();
 		float GetRadius();
@@ -87,9 +88,11 @@ namespace Pg::Data
 		///런타임에 설정값 변경 시 필요.
 		std::function<void(const Pg::Data::NavMeshAgent*)> _updateSystemFunc;
 		std::function<void(Pg::Data::NavMeshAgent*, Pg::Math::PGFLOAT3)> _destinationFunc;
+		std::function<void(Pg::Data::NavMeshAgent*, Pg::Math::PGFLOAT3)> _relocateFunc;
 
 	private:
 		Pg::Math::PGFLOAT3 _destination;
+		Pg::Math::PGFLOAT3 _relocate;
 	};
 }
 

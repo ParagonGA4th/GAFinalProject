@@ -46,6 +46,9 @@ namespace Pg::Data
 		PGFLOAT3 GetVelocity() const;
 	public:
 		void AddForce(PGFLOAT3 dir, ForceMode mode);
+
+		void SetLinearDamping(float val);
+		float GetLinearDamping();
 		
 		//Move Rotation (리지드 바디가 해당 방향을 바라보게)
 		void MoveRotation(PGQuaternion rot);
@@ -69,6 +72,8 @@ namespace Pg::Data
 		bool _isActiveX;
 		bool _isActiveY;
 		bool _isActiveZ;
+
+		float _linearDamping;
 	};
 }
 

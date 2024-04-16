@@ -1,6 +1,7 @@
 #include "PhysicSystem.h"
 #include "SceneSystem.h"
 #include "DebugSystem.h"
+#include "PgLayer.h"
 
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/Transform.h"
@@ -18,7 +19,6 @@
 
 namespace Pg::Engine::Physic
 {
-
 	physx::PxFilterFlags ContactReportFilterShader(physx::PxFilterObjectAttributes
 		attributes0, physx::PxFilterData filterData0,
 		physx::PxFilterObjectAttributes attributes1, physx::PxFilterData filterData1,
@@ -26,20 +26,23 @@ namespace Pg::Engine::Physic
 		constantBlockSize)
 	{
 		using namespace physx;
-		
-		//원래는 이 공간에 LayerMask가 있어야 한다.
-		//const bool maskTest = (filterData0.word0 & filterData1.word1) && (filterData1.word0 & filterData0.word1);
+
+		//Layer끼리 충돌 감지
+		const bool maskTest = Pg::Engine::PgLayer::CanCollide(filterData0.word0, filterData1.word0);
 
 		// Let triggers through
 		if (PxFilterObjectIsTrigger(attributes0) || PxFilterObjectIsTrigger(attributes1))
 		{
-			// 트리거 Notify (일단은 Masking 없이)
-			pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
-			pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
+			if (maskTest)
+			{
+				// Notify trigger if masks specify it
+				pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
+				pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
+			}
 			pairFlags |= PxPairFlag::eDETECT_DISCRETE_CONTACT;
-
 			return PxFilterFlag::eDEFAULT;
 		}
+
 
 		// Send events for the kinematic actors but don't solve the contact
 		if (PxFilterObjectIsKinematic(attributes0) && PxFilterObjectIsKinematic(attributes1))
@@ -52,17 +55,23 @@ namespace Pg::Engine::Physic
 		}
 
 		// Trigger the contact callback for pairs (A,B) where the filtermask of A contains the ID of B and vice versa
-		pairFlags |= PxPairFlag::eSOLVE_CONTACT;
-		pairFlags |= PxPairFlag::eDETECT_DISCRETE_CONTACT;
-		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
-		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
-		pairFlags |= PxPairFlag::ePOST_SOLVER_VELOCITY;
-		pairFlags |= PxPairFlag::eNOTIFY_CONTACT_POINTS;
-		return PxFilterFlag::eDEFAULT;
+		if (maskTest)
+		{
+			pairFlags |= PxPairFlag::eSOLVE_CONTACT;
+			pairFlags |= PxPairFlag::eDETECT_DISCRETE_CONTACT;
+			pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
+			pairFlags |= PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
+			pairFlags |= PxPairFlag::ePOST_SOLVER_VELOCITY;
+			pairFlags |= PxPairFlag::eNOTIFY_CONTACT_POINTS;
+			return PxFilterFlag::eDEFAULT;
 
-		//LayerMask가 활성화되면, 이 역시 활용될 것.
-		// Ignore pair (no collisions nor events)
-		//return PxFilterFlag::eKILL;
+			//LayerMask가 활성화되면, 이 역시 활용될 것.
+			// Ignore pair (no collisions nor events)
+		}
+		else
+		{
+			return PxFilterFlag::eKILL;
+		}
 	}
 
 	void PhysicSystem::Initialize(Pg::Engine::DebugSystem* debugSystem)
@@ -88,6 +97,13 @@ namespace Pg::Engine::Physic
 		//Physics Callback 객체 생성.
 		_physicsCallback = std::make_unique<PhysicsCallback>();
 
+		//충돌 레이어 설정.
+		Pg::Engine::PgLayer::Clear();
+		Pg::Engine::PgLayer::SetCollisionData(0, { 0, 1, 2, 3 });
+
+		// 머티리얼 생성(임의)
+		_material = _physics->createMaterial(0.5f, 0.5f, 0.5f);
+
 		CreatePxScene();
 
 		// Pvd에 정보 보내기
@@ -99,52 +115,8 @@ namespace Pg::Engine::Physic
 			pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 		}
 
-		// 머티리얼 생성(임의)
-		_material = _physics->createMaterial(0.1f, 0.1f, 0.5f);
-
-		///RayCast의 예시
-		//physx::PxVec3 origin = { 0.0f,0.0f,0.0f };		// [in] Ray origin
-		//physx::PxVec3 unitDir = { 10.0f, 10.0f, 10.0f };	// [in] Normalized ray direction
-		//physx::PxReal maxDistance = 100.0f;				// [in] Raycast max distance
-
-		//const physx::PxU32 bufferSize = 256;			// [in] size of 'hitBuffer'
-		//physx::PxRaycastHit hitBuffer[bufferSize];		// [out] User provided buffer for results
-		//physx::PxRaycastBuffer buf(hitBuffer, bufferSize); // [out] Blocking and touching hits stored here
-
-
-		//const physx::PxRenderBuffer& rb = _pxScene->getRenderBuffer();
-
-		//for (physx::PxU32 i = 0; i < rb.getNbLines(); i++)
-		//{
-		//	const physx::PxDebugLine& lineDebug = rb.getLines()[i];
-		//}
-
-		//bool hit = _pxScene->raycast(origin, unitDir, maxDistance, buf);
-
-		//if (hit)
-		//{
-		//	PG_TRACE("Hit!!");
-		//}
-
 		//Collider 생성!
 		InitMakeColliders();
-
-		// ground 생성 후, 임의로 shape 붙여주기
-		/*physx::PxRigidStatic* groundPlane = PxCreatePlane(*_physics, physx::PxPlane(0, 1, 0, 0), *_material);
-		physx::PxShape* gpShape = _physics->createShape(physx::PxBoxGeometry(0.1f, 20.0f, 20.0f), *_material);
-		groundPlane->attachShape(*gpShape);
-		_pxScene->addActor(*groundPlane);*/
-
-		/*for (physx::PxU32 i = 0; i < 5; i++)
-		{
-			CreateStack(physx::PxTransform(physx::PxVec3(0, 0,10.0f)), 10, 2.0f);
-		}*/
-
-		//예시로 도형 하나 만들기
-		/*physx::PxRigidDynamic* exRigid = _physics->createRigidDynamic(physx::PxTransform(10.0f, 10.0f, 10.0f));
-		physx::PxShape* exShape = _physics->createShape(physx::PxBoxGeometry(1.0f, 1.0f, 1.0f), *_material);
-		exRigid->attachShape(*exShape);
-		_pxScene->addActor(*exRigid);*/
 	}
 
 	void PhysicSystem::UpdatePhysics(float dTime)
@@ -169,6 +141,9 @@ namespace Pg::Engine::Physic
 			Pg::Data::DynamicCollider* dynamicCol = static_cast<Pg::Data::DynamicCollider*>(rigid->userData);
 			Pg::Data::GameObject* gameObj = dynamicCol->_object;
 
+			//런타임에 Collider 껐다켰다 가능.
+			rigid->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !dynamicCol->GetActive());
+
 			if (!dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
 			{
 				gameObj->OnCollisionEnter(dynamicCol->_collisionStorage.data(), dynamicCol->_collisionStorage.size());
@@ -192,6 +167,7 @@ namespace Pg::Engine::Physic
 				//gameObj->OnTriggerStay();
 				//PG_TRACE("TriggerStay!");
 			}
+
 		}
 
 		//Static을 위해서도 물리 업데이트 적용.
@@ -199,6 +175,8 @@ namespace Pg::Engine::Physic
 		{
 			Pg::Data::StaticCollider* staticCol = static_cast<Pg::Data::StaticCollider*>(rigid->userData);
 			Pg::Data::GameObject* gameObj = staticCol->_object;
+
+			rigid->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !staticCol->GetActive());
 
 			if (!staticCol->GetWasCollided() && staticCol->GetIsCollide())
 			{
@@ -290,13 +268,20 @@ namespace Pg::Engine::Physic
 			_pvd->release();
 			PX_RELEASE(transport);
 		}
+
 		PX_RELEASE(_foundation);
+
+		//레이어 해제.
+		Pg::Engine::PgLayer::Clear();
 	}
 
 	void PhysicSystem::CreatePxScene()
 	{
 		// 씬에 대한 설정
 		physx::PxSceneDesc sceneDesc(_physics->getTolerancesScale());
+
+		//스윕 쿼리 설정
+		physx::PxSweepHit sweepHit;
 
 		//중력 설정.
 		sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
@@ -341,6 +326,14 @@ namespace Pg::Engine::Physic
 		shape->release();
 	}
 
+	// Layer Mask 설정 함수
+	void PhysicSystem::SetLayerMask(physx::PxShape* shape, physx::PxU32 layer, physx::PxU32 mask) {
+		physx::PxFilterData filterData;
+		filterData.word0 = mask;
+		filterData.word1 = layer; // 레이어 설정
+
+		shape->setQueryFilterData(filterData);
+	}
 
 	void PhysicSystem::InitMakeColliders()
 	{		
@@ -408,6 +401,7 @@ namespace Pg::Engine::Physic
 				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(staticBoxcol->GetWidth() / 2,
 					staticBoxcol->GetHeight() / 2, staticBoxcol->GetDepth() / 2), *_material);
 
+				//Trigger 여부 판단
 				if (staticBoxcol->GetTrigger())
 				{
 					boxShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
@@ -419,6 +413,9 @@ namespace Pg::Engine::Physic
 				physx::PxTransform localTm(physx::PxVec3(position.x, position.y, position.z));
 
 				staticBoxcol->SetPxShape(boxShape);
+
+				// Layer Mask 설정
+				boxShape->setSimulationFilterData({ staticBoxcol->GetLayer(), 0, 0, 0 });
 
 				physx::PxRigidStatic* rigid = _physics->createRigidStatic(localTm);
 				rigid->attachShape(*boxShape);
@@ -459,6 +456,7 @@ namespace Pg::Engine::Physic
 				//트리거를 위해 PXShape 지정.
 				boxcol->SetPxShape(boxShape);
 
+				//Trigger 여부 판단
 				if (boxcol->GetTrigger())
 				{
 					boxShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
@@ -471,9 +469,12 @@ namespace Pg::Engine::Physic
 				//2023.12.11
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
 
+				// Layer Mask 설정
+				boxShape->setSimulationFilterData({ boxcol->GetLayer(), 0, 0, 0 });
+
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
-				rigid->setLinearDamping(0.5f);
+				rigid->setLinearDamping(boxcol->GetLinearDamping());
 				rigid->attachShape(*boxShape);
 
 				//_pxScene->addActor(*rigid);
@@ -513,6 +514,7 @@ namespace Pg::Engine::Physic
 				trans.q = physx::PxQuat(0, 0, 0.7071068f, 0.7071068f);
 				shape->setLocalPose(trans);
 
+				//Trigger 여부 판단
 				if (sphCol->GetTrigger())
 				{
 					shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
@@ -524,11 +526,14 @@ namespace Pg::Engine::Physic
 
 				sphCol->SetPxShape(shape);
 
+				// Layer Mask 설정
+				shape->setSimulationFilterData({ sphCol->GetLayer(), 0, 0, 0 });
+
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
 
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
-				rigid->setLinearDamping(0.5f);
+				rigid->setLinearDamping(sphCol->GetLinearDamping());
 				rigid->attachShape(*shape);
 				//_pxScene->addActor(*rigid);
 
@@ -565,11 +570,13 @@ namespace Pg::Engine::Physic
 				trans.q = physx::PxQuat(0, 0, 0.7071068f, 0.7071068f);
 				shape->setLocalPose(trans);
 
+				//Trigger 여부 판단
 				if (capCol->GetTrigger())
 				{
 					shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
 					shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
 				}
+
 
 				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 				physx::PxTransform localTm(physx::PxIdentity);
@@ -578,9 +585,13 @@ namespace Pg::Engine::Physic
 
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
 
+
+				// Layer Mask 설정
+				shape->setSimulationFilterData({ capCol->GetLayer(), 0, 0, 0 });
+
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
-				rigid->setLinearDamping(0.5f);
+				rigid->setLinearDamping(capCol->GetLinearDamping());
 
 				rigid->attachShape(*shape);
 
@@ -588,7 +599,6 @@ namespace Pg::Engine::Physic
 				/*rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, true);
 				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, true);
 				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, true);*/
-
 
 				//_pxScene->addActor(*rigid);
 
@@ -604,11 +614,6 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::MakePlaneCollider(Pg::Data::GameObject* obj)
 	{
-		/// ground 생성 후, 임의로 shape 붙여주기
-		/*physx::PxRigidStatic* groundPlane = PxCreatePlane(*_physics, physx::PxPlane(0, 1, 0, 0), *_material);
-		physx::PxShape* gpShape = _physics->createShape(physx::PxBoxGeometry(0.1f, 20.0f, 20.0f), *_material);
-		groundPlane->attachShape(*gpShape);
-		_pxScene->addActor(*groundPlane);*/
 
 		Pg::Data::Collider* col = obj->GetComponent<Pg::Data::PlaneCollider>();
 
@@ -628,6 +633,9 @@ namespace Pg::Engine::Physic
 
 				planeCol->SetPxShape(shape);
 
+				// Layer Mask 설정
+				shape->setSimulationFilterData({ planeCol->GetLayer(), 0, 0, 0 });
+
 				//physx::PxRigidStatic* rigid = PxCreatePlane(*_physics, plane, *_material);
 				physx::PxRigidStatic* rigid = _physics->createRigidStatic(normalTm);
 				rigid->attachShape(*shape);
@@ -638,40 +646,6 @@ namespace Pg::Engine::Physic
 			}
 		}
 	}
-
-
-	//void PhysicSystem::MakeRayCast(Pg::Data::GameObject* obj)
-	//{
-	//	Pg::Data::RayCast* col = obj->GetComponent<Pg::Data::RayCast>();
-
-	//	if (col)
-	//	{
-	//		auto rayCastVec = obj->GetComponents<Pg::Data::RayCast>();
-
-	//		for (auto& rayCast : rayCastVec)
-	//		{
-	//			Pg::Data::RayCast* cRayCast = dynamic_cast<Pg::Data::RayCast*>(rayCast);
-
-	//			//raycast의 크기.
-	//			physx::PxVec3 rayCastOrigin;
-	//			rayCastOrigin.x = cRayCast->GetOrigin().x;
-	//			rayCastOrigin.y = cRayCast->GetOrigin().y;
-	//			rayCastOrigin.z = cRayCast->GetOrigin().z;
-
-	//			physx::PxVec3 rayCastDir;
-	//			rayCastDir.x = cRayCast->GetDir().x;
-	//			rayCastDir.y = cRayCast->GetDir().y;
-	//			rayCastDir.z = cRayCast->GetDir().z;
-
-	//			float length;
-	//			length = cRayCast->GetLength();
-
-	//			physx::PxRaycastBuffer _hitBuffer;
-	//			_pxScene->raycast(rayCastOrigin, rayCastDir, length, _hitBuffer);
-	//		}
-	//	}
-	//}
-
 
 	///Raycast 생성하기
 	Pg::Data::Collider* PhysicSystem::MakeRayCast(Pg::Math::PGFLOAT3 tOrigin, Pg::Math::PGFLOAT3 tDir, float tLength, Pg::Math::PGFLOAT3& outHitPoint, int* bType)
@@ -753,6 +727,83 @@ namespace Pg::Engine::Physic
 		return raycastCol;
 	}
 
+
+	void PhysicSystem::MakeSphereCast(const Pg::Math::PGFLOAT3& tOrigin, const Pg::Math::PGFLOAT3& tDir, float tRad, float max, unsigned int maxColCnt, Pg::Data::Collider** colDataPointer)
+	{
+		if (!_forSweepSphereInfo)
+		{
+			_forSweepSphereInfo = std::make_unique<Pg::Data::SphereInfo>();
+		}
+
+		//Sphere 모양 Geometry
+		physx::PxSphereGeometry sphereGeo(tRad);
+
+		//Position 설정
+		physx::PxVec3 sphereCastOrigin(tOrigin.x, tOrigin.y, tOrigin.z);
+		physx::PxVec3 sphereCastDir(tDir.x, tDir.y, tDir.z);
+		physx::PxTransform shperePose(sphereCastOrigin);
+
+		//충돌 버퍼
+		physx::PxSweepBuffer sweepBuffer;
+		
+		bool isSweepHit = _pxScene->sweep(sphereGeo, shperePose, sphereCastDir, max, sweepBuffer);
+
+		physx::PxVec3 tHitPoint;
+
+		//만약 RayCast에 맞았다면
+		if (isSweepHit)
+		{
+			PG_TRACE("SphereCast Hit!");
+
+			for (int i = 0; i < sweepBuffer.getNbTouches(); i++)
+			{
+				const physx::PxSweepHit& tTouch = sweepBuffer.getTouch(i);
+
+				//충돌 객체가 유효한가?
+				if (tTouch.actor && tTouch.actor->userData)
+				{
+					//피격 데이터 전달.
+					Pg::Data::Collider* sphereCastCol = static_cast<Pg::Engine::Collider*>(tTouch.actor->userData);
+
+					if (i < maxColCnt)
+					{
+						colDataPointer[i] = sphereCastCol;
+					}
+					else
+					{
+						PG_TRACE("");
+					}
+				}
+			}
+
+			tHitPoint = sweepBuffer.block.position;
+		}
+
+		//피격 객체의 position 데이터를 이용한 디버깅.
+		if (_debugSystem->GetDebugMode())
+		{
+			_forSweepSphereInfo->scale.x = tRad * 2.0f;
+			_forSweepSphereInfo->scale.y = tRad * 2.0f;
+			_forSweepSphereInfo->scale.z = tRad * 2.0f;
+
+			physx::PxMat44 startTM(shperePose);
+			//startTM = startTM.getTranspose();
+			memcpy(&_forSweepSphereInfo->worldTM, &startTM, sizeof(Pg::Math::PGFLOAT4X4));
+
+			if (isSweepHit)
+			{
+				//Gold
+				_forSweepSphereInfo->color = { 1.f, 0.843137324f, 0.f, 1.f };
+			}
+			else
+			{
+				//MediumVioletRed
+				_forSweepSphereInfo->color = { 0.780392230f, 0.082352944f, 0.521568656f, 1.f };
+			}
+			_debugSystem->DrawSphereDebug(_forSweepSphereInfo.get());
+		}
+	}
+
 	///만들어진 Collider 객체를 Scene으로 추가하는 역할.
 	void PhysicSystem::AddObjectToScene()
 	{
@@ -782,10 +833,4 @@ namespace Pg::Engine::Physic
 			static_cast<Pg::Data::StaticCollider*>(rigid->userData)->Flush();
 		}
 	}
-
-	void PhysicSystem::UpdateRayCast()
-	{
-
-	}
-
 }
