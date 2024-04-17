@@ -358,6 +358,28 @@ namespace Pg::Engine::Physic
 			_rigidStaticVec.clear();
 		}
 
+		//[TW] 기존의 Scene에 Physics Actor들이 남아 있으면 -> 다 지워버린다.
+		{
+			using namespace physx;
+
+			PxU32 nbActors = _pxScene->getNbActors(physx::PxActorTypeFlag::eRIGID_DYNAMIC | physx::PxActorTypeFlag::eRIGID_STATIC);
+			PxActor** actors = new PxActor * [nbActors];
+
+			UINT tActorBufferCount = _pxScene->getActors(
+				physx::PxActorTypeFlag::eRIGID_DYNAMIC | physx::PxActorTypeFlag::eRIGID_STATIC, actors, nbActors);
+
+			for (int i = 0; i < nbActors; i++)
+			{
+				PxActor* actor = actors[i];
+				_pxScene->removeActor(*actor);
+				PX_RELEASE(actor);
+			}
+
+			//버퍼 다 썼으면 클리어.
+			delete[] actors;
+		}
+
+
 		//싱글턴
 		auto& tSceneSystem = singleton<SceneSystem>();
 		_sceneSystem = &tSceneSystem;

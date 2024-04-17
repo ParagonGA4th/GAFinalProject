@@ -2,6 +2,7 @@
 #include "RendererBase2D.h"
 
 #include <string>
+#include <visit_struct/visit_struct.hpp>
 
 /// <summary>
 /// 23.10.10 오수안
@@ -17,16 +18,19 @@ namespace Pg::Data
 	public:
 		ImageRenderer(GameObject* obj);
 
+		virtual void OnSerialize(SerializeVector& sv);
+		virtual void OnDeserialize(SerializeVector& sv);
+
 		void SetImagePath(std::string path);
 		std::string GetImagePath();
 
 		//100.f 가 가장 최대.
 		float _fillRatio = 100.f;
 
-	private:
-		std::string _imagePath; // 필수 조건
-
-		
+	public:
+		BEGIN_VISITABLES(ImageRenderer);
+		VISITABLE(std::string, _imagePath); // 필수 조건
+		END_VISITABLES;
 	};
 }
 

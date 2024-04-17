@@ -15,6 +15,16 @@ namespace Pg::Data
 		SetRendererTypeName(typeid(this).name());
 	}
 
+	void TextRenderer::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper<TextRenderer>(this, sv);
+	}
+
+	void TextRenderer::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper<TextRenderer>(this, sv);
+	}
+
 	void TextRenderer::SetString(const std::string& str)
 	{
 		_string = str;

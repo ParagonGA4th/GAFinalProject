@@ -12,7 +12,16 @@ namespace Pg::Data
 		_width(20.0f),
 		_depth(20.0f)
 	{
-		FACTORY_INIT;
+	}
+
+	void PlaneCollider::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper<PlaneCollider>(this, sv);
+	}
+
+	void PlaneCollider::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper<PlaneCollider>(this, sv);
 	}
 
 	void PlaneCollider::Update()
@@ -47,5 +56,4 @@ namespace Pg::Data
 		PGFLOAT3 tmp = _object->_transform.GetRight();
 		return PGFloat3Normalize(tmp);
 	}
-
 }
