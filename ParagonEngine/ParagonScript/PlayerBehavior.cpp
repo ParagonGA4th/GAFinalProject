@@ -40,15 +40,16 @@ namespace Pg::DataScript
 	void PlayerBehavior::Update()
 	{
 		//Z축 향해 뒤집기. 어디에서 불완전한 연결이 일어나는지는 확인해봐야 할 것 같다.
-		//Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGReflectVectorAgainstAxis(_object->_transform.GetForward(), {0,0,-1});
+		Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGReflectVectorAgainstAxis(_object->_transform.GetForward(), {0,0,1});
+		tShouldShootDir = Pg::Math::PGFloat3Normalize(tShouldShootDir);
 
 		//로직과 상관없는 거
 		Pg::Math::PGFLOAT3 outHitPoint;
 		float tFloat = 2.0f;
-		_pgRayCast->MakeRay({ _object->_transform._position.x + _object->_transform.GetForward().x * tFloat,
-						_object->_transform._position.y + _object->_transform.GetForward().y * tFloat,
-						_object->_transform._position.z + _object->_transform.GetForward().z * tFloat }, 
-			_object->_transform.GetForward(), 10.0f, outHitPoint, nullptr);
+		_pgRayCast->MakeRay({ _object->_transform._position.x + tShouldShootDir.x * tFloat,
+						_object->_transform._position.y + tShouldShootDir.y * tFloat,
+						_object->_transform._position.z + tShouldShootDir.z * tFloat },
+			tShouldShootDir, 10.0f, outHitPoint, nullptr);
 
 		UpdateWASD();
 		UpdateFacingDirection(0); //Plane Y-Level 입력해야.
