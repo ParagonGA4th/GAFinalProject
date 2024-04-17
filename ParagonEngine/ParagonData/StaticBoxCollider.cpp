@@ -10,7 +10,16 @@ namespace Pg::Data
 		_height(2.0f),
 		_depth(2.0f)
 	{
-		FACTORY_INIT;
+	}
+
+	void StaticBoxCollider::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper<StaticBoxCollider>(this, sv);
+	}
+
+	void StaticBoxCollider::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper<StaticBoxCollider>(this, sv);
 	}
 
 	void StaticBoxCollider::Update()
@@ -46,5 +55,4 @@ namespace Pg::Data
 		_height = h;
 		_depth = d;
 	}
-
 }

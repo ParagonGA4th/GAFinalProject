@@ -4,7 +4,7 @@
 #include <string>
 #include <functional>
 #include <dxtk/SimpleMath.h>
-#include "data_factory.h" // Auto Register를 위한 필수요건.
+#include <visit_struct/visit_struct.hpp>
 
 /// <summary>
 /// 앞으로 3D Skinned Mesh 출력을 담당할 렌더러.
@@ -20,16 +20,12 @@ namespace Pg::Data
 {
 	class GameObject;
 
-	class SkinnedMeshRenderer : public RendererBase3D, Pg::Factory::Data::RegisteredInFactory<RendererBase3D, SkinnedMeshRenderer, GameObject*>
+	class SkinnedMeshRenderer : public RendererBase3D
 	{
 		friend class Pg::Graphics::RenderObjectSkinnedMesh3D;
 		friend class Pg::Graphics::GraphicsSceneParser;
 	public:
 		SkinnedMeshRenderer(GameObject* obj);
-
-		//자동화된 Auto-Registration 작동 위해 필수.
-		static RendererBase3D* CreateInstance(GameObject* go) { return new SkinnedMeshRenderer(go); }
-		static const char* GetFactoryKey() { return "class Pg::Data::SkinnedMeshRenderer"; }
 
 		virtual void ConvertPotentialUnrealValues() override;
 		//혹시 Path만 있고 Name은 없는 상황을 막기 위해.

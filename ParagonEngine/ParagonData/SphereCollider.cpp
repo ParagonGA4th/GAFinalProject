@@ -7,7 +7,16 @@ namespace Pg::Data
 		DynamicCollider(owner),
 		_rad(1.0f)
 	{
-		FACTORY_INIT;
+	}
+
+	void SphereCollider::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper<SphereCollider>(this, sv);
+	}
+
+	void SphereCollider::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper<SphereCollider>(this, sv);
 	}
 
 	void SphereCollider::Update()

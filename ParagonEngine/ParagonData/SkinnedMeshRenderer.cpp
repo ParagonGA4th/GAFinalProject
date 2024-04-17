@@ -11,8 +11,6 @@ namespace Pg::Data
 {
 	SkinnedMeshRenderer::SkinnedMeshRenderer(GameObject* obj) : RendererBase3D(obj)
 	{
-		FACTORY_INIT;
-
 		SetRendererTypeName(typeid(this).name());
 	}
 

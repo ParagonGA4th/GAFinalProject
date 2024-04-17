@@ -2,7 +2,6 @@
 #include "StaticCollider.h"
 #include "DebugData.h"
 #include "../ParagonMath/PgMath.h"
-#include "data_factory.h"
 #include <visit_struct/visit_struct.hpp>
 
 /// <summary>
@@ -14,13 +13,13 @@ namespace Pg::Data
 {
 	class GameObject;
 
-	class PlaneCollider : public StaticCollider, Pg::Factory::Data::RegisteredInFactory<StaticCollider, PlaneCollider, GameObject*>
+	class PlaneCollider : public StaticCollider
 	{
 	public:
 		PlaneCollider(GameObject* owner);
 
-		static StaticCollider* CreateInstance(GameObject* go) { return new PlaneCollider(go); }
-		static const char* GetFactoryKey() { return "class Pg::Data::PlaneCollider"; }
+		virtual void OnSerialize(SerializeVector& sv);
+		virtual void OnDeserialize(SerializeVector& sv);
 
 	protected:
 		virtual void Update() override;
@@ -42,9 +41,7 @@ namespace Pg::Data
 		BEGIN_VISITABLES(PlaneCollider);
 		VISITABLE(float,_width);
 		VISITABLE(float,_depth);
-		END_VISITABLES;
+		END_VISITABLES;		
 
-		
 	};
-
 }
