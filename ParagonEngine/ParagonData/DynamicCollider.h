@@ -51,12 +51,16 @@ namespace Pg::Data
 		float GetLinearDamping();
 		
 		//Move Rotation (리지드 바디가 해당 방향을 바라보게)
+		//구조상 동작하지 않는 듯하다.. 
 		void MoveRotation(PGQuaternion rot);
 
 		///Collider의 축을 고정
 		void FreezeAxisX(bool isActive);
 		void FreezeAxisY(bool isActive);
 		void FreezeAxisZ(bool isActive);
+
+		void SetMass(float value);
+		void SetUseGravity(float value);
 	public:
 
 		//Collider 클래스에 적용되어있기에 가상함수로...
@@ -74,6 +78,8 @@ namespace Pg::Data
 		bool _isActiveZ;
 
 		float _linearDamping;
+		float _mass{ 1.0f };
+		bool _useGravity{ true };
 	};
 }
 
