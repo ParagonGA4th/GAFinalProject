@@ -120,8 +120,8 @@ namespace Pg::DataScript
 
 			//뺄 때 y축 차이를 없애기 위해서.
 			_targetPos.y = _object->_transform._position.y;
-			//Pg::Math::PGFLOAT3 lookPos = _targetPos - _object->_transform._position;
-			Pg::Math::PGFLOAT3 lookPos = _object->_transform._position - _targetPos;
+			Pg::Math::PGFLOAT3 lookPos = _targetPos - _object->_transform._position;
+			//Pg::Math::PGFLOAT3 lookPos = _object->_transform._position - _targetPos;
 			_targetRotation = PGLookRotation(lookPos, Pg::Math::PGFLOAT3::GlobalUp());
 
 			//업데이트할 값 정하고 Update 루프에서 처리하도록.
