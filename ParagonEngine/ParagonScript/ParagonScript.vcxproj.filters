@@ -37,6 +37,9 @@
     <Filter Include="ComboSystem">
       <UniqueIdentifier>{98345f97-48e6-4681-94f4-95356979c0c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\InGameCameraBehavior">
+      <UniqueIdentifier>{00365054-e5bc-4e48-a164-ce50d6ec82fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -57,13 +60,13 @@
     <ClCompile Include="FactoryHelper.cpp">
       <Filter>0_Factory</Filter>
     </ClCompile>
-    <ClCompile Include="CombatSystem.cpp">
-      <Filter>Content\CombatSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerBehavior.cpp" />
     <ClCompile Include="ComboSystem.cpp">
       <Filter>ComboSystem</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerBehavior.cpp">
+      <Filter>Content\PlayerBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameCameraBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -90,12 +93,12 @@
     <ClInclude Include="ParagonScriptList.h">
       <Filter>1_BaseClass\ParagonScriptList</Filter>
     </ClInclude>
-    <ClInclude Include="CombatSystem.h">
-      <Filter>Content\CombatSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerBehavior.h" />
     <ClInclude Include="ComboSystem.h">
       <Filter>ComboSystem</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerBehavior.h">
+      <Filter>Content\PlayerBehavior</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameCameraBehavior.h" />
   </ItemGroup>
 </Project>
