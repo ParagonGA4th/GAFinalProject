@@ -7,7 +7,16 @@ namespace Pg::Data
 		_radius(1.0f),
 		_halfHeight(1.0f)
 	{
-		FACTORY_INIT;
+	}
+
+	void CapsuleCollider::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper<CapsuleCollider>(this, sv);
+	}
+
+	void CapsuleCollider::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper<CapsuleCollider>(this, sv);
 	}
 
 	void CapsuleCollider::Update()

@@ -3,20 +3,19 @@
 #include "DebugData.h"
 #include "../ParagonMath/PgMath.h"
 
-#include "data_factory.h"
-
+#include <visit_struct/visit_struct.hpp>
 namespace Pg::Data
 {
 	class GameObject;
 
-	class StaticBoxCollider : public StaticCollider, Pg::Factory::Data::RegisteredInFactory<StaticCollider, StaticBoxCollider, GameObject*>
+	class StaticBoxCollider : public StaticCollider
 	{
 	public:
 		StaticBoxCollider(GameObject* owner);
 
-		static StaticCollider* CreateInstance(GameObject* go) { return new StaticBoxCollider(go); }
-		static const char* GetFactoryKey() { return "class Pg::Data::StaticBoxCollider"; }
-
+		virtual void OnSerialize(SerializeVector& sv);
+		virtual void OnDeserialize(SerializeVector& sv);
+		
 	public:
 		virtual void Update() override;
 
@@ -29,10 +28,12 @@ namespace Pg::Data
 
 		Pg::Data::BoxInfo _boxInfo;
 
-	private:
-		float _width;
-		float _height;
-		float _depth;
+	public:
+		BEGIN_VISITABLES(StaticBoxCollider);
+		VISITABLE(float, _width);
+		VISITABLE(float, _height);
+		VISITABLE(float, _depth);
+		END_VISITABLES;
 	};
 }
 
