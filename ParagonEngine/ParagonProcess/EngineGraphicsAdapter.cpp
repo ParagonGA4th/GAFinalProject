@@ -203,16 +203,19 @@ namespace Pg::Core
 	void EngineGraphicsAdapter::AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
 	{
 		_graphics->AddRenderObject_Runtime(objVecP);
+		_engine->AddRenderObject_Runtime(objVecP);
 	}
 
 	void EngineGraphicsAdapter::ModifyRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
 	{
 		_graphics->ModifyRenderObject_Runtime(objVecP);
+		_engine->ModifyRenderObject_Runtime(objVecP);
 	}
 
 	void EngineGraphicsAdapter::DeleteRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
 	{
 		_graphics->DeleteRenderObject_Runtime(objVecP);
+		_engine->DeleteRenderObject_Runtime(objVecP);
 	}
 
 	void EngineGraphicsAdapter::HandleRenderObjectsRuntime()
