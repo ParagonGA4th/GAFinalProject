@@ -18,6 +18,11 @@ namespace Pg::API
 	{
 		class PgTime;
 	}
+
+	namespace Raycast
+	{
+		class PgRayCast;
+	}
 }
 
 namespace Pg::DataScript
@@ -50,6 +55,7 @@ namespace Pg::DataScript
 		Pg::Data::DynamicCollider* _selfCol{ nullptr };
 		Pg::API::Input::PgInput* _pgInput{ nullptr };
 		Pg::API::Time::PgTime* _pgTime{ nullptr };
+		Pg::API::Raycast::PgRayCast* _pgRayCast{ nullptr };
 		Pg::Math::PGFLOAT3 _targetPos;
 		Pg::Math::PGQuaternion _targetRotation;
 

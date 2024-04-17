@@ -6,6 +6,7 @@
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/PgTime.h"
+#include "../ParagonAPI/PgRayCast.h"
 
 #include <singleton-cpp/singleton.h>
 #include <algorithm>
@@ -17,6 +18,7 @@ namespace Pg::DataScript
 		//Input 객체 받아오기.
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
+		_pgRayCast = &singleton<Pg::API::Raycast::PgRayCast>();
 	}
 
 	void PlayerBehavior::Awake()
@@ -37,6 +39,12 @@ namespace Pg::DataScript
 
 	void PlayerBehavior::Update()
 	{
+		//로직과 상관없는 거
+		Pg::Math::PGFLOAT3 outHitPoint;
+		_pgRayCast->MakeRay({ _object->_transform._position.x + 0.8f,
+						_object->_transform._position.y - 0.5f,
+						_object->_transform._position.z + 0.8f }, _object->_transform.GetForward(), 10.0f, outHitPoint, nullptr);
+
 		UpdateWASD();
 		UpdateFacingDirection(0); //Plane Y-Level 입력해야.
 	}
