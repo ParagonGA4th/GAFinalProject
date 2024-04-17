@@ -10,7 +10,16 @@ namespace Pg::Data
 		_height(1.0f),
 		_depth(1.0f)
 	{
-		FACTORY_INIT;
+	}
+
+	void BoxCollider::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper<BoxCollider>(this, sv);
+	}
+
+	void BoxCollider::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper<BoxCollider>(this, sv);
 	}
 
 	void BoxCollider::Update()
