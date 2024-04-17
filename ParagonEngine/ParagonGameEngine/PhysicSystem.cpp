@@ -204,7 +204,7 @@ namespace Pg::Engine::Physic
 			}
 
 			//트리거 감지
-			if (staticCol->GetTrigger() == true && 
+			if (staticCol->GetTrigger() == true &&
 				!staticCol->GetWasTrigger() && staticCol->GetIsTrigger())
 			{
 				gameObj->OnTriggerEnter(*staticCol->_triggerStorage.data());
@@ -350,13 +350,35 @@ namespace Pg::Engine::Physic
 	}
 
 	void PhysicSystem::InitMakeColliders()
-	{		
+	{
 		//씬 전환 시 콜라이더 전부 해제 후 재로드.
 		if (!_rigidDynamicVec.empty() || !_rigidStaticVec.empty())
 		{
 			_rigidDynamicVec.clear();
 			_rigidStaticVec.clear();
 		}
+
+		//[TW] 기존의 Scene에 Physics Actor들이 남아 있으면 -> 다 지워버린다.
+		{
+			using namespace physx;
+
+			PxU32 nbActors = _pxScene->getNbActors(physx::PxActorTypeFlag::eRIGID_DYNAMIC | physx::PxActorTypeFlag::eRIGID_STATIC);
+			PxActor** actors = new PxActor * [nbActors];
+
+			UINT tActorBufferCount = _pxScene->getActors(
+				physx::PxActorTypeFlag::eRIGID_DYNAMIC | physx::PxActorTypeFlag::eRIGID_STATIC, actors, nbActors);
+
+			for (int i = 0; i < nbActors; i++)
+			{
+				PxActor* actor = actors[i];
+				_pxScene->removeActor(*actor);
+				PX_RELEASE(actor);
+			}
+
+			//버퍼 다 썼으면 클리어.
+			delete[] actors;
+		}
+
 
 		//싱글턴
 		auto& tSceneSystem = singleton<SceneSystem>();
@@ -759,7 +781,7 @@ namespace Pg::Engine::Physic
 
 		//충돌 버퍼
 		physx::PxSweepBuffer sweepBuffer;
-		
+
 		bool isSweepHit = _pxScene->sweep(sphereGeo, shperePose, sphereCastDir, max, sweepBuffer);
 
 		physx::PxVec3 tHitPoint;
