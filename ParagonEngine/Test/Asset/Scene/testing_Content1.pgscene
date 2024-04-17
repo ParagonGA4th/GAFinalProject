@@ -2,7 +2,7 @@
 <scene>
 	<objects>
 		<object>
-			<name>Player1</name>
+			<name>Player</name>
 			<active>true</active>
 			<tag>TAG_Player</tag>
 			<components>
@@ -38,6 +38,8 @@
 				<component>
 					<type>class Pg::Data::CapsuleCollider</type>
 					<data>
+						<radius>1.000000</radius>
+						<halfHeight>1.000000</halfHeight>
 					</data>
 				</component>
 				<component>
@@ -48,7 +50,7 @@
 			</components>
 		</object>
 		<object>
-			<name>Plane1</name>
+			<name>Plane</name>
 			<active>true</active>
 			<tag></tag>
 			<components>
