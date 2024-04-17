@@ -44,6 +44,10 @@ namespace Pg::Data
 		void SetVelocity(PGFLOAT3 velo);
 		void AddVelocity(PGFLOAT3 velo);
 		PGFLOAT3 GetVelocity() const;
+
+		void SetAngularVelocity(PGFLOAT3 velo);
+		PGFLOAT3 GetAngularVelocity() const;
+
 	public:
 		void AddForce(PGFLOAT3 dir, ForceMode mode);
 
