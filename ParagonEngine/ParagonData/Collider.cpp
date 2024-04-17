@@ -14,7 +14,8 @@ namespace Pg::Data
 		_pxScene(nullptr),
 		_isTrigger(false),
 		_isCollide(false),
-		_wasCollided(false)
+		_wasCollided(false),
+		_layer(0)
 	{
 		_collisionStorage.reserve(5);	
 	}
@@ -123,15 +124,13 @@ namespace Pg::Data
 
 	void Collider::SetTrigger(bool isTrigger)
 	{
-		_isTrigger = isTrigger;
+		_trigger = isTrigger;
 	}
 
 	bool Collider::GetTrigger()
 	{
-		return _isTrigger;
+		return _trigger;
 	}
-
-	
 
 	bool Collider::GetIsCollide()
 	{
@@ -142,14 +141,28 @@ namespace Pg::Data
 	{
 		return _wasCollided;
 	}
+
+	bool Collider::GetIsTrigger()
+	{
+		return _isTrigger;
+	}
+
+	bool Collider::GetWasTrigger()
+	{
+		return _wasTriggered;
+	}
 	
 	void Collider::Flush()
 	{
 		_wasCollided = _isCollide;
 		_isCollide = false;
 
+		_wasTriggered = _isTrigger;
+		_isTrigger = false;
+
 		//매 프레임 체크할 때 마다 초기화.
 		_collisionStorage.clear();
+		_triggerStorage.clear();
 	}
 
 	///API용.
@@ -176,12 +189,18 @@ namespace Pg::Data
 	{
 		std::string tRes = "Collider_OnTriggerEnter : ";
 		//PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+
+		this->_isTrigger = true;
+		_triggerStorage.push_back(c);
 	}
 
 	void Collider::Collider_OnTriggerExit(Collider* c)
 	{
 		std::string tRes = "Collider_OnTriggerExit : ";
 		//PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+
+		this->_isTrigger = false;
+		_triggerStorage.push_back(c);
 	}
 
 	void Collider::SetPxShape(physx::PxShape* shape)
@@ -189,4 +208,15 @@ namespace Pg::Data
 		_shape = shape;
 		_shape->userData = this;
 	}
+
+	uint32_t Collider::GetLayer()
+	{
+		return _layer;
+	}
+
+	void Collider::SetLayer(uint32_t layer)
+	{
+		_layer = layer;
+	}
+
 }

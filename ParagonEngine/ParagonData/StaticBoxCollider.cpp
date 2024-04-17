@@ -8,8 +8,7 @@ namespace Pg::Data
 		StaticCollider(owner),
 		_width(2.0f),
 		_height(2.0f),
-		_depth(2.0f),
-		_layer(0)
+		_depth(2.0f)
 	{
 		FACTORY_INIT;
 	}
@@ -46,16 +45,6 @@ namespace Pg::Data
 		_width = w;
 		_height = h;
 		_depth = d;
-	}
-
-	void StaticBoxCollider::SetLayer(int lay)
-	{
-		_layer = lay;
-	}
-
-	uint32_t StaticBoxCollider::GetLayer()
-	{
-		return _layer;
 	}
 
 }

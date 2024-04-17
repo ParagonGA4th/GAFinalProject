@@ -5,15 +5,8 @@
 namespace Pg::Data
 {
 	class GameObject;
+	class Collider;
 	class DynamicCollider;
-}
-
-namespace Pg::Util
-{
-	namespace Input
-	{
-		class InputSystem;
-	}
 }
 
 /// <summary>
@@ -23,7 +16,12 @@ namespace Pg::Util
 class AISeight : public Pg::Data::Component
 {
 public:
+
+	AISeight(Pg::Data::GameObject* obj);
+
 	virtual void Start() override;
 	virtual void Update() override;
+
+	virtual void OnTriggerEnter(Pg::Data::Collider* c);
 };
 

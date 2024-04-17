@@ -5,8 +5,7 @@ namespace Pg::Data
 {
 	SphereCollider::SphereCollider(GameObject* owner) :
 		DynamicCollider(owner),
-		_rad(1.0f),
-		_layer(0)
+		_rad(1.0f)
 	{
 		FACTORY_INIT;
 	}
@@ -46,15 +45,4 @@ namespace Pg::Data
 	{
 		_rad = rad;
 	}
-
-	void SphereCollider::SetLayer(int lay)
-	{
-		_layer = lay;
-	}
-
-	uint32_t SphereCollider::GetLayer()
-	{
-		return _layer;
-	}
-
 }
