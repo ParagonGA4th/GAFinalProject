@@ -8,8 +8,7 @@ namespace Pg::Data
 		DynamicCollider(owner),
 		_width(1.0f),
 		_height(1.0f),
-		_depth(1.0f),
-		_layer(0)
+		_depth(1.0f)
 	{
 		FACTORY_INIT;
 	}
@@ -32,11 +31,6 @@ namespace Pg::Data
 		_depth = d;
 	}
 
-	void BoxCollider::SetLayer(int lay)
-	{
-		_layer = lay;
-	}
-
 	float BoxCollider::GetWidth() const
 	{ 
 		return _width * _scaleOffset.x * _object->_transform._scale.x;
@@ -50,10 +44,5 @@ namespace Pg::Data
 	float BoxCollider::GetDepth() const
 	{
 		return _depth * _scaleOffset.z * _object->_transform._scale.z;
-	}
-
-	uint32_t BoxCollider::GetLayer() const
-	{
-		return _layer;
 	}
 }

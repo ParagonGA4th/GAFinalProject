@@ -35,18 +35,12 @@ namespace Pg::Data
 
 		void SetCapsuleInfo(float rad, float halfHeight);
 
-		void SetLayer(int lay);
-		uint32_t GetLayer();
-
 	public:
 		Pg::Data::CapsuleInfo _capsuleInfo;
 
 	private:
 		float _radius;
 		float _halfHeight;
-
-		//Collision Layer Mask
-		uint32_t _layer;
 	};
 }
 

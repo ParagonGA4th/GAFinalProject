@@ -64,6 +64,12 @@ namespace Pg::Data
 		bool GetIsCollide();
 		bool GetWasCollided();
 
+		bool GetIsTrigger();
+		bool GetWasTrigger();
+
+		void SetLayer(uint32_t layer);
+		uint32_t GetLayer();
+
 		void Flush();
 
 		void SetPxShape(physx::PxShape* shape);
@@ -75,6 +81,7 @@ namespace Pg::Data
 		void Collider_OnTriggerExit(Collider* c);
 
 		std::vector<PhysicsCollision*> _collisionStorage;
+		std::vector<Collider*> _triggerStorage;
 
 	protected:
 		PGFLOAT3 _positionOffSet;
@@ -84,9 +91,7 @@ namespace Pg::Data
 		physx::PxShape* _shape;
 		physx::PxScene* _pxScene;
 
-		bool _isTrigger;
-
-		
+		bool _trigger;
 
 		//std::vector로 만들어서 1대n의 충돌을 최적화하기.
 		//void OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count);
@@ -94,6 +99,12 @@ namespace Pg::Data
 		//충돌의 여부를 판단하기 위해.
 		bool _isCollide;
 		bool _wasCollided;
+
+		//트리거의 여부를 판단하기 위해.
+		bool _isTrigger;
+		bool _wasTriggered;
+
+		uint32_t _layer;
 	};
 }
 
