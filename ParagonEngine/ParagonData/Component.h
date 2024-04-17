@@ -41,15 +41,13 @@ namespace Pg::Data
 
 		virtual void OnSerialize(SerializeVector& sv) {}
 		virtual void OnDeserialize(SerializeVector& sv) {}
+
 	public:
 		void SetActive(bool active);
 		bool GetActive();
-
 
 	public:
 		GameObject* _object;
 		bool _isActive;
 	};
-
 }
-
