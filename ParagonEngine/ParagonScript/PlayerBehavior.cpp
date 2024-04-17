@@ -30,6 +30,9 @@ namespace Pg::DataScript
 		//다른 스크립트의 Awake에서 새롭게 인게임 메인카메라를 설정해야 한다.
 		_mainCam = _object->GetScene()->GetMainCamera();
 		_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
+		_selfCol->FreezeAxisX(true);
+		_selfCol->FreezeAxisZ(true);
+		_selfCol->SetMass(2.0f);
 	}
 
 	void PlayerBehavior::Update()
@@ -103,7 +106,8 @@ namespace Pg::DataScript
 
 			//뺄 때 y축 차이를 없애기 위해서.
 			_targetPos.y = _object->_transform._position.y;
-			Pg::Math::PGFLOAT3 lookPos = _targetPos - _object->_transform._position;
+			//Pg::Math::PGFLOAT3 lookPos = _targetPos - _object->_transform._position;
+			Pg::Math::PGFLOAT3 lookPos = _object->_transform._position - _targetPos;
 			_targetRotation = PGLookRotation(lookPos, Pg::Math::PGFLOAT3::GlobalUp());
 
 			//업데이트할 값 정하고 Update 루프에서 처리하도록.
@@ -113,10 +117,13 @@ namespace Pg::DataScript
 
 		if (_shouldRotate)
 		{
+			//Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, _targetRotation, std::clamp<float>(_rotBeginRatio, 0.0f, 1.0f));
+			//유니티와의 차이.
 			Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, _targetRotation, std::clamp<float>(_rotBeginRatio, 0.0f, 1.0f));
-			_selfCol->MoveRotation(currentTargetRotation);
+			//_selfCol->MoveRotation(currentTargetRotation);
+			_object->_transform._rotation = currentTargetRotation;
 
-			_rotBeginRatio += _pgTime->GetDeltaTime();
+			_rotBeginRatio += _pgTime->GetDeltaTime() * rotateMultiplier;
 			if (_rotBeginRatio > 1.0f)
 			{
 				_shouldRotate = false;

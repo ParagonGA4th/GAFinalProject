@@ -33,7 +33,8 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
-		float moveSpeed{ 5.0f };
+		float moveSpeed{ 30.0f };
+		float rotateMultiplier{ 2.0f };
 
 	private:
 
