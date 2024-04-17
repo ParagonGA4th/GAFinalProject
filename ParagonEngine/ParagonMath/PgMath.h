@@ -314,6 +314,7 @@ namespace Pg::Math
 
 	Pg::Math::PGQuaternion PGLookRotation(const Pg::Math::PGFLOAT3& forward, const Pg::Math::PGFLOAT3& up);
 	Pg::Math::PGQuaternion PGQuaternionSlerp(Pg::Math::PGQuaternion a, Pg::Math::PGQuaternion b, float t);
+	Pg::Math::PGFLOAT3 PGFloat3Lerp(const Pg::Math::PGFLOAT3& a, const Pg::Math::PGFLOAT3& b, float t);
 }
 
 

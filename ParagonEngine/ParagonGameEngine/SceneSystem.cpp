@@ -178,6 +178,10 @@ namespace Pg::Engine
 		return _isStarted;
 	}
 
+	bool SceneSystem::CheckIfShouldRun()
+	{
+		return true;
+	}
 
 
 }

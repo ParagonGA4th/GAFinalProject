@@ -787,7 +787,14 @@ namespace Pg::Math
 		Quaternion tB = PG2XM_QUATERNION_VECTOR(b);
 		return XM2PG_QUATERNION(Quaternion::Slerp(tA, tB, t));
 	}
-	
+
+	Pg::Math::PGFLOAT3 PGFloat3Lerp(const PGFLOAT3& a, const PGFLOAT3& b, float t)
+	{
+		DirectX::XMVECTOR tA = PG2XM_FLOAT3_VECTOR(a);
+		DirectX::XMVECTOR tB = PG2XM_FLOAT3_VECTOR(b);
+		return XM2PG_FLOAT3_VECTOR(DirectX::XMVectorLerp(tA, tB, t));
+	}
+
 
 
 }
