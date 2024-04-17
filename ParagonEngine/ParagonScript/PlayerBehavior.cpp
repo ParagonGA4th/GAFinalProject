@@ -49,7 +49,7 @@ namespace Pg::DataScript
 		_pgRayCast->MakeRay({ _object->_transform._position.x + tShouldShootDir.x * tFloat,
 						_object->_transform._position.y + tShouldShootDir.y * tFloat,
 						_object->_transform._position.z + tShouldShootDir.z * tFloat },
-			tShouldShootDir, 10.0f, outHitPoint, nullptr);
+			tShouldShootDir, 30.0f, outHitPoint, nullptr);
 
 		UpdateWASD();
 		UpdateFacingDirection(0); //Plane Y-Level 입력해야.
@@ -142,6 +142,7 @@ namespace Pg::DataScript
 			{
 				_shouldRotate = false;
 				_rotBeginRatio = 0.0f;
+				_selfCol->SetAngularVelocity({ 0,0,0 });
 			}
 		}
 
