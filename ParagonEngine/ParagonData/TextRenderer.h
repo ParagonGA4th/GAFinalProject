@@ -3,7 +3,7 @@
 #include "../ParagonMath/PgMath.h"
 
 #include <string>
-
+#include <visit_struct/visit_struct.hpp>
 
 namespace Pg::Data
 {
@@ -18,6 +18,8 @@ namespace Pg::Data
 	public:
 		TextRenderer(GameObject* obj);
 
+		virtual void OnSerialize(SerializeVector& sv);
+		virtual void OnDeserialize(SerializeVector& sv);
 
 	public:
 		void SetString(const std::string& str);
@@ -33,12 +35,14 @@ namespace Pg::Data
 		void SetFontColor(PGFLOAT4 color);
 		PGFLOAT4 GetFontColor();
 
-		PGFLOAT4 _fontColor; // 필수 조건
-		std::string _string;
-		std::string _font;  // 필수 조건
-		
-		float _fontSize; // 필수 조건
 
+		BEGIN_VISITABLES(TextRenderer);
+		VISITABLE(PGFLOAT4, _fontColor); // 필수 조건
+		VISITABLE(std::string, _font);  // 필수 조건
+		VISITABLE(float, _fontSize); // 필수 조건
+		END_VISITABLES;
+
+		std::string _string;
 	private:
 		//wchar_t _wBuffer[MAXIMUM_TEXTBUFFER_COUNT];
 	};
