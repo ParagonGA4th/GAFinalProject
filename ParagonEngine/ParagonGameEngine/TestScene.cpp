@@ -177,7 +177,8 @@ void Pg::Engine::TestScene::Initialize()
 	
 	Pg::Data::GameObject* tObj7_2 = tCurrentScene->AddObject("Seight1");
 	tObj7_2->AddComponent<StaticBoxCollider>();
-	tObj7_2->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ 0.f, 0.f, 2.f });
+	tObj7_2->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ 0.f, 0.f, 2.5f });
+	tObj7_2->GetComponent<StaticBoxCollider>()->SetTrigger(true);
 
 	///AI
 	Pg::Data::GameObject* tObj7_1 = tCurrentScene->AddObject("Enemy");
