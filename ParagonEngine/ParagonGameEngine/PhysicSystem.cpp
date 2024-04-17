@@ -161,11 +161,18 @@ namespace Pg::Engine::Physic
 				//PG_TRACE("CollisionExit!");
 			}
 
-			//트리거 감지를 위해 잠시 해둠
-			if (dynamicCol->GetTrigger() == true)
+			//트리거 감지
+			if (dynamicCol->GetTrigger() == true &&
+				!dynamicCol->GetWasTrigger() && dynamicCol->GetIsTrigger())
 			{
-				//gameObj->OnTriggerStay();
+				gameObj->OnTriggerEnter(dynamicCol);
 				//PG_TRACE("TriggerStay!");
+			}
+			else if (dynamicCol->GetTrigger() == true &&
+				dynamicCol->GetWasTrigger() && !dynamicCol->GetIsTrigger())
+			{
+				gameObj->OnTriggerExit(dynamicCol);
+				//PG_TRACE("TriggerExit!");
 			}
 
 		}
@@ -196,11 +203,18 @@ namespace Pg::Engine::Physic
 				//PG_TRACE("CollisionExit!");
 			}
 
-			//트리거 감지를 위해 잠시 해둠
-			if (staticCol->GetTrigger() == true)
+			//트리거 감지
+			if (staticCol->GetTrigger() == true && 
+				!staticCol->GetWasTrigger() && staticCol->GetIsTrigger())
 			{
-				//gameObj->OnTriggerStay();
+				gameObj->OnTriggerEnter(*staticCol->_triggerStorage.data());
 				//PG_TRACE("TriggerStay!");
+			}
+			else if (staticCol->GetTrigger() == true &&
+				staticCol->GetWasTrigger() && !staticCol->GetIsTrigger())
+			{
+				gameObj->OnTriggerExit(*staticCol->_triggerStorage.data());
+				//PG_TRACE("TriggerExit!");
 			}
 		}
 

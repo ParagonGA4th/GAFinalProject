@@ -30,6 +30,7 @@
 #include "PrintRuntimeData.h"
 //#include "EditorCameraScript.h"
 #include "MovingTest.h"
+#include "AISeight.h"
 #include "RayCastTest.h"
 #include "EventTest.h"
 #include "ArrowAction.h"
@@ -45,17 +46,17 @@ void Pg::Engine::TestScene::Initialize()
 
 	//���� ���⼭ MainCamera �ֱ� ����.
 
-	Pg::Data::GameObject* tObj2 = tCurrentScene->AddObject("RoadLavaConeTest");
-	tObj2->GetComponent<Transform>()->_position = { 5.0f, 0.0f, 0.0f };
-	tObj2->AddComponent<StaticMeshRenderer>();
-	tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/mon_golemmini.fbx");
-	tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	//Pg::Data::GameObject* tObj2 = tCurrentScene->AddObject("RoadLavaConeTest");
+	//tObj2->GetComponent<Transform>()->_position = { 5.0f, 0.0f, 0.0f };
+	//tObj2->AddComponent<StaticMeshRenderer>();
+	//tObj2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/mon_golemmini.fbx");
+	//tObj2->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
-	Pg::Data::GameObject* tObj3 = tCurrentScene->AddObject("RoadLavaConeTest2");
-	tObj3->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 5.0f };
-	tObj3->AddComponent<StaticMeshRenderer>();
-	tObj3->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/final_mon_boss.fbx");
-	tObj3->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	//Pg::Data::GameObject* tObj3 = tCurrentScene->AddObject("RoadLavaConeTest2");
+	//tObj3->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 5.0f };
+	//tObj3->AddComponent<StaticMeshRenderer>();
+	//tObj3->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/final_mon_boss.fbx");
+	//tObj3->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
 	GameObject* tObj2_1 = tCurrentScene->AddObject("Sphere1");
 	tObj2_1->GetComponent<Transform>()->_position = { 3.0f, 10.0f, 0.0f };
@@ -175,20 +176,38 @@ void Pg::Engine::TestScene::Initialize()
 		tObj7->SetTag("ArrowTag");
 	}
 	
-	Pg::Data::GameObject* tObj7_2 = tCurrentScene->AddObject("Seight1");
-	tObj7_2->AddComponent<StaticBoxCollider>();
-	tObj7_2->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ 0.f, 0.f, 5.f });
 
 	///AI
+	Pg::Data::GameObject* tObj7_2 = tCurrentScene->AddObject("Seight1");
+	tObj7_2->AddComponent<StaticBoxCollider>();
+	tObj7_2->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ 0.f, 0.f, 2.3f });
+	tObj7_2->GetComponent<StaticBoxCollider>()->SetTrigger(true);
+	tObj7_2->AddComponent<AISeight>();
+
+	Pg::Data::GameObject* tObj7_3 = tCurrentScene->AddObject("Seight2");
+	tObj7_3->AddComponent<StaticBoxCollider>();
+	tObj7_3->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ -2.3f, 0.f, 1.5f });
+	tObj7_3->GetComponent<StaticBoxCollider>()->SetTrigger(true);
+	tObj7_3->AddComponent<AISeight>();
+
+	Pg::Data::GameObject* tObj7_4 = tCurrentScene->AddObject("Seight3");
+	tObj7_4->AddComponent<StaticBoxCollider>();
+	tObj7_4->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ 2.3f, 0.f, 1.5f });
+	tObj7_4->GetComponent<StaticBoxCollider>()->SetTrigger(true);
+	tObj7_4->AddComponent<AISeight>();
+
 	Pg::Data::GameObject* tObj7_1 = tCurrentScene->AddObject("Enemy");
 	tObj7_1->GetComponent<Transform>()->_position = { 5.0f, 3.0f, 0.0f };
 	tObj7_1->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_2);
+	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
+	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_4);
 	tObj7_1->GetComponent<Transform>()->_rotation = tObj7_1->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 	tObj7_1->AddComponent<CapsuleCollider>();
 	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
 	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
 	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+	//tObj7_1->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 0.f,3.f,0.f });
 	tObj7_1->AddComponent<StaticMeshRenderer>();
 	tObj7_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/final_mon_boss.fbx");
 	tObj7_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
