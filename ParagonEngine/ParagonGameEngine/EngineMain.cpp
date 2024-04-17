@@ -148,6 +148,7 @@ namespace Pg::Engine
 			_behaviorTreeSystem->Update();
 			_physicSystem->UpdateTransform();
 			_debugSystem->Update(_sceneSystem->GetCurrentScene());
+			_physicSystem->ApplyRuntimeChangesCollider(); // 현재로서는 하는 거 없음. 
 		}
 
 		//명시적으로 바뀔 때 감지를 할 수 있게 하기 위해, 
@@ -268,6 +269,21 @@ namespace Pg::Engine
 
 		//기존의 Editor Mode Enum 기록.
 		_currentRecordedEditMode = editorMode;
+	}
+
+	void EngineMain::AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_physicSystem->CheckAddRuntimeColliders(objVecP);
+	}
+
+	void EngineMain::ModifyRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+
+	}
+
+	void EngineMain::DeleteRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
+	{
+		_physicSystem->CheckDeleteRuntimeColliders(objVecP);
 	}
 
 }
