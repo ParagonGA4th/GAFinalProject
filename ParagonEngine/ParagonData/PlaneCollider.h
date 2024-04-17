@@ -32,21 +32,17 @@ namespace Pg::Data
 		float GetWidth();
 		float GetDepth();
 
-		void SetLayer(int lay);
-		uint32_t GetLayer();
 
 		//디버깅을 위한 구조체
 		PlaneInfo _planeInfo;
 
+
 		//Plane은 두께는 고정. 가로 세로 길이만 조정
+
 		BEGIN_VISITABLES(PlaneCollider);
 		VISITABLE(float,_width);
 		VISITABLE(float,_depth);
 		END_VISITABLES;
-
-	private:
-		uint32_t _layer;
-		
 
 		
 	};
