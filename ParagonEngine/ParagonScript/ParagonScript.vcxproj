@@ -145,6 +145,7 @@
     <ClInclude Include="ComboSystem.h" />
     <ClInclude Include="EventTest.h" />
     <ClInclude Include="FactoryHelper.h" />
+    <ClInclude Include="InGameCameraBehavior.h" />
     <ClInclude Include="PlayerBehavior.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="RayCastTest.h" />
@@ -157,6 +158,7 @@
     <ClCompile Include="ComboSystem.cpp" />
     <ClCompile Include="EventTest.cpp" />
     <ClCompile Include="FactoryHelper.cpp" />
+    <ClCompile Include="InGameCameraBehavior.cpp" />
     <ClCompile Include="PlayerBehavior.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="RayCastTest.cpp" />
