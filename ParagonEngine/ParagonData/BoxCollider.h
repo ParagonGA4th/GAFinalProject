@@ -3,8 +3,7 @@
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/DebugData.h"
 
-#include "data_factory.h"
-
+#include <visit_struct/visit_struct.hpp>
 /// <summary>
 /// 변지상의 BoxCollider
 /// Box형 충돌 디버그를 띄우기 위한 정보만 컴포넌트로 가지고 있을 예정
@@ -18,15 +17,15 @@ namespace Pg::Data
 
 namespace Pg::Data
 {
-	class BoxCollider : public DynamicCollider, Pg::Factory::Data::RegisteredInFactory<DynamicCollider, BoxCollider, GameObject*>
+	class BoxCollider : public DynamicCollider
 	{
 	public:
 		BoxCollider(GameObject* owner);
 
-		static DynamicCollider* CreateInstance(GameObject* go) { return new BoxCollider(go); }
-		static const char* GetFactoryKey() { return "class Pg::Data::BoxCollider"; }
+		virtual void OnSerialize(SerializeVector& sv);
+		virtual void OnDeserialize(SerializeVector& sv);
 
-		void Update();
+		virtual void Update();
 
 		float GetWidth() const;
 		float GetHeight() const;
@@ -35,12 +34,13 @@ namespace Pg::Data
 		void SetScale(float w, float h, float d);
 
 		Pg::Data::BoxInfo _boxInfo;
-	private:
-		float _width;
-		float _height;
-		float _depth;
-
-
+	
+	public:
+		BEGIN_VISITABLES(BoxCollider);
+		VISITABLE(float, _width);
+		VISITABLE(float, _height);
+		VISITABLE(float, _depth);
+		END_VISITABLES;
 	};
 }
 

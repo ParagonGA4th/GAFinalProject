@@ -3,7 +3,7 @@
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/DebugData.h"
 
-#include "data_factory.h"
+#include <visit_struct/visit_struct.hpp>
 
 namespace Pg::Data
 {
@@ -12,13 +12,13 @@ namespace Pg::Data
 
 namespace Pg::Data
 {
-	class CapsuleCollider : public DynamicCollider, Pg::Factory::Data::RegisteredInFactory<DynamicCollider, CapsuleCollider, GameObject*>
+	class CapsuleCollider : public DynamicCollider
 	{
 	public:
 		CapsuleCollider(GameObject* owner);
 
-		static DynamicCollider* CreateInstance(GameObject* go) { return new CapsuleCollider(go); }
-		static const char* GetFactoryKey() { return "class Pg::Data::CapsuleCollider"; }
+		virtual void OnSerialize(SerializeVector& sv);
+		virtual void OnDeserialize(SerializeVector& sv);
 
 	protected:
 		virtual void Update() override;
@@ -38,9 +38,11 @@ namespace Pg::Data
 	public:
 		Pg::Data::CapsuleInfo _capsuleInfo;
 
-	private:
-		float _radius;
-		float _halfHeight;
+	public:
+		BEGIN_VISITABLES(CapsuleCollider);
+		VISITABLE(float, _radius);
+		VISITABLE(float, _halfHeight);
+		END_VISITABLES;
 	};
 }
 

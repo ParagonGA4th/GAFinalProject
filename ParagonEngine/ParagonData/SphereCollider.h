@@ -1,21 +1,19 @@
 #pragma once
 #include "DynamicCollider.h"
 #include "../ParagonData/DebugData.h"
-
-#include "data_factory.h"
+#include <visit_struct/visit_struct.hpp>
 
 namespace Pg::Data
 {
 	class GameObject;
 
-	class SphereCollider : public DynamicCollider, Pg::Factory::Data::RegisteredInFactory<DynamicCollider, SphereCollider, GameObject*>
+	class SphereCollider : public DynamicCollider
 	{
 	public:
 		SphereCollider(GameObject* owner);
-
-		//자동화된 Auto-Registration 작동 위해 필수.
-		static DynamicCollider* CreateInstance(GameObject* go) { return new SphereCollider(go); }
-		static const char* GetFactoryKey() { return "class Pg::Data::SphereCollider"; }
+		
+		virtual void OnSerialize(SerializeVector& sv);
+		virtual void OnDeserialize(SerializeVector& sv);
 
 	public:
 		virtual void Update() override;
@@ -30,8 +28,10 @@ namespace Pg::Data
 
 		Pg::Data::SphereInfo _sphereInfo;
 
-	private:
-		float _rad;
+	public:
+		BEGIN_VISITABLES(SphereCollider);
+		VISITABLE(float, _rad);
+		END_VISITABLES;
 	};
 }
 
