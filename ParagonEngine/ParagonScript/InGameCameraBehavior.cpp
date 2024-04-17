@@ -14,7 +14,7 @@ namespace Pg::DataScript
 	InGameCameraBehavior::InGameCameraBehavior(Pg::Data::GameObject* obj) : ScriptInterface(obj)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
-		_pgInput = &singleton<Pg::API::Input::PgInput>();
+		//_pgInput = &singleton<Pg::API::Input::PgInput>();
 	}
 
 	void InGameCameraBehavior::Awake()
@@ -47,7 +47,7 @@ namespace Pg::DataScript
 	void InGameCameraBehavior::FixedUpdate()
 	{
 		LerpFollowPlayer();
-		IfValidShakeCamera();
+		//IfValidShakeCamera();
 		
 	}
 
@@ -68,37 +68,37 @@ namespace Pg::DataScript
 		_object->_transform._position = tPosition;
 	}
 
-	void InGameCameraBehavior::IfValidShakeCamera()
-	{
-		//일단은 임시로 KeyB가 Shake 값이 될 것.
-		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyB))
-		{
-			_shouldShake = true;
-			_currentShakeTimePassed = 0.0f;
-		}
-
-		//Shake할 시간을 정하기.
-		if (_shouldShake)
-		{
-			_currentShakeTimePassed += _pgTime->GetDeltaTime();
-			if (_currentShakeTimePassed > _shouldShakeSeconds)
-			{
-				_shouldShake = false;
-				_currentShakeTimePassed = 0.0f;
-			}
-		}
-
-		if (_shouldShake)
-		{
-			//실제 Shake하는 부분이 여기서 들어간다.
-
-
-
-
-		}
-
-
-	}
+	//void InGameCameraBehavior::IfValidShakeCamera()
+	//{
+	//	//일단은 임시로 KeyB가 Shake 값이 될 것.
+	//	if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyB))
+	//	{
+	//		_shouldShake = true;
+	//		_currentShakeTimePassed = 0.0f;
+	//	}
+	//
+	//	//Shake할 시간을 정하기.
+	//	if (_shouldShake)
+	//	{
+	//		_currentShakeTimePassed += _pgTime->GetDeltaTime();
+	//		if (_currentShakeTimePassed > _shouldShakeSeconds)
+	//		{
+	//			_shouldShake = false;
+	//			_currentShakeTimePassed = 0.0f;
+	//		}
+	//	}
+	//
+	//	if (_shouldShake)
+	//	{
+	//		//실제 Shake하는 부분이 여기서 들어간다.
+	//
+	//
+	//
+	//
+	//	}
+	//
+	//
+	//}
 
 	
 

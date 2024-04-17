@@ -40,6 +40,9 @@
     <Filter Include="Content\InGameCameraBehavior">
       <UniqueIdentifier>{00365054-e5bc-4e48-a164-ce50d6ec82fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\CameraShake">
+      <UniqueIdentifier>{705983d2-43e3-4d82-9858-84f39cbb8b4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -67,6 +70,7 @@
       <Filter>Content\PlayerBehavior</Filter>
     </ClCompile>
     <ClCompile Include="InGameCameraBehavior.cpp" />
+    <ClCompile Include="CameraShake.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -100,5 +104,6 @@
       <Filter>Content\PlayerBehavior</Filter>
     </ClInclude>
     <ClInclude Include="InGameCameraBehavior.h" />
+    <ClInclude Include="CameraShake.h" />
   </ItemGroup>
 </Project>

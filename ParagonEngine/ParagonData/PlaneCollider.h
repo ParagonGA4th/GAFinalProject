@@ -2,8 +2,8 @@
 #include "StaticCollider.h"
 #include "DebugData.h"
 #include "../ParagonMath/PgMath.h"
-
 #include "data_factory.h"
+#include <visit_struct/visit_struct.hpp>
 
 /// <summary>
 /// 변지상의 PlaneCollider. 이거는 그냥 Static으로...
@@ -38,12 +38,17 @@ namespace Pg::Data
 		//디버깅을 위한 구조체
 		PlaneInfo _planeInfo;
 
-	private:
 		//Plane은 두께는 고정. 가로 세로 길이만 조정
-		float _width;
-		float _depth;
+		BEGIN_VISITABLES(PlaneCollider);
+		VISITABLE(float,_width);
+		VISITABLE(float,_depth);
+		END_VISITABLES;
 
+	private:
 		uint32_t _layer;
+		
+
+		
 	};
 
 }

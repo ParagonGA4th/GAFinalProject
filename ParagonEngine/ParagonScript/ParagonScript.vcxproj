@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CameraShake.h" />
     <ClInclude Include="ComboSystem.h" />
     <ClInclude Include="EventTest.h" />
     <ClInclude Include="FactoryHelper.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="SoundTest.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CameraShake.cpp" />
     <ClCompile Include="ComboSystem.cpp" />
     <ClCompile Include="EventTest.cpp" />
     <ClCompile Include="FactoryHelper.cpp" />
