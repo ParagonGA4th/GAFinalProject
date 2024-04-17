@@ -41,9 +41,11 @@ namespace Pg::DataScript
 	{
 		//로직과 상관없는 거
 		Pg::Math::PGFLOAT3 outHitPoint;
-		_pgRayCast->MakeRay({ _object->_transform._position.x + 0.8f,
-						_object->_transform._position.y - 0.5f,
-						_object->_transform._position.z + 0.8f }, _object->_transform.GetForward(), 10.0f, outHitPoint, nullptr);
+		float tFloat = 2.0f;
+		_pgRayCast->MakeRay({ _object->_transform._position.x + _object->_transform.GetForward().x * tFloat,
+						_object->_transform._position.y + _object->_transform.GetForward().y * tFloat,
+						_object->_transform._position.z + _object->_transform.GetForward().z * tFloat }, 
+			{ _object->_transform.GetForward().x, 0, _object->_transform.GetForward().z }, 10.0f, outHitPoint, nullptr);
 
 		UpdateWASD();
 		UpdateFacingDirection(0); //Plane Y-Level 입력해야.

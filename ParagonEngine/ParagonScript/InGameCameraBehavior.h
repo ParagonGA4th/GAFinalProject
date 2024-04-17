@@ -31,11 +31,11 @@ namespace Pg::DataScript
 		float _speed = 2.0f;
 
 	private:
-		void CreateNoise();
+		//void CreateNoise();
 
 	private:
 		void LerpFollowPlayer();
-		void IfValidShakeCamera();
+		//void IfValidShakeCamera();
 
 	private:
 		Pg::Data::Transform* _playerTransform{ nullptr };
@@ -45,8 +45,8 @@ namespace Pg::DataScript
 	private:
 		Pg::Math::PGFLOAT3 _targetCamPosition;
 		Pg::API::Time::PgTime* _pgTime{ nullptr };
-		Pg::API::Input::PgInput* _pgInput{ nullptr };
-		FastNoiseLite* _fastNoiseLite{ nullptr };
+		//Pg::API::Input::PgInput* _pgInput{ nullptr };
+		//FastNoiseLite* _fastNoiseLite{ nullptr };
 
 	private:
 		bool _shouldShake{ false };

@@ -2,7 +2,7 @@
 <scene>
 	<objects>
 		<object>
-			<name>Player</name>
+			<name>Player1</name>
 			<active>true</active>
 			<tag>TAG_Player</tag>
 			<components>
@@ -11,7 +11,7 @@
 					<data>
 						<position>
 							<x>0.000000</x>
-							<y>3.000000</y>
+							<y>6.000000</y>
 							<z>0.000000</z>
 						</position>
 						<rotation>
@@ -48,7 +48,7 @@
 			</components>
 		</object>
 		<object>
-			<name>Plane</name>
+			<name>Plane1</name>
 			<active>true</active>
 			<tag></tag>
 			<components>
