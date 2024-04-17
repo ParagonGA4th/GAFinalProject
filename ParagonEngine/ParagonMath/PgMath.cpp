@@ -795,6 +795,13 @@ namespace Pg::Math
 		return XM2PG_FLOAT3_VECTOR(DirectX::XMVectorLerp(tA, tB, t));
 	}
 
+	Pg::Math::PGFLOAT3 PGReflectVectorAgainstAxis(const PGFLOAT3& toFlip, const PGFLOAT3& baseAxis)
+	{
+		using namespace DirectX;
+		XMMATRIX reflectionMatrix = XMMatrixReflect(PG2XM_FLOAT3_VECTOR(baseAxis));
+		XMVECTOR reflectedVector = XMVector3TransformCoord(PG2XM_FLOAT3_VECTOR(toFlip), reflectionMatrix);
+		return XM2PG_FLOAT3_VECTOR(reflectedVector);
+	}
 
 
 }
