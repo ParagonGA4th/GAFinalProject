@@ -35,6 +35,16 @@
 						<materialName></materialName>
 					</data>
 				</component>
+				<component>
+					<type>class Pg::Data::CapsuleCollider</type>
+					<data>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::DataScript::PlayerBehavior</type>
+					<data>
+					</data>
+				</component>
 			</components>
 		</object>
 		<object>
