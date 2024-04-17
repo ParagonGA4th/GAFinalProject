@@ -152,6 +152,7 @@ namespace Pg::Data
 		return _linearDamping;
 	}
 
+	//구조상 동작하지 않는 듯하다.. 
 	void DynamicCollider::MoveRotation(PGQuaternion rot)
 	{
 		using namespace physx;
@@ -163,6 +164,24 @@ namespace Pg::Data
 
 		// 실제 Rigidbody에 세팅.
 		_rigid->setGlobalPose(newTransform);
+	}
+
+	void DynamicCollider::SetMass(float value)
+	{
+		_mass = value;
+		if (_rigid != nullptr)
+		{
+			_rigid->setMass(_mass);
+		}
+	}
+
+	void DynamicCollider::SetUseGravity(float value)
+	{
+		_useGravity = value;
+		if (_rigid != nullptr)
+		{
+			_rigid->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, !value);
+		}
 	}
 
 }
