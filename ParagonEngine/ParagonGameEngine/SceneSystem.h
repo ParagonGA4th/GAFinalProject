@@ -71,6 +71,10 @@ namespace Pg::Engine
 		bool _isStarted;
 
 	private:
+		bool CheckIfShouldRun();
+
+
+	private:
 		Scene* _currentScene = nullptr;
 		std::unordered_map<std::string, Scene*> _sceneList;
 
