@@ -53,6 +53,7 @@ void Pg::Editor::Window::InspectorDataManager::GetCurrentSceneObjects(bool isRef
 	
 	if (_prevSceneName.empty() || _prevSceneName != scene->GetSceneName() || isRefresh)
 	{
+		_objectData.clear();
 		_prevSceneName = scene->GetSceneName();
 
 		for (auto& obj : scene->GetObjectList())
