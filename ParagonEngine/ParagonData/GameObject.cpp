@@ -209,42 +209,67 @@ namespace Pg::Data
 			return component;
 		}
 
-		///TODO: 현재 Static/SkinnedMeshRenderer가 먹지 않고 있다. UE를 급하게 고쳐야 하기에, 하드코딩으로 일단 투입.
-		if (componentType.compare("class Pg::Data::StaticMeshRenderer") == 0)
+		/// Renderer
 		{
-			component = new StaticMeshRenderer(this);
-			AddComponent("class Pg::Data::StaticMeshRenderer", component);
-			return component;
+			if (componentType.compare("class Pg::Data::TextRenderer") == 0)
+			{
+				component = new TextRenderer(this);
+				AddComponent("class Pg::Data::TextRenderer", component);
+				return component;
+			}
+
+			if (componentType.compare("class Pg::Data::ImageRenderer") == 0)
+			{
+				component = new ImageRenderer(this);
+				AddComponent("class Pg::Data::ImageRenderer", component);
+				return component;
+			}
+
+			if (componentType.compare("class Pg::Data::StaticMeshRenderer") == 0)
+			{
+				component = new StaticMeshRenderer(this);
+				AddComponent("class Pg::Data::StaticMeshRenderer", component);
+				return component;
+			}
+
+			if (componentType.compare("class Pg::Data::SkinnedMeshRenderer") == 0)
+			{
+				component = new SkinnedMeshRenderer(this);
+				AddComponent("class Pg::Data::SkinnedMeshRenderer", component);
+				return component;
+			}
 		}
 
-		if (componentType.compare("class Pg::Data::SkinnedMeshRenderer") == 0)
+		/// Collider
 		{
-			component = new SkinnedMeshRenderer(this);
-			AddComponent("class Pg::Data::SkinnedMeshRenderer", component);
-			return component;
+			if (componentType.compare("class Pg::Data::PlaneCollider") == 0)
+			{
+				component = new PlaneCollider(this);
+				AddComponent("class Pg::Data::PlaneCollider", component);
+				return component;
+			}
+
+			if (componentType.compare("class Pg::Data::StaticBoxCollider") == 0)
+			{
+				component = new StaticBoxCollider(this);
+				AddComponent("class Pg::Data::StaticBoxCollider", component);
+				return component;
+			}
+
+			if (componentType.compare("class Pg::Data::CapsuleCollider") == 0)
+			{
+				component = new CapsuleCollider(this);
+				AddComponent("class Pg::Data::CapsuleCollider", component);
+				return component;
+			}
+
+			if (componentType.compare("class Pg::Data::BoxCollider") == 0)
+			{
+				component = new BoxCollider(this);
+				AddComponent("class Pg::Data::BoxCollider", component);
+				return component;
+			}			
 		}
-
-		//component = Pg::Factory::Data::Factory<Pg::Data::RendererBase3D, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
-		//if (component != nullptr)
-		//{
-		//	AddComponent(componentType, component);
-		//	return component;
-		//}
-
-		component = Pg::Factory::Data::Factory<Pg::Data::StaticCollider, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
-		if (component != nullptr)
-		{
-			AddComponent(componentType, component);
-			return component;
-		}
-
-		component = Pg::Factory::Data::Factory<Pg::Data::DynamicCollider, Pg::Data::GameObject*>::Create(componentType.c_str(), this);
-		if (component != nullptr)
-		{
-			AddComponent(componentType, component);
-			return component;
-		}
-
 		return nullptr;
 	}
 
