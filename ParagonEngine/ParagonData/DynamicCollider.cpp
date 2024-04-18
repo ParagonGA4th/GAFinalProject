@@ -100,6 +100,17 @@ namespace Pg::Data
 		return { vec.x, vec.y, vec.z };
 	}
 
+	void DynamicCollider::SetAngularVelocity(PGFLOAT3 velo)
+	{
+		_rigid->setAngularVelocity({ velo.x, velo.y, velo.z });
+	}
+
+	Pg::Math::PGFLOAT3 DynamicCollider::GetAngularVelocity() const
+	{
+		physx::PxVec3 vec = _rigid->getAngularVelocity();
+		return { vec.x, vec.y, vec.z };
+	}
+
 
 	void DynamicCollider::AddVelocity(PGFLOAT3 velo)
 	{
@@ -183,5 +194,7 @@ namespace Pg::Data
 			_rigid->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, !value);
 		}
 	}
+
+	
 
 }
