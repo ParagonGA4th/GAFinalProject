@@ -95,9 +95,6 @@ namespace Pg::Engine
 
 	void EngineMain::Update()
 	{
-		//외적인 SceneLoad 로직 Start 관련, 항상 SceneSystem 체크한다.
-		_sceneSystem->DebounceSceneLoadStatus(_currentRecordedEditMode);
-
 		if (_currentRecordedEditMode != _previousEditMode)
 		{
 			if (_currentRecordedEditMode == Data::Enums::eEditorMode::_NONE ||
@@ -122,11 +119,15 @@ namespace Pg::Engine
 					_sceneSystem->GetCurrentScene()->GetObjectList().end(), [](auto& iter)
 					{ iter->ResetDebouncerBoolean(); });
 
-
+				//막 Play된 것이면 Start가 막 되는 것.
+				_sceneSystem->_isStarted = false;
 				//리셋, 클라이언트 딴에서 SetMainCamera 명시적으로 해줘야 하게. -> 이거 호환 위해 nullptr set은 꺼놨지만, 인게임에서 오버라이드 되어야 함.
 				//_sceneSystem->GetCurrentScene()->SetMainCamera(nullptr);
 			}
 		}
+
+		//외적인 SceneLoad 로직 Start 관련, 항상 SceneSystem 체크한다.
+		_sceneSystem->DebounceSceneLoadStatus(_currentRecordedEditMode);
 
 		//기록된 Edit Mode가 EDIT/NONE으로 설정되었을시, 실행을 Update를 실행하지 않는다.
 		//Early Return.

@@ -69,6 +69,7 @@ namespace Pg::Engine
 			if (!(editMode == Data::Enums::eEditorMode::_NONE ||
 				editMode == Data::Enums::eEditorMode::_EDIT))
 			{
+				PG_ERROR("now Checking");
 				CheckMoveDontDestroyOnLoadObjects(_currentScene);
 			}
 			
@@ -198,47 +199,36 @@ namespace Pg::Engine
 			}
 		}
 
-		//Static List에서 해당 값을 찾았다!
+		//Early Return : 만약 DDOL 리스트가 비어있으면 Return하자.
+		if (tGlobalObjSceneList.empty())
+		{
+			return;
+		}
+
+		//Static List에서 해당 값을 찾았다는 조건 람다.
 		auto tFoundFunc = [&](Pg::Data::GameObject* val)
 			{
 				//전체 Static DontDestroyOnLoad 리스트에서 찾았다는 얘기 -> 반대로 못 찾았으면 추가해야.
 				return std::ranges::find(Pg::Data::Scene::_dontDestroyOnList, val) != Pg::Data::Scene::_dontDestroyOnList.end();
 			};
 
-		////Scene의 DontDestroyOnList에서 안 겹치면 추가.
-		////Scene 사이 오갈 때 여러 객체 안 만들기 위해.
-		//for (auto& tGlobalObj : tGlobalObjSceneList)
-		//{
-		//	
-		//
-		//	//못 찾았을 때만: 
-		//	if (!tFoundFunc(tGlobalObj))
-		//	{
-		//		Pg::Data::Scene::_dontDestroyOnList.push_back(tGlobalObj);
-		//	}
-		//}
-		//
-		////반대로 DontDestroyOnLoad 오브젝트들은 
-		//for (auto& obj : scene->_objectList)
-		//{
-		//	_sceneInfoList->_dirLightList.erase(std::remove_if(_sceneInfoList->_dirLightList.begin(),
-		//		_sceneInfoList->_dirLightList.end(), tIsDirAlready), _sceneInfoList->_dirLightList.end());
-		//
-		//}
-		//	
-		//
-		////Dont Destroy On Load Object들의 소속을 SceneSystem 내부 루프로 변경한다.
-		////Filter해서 겹치는 것은 삭제.
-		//{
-		//	auto tIsDirAlready = [&](Pg::Data::GameObject* val)
-		//		{
-		//			//임시 리스트에서 찾았다는 얘기 -> 그러니까, 밑의 Erase-Remove_If Idiom에서 찾은 애들만 지우라는 말!
-		//			return std::ranges::find(tGlobalSceneList, val) != tGlobalSceneList.end();
-		//		};
-		//	
-		//}
+		//Scene의 DontDestroyOnList에서 안 겹치면 추가.
+		//Scene 사이 오갈 때 여러 객체 안 만들기 위해.
+		for (auto& tGlobalObj : tGlobalObjSceneList)
+		{
+			//못 찾았을 때만: 
+			if (!tFoundFunc(tGlobalObj))
+			{
+				Pg::Data::Scene::_dontDestroyOnList.push_back(tGlobalObj);
+			}
+		}
 
-
+		//반대로 DontDestroyOnLoad 오브젝트들을 Scene의 Object 리스트에서 제거.
+		for (auto& obj : scene->_objectList)
+		{
+			scene->_objectList.erase(std::remove_if(scene->_objectList.begin(),
+				scene->_objectList.end(), tFoundFunc), scene->_objectList.end());
+		}
 	}
 
 }
