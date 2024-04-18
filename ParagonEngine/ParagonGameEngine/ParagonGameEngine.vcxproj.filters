@@ -149,7 +149,10 @@
       <Filter>2_System\PhysicSystem\PhysicsLayer</Filter>
     </ClInclude>
     <ClInclude Include="AISeight.h">
-      <Filter>4_WorkSpace\SceneView\Scripts\AI</Filter>
+      <Filter>4_WorkSpace\SceneView\Scripts\AI\Sight</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\AI\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -310,7 +313,10 @@
       <Filter>2_System\PhysicSystem\PhysicsLayer</Filter>
     </ClCompile>
     <ClCompile Include="AISeight.cpp">
-      <Filter>4_WorkSpace\SceneView\Scripts\AI</Filter>
+      <Filter>4_WorkSpace\SceneView\Scripts\AI\Sight</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\AI\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -445,6 +451,12 @@
     </Filter>
     <Filter Include="4_WorkSpace\SceneView\Scripts\AI">
       <UniqueIdentifier>{d01096b5-f5a8-4e70-847d-71dd8716b3be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\AI\Sight">
+      <UniqueIdentifier>{1b15bf57-d303-4b72-ae83-d314415fabeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\AI\Enemy">
+      <UniqueIdentifier>{6f9f991d-a267-4392-92f5-b8ed2e70183d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

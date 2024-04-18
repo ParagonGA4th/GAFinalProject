@@ -41,6 +41,8 @@ namespace Pg::Engine::Physic
 	public:
 		void Initialize(Pg::Engine::DebugSystem* debugSystem);
 
+		void ApplyRuntimeChangesCollider();
+
 		void UpdatePhysics(float dTime);
 		void UpdateTransform();
 
@@ -61,6 +63,8 @@ namespace Pg::Engine::Physic
 	public:
 		//Collider 전체 생성
 		void InitMakeColliders();
+		void CheckAddRuntimeColliders(const std::vector<Pg::Data::GameObject*>* vec);
+		void CheckDeleteRuntimeColliders(const std::vector<Pg::Data::GameObject*>* vec);
 
 		//StaticCollider 생성
 		void MakeStaticBoxCollider(Pg::Data::GameObject* obj);
@@ -78,6 +82,10 @@ namespace Pg::Engine::Physic
 		PARAGON_ENGINE_DLL Pg::Data::Collider* MakeRayCast(Pg::Math::PGFLOAT3 tOrigin, Pg::Math::PGFLOAT3 tDir, float tLength, Pg::Math::PGFLOAT3& outHitPoint, int* bType);
 		PARAGON_ENGINE_DLL void MakeSphereCast(const Pg::Math::PGFLOAT3& tOrigin, const Pg::Math::PGFLOAT3& tDir, 
 			float tRad, float max, unsigned int maxColCnt, Pg::Data::Collider** colDataPointer);
+
+	private:
+		void ApplyAddSingleCollider(Pg::Data::GameObject* obj);
+		void ApplyDeleteSingleCollider(Pg::Data::GameObject* obj);
 
 	private:
 		//Rigid 정보를 담아놓는 벡터
@@ -103,6 +111,9 @@ namespace Pg::Engine::Physic
 		std::unique_ptr<PhysicsCallback> _physicsCallback;
 
 		std::unique_ptr<Pg::Data::SphereInfo> _forSweepSphereInfo{ nullptr };
+
+		std::vector<Pg::Data::GameObject*> _tempAddedObjectsInPhysics;
+		std::vector<Pg::Data::GameObject*> _tempDeletedObjectsInPhysics;
 	};
 }
 

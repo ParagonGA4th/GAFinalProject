@@ -1,5 +1,8 @@
 #pragma once
 #include "../ParagonData/Component.h"
+#include "AISeight.h"
+
+#include <vector>
 
 
 namespace Pg::Data
@@ -26,15 +29,17 @@ namespace Pg::Util
 	}
 }
 
+class AISeight;
+
 /// <summary>
 /// AI관련 스크립팅
 /// 2024.04.16
 /// </summary>
-class AISeight : public Pg::Data::Component
+class Enemy : public Pg::Data::Component
 {
 public:
 
-	AISeight(Pg::Data::GameObject* obj);
+	Enemy(Pg::Data::GameObject* obj);
 
 	virtual void Start() override;
 	virtual void Update() override;
@@ -42,14 +47,14 @@ public:
 	virtual void OnTriggerEnter(Pg::Data::Collider* c);
 	virtual void OnTriggerExit(Pg::Data::Collider* c);
 
-	bool _playerDetected = false;
-
 private:
-	Pg::Data::StaticBoxCollider* col;
+	std::vector<Pg::Data::StaticBoxCollider*> colVec;
 	Pg::Util::Time::TimeSystem* tTime = nullptr;
 	Pg::Engine::Physic::PhysicSystem* tPhysic = nullptr;
 
-	float _afterPlayerExit = 0.0f;
+	std::vector<AISeight*> aiSightVec;
+
+	bool _colVecActive = true;
 
 };
 

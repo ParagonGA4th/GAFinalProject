@@ -96,6 +96,10 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::RayCastInfo>& GetRayCastDebugData() const override;
 		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::Box2DInfo>& GetBox2dDebugData() const override;
 
+		PARAGON_ENGINE_DLL virtual void AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP) override;
+		PARAGON_ENGINE_DLL virtual void ModifyRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP) override;
+		PARAGON_ENGINE_DLL virtual void DeleteRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP) override;
+
 		PARAGON_ENGINE_DLL virtual void ClearDebugVectorData() override;
 
 		PARAGON_ENGINE_DLL virtual float GetDeltaTime() override;
