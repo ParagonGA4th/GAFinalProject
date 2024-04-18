@@ -57,7 +57,7 @@ namespace Pg::DataScript
 		if (_trauma > std::numeric_limits<float>::epsilon())
 		{
 			_noiseSeed = static_cast<float>(_distribution(_generator)) / 100.0f;
-			PG_TRACE("RANDOMMAKING");
+			//PG_TRACE("RANDOMMAKING");
 		}
 	
 		_mainCam->_object->_transform._position = _mainCam->_object->_transform._position + Pg::Math::PGFLOAT3(

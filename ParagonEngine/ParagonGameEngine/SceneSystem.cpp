@@ -69,7 +69,7 @@ namespace Pg::Engine
 			if (!(editMode == Data::Enums::eEditorMode::_NONE ||
 				editMode == Data::Enums::eEditorMode::_EDIT))
 			{
-				PG_ERROR("now Checking");
+				//PG_ERROR("now Checking");
 				CheckMoveDontDestroyOnLoadObjects(_currentScene);
 			}
 			
