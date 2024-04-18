@@ -1,6 +1,7 @@
 #pragma once
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonData/Scene.h"
+#include "../ParagonData/EditorMode.h"
 #include <unordered_map>
 #include <vector>
 
@@ -46,7 +47,7 @@ namespace Pg::Engine
 
 		//Editor 모드 도입으로 : Update가 고정적으로 호출되지 않게 되었다.
 		//EditorCameraScript를 Sync에 맞춰서 넣는 로직을 별도 분리.
-		void DebounceSceneLoadStatus();
+		void DebounceSceneLoadStatus(Pg::Data::Enums::eEditorMode editMode);
 		void Update(bool isActualInGame); 
 
 		void LoadEmptyScene();
@@ -71,7 +72,7 @@ namespace Pg::Engine
 		bool _isStarted;
 
 	private:
-		bool CheckIfShouldRun();
+		void CheckMoveDontDestroyOnLoadObjects(Pg::Data::Scene* scene);
 
 
 	private:

@@ -96,7 +96,7 @@ namespace Pg::Engine
 	void EngineMain::Update()
 	{
 		//외적인 SceneLoad 로직 Start 관련, 항상 SceneSystem 체크한다.
-		_sceneSystem->DebounceSceneLoadStatus();
+		_sceneSystem->DebounceSceneLoadStatus(_currentRecordedEditMode);
 
 		if (_currentRecordedEditMode != _previousEditMode)
 		{

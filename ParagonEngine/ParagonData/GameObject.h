@@ -63,6 +63,10 @@ namespace Pg::Data
 		const std::string& GetTag() const;
 		void SetTag(const std::string& tag);
 
+		//True면 씬 이동할 때 파괴되지 않도록 할 것.
+		void SetDontDestroyOnLoad(bool val);
+		bool GetDontDestroyOnLoad();
+
 	public:
 		template<typename T>
 		T* AddComponent();
@@ -102,6 +106,8 @@ namespace Pg::Data
 		bool _isInternalEngineAwake{ false };
 		bool _isAwake{ false };
 		bool _isStarted{ false };
+
+		bool _dontDestroyOnLoad{ false };
 
 	private:
 		bool _isActive;
