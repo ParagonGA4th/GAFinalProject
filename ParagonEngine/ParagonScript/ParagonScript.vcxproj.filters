@@ -75,6 +75,9 @@
     <ClCompile Include="CameraShake.cpp">
       <Filter>Content\CameraShake</Filter>
     </ClCompile>
+    <ClCompile Include="CombatSystem.cpp">
+      <Filter>Content\CombatSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="CameraShake.h">
       <Filter>Content\CameraShake</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatSystem.h">
+      <Filter>Content\CombatSystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

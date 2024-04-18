@@ -82,6 +82,9 @@ namespace Pg::Data
 
 		//씬 안에 오브젝트가 여러개 존재한다.
 		std::vector<GameObject*> _objectList;
+		
+		//파괴되지 않는 오브젝트들은 SceneSystem에서 따로 가져가서 오브젝트의 "소속"을 SceneSystem으로 변경.
+		static std::vector<GameObject*> _dontDestroyOnList; 
 
 		//카메라
 		Camera* _mainCamera;
