@@ -75,6 +75,9 @@ namespace Pg::Data
 
 		//태그를 갖고 오브젝트들을 찾아서 반환한다.
 		std::vector<Pg::Data::GameObject*> FindObjectsWithTag(const std::string& tag);
+		
+		//파괴되지 않는 오브젝트들은 SceneSystem에서 따로 가져가서 오브젝트의 "소속"을 SceneSystem으로 변경.
+		static std::vector<GameObject*> _dontDestroyOnList; 
 
 	private:
 		//씬 이름
@@ -82,9 +85,6 @@ namespace Pg::Data
 
 		//씬 안에 오브젝트가 여러개 존재한다.
 		std::vector<GameObject*> _objectList;
-		
-		//파괴되지 않는 오브젝트들은 SceneSystem에서 따로 가져가서 오브젝트의 "소속"을 SceneSystem으로 변경.
-		static std::vector<GameObject*> _dontDestroyOnList; 
 
 		//카메라
 		Camera* _mainCamera;
