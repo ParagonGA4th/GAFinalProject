@@ -147,7 +147,8 @@ namespace Pg::Engine::Physic
 			if (!dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
 			{
 				gameObj->OnCollisionEnter(dynamicCol->_collisionStorage.data(), dynamicCol->_collisionStorage.size());
-				//PG_TRACE("CollisionEnter!");
+				//
+				// ("CollisionEnter!");
 			}
 			//Stay는 잠시 보류해뒀다. PhysX 내부에서 지원해주지 않음.
 			else if (dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
