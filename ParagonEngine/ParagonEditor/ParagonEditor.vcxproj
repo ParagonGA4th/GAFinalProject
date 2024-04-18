@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="DataContainer.cpp" />
     <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="DontDestroy.cpp" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="EditorAction.cpp" />
     <ClCompile Include="EditorManager.cpp" />
@@ -163,15 +164,16 @@
     <ClCompile Include="Inspector.cpp" />
     <ClCompile Include="InspectorUIManager.cpp" />
     <ClCompile Include="Layout.cpp" />
-    <ClCompile Include="ToolBar.cpp" />
     <ClCompile Include="ProcessManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Serializer.cpp" />
+    <ClCompile Include="ToolBar.cpp" />
     <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataContainer.h" />
     <ClInclude Include="DataManager.h" />
+    <ClInclude Include="DontDestroy.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="EditorAction.h" />
     <ClInclude Include="EditorDLLExporter.h" />
@@ -189,10 +191,10 @@
     <ClInclude Include="Inspector.h" />
     <ClInclude Include="InspectorUIManager.h" />
     <ClInclude Include="Layout.h" />
-    <ClInclude Include="ToolBar.h" />
     <ClInclude Include="ProcessManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Serializer.h" />
+    <ClInclude Include="ToolBar.h" />
     <ClInclude Include="visit_struct.hpp" />
     <ClInclude Include="visit_struct_boost_fusion.hpp" />
     <ClInclude Include="visit_struct_boost_hana.hpp" />

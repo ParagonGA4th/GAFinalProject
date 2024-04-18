@@ -4,7 +4,6 @@
 #include "Event.h"
 
 #include "../ParagonData/GameObject.h"
-//#include "../ParagonData/StaticMeshRenderer.h"
 #include "../ParagonData/ComponentList.h"
 #include "../ParagonScript/Script.h"
 
@@ -48,7 +47,10 @@ void Pg::Editor::Window::InspectorUIManager::Initialize(InspectorDataManager* ma
 	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::InputText>("Tag", &_objTag);
 
 	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::Text>("Active");
-	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::CheckBox>("Active", &_isActive);
+	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::CheckBox>("Active", &_isActive);	
+	
+	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::Text>("DontDestroy");
+	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::CheckBox>("DontDestroy", &_isDestroy);
 
 	_defaultUI->CreateWidget<Pg::UI::Layout::Column<2>>("BasicInfo", _defaultUI->GetColumnWidgets());
 
@@ -165,6 +167,7 @@ void Pg::Editor::Window::InspectorUIManager::SetData()
 	_objName = _dataManager->_object->GetName();
 	_objTag = _dataManager->_object->GetTag();
 	_isActive = _dataManager->_object->GetActive();
+	_isDestroy = _dataManager->_object->GetDontDestroyOnLoad();
 }
 
 void Pg::Editor::Window::InspectorUIManager::UpdateData()
@@ -197,6 +200,7 @@ void Pg::Editor::Window::InspectorUIManager::UpdateData()
 	_dataManager->_object->SetName(_objName);
 	_dataManager->_object->SetTag(_objTag);
 	_dataManager->_object->SetActive(_isActive);
+	_dataManager->_object->SetDontDestroyOnLoad(_isDestroy);
 
 	if (_isRefresh)
 		_dataManager->ModifiedObject(_isRefresh);

@@ -56,6 +56,7 @@ namespace Pg::Editor::Window
 		std::string _objName;
 		std::string _objTag;
 		bool _isActive;
+		bool _isDestroy;
 
 		/// Component UI Helper Value
 		std::unordered_map<std::string, bool*> _componentExistence;
