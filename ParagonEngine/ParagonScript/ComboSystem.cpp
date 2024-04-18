@@ -1,7 +1,5 @@
 #include "ComboSystem.h"
 #include "../ParagonAPI/PgTime.h"
-#include "../ParagonAPI/PgInput.h"
-#include "../ParagonUtil/Log.h"
 
 #include <assert.h>
 #include <singleton-cpp/singleton.h>
@@ -12,9 +10,6 @@ Pg::DataScript::ComboSystem::ComboSystem(Pg::Data::GameObject* obj)
 {
 	auto& tdelta = singleton<Pg::API::Time::PgTime>();
 	_deltaTime = &tdelta;	
-	
-	auto& tinput = singleton<Pg::API::Input::PgInput>();
-	_pgInput = &tinput;
 }
 
 void Pg::DataScript::ComboSystem::Start()
@@ -25,14 +20,6 @@ void Pg::DataScript::ComboSystem::Start()
 void Pg::DataScript::ComboSystem::Update()
 {
 	_time += _deltaTime->GetDeltaTime();
-
-	//if (_pgInput->GetKeyDown(API::Input::KeyZ))
-	//{
-	//	HitObject(true);
-	//}
-
-	//PG_TRACE(_comboCount);
-	//PG_TRACE(_time);
 }
 
 void Pg::DataScript::ComboSystem::ReSetCombo()
