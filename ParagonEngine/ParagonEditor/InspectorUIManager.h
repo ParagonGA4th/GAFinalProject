@@ -24,6 +24,7 @@ namespace Pg::Editor::Window
 
 	private:
 		void ChangedUI();
+		bool SpecialUI(std::string comName, std::string valName, void* val);
 		void SetData();
 		void UpdateData();
 
@@ -42,11 +43,14 @@ namespace Pg::Editor::Window
 
 		/// Change UI Value
 		Pg::Data::Enums::eAssetDefine _define;
-		int _staticMeshNameIndex;
+		int _meshNameIndex;
 		int _prevNameIndex;
 
-		int _staticMeshMaterialIndex;
-		int _prevMaterialIndex;
+		int _meshMaterialIndex;
+		int _prevMaterialIndex;		
+		
+		int _animIndex;
+		int _prevAnimIndex;
 
 		/// object value;
 		std::string _objName;

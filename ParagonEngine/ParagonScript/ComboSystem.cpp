@@ -1,13 +1,15 @@
 #include "ComboSystem.h"
 #include "../ParagonAPI/PgTime.h"
+
+#include <assert.h>
 #include <singleton-cpp/singleton.h>
 
 Pg::DataScript::ComboSystem::ComboSystem(Pg::Data::GameObject* obj)
 	: ScriptInterface(obj),
-	_prevCombo(0, 0.f), _comboCount(0), _time(0)
+	_prevCombo(0, 0.f), _comboCount(0), _time(0.f), _delay(0.3f)
 {
 	auto& tdelta = singleton<Pg::API::Time::PgTime>();
-	_deltaTime = &tdelta;
+	_deltaTime = &tdelta;	
 }
 
 void Pg::DataScript::ComboSystem::Start()
@@ -26,46 +28,37 @@ void Pg::DataScript::ComboSystem::ReSetCombo()
 	_comboCount = 0;
 	_prevCombo.first = 0;
 	_prevCombo.second = 0;
-	_time = 0;
 }
 
 void Pg::DataScript::ComboSystem::HitObject(bool isHit)
 {
-	_comboCount++;
-//
-//			if (counting % 3 == 0)
-//			{
-//				if (prevComboData.first == 0)
-//				{
-//					attack = comboRoutine.at(1);
-//					prevComboData.first = 1;
-//				}
-//				else
-//				{
-//					attack = comboRoutine.at(3);
-//					prevComboData.first = 3;
-//				}
-//			}
-//			else
-//			{
-//				if (prevComboData.first == 0)
-//				{
-//					attack = comboRoutine.at(1);
-//					prevComboData.first = 1;
-//				}
-//
-//				else if (prevComboData.first == 1)
-//				{
-//					attack = comboRoutine.at(2);
-//					prevComboData.first = 2;
-//				}
-//
-//				else if (prevComboData.first == 3)
-//				{
-//					attack = comboRoutine.at(1);
-//					prevComboData.first = 1;
-//				}
-//			}
+	if (!isHit) ReSetCombo(); // enemy가 아닌 오브젝트를 Hit 했을 경우 모든 콤보 리셋
+	else
+	{
+		// 콤보 딜레이
+		if (_time - _prevCombo.second < 0)
+		{
+			assert(false);
+		}
+		else if (_time - _prevCombo.second <= _delay)
+		{
+			// 딜레이 보다 짧은 시간 내에 공격에 성공 한다면 combo++
+			if (_comboCount == 3) _comboCount = 1;
+			else _comboCount++;
+
+			// 성공한 콤보 저장
+			_prevCombo.first = _comboCount;
+			_prevCombo.second = _time;
+		}
+		else
+		{
+			// 딜레이 보다 늦은 시간 내에 공격 한다면 처음 부터 다시 시작
+			_comboCount = 1;
+
+			_prevCombo.first = _comboCount;
+			_prevCombo.second = _time;
+		}
+	}
 }
 
 int Pg::DataScript::ComboSystem::GetComboCount()

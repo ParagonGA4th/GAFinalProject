@@ -58,47 +58,12 @@ namespace Pg::DataScript
 		_targetCamPosition.y = _playerTransform->_position.y + camOffset.y;
 		_targetCamPosition.z = _playerTransform->_position.z + camOffset.z;
 
-		//Option1. 
-		//transform.position = Vector3.SmoothDamp(transform.position, targetCamPosition, ref velocity, smoothTime);
-
 		float interpolation = _speed * _pgTime->GetDeltaTime();
 
 		Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
 		tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _targetCamPosition, interpolation);
 		_object->_transform._position = tPosition;
 	}
-
-	//void InGameCameraBehavior::IfValidShakeCamera()
-	//{
-	//	//일단은 임시로 KeyB가 Shake 값이 될 것.
-	//	if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyB))
-	//	{
-	//		_shouldShake = true;
-	//		_currentShakeTimePassed = 0.0f;
-	//	}
-	//
-	//	//Shake할 시간을 정하기.
-	//	if (_shouldShake)
-	//	{
-	//		_currentShakeTimePassed += _pgTime->GetDeltaTime();
-	//		if (_currentShakeTimePassed > _shouldShakeSeconds)
-	//		{
-	//			_shouldShake = false;
-	//			_currentShakeTimePassed = 0.0f;
-	//		}
-	//	}
-	//
-	//	if (_shouldShake)
-	//	{
-	//		//실제 Shake하는 부분이 여기서 들어간다.
-	//
-	//
-	//
-	//
-	//	}
-	//
-	//
-	//}
 
 	
 
