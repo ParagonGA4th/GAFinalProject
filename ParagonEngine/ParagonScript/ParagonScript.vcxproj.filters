@@ -69,8 +69,12 @@
     <ClCompile Include="PlayerBehavior.cpp">
       <Filter>Content\PlayerBehavior</Filter>
     </ClCompile>
-    <ClCompile Include="InGameCameraBehavior.cpp" />
-    <ClCompile Include="CameraShake.cpp" />
+    <ClCompile Include="InGameCameraBehavior.cpp">
+      <Filter>Content\InGameCameraBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraShake.cpp">
+      <Filter>Content\CameraShake</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -103,7 +107,11 @@
     <ClInclude Include="PlayerBehavior.h">
       <Filter>Content\PlayerBehavior</Filter>
     </ClInclude>
-    <ClInclude Include="InGameCameraBehavior.h" />
-    <ClInclude Include="CameraShake.h" />
+    <ClInclude Include="InGameCameraBehavior.h">
+      <Filter>Content\InGameCameraBehavior</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraShake.h">
+      <Filter>Content\CameraShake</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
