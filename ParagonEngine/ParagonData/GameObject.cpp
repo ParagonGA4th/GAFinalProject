@@ -395,4 +395,15 @@ namespace Pg::Data
 		_isStarted = false;
 		_isInternalEngineAwake = false;
 	}
+
+	void GameObject::SetDontDestroyOnLoad(bool val)
+	{
+		this->_dontDestroyOnLoad = val;
+	}
+
+	bool GameObject::GetDontDestroyOnLoad()
+	{
+		return _dontDestroyOnLoad;
+	}
+
 }

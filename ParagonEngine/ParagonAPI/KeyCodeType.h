@@ -31,6 +31,7 @@ namespace Pg::API::Input
 		Save,
 		CtrlL,
 		KeyS,
+		KeyX,
 		KeyZ,
 
 		KeyLeft,

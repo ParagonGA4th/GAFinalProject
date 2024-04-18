@@ -3,7 +3,6 @@
 #include "../ParagonMath/PgMath.h"
 
 #include "data_factory.h" // Auto Register를 위한 필수요건.
-#include <behaviortree_cpp_v3/bt_factory.h>
 #include <memory>
 #include <string>
 
@@ -19,6 +18,8 @@ namespace Pg::Engine
 		class BehaviorTreeSystem;
 	}
 }
+
+namespace BT { class Tree; }
 
 namespace Pg::Data
 {

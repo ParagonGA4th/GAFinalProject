@@ -4,11 +4,8 @@
 #include "Event.h"
 
 #include "../ParagonData/GameObject.h"
-#include "../ParagonData/StaticMeshRenderer.h"
-#include "../ParagonData/Button.h"
-#include "../ParagonData/Camera.h"
-#include "../ParagonData/Light.h"
-#include "../ParagonData/AudioSource.h"
+//#include "../ParagonData/StaticMeshRenderer.h"
+#include "../ParagonData/ComponentList.h"
 #include "../ParagonScript/Script.h"
 
 #include "../ParagonUI/WidgetContainer.h"
@@ -57,12 +54,29 @@ void Pg::Editor::Window::InspectorUIManager::Initialize(InspectorDataManager* ma
 
 	_defaultUI->ClearColumnWidget();
 
-	//_componentList.emplace_back(typeid(Pg::Data::Camera).name());
-	//_componentList.emplace_back(typeid(Pg::Data::Transform).name());
-	//_componentList.emplace_back(typeid(Pg::Data::AudioSource).name());
+	_componentList.emplace_back(typeid(Pg::Data::Camera).name());
+	_componentList.emplace_back(typeid(Pg::Data::AudioSource).name());
+
+	_componentList.emplace_back(typeid(Pg::Data::BoxCollider).name());
+	_componentList.emplace_back(typeid(Pg::Data::CapsuleCollider).name());
+	_componentList.emplace_back(typeid(Pg::Data::SphereCollider).name());
+
+	_componentList.emplace_back(typeid(Pg::Data::StaticBoxCollider).name());
+	_componentList.emplace_back(typeid(Pg::Data::PlaneCollider).name());
+
+	_componentList.emplace_back(typeid(Pg::Data::DirectionalLight).name());
+	_componentList.emplace_back(typeid(Pg::Data::PointLight).name());
+	_componentList.emplace_back(typeid(Pg::Data::SpotLight).name());
+
+	_componentList.emplace_back(typeid(Pg::Data::TextRenderer).name());
+	_componentList.emplace_back(typeid(Pg::Data::ImageRenderer).name());
+
 	_componentList.emplace_back(typeid(Pg::Data::StaticMeshRenderer).name());
+	_componentList.emplace_back(typeid(Pg::Data::SkinnedMeshRenderer).name());
+
 	_componentList.emplace_back(typeid(Pg::Data::Button).name());
-	//_componentList.emplace_back(typeid(Pg::Data::Light).name());
+	_componentList.emplace_back(typeid(Pg::Data::Slider).name());
+
 	//_componentList.emplace_back(typeid(Pg::DataScript::Script).name()); 
 
 	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##Add Component", _componentList, _componentIndex);
@@ -113,47 +127,7 @@ void Pg::Editor::Window::InspectorUIManager::ChangedUI()
 
 				if (typeInfo == typeid(std::string).name())
 				{
-					if (comName.find("StaticMeshRenderer") != std::string::npos)
-					{
-						if (valName == "meshName") _define = Pg::Data::Enums::eAssetDefine::_3DMODEL;
-						else _define = Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL;
-
-						_assetList->Invoke(eEventType::_ASSETLIST, static_cast<void*>(&_define));
-
-						std::string* value = static_cast<std::string*>(val);
-
-						if (valName == "meshName")
-						{
-							if (*value != _dataContainer->GetAssetList().at(_prevNameIndex))
-								_prevNameIndex = _dataContainer->GetAssetIndex(*value);
-						}
-						else
-						{
-							if (*value != _dataContainer->GetAssetList().at(_prevMaterialIndex))
-								_prevMaterialIndex = _dataContainer->GetAssetIndex(*value);
-						}
-						_changedUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##" + valName, _dataContainer->GetAssetList(),
-							valName == "meshName" ? _prevNameIndex : _prevMaterialIndex);
-
-						if (valName == "meshName")
-						{
-							if (_prevNameIndex != _staticMeshNameIndex)
-							{
-								_dataManager->AddModifiedObject();
-								_staticMeshNameIndex = _prevNameIndex;
-							}
-						}
-						else
-						{
-							if (_prevMaterialIndex != _staticMeshMaterialIndex)
-							{
-								_dataManager->AddModifiedObject();
-								_staticMeshMaterialIndex = _prevMaterialIndex;
-							}
-						}
-						*value = _dataContainer->GetAssetList().at(valName == "meshName" ? _staticMeshNameIndex : _staticMeshMaterialIndex);
-					}
-					else
+					if(!SpecialUI(comName, valName, val))
 						_changedUI->CreateColumnsWidget<Pg::UI::Widget::InputText>(valName, static_cast<std::string*>(val));
 				}
 
@@ -179,7 +153,7 @@ void Pg::Editor::Window::InspectorUIManager::ChangedUI()
 
 			if (comName.find("StaticMeshRenderer") != std::string::npos)
 				_changedUI->CreateCollapsWidget<Pg::UI::Widget::Button>("Refresh", 115.f, 30.f, _isRefresh);
-			
+
 			_changedUI->CreateWidget<Pg::UI::Layout::Collaps>
 				(comName, _changedUI->GetCollapsWidgets(), _componentExistence.at(component.first));
 		}
@@ -226,4 +200,62 @@ void Pg::Editor::Window::InspectorUIManager::UpdateData()
 
 	if (_isRefresh)
 		_dataManager->ModifiedObject(_isRefresh);
+}
+
+bool Pg::Editor::Window::InspectorUIManager::SpecialUI(std::string comName, std::string valName, void* val)
+{
+	bool isSpecial = false;
+
+	if (comName.find("StaticMeshRenderer") != std::string::npos) isSpecial = true;
+	else if (comName.find("SkinnedMeshRenderer") != std::string::npos) isSpecial = true;
+
+	if (!isSpecial) return isSpecial;
+	
+	std::string* value = static_cast<std::string*>(val);
+
+	if (valName == "meshName") _define = Pg::Data::Enums::eAssetDefine::_3DMODEL;
+	else if (valName == "materialName") _define = Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL;
+	else if (valName == "initAnimName") _define = Pg::Data::Enums::eAssetDefine::_ANIMATION;
+
+	_assetList->Invoke(eEventType::_ASSETLIST, static_cast<void*>(&_define));
+
+	if (valName == "meshName")
+	{
+		if (*value != _dataContainer->GetAssetList().at(_prevNameIndex)) _prevNameIndex = _dataContainer->GetAssetIndex(*value);
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##" + valName, _dataContainer->GetAssetList(), _prevNameIndex);
+
+		if (_meshNameIndex != _prevNameIndex)
+		{
+			_dataManager->AddModifiedObject();
+			_meshNameIndex = _prevNameIndex;
+		}
+
+		*value = _dataContainer->GetAssetList().at(_meshNameIndex);
+	}
+	else if (valName == "materialName")
+	{
+		if (*value != _dataContainer->GetAssetList().at(_prevMaterialIndex)) _prevMaterialIndex = _dataContainer->GetAssetIndex(*value);
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##" + valName, _dataContainer->GetAssetList(), _prevMaterialIndex);
+
+		if (_meshMaterialIndex != _prevMaterialIndex)
+		{
+			_dataManager->AddModifiedObject();
+			_meshMaterialIndex = _prevMaterialIndex;
+		}		
+		*value = _dataContainer->GetAssetList().at(_meshMaterialIndex);
+	}
+	else if (valName == "initAnimName")
+	{
+		if (*value != _dataContainer->GetAssetList().at(_animIndex)) _prevAnimIndex = _dataContainer->GetAssetIndex(*value);
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##" + valName, _dataContainer->GetAssetList(), _prevAnimIndex);
+
+		if (_animIndex != _prevAnimIndex)
+		{
+			_dataManager->AddModifiedObject();
+			_animIndex = _prevAnimIndex;
+		}
+		*value = _dataContainer->GetAssetList().at(_animIndex);
+	}
+
+	return isSpecial;
 }

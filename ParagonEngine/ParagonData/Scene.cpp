@@ -9,6 +9,8 @@
 
 namespace Pg::Data
 {
+	std::vector<GameObject*> Scene::_dontDestroyOnList{};
+
 	Scene::Scene(std::string sceneName) :
 		_sceneName(sceneName),
 		_mainCamera(nullptr),
@@ -267,6 +269,8 @@ namespace Pg::Data
 	{
 		return _editorCamera;
 	}
-	
+
+
+
 
 }

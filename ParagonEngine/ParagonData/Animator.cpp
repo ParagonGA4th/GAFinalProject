@@ -1,5 +1,7 @@
 #include "Animator.h"
 
+#include <behaviortree_cpp_v3/bt_factory.h>
+
 namespace Pg::Data
 {
 	Animator::Animator(GameObject* owner) : Component(owner),
