@@ -63,26 +63,62 @@ namespace Pg::Engine
 
 				if (tBoxCol != nullptr)
 				{
+					if (!tBoxCol->GetActive())
+					{
+						continue;
+
+					}
+
 					DrawBoxDebug(&(tBoxCol->_boxInfo));
 				}
 				else if (tStaticBoxCol != nullptr)
 				{
+					if (!tStaticBoxCol->GetActive())
+					{
+						continue;
+
+					}
+
 					DrawBoxDebug(&(tStaticBoxCol->_boxInfo));
 				}
 				else if (tCapsuleCol != nullptr)
 				{
+					if (!tCapsuleCol->GetActive())
+					{
+						continue;
+
+					}
+
 					DrawCapsuleDebug(&(tCapsuleCol->_capsuleInfo));
 				}
 				else if (tShpereCol != nullptr)
 				{
+					if (!tShpereCol->GetActive())
+					{
+						continue;
+
+					}
+
 					DrawSphereDebug(&(tShpereCol->_sphereInfo));
 				}
 				else if (tPlaneCol != nullptr)
 				{
+					if (!tPlaneCol->GetActive())
+					{
+						continue;
+
+					}
+
 					DrawPlaneDebug(&(tPlaneCol->_planeInfo));
 				}
 				else if (tRayCast != nullptr)
 				{
+					if (!tRayCast->GetActive())
+					{
+						continue;
+
+					}
+
 					DrawRayCastDebug(tRayCast->_rayCastInfo);
 				}
 				else if (tButton != nullptr)
