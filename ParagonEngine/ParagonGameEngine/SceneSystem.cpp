@@ -15,6 +15,7 @@
 #include "../ParagonUtil/Log.h"
 
 #include <algorithm>
+#include <ranges>
 #include <singleton-cpp/singleton.h>
 
 namespace Pg::Engine
@@ -56,7 +57,8 @@ namespace Pg::Engine
 		//	{ iter.second->HandleAddDeleteInScene(); });
 	}
 	
-	void SceneSystem::DebounceSceneLoadStatus()
+	//Editor모드 받아서 검사.
+	void SceneSystem::DebounceSceneLoadStatus(Pg::Data::Enums::eEditorMode editMode)
 	{
 		//씬 자체의 Start를 보기 위해서.
 		if (!_isStarted)
@@ -64,6 +66,12 @@ namespace Pg::Engine
 			/////급하게 리소스를 보기 위해서 사용. 클라이언트 작업 시 무조건 삭제!!!!!
 			//PG_WARN("이건 여기 있어서는 안된다!!! 아쿠마다!!!!!!");
 			//_currentScene->GetMainCamera()->_object->AddComponent<EditorCameraScript>();
+			if (!(editMode == Data::Enums::eEditorMode::_NONE ||
+				editMode == Data::Enums::eEditorMode::_EDIT))
+			{
+				CheckMoveDontDestroyOnLoadObjects(_currentScene);
+			}
+			
 			_isStarted = true;
 		}
 	}
@@ -178,10 +186,59 @@ namespace Pg::Engine
 		return _isStarted;
 	}
 
-	bool SceneSystem::CheckIfShouldRun()
+	void SceneSystem::CheckMoveDontDestroyOnLoadObjects(Pg::Data::Scene* scene)
 	{
-		return true;
-	}
+		std::vector<Pg::Data::GameObject*> tGlobalObjSceneList;
 
+		for (auto& obj : scene->_objectList)
+		{
+			if (obj->GetDontDestroyOnLoad())
+			{
+				tGlobalObjSceneList.push_back(obj);
+			}
+		}
+
+		//Static List에서 해당 값을 찾았다!
+		auto tFoundFunc = [&](Pg::Data::GameObject* val)
+			{
+				//전체 Static DontDestroyOnLoad 리스트에서 찾았다는 얘기 -> 반대로 못 찾았으면 추가해야.
+				return std::ranges::find(Pg::Data::Scene::_dontDestroyOnList, val) != Pg::Data::Scene::_dontDestroyOnList.end();
+			};
+
+		////Scene의 DontDestroyOnList에서 안 겹치면 추가.
+		////Scene 사이 오갈 때 여러 객체 안 만들기 위해.
+		//for (auto& tGlobalObj : tGlobalObjSceneList)
+		//{
+		//	
+		//
+		//	//못 찾았을 때만: 
+		//	if (!tFoundFunc(tGlobalObj))
+		//	{
+		//		Pg::Data::Scene::_dontDestroyOnList.push_back(tGlobalObj);
+		//	}
+		//}
+		//
+		////반대로 DontDestroyOnLoad 오브젝트들은 
+		//for (auto& obj : scene->_objectList)
+		//{
+		//	_sceneInfoList->_dirLightList.erase(std::remove_if(_sceneInfoList->_dirLightList.begin(),
+		//		_sceneInfoList->_dirLightList.end(), tIsDirAlready), _sceneInfoList->_dirLightList.end());
+		//
+		//}
+		//	
+		//
+		////Dont Destroy On Load Object들의 소속을 SceneSystem 내부 루프로 변경한다.
+		////Filter해서 겹치는 것은 삭제.
+		//{
+		//	auto tIsDirAlready = [&](Pg::Data::GameObject* val)
+		//		{
+		//			//임시 리스트에서 찾았다는 얘기 -> 그러니까, 밑의 Erase-Remove_If Idiom에서 찾은 애들만 지우라는 말!
+		//			return std::ranges::find(tGlobalSceneList, val) != tGlobalSceneList.end();
+		//		};
+		//	
+		//}
+
+
+	}
 
 }
