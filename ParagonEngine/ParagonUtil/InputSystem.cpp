@@ -108,10 +108,13 @@ namespace  Pg::Util::Input
 		assert(_map->MapBool(eKeyCode::KeyN, _keyboardId, gainput::KeyN));
 		assert(_map->MapBool(eKeyCode::KeyM, _keyboardId, gainput::KeyM));
 
-		gainput::SimultaneouslyDownGesture* sdg = _manager->CreateAndGetDevice<gainput::SimultaneouslyDownGesture>();
-		sdg->AddButton(_keyboardId, gainput::KeyCtrlL);
-		sdg->AddButton(_keyboardId, gainput::KeyS);
-		_map->MapBool(eKeyCode::Save, sdg->GetDeviceId(), gainput::SimultaneouslyDownTriggered);
+		assert(_map->MapBool(eKeyCode::KeyX, _keyboardId, gainput::KeyX));
+		assert(_map->MapBool(eKeyCode::KeyZ, _keyboardId, gainput::KeyZ));
+
+		//gainput::SimultaneouslyDownGesture* sdg = _manager->CreateAndGetDevice<gainput::SimultaneouslyDownGesture>();
+		//sdg->AddButton(_keyboardId, gainput::KeyCtrlL);
+		//sdg->AddButton(_keyboardId, gainput::KeyS);
+		//_map->MapBool(eKeyCode::Save, sdg->GetDeviceId(), gainput::SimultaneouslyDownTriggered);
 	}
 
 	bool InputSystem::GetKey(Pg::API::Input::eKeyCode keyCode)
