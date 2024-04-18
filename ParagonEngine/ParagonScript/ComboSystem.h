@@ -3,11 +3,7 @@
 #include <map>
 
 namespace Pg::Data { class GameObject; }
-namespace Pg::API 
-{
-	namespace Time { class PgTime; }
-	namespace Input { class PgInput; }
-}
+namespace Pg::API::Time { class PgTime; }
 
 /// <summary>
 /// 공격(콤보) 관련 스크립트
@@ -25,7 +21,7 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
-		// Combo의 값을 reset 하는 함수
+		// Combo의 값을 reset 하는 함수(Time은 reset되지 않음)
 		void ReSetCombo();
 
 		/// <summary>
@@ -39,7 +35,6 @@ namespace Pg::DataScript
 
 	private:
 		Pg::API::Time::PgTime* _deltaTime;
-		Pg::API::Input::PgInput* _pgInput;
 		std::pair<int, float> _prevCombo;
 
 		int _comboCount;
