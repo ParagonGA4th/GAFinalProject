@@ -131,6 +131,11 @@
 					<data>
 					</data>
 				</component>
+				<component>
+					<type>class Pg::DataScript::CameraShake</type>
+					<data>
+					</data>
+				</component>
 			</components>
 		</object>
 	</objects>
