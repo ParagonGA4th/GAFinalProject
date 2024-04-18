@@ -1,7 +1,9 @@
 #include "ComboSystem.h"
 #include "../ParagonAPI/PgTime.h"
+#include "../ParagonAPI/PgInput.h"
+#include "../ParagonUtil/Log.h"
 
-#include <math.h>
+#include <assert.h>
 #include <singleton-cpp/singleton.h>
 
 Pg::DataScript::ComboSystem::ComboSystem(Pg::Data::GameObject* obj)
@@ -9,7 +11,10 @@ Pg::DataScript::ComboSystem::ComboSystem(Pg::Data::GameObject* obj)
 	_prevCombo(0, 0.f), _comboCount(0), _time(0.f), _delay(0.3f)
 {
 	auto& tdelta = singleton<Pg::API::Time::PgTime>();
-	_deltaTime = &tdelta;
+	_deltaTime = &tdelta;	
+	
+	auto& tinput = singleton<Pg::API::Input::PgInput>();
+	_pgInput = &tinput;
 }
 
 void Pg::DataScript::ComboSystem::Start()
@@ -20,6 +25,14 @@ void Pg::DataScript::ComboSystem::Start()
 void Pg::DataScript::ComboSystem::Update()
 {
 	_time += _deltaTime->GetDeltaTime();
+
+	//if (_pgInput->GetKeyDown(API::Input::KeyZ))
+	//{
+	//	HitObject(true);
+	//}
+
+	//PG_TRACE(_comboCount);
+	//PG_TRACE(_time);
 }
 
 void Pg::DataScript::ComboSystem::ReSetCombo()
@@ -28,7 +41,6 @@ void Pg::DataScript::ComboSystem::ReSetCombo()
 	_comboCount = 0;
 	_prevCombo.first = 0;
 	_prevCombo.second = 0;
-	_time = 0;
 }
 
 void Pg::DataScript::ComboSystem::HitObject(bool isHit)
@@ -37,10 +49,15 @@ void Pg::DataScript::ComboSystem::HitObject(bool isHit)
 	else
 	{
 		// 콤보 딜레이
-		if (std::abs(_prevCombo.second - _time) <= _delay)
+		if (_time - _prevCombo.second < 0)
+		{
+			assert(false);
+		}
+		else if (_time - _prevCombo.second <= _delay)
 		{
 			// 딜레이 보다 짧은 시간 내에 공격에 성공 한다면 combo++
-			_comboCount == 3 ? 1 : _comboCount++;	
+			if (_comboCount == 3) _comboCount = 1;
+			else _comboCount++;
 
 			// 성공한 콤보 저장
 			_prevCombo.first = _comboCount;
@@ -54,9 +71,6 @@ void Pg::DataScript::ComboSystem::HitObject(bool isHit)
 			_prevCombo.first = _comboCount;
 			_prevCombo.second = _time;
 		}
-		
-		// 타임 리셋
-		_time = 0.f;
 	}
 }
 

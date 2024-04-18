@@ -5,10 +5,8 @@
 namespace Pg::Data { class GameObject; }
 namespace Pg::API 
 {
-	namespace Time
-	{
-		class PgTime;
-	}
+	namespace Time { class PgTime; }
+	namespace Input { class PgInput; }
 }
 
 /// <summary>
@@ -41,6 +39,7 @@ namespace Pg::DataScript
 
 	private:
 		Pg::API::Time::PgTime* _deltaTime;
+		Pg::API::Input::PgInput* _pgInput;
 		std::pair<int, float> _prevCombo;
 
 		int _comboCount;
