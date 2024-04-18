@@ -31,6 +31,7 @@
 //#include "EditorCameraScript.h"
 #include "MovingTest.h"
 #include "AISeight.h"
+#include "Enemy.h"
 #include "RayCastTest.h"
 #include "EventTest.h"
 #include "ArrowAction.h"
@@ -150,6 +151,8 @@ void Pg::Engine::TestScene::Initialize()
 		tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 		tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 		tObj7->AddComponent<CapsuleCollider>();
+		tObj7->GetComponent<CapsuleCollider>()->SetCapsuleInfo(0.5f, 0.3f);
+		tObj7->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 0.f, 0.7f, 0.f });
 		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
 		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
 		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
@@ -180,38 +183,41 @@ void Pg::Engine::TestScene::Initialize()
 	///AI
 	Pg::Data::GameObject* tObj7_2 = tCurrentScene->AddObject("Seight1");
 	tObj7_2->AddComponent<StaticBoxCollider>();
-	tObj7_2->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ 0.f, 0.f, 2.3f });
+	tObj7_2->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ 0.f, 2.f, 2.3f });
 	tObj7_2->GetComponent<StaticBoxCollider>()->SetTrigger(true);
 	tObj7_2->AddComponent<AISeight>();
 
 	Pg::Data::GameObject* tObj7_3 = tCurrentScene->AddObject("Seight2");
 	tObj7_3->AddComponent<StaticBoxCollider>();
-	tObj7_3->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ -2.3f, 0.f, 1.5f });
+	tObj7_3->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ -2.3f, 2.f, 1.5f });
 	tObj7_3->GetComponent<StaticBoxCollider>()->SetTrigger(true);
 	tObj7_3->AddComponent<AISeight>();
 
-	Pg::Data::GameObject* tObj7_4 = tCurrentScene->AddObject("Seight3");
-	tObj7_4->AddComponent<StaticBoxCollider>();
-	tObj7_4->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ 2.3f, 0.f, 1.5f });
-	tObj7_4->GetComponent<StaticBoxCollider>()->SetTrigger(true);
-	tObj7_4->AddComponent<AISeight>();
+	//Pg::Data::GameObject* tObj7_4 = tCurrentScene->AddObject("Seight3");
+	//tObj7_4->AddComponent<StaticBoxCollider>();
+	//tObj7_4->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ 2.3f, 2.f, 1.5f });
+	//tObj7_4->GetComponent<StaticBoxCollider>()->SetTrigger(true);
+	//tObj7_4->AddComponent<AISeight>();
 
-	Pg::Data::GameObject* tObj7_1 = tCurrentScene->AddObject("Enemy");
+	Pg::Data::GameObject* tObj7_1 = tCurrentScene->AddObject("Boss");
 	tObj7_1->GetComponent<Transform>()->_position = { 5.0f, 3.0f, 0.0f };
 	tObj7_1->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_2);
 	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
-	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_4);
+	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_4);
 	tObj7_1->GetComponent<Transform>()->_rotation = tObj7_1->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 	tObj7_1->AddComponent<CapsuleCollider>();
+	tObj7_1->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 0.f, 2.5f, 0.f });
 	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
 	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
 	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+	tObj7_1->GetComponent<CapsuleCollider>()->SetCapsuleInfo(1.0f, 1.5f);
 	//tObj7_1->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 0.f,3.f,0.f });
 	tObj7_1->AddComponent<StaticMeshRenderer>();
 	tObj7_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/final_mon_boss.fbx");
 	tObj7_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj7_1->AddComponent<MovingTest>();
+	tObj7_1->AddComponent<Enemy>();
 
 	///버튼 & 오디오
 	//Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Button");

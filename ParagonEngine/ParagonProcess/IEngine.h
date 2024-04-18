@@ -49,7 +49,10 @@ namespace Pg::Core
 		virtual const std::vector<Pg::Data::PlaneInfo*>& GetPlaneDebugData() const abstract;
 		virtual const std::vector<Pg::Data::RayCastInfo>& GetRayCastDebugData() const abstract;
 		virtual const std::vector<Pg::Data::Box2DInfo>& GetBox2dDebugData() const abstract;
-
+		
+		virtual void AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP) abstract;
+		virtual void ModifyRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP) abstract;
+		virtual void DeleteRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP) abstract;
 
 		//디버그 데이터 디버그 시스템에서 클리어.
 		virtual void ClearDebugVectorData() abstract;

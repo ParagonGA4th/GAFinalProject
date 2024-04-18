@@ -147,7 +147,8 @@ namespace Pg::Engine::Physic
 			if (!dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
 			{
 				gameObj->OnCollisionEnter(dynamicCol->_collisionStorage.data(), dynamicCol->_collisionStorage.size());
-				//PG_TRACE("CollisionEnter!");
+				//
+				// ("CollisionEnter!");
 			}
 			//Stay는 잠시 보류해뒀다. PhysX 내부에서 지원해주지 않음.
 			else if (dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
@@ -869,4 +870,91 @@ namespace Pg::Engine::Physic
 			static_cast<Pg::Data::StaticCollider*>(rigid->userData)->Flush();
 		}
 	}
+
+	void PhysicSystem::CheckAddRuntimeColliders(const std::vector<Pg::Data::GameObject*>* vec)
+	{
+		std::copy(vec->begin(), vec->end(), std::back_inserter(_tempAddedObjectsInPhysics));
+	}
+
+	void PhysicSystem::CheckDeleteRuntimeColliders(const std::vector<Pg::Data::GameObject*>* vec)
+	{
+		std::copy(vec->begin(), vec->end(), std::back_inserter(_tempDeletedObjectsInPhysics));
+	}
+
+	void PhysicSystem::ApplyRuntimeChangesCollider()
+	{
+		for (auto& it : _tempAddedObjectsInPhysics)
+		{
+			ApplyAddSingleCollider(it);
+		}
+
+		for (auto& it : _tempDeletedObjectsInPhysics)
+		{
+			ApplyDeleteSingleCollider(it);
+		}
+
+
+		//Temporary List Clear.
+		if (!_tempAddedObjectsInPhysics.empty())
+		{
+			_tempAddedObjectsInPhysics.clear();
+		}
+
+		if (!_tempDeletedObjectsInPhysics.empty())
+		{
+			_tempDeletedObjectsInPhysics.clear();
+		}
+	}
+
+	void PhysicSystem::ApplyAddSingleCollider(Pg::Data::GameObject* obj)
+	{
+		///별도로 나중에 Static Collider 추가되면 : 얘도 변해야.
+		//Vector가 MakeXXX 함수 내부에 Vector Add가 있어서 이거 리팩토링 어느 정도 했어야 해서 빠꾸함.
+		//나중에, 필요하면 연동해야!
+
+
+		//std::vector<Pg::Data::BoxCollider*> tBoxCol = obj->GetComponents<Pg::Data::BoxCollider>();
+		//std::vector<Pg::Data::StaticBoxCollider*> tStaticBoxCol = obj->GetComponents<Pg::Data::StaticBoxCollider>();
+		//std::vector<Pg::Data::SphereCollider*> tSphCol = obj->GetComponents<Pg::Data::SphereCollider>();
+		//std::vector<Pg::Data::CapsuleCollider*> tCapCol = obj->GetComponents<Pg::Data::CapsuleCollider>();
+		//std::vector<Pg::Data::PlaneCollider*> tPlaneCol = obj->GetComponents<Pg::Data::PlaneCollider>();
+		//
+		//if (!tBoxCol.empty())
+		//{
+		//	MakeDynamicBoxCollider(obj);
+		//}
+		//else if (!tStaticBoxCol.empty())
+		//{
+		//	MakeStaticBoxCollider(obj);
+		//}
+		//else if (!tSphCol.empty())
+		//{
+		//	MakeDynamicSphereCollider(obj);
+		//}
+		//else if (!tCapCol.empty())
+		//{
+		//	MakeDynamicCapsuleCollider(obj);
+		//
+		//}
+		//else if (!tPlaneCol.empty())
+		//{
+		//	MakePlaneCollider(obj);
+		//}
+		//
+		//
+		////static_cast<Pg::Data::DynamicCollider*>(rigidDynamic->userData)->UpdateTransform();
+		////_pxScene->addActor(*rigidDynamic);
+		////
+		////static_cast<Pg::Data::StaticCollider*>(rigidStatic->userData)->UpdateTransform();
+		////_pxScene->addActor(*rigidStatic);
+
+	}
+
+	void PhysicSystem::ApplyDeleteSingleCollider(Pg::Data::GameObject* obj)
+	{
+		//얘도 바깥에서 있는 리스트 제거해주면 끝남 (pxScene)
+	}
+
+
+
 }
