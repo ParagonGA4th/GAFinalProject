@@ -12,7 +12,9 @@
 #include "../ParagonData/PlaneCollider.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/StaticCapsuleCollider.h"
 #include "../ParagonData/SphereCollider.h"
+#include "../ParagonData/StaticSphereCollider.h"
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonData/RayCast.h"
 #include "../ParagonUtil/Log.h"
@@ -241,7 +243,6 @@ namespace Pg::Engine::Physic
 		}
 	}
 
-
 	void PhysicSystem::UpdateTransform()
 	{
 		for (auto& rigid : _rigidDynamicVec)
@@ -390,19 +391,17 @@ namespace Pg::Engine::Physic
 		for (auto& obj : _sceneSystem->GetCurrentScene()->GetObjectList())
 		{
 			std::vector<Pg::Data::BoxCollider*> tBoxCol = obj->GetComponents<Pg::Data::BoxCollider>();
-			std::vector<Pg::Data::StaticBoxCollider*> tStaticBoxCol = obj->GetComponents<Pg::Data::StaticBoxCollider>();
 			std::vector<Pg::Data::SphereCollider*> tSphCol = obj->GetComponents<Pg::Data::SphereCollider>();
 			std::vector<Pg::Data::CapsuleCollider*> tCapCol = obj->GetComponents<Pg::Data::CapsuleCollider>();
 			std::vector<Pg::Data::PlaneCollider*> tPlaneCol = obj->GetComponents<Pg::Data::PlaneCollider>();
+			std::vector<Pg::Data::StaticBoxCollider*> tStaticBoxCol = obj->GetComponents<Pg::Data::StaticBoxCollider>();
+			std::vector<Pg::Data::StaticCapsuleCollider*> tStaticCapCol = obj->GetComponents<Pg::Data::StaticCapsuleCollider>();
+			std::vector<Pg::Data::StaticSphereCollider*> tStaticSphCol = obj->GetComponents<Pg::Data::StaticSphereCollider>();
 
 			//어떤 Collider인지에 따라 출력을 구분한다.
 			if (!tBoxCol.empty())
 			{
 				MakeDynamicBoxCollider(obj);
-			}
-			else if (!tStaticBoxCol.empty())
-			{
-				MakeStaticBoxCollider(obj);
 			}
 			else if (!tSphCol.empty())
 			{
@@ -417,6 +416,18 @@ namespace Pg::Engine::Physic
 			{
 				MakePlaneCollider(obj);
 
+			}
+			else if (!tStaticBoxCol.empty())
+			{
+				MakeStaticBoxCollider(obj);
+			}
+			else if (!tStaticCapCol.empty())
+			{
+				MakeStaticCapsuleCollider(obj);
+			}
+			else if (!tStaticSphCol.empty())
+			{
+				MakeStaticShpereCollider(obj);
 			}
 			AddObjectToScene();
 		}
@@ -467,6 +478,100 @@ namespace Pg::Engine::Physic
 
 		}
 
+	}
+
+	void PhysicSystem::MakeStaticCapsuleCollider(Pg::Data::GameObject* obj)
+	{
+		Pg::Data::Collider* col = obj->GetComponent<Pg::Data::StaticCapsuleCollider>();
+
+		if (col)
+		{
+			auto colliderVec = obj->GetComponents<Pg::Data::StaticCapsuleCollider>();
+
+			for (auto& collider : colliderVec)
+			{
+				Pg::Data::StaticCapsuleCollider* staticCapCol = dynamic_cast<Pg::Data::StaticCapsuleCollider*>(collider);
+
+				physx::PxShape* shape = _physics->createShape(physx::PxCapsuleGeometry(staticCapCol->GetRadius(), staticCapCol->GetHalfHeight()), *_material);
+
+				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
+				physx::PxTransform trans(physx::PxIdentity);
+				trans.q = physx::PxQuat(0, 0, 0.7071068f, 0.7071068f);
+				shape->setLocalPose(trans);
+
+				//Trigger 여부 판단
+				if (staticCapCol->GetTrigger())
+				{
+					shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+					shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+				}
+
+
+				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
+				physx::PxTransform localTm(physx::PxIdentity);
+
+				staticCapCol->SetPxShape(shape);
+
+				// Layer Mask 설정
+				shape->setSimulationFilterData({ staticCapCol->GetLayer(), 0, 0, 0 });
+
+				physx::PxRigidStatic* rigid = _physics->createRigidStatic(localTm);
+				rigid->attachShape(*shape);
+
+				staticCapCol->SetPxRigidStatic(rigid);
+				rigid->userData = staticCapCol;
+				_rigidStaticVec.push_back(rigid);
+
+				shape->release();
+			}
+		}
+	}
+
+	void PhysicSystem::MakeStaticShpereCollider(Pg::Data::GameObject* obj)
+	{
+		Pg::Data::Collider* col = obj->GetComponent<Pg::Data::StaticSphereCollider>();
+
+		if (col)
+		{
+			auto colliderVec = obj->GetComponents<Pg::Data::StaticSphereCollider>();
+
+			for (auto& collider : colliderVec)
+			{
+				Pg::Data::StaticSphereCollider* staticSphCol = dynamic_cast<Pg::Data::StaticSphereCollider*>(collider);
+
+				physx::PxShape* shape = _physics->createShape(physx::PxSphereGeometry(staticSphCol->GetRadius()), *_material);
+
+				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
+				physx::PxTransform trans(physx::PxIdentity);
+				trans.q = physx::PxQuat(0, 0, 0.7071068f, 0.7071068f);
+				shape->setLocalPose(trans);
+
+				//Trigger 여부 판단
+				if (staticSphCol->GetTrigger())
+				{
+					shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+					shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+				}
+
+				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
+				physx::PxTransform localTm(physx::PxVec3(pos.x, pos.y, pos.z));
+
+				staticSphCol->SetPxShape(shape);
+
+				// Layer Mask 설정
+				shape->setSimulationFilterData({ staticSphCol->GetLayer(), 0, 0, 0 });
+
+				physx::PxRigidStatic* rigid = _physics->createRigidStatic(localTm);
+				rigid->attachShape(*shape);
+
+				staticSphCol->SetPxRigidStatic(rigid);
+				rigid->userData = staticSphCol;
+				_rigidStaticVec.push_back(rigid);
+
+				shape->release();
+
+			}
+		}
 	}
 
 	void PhysicSystem::MakeDynamicBoxCollider(Pg::Data::GameObject* obj)
@@ -954,7 +1059,5 @@ namespace Pg::Engine::Physic
 	{
 		//얘도 바깥에서 있는 리스트 제거해주면 끝남 (pxScene)
 	}
-
-
 
 }

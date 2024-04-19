@@ -256,6 +256,12 @@
     <ClCompile Include="EditorCameraScript.cpp">
       <Filter>13_EngineScripts\EditorCameraScript</Filter>
     </ClCompile>
+    <ClCompile Include="StaticCapsuleCollider.cpp">
+      <Filter>2_Component\Collider\3D\StaticCollider\CapsuleCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticSphereCollider.cpp">
+      <Filter>2_Component\Collider\3D\StaticCollider\SphereCollider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -562,6 +568,12 @@
     <ClInclude Include="ComponentList.h">
       <Filter>2_Component\1_Helper</Filter>
     </ClInclude>
+    <ClInclude Include="StaticCapsuleCollider.h">
+      <Filter>2_Component\Collider\3D\StaticCollider\CapsuleCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticSphereCollider.h">
+      <Filter>2_Component\Collider\3D\StaticCollider\SphereCollider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -848,6 +860,12 @@
     </Filter>
     <Filter Include="2_Component\1_Helper\SerializerHelper">
       <UniqueIdentifier>{2e2cd2ef-5cb5-4fca-afc4-e98602257c67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\StaticCollider\CapsuleCollider">
+      <UniqueIdentifier>{b3e718c0-041a-44ff-ae62-96453e5836ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\StaticCollider\SphereCollider">
+      <UniqueIdentifier>{fd22e24d-f688-4eec-9bf8-25a08f05e585}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
