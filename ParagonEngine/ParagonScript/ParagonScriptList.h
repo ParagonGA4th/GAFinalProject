@@ -17,3 +17,5 @@
 #include "InGameCameraBehavior.h"
 #include "CameraShake.h"
 #include "ComboSystem.h"
+#include "ArrowLogic.h"
+#include "ArrowShooterBehavior.h"

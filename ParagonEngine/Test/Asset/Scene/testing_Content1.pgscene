@@ -39,6 +39,18 @@
 				<component>
 					<type>class Pg::Data::CapsuleCollider</type>
 					<data>
+						<trigger>false</trigger>
+						<positionOffset>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</positionOffset>
+						<rotationOffset>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotationOffset>
 						<radius>1.000000</radius>
 						<halfHeight>1.000000</halfHeight>
 					</data>
@@ -88,6 +100,18 @@
 				<component>
 					<type>class Pg::Data::PlaneCollider</type>
 					<data>
+						<trigger>false</trigger>
+						<positionOffset>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</positionOffset>
+						<rotationOffset>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotationOffset>
 						<width>200</width>
 						<depth>200</depth>
 					</data>

@@ -1,6 +1,7 @@
 #include "UtilMain.h"
 #include "Log.h"
 #include "InputSystem.h"
+#include "TweenSystem.h"
 #include "TimeSystem.h"
 #include <singleton-cpp/singleton.h>
 
@@ -11,20 +12,23 @@ namespace Pg::Util
 		auto& _logger = singleton<Pg::Util::Debug::Log>();
 		
 		//Input
-		auto& _tInputSystem = singleton<Pg::Util::Input::InputSystem>();
-		_inputSystem = &_tInputSystem;
+		_inputSystem = &singleton<Pg::Util::Input::InputSystem>();
 
 		//Time
-		auto& tTimeSystem = singleton<Time::TimeSystem>();
-		_timeSystem = &tTimeSystem;
+		_timeSystem = &singleton<Time::TimeSystem>();
 		
+		//Tween
+		_tweenSystem = &singleton<TweenSystem>();
 		
+		//Initializing..
 		_logger.Initialize();
 		_inputSystem->Initialize(screenWidth, screenHeight);
 
 		_logger.SetLoggerLevel(0);
 
 		_timeSystem->Initialize(hwnd);
+
+		_tweenSystem->Initialize();
 	}
 
 	void UtilMain::Update()
@@ -33,10 +37,12 @@ namespace Pg::Util
 		_timeSystem->TimeMeasure();
 
 		_inputSystem->Update();
+
+		_tweenSystem->Update();
 	}
 
 	void UtilMain::Finalize()
 	{
-		
+		_tweenSystem->Finalize();
 	}
 }
