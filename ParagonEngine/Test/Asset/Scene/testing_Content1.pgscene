@@ -5,6 +5,7 @@
 			<name>Player</name>
 			<active>true</active>
 			<tag>TAG_Player</tag>
+			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
 					<type>class Pg::Data::Transform</type>
@@ -53,6 +54,7 @@
 			<name>Plane</name>
 			<active>true</active>
 			<tag></tag>
+			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
 					<type>class Pg::Data::Transform</type>
@@ -96,6 +98,7 @@
 			<name>InGameCamera</name>
 			<active>true</active>
 			<tag></tag>
+			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
 					<type>class Pg::Data::Transform</type>
@@ -143,6 +146,7 @@
 			<name>NewObject</name>
 			<active>true</active>
 			<tag></tag>
+			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
 					<type>class Pg::Data::Transform</type>

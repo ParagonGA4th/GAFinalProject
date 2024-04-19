@@ -1,20 +1,19 @@
 #pragma once
 #include "IEditorWindow.h"
-#include "../ParagonData/EditorMode.h"
-
+#include <vector>
 #include <memory>
 
-namespace Pg::Editor { class Event; }
 namespace Pg::UI { class WidgetContainer; }
 namespace Pg::UI::Manager { class UIManager; }
+namespace Pg::Editor::Data { class DataContainer; }
 
 namespace Pg::Editor::Window
 {
-	class ToolBar : public IEditorWindow
+	class DontDestroy : public IEditorWindow
 	{
 	public:
-		ToolBar();
-		~ToolBar();
+		DontDestroy();
+		~DontDestroy();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
@@ -28,23 +27,22 @@ namespace Pg::Editor::Window
 		virtual void SetDisable(bool disable) override;
 
 	private:
-		/// ToolBar value
+		void DataSet();
+
+	private:
+		/// DontDestroy Value
 		std::string _winName;
 		bool _isShow;
+		bool _isDisable;
 
 		/// helper class
+		Pg::Editor::Data::DataContainer* _dataContainer;
 		Pg::UI::Manager::UIManager* _uiManager;
 		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
-		std::unique_ptr<Pg::Editor::Event> _editorManaged;
 
-		Pg::Data::Enums::eEditorMode _editorModeType;
-
-		/// Data value
-		bool _isStartBtnClick;
-		bool _isStopBtnClick;
-
-		std::string _gizmoType = "Translate";
-		std::string _prevGizmoType;
+		/// Data Value
+		std::vector<std::string> _dontDestroyObjList;
+		std::string _currentSceneName;
+		std::string _selectedName;
 	};
 }
-

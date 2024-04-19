@@ -57,9 +57,9 @@ void Pg::Editor::Window::ToolBar::Update()
 
 		_isStopBtnClick = false;
 		_editorManaged->Invoke(eEventType::_EDITORDISABLE, static_cast<void*>(&_isStartBtnClick));
-	}	
-	
-	if(_prevGizmoType.compare(_gizmoType) == -1) _editorManaged->Invoke(eEventType::_GIZMOTYPE, static_cast<void*>(&_gizmoType));
+	}
+
+	if (_prevGizmoType.compare(_gizmoType) == -1) _editorManaged->Invoke(eEventType::_GIZMOTYPE, static_cast<void*>(&_gizmoType));
 	_uiManager->WindowEnd();
 }
 
