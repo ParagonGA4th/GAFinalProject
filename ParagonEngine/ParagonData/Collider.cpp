@@ -20,7 +20,7 @@ namespace Pg::Data
 		_collisionStorage.reserve(5);	
 	}
 
-	void Collider::SetPoisitonOffset(PGFLOAT3 position)
+	void Collider::SetPositionOffset(PGFLOAT3 position)
 	{
 		_positionOffSet = position;
 	}

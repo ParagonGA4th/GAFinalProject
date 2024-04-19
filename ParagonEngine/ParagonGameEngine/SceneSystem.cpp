@@ -77,7 +77,6 @@ namespace Pg::Engine
 				_physicSystem = &tPhysicSystem;
 				_physicSystem->InitMakeColliders();
 			}
-			
 			_isStarted = true;
 		}
 	}

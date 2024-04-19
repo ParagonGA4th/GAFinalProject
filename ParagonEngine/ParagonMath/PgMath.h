@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <DirectXMath.h>
+#include <limits>
 
 /// ParagonEngine에서 쓰일 Math 기본 형태.
 /// 추가적인 종속성을 막기 위해서, 커스텀 구조체로 관리.
@@ -42,6 +43,17 @@ namespace Pg::Math
 			v.y = -y;
 			return v;
 		}
+
+		bool operator==(const PGFLOAT2& rhs) const
+		{
+			return (std::abs(x - rhs.x) < std::numeric_limits<float>::epsilon() &&
+				std::abs(y - rhs.y) < std::numeric_limits<float>::epsilon());
+		}
+
+		bool operator!=(const PGFLOAT2& rhs) const
+		{
+			return !(*this == rhs);
+		}
 	};
 
 	struct PGFLOAT3
@@ -59,19 +71,19 @@ namespace Pg::Math
 		PGFLOAT3& operator=(PGFLOAT3&&) = default;
 
 		constexpr PGFLOAT3(float _x, float _y, float _z) noexcept;
-			
+
 		PGFLOAT3 operator-(const PGFLOAT3& rhs) const;
 
 		PGFLOAT3 operator*(float rhs) const;
-	
+
 		float operator*(PGFLOAT3 rhs) const;
-		
+
 		PGFLOAT3& operator+=(const PGFLOAT3& rhs);
-		
+
 		PGFLOAT3 operator+(const PGFLOAT3& rhs);
 
 		bool operator<(const PGFLOAT3& rhs) const;
-		
+
 		bool operator>(const PGFLOAT3& rhs) const;
 
 		bool operator>=(const PGFLOAT3& rhs) const;
@@ -85,6 +97,18 @@ namespace Pg::Math
 			v.y = -y;
 			v.z = -z;
 			return v;
+		}
+
+		bool operator==(const PGFLOAT3& rhs) const
+		{
+			return (std::abs(x - rhs.x) < std::numeric_limits<float>::epsilon() &&
+				std::abs(y - rhs.y) < std::numeric_limits<float>::epsilon() &&
+				std::abs(z - rhs.z) < std::numeric_limits<float>::epsilon());
+		}
+
+		bool operator!=(const PGFLOAT3& rhs) const 
+		{
+			return !(*this == rhs);
 		}
 
 		//단위 행렬
@@ -141,6 +165,19 @@ namespace Pg::Math
 		bool operator>=(const PGFLOAT4& rhs) const;
 		//W를 포함하지 않는 연산
 		bool operator<=(const PGFLOAT4& rhs) const;
+
+		bool operator==(const PGFLOAT4& rhs) const
+		{
+			return (std::abs(x - rhs.x) < std::numeric_limits<float>::epsilon() &&
+				std::abs(y - rhs.y) < std::numeric_limits<float>::epsilon() &&
+				std::abs(z - rhs.z) < std::numeric_limits<float>::epsilon() &&
+				std::abs(w - rhs.w) < std::numeric_limits<float>::epsilon());
+		}
+
+		bool operator!=(const PGFLOAT4& rhs) const
+		{
+			return !(*this == rhs);
+		}
 	};
 
 	struct PGQuaternion
@@ -161,6 +198,19 @@ namespace Pg::Math
 		constexpr PGQuaternion(float _w, float _x, float _y, float _z) noexcept;
 
 		PGQuaternion Conjugate() const;
+
+		bool operator==(const PGQuaternion& rhs) const
+		{
+			return (std::abs(x - rhs.x) < std::numeric_limits<float>::epsilon() &&
+				std::abs(y - rhs.y) < std::numeric_limits<float>::epsilon() &&
+				std::abs(z - rhs.z) < std::numeric_limits<float>::epsilon() &&
+				std::abs(w - rhs.w) < std::numeric_limits<float>::epsilon());
+		}
+
+		bool operator!=(const PGQuaternion& rhs) const
+		{
+			return !(*this == rhs);
+		}
 	};
 
 	struct PGFLOAT4X4
