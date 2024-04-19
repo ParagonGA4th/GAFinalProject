@@ -4,7 +4,9 @@
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/StaticCapsuleCollider.h"
 #include "../ParagonData/SphereCollider.h"
+#include "../ParagonData/StaticSphereCollider.h"
 #include "../ParagonData/PlaneCollider.h"
 #include "../ParagonData/Button.h"
 #include "../ParagonData/RayCast.h"
@@ -58,6 +60,8 @@ namespace Pg::Engine
 				Pg::Data::SphereCollider* tShpereCol = it->GetComponent<Pg::Data::SphereCollider>();
 				Pg::Data::PlaneCollider* tPlaneCol = it->GetComponent<Pg::Data::PlaneCollider>();
 				Pg::Data::StaticBoxCollider* tStaticBoxCol = it->GetComponent<Pg::Data::StaticBoxCollider>();
+				Pg::Data::StaticSphereCollider* tStaticShpereCol = it->GetComponent<Pg::Data::StaticSphereCollider>();
+				Pg::Data::StaticCapsuleCollider* tStaticCapsuleCol = it->GetComponent<Pg::Data::StaticCapsuleCollider>();
 				Pg::Data::RayCast* tRayCast = it->GetComponent<Pg::Data::RayCast>();
 				Pg::Data::Button* tButton = it->GetComponent<Pg::Data::Button>();
 
@@ -80,6 +84,26 @@ namespace Pg::Engine
 					}
 
 					DrawBoxDebug(&(tStaticBoxCol->_boxInfo));
+				}
+				else if (tStaticShpereCol != nullptr)
+				{
+					if (!tStaticShpereCol->GetActive())
+					{
+						continue;
+
+					}
+
+					DrawSphereDebug(&(tStaticShpereCol->_sphereInfo));
+				}
+				else if (tStaticCapsuleCol != nullptr)
+				{
+					if (!tStaticCapsuleCol->GetActive())
+					{
+						continue;
+
+					}
+
+					DrawCapsuleDebug(&(tStaticCapsuleCol->_capsuleInfo));
 				}
 				else if (tCapsuleCol != nullptr)
 				{

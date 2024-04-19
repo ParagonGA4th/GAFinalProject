@@ -9,8 +9,10 @@
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SphereCollider.h"
+#include "../ParagonData/StaticSphereCollider.h"
 #include "../ParagonData/PlaneCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/StaticCapsuleCollider.h"
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonData/NavMeshAgent.h"
 #include "../ParagonData/NavigationField.h"
@@ -184,7 +186,7 @@ void Pg::Engine::TestScene::Initialize()
 	Pg::Data::GameObject* tObj7_2 = tCurrentScene->AddObject("Seight1");
 	tObj7_2->AddComponent<StaticBoxCollider>();
 	tObj7_2->GetComponent<StaticBoxCollider>()->SetPositionOffset({ 0.f, 2.f, 2.3f });
-	tObj7_2->GetComponent<StaticBoxCollider>()->SetTrigger(true);
+	tObj7_2->GetComponent<StaticSphereCollider>()->SetTrigger(true);
 	tObj7_2->AddComponent<AISeight>();
 
 	Pg::Data::GameObject* tObj7_3 = tCurrentScene->AddObject("Seight2");
@@ -192,18 +194,18 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7_3->GetComponent<StaticBoxCollider>()->SetPositionOffset({ -2.3f, 2.f, 1.5f });
 	tObj7_3->GetComponent<StaticBoxCollider>()->SetTrigger(true);
 	tObj7_3->AddComponent<AISeight>();
-
-	//Pg::Data::GameObject* tObj7_4 = tCurrentScene->AddObject("Seight3");
-	//tObj7_4->AddComponent<StaticBoxCollider>();
-	//tObj7_4->GetComponent<StaticBoxCollider>()->SetPositionOffset({ 2.3f, 2.f, 1.5f });
-	//tObj7_4->GetComponent<StaticBoxCollider>()->SetTrigger(true);
-	//tObj7_4->AddComponent<AISeight>();
+	
+	Pg::Data::GameObject* tObj7_4 = tCurrentScene->AddObject("Seight3");
+	tObj7_4->AddComponent<StaticBoxCollider>();
+	tObj7_4->GetComponent<StaticBoxCollider>()->SetPositionOffset({ 2.3f, 2.f, 1.5f });
+	tObj7_4->GetComponent<StaticBoxCollider>()->SetTrigger(true);
+	tObj7_4->AddComponent<AISeight>();
 
 	Pg::Data::GameObject* tObj7_1 = tCurrentScene->AddObject("Boss");
 	tObj7_1->GetComponent<Transform>()->_position = { 5.0f, 3.0f, 0.0f };
 	tObj7_1->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_2);
-	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
+	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
 	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_4);
 	tObj7_1->GetComponent<Transform>()->_rotation = tObj7_1->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 	tObj7_1->AddComponent<CapsuleCollider>();
@@ -217,7 +219,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/final_mon_boss.fbx");
 	tObj7_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj7_1->AddComponent<MovingTest>();
-	tObj7_1->AddComponent<Enemy>();
+	//tObj7_1->AddComponent<Enemy>();
 
 	///버튼 & 오디오
 	//Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Button");
