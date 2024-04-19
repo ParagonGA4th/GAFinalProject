@@ -275,8 +275,10 @@
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="StaticBoxCollider.h" />
+    <ClInclude Include="StaticCapsuleCollider.h" />
     <ClInclude Include="StaticCollider.h" />
     <ClInclude Include="StaticMeshRenderer.h" />
+    <ClInclude Include="StaticSphereCollider.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
@@ -362,8 +364,10 @@
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="StaticBoxCollider.cpp" />
+    <ClCompile Include="StaticCapsuleCollider.cpp" />
     <ClCompile Include="StaticCollider.cpp" />
     <ClCompile Include="StaticMeshRenderer.cpp" />
+    <ClCompile Include="StaticSphereCollider.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
