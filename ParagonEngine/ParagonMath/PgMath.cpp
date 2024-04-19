@@ -506,7 +506,8 @@ namespace Pg::Math
 	Pg::Math::PGQuaternion PGEulerToQuaternion(float x, float y, float z)
 	{
 		XMFLOAT3 tVal = { x,y,z };
-		return XM2PG_QUATERNION(XMQuaternionRotationRollPitchYawFromVector(XMLoadFloat3(&tVal)));
+		DirectX::SimpleMath::Quaternion tQuat = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(tVal);
+		return XM2PG_QUATERNION(tQuat);
 	}
 
 	Pg::Math::PGQuaternion PGEulerToQuaternion(const Pg::Math::PGFLOAT3& euler)
@@ -521,17 +522,19 @@ namespace Pg::Math
 
 	Pg::Math::PGFLOAT3 PGQuaternionToEuler(float w, float x, float y, float z)
 	{
-		XMFLOAT4 tQuat = { x,y,z,w };
-		XMMATRIX rotationMatrix = XMMatrixRotationQuaternion(XMLoadFloat4(&tQuat));
-
-		// Extracting the euler angles from the rotation matrix
-		float pitch, yaw, roll;
-		XMVECTOR rotation = XMQuaternionRotationMatrix(rotationMatrix);
-
-		XMFLOAT3 tRetPre;
-		XMStoreFloat3(&tRetPre, rotation);
-
-		return XM2PG_FLOAT3(tRetPre);
+		DirectX::SimpleMath::Quaternion tQuat = { x,y,z,w };
+		return XM2PG_FLOAT3(tQuat.ToEuler());
+		//XMMATRIX rotationMatrix = XMMatrixRotationQuaternion(XMLoadFloat4(&tQuat));
+		//
+		//// Extracting the euler angles from the rotation matrix
+		//float pitch, yaw, roll;
+		//XMVECTOR rotation = XMQuaternionRotationMatrix(rotationMatrix);
+		//
+		//XMFLOAT3 tRetPre;
+		//XMStoreFloat3(&tRetPre, rotation);
+		//
+		//return XM2PG_FLOAT3(tRetPre);
+		//tQuat.CreateFromYawPitchRoll()
 	}
 
 	Pg::Math::PGFLOAT3 PGRotateVectorAroundAxis(Pg::Math::PGFLOAT3 vecToRotate, Pg::Math::PGFLOAT3 rotAxis, float angleInRad)
