@@ -1,5 +1,6 @@
 #pragma once
 #include "../ParagonData/AssetDefines.h"
+#include "../ParagonMath/PgMath.h"
 
 #include <string>
 #include <memory>
@@ -24,7 +25,8 @@ namespace Pg::Editor::Window
 
 	private:
 		void ChangedUI();
-		bool SpecialUI(std::string comName, std::string valName, void* val);
+		void ColliderUI(std::string comName);
+		bool RendererUI(std::string comName, std::string valName, void* val);
 		void SetData();
 		void UpdateData();
 
@@ -47,15 +49,23 @@ namespace Pg::Editor::Window
 		int _prevNameIndex;
 
 		int _meshMaterialIndex;
-		int _prevMaterialIndex;		
-		
+		int _prevMaterialIndex;
+
 		int _animIndex;
 		int _prevAnimIndex;
+
+		bool _trigger;
+		bool _prevTrigger;
+		Pg::Math::PGFLOAT3 _posOffset;
+		Pg::Math::PGFLOAT3 _prevPosOffset;
+		Pg::Math::PGQuaternion _rotOffset;
+		Pg::Math::PGQuaternion _prevRotOffset;
 
 		/// object value;
 		std::string _objName;
 		std::string _objTag;
 		bool _isActive;
+		bool _isDestroy;
 
 		/// Component UI Helper Value
 		std::unordered_map<std::string, bool*> _componentExistence;

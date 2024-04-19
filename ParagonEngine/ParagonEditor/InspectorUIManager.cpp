@@ -4,7 +4,6 @@
 #include "Event.h"
 
 #include "../ParagonData/GameObject.h"
-//#include "../ParagonData/StaticMeshRenderer.h"
 #include "../ParagonData/ComponentList.h"
 #include "../ParagonScript/Script.h"
 
@@ -49,6 +48,9 @@ void Pg::Editor::Window::InspectorUIManager::Initialize(InspectorDataManager* ma
 
 	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::Text>("Active");
 	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::CheckBox>("Active", &_isActive);
+
+	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::Text>("DontDestroy");
+	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::CheckBox>("DontDestroy", &_isDestroy);
 
 	_defaultUI->CreateWidget<Pg::UI::Layout::Column<2>>("BasicInfo", _defaultUI->GetColumnWidgets());
 
@@ -108,13 +110,13 @@ void Pg::Editor::Window::InspectorUIManager::ChangedUI()
 			if (component.first.find("::") == std::string::npos) comName = component.first.substr(component.first.rfind("class") + 6);
 			else comName = component.first.substr(component.first.rfind("::") + 2);
 
-			if (_componentExistence.find(component.first) == _componentExistence.end())
-				_componentExistence.insert({ component.first , new bool(true) });
-			else
-				*_componentExistence.at(component.first) = true;
+			if (_componentExistence.find(component.first) == _componentExistence.end()) _componentExistence.insert({ component.first , new bool(true) });
+			else *_componentExistence.at(component.first) = true;
 
 			_changedUI->ClearColumnWidget();
 			_changedUI->ClearCollapsWidget();
+
+			ColliderUI(comName);
 
 			/// component Data
 			for (auto& [valName, typeInfo, val] : component.second)
@@ -127,7 +129,7 @@ void Pg::Editor::Window::InspectorUIManager::ChangedUI()
 
 				if (typeInfo == typeid(std::string).name())
 				{
-					if(!SpecialUI(comName, valName, val))
+					if (!RendererUI(comName, valName, val))
 						_changedUI->CreateColumnsWidget<Pg::UI::Widget::InputText>(valName, static_cast<std::string*>(val));
 				}
 
@@ -165,6 +167,7 @@ void Pg::Editor::Window::InspectorUIManager::SetData()
 	_objName = _dataManager->_object->GetName();
 	_objTag = _dataManager->_object->GetTag();
 	_isActive = _dataManager->_object->GetActive();
+	_isDestroy = _dataManager->_object->GetDontDestroyOnLoad();
 }
 
 void Pg::Editor::Window::InspectorUIManager::UpdateData()
@@ -197,12 +200,41 @@ void Pg::Editor::Window::InspectorUIManager::UpdateData()
 	_dataManager->_object->SetName(_objName);
 	_dataManager->_object->SetTag(_objTag);
 	_dataManager->_object->SetActive(_isActive);
+	_dataManager->_object->SetDontDestroyOnLoad(_isDestroy);
 
 	if (_isRefresh)
 		_dataManager->ModifiedObject(_isRefresh);
 }
 
-bool Pg::Editor::Window::InspectorUIManager::SpecialUI(std::string comName, std::string valName, void* val)
+void Pg::Editor::Window::InspectorUIManager::ColliderUI(std::string comName)
+{
+	if (comName.find("Collider") != std::string::npos)
+	{
+		auto col = _dataManager->_object->GetComponent<Pg::Data::Collider>();
+
+		if (_prevTrigger != col->GetTrigger()) _trigger = col->GetTrigger();
+		if (_prevPosOffset != col->GetPositionOffset()) _posOffset = col->GetPositionOffset();
+		if (_prevRotOffset != col->GetRotationOffset()) _rotOffset = col->GetRotationOffset();
+
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Text>("trigger");
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::CheckBox>("trigger", &_trigger);
+
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Text>("position Offset");
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>("position Offset", &_posOffset);
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Text>("rotation Offset");
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>("rotation Offset", &_rotOffset);
+
+		if (_prevTrigger != _trigger) _prevTrigger = _trigger;
+		if (_prevPosOffset != _posOffset) _prevPosOffset = _posOffset;
+		if (_prevRotOffset != _rotOffset) _prevRotOffset = _rotOffset;
+		
+		col->SetTrigger(_trigger);
+		col->SetPositionOffset(_posOffset);
+		col->SetRotationOffset(_rotOffset);		
+	}
+}
+
+bool Pg::Editor::Window::InspectorUIManager::RendererUI(std::string comName, std::string valName, void* val)
 {
 	bool isSpecial = false;
 
@@ -210,7 +242,7 @@ bool Pg::Editor::Window::InspectorUIManager::SpecialUI(std::string comName, std:
 	else if (comName.find("SkinnedMeshRenderer") != std::string::npos) isSpecial = true;
 
 	if (!isSpecial) return isSpecial;
-	
+
 	std::string* value = static_cast<std::string*>(val);
 
 	if (valName == "meshName") _define = Pg::Data::Enums::eAssetDefine::_3DMODEL;
@@ -221,39 +253,40 @@ bool Pg::Editor::Window::InspectorUIManager::SpecialUI(std::string comName, std:
 
 	if (valName == "meshName")
 	{
-		if (*value != _dataContainer->GetAssetList().at(_prevNameIndex)) _prevNameIndex = _dataContainer->GetAssetIndex(*value);
-		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##" + valName, _dataContainer->GetAssetList(), _prevNameIndex);
+		if (*value != _dataContainer->GetAssetList().at(_prevNameIndex)) _meshNameIndex = _dataContainer->GetAssetIndex(*value);
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##" + valName, _dataContainer->GetAssetList(), _meshNameIndex);
 
 		if (_meshNameIndex != _prevNameIndex)
 		{
 			_dataManager->AddModifiedObject();
-			_meshNameIndex = _prevNameIndex;
+			_prevNameIndex = _meshNameIndex;
 		}
 
 		*value = _dataContainer->GetAssetList().at(_meshNameIndex);
 	}
 	else if (valName == "materialName")
 	{
-		if (*value != _dataContainer->GetAssetList().at(_prevMaterialIndex)) _prevMaterialIndex = _dataContainer->GetAssetIndex(*value);
-		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##" + valName, _dataContainer->GetAssetList(), _prevMaterialIndex);
+		if (*value != _dataContainer->GetAssetList().at(_prevMaterialIndex)) _meshMaterialIndex = _dataContainer->GetAssetIndex(*value);
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##" + valName, _dataContainer->GetAssetList(), _meshMaterialIndex);
 
 		if (_meshMaterialIndex != _prevMaterialIndex)
 		{
 			_dataManager->AddModifiedObject();
-			_meshMaterialIndex = _prevMaterialIndex;
-		}		
+			_prevMaterialIndex = _meshMaterialIndex;
+		}
 		*value = _dataContainer->GetAssetList().at(_meshMaterialIndex);
 	}
 	else if (valName == "initAnimName")
 	{
-		if (*value != _dataContainer->GetAssetList().at(_animIndex)) _prevAnimIndex = _dataContainer->GetAssetIndex(*value);
-		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##" + valName, _dataContainer->GetAssetList(), _prevAnimIndex);
+		if (*value != _dataContainer->GetAssetList().at(_animIndex)) _animIndex = _dataContainer->GetAssetIndex(*value);
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##" + valName, _dataContainer->GetAssetList(), _animIndex);
 
 		if (_animIndex != _prevAnimIndex)
 		{
 			_dataManager->AddModifiedObject();
-			_animIndex = _prevAnimIndex;
+			_prevAnimIndex = _animIndex;
 		}
+
 		*value = _dataContainer->GetAssetList().at(_animIndex);
 	}
 

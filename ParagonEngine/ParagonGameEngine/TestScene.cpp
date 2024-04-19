@@ -74,7 +74,7 @@ void Pg::Engine::TestScene::Initialize()
 	////tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
 	////tObj2_2->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
 	////tObj2_2->GetComponent<CapsuleCollider>()->SetTrigger(true);
-	////tObj2_2->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 1.0f, 0.0f, 0.0f });
+	////tObj2_2->GetComponent<CapsuleCollider>()->SetPositionOffset({ 1.0f, 0.0f, 0.0f });
 	////tObj2_2->GetComponent<CapsuleCollider>()->SetRotationOffset ({ 0.0f, 90.0f, 0.0f, 0.0f });
 	//tObj2_2->AddComponent<StaticMeshRenderer>();
 	//tObj2_2->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx");
@@ -117,7 +117,7 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj5->GetComponent<Transform>()->_position = { 5.0f, 0.0f, 0.0f };
 	//tObj5->GetComponent<Transform>()->_rotation = tObj5->GetComponent<Transform>()->EulerToQuaternion(1.5f, 2.0f, 4.0f);
 	////tObj5->AddComponent<BoxCollider>();
-	////tObj5->GetComponent<BoxCollider>()->SetPoisitonOffset({ 1.0f,0.0f,0.0f });
+	////tObj5->GetComponent<BoxCollider>()->SetPositionOffset({ 1.0f,0.0f,0.0f });
 	//tObj5->AddComponent<StaticMeshRenderer>();
 	//tObj5->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx");
 	//tObj5->GetComponent<StaticMeshRenderer>()->SetActive(true);
@@ -152,7 +152,7 @@ void Pg::Engine::TestScene::Initialize()
 		tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 		tObj7->AddComponent<CapsuleCollider>();
 		tObj7->GetComponent<CapsuleCollider>()->SetCapsuleInfo(0.5f, 0.3f);
-		tObj7->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 0.f, 0.7f, 0.f });
+		tObj7->GetComponent<CapsuleCollider>()->SetPositionOffset({ 0.f, 0.7f, 0.f });
 		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
 		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
 		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
@@ -183,13 +183,13 @@ void Pg::Engine::TestScene::Initialize()
 	///AI
 	Pg::Data::GameObject* tObj7_2 = tCurrentScene->AddObject("Seight1");
 	tObj7_2->AddComponent<StaticBoxCollider>();
-	tObj7_2->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ 0.f, 2.f, 2.3f });
+	tObj7_2->GetComponent<StaticBoxCollider>()->SetPositionOffset({ 0.f, 2.f, 2.3f });
 	tObj7_2->GetComponent<StaticBoxCollider>()->SetTrigger(true);
 	tObj7_2->AddComponent<AISeight>();
 
 	Pg::Data::GameObject* tObj7_3 = tCurrentScene->AddObject("Seight2");
 	tObj7_3->AddComponent<StaticBoxCollider>();
-	tObj7_3->GetComponent<StaticBoxCollider>()->SetPoisitonOffset({ -2.3f, 2.f, 1.5f });
+	tObj7_3->GetComponent<StaticBoxCollider>()->SetPositionOffset({ -2.3f, 2.f, 1.5f });
 	tObj7_3->GetComponent<StaticBoxCollider>()->SetTrigger(true);
 	tObj7_3->AddComponent<AISeight>();
 
@@ -207,12 +207,12 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_4);
 	tObj7_1->GetComponent<Transform>()->_rotation = tObj7_1->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 	tObj7_1->AddComponent<CapsuleCollider>();
-	tObj7_1->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 0.f, 2.5f, 0.f });
+	tObj7_1->GetComponent<CapsuleCollider>()->SetPositionOffset({ 0.f, 2.5f, 0.f });
 	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
 	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
 	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
 	tObj7_1->GetComponent<CapsuleCollider>()->SetCapsuleInfo(1.0f, 1.5f);
-	//tObj7_1->GetComponent<CapsuleCollider>()->SetPoisitonOffset({ 0.f,3.f,0.f });
+	//tObj7_1->GetComponent<CapsuleCollider>()->SetPositionOffset({ 0.f,3.f,0.f });
 	tObj7_1->AddComponent<StaticMeshRenderer>();
 	tObj7_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/final_mon_boss.fbx");
 	tObj7_1->GetComponent<StaticMeshRenderer>()->SetActive(true);

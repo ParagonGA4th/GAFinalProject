@@ -7,6 +7,7 @@
 #include "ToolBar.h"
 #include "Hierarchy.h"
 #include "Inspector.h"
+#include "DontDestroy.h"
 #include "Scene.h"
 #include "Filter.h"
 
@@ -34,6 +35,7 @@ Pg::Editor::Manager::WindowManager::WindowManager()
 	_windows.emplace_back(new Pg::Editor::Window::ToolBar());
 	_windows.emplace_back(new Pg::Editor::Window::Hierarchy());
 	_windows.emplace_back(new Pg::Editor::Window::Inspector());
+	_windows.emplace_back(new Pg::Editor::Window::DontDestroy());
 	_windows.emplace_back(new Pg::Editor::Window::Scene());
 	_windows.emplace_back(new Pg::Editor::Window::Filter());
 }

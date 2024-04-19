@@ -71,8 +71,12 @@ namespace Pg::Engine
 			{
 				//PG_ERROR("now Checking");
 				CheckMoveDontDestroyOnLoadObjects(_currentScene);
+
+				/// Play Mode일 경우 다시 호출
+				auto& tPhysicSystem = singleton<Physic::PhysicSystem>();
+				_physicSystem = &tPhysicSystem;
+				_physicSystem->InitMakeColliders();
 			}
-			
 			_isStarted = true;
 		}
 	}

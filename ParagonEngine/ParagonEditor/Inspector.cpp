@@ -5,8 +5,6 @@
 
 #include "../ParagonUI/UIManager.h"
 
-#include "../ParagonUtil/Log.h"
-
 #include <algorithm>
 #include <singleton-cpp/singleton.h>
 

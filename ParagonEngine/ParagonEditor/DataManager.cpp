@@ -242,6 +242,7 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 		obj = _scenes.at(sceneNum)->AddObject(objName);
 		obj->SetActive(Pg::Serialize::Serializer::DeserializeBoolean(&object, "active"));
 		obj->SetTag(Pg::Serialize::Serializer::DeserializeString(&object, "tag"));
+		obj->SetDontDestroyOnLoad(Pg::Serialize::Serializer::DeserializeBoolean(&object, "dontdestroy"));
 
 
 		// 컴포넌트를 추가하기 위해 노드 가져오기
@@ -260,13 +261,6 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 				{
 					obj->_transform.OnDeserialize(tSerVec);
 				}
-				//else if (typeName.find("Camera") != std::string::npos)
-				//{
-				//	for (auto& cComp : obj->GetComponentList())
-				//	{
-				//		if (cComp.first.find("Camera") != std::string::npos) cComp.second->OnDeserialize(tSerVec); break;
-				//	}
-				//}
 				else
 				{
 					//auto component = AddComponentToObject(typeName, obj);
@@ -306,6 +300,7 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 		Pg::Serialize::Serializer::SerializeString(&xmlObject, "name", object->GetName());
 		Pg::Serialize::Serializer::SerializeBoolean(&xmlObject, "active", object->GetActive());
 		Pg::Serialize::Serializer::SerializeString(&xmlObject, "tag", object->GetTag());
+		Pg::Serialize::Serializer::SerializeBoolean(&xmlObject, "dontdestroy", object->GetDontDestroyOnLoad());
 
 		//xmlObject.append_child("parent");
 
