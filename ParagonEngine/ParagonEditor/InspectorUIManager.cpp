@@ -110,13 +110,13 @@ void Pg::Editor::Window::InspectorUIManager::ChangedUI()
 			if (component.first.find("::") == std::string::npos) comName = component.first.substr(component.first.rfind("class") + 6);
 			else comName = component.first.substr(component.first.rfind("::") + 2);
 
-			if (_componentExistence.find(component.first) == _componentExistence.end())
-				_componentExistence.insert({ component.first , new bool(true) });
-			else
-				*_componentExistence.at(component.first) = true;
+			if (_componentExistence.find(component.first) == _componentExistence.end()) _componentExistence.insert({ component.first , new bool(true) });
+			else *_componentExistence.at(component.first) = true;
 
 			_changedUI->ClearColumnWidget();
 			_changedUI->ClearCollapsWidget();
+
+			ColliderUI(comName);
 
 			/// component Data
 			for (auto& [valName, typeInfo, val] : component.second)
@@ -129,7 +129,7 @@ void Pg::Editor::Window::InspectorUIManager::ChangedUI()
 
 				if (typeInfo == typeid(std::string).name())
 				{
-					if(!SpecialUI(comName, valName, val))
+					if(!RendererUI(comName, valName, val))
 						_changedUI->CreateColumnsWidget<Pg::UI::Widget::InputText>(valName, static_cast<std::string*>(val));
 				}
 
@@ -206,7 +206,21 @@ void Pg::Editor::Window::InspectorUIManager::UpdateData()
 		_dataManager->ModifiedObject(_isRefresh);
 }
 
-bool Pg::Editor::Window::InspectorUIManager::SpecialUI(std::string comName, std::string valName, void* val)
+void Pg::Editor::Window::InspectorUIManager::ColliderUI(std::string comName)
+{
+	if (comName.find("Collider") != std::string::npos)
+	{
+		auto col = _dataManager->_object->GetComponent<Pg::Data::Collider>();
+
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Text>("trigger");
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::CheckBox>("trigger", &_trigger);
+
+		col->SetTrigger(_trigger);
+		_trigger = col->GetTrigger();
+	}
+}
+
+bool Pg::Editor::Window::InspectorUIManager::RendererUI(std::string comName, std::string valName, void* val)
 {
 	bool isSpecial = false;
 

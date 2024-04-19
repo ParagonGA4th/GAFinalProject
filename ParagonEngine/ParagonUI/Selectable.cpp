@@ -7,14 +7,34 @@ Pg::UI::Widget::Selectable::Selectable(std::vector<std::string> objNameList, std
 	_prevSelectObj = _selectObj;
 }
 
+Pg::UI::Widget::Selectable::Selectable(std::vector<std::string>* objNameList, std::string& selectedObject)
+	:_selectPointerList(objNameList), _selectObj(selectedObject)
+{
+	_prevSelectObj = _selectObj;
+}
+
 void Pg::UI::Widget::Selectable::Update()
 {
-	for (int i = 0; i < _selectList.size(); i++)
+	if (_selectList.empty())
 	{
-		if (ImGui::Selectable(_selectList.at(i).c_str(), _selectList.at(i) == _selectObj))
+		for (int i = 0; i < (*_selectPointerList).size(); i++)
 		{
-			_prevSelectObj = _selectObj;
-			_selectObj = _selectList.at(i);
+			if (ImGui::Selectable((*_selectPointerList).at(i).c_str(), (*_selectPointerList).at(i) == _selectObj))
+			{
+				_prevSelectObj = _selectObj;
+				_selectObj = (*_selectPointerList).at(i);
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < _selectList.size(); i++)
+		{
+			if (ImGui::Selectable(_selectList.at(i).c_str(), _selectList.at(i) == _selectObj))
+			{
+				_prevSelectObj = _selectObj;
+				_selectObj = _selectList.at(i);
+			}
 		}
 	}
 
