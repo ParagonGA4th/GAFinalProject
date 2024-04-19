@@ -295,9 +295,13 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(13, 1, &tNullSRV);
 		_DXStorage->_deviceContext->PSSetShaderResources(14, 1, &tNullSRV);
 
-		//VS Constant Buffer -> SceneInfo 값 리셋.
+		//PS Constant Buffer -> SceneInfo 값 리셋.
 		ID3D11Buffer* tNullBuffer = nullptr;
 		_DXStorage->_deviceContext->PSSetConstantBuffers(4, 1, &tNullBuffer);
+
+		//PS Constant Buffer -> LightInfo 값 리셋.
+		ID3D11Buffer* tNullBuffer = nullptr;
+		_DXStorage->_deviceContext->PSSetConstantBuffers(5, 1, &tNullBuffer);
 
 		//GBufferTextures-> GBuffer / Depth Buffer Unbind.
 		_DXStorage->_deviceContext->PSSetShaderResources(15, 5, _nullSRVArray.data());

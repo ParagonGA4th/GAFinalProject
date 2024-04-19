@@ -367,6 +367,8 @@ namespace Pg::Math
 	Pg::Math::PGFLOAT3 PGFloat3Lerp(const Pg::Math::PGFLOAT3& a, const Pg::Math::PGFLOAT3& b, float t);
 
 	Pg::Math::PGFLOAT3 PGReflectVectorAgainstAxis(const Pg::Math::PGFLOAT3& toFlip, const Pg::Math::PGFLOAT3& baseAxis);
+
+	Pg::Math::PGFLOAT4X4 GetViewMatrixFromTransformValues(Pg::Math::PGFLOAT3 right, Pg::Math::PGFLOAT3 up, Pg::Math::PGFLOAT3 forward, Pg::Math::PGFLOAT3 pos);
 }
 
 
