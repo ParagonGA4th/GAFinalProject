@@ -26,12 +26,11 @@ Pg::UI::Widget::DragFloat3::DragFloat3(std::string label, Pg::Math::PGQuaternion
 {
 	_label.append(label);
 
-	_inputPGFloat3 = new Pg::Math::PGFLOAT3;
-	*_inputPGFloat3 = Pg::Math::PGQuaternionToEuler(*_inputPGQuat);
+	Pg::Math::PGFLOAT3 float3 = Pg::Math::PGQuaternionToEuler(*_inputPGQuat);
 
-	_inputFloat[0] = Pg::Math::PGConvertToDegrees(_inputPGFloat3->x);
-	_inputFloat[2] = Pg::Math::PGConvertToDegrees(_inputPGFloat3->z);
-	_inputFloat[1] = Pg::Math::PGConvertToDegrees(_inputPGFloat3->y);
+	_inputFloat[0] = Pg::Math::PGConvertToDegrees(float3.x);
+	_inputFloat[1] = Pg::Math::PGConvertToDegrees(float3.y);
+	_inputFloat[2] = Pg::Math::PGConvertToDegrees(float3.z);
 }
 
 void Pg::UI::Widget::DragFloat3::Update()
@@ -50,11 +49,11 @@ void Pg::UI::Widget::DragFloat3::Update()
 	}
 	else
 	{
-		*_inputPGFloat3 = Pg::Math::PGQuaternionToEuler(*_inputPGQuat);
+		Pg::Math::PGFLOAT3 float3 = Pg::Math::PGQuaternionToEuler(*_inputPGQuat);
 
-		_inputFloat[0] = Pg::Math::PGConvertToDegrees(_inputPGFloat3->x);
-		_inputFloat[2] = Pg::Math::PGConvertToDegrees(_inputPGFloat3->z);
-		_inputFloat[1] = Pg::Math::PGConvertToDegrees(_inputPGFloat3->y);
+		_inputFloat[0] = Pg::Math::PGConvertToDegrees(float3.x);
+		_inputFloat[1] = Pg::Math::PGConvertToDegrees(float3.y);
+		_inputFloat[2] = Pg::Math::PGConvertToDegrees(float3.z);
 	}
 
 	if (ImGui::DragFloat3(_label.c_str(), _inputFloat, 0.005f, _minFloat))
@@ -73,11 +72,13 @@ void Pg::UI::Widget::DragFloat3::Update()
 		}
 		else
 		{
-			_inputPGFloat3->x = Pg::Math::PGConvertToRadians(_inputFloat[0]);
-			_inputPGFloat3->y = Pg::Math::PGConvertToRadians(_inputFloat[1]);
-			_inputPGFloat3->z = Pg::Math::PGConvertToRadians(_inputFloat[2]);
+			Pg::Math::PGFLOAT3 float3;
 
-			*_inputPGQuat = Pg::Math::PGEulerToQuaternion(*_inputPGFloat3);
+			float3.x = Pg::Math::PGConvertToRadians(_inputFloat[0]);
+			float3.y = Pg::Math::PGConvertToRadians(_inputFloat[1]);
+			float3.z = Pg::Math::PGConvertToRadians(_inputFloat[2]);
+
+			*_inputPGQuat = Pg::Math::PGEulerToQuaternion(float3);
 		}
 	}
 }

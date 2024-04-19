@@ -389,4 +389,23 @@ namespace Pg::Util
 	{
 		return x < 0.5 ? 16 * x * x * x * x * x : static_cast<float>(1 - pow(-2 * x + 2, 5) / 2);
 	}
+
+	void Tween::ResetSelf()
+	{
+		dataI = nullptr;
+		dataF = nullptr;
+		data2V = nullptr;
+		data3V = nullptr;
+		dataQuat = nullptr;
+		_myEase = nullptr;
+
+		//Timer 내부도 리셋.
+		_timer->ResetSelf();
+	}
+
+	bool Tween::GetIsUsed()
+	{
+		return _isUsedRightNow;
+	}
+
 }

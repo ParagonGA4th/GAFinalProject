@@ -1,9 +1,9 @@
 #pragma once
+#include "../ParagonUtil/Tween.h"
 
 namespace Pg::Util
 {
 	class TweenSystem;
-	class Tween;
 }
 
 /// <summary>
@@ -21,8 +21,6 @@ namespace Pg::API::Tween
 		//실제 API에서 사용.
 		Pg::Util::Tween* CreateTween();
 		
-
-
 	private:
 		Pg::Util::TweenSystem* _tweenSystem;
 	};
