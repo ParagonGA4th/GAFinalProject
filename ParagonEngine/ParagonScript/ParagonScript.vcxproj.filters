@@ -43,6 +43,12 @@
     <Filter Include="Content\CameraShake">
       <UniqueIdentifier>{705983d2-43e3-4d82-9858-84f39cbb8b4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\ArrowLogic">
+      <UniqueIdentifier>{92bf8d9e-c566-4aa7-a2db-c8c78cef92c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\ArrowShooterBehavior">
+      <UniqueIdentifier>{d7b2144c-23a2-4494-8783-36a43df1d931}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -77,6 +83,12 @@
     </ClCompile>
     <ClCompile Include="CombatSystem.cpp">
       <Filter>Content\CombatSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrowShooterBehavior.cpp">
+      <Filter>Content\ArrowShooterBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrowLogic.cpp">
+      <Filter>Content\ArrowLogic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +130,12 @@
     </ClInclude>
     <ClInclude Include="CombatSystem.h">
       <Filter>Content\CombatSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrowShooterBehavior.h">
+      <Filter>Content\ArrowShooterBehavior</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrowLogic.h">
+      <Filter>Content\ArrowLogic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

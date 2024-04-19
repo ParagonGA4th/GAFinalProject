@@ -43,4 +43,14 @@ namespace Pg::Util
 			}
 		}
 	}
+
+	void TweenTimer::ResetSelf()
+	{
+		_time = 0.f;
+		_delayTime = 0.f;
+		_duration = 0.f;
+		_play = nullptr;
+		_isActive = false;
+	}
+
 }

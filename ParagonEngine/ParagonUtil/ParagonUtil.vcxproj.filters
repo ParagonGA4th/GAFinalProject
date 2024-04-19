@@ -51,6 +51,9 @@
     <ClInclude Include="TimeSystem.h">
       <Filter>4_TimeSystem</Filter>
     </ClInclude>
+    <ClInclude Include="IResettable.h">
+      <Filter>5_Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -82,6 +85,9 @@
     </Filter>
     <Filter Include="4_TimeSystem">
       <UniqueIdentifier>{318fd7da-a003-46b1-98cc-e5fba8bf1baa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Interfaces">
+      <UniqueIdentifier>{ce401f8c-bb23-48c7-a7c6-5d69120d27e0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

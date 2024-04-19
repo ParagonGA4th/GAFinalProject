@@ -2,6 +2,7 @@
 
 #include "../ParagonMath/PgMath.h"
 #include "EasingMode.h"
+#include "IResettable.h"
 #include <memory>
 
 /// <summary>
@@ -17,7 +18,7 @@ namespace Pg::Util
 
 namespace Pg::Util
 {
-	class Tween
+	class Tween : public IResettable
 	{
 		friend class Pg::Util::TweenSystem;
 
@@ -25,6 +26,9 @@ namespace Pg::Util
 		Tween(); //TweenSystem만 Tween의 객체를 만들 수 있다.
 
 	public:
+
+		virtual void ResetSelf() override;
+
 		~Tween();
 		//데이터 가져오기.
 		Tween& GetData(int* data);
@@ -90,6 +94,11 @@ namespace Pg::Util
 		static float OutQuint(float x);
 		static float InOutQuint(float x);
 		
+		//현재 사용되고 있는지만 반환한다.
+		bool GetIsUsed();
+	private:
+		bool _isUsedRightNow{ false };
+
 	private:
 		//데이터 세이브.
 		int* dataI;
