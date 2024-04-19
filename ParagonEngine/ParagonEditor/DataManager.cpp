@@ -4,6 +4,7 @@
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Component.h"
+#include "../ParagonData/Collider.h"
 #include "../ParagonScript/FactoryHelper.h"
 
 #include <sstream>
@@ -264,8 +265,25 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 				else
 				{
 					//auto component = AddComponentToObject(typeName, obj);
-					auto component = obj->AddComponent(typeName);
-					if (component != nullptr) component->OnDeserialize(tSerVec);
+					auto componentData = obj->AddComponent(typeName);
+					if (componentData != nullptr)
+					{
+						componentData->OnDeserialize(tSerVec);
+						
+						if (typeName.find("Collider") != std::string::npos)
+						{
+							auto col = obj->GetComponent<Pg::Data::Collider>();
+
+							pugi::xml_node node = component.find_node([&](const pugi::xml_node& node){ return std::string(node.name()) == "trigger";});
+							col->SetTrigger(Pg::Serialize::Serializer::DeserializeBoolean(&node, ""));
+
+							node = node.next_sibling();
+							col->SetPositionOffset(Pg::Serialize::Serializer::DeserializePGFloat3(&node));
+
+							node = node.next_sibling();
+							col->SetRotationOffset(Pg::Serialize::Serializer::DeserializePGQuaternion(&node));
+						}
+					}
 					else
 					{
 						Pg::DataScript::FactoryHelper::AddScript(obj, typeName);
@@ -320,6 +338,14 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 			pugi::xml_node componentData = objComponent.append_child("data");
 
 			component.second->OnSerialize(tSerVec);
+
+			if (component.first.find("Collider") != std::string::npos)
+			{
+				auto col = object->GetComponent<Pg::Data::Collider>();
+				Pg::Serialize::Serializer::SerializeBoolean(&componentData, "trigger", col->GetTrigger());
+				Pg::Serialize::Serializer::SerializePGFloat3(&componentData, "positionOffset", col->GetPositionOffset());
+				Pg::Serialize::Serializer::SerializePGQuat(&componentData, "rotationOffset", col->GetRotationOffset());
+			}
 
 			for (auto& [valName, typeInfo, val] : tSerVec)
 			{
