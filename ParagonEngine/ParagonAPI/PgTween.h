@@ -1,9 +1,9 @@
 #pragma once
+#include "../ParagonUtil/Tween.h"
 
 namespace Pg::Util
 {
 	class TweenSystem;
-	class Tween;
 }
 
 /// <summary>
