@@ -125,7 +125,7 @@ void Pg::Editor::System::FileSystem::SaveProject()
 		return;
 	}
 
-	if (_rootPathWithFileName.empty()) CreateFolder();
+	if (!_rootPathWithFileName.empty()) CreateFolder();
 	CreateParagonFile(_dataManager->DataSave());
 }
 
