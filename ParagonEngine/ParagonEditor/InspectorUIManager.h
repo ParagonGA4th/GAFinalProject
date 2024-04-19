@@ -24,7 +24,8 @@ namespace Pg::Editor::Window
 
 	private:
 		void ChangedUI();
-		bool SpecialUI(std::string comName, std::string valName, void* val);
+		void ColliderUI(std::string comName);
+		bool RendererUI(std::string comName, std::string valName, void* val);
 		void SetData();
 		void UpdateData();
 
@@ -51,6 +52,8 @@ namespace Pg::Editor::Window
 		
 		int _animIndex;
 		int _prevAnimIndex;
+
+		bool _trigger;
 
 		/// object value;
 		std::string _objName;
