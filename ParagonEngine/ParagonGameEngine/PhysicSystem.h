@@ -68,6 +68,8 @@ namespace Pg::Engine::Physic
 
 		//StaticCollider 持失
 		void MakeStaticBoxCollider(Pg::Data::GameObject* obj);
+		void MakeStaticCapsuleCollider(Pg::Data::GameObject* obj);
+		void MakeStaticShpereCollider(Pg::Data::GameObject* obj);
 		void MakePlaneCollider(Pg::Data::GameObject* obj);
 		
 		//DynamicCollider 持失

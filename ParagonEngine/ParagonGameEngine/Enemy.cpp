@@ -23,7 +23,6 @@ void Enemy::Start()
 		colVec.push_back(staticCol);
 		aiSightVec.push_back(aiSight);
 	}
-
 }
 
 void Enemy::Update()
@@ -39,7 +38,7 @@ void Enemy::Update()
 		{
 			_colVecActive = true;
 		}
-		
+
 		//it->_playerDetected = false;
 	}
 
@@ -59,7 +58,6 @@ void Enemy::Update()
 			iter->SetActive(true);
 		}
 	}
-	
 }
 
 void Enemy::OnTriggerEnter(Pg::Data::Collider* c)

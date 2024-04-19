@@ -45,7 +45,12 @@ void AISeight::Update()
 
 void AISeight::OnTriggerEnter(Pg::Data::Collider* c)
 {
-	_playerDetected = true;
+	PG_TRACE("충돌함!!");
+
+	if (c->GetLayer() == 0)
+	{
+		_playerDetected = true;
+	}
 	//Pg::Math::PGFLOAT3 outHitPoint;
 
 	////적 시야 감지될 시.
