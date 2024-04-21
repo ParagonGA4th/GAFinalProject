@@ -16,6 +16,10 @@ namespace Pg::API
 	};
 }
 
+/// <summary>
+/// 현재로서는 자기 자신이 Player여야 동작한다.
+/// </summary>
+
 namespace Pg::DataScript
 {
 	class ArrowShooterBehavior : public ScriptInterface<ArrowShooterBehavior>
