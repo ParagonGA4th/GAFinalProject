@@ -25,6 +25,7 @@ namespace Pg::Data
 		virtual void Start() {}
 		//게임 로직 내부에서 실제로 사용될 일은 없다.
 		virtual void Internal_EngineUpdate() {}
+		virtual void BeforePhysicsUpdate() {} //무슨 이유에선지 Physics System 실행 전에 Update를 돌리고 싶을 때. Awake()보다도 먼저다.
 		virtual void Update() {}
 		virtual void FixedUpdate() {}
 		virtual void LateUpdate() {}

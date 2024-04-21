@@ -117,6 +117,23 @@ namespace Pg::Data
 			});
 	}
 
+	void GameObject::BeforePhysicsUpdate()
+	{
+		if (!_isActive)
+		{
+			return;
+		}
+
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{
+				if (iter.second->GetActive())
+				{
+					iter.second->BeforePhysicsUpdate();
+				}
+			});
+	}
+
+
 	void GameObject::Update()
 	{
 		//활성화되지 않으면 업데이트 안함.
@@ -405,5 +422,7 @@ namespace Pg::Data
 	{
 		return _dontDestroyOnLoad;
 	}
+
+	
 
 }

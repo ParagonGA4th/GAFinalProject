@@ -68,19 +68,19 @@ namespace Pg::Graphics
 
 		for (int i = 0; i < tDirInputCount; i++)
 		{
-			_cbRenderingInfo->GetDataStruct()->_dirLightArray[i] = *_savedSceneInfo->_dirLightList.at(i);
+			_cbRenderingInfo->GetDataStruct()->_dirLightArray[i] = DirLightGPU(_savedSceneInfo->_dirLightList.at(i));
 		}
 		_cbRenderingInfo->GetDataStruct()->_dirLightCount = tDirInputCount;
 
 		for (int i = 0; i < tSpotInputCount; i++)
 		{
-			_cbRenderingInfo->GetDataStruct()->_spotLightArray[i] = *_savedSceneInfo->_spotLightList.at(i);
+			_cbRenderingInfo->GetDataStruct()->_spotLightArray[i] = SpotLightGPU(_savedSceneInfo->_spotLightList.at(i));
 		}
 		_cbRenderingInfo->GetDataStruct()->_spotLightCount = tSpotInputCount;
 
 		for (int i = 0; i < tPointInputCount; i++)
 		{
-			_cbRenderingInfo->GetDataStruct()->_pointLightArray[i] = *_savedSceneInfo->_pointLightList.at(i);
+			_cbRenderingInfo->GetDataStruct()->_pointLightArray[i] = PointLightGPU(_savedSceneInfo->_pointLightList.at(i));
 		}
 		_cbRenderingInfo->GetDataStruct()->_pointLightCount = tPointInputCount;
 

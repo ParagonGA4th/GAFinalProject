@@ -4,6 +4,7 @@
 #include "PgLayer.h"
 
 #include "../ParagonData/PhysicsCollision.h"
+#include "../ParagonData/LayerMask.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Scene.h"
@@ -103,8 +104,25 @@ namespace Pg::Engine::Physic
 		Pg::Engine::PgLayer::Clear();
 		///왼쪽 : 자신 레이어 // 오른쪽 : 왼쪽 객체와 충돌할 수 있는 레이어.
 		///별도 헤더 Enum으로 구별할 예정. enum (int)
-		Pg::Engine::PgLayer::SetCollisionData(0, { 0, 1, 2, 3 });
 		
+		//LayerMask (Pg::Data) 내부 활용해서 CollisionLayer를 설정하는 부분.
+		{
+			//Unity의 LayerCollisionMatrix를 거꾸로 본다고 생각하면 된다.
+			//겹치는 요소는 없애고.
+			using namespace Pg::Data::Enums;
+			
+			//CollisionMatrix의 반만 썼던 버전.
+			//Pg::Engine::PgLayer::SetCollisionData(LAYER_DEFAULT, { LAYER_DEFAULT, LAYER_PLAYER, LAYER_MONSTER, LAYER_PROJECTILES });
+			//Pg::Engine::PgLayer::SetCollisionData(LAYER_PLAYER, { LAYER_PLAYER, LAYER_MONSTER, LAYER_PROJECTILES });
+			//Pg::Engine::PgLayer::SetCollisionData(LAYER_MONSTER, { LAYER_MONSTER, LAYER_PROJECTILES });
+			//Pg::Engine::PgLayer::SetCollisionData(LAYER_PROJECTILES, { });
+
+			//전체 테스팅, 프로그래머가 2차원 배열 전체 내용 맞게 커밋해놓자. (-> ex. (0,1) 이 0bit이라면, (1,0)도 똑같이 0bit으로 해놓는 것!
+			Pg::Engine::PgLayer::SetCollisionData(LAYER_DEFAULT, { LAYER_DEFAULT, LAYER_PLAYER, LAYER_MONSTER, LAYER_PROJECTILES });
+			Pg::Engine::PgLayer::SetCollisionData(LAYER_PLAYER, { LAYER_DEFAULT, LAYER_PLAYER, LAYER_MONSTER, LAYER_PROJECTILES });
+			Pg::Engine::PgLayer::SetCollisionData(LAYER_MONSTER, { LAYER_DEFAULT, LAYER_PLAYER,  LAYER_MONSTER, LAYER_PROJECTILES });
+			Pg::Engine::PgLayer::SetCollisionData(LAYER_PROJECTILES, { LAYER_DEFAULT, LAYER_PLAYER,  LAYER_MONSTER, }); //Projectile 기준으로 자기 자신과 충돌 못하게.
+		}
 
 		// 머티리얼 생성(임의)
 		_material = _physics->createMaterial(0.5f, 0.5f, 0.5f);
@@ -471,6 +489,9 @@ namespace Pg::Engine::Physic
 				physx::PxRigidStatic* rigid = _physics->createRigidStatic(localTm);
 				rigid->attachShape(*boxShape);
 
+				//Collider가 꺼져 있으면 eDisableSimulation PhysX 내부에서 활성화.
+				rigid->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !staticBoxcol->GetActive());
+
 				staticBoxcol->SetPxRigidStatic(rigid);
 				rigid->userData = staticBoxcol;
 				_rigidStaticVec.push_back(rigid);
@@ -521,6 +542,9 @@ namespace Pg::Engine::Physic
 				physx::PxRigidStatic* rigid = _physics->createRigidStatic(localTm);
 				rigid->attachShape(*shape);
 
+				//Collider가 꺼져 있으면 eDisableSimulation PhysX 내부에서 활성화.
+				rigid->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !staticCapCol->GetActive());
+
 				staticCapCol->SetPxRigidStatic(rigid);
 				rigid->userData = staticCapCol;
 				_rigidStaticVec.push_back(rigid);
@@ -566,6 +590,9 @@ namespace Pg::Engine::Physic
 
 				physx::PxRigidStatic* rigid = _physics->createRigidStatic(localTm);
 				rigid->attachShape(*shape);
+
+				//Collider가 꺼져 있으면 eDisableSimulation PhysX 내부에서 활성화.
+				rigid->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !staticSphCol->GetActive());
 
 				staticSphCol->SetPxRigidStatic(rigid);
 				rigid->userData = staticSphCol;
@@ -623,6 +650,8 @@ namespace Pg::Engine::Physic
 				rigid->attachShape(*boxShape);
 
 				//_pxScene->addActor(*rigid);
+				//Collider가 꺼져 있으면 eDisableSimulation PhysX 내부에서 활성화.
+				rigid->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !boxcol->GetActive());
 
 				boxcol->SetPxRigidDynamic(rigid);
 				rigid->userData = boxcol;
@@ -681,6 +710,8 @@ namespace Pg::Engine::Physic
 				rigid->setLinearDamping(sphCol->GetLinearDamping());
 				rigid->attachShape(*shape);
 				//_pxScene->addActor(*rigid);
+				//Collider가 꺼져 있으면 eDisableSimulation PhysX 내부에서 활성화.
+				rigid->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !sphCol->GetActive());
 
 				///collider의 축 고정 시
 				/*rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, true);
@@ -740,6 +771,9 @@ namespace Pg::Engine::Physic
 
 				rigid->attachShape(*shape);
 
+				//Collider가 꺼져 있으면 eDisableSimulation PhysX 내부에서 활성화.
+				rigid->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !capCol->GetActive());
+
 				///collider의 축 고정 시
 				/*rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, true);
 				rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, true);
@@ -784,6 +818,9 @@ namespace Pg::Engine::Physic
 				//physx::PxRigidStatic* rigid = PxCreatePlane(*_physics, plane, *_material);
 				physx::PxRigidStatic* rigid = _physics->createRigidStatic(normalTm);
 				rigid->attachShape(*shape);
+				//Collider가 꺼져 있으면 eDisableSimulation PhysX 내부에서 활성화.
+				rigid->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !planeCol->GetActive());
+
 				planeCol->SetPxRigidStatic(rigid);
 				rigid->userData = planeCol;
 
