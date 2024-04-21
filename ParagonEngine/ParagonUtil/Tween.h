@@ -1,8 +1,11 @@
 #pragma once
 
 #include "../ParagonMath/PgMath.h"
+#include "UtilDLLExporter.h"
 #include "EasingMode.h"
+#include "IResettable.h"
 #include <memory>
+#include <functional>
 
 /// <summary>
 /// Tween에 요구되는 개별 객체. 
@@ -17,7 +20,7 @@ namespace Pg::Util
 
 namespace Pg::Util
 {
-	class Tween
+	class Tween : public IResettable
 	{
 		friend class Pg::Util::TweenSystem;
 
@@ -25,27 +28,29 @@ namespace Pg::Util
 		Tween(); //TweenSystem만 Tween의 객체를 만들 수 있다.
 
 	public:
+		virtual void ResetSelf() override;
+
 		~Tween();
 		//데이터 가져오기.
-		Tween& GetData(int* data);
-		Tween& GetData(float* data);
-		Tween& GetData(Pg::Math::PGFLOAT2* data);
-		Tween& GetData(Pg::Math::PGFLOAT3* data);
-		Tween& GetData(Pg::Math::PGQuaternion* data);
+		PARAGON_UTIL_DLL Tween& GetData(int* data);
+		PARAGON_UTIL_DLL Tween& GetData(float* data);
+		PARAGON_UTIL_DLL Tween& GetData(Pg::Math::PGFLOAT2* data);
+		PARAGON_UTIL_DLL Tween& GetData(Pg::Math::PGFLOAT3* data);
+		PARAGON_UTIL_DLL Tween& GetData(Pg::Math::PGQuaternion* data);
 
 		//기본 자료형 Move.  (Tween)
-		Tween& DoMove(const int& destination, const float duration);
-		Tween& DoMove(const float& destination, const float duration);
-		Tween& DoMove(Pg::Math::PGFLOAT2& destination, const float duration);
-		Tween& DoMove(const Pg::Math::PGFLOAT3& destination, const float duration);
-		Tween& DoMove(const Pg::Math::PGQuaternion& destination, const float duration);
+		PARAGON_UTIL_DLL Tween& DoMove(const int& destination, const float duration);
+		PARAGON_UTIL_DLL Tween& DoMove(const float& destination, const float duration);
+		PARAGON_UTIL_DLL Tween& DoMove(Pg::Math::PGFLOAT2& destination, const float duration);
+		PARAGON_UTIL_DLL Tween& DoMove(const Pg::Math::PGFLOAT3& destination, const float duration);
+		PARAGON_UTIL_DLL Tween& DoMove(const Pg::Math::PGQuaternion& destination, const float duration);
 
 		// Addition Functions
-		Tween& Delay(float delayTime);					//이건 되는지 모름.
-		Tween& OnComplete(std::function<void()> func);	//이건 Tween이 끝났을시 등록하는데 쓰임.
+		PARAGON_UTIL_DLL Tween& Delay(float delayTime);					//이건 되는지 모름.
+		PARAGON_UTIL_DLL Tween& OnComplete(std::function<void()> func);	//이건 Tween이 끝났을시 등록하는데 쓰임.
 
 		// Easing 세팅 함수
-		Tween& SetEase(Enums::eEasingMode type);
+		PARAGON_UTIL_DLL Tween& SetEase(Enums::eEasingMode type);
 
 		// Easing 수학 함수
 		static float Linear(float x);
@@ -89,7 +94,12 @@ namespace Pg::Util
 		static float InQuint(float x);
 		static float OutQuint(float x);
 		static float InOutQuint(float x);
-		
+
+		//현재 사용되고 있는지만 반환한다.
+		bool GetIsUsed();
+	private:
+		bool _isUsedRightNow{ false };
+
 	private:
 		//데이터 세이브.
 		int* dataI;

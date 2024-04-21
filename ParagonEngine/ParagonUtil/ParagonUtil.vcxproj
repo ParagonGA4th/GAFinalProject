@@ -169,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="EasingMode.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="IResettable.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="TimeSystem.h" />
     <ClInclude Include="Tween.h" />

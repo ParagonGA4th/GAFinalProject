@@ -101,7 +101,10 @@ namespace Pg::Engine::Physic
 
 		//충돌 레이어 설정.
 		Pg::Engine::PgLayer::Clear();
+		///왼쪽 : 자신 레이어 // 오른쪽 : 왼쪽 객체와 충돌할 수 있는 레이어.
+		///별도 헤더 Enum으로 구별할 예정. enum (int)
 		Pg::Engine::PgLayer::SetCollisionData(0, { 0, 1, 2, 3 });
+		
 
 		// 머티리얼 생성(임의)
 		_material = _physics->createMaterial(0.5f, 0.5f, 0.5f);

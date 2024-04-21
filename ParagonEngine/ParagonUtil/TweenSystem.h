@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include "UtilDLLExporter.h"
 
@@ -19,6 +21,8 @@ namespace Pg::Util
 		PARAGON_UTIL_DLL TweenSystem();		// Singleton으로 쓰일 예정, singleton-cpp.
 		PARAGON_UTIL_DLL ~TweenSystem();
 
+		enum {PRELOADED_TWEEN_CNT = 100};
+
 	public:
 		void Initialize();
 		void Update();
@@ -26,9 +30,13 @@ namespace Pg::Util
 
 	private:
 			// 사용하고 있는 닷트윈 객체의 벡터
-		std::vector<Tween*> _dotweens;
+		std::vector<Tween*> _tweensInAction;
 		// 사용이 끝나서 지우기 위한 닷트윈 객체의 벡터
 		std::vector<Tween*> _deleteObj;
+
+	private:
+		//이미 많은 Tween을 만들어놓고, 링킹해놓기!
+		std::vector<Tween*> _preloadedDoTween;
 
 	public:
 		//API로 익스포팅용 : 트윈을 만들기.
