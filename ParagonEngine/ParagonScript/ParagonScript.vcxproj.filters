@@ -34,9 +34,6 @@
     <Filter Include="Content\PlayerBehavior">
       <UniqueIdentifier>{2e6ac2b5-bce0-4ab8-8854-bab3a583a260}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ComboSystem">
-      <UniqueIdentifier>{98345f97-48e6-4681-94f4-95356979c0c5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Content\InGameCameraBehavior">
       <UniqueIdentifier>{00365054-e5bc-4e48-a164-ce50d6ec82fc}</UniqueIdentifier>
     </Filter>
@@ -49,8 +46,17 @@
     <Filter Include="Content\ArrowShooterBehavior">
       <UniqueIdentifier>{d7b2144c-23a2-4494-8783-36a43df1d931}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Stage">
+    <Filter Include="Content\ComboSystem">
+      <UniqueIdentifier>{98345f97-48e6-4681-94f4-95356979c0c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\MapLogic">
       <UniqueIdentifier>{60dacf1e-8333-49a9-bd45-d23cb8c39d7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\MapLogic\Battle Area">
+      <UniqueIdentifier>{8ced682f-fa91-41f6-8307-505b7e436271}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\MapLogic\Trap Area">
+      <UniqueIdentifier>{97fbc82b-eb64-4f85-ac1e-ec7b60f4df45}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -73,7 +79,7 @@
       <Filter>0_Factory</Filter>
     </ClCompile>
     <ClCompile Include="ComboSystem.cpp">
-      <Filter>ComboSystem</Filter>
+      <Filter>Content\ComboSystem</Filter>
     </ClCompile>
     <ClCompile Include="PlayerBehavior.cpp">
       <Filter>Content\PlayerBehavior</Filter>
@@ -92,6 +98,12 @@
     </ClCompile>
     <ClCompile Include="ArrowLogic.cpp">
       <Filter>Content\ArrowLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleArea.cpp">
+      <Filter>Content\MapLogic\Battle Area</Filter>
+    </ClCompile>
+    <ClCompile Include="TrapArea.cpp">
+      <Filter>Content\MapLogic\Trap Area</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,7 +132,7 @@
       <Filter>1_BaseClass\ParagonScriptList</Filter>
     </ClInclude>
     <ClInclude Include="ComboSystem.h">
-      <Filter>ComboSystem</Filter>
+      <Filter>Content\ComboSystem</Filter>
     </ClInclude>
     <ClInclude Include="PlayerBehavior.h">
       <Filter>Content\PlayerBehavior</Filter>
@@ -139,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="ArrowLogic.h">
       <Filter>Content\ArrowLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleArea.h">
+      <Filter>Content\MapLogic\Battle Area</Filter>
+    </ClInclude>
+    <ClInclude Include="TrapArea.h">
+      <Filter>Content\MapLogic\Trap Area</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
