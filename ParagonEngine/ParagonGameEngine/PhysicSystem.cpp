@@ -121,7 +121,7 @@ namespace Pg::Engine::Physic
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_DEFAULT, { LAYER_DEFAULT, LAYER_PLAYER, LAYER_MONSTER, LAYER_PROJECTILES });
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_PLAYER, { LAYER_DEFAULT, LAYER_PLAYER, LAYER_MONSTER, LAYER_PROJECTILES });
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_MONSTER, { LAYER_DEFAULT, LAYER_PLAYER,  LAYER_MONSTER, LAYER_PROJECTILES });
-			Pg::Engine::PgLayer::SetCollisionData(LAYER_PROJECTILES, { LAYER_DEFAULT, LAYER_PLAYER,  LAYER_MONSTER, }); //Projectile 기준으로 자기 자신과 충돌 못하게.
+			Pg::Engine::PgLayer::SetCollisionData(LAYER_PROJECTILES, { LAYER_DEFAULT,   LAYER_MONSTER, }); //Projectile 기준으로 자기 자신과 플레이어, 이렇게 충돌 못하게. 
 		}
 
 		// 머티리얼 생성(임의)
