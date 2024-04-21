@@ -2,46 +2,6 @@
 <scene>
 	<objects>
 		<object>
-			<name>MainCamera</name>
-			<active>true</active>
-			<tag></tag>
-			<components>
-				<component>
-					<type>class Pg::Data::Transform</type>
-					<data>
-						<position>
-							<x>0.000000</x>
-							<y>3.000000</y>
-							<z>-10.000000</z>
-						</position>
-						<rotation>
-							<w>1.000000</w>
-							<x>-0.000000</x>
-							<y>-0.000000</y>
-							<z>0.000000</z>
-						</rotation>
-						<scale>
-							<x>1.000000</x>
-							<y>1.000000</y>
-							<z>1.000000</z>
-						</scale>
-					</data>
-				</component>
-				<component>
-					<type>class Pg::Data::Camera</type>
-					<data>
-						<nearZ>0.100000</nearZ>
-						<farZ>300.000000</farZ>
-						<fovY>1.256637</fovY>
-					</data>
-				</component>
-				<component>
-					<type>class EditorCameraScript</type>
-					<data />
-				</component>
-			</components>
-		</object>
-		<object>
 			<name>ColorCorrected</name>
 			<active>true</active>
 			<tag></tag>
@@ -109,6 +69,118 @@
 						<isInstanced>false</isInstanced>
 						<meshName>final_mon_boss.fbx</meshName>
 						<materialName></materialName>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<name>ArrowSizeTest</name>
+			<active>true</active>
+			<tag></tag>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>0.000000</x>
+							<y>10.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::StaticMeshRenderer</type>
+					<data>
+						<isInstanced>false</isInstanced>
+						<meshName>FitArrow.fbx</meshName>
+						<materialName></materialName>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::BoxCollider</type>
+					<data>
+						<trigger>false</trigger>
+						<positionOffset>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</positionOffset>
+						<rotationOffset>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotationOffset>
+						<width>0.250000</width>
+						<height>0.250000</height>
+						<depth>4.000000</depth>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<name>Plane</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>10.000000</x>
+							<y>1.000000</y>
+							<z>10.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::StaticMeshRenderer</type>
+					<data>
+						<isInstanced>false</isInstanced>
+						<meshName>plane.fbx</meshName>
+						<materialName></materialName>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::PlaneCollider</type>
+					<data>
+						<trigger>false</trigger>
+						<positionOffset>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</positionOffset>
+						<rotationOffset>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotationOffset>
+						<width>10</width>
+						<depth>10</depth>
 					</data>
 				</component>
 			</components>
