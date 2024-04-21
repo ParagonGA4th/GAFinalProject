@@ -1,7 +1,8 @@
 #include "ArrowLogic.h"
 
 #include "../ParagonData/StaticMeshRenderer.h"
-#include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/BoxCollider.h"
+#include "../ParagonData/LayerMask.h"
 
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgTween.h"
@@ -17,16 +18,29 @@ namespace Pg::DataScript
 		_pgTween = &singleton<Pg::API::Tween::PgTween>();
 	}
 
+	void ArrowLogic::BeforePhysicsUpdate()
+	{
+		if (!_alreadyCalledBPU)
+		{
+			//내부적으로 Physics보다 SceneSystem의 함수들이 나중에 호출됨. 그러니, 미리 할 수 있는 방법을 EngineMain-SceneSystem에 연결해두었다.
+			_collider = _object->GetComponent<Pg::Data::BoxCollider>();
+			assert(_collider != nullptr);
+			_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PROJECTILES); // 자기 자신이 Projectile이라고 해주기.
+			_collider->SetActive(false);
+			_collider->SetUseGravity(false);
+
+			//Debouncer.
+			_alreadyCalledBPU = true;
+		}
+	}
+
 	void ArrowLogic::Awake()
 	{
 		//무조건 자기 자신이 소속된 오브젝트의 Tag를 "TAG_Arrow"로 바꿈.
 		_object->SetTag("TAG_Arrow");
 
 		_meshRenderer = _object->GetComponent<Pg::Data::StaticMeshRenderer>();
-		assert(_meshRenderer != nullptr);
-
-		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
-		assert(_collider != nullptr);
+		assert(_meshRenderer != nullptr);		
 	}
 
 	void ArrowLogic::Start()
@@ -115,9 +129,10 @@ namespace Pg::DataScript
 		//쏘는 방향으로 Rotation 변경.
 		_object->_transform._rotation = PGEulerToQuaternion(_shootDir);
 
+		//트윈 시스템도 손봐야 할 것 같다.
 		//Tween 발동.
 		Pg::Util::Tween* tTween = _pgTween->CreateTween();
-		
+
 		//Tween 작동.
 		tTween->GetData(&(_object->_transform._position))
 			.DoMove(_targetPos, _secondsBeforeGravity)
@@ -127,5 +142,7 @@ namespace Pg::DataScript
 					EnableDrop();
 				});
 	}
+
+	
 
 }

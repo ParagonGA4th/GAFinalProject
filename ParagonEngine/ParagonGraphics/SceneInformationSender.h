@@ -2,6 +2,7 @@
 #include "ISendReceiver.h"
 #include "ConstantBuffer.h"
 #include "ConstantBufferDefine.h"
+#include <memory>
 
 namespace Pg::Graphics
 {
@@ -24,6 +25,12 @@ namespace Pg::Graphics
 
 	private:
 		void CreateBuffers();
+		void ProcessSceneInfoData();
+		void ProcessLightInfoData();
+
+	private:
+		
+
 
 	private:
 		LowDX11Storage* _DXStorage = nullptr;
@@ -34,6 +41,7 @@ namespace Pg::Graphics
 	private:
 		//SceneInfo Constant Buffer.
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbSceneInfo>> _cbSceneInfo;
+		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbRenderingInfo>> _cbRenderingInfo;
 
 	};
 }

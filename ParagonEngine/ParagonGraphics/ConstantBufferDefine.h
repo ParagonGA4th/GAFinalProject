@@ -1,5 +1,6 @@
 #pragma once
 #include "../ParagonData/ParagonDefines.h"
+#include "IndividualLightsGPU.h"
 #include <DirectXMath.h>
 
 /// <summary>
@@ -52,6 +53,22 @@ namespace Pg::Graphics
 			DirectX::XMMATRIX gCBuf_ViewMatrix;
 			DirectX::XMMATRIX gCBuf_ProjMatrix;
 			DirectX::XMFLOAT3 gCBuf_EyePosition;
+		};
+
+		struct cbRenderingInfo
+		{
+			DirLightGPU _dirLightArray[10];
+			unsigned int _dirLightCount;
+
+			SpotLightGPU _spotLightArray[10];
+			unsigned int _spotLightCount;
+
+			PointLightGPU _pointLightArray[10];
+			unsigned int _pointLightCount;
+
+			DirectX::XMMATRIX _lightView;
+			DirectX::XMMATRIX _lightProj;
+			DirectX::XMMATRIX _lightViewProj;
 		};
 	};
 }
