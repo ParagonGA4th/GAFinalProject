@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="ArrowLogic.h" />
     <ClInclude Include="ArrowShooterBehavior.h" />
+    <ClInclude Include="BattleArea.h" />
     <ClInclude Include="CameraShake.h" />
     <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="ComboSystem.h" />
@@ -157,10 +158,12 @@
     <ClInclude Include="ScriptInterface.h" />
     <ClInclude Include="ParagonScriptList.h" />
     <ClInclude Include="SoundTest.h" />
+    <ClInclude Include="TrapArea.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrowLogic.cpp" />
     <ClCompile Include="ArrowShooterBehavior.cpp" />
+    <ClCompile Include="BattleArea.cpp" />
     <ClCompile Include="CameraShake.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="ComboSystem.cpp" />
@@ -172,6 +175,7 @@
     <ClCompile Include="RayCastTest.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="SoundTest.cpp" />
+    <ClCompile Include="TrapArea.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
