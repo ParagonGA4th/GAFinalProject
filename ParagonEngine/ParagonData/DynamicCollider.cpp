@@ -32,7 +32,7 @@ namespace Pg::Data
 		_object->_transform._rotation = localQuat;
 	}
 
-	void DynamicCollider::UpdateTransform()
+	void DynamicCollider::UpdateTransform()                   
 	{
 		//PxTransform을 자체 Transform과 연결시킨다.
 		using namespace Pg::Math;
