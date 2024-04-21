@@ -14,7 +14,7 @@ namespace Pg::Data
 	class NavMeshAgent;
 }
 
-namespace Pg::Engine
+namespace Pg::Util
 {
 	namespace Input
 	{
