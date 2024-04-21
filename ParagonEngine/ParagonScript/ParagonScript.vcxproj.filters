@@ -43,6 +43,9 @@
     <Filter Include="Content\CameraShake">
       <UniqueIdentifier>{705983d2-43e3-4d82-9858-84f39cbb8b4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Stage">
+      <UniqueIdentifier>{60dacf1e-8333-49a9-bd45-d23cb8c39d7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
