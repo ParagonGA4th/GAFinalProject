@@ -49,6 +49,9 @@
     <Filter Include="Content\ArrowShooterBehavior">
       <UniqueIdentifier>{d7b2144c-23a2-4494-8783-36a43df1d931}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Stage">
+      <UniqueIdentifier>{60dacf1e-8333-49a9-bd45-d23cb8c39d7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">

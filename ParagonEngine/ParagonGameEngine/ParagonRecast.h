@@ -182,4 +182,19 @@ namespace Pg::Engine
 		TileCacheData tiles[MAX_LAYERS];
 		int ntiles;
 	};
+
+	struct TileCacheSetHeader
+	{
+		int magic;
+		int version;
+		int numTiles;
+		dtNavMeshParams meshParams;
+		dtTileCacheParams cacheParams;
+	};
+
+	struct TileCacheTileHeader
+	{
+		dtCompressedTileRef tileRef;
+		int dataSize;
+	};
 }
