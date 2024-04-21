@@ -10,7 +10,7 @@ namespace Pg::Util
 	Tween::Tween()
 		: dataF(nullptr), data2V(nullptr), data3V(nullptr)
 	{
-		_timer = std::unique_ptr<TweenTimer>();
+		_timer = std::make_unique<TweenTimer>();
 	}
 
 	Tween::~Tween()

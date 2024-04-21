@@ -806,6 +806,49 @@ namespace Pg::Math
 		return XM2PG_FLOAT3_VECTOR(reflectedVector);
 	}
 
+	Pg::Math::PGFLOAT4X4 GetViewMatrixFromTransformValues(PGFLOAT3 right, PGFLOAT3 up, PGFLOAT3 forward, PGFLOAT3 pos)
+	{
+		PGFLOAT3 R = right;
+		PGFLOAT3 U = up;
+		PGFLOAT3 L = forward;
+		PGFLOAT3 P = pos;
+
+		// Keep camera's axes orthogonal to each other and of unit length.
+		L = PGFloat3Normalize(L);
+		U = PGFloat3Normalize(PGFloat3Cross(L, R));
+
+		// U, L already ortho-normal, so no need to normalize cross product.
+		R = PGFloat3Cross(U, L);
+
+		// Fill in the view matrix entries.
+		float x = -PGFloat3Dot(P, R);
+		float y = -PGFloat3Dot(P, U);
+		float z = -PGFloat3Dot(P, L);
+
+		Pg::Math::PGFLOAT4X4 tRet;
+
+		tRet.m[0][0] = R.x;
+		tRet.m[1][0] = R.y;
+		tRet.m[2][0] = R.z;
+		tRet.m[3][0] = x;
+
+		tRet.m[0][1] = U.x;
+		tRet.m[1][1] = U.y;
+		tRet.m[2][1] = U.z;
+		tRet.m[3][1] = y;
+
+		tRet.m[0][2] = L.x;
+		tRet.m[1][2] = L.y;
+		tRet.m[2][2] = L.z;
+		tRet.m[3][2] = z;
+
+		tRet.m[0][3] = 0.0f;
+		tRet.m[1][3] = 0.0f;
+		tRet.m[2][3] = 0.0f;
+		tRet.m[3][3] = 1.0f;
+
+		return tRet;
+	}
 
 }
 

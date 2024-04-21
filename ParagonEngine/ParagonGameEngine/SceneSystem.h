@@ -48,6 +48,7 @@ namespace Pg::Engine
 		//Editor 모드 도입으로 : Update가 고정적으로 호출되지 않게 되었다.
 		//EditorCameraScript를 Sync에 맞춰서 넣는 로직을 별도 분리.
 		void DebounceSceneLoadStatus(Pg::Data::Enums::eEditorMode editMode);
+		void BeforePhysicsUpdateInGame();
 		void Update(bool isActualInGame); 
 
 		void LoadEmptyScene();

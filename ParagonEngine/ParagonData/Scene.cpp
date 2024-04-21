@@ -100,6 +100,17 @@ namespace Pg::Data
 			});
 	}
 
+	void Scene::BeforePhysicsUpdate()
+	{
+		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
+			{
+				if (iter->GetActive())
+				{
+					iter->BeforePhysicsUpdate();
+				}
+			});
+	}
+
 	void Scene::Update()
 	{
 		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
@@ -270,6 +281,7 @@ namespace Pg::Data
 		return _editorCamera;
 	}
 
+	
 
 
 

@@ -39,7 +39,16 @@ namespace Pg::DataScript
 				//지금 쏘고 있지 않은 컴포넌트만 허용해야.
 				if (!(_arrowVec[i]->GetIsNowShooting()))
 				{
-					_arrowVec[i]->ShootArrow(_object->_transform._position + _object->_transform.GetForward(), _object->_transform.GetForward());
+					using namespace Pg::Math;
+					//우리 Forward랑 다른 로직이 된 것 같다. 그러니, Forward를 Rotation을 갖고 Custom으로 구해주자.
+					//PlayerBehavior랑 같은 위치. -> 나중에 PhysX 연동은 고쳐져야!
+					
+					//Z축 향해 뒤집기. 어디에서 불완전한 연결이 일어나는지는 확인해봐야 할 것 같다.
+					Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGReflectVectorAgainstAxis(_object->_transform.GetForward(), { 0,0,1 });
+					tShouldShootDir = Pg::Math::PGFloat3Normalize(tShouldShootDir);
+						
+					float tDistanceToSpawnFrom = 3.0f;
+					_arrowVec[i]->ShootArrow(_object->_transform._position + tShouldShootDir * tDistanceToSpawnFrom, tShouldShootDir);
 					tDidShoot = true;
 					break;
 				}

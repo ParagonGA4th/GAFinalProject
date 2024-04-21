@@ -43,6 +43,7 @@ namespace Pg::Data
 		void Start();
 
 		void Internal_EngineUpdate(); //Internal의 Update 버전. Ex. Camera 등에 의해 활용.
+		void BeforePhysicsUpdate();	  //무슨 이유에선지, PhysicsSystem이 돌아가기 전에 Update를 돌리고 싶을 때. Awake보다도 빠르게 호출!
 		void Update();
 		void FixedUpdate();
 		void LateUpdate();

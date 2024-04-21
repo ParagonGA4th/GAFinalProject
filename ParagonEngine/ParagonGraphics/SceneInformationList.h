@@ -19,6 +19,8 @@ namespace Pg::Graphics
 	struct SceneInformationList
 	{
 	public:
+		enum { LIGHT_MAX_GPU_PASS_COUNT = 10 };
+	public:
 
 		//Light 관련. GPU 딴에는 최대 10개까지.
 		std::vector<Pg::Data::DirectionalLight*> _dirLightList;

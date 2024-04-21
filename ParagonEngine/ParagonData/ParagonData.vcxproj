@@ -230,6 +230,7 @@
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="LayerMask.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentList.h" />
     <ClInclude Include="data_factory.h" />

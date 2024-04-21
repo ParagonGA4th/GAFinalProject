@@ -5,7 +5,7 @@
 namespace Pg::Data
 {
 	class StaticMeshRenderer;
-	class CapsuleCollider;
+	class BoxCollider;
 }
 
 namespace Pg::API
@@ -30,6 +30,7 @@ namespace Pg::DataScript
 	public:
 		ArrowLogic(Pg::Data::GameObject* obj);
 
+		virtual void BeforePhysicsUpdate() override;
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void FixedUpdate() override;
@@ -63,13 +64,15 @@ namespace Pg::DataScript
 
 	private:	//자신의 컴포넌트들.
 		Pg::Data::StaticMeshRenderer* _meshRenderer;
-		Pg::Data::CapsuleCollider* _collider;
+		Pg::Data::BoxCollider* _collider;
 
 	private:	//API
 		Pg::API::Time::PgTime* _pgTime;
 		Pg::API::Tween::PgTween* _pgTween;
 
-
+	private:
+		//미리 BeforePhysicsUpdate를 호출했었는지.
+		bool _alreadyCalledBPU = false;
 	};
 }
 
