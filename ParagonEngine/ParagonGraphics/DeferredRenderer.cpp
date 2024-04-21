@@ -300,7 +300,6 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetConstantBuffers(4, 1, &tNullBuffer);
 
 		//PS Constant Buffer -> LightInfo °ª ¸®¼Â.
-		ID3D11Buffer* tNullBuffer = nullptr;
 		_DXStorage->_deviceContext->PSSetConstantBuffers(5, 1, &tNullBuffer);
 
 		//GBufferTextures-> GBuffer / Depth Buffer Unbind.

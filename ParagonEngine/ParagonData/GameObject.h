@@ -37,6 +37,7 @@ namespace Pg::Data
 
 		//게임 로직 스크립트들이 사용해서는 안된다.
 		void Internal_EngineUpdate();
+		void BeforePhysicsUpdate(); //Physics System이 호출되기 전에 업데이트를 실행해야 할 때. 
 		void Update();
 		void FixedUpdate();
 		void LateUpdate();

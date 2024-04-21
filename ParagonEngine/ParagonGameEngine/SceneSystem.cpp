@@ -81,6 +81,11 @@ namespace Pg::Engine
 		}
 	}
 
+	void SceneSystem::BeforePhysicsUpdateInGame()
+	{
+		_currentScene->BeforePhysicsUpdate();
+	}
+
 	void SceneSystem::Update(bool isActualInGame)
 	{
 		//Object 단위로 내부적으로 실행할지 말지를 판단하기에, 상관없다.
@@ -234,5 +239,7 @@ namespace Pg::Engine
 				scene->_objectList.end(), tFoundFunc), scene->_objectList.end());
 		}
 	}
+
+	
 
 }

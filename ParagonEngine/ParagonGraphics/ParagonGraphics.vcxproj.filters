@@ -292,6 +292,9 @@
     <ClInclude Include="TonemappingRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\19_TonemappingRenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="IndividualLightsGPU.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\4_SceneInformationSender\IndividualLightsGPU</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -907,6 +910,9 @@
     </Filter>
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\19_TonemappingRenderPass">
       <UniqueIdentifier>{8aa14f88-db08-4907-a027-750d80991ea5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\4_SceneInformationSender\IndividualLightsGPU">
+      <UniqueIdentifier>{31f1270b-2690-4160-85a0-3591fd4d0069}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

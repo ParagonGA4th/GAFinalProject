@@ -1,8 +1,6 @@
 #pragma once
 #include "../ParagonData/ParagonDefines.h"
-#include "../ParagonData/DirectionalLight.h"
-#include "../ParagonData/SpotLight.h"
-#include "../ParagonData/PointLight.h"
+#include "IndividualLightsGPU.h"
 #include <DirectXMath.h>
 
 /// <summary>
@@ -59,13 +57,13 @@ namespace Pg::Graphics
 
 		struct cbRenderingInfo
 		{
-			Pg::Data::DirectionalLight _dirLightArray[10];
+			DirLightGPU _dirLightArray[10];
 			unsigned int _dirLightCount;
 
-			Pg::Data::SpotLight _spotLightArray[10];
+			SpotLightGPU _spotLightArray[10];
 			unsigned int _spotLightCount;
 
-			Pg::Data::PointLight _pointLightArray[10];
+			PointLightGPU _pointLightArray[10];
 			unsigned int _pointLightCount;
 
 			DirectX::XMMATRIX _lightView;

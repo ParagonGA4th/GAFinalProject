@@ -2,6 +2,7 @@
 #include "ISendReceiver.h"
 #include "ConstantBuffer.h"
 #include "ConstantBufferDefine.h"
+#include <memory>
 
 namespace Pg::Graphics
 {
