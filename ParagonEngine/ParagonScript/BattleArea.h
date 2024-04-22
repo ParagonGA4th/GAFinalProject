@@ -2,13 +2,7 @@
 #include "ScriptInterface.h"
 #include "../ParagonMath/PgMath.h"
 
-namespace Pg::Data 
-{ 
-	class GameObject; 
-	class Collider;
-	class StaticBoxCollider;
-	class CapsuleCollider;
-}
+namespace Pg::Data { class Collider; class StaticBoxCollider; }
 
 namespace Pg::DataScript
 {
@@ -30,6 +24,8 @@ namespace Pg::DataScript
 	private:
 		Pg::Data::StaticBoxCollider* _collider;
 		bool _isInit;
+		bool _isStay;
+		bool _isExit;
 	};
 }
 

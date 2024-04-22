@@ -1,10 +1,10 @@
 #include "TweenSystem.h"
-#include "Tween.h"
-#include "TweenTimer.h"
-#include "Log.h"
+#include "../ParagonUtil/Tween.h"
+#include "../ParagonUtil/TweenTimer.h"
+#include "../ParagonUtil/Log.h"
 #include <algorithm>
 
-namespace Pg::Util
+namespace Pg::Engine
 {
 	TweenSystem::TweenSystem()
 	{
@@ -22,13 +22,13 @@ namespace Pg::Util
 
 		//100개 만들어서 채우기.
 		std::generate(_preloadedDoTween.begin(), _preloadedDoTween.end(), []() {
-			return new Tween(); });
+			return new Pg::Util::Tween(); });
 	
 		//std::generate 정상인지 체크.
 		assert(_preloadedDoTween.at(0) != _preloadedDoTween.at(1));
 	}
 
-	Tween* TweenSystem::CreateTween()
+	Pg::Util::Tween* TweenSystem::CreateTween()
 	{
 		///여기서 오브젝트 풀링이 사용되어야.
 		Pg::Util::Tween* tVal{ nullptr };

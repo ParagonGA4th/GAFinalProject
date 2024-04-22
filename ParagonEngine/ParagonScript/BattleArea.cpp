@@ -29,15 +29,22 @@ void Pg::DataScript::BattleArea::OnTriggerEnter(Pg::Data::Collider* col)
 		// 1스테이지일 경우만 필요함.
 		// 1스테이지에서는 플레이어가 전투 구역에서 벗어나지 못하도록 막아주는 투명벽이 있음
 
-		PG_TRACE("Trigger");
 		_isInit = true;
+		PG_TRACE("Trigger");
 	}
 }
 
 void Pg::DataScript::BattleArea::OnTriggerExit(Pg::Data::Collider* col)
 {
 	// 플레이어가 전투 구역에 있는 모든 몬스터를 해치웠을 경우 빠져나갈 수 있음
-	if(_isInit/*&& 구역 내에 있는 모든 몬스터 수가 0일 경우*/)
-	{
-	}
+	//if(구역 내에 있는 모든 몬스터 수가 0일 경우)
+	//{
+
+	//}
+
+	//if (!col->GetWasTrigger())
+	//{
+	//	PG_TRACE("Exit");
+	//}
 }
+

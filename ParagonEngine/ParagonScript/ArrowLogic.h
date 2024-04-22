@@ -43,7 +43,7 @@ namespace Pg::DataScript
 	private:
 		void EnableDrop(); //중력 다시 켜기.
 		void CarryOutShoot(); //실제로 총을 쏘는 로직, Tweening 사용.
-
+		void IfValidActualShootLogic(); //실제 총 쏘는 If문.
 	private:	//인게임 내 프로퍼티들.
 		//N초 이후에 지워라!
 		const float _afterDestroySec{ 3.0f };

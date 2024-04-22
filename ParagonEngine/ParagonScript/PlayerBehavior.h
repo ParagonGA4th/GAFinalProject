@@ -40,6 +40,7 @@ namespace Pg::DataScript
 
 		float moveSpeed{ 30.0f };
 		float rotateMultiplier{ 2.0f };
+		float healthPoint{ 100.0f };
 
 	private:
 
