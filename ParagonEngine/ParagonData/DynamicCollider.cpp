@@ -25,8 +25,8 @@ namespace Pg::Data
 
 	void DynamicCollider::UpdatePhysics(PGFLOAT3 pos, PGQuaternion quat)
 	{
-		PGFLOAT4 localPos = PGFloat4MultiplyMatrix({ pos, 1.0f }, GetOffsetTM().Inverse());
-		PGQuaternion localQuat = PGQuaternionMultiply(quat, GetRotationOffset().Conjugate());
+		PGFLOAT3 localPos = pos;
+		PGQuaternion localQuat = quat;
 
 		_object->_transform._position = { localPos.x, localPos.y, localPos.z };
 		_object->_transform._rotation = localQuat;
@@ -37,8 +37,11 @@ namespace Pg::Data
 		//PxTransform을 자체 Transform과 연결시킨다.
 		using namespace Pg::Math;
 
-		PGFLOAT4 position = PGFLOAT4(GetPositionOffset(), 1.0f) * _object->_transform.GetWorldTM();
-		PGQuaternion rotation = PGQuaternionMultiply(GetRotationOffset(), _object->_transform._rotation);
+		PGFLOAT3 position = _object->_transform._position;
+		PGQuaternion rotation = _object->_transform._rotation;
+
+		// 회전 오프셋을 z축으로 90도 회전시킴
+		//physx::PxQuat rotation90(physx::PxPi / 2.0f, physx::PxVec3(0.0f, 0.0f, 1.0f));
 
 		physx::PxTransform transform;
 
@@ -46,10 +49,12 @@ namespace Pg::Data
 		transform.p.y = position.y;
 		transform.p.z = position.z;
 
-		transform.q.x = rotation.x;
-		transform.q.y = rotation.y;
+		transform.q.x = rotation.y;
+		transform.q.y = rotation.x;
 		transform.q.z = rotation.z;
 		transform.q.w = rotation.w;
+
+		//transform.q = transform.q * rotation90;
 
 		_rigid->setGlobalPose(transform);
 	}
