@@ -4,6 +4,7 @@
 #include "SceneSystem.h"
 #include "DebugSystem.h"
 #include "SoundSystem.h"
+#include "TweenSystem.h"
 #include "NavigationSystem.h"
 #include "BehaviorTreeSystem.h"
 #include "EngineResourceManager.h"
@@ -76,6 +77,10 @@ namespace Pg::Engine
 		//더 이상 엔진에서 제어권은 없다.
 		auto& tTimeSystem = singleton<Pg::Util::Time::TimeSystem>();
 		_timeSystem = &tTimeSystem;
+
+		//트윈 자체는 Util에 머무름, TweenSystem은 Engine에.
+		auto& tTweenSystem = singleton<Pg::Engine::TweenSystem>();
+		_tweenSystem = &tTweenSystem;
 	}
 
 	EngineMain::~EngineMain()
@@ -87,6 +92,7 @@ namespace Pg::Engine
 	{
 		_sceneSystem->Initialize();
 		_debugSystem->Initialize();
+		_tweenSystem->Initialize();
 		_physicSystem->Initialize(_debugSystem);
 		_soundSystem->Initialize(resourceListPath);
 		_navSystem->Initialize();
@@ -145,6 +151,7 @@ namespace Pg::Engine
 			_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
 			_physicSystem->Flush();
 			_sceneSystem->Update(true);
+			_tweenSystem->Update();
 			_soundSystem->Update();
 			//_navSystem->Update(_timeSystem->GetDeltaTime());
 			_behaviorTreeSystem->Update();
@@ -163,6 +170,7 @@ namespace Pg::Engine
 	{
 		_physicSystem->Finalize();
 		//_navSystem->Finalize();
+		_tweenSystem->Finalize();
 		_soundSystem->Finalize();
 	}
 
