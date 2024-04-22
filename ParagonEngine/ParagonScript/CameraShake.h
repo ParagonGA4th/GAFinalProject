@@ -41,6 +41,10 @@ namespace Pg::DataScript
 		//실제로 카메라를 흔드는 거 Trigger.
 		void CauseShake(float amount);
 
+
+	private:
+		void IfCausedShakeCamera();
+
 	private:
 		const float _traumaExponent{ 1.0f };	// 더 올라갈 수록 Smoother Falloff.
 		const float _recoverySpeed{ 5.0f };		// Trauma로부터 회복하는 정도/s

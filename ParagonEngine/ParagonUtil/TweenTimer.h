@@ -5,6 +5,10 @@
 namespace Pg::Util
 {
 	class Tween;
+}
+
+namespace Pg::Engine
+{
 	class TweenSystem;
 }
 
@@ -13,15 +17,15 @@ namespace Pg::Util
 	class TweenTimer : public IResettable
 	{
 		friend class Tween;
-		friend class TweenSystem;
+		friend class Pg::Engine::TweenSystem;
 
 	public:
-		TweenTimer();
-		~TweenTimer();
+		PARAGON_UTIL_DLL TweenTimer();
+		PARAGON_UTIL_DLL ~TweenTimer();
 
 	public:
 		void Start();
-		void Update(); 
+		PARAGON_UTIL_DLL void Update();
 
 		virtual void ResetSelf() override;
 
