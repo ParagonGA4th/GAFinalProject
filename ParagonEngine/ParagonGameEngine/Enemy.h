@@ -11,6 +11,7 @@ namespace Pg::Data
 	class Collider;
 	class DynamicCollider;
 	class StaticBoxCollider;
+	class StaticSphereCollider;
 }
 
 namespace Pg::Engine
@@ -49,6 +50,7 @@ public:
 
 private:
 	std::vector<Pg::Data::StaticBoxCollider*> colVec;
+	//std::vector<Pg::Data::StaticSphereCollider*> colVec;
 	Pg::Util::Time::TimeSystem* tTime = nullptr;
 	Pg::Engine::Physic::PhysicSystem* tPhysic = nullptr;
 

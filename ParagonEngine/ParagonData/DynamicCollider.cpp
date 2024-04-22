@@ -195,6 +195,13 @@ namespace Pg::Data
 		}
 	}
 
-	
+	void DynamicCollider::SetLinearVelocity(PGFLOAT3 velo)
+	{
+		_linearVelocity = velo;
+	}
 
+	Pg::Math::PGFLOAT3 DynamicCollider::GetLinearVelocity() const
+	{
+		return _linearVelocity;
+	}
 }
