@@ -119,7 +119,7 @@ namespace Pg::Engine::Physic
 
 			//전체 테스팅, 프로그래머가 2차원 배열 전체 내용 맞게 커밋해놓자. (-> ex. (0,1) 이 0bit이라면, (1,0)도 똑같이 0bit으로 해놓는 것!
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_DEFAULT, { LAYER_DEFAULT, LAYER_PLAYER, LAYER_MONSTER, LAYER_PROJECTILES });
-			Pg::Engine::PgLayer::SetCollisionData(LAYER_PLAYER, { LAYER_DEFAULT, LAYER_PLAYER, LAYER_MONSTER, LAYER_PROJECTILES });
+			Pg::Engine::PgLayer::SetCollisionData(LAYER_PLAYER, { LAYER_DEFAULT, LAYER_MONSTER });
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_MONSTER, { LAYER_DEFAULT, LAYER_PLAYER,  LAYER_MONSTER, LAYER_PROJECTILES });
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_PROJECTILES, { LAYER_DEFAULT,   LAYER_MONSTER, }); //Projectile 기준으로 자기 자신과 플레이어, 이렇게 충돌 못하게. 
 		}
@@ -147,7 +147,7 @@ namespace Pg::Engine::Physic
 		//미리 쌓였던 EventCallback Clear.
 		_physicsCallback->Clear();
 
-		_pxScene->simulate(dTime);
+		_pxScene->simulate(0.01f);
 
 		_pxScene->fetchResults(true);
 
@@ -520,7 +520,7 @@ namespace Pg::Engine::Physic
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
-				trans.q = physx::PxQuat(0, 0, 0.7071068f, 0.7071068f);
+				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
 				shape->setLocalPose(trans);
 
 				//Trigger 여부 판단
@@ -570,7 +570,7 @@ namespace Pg::Engine::Physic
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
-				trans.q = physx::PxQuat(0, 0, 0.7071068f, 0.7071068f);
+				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
 				shape->setLocalPose(trans);
 
 				//Trigger 여부 판단
@@ -685,7 +685,7 @@ namespace Pg::Engine::Physic
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
-				trans.q = physx::PxQuat(0, 0, 0.7071068f, 0.7071068f);
+				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
 				shape->setLocalPose(trans);
 
 				//Trigger 여부 판단
@@ -741,9 +741,14 @@ namespace Pg::Engine::Physic
 
 				physx::PxShape* shape = _physics->createShape(physx::PxCapsuleGeometry(capCol->GetRadius(), capCol->GetHalfHeight()), *_material);
 
-				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
+				Pg::Math::PGQuaternion quat = collider->GetRotationOffset();
 				physx::PxTransform trans(physx::PxIdentity);
-				trans.q = physx::PxQuat(0, 0, 0.7071068f, 0.7071068f);
+				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
+
+				// 회전 오프셋을 z축으로 90도 회전시킴
+				physx::PxQuat rotation90(physx::PxPi / 2.0f, physx::PxVec3(0.0f, 0.0f, 1.0f));
+				trans.q = trans.q * rotation90;
+
 				shape->setLocalPose(trans);
 
 				//Trigger 여부 판단
