@@ -51,6 +51,16 @@ namespace Pg::DataScript
 			CauseShake(0.25f);
 		}
 
+		IfCausedShakeCamera();
+	}
+
+	void CameraShake::CauseShake(float amount)
+	{
+		_trauma = std::clamp<float>(amount, 0.f, 1.0f);
+	}
+
+	void CameraShake::IfCausedShakeCamera()
+	{
 		float shake = powf(_trauma, _traumaExponent);
 		float dt = _pgTime->GetDeltaTime();
 
@@ -59,7 +69,7 @@ namespace Pg::DataScript
 			_noiseSeed = static_cast<float>(_distribution(_generator)) / 100.0f;
 			//PG_TRACE("RANDOMMAKING");
 		}
-	
+
 		_mainCam->_object->_transform._position = _mainCam->_object->_transform._position + Pg::Math::PGFLOAT3(
 			_maximumTranslationShake.x * (_noiseSrc.GetNoise(_noiseSeed, dt * _frequency) * 2.0f - 1.0f),
 			_maximumTranslationShake.y * (_noiseSrc.GetNoise(_noiseSeed + 1.0f, dt * _frequency) * 2.0f - 1.0f),
@@ -67,11 +77,6 @@ namespace Pg::DataScript
 		) * shake;
 
 		_trauma = std::clamp<float>((_trauma - _recoverySpeed * dt), 0.f, 1.f);
-	}
-
-	void CameraShake::CauseShake(float amount)
-	{
-		_trauma = std::clamp<float>(amount, 0.f, 1.0f);
 	}
 
 }

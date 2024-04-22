@@ -52,6 +52,12 @@
     <Filter Include="Stage">
       <UniqueIdentifier>{60dacf1e-8333-49a9-bd45-d23cb8c39d7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Testing">
+      <UniqueIdentifier>{daa6dc03-7e54-4e67-be4b-29d4fd3b9f6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Testing\TweenTest">
+      <UniqueIdentifier>{441c9016-b767-45df-bc76-f201dfdb2f43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
