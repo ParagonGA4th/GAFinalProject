@@ -1,7 +1,7 @@
 #pragma once
 #include "../ParagonUtil/Tween.h"
 
-namespace Pg::Util
+namespace Pg::Engine
 {
 	class TweenSystem;
 }
@@ -22,7 +22,7 @@ namespace Pg::API::Tween
 		Pg::Util::Tween* CreateTween();
 		
 	private:
-		Pg::Util::TweenSystem* _tweenSystem;
+		Pg::Engine::TweenSystem* _tweenSystem;
 	};
 }
 

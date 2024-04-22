@@ -50,34 +50,7 @@ namespace Pg::DataScript
 
 	void ArrowLogic::FixedUpdate()
 	{
-		//무조건 Arrow관리 Update보다 늦게 호출되어야 함.
-		if (_isNowShooting)
-		{
-			if (!_startCountingTime)
-			{
-				_object->_transform._position = _initialPos;
-				_elapsedTime = 0.0f;
-				_startCountingTime = true;
-
-				//Renderer / Collider 키기.
-				_collider->SetActive(true);
-				_meshRenderer->SetActive(true);
-				// 여기다가, rigidbody의 setgravity도 꺼주어야 함!
-				//Rigidbody SetGravity 끄기.
-				_collider->SetUseGravity(false);
-
-				CarryOutShoot();
-			}
-
-			if (_elapsedTime > _afterDestroySec)
-			{
-				ResetState();
-			}
-
-
-			//Elapsed Time 기록.
-			_elapsedTime += _pgTime->GetDeltaTime();
-		}
+		IfValidActualShootLogic();
 	}
 
 	void ArrowLogic::ResetState()
@@ -129,6 +102,8 @@ namespace Pg::DataScript
 		//쏘는 방향으로 Rotation 변경.
 		_object->_transform._rotation = PGEulerToQuaternion(_shootDir);
 
+		//_object->_transform._rotation = Pg::Math::PGLookRotation(_targetPos, { 0,1,0 });
+
 		//트윈 시스템도 손봐야 할 것 같다.
 		//Tween 발동.
 		Pg::Util::Tween* tTween = _pgTween->CreateTween();
@@ -143,6 +118,37 @@ namespace Pg::DataScript
 				});
 	}
 
+	void ArrowLogic::IfValidActualShootLogic()
+	{
+		//무조건 Arrow관리 Update보다 늦게 호출되어야 함.
+		if (_isNowShooting)
+		{
+			if (!_startCountingTime)
+			{
+				_object->_transform._position = _initialPos;
+				_elapsedTime = 0.0f;
+				_startCountingTime = true;
+
+				//Renderer / Collider 키기.
+				_collider->SetActive(true);
+				_meshRenderer->SetActive(true);
+				// 여기다가, rigidbody의 setgravity도 꺼주어야 함!
+				//Rigidbody SetGravity 끄기.
+				_collider->SetUseGravity(false);
+
+				CarryOutShoot();
+			}
+
+			if (_elapsedTime > _afterDestroySec)
+			{
+				ResetState();
+			}
+
+
+			//Elapsed Time 기록.
+			_elapsedTime += _pgTime->GetDeltaTime();
+		}
+	}
 	
 
 }

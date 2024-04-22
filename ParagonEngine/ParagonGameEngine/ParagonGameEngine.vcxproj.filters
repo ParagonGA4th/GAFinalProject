@@ -157,6 +157,9 @@
     <ClInclude Include="Navigation.h">
       <Filter>2_System\NavigationSystem\FixedClass</Filter>
     </ClInclude>
+    <ClInclude Include="TweenSystem.h">
+      <Filter>2_System\TweenSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -324,6 +327,9 @@
     <ClCompile Include="Navigation.cpp">
       <Filter>2_System\NavigationSystem\FixedClass</Filter>
     </ClCompile>
+    <ClCompile Include="TweenSystem.cpp">
+      <Filter>2_System\TweenSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -466,6 +472,9 @@
     </Filter>
     <Filter Include="2_System\NavigationSystem\FixedClass">
       <UniqueIdentifier>{c38ac2d1-70c7-4070-b757-c1d63ff8795b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\TweenSystem">
+      <UniqueIdentifier>{ae1bcc32-9c2a-4962-ad1d-53232977d52f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

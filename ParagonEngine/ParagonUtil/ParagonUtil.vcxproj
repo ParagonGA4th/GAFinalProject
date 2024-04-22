@@ -174,7 +174,6 @@
     <ClInclude Include="Log.h" />
     <ClInclude Include="TimeSystem.h" />
     <ClInclude Include="Tween.h" />
-    <ClInclude Include="TweenSystem.h" />
     <ClInclude Include="TweenTimer.h" />
     <ClInclude Include="UtilDLLExporter.h" />
   </ItemGroup>
@@ -189,7 +188,6 @@
   <ItemGroup>
     <ClCompile Include="TimeSystem.cpp" />
     <ClCompile Include="Tween.cpp" />
-    <ClCompile Include="TweenSystem.cpp" />
     <ClCompile Include="TweenTimer.cpp" />
     <ClCompile Include="UtilMain.cpp" />
   </ItemGroup>

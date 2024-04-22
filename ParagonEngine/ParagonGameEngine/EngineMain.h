@@ -60,6 +60,8 @@ namespace Pg::Engine
 	class SoundSystem;
 
 	class NavigationSystem;
+
+	class TweenSystem;
 }
 
 namespace Pg::Engine
@@ -115,6 +117,7 @@ namespace Pg::Engine
 		SceneSystem* _sceneSystem = nullptr;
 		DebugSystem* _debugSystem = nullptr;
 		SoundSystem* _soundSystem = nullptr;
+		TweenSystem* _tweenSystem = nullptr;
 		NavigationSystem* _navSystem = nullptr;
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
 
