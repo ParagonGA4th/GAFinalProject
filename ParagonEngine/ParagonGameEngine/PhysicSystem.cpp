@@ -167,6 +167,8 @@ namespace Pg::Engine::Physic
 			//·±Å¸ÀÓ¿¡ Collider ²°´ÙÄ×´Ù °¡´É.
 			rigid->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !dynamicCol->GetActive());
 
+			dynamicCol->GetRotationOffset();
+
 			if (!dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
 			{
 				gameObj->OnCollisionEnter(dynamicCol->_collisionStorage.data(), dynamicCol->_collisionStorage.size());

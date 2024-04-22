@@ -10,7 +10,8 @@ namespace Pg::Data
 		_isActiveX(false),
 		_isActiveY(false),
 		_isActiveZ(false),
-		_linearDamping(0.5f)
+		_linearDamping(0.5f),
+		_linearVelocity(0.f, 0.f, 0.f)
 	{
 
 	}
@@ -39,6 +40,7 @@ namespace Pg::Data
 
 		PGFLOAT3 position = _object->_transform._position;
 		PGQuaternion rotation = _object->_transform._rotation;
+		//PGQuaternion rotation = Pg::Math::PGQuaternionMultiply(GetRotationOffset(), _object->_transform._rotation);
 
 		// 회전 오프셋을 z축으로 90도 회전시킴
 		//physx::PxQuat rotation90(physx::PxPi / 2.0f, physx::PxVec3(0.0f, 0.0f, 1.0f));
@@ -49,8 +51,8 @@ namespace Pg::Data
 		transform.p.y = position.y;
 		transform.p.z = position.z;
 
-		transform.q.x = rotation.y;
-		transform.q.y = rotation.x;
+		transform.q.x = rotation.x;
+		transform.q.y = rotation.y;
 		transform.q.z = rotation.z;
 		transform.q.w = rotation.w;
 
