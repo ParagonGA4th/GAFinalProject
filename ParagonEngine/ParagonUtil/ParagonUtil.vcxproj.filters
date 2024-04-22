@@ -22,6 +22,9 @@
     <ClCompile Include="TimeSystem.cpp">
       <Filter>4_TimeSystem</Filter>
     </ClCompile>
+    <ClCompile Include="CheckInBox.cpp">
+      <Filter>6_CheckInBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -53,6 +56,9 @@
     </ClInclude>
     <ClInclude Include="IResettable.h">
       <Filter>5_Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckInBox.h">
+      <Filter>6_CheckInBox</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +94,9 @@
     </Filter>
     <Filter Include="5_Interfaces">
       <UniqueIdentifier>{ce401f8c-bb23-48c7-a7c6-5d69120d27e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_CheckInBox">
+      <UniqueIdentifier>{d7ef559f-24cf-4d70-b68a-f099fbb236fb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
