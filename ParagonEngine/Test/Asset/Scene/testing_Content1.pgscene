@@ -170,7 +170,7 @@
 				</component>
 			</components>
 		</object>
-		<!--<object>
+		<object>
 			<name>BattleArea</name>
 			<active>true</active>
 			<tag></tag>
@@ -181,8 +181,8 @@
 					<data>
 						<position>
 							<x>0.000000</x>
-							<y>0.000000</y>
-							<z>0.000000</z>
+							<y>5.000000</y>
+							<z>-5.000000</z>
 						</position>
 						<rotation>
 							<w>1.000000</w>
@@ -217,14 +217,14 @@
               <y>0.000000</y>
               <z>0.000000</z>
             </rotationOffset>
-            <width>100</width>
+            <width>10</width>
             <height>10</height>
             <depth>10</depth>
           </data>
 				</component>
 			</components>
-		</object>-->
-		<object>
+		</object>
+		<!--<object>
 			<name>TrapArea</name>
 			<active>true</active>
 			<tag></tag>
@@ -277,7 +277,7 @@
           </data>
 				</component>
 			</components>
-		</object>
+		</object>-->
 			<object>
 			<name>Arrow_50</name>
 			<active>true</active>
