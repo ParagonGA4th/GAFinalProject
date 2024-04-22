@@ -2,16 +2,12 @@
 #include "ScriptInterface.h"
 #include "../ParagonMath/PgMath.h"
 
-namespace Pg::Data
-{
-	class GameObject;
-	class StaticBoxCollider;
-}
-
+namespace Pg::Data { class Collider; class StaticBoxCollider; }
 namespace Pg::API::Time { class PgTime; }
 
 namespace Pg::DataScript
 {
+	class PlayerBehavior;
 	class TrapArea : public ScriptInterface<TrapArea>
 	{
 		DEFINE_PARAGON_SCRIPT(TrapArea);
@@ -30,7 +26,14 @@ namespace Pg::DataScript
 	private:
 		Pg::API::Time::PgTime* _deltaTime;
 		Pg::Data::StaticBoxCollider* _collider;
+		Pg::DataScript::PlayerBehavior* _player;
+
+		float _previousMoveSpeed;
+		float _fallSpeed;
+		float _damage;
+
 		bool _isInit;
+		bool _prevIsInit;
 	};
 }
 
