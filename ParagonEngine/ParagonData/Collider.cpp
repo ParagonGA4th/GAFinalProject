@@ -219,6 +219,7 @@ namespace Pg::Data
 	void Collider::SetLayer(uint32_t layer)
 	{
 		_layer = layer;
+		_shape->setSimulationFilterData({ GetLayer(), 0, 0, 0 });
 	}
 
 }
