@@ -163,7 +163,7 @@ void Pg::Engine::TestScene::Initialize()
 		//tObj7->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_idle.pganim";
 		tObj7->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_run.pganim";
 		tObj7->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
-		tObj7->AddComponent<DemoPlayerAction>();
+		//tObj7->AddComponent<DemoPlayerAction>();
 	}
 
 	for (int i = 0; i < 30; i++)
