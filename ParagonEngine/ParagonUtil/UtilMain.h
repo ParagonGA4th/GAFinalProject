@@ -17,8 +17,6 @@ namespace Pg::Util
 		class TimeSystem;
 	}
 
-	//Tween은 따로 빼놓지를 않았다 별개의 namespace로.
-	class TweenSystem;
 
 	class UtilMain : public Pg::Core::IUtil
 	{
@@ -30,7 +28,6 @@ namespace Pg::Util
 	private:
 		Input::InputSystem* _inputSystem;
 		Time::TimeSystem* _timeSystem;
-		TweenSystem* _tweenSystem;
 	};
 }
 

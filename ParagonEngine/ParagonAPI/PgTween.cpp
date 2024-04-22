@@ -1,12 +1,12 @@
 #include "PgTween.h"
-#include "../ParagonUtil/TweenSystem.h"
+#include "../ParagonGameEngine/TweenSystem.h"
 #include <singleton-cpp/singleton.h>
 
 namespace Pg::API::Tween
 {
 	void PgTween::Initialize()
 	{
-		auto& tTweenSystem = singleton<Pg::Util::TweenSystem>();
+		auto& tTweenSystem = singleton<Pg::Engine::TweenSystem>();
 		_tweenSystem = &tTweenSystem;
 	}
 
