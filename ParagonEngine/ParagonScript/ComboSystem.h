@@ -2,7 +2,6 @@
 #include "ScriptInterface.h"
 #include <map>
 
-namespace Pg::Data { class GameObject; }
 namespace Pg::API::Time { class PgTime; }
 
 /// <summary>
