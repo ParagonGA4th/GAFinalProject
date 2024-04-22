@@ -765,7 +765,14 @@ namespace Pg::Engine::Physic
 				// Layer Mask 설정
 				shape->setSimulationFilterData({ capCol->GetLayer(), 0, 0, 0 });
 
+				//선속도 설정.
+				physx::PxVec3 linearVelo;
+				linearVelo.x = capCol->GetLinearVelocity().x;
+				linearVelo.y = capCol->GetLinearVelocity().y;
+				linearVelo.z = capCol->GetLinearVelocity().z;
+
 				//Rigid의 중력 조정
+				rigid->setLinearVelocity(linearVelo);
 				rigid->setAngularDamping(0.5f);
 				rigid->setLinearDamping(capCol->GetLinearDamping());
 

@@ -3,6 +3,7 @@
 #include "../ParagonGameEngine/PhysicSystem.h"
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/StaticSphereCollider.h"
 #include "../ParagonUtil/TimeSystem.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonUtil/Log.h"
@@ -15,6 +16,10 @@ Enemy::Enemy(Pg::Data::GameObject* obj) :
 
 void Enemy::Start()
 {
+	// Physic
+	auto& tPhysicSystem = singleton<Pg::Engine::Physic::PhysicSystem>();
+	tPhysic = &tPhysicSystem;
+
 	for (auto& iter : _object->_transform.GetChildren())
 	{
 		Pg::Data::StaticBoxCollider* staticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
@@ -38,8 +43,6 @@ void Enemy::Update()
 		{
 			_colVecActive = true;
 		}
-
-		//it->_playerDetected = false;
 	}
 
 	if (_colVecActive == false)

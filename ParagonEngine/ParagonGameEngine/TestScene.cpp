@@ -205,8 +205,8 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7_1->GetComponent<Transform>()->_position = { 5.0f, 3.0f, 0.0f };
 	tObj7_1->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_2);
-	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
-	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_4);
+	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
+	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_4);
 	tObj7_1->GetComponent<Transform>()->_rotation = tObj7_1->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 	tObj7_1->AddComponent<CapsuleCollider>();
 	tObj7_1->GetComponent<CapsuleCollider>()->SetPositionOffset({ 0.f, 2.5f, 0.f });
@@ -219,7 +219,7 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/final_mon_boss.fbx");
 	tObj7_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	tObj7_1->AddComponent<MovingTest>();
-	//tObj7_1->AddComponent<Enemy>();
+	tObj7_1->AddComponent<Enemy>();
 
 	///버튼 & 오디오
 	//Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Button");

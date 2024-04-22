@@ -48,6 +48,9 @@ namespace Pg::Data
 		void SetAngularVelocity(PGFLOAT3 velo);
 		PGFLOAT3 GetAngularVelocity() const;
 
+		void SetLinearVelocity(PGFLOAT3 velo);
+		PGFLOAT3 GetLinearVelocity() const;
+
 	public:
 		void AddForce(PGFLOAT3 dir, ForceMode mode);
 
@@ -84,6 +87,9 @@ namespace Pg::Data
 		float _linearDamping;
 		float _mass{ 1.0f };
 		bool _useGravity{ true };
+
+		//특정 방향으로의 중력값 조절.
+		Pg::Math::PGFLOAT3 _linearVelocity;
 	};
 }
 
