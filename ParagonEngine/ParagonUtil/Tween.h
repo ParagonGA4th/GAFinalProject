@@ -15,6 +15,10 @@
 namespace Pg::Util
 {
 	class TweenTimer;
+}
+
+namespace Pg::Engine
+{
 	class TweenSystem;
 }
 
@@ -22,15 +26,15 @@ namespace Pg::Util
 {
 	class Tween : public IResettable
 	{
-		friend class Pg::Util::TweenSystem;
+		friend class Pg::Engine::TweenSystem;
 
 	private:
-		Tween(); //TweenSystem만 Tween의 객체를 만들 수 있다.
+		PARAGON_UTIL_DLL Tween(); //TweenSystem만 Tween의 객체를 만들 수 있다.
 
 	public:
 		virtual void ResetSelf() override;
 
-		~Tween();
+		PARAGON_UTIL_DLL ~Tween();
 		//데이터 가져오기.
 		PARAGON_UTIL_DLL Tween& GetData(int* data);
 		PARAGON_UTIL_DLL Tween& GetData(float* data);
@@ -96,7 +100,7 @@ namespace Pg::Util
 		static float InOutQuint(float x);
 
 		//현재 사용되고 있는지만 반환한다.
-		bool GetIsUsed();
+		PARAGON_UTIL_DLL bool GetIsUsed();
 	private:
 		bool _isUsedRightNow{ false };
 

@@ -1,7 +1,9 @@
 #include "TrapArea.h"
+#include "PlayerBehavior.h"
 
-#include "../ParagonAPI/PgTime.h"
 #include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/DynamicCollider.h"
+#include "../ParagonAPI/PgTime.h"
 #include "../ParagonUtil/Log.h"
 
 #include <singleton-cpp/singleton.h>
@@ -26,6 +28,16 @@ void Pg::DataScript::TrapArea::Start()
 
 void Pg::DataScript::TrapArea::Update()
 {
+	if (_player != nullptr)
+	{
+		//if(trigger stay)
+		// 플레이어가 계속 빠져야 함
+		auto dcol = _player->_object->GetComponent<Pg::Data::DynamicCollider>();
+		dcol->SetLinearVelocity(dcol->GetLinearVelocity() * _deltaTime->GetDeltaTime() * _fallSpeed);
+
+		// 플레이어의 체력이 계속 깎여야 함
+		_player->healthPoint -= _deltaTime->GetDeltaTime() * _damage;
+	}
 }
 
 void Pg::DataScript::TrapArea::OnTriggerEnter(Pg::Data::Collider* col)
@@ -33,11 +45,9 @@ void Pg::DataScript::TrapArea::OnTriggerEnter(Pg::Data::Collider* col)
 	if (col->_object->GetTag() == "TAG_Player")
 	{
 		// 플레이어의 움직임이 느려져야 함
-		// deltaTime * moveSpeed
-		// 플레이어가 계속 빠져야 함
-		// deltaTime * force..?
-		// 플레이어의 체력이 계속 깎여야 함
-		// deltaTime * playerHP
+		_player = col->_object->GetComponent<Pg::DataScript::PlayerBehavior>();
+		_previousMoveSpeed = _player->moveSpeed;
+		_player->moveSpeed = _previousMoveSpeed / 2;
 
 		PG_TRACE("Trigger");
 		_isInit = true;
@@ -46,4 +56,10 @@ void Pg::DataScript::TrapArea::OnTriggerEnter(Pg::Data::Collider* col)
 
 void Pg::DataScript::TrapArea::OnTriggerExit(Pg::Data::Collider* col)
 {
+	// 플레이어의 속도가 돌아와야 한다
+	//_player->moveSpeed = _previousMoveSpeed;
+
+	// 플레이어가 계속 빠지면 안된다
+	//auto dcol = _player->_object->GetComponent<Pg::Data::DynamicCollider>();
+	//dcol->SetLinearVelocity({ 0.0f, 0.0f, 0.0f });
 }
