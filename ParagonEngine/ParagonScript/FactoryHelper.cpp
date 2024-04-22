@@ -33,7 +33,7 @@ namespace Pg::DataScript
 		{
 			if (scriptType.compare(iter.first) == 0)
 			{
-				obj->AddComponent(scriptType, iter.second(obj).release());
+				obj->AddComponent(scriptType, iter.second(obj));
 				return;
 			}
 		}
