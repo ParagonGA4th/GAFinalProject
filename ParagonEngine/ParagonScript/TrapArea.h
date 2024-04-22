@@ -7,7 +7,9 @@ namespace Pg::API::Time { class PgTime; }
 
 namespace Pg::DataScript
 {
-	class PlayerBehavior;
+	class PlayerMovement;
+	class PlayerBattleBehavior;
+
 	class TrapArea : public ScriptInterface<TrapArea>
 	{
 		DEFINE_PARAGON_SCRIPT(TrapArea);
@@ -26,7 +28,8 @@ namespace Pg::DataScript
 	private:
 		Pg::API::Time::PgTime* _deltaTime;
 		Pg::Data::StaticBoxCollider* _collider;
-		Pg::DataScript::PlayerBehavior* _player;
+		Pg::DataScript::PlayerMovement* _playerMovement;
+		Pg::DataScript::PlayerBattleBehavior* _playerBattleBehavior;
 
 		float _previousMoveSpeed;
 		float _fallSpeed;

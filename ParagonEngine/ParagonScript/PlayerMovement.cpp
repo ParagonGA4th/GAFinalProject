@@ -1,4 +1,4 @@
-#include "PlayerBehavior.h"
+#include "PlayerMovement.h"
 
 #include "../ParagonData/Camera.h"
 #include "../ParagonData/GameObject.h"
@@ -14,7 +14,7 @@
 
 namespace Pg::DataScript
 {
-	PlayerBehavior::PlayerBehavior(Pg::Data::GameObject* obj) : ScriptInterface(obj)
+	PlayerMovement::PlayerMovement(Pg::Data::GameObject* obj) : ScriptInterface(obj)
 	{
 		//Input 객체 받아오기.
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
@@ -22,13 +22,13 @@ namespace Pg::DataScript
 		_pgRayCast = &singleton<Pg::API::Raycast::PgRayCast>();
 	}
 
-	void PlayerBehavior::Awake()
+	void PlayerMovement::Awake()
 	{
 		
 		
 	}
 
-	void PlayerBehavior::Start()
+	void PlayerMovement::Start()
 	{
 		//다른 스크립트의 Awake에서 새롭게 인게임 메인카메라를 설정해야 한다.
 		_mainCam = _object->GetScene()->GetMainCamera();
@@ -40,7 +40,7 @@ namespace Pg::DataScript
 		_selfCol->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PLAYER);
 	}
 
-	void PlayerBehavior::Update()
+	void PlayerMovement::Update()
 	{
 		//Z축 향해 뒤집기. 어디에서 불완전한 연결이 일어나는지는 확인해봐야 할 것 같다.
 		Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGReflectVectorAgainstAxis(_object->_transform.GetForward(), {0,0,1});
@@ -58,7 +58,7 @@ namespace Pg::DataScript
 		UpdateFacingDirection(0); //Plane Y-Level 입력해야.
 	}
 
-	void PlayerBehavior::UpdateWASD()
+	void PlayerMovement::UpdateWASD()
 	{
 		//Camera -> GameObject를 바라보는 방향이 Forward여야 한다!
 		Pg::Math::PGFLOAT3 relativeForward = this->_object->_transform._position - _mainCam->_object->_transform._position;
@@ -112,7 +112,7 @@ namespace Pg::DataScript
 		}
 	}
 
-	void PlayerBehavior::UpdateFacingDirection(float yLevelPlane)
+	void PlayerMovement::UpdateFacingDirection(float yLevelPlane)
 	{
 		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseLeft))
 		{

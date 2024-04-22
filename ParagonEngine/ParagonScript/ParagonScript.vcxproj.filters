@@ -31,9 +31,6 @@
     <Filter Include="Content\CombatSystem">
       <UniqueIdentifier>{0674ed6d-3008-448f-9db0-e3cabd7ed726}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\PlayerBehavior">
-      <UniqueIdentifier>{2e6ac2b5-bce0-4ab8-8854-bab3a583a260}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Content\InGameCameraBehavior">
       <UniqueIdentifier>{00365054-e5bc-4e48-a164-ce50d6ec82fc}</UniqueIdentifier>
     </Filter>
@@ -64,6 +61,24 @@
     <Filter Include="Testing\TweenTest">
       <UniqueIdentifier>{441c9016-b767-45df-bc76-f201dfdb2f43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2_Events">
+      <UniqueIdentifier>{f052efad-21c6-40f5-8120-2698a91046ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Events\Interface">
+      <UniqueIdentifier>{e6a55af9-4bf3-4dc2-b598-aebfb1d53dbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\CombatSystem\EventRelated">
+      <UniqueIdentifier>{1c94f4da-23b6-42ea-aa5e-589edaa81ef3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Events\Helper">
+      <UniqueIdentifier>{52f11182-1aad-49f6-a208-526ca6e14f3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\PlayerMovement">
+      <UniqueIdentifier>{2e6ac2b5-bce0-4ab8-8854-bab3a583a260}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\PlayerBattleBehavior">
+      <UniqueIdentifier>{d3746401-48fd-4da7-92cf-3b0ce8192645}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -87,8 +102,8 @@
     <ClCompile Include="ComboSystem.cpp">
       <Filter>Content\ComboSystem</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBehavior.cpp">
-      <Filter>Content\PlayerBehavior</Filter>
+    <ClCompile Include="PlayerMovement.cpp">
+      <Filter>Content\PlayerMovement</Filter>
     </ClCompile>
     <ClCompile Include="InGameCameraBehavior.cpp">
       <Filter>Content\InGameCameraBehavior</Filter>
@@ -110,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="TrapArea.cpp">
       <Filter>Content\MapLogic\Trap Area</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBattleBehavior.cpp">
+      <Filter>Content\PlayerBattleBehavior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -140,8 +158,8 @@
     <ClInclude Include="ComboSystem.h">
       <Filter>Content\ComboSystem</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBehavior.h">
-      <Filter>Content\PlayerBehavior</Filter>
+    <ClInclude Include="PlayerMovement.h">
+      <Filter>Content\PlayerMovement</Filter>
     </ClInclude>
     <ClInclude Include="InGameCameraBehavior.h">
       <Filter>Content\InGameCameraBehavior</Filter>
@@ -163,6 +181,30 @@
     </ClInclude>
     <ClInclude Include="TrapArea.h">
       <Filter>Content\MapLogic\Trap Area</Filter>
+    </ClInclude>
+    <ClInclude Include="IEvent.h">
+      <Filter>2_Events\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Event_PlayerDeath.h">
+      <Filter>Content\CombatSystem\EventRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="IObserver.h">
+      <Filter>2_Events\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptEventHelper.h">
+      <Filter>2_Events\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBattleBehavior.h">
+      <Filter>Content\PlayerBattleBehavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Event_PlayerHealthChange.h">
+      <Filter>Content\CombatSystem\EventRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="Event_PlayerManaChange.h">
+      <Filter>Content\CombatSystem\EventRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="Event_PlayerStaminaChange.h">
+      <Filter>Content\CombatSystem\EventRelated</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

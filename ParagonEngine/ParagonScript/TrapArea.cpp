@@ -1,5 +1,6 @@
 #include "TrapArea.h"
-#include "PlayerBehavior.h"
+#include "PlayerMovement.h"
+#include "PlayerBattleBehavior.h"
 
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/DynamicCollider.h"
@@ -28,15 +29,16 @@ void Pg::DataScript::TrapArea::Start()
 
 void Pg::DataScript::TrapArea::Update()
 {
-	if (_player != nullptr)
+	//Exit 할 때 nullptr 할당 해줘야. CombatSystem을 통한 연결 작업 중, 일단은 보여줘야 하니 이렇게 ㄱㄱ!
+	if (_playerBattleBehavior != nullptr)
 	{
 		//if(trigger stay)
 		// 플레이어가 계속 빠져야 함
-		auto dcol = _player->_object->GetComponent<Pg::Data::DynamicCollider>();
+		auto dcol = _playerBattleBehavior->_object->GetComponent<Pg::Data::DynamicCollider>();
 		dcol->SetLinearVelocity(dcol->GetLinearVelocity() * _deltaTime->GetDeltaTime() * _fallSpeed);
 
 		// 플레이어의 체력이 계속 깎여야 함
-		_player->healthPoint -= _deltaTime->GetDeltaTime() * _damage;
+		_playerBattleBehavior->healthPoint -= _deltaTime->GetDeltaTime() * _damage;
 	}
 }
 
@@ -45,9 +47,12 @@ void Pg::DataScript::TrapArea::OnTriggerEnter(Pg::Data::Collider* col)
 	if (col->_object->GetTag() == "TAG_Player")
 	{
 		// 플레이어의 움직임이 느려져야 함
-		_player = col->_object->GetComponent<Pg::DataScript::PlayerBehavior>();
-		_previousMoveSpeed = _player->moveSpeed;
-		_player->moveSpeed = _previousMoveSpeed / 2;
+		_playerBattleBehavior = col->_object->GetComponent<Pg::DataScript::PlayerBattleBehavior>();
+		_playerMovement = col->_object->GetComponent<Pg::DataScript::PlayerMovement>();
+		assert(_playerBattleBehavior != nullptr && _playerMovement != nullptr);
+
+		_previousMoveSpeed = _playerMovement->moveSpeed;
+		_playerMovement->moveSpeed = _previousMoveSpeed / 2;
 
 		PG_TRACE("Trigger");
 		_isInit = true;
