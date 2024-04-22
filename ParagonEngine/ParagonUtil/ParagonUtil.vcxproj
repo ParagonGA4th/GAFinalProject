@@ -167,6 +167,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CheckInBox.h" />
     <ClInclude Include="EasingMode.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="IResettable.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="UtilMain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CheckInBox.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="Log.cpp" />
   </ItemGroup>
