@@ -54,10 +54,10 @@ void Pg::DataScript::TrapArea::Update()
 		}
 		else
 		{
-			// 플레이어의 속도가 돌아와야 한다
+			// 플레이어의 속도가 돌아와야 함
 			_playerMovement->moveSpeed = _previousMoveSpeed;
 
-			// 플레이어가 계속 빠지면 안된다
+			// 플레이어가 계속 빠지면 안됨
 			auto dcol = _playerBattleBehavior->_object->GetComponent<Pg::Data::DynamicCollider>();
 			dcol->SetLinearVelocity({ 0.0f, 0.0f, 0.0f });
 		}
@@ -77,6 +77,5 @@ void Pg::DataScript::TrapArea::OnTriggerEnter(Pg::Data::Collider* col)
 		_playerMovement->moveSpeed = _previousMoveSpeed / 2;
 
 		PG_TRACE("Trigger");
-		_isInit = true;
 	}
 }
