@@ -5,6 +5,7 @@
 #include "PgTween.h"
 #include "PgRayCast.h"
 #include "PgGraphics.h"
+#include "PgScene.h"
 
 #include <singleton-cpp/singleton.h>
 
@@ -30,12 +31,16 @@ namespace Pg::API
 		auto& tPgGraphics = singleton<Pg::API::Graphics::PgGraphics>();
 		this->_pgGraphics = &tPgGraphics;
 
+		auto& tPgScene = singleton<Pg::API::PgScene>();
+		this->_pgScene = &tPgScene;
+
 		_pgInput->Initialize();
 		_pgTime->Initialize();
 		_pgRayCast->Initialize();
 		_pgAudio->Initialize();
 		_pgTween->Initialize();
 		_pgGraphics->Initialize();
+		_pgScene->Initialize();
 	}
 
 	void APIMain::Finalize()

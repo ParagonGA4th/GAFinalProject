@@ -161,6 +161,7 @@
     <ClInclude Include="PgGraphics.h" />
     <ClInclude Include="PgInput.h" />
     <ClInclude Include="PgRayCast.h" />
+    <ClInclude Include="PgScene.h" />
     <ClInclude Include="PgTime.h" />
     <ClInclude Include="PgTween.h" />
   </ItemGroup>
@@ -170,6 +171,7 @@
     <ClCompile Include="PgGraphics.cpp" />
     <ClCompile Include="PgInput.cpp" />
     <ClCompile Include="PgRayCast.cpp" />
+    <ClCompile Include="PgScene.cpp" />
     <ClCompile Include="PgTime.cpp" />
     <ClCompile Include="PgTween.cpp" />
   </ItemGroup>

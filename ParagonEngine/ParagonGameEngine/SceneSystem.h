@@ -2,6 +2,8 @@
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/EditorMode.h"
+
+#include "EngineDLLExporter.h"
 #include <unordered_map>
 #include <vector>
 
@@ -40,8 +42,8 @@ namespace Pg::Engine
 	class SceneSystem
 	{
 	public:
-		SceneSystem();
-		~SceneSystem();
+		PARAGON_ENGINE_DLL SceneSystem();
+		PARAGON_ENGINE_DLL ~SceneSystem();
 
 		void Initialize();
 
@@ -54,6 +56,7 @@ namespace Pg::Engine
 		void LoadEmptyScene();
 		void UnLoadSCene();
 		void SetCurrentScene(Scene* scene);
+		PARAGON_ENGINE_DLL void SetCurrentScene(const std::string& sceneName);
 
 		Scene* GetCurrentScene();		
 		

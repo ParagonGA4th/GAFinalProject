@@ -17,7 +17,7 @@
 #include <algorithm>
 #include <ranges>
 #include <singleton-cpp/singleton.h>
-
+#include <cassert>
 namespace Pg::Engine
 {
 	SceneSystem::SceneSystem() : _isStarted(false)
@@ -150,6 +150,20 @@ namespace Pg::Engine
 		auto& tBTSystem = singleton<BTree::BehaviorTreeSystem>();
 		_btSystem = &tBTSystem;
 		_btSystem->SyncSceneActiveBT();
+	}
+
+	void SceneSystem::SetCurrentScene(const std::string& sceneName)
+	{
+		for (auto& iter : _sceneList)
+		{
+			if (iter.first == sceneName)
+			{
+				SetCurrentScene(iter.second);
+
+				break;
+			}
+		}
+		assert(false && "SceneName과 동일한 Scene이 존재하지 않음.");
 	}
 
 	Pg::Data::Scene* SceneSystem::GetCurrentScene()
