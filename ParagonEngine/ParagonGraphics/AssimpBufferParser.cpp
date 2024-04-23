@@ -363,7 +363,7 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
-	void AssimpBufferParser::AssimpToMaterialClusterList(const aiScene* assimp, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory)
+	void AssimpBufferParser::AssimpToMaterialClusterList(const aiScene* assimp, bool& bCheckIfUseAlphaBlending, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory)
 	{
 		//미리 GraphicsResourceManager 받아오기.
 		GraphicsResourceManager* tGraphicsResourceManager = GraphicsResourceManager::Instance();
@@ -383,6 +383,12 @@ namespace Pg::Graphics::Helper
 				int tTexTypeTexCnt = assimp->mMaterials[i]->GetTextureCount((aiTextureType)tTexType);
 				if (tTexTypeTexCnt > 0)
 				{
+					//다른 모든 로직이 돌아가기 전에, Alpha를 사용하는데 TexCnt가 있으면 해당 AssetModelData에 체크해야 한다.
+					if (tTexType == PG_TextureType_OPACITY)
+					{
+						bCheckIfUseAlphaBlending = true;
+					}
+
 					aiString tAssimpTexturePath;
 					assimp->mMaterials[i]->GetTexture((aiTextureType)tTexType, 0, &tAssimpTexturePath); //항상 0번째 Texture만을 가져오게!
 					std::string tTexturePath = tAssimpTexturePath.C_Str();

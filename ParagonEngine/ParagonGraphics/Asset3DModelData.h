@@ -56,6 +56,7 @@ namespace Pg::Graphics
 		bool _isSkinned = false;
 		Scene_AssetData* _assetSceneData = nullptr;
 		Skinned_AssetData* _assetSkinnedData = nullptr;
+		bool _isUseAlphaBlending{ false };
 
 		//해당 Vector의 인덱스는, Mesh 매터리얼의 인덱스와 같다. -> 개별 material cluster 보관.
 		std::vector<MaterialCluster*> _materialClusterList;
