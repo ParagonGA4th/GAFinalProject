@@ -256,9 +256,9 @@ namespace Pg::Data
 	Pg::Math::PGFLOAT4X4 Transform::GetLocalTM()
 	{
 		//Scale: 0값 되는 것 막기.
-		bool tValidScale = (_scale.x > std::numeric_limits<float>::epsilon()) ||
-			(_scale.y > std::numeric_limits<float>::epsilon()) ||
-			(_scale.z > std::numeric_limits<float>::epsilon());
+		bool tValidScale = (std::fabs(_scale.x) > std::numeric_limits<float>::epsilon()) ||
+			(std::fabs(_scale.y) > std::numeric_limits<float>::epsilon()) ||
+			(std::fabs(_scale.z) > std::numeric_limits<float>::epsilon());
 
 		if (!tValidScale)
 		{
@@ -463,6 +463,28 @@ namespace Pg::Data
 		{
 			_children.erase(res);
 		}
+	}
+
+	bool Transform::IsScaleOddMinus()
+	{
+		int i = 0;
+
+		if (_scale.x < 0)
+		{
+			i++;
+		}
+		if (_scale.y < 0)
+		{
+			i++;
+		}
+		if (_scale.z < 0)
+		{
+			i++;
+		}
+
+		return (i % 2 == 1);
+
+		//return false;
 	}
 
 }

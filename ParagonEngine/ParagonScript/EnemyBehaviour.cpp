@@ -37,7 +37,7 @@ namespace Pg::DataScript
 	{
 		_renderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		assert(_renderer != nullptr);
-	}
+	}	
 
 	void EnemyBehaviour::Start()
 	{

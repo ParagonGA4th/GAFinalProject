@@ -15,7 +15,7 @@
             <position>
               <x>0.0</x>
               <y>0.0</y>
-              <z>340.0</z>
+              <z>0.0</z>
             </position>
             <rotation>
               <w>0.0</w>
@@ -26,124 +26,7 @@
             <scale>
               <x>2.0</x>
               <y>2.0</y>
-              <z>2.0</z>
-            </scale>
-          </data>
-        </component>
-        <component>
-          <type>class Pg::Data::StaticMeshRenderer</type>
-          <data>
-            <isInstanced>0</isInstanced>
-            <meshName>test.test</meshName>
-            <materialName>fromUnrealExample</materialName>
-          </data>
-        </component>
-      </components>
-    </object>
-    <object>
-      <uuid>BCE69B644540E6670DE0F9A1B7971924</uuid>
-      <name>test4.00</name>
-      <tag>FromUnreal</tag>
-      <active>true</active>
-      <parent>0</parent>
-      <parent_uuid>BCE69B644540E6670DE0F9A1B7971924</parent_uuid>
-      <components>
-        <component>
-          <type>class Pg::Data::Transform</type>
-          <data>
-            <position>
-              <x>0.0</x>
-              <y>250.0</y>
-              <z>0.0</z>
-            </position>
-            <rotation>
-              <w>0.0</w>
-              <x>1.0</x>
-              <y>0.0</y>
-              <z>0.0</z>
-            </rotation>
-            <scale>
-              <x>1.0</x>
-              <y>1.0</y>
-              <z>1.0</z>
-            </scale>
-          </data>
-        </component>
-        <component>
-          <type>class Pg::Data::StaticMeshRenderer</type>
-          <data>
-            <isInstanced>0</isInstanced>
-            <meshName>test.test</meshName>
-            <materialName>fromUnrealExample</materialName>
-          </data>
-        </component>
-      </components>
-    </object>
-    <object>
-      <uuid>4F6092CD4AA4D8647BA7DA9B368253C5</uuid>
-      <name>test5.00</name>
-      <tag>FromUnreal</tag>
-      <active>true</active>
-      <parent>0</parent>
-      <parent_uuid>4F6092CD4AA4D8647BA7DA9B368253C5</parent_uuid>
-      <components>
-        <component>
-          <type>class Pg::Data::Transform</type>
-          <data>
-            <position>
-              <x>290.0</x>
-              <y>0.0</y>
-              <z>0.0</z>
-            </position>
-            <rotation>
-              <w>0.0</w>
-              <x>0.707107</x>
-              <y>0.0</y>
-              <z>-0.707107</z>
-            </rotation>
-            <scale>
-              <x>1.0</x>
-              <y>1.0</y>
-              <z>1.0</z>
-            </scale>
-          </data>
-        </component>
-        <component>
-          <type>class Pg::Data::StaticMeshRenderer</type>
-          <data>
-            <isInstanced>0</isInstanced>
-            <meshName>test.test</meshName>
-            <materialName>fromUnrealExample</materialName>
-          </data>
-        </component>
-      </components>
-    </object>
-    <object>
-      <uuid>D2F61E2347370D2E6D882693D461418F</uuid>
-      <name>gizmo2.00</name>
-      <tag>FromUnreal</tag>
-      <active>true</active>
-      <parent>0</parent>
-      <parent_uuid>D2F61E2347370D2E6D882693D461418F</parent_uuid>
-      <components>
-        <component>
-          <type>class Pg::Data::Transform</type>
-          <data>
-            <position>
-              <x>0.0</x>
-              <y>0.0</y>
-              <z>0.0</z>
-            </position>
-            <rotation>
-              <w>0.0</w>
-              <x>1.0</x>
-              <y>0.0</y>
-              <z>0.0</z>
-            </rotation>
-            <scale>
-              <x>0.5</x>
-              <y>0.5</y>
-              <z>0.5</z>
+              <z>-2.0</z>
             </scale>
           </data>
         </component>

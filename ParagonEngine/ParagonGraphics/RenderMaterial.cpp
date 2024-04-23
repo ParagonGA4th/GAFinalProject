@@ -445,4 +445,8 @@ namespace Pg::Graphics
 		return _materialID;
 	}
 
+	bool RenderMaterial::GetIsUseAlphaBlending()
+	{
+		return _isUseAlphaBlending;
+	}
 }
