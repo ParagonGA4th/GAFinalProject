@@ -4,7 +4,9 @@
 namespace Pg::Data
 {
 	class GameObject;
+	class Transform;
 	class StaticBoxCollider;
+	class CapsuleCollider;
 }
 
 namespace Pg::API
@@ -30,17 +32,23 @@ namespace Pg::DataScript
 		EnemyBehaviour(Pg::Data::GameObject* obj);
 
 	public:
+		virtual void BeforePhysicsUpdate() override;
 		virtual void Start() override;
+		virtual void Awake() override;
 		virtual void Update() override;
 
 	private:
-		Pg::API::Raycast::PgRayCast* _pgRayCast = nullptr;
+		Pg::Data::CapsuleCollider* _collider;
+		Pg::API::Raycast::PgRayCast* _pgRayCast;
 		EnemySight* _enemySight = nullptr;
 
 		std::vector<Pg::Data::StaticBoxCollider*> colVec;
 		std::vector<EnemySight*> aiSightVec;
 
 		bool _colVecActive = true;
+
+		//미리 BeforePhysicsUpdate를 호출했었는지.
+		bool _alreadyCalledBPU = false;
 	};
 
 	//const bool PlayerMove::registered_ = ScriptInterface<PlayerMove>::register_type();
