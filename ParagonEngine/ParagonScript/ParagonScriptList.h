@@ -21,3 +21,4 @@
 #include "ArrowShooterBehavior.h"
 #include "BattleArea.h"
 #include "TrapArea.h"
+#include "Portal.h"

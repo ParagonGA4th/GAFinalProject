@@ -15,6 +15,7 @@ void Pg::DataScript::Portal::Awake()
 	assert(_collider != nullptr);
 
 	_sceneHelper = new Pg::API::PgScene();
+	_sceneHelper->Initialize();
 }
 
 void Pg::DataScript::Portal::Start()
@@ -33,7 +34,7 @@ void Pg::DataScript::Portal::OnTriggerEnter(Pg::Data::Collider* col)
 	{
 		//if (_object->GetScene()->GetSceneName() == "stage1")
 		//{
-		//	_sceneHelper->SetCurrentScene("stage1");
+			_sceneHelper->SetCurrentScene("testScene");
 		//}
 	}
 }
