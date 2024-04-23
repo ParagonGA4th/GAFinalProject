@@ -850,22 +850,22 @@ namespace Pg::Math
 		return tRet;
 	}
 
-	Pg::Math::PGFLOAT3 PGConvertD3DPositionToPhysX(PGFLOAT3 val)
+	Pg::Math::PGFLOAT3 PGConvertD3DVec3RotToPhysX(PGFLOAT3 val)
 	{
 		return PGFLOAT3(-val.x, val.y, val.z);
 	}
 
-	Pg::Math::PGFLOAT3 PGConvertPhysXPositionToD3D(PGFLOAT3 val)
+	Pg::Math::PGFLOAT3 PGConvertPhysXVec3RotToD3D(PGFLOAT3 val)
 	{
 		return PGFLOAT3(-val.x, val.z, val.y);
 	}
 
-	Pg::Math::PGQuaternion PGConvertD3DRotationToPhysX(PGQuaternion val)
+	Pg::Math::PGQuaternion PGConvertD3DQuatRotToPhysX(PGQuaternion val)
 	{
 		return PGQuaternion(val.w, -val.x, -val.z, val.y);
 	}
 
-	Pg::Math::PGQuaternion PGConvertPhysXRotationToD3D(PGQuaternion val)
+	Pg::Math::PGQuaternion PGConvertPhysXQuatRotToD3D(PGQuaternion val)
 	{
 		return PGQuaternion(val.w, -val.x, val.z, val.y);
 	}
