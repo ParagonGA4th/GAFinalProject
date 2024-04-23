@@ -34,7 +34,7 @@
 						<isInstanced>0</isInstanced>
 						<meshName>ErikaMixamo.fbx</meshName>
 						<materialName></materialName>
-						<initAnimName>test_run.pganim</initAnimName>
+						<initAnimName>test_idle.pganim</initAnimName>
 					</data>
 				</component>
 				<component>
@@ -284,7 +284,7 @@
 				</component>
 			</components>
 		</object>-->		
-		<object>
+		<!--<object>
 			<name>TrapArea</name>
 			<active>true</active>
 			<tag></tag>
@@ -337,7 +337,7 @@
           </data>
 				</component>
 			</components>
-		</object>
+		</object>-->
 			<object>
 			<name>Arrow_50</name>
 			<active>true</active>
@@ -3521,9 +3521,9 @@
 				<z>0.000000</z>
 			  </rotation>
 			  <scale>
-				<x>1.000000</x>
-				<y>1.000000</y>
-				<z>1.000000</z>
+				<x>2.00000</x>
+				<y>2.00000</y>
+				<z>2.00000</z>
 			  </scale>
 			</data>
 		  </component>
@@ -3542,7 +3542,7 @@
 			  <trigger>false</trigger>
 			  <positionOffset>
 				<x>0.000000</x>
-				<y>0.000000</y>
+				<y>2.000000</y>
 				<z>0.000000</z>
 			  </positionOffset>
 			  <rotationOffset>
@@ -3551,8 +3551,8 @@
 				<y>0.000000</y>
 				<z>0.000000</z>
 			  </rotationOffset>
-			  <radius>1.000000</radius>
-			  <halfHeight>1.000000</halfHeight>
+			  <radius>2.000000</radius>
+			  <halfHeight>2.000000</halfHeight>
 			</data>
 		  </component>
 		  <component>
@@ -3572,9 +3572,9 @@
 			<type>class Pg::Data::Transform</type>
 			<data>
 			  <position>
-				<x>10.000000</x>
+				<x>0.000000</x>
 				<y>0.000000</y>
-				<z>10.000000</z>
+				<z>0.000000</z>
 			  </position>
 			  <rotation>
 				<w>1.000000</w>
@@ -3583,7 +3583,7 @@
 				<z>0.000000</z>
 			  </rotation>
 			  <scale>
-				<x>1.000000</x>
+				<x>2.500000</x>
 				<y>1.000000</y>
 				<z>1.000000</z>
 			  </scale>
@@ -3596,7 +3596,7 @@
 			  <positionOffset>
 				<x>0.000000</x>
 				<y>0.000000</y>
-				<z>0.000000</z>
+				<z>2.300000</z>
 			  </positionOffset>
 			  <rotationOffset>
 				<w>1.000000</w>
@@ -3604,8 +3604,8 @@
 				<y>0.000000</y>
 				<z>0.000000</z>
 			  </rotationOffset>
-			  <width>0.250000</width>
-			  <height>0.250000</height>
+			  <width>1.0000</width>
+			  <height>1.0000</height>
 			  <depth>1.000000</depth>
 			</data>
 		  </component>

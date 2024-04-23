@@ -4,8 +4,8 @@ namespace Pg::Data
 {
 	CapsuleCollider::CapsuleCollider(GameObject* owner) :
 		DynamicCollider(owner),
-		_radius(1.0f),
-		_halfHeight(1.0f)
+		_radius(2.0f),
+		_halfHeight(2.0f)
 	{
 	}
 
