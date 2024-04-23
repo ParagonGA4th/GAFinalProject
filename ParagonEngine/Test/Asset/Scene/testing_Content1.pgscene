@@ -56,7 +56,12 @@
 					</data>
 				</component>
 				<component>
-					<type>class Pg::DataScript::PlayerBehavior</type>
+					<type>class Pg::DataScript::PlayerMovement</type>
+					<data>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::DataScript::PlayerBattleBehavior</type>
 					<data>
 					</data>
 				</component>

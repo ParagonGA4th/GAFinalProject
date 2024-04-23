@@ -51,5 +51,21 @@ namespace Pg::DataScript
 #define DEFINE_PARAGON_SCRIPT(T) \
 public: \
     static inline const std::string class_identifier = ctti::type_id<T>().name().begin(); \
-    static std::unique_ptr<Script> create_instance(Pg::Data::GameObject* obj) { return std::make_unique<T>(obj); }
+    static Script* create_instance(Pg::Data::GameObject* obj) { return new T(obj); }
 
+//위 구현체를 응용, Script 단계부터 Singleton을 선언할 수 있게 하자! DontDestroyOnLoad를 쓸 필요도 없게.
+//이 경우, 생성자를 명시적으로 정의해버리면 안된다.
+//얘를 쓰는 스크립트인 경우, 타 스크립트들이 GetInstance(); 를 통해 받아올 수 있다.
+#define DEFINE_PARAGON_SCRIPT_SINGLETON(T) \
+public: \
+static inline const std::string class_identifier = ctti::type_id<T>().name().begin(); \
+static Script* create_instance(Pg::Data::GameObject* obj) { return T::GetInstance(obj); } \
+static T* GetInstance(Pg::Data::GameObject* obj) \
+{ \
+	static T inst(obj); \
+	return &inst; \
+} \
+private: \
+T(Pg::Data::GameObject* obj) : ScriptInterface(obj) {}
+
+	
