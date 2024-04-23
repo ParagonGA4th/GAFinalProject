@@ -1,5 +1,5 @@
 #include "BattleArea.h"
-#include "PlayerBehavior.h"
+#include "PlayerBattleBehavior.h"
 
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/DynamicCollider.h"
@@ -69,7 +69,7 @@ void Pg::DataScript::BattleArea::OnTriggerEnter(Pg::Data::Collider* col)
 {
 	if (col->_object->GetTag() == "TAG_Player")
 	{
-		_player = col->_object->GetComponent<Pg::DataScript::PlayerBehavior>();
+		_player = col->_object->GetComponent<Pg::DataScript::PlayerBattleBehavior>();
 
 		PG_TRACE("Trigger");
 	}
