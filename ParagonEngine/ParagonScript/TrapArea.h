@@ -32,11 +32,7 @@ namespace Pg::DataScript
 
 		// 플레이어의 기본 속도
 		float _previousMoveSpeed;
-		float _fallSpeed = 0.2f; // 빠지는 속도
 		float _damage = 0.2f;	 // 체력 감소 속도	
-
-		bool _isInit;
-		bool _prevIsInit;
 	};
 }
 

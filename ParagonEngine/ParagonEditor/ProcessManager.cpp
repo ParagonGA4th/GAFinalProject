@@ -81,6 +81,9 @@ void Pg::Editor::Manager::ProcessManager::Update()
 		}
 		_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
 		_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
+
+		if (_coreMain->GetEditorAdapter()->GetCurrentScene() != _dataContainer->GetCurrentScene())
+			_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
 	}
 
 

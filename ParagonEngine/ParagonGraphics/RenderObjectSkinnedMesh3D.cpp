@@ -14,6 +14,7 @@
 
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/ParagonDefines.h"
+#include "../ParagonData/AnimTransform.h"
 
 #include <dxtk/WICTextureLoader.h>
 #include <dxtk/SimpleMath.h>
@@ -257,13 +258,13 @@ namespace Pg::Graphics
 
 			const ModifiedNode_SkinnedMesh* node = _animatedModifNodeMap[nodeAnim->_nodeName];
 			//무조건 NodeAnim은 Node와 매칭되어야 하는데..?
-			//if (node == nullptr)
-			//{
-			//	//애초에 못 찾았으면 안되는데.. 원래 FBX에 없었던 값이 채워지는 것 같다.
-			//	//Armature.002라는 프로퍼티가 문제됨.
-			//	//일단은 무시할 것.
-			//	continue;
-			//}
+			if (node == nullptr)
+			{
+				//애초에 못 찾았으면 안되는데.. 원래 FBX에 없었던 값이 채워지는 것 같다.
+				//Armature.002라는 프로퍼티가 문제됨.
+				//일단은 무시할 것.
+				continue;
+			}
 
 			//TODO : NodeAnim 없는 경우 대비.
 			
@@ -495,6 +496,14 @@ namespace Pg::Graphics
 		{
 			FillInBoneBuffer(selfNode->_childrenList[i].get());
 		}
+	}
+
+	Pg::Data::AnimTransform* RenderObjectSkinnedMesh3D::FindAnimTransform(const std::string& animNodeName)
+	{
+		assert(_animatedModifNodeMap.contains(animNodeName) && "본 이름이 기록되어 있지 않다!");
+
+		const ModifiedNode_SkinnedMesh* tVal = _animatedModifNodeMap.at(animNodeName);
+		return tVal->_relTransform.get();
 	}
 
 }

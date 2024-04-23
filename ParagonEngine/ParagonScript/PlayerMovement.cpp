@@ -4,6 +4,7 @@
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/Scene.h"
+#include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/PgTime.h"
@@ -32,7 +33,13 @@ namespace Pg::DataScript
 	{
 		//다른 스크립트의 Awake에서 새롭게 인게임 메인카메라를 설정해야 한다.
 		_mainCam = _object->GetScene()->GetMainCamera();
+		
+		_renderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		assert(_renderer != nullptr);
+
 		_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
+		assert(_selfCol != nullptr);
+
 		_selfCol->FreezeAxisX(true);
 		_selfCol->FreezeAxisZ(true);
 		_selfCol->SetMass(2.0f);
@@ -43,15 +50,20 @@ namespace Pg::DataScript
 	void PlayerMovement::Update()
 	{
 		//Z축 향해 뒤집기. 어디에서 불완전한 연결이 일어나는지는 확인해봐야 할 것 같다.
-		Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGReflectVectorAgainstAxis(_object->_transform.GetForward(), {0,0,1});
-		tShouldShootDir = Pg::Math::PGFloat3Normalize(tShouldShootDir);
+		//Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGReflectVectorAgainstAxis(_object->_transform.GetForward(), {0,0,1});
+		//tShouldShootDir = Pg::Math::PGFloat3Normalize(tShouldShootDir);
+		Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGFloat3Normalize(_object->_transform.GetForward());
+		tShouldShootDir = PGConvertD3DVec3RotToPhysX(tShouldShootDir);
+		Pg::Math::PGFLOAT3 tBasePosition = _object->_transform._position;
 
 		//로직과 상관없는 거
 		Pg::Math::PGFLOAT3 outHitPoint;
 		float tFloat = 2.0f;
-		_pgRayCast->MakeRay({ _object->_transform._position.x + tShouldShootDir.x * tFloat,
-						_object->_transform._position.y + tShouldShootDir.y * tFloat,
-						_object->_transform._position.z + tShouldShootDir.z * tFloat },
+		Pg::Math::PGFLOAT3 tD3DOrigin = { tBasePosition.x + tShouldShootDir.x * tFloat,
+						tBasePosition.y + tShouldShootDir.y * tFloat,
+						tBasePosition.z + tShouldShootDir.z * tFloat };
+
+		_pgRayCast->MakeRay(tD3DOrigin,
 			tShouldShootDir, 30.0f, outHitPoint, nullptr);
 
 		UpdateWASD();
@@ -62,6 +74,7 @@ namespace Pg::DataScript
 	{
 		//Camera -> GameObject를 바라보는 방향이 Forward여야 한다!
 		Pg::Math::PGFLOAT3 relativeForward = this->_object->_transform._position - _mainCam->_object->_transform._position;
+
 		//Y Vector 캔슬 + 정규화.
 		relativeForward.y = 0.0f;
 		relativeForward = Pg::Math::PGFloat3Normalize(relativeForward);
@@ -71,6 +84,16 @@ namespace Pg::DataScript
 
 		relativeForward = { relativeForward.x * moveSpeed, relativeForward.y * moveSpeed, relativeForward.z * moveSpeed };
 		relativeLeft = { relativeLeft.x * moveSpeed, relativeLeft.y * moveSpeed, relativeLeft.z * moveSpeed };
+
+
+		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyUp) ||
+			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyDown) ||
+			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyLeft) ||
+			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyRight))
+		{
+			///SetAnimation : Run
+			_renderer->SetAnimation("test_run.pganim", true);
+		}
 
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyUp))
 		{
@@ -94,6 +117,9 @@ namespace Pg::DataScript
 			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::KeyLeft) ||
 			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::KeyRight))
 		{
+			///SetAnimation : Idle.
+			_renderer->SetAnimation("test_idle.pganim", true);
+			
 			//멈췄다가 다시.
 			_isJustSetRestraint = true;
 			_selfCol->FreezeAxisX(true);
@@ -123,8 +149,8 @@ namespace Pg::DataScript
 
 			//뺄 때 y축 차이를 없애기 위해서.
 			_targetPos.y = _object->_transform._position.y;
-			Pg::Math::PGFLOAT3 lookPos = _targetPos - _object->_transform._position;
-			//Pg::Math::PGFLOAT3 lookPos = _object->_transform._position - _targetPos;
+			//Pg::Math::PGFLOAT3 lookPos = _targetPos - _object->_transform._position;
+			Pg::Math::PGFLOAT3 lookPos = _object->_transform._position - _targetPos;
 			_targetRotation = PGLookRotation(lookPos, Pg::Math::PGFLOAT3::GlobalUp());
 
 			//업데이트할 값 정하고 Update 루프에서 처리하도록.
