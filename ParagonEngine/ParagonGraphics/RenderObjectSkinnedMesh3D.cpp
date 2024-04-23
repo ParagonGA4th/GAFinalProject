@@ -14,6 +14,7 @@
 
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/ParagonDefines.h"
+#include "../ParagonData/AnimTransform.h"
 
 #include <dxtk/WICTextureLoader.h>
 #include <dxtk/SimpleMath.h>
@@ -495,6 +496,14 @@ namespace Pg::Graphics
 		{
 			FillInBoneBuffer(selfNode->_childrenList[i].get());
 		}
+	}
+
+	Pg::Data::AnimTransform* RenderObjectSkinnedMesh3D::FindAnimTransform(const std::string& animNodeName)
+	{
+		assert(_animatedModifNodeMap.contains(animNodeName) && "본 이름이 기록되어 있지 않다!");
+
+		const ModifiedNode_SkinnedMesh* tVal = _animatedModifNodeMap.at(animNodeName);
+		return tVal->_relTransform.get();
 	}
 
 }
