@@ -1,5 +1,6 @@
 #include "SkinnedMeshRenderer.h"
 #include "../ParagonUtil/Log.h"
+#include "../ParagonData/AnimTransform.h"
 #include "../ParagonHelper/ResourceHelper.h"
 #include "GameObject.h"
 #include <DirectXMath.h>
@@ -22,6 +23,12 @@ namespace Pg::Data
 	void SkinnedMeshRenderer::OnDeserialize(SerializeVector& sv)
 	{
 		Pg::Data::SerializerHelper::OnDeserializerHelper<SkinnedMeshRenderer>(this, sv);
+	}
+
+	void SkinnedMeshRenderer::Internal_EngineAwake()
+	{
+		assert(!_initAnimName.empty() && "처음에 들어갈 Animation이 비어있으면 안된다");
+		_setAnimationFunction(_initAnimName, true); //기본적으로 처음 애니메이션은 Loop한다고 가정한다.
 	}
 
 	void SkinnedMeshRenderer::ConvertPotentialUnrealValues()
@@ -105,10 +112,19 @@ namespace Pg::Data
 		_setAnimationFunction(animName, isLoop);
 	}
 
-	void SkinnedMeshRenderer::Internal_EngineAwake()
+	Pg::Data::AnimTransform* SkinnedMeshRenderer::FindAnimTransform(const std::string& animNodeName)
 	{
-		assert(!_initAnimName.empty() && "처음에 들어갈 Animation이 비어있으면 안된다");
-		_setAnimationFunction(_initAnimName,true); //기본적으로 처음 애니메이션은 Loop한다고 가정한다.
+		if (!_findAnimTransformFunction)
+		{
+			std::string tPrint = "FindAnimTransfrom Impl not yet bound with : ";
+			tPrint.append(animNodeName);
+			PG_WARN(tPrint.c_str());
+		}
+
+		return _findAnimTransformFunction(animNodeName);
 	}
+
+
+	
 
 }
