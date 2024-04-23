@@ -7,6 +7,7 @@ namespace Pg::Data
 	class Transform;
 	class StaticBoxCollider;
 	class CapsuleCollider;
+	class SkinnedMeshRenderer;
 }
 
 namespace Pg::API
@@ -44,6 +45,8 @@ namespace Pg::DataScript
 
 		std::vector<Pg::Data::StaticBoxCollider*> colVec;
 		std::vector<EnemySight*> aiSightVec;
+
+		Pg::Data::SkinnedMeshRenderer* _renderer;
 
 		bool _colVecActive = true;
 
