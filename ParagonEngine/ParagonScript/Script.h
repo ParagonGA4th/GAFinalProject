@@ -45,7 +45,7 @@ namespace Pg::DataScript
 
 	public:
 		//Scripting System 자동화를 위해.
-		using create_instance = std::function<std::unique_ptr<Script>(Pg::Data::GameObject* obj)>;
+		using create_instance = std::function<Script*(Pg::Data::GameObject* obj)>;
 
 		//직접 Script에서 상속받는 것을 막는다.
 		virtual void DoNotInheritFromShapeDirectlyButFromShapeInterfaceInstead() = 0;

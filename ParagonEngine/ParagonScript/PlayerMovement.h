@@ -1,7 +1,14 @@
 #pragma once
 #include "ScriptInterface.h"
+#include "IObserver.h"
 
 namespace Pg::Data
+{
+	class Camera;
+	class DynamicCollider;
+}
+
+namespace Pg::DataScript
 {
 	class Camera;
 	class DynamicCollider;
@@ -27,28 +34,29 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
-	class PlayerBehavior : public ScriptInterface<PlayerBehavior>
+	class PlayerMovement : public ScriptInterface<PlayerMovement> //, public IObserver
 	{
-		DEFINE_PARAGON_SCRIPT(PlayerBehavior);
-
+		DEFINE_PARAGON_SCRIPT(PlayerMovement);
 	public:
-		PlayerBehavior(Pg::Data::GameObject* obj);
+		PlayerMovement(Pg::Data::GameObject* obj);
 
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;
+	
 
+		//움직임 관련. 
 		float moveSpeed{ 30.0f };
 		float rotateMultiplier{ 2.0f };
-		float healthPoint{ 100.0f };
 
 	private:
-
 		//WASD로 카메라 기준 이동.
 		void UpdateWASD();
+
 		//클릭한 곳 기준 바라보기.
 		void UpdateFacingDirection(float yLevelPlane);
 
+		//공격하는 모션 등등, 값 관리.
 
 
 	private:
