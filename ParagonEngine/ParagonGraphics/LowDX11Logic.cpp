@@ -230,28 +230,42 @@ namespace Pg::Graphics
 
 	HRESULT LowDX11Logic::CreateRasterizerStates()
 	{
-		// Solid
-		ZeroMemory(&(_DXStorage->_solidDesc), sizeof(D3D11_RASTERIZER_DESC));
-		_DXStorage->_solidDesc.FillMode = D3D11_FILL_SOLID;
-		_DXStorage->_solidDesc.CullMode = D3D11_CULL_BACK;
-		_DXStorage->_solidDesc.FrontCounterClockwise = false;
-		_DXStorage->_solidDesc.DepthClipEnable = false;
+		// Solid (Backface)
+		{
+			ZeroMemory(&(_DXStorage->_solidDesc), sizeof(D3D11_RASTERIZER_DESC));
+			_DXStorage->_solidDesc.FillMode = D3D11_FILL_SOLID;
+			_DXStorage->_solidDesc.CullMode = D3D11_CULL_BACK;
+			_DXStorage->_solidDesc.FrontCounterClockwise = false;
+			_DXStorage->_solidDesc.DepthClipEnable = false;
 
-		hr = _DXStorage->_device->CreateRasterizerState(&(_DXStorage->_solidDesc), &(_DXStorage->_solidState));
+			HR(_DXStorage->_device->CreateRasterizerState(&(_DXStorage->_solidDesc), &(_DXStorage->_solidState)));
+		}
+		
 
-		if (hr != S_OK)
-			return hr;
+		// Solid (FrontFace)
+		{
+			ZeroMemory(&(_DXStorage->_solidFrontfaceCullingDesc), sizeof(D3D11_RASTERIZER_DESC));
+			_DXStorage->_solidFrontfaceCullingDesc.FillMode = D3D11_FILL_SOLID;
+			_DXStorage->_solidFrontfaceCullingDesc.CullMode = D3D11_CULL_FRONT;
+			_DXStorage->_solidFrontfaceCullingDesc.FrontCounterClockwise = false;
+			_DXStorage->_solidFrontfaceCullingDesc.DepthClipEnable = false;
 
+			HR(_DXStorage->_device->CreateRasterizerState(
+				&(_DXStorage->_solidFrontfaceCullingDesc), &(_DXStorage->_solidFrontfaceCullingState)));
+		}
+		
 		// Wireframe
-		ZeroMemory(&(_DXStorage->_wireframeDesc), sizeof(D3D11_RASTERIZER_DESC));
-		_DXStorage->_wireframeDesc.FillMode = D3D11_FILL_WIREFRAME;
-		_DXStorage->_wireframeDesc.CullMode = D3D11_CULL_BACK;
-		_DXStorage->_wireframeDesc.FrontCounterClockwise = false;
-		_DXStorage->_wireframeDesc.DepthClipEnable = true;
+		{
+			ZeroMemory(&(_DXStorage->_wireframeDesc), sizeof(D3D11_RASTERIZER_DESC));
+			_DXStorage->_wireframeDesc.FillMode = D3D11_FILL_WIREFRAME;
+			_DXStorage->_wireframeDesc.CullMode = D3D11_CULL_BACK;
+			_DXStorage->_wireframeDesc.FrontCounterClockwise = false;
+			_DXStorage->_wireframeDesc.DepthClipEnable = true;
 
-		hr = _DXStorage->_device->CreateRasterizerState(&(_DXStorage->_wireframeDesc), &(_DXStorage->_wireframeState));
-
-		return hr;
+			HR(_DXStorage->_device->CreateRasterizerState(&(_DXStorage->_wireframeDesc), &(_DXStorage->_wireframeState)));
+		}
+		
+		return S_OK;
 	}
 
 	void LowDX11Logic::SetRasterizerStates(ID3D11RasterizerState* rasterizerState)

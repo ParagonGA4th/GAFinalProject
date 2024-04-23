@@ -68,8 +68,10 @@ namespace Pg::Graphics
 
 		// Rasterizer State
 		D3D11_RASTERIZER_DESC _solidDesc;
+		D3D11_RASTERIZER_DESC _solidFrontfaceCullingDesc;
 		D3D11_RASTERIZER_DESC _wireframeDesc;
 		ID3D11RasterizerState* _solidState;
+		ID3D11RasterizerState* _solidFrontfaceCullingState;
 		ID3D11RasterizerState* _wireframeState;
 
 		// Sampler State

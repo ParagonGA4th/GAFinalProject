@@ -69,10 +69,25 @@ namespace Pg::Graphics
 			{
 				if (it.second->at(i).second->GetBaseRenderer()->GetActive())
 				{
+					//만약 Transform의 Scale 중 1/3개 (홀수)가 음수일 경우,
+					//Rasterizer를 CullFront로 설정!
+					//Static에 한정.
+					bool isOddMinus = it.second->at(i).first->_transform.IsScaleOddMinus();
+
+					if (isOddMinus)
+					{
+						_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidFrontfaceCullingState);
+					}
+
 					it.second->at(i).second->ObjMat_UpdateConstantBuffers(camData);
 					it.second->at(i).second->ObjMat_BindBuffers();
 					it.second->at(i).second->ObjMat_Render(nullptr);
 					it.second->at(i).second->ObjMat_UnbindBuffers();
+
+					if (isOddMinus)
+					{
+						_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidState);
+					}
 				}
 			}
 		}

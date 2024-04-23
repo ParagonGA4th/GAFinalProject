@@ -33,7 +33,7 @@ namespace Pg::Graphics
 
 	void MaterialParser::LoadCustomRenderMaterial(const std::string& pgmatPath, RenderMaterial* renderMat)
 	{
-		ParsePgMat(pgmatPath);
+		ParsePgMat(pgmatPath, renderMat);
 		PlaceShaders(renderMat);
 		LoadRenderMaterial(renderMat);
 		ClearPreviousShaderData();
@@ -101,7 +101,7 @@ namespace Pg::Graphics
 	}
 
 	//대표적인 예시 : "test4.pgmat"
-	void MaterialParser::ParsePgMat(const std::string& pgmatPath)
+	void MaterialParser::ParsePgMat(const std::string& pgmatPath, RenderMaterial* renderMat)
 	{
 		//Material Parsing Data 객체를 만들기. 
 		_vsParseData = std::make_unique<ShaderParsingData>();
@@ -112,6 +112,11 @@ namespace Pg::Graphics
 
 		//.pgmat 파일 형식을 읽어들이기.
 		pugi::xml_node tRootNode = doc.child("PgMaterial");
+
+		//IsUseAlphaBlending Bool -> 그냥 개별적으로 기록.
+		pugi::xml_node tAlphaNode = tRootNode.child("IsUseAlphaBlending");
+		int tVal = std::stoi(tAlphaNode.text().get());
+		renderMat->_isUseAlphaBlending = static_cast<bool>(tVal);
 
 		//VS
 		pugi::xml_node tVSNode = tRootNode.child("VertexShader");
@@ -494,7 +499,11 @@ namespace Pg::Graphics
 
 		auto tRes = GraphicsResourceManager::Instance()->GetResourceByName(tMeshName, Pg::Data::Enums::eAssetDefine::_3DMODEL);
 		Asset3DModelData* tModelData = static_cast<Asset3DModelData*>(tRes.get());
-
+		assert(tModelData != nullptr);
+		
+		//기존 Resource Binding이 사라지고 난 뒤, AlphaBlending 값 체크해서 넣는 용도로 Function이 쓰인다.
+		renderMat->_isUseAlphaBlending = tModelData->_isUseAlphaBlending;
+		
 		//PBR 기본으로 바뀌고 난 뒤, 디폴트 매터리얼의 SRV에 일단 뭐를 넣을 필요가 사라짐.
 		//PS Intrinsics : Diffuse 값 넣기.
 		//PlaceDefaultMaterialTextureArrayBuffer(defInstMatName, renderMat->_psIntrinsics.get(), tModelData, PG_TextureType_DIFFUSE, "t2_DiffuseTextureArray", 25);

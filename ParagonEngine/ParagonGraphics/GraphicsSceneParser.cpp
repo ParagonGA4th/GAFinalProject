@@ -83,6 +83,8 @@ namespace Pg::Graphics
 
 		//실제 리소스를 사용해야 하기에, Initialize에서 현재 호출하고 있지 않음.
 		PlaceCubemapList();
+
+		assert("");
 	}
 
 	void GraphicsSceneParser::HandleRenderObjectsRuntime()
@@ -355,7 +357,7 @@ namespace Pg::Graphics
 					//나머지 로직과 호환되게 변수 재할당. 
 					tMatPth = tDefaultMatInstName;
 
-					PG_TRACE(tMsg.c_str());
+					//PG_TRACE(tMsg.c_str());
 				}
 				else
 				{
