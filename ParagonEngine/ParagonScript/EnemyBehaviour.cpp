@@ -1,11 +1,13 @@
 #include "EnemyBehaviour.h"
 #include "EnemySight.h"
 #include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonAPI/PgRayCast.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/Scene.h"
+#include "../ParagonUtil/Log.h"
 namespace Pg::DataScript
 {
 	EnemyBehaviour::EnemyBehaviour(Pg::Data::GameObject* obj) :
@@ -21,7 +23,9 @@ namespace Pg::DataScript
 			_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
 			assert(_collider != nullptr);
 			_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER); // 자기 자신이 Projectile이라고 해주기.
+			//_collider->SetCapsuleInfo(1.f, 1.f);
 			_collider->FreezeAxisX(true);
+			_collider->FreezeAxisY(true);
 			_collider->FreezeAxisZ(true);
 
 			//Debouncer.
@@ -33,7 +37,9 @@ namespace Pg::DataScript
 	{
 		_renderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		assert(_renderer != nullptr);
-	}	void EnemyBehaviour::Start()
+	}
+
+	void EnemyBehaviour::Start()
 	{
 		auto objName = _object->GetScene()->FindObjectWithName("EnemySight");
 		_object->GetComponent<Pg::Data::Transform>()->AddChild(objName);
@@ -41,7 +47,9 @@ namespace Pg::DataScript
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			Pg::Data::StaticBoxCollider* staticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+			assert(staticCol != nullptr);
 			EnemySight* aiSight = iter->_object->GetComponent<EnemySight>();
+			assert(aiSight != nullptr);
 
 			colVec.push_back(staticCol);
 			aiSightVec.push_back(aiSight);
@@ -55,31 +63,34 @@ namespace Pg::DataScript
 			if (it->_playerDetected == true)
 			{
 				_colVecActive = false;
+				it->_playerDetected = false;
 
-			}
-			else
-			{
-				_colVecActive = true;
 			}
 		}
 
-		if (_colVecActive == false)
+		if (_colVecActive == false && !_isAnimStart)
 		{
 			for (auto& iter : colVec)
 			{
 				iter->SetActive(false);
+				
 			}
 
 			_renderer->SetAnimation("PpakMonster_Punch.pganim", true);
+			PG_TRACE("애니메이션 재생 막 시작");
+
+			_isAnimStart = true;
 
 			_colVecActive = true;
 		}
-		else
+		else if(_colVecActive)
 		{
 			for (auto& iter : colVec)
 			{
 				iter->SetActive(true);
 			}
+
+			_isAnimStart = false;
 		}
 	}
 }
