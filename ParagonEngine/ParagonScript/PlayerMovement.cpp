@@ -4,6 +4,7 @@
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/Scene.h"
+#include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/PgTime.h"
@@ -32,7 +33,13 @@ namespace Pg::DataScript
 	{
 		//다른 스크립트의 Awake에서 새롭게 인게임 메인카메라를 설정해야 한다.
 		_mainCam = _object->GetScene()->GetMainCamera();
+		
+		_renderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		assert(_renderer != nullptr);
+
 		_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
+		assert(_selfCol != nullptr);
+
 		_selfCol->FreezeAxisX(true);
 		_selfCol->FreezeAxisZ(true);
 		_selfCol->SetMass(2.0f);
@@ -76,6 +83,16 @@ namespace Pg::DataScript
 		relativeForward = { relativeForward.x * moveSpeed, relativeForward.y * moveSpeed, relativeForward.z * moveSpeed };
 		relativeLeft = { relativeLeft.x * moveSpeed, relativeLeft.y * moveSpeed, relativeLeft.z * moveSpeed };
 
+
+		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyUp) ||
+			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyDown) ||
+			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyLeft) ||
+			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyRight))
+		{
+			///SetAnimation : Run
+			_renderer->SetAnimation("test_run.pganim", true);
+		}
+
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyUp))
 		{
 			_selfCol->AddForce(relativeForward, Pg::Data::ForceMode::eFORCE);
@@ -98,6 +115,9 @@ namespace Pg::DataScript
 			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::KeyLeft) ||
 			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::KeyRight))
 		{
+			///SetAnimation : Idle.
+			_renderer->SetAnimation("test_idle.pganim", true);
+			
 			//멈췄다가 다시.
 			_isJustSetRestraint = true;
 			_selfCol->FreezeAxisX(true);
