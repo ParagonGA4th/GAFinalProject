@@ -3511,7 +3511,7 @@
 			<data>
 			  <position>
 				<x>0.000000</x>
-				<y>0.000000</y>
+				<y>5.000000</y>
 				<z>0.000000</z>
 			  </position>
 			  <rotation>
@@ -3528,11 +3528,12 @@
 			</data>
 		  </component>
 		  <component>
-			<type>class Pg::Data::StaticMeshRenderer</type>
+			<type>class Pg::Data::SkinnedMeshRenderer</type>
 			<data>
 			  <isInstanced>false</isInstanced>
-			  <meshName>final_mon_boss.fbx</meshName>
+			  <meshName>PpakMonster.fbx</meshName>
 			  <materialName></materialName>
+			  <initAnimName>PpakMonster_Idle.pganim</initAnimName>
 			</data>
 		  </component>
 		  <component>

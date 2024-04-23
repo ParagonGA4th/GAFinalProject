@@ -5,6 +5,7 @@ namespace Pg::Data
 {
 	class GameObject;
 	class StaticBoxCollider;
+	class SkinnedMeshRenderer;
 }
 
 namespace Pg::API
@@ -30,6 +31,7 @@ namespace Pg::DataScript
 		EnemyBehaviour(Pg::Data::GameObject* obj);
 
 	public:
+		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;
 
@@ -39,6 +41,8 @@ namespace Pg::DataScript
 
 		std::vector<Pg::Data::StaticBoxCollider*> colVec;
 		std::vector<EnemySight*> aiSightVec;
+
+		Pg::Data::SkinnedMeshRenderer* _renderer;
 
 		bool _colVecActive = true;
 	};

@@ -1,15 +1,22 @@
 #include "EnemyBehaviour.h"
 #include "EnemySight.h"
 #include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonAPI/PgRayCast.h"
+#include <cassert>
 
 namespace Pg::DataScript
 {
-
 	EnemyBehaviour::EnemyBehaviour(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj)
 	{
 
+	}
+
+	void EnemyBehaviour::Awake()
+	{
+		_renderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		assert(_renderer != nullptr);
 	}
 
 	void EnemyBehaviour::Start()
@@ -46,6 +53,8 @@ namespace Pg::DataScript
 				iter->SetActive(false);
 			}
 
+			_renderer->SetAnimation("PpakMonster_Punch.pganim", true);
+
 			_colVecActive = true;
 		}
 		else
@@ -56,5 +65,4 @@ namespace Pg::DataScript
 			}
 		}
 	}
-
 }
