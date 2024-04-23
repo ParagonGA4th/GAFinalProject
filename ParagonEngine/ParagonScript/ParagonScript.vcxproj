@@ -154,6 +154,7 @@
     <ClInclude Include="EventList_PlayerRelated.h" />
     <ClInclude Include="IScriptResettable.h" />
     <ClInclude Include="PlayerBattleBehavior.h" />
+    <ClInclude Include="Portal.h" />
     <ClInclude Include="ScriptEventHelper.h" />
     <ClInclude Include="EventTest.h" />
     <ClInclude Include="FactoryHelper.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="PlayerBattleBehavior.cpp" />
     <ClCompile Include="PlayerMovement.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
+    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="RayCastTest.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="SoundTest.cpp" />
