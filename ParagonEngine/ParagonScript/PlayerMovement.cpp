@@ -53,16 +53,18 @@ namespace Pg::DataScript
 		//Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGReflectVectorAgainstAxis(_object->_transform.GetForward(), {0,0,1});
 		//tShouldShootDir = Pg::Math::PGFloat3Normalize(tShouldShootDir);
 		Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGFloat3Normalize(_object->_transform.GetForward());
+		tShouldShootDir = PGConvertD3DVec3RotToPhysX(tShouldShootDir);
+		Pg::Math::PGFLOAT3 tBasePosition = _object->_transform._position;
 
 		//로직과 상관없는 거
 		Pg::Math::PGFLOAT3 outHitPoint;
 		float tFloat = 2.0f;
-		Pg::Math::PGFLOAT3 tD3DOrigin = { _object->_transform._position.x + tShouldShootDir.x * tFloat,
-						_object->_transform._position.y + tShouldShootDir.y * tFloat,
-						_object->_transform._position.z + tShouldShootDir.z * tFloat };
+		Pg::Math::PGFLOAT3 tD3DOrigin = { tBasePosition.x + tShouldShootDir.x * tFloat,
+						tBasePosition.y + tShouldShootDir.y * tFloat,
+						tBasePosition.z + tShouldShootDir.z * tFloat };
 
-		_pgRayCast->MakeRay(Pg::Math::PGConvertD3DPositionToPhysX(tD3DOrigin),
-			Pg::Math::PGConvertD3DPositionToPhysX(tShouldShootDir), 30.0f, outHitPoint, nullptr);
+		_pgRayCast->MakeRay(tD3DOrigin,
+			tShouldShootDir, 30.0f, outHitPoint, nullptr);
 
 		UpdateWASD();
 		UpdateFacingDirection(0); //Plane Y-Level 입력해야.
