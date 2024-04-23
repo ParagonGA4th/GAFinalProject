@@ -12,7 +12,7 @@
 					<data>
 						<position>
 							<x>0.000000</x>
-							<y>0.000000</y>
+							<y>5.000000</y>
 							<z>0.000000</z>
 						</position>
 						<rotation>
@@ -29,11 +29,12 @@
 					</data>
 				</component>
 				<component>
-					<type>class Pg::Data::StaticMeshRenderer</type>
+					<type>class Pg::Data::SkinnedMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
-						<meshName>final_mon_boss.fbx</meshName>
+						<isInstanced>0</isInstanced>
+						<meshName>ErikaMixamo.fbx</meshName>
 						<materialName></materialName>
+						<initAnimName>test_run.pganim</initAnimName>
 					</data>
 				</component>
 				<component>
@@ -175,7 +176,7 @@
 				</component>
 			</components>
 		</object>
-		<object>
+		<!--<object>
 			<name>BattleArea</name>
 			<active>true</active>
 			<tag></tag>
@@ -207,28 +208,28 @@
 					<data>
 					</data>
 				</component>				
-        <component>
+				<component>
 					<type>class Pg::Data::StaticBoxCollider</type>
-          <data>
-            <trigger>true</trigger>
-            <positionOffset>
-              <x>0.000000</x>
-              <y>0.000000</y>
-              <z>0.000000</z>
-            </positionOffset>
-            <rotationOffset>
-              <w>1.000000</w>
-              <x>0.000000</x>
-              <y>0.000000</y>
-              <z>0.000000</z>
-            </rotationOffset>
-            <width>10</width>
-            <height>10</height>
-            <depth>10</depth>
-          </data>
+					<data>
+						<trigger>true</trigger>
+						<positionOffset>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</positionOffset>
+						<rotationOffset>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotationOffset>
+						<width>10</width>
+						<height>10</height>
+						<depth>10</depth>
+					</data>
 				</component>
 			</components>
-		</object>
+		</object>-->
 		<!--<object>
 			<name>TrapArea</name>
 			<active>true</active>

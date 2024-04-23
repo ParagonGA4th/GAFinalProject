@@ -369,6 +369,13 @@ namespace Pg::Math
 	Pg::Math::PGFLOAT3 PGReflectVectorAgainstAxis(const Pg::Math::PGFLOAT3& toFlip, const Pg::Math::PGFLOAT3& baseAxis);
 
 	Pg::Math::PGFLOAT4X4 GetViewMatrixFromTransformValues(Pg::Math::PGFLOAT3 right, Pg::Math::PGFLOAT3 up, Pg::Math::PGFLOAT3 forward, Pg::Math::PGFLOAT3 pos);
+
+	//PhysX 좌표계를 DirectX 좌표계로 맞추기.
+	Pg::Math::PGFLOAT3 PGConvertD3DPositionToPhysX(Pg::Math::PGFLOAT3 val);
+	Pg::Math::PGFLOAT3 PGConvertPhysXPositionToD3D(Pg::Math::PGFLOAT3 val);
+
+	Pg::Math::PGQuaternion PGConvertD3DRotationToPhysX(Pg::Math::PGQuaternion val);
+	Pg::Math::PGQuaternion PGConvertPhysXRotationToD3D(Pg::Math::PGQuaternion val);
 }
 
 
