@@ -43,16 +43,19 @@ namespace Pg::DataScript
 	void PlayerMovement::Update()
 	{
 		//Z축 향해 뒤집기. 어디에서 불완전한 연결이 일어나는지는 확인해봐야 할 것 같다.
-		Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGReflectVectorAgainstAxis(_object->_transform.GetForward(), {0,0,1});
-		tShouldShootDir = Pg::Math::PGFloat3Normalize(tShouldShootDir);
+		//Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGReflectVectorAgainstAxis(_object->_transform.GetForward(), {0,0,1});
+		//tShouldShootDir = Pg::Math::PGFloat3Normalize(tShouldShootDir);
+		Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGFloat3Normalize(_object->_transform.GetForward());
 
 		//로직과 상관없는 거
 		Pg::Math::PGFLOAT3 outHitPoint;
 		float tFloat = 2.0f;
-		_pgRayCast->MakeRay({ _object->_transform._position.x + tShouldShootDir.x * tFloat,
+		Pg::Math::PGFLOAT3 tD3DOrigin = { _object->_transform._position.x + tShouldShootDir.x * tFloat,
 						_object->_transform._position.y + tShouldShootDir.y * tFloat,
-						_object->_transform._position.z + tShouldShootDir.z * tFloat },
-			tShouldShootDir, 30.0f, outHitPoint, nullptr);
+						_object->_transform._position.z + tShouldShootDir.z * tFloat };
+
+		_pgRayCast->MakeRay(Pg::Math::PGConvertD3DPositionToPhysX(tD3DOrigin),
+			Pg::Math::PGConvertD3DPositionToPhysX(tShouldShootDir), 30.0f, outHitPoint, nullptr);
 
 		UpdateWASD();
 		UpdateFacingDirection(0); //Plane Y-Level 입력해야.
@@ -62,6 +65,7 @@ namespace Pg::DataScript
 	{
 		//Camera -> GameObject를 바라보는 방향이 Forward여야 한다!
 		Pg::Math::PGFLOAT3 relativeForward = this->_object->_transform._position - _mainCam->_object->_transform._position;
+
 		//Y Vector 캔슬 + 정규화.
 		relativeForward.y = 0.0f;
 		relativeForward = Pg::Math::PGFloat3Normalize(relativeForward);
@@ -123,8 +127,8 @@ namespace Pg::DataScript
 
 			//뺄 때 y축 차이를 없애기 위해서.
 			_targetPos.y = _object->_transform._position.y;
-			Pg::Math::PGFLOAT3 lookPos = _targetPos - _object->_transform._position;
-			//Pg::Math::PGFLOAT3 lookPos = _object->_transform._position - _targetPos;
+			//Pg::Math::PGFLOAT3 lookPos = _targetPos - _object->_transform._position;
+			Pg::Math::PGFLOAT3 lookPos = _object->_transform._position - _targetPos;
 			_targetRotation = PGLookRotation(lookPos, Pg::Math::PGFLOAT3::GlobalUp());
 
 			//업데이트할 값 정하고 Update 루프에서 처리하도록.

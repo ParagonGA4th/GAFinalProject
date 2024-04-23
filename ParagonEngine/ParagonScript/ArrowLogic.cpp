@@ -28,6 +28,8 @@ namespace Pg::DataScript
 			_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PROJECTILES); // 자기 자신이 Projectile이라고 해주기.
 			_collider->SetActive(false);
 			_collider->SetUseGravity(false);
+			_collider->FreezeAxisX(true);
+			_collider->FreezeAxisZ(true);
 
 			//Debouncer.
 			_alreadyCalledBPU = true;
@@ -91,19 +93,23 @@ namespace Pg::DataScript
 
 		_initialPos = initialPos;
 		_shootDir = shootDir;
-		_shootDir = PGFloat3Normalize(_shootDir); //외적인 Normalize.
 
 		//Target Pos 기록 (tween에 활용됨)
 		_targetPos = _initialPos + _shootDir * _arrowDistBeforeFall;
+
+		//_object->_transform._rotation = Pg::Math::PGLookRotation(PGFloat3Normalize(_targetPos - _initialPos), { 0,1,0 });
 	}
 
 	void ArrowLogic::CarryOutShoot()
 	{
 		//쏘는 방향으로 Rotation 변경.
-		_object->_transform._rotation = PGEulerToQuaternion(_shootDir);
+		//_object->_transform._rotation = PGEulerToQuaternion(_shootDir);
+		//_object->_transform._rotation = Pg::Math::PGLookRotation(PGFloat3Normalize(_targetPos - _initialPos), { 0,1,0 });
 
-		//_object->_transform._rotation = Pg::Math::PGLookRotation(_targetPos, { 0,1,0 });
-
+		//Pg::Math::PGFLOAT3 tRotTarget = _targetPos - _initialPos;
+		//tRotTarget.y = 0;
+		//_object->_transform._rotation = Pg::Math::PGEulerToQuaternion(PGFloat3Normalize(tRotTarget));
+		
 		//트윈 시스템도 손봐야 할 것 같다.
 		//Tween 발동.
 		Pg::Util::Tween* tTween = _pgTween->CreateTween();
@@ -138,6 +144,8 @@ namespace Pg::DataScript
 
 				CarryOutShoot();
 			}
+
+			_object->_transform._rotation = Pg::Math::PGLookRotation(PGFloat3Normalize(_targetPos - _initialPos), { 0,1,0 });
 
 			if (_elapsedTime > _afterDestroySec)
 			{
