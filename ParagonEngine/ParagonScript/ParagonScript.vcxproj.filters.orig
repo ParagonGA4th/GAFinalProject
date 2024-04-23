@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="PlayerMove">
+      <UniqueIdentifier>{3b3d32f2-0726-45ec-9098-cb1669f8990d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EventTest">
+      <UniqueIdentifier>{21ea2018-edb4-4732-9965-50cd5f75b003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RayCastTest">
+      <UniqueIdentifier>{1fb7514c-5cfa-4514-82ab-bfd52144e937}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Factory">
+      <UniqueIdentifier>{73e23ad8-e0ab-4252-8e9c-896ea732a5ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_BaseClass">
+      <UniqueIdentifier>{70ddfed8-cbb9-437f-801f-ea992bf132b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoundTest">
+      <UniqueIdentifier>{a1a6b945-4cd4-42b0-bd0e-d8971d330898}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_BaseClass\ScriptInterface">
+      <UniqueIdentifier>{e619930e-65f8-4488-8ab2-0c39dca1fabd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_BaseClass\ParagonScriptList">
+      <UniqueIdentifier>{9c0b6d1c-0ad3-4940-8e52-95a9ebf81b5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content">
+      <UniqueIdentifier>{09670d3c-a87a-4f81-b154-42cb1b745625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\CombatSystem">
+      <UniqueIdentifier>{0674ed6d-3008-448f-9db0-e3cabd7ed726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\PlayerBehavior">
+      <UniqueIdentifier>{2e6ac2b5-bce0-4ab8-8854-bab3a583a260}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ComboSystem">
+      <UniqueIdentifier>{98345f97-48e6-4681-94f4-95356979c0c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\InGameCameraBehavior">
+      <UniqueIdentifier>{00365054-e5bc-4e48-a164-ce50d6ec82fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\CameraShake">
+      <UniqueIdentifier>{705983d2-43e3-4d82-9858-84f39cbb8b4e}</UniqueIdentifier>
+    </Filter>
+<<<<<<< HEAD
+    <Filter Include="Stage">
+      <UniqueIdentifier>{60dacf1e-8333-49a9-bd45-d23cb8c39d7c}</UniqueIdentifier>
+=======
+    <Filter Include="Content\ArrowLogic">
+      <UniqueIdentifier>{92bf8d9e-c566-4aa7-a2db-c8c78cef92c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\ArrowShooterBehavior">
+      <UniqueIdentifier>{d7b2144c-23a2-4494-8783-36a43df1d931}</UniqueIdentifier>
+>>>>>>> 7914b8b5e706e95660265e2b151f0e03bee30180
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PlayerMove.cpp">
+      <Filter>PlayerMove</Filter>
+    </ClCompile>
+    <ClCompile Include="EventTest.cpp">
+      <Filter>EventTest</Filter>
+    </ClCompile>
+    <ClCompile Include="RayCastTest.cpp">
+      <Filter>RayCastTest</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>1_BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundTest.cpp">
+      <Filter>SoundTest</Filter>
+    </ClCompile>
+    <ClCompile Include="FactoryHelper.cpp">
+      <Filter>0_Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="ComboSystem.cpp">
+      <Filter>ComboSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBehavior.cpp">
+      <Filter>Content\PlayerBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameCameraBehavior.cpp">
+      <Filter>Content\InGameCameraBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraShake.cpp">
+      <Filter>Content\CameraShake</Filter>
+    </ClCompile>
+    <ClCompile Include="CombatSystem.cpp">
+      <Filter>Content\CombatSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrowShooterBehavior.cpp">
+      <Filter>Content\ArrowShooterBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrowLogic.cpp">
+      <Filter>Content\ArrowLogic</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PlayerMove.h">
+      <Filter>PlayerMove</Filter>
+    </ClInclude>
+    <ClInclude Include="EventTest.h">
+      <Filter>EventTest</Filter>
+    </ClInclude>
+    <ClInclude Include="RayCastTest.h">
+      <Filter>RayCastTest</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>1_BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundTest.h">
+      <Filter>SoundTest</Filter>
+    </ClInclude>
+    <ClInclude Include="FactoryHelper.h">
+      <Filter>0_Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptInterface.h">
+      <Filter>1_BaseClass\ScriptInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="ParagonScriptList.h">
+      <Filter>1_BaseClass\ParagonScriptList</Filter>
+    </ClInclude>
+    <ClInclude Include="ComboSystem.h">
+      <Filter>ComboSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBehavior.h">
+      <Filter>Content\PlayerBehavior</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameCameraBehavior.h">
+      <Filter>Content\InGameCameraBehavior</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraShake.h">
+      <Filter>Content\CameraShake</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatSystem.h">
+      <Filter>Content\CombatSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrowShooterBehavior.h">
+      <Filter>Content\ArrowShooterBehavior</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrowLogic.h">
+      <Filter>Content\ArrowLogic</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
