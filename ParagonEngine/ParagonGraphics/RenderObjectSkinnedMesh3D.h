@@ -14,6 +14,7 @@
 namespace Pg::Data
 {
 	class SkinnedMeshRenderer;
+	class AnimTransform;
 }
 
 namespace Pg::Graphics
@@ -51,6 +52,7 @@ namespace Pg::Graphics
 		//내부적으로 SetAnimation 호출. (Client 딴 제어 아닌 Internal Mechanic)
 		void SetAnimation(const std::string& animName, bool isLoop);
 
+		Pg::Data::AnimTransform* FindAnimTransform(const std::string& animNodeName);
 
 	private:
 		//Start-End 애니메이션 시간 입력. Refresh

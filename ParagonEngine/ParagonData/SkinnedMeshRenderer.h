@@ -19,7 +19,11 @@ namespace Pg::Graphics
 namespace Pg::Data
 {
 	class GameObject;
+	class AnimTransform;
+}
 
+namespace Pg::Data
+{
 	class SkinnedMeshRenderer : public RendererBase3D
 	{
 		friend class Pg::Graphics::RenderObjectSkinnedMesh3D;
@@ -34,6 +38,8 @@ namespace Pg::Data
 		//Animation Path - SetAnimation()
 		void SetAnimation(const std::string& animName, bool isLoop);
 
+		//본 이름을 기반으로 Transform을 찾을 수 있다. (단, 당연히 RootNode에 상대적일 것, World 관련 행렬 따로 곱해야.)
+		Pg::Data::AnimTransform* FindAnimTransform(const std::string& animNodeName);
 	public:
 		//Scene이 시작할 때 일괄적으로 호출하기 위해서.
 		//Internal Logic으로 연관.
@@ -57,6 +63,7 @@ namespace Pg::Data
 		//return bool == 해당 함수가 성공했는지. (GraphicsSceneParser가 별도로 연결해준다)
 		//일단 직접 호출 금지.
 		std::function<void(const std::string&, bool)> _setAnimationFunction;
+		std::function<Pg::Data::AnimTransform*(const std::string&)> _findAnimTransformFunction;
 
 
 	
