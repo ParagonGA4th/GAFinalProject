@@ -79,6 +79,15 @@
     <Filter Include="Content\PlayerBattleBehavior">
       <UniqueIdentifier>{d3746401-48fd-4da7-92cf-3b0ce8192645}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI">
+      <UniqueIdentifier>{2a33d26a-8b1c-4a23-90b6-5736ca3f8fb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Enemy">
+      <UniqueIdentifier>{2dc765a3-4f3c-4717-84fc-0b0998b9f0c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Sight">
+      <UniqueIdentifier>{03ba09e1-06e2-47e2-9f42-23c36a8882de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -128,6 +137,12 @@
     </ClCompile>
     <ClCompile Include="PlayerBattleBehavior.cpp">
       <Filter>Content\PlayerBattleBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBehaviour.cpp">
+      <Filter>AI\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySight.cpp">
+      <Filter>AI\Sight</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +220,12 @@
     </ClInclude>
     <ClInclude Include="Event_PlayerStaminaChange.h">
       <Filter>Content\CombatSystem\EventRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBehaviour.h">
+      <Filter>AI\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySight.h">
+      <Filter>AI\Sight</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
