@@ -110,6 +110,9 @@ namespace Pg::Data
 		void SetIs3D(bool is3D);
 		bool Is3D();
 
+		//Culling을 위해, Graphics가 사용하는 헬퍼 함수.
+		//스케일의 x,y,z 중 홀수개가 음수인가?
+		bool IsScaleOddMinus();
 	public:
 		/// visit_struct 방식
 		BEGIN_VISITABLES(Transform);
