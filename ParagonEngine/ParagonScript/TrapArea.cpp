@@ -43,7 +43,7 @@ void Pg::DataScript::TrapArea::Update()
 		if (Pg::Util::CheckInBox::IsIn3DBox(
 		
 			_collider->_object->_transform._position, _collider->_width, _collider->_height, _collider->_depth,
-			_player->_object->_transform._position, dcol->GetWidth(), dcol->GetHeight(), dcol->GetDepth()))
+			_playerBattleBehavior->_object->_transform._position, dcol->GetWidth(), dcol->GetHeight(), dcol->GetDepth()))
 		{
 			// 플레이어가 계속 빠져야 함
 			dcol->SetLinearVelocity(dcol->GetLinearVelocity() * _deltaTime->GetDeltaTime() * _fallSpeed);
@@ -55,10 +55,10 @@ void Pg::DataScript::TrapArea::Update()
 		else
 		{
 			// 플레이어의 속도가 돌아와야 한다
-			_player->moveSpeed = _previousMoveSpeed;
+			_playerMovement->moveSpeed = _previousMoveSpeed;
 
 			// 플레이어가 계속 빠지면 안된다
-			auto dcol = _player->_object->GetComponent<Pg::Data::DynamicCollider>();
+			auto dcol = _playerBattleBehavior->_object->GetComponent<Pg::Data::DynamicCollider>();
 			dcol->SetLinearVelocity({ 0.0f, 0.0f, 0.0f });
 		}
 	}
