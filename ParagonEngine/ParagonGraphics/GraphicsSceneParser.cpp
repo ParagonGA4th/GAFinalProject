@@ -426,6 +426,7 @@ namespace Pg::Graphics
 				if (!(ro->_isInternalUpToDate))
 				{
 					tSkinnedRenderer->_setAnimationFunction = std::bind(&RenderObjectSkinnedMesh3D::SetAnimation, tSkinnedRO, std::placeholders::_1, std::placeholders::_2);
+					tSkinnedRenderer->_findAnimTransformFunction = std::bind(&RenderObjectSkinnedMesh3D::FindAnimTransform, tSkinnedRO, std::placeholders::_1);
 				}
 			}
 		}

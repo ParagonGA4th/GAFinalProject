@@ -160,7 +160,7 @@ namespace Pg::Engine
 			{
 				SetCurrentScene(iter.second);
 
-				break;
+				return;
 			}
 		}
 		assert(false && "SceneName과 동일한 Scene이 존재하지 않음.");

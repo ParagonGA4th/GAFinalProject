@@ -79,6 +79,13 @@
     <Filter Include="Content\PlayerBattleBehavior">
       <UniqueIdentifier>{d3746401-48fd-4da7-92cf-3b0ce8192645}</UniqueIdentifier>
     </Filter>
+	<Filter Include="Content\MapLogic\Portal">
+      <UniqueIdentifier>{b67c5cbe-562c-4b9a-ae33-35d1852b0d4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Interfaces">
+      <UniqueIdentifier>{dffc01e4-4135-4508-ab76-7ad67dc1e127}</UniqueIdentifier>
+    </Filter>
+    
     <Filter Include="AI">
       <UniqueIdentifier>{2a33d26a-8b1c-4a23-90b6-5736ca3f8fb0}</UniqueIdentifier>
     </Filter>
@@ -144,6 +151,9 @@
     <ClCompile Include="EnemySight.cpp">
       <Filter>AI\Sight</Filter>
     </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Content\MapLogic\Portal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -200,9 +210,6 @@
     <ClInclude Include="IEvent.h">
       <Filter>2_Events\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Event_PlayerDeath.h">
-      <Filter>Content\CombatSystem\EventRelated</Filter>
-    </ClInclude>
     <ClInclude Include="IObserver.h">
       <Filter>2_Events\Interface</Filter>
     </ClInclude>
@@ -212,13 +219,16 @@
     <ClInclude Include="PlayerBattleBehavior.h">
       <Filter>Content\PlayerBattleBehavior</Filter>
     </ClInclude>
-    <ClInclude Include="Event_PlayerHealthChange.h">
+    <ClInclude Include="EventList_PlayerRelated.h">
       <Filter>Content\CombatSystem\EventRelated</Filter>
     </ClInclude>
-    <ClInclude Include="Event_PlayerManaChange.h">
+    <ClInclude Include="IScriptResettable.h">
+      <Filter>3_Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="EventList_GameFlowRelated.h">
       <Filter>Content\CombatSystem\EventRelated</Filter>
     </ClInclude>
-    <ClInclude Include="Event_PlayerStaminaChange.h">
+    <ClInclude Include="EventList_EnemyRelated.h">
       <Filter>Content\CombatSystem\EventRelated</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBehaviour.h">
@@ -226,6 +236,12 @@
     </ClInclude>
     <ClInclude Include="EnemySight.h">
       <Filter>AI\Sight</Filter>
+    </ClInclude>
+    <ClInclude Include="EventList_CameraRelated.h">
+      <Filter>Content\CombatSystem\EventRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Content\MapLogic\Portal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

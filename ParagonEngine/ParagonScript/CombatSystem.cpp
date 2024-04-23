@@ -4,10 +4,7 @@
 #include "PlayerBattleBehavior.h"
 
 //Event들의 리스트.
-#include "Event_PlayerDeath.h"
-#include "Event_PlayerHealthChange.h"
-#include "Event_PlayerManaChange.h"
-#include "Event_PlayerStaminaChange.h"
+#include "EventList_PlayerRelated.h"
 
 namespace Pg::DataScript
 {
@@ -82,17 +79,17 @@ namespace Pg::DataScript
 			std::bind(&PlayerBattleBehavior::HandleEvents, _player, std::placeholders::_1, 
 				std::placeholders::_2, std::placeholders::_3));
 
-		Subscribe(Event_PlayerHealthChange::_identifier,
+		Subscribe(Event_PlayerOnLowHealth::_identifier,
 			std::bind(&PlayerBattleBehavior::HandleEvents, _player, std::placeholders::_1,
 				std::placeholders::_2, std::placeholders::_3));
 
-		Subscribe(Event_PlayerManaChange::_identifier,
-			std::bind(&PlayerBattleBehavior::HandleEvents, _player, std::placeholders::_1,
-				std::placeholders::_2, std::placeholders::_3));
-
-		Subscribe(Event_PlayerStaminaChange::_identifier,
-			std::bind(&PlayerBattleBehavior::HandleEvents, _player, std::placeholders::_1,
-				std::placeholders::_2, std::placeholders::_3));
+		//Subscribe(Event_PlayerManaChange::_identifier,
+		//	std::bind(&PlayerBattleBehavior::HandleEvents, _player, std::placeholders::_1,
+		//		std::placeholders::_2, std::placeholders::_3));
+		//
+		//Subscribe(Event_PlayerStaminaChange::_identifier,
+		//	std::bind(&PlayerBattleBehavior::HandleEvents, _player, std::placeholders::_1,
+		//		std::placeholders::_2, std::placeholders::_3));
 	}
 
 	void CombatSystem::RegisterSingleMonster(Pg::Data::GameObject* obj)

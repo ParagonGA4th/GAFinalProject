@@ -153,7 +153,13 @@
     <ClInclude Include="Event_PlayerHealthChange.h" />
     <ClInclude Include="Event_PlayerManaChange.h" />
     <ClInclude Include="Event_PlayerStaminaChange.h" />
+    <ClInclude Include="EventList_CameraRelated.h" />
+    <ClInclude Include="EventList_EnemyRelated.h" />
+    <ClInclude Include="EventList_GameFlowRelated.h" />
+    <ClInclude Include="EventList_PlayerRelated.h" />
+    <ClInclude Include="IScriptResettable.h" />
     <ClInclude Include="PlayerBattleBehavior.h" />
+    <ClInclude Include="Portal.h" />
     <ClInclude Include="ScriptEventHelper.h" />
     <ClInclude Include="EventTest.h" />
     <ClInclude Include="FactoryHelper.h" />
@@ -161,7 +167,6 @@
     <ClInclude Include="InGameCameraBehavior.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="PlayerMovement.h" />
-    <ClInclude Include="Event_PlayerDeath.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="RayCastTest.h" />
     <ClInclude Include="Script.h" />
@@ -185,6 +190,7 @@
     <ClCompile Include="PlayerBattleBehavior.cpp" />
     <ClCompile Include="PlayerMovement.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
+    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="RayCastTest.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="SoundTest.cpp" />
