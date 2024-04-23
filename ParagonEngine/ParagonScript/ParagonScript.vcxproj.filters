@@ -79,9 +79,13 @@
     <Filter Include="Content\PlayerBattleBehavior">
       <UniqueIdentifier>{d3746401-48fd-4da7-92cf-3b0ce8192645}</UniqueIdentifier>
     </Filter>
+	<Filter Include="Content\MapLogic\Portal">
+      <UniqueIdentifier>{b67c5cbe-562c-4b9a-ae33-35d1852b0d4d}</UniqueIdentifier>
+    </Filter>
     <Filter Include="3_Interfaces">
       <UniqueIdentifier>{dffc01e4-4135-4508-ab76-7ad67dc1e127}</UniqueIdentifier>
     </Filter>
+    
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -131,6 +135,9 @@
     </ClCompile>
     <ClCompile Include="PlayerBattleBehavior.cpp">
       <Filter>Content\PlayerBattleBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Content\MapLogic\Portal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +218,9 @@
     </ClInclude>
     <ClInclude Include="EventList_CameraRelated.h">
       <Filter>Content\CombatSystem\EventRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Content\MapLogic\Portal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
