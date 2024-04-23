@@ -24,6 +24,7 @@ namespace Pg::DataScript
 	class CombatSystem : public ScriptInterface<CombatSystem>
 	{
 		//이 매크로를 쓴다면, 생성자를 멋대로 쓰면 안된다.
+		//다른 생성자에 멋대로 Singleton CombatSystem 가져오면 안됨!
 		DEFINE_PARAGON_SCRIPT_SINGLETON(CombatSystem);
 	
 	public:
@@ -33,6 +34,8 @@ namespace Pg::DataScript
 		// Update에서 로직을 처리하고 - FixedUpdate에서 CombatSystem - 
 		// LateUpdate에서 받은 오브젝트가 이에 맞는 처리를 해준다.
 		virtual void FixedUpdate() override;
+
+	public:
 
 
 	private:
