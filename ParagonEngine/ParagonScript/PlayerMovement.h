@@ -6,13 +6,14 @@ namespace Pg::Data
 {
 	class Camera;
 	class DynamicCollider;
+	class SkinnedMeshRenderer;
 }
 
-namespace Pg::DataScript
-{
-	class Camera;
-	class DynamicCollider;
-}
+//namespace Pg::DataScript
+//{
+//	class Camera;
+//	class DynamicCollider;
+//}
 
 namespace Pg::API
 {
@@ -62,6 +63,7 @@ namespace Pg::DataScript
 	private:
 		Pg::Data::Camera* _mainCam{ nullptr };
 		Pg::Data::DynamicCollider* _selfCol{ nullptr };
+		Pg::Data::SkinnedMeshRenderer* _renderer{ nullptr };
 		Pg::API::Input::PgInput* _pgInput{ nullptr };
 		Pg::API::Time::PgTime* _pgTime{ nullptr };
 		Pg::API::Raycast::PgRayCast* _pgRayCast{ nullptr };
