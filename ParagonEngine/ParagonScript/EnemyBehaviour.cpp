@@ -1,6 +1,7 @@
 #include "EnemyBehaviour.h"
 #include "EnemySight.h"
 #include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonAPI/PgRayCast.h"
 #include "../ParagonData/LayerMask.h"
@@ -33,7 +34,9 @@ namespace Pg::DataScript
 	{
 		_renderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		assert(_renderer != nullptr);
-	}	void EnemyBehaviour::Start()
+	}	
+	
+	void EnemyBehaviour::Start()
 	{
 		auto objName = _object->GetScene()->FindObjectWithName("EnemySight");
 		_object->GetComponent<Pg::Data::Transform>()->AddChild(objName);
