@@ -6,6 +6,7 @@ namespace Pg::Data { class Collider; class StaticBoxCollider; }
 
 namespace Pg::DataScript
 {
+	class PlayerBehavior;
 	class BattleArea : public ScriptInterface<BattleArea>
 	{
 		DEFINE_PARAGON_SCRIPT(BattleArea);
@@ -19,13 +20,12 @@ namespace Pg::DataScript
 
 	private:
 		virtual void OnTriggerEnter(Pg::Data::Collider* col) override;
-		virtual void OnTriggerExit(Pg::Data::Collider* col) override;
 		
 	private:
 		Pg::Data::StaticBoxCollider* _collider;
-		bool _isInit;
-		bool _isStay;
-		bool _isExit;
+		Pg::DataScript::PlayerBehavior* _player;
+
+		int _monster = 1;
 	};
 }
 

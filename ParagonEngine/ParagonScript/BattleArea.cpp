@@ -1,6 +1,9 @@
 #include "BattleArea.h"
+#include "PlayerBehavior.h"
 
 #include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/DynamicCollider.h"
+#include "../ParagonUtil/CheckInBox.h"
 #include "../ParagonUtil/Log.h"
 
 Pg::DataScript::BattleArea::BattleArea(Pg::Data::GameObject* obj)
@@ -20,31 +23,54 @@ void Pg::DataScript::BattleArea::Start()
 
 void Pg::DataScript::BattleArea::Update()
 {
+	if (_player != nullptr)
+	{
+		auto dcol = _player->_object->GetComponent<Pg::Data::DynamicCollider>();
+
+		if (Pg::Util::CheckInBox::IsIn3DBox(
+			_collider->_object->_transform._position, _collider->_width, _collider->_height, _collider->_depth,
+			_player->_object->_transform._position, dcol->GetWidth(), dcol->GetHeight(), dcol->GetDepth()))
+		{
+
+			PG_TRACE("Stay");
+		}
+		else
+		{
+			// 1스테이지에서는 플레이어가 전투 구역에서 벗어나지 못하도록 막아주는 투명벽이 있음
+			// 플레이어가 전투 구역에 있는 모든 몬스터를 해치웠을 경우 빠져나갈 수 있음
+			
+			if (_monster != 0)
+			{
+				auto& colPos = _collider->_object->_transform._position;
+				auto& playerPos = _player->_object->_transform._position;
+
+				if (colPos.x - (_collider->_width / 2) > playerPos.x + (dcol->GetWidth() / 2))
+				{
+					playerPos.x = colPos.x - (_collider->_width / 2);
+				}
+				if (colPos.x + (_collider->_width / 2) < playerPos.x - (dcol->GetWidth() / 2))
+				{
+					playerPos.x = colPos.x + (_collider->_width / 2);
+				}
+				if (colPos.z - (_collider->_depth/ 2) > playerPos.z + (dcol->GetDepth() / 2))
+				{
+					playerPos.z = colPos.z - (_collider->_depth / 2);
+				}
+				if (colPos.z + (_collider->_depth / 2) < playerPos.z - (dcol->GetDepth() / 2))
+				{
+					playerPos.z = colPos.z + (_collider->_depth / 2);
+				}
+			}
+		}
+	}
 }
 
 void Pg::DataScript::BattleArea::OnTriggerEnter(Pg::Data::Collider* col)
 {
 	if (col->_object->GetTag() == "TAG_Player")
 	{
-		// 1스테이지일 경우만 필요함.
-		// 1스테이지에서는 플레이어가 전투 구역에서 벗어나지 못하도록 막아주는 투명벽이 있음
+		_player = col->_object->GetComponent<Pg::DataScript::PlayerBehavior>();
 
-		_isInit = true;
 		PG_TRACE("Trigger");
 	}
 }
-
-void Pg::DataScript::BattleArea::OnTriggerExit(Pg::Data::Collider* col)
-{
-	// 플레이어가 전투 구역에 있는 모든 몬스터를 해치웠을 경우 빠져나갈 수 있음
-	//if(구역 내에 있는 모든 몬스터 수가 0일 경우)
-	//{
-
-	//}
-
-	//if (!col->GetWasTrigger())
-	//{
-	//	PG_TRACE("Exit");
-	//}
-}
-
