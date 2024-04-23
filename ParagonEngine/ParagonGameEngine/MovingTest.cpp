@@ -85,7 +85,8 @@ void MovingTest::Update()
 	}
 	if (tInput->GetKeyDown(Space))
 	{
-
+		dynamicCol->SetRotationOffset(Pg::Math::PGQuaternionMultiply(dynamicCol->GetRotationOffset(), Pg::Math::PGEulerToQuaternion({1.f, 0.f, 0.f})));
+		// dynamicCol->SetRotationOffset({})
 		//_isLocate = true;
 
 		//if (!_isLocate)
