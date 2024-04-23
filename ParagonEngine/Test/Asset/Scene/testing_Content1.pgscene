@@ -22,9 +22,9 @@
 							<z>0.000000</z>
 						</rotation>
 						<scale>
-							<x>1.000000</x>
-							<y>1.000000</y>
-							<z>1.000000</z>
+							<x>2.000000</x>
+							<y>2.000000</y>
+							<z>2.000000</z>
 						</scale>
 					</data>
 				</component>
@@ -43,7 +43,7 @@
 						<trigger>false</trigger>
 						<positionOffset>
 							<x>0.000000</x>
-							<y>0.000000</y>
+							<y>0.700000</y>
 							<z>0.000000</z>
 						</positionOffset>
 						<rotationOffset>
