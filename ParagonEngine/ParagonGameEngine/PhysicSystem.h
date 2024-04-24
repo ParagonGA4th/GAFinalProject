@@ -56,9 +56,7 @@ namespace Pg::Engine::Physic
 		//PhysX 예제
 		void CreatePxScene();
 
-		void CreateStack(const physx::PxTransform& t, physx::PxU32 size, physx::PxReal halfExtent);
-
-		void SetLayerMask(physx::PxShape* shape, physx::PxU32 layer, physx::PxU32 mask);	
+		void CreateStack(const physx::PxTransform& t, physx::PxU32 size, physx::PxReal halfExtent);	
 	
 	public:
 		//Collider 전체 생성

@@ -280,18 +280,6 @@ namespace Pg::Engine::Physic
 			Pg::Data::StaticCollider* staticCol = static_cast<Pg::Data::StaticCollider*>(rigid->userData);
 			staticCol->UpdateTransform();
 		}
-
-
-		//rayCast는 매 프레임마다 받아와야 하므로 여기다가 임시로 해본다.
-		for (auto& obj : _sceneSystem->GetCurrentScene()->GetObjectList())
-		{
-			Pg::Data::RayCast* tRayCast = obj->GetComponent<Pg::Data::RayCast>();
-
-			if (tRayCast != nullptr)
-			{
-				//MakeRayCast(obj);
-			}
-		}
 	}
 
 
@@ -364,15 +352,6 @@ namespace Pg::Engine::Physic
 		}
 
 		shape->release();
-	}
-
-	// Layer Mask 설정 함수
-	void PhysicSystem::SetLayerMask(physx::PxShape* shape, physx::PxU32 layer, physx::PxU32 mask) {
-		physx::PxFilterData filterData;
-		filterData.word0 = mask;
-		filterData.word1 = layer; // 레이어 설정
-
-		shape->setQueryFilterData(filterData);
 	}
 
 	void PhysicSystem::InitMakeColliders()
@@ -671,10 +650,6 @@ namespace Pg::Engine::Physic
 				_rigidDynamicVec.push_back(rigid);
 
 				boxShape->release();
-
-				///나중에 physicsSystem 사용 시
-				//void* tRigid = rigid;
-				//physx::PxRigidDynamic* tNewRigid = reinterpret_cast<physx::PxRigidDynamic*>(tRigid);
 
 			}
 
