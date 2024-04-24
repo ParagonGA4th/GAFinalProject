@@ -3634,5 +3634,68 @@
 				</component>
 			</components>
 		</object>
+	  <object>
+		<uuid>B50B3AF01D1943308B781F5AED7F6734</uuid>
+		<name>Boss2</name>
+		<active>true</active>
+		<tag>TAG_Boss2</tag>
+		<dontdestroy>false</dontdestroy>
+		<components>
+		  <component>
+			<type>class Pg::Data::Transform</type>
+			<data>
+			  <position>
+				<x>0.000000</x>
+				<y>5.000000</y>
+				<z>0.000000</z>
+			  </position>
+			  <rotation>
+				<w>1.000000</w>
+				<x>0.000000</x>
+				<y>0.000000</y>
+				<z>0.000000</z>
+			  </rotation>
+			  <scale>
+				<x>2.00000</x>
+				<y>2.00000</y>
+				<z>2.00000</z>
+			  </scale>
+			</data>
+		  </component>
+		  <component>
+			<type>class Pg::Data::SkinnedMeshRenderer</type>
+			<data>
+			  <isInstanced>false</isInstanced>
+			  <meshName>PpakMonster.fbx</meshName>
+			  <materialName></materialName>
+			  <initAnimName>PpakMonster_Idle.pganim</initAnimName>
+			</data>
+		  </component>
+		  <component>
+			<type>class Pg::Data::CapsuleCollider</type>
+			<data>
+			  <trigger>false</trigger>
+			  <positionOffset>
+				<x>0.000000</x>
+				<y>2.000000</y>
+				<z>0.000000</z>
+			  </positionOffset>
+			  <rotationOffset>
+				<w>1.000000</w>
+				<x>0.000000</x>
+				<y>0.000000</y>
+				<z>0.000000</z>
+			  </rotationOffset>
+			  <radius>2.000000</radius>
+			  <halfHeight>2.000000</halfHeight>
+			</data>
+		  </component>
+		  <component>
+			<type>class Pg::DataScript::PlayerMove</type>
+			<data>
+			</data>
+		  </component>
+		</components>
+	  </object>
 	</objects>
 </scene>

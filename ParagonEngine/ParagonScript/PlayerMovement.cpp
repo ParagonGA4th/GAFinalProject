@@ -99,6 +99,7 @@ namespace Pg::DataScript
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyUp))
 		{
 			_selfCol->AddForce(relativeForward, Pg::Data::ForceMode::eFORCE);
+			
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyDown))
 		{
@@ -126,6 +127,8 @@ namespace Pg::DataScript
 			_selfCol->FreezeAxisX(true);
 			_selfCol->FreezeAxisY(true);
 			_selfCol->FreezeAxisZ(true);
+
+			
 		}
 
 		//PhysX 업데이트를 1차례 거친 후, 다시 리셋.
