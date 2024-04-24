@@ -340,7 +340,7 @@ namespace Pg::Graphics
 					//런타임에서 오브젝트를 파싱해주며 만들어주는 특성상, => 무조건 있는지 체크해야. 
 					//이미 존재할 시에는 넣어주면 안됨.
 					//있으면 새로운 벡터를 만들지 않음. (insert_or_assign에서 TryEmplace로 변경)
-
+					
 					_renderObject3DList->_staticList.try_emplace(tRenderMat, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectStaticMesh3D>>>>());
 					_renderObject3DList->_skinnedList.try_emplace(tRenderMat, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectSkinnedMesh3D>>>>());
 
@@ -365,25 +365,50 @@ namespace Pg::Graphics
 				}
 
 				//3D
-				//StaticMeshRenderer
-				if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
+				//알파블렌딩을 사용하는 경우
+				if (tMaterialInput->GetIsUseAlphaBlending())
 				{
-					_renderObject3DList->_staticList.at(tMaterialInput)->push_back(std::make_pair(obj,
-						std::make_unique<RenderObjectStaticMesh3D>(tBaseRenderer, _objectId3dCount)));
+					//StaticMeshRenderer
+					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
+					{
+						auto tUPtr = std::make_unique<AlphaBlendedTuple>(obj, tMaterialInput, false);
+						tUPtr->_eitherStaticMesh = std::make_unique<RenderObjectStaticMesh3D>(tBaseRenderer, _objectId3dCount);
+						tUPtr->_eitherStaticMesh->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
 
-					//개별적으로 MaterialID 할당. 값이랑은 무관할 것이다.
-					_renderObject3DList->_staticList.at(tMaterialInput)->back().second->SetMaterialIdPointer(&(tMaterialInput->GetID()));
+						_renderObject3DList->_allAlphaBlendedList.push_back(std::move(tUPtr));
+					}
+					//SkinnedMeshRenderer
+					else if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::SkinnedMeshRenderer*).name())) == 0)
+					{
+						auto tUPtr = std::make_unique<AlphaBlendedTuple>(obj, tMaterialInput, true);
+						tUPtr->_eitherSkinnedMesh = std::make_unique<RenderObjectSkinnedMesh3D>(tBaseRenderer, _objectId3dCount);
+						tUPtr->_eitherSkinnedMesh->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
+
+						_renderObject3DList->_allAlphaBlendedList.push_back(std::move(tUPtr));
+					}
 				}
-				//SkinnedMeshRenderer
-				else if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::SkinnedMeshRenderer*).name())) == 0)
+				else //그냥 불투명 렌더링.
 				{
-					_renderObject3DList->_skinnedList.at(tMaterialInput)->push_back(std::make_pair(obj,
-						std::make_unique<RenderObjectSkinnedMesh3D>(tBaseRenderer, _objectId3dCount)));
+					//StaticMeshRenderer
+					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
+					{
+						_renderObject3DList->_staticList.at(tMaterialInput)->push_back(std::make_pair(obj,
+							std::make_unique<RenderObjectStaticMesh3D>(tBaseRenderer, _objectId3dCount)));
 
-					//개별적으로 MaterialID 할당. 값이랑은 무관할 것이다.
-					_renderObject3DList->_skinnedList.at(tMaterialInput)->back().second->SetMaterialIdPointer(&(tMaterialInput->GetID()));
+						//개별적으로 MaterialID 할당. 값이랑은 무관할 것이다.
+						_renderObject3DList->_staticList.at(tMaterialInput)->back().second->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
+					}
+					//SkinnedMeshRenderer
+					else if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::SkinnedMeshRenderer*).name())) == 0)
+					{
+						_renderObject3DList->_skinnedList.at(tMaterialInput)->push_back(std::make_pair(obj,
+							std::make_unique<RenderObjectSkinnedMesh3D>(tBaseRenderer, _objectId3dCount)));
+
+						//개별적으로 MaterialID 할당. 값이랑은 무관할 것이다.
+						_renderObject3DList->_skinnedList.at(tMaterialInput)->back().second->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
+					}
 				}
-
+				
 				//ObjectId3d가 겹치지 않도록 ++
 				_objectId3dCount++;
 			}
