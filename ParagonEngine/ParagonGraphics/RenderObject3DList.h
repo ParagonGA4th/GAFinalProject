@@ -27,29 +27,52 @@ namespace Pg::Graphics
 		AlphaBlendedTuple(Pg::Data::GameObject* go, RenderMaterial* mat, bool isSkinned) :
 			_obj(go), _renderMat(mat), _isSkinned(isSkinned) {}
 
+		//std::sort가 강제로 Copy가 아니라 Move Semantics에 의해 동작할 수 있게.
 		AlphaBlendedTuple(const AlphaBlendedTuple& rhs) = delete;
+		AlphaBlendedTuple& operator=(const AlphaBlendedTuple& rhs) = delete;
+
+		AlphaBlendedTuple(AlphaBlendedTuple&& other) noexcept
+			: _obj(other._obj), _renderMat(other._renderMat), _isSkinned(other._isSkinned) 
+		{
+			this->_eitherStaticMesh = std::move(other._eitherStaticMesh);
+			this->_eitherSkinnedMesh = std::move(other._eitherSkinnedMesh);
+			_cameraRelativeDistSquared = other._cameraRelativeDistSquared;
+		}
+
+		AlphaBlendedTuple& operator=(AlphaBlendedTuple&& other) noexcept 
+		{
+			this->_obj = other._obj;
+			this->_renderMat = other._renderMat;
+			this->_isSkinned = other._isSkinned;
+
+			this->_eitherStaticMesh = std::move(other._eitherStaticMesh);
+			this->_eitherSkinnedMesh = std::move(other._eitherSkinnedMesh);
+			this->_cameraRelativeDistSquared = other._cameraRelativeDistSquared;
+
+			return *this;
+		}
 		//Move만 허용할 것.
 
 		//Sorting. : Operator Overload.
 		bool operator>(const AlphaBlendedTuple& rhs) const {
-			return this->_cameraRelativeDepth > rhs._cameraRelativeDepth;
+			return this->_cameraRelativeDistSquared > rhs._cameraRelativeDistSquared;
 		}
 
 		bool operator<(const AlphaBlendedTuple& rhs) const {
-			return this->_cameraRelativeDepth < rhs._cameraRelativeDepth;
+			return this->_cameraRelativeDistSquared < rhs._cameraRelativeDistSquared;
 		}
 
 		//<불변 데이터>
-		const Pg::Data::GameObject* const _obj;
-		const RenderMaterial* const _renderMat;
-		const bool _isSkinned; //이 값을 따라서 어떤 값을 렌더해야 할지가 달라진다.
+		const Pg::Data::GameObject* _obj;
+		const RenderMaterial*  _renderMat;
+		bool _isSkinned; //이 값을 따라서 어떤 값을 렌더해야 할지가 달라진다.
 
 		std::unique_ptr<RenderObjectStaticMesh3D> _eitherStaticMesh;
 		std::unique_ptr<RenderObjectSkinnedMesh3D> _eitherSkinnedMesh;
 		//</불변 데이터>
 
 		//매 프레임 변하는 데이터: BACK_TO_FRONT 되어야 한다. (>) 오버로드해야. 
-		float _cameraRelativeDepth{ std::numeric_limits<float>::max() };
+		float _cameraRelativeDistSquared{ std::numeric_limits<float>::max() };
 	};
 }
 
@@ -91,6 +114,8 @@ namespace Pg::Graphics
 		//Static & Skinned - AlphaBlended.
 		std::vector<std::unique_ptr<AlphaBlendedTuple>> _allAlphaBlendedList;
 		
+		//Index를 따로 보관할 것이기에.
+		std::vector<int> _sortedIndexBlendedVec;
 		///같은 인덱스의 수가 가진 벡터와 대응 순열이 있다. 
 
 	};
