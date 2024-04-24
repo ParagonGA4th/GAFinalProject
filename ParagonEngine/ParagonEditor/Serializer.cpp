@@ -416,6 +416,11 @@ std::string Pg::Serialize::Serializer::DeserializeString(pugi::xml_node* node, c
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
 
+		if (nodeName == NULL)
+		{
+			return "";
+		}
+
 		if (nodeName)
 		{
 			return nodeName.text().as_string();
