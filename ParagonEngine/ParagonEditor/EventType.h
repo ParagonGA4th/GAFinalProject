@@ -19,6 +19,7 @@ namespace Pg::Editor
 		_ADDOBJECT,
 		_MODIFIEDOBJECT,
 		_DELETEOBJECT,
+		_REFRESHOBJECT,
 		_ASSETLIST,
 	};
 }

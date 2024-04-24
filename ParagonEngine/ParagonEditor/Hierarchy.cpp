@@ -37,14 +37,17 @@ void Pg::Editor::Window::Hierarchy::Initialize()
 	_prevObjName = selectable.GetSelectObjectName();
 	_isNewObject = selectable.GetBtnClick();
 	_isDeleteObject = selectable.GetKeyDeleteInput();
+
+	_changeObjectData->AddEvent(Pg::Editor::eEventType::_REFRESHOBJECT, [&](void* data) { IsObjectChanged(data); });
 }
 
 void Pg::Editor::Window::Hierarchy::Update()
 {
+	DataSet();
+
 	_uiManager->WindowBegin(_winName);
 	_uiManager->BeginDisable(_isDisable);
 
-	DataSet();
 	_widgetCon->Update();
 
 	if (_isDisable) _uiManager->EndDisable();
@@ -140,7 +143,7 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 	std::string sceneName = _dataContainer->GetCurrentScene()->GetSceneName();
 
 	// 여러 번 오브젝트 리스트를 가져오는 것을 막기 위해
-	if (_prevSceneName != sceneName || (* _isNewObject) || (*_isDeleteObject) || _isObjectChange)
+	if (_prevSceneName != sceneName || (* _isNewObject) || (*_isDeleteObject) || _isObjectChange || _isRefresh)
 	{
 		std::vector<Pg::Data::GameObject*> tObjList;
 
@@ -184,22 +187,22 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 		_objNameList.clear();
 
 		int count = 0;
+		std::vector<std::string> childObject;
+		
 		for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
 		{
-			std::vector<std::string> childObject;
-
-			if (i->_transform.GetChildren().size() < 0)
-			{
-				_objNameList[count++] = std::make_pair(i->GetName(), childObject);
-			}
-			else
+			if (!i->_transform.GetChildren().empty())
 			{
 				for (auto& child : i->_transform.GetChildren())
 				{
 					childObject.emplace_back(child->_object->GetName());
 				}
-				_objNameList[count++] = std::make_pair(i->GetName(), childObject);
 			}
+
+			auto childObj = std::find(childObject.begin(), childObject.end(), i->GetName());
+
+			if(childObj == childObject.end())
+				_objNameList[count++] = std::make_pair(i->GetName(), childObject);
 		}
 	}
 }
@@ -224,4 +227,10 @@ void Pg::Editor::Window::Hierarchy::GetSelectedObject()
 		}
 		else _isObjectChange = true;
 	}
+}
+
+void Pg::Editor::Window::Hierarchy::IsObjectChanged(void* isChanged)
+{
+	if (_isRefresh) _isRefresh = false;
+	_isRefresh = *(static_cast<bool*>(isChanged));
 }
