@@ -59,6 +59,9 @@ namespace Pg::Graphics
 
 		unsigned int& GetID();
 
+		//알파 블렌딩을 쓰는지 리턴. (쓰면 Transparency)
+		bool GetIsUseAlphaBlending();
+
 	public:
 		//SetXXX 함수들. Vertex Shader, Pixel Shader 전용이 다르다.
 		void SetBoolVS(const std::string& varName, bool value);
@@ -112,6 +115,9 @@ namespace Pg::Graphics
 
 		//외부에서 Scene이 시작되었을 때 마킹됨.
 		RenderMaterial::eInitState _initState{ RenderMaterial::eInitState::_NONE };
+
+		//IsUseAlphaBlending
+		bool _isUseAlphaBlending{ false };
 
 	private:
 		LowDX11Storage* _DXStorage;

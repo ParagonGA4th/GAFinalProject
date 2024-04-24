@@ -473,6 +473,11 @@ namespace Pg::Engine::Physic
 				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(staticBoxcol->GetWidth() / 2,
 					staticBoxcol->GetHeight() / 2, staticBoxcol->GetDepth() / 2), *_material);
 
+				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
+				physx::PxTransform trans(physx::PxIdentity);
+				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
+				boxShape->setLocalPose(trans);
+
 				//Trigger 여부 판단
 				if (staticBoxcol->GetTrigger())
 				{
@@ -624,6 +629,11 @@ namespace Pg::Engine::Physic
 				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(boxcol->GetWidth() / 2,
 					boxcol->GetHeight() / 2, boxcol->GetDepth() / 2), *_material);
 
+				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
+				physx::PxTransform trans(physx::PxIdentity);
+				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
+				boxShape->setLocalPose(trans);
+
 				Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 
 				physx::PxTransform local(physx::PxVec3(position.x, position.y, position.z));
@@ -744,7 +754,7 @@ namespace Pg::Engine::Physic
 
 				physx::PxShape* shape = _physics->createShape(physx::PxCapsuleGeometry(capCol->GetRadius(), capCol->GetHalfHeight()), *_material);
 
-				Pg::Math::PGQuaternion quat = collider->GetRotationOffset();
+				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
 				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
 
@@ -763,7 +773,7 @@ namespace Pg::Engine::Physic
 
 
 				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
-				physx::PxTransform localTm(physx::PxIdentity);
+				physx::PxTransform localTm(physx::PxVec3(pos.x, pos.y, pos.z));
 
 				capCol->SetPxShape(shape);
 

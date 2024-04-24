@@ -28,19 +28,7 @@ void AISeight::Start()
 
 void AISeight::Update()
 {
-	//if (_afterPlayerExit >= 0.0f)
-	//{
-	//	_afterPlayerExit += tTime->GetDeltaTime();
 
-	//	if (_afterPlayerExit >= 3.0f)
-	//	{
-	//		col->SetActive(true);
-	//		_afterPlayerExit = 0.0f;
-	//		PG_TRACE("플레이어 감지 해제.");
-	//	}
-	//}
-
-	//PG_TRACE(_afterPlayerExit);
 }
 
 void AISeight::OnTriggerEnter(Pg::Data::Collider* c)
@@ -55,20 +43,6 @@ void AISeight::OnTriggerEnter(Pg::Data::Collider* c)
 
 void AISeight::OnTriggerExit(Pg::Data::Collider* c)
 {
-	//_playerDetected = false;
-	//if (c->GetLayer() == 0)
-	//{
-	//	if (_afterPlayerExit >= 0.0f)
-	//	{
-	//		_afterPlayerExit += tTime->GetDeltaTime();
 
-	//		if (_afterPlayerExit >= 2.0f)
-	//		{
-	//			col->SetActive(true);
-	//			_afterPlayerExit = 0.0f;
-	//		}
-	//	}
-	//	//_afterPlayerExit = tTime->GetDeltaTime();
-	//	//col->SetActive(true);
 }
 

@@ -21,4 +21,6 @@
 #include "ArrowShooterBehavior.h"
 #include "BattleArea.h"
 #include "TrapArea.h"
+#include "EnemyBehaviour.h"
+#include "EnemySight.h"
 #include "Portal.h"
