@@ -32,15 +32,15 @@ namespace Pg::Graphics
 
 		for (auto& it : this->_allAlphaBlendedList)
 		{
-			if (it._obj == obj)
+			if (it->_obj == obj)
 			{
-				if (it._isSkinned)
+				if (it->_isSkinned)
 				{
-					tRet.push_back(it._eitherSkinnedMesh.get());
+					tRet.push_back(it->_eitherSkinnedMesh.get());
 				}
 				else
 				{
-					tRet.push_back(it._eitherStaticMesh.get());
+					tRet.push_back(it->_eitherStaticMesh.get());
 				}
 			}
 		}
@@ -81,10 +81,10 @@ namespace Pg::Graphics
 		{
 			for (auto& it : this->_allAlphaBlendedList)
 			{
-				if (it._obj == obj)
+				if (it->_obj == obj)
 				{
-					it._eitherStaticMesh.reset();
-					it._eitherSkinnedMesh.reset();
+					it->_eitherStaticMesh.reset();
+					it->_eitherSkinnedMesh.reset();
 				}
 			}
 		}
