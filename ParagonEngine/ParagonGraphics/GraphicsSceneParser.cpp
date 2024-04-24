@@ -84,7 +84,7 @@ namespace Pg::Graphics
 		//실제 리소스를 사용해야 하기에, Initialize에서 현재 호출하고 있지 않음.
 		PlaceCubemapList();
 
-
+		
 		assert("");
 	}
 
@@ -458,6 +458,23 @@ namespace Pg::Graphics
 				}
 			}
 		}
+
+		for (auto& it : _renderObject3DList->_allAlphaBlendedList)
+		{
+			if (it->_isSkinned)
+			{
+				RenderObjectSkinnedMesh3D* tSkinnedRO = static_cast<RenderObjectSkinnedMesh3D*>(it->_eitherSkinnedMesh.get());
+				Pg::Data::SkinnedMeshRenderer* tSkinnedRenderer = static_cast<Pg::Data::SkinnedMeshRenderer*>(it->_eitherSkinnedMesh->GetBaseRenderer());
+
+				if (!(it->_eitherSkinnedMesh->_isInternalUpToDate))
+				{
+					tSkinnedRenderer->_setAnimationFunction = std::bind(&RenderObjectSkinnedMesh3D::SetAnimation, tSkinnedRO, std::placeholders::_1, std::placeholders::_2);
+					tSkinnedRenderer->_findAnimTransformFunction = std::bind(&RenderObjectSkinnedMesh3D::FindAnimTransform, tSkinnedRO, std::placeholders::_1);
+				}
+			}
+		}
+
+
 	}
 
 	void GraphicsSceneParser::CheckCreateObjMatBuffersAll()
@@ -491,6 +508,20 @@ namespace Pg::Graphics
 					//세팅 됨.
 					it.second->at(i).second->_isInternalUpToDate = true;
 				}
+			}
+		}
+
+		//사실상 ForwardRendering을 사용할 Alpha Blended Object들은 이 순서가 필요 없지만,
+		//구조 일원화를 위해 투입한다.
+		for (auto& it : _renderObject3DList->_allAlphaBlendedList)
+		{
+			if (it->_isSkinned)
+			{
+				it->_eitherSkinnedMesh->_isInternalUpToDate = true;
+			}
+			else
+			{
+				it->_eitherStaticMesh->_isInternalUpToDate = true;
 			}
 		}
 	}
