@@ -377,6 +377,10 @@ namespace Pg::Math
 	//Quaternion은 검증해야 할것!
 	Pg::Math::PGQuaternion PGConvertD3DQuatRotToPhysX(Pg::Math::PGQuaternion val);
 	Pg::Math::PGQuaternion PGConvertPhysXQuatRotToD3D(Pg::Math::PGQuaternion val);
+
+	//벡터의 길이의 제곱 리턴.
+	float PGFloat3LengthSquared(Pg::Math::PGFLOAT3 val);
+
 }
 
 

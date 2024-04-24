@@ -84,6 +84,7 @@ namespace Pg::Graphics
 		//실제 리소스를 사용해야 하기에, Initialize에서 현재 호출하고 있지 않음.
 		PlaceCubemapList();
 
+
 		assert("");
 	}
 
