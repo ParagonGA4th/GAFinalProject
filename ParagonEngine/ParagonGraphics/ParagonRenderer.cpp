@@ -11,6 +11,7 @@
 #include "DeferredRenderer.h"
 #include "CubemapRenderer.h"
 #include "Forward2DRenderer.h"
+#include "Forward3DRenderer.h"
 #include "DebugRenderer.h"
 #include "PPFinalRenderer.h"
 
@@ -56,6 +57,9 @@ namespace Pg::Graphics
 		_forward2dRenderer = std::make_unique<Forward2DRenderer>(_gCarrier.get());
 		_forward2dRenderer->Initialize();
 
+		_forward3dRenderer = std::make_unique<Forward3DRenderer>(_gCarrier.get());
+		_forward3dRenderer->Initialize();
+
 		_debugRenderer = std::make_unique<DebugRenderer>(_gCarrier.get());
 		_debugRenderer->Initialize();
 
@@ -75,6 +79,9 @@ namespace Pg::Graphics
 		// Deferred w/ Pass
 		_deferredRenderer->RenderContents(_sceneParser->GetRenderObject3DList(), _sceneParser->GetSceneInformationList(), camData);
 		_deferredRenderer->ConfirmCarrierData();
+
+		_forward3dRenderer->RenderContents(_sceneParser->GetRenderObject3DList(), nullptr, camData);
+		_forward3dRenderer->ConfirmCarrierData();
 
 		// Cubemap Renderer.
 		_cubemapRenderer->RenderContents(_sceneParser->GetRenderObjectCubemapList(), nullptr, camData);
@@ -219,6 +226,7 @@ namespace Pg::Graphics
 	{
 		//¹Ì¸® AnimationÀ» µ¹¸± ·»´õ·¯ : µ¨Å¸Å¸ÀÓ ³Ñ°å´Ù.
 		_deferredRenderer->SetDeltaTime(dt);
+		_forward3dRenderer->SetDeltaTime(dt);
 	}
 
 	void ParagonRenderer::AddRenderObject_Runtime(const std::vector<Pg::Data::GameObject*>* objVecP)
