@@ -59,7 +59,7 @@ namespace Pg::Graphics
 		{
 			//참조라 재할당 가능.
 			RenderMaterial* tRenderMat = static_cast<RenderMaterial*>(it.get());
-			tRenderMat->GetID() = _matIdRecord;
+			tRenderMat->GetMaterialID() = _matIdRecord;
 			tRenderMat->_initState = RenderMaterial::eInitState::_FROM_SCENE;
 			//겹치게 하지 않기 위해서.
 			_matIdRecord++;
@@ -81,7 +81,7 @@ namespace Pg::Graphics
 			//NONE일때만 새로운 ID를 부여.
 			if (tRenderMat->_initState == RenderMaterial::eInitState::_NONE)
 			{
-				tRenderMat->GetID() = _matIdRecord;
+				tRenderMat->GetMaterialID() = _matIdRecord;
 				tRenderMat->_initState = RenderMaterial::eInitState::_ADDED_LATER;
 				//겹치게 하지 않기 위해서.
 				_matIdRecord++;
