@@ -42,7 +42,7 @@ namespace Pg::Graphics
 		void ResetAllKnownInitStates();
 	private:
 		//큰 레이어들.
-		void ParsePgMat(const std::string& pgmatPath);
+		void ParsePgMat(const std::string& pgmatPath, RenderMaterial* renderMat);
 		//실제로 리소스 매니저에 있는 VS, PS를 배치한다.
 		void PlaceShaders(RenderMaterial* renderMat);
 		void LoadRenderMaterial(RenderMaterial* renderMat);

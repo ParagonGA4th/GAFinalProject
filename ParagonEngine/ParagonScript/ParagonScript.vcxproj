@@ -148,6 +148,11 @@
     <ClInclude Include="CameraShake.h" />
     <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="ComboSystem.h" />
+    <ClInclude Include="EnemyBehaviour.h" />
+    <ClInclude Include="EnemySight.h" />
+    <ClInclude Include="Event_PlayerHealthChange.h" />
+    <ClInclude Include="Event_PlayerManaChange.h" />
+    <ClInclude Include="Event_PlayerStaminaChange.h" />
     <ClInclude Include="EventList_CameraRelated.h" />
     <ClInclude Include="EventList_EnemyRelated.h" />
     <ClInclude Include="EventList_GameFlowRelated.h" />
@@ -177,6 +182,8 @@
     <ClCompile Include="CameraShake.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="ComboSystem.cpp" />
+    <ClCompile Include="EnemyBehaviour.cpp" />
+    <ClCompile Include="EnemySight.cpp" />
     <ClCompile Include="EventTest.cpp" />
     <ClCompile Include="FactoryHelper.cpp" />
     <ClCompile Include="InGameCameraBehavior.cpp" />

@@ -86,6 +86,15 @@
       <UniqueIdentifier>{dffc01e4-4135-4508-ab76-7ad67dc1e127}</UniqueIdentifier>
     </Filter>
     
+    <Filter Include="AI">
+      <UniqueIdentifier>{2a33d26a-8b1c-4a23-90b6-5736ca3f8fb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Enemy">
+      <UniqueIdentifier>{2dc765a3-4f3c-4717-84fc-0b0998b9f0c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Sight">
+      <UniqueIdentifier>{03ba09e1-06e2-47e2-9f42-23c36a8882de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -135,6 +144,12 @@
     </ClCompile>
     <ClCompile Include="PlayerBattleBehavior.cpp">
       <Filter>Content\PlayerBattleBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBehaviour.cpp">
+      <Filter>AI\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySight.cpp">
+      <Filter>AI\Sight</Filter>
     </ClCompile>
     <ClCompile Include="Portal.cpp">
       <Filter>Content\MapLogic\Portal</Filter>
@@ -215,6 +230,12 @@
     </ClInclude>
     <ClInclude Include="EventList_EnemyRelated.h">
       <Filter>Content\CombatSystem\EventRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBehaviour.h">
+      <Filter>AI\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySight.h">
+      <Filter>AI\Sight</Filter>
     </ClInclude>
     <ClInclude Include="EventList_CameraRelated.h">
       <Filter>Content\CombatSystem\EventRelated</Filter>

@@ -26,7 +26,7 @@ namespace Pg::Data
 
 	void DynamicCollider::UpdatePhysics(PGFLOAT3 pos, PGQuaternion quat)
 	{
-		PGFLOAT3 localPos = pos;
+		PGFLOAT4 localPos = PGFloat4MultiplyMatrix({ pos,1.0f }, GetOffsetTM().Inverse());
 		PGQuaternion localQuat = quat;
 
 		_object->_transform._position = { localPos.x, localPos.y, localPos.z };
@@ -38,7 +38,7 @@ namespace Pg::Data
 		//PxTransform을 자체 Transform과 연결시킨다.
 		using namespace Pg::Math;
 
-		PGFLOAT3 position = _object->_transform._position;
+		PGFLOAT4 position = PGFLOAT4(GetPositionOffset(), 1.0f) * _object->_transform.GetWorldTM();
 		PGQuaternion rotation = _object->_transform._rotation;
 		//PGQuaternion rotation = Pg::Math::PGQuaternionMultiply(GetRotationOffset(), _object->_transform._rotation);
 

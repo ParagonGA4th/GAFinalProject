@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <PgMaterial>
+	<IsUseAlphaBlending>0</IsUseAlphaBlending>
 	<VertexShader>
 		<FileName>AppendShadowTestVS.cso</FileName>
 		<ConstantBuffer>
