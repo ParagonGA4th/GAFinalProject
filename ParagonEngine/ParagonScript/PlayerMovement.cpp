@@ -45,6 +45,7 @@ namespace Pg::DataScript
 		_selfCol->SetMass(2.0f);
 		//자기 자신이 Player이니, Collider의 레이어를 설정해준다.
 		_selfCol->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PLAYER);
+		//_selfCol->SetPositionOffset({ 0.f,1.f,0.f });
 	}
 
 	void PlayerMovement::Update()

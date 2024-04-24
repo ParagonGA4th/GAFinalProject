@@ -80,8 +80,6 @@ namespace Pg::DataScript
 			PG_TRACE("애니메이션 재생 막 시작");
 
 			_isAnimStart = true;
-
-			_colVecActive = true;
 		}
 		else if(_colVecActive)
 		{
