@@ -52,6 +52,8 @@ namespace Pg::DataScript
 
 		//미리 BeforePhysicsUpdate를 호출했었는지.
 		bool _alreadyCalledBPU = false;
+
+		bool _isAnimStart = false;
 	};
 
 	//const bool PlayerMove::registered_ = ScriptInterface<PlayerMove>::register_type();

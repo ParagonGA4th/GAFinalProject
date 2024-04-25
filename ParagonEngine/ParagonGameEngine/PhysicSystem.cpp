@@ -280,18 +280,6 @@ namespace Pg::Engine::Physic
 			Pg::Data::StaticCollider* staticCol = static_cast<Pg::Data::StaticCollider*>(rigid->userData);
 			staticCol->UpdateTransform();
 		}
-
-
-		//rayCast는 매 프레임마다 받아와야 하므로 여기다가 임시로 해본다.
-		for (auto& obj : _sceneSystem->GetCurrentScene()->GetObjectList())
-		{
-			Pg::Data::RayCast* tRayCast = obj->GetComponent<Pg::Data::RayCast>();
-
-			if (tRayCast != nullptr)
-			{
-				//MakeRayCast(obj);
-			}
-		}
 	}
 
 
@@ -364,15 +352,6 @@ namespace Pg::Engine::Physic
 		}
 
 		shape->release();
-	}
-
-	// Layer Mask 설정 함수
-	void PhysicSystem::SetLayerMask(physx::PxShape* shape, physx::PxU32 layer, physx::PxU32 mask) {
-		physx::PxFilterData filterData;
-		filterData.word0 = mask;
-		filterData.word1 = layer; // 레이어 설정
-
-		shape->setQueryFilterData(filterData);
 	}
 
 	void PhysicSystem::InitMakeColliders()
@@ -472,6 +451,11 @@ namespace Pg::Engine::Physic
 
 				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(staticBoxcol->GetWidth() / 2,
 					staticBoxcol->GetHeight() / 2, staticBoxcol->GetDepth() / 2), *_material);
+
+				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
+				physx::PxTransform trans(physx::PxIdentity);
+				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
+				boxShape->setLocalPose(trans);
 
 				//Trigger 여부 판단
 				if (staticBoxcol->GetTrigger())
@@ -624,6 +608,11 @@ namespace Pg::Engine::Physic
 				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(boxcol->GetWidth() / 2,
 					boxcol->GetHeight() / 2, boxcol->GetDepth() / 2), *_material);
 
+				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
+				physx::PxTransform trans(physx::PxIdentity);
+				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
+				boxShape->setLocalPose(trans);
+
 				Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 
 				physx::PxTransform local(physx::PxVec3(position.x, position.y, position.z));
@@ -661,10 +650,6 @@ namespace Pg::Engine::Physic
 				_rigidDynamicVec.push_back(rigid);
 
 				boxShape->release();
-
-				///나중에 physicsSystem 사용 시
-				//void* tRigid = rigid;
-				//physx::PxRigidDynamic* tNewRigid = reinterpret_cast<physx::PxRigidDynamic*>(tRigid);
 
 			}
 
@@ -744,7 +729,8 @@ namespace Pg::Engine::Physic
 
 				physx::PxShape* shape = _physics->createShape(physx::PxCapsuleGeometry(capCol->GetRadius(), capCol->GetHalfHeight()), *_material);
 
-				Pg::Math::PGQuaternion quat = collider->GetRotationOffset();
+				//RotationOffset 설정
+				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
 				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
 
@@ -752,6 +738,9 @@ namespace Pg::Engine::Physic
 				physx::PxQuat rotation90(physx::PxPi / 2.0f, physx::PxVec3(0.0f, 0.0f, 1.0f));
 				trans.q = trans.q * rotation90;
 
+				//PositionOffset 설정
+				auto offsetP = collider->GetPositionOffset();
+				trans.p = {offsetP.x, offsetP.y , offsetP.z };
 				shape->setLocalPose(trans);
 
 				//Trigger 여부 판단
@@ -761,14 +750,19 @@ namespace Pg::Engine::Physic
 					shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
 				}
 
-
-				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
-				physx::PxTransform localTm(physx::PxIdentity);
-
 				capCol->SetPxShape(shape);
 
-				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
+				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
+				
+				//auto pos = obj->_transform._position;
+				//auto rot = obj->_transform._rotation;
 
+				physx::PxTransform worldTm(physx::PxVec3(pos.x, pos.y, pos.z));
+				//physx::PxTransform worldTm;
+				//worldTm.p = { pos.x , pos.y, pos.z };
+				//worldTm.q = { rot.w, rot.x, rot.y, rot.z };
+
+				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(worldTm);
 
 				// Layer Mask 설정
 				shape->setSimulationFilterData({ capCol->GetLayer(), 0, 0, 0 });

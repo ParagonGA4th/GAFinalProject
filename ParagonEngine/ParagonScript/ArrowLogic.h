@@ -48,7 +48,7 @@ namespace Pg::DataScript
 		//N초 이후에 지워라!
 		const float _afterDestroySec{ 3.0f };
 		//떨어지기 전의 거리.
-		const float _arrowDistBeforeFall{ 5.0f };
+		const float _arrowDistBeforeFall{ 20.0f };
 		// 미리 자기 자신에 영향 안 주는 Layer 설정되어 있어야.
 		const float _secondsBeforeGravity{ 1.0f };
 

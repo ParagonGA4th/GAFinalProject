@@ -6,6 +6,7 @@
 #include "../ParagonData/Component.h"
 #include "../ParagonData/Collider.h"
 #include "../ParagonScript/FactoryHelper.h"
+#include "../ParagonHelper/UUIDGenerator.h"
 
 #include <sstream>
 #include <algorithm>
@@ -178,6 +179,8 @@ void Pg::Editor::Manager::DataManager::SceneLoad(std::string path)
 
 		pugi::xml_node rootNode = doc.child("scene");
 		DataDeserialize(rootNode.first_child(), _scenes.size() - 1);
+		_dataContainer->SetUUID(sceneName, _sceneUUIDData);
+		_sceneUUIDData.clear();
 	}
 }
 
@@ -236,14 +239,18 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 	for (pugi::xml_node object = root.first_child(); object; object = object.next_sibling())
 	{
 		// GameObject 생성
+		std::string uuid = Pg::Serialize::Serializer::DeserializeString(&object, "uuid");
 		std::string objName = Pg::Serialize::Serializer::DeserializeString(&object, "name");
 		Pg::Data::GameObject* obj = nullptr;
 
 		//Scene 딴에서 EditorCameraScript를 추가하게 되면서, 외적인 검사가 불필요해졌다.
+		_sceneUUIDData.insert({objName, uuid});
 		obj = _scenes.at(sceneNum)->AddObject(objName);
 		obj->SetActive(Pg::Serialize::Serializer::DeserializeBoolean(&object, "active"));
 		obj->SetTag(Pg::Serialize::Serializer::DeserializeString(&object, "tag"));
 		obj->SetDontDestroyOnLoad(Pg::Serialize::Serializer::DeserializeBoolean(&object, "dontdestroy"));
+		bool parent = Pg::Serialize::Serializer::DeserializeBoolean(&object, "parent");
+		std::string parent_uuid = Pg::Serialize::Serializer::DeserializeString(&object, "parent_uuid");
 
 
 		// 컴포넌트를 추가하기 위해 노드 가져오기
@@ -261,6 +268,18 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 				if (typeName.find("Transform") != std::string::npos)
 				{
 					obj->_transform.OnDeserialize(tSerVec);
+					if (parent)
+					{
+						std::string parent_obj = "";
+						for (auto& uuidObj : _sceneUUIDData)
+						{
+							if (uuidObj.second == parent_uuid) parent_obj = uuidObj.first;
+						}
+						for (auto& pObj : _scenes.at(sceneNum)->GetObjectList())
+						{
+							if (pObj->GetName() == parent_obj) pObj->_transform.AddChild(obj);
+						}
+					}
 				}
 				else
 				{
@@ -315,10 +334,17 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 	{
 		pugi::xml_node xmlObject = node.append_child("object");
 
+		std::string uuid = Pg::Util::UUIDGenerator::GetNewUUID();
+		uuid.erase(find(uuid.begin(), uuid.end(), '{'));
+		uuid.erase(find(uuid.begin(), uuid.end(), '}'));
+		uuid.erase(find(uuid.begin(), uuid.end(), '-'));
+
+		Pg::Serialize::Serializer::SerializeString(&xmlObject, "uuid", uuid);
 		Pg::Serialize::Serializer::SerializeString(&xmlObject, "name", object->GetName());
 		Pg::Serialize::Serializer::SerializeBoolean(&xmlObject, "active", object->GetActive());
 		Pg::Serialize::Serializer::SerializeString(&xmlObject, "tag", object->GetTag());
 		Pg::Serialize::Serializer::SerializeBoolean(&xmlObject, "dontdestroy", object->GetDontDestroyOnLoad());
+		Pg::Serialize::Serializer::SerializeBoolean(&xmlObject, "parent", object->_transform.GetParent() != nullptr);
 
 		//xmlObject.append_child("parent");
 
