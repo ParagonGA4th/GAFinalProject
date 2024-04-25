@@ -66,6 +66,10 @@ namespace Pg::Data
 		void FreezeAxisY(bool isActive);
 		void FreezeAxisZ(bool isActive);
 
+		void FreezeLinearX(bool isActive);
+		void FreezeLinearY(bool isActive);
+		void FreezeLinearZ(bool isActive);
+
 		void SetMass(float value);
 		void SetUseGravity(float value);
 	public:
@@ -80,9 +84,13 @@ namespace Pg::Data
 
 	private:
 		//ÇÃ·¡±×
-		bool _isActiveX;
-		bool _isActiveY;
-		bool _isActiveZ;
+		bool _isAngularFreezeX{false};
+		bool _isAngularFreezeY{false};
+		bool _isAngularFreezeZ{false};
+
+		bool _isLinearFreezeX{false};
+		bool _isLinearFreezeY{false};
+		bool _isLinearFreezeZ{false};
 
 		float _linearDamping;
 		float _mass{ 1.0f };

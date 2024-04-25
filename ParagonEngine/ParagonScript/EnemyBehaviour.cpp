@@ -31,6 +31,11 @@ namespace Pg::DataScript
 			_collider->FreezeAxisX(true);
 			_collider->FreezeAxisY(true);
 			_collider->FreezeAxisZ(true);
+			_collider->FreezeLinearY(true);
+
+			//촬영용으로만.
+			//_collider->FreezeLinearX(true);
+			//_collider->FreezeLinearZ(true);
 
 			//Debouncer.
 			_alreadyCalledBPU = true;

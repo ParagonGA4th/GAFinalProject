@@ -20,6 +20,11 @@ namespace Pg::API
 	};
 }
 
+namespace Pg::Data
+{
+	class DynamicCollider;
+}
+
 namespace Pg::DataScript
 {
 	class PlayerBattleBehavior : public ScriptInterface<PlayerBattleBehavior>, public IObserver, public IScriptResettable
@@ -36,6 +41,7 @@ namespace Pg::DataScript
 	public:
 		PlayerBattleBehavior(Pg::Data::GameObject* obj); 
 
+		virtual void BeforePhysicsUpdate() override;
 		virtual void Awake();
 		virtual void Start();
 		virtual void Update();
@@ -79,6 +85,7 @@ namespace Pg::DataScript
 	private:
 		Pg::API::Input::PgInput* _pgInput;
 		std::vector<ArrowLogic*> _arrowVec;
+		Pg::Data::DynamicCollider* _selfCol{ nullptr };
 	};
 }
 

@@ -49,7 +49,7 @@ namespace Pg::DataScript
 		_object->SetTag("TAG_Arrow");
 
 		_meshRenderer = _object->GetComponent<Pg::Data::StaticMeshRenderer>();
-		assert(_meshRenderer != nullptr);		
+		assert(_meshRenderer != nullptr);
 	}
 
 	void ArrowLogic::Start()
@@ -105,7 +105,7 @@ namespace Pg::DataScript
 
 		//Target Pos 기록 (tween에 활용됨)
 		_targetPos = _initialPos + _shootDir * _arrowDistBeforeFall;
-
+		_meshRenderer->SetActive(false);
 		//_object->_transform._rotation = Pg::Math::PGLookRotation(PGFloat3Normalize(_targetPos - _initialPos), { 0,1,0 });
 	}
 
@@ -118,7 +118,7 @@ namespace Pg::DataScript
 		//Pg::Math::PGFLOAT3 tRotTarget = _targetPos - _initialPos;
 		//tRotTarget.y = 0;
 		//_object->_transform._rotation = Pg::Math::PGEulerToQuaternion(PGFloat3Normalize(tRotTarget));
-		
+
 		//트윈 시스템도 손봐야 할 것 같다.
 		//Tween 발동.
 		Pg::Util::Tween* tTween = _pgTween->CreateTween();
@@ -179,26 +179,50 @@ namespace Pg::DataScript
 		{
 			//무조건 해당 수만큼은 들어온다.
 			Pg::Data::PhysicsCollision* tCol = _colArr[i];
-			
+
+			//{
+			//	std::string tString = "ENTERED MONSTER: ";
+			//	tString += std::to_string(count);
+			//	PG_TRACE(tString.c_str());
+			//}
+			/////PhysicsCollision이 리턴될 때, thisActor, otherActor의 순서가 일정하지 않다.
+			/////그러니, 실제로 다른 충돌한 Actor를 사용!
+			//Pg::Data::Collider* tRealOtherActor = nullptr;
+			//
+			//if (tCol->_thisActor->_object != this->_object)
+			//{
+			//	tRealOtherActor = tCol->_thisActor;
+			//}
+			//else
+			//{
+			//	tRealOtherActor = tCol->_otherActor;
+			//}
+			Pg::Data::Collider* tRealOtherActor = Pg::Data::PhysicsCollision::GetActualOtherActor(tCol, this->_object);
+
 			//Physics Layer로 검사한다.
 			//몬스터일 때 설정하는 것이니.
-			if (tCol->_otherActor->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_MONSTER)
+			if (tRealOtherActor->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_MONSTER)
 			{
+
 				//몬스터 때렸다는 것.
 				//자신이 직접 데미지를 연산하는 것이 아니다! 
 				//기록해서 PlayerBattleBehavior가 처리해 줄 것.
-				BaseMonster* tBaseMonster = tCol->_otherActor->_object->GetComponent<BaseMonster>();
+				BaseMonster* tBaseMonster = tRealOtherActor->_object->GetComponent<BaseMonster>();
 				assert((tBaseMonster != nullptr) && "무조건 찾았어야 했다");
-				
+
 				//ComboSystem한테 적 때렸다고 전달.
 				_comboSystem->HitObject(true);
 
 				int tComboIndex = std::clamp<int>(_comboSystem->GetComboCount(), 1, ComboSystem::MAXIMUM_HIT_COUNT);
 				tComboIndex -= 1; //무조건 ComboCount가 1 / 2 / 3 당 0, 1, 2를 각각 반환하게 설정하는 것이다. 인덱스 이슈. 
-				 
+
+				//실제 충돌을 한 것이니, Collider와 Renderer를 끄자!
+				_meshRenderer->SetActive(false);
+				_collider->SetActive(false);
+
 				//해당 데미지를 입력, PlayerBattleBehavior로 하여금 이를 처리할 수 있게 만든다.
 				_playerBattleBehavior->AddMonsterHitList(tBaseMonster, -(ARROW_ATTACK_POWER * ComboSystem::DAMAGE_MULTIPLIER[tComboIndex]));
-			
+
 				{
 					std::string tComboStr = "ComboCount : ";
 					tComboStr += std::to_string(_comboSystem->GetComboCount());

@@ -7,9 +7,9 @@ namespace Pg::Data
 {
 	DynamicCollider::DynamicCollider(GameObject* owner) :
 		Collider(owner),
-		_isActiveX(false),
-		_isActiveY(false),
-		_isActiveZ(false),
+		_isAngularFreezeX(false),
+		_isAngularFreezeY(false),
+		_isAngularFreezeZ(false),
 		_linearDamping(0.9f),
 		_linearVelocity(0.f, 0.f, 0.f)
 	{
@@ -19,9 +19,13 @@ namespace Pg::Data
 	void DynamicCollider::Start()
 	{
 		//각각의 축들을 Freeze 시켜주는 역할을 한다.
-		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, _isActiveX);
-		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, _isActiveY);
-		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, _isActiveZ);
+		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, _isAngularFreezeX);
+		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, _isAngularFreezeY);
+		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, _isAngularFreezeZ);
+
+		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_X, _isLinearFreezeX);
+		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, _isLinearFreezeY);
+		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, _isLinearFreezeZ);
 	}
 
 	void DynamicCollider::UpdatePhysics(PGFLOAT3 pos, PGQuaternion quat)
@@ -126,35 +130,35 @@ namespace Pg::Data
 
 	void DynamicCollider::FreezeAxisX(bool isActive)
 	{
-		_isActiveX = isActive;
+		_isAngularFreezeX = isActive;
 
 		//바로 반영하게 고침, 240416.
 		if (_rigid != nullptr)
 		{
-			_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, _isActiveX);
+			_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, _isAngularFreezeX);
 		}
 	}
 
 	void DynamicCollider::FreezeAxisY(bool isActive)
 	{
-		_isActiveY = isActive;
+		_isAngularFreezeY = isActive;
 
 		//바로 반영하게 고침, 240416.
 		//TestScene 세팅을 고려. 
 		if (_rigid != nullptr)
 		{
-			_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, _isActiveY);
+			_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, _isAngularFreezeY);
 		}
 	}
 
 	void DynamicCollider::FreezeAxisZ(bool isActive)
 	{
-		_isActiveZ = isActive;
+		_isAngularFreezeZ = isActive;
 
 		if (_rigid != nullptr)
 		{
 			//바로 반영하게 고침, 240416.
-			_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, _isActiveZ);
+			_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, _isAngularFreezeZ);
 		}
 	}
 
@@ -209,4 +213,38 @@ namespace Pg::Data
 	{
 		return _linearVelocity;
 	}
+
+	void DynamicCollider::FreezeLinearX(bool isActive)
+	{
+		_isLinearFreezeX = isActive;
+
+		//바로 반영하게 고침, 240416.
+		if (_rigid != nullptr)
+		{
+			_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_X, _isLinearFreezeX);
+		}
+	}
+
+	void DynamicCollider::FreezeLinearY(bool isActive)
+	{
+		_isLinearFreezeY = isActive;
+
+		//바로 반영하게 고침, 240416.
+		if (_rigid != nullptr)
+		{
+			_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, _isLinearFreezeY);
+		}
+	}
+
+	void DynamicCollider::FreezeLinearZ(bool isActive)
+	{
+		_isLinearFreezeZ = isActive;
+
+		//바로 반영하게 고침, 240416.
+		if (_rigid != nullptr)
+		{
+			_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, _isLinearFreezeZ);
+		}
+	}
+
 }
