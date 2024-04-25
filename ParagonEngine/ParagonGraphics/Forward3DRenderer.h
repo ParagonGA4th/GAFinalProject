@@ -21,6 +21,8 @@ namespace Pg::Graphics
 	class SceneInformationList;
 	class LowDX11Storage;
 	class IRenderSinglePass;
+
+	class AlphaBlendedRenderPass;
 }
 
 /// <summary>
@@ -42,10 +44,13 @@ namespace Pg::Graphics
 
 		//매 프레임마다 Skinned 동작을 위해 사용.
 		void SetDeltaTime(float dt);
+
 	private:
-		
+		void RenderAlphaBlendedTotalPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 
 
+	private:
+		std::unique_ptr<AlphaBlendedRenderPass> _alphaBlendedRenderPass;
 	private:
 		LowDX11Storage* _DXStorage;
 		float _deltaTimeStorage;
