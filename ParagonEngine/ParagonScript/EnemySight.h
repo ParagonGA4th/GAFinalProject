@@ -4,10 +4,15 @@
 namespace Pg::Data
 {
 	class Collider;
+	class BoxCollider;
+	class StaticCollider;
+	class StaticBoxCollider;
 }
 
 namespace Pg::DataScript
 {
+	class PlayerBattleBehavior;
+
 	class EnemySight : public ScriptInterface<EnemySight>
 	{
 		DEFINE_PARAGON_SCRIPT(EnemySight);
@@ -25,6 +30,9 @@ namespace Pg::DataScript
 		bool _playerDetected = false;
 
 	private:
+		PlayerBattleBehavior* _playerBattleBehavior;
+		//Pg::Data::StaticCollider* _collider;
+		Pg::Data::BoxCollider* _collider;
 
 	};
 }
