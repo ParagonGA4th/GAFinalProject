@@ -4,6 +4,8 @@
 #include "ArrowLogic.h"
 
 #include "../ParagonData/Scene.h"
+#include "../ParagonData/LayerMask.h"
+#include "../ParagonData/DynamicCollider.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonUtil/Log.h"
 
@@ -20,6 +22,26 @@ namespace Pg::DataScript
 	PlayerBattleBehavior::PlayerBattleBehavior(Pg::Data::GameObject* obj) : ScriptInterface(obj)
 	{
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
+	}
+
+	void PlayerBattleBehavior::BeforePhysicsUpdate()
+	{
+		static bool tVal = true;
+
+		if (tVal)
+		{
+			_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
+			assert(_selfCol != nullptr);
+
+			_selfCol->FreezeAxisX(true);
+			_selfCol->FreezeAxisZ(true);
+			_selfCol->SetMass(2.0f);
+			//자기 자신이 Player이니, Collider의 레이어를 설정해준다.
+			_selfCol->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PLAYER);
+
+			tVal = false;
+		}
+
 	}
 
 	void PlayerBattleBehavior::Awake()
@@ -172,6 +194,4 @@ namespace Pg::DataScript
 		//이제 클리어.
 		_monsterHealthChangeList.clear();
 	}
-	
-
 }
