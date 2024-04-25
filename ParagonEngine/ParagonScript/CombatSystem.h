@@ -11,6 +11,8 @@
 namespace Pg::DataScript
 {
 	class PlayerBattleBehavior;
+	class CombatSystem;
+	class BaseMonster;
 }
 
 /// <summary>
@@ -25,6 +27,7 @@ namespace Pg::DataScript
 	{
 		//이 매크로를 쓴다면, 생성자를 멋대로 쓰면 안된다.
 		//다른 생성자에 멋대로 Singleton CombatSystem 가져오면 안됨!
+		//또한, DontDestroyOnLoad 오브젝트에 가져다가 써야 할 것.
 		DEFINE_PARAGON_SCRIPT_SINGLETON(CombatSystem);
 	
 	public:
@@ -36,7 +39,13 @@ namespace Pg::DataScript
 		virtual void FixedUpdate() override;
 
 	public:
-
+		// Player의 프로퍼티를 직접 변경하는 Wrapper이다. 무조건 Combat System을 통해서 게임 로직을 진행해야
+		// 꼬이지 않게 할 것이다.
+		
+		//플레이어에게 들어오는 개별적인 로직은 따로 분리됨.
+		void ChangePlayerHealth(float level);
+		void ChangePlayerMana(float level);
+		void ChangePlayerStamina(float level);
 
 	private:
 		//내부의 데이터들을 전부 리셋한다.
@@ -69,9 +78,7 @@ namespace Pg::DataScript
 
 	private:
 		std::map<std::string, std::vector<SlotType>> _observers;
-
-		
-
+		CombatSystem* _combatSystem;
 	};
 }
 

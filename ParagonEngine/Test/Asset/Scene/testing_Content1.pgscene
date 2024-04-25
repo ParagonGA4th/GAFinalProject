@@ -66,11 +66,6 @@
 					<data>
 					</data>
 				</component>
-				<component>
-					<type>class Pg::DataScript::ArrowShooterBehavior</type>
-					<data>
-					</data>
-				</component>
 			</components>
 		</object>
 		<object>
