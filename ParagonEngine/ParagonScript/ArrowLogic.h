@@ -46,6 +46,8 @@ namespace Pg::DataScript
 		virtual void FixedUpdate() override;
 
 		virtual void OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override;
+		//virtual void OnCollisionExit(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override;
+
 
 		//BattleBehavior 스크립트를 갖고 로직 제어할 수 있게 하기. 
 		//외적으로 할당해서 값을 넣어준다.
