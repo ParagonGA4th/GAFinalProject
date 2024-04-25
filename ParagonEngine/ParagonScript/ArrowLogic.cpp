@@ -3,11 +3,18 @@
 #include "../ParagonData/StaticMeshRenderer.h"
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/LayerMask.h"
+#include "../ParagonData/PhysicsCollision.h"
 
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgTween.h"
+#include "../ParagonUtil/Log.h"
+
+#include "BaseMonster.h"
+#include "PlayerBattleBehavior.h"
+#include "ComboSystem.h"
 
 #include <cassert>
+#include <algorithm>
 #include <singleton-cpp/singleton.h>
 
 namespace Pg::DataScript
@@ -48,6 +55,8 @@ namespace Pg::DataScript
 	void ArrowLogic::Start()
 	{
 		ResetState();
+
+		_comboSystem = ComboSystem::GetInstance();
 	}
 
 	void ArrowLogic::FixedUpdate()
@@ -157,6 +166,57 @@ namespace Pg::DataScript
 			_elapsedTime += _pgTime->GetDeltaTime();
 		}
 	}
-	
+
+	void ArrowLogic::OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count)
+	{
+		if (_comboSystem == nullptr)
+		{
+			return;
+		}
+
+		//SceneSystem의 함수들은 이거 발생 후 호출된다. 밖의 로직애서 하는 게 맞다.
+		for (int i = 0; i < count; i++)
+		{
+			//무조건 해당 수만큼은 들어온다.
+			Pg::Data::PhysicsCollision* tCol = _colArr[i];
+			
+			//Physics Layer로 검사한다.
+			//몬스터일 때 설정하는 것이니.
+			if (tCol->_otherActor->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_MONSTER)
+			{
+				//몬스터 때렸다는 것.
+				//자신이 직접 데미지를 연산하는 것이 아니다! 
+				//기록해서 PlayerBattleBehavior가 처리해 줄 것.
+				BaseMonster* tBaseMonster = tCol->_otherActor->_object->GetComponent<BaseMonster>();
+				assert((tBaseMonster != nullptr) && "무조건 찾았어야 했다");
+				
+				//ComboSystem한테 적 때렸다고 전달.
+				_comboSystem->HitObject(true);
+
+				int tComboIndex = std::clamp<int>(_comboSystem->GetComboCount(), 1, ComboSystem::MAXIMUM_HIT_COUNT);
+				tComboIndex -= 1; //무조건 ComboCount가 1 / 2 / 3 당 0, 1, 2를 각각 반환하게 설정하는 것이다. 인덱스 이슈. 
+				 
+				//해당 데미지를 입력, PlayerBattleBehavior로 하여금 이를 처리할 수 있게 만든다.
+				_playerBattleBehavior->AddMonsterHitList(tBaseMonster, -(ARROW_ATTACK_POWER * ComboSystem::DAMAGE_MULTIPLIER[tComboIndex]));
+			
+				{
+					std::string tComboStr = "ComboCount : ";
+					tComboStr += std::to_string(_comboSystem->GetComboCount());
+					tComboStr += " // ";
+					PG_TRACE(tComboStr.c_str());
+				}
+			}
+			else
+			{
+				//ComboSystem한테 때렸는데 몬스터가 아니었다고 전달.
+				_comboSystem->HitObject(false);
+			}
+		}
+	}
+
+	//void ArrowLogic::OnCollisionExit(Pg::Data::PhysicsCollision** _colArr, unsigned int count)
+	//{
+	//	PG_TRACE("EXIT CALLED");
+	//}
 
 }

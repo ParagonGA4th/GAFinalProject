@@ -144,15 +144,13 @@
   <ItemGroup>
     <ClInclude Include="ArrowLogic.h" />
     <ClInclude Include="ArrowShooterBehavior.h" />
+    <ClInclude Include="BaseMonster.h" />
     <ClInclude Include="BattleArea.h" />
     <ClInclude Include="CameraShake.h" />
     <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="ComboSystem.h" />
     <ClInclude Include="EnemyBehaviour.h" />
     <ClInclude Include="EnemySight.h" />
-    <ClInclude Include="Event_PlayerHealthChange.h" />
-    <ClInclude Include="Event_PlayerManaChange.h" />
-    <ClInclude Include="Event_PlayerStaminaChange.h" />
     <ClInclude Include="EventList_CameraRelated.h" />
     <ClInclude Include="EventList_EnemyRelated.h" />
     <ClInclude Include="EventList_GameFlowRelated.h" />
@@ -178,6 +176,7 @@
   <ItemGroup>
     <ClCompile Include="ArrowLogic.cpp" />
     <ClCompile Include="ArrowShooterBehavior.cpp" />
+    <ClCompile Include="BaseMonster.cpp" />
     <ClCompile Include="BattleArea.cpp" />
     <ClCompile Include="CameraShake.cpp" />
     <ClCompile Include="CombatSystem.cpp" />

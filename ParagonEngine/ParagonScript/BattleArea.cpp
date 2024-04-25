@@ -27,9 +27,13 @@ void Pg::DataScript::BattleArea::Update()
 	{
 		auto dcol = _player->_object->GetComponent<Pg::Data::DynamicCollider>();
 
-		if (Pg::Util::CheckInBox::IsIn3DBox(
-			_collider->_object->_transform._position, _collider->_width, _collider->_height, _collider->_depth,
-			_player->_object->_transform._position, dcol->GetWidth(), dcol->GetHeight(), dcol->GetDepth()))
+		//if (Pg::Util::CheckInBox::IsIn3DBox(
+		//	_collider->_object->_transform._position, _collider->_width, _collider->_height, _collider->_depth,
+		//	_player->_object->_transform._position, dcol->GetWidth(), dcol->GetHeight(), dcol->GetDepth()))		
+			
+			if (Pg::Util::CheckInBox::IsIn3DBox(
+				_collider->_object->_transform._position, _object->_transform._scale.x, _object->_transform._scale.y, _object->_transform._scale.z,
+				_player->_object->_transform._position, dcol->GetWidth(), dcol->GetHeight(), dcol->GetDepth()))
 		{
 
 			PG_TRACE("Stay");
@@ -42,23 +46,43 @@ void Pg::DataScript::BattleArea::Update()
 			if (_monster != 0)
 			{
 				auto& colPos = _collider->_object->_transform._position;
+				float width = _object->_transform._scale.x;
+				float depth = _object->_transform._scale.z;
+
 				auto& playerPos = _player->_object->_transform._position;
 
-				if (colPos.x - (_collider->_width / 2) > playerPos.x + (dcol->GetWidth() / 2))
+				//if (colPos.x - (_collider->_width / 2) > playerPos.x + (dcol->GetWidth() / 2))
+				//{
+				//	playerPos.x = colPos.x - (_collider->_width / 2);
+				//}
+				//if (colPos.x + (_collider->_width / 2) < playerPos.x - (dcol->GetWidth() / 2))
+				//{
+				//	playerPos.x = colPos.x + (_collider->_width / 2);
+				//}
+				//if (colPos.z - (_collider->_depth / 2) > playerPos.z + (dcol->GetDepth() / 2))
+				//{
+				//	playerPos.z = colPos.z - (_collider->_depth / 2);
+				//}
+				//if (colPos.z + (_collider->_depth / 2) < playerPos.z - (dcol->GetDepth() / 2))
+				//{
+				//	playerPos.z = colPos.z + (_collider->_depth / 2);
+				//}
+				
+				if (colPos.x - (width / 2) > playerPos.x + (dcol->GetWidth() / 2))
 				{
-					playerPos.x = colPos.x - (_collider->_width / 2);
+					playerPos.x = colPos.x - (width / 2);
 				}
-				if (colPos.x + (_collider->_width / 2) < playerPos.x - (dcol->GetWidth() / 2))
+				if (colPos.x + (width / 2) < playerPos.x - (dcol->GetWidth() / 2))
 				{
-					playerPos.x = colPos.x + (_collider->_width / 2);
+					playerPos.x = colPos.x + (width / 2);
 				}
-				if (colPos.z - (_collider->_depth/ 2) > playerPos.z + (dcol->GetDepth() / 2))
+				if (colPos.z - (depth / 2) > playerPos.z + (dcol->GetDepth() / 2))
 				{
-					playerPos.z = colPos.z - (_collider->_depth / 2);
+					playerPos.z = colPos.z - (depth / 2);
 				}
-				if (colPos.z + (_collider->_depth / 2) < playerPos.z - (dcol->GetDepth() / 2))
+				if (colPos.z + (depth / 2) < playerPos.z - (dcol->GetDepth() / 2))
 				{
-					playerPos.z = colPos.z + (_collider->_depth / 2);
+					playerPos.z = colPos.z + (depth / 2);
 				}
 			}
 		}

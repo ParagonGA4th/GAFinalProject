@@ -440,7 +440,7 @@ namespace Pg::Graphics
 		}
 	}
 
-	unsigned int& RenderMaterial::GetID()
+	unsigned int& RenderMaterial::GetMaterialID()
 	{
 		return _materialID;
 	}

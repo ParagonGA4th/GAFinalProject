@@ -6,6 +6,7 @@ namespace Pg::Data
 {
 	class StaticMeshRenderer;
 	class BoxCollider;
+	class PhysicsCollision;
 }
 
 namespace Pg::API
@@ -23,9 +24,18 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
+	class PlayerBattleBehavior;
+	class ComboSystem;
+}
+
+namespace Pg::DataScript
+{
 	class ArrowLogic : public ScriptInterface<ArrowLogic>
 	{
 		DEFINE_PARAGON_SCRIPT(ArrowLogic);
+
+	public:
+		inline static const float ARROW_ATTACK_POWER = 10.0f;
 
 	public:
 		ArrowLogic(Pg::Data::GameObject* obj);
@@ -34,6 +44,14 @@ namespace Pg::DataScript
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void FixedUpdate() override;
+
+		virtual void OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override;
+		//virtual void OnCollisionExit(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override;
+
+
+		//BattleBehavior 스크립트를 갖고 로직 제어할 수 있게 하기. 
+		//외적으로 할당해서 값을 넣어준다.
+		PlayerBattleBehavior* _playerBattleBehavior{ nullptr };
 
 	public:
 		void ResetState(); //상태 내부 리셋.
@@ -73,6 +91,10 @@ namespace Pg::DataScript
 	private:
 		//미리 BeforePhysicsUpdate를 호출했었는지.
 		bool _alreadyCalledBPU = false;
+
+	private:
+		//ComboSystem 갖고 있기.
+		ComboSystem* _comboSystem{ nullptr };
 	};
 }
 

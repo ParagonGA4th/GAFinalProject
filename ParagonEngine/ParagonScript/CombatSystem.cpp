@@ -102,6 +102,22 @@ namespace Pg::DataScript
 
 	}
 
-	
+	void CombatSystem::ChangePlayerHealth(float level)
+	{
+		assert(_player != nullptr);
+		_player->ChangePlayerHealth(level);
+	}
+
+	void CombatSystem::ChangePlayerMana(float level)
+	{
+		assert(_player != nullptr);
+		_player->ChangePlayerMana(level);
+	}
+
+	void CombatSystem::ChangePlayerStamina(float level)
+	{
+		assert(_player != nullptr);
+		_player->ChangePlayerStamina(level);
+	}
 
 }

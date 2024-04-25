@@ -3,6 +3,7 @@
 #include "PlayerMovement.h"
 #include "PlayerBattleBehavior.h"
 
+#include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonAPI/PgTime.h"
@@ -34,18 +35,23 @@ void Pg::DataScript::TrapArea::Update()
 	//Exit 할 때 nullptr 할당 해줘야. CombatSystem을 통한 연결 작업 중, 일단은 보여줘야 하니 이렇게 ㄱㄱ!
 	if (_playerBattleBehavior != nullptr)
 	{
-
 		auto dcol = _playerBattleBehavior->_object->GetComponent<Pg::Data::DynamicCollider>();
 
-
 		// 플레이어의 체력이 계속 깎여야 함
+		//if (Pg::Util::CheckInBox::IsIn3DBox(
+		//	_object->_transform._position, _collider->_width, _collider->_height, _collider->_depth,
+		//	_playerBattleBehavior->_object->_transform._position, dcol->GetWidth(), dcol->GetHeight(), dcol->GetDepth()))
+		//{
+		// 
 		if (Pg::Util::CheckInBox::IsIn3DBox(
-		
-			_object->_transform._position, _collider->_width, _collider->_height, _collider->_depth,
+			_collider->_object->_transform._position, _object->_transform._scale.x, _object->_transform._scale.y, _object->_transform._scale.z,
 			_playerBattleBehavior->_object->_transform._position, dcol->GetWidth(), dcol->GetHeight(), dcol->GetDepth()))
 		{
-			// 플레이어의 체력이 계속 깎여야 함
+		// 플레이어의 체력이 계속 깎여야 함
 			_playerBattleBehavior->healthPoint -= _deltaTime->GetDeltaTime() * _damage;
+			auto mesh = _playerBattleBehavior->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+			mesh->SetActive(!mesh->GetActive());
+
 			PG_TRACE("Stay");
 			PG_TRACE(_playerMovement->moveSpeed);
 		}
@@ -53,6 +59,9 @@ void Pg::DataScript::TrapArea::Update()
 		{
 			// 플레이어의 속도가 돌아와야 함
 			_playerMovement->moveSpeed = _previousMoveSpeed;
+
+			auto mesh = _playerBattleBehavior->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+			mesh->SetActive(true);
 		}
 	}
 }
@@ -67,7 +76,7 @@ void Pg::DataScript::TrapArea::OnTriggerEnter(Pg::Data::Collider* col)
 		assert(_playerBattleBehavior != nullptr && _playerMovement != nullptr);
 
 		_previousMoveSpeed = _playerMovement->moveSpeed;
-		_playerMovement->moveSpeed = _previousMoveSpeed / 2;
+		_playerMovement->moveSpeed = 13.f/*_previousMoveSpeed */;
 
 		PG_TRACE("Trigger");
 	}
