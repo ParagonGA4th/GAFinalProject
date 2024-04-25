@@ -6,6 +6,7 @@ namespace Pg::Data
 	class GameObject;
 	class Transform;
 	class StaticBoxCollider;
+	class BoxCollider;
 	class CapsuleCollider;
 	class SkinnedMeshRenderer;
 }
@@ -24,6 +25,7 @@ namespace Pg::API
 namespace Pg::DataScript
 {
 	class EnemySight;
+	class PlayerBattleBehavior;
 
 	class EnemyBehaviour : public ScriptInterface<EnemyBehaviour>
 	{
@@ -42,8 +44,10 @@ namespace Pg::DataScript
 		Pg::Data::CapsuleCollider* _collider;
 		Pg::API::Raycast::PgRayCast* _pgRayCast;
 		EnemySight* _enemySight = nullptr;
+		PlayerBattleBehavior* _playerBattleBehavior;
 
 		std::vector<Pg::Data::StaticBoxCollider*> colVec;
+		std::vector<Pg::Data::BoxCollider*> boxColVec;
 		std::vector<EnemySight*> aiSightVec;
 
 		Pg::Data::SkinnedMeshRenderer* _renderer;

@@ -1,6 +1,8 @@
 #include "EnemyBehaviour.h"
 #include "EnemySight.h"
+#include "PlayerBattleBehavior.h"
 #include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonAPI/PgRayCast.h"
@@ -8,6 +10,7 @@
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/Scene.h"
 #include "../ParagonUtil/Log.h"
+#include "../ParagonUtil/CheckInBox.h"
 namespace Pg::DataScript
 {
 	EnemyBehaviour::EnemyBehaviour(Pg::Data::GameObject* obj) :
@@ -47,11 +50,13 @@ namespace Pg::DataScript
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			Pg::Data::StaticBoxCollider* staticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
-			assert(staticCol != nullptr);
+			//Pg::Data::BoxCollider* Col = iter->_object->GetComponent<Pg::Data::BoxCollider>();
+			//assert(staticCol != nullptr);
 			EnemySight* aiSight = iter->_object->GetComponent<EnemySight>();
 			assert(aiSight != nullptr);
 
 			colVec.push_back(staticCol);
+			//boxColVec.push_back(Col);
 			aiSightVec.push_back(aiSight);
 		}
 	}
@@ -72,7 +77,7 @@ namespace Pg::DataScript
 		{
 			for (auto& iter : colVec)
 			{
-				iter->SetActive(false);
+				//iter->SetActive(false);
 				
 			}
 

@@ -13,6 +13,7 @@ namespace Pg::Data
 		_scaleOffset(1.0f, 1.0f, 1.0f),
 		_pxScene(nullptr),
 		_isTrigger(false),
+		_wasTriggered(false),
 		_isCollide(false),
 		_wasCollided(false),
 		_layer(0)

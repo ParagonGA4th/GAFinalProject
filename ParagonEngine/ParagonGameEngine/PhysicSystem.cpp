@@ -192,14 +192,14 @@ namespace Pg::Engine::Physic
 			if (dynamicCol->GetTrigger() == true &&
 				!dynamicCol->GetWasTrigger() && dynamicCol->GetIsTrigger())
 			{
-				gameObj->OnTriggerEnter(dynamicCol);
-				//PG_TRACE("TriggerStay!");
+				gameObj->OnTriggerEnter(*dynamicCol->_triggerStorage.data());
+				PG_TRACE("D-TriggerStay!");
 			}
 			else if (dynamicCol->GetTrigger() == true &&
 				dynamicCol->GetWasTrigger() && !dynamicCol->GetIsTrigger())
 			{
-				gameObj->OnTriggerExit(dynamicCol);
-				//PG_TRACE("TriggerExit!");
+				gameObj->OnTriggerExit(*dynamicCol->_triggerStorage.data());
+				PG_TRACE("D-TriggerExit!");
 			}
 
 		}
@@ -235,13 +235,13 @@ namespace Pg::Engine::Physic
 				!staticCol->GetWasTrigger() && staticCol->GetIsTrigger())
 			{
 				gameObj->OnTriggerEnter(*staticCol->_triggerStorage.data());
-				//PG_TRACE("TriggerStay!");
+				PG_TRACE("S-TriggerStay!");
 			}
 			else if (staticCol->GetTrigger() == true &&
 				staticCol->GetWasTrigger() && !staticCol->GetIsTrigger())
 			{
 				gameObj->OnTriggerExit(*staticCol->_triggerStorage.data());
-				//PG_TRACE("TriggerExit!");
+				PG_TRACE("S-TriggerExit!");
 			}
 		}
 
@@ -454,7 +454,17 @@ namespace Pg::Engine::Physic
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
-				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
+				
+				trans.q = physx::PxQuat(quat.x / 2, quat.y / 2, quat.z / 2, quat.w);
+
+				// 회전 오프셋을 z축으로 90도 회전시킴
+				//physx::PxQuat rotation90(physx::PxPi / 2.0f, physx::PxVec3(0.0f, 0.0f, 1.0f));
+				//trans.q = trans.q * rotation90;
+
+				//PositionOffset 설정
+				auto offsetP = collider->GetPositionOffset();
+				trans.p = { offsetP.x, offsetP.y , offsetP.z };
+				
 				boxShape->setLocalPose(trans);
 
 				//Trigger 여부 판단
@@ -466,14 +476,14 @@ namespace Pg::Engine::Physic
 
 				Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 
-				physx::PxTransform localTm(physx::PxVec3(position.x, position.y, position.z));
+				physx::PxTransform worldTm(physx::PxVec3(position.x, position.y, position.z));
 
 				staticBoxcol->SetPxShape(boxShape);
 
 				// Layer Mask 설정
 				boxShape->setSimulationFilterData({ staticBoxcol->GetLayer(), 0, 0, 0 });
 
-				physx::PxRigidStatic* rigid = _physics->createRigidStatic(localTm);
+				physx::PxRigidStatic* rigid = _physics->createRigidStatic(worldTm);
 				rigid->attachShape(*boxShape);
 
 				//Collider가 꺼져 있으면 eDisableSimulation PhysX 내부에서 활성화.
@@ -507,7 +517,13 @@ namespace Pg::Engine::Physic
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
+
 				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
+
+				//PositionOffset 설정
+				auto offsetP = collider->GetPositionOffset();
+				trans.p = { offsetP.x, offsetP.y , offsetP.z };
+
 				shape->setLocalPose(trans);
 
 				//Trigger 여부 판단
@@ -519,14 +535,14 @@ namespace Pg::Engine::Physic
 
 
 				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
-				physx::PxTransform localTm(physx::PxIdentity);
+				physx::PxTransform worldTm(physx::PxVec3(pos.x, pos.y, pos.z));
 
 				staticCapCol->SetPxShape(shape);
 
 				// Layer Mask 설정
 				shape->setSimulationFilterData({ staticCapCol->GetLayer(), 0, 0, 0 });
 
-				physx::PxRigidStatic* rigid = _physics->createRigidStatic(localTm);
+				physx::PxRigidStatic* rigid = _physics->createRigidStatic(worldTm);
 				rigid->attachShape(*shape);
 
 				//Collider가 꺼져 있으면 eDisableSimulation PhysX 내부에서 활성화.
@@ -558,6 +574,11 @@ namespace Pg::Engine::Physic
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
 				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
+
+				//PositionOffset 설정
+				auto offsetP = collider->GetPositionOffset();
+				trans.p = { offsetP.x, offsetP.y , offsetP.z };
+				
 				shape->setLocalPose(trans);
 
 				//Trigger 여부 판단
@@ -568,14 +589,14 @@ namespace Pg::Engine::Physic
 				}
 
 				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
-				physx::PxTransform localTm(physx::PxVec3(pos.x, pos.y, pos.z));
+				physx::PxTransform worldTm(physx::PxVec3(pos.x, pos.y, pos.z));
 
 				staticSphCol->SetPxShape(shape);
 
 				// Layer Mask 설정
 				shape->setSimulationFilterData({ staticSphCol->GetLayer(), 0, 0, 0 });
 
-				physx::PxRigidStatic* rigid = _physics->createRigidStatic(localTm);
+				physx::PxRigidStatic* rigid = _physics->createRigidStatic(worldTm);
 				rigid->attachShape(*shape);
 
 				//Collider가 꺼져 있으면 eDisableSimulation PhysX 내부에서 활성화.
@@ -611,11 +632,20 @@ namespace Pg::Engine::Physic
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
 				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
+
+				// 회전 오프셋을 z축으로 90도 회전시킴
+				physx::PxQuat rotation90(physx::PxPi / 2.0f, physx::PxVec3(0.0f, 0.0f, 1.0f));
+				trans.q = trans.q * rotation90;
+
+				//PositionOffset 설정
+				auto offsetP = collider->GetPositionOffset();
+				trans.p = { offsetP.x, offsetP.y , offsetP.z };
+
 				boxShape->setLocalPose(trans);
 
 				Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 
-				physx::PxTransform local(physx::PxVec3(position.x, position.y, position.z));
+				physx::PxTransform worldTm(physx::PxVec3(position.x, position.y, position.z));
 
 				//트리거를 위해 PXShape 지정.
 				boxcol->SetPxShape(boxShape);
@@ -631,7 +661,7 @@ namespace Pg::Engine::Physic
 				//테스트를 위해 임시로 Rigid 넣어봄.
 				//임시 아닌 이렇게 합쳐서 갈 예정.
 				//2023.12.11
-				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(local);
+				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(worldTm);
 
 				// Layer Mask 설정
 				boxShape->setSimulationFilterData({ boxcol->GetLayer(), 0, 0, 0 });
@@ -674,6 +704,15 @@ namespace Pg::Engine::Physic
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
 				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
+
+				// 회전 오프셋을 z축으로 90도 회전시킴
+				physx::PxQuat rotation90(physx::PxPi / 2.0f, physx::PxVec3(0.0f, 0.0f, 1.0f));
+				trans.q = trans.q * rotation90;
+
+				//PositionOffset 설정
+				auto offsetP = collider->GetPositionOffset();
+				trans.p = { offsetP.x, offsetP.y , offsetP.z };
+
 				shape->setLocalPose(trans);
 
 				//Trigger 여부 판단
@@ -684,14 +723,14 @@ namespace Pg::Engine::Physic
 				}
 
 				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
-				physx::PxTransform localTm(physx::PxVec3(pos.x, pos.y, pos.z));
+				physx::PxTransform worldTm(physx::PxVec3(pos.x, pos.y, pos.z));
 
 				sphCol->SetPxShape(shape);
 
 				// Layer Mask 설정
 				shape->setSimulationFilterData({ sphCol->GetLayer(), 0, 0, 0 });
 
-				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(localTm);
+				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(worldTm);
 
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
@@ -732,6 +771,9 @@ namespace Pg::Engine::Physic
 				//RotationOffset 설정
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
+
+				//quat = Pg::Math::PGConvertD3DQuatRotToPhysX(quat);
+
 				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
 
 				// 회전 오프셋을 z축으로 90도 회전시킴
