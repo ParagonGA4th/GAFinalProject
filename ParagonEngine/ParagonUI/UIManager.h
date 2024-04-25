@@ -50,6 +50,8 @@ namespace Pg::UI::Manager
 
 		 int IsWindowFocus(std::string windowName);
 
+		 void OpenPopup(std::string popupName);
+
 	private:
 		std::unique_ptr<Pg::UI::Manager::ImGuiManager> _imguiManager;
 		std::string _gizmoType = "Translate";

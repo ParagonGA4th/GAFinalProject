@@ -100,7 +100,7 @@
     <ClInclude Include="RadioButton.h">
       <Filter>0_UI\1_Widget\Button\RadioButton</Filter>
     </ClInclude>
-    <ClInclude Include="TextPopup.h">
+    <ClInclude Include="Popup.h">
       <Filter>0_UI\1_Widget\Popup</Filter>
     </ClInclude>
   </ItemGroup>
@@ -195,7 +195,7 @@
     <ClCompile Include="RadioButton.cpp">
       <Filter>0_UI\1_Widget\Button\RadioButton</Filter>
     </ClCompile>
-    <ClCompile Include="TextPopup.cpp">
+    <ClCompile Include="Popup.cpp">
       <Filter>0_UI\1_Widget\Popup</Filter>
     </ClCompile>
   </ItemGroup>

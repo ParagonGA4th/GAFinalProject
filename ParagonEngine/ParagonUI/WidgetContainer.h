@@ -12,7 +12,6 @@ namespace Pg::UI
 		std::vector<Pg::UI::IWidget*> GetColumnWidgets();
 		std::vector<Pg::UI::IWidget*> GetCollapsWidgets();
 		std::vector<Pg::UI::IWidget*> GetTreeNodeWidgets();
-		std::vector<Pg::UI::IWidget*> GetChildWindowWidgets();
 
 		void SetTempWidgets(std::vector<Pg::UI::IWidget*> tempWidget);
 		std::vector<Pg::UI::IWidget*> GetTempWidgets();
@@ -56,12 +55,12 @@ namespace Pg::UI
 			T& ins = *reinterpret_cast<T*>(_treeNodeWidgets.back());
 			return ins;
 		}	
-		
+
 		template<typename T, typename ... Args>
-			T& CreateChildWindowWidget(Args&&... args)
+		T& CreateTempWidget(Args&&... args)
 		{
-				_childWindowWidgets.emplace_back(new T(args...));
-			T& ins = *reinterpret_cast<T*>(_childWindowWidgets.back());
+			_tempWidgets.emplace_back(new T(args...));
+			T& ins = *reinterpret_cast<T*>(_tempWidgets.back());
 			return ins;
 		}
 
@@ -70,7 +69,6 @@ namespace Pg::UI
 		std::vector<Pg::UI::IWidget*> _columnWidgets;
 		std::vector<Pg::UI::IWidget*> _collapsWidgets;
 		std::vector<Pg::UI::IWidget*> _treeNodeWidgets;
-		std::vector<Pg::UI::IWidget*> _childWindowWidgets;
 		std::vector<Pg::UI::IWidget*> _tempWidgets;
 
 		bool _isSameLine;
