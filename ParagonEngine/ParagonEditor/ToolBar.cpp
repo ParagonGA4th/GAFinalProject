@@ -48,15 +48,15 @@ void Pg::Editor::Window::ToolBar::Update()
 		_editorModeType = Pg::Data::Enums::eEditorMode::_PLAY;
 		_editorManaged->Invoke(eEventType::_EDITORMODE, static_cast<void*>(&_editorModeType));
 		_editorManaged->Invoke(eEventType::_EDITORDISABLE, static_cast<void*>(&_isStartBtnClick));
+		_editorManaged->Invoke(eEventType::_REFRESHOBJECT, static_cast<void*>(&_isStartBtnClick));
 	}
 
 	if (_isStopBtnClick)
 	{
 		_editorModeType = Pg::Data::Enums::eEditorMode::_EDIT;
 		_editorManaged->Invoke(eEventType::_EDITORMODE, static_cast<void*>(&_editorModeType));
-
-		_isStopBtnClick = false;
 		_editorManaged->Invoke(eEventType::_EDITORDISABLE, static_cast<void*>(&_isStartBtnClick));
+		_editorManaged->Invoke(eEventType::_REFRESHOBJECT, static_cast<void*>(&_isStopBtnClick));
 	}
 
 	if (_prevGizmoType.compare(_gizmoType) == -1) _editorManaged->Invoke(eEventType::_GIZMOTYPE, static_cast<void*>(&_gizmoType));

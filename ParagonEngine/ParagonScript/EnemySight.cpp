@@ -1,5 +1,6 @@
 #include "EnemySight.h"
 #include "../ParagonData/Collider.h"
+#include "../ParagonData/LayerMask.h"
 
 
 namespace Pg::DataScript
@@ -25,7 +26,7 @@ namespace Pg::DataScript
 	{
 		//PG_TRACE("Ãæµ¹ÇÔ!!");
 
-		if (c->GetLayer() == 0)
+		if (c->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_PLAYER)
 		{
 			_playerDetected = true;
 		}

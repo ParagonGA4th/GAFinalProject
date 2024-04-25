@@ -45,6 +45,7 @@ namespace Pg::DataScript
 		_selfCol->SetMass(2.0f);
 		//자기 자신이 Player이니, Collider의 레이어를 설정해준다.
 		_selfCol->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PLAYER);
+		//_selfCol->SetPositionOffset({ 0.f,1.f,0.f });
 	}
 
 	void PlayerMovement::Update()
@@ -98,6 +99,7 @@ namespace Pg::DataScript
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyUp))
 		{
 			_selfCol->AddForce(relativeForward, Pg::Data::ForceMode::eFORCE);
+			
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyDown))
 		{
@@ -125,6 +127,8 @@ namespace Pg::DataScript
 			_selfCol->FreezeAxisX(true);
 			_selfCol->FreezeAxisY(true);
 			_selfCol->FreezeAxisZ(true);
+
+			
 		}
 
 		//PhysX 업데이트를 1차례 거친 후, 다시 리셋.

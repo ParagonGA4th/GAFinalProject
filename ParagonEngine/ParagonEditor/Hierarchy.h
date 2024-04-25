@@ -32,6 +32,7 @@ namespace Pg::Editor::Window
 		void DataSet();
 		void GetCurrentSceneObjectList();
 		void GetSelectedObject();
+		void IsObjectChanged(void* isChanged);
 
 	private:
 		/// hierarchy value
@@ -42,6 +43,7 @@ namespace Pg::Editor::Window
 		std::string _prevSceneName;
 		int _prevObjListSize;
 		bool _isObjectChange;
+		bool _isRefresh;
 		int _count = 0;
 
 		/// helper class
