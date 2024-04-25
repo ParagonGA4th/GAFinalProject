@@ -1,5 +1,6 @@
 #include "EnemyBehaviour.h"
 #include "EnemySight.h"
+#include "BaseMonster.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
@@ -11,7 +12,7 @@
 namespace Pg::DataScript
 {
 	EnemyBehaviour::EnemyBehaviour(Pg::Data::GameObject* obj) :
-		ScriptInterface(obj)
+		ScriptInterface(obj), BaseMonster(100.f, 5.f)
 	{
 		_pgRayCast = &singleton<Pg::API::Raycast::PgRayCast>();
 	}
@@ -22,7 +23,7 @@ namespace Pg::DataScript
 			//내부적으로 Physics보다 SceneSystem의 함수들이 나중에 호출됨. 그러니, 미리 할 수 있는 방법을 EngineMain-SceneSystem에 연결해두었다.
 			_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
 			assert(_collider != nullptr);
-			_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER); // 자기 자신이 Projectile이라고 해주기.
+			_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
 			//_collider->SetCapsuleInfo(1.f, 1.f);
 			_collider->FreezeAxisX(true);
 			_collider->FreezeAxisY(true);

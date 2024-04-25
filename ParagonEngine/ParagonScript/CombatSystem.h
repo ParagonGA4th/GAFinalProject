@@ -19,6 +19,7 @@ namespace Pg::DataScript
 /// 게임 안에서 컴뱃을 관리하는 시스템. 싱글턴 스크립트로 관리된다.
 /// 일종의 Event Manager 형태 + 멤버변수 하드코딩 할당으로 운영이 될 것. (싱글-쓰레드만 지원)
 /// Reference : https://bastian.rieck.me/blog/2015/event_system_cxx11/
+/// 현재로서는 스크립트로서 적용된 오브젝트가 없다.
 /// </summary>
 
 namespace Pg::DataScript

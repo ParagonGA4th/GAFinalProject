@@ -7,7 +7,7 @@
 
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgTween.h"
-//#include "../ParagonAPI/APIMain.h"
+#include "../ParagonUtil/Log.h"
 
 #include "BaseMonster.h"
 #include "PlayerBattleBehavior.h"
@@ -169,6 +169,11 @@ namespace Pg::DataScript
 
 	void ArrowLogic::OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count)
 	{
+		if (_comboSystem == nullptr)
+		{
+			return;
+		}
+
 		//SceneSystem의 함수들은 이거 발생 후 호출된다. 밖의 로직애서 하는 게 맞다.
 		for (int i = 0; i < count; i++)
 		{
@@ -193,6 +198,13 @@ namespace Pg::DataScript
 				 
 				//해당 데미지를 입력, PlayerBattleBehavior로 하여금 이를 처리할 수 있게 만든다.
 				_playerBattleBehavior->AddMonsterHitList(tBaseMonster, -(ARROW_ATTACK_POWER * ComboSystem::DAMAGE_MULTIPLIER[tComboIndex]));
+			
+				{
+					std::string tComboStr = "ComboCount : ";
+					tComboStr += std::to_string(_comboSystem->GetComboCount());
+					tComboStr += " // ";
+					PG_TRACE(tComboStr.c_str());
+				}
 			}
 			else
 			{
@@ -201,5 +213,10 @@ namespace Pg::DataScript
 			}
 		}
 	}
+
+	//void ArrowLogic::OnCollisionExit(Pg::Data::PhysicsCollision** _colArr, unsigned int count)
+	//{
+	//	PG_TRACE("EXIT CALLED");
+	//}
 
 }
