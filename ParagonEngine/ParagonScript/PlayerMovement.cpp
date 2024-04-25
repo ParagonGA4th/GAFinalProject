@@ -40,11 +40,6 @@ namespace Pg::DataScript
 		_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
 		assert(_selfCol != nullptr);
 
-		_selfCol->FreezeAxisX(true);
-		_selfCol->FreezeAxisZ(true);
-		_selfCol->SetMass(2.0f);
-		//자기 자신이 Player이니, Collider의 레이어를 설정해준다.
-		_selfCol->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PLAYER);
 		//_selfCol->SetPositionOffset({ 0.f,1.f,0.f });
 	}
 

@@ -128,9 +128,8 @@ namespace Pg::Engine::Physic
 		// 머티리얼 생성(임의)
 		_material = _physics->createMaterial(0.5f, 0.5f, 0.5f);
 
-		//Collider 생성!
-		InitMakeColliders();
-
+		CreatePxScene();
+	
 		// Pvd에 정보 보내기
 		physx::PxPvdSceneClient* pvdClient = _pxScene->getScenePvdClient();
 		if (pvdClient)
@@ -139,6 +138,9 @@ namespace Pg::Engine::Physic
 			pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
 			pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 		}
+
+		//Collider 생성!
+		InitMakeColliders();
 	}
 
 	void PhysicSystem::UpdatePhysics(float dTime)
@@ -365,8 +367,6 @@ namespace Pg::Engine::Physic
 			_rigidDynamicVec.clear();
 			_rigidStaticVec.clear();
 		}
-
-		CreatePxScene();
 
 		//[TW] 기존의 Scene에 Physics Actor들이 남아 있으면 -> 다 지워버린다.
 		{
