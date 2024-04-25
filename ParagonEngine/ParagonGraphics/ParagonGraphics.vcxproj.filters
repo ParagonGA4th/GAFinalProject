@@ -534,6 +534,9 @@
     <ClCompile Include="TonemappingRenderPass.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\19_TonemappingRenderPass</Filter>
     </ClCompile>
+    <ClCompile Include="RenderObject3DList.cpp">
+      <Filter>10_Structs\RenderingList\RenderObject3DList</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">

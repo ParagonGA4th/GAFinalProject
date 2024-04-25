@@ -47,7 +47,7 @@ namespace Pg::DataScript
 	
 
 		//움직임 관련. 
-		float moveSpeed{ 20.0f };
+		float moveSpeed{ 4.0f };
 		float rotateMultiplier{ 2.0f };
 
 	private:

@@ -11,12 +11,15 @@
 namespace Pg::DataScript
 {
 	class PlayerBattleBehavior;
+	class CombatSystem;
+	class BaseMonster;
 }
 
 /// <summary>
 /// 게임 안에서 컴뱃을 관리하는 시스템. 싱글턴 스크립트로 관리된다.
 /// 일종의 Event Manager 형태 + 멤버변수 하드코딩 할당으로 운영이 될 것. (싱글-쓰레드만 지원)
 /// Reference : https://bastian.rieck.me/blog/2015/event_system_cxx11/
+/// 현재로서는 스크립트로서 적용된 오브젝트가 없다.
 /// </summary>
 
 namespace Pg::DataScript
@@ -25,6 +28,7 @@ namespace Pg::DataScript
 	{
 		//이 매크로를 쓴다면, 생성자를 멋대로 쓰면 안된다.
 		//다른 생성자에 멋대로 Singleton CombatSystem 가져오면 안됨!
+		//또한, DontDestroyOnLoad 오브젝트에 가져다가 써야 할 것.
 		DEFINE_PARAGON_SCRIPT_SINGLETON(CombatSystem);
 	
 	public:
@@ -36,7 +40,13 @@ namespace Pg::DataScript
 		virtual void FixedUpdate() override;
 
 	public:
-
+		// Player의 프로퍼티를 직접 변경하는 Wrapper이다. 무조건 Combat System을 통해서 게임 로직을 진행해야
+		// 꼬이지 않게 할 것이다.
+		
+		//플레이어에게 들어오는 개별적인 로직은 따로 분리됨.
+		void ChangePlayerHealth(float level);
+		void ChangePlayerMana(float level);
+		void ChangePlayerStamina(float level);
 
 	private:
 		//내부의 데이터들을 전부 리셋한다.
@@ -69,9 +79,7 @@ namespace Pg::DataScript
 
 	private:
 		std::map<std::string, std::vector<SlotType>> _observers;
-
-		
-
+		CombatSystem* _combatSystem;
 	};
 }
 

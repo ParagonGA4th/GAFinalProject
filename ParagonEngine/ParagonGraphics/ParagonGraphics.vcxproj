@@ -171,6 +171,7 @@
     <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="MaterialParser.cpp" />
     <ClCompile Include="OpaqueShadowRenderPass.cpp" />
+    <ClCompile Include="RenderObject3DList.cpp" />
     <ClCompile Include="TonemappingRenderPass.cpp" />
     <ClCompile Include="PreparationSkinnedRenderPass.cpp" />
     <ClCompile Include="PreparationStaticRenderPass.cpp" />
