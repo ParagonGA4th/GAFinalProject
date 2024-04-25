@@ -56,7 +56,7 @@ void Pg::UI::Widget::DragFloat3::Update()
 		_inputFloat[2] = Pg::Math::PGConvertToDegrees(float3.z);
 	}
 
-	if (ImGui::DragFloat3(_label.c_str(), _inputFloat, 0.005f, _minFloat))
+	if (ImGui::DragFloat3(_label.c_str(), _inputFloat, 0.005f))
 	{
 		if (_inputIndex == 0)
 		{
