@@ -67,6 +67,15 @@ namespace Pg::Graphics
 		_finalRenderer->Initialize();
 		//SkinningMk.F
 		//_tempMultiMesh = new MultimaterialMesh("tFilePath");
+
+
+		//모든 RenderPass들 셋업하기.
+		_deferredRenderer->SetupRenderPasses();
+		_cubemapRenderer->SetupRenderPasses();
+		_forward3dRenderer->SetupRenderPasses();
+		_forward2dRenderer->SetupRenderPasses();
+		_debugRenderer->SetupRenderPasses();
+		_finalRenderer->SetupRenderPasses();
 	}
 
 	void ParagonRenderer::BeginRender()
@@ -170,13 +179,6 @@ namespace Pg::Graphics
 	{
 		//ParseSceneData는 브랜치 합치기 전에 SyncComponent로 분리 불가.
 		_sceneParser->ParseSceneData(newScene);
-
-		//모든 RenderPass들 셋업하기.
-		_deferredRenderer->SetupRenderPasses();
-		_cubemapRenderer->SetupRenderPasses();
-		_forward2dRenderer->SetupRenderPasses();
-		_debugRenderer->SetupRenderPasses();
-		_finalRenderer->SetupRenderPasses();
 	}
 
 	ID3D11ShaderResourceView* ParagonRenderer::GetFinalQuadSRV()
