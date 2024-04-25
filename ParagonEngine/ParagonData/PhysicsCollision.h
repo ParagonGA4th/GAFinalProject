@@ -5,12 +5,19 @@
 namespace Pg::Data
 {
 	class Collider;
+	class GameObject;
 }
 
 namespace Pg::Data
 {
 	class PhysicsCollision
 	{
+	public:
+		///PhysicsCollision이 리턴될 때, thisActor, otherActor의 순서가 일정하지 않다.
+		///그러니, 실제로 다른 충돌한 Actor를 사용!
+		static Pg::Data::Collider* GetActualOtherActor(Pg::Data::PhysicsCollision* phyCol, Pg::Data::GameObject* selfObj);
+
+
 	public:
 		enum {MAX_CONTACT_POINTS = 8};
 	public:
