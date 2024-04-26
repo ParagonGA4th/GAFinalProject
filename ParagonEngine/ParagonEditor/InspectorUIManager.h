@@ -20,7 +20,7 @@ namespace Pg::Editor::Window
 		InspectorUIManager();
 		~InspectorUIManager();
 
-		void Initialize(InspectorDataManager* manager);
+		void Initialize(InspectorDataManager* manager, Pg::UI::Manager::UIManager* uimanager);
 		void Update();
 
 	private:
@@ -37,9 +37,15 @@ namespace Pg::Editor::Window
 		Pg::Editor::Data::DataContainer* _dataContainer;
 		InspectorDataManager* _dataManager;
 
+		Pg::UI::Manager::UIManager* _uiManager;
+
 		/// default UI value
-		std::vector<std::string> _componentList;
 		int _componentIndex;
+		std::vector<std::string> _componentList;
+
+		std::string _selectedScript;
+		std::vector<std::string> _scriptList;
+		
 		bool _isClick;
 		bool _isRefresh;
 
