@@ -1,6 +1,7 @@
 #include "TimeSystem.h"
 #include "Log.h"
 #include <string>
+#include <algorithm>
 
 namespace Pg::Util::Time
 {
@@ -27,6 +28,9 @@ namespace Pg::Util::Time
 
 		_int64 elapsed = _endTick.QuadPart - _startTick.QuadPart;
 		_deltaTime = (float)elapsed / (float)_frequency.QuadPart;
+
+		_deltaTime = std::clamp<float>(_deltaTime, 0.0f, 0.05f);
+
 		//_deltaTime = 0.016;
 
 		MeasureFrame(_deltaTime);

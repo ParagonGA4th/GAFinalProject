@@ -46,7 +46,8 @@ namespace Pg::DataScript
 
 	void EnemySight::OnTriggerEnter(Pg::Data::Collider* c)
 	{
-		PG_TRACE("충돌함!!");
+		PG_TRACE("충돌함");
+		PG_TRACE(c->_object->GetName().c_str());
 
 		if (c->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_PLAYER)
 		{
@@ -57,6 +58,7 @@ namespace Pg::DataScript
 	void EnemySight::OnTriggerExit(Pg::Data::Collider* c)
 	{
 		PG_TRACE("벗어남");
+		PG_TRACE(c->_object->GetName().c_str());
 
 		if (c->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_PLAYER)
 		{

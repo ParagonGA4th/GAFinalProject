@@ -155,10 +155,10 @@ namespace Pg::Data
 	
 	void Collider::Flush()
 	{
-		_wasCollided = _isCollide;
+		_wasCollided = false;
 		_isCollide = false;
 
-		_wasTriggered = _isTrigger;
+		_wasTriggered = false;
 		_isTrigger = false;
 
 		//매 프레임 체크할 때 마다 초기화.
@@ -174,6 +174,7 @@ namespace Pg::Data
 
 		//bool값을 변경해주고 상태를 설정해줘야 Object의 이벤트와 연결이 가능하다.
 		this->_isCollide = true;
+		this->_wasCollided = false;
 		_collisionStorage.push_back(&c);
 	}
 
@@ -183,6 +184,7 @@ namespace Pg::Data
 		//PG_TRACE(tRes.append(this->_object->GetName()).c_str());
 
 		this->_isCollide = false;
+		this->_wasCollided = true;
 		_collisionStorage.push_back(&c);
 	}
 
@@ -191,18 +193,20 @@ namespace Pg::Data
 		std::string tRes = "Collider_OnTriggerEnter : ";
 		//
 		// 
-		// (tRes.append(this->_object->GetName()).c_str());
+		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
 
 		this->_isTrigger = true;
+		this->_wasTriggered = false;
 		_triggerStorage.push_back(c);
 	}
 
 	void Collider::Collider_OnTriggerExit(Collider* c)
 	{
 		std::string tRes = "Collider_OnTriggerExit : ";
-		//PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
 
 		this->_isTrigger = false;
+		this->_wasTriggered = true;
 		_triggerStorage.push_back(c);
 	}
 
