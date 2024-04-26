@@ -101,6 +101,8 @@ namespace Pg::Engine
 
 	void EngineMain::Update()
 	{
+
+		
 		if (_currentRecordedEditMode != _previousEditMode)
 		{
 			if (_currentRecordedEditMode == Data::Enums::eEditorMode::_NONE ||
@@ -156,9 +158,11 @@ namespace Pg::Engine
 			//_navSystem->Update(_timeSystem->GetDeltaTime());
 			_behaviorTreeSystem->Update();
 			_physicSystem->UpdateTransform();
-			_debugSystem->Update(_sceneSystem->GetCurrentScene());
 			_physicSystem->ApplyRuntimeChangesCollider(); // 현재로서는 하는 거 없음. 
 		}
+
+		_debugSystem->EnableToggleDebugOnOff();
+		_debugSystem->Update(_sceneSystem->GetCurrentScene());
 
 		//명시적으로 바뀔 때 감지를 할 수 있게 하기 위해, 
 		//현재의 Editor Mode를 전의 것이라고 대입한다.

@@ -31,10 +31,8 @@ namespace Pg::Engine
 		tInput = &tInputSystem;
 	}
 
-
-	void DebugSystem::Update(Pg::Data::Scene* scene)
+	void DebugSystem::EnableToggleDebugOnOff()
 	{
-		using namespace Pg::Util::Input;
 		using namespace Pg::API::Input;
 
 		//디버그 껐다 켜기.
@@ -42,6 +40,12 @@ namespace Pg::Engine
 		{
 			SetDebugMode(!_isDebug);
 		}
+	}
+
+	void DebugSystem::Update(Pg::Data::Scene* scene)
+	{
+		using namespace Pg::Util::Input;
+		using namespace Pg::API::Input;
 
 		//디버그 모드가 아닐 때 리턴.
 	/*	if (!_isDebug)
@@ -285,4 +289,7 @@ namespace Pg::Engine
 	{
 		return _isDebug;
 	}
+
+	
+
 }

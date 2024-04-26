@@ -79,13 +79,12 @@
     <Filter Include="Content\PlayerBattleBehavior">
       <UniqueIdentifier>{d3746401-48fd-4da7-92cf-3b0ce8192645}</UniqueIdentifier>
     </Filter>
-	<Filter Include="Content\MapLogic\Portal">
+    <Filter Include="Content\MapLogic\Portal">
       <UniqueIdentifier>{b67c5cbe-562c-4b9a-ae33-35d1852b0d4d}</UniqueIdentifier>
     </Filter>
     <Filter Include="3_Interfaces">
       <UniqueIdentifier>{dffc01e4-4135-4508-ab76-7ad67dc1e127}</UniqueIdentifier>
     </Filter>
-    
     <Filter Include="AI">
       <UniqueIdentifier>{2a33d26a-8b1c-4a23-90b6-5736ca3f8fb0}</UniqueIdentifier>
     </Filter>
@@ -94,6 +93,12 @@
     </Filter>
     <Filter Include="AI\Sight">
       <UniqueIdentifier>{03ba09e1-06e2-47e2-9f42-23c36a8882de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Monsters">
+      <UniqueIdentifier>{edb23876-4786-4ab4-b00f-a03b96160354}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Monsters\BaseClass">
+      <UniqueIdentifier>{14911ae1-0442-4259-9ecb-107ce694e21e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="Portal.cpp">
       <Filter>Content\MapLogic\Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseMonster.cpp">
+      <Filter>Content\Monsters\BaseClass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="Portal.h">
       <Filter>Content\MapLogic\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseMonster.h">
+      <Filter>Content\Monsters\BaseClass</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

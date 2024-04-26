@@ -31,6 +31,7 @@ namespace Pg::Engine
 
 		void Initialize();
 
+		void EnableToggleDebugOnOff();
 		void Update(Pg::Data::Scene* scene);
 
 		void Finalize();

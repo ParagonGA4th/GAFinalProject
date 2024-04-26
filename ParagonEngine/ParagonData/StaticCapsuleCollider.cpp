@@ -25,7 +25,7 @@ namespace Pg::Data
 	void StaticCapsuleCollider::Update()
 	{
 		//Capsule의 업데이트는 오브젝트의 Scale과 맞게 설정해주어야 함.
-		PGFLOAT4X4 worldTM = GetOffsetTM() * _object->_transform.GetWorldTM();
+		PGFLOAT4X4 worldTM = _object->_transform.GetWorldTM() * GetOffsetTM();
 		PGFLOAT3 Whd = { GetWidth() / _object->_transform._scale.x,
 						GetHeight() / _object->_transform._scale.y,
 						GetDepth() / _object->_transform._scale.z };

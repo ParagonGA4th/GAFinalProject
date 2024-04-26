@@ -28,7 +28,7 @@ namespace Pg::Data
 	{
 		using namespace Pg::Math;
 
-		PGFLOAT4X4 worldTM = GetOffsetTM() * _object->_transform.GetWorldTM();
+		PGFLOAT4X4 worldTM = _object->_transform.GetWorldTM() * GetOffsetTM();
 		PGFLOAT3 Wd = { GetWidth(), 1.0f, GetDepth()};
 		PGFLOAT4 color = { 0.0f, 0.0f, 1.0f, 1.0f };
 		_planeInfo.worldTM = worldTM;

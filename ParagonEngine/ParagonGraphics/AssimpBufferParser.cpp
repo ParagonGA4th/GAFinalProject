@@ -31,6 +31,7 @@
 
 #include <cassert>
 #include <vector>
+#include <set>
 #include <filesystem>
 
 //NULL이 아닐 때만 값을 시행하는 Macro 함수.
@@ -371,6 +372,9 @@ namespace Pg::Graphics::Helper
 		unsigned int tNumMaterials = assimp->mNumMaterials;
 		outMatClusterList.reserve(assimp->mNumMaterials);
 
+		//따로 실제로 mesh 안에서 AlphaMap을 활용하는지, 바로 박는 것이 아니라, Mesh 내부 Content Checking (MeshMaterial) 할 것.
+		std::set<int> useAlphaMappingList;
+
 		//일단 만들어진 MaterialCluster는 리소스 매니저에서 관리되지는 않는다.
 		//다만, 내부의 RenderTexture2D는 관리될 것이다.
 		for (int i = 0; i < assimp->mNumMaterials; i++) // i = Material Index.
@@ -386,7 +390,7 @@ namespace Pg::Graphics::Helper
 					//다른 모든 로직이 돌아가기 전에, Alpha를 사용하는데 TexCnt가 있으면 해당 AssetModelData에 체크해야 한다.
 					if (tTexType == PG_TextureType_OPACITY)
 					{
-						bCheckIfUseAlphaBlending = true;
+						useAlphaMappingList.insert(i);
 					}
 
 					aiString tAssimpTexturePath;
@@ -435,7 +439,35 @@ namespace Pg::Graphics::Helper
 			}
 			outMatClusterList.push_back(tMatCluster);
 		}
-		//
+		
+		if (useAlphaMappingList.empty())
+		{
+			//Early Return. 애초에 OPACITY 발견 안되면 Alpha Blending을 활용할 일이 없으니.
+			bCheckIfUseAlphaBlending = false;
+			return;
+		}
+
+
+		bool tUseBlend = false;
+		//Alpha Blending을 사용하는 MeshMaterial을 실제로 잘 사용하는지 보기.
+		for (uint32_t i = 0; i < assimp->mNumMeshes; i++)
+		{
+			uint32_t tMeshMatID = assimp->mMeshes[i]->mMaterialIndex;
+			
+			auto it = useAlphaMappingList.find(tMeshMatID);
+		
+			if (it != useAlphaMappingList.end())
+			{
+				//알파매핑한다는 얘기다. 찾았기 때문.
+				tUseBlend = true;
+				break;
+			}
+		}
+
+		//알파 매핑을 쓰는 material이 있지만, 본 fbx의 mesh 내부 material에는 이를 안 쓴다면? => AlphaBlending==false;
+		//아니면 True.
+		bCheckIfUseAlphaBlending = tUseBlend;
+		return;
 	}
 
 	void AssimpBufferParser::AssimpToSceneAssetData(const aiScene* assimp, const std::string& path, Scene_AssetData* outSceneAssetData)

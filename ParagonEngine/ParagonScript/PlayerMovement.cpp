@@ -40,11 +40,6 @@ namespace Pg::DataScript
 		_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
 		assert(_selfCol != nullptr);
 
-		_selfCol->FreezeAxisX(true);
-		_selfCol->FreezeAxisZ(true);
-		_selfCol->SetMass(2.0f);
-		//자기 자신이 Player이니, Collider의 레이어를 설정해준다.
-		_selfCol->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PLAYER);
 		//_selfCol->SetPositionOffset({ 0.f,1.f,0.f });
 	}
 
@@ -73,6 +68,9 @@ namespace Pg::DataScript
 
 	void PlayerMovement::UpdateWASD()
 	{
+		float dt = _pgTime->GetDeltaTime();
+		float tMoveSpeed = moveSpeed * 1000.0f;
+
 		//Camera -> GameObject를 바라보는 방향이 Forward여야 한다!
 		Pg::Math::PGFLOAT3 relativeForward = this->_object->_transform._position - _mainCam->_object->_transform._position;
 
@@ -83,8 +81,8 @@ namespace Pg::DataScript
 		//Y축이 항상 Global Y-Up을 가리키고 있을 테니, Cross하면 Left Vector.
 		Pg::Math::PGFLOAT3 relativeLeft = Pg::Math::PGFloat3Cross(relativeForward, Pg::Math::PGFLOAT3::GlobalUp());
 
-		relativeForward = { relativeForward.x * moveSpeed, relativeForward.y * moveSpeed, relativeForward.z * moveSpeed };
-		relativeLeft = { relativeLeft.x * moveSpeed, relativeLeft.y * moveSpeed, relativeLeft.z * moveSpeed };
+		relativeForward = { relativeForward.x * tMoveSpeed * dt, relativeForward.y * tMoveSpeed * dt, relativeForward.z * tMoveSpeed * dt };
+		relativeLeft = { relativeLeft.x * tMoveSpeed * dt, relativeLeft.y * tMoveSpeed * dt, relativeLeft.z * tMoveSpeed * dt };
 
 
 		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyUp) ||

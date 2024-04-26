@@ -57,7 +57,7 @@ namespace Pg::Graphics
 		void Bind();
 		void Unbind();
 
-		unsigned int& GetID();
+		unsigned int& GetMaterialID();
 
 		//알파 블렌딩을 쓰는지 리턴. (쓰면 Transparency)
 		bool GetIsUseAlphaBlending();
@@ -110,7 +110,7 @@ namespace Pg::Graphics
 		RenderVertexShader* _vertexShader;
 		RenderPixelShader* _pixelShader;
 
-		//렌더가 되면서 새로 Material ID가 부여된다.
+		//렌더가 되면서 새로 Opaque Material ID가 부여된다.
 		unsigned int _materialID;
 
 		//외부에서 Scene이 시작되었을 때 마킹됨.
