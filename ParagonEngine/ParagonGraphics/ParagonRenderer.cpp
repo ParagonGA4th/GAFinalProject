@@ -171,12 +171,24 @@ namespace Pg::Graphics
 		//ParseSceneData는 브랜치 합치기 전에 SyncComponent로 분리 불가.
 		_sceneParser->ParseSceneData(newScene);
 
-		//모든 RenderPass들 셋업하기.
-		_deferredRenderer->SetupRenderPasses();
-		_cubemapRenderer->SetupRenderPasses();
-		_forward2dRenderer->SetupRenderPasses();
-		_debugRenderer->SetupRenderPasses();
-		_finalRenderer->SetupRenderPasses();
+		static bool tDebouncer = true;
+
+		if (tDebouncer)
+		{
+			//모든 RenderPass들 셋업하기.
+			_deferredRenderer->SetupRenderPasses();
+			_cubemapRenderer->SetupRenderPasses();
+			_forward3dRenderer->SetupRenderPasses(); //얘도 Deferred처럼 분리되어야 하는가?
+			_forward2dRenderer->SetupRenderPasses();
+			_debugRenderer->SetupRenderPasses();
+			_finalRenderer->SetupRenderPasses();
+
+			tDebouncer = false;
+		}
+
+		//매번 다른 매터리얼을 로드해야 하는 Deferred는 약간 다를 수 있다.
+		_deferredRenderer->SetupOpaqueQuadRenderPasses();
+		_deferredRenderer->InitializeOpaqueQuadRenderPasses();
 	}
 
 	ID3D11ShaderResourceView* ParagonRenderer::GetFinalQuadSRV()

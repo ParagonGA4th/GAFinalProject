@@ -7,6 +7,7 @@
 #include "../ParagonData/ComponentList.h"
 #include "../ParagonScript/Script.h"
 
+#include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
 #include "../ParagonUI/Text.h"
 #include "../ParagonUI/InputText.h"
@@ -15,6 +16,8 @@
 #include "../ParagonUI/Combo.h"
 #include "../ParagonUI/DragFloat.h"
 #include "../ParagonUI/DragFloat3.h"
+#include "../ParagonUI/Selectable.h"
+#include "../ParagonUI/Popup.h"
 
 #include "../ParagonUI/Column.h"
 #include "../ParagonUI/Collaps.h"
@@ -36,9 +39,10 @@ Pg::Editor::Window::InspectorUIManager::~InspectorUIManager()
 
 }
 
-void Pg::Editor::Window::InspectorUIManager::Initialize(InspectorDataManager* manager)
+void Pg::Editor::Window::InspectorUIManager::Initialize(InspectorDataManager* manager, Pg::UI::Manager::UIManager* uimanager)
 {
 	_dataManager = manager;
+	_uiManager = uimanager;
 
 	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::Text>("Name");
 	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::InputText>("Name", &_objName);
@@ -79,11 +83,20 @@ void Pg::Editor::Window::InspectorUIManager::Initialize(InspectorDataManager* ma
 	_componentList.emplace_back(typeid(Pg::Data::Button).name());
 	_componentList.emplace_back(typeid(Pg::Data::Slider).name());
 
-	//_componentList.emplace_back(typeid(Pg::DataScript::Script).name()); 
+	_componentList.emplace_back(typeid(Pg::DataScript::Script).name()); 
+
+	for (auto& script : Pg::DataScript::Script::get_registry())
+	{
+		std::string sub = script.first.substr(script.first.rfind("::") + 2);
+		_scriptList.emplace_back(sub);
+	}
 
 	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##Add Component", _componentList, _componentIndex);
 	_defaultUI->CreateColumnsWidget<Pg::UI::Widget::Button>("Add Component", 115.f, 30.f, _isClick);
 	_defaultUI->CreateWidget<Pg::UI::Layout::Column<2>>("AddComponent", _defaultUI->GetColumnWidgets(), 0);
+
+	_defaultUI->CreateTempWidget<Pg::UI::Widget::Selectable>(_scriptList, _selectedScript);
+	_defaultUI->CreateWidget<Pg::UI::Widget::Popup>("ScriptList", _defaultUI->GetTempWidgets());
 }
 
 void Pg::Editor::Window::InspectorUIManager::Update()
@@ -137,12 +150,7 @@ void Pg::Editor::Window::InspectorUIManager::ChangedUI()
 					_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat>(valName, static_cast<float*>(val));
 
 				if (typeInfo == typeid(Pg::Math::PGFLOAT3).name())
-				{
-					if (valName.find("scale") != std::string::npos)
-						_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGFLOAT3*>(val), 0.01f);
-					else
-						_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGFLOAT3*>(val));
-				}
+					_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGFLOAT3*>(val));
 
 				if (typeInfo == typeid(Pg::Math::PGFLOAT4).name())
 					_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGFLOAT4*>(val));
@@ -172,10 +180,33 @@ void Pg::Editor::Window::InspectorUIManager::SetData()
 
 void Pg::Editor::Window::InspectorUIManager::UpdateData()
 {
+	//if (_componentList.at(_componentIndex) == typeid(Pg::DataScript::Script).name())
+
 	if (_isClick)
 	{
-		_dataManager->AddComponent(_componentList.at(_componentIndex));
-		_componentExistence.insert({ _componentList.at(_componentIndex), new bool(true) });
+		if (_componentList.at(_componentIndex) == typeid(Pg::DataScript::Script).name())
+		{
+			_uiManager->OpenPopup("ScriptList");
+		}
+		else
+		{
+			_dataManager->AddComponent(_componentList.at(_componentIndex));
+			_componentExistence.insert({ _componentList.at(_componentIndex), new bool(true) });
+		}
+	}
+
+	if (!_selectedScript.empty())
+	{
+		for (auto& iter : Pg::DataScript::Script::get_registry())
+		{
+			std::string iterSub = iter.first.substr(iter.first.rfind("::") + 2);
+			if (iterSub.compare(_selectedScript) == 0)
+			{
+				_dataManager->_object->AddComponent(iter.first, iter.second(_dataManager->_object));
+				_componentExistence.insert({ _componentList.at(_componentIndex), new bool(true) });
+				_selectedScript = "";
+			}
+		}
 	}
 
 	for (auto& [name, val] : _componentExistence)
