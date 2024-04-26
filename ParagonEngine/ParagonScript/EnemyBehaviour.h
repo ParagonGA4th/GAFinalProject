@@ -58,6 +58,8 @@ namespace Pg::DataScript
 		//미리 BeforePhysicsUpdate를 호출했었는지.
 		bool _alreadyCalledBPU = false;
 
+		bool _isFirstPunch = true; //애니메이션 처음 호출 여부
+		bool _isFirstStart = true; //애니메이션 처음 호출 여부
 		bool _isAnimStart = false;
 	};
 
