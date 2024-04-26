@@ -226,7 +226,7 @@
     <ClInclude Include="BaseSpecificRenderer.h">
       <Filter>0_Main\Renderers\BaseSpecificRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="BlendingRenderPass.h">
+    <ClInclude Include="AlphaBlendedRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\7_BlendingRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="OutlineRenderPass.h">
@@ -483,7 +483,7 @@
     <ClCompile Include="BaseSpecificRenderer.cpp">
       <Filter>0_Main\Renderers\BaseSpecificRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="BlendingRenderPass.cpp">
+    <ClCompile Include="AlphaBlendedRenderPass.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\7_BlendingRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="OutlineRenderPass.cpp">
