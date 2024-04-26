@@ -201,8 +201,8 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 
 			auto childObj = std::find(childObject.begin(), childObject.end(), i->GetName());
 
-			if(childObj == childObject.end())
-				_objNameList[count++] = std::make_pair(i->GetName(), childObject);
+			if (childObj == childObject.end()) _objNameList[count++] = std::make_pair(i->GetName(), childObject);
+			else childObject.clear();
 		}
 	}
 }
