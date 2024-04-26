@@ -168,39 +168,44 @@ namespace Pg::Engine::Physic
 			//런타임에 Collider 껐다켰다 가능.
 			rigid->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !dynamicCol->GetActive());
 
-			dynamicCol->GetRotationOffset();
 
-			if (!dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
+			if (!dynamicCol->GetTrigger())
 			{
-				gameObj->OnCollisionEnter(dynamicCol->_collisionStorage.data(), dynamicCol->_collisionStorage.size());
-				//
-				// ("CollisionEnter!");
+				if (!dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
+				{
+					gameObj->OnCollisionEnter(dynamicCol->_collisionStorage.data(), dynamicCol->_collisionStorage.size());
+					//
+					// ("CollisionEnter!");
+				}
+				//Stay는 잠시 보류해뒀다. PhysX 내부에서 지원해주지 않음.
+				else if (dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
+				{
+					gameObj->OnCollisionStay();
+					//PG_TRACE("CollisionStay!");
+				}
+				else if (dynamicCol->GetWasCollided() && !dynamicCol->GetIsCollide())
+				{
+					gameObj->OnCollisionExit(dynamicCol->_collisionStorage.data(), dynamicCol->_collisionStorage.size());
+					//PG_TRACE("CollisionExit!");
+				}
 			}
-			//Stay는 잠시 보류해뒀다. PhysX 내부에서 지원해주지 않음.
-			else if (dynamicCol->GetWasCollided() && dynamicCol->GetIsCollide())
+			else
 			{
-				gameObj->OnCollisionStay();
-				//PG_TRACE("CollisionStay!");
+				//트리거 감지
+				if (!dynamicCol->GetWasTrigger() && dynamicCol->GetIsTrigger())
+				{
+					gameObj->OnTriggerEnter(*dynamicCol->_triggerStorage.data());
+					PG_TRACE("D-TriggerEnter!");
+				}
+				else if (dynamicCol->GetWasTrigger() && !dynamicCol->GetIsTrigger())
+				{
+					gameObj->OnTriggerExit(*dynamicCol->_triggerStorage.data());
+					PG_TRACE("D-TriggerExit!");
+				}
 			}
-			else if (dynamicCol->GetWasCollided() && !dynamicCol->GetIsCollide())
-			{
-				gameObj->OnCollisionExit(dynamicCol->_collisionStorage.data(), dynamicCol->_collisionStorage.size());
-				//PG_TRACE("CollisionExit!");
-			}
+			
 
-			//트리거 감지
-			if (dynamicCol->GetTrigger() == true &&
-				!dynamicCol->GetWasTrigger() && dynamicCol->GetIsTrigger())
-			{
-				gameObj->OnTriggerEnter(*dynamicCol->_triggerStorage.data());
-				PG_TRACE("D-TriggerStay!");
-			}
-			else if (dynamicCol->GetTrigger() == true &&
-				dynamicCol->GetWasTrigger() && !dynamicCol->GetIsTrigger())
-			{
-				gameObj->OnTriggerExit(*dynamicCol->_triggerStorage.data());
-				PG_TRACE("D-TriggerExit!");
-			}
+			
 
 		}
 
@@ -212,36 +217,39 @@ namespace Pg::Engine::Physic
 
 			rigid->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !staticCol->GetActive());
 
-			if (!staticCol->GetWasCollided() && staticCol->GetIsCollide())
+			if (!staticCol->GetTrigger())
 			{
-				assert(staticCol->_collisionStorage.size() >= 1);
-				gameObj->OnCollisionEnter(staticCol->_collisionStorage.data(), staticCol->_collisionStorage.size());
-				//PG_TRACE("CollisionEnter!");
+				if (!staticCol->GetWasCollided() && staticCol->GetIsCollide())
+				{
+					assert(staticCol->_collisionStorage.size() >= 1);
+					gameObj->OnCollisionEnter(staticCol->_collisionStorage.data(), staticCol->_collisionStorage.size());
+					//PG_TRACE("CollisionEnter!");
+				}
+				//Stay는 잠시 보류해뒀다. PhysX 내부에서 지원해주지 않음.
+				else if (staticCol->GetWasCollided() && staticCol->GetIsCollide())
+				{
+					gameObj->OnCollisionStay();
+					//PG_TRACE("CollisionStay!");
+				}
+				else if (staticCol->GetWasCollided() && !staticCol->GetIsCollide())
+				{
+					gameObj->OnCollisionExit(staticCol->_collisionStorage.data(), staticCol->_collisionStorage.size());
+					//PG_TRACE("CollisionExit!");
+				}
 			}
-			//Stay는 잠시 보류해뒀다. PhysX 내부에서 지원해주지 않음.
-			else if (staticCol->GetWasCollided() && staticCol->GetIsCollide())
+			else
 			{
-				gameObj->OnCollisionStay();
-				//PG_TRACE("CollisionStay!");
-			}
-			else if (staticCol->GetWasCollided() && !staticCol->GetIsCollide())
-			{
-				gameObj->OnCollisionExit(staticCol->_collisionStorage.data(), staticCol->_collisionStorage.size());
-				//PG_TRACE("CollisionExit!");
-			}
-
-			//트리거 감지
-			if (staticCol->GetTrigger() == true &&
-				!staticCol->GetWasTrigger() && staticCol->GetIsTrigger())
-			{
-				gameObj->OnTriggerEnter(*staticCol->_triggerStorage.data());
-				PG_TRACE("S-TriggerStay!");
-			}
-			else if (staticCol->GetTrigger() == true &&
-				staticCol->GetWasTrigger() && !staticCol->GetIsTrigger())
-			{
-				gameObj->OnTriggerExit(*staticCol->_triggerStorage.data());
-				PG_TRACE("S-TriggerExit!");
+				//트리거 감지
+				if (!staticCol->GetWasTrigger() && staticCol->GetIsTrigger())
+				{
+					gameObj->OnTriggerEnter(*staticCol->_triggerStorage.data());
+					PG_TRACE("S-TriggerEnter!");
+				}
+				else if (staticCol->GetWasTrigger() && !staticCol->GetIsTrigger())
+				{
+					gameObj->OnTriggerExit(*staticCol->_triggerStorage.data());
+					PG_TRACE("S-TriggerExit!");
+				}
 			}
 		}
 
