@@ -4,17 +4,16 @@
 
 namespace Pg::UI::Widget
 {
-	class TextPopup : public IWidget
+	class Popup : public IWidget
 	{
 	public:
-		TextPopup(std::string TextPopupName, bool& popupShow, std::string text);
+		Popup(std::string popupName, std::vector<IWidget*> widgets);
 		virtual void Update() override;
 		virtual std::string GetWidgetLabel() override;
 
 	private:
 		std::string _popupName;
-		std::string _text;
-		bool& _isPopupShow;
+		std::vector<IWidget*> _widgets;
 	};
 }
 

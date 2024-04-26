@@ -38,6 +38,8 @@ namespace Pg::UI::Manager
 
 		int IsFocus(std::string windowName);
 
+		void OpenPopup(std::string popupName);
+
 	private:
 		//IMGUI 테마를 바꾼다.
 		void ChangeStyle();
