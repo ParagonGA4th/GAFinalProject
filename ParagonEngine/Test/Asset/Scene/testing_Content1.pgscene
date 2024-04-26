@@ -357,7 +357,7 @@
 			</component>
 			</components>
 	</object>-->
-		<object>
+		<!--<object>
 			<name>Arrow_50</name>
 			<active>true</active>
 			<tag>TAG_Arrow</tag>
@@ -3518,7 +3518,7 @@
 					</data>
 				</component>
 			</components>
-		</object>
+		</object>-->
 		<object>
 			<uuid>B50B3AF01D1943308B781F5AED7F6734</uuid>
 			<name>Boss</name>
@@ -3640,7 +3640,6 @@
 			</components>
 		</object>
 	  <object>
-		<uuid>B50B3AF01D1943308B781F5AED7F6734</uuid>
 		<name>Boss2</name>
 		<active>true</active>
 		<tag>TAG_Boss2</tag>

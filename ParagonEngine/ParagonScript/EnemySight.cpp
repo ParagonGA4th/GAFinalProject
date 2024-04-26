@@ -57,6 +57,7 @@ namespace Pg::DataScript
 	void EnemySight::OnTriggerExit(Pg::Data::Collider* c)
 	{
 		PG_TRACE("¹þ¾î³²");
+
 		if (c->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_PLAYER)
 		{
 			_playerDetected = false;
