@@ -74,12 +74,16 @@ namespace Pg::DataScript
 			if (it->_playerDetected == true)
 			{
 				_colVecActive = false;
-				it->_playerDetected = false;
+				//it->_playerDetected = false;
 
+			}
+			else
+			{
+				_colVecActive = true;
 			}
 		}
 
-		if (_colVecActive == false && !_isAnimStart)
+		if (_colVecActive == false && !_isAnimStart && _isFirstStart)
 		{
 			for (auto& iter : colVec)
 			{
@@ -88,8 +92,9 @@ namespace Pg::DataScript
 			}
 
 			_renderer->SetAnimation("PpakMonster_Punch.pganim", true);
-			PG_TRACE("애니메이션 재생 막 시작");
+			//PG_TRACE("공격 애니메이션");
 
+			_isFirstStart = false;
 			_isAnimStart = true;
 		}
 		else if(_colVecActive)
@@ -99,6 +104,13 @@ namespace Pg::DataScript
 				iter->SetActive(true);
 			}
 
+			if (_isFirstStart)
+			{
+				_renderer->SetAnimation("PpakMonster_Idle.pganim", true);
+				_isFirstStart = false; // 한 번 호출되었으므로 플래그를 false로 설정합니다.
+			}
+
+			//PG_TRACE("기본 애니메이션");
 			_isAnimStart = false;
 		}
 	}
