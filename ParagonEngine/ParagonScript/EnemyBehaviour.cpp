@@ -1,6 +1,9 @@
 #include "EnemyBehaviour.h"
 #include "EnemySight.h"
+#include "PlayerBattleBehavior.h"
+#include "BaseMonster.h"
 #include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonAPI/PgRayCast.h"
@@ -8,10 +11,11 @@
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/Scene.h"
 #include "../ParagonUtil/Log.h"
+#include "../ParagonUtil/CheckInBox.h"
 namespace Pg::DataScript
 {
 	EnemyBehaviour::EnemyBehaviour(Pg::Data::GameObject* obj) :
-		ScriptInterface(obj)
+		ScriptInterface(obj), BaseMonster(100.f, 5.f)
 	{
 		_pgRayCast = &singleton<Pg::API::Raycast::PgRayCast>();
 	}
@@ -22,11 +26,16 @@ namespace Pg::DataScript
 			//내부적으로 Physics보다 SceneSystem의 함수들이 나중에 호출됨. 그러니, 미리 할 수 있는 방법을 EngineMain-SceneSystem에 연결해두었다.
 			_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
 			assert(_collider != nullptr);
-			_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER); // 자기 자신이 Projectile이라고 해주기.
+			_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
 			//_collider->SetCapsuleInfo(1.f, 1.f);
 			_collider->FreezeAxisX(true);
 			_collider->FreezeAxisY(true);
 			_collider->FreezeAxisZ(true);
+			_collider->FreezeLinearY(true);
+
+			//촬영용으로만.
+			//_collider->FreezeLinearX(true);
+			//_collider->FreezeLinearZ(true);
 
 			//Debouncer.
 			_alreadyCalledBPU = true;
@@ -47,11 +56,13 @@ namespace Pg::DataScript
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			Pg::Data::StaticBoxCollider* staticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
-			assert(staticCol != nullptr);
+			//Pg::Data::BoxCollider* Col = iter->_object->GetComponent<Pg::Data::BoxCollider>();
+			//assert(staticCol != nullptr);
 			EnemySight* aiSight = iter->_object->GetComponent<EnemySight>();
 			assert(aiSight != nullptr);
 
 			colVec.push_back(staticCol);
+			//boxColVec.push_back(Col);
 			aiSightVec.push_back(aiSight);
 		}
 	}
@@ -72,7 +83,7 @@ namespace Pg::DataScript
 		{
 			for (auto& iter : colVec)
 			{
-				iter->SetActive(false);
+				//iter->SetActive(false);
 				
 			}
 

@@ -30,6 +30,7 @@ namespace Pg::Graphics
 	class DeferredRenderer;
 	class CubemapRenderer;
 	class Forward2DRenderer;
+	class Forward3DRenderer;
 	class DebugRenderer;
 	class PPFinalRenderer;
 	class GraphicsSceneParser;
@@ -105,6 +106,7 @@ namespace Pg::Graphics
 		std::unique_ptr<DeferredRenderer> _deferredRenderer;
 		std::unique_ptr<CubemapRenderer> _cubemapRenderer;
 		std::unique_ptr<Forward2DRenderer> _forward2dRenderer;
+		std::unique_ptr<Forward3DRenderer> _forward3dRenderer;
 		std::unique_ptr<DebugRenderer> _debugRenderer;
 		std::unique_ptr<PPFinalRenderer> _finalRenderer;
 

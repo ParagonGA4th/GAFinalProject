@@ -870,5 +870,10 @@ namespace Pg::Math
 		return PGQuaternion(val.w, -val.x, val.z, val.y);
 	}
 
+	float PGFloat3LengthSquared(PGFLOAT3 val)
+	{
+		return DirectX::XMVectorGetX(DirectX::XMVector3LengthSq(PG2XM_FLOAT3_VECTOR(val)));
+	}
+
 }
 

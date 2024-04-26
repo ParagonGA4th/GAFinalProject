@@ -90,7 +90,7 @@ namespace Pg::Graphics
 		UINT* data = reinterpret_cast<UINT*>(res.pData);
 
 		//Material 부여.
-		*(data) = _renderMaterial->GetID();
+		*(data) = _renderMaterial->GetMaterialID();
 
 		_DXStorage->_deviceContext->Unmap(_cbMatID, 0);
 
@@ -101,7 +101,7 @@ namespace Pg::Graphics
 	void OpaqueQuadRenderPass::CreateMaterialIndexConstantBuffer()
 	{
 		//ID의 포인터를 받아온다.
-		UINT* _cbData = &(_renderMaterial->GetID());
+		UINT* _cbData = &(_renderMaterial->GetMaterialID());
 	
 		//Constant Buffer 자체를 만드는 코드.
 		int sizeCB = (((sizeof(unsigned int) - 1) / 16) + 1) * 16;	// declspec 으로 16바이트 정렬할 수 있다?
