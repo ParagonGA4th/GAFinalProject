@@ -40,6 +40,8 @@ namespace Pg::Graphics
 
 		virtual void Initialize() override;
 		virtual void SetupRenderPasses() override;
+		void SetupOpaqueQuadRenderPasses();
+		void InitializeOpaqueQuadRenderPasses();
 
 		//매 프레임마다 Skinned 동작을 위해 사용.
 		void SetDeltaTime(float dt);
@@ -48,6 +50,7 @@ namespace Pg::Graphics
 
 	private:
 		void PushRenderPasses();
+		
 		void InitializeRenderPasses();
 		void PlaceRequiredResources();
 		void UpdateCarrierResources();

@@ -107,6 +107,23 @@ namespace Pg::Graphics
 		//4. SceneInfromationSender.
 		_sceneInformationSender = std::make_unique<SceneInformationSender>();
 
+		//6. OpaqueShadowRenderPass.
+		_opaqueShadowPass = std::make_unique<OpaqueShadowRenderPass>();
+	}
+
+	void DeferredRenderer::SetupOpaqueQuadRenderPasses()
+	{
+		//기존에 있는 거 있으면 다 지워주고 다시 시작)
+		for (auto& it : _opaqueQuadPassesVector)
+		{
+			if (it != nullptr)
+			{
+				delete it;
+			}
+		}
+		//클리어.
+		_opaqueQuadPassesVector.clear();
+
 		//5. OpaqueQuadRenderPass
 		//모든 Material의 목록을 받은 뒤, 순서대로 OpaqueQuadRenderPass 호출. (일반적인 경우)
 		//N개의 Material이 있으면, N개의 Pass가 만들어진다.
@@ -118,9 +135,6 @@ namespace Pg::Graphics
 			assert(tRM != nullptr);
 			_opaqueQuadPassesVector.push_back(new OpaqueQuadRenderPass(tRM));
 		}
-
-		//6. OpaqueShadowRenderPass.
-		_opaqueShadowPass = std::make_unique<OpaqueShadowRenderPass>();
 	}
 
 	void DeferredRenderer::InitializeRenderPasses()
@@ -131,13 +145,16 @@ namespace Pg::Graphics
 		_objMatSkinnedRenderPass->Initialize();
 		_sceneInformationSender->Initialize();
 
+		_opaqueShadowPass->Initialize();
+	}
+
+	void DeferredRenderer::InitializeOpaqueQuadRenderPasses()
+	{
 		//일괄적으로 Initialize() 호출.
 		for (auto& it : _opaqueQuadPassesVector)
 		{
 			it->Initialize();
 		}
-
-		_opaqueShadowPass->Initialize();
 	}
 
 	void DeferredRenderer::PlaceRequiredResources()
@@ -414,6 +431,8 @@ namespace Pg::Graphics
 
 	}
 
+
+	
 
 
 }

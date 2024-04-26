@@ -90,3 +90,8 @@ int Pg::UI::Manager::UIManager::IsWindowFocus(std::string windowName)
 {
 	return _imguiManager->IsFocus(windowName);
 }
+
+void Pg::UI::Manager::UIManager::OpenPopup(std::string popupName)
+{
+	_imguiManager->OpenPopup(popupName);
+}

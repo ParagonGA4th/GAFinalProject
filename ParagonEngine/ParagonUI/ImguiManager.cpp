@@ -298,3 +298,8 @@ int Pg::UI::Manager::ImGuiManager::IsFocus(std::string windowName)
 
 	return _focusFlag;
 }
+
+void Pg::UI::Manager::ImGuiManager::OpenPopup(std::string popupName)
+{
+	ImGui::OpenPopup(popupName.c_str());
+}
