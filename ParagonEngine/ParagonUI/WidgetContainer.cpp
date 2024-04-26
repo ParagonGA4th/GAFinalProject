@@ -34,10 +34,6 @@ std::vector<Pg::UI::IWidget*> Pg::UI::WidgetContainer::GetTreeNodeWidgets()
 	return _treeNodeWidgets;
 }
 
-std::vector<Pg::UI::IWidget*> Pg::UI::WidgetContainer::GetChildWindowWidgets()
-{
-	return _childWindowWidgets;
-}
 
 void Pg::UI::WidgetContainer::SetTempWidgets(std::vector<Pg::UI::IWidget*> tempWidget)
 {
