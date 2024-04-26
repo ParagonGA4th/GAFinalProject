@@ -1,12 +1,15 @@
 #include "Scene.h"
 #include "Event.h"
 #include "DataContainer.h"
+
+#include "../ParagonData/Scene.h"
 #include "../ParagonData/GameConstantData.h"
+
 #include "../ParagonUI/UIManager.h"
 #include "../ParagonUI/WidgetContainer.h"
 #include "../ParagonUI/Image.h"
 
-#include "../ParagonData/Scene.h"
+#include "../ParagonUtil/Log.h"
 
 #include <singleton-cpp/singleton.h>
 
@@ -39,6 +42,10 @@ void Pg::Editor::Window::Scene::Initialize()
 void Pg::Editor::Window::Scene::Update()
 {
 	_uiManager->WindowBegin(_winName);
+
+	PG_TRACE(_uiManager->GetMousePosX());
+	PG_TRACE(_uiManager->GetMousePosY());
+
 	_uiManager->BeginDisable(_isDisable);
 	
 	_widgetCon->Update();	

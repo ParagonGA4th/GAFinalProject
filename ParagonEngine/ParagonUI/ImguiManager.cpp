@@ -299,6 +299,28 @@ int Pg::UI::Manager::ImGuiManager::IsFocus(std::string windowName)
 	return _focusFlag;
 }
 
+float Pg::UI::Manager::ImGuiManager::GetMousePosX(float width)
+{
+	if (width == 0.f) return ImGui::GetMousePos().x - ImGui::GetWindowPos().x;
+	else return ImGui::GetMousePos().x - width;
+}
+
+float Pg::UI::Manager::ImGuiManager::GetMousePosY(float height)
+{
+	if (height == 0.f) return ImGui::GetMousePos().y - ImGui::GetWindowPos().y;
+	else return ImGui::GetMousePos().y - height;
+}
+
+float Pg::UI::Manager::ImGuiManager::GetWindowWidth()
+{
+	return ImGui::GetWindowWidth();
+}
+
+float Pg::UI::Manager::ImGuiManager::GetWindowHeight()
+{
+	return ImGui::GetWindowHeight();
+}
+
 void Pg::UI::Manager::ImGuiManager::OpenPopup(std::string popupName)
 {
 	ImGui::OpenPopup(popupName.c_str());

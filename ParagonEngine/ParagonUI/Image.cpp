@@ -46,6 +46,8 @@ void Pg::UI::Widget::Image::Update()
 
 	// 최종 이미지 사이즈 연산
 	ImVec2 finalImageSize(imageSize.x * aspectRatio, imageSize.y * aspectRatio);
+	_width = finalImageSize.x;
+	_height = finalImageSize.y;
 
 	// 이미지 출력.
 	ImGui::Image(_image, finalImageSize);
