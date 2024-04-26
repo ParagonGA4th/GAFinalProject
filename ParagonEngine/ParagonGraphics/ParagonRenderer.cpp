@@ -67,6 +67,8 @@ namespace Pg::Graphics
 		_finalRenderer->Initialize();
 		//SkinningMk.F
 		//_tempMultiMesh = new MultimaterialMesh("tFilePath");
+
+
 	}
 
 	void ParagonRenderer::BeginRender()
@@ -170,6 +172,7 @@ namespace Pg::Graphics
 	{
 		//ParseSceneData는 브랜치 합치기 전에 SyncComponent로 분리 불가.
 		_sceneParser->ParseSceneData(newScene);
+
 
 		static bool tDebouncer = true;
 

@@ -54,7 +54,7 @@
     <ClInclude Include="MaterialParser.h" />
     <ClInclude Include="OpaqueShadowRenderPass.h" />
     <ClInclude Include="PreparationStaticRenderPass.h" />
-    <ClInclude Include="BlendingRenderPass.h" />
+    <ClInclude Include="AlphaBlendedRenderPass.h" />
     <ClInclude Include="OpaqueQuadRenderPass.h" />
     <ClInclude Include="OutlineRenderPass.h" />
     <ClInclude Include="RenderAnimation.h" />
@@ -175,7 +175,7 @@
     <ClCompile Include="TonemappingRenderPass.cpp" />
     <ClCompile Include="PreparationSkinnedRenderPass.cpp" />
     <ClCompile Include="PreparationStaticRenderPass.cpp" />
-    <ClCompile Include="BlendingRenderPass.cpp" />
+    <ClCompile Include="AlphaBlendedRenderPass.cpp" />
     <ClCompile Include="OpaqueQuadRenderPass.cpp" />
     <ClCompile Include="OutlineRenderPass.cpp" />
     <ClCompile Include="RenderAnimation.cpp" />

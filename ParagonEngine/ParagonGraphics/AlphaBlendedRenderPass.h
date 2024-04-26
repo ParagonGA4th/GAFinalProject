@@ -1,6 +1,7 @@
 #pragma once
 #include "IRenderSinglePass.h"
 #include "DX11Headers.h"
+#include "../ParagonData/EditorMode.h"
 #include <vector>
 #include <memory>
 
@@ -19,13 +20,14 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class BlendingRenderPass : public IRenderSinglePass
+	class AlphaBlendedRenderPass : public IRenderSinglePass
 	{
 	public:
-		BlendingRenderPass();
-		~BlendingRenderPass();
+		AlphaBlendedRenderPass(const Pg::Data::Enums::eEditorMode* const editorMode);
+		~AlphaBlendedRenderPass();
 
 		virtual void Initialize() override;
+		void SetDeltaTime(float dt);
 		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;
 		virtual void BindPass() override;
 		virtual void RenderPass(void* renderObjectList, Pg::Data::CameraData* camData) override;
@@ -35,7 +37,9 @@ namespace Pg::Graphics
 
 
 
-
+	private:
+		float _deltaTimeStorage;
+		const Pg::Data::Enums::eEditorMode* const _editorMode;
 	};
 }
 

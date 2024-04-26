@@ -10,7 +10,7 @@
 
 //RenderPasses
 #include "IRenderSinglePass.h"
-
+#include "AlphaBlendedRenderPass.h"
 
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
@@ -22,15 +22,17 @@
 
 namespace Pg::Graphics
 {
-
-	Forward3DRenderer::Forward3DRenderer(D3DCarrier* d3dCarrier, const Pg::Data::Enums::eEditorMode* const editorMode) : BaseSpecificRenderer(d3dCarrier), _editorMode(editorMode)
+	Forward3DRenderer::Forward3DRenderer(D3DCarrier* d3dCarrier, const Pg::Data::Enums::eEditorMode* const editorMode)
+		: BaseSpecificRenderer(d3dCarrier), _editorMode(editorMode), _deltaTimeStorage(0.f), _DXStorage(LowDX11Storage::GetInstance())
 	{
-		_DXStorage = LowDX11Storage::GetInstance();
+		
+
 	}
 
 	void Forward3DRenderer::Initialize()
 	{
-
+		//_alphaBlendedRenderPass = std::make_unique<AlphaBlendedRenderPass>(_editorMode);
+		//_alphaBlendedRenderPass->Initialize();
 	}
 
 	void Forward3DRenderer::SetupRenderPasses()
@@ -40,7 +42,9 @@ namespace Pg::Graphics
 
 	void Forward3DRenderer::RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData)
 	{
+		RenderObject3DList* tRenderObjectList = (RenderObject3DList*)renderObjectList;
 
+		RenderAlphaBlendedTotalPass(tRenderObjectList, camData);
 	}
 
 	void Forward3DRenderer::ConfirmCarrierData()
@@ -51,6 +55,11 @@ namespace Pg::Graphics
 	void Forward3DRenderer::SetDeltaTime(float dt)
 	{
 		_deltaTimeStorage = dt;
+	}
+
+	void Forward3DRenderer::RenderAlphaBlendedTotalPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+
 	}
 
 }
