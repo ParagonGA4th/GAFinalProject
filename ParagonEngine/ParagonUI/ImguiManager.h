@@ -38,6 +38,12 @@ namespace Pg::UI::Manager
 
 		int IsFocus(std::string windowName);
 
+		float GetMousePosX(float width = 0.f);
+		float GetMousePosY(float height = 0.f);
+
+		float GetWindowWidth();
+		float GetWindowHeight();
+
 		void OpenPopup(std::string popupName);
 
 	private:
