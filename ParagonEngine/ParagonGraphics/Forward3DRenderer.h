@@ -50,7 +50,7 @@ namespace Pg::Graphics
 
 
 	private:
-		std::unique_ptr<AlphaBlendedRenderPass> _alphaBlendedRenderPass;
+		//std::unique_ptr<AlphaBlendedRenderPass> _alphaBlendedRenderPass;
 	private:
 		LowDX11Storage* _DXStorage;
 		float _deltaTimeStorage;

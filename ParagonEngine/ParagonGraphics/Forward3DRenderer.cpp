@@ -31,8 +31,8 @@ namespace Pg::Graphics
 
 	void Forward3DRenderer::Initialize()
 	{
-		_alphaBlendedRenderPass = std::make_unique<AlphaBlendedRenderPass>(_editorMode);
-		_alphaBlendedRenderPass->Initialize();
+		//_alphaBlendedRenderPass = std::make_unique<AlphaBlendedRenderPass>(_editorMode);
+		//_alphaBlendedRenderPass->Initialize();
 	}
 
 	void Forward3DRenderer::SetupRenderPasses()

@@ -273,11 +273,11 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 						std::string parent_obj = "";
 						for (auto& uuidObj : _sceneUUIDData)
 						{
-							if (uuidObj.second == parent_uuid) parent_obj = uuidObj.first;
+							if (uuidObj.second.compare(parent_uuid) == 0) parent_obj = uuidObj.first;
 						}
 						for (auto& pObj : _scenes.at(sceneNum)->GetObjectList())
 						{
-							if (pObj->GetName() == parent_obj) pObj->_transform.AddChild(obj);
+							if (pObj->GetName().compare(parent_obj) == 0) pObj->_transform.AddChild(obj);
 						}
 					}
 				}

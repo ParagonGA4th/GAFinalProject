@@ -26,7 +26,7 @@ Pg::Editor::Window::Inspector::~Inspector()
 void Pg::Editor::Window::Inspector::Initialize()
 {
 	_insDataManager->Initialize(_insUIManager.get());
-	_insUIManager->Initialize(_insDataManager.get());
+	_insUIManager->Initialize(_insDataManager.get(), _uiManager);
 
 	std::unique_ptr<Pg::Editor::Event> changeObjectData = std::make_unique<Pg::Editor::Event>();
 	changeObjectData->AddEvent(Pg::Editor::eEventType::_OBJECTDATA, [&](void* data) { SetData(data); });
