@@ -64,32 +64,68 @@ namespace Pg::Data
 		return posMatrix;
 	}
 
-	Pg::Math::PGFLOAT4X4 Collider::GetOffsetRotationMatrix() const
+	PGQuaternion Collider::GetOffsetRotationQuat() const
+	{
+		physx::PxQuat rotationQuat;
+
+		float x2 = _rotationOffset.x + _rotationOffset.x;
+		float y2 = _rotationOffset.y + _rotationOffset.y;
+		float z2 = _rotationOffset.z + _rotationOffset.z;
+
+		float xx = _rotationOffset.x * x2;
+		float xy = _rotationOffset.x * y2;
+		float xz = _rotationOffset.x * z2;
+
+		float yy = _rotationOffset.y * y2;
+		float yz = _rotationOffset.y * z2;
+		float zz = _rotationOffset.z * z2;
+
+		float wx = _rotationOffset.w * x2;
+		float wy = _rotationOffset.w * y2;
+		float wz = _rotationOffset.w * z2;
+
+		rotationQuat.x = xy + wz;
+		rotationQuat.y = 1.0f - (xx + yy);
+		rotationQuat.z = xz - wy;
+		rotationQuat.w = 1.0f - (yy + zz);
+
+		PGQuaternion resQuat;
+
+		resQuat.x = rotationQuat.x;
+		resQuat.y = rotationQuat.y;
+		resQuat.z = rotationQuat.z;
+		resQuat.w = rotationQuat.w;
+
+		return resQuat;
+	}
+
+	PGFLOAT4X4 Collider::GetOffsetRotationMatrix() const
 	{
 		PGFLOAT4X4 rotationMatrix =
 		{
-		   1.0f - 2.0f * (_rotationOffset.y * _rotationOffset.y + _rotationOffset.z * _rotationOffset.z),
-		   2.0f * (_rotationOffset.x * _rotationOffset.y + _rotationOffset.z * _rotationOffset.w),
-		   2.0f * (_rotationOffset.x * _rotationOffset.z - _rotationOffset.y * _rotationOffset.w),
-		   0,
+			1.0f - 2.0f * (_rotationOffset.y * _rotationOffset.y + _rotationOffset.z * _rotationOffset.z),
+			2.0f * (_rotationOffset.x * _rotationOffset.y + _rotationOffset.z * _rotationOffset.w),
+			2.0f * (_rotationOffset.x * _rotationOffset.z - _rotationOffset.y * _rotationOffset.w),
+			0,
 
-		   2.0f * (_rotationOffset.x * _rotationOffset.y - _rotationOffset.z * _rotationOffset.w),
-		   1.0f - 2.0f * (_rotationOffset.x * _rotationOffset.x + _rotationOffset.z * _rotationOffset.z),
-		   2.0f * (_rotationOffset.y * _rotationOffset.z + _rotationOffset.x * _rotationOffset.w),
-		   0,
+			2.0f * (_rotationOffset.x *_rotationOffset.y - _rotationOffset.z * _rotationOffset.w),
+			1.0f - 2.0f * (_rotationOffset.x * _rotationOffset.x + _rotationOffset.z * _rotationOffset.z),
+			2.0f * (_rotationOffset.y * _rotationOffset.z + _rotationOffset.x * _rotationOffset.w),
+			0,
 
-		   2.0f * (_rotationOffset.x * _rotationOffset.z + _rotationOffset.y * _rotationOffset.w),
-		   2.0f * (_rotationOffset.y * _rotationOffset.z - _rotationOffset.x * _rotationOffset.w),
-		   1.0f - 2.0f * (_rotationOffset.x * _rotationOffset.x + _rotationOffset.y * _rotationOffset.y),
-		   0,
+			2.0f * (_rotationOffset.x * _rotationOffset.z + _rotationOffset.y * _rotationOffset.w),
+			2.0f * (_rotationOffset.y * _rotationOffset.z - _rotationOffset.x * _rotationOffset.w),
+			1.0f - 2.0f * (_rotationOffset.x * _rotationOffset.x + _rotationOffset.y * _rotationOffset.y),
+			0,
 
-		   0,
-		   0,
-		   0,
-		   1
+			0,
+			0,
+			0,
+			1
 		};
 
 		return rotationMatrix;
+		//return PGRotationMatrix(GetOffsetRotationQuat());
 	}
 
 	Pg::Math::PGFLOAT4X4 Collider::GetOffsetScaleMatrix() const

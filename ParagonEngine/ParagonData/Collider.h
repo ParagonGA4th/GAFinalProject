@@ -43,6 +43,7 @@ namespace Pg::Data
 
 		PGFLOAT4X4 GetOffsetTranslateMatrix() const;
 		PGFLOAT4X4 GetOffsetRotationMatrix() const;
+		PGQuaternion GetOffsetRotationQuat() const;
 		PGFLOAT4X4 GetOffsetScaleMatrix() const;
 
 		void SetPositionOffset(PGFLOAT3 position);
