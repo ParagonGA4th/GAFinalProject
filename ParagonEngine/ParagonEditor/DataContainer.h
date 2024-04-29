@@ -46,15 +46,15 @@ namespace Pg::Editor::Data
 		std::string GetObjNameWithUUID(std::string sceneName, std::string uuid);
 
 	private:
-		ID3D11Device* _device;
-		ID3D11DeviceContext* _deviceContext;
+		ID3D11Device* _device{ nullptr };
+		ID3D11DeviceContext* _deviceContext{ nullptr };
 
 		std::vector<Pg::Data::Scene*> _scenes;
-		Pg::Data::Scene* _currentScene;
-		Pg::Data::GameObject* _pickObject;
+		Pg::Data::Scene* _currentScene{ nullptr };
+		Pg::Data::GameObject* _pickObject{ nullptr };
 
 		std::string _projectPath;
-		void* _sceneTexture;
+		void* _sceneTexture{ nullptr };
 		bool _onOff;
 
 		std::vector<std::string> _assetList;

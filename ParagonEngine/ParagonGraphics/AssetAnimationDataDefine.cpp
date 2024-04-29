@@ -1,5 +1,7 @@
 #include "AssetAnimationDataDefine.h"
 #include "AssetModelDataDefine.h"
+#include "../ParagonUtil/CustomAssert.h"
+
 namespace Pg::Graphics
 {
 	NodeAnim_AssetData::NodeAnim_AssetData()
@@ -71,7 +73,7 @@ namespace Pg::Graphics
 		DirectX::SimpleMath::Vector3 scale;
 
 		DirectX::SimpleMath::Matrix tOffMat = nodeAssetData->_offsetMatrix;
-		assert(tOffMat.Decompose(scale, rotation, position) && "이거 실패하면 Decompose 실패한 것.");
+		CustomAssert(tOffMat.Decompose(scale, rotation, position) && "이거 실패하면 Decompose 실패한 것.");
 
 		//Local Transform 세팅, 먼저 만들어져서 들어온다.
 		this->_relTransform->SetLocalPosition(position);

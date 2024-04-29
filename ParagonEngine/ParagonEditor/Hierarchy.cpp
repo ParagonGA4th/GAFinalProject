@@ -82,7 +82,7 @@ void Pg::Editor::Window::Hierarchy::SetDisable(bool disable)
 void Pg::Editor::Window::Hierarchy::DataSet()
 {
 	// datacontainer에 현재 씬에 대한 정보가 없다면 실행하지 않음
-	if (_dataContainer->GetCurrentScene() == NULL) return;
+	if (_dataContainer->GetCurrentScene() == nullptr) return;
 
 	GetCurrentSceneObjectList();
 	GetSelectedObject();

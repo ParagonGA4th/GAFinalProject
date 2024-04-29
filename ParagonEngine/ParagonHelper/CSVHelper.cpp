@@ -2,6 +2,7 @@
 #include "rapidcsv.h"
 
 #include <cassert>
+#include <regex>
 
 namespace Pg::Util::Helper
 {
@@ -112,6 +113,16 @@ namespace Pg::Util::Helper
 		}
 
 		return tRet;
+	}
+
+	void CSVHelper::TurnDebugInPathToRelease(std::vector<std::string>& originalCSVVec)
+	{
+		for (int i = 0; i < originalCSVVec.size(); i++)
+		{
+			originalCSVVec.at(i) = std::regex_replace(originalCSVVec.at(i), std::regex("Debug"), "Release"); // ´ëÃ¼: 'Debug' -> 'Release'
+		}
+		
+		return;
 	}
 
 }
