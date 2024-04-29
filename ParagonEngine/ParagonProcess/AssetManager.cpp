@@ -279,6 +279,11 @@ namespace Pg::Core::Manager
 		{
 			std::string tPath = tUniformPath + "/6_RenderVertexShader.csv";
 			auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(tPath);
+
+#if defined(NDEBUG) | defined(_NDEBUG)
+			Pg::Util::Helper::CSVHelper::TurnDebugInPathToRelease(tPathVec);
+#endif
+
 			for (auto& it : tPathVec)
 			{
 				LoadResource(it, Pg::Data::Enums::eAssetDefine::_RENDER_VERTEXSHADER);
@@ -289,6 +294,11 @@ namespace Pg::Core::Manager
 		{
 			std::string tPath = tUniformPath + "/7_RenderPixelShader.csv";
 			auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(tPath);
+
+#if defined(NDEBUG) | defined(_NDEBUG)
+			Pg::Util::Helper::CSVHelper::TurnDebugInPathToRelease(tPathVec);
+#endif
+
 			for (auto& it : tPathVec)
 			{
 				LoadResource(it, Pg::Data::Enums::eAssetDefine::_RENDER_PIXELSHADER);

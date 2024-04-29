@@ -6,6 +6,7 @@
 #include "AssetModelDataDefine.h"
 
 #include "../ParagonHelper/pugixml.hpp"
+#include "../ParagonUtil/CustomAssert.h"
 
 #include <utility>
 #include <filesystem>
@@ -115,11 +116,14 @@ namespace Pg::Graphics
 							std::string tStrBuf;
 
 							//직접적으로 집어넣기.
-							assert(std::getline(tStream, tStrBuf, ','));
+							//assert(std::getline(tStream, tStrBuf, ','));
+							std::getline(tStream, tStrBuf, ',');
 							tNewNodeAnim->_positionKeyList.at(tInternalCount)._value.x = std::stof(tStrBuf);
-							assert(std::getline(tStream, tStrBuf, ','));
+							//assert(std::getline(tStream, tStrBuf, ','));
+							std::getline(tStream, tStrBuf, ',');
 							tNewNodeAnim->_positionKeyList.at(tInternalCount)._value.y = std::stof(tStrBuf);
-							assert(std::getline(tStream, tStrBuf, ','));
+							//assert(std::getline(tStream, tStrBuf, ','));
+							std::getline(tStream, tStrBuf, ',');
 							tNewNodeAnim->_positionKeyList.at(tInternalCount)._value.z = std::stof(tStrBuf);
 
 							//다음 Index로.
@@ -152,13 +156,17 @@ namespace Pg::Graphics
 							std::string tStrBuf;
 
 							//직접적으로 집어넣기.
-							assert(std::getline(tStream, tStrBuf, ','));
+							//assert(std::getline(tStream, tStrBuf, ','));
+							std::getline(tStream, tStrBuf, ',');
 							tNewNodeAnim->_rotationKeyList.at(tInternalCount)._value.x = std::stof(tStrBuf);
-							assert(std::getline(tStream, tStrBuf, ','));
+							//assert(std::getline(tStream, tStrBuf, ','));
+							std::getline(tStream, tStrBuf, ',');
 							tNewNodeAnim->_rotationKeyList.at(tInternalCount)._value.y = std::stof(tStrBuf);
-							assert(std::getline(tStream, tStrBuf, ','));
+							//assert(std::getline(tStream, tStrBuf, ','));
+							std::getline(tStream, tStrBuf, ',');
 							tNewNodeAnim->_rotationKeyList.at(tInternalCount)._value.z = std::stof(tStrBuf);
-							assert(std::getline(tStream, tStrBuf, ','));
+							//assert(std::getline(tStream, tStrBuf, ','));
+							std::getline(tStream, tStrBuf, ',');
 							tNewNodeAnim->_rotationKeyList.at(tInternalCount)._value.w = std::stof(tStrBuf);
 
 							//다음 Index로.
@@ -182,12 +190,12 @@ namespace Pg::Graphics
 		//이를 위한 기반 연산 정보를 Animation 딴에서 가지고 있는 것!
 
 		const std::string& tBasedModelName = anim->_animAssetData->_basedModelName;
-		assert(GraphicsResourceManager::Instance()->IsExistResourceByName(tBasedModelName) &&
+		CustomAssert(GraphicsResourceManager::Instance()->IsExistResourceByName(tBasedModelName) &&
 			"무조건 이 단계에서 자료가 존재해야 한다! 아니면 Animation이 기반으로 할 3D모델이 로드 안되었다는 말");
 
 		Asset3DModelData* tBasedModelPtr = static_cast<Asset3DModelData*>(GraphicsResourceManager::Instance()->GetResourceByName(
 			tBasedModelName, Pg::Data::Enums::eAssetDefine::_3DMODEL).get());
-		assert(tBasedModelPtr->IsSkinned() && "무조건 Skinned 모델이어야 Animation이 호환된다.");
+		CustomAssert(tBasedModelPtr->IsSkinned() && "무조건 Skinned 모델이어야 Animation이 호환된다.");
 
 		//기존의 Linearize하지 않기로 함.
 		//바로 값 투입!

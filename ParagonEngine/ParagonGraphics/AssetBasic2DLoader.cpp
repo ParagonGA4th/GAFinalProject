@@ -13,7 +13,7 @@
 #include "DX11Headers.h"
 #include "LayoutDefine.h"
 #include "../ParagonHelper/ResourceHelper.h"
-
+#include "../ParagonUtil/CustomAssert.h"
 #include <dxtk/DDSTextureLoader.h>
 #include <dxtk/WICTextureLoader.h>
 #include <dxtex/DirectXTex.h>
@@ -209,7 +209,7 @@ namespace Pg::Graphics::Loader
 	void AssetBasic2DLoader::PlaceCubemapSRV(const std::wstring& path, RenderCubemap* outCubemapData)
 	{
 		ID3D11Resource* tTexture = nullptr;
-		assert(ResourceHelper::IsResourceDDS(path));
+		CustomAssert(ResourceHelper::IsResourceDDS(path));
 		HR(DirectX::CreateDDSTextureFromFile(_DXStorage->_device, path.c_str(), &tTexture, &(outCubemapData->_srv)));
 	}
 

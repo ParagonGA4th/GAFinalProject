@@ -1,8 +1,10 @@
 #include "Transform.h"
 #include "GameObject.h"
+#include "../ParagonUtil/Log.h"
 #include <cmath>
 #include <limits>
 #include <algorithm>
+#include <cassert>
 
 namespace Pg::Data
 {
@@ -244,6 +246,7 @@ namespace Pg::Data
 	{
 		PGFLOAT4X4 result = GetLocalTM();
 
+		//if (_parent && (_parent != this))
 		if (_parent)
 		{
 			PGFLOAT4X4 tParentWorldTM = _parent->GetWorldTM();
@@ -296,6 +299,14 @@ namespace Pg::Data
 
 	void Transform::AddChild(Transform* child)
 	{
+		//Release시의 오류로 체크.
+		if (child == this)
+		{
+			std::string t = "Tried To Assign Self to Child :  ";
+			t += child->_object->GetName();
+			PG_TRACE(t.c_str());
+		}
+
 		child->_parent = this;
 		_children.emplace_back(child);
 	}

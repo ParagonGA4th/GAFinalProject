@@ -1,4 +1,5 @@
 #include "InputSystem.h"
+#include "CustomAssert.h"
 
 #include "gainput/gainput.h"
 #include "../ParagonUtil/Log.h"
@@ -20,7 +21,7 @@
 //#pragma comment(lib,"..\\Builds\\x64\\Release\\ParagonUtil.lib")
 //#endif // _DEBUG
 
-namespace  Pg::Util::Input
+namespace Pg::Util::Input
 {
 	InputSystem::InputSystem()
 		:_manager(), _map(),
@@ -71,45 +72,45 @@ namespace  Pg::Util::Input
 	{
 		using namespace Pg::API::Input;
 
-		assert(_map->MapBool(eKeyCode::MoveFront, _keyboardId, gainput::KeyW));
-		assert(_map->MapBool(eKeyCode::MoveBack, _keyboardId, gainput::KeyS));
-		assert(_map->MapBool(eKeyCode::MoveLeft, _keyboardId, gainput::KeyA));
-		assert(_map->MapBool(eKeyCode::MoveRight, _keyboardId, gainput::KeyD));
-		assert(_map->MapBool(eKeyCode::MoveUp, _keyboardId, gainput::KeyE));
-		assert(_map->MapBool(eKeyCode::MoveDown, _keyboardId, gainput::KeyQ));
-		assert(_map->MapBool(eKeyCode::KeyZ, _keyboardId, gainput::KeyZ));
+		CustomAssert(_map->MapBool(eKeyCode::MoveFront, _keyboardId, gainput::KeyW));
+		CustomAssert(_map->MapBool(eKeyCode::MoveBack, _keyboardId, gainput::KeyS));
+		CustomAssert(_map->MapBool(eKeyCode::MoveLeft, _keyboardId, gainput::KeyA));
+		CustomAssert(_map->MapBool(eKeyCode::MoveRight, _keyboardId, gainput::KeyD));
+		CustomAssert(_map->MapBool(eKeyCode::MoveUp, _keyboardId, gainput::KeyE));
+		CustomAssert(_map->MapBool(eKeyCode::MoveDown, _keyboardId, gainput::KeyQ));
+		CustomAssert(_map->MapBool(eKeyCode::KeyZ, _keyboardId, gainput::KeyZ));
 
-		assert(_map->MapBool(eKeyCode::ButtonConfirm, _keyboardId, gainput::KeyReturn));
-		assert(_map->MapBool(eKeyCode::ButtonConfirm, _padId, gainput::PadButtonA));
-		assert(_map->MapBool(eKeyCode::ButtonConfirm, _touchId, gainput::Touch0Down));
+		CustomAssert(_map->MapBool(eKeyCode::ButtonConfirm, _keyboardId, gainput::KeyReturn));
+		CustomAssert(_map->MapBool(eKeyCode::ButtonConfirm, _padId, gainput::PadButtonA));
+		CustomAssert(_map->MapBool(eKeyCode::ButtonConfirm, _touchId, gainput::Touch0Down));
 
-		assert(_map->MapBool(eKeyCode::MouseLeft, _mouseId, gainput::MouseButtonLeft));
-		assert(_map->MapBool(eKeyCode::MouseRight, _mouseId, gainput::MouseButtonRight));
+		CustomAssert(_map->MapBool(eKeyCode::MouseLeft, _mouseId, gainput::MouseButtonLeft));
+		CustomAssert(_map->MapBool(eKeyCode::MouseRight, _mouseId, gainput::MouseButtonRight));
 
-		assert(_map->MapFloat(eKeyCode::MouseX, _mouseId, gainput::MouseAxisX));
-		assert(_map->MapFloat(eKeyCode::MouseY, _mouseId, gainput::MouseAxisY));
+		CustomAssert(_map->MapFloat(eKeyCode::MouseX, _mouseId, gainput::MouseAxisX));
+		CustomAssert(_map->MapFloat(eKeyCode::MouseY, _mouseId, gainput::MouseAxisY));
 
-		assert(_map->MapBool(eKeyCode::EditorOnOff, _keyboardId, gainput::KeyF1));
-		assert(_map->MapBool(eKeyCode::DebugOnOff, _keyboardId, gainput::KeyF2));
+		CustomAssert(_map->MapBool(eKeyCode::EditorOnOff, _keyboardId, gainput::KeyF1));
+		CustomAssert(_map->MapBool(eKeyCode::DebugOnOff, _keyboardId, gainput::KeyF2));
 
-		assert(_map->MapBool(eKeyCode::PrevRenderTarget, _keyboardId, gainput::Key9));
-		assert(_map->MapBool(eKeyCode::NextRenderTarget, _keyboardId, gainput::Key0));
+		CustomAssert(_map->MapBool(eKeyCode::PrevRenderTarget, _keyboardId, gainput::Key9));
+		CustomAssert(_map->MapBool(eKeyCode::NextRenderTarget, _keyboardId, gainput::Key0));
 
-		assert(_map->MapBool(eKeyCode::ShiftL, _keyboardId, gainput::KeyShiftL));
-		assert(_map->MapBool(eKeyCode::ShiftR, _keyboardId, gainput::KeyShiftR));
+		CustomAssert(_map->MapBool(eKeyCode::ShiftL, _keyboardId, gainput::KeyShiftL));
+		CustomAssert(_map->MapBool(eKeyCode::ShiftR, _keyboardId, gainput::KeyShiftR));
 
-		assert(_map->MapBool(eKeyCode::KeyLeft, _keyboardId, gainput::KeyLeft));
-		assert(_map->MapBool(eKeyCode::KeyRight, _keyboardId, gainput::KeyRight));
-		assert(_map->MapBool(eKeyCode::KeyUp, _keyboardId, gainput::KeyUp));
-		assert(_map->MapBool(eKeyCode::KeyDown, _keyboardId, gainput::KeyDown));
-		assert(_map->MapBool(eKeyCode::Space, _keyboardId, gainput::KeySpace));
+		CustomAssert(_map->MapBool(eKeyCode::KeyLeft, _keyboardId, gainput::KeyLeft));
+		CustomAssert(_map->MapBool(eKeyCode::KeyRight, _keyboardId, gainput::KeyRight));
+		CustomAssert(_map->MapBool(eKeyCode::KeyUp, _keyboardId, gainput::KeyUp));
+		CustomAssert(_map->MapBool(eKeyCode::KeyDown, _keyboardId, gainput::KeyDown));
+		CustomAssert(_map->MapBool(eKeyCode::Space, _keyboardId, gainput::KeySpace));
 
-		assert(_map->MapBool(eKeyCode::KeyB, _keyboardId, gainput::KeyB));
-		assert(_map->MapBool(eKeyCode::KeyN, _keyboardId, gainput::KeyN));
-		assert(_map->MapBool(eKeyCode::KeyM, _keyboardId, gainput::KeyM));
+		CustomAssert(_map->MapBool(eKeyCode::KeyB, _keyboardId, gainput::KeyB));
+		CustomAssert(_map->MapBool(eKeyCode::KeyN, _keyboardId, gainput::KeyN));
+		CustomAssert(_map->MapBool(eKeyCode::KeyM, _keyboardId, gainput::KeyM));
 
-		assert(_map->MapBool(eKeyCode::KeyX, _keyboardId, gainput::KeyX));
-		assert(_map->MapBool(eKeyCode::KeyZ, _keyboardId, gainput::KeyZ));
+		CustomAssert(_map->MapBool(eKeyCode::KeyX, _keyboardId, gainput::KeyX));
+		CustomAssert(_map->MapBool(eKeyCode::KeyZ, _keyboardId, gainput::KeyZ));
 
 		//gainput::SimultaneouslyDownGesture* sdg = _manager->CreateAndGetDevice<gainput::SimultaneouslyDownGesture>();
 		//sdg->AddButton(_keyboardId, gainput::KeyCtrlL);

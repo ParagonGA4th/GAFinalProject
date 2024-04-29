@@ -54,6 +54,9 @@
     <ClInclude Include="CheckInBox.h">
       <Filter>6_CheckInBox</Filter>
     </ClInclude>
+    <ClInclude Include="CustomAssert.h">
+      <Filter>7_CustomAssert</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -88,6 +91,9 @@
     </Filter>
     <Filter Include="6_CheckInBox">
       <UniqueIdentifier>{d7ef559f-24cf-4d70-b68a-f099fbb236fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="7_CustomAssert">
+      <UniqueIdentifier>{9971c8c1-f960-4a44-aaf7-cb25eb41d1cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

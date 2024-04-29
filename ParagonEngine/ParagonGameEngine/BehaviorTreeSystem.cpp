@@ -7,9 +7,9 @@
 
 #include "../ParagonData/Animator.h"
 #include "../ParagonUtil/Log.h"
+#include "../ParagonUtil/CustomAssert.h"
 #include "../ParagonHelper/ResourceHelper.h"
 #include "../ParagonHelper/CSVHelper.h"
-
 #include <fstream>
 #include <algorithm>
 #include <sstream>
@@ -220,7 +220,7 @@ namespace Pg::Engine::BTree
 		auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromBTreeCSV(tPath);
 		for (auto& it : tPathVec)
 		{
-			assert(Pg::Util::Helper::ResourceHelper::IsFileExist(it.first) && "무조건 존재하는 파일만 로드해야!");
+			CustomAssert(Pg::Util::Helper::ResourceHelper::IsFileExist(it.first) && "무조건 존재하는 파일만 로드해야!");
 
 			if (it.second)
 			{

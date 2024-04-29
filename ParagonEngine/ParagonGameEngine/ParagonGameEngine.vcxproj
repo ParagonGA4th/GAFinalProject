@@ -160,7 +160,7 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_EXPORT_ENGINE_DLL;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;NOMINMAX</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_EXPORT_ENGINE_DLL;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;_CRT_SECURE_NO_WARNINGS;NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\physx;$(SolutionDir)include\Recast\Navigation</AdditionalIncludeDirectories>
@@ -174,7 +174,7 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\Recast\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;ParagonHelper.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;fmod_vc.lib;Recast.lib;Detour.lib;DetourCrowd.lib;DetourTileCache.lib;DebugUtils.lib;behaviortree_cpp_v3.lib;gmock.lib;gmock_main.lib;gtest.lib;gtest_main.lib;gainput.lib;%(AdditionalDependencies);ParagonHelper.lib</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;ParagonHelper.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;fmod_vc.lib;behaviortree_cpp_v3.lib;gmock.lib;gmock_main.lib;gtest.lib;gtest_main.lib;gainput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysX_64.dll $(OutDir)
