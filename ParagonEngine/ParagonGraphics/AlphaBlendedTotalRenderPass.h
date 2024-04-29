@@ -15,16 +15,17 @@ namespace Pg::Graphics
 }
 
 /// <summary>
-/// BlendingRenderPass
+/// BlendingRenderPass - Skinned & Static 모두 다룬다. VS / PS 바인딩 달라질 수밖에 없을 것.
+/// 내부에서 판정할 것이다.
 /// </summary>
 
 namespace Pg::Graphics
 {
-	class AlphaBlendedRenderPass : public IRenderSinglePass
+	class AlphaBlendedTotalRenderPass : public IRenderSinglePass
 	{
 	public:
-		AlphaBlendedRenderPass(const Pg::Data::Enums::eEditorMode* const editorMode);
-		~AlphaBlendedRenderPass();
+		AlphaBlendedTotalRenderPass(const Pg::Data::Enums::eEditorMode* const editorMode);
+		~AlphaBlendedTotalRenderPass();
 
 		virtual void Initialize() override;
 		void SetDeltaTime(float dt);
@@ -40,6 +41,9 @@ namespace Pg::Graphics
 	private:
 		float _deltaTimeStorage;
 		const Pg::Data::Enums::eEditorMode* const _editorMode;
+
+	private:
+		LowDX11Storage* _DXStorage;
 	};
 }
 

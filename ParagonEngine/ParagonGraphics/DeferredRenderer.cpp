@@ -133,7 +133,11 @@ namespace Pg::Graphics
 		{
 			RenderMaterial* tRM = static_cast<RenderMaterial*>(it.get());
 			assert(tRM != nullptr);
-			_opaqueQuadPassesVector.push_back(new OpaqueQuadRenderPass(tRM));
+
+			if (!tRM->GetIsUseAlphaBlending())
+			{
+				_opaqueQuadPassesVector.push_back(new OpaqueQuadRenderPass(tRM));
+			}
 		}
 	}
 

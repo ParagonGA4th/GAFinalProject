@@ -192,6 +192,7 @@ namespace Pg::Graphics
 		//매번 다른 매터리얼을 로드해야 하는 Deferred는 약간 다를 수 있다.
 		_deferredRenderer->SetupOpaqueQuadRenderPasses();
 		_deferredRenderer->InitializeOpaqueQuadRenderPasses();
+
 	}
 
 	ID3D11ShaderResourceView* ParagonRenderer::GetFinalQuadSRV()

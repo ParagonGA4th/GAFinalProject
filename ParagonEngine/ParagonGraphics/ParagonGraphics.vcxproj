@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AlphaBlendedTotalRenderPass.h" />
     <ClInclude Include="AnimationParser.h" />
     <ClInclude Include="Asset3DModelData.h" />
     <ClInclude Include="AssetAnimationDataDefine.h" />
@@ -54,7 +55,6 @@
     <ClInclude Include="MaterialParser.h" />
     <ClInclude Include="OpaqueShadowRenderPass.h" />
     <ClInclude Include="PreparationStaticRenderPass.h" />
-    <ClInclude Include="AlphaBlendedRenderPass.h" />
     <ClInclude Include="OpaqueQuadRenderPass.h" />
     <ClInclude Include="OutlineRenderPass.h" />
     <ClInclude Include="RenderAnimation.h" />
@@ -145,6 +145,7 @@
     <ClInclude Include="LightStructs.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AlphaBlendedTotalRenderPass.cpp" />
     <ClCompile Include="AnimationParser.cpp" />
     <ClCompile Include="Asset3DModelData.cpp" />
     <ClCompile Include="AssetAnimationDataDefine.cpp" />
@@ -175,7 +176,6 @@
     <ClCompile Include="TonemappingRenderPass.cpp" />
     <ClCompile Include="PreparationSkinnedRenderPass.cpp" />
     <ClCompile Include="PreparationStaticRenderPass.cpp" />
-    <ClCompile Include="AlphaBlendedRenderPass.cpp" />
     <ClCompile Include="OpaqueQuadRenderPass.cpp" />
     <ClCompile Include="OutlineRenderPass.cpp" />
     <ClCompile Include="RenderAnimation.cpp" />
