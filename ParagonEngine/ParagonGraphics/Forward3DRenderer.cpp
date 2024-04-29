@@ -10,7 +10,6 @@
 
 //RenderPasses
 #include "IRenderSinglePass.h"
-#include "AlphaBlendedRenderPass.h"
 
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
@@ -31,20 +30,28 @@ namespace Pg::Graphics
 
 	void Forward3DRenderer::Initialize()
 	{
-		//_alphaBlendedRenderPass = std::make_unique<AlphaBlendedRenderPass>(_editorMode);
-		//_alphaBlendedRenderPass->Initialize();
+		
 	}
 
 	void Forward3DRenderer::SetupRenderPasses()
 	{
-
+		_alphaBlendedTotalPass = std::make_unique<AlphaBlendedTotalRenderPass>(_editorMode);
+		_alphaBlendedTotalPass->Initialize();
 	}
 
 	void Forward3DRenderer::RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData)
 	{
+		//얘는 ObjMat을 기록하지 않는다.
 		RenderObject3DList* tRenderObjectList = (RenderObject3DList*)renderObjectList;
-
-		RenderAlphaBlendedTotalPass(tRenderObjectList, camData);
+		
+		//AlphaBlendedTuple을 기반으로 작동으로 동작한다.
+		_alphaBlendedTotalPass->ReceiveRequiredElements(*_carrier);
+		_alphaBlendedTotalPass->SetDeltaTime(_deltaTimeStorage); 	//Skinning 활용 패스에 DeltaTime 내부적으로 전달.
+		_alphaBlendedTotalPass->BindPass();
+		_alphaBlendedTotalPass->RenderPass(renderObjectList, camData);
+		_alphaBlendedTotalPass->UnbindPass();
+		_alphaBlendedTotalPass->ExecuteNextRenderRequirements();
+		_alphaBlendedTotalPass->PassNextRequirements(*_carrier);
 	}
 
 	void Forward3DRenderer::ConfirmCarrierData()
@@ -57,9 +64,6 @@ namespace Pg::Graphics
 		_deltaTimeStorage = dt;
 	}
 
-	void Forward3DRenderer::RenderAlphaBlendedTotalPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
-	{
-
-	}
+	
 
 }

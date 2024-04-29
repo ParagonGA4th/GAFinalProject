@@ -226,9 +226,6 @@
     <ClInclude Include="BaseSpecificRenderer.h">
       <Filter>0_Main\Renderers\BaseSpecificRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="AlphaBlendedRenderPass.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\7_BlendingRenderPass</Filter>
-    </ClInclude>
     <ClInclude Include="OutlineRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\9_OutlineRenderPass</Filter>
     </ClInclude>
@@ -294,6 +291,9 @@
     </ClInclude>
     <ClInclude Include="IndividualLightsGPU.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\4_SceneInformationSender\IndividualLightsGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="AlphaBlendedTotalRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\7_AlphaBlendingTotalRenderPass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -483,9 +483,6 @@
     <ClCompile Include="BaseSpecificRenderer.cpp">
       <Filter>0_Main\Renderers\BaseSpecificRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="AlphaBlendedRenderPass.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\7_BlendingRenderPass</Filter>
-    </ClCompile>
     <ClCompile Include="OutlineRenderPass.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\9_OutlineRenderPass</Filter>
     </ClCompile>
@@ -536,6 +533,9 @@
     </ClCompile>
     <ClCompile Include="RenderObject3DList.cpp">
       <Filter>10_Structs\RenderingList\RenderObject3DList</Filter>
+    </ClCompile>
+    <ClCompile Include="AlphaBlendedTotalRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\7_AlphaBlendingTotalRenderPass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -896,9 +896,6 @@
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\6_OpaqueShadowPass">
       <UniqueIdentifier>{ce2af1b9-0ea1-45ac-81ce-f6fe2f9857b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\7_BlendingRenderPass">
-      <UniqueIdentifier>{f54e7a5e-4811-4fe0-a4b7-d2c4f483636e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="12_GraphicsAPI">
       <UniqueIdentifier>{5bb9308d-f793-4e7b-b7c3-293e28b8d88e}</UniqueIdentifier>
     </Filter>
@@ -916,6 +913,9 @@
     </Filter>
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\4_SceneInformationSender\IndividualLightsGPU">
       <UniqueIdentifier>{31f1270b-2690-4160-85a0-3591fd4d0069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\7_AlphaBlendingTotalRenderPass">
+      <UniqueIdentifier>{f54e7a5e-4811-4fe0-a4b7-d2c4f483636e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
