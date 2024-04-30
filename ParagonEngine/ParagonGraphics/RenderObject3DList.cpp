@@ -10,6 +10,8 @@ namespace Pg::Graphics
 	{
 		std::vector<RenderObject3D*> tRet;
 
+		//Instanced는 변할 이유가 없음, 지원하지 않음.
+
 		for (auto& it : this->_staticList)
 		{
 			for (auto& [go, ro] : *(it.second.get()))
@@ -53,6 +55,7 @@ namespace Pg::Graphics
 	void RenderObject3DList::DeleteRenderObjectWithGameObject(Pg::Data::GameObject* obj)
 	{
 		//없다면 점검할 필요 조차 없다.
+		//Instanced는 지워질 일 없음, 제외됨.
 
 		//하나하나 vector.
 		if (!_staticList.empty())

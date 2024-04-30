@@ -25,9 +25,13 @@ namespace Pg::Data
 		void SetMaterialFilePath(const std::string& materialFilePath);
 		std::string GetMaterialFilePath();
 
+		bool GetIsInstanced() { return _isInstanced; }
+
 	protected:
 		std::string _meshFilePath;
 		std::string _renderMaterialPath;
+
+		bool _isInstanced{ false };
 	};
 }
 

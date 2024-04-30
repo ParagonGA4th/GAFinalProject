@@ -43,8 +43,5 @@ namespace Pg::Data
 		VISITABLE(std::string, _meshName);
 		VISITABLE(std::string, _materialName);
 		END_VISITABLES;
-
-	private:
-		bool _isInstanced{ false };
 	};
 }

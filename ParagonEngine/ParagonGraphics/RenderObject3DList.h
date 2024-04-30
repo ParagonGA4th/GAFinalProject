@@ -1,5 +1,7 @@
 #pragma once
 #include "RenderObject3D.h"
+//#include "Asset3DModelData.h"
+#include "RenderObjectInstancedMesh3D.h"
 #include "RenderObjectStaticMesh3D.h"
 #include "RenderObjectSkinnedMesh3D.h"
 #include "RenderMaterial.h"
@@ -32,14 +34,14 @@ namespace Pg::Graphics
 		AlphaBlendedTuple& operator=(const AlphaBlendedTuple& rhs) = delete;
 
 		AlphaBlendedTuple(AlphaBlendedTuple&& other) noexcept
-			: _obj(other._obj), _renderMat(other._renderMat), _isSkinned(other._isSkinned) 
+			: _obj(other._obj), _renderMat(other._renderMat), _isSkinned(other._isSkinned)
 		{
 			this->_eitherStaticMesh = std::move(other._eitherStaticMesh);
 			this->_eitherSkinnedMesh = std::move(other._eitherSkinnedMesh);
 			_cameraRelativeDistSquared = other._cameraRelativeDistSquared;
 		}
 
-		AlphaBlendedTuple& operator=(AlphaBlendedTuple&& other) noexcept 
+		AlphaBlendedTuple& operator=(AlphaBlendedTuple&& other) noexcept
 		{
 			this->_obj = other._obj;
 			this->_renderMat = other._renderMat;
@@ -64,7 +66,7 @@ namespace Pg::Graphics
 
 		//<불변 데이터>
 		const Pg::Data::GameObject* _obj;
-		const RenderMaterial*  _renderMat;
+		const RenderMaterial* _renderMat;
 		bool _isSkinned; //이 값을 따라서 어떤 값을 렌더해야 할지가 달라진다.
 
 		std::unique_ptr<RenderObjectStaticMesh3D> _eitherStaticMesh;
@@ -97,14 +99,17 @@ namespace Pg::Graphics
 
 		//Instancing되는 오브젝트들 분리? : 어떻게 할까.. 
 		//Material까지 유지하면 좋겠는데. 
-		//
+
+		//Instanced Static List. - 일단은 Static만 하자!
+		//GameObject 기록할 필요 없을 것. 이미 Transform의 위치가 고정되어 있을 것이기 때문에.
+		std::unordered_map<Asset3DModelData*, std::unique_ptr<std::vector<std::pair<RenderMaterial*, std::unique_ptr<RenderObjectInstancedMesh3D>>>>> _instancedStaticList;
 
 		//그렇다면 얘네들은 유지하되, 인스턴싱되지 않은 애들 기준이어야 한다.
 		//Static - Opaque.
 		std::unordered_map<RenderMaterial*, /* Material Path */
 			std::unique_ptr<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectStaticMesh3D>>>>> _staticList; /* Vector */
 
-		//Skinned - Opaque.
+		//Skinned - Opaque. 
 		std::unordered_map<RenderMaterial*, /* Material Path */
 			std::unique_ptr<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectSkinnedMesh3D>>>>> _skinnedList; /* Vector */
 
@@ -118,7 +123,7 @@ namespace Pg::Graphics
 
 		//Static & Skinned - AlphaBlended.
 		std::vector<std::unique_ptr<AlphaBlendedTuple>> _allAlphaBlendedList;
-		
+
 		//Index를 따로 보관할 것이기에.
 		std::vector<int> _sortedIndexBlendedVec;
 		///같은 인덱스의 수가 가진 벡터와 대응 순열이 있다. 

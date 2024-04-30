@@ -44,6 +44,7 @@
     <ClInclude Include="D3DCarrier.h" />
     <ClInclude Include="GraphicsApiExporter.h" />
     <ClInclude Include="GraphicsSceneParser.h" />
+    <ClInclude Include="RenderObjectInstancedMesh3D.h" />
     <ClInclude Include="TonemappingRenderPass.h" />
     <ClInclude Include="PreparationSkinnedRenderPass.h" />
     <ClInclude Include="SceneInformationList.h" />
@@ -173,6 +174,7 @@
     <ClCompile Include="MaterialParser.cpp" />
     <ClCompile Include="OpaqueShadowRenderPass.cpp" />
     <ClCompile Include="RenderObject3DList.cpp" />
+    <ClCompile Include="RenderObjectInstancedMesh3D.cpp" />
     <ClCompile Include="TonemappingRenderPass.cpp" />
     <ClCompile Include="PreparationSkinnedRenderPass.cpp" />
     <ClCompile Include="PreparationStaticRenderPass.cpp" />

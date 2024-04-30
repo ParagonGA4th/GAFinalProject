@@ -295,6 +295,7 @@
     <ClInclude Include="AlphaBlendedTotalRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\7_AlphaBlendingTotalRenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="RenderObjectInstancedMesh3D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -537,6 +538,7 @@
     <ClCompile Include="AlphaBlendedTotalRenderPass.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\7_AlphaBlendingTotalRenderPass</Filter>
     </ClCompile>
+    <ClCompile Include="RenderObjectInstancedMesh3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -916,6 +918,9 @@
     </Filter>
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\7_AlphaBlendingTotalRenderPass">
       <UniqueIdentifier>{f54e7a5e-4811-4fe0-a4b7-d2c4f483636e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject3D\RenderObjectInstancedMesh3D">
+      <UniqueIdentifier>{b1759d1d-dd6e-4f7a-9eee-0043469bd4d6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
