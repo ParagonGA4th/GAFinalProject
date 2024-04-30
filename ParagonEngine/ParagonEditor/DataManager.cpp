@@ -14,6 +14,8 @@
 #include <visit_struct/visit_struct_intrusive.hpp>
 
 
+#include "../ParagonUtil/Log.h"
+
 Pg::Editor::Manager::DataManager::DataManager()
 {
 	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
@@ -252,6 +254,7 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 		bool parent = Pg::Serialize::Serializer::DeserializeBoolean(&object, "parent");
 		std::string parent_uuid = Pg::Serialize::Serializer::DeserializeString(&object, "parent_uuid");
 
+		if (parent_uuid.empty()) parent = false;
 
 		// 컴포넌트를 추가하기 위해 노드 가져오기
 		pugi::xml_node comps = object.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "components"; });

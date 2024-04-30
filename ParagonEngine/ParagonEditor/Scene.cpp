@@ -35,7 +35,6 @@ void Pg::Editor::Window::Scene::Initialize()
 	_widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 
 		(float)Pg::Data::GameConstantData::WIDTH, (float)Pg::Data::GameConstantData::HEIGHT);
 
-	PG_TRACE("[TW] 이러면 Scope 나갈 텐데, 괜찮? 설명 필요");
 	std::unique_ptr<Pg::Editor::Event> _gizmoType = std::make_unique<Pg::Editor::Event>();
 	_gizmoType->AddEvent(Pg::Editor::eEventType::_GIZMOTYPE, [&](void* data) { _uiManager->SetGizmoType(data); });
 }
