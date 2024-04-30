@@ -736,6 +736,8 @@ namespace Pg::Graphics
 			}
 
 			//모든 Conversion이 끝난 후일 것이다. 
+			//Instancing 여부 판결.
+			tBaseR3D->CheckIfInstanced();
 		}
 	}
 

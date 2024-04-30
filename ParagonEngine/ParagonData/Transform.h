@@ -26,6 +26,8 @@ namespace Pg::Data
 	{
 		friend class Camera;
 		friend class Pg::Editor::Window::Hierarchy;
+		friend class StaticMeshRenderer;
+		friend class SkinnedMeshRenderer;
 	public:
 		// 임시 기본생성자
 		Transform() = default;
@@ -113,6 +115,10 @@ namespace Pg::Data
 		//Culling을 위해, Graphics가 사용하는 헬퍼 함수.
 		//스케일의 x,y,z 중 홀수개가 음수인가?
 		bool IsScaleOddMinus();
+
+		//이동이 가능한지 값 반환. (인스턴싱 관련)
+		bool GetCanMove();
+
 	public:
 		/// visit_struct 방식
 		BEGIN_VISITABLES(Transform);
@@ -137,6 +143,9 @@ namespace Pg::Data
 
 		// bool 
 		bool _is3D;
+
+		//초기값 True.
+		bool _isCanMove;
 	};
 }
 
