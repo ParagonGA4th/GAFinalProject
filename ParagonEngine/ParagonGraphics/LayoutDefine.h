@@ -42,7 +42,7 @@ namespace Pg::Graphics
 			float		_meshMatID; //Multi-Mesh 관련.
 			DirectX::XMFLOAT2	_tex;
 			//Skinned에 라이트맵 UV 따위 존재하지 않는다. 
-			UINT _nodeIndex;
+			unsigned int _nodeIndex;
 			
 			unsigned int	  _blendIndice0;
 			unsigned int	  _blendIndice1;
@@ -102,7 +102,7 @@ namespace Pg::Graphics
 			unsigned int  _matID;
 			DirectX::XMFLOAT2 _tex;
 			float _meshMatID;
-			UINT _nodeIndex;
+			unsigned int _nodeIndex;
 
 			unsigned int	  _blendIndice0;
 			unsigned int	  _blendIndice1;
