@@ -15,7 +15,7 @@ namespace Pg::Data
 		_position(0.0f, 0.0f, 0.0f),
 		_rotation(1.0f, 0.0f, 0.0f, 0.0f),
 		_scale(1.0f, 1.0f, 1.0f),
-		_forward(0.f, 0.f, 1.f), _right(1.f, 0.f, 0.f), _up(0.f, 1.f, 0.f), _is3D(true)
+		_forward(0.f, 0.f, 1.f), _right(1.f, 0.f, 0.f), _up(0.f, 1.f, 0.f), _is3D(true), _isCanMove(true)
 	{
 		FACTORY_INIT;
 	}
@@ -496,6 +496,11 @@ namespace Pg::Data
 		return (i % 2 == 1);
 
 		//return false;
+	}
+
+	bool Transform::GetCanMove()
+	{
+		return _isCanMove;
 	}
 
 }

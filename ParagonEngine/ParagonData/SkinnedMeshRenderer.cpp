@@ -2,6 +2,8 @@
 #include "../ParagonUtil/Log.h"
 #include "../ParagonData/AnimTransform.h"
 #include "../ParagonHelper/ResourceHelper.h"
+#include "../ParagonData/ParagonDefines.h"
+#include "../ParagonData/Transform.h"
 #include "GameObject.h"
 #include <DirectXMath.h>
 #include <cassert>
@@ -124,6 +126,21 @@ namespace Pg::Data
 		return _findAnimTransformFunction(animNodeName);
 	}
 
+	void SkinnedMeshRenderer::CheckIfInstanced()
+	{
+		using Pg::Util::Helper::ResourceHelper;
+
+		//인스턴싱 : XML에서 기록.
+		std::string tPrefixFromName = _meshName.substr(0, 5);
+
+		if (tPrefixFromName.compare(Pg::Defines::INSTANCED_3DMODEL_PREFIX) == 0)
+		{
+			_isInstanced = true;
+			_object->_transform._isCanMove = false;
+		}
+
+		return;
+	}
 
 	
 
