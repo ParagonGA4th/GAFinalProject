@@ -235,10 +235,12 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="MeshLoaderObj.h" />
     <ClInclude Include="MovingTest.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="NavGeom.h" />
     <ClInclude Include="Navigation.h" />
     <ClInclude Include="NavigationSystem.h" />
     <ClInclude Include="ParagonRecast.h" />
@@ -275,10 +277,12 @@ copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\be
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="MeshLoaderObj.cpp" />
     <ClCompile Include="MovingTest.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="NavGeom.cpp" />
     <ClCompile Include="Navigation.cpp" />
     <ClCompile Include="NavigationSystem.cpp" />
     <ClCompile Include="Navigation\DebugUtils\DebugDraw.cpp" />
