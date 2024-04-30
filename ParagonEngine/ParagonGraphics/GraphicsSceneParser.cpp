@@ -9,6 +9,7 @@
 //세부적인 렌더 오브젝트들의 리스트.
 #include "RenderObjectStaticMesh3D.h"
 #include "RenderObjectSkinnedMesh3D.h"
+#include "RenderObjectInstancedMesh3D.h"
 #include "RenderObjectText2D.h"
 #include "RenderObjectImage2D.h"
 
@@ -72,8 +73,9 @@ namespace Pg::Graphics
 		CheckForPathNameErrors(newScene);
 
 		ExtractMaterialPaths(newScene);
-		SyncRenderObjects(newScene);
+		SyncRenderObjects(newScene); //디폴트 매터리얼을 만들어주는 역할 역시 한다.
 		RemapMaterialIdAll();
+		CreateAllInstancedRenderObjects(newScene); //Default Material 생성 + MaterialID Remapping + SyncRenderObject 다 끝나고, 별개로 Instanced RenderObjects 만들기.
 		SetupPrimitiveWireframeObjects();
 		SyncSceneAllLights(newScene);
 		CheckBindAdequateFunctions();
@@ -84,7 +86,7 @@ namespace Pg::Graphics
 		//실제 리소스를 사용해야 하기에, Initialize에서 현재 호출하고 있지 않음.
 		PlaceCubemapList();
 
-		
+
 		assert("");
 	}
 
@@ -125,7 +127,7 @@ namespace Pg::Graphics
 		//Skinned일 경우, BindAdequateFunctions 역시 호출되어야 한다!
 		//Add 처리.
 		//별도로 ObjectBuffer 만들어야 함.-> Toggle해야 (기본적으로 되어 있음)
-		
+
 		for (auto& it : _runtimeAddedObjectList)
 		{
 			AddSingleRenderObject(it);
@@ -341,7 +343,7 @@ namespace Pg::Graphics
 					//런타임에서 오브젝트를 파싱해주며 만들어주는 특성상, => 무조건 있는지 체크해야. 
 					//이미 존재할 시에는 넣어주면 안됨.
 					//있으면 새로운 벡터를 만들지 않음. (insert_or_assign에서 TryEmplace로 변경)
-					
+
 					_renderObject3DList->_staticList.try_emplace(tRenderMat, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectStaticMesh3D>>>>());
 					_renderObject3DList->_skinnedList.try_emplace(tRenderMat, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectSkinnedMesh3D>>>>());
 
@@ -363,6 +365,16 @@ namespace Pg::Graphics
 				else
 				{
 					tMaterialInput = it->second;
+				}
+
+				//MatPth까지 모두 넣은 시점에서, 
+				//만약 isInstanced가 켜져 있을 경우:
+				//여기서 연산되는 것을 막아야 한다. 
+				//한번 더 돌린다고 생각해야! 이때는 모든 DefaultMaterial까지 모두 다 로드되었을 시점이기 때문에.
+				if (tBaseR3D->GetIsInstanced())
+				{
+					//만약 인스턴싱이 사용되는 Renderer라면 여기서 처리하지 않는다!
+					break;
 				}
 
 				//3D
@@ -409,7 +421,7 @@ namespace Pg::Graphics
 						_renderObject3DList->_skinnedList.at(tMaterialInput)->back().second->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
 					}
 				}
-				
+
 				//ObjectId3d가 겹치지 않도록 ++
 				_objectId3dCount++;
 			}
@@ -433,6 +445,79 @@ namespace Pg::Graphics
 		}
 	}
 
+	void GraphicsSceneParser::CreateAllInstancedRenderObjects(const Pg::Data::Scene* const newScene)
+	{
+		//Opaque만 호환됨.
+		for (auto& obj : newScene->GetObjectList())
+		{
+			using Pg::Graphics::Helper::GraphicsResourceHelper;
+
+			auto tComponentVector = obj->GetComponents<Pg::Data::BaseRenderer>();
+
+			if (tComponentVector.empty())
+			{
+				return;
+			}
+			for (int i = 0; i < tComponentVector.size(); i++)
+			{
+				// RenderObject
+				Pg::Data::BaseRenderer* tBaseRenderer = tComponentVector.at(i);
+				assert(tBaseRenderer != nullptr && "이 시점에서는 반드시 있어야 한다.");
+
+				//3D마
+				if (GraphicsResourceHelper::IsRenderer3D(tBaseRenderer->GetRendererTypeName()) == 1)
+				{
+					//미리 Material Path를 갖고 있는 RendererBase3D()으로 포인터로 갖고 오기.
+					Pg::Data::RendererBase3D* tBaseR3D = static_cast<Pg::Data::RendererBase3D*>(tBaseRenderer);
+
+					//isInstanced에 해당될 경우만 여기서 연동해야.
+					if (!tBaseR3D->GetIsInstanced())
+					{
+						break;
+					}
+
+					std::string tMatPth = tBaseR3D->GetMaterialFilePath();
+
+					std::filesystem::path tTempMeshPath = tBaseR3D->GetMeshFilePath();
+					std::string tTempMeshName = tTempMeshPath.filename().string();
+					RenderMaterial* tMaterialInput = nullptr;
+
+					if (tMatPth.empty())
+					{
+						//Default Material.
+						std::string tDefaultMatInstName = Pg::Graphics::Helper::GraphicsResourceHelper::GetDefaultMaterialNameFromMeshName(tTempMeshName);
+						auto res = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tDefaultMatInstName, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
+						tMaterialInput = static_cast<RenderMaterial*>(res.get());
+					}
+					else
+					{
+						//실제 PgShaderParser에서 만들어진 Material.
+						auto res = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tMatPth, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
+						tMaterialInput = static_cast<RenderMaterial*>(res.get());
+					}
+
+					//무조건 RenderMaterial이 차 있을 것.
+					auto tRes = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tBaseR3D->GetMeshFilePath(), Pg::Data::Enums::eAssetDefine::_3DMODEL);
+					Asset3DModelData* modelData = static_cast<Asset3DModelData*>(tRes.get());
+					//없으면 넣고, 있으면 무시하고.
+					_renderObject3DList->_instancedStaticList.try_emplace(modelData, std::make_unique<std::vector<std::pair<RenderMaterial*, std::unique_ptr<RenderObjectInstancedMesh3D>>>>());
+
+					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
+					{
+						_renderObject3DList->_instancedStaticList.at(modelData)->push_back(std::make_pair(tMaterialInput, std::make_unique<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
+						_renderObject3DList->_instancedStaticList.at(modelData)->back().second->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
+					}
+					else
+					{
+						assert(false && "지원되지 않는 형태. Instanced Skinning 지원하지 않는다.");
+					}
+
+					_objectId3dCount++;
+					//ObjectId3d가 겹치지 않도록 ++
+				}
+			}
+		}
+	}
 	void GraphicsSceneParser::SyncSceneAllLights(const Pg::Data::Scene* const newScene)
 	{
 		RuntimeAddLightsVector(&(newScene->GetObjectList()));
@@ -628,9 +713,9 @@ namespace Pg::Graphics
 	}
 
 	void GraphicsSceneParser::ModifySingleRenderObject(Pg::Data::GameObject* obj)
-	{	
+	{
 		//뭐가 되었든, 다시 지우고 바로 만들거나 / 그렇지 않아야 한다.
-		
+
 		//일단, 지금 오브젝트가 렌더러를 가지고 있는지부터.
 		auto renderVec = obj->GetComponents<Pg::Data::BaseRenderer>();
 		if (renderVec.empty())
@@ -863,7 +948,7 @@ namespace Pg::Graphics
 		/// 1. 해당 컴포넌트 없는 겜옵젝 -> 컴포넌트가 생기는 경우.
 		/// 2. 해당 컴포넌트 있던 겜옵젝 -> 컴포넌트가 사라지는 경우.
 		/// 3. 해당 컴포넌트 있던 겜옵젝 -> 컴포넌트가 수정되는 경우.
-	
+
 		std::vector<Pg::Data::DirectionalLight*> tEnteredDirLights;
 		std::vector<Pg::Data::SpotLight*> tEnteredSpotLights;
 		std::vector<Pg::Data::PointLight*> tEnteredPointLights;
@@ -937,7 +1022,7 @@ namespace Pg::Graphics
 		std::copy(tEnteredDirLights.begin(), tEnteredDirLights.end(), std::back_inserter(_sceneInfoList->_dirLightList));
 		std::copy(tEnteredSpotLights.begin(), tEnteredSpotLights.end(), std::back_inserter(_sceneInfoList->_spotLightList));
 		std::copy(tEnteredPointLights.begin(), tEnteredPointLights.end(), std::back_inserter(_sceneInfoList->_pointLightList));
-		
+
 		//Data 자체를 가져다가 쓰기 때문에, 같은 경우는 별도의 연동이 필요 없음.
 		//Intensity를 기반으로 Sort. ( '>' Operator Overloading )
 		//그냥 데이터 Sort만 다시 돌리면 된다!
@@ -955,13 +1040,13 @@ namespace Pg::Graphics
 		std::vector<Pg::Data::DirectionalLight*> tEnteredDirLights;
 		std::vector<Pg::Data::SpotLight*> tEnteredSpotLights;
 		std::vector<Pg::Data::PointLight*> tEnteredPointLights;
-		
+
 		//Light들의 Component 리스트 별도로 저장.
 		for (auto& tGameObject : *objList)
 		{
 			//1. 라이트가 있는지 체크한다.
 			auto tLightComponentVector = tGameObject->GetComponents<Pg::Data::Light>();
-		
+
 			for (auto& tSingleLight : tLightComponentVector)
 			{
 				//Directional Light일 경우.
@@ -971,7 +1056,7 @@ namespace Pg::Graphics
 					tEnteredDirLights.push_back(tDirLight);
 					continue;
 				}
-		
+
 				//Spot Light일 경우.
 				Pg::Data::SpotLight* tSpotLight = dynamic_cast<Pg::Data::SpotLight*>(tSingleLight);
 				if (tSpotLight != nullptr)
@@ -979,7 +1064,7 @@ namespace Pg::Graphics
 					tEnteredSpotLights.push_back(tSpotLight);
 					continue;
 				}
-		
+
 				//Point Light일 경우.
 				Pg::Data::PointLight* tPointLight = dynamic_cast<Pg::Data::PointLight*>(tSingleLight);
 				if (tPointLight != nullptr)
@@ -1058,5 +1143,4 @@ namespace Pg::Graphics
 		//실제로 이제 존재하는 모든 Material에 ID를 새로 부여.
 		Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetCombinedLoader()->RemapAppendedMatID();
 	}
-
 }

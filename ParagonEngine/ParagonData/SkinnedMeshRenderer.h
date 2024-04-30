@@ -66,8 +66,6 @@ namespace Pg::Data
 		std::function<void(const std::string&, bool)> _setAnimationFunction;
 		std::function<Pg::Data::AnimTransform*(const std::string&)> _findAnimTransformFunction;
 
-	private:
-		bool _isInstanced{ false };
 	
 
 	};

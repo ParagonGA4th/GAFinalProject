@@ -66,6 +66,8 @@ namespace Pg::Graphics
 		void CheckBindAdequateFunctions(); //내부적으로 작동을 위한 bind될 함수들이 있으면, 이를 발동하기 위해.
 		void CheckCreateObjMatBuffersAll();
 
+		void CreateAllInstancedRenderObjects(const Pg::Data::Scene* const newScene);
+
 	private:
 		//PrimitiveWireframeObject 하드코딩해서 완성.
 		void SetupPrimitiveWireframeObjects();
