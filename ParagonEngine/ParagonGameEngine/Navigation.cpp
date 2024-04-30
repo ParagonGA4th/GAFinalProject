@@ -35,6 +35,11 @@ namespace Pg::Engine
 		_tmproc = new MeshProcess();
 	}
 
+	Navigation::~Navigation()
+	{
+
+	}
+
 	void Navigation::Initialize()
 	{
 
@@ -83,13 +88,13 @@ namespace Pg::Engine
 			return;
 		}
 
-		_tileCache = dtAllocTileCache();
-		if (!_tileCache)
+		_package[index]._tileCache = dtAllocTileCache();
+		if (!_package[index]._tileCache)
 		{
 			fclose(fp);
 			return;
 		}
-		status = _tileCache->init(&header.cacheParams, _talloc, _tcomp, _tmproc);
+		status = _package[index]._tileCache->init(&header.cacheParams, _talloc, _tcomp, _tmproc);
 		if (dtStatusFailed(status))
 		{
 			fclose(fp);
@@ -123,14 +128,14 @@ namespace Pg::Engine
 			}
 
 			dtCompressedTileRef tile = 0;
-			dtStatus addTileStatus = _tileCache->addTile(data, tileHeader.dataSize, DT_COMPRESSEDTILE_FREE_DATA, &tile);
+			dtStatus addTileStatus = _package[index]._tileCache->addTile(data, tileHeader.dataSize, DT_COMPRESSEDTILE_FREE_DATA, &tile);
 			if (dtStatusFailed(addTileStatus))
 			{
 				dtFree(data);
 			}
 
 			if (tile)
-				_tileCache->buildNavMeshTile(tile, _package[index]._navMesh);
+				_package[index]._tileCache->buildNavMeshTile(tile, _package[index]._navMesh);
 		}
 
 		fclose(fp);
@@ -139,15 +144,182 @@ namespace Pg::Engine
 		return;
 	}
 
-	int Navigation::rasterizeTileLayers(const float* worldVertices, size_t verticesNum, const int* faces, size_t facesNum, const int tx, const int ty, const rcConfig& cfg, TileCacheData* tiles, const int maxTiles)
+	bool Navigation::HandleBuild(int index)
 	{
+		dtStatus status;
+
+		if (!_geom || !_geom->getMesh())
+		{
+			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: No vertices and triangles.");
+			return false;
+		}
+
+		//_tmproc->init(_geom);
+
+		// Init cache
+		const float* bmin = _geom->getNavMeshBoundsMin();
+		const float* bmax = _geom->getNavMeshBoundsMax();
+		int gw = 0, gh = 0;
+		rcCalcGridSize(bmin, bmax, _cellSize, &gw, &gh);
+		const int ts = (int)_tileSize;
+		const int tw = (gw + ts - 1) / ts;
+		const int th = (gh + ts - 1) / ts;
+
+		// Generation params.
+		rcConfig cfg;
+		memset(&cfg, 0, sizeof(cfg));
+		cfg.cs = _cellSize;
+		cfg.ch = _cellHeight;
+		cfg.walkableSlopeAngle = _agentMaxSlope;
+		cfg.walkableHeight = (int)ceilf(_agentHeight / cfg.ch);
+		cfg.walkableClimb = (int)floorf(_agentMaxClimb / cfg.ch);
+		cfg.walkableRadius = (int)ceilf(_agentRadius / cfg.cs);
+		cfg.maxEdgeLen = (int)(_edgeMaxLen / _cellSize);
+		cfg.maxSimplificationError = _edgeMaxError;
+		cfg.minRegionArea = (int)rcSqr(_regionMinSize);		// Note: area = size*size
+		cfg.mergeRegionArea = (int)rcSqr(_regionMergeSize);	// Note: area = size*size
+		cfg.maxVertsPerPoly = (int)_vertsPerPoly;
+		cfg.tileSize = (int)_tileSize;
+		cfg.borderSize = cfg.walkableRadius + 3; // Reserve enough padding.
+		cfg.width = cfg.tileSize + cfg.borderSize * 2;
+		cfg.height = cfg.tileSize + cfg.borderSize * 2;
+		cfg.detailSampleDist = _detailSampleDist < 0.9f ? 0 : _cellSize * _detailSampleDist;
+		cfg.detailSampleMaxError = _cellHeight * _detailSampleMaxError;
+		rcVcopy(cfg.bmin, bmin);
+		rcVcopy(cfg.bmax, bmax);
+
+		// Tile cache params.
+		dtTileCacheParams tcparams;
+		memset(&tcparams, 0, sizeof(tcparams));
+		rcVcopy(tcparams.orig, bmin);
+		tcparams.cs = _cellSize;
+		tcparams.ch = _cellHeight;
+		tcparams.width = (int)_tileSize;
+		tcparams.height = (int)_tileSize;
+		tcparams.walkableHeight = _package[index]._agentsetting._agentHeight;
+		tcparams.walkableRadius = _package[index]._agentsetting._agentRadius;
+		tcparams.walkableClimb = _package[index]._agentsetting._agentMaxClimb;
+		tcparams.maxSimplificationError = _edgeMaxError;
+		tcparams.maxTiles = tw * th * 4;
+		tcparams.maxObstacles = 128;
+
+		dtFreeTileCache(_package[index]._tileCache);
+
+		_package[index]._tileCache = dtAllocTileCache();
+		if (!_package[index]._tileCache)
+		{
+			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not allocate tile cache.");
+			return false;
+		}
+		status = _package[index]._tileCache->init(&tcparams, _talloc, _tcomp, _tmproc);
+		if (dtStatusFailed(status))
+		{
+			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not init tile cache.");
+			return false;
+		}
+
+		dtFreeNavMesh(_package[0]._navMesh);
+
+		_package[0]._navMesh = dtAllocNavMesh();
+		if (!_package[0]._navMesh)
+		{
+			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not allocate navmesh.");
+			return false;
+		}
+
+		dtNavMeshParams params;
+		memset(&params, 0, sizeof(params));
+		rcVcopy(params.orig, bmin);
+		params.tileWidth = _tileSize * _cellSize;
+		params.tileHeight = _tileSize * _cellSize;
+		params.maxTiles = _maxTiles;
+		params.maxPolys = _maxPolysPerTile;
+
+		status = _package[0]._navMesh->init(&params);
+		if (dtStatusFailed(status))
+		{
+			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not init navmesh.");
+			return false;
+		}
+
+		status = _package[0]._navQuery->init(_package[0]._navMesh, 2048);
+		if (dtStatusFailed(status))
+		{
+			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not init Detour navmesh query");
+			return false;
+		}
+
+
+		// Preprocess tiles.
+
+		_ctx->resetTimers();
+
+		_cacheLayerCount = 0;
+		_cacheCompressedSize = 0;
+		_cacheRawSize = 0;
+
+		for (int y = 0; y < th; ++y)
+		{
+			for (int x = 0; x < tw; ++x)
+			{
+				TileCacheData tiles[MAX_LAYERS];
+				memset(tiles, 0, sizeof(tiles));
+				int ntiles = rasterizeTileLayers(x, y, cfg, tiles, MAX_LAYERS);
+
+				for (int i = 0; i < ntiles; ++i)
+				{
+					TileCacheData* tile = &tiles[i];
+					status = _package[index]._tileCache->addTile(tile->data, tile->dataSize, DT_COMPRESSEDTILE_FREE_DATA, 0);
+					if (dtStatusFailed(status))
+					{
+						dtFree(tile->data);
+						tile->data = 0;
+						continue;
+					}
+
+					_cacheLayerCount++;
+					_cacheCompressedSize += tile->dataSize;
+					_cacheRawSize += calcLayerBufferSize(tcparams.width, tcparams.height);
+				}
+			}
+		}
+
+		// Build initial meshes
+		_ctx->startTimer(RC_TIMER_TOTAL);
+		for (int y = 0; y < th; ++y)
+		{
+
+			for (int x = 0; x < tw; ++x)
+			{
+				_package[index]._tileCache->buildNavMeshTilesAt(x, y, _package[0]._navMesh);
+			}
+		}
+
+		const dtNavMesh* nav = _package[0]._navMesh;
+		int navmeshMemUsage = 0;
+		for (int i = 0; i < nav->getMaxTiles(); ++i)
+		{
+			const dtMeshTile* tile = nav->getTile(i);
+			if (tile->header)
+				navmeshMemUsage += tile->dataSize;
+		}
+		return true;
+	}
+
+	int Navigation::rasterizeTileLayers(const int tx, const int ty, const rcConfig& cfg, struct TileCacheData* tiles, const int maxTiles)
+	{
+		if (!_geom || !_geom->getMesh() || !_geom->getChunkyMesh())
+		{
+			_ctx->log(RC_LOG_ERROR, "buildTile: Input mesh is not specified.");
+			return 0;
+		}
+
 		FastLZCompressor comp;
 		RasterizationContext rc;
 
-		const float* verts = worldVertices;
-		const int nverts = verticesNum;
-		rcChunkyTriMesh chunkyMesh;
-		rcCreateChunkyTriMesh(verts, faces, facesNum, 256, &chunkyMesh);
+		const float* verts = _geom->getMesh()->getVerts();
+		const int nverts = _geom->getMesh()->getVertCount();
+		const rcChunkyTriMesh* chunkyMesh = _geom->getChunkyMesh();
 
 		// Tile bounds.
 		const float tcs = cfg.tileSize * cfg.cs;
@@ -182,10 +354,10 @@ namespace Pg::Engine
 		// Allocate array that can hold triangle flags.
 		// If you have multiple meshes you need to process, allocate
 		// and array which can hold the max number of triangles you need to process.
-		rc.triareas = new unsigned char[chunkyMesh.maxTrisPerChunk];
+		rc.triareas = new unsigned char[chunkyMesh->maxTrisPerChunk];
 		if (!rc.triareas)
 		{
-			_ctx->log(RC_LOG_ERROR, "buildNavigation: Out of memory 'm_triareas' (%d).", chunkyMesh.maxTrisPerChunk);
+			_ctx->log(RC_LOG_ERROR, "buildNavigation: Out of memory 'm_triareas' (%d).", chunkyMesh->maxTrisPerChunk);
 			return 0;
 		}
 
@@ -195,7 +367,7 @@ namespace Pg::Engine
 		tbmax[0] = tcfg.bmax[0];
 		tbmax[1] = tcfg.bmax[2];
 		int cid[512];// TODO: Make grow when returning too many items.
-		const int ncid = rcGetChunksOverlappingRect(&chunkyMesh, tbmin, tbmax, cid, 512);
+		const int ncid = rcGetChunksOverlappingRect(chunkyMesh, tbmin, tbmax, cid, 512);
 		if (!ncid)
 		{
 			return 0; // empty
@@ -203,8 +375,8 @@ namespace Pg::Engine
 
 		for (int i = 0; i < ncid; ++i)
 		{
-			const rcChunkyTriMeshNode& node = chunkyMesh.nodes[cid[i]];
-			const int* tris = &chunkyMesh.tris[node.i * 3];
+			const rcChunkyTriMeshNode& node = chunkyMesh->nodes[cid[i]];
+			const int* tris = &chunkyMesh->tris[node.i * 3];
 			const int ntris = node.n;
 
 			memset(rc.triareas, 0, ntris * sizeof(unsigned char));
@@ -246,13 +418,13 @@ namespace Pg::Engine
 		}
 
 		// (Optional) Mark areas.
-		//const ConvexVolume* vols = _geom->getConvexVolumes();
-		//for (int i = 0; i < _geom->getConvexVolumeCount(); ++i)
-		//{
-		//	rcMarkConvexPolyArea(_ctx, vols[i].verts, vols[i].nverts,
-		//		vols[i].hmin, vols[i].hmax,
-		//		(unsigned char)vols[i].area, *rc.chf);
-		//}
+		const ConvexVolume* vols = _geom->getConvexVolumes();
+		for (int i = 0; i < _geom->getConvexVolumeCount(); ++i)
+		{
+			rcMarkConvexPolyArea(_ctx, vols[i].verts, vols[i].nverts,
+				vols[i].hmin, vols[i].hmax,
+				(unsigned char)vols[i].area, *rc.chf);
+		}
 
 		rc.lset = rcAllocHeightfieldLayerSet();
 		if (!rc.lset)
@@ -314,184 +486,15 @@ namespace Pg::Engine
 		return n;
 	}
 
-	bool Navigation::HandleBuild(const Pg::Data::BuildSettings& buildSettings, const float* worldVertices, size_t verticesNum, const int* faces, size_t facesNum)
-	{
-		dtStatus status;
-
-		//if (!_geom || !_geom->getMesh())
-		//{
-		//	_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: No vertices and triangles.");
-		//	return false;
-		//}
-
-		//_tmproc->init(_geom);
-
-		// Init cache
-		float bmin[3]{ std::numeric_limits<float>::max(),
-						std::numeric_limits<float>::max(),std::numeric_limits<float>::max() };
-
-		float bmax[3]{ -std::numeric_limits<float>::max(),
-						-std::numeric_limits<float>::max(),-std::numeric_limits<float>::max() };
-		int gw = 0, gh = 0;
-		rcCalcGridSize(bmin, bmax, _cellSize, &gw, &gh);
-		const int ts = (int)buildSettings.tileSize;
-		const int tw = (gw + ts - 1) / ts;
-		const int th = (gh + ts - 1) / ts;
-
-		// Generation params.
-		rcConfig cfg;
-		memset(&cfg, 0, sizeof(cfg));
-		cfg.cs = _cellSize;
-		cfg.ch = _cellHeight;
-		cfg.walkableSlopeAngle = _agentMaxSlope;
-		cfg.walkableHeight = (int)ceilf(_agentHeight / cfg.ch);
-		cfg.walkableClimb = (int)floorf(_agentMaxClimb / cfg.ch);
-		cfg.walkableRadius = (int)ceilf(_agentRadius / cfg.cs);
-		cfg.maxEdgeLen = (int)(_edgeMaxLen / _cellSize);
-		cfg.maxSimplificationError = _edgeMaxError;
-		cfg.minRegionArea = (int)rcSqr(_regionMinSize);		// Note: area = size*size
-		cfg.mergeRegionArea = (int)rcSqr(_regionMergeSize);	// Note: area = size*size
-		cfg.maxVertsPerPoly = (int)_vertsPerPoly;
-		cfg.tileSize = (int)buildSettings.tileSize;
-		cfg.borderSize = cfg.walkableRadius + 3; // Reserve enough padding.
-		cfg.width = cfg.tileSize + cfg.borderSize * 2;
-		cfg.height = cfg.tileSize + cfg.borderSize * 2;
-		cfg.detailSampleDist = _detailSampleDist < 0.9f ? 0 : _cellSize * _detailSampleDist;
-		cfg.detailSampleMaxError = _cellHeight * _detailSampleMaxError;
-		rcVcopy(cfg.bmin, bmin);
-		rcVcopy(cfg.bmax, bmax);
-
-		// Tile cache params.
-		dtTileCacheParams tcparams;
-		memset(&tcparams, 0, sizeof(tcparams));
-		rcVcopy(tcparams.orig, bmin);
-		tcparams.cs = _cellSize;
-		tcparams.ch = _cellHeight;
-		tcparams.width = (int)buildSettings.tileSize;
-		tcparams.height = (int)buildSettings.tileSize;
-		tcparams.walkableHeight = _agentHeight;
-		tcparams.walkableRadius = _agentRadius;
-		tcparams.walkableClimb = _agentMaxClimb;
-		tcparams.maxSimplificationError = _edgeMaxError;
-		//tcparams.maxTiles = tw * th * EXPECTED_LAYERS_PER_TILE;
-		tcparams.maxObstacles = 128;
-
-		dtFreeTileCache(_tileCache);
-
-		_tileCache = dtAllocTileCache();
-		if (!_tileCache)
-		{
-			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not allocate tile cache.");
-			return false;
-		}
-		status = _tileCache->init(&tcparams, _talloc, _tcomp, _tmproc);
-		if (dtStatusFailed(status))
-		{
-			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not init tile cache.");
-			return false;
-		}
-
-		dtFreeNavMesh(_package[0]._navMesh);
-
-		_package[0]._navMesh = dtAllocNavMesh();
-		if (!_package[0]._navMesh)
-		{
-			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not allocate navmesh.");
-			return false;
-		}
-
-		dtNavMeshParams params;
-		memset(&params, 0, sizeof(params));
-		rcVcopy(params.orig, bmin);
-		params.tileWidth = buildSettings.tileSize * _cellSize;
-		params.tileHeight = buildSettings.tileSize * _cellSize;
-		params.maxTiles = _maxTiles;
-		params.maxPolys = _maxPolysPerTile;
-
-		status = _package[0]._navMesh->init(&params);
-		if (dtStatusFailed(status))
-		{
-			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not init navmesh.");
-			return false;
-		}
-
-		status = _package[0]._navQuery->init(_package[0]._navMesh, 2048);
-		if (dtStatusFailed(status))
-		{
-			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not init Detour navmesh query");
-			return false;
-		}
-
-
-		// Preprocess tiles.
-
-		_ctx->resetTimers();
-
-		_cacheLayerCount = 0;
-		_cacheCompressedSize = 0;
-		_cacheRawSize = 0;
-
-		for (int y = 0; y < th; ++y)
-		{
-			for (int x = 0; x < tw; ++x)
-			{
-				TileCacheData tiles[MAX_LAYERS];
-				memset(tiles, 0, sizeof(tiles));
-				int ntiles = rasterizeTileLayers(worldVertices, verticesNum, faces, facesNum, x, y, _cfg, tiles, MAX_LAYERS);
-
-				for (int i = 0; i < ntiles; ++i)
-				{
-					TileCacheData* tile = &tiles[i];
-					status = _tileCache->addTile(tile->data, tile->dataSize, DT_COMPRESSEDTILE_FREE_DATA, 0);
-					if (dtStatusFailed(status))
-					{
-						dtFree(tile->data);
-						tile->data = 0;
-						continue;
-					}
-
-					_cacheLayerCount++;
-					_cacheCompressedSize += tile->dataSize;
-					_cacheRawSize += calcLayerBufferSize(tcparams.width, tcparams.height);
-				}
-			}
-		}
-
-		// Build initial meshes
-		_ctx->startTimer(RC_TIMER_TOTAL);
-		for (int y = 0; y < th; ++y)
-		{
-
-			for (int x = 0; x < tw; ++x)
-			{
-				_tileCache->buildNavMeshTilesAt(x, y, _package[0]._navMesh);
-			}
-		}
-
-		const dtNavMesh* nav = _package[0]._navMesh;
-		int navmeshMemUsage = 0;
-		for (int i = 0; i < nav->getMaxTiles(); ++i)
-		{
-			const dtMeshTile* tile = nav->getTile(i);
-			if (tile->header)
-				navmeshMemUsage += tile->dataSize;
-		}
-		return true;
-	}
-
-	void Navigation::HandleUpdate(const float dt)
-	{
-		if (!_package[0]._navMesh)
-			return;
-		if (!_tileCache)
-			return;
-
-		_tileCache->update(dt, _package[0]._navMesh);
-	}
-
 	void Navigation::getTilePos(const float* pos, int& tx, int& ty)
 	{
+		if (!_geom) return;
 
+		const float* bmin = _geom->getNavMeshBoundsMin();
+
+		const float ts = _tileSize * _cellSize;
+		tx = (int)((pos[0] - bmin[0]) / ts);
+		ty = (int)((pos[2] - bmin[2]) / ts);
 	}
 
 	void Navigation::renderCachedTile(const int tx, const int ty, const int type)
@@ -502,6 +505,19 @@ namespace Pg::Engine
 	void Navigation::renderCachedTileOverlay(const int tx, const int ty, double* proj, double* model, int* view)
 	{
 
+	}
+
+	void Navigation::HandleUpdate(const float dt)
+	{
+		for (int i = 0; i < PACKAGESIZE; i++)
+		{
+			if (!_package[i]._navMesh)
+				return;
+				return;
+			if (!_package[i]._tileCache)
+				return;
+			_package[i]._tileCache->update(dt, _package[i]._navMesh);
+		}
 	}
 
 	dtObstacleRef Navigation::hitTestObstacle(const dtTileCache* tc, const float* sp, const float* sq)
@@ -566,4 +582,46 @@ namespace Pg::Engine
 		return true;
 	}
 
+	void Navigation::SetSEpos(int index, float sx, float sy, float sz, float ex, float ey, float ez)
+	{
+		_package[index]._startPos[0] = sx;
+		_package[index]._startPos[1] = sy;
+		_package[index]._startPos[2] = sz;
+		_package[index]._navQuery->findNearestPoly(_package[index]._startPos, _package[index]._polyPickExt, &(_package[index]._filter), &(_package[index]._startRef), 0);
+
+		_package[index]._endPos[0] = ex;
+		_package[index]._endPos[1] = ey;
+		_package[index]._endPos[2] = ez;
+		_package[index]._navQuery->findNearestPoly(_package[index]._endPos, _package[index]._polyPickExt, &(_package[index]._filter), &(_package[index]._endRef), 0);
+	}
+
+	void Navigation::SetSEpos(int index, Pg::Math::PGFLOAT3 startPosition, Pg::Math::PGFLOAT3 endPosition)
+	{
+
+	}
+
+	void Navigation::SetStartpos(int index, float x, float y, float z)
+	{
+
+	}
+
+	void Navigation::SetStartpos(int index, Pg::Math::PGFLOAT3 position)
+	{
+
+	}
+
+	void Navigation::SetEndpos(int index, float x, float y, float z)
+	{
+
+	}
+
+	void Navigation::SetEndpos(int index, Pg::Math::PGFLOAT3 position)
+	{
+
+	}
+
+	void Navigation::SetAgent(int index, float agentHeight, float agentMaxSlope, float agentRadius, float agentMaxClimb)
+	{
+
+	}
 }

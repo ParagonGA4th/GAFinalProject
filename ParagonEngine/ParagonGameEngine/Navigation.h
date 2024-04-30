@@ -14,6 +14,9 @@
 #include <RecastDemo/ChunkyTriMesh.h>
 
 #include "../ParagonData/BuildSettings.h"
+#include "../ParagonProcess/CoreSingleton.h"
+#include "../ParagonMath/PgMath.h"
+#include "NavGeom.h"
 
 #include <unordered_map>
 #include <vector>
@@ -26,15 +29,27 @@
 /// </summary>
 namespace Pg::Engine
 {
+	struct Agent
+	{
+		float _agentHeight = 2.0f;
+		float _agentRadius = 1.2f;
+		float _agentMaxClimb = 0.9f;
+		float _agentMaxSlope = 45.0f;
+	};
+
 	// 이 PathFIndbox는 네비매쉬를 배열로 관리하기 편하도록 구성 요소들을 묶은 것
 	struct PathFindbox
 	{
 		class dtNavMesh* _navMesh;
 		class dtNavMeshQuery* _navQuery;
+		class dtTileCache* _tileCache;
 
 		// PathFind를 위해 필요한 부분들
 		static const int MAX_POLYS = 256;
 		static const int MAX_SMOOTH = 2048;
+
+		// 에이전트 세팅
+		Agent _agentsetting;
 
 		dtPolyRef _startRef;
 		dtPolyRef _endRef;
@@ -56,9 +71,6 @@ namespace Pg::Engine
 		dtRaycastHit _hit;
 		dtPolyRef _RaycastPathPolys;
 		float _hitPos[3];
-
-		//PathFindbox();
-		//~PathFindbox();
 	};
 
 	class Navigation
@@ -75,19 +87,47 @@ namespace Pg::Engine
 		// path 에서 이미 빌드된 네비매쉬 파일을 읽어옵니다. .bin파일
 		void LoadAll(const char* path, int index);
 		// 네비매쉬를 직접 빌드 하기
-		bool HandleBuild(const Pg::Data::BuildSettings& buildSettings, const float* worldVertices, size_t verticesNum, const int* faces, size_t facesNum);
+		bool HandleBuild(int index);
 		// 네비매쉬를 업데이트 한다.
 		void HandleUpdate(const float dt);
 
-		int rasterizeTileLayers(const float* worldVertices, size_t verticesNum, const int* faces, size_t facesNum, const int tx, const int ty, const rcConfig& cfg, struct TileCacheData* tiles, const int maxTiles);
+		int rasterizeTileLayers(const int tx, const int ty, const rcConfig& cfg, struct TileCacheData* tiles, const int maxTiles);
 		void getTilePos(const float* pos, int& tx, int& ty);
 		void renderCachedTile(const int tx, const int ty, const int type);
 		void renderCachedTileOverlay(const int tx, const int ty, double* proj, double* model, int* view);
-		// sp, sq를 기반으로 장애물의 ref 값을 반환하는 함수. sp,sq가 뭔진 아직 나도 모르겠음
+
+		// 직선경로 탐색 함수
+		//std::vector<std::pair<DirectX::XMFLOAT3, DirectX::XMFLOAT3>> FindStraightPath(int index);
+		// 이미 탐색된 경로를 가져오는 함수
+		//std::vector<std::pair<DirectX::XMFLOAT3, DirectX::XMFLOAT3>> GetPath(int index);
+		// Raycast 탐색 함수. (직선경로에 부딧히는게 있다면 거기까지만 경로 표시
+
+		//DirectX::XMFLOAT3 FindRaycastPath(int index);
+		// startpos 와 endpos를 입력하는 함수. float[3] 버전
+		void SetSEpos(int index, float sx, float sy, float sz, float ex, float ey, float ez);
+		// startpos 와 endpos를 입력하는 함수. XMFLOAT3 버전
+		void SetSEpos(int index, Pg::Math::PGFLOAT3 startPosition, Pg::Math::PGFLOAT3 endPosition);
+		// startpos를 입력하는 함수. float[3] 버전
+		void SetStartpos(int index, float x, float y, float z);
+		// startpos를 입력하는 함수. XMFLOAT3 버전
+		void SetStartpos(int index, Pg::Math::PGFLOAT3 position);
+		// endpos를 입력하는 함수. float[3] 버전
+		void SetEndpos(int index, float x, float y, float z);
+		// endpos를 입력하는 함수. XMFLOAT3 버전
+		void SetEndpos(int index, Pg::Math::PGFLOAT3 position);
+		// 네비매쉬를 빌드하기 위한 agent를 세팅하는 함수. 각 변수명을 참고
+		void SetAgent(int index, float agentHeight, float agentMaxSlope, float agentRadius, float agentMaxClimb);
+
 		dtObstacleRef hitTestObstacle(const dtTileCache* tc, const float* sp, const float* sq);
 
 		bool isectSegAABB(const float* sp, const float* sq, const float* amin, const float* amax, float& tmin, float& tmax);
 	private:
+
+		static const int PACKAGESIZE = 5;
+
+		class NavGeom* _geom;
+		PathFindbox _package[PACKAGESIZE];
+
 		bool _keepInterResults;
 		float _totalBuildTimeMs;
 
@@ -128,8 +168,6 @@ namespace Pg::Engine
 		struct FastLZCompressor* _tcomp;
 		struct MeshProcess* _tmproc;
 
-		dtTileCache* _tileCache;
-
 		float _cacheBuildTimeMs;
 		int _cacheCompressedSize;
 		int _cacheRawSize;
@@ -139,6 +177,20 @@ namespace Pg::Engine
 		PathFindbox _package[5];
 		int _maxTiles;
 		int _maxPolysPerTile;
+		float _tileSize = 48.f;
+
+		enum DrawMode
+		{
+			DRAWMODE_NAVMESH,
+			DRAWMODE_NAVMESH_TRANS,
+			DRAWMODE_NAVMESH_BVTREE,
+			DRAWMODE_NAVMESH_NODES,
+			DRAWMODE_NAVMESH_PORTALS,
+			DRAWMODE_NAVMESH_INVIS,
+			DRAWMODE_MESH,
+			DRAWMODE_CACHE_BOUNDS,
+			MAX_DRAWMODE
+		};
 	};
 }
 
