@@ -5,6 +5,8 @@
 #include "FileSystem.h"
 #include "Event.h"
 
+#include <shellapi.h>	// ExtractIconW 오류로 임시 설정
+
 #include "../ParagonData/GameConstantData.h"
 
 Pg::Editor::Core::EditorAction::EditorAction()
