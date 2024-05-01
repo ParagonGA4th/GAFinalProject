@@ -45,6 +45,12 @@ namespace Pg::Editor::Data
 		std::string GetUUID(std::string sceneName, std::string objName);
 		std::string GetObjNameWithUUID(std::string sceneName, std::string uuid);
 
+		void SetMonitorWidth(float width);
+		void SetMonitorHeight(float height);
+
+		float GetMonitorWidth();
+		float GetMonitorHeight();
+
 	private:
 		ID3D11Device* _device{ nullptr };
 		ID3D11DeviceContext* _deviceContext{ nullptr };
@@ -56,6 +62,9 @@ namespace Pg::Editor::Data
 		std::string _projectPath;
 		void* _sceneTexture{ nullptr };
 		bool _onOff;
+
+		float _monitorWidth;
+		float _monitorHeight;
 
 		std::vector<std::string> _assetList;
 		std::unordered_map<std::string, std::unordered_map<std::string, std::string>> _uuid;
