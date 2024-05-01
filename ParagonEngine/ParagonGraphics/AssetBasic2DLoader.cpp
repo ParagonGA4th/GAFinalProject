@@ -14,6 +14,8 @@
 #include "LayoutDefine.h"
 #include "../ParagonHelper/ResourceHelper.h"
 #include "../ParagonUtil/CustomAssert.h"
+
+#include "DirectXTexEXR.h"
 #include <dxtk/DDSTextureLoader.h>
 #include <dxtk/WICTextureLoader.h>
 #include <dxtex/DirectXTex.h>
@@ -261,6 +263,22 @@ namespace Pg::Graphics::Loader
 			
 			//GenerateMips 테스트.
 			_DXStorage->_deviceContext->GenerateMips(outTextureData->GetSRV());
+		}
+		else if (ResourceHelper::IsResourceEXR(path))
+		{
+			//라이트매핑 전용 포맷, 밉맵이 쓰일 일이 없음. 밉맵을 만들지 말자.
+			auto image = std::make_unique<DirectX::ScratchImage>();
+
+			//EXR 파일 자체 로딩.
+			HR(DirectX::LoadFromEXRFile(tWStrPath.c_str(), nullptr, *image));
+			HR(DirectX::CreateShaderResourceView(_DXStorage->_device, image->GetImages(), image->GetImageCount(), image->GetMetadata(), &(outTextureData->GetSRV())));
+
+			//ID3D11Resource 자체 역시 포함해야 일괄적으로 쓰일 수 있다.
+			ID3D11Resource* res = nullptr;
+			outTextureData->GetSRV()->GetResource(&res);
+			outTextureData->GetResource() = res;
+
+			//Mipmap을 아예 만들지 않는다.
 		}
 		else
 		{
