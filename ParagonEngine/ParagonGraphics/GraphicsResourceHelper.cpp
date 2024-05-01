@@ -385,6 +385,10 @@ namespace Pg::Graphics::Helper
 		{
 			return eTextureExtension::_PNG;
 		}
+		if (tExtString == ".exr" || tExtString == ".EXR")
+		{
+			return eTextureExtension::_EXR;
+		}
 		return eTextureExtension::_UNMANAGED;
 	}
 
