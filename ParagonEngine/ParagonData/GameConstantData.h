@@ -14,11 +14,7 @@ namespace Pg::Data
 		//static const unsigned int FIXED_UPDATE_ELAPSED_MILLISEC; //근데 우리는 싱글쓰레드 단일 호출이고, 물리 루프 따로 아니라서 상관없을 것 같다.
 	};
 
-
 	__declspec(selectany) const unsigned int GameConstantData::WIDTH = 1920;
 	__declspec(selectany) const unsigned int GameConstantData::HEIGHT = 1080;
 	//__declspec(selectany) const unsigned int GameConstantData::FIXED_UPDATE_ELAPSED_MILLISEC = 20; // Unity랑 같은 0.02초.
-
-	
-
 }

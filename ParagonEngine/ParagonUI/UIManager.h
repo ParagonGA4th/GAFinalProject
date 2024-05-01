@@ -50,8 +50,8 @@ namespace Pg::UI::Manager
 
 		 int IsWindowFocus(std::string windowName);
 
-		 float GetMousePosX(float width = 0.f);
-		 float GetMousePosY(float height = 0.f);
+		 float GetMousePosX();
+		 float GetMousePosY();
 
 		 float GetWindowWidth();
 		 float GetWindowHeight();
