@@ -1,7 +1,7 @@
 #ifndef INPUTGEOM_H
 #define INPUTGEOM_H
 
-
+#include <RecastDemo/ChunkyTriMesh.h>
 #include "MeshLoaderObj.h"
 
 static const int MAX_CONVEXVOL_PTS = 12;
@@ -53,6 +53,7 @@ struct BuildSettings
 
 class NavGeom
 {
+public:
 	rcChunkyTriMesh* m_chunkyMesh;
 	Pg::Engine::MeshLoaderObj * m_mesh;
 	float m_meshBMin[3], m_meshBMax[3];

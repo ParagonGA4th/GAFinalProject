@@ -174,7 +174,6 @@ namespace Pg::Engine
 		int _cacheLayerCount;
 		unsigned int _cacheBuildMemUsage;
 
-		PathFindbox _package[5];
 		int _maxTiles;
 		int _maxPolysPerTile;
 		float _tileSize = 48.f;
