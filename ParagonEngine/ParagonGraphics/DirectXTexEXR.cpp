@@ -7,7 +7,7 @@
 // Licensed under the MIT License.
 //--------------------------------------------------------------------------------------
 
-#include "DirectXTexP.h"
+#include "../include/dxtex/DirectXTexP.h"
 
 #include "DirectXTexEXR.h"
 

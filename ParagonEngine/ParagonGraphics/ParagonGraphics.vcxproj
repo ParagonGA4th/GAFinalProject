@@ -515,7 +515,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_EXPORT_GRAPHICS_DLL;NOMINMAX;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)include\OpenEXR;$(SolutionDir)include\Iex;$(SolutionDir)include\IlmThread;$(SolutionDir)include\OpenEXRCore;$(SolutionDir)include\OpenEXRUtil;$(SolutionDir)include\Imath</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
       <MaxFilesInUnityFile>5</MaxFilesInUnityFile>
@@ -523,8 +523,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\msdfgen\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxmesh\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDIr)lib\FastNoise2;$(SolutionDir)lib\dxtex\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;assimp-vc143-mtd.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;FastNoiseD.lib;%(AdditionalDependencies);ParagonHelper.lib;DirectXTex.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\msdfgen\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxmesh\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDIr)lib\FastNoise2;$(SolutionDir)lib\dxtex\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\lex\$(Configuration);$(SolutionDir)lib\IlmThread\$(Configuration);$(SolutionDir)lib\OpenEXR\$(Configuration);$(SolutionDir)lib\OpenEXRCore\$(Configuration);$(SolutionDir)lib\OpenEXRUtil\$(Configuration);$(SolutionDir)lib\Imath\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib;assimp-vc143-mtd.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;FastNoiseD.lib;%(AdditionalDependencies);ParagonHelper.lib;DirectXTex.lib;IlmThread-3_2_d.lib;Iex-3_2_d.lib;OpenEXRCore-3_2_d.lib;Imath-3_1_d.lib;OpenEXR-3_2_d.lib</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
@@ -533,6 +533,13 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy $(SolutionDir)lib\IlmThread\$(Configuration)\IlmThread-3_2_d.dll $(OutDir)
+copy $(SolutionDir)lib\Imath\$(Configuration)\Imath-3_1_d.dll $(OutDir)
+copy $(SolutionDir)lib\lex\$(Configuration)\Iex-3_2_d.dll $(OutDir)
+copy $(SolutionDir)lib\OpenEXR\$(Configuration)\OpenEXR-3_2_d.dll $(OutDir)
+copy $(SolutionDir)lib\OpenEXRCore\$(Configuration)\OpenEXRCore-3_2_d.dll $(OutDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -543,7 +550,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_EXPORT_GRAPHICS_DLL;NOMINMAX;MSDFGEN_PUBLIC=__declspec(dllexport);_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)include\OpenEXR;$(SolutionDir)include\Iex;$(SolutionDir)include\IlmThread;$(SolutionDir)include\OpenEXRCore;$(SolutionDir)include\OpenEXRUtil;$(SolutionDir)include\Imath</AdditionalIncludeDirectories>
       <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
       <MaxFilesInUnityFile>5</MaxFilesInUnityFile>
     </ClCompile>
@@ -552,8 +559,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\msdfgen\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxmesh\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDIr)lib\FastNoise2;$(SolutionDir)lib\dxtex\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;assimp-vc143-mt.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;FastNoise.lib;%(AdditionalDependencies);ParagonHelper.lib;DirectXTex.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\msdfgen\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxmesh\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDIr)lib\FastNoise2;$(SolutionDir)lib\dxtex\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\lex\$(Configuration);$(SolutionDir)lib\IlmThread\$(Configuration);$(SolutionDir)lib\OpenEXR\$(Configuration);$(SolutionDir)lib\OpenEXRCore\$(Configuration);$(SolutionDir)lib\OpenEXRUtil\$(Configuration);$(SolutionDir)lib\Imath\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib;assimp-vc143-mt.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;FastNoise.lib;%(AdditionalDependencies);ParagonHelper.lib;DirectXTex.lib;OpenEXR-3_2.lib;IlmThread-3_2.lib;Iex-3_2.lib;OpenEXRCore-3_2.lib;Imath-3_1.lib</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
@@ -562,6 +569,13 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy $(SolutionDir)lib\IlmThread\$(Configuration)\IlmThread-3_2.dll $(OutDir)
+copy $(SolutionDir)lib\Imath\$(Configuration)\Imath-3_1.dll $(OutDir)
+copy $(SolutionDir)lib\lex\$(Configuration)\Iex-3_2.dll $(OutDir)
+copy $(SolutionDir)lib\OpenEXR\$(Configuration)\OpenEXR-3_2.dll $(OutDir)
+copy $(SolutionDir)lib\OpenEXRCore\$(Configuration)\OpenEXRCore-3_2.dll $(OutDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
