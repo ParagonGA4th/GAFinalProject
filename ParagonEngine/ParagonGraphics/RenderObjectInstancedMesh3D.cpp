@@ -13,4 +13,49 @@ namespace Pg::Graphics
 
 	}
 
+	void RenderObjectInstancedMesh3D::CreateObjMatBuffers()
+	{
+
+	}
+
+	void RenderObjectInstancedMesh3D::First_UpdateConstantBuffers(Pg::Data::CameraData* camData)
+	{
+
+	}
+
+	void RenderObjectInstancedMesh3D::First_BindBuffers()
+	{
+
+	}
+
+	void RenderObjectInstancedMesh3D::First_Render(const float* const dt)
+	{
+
+	}
+
+	void RenderObjectInstancedMesh3D::First_UnbindBuffers()
+	{
+
+	}
+
+	void RenderObjectInstancedMesh3D::ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData)
+	{
+
+	}
+
+	void RenderObjectInstancedMesh3D::ObjMat_BindBuffers()
+	{
+
+	}
+
+	void RenderObjectInstancedMesh3D::ObjMat_Render(const float* const dt)
+	{
+
+	}
+
+	void RenderObjectInstancedMesh3D::ObjMat_UnbindBuffers()
+	{
+
+	}
+
 }
