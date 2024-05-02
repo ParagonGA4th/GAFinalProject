@@ -146,6 +146,19 @@ namespace Pg::Util::Helper
 		std::string tExtString = tPath.extension().string();
 		return (tExtString == ".tga" || tExtString == ".TGA");
 	}
-	
+
+	bool ResourceHelper::IsResourceEXR(const std::string& filePath)
+	{
+		std::filesystem::path tPath(filePath);
+		std::string tExtString = tPath.extension().string();
+		return (tExtString == ".exr" || tExtString == ".EXR");
+	}
+
+	bool ResourceHelper::IsResourceEXR(const std::wstring& filePath)
+	{
+		std::filesystem::path tPath(filePath);
+		std::string tExtString = tPath.extension().string();
+		return (tExtString == ".exr" || tExtString == ".EXR");
+	}
 
 }

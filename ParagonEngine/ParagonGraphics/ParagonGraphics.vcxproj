@@ -34,6 +34,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="BaseSpecificRenderer.h" />
+    <ClInclude Include="DirectXTexEXR.h" />
     <ClInclude Include="IndividualLightsGPU.h" />
     <ClInclude Include="PPFinalRenderer.h" />
     <ClInclude Include="FinalRenderPass.h" />
@@ -160,6 +161,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="BaseSpecificRenderer.cpp" />
+    <ClCompile Include="DirectXTexEXR.cpp" />
     <ClCompile Include="PPFinalRenderer.cpp" />
     <ClCompile Include="FinalRenderPass.cpp" />
     <ClCompile Include="FirstSkinnedRenderPass.cpp" />
