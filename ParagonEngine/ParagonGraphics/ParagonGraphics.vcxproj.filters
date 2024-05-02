@@ -296,6 +296,9 @@
       <Filter>0_Main\RenderPass&amp;SendReceiver\7_AlphaBlendingTotalRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="RenderObjectInstancedMesh3D.h" />
+    <ClInclude Include="DirectXTexEXR.h">
+      <Filter>13_LibraryExtensions\DirectXTexEXR</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -539,6 +542,9 @@
       <Filter>0_Main\RenderPass&amp;SendReceiver\7_AlphaBlendingTotalRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="RenderObjectInstancedMesh3D.cpp" />
+    <ClCompile Include="DirectXTexEXR.cpp">
+      <Filter>13_LibraryExtensions\DirectXTexEXR</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -921,6 +927,12 @@
     </Filter>
     <Filter Include="4_RenderObject\RenderObject3D\RenderObjectInstancedMesh3D">
       <UniqueIdentifier>{b1759d1d-dd6e-4f7a-9eee-0043469bd4d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="13_LibraryExtensions">
+      <UniqueIdentifier>{b07712c3-1de6-4ffc-b485-a246c5c1af7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="13_LibraryExtensions\DirectXTexEXR">
+      <UniqueIdentifier>{920c9e4f-3fa7-4a5b-bfd8-2dbf231afa81}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
