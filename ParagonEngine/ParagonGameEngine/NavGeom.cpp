@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <algorithm>
-#include <RecastDemo/ChunkyTriMesh.h>
+
 #include <DebugUtils/DebugDraw.h>
 #include <DebugUtils/RecastDebugDraw.h>
 #include <Detour/DetourNavMesh.h>
@@ -130,12 +130,12 @@ bool NavGeom::loadMesh(class rcContext* ctx, const std::string& filepath)
 
 bool NavGeom::loadGeomSet(class rcContext* ctx, const std::string& filepath)
 {
-
+	return true;
 }
 
 NavGeom::NavGeom() :
-	m_chunkyMesh(0),
-	m_mesh(0),
+	m_chunkyMesh(nullptr),
+	m_mesh(nullptr),
 	m_hasBuildSettings(false),
 	m_offMeshConCount(0),
 	m_volumeCount(0)
@@ -151,17 +151,17 @@ NavGeom::~NavGeom()
 
 bool NavGeom::load(class rcContext* ctx, const std::string& filepath)
 {
-
+	return true;
 }
 
 bool NavGeom::saveGeomSet(const BuildSettings* settings)
 {
-
+	return true;
 }
 
 bool NavGeom::raycastMesh(float* src, float* dst, float& tmin)
 {
-
+	return true;
 }
 
 void NavGeom::addOffMeshConnection(const float* spos, const float* epos, const float rad, unsigned char bidir, unsigned char area, unsigned short flags)
