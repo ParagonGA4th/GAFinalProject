@@ -7,7 +7,6 @@
 namespace Pg::Editor::Manager { class IEditorManager; }
 namespace Pg::Editor::System { class FileSystem; }
 namespace Pg::Editor { class Event; }
-namespace Pg::Editor::Data { class DataContainer; }
 
 namespace Pg::Editor::Core
 {
@@ -39,6 +38,5 @@ namespace Pg::Editor::Core
 		std::vector<Pg::Editor::Manager::IEditorManager*> _editorManagers;
 		std::unique_ptr<Pg::Editor::System::FileSystem> _fileSystem;
 		std::unique_ptr<Pg::Editor::Event> _editorEvent;
-		Pg::Editor::Data::DataContainer* _dataContainer;
 	};
 }
