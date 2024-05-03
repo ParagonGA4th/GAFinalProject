@@ -423,6 +423,16 @@ namespace Pg::Data
 		return _dontDestroyOnLoad;
 	}
 
+	void GameObject::OnEngineStop()
+	{
+		if (!_isActive)
+		{
+			return;
+		}
+
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->OnEngineStop(); });
+	}
 	
 
 }

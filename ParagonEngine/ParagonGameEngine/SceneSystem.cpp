@@ -39,15 +39,15 @@ namespace Pg::Engine
 		//_sceneList.insert({"SampleScene", new Pg::Data::Scene("SampleScene")});
 		//_currentScene = _sceneList.at("SampleScene");
 		///</기존SampleScene코드>
-		
+
 		///<임시Test용: TO REMOVE>
 		TestScene* tTestScene = new TestScene();
 		tTestScene->Initialize();
-		
+
 		_sceneList.insert({ "SampleScene",  tTestScene->GetCurrentScene() });
 		_currentScene = _sceneList.at("SampleScene");
 		///<임시Test용: TO REMOVE>
-		
+
 		//일단 별도로 Initialize할 때 기존 로직을 무너뜨리지 않기 위해서 Scene의 내용을 추가했음.
 		//씬이 시작하기 전, 일괄적으로 AddObject / DeleteObject 외부에서 호출된 요소들을 반영한다.
 		//모든 씬들에 대하여 설정. 일괄적으로 반영하고 시작한다.
@@ -56,7 +56,7 @@ namespace Pg::Engine
 		//std::for_each(_sceneList.begin(), _sceneList.end(), [](auto& iter)
 		//	{ iter.second->HandleAddDeleteInScene(); });
 	}
-	
+
 	//Editor모드 받아서 검사.
 	void SceneSystem::DebounceSceneLoadStatus(Pg::Data::Enums::eEditorMode editMode)
 	{
@@ -71,6 +71,7 @@ namespace Pg::Engine
 			{
 				//PG_ERROR("now Checking");
 				CheckMoveDontDestroyOnLoadObjects(_currentScene);
+				AwakeDontDestroyOnLoadObjects();
 
 				/// Play Mode일 경우 다시 호출
 				auto& tPhysicSystem = singleton<Physic::PhysicSystem>();
@@ -95,6 +96,7 @@ namespace Pg::Engine
 			_currentScene->Awake();
 			_currentScene->Start();
 			_currentScene->Internal_EngineUpdate();
+			UpdateDontDestroyOnLoadObjects();
 			_currentScene->Update();
 			_currentScene->FixedUpdate();
 			_currentScene->LateUpdate();
@@ -107,7 +109,7 @@ namespace Pg::Engine
 			_currentScene->Internal_EngineAwake();
 			_currentScene->Internal_EngineUpdate();
 		}
-		
+
 	}
 
 	void SceneSystem::LoadEmptyScene()
@@ -230,10 +232,10 @@ namespace Pg::Engine
 
 		//Static List에서 해당 값을 찾았다는 조건 람다.
 		auto tFoundFunc = [&](Pg::Data::GameObject* val)
-			{
-				//전체 Static DontDestroyOnLoad 리스트에서 찾았다는 얘기 -> 반대로 못 찾았으면 추가해야.
-				return std::ranges::find(Pg::Data::Scene::_dontDestroyOnList, val) != Pg::Data::Scene::_dontDestroyOnList.end();
-			};
+		{
+			//전체 Static DontDestroyOnLoad 리스트에서 찾았다는 얘기 -> 반대로 못 찾았으면 추가해야.
+			return std::ranges::find(Pg::Data::Scene::_dontDestroyOnList, val) != Pg::Data::Scene::_dontDestroyOnList.end();
+		};
 
 		//Scene의 DontDestroyOnList에서 안 겹치면 추가.
 		//Scene 사이 오갈 때 여러 객체 안 만들기 위해.
@@ -254,6 +256,54 @@ namespace Pg::Engine
 		}
 	}
 
-	
+	void SceneSystem::OnStopScene()
+	{
+		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
+		{
+			if (it->GetActive())
+			{
+				it->OnEngineStop();
+			}
+		}
+
+		for (auto& obj : _currentScene->_objectList)
+		{
+			if (obj->GetActive())
+			{
+				obj->OnEngineStop();
+			}
+		}
+	}
+
+	void SceneSystem::AwakeDontDestroyOnLoadObjects()
+	{
+		if (Pg::Data::Scene::_dontDestroyOnList.empty())
+		{
+			return;
+		}
+
+		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
+		{
+			it->ResetDebouncerBoolean();
+		}
+
+		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
+		{
+			it->Awake();
+		}
+	}
+
+	void SceneSystem::UpdateDontDestroyOnLoadObjects()
+	{
+		if (Pg::Data::Scene::_dontDestroyOnList.empty())
+		{
+			return;
+		}
+
+		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
+		{
+			it->Update();
+		}
+	}
 
 }

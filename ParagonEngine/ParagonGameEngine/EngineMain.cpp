@@ -130,6 +130,8 @@ namespace Pg::Engine
 					_sceneSystem->GetCurrentScene()->GetObjectList().end(), [](auto& iter)
 					{ iter->ResetDebouncerBoolean(); });
 
+				_sceneSystem->OnStopScene();
+
 				//막 Play된 것이면 Start가 막 되는 것.
 				_sceneSystem->_isStarted = false;
 				//리셋, 클라이언트 딴에서 SetMainCamera 명시적으로 해줘야 하게. -> 이거 호환 위해 nullptr set은 꺼놨지만, 인게임에서 오버라이드 되어야 함.

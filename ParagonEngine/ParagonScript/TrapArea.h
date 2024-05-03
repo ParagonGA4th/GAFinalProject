@@ -23,6 +23,7 @@ namespace Pg::DataScript
 
 	private:
 		virtual void OnTriggerEnter(Pg::Data::Collider* col) override;
+		virtual void OnTriggerExit(Pg::Data::Collider* col) override;
 
 	private:
 		Pg::API::Time::PgTime* _deltaTime;
@@ -33,6 +34,8 @@ namespace Pg::DataScript
 		// 플레이어의 기본 속도
 		float _previousMoveSpeed;
 		float _damage = 0.2f;	 // 체력 감소 속도	
+
+		bool _onTriggerStay;
 	};
 }
 
