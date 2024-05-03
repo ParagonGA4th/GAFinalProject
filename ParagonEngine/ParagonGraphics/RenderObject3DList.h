@@ -1,6 +1,7 @@
 #pragma once
 #include "RenderObject3D.h"
 //#include "Asset3DModelData.h"
+#include "DX11Headers.h"
 #include "RenderObjectInstancedMesh3D.h"
 #include "RenderObjectStaticMesh3D.h"
 #include "RenderObjectSkinnedMesh3D.h"
@@ -76,7 +77,18 @@ namespace Pg::Graphics
 		//매 프레임 변하는 데이터: BACK_TO_FRONT 되어야 한다. (>) 오버로드해야. 
 		float _cameraRelativeDistSquared{ std::numeric_limits<float>::max() };
 	};
+
+	struct InstancedStaticPair
+	{
+		InstancedStaticPair(RenderMaterial* mat, std::unique_ptr<RenderObjectInstancedMesh3D> ro) 
+			: _renderMaterial(mat), _instancedRenderObject(std::move(ro)) {}
+
+		RenderMaterial* _renderMaterial{ nullptr };
+		std::unique_ptr<RenderObjectInstancedMesh3D> _instancedRenderObject;
+		ID3D11Buffer* _instanceVB{ nullptr };
+	};
 }
+
 
 namespace Pg::Graphics
 {
@@ -102,7 +114,8 @@ namespace Pg::Graphics
 
 		//Instanced Static List. - 일단은 Static만 하자!
 		//GameObject 기록할 필요 없을 것. 이미 Transform의 위치가 고정되어 있을 것이기 때문에.
-		std::unordered_map<Asset3DModelData*, std::unique_ptr<std::vector<std::pair<RenderMaterial*, std::unique_ptr<RenderObjectInstancedMesh3D>>>>> _instancedStaticList;
+		//기록된 ID3D11Buffer는 인스턴싱에 따로 사용. 이 경우 renderobject의 내부 objmat 버퍼는 채워지지 않는다.
+		std::unordered_map<Asset3DModelData*, std::pair<ID3D11Buffer*, std::unique_ptr<std::vector<InstancedStaticPair>>>> _instancedStaticList;
 
 		//그렇다면 얘네들은 유지하되, 인스턴싱되지 않은 애들 기준이어야 한다.
 		//Static - Opaque.

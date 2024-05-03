@@ -75,7 +75,7 @@ namespace Pg::Graphics
 	void RenderObjectSkinnedMesh3D::CreateObjMatBuffers()
 	{
 		//VB 로드. *(Index Buffer는 공유)
-		GraphicsResourceManager::Instance()->GetBasic3DLoader()->LoadObjMatBufferSkinned(_objMatVB, _modelData, _objectID, GetMaterialID());
+		GraphicsResourceManager::Instance()->GetBasic3DLoader()->LoadObjMatBufferSkinned(_3rdVB, _modelData, _objectID, GetMaterialID());
 
 		//Constant Buffer Data를 생성. Skinned는 재사용. 
 		_cbObjMatBase = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjMatBase>>();
@@ -432,7 +432,7 @@ namespace Pg::Graphics
 		//Vertex Buffer Setting.
 		UINT stride = sizeof(LayoutDefine::VinPerObjMatIDSkinned);
 		UINT offset = 0;
-		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(_objMatVB), &stride, &offset);
+		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(_3rdVB), &stride, &offset);
 		//Index Buffer Setting. (Model Data와 공유)
 		_DXStorage->_deviceContext->IASetIndexBuffer(_modelData->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 

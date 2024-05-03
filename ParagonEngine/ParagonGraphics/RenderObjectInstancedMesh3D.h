@@ -26,6 +26,10 @@ namespace Pg::Graphics
 		virtual void ObjMat_Render(const float* const dt) override;
 		virtual void ObjMat_UnbindBuffers() override;
 
+
+	private:
+		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjMatBase>> _cbObjMat;
+
 	};
 }
 

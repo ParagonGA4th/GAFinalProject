@@ -4,6 +4,7 @@
 #include "AssetAnimationDataDefine.h"
 #include "AssimpBufferParser.h"
 #include "RenderPrepStructs.h"
+#include "RenderObjectInstancedMesh3D.h"
 #include "DX11Headers.h"
 #include "LowDX11Storage.h"
 #include "LayoutDefine.h"
@@ -133,23 +134,23 @@ namespace Pg::Graphics::Loader
 
 	void AssetBasic3DLoader::LoadObjMatBufferStatic(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID)
 	{
-		std::vector<LayoutDefine::VinPerObjMatIDStatic> tVBVector;
+		std::vector<LayoutDefine::Vin3rdStaticSkinned> tVBVector;
 		tVBVector.reserve(modelData->_assetSceneData->_totalVertexCount);
 		for (int i = 0; i < modelData->_assetSceneData->_totalVertexCount; i++)
 		{
-			LayoutDefine::VinPerObjMatIDStatic tVal;
-			tVal._posL = modelData->_assetSceneData->_posRecordVector[i];
+			LayoutDefine::Vin3rdStaticSkinned tVal;
+			//tVal._posL = modelData->_assetSceneData->_posRecordVector[i];
 			tVal._objectID = objectID;
 			tVal._matID = materialID;
-			tVal._tex = modelData->_assetSceneData->_texRecordVector[i];
-			tVal._meshMatID = modelData->_assetSceneData->_meshMatIDRecordVector[i];
+			//tVal._tex = modelData->_assetSceneData->_texRecordVector[i];
+			//tVal._meshMatID = modelData->_assetSceneData->_meshMatIDRecordVector[i];
 
 			tVBVector.push_back(tVal);
 		}
 
 		D3D11_BUFFER_DESC tVBD;
 		tVBD.Usage = D3D11_USAGE_IMMUTABLE;
-		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::VinPerObjMatIDStatic) * modelData->_assetSceneData->_totalVertexCount);
+		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin3rdStaticSkinned) * modelData->_assetSceneData->_totalVertexCount);
 		tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		tVBD.CPUAccessFlags = 0;
 		tVBD.MiscFlags = 0;
@@ -161,32 +162,32 @@ namespace Pg::Graphics::Loader
 
 	void AssetBasic3DLoader::LoadObjMatBufferSkinned(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID)
 	{
-		std::vector<LayoutDefine::VinPerObjMatIDSkinned> tVBVector;
+		std::vector<LayoutDefine::Vin3rdStaticSkinned> tVBVector;
 		tVBVector.reserve(modelData->_assetSceneData->_totalVertexCount);
 
 		for (int i = 0; i < modelData->_assetSceneData->_totalVertexCount; i++)
 		{
-			LayoutDefine::VinPerObjMatIDSkinned tVal;
-			tVal._posL = modelData->_assetSceneData->_posRecordVector[i];
-			tVal._tex = modelData->_assetSceneData->_texRecordVector[i];
-			tVal._meshMatID = modelData->_assetSceneData->_meshMatIDRecordVector[i];
+			LayoutDefine::Vin3rdStaticSkinned tVal;
+			//tVal._posL = modelData->_assetSceneData->_posRecordVector[i];
+			//tVal._tex = modelData->_assetSceneData->_texRecordVector[i];
+			//tVal._meshMatID = modelData->_assetSceneData->_meshMatIDRecordVector[i];
 			tVal._objectID = objectID;
 			tVal._matID = materialID;
 
-			tVal._blendIndice0 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice0;
-			tVal._blendIndice1 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice1;
-			tVal._blendIndice2 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice2;
-			tVal._blendIndice3 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice3;
-			tVal._blendWeight0 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendWeight0;
-			tVal._blendWeight1 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendWeight1;
-			tVal._blendWeight2 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendWeight2;
+			//tVal._blendIndice0 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice0;
+			//tVal._blendIndice1 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice1;
+			//tVal._blendIndice2 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice2;
+			//tVal._blendIndice3 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice3;
+			//tVal._blendWeight0 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendWeight0;
+			//tVal._blendWeight1 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendWeight1;
+			//tVal._blendWeight2 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendWeight2;
 
 			tVBVector.push_back(tVal);
 		}
 
 		D3D11_BUFFER_DESC tVBD;
 		tVBD.Usage = D3D11_USAGE_IMMUTABLE;
-		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::VinPerObjMatIDSkinned) * modelData->_assetSceneData->_totalVertexCount);
+		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin3rdStaticSkinned) * modelData->_assetSceneData->_totalVertexCount);
 		tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		tVBD.CPUAccessFlags = 0;
 		tVBD.MiscFlags = 0;
@@ -195,5 +196,43 @@ namespace Pg::Graphics::Loader
 
 		HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tVBD, &vinitData, &vb));
 	}
+
+	void AssetBasic3DLoader::LoadObjMatTRSBufferInstanced(ID3D11Buffer*& vb, const std::vector<RenderObjectInstancedMesh3D*>& instancedMeshList)
+	{
+		//Instanced Mesh List가 비어있으면 오류.
+		assert((!instancedMeshList.empty()) && "원본 InstancedMeshList는 비어있으면 안됨.");
+
+		//이건 더 이상 Model에 종속적인 것이 아니라,
+		//실제로 Scene 안에 N개의 오브젝트가 있느냐 (렌더되는)에 따라서 값이 달라지는 것이다.
+		std::vector<LayoutDefine::Vin3rdInstanced> tInstancedVector;
+		tInstancedVector.reserve(instancedMeshList.size());
+
+		//Instanced Mesh 리스트 채우기.
+		for (int i = 0; i < instancedMeshList.size(); i++)
+		{
+			LayoutDefine::Vin3rdInstanced tElement;
+			tElement._matID = instancedMeshList.at(i)->GetMaterialID();
+			tElement._objectID = instancedMeshList.at(i)->GetObjectID();
+
+			//Transform 가져오기.
+			Pg::Math::PGFLOAT4X4 tWorldTM = instancedMeshList.at(i)->GetBaseRenderer()->_object->_transform.GetWorldTM();
+			tElement._transform = Pg::Math::PG2XM_MATRIX4X4(tWorldTM);
+
+			tInstancedVector.push_back(tElement);
+		}
+
+		D3D11_BUFFER_DESC tVBD;
+		tVBD.Usage = D3D11_USAGE_IMMUTABLE;
+		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin3rdInstanced) * instancedMeshList.size());
+		tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		tVBD.CPUAccessFlags = 0;
+		tVBD.MiscFlags = 0;
+		D3D11_SUBRESOURCE_DATA vinitData;
+		vinitData.pSysMem = tInstancedVector.data();
+
+		HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tVBD, &vinitData, &vb));
+
+	}
+
 
 }

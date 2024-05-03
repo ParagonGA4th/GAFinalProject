@@ -254,14 +254,6 @@ namespace Pg::Graphics
 		HR(_device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_vinPerObjMatSkinnedLayout));
 	}
 
-	//개별적인 요소 Layout 생성자.
-	LayoutDefine::Vin1stStatic::Vin1stStatic(DirectX::XMFLOAT3 posVal) :
-		_posL(posVal), _normalL(0.0f, 0.0f, 0.0f), _tangentL(0.0f, 0.0f, 0.0f),
-		_color(1.0f, 0.0f, 0.0f), _meshMatID(0), _tex(0.f, 0.f), _lightmapUV(0.f, 0.f), _alpha(0.f)
-	{
-		//
-	}
-
 	LayoutDefine::VinCubemap::VinCubemap(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT2 uv) :
 		posL(pos), tex(uv)
 	{
@@ -276,13 +268,6 @@ namespace Pg::Graphics
 
 	LayoutDefine::VinDeferredQuad::VinDeferredQuad(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 norm, DirectX::XMFLOAT2 uv) :
 		posL(pos), normalL(norm), tex(uv) 
-	{
-		//
-	}
-
-	LayoutDefine::VinPerObjMatIDStatic::VinPerObjMatIDStatic(DirectX::XMFLOAT3 pos,
-		unsigned int objID, unsigned int matID) :
-		_posL(pos), _objectID(objID), _matID(matID)
 	{
 		//
 	}

@@ -16,16 +16,11 @@ namespace Pg::Graphics
 		struct Vin1stStatic
 		{
 			Vin1stStatic() = default;
-			Vin1stStatic(DirectX::XMFLOAT3 posVal);
 
+			//이것만 받고 있어야 한다.
 			DirectX::XMFLOAT3	_posL;
-			float				_alpha;
-			DirectX::XMFLOAT3	_normalL;
-			DirectX::XMFLOAT3	_tangentL;
-			DirectX::XMFLOAT3	_color;
-			float		_meshMatID; //Multi-Mesh 관련.
 			DirectX::XMFLOAT2	_tex;
-			//DirectX::XMFLOAT2	_uvSet2;
+			float		_meshMatID; //Multi-Mesh 관련.
 			DirectX::XMFLOAT2	_lightmapUV;
 		};
 
@@ -35,15 +30,9 @@ namespace Pg::Graphics
 			Vin1stSkinned() = default;
 
 			DirectX::XMFLOAT3	_posL;
-			float				_alpha;
-			DirectX::XMFLOAT3	_normalL;
-			DirectX::XMFLOAT3	_tangentL;
-			DirectX::XMFLOAT3	_color;
-			float		_meshMatID; //Multi-Mesh 관련.
 			DirectX::XMFLOAT2	_tex;
-			//Skinned에 라이트맵 UV 따위 존재하지 않는다. 
-			unsigned int _nodeIndex;
-			
+			float		_meshMatID; //Multi-Mesh 관련.
+
 			unsigned int	  _blendIndice0;
 			unsigned int	  _blendIndice1;
 			unsigned int	  _blendIndice2;
@@ -52,6 +41,38 @@ namespace Pg::Graphics
 			float			  _blendWeight0;
 			float			  _blendWeight1;
 			float			  _blendWeight2;
+
+			unsigned int _nodeIndex;
+		};
+
+		//모든 3D Mesh들의 2nd Vertex Buffer. 
+		struct Vin2ndAll
+		{
+			Vin2ndAll() = default;
+
+			DirectX::XMFLOAT3	_normalL;
+			DirectX::XMFLOAT3	_tangentL;
+			DirectX::XMFLOAT3	_color;
+		};
+
+		//3rd는 사용법이 다르다. 비 인스턴스 vs 인스턴스.
+		//우선, 전자는 VertexCount에 종속적 (단일 모델)
+		// 후자는 Instanced Object Count에 종속적. (씬 내부 인스턴스 렌더러 있는 오브젝트 개수)
+		struct Vin3rdStaticSkinned
+		{
+			Vin3rdStaticSkinned() = default;
+
+			unsigned int  _objectID;
+			unsigned int  _matID;
+		};
+
+		struct Vin3rdInstanced
+		{
+			Vin3rdInstanced() = default;
+
+			unsigned int  _objectID;
+			unsigned int  _matID;
+			DirectX::XMMATRIX _transform;
 		};
 
 		struct VinDeferredQuad
@@ -77,41 +98,6 @@ namespace Pg::Graphics
 			VinWireframePrimitive(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT4 col);
 			DirectX::XMFLOAT3 posL;
 			DirectX::XMFLOAT4 color;
-		};
-
-		struct VinPerObjMatIDStatic
-		{
-			VinPerObjMatIDStatic() = default;
-			VinPerObjMatIDStatic(DirectX::XMFLOAT3 pos, 
-				unsigned int objID, unsigned int matID);
-
-			DirectX::XMFLOAT3 _posL;
-			unsigned int  _objectID;
-			unsigned int  _matID;
-			DirectX::XMFLOAT2 _tex;
-			float _meshMatID;
-		};
-
-
-		struct VinPerObjMatIDSkinned
-		{
-			VinPerObjMatIDSkinned() = default;
-			
-			DirectX::XMFLOAT3 _posL;
-			unsigned int  _objectID;
-			unsigned int  _matID;
-			DirectX::XMFLOAT2 _tex;
-			float _meshMatID;
-			unsigned int _nodeIndex;
-
-			unsigned int	  _blendIndice0;
-			unsigned int	  _blendIndice1;
-			unsigned int	  _blendIndice2;
-			unsigned int	  _blendIndice3;
-
-			float			  _blendWeight0;
-			float			  _blendWeight1;
-			float			  _blendWeight2;
 		};
 
 		static void Initialize();
