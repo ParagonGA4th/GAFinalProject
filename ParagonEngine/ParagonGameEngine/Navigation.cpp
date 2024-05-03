@@ -3,7 +3,9 @@
 
 #include <singleton-cpp/singleton.h>
 #include <functional>
+#include <filesystem>
 #include <cassert>
+
 namespace Pg::Engine
 {
 	static int calcLayerBufferSize(const int gridWidth, const int gridHeight)
@@ -13,7 +15,29 @@ namespace Pg::Engine
 		return headerSize + gridSize * 4;
 	}
 
+	PathFindbox::PathFindbox()
+		: _startRef(0), _endRef(0), _startPos(), _endPos(), _filter(), _path(), _pathCount(0), _polyPickExt()
+		// Straight-pathfind를 위해 필요한 부분들
+		, _straightPath(), _straightPathFlags(), _straightPathPolys(), _nstraightPath(0)
+	{
+		_filter.setIncludeFlags(SAMPLE_POLYFLAGS_ALL ^ SAMPLE_POLYFLAGS_DISABLED);
+		_filter.setExcludeFlags(0);
+
+		_polyPickExt[0] = 2;
+		_polyPickExt[1] = 4;
+		_polyPickExt[2] = 2;
+
+		_navQuery = new dtNavMeshQuery();
+	}
+
+	PathFindbox::~PathFindbox()
+	{
+
+	}
+
+
 	Navigation::Navigation() :
+		_geom(nullptr),
 		_keepInterResults(false), _totalBuildTimeMs(0.0f)
 		// 빌드정보
 		, _triareas(nullptr), _solid(nullptr), _chf(nullptr), _cset(nullptr), _pmesh(nullptr)
@@ -29,10 +53,7 @@ namespace Pg::Engine
 		// Obstacle에서 추가 된 부분
 		, _maxTiles(1024), _maxPolysPerTile(4096)
 	{
-		_ctx = new rcContext();
-		_talloc = new LinearAllocator(32000);
-		_tcomp = new FastLZCompressor();
-		_tmproc = new MeshProcess();
+
 	}
 
 	Navigation::~Navigation()
@@ -42,7 +63,11 @@ namespace Pg::Engine
 
 	void Navigation::Initialize()
 	{
-
+		_geom = new class NavGeom();
+		_ctx = new rcContext();
+		_talloc = new LinearAllocator(32000);
+		_tcomp = new FastLZCompressor();
+		_tmproc = new MeshProcess();
 	}
 
 	void Navigation::Release()
@@ -58,22 +83,23 @@ namespace Pg::Engine
 		// Read header.
 		TileCacheSetHeader header;
 		size_t headerReadReturnCode = fread(&header, sizeof(TileCacheSetHeader), 1, fp);
-		//if (headerReadReturnCode != 1)
-		//{
-		//	// Error or early EOF
-		//	fclose(fp);
-		//	return;
-		//}
-		//if (header.magic != TILECACHESET_MAGIC)
-		//{
-		//	fclose(fp);
-		//	return;
-		//}
-		//if (header.version != TILECACHESET_VERSION)
-		//{
-		//	fclose(fp);
-		//	return;
-		//}
+		
+		if (headerReadReturnCode != 1)
+		{
+			// Error or early EOF
+			fclose(fp);
+			return;
+		}
+		if (header.magic != TILECACHESET_MAGIC)
+		{
+			fclose(fp);
+			return;
+		}
+		if (header.version != TILECACHESET_VERSION)
+		{
+			fclose(fp);
+			return;
+		}
 
 		_package[index]._navMesh = dtAllocNavMesh();
 		if (!_package[index]._navMesh)
@@ -147,6 +173,7 @@ namespace Pg::Engine
 	bool Navigation::HandleBuild(int index)
 	{
 		dtStatus status;
+		_geom->load(_ctx, "Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale.obj");
 
 		if (!_geom || !_geom->getMesh())
 		{
@@ -154,7 +181,7 @@ namespace Pg::Engine
 			return false;
 		}
 
-		//_tmproc->init(_geom);
+		_tmproc->init(_geom);
 
 		// Init cache
 		const float* bmin = _geom->getNavMeshBoundsMin();
@@ -218,10 +245,10 @@ namespace Pg::Engine
 			return false;
 		}
 
-		dtFreeNavMesh(_package[0]._navMesh);
+		dtFreeNavMesh(_package[index]._navMesh);
 
-		_package[0]._navMesh = dtAllocNavMesh();
-		if (!_package[0]._navMesh)
+		_package[index]._navMesh = dtAllocNavMesh();
+		if (!_package[index]._navMesh)
 		{
 			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not allocate navmesh.");
 			return false;
@@ -235,14 +262,14 @@ namespace Pg::Engine
 		params.maxTiles = _maxTiles;
 		params.maxPolys = _maxPolysPerTile;
 
-		status = _package[0]._navMesh->init(&params);
+		status = _package[index]._navMesh->init(&params);
 		if (dtStatusFailed(status))
 		{
 			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not init navmesh.");
 			return false;
 		}
 
-		status = _package[0]._navQuery->init(_package[0]._navMesh, 2048);
+		status = _package[index]._navQuery->init(_package[index]._navMesh, 2048);
 		if (dtStatusFailed(status))
 		{
 			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not init Detour navmesh query");
@@ -513,17 +540,16 @@ namespace Pg::Engine
 		{
 			if (!_package[i]._navMesh)
 				return;
-				return;
 			if (!_package[i]._tileCache)
 				return;
 			_package[i]._tileCache->update(dt, _package[i]._navMesh);
 		}
 	}
 
-	dtObstacleRef Navigation::hitTestObstacle(const dtTileCache* tc, const float* sp, const float* sq)
+	dtObstacleRef Navigation::hitTestObstacle(const dtTileCache* tc, const float* sq)
 	{
 		float tmin = FLT_MAX;
-		const dtTileCacheObstacle* obmin = 0;
+		const dtTileCacheObstacle* obmin = nullptr;
 		for (int i = 0; i < tc->getObstacleCount(); ++i)
 		{
 			const dtTileCacheObstacle* ob = tc->getObstacle(i);
@@ -533,7 +559,7 @@ namespace Pg::Engine
 			float bmin[3], bmax[3], t0, t1;
 			tc->getObstacleBounds(ob, bmin, bmax);
 
-			if (isectSegAABB(sp, sq, bmin, bmax, t0, t1))
+			if (Navigation::isectSegAABB(sq, bmin, bmax, t0, t1))
 			{
 				if (t0 < tmin)
 				{
@@ -545,11 +571,12 @@ namespace Pg::Engine
 		return tc->getObstacleRef(obmin);
 	}
 
-	bool Navigation::isectSegAABB(const float* sp, const float* sq, const float* amin, const float* amax, float& tmin, float& tmax)
+	bool Navigation::isectSegAABB(const float* sq, const float* amin, const float* amax, float& tmin, float& tmax)
 	{
 		static const float EPS = 1e-6f;
 
 		float d[3];
+		float sp[3] = { 0.0f, 0.0f, 0.0f }; // Assuming the origin of the ray is at (0, 0, 0)
 		rcVsub(d, sq, sp);
 		tmin = 0;  // set to -FLT_MAX to get first hit on line
 		tmax = FLT_MAX;		// set to max distance ray can travel (for segment)
@@ -597,30 +624,185 @@ namespace Pg::Engine
 
 	void Navigation::SetSEpos(int index, Pg::Math::PGFLOAT3 startPosition, Pg::Math::PGFLOAT3 endPosition)
 	{
-
+		SetSEpos(index, startPosition.x, startPosition.y, startPosition.z
+			, startPosition.x, startPosition.y, startPosition.z);
 	}
 
 	void Navigation::SetStartpos(int index, float x, float y, float z)
 	{
-
+		_package[index]._startPos[0] = x;
+		_package[index]._startPos[1] = y;
+		_package[index]._startPos[2] = z;
+		_package[index]._navQuery->findNearestPoly(_package[index]._startPos, _package[index]._polyPickExt, &(_package[index]._filter), &(_package[index]._startRef), 0);
 	}
 
 	void Navigation::SetStartpos(int index, Pg::Math::PGFLOAT3 position)
 	{
-
+		SetStartpos(index, position.x, position.y, position.z);
 	}
 
 	void Navigation::SetEndpos(int index, float x, float y, float z)
 	{
-
+		_package[index]._endPos[0] = x;
+		_package[index]._endPos[1] = y;
+		_package[index]._endPos[2] = z;
+		_package[index]._navQuery->findNearestPoly(_package[index]._endPos, _package[index]._polyPickExt, &(_package[index]._filter), &(_package[index]._endRef), 0);
 	}
 
 	void Navigation::SetEndpos(int index, Pg::Math::PGFLOAT3 position)
 	{
-
+		SetEndpos(index, position.x, position.y, position.z);
 	}
 
 	void Navigation::SetAgent(int index, float agentHeight, float agentMaxSlope, float agentRadius, float agentMaxClimb)
+	{
+		_package[index]._agentsetting._agentHeight = agentHeight;
+		_package[index]._agentsetting._agentMaxSlope = agentMaxSlope;
+		_package[index]._agentsetting._agentRadius = agentRadius;
+		_package[index]._agentsetting._agentMaxClimb = agentMaxClimb;
+	}
+
+	void Navigation::GetNavmeshRenderInfo(int index, std::vector<Pg::Math::PGFLOAT3>& vertices, std::vector<unsigned int>& indices)
+	{
+		const dtNavMesh* navmesh = _package[index]._navMesh;
+		for (int i = 0; i < navmesh->getMaxTiles(); ++i)
+		{
+			const dtMeshTile* tile = navmesh->getTile(i);
+			if (tile->header == nullptr) 
+			{
+				break;
+			}
+
+			for (int j = 0; j < tile->header->polyCount; ++j)
+			{
+				const dtPoly* p = &tile->polys[j];
+				const dtPolyDetail* pd = &tile->detailMeshes[j];
+
+				for (int k = 0; k < pd->triCount; ++k)
+				{
+					const unsigned char* t = &tile->detailTris[(pd->triBase + k) * 4];
+					for (int y = 0; y < 3; ++y)
+					{
+						if (t[y] < p->vertCount)
+						{
+							Pg::Math::PGFLOAT3 vert(vertex(&tile->verts[p->verts[t[y]] * 3]));
+							vertices.push_back(vert);
+						}
+						else
+						{
+							Pg::Math::PGFLOAT3 vert(vertex(&tile->detailVerts[(pd->vertBase + t[y] - p->vertCount) * 3]));
+							vertices.push_back(vert);
+						}
+					}
+				}
+			}
+		}
+
+		for (unsigned int i = 1; i < vertices.size(); i += 3)
+		{
+			indices.push_back(i - 1);
+			indices.push_back(i);
+			indices.push_back(i + 1);
+		}
+	}
+
+	int Navigation::GetPackageSize()
+	{
+		return PACKAGESIZE;
+	}
+
+	void Navigation::GetAgent(int index, float& agentHeight, float& agentMaxSlope, float& agentRadius, float& agentMaxClimb)
+	{
+		agentHeight = _package[index]._agentsetting._agentHeight;
+		agentMaxSlope = _package[index]._agentsetting._agentMaxSlope;
+		agentRadius = _package[index]._agentsetting._agentMaxClimb;
+		agentMaxClimb = _package[index]._agentsetting._agentRadius;
+	}
+
+	std::vector<std::string> Navigation::GetNavimeshPathList()
+	{
+		namespace fs = std::filesystem;
+		std::string directory = "Resources/Navimesh";
+		std::vector<std::string> fileNames;
+
+		// Iterate over the files in the directory
+		for (const auto& entry : fs::directory_iterator(directory)) {
+			// Check if it's a regular file
+			if (fs::is_regular_file(entry)) {
+				// Get the filename from the path and add it to the vector
+				fileNames.push_back(entry.path().filename().string());
+			}
+		}
+
+		return fileNames;
+	}
+
+	Pg::Math::PGFLOAT3 Navigation::vertex(const float* pos)
+	{
+		return Pg::Math::PGFLOAT3(pos[0], pos[1], pos[2]);
+	}
+
+	void Navigation::AddTempObstacle(DirectX::XMFLOAT3 pos, float radius, float height)
+	{
+		for (int i = 0; i < PACKAGESIZE; i++)
+		{
+			if (!_package[i]._tileCache)
+				return;
+
+			float p[3];
+			p[0] = pos.x;
+			p[1] = pos.y - 0.5f;
+			p[2] = pos.z;
+
+			_package[i]._tileCache->addObstacle(p, radius, height, 0);
+		}
+	}
+
+	void Navigation::AddBoxTempObstacle(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 bmin, DirectX::XMFLOAT3 bmax)
+	{
+		float p[3];
+		p[0] = bmin.x - pos.x;
+		p[1] = bmin.y - pos.y;
+		p[2] = bmin.z - pos.z;
+
+		float p1[3];
+		p1[0] = bmax.x + pos.x;
+		p1[1] = bmax.y + pos.y;
+		p1[2] = bmax.z + pos.z;
+
+		for (int i = 0; i < PACKAGESIZE; i++)
+		{
+			if (!_package[i]._tileCache)
+				return;
+
+
+			_package[i]._tileCache->addBoxObstacle(p, p1, 0);
+		}
+	}
+
+	void Navigation::RemoveTempObstacle(DirectX::XMFLOAT3 pos)
+	{
+		for (int i = 0; i < PACKAGESIZE; i++)
+		{
+			if (!_package[i]._tileCache)
+				return;
+
+			float p[3];
+			p[0] = pos.x;
+			p[1] = pos.y;
+			p[2] = pos.z;
+
+			dtObstacleRef ref = hitTestObstacle(_package[i]._tileCache, p);
+			_package[i]._tileCache->removeObstacle(ref);
+		}
+	}
+
+	void Navigation::MoveTempObstacle(DirectX::XMFLOAT3 bpos, DirectX::XMFLOAT3 npos)
+	{
+
+	}
+
+	void Navigation::ClearAllTempObstacles()
 	{
 
 	}

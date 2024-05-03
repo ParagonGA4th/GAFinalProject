@@ -71,6 +71,9 @@ namespace Pg::Engine
 		dtRaycastHit _hit;
 		dtPolyRef _RaycastPathPolys;
 		float _hitPos[3];
+
+		PathFindbox();
+		~PathFindbox();
 	};
 
 	class Navigation
@@ -102,6 +105,18 @@ namespace Pg::Engine
 		//std::vector<std::pair<DirectX::XMFLOAT3, DirectX::XMFLOAT3>> GetPath(int index);
 		// Raycast 탐색 함수. (직선경로에 부딧히는게 있다면 거기까지만 경로 표시
 
+		// 장애물을 추가한다.
+		// pos = 장애물 위치 / radius = 장애물 크기 / height = 장애물 사이즈
+		void AddTempObstacle(DirectX::XMFLOAT3 pos, float radius, float height);
+		// pos = 장애물 위치 / bmin = 장애물 최소좌표 / bmax = 장애물 최대좌표
+		void AddBoxTempObstacle(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 bmin, DirectX::XMFLOAT3 bmax);
+		// 특정 장애물을 제거한다.
+		void RemoveTempObstacle(DirectX::XMFLOAT3 pos);
+		// bpos에 있는 장애물의 위치를 npos의 위치로 옮긴다.
+		void MoveTempObstacle(DirectX::XMFLOAT3 bpos, DirectX::XMFLOAT3 npos);
+		// 모든 장애물을 제거한다.
+		void ClearAllTempObstacles();
+
 		//DirectX::XMFLOAT3 FindRaycastPath(int index);
 		// startpos 와 endpos를 입력하는 함수. float[3] 버전
 		void SetSEpos(int index, float sx, float sy, float sz, float ex, float ey, float ez);
@@ -118,11 +133,23 @@ namespace Pg::Engine
 		// 네비매쉬를 빌드하기 위한 agent를 세팅하는 함수. 각 변수명을 참고
 		void SetAgent(int index, float agentHeight, float agentMaxSlope, float agentRadius, float agentMaxClimb);
 
-		dtObstacleRef hitTestObstacle(const dtTileCache* tc, const float* sp, const float* sq);
+		// 네비매쉬를 빌드하기 위해 vertex와 index를 제공해주는 함수(예정)
+		void GetNavmeshRenderInfo(int index, std::vector<Pg::Math::PGFLOAT3>& vertices, std::vector<unsigned int>& indices);
+		// 패키지(네비매쉬 배열) 사이즈 가져오기
+		int GetPackageSize();
+		// 현재 에이전트 세팅을 반환
+		void GetAgent(int index, float& agentHeight, float& agentMaxSlope, float& agentRadius, float& agentMaxClimb);
+		// 현재 네비매쉬 폴더 내 저장되어 있는 네비매쉬들을 가져옴
+		std::vector<std::string> GetNavimeshPathList();
 
-		bool isectSegAABB(const float* sp, const float* sq, const float* amin, const float* amax, float& tmin, float& tmax);
+		dtObstacleRef hitTestObstacle(const dtTileCache* tc, const float* sq);
+
+		bool isectSegAABB(const float* sq, const float* amin, const float* amax, float& tmin, float& tmax);
+	
 	private:
-
+		Pg::Math::PGFLOAT3 vertex(const float* pos);
+		
+		///Navgation을 위해 필요한 변수들.
 		static const int PACKAGESIZE = 5;
 
 		class NavGeom* _geom;
@@ -177,19 +204,6 @@ namespace Pg::Engine
 		int _maxTiles;
 		int _maxPolysPerTile;
 		float _tileSize = 48.f;
-
-		enum DrawMode
-		{
-			DRAWMODE_NAVMESH,
-			DRAWMODE_NAVMESH_TRANS,
-			DRAWMODE_NAVMESH_BVTREE,
-			DRAWMODE_NAVMESH_NODES,
-			DRAWMODE_NAVMESH_PORTALS,
-			DRAWMODE_NAVMESH_INVIS,
-			DRAWMODE_MESH,
-			DRAWMODE_CACHE_BOUNDS,
-			MAX_DRAWMODE
-		};
 	};
 }
 
