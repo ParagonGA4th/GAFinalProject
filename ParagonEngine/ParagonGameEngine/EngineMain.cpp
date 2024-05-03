@@ -98,6 +98,8 @@ namespace Pg::Engine
 		_navSystem->Initialize();
 		_navSystem->HandleBuild(0);
 		_behaviorTreeSystem->Initialize(resourceListPath);
+
+		_navSystem->SetSEpos(0, -23.0f, 0.0f, -10.0f, -90.0f, 0.0f, 96.0f);
 	}
 
 	void EngineMain::Update()

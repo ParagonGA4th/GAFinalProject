@@ -100,9 +100,9 @@ namespace Pg::Engine
 		void renderCachedTileOverlay(const int tx, const int ty, double* proj, double* model, int* view);
 
 		// 직선경로 탐색 함수
-		//std::vector<std::pair<DirectX::XMFLOAT3, DirectX::XMFLOAT3>> FindStraightPath(int index);
+		std::vector <std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> FindStraightPath(int index);
 		// 이미 탐색된 경로를 가져오는 함수
-		//std::vector<std::pair<DirectX::XMFLOAT3, DirectX::XMFLOAT3>> GetPath(int index);
+		std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> GetPath(int index);
 		// Raycast 탐색 함수. (직선경로에 부딧히는게 있다면 거기까지만 경로 표시
 
 		// 장애물을 추가한다.
