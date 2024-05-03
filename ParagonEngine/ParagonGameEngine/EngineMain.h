@@ -59,7 +59,7 @@ namespace Pg::Engine
 
 	class SoundSystem;
 
-	class NavigationSystem;
+	class Navigation;
 
 	class TweenSystem;
 }
@@ -118,7 +118,7 @@ namespace Pg::Engine
 		DebugSystem* _debugSystem = nullptr;
 		SoundSystem* _soundSystem = nullptr;
 		TweenSystem* _tweenSystem = nullptr;
-		NavigationSystem* _navSystem = nullptr;
+		Navigation* _navSystem = nullptr;
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
 
 		Pg::Util::Time::TimeSystem* _timeSystem = nullptr; //제어권은 더이상 엔진에는 없다.

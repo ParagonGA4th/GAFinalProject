@@ -17,6 +17,34 @@
 
 namespace Pg::Engine
 {
+	enum SamplePolyAreas
+	{
+		SAMPLE_POLYAREA_GROUND,
+		SAMPLE_POLYAREA_WATER,
+		SAMPLE_POLYAREA_ROAD,
+		SAMPLE_POLYAREA_DOOR,
+		SAMPLE_POLYAREA_GRASS,
+		SAMPLE_POLYAREA_JUMP
+	};
+
+	enum SamplePolyFlags
+	{
+		SAMPLE_POLYFLAGS_WALK = 0x01,		// 걷기 능력 (지상, 풀, 도로)
+		SAMPLE_POLYFLAGS_SWIM = 0x02,		// 수영 능력 (물)
+		SAMPLE_POLYFLAGS_DOOR = 0x04,		// 문 통과 능력
+		SAMPLE_POLYFLAGS_JUMP = 0x08,		// 점프 능력
+		SAMPLE_POLYFLAGS_DISABLED = 0x10,	// 비활성화된 폴리곤
+		SAMPLE_POLYFLAGS_ALL = 0xffff		// 모든 능력
+	};
+
+	static const int NAVMESHSET_MAGIC = 'M' << 24 | 'S' << 16 | 'E' << 8 | 'T'; //'MSET';
+	static const int NAVMESHSET_VERSION = 1;
+
+	static const int TILECACHESET_MAGIC = 'T' << 24 | 'S' << 16 | 'E' << 8 | 'T'; //'TSET';
+	static const int TILECACHESET_VERSION = 1;
+	static const int EXPECTED_LAYERS_PER_TILE = 4;
+	static const int MAX_LAYERS = 32;
+
 	struct FastLZCompressor : public dtTileCacheCompressor
 	{
 		virtual ~FastLZCompressor();
@@ -98,52 +126,62 @@ namespace Pg::Engine
 
 	struct MeshProcess : public dtTileCacheMeshProcess
 	{
-		//InputGeom* m_geom;
+		NavGeom* m_geom;
 
-		inline MeshProcess()
-		{
-		}
+		MeshProcess();
 
 		virtual ~MeshProcess();
 
-		//inline void init(InputGeom* geom)
-		//{
-		//    m_geom = geom;
-		//}
+		void init(NavGeom* geom) { m_geom = geom; };
 
-		virtual void process(struct dtNavMeshCreateParams* params,
-			unsigned char* polyAreas, unsigned short* polyFlags)
+		virtual void process(struct dtNavMeshCreateParams* params, unsigned char* polyAreas,
+			unsigned short* polyFlags)
 		{
 			// Update poly flags from areas.
 			for (int i = 0; i < params->polyCount; ++i)
 			{
 				if (polyAreas[i] == DT_TILECACHE_WALKABLE_AREA)
+					polyAreas[i] = SAMPLE_POLYAREA_GROUND;
+
+				if (polyAreas[i] == SAMPLE_POLYAREA_GROUND ||
+					polyAreas[i] == SAMPLE_POLYAREA_GRASS ||
+					polyAreas[i] == SAMPLE_POLYAREA_ROAD)
 				{
-					polyAreas[i] = 0;
-					polyFlags[i] = 1;
+					polyFlags[i] = SAMPLE_POLYFLAGS_WALK;
+				}
+				else if (polyAreas[i] == SAMPLE_POLYAREA_WATER)
+				{
+					polyFlags[i] = SAMPLE_POLYFLAGS_SWIM;
+				}
+				else if (polyAreas[i] == SAMPLE_POLYAREA_DOOR)
+				{
+					polyFlags[i] = SAMPLE_POLYFLAGS_WALK | SAMPLE_POLYFLAGS_DOOR;
 				}
 			}
 
-			//// Pass in off-mesh connections.
-			//if (m_geom)
-			//{
-			//    params->offMeshConVerts = m_geom->getOffMeshConnectionVerts();
-			//    params->offMeshConRad = m_geom->getOffMeshConnectionRads();
-			//    params->offMeshConDir = m_geom->getOffMeshConnectionDirs();
-			//    params->offMeshConAreas = m_geom->getOffMeshConnectionAreas();
-			//    params->offMeshConFlags = m_geom->getOffMeshConnectionFlags();
-			//    params->offMeshConUserID = m_geom->getOffMeshConnectionId();
-			//    params->offMeshConCount = m_geom->getOffMeshConnectionCount();
-			//}
-		}
+			// Pass in off-mesh connections.
+			if (m_geom)
+			{
+				params->offMeshConVerts = m_geom->getOffMeshConnectionVerts();
+				params->offMeshConRad = m_geom->getOffMeshConnectionRads();
+				params->offMeshConDir = m_geom->getOffMeshConnectionDirs();
+				params->offMeshConAreas = m_geom->getOffMeshConnectionAreas();
+				params->offMeshConFlags = m_geom->getOffMeshConnectionFlags();
+				params->offMeshConUserID = m_geom->getOffMeshConnectionId();
+				params->offMeshConCount = m_geom->getOffMeshConnectionCount();
+			}
+		};
 	};
+
+	MeshProcess::MeshProcess()
+	{
+
+	}
 
 	MeshProcess::~MeshProcess()
 	{
 		// Defined out of line to fix the weak v-tables warning
 	}
-
-	static const int MAX_LAYERS = 32;
 
 	struct TileCacheData
 	{

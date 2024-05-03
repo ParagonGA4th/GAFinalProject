@@ -5,7 +5,7 @@
 #include "DebugSystem.h"
 #include "SoundSystem.h"
 #include "TweenSystem.h"
-#include "NavigationSystem.h"
+#include "Navigation.h"
 #include "BehaviorTreeSystem.h"
 #include "EngineResourceManager.h"
 
@@ -70,7 +70,7 @@ namespace Pg::Engine
 		_behaviorTreeSystem = &tBTreeSystem;
 
 		//Navigation
-		auto& tNavSystem = singleton<NavigationSystem>();
+		auto& tNavSystem = singleton<Navigation>();
 		_navSystem = &tNavSystem;
 
 		//DeltaTime을 받기 위해 외부적으로 Util의 싱글턴을 갖고 와서 활용.
@@ -96,6 +96,7 @@ namespace Pg::Engine
 		_physicSystem->Initialize(_debugSystem);
 		_soundSystem->Initialize(resourceListPath);
 		_navSystem->Initialize();
+		_navSystem->HandleBuild(0);
 		_behaviorTreeSystem->Initialize(resourceListPath);
 	}
 
@@ -155,7 +156,7 @@ namespace Pg::Engine
 			_sceneSystem->Update(true);
 			_tweenSystem->Update();
 			_soundSystem->Update();
-			//_navSystem->Update(_timeSystem->GetDeltaTime());
+			_navSystem->HandleUpdate(_timeSystem->GetDeltaTime());
 			_behaviorTreeSystem->Update();
 			_physicSystem->UpdateTransform();
 			_physicSystem->ApplyRuntimeChangesCollider(); // 현재로서는 하는 거 없음. 
