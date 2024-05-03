@@ -799,11 +799,82 @@ namespace Pg::Engine
 
 	void Navigation::MoveTempObstacle(DirectX::XMFLOAT3 bpos, DirectX::XMFLOAT3 npos)
 	{
+		if (!_package[0]._tileCache)
+			return;
+
+		float p1[3];
+		p1[0] = bpos.x;
+		p1[1] = bpos.y;
+		p1[2] = bpos.z;
+
+		dtObstacleRef ref = hitTestObstacle(_package[0]._tileCache, p1);
+		_package[0]._tileCache->removeObstacle(ref);
+
+		if (!_package[0]._tileCache)
+			return;
+
+		float p2[3];
+		p2[0] = npos.x;
+		p2[1] = npos.y - 0.5f;
+		p2[2] = npos.z;
+
+		_package[0]._tileCache->addObstacle(p2, 5, 5, 0);
 
 	}
 
 	void Navigation::ClearAllTempObstacles()
 	{
-
+		for (int i = 0; i < PACKAGESIZE; i++)
+		{
+			if (!_package[i]._tileCache)
+				return;
+			for (int f = 0; f < _package[i]._tileCache->getObstacleCount(); ++f)
+			{
+				const dtTileCacheObstacle* ob = _package[i]._tileCache->getObstacle(f);
+				if (ob->state == DT_OBSTACLE_EMPTY) continue;
+				_package[i]._tileCache->removeObstacle(_package[0]._tileCache->getObstacleRef(ob));
+			}
+		}
 	}
+
+	std::vector <std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> Navigation::FindStraightPath(int index)
+	{
+#define PACKAGE _package[index]
+
+		std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> failContainer;
+		if (!PACKAGE._navMesh || !PACKAGE._navQuery)
+			return failContainer;
+
+		PACKAGE._navQuery->findPath(PACKAGE._startRef, PACKAGE._endRef, PACKAGE._startPos, PACKAGE._endPos, &(PACKAGE._filter)
+			, PACKAGE._path, &(PACKAGE._pathCount), PACKAGE.MAX_POLYS);
+		PACKAGE._navQuery->findStraightPath(PACKAGE._startPos, PACKAGE._endPos, PACKAGE._path, PACKAGE._pathCount, PACKAGE._straightPath
+			, PACKAGE._straightPathFlags, PACKAGE._straightPathPolys, &(PACKAGE._nstraightPath)
+			, PACKAGE.MAX_POLYS, DT_STRAIGHTPATH_ALL_CROSSINGS);
+
+		return GetPath(index);
+	}
+
+	std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> Navigation::GetPath(int index)
+	{
+		std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> result;
+
+		for (int i = 0; i < _package[index]._nstraightPath - 1; ++i)
+		{
+			Pg::Math::PGFLOAT3 strindex;
+			Pg::Math::PGFLOAT3 nxtindex;
+
+			strindex.x = _package[index]._straightPath[i * 3];
+			strindex.y = _package[index]._straightPath[i * 3 + 1] + 0.4f;
+			strindex.z = _package[index]._straightPath[i * 3 + 2];
+
+			nxtindex.x = _package[index]._straightPath[(i + 1) * 3];
+			nxtindex.y = _package[index]._straightPath[(i + 1) * 3 + 1] + 0.4f;
+			nxtindex.z = _package[index]._straightPath[(i + 1) * 3 + 2];
+
+			result.push_back(std::make_pair(strindex, nxtindex));
+		}
+
+		return result;
+	}
+
 }

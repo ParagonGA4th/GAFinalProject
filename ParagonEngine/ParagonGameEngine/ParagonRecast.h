@@ -1,6 +1,7 @@
 #pragma once
 #pragma once
 #include "../ParagonData/NavigationField.h"
+#include "NavGeom.h"
 
 #include <Recast/Recast.h>
 #include <Detour/DetourNavMesh.h>
