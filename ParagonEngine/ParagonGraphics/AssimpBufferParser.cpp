@@ -71,19 +71,24 @@ namespace Pg::Graphics::Helper
 		//
 	}
 
-	void AssimpBufferParser::AssimpToStaticDataDXBuffer(const aiScene* assimp, Scene_AssetData* sceneData, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB)
+	void AssimpBufferParser::AssimpToStaticDataDXBuffer(const aiScene* assimp, Scene_AssetData* sceneData, ID3D11Buffer*& outVB1st, ID3D11Buffer*& outVB2nd, ID3D11Buffer*& outIB)
 	{
 		//Total Vertex/Index Count 활용.
 		unsigned int tTotalVertexCount = sceneData->_totalVertexCount;
 		unsigned int tTotalIndexCount = sceneData->_totalIndexCount;
 
-		ParseAssimpStatic(assimp, sceneData, outVB, outIB, tTotalVertexCount, tTotalIndexCount);
+		ParseAssimpStatic(assimp, sceneData, outVB1st, outVB2nd, outIB, tTotalVertexCount, tTotalIndexCount);
 	}
 
-	void AssimpBufferParser::ParseAssimpStatic(const aiScene* assimp, Scene_AssetData* sceneData, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt)
+	void AssimpBufferParser::ParseAssimpStatic(const aiScene* assimp, Scene_AssetData* sceneData, ID3D11Buffer*& outVB1st, ID3D11Buffer*& outVB2nd, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt)
 	{
+		//1st Static.
 		std::vector<LayoutDefine::Vin1stStatic> tVBVec;
 		tVBVec.reserve(vertexCnt);
+
+		//2nd Static.
+		std::vector<LayoutDefine::Vin2ndAll> tVB2ndVec;
+		tVB2ndVec.reserve(vertexCnt);
 
 		//Vertex Buffer
 		//InputLayout에 따라서 3DModel의 정보 로드. (Vin1stStatic)
@@ -92,43 +97,62 @@ namespace Pg::Graphics::Helper
 			for (size_t j = 0; j < assimp->mMeshes[i]->mNumVertices; j++)
 			{
 				LayoutDefine::Vin1stStatic tMeshVert;
+				LayoutDefine::Vin2ndAll tMeshVert2nd;
 
+				//1st.
 				tMeshVert._posL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mVertices[j]);
-				tMeshVert._alpha = 1.f; //하드코딩.
-				tMeshVert._normalL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mNormals[j]);
-				tMeshVert._tangentL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTangents[j]);
-				//없으면 {0.f,0.f,0.f,0.f}가 들어가 있음.
-				//IF_NOT_NULL(assimp->mMeshes[i]->mColors[j],
-				//	tMeshVert.color = MathHelper::AI2SM_COLOR_VECTOR4(assimp->mMeshes[i]->mColors[0][j]););
-				//일단은 Color 지원을 파싱에서 받지 않는다!
-				tMeshVert._color = { 1.0f,1.0f, 1.0f, }; //하드코딩.
-				
+				auto tTex = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTextureCoords[0][j]);
+				tMeshVert._tex = { tTex.x, tTex.y };
 				//Float3인데, Blender에서는 Float2까지만 지원되어 들어올 것이다. 
 				// 마지막 Z공간은 Assimp 자체 Material ID를 위해 활용될 것. 
 				tMeshVert._meshMatID = assimp->mMeshes[i]->mMaterialIndex;
+				
+				//1번째 Texture Coord가 있는지 (Lightmap UV 관련) => 베이스로 진행.
+				if (assimp->mMeshes[i]->HasTextureCoords(1))
+				{
+					auto tLightmapTex = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTextureCoords[1][j]);
+					tMeshVert._lightmapUV = { tLightmapTex.x,tLightmapTex.y };
+				}
+				else
+				{
+					tMeshVert._lightmapUV = { 0.f, 0.f }; //하드코딩.
+				}
 
-				auto tTex = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTextureCoords[0][j]);
-				tMeshVert._tex = { tTex.x, tTex.y };
-				//tMeshVert._uvSet2 = { 0.f, 0.f }; //하드코딩.
-				//일단 LightMapUV도 FBX딴에서 들어오는 것은 확인했지만, 일단은 파싱에서 받지 않는다.
-				tMeshVert._lightmapUV = { 0.f, 0.f }; //하드코딩.
 
+				//2nd
+				tMeshVert2nd._normalL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mNormals[j]);
+				tMeshVert2nd._tangentL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTangents[j]);
+				if (assimp->mMeshes[i]->mColors != nullptr)
+				{
+					//Color가 있다.
+					aiVector3D tColorStore = { assimp->mMeshes[i]->mColors[0][j].r, assimp->mMeshes[i]->mColors[0][j].g,assimp->mMeshes[i]->mColors[0][j].b };
+					tMeshVert2nd._color = MathHelper::AI2SM_VECTOR3(tColorStore);
+				}
+				else
+				{
+					//Color가 없다.
+					tMeshVert2nd._color = { 1.0f,1.0f, 1.0f, }; //하드코딩.
+				}
+				
+				
 				tVBVec.push_back(tMeshVert);
+				tVB2ndVec.push_back(tMeshVert2nd);
 			}
 		}
 
+		//이제 ObjMat은 인스턴스처럼 다뤄질 것.
 		//Object / Material ID 보관을 위해 + 디폴트 처리를 위해.
-		sceneData->_posRecordVector.resize(vertexCnt);
-		sceneData->_texRecordVector.resize(vertexCnt);
-		sceneData->_meshMatIDRecordVector.resize(vertexCnt);
-
-		//RecordVector들 옮기기.
-		for (size_t i = 0; i < vertexCnt; i++)
-		{
-			sceneData->_posRecordVector[i] = tVBVec[i]._posL;
-			sceneData->_texRecordVector[i] = tVBVec[i]._tex;
-			sceneData->_meshMatIDRecordVector[i] = tVBVec[i]._meshMatID;
-		}
+		//sceneData->_posRecordVector.resize(vertexCnt);
+		//sceneData->_texRecordVector.resize(vertexCnt);
+		//sceneData->_meshMatIDRecordVector.resize(vertexCnt);
+		//
+		////RecordVector들 옮기기.
+		//for (size_t i = 0; i < vertexCnt; i++)
+		//{
+		//	sceneData->_posRecordVector[i] = tVBVec[i]._posL;
+		//	sceneData->_texRecordVector[i] = tVBVec[i]._tex;
+		//	sceneData->_meshMatIDRecordVector[i] = tVBVec[i]._meshMatID;
+		//}
 
 		//Index Buffer
 		std::vector<unsigned int> tIBVec;
@@ -145,16 +169,33 @@ namespace Pg::Graphics::Helper
 			}
 		}
 
-		D3D11_BUFFER_DESC tVBD;
-		tVBD.Usage = D3D11_USAGE_IMMUTABLE;
-		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin1stStatic) * vertexCnt);
-		tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		tVBD.CPUAccessFlags = 0;
-		tVBD.MiscFlags = 0;
-		D3D11_SUBRESOURCE_DATA vinitData;
-		vinitData.pSysMem = &(tVBVec[0]);
+		{
+			D3D11_BUFFER_DESC tVBD;
+			tVBD.Usage = D3D11_USAGE_IMMUTABLE;
+			tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin1stStatic) * vertexCnt);
+			tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			tVBD.CPUAccessFlags = 0;
+			tVBD.MiscFlags = 0;
+			D3D11_SUBRESOURCE_DATA vinitData;
+			vinitData.pSysMem = &(tVBVec[0]);
 
-		HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tVBD, &vinitData, &outVB));
+			HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tVBD, &vinitData, &outVB1st));
+		}
+
+
+		{
+			D3D11_BUFFER_DESC tVBD;
+			tVBD.Usage = D3D11_USAGE_IMMUTABLE;
+			tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin2ndAll) * vertexCnt);
+			tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			tVBD.CPUAccessFlags = 0;
+			tVBD.MiscFlags = 0;
+			D3D11_SUBRESOURCE_DATA vinitData;
+			vinitData.pSysMem = &(tVB2ndVec[0]);
+
+			HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tVBD, &vinitData, &outVB2nd));
+		}
+		
 
 		D3D11_BUFFER_DESC tIBD;
 		tIBD.Usage = D3D11_USAGE_IMMUTABLE;
@@ -168,7 +209,7 @@ namespace Pg::Graphics::Helper
 		HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tIBD, &iinitData, &outIB));
 	}
 
-	void AssimpBufferParser::AssimpToSkinnedDataDXBuffer(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB)
+	void AssimpBufferParser::AssimpToSkinnedDataDXBuffer(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, ID3D11Buffer*& outVB1st, ID3D11Buffer*& outVB2nd, ID3D11Buffer*& outIB)
 	{
 		//우선적으로, Skinned Data부터 보관.
 		StoreIndependentSkinnedData(assimp, skinnedData);
@@ -181,7 +222,7 @@ namespace Pg::Graphics::Helper
 		unsigned int tTotalVertexCount = sceneData->_totalVertexCount;
 		unsigned int tTotalIndexCount = sceneData->_totalIndexCount;
 
-		ParseAssimpSkinned(assimp, sceneData, skinnedData, tVertexBoneVector, outVB, outIB, tTotalVertexCount, tTotalIndexCount);
+		ParseAssimpSkinned(assimp, sceneData, skinnedData, tVertexBoneVector, outVB1st, outVB2nd, outIB, tTotalVertexCount, tTotalIndexCount);
 	
 		//추후 렌더링을 위해, 재귀적인 노드 구조를 선형적으로 편동해 기록한다.
 		//RenderAnimation 딴에서 해당 노드의 인덱스에 맞는 값을 넣어놓을 것. (없으면 nullptr)
@@ -254,7 +295,7 @@ namespace Pg::Graphics::Helper
 		assert("값 조정 중.");
 	}
 
-	void AssimpBufferParser::ParseAssimpSkinned(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, const std::vector<VertexBone_TempAssetData>& vertexBoneVector, ID3D11Buffer*& outVB, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt)
+	void AssimpBufferParser::ParseAssimpSkinned(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, const std::vector<VertexBone_TempAssetData>& vertexBoneVector, ID3D11Buffer*& outVB1st, ID3D11Buffer*& outVB2nd, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt)
 	{
 		//지금까지 Bone Index/Weight Binding을 위해, 인덱스 카운팅 도입.
 		UINT tTotalElapsedVertexCount = 0;
@@ -263,15 +304,18 @@ namespace Pg::Graphics::Helper
 		std::vector<LayoutDefine::Vin1stSkinned> vertices;
 		vertices.resize(vertexCnt);
 
+		std::vector<LayoutDefine::Vin2ndAll> vertices2nd;
+		vertices2nd.resize(vertexCnt);
+
 		std::vector<int32_t> indices;
 		indices.resize(indexCnt);
 		uint32_t vid = 0, iid = 0;
 
 		//별개로, 나중에 Material ID, Object ID를 기록해야 하기에 필요한 정보인 Position만 기록. (&& Blend Data Info + 디폴트 데이터)
-		sceneData->_posRecordVector.resize(vertexCnt);
-		sceneData->_texRecordVector.resize(vertexCnt);
-		sceneData->_meshMatIDRecordVector.resize(vertexCnt);
-		skinnedData->_blendDataRecordVector.resize(vertexCnt);
+		//sceneData->_posRecordVector.resize(vertexCnt);
+		//sceneData->_texRecordVector.resize(vertexCnt);
+		//sceneData->_meshMatIDRecordVector.resize(vertexCnt);
+		//skinnedData->_blendDataRecordVector.resize(vertexCnt);
 
 		for (uint32_t i = 0; i < assimp->mNumMeshes; i++)
 		{
@@ -289,18 +333,11 @@ namespace Pg::Graphics::Helper
 				unsigned int tMeshMatID = m->mMaterialIndex;
 				//일단은 하드코딩됨.
 
+				//1st
 				vertices[vid + j]._posL = DirectX::XMFLOAT3{ pos.x, pos.y, pos.z };
-				vertices[vid + j]._alpha = 1.f; //하드코딩.
-				vertices[vid + j]._normalL = DirectX::XMFLOAT3{ norm.x, norm.y, norm.z };
-				vertices[vid + j]._tangentL = DirectX::XMFLOAT3{ tan.x, tan.y, tan.z };
-				vertices[vid + j]._color = DirectX::XMFLOAT3{ 1.0f,1.0f, 1.0f }; //하드코딩.
-				vertices[vid + j]._meshMatID = tMeshMatID;
 				vertices[vid + j]._tex = DirectX::XMFLOAT2{ texUV.x, texUV.y};
+				vertices[vid + j]._meshMatID = tMeshMatID;
 				
-				//SKINNED는 Lightmap UV가 불가능하다! Node Index로 값 바꿀 것. 
-				//Node Index 값 투입.
-				vertices[vid + j]._nodeIndex = sceneData->_meshList[i]._belongNodeIndex;
-
 				//일단은 로직 상 맞는 것 같다.
 				vertices[vid + j]._blendIndice0 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[0];
 				vertices[vid + j]._blendIndice1 = vertexBoneVector.at(j + tTotalElapsedVertexCount).IDs[1];
@@ -311,20 +348,29 @@ namespace Pg::Graphics::Helper
 				vertices[vid + j]._blendWeight1 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[1];
 				vertices[vid + j]._blendWeight2 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[2];
 
+				//SKINNED는 Lightmap UV가 불가능하다! Node Index로 값 바꿀 것. 
+				//Node Index 값 투입.
+				vertices[vid + j]._nodeIndex = sceneData->_meshList[i]._belongNodeIndex;
+
+				//2nd
+				vertices2nd[vid + j]._normalL = DirectX::XMFLOAT3{ norm.x, norm.y, norm.z };
+				vertices2nd[vid + j]._tangentL = DirectX::XMFLOAT3{ tan.x, tan.y, tan.z };
+				vertices2nd[vid + j]._color = DirectX::XMFLOAT3{ 1.0f,1.0f, 1.0f }; //하드코딩.
+
 				//RecordVector들 기록 (나중에 Object / Material ID 관련 생성 위해) + 디폴트 데이터 관리 위해.
-				sceneData->_posRecordVector.at(vid + j) = vertices[vid + j]._posL;
-				sceneData->_texRecordVector.at(vid + j) = vertices[vid + j]._tex;
-				sceneData->_meshMatIDRecordVector.at(vid + j) = vertices[vid + j]._meshMatID;
-
-				//일단은 로직 상 맞는 것 같다.
-				skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice0 = vertices[vid + j]._blendIndice0;
-				skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice1 = vertices[vid + j]._blendIndice1;
-				skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice2 = vertices[vid + j]._blendIndice2;
-				skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice3 = vertices[vid + j]._blendIndice3;
-
-				skinnedData->_blendDataRecordVector.at(vid + j)._blendWeight0 = vertices[vid + j]._blendWeight0;
-				skinnedData->_blendDataRecordVector.at(vid + j)._blendWeight1 = vertices[vid + j]._blendWeight1;
-				skinnedData->_blendDataRecordVector.at(vid + j)._blendWeight2 = vertices[vid + j]._blendWeight2;
+				//sceneData->_posRecordVector.at(vid + j) = vertices[vid + j]._posL;
+				//sceneData->_texRecordVector.at(vid + j) = vertices[vid + j]._tex;
+				//sceneData->_meshMatIDRecordVector.at(vid + j) = vertices[vid + j]._meshMatID;
+				//
+				////일단은 로직 상 맞는 것 같다.
+				//skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice0 = vertices[vid + j]._blendIndice0;
+				//skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice1 = vertices[vid + j]._blendIndice1;
+				//skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice2 = vertices[vid + j]._blendIndice2;
+				//skinnedData->_blendDataRecordVector.at(vid + j)._blendIndice3 = vertices[vid + j]._blendIndice3;
+				//
+				//skinnedData->_blendDataRecordVector.at(vid + j)._blendWeight0 = vertices[vid + j]._blendWeight0;
+				//skinnedData->_blendDataRecordVector.at(vid + j)._blendWeight1 = vertices[vid + j]._blendWeight1;
+				//skinnedData->_blendDataRecordVector.at(vid + j)._blendWeight2 = vertices[vid + j]._blendWeight2;
 			}
 
 			for (uint32_t j = 0; j < m->mNumFaces; j++)
@@ -340,11 +386,24 @@ namespace Pg::Graphics::Helper
 
 		do
 		{
-			CD3D11_BUFFER_DESC vbDesc(
-				vertexCnt * sizeof(LayoutDefine::Vin1stSkinned),
-				D3D11_BIND_VERTEX_BUFFER);
-			D3D11_SUBRESOURCE_DATA vbData = { vertices.data(), 0, 0};
-			HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&vbDesc, &vbData, &outVB));
+			{
+				CD3D11_BUFFER_DESC vbDesc(
+					vertexCnt * sizeof(LayoutDefine::Vin1stSkinned),
+					D3D11_BIND_VERTEX_BUFFER);
+				D3D11_SUBRESOURCE_DATA vbData = { vertices.data(), 0, 0 };
+
+				HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&vbDesc, &vbData, &outVB1st));
+			}
+			
+			{
+				CD3D11_BUFFER_DESC vbDesc(
+					vertexCnt * sizeof(LayoutDefine::Vin2ndAll),
+					D3D11_BIND_VERTEX_BUFFER);
+				D3D11_SUBRESOURCE_DATA vbData = { vertices2nd.data(), 0, 0 };
+
+				HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&vbDesc, &vbData, &outVB2nd));
+			}
+
 			//assert(false);
 
 			CD3D11_BUFFER_DESC ibDesc(
@@ -357,9 +416,10 @@ namespace Pg::Graphics::Helper
 		//delete[] vertices;
 		//delete[] indices;
 
-		if (nullptr == outVB || nullptr == outIB)
+		if (nullptr == outVB1st || nullptr == outVB2nd || nullptr == outIB)
 		{
-			if (nullptr != outVB) outVB->Release();
+			if (nullptr != outVB1st) outVB1st->Release();
+			if (nullptr != outVB2nd) outVB2nd->Release();
 			if (nullptr != outIB) outIB->Release();
 		}
 	}
@@ -501,7 +561,6 @@ namespace Pg::Graphics::Helper
 		//Node 이동 발동될 시기 : -> Mesh를 다 받았을 때.
 		UINT tIndexForNode = 0;
 		StoreAssimpNode(assimp->mRootNode, outSceneAssetData, outSceneAssetData->_rootNode.get(), tIndexForNode);
-
 	}
 
 	//Parent를 빼고 나머지 정보를 저장한다.

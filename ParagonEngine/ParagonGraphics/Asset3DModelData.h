@@ -66,8 +66,18 @@ namespace Pg::Graphics
 		//0: albedo / 1: normal / 2: specular / 3: arm
 		RenderTexture2DArray* _pbrTextureArrays[4];
 
-		//Vertex Buffer
-		ID3D11Buffer* _vertexBuffer;
+
+		//여러 가지 버퍼를 아끼기 위해,
+		//나눠서 올리기로 했다.
+		//Vertex Buffer (1st Base) - 
+		//Static의 경우: Pos / Tex / MeshMatID / Lightmapping UV
+		//Skinned의 경우 : Pos / Tex / MeshMatID / Lightmapping UV / BlendIndice, BlendWeights, NodeIndex
+		ID3D11Buffer* _vertexBuffer{ nullptr };
+
+		//Vertex Buffer (2nd) 
+		//NormalL, TangentL, color
+		ID3D11Buffer* _secondVertexBuffer{ nullptr };
+
 
 		//Index Buffer
 		ID3D11Buffer* _indexBuffer;

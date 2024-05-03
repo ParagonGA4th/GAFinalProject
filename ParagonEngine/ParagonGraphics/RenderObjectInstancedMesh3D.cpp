@@ -1,7 +1,32 @@
 #include "RenderObjectInstancedMesh3D.h"
+#include "GraphicsResourceHelper.h"
+#include "GraphicsResourceManager.h"
+#include "LowDX11Storage.h"
+#include "LayoutDefine.h"
+#include "MathHelper.h"
+#include "RenderTexture2D.h"
+#include "AssetBasic3DLoader.h"
+#include "AssetModelDataDefine.h"
+#include "AssetTextureType.h"
+#include "MaterialCluster.h"
+
+#include "../ParagonData/StaticMeshRenderer.h"
+#include "../ParagonData/ParagonDefines.h"
+
+#include <dxtk/WICTextureLoader.h>
+#include <dxtk/SimpleMath.h>
+#include <singleton-cpp/singleton.h>
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <type_traits>
 
 namespace Pg::Graphics
 {
+	using Pg::Graphics::Helper::MathHelper;
+	using Pg::Graphics::Manager::GraphicsResourceManager;
+	using Pg::Data::Enums::eAssetDefine;
+
 	RenderObjectInstancedMesh3D::RenderObjectInstancedMesh3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID) :
 		RenderObject3D(baseRenderer, objID)
 	{
@@ -15,7 +40,11 @@ namespace Pg::Graphics
 
 	void RenderObjectInstancedMesh3D::CreateObjMatBuffers()
 	{
+		//VB 로드. *(Index Buffer는 공유)
+		//여기서는 아무것도 안하고, Buffer만 만들어주는 역할로 가자.
 
+		//Constant Buffer Data를 생성. Skinned는 재사용. 
+		_cbObjMat = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjMatBase>>();
 	}
 
 	void RenderObjectInstancedMesh3D::First_UpdateConstantBuffers(Pg::Data::CameraData* camData)

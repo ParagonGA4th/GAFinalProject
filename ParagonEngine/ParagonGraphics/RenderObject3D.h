@@ -75,7 +75,10 @@ namespace Pg::Graphics
 		Asset3DModelData* _modelData = nullptr;
 		
 		//Model에 종속된 VB/IB와 다르게, Object, Material ID를 기록하기 위해 오브젝트 종속 VB들.
-		ID3D11Buffer* _objMatVB = nullptr;
+		//Static : ObjID, MatID.
+		//Skinned : ObjID, MatID.
+		//Instanced Object들은 얘를 쓰지 않는다.
+		ID3D11Buffer* _3rdVB = nullptr;
 		//Index Buffer는 자신이 소속된 IndexBuffer와 동일.
 
 	protected:

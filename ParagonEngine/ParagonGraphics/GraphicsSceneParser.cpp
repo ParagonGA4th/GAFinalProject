@@ -5,6 +5,7 @@
 #include "GraphicsResourceHelper.h"
 #include "GraphicsResourceManager.h"
 #include "AssetCombinedLoader.h"
+#include "AssetBasic3DLoader.h"
 
 //세부적인 렌더 오브젝트들의 리스트.
 #include "RenderObjectStaticMesh3D.h"
@@ -504,8 +505,11 @@ namespace Pg::Graphics
 
 					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
 					{
-						_renderObject3DList->_instancedStaticList.at(modelData)->push_back(std::make_pair(tMaterialInput, std::make_unique<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
-						_renderObject3DList->_instancedStaticList.at(modelData)->back().second->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
+						auto& tVectorPtr = _renderObject3DList->_instancedStaticList.at(modelData).second;
+						
+						//값 넣기. 주의! ID3D1Buffer가 같이 들어갔다. (Instancing을 위해)
+						tVectorPtr->push_back(InstancedStaticPair(tMaterialInput, std::make_unique<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
+						tVectorPtr->back()._instancedRenderObject->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
 					}
 					else
 					{
@@ -596,6 +600,62 @@ namespace Pg::Graphics
 			}
 		}
 
+		//Instanced 객체 추가해야 한다. 작동 방식은 일부 다르지만.
+		for (auto& [bModelData, bBufferVecPair] : _renderObject3DList->_instancedStaticList)
+		{
+			auto& bVecPtr = bBufferVecPair.second;
+
+			assert(bVecPtr != nullptr);
+			unsigned int tVecVBSize = bVecPtr->size();
+
+			for (int i = 0; i < tVecVBSize; i++)
+			{
+				if (!(bVecPtr->at(i)._instancedRenderObject->_isInternalUpToDate))
+				{
+					bVecPtr->at(i)._instancedRenderObject->CreateObjMatBuffers();
+					bVecPtr->at(i)._instancedRenderObject->_isInternalUpToDate = true;
+				}
+			}
+		}
+
+		//위는 Instanced 관련해서 CB만든 거였고 -> 이제 VB 만들어야 한다.
+		//만들어놓은 Instancing Format을 기준으로 Vector를 만들어 넣자.
+		//버퍼 만들기 위한 임시 버퍼.
+		
+		std::vector<std::pair<Asset3DModelData*, std::vector<RenderObjectInstancedMesh3D*>>> tToMakeInstSeparateVec;
+
+		for (auto& [bModelData, bVecPair] : _renderObject3DList->_instancedStaticList)
+		{
+			auto& bVecPtr = bVecPair.second;
+
+			assert(bVecPtr != nullptr);
+			unsigned int tVecVBSize = bVecPtr->size();
+
+			//개별 요소 추가.
+			tToMakeInstSeparateVec.push_back(std::make_pair(bModelData, std::vector<RenderObjectInstancedMesh3D*>()));
+
+			//3D Model 중심으로 변환해야 한다.
+			for (int i = 0; i < tVecVBSize; i++)
+			{
+				auto tInstancedMesh = bVecPtr->at(i)._instancedRenderObject.get();
+				//개별적인 요소 담기.
+				tToMakeInstSeparateVec.back().second.push_back(tInstancedMesh);
+			}
+		}
+
+		auto t3DLoader = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetBasic3DLoader();
+		for (int i = 0; i < tToMakeInstSeparateVec.size(); i++)
+		{
+			auto& tModel = tToMakeInstSeparateVec.at(i).first;
+			auto& tMatchingIter = _renderObject3DList->_instancedStaticList.at(tModel);
+			auto& tVB = tMatchingIter.first;
+			auto& tInstanceVector = tToMakeInstSeparateVec.at(i).second;
+			//이게 대응되는 요소가 될 것이다.
+			
+			//인스턴싱을 위한 ObjID / MatID / Transform 버퍼 로드.
+			t3DLoader->LoadObjMatTRSBufferInstanced(tVB, tInstanceVector);
+		}
+			
 		//사실상 ForwardRendering을 사용할 Alpha Blended Object들은 이 순서가 필요 없지만,
 		//구조 일원화를 위해 투입한다.
 		for (auto& it : _renderObject3DList->_allAlphaBlendedList)

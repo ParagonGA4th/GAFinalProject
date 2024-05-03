@@ -19,6 +19,7 @@ namespace Assimp
 namespace Pg::Graphics
 {
 	class Asset3DModelData;
+	class RenderObjectInstancedMesh3D;
 }
 
 namespace Pg::Graphics::Loader
@@ -41,6 +42,11 @@ namespace Pg::Graphics::Loader
 		void LoadObjMatBufferStatic(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID);
 		void LoadObjMatBufferSkinned(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID);
 	
+		//Instanced Object가 추가되면서, 이를 위한 개별적인 LoadObjMatBufferInstanced가 있어야 한다.
+		//일괄적으로 정해진 때에서 3DList를 받아오기.
+		//Object / Material ID 당연히 개별로 가져와야 할 것이다.
+		void LoadObjMatTRSBufferInstanced(ID3D11Buffer*& vb, const std::vector<RenderObjectInstancedMesh3D*>& instancedMeshList);
+
 	private:
 		std::unique_ptr<Assimp::Importer>_importer;
 	};
