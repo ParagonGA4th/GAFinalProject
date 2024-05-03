@@ -12,7 +12,7 @@ namespace Pg::Graphics
 	class LayoutDefine
 	{
 	public:
-		//Static Mesh가 요구하는 포맷. 
+		//Static Mesh가 요구하는 포맷. + InstancedMesh의 기본이 되기도 한다.
 		struct Vin1stStatic
 		{
 			Vin1stStatic() = default;
