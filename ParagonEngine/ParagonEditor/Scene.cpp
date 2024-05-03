@@ -18,11 +18,13 @@ Pg::Editor::Window::Scene::Scene()
 {
 	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
 	_dataContainer = &tdataCon;
-	
+
 	auto& tUIManager = singleton<Pg::UI::Manager::UIManager>();
 	_uiManager = &tUIManager;
 
 	_widgetCon = std::make_unique<Pg::UI::WidgetContainer>();
+
+	_mousePos = std::make_unique<Pg::Editor::Event>();
 }
 
 Pg::Editor::Window::Scene::~Scene()
@@ -32,25 +34,22 @@ Pg::Editor::Window::Scene::~Scene()
 
 void Pg::Editor::Window::Scene::Initialize()
 {
-	_widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(), 
+	auto& image = _widgetCon->CreateWidget<Pg::UI::Widget::Image>(_dataContainer->GetSceneTexture(),
 		(float)Pg::Data::GameConstantData::WIDTH, (float)Pg::Data::GameConstantData::HEIGHT);
+	_imageWidth = image.GetWidth();
+	_imageHeight = image.GetHeight();
 
-	std::unique_ptr<Pg::Editor::Event> _gizmoType = std::make_unique<Pg::Editor::Event>();
-	_gizmoType->AddEvent(Pg::Editor::eEventType::_GIZMOTYPE, [&](void* data) { _uiManager->SetGizmoType(data); });
+	std::unique_ptr<Pg::Editor::Event> gizmoType = std::make_unique<Pg::Editor::Event>();
+	gizmoType->AddEvent(Pg::Editor::eEventType::_GIZMOTYPE, [&](void* data) { _uiManager->SetGizmoType(data); });
 }
 
 void Pg::Editor::Window::Scene::Update()
 {
 	_uiManager->WindowBegin(_winName);
-
-	//잠시 일시정지.
-	//PG_TRACE(_uiManager->GetMousePosX());
-	//PG_TRACE(_uiManager->GetMousePosY());
-
 	_uiManager->BeginDisable(_isDisable);
-	
-	_widgetCon->Update();	
-	
+
+	_widgetCon->Update();
+
 	if (_dataContainer->GetPickObject() != nullptr)
 	{
 		_uiManager->SetCameraForGizmo(_dataContainer->GetCurrentScene()->GetMainCamera());
@@ -59,6 +58,7 @@ void Pg::Editor::Window::Scene::Update()
 
 	_uiManager->DrawGizmo();
 
+	DataSet(_uiManager->GetWindowPosX(), _uiManager->GetWindowPosY(), _uiManager->GetWindowTitleBarHeight());
 	if (_isDisable) _uiManager->EndDisable();
 	_uiManager->WindowEnd();
 }
@@ -88,3 +88,32 @@ void Pg::Editor::Window::Scene::SetDisable(bool disable)
 	_isDisable = disable;
 }
 
+void Pg::Editor::Window::Scene::DataSet(float x, float y, float titleBarHeight)
+{
+	//바운더리
+	float left = x;
+	float right = x + *_imageWidth;
+	float top = y + titleBarHeight;
+	float bottom = y + titleBarHeight + *_imageHeight;
+
+	//Client 기준 X & Y
+	float uiMousePosX = _uiManager->GetMousePosX();
+	float uiMousePosY = _uiManager->GetMousePosY();
+
+	if (left <= uiMousePosX &&
+		right >= uiMousePosX &&
+		top <= uiMousePosY &&
+		bottom >= uiMousePosY)
+	{
+
+		//실제로 씬 윈도우 범위 안에 있는 것.
+		float tRealPixelX = uiMousePosX - left;
+		float tRealPixelY = uiMousePosY - top;
+
+		float widthRatio = tRealPixelX / *_imageWidth;
+		float heightRatio = tRealPixelY / *_imageHeight;
+
+		_mousePos->Invoke(eEventType::_MOUSEPOSX, static_cast<void*>(&widthRatio));
+		_mousePos->Invoke(eEventType::_MOUSEPOSY, static_cast<void*>(&heightRatio));
+	}
+}

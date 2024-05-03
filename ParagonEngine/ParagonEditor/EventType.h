@@ -21,5 +21,7 @@ namespace Pg::Editor
 		_DELETEOBJECT,
 		_REFRESHOBJECT,
 		_ASSETLIST,
+		_MOUSEPOSX,
+		_MOUSEPOSY,
 	};
 }

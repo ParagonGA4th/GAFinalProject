@@ -48,13 +48,16 @@ namespace Pg::UI::Manager
 		 void BeginDisable(bool disable);
 		 void EndDisable();
 
-		 int IsWindowFocus(std::string windowName);
-
 		 float GetMousePosX();
 		 float GetMousePosY();
 
 		 float GetWindowWidth();
 		 float GetWindowHeight();
+
+		 float GetWindowTitleBarHeight();
+
+		 float GetWindowPosX();
+		 float GetWindowPosY();
 
 		 void OpenPopup(std::string popupName);
 

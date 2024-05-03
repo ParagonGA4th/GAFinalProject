@@ -118,6 +118,8 @@ namespace Pg::Graphics::Manager
 
 	std::shared_ptr<Pg::Data::Resources::GraphicsResource> GraphicsResourceManager::GetResource(const std::string& path, Pg::Data::Enums::eAssetDefine define)
 	{
+		assert(!path.empty());
+
 		std::string tFilePath = Pg::Util::Helper::ResourceHelper::ForcePathUniform(path);
 		using Pg::Data::Enums::eAssetDefine;
 

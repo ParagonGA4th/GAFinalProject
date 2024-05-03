@@ -39,6 +39,7 @@ namespace Pg::Core
 
 		//에디터에 따라 바뀐 상태를 설정한다.
 		void SetEditorMode(Pg::Data::Enums::eEditorMode mode);
+		Pg::Data::Enums::eEditorMode GetEditorMode();
 
 		//에디터에서 가져온 씬 목록을 설정한다
 		void SetSceneList(std::vector<Pg::Data::Scene*> scenes);
@@ -56,6 +57,8 @@ namespace Pg::Core
 		
 		std::vector<Pg::Data::Scene*> _scenes;
 		Pg::Data::Scene* _currentScene;
+
+		Pg::Data::Enums::eEditorMode _mode;
 	};
 }
 
