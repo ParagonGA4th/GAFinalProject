@@ -30,6 +30,8 @@ namespace Pg::Data
 		virtual void FixedUpdate() {}
 		virtual void LateUpdate() {}
 
+		//OnEngineStop (Static Scene List Àü¿ë)
+		virtual void OnEngineStop() {}
 
 		virtual void OnDestroy() {}
 		virtual void OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count) {}
