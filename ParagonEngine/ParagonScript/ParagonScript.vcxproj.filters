@@ -100,6 +100,9 @@
     <Filter Include="Content\Monsters\BaseClass">
       <UniqueIdentifier>{14911ae1-0442-4259-9ecb-107ce694e21e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\0_GameManager">
+      <UniqueIdentifier>{91c521fc-a6c6-4fc8-9db1-030622a1024f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -161,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="BaseMonster.cpp">
       <Filter>Content\Monsters\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Content\0_GameManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +259,12 @@
     </ClInclude>
     <ClInclude Include="BaseMonster.h">
       <Filter>Content\Monsters\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Content\0_GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>2_Events\Helper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
