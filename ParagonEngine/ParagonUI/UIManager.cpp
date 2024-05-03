@@ -86,11 +86,6 @@ void Pg::UI::Manager::UIManager::EndDisable()
 	_imguiManager->EndDisable();
 }
 
-int Pg::UI::Manager::UIManager::IsWindowFocus(std::string windowName)
-{
-	return _imguiManager->IsFocus(windowName);
-}
-
 float Pg::UI::Manager::UIManager::GetMousePosX()
 {
 	return _imguiManager->GetMousePosX();
@@ -111,7 +106,23 @@ float Pg::UI::Manager::UIManager::GetWindowHeight()
 	return _imguiManager->GetWindowHeight();
 }
 
+float Pg::UI::Manager::UIManager::GetWindowTitleBarHeight()
+{
+	return _imguiManager->GetWindowTitleBarHeight();
+}
+
+
 void Pg::UI::Manager::UIManager::OpenPopup(std::string popupName)
 {
 	_imguiManager->OpenPopup(popupName);
+}
+
+float Pg::UI::Manager::UIManager::GetWindowPosX()
+{
+	return _imguiManager->GetWindowPosX();
+}
+
+float Pg::UI::Manager::UIManager::GetWindowPosY()
+{
+	return _imguiManager->GetWindowPosY();
 }

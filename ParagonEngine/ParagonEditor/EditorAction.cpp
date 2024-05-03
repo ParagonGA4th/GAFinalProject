@@ -2,14 +2,12 @@
 #include "IEditorManager.h"
 #include "EditorManager.h"
 #include "ProcessManager.h"
-#include "DataContainer.h"
 #include "FileSystem.h"
 #include "Event.h"
 
 #include "../ParagonData/GameConstantData.h"
 
 #include <shellapi.h>	// ExtractIconW 오류로 임시 설정
-#include <singleton-cpp/singleton.h>
 
 #include "../ParagonUtil/Log.h"
 
@@ -24,9 +22,6 @@ Pg::Editor::Core::EditorAction::EditorAction()
 	_fileSystem = std::make_unique<Pg::Editor::System::FileSystem>();
 
 	_editorEvent = std::make_unique<Pg::Editor::Event>();
-
-	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
-	_dataContainer = &tdataCon;
 }
 
 Pg::Editor::Core::EditorAction::~EditorAction()
@@ -42,17 +37,6 @@ void Pg::Editor::Core::EditorAction::Initialize()
 
 	for (auto& manager : _editorManagers) { manager->Initialize(_hWnd); }
 	_fileSystem->Initialize();
-
-	MONITORINFOEX MonInfo;
-	memset(&MonInfo, 0, sizeof(MONITORINFOEX));
-	MonInfo.cbSize = sizeof(MonInfo);
-
-	// Monitor Handle
-	HMONITOR monitor = MonitorFromWindow(_hWnd, MONITOR_DEFAULTTONEAREST);
-
-	GetMonitorInfo(monitor, &MonInfo);
-	_dataContainer->SetMonitorWidth(MonInfo.rcMonitor.right);
-	_dataContainer->SetMonitorHeight(MonInfo.rcMonitor.bottom);
 }
 void Pg::Editor::Core::EditorAction::Loop()
 {		
@@ -75,12 +59,6 @@ void Pg::Editor::Core::EditorAction::Loop()
 			_editorManagers.at(0)->LateUpdate();
 		}
 	}
-	RECT rect;
-	GetClientRect(_hWnd, &rect);
-	PG_TRACE(rect.left);
-	PG_TRACE(rect.top);	
-	PG_TRACE(rect.right);
-	PG_TRACE(rect.bottom);
 }
 
 void Pg::Editor::Core::EditorAction::Finalize()

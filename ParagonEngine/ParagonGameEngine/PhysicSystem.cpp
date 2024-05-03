@@ -104,13 +104,13 @@ namespace Pg::Engine::Physic
 		Pg::Engine::PgLayer::Clear();
 		///왼쪽 : 자신 레이어 // 오른쪽 : 왼쪽 객체와 충돌할 수 있는 레이어.
 		///별도 헤더 Enum으로 구별할 예정. enum (int)
-		
+
 		//LayerMask (Pg::Data) 내부 활용해서 CollisionLayer를 설정하는 부분.
 		{
 			//Unity의 LayerCollisionMatrix를 거꾸로 본다고 생각하면 된다.
 			//겹치는 요소는 없애고.
 			using namespace Pg::Data::Enums;
-			
+
 			//CollisionMatrix의 반만 썼던 버전.
 			//Pg::Engine::PgLayer::SetCollisionData(LAYER_DEFAULT, { LAYER_DEFAULT, LAYER_PLAYER, LAYER_MONSTER, LAYER_PROJECTILES });
 			//Pg::Engine::PgLayer::SetCollisionData(LAYER_PLAYER, { LAYER_PLAYER, LAYER_MONSTER, LAYER_PROJECTILES });
@@ -129,8 +129,9 @@ namespace Pg::Engine::Physic
 		_material = _physics->createMaterial(0.5f, 0.5f, 0.5f);
 
 		CreatePxScene();
-	
+
 		// Pvd에 정보 보내기
+#ifdef _DEBUG
 		physx::PxPvdSceneClient* pvdClient = _pxScene->getScenePvdClient();
 		if (pvdClient)
 		{
@@ -138,6 +139,7 @@ namespace Pg::Engine::Physic
 			pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
 			pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 		}
+#endif // DEBUG
 
 		//Collider 생성!
 		InitMakeColliders();
@@ -203,9 +205,9 @@ namespace Pg::Engine::Physic
 					PG_TRACE("D-TriggerExit!");
 				}
 			}
-			
 
-			
+
+
 
 		}
 
@@ -467,7 +469,7 @@ namespace Pg::Engine::Physic
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
-				
+
 				trans.q = physx::PxQuat(quat.x / 2, quat.y / 2, quat.z / 2, quat.w);
 
 				// 회전 오프셋을 z축으로 90도 회전시킴
@@ -477,7 +479,7 @@ namespace Pg::Engine::Physic
 				//PositionOffset 설정
 				auto offsetP = collider->GetPositionOffset();
 				trans.p = { offsetP.x, offsetP.y , offsetP.z };
-				
+
 				boxShape->setLocalPose(trans);
 
 				//Trigger 여부 판단
@@ -591,7 +593,7 @@ namespace Pg::Engine::Physic
 				//PositionOffset 설정
 				auto offsetP = collider->GetPositionOffset();
 				trans.p = { offsetP.x, offsetP.y , offsetP.z };
-				
+
 				shape->setLocalPose(trans);
 
 				//Trigger 여부 판단
@@ -795,7 +797,7 @@ namespace Pg::Engine::Physic
 
 				//PositionOffset 설정
 				auto offsetP = collider->GetPositionOffset();
-				trans.p = {offsetP.x, offsetP.y , offsetP.z };
+				trans.p = { offsetP.x, offsetP.y , offsetP.z };
 				shape->setLocalPose(trans);
 
 				//Trigger 여부 판단
@@ -808,7 +810,7 @@ namespace Pg::Engine::Physic
 				capCol->SetPxShape(shape);
 
 				Pg::Math::PGFLOAT3 pos = PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
-				
+
 				//auto pos = obj->_transform._position;
 				//auto rot = obj->_transform._rotation;
 

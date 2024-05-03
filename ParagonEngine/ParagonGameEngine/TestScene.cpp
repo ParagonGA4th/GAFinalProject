@@ -230,10 +230,10 @@ void Pg::Engine::TestScene::Initialize()
 	tObj8->AddComponent<Button>();
 	tObj8->GetComponent<Button>()->SetImagePath("../Resources/Textures/Sprites/StartCrunch.png");
 	tObj8->GetComponent<Button>()->SetImageSize(200.0f, 200.0f);
-	tObj8->AddComponent<AudioSource>();
-	tObj8->GetComponent<AudioSource>()->SetAudioName("../Resources/Sounds/Test/TitleBGM.mp3");
-	tObj8->GetComponent<AudioSource>()->Play();
-	tObj8->AddComponent<EventTest>();
+	//tObj8->AddComponent<AudioSource>();
+	//tObj8->GetComponent<AudioSource>()->SetAudioName("../Resources/Sounds/Test/TitleBGM.mp3");
+	//tObj8->GetComponent<AudioSource>()->Play();
+	//tObj8->AddComponent<EventTest>();
 
 	///슬라이더
 	//Pg::Data::GameObject* tObj10 = tCurrentScene->AddObject("Handle");
@@ -289,6 +289,22 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj24->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	//tObj24->GetComponent<Transform>()->_rotation = tObj24->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 	//tObj24->AddComponent<StaticMeshRenderer>();
+	//tObj24->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Cube/Cube.fbx");
+	//tObj24->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat");
+	//tObj24->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	////Animator 추가.
+	//tObj24->AddComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Test/BTree_Testing1.xml");	
+	// 
+	 Pg::Data::GameObject* tObj24 = tCurrentScene->AddObject("TextShowing");
+	tObj24->GetComponent<Transform>()->_position = {400.f, 40.0f, 0.0f };
+	tObj24->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	tObj24->GetComponent<Transform>()->_rotation = tObj24->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+
+	tObj24->AddComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_16.spritefont");
+	tObj24->GetComponent<TextRenderer>()->SetString("FPS");
+	tObj24->GetComponent<TextRenderer>()->SetFontColor({0,0,0,1});
+	tObj24->AddComponent<PrintRuntimeData>();
+
 	//tObj24->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Cube/Cube.fbx");
 	//tObj24->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat");
 	//tObj24->GetComponent<StaticMeshRenderer>()->SetActive(true);

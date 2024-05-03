@@ -4,7 +4,7 @@
 
 #include "../ParagonProcess/ProcessMain.h"
 #include "../ParagonProcess/EditorAdapter.h"
-#include "../ParagonAPI/PgInput.h"
+#include "../ParagonUtil/InputSystem.h"
 
 #include "../ParagonData/AssetDefines.h"
 #include "../ParagonUtil/Log.h"
@@ -20,7 +20,7 @@ Pg::Editor::Manager::ProcessManager::ProcessManager(float width, float height)
 	_coreMain = std::make_unique<Pg::Core::ProcessMain>();
 
 	// input
-	auto& tInputSystem = singleton<Pg::API::Input::PgInput>();
+	auto& tInputSystem = singleton<Pg::Util::Input::InputSystem>();
 	_input = &tInputSystem;
 
 	// editor helper
@@ -46,6 +46,8 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd)
 	_editorEvent->AddEvent(Pg::Editor::eEventType::_MODIFIEDOBJECT, [&](void* objList) { SetModifiedObject(objList); });
 	_editorEvent->AddEvent(Pg::Editor::eEventType::_DELETEOBJECT, [&](void* objList) { SetDeleteObject(objList); });
 	_editorEvent->AddEvent(Pg::Editor::eEventType::_ASSETLIST, [&](void* define) { GetAssetList(define); });
+	_editorEvent->AddEvent(Pg::Editor::eEventType::_MOUSEPOSX, [&](void* posX) { SetEditorMousePosX(posX); });
+	_editorEvent->AddEvent(Pg::Editor::eEventType::_MOUSEPOSY, [&](void* posY) { SetEditorMousePosY(posY); });
 
 	if (_dataContainer->GetCurrentScene() == nullptr)
 		_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
@@ -147,4 +149,22 @@ void Pg::Editor::Manager::ProcessManager::GetAssetList(void* define)
 {
 	auto tvec = _coreMain->GetAssetList(*(static_cast<Pg::Data::Enums::eAssetDefine*>(define)));
 	_dataContainer->SetAssetList(tvec);
+}
+
+void Pg::Editor::Manager::ProcessManager::SetEditorMousePosX(void* x)
+{
+	if (_coreMain->GetEditorAdapter()->GetEditorMode() == Pg::Data::Enums::eEditorMode::_EDIT || 
+		_coreMain->GetEditorAdapter()->GetEditorMode() == Pg::Data::Enums::eEditorMode::_PLAY)
+		_input->SetEditorMouseX(*(static_cast<float*>(x)));
+	else 
+		_input->SetEditorMouseX(-10.f);
+}
+
+void Pg::Editor::Manager::ProcessManager::SetEditorMousePosY(void* y)
+{
+	if (_coreMain->GetEditorAdapter()->GetEditorMode() == Pg::Data::Enums::eEditorMode::_EDIT ||
+		_coreMain->GetEditorAdapter()->GetEditorMode() == Pg::Data::Enums::eEditorMode::_PLAY)
+		_input->SetEditorMouseY(*(static_cast<float*>(y)));
+	else 
+		_input->SetEditorMouseY(-10.f);
 }
