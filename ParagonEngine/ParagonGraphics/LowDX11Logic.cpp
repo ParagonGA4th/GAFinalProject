@@ -20,9 +20,9 @@ namespace Pg::Graphics
 	{
 		UINT createDeviceFlags = 0;
 
-//#ifdef _DEBUG
-//		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
-//#endif // DEBUG
+#ifdef _DEBUG
+		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif // DEBUG
 
 		// D3D11 Device »ý¼º
 		HR(D3D11CreateDevice(

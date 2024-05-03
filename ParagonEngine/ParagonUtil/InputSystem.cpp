@@ -135,12 +135,26 @@ namespace Pg::Util::Input
 
 	float InputSystem::GetMouseX()
 	{
-		return _map->GetFloat(Pg::API::Input::eKeyCode::MouseX);
+		//if (_editorMouseX != -10.f) return _editorMouseX;
+		//else return _map->GetFloat(Pg::API::Input::eKeyCode::MouseX);
+		return _editorMouseX;
 	}
 
 	float InputSystem::GetMouseY()
 	{
-		return _map->GetFloat(Pg::API::Input::eKeyCode::MouseY);
+		//if (_editorMouseY != -10.f) return _editorMouseY;
+		//else return _map->GetFloat(Pg::API::Input::eKeyCode::MouseY);
+		return _editorMouseY;
+	}
+
+	void InputSystem::SetEditorMouseX(float x)
+	{
+		_editorMouseX = x;
+	}
+
+	void InputSystem::SetEditorMouseY(float y)
+	{
+		_editorMouseY = y;
 	}
 
 	bool InputSystem::IsMouseMoving()

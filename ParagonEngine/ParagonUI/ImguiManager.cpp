@@ -55,6 +55,8 @@ void Pg::UI::Manager::ImGuiManager::Initialize(void* hWnd, ID3D11Device* device,
 {
 	ImGui_ImplWin32_Init(hWnd);
 	ImGui_ImplDX11_Init(device, deviceContext);
+
+	_hwnd = (HWND)hWnd;
 }
 
 void Pg::UI::Manager::ImGuiManager::CreateFrame()
@@ -107,7 +109,7 @@ void Pg::UI::Manager::ImGuiManager::Begin(std::string panelName, bool isTool)
 
 void Pg::UI::Manager::ImGuiManager::DockSpaceBegin(std::string dockName)
 {
-	ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+	ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None | ImGuiDockNodeFlags_NoCloseButton;
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -255,68 +257,80 @@ void Pg::UI::Manager::ImGuiManager::ChangeStyle()
 	style.ChildRounding = 4;
 }
 
-int Pg::UI::Manager::ImGuiManager::IsFocus(std::string windowName)
-{
-	if (ImGui::GetCurrentContext()->HoveredWindow == NULL) return -10;
-
-	if (windowName == ImGui::GetCurrentContext()->HoveredWindow->Name)
-	{
-		// 진입
-		if (!_isHoverd)
-		{
-			_focusFlag++;
-			_isHoverd = true;
-		}
-
-		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-		{
-			// 실행
-			_focusFlag++;
-		}
-	}
-	else
-	{
-		// 진입 하였음, 따라서 퇴출
-		if (_focusFlag == 0)
-		{
-			_focusFlag--;
-			_isHoverd = false;
-		}
-
-		if (_focusFlag >= 1)
-		{
-		
-		}
-
-		// 다른 context 클릭, 초기화
-		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-		{
-			_focusFlag = -1;
-			_isHoverd = false;
-		}
-	}
-
-	return _focusFlag;
-}
-
 float Pg::UI::Manager::ImGuiManager::GetMousePosX()
 {
-	return ImGui::GetMousePos().x;
+	POINT cursorPos;
+	GetCursorPos(&cursorPos);
+	ScreenToClient(_hwnd, &cursorPos);
+	return cursorPos.x;
 }
 
 float Pg::UI::Manager::ImGuiManager::GetMousePosY()
 {
-	return ImGui::GetMousePos().y;
+	POINT cursorPos;
+	GetCursorPos(&cursorPos);
+	ScreenToClient(_hwnd, &cursorPos);
+	return cursorPos.y;
 }
+
+float Pg::UI::Manager::ImGuiManager::GetWindowPosX()
+{
+	POINT cursorPos = { ImGui::GetWindowPos().x, ImGui::GetWindowPos().y };
+	ScreenToClient(_hwnd, &cursorPos);
+	return cursorPos.x;
+}
+
+float Pg::UI::Manager::ImGuiManager::GetWindowPosY()
+{
+	POINT cursorPos = { ImGui::GetWindowPos().x, ImGui::GetWindowPos().y };
+	ScreenToClient(_hwnd, &cursorPos);
+	return cursorPos.y;
+}
+
 
 float Pg::UI::Manager::ImGuiManager::GetWindowWidth()
 {
-	return ImGui::GetWindowPos().x;
+	if (ImGui::GetCurrentContext()->HoveredWindow == NULL)
+	{
+		if (!_contextInit) return _isNotWorking;
+		else return _windowSizeX;
+	}
+
+	if (std::strcmp(ImGui::GetCurrentContext()->HoveredWindow->Name, "Scene") == 0)
+	{
+		_windowSizeX = ImGui::GetCurrentContext()->HoveredWindow->Size.x;
+		_contextInit = true;
+	}
 }
 
 float Pg::UI::Manager::ImGuiManager::GetWindowHeight()
 {
-	return ImGui::GetWindowPos().y;
+	if (ImGui::GetCurrentContext()->HoveredWindow == NULL)
+	{
+		if (!_contextInit) return _isNotWorking;
+		else return _windowSizeY;
+	}
+
+	if (std::strcmp(ImGui::GetCurrentContext()->HoveredWindow->Name, "Scene") == 0)
+	{
+		_windowSizeY = ImGui::GetCurrentContext()->HoveredWindow->Size.y;
+		_contextInit = true;
+	}
+}
+\
+float Pg::UI::Manager::ImGuiManager::GetWindowTitleBarHeight()
+{
+	if (ImGui::GetCurrentContext()->HoveredWindow == NULL)
+	{
+		if (!_contextInit) return _isNotWorking;
+		else return _titleBarHeight;
+	}
+
+	if (std::strcmp(ImGui::GetCurrentContext()->HoveredWindow->Name, "Scene") == 0)
+	{
+		_titleBarHeight = ImGui::GetCurrentContext()->HoveredWindow->TitleBarHeight();
+		_contextInit = true;
+	}
 }
 
 void Pg::UI::Manager::ImGuiManager::OpenPopup(std::string popupName)

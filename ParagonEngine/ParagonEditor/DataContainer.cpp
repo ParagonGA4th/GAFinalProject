@@ -143,23 +143,3 @@ std::string Pg::Editor::Data::DataContainer::GetObjNameWithUUID(std::string scen
 		if (obj.second == uuid) return obj.first;
 	}
 }
-
-void Pg::Editor::Data::DataContainer::SetMonitorWidth(float width)
-{
-	_monitorWidth = width;
-}
-
-void Pg::Editor::Data::DataContainer::SetMonitorHeight(float height)
-{
-	_monitorHeight = height;
-}
-
-float Pg::Editor::Data::DataContainer::GetMonitorWidth()
-{
-	return _monitorWidth;
-}
-
-float Pg::Editor::Data::DataContainer::GetMonitorHeight()
-{
-	return _monitorHeight;
-}
