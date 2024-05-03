@@ -176,8 +176,8 @@ void Pg::UI::Manager::ImGuiManager::AlignForWidth(int widgetCount, float widgetW
 
 void Pg::UI::Manager::ImGuiManager::ChangeStyle()
 {
-	//From : Trippasch
-	//https://github.com/ocornut/imgui/issues/707#issuecomment-1372640066
+	// From : Trippasch
+	// https://github.com/ocornut/imgui/issues/707#issuecomment-1372640066
 
 	auto& colors = ImGui::GetStyle().Colors;
 	colors[ImGuiCol_WindowBg] = ImVec4{ 0.1f, 0.1f, 0.13f, 1.0f };
@@ -299,26 +299,24 @@ int Pg::UI::Manager::ImGuiManager::IsFocus(std::string windowName)
 	return _focusFlag;
 }
 
-float Pg::UI::Manager::ImGuiManager::GetMousePosX(float width)
+float Pg::UI::Manager::ImGuiManager::GetMousePosX()
 {
-	if (width == 0.f) return ImGui::GetMousePos().x - ImGui::GetWindowPos().x;
-	else return ImGui::GetMousePos().x - width;
+	return ImGui::GetMousePos().x;
 }
 
-float Pg::UI::Manager::ImGuiManager::GetMousePosY(float height)
+float Pg::UI::Manager::ImGuiManager::GetMousePosY()
 {
-	if (height == 0.f) return ImGui::GetMousePos().y - ImGui::GetWindowPos().y;
-	else return ImGui::GetMousePos().y - height;
+	return ImGui::GetMousePos().y;
 }
 
 float Pg::UI::Manager::ImGuiManager::GetWindowWidth()
 {
-	return ImGui::GetWindowWidth();
+	return ImGui::GetWindowPos().x;
 }
 
 float Pg::UI::Manager::ImGuiManager::GetWindowHeight()
 {
-	return ImGui::GetWindowHeight();
+	return ImGui::GetWindowPos().y;
 }
 
 void Pg::UI::Manager::ImGuiManager::OpenPopup(std::string popupName)

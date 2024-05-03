@@ -91,16 +91,15 @@ int Pg::UI::Manager::UIManager::IsWindowFocus(std::string windowName)
 	return _imguiManager->IsFocus(windowName);
 }
 
-float Pg::UI::Manager::UIManager::GetMousePosX(float width)
+float Pg::UI::Manager::UIManager::GetMousePosX()
 {
-	return _imguiManager->GetMousePosX(width);
+	return _imguiManager->GetMousePosX();
 }
 
-float Pg::UI::Manager::UIManager::GetMousePosY(float height)
+float Pg::UI::Manager::UIManager::GetMousePosY()
 {
-	return _imguiManager->GetMousePosY(height);
+	return _imguiManager->GetMousePosY();
 }
-
 
 float Pg::UI::Manager::UIManager::GetWindowWidth()
 {

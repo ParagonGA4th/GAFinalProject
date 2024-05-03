@@ -117,7 +117,7 @@ void Pg::Editor::System::FileSystem::OpenProject()
 void Pg::Editor::System::FileSystem::SaveProject()
 {
 	_isScene = false;
-	ShowDialog(false);
+	if(_rootPathWithFileName.empty()) ShowDialog(false);
 
 	if (_isCancel)
 	{
@@ -194,6 +194,7 @@ void Pg::Editor::System::FileSystem::CreateFolderPath()
 
 void Pg::Editor::System::FileSystem::CreateFolder()
 {
+	if (!_rootPath.empty()) return;
 	CreateFolderPath();
 
 	fs::path rootPath = _rootPath;

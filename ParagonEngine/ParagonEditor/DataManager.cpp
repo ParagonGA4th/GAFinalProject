@@ -14,6 +14,8 @@
 #include <visit_struct/visit_struct_intrusive.hpp>
 
 
+#include "../ParagonUtil/Log.h"
+
 Pg::Editor::Manager::DataManager::DataManager()
 {
 	auto& tdataCon = singleton<Pg::Editor::Data::DataContainer>();
@@ -205,30 +207,29 @@ void Pg::Editor::Manager::DataManager::ProjectSave()
 
 void Pg::Editor::Manager::DataManager::SceneSave()
 {
-	//for (auto& scene : _dataContainer->GetSceneList())
-	//{
+	for (auto& scene : _dataContainer->GetSceneList())
+	{
+		pugi::xml_document doc;
 
-	pugi::xml_document doc;
+		pugi::xml_node declarationNode = doc.prepend_child(pugi::node_declaration);
+		declarationNode.append_attribute("version") = "1.0";
+		declarationNode.append_attribute("encoding") = "utf-8";
 
-	pugi::xml_node declarationNode = doc.prepend_child(pugi::node_declaration);
-	declarationNode.append_attribute("version") = "1.0";
-	declarationNode.append_attribute("encoding") = "utf-8";
+		doc.append_child("scene");
+		pugi::xml_node node = doc.child("scene").append_child("objects");
 
-	doc.append_child("scene");
-	pugi::xml_node node = doc.child("scene").append_child("objects");
+		DataSerialize(node, scene);
 
-	DataSerialize(node, _dataContainer->GetCurrentScene());
+		std::stringstream ss;
+		doc.save(ss, "\t"); // save 함수를 사용하여 스트림에 XML을 저장
 
-	std::stringstream ss;
-	doc.save(ss, "\t"); // save 함수를 사용하여 스트림에 XML을 저장
+		std::string docToString = ss.str();
 
-	std::string docToString = ss.str();
+		_sceneSerializeData.insert({ scene->GetSceneName(), docToString });
 
-	_sceneSerializeData.insert({ _dataContainer->GetCurrentScene()->GetSceneName(), docToString });
+		std::string sceneName = scene->GetSceneName().substr(0, scene->GetSceneName().rfind("."));
 
-	std::string sceneName = _dataContainer->GetCurrentScene()->GetSceneName().substr(0, _dataContainer->GetCurrentScene()->GetSceneName().rfind("."));
-
-	//}
+	}
 }
 
 
@@ -252,6 +253,7 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 		bool parent = Pg::Serialize::Serializer::DeserializeBoolean(&object, "parent");
 		std::string parent_uuid = Pg::Serialize::Serializer::DeserializeString(&object, "parent_uuid");
 
+		if (parent_uuid.empty()) parent = false;
 
 		// 컴포넌트를 추가하기 위해 노드 가져오기
 		pugi::xml_node comps = object.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "components"; });
