@@ -295,9 +295,11 @@
     <ClInclude Include="AlphaBlendedTotalRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\7_AlphaBlendingTotalRenderPass</Filter>
     </ClInclude>
-    <ClInclude Include="RenderObjectInstancedMesh3D.h" />
     <ClInclude Include="DirectXTexEXR.h">
       <Filter>13_LibraryExtensions\DirectXTexEXR</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectInstancedMesh3D.h">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectInstancedMesh3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -541,9 +543,11 @@
     <ClCompile Include="AlphaBlendedTotalRenderPass.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\7_AlphaBlendingTotalRenderPass</Filter>
     </ClCompile>
-    <ClCompile Include="RenderObjectInstancedMesh3D.cpp" />
     <ClCompile Include="DirectXTexEXR.cpp">
       <Filter>13_LibraryExtensions\DirectXTexEXR</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectInstancedMesh3D.cpp">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectInstancedMesh3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
