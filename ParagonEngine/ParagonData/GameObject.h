@@ -42,6 +42,9 @@ namespace Pg::Data
 		void FixedUpdate();
 		void LateUpdate();
 
+		//EditMode로 변경되었을 때, 정보를 리셋할 수 있게 해주는 애. (Static Scene List 전용)
+		void OnEngineStop();
+
 		//충돌에 관한 함수.
 		void OnCollisionStay();
 		void OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count);

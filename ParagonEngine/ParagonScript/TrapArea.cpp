@@ -37,31 +37,12 @@ void Pg::DataScript::TrapArea::Update()
 	{
 		auto dcol = _playerBattleBehavior->_object->GetComponent<Pg::Data::DynamicCollider>();
 
-		// 플레이어의 체력이 계속 깎여야 함
-		//if (Pg::Util::CheckInBox::IsIn3DBox(
-		//	_object->_transform._position, _collider->_width, _collider->_height, _collider->_depth,
-		//	_playerBattleBehavior->_object->_transform._position, dcol->GetWidth(), dcol->GetHeight(), dcol->GetDepth()))
-		//{
-		// 
-		if (Pg::Util::CheckInBox::IsIn3DBox(
-			_collider->_object->_transform._position, _object->_transform._scale.x, _object->_transform._scale.y, _object->_transform._scale.z,
-			_playerBattleBehavior->_object->_transform._position, dcol->GetWidth(), dcol->GetHeight(), dcol->GetDepth()))
+		if (_onTriggerStay)
 		{
-		// 플레이어의 체력이 계속 깎여야 함
+			// 플레이어의 체력이 계속 깎여야 함
 			_playerBattleBehavior->healthPoint -= _deltaTime->GetDeltaTime() * _damage;
 			auto mesh = _playerBattleBehavior->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 			mesh->SetActive(!mesh->GetActive());
-
-			PG_TRACE("Stay");
-			PG_TRACE(_playerMovement->moveSpeed);
-		}
-		else
-		{
-			// 플레이어의 속도가 돌아와야 함
-			_playerMovement->moveSpeed = _previousMoveSpeed;
-
-			auto mesh = _playerBattleBehavior->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-			mesh->SetActive(true);
 		}
 	}
 }
@@ -70,14 +51,28 @@ void Pg::DataScript::TrapArea::OnTriggerEnter(Pg::Data::Collider* col)
 {
 	if (col->_object->GetTag() == "TAG_Player")
 	{
+		_onTriggerStay = true;
+
 		// 플레이어의 움직임이 느려져야 함
 		_playerBattleBehavior = col->_object->GetComponent<Pg::DataScript::PlayerBattleBehavior>();
 		_playerMovement = col->_object->GetComponent<Pg::DataScript::PlayerMovement>();
 		assert(_playerBattleBehavior != nullptr && _playerMovement != nullptr);
 
 		_previousMoveSpeed = _playerMovement->moveSpeed;
-		_playerMovement->moveSpeed = 13.f/*_previousMoveSpeed */;
+		_playerMovement->moveSpeed = _previousMoveSpeed / 2;
+	}
+}
 
-		PG_TRACE("Trigger");
+void Pg::DataScript::TrapArea::OnTriggerExit(Pg::Data::Collider* col)
+{
+	if (col->_object->GetTag() == "TAG_Player")
+	{
+		_onTriggerStay = false;
+	
+		// 플레이어의 속도가 돌아와야 함
+		_playerMovement->moveSpeed = _previousMoveSpeed;
+
+		auto mesh = _playerBattleBehavior->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		mesh->SetActive(true);
 	}
 }
