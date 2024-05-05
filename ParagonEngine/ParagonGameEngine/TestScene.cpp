@@ -138,7 +138,7 @@ void Pg::Engine::TestScene::Initialize()
 	{
 		Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
 		tObj7->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
-		tObj7->GetComponent<Transform>()->_scale = { 100.0f, 100.0f, 100.f };
+		tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.f };
 		tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 		tObj7->AddComponent<PlaneCollider>();
 		//tObj7->GetComponent<PlaneCollider>();

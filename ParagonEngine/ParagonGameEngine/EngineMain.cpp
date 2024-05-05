@@ -23,6 +23,7 @@
 #include "../ParagonUtil/Log.h"
 #include "../ParagonUtil/TimeSystem.h"
 #include "../ParagonAPI/KeyCodeType.h"
+#include "../ParagonMath/PgMath.h"
 #include <singleton-cpp/singleton.h>
 
 #ifdef _DEBUG
@@ -97,9 +98,28 @@ namespace Pg::Engine
 		_soundSystem->Initialize(resourceListPath);
 		_navSystem->Initialize();
 		_navSystem->HandleBuild(0);
+		_navSystem->HandleBuild(1);
 		_behaviorTreeSystem->Initialize(resourceListPath);
 
-		_navSystem->SetSEpos(0, -23.0f, 0.0f, -10.0f, -90.0f, 0.0f, 96.0f);
+		///Recast관련 테스트 코드.
+		_navSystem->SetSEpos(0, 0.0f, 0.0f, 0.0f, -10.0f, 0.0f, 10.0f);
+
+		_navSystem->AddTempObstacle(Pg::Math::PGFLOAT3(20.0f, 0.0f, 10.0f), 4.0f, 4.0f);
+
+		std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos1 = _navSystem->FindStraightPath(0);
+		std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos2 = _navSystem->FindStraightPath(1);
+		Pg::Math::PGFLOAT3 navipos3 = _navSystem->FindRaycastPath(0);
+
+		for (auto path : navipos1)
+		{
+			_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 1.0f, 0.0f, 1.0f));
+		}
+
+		for (auto path : navipos2)
+		{
+			_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
+		}
+		_debugSystem->DrawLineDebug(Pg::Math::PGFLOAT3(-23.0f, 0.0f, -10.0f), navipos3, Pg::Math::PGFLOAT4(1.0f, 0.0f, 1.0f, 1.0f));
 	}
 
 	void EngineMain::Update()

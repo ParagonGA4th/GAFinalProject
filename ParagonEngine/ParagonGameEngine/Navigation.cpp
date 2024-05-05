@@ -742,7 +742,7 @@ namespace Pg::Engine
 		return Pg::Math::PGFLOAT3(pos[0], pos[1], pos[2]);
 	}
 
-	void Navigation::AddTempObstacle(DirectX::XMFLOAT3 pos, float radius, float height)
+	void Navigation::AddTempObstacle(Pg::Math::PGFLOAT3 pos, float radius, float height)
 	{
 		for (int i = 0; i < PACKAGESIZE; i++)
 		{
@@ -873,6 +873,45 @@ namespace Pg::Engine
 
 			result.push_back(std::make_pair(strindex, nxtindex));
 		}
+
+		return result;
+	}
+
+	Pg::Math::PGFLOAT3 Navigation::FindRaycastPath(int index)
+	{
+#define PACKAGE _package[index]
+
+		Pg::Math::PGFLOAT3 result = {};
+
+		float t = 0;
+		PACKAGE._pathCount = 0;
+		PACKAGE._nstraightPath = 2;
+		PACKAGE._straightPath[0] = PACKAGE._startPos[0];
+		PACKAGE._straightPath[1] = PACKAGE._startPos[1];
+		PACKAGE._straightPath[2] = PACKAGE._startPos[2];
+		dtStatus status = PACKAGE._navQuery->raycast(PACKAGE._startRef, PACKAGE._startPos, PACKAGE._endPos
+			, &PACKAGE._filter, DT_RAYCAST_USE_COSTS
+			, &PACKAGE._hit, PACKAGE._RaycastPathPolys);
+		if (PACKAGE._hit.t > 1)
+		{
+			// No hit
+			dtVcopy(PACKAGE._hitPos, PACKAGE._endPos);
+		}
+		else
+		{
+			// Hit
+			dtVlerp(PACKAGE._hitPos, PACKAGE._startPos, PACKAGE._endPos, PACKAGE._hit.t);
+		}
+		// Adjust height.
+		if (PACKAGE._pathCount > 0)
+		{
+			float h = 0;
+			PACKAGE._navQuery->getPolyHeight(PACKAGE._path[PACKAGE._pathCount - 1], PACKAGE._hitPos, &h);
+			PACKAGE._hitPos[1] = h;
+		}	
+		result.x = PACKAGE._hitPos[0];
+		result.y = PACKAGE._hitPos[1];
+		result.z = PACKAGE._hitPos[2];
 
 		return result;
 	}

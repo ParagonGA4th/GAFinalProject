@@ -94,6 +94,7 @@ namespace Pg::Engine
 		// 네비매쉬를 업데이트 한다.
 		void HandleUpdate(const float dt);
 
+		//매쉬를 빌드할 때, Tile단위로 불러오기 위함이다.
 		int rasterizeTileLayers(const int tx, const int ty, const rcConfig& cfg, struct TileCacheData* tiles, const int maxTiles);
 		void getTilePos(const float* pos, int& tx, int& ty);
 		void renderCachedTile(const int tx, const int ty, const int type);
@@ -104,10 +105,11 @@ namespace Pg::Engine
 		// 이미 탐색된 경로를 가져오는 함수
 		std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> GetPath(int index);
 		// Raycast 탐색 함수. (직선경로에 부딧히는게 있다면 거기까지만 경로 표시
+		Pg::Math::PGFLOAT3 FindRaycastPath(int index);
 
 		// 장애물을 추가한다.
 		// pos = 장애물 위치 / radius = 장애물 크기 / height = 장애물 사이즈
-		void AddTempObstacle(DirectX::XMFLOAT3 pos, float radius, float height);
+		void AddTempObstacle(Pg::Math::PGFLOAT3 pos, float radius, float height);
 		// pos = 장애물 위치 / bmin = 장애물 최소좌표 / bmax = 장애물 최대좌표
 		void AddBoxTempObstacle(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 bmin, DirectX::XMFLOAT3 bmax);
 		// 특정 장애물을 제거한다.
