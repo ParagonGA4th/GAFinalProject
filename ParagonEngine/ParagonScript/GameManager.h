@@ -2,6 +2,9 @@
 #include "ScriptInterface.h"
 #include "GameState.h"
 
+#include <string>
+#include <vector>
+
 namespace Pg::DataScript
 {
 	class GameManager : public ScriptInterface<GameManager>
@@ -14,27 +17,19 @@ namespace Pg::DataScript
 		virtual void Update() override;
 
 	private:
-		// 현재 Scene Info -> name 정도
-		// Scene Info
-		// Scene Name
-		// {
-		//	1. Main
-		//  2. GameStage_1
-		//  3. GameStage_2
-		//  4. GameStage_3
-		//  5. Ending
-		// }
+		eGameState _gameState;			// 게임 상태 
+		float _gameTime;				// 게임 내 시간
+		std::string _prevSceneName;		// 이전 씬
+		std::string _currentSceneName;	// 현재 씬
+		std::vector<std::string> _sceneList; // 씬들의 목록
 
-		// 현재 게임이 실행 중인지 아닌지(Pause / ReStart / End)
-		// Play
-		// pause
-		// stop
-		eGameState _gameState;
-
-		// Player state 
-		// live
-		// die
-
+		/// Player
+		int _playersLife;				// 플레이어의 목숨
+		ePlayerState _playerState;		// 플레이어의 상태
+		std::vector<std::pair<std::string, bool>> _artifacts;	// 플레이어가 보유 중인 아티팩트
+		
+		/// Stage
+		std::vector<std::pair<std::string, int>> _numberOfMonsters;	// 스테이지 별 몬스터의 개수
 	};
 }
 
