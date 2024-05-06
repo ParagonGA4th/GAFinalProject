@@ -9,4 +9,10 @@ namespace Pg::DataScript
 		_PAUSE,			// ∞‘¿”¿Ã ∏ÿ√Ë¿ª ∂ß
 		_STOP,			// ∞‘¿”¿Ã ≥°≥µ¿ª ∂ß
 	};
+
+	enum class ePlayerState
+	{
+		_LIVE,
+		_DIE,
+	};
 }
