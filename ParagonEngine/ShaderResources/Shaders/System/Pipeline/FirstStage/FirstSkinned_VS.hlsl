@@ -6,7 +6,7 @@
 #include "../../Libraries/System_PerObjectBuffers.hlsli"
 #include "../../Libraries/System_1stLayouts.hlsli"
 
-VOut1st main(Vin1stSkinned input)
+VOut1st main(Vin1stPassSkinned input)
 {
     VOut1st output; //= (VOut1st) 0;
 	
@@ -34,8 +34,9 @@ VOut1st main(Vin1stSkinned input)
     // 동차좌표계 내 Position 계산.
     output.vout1st_PosH = mul(gCBuf_WorldViewProj, float4(skinnedPosL, 1.0f));
 	
-	// Alpha
-    output.vout1st_Alpha = input.vin1st_Alpha;
+    output.vout1st_MeshMatID = input.vin1st_MeshMatID;
+    output.vout1st_Tex = input.vin1st_Tex;
+    output.vout1st_LightmapUV = float2(0, 0); // Skinned는 Lightmap이 허용될 수 없다.
 	
 	// Normal을 Local -> World 이동.
     output.vout1st_NormalW = mul((float3x3) gCBuf_WorldInvTranspose, skinnedNormalL);
@@ -44,9 +45,7 @@ VOut1st main(Vin1stSkinned input)
     output.vout1st_TangentW = mul((float3x3) gCBuf_WorldInvTranspose, skinnedTangentL);
 	
 	output.vout1st_Color = input.vin1st_Color;
-	output.vout1st_MeshMatID = input.vin1st_MeshMatID;
-	output.vout1st_Tex = input.vin1st_Tex;
-    output.vout1st_LightmapUV = float2(0, 0); // Skinned는 Lightmap이 허용될 수 없다.
+
     
     return output;
 }

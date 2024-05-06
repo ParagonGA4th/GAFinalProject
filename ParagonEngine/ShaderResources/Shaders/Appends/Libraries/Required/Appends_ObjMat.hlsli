@@ -10,7 +10,9 @@
 //매 Material마다 업데이트해준다. 같은 Material인지 ID 검사를 하기 위해.
 //X : Object ID, Y : Material ID
 
-Texture2D<float2> _objMatSRV : register(t3);
+//이제 objMat이 t12로 합쳐져서 PBR Buffer와 같은 곳으로 전달되면서,
+//어쩔 수 없이 float4 중에 xy만을 써야 한다.
+Texture2D<float4> _objMatSRVwAoR : register(t12);
 
 cbuffer cbInputMaterial : register(b3)
 {
@@ -19,12 +21,12 @@ cbuffer cbInputMaterial : register(b3)
 
 uint GetObjectID(float2 quadUV)
 {
-    return asuint(_objMatSRV.Sample(fullScreenQuadSS, quadUV).x);
+    return asuint(_objMatSRVwAoR.Sample(fullScreenQuadSS, quadUV).x);
 }
 
 uint GetMaterialID(float2 quadUV)
 {
-    return asuint(_objMatSRV.Sample(fullScreenQuadSS, quadUV).y);
+    return asuint(_objMatSRVwAoR.Sample(fullScreenQuadSS, quadUV).y);
 }
 
 //원본
@@ -39,6 +41,9 @@ void ClipUnfits(float2 quadUV)
 //Outline Picking을 위해.
 void ClipUnfitsObjectID(float2 quadUV)
 {
+    // 몰랐지만, asfloat, asuint는 일반 캐스팅과 달리 
+    // 비트패턴 해석만 다르게 하는 것이다. 
+    // 이미 float으로 올려놨기 때문에 놔둔다.
     float sampledMatID = asfloat(GetObjectID(quadUV));
 
     clip(inputID - sampledMatID + 0.1f);
@@ -53,6 +58,5 @@ bool CheckIfFitObjectID(float2 quadUV)
     bool tRet = ((tVal1 >= 0.0f) && (tVal2 >= 0.0f));
     return tRet;
 }
-
 
 #endif //__DEFINED_APPENDS_OBJMAT_HLSL__

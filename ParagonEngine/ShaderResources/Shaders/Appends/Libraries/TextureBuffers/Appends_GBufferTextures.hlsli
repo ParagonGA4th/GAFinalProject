@@ -17,22 +17,28 @@ float2 GetUV_F2(float2 quadUV)
     return internal_GBuffer[0].Sample(fullScreenQuadSS, quadUV).xy;
 }
 
-float GetMeshMatID(float2 quadUV)
-{
-    //RT0 : Mesh Material ID. (z)
-    return internal_GBuffer[0].Sample(fullScreenQuadSS, quadUV).z;
-}
-
 float3 GetTex2DArrayUV_F3(float2 quadUV)
 {
     //RT0 : Texture UV Coords w/ (xy) Mesh Material ID (z)
     return internal_GBuffer[0].Sample(fullScreenQuadSS, quadUV).xyz;
 }
 
-float GetAlpha(float2 quadUV)
+float GetMeshMatID(float2 quadUV)
 {
-    //RT0 : Alpha (w)
+    //RT0 : Mesh Material ID. (z)
+    return internal_GBuffer[0].Sample(fullScreenQuadSS, quadUV).z;
+}
+
+float2 GetDepth_WDivide(float2 quadUV)
+{
+    //RT0 : W Divide Depth.
     return internal_GBuffer[0].Sample(fullScreenQuadSS, quadUV).w;
+}
+
+//DSV Depth: 별도로 관리됨.
+float GetDepth_DSV(float2 quadUV)
+{
+    return internal_DepthBuffer.Sample(fullScreenQuadSS, quadUV);
 }
 
 float3 GetNormal(float2 quadUV)
@@ -47,37 +53,26 @@ float3 GetPosition(float2 quadUV)
     return internal_GBuffer[2].Sample(fullScreenQuadSS, quadUV).xyz;
 }
 
-float3 GetVertexColor(float2 quadUV)
+float3 GetTangent(float2 quadUV)
 {
-    //RT3 : 3D Model Color. (For Blending) (xyz)
+    //RT3 : World Space Tangent (xyz)
     return internal_GBuffer[3].Sample(fullScreenQuadSS, quadUV).xyz;
 }
 
-float3 GetTangent(float2 quadUV)
+float3 GetVertexColor(float2 quadUV)
 {
-   //Tangent Collection
-    float tanx = internal_GBuffer[1].Sample(fullScreenQuadSS, quadUV).w;
-    float tany = internal_GBuffer[2].Sample(fullScreenQuadSS, quadUV).w;
-    float tanz = internal_GBuffer[3].Sample(fullScreenQuadSS, quadUV).w;
+    //VertexBlending Color.
+    float color_x = internal_GBuffer[1].Sample(fullScreenQuadSS, quadUV).w;
+    float color_y = internal_GBuffer[2].Sample(fullScreenQuadSS, quadUV).w;
+    float color_z = internal_GBuffer[3].Sample(fullScreenQuadSS, quadUV).w;
    
-    return float3(tanx, tany, tanz);
-}
-
-float2 GetDepth_WDivide(float2 quadUV)
-{
-    return internal_GBuffer[4].Sample(fullScreenQuadSS, quadUV).x;
+    return float3(color_x, color_y, color_z);
 }
 
 float2 GetLightmapUV(float2 quadUV)
 {
-    //RT4 : LightMap Texture UV Coords (zw)
-    return internal_GBuffer[4].Sample(fullScreenQuadSS, quadUV).zw;
-}
-
-//Depth: 별도로 관리됨.
-float GetDepth_DSV(float2 quadUV)
-{
-    return internal_DepthBuffer.Sample(fullScreenQuadSS, quadUV);
+    //RT4 : LightMap Texture UV Coords (xy)
+    return internal_GBuffer[4].Sample(fullScreenQuadSS, quadUV).xy;
 }
 
 #endif //__DEFINED_APPENDS_GBUFFER_TEXTURES_HLSL__

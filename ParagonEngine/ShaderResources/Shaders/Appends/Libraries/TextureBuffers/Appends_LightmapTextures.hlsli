@@ -3,16 +3,19 @@
 
 #include "../SamplerStates/Appends_SamplerStates.hlsli"
 
-Texture2D<float4> internal_Lightmap : register(t2);
+//Instancing ID가 같이 들어온다.
+Texture2DArray<float4> internal_LightmapArray : register(t2);
 
-float GetLightmapDataAlpha(float2 lightmapUV)
+float GetLightmapDataAlpha(float2 lightmapUV, uint lightmapID)
 {
-    return internal_Lightmap.Sample(lightmapSS, lightmapUV).w;
+    float3 tUV = float3(lightmapUV, (float)lightmapID);
+    return internal_LightmapArray.Sample(lightmapSS, tUV).w;
 }
 
-float4 GetLightmapData(float2 lightmapUV)
+float4 GetLightmapData(float2 lightmapUV, uint lightmapID)
 {
-    return internal_Lightmap.Sample(lightmapSS, lightmapUV);
+    float3 tUV = float3(lightmapUV, (float) lightmapID);
+    return internal_LightmapArray.Sample(lightmapSS, tUV);
 }
 
 #endif //__DEFINED_APPENDS_LIGHTMAP_TEXTURES_HLSL__
