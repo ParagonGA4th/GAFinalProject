@@ -98,34 +98,18 @@ namespace Pg::Engine
 		_soundSystem->Initialize(resourceListPath);
 		_navSystem->Initialize();
 		_navSystem->HandleBuild(0);
-		_navSystem->HandleBuild(1);
+		//_navSystem->HandleBuild(1);
 		_behaviorTreeSystem->Initialize(resourceListPath);
 
 		///Recast관련 테스트 코드.
-		_navSystem->SetSEpos(0, 0.0f, 0.0f, 0.0f, -10.0f, 0.0f, 10.0f);
+		_navSystem->SetSEpos(0, 0.0f, 0.0f, 0.0f, -90.0f, 0.0f, 96.0f);
+		//_navSystem->SetSEpos(1, -23.0f, 0.0f, -10.0f, -90.0f, 0.0f, 96.0f);
 
-		_navSystem->AddTempObstacle(Pg::Math::PGFLOAT3(20.0f, 0.0f, 10.0f), 4.0f, 4.0f);
-
-		std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos1 = _navSystem->FindStraightPath(0);
-		std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos2 = _navSystem->FindStraightPath(1);
-		Pg::Math::PGFLOAT3 navipos3 = _navSystem->FindRaycastPath(0);
-
-		for (auto path : navipos1)
-		{
-			_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 1.0f, 0.0f, 1.0f));
-		}
-
-		for (auto path : navipos2)
-		{
-			_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
-		}
-		_debugSystem->DrawLineDebug(Pg::Math::PGFLOAT3(-23.0f, 0.0f, -10.0f), navipos3, Pg::Math::PGFLOAT4(1.0f, 0.0f, 1.0f, 1.0f));
+		//_navSystem->AddTempObstacle(Pg::Math::PGFLOAT3(20.0f, 0.0f, 10.0f), 4.0f, 4.0f);
 	}
 
 	void EngineMain::Update()
-	{
-
-		
+	{	
 		if (_currentRecordedEditMode != _previousEditMode)
 		{
 			if (_currentRecordedEditMode == Data::Enums::eEditorMode::_NONE ||
@@ -180,14 +164,31 @@ namespace Pg::Engine
 			_sceneSystem->Update(true);
 			_tweenSystem->Update();
 			_soundSystem->Update();
-			_navSystem->HandleUpdate(_timeSystem->GetDeltaTime());
 			_behaviorTreeSystem->Update();
 			_physicSystem->UpdateTransform();
 			_physicSystem->ApplyRuntimeChangesCollider(); // 현재로서는 하는 거 없음. 
 		}
 
+		_navSystem->HandleUpdate(_timeSystem->GetDeltaTime());
 		_debugSystem->EnableToggleDebugOnOff();
 		_debugSystem->Update(_sceneSystem->GetCurrentScene());
+
+		///Recast Obj 파일 디버그 그리기
+		std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos1 = _navSystem->FindStraightPath(0);
+		//std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos2 = _navSystem->FindStraightPath(1);
+		Pg::Math::PGFLOAT3 navipos3 = _navSystem->FindRaycastPath(0);
+
+		for (auto path : navipos1)
+		{
+			_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 1.0f, 0.0f, 1.0f));
+		}
+
+		//for (auto path : navipos2)
+		//{
+		//	_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
+		//}
+
+		_debugSystem->DrawLineDebug(Pg::Math::PGFLOAT3(-23.0f, 0.0f, -10.0f), navipos3, Pg::Math::PGFLOAT4(1.0f, 0.0f, 1.0f, 1.0f));
 
 		//명시적으로 바뀔 때 감지를 할 수 있게 하기 위해, 
 		//현재의 Editor Mode를 전의 것이라고 대입한다.

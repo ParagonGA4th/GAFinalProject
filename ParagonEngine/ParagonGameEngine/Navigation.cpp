@@ -173,7 +173,7 @@ namespace Pg::Engine
 	bool Navigation::HandleBuild(int index)
 	{
 		dtStatus status;
-		_geom->load(_ctx, "Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale.obj");
+		_geom->load(_ctx, "../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast.obj");
 
 		if (!_geom || !_geom->getMesh())
 		{
