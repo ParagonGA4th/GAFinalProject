@@ -3,8 +3,9 @@
 
 Texture2DArray<float4> AlbedoTextureArray    : register(t8);
 Texture2DArray<float4> NormalTextureArray    : register(t9);
-Texture2DArray<float4> SpecularTextureArray  : register(t10);
-Texture2DArray<float4> ArmTextureArray       : register(t11);
+Texture2DArray<float4> ArmTextureArray       : register(t10);
+Texture2DArray<float4> AlphaTextureArray     : register(t11);
+// Specular 제거, 대신 Alpha 추가.
 
 POutPerObjMat main(VOutPerObjMat input)
 {
@@ -12,22 +13,25 @@ POutPerObjMat main(VOutPerObjMat input)
     
     //<uint2>
     //Object ID 전달.
-    output.pout_ObjMat.x = input.vout1st_ObjID;
+    output.pout_ObjMatAoR.x = input.vout1st_ObjID;
     //Material ID 전달.
-    output.pout_ObjMat.y = input.vout1st_MatID;
+    output.pout_ObjMatAoR.y = input.vout1st_MatID;
     
     float3 tT2UV3 = float3(input.vout1st_Tex, input.vout1st_MeshMatID);
-    
-    //ARM 제외 텍스쳐 할당.
-    output.pout_AlbedoAO.xyz = AlbedoTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
-    output.pout_NormalRoughness.xyz = NormalTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
-    output.pout_SpecularMetallic.xyz = SpecularTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
-    
-    //ARM 텍스쳐 할당.
     float3 tARMSampleVal = ArmTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
-    output.pout_AlbedoAO.w = tARMSampleVal.x;
-    output.pout_NormalRoughness.w = tARMSampleVal.y;
-    output.pout_SpecularMetallic.w = tARMSampleVal.z;
+    
+    //Ambient Occlusion 값 전달.
+    output.pout_ObjMatAoR.z = tARMSampleVal.x;
+    //Roughness Map 값 전달.
+    output.pout_ObjMatAoR.w = tARMSampleVal.y;
+    //Albedo Map 값 전달.
+    output.pout_AlbedoMetallic.xyz = AlbedoTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
+    //Metallic Map 전달.
+    output.pout_AlbedoMetallic.w = tARMSampleVal.z;
+    //Normal Map 전달.
+    output.pout_NormalAlpha.xyz = NormalTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
+    //Alpha Map 전달.
+    output.pout_NormalAlpha.w = AlphaTextureArray.Sample(defaultTextureSS, tT2UV3).x;
     
     return output;
 }

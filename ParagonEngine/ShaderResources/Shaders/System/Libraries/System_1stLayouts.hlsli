@@ -109,7 +109,7 @@ struct POut1st_Instanced //RGBA
     
     //3rd Pass 통합.
     // RT0 : DXGI_FORMAT_R32G32B32A32_FLOAT 기준.
-    float4 pout_ObjMatAoR : SV_Target5; // x : ObjID / y : MatID / z : AO(A) / w : Roughness(A)
+    float4 pout_ObjMatAoR : SV_Target5; // x : ObjID / y : MatID / z : AO / w : Roughness
 
     // RT1 : DXGI_FORMAT_R32G32B32A32 기준. Albedo(RGB), Metallic (A)
     float4 pout_AlbedoMetallic : SV_Target6;
@@ -124,9 +124,9 @@ struct POut1st //RGBA
 {
     //이렇게 유지하자!
     float4 pout1st_RT0 : SV_Target0; //RT0 : Texture UV Coords (xy), Mesh Material ID (z), W Divide Depth (w)
-    float4 pout1st_RT1 : SV_Target1; //RT1 : World Space Normal (xyz), World Space Tangent.x (w)
-    float4 pout1st_RT2 : SV_Target2; //RT2 : World Space Position (xyz), World Space Tangent.y (w)
-    float4 pout1st_RT3 : SV_Target3; //RT3 : 3D Model Color (xyz), World Space Tangent.z (w)
+    float4 pout1st_RT1 : SV_Target1; //RT1 : World Space Normal (xyz), VertexColor.x (w)
+    float4 pout1st_RT2 : SV_Target2; //RT2 : World Space Position (xyz), VertexColor.y (w)
+    float4 pout1st_RT3 : SV_Target3; //RT3 : World Space Tangent (xyz),    VertexColor.z (w)
     float4 pout1st_RT4 : SV_Target4; //RT4 : LightMap Texture UV Coords (xy), BLANK (zw)
    
     //따로 DSV에서 값 빼서 전달하지 말자.
