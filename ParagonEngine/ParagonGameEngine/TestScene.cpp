@@ -142,9 +142,9 @@ void Pg::Engine::TestScene::Initialize()
 		tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 		tObj7->AddComponent<PlaneCollider>();
 		//tObj7->GetComponent<PlaneCollider>();
-		tObj7->AddComponent<StaticMeshRenderer>();
-		tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale.obj");
-		tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+		//tObj7->AddComponent<StaticMeshRenderer>();
+		//tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale.obj");
+		//tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	}
 	
 	{
