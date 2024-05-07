@@ -11,8 +11,8 @@
 //Constant Buffers
 cbuffer cbPerObjMatBase : register(b0)
 {
+     //얘는 내적으로 Column Major로 쓰일 것.
     float4x4 gCBuf_World;
-    float4x4 gCBuf_WorldViewProj;
 };
 
 cbuffer cbPerObjMatSkinnedNodes : register(b1)
