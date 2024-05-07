@@ -103,6 +103,9 @@
     <Filter Include="Content\0_GameManager">
       <UniqueIdentifier>{91c521fc-a6c6-4fc8-9db1-030622a1024f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\SoundManager">
+      <UniqueIdentifier>{9935366b-e361-48a7-b2d1-dc6fa30df9bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -167,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>Content\0_GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Content\SoundManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +271,9 @@
     </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>2_Events\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Content\SoundManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

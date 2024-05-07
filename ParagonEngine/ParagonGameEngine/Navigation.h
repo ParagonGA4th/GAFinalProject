@@ -119,7 +119,6 @@ namespace Pg::Engine
 		// 모든 장애물을 제거한다.
 		void ClearAllTempObstacles();
 
-		//DirectX::XMFLOAT3 FindRaycastPath(int index);
 		// startpos 와 endpos를 입력하는 함수. float[3] 버전
 		void SetSEpos(int index, float sx, float sy, float sz, float ex, float ey, float ez);
 		// startpos 와 endpos를 입력하는 함수. XMFLOAT3 버전
@@ -150,6 +149,10 @@ namespace Pg::Engine
 	
 	private:
 		Pg::Math::PGFLOAT3 vertex(const float* pos);
+
+		///다중 Agent를 위해서면 리스트 형태로 관리해야 하지 않을까?
+		///구조화 시 고민해야 함
+		std::vector<Agent> _agentVec;
 		
 		///Navgation을 위해 필요한 변수들.
 		static const int PACKAGESIZE = 5;
@@ -170,6 +173,9 @@ namespace Pg::Engine
 		rcConfig _cfg;
 		rcPolyMeshDetail* _dmesh;
 		rcContext* _ctx;
+
+		//Agent관리를 위한 변수
+		dtCrowd* _crowd;
 
 		unsigned char _navMeshDrawFlags;
 

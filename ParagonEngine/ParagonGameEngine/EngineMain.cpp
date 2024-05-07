@@ -102,10 +102,8 @@ namespace Pg::Engine
 		_behaviorTreeSystem->Initialize(resourceListPath);
 
 		///Recast관련 테스트 코드.
-		_navSystem->SetSEpos(0, 0.0f, 0.0f, 0.0f, -90.0f, 0.0f, 96.0f);
+		_navSystem->SetSEpos(0, 0.0f, 0.0f, 0.0f, -10.0f, 0.0f, 10.0f);
 		//_navSystem->SetSEpos(1, -23.0f, 0.0f, -10.0f, -90.0f, 0.0f, 96.0f);
-
-		//_navSystem->AddTempObstacle(Pg::Math::PGFLOAT3(20.0f, 0.0f, 10.0f), 4.0f, 4.0f);
 	}
 
 	void EngineMain::Update()
@@ -169,19 +167,24 @@ namespace Pg::Engine
 			_physicSystem->ApplyRuntimeChangesCollider(); // 현재로서는 하는 거 없음. 
 		}
 
+		///Recast관련 업데이트
 		_navSystem->HandleUpdate(_timeSystem->GetDeltaTime());
 		_debugSystem->EnableToggleDebugOnOff();
 		_debugSystem->Update(_sceneSystem->GetCurrentScene());
 
+		std::vector<Pg::Math::PGFLOAT3> vertice;
+		std::vector<unsigned int> indice;
+		_navSystem->GetNavmeshRenderInfo(0, vertice, indice);
+
 		///Recast Obj 파일 디버그 그리기
-		std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos1 = _navSystem->FindStraightPath(0);
+		//std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos1 = _navSystem->FindStraightPath(0);
 		//std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos2 = _navSystem->FindStraightPath(1);
 		Pg::Math::PGFLOAT3 navipos3 = _navSystem->FindRaycastPath(0);
 
-		for (auto path : navipos1)
-		{
-			_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 1.0f, 0.0f, 1.0f));
-		}
+		//for (auto path : navipos1)
+		//{
+		//	_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 1.0f, 0.0f, 1.0f));
+		//}
 
 		//for (auto path : navipos2)
 		//{
@@ -272,6 +275,12 @@ namespace Pg::Engine
 	{
 		return _debugSystem->GetBox2DVector();
 	}
+
+	const std::vector<Pg::Data::NavMeshInfo*>& EngineMain::GetNavMeshDebugData() const
+	{
+		return _debugSystem->GetNavMeshVector();
+	}
+
 
 	void EngineMain::ClearDebugVectorData()
 	{
