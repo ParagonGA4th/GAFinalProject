@@ -41,10 +41,6 @@ namespace Pg::Editor::Data
 		std::vector<std::string> GetAssetList();
 		int GetAssetIndex(std::string assetName);
 
-		void SetUUID(std::string sceneName, std::unordered_map<std::string, std::string> uuid );
-		std::string GetUUID(std::string sceneName, std::string objName);
-		std::string GetObjNameWithUUID(std::string sceneName, std::string uuid);
-
 	private:
 		ID3D11Device* _device{ nullptr };
 		ID3D11DeviceContext* _deviceContext{ nullptr };
