@@ -67,6 +67,9 @@ namespace Pg::Data
 		const std::string& GetTag() const;
 		void SetTag(const std::string& tag);
 
+		const std::string& GetUUID() const;
+		void SetUUID(const std::string& uuid) ;
+
 		//True면 씬 이동할 때 파괴되지 않도록 할 것.
 		void SetDontDestroyOnLoad(bool val);
 		bool GetDontDestroyOnLoad();
@@ -117,6 +120,7 @@ namespace Pg::Data
 		bool _isActive;
 		std::string _objName;
 		std::string _objTag;
+		std::string _objUUID;
 
 	private:
 		Pg::Data::Scene* _belongScene;
