@@ -202,6 +202,11 @@ namespace Pg::Engine
 		_rayCastVec.push_back(rayCastInfo);
 	}
 
+	void DebugSystem::DrawNavMeshDebug(Pg::Data::NavMeshInfo* navMeshInfo)
+	{
+		_navMeshVec.push_back(navMeshInfo);
+	}
+
 	void DebugSystem::DrawLineDebug(PGFLOAT3 begin, PGFLOAT3 end, PGFLOAT4 col)
 	{
 		//[TW] Line 한정, 포인터가 되면 안된다.
@@ -250,6 +255,11 @@ namespace Pg::Engine
 		return _rayCastVec;
 	}
 
+	const std::vector<Pg::Data::NavMeshInfo*>& DebugSystem::GetNavMeshVector() const
+	{
+		return _navMeshVec;
+	}
+
 	void DebugSystem::DeleteBoxDebug()
 	{
 		_boxVec.clear();
@@ -289,7 +299,4 @@ namespace Pg::Engine
 	{
 		return _isDebug;
 	}
-
-	
-
 }

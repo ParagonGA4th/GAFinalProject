@@ -18,7 +18,6 @@ namespace Pg::Util
 	}
 }
 
-
 namespace Pg::Data
 {
 	class GameObject;

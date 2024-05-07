@@ -41,7 +41,7 @@ namespace Pg::Engine
 		_keepInterResults(false), _totalBuildTimeMs(0.0f)
 		// ∫ÙµÂ¡§∫∏
 		, _triareas(nullptr), _solid(nullptr), _chf(nullptr), _cset(nullptr), _pmesh(nullptr)
-		, _cfg(), _dmesh(nullptr), _ctx(nullptr)
+		, _cfg(), _dmesh(nullptr), _ctx(nullptr), _crowd(nullptr)
 		//
 		, _navMeshDrawFlags('\x3')
 		// ∫ÙµÂºº∆√
