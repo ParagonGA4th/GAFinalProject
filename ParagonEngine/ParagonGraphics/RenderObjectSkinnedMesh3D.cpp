@@ -348,7 +348,7 @@ namespace Pg::Graphics
 	void RenderObjectSkinnedMesh3D::BindMainVertexIndexBuffer()
 	{
 		//Vertex Buffer Skinned.
-		UINT stride = sizeof(LayoutDefine::Vin1stSkinned);
+		UINT stride = sizeof(LayoutDefine::Vin1stSkinned_Individual);
 		UINT offset = 0;
 		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(_modelData->_vertexBuffer), &stride, &offset);
 		//Index Buffer Setting.
@@ -363,29 +363,14 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());
 		DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
 
-		DirectX::XMMATRIX tWorldInvTransposeMat = DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, tWorldTMMat));
-
 		//0.01 스케일링 적용.
 		tWorldTMMat = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f), tWorldTMMat);
 
-		DirectX::XMFLOAT4X4 tViewTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData->_viewMatrix);
-		DirectX::XMMATRIX tViewTMMat = DirectX::XMLoadFloat4x4(&tViewTM);
-
-		DirectX::XMFLOAT4X4 tProjTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
-		DirectX::XMMATRIX tProjTMMat = DirectX::XMLoadFloat4x4(&tProjTM);
-
-		DirectX::XMFLOAT3 tCameraPositionW = Helper::MathHelper::PG2XM_FLOAT3(camData->_position);
-		DirectX::XMVECTOR tCameraPositionVec = DirectX::XMLoadFloat3(&tCameraPositionW);
-		DirectX::XMMATRIX tCameraPositionMat = DirectX::XMMatrixTranslationFromVector(tCameraPositionVec);
-
-		float tCamDistance = 0.0f;
-		DirectX::XMStoreFloat(&tCamDistance, DirectX::XMVector3Length(tCameraPositionVec));
+		//스케일링 적용 후에 InvTranspose를 곱해야지!
+		DirectX::XMMATRIX tWorldInvTransposeMat = DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, tWorldTMMat));
 
 		_cbFirstBase->GetDataStruct()->gCBuf_World = tWorldTMMat;
 		_cbFirstBase->GetDataStruct()->gCBuf_WorldInvTranspose = tWorldInvTransposeMat;
-		_cbFirstBase->GetDataStruct()->gCBuf_WorldView = DirectX::XMMatrixMultiply(tWorldTMMat, tViewTMMat);
-		_cbFirstBase->GetDataStruct()->gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
-		_cbFirstBase->GetDataStruct()->gCBuf_CameraPositionW = tCameraPositionW;
 
 		//첫번째 Constant Buffer에는 얘만 넣어주면 된다.
 		_cbFirstBase->Update();
@@ -406,14 +391,7 @@ namespace Pg::Graphics
 		//0.01 스케일링 적용.
 		tWorldTMMat = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f), tWorldTMMat);
 
-		DirectX::XMFLOAT4X4 tViewTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData->_viewMatrix);
-		DirectX::XMMATRIX tViewTMMat = DirectX::XMLoadFloat4x4(&tViewTM);
-
-		DirectX::XMFLOAT4X4 tProjTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
-		DirectX::XMMATRIX tProjTMMat = DirectX::XMLoadFloat4x4(&tProjTM);
-
 		_cbObjMatBase->GetDataStruct()->gCBuf_World = tWorldTMMat;
-		_cbObjMatBase->GetDataStruct()->gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
 
 		//값이 맞게 들어갔으니, 업데이트.
 		_cbObjMatBase->Update();
@@ -435,7 +413,6 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(_3rdVB), &stride, &offset);
 		//Index Buffer Setting. (Model Data와 공유)
 		_DXStorage->_deviceContext->IASetIndexBuffer(_modelData->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
 	}
 
 	void RenderObjectSkinnedMesh3D::FillInNodeBuffer(const ModifiedNode_SkinnedMesh* const selfNode)

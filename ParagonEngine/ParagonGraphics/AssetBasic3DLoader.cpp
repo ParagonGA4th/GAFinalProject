@@ -134,11 +134,11 @@ namespace Pg::Graphics::Loader
 
 	void AssetBasic3DLoader::LoadObjMatBufferStatic(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID)
 	{
-		std::vector<LayoutDefine::Vin3rdStaticSkinned> tVBVector;
+		std::vector<LayoutDefine::Vin3rdStaticSkinned_Individual> tVBVector;
 		tVBVector.reserve(modelData->_assetSceneData->_totalVertexCount);
 		for (int i = 0; i < modelData->_assetSceneData->_totalVertexCount; i++)
 		{
-			LayoutDefine::Vin3rdStaticSkinned tVal;
+			LayoutDefine::Vin3rdStaticSkinned_Individual tVal;
 			//tVal._posL = modelData->_assetSceneData->_posRecordVector[i];
 			tVal._objectID = objectID;
 			tVal._matID = materialID;
@@ -150,7 +150,7 @@ namespace Pg::Graphics::Loader
 
 		D3D11_BUFFER_DESC tVBD;
 		tVBD.Usage = D3D11_USAGE_IMMUTABLE;
-		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin3rdStaticSkinned) * modelData->_assetSceneData->_totalVertexCount);
+		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin3rdStaticSkinned_Individual) * modelData->_assetSceneData->_totalVertexCount);
 		tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		tVBD.CPUAccessFlags = 0;
 		tVBD.MiscFlags = 0;
@@ -162,12 +162,12 @@ namespace Pg::Graphics::Loader
 
 	void AssetBasic3DLoader::LoadObjMatBufferSkinned(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID)
 	{
-		std::vector<LayoutDefine::Vin3rdStaticSkinned> tVBVector;
+		std::vector<LayoutDefine::Vin3rdStaticSkinned_Individual> tVBVector;
 		tVBVector.reserve(modelData->_assetSceneData->_totalVertexCount);
 
 		for (int i = 0; i < modelData->_assetSceneData->_totalVertexCount; i++)
 		{
-			LayoutDefine::Vin3rdStaticSkinned tVal;
+			LayoutDefine::Vin3rdStaticSkinned_Individual tVal;
 			//tVal._posL = modelData->_assetSceneData->_posRecordVector[i];
 			//tVal._tex = modelData->_assetSceneData->_texRecordVector[i];
 			//tVal._meshMatID = modelData->_assetSceneData->_meshMatIDRecordVector[i];
@@ -187,7 +187,7 @@ namespace Pg::Graphics::Loader
 
 		D3D11_BUFFER_DESC tVBD;
 		tVBD.Usage = D3D11_USAGE_IMMUTABLE;
-		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin3rdStaticSkinned) * modelData->_assetSceneData->_totalVertexCount);
+		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin3rdStaticSkinned_Individual) * modelData->_assetSceneData->_totalVertexCount);
 		tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		tVBD.CPUAccessFlags = 0;
 		tVBD.MiscFlags = 0;
@@ -204,13 +204,13 @@ namespace Pg::Graphics::Loader
 
 		//이건 더 이상 Model에 종속적인 것이 아니라,
 		//실제로 Scene 안에 N개의 오브젝트가 있느냐 (렌더되는)에 따라서 값이 달라지는 것이다.
-		std::vector<LayoutDefine::Vin3rdInstanced> tInstancedVector;
+		std::vector<LayoutDefine::Vin3rdInstanced_Individual> tInstancedVector;
 		tInstancedVector.reserve(instancedMeshList.size());
 
 		//Instanced Mesh 리스트 채우기.
 		for (int i = 0; i < instancedMeshList.size(); i++)
 		{
-			LayoutDefine::Vin3rdInstanced tElement;
+			LayoutDefine::Vin3rdInstanced_Individual tElement;
 			tElement._matID = instancedMeshList.at(i)->GetMaterialID();
 			tElement._objectID = instancedMeshList.at(i)->GetObjectID();
 
@@ -223,7 +223,7 @@ namespace Pg::Graphics::Loader
 
 		D3D11_BUFFER_DESC tVBD;
 		tVBD.Usage = D3D11_USAGE_IMMUTABLE;
-		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin3rdInstanced) * instancedMeshList.size());
+		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin3rdInstanced_Individual) * instancedMeshList.size());
 		tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		tVBD.CPUAccessFlags = 0;
 		tVBD.MiscFlags = 0;

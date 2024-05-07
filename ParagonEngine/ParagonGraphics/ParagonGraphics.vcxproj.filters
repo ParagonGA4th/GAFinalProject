@@ -1036,12 +1036,18 @@
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Tonemapping\ToneMapping_PS.hlsl">
       <Filter>6_HLSL\System\Pipeline\PostProcessing\Tonemapping</Filter>
     </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstInstanced_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstInstancedStage_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_GBufferTextures.hlsli">
       <Filter>6_HLSL\Appends\Libraries\TextureBuffers</Filter>
     </None>
-    <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_LightmapTextures.hlsli">
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_InstancedValues.hlsli">
       <Filter>6_HLSL\Appends\Libraries\TextureBuffers</Filter>
     </None>
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\SamplerStates\Appends_SamplerStates.hlsli">

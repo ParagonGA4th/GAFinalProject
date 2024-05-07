@@ -4,9 +4,10 @@
 #pragma target 5.0
 
 #include "../../Libraries/System_PerObjectBuffers.hlsli"
+#include "../../../Appends/Libraries/SceneInfo/Appends_SceneInfoPS.hlsli"
 #include "../../Libraries/System_1stLayouts.hlsli"
 
-VOut1st main(Vin1stPassSkinned input)
+VOut1st main(Vin1stPassSkinned_Layout input)
 {
     VOut1st output; //= (VOut1st) 0;
 	
@@ -32,7 +33,9 @@ VOut1st main(Vin1stPassSkinned input)
     output.vout1st_PosW = mul(gCBuf_World, float4(skinnedPosL, 1.0f)).xyz;
 	
     // 동차좌표계 내 Position 계산.
-    output.vout1st_PosH = mul(gCBuf_WorldViewProj, float4(skinnedPosL, 1.0f));
+    // Direct3D->HLSL에서 Row->ColumnMajor로 들어온 것이기에, WorldViewProj 대신함. (연산 곱 순서 바뀜)
+	// WorldViewProj = mul(gCBuf_ViewProjMatrix, gCBuf_World)
+    output.vout1st_PosH = mul(mul(gCBuf_ViewProjMatrix, gCBuf_World), float4(skinnedPosL, 1.0f));
 	
     output.vout1st_MeshMatID = input.vin1st_MeshMatID;
     output.vout1st_Tex = input.vin1st_Tex;

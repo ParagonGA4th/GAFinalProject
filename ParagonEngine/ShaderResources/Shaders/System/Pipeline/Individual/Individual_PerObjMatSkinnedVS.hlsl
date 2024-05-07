@@ -1,7 +1,7 @@
 #include "../../Libraries/System_PerObjMatLayouts.hlsli"
 #include "../../Libraries/System_PerObjMatBuffers.hlsli"
 
-VOutPerObjMat main(VinPerThirdPassSkinned input)
+VOutPerObjMat main(VinPerThirdPassSkinned_Layout input)
 {
     VOutPerObjMat output;
     

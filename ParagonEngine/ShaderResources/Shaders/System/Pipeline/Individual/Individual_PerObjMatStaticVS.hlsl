@@ -1,7 +1,7 @@
 #include "../../Libraries/System_PerObjMatLayouts.hlsli"
 #include "../../Libraries/System_PerObjMatBuffers.hlsli"
 
-VOutPerObjMat main(VinPerThirdPassStatic input)
+VOutPerObjMat main(VinPerThirdPassStatic_Layout input)
 {
     VOutPerObjMat output;
     //Buffer를 덜 만들려 LightmapUV가 같이 들어오기는 하지만,

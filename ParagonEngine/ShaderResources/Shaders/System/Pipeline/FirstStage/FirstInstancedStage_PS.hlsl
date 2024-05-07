@@ -4,8 +4,9 @@
 
 #include "../../Libraries/System_PerObjectBuffers.hlsli"
 #include "../../Libraries/System_1stLayouts.hlsli"
+#include "../../../Appends/Libraries/TextureBuffers/Appends_InstancedValues.hlsli"
 
-POut1st main(VOut1st input)
+POut1st main(VOut1st_Instanced input)
 {
     POut1st output;
 	
@@ -32,10 +33,10 @@ POut1st main(VOut1st input)
     //RT3 :  Vertex Color.z (w)
     output.pout1st_RT3.w = input.vout1st_Color.z;
 
-    //비 인스턴싱된 값의 경우, 무조건 0을 기록한다. (SampledValue)
-    //RT4 : LightMap Sample Value (xyz) + Lightmapping이 활용되었는지(w). 음수 : NO, 양수 : YES.
-    output.pout1st_RT4.xyz = float3(0.0f, 0.0f, 0.0f);
-    output.pout1st_RT4.w = -1.0f; // 라이트매핑이 활용되지 않았다!
+    //RT4 : LightMap Sample Value (xyz) + Lightmapping이 활용되었는지(w). 음수 : NO, 양수 : YES. -> 그러니 여기에서는 양수.
+    output.pout1st_RT4.xyz = GetLightmapData(input.vout1st_LightmapUV, input.vout1st_InstanceID).xyz;
+    output.pout1st_RT4.w = 1.0f;
+    //</Float4>
     
     return output;
 }

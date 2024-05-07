@@ -19,9 +19,6 @@ namespace Pg::Graphics
 		{
 			DirectX::XMMATRIX gCBuf_World;
 			DirectX::XMMATRIX gCBuf_WorldInvTranspose;
-			DirectX::XMMATRIX gCBuf_WorldView;
-			DirectX::XMMATRIX gCBuf_WorldViewProj;
-			DirectX::XMFLOAT3 gCBuf_CameraPositionW;
 		};
 
 		struct cbPerObjectSkinnedNodes
@@ -34,12 +31,10 @@ namespace Pg::Graphics
 			DirectX::XMMATRIX gCBuf_Bones[Pg::Defines::ASSET_MAXIMUM_BONE_NUMBER_PER_MESH];
 		};
 
-		
 		//ObjMat 기록 위해.
 		struct cbPerObjMatBase
 		{
 			DirectX::XMMATRIX gCBuf_World;
-			DirectX::XMMATRIX gCBuf_WorldViewProj;
 		};
 
 		//같은 구성이므로 하나로 사용.
@@ -52,6 +47,8 @@ namespace Pg::Graphics
 		{
 			DirectX::XMMATRIX gCBuf_ViewMatrix;
 			DirectX::XMMATRIX gCBuf_ProjMatrix;
+			DirectX::XMMATRIX gCBuf_ViewProjMatrix;
+
 			DirectX::XMFLOAT3 gCBuf_EyePosition;
 		};
 

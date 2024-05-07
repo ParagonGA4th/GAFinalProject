@@ -36,26 +36,33 @@ struct PgSpotLight
 //</ActualLighting>
 
 //<Constant Buffers & Functions>
-cbuffer cbSceneInfo : register(b4)
+cbuffer cbSceneInfo : register(b4) // 이 자체는 VS / PS 모두 접근 가능.
 {
-    float4x4 valViewMatrix;
-    float4x4 valProjMatrix;
-    float3 valEyePosition;
+    float4x4 gCBuf_ViewMatrix;
+    float4x4 gCBuf_ProjMatrix;
+    float4x4 gCBuf_ViewProjMatrix;
+    
+    float3 gCBuf_EyePosition;
 };
 
 float4x4 GetViewMatrix()
 {
-    return valViewMatrix;
+    return gCBuf_ViewMatrix;
 }
 
 float4x4 GetProjMatrix()
 {
-    return valProjMatrix;
+    return gCBuf_ProjMatrix;
+}
+
+float4x4 GetViewProjMatrix()
+{
+    return gCBuf_ViewProjMatrix;
 }
 
 float3 GetEyePosition()
 {
-    return valEyePosition;
+    return gCBuf_EyePosition;
 }
 //</Constant Buffers & Functions>
 

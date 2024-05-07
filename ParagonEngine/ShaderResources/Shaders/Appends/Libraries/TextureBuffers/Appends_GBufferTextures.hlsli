@@ -69,10 +69,16 @@ float3 GetVertexColor(float2 quadUV)
     return float3(color_x, color_y, color_z);
 }
 
-float2 GetLightmapUV(float2 quadUV)
+float3 GetLightmapRGB(float2 quadUV)
 {
-    //RT4 : LightMap Texture UV Coords (xy)
-    return internal_GBuffer[4].Sample(fullScreenQuadSS, quadUV).xy;
+    //RT4 : LightMap Sample Value (xyz) + Lightmapping이 활용되었는지(w). 음수 : NO, 양수 : YES.
+    return internal_GBuffer[4].Sample(fullScreenQuadSS, quadUV).rgb;
+}
+
+bool IsUseLightmap(float2 quadUV)
+{
+    //0보다 크면 Lightmapping을 활용하는 것이다.
+    return (internal_GBuffer[4].Sample(fullScreenQuadSS, quadUV).w > 0);
 }
 
 #endif //__DEFINED_APPENDS_GBUFFER_TEXTURES_HLSL__

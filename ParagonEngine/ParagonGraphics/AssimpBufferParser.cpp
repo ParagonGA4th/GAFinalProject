@@ -83,11 +83,11 @@ namespace Pg::Graphics::Helper
 	void AssimpBufferParser::ParseAssimpStatic(const aiScene* assimp, Scene_AssetData* sceneData, ID3D11Buffer*& outVB1st, ID3D11Buffer*& outVB2nd, ID3D11Buffer*& outIB, unsigned int vertexCnt, unsigned int indexCnt)
 	{
 		//1st Static.
-		std::vector<LayoutDefine::Vin1stStatic> tVBVec;
+		std::vector<LayoutDefine::Vin1stStatic_Individual> tVBVec;
 		tVBVec.reserve(vertexCnt);
 
 		//2nd Static.
-		std::vector<LayoutDefine::Vin2ndAll> tVB2ndVec;
+		std::vector<LayoutDefine::Vin2ndAll_Individual> tVB2ndVec;
 		tVB2ndVec.reserve(vertexCnt);
 
 		//Vertex Buffer
@@ -96,8 +96,8 @@ namespace Pg::Graphics::Helper
 		{
 			for (size_t j = 0; j < assimp->mMeshes[i]->mNumVertices; j++)
 			{
-				LayoutDefine::Vin1stStatic tMeshVert;
-				LayoutDefine::Vin2ndAll tMeshVert2nd;
+				LayoutDefine::Vin1stStatic_Individual tMeshVert;
+				LayoutDefine::Vin2ndAll_Individual tMeshVert2nd;
 
 				//1st.
 				tMeshVert._posL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mVertices[j]);
@@ -172,7 +172,7 @@ namespace Pg::Graphics::Helper
 		{
 			D3D11_BUFFER_DESC tVBD;
 			tVBD.Usage = D3D11_USAGE_IMMUTABLE;
-			tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin1stStatic) * vertexCnt);
+			tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin1stStatic_Individual) * vertexCnt);
 			tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 			tVBD.CPUAccessFlags = 0;
 			tVBD.MiscFlags = 0;
@@ -186,7 +186,7 @@ namespace Pg::Graphics::Helper
 		{
 			D3D11_BUFFER_DESC tVBD;
 			tVBD.Usage = D3D11_USAGE_IMMUTABLE;
-			tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin2ndAll) * vertexCnt);
+			tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin2ndAll_Individual) * vertexCnt);
 			tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 			tVBD.CPUAccessFlags = 0;
 			tVBD.MiscFlags = 0;
@@ -301,10 +301,10 @@ namespace Pg::Graphics::Helper
 		UINT tTotalElapsedVertexCount = 0;
 		UINT tTotalElapsedIndiceCount = 0;
 
-		std::vector<LayoutDefine::Vin1stSkinned> vertices;
+		std::vector<LayoutDefine::Vin1stSkinned_Individual> vertices;
 		vertices.resize(vertexCnt);
 
-		std::vector<LayoutDefine::Vin2ndAll> vertices2nd;
+		std::vector<LayoutDefine::Vin2ndAll_Individual> vertices2nd;
 		vertices2nd.resize(vertexCnt);
 
 		std::vector<int32_t> indices;
@@ -388,7 +388,7 @@ namespace Pg::Graphics::Helper
 		{
 			{
 				CD3D11_BUFFER_DESC vbDesc(
-					vertexCnt * sizeof(LayoutDefine::Vin1stSkinned),
+					vertexCnt * sizeof(LayoutDefine::Vin1stSkinned_Individual),
 					D3D11_BIND_VERTEX_BUFFER);
 				D3D11_SUBRESOURCE_DATA vbData = { vertices.data(), 0, 0 };
 
@@ -397,7 +397,7 @@ namespace Pg::Graphics::Helper
 			
 			{
 				CD3D11_BUFFER_DESC vbDesc(
-					vertexCnt * sizeof(LayoutDefine::Vin2ndAll),
+					vertexCnt * sizeof(LayoutDefine::Vin2ndAll_Individual),
 					D3D11_BIND_VERTEX_BUFFER);
 				D3D11_SUBRESOURCE_DATA vbData = { vertices2nd.data(), 0, 0 };
 

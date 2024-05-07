@@ -1,5 +1,6 @@
 #include "LayoutDefine.h"
 #include "LowDX11Storage.h"
+#include "../ParagonUtil/Log.h"
 
 #include <d3d11.h>
 #include <fstream>
@@ -26,6 +27,7 @@
 
 namespace Pg::Graphics
 {
+	ID3D11InputLayout* LayoutDefine::_instanced1stLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_static1stLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_skinned1stLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_deferredQuadLayout = nullptr;
@@ -36,6 +38,7 @@ namespace Pg::Graphics
 
 	void LayoutDefine::Initialize()
 	{
+		CreateInstanced1stLayout();
 		CreateStatic1stLayout();
 		CreateSkinned1stLayout();
 		CreateDeferredQuadLayout();
@@ -43,6 +46,11 @@ namespace Pg::Graphics
 		CreateCubemapLayout();
 		CreatePerObjMatStaticLayout();
 		CreatePerObjMatSkinnedLayout();
+	}
+
+	ID3D11InputLayout* LayoutDefine::GetInstanced1stLayout()
+	{
+		return _instanced1stLayout;
 	}
 
 	ID3D11InputLayout* LayoutDefine::GetStatic1stLayout()
@@ -78,6 +86,15 @@ namespace Pg::Graphics
 	ID3D11InputLayout* LayoutDefine::GetPerObjMatSkinnedLayout()
 	{
 		return _vinPerObjMatSkinnedLayout;
+	}
+
+	void LayoutDefine::CreateInstanced1stLayout()
+	{
+		//PG_WARN("아직 준비 X");
+
+		LowDX11Storage* tDXStorage = LowDX11Storage::GetInstance();
+		ID3D11Device* _device = tDXStorage->_device;
+		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
 	}
 
 	void LayoutDefine::CreateStatic1stLayout()

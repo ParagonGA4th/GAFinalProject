@@ -72,11 +72,14 @@ namespace Pg::Graphics
 		//여튼, 특정한 Pass에 값을 전달하는 코드가 있어야 할 것이다.
 
 		//For문 대신, 명시적으로 값 호출. (나누기)
+		//일단 Scene 정보 활용을 위해 호출 먼저.
+		SendSceneInformation(sceneInfoList, camData);
+
 		RenderFirstStaticPass(renderObjectList, camData);
 		RenderFirstSkinnedPass(renderObjectList, camData);
 		RenderObjMatStaticPass(renderObjectList, camData);
 		RenderObjMatSkinnedPass(renderObjectList, camData);
-		SendSceneInformation(sceneInfoList, camData);
+		
 		RenderOpaqueQuadPasses(renderObjectList, camData);
 		RenderOpaqueShadowPass(renderObjectList, camData);
 

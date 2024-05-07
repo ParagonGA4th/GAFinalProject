@@ -3,7 +3,7 @@
 #ifndef __DEFINED_SYSTEM_PER_OBJMAT_LAYOUTS_HLSL__
 #define __DEFINED_SYSTEM_PER_OBJMAT_LAYOUTS_HLSL__
 
-struct VinPerThirdPassStatic
+struct VinPerThirdPassStatic_Layout
 {
     //Vin1stStatic.
     float3  vin1st_PosL         : POSITION;
@@ -16,7 +16,7 @@ struct VinPerThirdPassStatic
     uint    vin1st_MatID        : MATERIALID;
 };
 
-struct VinPerThirdPassSkinned
+struct VinPerThirdPassSkinned_Layout
 {
     //Vin1stSkinned.
     float3  vin1st_PosL         : POSITION;
