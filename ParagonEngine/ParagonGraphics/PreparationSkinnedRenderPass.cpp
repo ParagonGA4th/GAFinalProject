@@ -89,13 +89,12 @@ namespace Pg::Graphics
 		//만약 Skinned가 들어온다면, 이 코드는 ObjMatSkinnedRenderPass로 가야 한다.
 		//당연히 GBuffer-DepthStencil 역시 옮겨받아야 하고.
 
-		//t3에, ObjMat GBuffer가 들어간다. 대응. (Depth 제외)
-		_DXStorage->_deviceContext->PSSetShaderResources(3, 1, &(_d3dCarrierStorage->_quadObjMatRT->GetSRV()));
+		//더 이상 t3에 ObjMat 버퍼가 새로 들어가지 않는다. t12에서 같이 들어가서 쓰인다.
 
-		//t12-14 - internalPBRTextures Bind
-		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, &(_d3dCarrierStorage->_albedoAmbiBuffer->GetSRV()));
-		_DXStorage->_deviceContext->PSSetShaderResources(13, 1, &(_d3dCarrierStorage->_normalRoughBuffer->GetSRV()));
-		_DXStorage->_deviceContext->PSSetShaderResources(14, 1, &(_d3dCarrierStorage->_specularMetalBuffer->GetSRV()));
+		//t12-14 - ObjMat GBuffer + InternalPBRTextures Bind
+		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, &(_d3dCarrierStorage->_quadObjMatRT_AoR->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(13, 1, &(_d3dCarrierStorage->_albedoMetallic_GBuffer->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(14, 1, &(_d3dCarrierStorage->_normalAlpha_GBuffer->GetSRV()));
 
 		//독립적인 IBL Texture들, 여기서 바인딩.
 		//t21-23 - internal IBL TextureCubes Bind

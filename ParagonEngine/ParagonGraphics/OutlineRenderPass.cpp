@@ -72,7 +72,7 @@ namespace Pg::Graphics
 
 	void OutlineRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
 	{
-		_objMatSaveSRV = carrier._quadObjMatRT->GetSRV();
+		_objMatSaveSRV = carrier._quadObjMatRT_AoR->GetSRV();
 		_quadMainSaveRTV = carrier._quadMainRT->GetRTV();
 	}
 
