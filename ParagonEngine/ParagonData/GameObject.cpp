@@ -216,6 +216,16 @@ namespace Pg::Data
 		_objTag = tag;
 	}
 
+	const std::string& GameObject::GetUUID() const
+	{
+		return _objUUID;
+	}
+
+	void GameObject::SetUUID(const std::string& uuid)
+	{
+		_objUUID = uuid;
+	}
+
 	Pg::Data::Component* GameObject::AddComponent(std::string componentType)
 	{
 		Pg::Data::Component* component;
@@ -433,6 +443,4 @@ namespace Pg::Data
 		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
 			{ iter.second->OnEngineStop(); });
 	}
-	
-
 }
