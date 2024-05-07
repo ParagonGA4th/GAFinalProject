@@ -122,24 +122,3 @@ int Pg::Editor::Data::DataContainer::GetAssetIndex(std::string assetName)
 	}
 	if (count == _assetList.size())	return 0;
 }
-
-void Pg::Editor::Data::DataContainer::SetUUID(std::string sceneName, std::unordered_map<std::string, std::string> uuid)
-{
-	_uuid.insert({ sceneName , uuid});
-}
-
-std::string Pg::Editor::Data::DataContainer::GetUUID(std::string sceneName, std::string objName)
-{
-	for (auto& obj : _uuid.at(sceneName))
-	{
-		if (obj.first == objName) return obj.second;
-	}
-}
-
-std::string Pg::Editor::Data::DataContainer::GetObjNameWithUUID(std::string sceneName, std::string uuid)
-{
-	for (auto& obj : _uuid.at(sceneName))
-	{
-		if (obj.second == uuid) return obj.first;
-	}
-}
