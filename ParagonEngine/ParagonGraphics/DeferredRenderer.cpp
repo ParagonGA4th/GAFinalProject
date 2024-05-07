@@ -185,7 +185,7 @@ namespace Pg::Graphics
 		_carrier->_quadMainGDS = _quadMainDSV.get();
 
 		//Main ObjMat RT를 Carrier에 전달한다.
-		_carrier->_quadObjMatRT = _quadObjMatRTV.get();
+		_carrier->_quadObjMatRT_AoR = _quadObjMatRTV.get();
 
 		//모든 RGBA값이 0이 되도록 초기화.
 		float zeroColArray[4] = {0.f, 0.f, 0.f, 0.f};
@@ -337,8 +337,8 @@ namespace Pg::Graphics
 	{
 		//요구되는 렌더 리소스 만들기 (GBufferRender & Depth Stencil)
 		_quadMainRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
-		//ObjMat RenderTarget
-		_quadObjMatRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32_TYPELESS, DXGI_FORMAT_R32G32_FLOAT);
+		//ObjMat RenderTarget -> 이제 PBR 버퍼와 swizzling되어 쓰인다!
+		_quadObjMatRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 		//Depth Writing이 가능한 Description 투입. (현재는 Default랑 같음)
 		D3D11_DEPTH_STENCIL_DESC tDepthStencilDesc;
@@ -362,7 +362,7 @@ namespace Pg::Graphics
 		//Carrier에 값을 전달한다. (MainRenderTarget 전까지 모든 렌더링의 기본이 될 것)
 		_carrier->_quadMainRT = _quadMainRTV.get();
 		_carrier->_quadMainGDS = _quadMainDSV.get();
-		_carrier->_quadObjMatRT = _quadObjMatRTV.get();
+		_carrier->_quadObjMatRT_AoR = _quadObjMatRTV.get();
 
 		//자체적인 OpaqueQuad DSV.
 		_opaqueQuadDSV = std::make_unique<GBufferDepthStencil>();
@@ -419,20 +419,18 @@ namespace Pg::Graphics
 		//OpaqueQuad 시리즈가 가능한 이유는,
 		//Rendering은 Main Render Target에 함에도 DepthStencil을 자체적으로 생성해서 쓰기 때문 (기존의 값이 영향을 주지 않음)
 
-		_carrier->_albedoAmbiBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
-		_carrier->_normalRoughBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
-		_carrier->_specularMetalBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		//이제 ObjMat과 PBR 요소 일부는 함께 기록됨.
+		_carrier->_albedoMetallic_GBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		_carrier->_normalAlpha_GBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
 	
 		//일단 값을 OMSetRenderTargets를 위해 설정.
-		_carrier->_pbrBindArray[0] = _carrier->_quadObjMatRT->GetRTV();
-		_carrier->_pbrBindArray[1] = _carrier->_albedoAmbiBuffer->GetRTV();
-		_carrier->_pbrBindArray[2] = _carrier->_normalRoughBuffer->GetRTV();
-		_carrier->_pbrBindArray[3] = _carrier->_specularMetalBuffer->GetRTV();
+		//ObjMat은 전에 _quadObjMatRT와 공유.
+		_carrier->_pbrBindArray[0] = _carrier->_quadObjMatRT_AoR->GetRTV();
+		_carrier->_pbrBindArray[1] = _carrier->_albedoMetallic_GBuffer->GetRTV();
+		_carrier->_pbrBindArray[2] = _carrier->_normalAlpha_GBuffer->GetRTV();
 
 		//NullRTV Array를 위해, nullptr 채우기!
 		std::fill(_carrier->_pbrNullBindArray.begin(), _carrier->_pbrNullBindArray.end(), nullptr);
-
-
 	}
 
 

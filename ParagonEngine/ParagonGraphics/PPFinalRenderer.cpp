@@ -60,7 +60,7 @@ namespace Pg::Graphics
 		//이미 Obj SRV는 ObjMat 쪽에 기록되어 있다.
 
 		//일단 USAGE_DEFAULT에서 USAGE_STAGING으로 값을 가져온다. (CopyResource)
-		_DXStorage->_deviceContext->CopyResource(_pickingStagingBuffer, _carrier->_quadObjMatRT->GetBuffer());
+		_DXStorage->_deviceContext->CopyResource(_pickingStagingBuffer, _carrier->_quadObjMatRT_AoR->GetBuffer());
 
 		D3D11_MAPPED_SUBRESOURCE mappedResource = {};
 		HR(_DXStorage->_deviceContext->Map(_pickingStagingBuffer, 0, D3D11_MAP_READ, 0, &mappedResource));
