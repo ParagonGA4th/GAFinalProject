@@ -63,15 +63,15 @@ namespace Pg::Graphics
 		//이를 기반으로, 전체적인 Texture2DArray가 만들어졌다.
 
 		// Texture2DArray 기반, PSSRV(T2DArray) 위해.
-		//0: albedo / 1: normal / 2: specular / 3: arm
-		RenderTexture2DArray* _pbrTextureArrays[4];
+		//0: albedo / 1: normal / 3: arm
+		RenderTexture2DArray* _pbrTextureArrays[3];
 
 
 		//여러 가지 버퍼를 아끼기 위해,
 		//나눠서 올리기로 했다.
 		//Vertex Buffer (1st Base) - 
 		//Static의 경우: Pos / Tex / MeshMatID / Lightmapping UV
-		//Skinned의 경우 : Pos / Tex / MeshMatID / Lightmapping UV / BlendIndice, BlendWeights, NodeIndex
+		//Skinned의 경우 : Pos / Tex / MeshMatID / BlendIndice, BlendWeights, NodeIndex
 		ID3D11Buffer* _vertexBuffer{ nullptr };
 
 		//Vertex Buffer (2nd) 
