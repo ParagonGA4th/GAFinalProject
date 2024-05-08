@@ -169,12 +169,16 @@ namespace Pg::Engine
 
 		///Recast관련 업데이트
 		_navSystem->HandleUpdate(_timeSystem->GetDeltaTime());
-		_debugSystem->EnableToggleDebugOnOff();
-		_debugSystem->Update(_sceneSystem->GetCurrentScene());
 
 		std::vector<Pg::Math::PGFLOAT3> vertice;
 		std::vector<unsigned int> indice;
 		_navSystem->GetNavmeshRenderInfo(0, vertice, indice);
+
+		///Mesh가 빌드 된 후 그려야 하기에, 더 나중에 있어야 한다.
+		_debugSystem->EnableToggleDebugOnOff();
+		_debugSystem->Update(_sceneSystem->GetCurrentScene());
+
+
 
 		///Recast Obj 파일 디버그 그리기
 		//std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos1 = _navSystem->FindStraightPath(0);
