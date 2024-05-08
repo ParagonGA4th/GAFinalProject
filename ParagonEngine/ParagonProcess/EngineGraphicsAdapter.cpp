@@ -188,6 +188,9 @@ namespace Pg::Core
 
 		const auto& tBox2dVec = _engine->GetBox2dDebugData();
 		_graphics->SetBox2dDebugRenderData(tBox2dVec);
+
+		const auto& tNavMeshVec = _engine->GetNavMeshDebugData();
+		_graphics->SetNavMeshDebugRenderData(tNavMeshVec);
 	}
 
 	void EngineGraphicsAdapter::ClearDebugVectorData()
