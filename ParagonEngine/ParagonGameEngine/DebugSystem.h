@@ -45,7 +45,7 @@ namespace Pg::Engine
 		void DrawPlaneDebug(Pg::Data::PlaneInfo* planeInfo);
 		void DrawRayCastDebug(Pg::Data::RayCastInfo rayCastInfo);
 		void DrawLineDebug(PGFLOAT3 begin, PGFLOAT3 end, PGFLOAT4 col);
-		void DrawNavMeshDebug(Pg::Data::NavMeshInfo* navMeshInfo);
+		void DrawNavMeshDebug(Pg::Data::NavMeshInfo* navMeshInfo); // 얘는 다른 애들이 다 Delete될 때 같이 Delete되는 것이 아니라, Scene이 변경될 때마다 별개로 동작할 것. 
 
 		void DeleteBoxDebug();
 		void DeleteBox2DDebug();
@@ -54,6 +54,7 @@ namespace Pg::Engine
 		void DeletePlaneDebug();
 		void DeleteLineDebug();
 		void DeleteRayCastDebug();
+		//void DeleteNavMeshDebug();  // 얘는 다른 애들이 다 Delete될 때 같이 Delete되는 것이 아니라, Scene이 변경될 때마다 별개로 동작할 것. 
 
 		void SetDebugMode(bool isdebug);
 		bool GetDebugMode();

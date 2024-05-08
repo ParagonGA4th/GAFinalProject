@@ -186,7 +186,6 @@ namespace Pg::Engine
 		_capsuleVec.push_back(capsuleInfo);
 	}
 
-
 	void DebugSystem::DrawSphereDebug(Pg::Data::SphereInfo* sphereInfo)
 	{
 		_sphereVec.push_back(sphereInfo);
@@ -295,8 +294,16 @@ namespace Pg::Engine
 		_rayCastVec.clear();
 	}
 
+	//void DebugSystem::DeleteNavMeshDebug()
+	//{
+	//	_navMeshVec.clear();
+	//}
+
 	bool DebugSystem::GetDebugMode()
 	{
 		return _isDebug;
 	}
+
+	
+
 }

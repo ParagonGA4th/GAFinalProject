@@ -326,6 +326,11 @@ namespace Pg::Graphics
 		_renderer->PassBox2dGeometryData(box2dColVec);
 	}
 
+	void GraphicsMain::SetNavMeshDebugRenderData(const std::vector<Pg::Data::NavMeshInfo*>& const navMeshVec)
+	{
+		_renderer->PassNavMeshGeometryData(navMeshVec);
+	}
+
 	void GraphicsMain::SetPickingEnableMode(bool val)
 	{
 		_internalPickingMode = val;
@@ -361,5 +366,7 @@ namespace Pg::Graphics
 		//기존의 Editor Mode Enum 기록.
 		_prevRecordedEditMode = editorMode;
 	}
+
+	
 
 }
