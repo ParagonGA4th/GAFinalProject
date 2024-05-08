@@ -13,7 +13,7 @@
 //유니티에서 라이트맵 구울 때 1024개 안쪽으로 무조건 세팅하게 하기.
 //Scene이 바뀔 때만 올라간다.
 //한번 넣어놓고 끝까지 유지, Scene이 바뀌기 전까지.
-struct LightMapSet
+struct SingleLightMapSet
 {
     float2 scale;
     float2 offset;
@@ -21,11 +21,25 @@ struct LightMapSet
     float3 padding;
 };
 
-cbuffer cbLightmapCollection : register(b5)
+struct SingleObjMatIdSet
 {
-    LightMapSet gBuf_LightMapSet[MAXIMUM_OBJECT_COUNT_PER_INSTANCING];
+    uint objID;
+    uint matID;
 };
 
+//Scene 바뀔 때마다 업데이트.
+cbuffer cbLightmapCollection : register(b5)
+{
+    SingleLightMapSet gBuf_LightMapSet[MAXIMUM_OBJECT_COUNT_PER_INSTANCING];
+};
+
+//Scene 바뀔 때마다 업데이트.
+cbuffer cbObjMatIDCollection : register(b6)
+{
+    SingleObjMatIdSet gBuf_ObjMatIdSet[MAXIMUM_OBJECT_COUNT_PER_INSTANCING];
+};
+
+//Scene 바뀔 때마다 업데이트.
 Texture2DArray<float4> internal_LightmapArray : register(t2);
 
 float4 GetLightmapData(float2 lightmapUV, uint instanceID)

@@ -684,13 +684,13 @@ namespace Pg::Graphics::Helper
 		std::vector<std::string> tRenderT2Vec;
 		tRenderT2Vec.resize(outMatClusterList.size());
 
-		eAssetTextureType tAllRequiredPBRTypes[4] = {
+		eAssetTextureType tAllRequiredPBRTypes[3] = {
 			eAssetTextureType::PG_TextureType_DIFFUSE, eAssetTextureType::PG_TextureType_NORMALS,
-			eAssetTextureType::PG_TextureType_SPECULAR, eAssetTextureType::PG_TextureType_ARM };
+			eAssetTextureType::PG_TextureType_ARM };
 
-		std::string tIdentifierString[4] =
+		std::string tIdentifierString[3] =
 		{
-			"DIFFUSE", "NORMALS", "SPECULAR", "ARM"
+			"DIFFUSE", "NORMALS", "ARM"
 		};
 
 		///완벽하지는 않지만, 직전의 Width/Height을 저장한 뒤, 값을 가져올 수 있게 한다.
@@ -700,7 +700,7 @@ namespace Pg::Graphics::Helper
 		eTextureExtension tPrevExt = eTextureExtension::_DDS;
 
 		//outArrayData의 인덱스와 의미 동일.
-		for (int k = 0; k < 4; k++)
+		for (int k = 0; k < 3; k++)
 		{
 			for (short i = 0; i < outMatClusterList.size(); i++)
 			{

@@ -67,5 +67,29 @@ namespace Pg::Graphics
 			DirectX::XMMATRIX _lightProj;
 			DirectX::XMMATRIX _lightViewProj;
 		};
+
+		struct SingleLightMapSet
+		{
+			DirectX::XMFLOAT2 scale;
+			DirectX::XMFLOAT2 offset;
+			unsigned int lightmapID;
+			DirectX::XMFLOAT3 padding;
+		};
+
+		struct SingleObjMatIdSet
+		{
+			unsigned int objID;
+			unsigned int matID;
+		};
+
+		struct cbLightmapCollection
+		{
+			SingleLightMapSet gBuf_LightMapSet[Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING];
+		};
+
+		struct cbObjMatIDCollection
+		{
+			SingleObjMatIdSet gBuf_ObjMatIdSet[Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING];
+		};
 	};
 }

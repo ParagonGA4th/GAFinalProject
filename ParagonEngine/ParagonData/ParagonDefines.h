@@ -16,6 +16,8 @@ namespace Pg::Defines
 	constexpr unsigned int ASSET_MAXIMUM_BONE_NUMBER_PER_MESH = 256;
 	constexpr unsigned int ASSET_MAXIMUM_NODE_NUMBER_PER_MESH = 256;
 
+	constexpr unsigned int MAXIMUM_OBJECT_COUNT_PER_INSTANCING = 1024;
+
 	extern const std::string ASSET_DEFAULT_DIFFUSE_TEXTURE_PATH_256;
 	extern const std::string ASSET_DEFAULT_NORMAL_TEXTURE_PATH_256;
 	extern const std::string ASSET_DEFAULT_ARM_TEXTURE_PATH_256;
