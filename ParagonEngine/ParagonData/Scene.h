@@ -48,6 +48,7 @@ namespace Pg::Data
 		void FixedUpdate();
 		void LateUpdate();
 
+		bool GetIs3D() const;
 	
 		//Editor / TestScene이 발동되기 위해 필요한 (오브젝트 "에디터 시간" 생성) 함수들.
 		GameObject* AddObject(const std::string& obj);
@@ -84,6 +85,9 @@ namespace Pg::Data
 		//씬 이름
 		std::string _sceneName;
 
+		//씬이 2D 기반 씬인지, 3D 기반 씬인지를 결정. 
+		bool _is3D{ true };
+
 		//씬 안에 오브젝트가 여러개 존재한다.
 		std::vector<GameObject*> _objectList;
 
@@ -101,6 +105,8 @@ namespace Pg::Data
 		std::vector<std::string> _deleteObjectPlanList;
 
 		void HandleAddDeleteInScene();
+
+		
 	};
 }
 
