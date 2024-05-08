@@ -74,7 +74,7 @@ namespace Pg::Graphics
 		ExtractMaterialPaths(newScene);
 		SyncRenderObjects(newScene);
 		RemapMaterialIdAll();
-		SetupPrimitiveWireframeObjects();
+		SetupPrimitiveWireframeObjects(newScene);
 		SyncSceneAllLights(newScene);
 		CheckBindAdequateFunctions();
 		//이제 별도로 렌더링과 관련된 오브젝트들을 받아야 한다.

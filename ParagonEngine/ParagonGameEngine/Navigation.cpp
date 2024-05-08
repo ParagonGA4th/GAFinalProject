@@ -182,7 +182,7 @@ namespace Pg::Engine
 
 		if (!_geom || !_geom->getMesh())
 		{
-			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: No vertices and triangles.");
+			_ctx->log(RC_LOG_ERROR, "buildTileadNavigation: No vertices and triangles.");
 			return false;
 		}
 
