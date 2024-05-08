@@ -13,6 +13,7 @@ namespace Pg::Engine
 
 		bool load(const std::string& fileName);
 
+		float* getVertsRaw() const { return m_verts; }
 		const float* getVerts() const { return m_verts; }
 		const float* getNormals() const { return m_normals; }
 		const int* getTris() const { return m_tris; }
