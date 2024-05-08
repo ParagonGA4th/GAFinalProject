@@ -86,6 +86,12 @@ void Pg::Serialize::Serializer::Serialize(std::string typeName, pugi::xml_node* 
 	}
 }
 
+void Pg::Serialize::Serializer::SerializeUint(pugi::xml_node* node, const std::string& name, uint32_t val)
+{
+	pugi::xml_node uintNode = node->append_child(name.c_str());
+	uintNode.text().set(std::to_string(val).c_str());
+}
+
 void Pg::Serialize::Serializer::SerializeBoolean(pugi::xml_node* node, const std::string& name, bool val)
 {
 	pugi::xml_node boolNode = node->append_child(name.c_str());
@@ -428,7 +434,7 @@ std::string Pg::Serialize::Serializer::DeserializeString(pugi::xml_node* node, c
 	}
 }
 
-void Pg::Serialize::Serializer::DeserializeUint(pugi::xml_node* node, const std::string& name, unsigned& result)
+void Pg::Serialize::Serializer::DeserializeUint(pugi::xml_node* node, const std::string& name, uint32_t& result)
 {
 	if (name.empty())
 	{
@@ -590,4 +596,3 @@ Pg::Math::PGQuaternion Pg::Serialize::Serializer::DeserializePGQuaternion(pugi::
 		return result;
 	}
 }
-

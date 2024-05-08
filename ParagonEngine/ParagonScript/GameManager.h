@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+namespace Pg::API::Time { class PgTime; }
+
 namespace Pg::DataScript
 {
 	class GameManager : public ScriptInterface<GameManager>
@@ -17,9 +19,11 @@ namespace Pg::DataScript
 		virtual void Update() override;
 
 	private:
-		eGameState _gameState;			// 게임 상태 
+		void ResetGame();
+
+	private:
 		float _gameTime;				// 게임 내 시간
-		std::string _prevSceneName;		// 이전 씬
+		eGameState _gameState;			// 게임 상태 
 		std::string _currentSceneName;	// 현재 씬
 		std::vector<std::string> _sceneList; // 씬들의 목록
 
@@ -29,7 +33,9 @@ namespace Pg::DataScript
 		std::vector<std::pair<std::string, bool>> _artifacts;	// 플레이어가 보유 중인 아티팩트
 		
 		/// Stage
-		std::vector<std::pair<std::string, int>> _numberOfMonsters;	// 스테이지 별 몬스터의 개수
+		int _numberOfMonstersKilled;	// 죽은 몬스터의 개수
+		// SceneName, monsterType, monsters Number
+		std::vector<std::pair<std::string, std::pair<std::string, int>>> _numberOfMonsters;	// 스테이지 별 몬스터의 개수
 	};
 }
 

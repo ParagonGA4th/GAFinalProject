@@ -9,6 +9,7 @@ namespace Pg::API::Time { class PgTime; }
 /// Combo :
 /// HIT : 1 / 2 / 3
 /// POWER: 1 / 1.2 / 1.5
+/// KNOCK-BACK : 0 / 0.5 / 1.0
 /// 무한반복 돌아가면서.
 /// 스크립트가 아니라 CombatSystem이 종속적으로 만들어서 호출할 것.
 /// 컴포넌트가 아님!
