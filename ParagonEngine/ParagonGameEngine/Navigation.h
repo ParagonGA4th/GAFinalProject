@@ -91,7 +91,7 @@ namespace Pg::Engine
 		// path 에서 이미 빌드된 네비매쉬 파일을 읽어옵니다. .bin파일
 		void LoadAll(const char* path, int index);
 		// 네비매쉬를 직접 빌드 하기
-		bool HandleBuild(int index);
+		bool HandleBuild(const std::string& path, int index);
 		// 네비매쉬를 업데이트 한다.
 		void HandleUpdate(const float dt);
 
