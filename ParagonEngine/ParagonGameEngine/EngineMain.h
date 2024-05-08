@@ -127,6 +127,8 @@ namespace Pg::Engine
 		Pg::Data::Enums::eEditorMode _currentRecordedEditMode{ Data::Enums::eEditorMode::_NONE };
 		Pg::Data::Enums::eEditorMode _previousEditMode{ Data::Enums::eEditorMode::_NONE };
 
+	private:
+		Pg::Data::NavMeshInfo* _navTestInfo{ nullptr };
 	};
 }
 

@@ -175,10 +175,10 @@ namespace Pg::Engine
 		return;
 	}
 
-	bool Navigation::HandleBuild(int index)
+	bool Navigation::HandleBuild(const std::string& path, int index)
 	{
 		dtStatus status;
-		_geom->load(_ctx, "../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast.obj");
+		_geom->load(_ctx, path);
 
 		if (!_geom || !_geom->getMesh())
 		{

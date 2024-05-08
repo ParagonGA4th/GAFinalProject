@@ -9,7 +9,7 @@
 #include "LayoutDefine.h"
 
 #include "../ParagonData/CameraData.h"
-
+#include <dxtk/VertexTypes.h>
 #include <DirectXMath.h>
 #include <DirectXColors.h>
 
@@ -89,8 +89,15 @@ namespace Pg::Graphics
 		_primitiveBatch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(_DXStorage->_deviceContext);
 		_basicEffect = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
 		_basicEffect->SetVertexColorEnabled(true);
+		_basicEffect->SetLightingEnabled(false);
+
+		//GeometricPrim Effect. -> NavMesh만 사용.
+		_GeometricPrimEffect = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
+		_GeometricPrimEffect->SetLightingEnabled(false);
+
 		_basicEffect2d = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
 		_basicEffect2d->SetVertexColorEnabled(true);
+		_basicEffect2d->SetLightingEnabled(false);
 
 		void const* shaderByteCode;
 		size_t byteCodeLength;
@@ -157,6 +164,12 @@ namespace Pg::Graphics
 		for (int i = 0; i < _planeColVector->size(); i++)
 		{
 			DrawPlane(camData, _planeColVector->at(i));
+		}
+
+		//개별적으로 NavMesh Render.
+		for (int i = 0; i < _navMeshVector->size(); i++)
+		{
+			DrawNavMesh(camData, _navMeshVector->at(i));
 		}
 	}
 
@@ -247,6 +260,11 @@ namespace Pg::Graphics
 	void DebugRenderer::GetDebugBox2dGeometryData(const std::vector<Pg::Data::Box2DInfo>& const box2DColVec)
 	{
 		_box2dVector = &box2DColVec;
+	}
+
+	void DebugRenderer::GetDebugNavMeshGeometryData(const std::vector<Pg::Data::NavMeshInfo*>& const navMeshVec)
+	{
+		_navMeshVector = &navMeshVec;
 	}
 
 	void DebugRenderer::DrawBox(Pg::Data::CameraData* camData, Pg::Data::BoxInfo* boxInfo)
@@ -350,6 +368,39 @@ namespace Pg::Graphics
 
 		}
 		_capsuleShape->Draw(tWorld, tView, tProj, tLineColor, nullptr, true);
+	}
+
+	void DebugRenderer::DrawNavMesh(Pg::Data::CameraData* camData, Pg::Data::NavMeshInfo* navInfo)
+	{
+		using DirectX::VertexPositionNormalTexture;
+
+		//이 경우에는, 독특하게 미리 동일 이름으로 만들어 놓은 RenderData가 있는지를 기반으로 결정한다.
+		if (!_navMeshPrimitiveVector.contains(navInfo->path))
+		{
+			//없으면 지금 만든다. NavMesh.
+			DirectX::GeometricPrimitive::VertexCollection tVertices;
+			DirectX::GeometricPrimitive::IndexCollection tIndices;
+
+			for (auto& it : *navInfo->vertices)
+			{
+				tVertices.push_back(VertexPositionNormalTexture(DirectX::XMFLOAT3(it.x, it.y, it.z), { 0,1,0 }, { 0,0 }));
+			}
+
+			for (auto& it : *navInfo->indices)
+			{
+				tIndices.push_back(it);
+			}
+
+			_navMeshPrimitiveVector.insert(std::make_pair(navInfo->path, DirectX::GeometricPrimitive::CreateCustom(_DXStorage->_deviceContext, tVertices, tIndices)));
+		}
+
+		DirectX::XMMATRIX tView = MathHelper::PG2XM_MATRIX(camData->_viewMatrix);
+		DirectX::XMMATRIX tProj = MathHelper::PG2XM_MATRIX(camData->_projMatrix);
+
+		DirectX::XMFLOAT4 tColorF = { 0.2196f, 0.7019f, 0.8901f, 1.0f }; // 하늘.
+		DirectX::XMVECTOR tColor = DirectX::XMLoadFloat4(&tColorF);
+
+		_navMeshPrimitiveVector.at(navInfo->path)->Draw(DirectX::XMMatrixIdentity(), tView, tProj, tColor, nullptr, true);
 	}
 
 	void DebugRenderer::DrawLine(Pg::Data::LineInfo* lineInfo)
@@ -670,6 +721,8 @@ namespace Pg::Graphics
 		HR(_DXStorage->_device->CreateDepthStencilState(&tDepthWriteOffDesc, &_depthWriteOffDSS));
 	}
 
+	
+	
 
 
 
