@@ -118,7 +118,7 @@ namespace Pg::Graphics
 	{
 		_cbObjMat->BindVS(0);
 
-		// PixelShader : 이제 Albedo / Normal / Specular / Arm 데이터를 넣어줘야 한다.
+		// PixelShader : 이제 Albedo / Normal / Arm 데이터를 넣어줘야 한다.
 		// 디폴트 매터리얼 상관하지 않고, 모든 오브젝트가 값 자체는 이제 필요하게 될 것이라는 말이다. Texture 투입.
 		// 그냥 예전방식대로, Texture2DArray 자체를 투입할 것.
 		// 나중에는 같은 오브젝트 + 인스턴싱의 영향을 받는다면 해당 스텝을 누락하던가, 
@@ -127,10 +127,11 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(_modelData->_pbrTextureArrays[0]->GetSRV()));
 		// Normal
 		_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(_modelData->_pbrTextureArrays[1]->GetSRV()));
-		// Specular
-		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(_modelData->_pbrTextureArrays[2]->GetSRV()));
 		// ARM
-		_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &(_modelData->_pbrTextureArrays[3]->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(_modelData->_pbrTextureArrays[2]->GetSRV()));
+		
+		// Alpha.
+		//_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &(_modelData->_pbrTextureArrays[3]->GetSRV()));
 	}
 
 	void RenderObjectStaticMesh3D::ObjMat_Render(const float* const dt)

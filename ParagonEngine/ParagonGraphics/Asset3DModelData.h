@@ -65,7 +65,7 @@ namespace Pg::Graphics
 		// Texture2DArray 기반, PSSRV(T2DArray) 위해.
 		//0: albedo / 1: normal / 3: arm
 		RenderTexture2DArray* _pbrTextureArrays[3];
-
+		//RenderTexture2DArray* _
 
 		//여러 가지 버퍼를 아끼기 위해,
 		//나눠서 올리기로 했다.
