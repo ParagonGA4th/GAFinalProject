@@ -20,12 +20,14 @@ namespace Pg::DataScript
 
 	private:
 		virtual void OnTriggerEnter(Pg::Data::Collider* col) override;
+		virtual void OnTriggerExit(Pg::Data::Collider* col) override;
 		
 	private:
 		Pg::Data::StaticBoxCollider* _collider;
 		Pg::DataScript::PlayerBattleBehavior* _player;
 
 		int _monster = 1;
+		bool _onTriggerStay;
 	};
 }
 

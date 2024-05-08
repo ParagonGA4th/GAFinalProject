@@ -7,7 +7,7 @@ namespace Pg::Engine
 {
 	class MeshLoaderObj
 	{
-	public:
+	public: 
 		MeshLoaderObj();
 		~MeshLoaderObj();
 
@@ -37,6 +37,4 @@ namespace Pg::Engine
 		int m_triCount;
 	};
 }
-
-
 #endif // MESHLOADER_OBJ

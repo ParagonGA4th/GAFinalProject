@@ -66,6 +66,10 @@ namespace Pg::Engine
 		//새로운 씬을 생성한다.
 		Scene* CreateScene(const std::string& sceneName);
 
+		//얘는 Scene이 멈출 때, 동작을 할 것이다. Edit Mode로 변했을 때. 
+		void OnStopScene();
+
+
 		//현재 씬으로 지정된 것을 삭제한다.
 		void DeleteCurrentScene();
 
@@ -77,7 +81,8 @@ namespace Pg::Engine
 
 	private:
 		void CheckMoveDontDestroyOnLoadObjects(Pg::Data::Scene* scene);
-
+		void StartDontDestroyOnLoadObjects();
+		void UpdateDontDestroyOnLoadObjects();
 
 	private:
 		Scene* _currentScene = nullptr;

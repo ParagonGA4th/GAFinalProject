@@ -181,8 +181,6 @@ void Pg::Editor::Manager::DataManager::SceneLoad(std::string path)
 
 		pugi::xml_node rootNode = doc.child("scene");
 		DataDeserialize(rootNode.first_child(), _scenes.size() - 1);
-		_dataContainer->SetUUID(sceneName, _sceneUUIDData);
-		_sceneUUIDData.clear();
 	}
 }
 
@@ -240,16 +238,15 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 	for (pugi::xml_node object = root.first_child(); object; object = object.next_sibling())
 	{
 		// GameObject 생성
-		std::string uuid = Pg::Serialize::Serializer::DeserializeString(&object, "uuid");
-		std::string objName = Pg::Serialize::Serializer::DeserializeString(&object, "name");
 		Pg::Data::GameObject* obj = nullptr;
+		obj = _scenes.at(sceneNum)->AddObject("New Object");
 
-		//Scene 딴에서 EditorCameraScript를 추가하게 되면서, 외적인 검사가 불필요해졌다.
-		_sceneUUIDData.insert({objName, uuid});
-		obj = _scenes.at(sceneNum)->AddObject(objName);
+		obj->SetName(Pg::Serialize::Serializer::DeserializeString(&object, "name"));
 		obj->SetActive(Pg::Serialize::Serializer::DeserializeBoolean(&object, "active"));
 		obj->SetTag(Pg::Serialize::Serializer::DeserializeString(&object, "tag"));
+		obj->SetUUID(Pg::Serialize::Serializer::DeserializeString(&object, "uuid"));
 		obj->SetDontDestroyOnLoad(Pg::Serialize::Serializer::DeserializeBoolean(&object, "dontdestroy"));
+
 		bool parent = Pg::Serialize::Serializer::DeserializeBoolean(&object, "parent");
 		std::string parent_uuid = Pg::Serialize::Serializer::DeserializeString(&object, "parent_uuid");
 
@@ -259,7 +256,6 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 		pugi::xml_node comps = object.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "components"; });
 
 		// insepector에서 쓰이게 될 오브젝트 데이터 덩어리
-
 		for (pugi::xml_node component = comps.first_child(); component; component = component.next_sibling())
 		{
 			std::vector<std::tuple<std::string, std::string, void*>> tSerVec;
@@ -272,14 +268,9 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 					obj->_transform.OnDeserialize(tSerVec);
 					if (parent)
 					{
-						std::string parent_obj = "";
-						for (auto& uuidObj : _sceneUUIDData)
-						{
-							if (uuidObj.second.compare(parent_uuid) == 0) parent_obj = uuidObj.first;
-						}
 						for (auto& pObj : _scenes.at(sceneNum)->GetObjectList())
 						{
-							if (pObj->GetName().compare(parent_obj) == 0) pObj->_transform.AddChild(obj);
+							if (pObj->GetUUID().compare(parent_uuid) == 0) pObj->_transform.AddChild(obj);
 						}
 					}
 				}
@@ -290,17 +281,20 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 					if (componentData != nullptr)
 					{
 						componentData->OnDeserialize(tSerVec);
-						
+
 						if (typeName.find("Collider") != std::string::npos)
 						{
 							auto col = obj->GetComponent<Pg::Data::Collider>();
 
-							pugi::xml_node node = component.find_node([&](const pugi::xml_node& node){ return std::string(node.name()) == "trigger";});
-							col->SetTrigger(Pg::Serialize::Serializer::DeserializeBoolean(&node, ""));
+							pugi::xml_node node = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "layer"; });
+							col->SetLayer(Pg::Serialize::Serializer::DeserializeUint(&node, ""));
 
 							node = node.next_sibling();
+							col->SetTrigger(Pg::Serialize::Serializer::DeserializeBoolean(&node, ""));
+							
+							node = node.next_sibling();
 							col->SetPositionOffset(Pg::Serialize::Serializer::DeserializePGFloat3(&node));
-
+							
 							node = node.next_sibling();
 							col->SetRotationOffset(Pg::Serialize::Serializer::DeserializePGQuaternion(&node));
 						}
@@ -336,10 +330,14 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 	{
 		pugi::xml_node xmlObject = node.append_child("object");
 
-		std::string uuid = Pg::Util::UUIDGenerator::GetNewUUID();
-		uuid.erase(find(uuid.begin(), uuid.end(), '{'));
-		uuid.erase(find(uuid.begin(), uuid.end(), '}'));
-		uuid.erase(find(uuid.begin(), uuid.end(), '-'));
+		std::string uuid = object->GetUUID();
+		if (uuid.empty())
+		{
+			uuid = Pg::Util::UUIDGenerator::GetNewUUID();
+			uuid.erase(find(uuid.begin(), uuid.end(), '{'));
+			uuid.erase(find(uuid.begin(), uuid.end(), '}'));
+			uuid.erase(find(uuid.begin(), uuid.end(), '-'));
+		}
 
 		Pg::Serialize::Serializer::SerializeString(&xmlObject, "uuid", uuid);
 		Pg::Serialize::Serializer::SerializeString(&xmlObject, "name", object->GetName());
@@ -348,12 +346,12 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 		Pg::Serialize::Serializer::SerializeBoolean(&xmlObject, "dontdestroy", object->GetDontDestroyOnLoad());
 		Pg::Serialize::Serializer::SerializeBoolean(&xmlObject, "parent", object->_transform.GetParent() != nullptr);
 
-		//xmlObject.append_child("parent");
+		if(object->_transform.GetParent() != nullptr)
+			Pg::Serialize::Serializer::SerializeString(&xmlObject, "parent_uuid", object->_transform.GetParent()->_object->GetUUID());
+		else
+			Pg::Serialize::Serializer::SerializeString(&xmlObject, "parent_uuid", "");
 
 		pugi::xml_node objComponents = xmlObject.append_child("components");
-
-
-
 		for (auto& component : object->GetComponentList())
 		{
 			// 확인한 component의 type에 따라 serialize 한다
@@ -370,6 +368,7 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 			if (component.first.find("Collider") != std::string::npos)
 			{
 				auto col = object->GetComponent<Pg::Data::Collider>();
+				Pg::Serialize::Serializer::SerializeUint(&componentData, "layer", col->GetLayer());
 				Pg::Serialize::Serializer::SerializeBoolean(&componentData, "trigger", col->GetTrigger());
 				Pg::Serialize::Serializer::SerializePGFloat3(&componentData, "positionOffset", col->GetPositionOffset());
 				Pg::Serialize::Serializer::SerializePGQuat(&componentData, "rotationOffset", col->GetRotationOffset());

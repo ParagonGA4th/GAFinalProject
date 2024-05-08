@@ -36,6 +36,8 @@ namespace Pg::Data
 	public:
 		Collider(GameObject* owner);
 
+		virtual void BeforePhysicsAwake() final;
+
 	public:
 		PGFLOAT3 GetPositionOffset() const;
 		PGQuaternion GetRotationOffset() const;

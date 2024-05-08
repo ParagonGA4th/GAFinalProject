@@ -30,7 +30,13 @@ namespace Pg::Core
 
 	void EditorAdapter::SetEditorMode(Pg::Data::Enums::eEditorMode mode)
 	{
+		_mode = mode;
 		_processMain->GetEngineGraphicsAdapter()->SetEditorMode(mode);
+	}
+
+	Pg::Data::Enums::eEditorMode EditorAdapter::GetEditorMode()
+	{
+		return _mode;
 	}
 
 	void EditorAdapter::SetSceneList(std::vector<Pg::Data::Scene*> scenes)

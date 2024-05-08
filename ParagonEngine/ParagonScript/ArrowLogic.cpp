@@ -25,22 +25,16 @@ namespace Pg::DataScript
 		_pgTween = &singleton<Pg::API::Tween::PgTween>();
 	}
 
-	void ArrowLogic::BeforePhysicsUpdate()
+	void ArrowLogic::BeforePhysicsAwake()
 	{
-		if (!_alreadyCalledBPU)
-		{
-			//내부적으로 Physics보다 SceneSystem의 함수들이 나중에 호출됨. 그러니, 미리 할 수 있는 방법을 EngineMain-SceneSystem에 연결해두었다.
-			_collider = _object->GetComponent<Pg::Data::BoxCollider>();
-			assert(_collider != nullptr);
-			_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PROJECTILES); // 자기 자신이 Projectile이라고 해주기.
-			_collider->SetActive(false);
-			_collider->SetUseGravity(false);
-			_collider->FreezeAxisX(true);
-			_collider->FreezeAxisZ(true);
-
-			//Debouncer.
-			_alreadyCalledBPU = true;
-		}
+		//내부적으로 Physics보다 SceneSystem의 함수들이 나중에 호출됨. 그러니, 미리 할 수 있는 방법을 EngineMain-SceneSystem에 연결해두었다.
+		_collider = _object->GetComponent<Pg::Data::BoxCollider>();
+		assert(_collider != nullptr);
+		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PROJECTILES); // 자기 자신이 Projectile이라고 해주기.
+		_collider->SetActive(false);
+		_collider->SetUseGravity(false);
+		_collider->FreezeAxisX(true);
+		_collider->FreezeAxisZ(true);
 	}
 
 	void ArrowLogic::Awake()

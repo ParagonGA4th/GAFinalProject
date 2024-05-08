@@ -36,25 +36,41 @@ namespace Pg::UI::Manager
 
 		void AlignForWidth(int widgetCount, float widgetWidth);
 
-		int IsFocus(std::string windowName);
-
 		float GetMousePosX();
 		float GetMousePosY();
 
 		float GetWindowWidth();
 		float GetWindowHeight();
 
+		float GetWindowPosX();
+		float GetWindowPosY();
+
+		float GetWindowTitleBarHeight();
+
 		void OpenPopup(std::string popupName);
 
 	private:
 		//IMGUI 테마를 바꾼다.
 		void ChangeStyle();
+
 	private:
 		std::unique_ptr<Pg::UI::Helper::Gizmo> _imGizmo;
 		void* _pretendardFont{ nullptr };
 
 		int _focusFlag = -1;
 		bool _isHoverd;
+
+	private:
+		HWND _hwnd;
+
+		const float _isNotWorking = -10.f;
+
+		float _windowSizeX;
+		float _windowSizeY;
+
+		float _titleBarHeight;
+
+		bool _contextInit;
 	};
 }
 

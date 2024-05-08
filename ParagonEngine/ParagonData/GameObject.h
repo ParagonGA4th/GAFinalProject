@@ -32,6 +32,7 @@ namespace Pg::Data
 
 		//게임 로직 스크립트들이 사용해서는 안된다.
 		void Internal_EngineAwake();
+		void BeforePhysicsAwake();
 		void Awake();
 		void Start();
 
@@ -41,6 +42,9 @@ namespace Pg::Data
 		void Update();
 		void FixedUpdate();
 		void LateUpdate();
+
+		//EditMode로 변경되었을 때, 정보를 리셋할 수 있게 해주는 애. (Static Scene List 전용)
+		void OnEngineStop();
 
 		//충돌에 관한 함수.
 		void OnCollisionStay();
@@ -63,6 +67,9 @@ namespace Pg::Data
 
 		const std::string& GetTag() const;
 		void SetTag(const std::string& tag);
+
+		const std::string& GetUUID() const;
+		void SetUUID(const std::string& uuid) ;
 
 		//True면 씬 이동할 때 파괴되지 않도록 할 것.
 		void SetDontDestroyOnLoad(bool val);
@@ -105,6 +112,7 @@ namespace Pg::Data
 	private:
 	//이제 오브젝트 단위의 isStarted / isAwake 역시 가능.
 		bool _isInternalEngineAwake{ false };
+		bool _isInternalBeforePhysicsAwake{ false };
 		bool _isAwake{ false };
 		bool _isStarted{ false };
 
@@ -114,6 +122,7 @@ namespace Pg::Data
 		bool _isActive;
 		std::string _objName;
 		std::string _objTag;
+		std::string _objUUID;
 
 	private:
 		Pg::Data::Scene* _belongScene;

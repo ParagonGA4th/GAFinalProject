@@ -21,6 +21,7 @@ namespace Pg::Data
 	public:
 		//게임 로직 내부에서 실제로 사용될 일은 없다.
 		virtual void Internal_EngineAwake() {}
+		virtual void BeforePhysicsAwake() {}
 		virtual void Awake() {}
 		virtual void Start() {}
 		//게임 로직 내부에서 실제로 사용될 일은 없다.
@@ -30,6 +31,8 @@ namespace Pg::Data
 		virtual void FixedUpdate() {}
 		virtual void LateUpdate() {}
 
+		//OnEngineStop (Static Scene List 전용)
+		virtual void OnEngineStop() {}
 
 		virtual void OnDestroy() {}
 		virtual void OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count) {}

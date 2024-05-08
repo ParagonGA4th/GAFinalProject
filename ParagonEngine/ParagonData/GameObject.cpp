@@ -54,6 +54,29 @@ namespace Pg::Data
 		}
 	}
 
+	void GameObject::BeforePhysicsAwake()
+	{
+		//활성화되지 않으면 시작 안함.
+		if (!_isActive)
+		{
+			return;
+		}
+
+		if (!_isInternalBeforePhysicsAwake)
+		{
+			//for_each구문을 이용하여 componentList를 싹다 돌리기.
+			std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+				{
+					if (iter.second->GetActive())
+					{
+						iter.second->BeforePhysicsAwake();
+					}
+				});
+
+			_isInternalBeforePhysicsAwake = true;
+		}
+	}
+
 	void GameObject::Awake()
 	{
 		//활성화되지 않으면 시작 안함.
@@ -214,6 +237,16 @@ namespace Pg::Data
 	void GameObject::SetTag(const std::string& tag)
 	{
 		_objTag = tag;
+	}
+
+	const std::string& GameObject::GetUUID() const
+	{
+		return _objUUID;
+	}
+
+	void GameObject::SetUUID(const std::string& uuid)
+	{
+		_objUUID = uuid;
 	}
 
 	Pg::Data::Component* GameObject::AddComponent(std::string componentType)
@@ -411,6 +444,7 @@ namespace Pg::Data
 		_isAwake = false;
 		_isStarted = false;
 		_isInternalEngineAwake = false;
+		_isInternalBeforePhysicsAwake = false;
 	}
 
 	void GameObject::SetDontDestroyOnLoad(bool val)
@@ -421,6 +455,17 @@ namespace Pg::Data
 	bool GameObject::GetDontDestroyOnLoad()
 	{
 		return _dontDestroyOnLoad;
+	}
+
+	void GameObject::OnEngineStop()
+	{
+		if (!_isActive)
+		{
+			return;
+		}
+
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->OnEngineStop(); });
 	}
 
 	

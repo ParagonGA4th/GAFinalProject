@@ -1,5 +1,4 @@
 #pragma once
-
 #include <string>
 #include <memory>
 #include <unordered_map>
@@ -10,6 +9,8 @@
 
 #include "../ParagonData/GraphicsResource.h"
 #include "../ParagonProcess/CoreSingleton.h"
+#include "../ParagonUtil/Log.h"
+
 #include "AssetTextureType.h"
 #include "SizeTexture.h"
 
@@ -176,7 +177,11 @@ namespace Pg::Graphics::Manager
 		//shared_ptr로 변환.
 		auto res = _resources[path].lock();
 
-		assert(res && "막히면 없는 리소스를 로직 상으로 가져오라고 했다는 뜻. 로직을 고쳐야.");
+		if (!res)
+		{
+			PG_ERROR("막히면 없는 리소스를 로직 상으로 가져오라고 했다는 뜻. 로직을 고쳐야.");
+			assert(false);
+		}
 
 		//원형태로 변환
 		auto return_value = std::dynamic_pointer_cast<T>(res);
