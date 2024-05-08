@@ -68,7 +68,7 @@ namespace Pg::Graphics
 
 	private:
 		//PrimitiveWireframeObject 하드코딩해서 완성.
-		void SetupPrimitiveWireframeObjects();
+		void SetupPrimitiveWireframeObjects(const Pg::Data::Scene* const newScene);
 		//일단은 Cubemap List는 하드코딩되어 있음.
 		void PlaceCubemapList();
 
