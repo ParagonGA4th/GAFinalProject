@@ -76,8 +76,8 @@ namespace Pg::Graphics
 		ExtractMaterialPaths(newScene);
 		SyncRenderObjects(newScene); //디폴트 매터리얼을 만들어주는 역할 역시 한다.
 		RemapMaterialIdAll();
+		SetupPrimitiveWireframeObjects(newScene);
 		CreateAllInstancedRenderObjects(newScene); //Default Material 생성 + MaterialID Remapping + SyncRenderObject 다 끝나고, 별개로 Instanced RenderObjects 만들기.
-		SetupPrimitiveWireframeObjects();
 		SyncSceneAllLights(newScene);
 		CheckBindAdequateFunctions();
 		//이제 별도로 렌더링과 관련된 오브젝트들을 받아야 한다.

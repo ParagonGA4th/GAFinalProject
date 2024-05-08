@@ -48,7 +48,8 @@ namespace Pg::Engine
 		static const int MAX_POLYS = 256;
 		static const int MAX_SMOOTH = 2048;
 
-		// 에이전트 세팅
+		//Agent관리를 위한 변수
+		dtCrowd* _crowd;
 		Agent _agentsetting;
 
 		dtPolyRef _startRef;
@@ -173,9 +174,6 @@ namespace Pg::Engine
 		rcConfig _cfg;
 		rcPolyMeshDetail* _dmesh;
 		rcContext* _ctx;
-
-		//Agent관리를 위한 변수
-		dtCrowd* _crowd;
 
 		unsigned char _navMeshDrawFlags;
 

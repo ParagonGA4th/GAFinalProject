@@ -41,7 +41,7 @@ namespace Pg::Engine
 		_keepInterResults(false), _totalBuildTimeMs(0.0f)
 		// 빌드정보
 		, _triareas(nullptr), _solid(nullptr), _chf(nullptr), _cset(nullptr), _pmesh(nullptr)
-		, _cfg(), _dmesh(nullptr), _ctx(nullptr), _crowd(nullptr)
+		, _cfg(), _dmesh(nullptr), _ctx(nullptr)
 		//
 		, _navMeshDrawFlags('\x3')
 		// 빌드세팅
@@ -68,6 +68,11 @@ namespace Pg::Engine
 		_talloc = new LinearAllocator(32000);
 		_tcomp = new FastLZCompressor();
 		_tmproc = new MeshProcess();
+
+		//NavMesh 및 Crowd 할당.
+		_package->_navQuery = dtAllocNavMeshQuery();
+
+		_package->_crowd = dtAllocCrowd();
 	}
 
 	void Navigation::Release()
@@ -177,7 +182,7 @@ namespace Pg::Engine
 
 		if (!_geom || !_geom->getMesh())
 		{
-			_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: No vertices and triangles.");
+			_ctx->log(RC_LOG_ERROR, "buildTileadNavigation: No vertices and triangles.");
 			return false;
 		}
 
