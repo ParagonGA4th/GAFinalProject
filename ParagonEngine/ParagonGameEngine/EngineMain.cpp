@@ -5,7 +5,7 @@
 #include "DebugSystem.h"
 #include "SoundSystem.h"
 #include "TweenSystem.h"
-#include "NavigationSystem.h"
+#include "Navigation.h"
 #include "BehaviorTreeSystem.h"
 #include "EngineResourceManager.h"
 
@@ -23,6 +23,7 @@
 #include "../ParagonUtil/Log.h"
 #include "../ParagonUtil/TimeSystem.h"
 #include "../ParagonAPI/KeyCodeType.h"
+#include "../ParagonMath/PgMath.h"
 #include <singleton-cpp/singleton.h>
 
 #ifdef _DEBUG
@@ -70,7 +71,7 @@ namespace Pg::Engine
 		_behaviorTreeSystem = &tBTreeSystem;
 
 		//Navigation
-		auto& tNavSystem = singleton<NavigationSystem>();
+		auto& tNavSystem = singleton<Navigation>();
 		_navSystem = &tNavSystem;
 
 		//DeltaTime을 받기 위해 외부적으로 Util의 싱글턴을 갖고 와서 활용.
@@ -96,13 +97,25 @@ namespace Pg::Engine
 		_physicSystem->Initialize(_debugSystem);
 		_soundSystem->Initialize(resourceListPath);
 		_navSystem->Initialize();
+		//_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast.obj", 0);
+		_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale.obj", 0);
+		//_navSystem->HandleBuild(1);
 		_behaviorTreeSystem->Initialize(resourceListPath);
+
+		///Recast관련 테스트 코드.
+		_navSystem->SetSEpos(0, 0.0f, 0.0f, 0.0f, -10.0f, 0.0f, 10.0f);
+
+		_navTestInfo = new Pg::Data::NavMeshInfo;
+		_navTestInfo->vertices = new std::vector<Pg::Math::PGFLOAT3>();
+		_navTestInfo->indices = new std::vector<unsigned int>();
+		_navTestInfo->path = "TestForDifference";
+		_navSystem->GetNavmeshRenderInfo(0, *(_navTestInfo->vertices), *(_navTestInfo->indices));
+		_debugSystem->DrawNavMeshDebug(_navTestInfo); //한번만 추가해줬다. 클리어하지 않음.
+		//_navSystem->SetSEpos(1, -23.0f, 0.0f, -10.0f, -90.0f, 0.0f, 96.0f);
 	}
 
 	void EngineMain::Update()
-	{
-
-		
+	{	 
 		if (_currentRecordedEditMode != _previousEditMode)
 		{
 			if (_currentRecordedEditMode == Data::Enums::eEditorMode::_NONE ||
@@ -127,6 +140,8 @@ namespace Pg::Engine
 					_sceneSystem->GetCurrentScene()->GetObjectList().end(), [](auto& iter)
 					{ iter->ResetDebouncerBoolean(); });
 
+				_sceneSystem->OnStopScene();
+
 				//막 Play된 것이면 Start가 막 되는 것.
 				_sceneSystem->_isStarted = false;
 				//리셋, 클라이언트 딴에서 SetMainCamera 명시적으로 해줘야 하게. -> 이거 호환 위해 nullptr set은 꺼놨지만, 인게임에서 오버라이드 되어야 함.
@@ -149,20 +164,41 @@ namespace Pg::Engine
 		else
 		{
 			//Internal 함수들 + 게임 내부 로직 업데이트 함수 활용.
-			_sceneSystem->BeforePhysicsUpdateInGame(); //Physics 발동 전 업데이트가 필요하다면! 심지어 Awake()보다도 전이다.
+			_sceneSystem->BeforePhysicsUpdateInGame(); //Physics 발동 전 업데이트가 필요하다면! 심지어 Awake()보다도 전이다. 이제 BeforePhysicsAwake()까지 포함.
 			_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
 			_physicSystem->Flush();
 			_sceneSystem->Update(true);
 			_tweenSystem->Update();
 			_soundSystem->Update();
-			//_navSystem->Update(_timeSystem->GetDeltaTime());
 			_behaviorTreeSystem->Update();
 			_physicSystem->UpdateTransform();
 			_physicSystem->ApplyRuntimeChangesCollider(); // 현재로서는 하는 거 없음. 
 		}
 
+		///Recast관련 업데이트
+		_navSystem->HandleUpdate(_timeSystem->GetDeltaTime());
 		_debugSystem->EnableToggleDebugOnOff();
 		_debugSystem->Update(_sceneSystem->GetCurrentScene());
+
+		
+		
+
+		///Recast Obj 파일 디버그 그리기
+		//std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos1 = _navSystem->FindStraightPath(0);
+		//std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos2 = _navSystem->FindStraightPath(1);
+		Pg::Math::PGFLOAT3 navipos3 = _navSystem->FindRaycastPath(0);
+
+		//for (auto path : navipos1)
+		//{
+		//	_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 1.0f, 0.0f, 1.0f));
+		//}
+
+		//for (auto path : navipos2)
+		//{
+		//	_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
+		//}
+
+		_debugSystem->DrawLineDebug(Pg::Math::PGFLOAT3(-23.0f, 0.0f, -10.0f), navipos3, Pg::Math::PGFLOAT4(1.0f, 0.0f, 1.0f, 1.0f));
 
 		//명시적으로 바뀔 때 감지를 할 수 있게 하기 위해, 
 		//현재의 Editor Mode를 전의 것이라고 대입한다.
@@ -247,6 +283,12 @@ namespace Pg::Engine
 		return _debugSystem->GetBox2DVector();
 	}
 
+	const std::vector<Pg::Data::NavMeshInfo*>& EngineMain::GetNavMeshDebugData() const
+	{
+		return _debugSystem->GetNavMeshVector();
+	}
+
+
 	void EngineMain::ClearDebugVectorData()
 	{
 		//일단은 박스만 다루니.
@@ -257,6 +299,8 @@ namespace Pg::Engine
 		_debugSystem->DeletePlaneDebug();
 		_debugSystem->DeleteRayCastDebug();
 		_debugSystem->DeleteBox2DDebug();
+		
+		//현재로서는 NavMesh를 지우지 않는다. 매 프레임마다 삭제가 아닌, Scene이 바뀔 때마다 로드될 것이기 때문.
 	}
 
 	float EngineMain::GetDeltaTime()

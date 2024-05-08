@@ -28,13 +28,15 @@ void Pg::DataScript::Portal::Update()
 
 }
 
+void Pg::DataScript::Portal::SetNextScene(std::string nextScene)
+{
+	_nextScene = nextScene;
+}
+
 void Pg::DataScript::Portal::OnTriggerEnter(Pg::Data::Collider* col)
 {
 	if (col->_object->GetTag() == "TAG_Player")
 	{
-		//if (_object->GetScene()->GetSceneName() == "stage1")
-		//{
-			_sceneHelper->SetCurrentScene("testScene");
-		//}
+		_sceneHelper->SetCurrentScene(_nextScene);
 	}
 }

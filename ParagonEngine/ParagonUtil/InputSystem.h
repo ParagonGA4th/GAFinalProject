@@ -47,6 +47,11 @@ namespace Pg::Util::Input
 		PARAGON_UTIL_DLL float GetMouseX();
 		PARAGON_UTIL_DLL float GetMouseY();
 
+		// editor ui에서 쓰이는 함수
+		PARAGON_UTIL_DLL void SetEditorMouseX(float x);
+		// editor ui에서 쓰이는 함수
+		PARAGON_UTIL_DLL void SetEditorMouseY(float y);
+
 		PARAGON_UTIL_DLL float GetMouseDX();
 		PARAGON_UTIL_DLL float GetMouseDY();
 
@@ -60,5 +65,8 @@ namespace Pg::Util::Input
 		gainput::DeviceId _mouseId;
 		gainput::DeviceId _padId;
 		gainput::DeviceId _touchId;
+
+		float _editorMouseX;
+		float _editorMouseY;
 	};
 }

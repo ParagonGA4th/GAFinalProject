@@ -186,7 +186,6 @@ namespace Pg::Engine
 		_capsuleVec.push_back(capsuleInfo);
 	}
 
-
 	void DebugSystem::DrawSphereDebug(Pg::Data::SphereInfo* sphereInfo)
 	{
 		_sphereVec.push_back(sphereInfo);
@@ -200,6 +199,11 @@ namespace Pg::Engine
 	void DebugSystem::DrawRayCastDebug(Pg::Data::RayCastInfo rayCastInfo)
 	{
 		_rayCastVec.push_back(rayCastInfo);
+	}
+
+	void DebugSystem::DrawNavMeshDebug(Pg::Data::NavMeshInfo* navMeshInfo)
+	{
+		_navMeshVec.push_back(navMeshInfo);
 	}
 
 	void DebugSystem::DrawLineDebug(PGFLOAT3 begin, PGFLOAT3 end, PGFLOAT4 col)
@@ -250,6 +254,11 @@ namespace Pg::Engine
 		return _rayCastVec;
 	}
 
+	const std::vector<Pg::Data::NavMeshInfo*>& DebugSystem::GetNavMeshVector() const
+	{
+		return _navMeshVec;
+	}
+
 	void DebugSystem::DeleteBoxDebug()
 	{
 		_boxVec.clear();
@@ -284,6 +293,11 @@ namespace Pg::Engine
 	{
 		_rayCastVec.clear();
 	}
+
+	//void DebugSystem::DeleteNavMeshDebug()
+	//{
+	//	_navMeshVec.clear();
+	//}
 
 	bool DebugSystem::GetDebugMode()
 	{

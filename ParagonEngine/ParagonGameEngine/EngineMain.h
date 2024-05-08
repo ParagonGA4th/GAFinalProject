@@ -59,7 +59,7 @@ namespace Pg::Engine
 
 	class SoundSystem;
 
-	class NavigationSystem;
+	class Navigation;
 
 	class TweenSystem;
 }
@@ -95,6 +95,7 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::SphereInfo*>& GetSphereDebugData() const override;
 		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::CapsuleInfo*>& GetCapsuleDebugData() const override;
 		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::PlaneInfo*>& GetPlaneDebugData() const override;
+		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::NavMeshInfo*>& GetNavMeshDebugData() const override;
 		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::RayCastInfo>& GetRayCastDebugData() const override;
 		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::Box2DInfo>& GetBox2dDebugData() const override;
 
@@ -118,7 +119,7 @@ namespace Pg::Engine
 		DebugSystem* _debugSystem = nullptr;
 		SoundSystem* _soundSystem = nullptr;
 		TweenSystem* _tweenSystem = nullptr;
-		NavigationSystem* _navSystem = nullptr;
+		Navigation* _navSystem = nullptr;
 		Pg::Engine::Manager::EngineResourceManager* _engineResourceManager = nullptr;
 
 		Pg::Util::Time::TimeSystem* _timeSystem = nullptr; //제어권은 더이상 엔진에는 없다.
@@ -126,6 +127,8 @@ namespace Pg::Engine
 		Pg::Data::Enums::eEditorMode _currentRecordedEditMode{ Data::Enums::eEditorMode::_NONE };
 		Pg::Data::Enums::eEditorMode _previousEditMode{ Data::Enums::eEditorMode::_NONE };
 
+	private:
+		Pg::Data::NavMeshInfo* _navTestInfo{ nullptr };
 	};
 }
 

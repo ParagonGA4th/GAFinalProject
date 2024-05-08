@@ -47,6 +47,7 @@ namespace Pg::Core
 		virtual const std::vector<Pg::Data::SphereInfo*>& GetSphereDebugData() const abstract;
 		virtual const std::vector<Pg::Data::CapsuleInfo*>& GetCapsuleDebugData() const abstract;
 		virtual const std::vector<Pg::Data::PlaneInfo*>& GetPlaneDebugData() const abstract;
+		virtual const std::vector<Pg::Data::NavMeshInfo*>& GetNavMeshDebugData() const abstract;
 		virtual const std::vector<Pg::Data::RayCastInfo>& GetRayCastDebugData() const abstract;
 		virtual const std::vector<Pg::Data::Box2DInfo>& GetBox2dDebugData() const abstract;
 		

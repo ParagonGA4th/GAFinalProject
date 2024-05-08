@@ -1,5 +1,7 @@
 #pragma once
 #include "../ParagonMath/PgMath.h"
+#include <vector>
+#include <string>
 
 /// <summary>
 /// 변지상의 Collider의 디버그 정보를 담은 구조체...
@@ -64,6 +66,14 @@ namespace Pg::Data
 		PGFLOAT4X4 worldTM;
 		PGFLOAT3 scale;
 		PGFLOAT4 color;
+	};
+
+	///Recast에서 빌드되는 Mesh의 정보들.
+	struct NavMeshInfo
+	{
+		std::string path;
+		std::vector<PGFLOAT3>* vertices;
+		std::vector<unsigned int>* indices;
 	};
 
 }

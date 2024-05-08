@@ -4,7 +4,7 @@
 #include <memory>
 
 namespace Pg::Core { class ProcessMain; }
-namespace Pg::API::Input { class PgInput; }
+namespace Pg::Util::Input{ class InputSystem; }
 namespace Pg::Editor::Data{ class DataContainer; }
 
 namespace Pg::Editor::Manager
@@ -28,10 +28,12 @@ namespace Pg::Editor::Manager
 		void SetModifiedObject(void* objectList);
 		void SetDeleteObject(void* objectList);
 		void GetAssetList(void* define);
+		void SetEditorMousePosX(void* x);
+		void SetEditorMousePosY(void* y);
 
 	private:
 		std::unique_ptr<Pg::Core::ProcessMain> _coreMain;
-		Pg::API::Input::PgInput* _input;
+		Pg::Util::Input::InputSystem* _input;
 		Pg::Editor::Data::DataContainer* _dataContainer;
 
 		float _screenWidth;

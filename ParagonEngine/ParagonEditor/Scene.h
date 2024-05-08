@@ -25,6 +25,9 @@ namespace Pg::Editor::Window
 		virtual std::string GetWindowName() override;
 
 		virtual void SetDisable(bool disable) override;
+
+	private:
+		void DataSet(float x, float y, float titleBarHeight);
 	
 	private:
 		/// Scene Value
@@ -36,8 +39,12 @@ namespace Pg::Editor::Window
 		Pg::Editor::Data::DataContainer* _dataContainer;
 		Pg::UI::Manager::UIManager* _uiManager;
 		std::unique_ptr<Pg::UI::WidgetContainer> _widgetCon;
+		std::unique_ptr<Pg::Editor::Event> _mousePos;
 
 		/// Data Value
+		float* _imageWidth;
+		float* _imageHeight;
+
 	};
 }
 

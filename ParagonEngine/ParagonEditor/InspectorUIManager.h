@@ -60,6 +60,8 @@ namespace Pg::Editor::Window
 		int _animIndex;
 		int _prevAnimIndex;
 
+		int _layer;
+		int _prevLayer;
 		bool _trigger;
 		bool _prevTrigger;
 		Pg::Math::PGFLOAT3 _posOffset;

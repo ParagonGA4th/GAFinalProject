@@ -155,6 +155,8 @@
     <ClInclude Include="EventList_EnemyRelated.h" />
     <ClInclude Include="EventList_GameFlowRelated.h" />
     <ClInclude Include="EventList_PlayerRelated.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="IScriptResettable.h" />
     <ClInclude Include="PlayerBattleBehavior.h" />
     <ClInclude Include="Portal.h" />
@@ -170,6 +172,7 @@
     <ClInclude Include="Script.h" />
     <ClInclude Include="ScriptInterface.h" />
     <ClInclude Include="ParagonScriptList.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SoundTest.h" />
     <ClInclude Include="TrapArea.h" />
   </ItemGroup>
@@ -185,6 +188,7 @@
     <ClCompile Include="EnemySight.cpp" />
     <ClCompile Include="EventTest.cpp" />
     <ClCompile Include="FactoryHelper.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="InGameCameraBehavior.cpp" />
     <ClCompile Include="PlayerBattleBehavior.cpp" />
     <ClCompile Include="PlayerMovement.cpp" />
@@ -192,6 +196,7 @@
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="RayCastTest.cpp" />
     <ClCompile Include="Script.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SoundTest.cpp" />
     <ClCompile Include="TrapArea.cpp" />
   </ItemGroup>

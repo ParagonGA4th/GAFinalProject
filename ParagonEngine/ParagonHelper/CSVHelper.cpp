@@ -24,7 +24,11 @@ namespace Pg::Util::Helper
 			}
 
 			//빈 String Path가 있으면 CSV Error 명시적으로 내면서 뻑내기.
-			assert(!(it.at(0).empty()) && "Empty String Detected - CSV ERROR!");
+			//assert(!() && "Empty String Detected - CSV ERROR!");
+			if (it.at(0).empty())
+			{
+				continue;
+			}
 
 			//실제로 값 투입.
 			tRet.push_back(it.at(0));
@@ -41,7 +45,7 @@ namespace Pg::Util::Helper
 		assert(tPureData.size() >= 1 && "안 그러면 기본적인 리소스 포맷에 일치 X");
 
 		std::vector<std::tuple<std::string, Pg::Data::eSoundGroup, bool>> tRet;
-		tRet.resize(tPureData.size() - 1);
+		//tRet.resize(tPureData.size() - 1);
 
 		for (int i = 0; i < tPureData.size()-1; i++)
 		{
@@ -50,7 +54,15 @@ namespace Pg::Util::Helper
 
 			////옮겨담을 원소.
 			//tRet.push_back(std::make_tuple("", Pg::Data::eSoundGroup::Count, false));
-			assert(!(it.at(0).empty()) && "Empty String Detected - CSV ERROR!");
+			//assert(!(it.at(0).empty()) && "Empty String Detected - CSV ERROR!");
+
+			if (it.at(0).empty())
+			{
+				continue;
+			}
+
+			//빈 요소 집어넣기.
+			tRet.push_back({});
 
 			//Path String 옮겨담기.
 			std::get<0>(tRet.at(i)) = it.at(0);
@@ -96,14 +108,20 @@ namespace Pg::Util::Helper
 		assert(tPureData.size() >= 1 && "안 그러면 기본적인 리소스 포맷에 일치 X");
 
 		std::vector<std::pair<std::string, bool>> tRet;
-		tRet.resize(tPureData.size() - 1);
+		//tRet.resize(tPureData.size() - 1);
 
 		for (int i = 0; i < tPureData.size() - 1; i++)
 		{
 			//처음에 있는 안내용 Text 스킵.
 			auto& it = tPureData.at(i + 1);
 
-			assert(!(it.at(0).empty()) && "Empty String Detected - CSV ERROR!");
+			//assert(!(it.at(0).empty()) && "Empty String Detected - CSV ERROR!");
+			if (it.at(0).empty())
+			{
+				continue;
+			}
+
+			tRet.push_back({});
 
 			tRet.at(i).first = it.at(0);
 

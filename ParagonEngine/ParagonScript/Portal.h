@@ -1,5 +1,6 @@
 #pragma once
 #include "ScriptInterface.h"
+#include <string>
 
 namespace Pg::Data { class StaticBoxCollider; }
 namespace Pg::API { class PgScene; }
@@ -17,12 +18,16 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
+		void SetNextScene(std::string nextScene);
+
 	private:
 		virtual void OnTriggerEnter(Pg::Data::Collider* col) override;
 
 	private:
 		Pg::Data::StaticBoxCollider* _collider;
 		Pg::API::PgScene* _sceneHelper;
+
+		std::string _nextScene;
 	};
 }
 
