@@ -81,7 +81,7 @@ namespace Pg::Engine
 
 	private:
 		void CheckMoveDontDestroyOnLoadObjects(Pg::Data::Scene* scene);
-		void AwakeDontDestroyOnLoadObjects();
+		void StartDontDestroyOnLoadObjects();
 		void UpdateDontDestroyOnLoadObjects();
 
 	private:
