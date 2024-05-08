@@ -97,8 +97,8 @@ namespace Pg::Engine
 		_physicSystem->Initialize(_debugSystem);
 		_soundSystem->Initialize(resourceListPath);
 		_navSystem->Initialize();
-		_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale.obj", 0);
-		//_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/Y_Up_MinusZ_Forward_TestingRecast_DoubleScale.obj", 0);
+		//_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale.obj", 0);
+		_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 0);
 		//_navSystem->HandleBuild(1);
 		_behaviorTreeSystem->Initialize(resourceListPath);
 
