@@ -40,7 +40,7 @@ namespace Pg::DataScript
 	public:
 		ArrowLogic(Pg::Data::GameObject* obj);
 
-		virtual void BeforePhysicsUpdate() override;
+		virtual void BeforePhysicsAwake() override;
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void FixedUpdate() override;
@@ -87,10 +87,6 @@ namespace Pg::DataScript
 	private:	//API
 		Pg::API::Time::PgTime* _pgTime;
 		Pg::API::Tween::PgTween* _pgTween;
-
-	private:
-		//미리 BeforePhysicsUpdate를 호출했었는지.
-		bool _alreadyCalledBPU = false;
 
 	private:
 		//ComboSystem 갖고 있기.

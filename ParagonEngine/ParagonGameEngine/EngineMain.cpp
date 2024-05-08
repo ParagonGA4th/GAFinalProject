@@ -164,7 +164,7 @@ namespace Pg::Engine
 		else
 		{
 			//Internal 함수들 + 게임 내부 로직 업데이트 함수 활용.
-			_sceneSystem->BeforePhysicsUpdateInGame(); //Physics 발동 전 업데이트가 필요하다면! 심지어 Awake()보다도 전이다.
+			_sceneSystem->BeforePhysicsUpdateInGame(); //Physics 발동 전 업데이트가 필요하다면! 심지어 Awake()보다도 전이다. 이제 BeforePhysicsAwake()까지 포함.
 			_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
 			_physicSystem->Flush();
 			_sceneSystem->Update(true);
