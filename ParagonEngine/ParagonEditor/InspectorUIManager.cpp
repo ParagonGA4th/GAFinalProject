@@ -243,10 +243,21 @@ void Pg::Editor::Window::InspectorUIManager::ColliderUI(std::string comName)
 	{
 		auto col = _dataManager->_object->GetComponent<Pg::Data::Collider>();
 
+		if (_prevLayer != col->GetLayer()) _layer = col->GetLayer();
 		if (_prevTrigger != col->GetTrigger()) _trigger = col->GetTrigger();
 		if (_prevPosOffset != col->GetPositionOffset()) _posOffset = col->GetPositionOffset();
 		if (_prevRotOffset != col->GetRotationOffset()) _rotOffset = col->GetRotationOffset();
 
+		std::vector<std::string> layerType;
+		layerType.emplace_back("LAYER_DEFAULT");
+		layerType.emplace_back("LAYER_PLAYER");
+		layerType.emplace_back("LAYER_MONSTER");
+		layerType.emplace_back("LAYER_PROJECTILES");
+		layerType.emplace_back("LAYER_MAP");
+
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Text>("layer");
+		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##layer", layerType, _layer);
+		
 		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Text>("trigger");
 		_changedUI->CreateColumnsWidget<Pg::UI::Widget::CheckBox>("trigger", &_trigger);
 
@@ -255,10 +266,12 @@ void Pg::Editor::Window::InspectorUIManager::ColliderUI(std::string comName)
 		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Text>("rotation Offset");
 		_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>("rotation Offset", &_rotOffset);
 
+		if (_prevLayer != _layer) _prevLayer = _layer;
 		if (_prevTrigger != _trigger) _prevTrigger = _trigger;
 		if (_prevPosOffset != _posOffset) _prevPosOffset = _posOffset;
 		if (_prevRotOffset != _rotOffset) _prevRotOffset = _rotOffset;
 		
+		col->SetLayer(_layer);
 		col->SetTrigger(_trigger);
 		col->SetPositionOffset(_posOffset);
 		col->SetRotationOffset(_rotOffset);		
