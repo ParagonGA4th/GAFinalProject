@@ -15,7 +15,7 @@ namespace Pg::Data
 		_sceneName(sceneName),
 		_mainCamera(nullptr),
 		_objectList(),
-		_graphicsDebugData()
+		_graphicsDebugData(), _is3D(true)
 	{
 		//Scene이 만들어질 경우 무조건 MainCamera가 오브젝트로 생성이 되어 있어야 함!
 		{
@@ -281,6 +281,10 @@ namespace Pg::Data
 		return _editorCamera;
 	}
 
+	bool Scene::GetIs3D() const
+	{
+		return _is3D;
+	}
 	
 
 
