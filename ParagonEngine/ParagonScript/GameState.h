@@ -12,7 +12,8 @@ namespace Pg::DataScript
 
 	enum class ePlayerState
 	{
-		_LIVE,
-		_DIE,
+		_NONE,		// 플레이어가 존재하지 않을 때(게임이 플레이 되지 않았을 때)
+		_LIVE,		// 플레이어가 살아있을 때
+		_DIE,		// 플레이어가 죽었을 때
 	};
 }
