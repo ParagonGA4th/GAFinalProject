@@ -63,6 +63,17 @@ namespace Pg::Data
 			});
 	}
 
+	void Scene::BeforePhysicsAwake()
+	{
+		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
+			{
+				if (iter->GetActive())
+				{
+					iter->BeforePhysicsAwake();
+				}
+			});
+	}
+
 	void Scene::Awake()
 	{
 		//나중에 SceneSystem의 isAwake 외적으로 Object의 런타임 추가 고려해서
@@ -285,7 +296,9 @@ namespace Pg::Data
 	{
 		return _is3D;
 	}
+
 	
+
 
 
 
