@@ -71,7 +71,7 @@ namespace Pg::Engine
 			{
 				//PG_ERROR("now Checking");
 				CheckMoveDontDestroyOnLoadObjects(_currentScene);
-				AwakeDontDestroyOnLoadObjects();
+				StartDontDestroyOnLoadObjects();
 
 				/// Play Mode일 경우 다시 호출
 				auto& tPhysicSystem = singleton<Physic::PhysicSystem>();
@@ -275,7 +275,7 @@ namespace Pg::Engine
 		}
 	}
 
-	void SceneSystem::AwakeDontDestroyOnLoadObjects()
+	void SceneSystem::StartDontDestroyOnLoadObjects()
 	{
 		if (Pg::Data::Scene::_dontDestroyOnList.empty())
 		{
@@ -289,7 +289,7 @@ namespace Pg::Engine
 
 		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
 		{
-			it->Awake();
+			it->Start();
 		}
 	}
 

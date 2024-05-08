@@ -286,10 +286,17 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 						{
 							auto col = obj->GetComponent<Pg::Data::Collider>();
 
-							pugi::xml_node node = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "trigger"; });
+							pugi::xml_node node = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "layer"; });
+							col->SetLayer(Pg::Serialize::Serializer::DeserializeUint(&node, ""));
+
+							node = node.next_sibling();
 							col->SetTrigger(Pg::Serialize::Serializer::DeserializeBoolean(&node, ""));
-							col->SetPositionOffset(Pg::Serialize::Serializer::DeserializePGFloat3(&node.next_sibling()));
-							col->SetRotationOffset(Pg::Serialize::Serializer::DeserializePGQuaternion(&node.next_sibling().next_sibling()));
+							
+							node = node.next_sibling();
+							col->SetPositionOffset(Pg::Serialize::Serializer::DeserializePGFloat3(&node));
+							
+							node = node.next_sibling();
+							col->SetRotationOffset(Pg::Serialize::Serializer::DeserializePGQuaternion(&node));
 						}
 					}
 					else
@@ -361,6 +368,7 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 			if (component.first.find("Collider") != std::string::npos)
 			{
 				auto col = object->GetComponent<Pg::Data::Collider>();
+				Pg::Serialize::Serializer::SerializeUint(&componentData, "layer", col->GetLayer());
 				Pg::Serialize::Serializer::SerializeBoolean(&componentData, "trigger", col->GetTrigger());
 				Pg::Serialize::Serializer::SerializePGFloat3(&componentData, "positionOffset", col->GetPositionOffset());
 				Pg::Serialize::Serializer::SerializePGQuat(&componentData, "rotationOffset", col->GetRotationOffset());

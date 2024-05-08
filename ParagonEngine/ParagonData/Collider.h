@@ -35,7 +35,6 @@ namespace Pg::Data
 	{
 	public:
 		Collider(GameObject* owner);
-
 	public:
 		PGFLOAT3 GetPositionOffset() const;
 		PGQuaternion GetRotationOffset() const;

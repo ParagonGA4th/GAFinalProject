@@ -25,6 +25,7 @@ namespace Pg::Serialize
 		/// <param name="name">노드명</param>
 		/// <param name="result">노드의 데이터가 될 포인터</param>
 		static void Serialize(std::string typeName, pugi::xml_node* node, const std::string& name, void* result);
+		static void SerializeUint(pugi::xml_node* node, const std::string& name, uint32_t val);
 		static void SerializeBoolean(pugi::xml_node* node, const std::string& name, bool val);
 		static void SerializeInt(pugi::xml_node* node, const std::string& name, int val);
 		static void SerializeFloat(pugi::xml_node* node, const std::string& name, float val);
@@ -61,8 +62,8 @@ namespace Pg::Serialize
 		static void DeserializeString(pugi::xml_node* node, const std::string& name, std::string& result);
 		static std::string DeserializeString(pugi::xml_node* node, const std::string& name);
 
-		static void DeserializeUint(pugi::xml_node* node, const std::string& name, unsigned& result);
-		static unsigned DeserializeUint(pugi::xml_node* node, const std::string& name);
+		static void DeserializeUint(pugi::xml_node* node, const std::string& name, uint32_t& result);
+		static uint32_t DeserializeUint(pugi::xml_node* node, const std::string& name);
 
 		static void DeserializeInt64(pugi::xml_node* node, const std::string& name, int64_t& result);
 		static int64_t DeserializeInt64(pugi::xml_node* node, const std::string& name);
