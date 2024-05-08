@@ -199,8 +199,13 @@ namespace Pg::Graphics
 		return _sceneInfoList.get();
 	}
 
-	void GraphicsSceneParser::SetupPrimitiveWireframeObjects()
+	void GraphicsSceneParser::SetupPrimitiveWireframeObjects(const Pg::Data::Scene* const newScene)
 	{
+		if (!newScene->GetIs3D())
+		{
+			return;
+		}
+
 		// Primitive RenderObject ÅõÀÔ + Initialize();
 		_primObjectList->_list.push_back(std::make_unique<Grid>());
 		_primObjectList->_list.push_back(std::make_unique<Axis>());

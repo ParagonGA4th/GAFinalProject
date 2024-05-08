@@ -131,11 +131,13 @@ namespace Pg::Graphics
 
 		//Line Wireframe Rendering
 		std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> _primitiveBatch;
-		ID3D11InputLayout* _debugLineInputLayout = nullptr;
 		std::unique_ptr<DirectX::BasicEffect> _basicEffect = nullptr;
+		ID3D11InputLayout* _debugLineInputLayout = nullptr;
+
 		std::unique_ptr<DirectX::BasicEffect> _basicEffect2d = nullptr;
 
-		std::unique_ptr<DirectX::BasicEffect> _GeometricPrimEffect = nullptr;
+		std::unique_ptr<DirectX::BasicEffect> _navMeshEffect = nullptr;
+		ID3D11InputLayout* _navMeshInputLayout = nullptr;
 
 		//CommonState
 		std::unique_ptr<DirectX::CommonStates> _commonStates;

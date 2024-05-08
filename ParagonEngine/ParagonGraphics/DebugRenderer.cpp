@@ -75,7 +75,6 @@ namespace Pg::Graphics
 		//Capsule 만들기.
 		InitCapsule();
 
-
 		InitPlane();
 		//Box & Sphere 만들기.
 		//_planeShape = DirectX::GeometricPrimitive::CreateBox(_DXStorage->_deviceContext, DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f));
@@ -87,27 +86,49 @@ namespace Pg::Graphics
 
 		//DrawLine에 활용!
 		_primitiveBatch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(_DXStorage->_deviceContext);
-		_basicEffect = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
-		_basicEffect->SetVertexColorEnabled(true);
-		_basicEffect->SetLightingEnabled(false);
+		{
+			_basicEffect = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
+			_basicEffect->SetVertexColorEnabled(true);
+			_basicEffect->SetLightingEnabled(false);
 
-		//GeometricPrim Effect. -> NavMesh만 사용.
-		_GeometricPrimEffect = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
-		_GeometricPrimEffect->SetLightingEnabled(false);
+			void const* shaderByteCode;
+			size_t byteCodeLength;
 
+			_basicEffect->GetVertexShaderBytecode(&shaderByteCode, &byteCodeLength);
+
+			HR(_DXStorage->_device->CreateInputLayout(DirectX::VertexPositionColor::InputElements,
+				DirectX::VertexPositionColor::InputElementCount,
+				shaderByteCode, byteCodeLength,
+				&_debugLineInputLayout));
+		}
+		{
+			//GeometricPrim Effect. -> NavMesh만 사용.
+			_navMeshEffect = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
+			_navMeshEffect->SetLightingEnabled(false);
+			//_navMeshEffect->SetVertexColorEnabled(true);
+		
+			//마지막은 알파.
+			DirectX::XMFLOAT4 tColorF = { 0.2196f, 0.7019f, 0.8901f, 0.5f }; // 하늘.
+			DirectX::XMVECTOR tColor = DirectX::XMLoadFloat4(&tColorF);
+			_navMeshEffect->SetColorAndAlpha(tColor);
+
+			void const* shaderByteCode;
+			size_t byteCodeLength;
+			
+			_navMeshEffect->GetVertexShaderBytecode(&shaderByteCode, &byteCodeLength);
+
+			HR(_DXStorage->_device->CreateInputLayout(DirectX::VertexPositionNormalTexture::InputElements,
+				DirectX::VertexPositionNormalTexture::InputElementCount,
+				shaderByteCode, byteCodeLength,
+				&_navMeshInputLayout));
+		}
+
+		//Effect2D.
 		_basicEffect2d = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
 		_basicEffect2d->SetVertexColorEnabled(true);
 		_basicEffect2d->SetLightingEnabled(false);
 
-		void const* shaderByteCode;
-		size_t byteCodeLength;
-
-		_basicEffect->GetVertexShaderBytecode(&shaderByteCode, &byteCodeLength);
-
-		HR(_DXStorage->_device->CreateInputLayout(DirectX::VertexPositionColor::InputElements,
-			DirectX::VertexPositionColor::InputElementCount,
-			shaderByteCode, byteCodeLength,
-			&_debugLineInputLayout));
+		
 
 		_commonStates = std::make_unique<DirectX::CommonStates>(_DXStorage->_device);
 	}
@@ -394,13 +415,11 @@ namespace Pg::Graphics
 			_navMeshPrimitiveVector.insert(std::make_pair(navInfo->path, DirectX::GeometricPrimitive::CreateCustom(_DXStorage->_deviceContext, tVertices, tIndices)));
 		}
 
-		DirectX::XMMATRIX tView = MathHelper::PG2XM_MATRIX(camData->_viewMatrix);
-		DirectX::XMMATRIX tProj = MathHelper::PG2XM_MATRIX(camData->_projMatrix);
-
-		DirectX::XMFLOAT4 tColorF = { 0.2196f, 0.7019f, 0.8901f, 1.0f }; // 하늘.
-		DirectX::XMVECTOR tColor = DirectX::XMLoadFloat4(&tColorF);
-
-		_navMeshPrimitiveVector.at(navInfo->path)->Draw(DirectX::XMMatrixIdentity(), tView, tProj, tColor, nullptr, true);
+		_navMeshEffect->SetWorld(DirectX::XMMatrixIdentity());
+		_navMeshEffect->SetView(MathHelper::PG2XM_MATRIX(camData->_viewMatrix));
+		_navMeshEffect->SetProjection(MathHelper::PG2XM_MATRIX(camData->_projMatrix));
+		_navMeshEffect->Apply(_DXStorage->_deviceContext);
+		_navMeshPrimitiveVector.at(navInfo->path)->Draw(_navMeshEffect.get(), _navMeshInputLayout, true, false);
 	}
 
 	void DebugRenderer::DrawLine(Pg::Data::LineInfo* lineInfo)
