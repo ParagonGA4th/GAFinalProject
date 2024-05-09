@@ -2,33 +2,39 @@
 #include "LowDX11Storage.h"
 #include "../ParagonUtil/Log.h"
 
+#include "../ParagonData/ParagonDefines.h"
+#include "../ParagonHelper/ResourceHelper.h"
+
 #include <d3d11.h>
 #include <fstream>
 #include <cassert>
 #include <vector>
 
-#ifdef _DEBUG
-#define PG_1ST_STATIC_SHADER_PATH				L"..\\Builds\\x64\\Debug\\FirstStatic_VS.cso"
-#define PG_1ST_SKINNED_SHADER_PATH				L"..\\Builds\\x64\\Debug\\FirstSkinned_VS.cso"
-#define PG_DEFERRED_QUAD_SHADER_PATH			L"..\\Builds\\x64\\Debug\\FinalStage_VS.cso"
-#define PG_PRIMITIVE_SHADER_PATH				L"..\\Builds\\x64\\Debug\\PrimitiveVS.cso"
-#define PG_CUBEMAP_SHADER_PATH					L"..\\Builds\\x64\\Debug\\CubemapVS.cso"
-#define PG_INDIVIDUAL_PER_OBJMAT_STATIC_PATH	L"..\\Builds\\x64\\Debug\\Individual_PerObjMatStaticVS.cso"
-#define PG_INDIVIDUAL_PER_OBJMAT_SKINNED_PATH	L"..\\Builds\\x64\\Debug\\Individual_PerObjMatSkinnedVS.cso"
-#define PG_1ST_INSTANCED_SHADER_PATH			L"..\\Builds\\x64\\Debug\\FirstInstanced_VS.cso"
-#else
-#define PG_1ST_STATIC_SHADER_PATH				L"..\\Builds\\x64\\Release\\FirstStatic_VS.cso"
-#define PG_1ST_SKINNED_SHADER_PATH				L"..\\Builds\\x64\\Release\\FirstSkinned_VS.cso"
-#define PG_DEFERRED_QUAD_SHADER_PATH			L"..\\Builds\\x64\\Release\\FinalStage_VS.cso"
-#define PG_PRIMITIVE_SHADER_PATH				L"..\\Builds\\x64\\Release\\PrimitiveVS.cso"
-#define PG_CUBEMAP_SHADER_PATH					L"..\\Builds\\x64\\Release\\CubemapVS.cso"
-#define PG_INDIVIDUAL_PER_OBJMAT_STATIC_PATH	L"..\\Builds\\x64\\Release\\Individual_PerObjMatStaticVS.cso"
-#define PG_INDIVIDUAL_PER_OBJMAT_SKINNED_PATH	L"..\\Builds\\x64\\Release\\Individual_PerObjMatSkinnedVS.cso"
-#define PG_1ST_INSTANCED_SHADER_PATH			L"..\\Builds\\x64\\Release\\FirstInstanced_VS.cso"
-#endif // _DEBUG
+//#ifdef _DEBUG
+//#define PG_1ST_STATIC_SHADER_PATH				L"..\\Builds\\x64\\Debug\\FirstStatic_VS.cso"
+//#define PG_1ST_SKINNED_SHADER_PATH				L"..\\Builds\\x64\\Debug\\FirstSkinned_VS.cso"
+//#define PG_DEFERRED_QUAD_SHADER_PATH			L"..\\Builds\\x64\\Debug\\FinalStage_VS.cso"
+//#define PG_PRIMITIVE_SHADER_PATH				L"..\\Builds\\x64\\Debug\\PrimitiveVS.cso"
+//#define PG_CUBEMAP_SHADER_PATH					L"..\\Builds\\x64\\Debug\\CubemapVS.cso"
+//#define PG_INDIVIDUAL_PER_OBJMAT_STATIC_PATH	L"..\\Builds\\x64\\Debug\\Individual_PerObjMatStaticVS.cso"
+//#define PG_INDIVIDUAL_PER_OBJMAT_SKINNED_PATH	L"..\\Builds\\x64\\Debug\\Individual_PerObjMatSkinnedVS.cso"
+//#define PG_1ST_INSTANCED_SHADER_PATH			L"..\\Builds\\x64\\Debug\\FirstInstanced_VS.cso"
+//#else
+//#define PG_1ST_STATIC_SHADER_PATH				L"..\\Builds\\x64\\Release\\FirstStatic_VS.cso"
+//#define PG_1ST_SKINNED_SHADER_PATH				L"..\\Builds\\x64\\Release\\FirstSkinned_VS.cso"
+//#define PG_DEFERRED_QUAD_SHADER_PATH			L"..\\Builds\\x64\\Release\\FinalStage_VS.cso"
+//#define PG_PRIMITIVE_SHADER_PATH				L"..\\Builds\\x64\\Release\\PrimitiveVS.cso"
+//#define PG_CUBEMAP_SHADER_PATH					L"..\\Builds\\x64\\Release\\CubemapVS.cso"
+//#define PG_INDIVIDUAL_PER_OBJMAT_STATIC_PATH	L"..\\Builds\\x64\\Release\\Individual_PerObjMatStaticVS.cso"
+//#define PG_INDIVIDUAL_PER_OBJMAT_SKINNED_PATH	L"..\\Builds\\x64\\Release\\Individual_PerObjMatSkinnedVS.cso"
+//#define PG_1ST_INSTANCED_SHADER_PATH			L"..\\Builds\\x64\\Release\\FirstInstanced_VS.cso"
+//#endif // _DEBUG
 
 namespace Pg::Graphics
 {
+	using Pg::Util::Helper::ResourceHelper;
+	using namespace Pg::Defines;
+
 	ID3D11InputLayout* LayoutDefine::_instanced1stLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_static1stLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_skinned1stLayout = nullptr;
@@ -96,9 +102,9 @@ namespace Pg::Graphics
 		ID3D11Device* _device = tDXStorage->_device;
 		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
 
-		//FirstStatic_VS.cso
+		//FIRST_INSTANCED_VS_DIRECTORY
 		ID3DBlob* tInstanced1stByteCode = nullptr;
-		HR(D3DReadFileToBlob(PG_1ST_INSTANCED_SHADER_PATH, &(tInstanced1stByteCode)));
+		HR(D3DReadFileToBlob(ResourceHelper::IfReleaseChangeDebugTextW(FIRST_INSTANCED_VS_DIRECTORY).c_str(), &(tInstanced1stByteCode)));
 
 		D3D11_INPUT_ELEMENT_DESC vin1stInstancedDesc[] =
 		{
@@ -126,7 +132,7 @@ namespace Pg::Graphics
 
 		//FirstStatic_VS.cso
 		ID3DBlob* tStatic1stByteCode = nullptr;
-		HR(D3DReadFileToBlob(PG_1ST_STATIC_SHADER_PATH, &(tStatic1stByteCode)));
+		HR(D3DReadFileToBlob(ResourceHelper::IfReleaseChangeDebugTextW(FIRST_STATIC_VS_DIRECTORY).c_str(), &(tStatic1stByteCode)));
 
 		D3D11_INPUT_ELEMENT_DESC vin1stStaticDesc[] =
 		{
@@ -153,7 +159,7 @@ namespace Pg::Graphics
 		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
 
 		ID3DBlob* tSkinned1stByteCode = nullptr;
-		HR(D3DReadFileToBlob(PG_1ST_SKINNED_SHADER_PATH, &(tSkinned1stByteCode)));
+		HR(D3DReadFileToBlob(ResourceHelper::IfReleaseChangeDebugTextW(FIRST_SKINNED_VS_DIRECTORY).c_str(), &(tSkinned1stByteCode)));
 
 		// Skinned Mesh ÀÎÇ² ±¸Á¶Ã¼
 		D3D11_INPUT_ELEMENT_DESC vin1stSkinnedDesc[] =
@@ -188,7 +194,7 @@ namespace Pg::Graphics
 		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
 
 		ID3DBlob* tDefQuadByteCode = nullptr;
-		HR(D3DReadFileToBlob(PG_DEFERRED_QUAD_SHADER_PATH, &(tDefQuadByteCode)));
+		HR(D3DReadFileToBlob(ResourceHelper::IfReleaseChangeDebugTextW(FINAL_STAGE_VS_DIRECTORY).c_str(), &(tDefQuadByteCode)));
 
 		D3D11_INPUT_ELEMENT_DESC quadDesc[] =
 		{
@@ -209,7 +215,7 @@ namespace Pg::Graphics
 		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
 
 		ID3DBlob* tByteCode = nullptr;
-		HR(D3DReadFileToBlob(PG_PRIMITIVE_SHADER_PATH, &(tByteCode)));
+		HR(D3DReadFileToBlob(ResourceHelper::IfReleaseChangeDebugTextW(PRIMTIVE_VS_DIRECTORY).c_str(), &(tByteCode)));
 		
 		D3D11_INPUT_ELEMENT_DESC tDesc[] =
 		{
@@ -229,7 +235,7 @@ namespace Pg::Graphics
 		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
 
 		ID3DBlob* tByteCode = nullptr;
-		HR(D3DReadFileToBlob(PG_CUBEMAP_SHADER_PATH, &(tByteCode)));
+		HR(D3DReadFileToBlob(ResourceHelper::IfReleaseChangeDebugTextW(CUBEMAP_VS_DIRECTORY).c_str(), &(tByteCode)));
 
 		D3D11_INPUT_ELEMENT_DESC tDesc[] =
 		{
@@ -247,7 +253,7 @@ namespace Pg::Graphics
 		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
 
 		ID3DBlob* tByteCode = nullptr;
-		HR(D3DReadFileToBlob(PG_INDIVIDUAL_PER_OBJMAT_STATIC_PATH, &(tByteCode)));
+		HR(D3DReadFileToBlob(ResourceHelper::IfReleaseChangeDebugTextW(INDIVIDUAL_PEROBJMAT_STATIC_VS_DIRECTORY).c_str(), &(tByteCode)));
 
 		D3D11_INPUT_ELEMENT_DESC tDesc[] =
 		{
@@ -269,7 +275,7 @@ namespace Pg::Graphics
 		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
 
 		ID3DBlob* tByteCode = nullptr;
-		HR(D3DReadFileToBlob(PG_INDIVIDUAL_PER_OBJMAT_SKINNED_PATH, &(tByteCode)));
+		HR(D3DReadFileToBlob(ResourceHelper::IfReleaseChangeDebugTextW(INDIVIDUAL_PEROBJMAT_SKINNED_VS_DIRECTORY).c_str(), &(tByteCode)));
 
 		D3D11_INPUT_ELEMENT_DESC tDesc[] =
 		{

@@ -22,6 +22,7 @@ namespace Pg::Graphics
 	class LowDX11Storage;
 	class IRenderSinglePass;
 
+	class FirstInstancedRenderPass;
 	class FirstStaticRenderPass;
 	class FirstSkinnedRenderPass;
 	class PreparationStaticRenderPass;
@@ -62,6 +63,7 @@ namespace Pg::Graphics
 
 	private:
 		void Render(RenderObject3DList* renderObjectList, SceneInformationList* sceneInfoList, Pg::Data::CameraData* camData);
+		void RenderFirstInstancedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderFirstStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderFirstSkinnedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderObjMatStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
@@ -74,6 +76,7 @@ namespace Pg::Graphics
 	private:
 		LowDX11Storage* _DXStorage;
 
+		std::unique_ptr<FirstInstancedRenderPass> _firstInstancedRenderPass;
 		std::unique_ptr<FirstStaticRenderPass> _firstStaticRenderPass;
 		std::unique_ptr<FirstSkinnedRenderPass> _firstSkinnedRenderPass;
 		std::unique_ptr<PreparationStaticRenderPass> _objMatStaticRenderPass;

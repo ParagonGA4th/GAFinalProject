@@ -1,6 +1,8 @@
 #pragma once
 #include "RenderObject3DList.h"
 #include "../ParagonData/CameraData.h"
+#include "../ParagonData/ParagonDefines.h"
+#include "../ParagonHelper/ResourceHelper.h"
 #include "D3DCarrier.h"
 #include <vector>
 /// <summary>

@@ -75,10 +75,14 @@ namespace Pg::Graphics
 
 	void FinalRenderPass::CreateShaders()
 	{
+		using Pg::Util::Helper::ResourceHelper;
+		using namespace Pg::Defines;
+		//ResourceHelper::IfReleaseChangeDebugTextW(
+
 		// 1st Pass
-		_vs = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/FinalStage_VS.cso", LayoutDefine::GetDeferredQuadLayout(),
+		_vs = std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(FINAL_STAGE_VS_DIRECTORY), LayoutDefine::GetDeferredQuadLayout(),
 			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		_ps = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/FinalStage_PS.cso");
+		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(FINAL_STAGE_PS_DIRECTORY));
 	}
 
 	void FinalRenderPass::ExecuteNextRenderRequirements()

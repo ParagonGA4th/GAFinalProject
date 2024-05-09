@@ -8,6 +8,9 @@
 #include "WireframeRenderObject.h"
 #include "LayoutDefine.h"
 
+#include "../ParagonData/ParagonDefines.h"
+#include "../ParagonHelper/ResourceHelper.h"
+
 #include "../ParagonData/CameraData.h"
 #include <dxtk/VertexTypes.h>
 #include <DirectXMath.h>
@@ -723,9 +726,13 @@ namespace Pg::Graphics
 
 	void DebugRenderer::CreateSystemVertexShaders()
 	{
-		_primitiveVS = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/PrimitiveVS.cso", LayoutDefine::GetWireframePrimitiveLayout(),
+		using Pg::Util::Helper::ResourceHelper;
+		using namespace Pg::Defines;
+		//ResourceHelper::IfReleaseChangeDebugTextW(
+
+		_primitiveVS = std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(PRIMTIVE_VS_DIRECTORY), LayoutDefine::GetWireframePrimitiveLayout(),
 			LowDX11Storage::GetInstance()->_wireframeState, D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
-		_primitivePS = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/PrimitivePS.cso");
+		_primitivePS = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(PRIMTIVE_PS_DIRECTORY));
 	}
 
 

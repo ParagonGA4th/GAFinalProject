@@ -116,6 +116,8 @@ namespace Pg::Graphics
 		//GameObject 기록할 필요 없을 것. 이미 Transform의 위치가 고정되어 있을 것이기 때문에.
 		//기록된 ID3D11Buffer는 인스턴싱에 따로 사용. 이 경우 renderobject의 내부 objmat 버퍼는 채워지지 않는다.
 		std::unordered_map<Asset3DModelData*, std::pair<ID3D11Buffer*, std::unique_ptr<std::vector<InstancedStaticPair>>>> _instancedStaticList;
+		//얘는 반대로 컬링된 요소를 관리하기 위해. (스케일의 마이너스 값이 홀수개일때)
+		std::unordered_map<Asset3DModelData*, std::pair<ID3D11Buffer*, std::unique_ptr<std::vector<InstancedStaticPair>>>> _instancedCulledOppositeStaticList;
 
 		//그렇다면 얘네들은 유지하되, 인스턴싱되지 않은 애들 기준이어야 한다.
 		//Static - Opaque.

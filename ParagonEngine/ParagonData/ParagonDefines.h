@@ -46,12 +46,6 @@ namespace Pg::Defines
 	extern const std::string ASSET_DEFAULT_IBL_SPECULAR_IRRADIANCE_CUBEMAP_PATH;
 	extern const std::string ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH;
 	extern const std::string ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH;
-
-	extern const std::string DEFAULT_APPENDS_RENDER_VS_NAME;
-	extern const std::string DEFAULT_APPENDS_RENDER_PS_NAME;
-
-	extern const std::string DEFAULT_APPENDS_RENDER_VS_PATH;
-	extern const std::string DEFAULT_APPENDS_RENDER_PS_PATH;
 	
 	// ^, $ 리소스 이름에 활용 금지!
 	//모든 디폴트 매터리얼들이 부여받는 Prefix. 이는 일반 리소스 생성에서 활용할 수 없다.
@@ -62,4 +56,37 @@ namespace Pg::Defines
 
 	//모든 인스턴싱의 적용을 받는 3DModel들이 해당 Prefix를 갖고 있다.
 	extern const std::string INSTANCED_3DMODEL_PREFIX;
+
+
+	//Shader Directories.
+	extern const std::string DEFAULT_APPENDS_RENDER_VS_NAME;
+	extern const std::string DEFAULT_APPENDS_RENDER_PS_NAME;
+
+	extern const std::string DEFAULT_APPENDS_RENDER_VS_PATH;
+	extern const std::string DEFAULT_APPENDS_RENDER_PS_PATH;
+
+	extern const std::wstring FIRST_STATIC_VS_DIRECTORY;
+	extern const std::wstring FIRST_SKINNED_VS_DIRECTORY;
+	extern const std::wstring FIRST_INSTANCED_VS_DIRECTORY;
+	extern const std::wstring FIRST_STAGE_PS_DIRECTORY;
+	extern const std::wstring FIRST_INSTANCED_STAGE_PS_DIRECTORY;
+	extern const std::wstring FINAL_STAGE_VS_DIRECTORY;
+	extern const std::wstring FINAL_STAGE_PS_DIRECTORY;
+	extern const std::wstring INDIVIDUAL_PEROBJMAT_STATIC_VS_DIRECTORY;
+	extern const std::wstring INDIVIDUAL_PEROBJMAT_SKINNED_VS_DIRECTORY;
+	extern const std::wstring INDIVIDUAL_PEROBJMAT_PS_DIRECTORY;
+
+	extern const std::wstring CUBEMAP_VS_DIRECTORY;
+	extern const std::wstring CUBEMAP_PS_DIRECTORY;
+	extern const std::wstring PRIMTIVE_VS_DIRECTORY;
+	extern const std::wstring PRIMTIVE_PS_DIRECTORY;
+	
+	extern const std::wstring SELECTED_OUTLINE_VS_DIRECTORY;
+	extern const std::wstring SELECTED_OUTLINE_BLUR_PS_DIRECTORY;
+	extern const std::wstring SELECTED_OUTLINE_SINGLE_COLOR_PS_DIRECTORY;
+
+	extern const std::wstring POSTPROCESSING_DEFAULT_VS_DIRECTORY;
+	extern const std::wstring TONEMAPPING_PS_DIRECTORY;
+
+
 }

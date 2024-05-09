@@ -104,11 +104,15 @@ namespace Pg::Graphics
 	{
 		//일단은 구조의 용이함을 위해 당장은 Vertex Shader 하나만 필요함에도
 		//Static에서 Unbind를 했기에, Pixel Shader를 다시 바인드한다.
-		
+		using Pg::Util::Helper::ResourceHelper;
+		using namespace Pg::Defines;
+		//ResourceHelper::IfReleaseChangeDebugTextW(
+
 		// 1st Pass
-		_vs = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/FirstSkinned_VS.cso", LayoutDefine::GetSkinned1stLayout(),
+		_vs = std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(FIRST_SKINNED_VS_DIRECTORY), 
+			LayoutDefine::GetSkinned1stLayout(),
 			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		_ps = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/FirstStage_PS.cso");
+		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(FIRST_STAGE_PS_DIRECTORY));
 	}
 	
 
