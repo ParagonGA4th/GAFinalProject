@@ -73,7 +73,7 @@ namespace Pg::Graphics
 	//
 	Pg::Graphics::Sprite* tempGameCamSprite;
 
-	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight)
+	void GraphicsMain::Initialize(HWND hWnd, int screenWidth, int screenHeight, const std::string& resourceListPath)
 	{
 		//API 사용 용도로 본인의 포인터 GraphicsApiExporter로 전달.
 		auto& tApiExporter = singleton<Pg::Graphics::GraphicsApiExporter>();
@@ -105,7 +105,7 @@ namespace Pg::Graphics
 		LayoutDefine::Initialize();
 		GeometryGenerator::Initialize();
 
-		_renderer->Initialize(&_prevRecordedEditMode);
+		_renderer->Initialize(&_prevRecordedEditMode, resourceListPath);
 
 		tempGameCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/GameCamDummy.dds");
 	}

@@ -57,7 +57,7 @@ namespace Pg::Core
 		_util->Initialize(screenWidth, screenHeight, hwnd);
 		_engineGraphicsAdapter->InitializeEngine(hwnd, screenWidth, screenHeight, tResourceListPath);
 		_api->Initialize();
-		_engineGraphicsAdapter->InitializeGraphics(static_cast<HWND>(hwnd), screenWidth, screenHeight);
+		_engineGraphicsAdapter->InitializeGraphics(static_cast<HWND>(hwnd), screenWidth, screenHeight, tResourceListPath);
 
 		//AssetManager 세팅. (현재 씬에서 리소스 목록 받아오는 것 아님, 받아올 리소스 하드코딩!)
 		_assetManager->Initialize(this, tResourceListPath);

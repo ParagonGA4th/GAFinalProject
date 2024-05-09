@@ -6,15 +6,16 @@
 #include "GraphicsResourceManager.h"
 #include "MathHelper.h"
 #include "SceneInformationList.h"
+#include "LightmapManager.h"
 
 #include "GraphicsSceneParser.h"
+#include "LightmapManager.h"
 #include "DeferredRenderer.h"
 #include "CubemapRenderer.h"
 #include "Forward2DRenderer.h"
 #include "Forward3DRenderer.h"
 #include "DebugRenderer.h"
 #include "PPFinalRenderer.h"
-
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonUtil/Log.h"
@@ -39,11 +40,14 @@ namespace Pg::Graphics
 
 	}
 
-	void ParagonRenderer::Initialize(const Pg::Data::Enums::eEditorMode* const editorMode)
+	void ParagonRenderer::Initialize(const Pg::Data::Enums::eEditorMode* const editorMode, const std::string& resourceListPath)
 	{
 		//SceneParser 만들고 Initialize();
 		_sceneParser = std::make_unique<GraphicsSceneParser>();
 		_sceneParser->Initialize();
+
+		_lightmapManager = std::make_unique<LightmapManager>();
+		_lightmapManager->Initialize(resourceListPath);
 
 		//렌더러들 내부에서 오고 갈 GraphicsCarrier 객체 생성.
 		_gCarrier = std::make_unique<D3DCarrier>();
@@ -126,6 +130,9 @@ namespace Pg::Graphics
 		//현재 ParseSceneData 내부 구현체에 왜 매번 Graphics 객체를 다시 만드는지 모르겠지만..
 		//일단 급하니 나중에 TODO.
 		ParseSceneData(newScene);
+
+		//여기다가 내부적으로 Instance 데이터 보내기. (GPU)
+		SendToGPUInstanceData_Lightmap(_sceneParser->GetRenderObject3DList(), newScene);
 	}
 
 	void ParagonRenderer::PassBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
@@ -198,6 +205,8 @@ namespace Pg::Graphics
 		_deferredRenderer->SetupOpaqueQuadRenderPasses();
 		_deferredRenderer->InitializeOpaqueQuadRenderPasses();
 
+		//GPU Lightmap Data 세팅. 
+		_lightmapManager->SetGPULightmapDataWithScene(newScene, _sceneParser->GetRenderObject3DList());
 	}
 
 	ID3D11ShaderResourceView* ParagonRenderer::GetFinalQuadSRV()
@@ -270,6 +279,10 @@ namespace Pg::Graphics
 		_sceneParser->HandleRenderObjectsRuntime();
 	}
 
+	void ParagonRenderer::SendToGPUInstanceData_Lightmap(void* renderObjectList, const Pg::Data::Scene* const newScene)
+	{
+		_deferredRenderer->SendToGPUInstanceData_Lightmap(renderObjectList, newScene);
+	}
 
 	
 	

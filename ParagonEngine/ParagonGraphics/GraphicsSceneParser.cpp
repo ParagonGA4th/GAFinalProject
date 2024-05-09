@@ -514,19 +514,21 @@ namespace Pg::Graphics
 						//Culling 제대로 구분해서 투입하기.
 						if (tBaseRenderer->_object->_transform.IsScaleOddMinus())
 						{
-							auto& tVectorPtr = _renderObject3DList->_instancedCulledOppositeStaticList.at(modelData).second;
+							//InstanceStaticPair
+
+							auto& tVectorPtr = _renderObject3DList->_instancedCulledOppositeStaticList.at(modelData)->_instancedStaticPairVec;
 
 							//값 넣기. 주의! ID3D1Buffer가 같이 들어갔다. (Instancing을 위해)
-							tVectorPtr->push_back(InstancedStaticPair(tMaterialInput, std::make_unique<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
-							tVectorPtr->back()._instancedRenderObject->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
+							tVectorPtr.push_back(InstancedStaticPair(tMaterialInput, std::make_unique<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
+							tVectorPtr.back()._instancedRenderObject->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
 						}
 						else
 						{
-							auto& tVectorPtr = _renderObject3DList->_instancedStaticList.at(modelData).second;
+							auto& tVectorPtr = _renderObject3DList->_instancedStaticList.at(modelData)->_instancedStaticPairVec;
 
 							//값 넣기. 주의! ID3D1Buffer가 같이 들어갔다. (Instancing을 위해)
-							tVectorPtr->push_back(InstancedStaticPair(tMaterialInput, std::make_unique<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
-							tVectorPtr->back()._instancedRenderObject->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
+							tVectorPtr.push_back(InstancedStaticPair(tMaterialInput, std::make_unique<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
+							tVectorPtr.back()._instancedRenderObject->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
 						}
 					}
 					else
@@ -621,34 +623,36 @@ namespace Pg::Graphics
 		//Instanced 객체 추가해야 한다. 작동 방식은 일부 다르지만.
 		for (auto& [bModelData, bBufferVecPair] : _renderObject3DList->_instancedStaticList)
 		{
-			auto& bVecPtr = bBufferVecPair.second;
+			auto& bVecPtr = bBufferVecPair->_instancedStaticPairVec;
 
-			assert(bVecPtr != nullptr);
-			unsigned int tVecVBSize = bVecPtr->size();
+			//assert(bVecPtr != nullptr);
+			assert(!bVecPtr.empty());
+			unsigned int tVecVBSize = bVecPtr.size();
 
 			for (int i = 0; i < tVecVBSize; i++)
 			{
-				if (!(bVecPtr->at(i)._instancedRenderObject->_isInternalUpToDate))
+				if (!(bVecPtr.at(i)._instancedRenderObject->_isInternalUpToDate))
 				{
-					bVecPtr->at(i)._instancedRenderObject->CreateObjMatBuffers();
-					bVecPtr->at(i)._instancedRenderObject->_isInternalUpToDate = true;
+					bVecPtr.at(i)._instancedRenderObject->CreateObjMatBuffers();
+					bVecPtr.at(i)._instancedRenderObject->_isInternalUpToDate = true;
 				}
 			}
 		}
 
 		for (auto& [bModelData, bBufferVecPair] : _renderObject3DList->_instancedCulledOppositeStaticList)
 		{
-			auto& bVecPtr = bBufferVecPair.second;
+			auto& bVecPtr = bBufferVecPair->_instancedStaticPairVec;
 
-			assert(bVecPtr != nullptr);
-			unsigned int tVecVBSize = bVecPtr->size();
+			//assert(bVecPtr != nullptr);
+			assert(!bVecPtr.empty());
+			unsigned int tVecVBSize = bVecPtr.size();
 
 			for (int i = 0; i < tVecVBSize; i++)
 			{
-				if (!(bVecPtr->at(i)._instancedRenderObject->_isInternalUpToDate))
+				if (!(bVecPtr.at(i)._instancedRenderObject->_isInternalUpToDate))
 				{
-					bVecPtr->at(i)._instancedRenderObject->CreateObjMatBuffers();
-					bVecPtr->at(i)._instancedRenderObject->_isInternalUpToDate = true;
+					bVecPtr.at(i)._instancedRenderObject->CreateObjMatBuffers();
+					bVecPtr.at(i)._instancedRenderObject->_isInternalUpToDate = true;
 				}
 			}
 		}
@@ -662,10 +666,12 @@ namespace Pg::Graphics
 
 			for (auto& [bModelData, bVecPair] : _renderObject3DList->_instancedStaticList)
 			{
-				auto& bVecPtr = bVecPair.second;
+				//
+				auto& bVecPtr = bVecPair->_instancedStaticPairVec;
 
-				assert(bVecPtr != nullptr);
-				unsigned int tVecVBSize = bVecPtr->size();
+				//assert(bVecPtr != nullptr);
+				assert(!bVecPtr.empty());
+				unsigned int tVecVBSize = bVecPtr.size();
 
 				//개별 요소 추가.
 				tToMakeInstSeparateVec.push_back(std::make_pair(bModelData, std::vector<RenderObjectInstancedMesh3D*>()));
@@ -673,7 +679,7 @@ namespace Pg::Graphics
 				//3D Model 중심으로 변환해야 한다.
 				for (int i = 0; i < tVecVBSize; i++)
 				{
-					auto tInstancedMesh = bVecPtr->at(i)._instancedRenderObject.get();
+					auto tInstancedMesh = bVecPtr.at(i)._instancedRenderObject.get();
 					//개별적인 요소 담기.
 					tToMakeInstSeparateVec.back().second.push_back(tInstancedMesh);
 				}
@@ -683,8 +689,9 @@ namespace Pg::Graphics
 			for (int i = 0; i < tToMakeInstSeparateVec.size(); i++)
 			{
 				auto& tModel = tToMakeInstSeparateVec.at(i).first;
-				auto& tMatchingIter = _renderObject3DList->_instancedStaticList.at(tModel);
-				auto& tVB = tMatchingIter.first;
+
+				BufferInstancedPairList* tBufferInstancedPairList = _renderObject3DList->_instancedStaticList.at(tModel).get();
+				auto& tVB = tBufferInstancedPairList->_vb;
 				auto& tInstanceVector = tToMakeInstSeparateVec.at(i).second;
 				//이게 대응되는 요소가 될 것이다.
 
@@ -698,10 +705,11 @@ namespace Pg::Graphics
 
 			for (auto& [bModelData, bVecPair] : _renderObject3DList->_instancedCulledOppositeStaticList)
 			{
-				auto& bVecPtr = bVecPair.second;
+				auto& bVecPtr = bVecPair->_instancedStaticPairVec;
 
-				assert(bVecPtr != nullptr);
-				unsigned int tVecVBSize = bVecPtr->size();
+				//assert(bVecPtr != nullptr);
+				assert(!bVecPtr.empty());
+				unsigned int tVecVBSize = bVecPtr.size();
 
 				//개별 요소 추가.
 				tToMakeInstSeparateVec.push_back(std::make_pair(bModelData, std::vector<RenderObjectInstancedMesh3D*>()));
@@ -709,7 +717,7 @@ namespace Pg::Graphics
 				//3D Model 중심으로 변환해야 한다.
 				for (int i = 0; i < tVecVBSize; i++)
 				{
-					auto tInstancedMesh = bVecPtr->at(i)._instancedRenderObject.get();
+					auto tInstancedMesh = bVecPtr.at(i)._instancedRenderObject.get();
 					//개별적인 요소 담기.
 					tToMakeInstSeparateVec.back().second.push_back(tInstancedMesh);
 				}
@@ -720,7 +728,7 @@ namespace Pg::Graphics
 			{
 				auto& tModel = tToMakeInstSeparateVec.at(i).first;
 				auto& tMatchingIter = _renderObject3DList->_instancedCulledOppositeStaticList.at(tModel);
-				auto& tVB = tMatchingIter.first;
+				auto& tVB = tMatchingIter->_vb;
 				auto& tInstanceVector = tToMakeInstSeparateVec.at(i).second;
 				//이게 대응되는 요소가 될 것이다.
 
@@ -780,7 +788,7 @@ namespace Pg::Graphics
 
 		for (auto& [bModelData, bCollection] : _renderObject3DList->_instancedStaticList)
 		{
-			for (auto& it : *bCollection.second)
+			for (auto& it : bCollection->_instancedStaticPairVec)
 			{
 				if (it._instancedRenderObject->GetObjectID() == objID)
 				{
@@ -792,7 +800,7 @@ namespace Pg::Graphics
 
 		for (auto& [bModelData, bCollection] : _renderObject3DList->_instancedCulledOppositeStaticList)
 		{
-			for (auto& it : *bCollection.second)
+			for (auto& it : bCollection->_instancedStaticPairVec)
 			{
 				if (it._instancedRenderObject->GetObjectID() == objID)
 				{
@@ -866,7 +874,7 @@ namespace Pg::Graphics
 
 		for (auto& [bModelData, bCollection] : _renderObject3DList->_instancedStaticList)
 		{
-			for (auto& it : *bCollection.second)
+			for (auto& it : bCollection->_instancedStaticPairVec)
 			{
 				if (it._instancedRenderObject->GetBaseRenderer()->_object == obj)
 				{
@@ -878,7 +886,7 @@ namespace Pg::Graphics
 
 		for (auto& [bModelData, bCollection] : _renderObject3DList->_instancedCulledOppositeStaticList)
 		{
-			for (auto& it : *bCollection.second)
+			for (auto& it : bCollection->_instancedStaticPairVec)
 			{
 				if (it._instancedRenderObject->GetBaseRenderer()->_object == obj)
 				{

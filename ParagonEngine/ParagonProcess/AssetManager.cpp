@@ -336,6 +336,8 @@ namespace Pg::Core::Manager
 				LoadResource(it, Pg::Data::Enums::eAssetDefine::_ANIMATION);
 			}
 		}
+
+		//Lightmap XML은 외적으로 Graphics에서 관리한다.
 	}
 
 	void AssetManager::LoadDefaultResources()

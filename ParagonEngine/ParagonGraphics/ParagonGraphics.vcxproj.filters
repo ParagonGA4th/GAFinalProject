@@ -304,6 +304,16 @@
     <ClInclude Include="FirstInstancedRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\0_FirstInstancedRenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="RenderLightmapData.h" />
+    <ClInclude Include="LightmapParser.h">
+      <Filter>14_LightmapRelated\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="LightmapManager.h">
+      <Filter>14_LightmapRelated\Lightmap</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering3DStructs.h">
+      <Filter>10_Structs\ComplementaryStructs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -554,6 +564,13 @@
     </ClCompile>
     <ClCompile Include="FirstInstancedRenderPass.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\0_FirstInstancedRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderLightmapData.cpp" />
+    <ClCompile Include="LightmapParser.cpp">
+      <Filter>14_LightmapRelated\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="LightmapManager.cpp">
+      <Filter>14_LightmapRelated\Lightmap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -946,6 +963,21 @@
     </Filter>
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\10_OutlineRenderPass">
       <UniqueIdentifier>{923fdd6e-5157-47b0-8cac-b34658565252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="14_LightmapRelated">
+      <UniqueIdentifier>{1ea7bcc5-668d-48e1-9e39-f9ec01f7f869}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="14_LightmapRelated\Manager">
+      <UniqueIdentifier>{63f15778-b6ca-4cf7-83f3-7fa4508393e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="14_LightmapRelated\Lightmap">
+      <UniqueIdentifier>{517f72c4-304c-4153-aec9-1b949eca8c8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="14_LightmapRelated\Parser">
+      <UniqueIdentifier>{a7863247-d237-401e-b038-101af79600de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\ComplementaryStructs">
+      <UniqueIdentifier>{ad92431e-b20a-4cdf-865e-402c1df6c644}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

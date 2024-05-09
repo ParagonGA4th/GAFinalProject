@@ -40,7 +40,7 @@ namespace Pg::Core
 		void InitializeEngine(void* hwnd, int screenWidth, int screenHeight, const std::string& resourceListPath);
 
 		//그래픽스 초기화.
-		void InitializeGraphics(void* hwnd, int screenWidth, int screenHeight);
+		void InitializeGraphics(void* hwnd, int screenWidth, int screenHeight, const std::string& resourceListPath);
 
 		//그래픽스 리소스, 애셋 매니저와 연동.
 		void SyncLoadGraphicsResources();
