@@ -10,11 +10,12 @@
 
 //RenderPasses
 #include "IRenderSinglePass.h"
+#include "SceneInformationSender.h"
+#include "FirstInstancedRenderPass.h"
 #include "FirstStaticRenderPass.h"
 #include "FirstSkinnedRenderPass.h"
 #include "PreparationStaticRenderPass.h"
 #include "PreparationSkinnedRenderPass.h"
-#include "SceneInformationSender.h"
 #include "OpaqueQuadRenderPass.h"
 #include "OpaqueShadowRenderPass.h"
 #include "FinalRenderPass.h"
@@ -75,6 +76,7 @@ namespace Pg::Graphics
 		//일단 Scene 정보 활용을 위해 호출 먼저.
 		SendSceneInformation(sceneInfoList, camData);
 
+		RenderFirstInstancedPass(renderObjectList, camData);
 		RenderFirstStaticPass(renderObjectList, camData);
 		RenderFirstSkinnedPass(renderObjectList, camData);
 		RenderObjMatStaticPass(renderObjectList, camData);
@@ -94,20 +96,22 @@ namespace Pg::Graphics
 	void DeferredRenderer::PushRenderPasses()
 	{
 		//Render Pass Vector 구성.
-		
-		//0. FirstStaticRenderPass.
+		//0. FirstInstancedRenderPass
+		_firstInstancedRenderPass = std::make_unique<FirstInstancedRenderPass>();
+
+		//1. FirstStaticRenderPass.
 		_firstStaticRenderPass = std::make_unique<FirstStaticRenderPass>();
 
-		//1. FirstSkinnedRenderPass.
+		//2. FirstSkinnedRenderPass.
 		_firstSkinnedRenderPass = std::make_unique<FirstSkinnedRenderPass>(_editorMode);
 
-		//2. ObjMatStaticRenderPass.
+		//3. ObjMatStaticRenderPass.
 		_objMatStaticRenderPass = std::make_unique<PreparationStaticRenderPass>();
 
-		//3. ObjMatSkinnedRenderPass.
+		//4. ObjMatSkinnedRenderPass.
 		_objMatSkinnedRenderPass = std::make_unique<PreparationSkinnedRenderPass>(_editorMode);
 
-		//4. SceneInfromationSender.
+		//5. SceneInfromationSender.
 		_sceneInformationSender = std::make_unique<SceneInformationSender>();
 
 		//6. OpaqueShadowRenderPass.
@@ -146,6 +150,7 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::InitializeRenderPasses()
 	{
+		_firstInstancedRenderPass->Initialize();
 		_firstStaticRenderPass->Initialize();
 		_firstSkinnedRenderPass->Initialize();
 		_objMatStaticRenderPass->Initialize();
@@ -207,9 +212,20 @@ namespace Pg::Graphics
 		InitializeRenderPasses();
 	}
 
+	void DeferredRenderer::RenderFirstInstancedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		//0번째 RenderPass : Instanced.
+		_firstInstancedRenderPass->ReceiveRequiredElements(*_carrier);
+		_firstInstancedRenderPass->BindPass();
+		_firstInstancedRenderPass->RenderPass(renderObjectList, camData);
+		_firstInstancedRenderPass->UnbindPass();
+		_firstInstancedRenderPass->ExecuteNextRenderRequirements();
+		_firstInstancedRenderPass->PassNextRequirements(*_carrier);
+	}
+
 	void DeferredRenderer::RenderFirstStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		//0번째 RenderPass : 초반 Static Mesh 그대로 전달한다.
+		//1. 초반 Static Mesh 그대로 전달한다.
 		_firstStaticRenderPass->ReceiveRequiredElements(*_carrier);
 		_firstStaticRenderPass->BindPass();
 		_firstStaticRenderPass->RenderPass(renderObjectList, camData);
@@ -222,7 +238,7 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::RenderFirstSkinnedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		//1번째 RenderPass : 초반 Skinned Mesh 그대로 전달한다.
+		//2번째 RenderPass : 초반 Skinned Mesh 그대로 전달한다.
 		//DeltaTime은 이미 전달된 상황.
 		_firstSkinnedRenderPass->ReceiveRequiredElements(*_carrier);
 		_firstSkinnedRenderPass->SetDeltaTime(_deltaTimeStorage); 	//Skinning 활용 패스에 DeltaTime 내부적으로 전달.
@@ -235,7 +251,7 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::RenderObjMatStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		//1번째 RenderPass : ObjMatStaticRenderPass.
+		//3번째 RenderPass : ObjMatStaticRenderPass.
 		_objMatStaticRenderPass->ReceiveRequiredElements(*_carrier);
 		_objMatStaticRenderPass->BindPass();
 		_objMatStaticRenderPass->RenderPass(renderObjectList, camData);
@@ -435,6 +451,7 @@ namespace Pg::Graphics
 		//NullRTV Array를 위해, nullptr 채우기!
 		std::fill(_carrier->_pbrNullBindArray.begin(), _carrier->_pbrNullBindArray.end(), nullptr);
 	}
+
 
 
 	

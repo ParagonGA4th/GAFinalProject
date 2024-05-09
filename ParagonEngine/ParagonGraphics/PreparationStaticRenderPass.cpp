@@ -116,9 +116,13 @@ namespace Pg::Graphics
 
 	void PreparationStaticRenderPass::CreateShaders()
 	{
+		using Pg::Util::Helper::ResourceHelper;
+		using namespace Pg::Defines;
+		//ResourceHelper::IfReleaseChangeDebugTextW(
+		
 		//ObjMatStatic 용도 셰이더 갖고 오기.
-		_vs = std::make_unique<SystemVertexShader>(L"../Builds/x64/Debug/Individual_PerObjMatStaticVS.cso", LayoutDefine::GetPerObjMatStaticLayout(),
+		_vs = std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(INDIVIDUAL_PEROBJMAT_STATIC_VS_DIRECTORY), LayoutDefine::GetPerObjMatStaticLayout(),
 			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		_ps = std::make_unique<SystemPixelShader>(L"../Builds/x64/Debug/Individual_PerObjMatPS.cso");
+		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(INDIVIDUAL_PEROBJMAT_PS_DIRECTORY));
 	}
 }

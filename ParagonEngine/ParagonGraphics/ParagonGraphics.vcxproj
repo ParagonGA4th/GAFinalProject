@@ -35,6 +35,7 @@
     </ClInclude>
     <ClInclude Include="BaseSpecificRenderer.h" />
     <ClInclude Include="DirectXTexEXR.h" />
+    <ClInclude Include="FirstInstancedRenderPass.h" />
     <ClInclude Include="IndividualLightsGPU.h" />
     <ClInclude Include="PPFinalRenderer.h" />
     <ClInclude Include="FinalRenderPass.h" />
@@ -162,6 +163,7 @@
     </ClCompile>
     <ClCompile Include="BaseSpecificRenderer.cpp" />
     <ClCompile Include="DirectXTexEXR.cpp" />
+    <ClCompile Include="FirstInstancedRenderPass.cpp" />
     <ClCompile Include="PPFinalRenderer.cpp" />
     <ClCompile Include="FinalRenderPass.cpp" />
     <ClCompile Include="FirstSkinnedRenderPass.cpp" />

@@ -41,8 +41,11 @@ namespace Pg::Graphics
 
 	void PPFinalRenderer::SetupRenderPasses()
 	{
+		using Pg::Util::Helper::ResourceHelper;
+		using namespace Pg::Defines;
+
 		//개별적으로 쓰일 Vertex Shader 별도로 분리.
-		_ppSystemVertexShader = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/PostProcessingDefault_VS.cso", LayoutDefine::GetDeferredQuadLayout(),
+		_ppSystemVertexShader = std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(POSTPROCESSING_DEFAULT_VS_DIRECTORY), LayoutDefine::GetDeferredQuadLayout(),
 			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		_finalRenderPass->Initialize();

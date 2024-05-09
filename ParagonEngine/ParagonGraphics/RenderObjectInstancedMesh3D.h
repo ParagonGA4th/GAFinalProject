@@ -13,7 +13,7 @@ namespace Pg::Graphics
 		RenderObjectInstancedMesh3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID);
 		~RenderObjectInstancedMesh3D();
 	
-		virtual void CreateObjMatBuffers() override;
+		virtual void CreateObjMatBuffers() override {}
 
 	public:
 		//SkinnedMesh에 예외적으로 활용됨. 프레임을 진행시키기 위해서, 애니메이션 로직을 딱 한번, 미리 판단한다.
@@ -27,9 +27,9 @@ namespace Pg::Graphics
 		virtual void ObjMat_Render(const float* const dt) override;
 		virtual void ObjMat_UnbindBuffers() override;
 
-
 	private:
-		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjMatBase>> _cbObjMat;
+		//이 RenderObject는 상수버퍼 자체를 만들지 않는다.
+		
 
 	};
 }

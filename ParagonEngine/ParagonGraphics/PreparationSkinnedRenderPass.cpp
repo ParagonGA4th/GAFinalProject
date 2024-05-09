@@ -125,10 +125,14 @@ namespace Pg::Graphics
 
 	void PreparationSkinnedRenderPass::CreateShaders()
 	{
+		using Pg::Util::Helper::ResourceHelper;
+		using namespace Pg::Defines;
+		//ResourceHelper::IfReleaseChangeDebugTextW(
+		
 		//ObjMatSkinned 용도 셰이더 갖고 오기.
-		_vs = std::make_unique<SystemVertexShader>(L"../Builds/x64/Debug/Individual_PerObjMatSkinnedVS.cso", LayoutDefine::GetPerObjMatSkinnedLayout(),
+		_vs = std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(INDIVIDUAL_PEROBJMAT_SKINNED_VS_DIRECTORY), LayoutDefine::GetPerObjMatSkinnedLayout(),
 			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		_ps = std::make_unique<SystemPixelShader>(L"../Builds/x64/Debug/Individual_PerObjMatPS.cso");
+		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(INDIVIDUAL_PEROBJMAT_PS_DIRECTORY));
 	}
 
 }

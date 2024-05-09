@@ -374,8 +374,10 @@ namespace Pg::Core::Manager
 		LoadResource(Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_IRRADIANCE_CUBEMAP_PATH, eAssetDefine::_CUBEMAP);
 		LoadResource(Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
 
-		LoadResource(Pg::Defines::DEFAULT_APPENDS_RENDER_VS_PATH, eAssetDefine::_RENDER_VERTEXSHADER);
-		LoadResource(Pg::Defines::DEFAULT_APPENDS_RENDER_PS_PATH, eAssetDefine::_RENDER_PIXELSHADER);
+		using Pg::Util::Helper::ResourceHelper;
+
+		LoadResource(ResourceHelper::IfReleaseChangeDebugText(Pg::Defines::DEFAULT_APPENDS_RENDER_VS_PATH), eAssetDefine::_RENDER_VERTEXSHADER);
+		LoadResource(ResourceHelper::IfReleaseChangeDebugText(Pg::Defines::DEFAULT_APPENDS_RENDER_PS_PATH), eAssetDefine::_RENDER_PIXELSHADER);
 	}
 
 

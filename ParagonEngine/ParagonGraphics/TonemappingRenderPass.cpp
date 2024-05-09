@@ -67,8 +67,12 @@ namespace Pg::Graphics
 
 	void TonemappingRenderPass::CreateShaders()
 	{
+		using Pg::Util::Helper::ResourceHelper;
+		using namespace Pg::Defines;
+		//ResourceHelper::IfReleaseChangeDebugTextW(
+		
 		//별도 Tonemapping Shader 적용.
-		_ps = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/ToneMapping_PS.cso");
+		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(TONEMAPPING_PS_DIRECTORY));
 	}
 
 	void TonemappingRenderPass::BindVertexIndexBuffer()

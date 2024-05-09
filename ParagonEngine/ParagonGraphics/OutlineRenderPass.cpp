@@ -56,11 +56,15 @@ namespace Pg::Graphics
 
 	void OutlineRenderPass::Initialize()
 	{
+		using Pg::Util::Helper::ResourceHelper;
+		using namespace Pg::Defines;
+		//ResourceHelper::IfReleaseChangeDebugTextW(
+		
 		// Selected Outline Passes.
-		_vs = std::make_unique<SystemVertexShader>(L"../Builds/x64/Debug/SelectedOutline_VS.cso", LayoutDefine::GetDeferredQuadLayout(),
+		_vs = std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(SELECTED_OUTLINE_VS_DIRECTORY), LayoutDefine::GetDeferredQuadLayout(),
 			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		_singleColorPs = std::make_unique<SystemPixelShader>(L"../Builds/x64/Debug/SelectedOutline_SingleColor_PS.cso");
-		_blurPs = std::make_unique<SystemPixelShader>(L"../Builds/x64/Debug/SelectedOutline_Blur_PS.cso");
+		_singleColorPs = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(SELECTED_OUTLINE_SINGLE_COLOR_PS_DIRECTORY));
+		_blurPs = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(SELECTED_OUTLINE_BLUR_PS_DIRECTORY));
 
 		//Width Height¿ª «“¥Á.
 		_widthHeight = { static_cast<float>(_DXStorage->_screenWidth), 
