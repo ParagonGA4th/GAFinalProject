@@ -34,7 +34,8 @@ namespace Pg::Graphics
 		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
 		//RenderObject에 대한 데이터가 한번 올라갈 텐데.. : 
-		//void SendToGPUInstanceData();
+		//이는 Scene이 바뀔때마다 호출되는 경우.
+		void SendToGPUInstanceData_Lightmap(void* renderObjectList, const Pg::Data::Scene* const newScene);
 
 	private:
 		void CreateShaders();

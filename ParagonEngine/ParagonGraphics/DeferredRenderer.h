@@ -13,6 +13,7 @@ namespace Pg::Data
 {
 	class GameObject;
 	class CameraData;
+	class Scene;
 }
 
 namespace Pg::Graphics
@@ -49,6 +50,9 @@ namespace Pg::Graphics
 		virtual void RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData) override;
 		virtual void ConfirmCarrierData() override;
 
+		//Scene이 바뀔 때마다 호출되어야.
+		void SendToGPUInstanceData_Lightmap(void* renderObjectList, const Pg::Data::Scene* const newScene);
+
 	private:
 		void PushRenderPasses();
 		
@@ -60,7 +64,7 @@ namespace Pg::Graphics
 		void InitFirstQuadDirectX();
 		void InitPBRDirectX();
 
-
+		
 	private:
 		void Render(RenderObject3DList* renderObjectList, SceneInformationList* sceneInfoList, Pg::Data::CameraData* camData);
 		void RenderFirstInstancedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);

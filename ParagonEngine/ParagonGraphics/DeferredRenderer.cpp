@@ -452,6 +452,10 @@ namespace Pg::Graphics
 		std::fill(_carrier->_pbrNullBindArray.begin(), _carrier->_pbrNullBindArray.end(), nullptr);
 	}
 
+	void DeferredRenderer::SendToGPUInstanceData_Lightmap(void* renderObjectList, const Pg::Data::Scene* const newScene)
+	{
+		_firstInstancedRenderPass->SendToGPUInstanceData_Lightmap(renderObjectList, newScene);
+	}
 
 
 	

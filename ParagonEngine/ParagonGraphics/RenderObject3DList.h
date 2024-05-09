@@ -5,12 +5,14 @@
 #include "RenderObjectInstancedMesh3D.h"
 #include "RenderObjectStaticMesh3D.h"
 #include "RenderObjectSkinnedMesh3D.h"
+#include "Rendering3DStructs.h"
 #include "RenderMaterial.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/CameraData.h"
 
 #include <unordered_map>
 #include <vector>
+#include <map>
 #include <tuple>
 #include <memory>
 #include <algorithm>
@@ -20,75 +22,6 @@
 /// Paragon Renderer가 Render되는 오브젝트들을 들고 있을 용도로,
 /// 만들어진 컨테이너용 클래스 (3D)
 /// </summary>
-
-//Alpha Blending되는 오브젝트들을 위한 Tuple. 부하를 키우지 않기 위해 따로 구조체 만듬.
-//또한 나중에 Sorting이 쉽게 되기 위해.
-namespace Pg::Graphics
-{
-	struct AlphaBlendedTuple
-	{
-		AlphaBlendedTuple(Pg::Data::GameObject* go, RenderMaterial* mat, bool isSkinned) :
-			_obj(go), _renderMat(mat), _isSkinned(isSkinned) {}
-
-		//std::sort가 강제로 Copy가 아니라 Move Semantics에 의해 동작할 수 있게.
-		AlphaBlendedTuple(const AlphaBlendedTuple& rhs) = delete;
-		AlphaBlendedTuple& operator=(const AlphaBlendedTuple& rhs) = delete;
-
-		AlphaBlendedTuple(AlphaBlendedTuple&& other) noexcept
-			: _obj(other._obj), _renderMat(other._renderMat), _isSkinned(other._isSkinned)
-		{
-			this->_eitherStaticMesh = std::move(other._eitherStaticMesh);
-			this->_eitherSkinnedMesh = std::move(other._eitherSkinnedMesh);
-			_cameraRelativeDistSquared = other._cameraRelativeDistSquared;
-		}
-
-		AlphaBlendedTuple& operator=(AlphaBlendedTuple&& other) noexcept
-		{
-			this->_obj = other._obj;
-			this->_renderMat = other._renderMat;
-			this->_isSkinned = other._isSkinned;
-
-			this->_eitherStaticMesh = std::move(other._eitherStaticMesh);
-			this->_eitherSkinnedMesh = std::move(other._eitherSkinnedMesh);
-			this->_cameraRelativeDistSquared = other._cameraRelativeDistSquared;
-
-			return *this;
-		}
-		//Move만 허용할 것.
-
-		//Sorting. : Operator Overload.
-		bool operator>(const AlphaBlendedTuple& rhs) const {
-			return this->_cameraRelativeDistSquared > rhs._cameraRelativeDistSquared;
-		}
-
-		bool operator<(const AlphaBlendedTuple& rhs) const {
-			return this->_cameraRelativeDistSquared < rhs._cameraRelativeDistSquared;
-		}
-
-		//<불변 데이터>
-		const Pg::Data::GameObject* _obj;
-		const RenderMaterial* _renderMat;
-		bool _isSkinned; //이 값을 따라서 어떤 값을 렌더해야 할지가 달라진다.
-
-		std::unique_ptr<RenderObjectStaticMesh3D> _eitherStaticMesh;
-		std::unique_ptr<RenderObjectSkinnedMesh3D> _eitherSkinnedMesh;
-		//</불변 데이터>
-
-		//매 프레임 변하는 데이터: BACK_TO_FRONT 되어야 한다. (>) 오버로드해야. 
-		float _cameraRelativeDistSquared{ std::numeric_limits<float>::max() };
-	};
-
-	struct InstancedStaticPair
-	{
-		InstancedStaticPair(RenderMaterial* mat, std::unique_ptr<RenderObjectInstancedMesh3D> ro) 
-			: _renderMaterial(mat), _instancedRenderObject(std::move(ro)) {}
-
-		RenderMaterial* _renderMaterial{ nullptr };
-		std::unique_ptr<RenderObjectInstancedMesh3D> _instancedRenderObject;
-		ID3D11Buffer* _instanceVB{ nullptr };
-	};
-}
-
 
 namespace Pg::Graphics
 {
@@ -115,9 +48,12 @@ namespace Pg::Graphics
 		//Instanced Static List. - 일단은 Static만 하자!
 		//GameObject 기록할 필요 없을 것. 이미 Transform의 위치가 고정되어 있을 것이기 때문에.
 		//기록된 ID3D11Buffer는 인스턴싱에 따로 사용. 이 경우 renderobject의 내부 objmat 버퍼는 채워지지 않는다.
-		std::unordered_map<Asset3DModelData*, std::pair<ID3D11Buffer*, std::unique_ptr<std::vector<InstancedStaticPair>>>> _instancedStaticList;
+		//일정한 순서가 유지되어야 한다. 내용이 변하지 않으면 같은 순서로 Traversal 할 것이기에.
+		//std::map<Asset3DModelData*, std::pair<ID3D11Buffer*, std::unique_ptr<std::vector<InstancedStaticPair>>>> _instancedStaticList;
+		std::map<Asset3DModelData*, std::unique_ptr<BufferInstancedPairList>> _instancedStaticList;
 		//얘는 반대로 컬링된 요소를 관리하기 위해. (스케일의 마이너스 값이 홀수개일때)
-		std::unordered_map<Asset3DModelData*, std::pair<ID3D11Buffer*, std::unique_ptr<std::vector<InstancedStaticPair>>>> _instancedCulledOppositeStaticList;
+		//std::map<Asset3DModelData*, std::pair<ID3D11Buffer*, std::unique_ptr<std::vector<InstancedStaticPair>>>> _instancedCulledOppositeStaticList;
+		std::map<Asset3DModelData*, std::unique_ptr<BufferInstancedPairList>> _instancedCulledOppositeStaticList;
 
 		//그렇다면 얘네들은 유지하되, 인스턴싱되지 않은 애들 기준이어야 한다.
 		//Static - Opaque.

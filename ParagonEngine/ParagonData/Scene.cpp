@@ -171,6 +171,11 @@ namespace Pg::Data
 		return _sceneName;
 	}
 
+	std::string Scene::GetSceneNameConst() const
+	{
+		return _sceneName;
+	}
+
 	void Scene::SetSceneName(const std::string& sceneName)
 	{
 		_sceneName = sceneName;

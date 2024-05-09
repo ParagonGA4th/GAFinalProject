@@ -25,7 +25,7 @@ namespace Pg::Core
 	class IGraphics abstract
 	{
 	public:
-		virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) abstract;
+		virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight, const std::string& resourceListPath) abstract;
 		
 		virtual void SetEditorMode(Pg::Data::Enums::eEditorMode editorMode) abstract;
 
