@@ -1,5 +1,7 @@
 #pragma once
 #include "IRenderSinglePass.h"
+#include "ConstantBuffer.h"
+#include "ConstantBufferDefine.h"
 #include "DX11Headers.h"
 #include <vector>
 #include <memory>
@@ -17,6 +19,7 @@ namespace Pg::Graphics
 	class SystemPixelShader;
 	class D3DCarrier;
 }
+
 namespace Pg::Graphics
 {
 	class FirstInstancedRenderPass : public IRenderSinglePass
@@ -33,17 +36,17 @@ namespace Pg::Graphics
 		virtual void ExecuteNextRenderRequirements() override;
 		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
-		//RenderObject에 대한 데이터가 한번 올라갈 텐데.. : 
-		//이는 Scene이 바뀔때마다 호출되는 경우.
-		void SendToGPUInstanceData_Lightmap(void* renderObjectList, const Pg::Data::Scene* const newScene);
-
 	private:
 		void CreateShaders();
+		void RenderNormalInstanced(void* renderObjectList, Pg::Data::CameraData* camData);
+		void RenderCulledOppositeInstanced(void* renderObjectList, Pg::Data::CameraData* camData);
 
 	private:
 		std::unique_ptr<SystemVertexShader> _vs;
 		std::unique_ptr<SystemPixelShader> _ps;
-
+	
+	private:
+		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbLightmapCollection>> _lightmapCBuffer{ nullptr };
 	private:
 		LowDX11Storage* _DXStorage;
 		const D3DCarrier* _d3dCarrierTempStorage;

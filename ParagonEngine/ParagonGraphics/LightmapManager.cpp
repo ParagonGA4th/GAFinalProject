@@ -47,11 +47,15 @@ namespace Pg::Graphics
 			return;
 		}
 
+		//무조건 이 시점에서는 있게 된다.
 		RenderLightmapData* tRenderLightmapData = _lightmapStorage.at(sceneName).get();
 		RenderObject3DList* tRenderObjectList = (RenderObject3DList*)renderObjectList;
 
 		//Texture2DArray : D3D11.0 기준으로 Elements 512개는 적어도 가능.
 		//internal_LightmapArray : t2에 올린다.
+
+		ID3D11ShaderResourceView* tNullSRV = nullptr;
+		LowDX11Storage::GetInstance()->_deviceContext->PSSetShaderResources(2, 1, &tNullSRV);
 		LowDX11Storage::GetInstance()->_deviceContext->PSSetShaderResources(2, 1, &(tRenderLightmapData->_lightmapTextureArray->GetSRV()));
 
 		//만약 성공했으면 _isAligned가 true면 추가 재정렬 필요 X. 

@@ -5,6 +5,7 @@
 #include "RenderMaterial.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/CameraData.h"
+#include "SingleLightmapSet.h"
 ///RenderObject3DList에 쓰이는 구조체 리스트.
 
 //Alpha Blending되는 오브젝트들을 위한 Tuple. 부하를 키우지 않기 위해 따로 구조체 만듬.
@@ -72,19 +73,6 @@ namespace Pg::Graphics
 		RenderMaterial* _renderMaterial{ nullptr };
 		std::unique_ptr<RenderObjectInstancedMesh3D> _instancedRenderObject;
 		ID3D11Buffer* _instanceVB{ nullptr };
-	};
-
-	//오브젝트 (인스턴스별 하나가 있을 것이다)
-	struct SingleLightMapSet
-	{
-		SingleLightMapSet() = default;
-		SingleLightMapSet(DirectX::XMFLOAT2 scale, DirectX::XMFLOAT2 offset, UINT lightmapID)
-			: _scale(scale), _offset(offset), _lightmapID(lightmapID) {}
-
-		DirectX::XMFLOAT2 _scale;
-		DirectX::XMFLOAT2 _offset;
-		unsigned int _lightmapID;
-		DirectX::XMFLOAT3 _padding{};
 	};
 
 	//이걸 New 할 것이다.

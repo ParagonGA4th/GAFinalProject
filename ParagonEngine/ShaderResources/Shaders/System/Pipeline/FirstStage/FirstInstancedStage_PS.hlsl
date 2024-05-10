@@ -38,6 +38,7 @@ POut1st main(VOut1st_Instanced input)
     output.pout1st_RT4.w = 1.0f;
     //</Float4>
     
+    //5,6,7
     return output;
 }
 

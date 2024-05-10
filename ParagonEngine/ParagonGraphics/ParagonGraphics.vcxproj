@@ -51,6 +51,7 @@
     <ClInclude Include="Rendering3DStructs.h" />
     <ClInclude Include="RenderLightmapData.h" />
     <ClInclude Include="RenderObjectInstancedMesh3D.h" />
+    <ClInclude Include="SingleLightmapSet.h" />
     <ClInclude Include="TonemappingRenderPass.h" />
     <ClInclude Include="PreparationSkinnedRenderPass.h" />
     <ClInclude Include="SceneInformationList.h" />

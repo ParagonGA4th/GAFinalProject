@@ -140,6 +140,7 @@ namespace Pg::Graphics::Loader
 		{
 			LayoutDefine::Vin3rdStaticSkinned_Individual tVal;
 			//tVal._posL = modelData->_assetSceneData->_posRecordVector[i];
+			//이런건 PER_INSTANCE_DATA로 갖자. 어차피 모두 같은 정보를 가지고 있잖아!
 			tVal._objectID = objectID;
 			tVal._matID = materialID;
 			//tVal._tex = modelData->_assetSceneData->_texRecordVector[i];

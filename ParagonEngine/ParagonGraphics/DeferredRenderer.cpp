@@ -160,13 +160,15 @@ namespace Pg::Graphics
 		_opaqueShadowPass->Initialize();
 	}
 
-	void DeferredRenderer::InitializeOpaqueQuadRenderPasses()
+	void DeferredRenderer::InitializeResettablePasses()
 	{
 		//일괄적으로 Initialize() 호출.
 		for (auto& it : _opaqueQuadPassesVector)
 		{
 			it->Initialize();
 		}
+
+		_firstInstancedRenderPass->Initialize();
 	}
 
 	void DeferredRenderer::PlaceRequiredResources()
@@ -441,7 +443,7 @@ namespace Pg::Graphics
 		//이제 ObjMat과 PBR 요소 일부는 함께 기록됨.
 		_carrier->_albedoMetallic_GBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
 		_carrier->_normalAlpha_GBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	
+
 		//일단 값을 OMSetRenderTargets를 위해 설정.
 		//ObjMat은 전에 _quadObjMatRT와 공유.
 		_carrier->_pbrBindArray[0] = _carrier->_quadObjMatRT_AoR->GetRTV();
@@ -451,16 +453,6 @@ namespace Pg::Graphics
 		//NullRTV Array를 위해, nullptr 채우기!
 		std::fill(_carrier->_pbrNullBindArray.begin(), _carrier->_pbrNullBindArray.end(), nullptr);
 	}
-
-	void DeferredRenderer::SendToGPUInstanceData_Lightmap(void* renderObjectList, const Pg::Data::Scene* const newScene)
-	{
-		_firstInstancedRenderPass->SendToGPUInstanceData_Lightmap(renderObjectList, newScene);
-	}
-
-
-	
-
-
 }
 
 
