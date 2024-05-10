@@ -93,6 +93,6 @@ namespace Pg::Graphics
 		ID3D11Buffer* _vb{ nullptr };
 		std::vector<InstancedStaticPair> _instancedStaticPairVec;
 		//위의 인덱스와 대응, 내부의 SV_InstanceID와 연동해서 이렇게 갈 것이다.
-		std::vector< SingleLightMapSet> _instancedLightMapSetVec;
+		std::vector<SingleLightMapSet> _instancedLightMapSetVec;
 	};
 }
