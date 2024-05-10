@@ -51,6 +51,18 @@ namespace Pg::Graphics
 			//ConstantBuffer에 매번 넣어야 할 것이다.
 			//Texture를 실제로 넣는 것은 Scene 단위로 한번, 여기서.
 
+			for (auto& [bModel, bInstancedPairList] : tRenderObjectList->_instancedStaticList)
+			{
+				//Model 
+				//오브젝트 이름 + 
+			}
+			
+			for (auto& [bModel, bInstancedPairList] : tRenderObjectList->_instancedCulledOppositeStaticList)
+			{
+
+			}
+
+
 
 
 			//Texture2DArray : D3D11.0 기준으로 Elements 512개는 적어도 가능.
