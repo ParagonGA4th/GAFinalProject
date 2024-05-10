@@ -5,6 +5,9 @@
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Component.h"
 #include "../ParagonData/Collider.h"
+#include "../ParagonData/Button.h"
+#include "../ParagonData/Handle.h"
+#include "../ParagonData/Slider.h"
 #include "../ParagonScript/FactoryHelper.h"
 #include "../ParagonHelper/UUIDGenerator.h"
 
