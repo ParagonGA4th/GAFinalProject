@@ -206,6 +206,11 @@ namespace Pg::Engine
 		_navMeshVec.push_back(navMeshInfo);
 	}
 
+	void DebugSystem::DrawNavCylinderDebug(Pg::Data::NavCylinderInfo* navCylinderInfo)
+	{
+		_navCylinderVec.push_back(navCylinderInfo);
+	}
+
 	void DebugSystem::DrawLineDebug(PGFLOAT3 begin, PGFLOAT3 end, PGFLOAT4 col)
 	{
 		//[TW] Line 한정, 포인터가 되면 안된다.
@@ -259,6 +264,11 @@ namespace Pg::Engine
 		return _navMeshVec;
 	}
 
+	const std::vector<Pg::Data::NavCylinderInfo*>& DebugSystem::GetNavCylinderVector() const
+	{
+		return _navCylinderVec;
+	}
+
 	void DebugSystem::DeleteBoxDebug()
 	{
 		_boxVec.clear();
@@ -299,11 +309,19 @@ namespace Pg::Engine
 	//	_navMeshVec.clear();
 	//}
 
+	//void DebugSystem::DeleteNavCylinderDebug()
+	//{
+	//	_navCylinderVec.clear();
+	//}
+
 	bool DebugSystem::GetDebugMode()
 	{
 		return _isDebug;
 	}
 
+	
+	
+	
 	
 
 }

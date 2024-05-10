@@ -51,7 +51,7 @@ namespace Pg::Graphics
 		void GetDebugRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec);
 		void GetDebugBox2dGeometryData(const std::vector<Pg::Data::Box2DInfo>& const box2DColVec);
 		void GetDebugNavMeshGeometryData(const std::vector<Pg::Data::NavMeshInfo*>& const navMeshVec);
-
+		void GetDebugNavCylinderGeometryData(const std::vector<Pg::Data::NavCylinderInfo*>& const navCylinderVec);
 
 	private:
 
@@ -81,6 +81,7 @@ namespace Pg::Graphics
 		void DrawPlane(Pg::Data::CameraData* camData, Pg::Data::PlaneInfo* planeInfo);
 		void DrawBox2D(Pg::Data::Box2DInfo box2dInfo);
 		void DrawNavMesh(Pg::Data::CameraData* camData, Pg::Data::NavMeshInfo* navInfo);
+		void DrawCylinder(Pg::Data::CameraData* camData, Pg::Data::NavCylinderInfo* cylInfo);
 	private:
 		void CreateSystemVertexShaders();
 		void CreateDepthWriteOffDSS();
@@ -106,6 +107,8 @@ namespace Pg::Graphics
 		//Sphere Wireframe Rendering
 		std::unique_ptr<DirectX::GeometricPrimitive> _sphereShape;
 
+		//NavMesh Cylinder Rendering.
+		std::unique_ptr<DirectX::GeometricPrimitive> _cylinderShape;
 
 		//Capsule Wireframe Rendering
 		std::unique_ptr<DirectX::GeometricPrimitive> _capsuleShape;
@@ -125,6 +128,7 @@ namespace Pg::Graphics
 		const std::vector<Pg::Data::RayCastInfo>* _rayCastColVector = nullptr;
 		const std::vector<Pg::Data::Box2DInfo>* _box2dVector = nullptr;
 		const std::vector<Pg::Data::NavMeshInfo*>* _navMeshVector = nullptr;
+		const std::vector<Pg::Data::NavCylinderInfo*>* _navCylinderVector = nullptr;
 
 	private:
 		//DebugLine을 위한 요구사항.
@@ -138,6 +142,9 @@ namespace Pg::Graphics
 
 		std::unique_ptr<DirectX::BasicEffect> _navMeshEffect = nullptr;
 		ID3D11InputLayout* _navMeshInputLayout = nullptr;
+
+		std::unique_ptr<DirectX::BasicEffect> _navCylinderEffect = nullptr;
+		ID3D11InputLayout* _navCylinderInputLayout = nullptr;
 
 		//CommonState
 		std::unique_ptr<DirectX::CommonStates> _commonStates;
