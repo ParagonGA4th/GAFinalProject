@@ -80,8 +80,12 @@ namespace Pg::Graphics
 
 			//무조건 Insertion이 되어야 한다. Assign될 경우, 이미 있던 요소가 중복으로 사라진 것이다.  
 			//그렇기에, 확정지어야.
-			auto it = tRet->_beforeAlignMaps.insert_or_assign(tObjName, SingleLightMapSet(tUvScale, tUvOffset, tLightmapID));
-			
+			// Model Name // Object Name / SingleLightmapSet.
+			//없으면 만들기. 있으면 무시.
+			tRet->_beforeAlignMaps.try_emplace(tMeshName, std::unordered_map<std::string, SingleLightMapSet>());
+
+			//이제 Model별로 전달된 오브젝트 있을 때, 별개의 unordered_map에서 값을 찾는다.
+			auto it = tRet->_beforeAlignMaps.at(tMeshName).insert_or_assign(tObjName, SingleLightMapSet(tUvScale, tUvOffset, tLightmapID));
 			//Assign된 것이다. 이러면. 의도되지 않은 동작.
 			if (!it.second)
 			{

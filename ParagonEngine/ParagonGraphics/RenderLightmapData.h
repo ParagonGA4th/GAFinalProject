@@ -39,7 +39,7 @@ namespace Pg::Graphics
 		//일단, 언리얼의 출력, 유니티와의 차이가 있을 수 있으니,
 		//별도로 보관해놨다가, 실제로 일치할 때 별도로 넣어놓자! 
 		// Model Name // Object Name / Lightmap Set.
-		std::unordered_map<std::string, SingleLightMapSet> _beforeAlignMaps;
+		std::unordered_map<std::string, std::unordered_map<std::string, SingleLightMapSet>> _beforeAlignMaps;
 
 		
 
