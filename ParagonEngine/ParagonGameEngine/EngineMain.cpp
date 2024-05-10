@@ -293,6 +293,10 @@ namespace Pg::Engine
 		return _debugSystem->GetNavMeshVector();
 	}
 
+	const std::vector<Pg::Data::NavCylinderInfo*>& EngineMain::GetNavCylinderDebugData() const
+	{
+		return _debugSystem->GetNavCylinderVector();
+	}
 
 	void EngineMain::ClearDebugVectorData()
 	{
@@ -348,5 +352,4 @@ namespace Pg::Engine
 	{
 		_physicSystem->CheckDeleteRuntimeColliders(objVecP);
 	}
-
 }
