@@ -1,5 +1,7 @@
 #include "Navigation.h"
 #include "ParagonRecast.h"
+#include "../ParagonData/GameObject.h"
+#include "../ParagonData/NavMeshAgent.h"
 
 #include <singleton-cpp/singleton.h>
 #include <functional>
@@ -547,8 +549,32 @@ namespace Pg::Engine
 				return;
 			if (!_package[i]._tileCache)
 				return;
+			if (!_package[i]._crowd)
+				return;
+
 			_package[i]._tileCache->update(dt, _package[i]._navMesh);
+			//_package[i]._crowd->update(dt, nullptr);
 		}
+	}
+
+	void Navigation::SyncAgent()
+	{
+		//Agent의 속성 부여
+		dtCrowdAgentParams ap;
+		memset(&ap, 0, sizeof(ap));
+
+		ap.radius = _package->_agentsetting._agentRadius;
+		ap.maxSpeed = _package->_agentsetting._agentMaxSpeed;
+		ap.height = _package->_agentsetting._agentHeight;
+		//ap.maxAcceleration = tNavMeshAgent->GetMaxAcceleration();
+		ap.maxAcceleration = std::numeric_limits<float>::max();
+		ap.collisionQueryRange = ap.radius * 12.0f;
+		ap.pathOptimizationRange = ap.radius * 30.0f;
+		ap.obstacleAvoidanceType = (unsigned char)3;
+
+		ap.updateFlags = DT_CROWD_OPTIMIZE_TOPO |
+			DT_CROWD_OPTIMIZE_VIS |
+			DT_CROWD_OBSTACLE_AVOIDANCE;
 	}
 
 	dtObstacleRef Navigation::hitTestObstacle(const dtTileCache* tc, const float* sq)
