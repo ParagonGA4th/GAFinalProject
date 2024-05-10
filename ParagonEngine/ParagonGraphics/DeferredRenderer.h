@@ -43,15 +43,12 @@ namespace Pg::Graphics
 		virtual void Initialize() override;
 		virtual void SetupRenderPasses() override;
 		void SetupOpaqueQuadRenderPasses();
-		void InitializeOpaqueQuadRenderPasses();
+		void InitializeResettablePasses();
 
 		//매 프레임마다 Skinned 동작을 위해 사용.
 		void SetDeltaTime(float dt);
 		virtual void RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData) override;
 		virtual void ConfirmCarrierData() override;
-
-		//Scene이 바뀔 때마다 호출되어야.
-		void SendToGPUInstanceData_Lightmap(void* renderObjectList, const Pg::Data::Scene* const newScene);
 
 	private:
 		void PushRenderPasses();

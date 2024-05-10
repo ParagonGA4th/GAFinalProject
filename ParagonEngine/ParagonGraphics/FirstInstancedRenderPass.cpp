@@ -10,7 +10,7 @@ namespace Pg::Graphics
 {
 	FirstInstancedRenderPass::FirstInstancedRenderPass() : _DXStorage(LowDX11Storage::GetInstance())
 	{
-
+		CreateShaders();
 	}
 
 	FirstInstancedRenderPass::~FirstInstancedRenderPass()
@@ -20,7 +20,14 @@ namespace Pg::Graphics
 
 	void FirstInstancedRenderPass::Initialize()
 	{
-		CreateShaders();
+		//이는 Scene이 바뀔 때마다 다시 호출될 것이다.	
+
+		//이제 나머지 Initialize.
+		_lightmapCBuffer.reset(new ConstantBuffer<ConstantBufferDefine::cbLightmapCollection>());
+		for (int i = 0; i < Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING; i++)
+		{
+			_lightmapCBuffer->GetDataStruct()->gBuf_LightMapSet[i] = SingleLightMapSet({ 1.f,1.f }, { 0.f,0.f }, 0);
+		}
 	}
 
 	void FirstInstancedRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
@@ -51,10 +58,8 @@ namespace Pg::Graphics
 
 	void FirstInstancedRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		RenderObject3DList* tRenderObjectList = reinterpret_cast<RenderObject3DList*>(renderObjectList);
-
-		//
-
+		RenderNormalInstanced(renderObjectList, camData);
+		RenderCulledOppositeInstanced(renderObjectList, camData);
 	}
 
 	void FirstInstancedRenderPass::UnbindPass()
@@ -87,26 +92,39 @@ namespace Pg::Graphics
 		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_INSTANCED_STAGE_PS_DIRECTORY));
 	}
 
-	void FirstInstancedRenderPass::SendToGPUInstanceData_Lightmap(void* renderObjectList, const Pg::Data::Scene* const newScene)
+	void FirstInstancedRenderPass::RenderNormalInstanced(void* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		RenderObject3DList* tRenderObjectList = reinterpret_cast<RenderObject3DList*>(renderObjectList);
+		
+		for (auto& [bModel, bBufferPairList] : tRenderObjectList->_instancedStaticList)
+		{
+			//우선적으로, ConstantBuffer부터 셋한다.
+			assert(bBufferPairList->_instancedLightMapSetVec.size() <= Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING);
+
+			for (int i = 0; i < bBufferPairList->_instancedLightMapSetVec.size(); i++)
+			{
+				_lightmapCBuffer->GetDataStruct()->gBuf_LightMapSet[i] = bBufferPairList->_instancedLightMapSetVec.at(i);
+			}
+			
+			_lightmapCBuffer->Update();
+
+			//이제 PS CB Bind과정.
+			_lightmapCBuffer->BindPS(5);
+
+			//그리기.
+			//bBufferPairList->_vb
+			
+		}
+	}
+
+	void FirstInstancedRenderPass::RenderCulledOppositeInstanced(void* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		RenderObject3DList* tRenderObjectList = reinterpret_cast<RenderObject3DList*>(renderObjectList);
 
-		//이미 개별적으로 외적 Culling되는 애들은 넣어놓았기에, SV_InstanceID가 어긋나지는 않을 것이다.
-		//개별적으로 Model 중심으로 정렬되는 코드. 
-		//LoadTRSBuffer를 중심으로 SV_InstanceID Increment : 
-		//그러니, 모델 별로 InstanceID는 독립적이라고 보는게 맞다.
-		//Transform은 매프레임마다 보내주는 것이 옳다.
-
-		//씬 단위에서는 그냥 Lightmapping 데이터만 보내주는게 맞다. 
-		//지금 이 함수는 씬이 바뀔 때만 작동하니.
-		//1. Unity Lightmap Data를 바꿔야 한다. -> 오브젝트 이름 포함하게!
-		//2. 오브젝트 매칭해야지. -> 이를 InstanceMesh에 보관.
-		//3. Runtime에 검사하자. Lightmap 리스트, SoundSystem이 하는 것처럼 쫙 훑어서 bool값으로 이미 다른 Scene과 연동되었는지를 검사.
-		// 그 다음에, 없을 경우에는 런타임에, ParseScene 파트에다가 연동하는 것처럼 ㄱㄱ! 
-		//4. 
-
-
-
+		for (auto& [bModel, bBufferPairList] : tRenderObjectList->_instancedCulledOppositeStaticList)
+		{
+			
+		}
 	}
 
 }

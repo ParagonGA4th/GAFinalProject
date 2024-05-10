@@ -99,9 +99,6 @@ namespace Pg::Graphics
 		//씬 데이터 받아들이기. (렌더에 적합한 형태로)
 		void ParseSceneData(const Pg::Data::Scene* const newScene);
 
-		//Scene이 바뀔 때마다 호출되어야.
-		void SendToGPUInstanceData_Lightmap(void* renderObjectList, const Pg::Data::Scene* const newScene);
-
 	private:
 		LowDX11Storage* _DXStorage = nullptr;
 		LowDX11Logic* _DXLogic = nullptr;

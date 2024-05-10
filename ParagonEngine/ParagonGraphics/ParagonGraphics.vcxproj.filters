@@ -314,6 +314,9 @@
     <ClInclude Include="Rendering3DStructs.h">
       <Filter>10_Structs\ComplementaryStructs</Filter>
     </ClInclude>
+    <ClInclude Include="SingleLightmapSet.h">
+      <Filter>14_LightmapRelated\Lightmap\SingleLightmapSet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -978,6 +981,9 @@
     </Filter>
     <Filter Include="10_Structs\ComplementaryStructs">
       <UniqueIdentifier>{ad92431e-b20a-4cdf-865e-402c1df6c644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="14_LightmapRelated\Lightmap\SingleLightmapSet">
+      <UniqueIdentifier>{8ea9763c-59b5-4e5c-a627-ce843400f827}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -131,8 +131,8 @@ namespace Pg::Graphics
 		//일단 급하니 나중에 TODO.
 		ParseSceneData(newScene);
 
-		//여기다가 내부적으로 Instance 데이터 보내기. (GPU)
-		SendToGPUInstanceData_Lightmap(_sceneParser->GetRenderObject3DList(), newScene);
+		//GPU Lightmap Data 세팅. 씬이 바뀔때 마다.
+		_lightmapManager->SetGPULightmapDataWithScene(newScene, _sceneParser->GetRenderObject3DList());
 	}
 
 	void ParagonRenderer::PassBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
@@ -209,9 +209,6 @@ namespace Pg::Graphics
 		//매번 다른 매터리얼을 로드해야 하는 Deferred는 약간 다를 수 있다.
 		_deferredRenderer->SetupOpaqueQuadRenderPasses();
 		_deferredRenderer->InitializeOpaqueQuadRenderPasses();
-
-		//GPU Lightmap Data 세팅. 
-		_lightmapManager->SetGPULightmapDataWithScene(newScene, _sceneParser->GetRenderObject3DList());
 	}
 
 	ID3D11ShaderResourceView* ParagonRenderer::GetFinalQuadSRV()
@@ -283,14 +280,4 @@ namespace Pg::Graphics
 	{
 		_sceneParser->HandleRenderObjectsRuntime();
 	}
-
-	void ParagonRenderer::SendToGPUInstanceData_Lightmap(void* renderObjectList, const Pg::Data::Scene* const newScene)
-	{
-		_deferredRenderer->SendToGPUInstanceData_Lightmap(renderObjectList, newScene);
-	}
-
-	
-	
-	
-
 }

@@ -62,7 +62,7 @@ namespace Pg::Graphics
 	}
 
 	void OpaqueQuadRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
-{
+	{
 		//하는거 없으면, 건드리지 말아야 한다.
 	}
 
