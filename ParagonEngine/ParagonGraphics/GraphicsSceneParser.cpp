@@ -435,6 +435,8 @@ namespace Pg::Graphics
 			{
 				//2D
 				//TextRenderer
+				Pg::Data::RendererBase2D* t2DBase = static_cast<Pg::Data::RendererBase2D*>(tBaseRenderer);
+
 				if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::TextRenderer*).name())) == 0)
 				{
 					_renderObject2DList->_list.push_back(std::make_pair(obj,
@@ -446,6 +448,10 @@ namespace Pg::Graphics
 				{
 					_renderObject2DList->_list.push_back(std::make_pair(obj,
 						std::make_unique<RenderObjectImage2D>(tBaseRenderer)));
+
+					RenderObjectImage2D* tTemp = static_cast<RenderObjectImage2D*>(_renderObject2DList->_list.back().second.get());
+					t2DBase->_width = *(tTemp->_imageWidth);
+					t2DBase->_height = *(tTemp->_imageHeight);
 				}
 			}
 		}

@@ -119,6 +119,7 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual void SetRayCastDebugRenderData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec) override;
 		PARAGON_GRAPHICS_DLL virtual void SetBox2dDebugRenderData(const std::vector<Pg::Data::Box2DInfo>& const box2dColVec) override;
 		PARAGON_GRAPHICS_DLL virtual void SetNavMeshDebugRenderData(const std::vector<Pg::Data::NavMeshInfo*>& const navMeshVec) override;
+		PARAGON_GRAPHICS_DLL virtual void SetNavCylinderDebugRenderData(const std::vector<Pg::Data::NavCylinderInfo*>& const navCylinderVec) override;
 
 		//Picking을 허용할지 / 허용하지 않을지, 렌더링 파이프라인 비용을 ON/OFF 할 수 있다.
 		PARAGON_GRAPHICS_DLL virtual void SetPickingEnableMode(bool val) override;

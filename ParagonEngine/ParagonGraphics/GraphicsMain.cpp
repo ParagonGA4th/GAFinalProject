@@ -331,6 +331,11 @@ namespace Pg::Graphics
 		_renderer->PassNavMeshGeometryData(navMeshVec);
 	}
 
+	void GraphicsMain::SetNavCylinderDebugRenderData(const std::vector<Pg::Data::NavCylinderInfo*>& const navCylinderVec)
+	{
+		_renderer->PassNavCylinderGeometryData(navCylinderVec);
+	}
+
 	void GraphicsMain::SetPickingEnableMode(bool val)
 	{
 		_internalPickingMode = val;
@@ -367,6 +372,7 @@ namespace Pg::Graphics
 		_prevRecordedEditMode = editorMode;
 	}
 
+	
 	
 
 }

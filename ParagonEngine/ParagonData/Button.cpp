@@ -16,21 +16,27 @@ namespace Pg::Data
 		_onClickEvent(),
 		_isPressed(false)
 	{
+		FACTORY_INIT;
+
 		//input 적용
 		auto& _tInputSystem = singleton<Pg::Util::Input::InputSystem>();
-		_inputSystem = &_tInputSystem;
+		_inputSystem = &_tInputSystem;	
 
-		if (owner->GetComponent<ImageRenderer>())
-		{
-			assert(false);
-		}
-		
-		//이미지 기본으로 들어있어야 함.
-		_imageRenderer = owner->AddComponent<ImageRenderer>();
-		_imageWidth = &(_imageRenderer->_width);
-		_imageHeight = &(_imageRenderer->_height);
 		
 		//j->AddComponent<TextRenderer>();
+	}
+
+	void Button::Internal_EngineAwake()
+	{
+		if (!_object->GetComponent<ImageRenderer>())
+		{
+			assert(false && "Button의 ImageRenderer Component가 없습니다");
+		}
+
+		//이미지 기본으로 들어있어야 함.
+		_imageRenderer = _object->GetComponent<ImageRenderer>();
+		_imageWidth = &(_imageRenderer->_width);
+		_imageHeight = &(_imageRenderer->_height);
 	}
 
 	void Button::Update()
@@ -115,5 +121,4 @@ namespace Pg::Data
 	{
 		return *_imageHeight;
 	}
-
 }

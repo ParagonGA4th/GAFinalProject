@@ -20,14 +20,16 @@ namespace Pg::Graphics
 		virtual void Render(DirectX::SpriteBatch* spriteBatch, Pg::Data::CameraData* camData) override;
 	
 	
-	private:
-		RenderTexture2D* _texture2D;
-
 		//일단은 임의로 FILL RATIO 100.0f 로 설정.
 		float* _fillRatio = nullptr;
 
 		float* _imageWidth = nullptr;
 		float* _imageHeight = nullptr;
+
+	private:
+		RenderTexture2D* _texture2D;
+
+		
 	};
 }
 

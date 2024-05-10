@@ -175,6 +175,11 @@ namespace Pg::Graphics
 		_debugRenderer->GetDebugNavMeshGeometryData(navMeshVec);
 	}
 
+	void ParagonRenderer::PassNavCylinderGeometryData(const std::vector<Pg::Data::NavCylinderInfo*>& const navCylinderVec)
+	{
+		_debugRenderer->GetDebugNavCylinderGeometryData(navCylinderVec);
+	}
+
 	//void ParagonRenderer::SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene)
 	//{
 	//

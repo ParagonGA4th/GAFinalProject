@@ -9,6 +9,11 @@ namespace Pg::Data
 		SetRendererTypeName(typeid(this).name());
 	}
 
+	void ImageRenderer::Internal_EngineAwake()
+	{
+		
+	}
+
 	void ImageRenderer::OnSerialize(SerializeVector& sv)
 	{
 		Pg::Data::SerializerHelper::OnSerializerHelper<ImageRenderer>(this, sv);
@@ -28,5 +33,8 @@ namespace Pg::Data
 	{
 		return _imagePath;
 	}
+
+	
+
 }
 
