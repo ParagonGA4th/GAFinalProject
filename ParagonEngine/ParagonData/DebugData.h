@@ -76,4 +76,12 @@ namespace Pg::Data
 		std::vector<unsigned int>* indices;
 	};
 
+	//나중에 NavMeshAgent 디버깅에 쓰일 애. 좌표계 바꿔서 들어와야.
+	struct NavCylinderInfo
+	{
+		PGFLOAT3 position;
+		float radius;
+		float height;
+	};
+
 }
