@@ -262,6 +262,18 @@
     <ClCompile Include="StaticSphereCollider.cpp">
       <Filter>2_Component\Collider\3D\StaticCollider\SphereCollider</Filter>
     </ClCompile>
+    <ClCompile Include="isPlayerInSight.cpp">
+      <Filter>11_BtNodes\MonstersTest\Condition\IsPlayerInSight</Filter>
+    </ClCompile>
+    <ClCompile Include="isHitSpace.cpp">
+      <Filter>11_BtNodes\MonstersTest\Condition\isHitSpace</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_Idle.cpp">
+      <Filter>11_BtNodes\MonstersTest\Action\Anim_Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_Walk.cpp">
+      <Filter>11_BtNodes\MonstersTest\Action\Anim_Walk</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -577,6 +589,18 @@
     <ClInclude Include="LayerMask.h">
       <Filter>5_Enums</Filter>
     </ClInclude>
+    <ClInclude Include="isPlayerInSight.h">
+      <Filter>11_BtNodes\MonstersTest\Condition\IsPlayerInSight</Filter>
+    </ClInclude>
+    <ClInclude Include="isHitSpace.h">
+      <Filter>11_BtNodes\MonstersTest\Condition\isHitSpace</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_Idle.h">
+      <Filter>11_BtNodes\MonstersTest\Action\Anim_Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_Walk.h">
+      <Filter>11_BtNodes\MonstersTest\Action\Anim_Walk</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -869,6 +893,36 @@
     </Filter>
     <Filter Include="2_Component\Collider\3D\StaticCollider\SphereCollider">
       <UniqueIdentifier>{fd22e24d-f688-4eec-9bf8-25a08f05e585}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonstersTest">
+      <UniqueIdentifier>{921e64b0-dc5b-431a-b206-ce3d3d82fd9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonstersTest\Condition">
+      <UniqueIdentifier>{252edd6f-179e-4b9f-88a2-bd61bb1be76b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonstersTest\Condition\IsPlayerInSight">
+      <UniqueIdentifier>{678abf3d-2bd0-4982-b16c-79cc4a818161}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonstersTest\Condition\isHitSpace">
+      <UniqueIdentifier>{cdea045e-bf36-4c0d-8dfd-bc318b5e12cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonstersTest\Action">
+      <UniqueIdentifier>{b8dc43eb-80d0-4a9f-8368-4c77a92bf5a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonstersTest\Action\Anim_LeftArmAttack">
+      <UniqueIdentifier>{7aaa5349-2022-44b0-8057-4c560e904901}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonstersTest\Action\Anim_RightArmAttack">
+      <UniqueIdentifier>{66c9e140-746f-4cf4-abe7-a36480722c15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonstersTest\Action\Anim_TwoArmAttack">
+      <UniqueIdentifier>{6f865274-a932-4249-b999-7c814da3056f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonstersTest\Action\Anim_Walk">
+      <UniqueIdentifier>{0daee397-cac5-431b-bea4-998e158c3b11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonstersTest\Action\Anim_Idle">
+      <UniqueIdentifier>{b3b0291a-ec59-46f6-88c2-a2ae2668b8a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
