@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <scene>
+	<is3D>false</is3D>
 	<objects>
 		<object>
 			<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>			
