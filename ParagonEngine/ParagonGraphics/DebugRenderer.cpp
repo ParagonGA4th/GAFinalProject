@@ -72,6 +72,8 @@ namespace Pg::Graphics
 		size_t tTesellationFactor = 16;
 		_sphereShape = DirectX::GeometricPrimitive::CreateSphere(_DXStorage->_deviceContext, 1.f, tTesellationFactor);
 
+		_cylinderShape = DirectX::GeometricPrimitive::CreateCylinder(_DXStorage->_deviceContext, 1.f, 1.f, tTesellationFactor);
+
 		//Capsule 만들기.
 		InitCapsule();
 
@@ -121,6 +123,27 @@ namespace Pg::Graphics
 				DirectX::VertexPositionNormalTexture::InputElementCount,
 				shaderByteCode, byteCodeLength,
 				&_navMeshInputLayout));
+		}
+		{
+			//GeometricPrim Effect. -> //NavMeshCylinder만 사용.
+			_navCylinderEffect = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
+			_navCylinderEffect->SetLightingEnabled(false);
+			//_navMeshEffect->SetVertexColorEnabled(true);
+
+			//마지막은 알파.
+			DirectX::XMFLOAT4 tColorF = { 1.f,1.f,1.f, 0.5f }; // 하늘.
+			DirectX::XMVECTOR tColor = DirectX::XMLoadFloat4(&tColorF);
+			_navCylinderEffect->SetColorAndAlpha(tColor);
+
+			void const* shaderByteCode;
+			size_t byteCodeLength;
+
+			_navCylinderEffect->GetVertexShaderBytecode(&shaderByteCode, &byteCodeLength);
+
+			HR(_DXStorage->_device->CreateInputLayout(DirectX::VertexPositionNormalTexture::InputElements,
+				DirectX::VertexPositionNormalTexture::InputElementCount,
+				shaderByteCode, byteCodeLength,
+				&_navCylinderInputLayout));
 		}
 
 		//Effect2D.
@@ -191,6 +214,12 @@ namespace Pg::Graphics
 		for (int i = 0; i < _navMeshVector->size(); i++)
 		{
 			DrawNavMesh(camData, _navMeshVector->at(i));
+		}
+
+		//개별적으로 NavMesh Render.
+		for (int i = 0; i < _navCylinderVector->size(); i++)
+		{
+			DrawCylinder(camData, _navCylinderVector->at(i));
 		}
 	}
 
@@ -286,6 +315,11 @@ namespace Pg::Graphics
 	void DebugRenderer::GetDebugNavMeshGeometryData(const std::vector<Pg::Data::NavMeshInfo*>& const navMeshVec)
 	{
 		_navMeshVector = &navMeshVec;
+	}
+
+	void DebugRenderer::GetDebugNavCylinderGeometryData(const std::vector<Pg::Data::NavCylinderInfo*>& const navCylinderVec)
+	{
+		_navCylinderVector = &navCylinderVec;
 	}
 
 	void DebugRenderer::DrawBox(Pg::Data::CameraData* camData, Pg::Data::BoxInfo* boxInfo)
@@ -420,6 +454,20 @@ namespace Pg::Graphics
 		_navMeshEffect->SetProjection(MathHelper::PG2XM_MATRIX(camData->_projMatrix));
 		_navMeshEffect->Apply(_DXStorage->_deviceContext);
 		_navMeshPrimitiveVector.at(navInfo->path)->Draw(_navMeshEffect.get(), _navMeshInputLayout, true, false);
+	}
+
+	void DebugRenderer::DrawCylinder(Pg::Data::CameraData* camData, Pg::Data::NavCylinderInfo* cylInfo)
+	{
+		using DirectX::VertexPositionNormalTexture;
+		using DirectX::XMMATRIX;
+		XMMATRIX tScl = DirectX::XMMatrixScaling(cylInfo->radius, cylInfo->height, cylInfo->radius);
+		XMMATRIX tTrs = DirectX::XMMatrixTranslation(cylInfo->position.x, cylInfo->position.y, cylInfo->position.z);
+
+		_navCylinderEffect->SetWorld(XMMatrixMultiply(tScl, tTrs));
+		_navCylinderEffect->SetView(MathHelper::PG2XM_MATRIX(camData->_viewMatrix));
+		_navCylinderEffect->SetProjection(MathHelper::PG2XM_MATRIX(camData->_projMatrix));
+		_navCylinderEffect->Apply(_DXStorage->_deviceContext);
+		_cylinderShape->Draw(_navCylinderEffect.get(), _navCylinderInputLayout, true, false);
 	}
 
 	void DebugRenderer::DrawLine(Pg::Data::LineInfo* lineInfo)
@@ -739,14 +787,4 @@ namespace Pg::Graphics
 
 		HR(_DXStorage->_device->CreateDepthStencilState(&tDepthWriteOffDesc, &_depthWriteOffDSS));
 	}
-
-	
-	
-
-
-
-
-
-
-
 }

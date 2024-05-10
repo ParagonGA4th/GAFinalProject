@@ -46,6 +46,7 @@ namespace Pg::Engine
 		void DrawRayCastDebug(Pg::Data::RayCastInfo rayCastInfo);
 		void DrawLineDebug(PGFLOAT3 begin, PGFLOAT3 end, PGFLOAT4 col);
 		void DrawNavMeshDebug(Pg::Data::NavMeshInfo* navMeshInfo); // 얘는 다른 애들이 다 Delete될 때 같이 Delete되는 것이 아니라, Scene이 변경될 때마다 별개로 동작할 것. 
+		void DrawNavCylinderDebug(Pg::Data::NavCylinderInfo* navCylinderInfo); // 얘는 아직 Delete 연동해놓지 않음. 구현 방향에 따라 결정될 것.
 
 		void DeleteBoxDebug();
 		void DeleteBox2DDebug();
@@ -55,7 +56,7 @@ namespace Pg::Engine
 		void DeleteLineDebug();
 		void DeleteRayCastDebug();
 		//void DeleteNavMeshDebug();  // 얘는 다른 애들이 다 Delete될 때 같이 Delete되는 것이 아니라, Scene이 변경될 때마다 별개로 동작할 것. 
-
+		//void DeleteNavCylinderDebug(); //필요할 시 살려야 할 것.
 		void SetDebugMode(bool isdebug);
 		bool GetDebugMode();
 
@@ -68,6 +69,7 @@ namespace Pg::Engine
 		const std::vector<Pg::Data::PlaneInfo*>& GetPlaneVector() const;
 		const std::vector<Pg::Data::NavMeshInfo*>& GetNavMeshVector() const;
 		const std::vector<Pg::Data::RayCastInfo>& GetRayCastVector() const;
+		const std::vector<Pg::Data::NavCylinderInfo*>& GetNavCylinderVector() const;
 
 		//std::vector<Pg::Data::BoxInfo*>& GetDrawEnabledBoxVector() const;
 		//std::vector<Pg::Data::LineInfo*>& GetDrawEnabledLineVector();
@@ -80,6 +82,7 @@ namespace Pg::Engine
 		std::vector<Pg::Data::SphereInfo*> _sphereVec;
 		std::vector<Pg::Data::PlaneInfo*> _planeVec;
 		std::vector<Pg::Data::NavMeshInfo*> _navMeshVec;
+		std::vector<Pg::Data::NavCylinderInfo*> _navCylinderVec;
 
 		//std::vector<Pg::Data::BoxInfo*> _boxVecChosen;
 		//std::vector<Pg::Data::LineInfo*> _lineVecChosen;

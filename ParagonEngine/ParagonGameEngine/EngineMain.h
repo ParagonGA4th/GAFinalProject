@@ -96,6 +96,7 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::CapsuleInfo*>& GetCapsuleDebugData() const override;
 		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::PlaneInfo*>& GetPlaneDebugData() const override;
 		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::NavMeshInfo*>& GetNavMeshDebugData() const override;
+		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::NavCylinderInfo*>& GetNavCylinderDebugData() const override;
 		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::RayCastInfo>& GetRayCastDebugData() const override;
 		PARAGON_ENGINE_DLL virtual const std::vector<Pg::Data::Box2DInfo>& GetBox2dDebugData() const override;
 
