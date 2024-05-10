@@ -35,6 +35,7 @@ namespace Pg::Engine
 		float _agentRadius = 1.2f;
 		float _agentMaxClimb = 0.9f;
 		float _agentMaxSlope = 45.0f;
+		float _agentMaxSpeed = 10.0f;
 	};
 
 	// 이 PathFIndbox는 네비매쉬를 배열로 관리하기 편하도록 구성 요소들을 묶은 것
@@ -107,6 +108,9 @@ namespace Pg::Engine
 		std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> GetPath(int index);
 		// Raycast 탐색 함수. (직선경로에 부딧히는게 있다면 거기까지만 경로 표시
 		Pg::Math::PGFLOAT3 FindRaycastPath(int index);
+
+		//Agent 전부 추가.
+		void SyncAgent();
 
 		// 장애물을 추가한다.
 		// pos = 장애물 위치 / radius = 장애물 크기 / height = 장애물 사이즈
