@@ -63,6 +63,7 @@ namespace Pg::Graphics
 		void PassPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec);
 		void PassRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec);
 		void PassBox2dGeometryData(const std::vector<Pg::Data::Box2DInfo>& const box2dColVec);
+		void PassNavMeshGeometryData(const std::vector<Pg::Data::NavMeshInfo*>& const navMeshVec);
 
 		//Picking된 게임오브젝트를 보낸다.
 		//[[deprecated("Not Using Picking Anymore")]]

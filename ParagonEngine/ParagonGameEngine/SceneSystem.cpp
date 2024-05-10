@@ -84,6 +84,7 @@ namespace Pg::Engine
 
 	void SceneSystem::BeforePhysicsUpdateInGame()
 	{
+		_currentScene->BeforePhysicsAwake();
 		_currentScene->BeforePhysicsUpdate();
 	}
 

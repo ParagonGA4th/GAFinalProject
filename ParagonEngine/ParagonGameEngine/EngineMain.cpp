@@ -97,17 +97,25 @@ namespace Pg::Engine
 		_physicSystem->Initialize(_debugSystem);
 		_soundSystem->Initialize(resourceListPath);
 		_navSystem->Initialize();
-		_navSystem->HandleBuild(0);
+		//_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale.obj", 0);
+		_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 0);
 		//_navSystem->HandleBuild(1);
 		_behaviorTreeSystem->Initialize(resourceListPath);
 
 		///Recast관련 테스트 코드.
 		_navSystem->SetSEpos(0, 0.0f, 0.0f, 0.0f, -10.0f, 0.0f, 10.0f);
+
+		_navTestInfo = new Pg::Data::NavMeshInfo;
+		_navTestInfo->vertices = new std::vector<Pg::Math::PGFLOAT3>();
+		_navTestInfo->indices = new std::vector<unsigned int>();
+		_navTestInfo->path = "TestForDifference";
+		_navSystem->GetNavmeshRenderInfo(0, *(_navTestInfo->vertices), *(_navTestInfo->indices));
+		_debugSystem->DrawNavMeshDebug(_navTestInfo); //한번만 추가해줬다. 클리어하지 않음.
 		//_navSystem->SetSEpos(1, -23.0f, 0.0f, -10.0f, -90.0f, 0.0f, 96.0f);
 	}
 
 	void EngineMain::Update()
-	{	
+	{	 
 		if (_currentRecordedEditMode != _previousEditMode)
 		{
 			if (_currentRecordedEditMode == Data::Enums::eEditorMode::_NONE ||
@@ -156,7 +164,7 @@ namespace Pg::Engine
 		else
 		{
 			//Internal 함수들 + 게임 내부 로직 업데이트 함수 활용.
-			_sceneSystem->BeforePhysicsUpdateInGame(); //Physics 발동 전 업데이트가 필요하다면! 심지어 Awake()보다도 전이다.
+			_sceneSystem->BeforePhysicsUpdateInGame(); //Physics 발동 전 업데이트가 필요하다면! 심지어 Awake()보다도 전이다. 이제 BeforePhysicsAwake()까지 포함.
 			_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
 			_physicSystem->Flush();
 			_sceneSystem->Update(true);
@@ -169,12 +177,15 @@ namespace Pg::Engine
 
 		///Recast관련 업데이트
 		_navSystem->HandleUpdate(_timeSystem->GetDeltaTime());
+
+		
+		
+
+		///Mesh가 빌드 된 후 그려야 하기에, 더 나중에 있어야 한다.
 		_debugSystem->EnableToggleDebugOnOff();
 		_debugSystem->Update(_sceneSystem->GetCurrentScene());
 
-		std::vector<Pg::Math::PGFLOAT3> vertice;
-		std::vector<unsigned int> indice;
-		_navSystem->GetNavmeshRenderInfo(0, vertice, indice);
+
 
 		///Recast Obj 파일 디버그 그리기
 		//std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos1 = _navSystem->FindStraightPath(0);
@@ -292,6 +303,8 @@ namespace Pg::Engine
 		_debugSystem->DeletePlaneDebug();
 		_debugSystem->DeleteRayCastDebug();
 		_debugSystem->DeleteBox2DDebug();
+		
+		//현재로서는 NavMesh를 지우지 않는다. 매 프레임마다 삭제가 아닌, Scene이 바뀔 때마다 로드될 것이기 때문.
 	}
 
 	float EngineMain::GetDeltaTime()
