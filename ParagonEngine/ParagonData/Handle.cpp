@@ -7,13 +7,25 @@ namespace Pg::Data
 	Handle::Handle(GameObject* owner) :
 		Component(owner)
 	{
+		FACTORY_INIT;
+	
 		if (owner->GetComponent<ImageRenderer>())
 		{
 			assert(false);
 		}
 
 
-		_imageRenderer = owner->AddComponent<ImageRenderer>();
+
+	}
+
+	void Handle::Internal_EngineAwake()
+	{
+		if (!_object->GetComponent<ImageRenderer>())
+		{
+			assert(false && "Handle의 ImageRenderer Component가 없습니다");
+		}
+
+		_imageRenderer = _object->GetComponent<ImageRenderer>();
 		_imageRenderer->_sortingLayer = 0;
 		_imageWidth = &(_imageRenderer->_width);
 		_imageHeight = &(_imageRenderer->_height);
@@ -49,5 +61,4 @@ namespace Pg::Data
 	{
 		return *_imageHeight;
 	}
-
 }
