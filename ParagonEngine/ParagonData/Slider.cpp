@@ -19,35 +19,38 @@ namespace Pg::Data
 		_value(0.0f),
 		_isClick(false)
 	{
+		FACTORY_INIT;
+
 		//input 적용
 		auto& _tInputSystem = singleton<Pg::Util::Input::InputSystem>();
 		_inputSystem = &_tInputSystem;
+	}
 
-		if (owner->GetComponent<ImageRenderer>())
+	void Slider::Internal_EngineAwake()
+	{
+		if (!_object->GetComponent<ImageRenderer>())
 		{
-			assert(false);
+			assert(false && "Slider의 ImageRenderer Component가 없습니다");
 		}
 
-		_imageRenderer = owner->AddComponent<ImageRenderer>();
+		_imageRenderer = _object->GetComponent<ImageRenderer>();
 		_imageRenderer->_sortingLayer = 2;
 		_imageWidth = &(_imageRenderer->_width);
 		_imageHeight = &(_imageRenderer->_height);
 
-		////Scene에서 설정했던 Handle객체를 찾는다.
-		//auto handleObj = owner->GetComponent<Transform>()->GetChildren();
-		//
-		//for (auto iter : handleObj)
-		//{
-		//	Pg::Data::GameObject* tGO = iter->_object;
-		//	auto tHandle = tGO->GetComponent<Handle>();
-		//	if (tHandle != nullptr)
-		//	{
-		//		_handle = tHandle;
-		//		break;
-		//	}
-		//}
-		//
-		//
+		//Scene에서 설정했던 Handle객체를 찾는다.
+		auto handleObj = _object->GetComponent<Transform>()->GetChildren();
+
+		for (auto iter : handleObj)
+		{
+			Pg::Data::GameObject* tGO = iter->_object;
+			auto tHandle = tGO->GetComponent<Handle>();
+			if (tHandle != nullptr)
+			{
+				_handle = tHandle;
+				break;
+			}
+		}
 	}
 
 	void Slider::Start()

@@ -18,6 +18,8 @@ namespace Pg::Data
 	public:
 		ImageRenderer(GameObject* obj);
 
+		virtual void Internal_EngineAwake() override;
+
 		virtual void OnSerialize(SerializeVector& sv);
 		virtual void OnDeserialize(SerializeVector& sv);
 

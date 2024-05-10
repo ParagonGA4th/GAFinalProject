@@ -26,6 +26,10 @@ namespace Pg::Graphics
 		_texture2D = static_cast<RenderTexture2D*>(tTexture2dData.get());
 
 		//Image Width / Height 포인터 보관.
+		///RenderTexture2D의 Width / Height을 보관하고, Override한다!
+		tImageRenderer->_width = _texture2D->GetFileWidth();
+		tImageRenderer->_height = _texture2D->GetFileHeight();
+
 		_imageWidth = &(tImageRenderer->_width);
 		_imageHeight = &(tImageRenderer->_height);
 		

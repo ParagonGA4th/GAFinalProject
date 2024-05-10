@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "data_factory.h" // Auto Register를 위한 필수요건.
 
 /// <summary>
 /// 슬라이더에 붙일 Handle 클래스.
@@ -12,10 +13,15 @@ namespace Pg::Data
 	class GameObject;
 	class ImageRenderer;
 
-	class Handle : public Component
+	class Handle : public Component, Pg::Factory::Data::RegisteredInFactory<Component, Handle, GameObject*>
 	{
 	public:
 		Handle(GameObject* owner);
+
+		static Component* CreateInstance(GameObject* go) { return new Handle(go); }
+		static const char* GetFactoryKey() { return "class Pg::Data::Handle"; }
+
+		virtual void Internal_EngineAwake() override;
 
 		void SetImagePath(const std::string& path);
 		void SetImageSize(float width, float height);
