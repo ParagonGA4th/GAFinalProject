@@ -191,6 +191,9 @@ namespace Pg::Core
 
 		const auto& tNavMeshVec = _engine->GetNavMeshDebugData();
 		_graphics->SetNavMeshDebugRenderData(tNavMeshVec);
+
+		const auto& tNavCylinderVec = _engine->GetNavCylinderDebugData();
+		_graphics->SetNavCylinderDebugRenderData(tNavCylinderVec);
 	}
 
 	void EngineGraphicsAdapter::ClearDebugVectorData()

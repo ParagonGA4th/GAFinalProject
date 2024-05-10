@@ -65,7 +65,7 @@ namespace Pg::Graphics
 		void PassRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec);
 		void PassBox2dGeometryData(const std::vector<Pg::Data::Box2DInfo>& const box2dColVec);
 		void PassNavMeshGeometryData(const std::vector<Pg::Data::NavMeshInfo*>& const navMeshVec);
-
+		void PassNavCylinderGeometryData(const std::vector<Pg::Data::NavCylinderInfo*>& const navCylinderVec);
 		//Picking된 게임오브젝트를 보낸다.
 		//[[deprecated("Not Using Picking Anymore")]]
 		//Pg::Data::GameObject* GetPickedID_SetOutlineMode(int selectedWidthPixel, int selectedHeightPixel);

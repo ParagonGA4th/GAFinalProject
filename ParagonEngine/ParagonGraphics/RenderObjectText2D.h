@@ -20,13 +20,13 @@ namespace Pg::Graphics
 
 		virtual void Render(DirectX::SpriteBatch* spriteBatch, Pg::Data::CameraData* camData) override;
 
-	private:
-		RenderFont* _renderFont = nullptr;
-
 		//연동 렌더링을 위해.
 		float* _textWidth = nullptr;
 		float* _textHeight = nullptr;
 		Pg::Math::PGFLOAT4* _textColor = nullptr;
+
+	private:
+		RenderFont* _renderFont = nullptr;
 	};
 }
 
