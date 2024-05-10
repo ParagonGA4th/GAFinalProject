@@ -74,7 +74,7 @@ namespace Pg::Graphics
 		ExtractMaterialPaths(newScene);
 		SyncRenderObjects(newScene);
 		RemapMaterialIdAll();
-		SetupPrimitiveWireframeObjects();
+		SetupPrimitiveWireframeObjects(newScene);
 		SyncSceneAllLights(newScene);
 		CheckBindAdequateFunctions();
 		//이제 별도로 렌더링과 관련된 오브젝트들을 받아야 한다.
@@ -199,8 +199,13 @@ namespace Pg::Graphics
 		return _sceneInfoList.get();
 	}
 
-	void GraphicsSceneParser::SetupPrimitiveWireframeObjects()
+	void GraphicsSceneParser::SetupPrimitiveWireframeObjects(const Pg::Data::Scene* const newScene)
 	{
+		if (!newScene->GetIs3D())
+		{
+			return;
+		}
+
 		// Primitive RenderObject 투입 + Initialize();
 		_primObjectList->_list.push_back(std::make_unique<Grid>());
 		_primObjectList->_list.push_back(std::make_unique<Axis>());

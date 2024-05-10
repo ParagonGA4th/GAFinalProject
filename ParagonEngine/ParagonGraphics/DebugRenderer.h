@@ -50,8 +50,9 @@ namespace Pg::Graphics
 		void GetDebugPlaneGeometryData(const std::vector<Pg::Data::PlaneInfo*>& const planeColVec);
 		void GetDebugRayCastGeometryData(const std::vector<Pg::Data::RayCastInfo>& const rayCastColVec);
 		void GetDebugBox2dGeometryData(const std::vector<Pg::Data::Box2DInfo>& const box2DColVec);
-		
-		
+		void GetDebugNavMeshGeometryData(const std::vector<Pg::Data::NavMeshInfo*>& const navMeshVec);
+
+
 	private:
 
 		void Render(RenderObjectWireframeList* wireframeList, Pg::Data::CameraData* camData);
@@ -69,7 +70,7 @@ namespace Pg::Graphics
 		void BeginDebug2dRender(Pg::Data::CameraData* camData);
 		void Debug2dRender();
 		void EndDebug2dRender();
-		
+
 
 	private:
 		void DrawBox(Pg::Data::CameraData* camData, Pg::Data::BoxInfo* boxInfo);
@@ -79,6 +80,7 @@ namespace Pg::Graphics
 		void DrawRayCast(Pg::Data::RayCastInfo rayCastInfo);
 		void DrawPlane(Pg::Data::CameraData* camData, Pg::Data::PlaneInfo* planeInfo);
 		void DrawBox2D(Pg::Data::Box2DInfo box2dInfo);
+		void DrawNavMesh(Pg::Data::CameraData* camData, Pg::Data::NavMeshInfo* navInfo);
 	private:
 		void CreateSystemVertexShaders();
 		void CreateDepthWriteOffDSS();
@@ -107,11 +109,12 @@ namespace Pg::Graphics
 
 		//Capsule Wireframe Rendering
 		std::unique_ptr<DirectX::GeometricPrimitive> _capsuleShape;
-		
+
 		//Plane Wireframe Rendering
 		std::unique_ptr<DirectX::GeometricPrimitive> _planeShape;
-		
 
+		//Nav Mesh Primitive Vector.
+		std::unordered_map<std::string, std::unique_ptr<DirectX::GeometricPrimitive>> _navMeshPrimitiveVector;
 	private:
 		//렌더링을 위해 Pointer를 보관.
 		const std::vector<Pg::Data::BoxInfo*>* _boxColVector = nullptr;
@@ -121,15 +124,20 @@ namespace Pg::Graphics
 		const std::vector<Pg::Data::PlaneInfo*>* _planeColVector = nullptr;
 		const std::vector<Pg::Data::RayCastInfo>* _rayCastColVector = nullptr;
 		const std::vector<Pg::Data::Box2DInfo>* _box2dVector = nullptr;
+		const std::vector<Pg::Data::NavMeshInfo*>* _navMeshVector = nullptr;
 
 	private:
 		//DebugLine을 위한 요구사항.
-	
+
 		//Line Wireframe Rendering
 		std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> _primitiveBatch;
-		ID3D11InputLayout* _debugLineInputLayout = nullptr;
 		std::unique_ptr<DirectX::BasicEffect> _basicEffect = nullptr;
+		ID3D11InputLayout* _debugLineInputLayout = nullptr;
+
 		std::unique_ptr<DirectX::BasicEffect> _basicEffect2d = nullptr;
+
+		std::unique_ptr<DirectX::BasicEffect> _navMeshEffect = nullptr;
+		ID3D11InputLayout* _navMeshInputLayout = nullptr;
 
 		//CommonState
 		std::unique_ptr<DirectX::CommonStates> _commonStates;
@@ -137,6 +145,8 @@ namespace Pg::Graphics
 	private:
 		//DepthWrite를 끄기.
 		ID3D11DepthStencilState* _depthWriteOffDSS;
+
+		
 	};
 }
 

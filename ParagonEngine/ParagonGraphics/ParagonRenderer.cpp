@@ -163,6 +163,11 @@ namespace Pg::Graphics
 		_debugRenderer->GetDebugBox2dGeometryData(box2dColVec);
 	}
 
+	void ParagonRenderer::PassNavMeshGeometryData(const std::vector<Pg::Data::NavMeshInfo*>& const navMeshVec)
+	{
+		_debugRenderer->GetDebugNavMeshGeometryData(navMeshVec);
+	}
+
 	//void ParagonRenderer::SyncDebugGeometryToGraphics(const Pg::Data::Scene* const newScene)
 	//{
 	//
@@ -263,6 +268,7 @@ namespace Pg::Graphics
 	{
 		_sceneParser->HandleRenderObjectsRuntime();
 	}
+
 
 	
 	

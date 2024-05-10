@@ -48,7 +48,8 @@ namespace Pg::Engine
 		static const int MAX_POLYS = 256;
 		static const int MAX_SMOOTH = 2048;
 
-		// 에이전트 세팅
+		//Agent관리를 위한 변수
+		dtCrowd* _crowd;
 		Agent _agentsetting;
 
 		dtPolyRef _startRef;
@@ -90,7 +91,7 @@ namespace Pg::Engine
 		// path 에서 이미 빌드된 네비매쉬 파일을 읽어옵니다. .bin파일
 		void LoadAll(const char* path, int index);
 		// 네비매쉬를 직접 빌드 하기
-		bool HandleBuild(int index);
+		bool HandleBuild(const std::string& path, int index);
 		// 네비매쉬를 업데이트 한다.
 		void HandleUpdate(const float dt);
 
@@ -173,9 +174,6 @@ namespace Pg::Engine
 		rcConfig _cfg;
 		rcPolyMeshDetail* _dmesh;
 		rcContext* _ctx;
-
-		//Agent관리를 위한 변수
-		dtCrowd* _crowd;
 
 		unsigned char _navMeshDrawFlags;
 

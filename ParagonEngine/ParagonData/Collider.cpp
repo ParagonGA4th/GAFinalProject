@@ -266,4 +266,11 @@ namespace Pg::Data
 			_shape->setSimulationFilterData({ GetLayer(), 0, 0, 0 });
 		}
 	}
+
+	void Collider::BeforePhysicsAwake()
+	{
+		//위에서는 Nullptr라 다를 것이다. 이제 제대로 들어가는 것.
+		SetLayer(_layer);
+	}
+
 }
