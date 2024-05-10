@@ -183,7 +183,8 @@ void Pg::Editor::Manager::DataManager::SceneLoad(std::string path)
 		_scenes.push_back(newScene);
 
 		pugi::xml_node rootNode = doc.child("scene");
-		DataDeserialize(rootNode.first_child(), _scenes.size() - 1);
+		newScene->SetIs3D(Pg::Serialize::Serializer::DeserializeBoolean(&rootNode, "is3D"));
+		DataDeserialize(rootNode.child("objects"), _scenes.size() - 1);
 	}
 }
 
@@ -217,6 +218,9 @@ void Pg::Editor::Manager::DataManager::SceneSave()
 		declarationNode.append_attribute("encoding") = "utf-8";
 
 		doc.append_child("scene");
+		pugi::xml_node scene_node = doc.child("scene");
+		Pg::Serialize::Serializer::SerializeBoolean(&scene_node, "is3D", scene->GetIs3D());
+
 		pugi::xml_node node = doc.child("scene").append_child("objects");
 
 		DataSerialize(node, scene);
