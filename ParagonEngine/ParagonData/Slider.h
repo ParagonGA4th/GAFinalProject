@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "data_factory.h" // Auto Register를 위한 필수요건.
 
 #include <functional>
 /// <summary>
@@ -20,11 +21,15 @@ namespace Pg::Data
 	class ImageRenderer;
 	class Handle;
 
-	class Slider : public Component
+	class Slider : public Component, Pg::Factory::Data::RegisteredInFactory<Component, Slider, GameObject*>
 	{
 	public:
 		Slider(GameObject* owner);
 
+		static Component* CreateInstance(GameObject* go) { return new Slider(go); }
+		static const char* GetFactoryKey() { return "class Pg::Data::Slider"; }
+
+		virtual void Internal_EngineAwake() override;
 		virtual void Start() override;
 		virtual void Update() override;
 

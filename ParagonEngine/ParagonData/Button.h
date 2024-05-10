@@ -2,7 +2,7 @@
 #include "Component.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/DebugData.h"
-
+#include "data_factory.h" // Auto Register를 위한 필수요건.
 
 #include <functional>
 
@@ -23,12 +23,16 @@ namespace Pg::Data
 	class GameObject;
 	class ImageRenderer;
 
-	class Button : public Component
+	class Button : public Component, Pg::Factory::Data::RegisteredInFactory<Component, Button, GameObject*>
 	{
 	public:
 		Button(GameObject* owner);
 
+		static Component* CreateInstance(GameObject* go) { return new Button(go); }
+		static const char* GetFactoryKey() { return "class Pg::Data::Button"; }
+
 	public:
+		virtual void Internal_EngineAwake() override;
 		virtual void Update() override;
 
 		void Click();

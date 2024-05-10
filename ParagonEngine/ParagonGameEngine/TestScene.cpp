@@ -226,11 +226,11 @@ void Pg::Engine::TestScene::Initialize()
 
 
 	///버튼 & 오디오
-	Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Button");
-	tObj8->GetComponent<Transform>()->_position = { 100.0f, 200.0f, 0.0f };
-	tObj8->AddComponent<Button>();
-	tObj8->GetComponent<Button>()->SetImagePath("../Resources/Textures/Sprites/StartCrunch.png");
-	tObj8->GetComponent<Button>()->SetImageSize(200.0f, 200.0f);
+	//Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Button");
+	//tObj8->GetComponent<Transform>()->_position = { 100.0f, 200.0f, 0.0f };
+	//tObj8->AddComponent<Button>();
+	//tObj8->GetComponent<Button>()->SetImagePath("../Resources/Textures/Sprites/StartCrunch.png");
+	//tObj8->GetComponent<Button>()->SetImageSize(200.0f, 200.0f);
 	//tObj8->AddComponent<AudioSource>();
 	//tObj8->GetComponent<AudioSource>()->SetAudioName("../Resources/Sounds/Test/TitleBGM.mp3");
 	//tObj8->GetComponent<AudioSource>()->Play();
