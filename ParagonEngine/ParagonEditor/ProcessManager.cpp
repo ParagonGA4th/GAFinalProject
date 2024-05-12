@@ -87,6 +87,11 @@ void Pg::Editor::Manager::ProcessManager::Update()
 		if (_coreMain->GetEditorAdapter()->GetCurrentScene() != _dataContainer->GetCurrentScene())
 			_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
 	}
+	else
+	{
+		_input->SetEditorMouseX(-10.f);
+		_input->SetEditorMouseY(-10.f);
+	}
 
 
 	//if (_coreMain->GetEditorAdapter()->GetCurrentScene() != nullptr
