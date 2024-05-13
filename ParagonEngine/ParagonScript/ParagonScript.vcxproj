@@ -174,6 +174,8 @@
     <ClInclude Include="ParagonScriptList.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SoundTest.h" />
+    <ClInclude Include="StartButton.h" />
+    <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TrapArea.h" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +200,8 @@
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SoundTest.cpp" />
+    <ClCompile Include="StartButton.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TrapArea.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
