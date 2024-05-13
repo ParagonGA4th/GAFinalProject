@@ -29,6 +29,7 @@ namespace Pg::Data
 	{
 		assert(!_initAnimName.empty() && "처음에 들어갈 Animation이 비어있으면 안된다");
 		_setAnimationFunction(_initAnimName, true); //기본적으로 처음 애니메이션은 Loop한다고 가정한다.
+		_currentAnim = _initAnimName;
 	}
 
 	void SkinnedMeshRenderer::ConvertPotentialUnrealValues()
@@ -99,6 +100,11 @@ namespace Pg::Data
 		}
 	}
 
+	std::string SkinnedMeshRenderer::GetAnimation()
+	{
+		return _currentAnim;
+	}
+
 	void SkinnedMeshRenderer::SetAnimation(const std::string& animName, bool isLoop)
 	{
 		//단순한 존재여부를 파악
@@ -106,6 +112,7 @@ namespace Pg::Data
 		{
 			std::string tPrint = "SetAnimation Impl not yet bound in : ";
 			tPrint.append(animName);
+			_currentAnim = animName;
 			PG_WARN(tPrint.c_str());
 		}
 		//제대로 된 실행 여부를 확인.
@@ -123,8 +130,4 @@ namespace Pg::Data
 
 		return _findAnimTransformFunction(animNodeName);
 	}
-
-
-	
-
 }
