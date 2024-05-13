@@ -41,8 +41,8 @@ namespace Pg::Graphics
 	ID3D11InputLayout* LayoutDefine::_deferredQuadLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_cubemapLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_wireframePrimitiveLayout = nullptr;
-	ID3D11InputLayout* LayoutDefine::_vinPerObjMatStaticLayout = nullptr;
-	ID3D11InputLayout* LayoutDefine::_vinPerObjMatSkinnedLayout = nullptr;
+	//ID3D11InputLayout* LayoutDefine::_vinPerObjMatStaticLayout = nullptr;
+	//ID3D11InputLayout* LayoutDefine::_vinPerObjMatSkinnedLayout = nullptr;
 
 	void LayoutDefine::Initialize()
 	{
@@ -52,8 +52,8 @@ namespace Pg::Graphics
 		CreateDeferredQuadLayout();
 		CreateWireframePrimitiveLayout();
 		CreateCubemapLayout();
-		CreatePerObjMatStaticLayout();
-		CreatePerObjMatSkinnedLayout();
+		//CreatePerObjMatStaticLayout();
+		//CreatePerObjMatSkinnedLayout();
 	}
 
 	ID3D11InputLayout* LayoutDefine::GetInstanced1stLayout()
@@ -86,15 +86,15 @@ namespace Pg::Graphics
 		return _cubemapLayout;
 	}
 
-	ID3D11InputLayout* LayoutDefine::GetPerObjMatStaticLayout()
-	{
-		return _vinPerObjMatStaticLayout;
-	}
-
-	ID3D11InputLayout* LayoutDefine::GetPerObjMatSkinnedLayout()
-	{
-		return _vinPerObjMatSkinnedLayout;
-	}
+	//ID3D11InputLayout* LayoutDefine::GetPerObjMatStaticLayout()
+	//{
+	//	return _vinPerObjMatStaticLayout;
+	//}
+	//
+	//ID3D11InputLayout* LayoutDefine::GetPerObjMatSkinnedLayout()
+	//{
+	//	return _vinPerObjMatSkinnedLayout;
+	//}
 
 	void LayoutDefine::CreateInstanced1stLayout()
 	{
@@ -142,7 +142,9 @@ namespace Pg::Graphics
 			{"TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
 			{"NORMAL",		0, DXGI_FORMAT_R32G32B32_FLOAT,		1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
 			{"TANGENT",		0, DXGI_FORMAT_R32G32B32_FLOAT,		1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"COLOR",		0, DXGI_FORMAT_R32G32B32_FLOAT,		1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0}
+			{"COLOR",		0, DXGI_FORMAT_R32G32B32_FLOAT,		1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"OBJECTID",	0, DXGI_FORMAT_R32_UINT,			2, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"MATERIALID",	0, DXGI_FORMAT_R32_UINT,			2, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};														
 
 		// Static Mesh ÀÎÇ² ·¹ÀÌ¾Æ¿ô ¸¸µé±â.
@@ -177,7 +179,9 @@ namespace Pg::Graphics
 			{"NODE_INDEX",		0, DXGI_FORMAT_R32_UINT,			0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
 			{"NORMAL",			0, DXGI_FORMAT_R32G32B32_FLOAT,		1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
 			{"TANGENT",			0, DXGI_FORMAT_R32G32B32_FLOAT,		1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"COLOR",			0, DXGI_FORMAT_R32G32B32_FLOAT,		1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0}
+			{"COLOR",			0, DXGI_FORMAT_R32G32B32_FLOAT,		1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"OBJECTID",		0, DXGI_FORMAT_R32_UINT,			2, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"MATERIALID",		0, DXGI_FORMAT_R32_UINT,			2, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0}
 		};
 
 		// Static Mesh ÀÎÇ² ·¹ÀÌ¾Æ¿ô ¸¸µé±â.
@@ -246,56 +250,56 @@ namespace Pg::Graphics
 		HR(_device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_cubemapLayout));
 	}
 
-	void LayoutDefine::CreatePerObjMatStaticLayout()
-	{
-		LowDX11Storage* tDXStorage = LowDX11Storage::GetInstance();
-		ID3D11Device* _device = tDXStorage->_device;
-		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
-
-		ID3DBlob* tByteCode = nullptr;
-		HR(D3DReadFileToBlob(ResourceHelper::IfReleaseChangeDebugTextW(INDIVIDUAL_PEROBJMAT_STATIC_VS_DIRECTORY).c_str(), &(tByteCode)));
-
-		D3D11_INPUT_ELEMENT_DESC tDesc[] =
-		{
-			{"POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"MESH_MATID",	0, DXGI_FORMAT_R32_FLOAT,			0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"OBJECTID",	0, DXGI_FORMAT_R32_UINT,			1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"MATERIALID",	0, DXGI_FORMAT_R32_UINT,			1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0}
-		};
-
-		HR(_device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_vinPerObjMatStaticLayout));
-	}
-
-	void LayoutDefine::CreatePerObjMatSkinnedLayout()
-	{
-		LowDX11Storage* tDXStorage = LowDX11Storage::GetInstance();
-		ID3D11Device* _device = tDXStorage->_device;
-		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
-
-		ID3DBlob* tByteCode = nullptr;
-		HR(D3DReadFileToBlob(ResourceHelper::IfReleaseChangeDebugTextW(INDIVIDUAL_PEROBJMAT_SKINNED_VS_DIRECTORY).c_str(), &(tByteCode)));
-
-		D3D11_INPUT_ELEMENT_DESC tDesc[] =
-		{
-			{"POSITION",		0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"TEXCOORD",		0, DXGI_FORMAT_R32G32_FLOAT,	0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"MESH_MATID",		0, DXGI_FORMAT_R32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"BLENDINDICES",	0, DXGI_FORMAT_R32_UINT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"BLENDINDICES",	1, DXGI_FORMAT_R32_UINT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"BLENDINDICES",	2, DXGI_FORMAT_R32_UINT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"BLENDINDICES",	3, DXGI_FORMAT_R32_UINT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"BLENDWEIGHT",		0, DXGI_FORMAT_R32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"BLENDWEIGHT",		1, DXGI_FORMAT_R32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"BLENDWEIGHT",		2, DXGI_FORMAT_R32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"NODE_INDEX",		0, DXGI_FORMAT_R32_UINT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"OBJECTID",		0, DXGI_FORMAT_R32_UINT,		1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{"MATERIALID",		0, DXGI_FORMAT_R32_UINT,		1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
-		};
-
-		HR(_device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_vinPerObjMatSkinnedLayout));
-	}
+	//void LayoutDefine::CreatePerObjMatStaticLayout()
+	//{
+	//	LowDX11Storage* tDXStorage = LowDX11Storage::GetInstance();
+	//	ID3D11Device* _device = tDXStorage->_device;
+	//	ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
+	//
+	//	ID3DBlob* tByteCode = nullptr;
+	//	HR(D3DReadFileToBlob(ResourceHelper::IfReleaseChangeDebugTextW(INDIVIDUAL_PEROBJMAT_STATIC_VS_DIRECTORY).c_str(), &(tByteCode)));
+	//
+	//	D3D11_INPUT_ELEMENT_DESC tDesc[] =
+	//	{
+	//		{"POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"MESH_MATID",	0, DXGI_FORMAT_R32_FLOAT,			0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"OBJECTID",	0, DXGI_FORMAT_R32_UINT,			1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"MATERIALID",	0, DXGI_FORMAT_R32_UINT,			1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0}
+	//	};
+	//
+	//	HR(_device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_vinPerObjMatStaticLayout));
+	//}
+	//
+	//void LayoutDefine::CreatePerObjMatSkinnedLayout()
+	//{
+	//	LowDX11Storage* tDXStorage = LowDX11Storage::GetInstance();
+	//	ID3D11Device* _device = tDXStorage->_device;
+	//	ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
+	//
+	//	ID3DBlob* tByteCode = nullptr;
+	//	HR(D3DReadFileToBlob(ResourceHelper::IfReleaseChangeDebugTextW(INDIVIDUAL_PEROBJMAT_SKINNED_VS_DIRECTORY).c_str(), &(tByteCode)));
+	//
+	//	D3D11_INPUT_ELEMENT_DESC tDesc[] =
+	//	{
+	//		{"POSITION",		0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"TEXCOORD",		0, DXGI_FORMAT_R32G32_FLOAT,	0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"MESH_MATID",		0, DXGI_FORMAT_R32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"BLENDINDICES",	0, DXGI_FORMAT_R32_UINT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"BLENDINDICES",	1, DXGI_FORMAT_R32_UINT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"BLENDINDICES",	2, DXGI_FORMAT_R32_UINT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"BLENDINDICES",	3, DXGI_FORMAT_R32_UINT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"BLENDWEIGHT",		0, DXGI_FORMAT_R32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"BLENDWEIGHT",		1, DXGI_FORMAT_R32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"BLENDWEIGHT",		2, DXGI_FORMAT_R32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"NODE_INDEX",		0, DXGI_FORMAT_R32_UINT,		0, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"OBJECTID",		0, DXGI_FORMAT_R32_UINT,		1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//		{"MATERIALID",		0, DXGI_FORMAT_R32_UINT,		1, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//	};
+	//
+	//	HR(_device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_vinPerObjMatSkinnedLayout));
+	//}
 
 	LayoutDefine::VinCubemap::VinCubemap(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT2 uv) :
 		posL(pos), tex(uv)

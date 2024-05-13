@@ -9,7 +9,7 @@
 Texture2DArray<float4> AlbedoTextureArray : register(t8);
 Texture2DArray<float4> NormalTextureArray : register(t9);
 Texture2DArray<float4> ArmTextureArray : register(t10);
-//Alpha는 바인딩하지 않는다.
+Texture2DArray<float4> AlphaTextureArray : register(t11);
 
 POut1st_Total main(VOut1st input)
 {
@@ -61,8 +61,8 @@ POut1st_Total main(VOut1st input)
     output.pout_AlbedoMetallic.w = tARMSampleVal.z;
     //Normal Map 전달.
     output.pout_NormalAlpha.xyz = NormalTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
-
-    //Alpha Map은 전달되지 않는다 여기서! 여기는 Opaque 전용이니.
+    //Alpha Map 전달.
+    output.pout_NormalAlpha.w = AlphaTextureArray.Sample(defaultTextureSS, tT2UV3).x;
     
     return output;
 }

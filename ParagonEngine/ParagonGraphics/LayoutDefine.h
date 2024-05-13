@@ -111,6 +111,10 @@ namespace Pg::Graphics
 			DirectX::XMFLOAT3	_normalL;
 			DirectX::XMFLOAT3	_tangentL;
 			DirectX::XMFLOAT3	_color;
+
+			//Vin3rdStaticSkinned_Individual
+			unsigned int  _objectID;
+			unsigned int  _matID;
 		};
 
 		struct Vin1stPassSkinned_Layout
@@ -135,43 +139,47 @@ namespace Pg::Graphics
 			DirectX::XMFLOAT3	_normalL;
 			DirectX::XMFLOAT3	_tangentL;
 			DirectX::XMFLOAT3	_color;
-		};
-
-		struct VinPerThirdPassStatic_Layout
-		{
-			//Vin1stStatic_Individual
-			DirectX::XMFLOAT3	_posL;
-			DirectX::XMFLOAT2	_tex;
-			float		_meshMatID; //Multi-Mesh 관련.
-			DirectX::XMFLOAT2	_lightmapUV;
 
 			//Vin3rdStaticSkinned_Individual
 			unsigned int  _objectID;
 			unsigned int  _matID;
 		};
 
-		struct VinPerThirdPassSkinned_Layout
-		{
-			//Vin1stSkinned_Individual
-			DirectX::XMFLOAT3	_posL;
-			DirectX::XMFLOAT2	_tex;
-			float		_meshMatID; //Multi-Mesh 관련.
-
-			unsigned int	  _blendIndice0;
-			unsigned int	  _blendIndice1;
-			unsigned int	  _blendIndice2;
-			unsigned int	  _blendIndice3;
-
-			float			  _blendWeight0;
-			float			  _blendWeight1;
-			float			  _blendWeight2;
-
-			unsigned int _nodeIndex;
-
-			//Vin3rdStaticSkinned_Individual
-			unsigned int  _objectID;
-			unsigned int  _matID;
-		};
+		//struct VinPerThirdPassStatic_Layout
+		//{
+		//	//Vin1stStatic_Individual
+		//	DirectX::XMFLOAT3	_posL;
+		//	DirectX::XMFLOAT2	_tex;
+		//	float		_meshMatID; //Multi-Mesh 관련.
+		//	DirectX::XMFLOAT2	_lightmapUV;
+		//
+		//	//Vin3rdStaticSkinned_Individual
+		//	unsigned int  _objectID;
+		//	unsigned int  _matID;
+		//};
+		//
+		//struct VinPerThirdPassSkinned_Layout
+		//{
+		//	//Vin1stSkinned_Individual
+		//	DirectX::XMFLOAT3	_posL;
+		//	DirectX::XMFLOAT2	_tex;
+		//	float		_meshMatID; //Multi-Mesh 관련.
+		//
+		//	unsigned int	  _blendIndice0;
+		//	unsigned int	  _blendIndice1;
+		//	unsigned int	  _blendIndice2;
+		//	unsigned int	  _blendIndice3;
+		//
+		//	float			  _blendWeight0;
+		//	float			  _blendWeight1;
+		//	float			  _blendWeight2;
+		//
+		//	unsigned int _nodeIndex;
+		//
+		//	//Vin3rdStaticSkinned_Individual
+		//	unsigned int  _objectID;
+		//	unsigned int  _matID;
+		//};
 		//</실제로 쓰일 레이아웃들>
 
 		//<인스턴싱 따른 레이아웃 재정의 영향을 받지 않는다.>
@@ -218,8 +226,8 @@ namespace Pg::Graphics
 		static ID3D11InputLayout* GetWireframePrimitiveLayout();
 		static ID3D11InputLayout* GetCubemapLayout();
 
-		static ID3D11InputLayout* GetPerObjMatStaticLayout();
-		static ID3D11InputLayout* GetPerObjMatSkinnedLayout();
+		//static ID3D11InputLayout* GetPerObjMatStaticLayout();
+		//static ID3D11InputLayout* GetPerObjMatSkinnedLayout();
 	private:
 		static ID3D11InputLayout* _instanced1stLayout;
 		static ID3D11InputLayout* _static1stLayout;
@@ -227,8 +235,8 @@ namespace Pg::Graphics
 		static ID3D11InputLayout* _deferredQuadLayout;
 		static ID3D11InputLayout* _wireframePrimitiveLayout; 
 		static ID3D11InputLayout* _cubemapLayout;
-		static ID3D11InputLayout* _vinPerObjMatStaticLayout;
-		static ID3D11InputLayout* _vinPerObjMatSkinnedLayout;
+		//static ID3D11InputLayout* _vinPerObjMatStaticLayout;
+		//static ID3D11InputLayout* _vinPerObjMatSkinnedLayout;
 
 	private:
 		static void CreateInstanced1stLayout();
@@ -237,8 +245,8 @@ namespace Pg::Graphics
 		static void CreateDeferredQuadLayout();
 		static void CreateWireframePrimitiveLayout();
 		static void CreateCubemapLayout();
-		static void CreatePerObjMatStaticLayout();
-		static void CreatePerObjMatSkinnedLayout();
+		//static void CreatePerObjMatStaticLayout();
+		//static void CreatePerObjMatSkinnedLayout();
 
 	};
 
