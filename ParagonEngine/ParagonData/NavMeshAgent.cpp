@@ -99,22 +99,4 @@ namespace Pg::Data
 	{
 		return _separation;
 	}
-
-	void NavMeshAgent::SetDestination(Pg::Math::PGFLOAT3 des)
-	{
-		_destination = des;
-		_destinationFunc(this, des);
-	}
-
-	Pg::Math::PGFLOAT3 NavMeshAgent::GetDestination()
-	{
-		return _destination;
-	}
-
-	void NavMeshAgent::SetRelocate(Pg::Math::PGFLOAT3 des)
-	{
-		//_destination = des;
-		//_relocateFunc(this, des);
-	}
-
 }
