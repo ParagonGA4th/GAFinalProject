@@ -15,4 +15,8 @@
 #include "Concrete/Test_CSync_RecordCurrentPos.h"
 #include "Concrete/Test_CSync_ReturnToCenter.h"
 
+// Monster Test
+#include "../ParagonData/Anim_Idle.h"
+#include "../ParagonData/Anim_Walk.h"
+//#include "../ParagonData/isHitSpace.h"
 

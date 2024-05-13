@@ -49,6 +49,7 @@ namespace Pg::Data
 		void FixedUpdate();
 		void LateUpdate();
 
+		void SetIs3D(bool is3d);
 		bool GetIs3D() const;
 	
 		//Editor / TestScene이 발동되기 위해 필요한 (오브젝트 "에디터 시간" 생성) 함수들.

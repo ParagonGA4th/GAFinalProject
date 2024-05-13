@@ -1,6 +1,7 @@
 #include "Animator.h"
 
 #include <behaviortree_cpp_v3/bt_factory.h>
+#include <behaviortree_cpp_v3/loggers/bt_zmq_publisher.h>
 
 namespace Pg::Data
 {
@@ -35,6 +36,11 @@ namespace Pg::Data
 	void Animator::OnSerialize(SerializeVector& sv)
 	{
 		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
+	}
+
+	void Animator::MonitorSelfInGroot()
+	{
+		BT::PublisherZMQ publisher_zmq(*_behavTree);
 	}
 
 }
