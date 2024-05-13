@@ -71,21 +71,13 @@ void Pg::Editor::Manager::ProcessManager::Update()
 
 	if (_dataContainer->GetEditorOnOff())
 	{
-		if (_dataContainer->GetSceneList().size() > 0)
-		{
-			if (_dataContainer->GetSceneList().size() > 0)
-			{
-				_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
-				_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
-			}
+		if (_coreMain->GetEditorAdapter()->GetSceneList().size() != _dataContainer->GetSceneList().size() > 0)
+			_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
 
-			//if (_input->GetKeyDown(API::Input::eKeyCode::Save)) _editorEvent->Invoke(eEventType::_SAVEPROJECT);
-		}
-		_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
-		_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
 
 		if (_coreMain->GetEditorAdapter()->GetCurrentScene() != _dataContainer->GetCurrentScene())
 			_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
+			//if (_input->GetKeyDown(API::Input::eKeyCode::Save)) _editorEvent->Invoke(eEventType::_SAVEPROJECT);
 	}
 	else
 	{
