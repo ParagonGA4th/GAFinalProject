@@ -111,6 +111,7 @@ namespace Pg::Engine
 			_currentScene->Internal_EngineUpdate();
 		}
 
+		UpdateActualSceneChange();
 	}
 
 	void SceneSystem::LoadEmptyScene()
@@ -127,7 +128,7 @@ namespace Pg::Engine
 	}
 
 
-	void SceneSystem::SetCurrentScene(Pg::Data::Scene* scene)
+	void SceneSystem::SetCurrentScene_Internal(Pg::Data::Scene* scene)
 	{
 		//현재 씬 저장된거 바꾸기.
 		_currentScene = scene;
@@ -157,16 +158,8 @@ namespace Pg::Engine
 
 	void SceneSystem::SetCurrentScene(const std::string& sceneName)
 	{
-		for (auto& iter : _sceneList)
-		{
-			if (iter.first == sceneName)
-			{
-				SetCurrentScene(iter.second);
-
-				return;
-			}
-		}
-		assert(false && "SceneName과 동일한 Scene이 존재하지 않음.");
+		_toChangeScene = sceneName;
+		_isNeedToChangeScene = true;
 	}
 
 	Pg::Data::Scene* SceneSystem::GetCurrentScene()
@@ -233,10 +226,10 @@ namespace Pg::Engine
 
 		//Static List에서 해당 값을 찾았다는 조건 람다.
 		auto tFoundFunc = [&](Pg::Data::GameObject* val)
-		{
-			//전체 Static DontDestroyOnLoad 리스트에서 찾았다는 얘기 -> 반대로 못 찾았으면 추가해야.
-			return std::ranges::find(Pg::Data::Scene::_dontDestroyOnList, val) != Pg::Data::Scene::_dontDestroyOnList.end();
-		};
+			{
+				//전체 Static DontDestroyOnLoad 리스트에서 찾았다는 얘기 -> 반대로 못 찾았으면 추가해야.
+				return std::ranges::find(Pg::Data::Scene::_dontDestroyOnList, val) != Pg::Data::Scene::_dontDestroyOnList.end();
+			};
 
 		//Scene의 DontDestroyOnList에서 안 겹치면 추가.
 		//Scene 사이 오갈 때 여러 객체 안 만들기 위해.
@@ -304,6 +297,29 @@ namespace Pg::Engine
 		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
 		{
 			it->Update();
+		}
+	}
+
+	void SceneSystem::UpdateActualSceneChange()
+	{
+		if (_isNeedToChangeScene)
+		{
+			for (auto& iter : _sceneList)
+			{
+				if (iter.first == _toChangeScene)
+				{
+					SetCurrentScene_Internal(iter.second);
+					
+					if (!_toChangeScene.empty())
+					{
+						_toChangeScene.clear();
+					}
+
+					_isNeedToChangeScene = false;
+					return;
+				}
+			}
+			assert(false && "SceneName과 동일한 Scene이 존재하지 않음.");	
 		}
 	}
 

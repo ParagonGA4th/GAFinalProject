@@ -11,7 +11,6 @@
 
 namespace Pg::API::Raycast
 {
-
 	void PgRayCast::Initialize()
 	{
 		auto& tPhysicSystem = singleton<Pg::Engine::Physic::PhysicSystem>();
