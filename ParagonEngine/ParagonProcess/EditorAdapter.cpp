@@ -4,7 +4,7 @@
 
 namespace Pg::Core
 {
-	EditorAdapter::EditorAdapter(ProcessMain* core) 
+	EditorAdapter::EditorAdapter(ProcessMain* core)
 		: _processMain(core)
 	{
 	}
@@ -49,7 +49,18 @@ namespace Pg::Core
 
 	void EditorAdapter::SetCurrentScene(Pg::Data::Scene* scene)
 	{
-		if (_currentScene == scene) return;
+		/*if (_currentScene == scene || scene->GetSceneName() == _currentScene->GetSceneName())
+		{
+			return;
+		}*/
+
+		if (_currentScene != nullptr)
+		{
+			if (scene->GetSceneName() == _currentScene->GetSceneName())
+			{
+				return;
+			}
+		}
 
 		_currentScene = scene;
 		_processMain->GetEngineGraphicsAdapter()->SetCurrentScene(_currentScene);

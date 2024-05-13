@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
 	<scenes>
+		<scene>TitleScene</scene>
 		<scene>testing_Content1</scene>
-		<scene>testScene</scene>
 	</scenes>
 </project>
