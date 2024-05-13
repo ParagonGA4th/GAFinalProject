@@ -43,6 +43,7 @@ namespace Pg::Core
 
 		//에디터에서 가져온 씬 목록을 설정한다
 		void SetSceneList(std::vector<Pg::Data::Scene*> scenes);
+		std::vector<Pg::Data::Scene*> GetSceneList();
 
 		//에디터에 따라 현재 씬을 설정한다
 		void SetCurrentScene(Pg::Data::Scene* scene);

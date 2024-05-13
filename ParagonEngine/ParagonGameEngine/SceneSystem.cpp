@@ -201,6 +201,18 @@ namespace Pg::Engine
 		}
 	}
 
+	std::vector<Scene*> SceneSystem::GetSceneList()
+	{
+		std::vector<Scene*> scenes;
+
+		for (auto& vscene : _sceneList)
+		{
+			scenes.emplace_back(vscene.second);
+		}
+
+		return scenes;
+	}
+
 	bool SceneSystem::GetIsStartedScene()
 	{
 		return _isStarted;
@@ -322,5 +334,4 @@ namespace Pg::Engine
 			assert(false && "SceneName과 동일한 Scene이 존재하지 않음.");	
 		}
 	}
-
 }
