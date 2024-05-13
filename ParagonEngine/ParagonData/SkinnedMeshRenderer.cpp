@@ -114,7 +114,7 @@ namespace Pg::Data
 		{
 			std::string tPrint = "SetAnimation Impl not yet bound in : ";
 			tPrint.append(animName);
-			
+
 			PG_WARN(tPrint.c_str());
 		}
 		//위에 있으면 에러가 날 것. 
