@@ -239,7 +239,7 @@ namespace Pg::Engine
 		// юс╫ц
 		if (currentScene != nullptr)
 		{
-			_sceneSystem->SetCurrentScene(currentScene);
+			_sceneSystem->SetCurrentScene(currentScene->GetSceneName());
 		}
 	}
 

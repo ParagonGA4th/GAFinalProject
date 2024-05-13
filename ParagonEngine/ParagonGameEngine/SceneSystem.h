@@ -55,7 +55,7 @@ namespace Pg::Engine
 
 		void LoadEmptyScene();
 		void UnLoadSCene();
-		void SetCurrentScene(Scene* scene);
+		
 		PARAGON_ENGINE_DLL void SetCurrentScene(const std::string& sceneName);
 
 		Scene* GetCurrentScene();		
@@ -78,11 +78,13 @@ namespace Pg::Engine
 
 		//Scene Change ½Ã Áß¿ä.
 		bool _isStarted;
-
+	private:
+		void SetCurrentScene_Internal(Scene* scene);
 	private:
 		void CheckMoveDontDestroyOnLoadObjects(Pg::Data::Scene* scene);
 		void StartDontDestroyOnLoadObjects();
 		void UpdateDontDestroyOnLoadObjects();
+		void UpdateActualSceneChange();
 
 	private:
 		Scene* _currentScene = nullptr;
@@ -92,6 +94,8 @@ namespace Pg::Engine
 		SoundSystem* _soundSystem = nullptr;
 		Physic::PhysicSystem* _physicSystem = nullptr;
 		BTree::BehaviorTreeSystem* _btSystem = nullptr;
+		std::string _toChangeScene{};
+		bool _isNeedToChangeScene{ false };
 	};
 }
 
