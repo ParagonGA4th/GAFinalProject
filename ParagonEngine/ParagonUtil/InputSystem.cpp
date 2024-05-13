@@ -135,16 +135,14 @@ namespace Pg::Util::Input
 
 	float InputSystem::GetMouseX()
 	{
-		//if (_editorMouseX != -10.f) return _editorMouseX;
-		//else return _map->GetFloat(Pg::API::Input::eKeyCode::MouseX);
-		return _editorMouseX;
+		if (_editorMouseX != -10.f) return _editorMouseX;
+		else return _map->GetFloat(Pg::API::Input::eKeyCode::MouseX);
 	}
 
 	float InputSystem::GetMouseY()
 	{
-		//if (_editorMouseY != -10.f) return _editorMouseY;
-		//else return _map->GetFloat(Pg::API::Input::eKeyCode::MouseY);
-		return _editorMouseY;
+		if (_editorMouseY != -10.f) return _editorMouseY;
+		else return _map->GetFloat(Pg::API::Input::eKeyCode::MouseY);
 	}
 
 	void InputSystem::SetEditorMouseX(float x)
