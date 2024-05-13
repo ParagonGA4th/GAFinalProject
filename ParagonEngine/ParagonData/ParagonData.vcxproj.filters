@@ -274,6 +274,9 @@
     <ClCompile Include="Anim_Walk.cpp">
       <Filter>11_BtNodes\MonstersTest\Action\Anim_Walk</Filter>
     </ClCompile>
+    <ClCompile Include="BtNodes\bt_zmq_publisher.cpp">
+      <Filter>11_BtNodes\Helper</Filter>
+    </ClCompile>
     <ClCompile Include="Anim_LeftArmAttack.cpp">
       <Filter>11_BtNodes\MonstersTest\Action\Anim_LeftArmAttack</Filter>
     </ClCompile>
@@ -612,6 +615,9 @@
     </ClInclude>
     <ClInclude Include="Anim_Walk.h">
       <Filter>11_BtNodes\MonstersTest\Action\Anim_Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\bt_zmq_publisher.h">
+      <Filter>11_BtNodes\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Anim_LeftArmAttack.h">
       <Filter>11_BtNodes\MonstersTest\Action\Anim_LeftArmAttack</Filter>

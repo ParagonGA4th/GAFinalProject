@@ -1,7 +1,7 @@
 #include "Animator.h"
 
 #include <behaviortree_cpp_v3/bt_factory.h>
-#include <behaviortree_cpp_v3/loggers/bt_zmq_publisher.h>
+#include "BtNodes/bt_zmq_publisher.h"
 
 namespace Pg::Data
 {

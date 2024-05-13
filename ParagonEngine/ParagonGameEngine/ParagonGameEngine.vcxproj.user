@@ -9,11 +9,11 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerEnvironment>PATH=$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration);%PATH%</LocalDebuggerEnvironment>
+    <LocalDebuggerEnvironment>PATH=$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\libzmq\$(PlatformTarget)\$(Configuration);%PATH%</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LocalDebuggerEnvironment>PATH=$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration);%PATH%</LocalDebuggerEnvironment>
+    <LocalDebuggerEnvironment>PATH=$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\libzmq\$(PlatformTarget)\$(Configuration);%PATH%</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>
