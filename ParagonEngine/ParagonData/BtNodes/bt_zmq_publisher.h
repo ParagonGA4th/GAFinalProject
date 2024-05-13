@@ -3,11 +3,11 @@
 
 #include <array>
 #include <future>
-#include "abstract_logger.h"
+#include "behaviortree_cpp_v3/loggers/abstract_logger.h"
 
 namespace BT
 {
-class PublisherZMQ : public StatusChangeLogger
+class PublisherZMQ : public BT::StatusChangeLogger
 {
   static std::atomic<bool> ref_count;
 
