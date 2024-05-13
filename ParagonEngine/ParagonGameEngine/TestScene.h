@@ -32,7 +32,7 @@ namespace Pg::Engine
 
 		//CameraScriptTest* tCameraScript = nullptr;
 
-		inline const static std::string TESTSCENENAME = "TestScene";
+		inline const static std::string TESTSCENENAME = "SampleScene";
 	};
 }
 

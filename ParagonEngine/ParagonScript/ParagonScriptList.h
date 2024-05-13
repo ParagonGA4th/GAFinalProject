@@ -24,3 +24,7 @@
 #include "EnemyBehaviour.h"
 #include "EnemySight.h"
 #include "Portal.h"
+
+//UI ฐüทร
+#include "TitleScene.h"
+#include "StartButton.h"
