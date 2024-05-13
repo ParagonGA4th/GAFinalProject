@@ -113,6 +113,7 @@ namespace Pg::Graphics
 
 			//±×¸®±â.
 			//bBufferPairList->_vb
+			_DXStorage->_deviceContext->DrawIndexedInstanced()
 			
 		}
 	}
