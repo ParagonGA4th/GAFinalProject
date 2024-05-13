@@ -40,7 +40,7 @@ namespace Pg::Data
 
 	void Animator::MonitorSelfInGroot()
 	{
-		BT::PublisherZMQ publisher_zmq(*_behavTree);
+		//BT::PublisherZMQ publisher_zmq(*_behavTree);
 	}
 
 }

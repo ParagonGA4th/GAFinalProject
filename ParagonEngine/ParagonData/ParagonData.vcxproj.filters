@@ -274,6 +274,18 @@
     <ClCompile Include="Anim_Walk.cpp">
       <Filter>11_BtNodes\MonstersTest\Action\Anim_Walk</Filter>
     </ClCompile>
+    <ClCompile Include="Anim_LeftArmAttack.cpp">
+      <Filter>11_BtNodes\MonstersTest\Action\Anim_LeftArmAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_RightArmAttack.cpp">
+      <Filter>11_BtNodes\MonstersTest\Action\Anim_RightArmAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_TwoArmAttack.cpp">
+      <Filter>11_BtNodes\MonstersTest\Action\Anim_TwoArmAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Hold_Anim.cpp">
+      <Filter>11_BtNodes\MonstersTest\Action\Hold_Anim</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -601,6 +613,18 @@
     <ClInclude Include="Anim_Walk.h">
       <Filter>11_BtNodes\MonstersTest\Action\Anim_Walk</Filter>
     </ClInclude>
+    <ClInclude Include="Anim_LeftArmAttack.h">
+      <Filter>11_BtNodes\MonstersTest\Action\Anim_LeftArmAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_RightArmAttack.h">
+      <Filter>11_BtNodes\MonstersTest\Action\Anim_RightArmAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_TwoArmAttack.h">
+      <Filter>11_BtNodes\MonstersTest\Action\Anim_TwoArmAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Hold_Anim.h">
+      <Filter>11_BtNodes\MonstersTest\Action\Hold_Anim</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -923,6 +947,9 @@
     </Filter>
     <Filter Include="11_BtNodes\MonstersTest\Action\Anim_Idle">
       <UniqueIdentifier>{b3b0291a-ec59-46f6-88c2-a2ae2668b8a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonstersTest\Action\Hold_Anim">
+      <UniqueIdentifier>{0c5cf94d-552a-46fa-b9dd-af0ebc4b558c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

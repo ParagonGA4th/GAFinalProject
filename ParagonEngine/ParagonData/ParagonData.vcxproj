@@ -202,6 +202,9 @@
     <ClInclude Include="Animator.h" />
     <ClInclude Include="AnimTransform.h" />
     <ClInclude Include="Anim_Idle.h" />
+    <ClInclude Include="Anim_LeftArmAttack.h" />
+    <ClInclude Include="Anim_RightArmAttack.h" />
+    <ClInclude Include="Anim_TwoArmAttack.h" />
     <ClInclude Include="Anim_Walk.h" />
     <ClInclude Include="AssetDefines.h" />
     <ClInclude Include="AudioData.h" />
@@ -232,6 +235,7 @@
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="Hold_Anim.h" />
     <ClInclude Include="isHitSpace.h" />
     <ClInclude Include="isPlayerInSight.h" />
     <ClInclude Include="LayerMask.h" />
@@ -321,6 +325,9 @@
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="AnimTransform.cpp" />
     <ClCompile Include="Anim_Idle.cpp" />
+    <ClCompile Include="Anim_LeftArmAttack.cpp" />
+    <ClCompile Include="Anim_RightArmAttack.cpp" />
+    <ClCompile Include="Anim_TwoArmAttack.cpp" />
     <ClCompile Include="Anim_Walk.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="BaseRenderer.cpp" />
@@ -347,6 +354,7 @@
     <ClCompile Include="DynamicCollider.cpp" />
     <ClCompile Include="EditorCameraScript.cpp" />
     <ClCompile Include="Handle.cpp" />
+    <ClCompile Include="Hold_Anim.cpp" />
     <ClCompile Include="ImageRenderer.cpp" />
     <ClCompile Include="isHitSpace.cpp" />
     <ClCompile Include="isPlayerInSight.cpp" />
