@@ -302,9 +302,8 @@ namespace Pg::Data
 		return _is3D;
 	}
 
-	
-
-
-
-
+	void Scene::SetIs3D(bool is3d)
+	{
+		_is3D = is3d;
+	}
 }

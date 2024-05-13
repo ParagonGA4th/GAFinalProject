@@ -19,11 +19,14 @@
     <ClCompile Include="PgGraphics.cpp">
       <Filter>6_PgGraphics</Filter>
     </ClCompile>
+    <ClCompile Include="PgScene.cpp">
+      <Filter>7_PgScene</Filter>
+    </ClCompile>
     <ClCompile Include="PgInput.cpp">
       <Filter>1_PgInput</Filter>
     </ClCompile>
-    <ClCompile Include="PgScene.cpp">
-      <Filter>7_PgScene</Filter>
+    <ClCompile Include="PgRecast.cpp">
+      <Filter>8_PgRecast</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,6 +56,9 @@
     </ClInclude>
     <ClInclude Include="PgScene.h">
       <Filter>7_PgScene</Filter>
+    </ClInclude>
+    <ClInclude Include="PgRecast.h">
+      <Filter>8_PgRecast</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +93,9 @@
     </Filter>
     <Filter Include="7_PgScene">
       <UniqueIdentifier>{07c72688-2735-49fd-8027-e2cb93577fde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_PgRecast">
+      <UniqueIdentifier>{9e50c101-9eb3-45fa-95df-63f00f198c23}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
