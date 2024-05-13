@@ -5,6 +5,8 @@
 #include "LayoutDefine.h"
 #include "SystemVertexShader.h"
 #include "SystemPixelShader.h"
+#include "Asset3DModelData.h"
+#include "AssetModelDataDefine.h"
 
 namespace Pg::Graphics
 {
@@ -74,12 +76,12 @@ namespace Pg::Graphics
 
 	void FirstInstancedRenderPass::ExecuteNextRenderRequirements()
 	{
-
+		//
 	}
 
 	void FirstInstancedRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
 	{
-
+		//
 	}
 
 	void FirstInstancedRenderPass::CreateShaders()
@@ -112,9 +114,20 @@ namespace Pg::Graphics
 			_lightmapCBuffer->BindPS(5);
 
 			//그리기.
-			//bBufferPairList->_vb
-			_DXStorage->_deviceContext->DrawIndexedInstanced()
-			
+			//DrawIndexedInstanced를 사용.
+			int tMeshCount = bModel->_assetSceneData->_totalMeshCount;
+			for (int i = 0; i < tMeshCount; i++)
+			{
+				//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
+				UINT tToDrawIndexCount = bModel->_assetSceneData->_meshList[i]._numIndices;
+
+				//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
+				_DXStorage->_deviceContext->DrawIndexedInstanced(tToDrawIndexCount, bBufferPairList->_instancedStaticPairVec.size(),
+					bModel->_assetSceneData->_meshList[i]._indexOffset,
+					bModel->_assetSceneData->_meshList[i]._vertexOffset, 0);
+			}
+
+			_lightmapCBuffer->UnbindPS(5);
 		}
 	}
 
@@ -124,7 +137,34 @@ namespace Pg::Graphics
 
 		for (auto& [bModel, bBufferPairList] : tRenderObjectList->_instancedCulledOppositeStaticList)
 		{
-			
+			//우선적으로, ConstantBuffer부터 셋한다.
+			assert(bBufferPairList->_instancedLightMapSetVec.size() <= Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING);
+
+			for (int i = 0; i < bBufferPairList->_instancedLightMapSetVec.size(); i++)
+			{
+				_lightmapCBuffer->GetDataStruct()->gBuf_LightMapSet[i] = bBufferPairList->_instancedLightMapSetVec.at(i);
+			}
+
+			_lightmapCBuffer->Update();
+
+			//이제 PS CB Bind과정.
+			_lightmapCBuffer->BindPS(5);
+
+			//그리기.
+			//DrawIndexedInstanced를 사용.
+			int tMeshCount = bModel->_assetSceneData->_totalMeshCount;
+			for (int i = 0; i < tMeshCount; i++)
+			{
+				//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
+				UINT tToDrawIndexCount = bModel->_assetSceneData->_meshList[i]._numIndices;
+
+				//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
+				_DXStorage->_deviceContext->DrawIndexedInstanced(tToDrawIndexCount, bBufferPairList->_instancedStaticPairVec.size(),
+					bModel->_assetSceneData->_meshList[i]._indexOffset,
+					bModel->_assetSceneData->_meshList[i]._vertexOffset, 0);
+			}
+
+			_lightmapCBuffer->UnbindPS(5);
 		}
 	}
 
