@@ -38,6 +38,10 @@ struct Vin1stPassStatic_Layout
     float3  vin1st_NormalL      : NORMAL;
     float3  vin1st_TangentL     : TANGENT;
     float3  vin1st_Color        : COLOR;
+    
+    //Vin3rdStaticSkinned
+    uint vin1st_ObjID : OBJECTID;
+    uint vin1st_MatID : MATERIALID;
 };
 
 struct Vin1stPassSkinned_Layout
@@ -61,6 +65,10 @@ struct Vin1stPassSkinned_Layout
     float3 vin1st_NormalL : NORMAL;
     float3 vin1st_TangentL : TANGENT;
     float3 vin1st_Color : COLOR;
+    
+    //Vin3rdStaticSkinned
+    uint vin1st_ObjID : OBJECTID;
+    uint vin1st_MatID : MATERIALID;
 };
 
 struct VOut1st
@@ -76,6 +84,10 @@ struct VOut1st
     float3  vout1st_NormalW     : NORMAL;
     float3  vout1st_TangentW    : TANGENT;
     float3  vout1st_Color       : COLOR;
+    
+    //ObjMat + Instance 기록.
+    uint vout1st_ObjID : OBJECTID;
+    uint vout1st_MatID : MATERIALID;
 };
 
 struct VOut1st_Instanced
@@ -101,7 +113,7 @@ struct VOut1st_Instanced
 };
 
 //인스턴싱 적용된 오브젝트들은 한번에 처리할 수 있을 것.
-struct POut1st_Instanced //RGBA
+struct POut1st_Total //RGBA
 {
     //이렇게 유지하자!
     float4 pout1st_RT0 : SV_Target0; //RT0 : Texture UV Coords (xy), Mesh Material ID (z), W Divide Depth (w)
@@ -121,19 +133,6 @@ struct POut1st_Instanced //RGBA
     float4 pout_NormalAlpha : SV_Target7;
     
     //DSV와는 관계 없다.
-};
-
-struct POut1st //RGBA
-{
-    //이렇게 유지하자!
-    float4 pout1st_RT0 : SV_Target0; //RT0 : Texture UV Coords (xy), Mesh Material ID (z), W Divide Depth (w)
-    float4 pout1st_RT1 : SV_Target1; //RT1 : World Space Normal (xyz), VertexColor.x (w)
-    float4 pout1st_RT2 : SV_Target2; //RT2 : World Space Position (xyz), VertexColor.y (w)
-    float4 pout1st_RT3 : SV_Target3; //RT3 : World Space Tangent (xyz),    VertexColor.z (w)
-    float4 pout1st_RT4 : SV_Target4; //RT4 : LightMap Sample Value (xyz) + Lightmapping이 활용되었는지(w). 음수 : NO, 양수 : YES.
-    //결과적으로, 그냥 Default Material if로 런타임 빛연산 할거냐 말거냐 결정. 그냥 샘플링된 결과물 갖고 호출할 수 있게! Branching 이때 활용.
-    
-    //따로 DSV에서 값 빼서 전달하지 말자.
 };
 
 #endif //__DEFINED_SYSTEM_1STLAYOUTS_HLSL__

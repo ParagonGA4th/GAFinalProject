@@ -1089,6 +1089,9 @@
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstInstancedStage_PS.hlsl">
       <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
     </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstStage_AlphaBlendedPS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_GBufferTextures.hlsli">
