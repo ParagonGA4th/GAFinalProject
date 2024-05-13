@@ -66,6 +66,8 @@ namespace Pg::Data
 		//일단 별도로 Behavior Tree Path의 세터를 만들어놓았다.
 		void SetBehaviorTreePath(const std::string& path);
 
+		//자기 자신이 Groot에 의해 Monitor되고 싶을 때.
+		void MonitorSelfInGroot();
 	private:
 		//실제로 로직에 따라 작동할 BehaviorTree의 예시.
 		//Animator는 객체에 따라 다른 로직을 보유해야 한다.
