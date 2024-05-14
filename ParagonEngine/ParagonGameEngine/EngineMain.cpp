@@ -234,6 +234,11 @@ namespace Pg::Engine
 		_sceneSystem->SetSceneList(sceneList);
 	}
 
+	std::vector<Pg::Data::Scene*> EngineMain::GetSceneList()
+	{
+		return _sceneSystem->GetSceneList();
+	}
+
 	void EngineMain::SetCurrentScene(Pg::Data::Scene* currentScene)
 	{
 		// юс╫ц
