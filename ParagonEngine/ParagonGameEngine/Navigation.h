@@ -16,6 +16,7 @@
 #include "../ParagonData/BuildSettings.h"
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonMath/PgMath.h"
+#include "../ParagonData/DebugData.h"
 #include "NavGeom.h"
 
 #include <unordered_map>
@@ -27,8 +28,16 @@
 /// 시킬려고 했으나 실패. 그러므로 .obj파일을 로드하여 빌드하는 방식으로 변경
 /// 2024.04.20
 /// </summary>
+namespace Pg::Data
+{
+	struct NavCylinderInfo;
+}
+
 namespace Pg::Engine
 {
+	class NavMeshAgent;
+	class SceneSystem;
+
 	struct Agent
 	{
 		float _agentHeight = 2.0f;
@@ -52,10 +61,6 @@ namespace Pg::Engine
 		//Agent관리를 위한 변수
 		dtCrowd* _crowd;
 		Agent _agentsetting;
-
-		///다중 Agent를 위해서면 리스트 형태로 관리해야 하지 않을까?
-		///구조화 시 고민해야 함
-		std::vector<Agent*> _agentVec;
 
 		dtPolyRef _startRef;
 		dtPolyRef _endRef;
@@ -170,6 +175,11 @@ namespace Pg::Engine
 
 		unsigned char* _triareas;
 
+		///다중 Agent를 위해서면 리스트 형태로 관리해야 하지 않을까?
+		///구조화 시 고민해야 함
+		std::vector<Agent*> _agentVec;
+
+
 		//Recast에 필요한 변수들
 		rcHeightfield* _solid;
 		rcCompactHeightfield* _chf;
@@ -214,6 +224,10 @@ namespace Pg::Engine
 		int _maxTiles;
 		int _maxPolysPerTile;
 		float _tileSize = 48.f;
+
+	private:
+		SceneSystem* _sceneSystem = nullptr;
+		//Pg:Data::NavCylinderInfo* _navCyilnderInfo = nullptr ;
 	};
 }
 
