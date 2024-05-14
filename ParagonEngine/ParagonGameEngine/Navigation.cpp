@@ -691,6 +691,8 @@ namespace Pg::Engine
 		_package[index]._agentsetting._agentMaxSlope = agentMaxSlope;
 		_package[index]._agentsetting._agentRadius = agentRadius;
 		_package[index]._agentsetting._agentMaxClimb = agentMaxClimb;
+
+		//_package[index]._agentVec.push_back();
 	}
 
 	void Navigation::GetNavmeshRenderInfo(int index, std::vector<Pg::Math::PGFLOAT3>& vertices, std::vector<unsigned int>& indices)

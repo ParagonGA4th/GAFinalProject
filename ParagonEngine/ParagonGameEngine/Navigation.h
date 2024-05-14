@@ -53,6 +53,10 @@ namespace Pg::Engine
 		dtCrowd* _crowd;
 		Agent _agentsetting;
 
+		///다중 Agent를 위해서면 리스트 형태로 관리해야 하지 않을까?
+		///구조화 시 고민해야 함
+		std::vector<Agent*> _agentVec;
+
 		dtPolyRef _startRef;
 		dtPolyRef _endRef;
 		dtPolyRef _parent[MAX_POLYS];
@@ -154,10 +158,6 @@ namespace Pg::Engine
 	
 	private:
 		Pg::Math::PGFLOAT3 vertex(const float* pos);
-
-		///다중 Agent를 위해서면 리스트 형태로 관리해야 하지 않을까?
-		///구조화 시 고민해야 함
-		std::vector<Agent> _agentVec;
 		
 		///Navgation을 위해 필요한 변수들.
 		static const int PACKAGESIZE = 5;
