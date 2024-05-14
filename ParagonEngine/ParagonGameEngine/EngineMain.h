@@ -131,6 +131,7 @@ namespace Pg::Engine
 
 	private:
 		Pg::Data::NavMeshInfo* _navTestInfo{ nullptr };
+		Pg::Data::NavCylinderInfo* _navCyilnderInfo{ nullptr };
 	};
 }
 

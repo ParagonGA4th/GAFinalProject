@@ -22,7 +22,7 @@ namespace Pg::DataScript
 	{
 		_button->SetOnClickEvent([this]
 			{
-				_sceneHelper->SetCurrentScene("testing_Content1");
+				_sceneHelper->SetCurrentScene("Stage1");
 			});
 	}
 
