@@ -155,6 +155,7 @@
     <ClInclude Include="EventList_EnemyRelated.h" />
     <ClInclude Include="EventList_GameFlowRelated.h" />
     <ClInclude Include="EventList_PlayerRelated.h" />
+    <ClInclude Include="ExitButton.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="IScriptResettable.h" />
@@ -189,6 +190,7 @@
     <ClCompile Include="EnemyBehaviour.cpp" />
     <ClCompile Include="EnemySight.cpp" />
     <ClCompile Include="EventTest.cpp" />
+    <ClCompile Include="ExitButton.cpp" />
     <ClCompile Include="FactoryHelper.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="InGameCameraBehavior.cpp" />

@@ -115,6 +115,9 @@
     <Filter Include="UI\StartButton">
       <UniqueIdentifier>{550784fb-5d14-42e2-892a-856d21fa413d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\ExitButton">
+      <UniqueIdentifier>{2e9ce200-f71c-498a-a247-c2c66abe2f73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -188,6 +191,9 @@
     </ClCompile>
     <ClCompile Include="StartButton.cpp">
       <Filter>UI\StartButton</Filter>
+    </ClCompile>
+    <ClCompile Include="ExitButton.cpp">
+      <Filter>UI\ExitButton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +301,9 @@
     </ClInclude>
     <ClInclude Include="StartButton.h">
       <Filter>UI\StartButton</Filter>
+    </ClInclude>
+    <ClInclude Include="ExitButton.h">
+      <Filter>UI\ExitButton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
