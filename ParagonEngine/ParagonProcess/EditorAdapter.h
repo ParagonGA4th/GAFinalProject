@@ -55,10 +55,6 @@ namespace Pg::Core
 
 	private:
 		ProcessMain* _processMain;
-		
-		std::vector<Pg::Data::Scene*> _scenes;
-		Pg::Data::Scene* _currentScene;
-
 		Pg::Data::Enums::eEditorMode _mode;
 	};
 }

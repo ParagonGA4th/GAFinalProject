@@ -41,7 +41,7 @@ namespace Pg::Core
 
 	void EditorAdapter::SetSceneList(std::vector<Pg::Data::Scene*> scenes)
 	{
-		_processMain->GetEngineGraphicsAdapter()->SetSceneList(_scenes);
+		_processMain->GetEngineGraphicsAdapter()->SetSceneList(scenes);
 	}
 
 	std::vector<Pg::Data::Scene*> EditorAdapter::GetSceneList()
@@ -51,7 +51,7 @@ namespace Pg::Core
 
 	void EditorAdapter::SetCurrentScene(Pg::Data::Scene* scene)
 	{
-		_processMain->GetEngineGraphicsAdapter()->SetCurrentScene(_currentScene);
+		_processMain->GetEngineGraphicsAdapter()->SetCurrentScene(scene);
 	}
 
 	Pg::Data::Scene* EditorAdapter::GetCurrentScene()
