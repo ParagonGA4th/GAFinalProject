@@ -1,7 +1,8 @@
 #include "Animator.h"
 
 #include <behaviortree_cpp_v3/bt_factory.h>
-#include "BtNodes/bt_zmq_publisher.h"
+//#include "BtNodes/bt_zmq_publisher.h"
+#include <behaviortree_cpp_v3/loggers/bt_file_logger.h>
 
 namespace Pg::Data
 {
@@ -21,6 +22,11 @@ namespace Pg::Data
 		{
 			delete _behavTree;
 		}
+		if (_logger != nullptr)
+		{
+			delete _logger;
+		}
+
 	}
 
 	void Animator::SetBehaviorTreePath(const std::string& path)
@@ -40,7 +46,7 @@ namespace Pg::Data
 
 	void Animator::MonitorSelfInGroot()
 	{
-		//BT::PublisherZMQ publisher_zmq(*_behavTree);
+		_logger = new BT::FileLogger(*_behavTree, "bt_trace.fbl");
 	}
 
 }

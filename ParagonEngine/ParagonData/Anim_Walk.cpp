@@ -1,6 +1,7 @@
 #include "Anim_Walk.h"
 
 #include "SkinnedMeshRenderer.h"
+#include "../ParagonUtil/Log.h"
 
 namespace Pg::Data::BTree::Node
 {
@@ -9,9 +10,16 @@ namespace Pg::Data::BTree::Node
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
-			if (tMeshRenderer->GetAnimation() != "PpakMonster_Punch")
+			PG_TRACE("Anim_Walk");
+
+			if (tMeshRenderer->GetAnimation() != "PpakMonster_Punch.pganim")
 			{
-				tMeshRenderer->SetAnimation("PpakMonster_Punch", true);
+				tMeshRenderer->SetAnimation("PpakMonster_Punch.pganim", true);
+				return BT::NodeStatus::SUCCESS;
+			}
+			else
+			{
+				return BT::NodeStatus::FAILURE;
 			}
 		}
 
