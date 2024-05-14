@@ -357,10 +357,4 @@ namespace Pg::Engine
 	{
 		_physicSystem->CheckDeleteRuntimeColliders(objVecP);
 	}
-
-	std::vector<Pg::Data::Scene*> EngineMain::GetSceneList()
-	{
-		return _sceneSystem->GetSceneList();
-	}
-
 }
