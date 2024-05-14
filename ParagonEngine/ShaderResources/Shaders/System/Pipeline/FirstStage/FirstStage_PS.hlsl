@@ -49,8 +49,8 @@ POut1st_Total main(VOut1st input)
     float3 tARMSampleVal = ArmTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
     
     //ObjMat 전달.
-    output.pout_ObjMatAoR.x = input.vout1st_ObjID;
-    output.pout_ObjMatAoR.y = input.vout1st_MatID;
+    output.pout_ObjMatAoR.x = gCBuf_ObjID;
+    output.pout_ObjMatAoR.y = gCBuf_MatID;
      //Ambient Occlusion 값 전달.
     output.pout_ObjMatAoR.z = tARMSampleVal.x;
     //Roughness Map 값 전달.

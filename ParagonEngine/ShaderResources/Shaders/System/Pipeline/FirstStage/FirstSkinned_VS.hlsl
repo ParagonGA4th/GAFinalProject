@@ -48,13 +48,6 @@ VOut1st main(Vin1stPassSkinned_Layout input)
     output.vout1st_TangentW = mul((float3x3) gCBuf_WorldInvTranspose, skinnedTangentL);
 	
 	output.vout1st_Color = input.vin1st_Color;
-    
-    //OBJMAT 전달.
-    //이제 Instancing 데이터 옮길 차례.
-    output.vout1st_ObjID = input.vin1st_ObjID;
-    output.vout1st_MatID = input.vin1st_MatID;
-
-    
     return output;
 }
 
