@@ -293,10 +293,10 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 						{
 							auto col = obj->GetComponent<Pg::Data::Collider>();
 
-							pugi::xml_node node = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "layer"; });
-							col->SetLayer(Pg::Serialize::Serializer::DeserializeUint(&node, ""));
+							pugi::xml_node node = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "trigger"; });
+							//col->SetLayer(Pg::Serialize::Serializer::DeserializeUint(&node, ""));
 
-							node = node.next_sibling();
+							//node = node.next_sibling();
 							col->SetTrigger(Pg::Serialize::Serializer::DeserializeBoolean(&node, ""));
 							
 							node = node.next_sibling();
