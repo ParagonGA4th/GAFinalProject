@@ -84,21 +84,39 @@ namespace Pg::Graphics
 	{
 		_cbFirst->BindVS(0);
 		_cbFirst->BindPS(0);
+
+		// Albedo
+		_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(_modelData->_pbrTextureArrays[0]->GetSRV()));
+		// Normal
+		_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(_modelData->_pbrTextureArrays[1]->GetSRV()));
+		// ARM
+		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(_modelData->_pbrTextureArrays[2]->GetSRV()));
+
+		// Alpha.
+		//_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &(_modelData->_pbrTextureArrays[3]->GetSRV()));
 	}
 
 	void RenderObjectStaticMesh3D::First_UnbindBuffers()
 	{
 		_cbFirst->UnbindVS(0);
 		_cbFirst->UnbindPS(0);
+
+		ID3D11ShaderResourceView* tNullSRV = nullptr;
+		// Albedo
+		_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &tNullSRV);
+		// Normal
+		_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
+		// ARM
+		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
 	}
 
 	void RenderObjectStaticMesh3D::BindMainVertexIndexBuffer()
 	{
-		///
 		//Vertex Buffer Setting.
-		UINT stride = sizeof(LayoutDefine::Vin1stStatic_Individual);
-		UINT offset = 0;
-		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(_modelData->_vertexBuffer), &stride, &offset);
+		UINT stride[2] = { sizeof(LayoutDefine::Vin1stStatic_Individual), sizeof(LayoutDefine::Vin2ndAll_Individual) };
+		UINT offset[2] = { 0,0 };
+		ID3D11Buffer* buffers[2] = { _modelData->_vertexBuffer, _modelData->_secondVertexBuffer };
+		_DXStorage->_deviceContext->IASetVertexBuffers(0, 2, buffers, stride, offset);
 		//Index Buffer Setting.
 		_DXStorage->_deviceContext->IASetIndexBuffer(_modelData->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	}

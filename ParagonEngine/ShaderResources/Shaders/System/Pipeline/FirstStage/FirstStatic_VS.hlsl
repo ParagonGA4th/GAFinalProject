@@ -30,10 +30,6 @@ VOut1st main(Vin1stPassStatic_Layout input)
 	
 	// Color & UV(W) 값 전달.
 	output.vout1st_Color = input.vin1st_Color;
-	
-	//이제 ObjID / MatID까지 합쳐졌다.
-    output.vout1st_ObjID = input.vin1st_ObjID;
-    output.vout1st_MatID = input.vin1st_MatID;
 
 	return output;
 }

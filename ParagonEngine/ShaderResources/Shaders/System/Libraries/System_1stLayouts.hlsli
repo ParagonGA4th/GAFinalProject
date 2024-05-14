@@ -38,10 +38,6 @@ struct Vin1stPassStatic_Layout
     float3  vin1st_NormalL      : NORMAL;
     float3  vin1st_TangentL     : TANGENT;
     float3  vin1st_Color        : COLOR;
-    
-    //Vin3rdStaticSkinned
-    uint vin1st_ObjID : OBJECTID;
-    uint vin1st_MatID : MATERIALID;
 };
 
 struct Vin1stPassSkinned_Layout
@@ -65,10 +61,6 @@ struct Vin1stPassSkinned_Layout
     float3 vin1st_NormalL : NORMAL;
     float3 vin1st_TangentL : TANGENT;
     float3 vin1st_Color : COLOR;
-    
-    //Vin3rdStaticSkinned
-    uint vin1st_ObjID : OBJECTID;
-    uint vin1st_MatID : MATERIALID;
 };
 
 struct VOut1st
@@ -84,10 +76,6 @@ struct VOut1st
     float3  vout1st_NormalW     : NORMAL;
     float3  vout1st_TangentW    : TANGENT;
     float3  vout1st_Color       : COLOR;
-    
-    //ObjMat + Instance ±â·Ï.
-    uint vout1st_ObjID : OBJECTID;
-    uint vout1st_MatID : MATERIALID;
 };
 
 struct VOut1st_Instanced
