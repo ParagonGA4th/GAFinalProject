@@ -84,6 +84,7 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL virtual void UnloadResource(const std::string& filePath) override;
 
 		PARAGON_ENGINE_DLL virtual void SetSceneList(std::vector<Pg::Data::Scene*> sceneList) override;
+		PARAGON_ENGINE_DLL virtual std::vector<Pg::Data::Scene*> GetSceneList() override;
 		PARAGON_ENGINE_DLL virtual void SetCurrentScene(Pg::Data::Scene* currentScene) override;
 		PARAGON_ENGINE_DLL virtual Pg::Data::Scene* GetCurrentScene() override;
 
