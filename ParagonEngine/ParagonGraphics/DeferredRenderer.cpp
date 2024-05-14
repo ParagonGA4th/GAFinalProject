@@ -3,6 +3,8 @@
 #include "LayoutDefine.h"
 #include "GraphicsResourceManager.h"
 #include "RenderMaterial.h"
+#include "RenderCubemap.h"
+#include "RenderTexture2D.h"
 
 #include "RenderObject3D.h"
 #include "RenderObject3DList.h"
@@ -14,8 +16,6 @@
 #include "FirstInstancedRenderPass.h"
 #include "FirstStaticRenderPass.h"
 #include "FirstSkinnedRenderPass.h"
-#include "PreparationStaticRenderPass.h"
-#include "PreparationSkinnedRenderPass.h"
 #include "OpaqueQuadRenderPass.h"
 #include "OpaqueShadowRenderPass.h"
 #include "FinalRenderPass.h"
@@ -48,6 +48,7 @@ namespace Pg::Graphics
 		InitOpaqueQuadDirectX();
 		InitFirstQuadDirectX();
 		InitPBRDirectX();
+		InitFetchIBLBuffers();
 	}
 
 	void DeferredRenderer::SetDeltaTime(float dt)
@@ -79,9 +80,7 @@ namespace Pg::Graphics
 		RenderFirstInstancedPass(renderObjectList, camData);
 		RenderFirstStaticPass(renderObjectList, camData);
 		RenderFirstSkinnedPass(renderObjectList, camData);
-		RenderObjMatStaticPass(renderObjectList, camData);
-		RenderObjMatSkinnedPass(renderObjectList, camData);
-		
+	
 		RenderOpaqueQuadPasses(renderObjectList, camData);
 		RenderOpaqueShadowPass(renderObjectList, camData);
 
@@ -104,12 +103,6 @@ namespace Pg::Graphics
 
 		//2. FirstSkinnedRenderPass.
 		_firstSkinnedRenderPass = std::make_unique<FirstSkinnedRenderPass>(_editorMode);
-
-		//3. ObjMatStaticRenderPass.
-		_objMatStaticRenderPass = std::make_unique<PreparationStaticRenderPass>();
-
-		//4. ObjMatSkinnedRenderPass.
-		_objMatSkinnedRenderPass = std::make_unique<PreparationSkinnedRenderPass>(_editorMode);
 
 		//5. SceneInfromationSender.
 		_sceneInformationSender = std::make_unique<SceneInformationSender>();
@@ -153,8 +146,6 @@ namespace Pg::Graphics
 		_firstInstancedRenderPass->Initialize();
 		_firstStaticRenderPass->Initialize();
 		_firstSkinnedRenderPass->Initialize();
-		_objMatStaticRenderPass->Initialize();
-		_objMatSkinnedRenderPass->Initialize();
 		_sceneInformationSender->Initialize();
 
 		_opaqueShadowPass->Initialize();
@@ -249,28 +240,6 @@ namespace Pg::Graphics
 		_firstSkinnedRenderPass->UnbindPass();
 		_firstSkinnedRenderPass->ExecuteNextRenderRequirements();
 		_firstSkinnedRenderPass->PassNextRequirements(*_carrier);
-	}
-
-	void DeferredRenderer::RenderObjMatStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
-	{
-		//3번째 RenderPass : ObjMatStaticRenderPass.
-		_objMatStaticRenderPass->ReceiveRequiredElements(*_carrier);
-		_objMatStaticRenderPass->BindPass();
-		_objMatStaticRenderPass->RenderPass(renderObjectList, camData);
-		_objMatStaticRenderPass->UnbindPass();
-		_objMatStaticRenderPass->ExecuteNextRenderRequirements();
-		_objMatStaticRenderPass->PassNextRequirements(*_carrier);
-	}
-
-	void DeferredRenderer::RenderObjMatSkinnedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
-	{
-		_objMatSkinnedRenderPass->ReceiveRequiredElements(*_carrier);
-		_objMatSkinnedRenderPass->SetDeltaTime(_deltaTimeStorage); 	//Skinning 활용 패스에 DeltaTime 내부적으로 전달.
-		_objMatSkinnedRenderPass->BindPass();
-		_objMatSkinnedRenderPass->RenderPass(renderObjectList, camData);
-		_objMatSkinnedRenderPass->UnbindPass();
-		_objMatSkinnedRenderPass->ExecuteNextRenderRequirements();
-		_objMatSkinnedRenderPass->PassNextRequirements(*_carrier);
 	}
 
 	void DeferredRenderer::SendSceneInformation(SceneInformationList* infoList, Pg::Data::CameraData* camData)
@@ -453,6 +422,38 @@ namespace Pg::Graphics
 		//NullRTV Array를 위해, nullptr 채우기!
 		std::fill(_carrier->_pbrNullBindArray.begin(), _carrier->_pbrNullBindArray.end(), nullptr);
 	}
+
+	void DeferredRenderer::SendPBRBufferSRVs()
+	{
+		//더 이상 t3에 ObjMat 버퍼가 새로 들어가지 않는다. t12에서 같이 들어가서 쓰인다.
+
+		//t12-14 - ObjMat GBuffer + InternalPBRTextures Bind
+		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, &(_carrier->_quadObjMatRT_AoR->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(13, 1, &(_carrier->_albedoMetallic_GBuffer->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(14, 1, &(_carrier->_normalAlpha_GBuffer->GetSRV()));
+
+		//독립적인 IBL Texture들, 여기서 바인딩.
+		//t21-23 - internal IBL TextureCubes Bind
+		_DXStorage->_deviceContext->PSSetShaderResources(21, 1, &(_iblDiffuseIrradianceMap->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(22, 1, &(_iblSpecularIrradianceMap->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &(_iblSpecularLutTextureMap->GetSRV()));
+	}
+
+	void DeferredRenderer::InitFetchIBLBuffers()
+	{
+		auto tDiff = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(
+			Pg::Defines::ASSET_DEFAULT_IBL_DIFFUSE_IRRADIANCE_CUBEMAP_PATH, Pg::Data::Enums::eAssetDefine::_CUBEMAP);
+		_iblDiffuseIrradianceMap = static_cast<RenderCubemap*>(tDiff.get());
+
+		auto tSpec = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(
+			Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_IRRADIANCE_CUBEMAP_PATH, Pg::Data::Enums::eAssetDefine::_CUBEMAP);
+		_iblSpecularIrradianceMap = static_cast<RenderCubemap*>(tSpec.get());
+
+		auto tSpecLUT = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(
+			Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		_iblSpecularLutTextureMap = static_cast<RenderTexture2D*>(tSpecLUT.get());
+	}
+
 }
 
 

@@ -73,9 +73,6 @@ namespace Pg::Defines
 	extern const std::wstring FIRST_INSTANCED_STAGE_PS_DIRECTORY;
 	extern const std::wstring FINAL_STAGE_VS_DIRECTORY;
 	extern const std::wstring FINAL_STAGE_PS_DIRECTORY;
-	//extern const std::wstring INDIVIDUAL_PEROBJMAT_STATIC_VS_DIRECTORY;
-	//extern const std::wstring INDIVIDUAL_PEROBJMAT_SKINNED_VS_DIRECTORY;
-	//extern const std::wstring INDIVIDUAL_PEROBJMAT_PS_DIRECTORY;
 
 	extern const std::wstring CUBEMAP_VS_DIRECTORY;
 	extern const std::wstring CUBEMAP_PS_DIRECTORY;

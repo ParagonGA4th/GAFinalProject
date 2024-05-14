@@ -22,12 +22,12 @@ namespace Pg::Graphics
 	class SceneInformationList;
 	class LowDX11Storage;
 	class IRenderSinglePass;
+	class RenderCubemap;
+	class RenderTexture2D;
 
 	class FirstInstancedRenderPass;
 	class FirstStaticRenderPass;
 	class FirstSkinnedRenderPass;
-	class PreparationStaticRenderPass;
-	class PreparationSkinnedRenderPass;
 	class SceneInformationSender;
 	class OpaqueShadowRenderPass;
 }
@@ -60,15 +60,14 @@ namespace Pg::Graphics
 		void InitOpaqueQuadDirectX();
 		void InitFirstQuadDirectX();
 		void InitPBRDirectX();
-
+		void SendPBRBufferSRVs();
+		void InitFetchIBLBuffers();
 		
 	private:
 		void Render(RenderObject3DList* renderObjectList, SceneInformationList* sceneInfoList, Pg::Data::CameraData* camData);
 		void RenderFirstInstancedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderFirstStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderFirstSkinnedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
-		void RenderObjMatStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
-		void RenderObjMatSkinnedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void SendSceneInformation(SceneInformationList* infoList, Pg::Data::CameraData* camData);
 		void RenderOpaqueQuadPasses(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderOpaqueShadowPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
@@ -80,8 +79,6 @@ namespace Pg::Graphics
 		std::unique_ptr<FirstInstancedRenderPass> _firstInstancedRenderPass;
 		std::unique_ptr<FirstStaticRenderPass> _firstStaticRenderPass;
 		std::unique_ptr<FirstSkinnedRenderPass> _firstSkinnedRenderPass;
-		std::unique_ptr<PreparationStaticRenderPass> _objMatStaticRenderPass;
-		std::unique_ptr<PreparationSkinnedRenderPass> _objMatSkinnedRenderPass;
 		std::unique_ptr<SceneInformationSender> _sceneInformationSender;
 		std::vector<IRenderSinglePass*> _opaqueQuadPassesVector;
 		std::unique_ptr<OpaqueShadowRenderPass> _opaqueShadowPass;
@@ -106,5 +103,12 @@ namespace Pg::Graphics
 	
 	private:
 		const Pg::Data::Enums::eEditorMode* const _editorMode;
+
+
+	private:
+		//IBL Textures. (Textures 21-22)
+		RenderCubemap* _iblDiffuseIrradianceMap = nullptr;
+		RenderCubemap* _iblSpecularIrradianceMap = nullptr;
+		RenderTexture2D* _iblSpecularLutTextureMap = nullptr;
 	};
 }

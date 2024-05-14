@@ -8,19 +8,21 @@
 #define PG_MAX_NODECOUNT 256
 
 //Constant Buffers
-cbuffer cbPerObjectBase : register(b1)
+cbuffer cbPerObjectBase : register(b0)
 {
     //얘는 내적으로 Column Major로 쓰일 것.
     float4x4 gCBuf_World;
     float4x4 gCBuf_WorldInvTranspose;
+    uint gCBuf_ObjID;
+    uint gCBuf_MatID;
 };
 
-cbuffer cbPerObjectSkinnedNodes : register(b2)
+cbuffer cbPerObjectSkinnedNodes : register(b1)
 {
     float4x4 gCBuf_Nodes[PG_MAX_NODECOUNT];
 };
 
-cbuffer cbPerObjectSkinnedBones : register(b3)
+cbuffer cbPerObjectSkinnedBones : register(b2)
 {
     float4x4 gCBuf_Bones[PG_MAX_BONECOUNT];
 };
