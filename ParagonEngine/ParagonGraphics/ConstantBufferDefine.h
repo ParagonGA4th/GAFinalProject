@@ -20,6 +20,8 @@ namespace Pg::Graphics
 		{
 			DirectX::XMMATRIX gCBuf_World;
 			DirectX::XMMATRIX gCBuf_WorldInvTranspose;
+			uint32_t gCBuf_ObjID;
+			uint32_t gCBuf_MatID;
 		};
 
 		struct cbPerObjectSkinnedNodes

@@ -59,9 +59,6 @@ namespace Pg::Defines
 	const std::wstring FIRST_INSTANCED_STAGE_PS_DIRECTORY = L"../Builds/x64/Debug/FirstInstancedStage_PS.cso";
 	const std::wstring FINAL_STAGE_VS_DIRECTORY = L"../Builds/x64/Debug/FinalStage_VS.cso";
 	const std::wstring FINAL_STAGE_PS_DIRECTORY = L"../Builds/x64/Debug/FinalStage_PS.cso";
-	//const std::wstring INDIVIDUAL_PEROBJMAT_STATIC_VS_DIRECTORY = L"../Builds/x64/Debug/Individual_PerObjMatStaticVS.cso";
-	//const std::wstring INDIVIDUAL_PEROBJMAT_SKINNED_VS_DIRECTORY = L"../Builds/x64/Debug/Individual_PerObjMatSkinnedVS.cso";
-	//const std::wstring INDIVIDUAL_PEROBJMAT_PS_DIRECTORY = L"../Builds/x64/Debug/Individual_PerObjMatPS.cso";
 
 	const std::wstring CUBEMAP_VS_DIRECTORY = L"../Builds/x64/Debug/CubemapVS.cso";
 	const std::wstring CUBEMAP_PS_DIRECTORY = L"../Builds/x64/Debug/CubemapPS.cso";

@@ -206,7 +206,7 @@
       <Filter>0_Main\RenderPass&amp;SendReceiver</Filter>
     </ClInclude>
     <ClInclude Include="FirstStaticRenderPass.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\1_FirstStaticRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\2_FirstStaticRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="OpaqueQuadRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\6_OpaqueQuadRenderPass</Filter>
@@ -216,9 +216,6 @@
     </ClInclude>
     <ClInclude Include="FinalRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\20_ProcessFinalRenderPass</Filter>
-    </ClInclude>
-    <ClInclude Include="PreparationStaticRenderPass.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\3_PreparationStaticRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="D3DCarrier.h">
       <Filter>0_Main\GraphicsCarrier</Filter>
@@ -272,13 +269,10 @@
       <Filter>10_Structs\RenderingList\SceneInformationList</Filter>
     </ClInclude>
     <ClInclude Include="FirstSkinnedRenderPass.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\2_FirstSkinnedRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\3_FirstSkinnedRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="SceneInformationSender.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\5_SceneInformationSender</Filter>
-    </ClInclude>
-    <ClInclude Include="PreparationSkinnedRenderPass.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\4_PreparationSkinnedRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\0_SceneInformationSender</Filter>
     </ClInclude>
     <ClInclude Include="TextureExtension.h">
       <Filter>3_GraphicsResources\Resources\RenderTexture\Defines</Filter>
@@ -290,7 +284,7 @@
       <Filter>0_Main\RenderPass&amp;SendReceiver\19_TonemappingRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="IndividualLightsGPU.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\5_SceneInformationSender\IndividualLightsGPU</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\0_SceneInformationSender\IndividualLightsGPU</Filter>
     </ClInclude>
     <ClInclude Include="AlphaBlendedTotalRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\8_AlphaBlendingTotalRenderPass</Filter>
@@ -302,7 +296,7 @@
       <Filter>4_RenderObject\RenderObject3D\RenderObjectInstancedMesh3D</Filter>
     </ClInclude>
     <ClInclude Include="FirstInstancedRenderPass.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\0_FirstInstancedRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\1_FirstInstancedRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="RenderLightmapData.h" />
     <ClInclude Include="LightmapParser.h">
@@ -488,7 +482,7 @@
       <Filter>3_GraphicsResources\Resources\RenderTexture</Filter>
     </ClCompile>
     <ClCompile Include="FirstStaticRenderPass.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\1_FirstStaticRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\2_FirstStaticRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="OpaqueQuadRenderPass.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\6_OpaqueQuadRenderPass</Filter>
@@ -498,9 +492,6 @@
     </ClCompile>
     <ClCompile Include="FinalRenderPass.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\20_ProcessFinalRenderPass</Filter>
-    </ClCompile>
-    <ClCompile Include="PreparationStaticRenderPass.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\3_PreparationStaticRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="BaseSpecificRenderer.cpp">
       <Filter>0_Main\Renderers\BaseSpecificRenderer</Filter>
@@ -539,13 +530,10 @@
       <Filter>8_Helpers\AnimationParser</Filter>
     </ClCompile>
     <ClCompile Include="FirstSkinnedRenderPass.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\2_FirstSkinnedRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\3_FirstSkinnedRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="SceneInformationSender.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\5_SceneInformationSender</Filter>
-    </ClCompile>
-    <ClCompile Include="PreparationSkinnedRenderPass.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\4_PreparationSkinnedRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\0_SceneInformationSender</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsApiExporter.cpp">
       <Filter>12_GraphicsAPI</Filter>
@@ -566,7 +554,7 @@
       <Filter>4_RenderObject\RenderObject3D\RenderObjectInstancedMesh3D</Filter>
     </ClCompile>
     <ClCompile Include="FirstInstancedRenderPass.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\0_FirstInstancedRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\1_FirstInstancedRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="RenderLightmapData.cpp" />
     <ClCompile Include="LightmapParser.cpp">
@@ -826,9 +814,6 @@
     <Filter Include="6_HLSL\Appends\Libraries\Required">
       <UniqueIdentifier>{b3f843b3-e8ed-4158-b560-bea6631a5519}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6_HLSL\System\Pipeline\Individual">
-      <UniqueIdentifier>{172fa3d7-a211-4018-aea6-f68099cd80aa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0_Main\GraphicsCarrier">
       <UniqueIdentifier>{1a442d5c-d63c-4770-91c3-2230f437fc41}</UniqueIdentifier>
     </Filter>
@@ -931,27 +916,6 @@
     <Filter Include="13_LibraryExtensions\DirectXTexEXR">
       <UniqueIdentifier>{920c9e4f-3fa7-4a5b-bfd8-2dbf231afa81}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\0_FirstInstancedRenderPass">
-      <UniqueIdentifier>{2273686f-7bd9-46be-8ce8-36ffba18903c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\1_FirstStaticRenderPass">
-      <UniqueIdentifier>{3157d69f-ab00-40e8-9704-a984429cdac2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\2_FirstSkinnedRenderPass">
-      <UniqueIdentifier>{636663b6-22a8-4171-9908-02f7ecc98a42}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\3_PreparationStaticRenderPass">
-      <UniqueIdentifier>{5ec93642-73ac-4d93-96c2-8f2b5950bb3b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\4_PreparationSkinnedRenderPass">
-      <UniqueIdentifier>{27b0233c-209e-4517-8955-89e27e74f1b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\5_SceneInformationSender">
-      <UniqueIdentifier>{56242de7-cd58-4a5b-9ea6-9eaaf9dedce7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\5_SceneInformationSender\IndividualLightsGPU">
-      <UniqueIdentifier>{31f1270b-2690-4160-85a0-3591fd4d0069}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\6_OpaqueQuadRenderPass">
       <UniqueIdentifier>{449cc130-19ee-4d9d-883c-be93c1eeaf50}</UniqueIdentifier>
     </Filter>
@@ -984,6 +948,21 @@
     </Filter>
     <Filter Include="14_LightmapRelated\Lightmap\SingleLightmapSet">
       <UniqueIdentifier>{8ea9763c-59b5-4e5c-a627-ce843400f827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\0_SceneInformationSender">
+      <UniqueIdentifier>{56242de7-cd58-4a5b-9ea6-9eaaf9dedce7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\0_SceneInformationSender\IndividualLightsGPU">
+      <UniqueIdentifier>{31f1270b-2690-4160-85a0-3591fd4d0069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\1_FirstInstancedRenderPass">
+      <UniqueIdentifier>{2273686f-7bd9-46be-8ce8-36ffba18903c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\2_FirstStaticRenderPass">
+      <UniqueIdentifier>{3157d69f-ab00-40e8-9704-a984429cdac2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\3_FirstSkinnedRenderPass">
+      <UniqueIdentifier>{636663b6-22a8-4171-9908-02f7ecc98a42}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1034,15 +1013,6 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FinalStage\FinalStage_VS.hlsl">
       <Filter>6_HLSL\System\Pipeline\FinalStage</Filter>
-    </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Individual\Individual_PerObjMatPS.hlsl">
-      <Filter>6_HLSL\System\Pipeline\Individual</Filter>
-    </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Individual\Individual_PerObjMatSkinnedVS.hlsl">
-      <Filter>6_HLSL\System\Pipeline\Individual</Filter>
-    </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Individual\Individual_PerObjMatStaticVS.hlsl">
-      <Filter>6_HLSL\System\Pipeline\Individual</Filter>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Default\AppendObjectDefaultPS.hlsl">
       <Filter>6_HLSL\Appends\Added\Object\Default</Filter>
@@ -1120,12 +1090,6 @@
     </None>
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_ObjMat.hlsli">
       <Filter>6_HLSL\Appends\Libraries\Required</Filter>
-    </None>
-    <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjMatLayouts.hlsli">
-      <Filter>6_HLSL\System\Libraries</Filter>
-    </None>
-    <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjMatBuffers.hlsli">
-      <Filter>6_HLSL\System\Libraries</Filter>
     </None>
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_PBRBufferTextures.hlsli">
       <Filter>6_HLSL\Appends\Libraries\TextureBuffers</Filter>

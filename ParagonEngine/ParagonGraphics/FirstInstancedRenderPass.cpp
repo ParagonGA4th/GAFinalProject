@@ -98,8 +98,15 @@ namespace Pg::Graphics
 	{
 		RenderObject3DList* tRenderObjectList = reinterpret_cast<RenderObject3DList*>(renderObjectList);
 		
+
 		for (auto& [bModel, bBufferPairList] : tRenderObjectList->_instancedStaticList)
 		{
+			//만약 렌더할게 비어있다면, continue.
+			if (bBufferPairList->_instancedStaticPairVec.empty())
+			{
+				continue;
+			}
+
 			//우선적으로, ConstantBuffer부터 셋한다.
 			assert(bBufferPairList->_instancedLightMapSetVec.size() <= Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING);
 
@@ -112,6 +119,21 @@ namespace Pg::Graphics
 
 			//이제 PS CB Bind과정.
 			_lightmapCBuffer->BindPS(5);
+
+			//Vertex / Index Buffer Setting.
+			//1st :  Vin1stStatic_Individual
+			//2nd :	 Vin2ndAll_Individual
+			//3rd :  Vin3rdStaticSkinned_Individual
+
+			UINT strides[3] = { sizeof(LayoutDefine::Vin1stStatic_Individual), sizeof(LayoutDefine::Vin2ndAll_Individual), sizeof(LayoutDefine::Vin3rdInstanced_Individual) };
+			UINT offsets[3] = { 0,0,0 };
+			ID3D11Buffer* vbArray[3] = { bModel->_vertexBuffer , bModel->_secondVertexBuffer, bBufferPairList->_vb }; // 이렇게 세 개의 오브젝트 버퍼를 모두 정렬 및 처리 완료.
+
+			//
+			_DXStorage->_deviceContext->IASetVertexBuffers(0, 3, vbArray, strides, offsets);
+
+			//Index Buffer Setting.
+			_DXStorage->_deviceContext->IASetIndexBuffer(bModel->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
 			//그리기.
 			//DrawIndexedInstanced를 사용.
@@ -135,8 +157,17 @@ namespace Pg::Graphics
 	{
 		RenderObject3DList* tRenderObjectList = reinterpret_cast<RenderObject3DList*>(renderObjectList);
 
+		//렌더하기 전에, Rasterizer State Cull 반대로 돌리면 된다. 얘는 반대로 컬링홰야 하는 친구이니.
+		_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidFrontfaceCullingState);
+
 		for (auto& [bModel, bBufferPairList] : tRenderObjectList->_instancedCulledOppositeStaticList)
 		{
+			//만약 렌더할게 비어있다면, continue.
+			if (bBufferPairList->_instancedStaticPairVec.empty())
+			{
+				continue;
+			}
+
 			//우선적으로, ConstantBuffer부터 셋한다.
 			assert(bBufferPairList->_instancedLightMapSetVec.size() <= Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING);
 
@@ -149,6 +180,21 @@ namespace Pg::Graphics
 
 			//이제 PS CB Bind과정.
 			_lightmapCBuffer->BindPS(5);
+
+			//Vertex / Index Buffer Setting.
+			//1st :  Vin1stStatic_Individual
+			//2nd :	 Vin2ndAll_Individual
+			//3rd :  Vin3rdStaticSkinned_Individual
+
+			UINT strides[3] = { sizeof(LayoutDefine::Vin1stStatic_Individual), sizeof(LayoutDefine::Vin2ndAll_Individual), sizeof(LayoutDefine::Vin3rdInstanced_Individual) };
+			UINT offsets[3] = { 0,0,0 };
+			ID3D11Buffer* vbArray[3] = { bModel->_vertexBuffer , bModel->_secondVertexBuffer, bBufferPairList->_vb }; // 이렇게 세 개의 오브젝트 버퍼를 모두 정렬 및 처리 완료.
+
+			//
+			_DXStorage->_deviceContext->IASetVertexBuffers(0, 3, vbArray, strides, offsets);
+
+			//Index Buffer Setting.
+			_DXStorage->_deviceContext->IASetIndexBuffer(bModel->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
 			//그리기.
 			//DrawIndexedInstanced를 사용.

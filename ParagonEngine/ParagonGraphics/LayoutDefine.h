@@ -59,13 +59,13 @@ namespace Pg::Graphics
 		//3rd는 사용법이 다르다. 비 인스턴스 vs 인스턴스.
 		//우선, 전자는 VertexCount에 종속적 (단일 모델)
 		// 후자는 Instanced Object Count에 종속적. (씬 내부 인스턴스 렌더러 있는 오브젝트 개수)
-		struct Vin3rdStaticSkinned_Individual
-		{
-			Vin3rdStaticSkinned_Individual() = default;
-
-			unsigned int  _objectID;
-			unsigned int  _matID;
-		};
+		//struct Vin3rdStaticSkinned_Individual
+		//{
+		//	Vin3rdStaticSkinned_Individual() = default;
+		//
+		//	unsigned int  _objectID;
+		//	unsigned int  _matID;
+		//};
 
 		struct Vin3rdInstanced_Individual
 		{
@@ -111,10 +111,6 @@ namespace Pg::Graphics
 			DirectX::XMFLOAT3	_normalL;
 			DirectX::XMFLOAT3	_tangentL;
 			DirectX::XMFLOAT3	_color;
-
-			//Vin3rdStaticSkinned_Individual
-			unsigned int  _objectID;
-			unsigned int  _matID;
 		};
 
 		struct Vin1stPassSkinned_Layout
@@ -139,10 +135,6 @@ namespace Pg::Graphics
 			DirectX::XMFLOAT3	_normalL;
 			DirectX::XMFLOAT3	_tangentL;
 			DirectX::XMFLOAT3	_color;
-
-			//Vin3rdStaticSkinned_Individual
-			unsigned int  _objectID;
-			unsigned int  _matID;
 		};
 
 		//struct VinPerThirdPassStatic_Layout

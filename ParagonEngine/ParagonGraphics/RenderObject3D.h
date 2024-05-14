@@ -54,7 +54,7 @@ namespace Pg::Graphics
 		void SetMaterialIdPointer(unsigned int* matID);
 
 		//Object-Material 데이터가 전부 매칭/로드 된 후, 일괄적으로 발동될 함수이다.	
-		virtual void CreateObjMatBuffers() abstract;
+		virtual void CreateObjMatBuffers() {};
 
 		unsigned int GetObjectID() const;
 		unsigned int GetMaterialID() const;
@@ -65,21 +65,12 @@ namespace Pg::Graphics
 		virtual void First_Render(const float* const dt) abstract;
 		virtual void First_UnbindBuffers() abstract;
 
-		virtual void ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData) abstract;
-		virtual void ObjMat_BindBuffers() abstract;
-		virtual void ObjMat_Render(const float* const dt) abstract;
-		virtual void ObjMat_UnbindBuffers() abstract;
-
 	protected:
 		LowDX11Storage* _DXStorage;
 		Asset3DModelData* _modelData = nullptr;
 		
-		//Model에 종속된 VB/IB와 다르게, Object, Material ID를 기록하기 위해 오브젝트 종속 VB들.
-		//Static : ObjID, MatID.
-		//Skinned : ObjID, MatID.
-		//Instanced Object들은 얘를 쓰지 않는다.
-		ID3D11Buffer* _3rdVB = nullptr;
-		//Index Buffer는 자신이 소속된 IndexBuffer와 동일.
+		//Static, Skinned는 Constant Buffer 쪽에서 가져왔고, 
+		//Instanced는 사용 X.
 
 	protected:
 		//3D 오브젝트 한정.
