@@ -259,6 +259,14 @@ namespace Pg::Data
 			return component;
 		}
 
+		// юс╫ц
+		if (componentType.compare("class Pg::Data::Animator") == 0)
+		{
+			component = new Animator(this);
+			AddComponent("class Pg::Data::Animator", component);
+			return component;
+		}
+
 		/// Renderer
 		{
 			if (componentType.compare("class Pg::Data::TextRenderer") == 0)
