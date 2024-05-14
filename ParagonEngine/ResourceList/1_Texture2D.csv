@@ -10,3 +10,8 @@ Texture2D
 ../Resources/Textures/Sprites/UI/Test_SliderBarUI.png
 ../Resources/Textures/DarkTexture2048x2048.dds
 ../Resources/Textures/Sprites/MainScene.png
+../Resources/Textures/Sprites/UI/button1.png
+../Resources/Textures/Sprites/UI/button2.png
+../Resources/Textures/Sprites/UI/button3.png
+../Resources/Textures/Sprites/UI/ExitButton.png
+../Resources/Textures/Sprites/UI/Title.png

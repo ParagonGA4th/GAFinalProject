@@ -1,7 +1,9 @@
 #include "Navigation.h"
+#include "SceneSystem.h"
 #include "ParagonRecast.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/NavMeshAgent.h"
+
 
 #include <singleton-cpp/singleton.h>
 #include <functional>
@@ -559,6 +561,10 @@ namespace Pg::Engine
 
 	void Navigation::SyncAgent()
 	{
+		//싱글턴
+		auto& tSceneSystem = singleton<SceneSystem>();
+		_sceneSystem = &tSceneSystem;
+
 		//Agent의 속성 부여
 		dtCrowdAgentParams ap;
 		memset(&ap, 0, sizeof(ap));
@@ -691,6 +697,9 @@ namespace Pg::Engine
 		_package[index]._agentsetting._agentMaxSlope = agentMaxSlope;
 		_package[index]._agentsetting._agentRadius = agentRadius;
 		_package[index]._agentsetting._agentMaxClimb = agentMaxClimb;
+
+		//Agent들을 벡터로 관리하기 위함.
+		_agentVec.push_back(&_package[index]._agentsetting);
 	}
 
 	void Navigation::GetNavmeshRenderInfo(int index, std::vector<Pg::Math::PGFLOAT3>& vertices, std::vector<unsigned int>& indices)
