@@ -112,7 +112,9 @@ namespace Pg::Engine
 		_navTestInfo->path = "TestForDifference";
 		_navSystem->GetNavmeshRenderInfo(0, *(_navTestInfo->vertices), *(_navTestInfo->indices));
 		_debugSystem->DrawNavMeshDebug(_navTestInfo); //한번만 추가해줬다. 클리어하지 않음.
-		//_navSystem->SetSEpos(1, -23.0f, 0.0f, -10.0f, -90.0f, 0.0f, 96.0f);
+
+		_navCyilnderInfo = new Pg::Data::NavCylinderInfo;
+
 	}
 
 	void EngineMain::Update()
