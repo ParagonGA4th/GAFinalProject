@@ -3,11 +3,7 @@
 #define __DEFINED_SYSTEM_PBR_BUFFER_TEXTURE_HLSL__
 
 #include "../SamplerStates/Appends_SamplerStates.hlsli"
-
-//모두 RGB / A. Quad-Based.
-Texture2D<float4> internal_t2_ObjMatAoR : register(t12);
-Texture2D<float4> internal_t2_AlbedoMetallic : register(t13);
-Texture2D<float4> internal_t2_NormalAlpha : register(t14);
+#include "../Required/Appends_BufferSRVRegisters.hlsli"
 
 //IBL Texture를 쓸 수 있게 마련해둔다.
 TextureCube<float4> internal_IBL_DiffuseIrrCubemap : register(t21);

@@ -400,6 +400,7 @@
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Appends_PSCommon.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Appends_VSCommon.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_MathFunctions.hlsli" />
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_BufferSRVRegisters.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_ObjMat.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\SamplerStates\Appends_SamplerStates.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\SceneInfo\Appends_SceneInfoPS.hlsli" />
@@ -528,7 +529,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\msdfgen\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxmesh\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDIr)lib\FastNoise2;$(SolutionDir)lib\dxtex\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\lex\$(Configuration);$(SolutionDir)lib\IlmThread\$(Configuration);$(SolutionDir)lib\OpenEXR\$(Configuration);$(SolutionDir)lib\OpenEXRCore\$(Configuration);$(SolutionDir)lib\OpenEXRUtil\$(Configuration);$(SolutionDir)lib\Imath\$(Configuration);$(SolutionDir)lib\Iibzmq\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;assimp-vc143-mtd.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;FastNoiseD.lib;%(AdditionalDependencies);ParagonHelper.lib;DirectXTex.lib;IlmThread-3_2_d.lib;Iex-3_2_d.lib;OpenEXRCore-3_2_d.lib;Imath-3_1_d.lib;OpenEXR-3_2_d.lib;libzmq-v143-mt-gd-4_3_5.lib;libzmq-v143-mt-sgd-4_3_5.lib</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;assimp-vc143-mtd.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;FastNoiseD.lib;%(AdditionalDependencies);ParagonHelper.lib;DirectXTex.lib;IlmThread-3_2_d.lib;Iex-3_2_d.lib;OpenEXRCore-3_2_d.lib;Imath-3_1_d.lib;OpenEXR-3_2_d.lib</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
@@ -564,7 +565,7 @@ copy $(SolutionDir)lib\OpenEXRCore\$(Configuration)\OpenEXRCore-3_2_d.dll $(OutD
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\msdfgen\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxmesh\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDIr)lib\FastNoise2;$(SolutionDir)lib\dxtex\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\lex\$(Configuration);$(SolutionDir)lib\IlmThread\$(Configuration);$(SolutionDir)lib\OpenEXR\$(Configuration);$(SolutionDir)lib\OpenEXRCore\$(Configuration);$(SolutionDir)lib\OpenEXRUtil\$(Configuration);$(SolutionDir)lib\Imath\$(Configuration);$(SolutionDir)lib\Iibzmq\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;assimp-vc143-mt.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;FastNoise.lib;%(AdditionalDependencies);ParagonHelper.lib;DirectXTex.lib;OpenEXR-3_2.lib;IlmThread-3_2.lib;Iex-3_2.lib;OpenEXRCore-3_2.lib;Imath-3_1.lib;libzmq-v143-mt-4_3_5.lib;libzmq-v143-mt-s-4_3_5.lib</AdditionalDependencies>
+      <AdditionalDependencies>singleton.lib;assimp-vc143-mt.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;FastNoise.lib;%(AdditionalDependencies);ParagonHelper.lib;DirectXTex.lib;OpenEXR-3_2.lib;IlmThread-3_2.lib;Iex-3_2.lib;OpenEXRCore-3_2.lib;Imath-3_1.lib</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>

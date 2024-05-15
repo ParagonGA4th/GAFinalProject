@@ -20,7 +20,7 @@ namespace Pg::Graphics
 	{
 
 	}
-	
+
 	std::unique_ptr<RenderLightmapData> LightmapParser::LoadPgLightmap(const std::string& lightmapPath, const std::string& sceneName)
 	{
 		using Pg::Graphics::Manager::GraphicsResourceManager;
@@ -60,7 +60,7 @@ namespace Pg::Graphics
 			//TextureArray 내부 인덱스 == Lightmap ID
 			t2DLoader->MultipleRenderTexture2DToTexture2DArray(_textureLinearList.data(), _textureLinearList.size(), tRet->_lightmapTextureArray.get());
 		}
-		
+
 		//실제로 Map 관련 상세 정보 연동. 
 		pugi::xml_node tRenderObjectList = tRoot.child("RenderObjectList");
 		for (pugi::xml_node tRoNode = tRenderObjectList.first_child();
@@ -92,6 +92,7 @@ namespace Pg::Graphics
 				assert(false && "이미 있던 요소가 중복으로 사라졌다!");
 			}
 		}
-	}
 
+		return tRet;
+	}
 }

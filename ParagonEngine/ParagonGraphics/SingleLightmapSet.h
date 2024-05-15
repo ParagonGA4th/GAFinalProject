@@ -10,7 +10,7 @@ namespace Pg::Graphics
 	struct SingleLightMapSet
 	{
 		SingleLightMapSet() = default;
-		SingleLightMapSet(DirectX::XMFLOAT2 scale, DirectX::XMFLOAT2 offset, UINT lightmapID)
+		SingleLightMapSet(DirectX::XMFLOAT2 scale, DirectX::XMFLOAT2 offset, unsigned int lightmapID)
 			: _scale(scale), _offset(offset), _lightmapID(lightmapID) {}
 
 		DirectX::XMFLOAT2 _scale{ 1.f,1.f };

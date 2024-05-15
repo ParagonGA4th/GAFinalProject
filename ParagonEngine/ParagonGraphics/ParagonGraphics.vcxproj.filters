@@ -298,7 +298,6 @@
     <ClInclude Include="FirstInstancedRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\1_FirstInstancedRenderPass</Filter>
     </ClInclude>
-    <ClInclude Include="RenderLightmapData.h" />
     <ClInclude Include="LightmapParser.h">
       <Filter>14_LightmapRelated\Parser</Filter>
     </ClInclude>
@@ -310,6 +309,9 @@
     </ClInclude>
     <ClInclude Include="SingleLightmapSet.h">
       <Filter>14_LightmapRelated\Lightmap\SingleLightmapSet</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderLightmapData.h">
+      <Filter>14_LightmapRelated\Lightmap\RenderLightmapData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -556,12 +558,14 @@
     <ClCompile Include="FirstInstancedRenderPass.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\1_FirstInstancedRenderPass</Filter>
     </ClCompile>
-    <ClCompile Include="RenderLightmapData.cpp" />
     <ClCompile Include="LightmapParser.cpp">
       <Filter>14_LightmapRelated\Parser</Filter>
     </ClCompile>
     <ClCompile Include="LightmapManager.cpp">
       <Filter>14_LightmapRelated\Lightmap</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderLightmapData.cpp">
+      <Filter>14_LightmapRelated\Lightmap\RenderLightmapData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -964,6 +968,9 @@
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\3_FirstSkinnedRenderPass">
       <UniqueIdentifier>{636663b6-22a8-4171-9908-02f7ecc98a42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="14_LightmapRelated\Lightmap\RenderLightmapData">
+      <UniqueIdentifier>{babffa6a-dc4c-43ab-b3eb-40de8eaf7a14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
@@ -1099,6 +1106,9 @@
     </None>
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_MathFunctions.hlsli">
       <Filter>6_HLSL\Appends\Libraries\MathFunctions</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_BufferSRVRegisters.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\Required</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

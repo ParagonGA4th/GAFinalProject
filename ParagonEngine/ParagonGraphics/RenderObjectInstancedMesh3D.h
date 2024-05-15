@@ -22,11 +22,6 @@ namespace Pg::Graphics
 		virtual void First_Render(const float* const dt) override;
 		virtual void First_UnbindBuffers() override;
 
-		virtual void ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData) override;
-		virtual void ObjMat_BindBuffers() override;
-		virtual void ObjMat_Render(const float* const dt) override;
-		virtual void ObjMat_UnbindBuffers() override;
-
 	private:
 		//이 RenderObject는 상수버퍼 자체를 만들지 않는다.
 		
