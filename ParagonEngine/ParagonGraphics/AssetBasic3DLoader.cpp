@@ -69,7 +69,7 @@ namespace Pg::Graphics::Loader
 			}
 
 			AssimpBufferParser::AssimpToSceneAssetData(pScene, path, modelData->_assetSceneData);
-			AssimpBufferParser::AssimpToSkinnedDataDXBuffer(pScene, modelData->_assetSceneData, modelData->_assetSkinnedData, modelData->_vertexBuffer, modelData->_indexBuffer);
+			AssimpBufferParser::AssimpToSkinnedDataDXBuffer(pScene, modelData->_assetSceneData, modelData->_assetSkinnedData, modelData->_vertexBuffer, modelData->_secondVertexBuffer, modelData->_indexBuffer);
 			//여기서 Alpha Blending 사용하는지 값을 참조자를 통해 반환받는다.
 			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_isUseAlphaBlending, modelData->_materialClusterList, path);
 			AssimpBufferParser::AssimpToPBRTextureArray(modelData->GetFileName(), modelData->_materialClusterList, modelData->_pbrTextureArrays);
@@ -92,7 +92,7 @@ namespace Pg::Graphics::Loader
 			}
 
 			AssimpBufferParser::AssimpToSceneAssetData(pScene, path, modelData->_assetSceneData);
-			AssimpBufferParser::AssimpToStaticDataDXBuffer(pScene, modelData->_assetSceneData, modelData->_vertexBuffer, modelData->_indexBuffer);
+			AssimpBufferParser::AssimpToStaticDataDXBuffer(pScene, modelData->_assetSceneData, modelData->_vertexBuffer, modelData->_secondVertexBuffer, modelData->_indexBuffer);
 			//여기서 Alpha Blending 사용하는지 값을 참조자를 통해 반환받는다.
 			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_isUseAlphaBlending, modelData->_materialClusterList, path);
 			AssimpBufferParser::AssimpToPBRTextureArray(modelData->GetFileName(), modelData->_materialClusterList, modelData->_pbrTextureArrays);
@@ -132,71 +132,71 @@ namespace Pg::Graphics::Loader
 		return tIsSkinned;
 	}
 
-	void AssetBasic3DLoader::LoadObjMatBufferStatic(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID)
-	{
-		std::vector<LayoutDefine::Vin3rdStaticSkinned_Individual> tVBVector;
-		tVBVector.reserve(modelData->_assetSceneData->_totalVertexCount);
-		for (int i = 0; i < modelData->_assetSceneData->_totalVertexCount; i++)
-		{
-			LayoutDefine::Vin3rdStaticSkinned_Individual tVal;
-			//tVal._posL = modelData->_assetSceneData->_posRecordVector[i];
-			//이런건 PER_INSTANCE_DATA로 갖자. 어차피 모두 같은 정보를 가지고 있잖아!
-			tVal._objectID = objectID;
-			tVal._matID = materialID;
-			//tVal._tex = modelData->_assetSceneData->_texRecordVector[i];
-			//tVal._meshMatID = modelData->_assetSceneData->_meshMatIDRecordVector[i];
-
-			tVBVector.push_back(tVal);
-		}
-
-		D3D11_BUFFER_DESC tVBD;
-		tVBD.Usage = D3D11_USAGE_IMMUTABLE;
-		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin3rdStaticSkinned_Individual) * modelData->_assetSceneData->_totalVertexCount);
-		tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		tVBD.CPUAccessFlags = 0;
-		tVBD.MiscFlags = 0;
-		D3D11_SUBRESOURCE_DATA vinitData;
-		vinitData.pSysMem = tVBVector.data();
-
-		HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tVBD, &vinitData, &vb));
-	}
-
-	void AssetBasic3DLoader::LoadObjMatBufferSkinned(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID)
-	{
-		std::vector<LayoutDefine::Vin3rdStaticSkinned_Individual> tVBVector;
-		tVBVector.reserve(modelData->_assetSceneData->_totalVertexCount);
-
-		for (int i = 0; i < modelData->_assetSceneData->_totalVertexCount; i++)
-		{
-			LayoutDefine::Vin3rdStaticSkinned_Individual tVal;
-			//tVal._posL = modelData->_assetSceneData->_posRecordVector[i];
-			//tVal._tex = modelData->_assetSceneData->_texRecordVector[i];
-			//tVal._meshMatID = modelData->_assetSceneData->_meshMatIDRecordVector[i];
-			tVal._objectID = objectID;
-			tVal._matID = materialID;
-
-			//tVal._blendIndice0 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice0;
-			//tVal._blendIndice1 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice1;
-			//tVal._blendIndice2 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice2;
-			//tVal._blendIndice3 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice3;
-			//tVal._blendWeight0 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendWeight0;
-			//tVal._blendWeight1 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendWeight1;
-			//tVal._blendWeight2 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendWeight2;
-
-			tVBVector.push_back(tVal);
-		}
-
-		D3D11_BUFFER_DESC tVBD;
-		tVBD.Usage = D3D11_USAGE_IMMUTABLE;
-		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin3rdStaticSkinned_Individual) * modelData->_assetSceneData->_totalVertexCount);
-		tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		tVBD.CPUAccessFlags = 0;
-		tVBD.MiscFlags = 0;
-		D3D11_SUBRESOURCE_DATA vinitData;
-		vinitData.pSysMem = tVBVector.data();
-
-		HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tVBD, &vinitData, &vb));
-	}
+	//void AssetBasic3DLoader::LoadObjMatBufferStatic(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID)
+	//{
+	//	std::vector<LayoutDefine::Vin3rdStaticSkinned_Individual> tVBVector;
+	//	tVBVector.reserve(modelData->_assetSceneData->_totalVertexCount);
+	//	for (int i = 0; i < modelData->_assetSceneData->_totalVertexCount; i++)
+	//	{
+	//		LayoutDefine::Vin3rdStaticSkinned_Individual tVal;
+	//		//tVal._posL = modelData->_assetSceneData->_posRecordVector[i];
+	//		//이런건 PER_INSTANCE_DATA로 갖자. 어차피 모두 같은 정보를 가지고 있잖아!
+	//		tVal._objectID = objectID;
+	//		tVal._matID = materialID;
+	//		//tVal._tex = modelData->_assetSceneData->_texRecordVector[i];
+	//		//tVal._meshMatID = modelData->_assetSceneData->_meshMatIDRecordVector[i];
+	//
+	//		tVBVector.push_back(tVal);
+	//	}
+	//
+	//	D3D11_BUFFER_DESC tVBD;
+	//	tVBD.Usage = D3D11_USAGE_IMMUTABLE;
+	//	tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin3rdStaticSkinned_Individual) * modelData->_assetSceneData->_totalVertexCount);
+	//	tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	//	tVBD.CPUAccessFlags = 0;
+	//	tVBD.MiscFlags = 0;
+	//	D3D11_SUBRESOURCE_DATA vinitData;
+	//	vinitData.pSysMem = tVBVector.data();
+	//
+	//	HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tVBD, &vinitData, &vb));
+	//}
+	//
+	//void AssetBasic3DLoader::LoadObjMatBufferSkinned(ID3D11Buffer*& vb, Asset3DModelData* modelData, unsigned int objectID, unsigned int materialID)
+	//{
+	//	std::vector<LayoutDefine::Vin3rdStaticSkinned_Individual> tVBVector;
+	//	tVBVector.reserve(modelData->_assetSceneData->_totalVertexCount);
+	//
+	//	for (int i = 0; i < modelData->_assetSceneData->_totalVertexCount; i++)
+	//	{
+	//		LayoutDefine::Vin3rdStaticSkinned_Individual tVal;
+	//		//tVal._posL = modelData->_assetSceneData->_posRecordVector[i];
+	//		//tVal._tex = modelData->_assetSceneData->_texRecordVector[i];
+	//		//tVal._meshMatID = modelData->_assetSceneData->_meshMatIDRecordVector[i];
+	//		tVal._objectID = objectID;
+	//		tVal._matID = materialID;
+	//
+	//		//tVal._blendIndice0 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice0;
+	//		//tVal._blendIndice1 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice1;
+	//		//tVal._blendIndice2 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice2;
+	//		//tVal._blendIndice3 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendIndice3;
+	//		//tVal._blendWeight0 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendWeight0;
+	//		//tVal._blendWeight1 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendWeight1;
+	//		//tVal._blendWeight2 = modelData->_assetSkinnedData->_blendDataRecordVector[i]._blendWeight2;
+	//
+	//		tVBVector.push_back(tVal);
+	//	}
+	//
+	//	D3D11_BUFFER_DESC tVBD;
+	//	tVBD.Usage = D3D11_USAGE_IMMUTABLE;
+	//	tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin3rdStaticSkinned_Individual) * modelData->_assetSceneData->_totalVertexCount);
+	//	tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	//	tVBD.CPUAccessFlags = 0;
+	//	tVBD.MiscFlags = 0;
+	//	D3D11_SUBRESOURCE_DATA vinitData;
+	//	vinitData.pSysMem = tVBVector.data();
+	//
+	//	HR(LowDX11Storage::GetInstance()->_device->CreateBuffer(&tVBD, &vinitData, &vb));
+	//}
 
 	void AssetBasic3DLoader::LoadObjMatTRSBufferInstanced(ID3D11Buffer*& vb, const std::vector<RenderObjectInstancedMesh3D*>& instancedMeshList)
 	{

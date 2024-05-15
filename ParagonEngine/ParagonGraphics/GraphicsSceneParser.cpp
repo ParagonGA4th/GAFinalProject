@@ -512,8 +512,8 @@ namespace Pg::Graphics
 					auto tRes = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tBaseR3D->GetMeshFilePath(), Pg::Data::Enums::eAssetDefine::_3DMODEL);
 					Asset3DModelData* modelData = static_cast<Asset3DModelData*>(tRes.get());
 					//없으면 넣고, 있으면 무시하고.
-					_renderObject3DList->_instancedStaticList.try_emplace(modelData, std::make_unique<std::vector<std::pair<RenderMaterial*, std::unique_ptr<RenderObjectInstancedMesh3D>>>>());
-					_renderObject3DList->_instancedCulledOppositeStaticList.try_emplace(modelData, std::make_unique<std::vector<std::pair<RenderMaterial*, std::unique_ptr<RenderObjectInstancedMesh3D>>>>());
+					_renderObject3DList->_instancedStaticList.try_emplace(modelData, std::make_unique<BufferInstancedPairList>());
+					_renderObject3DList->_instancedCulledOppositeStaticList.try_emplace(modelData, std::make_unique<BufferInstancedPairList>());
 
 					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
 					{
@@ -525,7 +525,7 @@ namespace Pg::Graphics
 							auto& tVectorPtr = _renderObject3DList->_instancedCulledOppositeStaticList.at(modelData)->_instancedStaticPairVec;
 
 							//값 넣기. 주의! ID3D1Buffer가 같이 들어갔다. (Instancing을 위해)
-							tVectorPtr.push_back(InstancedStaticPair(tMaterialInput, std::make_unique<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
+							tVectorPtr.push_back(InstancedStaticPair(tMaterialInput, std::make_shared<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
 							tVectorPtr.back()._instancedRenderObject->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
 						}
 						else
@@ -533,7 +533,7 @@ namespace Pg::Graphics
 							auto& tVectorPtr = _renderObject3DList->_instancedStaticList.at(modelData)->_instancedStaticPairVec;
 
 							//값 넣기. 주의! ID3D1Buffer가 같이 들어갔다. (Instancing을 위해)
-							tVectorPtr.push_back(InstancedStaticPair(tMaterialInput, std::make_unique<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
+							tVectorPtr.push_back(InstancedStaticPair(tMaterialInput, std::make_shared<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
 							tVectorPtr.back()._instancedRenderObject->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
 						}
 					}

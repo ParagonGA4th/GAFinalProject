@@ -57,25 +57,4 @@ namespace Pg::Graphics
 	{
 
 	}
-
-	void RenderObjectInstancedMesh3D::ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData)
-	{
-
-	}
-
-	void RenderObjectInstancedMesh3D::ObjMat_BindBuffers()
-	{
-
-	}
-
-	void RenderObjectInstancedMesh3D::ObjMat_Render(const float* const dt)
-	{
-
-	}
-
-	void RenderObjectInstancedMesh3D::ObjMat_UnbindBuffers()
-	{
-
-	}
-
 }

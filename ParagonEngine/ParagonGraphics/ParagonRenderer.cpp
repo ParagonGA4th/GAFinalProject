@@ -70,9 +70,7 @@ namespace Pg::Graphics
 		_finalRenderer = std::make_unique<PPFinalRenderer>(_gCarrier.get());
 		_finalRenderer->Initialize();
 		//SkinningMk.F
-		//_tempMultiMesh = new MultimaterialMesh("tFilePath");
-
-
+		//_tempMultiMesh = new MultimaterialMesh("tFilePath);
 	}
 
 	void ParagonRenderer::BeginRender()
@@ -208,7 +206,7 @@ namespace Pg::Graphics
 
 		//매번 다른 매터리얼을 로드해야 하는 Deferred는 약간 다를 수 있다.
 		_deferredRenderer->SetupOpaqueQuadRenderPasses();
-		_deferredRenderer->InitializeOpaqueQuadRenderPasses();
+		_deferredRenderer->InitializeResettablePasses();
 	}
 
 	ID3D11ShaderResourceView* ParagonRenderer::GetFinalQuadSRV()

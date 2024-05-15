@@ -67,11 +67,17 @@ namespace Pg::Graphics
 
 	struct InstancedStaticPair
 	{
-		InstancedStaticPair(RenderMaterial* mat, std::unique_ptr<RenderObjectInstancedMesh3D> ro)
-			: _renderMaterial(mat), _instancedRenderObject(std::move(ro)) {}
+		InstancedStaticPair(RenderMaterial* mat, std::shared_ptr<RenderObjectInstancedMesh3D> ro)
+			: _renderMaterial(mat), _instancedRenderObject(ro) {}
+		InstancedStaticPair(const InstancedStaticPair& rhs)
+		{
+			_renderMaterial = rhs._renderMaterial;
+			_instancedRenderObject = rhs._instancedRenderObject;
+			_instanceVB = rhs._instanceVB;
+		}
 
 		RenderMaterial* _renderMaterial{ nullptr };
-		std::unique_ptr<RenderObjectInstancedMesh3D> _instancedRenderObject;
+		std::shared_ptr<RenderObjectInstancedMesh3D> _instancedRenderObject;
 		ID3D11Buffer* _instanceVB{ nullptr };
 	};
 

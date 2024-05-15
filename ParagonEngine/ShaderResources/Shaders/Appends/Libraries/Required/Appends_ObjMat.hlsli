@@ -2,6 +2,7 @@
 #define __DEFINED_APPENDS_OBJMAT_HLSL__
 
 #include "../SamplerStates/Appends_SamplerStates.hlsli"
+#include "../Required/Appends_BufferSRVRegisters.hlsli"
 
 //모든 Custom Pixel Shader들이 다른 코드를 적기 전에 사용해야 하는 함수이다.
 //Vertex Shader로 하는 것이 더 효율적이지만, 파이프라인을 바꾸지 않고 실행을 위해.
@@ -12,7 +13,6 @@
 
 //이제 objMat이 t12로 합쳐져서 PBR Buffer와 같은 곳으로 전달되면서,
 //어쩔 수 없이 float4 중에 xy만을 써야 한다.
-Texture2D<float4> _objMatSRVwAoR : register(t12);
 
 cbuffer cbInputMaterial : register(b3)
 {
@@ -21,12 +21,12 @@ cbuffer cbInputMaterial : register(b3)
 
 uint GetObjectID(float2 quadUV)
 {
-    return asuint(_objMatSRVwAoR.Sample(fullScreenQuadSS, quadUV).x);
+    return asuint(internal_t2_ObjMatAoR.Sample(fullScreenQuadSS, quadUV).x);
 }
 
 uint GetMaterialID(float2 quadUV)
 {
-    return asuint(_objMatSRVwAoR.Sample(fullScreenQuadSS, quadUV).y);
+    return asuint(internal_t2_ObjMatAoR.Sample(fullScreenQuadSS, quadUV).y);
 }
 
 //원본
