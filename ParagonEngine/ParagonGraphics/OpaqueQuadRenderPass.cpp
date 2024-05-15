@@ -120,6 +120,11 @@ namespace Pg::Graphics
 		HR(_DXStorage->_device->CreateBuffer(&tDesc, &tSubResource, &(_cbMatID)));
 	}
 
+	bool OpaqueQuadRenderPass::GetIsOpaque()
+	{
+		//Opaque한지를 반환.
+		return !_renderMaterial->GetIsUseAlphaBlending();
+	}
 	
 
 }

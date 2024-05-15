@@ -29,6 +29,7 @@ namespace Pg::Graphics
 	class FirstStaticRenderPass;
 	class FirstSkinnedRenderPass;
 	class SceneInformationSender;
+	class OpaqueQuadRenderPass;
 	class OpaqueShadowRenderPass;
 }
 
@@ -81,7 +82,7 @@ namespace Pg::Graphics
 		std::unique_ptr<FirstStaticRenderPass> _firstStaticRenderPass;
 		std::unique_ptr<FirstSkinnedRenderPass> _firstSkinnedRenderPass;
 		std::unique_ptr<SceneInformationSender> _sceneInformationSender;
-		std::vector<IRenderSinglePass*> _opaqueQuadPassesVector;
+		std::vector<OpaqueQuadRenderPass*> _opaqueQuadPassesVector;
 		std::unique_ptr<OpaqueShadowRenderPass> _opaqueShadowPass;
 
 

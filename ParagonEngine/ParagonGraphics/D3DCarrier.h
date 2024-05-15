@@ -49,9 +49,8 @@ namespace Pg::Graphics
 		ID3D11ShaderResourceView* _toSendSRVToEngine{ nullptr };
 
 		//PBRBuffer : Binding을 위한 Array.
-		//4번째 버퍼는 AlphaBlending 활용 애들만 사용.
-		std::array<ID3D11RenderTargetView*, 4> _pbrBindArray;
-		std::array<ID3D11RenderTargetView*, 4> _pbrNullBindArray;
+		std::array<ID3D11RenderTargetView*, 3> _pbrBindArray;
+		std::array<ID3D11RenderTargetView*, 3> _pbrNullBindArray;
 
 		std::array<ID3D11RenderTargetView*, 15> _rtvArray;
 		unsigned int _rtvCount;

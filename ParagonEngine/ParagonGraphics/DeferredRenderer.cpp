@@ -268,13 +268,16 @@ namespace Pg::Graphics
 		//Opaque Quad Render Pass 
 		for (int i = 0; i < _opaqueQuadPassesVector.size(); i++)
 		{
-			//Render Target, Shader Resource View는 이대로 전달할 것.
-			_opaqueQuadPassesVector[i]->ReceiveRequiredElements(*_carrier);
-			_opaqueQuadPassesVector[i]->BindPass();
-			_opaqueQuadPassesVector[i]->RenderPass(renderObjectList, camData);
-			_opaqueQuadPassesVector[i]->UnbindPass();
-			_opaqueQuadPassesVector[i]->ExecuteNextRenderRequirements();
-			_opaqueQuadPassesVector[i]->PassNextRequirements(*_carrier);
+			if (_opaqueQuadPassesVector[i]->GetIsOpaque())
+			{
+				//Render Target, Shader Resource View는 이대로 전달할 것.
+				_opaqueQuadPassesVector[i]->ReceiveRequiredElements(*_carrier);
+				_opaqueQuadPassesVector[i]->BindPass();
+				_opaqueQuadPassesVector[i]->RenderPass(renderObjectList, camData);
+				_opaqueQuadPassesVector[i]->UnbindPass();
+				_opaqueQuadPassesVector[i]->ExecuteNextRenderRequirements();
+				_opaqueQuadPassesVector[i]->PassNextRequirements(*_carrier);
+			}
 		}
 
 		//더 이상 값을 설정하지 않을 때 이런 식으로 할당 해제해주면 된다.
@@ -315,7 +318,14 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetConstantBuffers(5, 1, &tNullBuffer);
 
 		//GBufferTextures-> GBuffer / Depth Buffer Unbind.
-		_DXStorage->_deviceContext->PSSetShaderResources(12, 7, _nullSRVArray.data());
+		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, &tNullSRV);
+		_DXStorage->_deviceContext->PSSetShaderResources(13, 1, &tNullSRV);
+		_DXStorage->_deviceContext->PSSetShaderResources(14, 1, &tNullSRV);
+		_DXStorage->_deviceContext->PSSetShaderResources(15, 1, &tNullSRV);
+		_DXStorage->_deviceContext->PSSetShaderResources(16, 1, &tNullSRV);
+		_DXStorage->_deviceContext->PSSetShaderResources(17, 1, &tNullSRV);
+		_DXStorage->_deviceContext->PSSetShaderResources(18, 1, &tNullSRV);
+		_DXStorage->_deviceContext->PSSetShaderResources(19, 1, &tNullSRV);
 
 		//t21-22 : IBL TextureCubes + LUT Textures Unbind.
 		_DXStorage->_deviceContext->PSSetShaderResources(20, 1, &tNullSRV);
@@ -430,7 +440,10 @@ namespace Pg::Graphics
 		//더 이상 t3에 ObjMat 버퍼가 새로 들어가지 않는다. t12에서 같이 들어가서 쓰인다.
 
 		//t12-19 - GBuffer + ObjMatInternalPBRTextures Bind
-		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, _carrier->_gBufRequiredSRVArray.data());
+		_DXStorage->_deviceContext->PSSetShaderResources(12, 5, _carrier->_gBufRequiredSRVArray.data());
+		_DXStorage->_deviceContext->PSSetShaderResources(17, 1, &_carrier->_gBufRequiredSRVArray.at(5));
+		_DXStorage->_deviceContext->PSSetShaderResources(18, 1, &_carrier->_gBufRequiredSRVArray.at(6));
+		_DXStorage->_deviceContext->PSSetShaderResources(19, 1, &_carrier->_gBufRequiredSRVArray.at(7));
 		
 		//독립적인 IBL Texture들, 여기서 바인딩.
 		//t21-23 - internal IBL TextureCubes Bind
