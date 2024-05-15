@@ -286,11 +286,8 @@
     <ClCompile Include="Anim_TwoArmAttack.cpp">
       <Filter>11_BtNodes\MonstersTest\Action\Anim_TwoArmAttack</Filter>
     </ClCompile>
-    <ClCompile Include="Hold_WalkAnim.cpp">
-      <Filter>11_BtNodes\MonstersTest\Action\Hold_WalkAnim</Filter>
-    </ClCompile>
-    <ClCompile Include="Hold_IdleAnim.cpp">
-      <Filter>11_BtNodes\MonstersTest\Action\Hold_IdleAnim</Filter>
+    <ClCompile Include="Hold_Anim.cpp">
+      <Filter>11_BtNodes\MonstersTest\Action\Hold_Anim</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -631,11 +628,8 @@
     <ClInclude Include="Anim_TwoArmAttack.h">
       <Filter>11_BtNodes\MonstersTest\Action\Anim_TwoArmAttack</Filter>
     </ClInclude>
-    <ClInclude Include="Hold_WalkAnim.h">
-      <Filter>11_BtNodes\MonstersTest\Action\Hold_WalkAnim</Filter>
-    </ClInclude>
-    <ClInclude Include="Hold_IdleAnim.h">
-      <Filter>11_BtNodes\MonstersTest\Action\Hold_IdleAnim</Filter>
+    <ClInclude Include="Hold_Anim.h">
+      <Filter>11_BtNodes\MonstersTest\Action\Hold_Anim</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -960,10 +954,7 @@
     <Filter Include="11_BtNodes\MonstersTest\Action\Anim_Idle">
       <UniqueIdentifier>{b3b0291a-ec59-46f6-88c2-a2ae2668b8a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonstersTest\Action\Hold_WalkAnim">
-      <UniqueIdentifier>{0c5cf94d-552a-46fa-b9dd-af0ebc4b558c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonstersTest\Action\Hold_IdleAnim">
+    <Filter Include="11_BtNodes\MonstersTest\Action\Hold_Anim">
       <UniqueIdentifier>{db248f73-c086-4195-891d-c25cf674542d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

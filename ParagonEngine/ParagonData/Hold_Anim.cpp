@@ -1,4 +1,4 @@
-#include "Hold_IdleAnim.h"
+#include "Hold_Anim.h"
 
 #include "../ParagonData/BtNodes/BTHelper.h"
 
@@ -8,41 +8,35 @@
 
 namespace Pg::Data::BTree::Node
 {
-	Hold_IdleAnim::Hold_IdleAnim(const std::string& name, const BT::NodeConfiguration& config)
+	Hold_Anim::Hold_Anim(const std::string& name, const BT::NodeConfiguration& config)
 		: BT::SyncActionNode(name, config)
 	{
 		auto& tdelta = singleton<Pg::Util::Time::TimeSystem>();
 		_deltaTime = &tdelta;
 	}
 
-	//void Hold_IdleAnim::InitCustom()
+	//void Hold_Anim::InitCustom()
 	//{
 		//config().blackboard->set<float>("HOLDIDLE", 0.f);
 		//config().blackboard->set<float>("REPEAT", 2.f);
 	//}
 
-	BT::NodeStatus Hold_IdleAnim::tick()
+	BT::NodeStatus Hold_Anim::tick()
 	{
 		//auto holdTime = getInput<float>("_holdIdleTime");
 		////BT_VALIDATE(holdTime);
+		PG_TRACE(_value);
 
-		//if (!_isInit)
-		//{
-		//	_value = holdTime.value();
-		//	_isInit = true;
-		//}
-
-		//if (_value >= 2.f)
-		//{
-		//	_isInit = false;
-		//	return BT::NodeStatus::FAILURE;
-		//}
-		//else
-		//{
-		//	_value += _deltaTime->GetDeltaTime();
-		//	return BT::NodeStatus::SUCCESS;
-		//}
-
-		return BT::NodeStatus::RUNNING;
+		if (_value >= 5.f)
+		{
+			_value = 0.f;
+			PG_TRACE("Hold_Idle_FAILURE");
+			return BT::NodeStatus::FAILURE;
+		}
+		else
+		{
+			_value += _deltaTime->GetDeltaTime();
+			return BT::NodeStatus::SUCCESS;
+		}
 	}
 }

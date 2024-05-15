@@ -236,8 +236,7 @@
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
-    <ClInclude Include="Hold_IdleAnim.h" />
-    <ClInclude Include="Hold_WalkAnim.h" />
+    <ClInclude Include="Hold_Anim.h" />
     <ClInclude Include="isHitSpace.h" />
     <ClInclude Include="isPlayerInSight.h" />
     <ClInclude Include="LayerMask.h" />
@@ -357,8 +356,7 @@
     <ClCompile Include="DynamicCollider.cpp" />
     <ClCompile Include="EditorCameraScript.cpp" />
     <ClCompile Include="Handle.cpp" />
-    <ClCompile Include="Hold_IdleAnim.cpp" />
-    <ClCompile Include="Hold_WalkAnim.cpp" />
+    <ClCompile Include="Hold_Anim.cpp" />
     <ClCompile Include="ImageRenderer.cpp" />
     <ClCompile Include="isHitSpace.cpp" />
     <ClCompile Include="isPlayerInSight.cpp" />
