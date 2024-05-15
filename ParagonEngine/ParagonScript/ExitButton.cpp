@@ -19,6 +19,7 @@ namespace Pg::DataScript
 	{
 		_button->SetOnClickEvent([this]
 			{
+				Sleep(500);
 				SendMessage(GetActiveWindow(), WM_CLOSE, NULL, NULL);
 			});
 	}
