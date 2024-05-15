@@ -75,7 +75,17 @@ void Pg::Editor::Manager::ProcessManager::Update()
 			_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
 
 		if (_coreMain->GetEditorAdapter()->GetCurrentScene()->GetSceneName() != _dataContainer->GetCurrentScene()->GetSceneName())
-			_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
+		{
+			if (_dataContainer->GetIsSceneChanged())
+			{
+				_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
+				_dataContainer->SetIsSceneChanged(false);
+			}
+			else
+			{
+				_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
+			}
+		}
 
 		//if (_input->GetKeyDown(API::Input::eKeyCode::Save)) _editorEvent->Invoke(eEventType::_SAVEPROJECT);
 	}
