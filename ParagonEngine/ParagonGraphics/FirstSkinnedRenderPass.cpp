@@ -86,13 +86,7 @@ namespace Pg::Graphics
 
 	void FirstSkinnedRenderPass::ExecuteNextRenderRequirements()
 	{
-		//FirstSkinnedRenderPass이나, GBuffer 사용을 위해 올리기.
-
-		//t15에, 5개의 SRV GBuffer 대응. (Depth 제외)
-		_DXStorage->_deviceContext->PSSetShaderResources(15, 5, _d3dCarrierTempStorage->_gBufRequiredSRVArray.data());
-
-		//t20에 Depth Buffer SRV 1개 대응.
-		_DXStorage->_deviceContext->PSSetShaderResources(20, 1, &(_d3dCarrierTempStorage->_gBufRequiredSRVArray.back()));
+		//이제는 밖에서 한다.
 	}
 
 	void FirstSkinnedRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
