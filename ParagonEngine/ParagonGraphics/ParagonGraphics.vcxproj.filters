@@ -507,9 +507,6 @@
     <ClCompile Include="DebugRenderer.cpp">
       <Filter>0_Main\Renderers\DebugRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="PPFinalRenderer.cpp">
-      <Filter>0_Main\Renderers\FinalRenderer</Filter>
-    </ClCompile>
     <ClCompile Include="DeferredRenderer.cpp">
       <Filter>0_Main\Renderers\DeferredRenderer</Filter>
     </ClCompile>
@@ -566,6 +563,9 @@
     </ClCompile>
     <ClCompile Include="RenderLightmapData.cpp">
       <Filter>14_LightmapRelated\Lightmap\RenderLightmapData</Filter>
+    </ClCompile>
+    <ClCompile Include="PPFinalRenderer.cpp">
+      <Filter>0_Main\Renderers\FinalRenderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
