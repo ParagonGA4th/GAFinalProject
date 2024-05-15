@@ -60,10 +60,12 @@ namespace Pg::Core
 		_engineGraphicsAdapter->InitializeGraphics(static_cast<HWND>(hwnd), screenWidth, screenHeight, tResourceListPath);
 
 		//AssetManager 세팅. (현재 씬에서 리소스 목록 받아오는 것 아님, 받아올 리소스 하드코딩!)
+		_assetManager->InitializeDefaults();
 		_assetManager->Initialize(this, tResourceListPath);
 		_engineGraphicsAdapter->UpdateAssetManager(_assetManager);
 		//AssetManager 내부 리소스 이름이 겹치지 않게 관리.
 		_assetManager->AssureNoNameDuplicates();
+		_engineGraphicsAdapter->GraphicsConnectDefaultResources();
 
 		//AssetManager에서 로딩된 리소스 - 그래픽 엔진과 연동.
 		_engineGraphicsAdapter->SyncLoadGraphicsResources();

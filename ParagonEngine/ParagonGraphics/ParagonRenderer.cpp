@@ -73,6 +73,11 @@ namespace Pg::Graphics
 		//_tempMultiMesh = new MultimaterialMesh("tFilePath);
 	}
 
+	void ParagonRenderer::ConnectDefaultResources()
+	{
+		_deferredRenderer->ConnectDefaultResources();
+	}
+
 	void ParagonRenderer::BeginRender()
 	{
 		

@@ -235,4 +235,10 @@ namespace Pg::Core
 		_graphics->SetEditorMode(mode);
 		_engine->SetEditorMode(mode);
 	}
+
+	void EngineGraphicsAdapter::GraphicsConnectDefaultResources()
+	{
+		_graphics->GraphicsConnectDefaultResources();
+	}
+
 }

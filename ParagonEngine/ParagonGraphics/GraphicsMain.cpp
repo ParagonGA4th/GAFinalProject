@@ -110,6 +110,10 @@ namespace Pg::Graphics
 		tempGameCamSprite = new Sprite(_DXStorage->_deviceContext, L"../Resources/Textures/DummyData/GameCamDummy.dds");
 	}
 
+	void GraphicsMain::GraphicsConnectDefaultResources()
+	{
+		_renderer->ConnectDefaultResources();
+	}
 
 	void GraphicsMain::Update(const Pg::Data::Scene* const scene, float deltaTime, Pg::Data::CameraData* cameraData)
 	{
@@ -371,8 +375,4 @@ namespace Pg::Graphics
 		//기존의 Editor Mode Enum 기록.
 		_prevRecordedEditMode = editorMode;
 	}
-
-	
-	
-
 }
