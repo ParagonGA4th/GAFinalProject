@@ -679,19 +679,22 @@ namespace Pg::Graphics::Helper
 
 	void AssimpBufferParser::AssimpToPBRTextureArray(const std::string& modelName, std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData)
 	{
+		///아직 디버깅으로 검증 안되었음. 240515 검증해야!
+
 		//먼저 MaterialClusterList가 실행되었어야 실행될 수 있는 코드!
 
 		std::vector<std::string> tRenderT2Vec;
 		tRenderT2Vec.resize(outMatClusterList.size());
 
-		eAssetTextureType tAllRequiredPBRTypes[3] = {
+		eAssetTextureType tAllRequiredPBRTypes[4] = {
 			eAssetTextureType::PG_TextureType_DIFFUSE, eAssetTextureType::PG_TextureType_NORMALS,
-			eAssetTextureType::PG_TextureType_ARM };
+			eAssetTextureType::PG_TextureType_ARM ,eAssetTextureType::PG_TextureType_OPACITY};
 
-		std::string tIdentifierString[3] =
+		std::string tIdentifierString[4] =
 		{
-			"DIFFUSE", "NORMALS", "ARM"
+			"DIFFUSE", "NORMALS", "ARM", "ALPHA"
 		};
+		//ALPHA 없으면 로드하면 안된다.
 
 		///완벽하지는 않지만, 직전의 Width/Height을 저장한 뒤, 값을 가져올 수 있게 한다.
 		/// (디폴트 텍스쳐 제작을 위해)
@@ -700,7 +703,7 @@ namespace Pg::Graphics::Helper
 		eTextureExtension tPrevExt = eTextureExtension::_DDS;
 
 		//outArrayData의 인덱스와 의미 동일.
-		for (int k = 0; k < 3; k++)
+		for (int k = 0; k < 4; k++)
 		{
 			for (short i = 0; i < outMatClusterList.size(); i++)
 			{
@@ -727,27 +730,59 @@ namespace Pg::Graphics::Helper
 					//
 					//
 					//tRenderT2Vec.at(i) = GraphicsResourceHelper::GetDefaultTexturePath(type, tSize);
-					eSizeTexture tSize = GraphicsResourceHelper::GetSizeTextureFromUINT(tPrevWidth, tPrevHeight);
-					std::filesystem::path tFSP = GraphicsResourceHelper::GetDefaultTexturePath(type, tSize);
-					tRenderT2Vec.at(i) = tFSP.filename().string();
+					if (k != 3) //Alpha면 nullptr 넣어라.
+					{
+						eSizeTexture tSize = GraphicsResourceHelper::GetSizeTextureFromUINT(tPrevWidth, tPrevHeight);
+						std::filesystem::path tFSP = GraphicsResourceHelper::GetDefaultTexturePath(type, tSize);
+						tRenderT2Vec.at(i) = tFSP.filename().string();
+					}
+					else
+					{
+						//Alpha인데 없으면, 자동으로 만들어주지 않는다.
+						tRenderT2Vec.at(i) = "";
+					}
 				}
 			}
+
+			//Alpha가 있는지 없는지를 기준으로 해야 한다.
+			//Alpha 
 			
 			//어차피 누락되지만, 디버깅하면서 확인하기 위해서.
 			std::string defInstMatName = modelName;
 			defInstMatName += "_";
 			defInstMatName += tIdentifierString[k];
 			std::string varName = "PBRTexArray";
-			std::string tTempTex2DArrName = GraphicsResourceHelper::GetGeneratedTex2DArrayNameFromValues(defInstMatName, varName, tRenderT2Vec.data(), tRenderT2Vec.size());
-			Pg::Graphics::Manager::GraphicsResourceManager::Instance()->LoadResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
-			Pg::Graphics::Manager::GraphicsResourceManager::Instance()->AddSecondaryResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
 
-			//로드했으니 이제 가져올 수 있다.
-			auto tTex2DRes = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
-			
-			//값이 해당되는 것처럼 할당된다.
-			outArrayData[k] = static_cast<RenderTexture2DArray*>(tTex2DRes.get());
+			//Alpha가 있는지 없는지 검사.
+			bool canBeMade = true;
+			for (auto& it : tRenderT2Vec)
+			{
+				if (it.empty())
+				{
+					canBeMade = false;
+					break;
+				}
+			}
+
+			if (canBeMade)
+			{
+				std::string tTempTex2DArrName = GraphicsResourceHelper::GetGeneratedTex2DArrayNameFromValues(defInstMatName, varName, tRenderT2Vec.data(), tRenderT2Vec.size());
+				Pg::Graphics::Manager::GraphicsResourceManager::Instance()->LoadResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
+				Pg::Graphics::Manager::GraphicsResourceManager::Instance()->AddSecondaryResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
+
+				//로드했으니 이제 가져올 수 있다.
+				auto tTex2DRes = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tTempTex2DArrName, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
+
+				//값이 해당되는 것처럼 할당된다.
+				outArrayData[k] = static_cast<RenderTexture2DArray*>(tTex2DRes.get());
+			}
+			else
+			{
+				outArrayData[k] = nullptr;
+			}
 		}
+
+		assert("");
 	}
 
 	void AssimpBufferParser::D3DSetPrivateData(const std::string& modelName, Asset3DModelData* modelData)

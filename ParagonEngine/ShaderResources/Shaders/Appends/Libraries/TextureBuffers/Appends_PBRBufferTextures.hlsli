@@ -6,9 +6,9 @@
 #include "../Required/Appends_BufferSRVRegisters.hlsli"
 
 //IBL Texture를 쓸 수 있게 마련해둔다.
-TextureCube<float4> internal_IBL_DiffuseIrrCubemap : register(t21);
-TextureCube<float4> internal_IBL_SpecularIrrCubemap : register(t22);
-Texture2D<float4> internal_IBL_SpecularLutTexture : register(t23);
+TextureCube<float4> internal_IBL_DiffuseIrrCubemap : register(t20);
+TextureCube<float4> internal_IBL_SpecularIrrCubemap : register(t21);
+Texture2D<float4> internal_IBL_SpecularLutTexture : register(t22);
 //LUT는 여기서는 필요X!
 
 float GetAmbientOcclusionMap(float2 quadUV)

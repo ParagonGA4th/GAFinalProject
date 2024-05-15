@@ -169,7 +169,6 @@
     <ClCompile Include="FirstInstancedRenderPass.cpp" />
     <ClCompile Include="LightmapManager.cpp" />
     <ClCompile Include="LightmapParser.cpp" />
-    <ClCompile Include="PPFinalRenderer.cpp" />
     <ClCompile Include="FinalRenderPass.cpp" />
     <ClCompile Include="FirstSkinnedRenderPass.cpp" />
     <ClCompile Include="FirstStaticRenderPass.cpp" />
@@ -182,6 +181,7 @@
     <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="MaterialParser.cpp" />
     <ClCompile Include="OpaqueShadowRenderPass.cpp" />
+    <ClCompile Include="PPFinalRenderer.cpp" />
     <ClCompile Include="RenderLightmapData.cpp" />
     <ClCompile Include="RenderObject3DList.cpp" />
     <ClCompile Include="RenderObjectInstancedMesh3D.cpp" />

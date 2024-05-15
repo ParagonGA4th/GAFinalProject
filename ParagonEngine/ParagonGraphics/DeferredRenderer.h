@@ -89,7 +89,7 @@ namespace Pg::Graphics
 		//모든 Renderer를 거치면서 값이 활용될 것이다.
 		std::unique_ptr<GBufferRender> _quadMainRTV;
 		std::unique_ptr<GBufferDepthStencil> _quadMainDSV;
-		std::unique_ptr<GBufferRender> _quadObjMatRTV;
+		//std::unique_ptr<GBufferRender> _quadObjMatRTV;
 
 
 		//별도로 OpaqueQuad가 사용하는 DSV. (ObjMat 딴에서 기록된 Depth 값을 훼손하지 않기 위해서)

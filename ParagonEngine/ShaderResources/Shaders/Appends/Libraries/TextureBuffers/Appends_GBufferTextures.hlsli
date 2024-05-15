@@ -4,12 +4,7 @@
 #define __DEFINED_APPENDS_GBUFFER_TEXTURES_HLSL__
 
 #include "../SamplerStates/Appends_SamplerStates.hlsli"
-
-//정확한 사용처 : "Render Target DXGI Format"에 정리되어 있음.
-Texture2D<float4> internal_GBuffer[5] : register(t15);
-
-//DXGI_FORMAT_R32_TYPELESS로 만들어질 예정 -> 이 중, D24로 해석될 것이다.
-Texture2D<float> internal_DepthBuffer : register(t20);
+#include "../Required/Appends_BufferSRVRegisters.hlsli"
 
 float2 GetUV_F2(float2 quadUV)
 {
@@ -35,11 +30,7 @@ float2 GetDepth_WDivide(float2 quadUV)
     return internal_GBuffer[0].Sample(fullScreenQuadSS, quadUV).w;
 }
 
-//DSV Depth: 별도로 관리됨.
-float GetDepth_DSV(float2 quadUV)
-{
-    return internal_DepthBuffer.Sample(fullScreenQuadSS, quadUV);
-}
+//더 이상 DSV를 직접 샘플링해서 사용하지는 않는다.
 
 float3 GetNormal(float2 quadUV)
 {

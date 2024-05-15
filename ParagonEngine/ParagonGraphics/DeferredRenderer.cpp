@@ -191,7 +191,7 @@ namespace Pg::Graphics
 		_carrier->_quadMainGDS = _quadMainDSV.get();
 
 		//Main ObjMat RT를 Carrier에 전달한다.
-		_carrier->_quadObjMatRT_AoR = _quadObjMatRTV.get();
+		//_carrier->_quadObjMatRT_AoR = _quadObjMatRTV.get();
 
 		//모든 RGBA값이 0이 되도록 초기화.
 		float zeroColArray[4] = {0.f, 0.f, 0.f, 0.f};
@@ -306,10 +306,6 @@ namespace Pg::Graphics
 	{
 		//Unbing
 		ID3D11ShaderResourceView* tNullSRV = nullptr;
-		//t12-14 - internalPBRTextures Unbind
-		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, &tNullSRV);
-		_DXStorage->_deviceContext->PSSetShaderResources(13, 1, &tNullSRV);
-		_DXStorage->_deviceContext->PSSetShaderResources(14, 1, &tNullSRV);
 
 		//PS Constant Buffer -> SceneInfo 값 리셋.
 		ID3D11Buffer* tNullBuffer = nullptr;
@@ -319,13 +315,12 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetConstantBuffers(5, 1, &tNullBuffer);
 
 		//GBufferTextures-> GBuffer / Depth Buffer Unbind.
-		_DXStorage->_deviceContext->PSSetShaderResources(15, 5, _nullSRVArray.data());
-		_DXStorage->_deviceContext->PSSetShaderResources(20, 1, _nullSRVArray.data());
+		_DXStorage->_deviceContext->PSSetShaderResources(12, 7, _nullSRVArray.data());
 
 		//t21-22 : IBL TextureCubes + LUT Textures Unbind.
+		_DXStorage->_deviceContext->PSSetShaderResources(20, 1, &tNullSRV);
 		_DXStorage->_deviceContext->PSSetShaderResources(21, 1, &tNullSRV);
 		_DXStorage->_deviceContext->PSSetShaderResources(22, 1, &tNullSRV);
-		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &tNullSRV);
 	}
 
 	void DeferredRenderer::InitOpaqueQuadDirectX()
@@ -333,7 +328,7 @@ namespace Pg::Graphics
 		//요구되는 렌더 리소스 만들기 (GBufferRender & Depth Stencil)
 		_quadMainRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
 		//ObjMat RenderTarget -> 이제 PBR 버퍼와 swizzling되어 쓰인다!
-		_quadObjMatRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		//_quadObjMatRTV = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 		//Depth Writing이 가능한 Description 투입. (현재는 Default랑 같음)
 		D3D11_DEPTH_STENCIL_DESC tDepthStencilDesc;
@@ -357,7 +352,7 @@ namespace Pg::Graphics
 		//Carrier에 값을 전달한다. (MainRenderTarget 전까지 모든 렌더링의 기본이 될 것)
 		_carrier->_quadMainRT = _quadMainRTV.get();
 		_carrier->_quadMainGDS = _quadMainDSV.get();
-		_carrier->_quadObjMatRT_AoR = _quadObjMatRTV.get();
+		//_carrier->_quadObjMatRT_AoR = _quadObjMatRTV.get();
 
 		//자체적인 OpaqueQuad DSV.
 		_opaqueQuadDSV = std::make_unique<GBufferDepthStencil>();
@@ -375,7 +370,13 @@ namespace Pg::Graphics
 		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 		//RT4
 		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
-		//RT5 (Depth)
+		//RT5 -> ObjMatAoR
+		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		//RT6 -> AlbedoMetallic
+		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		//RT7 -> Normal Alpha
+		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		//(Depth)
 		_carrier->_gBufRequiredInfoDSV = std::make_unique<GBufferDepthStencil>();
 
 		//FirstStage_PS에서 Binding될 Render Target들.
@@ -385,14 +386,10 @@ namespace Pg::Graphics
 			_carrier->_gBufRequiredRTVArray.emplace_back(e->GetRTV());
 		}
 
-		//SecondStage들에서 Binding될 SRV들. (GBufferRender, ~5/6)
 		for (auto& e : _carrier->_gBufRequiredInfoRT)
 		{
 			_carrier->_gBufRequiredSRVArray.emplace_back(e->GetSRV());
 		}
-
-		//SecondStage들에서 Binding될 Depth SRV. (GBufferDepthStencil, 6/6)
-		_carrier->_gBufRequiredSRVArray.emplace_back(_carrier->_gBufRequiredInfoDSV->GetSRV());
 
 		//지금까지 바인딩된 값만큼 RTV Null Array를 만들어준다.
 		//DepthStencil을 더이상 RTV로 기록되지 않음.
@@ -415,14 +412,14 @@ namespace Pg::Graphics
 		//Rendering은 Main Render Target에 함에도 DepthStencil을 자체적으로 생성해서 쓰기 때문 (기존의 값이 영향을 주지 않음)
 
 		//이제 ObjMat과 PBR 요소 일부는 함께 기록됨.
-		_carrier->_albedoMetallic_GBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
-		_carrier->_normalAlpha_GBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		//_carrier->_albedoMetallic_GBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		//_carrier->_normalAlpha_GBuffer = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 		//일단 값을 OMSetRenderTargets를 위해 설정.
 		//ObjMat은 전에 _quadObjMatRT와 공유.
-		_carrier->_pbrBindArray[0] = _carrier->_quadObjMatRT_AoR->GetRTV();
-		_carrier->_pbrBindArray[1] = _carrier->_albedoMetallic_GBuffer->GetRTV();
-		_carrier->_pbrBindArray[2] = _carrier->_normalAlpha_GBuffer->GetRTV();
+		_carrier->_pbrBindArray[0] = _carrier->_gBufRequiredRTVArray.at(5); //ObjMatAoR
+		_carrier->_pbrBindArray[1] = _carrier->_gBufRequiredRTVArray.at(6); //AlbedoMetallic
+		_carrier->_pbrBindArray[2] = _carrier->_gBufRequiredRTVArray.at(7); //NormalAlpha
 
 		//NullRTV Array를 위해, nullptr 채우기!
 		std::fill(_carrier->_pbrNullBindArray.begin(), _carrier->_pbrNullBindArray.end(), nullptr);
@@ -432,16 +429,14 @@ namespace Pg::Graphics
 	{
 		//더 이상 t3에 ObjMat 버퍼가 새로 들어가지 않는다. t12에서 같이 들어가서 쓰인다.
 
-		//t12-14 - ObjMat GBuffer + InternalPBRTextures Bind
-		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, &(_carrier->_quadObjMatRT_AoR->GetSRV()));
-		_DXStorage->_deviceContext->PSSetShaderResources(13, 1, &(_carrier->_albedoMetallic_GBuffer->GetSRV()));
-		_DXStorage->_deviceContext->PSSetShaderResources(14, 1, &(_carrier->_normalAlpha_GBuffer->GetSRV()));
-
+		//t12-19 - GBuffer + ObjMatInternalPBRTextures Bind
+		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, _carrier->_gBufRequiredSRVArray.data());
+		
 		//독립적인 IBL Texture들, 여기서 바인딩.
 		//t21-23 - internal IBL TextureCubes Bind
-		_DXStorage->_deviceContext->PSSetShaderResources(21, 1, &(_iblDiffuseIrradianceMap->GetSRV()));
-		_DXStorage->_deviceContext->PSSetShaderResources(22, 1, &(_iblSpecularIrradianceMap->GetSRV()));
-		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &(_iblSpecularLutTextureMap->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(20, 1, &(_iblDiffuseIrradianceMap->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(21, 1, &(_iblSpecularIrradianceMap->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(22, 1, &(_iblSpecularLutTextureMap->GetSRV()));
 	}
 
 	void DeferredRenderer::InitFetchIBLBuffers()
