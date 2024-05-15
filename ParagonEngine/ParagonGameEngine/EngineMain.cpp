@@ -114,6 +114,7 @@ namespace Pg::Engine
 		_debugSystem->DrawNavMeshDebug(_navTestInfo); //한번만 추가해줬다. 클리어하지 않음.
 
 		_navCyilnderInfo = new Pg::Data::NavCylinderInfo;
+		//_navCyilnderInfo = new Pg::Math::PGFLOAT3;
 
 	}
 
