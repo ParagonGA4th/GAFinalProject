@@ -41,6 +41,7 @@ namespace Pg::Graphics
 		~DeferredRenderer();
 
 		virtual void Initialize() override;
+		void ConnectDefaultResources();
 		virtual void SetupRenderPasses() override;
 		void SetupOpaqueQuadRenderPasses();
 		void InitializeResettablePasses();

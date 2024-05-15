@@ -122,6 +122,10 @@ namespace Pg::Graphics
 			{"TRANSFORM",	2, DXGI_FORMAT_R32G32B32A32_FLOAT,	2, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_INSTANCE_DATA,	1},
 			{"TRANSFORM",	3, DXGI_FORMAT_R32G32B32A32_FLOAT,	2, D3D11_APPEND_ALIGNED_ELEMENT,	D3D11_INPUT_PER_INSTANCE_DATA,	1},
 		};
+
+		// Instanced (static) Mesh ÀÎÇ² ·¹ÀÌ¾Æ¿ô ¸¸µé±â.
+		HR(_device->CreateInputLayout(vin1stInstancedDesc, ARRAYSIZE(vin1stInstancedDesc), tInstanced1stByteCode->GetBufferPointer(),
+			tInstanced1stByteCode->GetBufferSize(), &_instanced1stLayout));
 	}
 
 	void LayoutDefine::CreateStatic1stLayout()

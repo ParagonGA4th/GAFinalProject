@@ -47,16 +47,18 @@ namespace Pg::Core::Manager
 
 	}
 
-
-	void AssetManager::Initialize(Pg::Core::ProcessMain* core, const std::string& resourceListPath) 
+	void AssetManager::InitializeDefaults()
 	{
-		_coreMain = core;
 		_perFrameToLoadResources.reserve(30);
 		_perFrameToUnloadResources.reserve(30);
 
 		//디폴트 리소스들이 로드되는 함수. 필수!
 		LoadDefaultResources();
+	}
 
+	void AssetManager::Initialize(Pg::Core::ProcessMain* core, const std::string& resourceListPath) 
+	{
+		_coreMain = core;
 		//Scene 단위 리소스 연동이 완료되지 않으면, 여기서 로드되지 않은 리소스들은 사용되지 못함.
 
 		LoadResourcesFromCSV(resourceListPath);
@@ -439,4 +441,7 @@ namespace Pg::Core::Manager
 
 		return tRet;
 	}
+
+	
+
 }

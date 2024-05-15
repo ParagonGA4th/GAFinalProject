@@ -122,7 +122,7 @@ namespace Pg::Graphics::Helper
 				//2nd
 				tMeshVert2nd._normalL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mNormals[j]);
 				tMeshVert2nd._tangentL = MathHelper::AI2SM_VECTOR3(assimp->mMeshes[i]->mTangents[j]);
-				if (assimp->mMeshes[i]->mColors != nullptr)
+				if (assimp->mMeshes[i]->mColors[0] != nullptr)
 				{
 					//Color°¡ ÀÖ´Ù.
 					aiVector3D tColorStore = { assimp->mMeshes[i]->mColors[0][j].r, assimp->mMeshes[i]->mColors[0][j].g,assimp->mMeshes[i]->mColors[0][j].b };

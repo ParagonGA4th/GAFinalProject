@@ -26,7 +26,7 @@ namespace Pg::Core
 	{
 	public:
 		virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight, const std::string& resourceListPath) abstract;
-		
+		virtual void GraphicsConnectDefaultResources() abstract;
 		virtual void SetEditorMode(Pg::Data::Enums::eEditorMode editorMode) abstract;
 
 		virtual void Update(const Pg::Data::Scene* const scene, float deltaTime, Pg::Data::CameraData* cameraData) abstract;

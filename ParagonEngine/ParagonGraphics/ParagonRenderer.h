@@ -55,7 +55,7 @@ namespace Pg::Graphics
 
 	public:
 		void Initialize(const Pg::Data::Enums::eEditorMode* const editorMode, const std::string& resourceListPath);
-
+		void ConnectDefaultResources();
 		//DebugRenderer·Î Debug Geometry¸¦ ³Ñ°å´Ù.
 		void PassBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec);
 		void PassLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec);
