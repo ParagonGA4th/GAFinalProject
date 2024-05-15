@@ -24,8 +24,6 @@ namespace Pg::Graphics
 		CreateStagingPickingBuffer();
 		InitPostProcessingQuads();
 
-		
-
 		_outlineRenderPass = std::make_unique<OutlineRenderPass>();
 
 		//Initialize PostProcessing RenderPassses. (여기다) (모두 From-To의 양식을 따른다)
