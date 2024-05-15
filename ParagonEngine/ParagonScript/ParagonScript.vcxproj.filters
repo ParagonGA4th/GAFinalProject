@@ -109,14 +109,23 @@
     <Filter Include="UI">
       <UniqueIdentifier>{2f378b17-dc89-4569-9ad7-9dab4c02e4f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\TitleScene">
-      <UniqueIdentifier>{1af70350-7504-4fbb-a849-cebc3788912e}</UniqueIdentifier>
+    <Filter Include="UI\TitleUI">
+      <UniqueIdentifier>{69d0fb7e-3346-49e4-bd17-55d415bd810a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\StartButton">
+    <Filter Include="UI\TitleUI\ExitButton">
+      <UniqueIdentifier>{2e9ce200-f71c-498a-a247-c2c66abe2f73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\TitleUI\StartButton">
       <UniqueIdentifier>{550784fb-5d14-42e2-892a-856d21fa413d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\ExitButton">
-      <UniqueIdentifier>{2e9ce200-f71c-498a-a247-c2c66abe2f73}</UniqueIdentifier>
+    <Filter Include="UI\TitleUI\TitleScene">
+      <UniqueIdentifier>{1af70350-7504-4fbb-a849-cebc3788912e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InGameUI">
+      <UniqueIdentifier>{a886122b-6899-4db5-ad61-7827470c1de5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InGameUI\PauseUI">
+      <UniqueIdentifier>{08be141c-74f4-470c-a6da-1f0b8889e568}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -187,13 +196,16 @@
       <Filter>Content\SoundManager</Filter>
     </ClCompile>
     <ClCompile Include="TitleScene.cpp">
-      <Filter>UI\TitleScene</Filter>
+      <Filter>UI\TitleUI\TitleScene</Filter>
     </ClCompile>
     <ClCompile Include="StartButton.cpp">
-      <Filter>UI\StartButton</Filter>
+      <Filter>UI\TitleUI\StartButton</Filter>
     </ClCompile>
     <ClCompile Include="ExitButton.cpp">
-      <Filter>UI\ExitButton</Filter>
+      <Filter>UI\TitleUI\ExitButton</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseBox.cpp">
+      <Filter>UI\InGameUI\PauseUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -297,13 +309,16 @@
       <Filter>Content\SoundManager</Filter>
     </ClInclude>
     <ClInclude Include="TitleScene.h">
-      <Filter>UI\TitleScene</Filter>
+      <Filter>UI\TitleUI\TitleScene</Filter>
     </ClInclude>
     <ClInclude Include="StartButton.h">
-      <Filter>UI\StartButton</Filter>
+      <Filter>UI\TitleUI\StartButton</Filter>
     </ClInclude>
     <ClInclude Include="ExitButton.h">
-      <Filter>UI\ExitButton</Filter>
+      <Filter>UI\TitleUI\ExitButton</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseBox.h">
+      <Filter>UI\InGameUI\PauseUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

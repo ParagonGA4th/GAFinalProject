@@ -6,19 +6,24 @@ namespace Pg::Data
 	class Button;
 }
 
-namespace Pg::API 
+namespace Pg::API
 {
-	class PgScene; 
+	class PgScene;
+
+	namespace Input
+	{
+		class PgInput;
+	}
 }
 
 namespace Pg::DataScript
 {
-	class StartButton : public ScriptInterface<StartButton>
+	class PauseBox : public ScriptInterface<PauseBox>
 	{
-		DEFINE_PARAGON_SCRIPT(StartButton);
+		DEFINE_PARAGON_SCRIPT(PauseBox);
 
 	public:
-		StartButton(Pg::Data::GameObject* obj);
+		PauseBox(Pg::Data::GameObject* obj);
 
 	public:
 		virtual void Awake() override;
@@ -27,9 +32,8 @@ namespace Pg::DataScript
 
 	private:
 		Pg::Data::Button* _button;
+		Pg::API::Input::PgInput* _pgInput = nullptr;
 		Pg::API::PgScene* _pgScene = nullptr;
-
-		std::string _nextScene;
 	};
 }
 
