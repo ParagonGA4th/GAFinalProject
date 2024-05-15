@@ -19,6 +19,8 @@
 #include "../ParagonData/DebugData.h"
 #include "NavGeom.h"
 
+#include "EngineDLLExporter.h"
+
 #include <unordered_map>
 #include <vector>
 #include <memory>
@@ -90,8 +92,8 @@ namespace Pg::Engine
 	class Navigation
 	{
 	public:
-		Navigation();
-		~Navigation();
+		PARAGON_ENGINE_DLL Navigation();
+		PARAGON_ENGINE_DLL ~Navigation();
 
 	public:
 		// 초기화 함수.
@@ -112,44 +114,44 @@ namespace Pg::Engine
 		void renderCachedTileOverlay(const int tx, const int ty, double* proj, double* model, int* view);
 
 		// 직선경로 탐색 함수
-		std::vector <std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> FindStraightPath(int index);
+		PARAGON_ENGINE_DLL std::vector <std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> FindStraightPath(int index);
 		// 이미 탐색된 경로를 가져오는 함수
-		std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> GetPath(int index);
+		PARAGON_ENGINE_DLL std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> GetPath(int index);
 		// Raycast 탐색 함수. (직선경로에 부딧히는게 있다면 거기까지만 경로 표시
-		Pg::Math::PGFLOAT3 FindRaycastPath(int index);
+		PARAGON_ENGINE_DLL Pg::Math::PGFLOAT3 FindRaycastPath(int index);
 
 		//Agent 전부 추가.
 		void SyncAgent();
 
 		// 장애물을 추가한다.
 		// pos = 장애물 위치 / radius = 장애물 크기 / height = 장애물 사이즈
-		void AddTempObstacle(Pg::Math::PGFLOAT3 pos, float radius, float height);
+		PARAGON_ENGINE_DLL void AddTempObstacle(Pg::Math::PGFLOAT3 pos, float radius, float height);
 		// pos = 장애물 위치 / bmin = 장애물 최소좌표 / bmax = 장애물 최대좌표
-		void AddBoxTempObstacle(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 bmin, DirectX::XMFLOAT3 bmax);
+		PARAGON_ENGINE_DLL void AddBoxTempObstacle(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 bmin, DirectX::XMFLOAT3 bmax);
 		// 특정 장애물을 제거한다.
-		void RemoveTempObstacle(DirectX::XMFLOAT3 pos);
+		PARAGON_ENGINE_DLL void RemoveTempObstacle(DirectX::XMFLOAT3 pos);
 		// bpos에 있는 장애물의 위치를 npos의 위치로 옮긴다.
-		void MoveTempObstacle(DirectX::XMFLOAT3 bpos, DirectX::XMFLOAT3 npos);
+		PARAGON_ENGINE_DLL void MoveTempObstacle(DirectX::XMFLOAT3 bpos, DirectX::XMFLOAT3 npos);
 		// 모든 장애물을 제거한다.
-		void ClearAllTempObstacles();
+		PARAGON_ENGINE_DLL void ClearAllTempObstacles();
 
 		// startpos 와 endpos를 입력하는 함수. float[3] 버전
-		void SetSEpos(int index, float sx, float sy, float sz, float ex, float ey, float ez);
+		PARAGON_ENGINE_DLL void SetSEpos(int index, float sx, float sy, float sz, float ex, float ey, float ez);
 		// startpos 와 endpos를 입력하는 함수. XMFLOAT3 버전
-		void SetSEpos(int index, Pg::Math::PGFLOAT3 startPosition, Pg::Math::PGFLOAT3 endPosition);
+		PARAGON_ENGINE_DLL void SetSEpos(int index, Pg::Math::PGFLOAT3 startPosition, Pg::Math::PGFLOAT3 endPosition);
 		// startpos를 입력하는 함수. float[3] 버전
-		void SetStartpos(int index, float x, float y, float z);
+		PARAGON_ENGINE_DLL void SetStartpos(int index, float x, float y, float z);
 		// startpos를 입력하는 함수. XMFLOAT3 버전
-		void SetStartpos(int index, Pg::Math::PGFLOAT3 position);
+		PARAGON_ENGINE_DLL void SetStartpos(int index, Pg::Math::PGFLOAT3 position);
 		// endpos를 입력하는 함수. float[3] 버전
-		void SetEndpos(int index, float x, float y, float z);
+		PARAGON_ENGINE_DLL void SetEndpos(int index, float x, float y, float z);
 		// endpos를 입력하는 함수. XMFLOAT3 버전
-		void SetEndpos(int index, Pg::Math::PGFLOAT3 position);
+		PARAGON_ENGINE_DLL void SetEndpos(int index, Pg::Math::PGFLOAT3 position);
 		// 네비매쉬를 빌드하기 위한 agent를 세팅하는 함수. 각 변수명을 참고
-		void SetAgent(int index, float agentHeight, float agentMaxSlope, float agentRadius, float agentMaxClimb);
+		PARAGON_ENGINE_DLL void SetAgent(int index, float agentHeight, float agentMaxSlope, float agentRadius, float agentMaxClimb);
 
 		// 네비매쉬를 빌드하기 위해 vertex와 index를 제공해주는 함수(예정)
-		void GetNavmeshRenderInfo(int index, std::vector<Pg::Math::PGFLOAT3>& vertices, std::vector<unsigned int>& indices);
+		PARAGON_ENGINE_DLL void GetNavmeshRenderInfo(int index, std::vector<Pg::Math::PGFLOAT3>& vertices, std::vector<unsigned int>& indices);
 		// 패키지(네비매쉬 배열) 사이즈 가져오기
 		int GetPackageSize();
 		// 현재 에이전트 세팅을 반환
