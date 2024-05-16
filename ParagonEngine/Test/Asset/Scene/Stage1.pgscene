@@ -468,7 +468,7 @@
 		</components>
 	  </object>
 	  <object>
-		<uuid>B50B3AF01D4045608B781F5AED7F6732</uuid>
+		<uuid>B50B3AF01D4045608B781F5AED7F6738</uuid>
 		<name>TutorialButton</name>
 		<active>true</active>
 		<tag></tag>
@@ -511,7 +511,7 @@
 		</components>
 	  </object>
 	  <object>
-		<uuid>B50B3AF01D4045608B781F5AED7F6732</uuid>
+		<uuid>B50B3AF01D4045608B781F5AED7F6735</uuid>
 		<name>OptionButton</name>
 		<active>true</active>
 		<tag></tag>
@@ -554,7 +554,7 @@
 		</components>
 	  </object>
 	  <object>
-		<uuid>B50B3AF01D4045608B781F5AED7F6732</uuid>
+		<uuid>B50B3AF01D4045608B781F5AED7F6739</uuid>
 		<name>GotoMenu</name>
 		<active>true</active>
 		<tag></tag>

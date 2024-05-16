@@ -34,6 +34,9 @@ namespace Pg::Editor::Data
 		void SetCurrentScene(Pg::Data::Scene* scene);
 		Pg::Data::Scene* GetCurrentScene();	
 
+		bool GetIsSceneChange();
+		void SetIsSceneChange(bool isChange);
+
 		void SetPickObject(Pg::Data::GameObject* object);
 		Pg::Data::GameObject* GetPickObject();
 
@@ -55,5 +58,7 @@ namespace Pg::Editor::Data
 
 		std::vector<std::string> _assetList;
 		std::unordered_map<std::string, std::unordered_map<std::string, std::string>> _uuid;
+
+		bool _isSceneChanged;
 	};
 }
