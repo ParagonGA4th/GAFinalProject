@@ -63,6 +63,7 @@ std::vector<Pg::Data::Scene*> Pg::Editor::Data::DataContainer::GetSceneList()
 
 void Pg::Editor::Data::DataContainer::SetCurrentScene(int sceneNumber)
 {
+	_isSceneChanged = true;
 	_currentScene = _scenes.at(sceneNumber);
 }
 
@@ -70,7 +71,11 @@ void Pg::Editor::Data::DataContainer::SetCurrentScene(std::string sceneName)
 {
 	for (auto& scene : _scenes)
 	{
-		if (scene->GetSceneName() == sceneName) _currentScene = scene;
+		if (scene->GetSceneName() == sceneName)
+		{
+			_isSceneChanged = true;
+			_currentScene = scene;
+		}
 	}
 }
 
@@ -83,6 +88,17 @@ Pg::Data::Scene* Pg::Editor::Data::DataContainer::GetCurrentScene()
 {
 	return _currentScene;
 }
+
+bool Pg::Editor::Data::DataContainer::GetIsSceneChange()
+{
+	return _isSceneChanged;
+}
+
+void Pg::Editor::Data::DataContainer::SetIsSceneChange(bool isChange)
+{
+	_isSceneChanged = isChange;
+}
+
 
 void Pg::Editor::Data::DataContainer::SetPickObject(Pg::Data::GameObject* object)
 {
