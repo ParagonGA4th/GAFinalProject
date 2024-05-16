@@ -23,9 +23,6 @@ namespace Pg::Data
 		virtual void ConvertPotentialUnrealValues() override;
 		//혹시 Path만 있고 Name은 없는 상황을 막기 위해. 
 		virtual void CheckForPathNameErrors() override;
-		//이제 모든 Path값이 해당 함수 호출 시점에서 채워졌을 것이니, Instanced 체크 여부 판단.
-		virtual void CheckIfInstanced() override;
-
 
 		virtual void OnSerialize(SerializeVector& sv) override;
 		virtual void OnDeserialize(SerializeVector& sv) override;

@@ -43,6 +43,8 @@
 #include "../ParagonData/SpotLight.h"
 #include "../ParagonData/PointLight.h"
 
+#include <cstdlib>
+
 void Pg::Engine::TestScene::Initialize()
 {
 	using namespace Pg::Data;
@@ -125,15 +127,27 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj5->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	////tObj5->AddComponent<MoveForwardBack>();
 	////tObj5->GetComponent<MoveForwardBack>()->SetActive(true);
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			std::string tStr = "Cube";
+			tStr.append(std::to_string(i));
+			tStr += "_";
+			tStr.append(std::to_string(j));
+			Pg::Data::GameObject* tObj6 = tCurrentScene->AddObject(tStr);
 
-	//Pg::Data::GameObject* tObj6 = tCurrentScene->AddObject("Cube8");
-	//tObj6->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
-	//tObj6->GetComponent<Transform>()->_scale = { 2.0f, 2.0f, 2.0f };
-	//tObj6->GetComponent<Transform>()->_rotation = tObj6->GetComponent<Transform>()->EulerToQuaternion(0.0f, -1.57f, 0.0f);
-	////tObj6->AddComponent<BoxCollider>();
-	//tObj6->AddComponent<StaticMeshRenderer>();
-	//tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
-	//tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
+			tObj6->GetComponent<Transform>()->_position = { (float)i*2, -3.0f, (float)j*2 };
+			tObj6->GetComponent<Transform>()->_scale = { 0.5f,0.5f,0.5f};
+			tObj6->GetComponent<Transform>()->_rotation = tObj6->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+			//tObj6->AddComponent<BoxCollider>();
+			tObj6->AddComponent<StaticMeshRenderer>();
+			tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
+			tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
+		}
+		
+	}
+	
 
 	{
 		Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
@@ -167,20 +181,20 @@ void Pg::Engine::TestScene::Initialize()
 		//tObj7->AddComponent<DemoPlayerAction>();
 	}
 
-	for (int i = 0; i < 30; i++)
-	{
-		std::string tName = "Arrow";
-		tName += std::to_string(i);
-		Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject(tName);
-		tObj7->GetComponent<Transform>()->_position = { 0.0f, 1.0f, 0.0f };
-		tObj7->GetComponent<Transform>()->_scale = { 5.0f, 5.0f, 5.0f };
-		tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
-		tObj7->AddComponent<StaticMeshRenderer>();
-		tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/arrow/arrow.fbx");
-		tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
-		tObj7->AddComponent<ArrowAction>();
-		tObj7->SetTag("ArrowTag");
-	}
+	//for (int i = 0; i < 30; i++)
+	//{
+	//	std::string tName = "Arrow";
+	//	tName += std::to_string(i);
+	//	Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject(tName);
+	//	tObj7->GetComponent<Transform>()->_position = { 0.0f, 1.0f, 0.0f };
+	//	tObj7->GetComponent<Transform>()->_scale = { 5.0f, 5.0f, 5.0f };
+	//	tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	//	tObj7->AddComponent<StaticMeshRenderer>();
+	//	tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/arrow/arrow.fbx");
+	//	tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	//	tObj7->AddComponent<ArrowAction>();
+	//	tObj7->SetTag("ArrowTag");
+	//}
 	
 
 	///AI

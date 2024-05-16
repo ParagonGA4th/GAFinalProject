@@ -380,6 +380,7 @@ namespace Pg::Graphics
 				if (tBaseR3D->GetIsInstanced())
 				{
 					//만약 인스턴싱이 사용되는 Renderer라면 여기서 처리하지 않는다!
+					//PG_TRACE("IS_INSTANCED");
 					break;
 				}
 
@@ -468,7 +469,7 @@ namespace Pg::Graphics
 
 			if (tComponentVector.empty())
 			{
-				return;
+				continue;
 			}
 			for (int i = 0; i < tComponentVector.size(); i++)
 			{
@@ -485,7 +486,7 @@ namespace Pg::Graphics
 					//isInstanced에 해당될 경우만 여기서 연동해야.
 					if (!tBaseR3D->GetIsInstanced())
 					{
-						break;
+						continue;
 					}
 
 					std::string tMatPth = tBaseR3D->GetMaterialFilePath();
@@ -632,7 +633,9 @@ namespace Pg::Graphics
 			auto& bVecPtr = bBufferVecPair->_instancedStaticPairVec;
 
 			//assert(bVecPtr != nullptr);
-			assert(!bVecPtr.empty());
+			//assert(!bVecPtr.empty());
+
+			//if (bVecPtr.empty())
 			unsigned int tVecVBSize = bVecPtr.size();
 
 			for (int i = 0; i < tVecVBSize; i++)
@@ -650,7 +653,7 @@ namespace Pg::Graphics
 			auto& bVecPtr = bBufferVecPair->_instancedStaticPairVec;
 
 			//assert(bVecPtr != nullptr);
-			assert(!bVecPtr.empty());
+			//assert(!bVecPtr.empty());
 			unsigned int tVecVBSize = bVecPtr.size();
 
 			for (int i = 0; i < tVecVBSize; i++)
@@ -676,7 +679,7 @@ namespace Pg::Graphics
 				auto& bVecPtr = bVecPair->_instancedStaticPairVec;
 
 				//assert(bVecPtr != nullptr);
-				assert(!bVecPtr.empty());
+				//assert(!bVecPtr.empty());
 				unsigned int tVecVBSize = bVecPtr.size();
 
 				//개별 요소 추가.
@@ -714,7 +717,7 @@ namespace Pg::Graphics
 				auto& bVecPtr = bVecPair->_instancedStaticPairVec;
 
 				//assert(bVecPtr != nullptr);
-				assert(!bVecPtr.empty());
+				//assert(!bVecPtr.empty());
 				unsigned int tVecVBSize = bVecPtr.size();
 
 				//개별 요소 추가.
@@ -1032,8 +1035,6 @@ namespace Pg::Graphics
 					tActualRenderer->SetMaterialFilePath(Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResourcePathByName(
 						tActualRenderer->_materialName, eAssetDefine::_RENDERMATERIAL));
 				}
-
-				//Mesh Path Set / 만약 Default Material이 아닌 경우 MaterialPath까지 배치 완료.
 			}
 			else if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::SkinnedMeshRenderer*).name())) == 0)
 			{
@@ -1052,13 +1053,7 @@ namespace Pg::Graphics
 					tActualRenderer->SetMaterialFilePath(Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResourcePathByName(
 						tActualRenderer->_materialName, eAssetDefine::_RENDERMATERIAL));
 				}
-
-				//Mesh Path Set / 만약 Default Material이 아닌 경우 MaterialPath까지 배치 완료.
 			}
-
-			//모든 Conversion이 끝난 후일 것이다. 
-			//Instancing 여부 판결.
-			tBaseR3D->CheckIfInstanced();
 		}
 	}
 

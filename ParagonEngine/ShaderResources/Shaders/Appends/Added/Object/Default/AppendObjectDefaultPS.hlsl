@@ -128,17 +128,18 @@ POutQuad main(VOutQuad pin)
     //본격적인 Shader Code.
     POutQuad res;
     
-    //라이트 맵을 쓰는 경우
-    if (IsUseLightmap(pin.UV)) 
-    {
-        //이 샘플링되었던 LightmapRGB 값 가져오기 + Gamma Correction.
-        float4 lightColor = float4(GetLightmapRGB(pin.UV), 1.f);
-        lightColor.rgb = pow(lightColor.rgb, 1.f / 2.2f);
-        float4 albedo = float4(sRGB2Lin(GetAlbedoMap(pin.UV)), 1.0f);
-        //Color Correction해서 기록.
-        res.Output = albedo * lightColor;
-        return res;
-    }
+    //라이트맵이 아직 없는 이 상황, 일단은 해제했음.
+    ////라이트 맵을 쓰는 경우
+    //if (IsUseLightmap(pin.UV)) 
+    //{
+    //    //이 샘플링되었던 LightmapRGB 값 가져오기 + Gamma Correction.
+    //    float4 lightColor = float4(GetLightmapRGB(pin.UV), 1.f);
+    //    lightColor.rgb = pow(lightColor.rgb, 1.f / 2.2f);
+    //    float4 albedo = float4(sRGB2Lin(GetAlbedoMap(pin.UV)), 1.0f);
+    //    //Color Correction해서 기록.
+    //    res.Output = albedo * lightColor;
+    //    return res;
+    //}
     
     //라이트맵을 안 쓰는 경우
     res.Output = DefaultLightingOperation(pin.UV);
