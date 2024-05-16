@@ -70,10 +70,9 @@ namespace Pg::Graphics
 		struct Vin3rdInstanced_Individual
 		{
 			Vin3rdInstanced_Individual() = default;
-
+			DirectX::XMMATRIX _transform;
 			unsigned int  _objectID;
 			unsigned int  _matID;
-			DirectX::XMMATRIX _transform;
 		};
 
 	public:
@@ -94,9 +93,9 @@ namespace Pg::Graphics
 			DirectX::XMFLOAT3	_color;
 
 			//Vin3rdInstanced_Individual
+			DirectX::XMMATRIX _transform;
 			unsigned int  _objectID;
 			unsigned int  _matID;
-			DirectX::XMMATRIX _transform;
 		};
 
 		struct Vin1stPassStatic_Layout
