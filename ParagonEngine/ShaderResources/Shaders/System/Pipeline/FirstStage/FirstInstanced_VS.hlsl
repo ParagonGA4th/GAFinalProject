@@ -22,8 +22,8 @@ VOut1st_Instanced main(Vin1stPassInstanced_Layout input)
 	// 행렬도 ColumnMajor로 들어온다.
 	
 	//Row-Major 기준으로 vin1st_Transform이 들어왔다.
-	float4x4 World = Standard;
-	///float4x4 World = input.vin1st_Transform;
+	//float4x4 World = Standard;
+    float4x4 World = transpose(input.vin1st_Transform);
 
     output.vout1st_PosW = mul(World, float4(input.vin1st_PosL, 1.0f)).xyz;
 
