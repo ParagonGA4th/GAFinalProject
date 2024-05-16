@@ -8,6 +8,8 @@
 #include "Asset3DModelData.h"
 #include "AssetModelDataDefine.h"
 
+#include "RenderTexture2DArray.h"
+
 namespace Pg::Graphics
 {
 	FirstInstancedRenderPass::FirstInstancedRenderPass() : _DXStorage(LowDX11Storage::GetInstance())
@@ -107,6 +109,13 @@ namespace Pg::Graphics
 				continue;
 			}
 
+			// Albedo
+			_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(bModel->_pbrTextureArrays[0]->GetSRV()));
+			// Normal
+			_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(bModel->_pbrTextureArrays[1]->GetSRV()));
+			// ARM
+			_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(bModel->_pbrTextureArrays[2]->GetSRV()));
+
 			//우선적으로, ConstantBuffer부터 셋한다.
 			assert(bBufferPairList->_instancedLightMapSetVec.size() <= Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING);
 
@@ -150,6 +159,14 @@ namespace Pg::Graphics
 			}
 
 			_lightmapCBuffer->UnbindPS(5);
+
+			ID3D11ShaderResourceView* tNullSRV = nullptr;
+			// Albedo
+			_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &tNullSRV);
+			// Normal
+			_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
+			// ARM
+			_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
 		}
 	}
 
@@ -167,6 +184,13 @@ namespace Pg::Graphics
 			{
 				continue;
 			}
+
+			// Albedo
+			_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(bModel->_pbrTextureArrays[0]->GetSRV()));
+			// Normal
+			_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(bModel->_pbrTextureArrays[1]->GetSRV()));
+			// ARM
+			_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(bModel->_pbrTextureArrays[2]->GetSRV()));
 
 			//우선적으로, ConstantBuffer부터 셋한다.
 			assert(bBufferPairList->_instancedLightMapSetVec.size() <= Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING);
@@ -211,6 +235,14 @@ namespace Pg::Graphics
 			}
 
 			_lightmapCBuffer->UnbindPS(5);
+
+			ID3D11ShaderResourceView* tNullSRV = nullptr;
+			// Albedo
+			_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &tNullSRV);
+			// Normal
+			_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
+			// ARM
+			_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
 		}
 	}
 
