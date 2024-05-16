@@ -661,6 +661,11 @@
 					<data>
 					</data>
 				</component>
+			  <component>
+				<type>class Pg::DataScript::NavAgent</type>
+				<data>
+				</data>
+			  </component>
 			</components>
 		</object>
 		<object>

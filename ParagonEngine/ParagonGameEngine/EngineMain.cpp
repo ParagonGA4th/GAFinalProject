@@ -98,13 +98,12 @@ namespace Pg::Engine
 		_soundSystem->Initialize(resourceListPath);
 		///Recast 관련 테스트.
 		_navSystem->Initialize();
-		_navSystem->SetAgent(0, 2.f, 45.f, 2.f, 0.9f);
 		_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 0);
 		//_navSystem->HandleBuild(1);
 		_behaviorTreeSystem->Initialize(resourceListPath);
 
 		///Recast관련 테스트 코드.
-		_navSystem->SetSEpos(0, 0.0f, 0.0f, 10.0f, 0.0f, 0.0f, -10.0f);
+		//_navSystem->SetSEpos(0, 0.0f, 0.0f, 10.0f, 0.0f, 0.0f, -10.0f);
 
 		_navTestInfo = new Pg::Data::NavMeshInfo;
 		_navTestInfo->vertices = new std::vector<Pg::Math::PGFLOAT3>();
@@ -196,21 +195,21 @@ namespace Pg::Engine
 
 
 		///Recast Obj 파일 디버그 그리기
-		std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos1 = _navSystem->FindStraightPath(0);
+		//std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos1 = _navSystem->FindStraightPath(0);
 		//std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos2 = _navSystem->FindStraightPath(1);
-		Pg::Math::PGFLOAT3 navipos3 = _navSystem->FindRaycastPath(0);
+		//Pg::Math::PGFLOAT3 navipos3 = _navSystem->FindRaycastPath(0);
 
-		for (auto path : navipos1)
-		{
-			_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 1.0f, 0.0f, 1.0f));
-		}
+		//for (auto path : navipos1)
+		//{
+		//	_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 1.0f, 0.0f, 1.0f));
+		//}
 
 		//for (auto path : navipos2)
 		//{
 		//	_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
 		//}
 
-		_debugSystem->DrawLineDebug(Pg::Math::PGFLOAT3(0.0f, 0.0f, 0.0f), navipos3, Pg::Math::PGFLOAT4(1.0f, 0.0f, 1.0f, 1.0f));
+		//_debugSystem->DrawLineDebug(Pg::Math::PGFLOAT3(0.0f, 0.0f, 0.0f), navipos3, Pg::Math::PGFLOAT4(1.0f, 0.0f, 1.0f, 1.0f));
 
 		//명시적으로 바뀔 때 감지를 할 수 있게 하기 위해, 
 		//현재의 Editor Mode를 전의 것이라고 대입한다.

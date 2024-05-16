@@ -121,7 +121,7 @@ namespace Pg::Engine
 		PARAGON_ENGINE_DLL Pg::Math::PGFLOAT3 FindRaycastPath(int index);
 
 		//Agent 전부 추가.
-		void SyncAgent();
+		PARAGON_ENGINE_DLL void SyncAgent(int index, Pg::Math::PGFLOAT3 pos);
 
 		// 장애물을 추가한다.
 		// pos = 장애물 위치 / radius = 장애물 크기 / height = 장애물 사이즈

@@ -102,7 +102,6 @@ namespace Pg::DataScript
 				btn->SetActive(false);
 				im->SetActive(false);
 			}
-
 			_isPaused = false;
 		}
 	}
