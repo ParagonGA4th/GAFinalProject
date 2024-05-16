@@ -59,7 +59,7 @@ void Pg::Editor::Window::Hierarchy::Finalize()
 
 }
 
-void Pg::Editor::Window::Hierarchy::SetShow(bool show)    
+void Pg::Editor::Window::Hierarchy::SetShow(bool show)
 {
 	_isShow = show;
 }
@@ -89,9 +89,9 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 
 	for (auto& name : _objNameList)
 	{
-		if (name.second.second.empty())
+		for (auto& obj : _dataContainer->GetCurrentScene()->GetObjectList())
 		{
-			for (auto& obj : _dataContainer->GetCurrentScene()->GetObjectList())
+			if (name.second.second.empty())
 			{
 				if (obj->_transform._object->GetName() == name.second.first)
 				{
@@ -102,33 +102,23 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 					}
 				}
 			}
-		}
-		else
-		{
-			Pg::Data::GameObject* tobj = nullptr;
-			for (auto& obj : _dataContainer->GetCurrentScene()->GetObjectList())
+			else
 			{
-				if (obj->GetName() == name.second.first) tobj = obj;
-			}
+				if (obj->GetName() != name.second.first) continue;
 
-			if (tobj != nullptr)
-			{
-				for (auto& childName : name.second.second)
+				if (obj->_transform.GetChildren().empty())
 				{
-					for (auto& obj : _dataContainer->GetCurrentScene()->GetObjectList())
+					for (auto& childName : name.second.second)
 					{
-						if (childName == obj->GetName())
-						{
-							if (tobj->_transform.GetChildren().empty())	tobj->_transform.AddChild(obj);
+						auto it = std::find_if(_dataContainer->GetCurrentScene()->GetObjectList().begin(),
+							_dataContainer->GetCurrentScene()->GetObjectList().end(),
+							[&](Pg::Data::GameObject* childObj)
+							{
+								return childObj->GetName() == childName;
+							});
 
-							auto it = std::find_if(tobj->_transform.GetChildren().begin(), tobj->_transform.GetChildren().end(),
-								[&](Pg::Data::Transform* trans)
-								{
-									return trans->_object->GetName() == childName;
-								});
-
-							if (it == tobj->_transform.GetChildren().end()) tobj->_transform.AddChild(obj);
-						}
+						if (it == _dataContainer->GetCurrentScene()->GetObjectList().end())
+							obj->_transform.AddChild(*it);
 					}
 				}
 			}
@@ -143,7 +133,7 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 	std::string sceneName = _dataContainer->GetCurrentScene()->GetSceneName();
 
 	// 여러 번 오브젝트 리스트를 가져오는 것을 막기 위해
-	if (_prevSceneName != sceneName || (* _isNewObject) || (*_isDeleteObject) || _isObjectChange || _isRefresh)
+	if (_prevSceneName != sceneName || (*_isNewObject) || (*_isDeleteObject) || _isObjectChange || _isRefresh)
 	{
 		std::vector<Pg::Data::GameObject*> tObjList;
 
@@ -160,7 +150,7 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 				auto obj = _dataContainer->GetCurrentScene()->AddObject("New Object " + std::to_string(_count++));
 				tObjList.emplace_back(obj);
 			}
-		
+
 			_changeObjectData->Invoke(eEventType::_ADDOBJECT, static_cast<void*>(&tObjList));
 			tObjList.clear();
 		}
@@ -175,12 +165,12 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 					break;
 				}
 			}
-				
+
 			_changeObjectData->Invoke(eEventType::_DELETEOBJECT, static_cast<void*>(&tObjList));
 			tObjList.clear();
 			_dataContainer->GetCurrentScene()->DeleteObject((*_prevObjName));
 
-			if(_count > 0) _count--;
+			if (_count > 0) _count--;
 		}
 
 		_prevSceneName = sceneName;
@@ -188,7 +178,7 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 
 		int count = 0;
 		std::vector<std::string> childObject;
-		
+
 		for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
 		{
 			if (!i->_transform.GetChildren().empty())
@@ -201,8 +191,20 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 
 			auto childObj = std::find(childObject.begin(), childObject.end(), i->GetName());
 
-			if (childObj == childObject.end()) _objNameList[count++] = std::make_pair(i->GetName(), childObject);
-			else childObject.clear();
+			if (childObject.size() == 1)
+			{
+				if (childObject.at(0) != i->GetName())
+					_objNameList[count++] = std::make_pair(i->GetName(), childObject);
+				else
+					childObject.erase(childObj);
+			}
+			else
+			{
+				if (childObj == childObject.end())
+					_objNameList[count++] = std::make_pair(i->GetName(), childObject);
+				else
+					childObject.erase(childObj);
+			}
 		}
 	}
 }

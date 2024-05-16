@@ -19,19 +19,19 @@ namespace Pg::DataScript
 	{
 		//일시정지 창 닫기.
 		auto btnObj = _object->GetScene()->FindObjectWithName("PauseExit");
-		_object->GetComponent<Pg::Data::Transform>()->AddChild(btnObj);
+		//_object->GetComponent<Pg::Data::Transform>()->AddChild(btnObj);
 
 		//메인메뉴로 가기.
 		auto menuObj = _object->GetScene()->FindObjectWithName("GotoMenu");
-		_object->GetComponent<Pg::Data::Transform>()->AddChild(menuObj);
+		//_object->GetComponent<Pg::Data::Transform>()->AddChild(menuObj);
 
 		//메인메뉴로 가기.
 		auto tutorialObj = _object->GetScene()->FindObjectWithName("TutorialButton");
-		_object->GetComponent<Pg::Data::Transform>()->AddChild(tutorialObj);
+		//_object->GetComponent<Pg::Data::Transform>()->AddChild(tutorialObj);
 
 		//메인메뉴로 가기.
 		auto optionObj = _object->GetScene()->FindObjectWithName("OptionButton");
-		_object->GetComponent<Pg::Data::Transform>()->AddChild(optionObj);
+		//_object->GetComponent<Pg::Data::Transform>()->AddChild(optionObj);
 
 		btnObj->GetComponent<Pg::Data::Button>()->SetOnClickEvent([this]
 			{
