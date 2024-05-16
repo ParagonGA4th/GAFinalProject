@@ -94,6 +94,7 @@ namespace Pg::Core
 		void* GetGameCameraViewSRV();
 
 		void SetSceneList(std::vector<Pg::Data::Scene*> sceneList);
+		std::vector<Pg::Data::Scene*> GetSceneList();
 		void SetCurrentScene(Pg::Data::Scene* currentScene);
 		Pg::Data::Scene* GetCurrentScene();
 

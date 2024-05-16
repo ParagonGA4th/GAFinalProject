@@ -19,7 +19,7 @@ namespace Pg::Engine
 	}
 }
 
-namespace BT { class Tree; }
+namespace BT { class Tree; class FileLogger; }
 
 namespace Pg::Data
 {
@@ -73,10 +73,6 @@ namespace Pg::Data
 		//Animator는 객체에 따라 다른 로직을 보유해야 한다.
 		//다른 XML파일에서 매번 파싱되어 로드되어야 한다.
 		BT::Tree* _behavTree = nullptr;
-
-
-		
-
-
+		BT::FileLogger* _logger{ nullptr };
 	};
 }

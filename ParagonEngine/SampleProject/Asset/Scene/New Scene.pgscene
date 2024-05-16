@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <scene>
 	<objects>
 		<object>
@@ -41,7 +40,7 @@
 				<component>
 					<type>class Pg::Data::Animator</type>
 					<data>
-						<behaviorTreePath>Test3</behaviorTreePath>
+						<behaviorTreePath>../Resources/BehaviorTrees/Test/Test3.xml</behaviorTreePath>
 						<isUniform>false</isUniform>
 						<isCulled>false</isCulled>
 					</data>

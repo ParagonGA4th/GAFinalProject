@@ -61,7 +61,7 @@ namespace Pg::Engine
 		Scene* GetCurrentScene();		
 		
 		void SetSceneList(std::vector<Scene*> scenes);
-		//Scene* GetSceneList();
+		std::vector<Scene*> GetSceneList();
 
 		//새로운 씬을 생성한다.
 		Scene* CreateScene(const std::string& sceneName);

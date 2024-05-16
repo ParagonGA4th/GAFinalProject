@@ -71,21 +71,20 @@ void Pg::Editor::Manager::ProcessManager::Update()
 
 	if (_dataContainer->GetEditorOnOff())
 	{
-		if (_dataContainer->GetSceneList().size() > 0)
+		if (_coreMain->GetEditorAdapter()->GetSceneList().size() != _dataContainer->GetSceneList().size())
+			_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
+
+		if (_coreMain->GetEditorAdapter()->GetCurrentScene()->GetSceneName() != _dataContainer->GetCurrentScene()->GetSceneName())
 		{
-			if (_dataContainer->GetSceneList().size() > 0)
+			if (_dataContainer->GetIsSceneChange())
 			{
-				_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
 				_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
+				_dataContainer->SetIsSceneChange(false);
 			}
-
-			//if (_input->GetKeyDown(API::Input::eKeyCode::Save)) _editorEvent->Invoke(eEventType::_SAVEPROJECT);
+			else
+				_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
 		}
-		_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
-		_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
-
-		if (_coreMain->GetEditorAdapter()->GetCurrentScene() != _dataContainer->GetCurrentScene())
-			_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
+		//if (_input->GetKeyDown(API::Input::eKeyCode::Save)) _editorEvent->Invoke(eEventType::_SAVEPROJECT);
 	}
 	else
 	{

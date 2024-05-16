@@ -185,6 +185,20 @@ void Pg::Editor::Manager::DataManager::SceneLoad(std::string path)
 		pugi::xml_node rootNode = doc.child("scene");
 		newScene->SetIs3D(Pg::Serialize::Serializer::DeserializeBoolean(&rootNode, "is3D"));
 		DataDeserialize(rootNode.child("objects"), _scenes.size() - 1);
+
+		if (!_existsParentObject.empty())
+		{
+			for (auto& obj : newScene->GetObjectList())
+			{
+				for (auto& childObj : _existsParentObject)
+				{
+					if (obj->GetUUID() == childObj.second)
+						obj->_transform.AddChild(childObj.first);
+				}
+			}
+
+			_existsParentObject.clear();
+		}
 	}
 }
 
@@ -233,7 +247,6 @@ void Pg::Editor::Manager::DataManager::SceneSave()
 		_sceneSerializeData.insert({ scene->GetSceneName(), docToString });
 
 		std::string sceneName = scene->GetSceneName().substr(0, scene->GetSceneName().rfind("."));
-
 	}
 }
 
@@ -258,6 +271,7 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 		std::string parent_uuid = Pg::Serialize::Serializer::DeserializeString(&object, "parent_uuid");
 
 		if (parent_uuid.empty()) parent = false;
+		if (parent) _existsParentObject.insert({ obj, parent_uuid });
 
 		// 컴포넌트를 추가하기 위해 노드 가져오기
 		pugi::xml_node comps = object.find_node([](const pugi::xml_node& node) { return std::string(node.name()) == "components"; });
@@ -273,13 +287,6 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 				if (typeName.find("Transform") != std::string::npos)
 				{
 					obj->_transform.OnDeserialize(tSerVec);
-					if (parent)
-					{
-						for (auto& pObj : _scenes.at(sceneNum)->GetObjectList())
-						{
-							if (pObj->GetUUID().compare(parent_uuid) == 0) pObj->_transform.AddChild(obj);
-						}
-					}
 				}
 				else
 				{
@@ -293,10 +300,10 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 						{
 							auto col = obj->GetComponent<Pg::Data::Collider>();
 
-							pugi::xml_node node = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "layer"; });
-							col->SetLayer(Pg::Serialize::Serializer::DeserializeUint(&node, ""));
+							pugi::xml_node node = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "trigger"; });
+							//col->SetLayer(Pg::Serialize::Serializer::DeserializeUint(&node, ""));
 
-							node = node.next_sibling();
+							//node = node.next_sibling();
 							col->SetTrigger(Pg::Serialize::Serializer::DeserializeBoolean(&node, ""));
 							
 							node = node.next_sibling();
