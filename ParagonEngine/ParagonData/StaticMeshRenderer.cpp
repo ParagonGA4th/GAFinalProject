@@ -82,6 +82,16 @@ namespace Pg::Data
 			_meshName = ResourceHelper::GetNameFromPath(_meshFilePath);
 		}
 
+		//인스턴싱 : XML에서 기록.
+		std::string tPrefixFromName = _meshName.substr(0, 5);
+		//Mesh Path Set / 만약 Default Material이 아닌 경우 MaterialPath까지 배치 완료.
+		if (tPrefixFromName.compare(Pg::Defines::NON_INSTANCED_3DMODEL_PREFIX) != 0)
+		{
+			//norm_으로 시작하지 않기 때문에, 인스턴스된 렌더링이 적용됨!
+			_isInstanced = true;
+			_object->_transform._isCanMove = false;
+		}
+
 		if (_materialName.empty())
 		{
 			if (_renderMaterialPath.empty())
@@ -93,21 +103,6 @@ namespace Pg::Data
 		}
 	}
 
-	void StaticMeshRenderer::CheckIfInstanced()
-	{
-		using Pg::Util::Helper::ResourceHelper;
-
-		//인스턴싱 : XML에서 기록.
-		std::string tPrefixFromName = _meshName.substr(0, 5);
-
-		if (tPrefixFromName.compare(Pg::Defines::INSTANCED_3DMODEL_PREFIX) == 0)
-		{
-			_isInstanced = true;
-			_object->_transform._isCanMove = false;
-		}
-
-		return;
-	}
 
 
 

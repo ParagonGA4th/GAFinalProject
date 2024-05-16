@@ -42,7 +42,7 @@ namespace Pg::Defines
 	const std::string GENERATED_MATERIAL_PREFIX = "$GeneratedMaterial_$";
 	const std::string GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX = "$GeneratedMaterial_Texture2DArray_$";
 
-	const std::string INSTANCED_3DMODEL_PREFIX = "inst_";
+	const std::string NON_INSTANCED_3DMODEL_PREFIX = "norm_";
 
 	//셰이더 이름들.
 	const std::string DEFAULT_APPENDS_RENDER_VS_NAME = "AppendObjectDefaultVS.cso";
