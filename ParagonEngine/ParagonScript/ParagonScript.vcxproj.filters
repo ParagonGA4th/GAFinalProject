@@ -127,6 +127,9 @@
     <Filter Include="UI\InGameUI\PauseUI">
       <UniqueIdentifier>{08be141c-74f4-470c-a6da-1f0b8889e568}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\NavAgent">
+      <UniqueIdentifier>{3184d62b-1880-4091-a223-25739402b05f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -206,6 +209,9 @@
     </ClCompile>
     <ClCompile Include="PauseBox.cpp">
       <Filter>UI\InGameUI\PauseUI</Filter>
+    </ClCompile>
+    <ClCompile Include="NavAgent.cpp">
+      <Filter>AI\NavAgent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -319,6 +325,9 @@
     </ClInclude>
     <ClInclude Include="PauseBox.h">
       <Filter>UI\InGameUI\PauseUI</Filter>
+    </ClInclude>
+    <ClInclude Include="NavAgent.h">
+      <Filter>AI\NavAgent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

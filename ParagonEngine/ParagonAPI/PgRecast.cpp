@@ -13,4 +13,14 @@ namespace Pg::API::Recast
 	{
 		_navSystem->SetSEpos(index, startPosition, endPosition);
 	}
+
+	std::vector <std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> PgRecast::FindStraightPath(int index)
+	{
+		return _navSystem->FindStraightPath(index);
+	}
+
+	void PgRecast::SetAgent(int index, float agentHeight, float agentMaxSlope, float agentRadius, float agentMaxClimb)
+	{
+		_navSystem->SetAgent(index, agentHeight, agentMaxSlope, agentRadius, agentMaxClimb);
+	}
 }
