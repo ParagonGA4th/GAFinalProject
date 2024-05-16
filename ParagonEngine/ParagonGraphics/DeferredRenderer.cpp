@@ -60,6 +60,15 @@ namespace Pg::Graphics
 		_deltaTimeStorage = dt;
 	}
 
+	void DeferredRenderer::ClearPlaceResources()
+	{
+		//패스 외적으로 들어가야 하는 리소스들 GPU에 배치. 이 경우, SamplerState만 위로 배치.
+		PlaceRequiredResources();
+
+		//렌더러들 사이로 돌 D3DCarrier의 리소스 기본 설정.
+		UpdateCarrierResources();
+	}
+
 	void DeferredRenderer::RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData)
 	{
 		Render((RenderObject3DList*)renderObjectList, (SceneInformationList*)optionalRequirement, camData);
@@ -67,12 +76,6 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::Render(RenderObject3DList* renderObjectList, SceneInformationList* sceneInfoList, Pg::Data::CameraData* camData)
 	{
-		//패스 외적으로 들어가야 하는 리소스들 GPU에 배치. 이 경우, SamplerState만 위로 배치.
-		PlaceRequiredResources();
-
-		//렌더러들 사이로 돌 D3DCarrier의 리소스 기본 설정.
-		UpdateCarrierResources();
-
 		//Pass를 순서대로 호출하는 방식.
 		//나중에 Custom 동작이 필요하다고 한다면, 단순한 For문으로 안될 수도 있다.
 		//여튼, 특정한 Pass에 값을 전달하는 코드가 있어야 할 것이다.
@@ -467,6 +470,7 @@ namespace Pg::Graphics
 		_iblSpecularLutTextureMap = static_cast<RenderTexture2D*>(tSpecLUT.get());
 	}
 
+	
 	
 
 }

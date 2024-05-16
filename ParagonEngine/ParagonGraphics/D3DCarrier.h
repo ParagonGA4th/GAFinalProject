@@ -27,7 +27,7 @@ namespace Pg::Graphics
 		
 		//GBuffer ฐüทร RTVs & SRVs. (Pos, UV Coords, Etc)
 		std::vector<std::unique_ptr<GBufferRender>> _gBufRequiredInfoRT;
-		std::unique_ptr<GBufferDepthStencil> _gBufRequiredInfoDSV;
+		std::unique_ptr<GBufferDepthStencil> _gBufRequiredInfoDSV; // Opaque.
 
 		std::vector<ID3D11RenderTargetView*> _gBufRequiredRTVArray;
 		std::vector<ID3D11ShaderResourceView*> _gBufRequiredSRVArray;

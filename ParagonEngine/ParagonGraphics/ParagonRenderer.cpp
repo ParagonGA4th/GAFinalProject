@@ -85,6 +85,8 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::Render(Pg::Data::CameraData* camData)
 	{
+		_deferredRenderer->ClearPlaceResources();
+
 		// Deferred w/ Pass
 		_deferredRenderer->RenderContents(_sceneParser->GetRenderObject3DList(), _sceneParser->GetSceneInformationList(), camData);
 		_deferredRenderer->ConfirmCarrierData();
