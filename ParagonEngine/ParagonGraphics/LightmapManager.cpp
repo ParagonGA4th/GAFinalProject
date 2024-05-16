@@ -8,6 +8,7 @@
 #include "RenderTexture2D.h"
 #include "RenderTexture2DArray.h"
 #include "../ParagonData/StaticMeshRenderer.h"
+#include "../ParagonUtil/Log.h"
 
 namespace Pg::Graphics
 {
@@ -41,11 +42,17 @@ namespace Pg::Graphics
 	void LightmapManager::SetGPULightmapDataWithScene(const Pg::Data::Scene* scene, void* renderObjectList)
 	{
 		std::string sceneName = scene->GetSceneNameConst();
+		sceneName.append(".pgscene");
 		if (!_lightmapStorage.contains(sceneName))
 		{
 			//Scene의 이름으로 등록된 Lightmap이 없으면, 아무 행동도 하지 않고 리턴.
+			_isSceneUseLightmap = false;
+			
 			return;
 		}
+
+		//라이트맵을 사용한다고 표시.
+		_isSceneUseLightmap = true;
 
 		//무조건 이 시점에서는 있게 된다.
 		RenderLightmapData* tRenderLightmapData = _lightmapStorage.at(sceneName).get();

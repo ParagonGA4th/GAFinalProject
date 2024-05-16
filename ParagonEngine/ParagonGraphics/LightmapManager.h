@@ -23,14 +23,15 @@ namespace Pg::Graphics
 		//실제 값이 있으면, 정렬 후 사용. 없으면, 아무 동작도 하지 않음.
 		void SetGPULightmapDataWithScene(const Pg::Data::Scene* scene, void* renderObjectList);
 	
+		bool GetIsSceneUseLightmap() { return _isSceneUseLightmap; }
 	private:
 		void LoadLightmapCSVList(const std::string& resourceListPath);
-	
+		
 	private:
 		//Scene Name / Lightmap Data
 		std::unordered_map<std::string, std::unique_ptr<RenderLightmapData>> _lightmapStorage;
 		std::unique_ptr<LightmapParser> _lightmapParser;
-
+		bool _isSceneUseLightmap{ false };
 
 	};
 }

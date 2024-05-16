@@ -53,6 +53,7 @@ namespace Pg::Graphics
 			DirectX::XMMATRIX gCBuf_ViewProjMatrix;
 
 			DirectX::XMFLOAT3 gCBuf_EyePosition;
+			int gCBuf_IsSceneUseLightmap;
 		};
 
 		struct cbRenderingInfo
