@@ -512,7 +512,7 @@
 	  </object>
 	  <object>
 		<uuid>B50B3AF01D4045608B781F5AED7F6732</uuid>
-		<name>OptaionButton</name>
+		<name>OptionButton</name>
 		<active>true</active>
 		<tag></tag>
 		<dontdestroy>false</dontdestroy>

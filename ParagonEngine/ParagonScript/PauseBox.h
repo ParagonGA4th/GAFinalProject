@@ -34,6 +34,9 @@ namespace Pg::DataScript
 		Pg::Data::Button* _button;
 		Pg::API::Input::PgInput* _pgInput = nullptr;
 		Pg::API::PgScene* _pgScene = nullptr;
+
+		//ÇÃ·¡±×
+		bool _isPaused = false;
 	};
 }
 
