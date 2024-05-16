@@ -2,6 +2,6 @@
 <project>
 	<scenes>
 		<scene>TitleScene</scene>
-		<scene>testing_Content1</scene>
+		<scene>Stage1</scene>
 	</scenes>
 </project>

@@ -42,6 +42,7 @@ namespace Pg::API::Input
 
 		KeyB,
 		KeyN,
-		KeyM
+		KeyM,
+		Esc
 	};
 }

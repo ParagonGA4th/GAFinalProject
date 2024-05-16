@@ -41,29 +41,17 @@ namespace Pg::Core
 
 	void EditorAdapter::SetSceneList(std::vector<Pg::Data::Scene*> scenes)
 	{
-		if (_scenes == scenes) return;
+		_processMain->GetEngineGraphicsAdapter()->SetSceneList(scenes);
+	}
 
-		_scenes = scenes;
-		_processMain->GetEngineGraphicsAdapter()->SetSceneList(_scenes);
+	std::vector<Pg::Data::Scene*> EditorAdapter::GetSceneList()
+	{
+		return  _processMain->GetEngineGraphicsAdapter()->GetSceneList();
 	}
 
 	void EditorAdapter::SetCurrentScene(Pg::Data::Scene* scene)
 	{
-		/*if (_currentScene == scene || scene->GetSceneName() == _currentScene->GetSceneName())
-		{
-			return;
-		}*/
-
-		if (_currentScene != nullptr)
-		{
-			if (scene->GetSceneName() == _currentScene->GetSceneName())
-			{
-				return;
-			}
-		}
-
-		_currentScene = scene;
-		_processMain->GetEngineGraphicsAdapter()->SetCurrentScene(_currentScene);
+		_processMain->GetEngineGraphicsAdapter()->SetCurrentScene(scene);
 	}
 
 	Pg::Data::Scene* EditorAdapter::GetCurrentScene()

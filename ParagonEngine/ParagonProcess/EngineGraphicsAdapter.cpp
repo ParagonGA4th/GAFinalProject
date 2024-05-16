@@ -142,6 +142,11 @@ namespace Pg::Core
 		return _engine->SetSceneList(sceneList);
 	}
 
+	std::vector<Pg::Data::Scene*> EngineGraphicsAdapter::GetSceneList()
+	{
+		return _engine->GetSceneList();
+	}
+
 	void EngineGraphicsAdapter::SetCurrentScene(Pg::Data::Scene* currentScene)
 	{
 		return _engine->SetCurrentScene(currentScene);

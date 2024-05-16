@@ -36,6 +36,7 @@
 #include "Enemy.h"
 #include "RayCastTest.h"
 #include "EventTest.h"
+#include "NavTest.h"
 #include "ArrowAction.h"
 #include "ScreenPointTest.h"
 #include "DemoPlayerAction.h"
@@ -167,18 +168,18 @@ void Pg::Engine::TestScene::Initialize()
 		tObj7->GetComponent<Transform>()->_position = { 0.0f, 3.0f, 0.0f };
 		tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 		tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
-		tObj7->AddComponent<CapsuleCollider>();
-		tObj7->GetComponent<CapsuleCollider>()->SetCapsuleInfo(0.5f, 0.3f);
-		tObj7->GetComponent<CapsuleCollider>()->SetPositionOffset({ 0.f, 0.7f, 0.f });
-		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
-		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
-		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+		//tObj7->AddComponent<CapsuleCollider>();
+		//tObj7->GetComponent<CapsuleCollider>()->SetCapsuleInfo(0.5f, 0.3f);
+		//tObj7->GetComponent<CapsuleCollider>()->SetPositionOffset({ 0.f, 0.7f, 0.f });
+		//tObj7->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
+		//tObj7->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
+		//tObj7->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
 		tObj7->AddComponent<SkinnedMeshRenderer>();
 		tObj7->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/AnimMesh/ErikaMixamo/ErikaMixamo.fbx");
 		//tObj7->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_idle.pganim";
 		tObj7->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_run.pganim";
 		tObj7->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
-		//tObj7->AddComponent<DemoPlayerAction>();
+		tObj7->AddComponent<NavTest>();
 	}
 
 	//for (int i = 0; i < 30; i++)

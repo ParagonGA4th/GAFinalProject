@@ -63,6 +63,7 @@ namespace Pg::Engine::BTree
 
 		_factory->registerNodeType<Node::Anim_Idle>("Anim_Idle");
 		_factory->registerNodeType<Node::Anim_Walk>("Anim_Walk");
+		_factory->registerNodeType<Node::Hold_Anim>("Hold_Anim");
 		//_factory->registerNodeType<Node::isHitSpace>("isHitSpace");
 
 #pragma endregion ACTUAL_NODE_REGISTRATION

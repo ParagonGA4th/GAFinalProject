@@ -1,7 +1,9 @@
 #include "Navigation.h"
+#include "SceneSystem.h"
 #include "ParagonRecast.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/NavMeshAgent.h"
+
 
 #include <singleton-cpp/singleton.h>
 #include <functional>
@@ -30,6 +32,7 @@ namespace Pg::Engine
 		_polyPickExt[2] = 2;
 
 		_navQuery = new dtNavMeshQuery();
+		_crowd = new dtCrowd();
 	}
 
 	PathFindbox::~PathFindbox()
@@ -72,7 +75,7 @@ namespace Pg::Engine
 		_tmproc = new MeshProcess();
 
 		//NavMesh 및 Crowd 할당.
-		_package->_navQuery = dtAllocNavMeshQuery();
+		//_package->_navQuery = dtAllocNavMeshQuery();
 
 		_package->_crowd = dtAllocCrowd();
 	}
@@ -557,8 +560,12 @@ namespace Pg::Engine
 		}
 	}
 
-	void Navigation::SyncAgent()
+	void Navigation::SyncAgent(int index, Pg::Math::PGFLOAT3 pos)
 	{
+		//싱글턴
+		auto& tSceneSystem = singleton<SceneSystem>();
+		_sceneSystem = &tSceneSystem;
+
 		//Agent의 속성 부여
 		dtCrowdAgentParams ap;
 		memset(&ap, 0, sizeof(ap));
@@ -575,6 +582,8 @@ namespace Pg::Engine
 		ap.updateFlags = DT_CROWD_OPTIMIZE_TOPO |
 			DT_CROWD_OPTIMIZE_VIS |
 			DT_CROWD_OBSTACLE_AVOIDANCE;
+
+		_package[index]._crowd->addAgent(reinterpret_cast<const float*>(&pos), &ap);
 	}
 
 	dtObstacleRef Navigation::hitTestObstacle(const dtTileCache* tc, const float* sq)
@@ -651,6 +660,8 @@ namespace Pg::Engine
 		_package[index]._endPos[1] = ey;
 		_package[index]._endPos[2] = ez;
 		_package[index]._navQuery->findNearestPoly(_package[index]._endPos, _package[index]._polyPickExt, &(_package[index]._filter), &(_package[index]._endRef), 0);
+
+		_package[index]._crowd->requestMoveTarget(index, _package[index]._endRef, _package[index]._endPos);
 	}
 
 	void Navigation::SetSEpos(int index, Pg::Math::PGFLOAT3 startPosition, Pg::Math::PGFLOAT3 endPosition)
@@ -691,6 +702,9 @@ namespace Pg::Engine
 		_package[index]._agentsetting._agentMaxSlope = agentMaxSlope;
 		_package[index]._agentsetting._agentRadius = agentRadius;
 		_package[index]._agentsetting._agentMaxClimb = agentMaxClimb;
+
+		//Agent들을 벡터로 관리하기 위함.
+		_agentVec.push_back(&_package[index]._agentsetting);
 	}
 
 	void Navigation::GetNavmeshRenderInfo(int index, std::vector<Pg::Math::PGFLOAT3>& vertices, std::vector<unsigned int>& indices)

@@ -166,6 +166,9 @@
     <ClInclude Include="MeshLoaderObj.h">
       <Filter>2_System\NavigationSystem\FixedClass\MeshLoader</Filter>
     </ClInclude>
+    <ClInclude Include="NavTest.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\NavTest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -342,6 +345,9 @@
     <ClCompile Include="MeshLoaderObj.cpp">
       <Filter>2_System\NavigationSystem\FixedClass\MeshLoader</Filter>
     </ClCompile>
+    <ClCompile Include="NavTest.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\NavTest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -493,6 +499,9 @@
     </Filter>
     <Filter Include="2_System\NavigationSystem\FixedClass\MeshLoader">
       <UniqueIdentifier>{746e7f1e-341d-416f-9ee1-799cd214ea2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\NavTest">
+      <UniqueIdentifier>{8ce763cb-9eda-4ed9-b191-9d1dfdfeee7a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

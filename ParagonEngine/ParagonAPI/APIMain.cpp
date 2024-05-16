@@ -6,6 +6,7 @@
 #include "PgRayCast.h"
 #include "PgGraphics.h"
 #include "PgScene.h"
+#include "PgRecast.h"
 
 #include <singleton-cpp/singleton.h>
 
@@ -34,6 +35,9 @@ namespace Pg::API
 		auto& tPgScene = singleton<Pg::API::PgScene>();
 		this->_pgScene = &tPgScene;
 
+		auto& tPgRecast = singleton<Pg::API::Recast::PgRecast>();
+		this->_pgRecast = &tPgRecast;
+
 		_pgInput->Initialize();
 		_pgTime->Initialize();
 		_pgRayCast->Initialize();
@@ -41,6 +45,7 @@ namespace Pg::API
 		_pgTween->Initialize();
 		_pgGraphics->Initialize();
 		_pgScene->Initialize();
+		_pgRecast->Initialize();
 	}
 
 	void APIMain::Finalize()
