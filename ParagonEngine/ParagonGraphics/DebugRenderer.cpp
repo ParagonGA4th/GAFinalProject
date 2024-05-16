@@ -45,7 +45,8 @@ namespace Pg::Graphics
 
 	void DebugRenderer::Render(RenderObjectWireframeList* wireframeList, Pg::Data::CameraData* camData)
 	{
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_quadMainGDS->GetDSV());
+		//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_quadMainGDS->GetDSV());
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_gBufRequiredInfoDSV->GetDSV());
 
 		WireframeObjRender(wireframeList, camData);
 

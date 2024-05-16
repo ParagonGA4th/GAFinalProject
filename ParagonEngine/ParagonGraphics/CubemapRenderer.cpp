@@ -49,7 +49,9 @@ namespace Pg::Graphics
 	void Pg::Graphics::CubemapRenderer::Render(RenderObjectCubemapList* cubeMapList, Pg::Data::CameraData* camData)
 	{
 		//여전히 Quad에 있는 값으로 렌더.
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_quadMainGDS->GetDSV());
+		//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_quadMainGDS->GetDSV());
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_gBufRequiredInfoDSV->GetDSV());
+		//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), nullptr);
 
 		RenderCubemapWithIndex(camData, cubeMapList, _internalCubemapList);
 	}
