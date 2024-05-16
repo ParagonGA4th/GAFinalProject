@@ -635,7 +635,10 @@ namespace Pg::Graphics
 			//assert(bVecPtr != nullptr);
 			//assert(!bVecPtr.empty());
 
-			//if (bVecPtr.empty())
+			if (bVecPtr.empty())
+			{
+				continue;
+			}
 			unsigned int tVecVBSize = bVecPtr.size();
 
 			for (int i = 0; i < tVecVBSize; i++)
@@ -654,6 +657,12 @@ namespace Pg::Graphics
 
 			//assert(bVecPtr != nullptr);
 			//assert(!bVecPtr.empty());
+
+			if (bVecPtr.empty())
+			{
+				continue;
+			}
+
 			unsigned int tVecVBSize = bVecPtr.size();
 
 			for (int i = 0; i < tVecVBSize; i++)
@@ -680,6 +689,11 @@ namespace Pg::Graphics
 
 				//assert(bVecPtr != nullptr);
 				//assert(!bVecPtr.empty());
+				if (bVecPtr.empty())
+				{
+					continue;
+				}
+
 				unsigned int tVecVBSize = bVecPtr.size();
 
 				//개별 요소 추가.
@@ -718,6 +732,12 @@ namespace Pg::Graphics
 
 				//assert(bVecPtr != nullptr);
 				//assert(!bVecPtr.empty());
+
+				if (bVecPtr.empty())
+				{
+					continue;
+				}
+
 				unsigned int tVecVBSize = bVecPtr.size();
 
 				//개별 요소 추가.
