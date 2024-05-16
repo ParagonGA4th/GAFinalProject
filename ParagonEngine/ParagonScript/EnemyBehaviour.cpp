@@ -51,7 +51,7 @@ namespace Pg::DataScript
 	void EnemyBehaviour::Start()
 	{
 		auto objName = _object->GetScene()->FindObjectWithName("EnemySight");
-		_object->GetComponent<Pg::Data::Transform>()->AddChild(objName);
+		//_object->GetComponent<Pg::Data::Transform>()->AddChild(objName);
 		
 		for (auto& iter : _object->_transform.GetChildren())
 		{

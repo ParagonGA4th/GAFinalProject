@@ -12,13 +12,9 @@ namespace Pg::Data::BTree::Node
 		{
 			if (tMeshRenderer->GetAnimation() != "PpakMonster_Idle.pganim")
 			{
-				tMeshRenderer->SetAnimation("PpakMonster_Idle.pganim", true);
-				return BT::NodeStatus::FAILURE;
-			}
-			else
-			{
-				return BT::NodeStatus::SUCCESS;
 				PG_TRACE("Anim_Idle");
+				tMeshRenderer->SetAnimation("PpakMonster_Idle.pganim", true);
+				return BT::NodeStatus::SUCCESS;
 			}
 		}
 
