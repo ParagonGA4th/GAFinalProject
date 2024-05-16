@@ -21,8 +21,9 @@ struct Vin1stPassInstanced_Layout
     //한꺼번에 ObjMat + Transform이 들어온다.
     uint vin1st_ObjID : OBJECTID;
     uint vin1st_MatID : MATERIALID;
+
     // INSTANCING
-    row_major float4x4 vin1st_Transform : TRANSFORM;  // ColumnMajor로 들어온다.
+    row_major float4x4 vin1st_Transform : TRANSFORM; // ColumnMajor로 들어온다.
     uint vin1st_InstanceID : SV_InstanceID; // 동시에 Lightmapping ID가 될 것이다.
 };
 

@@ -217,13 +217,16 @@ namespace Pg::Graphics::Loader
 
 			//Transform 가져오기.
 			Pg::Math::PGFLOAT4X4 tWorldTM = instancedMeshList.at(i)->GetBaseRenderer()->_object->_transform.GetWorldTM();
-			tElement._transform = Pg::Math::PG2XM_MATRIX4X4(tWorldTM);
-
+			DirectX::XMMATRIX tWorldTMMat = Pg::Math::PG2XM_MATRIX4X4(tWorldTM);
+			tWorldTMMat = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f), tWorldTMMat);
+			tElement._transform = tWorldTMMat;
 			tInstancedVector.push_back(tElement);
 		}
 
 		D3D11_BUFFER_DESC tVBD;
-		tVBD.Usage = D3D11_USAGE_IMMUTABLE;
+		ZeroMemory(&tVBD, sizeof(tVBD));
+
+		tVBD.Usage = D3D11_USAGE_DEFAULT;
 		tVBD.ByteWidth = static_cast<UINT>(sizeof(LayoutDefine::Vin3rdInstanced_Individual) * instancedMeshList.size());
 		tVBD.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		tVBD.CPUAccessFlags = 0;
