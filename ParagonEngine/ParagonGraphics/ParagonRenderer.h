@@ -120,7 +120,7 @@ namespace Pg::Graphics
 	private:
 		//SkinningMk.2 วัมค.
 		//MultimaterialMesh* _tempMultiMesh;
-
+		std::string _resourcePath;
 		
 
 	};

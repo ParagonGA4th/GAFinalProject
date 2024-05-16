@@ -42,12 +42,11 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::Initialize(const Pg::Data::Enums::eEditorMode* const editorMode, const std::string& resourceListPath)
 	{
+		_resourcePath = resourceListPath;
+
 		//SceneParser 만들고 Initialize();
 		_sceneParser = std::make_unique<GraphicsSceneParser>();
 		_sceneParser->Initialize();
-
-		_lightmapManager = std::make_unique<LightmapManager>();
-		_lightmapManager->Initialize(resourceListPath);
 
 		//렌더러들 내부에서 오고 갈 GraphicsCarrier 객체 생성.
 		_gCarrier = std::make_unique<D3DCarrier>();
@@ -76,6 +75,9 @@ namespace Pg::Graphics
 	void ParagonRenderer::ConnectDefaultResources()
 	{
 		_deferredRenderer->ConnectDefaultResources();
+
+		_lightmapManager = std::make_unique<LightmapManager>();
+		_lightmapManager->Initialize(_resourcePath);
 	}
 
 	void ParagonRenderer::BeginRender()
@@ -138,6 +140,7 @@ namespace Pg::Graphics
 
 		//GPU Lightmap Data 세팅. 씬이 바뀔때 마다.
 		_lightmapManager->SetGPULightmapDataWithScene(newScene, _sceneParser->GetRenderObject3DList());
+		_sceneParser->GetSceneInformationList()->_isUseLightmap = _lightmapManager->GetIsSceneUseLightmap();
 	}
 
 	void ParagonRenderer::PassBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)

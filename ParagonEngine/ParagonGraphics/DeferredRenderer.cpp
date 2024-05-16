@@ -470,6 +470,10 @@ namespace Pg::Graphics
 		_iblSpecularLutTextureMap = static_cast<RenderTexture2D*>(tSpecLUT.get());
 	}
 
+	void DeferredRenderer::GetIfParsedUseLightmap(bool val)
+	{
+
+	}
 	
 	
 

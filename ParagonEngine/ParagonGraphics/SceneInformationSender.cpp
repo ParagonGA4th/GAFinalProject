@@ -54,6 +54,8 @@ namespace Pg::Graphics
 			_cbSceneInfo->GetDataStruct()->gCBuf_ViewMatrix, _cbSceneInfo->GetDataStruct()->gCBuf_ProjMatrix);
 
 		_cbSceneInfo->GetDataStruct()->gCBuf_EyePosition = PG2XM_FLOAT3(_savedCamData->_position);
+		_cbSceneInfo->GetDataStruct()->gCBuf_IsSceneUseLightmap = _savedSceneInfo->_isUseLightmap;
+		
 		//업데이트.
 		_cbSceneInfo->Update();
 		//SceneInfo Constant Buffer Bind -> 나중에 CBCarrier뭐 이런 클래스 있어야 할 것이다.

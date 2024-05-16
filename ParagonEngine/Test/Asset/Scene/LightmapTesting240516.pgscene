@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<scene xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <objects :anonymous="">
+    <object :anonymous="">
+      <uuid :anonymous="">0B5E937F48828A7CE02A17B5162D3B42</uuid>
+      <name :anonymous="">norm_SM_door.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">0B5E937F48828A7CE02A17B5162D3B42</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">-2.5</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.766044</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">-0.642788</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">-1.0</x>
+              <y :anonymous="">1.0</y>
+              <z :anonymous="">1.0</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">norm_SM_door.norm_SM_door</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+    <object :anonymous="">
+      <uuid :anonymous="">E8148A2143E26A47FA16EC9176FB7D31</uuid>
+      <name :anonymous="">SM_grating.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">E8148A2143E26A47FA16EC9176FB7D31</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">12.3</x>
+              <y :anonymous="">1.9</y>
+              <z :anonymous="">2.6</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.906308</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">0.422618</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">-1.0</x>
+              <y :anonymous="">1.0</y>
+              <z :anonymous="">1.0</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">SM_grating.SM_grating</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+    <object :anonymous="">
+      <uuid :anonymous="">57B406414CDB67C2CAE630809E2122FA</uuid>
+      <name :anonymous="">SM_grating2.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">57B406414CDB67C2CAE630809E2122FA</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">-5.638123</x>
+              <y :anonymous="">1.9</y>
+              <z :anonymous="">-12.932443</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.258819</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">-0.965926</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">-1.0</x>
+              <y :anonymous="">1.0</y>
+              <z :anonymous="">1.0</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">SM_grating.SM_grating</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+    <object :anonymous="">
+      <uuid :anonymous="">94958CFD4DAD20E66067DFBDAB5356CC</uuid>
+      <name :anonymous="">SM_grating3.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">94958CFD4DAD20E66067DFBDAB5356CC</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">-10.9</x>
+              <y :anonymous="">1.9</y>
+              <z :anonymous="">6.3</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.34202</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">0.939693</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">-1.0</x>
+              <y :anonymous="">1.0</y>
+              <z :anonymous="">1.0</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">SM_grating.SM_grating</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+    <object :anonymous="">
+      <uuid :anonymous="">76842A7D4453E30197FA7BBE17159498</uuid>
+      <name :anonymous="">SM_grating4.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">76842A7D4453E30197FA7BBE17159498</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">-10.9</x>
+              <y :anonymous="">1.9</y>
+              <z :anonymous="">-9.8</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.258819</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">-0.965926</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">-1.0</x>
+              <y :anonymous="">1.0</y>
+              <z :anonymous="">1.0</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">SM_grating.SM_grating</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+    <object :anonymous="">
+      <uuid :anonymous="">B38D70344528BD5C7F8854A0B25BD9EF</uuid>
+      <name :anonymous="">SM_grating5.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">B38D70344528BD5C7F8854A0B25BD9EF</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">-14.0</x>
+              <y :anonymous="">1.9</y>
+              <z :anonymous="">-4.9</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.642788</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">-0.766044</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">-1.0</x>
+              <y :anonymous="">1.0</y>
+              <z :anonymous="">1.0</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">SM_grating.SM_grating</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+    <object :anonymous="">
+      <uuid :anonymous="">871E76064FEB8596CA523792387F792F</uuid>
+      <name :anonymous="">SM_grating6.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">871E76064FEB8596CA523792387F792F</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">-14.0</x>
+              <y :anonymous="">1.9</y>
+              <z :anonymous="">1.4</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.766044</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">-0.642788</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">-1.0</x>
+              <y :anonymous="">1.0</y>
+              <z :anonymous="">1.0</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">SM_grating.SM_grating</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+    <object :anonymous="">
+      <uuid :anonymous="">E275FC884F5789B56E33B1BE4963443E</uuid>
+      <name :anonymous="">SM_grating7.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">E275FC884F5789B56E33B1BE4963443E</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">-5.1</x>
+              <y :anonymous="">1.9</y>
+              <z :anonymous="">9.1</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.087156</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">0.996195</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">-1.0</x>
+              <y :anonymous="">1.0</y>
+              <z :anonymous="">1.0</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">SM_grating.SM_grating</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+    <object :anonymous="">
+      <uuid :anonymous="">146D0B7547B9A1FBF69973A64ECFABC5</uuid>
+      <name :anonymous="">SM_grating8.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">146D0B7547B9A1FBF69973A64ECFABC5</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">1.2</x>
+              <y :anonymous="">1.9</y>
+              <z :anonymous="">8.9</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.087156</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">-0.996195</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">-1.0</x>
+              <y :anonymous="">1.0</y>
+              <z :anonymous="">1.0</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">SM_grating.SM_grating</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+    <object :anonymous="">
+      <uuid :anonymous="">ADBE262049020E673372678CC08C0914</uuid>
+      <name :anonymous="">SM_grating9.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">ADBE262049020E673372678CC08C0914</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">7.4</x>
+              <y :anonymous="">1.9</y>
+              <z :anonymous="">6.8</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.965926</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">0.258819</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">-1.0</x>
+              <y :anonymous="">1.0</y>
+              <z :anonymous="">1.0</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">SM_grating.SM_grating</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+    <object :anonymous="">
+      <uuid :anonymous="">E45B40D14E8E36C974CE80AF8F817F9C</uuid>
+      <name :anonymous="">SM_grating15.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">E45B40D14E8E36C974CE80AF8F817F9C</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">6.947192</x>
+              <y :anonymous="">1.9</y>
+              <z :anonymous="">-15.056082</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.996195</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">-0.087156</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">-1.0</x>
+              <y :anonymous="">1.0</y>
+              <z :anonymous="">1.0</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">SM_grating.SM_grating</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+    <object :anonymous="">
+      <uuid :anonymous="">0E63BD2B495D01FDD94DF8A0F2668419</uuid>
+      <name :anonymous="">SM_grating16.00</name>
+      <tag :anonymous="">FromUnreal</tag>
+      <active :anonymous="">true</active>
+      <parent :anonymous="">0</parent>
+      <parent_uuid :anonymous="">0E63BD2B495D01FDD94DF8A0F2668419</parent_uuid>
+      <components :anonymous="">
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::Transform</type>
+          <data :anonymous="">
+            <position :anonymous="">
+              <x :anonymous="">0.402856</x>
+              <y :anonymous="">1.9</y>
+              <z :anonymous="">-15.203253</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.087156</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">-0.996195</z>
+            </rotation>
+            <scale :anonymous="">
+              <x :anonymous="">-1.0</x>
+              <y :anonymous="">1.0</y>
+              <z :anonymous="">1.0</z>
+            </scale>
+          </data>
+        </component>
+        <component :anonymous="">
+          <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
+          <data :anonymous="">
+            <isInstanced :anonymous="">0</isInstanced>
+            <meshName :anonymous="">SM_grating.SM_grating</meshName>
+            <materialName :anonymous="">fromUnrealExample</materialName>
+          </data>
+        </component>
+      </components>
+    </object>
+  </objects>
+</scene>
