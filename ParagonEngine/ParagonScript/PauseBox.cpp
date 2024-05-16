@@ -21,6 +21,18 @@ namespace Pg::DataScript
 		auto btnObj = _object->GetScene()->FindObjectWithName("PauseExit");
 		_object->GetComponent<Pg::Data::Transform>()->AddChild(btnObj);
 
+		//메인메뉴로 가기.
+		auto menuObj = _object->GetScene()->FindObjectWithName("GotoMenu");
+		_object->GetComponent<Pg::Data::Transform>()->AddChild(menuObj);
+
+		//메인메뉴로 가기.
+		auto tutorialObj = _object->GetScene()->FindObjectWithName("TutorialButton");
+		_object->GetComponent<Pg::Data::Transform>()->AddChild(tutorialObj);
+
+		//메인메뉴로 가기.
+		auto optionObj = _object->GetScene()->FindObjectWithName("OptionButton");
+		_object->GetComponent<Pg::Data::Transform>()->AddChild(optionObj);
+
 		btnObj->GetComponent<Pg::Data::Button>()->SetOnClickEvent([this]
 			{
 				_object->GetComponent<Pg::Data::ImageRenderer>()->SetActive(false);
@@ -33,11 +45,9 @@ namespace Pg::DataScript
 					btn->SetActive(false);
 					im->SetActive(false);
 				}
-			});
 
-		//메인메뉴로 가기.
-		auto menuObj = _object->GetScene()->FindObjectWithName("GotoMenu");
-		_object->GetComponent<Pg::Data::Transform>()->AddChild(menuObj);
+				_isPaused = false;
+			});
 
 		menuObj->GetComponent<Pg::Data::Button>()->SetOnClickEvent([this]
 			{
@@ -65,7 +75,7 @@ namespace Pg::DataScript
 		using namespace Pg::API::Input;
 
 		//ESC 누르면 켜짐.
-		if (_pgInput->GetKeyDown(eKeyCode::Esc))
+		if (_pgInput->GetKeyDown(eKeyCode::Esc) && _isPaused == false)
 		{
 			_object->GetComponent<Pg::Data::ImageRenderer>()->SetActive(true);
 
@@ -77,6 +87,23 @@ namespace Pg::DataScript
 				btn->SetActive(true);
 				im->SetActive(true);
 			}
+
+			_isPaused = true;
+		}
+		else if (_pgInput->GetKeyDown(eKeyCode::Esc) && _isPaused == true)
+		{
+			_object->GetComponent<Pg::Data::ImageRenderer>()->SetActive(false);
+
+			for (auto& iter : _object->_transform.GetChildren())
+			{
+				Pg::Data::Button* btn = iter->_object->GetComponent<Pg::Data::Button>();
+				Pg::Data::ImageRenderer* im = iter->_object->GetComponent<Pg::Data::ImageRenderer>();
+
+				btn->SetActive(false);
+				im->SetActive(false);
+			}
+
+			_isPaused = false;
 		}
 	}
 }
