@@ -2,26 +2,26 @@
 <scene xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <objects :anonymous="">
     <object :anonymous="">
-      <uuid :anonymous="">0B5E937F48828A7CE02A17B5162D3B42</uuid>
-      <name :anonymous="">norm_SM_door.00</name>
+      <uuid :anonymous="">3540BAAA4156D3267B278CAB5947D1DC</uuid>
+      <name :anonymous="">SM_grating16_1_0_1_0</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">0B5E937F48828A7CE02A17B5162D3B42</parent_uuid>
+      <parent_uuid :anonymous="">3540BAAA4156D3267B278CAB5947D1DC</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
           <data :anonymous="">
             <position :anonymous="">
-              <x :anonymous="">0.0</x>
-              <y :anonymous="">0.0</y>
-              <z :anonymous="">-2.5</z>
+              <x :anonymous="">0.402856</x>
+              <y :anonymous="">1.9</y>
+              <z :anonymous="">-15.203253</z>
             </position>
             <rotation :anonymous="">
-              <w :anonymous="">0.766044</w>
+              <w :anonymous="">0.087156</w>
               <x :anonymous="">0.0</x>
               <y :anonymous="">0.0</y>
-              <z :anonymous="">-0.642788</z>
+              <z :anonymous="">-0.996195</z>
             </rotation>
             <scale :anonymous="">
               <x :anonymous="">-1.0</x>
@@ -34,19 +34,19 @@
           <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
           <data :anonymous="">
             <isInstanced :anonymous="">0</isInstanced>
-            <meshName :anonymous="">norm_SM_door.norm_SM_door</meshName>
+            <meshName :anonymous="">SM_grating.SM_grating</meshName>
             <materialName :anonymous="">fromUnrealExample</materialName>
           </data>
         </component>
       </components>
     </object>
     <object :anonymous="">
-      <uuid :anonymous="">E8148A2143E26A47FA16EC9176FB7D31</uuid>
-      <name :anonymous="">SM_grating.00</name>
+      <uuid :anonymous="">42AEE54D459EA685DC039E8BB8BDF781</uuid>
+      <name :anonymous="">SM_grating_2_0_2_0</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">E8148A2143E26A47FA16EC9176FB7D31</parent_uuid>
+      <parent_uuid :anonymous="">42AEE54D459EA685DC039E8BB8BDF781</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
@@ -80,12 +80,12 @@
       </components>
     </object>
     <object :anonymous="">
-      <uuid :anonymous="">57B406414CDB67C2CAE630809E2122FA</uuid>
-      <name :anonymous="">SM_grating2.00</name>
+      <uuid :anonymous="">6DB9AA0B4B897400C5874A8DD24223FA</uuid>
+      <name :anonymous="">SM_grating2_3_0_3_0</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">57B406414CDB67C2CAE630809E2122FA</parent_uuid>
+      <parent_uuid :anonymous="">6DB9AA0B4B897400C5874A8DD24223FA</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
@@ -119,12 +119,12 @@
       </components>
     </object>
     <object :anonymous="">
-      <uuid :anonymous="">94958CFD4DAD20E66067DFBDAB5356CC</uuid>
-      <name :anonymous="">SM_grating3.00</name>
+      <uuid :anonymous="">1AC992DF4970491B73B7A08A36242C96</uuid>
+      <name :anonymous="">SM_grating3_4_0_4_0</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">94958CFD4DAD20E66067DFBDAB5356CC</parent_uuid>
+      <parent_uuid :anonymous="">1AC992DF4970491B73B7A08A36242C96</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
@@ -158,12 +158,12 @@
       </components>
     </object>
     <object :anonymous="">
-      <uuid :anonymous="">76842A7D4453E30197FA7BBE17159498</uuid>
-      <name :anonymous="">SM_grating4.00</name>
+      <uuid :anonymous="">5220ED1440F5027E3ADF21836BA26522</uuid>
+      <name :anonymous="">SM_grating4_5_0_5_0</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">76842A7D4453E30197FA7BBE17159498</parent_uuid>
+      <parent_uuid :anonymous="">5220ED1440F5027E3ADF21836BA26522</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
@@ -197,12 +197,12 @@
       </components>
     </object>
     <object :anonymous="">
-      <uuid :anonymous="">B38D70344528BD5C7F8854A0B25BD9EF</uuid>
-      <name :anonymous="">SM_grating5.00</name>
+      <uuid :anonymous="">4C7678E34F3107833DD78BAF68B9736D</uuid>
+      <name :anonymous="">SM_grating5_6_0_6_0</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">B38D70344528BD5C7F8854A0B25BD9EF</parent_uuid>
+      <parent_uuid :anonymous="">4C7678E34F3107833DD78BAF68B9736D</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
@@ -236,12 +236,12 @@
       </components>
     </object>
     <object :anonymous="">
-      <uuid :anonymous="">871E76064FEB8596CA523792387F792F</uuid>
-      <name :anonymous="">SM_grating6.00</name>
+      <uuid :anonymous="">01AD249E432FAA66E264AE9DF1EAC656</uuid>
+      <name :anonymous="">SM_grating6_7_0_7_0</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">871E76064FEB8596CA523792387F792F</parent_uuid>
+      <parent_uuid :anonymous="">01AD249E432FAA66E264AE9DF1EAC656</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
@@ -275,12 +275,12 @@
       </components>
     </object>
     <object :anonymous="">
-      <uuid :anonymous="">E275FC884F5789B56E33B1BE4963443E</uuid>
-      <name :anonymous="">SM_grating7.00</name>
+      <uuid :anonymous="">BA4850EE40701E132460528BC8E2D671</uuid>
+      <name :anonymous="">SM_grating7_8_0_8_0</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">E275FC884F5789B56E33B1BE4963443E</parent_uuid>
+      <parent_uuid :anonymous="">BA4850EE40701E132460528BC8E2D671</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
@@ -314,12 +314,12 @@
       </components>
     </object>
     <object :anonymous="">
-      <uuid :anonymous="">146D0B7547B9A1FBF69973A64ECFABC5</uuid>
-      <name :anonymous="">SM_grating8.00</name>
+      <uuid :anonymous="">3CDEA0A4406DEDB4D56A5AA14CDDBB11</uuid>
+      <name :anonymous="">SM_grating8_9_0_9_0</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">146D0B7547B9A1FBF69973A64ECFABC5</parent_uuid>
+      <parent_uuid :anonymous="">3CDEA0A4406DEDB4D56A5AA14CDDBB11</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
@@ -353,12 +353,12 @@
       </components>
     </object>
     <object :anonymous="">
-      <uuid :anonymous="">ADBE262049020E673372678CC08C0914</uuid>
-      <name :anonymous="">SM_grating9.00</name>
+      <uuid :anonymous="">F2195C7B423B4045CF4F00A68099A674</uuid>
+      <name :anonymous="">SM_grating9_10_0_10_0</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">ADBE262049020E673372678CC08C0914</parent_uuid>
+      <parent_uuid :anonymous="">F2195C7B423B4045CF4F00A68099A674</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
@@ -392,12 +392,12 @@
       </components>
     </object>
     <object :anonymous="">
-      <uuid :anonymous="">E45B40D14E8E36C974CE80AF8F817F9C</uuid>
-      <name :anonymous="">SM_grating15.00</name>
+      <uuid :anonymous="">A247593243DDEB73039B9BABB2928CDB</uuid>
+      <name :anonymous="">SM_grating15_11_0_11_0</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">E45B40D14E8E36C974CE80AF8F817F9C</parent_uuid>
+      <parent_uuid :anonymous="">A247593243DDEB73039B9BABB2928CDB</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
@@ -431,26 +431,26 @@
       </components>
     </object>
     <object :anonymous="">
-      <uuid :anonymous="">0E63BD2B495D01FDD94DF8A0F2668419</uuid>
-      <name :anonymous="">SM_grating16.00</name>
+      <uuid :anonymous="">E674A9784AB25F453DAA208246BF34CF</uuid>
+      <name :anonymous="">norm_SM_door_12_0_12_0</name>
       <tag :anonymous="">FromUnreal</tag>
       <active :anonymous="">true</active>
       <parent :anonymous="">0</parent>
-      <parent_uuid :anonymous="">0E63BD2B495D01FDD94DF8A0F2668419</parent_uuid>
+      <parent_uuid :anonymous="">E674A9784AB25F453DAA208246BF34CF</parent_uuid>
       <components :anonymous="">
         <component :anonymous="">
           <type :anonymous="">class Pg::Data::Transform</type>
           <data :anonymous="">
             <position :anonymous="">
-              <x :anonymous="">0.402856</x>
-              <y :anonymous="">1.9</y>
-              <z :anonymous="">-15.203253</z>
-            </position>
-            <rotation :anonymous="">
-              <w :anonymous="">0.087156</w>
               <x :anonymous="">0.0</x>
               <y :anonymous="">0.0</y>
-              <z :anonymous="">-0.996195</z>
+              <z :anonymous="">-2.5</z>
+            </position>
+            <rotation :anonymous="">
+              <w :anonymous="">0.766044</w>
+              <x :anonymous="">0.0</x>
+              <y :anonymous="">0.0</y>
+              <z :anonymous="">-0.642788</z>
             </rotation>
             <scale :anonymous="">
               <x :anonymous="">-1.0</x>
@@ -463,7 +463,7 @@
           <type :anonymous="">class Pg::Data::StaticMeshRenderer</type>
           <data :anonymous="">
             <isInstanced :anonymous="">0</isInstanced>
-            <meshName :anonymous="">SM_grating.SM_grating</meshName>
+            <meshName :anonymous="">norm_SM_door.norm_SM_door</meshName>
             <materialName :anonymous="">fromUnrealExample</materialName>
           </data>
         </component>
