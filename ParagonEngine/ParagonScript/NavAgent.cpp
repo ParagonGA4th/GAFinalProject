@@ -22,7 +22,8 @@ namespace Pg::DataScript
 
 	void NavAgent::Update()
 	{
-		_pgRecast->SetSEpos(0, { 0.0f, 0.0f, 10.0f }, { 0.0f, 0.0f, -10.0f });
+		_pgRecast->SetSEpos(0, { _object->_transform._position.x, 0.0f, _object->_transform._position.z }, { 0.0f, 0.0f, -10.0f });
+		
 		_pgRecast->FindStraightPath(0);
 	}
 }
