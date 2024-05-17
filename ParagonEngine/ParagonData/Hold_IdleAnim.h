@@ -9,13 +9,11 @@ namespace Pg::Util::Time { class TimeSystem; }
 
 namespace Pg::Data::BTree::Node
 {
-	class Hold_Anim : public BT::SyncActionNode, public BasePgBtNode
+	class Hold_IdleAnim : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Hold_Anim(const std::string& name, const BT::NodeConfiguration& config);
-		virtual ~Hold_Anim() = default;
-
-		virtual void InitCustom();
+		Hold_IdleAnim(const std::string& name, const BT::NodeConfiguration& config);
+		virtual ~Hold_IdleAnim() = default;
 
 		// 무조건 해당 Function을 오버라이드 해야 한다.
 		virtual BT::NodeStatus tick() override;
@@ -24,9 +22,7 @@ namespace Pg::Data::BTree::Node
 		//Port 없으면 그냥 {} 반환하는게 Good Practice.
 		static BT::PortsList providedPorts()
 		{
-			BT::PortsList tRet;
-			tRet.insert(BT::BidirectionalPort<float>("_holdTime"));
-			return tRet;
+			return {};
 		}
 
 	private:
