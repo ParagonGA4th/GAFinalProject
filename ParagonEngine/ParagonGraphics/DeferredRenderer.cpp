@@ -469,14 +469,6 @@ namespace Pg::Graphics
 			Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		_iblSpecularLutTextureMap = static_cast<RenderTexture2D*>(tSpecLUT.get());
 	}
-
-	void DeferredRenderer::GetIfParsedUseLightmap(bool val)
-	{
-
-	}
-	
-	
-
 }
 
 
