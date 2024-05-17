@@ -8,6 +8,7 @@
 #include "OutlineRenderPass.h"
 #include "FinalRenderPass.h"
 #include "TonemappingRenderPass.h"
+#include "VignetteRenderPass.h"
 
 namespace Pg::Data
 {

@@ -281,7 +281,7 @@
       <Filter>12_GraphicsAPI</Filter>
     </ClInclude>
     <ClInclude Include="TonemappingRenderPass.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\19_TonemappingRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\18_TonemappingRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="IndividualLightsGPU.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\0_SceneInformationSender\IndividualLightsGPU</Filter>
@@ -312,6 +312,9 @@
     </ClInclude>
     <ClInclude Include="RenderLightmapData.h">
       <Filter>14_LightmapRelated\Lightmap\RenderLightmapData</Filter>
+    </ClInclude>
+    <ClInclude Include="VignetteRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\19_VignetteRenderPass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -538,7 +541,7 @@
       <Filter>12_GraphicsAPI</Filter>
     </ClCompile>
     <ClCompile Include="TonemappingRenderPass.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\19_TonemappingRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\18_TonemappingRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="RenderObject3DList.cpp">
       <Filter>10_Structs\RenderingList\RenderObject3DList</Filter>
@@ -566,6 +569,9 @@
     </ClCompile>
     <ClCompile Include="PPFinalRenderer.cpp">
       <Filter>0_Main\Renderers\FinalRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="VignetteRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\19_VignetteRenderPass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -908,9 +914,6 @@
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\20_ProcessFinalRenderPass">
       <UniqueIdentifier>{eaa8e6b3-4a91-4e77-858e-d882be91ee71}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\19_TonemappingRenderPass">
-      <UniqueIdentifier>{8aa14f88-db08-4907-a027-750d80991ea5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="4_RenderObject\RenderObject3D\RenderObjectInstancedMesh3D">
       <UniqueIdentifier>{b1759d1d-dd6e-4f7a-9eee-0043469bd4d6}</UniqueIdentifier>
     </Filter>
@@ -970,6 +973,15 @@
     </Filter>
     <Filter Include="14_LightmapRelated\Lightmap\RenderLightmapData">
       <UniqueIdentifier>{babffa6a-dc4c-43ab-b3eb-40de8eaf7a14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\18_TonemappingRenderPass">
+      <UniqueIdentifier>{8aa14f88-db08-4907-a027-750d80991ea5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\19_VignetteRenderPass">
+      <UniqueIdentifier>{fc6000d4-46bf-4c71-833f-9ff63fbae620}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\PostProcessing\Vignette">
+      <UniqueIdentifier>{4218a496-6cdd-475a-9ac5-3838f89497ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1068,6 +1080,9 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstStage_AlphaBlendedPS.hlsl">
       <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Vignette\Vignette_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\PostProcessing\Vignette</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
