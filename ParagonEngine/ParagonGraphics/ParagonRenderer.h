@@ -122,7 +122,7 @@ namespace Pg::Graphics
 		//MultimaterialMesh* _tempMultiMesh;
 		std::string _resourcePath;
 		
-
+		const Pg::Data::Scene* _currentScene;
 	};
 }
 
