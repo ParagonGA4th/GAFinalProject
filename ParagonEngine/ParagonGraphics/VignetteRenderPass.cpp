@@ -1,34 +1,35 @@
-#include "TonemappingRenderPass.h"
+#include "VignetteRenderPass.h"
 #include "LowDX11Storage.h"
 #include "LayoutDefine.h"
 #include "SystemVertexShader.h"
 #include "SystemPixelShader.h"
 #include "GeometryGenerator.h"
+#include "GBufferRender.h"
 
 namespace Pg::Graphics
 {
-	TonemappingRenderPass::TonemappingRenderPass(GBufferRender* from, GBufferRender* to) :
+	VignetteRenderPass::VignetteRenderPass(GBufferRender* from, GBufferRender* to) :
 		_postProcessingFrom(from), _postProcessingTo(to)
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 	}
 
-	TonemappingRenderPass::~TonemappingRenderPass()
+	VignetteRenderPass::~VignetteRenderPass()
 	{
 
 	}
 
-	void TonemappingRenderPass::Initialize()
+	void VignetteRenderPass::Initialize()
 	{
 		CreateShaders();
 	}
 
-	void TonemappingRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
+	void VignetteRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
 	{
 		_tempStoreCarrier = &carrier;
 	}
 
-	void TonemappingRenderPass::BindPass()
+	void VignetteRenderPass::BindPass()
 	{
 		//DepthStencil은 무시하고 기록한다. 어차피 덧씌우는 것이기에.
 		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_postProcessingTo->GetRTV()), nullptr);
@@ -43,39 +44,39 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(5, 1, &(_postProcessingFrom->GetSRV()));
 	}
 
-	void TonemappingRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
+	void VignetteRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		_DXStorage->_deviceContext->DrawIndexed(GeometryGenerator::QUAD_INDICE_COUNT, 0, 0);
 	}
 
-	void TonemappingRenderPass::UnbindPass()
+	void VignetteRenderPass::UnbindPass()
 	{
 		//Pixel Shader Unbind.
 		_ps->Unbind();
 	}
 
-	void TonemappingRenderPass::ExecuteNextRenderRequirements()
+	void VignetteRenderPass::ExecuteNextRenderRequirements()
 	{
 
 	}
 
-	void TonemappingRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
+	void VignetteRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
 	{
 		//필수적인 단계. Editor/World에게 무엇이 최종 SRV인지를 알려줘야 하니.
 		//gCarrier._toSendSRVToEngine = _postProcessingTo->GetSRV();
 	}
 
-	void TonemappingRenderPass::CreateShaders()
+	void VignetteRenderPass::CreateShaders()
 	{
 		using Pg::Util::Helper::ResourceHelper;
 		using namespace Pg::Defines;
 		//ResourceHelper::IfReleaseChangeDebugTextW(
-		
+
 		//별도 Tonemapping Shader 적용.
-		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(TONEMAPPING_PS_DIRECTORY));
+		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(VIGNETTE_PS_DIRECTORY));
 	}
 
-	void TonemappingRenderPass::BindVertexIndexBuffer()
+	void VignetteRenderPass::BindVertexIndexBuffer()
 	{
 		assert(GeometryGenerator::_QUAD_VB != nullptr);
 		assert(GeometryGenerator::_QUAD_IB != nullptr);
@@ -86,5 +87,4 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(GeometryGenerator::_QUAD_VB), &stride, &offset);
 		_DXStorage->_deviceContext->IASetIndexBuffer(GeometryGenerator::_QUAD_IB, DXGI_FORMAT_R32_UINT, 0);
 	}
-
 }

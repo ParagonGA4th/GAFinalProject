@@ -86,6 +86,7 @@
     <ClInclude Include="SizeTexture.h" />
     <ClInclude Include="SystemPixelShader.h" />
     <ClInclude Include="TextureExtension.h" />
+    <ClInclude Include="VignetteRenderPass.h" />
     <ClInclude Include="WireframeRenderObject.h" />
     <ClInclude Include="RenderFont.h" />
     <ClInclude Include="RenderObject2DList.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="RenderVertexShader.cpp" />
     <ClCompile Include="SceneInformationSender.cpp" />
     <ClCompile Include="SystemPixelShader.cpp" />
+    <ClCompile Include="VignetteRenderPass.cpp" />
     <ClCompile Include="WireframeRenderObject.cpp" />
     <ClCompile Include="RenderFont.cpp" />
     <ClCompile Include="RenderMaterial.cpp" />
@@ -372,6 +374,10 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Tonemapping\ToneMapping_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Vignette\Vignette_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>

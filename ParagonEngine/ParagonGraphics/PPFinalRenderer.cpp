@@ -28,13 +28,14 @@ namespace Pg::Graphics
 
 		//Initialize PostProcessing RenderPassses. (여기다) (모두 From-To의 양식을 따른다)
 		_postprocessingRenderPassList.push_back(std::make_unique<TonemappingRenderPass>(_carrier->_quadMainRT, _carrier->_PPSwitch1));
+		_postprocessingRenderPassList.push_back(std::make_unique<VignetteRenderPass>(_carrier->_PPSwitch1, _carrier->_PPSwitch2));
 		
 
 		//</PostProcessing>
 		
 
 		//Final Render Pass. (From을 요구한다) -> 매개변수로.
-		_finalRenderPass = std::make_unique<FinalRenderPass>(_carrier->_PPSwitch1);
+		_finalRenderPass = std::make_unique<FinalRenderPass>(_carrier->_PPSwitch2);
 	}
 
 	void PPFinalRenderer::SetupRenderPasses()
@@ -133,9 +134,8 @@ namespace Pg::Graphics
 		_carrier->_PPSwitch2 = _postProcessingBuffer2.get();
 
 		//만약 PostProcessing Stage가 없으면, Editor에서 받을 SRV가 없을 수도. 
-		//일단, 임의의 값으로 맞춰놓기.
-		///Processing Buffer 1로 맞춰놓음!
-		_carrier->_toSendSRVToEngine = _carrier->_PPSwitch1->GetSRV();
+		//최종 PostProcessing Stage로 설정하자.
+		_carrier->_toSendSRVToEngine = _carrier->_PPSwitch2->GetSRV();
 	}
 
 	void PPFinalRenderer::CreateStagingPickingBuffer()
@@ -173,9 +173,8 @@ namespace Pg::Graphics
 
 	void PPFinalRenderer::RenderPostProcessingStages(void* renderObjectList, Pg::Data::CameraData* camData)
 	{	
-		
-
 		//미리 RenderTarget Clear. Depth Buffer는 바인딩 자체가 안 될 것이니, Clear 필요 X.
+		//이제 개별적으로 클리어 필요할 것.
 		_DXStorage->_deviceContext->ClearRenderTargetView(_carrier->_PPSwitch1->GetRTV(), _DXStorage->_backgroundColor);
 		_DXStorage->_deviceContext->ClearRenderTargetView(_carrier->_PPSwitch2->GetRTV(), _DXStorage->_backgroundColor);
 
