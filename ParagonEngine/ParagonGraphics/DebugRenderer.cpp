@@ -12,9 +12,13 @@
 #include "../ParagonHelper/ResourceHelper.h"
 
 #include "../ParagonData/CameraData.h"
+#include "../ParagonUtil/TimeSystem.h"
+
 #include <dxtk/VertexTypes.h>
 #include <DirectXMath.h>
+#include <singleton-cpp/singleton.h>
 #include <DirectXColors.h>
+#include <limits>
 
 namespace Pg::Graphics
 {
@@ -22,7 +26,7 @@ namespace Pg::Graphics
 
 	DebugRenderer::DebugRenderer(D3DCarrier* d3dCarrier) : BaseSpecificRenderer(d3dCarrier), _DXStorage(LowDX11Storage::GetInstance()), _DXLogic(LowDX11Logic::GetInstance())
 	{
-
+		_timeSystem = &singleton<Pg::Util::Time::TimeSystem>();
 	}
 
 	void DebugRenderer::Initialize()
@@ -112,7 +116,7 @@ namespace Pg::Graphics
 			_navMeshEffect = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
 			_navMeshEffect->SetLightingEnabled(false);
 			//_navMeshEffect->SetVertexColorEnabled(true);
-		
+
 			//마지막은 알파.
 			DirectX::XMFLOAT4 tColorF = { 0.2196f, 0.7019f, 0.8901f, 0.5f }; // 하늘.
 			DirectX::XMVECTOR tColor = DirectX::XMLoadFloat4(&tColorF);
@@ -120,7 +124,7 @@ namespace Pg::Graphics
 
 			void const* shaderByteCode;
 			size_t byteCodeLength;
-			
+
 			_navMeshEffect->GetVertexShaderBytecode(&shaderByteCode, &byteCodeLength);
 
 			HR(_DXStorage->_device->CreateInputLayout(DirectX::VertexPositionNormalTexture::InputElements,
@@ -155,7 +159,7 @@ namespace Pg::Graphics
 		_basicEffect2d->SetVertexColorEnabled(true);
 		_basicEffect2d->SetLightingEnabled(false);
 
-		
+
 
 		_commonStates = std::make_unique<DirectX::CommonStates>(_DXStorage->_device);
 	}
@@ -220,10 +224,10 @@ namespace Pg::Graphics
 			DrawNavMesh(camData, _navMeshVector->at(i));
 		}
 
-		//개별적으로 NavMesh Render.
+		//개별적으로 NavCylinder 중 실제 Cylinder Render.
 		for (int i = 0; i < _navCylinderVector->size(); i++)
 		{
-			DrawCylinder(camData, _navCylinderVector->at(i));
+			DrawNavCylinder_ActualCylinder(camData, _navCylinderVector->at(i));
 		}
 	}
 
@@ -247,6 +251,12 @@ namespace Pg::Graphics
 	void DebugRenderer::LineRender()
 	{
 		//DebugSystem이랑 연동되면 실제 Line 정보랑 연동되어 출력될 예정.
+
+		//개별적으로 NavCylinder 중 실제 Cylinder Render.
+		for (int i = 0; i < _navCylinderVector->size(); i++)
+		{
+			DrawNavCylinder_Lines(_navCylinderVector->at(i));
+		}
 
 		for (int i = 0; i < _lineColVector->size(); i++)
 		{
@@ -460,18 +470,57 @@ namespace Pg::Graphics
 		_navMeshPrimitiveVector.at(navInfo->path)->Draw(_navMeshEffect.get(), _navMeshInputLayout, true, false);
 	}
 
-	void DebugRenderer::DrawCylinder(Pg::Data::CameraData* camData, Pg::Data::NavCylinderInfo* cylInfo)
+	void DebugRenderer::DrawNavCylinder_ActualCylinder(Pg::Data::CameraData* camData, Pg::Data::NavCylinderInfo* cylInfo)
 	{
-		using DirectX::VertexPositionNormalTexture;
-		using DirectX::XMMATRIX;
-		XMMATRIX tScl = DirectX::XMMatrixScaling(cylInfo->radius, cylInfo->height, cylInfo->radius);
-		XMMATRIX tTrs = DirectX::XMMatrixTranslation(cylInfo->position.x, cylInfo->position.y, cylInfo->position.z);
+		//Current Moving Position 이동시키기.
+		using namespace Pg::Math;
+		{
+			auto& [bStart, bEnd] = cylInfo->_seVec.at(cylInfo->GetMovingIndex());
+			float totalDist = PGFloat3Length(bEnd - bStart);
+			assert(totalDist > std::numeric_limits<float>::epsilon());
+			float currentDist = PGFloat3Length(bEnd - cylInfo->GetCurrentPosition());
+			cylInfo->SetCurrentPosition(PGFloat3Lerp(bStart, bEnd, cylInfo->GetCurrentRatio()));
 
-		_navCylinderEffect->SetWorld(XMMatrixMultiply(tScl, tTrs));
-		_navCylinderEffect->SetView(MathHelper::PG2XM_MATRIX(camData->_viewMatrix));
-		_navCylinderEffect->SetProjection(MathHelper::PG2XM_MATRIX(camData->_projMatrix));
-		_navCylinderEffect->Apply(_DXStorage->_deviceContext);
-		_cylinderShape->Draw(_navCylinderEffect.get(), _navCylinderInputLayout, true, false);
+			if (1.0f - cylInfo->GetCurrentRatio() < std::numeric_limits<float>::epsilon())
+			{
+				//다 도달했다는 얘기. 사이즈보다 크면 리셋.
+				cylInfo->IncrementMovingIndex();
+				cylInfo->SetCurrentPosition(cylInfo->_seVec.at(cylInfo->GetMovingIndex()).first);
+				cylInfo->SetCurrentRatio(0.f);
+			}
+			else
+			{
+				cylInfo->SetCurrentRatio(cylInfo->GetCurrentRatio() + (2.5f * _timeSystem->GetDeltaTime()));
+			}
+		}
+
+		//실제 렌더링.
+		{
+			using DirectX::VertexPositionNormalTexture;
+			using DirectX::XMMATRIX;
+			XMMATRIX tScl = DirectX::XMMatrixScaling(cylInfo->_radius, cylInfo->_height, cylInfo->_radius);
+			XMMATRIX tTrs = DirectX::XMMatrixTranslation(cylInfo->GetCurrentPosition().x, cylInfo->GetCurrentPosition().y + cylInfo->_height / 2.0f, cylInfo->GetCurrentPosition().z);
+
+			_navCylinderEffect->SetWorld(XMMatrixMultiply(tScl, tTrs));
+			_navCylinderEffect->SetView(MathHelper::PG2XM_MATRIX(camData->_viewMatrix));
+			_navCylinderEffect->SetProjection(MathHelper::PG2XM_MATRIX(camData->_projMatrix));
+			_navCylinderEffect->Apply(_DXStorage->_deviceContext);
+			_cylinderShape->Draw(_navCylinderEffect.get(), _navCylinderInputLayout, true, false);
+		}
+
+	}
+
+	void DebugRenderer::DrawNavCylinder_Lines(Pg::Data::NavCylinderInfo* cylInfo)
+	{
+		for (auto& path : cylInfo->_seVec)
+		{
+			path.first.y = 0.0f;
+			path.second.y = 0.0f;
+
+			_primitiveBatch->DrawLine(
+				DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(path.first), MathHelper::PG2XM_FLOAT4(Pg::Math::PGFLOAT4(1.0f, 1.0f, 0.0f, 1.0f))),
+				DirectX::VertexPositionColor(MathHelper::PG2XM_FLOAT3(path.second), MathHelper::PG2XM_FLOAT4(Pg::Math::PGFLOAT4(1.0f, 1.0f, 0.0f, 1.0f))));
+		}
 	}
 
 	void DebugRenderer::DrawLine(Pg::Data::LineInfo* lineInfo)
@@ -795,4 +844,7 @@ namespace Pg::Graphics
 
 		HR(_DXStorage->_device->CreateDepthStencilState(&tDepthWriteOffDesc, &_depthWriteOffDSS));
 	}
+
+
+
 }
