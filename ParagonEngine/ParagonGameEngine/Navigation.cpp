@@ -566,6 +566,11 @@ namespace Pg::Engine
 		auto& tSceneSystem = singleton<SceneSystem>();
 		_sceneSystem = &tSceneSystem;
 
+		//for (auto& it : _sceneSystem->GetCurrentScene()->GetObjectList())
+		//{
+		//	Pg::Data::NavMeshAgent* tNavMeshAgent = it->GetComponent<Pg::Data::NavMeshAgent>();
+		//}
+
 		//Agent의 속성 부여
 		dtCrowdAgentParams ap;
 		memset(&ap, 0, sizeof(ap));
@@ -667,7 +672,7 @@ namespace Pg::Engine
 	void Navigation::SetSEpos(int index, Pg::Math::PGFLOAT3 startPosition, Pg::Math::PGFLOAT3 endPosition)
 	{
 		SetSEpos(index, startPosition.x, startPosition.y, startPosition.z
-			, startPosition.x, startPosition.y, startPosition.z);
+			, endPosition.x, endPosition.y, endPosition.z);
 	}
 
 	void Navigation::SetStartpos(int index, float x, float y, float z)
