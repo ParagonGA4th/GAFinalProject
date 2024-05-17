@@ -7,14 +7,18 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_Idle::tick()
 	{
+		PG_TRACE("Anim_Idle");
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
 			if (tMeshRenderer->GetAnimation() != "PpakMonster_Idle.pganim")
 			{
-				PG_TRACE("Anim_Idle");
 				tMeshRenderer->SetAnimation("PpakMonster_Idle.pganim", true);
 				return BT::NodeStatus::SUCCESS;
+			}
+			else
+			{
+				return BT::NodeStatus::FAILURE;
 			}
 		}
 
