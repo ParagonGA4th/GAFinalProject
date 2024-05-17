@@ -53,9 +53,6 @@ namespace Pg::Graphics
 		virtual void RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData) override;
 		virtual void ConfirmCarrierData() override;
 
-		//파싱한 결과, 씬이 라이트맵을 사용하는지, 아닌지를 구별!
-		void GetIfParsedUseLightmap(bool val);
-
 	private:
 		void PushRenderPasses();
 		
