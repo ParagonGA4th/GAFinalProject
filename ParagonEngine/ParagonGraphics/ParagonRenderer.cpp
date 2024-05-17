@@ -88,6 +88,8 @@ namespace Pg::Graphics
 	void ParagonRenderer::Render(Pg::Data::CameraData* camData)
 	{
 		_deferredRenderer->ClearPlaceResources();
+		//이거는 지워야.
+		_lightmapManager->Temp(_currentScene);
 
 		// Deferred w/ Pass
 		_deferredRenderer->RenderContents(_sceneParser->GetRenderObject3DList(), _sceneParser->GetSceneInformationList(), camData);
@@ -134,6 +136,8 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::SyncComponentToGraphics(const Pg::Data::Scene* const newScene)
 	{
+		_currentScene = newScene;
+
 		//현재 ParseSceneData 내부 구현체에 왜 매번 Graphics 객체를 다시 만드는지 모르겠지만..
 		//일단 급하니 나중에 TODO.
 		ParseSceneData(newScene);

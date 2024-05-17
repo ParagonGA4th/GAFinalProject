@@ -45,19 +45,19 @@ Texture2DArray<float4> internal_LightmapArray : register(t2);
 
 float4 GetLightmapData(float2 lightmapUV, uint instanceID)
 {
-    //UV Scaling.
+  //UV Scaling.
     float2 tNewUV = lightmapUV;
     tNewUV.x *= gBuf_LightMapSet[instanceID].scale.x;
     tNewUV.y = (1 - tNewUV.y);
     tNewUV.y *= gBuf_LightMapSet[instanceID].scale.y;
     tNewUV.y = (1 - tNewUV.y);
-    
-    //UV Offset.
+
+//UV Offset.
     tNewUV.x += (gBuf_LightMapSet[instanceID].offset.x);
     tNewUV.y += (-gBuf_LightMapSet[instanceID].offset.y);
  
-    //실제로 값 샘플링할 준비.
-    float3 tUV = float3(lightmapUV, (float) gBuf_LightMapSet[instanceID].lightmapID);
+//실제로 값 샘플링할 준비.
+    float3 tUV = float3(tNewUV, (float) gBuf_LightMapSet[instanceID].lightmapID);
     return internal_LightmapArray.Sample(lightmapSS, tUV);
 }
 

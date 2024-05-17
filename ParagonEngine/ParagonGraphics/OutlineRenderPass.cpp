@@ -118,14 +118,14 @@ namespace Pg::Graphics
 		// Unbind RenderTarget -> Outline Buffer Render를 활용하기 위해!
 		_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 
+		//다시금 OMSetRenderTargets. -> Main Quad.
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_quadMainSaveRTV), _outlineMaskingGDS->GetDSV());
+
 		//7번 레지스터 (SRV)
 		_DXStorage->_deviceContext->PSSetShaderResources(7, 1, &(_outlineBufferRender->GetSRV()));
 
 		//7번 레지스터 (Constant Buffer)
 		BindWidthHeightConstantBuffer();
-		
-		//다시금 OMSetRenderTargets. -> Main Quad.
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_quadMainSaveRTV), _outlineMaskingGDS->GetDSV());
 
 		//DepthStencilState
 		_DXStorage->_deviceContext->OMSetDepthStencilState(_writeModeDSS, 0xFF);

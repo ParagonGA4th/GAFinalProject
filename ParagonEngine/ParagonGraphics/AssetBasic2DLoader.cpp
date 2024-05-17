@@ -262,7 +262,7 @@ namespace Pg::Graphics::Loader
 			outTextureData->GetResource() = res;
 			
 			//GenerateMips Å×½ºÆ®.
-			_DXStorage->_deviceContext->GenerateMips(outTextureData->GetSRV());
+			//_DXStorage->_deviceContext->GenerateMips(outTextureData->GetSRV());
 		}
 		else if (ResourceHelper::IsResourceEXR(path))
 		{
