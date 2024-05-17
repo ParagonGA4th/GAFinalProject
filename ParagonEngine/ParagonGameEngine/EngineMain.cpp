@@ -113,11 +113,11 @@ namespace Pg::Engine
 		_debugSystem->DrawNavMeshDebug(_navTestInfo); //한번만 추가해줬다. 클리어하지 않음.
 
 		//Agent 디버그 테스트.
-		_navCyilnderInfo = new Pg::Data::NavCylinderInfo;
-		_navCyilnderInfo->position = { 0.f, 2.f, 0.f };
-		_navCyilnderInfo->height = 2.f;
-		_navCyilnderInfo->radius = 2.f;
-		_debugSystem->DrawNavCylinderDebug(_navCyilnderInfo);
+		//_navCyilnderInfo = new Pg::Data::NavCylinderInfo;
+		//_navCyilnderInfo->position = { 0.f, 2.f, 0.f };
+		//_navCyilnderInfo->height = 2.f;
+		//_navCyilnderInfo->radius = 2.f;
+		//_debugSystem->DrawNavCylinderDebug(_navCyilnderInfo);
 
 	}
 

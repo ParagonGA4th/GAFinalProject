@@ -25,6 +25,14 @@ namespace Pg::Data
 	class CameraData;
 }
 
+namespace Pg::Util
+{
+	namespace Time
+	{
+		class TimeSystem;
+	}
+}
+
 namespace Pg::Graphics
 {
 	class LowDX11Storage;
@@ -81,7 +89,8 @@ namespace Pg::Graphics
 		void DrawPlane(Pg::Data::CameraData* camData, Pg::Data::PlaneInfo* planeInfo);
 		void DrawBox2D(Pg::Data::Box2DInfo box2dInfo);
 		void DrawNavMesh(Pg::Data::CameraData* camData, Pg::Data::NavMeshInfo* navInfo);
-		void DrawCylinder(Pg::Data::CameraData* camData, Pg::Data::NavCylinderInfo* cylInfo);
+		void DrawNavCylinder_ActualCylinder(Pg::Data::CameraData* camData, Pg::Data::NavCylinderInfo* cylInfo);
+		void DrawNavCylinder_Lines(Pg::Data::NavCylinderInfo* cylInfo);
 	private:
 		void CreateSystemVertexShaders();
 		void CreateDepthWriteOffDSS();
@@ -93,6 +102,7 @@ namespace Pg::Graphics
 	private:
 		LowDX11Storage* _DXStorage;
 		LowDX11Logic* _DXLogic;
+		Pg::Util::Time::TimeSystem* _timeSystem;
 
 	private:
 		//SystemVertexShader : Primitive

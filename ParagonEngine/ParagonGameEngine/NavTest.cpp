@@ -51,15 +51,21 @@ namespace Pg::Engine
 		//_navSystem->SetSEpos(0, {_object->_transform._position.x, 0.f, _object->_transform._position.z},
 		//	{ 0.0f, 0.0f, -10.0f });
 
-		_straightpath = _navSystem->FindStraightPath(0);
+		//메모리 새겠지만, 테스트를 위해!
+		Pg::Data::NavCylinderInfo* tNavCyl = new Pg::Data::NavCylinderInfo(_navSystem->FindStraightPath(0));
+		tNavCyl->_radius = 1.0f;
+		tNavCyl->_height = 1.0f;
+		_debugSystem->DrawNavCylinderDebug(tNavCyl);
 
-		for (auto& path : _straightpath)
-		{
-			path.first.y = 0.0f;
-			path.second.y = 0.0f;
-			_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 1.0f, 0.0f, 1.0f));
-		}
+		//for (auto& path : _straightpath)
+		//{
+		//	path.first.y = 0.0f;
+		//	path.second.y = 0.0f;
+		//	_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 1.0f, 0.0f, 1.0f));
+		//}
 		//PG_TRACE()
 		//DirectX::XMVECTOR newPosition = DirectX::XMVectorAdd(currentPosVec, DirectX::XMVectorScale(dir, 1.f));
+
+
 	}
 }
