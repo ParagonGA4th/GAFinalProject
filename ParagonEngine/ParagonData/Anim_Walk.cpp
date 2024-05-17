@@ -12,14 +12,18 @@ namespace Pg::Data::BTree::Node
 
 	BT::NodeStatus Anim_Walk::tick()
 	{
+		PG_TRACE("Anim_Walk");
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
 			if (tMeshRenderer->GetAnimation() != "PpakMonster_Punch.pganim")
 			{
-				PG_TRACE("Anim_Walk");
 				tMeshRenderer->SetAnimation("PpakMonster_Punch.pganim", true);
 				return BT::NodeStatus::SUCCESS;
+			}
+			else
+			{
+				return BT::NodeStatus::FAILURE;
 			}
 		}
 
