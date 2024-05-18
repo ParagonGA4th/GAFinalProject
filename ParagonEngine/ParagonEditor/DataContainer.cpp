@@ -51,6 +51,8 @@ bool Pg::Editor::Data::DataContainer::GetEditorOnOff() const
 void Pg::Editor::Data::DataContainer::SetSceneList(std::vector<Pg::Data::Scene*> scenes)
 {
 	_scenes = scenes;
+
+	// юс╫ц
 	SetCurrentScene(0);
 }
 
@@ -61,7 +63,7 @@ std::vector<Pg::Data::Scene*> Pg::Editor::Data::DataContainer::GetSceneList()
 
 void Pg::Editor::Data::DataContainer::SetCurrentScene(int sceneNumber)
 {
-	_isSceneChanged = true;	
+	_isSceneChanged = true;
 	_currentScene = _scenes.at(sceneNumber);
 }
 
@@ -87,15 +89,16 @@ Pg::Data::Scene* Pg::Editor::Data::DataContainer::GetCurrentScene()
 	return _currentScene;
 }
 
-bool Pg::Editor::Data::DataContainer::GetIsSceneChanged()
+bool Pg::Editor::Data::DataContainer::GetIsSceneChange()
 {
 	return _isSceneChanged;
 }
 
-void Pg::Editor::Data::DataContainer::SetIsSceneChanged(bool isChange)
+void Pg::Editor::Data::DataContainer::SetIsSceneChange(bool isChange)
 {
 	_isSceneChanged = isChange;
 }
+
 
 void Pg::Editor::Data::DataContainer::SetPickObject(Pg::Data::GameObject* object)
 {

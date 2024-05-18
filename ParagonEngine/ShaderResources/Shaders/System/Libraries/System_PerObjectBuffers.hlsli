@@ -10,12 +10,11 @@
 //Constant Buffers
 cbuffer cbPerObjectBase : register(b0)
 {
+    //얘는 내적으로 Column Major로 쓰일 것.
     float4x4 gCBuf_World;
     float4x4 gCBuf_WorldInvTranspose;
-	float4x4 gCBuf_View;
-    float4x4 gCBuf_WorldViewProj;
-    float3 gCBuf_CameraPositionW;
-    // gCBuf_Materials[10] //후에 Material이 들어가면 추가되어야.
+    uint gCBuf_ObjID;
+    uint gCBuf_MatID;
 };
 
 cbuffer cbPerObjectSkinnedNodes : register(b1)

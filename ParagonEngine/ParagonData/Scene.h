@@ -61,6 +61,7 @@ namespace Pg::Data
 		void DeleteObjectRuntime(const std::string& obj);
 
 		std::string GetSceneName();
+		std::string GetSceneNameConst() const;
 		void SetSceneName(const std::string& sceneName);
 
 		Camera* GetMainCamera();
@@ -83,6 +84,9 @@ namespace Pg::Data
 		//파괴되지 않는 오브젝트들은 SceneSystem에서 따로 가져가서 오브젝트의 "소속"을 SceneSystem으로 변경.
 		static std::vector<GameObject*> _dontDestroyOnList; 
 
+		//이거 Lightmaps Vector. Scene에서 이런 정보가 들어와야 한다.
+		std::vector<std::string> _lightmapNamesVector;
+
 	private:
 		//씬 이름
 		std::string _sceneName;
@@ -100,7 +104,6 @@ namespace Pg::Data
 
 	public:
 		GraphicsDebugData _graphicsDebugData;
-
 	private:
 		//SceneSystem에서 Add/Object 꼬이지 않게 하기 위해서.
 		std::vector<std::string> _addObjectPlanList;

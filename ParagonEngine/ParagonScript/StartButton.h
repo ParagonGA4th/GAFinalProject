@@ -27,7 +27,7 @@ namespace Pg::DataScript
 
 	private:
 		Pg::Data::Button* _button;
-		Pg::API::PgScene* _sceneHelper;
+		Pg::API::PgScene* _pgScene = nullptr;
 
 		std::string _nextScene;
 	};

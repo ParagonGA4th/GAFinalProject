@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AlphaBlendedTotalRenderPass.h" />
     <ClInclude Include="AnimationParser.h" />
     <ClInclude Include="Asset3DModelData.h" />
     <ClInclude Include="AssetAnimationDataDefine.h" />
@@ -33,7 +34,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="BaseSpecificRenderer.h" />
+    <ClInclude Include="DirectXTexEXR.h" />
+    <ClInclude Include="FirstInstancedRenderPass.h" />
     <ClInclude Include="IndividualLightsGPU.h" />
+    <ClInclude Include="LightmapManager.h" />
+    <ClInclude Include="LightmapParser.h" />
     <ClInclude Include="PPFinalRenderer.h" />
     <ClInclude Include="FinalRenderPass.h" />
     <ClInclude Include="FirstSkinnedRenderPass.h" />
@@ -43,8 +48,11 @@
     <ClInclude Include="D3DCarrier.h" />
     <ClInclude Include="GraphicsApiExporter.h" />
     <ClInclude Include="GraphicsSceneParser.h" />
+    <ClInclude Include="Rendering3DStructs.h" />
+    <ClInclude Include="RenderLightmapData.h" />
+    <ClInclude Include="RenderObjectInstancedMesh3D.h" />
+    <ClInclude Include="SingleLightmapSet.h" />
     <ClInclude Include="TonemappingRenderPass.h" />
-    <ClInclude Include="PreparationSkinnedRenderPass.h" />
     <ClInclude Include="SceneInformationList.h" />
     <ClInclude Include="IRenderSinglePass.h" />
     <ClInclude Include="ConstantBuffer.h" />
@@ -53,8 +61,6 @@
     <ClInclude Include="ISendReceiver.h" />
     <ClInclude Include="MaterialParser.h" />
     <ClInclude Include="OpaqueShadowRenderPass.h" />
-    <ClInclude Include="PreparationStaticRenderPass.h" />
-    <ClInclude Include="AlphaBlendedRenderPass.h" />
     <ClInclude Include="OpaqueQuadRenderPass.h" />
     <ClInclude Include="OutlineRenderPass.h" />
     <ClInclude Include="RenderAnimation.h" />
@@ -145,6 +151,7 @@
     <ClInclude Include="LightStructs.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AlphaBlendedTotalRenderPass.cpp" />
     <ClCompile Include="AnimationParser.cpp" />
     <ClCompile Include="Asset3DModelData.cpp" />
     <ClCompile Include="AssetAnimationDataDefine.cpp" />
@@ -158,7 +165,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="BaseSpecificRenderer.cpp" />
-    <ClCompile Include="PPFinalRenderer.cpp" />
+    <ClCompile Include="DirectXTexEXR.cpp" />
+    <ClCompile Include="FirstInstancedRenderPass.cpp" />
+    <ClCompile Include="LightmapManager.cpp" />
+    <ClCompile Include="LightmapParser.cpp" />
     <ClCompile Include="FinalRenderPass.cpp" />
     <ClCompile Include="FirstSkinnedRenderPass.cpp" />
     <ClCompile Include="FirstStaticRenderPass.cpp" />
@@ -171,11 +181,11 @@
     <ClCompile Include="LayoutDefine.cpp" />
     <ClCompile Include="MaterialParser.cpp" />
     <ClCompile Include="OpaqueShadowRenderPass.cpp" />
+    <ClCompile Include="PPFinalRenderer.cpp" />
+    <ClCompile Include="RenderLightmapData.cpp" />
     <ClCompile Include="RenderObject3DList.cpp" />
+    <ClCompile Include="RenderObjectInstancedMesh3D.cpp" />
     <ClCompile Include="TonemappingRenderPass.cpp" />
-    <ClCompile Include="PreparationSkinnedRenderPass.cpp" />
-    <ClCompile Include="PreparationStaticRenderPass.cpp" />
-    <ClCompile Include="AlphaBlendedRenderPass.cpp" />
     <ClCompile Include="OpaqueQuadRenderPass.cpp" />
     <ClCompile Include="OutlineRenderPass.cpp" />
     <ClCompile Include="RenderAnimation.cpp" />
@@ -305,27 +315,27 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstInstancedStage_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstInstanced_VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstSkinned_VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstStage_AlphaBlendedPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstStage_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstStatic_VS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Individual\Individual_PerObjMatPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Individual\Individual_PerObjMatSkinnedVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Individual\Individual_PerObjMatStaticVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
@@ -390,16 +400,15 @@
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Appends_PSCommon.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Appends_VSCommon.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_MathFunctions.hlsli" />
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_BufferSRVRegisters.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_ObjMat.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\SamplerStates\Appends_SamplerStates.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\SceneInfo\Appends_SceneInfoPS.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_GBufferTextures.hlsli" />
-    <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_LightmapTextures.hlsli" />
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_InstancedValues.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_PBRBufferTextures.hlsli" />
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_1stLayouts.hlsli" />
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjectBuffers.hlsli" />
-    <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjMatBuffers.hlsli" />
-    <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjMatLayouts.hlsli" />
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_QuadLayouts.hlsli" />
   </ItemGroup>
   <ItemGroup>
@@ -511,7 +520,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_EXPORT_GRAPHICS_DLL;NOMINMAX;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)include\libzmq</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)include\OpenEXR;$(SolutionDir)include\Iex;$(SolutionDir)include\IlmThread;$(SolutionDir)include\OpenEXRCore;$(SolutionDir)include\OpenEXRUtil;$(SolutionDir)include\Imath;$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)include\libzmq</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
       <MaxFilesInUnityFile>5</MaxFilesInUnityFile>
@@ -519,8 +528,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\msdfgen\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxmesh\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDIr)lib\FastNoise2;$(SolutionDir)lib\dxtex\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\libzmq\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;assimp-vc143-mtd.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;FastNoiseD.lib;%(AdditionalDependencies);ParagonHelper.lib;DirectXTex.lib;libzmq-v143-mt-gd-4_3_5.lib;libzmq-v143-mt-sgd-4_3_5.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\msdfgen\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxmesh\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDIr)lib\FastNoise2;$(SolutionDir)lib\dxtex\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\lex\$(Configuration);$(SolutionDir)lib\IlmThread\$(Configuration);$(SolutionDir)lib\OpenEXR\$(Configuration);$(SolutionDir)lib\OpenEXRCore\$(Configuration);$(SolutionDir)lib\OpenEXRUtil\$(Configuration);$(SolutionDir)lib\Imath\$(Configuration);$(SolutionDir)lib\Iibzmq\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib;assimp-vc143-mtd.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;FastNoiseD.lib;%(AdditionalDependencies);ParagonHelper.lib;DirectXTex.lib;IlmThread-3_2_d.lib;Iex-3_2_d.lib;OpenEXRCore-3_2_d.lib;Imath-3_1_d.lib;OpenEXR-3_2_d.lib</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
@@ -529,6 +538,13 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy $(SolutionDir)lib\IlmThread\$(Configuration)\IlmThread-3_2_d.dll $(OutDir)
+copy $(SolutionDir)lib\Imath\$(Configuration)\Imath-3_1_d.dll $(OutDir)
+copy $(SolutionDir)lib\lex\$(Configuration)\Iex-3_2_d.dll $(OutDir)
+copy $(SolutionDir)lib\OpenEXR\$(Configuration)\OpenEXR-3_2_d.dll $(OutDir)
+copy $(SolutionDir)lib\OpenEXRCore\$(Configuration)\OpenEXRCore-3_2_d.dll $(OutDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -539,7 +555,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_EXPORT_GRAPHICS_DLL;NOMINMAX;MSDFGEN_PUBLIC=__declspec(dllexport);_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)include\libzmq</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)include\OpenEXR;$(SolutionDir)include\Iex;$(SolutionDir)include\IlmThread;$(SolutionDir)include\OpenEXRCore;$(SolutionDir)include\OpenEXRUtil;$(SolutionDir)include\Imath;$(SolutionDir)include\libzmq</AdditionalIncludeDirectories>
       <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
       <MaxFilesInUnityFile>5</MaxFilesInUnityFile>
     </ClCompile>
@@ -548,8 +564,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\msdfgen\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxmesh\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDIr)lib\FastNoise2;$(SolutionDir)lib\dxtex\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\libzmq\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>singleton.lib;assimp-vc143-mt.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;FastNoise.lib;%(AdditionalDependencies);ParagonHelper.lib;DirectXTex.lib;libzmq-v143-mt-4_3_5.lib;libzmq-v143-mt-s-4_3_5.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\msdfgen\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxtk\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\assimp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\dxmesh\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDIr)lib\FastNoise2;$(SolutionDir)lib\dxtex\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\lex\$(Configuration);$(SolutionDir)lib\IlmThread\$(Configuration);$(SolutionDir)lib\OpenEXR\$(Configuration);$(SolutionDir)lib\OpenEXRCore\$(Configuration);$(SolutionDir)lib\OpenEXRUtil\$(Configuration);$(SolutionDir)lib\Imath\$(Configuration);$(SolutionDir)lib\Iibzmq\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib;assimp-vc143-mt.lib;DirectXMesh.lib;ParagonMath.lib;ParagonUtil.lib;ParagonData.lib;FastNoise.lib;%(AdditionalDependencies);ParagonHelper.lib;DirectXTex.lib;OpenEXR-3_2.lib;IlmThread-3_2.lib;Iex-3_2.lib;OpenEXRCore-3_2.lib;Imath-3_1.lib</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
@@ -558,6 +574,13 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy $(SolutionDir)lib\IlmThread\$(Configuration)\IlmThread-3_2.dll $(OutDir)
+copy $(SolutionDir)lib\Imath\$(Configuration)\Imath-3_1.dll $(OutDir)
+copy $(SolutionDir)lib\lex\$(Configuration)\Iex-3_2.dll $(OutDir)
+copy $(SolutionDir)lib\OpenEXR\$(Configuration)\OpenEXR-3_2.dll $(OutDir)
+copy $(SolutionDir)lib\OpenEXRCore\$(Configuration)\OpenEXRCore-3_2.dll $(OutDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

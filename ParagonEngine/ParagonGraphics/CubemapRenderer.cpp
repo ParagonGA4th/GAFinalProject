@@ -14,6 +14,9 @@
 #include "RenderCubemap.h"
 #include "RenderObjectCubemapList.h"
 
+#include "../ParagonData/ParagonDefines.h"
+#include "../ParagonHelper/ResourceHelper.h"
+
 #include <algorithm>
 #include <cassert>
 
@@ -46,7 +49,9 @@ namespace Pg::Graphics
 	void Pg::Graphics::CubemapRenderer::Render(RenderObjectCubemapList* cubeMapList, Pg::Data::CameraData* camData)
 	{
 		//여전히 Quad에 있는 값으로 렌더.
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_quadMainGDS->GetDSV());
+		//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_quadMainGDS->GetDSV());
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_gBufRequiredInfoDSV->GetDSV());
+		//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), nullptr);
 
 		RenderCubemapWithIndex(camData, cubeMapList, _internalCubemapList);
 	}
@@ -76,9 +81,13 @@ namespace Pg::Graphics
 
 	void CubemapRenderer::CreateSystemVertexShaders()
 	{
-		_cubemapVS = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/CubemapVS.cso", LayoutDefine::GetCubemapLayout(),
+		using Pg::Util::Helper::ResourceHelper;
+		using namespace Pg::Defines;
+		//ResourceHelper::IfReleaseChangeDebugTextW(
+
+		_cubemapVS = std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(CUBEMAP_VS_DIRECTORY), LayoutDefine::GetCubemapLayout(),
 			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		_cubemapPS = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/CubemapPS.cso");
+		_cubemapPS = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(CUBEMAP_PS_DIRECTORY));
 	}
 
 	

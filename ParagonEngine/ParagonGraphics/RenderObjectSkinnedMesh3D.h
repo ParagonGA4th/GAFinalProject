@@ -35,7 +35,7 @@ namespace Pg::Graphics
 		~RenderObjectSkinnedMesh3D();
 
 		//Object-Material 데이터가 전부 매칭/로드 된 후, 일괄적으로 발동될 함수이다.	
-		virtual void CreateObjMatBuffers() override;
+		virtual void CreateObjMatBuffers() {};
 	public:
 		//SkinnedMesh에 예외적으로 활용됨. 프레임을 진행시키기 위해서, 애니메이션 로직을 딱 한번, 미리 판단한다.
 		void UpdateAnimationInfo(const float* const dt, const Pg::Data::Enums::eEditorMode* const editorMode);
@@ -43,11 +43,6 @@ namespace Pg::Graphics
 		virtual void First_BindBuffers() override;
 		virtual void First_Render(const float* const dt) override;
 		virtual void First_UnbindBuffers() override;
-
-		virtual void ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData) override;
-		virtual void ObjMat_BindBuffers() override;
-		virtual void ObjMat_Render(const float* const dt) override;
-		virtual void ObjMat_UnbindBuffers() override;
 
 		//내부적으로 SetAnimation 호출. (Client 딴 제어 아닌 Internal Mechanic)
 		void SetAnimation(const std::string& animName, bool isLoop);
@@ -67,10 +62,6 @@ namespace Pg::Graphics
 		//ConstantBufferUpdate.
 		void UpdateMainCB(Pg::Data::CameraData* camData);
 		void UpdateSkinnedCB();
-		void UpdateObjMatBaseCB(Pg::Data::CameraData* camData);
-		void UpdateObjMatSkinnedCB();
-
-		void BindObjMatVertexIndexBuffer();
 	private:
 		//현재 재생 중인 애니메이션.
 		RenderAnimation* _currentAnim;

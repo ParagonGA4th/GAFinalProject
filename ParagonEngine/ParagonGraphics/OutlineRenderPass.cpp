@@ -56,11 +56,15 @@ namespace Pg::Graphics
 
 	void OutlineRenderPass::Initialize()
 	{
+		using Pg::Util::Helper::ResourceHelper;
+		using namespace Pg::Defines;
+		//ResourceHelper::IfReleaseChangeDebugTextW(
+		
 		// Selected Outline Passes.
-		_vs = std::make_unique<SystemVertexShader>(L"../Builds/x64/Debug/SelectedOutline_VS.cso", LayoutDefine::GetDeferredQuadLayout(),
+		_vs = std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(SELECTED_OUTLINE_VS_DIRECTORY), LayoutDefine::GetDeferredQuadLayout(),
 			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		_singleColorPs = std::make_unique<SystemPixelShader>(L"../Builds/x64/Debug/SelectedOutline_SingleColor_PS.cso");
-		_blurPs = std::make_unique<SystemPixelShader>(L"../Builds/x64/Debug/SelectedOutline_Blur_PS.cso");
+		_singleColorPs = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(SELECTED_OUTLINE_SINGLE_COLOR_PS_DIRECTORY));
+		_blurPs = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(SELECTED_OUTLINE_BLUR_PS_DIRECTORY));
 
 		//Width Height을 할당.
 		_widthHeight = { static_cast<float>(_DXStorage->_screenWidth), 
@@ -72,7 +76,8 @@ namespace Pg::Graphics
 
 	void OutlineRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
 	{
-		_objMatSaveSRV = carrier._quadObjMatRT->GetSRV();
+		//RT5 : ObjMatAoR
+		_objMatSaveSRV = carrier._gBufRequiredInfoRT.at(5)->GetSRV();
 		_quadMainSaveRTV = carrier._quadMainRT->GetRTV();
 	}
 
@@ -113,14 +118,14 @@ namespace Pg::Graphics
 		// Unbind RenderTarget -> Outline Buffer Render를 활용하기 위해!
 		_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 
+		//다시금 OMSetRenderTargets. -> Main Quad.
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_quadMainSaveRTV), _outlineMaskingGDS->GetDSV());
+
 		//7번 레지스터 (SRV)
 		_DXStorage->_deviceContext->PSSetShaderResources(7, 1, &(_outlineBufferRender->GetSRV()));
 
 		//7번 레지스터 (Constant Buffer)
 		BindWidthHeightConstantBuffer();
-		
-		//다시금 OMSetRenderTargets. -> Main Quad.
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_quadMainSaveRTV), _outlineMaskingGDS->GetDSV());
 
 		//DepthStencilState
 		_DXStorage->_deviceContext->OMSetDepthStencilState(_writeModeDSS, 0xFF);

@@ -1,6 +1,8 @@
 #include "StaticMeshRenderer.h"
 #include "GameObject.h"
 #include "../ParagonHelper/ResourceHelper.h"
+#include "../ParagonData/ParagonDefines.h"
+#include "../ParagonData/Transform.h"
 
 #include <sstream>
 #include <vector>
@@ -46,15 +48,49 @@ namespace Pg::Data
 		//만약 materialName이 해당 값이었으면 materialName을 비우자. 이를 기반으로 판단할 것.
 		if (_materialName.compare("fromUnrealExample") == 0)
 		{
-			_materialName.clear();
+			{
+				_materialName.clear();
 
-			//Unreal Coordinate System에 대한 Solution. (왼손 / 오른손 좌표계 혼용)
-			Pg::Math::PGQuaternion tTemp = _object->_transform._rotation;
+				//Unreal Coordinate System에 대한 Solution. (왼손 / 오른손 좌표계 혼용)
+				Pg::Math::PGQuaternion tTemp = _object->_transform._rotation;
 
-			_object->_transform._rotation.x = tTemp.x * -1.0f;
-			_object->_transform._rotation.y = tTemp.z;
-			_object->_transform._rotation.z = tTemp.y;
-			_object->_transform._rotation.w = tTemp.w;
+				//트랜스폼 돌리기.
+				_object->_transform._rotation.x = tTemp.x * -1.0f;
+				_object->_transform._rotation.y = tTemp.z;
+				_object->_transform._rotation.z = tTemp.y;
+				_object->_transform._rotation.w = tTemp.w;
+			}
+			{
+				//언리얼에서 왔다 익스포터를 받는 수정을 여기서 해야. (마지막 겹치지 않는 레이블링 반복)
+				std::string str = _object->GetName();
+				std::vector<std::size_t> positions;
+
+				// 끝부터 _의 존재를 찾는다.
+				std::size_t pos = str.length();
+				while ((pos = str.rfind('_', pos - 1)) != std::string::npos)
+				{
+					positions.push_back(pos);
+				}
+
+				if (!positions.empty())
+				{
+					//positions만큼 위치를 찾은 것.
+					if (positions.size() >= 4)
+					{
+						std::string tFirst = str.substr(positions[1]);
+						std::string tSecond = str.substr(positions[3], positions[1] - positions[3]);
+
+						if (tFirst.compare(tSecond) == 0)
+						{
+							//이러면 값이 일치한다는 것. 
+							str.erase(positions[1]);
+						}
+					}
+				}
+
+				//바뀔 수도 있는 이름을 집어넣는다.
+				_object->SetName(str);
+			}
 		}
 	}
 
@@ -80,6 +116,16 @@ namespace Pg::Data
 			_meshName = ResourceHelper::GetNameFromPath(_meshFilePath);
 		}
 
+		//인스턴싱 : XML에서 기록.
+		std::string tPrefixFromName = _meshName.substr(0, 5);
+		//Mesh Path Set / 만약 Default Material이 아닌 경우 MaterialPath까지 배치 완료.
+		if (tPrefixFromName.compare(Pg::Defines::NON_INSTANCED_3DMODEL_PREFIX) != 0)
+		{
+			//norm_으로 시작하지 않기 때문에, 인스턴스된 렌더링이 적용됨!
+			_isInstanced = true;
+			_object->_transform._isCanMove = false;
+		}
+
 		if (_materialName.empty())
 		{
 			if (_renderMaterialPath.empty())
@@ -90,6 +136,9 @@ namespace Pg::Data
 			_materialName = ResourceHelper::GetNameFromPath(_renderMaterialPath);
 		}
 	}
+
+
+
 
 	//void StaticMeshRenderer::Update()
 	//{

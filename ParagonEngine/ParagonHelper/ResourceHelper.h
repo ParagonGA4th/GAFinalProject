@@ -40,7 +40,15 @@ namespace Pg::Util::Helper
 		 static bool IsResourceTGA(const std::string& filePath);
 		 static bool IsResourceTGA(const std::wstring& filePath);
 
+		 //리소스의 확장자가 EXR인지 (Unity Lightmap 호환 포맷), 아닌지를 알려준다.
+		 static bool IsResourceEXR(const std::string& filePath);
+		 static bool IsResourceEXR(const std::wstring& filePath);
+
 		 static std::string GetNameFromPath(const std::string& filePath);
+
+		 //디버그 / 릴리즈 모드를 구별해서, 만약 릴리즈 모드일 경우 Debug->Release로 String 값을 바꾼다.
+		 static std::string IfReleaseChangeDebugText(const std::string& filePath);
+		 static std::wstring IfReleaseChangeDebugTextW(const std::wstring& filePath);
 	private:
 
 	};

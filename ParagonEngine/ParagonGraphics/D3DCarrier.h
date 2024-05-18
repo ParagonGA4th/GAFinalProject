@@ -27,7 +27,7 @@ namespace Pg::Graphics
 		
 		//GBuffer 관련 RTVs & SRVs. (Pos, UV Coords, Etc)
 		std::vector<std::unique_ptr<GBufferRender>> _gBufRequiredInfoRT;
-		std::unique_ptr<GBufferDepthStencil> _gBufRequiredInfoDSV;
+		std::unique_ptr<GBufferDepthStencil> _gBufRequiredInfoDSV; // Opaque.
 
 		std::vector<ID3D11RenderTargetView*> _gBufRequiredRTVArray;
 		std::vector<ID3D11ShaderResourceView*> _gBufRequiredSRVArray;
@@ -40,7 +40,6 @@ namespace Pg::Graphics
 		//단순 정보 전달과 차별화하기 위해 별도의 변수 설정.
 		GBufferDepthStencil* _quadMainGDS;
 		GBufferRender* _quadMainRT;
-		GBufferRender* _quadObjMatRT;
 
 		//Post Processing에 활용된다.
 		GBufferRender* _PPSwitch1{ nullptr };
@@ -49,14 +48,9 @@ namespace Pg::Graphics
 		//PostProcessing이 추가되지만, 보내야 하는 값은 일치해야 한다.
 		ID3D11ShaderResourceView* _toSendSRVToEngine{ nullptr };
 
-		//PBR Buffers
-		std::unique_ptr<GBufferRender> _albedoAmbiBuffer;
-		std::unique_ptr<GBufferRender> _normalRoughBuffer;
-		std::unique_ptr<GBufferRender> _specularMetalBuffer;
-
 		//PBRBuffer : Binding을 위한 Array.
-		std::array<ID3D11RenderTargetView*, 4> _pbrBindArray;
-		std::array<ID3D11RenderTargetView*, 4> _pbrNullBindArray;
+		std::array<ID3D11RenderTargetView*, 3> _pbrBindArray;
+		std::array<ID3D11RenderTargetView*, 3> _pbrNullBindArray;
 
 		std::array<ID3D11RenderTargetView*, 15> _rtvArray;
 		unsigned int _rtvCount;

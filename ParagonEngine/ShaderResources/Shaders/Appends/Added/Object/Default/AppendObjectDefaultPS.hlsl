@@ -6,19 +6,11 @@
 #include "../../../Libraries/SceneInfo/Appends_SceneInfoPS.hlsli"
 #include "../../../Libraries/MathFunctions/Appends_MathFunctions.hlsli"
 
-//반드시 인풋 = VOutQuad, 아웃풋 = POutQuad
-POutQuad main(VOutQuad pin)
+float4 DefaultLightingOperation(float2 quadUV)
 {
-    //모든 Appends의 Pixel Shader 실행 전에, ClipUnfits 함수가 들어있어야 한다. 구조 특성 때문.
-    ClipUnfits(pin.UV);
-    
-    //본격적인 Shader Code.
-    POutQuad res;
-    
-    //PBR 적용.
-    float3 albedo =   sRGB2Lin(GetAlbedoMap(pin.UV));
-    float metalness = sRGB2Lin(GetMetallicMap(pin.UV));
-    float roughness = sRGB2Lin(GetRoughnessMap(pin.UV));
+    float3 albedo = sRGB2Lin(GetAlbedoMap(quadUV));
+    float metalness = sRGB2Lin(GetMetallicMap(quadUV));
+    float roughness = sRGB2Lin(GetRoughnessMap(quadUV));
     
     //아트와 반짝거리는 것 없애기 매핑 중이었음.
      //float roughness = sRGB2Lin(GetRoughnessMap(pin.UV));
@@ -30,11 +22,11 @@ POutQuad main(VOutQuad pin)
     float3 lightDirArr[3] = { firstLightDir, firstLightDir, firstLightDir };
     float lightRadianceArr[3] = { firstRad, firstRad, firstRad };
     
-; //Outgoing 빛의 방향 (WorldPos -> Eye 벡터 방향)
-    float3 Lo = normalize(GetEyePosition() - GetPosition(pin.UV));
+    //Outgoing 빛의 방향 (WorldPos -> Eye 벡터 방향)
+    float3 Lo = normalize(GetEyePosition() - GetPosition(quadUV));
     
     //Normal Mapping. 
-    float3 N = NormalSampleToWorldSpace(GetNormalMap(pin.UV), GetNormal(pin.UV), GetTangent(pin.UV));
+    float3 N = NormalSampleToWorldSpace(GetNormalMap(quadUV), GetNormal(quadUV), GetTangent(quadUV));
     N = normalize(N);
     //float3 N = GetNormal(pin.UV);
     
@@ -124,10 +116,32 @@ POutQuad main(VOutQuad pin)
     }
    
     //리턴.
-    res.Output = float4(gammaCorrection(directLighting) + ambientLighting, 1.0);
+    return float4(gammaCorrection(directLighting) + ambientLighting, 1.0);
+}
+
+//반드시 인풋 = VOutQuad, 아웃풋 = POutQuad
+POutQuad main(VOutQuad pin)
+{
+    //모든 Appends의 Pixel Shader 실행 전에, ClipUnfits 함수가 들어있어야 한다. 구조 특성 때문.
+    ClipUnfits(pin.UV);
     
-    //GammaCorrection까지!
-    //res.Output = pow(res.Output, 1.0 / 2.2);
+    //본격적인 Shader Code.
+    POutQuad res;
     
+    //라이트맵이 아직 없는 이 상황, 일단은 해제했음.
+   //라이트 맵을 쓰는 경우
+    if (IsUseLightmap(pin.UV) && gCBuf_IsSceneUseLightmap)
+    {
+        //이 샘플링되었던 LightmapRGB 값 가져오기 + Gamma Correction.
+        float4 lightColor = float4(GetLightmapRGB(pin.UV), 1.f);
+        lightColor.rgb = pow(lightColor.rgb, 1.f / 2.2f);
+        float4 albedo = float4(sRGB2Lin(GetAlbedoMap(pin.UV)), 1.0f);
+        //Color Correction해서 기록.
+        res.Output = albedo * lightColor;
+        return res;
+    }
+    
+    //라이트맵을 안 쓰는 경우
+    res.Output = DefaultLightingOperation(pin.UV);
     return res;
 }

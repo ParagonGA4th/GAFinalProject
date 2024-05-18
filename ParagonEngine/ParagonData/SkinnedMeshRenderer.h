@@ -53,7 +53,6 @@ namespace Pg::Data
 
 	public:
 		BEGIN_VISITABLES(SkinnedMeshRenderer);
-		VISITABLE(bool, _isInstanced);
 		VISITABLE(std::string, _meshName);
 		VISITABLE(std::string, _materialName);
 		VISITABLE(std::string, _initAnimName);

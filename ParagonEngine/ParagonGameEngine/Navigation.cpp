@@ -32,6 +32,7 @@ namespace Pg::Engine
 		_polyPickExt[2] = 2;
 
 		_navQuery = new dtNavMeshQuery();
+		_crowd = new dtCrowd();
 	}
 
 	PathFindbox::~PathFindbox()
@@ -74,7 +75,7 @@ namespace Pg::Engine
 		_tmproc = new MeshProcess();
 
 		//NavMesh 및 Crowd 할당.
-		_package->_navQuery = dtAllocNavMeshQuery();
+		//_package->_navQuery = dtAllocNavMeshQuery();
 
 		_package->_crowd = dtAllocCrowd();
 	}
@@ -559,11 +560,16 @@ namespace Pg::Engine
 		}
 	}
 
-	void Navigation::SyncAgent()
+	void Navigation::SyncAgent(int index, Pg::Math::PGFLOAT3 pos)
 	{
 		//싱글턴
 		auto& tSceneSystem = singleton<SceneSystem>();
 		_sceneSystem = &tSceneSystem;
+
+		//for (auto& it : _sceneSystem->GetCurrentScene()->GetObjectList())
+		//{
+		//	Pg::Data::NavMeshAgent* tNavMeshAgent = it->GetComponent<Pg::Data::NavMeshAgent>();
+		//}
 
 		//Agent의 속성 부여
 		dtCrowdAgentParams ap;
@@ -581,6 +587,8 @@ namespace Pg::Engine
 		ap.updateFlags = DT_CROWD_OPTIMIZE_TOPO |
 			DT_CROWD_OPTIMIZE_VIS |
 			DT_CROWD_OBSTACLE_AVOIDANCE;
+
+		_package[index]._crowd->addAgent(reinterpret_cast<const float*>(&pos), &ap);
 	}
 
 	dtObstacleRef Navigation::hitTestObstacle(const dtTileCache* tc, const float* sq)
@@ -657,12 +665,14 @@ namespace Pg::Engine
 		_package[index]._endPos[1] = ey;
 		_package[index]._endPos[2] = ez;
 		_package[index]._navQuery->findNearestPoly(_package[index]._endPos, _package[index]._polyPickExt, &(_package[index]._filter), &(_package[index]._endRef), 0);
+
+		_package[index]._crowd->requestMoveTarget(index, _package[index]._endRef, _package[index]._endPos);
 	}
 
 	void Navigation::SetSEpos(int index, Pg::Math::PGFLOAT3 startPosition, Pg::Math::PGFLOAT3 endPosition)
 	{
 		SetSEpos(index, startPosition.x, startPosition.y, startPosition.z
-			, startPosition.x, startPosition.y, startPosition.z);
+			, endPosition.x, endPosition.y, endPosition.z);
 	}
 
 	void Navigation::SetStartpos(int index, float x, float y, float z)

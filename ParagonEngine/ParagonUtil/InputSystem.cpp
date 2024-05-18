@@ -72,6 +72,8 @@ namespace Pg::Util::Input
 	{
 		using namespace Pg::API::Input;
 
+		CustomAssert(_map->MapBool(eKeyCode::Esc, _keyboardId, gainput::KeyEscape));
+
 		CustomAssert(_map->MapBool(eKeyCode::MoveFront, _keyboardId, gainput::KeyW));
 		CustomAssert(_map->MapBool(eKeyCode::MoveBack, _keyboardId, gainput::KeyS));
 		CustomAssert(_map->MapBool(eKeyCode::MoveLeft, _keyboardId, gainput::KeyA));

@@ -3,46 +3,42 @@
 #define __DEFINED_SYSTEM_PBR_BUFFER_TEXTURE_HLSL__
 
 #include "../SamplerStates/Appends_SamplerStates.hlsli"
-
-//모두 RGB / A. Quad-Based.
-Texture2D<float4> internal_t2_AlbedoAOTexture : register(t12);
-Texture2D<float4> internal_t2_NormalRoughnessTexture : register(t13);
-Texture2D<float4> internal_t2_SpecularMetallicTexture : register(t14);
+#include "../Required/Appends_BufferSRVRegisters.hlsli"
 
 //IBL Texture를 쓸 수 있게 마련해둔다.
-TextureCube<float4> internal_IBL_DiffuseIrrCubemap : register(t21);
-TextureCube<float4> internal_IBL_SpecularIrrCubemap : register(t22);
-Texture2D<float4> internal_IBL_SpecularLutTexture : register(t23);
+TextureCube<float4> internal_IBL_DiffuseIrrCubemap : register(t20);
+TextureCube<float4> internal_IBL_SpecularIrrCubemap : register(t21);
+Texture2D<float4> internal_IBL_SpecularLutTexture : register(t22);
 //LUT는 여기서는 필요X!
-
-float3 GetAlbedoMap(float2 quadUV)
-{
-    return internal_t2_AlbedoAOTexture.Sample(defaultTextureSS, quadUV).xyz;
-}
-
-float3 GetNormalMap(float2 quadUV)
-{
-    return internal_t2_NormalRoughnessTexture.Sample(defaultTextureSS, quadUV).xyz;
-}
-
-float3 GetSpecularMap(float2 quadUV)
-{
-    return internal_t2_SpecularMetallicTexture.Sample(defaultTextureSS, quadUV).xyz;
-}
 
 float GetAmbientOcclusionMap(float2 quadUV)
 {
-    return internal_t2_AlbedoAOTexture.Sample(defaultTextureSS, quadUV).w;
+    return internal_t2_ObjMatAoR.Sample(defaultTextureSS, quadUV).z;
 }
 
 float GetRoughnessMap(float2 quadUV)
 {
-    return internal_t2_NormalRoughnessTexture.Sample(defaultTextureSS, quadUV).w;
+    return internal_t2_ObjMatAoR.Sample(defaultTextureSS, quadUV).w;
+}
+
+float3 GetAlbedoMap(float2 quadUV)
+{
+    return internal_t2_AlbedoMetallic.Sample(defaultTextureSS, quadUV).xyz;
 }
 
 float GetMetallicMap(float2 quadUV)
 {
-    return internal_t2_SpecularMetallicTexture.Sample(defaultTextureSS, quadUV).w;
+    return internal_t2_AlbedoMetallic.Sample(defaultTextureSS, quadUV).w;
+}
+
+float3 GetNormalMap(float2 quadUV)
+{
+    return internal_t2_NormalAlpha.Sample(defaultTextureSS, quadUV).xyz;
+}
+
+float GetAlphaMap(float2 quadUV)
+{
+    return internal_t2_NormalAlpha.Sample(defaultTextureSS, quadUV).w;
 }
 
 float3 GetDiffuseIrradianceMap(float3 sampleUV)

@@ -47,6 +47,7 @@ namespace Pg::Editor::Manager
 		// file을 쓰는 것은 FileSystem에서 담당하기 때문에
 		// first - SceneName, second - SerializeData
 		std::unordered_map<std::string, std::string> _sceneSerializeData; 
+		std::unordered_map<Pg::Data::GameObject*, std::string> _existsParentObject;
 
 		Pg::Editor::Data::DataContainer* _dataContainer;
 	};

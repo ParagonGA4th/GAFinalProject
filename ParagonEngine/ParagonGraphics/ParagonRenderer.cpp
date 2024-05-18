@@ -6,15 +6,16 @@
 #include "GraphicsResourceManager.h"
 #include "MathHelper.h"
 #include "SceneInformationList.h"
+#include "LightmapManager.h"
 
 #include "GraphicsSceneParser.h"
+#include "LightmapManager.h"
 #include "DeferredRenderer.h"
 #include "CubemapRenderer.h"
 #include "Forward2DRenderer.h"
 #include "Forward3DRenderer.h"
 #include "DebugRenderer.h"
 #include "PPFinalRenderer.h"
-
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonUtil/Log.h"
@@ -39,8 +40,10 @@ namespace Pg::Graphics
 
 	}
 
-	void ParagonRenderer::Initialize(const Pg::Data::Enums::eEditorMode* const editorMode)
+	void ParagonRenderer::Initialize(const Pg::Data::Enums::eEditorMode* const editorMode, const std::string& resourceListPath)
 	{
+		_resourcePath = resourceListPath;
+
 		//SceneParser 만들고 Initialize();
 		_sceneParser = std::make_unique<GraphicsSceneParser>();
 		_sceneParser->Initialize();
@@ -66,9 +69,15 @@ namespace Pg::Graphics
 		_finalRenderer = std::make_unique<PPFinalRenderer>(_gCarrier.get());
 		_finalRenderer->Initialize();
 		//SkinningMk.F
-		//_tempMultiMesh = new MultimaterialMesh("tFilePath");
+		//_tempMultiMesh = new MultimaterialMesh("tFilePath);
+	}
 
+	void ParagonRenderer::ConnectDefaultResources()
+	{
+		_deferredRenderer->ConnectDefaultResources();
 
+		_lightmapManager = std::make_unique<LightmapManager>();
+		_lightmapManager->Initialize(_resourcePath);
 	}
 
 	void ParagonRenderer::BeginRender()
@@ -78,6 +87,10 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::Render(Pg::Data::CameraData* camData)
 	{
+		_deferredRenderer->ClearPlaceResources();
+		//이거는 지워야.
+		_lightmapManager->Temp(_currentScene);
+
 		// Deferred w/ Pass
 		_deferredRenderer->RenderContents(_sceneParser->GetRenderObject3DList(), _sceneParser->GetSceneInformationList(), camData);
 		_deferredRenderer->ConfirmCarrierData();
@@ -123,9 +136,15 @@ namespace Pg::Graphics
 
 	void ParagonRenderer::SyncComponentToGraphics(const Pg::Data::Scene* const newScene)
 	{
+		_currentScene = newScene;
+
 		//현재 ParseSceneData 내부 구현체에 왜 매번 Graphics 객체를 다시 만드는지 모르겠지만..
 		//일단 급하니 나중에 TODO.
 		ParseSceneData(newScene);
+
+		//GPU Lightmap Data 세팅. 씬이 바뀔때 마다.
+		_lightmapManager->SetGPULightmapDataWithScene(newScene, _sceneParser->GetRenderObject3DList());
+		_sceneParser->GetSceneInformationList()->_isUseLightmap = _lightmapManager->GetIsSceneUseLightmap();
 	}
 
 	void ParagonRenderer::PassBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
@@ -201,7 +220,7 @@ namespace Pg::Graphics
 
 		//매번 다른 매터리얼을 로드해야 하는 Deferred는 약간 다를 수 있다.
 		_deferredRenderer->SetupOpaqueQuadRenderPasses();
-		_deferredRenderer->InitializeOpaqueQuadRenderPasses();
+		_deferredRenderer->InitializeResettablePasses();
 	}
 
 	ID3D11ShaderResourceView* ParagonRenderer::GetFinalQuadSRV()

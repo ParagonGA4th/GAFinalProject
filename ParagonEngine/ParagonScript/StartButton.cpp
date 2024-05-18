@@ -7,22 +7,19 @@ namespace Pg::DataScript
 	StartButton::StartButton(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj)
 	{
-
+		_pgScene = &singleton<Pg::API::PgScene>();
 	}
 
 	void StartButton::Awake()
 	{
 		_button = _object->GetComponent<Pg::Data::Button>();
-
-		_sceneHelper = new Pg::API::PgScene();
-		_sceneHelper->Initialize();
 	}
 
 	void StartButton::Start()
 	{
 		_button->SetOnClickEvent([this]
 			{
-				_sceneHelper->SetCurrentScene("Stage1");
+				_pgScene->SetCurrentScene("Stage1");
 			});
 	}
 

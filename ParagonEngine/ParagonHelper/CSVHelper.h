@@ -20,6 +20,8 @@ namespace Pg::Util::Helper
 		//Behavior Tree¸¦ À§ÇÑ CSV Helper. bool = isUniform.
 		 static std::vector<std::pair<std::string, bool>> ReturnFilePathFromBTreeCSV(const std::string& csvPath);
 
+		 static std::vector<std::pair<std::string, std::string>> ReturnFilePathFromLightmapCSV(const std::string& csvPath);
+
 		 static void TurnDebugInPathToRelease(std::vector<std::string>& originalCSVVec);
 	};
 }

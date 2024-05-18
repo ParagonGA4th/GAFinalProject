@@ -35,6 +35,8 @@ namespace Pg::Graphics
 		virtual void ExecuteNextRenderRequirements() override;
 		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
+		bool GetIsOpaque();
+
 	private:
 		void BindVertexIndexBuffer();
 		void BindMaterialIndexConstantBuffer();
