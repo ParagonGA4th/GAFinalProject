@@ -105,20 +105,12 @@ namespace Pg::Engine
 		///Recast관련 테스트 코드.
 		//_navSystem->SetSEpos(0, 0.0f, 0.0f, 10.0f, 0.0f, 0.0f, -10.0f);
 
-		_navTestInfo = new Pg::Data::NavMeshInfo;
-		_navTestInfo->vertices = new std::vector<Pg::Math::PGFLOAT3>();
-		_navTestInfo->indices = new std::vector<unsigned int>();
-		_navTestInfo->path = "TestForDifference";
-		_navSystem->GetNavmeshRenderInfo(0, *(_navTestInfo->vertices), *(_navTestInfo->indices));
-		_debugSystem->DrawNavMeshDebug(_navTestInfo); //한번만 추가해줬다. 클리어하지 않음.
-
-		//Agent 디버그 테스트.
-		//_navCyilnderInfo = new Pg::Data::NavCylinderInfo;
-		//_navCyilnderInfo->position = { 0.f, 2.f, 0.f };
-		//_navCyilnderInfo->height = 2.f;
-		//_navCyilnderInfo->radius = 2.f;
-		//_debugSystem->DrawNavCylinderDebug(_navCyilnderInfo);
-
+		//_navTestInfo = new Pg::Data::NavMeshInfo;
+		//_navTestInfo->vertices = new std::vector<Pg::Math::PGFLOAT3>();
+		//_navTestInfo->indices = new std::vector<unsigned int>();
+		//_navTestInfo->path = "TestForDifference";
+		//_navSystem->GetNavmeshRenderInfo(0, *(_navTestInfo->vertices), *(_navTestInfo->indices));
+		//_debugSystem->DrawNavMeshDebug(_navTestInfo); //한번만 추가해줬다. 클리어하지 않음.
 	}
 
 	void EngineMain::Update()
@@ -166,7 +158,6 @@ namespace Pg::Engine
 		{
 			//Internal 함수들만 호출.
 			_sceneSystem->Update(false);
-			//
 		}
 		else
 		{
@@ -186,8 +177,6 @@ namespace Pg::Engine
 		_navSystem->HandleUpdate(_timeSystem->GetDeltaTime());
 
 		
-		
-
 		///Mesh가 빌드 된 후 그려야 하기에, 더 나중에 있어야 한다.
 		_debugSystem->EnableToggleDebugOnOff();
 		_debugSystem->Update(_sceneSystem->GetCurrentScene());

@@ -797,7 +797,9 @@ namespace Pg::Engine
 		for (int i = 0; i < PACKAGESIZE; i++)
 		{
 			if (!_package[i]._tileCache)
+			{
 				return;
+			}
 
 			float p[3];
 			p[0] = pos.x;
@@ -824,7 +826,6 @@ namespace Pg::Engine
 		{
 			if (!_package[i]._tileCache)
 				return;
-
 
 			_package[i]._tileCache->addBoxObstacle(p, p1, 0);
 		}
@@ -869,7 +870,6 @@ namespace Pg::Engine
 		p2[2] = npos.z;
 
 		_package[0]._tileCache->addObstacle(p2, 5, 5, 0);
-
 	}
 
 	void Navigation::ClearAllTempObstacles()
@@ -942,6 +942,7 @@ namespace Pg::Engine
 		dtStatus status = PACKAGE._navQuery->raycast(PACKAGE._startRef, PACKAGE._startPos, PACKAGE._endPos
 			, &PACKAGE._filter, DT_RAYCAST_USE_COSTS
 			, &PACKAGE._hit, PACKAGE._RaycastPathPolys);
+
 		if (PACKAGE._hit.t > 1)
 		{
 			// No hit
@@ -958,12 +959,12 @@ namespace Pg::Engine
 			float h = 0;
 			PACKAGE._navQuery->getPolyHeight(PACKAGE._path[PACKAGE._pathCount - 1], PACKAGE._hitPos, &h);
 			PACKAGE._hitPos[1] = h;
-		}	
+		}
+
 		result.x = PACKAGE._hitPos[0];
 		result.y = PACKAGE._hitPos[1];
 		result.z = PACKAGE._hitPos[2];
 
 		return result;
 	}
-
 }
