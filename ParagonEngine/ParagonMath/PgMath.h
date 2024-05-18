@@ -380,7 +380,6 @@ namespace Pg::Math
 
 	//벡터의 길이의 제곱 리턴.
 	float PGFloat3LengthSquared(Pg::Math::PGFLOAT3 val);
-
 }
 
 

@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <cassert>
+#include <regex>
 
 namespace Pg::Util::Helper
 {
@@ -85,29 +86,29 @@ namespace Pg::Util::Helper
 
 		switch (define)
 		{
-		case eAssetDefine::_NONE:
-		{
-			assert(false);
-		}
-		break;
-		//<2D>
-		case eAssetDefine::_TEXTURE2D: [[fallthrough]]; //TEXTURE2D 제외 리소스들 : 전부 자체적으로 렌더될 수는 없다.
-		case eAssetDefine::_FONT:
-		case eAssetDefine::_CUBEMAP: [[fallthrough]]; //일단은 "2D"로 분류. (DDS / WIC 범위에 들어가니)
-			tIsPlainRenderable = 0;
+			case eAssetDefine::_NONE:
+			{
+				assert(false);
+			}
 			break;
-			//</2D>
-			//<3D>
-		case eAssetDefine::_3DMODEL:
-			tIsPlainRenderable = 1;
+			//<2D>
+			case eAssetDefine::_TEXTURE2D: [[fallthrough]]; //TEXTURE2D 제외 리소스들 : 전부 자체적으로 렌더될 수는 없다.
+			case eAssetDefine::_FONT:
+			case eAssetDefine::_CUBEMAP: [[fallthrough]]; //일단은 "2D"로 분류. (DDS / WIC 범위에 들어가니)
+				tIsPlainRenderable = 0;
+				break;
+				//</2D>
+				//<3D>
+			case eAssetDefine::_3DMODEL:
+				tIsPlainRenderable = 1;
+				break;
+				//</3D>
+			default:
+			{
+				//<NOT>
+				tIsPlainRenderable = -1;
+			}
 			break;
-			//</3D>
-		default:
-		{
-			//<NOT>
-			tIsPlainRenderable = -1;
-		}
-		break;
 		}
 
 		return tIsPlainRenderable;
@@ -146,6 +147,41 @@ namespace Pg::Util::Helper
 		std::string tExtString = tPath.extension().string();
 		return (tExtString == ".tga" || tExtString == ".TGA");
 	}
-	
+
+	bool ResourceHelper::IsResourceEXR(const std::string& filePath)
+	{
+		std::filesystem::path tPath(filePath);
+		std::string tExtString = tPath.extension().string();
+		return (tExtString == ".exr" || tExtString == ".EXR");
+	}
+
+	bool ResourceHelper::IsResourceEXR(const std::wstring& filePath)
+	{
+		std::filesystem::path tPath(filePath);
+		std::string tExtString = tPath.extension().string();
+		return (tExtString == ".exr" || tExtString == ".EXR");
+	}
+
+	std::wstring ResourceHelper::IfReleaseChangeDebugTextW(const std::wstring& filePath)
+	{
+		std::wstring tRet = filePath;
+#if defined(DEBUG) | defined(_DEBUG)
+		return tRet;
+#else
+		tRet = std::regex_replace(tRet, std::regex("Debug"), "Release"); // 대체: 'Debug' -> 'Release'
+		return tRet;
+#endif
+	}
+
+	std::string ResourceHelper::IfReleaseChangeDebugText(const std::string& filePath)
+	{
+		std::string tRet = filePath;
+#if defined(DEBUG) | defined(_DEBUG)
+		return tRet;
+#else
+		tRet = std::regex_replace(tRet, std::regex("Debug"), "Release"); // 대체: 'Debug' -> 'Release'
+		return tRet;
+#endif
+	}
 
 }

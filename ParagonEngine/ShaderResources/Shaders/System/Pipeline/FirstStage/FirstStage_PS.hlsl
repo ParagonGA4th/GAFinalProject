@@ -4,40 +4,65 @@
 
 #include "../../Libraries/System_PerObjectBuffers.hlsli"
 #include "../../Libraries/System_1stLayouts.hlsli"
+#include "../../../Appends/Libraries/SamplerStates/Appends_SamplerStates.hlsli"
 
-POut1st main(VOut1st input)
+Texture2DArray<float4> AlbedoTextureArray : register(t8);
+Texture2DArray<float4> NormalTextureArray : register(t9);
+Texture2DArray<float4> ArmTextureArray : register(t10);
+//Alpha는 바인딩하지 않는다.
+
+POut1st_Total main(VOut1st input)
 {
-    POut1st output;
+    //인스턴스 버전이랑 통일은 할 수 없다. 
+    //SV_InstanceID 때문에.
+    POut1st_Total output;
 	
     //<Float4>
     //RT0 : Texture UV Coords. (xy)
     output.pout1st_RT0.xy = input.vout1st_Tex;
     //RT0 : Mesh Material ID. (z)
     output.pout1st_RT0.z = input.vout1st_MeshMatID;
-    //RT0 : Alpha (w)
-    output.pout1st_RT0.w = input.vout1st_Alpha;
+    //RT0 : W Divide Depth
+    output.pout1st_RT0.w = input.vout1st_PosH.w / input.vout1st_PosH.z;
     
     //RT1 : World Space Normal. (xyz)
     output.pout1st_RT1.xyz = input.vout1st_NormalW;
-    //RT1 : World Space Tangent.x (w)
-    output.pout1st_RT1.w = input.vout1st_TangentW.x;
+    //RT1 : Vertex Color.x (w)
+    output.pout1st_RT1.w = input.vout1st_Color.x;
         
     //RT2 : World Space Position. (xyz)
     output.pout1st_RT2.xyz = input.vout1st_PosW;
-    //RT2 : World Space Tangent.y (w)
-    output.pout1st_RT2.w = input.vout1st_TangentW.y;
+    //RT2 :  Vertex Color.y (w)
+    output.pout1st_RT2.w = input.vout1st_Color.y;
         
-    //RT3 : 3D Model Color. (나중에 블렌딩에 쓰일 예정) (xyz)
-    output.pout1st_RT3.xyz = input.vout1st_Color.xyz;
-    //RT3 : World Space Tangent.z (w)
-    output.pout1st_RT3.w = input.vout1st_TangentW.z;
+    //RT3 : World Space Tangent (xyz)
+    output.pout1st_RT3.xyz = input.vout1st_TangentW;
+    //RT3 :  Vertex Color.z (w)
+    output.pout1st_RT3.w = input.vout1st_Color.z;
 
-   //RT4 : Linearized Depth(x) / TempValue (y)
-    output.pout1st_RT4.x = input.vout1st_PosH.z / input.vout1st_PosH.w;
-    output.pout1st_RT4.y = 0.f;
-    //RT4 : LightMap Texture UV Coords (zw)
-    output.pout1st_RT4.zw = input.vout1st_LightmapUV;
-    //</Float4>
+    //비 인스턴싱된 값의 경우, 무조건 0을 기록한다. (SampledValue)
+    //RT4 : LightMap Sample Value (xyz) + Lightmapping이 활용되었는지(w). 음수 : NO, 양수 : YES.
+    output.pout1st_RT4.xyz = float3(0.0f, 0.0f, 0.0f);
+    output.pout1st_RT4.w = -1.0f; // 라이트매핑이 활용되지 않았다!
+    
+    float3 tT2UV3 = float3(input.vout1st_Tex, input.vout1st_MeshMatID);
+    float3 tARMSampleVal = ArmTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
+    
+    //ObjMat 전달.
+    output.pout_ObjMatAoR.x = gCBuf_ObjID;
+    output.pout_ObjMatAoR.y = gCBuf_MatID;
+     //Ambient Occlusion 값 전달.
+    output.pout_ObjMatAoR.z = tARMSampleVal.x;
+    //Roughness Map 값 전달.
+    output.pout_ObjMatAoR.w = tARMSampleVal.y;
+    //Albedo Map 값 전달.
+    output.pout_AlbedoMetallic.xyz = AlbedoTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
+    //Metallic Map 전달.
+    output.pout_AlbedoMetallic.w = tARMSampleVal.z;
+    //Normal Map 전달.
+    output.pout_NormalAlpha.xyz = NormalTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
+
+    //Alpha Map은 전달되지 않는다 여기서! 여기는 Opaque 전용이니.
     
     return output;
 }

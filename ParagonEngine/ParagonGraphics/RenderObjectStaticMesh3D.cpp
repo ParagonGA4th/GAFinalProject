@@ -41,15 +41,6 @@ namespace Pg::Graphics
 
 	}
 
-	void RenderObjectStaticMesh3D::CreateObjMatBuffers()
-	{
-		//VB 로드. *(Index Buffer는 공유)
-		GraphicsResourceManager::Instance()->GetBasic3DLoader()->LoadObjMatBufferStatic(_objMatVB, _modelData, _objectID, GetMaterialID());
-		
-		//Constant Buffer Data를 생성.
-		_cbObjMat = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjMatBase>>();
-	}
-
 	void RenderObjectStaticMesh3D::First_Render(const float* const dt)
 	{
 		BindMainVertexIndexBuffer();
@@ -76,30 +67,15 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());
 		DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
 
-		DirectX::XMMATRIX tWorldInvTransposeMat = DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, tWorldTMMat));
-
 		//0.01 스케일링 적용.
 		tWorldTMMat = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f), tWorldTMMat);
-
-		DirectX::XMFLOAT4X4 tViewTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData->_viewMatrix);
-		DirectX::XMMATRIX tViewTMMat = DirectX::XMLoadFloat4x4(&tViewTM);
-
-		DirectX::XMFLOAT4X4 tProjTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
-		DirectX::XMMATRIX tProjTMMat = DirectX::XMLoadFloat4x4(&tProjTM);
-
-		DirectX::XMFLOAT3 tCameraPositionW = Helper::MathHelper::PG2XM_FLOAT3(camData->_position);
-		DirectX::XMVECTOR tCameraPositionVec = DirectX::XMLoadFloat3(&tCameraPositionW);
-		DirectX::XMMATRIX tCameraPositionMat = DirectX::XMMatrixTranslationFromVector(tCameraPositionVec);
-
-		float tCamDistance = 0.0f;
-		DirectX::XMStoreFloat(&tCamDistance, DirectX::XMVector3Length(tCameraPositionVec));
+		//스케일링 적용된 다음에 InvTranspose를 구해줘야지!
+		DirectX::XMMATRIX tWorldInvTransposeMat = DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, tWorldTMMat));
 
 		_cbFirst->GetDataStruct()->gCBuf_World = tWorldTMMat;
 		_cbFirst->GetDataStruct()->gCBuf_WorldInvTranspose = tWorldInvTransposeMat;
-		_cbFirst->GetDataStruct()->gCBuf_WorldView = DirectX::XMMatrixMultiply(tWorldTMMat, tViewTMMat);
-		_cbFirst->GetDataStruct()->gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
-		_cbFirst->GetDataStruct()->gCBuf_CameraPositionW = tCameraPositionW;
-
+		_cbFirst->GetDataStruct()->gCBuf_ObjID = GetObjectID();
+		_cbFirst->GetDataStruct()->gCBuf_MatID = GetMaterialID();
 		//첫번째 Constant Buffer에는 얘만 넣어주면 된다.
 		_cbFirst->Update();
 	}
@@ -107,109 +83,41 @@ namespace Pg::Graphics
 	void RenderObjectStaticMesh3D::First_BindBuffers()
 	{
 		_cbFirst->BindVS(0);
-	}
-
-	void RenderObjectStaticMesh3D::First_UnbindBuffers()
-	{
-		_cbFirst->UnbindVS(0);
-	}
-
-	void RenderObjectStaticMesh3D::ObjMat_UpdateConstantBuffers(Pg::Data::CameraData* camData)
-	{
-		auto _DXStorage = LowDX11Storage::GetInstance();
-
-		// 상수버퍼에 들어갈 값 셋팅
-		DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());
-		DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
-
-		//0.01 스케일링 적용.
-		tWorldTMMat = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f), tWorldTMMat);
-
-		DirectX::XMFLOAT4X4 tViewTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData->_viewMatrix);
-		DirectX::XMMATRIX tViewTMMat = DirectX::XMLoadFloat4x4(&tViewTM);
-
-		DirectX::XMFLOAT4X4 tProjTM = Helper::MathHelper::PG2XM_FLOAT4X4(camData->_projMatrix);
-		DirectX::XMMATRIX tProjTMMat = DirectX::XMLoadFloat4x4(&tProjTM);
-
-		_cbObjMat->GetDataStruct()->gCBuf_World = tWorldTMMat;
-		_cbObjMat->GetDataStruct()->gCBuf_WorldViewProj = DirectX::XMMatrixMultiply(tWorldTMMat, DirectX::XMMatrixMultiply(tViewTMMat, tProjTMMat));
-	
-		// _cbObjMat 업데이트.
-		_cbObjMat->Update();
-	}
-
-	void RenderObjectStaticMesh3D::ObjMat_BindBuffers()
-	{
-		_cbObjMat->BindVS(0);
-
-		// PixelShader : 이제 Albedo / Normal / Specular / Arm 데이터를 넣어줘야 한다.
-		// 디폴트 매터리얼 상관하지 않고, 모든 오브젝트가 값 자체는 이제 필요하게 될 것이라는 말이다. Texture 투입.
-		// 그냥 예전방식대로, Texture2DArray 자체를 투입할 것.
-		// 나중에는 같은 오브젝트 + 인스턴싱의 영향을 받는다면 해당 스텝을 누락하던가, 
+		_cbFirst->BindPS(0);
 
 		// Albedo
 		_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(_modelData->_pbrTextureArrays[0]->GetSRV()));
 		// Normal
 		_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(_modelData->_pbrTextureArrays[1]->GetSRV()));
-		// Specular
-		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(_modelData->_pbrTextureArrays[2]->GetSRV()));
 		// ARM
-		_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &(_modelData->_pbrTextureArrays[3]->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(_modelData->_pbrTextureArrays[2]->GetSRV()));
+
+		// Alpha.
+		//_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &(_modelData->_pbrTextureArrays[3]->GetSRV()));
 	}
 
-	void RenderObjectStaticMesh3D::ObjMat_Render(const float* const dt)
+	void RenderObjectStaticMesh3D::First_UnbindBuffers()
 	{
-		BindObjMatVertexIndexBuffer();
+		_cbFirst->UnbindVS(0);
+		_cbFirst->UnbindPS(0);
 
-		int tMeshCount = _modelData->_assetSceneData->_totalMeshCount;
-
-		for (int i = 0; i < tMeshCount; i++)
-		{
-			//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
-			UINT tToDrawIndexCount = _modelData->_assetSceneData->_meshList[i]._numIndices;
-
-			//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
-			_DXStorage->_deviceContext->DrawIndexed(tToDrawIndexCount,
-				_modelData->_assetSceneData->_meshList[i]._indexOffset,
-				_modelData->_assetSceneData->_meshList[i]._vertexOffset);
-		}
-	}
-
-	void RenderObjectStaticMesh3D::ObjMat_UnbindBuffers()
-	{
-		_cbObjMat->UnbindVS(0);
-
-		//PBR Texture를 다 썼으니, 이제 할당 해제!
 		ID3D11ShaderResourceView* tNullSRV = nullptr;
-		// PBR Texture Arrays To NULL
-		_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(tNullSRV));
-		_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(tNullSRV));
-		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(tNullSRV));
-		_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &(tNullSRV));
-
+		// Albedo
+		_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &tNullSRV);
+		// Normal
+		_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
+		// ARM
+		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
 	}
 
 	void RenderObjectStaticMesh3D::BindMainVertexIndexBuffer()
 	{
-		///
 		//Vertex Buffer Setting.
-		UINT stride = sizeof(LayoutDefine::Vin1stStatic);
-		UINT offset = 0;
-		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(_modelData->_vertexBuffer), &stride, &offset);
+		UINT stride[2] = { sizeof(LayoutDefine::Vin1stStatic_Individual), sizeof(LayoutDefine::Vin2ndAll_Individual) };
+		UINT offset[2] = { 0,0 };
+		ID3D11Buffer* buffers[2] = { _modelData->_vertexBuffer, _modelData->_secondVertexBuffer };
+		_DXStorage->_deviceContext->IASetVertexBuffers(0, 2, buffers, stride, offset);
 		//Index Buffer Setting.
 		_DXStorage->_deviceContext->IASetIndexBuffer(_modelData->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	}
-
-	void RenderObjectStaticMesh3D::BindObjMatVertexIndexBuffer()
-	{
-		//Vertex Buffer Setting.
-		UINT stride = sizeof(LayoutDefine::VinPerObjMatIDStatic);
-		UINT offset = 0;
-		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(_objMatVB), &stride, &offset);
-		//Index Buffer Setting. (Model Data와 공유)
-		_DXStorage->_deviceContext->IASetIndexBuffer(_modelData->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-	}
-
-	
-
 }

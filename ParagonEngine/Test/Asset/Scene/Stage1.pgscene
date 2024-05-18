@@ -1,386 +1,601 @@
 <?xml version="1.0" encoding="utf-8"?>
 <scene>
 	<objects>
-	  <object>
-		<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
-		<name>UltimateUI</name>
-		<active>true</active>
-		<tag></tag>
-		<dontdestroy>false</dontdestroy>
-		<parent>false</parent>
-		<parent_uuid></parent_uuid>
-		<components>
-		  <component>
-			<type>class Pg::Data::Transform</type>
-			<data>
-			  <position>
-				<x>2204.000000</x>
-				<y>1908.000000</y>
-				<z>0.000000</z>
-			  </position>
-			  <rotation>
-				<w>1.000000</w>
-				<x>0.000000</x>
-				<y>0.000000</y>
-				<z>0.000000</z>
-			  </rotation>
-			  <scale>
-				<x>1.000000</x>
-				<y>1.000000</y>
-				<z>1.000000</z>
-			  </scale>
-			</data>
-		  </component>
-		  <component>
-			<type>class Pg::Data::ImageRenderer</type>
-			<data>
-			  <imagePath>../Resources/Textures/Sprites/UI/Ultimate.png</imagePath>
-			</data>
-		  </component>
-		</components>
-	  </object>
-	  <object>
-		<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
-		<name>Skill1</name>
-		<active>true</active>
-		<tag></tag>
-		<dontdestroy>false</dontdestroy>
-		<parent>false</parent>
-		<parent_uuid></parent_uuid>
-		<components>
-		  <component>
-			<type>class Pg::Data::Transform</type>
-			<data>
-			  <position>
-				<x>2096.000000</x>
-				<y>1292.000000</y>
-				<z>0.000000</z>
-			  </position>
-			  <rotation>
-				<w>1.000000</w>
-				<x>0.000000</x>
-				<y>0.000000</y>
-				<z>0.000000</z>
-			  </rotation>
-			  <scale>
-				<x>1.000000</x>
-				<y>1.000000</y>
-				<z>1.000000</z>
-			  </scale>
-			</data>
-		  </component>
-		  <component>
-			<type>class Pg::Data::ImageRenderer</type>
-			<data>
-			  <imagePath>../Resources/Textures/Sprites/UI/Skill1.png</imagePath>
-			</data>
-		  </component>
-		</components>
-	  </object>
-	  <object>
-		<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
-		<name>Skill2</name>
-		<active>true</active>
-		<tag></tag>
-		<dontdestroy>false</dontdestroy>
-		<parent>false</parent>
-		<parent_uuid></parent_uuid>
-		<components>
-		  <component>
-			<type>class Pg::Data::Transform</type>
-			<data>
-			  <position>
-				<x>2318.000000</x>
-				<y>1292.000000</y>
-				<z>0.000000</z>
-			  </position>
-			  <rotation>
-				<w>1.000000</w>
-				<x>0.000000</x>
-				<y>0.000000</y>
-				<z>0.000000</z>
-			  </rotation>
-			  <scale>
-				<x>1.000000</x>
-				<y>1.000000</y>
-				<z>1.000000</z>
-			  </scale>
-			</data>
-		  </component>
-		  <component>
-			<type>class Pg::Data::ImageRenderer</type>
-			<data>
-			  <imagePath>../Resources/Textures/Sprites/UI/Skill2.png</imagePath>
-			</data>
-		  </component>
-		</components>
-	  </object>
-	  <object>
-		<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
-		<name>CommunicationBox</name>
-		<active>true</active>
-		<tag></tag>
-		<dontdestroy>false</dontdestroy>
-		<parent>false</parent>
-		<parent_uuid></parent_uuid>
-		<components>
-		  <component>
-			<type>class Pg::Data::Transform</type>
-			<data>
-			  <position>
-				<x>1214.000000</x>
-				<y>1208.000000</y>
-				<z>0.000000</z>
-			  </position>
-			  <rotation>
-				<w>1.000000</w>
-				<x>0.000000</x>
-				<y>0.000000</y>
-				<z>0.000000</z>
-			  </rotation>
-			  <scale>
-				<x>1.000000</x>
-				<y>1.000000</y>
-				<z>1.000000</z>
-			  </scale>
-			</data>
-		  </component>
-		  <component>
-			<type>class Pg::Data::ImageRenderer</type>
-			<data>
-			  <imagePath>../Resources/Textures/Sprites/UI/Communication.png</imagePath>
-			</data>
-		  </component>
-		</components>
-	  </object>
-	  <object>
-		<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
-		<name>Property</name>
-		<active>true</active>
-		<tag></tag>
-		<dontdestroy>false</dontdestroy>
-		<parent>false</parent>
-		<parent_uuid></parent_uuid>
-		<components>
-		  <component>
-			<type>class Pg::Data::Transform</type>
-			<data>
-			  <position>
-				<x>104.000000</x>
-				<y>102.000000</y>
-				<z>0.000000</z>
-			  </position>
-			  <rotation>
-				<w>1.000000</w>
-				<x>0.000000</x>
-				<y>0.000000</y>
-				<z>0.000000</z>
-			  </rotation>
-			  <scale>
-				<x>1.000000</x>
-				<y>1.000000</y>
-				<z>1.000000</z>
-			  </scale>
-			</data>
-		  </component>
-		  <component>
-			<type>class Pg::Data::ImageRenderer</type>
-			<data>
-			  <imagePath>../Resources/Textures/Sprites/UI/Property.png</imagePath>
-			</data>
-		  </component>
-		</components>
-	  </object>
-	  <object>
-		<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
-		<name>HealthBar</name>
-		<active>true</active>
-		<tag></tag>
-		<dontdestroy>false</dontdestroy>
-		<parent>false</parent>
-		<parent_uuid></parent_uuid>
-		<components>
-		  <component>
-			<type>class Pg::Data::Transform</type>
-			<data>
-			  <position>
-				<x>395.000000</x>
-				<y>102.000000</y>
-				<z>0.000000</z>
-			  </position>
-			  <rotation>
-				<w>1.000000</w>
-				<x>0.000000</x>
-				<y>0.000000</y>
-				<z>0.000000</z>
-			  </rotation>
-			  <scale>
-				<x>1.000000</x>
-				<y>1.000000</y>
-				<z>1.000000</z>
-			  </scale>
-			</data>
-		  </component>
-		  <component>
-			<type>class Pg::Data::ImageRenderer</type>
-			<data>
-			  <imagePath>../Resources/Textures/Sprites/UI/healthBar.png</imagePath>
-			</data>
-		  </component>
-		</components>
-	  </object>
-	  <object>
-		<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
-		<name>ManaBar</name>
-		<active>true</active>
-		<tag></tag>
-		<dontdestroy>false</dontdestroy>
-		<parent>false</parent>
-		<parent_uuid></parent_uuid>
-		<components>
-		  <component>
-			<type>class Pg::Data::Transform</type>
-			<data>
-			  <position>
-				<x>383.000000</x>
-				<y>166.000000</y>
-				<z>0.000000</z>
-			  </position>
-			  <rotation>
-				<w>1.000000</w>
-				<x>0.000000</x>
-				<y>0.000000</y>
-				<z>0.000000</z>
-			  </rotation>
-			  <scale>
-				<x>1.000000</x>
-				<y>1.000000</y>
-				<z>1.000000</z>
-			  </scale>
-			</data>
-		  </component>
-		  <component>
-			<type>class Pg::Data::ImageRenderer</type>
-			<data>
-			  <imagePath>../Resources/Textures/Sprites/UI/ManaBar.png</imagePath>
-			</data>
-		  </component>
-		</components>
-	  </object>
-	  <object>
-		<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
-		<name>Artifact1</name>
-		<active>true</active>
-		<tag></tag>
-		<dontdestroy>false</dontdestroy>
-		<parent>false</parent>
-		<parent_uuid></parent_uuid>
-		<components>
-		  <component>
-			<type>class Pg::Data::Transform</type>
-			<data>
-			  <position>
-				<x>187.000000</x>
-				<y>227.000000</y>
-				<z>0.000000</z>
-			  </position>
-			  <rotation>
-				<w>1.000000</w>
-				<x>0.000000</x>
-				<y>0.000000</y>
-				<z>0.000000</z>
-			  </rotation>
-			  <scale>
-				<x>1.000000</x>
-				<y>1.000000</y>
-				<z>1.000000</z>
-			  </scale>
-			</data>
-		  </component>
-		  <component>
-			<type>class Pg::Data::ImageRenderer</type>
-			<data>
-			  <imagePath>../Resources/Textures/Sprites/UI/artifact1.png</imagePath>
-			</data>
-		  </component>
-		</components>
-	  </object>
-	  <object>
-		<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
-		<name>Artifact2</name>
-		<active>true</active>
-		<tag></tag>
-		<dontdestroy>false</dontdestroy>
-		<parent>false</parent>
-		<parent_uuid></parent_uuid>
-		<components>
-		  <component>
-			<type>class Pg::Data::Transform</type>
-			<data>
-			  <position>
-				<x>285.000000</x>
-				<y>227.000000</y>
-				<z>0.000000</z>
-			  </position>
-			  <rotation>
-				<w>1.000000</w>
-				<x>0.000000</x>
-				<y>0.000000</y>
-				<z>0.000000</z>
-			  </rotation>
-			  <scale>
-				<x>1.000000</x>
-				<y>1.000000</y>
-				<z>1.000000</z>
-			  </scale>
-			</data>
-		  </component>
-		  <component>
-			<type>class Pg::Data::ImageRenderer</type>
-			<data>
-			  <imagePath>../Resources/Textures/Sprites/UI/artifact2.png</imagePath>
-			</data>
-		  </component>
-		</components>
-	  </object>
-	  <object>
-		<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
-		<name>Artifact3</name>
-		<active>true</active>
-		<tag></tag>
-		<dontdestroy>false</dontdestroy>
-		<parent>false</parent>
-		<parent_uuid></parent_uuid>
-		<components>
-		  <component>
-			<type>class Pg::Data::Transform</type>
-			<data>
-			  <position>
-				<x>390.000000</x>
-				<y>227.000000</y>
-				<z>0.000000</z>
-			  </position>
-			  <rotation>
-				<w>1.000000</w>
-				<x>0.000000</x>
-				<y>0.000000</y>
-				<z>0.000000</z>
-			  </rotation>
-			  <scale>
-				<x>1.000000</x>
-				<y>1.000000</y>
-				<z>1.000000</z>
-			  </scale>
-			</data>
-		  </component>
-		  <component>
-			<type>class Pg::Data::ImageRenderer</type>
-			<data>
-			  <imagePath>../Resources/Textures/Sprites/UI/artifact3.png</imagePath>
-			</data>
-		  </component>
-		</components>
-	  </object>
+		<object>
+			<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
+			<name>UltimateUI</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<parent>false</parent>
+			<parent_uuid></parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>2204.000000</x>
+							<y>1108.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::ImageRenderer</type>
+					<data>
+						<imagePath>../Resources/Textures/Sprites/UI/Ultimate.png</imagePath>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
+			<name>Skill1</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<parent>false</parent>
+			<parent_uuid></parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>2096.000000</x>
+							<y>1292.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::ImageRenderer</type>
+					<data>
+						<imagePath>../Resources/Textures/Sprites/UI/Skill1.png</imagePath>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
+			<name>Skill2</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<parent>false</parent>
+			<parent_uuid></parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>2318.000000</x>
+							<y>1292.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::ImageRenderer</type>
+					<data>
+						<imagePath>../Resources/Textures/Sprites/UI/Skill2.png</imagePath>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
+			<name>CommunicationBox</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<parent>false</parent>
+			<parent_uuid></parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>1214.000000</x>
+							<y>1208.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::ImageRenderer</type>
+					<data>
+						<imagePath>../Resources/Textures/Sprites/UI/Communication.png</imagePath>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
+			<name>Property</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<parent>false</parent>
+			<parent_uuid></parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>104.000000</x>
+							<y>102.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::ImageRenderer</type>
+					<data>
+						<imagePath>../Resources/Textures/Sprites/UI/Property.png</imagePath>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
+			<name>HealthBar</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<parent>false</parent>
+			<parent_uuid></parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>395.000000</x>
+							<y>102.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::ImageRenderer</type>
+					<data>
+						<imagePath>../Resources/Textures/Sprites/UI/healthBar.png</imagePath>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
+			<name>ManaBar</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<parent>false</parent>
+			<parent_uuid></parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>383.000000</x>
+							<y>166.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::ImageRenderer</type>
+					<data>
+						<imagePath>../Resources/Textures/Sprites/UI/ManaBar.png</imagePath>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
+			<name>Artifact1</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<parent>false</parent>
+			<parent_uuid></parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>187.000000</x>
+							<y>227.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::ImageRenderer</type>
+					<data>
+						<imagePath>../Resources/Textures/Sprites/UI/artifact1.png</imagePath>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
+			<name>Artifact2</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<parent>false</parent>
+			<parent_uuid></parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>285.000000</x>
+							<y>227.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::ImageRenderer</type>
+					<data>
+						<imagePath>../Resources/Textures/Sprites/UI/artifact2.png</imagePath>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<uuid>B50B3AF01D4045608B781F5AED7F6734</uuid>
+			<name>Artifact3</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<parent>false</parent>
+			<parent_uuid></parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>390.000000</x>
+							<y>227.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::ImageRenderer</type>
+					<data>
+						<imagePath>../Resources/Textures/Sprites/UI/artifact3.png</imagePath>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<uuid>B50B3AF01D4045608B781F5AED7F6731</uuid>
+			<name>PauseBox</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<parent>false</parent>
+			<parent_uuid></parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>1279.000000</x>
+							<y>720.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::DataScript::PauseBox</type>
+					<data>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::ImageRenderer</type>
+					<data>
+						<imagePath>../Resources/Textures/Sprites/UI/PauseBox.png</imagePath>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<uuid>B50B3AF01D4045608B781F5AED7F6732</uuid>
+			<name>PauseExit</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<parent>true</parent>
+			<parent_uuid>B50B3AF01D4045608B781F5AED7F6731</parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>1928.000000</x>
+							<y>299.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::Button</type>
+					<data>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::ImageRenderer</type>
+					<data>
+						<imagePath>../Resources/Textures/Sprites/UI/PauseExit.png</imagePath>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<uuid>B50B3AF01D4045608B781F5AED7F6738</uuid>
+			<name>TutorialButton</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<parent>true</parent>
+			<parent_uuid>B50B3AF01D4045608B781F5AED7F6731</parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>1289.000000</x>
+							<y>690.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::Button</type>
+					<data>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::ImageRenderer</type>
+					<data>
+						<imagePath>../Resources/Textures/Sprites/UI/Tutorial.png</imagePath>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<uuid>B50B3AF01D4045608B781F5AED7F6735</uuid>
+			<name>OptionButton</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<parent>true</parent>
+			<parent_uuid>B50B3AF01D4045608B781F5AED7F6731</parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>1290.000000</x>
+							<y>844.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::Button</type>
+					<data>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::ImageRenderer</type>
+					<data>
+						<imagePath>../Resources/Textures/Sprites/UI/Option.png</imagePath>
+					</data>
+				</component>
+			</components>
+		</object>
+		<object>
+			<uuid>B50B3AF01D4045608B781F5AED7F6739</uuid>
+			<name>GotoMenu</name>
+			<active>true</active>
+			<tag></tag>
+			<dontdestroy>false</dontdestroy>
+			<parent>true</parent>
+			<parent_uuid>B50B3AF01D4045608B781F5AED7F6731</parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>1278.000000</x>
+							<y>999.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>1.000000</x>
+							<y>1.000000</y>
+							<z>1.000000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::Button</type>
+					<data>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::ImageRenderer</type>
+					<data>
+						<imagePath>../Resources/Textures/Sprites/UI/GotoMenu.png</imagePath>
+					</data>
+				</component>
+			</components>
+		</object>
 		<object>
 			<name>Player</name>
 			<active>true</active>
@@ -446,6 +661,11 @@
 					<data>
 					</data>
 				</component>
+				<component>
+					<type>class Pg::DataScript::NavAgent</type>
+					<data>
+					</data>
+				</component>
 			</components>
 		</object>
 		<object>
@@ -469,18 +689,17 @@
 							<z>0.000000</z>
 						</rotation>
 						<scale>
-							<x>10.000000</x>
+							<x>1.000000</x>
 							<y>1.000000</y>
-							<z>10.000000</z>
+							<z>1.000000</z>
 						</scale>
 					</data>
 				</component>
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
-						<meshName>plane.fbx</meshName>
-						<materialName>PlainDiffuseMaterial.pgmat</materialName>
+						<meshName>SM_floor01.fbx</meshName>
+						<materialName></materialName>
 					</data>
 				</component>
 				<component>
@@ -606,7 +825,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>Cube.fbx</meshName>
 						<materialName>ExperimentalMaterial.pgmat</materialName>
 					</data>
@@ -668,7 +887,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>Cube.fbx</meshName>
 						<materialName>ExperimentalMaterial.pgmat</materialName>
 					</data>
@@ -730,7 +949,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>Cube.fbx</meshName>
 						<materialName>ExperimentalMaterial.pgmat</materialName>
 					</data>
@@ -772,7 +991,6 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -834,7 +1052,6 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -896,7 +1113,6 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -958,7 +1174,6 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1020,7 +1235,6 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1082,7 +1296,6 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1144,7 +1357,6 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1206,7 +1418,6 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1268,7 +1479,6 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1330,7 +1540,6 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1392,7 +1601,6 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1454,7 +1662,6 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1488,7 +1695,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -1516,7 +1723,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1550,7 +1757,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -1578,7 +1785,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1612,7 +1819,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -1640,7 +1847,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1674,7 +1881,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -1702,7 +1909,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1736,7 +1943,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -1764,7 +1971,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1798,7 +2005,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -1826,7 +2033,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1860,7 +2067,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -1888,7 +2095,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1922,7 +2129,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -1950,7 +2157,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -1984,7 +2191,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2012,7 +2219,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2046,7 +2253,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2074,7 +2281,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2108,7 +2315,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2136,7 +2343,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2170,7 +2377,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2198,7 +2405,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2232,7 +2439,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2260,7 +2467,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2294,7 +2501,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2322,7 +2529,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2356,7 +2563,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2384,7 +2591,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2418,7 +2625,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2446,7 +2653,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2480,7 +2687,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2508,7 +2715,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2542,7 +2749,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2570,7 +2777,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2604,7 +2811,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2632,7 +2839,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2666,7 +2873,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2694,7 +2901,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2728,7 +2935,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2756,7 +2963,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2790,7 +2997,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2818,7 +3025,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2852,7 +3059,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2880,7 +3087,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2914,7 +3121,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -2942,7 +3149,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -2976,7 +3183,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -3004,7 +3211,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -3038,7 +3245,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -3066,7 +3273,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -3100,7 +3307,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -3128,7 +3335,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -3162,7 +3369,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -3190,7 +3397,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -3224,7 +3431,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -3252,7 +3459,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -3286,7 +3493,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -3314,7 +3521,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -3348,7 +3555,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -3376,7 +3583,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -3410,7 +3617,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -3438,7 +3645,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -3472,7 +3679,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -3500,7 +3707,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -3534,7 +3741,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -3562,7 +3769,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -3596,7 +3803,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -3624,7 +3831,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -3658,7 +3865,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -3686,7 +3893,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -3720,7 +3927,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -3748,7 +3955,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -3782,7 +3989,7 @@
 			<dontdestroy>false</dontdestroy>
 			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+
 					<data>
 						<position>
 							<x>0.000000</x>
@@ -3810,7 +4017,7 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -3872,7 +4079,6 @@
 				<component>
 					<type>class Pg::Data::StaticMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
 						<meshName>FitArrow.fbx</meshName>
 						<materialName></materialName>
 					</data>
@@ -3930,7 +4136,7 @@
 				<component>
 					<type>class Pg::Data::SkinnedMeshRenderer</type>
 					<data>
-						<isInstanced>false</isInstanced>
+
 						<meshName>PpakMonster.fbx</meshName>
 						<materialName></materialName>
 						<initAnimName>PpakMonster_Idle.pganim</initAnimName>
@@ -4019,67 +4225,67 @@
 				</component>
 			</components>
 		</object>
-	  <object>
-		<name>Boss2</name>
-		<active>true</active>
-		<tag>TAG_Boss2</tag>
-		<dontdestroy>false</dontdestroy>
-		<components>
-		  <component>
-			<type>class Pg::Data::Transform</type>
-			<data>
-			  <position>
-				<x>-10.000000</x>
-				<y>5.000000</y>
-				<z>0.000000</z>
-			  </position>
-			  <rotation>
-				<w>1.000000</w>
-				<x>0.000000</x>
-				<y>0.000000</y>
-				<z>0.000000</z>
-			  </rotation>
-			  <scale>
-				<x>2.00000</x>
-				<y>2.00000</y>
-				<z>2.00000</z>
-			  </scale>
-			</data>
-		  </component>
-		  <component>
-			<type>class Pg::Data::SkinnedMeshRenderer</type>
-			<data>
-			  <isInstanced>false</isInstanced>
-			  <meshName>PpakMonster.fbx</meshName>
-			  <materialName></materialName>
-			  <initAnimName>PpakMonster_Idle.pganim</initAnimName>
-			</data>
-		  </component>
-		  <component>
-			<type>class Pg::Data::CapsuleCollider</type>
-			<data>
-			  <trigger>false</trigger>
-			  <positionOffset>
-				<x>0.000000</x>
-				<y>2.000000</y>
-				<z>0.000000</z>
-			  </positionOffset>
-			  <rotationOffset>
-				<w>1.000000</w>
-				<x>0.000000</x>
-				<y>0.000000</y>
-				<z>0.000000</z>
-			  </rotationOffset>
-			  <radius>2.000000</radius>
-			  <halfHeight>2.000000</halfHeight>
-			</data>
-		  </component>
-		  <component>
-			<type>class Pg::DataScript::PlayerMove</type>
-			<data>
-			</data>
-		  </component>
-		</components>
-	  </object>
+		<object>
+			<name>Boss2</name>
+			<active>true</active>
+			<tag>TAG_Boss2</tag>
+			<dontdestroy>false</dontdestroy>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>-10.000000</x>
+							<y>5.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>2.00000</x>
+							<y>2.00000</y>
+							<z>2.00000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::SkinnedMeshRenderer</type>
+					<data>
+						<isInstanced>false</isInstanced>
+						<meshName>PpakMonster.fbx</meshName>
+						<materialName></materialName>
+						<initAnimName>PpakMonster_Idle.pganim</initAnimName>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::CapsuleCollider</type>
+					<data>
+						<trigger>false</trigger>
+						<positionOffset>
+							<x>0.000000</x>
+							<y>2.000000</y>
+							<z>0.000000</z>
+						</positionOffset>
+						<rotationOffset>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotationOffset>
+						<radius>2.000000</radius>
+						<halfHeight>2.000000</halfHeight>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::DataScript::PlayerMove</type>
+					<data>
+					</data>
+				</component>
+			</components>
+		</object>
 	</objects>
 </scene>

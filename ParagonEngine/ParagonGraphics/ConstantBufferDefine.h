@@ -1,6 +1,7 @@
 #pragma once
 #include "../ParagonData/ParagonDefines.h"
 #include "IndividualLightsGPU.h"
+#include "SingleLightmapSet.h"
 #include <DirectXMath.h>
 
 /// <summary>
@@ -19,9 +20,8 @@ namespace Pg::Graphics
 		{
 			DirectX::XMMATRIX gCBuf_World;
 			DirectX::XMMATRIX gCBuf_WorldInvTranspose;
-			DirectX::XMMATRIX gCBuf_WorldView;
-			DirectX::XMMATRIX gCBuf_WorldViewProj;
-			DirectX::XMFLOAT3 gCBuf_CameraPositionW;
+			uint32_t gCBuf_ObjID;
+			uint32_t gCBuf_MatID;
 		};
 
 		struct cbPerObjectSkinnedNodes
@@ -34,12 +34,10 @@ namespace Pg::Graphics
 			DirectX::XMMATRIX gCBuf_Bones[Pg::Defines::ASSET_MAXIMUM_BONE_NUMBER_PER_MESH];
 		};
 
-		
 		//ObjMat 기록 위해.
 		struct cbPerObjMatBase
 		{
 			DirectX::XMMATRIX gCBuf_World;
-			DirectX::XMMATRIX gCBuf_WorldViewProj;
 		};
 
 		//같은 구성이므로 하나로 사용.
@@ -52,7 +50,10 @@ namespace Pg::Graphics
 		{
 			DirectX::XMMATRIX gCBuf_ViewMatrix;
 			DirectX::XMMATRIX gCBuf_ProjMatrix;
+			DirectX::XMMATRIX gCBuf_ViewProjMatrix;
+
 			DirectX::XMFLOAT3 gCBuf_EyePosition;
+			int gCBuf_IsSceneUseLightmap;
 		};
 
 		struct cbRenderingInfo
@@ -70,5 +71,21 @@ namespace Pg::Graphics
 			DirectX::XMMATRIX _lightProj;
 			DirectX::XMMATRIX _lightViewProj;
 		};
+
+		struct SingleObjMatIdSet
+		{
+			unsigned int objID;
+			unsigned int matID;
+		};
+
+		struct cbLightmapCollection
+		{
+			SingleLightMapSet gBuf_LightMapSet[Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING];
+		};
+
+		//struct cbObjMatIDCollection
+		//{
+		//	SingleObjMatIdSet gBuf_ObjMatIdSet[Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING];
+		//};
 	};
 }

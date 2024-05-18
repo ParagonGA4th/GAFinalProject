@@ -34,6 +34,7 @@ namespace Pg::Graphics
 	class DebugRenderer;
 	class PPFinalRenderer;
 	class GraphicsSceneParser;
+	class LightmapManager;
 
 	class SceneInformationList;
 }
@@ -51,10 +52,10 @@ namespace Pg::Graphics
 		
 		//Scene이 바뀌었을 때 / 게임 엔진이 처음 시작되었을 때 호출되어야 한다.
 		//메모리 추가 할당을 막기 위해, Scene당 렌더오브젝트 생성 로직 중복을 막아야 한다!
-		
-	public:
-		void Initialize(const Pg::Data::Enums::eEditorMode* const editorMode);
 
+	public:
+		void Initialize(const Pg::Data::Enums::eEditorMode* const editorMode, const std::string& resourceListPath);
+		void ConnectDefaultResources();
 		//DebugRenderer로 Debug Geometry를 넘겼다.
 		void PassBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec);
 		void PassLineGeometryData(const std::vector<Pg::Data::LineInfo>& const lineColVec);
@@ -103,7 +104,8 @@ namespace Pg::Graphics
 		LowDX11Logic* _DXLogic = nullptr;
 
 		std::unique_ptr<GraphicsSceneParser> _sceneParser;
-
+		std::unique_ptr<LightmapManager> _lightmapManager;
+	
 		std::unique_ptr<DeferredRenderer> _deferredRenderer;
 		std::unique_ptr<CubemapRenderer> _cubemapRenderer;
 		std::unique_ptr<Forward2DRenderer> _forward2dRenderer;
@@ -118,9 +120,9 @@ namespace Pg::Graphics
 	private:
 		//SkinningMk.2 한정.
 		//MultimaterialMesh* _tempMultiMesh;
-
+		std::string _resourcePath;
 		
-
+		const Pg::Data::Scene* _currentScene;
 	};
 }
 

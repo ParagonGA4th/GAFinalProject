@@ -67,7 +67,8 @@ namespace Pg::Graphics
 		virtual ~GraphicsMain();
 
 	public:
-		PARAGON_GRAPHICS_DLL virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight) override;
+		PARAGON_GRAPHICS_DLL virtual void Initialize(HWND hWnd, int screenWidth, int screenHeight, const std::string& resourceListPath) override;
+		PARAGON_GRAPHICS_DLL virtual void GraphicsConnectDefaultResources() override;
 		//PARAGON_GRAPHICS_DLL virtual void SyncLoadGraphicsResources() override;
 		PARAGON_GRAPHICS_DLL virtual void SetEditorMode(Pg::Data::Enums::eEditorMode editorMode) override;
 

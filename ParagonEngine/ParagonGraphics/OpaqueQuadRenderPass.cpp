@@ -62,7 +62,7 @@ namespace Pg::Graphics
 	}
 
 	void OpaqueQuadRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
-{
+	{
 		//하는거 없으면, 건드리지 말아야 한다.
 	}
 
@@ -120,6 +120,11 @@ namespace Pg::Graphics
 		HR(_DXStorage->_device->CreateBuffer(&tDesc, &tSubResource, &(_cbMatID)));
 	}
 
+	bool OpaqueQuadRenderPass::GetIsOpaque()
+	{
+		//Opaque한지를 반환.
+		return !_renderMaterial->GetIsUseAlphaBlending();
+	}
 	
 
 }

@@ -14,17 +14,23 @@ namespace Pg::Data
 		virtual ~RendererBase3D();
 
 		virtual void ConvertPotentialUnrealValues() abstract;
+		//내부엑서 모든 Path값이 해당 함수 호출 시점에서 채워졌을 것이니, Instanced 체크 여부 판단까지.
 		virtual void CheckForPathNameErrors() abstract;
 
+		
 		void SetMeshFilePath(const std::string& meshFilePath);
 		std::string GetMeshFilePath();
 
 		void SetMaterialFilePath(const std::string& materialFilePath);
 		std::string GetMaterialFilePath();
 
+		bool GetIsInstanced() { return _isInstanced; }
+
 	protected:
 		std::string _meshFilePath;
 		std::string _renderMaterialPath;
+
+		bool _isInstanced{ false };
 	};
 }
 

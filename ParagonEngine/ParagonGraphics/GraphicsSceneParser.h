@@ -40,7 +40,7 @@ namespace Pg::Graphics
 		SceneInformationList* GetSceneInformationList();
 
 		//[DEPRECATED] 함수가 호출되었다는 것은 무조건 찾아야 한다는 것. 미리 아무것도 안 클릭되었을 경우를 걸러내기 때문.
-		[[deprecated("Not Using Picking Anymore")]]
+		[[deprecated("Not Using Anymore")]]
 		Pg::Data::GameObject* GetObjectWithObjID(unsigned int objID);
 
 		//게임오브젝트 포인터를 가지고 ObjectID 아이디를 반환할 수 있다.
@@ -65,6 +65,8 @@ namespace Pg::Graphics
 		void SyncSceneAllLights(const Pg::Data::Scene* const newScene);
 		void CheckBindAdequateFunctions(); //내부적으로 작동을 위한 bind될 함수들이 있으면, 이를 발동하기 위해.
 		void CheckCreateObjMatBuffersAll();
+
+		void CreateAllInstancedRenderObjects(const Pg::Data::Scene* const newScene);
 
 	private:
 		//PrimitiveWireframeObject 하드코딩해서 완성.

@@ -26,6 +26,6 @@ namespace Pg::Graphics
 		std::vector<Pg::Data::DirectionalLight*> _dirLightList;
 		std::vector<Pg::Data::SpotLight*> _spotLightList;
 		std::vector<Pg::Data::PointLight*> _pointLightList;
-
+		bool _isUseLightmap{ false };
 	};
 }

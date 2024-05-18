@@ -47,16 +47,18 @@ namespace Pg::Core::Manager
 
 	}
 
-
-	void AssetManager::Initialize(Pg::Core::ProcessMain* core, const std::string& resourceListPath) 
+	void AssetManager::InitializeDefaults()
 	{
-		_coreMain = core;
 		_perFrameToLoadResources.reserve(30);
 		_perFrameToUnloadResources.reserve(30);
 
 		//디폴트 리소스들이 로드되는 함수. 필수!
 		LoadDefaultResources();
+	}
 
+	void AssetManager::Initialize(Pg::Core::ProcessMain* core, const std::string& resourceListPath) 
+	{
+		_coreMain = core;
 		//Scene 단위 리소스 연동이 완료되지 않으면, 여기서 로드되지 않은 리소스들은 사용되지 못함.
 
 		LoadResourcesFromCSV(resourceListPath);
@@ -336,6 +338,8 @@ namespace Pg::Core::Manager
 				LoadResource(it, Pg::Data::Enums::eAssetDefine::_ANIMATION);
 			}
 		}
+
+		//Lightmap XML은 외적으로 Graphics에서 관리한다.
 	}
 
 	void AssetManager::LoadDefaultResources()
@@ -374,8 +378,10 @@ namespace Pg::Core::Manager
 		LoadResource(Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_IRRADIANCE_CUBEMAP_PATH, eAssetDefine::_CUBEMAP);
 		LoadResource(Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH, eAssetDefine::_TEXTURE2D);
 
-		LoadResource(Pg::Defines::DEFAULT_APPENDS_RENDER_VS_PATH, eAssetDefine::_RENDER_VERTEXSHADER);
-		LoadResource(Pg::Defines::DEFAULT_APPENDS_RENDER_PS_PATH, eAssetDefine::_RENDER_PIXELSHADER);
+		using Pg::Util::Helper::ResourceHelper;
+
+		LoadResource(ResourceHelper::IfReleaseChangeDebugText(Pg::Defines::DEFAULT_APPENDS_RENDER_VS_PATH), eAssetDefine::_RENDER_VERTEXSHADER);
+		LoadResource(ResourceHelper::IfReleaseChangeDebugText(Pg::Defines::DEFAULT_APPENDS_RENDER_PS_PATH), eAssetDefine::_RENDER_PIXELSHADER);
 	}
 
 
@@ -435,4 +441,7 @@ namespace Pg::Core::Manager
 
 		return tRet;
 	}
+
+	
+
 }

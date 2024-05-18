@@ -24,8 +24,6 @@ namespace Pg::Graphics
 		CreateStagingPickingBuffer();
 		InitPostProcessingQuads();
 
-		
-
 		_outlineRenderPass = std::make_unique<OutlineRenderPass>();
 
 		//Initialize PostProcessing RenderPassses. (여기다) (모두 From-To의 양식을 따른다)
@@ -41,8 +39,11 @@ namespace Pg::Graphics
 
 	void PPFinalRenderer::SetupRenderPasses()
 	{
+		using Pg::Util::Helper::ResourceHelper;
+		using namespace Pg::Defines;
+
 		//개별적으로 쓰일 Vertex Shader 별도로 분리.
-		_ppSystemVertexShader = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/PostProcessingDefault_VS.cso", LayoutDefine::GetDeferredQuadLayout(),
+		_ppSystemVertexShader = std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(POSTPROCESSING_DEFAULT_VS_DIRECTORY), LayoutDefine::GetDeferredQuadLayout(),
 			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		_finalRenderPass->Initialize();
@@ -60,23 +61,24 @@ namespace Pg::Graphics
 		//이미 Obj SRV는 ObjMat 쪽에 기록되어 있다.
 
 		//일단 USAGE_DEFAULT에서 USAGE_STAGING으로 값을 가져온다. (CopyResource)
-		_DXStorage->_deviceContext->CopyResource(_pickingStagingBuffer, _carrier->_quadObjMatRT->GetBuffer());
+		//ObjMatAoR은 원래에서 5번째 렌더타겟.
+		_DXStorage->_deviceContext->CopyResource(_pickingStagingBuffer, _carrier->_gBufRequiredInfoRT.at(5)->GetBuffer());
 
 		D3D11_MAPPED_SUBRESOURCE mappedResource = {};
 		HR(_DXStorage->_deviceContext->Map(_pickingStagingBuffer, 0, D3D11_MAP_READ, 0, &mappedResource));
 
 		// FLOAT2 값을 가져오기.
 		float* pData = static_cast<float*>(mappedResource.pData);
-		float float2Value[2];
+		float float2Value[4];
 
 		// Assuming the uint2 value is stored in the staging buffer as a row-major structure
 		//Staging Buffer를 가져온다. UINT2 Buffer가 Row-Major 기반 
 		UINT rowPitch = mappedResource.RowPitch / sizeof(float);
 
 		// HLSL 식 float2 == float 2개.
-		UINT offset = (heightPixel * rowPitch) + (widthPixel * 2);
+		UINT offset = (heightPixel * rowPitch) + (widthPixel * 4);
 
-		memcpy(float2Value, pData + offset, sizeof(float) * 2);
+		memcpy(float2Value, pData + offset, sizeof(float) * 4);
 		
 		// Unmap the staging buffer
 		_DXStorage->_deviceContext->Unmap(_pickingStagingBuffer, 0);

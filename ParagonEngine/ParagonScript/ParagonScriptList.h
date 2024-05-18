@@ -29,3 +29,5 @@
 #include "TitleScene.h"
 #include "StartButton.h"
 #include "ExitButton.h"
+#include "PauseBox.h"
+#include "NavAgent.h"

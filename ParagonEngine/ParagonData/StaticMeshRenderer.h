@@ -21,7 +21,7 @@ namespace Pg::Data
 
 		//InitializePath가 호출될 때, 외부에서 Path 연동하는 과정이 있어야 한다.
 		virtual void ConvertPotentialUnrealValues() override;
-		//혹시 Path만 있고 Name은 없는 상황을 막기 위해.
+		//혹시 Path만 있고 Name은 없는 상황을 막기 위해. 
 		virtual void CheckForPathNameErrors() override;
 
 		virtual void OnSerialize(SerializeVector& sv) override;
@@ -37,7 +37,6 @@ namespace Pg::Data
 		//VISITABLE로 바꿀 목록.
 		/// visit_struct 방식
 		BEGIN_VISITABLES(StaticMeshRenderer);
-		VISITABLE(bool, _isInstanced);
 		VISITABLE(std::string, _meshName);
 		VISITABLE(std::string, _materialName);
 		END_VISITABLES;

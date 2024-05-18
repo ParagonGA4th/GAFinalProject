@@ -143,4 +143,32 @@ namespace Pg::Util::Helper
 		return;
 	}
 
+	std::vector<std::pair<std::string, std::string>> CSVHelper::ReturnFilePathFromLightmapCSV(const std::string& csvPath)
+	{
+		rapidcsv::Document doc(csvPath);
+
+		auto& tPureData = doc.GetPureData();
+		assert(tPureData.size() >= 1 && "안 그러면 기본적인 리소스 포맷에 일치 X");
+
+		std::vector<std::pair<std::string, std::string>> tRet;
+
+		for (int i = 0; i < tPureData.size() - 1; i++)
+		{
+			//처음에 있는 안내용 Text 스킵.
+			auto& it = tPureData.at(i + 1);
+
+			//assert(!(it.at(0).empty()) && "Empty String Detected - CSV ERROR!");
+			if (it.at(0).empty())
+			{
+				continue;
+			}
+
+			tRet.push_back({});
+			tRet.at(i).first = it.at(0);
+			tRet.at(i).second = it.at(1);
+		}
+
+		return tRet;
+	}
+
 }

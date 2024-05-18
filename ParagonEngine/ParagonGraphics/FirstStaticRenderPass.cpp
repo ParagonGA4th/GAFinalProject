@@ -32,15 +32,6 @@ namespace Pg::Graphics
 
 	void FirstStaticRenderPass::BindPass()
 	{
-		//자체적인 DSV Clear, Depth Stencil State 리셋, OMSetRenderTargets.
-		_DXStorage->_deviceContext->ClearDepthStencilView(_d3dCarrierTempStorage->_gBufRequiredInfoDSV->GetDSV(), D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
-		_DXStorage->_deviceContext->OMSetDepthStencilState(_d3dCarrierTempStorage->_gBufRequiredInfoDSV->GetDSState(), 0);
-
-		for (auto& e : _d3dCarrierTempStorage->_gBufRequiredRTVArray)
-		{
-			_DXStorage->_deviceContext->ClearRenderTargetView(e, _DXStorage->_backgroundColor);
-		}
-
 		_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), 
 			_d3dCarrierTempStorage->_gBufRequiredRTVArray.data(), _d3dCarrierTempStorage->_gBufRequiredInfoDSV->GetDSV());
 
@@ -107,10 +98,11 @@ namespace Pg::Graphics
 
 	void FirstStaticRenderPass::CreateShaders()
 	{
+		using Pg::Util::Helper::ResourceHelper;
 		// 1st Pass
-		_vs = std::make_unique<SystemVertexShader>(L"../Builds/x64/debug/FirstStatic_VS.cso", LayoutDefine::GetStatic1stLayout(),
+		_vs = std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_STATIC_VS_DIRECTORY), LayoutDefine::GetStatic1stLayout(),
 			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		_ps = std::make_unique<SystemPixelShader>(L"../Builds/x64/debug/FirstStage_PS.cso");
+		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_STAGE_PS_DIRECTORY));
 	}
 
 
