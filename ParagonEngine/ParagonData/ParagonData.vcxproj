@@ -236,8 +236,8 @@
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
-    <ClInclude Include="Hold_IdleAnim.h" />
     <ClInclude Include="Hold_Anim.h" />
+    <ClInclude Include="Hold_IdleAnim.h" />
     <ClInclude Include="isHitSpace.h" />
     <ClInclude Include="isPlayerInSight.h" />
     <ClInclude Include="LayerMask.h" />

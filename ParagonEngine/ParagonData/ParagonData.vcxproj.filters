@@ -631,11 +631,11 @@
     <ClInclude Include="Anim_TwoArmAttack.h">
       <Filter>11_BtNodes\MonstersTest\Action\Anim_TwoArmAttack</Filter>
     </ClInclude>
-    <ClInclude Include="Hold_IdleAnim.h">
-      <Filter>11_BtNodes\MonstersTest\Action\Hold_IdleAnim</Filter>
-    </ClInclude>
     <ClInclude Include="Hold_Anim.h">
       <Filter>11_BtNodes\MonstersTest\Action\Hold_WalkAnim</Filter>
+    </ClInclude>
+    <ClInclude Include="Hold_IdleAnim.h">
+      <Filter>11_BtNodes\MonstersTest\Action\Hold_IdleAnim</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
