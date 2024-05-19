@@ -26,6 +26,8 @@ namespace Pg::Data::BTree::Node
 		{
 			BT::PortsList tRet;
 			tRet.insert(BT::BidirectionalPort<float>("_holdTime"));
+			tRet.insert(BT::BidirectionalPort<bool>("_isAnimChange"));
+			tRet.insert(BT::BidirectionalPort<std::string>("_currentAnim"));
 			return tRet;
 		}
 
