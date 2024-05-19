@@ -41,9 +41,14 @@ cbuffer cbSceneInfo : register(b4) // 이 자체는 VS / PS 모두 접근 가능.
     float4x4 gCBuf_ViewMatrix;
     float4x4 gCBuf_ProjMatrix;
     float4x4 gCBuf_ViewProjMatrix;
+    float4x4 gCBuf_InvViewMatrix;
+    
+    float2 gCBuf_ScreenWidthHeight;
+    float2 gCBuf_TempPadding;
     
     float3 gCBuf_EyePosition;
     bool gCBuf_IsSceneUseLightmap; // bool로 캐스팅 상관X.
+   
 };
 
 float4x4 GetViewMatrix()

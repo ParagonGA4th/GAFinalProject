@@ -281,7 +281,7 @@
       <Filter>12_GraphicsAPI</Filter>
     </ClInclude>
     <ClInclude Include="TonemappingRenderPass.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\18_TonemappingRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\17_TonemappingRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="IndividualLightsGPU.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\0_SceneInformationSender\IndividualLightsGPU</Filter>
@@ -315,6 +315,12 @@
     </ClInclude>
     <ClInclude Include="VignetteRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\19_VignetteRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="BloomRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\18_BloomRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="LUTRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\16_LUTRenderPass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -541,7 +547,7 @@
       <Filter>12_GraphicsAPI</Filter>
     </ClCompile>
     <ClCompile Include="TonemappingRenderPass.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\18_TonemappingRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\17_TonemappingRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="RenderObject3DList.cpp">
       <Filter>10_Structs\RenderingList\RenderObject3DList</Filter>
@@ -572,6 +578,12 @@
     </ClCompile>
     <ClCompile Include="VignetteRenderPass.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\19_VignetteRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="BloomRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\18_BloomRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="LUTRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\16_LUTRenderPass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -974,14 +986,26 @@
     <Filter Include="14_LightmapRelated\Lightmap\RenderLightmapData">
       <UniqueIdentifier>{babffa6a-dc4c-43ab-b3eb-40de8eaf7a14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\18_TonemappingRenderPass">
-      <UniqueIdentifier>{8aa14f88-db08-4907-a027-750d80991ea5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\19_VignetteRenderPass">
       <UniqueIdentifier>{fc6000d4-46bf-4c71-833f-9ff63fbae620}</UniqueIdentifier>
     </Filter>
     <Filter Include="6_HLSL\System\Pipeline\PostProcessing\Vignette">
       <UniqueIdentifier>{4218a496-6cdd-475a-9ac5-3838f89497ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\PostProcessing\Bloom">
+      <UniqueIdentifier>{eb9756c8-1b9f-4a3d-8f54-a2f2f3c89493}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\17_TonemappingRenderPass">
+      <UniqueIdentifier>{8aa14f88-db08-4907-a027-750d80991ea5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\18_BloomRenderPass">
+      <UniqueIdentifier>{8b2318d0-76c3-4d62-bb5b-ea02914d23b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\16_LUTRenderPass">
+      <UniqueIdentifier>{46752a2b-940f-453e-ae60-13deca165c49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\PostProcessing\LUT">
+      <UniqueIdentifier>{e7db1dc7-1475-48ed-803f-c5bc8cdc89b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1083,6 +1107,12 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Vignette\Vignette_PS.hlsl">
       <Filter>6_HLSL\System\Pipeline\PostProcessing\Vignette</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Bloom\Bloom_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\PostProcessing\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\SSAO\LUT_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\PostProcessing\LUT</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

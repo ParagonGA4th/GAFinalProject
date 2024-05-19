@@ -15,11 +15,11 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class VignetteRenderPass : public IRenderSinglePass
+	class LUTRenderPass : public IRenderSinglePass
 	{
 	public:
-		VignetteRenderPass(GBufferRender* from, GBufferRender* to);
-		~VignetteRenderPass();
+		LUTRenderPass(GBufferRender* from, GBufferRender* to);
+		~LUTRenderPass();
 
 		virtual void Initialize() override;
 		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;

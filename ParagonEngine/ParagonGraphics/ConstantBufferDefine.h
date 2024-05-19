@@ -51,6 +51,10 @@ namespace Pg::Graphics
 			DirectX::XMMATRIX gCBuf_ViewMatrix;
 			DirectX::XMMATRIX gCBuf_ProjMatrix;
 			DirectX::XMMATRIX gCBuf_ViewProjMatrix;
+			DirectX::XMMATRIX gCBuf_InvViewMatrix;
+
+			DirectX::XMFLOAT2 gCBuf_ScreenWidthHeight;
+			DirectX::XMFLOAT2 gCBuf_TempPadding;
 
 			DirectX::XMFLOAT3 gCBuf_EyePosition;
 			int gCBuf_IsSceneUseLightmap;

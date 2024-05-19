@@ -1,4 +1,4 @@
-#include "VignetteRenderPass.h"
+#include "LUTRenderPass.h"
 #include "LowDX11Storage.h"
 #include "LayoutDefine.h"
 #include "SystemVertexShader.h"
@@ -8,28 +8,28 @@
 
 namespace Pg::Graphics
 {
-	VignetteRenderPass::VignetteRenderPass(GBufferRender* from, GBufferRender* to) :
+	LUTRenderPass::LUTRenderPass(GBufferRender* from, GBufferRender* to) :
 		_postProcessingFrom(from), _postProcessingTo(to)
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 	}
 
-	VignetteRenderPass::~VignetteRenderPass()
+	LUTRenderPass::~LUTRenderPass()
 	{
 
 	}
 
-	void VignetteRenderPass::Initialize()
+	void LUTRenderPass::Initialize()
 	{
 		CreateShaders();
 	}
 
-	void VignetteRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
+	void LUTRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
 	{
 		_tempStoreCarrier = &carrier;
 	}
 
-	void VignetteRenderPass::BindPass()
+	void LUTRenderPass::BindPass()
 	{
 		//DepthStencil은 무시하고 기록한다. 어차피 덧씌우는 것이기에.
 		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_postProcessingTo->GetRTV()), nullptr);
@@ -44,39 +44,39 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(5, 1, &(_postProcessingFrom->GetSRV()));
 	}
 
-	void VignetteRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
+	void LUTRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		_DXStorage->_deviceContext->DrawIndexed(GeometryGenerator::QUAD_INDICE_COUNT, 0, 0);
 	}
 
-	void VignetteRenderPass::UnbindPass()
+	void LUTRenderPass::UnbindPass()
 	{
 		//Pixel Shader Unbind.
 		_ps->Unbind();
 	}
 
-	void VignetteRenderPass::ExecuteNextRenderRequirements()
+	void LUTRenderPass::ExecuteNextRenderRequirements()
 	{
 
 	}
 
-	void VignetteRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
+	void LUTRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
 	{
 		//필수적인 단계. Editor/World에게 무엇이 최종 SRV인지를 알려줘야 하니.
 		gCarrier._toSendSRVToEngine = _postProcessingTo->GetSRV();
 	}
 
-	void VignetteRenderPass::CreateShaders()
+	void LUTRenderPass::CreateShaders()
 	{
 		using Pg::Util::Helper::ResourceHelper;
 		using namespace Pg::Defines;
 		//ResourceHelper::IfReleaseChangeDebugTextW(
 
 		//별도 Tonemapping Shader 적용.
-		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(VIGNETTE_PS_DIRECTORY));
+		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(LUT_PS_DIRECTORY));
 	}
 
-	void VignetteRenderPass::BindVertexIndexBuffer()
+	void LUTRenderPass::BindVertexIndexBuffer()
 	{
 		assert(GeometryGenerator::_QUAD_VB != nullptr);
 		assert(GeometryGenerator::_QUAD_IB != nullptr);

@@ -82,6 +82,9 @@ namespace Pg::Graphics
 
 		//For문 대신, 명시적으로 값 호출. (나누기)
 		//일단 Scene 정보 활용을 위해 호출 먼저.
+
+		UnbindPreviousBoundResources();
+		UnbindExpiredResources();
 		SendSceneInformation(sceneInfoList, camData);
 
 		RenderFirstInstancedPass(renderObjectList, camData);
@@ -91,8 +94,6 @@ namespace Pg::Graphics
 		SendPBRBufferSRVs();
 		RenderOpaqueQuadPasses(renderObjectList, camData);
 		RenderOpaqueShadowPass(renderObjectList, camData);
-
-		UnbindExpiredResources();
 	}
 
 	void DeferredRenderer::ConfirmCarrierData()
@@ -313,13 +314,6 @@ namespace Pg::Graphics
 		//Unbing
 		ID3D11ShaderResourceView* tNullSRV = nullptr;
 
-		//PS Constant Buffer -> SceneInfo 값 리셋.
-		ID3D11Buffer* tNullBuffer = nullptr;
-		_DXStorage->_deviceContext->PSSetConstantBuffers(4, 1, &tNullBuffer);
-
-		//PS Constant Buffer -> LightInfo 값 리셋.
-		_DXStorage->_deviceContext->PSSetConstantBuffers(5, 1, &tNullBuffer);
-
 		//GBufferTextures-> GBuffer / Depth Buffer Unbind.
 		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, &tNullSRV);
 		_DXStorage->_deviceContext->PSSetShaderResources(13, 1, &tNullSRV);
@@ -469,6 +463,17 @@ namespace Pg::Graphics
 			Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		_iblSpecularLutTextureMap = static_cast<RenderTexture2D*>(tSpecLUT.get());
 	}
+
+	void DeferredRenderer::UnbindPreviousBoundResources()
+	{
+		//PS Constant Buffer -> SceneInfo 값 리셋.
+		ID3D11Buffer* tNullBuffer = nullptr;
+		_DXStorage->_deviceContext->PSSetConstantBuffers(4, 1, &tNullBuffer);
+
+		//PS Constant Buffer -> LightInfo 값 리셋.
+		_DXStorage->_deviceContext->PSSetConstantBuffers(5, 1, &tNullBuffer);
+	}
+
 }
 
 
