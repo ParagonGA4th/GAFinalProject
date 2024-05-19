@@ -29,6 +29,11 @@ namespace Pg::Graphics
 		virtual void ExecuteNextRenderRequirements() abstract;
 		//다음 패스에 넘겨줄 리스트를 (만약 있을 경우) 넘겨준다.		
 		virtual void PassNextRequirements(D3DCarrier& gCarrier) abstract;
+	
+		//이건 순수가상이 아님. 
+		//필요시 호출됨.
+		virtual void ConnectDefaultResources() {}
+	
 	};
 }
 

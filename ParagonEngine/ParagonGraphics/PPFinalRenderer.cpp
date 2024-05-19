@@ -28,8 +28,8 @@ namespace Pg::Graphics
 
 		//Initialize PostProcessing RenderPassses. (여기다) (모두 From-To의 양식을 따른다)
 		_postprocessingRenderPassList.push_back(std::make_unique<TonemappingRenderPass>(_carrier->_quadMainRT, _carrier->_PPSwitch1));
-		_postprocessingRenderPassList.push_back(std::make_unique<VignetteRenderPass>(_carrier->_PPSwitch1, _carrier->_PPSwitch2));
-		_postprocessingRenderPassList.push_back(std::make_unique<BloomRenderPass>(_carrier->_PPSwitch2, _carrier->_PPSwitch1));
+		//_postprocessingRenderPassList.push_back(std::make_unique<VignetteRenderPass>(_carrier->_PPSwitch1, _carrier->_PPSwitch2));
+		//_postprocessingRenderPassList.push_back(std::make_unique<BloomRenderPass>(_carrier->_PPSwitch2, _carrier->_PPSwitch1));
 		_postprocessingRenderPassList.push_back(std::make_unique<LUTRenderPass>(_carrier->_PPSwitch1, _carrier->_PPSwitch2));
 		
 
@@ -197,6 +197,13 @@ namespace Pg::Graphics
 		_ppSystemVertexShader->Unbind();
 	}
 
+	void PPFinalRenderer::ConnectDefaultResources()
+	{
+		for (auto& it : _postprocessingRenderPassList)
+		{
+			it->ConnectDefaultResources();
+		}
+	}
 	
 
 	

@@ -1111,7 +1111,7 @@
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Bloom\Bloom_PS.hlsl">
       <Filter>6_HLSL\System\Pipeline\PostProcessing\Bloom</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\SSAO\LUT_PS.hlsl">
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\LUT\LUT_PS.hlsl">
       <Filter>6_HLSL\System\Pipeline\PostProcessing\LUT</Filter>
     </FxCompile>
   </ItemGroup>

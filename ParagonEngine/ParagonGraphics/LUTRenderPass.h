@@ -1,5 +1,6 @@
 #pragma once
 #include "IRenderSinglePass.h"
+#include "ConstantBuffer.h"
 #include "DX11Headers.h"
 #include <vector>
 #include <memory>
@@ -11,6 +12,7 @@ namespace Pg::Graphics
 	class SystemVertexShader;
 	class SystemPixelShader;
 	class GBufferRender;
+	class RenderTexture2D;
 }
 
 namespace Pg::Graphics
@@ -29,6 +31,8 @@ namespace Pg::Graphics
 		virtual void ExecuteNextRenderRequirements() override;
 		virtual void PassNextRequirements(D3DCarrier& gCarrier) override;
 
+		virtual void ConnectDefaultResources() override;
+
 	private:
 		void CreateShaders();
 		void BindVertexIndexBuffer();
@@ -45,6 +49,10 @@ namespace Pg::Graphics
 
 		GBufferRender* _postProcessingFrom{ nullptr };
 		GBufferRender* _postProcessingTo{ nullptr };
+
+	private:
+		RenderTexture2D* _storedLUT;
+		std::unique_ptr<ConstantBuffer<DirectX::XMFLOAT4>> _cbLutWidthHeight;
 	};
 }
 
