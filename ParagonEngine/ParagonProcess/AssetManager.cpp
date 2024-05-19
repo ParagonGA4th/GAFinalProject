@@ -370,6 +370,8 @@ namespace Pg::Core::Manager
 		LoadResource(Pg::Defines::ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_2048, eAssetDefine::_TEXTURE2D);
 		//LoadResource(Pg::Defines::ASSET_DEFAULT_DISPLACEMENT_TEXTURE_PATH_2048, eAssetDefine::_TEXTURE2D);
 
+		LoadResource(Pg::Defines::ASSET_DEFAULT_PRELOADED_LUT_PATH, eAssetDefine::_TEXTURE2D);
+
 		//¿œπ› Cubemap
 		LoadResource(Pg::Defines::ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH, eAssetDefine::_CUBEMAP);
 

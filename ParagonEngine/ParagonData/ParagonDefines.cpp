@@ -39,6 +39,8 @@ namespace Pg::Defines
 	//const std::string ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH = "../Resources/Textures/room.dds";
 	const std::string ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH = "../Resources/Textures/Cubemaps/IBL/KloppenheimSky/KloppenheimSky_IBLMapDiffuseMDR.dds";
 
+	const std::string ASSET_DEFAULT_PRELOADED_LUT_PATH = "../Resources/Textures/LUT/Testing/TestLUT_Preloaded.jpg";
+
 	const std::string GENERATED_MATERIAL_PREFIX = "$GeneratedMaterial_$";
 	const std::string GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX = "$GeneratedMaterial_Texture2DArray_$";
 

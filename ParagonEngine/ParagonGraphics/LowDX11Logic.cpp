@@ -379,8 +379,13 @@ namespace Pg::Graphics
 			tDesc.MipLODBias = 0.0f;
 			tDesc.MaxAnisotropy = 1;
 
-			HR(_DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_blurSamplerState)));
+			tDesc.MinLOD = 0.0f;
+			tDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+			HR(_DXStorage->_device->CreateSamplerState(&tDesc, &(_DXStorage->_lutSamplerState)));
 		}
+
+
 		return S_OK;
 	}
 

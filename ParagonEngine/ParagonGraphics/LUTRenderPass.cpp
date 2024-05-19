@@ -5,6 +5,8 @@
 #include "SystemPixelShader.h"
 #include "GeometryGenerator.h"
 #include "GBufferRender.h"
+#include "RenderTexture2D.h"
+#include "GraphicsResourceManager.h"
 
 namespace Pg::Graphics
 {
@@ -22,6 +24,7 @@ namespace Pg::Graphics
 	void LUTRenderPass::Initialize()
 	{
 		CreateShaders();
+		_cbLutWidthHeight = std::make_unique<ConstantBuffer<DirectX::XMFLOAT4>>();
 	}
 
 	void LUTRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
@@ -42,6 +45,19 @@ namespace Pg::Graphics
 
 		//Register T5에 넣어줌. PostProcessing SRV.
 		_DXStorage->_deviceContext->PSSetShaderResources(5, 1, &(_postProcessingFrom->GetSRV()));
+
+		//이제 Constant Buffer (Width/Height)
+		{
+			_cbLutWidthHeight->GetDataStruct()->x = _storedLUT->GetFileWidth();
+			_cbLutWidthHeight->GetDataStruct()->y = _storedLUT->GetFileHeight();
+			_cbLutWidthHeight->Update();
+			_cbLutWidthHeight->BindPS(0);
+		}
+
+		//이제 LUT 자체 SRV 바인딩.
+		{
+			_DXStorage->_deviceContext->PSSetShaderResources(1, 1, &(_storedLUT->GetSRV()));
+		}
 	}
 
 	void LUTRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
@@ -53,6 +69,12 @@ namespace Pg::Graphics
 	{
 		//Pixel Shader Unbind.
 		_ps->Unbind();
+
+		//_cbLutWidthHeight Unbind.
+		_cbLutWidthHeight->UnbindPS(0);
+		// LUT SRV Unbind.
+		ID3D11ShaderResourceView* tNullSRV = nullptr;
+		_DXStorage->_deviceContext->PSSetShaderResources(1, 1, &tNullSRV);
 	}
 
 	void LUTRenderPass::ExecuteNextRenderRequirements()
@@ -87,4 +109,12 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(GeometryGenerator::_QUAD_VB), &stride, &offset);
 		_DXStorage->_deviceContext->IASetIndexBuffer(GeometryGenerator::_QUAD_IB, DXGI_FORMAT_R32_UINT, 0);
 	}
+
+	void LUTRenderPass::ConnectDefaultResources()
+	{
+		auto it = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(
+			Pg::Defines::ASSET_DEFAULT_PRELOADED_LUT_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+		_storedLUT = static_cast<RenderTexture2D*>(it.get());
+	}
+
 }

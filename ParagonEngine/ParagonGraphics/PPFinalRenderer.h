@@ -53,6 +53,8 @@ namespace Pg::Graphics
 
 		//미리 그릴지 말지가 Picking Logic으로 정해진다.
 		void RenderOutlineStencil(Pg::Data::CameraData* camData);
+		
+		void ConnectDefaultResources();
 
 	private:
 		void InitPostProcessingQuads();

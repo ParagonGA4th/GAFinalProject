@@ -47,6 +47,8 @@ namespace Pg::Defines
 	extern const std::string ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH;
 	extern const std::string ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH;
 	
+	extern const std::string ASSET_DEFAULT_PRELOADED_LUT_PATH;
+	
 	// ^, $ 리소스 이름에 활용 금지!
 	//모든 디폴트 매터리얼들이 부여받는 Prefix. 이는 일반 리소스 생성에서 활용할 수 없다.
 	extern const std::string GENERATED_MATERIAL_PREFIX;
