@@ -4,6 +4,10 @@
 #include <vector>
 #include <memory>
 
+/// <summary>
+/// Final Render Pass : Quad에서의 값을 MainRenderTarget에 뿌려준다.
+/// 모든 렌더링을 포함해서 최종적인 렌더링 결과가 될 것.
+/// </summary>
 
 namespace Pg::Graphics
 {
@@ -15,11 +19,11 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class VignetteRenderPass : public IRenderSinglePass
+	class BloomRenderPass : public IRenderSinglePass
 	{
 	public:
-		VignetteRenderPass(GBufferRender* from, GBufferRender* to);
-		~VignetteRenderPass();
+		BloomRenderPass(GBufferRender* from, GBufferRender* to);
+		~BloomRenderPass();
 
 		virtual void Initialize() override;
 		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;

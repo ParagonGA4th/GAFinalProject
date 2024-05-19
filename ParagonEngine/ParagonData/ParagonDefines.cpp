@@ -72,6 +72,8 @@ namespace Pg::Defines
 	const std::wstring POSTPROCESSING_DEFAULT_VS_DIRECTORY = L"../Builds/x64/Debug/PostProcessingDefault_VS.cso";
 	const std::wstring TONEMAPPING_PS_DIRECTORY = L"../Builds/x64/Debug/ToneMapping_PS.cso";
 	const std::wstring VIGNETTE_PS_DIRECTORY = L"../Builds/x64/Debug/Vignette_PS.cso";
+	const std::wstring BLOOM_PS_DIRECTORY = L"../Builds/x64/Debug/Bloom_PS.cso";
+	const std::wstring LUT_PS_DIRECTORY = L"../Builds/x64/Debug/LUT_PS.cso";
 
 
 }

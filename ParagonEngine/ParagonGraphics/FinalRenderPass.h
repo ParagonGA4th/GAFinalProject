@@ -22,7 +22,7 @@ namespace Pg::Graphics
 	class FinalRenderPass : public IRenderSinglePass
 	{
 	public:
-		FinalRenderPass(GBufferRender* from);
+		FinalRenderPass();
 		~FinalRenderPass();
 
 		virtual void Initialize() override;

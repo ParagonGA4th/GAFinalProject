@@ -62,7 +62,7 @@ namespace Pg::Graphics
 	void TonemappingRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
 	{
 		//필수적인 단계. Editor/World에게 무엇이 최종 SRV인지를 알려줘야 하니.
-		//gCarrier._toSendSRVToEngine = _postProcessingTo->GetSRV();
+		gCarrier._toSendSRVToEngine = _postProcessingTo->GetSRV();
 	}
 
 	void TonemappingRenderPass::CreateShaders()

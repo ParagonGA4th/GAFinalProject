@@ -9,6 +9,8 @@
 #include "FinalRenderPass.h"
 #include "TonemappingRenderPass.h"
 #include "VignetteRenderPass.h"
+#include "BloomRenderPass.h"
+#include "LUTRenderPass.h"
 
 namespace Pg::Data
 {
