@@ -118,33 +118,6 @@
     <ClCompile Include="Animator.cpp">
       <Filter>2_Component\Animator</Filter>
     </ClCompile>
-    <ClCompile Include="BtNodes\Concrete\CAsync_Sleeper.cpp">
-      <Filter>11_BtNodes\Concrete\CustomAsyncActionNodes\CASync_Sleeper</Filter>
-    </ClCompile>
-    <ClCompile Include="BtNodes\Concrete\Test_CCond_CheckInBound.cpp">
-      <Filter>11_BtNodes\Concrete\CustomConditionNodes\Test_CCond_CheckInBound</Filter>
-    </ClCompile>
-    <ClCompile Include="BtNodes\Concrete\CSync_ApproachPosition.cpp">
-      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\CSync_ApproachPosition %28Example%29</Filter>
-    </ClCompile>
-    <ClCompile Include="BtNodes\Concrete\Test_CSync_AddBumpCount.cpp">
-      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_AddBumpCount</Filter>
-    </ClCompile>
-    <ClCompile Include="BtNodes\Concrete\Test_CSync_ChooseNewDir.cpp">
-      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_ChooseNewDir</Filter>
-    </ClCompile>
-    <ClCompile Include="BtNodes\Concrete\Test_CSync_JumpAtBumpLimit.cpp">
-      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_JumpAtBumpLimit</Filter>
-    </ClCompile>
-    <ClCompile Include="BtNodes\Concrete\Test_CSync_MoveToNewDir.cpp">
-      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_MoveToNewDir</Filter>
-    </ClCompile>
-    <ClCompile Include="BtNodes\Concrete\Test_CSync_RecordCurrentPos.cpp">
-      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_RecordCurrentPos</Filter>
-    </ClCompile>
-    <ClCompile Include="BtNodes\Concrete\Test_CSync_ReturnToCenter.cpp">
-      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_ReturnToCenter</Filter>
-    </ClCompile>
     <ClCompile Include="BtNodes\BTHelper.cpp">
       <Filter>11_BtNodes\Helper</Filter>
     </ClCompile>
@@ -262,38 +235,32 @@
     <ClCompile Include="StaticSphereCollider.cpp">
       <Filter>2_Component\Collider\3D\StaticCollider\SphereCollider</Filter>
     </ClCompile>
-    <ClCompile Include="isPlayerInSight.cpp">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isPlayerInSight</Filter>
-    </ClCompile>
-    <ClCompile Include="isHitSpace.cpp">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace</Filter>
+    <ClCompile Include="BtNodes\bt_zmq_publisher.cpp">
+      <Filter>11_BtNodes\Helper</Filter>
     </ClCompile>
     <ClCompile Include="Anim_Idle.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Idle</Filter>
     </ClCompile>
     <ClCompile Include="Anim_Walk.cpp">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anum_Walk</Filter>
-    </ClCompile>
-    <ClCompile Include="BtNodes\bt_zmq_publisher.cpp">
-      <Filter>11_BtNodes\Helper</Filter>
-    </ClCompile>
-    <ClCompile Include="Anim_LeftArmAttack.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Golem\LeftArmAttack</Filter>
-    </ClCompile>
-    <ClCompile Include="Anim_RightArmAttack.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Golem\RightArmAttack</Filter>
-    </ClCompile>
-    <ClCompile Include="Anim_TwoArmAttack.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Golem\TwoArmAttack</Filter>
-    </ClCompile>
-    <ClCompile Include="Hold_DefaultAnim.cpp">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Hold_DefaultAnim</Filter>
-    </ClCompile>
-    <ClCompile Include="Hold_AttackAnim.cpp">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Hold_AttackAnim</Filter>
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Walk</Filter>
     </ClCompile>
     <ClCompile Include="Anim_Chase.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Chase</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_Delay.cpp">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Delay</Filter>
+    </ClCompile>
+    <ClCompile Include="isPlayerInSight.cpp">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isPlayerInSight</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_Rush.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_Rush</Filter>
+    </ClCompile>
+    <ClCompile Include="isHitSpace.cpp">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_mAttack.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_mAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -463,36 +430,6 @@
     <ClInclude Include="DynamicCollider.h">
       <Filter>2_Component\Collider\3D\DynamicCollider\BaseClass</Filter>
     </ClInclude>
-    <ClInclude Include="BtNodes\Concrete\CAsync_Sleeper.h">
-      <Filter>11_BtNodes\Concrete\CustomAsyncActionNodes\CASync_Sleeper</Filter>
-    </ClInclude>
-    <ClInclude Include="BtNodes\Concrete\Test_CCond_CheckInBound.h">
-      <Filter>11_BtNodes\Concrete\CustomConditionNodes\Test_CCond_CheckInBound</Filter>
-    </ClInclude>
-    <ClInclude Include="BtNodes\Concrete\DemoConditionComp1.h">
-      <Filter>11_BtNodes\Concrete\CustomConditionNodes\DemoConditionComp1</Filter>
-    </ClInclude>
-    <ClInclude Include="BtNodes\Concrete\CSync_ApproachPosition.h">
-      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\CSync_ApproachPosition %28Example%29</Filter>
-    </ClInclude>
-    <ClInclude Include="BtNodes\Concrete\Test_CSync_AddBumpCount.h">
-      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_AddBumpCount</Filter>
-    </ClInclude>
-    <ClInclude Include="BtNodes\Concrete\Test_CSync_ChooseNewDir.h">
-      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_ChooseNewDir</Filter>
-    </ClInclude>
-    <ClInclude Include="BtNodes\Concrete\Test_CSync_JumpAtBumpLimit.h">
-      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_JumpAtBumpLimit</Filter>
-    </ClInclude>
-    <ClInclude Include="BtNodes\Concrete\Test_CSync_MoveToNewDir.h">
-      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_MoveToNewDir</Filter>
-    </ClInclude>
-    <ClInclude Include="BtNodes\Concrete\Test_CSync_RecordCurrentPos.h">
-      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_RecordCurrentPos</Filter>
-    </ClInclude>
-    <ClInclude Include="BtNodes\Concrete\Test_CSync_ReturnToCenter.h">
-      <Filter>11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_ReturnToCenter</Filter>
-    </ClInclude>
     <ClInclude Include="BtNodes\BTHelper.h">
       <Filter>11_BtNodes\Helper</Filter>
     </ClInclude>
@@ -506,7 +443,7 @@
       <Filter>11_BtNodes\TemplateSpecialization</Filter>
     </ClInclude>
     <ClInclude Include="BtNodes\BasePgBtNode.h">
-      <Filter>11_BtNodes\Concrete\BaseClass</Filter>
+      <Filter>11_BtNodes\BaseClass</Filter>
     </ClInclude>
     <ClInclude Include="BtNodes\PgCustomBTNodes.h">
       <Filter>11_BtNodes\Collection</Filter>
@@ -610,41 +547,35 @@
     <ClInclude Include="LayerMask.h">
       <Filter>5_Enums</Filter>
     </ClInclude>
-    <ClInclude Include="isPlayerInSight.h">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isPlayerInSight</Filter>
+    <ClInclude Include="BtNodes\bt_zmq_publisher.h">
+      <Filter>11_BtNodes\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="isHitSpace.h">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace</Filter>
+    <ClInclude Include="MonsterHelper.h">
+      <Filter>2_Component\1_Helper</Filter>
     </ClInclude>
     <ClInclude Include="Anim_Idle.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Idle</Filter>
     </ClInclude>
     <ClInclude Include="Anim_Walk.h">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anum_Walk</Filter>
-    </ClInclude>
-    <ClInclude Include="BtNodes\bt_zmq_publisher.h">
-      <Filter>11_BtNodes\Helper</Filter>
-    </ClInclude>
-    <ClInclude Include="Anim_LeftArmAttack.h">
-      <Filter>11_BtNodes\MonsterAnim\Golem\LeftArmAttack</Filter>
-    </ClInclude>
-    <ClInclude Include="Anim_RightArmAttack.h">
-      <Filter>11_BtNodes\MonsterAnim\Golem\RightArmAttack</Filter>
-    </ClInclude>
-    <ClInclude Include="Anim_TwoArmAttack.h">
-      <Filter>11_BtNodes\MonsterAnim\Golem\TwoArmAttack</Filter>
-    </ClInclude>
-    <ClInclude Include="Hold_DefaultAnim.h">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Hold_DefaultAnim</Filter>
-    </ClInclude>
-    <ClInclude Include="MonsterHelper.h">
-      <Filter>2_Component\1_Helper</Filter>
-    </ClInclude>
-    <ClInclude Include="Hold_AttackAnim.h">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Hold_AttackAnim</Filter>
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Walk</Filter>
     </ClInclude>
     <ClInclude Include="Anim_Chase.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Chase</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_Delay.h">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Delay</Filter>
+    </ClInclude>
+    <ClInclude Include="isPlayerInSight.h">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isPlayerInSight</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_Rush.h">
+      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_Rush</Filter>
+    </ClInclude>
+    <ClInclude Include="isHitSpace.h">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_mAttack.h">
+      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_mAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -810,48 +741,6 @@
     <Filter Include="11_BtNodes">
       <UniqueIdentifier>{590d7338-e96a-455d-a77e-ab7218be50b7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\Concrete">
-      <UniqueIdentifier>{ded05e09-c5b4-4e66-9d4c-48ccfe78231d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\Concrete\CustomAsyncActionNodes">
-      <UniqueIdentifier>{778b3b65-42d7-4bdb-8067-0fd449708901}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\Concrete\CustomAsyncActionNodes\CASync_Sleeper">
-      <UniqueIdentifier>{1c4d5a84-d298-4f56-8c9c-84e5e94f8aaf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\Concrete\CustomConditionNodes">
-      <UniqueIdentifier>{88c854dd-8f2e-465f-8137-e6c5e0dec8c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\Concrete\CustomConditionNodes\Test_CCond_CheckInBound">
-      <UniqueIdentifier>{d3dfa8ad-e989-4c2c-9fa6-38715324b081}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\Concrete\CustomConditionNodes\DemoConditionComp1">
-      <UniqueIdentifier>{de6eb2cb-0c24-4b06-bccd-148142bd768b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes">
-      <UniqueIdentifier>{7160ae05-e2ab-450a-ba93-7c91c8c2ce97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes\CSync_ApproachPosition %28Example%29">
-      <UniqueIdentifier>{6adda5ab-148a-43d9-a60d-819c326eec08}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_AddBumpCount">
-      <UniqueIdentifier>{f57dd4f1-16e8-4aa6-8179-6bb1d1532331}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_ChooseNewDir">
-      <UniqueIdentifier>{759b415b-a9f8-4c70-9a45-cbf8a45c17b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_JumpAtBumpLimit">
-      <UniqueIdentifier>{7f7918c5-07af-4d4a-99fb-792d59a69529}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_MoveToNewDir">
-      <UniqueIdentifier>{ee0ee4df-5139-4642-9d28-b2f002f5ff4a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_RecordCurrentPos">
-      <UniqueIdentifier>{d4d0d611-c0d6-47c1-bf90-e571d7e529fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\Concrete\CustomSyncActionNodes\Test_CSync_ReturnToCenter">
-      <UniqueIdentifier>{c39b14c8-a4b3-4bf0-937b-42740c34ac38}</UniqueIdentifier>
-    </Filter>
     <Filter Include="11_BtNodes\Defines">
       <UniqueIdentifier>{6d6d1119-e9b4-4745-b3c0-a9cc26f5a811}</UniqueIdentifier>
     </Filter>
@@ -863,9 +752,6 @@
     </Filter>
     <Filter Include="11_BtNodes\TemplateSpecialization">
       <UniqueIdentifier>{adcd6377-dea3-4e2a-a129-ea8665b5cdd8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\Concrete\BaseClass">
-      <UniqueIdentifier>{ce158e48-9c1d-4152-9952-3698beffdd2e}</UniqueIdentifier>
     </Filter>
     <Filter Include="11_BtNodes\Collection">
       <UniqueIdentifier>{f7d1b6d9-84e9-497a-b896-f63a80e1b8e2}</UniqueIdentifier>
@@ -942,41 +828,38 @@
     <Filter Include="11_BtNodes\MonsterAnim">
       <UniqueIdentifier>{921e64b0-dc5b-431a-b206-ce3d3d82fd9c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Golem">
-      <UniqueIdentifier>{5fa8ee46-2a80-44f3-8158-0899037c55de}</UniqueIdentifier>
-    </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim">
       <UniqueIdentifier>{b8dc43eb-80d0-4a9f-8368-4c77a92bf5a5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Golem\LeftArmAttack">
-      <UniqueIdentifier>{7aaa5349-2022-44b0-8057-4c560e904901}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Golem\RightArmAttack">
-      <UniqueIdentifier>{66c9e140-746f-4cf4-abe7-a36480722c15}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Golem\TwoArmAttack">
-      <UniqueIdentifier>{6f865274-a932-4249-b999-7c814da3056f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Hold_DefaultAnim">
-      <UniqueIdentifier>{0c5cf94d-552a-46fa-b9dd-af0ebc4b558c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Hold_AttackAnim">
-      <UniqueIdentifier>{7595534d-bdba-4f37-ac60-d75057f50e55}</UniqueIdentifier>
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Idle">
       <UniqueIdentifier>{b3b0291a-ec59-46f6-88c2-a2ae2668b8a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anum_Walk">
-      <UniqueIdentifier>{0daee397-cac5-431b-bea4-998e158c3b11}</UniqueIdentifier>
-    </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isPlayerInSight">
       <UniqueIdentifier>{678abf3d-2bd0-4982-b16c-79cc4a818161}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace">
-      <UniqueIdentifier>{cdea045e-bf36-4c0d-8dfd-bc318b5e12cc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Chase">
       <UniqueIdentifier>{cd5c4bfb-cfc5-400f-9c61-e3614a1baa38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\BaseClass">
+      <UniqueIdentifier>{ce158e48-9c1d-4152-9952-3698beffdd2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Walk">
+      <UniqueIdentifier>{0daee397-cac5-431b-bea4-998e158c3b11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Delay">
+      <UniqueIdentifier>{662960ac-f1ec-47a6-b5d6-6406cc486149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Golem">
+      <UniqueIdentifier>{5fa8ee46-2a80-44f3-8158-0899037c55de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Golem\Anim_Rush">
+      <UniqueIdentifier>{92c7aaf5-7466-4286-b53d-effc4536fb5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace">
+      <UniqueIdentifier>{d6b533d3-00e8-40fe-a707-bc4221433fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Golem\Anim_mAttack">
+      <UniqueIdentifier>{0fd57172-b76a-4ad9-a71c-7921e6fadeb7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

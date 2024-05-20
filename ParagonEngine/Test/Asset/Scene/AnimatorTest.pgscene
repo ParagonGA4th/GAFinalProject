@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <scene>
 	<objects>
-		<object>
+		<!--<object>
 			<name>Player</name>
 			<active>true</active>
 			<tag>TAG_Player</tag>
@@ -127,7 +127,7 @@
 					</data>
 				</component>
 			</components>
-		</object>
+		</object>-->
 		<object>
 			<uuid>B50B3AF01D1943308B781F5AED7F6734</uuid>
 			<name>Boss</name>
@@ -159,12 +159,12 @@
 				<component>
 					<type>class Pg::Data::SkinnedMeshRenderer</type>
 					<data>
-						<meshName>PpakMonster.fbx</meshName>
+						<meshName>mon_golemmini_body.fbx</meshName>
 						<materialName></materialName>
-						<initAnimName>PpakMonster_Idle.pganim</initAnimName>
+						<initAnimName>mon_golemmini_body_Attack_3.pganim</initAnimName>
 					</data>
 				</component>
-				<component>
+				<!--<component>
 					<type>class Pg::Data::CapsuleCollider</type>
 					<data>
 						<trigger>false</trigger>
@@ -182,23 +182,23 @@
 						<radius>2.000000</radius>
 						<halfHeight>2.000000</halfHeight>
 					</data>
-				</component>
-				<component>
+				</component>-->
+				<!--<component>
 					<type>class Pg::Data::Animator</type>
 					<data>
 						<behaviorTreePath>../Resources/BehaviorTrees/Monster/Golem.xml</behaviorTreePath>
 						<isUniform>false</isUniform>
 						<isCulled>false</isCulled>
 					</data>
-				</component>
-				<component>
+				</component>-->
+				<!--<component>
 					<type>class Pg::DataScript::EnemyBehaviour</type>
 					<data>
 					</data>
-				</component>
+				</component>-->
 			</components>
 		</object>
-		<object>
+		<!--<object>
 			<uuid>15B597C7069C422390F6D09E6A18D850</uuid>
 			<name>EnemySight</name>
 			<active>true</active>
@@ -254,6 +254,6 @@
 					</data>
 				</component>
 			</components>
-		</object>
+		</object>-->
 	</objects>
 </scene>

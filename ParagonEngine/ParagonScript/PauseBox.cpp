@@ -6,6 +6,8 @@
 #include "../ParagonData/ImageRenderer.h"
 #include <cassert>
 
+#include <singleton-cpp/singleton.h>
+
 namespace Pg::DataScript
 {
 	PauseBox::PauseBox(Pg::Data::GameObject* obj) :
