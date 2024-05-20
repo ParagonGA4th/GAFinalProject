@@ -6,12 +6,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_mAttack : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_gmAttack : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_mAttack(const std::string& name, const BT::NodeConfiguration& config)
+		Anim_gmAttack(const std::string& name, const BT::NodeConfiguration& config)
 			:BT::SyncActionNode(name, config) {}
-		virtual ~Anim_mAttack() = default;
+		virtual ~Anim_gmAttack() = default;
 
 		virtual BT::NodeStatus tick() override;
 

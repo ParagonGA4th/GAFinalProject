@@ -59,9 +59,9 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::isHitSpace>("isHitSpace");
 		
 		_factory->registerNodeType<Node::Anim_Rush>("Anim_Rush");
-		//_factory->registerNodeType<Node::Anim_LeftArmAttack>("Anim_LeftArmAttack");
-		//_factory->registerNodeType<Node::Anim_TwoArmAttack>("Anim_TwoArmAttack");
-		//_factory->registerNodeType<Node::Hold_AttackAnim>("Hold_AttackAnim");
+		_factory->registerNodeType<Node::Anim_gmAttack>("Anim_mAttack");
+		_factory->registerNodeType<Node::Anim_gbArmAttack>("Anim_gbArmAttack");
+		_factory->registerNodeType<Node::Anim_gbSpinAttack>("Anim_gbSpinAttack");
 
 #pragma endregion ACTUAL_NODE_REGISTRATION
 
