@@ -1,4 +1,4 @@
-#include "Hold_Anim.h"
+#include "Hold_DefaultAnim.h"
 
 #include "../ParagonData/BtNodes/BTHelper.h"
 
@@ -10,35 +10,31 @@
 
 namespace Pg::Data::BTree::Node
 {
-	Hold_Anim::Hold_Anim(const std::string& name, const BT::NodeConfiguration& config)
+	Hold_DefaultAnim::Hold_DefaultAnim(const std::string& name, const BT::NodeConfiguration& config)
 		: BT::SyncActionNode(name, config)
 	{
 		auto& tdelta = singleton<Pg::Util::Time::TimeSystem>();
 		_deltaTime = &tdelta;
 	}
 
-	void Hold_Anim::InitCustom()
+	void Hold_DefaultAnim::InitCustom()
 	{
 		config().blackboard->set<bool>("ISCHANGE", false);
 		config().blackboard->set<float>("HOLDTIME", 0.f);
 		config().blackboard->set<std::string>("CURRENTANIM", "Idle");
 	}
 
-	BT::NodeStatus Hold_Anim::tick()
+	BT::NodeStatus Hold_DefaultAnim::tick()
 	{
+		// 대기 시간
 		auto holdTime = getInput<float>("_holdTime");
-		_value = holdTime.value();
+		float _value = holdTime.value();
 
-		PG_TRACE(_value);
-
-		bool isChange = config().blackboard->get<bool>("ISCHANGE");
-		std::string currentAnim = config().blackboard->get<std::string>("CURRENTANIM");
+		bool isChange = config().blackboard->get<bool>("ISCHANGE");	// 애니매이션이 바뀌었는지
+		std::string currentAnim = config().blackboard->get<std::string>("CURRENTANIM");	// 거쳐온 애니매이션 노드가 무엇인지
 
 		if (isChange && currentAnim.find("Idle") != std::string::npos)
-		{
-			PG_TRACE("Now Anim Is Walk");
 			return BT::NodeStatus::FAILURE;
-		}
 
 		if (_value >= 1.0f)
 		{
@@ -46,10 +42,7 @@ namespace Pg::Data::BTree::Node
 			setOutput<float>("_holdTime", _value);
 			
 			if (isChange && currentAnim.find("Walk") != std::string::npos)
-			{
-				PG_TRACE("Now Anim Is Idle");
 				config().blackboard->set<bool>("ISCHANGE", false);
-			}
 
 			return BT::NodeStatus::FAILURE;
 		}
