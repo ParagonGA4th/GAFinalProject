@@ -1,6 +1,5 @@
 #include "Anim_Idle.h"
 #include "SkinnedMeshRenderer.h"
-#include "../ParagonUtil/Log.h"
 
 namespace Pg::Data::BTree::Node
 {

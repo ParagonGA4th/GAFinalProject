@@ -4,8 +4,7 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus isHitSpace::tick()
 	{
-
-		return BT::NodeStatus::FAILURE;
+		return BT::NodeStatus::SUCCESS;
 	}
 }
 

@@ -2,11 +2,8 @@
 #include "Transform.h"
 #include "../ParagonData/BaseRenderer.h"
 #include "../ParagonData/RendererChangeList.h"
-#include <vector>
 #include <unordered_map>
-#include <string>
 #include <cassert>
-#include <singleton-cpp/singleton.h>
 
 /// <summary>
 /// 게임오브젝트 클래스. 

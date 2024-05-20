@@ -1,9 +1,8 @@
 #pragma once
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
-#include <string>
 
-#include "../ParagonData/BtNodes/BasePgBtNode.h"
+#include "BtNodes/BasePgBtNode.h"
 
 namespace Pg::Data::BTree::Node
 {

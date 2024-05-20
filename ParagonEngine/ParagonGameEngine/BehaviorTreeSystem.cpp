@@ -52,15 +52,16 @@ namespace Pg::Engine::BTree
 		using namespace Pg::Data::BTree;
 		_factory->registerNodeType<Node::Anim_Idle>("Anim_Idle");
 		_factory->registerNodeType<Node::Anim_Walk>("Anim_Walk");
-		_factory->registerNodeType<Node::Hold_DefaultAnim>("Hold_DefaultAnim");
+		_factory->registerNodeType<Node::Anim_Chase>("Anim_Chase");
+		_factory->registerNodeType<Node::Anim_Delay>("Hold_DefaultAnim");
 
 		_factory->registerNodeType<Node::isPlayerInSight>("isPlayerInSight");
 		_factory->registerNodeType<Node::isHitSpace>("isHitSpace");
 		
-		_factory->registerNodeType<Node::Anim_RightArmAttack>("Anim_RightArmAttack");
-		_factory->registerNodeType<Node::Anim_LeftArmAttack>("Anim_LeftArmAttack");
-		_factory->registerNodeType<Node::Anim_TwoArmAttack>("Anim_TwoArmAttack");
-		_factory->registerNodeType<Node::Hold_AttackAnim>("Hold_AttackAnim");
+		_factory->registerNodeType<Node::Anim_Rush>("Anim_Rush");
+		//_factory->registerNodeType<Node::Anim_LeftArmAttack>("Anim_LeftArmAttack");
+		//_factory->registerNodeType<Node::Anim_TwoArmAttack>("Anim_TwoArmAttack");
+		//_factory->registerNodeType<Node::Hold_AttackAnim>("Hold_AttackAnim");
 
 #pragma endregion ACTUAL_NODE_REGISTRATION
 
