@@ -1,11 +1,11 @@
-#include "Anim_Walk.h"
+#include "Anim_Chase.h"
 #include "SkinnedMeshRenderer.h"
 
 #include "../ParagonUtil/Log.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus Anim_Walk::tick()
+	BT::NodeStatus Anim_Chase::tick()
 	{
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
