@@ -9,25 +9,22 @@ namespace Pg::Util::Time { class TimeSystem; }
 
 namespace Pg::Data::BTree::Node
 {
-	class Hold_IdleAnim : public BT::SyncActionNode, public BasePgBtNode
-	{
-	public:
-		Hold_IdleAnim(const std::string& name, const BT::NodeConfiguration& config);
-		virtual ~Hold_IdleAnim() = default;
+    class Hold_IdleAnim : public BT::SyncActionNode, public BasePgBtNode
+    {
+    public:
+        Hold_IdleAnim(const std::string& name, const BT::NodeConfiguration& config);
+        virtual ~Hold_IdleAnim() = default;
 
-		// 무조건 해당 Function을 오버라이드 해야 한다.
-		virtual BT::NodeStatus tick() override;
+        virtual BT::NodeStatus tick() override;
 
-		//Port가 있는 Node는 무조건 해당 정적 메서드가 구현되어 있어야 한다.
-		//Port 없으면 그냥 {} 반환하는게 Good Practice.
-		static BT::PortsList providedPorts()
-		{
-			return {};
-		}
+        static BT::PortsList providedPorts()
+        {
+            return {};
+        }
 
-	private:
-		Pg::Util::Time::TimeSystem* _deltaTime;
-		float _value;
-		bool _isReturn;
-	};
+    private:
+        Pg::Util::Time::TimeSystem* _deltaTime;
+        float _value;
+        bool _isReturn;
+    };
 }
