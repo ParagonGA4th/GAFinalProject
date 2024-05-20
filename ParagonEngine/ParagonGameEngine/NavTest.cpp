@@ -2,6 +2,7 @@
 #include "Navigation.h"
 #include "DebugSystem.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/DebugData.h"
 #include "../ParagonUtil/Log.h"
 
 #include <singleton-cpp/singleton.h>
@@ -24,7 +25,7 @@ namespace Pg::Engine
 
 		_navSystem->SetAgent(0, 2.f, 45.f, 2.f, 0.9f);
 
-		Move({_object->_transform._position.x, 0.f, _object->_transform._position.z }, { -10.0f, 0.0f, -10.0f });
+		Move({_object->_transform._position.x, 0.f, _object->_transform._position.z }, { 0.0f, 0.0f, -10.0f });
 
 		//_navSystem->SyncAgent(0, _object->_transform._position);
 	}
