@@ -2,9 +2,9 @@
 
 #include "../../../Libraries/System_QuadLayouts.hlsli"
 #include "../../../../Appends/Libraries/SamplerStates/Appends_SamplerStates.hlsli"
-#include "../../../../Appends/Libraries/SceneInfo/Appends_SceneInfoPS.hlsli"
+#include "../../../../Appends/Libraries/SceneInfo/Appends_SceneInfoVSPS.hlsli"
 #include "../../../../Appends/Libraries/TextureBuffers/Appends_GBufferTextures.hlsli"
-#include "../../../../Appends/Libraries/SceneInfo/Appends_SceneInfoPS.hlsli"
+#include "../../../../Appends/Libraries/SceneInfo/Appends_SceneInfoVSPS.hlsli"
 
 Texture2D<float4> QuadRTV : register(t5);
 

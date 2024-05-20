@@ -30,7 +30,7 @@ namespace Pg::Graphics
 
 		//현재 제어.
 		bool _isVignetteOn{ false };
-		bool _isBloomOn{ true };
+		bool _isBloomOn{ false };
 		bool _isLutOn{ false };
 		bool _isMotionBlurOn{ false };
 	};

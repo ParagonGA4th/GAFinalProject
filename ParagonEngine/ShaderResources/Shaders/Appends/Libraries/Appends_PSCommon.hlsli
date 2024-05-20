@@ -10,6 +10,7 @@
 #include "TextureBuffers/Appends_GBufferTextures.hlsli"
 #include "TextureBuffers/Appends_PBRBufferTextures.hlsli"
 #include "TextureBuffers/Appends_InstancedValues.hlsli"
+#include "MathFunctions/Appends_ShadowFunctions.hlsli"
 
 //Required
 #include "Required/Appends_ObjMat.hlsli"

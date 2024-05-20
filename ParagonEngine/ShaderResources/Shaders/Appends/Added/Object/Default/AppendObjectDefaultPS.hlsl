@@ -3,8 +3,9 @@
 
 //Append Shader에 쓰일 셰이더 Commons
 #include "../../../Libraries/Appends_PSCommon.hlsli"
-#include "../../../Libraries/SceneInfo/Appends_SceneInfoPS.hlsli"
+#include "../../../Libraries/SceneInfo/Appends_SceneInfoVSPS.hlsli"
 #include "../../../Libraries/MathFunctions/Appends_MathFunctions.hlsli"
+#include "../../../Libraries/MathFunctions/Appends_ShadowFunctions.hlsli"
 
 float4 DefaultLightingOperation(float2 quadUV)
 {
@@ -138,10 +139,17 @@ POutQuad main(VOutQuad pin)
         float4 albedo = float4(sRGB2Lin(GetAlbedoMap(pin.UV)), 1.0f);
         //Color Correction해서 기록.
         res.Output = albedo * lightColor;
-        return res;
+    }
+    else
+    {
+         //라이트맵을 안 쓰는 경우
+        res.Output = DefaultLightingOperation(pin.UV);
     }
     
-    //라이트맵을 안 쓰는 경우
-    res.Output = DefaultLightingOperation(pin.UV);
+   
+   //shadow = ShadowCalculation(GetPosition(pin.UV), GetNormal(pin.UV), )
+   //if (0.9f < shadow)
+   //{
+    
     return res;
 }

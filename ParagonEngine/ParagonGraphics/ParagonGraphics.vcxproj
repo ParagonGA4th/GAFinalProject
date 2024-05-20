@@ -393,13 +393,17 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\ShadowMapping_PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\Shadow_RecordLightDepth_PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\ShadowMapping_VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\Shadow_RecordLightDepth_VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\TempForward\TempForwardPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -418,15 +422,17 @@
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Appends_PSCommon.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Appends_VSCommon.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_MathFunctions.hlsli" />
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_ShadowFunctions.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_BufferSRVRegisters.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_ObjMat.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\SamplerStates\Appends_SamplerStates.hlsli" />
-    <None Include="..\ShaderResources\Shaders\Appends\Libraries\SceneInfo\Appends_SceneInfoPS.hlsli" />
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\SceneInfo\Appends_SceneInfoVSPS.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_GBufferTextures.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_InstancedValues.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_PBRBufferTextures.hlsli" />
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_1stLayouts.hlsli" />
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjectBuffers.hlsli" />
+    <None Include="..\ShaderResources\Shaders\System\Libraries\System_PostProcessingResources.hlsli" />
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_QuadLayouts.hlsli" />
   </ItemGroup>
   <ItemGroup>

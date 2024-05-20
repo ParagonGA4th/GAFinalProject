@@ -278,7 +278,7 @@ namespace Pg::Graphics
 	void LowDX11Logic::CreateAndSetViewports()
 	{
 		// Viewport 구조체 생성
-		CD3D11_VIEWPORT viewport(
+		CD3D11_VIEWPORT defaultViewport(
 			0.0f,
 			0.0f,
 			static_cast<float>(_DXStorage->_screenWidth),
@@ -286,7 +286,7 @@ namespace Pg::Graphics
 		);
 
 		// Viewport 지정
-		_DXStorage->_deviceContext->RSSetViewports(1, &viewport);
+		_DXStorage->_deviceContext->RSSetViewports(1, &defaultViewport);
 	}
 
 	void LowDX11Logic::Present()

@@ -90,10 +90,10 @@ namespace Pg::Graphics
 		RenderFirstInstancedPass(renderObjectList, camData);
 		RenderFirstStaticPass(renderObjectList, camData);
 		RenderFirstSkinnedPass(renderObjectList, camData);
+		RenderOpaqueShadowPass(renderObjectList, camData);
 
 		SendPBRBufferSRVs();
 		RenderOpaqueQuadPasses(renderObjectList, camData);
-		RenderOpaqueShadowPass(renderObjectList, camData);
 	}
 
 	void DeferredRenderer::ConfirmCarrierData()
@@ -184,7 +184,7 @@ namespace Pg::Graphics
 		//SamplerState defaultTextureSS : register(s2);
 		_DXStorage->_deviceContext->PSSetSamplers(2, 1, &(_DXStorage->_defaultSamplerState));
 		
-		//SamplerState blurSS : register(s3);
+		//SamplerState lutSS : register(s3);
 		_DXStorage->_deviceContext->PSSetSamplers(3, 1, &(_DXStorage->_lutSamplerState));
 	}
 
@@ -300,7 +300,6 @@ namespace Pg::Graphics
 	{
 		//Quad에 담겨 있는 상태에서, Light의 위치를 받아 실행.
 		//MainLight만을 가지고, Single-DirectionalLight PCF Shadow Mapping을 할 것.
-
 		_opaqueShadowPass->ReceiveRequiredElements(*_carrier);
 		_opaqueShadowPass->BindPass();
 		_opaqueShadowPass->RenderPass(renderObjectList, camData);
@@ -328,6 +327,9 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(20, 1, &tNullSRV);
 		_DXStorage->_deviceContext->PSSetShaderResources(21, 1, &tNullSRV);
 		_DXStorage->_deviceContext->PSSetShaderResources(22, 1, &tNullSRV);
+
+		//Shadow 관련 Depth 등록 해제.
+		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &tNullSRV);
 	}
 
 	void DeferredRenderer::InitOpaqueQuadDirectX()
@@ -466,11 +468,13 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::UnbindPreviousBoundResources()
 	{
-		//PS Constant Buffer -> SceneInfo 값 리셋.
+		//VS / PS Constant Buffer -> SceneInfo 값 리셋.
 		ID3D11Buffer* tNullBuffer = nullptr;
+		_DXStorage->_deviceContext->VSSetConstantBuffers(4, 1, &tNullBuffer);
 		_DXStorage->_deviceContext->PSSetConstantBuffers(4, 1, &tNullBuffer);
 
-		//PS Constant Buffer -> LightInfo 값 리셋.
+		//VS / PS Constant Buffer -> LightInfo 값 리셋.
+		_DXStorage->_deviceContext->VSSetConstantBuffers(5, 1, &tNullBuffer);
 		_DXStorage->_deviceContext->PSSetConstantBuffers(5, 1, &tNullBuffer);
 	}
 

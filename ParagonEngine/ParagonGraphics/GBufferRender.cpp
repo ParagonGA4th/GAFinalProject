@@ -3,9 +3,8 @@
 #include "DX11Headers.h"
 #include "LowDX11Storage.h"
 
-Pg::Graphics::GBufferRender::GBufferRender(DXGI_FORMAT BufferFormat, DXGI_FORMAT ViewFormat)
-	:_Buffer(), _RTV(), _SRV(),
-	_DXStorage(LowDX11Storage::GetInstance())
+Pg::Graphics::GBufferRender::GBufferRender(DXGI_FORMAT BufferFormat, DXGI_FORMAT ViewFormat, DirectX::XMFLOAT2 widthHeight /*= {Pg::Data::GameConstantData::WIDTH, Pg::Data::GameConstantData::HEIGHT}*/)
+	: _Buffer(), _RTV(), _SRV(), _DXStorage(LowDX11Storage::GetInstance()), _widthHeight(widthHeight)
 {
 	CreateBuffer(BufferFormat);
 	CreateRTV(ViewFormat);
@@ -20,8 +19,8 @@ Pg::Graphics::GBufferRender::~GBufferRender()
 void Pg::Graphics::GBufferRender::CreateBuffer(DXGI_FORMAT format)
 {
 	D3D11_TEXTURE2D_DESC tDesc;
-	tDesc.Width = _DXStorage->_screenWidth;
-	tDesc.Height = _DXStorage->_screenHeight;
+	tDesc.Width = _widthHeight.x;
+	tDesc.Height = _widthHeight.y;
 	tDesc.MipLevels = 0;
 	tDesc.ArraySize = 1;
 	tDesc.Format = format;
