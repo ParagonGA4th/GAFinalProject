@@ -7,7 +7,7 @@
 Texture2D<float4> QuadRTV : register(t5);
 
 static const float Threshold = 1.0; // Bloom Intensity.
-static const float BloomFactor = 1.3; // Bloom 힘 조절 이걸로
+static const float BloomFactor = 1.1; // Bloom 힘 조절 이걸로
 static const int BlurRadius = 4; // Blur Radius 조절.
 static const float BlurSigma = 2.0; // Blur 힘 조절 이걸로.
 
@@ -38,16 +38,20 @@ POutQuad main(VOutQuad pin)
     //자체를 ToGBuffer에게 전달할 의도밖에 없다. UV 변환을 두번 거칠 필요가 없다.
     float3 color = QuadRTV.Sample(fullScreenQuadSS, pin.UV).xyz;
     
-     // 이미지의 가장 밝은 부분 추출.
-    float brightness = max(color.r, max(color.g, color.b));
-    float3 bloomColor = step(Threshold, brightness) * color;
+    if (gCBuf_IsBloomOn)
+    {
+        // 이미지의 가장 밝은 부분 추출.
+        float brightness = max(color.r, max(color.g, color.b));
+        float3 bloomColor = step(Threshold, brightness) * color;
     
-    // 밝은 곳에 Gaussian Blur 적용.
-    bloomColor = gaussian_blur(pin.UV, gCBuf_ScreenWidthHeight);
-    //bloomColor = gaussian_blur(pin.UV, float2(2560, 1440));
+        // 밝은 곳에 Gaussian Blur 적용.
+        bloomColor = gaussian_blur(pin.UV, gCBuf_ScreenWidthHeight);
+        //bloomColor = gaussian_blur(pin.UV, float2(2560, 1440));
 
-    // 원래 색깔과 Blur 색깔 더해 Bloom 완성.
-    color = color + bloomColor * BloomFactor;
+        // 원래 색깔과 Blur 색깔 더해 Bloom 완성.
+        color = color + bloomColor * BloomFactor;
+    }
+    
     
     res.Output = float4(color, 1.0f);
     return res;

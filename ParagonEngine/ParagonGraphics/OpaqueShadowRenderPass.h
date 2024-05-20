@@ -41,11 +41,6 @@ namespace Pg::Graphics
 		std::unique_ptr<SystemPixelShader> _ps;
 
 	private:
-		//Scene 자체의 라이팅과 연결되기 전에, 
-		//Main Light 자체 마련.
-		DirectX::XMFLOAT3 _mainLightDir;
-
-	private:
 		LowDX11Storage* _DXStorage;
 	};
 }

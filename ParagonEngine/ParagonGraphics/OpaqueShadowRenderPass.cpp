@@ -9,8 +9,7 @@ namespace Pg::Graphics
 {
 	OpaqueShadowRenderPass::OpaqueShadowRenderPass() : _DXStorage(LowDX11Storage::GetInstance())
 	{
-		//{0.5, -1, 0.5} Normalize«— ∞Õ.
-		_mainLightDir = { 0.408248f, -0.816497f, 0.408248f };
+	
 	}
 
 	OpaqueShadowRenderPass::~OpaqueShadowRenderPass()
