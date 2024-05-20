@@ -200,7 +200,7 @@ void Pg::Engine::TestScene::Initialize()
 
 	///AI
 	Pg::Data::GameObject* tObj7_1 = tCurrentScene->AddObject("Boss");
-	tObj7_1->GetComponent<Transform>()->_position = { 0.0f, 3.0f, 0.0f };
+	tObj7_1->GetComponent<Transform>()->_position = { -8.0f, 3.0f, 8.0f };
 	tObj7_1->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
 	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_4);
