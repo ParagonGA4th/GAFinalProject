@@ -1,6 +1,7 @@
 #include "PgRecast.h"
 #include "../ParagonGameEngine/Navigation.h"
 #include <singleton-cpp/singleton.h>
+
 namespace Pg::API::Recast
 {
 	void PgRecast::Initialize()

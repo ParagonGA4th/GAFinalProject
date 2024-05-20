@@ -6,6 +6,8 @@
 #include "../ParagonUtil/Log.h"
 #include <singleton-cpp/singleton.h>
 
+#include <string>
+
 namespace Pg::Data::BTree::Node
 {
 	Hold_Anim::Hold_Anim(const std::string& name, const BT::NodeConfiguration& config)
@@ -17,8 +19,9 @@ namespace Pg::Data::BTree::Node
 
 	void Hold_Anim::InitCustom()
 	{
+		config().blackboard->set<bool>("ISCHANGE", false);
 		config().blackboard->set<float>("HOLDTIME", 0.f);
-		//config().blackboard->set<float>("REPEAT", 2.f);
+		config().blackboard->set<std::string>("CURRENTANIM", "Idle");
 	}
 
 	BT::NodeStatus Hold_Anim::tick()
@@ -26,31 +29,28 @@ namespace Pg::Data::BTree::Node
 		auto holdTime = getInput<float>("_holdTime");
 		_value = holdTime.value();
 
-		//if (_isReturn)
-		//{
-		//	if (_value <= 0.f)
-		//	{
-		//		_isReturn = false;
-		//		setOutput<float>("_holdTime", _value);
-		//		PG_TRACE("Hold_Reverse");
-		//		return BT::NodeStatus::FAILURE;
-		//	}
-		//	else
-		//	{
-		//		_value -= _deltaTime->GetDeltaTime();
-		//		setOutput<float>("_holdTime", _value);
-		//		return BT::NodeStatus::SUCCESS;
-		//	}
-
-		//}
-
 		PG_TRACE(_value);
-			
-		if (_value >= 1.5f)
+
+		bool isChange = config().blackboard->get<bool>("ISCHANGE");
+		std::string currentAnim = config().blackboard->get<std::string>("CURRENTANIM");
+
+		if (isChange && currentAnim.find("Idle") != std::string::npos)
+		{
+			PG_TRACE("Now Anim Is Walk");
+			return BT::NodeStatus::FAILURE;
+		}
+
+		if (_value >= 1.0f)
 		{
 			_value = 0.f;
-			//PG_TRACE("END_Hold");
 			setOutput<float>("_holdTime", _value);
+			
+			if (isChange && currentAnim.find("Walk") != std::string::npos)
+			{
+				PG_TRACE("Now Anim Is Idle");
+				config().blackboard->set<bool>("ISCHANGE", false);
+			}
+
 			return BT::NodeStatus::FAILURE;
 		}
 		else
