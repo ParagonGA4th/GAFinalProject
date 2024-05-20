@@ -263,16 +263,16 @@
       <Filter>2_Component\Collider\3D\StaticCollider\SphereCollider</Filter>
     </ClCompile>
     <ClCompile Include="isPlayerInSight.cpp">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\IsPlayerInSight</Filter>
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isPlayerInSight</Filter>
     </ClCompile>
     <ClCompile Include="isHitSpace.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace</Filter>
     </ClCompile>
     <ClCompile Include="Anim_Idle.cpp">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Idle</Filter>
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Idle</Filter>
     </ClCompile>
     <ClCompile Include="Anim_Walk.cpp">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Walk</Filter>
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anum_Walk</Filter>
     </ClCompile>
     <ClCompile Include="BtNodes\bt_zmq_publisher.cpp">
       <Filter>11_BtNodes\Helper</Filter>
@@ -288,6 +288,12 @@
     </ClCompile>
     <ClCompile Include="Hold_DefaultAnim.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Hold_DefaultAnim</Filter>
+    </ClCompile>
+    <ClCompile Include="Hold_AttackAnim.cpp">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Hold_AttackAnim</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_Chase.cpp">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Chase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -605,16 +611,16 @@
       <Filter>5_Enums</Filter>
     </ClInclude>
     <ClInclude Include="isPlayerInSight.h">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\IsPlayerInSight</Filter>
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isPlayerInSight</Filter>
     </ClInclude>
     <ClInclude Include="isHitSpace.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace</Filter>
     </ClInclude>
     <ClInclude Include="Anim_Idle.h">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Idle</Filter>
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Idle</Filter>
     </ClInclude>
     <ClInclude Include="Anim_Walk.h">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Walk</Filter>
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anum_Walk</Filter>
     </ClInclude>
     <ClInclude Include="BtNodes\bt_zmq_publisher.h">
       <Filter>11_BtNodes\Helper</Filter>
@@ -630,6 +636,15 @@
     </ClInclude>
     <ClInclude Include="Hold_DefaultAnim.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Hold_DefaultAnim</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterHelper.h">
+      <Filter>2_Component\1_Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Hold_AttackAnim.h">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Hold_AttackAnim</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_Chase.h">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Chase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -933,12 +948,6 @@
     <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim">
       <UniqueIdentifier>{b8dc43eb-80d0-4a9f-8368-4c77a92bf5a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace">
-      <UniqueIdentifier>{cdea045e-bf36-4c0d-8dfd-bc318b5e12cc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\IsPlayerInSight">
-      <UniqueIdentifier>{678abf3d-2bd0-4982-b16c-79cc4a818161}</UniqueIdentifier>
-    </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Golem\LeftArmAttack">
       <UniqueIdentifier>{7aaa5349-2022-44b0-8057-4c560e904901}</UniqueIdentifier>
     </Filter>
@@ -951,11 +960,23 @@
     <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Hold_DefaultAnim">
       <UniqueIdentifier>{0c5cf94d-552a-46fa-b9dd-af0ebc4b558c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Walk">
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Hold_AttackAnim">
+      <UniqueIdentifier>{7595534d-bdba-4f37-ac60-d75057f50e55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Idle">
+      <UniqueIdentifier>{b3b0291a-ec59-46f6-88c2-a2ae2668b8a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anum_Walk">
       <UniqueIdentifier>{0daee397-cac5-431b-bea4-998e158c3b11}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Idle">
-      <UniqueIdentifier>{b3b0291a-ec59-46f6-88c2-a2ae2668b8a9}</UniqueIdentifier>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isPlayerInSight">
+      <UniqueIdentifier>{678abf3d-2bd0-4982-b16c-79cc4a818161}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace">
+      <UniqueIdentifier>{cdea045e-bf36-4c0d-8dfd-bc318b5e12cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Chase">
+      <UniqueIdentifier>{cd5c4bfb-cfc5-400f-9c61-e3614a1baa38}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

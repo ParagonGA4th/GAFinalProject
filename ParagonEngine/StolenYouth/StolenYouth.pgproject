@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <proejct>
 	<scenes>
-		<scene>SampleScene</scene>
+		<scene>TitleScene</scene>
+		<scene>Stage1</scene>
 	</scenes>
 </proejct>
