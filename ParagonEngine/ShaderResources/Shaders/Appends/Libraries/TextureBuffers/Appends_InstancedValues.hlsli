@@ -28,17 +28,10 @@ struct SingleObjMatIdSet
 };
 
 //Scene 바뀔 때마다 업데이트.
-cbuffer cbLightmapCollection : register(b5)
+cbuffer cbLightmapCollection : register(b6)
 {
     SingleLightMapSet gBuf_LightMapSet[MAXIMUM_OBJECT_COUNT_PER_INSTANCING];
 };
-
-//이는 잘못 생각했다. 이미 "ObjMatTRSBuffer"에서 들어가기에, 이는 필요X.
-////Scene 바뀔 때마다 업데이트.
-//cbuffer cbObjMatIDCollection : register(b6)
-//{
-//    SingleObjMatIdSet gBuf_ObjMatIdSet[MAXIMUM_OBJECT_COUNT_PER_INSTANCING];
-//};
 
 //Scene 바뀔 때마다 업데이트.
 Texture2DArray<float4> internal_LightmapArray : register(t2);

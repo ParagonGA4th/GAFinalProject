@@ -179,6 +179,7 @@ namespace Pg::Graphics
 		//이제 개별적으로 클리어 필요할 것.
 		_DXStorage->_deviceContext->ClearRenderTargetView(_carrier->_PPSwitch1->GetRTV(), _DXStorage->_backgroundColor);
 		_DXStorage->_deviceContext->ClearRenderTargetView(_carrier->_PPSwitch2->GetRTV(), _DXStorage->_backgroundColor);
+		_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 
 		//Default Quad Vertex Shader Bind.
 		_ppSystemVertexShader->Bind();

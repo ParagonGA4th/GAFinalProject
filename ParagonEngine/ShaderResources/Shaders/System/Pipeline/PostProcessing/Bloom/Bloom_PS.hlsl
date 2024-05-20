@@ -2,11 +2,11 @@
 
 #include "../../../Libraries/System_QuadLayouts.hlsli"
 #include "../../../../Appends/Libraries/SamplerStates/Appends_SamplerStates.hlsli"
-#include "../../../../Appends/Libraries/SceneInfo/Appends_SceneInfoPS.hlsli"
+#include "../../../../Appends/Libraries/SceneInfo/Appends_SceneInfoVSPS.hlsli"
 
 Texture2D<float4> QuadRTV : register(t5);
 
-static const float Threshold = 1.0; // Bloom Intensity.
+static const float Threshold = 0.8; // Bloom Intensity.
 static const float BloomFactor = 1.1; // Bloom 힘 조절 이걸로
 static const int BlurRadius = 4; // Blur Radius 조절.
 static const float BlurSigma = 2.0; // Blur 힘 조절 이걸로.

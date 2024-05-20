@@ -67,6 +67,9 @@ namespace Pg::Defines
 	const std::wstring PRIMTIVE_VS_DIRECTORY = L"../Builds/x64/Debug/PrimitiveVS.cso";
 	const std::wstring PRIMTIVE_PS_DIRECTORY = L"../Builds/x64/Debug/PrimitivePS.cso";
 
+	const std::wstring SHADOW_RECORD_DEPTH_VS_DIRECTORY = L"../Builds/x64/Debug/Shadow_RecordLightDepth_VS.cso";
+	const std::wstring SHADOW_RECORD_DEPTH_PS_DIRECTORY = L"../Builds/x64/Debug/Shadow_RecordLightDepth_PS.cso";
+
 	const std::wstring SELECTED_OUTLINE_VS_DIRECTORY = L"../Builds/x64/Debug/SelectedOutline_VS.cso";
 	const std::wstring SELECTED_OUTLINE_BLUR_PS_DIRECTORY = L"../Builds/x64/Debug/SelectedOutline_Blur_PS.cso";
 	const std::wstring SELECTED_OUTLINE_SINGLE_COLOR_PS_DIRECTORY = L"../Builds/x64/Debug/SelectedOutline_SingleColor_PS.cso";

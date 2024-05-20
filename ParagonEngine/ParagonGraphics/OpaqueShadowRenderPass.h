@@ -5,8 +5,8 @@
 #include <memory>
 
 /// <summary>
-/// Final Render Pass : Quad에서의 값을 MainRenderTarget에 뿌려준다.
-/// 모든 렌더링을 포함해서 최종적인 렌더링 결과가 될 것.
+/// Main Light 기준 Depth 기록 + Main Light 기준 WVP 값 기록.
+/// Pixel 
 /// </summary>
 
 namespace Pg::Graphics
@@ -14,12 +14,16 @@ namespace Pg::Graphics
 	class LowDX11Storage;
 	class SystemVertexShader;
 	class SystemPixelShader;
+	class GBufferRender;
 }
 
 namespace Pg::Graphics
 {
 	class OpaqueShadowRenderPass : public IRenderSinglePass
 	{
+	public:
+		enum { SIZED_UP_SHADOW_VP_SIZE = 4096 };
+
 	public:
 		OpaqueShadowRenderPass();
 		~OpaqueShadowRenderPass();
@@ -35,10 +39,19 @@ namespace Pg::Graphics
 	private:
 		void CreateShaders();
 		void BindVertexIndexBuffer();
+		void SetHugeViewport();
+		void ResetHugeViewport();
 
 	private:
-		std::unique_ptr<SystemVertexShader> _vs;
-		std::unique_ptr<SystemPixelShader> _ps;
+		std::unique_ptr<SystemVertexShader> _lightDepthVS;
+		std::unique_ptr<SystemPixelShader> _lightDepthPS;
+
+	private:
+		std::unique_ptr<GBufferRender> _shadowDepthBuffer;
+
+	private:
+		const D3DCarrier* _storedCarrier{ nullptr };
+
 
 	private:
 		LowDX11Storage* _DXStorage;

@@ -80,6 +80,9 @@ namespace Pg::Defines
 	extern const std::wstring CUBEMAP_PS_DIRECTORY;
 	extern const std::wstring PRIMTIVE_VS_DIRECTORY;
 	extern const std::wstring PRIMTIVE_PS_DIRECTORY;
+
+	extern const std::wstring SHADOW_RECORD_DEPTH_VS_DIRECTORY;
+	extern const std::wstring SHADOW_RECORD_DEPTH_PS_DIRECTORY;
 	
 	extern const std::wstring SELECTED_OUTLINE_VS_DIRECTORY;
 	extern const std::wstring SELECTED_OUTLINE_BLUR_PS_DIRECTORY;
