@@ -259,8 +259,14 @@
     <ClCompile Include="isHitSpace.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace</Filter>
     </ClCompile>
-    <ClCompile Include="Anim_mAttack.cpp">
+    <ClCompile Include="Anim_gmAttack.cpp">
       <Filter>11_BtNodes\MonsterAnim\Golem\Anim_mAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_gbArmAttack.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_bAttack\ArmAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_gbSpinAttack.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_bAttack\SpinAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -574,8 +580,14 @@
     <ClInclude Include="isHitSpace.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace</Filter>
     </ClInclude>
-    <ClInclude Include="Anim_mAttack.h">
+    <ClInclude Include="Anim_gmAttack.h">
       <Filter>11_BtNodes\MonsterAnim\Golem\Anim_mAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_gbArmAttack.h">
+      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_bAttack\ArmAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_gbSpinAttack.h">
+      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_bAttack\SpinAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -860,6 +872,15 @@
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Golem\Anim_mAttack">
       <UniqueIdentifier>{0fd57172-b76a-4ad9-a71c-7921e6fadeb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Golem\Anim_bAttack">
+      <UniqueIdentifier>{17aab1b4-0abe-4ece-8db5-3a7001604eed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Golem\Anim_bAttack\ArmAttack">
+      <UniqueIdentifier>{afc21141-1261-4567-ba99-c333c4e84e71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Golem\Anim_bAttack\SpinAttack">
+      <UniqueIdentifier>{64b3238e-e638-442c-9b8c-25c96593f40a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

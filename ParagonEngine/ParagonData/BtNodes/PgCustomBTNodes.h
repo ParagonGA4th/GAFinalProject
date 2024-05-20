@@ -14,8 +14,8 @@
 
 // golem
 #include "../ParagonData/Anim_Rush.h"
-//#include "../ParagonData/Anim_LeftArmAttack.h"
-//#include "../ParagonData/Anim_TwoArmAttack.h"
-//#include "../ParagonData/Hold_AttackAnim.h"
+#include "../ParagonData/Anim_gmAttack.h"
+#include "../ParagonData/Anim_gbArmAttack.h"
+#include "../ParagonData/Anim_gbSpinAttack.h"
 
 

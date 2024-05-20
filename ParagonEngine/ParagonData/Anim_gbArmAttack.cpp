@@ -1,8 +1,8 @@
-#include "Anim_mAttack.h"
+#include "Anim_gbArmAttack.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus Anim_mAttack::tick()
+	BT::NodeStatus Anim_gbArmAttack::tick()
 	{
 		return BT::NodeStatus::SUCCESS;
 	}

@@ -226,7 +226,9 @@
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
-    <ClInclude Include="Anim_mAttack.h" />
+    <ClInclude Include="Anim_gmAttack.h" />
+    <ClInclude Include="Anim_gbArmAttack.h" />
+    <ClInclude Include="Anim_gbSpinAttack.h" />
     <ClInclude Include="isHitSpace.h" />
     <ClInclude Include="isPlayerInSight.h" />
     <ClInclude Include="LayerMask.h" />
@@ -337,7 +339,9 @@
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DynamicCollider.cpp" />
     <ClCompile Include="EditorCameraScript.cpp" />
-    <ClCompile Include="Anim_mAttack.cpp" />
+    <ClCompile Include="Anim_gmAttack.cpp" />
+    <ClCompile Include="Anim_gbArmAttack.cpp" />
+    <ClCompile Include="Anim_gbSpinAttack.cpp" />
     <ClCompile Include="Handle.cpp" />
     <ClCompile Include="ImageRenderer.cpp" />
     <ClCompile Include="isHitSpace.cpp" />
