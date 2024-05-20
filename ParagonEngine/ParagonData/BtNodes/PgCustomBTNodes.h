@@ -18,8 +18,7 @@
 // Monster Test
 #include "../ParagonData/Anim_Idle.h"
 #include "../ParagonData/Anim_Walk.h"
-#include "../ParagonData/Hold_IdleAnim.h"
-#include "../ParagonData/Hold_Anim.h"
+#include "../ParagonData/Hold_DefaultAnim.h"
 #include "../ParagonData/isPlayerInSight.h"
 //#include "../ParagonData/Hold_WalkAnim.h"
 //#include "../ParagonData/isHitSpace.h"

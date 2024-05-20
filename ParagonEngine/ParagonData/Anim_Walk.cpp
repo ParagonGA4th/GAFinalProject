@@ -19,12 +19,10 @@ namespace Pg::Data::BTree::Node
 			{
 				tMeshRenderer->SetAnimation("PpakMonster_Punch.pganim", true);
 				config().blackboard->set<bool>("ISCHANGE", true);
-				PG_TRACE("Walk_Set");
 				return BT::NodeStatus::SUCCESS;
 			}
 			else if (isChange && tMeshRenderer->GetAnimation() == "PpakMonster_Punch.pganim")
 			{
-				PG_TRACE("Walk_Load");
 				return BT::NodeStatus::FAILURE;
 			}
 		}
