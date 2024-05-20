@@ -4,6 +4,7 @@
 #include "../../../../Appends/Libraries/SamplerStates/Appends_SamplerStates.hlsli"
 #include "../../../../Appends/Libraries/SceneInfo/Appends_SceneInfoPS.hlsli"
 #include "../../../../Appends/Libraries/TextureBuffers/Appends_GBufferTextures.hlsli"
+#include "../../../../Appends/Libraries/SceneInfo/Appends_SceneInfoPS.hlsli"
 
 Texture2D<float4> QuadRTV : register(t5);
 
@@ -22,7 +23,7 @@ cbuffer cbLutWidthHeight : register(b0)
     float4 lutWidthHeight;
 };
 
-float3 GetLUTColor(float2 inputUV)
+float3 GetLUTColor(float2 inputUV, float4 color)
 {
   //float maxColor = COLORS - 1.0;
   //float4 col = saturate(QuadRTV.Sample(fullScreenQuadSS, inputUV));
@@ -39,9 +40,6 @@ float3 GetLUTColor(float2 inputUV)
   //             
   //return lerp(col, gradedCol, _Contribution);
     
-    //원래 값 샘플링.
-    float4 color = QuadRTV.Sample(fullScreenQuadSS, inputUV);
-
     //Saturate
     color.rgb = saturate(color.rgb);
 
@@ -72,7 +70,14 @@ float3 GetLUTColor(float2 inputUV)
 POutQuad main(VOutQuad pin)
 {
     POutQuad res;
-    res.Output = float4(GetLUTColor(pin.UV), 1.0f);
-    //res.Output = float4(QuadRTV.Sample(fullScreenQuadSS, pin.UV).xyz, 1.0f);
+    //원래 값 샘플링.
+    float4 color = float4(QuadRTV.Sample(fullScreenQuadSS, pin.UV).xyz, 1.0f);
+
+    if (gCBuf_IsLutOn)
+    {
+        color = float4(GetLUTColor(pin.UV, color), 1.0f);
+    }
+       
+    res.Output = color;
     return res;
 }

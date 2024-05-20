@@ -57,6 +57,12 @@ namespace Pg::Graphics
 		_cbSceneInfo->GetDataStruct()->gCBuf_ScreenWidthHeight = { (float)Pg::Data::GameConstantData::WIDTH, (float)Pg::Data::GameConstantData::HEIGHT };
 		_cbSceneInfo->GetDataStruct()->gCBuf_EyePosition = PG2XM_FLOAT3(_savedCamData->_position);
 		_cbSceneInfo->GetDataStruct()->gCBuf_IsSceneUseLightmap = _savedSceneInfo->_isUseLightmap;
+
+		_cbSceneInfo->GetDataStruct()->gCBuf_isVignetteOn = _savedSceneInfo->_isVignetteOn;
+		_cbSceneInfo->GetDataStruct()->gCBuf_isBloomOn = _savedSceneInfo->_isBloomOn;
+		_cbSceneInfo->GetDataStruct()->gCBuf_isLutOn = _savedSceneInfo->_isLutOn;
+		_cbSceneInfo->GetDataStruct()->gCBuf_isMotionBlurOn = _savedSceneInfo->_isMotionBlurOn;
+
 		//업데이트.
 		_cbSceneInfo->Update();
 		//SceneInfo Constant Buffer Bind -> 나중에 CBCarrier뭐 이런 클래스 있어야 할 것이다.
