@@ -9,11 +9,11 @@ namespace Pg::Util::Time { class TimeSystem; }
 
 namespace Pg::Data::BTree::Node
 {
-	class Hold_Anim : public BT::SyncActionNode, public BasePgBtNode
+	class Hold_DefaultAnim : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Hold_Anim(const std::string& name, const BT::NodeConfiguration& config);
-		virtual ~Hold_Anim() = default;
+		Hold_DefaultAnim(const std::string& name, const BT::NodeConfiguration& config);
+		virtual ~Hold_DefaultAnim() = default;
 
 		virtual void InitCustom();
 
@@ -33,7 +33,5 @@ namespace Pg::Data::BTree::Node
 
 	private:
 		Pg::Util::Time::TimeSystem* _deltaTime;
-		float _value;
-		bool _isReturn;
 	};
 }
