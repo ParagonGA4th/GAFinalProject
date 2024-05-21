@@ -464,13 +464,13 @@ namespace Pg::Engine::Physic
 			{
 				Pg::Data::StaticBoxCollider* staticBoxcol = dynamic_cast<Pg::Data::StaticBoxCollider*>(collider);
 
-				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(staticBoxcol->GetWidth() / 2,
-					staticBoxcol->GetHeight() / 2, staticBoxcol->GetDepth() / 2), *_material);
+				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(staticBoxcol->GetWidth() / 2.0f,
+					staticBoxcol->GetHeight() / 2.0f, staticBoxcol->GetDepth() / 2.0f), *_material);
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
 
-				trans.q = physx::PxQuat(quat.x / 2, quat.y / 2, quat.z / 2, quat.w);
+				trans.q = physx::PxQuat(quat.x / 2.0f, quat.y / 2.0f, quat.z / 2.0f, quat.w);
 
 				// 회전 오프셋을 z축으로 90도 회전시킴
 				//physx::PxQuat rotation90(physx::PxPi / 2.0f, physx::PxVec3(0.0f, 0.0f, 1.0f));
@@ -641,8 +641,8 @@ namespace Pg::Engine::Physic
 			{
 				Pg::Data::BoxCollider* boxcol = dynamic_cast<Pg::Data::BoxCollider*>(collider);
 
-				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(boxcol->GetWidth() / 2,
-					boxcol->GetHeight() / 2, boxcol->GetDepth() / 2), *_material);
+				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(boxcol->GetWidth() / 2.0f,
+					boxcol->GetHeight() / 2.0f, boxcol->GetDepth() / 2.0f), *_material);
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
@@ -871,7 +871,7 @@ namespace Pg::Engine::Physic
 				///PxPlane이 잘 안되는 것 같아 일단 박스처럼 생성.
 				///추후에 PxPlane으로 출력할 예정.
 				Pg::Data::PlaneCollider* planeCol = dynamic_cast<Pg::Data::PlaneCollider*>(collider);
-				physx::PxShape* shape = _physics->createShape(physx::PxBoxGeometry(planeCol->GetWidth() / 2, 0.1f, planeCol->GetDepth() / 2), *_material);
+				physx::PxShape* shape = _physics->createShape(physx::PxBoxGeometry(planeCol->GetWidth() / 2.0f, 0.1f, planeCol->GetDepth() / 2.0f), *_material);
 				Pg::Math::PGFLOAT3 normal = planeCol->GetNormalVector();
 				physx::PxTransform normalTm(physx::PxVec3(normal.x, normal.y, normal.z));
 				//physx::PxPlane plane = { normal.x, normal.y, normal.z, planeCol->GetDistance() };
