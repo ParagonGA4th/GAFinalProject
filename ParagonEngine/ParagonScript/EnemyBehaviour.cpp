@@ -2,6 +2,7 @@
 #include "EnemySight.h"
 #include "PlayerBattleBehavior.h"
 #include "BaseMonster.h"
+#include "../ParagonData/MonsterHelper.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
@@ -12,6 +13,7 @@
 #include "../ParagonData/Scene.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonUtil/CheckInBox.h"
+
 namespace Pg::DataScript
 {
 	EnemyBehaviour::EnemyBehaviour(Pg::Data::GameObject* obj) :
@@ -38,7 +40,6 @@ namespace Pg::DataScript
 			//_collider->FreezeLinearZ(true);
 
 			//Debouncer.
-			_alreadyCalledBPU = true;
 		}
 	}
 
@@ -51,8 +52,10 @@ namespace Pg::DataScript
 	void EnemyBehaviour::Start()
 	{
 		auto objName = _object->GetScene()->FindObjectWithName("EnemySight");
-		//_object->GetComponent<Pg::Data::Transform>()->AddChild(objName);
-		
+		if(objName == nullptr) _object->GetComponent<Pg::Data::Transform>()->AddChild(objName);
+
+		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
+
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			Pg::Data::StaticBoxCollider* staticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
@@ -73,45 +76,12 @@ namespace Pg::DataScript
 		{
 			if (it->_playerDetected == true)
 			{
-				_colVecActive = false;
-				//it->_playerDetected = false;
-
+				_monsterHelper->_isPlayerDetected = true;
 			}
 			else
 			{
-				_colVecActive = true;
+				_monsterHelper->_isPlayerDetected = false;
 			}
-		}
-
-		if (_colVecActive == false && !_isAnimStart && _isFirstStart)
-		{
-			for (auto& iter : colVec)
-			{
-				//iter->SetActive(false);
-				
-			}
-
-			_renderer->SetAnimation("PpakMonster_Punch.pganim", true);
-			//PG_TRACE("공격 애니메이션");
-
-			_isFirstStart = false;
-			_isAnimStart = true;
-		}
-		else if(_colVecActive)
-		{
-			for (auto& iter : colVec)
-			{
-				iter->SetActive(true);
-			}
-
-			if (_isFirstStart)
-			{
-				_renderer->SetAnimation("PpakMonster_Idle.pganim", true);
-				_isFirstStart = false; // 한 번 호출되었으므로 플래그를 false로 설정합니다.
-			}
-
-			//PG_TRACE("기본 애니메이션");
-			_isAnimStart = false;
 		}
 	}
 }

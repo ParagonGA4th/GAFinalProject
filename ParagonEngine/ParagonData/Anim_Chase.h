@@ -1,19 +1,17 @@
 #pragma once
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
-#include <chrono>
-#include "../BasePgBtNode.h"
-#include "../ParagonMath/PgMath.h"
+
+#include "BtNodes/BasePgBtNode.h"
 
 namespace Pg::Data::BTree::Node
 {
-	class Test_CSync_AddBumpCount : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_Chase : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		//BehaviorTree 필수 요구 사항.
-		Test_CSync_AddBumpCount(const std::string& name, const BT::NodeConfiguration& config) :
+		Anim_Chase(const std::string& name, const BT::NodeConfiguration& config) :
 			BT::SyncActionNode(name, config) {}
-		virtual ~Test_CSync_AddBumpCount() = default;
+		virtual ~Anim_Chase() = default;
 
 		// 무조건 해당 Function을 오버라이드 해야 한다.
 		virtual BT::NodeStatus tick() override;
@@ -22,11 +20,7 @@ namespace Pg::Data::BTree::Node
 		//Port 없으면 그냥 {} 반환하는게 Good Practice.
 		static BT::PortsList providedPorts()
 		{
-			BT::PortsList tRet;
-			tRet.insert(BT::BidirectionalPort<int>("_jumpCount"));
-			return tRet;
+			return {};
 		}
 	};
 }
-
-

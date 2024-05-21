@@ -1,30 +1,19 @@
-#include "Hold_DefaultAnim.h"
-
-#include "../ParagonData/BtNodes/BTHelper.h"
-
+#include "Anim_Delay.h"
 #include "../ParagonUtil/TimeSystem.h"
-#include "../ParagonUtil/Log.h"
 #include <singleton-cpp/singleton.h>
-
-#include <string>
 
 namespace Pg::Data::BTree::Node
 {
-	Hold_DefaultAnim::Hold_DefaultAnim(const std::string& name, const BT::NodeConfiguration& config)
-		: BT::SyncActionNode(name, config)
+	void Anim_Delay::InitCustom()
 	{
-		auto& tdelta = singleton<Pg::Util::Time::TimeSystem>();
-		_deltaTime = &tdelta;
-	}
+		_deltaTime = &singleton<Pg::Util::Time::TimeSystem>();
 
-	void Hold_DefaultAnim::InitCustom()
-	{
 		config().blackboard->set<bool>("ISCHANGE", false);
 		config().blackboard->set<float>("HOLDTIME", 0.f);
-		config().blackboard->set<std::string>("CURRENTANIM", "Idle");
+		config().blackboard->set<std::string>("CURRENTANIM", "_00001");
 	}
 
-	BT::NodeStatus Hold_DefaultAnim::tick()
+	BT::NodeStatus Anim_Delay::tick()
 	{
 		// 대기 시간
 		auto holdTime = getInput<float>("_holdTime");
@@ -34,7 +23,9 @@ namespace Pg::Data::BTree::Node
 		std::string currentAnim = config().blackboard->get<std::string>("CURRENTANIM");	// 거쳐온 애니매이션 노드가 무엇인지
 
 		if (isChange && currentAnim.find("Idle") != std::string::npos)
+		{
 			return BT::NodeStatus::FAILURE;
+		}
 
 		if (_value >= 1.0f)
 		{
@@ -42,7 +33,9 @@ namespace Pg::Data::BTree::Node
 			setOutput<float>("_holdTime", _value);
 			
 			if (isChange && currentAnim.find("Walk") != std::string::npos)
+			{
 				config().blackboard->set<bool>("ISCHANGE", false);
+			}
 
 			return BT::NodeStatus::FAILURE;
 		}

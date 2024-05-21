@@ -6,13 +6,13 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class isHitSpace : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_gbSpinAttack : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		isHitSpace(const std::string& name, const BT::NodeConfiguration& config)
-			:BT::SyncActionNode(name, config) {}
-		virtual ~isHitSpace() = default;
-
+		Anim_gbSpinAttack(const std::string& name, const BT::NodeConfiguration& config)
+			: BT::SyncActionNode(name, config) {}
+		virtual ~Anim_gbSpinAttack() = default;
+		
 		virtual BT::NodeStatus tick() override;
 
 		static BT::PortsList providedPorts()
@@ -21,5 +21,3 @@ namespace Pg::Data::BTree::Node
 		}
 	};
 }
-
-

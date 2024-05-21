@@ -22,11 +22,11 @@
     <ClCompile Include="PgScene.cpp">
       <Filter>7_PgScene</Filter>
     </ClCompile>
-    <ClCompile Include="PgInput.cpp">
-      <Filter>1_PgInput</Filter>
-    </ClCompile>
     <ClCompile Include="PgRecast.cpp">
       <Filter>8_PgRecast</Filter>
+    </ClCompile>
+    <ClCompile Include="PgInput.cpp">
+      <Filter>1_PgInput</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -50,22 +50,18 @@ namespace Pg::Engine::BTree
 #pragma region ACTUAL_NODE_REGISTRATION
 
 		using namespace Pg::Data::BTree;
-		//CCond
-		_factory->registerNodeType<Node::Test_CCond_CheckInBound>("Test_CCond_CheckInBound");
-
-		//CSync
-		_factory->registerNodeType<Node::Test_CSync_AddBumpCount>("Test_CSync_AddBumpCount");
-		_factory->registerNodeType<Node::Test_CSync_ChooseNewDir>("Test_CSync_ChooseNewDir");
-		_factory->registerNodeType<Node::Test_CSync_JumpAtBumpLimit>("Test_CSync_JumpAtBumpLimit");
-		_factory->registerNodeType<Node::Test_CSync_MoveToNewDir>("Test_CSync_MoveToNewDir");
-		_factory->registerNodeType<Node::Test_CSync_RecordCurrentPos>("Test_CSync_RecordCurrentPos");
-		_factory->registerNodeType<Node::Test_CSync_ReturnToCenter>("Test_CSync_ReturnToCenter");
-
 		_factory->registerNodeType<Node::Anim_Idle>("Anim_Idle");
 		_factory->registerNodeType<Node::Anim_Walk>("Anim_Walk");
-		_factory->registerNodeType<Node::Hold_DefaultAnim>("Hold_DefaultAnim");
+		_factory->registerNodeType<Node::Anim_Chase>("Anim_Chase");
+		_factory->registerNodeType<Node::Anim_Delay>("Hold_DefaultAnim");
+
 		_factory->registerNodeType<Node::isPlayerInSight>("isPlayerInSight");
-		//_factory->registerNodeType<Node::isHitSpace>("isHitSpace");
+		_factory->registerNodeType<Node::isHitSpace>("isHitSpace");
+		
+		_factory->registerNodeType<Node::Anim_Rush>("Anim_Rush");
+		_factory->registerNodeType<Node::Anim_gmAttack>("Anim_mAttack");
+		_factory->registerNodeType<Node::Anim_gbArmAttack>("Anim_gbArmAttack");
+		_factory->registerNodeType<Node::Anim_gbSpinAttack>("Anim_gbSpinAttack");
 
 #pragma endregion ACTUAL_NODE_REGISTRATION
 
