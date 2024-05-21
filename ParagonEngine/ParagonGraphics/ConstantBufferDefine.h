@@ -51,9 +51,19 @@ namespace Pg::Graphics
 			DirectX::XMMATRIX gCBuf_ViewMatrix;
 			DirectX::XMMATRIX gCBuf_ProjMatrix;
 			DirectX::XMMATRIX gCBuf_ViewProjMatrix;
+			DirectX::XMMATRIX gCBuf_InvViewMatrix;
+
+			DirectX::XMFLOAT2 gCBuf_ScreenWidthHeight;
+			DirectX::XMFLOAT2 gCBuf_TempPadding;
 
 			DirectX::XMFLOAT3 gCBuf_EyePosition;
 			int gCBuf_IsSceneUseLightmap;
+
+			//HLSL에서의 Bool, C++에서는 int로 바인딩.
+			int gCBuf_isVignetteOn;
+			int gCBuf_isBloomOn;
+			int gCBuf_isLutOn;
+			int gCBuf_isMotionBlurOn;
 		};
 
 		struct cbRenderingInfo

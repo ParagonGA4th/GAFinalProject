@@ -7,7 +7,7 @@
 
 namespace Pg::Graphics
 {
-	FinalRenderPass::FinalRenderPass(GBufferRender* from) : _toSampleBuffer(from->GetSRV())
+	FinalRenderPass::FinalRenderPass()// : _toSampleBuffer(from->GetSRV())
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
 	}
@@ -25,7 +25,7 @@ namespace Pg::Graphics
 	void FinalRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
 {
 		//FinalQuadSRV ±â·Ï.
-		//_finalQuadSRV = carrier._quadMainRT->GetSRV();
+		_toSampleBuffer = carrier._toSendSRVToEngine;
 	}
 
 	void FinalRenderPass::BindPass()

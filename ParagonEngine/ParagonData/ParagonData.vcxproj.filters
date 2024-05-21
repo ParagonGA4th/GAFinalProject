@@ -244,29 +244,26 @@
     <ClCompile Include="Anim_Walk.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Walk</Filter>
     </ClCompile>
-    <ClCompile Include="Anim_Chase.cpp">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Chase</Filter>
-    </ClCompile>
-    <ClCompile Include="Anim_Delay.cpp">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Delay</Filter>
+    <ClCompile Include="DefaultAnim_Delay.cpp">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\DefaultAnim_Delay</Filter>
     </ClCompile>
     <ClCompile Include="isPlayerInSight.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isPlayerInSight</Filter>
     </ClCompile>
-    <ClCompile Include="Anim_Rush.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_Rush</Filter>
+    <ClCompile Include="isDistanceClose.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Golem\isDistanceClose</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_Delay.cpp">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Delay</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_Dash.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_gAttack.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_mAttack</Filter>
     </ClCompile>
     <ClCompile Include="isHitSpace.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace</Filter>
-    </ClCompile>
-    <ClCompile Include="Anim_gmAttack.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_mAttack</Filter>
-    </ClCompile>
-    <ClCompile Include="Anim_gbArmAttack.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_bAttack\ArmAttack</Filter>
-    </ClCompile>
-    <ClCompile Include="Anim_gbSpinAttack.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_bAttack\SpinAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -565,29 +562,26 @@
     <ClInclude Include="Anim_Walk.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Walk</Filter>
     </ClInclude>
-    <ClInclude Include="Anim_Chase.h">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Chase</Filter>
-    </ClInclude>
-    <ClInclude Include="Anim_Delay.h">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Delay</Filter>
+    <ClInclude Include="DefaultAnim_Delay.h">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\DefaultAnim_Delay</Filter>
     </ClInclude>
     <ClInclude Include="isPlayerInSight.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isPlayerInSight</Filter>
     </ClInclude>
-    <ClInclude Include="Anim_Rush.h">
-      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_Rush</Filter>
+    <ClInclude Include="isDistanceClose.h">
+      <Filter>11_BtNodes\MonsterAnim\Golem\isDistanceClose</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_Delay.h">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Delay</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_Dash.h">
+      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_gAttack.h">
+      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_mAttack</Filter>
     </ClInclude>
     <ClInclude Include="isHitSpace.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace</Filter>
-    </ClInclude>
-    <ClInclude Include="Anim_gmAttack.h">
-      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_mAttack</Filter>
-    </ClInclude>
-    <ClInclude Include="Anim_gbArmAttack.h">
-      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_bAttack\ArmAttack</Filter>
-    </ClInclude>
-    <ClInclude Include="Anim_gbSpinAttack.h">
-      <Filter>11_BtNodes\MonsterAnim\Golem\Anim_bAttack\SpinAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -846,32 +840,14 @@
     <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Idle">
       <UniqueIdentifier>{b3b0291a-ec59-46f6-88c2-a2ae2668b8a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isPlayerInSight">
-      <UniqueIdentifier>{678abf3d-2bd0-4982-b16c-79cc4a818161}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Chase">
-      <UniqueIdentifier>{cd5c4bfb-cfc5-400f-9c61-e3614a1baa38}</UniqueIdentifier>
-    </Filter>
     <Filter Include="11_BtNodes\BaseClass">
       <UniqueIdentifier>{ce158e48-9c1d-4152-9952-3698beffdd2e}</UniqueIdentifier>
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Walk">
       <UniqueIdentifier>{0daee397-cac5-431b-bea4-998e158c3b11}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Delay">
-      <UniqueIdentifier>{662960ac-f1ec-47a6-b5d6-6406cc486149}</UniqueIdentifier>
-    </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Golem">
       <UniqueIdentifier>{5fa8ee46-2a80-44f3-8158-0899037c55de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Golem\Anim_Rush">
-      <UniqueIdentifier>{92c7aaf5-7466-4286-b53d-effc4536fb5f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace">
-      <UniqueIdentifier>{d6b533d3-00e8-40fe-a707-bc4221433fee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Golem\Anim_mAttack">
-      <UniqueIdentifier>{0fd57172-b76a-4ad9-a71c-7921e6fadeb7}</UniqueIdentifier>
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Golem\Anim_bAttack">
       <UniqueIdentifier>{17aab1b4-0abe-4ece-8db5-3a7001604eed}</UniqueIdentifier>
@@ -881,6 +857,27 @@
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Golem\Anim_bAttack\SpinAttack">
       <UniqueIdentifier>{64b3238e-e638-442c-9b8c-25c96593f40a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isPlayerInSight">
+      <UniqueIdentifier>{d64b6686-7ce4-47f4-95ca-9679e30ef789}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\DefaultAnim_Delay">
+      <UniqueIdentifier>{662960ac-f1ec-47a6-b5d6-6406cc486149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\Anim_Delay">
+      <UniqueIdentifier>{7090b44c-4291-41cb-91dd-e249aa3a32cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Golem\isDistanceClose">
+      <UniqueIdentifier>{d0b36f89-7d46-4078-b73a-32ab6a3ba4af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Golem\Anim_Dash">
+      <UniqueIdentifier>{92c7aaf5-7466-4286-b53d-effc4536fb5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Golem\Anim_mAttack">
+      <UniqueIdentifier>{187082aa-a4ee-4eac-8661-4a028c1b0de1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace">
+      <UniqueIdentifier>{10ac1f5d-e355-4700-b293-7c11ca8f97e6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

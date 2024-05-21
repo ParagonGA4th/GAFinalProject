@@ -7,4 +7,3 @@ namespace Pg::Data::BTree::Node
 		return BT::NodeStatus::SUCCESS;
 	}
 }
-

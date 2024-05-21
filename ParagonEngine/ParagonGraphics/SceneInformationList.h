@@ -27,5 +27,11 @@ namespace Pg::Graphics
 		std::vector<Pg::Data::SpotLight*> _spotLightList;
 		std::vector<Pg::Data::PointLight*> _pointLightList;
 		bool _isUseLightmap{ false };
+
+		//현재 제어.
+		bool _isVignetteOn{ false };
+		bool _isBloomOn{ false };
+		bool _isLutOn{ false };
+		bool _isMotionBlurOn{ false };
 	};
 }
