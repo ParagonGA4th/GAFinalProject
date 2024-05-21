@@ -490,7 +490,7 @@ namespace Pg::Graphics
 			}
 			else
 			{
-				cylInfo->SetCurrentRatio(cylInfo->GetCurrentRatio() + (2.5f * _timeSystem->GetDeltaTime()));
+				cylInfo->SetCurrentRatio(cylInfo->GetCurrentRatio() + (1.5f * _timeSystem->GetDeltaTime()));
 			}
 		}
 
