@@ -13,7 +13,7 @@ namespace Pg::Data::BTree::Node
 
 			if (tMeshRenderer->GetAnimation() != animId)
 			{
-				tMeshRenderer->SetAnimation(animId, true);
+				tMeshRenderer->SetAnimation(animId, false);
 				return BT::NodeStatus::SUCCESS;
 			}
 			else
