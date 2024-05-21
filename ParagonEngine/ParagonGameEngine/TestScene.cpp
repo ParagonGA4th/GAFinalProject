@@ -37,6 +37,7 @@
 #include "RayCastTest.h"
 #include "EventTest.h"
 #include "NavTest.h"
+#include "NavTestSecond.h"
 #include "ArrowAction.h"
 #include "ScreenPointTest.h"
 #include "DemoPlayerAction.h"
@@ -165,7 +166,7 @@ void Pg::Engine::TestScene::Initialize()
 	
 	{
 		Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Player");
-		tObj7->GetComponent<Transform>()->_position = { 0.0f, 3.0f, 5.0f };
+		tObj7->GetComponent<Transform>()->_position = { -7.0f, 3.0f, 8.0f };
 		tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 		tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 		//tObj7->AddComponent<CapsuleCollider>();
@@ -179,7 +180,7 @@ void Pg::Engine::TestScene::Initialize()
 		//tObj7->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_idle.pganim";
 		tObj7->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_run.pganim";
 		tObj7->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
-		//tObj7->AddComponent<NavTest>();
+		//tObj7->AddComponent<NavTestSecond>();
 	}
 
 	//for (int i = 0; i < 30; i++)

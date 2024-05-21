@@ -328,11 +328,11 @@ namespace Pg::Engine
 
 			for (int x = 0; x < tw; ++x)
 			{
-				_package[index]._tileCache->buildNavMeshTilesAt(x, y, _package[0]._navMesh);
+				_package[index]._tileCache->buildNavMeshTilesAt(x, y, _package[index]._navMesh);
 			}
 		}
 
-		const dtNavMesh* nav = _package[0]._navMesh;
+		const dtNavMesh* nav = _package[index]._navMesh;
 		int navmeshMemUsage = 0;
 		for (int i = 0; i < nav->getMaxTiles(); ++i)
 		{

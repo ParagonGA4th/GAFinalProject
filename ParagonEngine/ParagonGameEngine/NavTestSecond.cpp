@@ -1,4 +1,4 @@
-#include "NavTest.h"
+#include "NavTestSecond.h"
 #include "Navigation.h"
 #include "DebugSystem.h"
 #include "../ParagonData/GameObject.h"
@@ -10,36 +10,36 @@
 
 namespace Pg::Engine
 {
-	NavTest::NavTest(Pg::Data::GameObject* owner) :
+	NavTestSecond::NavTestSecond(Pg::Data::GameObject* owner) :
 		Component(owner)
 	{
-		auto& tNavSystem = singleton<Pg::Engine::Navigation>(); 
+		auto& tNavSystem = singleton<Pg::Engine::Navigation>();
 		_navSystem = &tNavSystem;
 
 		auto& tDebugSystem = singleton<Pg::Engine::DebugSystem>();
 		_debugSystem = &tDebugSystem;
 	}
 
-	void NavTest::Start()
+	void NavTestSecond::Start()
 	{
 
-		_navSystem->SetAgent(0, 2.f, 45.f, 2.f, 0.9f);		
-		//_navSystem->SetAgent(2, 2.f, 45.f, 2.f, 0.9f);
+		//_navSystem->SetAgent(0, 2.f, 45.f, 2.f, 0.9f);
+		_navSystem->SetAgent(2, 2.f, 45.f, 2.f, 0.9f);
 
 		//Move2({0.f, 0.f, 0.f}, { 10.0f, 0.0f, -10.0f });
-		Move({_object->_transform._position.x, 0.f, _object->_transform._position.z }, { 0.0f, 0.0f, -10.0f });
+		Move2({ _object->_transform._position.x, 0.f, _object->_transform._position.z }, { 0.0f, 0.0f, -10.0f });
 
 		//_navSystem->SyncAgent(0, _object->_transform._position);
 	}
 
-	void NavTest::Update()
+	void NavTestSecond::Update()
 	{
 
 
 		//_navSystem->FindStraightPath(0);
 	}
 
-	void NavTest::Move(Pg::Math::PGFLOAT3 startPos, Pg::Math::PGFLOAT3 targetPos)
+	void NavTestSecond::Move(Pg::Math::PGFLOAT3 startPos, Pg::Math::PGFLOAT3 targetPos)
 	{
 		DirectX::XMVECTOR currentPosVec = Pg::Math::PG2XM_FLOAT3_VECTOR(startPos);
 		DirectX::XMVECTOR targetPosVec = Pg::Math::PG2XM_FLOAT3_VECTOR(targetPos);
@@ -72,7 +72,7 @@ namespace Pg::Engine
 
 	}
 
-	void NavTest::Move2(Pg::Math::PGFLOAT3 startPos, Pg::Math::PGFLOAT3 targetPos)
+	void NavTestSecond::Move2(Pg::Math::PGFLOAT3 startPos, Pg::Math::PGFLOAT3 targetPos)
 	{
 		DirectX::XMVECTOR currentPosVec = Pg::Math::PG2XM_FLOAT3_VECTOR(startPos);
 		DirectX::XMVECTOR targetPosVec = Pg::Math::PG2XM_FLOAT3_VECTOR(targetPos);
@@ -92,7 +92,7 @@ namespace Pg::Engine
 		//tNavCyl2->_radius = 1.0f;
 		//tNavCyl2->_height = 1.0f;
 		//_debugSystem->DrawNavCylinderDebug(tNavCyl2);
-		
+
 		_straightpath = _navSystem->FindStraightPath(2);
 
 		for (auto& path : _straightpath)
