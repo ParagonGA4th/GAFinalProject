@@ -70,6 +70,14 @@ namespace Pg::Graphics
 			std::string tObjName = tRoNode.child("ObjectName").text().get();
 			//실제 순서대로 매핑해야. -> 별도로 보관했다가 한꺼번에 옮기는 게 나을 듯!
 			std::string tMeshName = tRoNode.child("MeshName").text().get();
+
+			//만약 "MeshName" 안에 "shadow" 있으면 라이트맵 굽는 용도로 활용된 것이니 무시.
+			if (tMeshName.find("shadow") != std::string::npos || tMeshName.find("Shadow") != std::string::npos)
+			{
+				//존재한다는 얘기. 해당 내용 기록하지 않고, 다음 노드로.
+				continue; 
+			}
+
 			UINT tLightmapID = std::stoul(tRoNode.child("LightmapIndex").text().get());
 
 			pugi::xml_node tUvScaleNode = tRoNode.child("UVScale");
