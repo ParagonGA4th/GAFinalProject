@@ -160,7 +160,8 @@ void Pg::Engine::TestScene::Initialize()
 		tObj7->AddComponent<PlaneCollider>();
 		tObj7->GetComponent<PlaneCollider>();
 		tObj7->AddComponent<StaticMeshRenderer>();
-		tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale.obj");
+		//tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/TestingRecast/BattleSpace_res2.obj");
+		tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj");
 		tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	}
 	

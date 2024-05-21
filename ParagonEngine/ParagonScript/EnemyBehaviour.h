@@ -19,6 +19,10 @@ namespace Pg::API
 	{
 		class PgRayCast;
 	}
+	namespace Time
+	{
+		class PgTime;
+	}
 }
 
 /// <summary>
@@ -54,5 +58,9 @@ namespace Pg::DataScript
 		std::vector<EnemySight*> aiSightVec;
 
 		Pg::Data::SkinnedMeshRenderer* _renderer;
+
+		// 발표 시연을 위한 임시 변수들
+		Pg::API::Time::PgTime* _deltaTime;
+		float _time;
 	};
 }
