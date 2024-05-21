@@ -1,30 +1,26 @@
-#include "Anim_Idle.h"
+#include "Anim_gAttack.h"
 #include "SkinnedMeshRenderer.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus Anim_Idle::tick()
+	BT::NodeStatus Anim_gAttack::tick()
 	{
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
-			config().blackboard->set<std::string>("CURRENTANIM", "_00001");
-			bool isChange = config().blackboard->get<bool>("ISCHANGE");
 			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-			animId.append("_00001.pganim");
+			animId.append("_00004.pganim");
 
-			if (isChange || tMeshRenderer->GetAnimation() == animId)
+			if (tMeshRenderer->GetAnimation() != animId)
+			{
+				tMeshRenderer->SetAnimation(animId, true);
+				return BT::NodeStatus::SUCCESS;
+			}
+			else
 			{
 				return BT::NodeStatus::FAILURE;
 			}
-			else if(tMeshRenderer->GetAnimation() != animId)
-			{
-				tMeshRenderer->SetAnimation(animId, true);
-				config().blackboard->set<bool>("ISCHANGE", false);
-				return BT::NodeStatus::SUCCESS;
-			}
 		}
-
 		return BT::NodeStatus::SUCCESS;
 	}
 }

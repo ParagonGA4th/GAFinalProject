@@ -8,16 +8,18 @@ namespace Pg::Data::BTree::Node
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
-			config().blackboard->set<std::string>("CURRENTANIM", "Walk");
+			config().blackboard->set<std::string>("CURRENTANIM", "_00002");
 			bool isChange = config().blackboard->get<bool>("ISCHANGE");
+			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
+			animId.append("_00002.pganim");
 
-			if (!isChange && tMeshRenderer->GetAnimation() != "PpakMonster_Punch.pganim")
+			if (!isChange && tMeshRenderer->GetAnimation() != animId)
 			{
-				tMeshRenderer->SetAnimation("PpakMonster_Punch.pganim", true);
+				tMeshRenderer->SetAnimation(animId, true);
 				config().blackboard->set<bool>("ISCHANGE", true);
 				return BT::NodeStatus::SUCCESS;
 			}
-			else if (isChange && tMeshRenderer->GetAnimation() == "PpakMonster_Punch.pganim")
+			else if (isChange && tMeshRenderer->GetAnimation() == animId)
 			{
 				return BT::NodeStatus::FAILURE;
 			}
