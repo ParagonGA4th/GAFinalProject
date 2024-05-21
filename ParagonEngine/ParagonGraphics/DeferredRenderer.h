@@ -65,7 +65,7 @@ namespace Pg::Graphics
 		void InitPBRDirectX();
 		void SendPBRBufferSRVs();
 		void InitFetchIBLBuffers();
-		
+		void UnbindPreviousBoundResources();
 	private:
 		void Render(RenderObject3DList* renderObjectList, SceneInformationList* sceneInfoList, Pg::Data::CameraData* camData);
 		void RenderFirstInstancedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);

@@ -4,10 +4,6 @@
 #include <vector>
 #include <memory>
 
-/// <summary>
-/// Main Light 기준 Depth 기록 + Main Light 기준 WVP 값 기록.
-/// Pixel 
-/// </summary>
 
 namespace Pg::Graphics
 {
@@ -19,14 +15,11 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class OpaqueShadowRenderPass : public IRenderSinglePass
+	class VignetteRenderPass : public IRenderSinglePass
 	{
 	public:
-		enum { SIZED_UP_SHADOW_VP_SIZE = 4096 };
-
-	public:
-		OpaqueShadowRenderPass();
-		~OpaqueShadowRenderPass();
+		VignetteRenderPass(GBufferRender* from, GBufferRender* to);
+		~VignetteRenderPass();
 
 		virtual void Initialize() override;
 		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;
@@ -39,21 +32,20 @@ namespace Pg::Graphics
 	private:
 		void CreateShaders();
 		void BindVertexIndexBuffer();
-		void SetHugeViewport();
-		void ResetHugeViewport();
 
 	private:
-		std::unique_ptr<SystemVertexShader> _lightDepthVS;
-		std::unique_ptr<SystemPixelShader> _lightDepthPS;
-
-	private:
-		std::unique_ptr<GBufferRender> _shadowDepthBuffer;
-
-	private:
-		const D3DCarrier* _storedCarrier{ nullptr };
-
+		std::unique_ptr<SystemVertexShader> _vs;
+		std::unique_ptr<SystemPixelShader> _ps;
 
 	private:
 		LowDX11Storage* _DXStorage;
+
+	private:
+		const D3DCarrier* _tempStoreCarrier{ nullptr };
+
+		GBufferRender* _postProcessingFrom{ nullptr };
+		GBufferRender* _postProcessingTo{ nullptr };
 	};
 }
+
+

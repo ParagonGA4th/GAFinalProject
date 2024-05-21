@@ -1,4 +1,6 @@
 #pragma once
+#include "../ParagonData/GameConstantData.h"
+#include <DirectXMath.h>
 
 class ID3D11Texture2D;
 class ID3D11RenderTargetView;
@@ -17,7 +19,8 @@ namespace Pg::Graphics
 	class GBufferRender
 	{
 	public:
-		GBufferRender(DXGI_FORMAT BufferFormat, DXGI_FORMAT ViewFormat);
+		GBufferRender(DXGI_FORMAT BufferFormat, DXGI_FORMAT ViewFormat, 
+			DirectX::XMFLOAT2 widthHeight = {Pg::Data::GameConstantData::WIDTH, Pg::Data::GameConstantData::HEIGHT});
 		~GBufferRender();
 	public:
 		ID3D11RenderTargetView*& GetRTV();
@@ -33,6 +36,7 @@ namespace Pg::Graphics
 		ID3D11Texture2D* _Buffer;
 		ID3D11RenderTargetView* _RTV;
 		ID3D11ShaderResourceView* _SRV;
+		DirectX::XMFLOAT2 _widthHeight;
 
 	private:
 		LowDX11Storage* _DXStorage;

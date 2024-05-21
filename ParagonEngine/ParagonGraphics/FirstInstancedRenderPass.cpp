@@ -127,7 +127,7 @@ namespace Pg::Graphics
 			_lightmapCBuffer->Update();
 
 			//이제 PS CB Bind과정.
-			_lightmapCBuffer->BindPS(5);
+			_lightmapCBuffer->BindPS(6);
 
 			//Vertex / Index Buffer Setting.
 			//1st :  Vin1stStatic_Individual
@@ -158,7 +158,7 @@ namespace Pg::Graphics
 					bModel->_assetSceneData->_meshList[i]._vertexOffset, 0);
 			}
 
-			_lightmapCBuffer->UnbindPS(5);
+			_lightmapCBuffer->UnbindPS(6);
 
 			ID3D11ShaderResourceView* tNullSRV = nullptr;
 			// Albedo
@@ -203,7 +203,7 @@ namespace Pg::Graphics
 			_lightmapCBuffer->Update();
 
 			//이제 PS CB Bind과정.
-			_lightmapCBuffer->BindPS(5);
+			_lightmapCBuffer->BindPS(6);
 
 			//Vertex / Index Buffer Setting.
 			//1st :  Vin1stStatic_Individual
@@ -234,7 +234,7 @@ namespace Pg::Graphics
 					bModel->_assetSceneData->_meshList[i]._vertexOffset, 0);
 			}
 
-			_lightmapCBuffer->UnbindPS(5);
+			_lightmapCBuffer->UnbindPS(6);
 
 			ID3D11ShaderResourceView* tNullSRV = nullptr;
 			// Albedo

@@ -31,7 +31,7 @@ POutQuad main(VOutQuad pin)
     float4 horizontalBlur = 0;
     for (int i = -blurRadius; i <= blurRadius; ++i)
     {
-        horizontalBlur += OutlineGBufferSRV.Sample(blurSS, pin.UV + float2(i, 0) * texelSize);
+        horizontalBlur += OutlineGBufferSRV.Sample(fullScreenQuadSS, pin.UV + float2(i, 0) * texelSize);
     }
     horizontalBlur /= (2.0 * blurRadius + 1.0);
 
@@ -39,7 +39,7 @@ POutQuad main(VOutQuad pin)
     float4 finalColor = 0;
     for (int j = -blurRadius; j <= blurRadius; ++j)
     {
-        finalColor += OutlineGBufferSRV.Sample(blurSS, pin.UV + float2(0, j) * texelSize);
+        finalColor += OutlineGBufferSRV.Sample(fullScreenQuadSS, pin.UV + float2(0, j) * texelSize);
     }
     finalColor /= (2.0 * blurRadius + 1.0);
     
