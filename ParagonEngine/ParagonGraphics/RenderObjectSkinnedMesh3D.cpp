@@ -162,6 +162,27 @@ namespace Pg::Graphics
 			_animationTime += (*dt);
 			_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
 
+			//if (_currentTick > _currentAnim->_animAssetData->_durationTick)
+			//{
+			//	if (_isLoop)
+			//	{
+			//		double secondPerTick = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
+			//		int count = 0;
+			//		while (secondPerTick * (count + 1) < _animationTime)
+			//		{
+			//			count++;
+			//		}
+			//		_animationTime -= count * secondPerTick;
+			//		_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
+			//	}
+			//	else
+			//	{
+			//		_animationTime = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
+			//		_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
+			//	}
+			//}
+
+			//마지막 프레임 유지 시도.
 			if (_currentTick > _currentAnim->_animAssetData->_durationTick)
 			{
 				if (_isLoop)
@@ -178,7 +199,8 @@ namespace Pg::Graphics
 				else
 				{
 					_animationTime = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
-					_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
+					//_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
+					_currentTick = _currentAnim->_animAssetData->_durationTick;
 				}
 			}
 
@@ -219,15 +241,22 @@ namespace Pg::Graphics
 			// Position
 			{
 				int positionIndex = 0;
-				for (int i = 0; i < nodeAnim->_numPositionKeys; i++)
+				//Last Frame 유지 시도, 240521
+				if (_currentAnim->_animAssetData->_durationTick - _currentTick < std::numeric_limits<double>::epsilon())
 				{
-					if (_currentTick < nodeAnim->_positionKeyList[i]._time)
+					positionIndex = nodeAnim->_numPositionKeys - 1;
+				}
+				else
+				{
+					for (int i = 0; i < nodeAnim->_numPositionKeys; i++)
 					{
-						positionIndex = i;		// i-1 < _animationTickTime < i
-						break;
+						if (_currentTick < nodeAnim->_positionKeyList[i]._time)
+						{
+							positionIndex = i;		// i-1 < _animationTickTime < i
+							break;
+						}
 					}
 				}
-
 				if (positionIndex == 0)
 				{
 					position = nodeAnim->_positionKeyList[0]._value;
@@ -243,15 +272,23 @@ namespace Pg::Graphics
 			// Rotation
 			{
 				int rotationIndex = 0;
-				for (int i = 0; i < nodeAnim->_numRotationKeys; i++)
+				//Last Frame 유지 시도, 240521
+				if (_currentAnim->_animAssetData->_durationTick - _currentTick < std::numeric_limits<double>::epsilon())
 				{
-					if (_currentTick < nodeAnim->_rotationKeyList[i]._time)
+					rotationIndex = nodeAnim->_numRotationKeys - 1;
+				}
+				else
+				{
+					for (int i = 0; i < nodeAnim->_numRotationKeys; i++)
 					{
-						rotationIndex = i;
-						break;
+						if (_currentTick < nodeAnim->_rotationKeyList[i]._time)
+						{
+							rotationIndex = i;
+							break;
+						}
 					}
 				}
-
+				
 				if (rotationIndex == 0)
 				{
 					rotation = nodeAnim->_rotationKeyList[0]._value;
