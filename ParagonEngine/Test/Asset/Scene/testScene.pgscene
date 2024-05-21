@@ -33,9 +33,9 @@
 				<component>
 					<type>class Pg::Data::SkinnedMeshRenderer</type>
 					<data>
-						<meshName>mon_golemmini_body.fbx</meshName>
+						<meshName>mon_golemboss_body.fbx</meshName>
 						<materialName></materialName>
-						<initAnimName>GMA_00003.pganim</initAnimName>
+						<initAnimName>GBA_00001.pganim</initAnimName>
 					</data>
 				</component>
 			</components>
