@@ -50,7 +50,8 @@ namespace Pg::Graphics
 			//Vector
 			for (int i = 0; i < it.second->size(); i++)
 			{
-				if (it.second->at(i).second->GetBaseRenderer()->GetActive())
+				//Culling 로직 추가.
+				if (it.second->at(i).second->GetBaseRenderer()->GetActive() && (!(it.second->at(i).second->GetIsCulledFromRendering())))
 				{
 					//만약 Transform의 Scale 중 1/3개 (홀수)가 음수일 경우,
 					//Rasterizer를 CullFront로 설정!

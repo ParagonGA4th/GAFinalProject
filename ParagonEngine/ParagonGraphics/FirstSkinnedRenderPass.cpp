@@ -62,7 +62,7 @@ namespace Pg::Graphics
 			//Vector
 			for (int i = 0; i < it.second->size(); i++)
 			{
-				if (it.second->at(i).second->GetBaseRenderer()->GetActive())
+				if (it.second->at(i).second->GetBaseRenderer()->GetActive() && (!(it.second->at(i).second->GetIsCulledFromRendering())))
 				{
 					it.second->at(i).second->UpdateAnimationInfo(&_deltaTimeStorage, _editorMode);
 					it.second->at(i).second->First_UpdateConstantBuffers(camData);
