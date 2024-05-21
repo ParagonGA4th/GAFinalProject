@@ -6,12 +6,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class isHitSpace : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_Rush : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		isHitSpace(const std::string& name, const BT::NodeConfiguration& config)
-			:BT::SyncActionNode(name, config) {}
-		virtual ~isHitSpace() = default;
+		Anim_Rush(const std::string& name, const BT::NodeConfiguration& config)
+			:BT::SyncActionNode(name, config) {};
+		virtual ~Anim_Rush() = default;
 
 		virtual BT::NodeStatus tick() override;
 
@@ -21,5 +21,4 @@ namespace Pg::Data::BTree::Node
 		}
 	};
 }
-
 

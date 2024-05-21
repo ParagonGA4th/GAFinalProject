@@ -10,6 +10,7 @@ namespace Pg::Data
 	class BoxCollider;
 	class CapsuleCollider;
 	class SkinnedMeshRenderer;
+	class MonsterHelper;
 }
 
 namespace Pg::API
@@ -43,6 +44,7 @@ namespace Pg::DataScript
 
 	private:
 		Pg::Data::CapsuleCollider* _collider;
+		Pg::Data::MonsterHelper * _monsterHelper;
 		Pg::API::Raycast::PgRayCast* _pgRayCast;
 		EnemySight* _enemySight = nullptr;
 		PlayerBattleBehavior* _playerBattleBehavior;
@@ -52,16 +54,5 @@ namespace Pg::DataScript
 		std::vector<EnemySight*> aiSightVec;
 
 		Pg::Data::SkinnedMeshRenderer* _renderer;
-
-		bool _colVecActive = true;
-
-		//미리 BeforePhysicsUpdate를 호출했었는지.
-		bool _alreadyCalledBPU = false;
-
-		bool _isFirstPunch = true; //애니메이션 처음 호출 여부
-		bool _isFirstStart = true; //애니메이션 처음 호출 여부
-		bool _isAnimStart = false;
 	};
-
-	//const bool PlayerMove::registered_ = ScriptInterface<PlayerMove>::register_type();
 }

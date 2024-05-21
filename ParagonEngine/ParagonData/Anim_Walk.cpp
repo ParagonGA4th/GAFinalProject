@@ -1,10 +1,6 @@
 #include "Anim_Walk.h"
 #include "SkinnedMeshRenderer.h"
 
-#include "../ParagonUtil/Log.h"
-
-#include <string>
-
 namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_Walk::tick()

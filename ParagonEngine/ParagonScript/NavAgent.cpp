@@ -1,6 +1,8 @@
 #include "NavAgent.h"
 #include "../ParagonAPI/PgRecast.h"
 
+#include <singleton-cpp/singleton.h>
+
 namespace Pg::DataScript
 {
 
