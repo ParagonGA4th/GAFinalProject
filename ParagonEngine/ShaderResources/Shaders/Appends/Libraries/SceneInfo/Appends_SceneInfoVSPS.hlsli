@@ -1,8 +1,8 @@
-#ifndef __DEFINED_APPENDS_SCENEINFO_PS_HLSL__
-#define __DEFINED_APPENDS_SCENEINFO_PS_HLSL__
+#ifndef __DEFINED_APPENDS_SCENEINFO_VS_PS_HLSL__
+#define __DEFINED_APPENDS_SCENEINFO_VS_PS_HLSL__
 
 //원래는 VS/PS 모두에서 접근할 수 있어야 함. 일단은 구현을 위해 이렇게 설정.
-
+//이제 VB / IB 모두 접근할 수 있게 할 것. 
 //<ActualLighting>
 struct PgDirectionalLight
 {
@@ -41,9 +41,17 @@ cbuffer cbSceneInfo : register(b4) // 이 자체는 VS / PS 모두 접근 가능.
     float4x4 gCBuf_ViewMatrix;
     float4x4 gCBuf_ProjMatrix;
     float4x4 gCBuf_ViewProjMatrix;
+    float4x4 gCBuf_InvViewMatrix;
+    
+    float2 gCBuf_ScreenWidthHeight;
+    float2 gCBuf_TempPadding;
     
     float3 gCBuf_EyePosition;
     bool gCBuf_IsSceneUseLightmap; // bool로 캐스팅 상관X.
+    bool gCBuf_IsVignetteOn;
+    bool gCBuf_IsBloomOn;
+    bool gCBuf_IsLutOn;
+    bool gCBuf_IsMotionBlurOn;
 };
 
 float4x4 GetViewMatrix()
@@ -87,7 +95,7 @@ cbuffer cbRenderingInfo : register(b5)
     float4x4 _lightViewProj;
 }
 
-static const float ShadowBias = 0.001f;
+static const float ShadowBias = 0.005f;
 
 //<Temp>
 static const uint NumLights = 1;
@@ -95,4 +103,4 @@ static const float3 firstLightDir = { 0, -1, 0 };
 static const float firstRad = 0.1f;
 //</Temp>
 
-#endif //__DEFINED_APPENDS_SCENEINFO_PS_HLSL__
+#endif //__DEFINED_APPENDS_SCENEINFO_VS_PS_HLSL__

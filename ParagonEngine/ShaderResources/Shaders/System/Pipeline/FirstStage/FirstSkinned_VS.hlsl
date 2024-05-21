@@ -4,7 +4,7 @@
 #pragma target 5.0
 
 #include "../../Libraries/System_PerObjectBuffers.hlsli"
-#include "../../../Appends/Libraries/SceneInfo/Appends_SceneInfoPS.hlsli"
+#include "../../../Appends/Libraries/SceneInfo/Appends_SceneInfoVSPS.hlsli"
 #include "../../Libraries/System_1stLayouts.hlsli"
 
 VOut1st main(Vin1stPassSkinned_Layout input)

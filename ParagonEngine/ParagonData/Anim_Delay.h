@@ -1,4 +1,3 @@
-#pragma once
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -23,8 +22,6 @@ namespace Pg::Data::BTree::Node
 		{
 			BT::PortsList list;
 			list.insert(BT::BidirectionalPort<float>("_holdTime"));
-			list.insert(BT::BidirectionalPort<bool>("_isAnimChange"));
-			list.insert(BT::BidirectionalPort<std::string>("_currentAnim"));
 
 			return list;
 		}

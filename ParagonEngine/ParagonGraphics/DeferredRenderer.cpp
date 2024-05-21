@@ -82,17 +82,18 @@ namespace Pg::Graphics
 
 		//For문 대신, 명시적으로 값 호출. (나누기)
 		//일단 Scene 정보 활용을 위해 호출 먼저.
+
+		UnbindPreviousBoundResources();
+		UnbindExpiredResources();
 		SendSceneInformation(sceneInfoList, camData);
 
 		RenderFirstInstancedPass(renderObjectList, camData);
 		RenderFirstStaticPass(renderObjectList, camData);
 		RenderFirstSkinnedPass(renderObjectList, camData);
+		RenderOpaqueShadowPass(renderObjectList, camData);
 
 		SendPBRBufferSRVs();
 		RenderOpaqueQuadPasses(renderObjectList, camData);
-		RenderOpaqueShadowPass(renderObjectList, camData);
-
-		UnbindExpiredResources();
 	}
 
 	void DeferredRenderer::ConfirmCarrierData()
@@ -183,8 +184,8 @@ namespace Pg::Graphics
 		//SamplerState defaultTextureSS : register(s2);
 		_DXStorage->_deviceContext->PSSetSamplers(2, 1, &(_DXStorage->_defaultSamplerState));
 		
-		//SamplerState blurSS : register(s3);
-		_DXStorage->_deviceContext->PSSetSamplers(3, 1, &(_DXStorage->_blurSamplerState));
+		//SamplerState lutSS : register(s3);
+		_DXStorage->_deviceContext->PSSetSamplers(3, 1, &(_DXStorage->_lutSamplerState));
 	}
 
 	void DeferredRenderer::UpdateCarrierResources()
@@ -299,7 +300,6 @@ namespace Pg::Graphics
 	{
 		//Quad에 담겨 있는 상태에서, Light의 위치를 받아 실행.
 		//MainLight만을 가지고, Single-DirectionalLight PCF Shadow Mapping을 할 것.
-
 		_opaqueShadowPass->ReceiveRequiredElements(*_carrier);
 		_opaqueShadowPass->BindPass();
 		_opaqueShadowPass->RenderPass(renderObjectList, camData);
@@ -312,13 +312,6 @@ namespace Pg::Graphics
 	{
 		//Unbing
 		ID3D11ShaderResourceView* tNullSRV = nullptr;
-
-		//PS Constant Buffer -> SceneInfo 값 리셋.
-		ID3D11Buffer* tNullBuffer = nullptr;
-		_DXStorage->_deviceContext->PSSetConstantBuffers(4, 1, &tNullBuffer);
-
-		//PS Constant Buffer -> LightInfo 값 리셋.
-		_DXStorage->_deviceContext->PSSetConstantBuffers(5, 1, &tNullBuffer);
 
 		//GBufferTextures-> GBuffer / Depth Buffer Unbind.
 		_DXStorage->_deviceContext->PSSetShaderResources(12, 1, &tNullSRV);
@@ -334,6 +327,9 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(20, 1, &tNullSRV);
 		_DXStorage->_deviceContext->PSSetShaderResources(21, 1, &tNullSRV);
 		_DXStorage->_deviceContext->PSSetShaderResources(22, 1, &tNullSRV);
+
+		//Shadow 관련 Depth 등록 해제.
+		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &tNullSRV);
 	}
 
 	void DeferredRenderer::InitOpaqueQuadDirectX()
@@ -469,6 +465,19 @@ namespace Pg::Graphics
 			Pg::Defines::ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 		_iblSpecularLutTextureMap = static_cast<RenderTexture2D*>(tSpecLUT.get());
 	}
+
+	void DeferredRenderer::UnbindPreviousBoundResources()
+	{
+		//VS / PS Constant Buffer -> SceneInfo 값 리셋.
+		ID3D11Buffer* tNullBuffer = nullptr;
+		_DXStorage->_deviceContext->VSSetConstantBuffers(4, 1, &tNullBuffer);
+		_DXStorage->_deviceContext->PSSetConstantBuffers(4, 1, &tNullBuffer);
+
+		//VS / PS Constant Buffer -> LightInfo 값 리셋.
+		_DXStorage->_deviceContext->VSSetConstantBuffers(5, 1, &tNullBuffer);
+		_DXStorage->_deviceContext->PSSetConstantBuffers(5, 1, &tNullBuffer);
+	}
+
 }
 
 

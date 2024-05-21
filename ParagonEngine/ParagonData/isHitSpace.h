@@ -1,4 +1,3 @@
-#pragma once
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -10,7 +9,7 @@ namespace Pg::Data::BTree::Node
 	{
 	public:
 		isHitSpace(const std::string& name, const BT::NodeConfiguration& config)
-			:BT::SyncActionNode(name, config) {}
+			: BT::SyncActionNode(name, config) {}
 		virtual ~isHitSpace() = default;
 
 		virtual BT::NodeStatus tick() override;
@@ -21,5 +20,3 @@ namespace Pg::Data::BTree::Node
 		}
 	};
 }
-
-

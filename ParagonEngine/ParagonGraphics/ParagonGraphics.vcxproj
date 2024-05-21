@@ -34,6 +34,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="BaseSpecificRenderer.h" />
+    <ClInclude Include="BloomRenderPass.h" />
     <ClInclude Include="DirectXTexEXR.h" />
     <ClInclude Include="FirstInstancedRenderPass.h" />
     <ClInclude Include="IndividualLightsGPU.h" />
@@ -52,6 +53,7 @@
     <ClInclude Include="RenderLightmapData.h" />
     <ClInclude Include="RenderObjectInstancedMesh3D.h" />
     <ClInclude Include="SingleLightmapSet.h" />
+    <ClInclude Include="LUTRenderPass.h" />
     <ClInclude Include="TonemappingRenderPass.h" />
     <ClInclude Include="SceneInformationList.h" />
     <ClInclude Include="IRenderSinglePass.h" />
@@ -86,6 +88,7 @@
     <ClInclude Include="SizeTexture.h" />
     <ClInclude Include="SystemPixelShader.h" />
     <ClInclude Include="TextureExtension.h" />
+    <ClInclude Include="VignetteRenderPass.h" />
     <ClInclude Include="WireframeRenderObject.h" />
     <ClInclude Include="RenderFont.h" />
     <ClInclude Include="RenderObject2DList.h" />
@@ -165,6 +168,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="BaseSpecificRenderer.cpp" />
+    <ClCompile Include="BloomRenderPass.cpp" />
     <ClCompile Include="DirectXTexEXR.cpp" />
     <ClCompile Include="FirstInstancedRenderPass.cpp" />
     <ClCompile Include="LightmapManager.cpp" />
@@ -185,6 +189,7 @@
     <ClCompile Include="RenderLightmapData.cpp" />
     <ClCompile Include="RenderObject3DList.cpp" />
     <ClCompile Include="RenderObjectInstancedMesh3D.cpp" />
+    <ClCompile Include="LUTRenderPass.cpp" />
     <ClCompile Include="TonemappingRenderPass.cpp" />
     <ClCompile Include="OpaqueQuadRenderPass.cpp" />
     <ClCompile Include="OutlineRenderPass.cpp" />
@@ -225,6 +230,7 @@
     <ClCompile Include="RenderVertexShader.cpp" />
     <ClCompile Include="SceneInformationSender.cpp" />
     <ClCompile Include="SystemPixelShader.cpp" />
+    <ClCompile Include="VignetteRenderPass.cpp" />
     <ClCompile Include="WireframeRenderObject.cpp" />
     <ClCompile Include="RenderFont.cpp" />
     <ClCompile Include="RenderMaterial.cpp" />
@@ -367,6 +373,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Bloom\Bloom_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\LUT\LUT_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\PostProcessingDefault_VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
@@ -375,13 +389,21 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\ShadowMapping_PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Vignette\Vignette_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\ShadowMapping_VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\Shadow_RecordLightDepth_PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\Shadow_RecordLightDepth_VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\TempForward\TempForwardPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -400,15 +422,17 @@
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Appends_PSCommon.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Appends_VSCommon.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_MathFunctions.hlsli" />
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_ShadowFunctions.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_BufferSRVRegisters.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_ObjMat.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\SamplerStates\Appends_SamplerStates.hlsli" />
-    <None Include="..\ShaderResources\Shaders\Appends\Libraries\SceneInfo\Appends_SceneInfoPS.hlsli" />
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\SceneInfo\Appends_SceneInfoVSPS.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_GBufferTextures.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_InstancedValues.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_PBRBufferTextures.hlsli" />
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_1stLayouts.hlsli" />
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjectBuffers.hlsli" />
+    <None Include="..\ShaderResources\Shaders\System\Libraries\System_PostProcessingResources.hlsli" />
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_QuadLayouts.hlsli" />
   </ItemGroup>
   <ItemGroup>

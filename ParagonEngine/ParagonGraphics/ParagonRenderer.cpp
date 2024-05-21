@@ -75,6 +75,7 @@ namespace Pg::Graphics
 	void ParagonRenderer::ConnectDefaultResources()
 	{
 		_deferredRenderer->ConnectDefaultResources();
+		_finalRenderer->ConnectDefaultResources();
 
 		_lightmapManager = std::make_unique<LightmapManager>();
 		_lightmapManager->Initialize(_resourcePath);
