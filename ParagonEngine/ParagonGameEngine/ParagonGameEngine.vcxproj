@@ -246,6 +246,7 @@ copy $(SolutionDir)lib\libzmq\$(PlatformTarget)\$(Configuration)\libzmq-v143-mt-
     <ClInclude Include="Navigation.h" />
     <ClInclude Include="NavigationSystem.h" />
     <ClInclude Include="NavTest.h" />
+    <ClInclude Include="NavTestSecond.h" />
     <ClInclude Include="ParagonRecast.h" />
     <ClInclude Include="PgLayer.h" />
     <ClInclude Include="PhysicsCallback.h" />
@@ -320,6 +321,7 @@ copy $(SolutionDir)lib\libzmq\$(PlatformTarget)\$(Configuration)\libzmq-v143-mt-
     <ClCompile Include="Navigation\Recast\RecastRasterization.cpp" />
     <ClCompile Include="Navigation\Recast\RecastRegion.cpp" />
     <ClCompile Include="NavTest.cpp" />
+    <ClCompile Include="NavTestSecond.cpp" />
     <ClCompile Include="PgLayer.cpp" />
     <ClCompile Include="PhysicsCallback.cpp" />
     <ClCompile Include="PhysicSystem.cpp" />

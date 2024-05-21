@@ -11,10 +11,10 @@ namespace Pg::Engine
 	class Navigation;
 	class DebugSystem;
 
-	class NavTest : public Pg::Data::Component
+	class NavTestSecond : public Pg::Data::Component
 	{
 	public:
-		NavTest(Pg::Data::GameObject* owner);
+		NavTestSecond(Pg::Data::GameObject* owner);
 
 	public:
 		virtual void Start() override;
