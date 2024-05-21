@@ -8,17 +8,19 @@ namespace Pg::Data::BTree::Node
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
-			config().blackboard->set<std::string>("CURRENTANIM", "Idle");
-			bool isChange = config().blackboard->get<bool>("ISCHANGE");
+			config().blackboard->set<std::string>("DECURRENTANIM", "_00001");
+			bool isChange = config().blackboard->get<bool>("ISDECHANGE");
+			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
+			animId.append("_00001.pganim");
 
-			if (isChange || tMeshRenderer->GetAnimation() == "PpakMonster_Idle.pganim")
+			if (isChange || tMeshRenderer->GetAnimation() == animId)
 			{
 				return BT::NodeStatus::FAILURE;
 			}
-			else if(tMeshRenderer->GetAnimation() != "PpakMonster_Idle.pganim")
+			else if(tMeshRenderer->GetAnimation() != animId)
 			{
-				tMeshRenderer->SetAnimation("PpakMonster_Idle.pganim", true);
-				config().blackboard->set<bool>("ISCHANGE", false);
+				tMeshRenderer->SetAnimation(animId, true);
+				config().blackboard->set<bool>("ISDECHANGE", false);
 				return BT::NodeStatus::SUCCESS;
 			}
 		}

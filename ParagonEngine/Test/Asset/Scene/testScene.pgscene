@@ -2,57 +2,40 @@
 <scene>
 	<objects>
 		<object>
-			<name>New Object</name>
+			<uuid>15B597C7069C422390F6D09E6A18D850</uuid>
+			<name>GolemCrtstal</name>
 			<active>true</active>
-			<tag></tag>
+			<tag>TAG_GOLEM</tag>
+			<parent>true</parent>
+			<parent_uuid>B50B3AF01D1943308B781F5AED7F6734</parent_uuid>
 			<components>
 				<component>
 					<type>class Pg::Data::Transform</type>
 					<data>
 						<position>
 							<x>0.000000</x>
-							<y>3.000000</y>
-							<z>-10.000000</z>
+							<y>5.000000</y>
+							<z>0.000000</z>
 						</position>
 						<rotation>
 							<w>1.000000</w>
-							<x>-0.000000</x>
-							<y>-0.000000</y>
+							<x>0.000000</x>
+							<y>0.000000</y>
 							<z>0.000000</z>
 						</rotation>
 						<scale>
-							<x>1.000000</x>
-							<y>1.000000</y>
-							<z>1.000000</z>
+							<x>2.00000</x>
+							<y>2.00000</y>
+							<z>2.00000</z>
 						</scale>
 					</data>
 				</component>
-			</components>
-		</object>
-		<object>
-			<name>New Object2</name>
-			<active>true</active>
-			<tag></tag>
-			<components>
 				<component>
-					<type>class Pg::Data::Transform</type>
+					<type>class Pg::Data::SkinnedMeshRenderer</type>
 					<data>
-						<position>
-							<x>0.000000</x>
-							<y>3.000000</y>
-							<z>-10.000000</z>
-						</position>
-						<rotation>
-							<w>1.000000</w>
-							<x>-0.000000</x>
-							<y>-0.000000</y>
-							<z>0.000000</z>
-						</rotation>
-						<scale>
-							<x>1.000000</x>
-							<y>1.000000</y>
-							<z>1.000000</z>
-						</scale>
+						<meshName>mon_golemmini_body.fbx</meshName>
+						<materialName></materialName>
+						<initAnimName>GMA_00003.pganim</initAnimName>
 					</data>
 				</component>
 			</components>

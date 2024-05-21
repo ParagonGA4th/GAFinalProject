@@ -130,7 +130,7 @@
 		</object>-->
 		<object>
 			<uuid>B50B3AF01D1943308B781F5AED7F6734</uuid>
-			<name>Boss</name>
+			<name>Golem</name>
 			<active>true</active>
 			<tag>TAG_Boss</tag>
 			<dontdestroy>false</dontdestroy>
@@ -161,7 +161,7 @@
 					<data>
 						<meshName>mon_golemmini_body.fbx</meshName>
 						<materialName></materialName>
-						<initAnimName>mon_golemmini_body_Attack_3.pganim</initAnimName>
+						<initAnimName>GMA_00001.pganim</initAnimName>
 					</data>
 				</component>
 				<!--<component>
@@ -183,19 +183,58 @@
 						<halfHeight>2.000000</halfHeight>
 					</data>
 				</component>-->
-				<!--<component>
+				<component>
 					<type>class Pg::Data::Animator</type>
 					<data>
 						<behaviorTreePath>../Resources/BehaviorTrees/Monster/Golem.xml</behaviorTreePath>
 						<isUniform>false</isUniform>
 						<isCulled>false</isCulled>
 					</data>
-				</component>-->
+				</component>
 				<!--<component>
 					<type>class Pg::DataScript::EnemyBehaviour</type>
 					<data>
 					</data>
 				</component>-->
+			</components>
+		</object>		
+		<object>
+			<uuid>15B597C7069C422390F6D09E6A18D850</uuid>
+			<name>GolemCrtstal</name>
+			<active>true</active>
+			<tag>TAG_GOLEM</tag>
+			<parent>true</parent>
+			<parent_uuid>B50B3AF01D1943308B781F5AED7F6734</parent_uuid>
+			<components>
+				<component>
+					<type>class Pg::Data::Transform</type>
+					<data>
+						<position>
+							<x>0.000000</x>
+							<y>5.000000</y>
+							<z>0.000000</z>
+						</position>
+						<rotation>
+							<w>1.000000</w>
+							<x>0.000000</x>
+							<y>0.000000</y>
+							<z>0.000000</z>
+						</rotation>
+						<scale>
+							<x>2.00000</x>
+							<y>2.00000</y>
+							<z>2.00000</z>
+						</scale>
+					</data>
+				</component>
+				<component>
+					<type>class Pg::Data::SkinnedMeshRenderer</type>
+					<data>
+						<meshName>mon_golemmini_crystal.fbx</meshName>
+						<materialName></materialName>
+						<initAnimName>GMA_10001.pganim</initAnimName>
+					</data>
+				</component>
 			</components>
 		</object>
 		<!--<object>

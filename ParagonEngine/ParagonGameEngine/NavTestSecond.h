@@ -11,16 +11,16 @@ namespace Pg::Engine
 	class Navigation;
 	class DebugSystem;
 
-	class NavTest : public Pg::Data::Component
+	class NavTestSecond : public Pg::Data::Component
 	{
 	public:
-		NavTest(Pg::Data::GameObject* owner);
+		NavTestSecond(Pg::Data::GameObject* owner);
 
 	public:
 		virtual void Start() override;
 		virtual void Update() override;
 
-		void Move(Pg::Math::PGFLOAT3 startPos, Pg::Math::PGFLOAT3 targetPos);
+		void Move(int index, Pg::Math::PGFLOAT3 startPos, Pg::Math::PGFLOAT3 targetPos);
 		void Move2(Pg::Math::PGFLOAT3 startPos, Pg::Math::PGFLOAT3 targetPos);
 
 	private:
