@@ -24,7 +24,7 @@ float GetMeshMatID(float2 quadUV)
     return internal_GBuffer[0].Sample(fullScreenQuadSS, quadUV).z;
 }
 
-float2 GetDepth_WDivide(float2 quadUV)
+float GetDepth_WDivide(float2 quadUV)
 {
     //RT0 : W Divide Depth.
     return internal_GBuffer[0].Sample(fullScreenQuadSS, quadUV).w;

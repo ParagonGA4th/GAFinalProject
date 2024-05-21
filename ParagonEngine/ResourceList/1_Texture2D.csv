@@ -32,3 +32,6 @@ Texture2D
 ../Resources/Textures/Sprites/UI/Ultimate.png
 ../Resources/Textures/Lightmaps/Lightmap-0_comp_light.exr
 ../Resources/Textures/Lightmaps/Lightmap-1_comp_light.exr
+../Resources/Textures/LUT/Testing/TestLUT_Case1.tga
+../Resources/Textures/LUT/Testing/TestLUT_Case2.tga
+../Resources/Textures/LUT/Testing/TestLUT_Case3.tga
