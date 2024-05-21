@@ -8,6 +8,7 @@
 
 #include "data_factory.h" // Auto Register를 위한 필수요건.
 #include <algorithm>
+#include <singleton-cpp/singleton.h>
 
 namespace Pg::Data
 {

@@ -8,6 +8,7 @@
 
 #include <cassert>
 #include <FastNoiseLite/FastNoiseLite.h>
+#include <singleton-cpp/singleton.h>
 
 namespace Pg::DataScript
 {
