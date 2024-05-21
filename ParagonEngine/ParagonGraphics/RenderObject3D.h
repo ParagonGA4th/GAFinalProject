@@ -38,6 +38,7 @@ namespace Pg::Graphics
 	struct ConstantBufferDefine::cbPerObjectBase;
 	class RenderTexture2D;
 	class RenderMaterial;
+	class RenderObject3DList;
 }
 
 namespace Pg::Graphics
@@ -45,6 +46,7 @@ namespace Pg::Graphics
 	class RenderObject3D : public Pg::Graphics::RenderObjectBase
 	{
 		friend class GraphicsSceneParser;
+		friend class RenderObject3DList;
 	public:
 		RenderObject3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID);
 		virtual ~RenderObject3D();
@@ -65,6 +67,9 @@ namespace Pg::Graphics
 		virtual void First_Render(const float* const dt) abstract;
 		virtual void First_UnbindBuffers() abstract;
 
+		bool GetIsCulledFromRendering() { return _isCulledFromRendering; }
+		void SetIsCulledFromRendering(bool val) { _isCulledFromRendering = val; }
+
 	protected:
 		LowDX11Storage* _DXStorage;
 		Asset3DModelData* _modelData = nullptr;
@@ -76,9 +81,12 @@ namespace Pg::Graphics
 		//3D 오브젝트 한정.
 		UINT _objectID;
 		const UINT* _materialIdPointer;
-
+		
 		//현재 정보가 GameObject의 정보와 문제 없이 연동되었는가?
 		//최신 정보인가/
 		bool _isInternalUpToDate{ false };
+
+	private:
+		bool _isCulledFromRendering{ false }; //매 프레임마다 갱신됨. False면 렌더되는 것!
 	};
 }
