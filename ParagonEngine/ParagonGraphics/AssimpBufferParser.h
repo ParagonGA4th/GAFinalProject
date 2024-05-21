@@ -97,7 +97,7 @@ namespace Pg::Graphics::Helper
 		
 		//자체에서는 Mesh_AssetData의 전부만 기록하지는
 		static void StoreAssimpMesh(const aiMesh* assimp, Mesh_AssetData* pgMesh, unsigned int vOffset, unsigned int iOffset);
-		static void StoreAssimpAABB(const aiAABB* assimp, AABB_AssetData* pgAABB);
+		static void StoreAssimpAABB(const aiAABB* assimp, DirectX::BoundingBox* pgAABB);
 		//static void StoreAssimpBone(const aiBone* assimp, Bone_AssetData* pgAABB); 
 		//Skinned 할 때.
 

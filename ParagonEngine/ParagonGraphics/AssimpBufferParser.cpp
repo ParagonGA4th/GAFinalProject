@@ -621,10 +621,16 @@ namespace Pg::Graphics::Helper
 		_aiMeshToMeshMap.insert(std::make_pair(assimp, pgMesh));
 	}
 
-	void AssimpBufferParser::StoreAssimpAABB(const aiAABB* assimp, AABB_AssetData* pgAABB)
+	void AssimpBufferParser::StoreAssimpAABB(const aiAABB* assimp, DirectX::BoundingBox* pgAABB)
 	{
-		pgAABB->_minVec = MathHelper::AI2SM_VECTOR3(assimp->mMin);
-		pgAABB->_maxVec = MathHelper::AI2SM_VECTOR3(assimp->mMax);
+		///이거 해야.
+		DirectX::SimpleMath::Vector3 minVec = MathHelper::AI2SM_VECTOR3(assimp->mMin);
+		DirectX::SimpleMath::Vector3 maxVec = MathHelper::AI2SM_VECTOR3(assimp->mMax);
+		DirectX::SimpleMath::Vector3 middlePoint = 
+			DirectX::SimpleMath::Vector3((minVec.x + maxVec.x) / 2.0f, (minVec.y + maxVec.y) / 2.0f, (minVec.z + maxVec.z) / 2.0f);
+		DirectX::SimpleMath::Vector3 extent(maxVec.x - minVec.x, maxVec.y - minVec.y, maxVec.z - minVec.z);
+		pgAABB->Center = middlePoint;
+		pgAABB->Extents = extent;
 	}
 
 	//For Animation
