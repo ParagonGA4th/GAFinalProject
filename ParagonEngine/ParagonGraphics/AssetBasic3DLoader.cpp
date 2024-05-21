@@ -58,6 +58,7 @@ namespace Pg::Graphics::Loader
 				| aiProcess_PopulateArmatureData
 				| aiProcess_CalcTangentSpace
 				| aiProcess_LimitBoneWeights
+				| aiProcess_GenBoundingBoxes
 			);
 
 			assert(pScene != nullptr);
