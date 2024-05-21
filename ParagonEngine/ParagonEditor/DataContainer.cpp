@@ -1,6 +1,7 @@
 #include "DataContainer.h"
 
 #include "../ParagonData/Scene.h"
+#include <algorithm>
 
 void Pg::Editor::Data::DataContainer::SetGraphicsData(ID3D11Device* d, ID3D11DeviceContext* dc)
 {
@@ -50,10 +51,23 @@ bool Pg::Editor::Data::DataContainer::GetEditorOnOff() const
 
 void Pg::Editor::Data::DataContainer::SetSceneList(std::vector<Pg::Data::Scene*> scenes)
 {
-	_scenes = scenes;
+	if (_scenes.empty() && scenes.size() == 1) _scenes = scenes;
 
-	// юс╫ц
-	SetCurrentScene(0);
+	for (auto& scene : scenes)
+	{
+		auto it = std::find_if(_scenes.begin(), _scenes.end(),
+			[&](Pg::Data::Scene* ts)
+			{
+				return (ts->GetSceneName() == scene->GetSceneName());
+			});
+
+		if (it == _scenes.end())
+		{
+			_scenes.emplace_back(scene);
+			SetCurrentScene(scene);
+			_isSceneChanged = true;
+		}
+	}
 }
 
 std::vector<Pg::Data::Scene*> Pg::Editor::Data::DataContainer::GetSceneList()
@@ -128,7 +142,7 @@ int Pg::Editor::Data::DataContainer::GetAssetIndex(std::string assetName)
 	{
 		if (asset != assetName)
 		{
-			count++; 
+			count++;
 			continue;
 		}
 		else

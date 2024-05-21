@@ -2,6 +2,8 @@
 #include "../ParagonData/Button.h"
 #include "../ParagonAPI/PgScene.h"
 
+#include <singleton-cpp/singleton.h>
+
 namespace Pg::DataScript
 {
 	StartButton::StartButton(Pg::Data::GameObject* obj) :
