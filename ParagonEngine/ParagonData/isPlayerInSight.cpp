@@ -13,14 +13,14 @@ namespace Pg::Data::BTree::Node
 		//		auto sight = child->_object->GetComponent<Pg::Data::MonsterHelper>();
 		//		if (sight->_isPlayerDetected)
 		//		{
-		//			return BT::NodeStatus::FAILURE;
+		//			return BT::NodeStatus::SUCCESS;
 		//		}
 		//		else
 		//		{
-		//			return BT::NodeStatus::SUCCESS;
+		//			return BT::NodeStatus::FAILURE;
 		//		}
 		//	}
 		//}
-		return BT::NodeStatus::FAILURE;
+		return BT::NodeStatus::SUCCESS;
 	}
 }
