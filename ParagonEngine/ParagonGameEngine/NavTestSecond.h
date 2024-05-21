@@ -20,7 +20,7 @@ namespace Pg::Engine
 		virtual void Start() override;
 		virtual void Update() override;
 
-		void Move(Pg::Math::PGFLOAT3 startPos, Pg::Math::PGFLOAT3 targetPos);
+		void Move(int index, Pg::Math::PGFLOAT3 startPos, Pg::Math::PGFLOAT3 targetPos);
 		void Move2(Pg::Math::PGFLOAT3 startPos, Pg::Math::PGFLOAT3 targetPos);
 
 	private:
