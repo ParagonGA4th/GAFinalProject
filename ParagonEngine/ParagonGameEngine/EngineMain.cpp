@@ -96,21 +96,26 @@ namespace Pg::Engine
 		_tweenSystem->Initialize();
 		_physicSystem->Initialize(_debugSystem);
 		_soundSystem->Initialize(resourceListPath);
+
 		///Recast 관련 테스트.
 		_navSystem->Initialize();
+		//_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/BattleSpace.obj", 0);
 		_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 0);
-		//_navSystem->HandleBuild(1);
+		_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 1);
+		_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 2);
+		_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 3);
+		_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 4);
 		_behaviorTreeSystem->Initialize(resourceListPath);
 
 		///Recast관련 테스트 코드.
-		//_navSystem->SetSEpos(0, 0.0f, 0.0f, 10.0f, 0.0f, 0.0f, -10.0f);
-
-		//_navTestInfo = new Pg::Data::NavMeshInfo;
-		//_navTestInfo->vertices = new std::vector<Pg::Math::PGFLOAT3>();
-		//_navTestInfo->indices = new std::vector<unsigned int>();
-		//_navTestInfo->path = "TestForDifference";
-		//_navSystem->GetNavmeshRenderInfo(0, *(_navTestInfo->vertices), *(_navTestInfo->indices));
-		//_debugSystem->DrawNavMeshDebug(_navTestInfo); //한번만 추가해줬다. 클리어하지 않음.
+		_navTestInfo = new Pg::Data::NavMeshInfo;
+		_navTestInfo->vertices = new std::vector<Pg::Math::PGFLOAT3>();
+		_navTestInfo->indices = new std::vector<unsigned int>();
+		_navTestInfo->path = "TestForDifference";
+		_navSystem->GetNavmeshRenderInfo(0, *(_navTestInfo->vertices), *(_navTestInfo->indices));
+		_debugSystem->DrawNavMeshDebug(_navTestInfo); //한번만 추가해줬다. 클리어하지 않음.
+		//_navSystem->SetAgent(2, 2.f, 45.f, 2.f, 0.9f);
+		//_navSystem->SetSEpos(2, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -10.0f);
 	}
 
 	void EngineMain::Update()
@@ -185,17 +190,17 @@ namespace Pg::Engine
 
 		///Recast Obj 파일 디버그 그리기
 		//std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos1 = _navSystem->FindStraightPath(0);
-		//std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos2 = _navSystem->FindStraightPath(1);
+		//std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> navipos2 = _navSystem->FindStraightPath(2);
 		//Pg::Math::PGFLOAT3 navipos3 = _navSystem->FindRaycastPath(0);
 
 		//for (auto path : navipos1)
 		//{
 		//	_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 1.0f, 0.0f, 1.0f));
 		//}
-
+		
 		//for (auto path : navipos2)
 		//{
-		//	_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
+		//	_debugSystem->DrawLineDebug(path.first, path.second, Pg::Math::PGFLOAT4(1.0f, 0.0f, 1.0f, 1.0f));
 		//}
 
 		//_debugSystem->DrawLineDebug(Pg::Math::PGFLOAT3(0.0f, 0.0f, 0.0f), navipos3, Pg::Math::PGFLOAT4(1.0f, 0.0f, 1.0f, 1.0f));

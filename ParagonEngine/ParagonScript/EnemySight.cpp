@@ -11,7 +11,6 @@
 
 namespace Pg::DataScript
 {
-
 	EnemySight::EnemySight(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj)
 	{

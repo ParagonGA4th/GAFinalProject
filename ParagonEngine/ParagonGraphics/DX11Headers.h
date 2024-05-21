@@ -29,6 +29,7 @@ using float4x4 = DirectX::XMMATRIX;
 		HRESULT hr = (x);						\
 		if(FAILED(hr))							\
 		{								\
+			assert(false);				\
 			LPWSTR output;                                    	\
 			FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM |		\
 				FORMAT_MESSAGE_IGNORE_INSERTS 	 |		\

@@ -1,4 +1,3 @@
-#pragma once
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -6,12 +5,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_gmAttack : public BT::SyncActionNode, public BasePgBtNode
+	class isDistanceClose : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_gmAttack(const std::string& name, const BT::NodeConfiguration& config)
-			:BT::SyncActionNode(name, config) {}
-		virtual ~Anim_gmAttack() = default;
+		isDistanceClose(const std::string& name, const BT::NodeConfiguration& config)
+			:BT::SyncActionNode(name, config) {};
+		virtual ~isDistanceClose() = default;
 
 		virtual BT::NodeStatus tick() override;
 

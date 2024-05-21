@@ -1,4 +1,3 @@
-#pragma once
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -6,12 +5,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_Rush : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_gAttack : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_Rush(const std::string& name, const BT::NodeConfiguration& config)
-			:BT::SyncActionNode(name, config) {};
-		virtual ~Anim_Rush() = default;
+		Anim_gAttack(const std::string& name, const BT::NodeConfiguration& config)
+			: BT::SyncActionNode(name, config) {}
+		virtual ~Anim_gAttack() = default;
 
 		virtual BT::NodeStatus tick() override;
 
@@ -21,4 +20,5 @@ namespace Pg::Data::BTree::Node
 		}
 	};
 }
+
 
