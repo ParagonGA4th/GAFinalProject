@@ -85,6 +85,7 @@ namespace Pg::Graphics
 
 		UnbindPreviousBoundResources();
 		UnbindExpiredResources();
+		UpdateCullingInformation(renderObjectList, camData);
 		SendSceneInformation(sceneInfoList, camData);
 
 		RenderFirstInstancedPass(renderObjectList, camData);
@@ -476,6 +477,11 @@ namespace Pg::Graphics
 		//VS / PS Constant Buffer -> LightInfo °ª ¸®¼Â.
 		_DXStorage->_deviceContext->VSSetConstantBuffers(5, 1, &tNullBuffer);
 		_DXStorage->_deviceContext->PSSetConstantBuffers(5, 1, &tNullBuffer);
+	}
+
+	void DeferredRenderer::UpdateCullingInformation(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		renderObjectList->UpdateObjectCullingState(camData);
 	}
 
 }

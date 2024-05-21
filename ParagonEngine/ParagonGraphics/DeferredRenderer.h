@@ -75,6 +75,7 @@ namespace Pg::Graphics
 		void RenderOpaqueQuadPasses(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderOpaqueShadowPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void UnbindExpiredResources();
+		void UpdateCullingInformation(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 
 	private:
 		LowDX11Storage* _DXStorage;
