@@ -1,7 +1,7 @@
 #include "BehaviorTreeSystem.h"
 #include "SceneSystem.h"
 #include "../ParagonData/BtNodes/BTDefines.h"
-#include "../ParagonData/BtNodes/BasePgBtNode.h"
+//#include "../ParagonData/BtNodes/BasePgBtNode.h"
 #include "../ParagonData/BtNodes/PgCustomBTNodes.h"
 #include "../ParagonData/BtNodes/BTTemplateSpecialization.h"
 
@@ -52,16 +52,17 @@ namespace Pg::Engine::BTree
 		using namespace Pg::Data::BTree;
 		_factory->registerNodeType<Node::Anim_Idle>("Anim_Idle");
 		_factory->registerNodeType<Node::Anim_Walk>("Anim_Walk");
-		_factory->registerNodeType<Node::Anim_Chase>("Anim_Chase");
-		_factory->registerNodeType<Node::Anim_Delay>("Hold_DefaultAnim");
+		_factory->registerNodeType<Node::Anim_Delay>("Anim_Delay");
+		_factory->registerNodeType<Node::DefaultAnim_Delay>("DefaultAnim_Delay");
 
 		_factory->registerNodeType<Node::isPlayerInSight>("isPlayerInSight");
 		_factory->registerNodeType<Node::isHitSpace>("isHitSpace");
-		
-		_factory->registerNodeType<Node::Anim_Rush>("Anim_Rush");
-		_factory->registerNodeType<Node::Anim_gmAttack>("Anim_mAttack");
-		_factory->registerNodeType<Node::Anim_gbArmAttack>("Anim_gbArmAttack");
-		_factory->registerNodeType<Node::Anim_gbSpinAttack>("Anim_gbSpinAttack");
+		_factory->registerNodeType<Node::isDistanceClose>("isDistanceClose");
+
+		_factory->registerNodeType<Node::Anim_Dash>("Anim_Dash");
+		_factory->registerNodeType<Node::Anim_gAttack>("Anim_gAttack");
+		//_factory->registerNodeType<Node::Anim_gbArmAttack>("Anim_gbArmAttack");
+		//_factory->registerNodeType<Node::Anim_gbSpinAttack>("Anim_gbSpinAttack");
 
 #pragma endregion ACTUAL_NODE_REGISTRATION
 
