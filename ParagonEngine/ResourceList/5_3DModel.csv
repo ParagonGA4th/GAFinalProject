@@ -28,6 +28,7 @@
 ../Resources/3DModels/StaticMesh/FitArrow/FitArrow.fbx
 ../Resources/3DModels/StaticMesh/swamp/swamp.fbx
 ../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale.obj
+../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj
 ../Resources/3DModels/StaticMesh/TestingRecast/BattleSpace2_fix.obj
 ../Resources/3DModels/StaticMesh/TestingRecast/BattleSpace_res2.obj
 ../Resources/3DModels/StaticMesh/CollisionWeirdShape/CollisionWeirdShape.fbx
