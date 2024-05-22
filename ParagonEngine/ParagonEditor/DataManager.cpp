@@ -302,14 +302,19 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 							pugi::xml_node node = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "trigger"; });
 							//col->SetLayer(Pg::Serialize::Serializer::DeserializeUint(&node, ""));
 
-							//node = node.next_sibling();
-							col->SetTrigger(Pg::Serialize::Serializer::DeserializeBoolean(&node, ""));
-							
-							node = node.next_sibling();
-							col->SetPositionOffset(Pg::Serialize::Serializer::DeserializePGFloat3(&node));
-							
-							node = node.next_sibling();
-							col->SetRotationOffset(Pg::Serialize::Serializer::DeserializePGQuaternion(&node));
+							//240521 : Unreal에는 기록이 되지 않았으니, node empty 검사. 
+							//그냥 Unreal Exporter를 가공해서 이에 맞게 하자!
+							//if (!node.empty())
+							//{
+								//node = node.next_sibling();
+								col->SetTrigger(Pg::Serialize::Serializer::DeserializeBoolean(&node, ""));
+
+								node = node.next_sibling();
+								col->SetPositionOffset(Pg::Serialize::Serializer::DeserializePGFloat3(&node));
+
+								node = node.next_sibling();
+								col->SetRotationOffset(Pg::Serialize::Serializer::DeserializePGQuaternion(&node));
+							//}
 						}
 					}
 					else
