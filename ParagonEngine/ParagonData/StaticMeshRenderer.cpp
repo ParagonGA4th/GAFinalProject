@@ -1,12 +1,15 @@
 #include "StaticMeshRenderer.h"
 #include "GameObject.h"
 #include "../ParagonHelper/ResourceHelper.h"
+#include "../ParagonUtil/InstancingException.h"
 #include "../ParagonData/ParagonDefines.h"
 #include "../ParagonData/Transform.h"
+#include "../ParagonData/GameConstantData.h"
 
 #include <sstream>
 #include <vector>
 #include <DirectXMath.h>
+#include <singleton-cpp/singleton.h>
 
 namespace Pg::Data
 {
@@ -119,12 +122,19 @@ namespace Pg::Data
 		//인스턴싱 : XML에서 기록.
 		std::string tPrefixFromName = _meshName.substr(0, 5);
 		//Mesh Path Set / 만약 Default Material이 아닌 경우 MaterialPath까지 배치 완료.
-		if (tPrefixFromName.compare(Pg::Defines::NON_INSTANCED_3DMODEL_PREFIX) != 0)
+		bool tIsPartOfInstanceException = singleton<Pg::Util::InstancingException>().IsExceptionFromInstance(_meshFilePath);
+		if (tPrefixFromName.compare(Pg::Defines::NON_INSTANCED_3DMODEL_PREFIX) == 0 || tIsPartOfInstanceException)
+		{
+			_isInstanced = false;
+			_object->_transform._isCanMove = true;
+		}
+		else
 		{
 			//norm_으로 시작하지 않기 때문에, 인스턴스된 렌더링이 적용됨!
 			_isInstanced = true;
 			_object->_transform._isCanMove = false;
 		}
+		//여기까지 인스턴싱
 
 		if (_materialName.empty())
 		{

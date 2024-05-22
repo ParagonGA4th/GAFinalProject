@@ -133,7 +133,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gainput-d.lib;%(AdditionalDependencies);singleton.lib;ParagonMath.lib</AdditionalDependencies>
+      <AdditionalDependencies>gainput-d.lib;%(AdditionalDependencies);singleton.lib;ParagonMath.lib;ParagonHelper.lib</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\spdlog\x64\Debug;$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories);$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
@@ -159,7 +159,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gainput.lib;%(AdditionalDependencies);singleton.lib;ParagonMath.lib</AdditionalDependencies>
+      <AdditionalDependencies>gainput.lib;%(AdditionalDependencies);singleton.lib;ParagonMath.lib;ParagonHelper.lib</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\spdlog\x64\Release;$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
@@ -171,6 +171,7 @@
     <ClInclude Include="CustomAssert.h" />
     <ClInclude Include="EasingMode.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="InstancingException.h" />
     <ClInclude Include="IResettable.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="TimeSystem.h" />
@@ -184,6 +185,7 @@
   <ItemGroup>
     <ClCompile Include="CheckInBox.cpp" />
     <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="InstancingException.cpp" />
     <ClCompile Include="Log.cpp" />
   </ItemGroup>
   <ItemGroup>
