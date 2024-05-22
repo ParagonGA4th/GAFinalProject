@@ -134,15 +134,17 @@ namespace Pg::Graphics
 
 	void RenderObject3DList::UpdateObjectCullingState(Pg::Data::CameraData* camData)
 	{
+		using namespace DirectX;
 		//일단은 차이가 없게 하기 위해서, 리턴. 발표 끝나고 이어서 할것.
+		//더 급 한 것 부 터 하 자
 		return;
-
+		///왜인지는 모르겠지만.. => 거꾸로 적용된다. 이거 고쳐야.
 
 		DirectX::XMMATRIX tViewMat = Helper::MathHelper::PG2XM_MATRIX(camData->_viewMatrix);
 		DirectX::XMMATRIX tProjMat = Helper::MathHelper::PG2XM_MATRIX(camData->_projMatrix);
-			
+		DirectX::XMMATRIX tVP = DirectX::XMMatrixMultiply(tViewMat, tProjMat);
 		DirectX::BoundingFrustum tFrustum;
-		DirectX::BoundingFrustum::CreateFromMatrix(tFrustum, DirectX::XMMatrixMultiply(tViewMat, tProjMat));
+		DirectX::BoundingFrustum::CreateFromMatrix(tFrustum, tVP);
 
 		//해당 AABB들을 Transform에 따라서 이동시켜줘야 한다.
 
@@ -161,7 +163,11 @@ namespace Pg::Graphics
 					DirectX::BoundingOrientedBox tOrientedBoundary;
 					tOrientedBoundary.Center = tActualModelMesh._AABB.Center;
 					tOrientedBoundary.Extents = tActualModelMesh._AABB.Extents; //Quaternion은 디폴트 유지.
-					tOrientedBoundary.Transform(tOrientedBoundary, Pg::Math::PG2XM_MATRIX4X4(tROMesh->GetBaseRenderer()->_object->_transform.GetWorldTM()));
+					Pg::Data::Transform* tObjTrans = &(tROMesh->GetBaseRenderer()->_object->_transform);
+					DirectX::XMMATRIX tWorldTM = Pg::Math::PG2XM_MATRIX4X4(tObjTrans->GetWorldTM());
+					DirectX::XMMATRIX tTransViewMat = Pg::Math::PG2XM_MATRIX4X4(
+						Pg::Math::GetViewMatrixFromTransformValues(tObjTrans->GetRight(), tObjTrans->GetUp(), tObjTrans->GetForward(), tObjTrans->_position));
+					tOrientedBoundary.Transform(tOrientedBoundary, DirectX::XMMatrixInverse(nullptr, tTransViewMat) * tWorldTM);
 
 					if (tFrustum.Intersects(tOrientedBoundary))
 					{
@@ -172,6 +178,7 @@ namespace Pg::Graphics
 					}
 				}
 				tROMesh->SetIsCulledFromRendering(tShouldBeCulled);
+				//tROMesh->SetIsCulledFromRendering(!tShouldBeCulled);
 			}
 		}
 
@@ -187,7 +194,11 @@ namespace Pg::Graphics
 					DirectX::BoundingOrientedBox tOrientedBoundary;
 					tOrientedBoundary.Center = tActualModelMesh._AABB.Center;
 					tOrientedBoundary.Extents = tActualModelMesh._AABB.Extents; //Quaternion은 디폴트 유지.
-					tOrientedBoundary.Transform(tOrientedBoundary, Pg::Math::PG2XM_MATRIX4X4(tROMesh->GetBaseRenderer()->_object->_transform.GetWorldTM()));
+					Pg::Data::Transform* tObjTrans = &(tROMesh->GetBaseRenderer()->_object->_transform);
+					DirectX::XMMATRIX tWorldTM = Pg::Math::PG2XM_MATRIX4X4(tObjTrans->GetWorldTM());
+					DirectX::XMMATRIX tTransViewMat = Pg::Math::PG2XM_MATRIX4X4(
+						Pg::Math::GetViewMatrixFromTransformValues(tObjTrans->GetRight(), tObjTrans->GetUp(), tObjTrans->GetForward(), tObjTrans->_position));
+					tOrientedBoundary.Transform(tOrientedBoundary, DirectX::XMMatrixInverse(nullptr, tTransViewMat) * tWorldTM);
 
 					if (tFrustum.Intersects(tOrientedBoundary))
 					{
@@ -198,6 +209,7 @@ namespace Pg::Graphics
 					}
 				}
 				tROMesh->SetIsCulledFromRendering(tShouldBeCulled);
+				//tROMesh->SetIsCulledFromRendering(!tShouldBeCulled);
 			}
 		}
 
@@ -212,7 +224,11 @@ namespace Pg::Graphics
 					DirectX::BoundingOrientedBox tOrientedBoundary;
 					tOrientedBoundary.Center = tActualModelMesh._AABB.Center;
 					tOrientedBoundary.Extents = tActualModelMesh._AABB.Extents; //Quaternion은 디폴트 유지.
-					tOrientedBoundary.Transform(tOrientedBoundary, Pg::Math::PG2XM_MATRIX4X4(tROMesh->GetBaseRenderer()->_object->_transform.GetWorldTM()));
+					Pg::Data::Transform* tObjTrans = &(tROMesh->GetBaseRenderer()->_object->_transform);
+					DirectX::XMMATRIX tWorldTM = Pg::Math::PG2XM_MATRIX4X4(tObjTrans->GetWorldTM());
+					DirectX::XMMATRIX tTransViewMat = Pg::Math::PG2XM_MATRIX4X4(
+						Pg::Math::GetViewMatrixFromTransformValues(tObjTrans->GetRight(), tObjTrans->GetUp(), tObjTrans->GetForward(), tObjTrans->_position));
+					tOrientedBoundary.Transform(tOrientedBoundary, DirectX::XMMatrixInverse(nullptr, tTransViewMat) * tWorldTM);
 
 					if (tFrustum.Intersects(tOrientedBoundary))
 					{
@@ -223,6 +239,7 @@ namespace Pg::Graphics
 					}
 				}
 				tROMesh->SetIsCulledFromRendering(tShouldBeCulled);
+				//tROMesh->SetIsCulledFromRendering(!tShouldBeCulled);
 			}
 			else
 			{
@@ -233,7 +250,11 @@ namespace Pg::Graphics
 					DirectX::BoundingOrientedBox tOrientedBoundary;
 					tOrientedBoundary.Center = tActualModelMesh._AABB.Center;
 					tOrientedBoundary.Extents = tActualModelMesh._AABB.Extents; //Quaternion은 디폴트 유지.
-					tOrientedBoundary.Transform(tOrientedBoundary, Pg::Math::PG2XM_MATRIX4X4(tROMesh->GetBaseRenderer()->_object->_transform.GetWorldTM()));
+					Pg::Data::Transform* tObjTrans = &(tROMesh->GetBaseRenderer()->_object->_transform);
+					DirectX::XMMATRIX tWorldTM = Pg::Math::PG2XM_MATRIX4X4(tObjTrans->GetWorldTM());
+					DirectX::XMMATRIX tTransViewMat = Pg::Math::PG2XM_MATRIX4X4(
+						Pg::Math::GetViewMatrixFromTransformValues(tObjTrans->GetRight(), tObjTrans->GetUp(), tObjTrans->GetForward(), tObjTrans->_position));
+					tOrientedBoundary.Transform(tOrientedBoundary, DirectX::XMMatrixInverse(nullptr, tTransViewMat) * tWorldTM);
 
 					if (tFrustum.Intersects(tOrientedBoundary))
 					{
@@ -244,6 +265,7 @@ namespace Pg::Graphics
 					}
 				}
 				tROMesh->SetIsCulledFromRendering(tShouldBeCulled);
+				//tROMesh->SetIsCulledFromRendering(!tShouldBeCulled);
 			}
 		}
 

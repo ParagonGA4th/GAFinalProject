@@ -641,7 +641,7 @@ namespace Pg::Graphics::Helper
 		DirectX::SimpleMath::Vector3 maxVec = MathHelper::AI2SM_VECTOR3(assimp->mMax);
 		DirectX::SimpleMath::Vector3 middlePoint = 
 			DirectX::SimpleMath::Vector3((minVec.x + maxVec.x) / 2.0f, (minVec.y + maxVec.y) / 2.0f, (minVec.z + maxVec.z) / 2.0f);
-		DirectX::SimpleMath::Vector3 extent(maxVec.x - minVec.x, maxVec.y - minVec.y, maxVec.z - minVec.z);
+		DirectX::SimpleMath::Vector3 extent((maxVec.x - minVec.x) / 2.0f, (maxVec.y - minVec.y) / 2.0f, (maxVec.z - minVec.z) / 2.0f);
 		pgAABB->Center = middlePoint;
 		pgAABB->Extents = extent;
 	}
