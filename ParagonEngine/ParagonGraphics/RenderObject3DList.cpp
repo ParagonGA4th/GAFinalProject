@@ -1,6 +1,11 @@
 #include "RenderObject3DList.h"
 #include <functional>
 #include <numeric>
+#include <dxtk/SimpleMath.h>
+#include <DirectXMath.h>
+#include "MathHelper.h"
+#include "Asset3DModelData.h"
+#include "AssetModelDataDefine.h"
 
 namespace Pg::Graphics
 {
@@ -124,6 +129,91 @@ namespace Pg::Graphics
 		// 원본 = 5 7 8
 		//	 b = 1 3 2
 		//이런 식으로 볼 수 있게 되는 것. (우리는 반대)
+	}
+
+	void RenderObject3DList::UpdateObjectCullingState(Pg::Data::CameraData* camData)
+	{
+		DirectX::XMMATRIX tViewMat = Helper::MathHelper::PG2XM_MATRIX(camData->_viewMatrix);
+		DirectX::XMMATRIX tProjMat = Helper::MathHelper::PG2XM_MATRIX(camData->_projMatrix);
+			
+		DirectX::BoundingFrustum tFrustum;
+		DirectX::BoundingFrustum::CreateFromMatrix(tFrustum, DirectX::XMMatrixMultiply(tViewMat, tProjMat));
+
+		//DirectX::SimpleMath::
+
+		for (auto& [bRenderMat, bVecPtr] : _staticList)
+		{
+			for (int i = 0; i < bVecPtr->size(); i++)
+			{
+				//개별적인 RenderObject 단위.
+				bool tShouldBeCulled = true;
+				RenderObjectStaticMesh3D* tROMesh = bVecPtr->at(i).second.get();
+				for (auto& tActualModelMesh : tROMesh->_modelData->_assetSceneData->_meshList)
+				{
+					if (tFrustum.Intersects(tActualModelMesh._AABB))
+					{
+						// 하나라도 Intersect하면, 렌더해줘야 한다.
+						tShouldBeCulled = false;
+						break;
+					}
+				}
+				tROMesh->SetIsCulledFromRendering(tShouldBeCulled);
+			}
+		}
+
+		for (auto& [bRenderMat, bVecPtr] : _skinnedList)
+		{
+			for (int i = 0; i < bVecPtr->size(); i++)
+			{
+				//개별적인 RenderObject 단위.
+				bool tShouldBeCulled = true;
+				RenderObjectSkinnedMesh3D* tROMesh = bVecPtr->at(i).second.get();
+				for (auto& tActualModelMesh : tROMesh->_modelData->_assetSceneData->_meshList)
+				{
+					if (tFrustum.Intersects(tActualModelMesh._AABB))
+					{
+						// 하나라도 Intersect하면, 렌더해줘야 한다.
+						tShouldBeCulled = false;
+						break;
+					}
+				}
+				tROMesh->SetIsCulledFromRendering(tShouldBeCulled);
+			}
+		}
+
+		for (auto& it : _allAlphaBlendedList)
+		{
+			if (it->_isSkinned)
+			{
+				bool tShouldBeCulled = true;
+				RenderObjectSkinnedMesh3D* tROMesh = it->_eitherSkinnedMesh.get();
+				for (auto& tActualModelMesh : tROMesh->_modelData->_assetSceneData->_meshList)
+				{
+					if (tFrustum.Intersects(tActualModelMesh._AABB))
+					{
+						// 하나라도 Intersect하면, 렌더해줘야 한다.
+						tShouldBeCulled = false;
+						break;
+					}
+				}
+				tROMesh->SetIsCulledFromRendering(tShouldBeCulled);
+			}
+			else
+			{
+				bool tShouldBeCulled = true;
+				RenderObjectStaticMesh3D* tROMesh = it->_eitherStaticMesh.get();
+				for (auto& tActualModelMesh : tROMesh->_modelData->_assetSceneData->_meshList)
+				{
+					if (tFrustum.Intersects(tActualModelMesh._AABB))
+					{
+						// 하나라도 Intersect하면, 렌더해줘야 한다.
+						tShouldBeCulled = false;
+						break;
+					}
+				}
+				tROMesh->SetIsCulledFromRendering(tShouldBeCulled);
+			}
+		}
 	}
 
 }

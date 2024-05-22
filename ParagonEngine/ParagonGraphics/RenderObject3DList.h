@@ -28,13 +28,15 @@ namespace Pg::Graphics
 	struct RenderObject3DList
 	{
 	public:
+		//현 프레임에 오브젝트들이 Culling되어야 하는지, 아닌지를 구별. (Update)
+		void UpdateObjectCullingState(Pg::Data::CameraData* camData);
 
 		std::vector<RenderObject3D*> GetRenderObjectWithGameObject(Pg::Data::GameObject* obj);
 		void DeleteRenderObjectWithGameObject(Pg::Data::GameObject* obj);
 		//더 큰 거일수록 뒤에 가야 한다. 
 		//먼저 그려져야 하니!
 		void SortBlendedByDepth_BackToFront(Pg::Data::CameraData* camData);
-
+		
 
 		//일단은 Material Index와 관계는 없을 것이다. -> 이는 현재로서는 Opaque에 한정.
 		std::unordered_map<std::string, RenderMaterial*> _materialPathSet;

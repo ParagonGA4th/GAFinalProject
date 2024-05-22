@@ -55,11 +55,11 @@ namespace Pg::Graphics
 	//};
 
 	//각 Mesh당 저장될 AABB 데이터.
-	struct AABB_AssetData
-	{
-		DirectX::SimpleMath::Vector3 _minVec;
-		DirectX::SimpleMath::Vector3 _maxVec;
-	};
+	//struct AABB_AssetData
+	//{
+	//	DirectX::SimpleMath::Vector3 _minVec;
+	//	DirectX::SimpleMath::Vector3 _maxVec;
+	//};
 
 	//렌더에 필요한 Mesh의 정보만 보관 및, 렌더에 활용될 것. 
 	struct Mesh_AssetData
@@ -82,7 +82,7 @@ namespace Pg::Graphics
 		//자신이 속한 MaterialID
 		unsigned int _materialID = 0;
 
-		AABB_AssetData _AABB;
+		DirectX::BoundingBox _AABB;
 	};
 
 	struct Scene_AssetData

@@ -19,6 +19,8 @@
 // 3D Static
 #include "StaticCollider.h"
 #include "StaticBoxCollider.h"
+#include "StaticSphereCollider.h"
+#include "StaticCapsuleCollider.h"
 #include "PlaneCollider.h"
 
 ///Light

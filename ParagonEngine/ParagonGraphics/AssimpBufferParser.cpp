@@ -455,13 +455,26 @@ namespace Pg::Graphics::Helper
 
 					aiString tAssimpTexturePath;
 					assimp->mMaterials[i]->GetTexture((aiTextureType)tTexType, 0, &tAssimpTexturePath); //항상 0번째 Texture만을 가져오게!
-					std::string tTexturePath = tAssimpTexturePath.C_Str();
+					
+					std::string tTextureName;
+					std::string tFbmPart;
+					//리소스 fbm fbx 이름 따라서 연동할 수 있게.
+					{
+						std::string tTexturePath = tAssimpTexturePath.C_Str();
+						std::filesystem::path tTempRecordingPath(tTexturePath);
+						tTextureName = tTempRecordingPath.filename().string();
+					}
+					{
+						std::filesystem::path tTempRecordingPath(directory);
+						tFbmPart = tTempRecordingPath.stem().string();
+						tFbmPart += ".fbm";
+					}
 
 					//이전에, Directory에서 .fbx라는 파일 경로에서 TextureX가 파생되는 것이 아니라,
 					//"한단계" 상위 경로로 가서 찾아야 한다.
 					std::filesystem::path modelParentPath = directory;
 					std::string modelParentStr = modelParentPath.parent_path().string();
-					std::string tCompletePath = modelParentStr + '/' + tTexturePath;
+					std::string tCompletePath = modelParentStr + '/' + tFbmPart + '/' + tTextureName;
 
 					tCompletePath = ResourceHelper::ForcePathUniform(tCompletePath);
 
@@ -621,10 +634,16 @@ namespace Pg::Graphics::Helper
 		_aiMeshToMeshMap.insert(std::make_pair(assimp, pgMesh));
 	}
 
-	void AssimpBufferParser::StoreAssimpAABB(const aiAABB* assimp, AABB_AssetData* pgAABB)
+	void AssimpBufferParser::StoreAssimpAABB(const aiAABB* assimp, DirectX::BoundingBox* pgAABB)
 	{
-		pgAABB->_minVec = MathHelper::AI2SM_VECTOR3(assimp->mMin);
-		pgAABB->_maxVec = MathHelper::AI2SM_VECTOR3(assimp->mMax);
+		///이거 해야.
+		DirectX::SimpleMath::Vector3 minVec = MathHelper::AI2SM_VECTOR3(assimp->mMin);
+		DirectX::SimpleMath::Vector3 maxVec = MathHelper::AI2SM_VECTOR3(assimp->mMax);
+		DirectX::SimpleMath::Vector3 middlePoint = 
+			DirectX::SimpleMath::Vector3((minVec.x + maxVec.x) / 2.0f, (minVec.y + maxVec.y) / 2.0f, (minVec.z + maxVec.z) / 2.0f);
+		DirectX::SimpleMath::Vector3 extent(maxVec.x - minVec.x, maxVec.y - minVec.y, maxVec.z - minVec.z);
+		pgAABB->Center = middlePoint;
+		pgAABB->Extents = extent;
 	}
 
 	//For Animation
