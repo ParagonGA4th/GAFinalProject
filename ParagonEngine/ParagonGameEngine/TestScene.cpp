@@ -147,10 +147,8 @@ void Pg::Engine::TestScene::Initialize()
 			tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
 			tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
 		}
-		
 	}
 	
-
 	{
 		Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
 		tObj7->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
@@ -161,7 +159,7 @@ void Pg::Engine::TestScene::Initialize()
 		tObj7->GetComponent<PlaneCollider>();
 		tObj7->AddComponent<StaticMeshRenderer>();
 		//tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/TestingRecast/BattleSpace_res2.obj");
-		tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj");
+		tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale.obj");
 		tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	}
 	
@@ -313,8 +311,8 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj24->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	////Animator 추가.
 	//tObj24->AddComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Test/BTree_Testing1.xml");	
-	// 
-	 Pg::Data::GameObject* tObj24 = tCurrentScene->AddObject("TextShowing");
+	 
+	Pg::Data::GameObject* tObj24 = tCurrentScene->AddObject("TextShowing");
 	tObj24->GetComponent<Transform>()->_position = {400.f, 40.0f, 0.0f };
 	tObj24->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	tObj24->GetComponent<Transform>()->_rotation = tObj24->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
