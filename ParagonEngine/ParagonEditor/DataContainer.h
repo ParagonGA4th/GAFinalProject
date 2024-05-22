@@ -25,7 +25,7 @@ namespace Pg::Editor::Data
 		void SetEditorOnOff(bool onoff);
 		bool GetEditorOnOff() const;
 
-		void SetSceneList(std::vector<Pg::Data::Scene*> scenes);
+		void SetSceneList(std::vector<Pg::Data::Scene*> scenes, bool isSceneLoad = true);
 		std::vector<Pg::Data::Scene*> GetSceneList();
 
 		// sceneNumber == vector<Scene> index
