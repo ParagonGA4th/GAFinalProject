@@ -2,11 +2,12 @@
 #include "Log.h"
 #include "InputSystem.h"
 #include "TimeSystem.h"
+#include "InstancingException.h"
 #include <singleton-cpp/singleton.h>
 
 namespace Pg::Util
 {
-	void UtilMain::Initialize(float screenWidth, float screenHeight, void* hwnd)
+	void UtilMain::Initialize(const std::string& resourceListPath, float screenWidth, float screenHeight, void* hwnd)
 	{
 		auto& _logger = singleton<Pg::Util::Debug::Log>();
 		
@@ -16,7 +17,9 @@ namespace Pg::Util
 		//Time
 		_timeSystem = &singleton<Time::TimeSystem>();
 
-		
+		//InstException
+		_instancingException = &singleton<InstancingException>();
+
 		//Initializing..
 		_logger.Initialize();
 		_inputSystem->Initialize(screenWidth, screenHeight);
@@ -25,7 +28,7 @@ namespace Pg::Util
 
 		_timeSystem->Initialize(hwnd);
 
-		
+		_instancingException->Initialize(resourceListPath);
 	}
 
 	void UtilMain::Update()

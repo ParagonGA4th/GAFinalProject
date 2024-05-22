@@ -16,18 +16,19 @@ namespace Pg::Util
 	{
 		class TimeSystem;
 	}
-
+	class InstancingException;
 
 	class UtilMain : public Pg::Core::IUtil
 	{
 	public: 
-		PARAGON_UTIL_DLL virtual void Initialize(float screenWidth, float screenHeight, void* hwnd) override;
+		PARAGON_UTIL_DLL virtual void Initialize(const std::string& resourceListPath, float screenWidth, float screenHeight, void* hwnd) override;
 		PARAGON_UTIL_DLL virtual void Update() override;
 		PARAGON_UTIL_DLL virtual void Finalize() override;
 
 	private:
 		Input::InputSystem* _inputSystem;
 		Time::TimeSystem* _timeSystem;
+		InstancingException* _instancingException;
 	};
 }
 

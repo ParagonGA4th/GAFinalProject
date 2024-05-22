@@ -31,7 +31,6 @@ namespace Pg::Graphics
 		void LoadLightmapCSVList(const std::string& resourceListPath);
 		
 	private:
-		//Scene Name / Lightmap Data
 		std::unordered_map<std::string, std::unique_ptr<RenderLightmapData>> _lightmapStorage;
 		std::unique_ptr<LightmapParser> _lightmapParser;
 		bool _isSceneUseLightmap{ false };
