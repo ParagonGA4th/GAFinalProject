@@ -22,9 +22,6 @@ namespace Pg::Graphics
 		virtual void First_Render(const float* const dt) override;
 		virtual void First_UnbindBuffers() override;
 
-		virtual void RenderShadowPerspectiveRelated() override;
-		virtual void CleanupShadowPerspectiveRelated() override;
-
 	private:
 		//이 RenderObject는 상수버퍼 자체를 만들지 않는다.
 		

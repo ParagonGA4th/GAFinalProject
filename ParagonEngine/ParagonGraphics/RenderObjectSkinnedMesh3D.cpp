@@ -91,12 +91,12 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(_modelData->_pbrTextureArrays[1]->GetSRV()));
 		// ARM
 		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(_modelData->_pbrTextureArrays[2]->GetSRV()));
+
+		BindMainVertexIndexBuffer();
 	}
 
 	void RenderObjectSkinnedMesh3D::First_Render(const float* const dt)
 	{
-		BindMainVertexIndexBuffer();
-
 		//아트에서 들어오는 리소스들은 모두 싱글Mesh이지만,
 		//FBX에 들어오면서부터는 내부의 다른 Material 사용으로 쪼개질 것이다.
 		//애니메이션 연산에는 연관X, 형식 유지를 위해 출력.

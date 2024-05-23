@@ -29,9 +29,6 @@ namespace Pg::Graphics
 		virtual void First_BindBuffers() override;
 		virtual void First_Render(const float* const dt) override;
 		virtual void First_UnbindBuffers() override;
-
-		virtual void RenderShadowPerspectiveRelated() override;
-		virtual void CleanupShadowPerspectiveRelated() override;
 	private:
 		//후에 셰이더 라이팅에 쓰일 메인 Vertex / Index Buffer 바인딩.
 		void BindMainVertexIndexBuffer();
