@@ -13,7 +13,7 @@ namespace Pg::Graphics
 		virtual ~SystemInterfacedVertexShader();
 
 		ID3D11VertexShader* GetVertexShader();
-		void Bind(unsigned int instanceIndex);
+		void Bind(unsigned int classIndex);
 		void Unbind();
 	private:
 		ID3D11VertexShader* _shader;

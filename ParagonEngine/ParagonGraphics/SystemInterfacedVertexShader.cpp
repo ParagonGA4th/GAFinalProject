@@ -37,20 +37,20 @@ namespace Pg::Graphics
 		ID3D11ShaderReflectionVariable* pInterfaceVariableName =
 			pReflector->GetVariableByName(shdVariableName.c_str());
 
+		D3D11_SHADER_VARIABLE_DESC tDesc;
+		HR(pInterfaceVariableName->GetDesc(&tDesc));
 		assert(pInterfaceVariableName != nullptr);
 
-		//기본적으로 Non-Array Element이니, 그자체 저장.
+		//기본적으로 Non-Array Element이니, 0그자체 저장.
 		_interfaceVarOffset = pInterfaceVariableName->GetInterfaceSlot(0);
 		
 		_linkageStorageVector.resize(_concreteClassNamesVector.size());
 
 		for (int i = 0; i < _concreteClassNamesVector.size(); i++)
 		{
-			HR(g_pVSClassLinkage->GetClassInstance(_concreteClassNamesVector.at(i).c_str(), 0,
-				&(_linkageStorageVector.at(i))));
-
-			//Dynamic Linking Array 할당.
-			//_dynamicLinkageArray[_interfaceVarOffset] = pInstance;
+			ID3D11ClassInstance* dInstance = NULL;
+			HR(g_pVSClassLinkage->GetClassInstance(_concreteClassNamesVector.at(i).c_str(), 0, &dInstance));
+			_linkageStorageVector.at(i) = dInstance;
 		}
 	}
 
@@ -64,7 +64,7 @@ namespace Pg::Graphics
 		return _shader;
 	}
 
-	void SystemInterfacedVertexShader::Bind(unsigned int instanceIndex)
+	void SystemInterfacedVertexShader::Bind(unsigned int classIndex)
 	{
 		// Input Layout
 		_DXStorage->_deviceContext->IASetInputLayout(_inputLayout);
@@ -74,7 +74,8 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->RSSetState(_rsState);
 
 		// Shader - Linkage와 같이 활용해서 바인딩한다.
-		_dynamicLinkageArray[_interfaceVarOffset] = _linkageStorageVector.at(instanceIndex);
+		_dynamicLinkageArray[_interfaceVarOffset] = _linkageStorageVector.at(classIndex);
+		//_dynamicLinkageArray[instanceIndex] = _linkageStorageVector.at(instanceIndex);
 		_DXStorage->_deviceContext->VSSetShader(_shader, _dynamicLinkageArray, _interfacesCount);
 	}
 
