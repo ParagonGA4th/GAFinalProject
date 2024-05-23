@@ -11,6 +11,8 @@ interface IViewProjGettable
 
 class CCameraViewProjGet : IViewProjGettable
 {
+    //무슨 러시아 포럼에서 봤는데 이래야 인식이 된다고 한다. 변수를 사용해야 메모리 할당? 등인듯.
+    //float tCCameraViewProjGet_Pad;
     float4x4 GetAssignedViewProj()
     {
         return gCBuf_ViewProjMatrix;
@@ -19,6 +21,7 @@ class CCameraViewProjGet : IViewProjGettable
 
 class CMainLightViewProjGet : IViewProjGettable
 {
+    //float tCMainLightViewProjGet_Pad;
     float4x4 GetAssignedViewProj()
     {
         return _lightViewProj;

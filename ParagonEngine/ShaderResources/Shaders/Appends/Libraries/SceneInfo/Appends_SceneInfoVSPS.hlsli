@@ -81,12 +81,15 @@ cbuffer cbRenderingInfo : register(b5)
 {
     PgDirectionalLight _dirLightArray[10];
     uint _dirLightCount;
+    uint3 _pad1;
     
     PgSpotLight _spotLightArray[10];
     uint _spotLightCount;
+    uint3 _pad2;
     
     PgPointLight _pointLightArray[10];
     uint _pointLightCount;
+    uint3 _pad3;
     
     //Directional Light 기준, 하나 이상 있어야 유효.
     //Single Directional Light Shadow Map을 적용할 터이니.

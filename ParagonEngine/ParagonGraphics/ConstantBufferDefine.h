@@ -70,12 +70,15 @@ namespace Pg::Graphics
 		{
 			DirLightGPU _dirLightArray[10];
 			unsigned int _dirLightCount;
+			unsigned int _pad1[3];
 
 			SpotLightGPU _spotLightArray[10];
 			unsigned int _spotLightCount;
+			unsigned int _pad2[3];
 
 			PointLightGPU _pointLightArray[10];
 			unsigned int _pointLightCount;
+			unsigned int _pad3[3];
 
 			DirectX::XMMATRIX _lightView;
 			DirectX::XMMATRIX _lightProj;
