@@ -53,6 +53,9 @@ namespace Pg::Data
 		void OnTriggerEnter(Collider* c);
 		void OnTriggerExit(Collider* c);
 
+		//애니메이션 끝난거 신호.
+		void OnAnimationEnd();
+
 	public:
 		void OnDestroy();
 
@@ -103,6 +106,7 @@ namespace Pg::Data
 		//Awake / Start 함수 다시금 실행 할 수 있게 만들어놓는다.
 		void ResetDebouncerBoolean();
 
+		void TurnOnAnimationEnd();
 	public:
 		Transform& _transform;
 
@@ -112,7 +116,7 @@ namespace Pg::Data
 		bool _isInternalBeforePhysicsAwake{ false };
 		bool _isAwake{ false };
 		bool _isStarted{ false };
-
+		bool _isTurnedOnAnimationEnd{ false };
 		bool _dontDestroyOnLoad{ false };
 
 	private:

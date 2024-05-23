@@ -133,6 +133,17 @@ namespace Pg::Data
 			});
 	}
 
+	void Scene::OnAnimationEnd()
+	{
+		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
+			{
+				if (iter->GetActive())
+				{
+					iter->OnAnimationEnd();
+				}
+			});
+	}
+
 	void Scene::FixedUpdate()
 	{
 		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
@@ -306,4 +317,7 @@ namespace Pg::Data
 	{
 		_is3D = is3d;
 	}
+
+	
+
 }

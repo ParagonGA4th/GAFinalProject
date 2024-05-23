@@ -73,7 +73,7 @@ namespace Pg::Graphics
 		bool _isLoop{false};
 		double _animationTime{ 0.0 }; // 현재 애니메이션이 재생된 시간
 		double _currentTick{ 0.0 };	  // 현재 재생되고 있는 틱.
-
+		bool _isEndFrameCalled{false};
 	private:
 		//개별 Skinning 객체별 독립적인 애니메이션을 실행하기 위해 존재하는 CopyNode.
 		std::unique_ptr<ModifiedNode_SkinnedMesh> _copiedModifyRootNode;

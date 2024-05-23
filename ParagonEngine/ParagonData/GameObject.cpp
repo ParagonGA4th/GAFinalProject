@@ -491,6 +491,24 @@ namespace Pg::Data
 			{ iter.second->OnEngineStop(); });
 	}
 
-	
+	void GameObject::OnAnimationEnd()
+	{
+		if (!_isActive)
+		{
+			return;
+		}
+		if (_isTurnedOnAnimationEnd)
+		{
+			std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+				{ iter.second->OnAnimationEnd(); });
+
+			_isTurnedOnAnimationEnd = false;
+		}
+	}
+
+	void GameObject::TurnOnAnimationEnd()
+	{
+		_isTurnedOnAnimationEnd = true;
+	}
 
 }
