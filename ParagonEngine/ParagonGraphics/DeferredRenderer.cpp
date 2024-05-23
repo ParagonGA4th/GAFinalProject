@@ -91,7 +91,8 @@ namespace Pg::Graphics
 		RenderFirstInstancedPass(renderObjectList, camData);
 		RenderFirstStaticPass(renderObjectList, camData);
 		RenderFirstSkinnedPass(renderObjectList, camData);
-		RenderOpaqueShadowPass(renderObjectList, camData);
+		UpdateShadowDSV();
+		//RenderOpaqueShadowPass(renderObjectList, camData);
 
 		SendPBRBufferSRVs();
 		RenderOpaqueQuadPasses(renderObjectList, camData);
@@ -485,6 +486,11 @@ namespace Pg::Graphics
 	void DeferredRenderer::UpdateCullingInformation(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		renderObjectList->UpdateObjectCullingState(camData);
+	}
+
+	void DeferredRenderer::UpdateShadowDSV()
+	{
+		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &(_carrier->_mainLightGBufDSV->GetSRV()));
 	}
 
 }

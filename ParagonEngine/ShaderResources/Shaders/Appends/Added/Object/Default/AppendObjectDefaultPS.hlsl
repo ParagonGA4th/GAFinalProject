@@ -147,11 +147,11 @@ POutQuad main(VOutQuad pin)
     }
     
     //이거 아니다. 
-    //float shadow = ShadowCalculation(GetPosition(pin.UV), GetNormal(pin.UV), _dirLightArray[0].direction);
-    //if (0.1f > shadow)
-    //{
-    //    res.Output.rgb = float3(0.05f, 0.05f, 0.05f);
-    //}
+    float shadow = ShadowCalculation(GetPosition(pin.UV), GetNormal(pin.UV), _dirLightArray[0].direction);
+    if (0.9f < shadow)
+    {
+        res.Output.rgb = float3(0.05f, 0.05f, 0.05f);
+    }
     
     return res;
 }
