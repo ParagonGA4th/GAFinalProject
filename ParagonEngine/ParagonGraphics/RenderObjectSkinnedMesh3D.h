@@ -44,9 +44,6 @@ namespace Pg::Graphics
 		virtual void First_Render(const float* const dt) override;
 		virtual void First_UnbindBuffers() override;
 
-		virtual void RenderShadowPerspectiveRelated() override;
-		virtual void CleanupShadowPerspectiveRelated() override;
-
 		//내부적으로 SetAnimation 호출. (Client 딴 제어 아닌 Internal Mechanic)
 		void SetAnimation(const std::string& animName, bool isLoop);
 

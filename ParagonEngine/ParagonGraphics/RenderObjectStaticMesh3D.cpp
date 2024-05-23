@@ -43,8 +43,6 @@ namespace Pg::Graphics
 
 	void RenderObjectStaticMesh3D::First_Render(const float* const dt)
 	{
-		BindMainVertexIndexBuffer();
-
 		int tMeshCount = _modelData->_assetSceneData->_totalMeshCount;
 
 		for (int i = 0; i < tMeshCount; i++)
@@ -94,6 +92,8 @@ namespace Pg::Graphics
 
 		// Alpha.
 		//_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &(_modelData->_pbrTextureArrays[3]->GetSRV()));
+
+		BindMainVertexIndexBuffer();
 	}
 
 	void RenderObjectStaticMesh3D::First_UnbindBuffers()
@@ -120,15 +120,4 @@ namespace Pg::Graphics
 		//Index Buffer Setting.
 		_DXStorage->_deviceContext->IASetIndexBuffer(_modelData->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	}
-
-	void RenderObjectStaticMesh3D::RenderShadowPerspectiveRelated()
-	{
-
-	}
-
-	void RenderObjectStaticMesh3D::CleanupShadowPerspectiveRelated()
-	{
-
-	}
-
 }

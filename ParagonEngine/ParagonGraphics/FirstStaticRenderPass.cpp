@@ -37,7 +37,7 @@ namespace Pg::Graphics
 			_d3dCarrierTempStorage->_gBufRequiredRTVArray.data(), _d3dCarrierTempStorage->_gBufRequiredInfoDSV->GetDSV());
 
 		// 셰이더 바인딩.
-		_vs->Bind();
+		_vs->Bind(0);
 		_ps->Bind();
 	}
 
@@ -67,12 +67,24 @@ namespace Pg::Graphics
 					it.second->at(i).second->First_UpdateConstantBuffers(camData);
 					it.second->at(i).second->First_BindBuffers();
 					it.second->at(i).second->First_Render(nullptr);
-					it.second->at(i).second->RenderShadowPerspectiveRelated();
-					it.second->at(i).second->CleanupShadowPerspectiveRelated();
+
+					_vs->Unbind();
+					_vs->Bind(1);
+					_ps->Unbind();
+					_depthRecordOnlyPS->Bind();
+					_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
+					_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+
+					it.second->at(i).second->First_Render(nullptr);
+
+					it.second->at(i).second->First_UnbindBuffers();
+
 					if (isOddMinus)
 					{
 						_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidState);
 					}
+
+					_depthRecordOnlyPS->Unbind();
 				}
 			}
 		}
@@ -81,7 +93,7 @@ namespace Pg::Graphics
 	void FirstStaticRenderPass::UnbindPass()
 	{
 		// Unbind RenderTarget
-		_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
+		_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 
 		// Unbind Shaders
 		_vs->Unbind();
