@@ -34,9 +34,10 @@ Pg::Editor::Window::Hierarchy::~Hierarchy()
 void Pg::Editor::Window::Hierarchy::Initialize()
 {
 	auto& selectable = _widgetCon->CreateWidget<Pg::UI::Widget::Hierarchy>(_objNameList);
-	_prevObjName = selectable.GetSelectObjectName();
+	_currentObjName = selectable.GetSelectObjectName();
 	_isNewObject = selectable.GetBtnClick();
 	_isDeleteObject = selectable.GetKeyDeleteInput();
+	_isObjectChange = selectable.GetISObjectChildrenChange();
 
 	_changeObjectData->AddEvent(Pg::Editor::eEventType::_REFRESHOBJECT, [&](void* data) { IsObjectChanged(data); });
 }
@@ -87,43 +88,35 @@ void Pg::Editor::Window::Hierarchy::DataSet()
 	GetCurrentSceneObjectList();
 	GetSelectedObject();
 
+	if (!(*_isObjectChange)) return;
+
 	for (auto& name : _objNameList)
 	{
+		bool isbreak = false;
 		for (auto& obj : _dataContainer->GetCurrentScene()->GetObjectList())
 		{
-			if (name.second.second.empty())
-			{
-				if (obj->_transform._object->GetName() == name.second.first)
-				{
-					if (obj->_transform.HasParent())
-					{
-						obj->_transform.GetParent()->RemoveChild(obj->GetName());
-						obj->_transform._parent = nullptr;
-					}
-				}
-			}
-			else
-			{
-				if (obj->GetName() != name.second.first) continue;
+			if (isbreak) break;
+			if (obj->GetName() != name.second.first) continue;
 
-				if (obj->_transform.GetChildren().empty())
-				{
-					for (auto& childName : name.second.second)
+			for (auto& childName : name.second.second)
+			{
+				auto it = std::find_if(_dataContainer->GetCurrentScene()->GetObjectList().begin(),
+					_dataContainer->GetCurrentScene()->GetObjectList().end(),
+					[&](Pg::Data::GameObject* childObj)
 					{
-						auto it = std::find_if(_dataContainer->GetCurrentScene()->GetObjectList().begin(),
-							_dataContainer->GetCurrentScene()->GetObjectList().end(),
-							[&](Pg::Data::GameObject* childObj)
-							{
-								return childObj->GetName() == childName;
-							});
+						return childObj->GetName() == childName;
+					});
 
-						if (it == _dataContainer->GetCurrentScene()->GetObjectList().end())
-							obj->_transform.AddChild(*it);
-					}
+				if (it != _dataContainer->GetCurrentScene()->GetObjectList().end())
+				{
+					obj->_transform.AddChild(*it);
+					isbreak = true;
 				}
 			}
 		}
 	}
+
+	*_isObjectChange = false;
 }
 
 
@@ -133,7 +126,7 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 	std::string sceneName = _dataContainer->GetCurrentScene()->GetSceneName();
 
 	// 여러 번 오브젝트 리스트를 가져오는 것을 막기 위해
-	if (_prevSceneName != sceneName || (*_isNewObject) || (*_isDeleteObject) || _isObjectChange || _isRefresh)
+	if (_prevSceneName != sceneName || (*_isNewObject) || (*_isDeleteObject) || _isRefresh)
 	{
 		std::vector<Pg::Data::GameObject*> tObjList;
 
@@ -159,7 +152,7 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 		{
 			for (auto& obj : _dataContainer->GetCurrentScene()->GetObjectList())
 			{
-				if (obj->GetName() == *_prevObjName)
+				if (obj->GetName() == *_currentObjName)
 				{
 					tObjList.emplace_back(obj);
 					break;
@@ -168,12 +161,13 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 
 			_changeObjectData->Invoke(eEventType::_DELETEOBJECT, static_cast<void*>(&tObjList));
 			tObjList.clear();
-			_dataContainer->GetCurrentScene()->DeleteObject((*_prevObjName));
+			_dataContainer->GetCurrentScene()->DeleteObject((*_currentObjName));
 
 			if (_count > 0) _count--;
 		}
 
 		_prevSceneName = sceneName;
+		*_currentObjName = _dataContainer->GetCurrentScene()->GetObjectList().at(0)->GetName();
 		_objNameList.clear();
 
 		int count = 0;
@@ -211,23 +205,23 @@ void Pg::Editor::Window::Hierarchy::GetCurrentSceneObjectList()
 
 void Pg::Editor::Window::Hierarchy::GetSelectedObject()
 {
+	if (_currentObjName->empty())
+	{
+		_changeObjectData->Invoke(eEventType::_OBJECTDATA,
+			static_cast<void*>(_dataContainer->GetCurrentScene()->GetObjectList().at(0)));
+	}
+
+	if (_prevObjName == *_currentObjName) return;
+
 	for (auto i : _dataContainer->GetCurrentScene()->GetObjectList())
 	{
-		if (_prevObjName->empty())
+		if (i->GetName() == *_currentObjName)
 		{
-			_changeObjectData->Invoke(eEventType::_OBJECTDATA,
-				static_cast<void*>(_dataContainer->GetCurrentScene()->GetObjectList().at(0)));
-		}
-
-		if (i->GetName() == *_prevObjName)
-		{
-			_isObjectChange = false;
+			_prevObjName = *_currentObjName;
 			_dataContainer->SetPickObject(i);
 
 			_changeObjectData->Invoke(eEventType::_OBJECTDATA, static_cast<void*>(i));
-			break;
 		}
-		else _isObjectChange = true;
 	}
 }
 
