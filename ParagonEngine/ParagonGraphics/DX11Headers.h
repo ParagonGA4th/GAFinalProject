@@ -3,12 +3,11 @@
 #define ReleaseCOM(x) { if(x){ x->Release(); x = 0; } }
 
 #include "../ParagonMath/PgMath.h"
-
+#include "../ParagonUtil/Log.h"
 #include <dxgi1_2.h>
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
-
 #include <windows.h>
 #include <cassert>
 
@@ -29,7 +28,7 @@ using float4x4 = DirectX::XMMATRIX;
 		HRESULT hr = (x);						\
 		if(FAILED(hr))							\
 		{								\
-			assert(false);				\
+			assert(false); 		\
 			LPWSTR output;                                    	\
 			FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM |		\
 				FORMAT_MESSAGE_IGNORE_INSERTS 	 |		\

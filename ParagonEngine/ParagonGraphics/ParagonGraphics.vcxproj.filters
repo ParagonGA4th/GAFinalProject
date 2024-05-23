@@ -322,6 +322,9 @@
     <ClInclude Include="LUTRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\16_LUTRenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="SystemInterfacedVertexShader.h">
+      <Filter>3_GraphicsResources\SystemShader\SystemInterfacedVertexShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -584,6 +587,9 @@
     </ClCompile>
     <ClCompile Include="LUTRenderPass.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\16_LUTRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemInterfacedVertexShader.cpp">
+      <Filter>3_GraphicsResources\SystemShader\SystemInterfacedVertexShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1007,6 +1013,12 @@
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass">
       <UniqueIdentifier>{449cc130-19ee-4d9d-883c-be93c1eeaf50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3_GraphicsResources\SystemShader\SystemInterfacedVertexShader">
+      <UniqueIdentifier>{c39d04f9-bddf-418f-a071-c7d9d557d27b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\FirstStage_CameraDepth">
+      <UniqueIdentifier>{3d619716-e81b-4b6e-81b2-1b94409afcf7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
@@ -1113,6 +1125,12 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\LUT\LUT_PS.hlsl">
       <Filter>6_HLSL\System\Pipeline\PostProcessing\LUT</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage_CameraDepth\First_DepthRecordOnlyPS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage_CameraDepth</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage_CameraDepth\FirstInstanced_DepthRecordOnlyPS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage_CameraDepth</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
