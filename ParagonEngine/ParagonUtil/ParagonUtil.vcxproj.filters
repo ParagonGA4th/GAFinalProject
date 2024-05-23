@@ -22,6 +22,7 @@
     <ClCompile Include="CheckInBox.cpp">
       <Filter>6_CheckInBox</Filter>
     </ClCompile>
+    <ClCompile Include="InstancingException.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -57,6 +58,7 @@
     <ClInclude Include="CustomAssert.h">
       <Filter>7_CustomAssert</Filter>
     </ClInclude>
+    <ClInclude Include="InstancingException.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -94,6 +96,9 @@
     </Filter>
     <Filter Include="7_CustomAssert">
       <UniqueIdentifier>{9971c8c1-f960-4a44-aaf7-cb25eb41d1cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_InstancingException">
+      <UniqueIdentifier>{bf2fd038-808a-439e-ac94-029c11efce49}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

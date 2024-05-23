@@ -71,11 +71,13 @@ void Pg::Editor::Manager::ProcessManager::Update()
 
 	if (_dataContainer->GetEditorOnOff())
 	{
-		if (_coreMain->GetEditorAdapter()->GetSceneList().size() < _dataContainer->GetSceneList().size())
-			_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
-		else
-			_dataContainer->SetSceneList(_coreMain->GetEditorAdapter()->GetSceneList());
-
+		if (_coreMain->GetEditorAdapter()->GetSceneList().size() != _dataContainer->GetSceneList().size())
+		{
+			if (_coreMain->GetEditorAdapter()->GetSceneList().size() < _dataContainer->GetSceneList().size())
+				_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
+			else
+				_dataContainer->SetSceneList(_coreMain->GetEditorAdapter()->GetSceneList());
+		}
 
 		if (_coreMain->GetEditorAdapter()->GetCurrentScene()->GetSceneName() != _dataContainer->GetCurrentScene()->GetSceneName())
 		{

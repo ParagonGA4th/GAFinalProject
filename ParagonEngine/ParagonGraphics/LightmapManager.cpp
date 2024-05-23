@@ -39,6 +39,8 @@ namespace Pg::Graphics
 		}
 	}
 
+	
+
 	void LightmapManager::SetGPULightmapDataWithScene(const Pg::Data::Scene* scene, void* renderObjectList)
 	{
 		std::string sceneName = scene->GetSceneNameConst();
@@ -150,5 +152,7 @@ namespace Pg::Graphics
 		LowDX11Storage::GetInstance()->_deviceContext->PSSetShaderResources(2, 1, &tNullSRV);
 		LowDX11Storage::GetInstance()->_deviceContext->PSSetShaderResources(2, 1, &(tRenderLightmapData->_lightmapTextureArray->GetSRV()));
 	}
+
+
 
 }
