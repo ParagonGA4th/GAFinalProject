@@ -14,10 +14,16 @@ namespace Pg::Data
 	public:
 		// 임시 기본생성자
 		MonsterHelper() = default;
-		MonsterHelper(GameObject* obj) : Component(obj), _isPlayerDetected(false), _isPlayer(false) {};
+		MonsterHelper(GameObject* obj) : Component(obj), _isPlayerDetected(false), _isPlayer(false), _isAnimationEnd(false) {};
+
+		virtual void OnAnimationEnd()
+		{
+			_isAnimationEnd = true;
+		};
 
 		bool _isPlayerDetected;
 		bool _isPlayer;
+		bool _isAnimationEnd;
 	};
 }
 

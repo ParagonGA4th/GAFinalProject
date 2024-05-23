@@ -140,6 +140,7 @@ namespace Pg::Graphics
 		//명시적으로 돌리는 시간 리셋.
 		_animationTime = 0.0;
 		_currentTick = 0.0;
+		_isEndFrameCalled = false;
 
 		//isLoop따라 값 설정. 해당 값은 일반적으로 데스등 장면에 활용될 것이니, 명시적으로 TPOSE를 넣지는 않을 것이다.
 		this->_isLoop = isLoop;
@@ -201,6 +202,13 @@ namespace Pg::Graphics
 					_animationTime = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
 					//_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
 					_currentTick = _currentAnim->_animAssetData->_durationTick;
+
+					if (!_isEndFrameCalled)
+					{
+						GetBaseRenderer()->_object->TurnOnAnimationEnd();
+					
+						_isEndFrameCalled = true;
+					}
 				}
 			}
 
