@@ -4,7 +4,9 @@
 #include <algorithm>
 
 Pg::UI::Widget::Hierarchy::Hierarchy(std::map<int, std::pair<std::string, std::vector<std::string>>>& objNameList)
-	:_objNameList(objNameList), _mode(1), _isNodeOpen(false), _isNodeSelected(false), _isAddObject(false), _isDeleteObject(false)
+	:_objNameList(objNameList), _mode(1), 
+	_isNodeOpen(false), _isNodeSelected(false),
+	_isAddObject(false), _isDeleteObject(false), _isObjectChildrenChange(false)
 {
 }
 
@@ -106,6 +108,7 @@ void Pg::UI::Widget::Hierarchy::Update()
 					obj.second.second.emplace_back(_objNameList[payload_n].first);
 					_objNameList.erase(payload_n);
 					selectObj = obj.second.second.at(obj.second.second.size() - 1);
+					_isObjectChildrenChange = true;
 				}
 			}
 			ImGui::EndDragDropTarget();
@@ -128,7 +131,14 @@ bool* Pg::UI::Widget::Hierarchy::GetKeyDeleteInput()
 	return &_isDeleteObject;
 }
 
+bool* Pg::UI::Widget::Hierarchy::GetISObjectChildrenChange()
+{
+	return &_isObjectChildrenChange;
+}
+
 std::string Pg::UI::Widget::Hierarchy::GetWidgetLabel()
 {
 	return "Hierarchy";
 }
+
+

@@ -41,9 +41,10 @@ namespace Pg::Editor::Window
 		bool _isDisable;
 
 		std::string _prevSceneName;
+		std::string _prevObjName;
 		int _prevObjListSize;
-		bool _isObjectChange;
 		bool _isRefresh;
+		bool _isSetData;
 		int _count = 0;
 
 		/// helper class
@@ -55,9 +56,10 @@ namespace Pg::Editor::Window
 		/// Data value
 		// key - parent, value - child
 		std::map<int, std::pair<std::string, std::vector<std::string>>> _objNameList;
-		std::string* _prevObjName;
+		std::string* _currentObjName;
 		bool* _isNewObject;
 		bool* _isDeleteObject;
+		bool* _isObjectChange;
 	};
 }
 

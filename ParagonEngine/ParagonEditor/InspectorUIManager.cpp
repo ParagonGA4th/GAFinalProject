@@ -22,7 +22,7 @@
 #include "../ParagonUI/Column.h"
 #include "../ParagonUI/Collaps.h"
 
-
+#include <singleton-cpp/singleton.h>
 
 Pg::Editor::Window::InspectorUIManager::InspectorUIManager()
 {
@@ -110,62 +110,66 @@ void Pg::Editor::Window::InspectorUIManager::Update()
 
 void Pg::Editor::Window::InspectorUIManager::ChangedUI()
 {
-	_changedUI->ClearWidget();
-
 	for (auto& object : _dataManager->_objectData)
 	{
-		if (object.first != _dataManager->_object->GetName()) continue;
+		if (object.first != _objName) continue;
 
-		for (auto& component : object.second)
+		if (_prevObjName.empty() || _prevObjName != _objName)
 		{
-			/// component Name
-			std::string comName;
-			if (component.first.find("::") == std::string::npos) comName = component.first.substr(component.first.rfind("class") + 6);
-			else comName = component.first.substr(component.first.rfind("::") + 2);
+			_prevObjName = _objName;
+			_changedUI->ClearWidget();
 
-			if (_componentExistence.find(component.first) == _componentExistence.end()) _componentExistence.insert({ component.first , new bool(true) });
-			else *_componentExistence.at(component.first) = true;
-
-			_changedUI->ClearColumnWidget();
-			_changedUI->ClearCollapsWidget();
-
-			ColliderUI(comName);
-
-			/// component Data
-			for (auto& [valName, typeInfo, val] : component.second)
+			for (auto& component : object.second)
 			{
-				valName = valName.substr(valName.rfind("_") + 1);
-				_changedUI->CreateColumnsWidget<Pg::UI::Widget::Text>(valName);
+				/// component Name
+				std::string comName;
+				if (component.first.find("::") == std::string::npos) comName = component.first.substr(component.first.rfind("class") + 6);
+				else comName = component.first.substr(component.first.rfind("::") + 2);
 
-				if (typeInfo == typeid(bool).name())
-					_changedUI->CreateColumnsWidget<Pg::UI::Widget::CheckBox>(valName, static_cast<bool*>(val));
+				if (_componentExistence.find(component.first) == _componentExistence.end()) _componentExistence.insert({ component.first , new bool(true) });
+				else *_componentExistence.at(component.first) = true;
 
-				if (typeInfo == typeid(std::string).name())
+				_changedUI->ClearColumnWidget();
+				_changedUI->ClearCollapsWidget();
+
+				ColliderUI(comName);
+
+				/// component Data
+				for (auto& [valName, typeInfo, val] : component.second)
 				{
-					if (!RendererUI(comName, valName, val))
-						_changedUI->CreateColumnsWidget<Pg::UI::Widget::InputText>(valName, static_cast<std::string*>(val));
+					valName = valName.substr(valName.rfind("_") + 1);
+					_changedUI->CreateColumnsWidget<Pg::UI::Widget::Text>(valName);
+
+					if (typeInfo == typeid(bool).name())
+						_changedUI->CreateColumnsWidget<Pg::UI::Widget::CheckBox>(valName, static_cast<bool*>(val));
+
+					if (typeInfo == typeid(std::string).name())
+					{
+						if (!RendererUI(comName, valName, val))
+							_changedUI->CreateColumnsWidget<Pg::UI::Widget::InputText>(valName, static_cast<std::string*>(val));
+					}
+
+					if (typeInfo == typeid(float).name())
+						_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat>(valName, static_cast<float*>(val));
+
+					if (typeInfo == typeid(Pg::Math::PGFLOAT3).name())
+						_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGFLOAT3*>(val));
+
+					if (typeInfo == typeid(Pg::Math::PGFLOAT4).name())
+						_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGFLOAT4*>(val));
+
+					if (typeInfo == typeid(Pg::Math::PGQuaternion).name())
+						_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGQuaternion*>(val));
 				}
 
-				if (typeInfo == typeid(float).name())
-					_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat>(valName, static_cast<float*>(val));
+				_changedUI->CreateCollapsWidget<Pg::UI::Layout::Column<2>>(comName, _changedUI->GetColumnWidgets());
 
-				if (typeInfo == typeid(Pg::Math::PGFLOAT3).name())
-					_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGFLOAT3*>(val));
+				if (comName.find("StaticMeshRenderer") != std::string::npos)
+					_changedUI->CreateCollapsWidget<Pg::UI::Widget::Button>("Refresh", 115.f, 30.f, _isRefresh);
 
-				if (typeInfo == typeid(Pg::Math::PGFLOAT4).name())
-					_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGFLOAT4*>(val));
-
-				if (typeInfo == typeid(Pg::Math::PGQuaternion).name())
-					_changedUI->CreateColumnsWidget<Pg::UI::Widget::DragFloat3>(valName, static_cast<Pg::Math::PGQuaternion*>(val));
+				_changedUI->CreateWidget<Pg::UI::Layout::Collaps>
+					(comName, _changedUI->GetCollapsWidgets(), _componentExistence.at(component.first));
 			}
-
-			_changedUI->CreateCollapsWidget<Pg::UI::Layout::Column<2>>(comName, _changedUI->GetColumnWidgets());
-
-			if (comName.find("StaticMeshRenderer") != std::string::npos)
-				_changedUI->CreateCollapsWidget<Pg::UI::Widget::Button>("Refresh", 115.f, 30.f, _isRefresh);
-
-			_changedUI->CreateWidget<Pg::UI::Layout::Collaps>
-				(comName, _changedUI->GetCollapsWidgets(), _componentExistence.at(component.first));
 		}
 	}
 }
@@ -180,8 +184,6 @@ void Pg::Editor::Window::InspectorUIManager::SetData()
 
 void Pg::Editor::Window::InspectorUIManager::UpdateData()
 {
-	//if (_componentList.at(_componentIndex) == typeid(Pg::DataScript::Script).name())
-
 	if (_isClick)
 	{
 		if (_componentList.at(_componentIndex) == typeid(Pg::DataScript::Script).name())
