@@ -49,23 +49,27 @@ bool Pg::Editor::Data::DataContainer::GetEditorOnOff() const
 	return _onOff;
 }
 
-void Pg::Editor::Data::DataContainer::SetSceneList(std::vector<Pg::Data::Scene*> scenes)
+void Pg::Editor::Data::DataContainer::SetSceneList(std::vector<Pg::Data::Scene*> scenes, bool isSceneLoad)
 {
-	if (_scenes.empty() && scenes.size() == 1) _scenes = scenes;
-
-	for (auto& scene : scenes)
+	if (_scenes.empty() && scenes.size() == 1 || !isSceneLoad)
 	{
-		auto it = std::find_if(_scenes.begin(), _scenes.end(),
-			[&](Pg::Data::Scene* ts)
-			{
-				return (ts->GetSceneName() == scene->GetSceneName());
-			});
-
-		if (it == _scenes.end())
+		_scenes = scenes;
+		SetCurrentScene(0);
+	}
+	else
+	{
+		for (auto& scene : scenes)
 		{
-			_scenes.emplace_back(scene);
-			SetCurrentScene(scene);
-			_isSceneChanged = true;
+			auto it = std::find_if(_scenes.begin(), _scenes.end(),
+				[&](Pg::Data::Scene* ts)
+				{
+					return (ts->GetSceneName() == scene->GetSceneName());
+				});
+
+			if (it == _scenes.end())
+			{
+				_scenes.emplace_back(scene);
+			}
 		}
 	}
 }
@@ -95,6 +99,7 @@ void Pg::Editor::Data::DataContainer::SetCurrentScene(std::string sceneName)
 
 void Pg::Editor::Data::DataContainer::SetCurrentScene(Pg::Data::Scene* scene)
 {
+	_isSceneChanged = true;
 	_currentScene = scene;
 }
 

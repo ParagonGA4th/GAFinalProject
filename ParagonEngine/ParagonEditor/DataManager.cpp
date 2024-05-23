@@ -60,6 +60,7 @@ void Pg::Editor::Manager::DataManager::DataLoad(std::string path, bool isScene)
 			{
 				SceneLoad(path);
 				_dataContainer->SetSceneList(_scenes);
+				_dataContainer->SetCurrentScene(_scenes.at(0));
 			}
 		}
 	}
@@ -68,7 +69,7 @@ void Pg::Editor::Manager::DataManager::DataLoad(std::string path, bool isScene)
 		_scenes.clear();
 
 		ProjectLoad(path);
-		if (_scenes.size() > 0) _dataContainer->SetSceneList(_scenes);
+		if (_scenes.size() > 0) _dataContainer->SetSceneList(_scenes, false);
 	}
 }
 
