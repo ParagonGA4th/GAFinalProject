@@ -92,9 +92,9 @@ void Pg::UI::WidgetContainer::SameLine(bool isSameLine, int lineCount)
 
 void Pg::UI::WidgetContainer::ClearTempWidgets()
 {
-	for (auto widget : _tempWidgets)
-	{
-		delete widget;
-	}
+	//for (auto widget : _tempWidgets)
+	//{
+	//	delete widget;
+	//}
 	_tempWidgets.clear();
 }
