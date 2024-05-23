@@ -16,6 +16,7 @@ namespace Pg::Graphics
 	class GBufferDepthStencil;
 	class LowDX11Storage;
 	class SystemVertexShader;
+	class SystemInterfacedVertexShader;
 	class SystemPixelShader;
 }
 
@@ -40,8 +41,9 @@ namespace Pg::Graphics
 		void CreateShaders();
 
 	private:
-		std::unique_ptr<SystemVertexShader> _vs;
+		std::unique_ptr<SystemInterfacedVertexShader> _vs;
 		std::unique_ptr<SystemPixelShader> _ps;
+		std::unique_ptr<SystemPixelShader> _depthRecordOnlyPS;
 
 	private:
 		float _deltaTimeStorage{ 0.f };

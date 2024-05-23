@@ -413,6 +413,9 @@ namespace Pg::Graphics
 		{
 			_carrier->NullSRV.emplace_back(nullptr);
 		}
+
+		//Main Light DSV วาด็.
+		_carrier->_mainLightGBufDSV = std::make_unique<GBufferDepthStencil>();
 	}
 
 	void DeferredRenderer::InitPBRDirectX()

@@ -120,4 +120,15 @@ namespace Pg::Graphics
 		//Index Buffer Setting.
 		_DXStorage->_deviceContext->IASetIndexBuffer(_modelData->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	}
+
+	void RenderObjectStaticMesh3D::RenderShadowPerspectiveRelated()
+	{
+
+	}
+
+	void RenderObjectStaticMesh3D::CleanupShadowPerspectiveRelated()
+	{
+
+	}
+
 }

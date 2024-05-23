@@ -4,6 +4,7 @@
 #include "LowDX11Storage.h"
 #include "LayoutDefine.h"
 #include "SystemVertexShader.h"
+#include "SystemInterfacedVertexShader.h"
 #include "RenderTexture2D.h"
 #include "RenderCubemap.h"
 #include "SystemPixelShader.h"
@@ -69,6 +70,9 @@ namespace Pg::Graphics
 					it.second->at(i).second->First_BindBuffers();
 					it.second->at(i).second->First_Render(&_deltaTimeStorage);
 					it.second->at(i).second->First_UnbindBuffers();
+
+					it.second->at(i).second->RenderShadowPerspectiveRelated();
+					it.second->at(i).second->CleanupShadowPerspectiveRelated();
 				}
 			}
 		}
@@ -103,10 +107,13 @@ namespace Pg::Graphics
 		//ResourceHelper::IfReleaseChangeDebugTextW(
 
 		// 1st Pass
-		_vs = std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(FIRST_SKINNED_VS_DIRECTORY), 
+		_vs = std::make_unique<SystemInterfacedVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(FIRST_SKINNED_VS_DIRECTORY), 
 			LayoutDefine::GetSkinned1stLayout(),
-			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, 
+			std::string("g_ViewProjGetter"), std::initializer_list<std::string>{ std::string("CCameraViewProjGet"), std::string("CMainLightViewProjGet")});
 		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(FIRST_STAGE_PS_DIRECTORY));
+		_depthRecordOnlyPS = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_DEPTH_ONLY_STAGE_PS_DIRECTORY));
+
 	}
 	
 

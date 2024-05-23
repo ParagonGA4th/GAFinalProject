@@ -3,6 +3,8 @@
 #ifndef __DEFINED_SYSTEM_PER_OBJECT_BUFFERS_HLSL__
 #define __DEFINED_SYSTEM_PER_OBJECT_BUFFERS_HLSL__
 
+#include "System_DynamicInterface_ViewProj.hlsli"
+
 //Defines
 #define PG_MAX_BONECOUNT 256
 #define PG_MAX_NODECOUNT 256

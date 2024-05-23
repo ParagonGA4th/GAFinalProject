@@ -66,6 +66,8 @@ namespace Pg::Graphics
 		virtual void First_BindBuffers() abstract;
 		virtual void First_Render(const float* const dt) abstract;
 		virtual void First_UnbindBuffers() abstract;
+		virtual void RenderShadowPerspectiveRelated() abstract;
+		virtual void CleanupShadowPerspectiveRelated() abstract;
 
 		//Cull되면 렌더되지 않는 것.
 		bool GetIsCulledFromRendering() { return _isCulledFromRendering; }

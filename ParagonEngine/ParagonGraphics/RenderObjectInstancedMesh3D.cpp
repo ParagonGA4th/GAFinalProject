@@ -57,4 +57,15 @@ namespace Pg::Graphics
 	{
 
 	}
+
+	void RenderObjectInstancedMesh3D::RenderShadowPerspectiveRelated()
+	{
+
+	}
+
+	void RenderObjectInstancedMesh3D::CleanupShadowPerspectiveRelated()
+	{
+
+	}
+
 }
