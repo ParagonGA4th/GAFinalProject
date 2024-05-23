@@ -73,6 +73,8 @@ namespace Pg::Defines
 	extern const std::wstring FIRST_STAGE_ALPHABLENDED_PS;
 	extern const std::wstring FIRST_STAGE_PS_DIRECTORY;
 	extern const std::wstring FIRST_INSTANCED_STAGE_PS_DIRECTORY;
+	extern const std::wstring FIRST_DEPTH_ONLY_STAGE_PS_DIRECTORY;
+	extern const std::wstring FIRST_INSTANCED_DEPTH_ONLY_STAGE_PS_DIRECTORY;
 	extern const std::wstring FINAL_STAGE_VS_DIRECTORY;
 	extern const std::wstring FINAL_STAGE_PS_DIRECTORY;
 

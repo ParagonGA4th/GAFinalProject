@@ -4,6 +4,7 @@
 #include "LowDX11Storage.h"
 #include "LayoutDefine.h"
 #include "SystemVertexShader.h"
+#include "SystemInterfacedVertexShader.h"
 #include "SystemPixelShader.h"
 
 namespace Pg::Graphics
@@ -66,8 +67,8 @@ namespace Pg::Graphics
 					it.second->at(i).second->First_UpdateConstantBuffers(camData);
 					it.second->at(i).second->First_BindBuffers();
 					it.second->at(i).second->First_Render(nullptr);
-					it.second->at(i).second->First_UnbindBuffers();
-
+					it.second->at(i).second->RenderShadowPerspectiveRelated();
+					it.second->at(i).second->CleanupShadowPerspectiveRelated();
 					if (isOddMinus)
 					{
 						_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidState);
@@ -101,9 +102,10 @@ namespace Pg::Graphics
 	{
 		using Pg::Util::Helper::ResourceHelper;
 		// 1st Pass
-		_vs = std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_STATIC_VS_DIRECTORY), LayoutDefine::GetStatic1stLayout(),
-			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		_vs = std::make_unique<SystemInterfacedVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_STATIC_VS_DIRECTORY), LayoutDefine::GetStatic1stLayout(),
+			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, std::string("g_ViewProjGetter"), std::initializer_list<std::string>{ std::string("CCameraViewProjGet"), std::string("CMainLightViewProjGet")});
 		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_STAGE_PS_DIRECTORY));
+		_depthRecordOnlyPS = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_DEPTH_ONLY_STAGE_PS_DIRECTORY));
 	}
 
 

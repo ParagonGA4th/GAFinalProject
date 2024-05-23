@@ -59,6 +59,8 @@ namespace Pg::Defines
 	const std::wstring FIRST_STAGE_ALPHABLENDED_PS = L"../Builds/x64/Debug/FirstStage_AlphaBlendedPS.cso";
 	const std::wstring FIRST_STAGE_PS_DIRECTORY = L"../Builds/x64/Debug/FirstStage_PS.cso";
 	const std::wstring FIRST_INSTANCED_STAGE_PS_DIRECTORY = L"../Builds/x64/Debug/FirstInstancedStage_PS.cso";
+	const std::wstring FIRST_DEPTH_ONLY_STAGE_PS_DIRECTORY = L"../Builds/x64/Debug/First_DepthRecordOnlyPS.cso";
+	const std::wstring FIRST_INSTANCED_DEPTH_ONLY_STAGE_PS_DIRECTORY = L"../Builds/x64/Debug/FirstInstanced_DepthRecordOnlyPS.cso";
 	const std::wstring FINAL_STAGE_VS_DIRECTORY = L"../Builds/x64/Debug/FinalStage_VS.cso";
 	const std::wstring FINAL_STAGE_PS_DIRECTORY = L"../Builds/x64/Debug/FinalStage_PS.cso";
 
