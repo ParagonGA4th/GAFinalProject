@@ -1,7 +1,5 @@
 #pragma once
 
-//#pragma comment(lib, "fmod_vc.lib")
-
 namespace Pg::Engine
 {
 	class SoundSystem;
@@ -23,16 +21,15 @@ namespace Pg::API::Sound
 	public:
 		void Initialize();
 
-		//void SetBGMVolume(float vol);
-		//void SetEffectVolume(float vol);
-		//void SetIngameVolume(float vol);
+		void SetBGMVolume(float vol);
+		void SetEffectVolume(float vol);
+		void SetIngameVolume(float vol);
 
-		//float GetBGMVolume();
-		//float GetIngameVolume();
-		//float GetEffectVolume();
+		float GetBGMVolume();
+		float GetIngameVolume();
+		float GetEffectVolume();
 
 	private:
-		Pg::Engine::SoundSystem* _soundSystem;
-		Pg::Engine::Physic::PhysicSystem* _physicSystem;
+		Pg::Engine::SoundSystem* _soundSystem = nullptr;
 	};
 }
