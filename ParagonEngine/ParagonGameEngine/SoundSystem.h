@@ -4,14 +4,16 @@
 #include "../ParagonData/AudioData.h"
 #include "../ParagonData/eSoundGroup.h"
 
-#include "../include/fmod/fmod.h"
-#include "../include/fmod/fmod.hpp"
-#include "../include/fmod/fmod_common.h"
-
+#include <fmod/fmod.h>
+#include <fmod/fmod.hpp>
+#include <fmod/fmod_common.h>
 
 #include <vector>
 #include <string>
 #include <unordered_map>
+
+#include "EngineDLLExporter.h"
+
 /// <summary>
 /// 변지상의 SoundSystem
 /// FMOD를 기반으로 사운드를 구현할 예정이다.
@@ -31,7 +33,8 @@ namespace Pg::Engine
 	class SoundSystem
 	{
 	public:
-		SoundSystem();
+		PARAGON_ENGINE_DLL SoundSystem();
+		PARAGON_ENGINE_DLL ~SoundSystem();
 
 	public:
 		void Initialize(const std::string& resourceListPath);
@@ -50,13 +53,13 @@ namespace Pg::Engine
 		void SetAllGroupVolume();
 		void SetAllVolume();
 
-		void SetBGMVolume(float vol);
-		void SetIngameVolume(float vol);
-		void SetEffectVolume(float vol);
+		PARAGON_ENGINE_DLL void SetBGMVolume(float vol);
+		PARAGON_ENGINE_DLL void SetIngameVolume(float vol);
+		PARAGON_ENGINE_DLL void SetEffectVolume(float vol);
 
-		float GetBGMVolume();
-		float GetIngameVolume();
-		float GetEffectVolume();
+		PARAGON_ENGINE_DLL float GetBGMVolume();
+		PARAGON_ENGINE_DLL float GetIngameVolume();
+		PARAGON_ENGINE_DLL float GetEffectVolume();
 
 		void SoundPause(std::string path, bool isPause);
 

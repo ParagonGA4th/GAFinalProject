@@ -14,40 +14,37 @@ namespace Pg::API::Sound
 {
 	void PgAudio::Initialize()
 	{
-		//auto& tSoundSystem = singleton<Pg::Engine::Physic::PhysicSystem>();
-		//_physicSystem = &tSoundSystem;
-
-		//auto& tSoundSystem = singleton<Pg::Engine::SoundSystem>();
-		//_soundSystem = &tSoundSystem;
+		auto& tSoundSystem = singleton<Pg::Engine::SoundSystem>();
+		_soundSystem = &tSoundSystem;
 	}
 
-	//void PgSound::SetBGMVolume(float vol)
-	//{
-	//	_soundSystem->SetBGMVolume(vol);
-	//}
+	void PgAudio::SetBGMVolume(float vol)
+	{
+		_soundSystem->SetBGMVolume(vol);
+	}
 
-	//void PgSound::SetEffectVolume(float vol)
-	//{
-	//	_soundSystem->SetEffectVolume(vol);
-	//}
+	void PgAudio::SetEffectVolume(float vol)
+	{
+		_soundSystem->SetEffectVolume(vol);
+	}
 
-	//void PgSound::SetIngameVolume(float vol)
-	//{
-	//	_soundSystem->SetIngameVolume(vol);
-	//}
+	void PgAudio::SetIngameVolume(float vol)
+	{
+		_soundSystem->SetIngameVolume(vol);
+	}
 
-	//float PgSound::GetBGMVolume()
-	//{
-	//	return _soundSystem->GetBGMVolume();
-	//}
+	float PgAudio::GetBGMVolume()
+	{
+		return _soundSystem->GetBGMVolume();
+	}
 
-	//float PgSound::GetIngameVolume()
-	//{
-	//	return _soundSystem->GetIngameVolume();
-	//}
+	float PgAudio::GetIngameVolume()
+	{
+		return _soundSystem->GetIngameVolume();
+	}
 
-	//float PgSound::GetEffectVolume()
-	//{
-	//	return _soundSystem->GetEffectVolume();
-	//}
+	float PgAudio::GetEffectVolume()
+	{
+		return _soundSystem->GetEffectVolume();
+	}
 }
