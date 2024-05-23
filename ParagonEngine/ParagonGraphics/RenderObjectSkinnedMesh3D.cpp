@@ -439,15 +439,7 @@ namespace Pg::Graphics
 		return tVal->_relTransform.get();
 	}
 
-	void RenderObjectSkinnedMesh3D::RenderShadowPerspectiveRelated()
-	{
-
-	}
-
-	void RenderObjectSkinnedMesh3D::CleanupShadowPerspectiveRelated()
-	{
-
-	}
+	
 
 }
 

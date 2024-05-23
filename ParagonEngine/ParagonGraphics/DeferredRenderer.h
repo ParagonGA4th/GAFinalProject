@@ -76,7 +76,7 @@ namespace Pg::Graphics
 		void RenderOpaqueShadowPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void UnbindExpiredResources();
 		void UpdateCullingInformation(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
-
+		void UpdateShadowDSV();
 	private:
 		LowDX11Storage* _DXStorage;
 
