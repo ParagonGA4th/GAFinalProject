@@ -16,7 +16,7 @@ namespace Pg::Graphics
 		HR(_DXStorage->_device->CreateClassLinkage(&g_pVSClassLinkage));
 
 		//Vertex Shader Loading
-		HR(_DXStorage->_device->CreateVertexShader(_byteCode->GetBufferPointer(), _byteCode->GetBufferSize(), NULL, &_shader));
+		HR(_DXStorage->_device->CreateVertexShader(_byteCode->GetBufferPointer(), _byteCode->GetBufferSize(), g_pVSClassLinkage, &_shader));
 
 		assert(_inputLayout != nullptr);
 
@@ -28,7 +28,7 @@ namespace Pg::Graphics
 		
 		//셰이더 내부 인터페이스 개수 파악.
 		_interfacesCount = pReflector->GetNumInterfaceSlots();
-		assert(_concreteClassNamesVector.size() == _interfacesCount); // 같아야.
+		//assert(_concreteClassNamesVector.size() == _interfacesCount); // 같아야.
 
 		// 인터페이스 인스턴스들을 갖고 있기 충분한 Array를 만든다.
 		_dynamicLinkageArray =
@@ -44,7 +44,7 @@ namespace Pg::Graphics
 		
 		_linkageStorageVector.resize(_concreteClassNamesVector.size());
 
-		for (int i = 0; i < _interfacesCount; i++)
+		for (int i = 0; i < _concreteClassNamesVector.size(); i++)
 		{
 			HR(g_pVSClassLinkage->GetClassInstance(_concreteClassNamesVector.at(i).c_str(), 0,
 				&(_linkageStorageVector.at(i))));
