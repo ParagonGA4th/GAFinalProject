@@ -43,6 +43,8 @@ namespace Pg::Data
 		virtual void OnTriggerStay() {}
 		virtual void OnTriggerExit(Collider* c) {}
 
+		virtual void OnAnimationEnd() {}
+
 		virtual void OnSerialize(SerializeVector& sv) {}
 		virtual void OnDeserialize(SerializeVector& sv) {}
 

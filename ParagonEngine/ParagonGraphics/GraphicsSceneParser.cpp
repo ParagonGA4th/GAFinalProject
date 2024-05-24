@@ -515,23 +515,47 @@ namespace Pg::Graphics
 					//없으면 넣고, 있으면 무시하고.
 					_renderObject3DList->_instancedStaticList.try_emplace(modelData, std::make_unique<BufferInstancedPairList>());
 					_renderObject3DList->_instancedCulledOppositeStaticList.try_emplace(modelData, std::make_unique<BufferInstancedPairList>());
+					_renderObject3DList->_instancedStaticAlphaClippedList.try_emplace(modelData, std::make_unique<BufferInstancedPairList>());
+					_renderObject3DList->_instancedCulledOppositeStaticAlphaClippedList.try_emplace(modelData, std::make_unique<BufferInstancedPairList>());
 
 					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
 					{
-						//Culling 제대로 구분해서 투입하기.
-						if (tBaseRenderer->_object->_transform.IsScaleOddMinus())
-						{
-							//InstanceStaticPair
+						bool tIsAlphaClipped = modelData->_isUseAlphaClipping;
+						bool tIsScaleOddMinus = tBaseRenderer->_object->_transform.IsScaleOddMinus();
+						//Culling + Alpha Clipping - 제대로 구분해서 투입하기.
 
-							auto& tVectorPtr = _renderObject3DList->_instancedCulledOppositeStaticList.at(modelData)->_instancedStaticPairVec;
+						if (tIsAlphaClipped && !tIsScaleOddMinus)
+						{
+							//알파 클리핑은 적용, 일반적.
+							auto& tVectorPtr = _renderObject3DList->_instancedStaticAlphaClippedList.at(modelData)->_instancedStaticPairVec;
 
 							//값 넣기. 주의! ID3D1Buffer가 같이 들어갔다. (Instancing을 위해)
 							tVectorPtr.push_back(InstancedStaticPair(tMaterialInput, std::make_shared<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
 							tVectorPtr.back()._instancedRenderObject->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
 						}
-						else
+						else if (tIsAlphaClipped && tIsScaleOddMinus)
 						{
+							//알파 클리핑은 적용, 반대로 뒤집힘.
+							auto& tVectorPtr = _renderObject3DList->_instancedCulledOppositeStaticAlphaClippedList.at(modelData)->_instancedStaticPairVec;
+
+							//값 넣기. 주의! ID3D1Buffer가 같이 들어갔다. (Instancing을 위해)
+							tVectorPtr.push_back(InstancedStaticPair(tMaterialInput, std::make_shared<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
+							tVectorPtr.back()._instancedRenderObject->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
+						}
+						else if (!tIsAlphaClipped && !tIsScaleOddMinus)
+						{
+							// 알파 클리핑 적용 X, 일반적.
 							auto& tVectorPtr = _renderObject3DList->_instancedStaticList.at(modelData)->_instancedStaticPairVec;
+
+							//값 넣기. 주의! ID3D1Buffer가 같이 들어갔다. (Instancing을 위해)
+							tVectorPtr.push_back(InstancedStaticPair(tMaterialInput, std::make_shared<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
+							tVectorPtr.back()._instancedRenderObject->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
+						}
+						else if (!tIsAlphaClipped && tIsScaleOddMinus)
+						{
+							// 알파 클리핑 적용 X, 반대로 뒤집힘.
+
+							auto& tVectorPtr = _renderObject3DList->_instancedCulledOppositeStaticList.at(modelData)->_instancedStaticPairVec;
 
 							//값 넣기. 주의! ID3D1Buffer가 같이 들어갔다. (Instancing을 위해)
 							tVectorPtr.push_back(InstancedStaticPair(tMaterialInput, std::make_shared<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
