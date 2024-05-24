@@ -32,12 +32,12 @@ void MonsterMove::OnTriggerExit(Pg::Data::Collider* c)
 
 bool MonsterMove::RotateToTarget(const DirectX::XMFLOAT3& targetPos)
 {
-
+	return true;
 }
 
 bool MonsterMove::Move(DirectX::XMFLOAT3& targetPos, float speed, bool roateToTarget, bool rayCast)
 {
-
+	return true;
 }
 
 float MonsterMove::CalculateAngle(const DirectX::XMFLOAT3& bossPosition, const DirectX::XMFLOAT3& playerPosition)
