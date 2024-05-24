@@ -6,7 +6,7 @@ namespace Pg::Data
 
 	StaticCapsuleCollider::StaticCapsuleCollider(GameObject* owner) :
 		StaticCollider(owner),
-		_radius(1.0f),
+		_width(1.0f),
 		_halfHeight(1.0f)
 	{
 
@@ -38,22 +38,22 @@ namespace Pg::Data
 
 	float StaticCapsuleCollider::GetWidth() const
 	{
-		return (_radius + _halfHeight) * _scaleOffset.x * _object->_transform._scale.x;
+		return (_width+_halfHeight) * _scaleOffset.x * _object->_transform._scale.x;
 	}
 
 	float StaticCapsuleCollider::GetHeight() const
 	{
-		return _radius * 2 * _scaleOffset.y * _object->_transform._scale.y;
+		return _width * 2 * _scaleOffset.y * _object->_transform._scale.y;
 	}
 
 	float StaticCapsuleCollider::GetDepth() const
 	{
-		return _radius * 2 * _scaleOffset.z * _object->_transform._scale.z;
+		return _width * 2 * _scaleOffset.z * _object->_transform._scale.z;
 	}
 
 	float StaticCapsuleCollider::GetRadius() const
 	{
-		return _radius;
+		return _width;
 	}
 
 	float StaticCapsuleCollider::GetHalfHeight() const
@@ -63,7 +63,7 @@ namespace Pg::Data
 
 	void StaticCapsuleCollider::SetRadius(float r)
 	{
-		_radius = r;
+		_width = r;
 	}
 
 	void StaticCapsuleCollider::SetHalfHeight(float h)
@@ -73,7 +73,7 @@ namespace Pg::Data
 
 	void StaticCapsuleCollider::SetCapsuleInfo(float rad, float halfHeight)
 	{
-		_radius = rad;
+		_width = rad;
 		_halfHeight = halfHeight;
 	}
 }
