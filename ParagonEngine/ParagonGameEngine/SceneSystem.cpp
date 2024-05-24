@@ -99,6 +99,7 @@ namespace Pg::Engine
 			_currentScene->Internal_EngineUpdate();
 			UpdateDontDestroyOnLoadObjects();
 			_currentScene->Update();
+			_currentScene->OnAnimationEnd();
 			_currentScene->FixedUpdate();
 			_currentScene->LateUpdate();
 
