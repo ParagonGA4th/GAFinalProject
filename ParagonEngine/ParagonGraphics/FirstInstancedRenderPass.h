@@ -42,12 +42,13 @@ namespace Pg::Graphics
 		void RenderNormalInstanced(void* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderCulledOppositeInstanced(void* renderObjectList, Pg::Data::CameraData* camData);
 	private:
-		std::unique_ptr<SystemInterfacedVertexShader> _vs;
+		std::unique_ptr<SystemVertexShader> _vs;
 		std::unique_ptr<SystemPixelShader> _ps;
 		std::unique_ptr<SystemPixelShader> _depthRecordOnlyPS;
 
 	private:
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbLightmapCollection>> _lightmapCBuffer{ nullptr };
+		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbSwitchableViewProj>> _switchableViewProjCBuffer{ nullptr };
 	private:
 		LowDX11Storage* _DXStorage;
 		const D3DCarrier* _d3dCarrierTempStorage;

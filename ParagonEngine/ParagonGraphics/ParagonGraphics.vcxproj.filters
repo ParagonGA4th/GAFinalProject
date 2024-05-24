@@ -1179,7 +1179,7 @@
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_ShadowFunctions.hlsli">
       <Filter>6_HLSL\Appends\Libraries\MathFunctions</Filter>
     </None>
-    <None Include="..\ShaderResources\Shaders\System\Libraries\System_DynamicInterface_ViewProj.hlsli">
+    <None Include="..\ShaderResources\Shaders\System\Libraries\System_SwitchingViewProj.hlsli">
       <Filter>6_HLSL\System\Libraries</Filter>
     </None>
   </ItemGroup>

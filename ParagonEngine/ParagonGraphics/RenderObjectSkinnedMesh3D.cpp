@@ -82,8 +82,8 @@ namespace Pg::Graphics
 	{
 		_cbFirstBase->BindVS(0);
 		_cbFirstBase->BindPS(0);
-		_cbAllSkinnedNodes->BindVS(1);
-		_cbAllSkinnedBones->BindVS(2);
+		_cbAllSkinnedNodes->BindVS(2);
+		_cbAllSkinnedBones->BindVS(3);
 
 		// Albedo
 		_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(_modelData->_pbrTextureArrays[0]->GetSRV()));
@@ -118,8 +118,8 @@ namespace Pg::Graphics
 	{
 		_cbFirstBase->UnbindVS(0);
 		_cbFirstBase->UnbindPS(0);
-		_cbAllSkinnedNodes->UnbindVS(1);
-		_cbAllSkinnedBones->UnbindVS(2);
+		_cbAllSkinnedNodes->UnbindVS(2);
+		_cbAllSkinnedBones->UnbindVS(3);
 
 		ID3D11ShaderResourceView* tNullSRV = nullptr;
 		// Albedo

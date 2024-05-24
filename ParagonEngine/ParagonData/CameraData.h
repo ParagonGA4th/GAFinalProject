@@ -30,5 +30,7 @@ namespace Pg::Data
 		float _aspect;
 		float _nearWindowHeight;
 		float _farWindowHeight;
+
+		//Pg::Math::PGFLOAT4X4 _mainLightPerspectiveViewProjMatrix;
 	};
 }

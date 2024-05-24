@@ -257,7 +257,7 @@ namespace Pg::Graphics
 	{
 		//이 Send/Receive는 CPU <-> GPU 기준.
 		//Send = CPU->GPU. // Receive = GPU -> CPU
-		_sceneInformationSender->SendData(*infoList, camData);
+		_sceneInformationSender->SendData(_carrier, *infoList, camData);
 		_sceneInformationSender->ProcessData();
 		_sceneInformationSender->ReceiveData(*infoList);
 	}

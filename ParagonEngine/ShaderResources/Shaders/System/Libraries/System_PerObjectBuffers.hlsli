@@ -3,7 +3,7 @@
 #ifndef __DEFINED_SYSTEM_PER_OBJECT_BUFFERS_HLSL__
 #define __DEFINED_SYSTEM_PER_OBJECT_BUFFERS_HLSL__
 
-#include "System_DynamicInterface_ViewProj.hlsli"
+#include "System_SwitchingViewProj.hlsli"
 
 //Defines
 #define PG_MAX_BONECOUNT 256
@@ -19,12 +19,12 @@ cbuffer cbPerObjectBase : register(b0)
     uint gCBuf_MatID;
 };
 
-cbuffer cbPerObjectSkinnedNodes : register(b1)
+cbuffer cbPerObjectSkinnedNodes : register(b2)
 {
     float4x4 gCBuf_Nodes[PG_MAX_NODECOUNT];
 };
 
-cbuffer cbPerObjectSkinnedBones : register(b2)
+cbuffer cbPerObjectSkinnedBones : register(b3)
 {
     float4x4 gCBuf_Bones[PG_MAX_BONECOUNT];
 };

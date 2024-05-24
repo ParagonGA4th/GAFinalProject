@@ -96,6 +96,10 @@ namespace Pg::Graphics
 			SingleLightMapSet gBuf_LightMapSet[Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING];
 		};
 
+		struct cbSwitchableViewProj
+		{
+			DirectX::XMMATRIX _viewProj;
+		};
 		//struct cbObjMatIDCollection
 		//{
 		//	SingleObjMatIdSet gBuf_ObjMatIdSet[Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING];

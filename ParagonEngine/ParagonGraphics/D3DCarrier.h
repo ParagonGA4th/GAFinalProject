@@ -61,6 +61,8 @@ namespace Pg::Graphics
 		unsigned int _srvCount;
 		ID3D11DepthStencilView* _dsv;
 
+		DirectX::XMMATRIX _mainLightPerspectiveViewProjMatrix;
+
 		//추후에 별도로 라이브러리에 쓰이는 Carrier들 빼어야 한다!
 	};
 }
