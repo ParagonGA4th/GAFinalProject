@@ -10,7 +10,7 @@ namespace Pg::Data::BTree::Node
 
 	BT::NodeStatus goToPlayer::tick()
 	{
-
+		return BT::NodeStatus::SUCCESS;
 	}
 
 }
