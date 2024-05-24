@@ -15,6 +15,7 @@
 #include "../ParagonHelper/ResourceHelper.h"
 #include "../ParagonData/AssetDefines.h"
 #include "../ParagonData/Transform.h"
+#include "../ParagonUtil/InstancingException.h"
 
 //Assimp
 #include <assimp/Importer.hpp>     
@@ -55,6 +56,7 @@ namespace Pg::Graphics::Helper
 	std::unordered_map<const aiMesh*, Mesh_AssetData*> AssimpBufferParser::_aiMeshToMeshMap{};
 
 	std::unordered_map<const aiNode*, Node_AssetData*> AssimpBufferParser::_aiNodeToNodeMap{};
+	Pg::Util::InstancingException* AssimpBufferParser::_instancingException{};
 
 	using Pg::Graphics::Helper::MathHelper;
 	using Pg::Util::Helper::ResourceHelper;
@@ -64,6 +66,7 @@ namespace Pg::Graphics::Helper
 	AssimpBufferParser::AssimpBufferParser()
 	{
 		//
+		_instancingException = &singleton<Pg::Util::InstancingException>();
 	}
 
 	AssimpBufferParser::~AssimpBufferParser()
@@ -713,11 +716,45 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
-	void AssimpBufferParser::AssimpToPBRTextureArray(const std::string& modelName, std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData)
+	void AssimpBufferParser::AssimpToPBRTextureArray(const std::string& modelName, const std::string& modelPath, std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData)
 	{
-		///아직 디버깅으로 검증 안되었음. 240515 검증해야!
+		//아직 디버깅으로 검증 안되었음. 240515 검증해야!
 
 		//먼저 MaterialClusterList가 실행되었어야 실행될 수 있는 코드!
+
+		//일단, Model Name이 Instance의 적용을 받는지, 아닌지만 알아본다.
+		bool tRenderedIndividually = true;
+		bool tIsAlphaClipped = false;
+		{
+			std::string tPrefixFromName = modelName.substr(0, 5);
+			std::string tPrefixFromNameOneLonger = modelName.substr(0, 6);
+			bool tIsPartOfInstanceException = _instancingException->IsExceptionFromInstance(modelPath);
+			if (tPrefixFromName.compare(Pg::Defines::NON_INSTANCED_3DMODEL_PREFIX) == 0 ||
+				tPrefixFromNameOneLonger.compare(Pg::Defines::BLENDED_OPTIONAL_3DMODEL_PREFIX) == 0 ||
+				tIsPartOfInstanceException)
+			{
+				//인스턴싱 적용 X, BaseColor / Normal / ARM 전부 필요.
+				//모든 Alpha Blended Object들은 전부 4개의 기본 PBR 버퍼 전부 필요.
+				tRenderedIndividually = true;
+			}
+			else
+			{
+				//인스턴싱이 적용되는 대상의 기본적인 Mesh.
+				//사실 이때부터는, Normal / ARM은 적용할 필요가 없다.
+				//Lightmap이 알아서 처리하기 때문에!
+				if (tPrefixFromName.compare(Pg::Defines::CLIPPED_3DMODEL_PREFIX) == 0)
+				{
+					tIsAlphaClipped = true;
+				}
+				else
+				{
+					tIsAlphaClipped = false;
+				}
+
+			}
+
+		}
+
 
 		std::vector<std::string> tRenderT2Vec;
 		tRenderT2Vec.resize(outMatClusterList.size());
@@ -741,6 +778,33 @@ namespace Pg::Graphics::Helper
 		//outArrayData의 인덱스와 의미 동일.
 		for (int k = 0; k < 4; k++)
 		{
+			//여기에서 필요한 리소스와 그렇지 않은 애들을 구분해야!
+			bool tNeedsDefaultTextureType = false;
+			if (tRenderedIndividually)
+			{
+				//BaseColor / Normal / ARM / 그리고 만약 Blend를 사용하면 Alpha 역시 필요.
+				tNeedsDefaultTextureType = true;
+			}
+			else
+			{
+				if (tIsAlphaClipped)
+				{
+					//BaseColor / Alpha만 필요하다.
+					if (k == 0 || k == 3)
+					{
+						tNeedsDefaultTextureType = true;
+					}
+				}
+				else
+				{
+					//BaseColor만 필요하다. // 그냥 인스턴싱이니.
+					if (k == 0)
+					{
+						tNeedsDefaultTextureType = true;
+					}
+				}
+			}
+
 			for (short i = 0; i < outMatClusterList.size(); i++)
 			{
 				MaterialCluster* tMatCluster = outMatClusterList.at(i);
@@ -766,7 +830,7 @@ namespace Pg::Graphics::Helper
 					//
 					//
 					//tRenderT2Vec.at(i) = GraphicsResourceHelper::GetDefaultTexturePath(type, tSize);
-					if (k != 3) //Alpha면 nullptr 넣어라.
+					if (tNeedsDefaultTextureType && k != 3)
 					{
 						eSizeTexture tSize = GraphicsResourceHelper::GetSizeTextureFromUINT(tPrevWidth, tPrevHeight);
 						std::filesystem::path tFSP = GraphicsResourceHelper::GetDefaultTexturePath(type, tSize);
@@ -774,9 +838,10 @@ namespace Pg::Graphics::Helper
 					}
 					else
 					{
-						//Alpha인데 없으면, 자동으로 만들어주지 않는다.
+						//Alpha인데 없으면, 자동으로 만들어주지 않는다. + 그리고 제외 요소 추가.
 						tRenderT2Vec.at(i) = "";
 					}
+					
 				}
 			}
 
@@ -788,6 +853,11 @@ namespace Pg::Graphics::Helper
 			defInstMatName += "_";
 			defInstMatName += tIdentifierString[k];
 			std::string varName = "PBRTexArray";
+
+			//tRenderTVec은 여러 Mesh Material 안에서 같은 Type만을 Texture2DArray의 인덱스로 접근할 수 있게 한 것이다.
+			//이제 값을 검사한다. -> 비어있으면 Default Texture Array를 만들어주지도 않는다!
+			//그래서 예를 들어, FBX 하나가 인스턴싱 대상인데 BASECOLOR / NORMAL / ARM 등등 모두 있으면 만들어지기는 한다.
+			//다만, 디폴트 값이 들어와야 할 때 이를 거부한다는 것이다.
 
 			//Alpha가 있는지 없는지 검사.
 			bool canBeMade = true;
@@ -848,6 +918,7 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
+	
 
 
 }
