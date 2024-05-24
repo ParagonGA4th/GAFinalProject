@@ -58,7 +58,8 @@ namespace Pg::Defines
 
 	//모든 인스턴싱의 적용을 안 받는 Static 3DModel들이 해당 Prefix를 갖고 있다.
 	extern const std::string NON_INSTANCED_3DMODEL_PREFIX;
-
+	extern const std::string BLENDED_OPTIONAL_3DMODEL_PREFIX;
+	extern const std::string CLIPPED_3DMODEL_PREFIX;
 
 	//Shader Directories.
 	extern const std::string DEFAULT_APPENDS_RENDER_VS_NAME;
