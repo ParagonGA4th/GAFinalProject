@@ -20,8 +20,8 @@ float4 DefaultLightingOperation(float2 quadUV)
     //float roughness = 0.0f;
     
     //라이팅 패스가 자리잡기 전까지, 일단 대체용 코드로 셰이더 돌리기.
-    float3 lightDirArr[3] = { firstLightDir, firstLightDir, firstLightDir };
-    float lightRadianceArr[3] = { firstRad, firstRad, firstRad };
+    //float3 lightDirArr[3] = { firstLightDir, firstLightDir, firstLightDir };
+    //float lightRadianceArr[3] = { firstRad, firstRad, firstRad };
     
     //Outgoing 빛의 방향 (WorldPos -> Eye 벡터 방향)
     float3 Lo = normalize(GetEyePosition() - GetPosition(quadUV));
@@ -42,15 +42,15 @@ float4 DefaultLightingOperation(float2 quadUV)
     
     // 위치/빛 정보가 있는 라이팅을 위한 직접과 연산.
     float3 directLighting = 0.0;
-    uint tNumLight = 3;
+    uint tNumLight = 1;
     for (uint i = 0; i < tNumLight; ++i)
     {
         //float3 Li = -lights[i].direction;
         //float3 Lradiance = lights[i].radiance;
         
         //라이팅이 시스템 상으로 들어오기 전까지는 해당값 처럼.
-        float3 Li = -lightDirArr[i];
-        float3 Lradiance = lightRadianceArr[i];
+        float3 Li = -_dirLightArray[i].direction;
+        float3 Lradiance = _dirLightArray[i].radiance;
     
         //빛 입사 / 아웃 사이 하프벡터
         float3 Lh = normalize(Li + Lo);
@@ -105,7 +105,6 @@ float4 DefaultLightingOperation(float2 quadUV)
 	    //...SpecularHDR. 
         uint specularTextureLevels = IBL_querySpecularTextureLevels();
         float3 specularIrradiance = GetSpecularIrradianceMap(Lr, roughness * specularTextureLevels);
-    
 		// 쿡-토런스 스페큘러 BRDF -> 분할-합계 근사치 계수 구하기.
         float2 specularBRDF = IBL_GetSpecularBRDF(float2(cosLo, roughness));
     
@@ -114,8 +113,10 @@ float4 DefaultLightingOperation(float2 quadUV)
     
 		// 전체 간접광 기여 정도.
         ambientLighting = diffuseIBL + specularIBL;
+        ambientLighting = ACES_Filming_Tonemapping(ambientLighting);
     }
    
+    
     //리턴.
     return float4(gammaCorrection(directLighting) + ambientLighting, 1.0);
 }
@@ -136,23 +137,26 @@ POutQuad main(VOutQuad pin)
         //이 샘플링되었던 LightmapRGB 값 가져오기 + Gamma Correction.
         float4 lightColor = float4(GetLightmapRGB(pin.UV), 1.f);
         lightColor.rgb = pow(lightColor.rgb, 1.f / 2.2f);
-        float4 albedo = float4(sRGB2Lin(GetAlbedoMap(pin.UV)), 1.0f);
+        lightColor.rgb = ACES_Filming_Tonemapping(lightColor.rgb);
+        //float4 albedo = float4(sRGB2Lin(GetAlbedoMap(pin.UV)), 1.0f);
+        float4 albedo = float4(GetAlbedoMap(pin.UV), 1.0f);
+        
         //Color Correction해서 기록.
-        res.Output = albedo * lightColor;
+        res.Output = albedo * float4(lightColor.rgb, 1.0f);
     }
     else
     {
          //라이트맵을 안 쓰는 경우
-        res.Output = DefaultLightingOperation(pin.UV);
+        res.Output = float4(DefaultLightingOperation(pin.UV));
     }
     
     //이거 아니다. 
     //float shadow = ShadowCalculation(GetPosition(pin.UV), GetNormal(pin.UV), _dirLightArray[0].direction);
     //if (0.9f < shadow)
     //{
-    //    res.Output.rgb = float3(0.05f, 0.05f, 0.05f);
-    //
-    //
+    //    res.Output = float4(float3(0.05f, 0.05f, 0.05f), 1.0f);
+    //}
+    
     
     return res;
 }
