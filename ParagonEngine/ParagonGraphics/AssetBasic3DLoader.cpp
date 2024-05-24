@@ -73,7 +73,7 @@ namespace Pg::Graphics::Loader
 			AssimpBufferParser::AssimpToSkinnedDataDXBuffer(pScene, modelData->_assetSceneData, modelData->_assetSkinnedData, modelData->_vertexBuffer, modelData->_secondVertexBuffer, modelData->_indexBuffer);
 			//여기서 Alpha Blending 사용하는지 값을 참조자를 통해 반환받는다.
 			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_isUseAlphaBlending, modelData->_isUseAlphaClipping, modelData->_materialClusterList, path);
-			AssimpBufferParser::AssimpToPBRTextureArray(modelData->GetFileName(), modelData->GetFilePath(), modelData->_materialClusterList, modelData->_pbrTextureArrays);
+			AssimpBufferParser::AssimpToPBRTextureArray(modelData->GetFileName(), modelData->GetFilePath(), modelData->_isSkinned, modelData->_materialClusterList, modelData->_pbrTextureArrays);
 			AssimpBufferParser::D3DSetPrivateData(modelData->GetFileName(), modelData);
 			AssimpBufferParser::Reset();
 		}
@@ -96,7 +96,7 @@ namespace Pg::Graphics::Loader
 			AssimpBufferParser::AssimpToStaticDataDXBuffer(pScene, modelData->_assetSceneData, modelData->_vertexBuffer, modelData->_secondVertexBuffer, modelData->_indexBuffer);
 			//여기서 Alpha Blending 사용하는지 값을 참조자를 통해 반환받는다.
 			AssimpBufferParser::AssimpToMaterialClusterList(pScene, modelData->_isUseAlphaBlending, modelData->_isUseAlphaClipping, modelData->_materialClusterList, path);
-			AssimpBufferParser::AssimpToPBRTextureArray(modelData->GetFileName(), modelData->GetFilePath(), modelData->_materialClusterList, modelData->_pbrTextureArrays);
+			AssimpBufferParser::AssimpToPBRTextureArray(modelData->GetFileName(), modelData->GetFilePath(), modelData->_isSkinned, modelData->_materialClusterList, modelData->_pbrTextureArrays);
 			AssimpBufferParser::D3DSetPrivateData(modelData->GetFileName(), modelData);
 			AssimpBufferParser::Reset();
 		}

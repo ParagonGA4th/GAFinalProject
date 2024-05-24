@@ -1132,6 +1132,12 @@
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage_CameraDepth\FirstInstanced_DepthRecordOnlyPS.hlsl">
       <Filter>6_HLSL\System\Pipeline\FirstStage_CameraDepth</Filter>
     </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\AlphaClippedInstancedStage_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage_CameraDepth\AlphaClippedInstanced_DepthRecordOnlyPS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage_CameraDepth</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_GBufferTextures.hlsli">
