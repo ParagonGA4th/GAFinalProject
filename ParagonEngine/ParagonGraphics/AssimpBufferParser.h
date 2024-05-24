@@ -52,6 +52,11 @@ namespace Pg::Graphics
 	class RenderTexture2DArray;
 }
 
+namespace Pg::Util
+{
+	class InstancingException;
+}
+
 namespace Pg::Graphics
 {
 	namespace Manager
@@ -74,7 +79,7 @@ namespace Pg::Graphics::Helper
 		static void AssimpToSkinnedDataDXBuffer(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, ID3D11Buffer*& outVB1st, ID3D11Buffer*& outVB2nd, ID3D11Buffer*& outIB);
 		static void AssimpToSceneAssetData(const aiScene* assimp, const std::string& path, Scene_AssetData* outSceneAssetData);
 		static void AssimpToMaterialClusterList(const aiScene* assimp, bool& bCheckIfUseAlphaBlending, bool& bChecKIfUseAlphaClipping, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory);
-		static void AssimpToPBRTextureArray(const std::string& modelName, std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData);
+		static void AssimpToPBRTextureArray(const std::string& modelName, const std::string& modelPath, std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData);
 		static void D3DSetPrivateData(const std::string& modelName, Asset3DModelData* modelData);
 		//매 프레임마다 값 관리, Reset()을 통해서 명시적으로 AssimpBufferParser가 재사용하다는 사실을 드러내야 한다.
 		static void Reset();
@@ -115,6 +120,9 @@ namespace Pg::Graphics::Helper
 	private:
 		static std::unordered_map<const aiNode*, Node_AssetData*> _aiNodeToNodeMap;	// Bone에서 aiNode를 통해 Node를 찾기위한 맵
 		static std::unordered_map<const aiMesh*, Mesh_AssetData*> _aiMeshToMeshMap; // aiMesh를 통해 Mesh를 찾기 위한 맵.
+	
+	private:
+		static Pg::Util::InstancingException* _instancingException;
 	};
 }
 
