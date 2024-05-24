@@ -53,6 +53,11 @@ namespace Pg::Engine
 
 	}
 
+	SoundSystem::~SoundSystem()
+	{
+
+	}
+
 	void SoundSystem::Initialize(const std::string& resourceListPath)
 	{
 		CreateSingleSounds(resourceListPath);
@@ -302,5 +307,4 @@ namespace Pg::Engine
 	{
 		return _effectVolume;
 	}
-
 }

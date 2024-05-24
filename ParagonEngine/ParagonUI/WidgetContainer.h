@@ -20,8 +20,8 @@ namespace Pg::UI
 
 		void ClearWidget(int index = 0);
 		void ClearColumnWidget();
-		void ClearCollapsWidget(std::string label = "");
-		void ClearTreeNodeWidget(int index = -1);
+		void ClearCollapsWidget();
+		void ClearTreeNodeWidget(int index = 0);
 		void ClearTempWidgets();
 
 		template<typename T, typename ... Args>

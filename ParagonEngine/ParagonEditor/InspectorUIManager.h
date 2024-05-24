@@ -70,6 +70,7 @@ namespace Pg::Editor::Window
 		Pg::Math::PGQuaternion _prevRotOffset;
 
 		/// object value;
+		std::string _prevObjName;
 		std::string _objName;
 		std::string _objTag;
 		bool _isActive;

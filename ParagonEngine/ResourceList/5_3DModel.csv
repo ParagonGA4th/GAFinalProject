@@ -34,10 +34,10 @@
 ../Resources/3DModels/StaticMesh/CollisionWeirdShape/CollisionWeirdShape.fbx
 ../Resources/3DModels/AnimMesh/PpakMonster/PpakMonster.fbx
 ../Resources/3DModels/LightmappingTest/norm_SM_door.fbx
-../Resources/3DModels/AnimAsset/mon_golemmini/mon_golemmini_body.fbx
-../Resources/3DModels/AnimAsset/mon_golemmini/mon_golemmini_crystal.fbx
-../Resources/3DModels/AnimAsset/golemboss/mon_golemboss_body.fbx
-../Resources/3DModels/AnimAsset/golemboss/mon_golemboss_crystal.fbx
+../Resources/3DModels/Monsters/mon_golemmini/mon_golemmini_body.fbx
+../Resources/3DModels/Monsters/mon_golemmini/mon_golemmini_crystal.fbx
+../Resources/3DModels/Monsters/golemboss/mon_golemboss_body.fbx
+../Resources/3DModels/Monsters/golemboss/mon_golemboss_crystal.fbx
 ../Resources/3DModels/Stage_1/clip_SM_banner01.fbx
 ../Resources/3DModels/Stage_1/clip_SM_banner02.fbx
 ../Resources/3DModels/Stage_1/clip_SM_circle.fbx
