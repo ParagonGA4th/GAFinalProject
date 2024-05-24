@@ -33,6 +33,8 @@ namespace Pg::Graphics
 		{
 			_lightmapCBuffer->GetDataStruct()->gBuf_LightMapSet[i] = SingleLightMapSet({ 1.f,1.f }, { 0.f,0.f }, 0);
 		}
+
+		_switchableViewProjCBuffer.reset(new ConstantBuffer<ConstantBufferDefine::cbSwitchableViewProj>());
 	}
 
 	void FirstInstancedRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)
@@ -56,6 +58,7 @@ namespace Pg::Graphics
 
 		//특수한 상황, Render 안에 bind 존재.
 		//VB/IB 바꾸는게 가장 비싸기 때문에. RT / Shader Switching을 주로 쓸 것이다.
+		_vs->Bind();
 	}
 
 	void FirstInstancedRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
@@ -89,9 +92,11 @@ namespace Pg::Graphics
 		using Pg::Util::Helper::ResourceHelper;
 
 		// Instanced Pass
-		_vs = std::make_unique<SystemInterfacedVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_INSTANCED_VS_DIRECTORY), LayoutDefine::GetInstanced1stLayout(),
-			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, 
-			std::string("g_ViewProjGetter"), std::initializer_list<std::string>{ std::string("CCameraViewProjGet"), std::string("CMainLightViewProjGet")} );
+		//_vs = std::make_unique<SystemInterfacedVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_INSTANCED_VS_DIRECTORY), LayoutDefine::GetInstanced1stLayout(),
+		//	LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, 
+		//	std::string("g_ViewProjGetter"), std::initializer_list<std::string>{ std::string("CCameraViewProjGet"), std::string("CMainLightViewProjGet")} );
+		_vs = std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_INSTANCED_VS_DIRECTORY), LayoutDefine::GetInstanced1stLayout(),
+				LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_INSTANCED_STAGE_PS_DIRECTORY));
 		_depthRecordOnlyPS = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_INSTANCED_DEPTH_ONLY_STAGE_PS_DIRECTORY));
 	}
@@ -109,6 +114,10 @@ namespace Pg::Graphics
 				continue;
 			}
 
+			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = Pg::Math::PG2XM_MATRIX4X4(camData->_viewMatrix * camData->_projMatrix);
+			_switchableViewProjCBuffer->Update();
+			_switchableViewProjCBuffer->BindVS(1);
+
 			//Camera 시점 렌더.
 			{
 				//OMSetRenderTargets - 원래 담았어야 할 곳에 기록!
@@ -116,15 +125,14 @@ namespace Pg::Graphics
 					_d3dCarrierTempStorage->_gBufRequiredRTVArray.data(), _d3dCarrierTempStorage->_gBufRequiredInfoDSV->GetDSV());
 
 				//메인 VS(Camera-Based) / PS 바인드. 
-				_vs->Bind(0);
 				_ps->Bind();
 
 				// Albedo
 				_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(bModel->_pbrTextureArrays[0]->GetSRV()));
-				// Normal
-				_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(bModel->_pbrTextureArrays[1]->GetSRV()));
-				// ARM
-				_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(bModel->_pbrTextureArrays[2]->GetSRV()));
+				//// Normal
+				//_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(bModel->_pbrTextureArrays[1]->GetSRV()));
+				//// ARM
+				//_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(bModel->_pbrTextureArrays[2]->GetSRV()));
 
 				//우선적으로, ConstantBuffer부터 셋한다.
 				assert(bBufferPairList->_instancedLightMapSetVec.size() <= Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING);
@@ -173,12 +181,18 @@ namespace Pg::Graphics
 				ID3D11ShaderResourceView* tNullSRV = nullptr;
 				// Albedo
 				_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &tNullSRV);
-				// Normal
-				_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
-				// ARM
-				_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
+				//// Normal
+				//_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
+				//// ARM
+				//_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
 			}
-			///이제 VertexBuffer가 아직도 Binding되어 있을 이 상황에서, DynamicLinkage 값만 바꾸자.
+
+			///이제 VertexBuffer가 아직도 Binding되어 있을 이 상황에서, ViewProj Switching. 값만 바꾸자.
+			_switchableViewProjCBuffer->UnbindVS(1);
+			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = _d3dCarrierTempStorage->_mainLightPerspectiveViewProjMatrix;
+			_switchableViewProjCBuffer->Update();
+			_switchableViewProjCBuffer->BindVS(1);
+
 			//Light 시점 렌더.
 			{
 				// Unbind RenderTarget
@@ -186,7 +200,7 @@ namespace Pg::Graphics
 
 				//Shadow 렌더 위한 스위칭.
 				_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				_vs->Bind(1);
+				
 				_ps->Unbind();
 				_depthRecordOnlyPS->Bind();
 
@@ -202,6 +216,7 @@ namespace Pg::Graphics
 						bModel->_assetSceneData->_meshList[i]._vertexOffset, 0);
 				}
 
+				_switchableViewProjCBuffer->UnbindVS(1);
 				_depthRecordOnlyPS->Unbind();
 				_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 				//기록도 다 했으니, 다음을 위한 준비.
@@ -225,6 +240,10 @@ namespace Pg::Graphics
 				continue;
 			}
 
+			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = Pg::Math::PG2XM_MATRIX4X4(camData->_viewMatrix * camData->_projMatrix);
+			_switchableViewProjCBuffer->Update();
+			_switchableViewProjCBuffer->BindVS(1);
+
 			//Camera 시점 렌더.
 			{
 				//OMSetRenderTargets - 원래 담았어야 할 곳에 기록!
@@ -232,15 +251,14 @@ namespace Pg::Graphics
 					_d3dCarrierTempStorage->_gBufRequiredRTVArray.data(), _d3dCarrierTempStorage->_gBufRequiredInfoDSV->GetDSV());
 
 				//메인 VS(Camera-Based) / PS 바인드. 
-				_vs->Bind(0);
 				_ps->Bind();
 
 				// Albedo
 				_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(bModel->_pbrTextureArrays[0]->GetSRV()));
-				// Normal
-				_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(bModel->_pbrTextureArrays[1]->GetSRV()));
-				// ARM
-				_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(bModel->_pbrTextureArrays[2]->GetSRV()));
+				//// Normal
+				//_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(bModel->_pbrTextureArrays[1]->GetSRV()));
+				//// ARM
+				//_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(bModel->_pbrTextureArrays[2]->GetSRV()));
 
 				//우선적으로, ConstantBuffer부터 셋한다.
 				assert(bBufferPairList->_instancedLightMapSetVec.size() <= Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING);
@@ -289,12 +307,18 @@ namespace Pg::Graphics
 				ID3D11ShaderResourceView* tNullSRV = nullptr;
 				// Albedo
 				_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &tNullSRV);
-				// Normal
-				_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
-				// ARM
-				_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
+				//// Normal
+				//_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
+				//// ARM
+				//_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
 			}
-			///이제 VertexBuffer가 아직도 Binding되어 있을 이 상황에서, DynamicLinkage 값만 바꾸자.
+
+			///이제 VertexBuffer가 아직도 Binding되어 있을 이 상황에서, ViewProj Switching. 값만 바꾸자.
+			_switchableViewProjCBuffer->UnbindVS(1);
+			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = _d3dCarrierTempStorage->_mainLightPerspectiveViewProjMatrix;
+			_switchableViewProjCBuffer->Update();
+			_switchableViewProjCBuffer->BindVS(1);
+
 			//Light 시점 렌더.
 			{
 				// Unbind RenderTarget
@@ -302,7 +326,7 @@ namespace Pg::Graphics
 
 				//Shadow 렌더 위한 스위칭.
 				_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				_vs->Bind(1);
+				//_vs->Bind(1);
 				_ps->Unbind();
 				_depthRecordOnlyPS->Bind();
 
@@ -318,6 +342,7 @@ namespace Pg::Graphics
 						bModel->_assetSceneData->_meshList[i]._vertexOffset, 0);
 				}
 
+				_switchableViewProjCBuffer->UnbindVS(1);
 				_depthRecordOnlyPS->Unbind();
 				_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 				//기록도 다 했으니, 다음을 위한 준비.

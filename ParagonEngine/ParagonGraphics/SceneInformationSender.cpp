@@ -8,6 +8,7 @@
 #include "RenderCubemap.h"
 #include "SystemPixelShader.h"
 #include "GraphicsResourceManager.h"
+#include "D3DCarrier.h"
 #include "../ParagonData/ParagonDefines.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
@@ -33,8 +34,9 @@ namespace Pg::Graphics
 		CreateBuffers();
 	}
 
-	void SceneInformationSender::SendData(const SceneInformationList& info, const Pg::Data::CameraData* const camData)
+	void SceneInformationSender::SendData(D3DCarrier* carrier, const SceneInformationList& info, const Pg::Data::CameraData* const camData)
 	{
+		_carrier = carrier;
 		_savedSceneInfo = &info;
 		_savedCamData = camData;
 	}
@@ -144,6 +146,9 @@ namespace Pg::Graphics
 					_cbRenderingInfo->GetDataStruct()->_lightView, _cbRenderingInfo->GetDataStruct()->_lightProj);
 			}
 		}
+
+		///그 전에, LightViewProj를 CamData에 옮겨주자! 맨 처음에 실행되니 문제 없이 실행될 것.
+		_carrier->_mainLightPerspectiveViewProjMatrix = _cbRenderingInfo->GetDataStruct()->_lightViewProj;
 
 		//정보를 담았으니, 이제는 업데이트해야.
 		//업데이트.

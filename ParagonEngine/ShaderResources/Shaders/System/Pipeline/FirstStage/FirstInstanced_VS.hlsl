@@ -4,7 +4,7 @@
 #pragma target 5.0
 
 #include "../../Libraries/System_1stLayouts.hlsli"
-#include "../../Libraries/System_DynamicInterface_ViewProj.hlsli"
+#include "../../Libraries/System_SwitchingViewProj.hlsli"
 #include "../../../Appends/Libraries/SceneInfo/Appends_SceneInfoVSPS.hlsli"
 
 VOut1st_Instanced main(Vin1stPassInstanced_Layout input)
@@ -22,7 +22,7 @@ VOut1st_Instanced main(Vin1stPassInstanced_Layout input)
 
 	// 동차좌표계 내 Position 계산.
 	// Row Major 식으로 곱하기.
-    float4x4 WVP = mul(g_ViewProjGetter.GetAssignedViewProj(), World);
+    float4x4 WVP = mul(gCBuf_SwitchableViewProj, World);
     output.vout1st_PosH = mul(WVP, float4(input.vin1st_PosL, 1.0f));
 	
     output.vout1st_Tex = input.vin1st_Tex;

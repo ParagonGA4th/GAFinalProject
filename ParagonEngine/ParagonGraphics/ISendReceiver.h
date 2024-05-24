@@ -13,6 +13,7 @@
 namespace Pg::Graphics
 {
 	using SCArray = std::array<void*, 5>;
+	class D3DCarrier;
 
 	class ISendReceiver
 	{
@@ -20,7 +21,7 @@ namespace Pg::Graphics
 		virtual void Initialize() abstract;
 
 		//만약 보내야 할 자료가 있으면 보내기.
-		virtual void SendData(const SceneInformationList& info, const Pg::Data::CameraData* const camData) abstract;
+		virtual void SendData(D3DCarrier* carrier, const SceneInformationList& info, const Pg::Data::CameraData* const camData) abstract;
 		virtual void ProcessData() abstract;
 		virtual void ReceiveData(SceneInformationList& info) abstract;
 	};
