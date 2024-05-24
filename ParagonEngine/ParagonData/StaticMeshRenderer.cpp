@@ -86,7 +86,8 @@ namespace Pg::Data
 						if (tFirst.compare(tSecond) == 0)
 						{
 							//이러면 값이 일치한다는 것. 
-							str.erase(positions[1]);
+							str.erase(positions[3]);	// 이게 원래 오브젝트 이름 회복하는 거
+							//str.erase(positions[1]); 
 						}
 					}
 				}
