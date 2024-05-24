@@ -424,7 +424,7 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
-	void AssimpBufferParser::AssimpToMaterialClusterList(const aiScene* assimp, bool& bCheckIfUseAlphaBlending, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory)
+	void AssimpBufferParser::AssimpToMaterialClusterList(const aiScene* assimp, bool& bCheckIfUseAlphaBlending, bool& bChecKIfUseAlphaClipping, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory)
 	{
 		//미리 GraphicsResourceManager 받아오기.
 		GraphicsResourceManager* tGraphicsResourceManager = GraphicsResourceManager::Instance();
@@ -533,6 +533,23 @@ namespace Pg::Graphics::Helper
 			{
 				//알파매핑한다는 얘기다. 찾았기 때문.
 				tUseBlend = true;
+
+				//만약
+				std::filesystem::path tTempRecordingPath(directory);
+				std::string tFilename = tTempRecordingPath.filename().string();
+				std::string tPrefixFromName = tFilename.substr(0, 5);
+
+				//근데 clip_까지 사용한다? 그러면 Alpha Clipping 적용.
+				//알파 적용하는 곳에서 다른 셰이더로 기록될 것. Sorting 역시 제외될 것.
+				if (tPrefixFromName.compare(Pg::Defines::CLIPPED_3DMODEL_PREFIX) == 0)
+				{
+					bChecKIfUseAlphaClipping = true;
+				}
+				else
+				{
+					bChecKIfUseAlphaClipping = false;
+				}
+
 				break;
 			}
 		}

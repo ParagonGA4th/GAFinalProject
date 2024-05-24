@@ -10,7 +10,8 @@ namespace Pg::Data::BTree::Node
 
 	BT::NodeStatus goToPlayer::tick()
 	{
-
+		//일단은 빌드시키려고 투입.
+		return BT::NodeStatus::SUCCESS;
 	}
 
 }

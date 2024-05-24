@@ -25,12 +25,14 @@ namespace Pg::Data
 		std::string GetMaterialFilePath();
 
 		bool GetIsInstanced() { return _isInstanced; }
+		bool GetIsAlphaClipped() { return _isAlphaClipped; }
 
 	protected:
 		std::string _meshFilePath;
 		std::string _renderMaterialPath;
 
 		bool _isInstanced{ false };
+		bool _isAlphaClipped{ false };
 	};
 }
 
