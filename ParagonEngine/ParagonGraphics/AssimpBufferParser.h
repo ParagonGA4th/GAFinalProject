@@ -73,13 +73,15 @@ namespace Pg::Graphics::Helper
 		AssimpBufferParser();
 		~AssimpBufferParser();
 
+		static void Initialize();
+
 		//Assimp의 구조체를 받고 Vertex / Index Buffer를 만든다.
 		//일단은 1차 그래픽엔진에서 Screen->World Space 1차 Layout에 맞추도록 세팅.
 		static void AssimpToStaticDataDXBuffer(const aiScene* assimp, Scene_AssetData* sceneData, ID3D11Buffer*& outVB1st, ID3D11Buffer*& outVB2nd, ID3D11Buffer*& outIB);
 		static void AssimpToSkinnedDataDXBuffer(const aiScene* assimp, Scene_AssetData* sceneData, Skinned_AssetData* skinnedData, ID3D11Buffer*& outVB1st, ID3D11Buffer*& outVB2nd, ID3D11Buffer*& outIB);
 		static void AssimpToSceneAssetData(const aiScene* assimp, const std::string& path, Scene_AssetData* outSceneAssetData);
 		static void AssimpToMaterialClusterList(const aiScene* assimp, bool& bCheckIfUseAlphaBlending, bool& bChecKIfUseAlphaClipping, std::vector<MaterialCluster*>& outMatClusterList, const std::string& directory);
-		static void AssimpToPBRTextureArray(const std::string& modelName, const std::string& modelPath, std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData);
+		static void AssimpToPBRTextureArray(const std::string& modelName, const std::string& modelPath, bool isSkinned, std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData);
 		static void D3DSetPrivateData(const std::string& modelName, Asset3DModelData* modelData);
 		//매 프레임마다 값 관리, Reset()을 통해서 명시적으로 AssimpBufferParser가 재사용하다는 사실을 드러내야 한다.
 		static void Reset();

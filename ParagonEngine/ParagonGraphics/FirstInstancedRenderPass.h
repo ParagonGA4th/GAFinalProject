@@ -52,7 +52,6 @@ namespace Pg::Graphics
 		std::unique_ptr<SystemPixelShader> _depthRecordOnlyPS;
 
 		//Alpha-Clipped.
-		std::unique_ptr<SystemVertexShader> _alphaClippedVS;
 		std::unique_ptr<SystemPixelShader> _alphaClippedPS;
 		std::unique_ptr<SystemPixelShader> _alphaClippedDepthRecordOnlyPS;
 

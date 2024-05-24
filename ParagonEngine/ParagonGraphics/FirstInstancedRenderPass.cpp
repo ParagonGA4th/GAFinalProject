@@ -58,19 +58,18 @@ namespace Pg::Graphics
 
 		//특수한 상황, Render 안에 bind 존재.
 		//VB/IB 바꾸는게 가장 비싸기 때문에. RT / Shader Switching을 주로 쓸 것이다.
+		_vs->Bind();
 	}
 
 	void FirstInstancedRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		_vs->Bind();
+		
 		RenderNormalInstanced(renderObjectList, camData);
 		RenderCulledOppositeInstanced(renderObjectList, camData);	
-		_vs->Unbind();
-
-		_alphaClippedVS->Bind();
+		
 		RenderAlphaClippedInstanced(renderObjectList, camData);
 		RenderAlphaClippedCulledOppositeInstanced(renderObjectList, camData);
-		_alphaClippedVS->Unbind();
+		
 	}
 
 	void FirstInstancedRenderPass::UnbindPass()
@@ -79,6 +78,7 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
 
 		// Unbind Shaders
+		_vs->Unbind();
 		_ps->Unbind();
 	}
 
@@ -104,6 +104,8 @@ namespace Pg::Graphics
 				LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_INSTANCED_STAGE_PS_DIRECTORY));
 		_depthRecordOnlyPS = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_INSTANCED_DEPTH_ONLY_STAGE_PS_DIRECTORY));
+		_alphaClippedPS = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_ALPHA_CLIPPING_PS_DIRECTORY));
+		_alphaClippedDepthRecordOnlyPS = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_ALPHA_CLIPPING_INSTANCED_DEPTH_ONLY_STAGE_PS_DIRECTORY));
 	}
 
 	void FirstInstancedRenderPass::RenderNormalInstanced(void* renderObjectList, Pg::Data::CameraData* camData)

@@ -66,7 +66,6 @@ namespace Pg::Graphics::Helper
 	AssimpBufferParser::AssimpBufferParser()
 	{
 		//
-		_instancingException = &singleton<Pg::Util::InstancingException>();
 	}
 
 	AssimpBufferParser::~AssimpBufferParser()
@@ -716,14 +715,14 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
-	void AssimpBufferParser::AssimpToPBRTextureArray(const std::string& modelName, const std::string& modelPath, std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData)
+	void AssimpBufferParser::AssimpToPBRTextureArray(const std::string& modelName, const std::string& modelPath, bool isSkinned, std::vector<MaterialCluster*>& outMatClusterList, RenderTexture2DArray** outArrayData)
 	{
 		//아직 디버깅으로 검증 안되었음. 240515 검증해야!
 
 		//먼저 MaterialClusterList가 실행되었어야 실행될 수 있는 코드!
 
 		//일단, Model Name이 Instance의 적용을 받는지, 아닌지만 알아본다.
-		bool tRenderedIndividually = true;
+		bool tRenderedIndividually = false;
 		bool tIsAlphaClipped = false;
 		{
 			std::string tPrefixFromName = modelName.substr(0, 5);
@@ -731,6 +730,7 @@ namespace Pg::Graphics::Helper
 			bool tIsPartOfInstanceException = _instancingException->IsExceptionFromInstance(modelPath);
 			if (tPrefixFromName.compare(Pg::Defines::NON_INSTANCED_3DMODEL_PREFIX) == 0 ||
 				tPrefixFromNameOneLonger.compare(Pg::Defines::BLENDED_OPTIONAL_3DMODEL_PREFIX) == 0 ||
+				isSkinned || 
 				tIsPartOfInstanceException)
 			{
 				//인스턴싱 적용 X, BaseColor / Normal / ARM 전부 필요.
@@ -918,6 +918,11 @@ namespace Pg::Graphics::Helper
 		}
 	}
 
+	void AssimpBufferParser::Initialize()
+	{
+		//
+		_instancingException = &singleton<Pg::Util::InstancingException>();
+	}
 	
 
 
