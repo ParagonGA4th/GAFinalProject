@@ -36,17 +36,17 @@ namespace Pg::Data
 
 	float StaticBoxCollider::GetWidth() const
 	{
-		return _width * _scaleOffset.x * _object->_transform._scale.x;
+		return _width * _scaleOffset.x * fabs(_object->_transform._scale.x);
 	}
 
 	float StaticBoxCollider::GetHeight() const
 	{
-		return _height * _scaleOffset.y * _object->_transform._scale.y;
+		return _height * _scaleOffset.y * fabs(_object->_transform._scale.y);
 	}
 
 	float StaticBoxCollider::GetDepth() const
 	{
-		return _depth * _scaleOffset.z * _object->_transform._scale.z;
+		return _depth * _scaleOffset.z * fabs(_object->_transform._scale.z);
 	}
 
 	void StaticBoxCollider::SetScale(float w, float h, float d)
