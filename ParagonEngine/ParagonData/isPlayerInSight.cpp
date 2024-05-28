@@ -3,24 +3,27 @@
 
 namespace Pg::Data::BTree::Node
 {
+	void isPlayerInSight::InitCustom()
+	{
+		config().blackboard->set<bool>("ISFINDPLAYER", false);
+	}
+
 	BT::NodeStatus isPlayerInSight::tick()
 	{
-		auto children = this->GetGameObject()->_transform.GetChildren();
-		for (auto& child : children)
+		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
+		if (monHelper != nullptr)
 		{
-			if (child->_object->GetComponent<Pg::Data::MonsterHelper>() != nullptr)
+			if (monHelper->_isPlayerDetected)
 			{
-				auto sight = child->_object->GetComponent<Pg::Data::MonsterHelper>();
-				if (sight->_isPlayerDetected)
-				{
-					return BT::NodeStatus::SUCCESS;
-				}
-				else
-				{
-					return BT::NodeStatus::FAILURE;
-				}
+				config().blackboard->set<bool>("ISFINDPLAYER", true);
+				return BT::NodeStatus::SUCCESS;
+			}
+			else
+			{
+				return BT::NodeStatus::FAILURE;
 			}
 		}
-		return BT::NodeStatus::FAILURE;
+
+		return BT::NodeStatus::SUCCESS;
 	}
 }
