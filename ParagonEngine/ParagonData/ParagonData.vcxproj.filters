@@ -265,9 +265,6 @@
     <ClCompile Include="isHitSpace.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace</Filter>
     </ClCompile>
-    <ClCompile Include="goToPlayer.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Golem\goToPlayer</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -586,9 +583,6 @@
     <ClInclude Include="isHitSpace.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace</Filter>
     </ClInclude>
-    <ClInclude Include="goToPlayer.h">
-      <Filter>11_BtNodes\MonsterAnim\Golem\goToPlayer</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -884,9 +878,6 @@
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\0_PublicMonsterAnim\isHitSpace">
       <UniqueIdentifier>{10ac1f5d-e355-4700-b293-7c11ca8f97e6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Golem\goToPlayer">
-      <UniqueIdentifier>{ff4f7f0e-795c-4529-8517-3230dd0bcadd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

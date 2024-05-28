@@ -227,7 +227,6 @@
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Anim_gAttack.h" />
-    <ClInclude Include="goToPlayer.h" />
     <ClInclude Include="isDistanceClose.h" />
     <ClInclude Include="isHitSpace.h" />
     <ClInclude Include="isPlayerInSight.h" />
@@ -340,7 +339,6 @@
     <ClCompile Include="DynamicCollider.cpp" />
     <ClCompile Include="EditorCameraScript.cpp" />
     <ClCompile Include="Anim_gAttack.cpp" />
-    <ClCompile Include="goToPlayer.cpp" />
     <ClCompile Include="Handle.cpp" />
     <ClCompile Include="ImageRenderer.cpp" />
     <ClCompile Include="isDistanceClose.cpp" />

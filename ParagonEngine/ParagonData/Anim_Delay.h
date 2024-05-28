@@ -31,6 +31,7 @@ namespace Pg::Data::BTree::Node
 	private:
 		Pg::Util::Time::TimeSystem* _deltaTime;
 		float _value;
+		std::string _otherAnim;
 	};
 }
 
