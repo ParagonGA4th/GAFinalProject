@@ -175,6 +175,9 @@
     <ClInclude Include="MonsterMove.h">
       <Filter>4_WorkSpace\SceneView\Scripts\AI</Filter>
     </ClInclude>
+    <ClInclude Include="MonsterStrucr.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">

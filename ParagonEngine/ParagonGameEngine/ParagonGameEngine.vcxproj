@@ -239,6 +239,7 @@ copy $(SolutionDir)lib\libzmq\$(PlatformTarget)\$(Configuration)\libzmq-v143-mt-
     </ClInclude>
     <ClInclude Include="MeshLoaderObj.h" />
     <ClInclude Include="MonsterMove.h" />
+    <ClInclude Include="MonsterStrucr.h" />
     <ClInclude Include="MovingTest.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
