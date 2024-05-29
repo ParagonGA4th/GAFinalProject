@@ -2,7 +2,7 @@
 
 //Append Shaderø° æ≤¿œ ºŒ¿Ã¥ı Commons
 #include "../../../Libraries/Appends_PSCommon.hlsli"
-
+#include "../../../Libraries/MathFunctions/Appends_ShadowFunctions.hlsli"
 //π›µÂΩ√ ¿Œ«≤ = VOutQuad, æ∆øÙ«≤ = POutQuad
 POutQuad main(VOutQuad pin)
 {
@@ -12,8 +12,9 @@ POutQuad main(VOutQuad pin)
     //∫ª∞›¿˚¿Œ Shader Code.
     POutQuad res;
     
-    float2 tActualUV = GetUV_F2(pin.UV);
-    float depthValue = GetDepth_WDivide(tActualUV);
+    //float2 tActualUV = GetUV_F2(pin.UV);
+    //float depthValue = GetDepth_WDivide(tActualUV);
+    float depthValue = GlobalShadowDepth.Sample(defaultTextureSS, pin.UV).r;
     
     res.Output = float4(depthValue, depthValue, depthValue, 1.0f);
     
