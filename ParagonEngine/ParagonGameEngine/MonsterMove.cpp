@@ -1,6 +1,8 @@
 #include "MonsterMove.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonUtil/TimeSystem.h"
 #include "Navigation.h"
+#include "MonsterStrucr.h"
 #include <singleton-cpp/singleton.h>
 
 MonsterMove::MonsterMove(Pg::Data::GameObject* obj) :
@@ -13,6 +15,9 @@ void MonsterMove::Start()
 {
 	auto& tNavSystem = singleton<Pg::Engine::Navigation>();
 	_navSystem = &tNavSystem;
+
+	auto& tTimeSystem = singleton<Pg::Util::Time::TimeSystem>();
+	_timeSystem = &tTimeSystem;
 }
 
 void MonsterMove::Update()
@@ -20,14 +25,41 @@ void MonsterMove::Update()
 
 }
 
-void MonsterMove::OnTriggerEnter(Pg::Data::Collider* c)
+void MonsterMove::Chase()
 {
 
 }
 
-void MonsterMove::OnTriggerExit(Pg::Data::Collider* c)
+bool MonsterMove::MoveToTarget(DirectX::XMFLOAT3& startPos, DirectX::XMFLOAT3& targetPos, float speed)
 {
+	float moveSpeed = _timeSystem->GetDeltaTime();
 
+	// 목적지까지 거리 계산
+	auto dist = GetDistance(startPos, targetPos);
+
+	if (dist > 0.5f)
+	{
+		// 플레이어 이동
+		DirectX::XMVECTOR currentPosVec = DirectX::XMLoadFloat3(&startPos);
+
+		DirectX::XMVECTOR direction = DirectX::XMVectorSubtract(DirectX::XMLoadFloat3(&targetPos), currentPosVec);
+
+		direction = DirectX::XMVector3Normalize(direction);
+
+		DirectX::XMVECTOR newPosition = DirectX::XMVectorAdd(currentPosVec, DirectX::XMVectorScale(direction, moveSpeed));
+		_object->_transform._position = { newPosition.m128_f32[0], 0.0f, newPosition.m128_f32[2] };
+
+		_prevPos.x = _object->_transform._position.x;
+		_prevPos.y = _object->_transform._position.y;
+		_prevPos.z = _object->_transform._position.z;
+
+		return true;
+	}
+
+	else
+	{
+		return false;
+	}
 }
 
 bool MonsterMove::RotateToTarget(const DirectX::XMFLOAT3& targetPos)
@@ -35,9 +67,27 @@ bool MonsterMove::RotateToTarget(const DirectX::XMFLOAT3& targetPos)
 	return true;
 }
 
-bool MonsterMove::Move(DirectX::XMFLOAT3& targetPos, float speed, bool roateToTarget, bool rayCast)
+bool MonsterMove::LookAtPlayer(float angle, float rotateSpeed)
 {
-	return true;
+
+}
+
+void MonsterMove::UpdateMove()
+{
+	//auto tempVec = DirectX::XMVectorSubtract(DirectX::XMLoadFloat3(&_object->_transform._position), DirectX::XMLoadFloat3(&playerPos));
+	//auto dirVec = DirectX::XMVector3Normalize(tempVec);
+	//auto range = _nowPattern->_range + _nowPattern->_rangeOffset;
+
+	//_navSystem->SetSEpos(1, _object->_transform._position.x, 0.0f, _object->_transform._position..z,
+	//	playerPos.x + range * dirVec.m128_f32[0], 0.0f, playerPos.z + range * dirVec.m128_f32[2]);
+
+	_straightPath = _navSystem->FindStraightPath(2);
+
+	for (auto& path : _straightPath)
+	{
+		path.first.y = 0.0f;
+		path.second.y = 0.0f;
+	}
 }
 
 float MonsterMove::CalculateAngle(const DirectX::XMFLOAT3& bossPosition, const DirectX::XMFLOAT3& playerPosition)
