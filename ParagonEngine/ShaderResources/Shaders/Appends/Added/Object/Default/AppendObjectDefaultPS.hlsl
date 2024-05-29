@@ -20,8 +20,8 @@ float4 DefaultLightingOperation(float2 quadUV)
     //float roughness = 0.0f;
     
     //라이팅 패스가 자리잡기 전까지, 일단 대체용 코드로 셰이더 돌리기.
-    //float3 lightDirArr[3] = { firstLightDir, firstLightDir, firstLightDir };
-    //float lightRadianceArr[3] = { firstRad, firstRad, firstRad };
+    float3 lightDirArr[3] = { firstLightDir, firstLightDir, firstLightDir };
+    float lightRadianceArr[3] = { firstRad, firstRad, firstRad };
     
     //Outgoing 빛의 방향 (WorldPos -> Eye 벡터 방향)
     float3 Lo = normalize(GetEyePosition() - GetPosition(quadUV));
@@ -45,8 +45,9 @@ float4 DefaultLightingOperation(float2 quadUV)
     uint tNumLight = 1;
     for (uint i = 0; i < tNumLight; ++i)
     {
-        //float3 Li = -lights[i].direction;
-        //float3 Lradiance = lights[i].radiance;
+        //일단, SCENEINFORMATIONSENDER가 잘 안 작동하는 것 같다.
+        //float3 Li = -lightDirArr[i];
+        //float3 Lradiance = lightRadianceArr[i];
         
         //라이팅이 시스템 상으로 들어오기 전까지는 해당값 처럼.
         float3 Li = -_dirLightArray[i].direction;
