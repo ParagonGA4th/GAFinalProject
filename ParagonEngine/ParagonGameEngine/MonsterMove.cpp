@@ -69,7 +69,7 @@ bool MonsterMove::RotateToTarget(const DirectX::XMFLOAT3& targetPos)
 
 bool MonsterMove::LookAtPlayer(float angle, float rotateSpeed)
 {
-
+	return true;
 }
 
 void MonsterMove::UpdateMove()
