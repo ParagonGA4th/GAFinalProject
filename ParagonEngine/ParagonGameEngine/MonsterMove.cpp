@@ -1,12 +1,14 @@
 #include "MonsterMove.h"
+#include "SceneSystem.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/Transform.h"
 #include "../ParagonUtil/TimeSystem.h"
 #include "Navigation.h"
 #include "MonsterStrucr.h"
 #include <singleton-cpp/singleton.h>
 
 MonsterMove::MonsterMove(Pg::Data::GameObject* obj) :
-	Component(obj)
+	Component(obj), _isRotateFinish(false)
 {
 
 }
@@ -18,16 +20,36 @@ void MonsterMove::Start()
 
 	auto& tTimeSystem = singleton<Pg::Util::Time::TimeSystem>();
 	_timeSystem = &tTimeSystem;
+
+	auto& tSceneSystem = singleton<Pg::Engine::SceneSystem>();
+	_sceneSystem = &tSceneSystem;
+
+	//플레이어 지정
+	_player = _sceneSystem->GetCurrentScene()->FindObjectWithName("Player");
+	_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 }
 
 void MonsterMove::Update()
 {
-
+	Chase();
 }
 
 void MonsterMove::Chase()
 {
+	auto bossPosition = _object->_transform._position;
 
+	auto playerPosition = _playerTransform->_position;
+
+	// 패턴의 사거리를 받아옴
+	if (!_isRotateFinish)
+	{
+		// 보스와 플레이어 사이의 각도를 측정
+		auto angle = CalculateAngle({ bossPosition.x, bossPosition.y, bossPosition.z }, 
+			{ playerPosition.x, playerPosition.y, playerPosition.z });
+
+		// 보스가 플레이어를 바라보게 함
+		_isRotateFinish = LookAtPlayer(angle, 0.5f);
+	}
 }
 
 bool MonsterMove::MoveToTarget(DirectX::XMFLOAT3& startPos, DirectX::XMFLOAT3& targetPos, float speed)
@@ -69,7 +91,41 @@ bool MonsterMove::RotateToTarget(const DirectX::XMFLOAT3& targetPos)
 
 bool MonsterMove::LookAtPlayer(float angle, float rotateSpeed)
 {
-	return true;
+	// 회전 속도
+	float speed = _timeSystem->GetDeltaTime() * rotateSpeed;
+
+	// 에러 범위
+	float errorRange = speed * 1.0f;
+
+	// 현재 각도가 목표로 하는 각도보다 작을 경우
+	if (_object->_transform._rotation.y < angle)
+	{
+		// 회전 속도만큼 회전
+		_object->_transform._rotation.x = _object->_transform._rotation.x;
+		_object->_transform._rotation.y = _object->_transform._rotation.y + speed;
+		_object->_transform._rotation.z = _object->_transform._rotation.z;
+		//_bossTransform->SetRotation(_bossTransform->GetRotation().x, _bossTransform->GetRotation().y + speed, _bossTransform->GetRotation().z);
+	}
+	// 현재 각도가 목표로 하는 각도보다 클 경우
+	else
+	{
+		// 회전 속도만큼 회전
+		_object->_transform._rotation.x = _object->_transform._rotation.x;
+		_object->_transform._rotation.y = _object->_transform._rotation.y - speed;
+		_object->_transform._rotation.z = _object->_transform._rotation.z;
+		//_bossTransform->SetRotation(_bossTransform->GetRotation().x, _bossTransform->GetRotation().y - speed, _bossTransform->GetRotation().z);
+	}
+
+	// 현재의 각도가 목표로 하는 각도의 오차범위 내에 있을 경우
+	if (angle - errorRange <= _object->_transform._rotation.y && _object->_transform._rotation.y <= angle + errorRange)
+	{
+		// 회전이 완료되었다고 반환
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void MonsterMove::UpdateMove()
@@ -81,7 +137,7 @@ void MonsterMove::UpdateMove()
 	//_navSystem->SetSEpos(1, _object->_transform._position.x, 0.0f, _object->_transform._position..z,
 	//	playerPos.x + range * dirVec.m128_f32[0], 0.0f, playerPos.z + range * dirVec.m128_f32[2]);
 
-	_straightPath = _navSystem->FindStraightPath(2);
+	_straightPath = _navSystem->FindStraightPath(0);
 
 	for (auto& path : _straightPath)
 	{

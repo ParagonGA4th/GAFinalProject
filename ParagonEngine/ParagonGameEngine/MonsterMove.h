@@ -9,6 +9,7 @@
 namespace Pg::Engine
 {
 	class Navigation;
+	class SceneSystem;
 }
 
 namespace Pg::Util
@@ -17,6 +18,12 @@ namespace Pg::Util
 	{
 		class TimeSystem;
 	}
+}
+
+namespace Pg::Data
+{
+	class GameObject;
+	class Transform;
 }
 
 class MonsterMove : public Pg::Data::Component
@@ -49,9 +56,11 @@ public:
 
 	// 두 XMFLOAT3 좌표 사이의 거리
 	float GetDistance(DirectX::XMFLOAT3& src, DirectX::XMFLOAT3& dst);
+
 private:
 	Pg::Engine::Navigation* _navSystem = nullptr;
 	Pg::Util::Time::TimeSystem* _timeSystem = nullptr;
+	Pg::Engine::SceneSystem* _sceneSystem = nullptr;
 
 	std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> _straightPath;
 
@@ -65,6 +74,12 @@ private:
 
 	DirectX::XMFLOAT3 _prevPos;
 	DirectX::XMFLOAT3 _backStepPos;
+
+	Pg::Data::GameObject* _player;
+	Pg::Data::Transform* _playerTransform;
+
+protected:
+	//MonsterStatus _status;
 
 };
 
