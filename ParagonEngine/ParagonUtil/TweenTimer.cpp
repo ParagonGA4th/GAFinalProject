@@ -1,13 +1,15 @@
 #include "TweenTimer.h"
-//#include "TimeSystem.h"
+#include "TimeSystem.h"
 #include <cmath>
 #include <limits>
+#include <singleton-cpp/singleton.h>
 
 namespace Pg::Util
 {
 	TweenTimer::TweenTimer()
 		: _time(0.f), _isActive(false), _duration(0.f), _delayTime(0.f)
 	{
+		_deltaTimePointer = singleton<Pg::Util::Time::TimeSystem>().GetDeltaTimePointer();
 	}
 
 	TweenTimer::~TweenTimer()
@@ -25,7 +27,8 @@ namespace Pg::Util
 		if (_isActive == true)
 		{
 			//_time += TimeSystem::GetDeltaTime();
-			_time += 0.016f; /// Time 오기 전까지 온 명시적인 CUT.
+			//_time += 0.016f; /// Time 오기 전까지 온 명시적인 CUT.
+			_time += (*_deltaTimePointer);
 
 			if (_time > _duration)
 			{
