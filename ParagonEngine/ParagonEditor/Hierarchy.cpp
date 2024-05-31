@@ -227,6 +227,6 @@ void Pg::Editor::Window::Hierarchy::GetSelectedObject()
 
 void Pg::Editor::Window::Hierarchy::IsObjectChanged(void* isChanged)
 {
-	if (_isRefresh) _isRefresh = false;
 	_isRefresh = *(static_cast<bool*>(isChanged));
+	if (_isRefresh) _isRefresh = false;
 }
