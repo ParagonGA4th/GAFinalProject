@@ -408,4 +408,10 @@ namespace Pg::Util
 		return _isUsedRightNow;
 	}
 
+	void Tween::Kill()
+	{
+		//이 과정에서 IsActive가 꺼지니, TweenTimer의 Update Loop이 더 이상 실행되지 않을 것이기에. 괜찮.
+		_timer->ResetSelf();
+	}
+
 }

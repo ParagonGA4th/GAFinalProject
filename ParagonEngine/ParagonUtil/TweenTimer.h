@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include "IResettable.h"
+#include "UtilDLLExporter.h"
 
 namespace Pg::Util
 {
@@ -38,7 +39,8 @@ namespace Pg::Util
 
 		// delayed Active
 		bool _isActive;
+
+		//DeltaTimePointer
+		const float* _deltaTimePointer{ nullptr };
 	};
 }
-
-

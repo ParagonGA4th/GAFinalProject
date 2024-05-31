@@ -10,6 +10,12 @@
 float4 DefaultLightingOperation(float2 quadUV)
 {
     float3 albedo = sRGB2Lin(GetAlbedoMap(quadUV));
+    
+    //<>여기까지, 다른 작업 잘 보이게 작동하는 것. 
+    albedo = ACES_Filming_Tonemapping(albedo);
+    return float4(gammaCorrection(albedo).rgb, 1.0f);
+    //</>여기까지.
+    
     float metalness = sRGB2Lin(GetMetallicMap(quadUV));
     float roughness = sRGB2Lin(GetRoughnessMap(quadUV));
     

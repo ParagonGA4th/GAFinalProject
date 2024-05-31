@@ -22,7 +22,9 @@
     <ClCompile Include="CheckInBox.cpp">
       <Filter>6_CheckInBox</Filter>
     </ClCompile>
-    <ClCompile Include="InstancingException.cpp" />
+    <ClCompile Include="InstancingException.cpp">
+      <Filter>8_InstancingException</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -58,7 +60,9 @@
     <ClInclude Include="CustomAssert.h">
       <Filter>7_CustomAssert</Filter>
     </ClInclude>
-    <ClInclude Include="InstancingException.h" />
+    <ClInclude Include="InstancingException.h">
+      <Filter>8_InstancingException</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
