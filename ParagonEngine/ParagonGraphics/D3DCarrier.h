@@ -34,6 +34,7 @@ namespace Pg::Graphics
 
 		//DSV. -> Main Light의 관점에서.
 		std::unique_ptr<GBufferDepthStencil> _mainLightGBufDSV;
+		std::unique_ptr<GBufferRender> _mainLightGBufRT;
 
 		//GBuffer 관련 RTV/SRV 맞춰 nullptr 배열 마련.
 		std::vector<ID3D11RenderTargetView*> NullRTV;
