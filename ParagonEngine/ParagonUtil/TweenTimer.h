@@ -42,5 +42,9 @@ namespace Pg::Util
 
 		//DeltaTimePointer
 		const float* _deltaTimePointer{ nullptr };
+
+		//일찍 동작을 끝내는 KillEarly가 사용되는가?
+		bool _isUseKillEarly{ false };
+		float _floatKillEarlyDuration{ 0.f };
 	};
 }

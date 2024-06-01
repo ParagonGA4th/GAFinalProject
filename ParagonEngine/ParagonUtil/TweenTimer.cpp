@@ -35,6 +35,12 @@ namespace Pg::Util
 				_time = _duration;
 			}
 
+			//이건, 만약 KillEarly가 사용되고, 정해진 EarlyKill 시간을 넘기면 죽게 하는 것이다.
+			if (_isUseKillEarly && (_time > _floatKillEarlyDuration))
+			{
+				_isActive = false;
+			}
+
 			if (_time > 0)
 			{
 				_play();
@@ -54,6 +60,8 @@ namespace Pg::Util
 		_duration = 0.f;
 		_play = nullptr;
 		_isActive = false;
+		_isUseKillEarly = false;
+		_floatKillEarlyDuration = 0.f;
 	}
 
 }
