@@ -85,8 +85,9 @@ namespace Pg::Graphics
 					_ps->Unbind();
 					_depthRecordOnlyPS->Bind();
 					_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
-					_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-
+					//_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+					_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+					
 					it.second->at(i).second->First_Render(nullptr);
 
 					it.second->at(i).second->First_UnbindBuffers();

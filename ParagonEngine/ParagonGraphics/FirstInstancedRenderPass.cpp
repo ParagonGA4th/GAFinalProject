@@ -48,6 +48,8 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->ClearDepthStencilView(_d3dCarrierTempStorage->_gBufRequiredInfoDSV->GetDSV(), D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
 		_DXStorage->_deviceContext->OMSetDepthStencilState(_d3dCarrierTempStorage->_gBufRequiredInfoDSV->GetDSState(), 0);
 
+		const float whiteColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		_DXStorage->_deviceContext->ClearRenderTargetView(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV(), whiteColor);
 		_DXStorage->_deviceContext->ClearDepthStencilView(_d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV(), D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
 		_DXStorage->_deviceContext->OMSetDepthStencilState(_d3dCarrierTempStorage->_mainLightGBufDSV->GetDSState(), 0);
 
@@ -63,13 +65,13 @@ namespace Pg::Graphics
 
 	void FirstInstancedRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		
+
 		RenderNormalInstanced(renderObjectList, camData);
-		RenderCulledOppositeInstanced(renderObjectList, camData);	
-		
+		RenderCulledOppositeInstanced(renderObjectList, camData);
+
 		RenderAlphaClippedInstanced(renderObjectList, camData);
 		RenderAlphaClippedCulledOppositeInstanced(renderObjectList, camData);
-		
+
 	}
 
 	void FirstInstancedRenderPass::UnbindPass()
@@ -101,7 +103,7 @@ namespace Pg::Graphics
 		//	LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, 
 		//	std::string("g_ViewProjGetter"), std::initializer_list<std::string>{ std::string("CCameraViewProjGet"), std::string("CMainLightViewProjGet")} );
 		_vs = std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_INSTANCED_VS_DIRECTORY), LayoutDefine::GetInstanced1stLayout(),
-				LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+			LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		_ps = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_INSTANCED_STAGE_PS_DIRECTORY));
 		_depthRecordOnlyPS = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_INSTANCED_DEPTH_ONLY_STAGE_PS_DIRECTORY));
 		_alphaClippedPS = std::make_unique<SystemPixelShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::FIRST_ALPHA_CLIPPING_PS_DIRECTORY));
@@ -111,7 +113,7 @@ namespace Pg::Graphics
 	void FirstInstancedRenderPass::RenderNormalInstanced(void* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		RenderObject3DList* tRenderObjectList = reinterpret_cast<RenderObject3DList*>(renderObjectList);
-		
+
 
 		for (auto& [bModel, bBufferPairList] : tRenderObjectList->_instancedStaticList)
 		{
@@ -206,8 +208,9 @@ namespace Pg::Graphics
 				_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
 
 				//Shadow 렌더 위한 스위칭.
-				_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				
+				//_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+
 				_ps->Unbind();
 				_depthRecordOnlyPS->Bind();
 
@@ -228,7 +231,7 @@ namespace Pg::Graphics
 				_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 				//기록도 다 했으니, 다음을 위한 준비.
 			}
-			
+
 		}
 	}
 
@@ -332,7 +335,9 @@ namespace Pg::Graphics
 				_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
 
 				//Shadow 렌더 위한 스위칭.
-				_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				//_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				
 				//_vs->Bind(1);
 				_ps->Unbind();
 				_depthRecordOnlyPS->Bind();
@@ -448,7 +453,8 @@ namespace Pg::Graphics
 				_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
 
 				//Shadow 렌더 위한 스위칭.
-				_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				//_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
 
 				_alphaClippedPS->Unbind();
 				_alphaClippedDepthRecordOnlyPS->Bind();
@@ -472,7 +478,7 @@ namespace Pg::Graphics
 
 				//PSSetShaderResources : Alpha까지는 쓰고, 값 리셋..
 				ID3D11ShaderResourceView* tNullSRV = nullptr;
-				
+
 				// Alpha
 				_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
 			}
@@ -574,7 +580,8 @@ namespace Pg::Graphics
 				_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
 
 				//Shadow 렌더 위한 스위칭.
-				_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				//_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
 
 				_alphaClippedPS->Unbind();
 				_alphaClippedDepthRecordOnlyPS->Bind();

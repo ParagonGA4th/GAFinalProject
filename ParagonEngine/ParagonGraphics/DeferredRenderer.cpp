@@ -417,6 +417,7 @@ namespace Pg::Graphics
 
 		//Main Light DSV วาด็.
 		_carrier->_mainLightGBufDSV = std::make_unique<GBufferDepthStencil>();
+		_carrier->_mainLightGBufRT = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
 	}
 
 	void DeferredRenderer::InitPBRDirectX()
