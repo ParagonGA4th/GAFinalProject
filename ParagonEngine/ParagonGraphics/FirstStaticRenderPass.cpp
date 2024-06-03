@@ -35,12 +35,8 @@ namespace Pg::Graphics
 
 	void FirstStaticRenderPass::BindPass()
 	{
-		_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), 
-			_d3dCarrierTempStorage->_gBufRequiredRTVArray.data(), _d3dCarrierTempStorage->_gBufRequiredInfoDSV->GetDSV());
-
 		// 셰이더 바인딩.
 		_vs->Bind();
-		_ps->Bind();
 	}
 
 	void FirstStaticRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
@@ -66,6 +62,11 @@ namespace Pg::Graphics
 						_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidFrontfaceCullingState);
 					}
 
+					_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(),
+						_d3dCarrierTempStorage->_gBufRequiredRTVArray.data(), _d3dCarrierTempStorage->_gBufRequiredInfoDSV->GetDSV());
+
+					_ps->Bind();
+
 					_switchableViewProjCBuffer->GetDataStruct()->_viewProj = Pg::Math::PG2XM_MATRIX4X4(camData->_viewMatrix * camData->_projMatrix);
 					_switchableViewProjCBuffer->Update();
 					_switchableViewProjCBuffer->BindVS(1);
@@ -86,13 +87,14 @@ namespace Pg::Graphics
 					_depthRecordOnlyPS->Bind();
 					_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
 					//_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-					_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-					
+					//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+					ID3D11RenderTargetView* tEmptyRenderTargets[1] = { _d3dCarrierTempStorage->_mainLightGBufRT->GetRTV() };
+					_DXStorage->_deviceContext->OMSetRenderTargets(1, tEmptyRenderTargets, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+
 					it.second->at(i).second->First_Render(nullptr);
 
 					it.second->at(i).second->First_UnbindBuffers();
 
-					
 					if (isOddMinus)
 					{
 						_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidState);
@@ -111,7 +113,6 @@ namespace Pg::Graphics
 
 		// Unbind Shaders
 		_vs->Unbind();
-		//_ps->Unbind();
 	}
 
 	void FirstStaticRenderPass::ExecuteNextRenderRequirements()

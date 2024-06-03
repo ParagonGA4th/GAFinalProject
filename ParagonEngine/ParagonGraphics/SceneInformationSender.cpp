@@ -81,30 +81,12 @@ namespace Pg::Graphics
 		unsigned int tSpotInputCount = std::min((unsigned int)_savedSceneInfo->_spotLightList.size(), (unsigned int)SceneInformationList::LIGHT_MAX_GPU_PASS_COUNT);
 		unsigned int tPointInputCount = std::min((unsigned int)_savedSceneInfo->_pointLightList.size(), (unsigned int)SceneInformationList::LIGHT_MAX_GPU_PASS_COUNT);
 
-		//없으면 가상으로 만들어준다.
-		if (tDirInputCount == 0)
+		//무조건 있어야 하게 하기! 명시적으로 넣어주지는 않는다.
+		for (int i = 0; i < tDirInputCount; i++)
 		{
-			//만약 없을 경우에는, 필수적으로 값을 넣어야 한다. 안 그러면 안 보일 테니.
-			DirLightGPU tDirLightEmergencyGPU;
-			tDirLightEmergencyGPU._color = { 1,1,1 };
-
-			DirectX::XMFLOAT3 tForward = { 0, 0, 1 };
-			//진짜 Direction 투입. 여기 하고 있었음!
-
-			tDirLightEmergencyGPU._direction = { -0.707107, -0.707107, 0.000000 };
-			tDirLightEmergencyGPU._radiance = 2.0f;
-
-			_cbRenderingInfo->GetDataStruct()->_dirLightArray[0] = tDirLightEmergencyGPU;
-			_cbRenderingInfo->GetDataStruct()->_dirLightCount = 1;
+			_cbRenderingInfo->GetDataStruct()->_dirLightArray[i] = DirLightGPU(_savedSceneInfo->_dirLightList.at(i));
 		}
-		else
-		{
-			for (int i = 0; i < tDirInputCount; i++)
-			{
-				_cbRenderingInfo->GetDataStruct()->_dirLightArray[i] = DirLightGPU(_savedSceneInfo->_dirLightList.at(i));
-			}
-			_cbRenderingInfo->GetDataStruct()->_dirLightCount = tDirInputCount;
-		}
+		_cbRenderingInfo->GetDataStruct()->_dirLightCount = tDirInputCount;
 
 		for (int i = 0; i < tSpotInputCount; i++)
 		{
@@ -121,34 +103,57 @@ namespace Pg::Graphics
 
 		//Shadow를 구하기 위한 행렬 반환.
 		{
-			if (tDirInputCount > 0)
-			{
-				Pg::Data::Transform* trans = &(_savedSceneInfo->_dirLightList.at(0)->_object->_transform);
-				Pg::Math::PGFLOAT4X4 tView = Pg::Math::GetViewMatrixFromTransformValues(trans->GetRight(), trans->GetUp(), trans->GetForward(), trans->_position);
-				Pg::Math::PGFLOAT4X4 tProj = Pg::Math::PGMatrixOrthographicLH(Pg::Data::GameConstantData::WIDTH, Pg::Data::GameConstantData::HEIGHT, _savedCamData->_nearZ, _savedCamData->_farZ);
-				//NearZ, FarZ는 Light도 똑같이 공유할 것이다. 다른 시점이라도.
-				
-				_cbRenderingInfo->GetDataStruct()->_lightView = PG2XM_MATRIX4X4(tView);
-				_cbRenderingInfo->GetDataStruct()->_lightProj = PG2XM_MATRIX4X4(tProj);
-				_cbRenderingInfo->GetDataStruct()->_lightViewProj = DirectX::XMMatrixMultiply(
-					_cbRenderingInfo->GetDataStruct()->_lightView, _cbRenderingInfo->GetDataStruct()->_lightProj);
-			}
-			else
-			{
+			//if (tDirInputCount > 0)
+			//{
+			//	Pg::Data::Transform* trans = &(_savedSceneInfo->_dirLightList.at(0)->_object->_transform);
+			//	Pg::Math::PGFLOAT4X4 tView = Pg::Math::GetViewMatrixFromTransformValues(trans->GetRight(), trans->GetUp(), trans->GetForward(), trans->_position);
+			//	Pg::Math::PGFLOAT4X4 tProj = Pg::Math::PGMatrixOrthographicLH(Pg::Data::GameConstantData::WIDTH, Pg::Data::GameConstantData::HEIGHT, _savedCamData->_nearZ, _savedCamData->_farZ);
+			//	//NearZ, FarZ는 Light도 똑같이 공유할 것이다. 다른 시점이라도.
+			//	
+			//	_cbRenderingInfo->GetDataStruct()->_lightView = PG2XM_MATRIX4X4(tView);
+			//	_cbRenderingInfo->GetDataStruct()->_lightProj = PG2XM_MATRIX4X4(tProj);
+			//	_cbRenderingInfo->GetDataStruct()->_lightViewProj = DirectX::XMMatrixMultiply(
+			//		_cbRenderingInfo->GetDataStruct()->_lightView, _cbRenderingInfo->GetDataStruct()->_lightProj);
+			//}
+			//else
+			//{
 				//가상의 라이트를 투입한다. 이 경우, 문제는 있을 것이지만.
-				//																					RIGHT							UP						FORWARD
-				Pg::Math::PGFLOAT4X4 tView = Pg::Math::GetViewMatrixFromTransformValues({ 0.707107, 0.000000, 0.707107 }, { 0, 0.707107, 0.707107 }, { -0.707107, -0.707107, 0.000000 }, { 100,100,100 });
+				//일단, 그리고 값을 활용한다. Main VP 투입.
+				//																			RIGHT							UP						FORWARD
+				//Pg::Math::PGFLOAT4X4 tView = Pg::Math::GetViewMatrixFromTransformValues({ 0.707107, 0.000000, 0.707107 }, { 0, 0.707107, 0.707107 }, { -0.707107, -0.707107, 0.000000 }, { 100,100,100 });
+				//_cbRenderingInfo->GetDataStruct()->_lightView = PG2XM_MATRIX4X4(tView);
+				
+				//Custom Light View In.
+				{
+					using namespace DirectX;
+					XMVECTOR lightDirection = XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
+					static float rotAmountDeg = 0.f;
+					rotAmountDeg += 0.1f;
+					XMMATRIX rotationMatrix = XMMatrixRotationX(XMConvertToRadians(fmod(rotAmountDeg, 360.f)));
+					lightDirection = XMVector3TransformNormal(lightDirection, rotationMatrix);
+
+					XMVECTOR lightPosition = XMVectorSet(0.0f, 1000.0f, 0.0f, 1.0f);
+					XMVECTOR targetPosition = XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f);
+					XMVECTOR upVector = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+					_cbRenderingInfo->GetDataStruct()->_lightView = XMMatrixLookAtLH(lightPosition, targetPosition, upVector);
+				}
+				
 				Pg::Math::PGFLOAT4X4 tProj = Pg::Math::PGMatrixOrthographicLH(Pg::Data::GameConstantData::WIDTH, Pg::Data::GameConstantData::HEIGHT, _savedCamData->_nearZ, _savedCamData->_farZ);
 
-				_cbRenderingInfo->GetDataStruct()->_lightView = PG2XM_MATRIX4X4(tView);
 				_cbRenderingInfo->GetDataStruct()->_lightProj = PG2XM_MATRIX4X4(tProj);
 				_cbRenderingInfo->GetDataStruct()->_lightViewProj = DirectX::XMMatrixMultiply(
 					_cbRenderingInfo->GetDataStruct()->_lightView, _cbRenderingInfo->GetDataStruct()->_lightProj);
-			}
+			//}
 		}
 
 		///그 전에, LightViewProj를 CamData에 옮겨주자! 맨 처음에 실행되니 문제 없이 실행될 것.
-		_carrier->_mainLightPerspectiveViewProjMatrix = _cbRenderingInfo->GetDataStruct()->_lightViewProj;
+		//_carrier->_mainLightPerspectiveViewProjMatrix = _cbRenderingInfo->GetDataStruct()->_lightViewProj;
+		
+		//Depth 기록 디버깅을 위해, 값 정리.
+
+		_carrier->_mainLightPerspectiveViewProjMatrix = DirectX::XMMatrixMultiply(
+			Pg::Math::PG2XM_MATRIX4X4(_savedCamData->_viewMatrix), Pg::Math::PG2XM_MATRIX4X4(_savedCamData->_projMatrix));
 
 		//정보를 담았으니, 이제는 업데이트해야.
 		//업데이트.

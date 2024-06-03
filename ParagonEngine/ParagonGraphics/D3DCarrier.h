@@ -32,13 +32,13 @@ namespace Pg::Graphics
 		std::vector<ID3D11RenderTargetView*> _gBufRequiredRTVArray;
 		std::vector<ID3D11ShaderResourceView*> _gBufRequiredSRVArray;
 
-		//DSV. -> Main Light의 관점에서.
-		std::unique_ptr<GBufferDepthStencil> _mainLightGBufDSV;
-		std::unique_ptr<GBufferRender> _mainLightGBufRT;
-
 		//GBuffer 관련 RTV/SRV 맞춰 nullptr 배열 마련.
-		std::vector<ID3D11RenderTargetView*> NullRTV;
-		std::vector<ID3D11ShaderResourceView*> NullSRV;
+		std::vector<ID3D11RenderTargetView*> NullRTV{};
+		std::vector<ID3D11ShaderResourceView*> NullSRV{};
+
+		//DSV. -> Main Light의 관점에서.
+		std::unique_ptr<GBufferRender> _mainLightGBufRT;
+		std::unique_ptr<GBufferDepthStencil> _mainLightGBufDSV;
 
 		//MainRenderTarget에 도달하기 전까지 모든 렌더링은 Quad에 이루어진다.
 		//단순 정보 전달과 차별화하기 위해 별도의 변수 설정.

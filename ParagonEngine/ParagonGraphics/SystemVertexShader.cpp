@@ -10,8 +10,8 @@ namespace Pg::Graphics
 	{
 		//Vertex Shader Loading
 		HR(_DXStorage->_device->CreateVertexShader(_byteCode->GetBufferPointer(), _byteCode->GetBufferSize(), NULL, &_shader));
-
 		assert(_inputLayout != nullptr);
+		assert(_shader != nullptr);
 	}
 
 	SystemVertexShader::~SystemVertexShader()
