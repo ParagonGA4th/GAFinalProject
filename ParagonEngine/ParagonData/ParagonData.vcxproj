@@ -203,7 +203,7 @@
     <ClInclude Include="AnimTransform.h" />
     <ClInclude Include="Anim_Dash.h" />
     <ClInclude Include="Anim_Delay.h" />
-    <ClInclude Include="DefaultAnim_Delay.h" />
+    <ClInclude Include="Anim_gAttack.h" />
     <ClInclude Include="Anim_Idle.h" />
     <ClInclude Include="Anim_Walk.h" />
     <ClInclude Include="AssetDefines.h" />
@@ -226,7 +226,6 @@
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
-    <ClInclude Include="Anim_gAttack.h" />
     <ClInclude Include="isDistanceClose.h" />
     <ClInclude Include="isHitSpace.h" />
     <ClInclude Include="isPlayerInSight.h" />
@@ -258,6 +257,7 @@
     <ClInclude Include="PhysicsContactPoint.h" />
     <ClInclude Include="PlaneCollider.h" />
     <ClInclude Include="PointLight.h" />
+    <ClInclude Include="Anim_Hit.h" />
     <ClInclude Include="RayCast.h" />
     <ClInclude Include="RendererChangeList.h" />
     <ClInclude Include="EditorMode.h" />
@@ -319,7 +319,7 @@
     <ClCompile Include="AnimTransform.cpp" />
     <ClCompile Include="Anim_Dash.cpp" />
     <ClCompile Include="Anim_Delay.cpp" />
-    <ClCompile Include="DefaultAnim_Delay.cpp" />
+    <ClCompile Include="Anim_gAttack.cpp" />
     <ClCompile Include="Anim_Idle.cpp" />
     <ClCompile Include="Anim_Walk.cpp" />
     <ClCompile Include="AudioSource.cpp" />
@@ -338,7 +338,6 @@
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DynamicCollider.cpp" />
     <ClCompile Include="EditorCameraScript.cpp" />
-    <ClCompile Include="Anim_gAttack.cpp" />
     <ClCompile Include="Handle.cpp" />
     <ClCompile Include="ImageRenderer.cpp" />
     <ClCompile Include="isDistanceClose.cpp" />
@@ -353,6 +352,7 @@
     <ClCompile Include="PhysicsContactPoint.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
     <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="Anim_Hit.cpp" />
     <ClCompile Include="RayCast.cpp" />
     <ClCompile Include="RendererChangeList.cpp" />
     <ClCompile Include="EngineResource.cpp" />

@@ -32,14 +32,14 @@ namespace Pg::DataScript
 	{
 		{
 			//내부적으로 Physics보다 SceneSystem의 함수들이 나중에 호출됨. 그러니, 미리 할 수 있는 방법을 EngineMain-SceneSystem에 연결해두었다.
-			_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
-			assert(_collider != nullptr);
-			_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
-			//_collider->SetCapsuleInfo(1.f, 1.f);
-			_collider->FreezeAxisX(true);
-			_collider->FreezeAxisY(true);
-			_collider->FreezeAxisZ(true);
-			_collider->FreezeLinearY(true);
+			//_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
+			//assert(_collider != nullptr);
+			//_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
+			////_collider->SetCapsuleInfo(1.f, 1.f);
+			//_collider->FreezeAxisX(true);
+			//_collider->FreezeAxisY(true);
+			//_collider->FreezeAxisZ(true);
+			//_collider->FreezeLinearY(true);
 
 			//촬영용으로만.
 			//_collider->FreezeLinearX(true);
@@ -60,7 +60,7 @@ namespace Pg::DataScript
 		//auto objName = _object->GetScene()->FindObjectWithName("EnemySight");
 		//if(objName == nullptr) _object->GetComponent<Pg::Data::Transform>()->AddChild(objName);
 
-		//_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
+		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
@@ -78,55 +78,54 @@ namespace Pg::DataScript
 
 	void EnemyBehaviour::Update()
 	{
-		if (aiSightVec.at(0)->_playerDetected)
-		{
-			if (_renderer->GetAnimation() != "GMA_00002.pganim" && _renderer->GetAnimation() != "GMA_00004.pganim")
-			{
-				_renderer->SetAnimation("GMA_00002.pganim", true);
-			}
-
-			float interpolation = 0.2f * _deltaTime->GetDeltaTime();
-
-			auto plVec = _object->GetScene()->FindObjectsWithTag("TAG_Player");
-			auto plTrans = plVec.at(0)->_transform;
-
-			float distance = std::abs(std::sqrt(std::pow(plTrans._position.x - _object->_transform._position.x, 2)
-				+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
-
-			if (distance <= 5.f)
-			{
-				if (_renderer->GetAnimation() != "GMA_00004.pganim")
-				{
-					_renderer->SetAnimation("GMA_00004.pganim", true);
-				}
-			}
-			else
-			{
-				Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
-				tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, plTrans._position, interpolation);
-				_object->_transform._position.x = tPosition.x;
-				_object->_transform._position.z = tPosition.z;
-			}
-		}
-		else
-		{
-			if (_renderer->GetAnimation() != "GMA_00001.pganim")
-			{
-				_renderer->SetAnimation("GMA_00001.pganim", true);
-			}
-		}
-
-		//for (auto& it : aiSightVec)
+		//if (aiSightVec.at(0)->_playerDetected)
 		//{
-		//	if (it->_playerDetected == true)
+		//	if (_renderer->GetAnimation() != "GMA_00002.pganim" && _renderer->GetAnimation() != "GMA_00004.pganim")
 		//	{
-		//		//_monsterHelper->_isPlayerDetected = true;
+		//		_renderer->SetAnimation("GMA_00002.pganim", true);
+		//	}
 
+		//	float interpolation = 0.2f * _deltaTime->GetDeltaTime();
+
+		//	auto plVec = _object->GetScene()->FindObjectsWithTag("TAG_Player");
+		//	auto plTrans = plVec.at(0)->_transform;
+
+		//	float distance = std::abs(std::sqrt(std::pow(plTrans._position.x - _object->_transform._position.x, 2)
+		//		+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
+
+		//	if (distance <= 5.f)
+		//	{
+		//		if (_renderer->GetAnimation() != "GMA_00004.pganim")
+		//		{
+		//			_renderer->SetAnimation("GMA_00004.pganim", true);
+		//		}
 		//	}
 		//	else
 		//	{
-		//		//_monsterHelper->_isPlayerDetected = false;
+		//		Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+		//		tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, plTrans._position, interpolation);
+		//		_object->_transform._position.x = tPosition.x;
+		//		_object->_transform._position.z = tPosition.z;
 		//	}
 		//}
+		//else
+		//{
+		//	if (_renderer->GetAnimation() != "GMA_00001.pganim")
+		//	{
+		//		_renderer->SetAnimation("GMA_00001.pganim", true);
+		//	}
+		//}
+
+		for (auto& it : aiSightVec)
+		{
+			if (it->_playerDetected == true)
+			{
+				_monsterHelper->_isPlayerDetected = true;
+			}
+			else
+			{
+				_monsterHelper->_isPlayerDetected = false;
+			}
+		}
 	}
 }
