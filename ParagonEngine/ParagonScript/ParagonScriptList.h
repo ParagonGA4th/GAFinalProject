@@ -26,8 +26,12 @@
 #include "Portal.h"
 
 //UI 관련
+#include "TitleManager.h"
 #include "TitleScene.h"
 #include "StartButton.h"
 #include "ExitButton.h"
 #include "PauseBox.h"
 #include "NavAgent.h"
+
+//사운드 관련
+#include "SoundManager.h"

@@ -213,6 +213,9 @@
     <ClCompile Include="NavAgent.cpp">
       <Filter>AI\NavAgent</Filter>
     </ClCompile>
+    <ClCompile Include="TitleManager.cpp">
+      <Filter>UI\TitleUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -328,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="NavAgent.h">
       <Filter>AI\NavAgent</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleManager.h">
+      <Filter>UI\TitleUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

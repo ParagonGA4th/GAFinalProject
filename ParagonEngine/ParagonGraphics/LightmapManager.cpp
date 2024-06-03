@@ -68,8 +68,8 @@ namespace Pg::Graphics
 		LowDX11Storage::GetInstance()->_deviceContext->PSSetShaderResources(2, 1, &(tRenderLightmapData->_lightmapTextureArray->GetSRV()));
 
 		//만약 성공했으면 _isAligned가 true면 추가 재정렬 필요 X. 
-		if (!(tRenderLightmapData->_isAligned))
-		{
+		//if (!(tRenderLightmapData->_isAligned))
+		//{
 			//SingleLightmapSet의 재정렬은 재정렬대로 RenderObject3DList에 정리해서 넣어야 하고 ( 매 프레임 ) 
 			//ConstantBuffer에 매번 넣어야 할 것이다.
 			//Texture를 실제로 넣는 것은 Scene 단위로 한번, 여기서.
@@ -130,8 +130,8 @@ namespace Pg::Graphics
 				}
 			}
 			//이제 재정렬이 끝났다!
-			tRenderLightmapData->_isAligned = true;
-		}
+			//tRenderLightmapData->_isAligned = true;
+		//}
 	}
 
 	void LightmapManager::Temp(const Pg::Data::Scene* scene)

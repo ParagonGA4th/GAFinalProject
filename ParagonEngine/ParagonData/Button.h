@@ -35,11 +35,15 @@ namespace Pg::Data
 		virtual void Internal_EngineAwake() override;
 		virtual void Update() override;
 
-		void Click();
+		void ClickDown();
+		void ClickUp();
 
 		//Script 사용 위해 API로 전향
-		void SetOnClickEvent(std::function<void()> onClickEvent);
-		std::function<void()> GetOnClickEvent() const;
+		void SetOnClickDownEvent(std::function<void()> onClickEvent);
+		std::function<void()> GetOnClickDownEvent() const;
+
+		void SetOnClickUpEvent(std::function<void()> onClickEvent);
+		std::function<void()> GetOnClickUpEvent() const;
 
 		void SetImagePath(const std::string& path);
 		void SetImageSize(float width, float height);
@@ -64,6 +68,7 @@ namespace Pg::Data
 		Pg::Util::Input::InputSystem* _inputSystem;
 
 		std::function<void()> _onClickEvent;
+		std::function<void()> _onClickUpEvent;
 
 		bool _isPressed;	//버튼 누른 여부 체크.
 	};
