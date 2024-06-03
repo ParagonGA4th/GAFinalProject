@@ -19,7 +19,7 @@ namespace Pg::Engine
 		tButton = _object->GetComponent<Pg::Data::Button>();
 		audioSource = _object->GetComponent<Pg::Data::AudioSource>();
 
-		tButton->SetOnClickEvent([this]
+		tButton->SetOnClickDownEvent([this]
 			{
 				this->audioSource->Stop();
 				//PG_TRACE("BGM Stop.");

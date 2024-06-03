@@ -17,7 +17,7 @@ namespace Pg::DataScript
 
 	void ExitButton::Start()
 	{
-		_button->SetOnClickEvent([this]
+		_button->SetOnClickDownEvent([this]
 			{
 				Sleep(500);
 				SendMessage(GetActiveWindow(), WM_CLOSE, NULL, NULL);

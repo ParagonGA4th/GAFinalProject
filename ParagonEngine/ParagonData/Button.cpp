@@ -65,27 +65,53 @@ namespace Pg::Data
 		{
 			if (_inputSystem->GetKeyDown(API::Input::MouseLeft))
 			{
-				Click();
-				PG_TRACE("Click!");
+				ClickDown();
+				PG_TRACE("ClickDown!");
+			}
+			else if (_inputSystem->GetKeyUp(API::Input::MouseLeft))
+			{
+				ClickUp();
+				PG_TRACE("ClickUp!");
 			}
 		}
 	}
 
-	void Button::SetOnClickEvent(std::function<void()> onClickEvent)
+	void Button::SetOnClickDownEvent(std::function<void()> onClickEvent)
 	{
 		_onClickEvent = onClickEvent;
 	}
 
-	std::function<void()> Button::GetOnClickEvent() const
+	std::function<void()> Button::GetOnClickDownEvent() const
 	{
 		return _onClickEvent;
 	}
 
-	void Button::Click()
+	void Button::SetOnClickUpEvent(std::function<void()> onClickEvent)
+	{
+		_onClickUpEvent = onClickEvent;
+	}
+
+	std::function<void()> Button::GetOnClickUpEvent() const
+	{
+		return _onClickUpEvent;
+	}
+
+
+	void Button::ClickDown()
 	{
 		if (_onClickEvent)
 		{
 			_onClickEvent();
+		}
+
+		_isPressed = !_isPressed;
+	}
+
+	void Button::ClickUp()
+	{
+		if (_onClickUpEvent)
+		{
+			_onClickUpEvent();
 		}
 
 		_isPressed = !_isPressed;
