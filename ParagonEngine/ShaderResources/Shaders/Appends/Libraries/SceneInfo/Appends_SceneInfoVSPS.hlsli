@@ -81,6 +81,11 @@ cbuffer cbRenderingInfo : register(b5)
 {
      //Directional Light 기준, 하나 이상 있어야 유효.
     //Single Directional Light Shadow Map을 적용할 터이니.
+    float Camera_NearPlane;
+    float Camera_FarPlane;
+    float tPadding;
+    float tPadding2;
+    
     float4x4 _lightView;
     float4x4 _lightProj;
     float4x4 _lightViewProj;

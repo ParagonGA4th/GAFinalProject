@@ -75,6 +75,11 @@ namespace Pg::Graphics
 
 	void SceneInformationSender::ProcessLightInfoData()
 	{
+		//Camera Near / Far 전달.
+		_cbRenderingInfo->GetDataStruct()->_Camera_NearPlane = _savedCamData->_nearZ;
+		_cbRenderingInfo->GetDataStruct()->_Camera_FarPlane = _savedCamData->_farZ;
+
+
 		//Light 자체 정보 옮겨담기.
 
 		unsigned int tDirInputCount = std::min((unsigned int)_savedSceneInfo->_dirLightList.size(), (unsigned int)SceneInformationList::LIGHT_MAX_GPU_PASS_COUNT);
@@ -122,38 +127,36 @@ namespace Pg::Graphics
 				//																			RIGHT							UP						FORWARD
 				//Pg::Math::PGFLOAT4X4 tView = Pg::Math::GetViewMatrixFromTransformValues({ 0.707107, 0.000000, 0.707107 }, { 0, 0.707107, 0.707107 }, { -0.707107, -0.707107, 0.000000 }, { 100,100,100 });
 				//_cbRenderingInfo->GetDataStruct()->_lightView = PG2XM_MATRIX4X4(tView);
-				
+
 				//Custom Light View In.
-				{
-					using namespace DirectX;
-					XMVECTOR lightDirection = XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
-					static float rotAmountDeg = 0.f;
-					rotAmountDeg += 0.1f;
-					XMMATRIX rotationMatrix = XMMatrixRotationX(XMConvertToRadians(fmod(rotAmountDeg, 360.f)));
-					lightDirection = XMVector3TransformNormal(lightDirection, rotationMatrix);
+			{
+				using namespace DirectX;
+				Pg::Math::PGFLOAT3 tNewPosition = _savedCamData->_position;
+				Pg::Math::PGFLOAT3 tBackwardDir = -Pg::Math::GetForwardVectorFromQuat(_savedCamData->_rotation);
+				Pg::Math::PGFLOAT3 tLightPos = tNewPosition + tBackwardDir * 100.0f;
+				XMVECTOR lightPosition = PG2XM_FLOAT3_VECTOR(tLightPos);
+				XMVECTOR targetPosition = XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f);
+				XMVECTOR upVector = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
-					XMVECTOR lightPosition = XMVectorSet(0.0f, 1000.0f, 0.0f, 1.0f);
-					XMVECTOR targetPosition = XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f);
-					XMVECTOR upVector = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+				_cbRenderingInfo->GetDataStruct()->_lightView = XMMatrixLookAtLH(lightPosition, targetPosition, upVector);
+			}
 
-					_cbRenderingInfo->GetDataStruct()->_lightView = XMMatrixLookAtLH(lightPosition, targetPosition, upVector);
-				}
-				
-				Pg::Math::PGFLOAT4X4 tProj = Pg::Math::PGMatrixOrthographicLH(Pg::Data::GameConstantData::WIDTH, Pg::Data::GameConstantData::HEIGHT, _savedCamData->_nearZ, _savedCamData->_farZ);
+			UINT tShadowMapLength = 10;
+			Pg::Math::PGFLOAT4X4 tProj = Pg::Math::PGMatrixOrthographicLH(tShadowMapLength, tShadowMapLength, _savedCamData->_nearZ, _savedCamData->_farZ);
 
-				_cbRenderingInfo->GetDataStruct()->_lightProj = PG2XM_MATRIX4X4(tProj);
-				_cbRenderingInfo->GetDataStruct()->_lightViewProj = DirectX::XMMatrixMultiply(
-					_cbRenderingInfo->GetDataStruct()->_lightView, _cbRenderingInfo->GetDataStruct()->_lightProj);
+			_cbRenderingInfo->GetDataStruct()->_lightProj = PG2XM_MATRIX4X4(tProj);
+			_cbRenderingInfo->GetDataStruct()->_lightViewProj = DirectX::XMMatrixMultiply(
+				_cbRenderingInfo->GetDataStruct()->_lightView, _cbRenderingInfo->GetDataStruct()->_lightProj);
 			//}
 		}
 
 		///그 전에, LightViewProj를 CamData에 옮겨주자! 맨 처음에 실행되니 문제 없이 실행될 것.
-		//_carrier->_mainLightPerspectiveViewProjMatrix = _cbRenderingInfo->GetDataStruct()->_lightViewProj;
-		
+		_carrier->_mainLightPerspectiveViewProjMatrix = _cbRenderingInfo->GetDataStruct()->_lightViewProj;
+
 		//Depth 기록 디버깅을 위해, 값 정리.
 
-		_carrier->_mainLightPerspectiveViewProjMatrix = DirectX::XMMatrixMultiply(
-			Pg::Math::PG2XM_MATRIX4X4(_savedCamData->_viewMatrix), Pg::Math::PG2XM_MATRIX4X4(_savedCamData->_projMatrix));
+		//_carrier->_mainLightPerspectiveViewProjMatrix = DirectX::XMMatrixMultiply(
+		//	Pg::Math::PG2XM_MATRIX4X4(_savedCamData->_viewMatrix), Pg::Math::PG2XM_MATRIX4X4(_savedCamData->_projMatrix));
 
 		//정보를 담았으니, 이제는 업데이트해야.
 		//업데이트.

@@ -68,6 +68,11 @@ namespace Pg::Graphics
 
 		struct cbRenderingInfo
 		{
+			float _Camera_NearPlane;
+			float _Camera_FarPlane;
+			float tPadding1;
+			float tPadding2;
+
 			DirectX::XMMATRIX _lightView;
 			DirectX::XMMATRIX _lightProj;
 			DirectX::XMMATRIX _lightViewProj;

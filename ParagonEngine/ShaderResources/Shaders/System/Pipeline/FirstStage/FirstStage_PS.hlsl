@@ -23,7 +23,8 @@ POut1st_Total main(VOut1st input)
     //RT0 : Mesh Material ID. (z)
     output.pout1st_RT0.z = input.vout1st_MeshMatID;
     //RT0 : W Divide Depth
-    output.pout1st_RT0.w = input.vout1st_PosH.w / input.vout1st_PosH.z;
+    //output.pout1st_RT0.w = input.vout1st_PosH.w / input.vout1st_PosH.z;
+    output.pout1st_RT0.w = input.vout1st_PosH.z / input.vout1st_PosH.w;
     
     //RT1 : World Space Normal. (xyz)
     output.pout1st_RT1.xyz = input.vout1st_NormalW;
