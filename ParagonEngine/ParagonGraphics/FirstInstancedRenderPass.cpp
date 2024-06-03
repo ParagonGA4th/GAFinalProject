@@ -48,8 +48,8 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->ClearDepthStencilView(_d3dCarrierTempStorage->_gBufRequiredInfoDSV->GetDSV(), D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
 		_DXStorage->_deviceContext->OMSetDepthStencilState(_d3dCarrierTempStorage->_gBufRequiredInfoDSV->GetDSState(), 0);
 
-		const float whiteColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-		_DXStorage->_deviceContext->ClearRenderTargetView(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV(), whiteColor);
+		const float tColor[4] = { 1.0f, 0.0f, 1.0f, 1.0f };
+		_DXStorage->_deviceContext->ClearRenderTargetView(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV(), tColor);
 		_DXStorage->_deviceContext->ClearDepthStencilView(_d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV(), D3D11_CLEAR_DEPTH, 1.0f, 0.0f);
 		_DXStorage->_deviceContext->OMSetDepthStencilState(_d3dCarrierTempStorage->_mainLightGBufDSV->GetDSState(), 0);
 
@@ -209,8 +209,9 @@ namespace Pg::Graphics
 
 				//Shadow ·»´õ À§ÇÑ ½ºÀ§Äª.
 				//_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-
+				ID3D11RenderTargetView* tEmptyRenderTargets[1] = { _d3dCarrierTempStorage->_mainLightGBufRT->GetRTV() };
+				_DXStorage->_deviceContext->OMSetRenderTargets(1, tEmptyRenderTargets, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				
 				_ps->Unbind();
 				_depthRecordOnlyPS->Bind();
 
@@ -336,8 +337,10 @@ namespace Pg::Graphics
 
 				//Shadow ·»´õ À§ÇÑ ½ºÀ§Äª.
 				//_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				
+				//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				ID3D11RenderTargetView* tEmptyRenderTargets[1] = { _d3dCarrierTempStorage->_mainLightGBufRT->GetRTV() };
+				_DXStorage->_deviceContext->OMSetRenderTargets(1, tEmptyRenderTargets, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+
 				//_vs->Bind(1);
 				_ps->Unbind();
 				_depthRecordOnlyPS->Bind();
@@ -454,7 +457,9 @@ namespace Pg::Graphics
 
 				//Shadow ·»´õ À§ÇÑ ½ºÀ§Äª.
 				//_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				ID3D11RenderTargetView* tEmptyRenderTargets[1] = { _d3dCarrierTempStorage->_mainLightGBufRT->GetRTV() };
+				_DXStorage->_deviceContext->OMSetRenderTargets(1, tEmptyRenderTargets, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
 
 				_alphaClippedPS->Unbind();
 				_alphaClippedDepthRecordOnlyPS->Bind();
@@ -581,8 +586,10 @@ namespace Pg::Graphics
 
 				//Shadow ·»´õ À§ÇÑ ½ºÀ§Äª.
 				//_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-
+				//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				ID3D11RenderTargetView* tEmptyRenderTargets[1] = { _d3dCarrierTempStorage->_mainLightGBufRT->GetRTV() };
+				_DXStorage->_deviceContext->OMSetRenderTargets(1, tEmptyRenderTargets, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				
 				_alphaClippedPS->Unbind();
 				_alphaClippedDepthRecordOnlyPS->Bind();
 

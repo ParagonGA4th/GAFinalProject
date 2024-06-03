@@ -79,6 +79,12 @@ float3 GetEyePosition()
 
 cbuffer cbRenderingInfo : register(b5)
 {
+     //Directional Light 기준, 하나 이상 있어야 유효.
+    //Single Directional Light Shadow Map을 적용할 터이니.
+    float4x4 _lightView;
+    float4x4 _lightProj;
+    float4x4 _lightViewProj;
+    
     PgDirectionalLight _dirLightArray[10];
     uint _dirLightCount;
     uint3 _pad1;
@@ -90,12 +96,6 @@ cbuffer cbRenderingInfo : register(b5)
     PgPointLight _pointLightArray[10];
     uint _pointLightCount;
     uint3 _pad3;
-    
-    //Directional Light 기준, 하나 이상 있어야 유효.
-    //Single Directional Light Shadow Map을 적용할 터이니.
-    float4x4 _lightView;
-    float4x4 _lightProj;
-    float4x4 _lightViewProj;
 }
 
 static const float ShadowBias = 0.005f;

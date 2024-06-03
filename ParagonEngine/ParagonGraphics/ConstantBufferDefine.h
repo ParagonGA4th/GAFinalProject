@@ -68,6 +68,10 @@ namespace Pg::Graphics
 
 		struct cbRenderingInfo
 		{
+			DirectX::XMMATRIX _lightView;
+			DirectX::XMMATRIX _lightProj;
+			DirectX::XMMATRIX _lightViewProj;
+
 			DirLightGPU _dirLightArray[10];
 			unsigned int _dirLightCount;
 			unsigned int _pad1[3];
@@ -79,10 +83,6 @@ namespace Pg::Graphics
 			PointLightGPU _pointLightArray[10];
 			unsigned int _pointLightCount;
 			unsigned int _pad3[3];
-
-			DirectX::XMMATRIX _lightView;
-			DirectX::XMMATRIX _lightProj;
-			DirectX::XMMATRIX _lightViewProj;
 		};
 
 		struct SingleObjMatIdSet
