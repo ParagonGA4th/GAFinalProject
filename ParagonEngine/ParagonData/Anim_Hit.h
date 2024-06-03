@@ -4,15 +4,14 @@
 #include "BtNodes/BasePgBtNode.h"
 
 namespace Pg::Util::Time { class TimeSystem; }
-
 namespace Pg::Data::BTree::Node
 {
-	class DefaultAnim_Delay : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_Hit : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		DefaultAnim_Delay(const std::string& name, const BT::NodeConfiguration& config)
+		Anim_Hit(const std::string& name, const BT::NodeConfiguration& config)
 			:BT::SyncActionNode(name, config) {};
-		virtual ~DefaultAnim_Delay() = default;
+		virtual ~Anim_Hit() = default;
 
 		virtual void InitCustom();
 
@@ -21,9 +20,7 @@ namespace Pg::Data::BTree::Node
 		static BT::PortsList providedPorts()
 		{
 			BT::PortsList list;
-			list.insert(BT::BidirectionalPort<float>("_deHoldTime"));
-			list.insert(BT::BidirectionalPort<bool>("_isDeAnimChange"));
-			list.insert(BT::BidirectionalPort<std::string>("_deCurrentAnim"));
+			list.insert(BT::BidirectionalPort<float>("_holdTime"));
 
 			return list;
 		}

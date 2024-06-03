@@ -24,7 +24,7 @@ namespace Pg::Data::BTree::Node
 		if (tMeshRenderer != nullptr)
 		{
 			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-			animId.append("_00003.pganim");
+			animId.append("_00005.pganim");
 
 			if (tMeshRenderer->GetAnimation() != animId)
 			{

@@ -50,17 +50,17 @@ namespace Pg::Engine::BTree
 #pragma region ACTUAL_NODE_REGISTRATION
 
 		using namespace Pg::Data::BTree;
-		_factory->registerNodeType<Node::Anim_Idle>("Anim_Idle");
-		_factory->registerNodeType<Node::Anim_Walk>("Anim_Walk");
 		_factory->registerNodeType<Node::Anim_Delay>("Anim_Delay");
-		_factory->registerNodeType<Node::DefaultAnim_Delay>("DefaultAnim_Delay");
-
+		_factory->registerNodeType<Node::Anim_Hit>("Anim_Hit");
 		_factory->registerNodeType<Node::isPlayerInSight>("isPlayerInSight");
 		_factory->registerNodeType<Node::isHitSpace>("isHitSpace");
-		_factory->registerNodeType<Node::isDistanceClose>("isDistanceClose");
+
+		_factory->registerNodeType<Node::Anim_Idle>("Anim_Idle");
+		_factory->registerNodeType<Node::Anim_Walk>("Anim_Walk");
 
 		_factory->registerNodeType<Node::Anim_Dash>("Anim_Dash");
 		_factory->registerNodeType<Node::Anim_gAttack>("Anim_gAttack");
+		_factory->registerNodeType<Node::isDistanceClose>("isDistanceClose");
 		//_factory->registerNodeType<Node::Anim_gbArmAttack>("Anim_gbArmAttack");
 		//_factory->registerNodeType<Node::Anim_gbSpinAttack>("Anim_gbSpinAttack");
 
