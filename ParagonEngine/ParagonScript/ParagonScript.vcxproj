@@ -178,6 +178,7 @@
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SoundTest.h" />
     <ClInclude Include="StartButton.h" />
+    <ClInclude Include="TitleManager.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TrapArea.h" />
   </ItemGroup>
@@ -207,6 +208,7 @@
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SoundTest.cpp" />
     <ClCompile Include="StartButton.cpp" />
+    <ClCompile Include="TitleManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TrapArea.cpp" />
   </ItemGroup>
