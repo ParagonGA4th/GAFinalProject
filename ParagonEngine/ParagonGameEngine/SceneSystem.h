@@ -58,7 +58,7 @@ namespace Pg::Engine
 		
 		PARAGON_ENGINE_DLL void SetCurrentScene(const std::string& sceneName);
 
-		Scene* GetCurrentScene();		
+		PARAGON_ENGINE_DLL Scene* GetCurrentScene();
 		
 		void SetSceneList(std::vector<Scene*> scenes);
 		std::vector<Scene*> GetSceneList();

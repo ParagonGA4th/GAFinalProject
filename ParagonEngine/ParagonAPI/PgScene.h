@@ -21,6 +21,8 @@ namespace Pg::API
 
 		void SetCurrentScene(const std::string& sceneName);
 
+		Pg::Data::Scene* GetCurrentScene();
+
 	private:
 		Pg::Engine::SceneSystem* _sceneSystem = nullptr;
 	};

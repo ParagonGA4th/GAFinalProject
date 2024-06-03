@@ -4,11 +4,18 @@
 namespace Pg::Data
 {
 	class Button;
+	class GameObject;
+	class AudioSource;
 }
 
 namespace Pg::API 
 {
 	class PgScene; 
+
+	namespace Input
+	{
+		class PgInput;
+	}
 }
 
 namespace Pg::DataScript
@@ -27,7 +34,12 @@ namespace Pg::DataScript
 
 	private:
 		Pg::Data::Button* _button;
+		Pg::Data::AudioSource* _audioSource;
 		Pg::API::PgScene* _pgScene = nullptr;
+		Pg::API::Input::PgInput * _pgInput = nullptr;
+
+		Pg::Data::GameObject* _title;
+		Pg::Data::AudioSource* _titleAudioSource;
 
 		std::string _nextScene;
 	};
