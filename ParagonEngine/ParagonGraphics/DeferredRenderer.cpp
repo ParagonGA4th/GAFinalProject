@@ -332,6 +332,7 @@ namespace Pg::Graphics
 
 		//Shadow 관련 Depth 등록 해제.
 		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &tNullSRV);
+		_DXStorage->_deviceContext->PSSetShaderResources(24, 1, &tNullSRV);
 	}
 
 	void DeferredRenderer::InitOpaqueQuadDirectX()
@@ -497,7 +498,8 @@ namespace Pg::Graphics
 
 	void DeferredRenderer::UpdateShadowDSV()
 	{
-		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &(_carrier->_mainLightGBufRT->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &(_carrier->_mainLightGBufDSV->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(24, 1, &(_carrier->_gBufRequiredInfoDSV->GetSRV()));
 	}
 
 }

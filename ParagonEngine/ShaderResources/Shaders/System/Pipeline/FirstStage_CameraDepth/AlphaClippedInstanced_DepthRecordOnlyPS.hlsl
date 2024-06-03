@@ -16,7 +16,8 @@ POutQuad main(VOut1st_Instanced input)
     float3 tT2UV3 = float3(input.vout1st_Tex, input.vout1st_MeshMatID);
     clip(AlphaTextureArray.Sample(defaultTextureSS, tT2UV3) - ALPHA_CLIPPING_THRESHOLD);
     
-    float linearDepth = input.vout1st_PosH.w / input.vout1st_PosH.z;
+    //float linearDepth = input.vout1st_PosH.w / input.vout1st_PosH.z;
+    float linearDepth = input.vout1st_PosH.z / input.vout1st_PosH.w;
     output.Output = float4(linearDepth, linearDepth, linearDepth, 1.f);
     
     return output;

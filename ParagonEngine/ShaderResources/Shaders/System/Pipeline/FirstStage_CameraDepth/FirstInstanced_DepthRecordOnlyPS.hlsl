@@ -9,7 +9,8 @@ POutQuad main(VOut1st_Instanced input)
 {
     POutQuad output;
 	
-    float linearDepth = input.vout1st_PosH.w / input.vout1st_PosH.z;
+    //float linearDepth = input.vout1st_PosH.w / input.vout1st_PosH.z;
+    float linearDepth = input.vout1st_PosH.z / input.vout1st_PosH.w;
     output.Output = float4(linearDepth, linearDepth, linearDepth, 1.f);
     
     return output;
