@@ -107,8 +107,8 @@ static const float ShadowBias = 0.005f;
 
 //<Temp>
 static const uint NumLights = 1;
-static const float3 firstLightDir = { 0, -1, 0 };
-static const float firstRad = 0.1f;
+static const float3 firstLightDir = { -0.707107, -0.707107, 0.000000 };
+static const float firstRad = 1.0f;
 //</Temp>
 
 #endif //__DEFINED_APPENDS_SCENEINFO_VS_PS_HLSL__
