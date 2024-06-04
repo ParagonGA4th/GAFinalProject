@@ -69,7 +69,7 @@ namespace Pg::DataScript
 	void PlayerMovement::UpdateWASD()
 	{
 		float dt = _pgTime->GetDeltaTime();
-		float tMoveSpeed = moveSpeed * 1000.0f;
+		float tMoveSpeed = moveSpeed * 3.0f;
 
 		//Camera -> GameObject를 바라보는 방향이 Forward여야 한다!
 		Pg::Math::PGFLOAT3 relativeForward = this->_object->_transform._position - _mainCam->_object->_transform._position;
@@ -96,20 +96,32 @@ namespace Pg::DataScript
 
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyUp))
 		{
-			_selfCol->AddForce(relativeForward, Pg::Data::ForceMode::eFORCE);
+			//_selfCol->AddForce(relativeForward, Pg::Data::ForceMode::eFORCE);
+			_object->_transform._position.x += relativeForward.x;
+			_object->_transform._position.y += relativeForward.y;
+			_object->_transform._position.z += relativeForward.z;
 			
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyDown))
 		{
-			_selfCol->AddForce(-relativeForward, Pg::Data::ForceMode::eFORCE);
+			//_selfCol->AddForce(-relativeForward, Pg::Data::ForceMode::eFORCE);
+			_object->_transform._position.x -= relativeForward.x;
+			_object->_transform._position.y -= relativeForward.y;
+			_object->_transform._position.z -= relativeForward.z;
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyLeft))
 		{
-			_selfCol->AddForce(relativeLeft, Pg::Data::ForceMode::eFORCE);
+			//_selfCol->AddForce(relativeLeft, Pg::Data::ForceMode::eFORCE);
+			_object->_transform._position.x += relativeLeft.x;
+			_object->_transform._position.y += relativeLeft.y;
+			_object->_transform._position.z += relativeLeft.z;
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyRight))
 		{
-			_selfCol->AddForce(-relativeLeft, Pg::Data::ForceMode::eFORCE);
+			//_selfCol->AddForce(-relativeLeft, Pg::Data::ForceMode::eFORCE);
+			_object->_transform._position.x -= relativeLeft.x;
+			_object->_transform._position.y -= relativeLeft.y;
+			_object->_transform._position.z -= relativeLeft.z;
 		}
 
 		if (_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::KeyUp) ||

@@ -37,7 +37,7 @@ namespace Pg::DataScript
 	private:
 		Pg::Data::Transform* _playerTransform{ nullptr };
 		Pg::Data::Camera* _selfCamera{ nullptr };
-		const Pg::Math::PGFLOAT3 camOffset{ 0, 6, -10 };
+		const Pg::Math::PGFLOAT3 camOffset{ 0, 10, -15 };
 
 	private:
 		Pg::Math::PGFLOAT3 _targetCamPosition;
