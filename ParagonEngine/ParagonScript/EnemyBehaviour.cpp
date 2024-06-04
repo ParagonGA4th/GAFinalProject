@@ -78,43 +78,37 @@ namespace Pg::DataScript
 
 	void EnemyBehaviour::Update()
 	{
-		//if (aiSightVec.at(0)->_playerDetected)
-		//{
-		//	if (_renderer->GetAnimation() != "GMA_00002.pganim" && _renderer->GetAnimation() != "GMA_00004.pganim")
-		//	{
-		//		_renderer->SetAnimation("GMA_00002.pganim", true);
-		//	}
+		if (aiSightVec.at(0)->_playerDetected)
+		{
+			float interpolation = 0.2f * _deltaTime->GetDeltaTime();
 
-		//	float interpolation = 0.2f * _deltaTime->GetDeltaTime();
+			auto plVec = _object->GetScene()->FindObjectsWithTag("TAG_Player");
+			auto plTrans = plVec.at(0)->_transform;
 
-		//	auto plVec = _object->GetScene()->FindObjectsWithTag("TAG_Player");
-		//	auto plTrans = plVec.at(0)->_transform;
+			float distance = std::abs(std::sqrt(std::pow(plTrans._position.x - _object->_transform._position.x, 2)
+				+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
 
-		//	float distance = std::abs(std::sqrt(std::pow(plTrans._position.x - _object->_transform._position.x, 2)
-		//		+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
-
-		//	if (distance <= 5.f)
-		//	{
-		//		if (_renderer->GetAnimation() != "GMA_00004.pganim")
-		//		{
-		//			_renderer->SetAnimation("GMA_00004.pganim", true);
-		//		}
-		//	}
-		//	else
-		//	{
-		//		Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
-		//		tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, plTrans._position, interpolation);
-		//		_object->_transform._position.x = tPosition.x;
-		//		_object->_transform._position.z = tPosition.z;
-		//	}
-		//}
-		//else
-		//{
-		//	if (_renderer->GetAnimation() != "GMA_00001.pganim")
-		//	{
-		//		_renderer->SetAnimation("GMA_00001.pganim", true);
-		//	}
-		//}
+			//일정 사정거리 안에 들어오면
+			if (distance <= 5.f)
+			{
+				//공격으로 전환하기.
+			}
+			else
+			{
+				//사정거리 밖이면 플레이어로 계속 다가가기.
+				Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+				tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, plTrans._position, interpolation);
+				_object->_transform._position.x = tPosition.x;
+				_object->_transform._position.z = tPosition.z;
+			}
+		}
+		else
+		{
+			if (_renderer->GetAnimation() != "GMA_00001.pganim")
+			{
+				_renderer->SetAnimation("GMA_00001.pganim", true);
+			}
+		}
 
 		for (auto& it : aiSightVec)
 		{
