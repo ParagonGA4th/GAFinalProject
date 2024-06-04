@@ -35,6 +35,11 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
+	class InGameCameraBehavior;
+}
+
+namespace Pg::DataScript
+{
 	class PlayerMovement : public ScriptInterface<PlayerMovement> //, public IObserver
 	{
 		DEFINE_PARAGON_SCRIPT(PlayerMovement);
@@ -57,10 +62,10 @@ namespace Pg::DataScript
 		//클릭한 곳 기준 바라보기.
 		void UpdateFacingDirection(float yLevelPlane);
 
-		//공격하는 모션 등등, 값 관리.
-
+		//공격하는 모션 등등, 값 관리
 
 	private:
+		InGameCameraBehavior* _camBehavior{ nullptr };
 		Pg::Data::Camera* _mainCam{ nullptr };
 		Pg::Data::DynamicCollider* _selfCol{ nullptr };
 		Pg::Data::SkinnedMeshRenderer* _renderer{ nullptr };

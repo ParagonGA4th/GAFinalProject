@@ -893,5 +893,13 @@ namespace Pg::Math
 		return PGFloat3Normalize(PGFLOAT3(result.x, result.y, result.z));
 	}
 
+	Pg::Math::PGQuaternion PGQuaternionInverse(PGQuaternion val)
+	{
+		DirectX::SimpleMath::Quaternion tOrig = PG2XM_QUATERNION_VECTOR(val);
+		DirectX::SimpleMath::Quaternion tQuat;
+		tOrig.Inverse(tQuat);
+		return XM2PG_QUATERNION(tQuat);
+	}
+
 }
 
