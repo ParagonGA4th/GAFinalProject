@@ -3,6 +3,7 @@
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonUtil/TimeSystem.h"
+#include "../ParagonMath/PgMath.h"
 #include "Navigation.h"
 #include "MonsterStrucr.h"
 #include <singleton-cpp/singleton.h>
@@ -31,7 +32,9 @@ void MonsterMove::Start()
 
 void MonsterMove::Update()
 {
-	Chase();
+	//Chase();
+
+	RotateToPlayer(_playerTransform->_position);
 }
 
 void MonsterMove::Chase()
@@ -48,7 +51,7 @@ void MonsterMove::Chase()
 			{ playerPosition.x, playerPosition.y, playerPosition.z });
 
 		// 보스가 플레이어를 바라보게 함
-		_isRotateFinish = LookAtPlayer(angle, 0.5f);
+		_isRotateFinish = LookAtPlayer(angle, 0.8f);
 	}
 }
 
@@ -95,7 +98,7 @@ bool MonsterMove::LookAtPlayer(float angle, float rotateSpeed)
 	float speed = _timeSystem->GetDeltaTime() * rotateSpeed;
 
 	// 에러 범위
-	float errorRange = speed * 1.0f;
+	float errorRange = speed * 2.0f;
 
 	// 현재 각도가 목표로 하는 각도보다 작을 경우
 	if (_object->_transform._rotation.y < angle)
@@ -125,6 +128,27 @@ bool MonsterMove::LookAtPlayer(float angle, float rotateSpeed)
 	else
 	{
 		return false;
+	}
+}
+
+void MonsterMove::RotateToPlayer(Pg::Math::PGFLOAT3& targetPos)
+{
+	Pg::Math::PGFLOAT3 tRotBasePos = targetPos;
+	tRotBasePos.y = _object->_transform._position.y;
+
+	Pg::Math::PGFLOAT3 rotatePos = _object->_transform._position - tRotBasePos;
+
+	//정규화.
+	Pg::Math::PGFLOAT3 rotatePosNorm = Pg::Math::PGFloat3Normalize(rotatePos);
+
+	Pg::Math::PGQuaternion rotateQuat = PGLookRotation(rotatePosNorm, Pg::Math::PGFLOAT3::GlobalUp());
+
+	//회전이 끝날 때 까지 돌기.
+	if (!_isRotateFinish)
+	{
+		Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, rotateQuat, std::clamp<float>(0.1f, 0.0f, 1.0f));
+
+		_object->_transform._rotation = currentTargetRotation;
 	}
 }
 
