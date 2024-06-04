@@ -24,6 +24,7 @@ namespace Pg::Data
 		bool _isPlayerDetected;
 		bool _isPlayer;
 		bool _isAnimationEnd;
+		bool _isHit;
 	};
 }
 

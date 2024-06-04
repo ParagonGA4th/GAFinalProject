@@ -41,6 +41,7 @@
 #include "ArrowAction.h"
 #include "ScreenPointTest.h"
 #include "DemoPlayerAction.h"
+#include "MonsterMove.h"
 
 #include "../ParagonData/SpotLight.h"
 #include "../ParagonData/PointLight.h"
@@ -165,7 +166,7 @@ void Pg::Engine::TestScene::Initialize()
 	
 	{
 		Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Player");
-		tObj7->GetComponent<Transform>()->_position = { 0.0f, 3.0f, 8.0f };
+		tObj7->GetComponent<Transform>()->_position = { 5.0f, 0.0f, 20.0f };
 		tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 		tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 		//tObj7->AddComponent<CapsuleCollider>();
@@ -179,7 +180,8 @@ void Pg::Engine::TestScene::Initialize()
 		//tObj7->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_idle.pganim";
 		tObj7->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_run.pganim";
 		tObj7->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
-		tObj7->AddComponent<NavTestSecond>();
+		//tObj7->AddComponent<NavTestSecond>();
+		tObj7->AddComponent<MovingTest>();
 	}
 
 	//for (int i = 0; i < 30; i++)
@@ -214,10 +216,10 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7_1->GetComponent<CapsuleCollider>()->SetCapsuleInfo(1.0f, 1.5f);
 	tObj7_1->AddComponent<StaticMeshRenderer>();
 	tObj7_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/final_mon_boss.fbx");
-	tObj7_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	tObj7_1->AddComponent<MovingTest>();
-	tObj7_1->AddComponent<Enemy>();	
-	tObj7_1->AddComponent<NavTest>();
+	//tObj7_1->AddComponent<MovingTest>();
+	tObj7_1->AddComponent<Enemy>();
+	tObj7_1->AddComponent<MonsterMove>();
+	//tObj7_1->AddComponent<NavTest>();
 
 	Pg::Data::GameObject* tObj7_2 = tCurrentScene->AddObject("Seight1");
 	tObj7_2->GetComponent<Transform>()->_scale = { 2.5f, 1.f, 1.f };
@@ -242,8 +244,8 @@ void Pg::Engine::TestScene::Initialize()
 
 
 	///버튼 & 오디오
-	//Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Button");
-	//tObj8->GetComponent<Transform>()->_position = { 100.0f, 200.0f, 0.0f };
+	Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Button");
+	tObj8->GetComponent<Transform>()->_position = { 100.0f, 200.0f, 0.0f };
 	//tObj8->AddComponent<Button>();
 	//tObj8->GetComponent<Button>()->SetImagePath("../Resources/Textures/Sprites/StartCrunch.png");
 	//tObj8->GetComponent<Button>()->SetImageSize(200.0f, 200.0f);

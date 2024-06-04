@@ -36,12 +36,12 @@ void Enemy::Update()
 	{
 		if (it->_playerDetected == true)
 		{
-			_colVecActive = false;
+			//_colVecActive = false;
 
 		}
 		else
 		{
-			_colVecActive = true;
+			//_colVecActive = true;
 		}
 	}
 
@@ -49,16 +49,16 @@ void Enemy::Update()
 	{
 		for (auto& iter : colVec)
 		{
-			iter->SetActive(false);
+			//iter->SetActive(false);
 		}
 
-		_colVecActive = true;
+		//_colVecActive = true;
 	}
 	else
 	{
 		for (auto& iter : colVec)
 		{
-			iter->SetActive(true);
+			//iter->SetActive(true);
 		}
 	}
 }

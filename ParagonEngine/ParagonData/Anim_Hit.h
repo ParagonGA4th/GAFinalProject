@@ -3,14 +3,15 @@
 
 #include "BtNodes/BasePgBtNode.h"
 
+namespace Pg::Util::Time { class TimeSystem; }
 namespace Pg::Data::BTree::Node
 {
-	class goToPlayer : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_Hit : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		goToPlayer(const std::string& name, const BT::NodeConfiguration& config)
+		Anim_Hit(const std::string& name, const BT::NodeConfiguration& config)
 			:BT::SyncActionNode(name, config) {};
-		virtual ~goToPlayer() = default;
+		virtual ~Anim_Hit() = default;
 
 		virtual void InitCustom();
 
@@ -19,11 +20,14 @@ namespace Pg::Data::BTree::Node
 		static BT::PortsList providedPorts()
 		{
 			BT::PortsList list;
-			list.insert(BT::BidirectionalPort<bool>("_animEnd"));
+			list.insert(BT::BidirectionalPort<float>("_holdTime"));
 
 			return list;
 		}
 
 	private:
+		Pg::Util::Time::TimeSystem* _deltaTime;
+		float _value;
 	};
 }
+

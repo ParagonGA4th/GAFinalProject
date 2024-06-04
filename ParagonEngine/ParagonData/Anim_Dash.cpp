@@ -6,17 +6,17 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_Dash::tick()
 	{
-		auto children = this->GetGameObject()->_transform.GetChildren();
-		for (auto& child : children)
+		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
+		if (monHelper != nullptr)
 		{
-			if (child->_object->GetComponent<Pg::Data::MonsterHelper>() != nullptr)
+			if (monHelper->_isAnimationEnd)
 			{
-				auto goTo = child->_object->GetComponent<Pg::Data::MonsterHelper>();
-				if (goTo->_isAnimationEnd)
-				{
-					config().blackboard->set<bool>("ANIMEND", true);
-					goTo->_isAnimationEnd = false;
-				}
+				_isAnimEnd = true;
+				monHelper->_isAnimationEnd = false;
+			}
+			else
+			{
+				_isAnimEnd = false;
 			}
 		}
 
@@ -24,19 +24,20 @@ namespace Pg::Data::BTree::Node
 		if (tMeshRenderer != nullptr)
 		{
 			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-			animId.append("_00003.pganim");
+			animId.append("_00005.pganim");
 
 			if (tMeshRenderer->GetAnimation() != animId)
 			{
 				tMeshRenderer->SetAnimation(animId, false);
-				return BT::NodeStatus::SUCCESS;
+				_isChangeAnim = true;
 			}
 			else
 			{
-				return BT::NodeStatus::FAILURE;
+				_isChangeAnim = false;
 			}
 		}
 
-		return BT::NodeStatus::SUCCESS;
+		if(_isAnimEnd && _isChangeAnim) return BT::NodeStatus::FAILURE;
+		else return BT::NodeStatus::SUCCESS;
 	}
 }

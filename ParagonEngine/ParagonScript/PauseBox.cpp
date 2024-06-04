@@ -1,6 +1,7 @@
 #include "PauseBox.h"
 #include "../ParagonData/Button.h"
 #include "../ParagonData/Scene.h"
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/PgScene.h"
 #include "../ParagonData/ImageRenderer.h"
@@ -20,22 +21,27 @@ namespace Pg::DataScript
 	void PauseBox::Awake()
 	{
 		//일시정지 창 닫기.
-		auto btnObj = _object->GetScene()->FindObjectWithName("PauseExit");
+		auto btnObj = _pgScene->GetCurrentScene()->FindObjectWithName("PauseExit");
 		//_object->GetComponent<Pg::Data::Transform>()->AddChild(btnObj);
 
 		//메인메뉴로 가기.
-		auto menuObj = _object->GetScene()->FindObjectWithName("GotoMenu");
+		auto menuObj = _pgScene->GetCurrentScene()->FindObjectWithName("GotoMenu");
 		//_object->GetComponent<Pg::Data::Transform>()->AddChild(menuObj);
 
-		//메인메뉴로 가기.
-		auto tutorialObj = _object->GetScene()->FindObjectWithName("TutorialButton");
+		//튜토리얼로 가기.
+		auto tutorialObj = _pgScene->GetCurrentScene()->FindObjectWithName("TutorialButton");
 		//_object->GetComponent<Pg::Data::Transform>()->AddChild(tutorialObj);
 
-		//메인메뉴로 가기.
-		auto optionObj = _object->GetScene()->FindObjectWithName("OptionButton");
+		//설정으로 가기.
+		auto optionObj = _pgScene->GetCurrentScene()->FindObjectWithName("OptionButton");
 		//_object->GetComponent<Pg::Data::Transform>()->AddChild(optionObj);
 
-		btnObj->GetComponent<Pg::Data::Button>()->SetOnClickEvent([this]
+		//인게임 브금
+		auto ingameSoundObj = _pgScene->GetCurrentScene()->FindObjectWithName("SoundManager");
+		_ingameSound = ingameSoundObj->GetComponent<Pg::Data::AudioSource>();
+
+		//일시정지 창 활성화 및 비활성화
+		btnObj->GetComponent<Pg::Data::Button>()->SetOnClickDownEvent([this]
 			{
 				_object->GetComponent<Pg::Data::ImageRenderer>()->SetActive(false);
 
@@ -51,7 +57,12 @@ namespace Pg::DataScript
 				_isPaused = false;
 			});
 
-		menuObj->GetComponent<Pg::Data::Button>()->SetOnClickEvent([this]
+		//메인메뉴로 돌아가는 이벤트
+		menuObj->GetComponent<Pg::Data::Button>()->SetOnClickDownEvent([this]
+			{
+				_ingameSound->Stop();
+			});
+		menuObj->GetComponent<Pg::Data::Button>()->SetOnClickUpEvent([this]
 			{
 				_pgScene->SetCurrentScene("TitleScene");
 			});
