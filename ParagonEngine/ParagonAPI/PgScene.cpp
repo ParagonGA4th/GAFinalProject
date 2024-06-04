@@ -20,6 +20,11 @@ namespace Pg::API
 	{
 		_sceneSystem->SetCurrentScene(sceneName);
 	}
+
+	Pg::Data::Scene* PgScene::GetCurrentScene()
+	{
+		return _sceneSystem->GetCurrentScene();
+	}
 }
 
 

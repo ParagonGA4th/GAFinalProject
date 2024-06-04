@@ -11,6 +11,7 @@
 
 #include <cassert>
 #include <algorithm>
+#include <filesystem>
 #include <singleton-cpp/singleton.h>
 
 namespace Pg::Engine
@@ -36,7 +37,7 @@ namespace Pg::Engine
 
 
 		// FMOD::ChannelGroup 초기화
-		for (int i = 0; i < (int)_maxGroup; ++i) 
+		for (int i = 0; i < (int)_maxGroup; ++i)
 		{
 			Pg::Data::eSoundGroup soundGroup = static_cast<Pg::Data::eSoundGroup>(i);
 
@@ -60,6 +61,7 @@ namespace Pg::Engine
 
 	void SoundSystem::Initialize(const std::string& resourceListPath)
 	{
+
 		CreateSingleSounds(resourceListPath);
 
 		//얘는 Scene이 바뀔때마다 호출되어야 함.
@@ -160,7 +162,7 @@ namespace Pg::Engine
 			{
 				//_system->stopSound(audioData.sound, NULL, true, &audioData.channel);
 				audioData->channel->stop();
-				
+
 				//소리 중복 재생을 위해 상태를 NONE으로 바꿔줌.
 				tSoundState = Data::eSoundState::_NONE;
 			}
@@ -265,12 +267,31 @@ namespace Pg::Engine
 			if (tAudioSource != nullptr)
 			{
 				assert(!tAudioSource->GetAudioName().empty() && "AudioSource의 Audio Name이 비워져 있으면 안됨");
-				auto tAudioDataIt = _soundMap.find(tAudioSource->GetAudioName());
-				assert(tAudioDataIt != _soundMap.end() && "SoundMap 내부에서 들어온 String 값의 AudioData를 찾지 못함");
+				//auto tAudioDataIt = _soundMap.find(tAudioSource->GetAudioName());
 
-				tAudioSource->_audioData = tAudioDataIt->second;
+				//이제는 이름으로 찾는다.
+				std::string name = tAudioSource->GetAudioName();
+				Pg::Data::AudioData* tDataFound = nullptr;
+				std::string tFullPath = "";
+				for (auto& it : _soundMap)
+				{
+					std::filesystem::path tPath = it.first;
+					std::string tVal = tPath.filename().string();
 
-				_audioSoureceMap.insert(std::make_pair(tAudioDataIt->second->soundPath, tAudioSource));
+					if (tVal.compare(name) == 0)
+					{
+						//동일 이름의 리소스가 있을 경우.
+						tFullPath = it.first;
+						tDataFound = it.second;
+					}
+				}
+				//</>
+
+				assert(tDataFound != nullptr && "SoundMap 내부에서 들어온 String 값의 AudioData를 찾지 못함");
+
+				tAudioSource->_audioData = tDataFound;
+
+				_audioSoureceMap.insert(std::make_pair(tFullPath, tAudioSource));
 			}
 
 		}

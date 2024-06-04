@@ -4,6 +4,8 @@
 namespace Pg::Data
 {
 	class Button;
+	class AudioSource;
+	class GameObject;
 }
 
 namespace Pg::API
@@ -34,6 +36,8 @@ namespace Pg::DataScript
 		Pg::Data::Button* _button;
 		Pg::API::Input::PgInput* _pgInput = nullptr;
 		Pg::API::PgScene* _pgScene = nullptr;
+
+		Pg::Data::AudioSource* _ingameSound;
 
 		//ÇÃ·¡±×
 		bool _isPaused = false;
