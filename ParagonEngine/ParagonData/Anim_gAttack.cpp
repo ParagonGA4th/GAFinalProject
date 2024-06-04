@@ -1,30 +1,40 @@
 #include "Anim_gAttack.h"
 #include "SkinnedMeshRenderer.h"
+#include "MonsterHelper.h"
 
 namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_gAttack::tick()
 	{
+		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
+		if (monHelper != nullptr)
+		{
+			if (monHelper->_isAnimationEnd)
+			{
+				_isAnimEnd = true;
+				monHelper->_isAnimationEnd = false;
+			}
+			else
+			{
+				_isAnimEnd = false;
+			}
+		}
+
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
 			config().blackboard->set<std::string>("CURRENTANIM", "_00006");
-			bool isChange = config().blackboard->get<bool>("ISCHANGE");
-
 			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
 			animId.append("_00006.pganim");
 
-			if (!isChange && tMeshRenderer->GetAnimation() != animId)
+			if (tMeshRenderer->GetAnimation() != animId)
 			{
-				tMeshRenderer->SetAnimation(animId, true);
+				tMeshRenderer->SetAnimation(animId, false);
 				config().blackboard->set<bool>("ISCHANGE", true);
-				return BT::NodeStatus::SUCCESS;
-			}
-			else if (isChange && tMeshRenderer->GetAnimation() == animId)
-			{
-				return BT::NodeStatus::FAILURE;
 			}
 		}
+
+		if (_isAnimEnd) config().blackboard->set<bool>("ISCHANGE", false);
 		return BT::NodeStatus::SUCCESS;
 	}
 }
