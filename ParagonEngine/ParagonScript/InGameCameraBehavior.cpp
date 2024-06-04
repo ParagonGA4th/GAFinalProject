@@ -34,7 +34,7 @@ namespace Pg::DataScript
 		_playerTransform = plVec.at(0)->GetComponent<Pg::Data::Transform>();
 
 		//현재 자기 자신의 Rotation 세팅. (밑으로 약 40도 바라봐야)
-		_object->_transform._rotation = PGEulerToQuaternion({ PGConvertToRadians(-40), 0, 0 });
+		_object->_transform._rotation = PGEulerToQuaternion({ PGConvertToRadians(-60), 0, 0 });
 
 		//자기 자신이 속한 Camera를 MainCamera로 설정.
 		_object->GetScene()->SetMainCamera(_selfCamera);
