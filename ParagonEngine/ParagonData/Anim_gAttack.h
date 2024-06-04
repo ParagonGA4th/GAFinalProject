@@ -18,6 +18,10 @@ namespace Pg::Data::BTree::Node
 		{
 			return {};
 		}
+
+	private:
+		bool _isAnimEnd = { false };
+		bool _isChangeAnim = { false };
 	};
 }
 

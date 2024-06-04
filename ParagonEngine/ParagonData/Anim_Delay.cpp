@@ -18,9 +18,8 @@ namespace Pg::Data::BTree::Node
 		auto holdTime = getInput<float>("_holdTime");
 
 		bool isChange = config().blackboard->get<bool>("ISCHANGE");	// 애니매이션이 바뀌었는지
-		//bool isFind = config().blackboard->get<bool>("ISFINDPLAYER");
-		std::string currentAnim = config().blackboard->get<std::string>("CURRENTANIM");	// 거쳐온 애니매이션 노드가 무엇인지
-		std::string prevAnim = config().blackboard->get<std::string>("PREVANIM");	// 거쳐온 애니매이션 노드가 무엇인지
+		std::string currentAnim = config().blackboard->get<std::string>("CURRENTANIM");	// 현재 애니매이션 노드가 무엇인지
+		std::string prevAnim = config().blackboard->get<std::string>("PREVANIM");		// 이전 애니매이션 노드가 무엇인지
 
 		if (prevAnim.empty())
 		{
