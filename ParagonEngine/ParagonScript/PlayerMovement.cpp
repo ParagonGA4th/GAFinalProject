@@ -1,5 +1,7 @@
 #include "PlayerMovement.h"
 
+#include "InGameCameraBehavior.h"
+
 #include "../ParagonData/Camera.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/LayerMask.h"
@@ -33,7 +35,9 @@ namespace Pg::DataScript
 	{
 		//다른 스크립트의 Awake에서 새롭게 인게임 메인카메라를 설정해야 한다.
 		_mainCam = _object->GetScene()->GetMainCamera();
-		
+		_camBehavior = _mainCam->_object->GetComponent<Pg::DataScript::InGameCameraBehavior>();
+		assert(_camBehavior != nullptr);
+
 		_renderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		assert(_renderer != nullptr);
 
@@ -72,7 +76,9 @@ namespace Pg::DataScript
 		float tMoveSpeed = moveSpeed * 3.0f;
 
 		//Camera -> GameObject를 바라보는 방향이 Forward여야 한다!
-		Pg::Math::PGFLOAT3 relativeForward = this->_object->_transform._position - _mainCam->_object->_transform._position;
+		//보간되고 있는 상황이 아니라, Target Pos를 기준으로 움직여야.
+		//Pg::Math::PGFLOAT3 relativeForward = this->_object->_transform._position - _mainCam->_object->_transform._position;
+		Pg::Math::PGFLOAT3 relativeForward = this->_object->_transform._position - _camBehavior->GetTargetCamPosition();
 
 		//Y Vector 캔슬 + 정규화.
 		relativeForward.y = 0.0f;
@@ -85,16 +91,16 @@ namespace Pg::DataScript
 		relativeLeft = { relativeLeft.x * tMoveSpeed * dt, relativeLeft.y * tMoveSpeed * dt, relativeLeft.z * tMoveSpeed * dt };
 
 
-		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyUp) ||
-			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyDown) ||
-			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyLeft) ||
-			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyRight))
+		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MoveFront) ||
+			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MoveBack) ||
+			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MoveLeft) ||
+			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MoveRight))
 		{
 			///SetAnimation : Run
 			_renderer->SetAnimation("test_run.pganim", true);
 		}
 
-		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyUp))
+		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveFront))
 		{
 			//_selfCol->AddForce(relativeForward, Pg::Data::ForceMode::eFORCE);
 			_object->_transform._position.x += relativeForward.x;
@@ -102,21 +108,21 @@ namespace Pg::DataScript
 			_object->_transform._position.z += relativeForward.z;
 			
 		}
-		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyDown))
+		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveBack))
 		{
 			//_selfCol->AddForce(-relativeForward, Pg::Data::ForceMode::eFORCE);
 			_object->_transform._position.x -= relativeForward.x;
 			_object->_transform._position.y -= relativeForward.y;
 			_object->_transform._position.z -= relativeForward.z;
 		}
-		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyLeft))
+		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveLeft))
 		{
 			//_selfCol->AddForce(relativeLeft, Pg::Data::ForceMode::eFORCE);
 			_object->_transform._position.x += relativeLeft.x;
 			_object->_transform._position.y += relativeLeft.y;
 			_object->_transform._position.z += relativeLeft.z;
 		}
-		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyRight))
+		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveRight))
 		{
 			//_selfCol->AddForce(-relativeLeft, Pg::Data::ForceMode::eFORCE);
 			_object->_transform._position.x -= relativeLeft.x;
@@ -124,10 +130,10 @@ namespace Pg::DataScript
 			_object->_transform._position.z -= relativeLeft.z;
 		}
 
-		if (_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::KeyUp) ||
-			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::KeyDown) ||
-			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::KeyLeft) ||
-			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::KeyRight))
+		if (_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MoveFront) ||
+			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MoveBack) ||
+			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MoveLeft) ||
+			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MoveRight))
 		{
 			///SetAnimation : Idle.
 			_renderer->SetAnimation("test_idle.pganim", true);
@@ -137,8 +143,6 @@ namespace Pg::DataScript
 			_selfCol->FreezeAxisX(true);
 			_selfCol->FreezeAxisY(true);
 			_selfCol->FreezeAxisZ(true);
-
-			
 		}
 
 		//PhysX 업데이트를 1차례 거친 후, 다시 리셋.
