@@ -12,15 +12,11 @@ namespace Pg::Data::BTree::Node
 			:BT::SyncActionNode(name, config) {};
 		virtual ~isPlayerInSight() = default;
 
-		virtual void InitCustom();
-		
 		virtual BT::NodeStatus tick() override;
 
 		static BT::PortsList providedPorts()
 		{
-			BT::PortsList list;
-			list.insert(BT::BidirectionalPort<bool>("_isFindPlayer"));
-			return list;
+			return {};
 		}
 	};
 }
