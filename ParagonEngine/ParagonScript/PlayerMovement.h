@@ -17,20 +17,10 @@ namespace Pg::Data
 
 namespace Pg::API
 {
-	namespace Input
-	{
-		class PgInput;
-	}
-
-	namespace Time
-	{
-		class PgTime;
-	}
-
-	namespace Raycast
-	{
-		class PgRayCast;
-	}
+	namespace Input { class PgInput; }
+	namespace Time { class PgTime; }
+	namespace Raycast { class PgRayCast; }
+	namespace Tween { class PgTween; }
 }
 
 namespace Pg::DataScript
@@ -56,21 +46,27 @@ namespace Pg::DataScript
 		float rotateMultiplier{ 2.0f };
 		float jumpPower{ 45.0f };
 
+		
+
 	private:
+		//In Update Loop
 		void ShootRayForward();
 		void DetermineDirectionAndValues();
-		//WASD로 카메라 기준 이동.
-		void UpdateWASD();
+		void UpdateWASD(); //WASD로 카메라 기준 이동.
 		void UpdateJump();
-		//클릭한 곳 기준 바라보기.
-		void UpdateFacingDirection(float yLevelPlane);
+		void UpdateFacingDirection(float yLevelPlane); //클릭한 곳 기준 바라보기.
+		void StrafeAvoidLogic();
+
+	private:
+		void OnStrafeAvoidComplete();
 
 		//공격하는 모션 등등, 값 관리
 		//항상 자신의 바닥부분에서 레이캐스트를 쏴야 한다. (점프를 했으면)
 	private:
 		Pg::Math::PGFLOAT3 _relativeForward;
 		Pg::Math::PGFLOAT3 _relativeLeft;
-
+		Pg::Math::PGFLOAT3 _augmentedRelativeForward; // 이동 정도.
+		Pg::Math::PGFLOAT3 _augmentedRelativeLeft; // 이동 정도.
 
 	private:
 		InGameCameraBehavior* _camBehavior{ nullptr };
@@ -80,6 +76,7 @@ namespace Pg::DataScript
 		Pg::API::Input::PgInput* _pgInput{ nullptr };
 		Pg::API::Time::PgTime* _pgTime{ nullptr };
 		Pg::API::Raycast::PgRayCast* _pgRayCast{ nullptr };
+		Pg::API::Tween::PgTween* _pgTween{ nullptr };
 		Pg::Math::PGFLOAT3 _targetPos;
 		Pg::Math::PGQuaternion _targetRotation;
 
@@ -91,6 +88,7 @@ namespace Pg::DataScript
 		float _halfColliderHeight{};
 		float _currentPlaneY = 0.f;
 		float _recordedTimeSinceJump = 0.f;
+		bool _isStrafeAvoiding{ false };
 	};
 }
 
