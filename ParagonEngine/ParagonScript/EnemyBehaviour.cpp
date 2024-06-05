@@ -103,8 +103,10 @@ namespace Pg::DataScript
 				_object->_transform._position.z = tPosition.z;
 			}
 		}
+		//시야에 안보이면
 		else
 		{
+			//대기 상태.
 			if (_renderer->GetAnimation() != "GMA_00001.pganim")
 			{
 				_renderer->SetAnimation("GMA_00001.pganim", true);
