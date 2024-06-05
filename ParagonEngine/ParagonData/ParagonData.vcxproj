@@ -133,7 +133,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;_CRT_SECURE_NO_WARNINGS;NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\physx;$(SolutionDir)include\Recast\Navigation;$(SolutionDir)include\libzmq;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -157,7 +157,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;_CRT_SECURE_NO_WARNINGS;NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\physx;$(SolutionDir)include\Recast\Navigation;$(SolutionDir)include\libzmq;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -205,6 +205,7 @@
     <ClInclude Include="Anim_Delay.h" />
     <ClInclude Include="Anim_gAttack.h" />
     <ClInclude Include="Anim_Idle.h" />
+    <ClInclude Include="Anim_Stab.h" />
     <ClInclude Include="Anim_Walk.h" />
     <ClInclude Include="AssetDefines.h" />
     <ClInclude Include="AudioData.h" />
@@ -257,7 +258,7 @@
     <ClInclude Include="PhysicsContactPoint.h" />
     <ClInclude Include="PlaneCollider.h" />
     <ClInclude Include="PointLight.h" />
-    <ClInclude Include="Anim_Hit.h" />
+    <ClInclude Include="Anim_HitFloating.h" />
     <ClInclude Include="RayCast.h" />
     <ClInclude Include="RendererChangeList.h" />
     <ClInclude Include="EditorMode.h" />
@@ -271,6 +272,7 @@
     <ClInclude Include="ResourceQueue.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SerializerHelper.h" />
+    <ClInclude Include="Anim_Shoot.h" />
     <ClInclude Include="SkinnedMeshRenderer.h" />
     <ClInclude Include="Slider.h" />
     <ClInclude Include="SoundData.h" />
@@ -321,6 +323,7 @@
     <ClCompile Include="Anim_Delay.cpp" />
     <ClCompile Include="Anim_gAttack.cpp" />
     <ClCompile Include="Anim_Idle.cpp" />
+    <ClCompile Include="Anim_Stab.cpp" />
     <ClCompile Include="Anim_Walk.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="BaseRenderer.cpp" />
@@ -352,7 +355,7 @@
     <ClCompile Include="PhysicsContactPoint.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
     <ClCompile Include="PointLight.cpp" />
-    <ClCompile Include="Anim_Hit.cpp" />
+    <ClCompile Include="Anim_HitFloating.cpp" />
     <ClCompile Include="RayCast.cpp" />
     <ClCompile Include="RendererChangeList.cpp" />
     <ClCompile Include="EngineResource.cpp" />
@@ -362,6 +365,7 @@
     <ClCompile Include="RendererBase3D.cpp" />
     <ClCompile Include="ResourceQueue.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Anim_Shoot.cpp" />
     <ClCompile Include="SkinnedMeshRenderer.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SphereCollider.cpp" />

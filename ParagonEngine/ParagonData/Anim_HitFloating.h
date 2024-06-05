@@ -1,3 +1,6 @@
+#ifndef ANIM_HITFLOATING
+#define ANIM_HITFLOATING
+
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -5,12 +8,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_Hit : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_HitFloating : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_Hit(const std::string& name, const BT::NodeConfiguration& config)
+		Anim_HitFloating(const std::string& name, const BT::NodeConfiguration& config)
 			:BT::SyncActionNode(name, config) {};
-		virtual ~Anim_Hit() = default;
+		virtual ~Anim_HitFloating() = default;
 
 		virtual BT::NodeStatus tick() override;
 
@@ -24,3 +27,4 @@ namespace Pg::Data::BTree::Node
 	};
 }
 
+#endif
