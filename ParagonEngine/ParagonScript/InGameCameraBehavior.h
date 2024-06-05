@@ -30,6 +30,7 @@ namespace Pg::DataScript
 
 		float _speed = 2.0f;
 		float _currentRotationAmt = 0.f;
+		float _lookDownAngle = 40.f;
 
 		Pg::Math::PGFLOAT3 GetTargetCamPosition(); 
 

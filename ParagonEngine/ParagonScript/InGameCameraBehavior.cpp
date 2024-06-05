@@ -112,8 +112,7 @@ namespace Pg::DataScript
 		_targetCamPosition.z = _playerTransform->_position.z + camOffset.z;
 
 		//Rotation은 바로 반영이 된다. -> 일단 초기 상태를 세팅.
-
-
+		
 		//계산을 반영할 것.
 		XMVECTOR position = XMVectorSet(_targetCamPosition.x, _targetCamPosition.y, _targetCamPosition.z, 1.0f);
 		XMVECTOR rotation = PG2XM_QUATERNION_VECTOR(_object->_transform._rotation);
@@ -128,10 +127,11 @@ namespace Pg::DataScript
 			//이게 실질적으로 Transform.RotateAround이랑 같을 것이다.
 			//_currentRotationAmt는 나중에 FollowLogic이 나오면 이를 기반으로 동작할 수 있을 것.
 
-			if (GetAsyncKeyState(VK_LSHIFT) & 0x8000)
-			{
-				_currentRotationAmt += 1.f;
-			}
+			//if (GetAsyncKeyState(VK_LSHIFT) & 0x8000)
+			//{
+			//	_currentRotationAmt += 1.f;
+			//}
+
 			float rotationAngle = XMConvertToRadians(fmod(_currentRotationAmt, 360.f));
 
 			//Rotation Axis & Angle.
@@ -151,18 +151,12 @@ namespace Pg::DataScript
 			//오브젝트를 Pivot Point와 상대적으로, 원위치를 향해 Translate.
 			XMMATRIX translationFromPivot = XMMatrixTranslationFromVector(pivotPoint);
 			position = XMVector3Transform(position, translationFromPivot);
-
-			////새로운 Rotation Quaternion 계산.
-			//XMVECTOR newRotation = XMQuaternionMultiply(rotation, XMQuaternionRotationMatrix(rotationAroundPivot));
-			////원본 Z 축 보존.
-			//XMVECTOR preservedZAxis = XMVector3Cross(XMVector3Rotate(XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f), newRotation), forward);
-			//XMVECTOR dot = XMVector3Dot(preservedZAxis, XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f));
-			//XMVECTOR preservedRotation = XMQuaternionRotationAxis(forward, XMVectorGetX(XMVectorACos(dot)));
-			//
-			////Rotation 기록.
-			//rotation = XMQuaternionMultiply(newRotation, preservedRotation);
-			//rotation = XMQuaternionMultiply(rotation, XMQuaternionRotationMatrix(rotationAroundPivot));
 		}
+
+		//if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+		//{
+		//	_lookDownAngle += 0.5f;
+		//}
 
 		//TargetRotation으로 역 대입, 나중에 보간될 것.
 		Pg::Math::PGFLOAT3 tSameYPT = { _playerTransform->_position.x, _object->_transform._position.y, _playerTransform->_position.z };
@@ -170,22 +164,10 @@ namespace Pg::DataScript
 		_targetCamRotation = PGLookRotation(tLookVector, Pg::Math::PGFLOAT3::GlobalUp());
 		//Y축 대한 Flip:  
 		_targetCamRotation.w *= -1.0f;
-
-		//이제 이 XZ Plane에 평행할 카메라를 Local X를 기준으로 40도 정도 회전시키자!
-		{
-			//XMVECTOR quaternion = PG2XM_QUATERNION_VECTOR(_targetCamRotation);
-			//XMVECTOR localRight = XMVector3Rotate(XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f), quaternion);
-			//float angle = XMConvertToRadians(40.0f);
-			//XMVECTOR rotationQuaternion = XMQuaternionRotationAxis(localRight, angle);
-			//XMVECTOR rotatedQuaternion = XMQuaternionMultiply(quaternion, rotationQuaternion);
-			//rotatedQuaternion = XMQuaternionNormalize(rotatedQuaternion);
-			//_targetCamRotation = XM2PG_QUATERNION(rotatedQuaternion);
-		}
-
-		//_targetCamRotation = XM2PG_QUATERNION(rotation);
-
-		//일단 되는 솔루션, 다만 Z축 회전 문제가 있었다.
-		//Pg::Math::PGFLOAT3 tLookVector = PGFloat3Normalize(_playerTransform->_position - _object->_transform._position);
+		DirectX::XMVECTOR tCurrentCamRot = PG2XM_QUATERNION_VECTOR(_targetCamRotation);
+		
+		DirectX::XMVECTOR tTemp = DirectX::XMQuaternionRotationRollPitchYaw(-PGConvertToRadians(_lookDownAngle), 0, 0);
+		_targetCamRotation = XM2PG_QUATERNION(DirectX::XMQuaternionMultiply(tCurrentCamRot, tTemp));
 
 		//TargetPosition으로 역 대입, 나중에 보간될 것.
 		_targetCamPosition = XM2PG_FLOAT3_VECTOR(position);
