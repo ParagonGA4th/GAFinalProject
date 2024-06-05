@@ -11,6 +11,7 @@
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgRayCast.h"
+#include "../ParagonAPI/PgTween.h"
 
 #include <singleton-cpp/singleton.h>
 #include <algorithm>
@@ -23,6 +24,7 @@ namespace Pg::DataScript
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgRayCast = &singleton<Pg::API::Raycast::PgRayCast>();
+		_pgTween = &singleton<Pg::API::Tween::PgTween>();
 	}
 
 	void PlayerMovement::Awake()
@@ -54,10 +56,11 @@ namespace Pg::DataScript
 	{
 		ShootRayForward();
 		DetermineDirectionAndValues();
-		
 		UpdateWASD();
 		UpdateJump();
 		UpdateFacingDirection(_currentPlaneY); //Plane Y-Level 입력해야.
+
+		StrafeAvoidLogic();
 	}
 
 	void PlayerMovement::ShootRayForward()
@@ -94,8 +97,9 @@ namespace Pg::DataScript
 		//Y축이 항상 Global Y-Up을 가리키고 있을 테니, Cross하면 Left Vector.
 		_relativeLeft = Pg::Math::PGFloat3Cross(_relativeForward, Pg::Math::PGFLOAT3::GlobalUp());
 
-		_relativeForward = { _relativeForward.x * tMoveSpeed * dt, _relativeForward.y * tMoveSpeed * dt, _relativeForward.z * tMoveSpeed * dt };
-		_relativeLeft = { _relativeLeft.x * tMoveSpeed * dt, _relativeLeft.y * tMoveSpeed * dt, _relativeLeft.z * tMoveSpeed * dt };
+		//기록은 다르게. 정도가 바뀌었으니.
+		_augmentedRelativeForward = { _relativeForward.x * tMoveSpeed * dt, _relativeForward.y * tMoveSpeed * dt, _relativeForward.z * tMoveSpeed * dt };
+		_augmentedRelativeLeft = { _relativeLeft.x * tMoveSpeed * dt, _relativeLeft.y * tMoveSpeed * dt, _relativeLeft.z * tMoveSpeed * dt };
 
 		//Face Direction에 필요하다. 현재 발에 있는 위치!
 		_currentPlaneY = this->_object->_transform._position.y - _halfColliderHeight;
@@ -115,31 +119,31 @@ namespace Pg::DataScript
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveFront))
 		{
 			//_selfCol->AddForce(relativeForward, Pg::Data::ForceMode::eFORCE);
-			_object->_transform._position.x += _relativeForward.x;
-			_object->_transform._position.y += _relativeForward.y;
-			_object->_transform._position.z += _relativeForward.z;
+			_object->_transform._position.x += _augmentedRelativeForward.x;
+			_object->_transform._position.y += _augmentedRelativeForward.y;
+			_object->_transform._position.z += _augmentedRelativeForward.z;
 			
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveBack))
 		{
 			//_selfCol->AddForce(-relativeForward, Pg::Data::ForceMode::eFORCE);
-			_object->_transform._position.x -= _relativeForward.x;
-			_object->_transform._position.y -= _relativeForward.y;
-			_object->_transform._position.z -= _relativeForward.z;
+			_object->_transform._position.x -= _augmentedRelativeForward.x;
+			_object->_transform._position.y -= _augmentedRelativeForward.y;
+			_object->_transform._position.z -= _augmentedRelativeForward.z;
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveLeft))
 		{
 			//_selfCol->AddForce(relativeLeft, Pg::Data::ForceMode::eFORCE);
-			_object->_transform._position.x += _relativeLeft.x;
-			_object->_transform._position.y += _relativeLeft.y;
-			_object->_transform._position.z += _relativeLeft.z;
+			_object->_transform._position.x += _augmentedRelativeLeft.x;
+			_object->_transform._position.y += _augmentedRelativeLeft.y;
+			_object->_transform._position.z += _augmentedRelativeLeft.z;
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveRight))
 		{
 			//_selfCol->AddForce(-relativeLeft, Pg::Data::ForceMode::eFORCE);
-			_object->_transform._position.x -= _relativeLeft.x;
-			_object->_transform._position.y -= _relativeLeft.y;
-			_object->_transform._position.z -= _relativeLeft.z;
+			_object->_transform._position.x -= _augmentedRelativeLeft.x;
+			_object->_transform._position.y -= _augmentedRelativeLeft.y;
+			_object->_transform._position.z -= _augmentedRelativeLeft.z;
 		}
 
 		if (_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MoveFront) ||
@@ -227,8 +231,9 @@ namespace Pg::DataScript
 			//뺄 때 y축 차이를 없애기 위해서.
 			_targetPos.y = _object->_transform._position.y;
 			//Pg::Math::PGFLOAT3 lookPos = _targetPos - _object->_transform._position;
-			Pg::Math::PGFLOAT3 lookPos = _object->_transform._position - _targetPos;
-			_targetRotation = PGLookRotation(lookPos, Pg::Math::PGFLOAT3::GlobalUp());
+			//Pg::Math::PGFLOAT3 lookPos = _object->_transform._position - _targetPos;
+			Pg::Math::PGFLOAT3 tLookPos = _object->_transform._position - _targetPos;
+			_targetRotation = PGLookRotation(tLookPos, Pg::Math::PGFLOAT3::GlobalUp());
 
 			//업데이트할 값 정하고 Update 루프에서 처리하도록.
 			_rotBeginRatio = 0.0f;
@@ -251,6 +256,35 @@ namespace Pg::DataScript
 				_selfCol->SetAngularVelocity({ 0,0,0 });
 			}
 		}
-
 	}
+
+	void PlayerMovement::StrafeAvoidLogic()
+	{
+		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyUp) && (!_isStrafeAvoiding))
+		{
+			_isStrafeAvoiding = true;
+
+			//ForwardVector의 Back 방향으로 이동해야 한다.
+			const float tAvoidDist = 3.0f; //실제로 이동한 거리.
+			const float tAvoidBasedTotalTime = 1.0f; //Tween 시간 비율로 Cut 전에, 전체 시간.
+			const float tCutShortRatio = 0.5f; //언제 빨리 끝낼지, 0-1.
+
+			Pg::Math::PGFLOAT3 tActualForward = Pg::Math::PGReflectVectorAgainstAxis(_object->_transform.GetForward(), Pg::Math::PGFLOAT3::GlobalForward());
+			Pg::Math::PGFLOAT3 tTargetPos = _object->_transform._position - (-tActualForward * tAvoidDist);
+
+			Pg::Util::Tween* tTween = _pgTween->CreateTween();
+			tTween->GetData(&(_object->_transform._position)).DoMove(tTargetPos, tAvoidBasedTotalTime).
+				SetEase(Pg::Util::Enums::eEasingMode::OUTEXPO).KillEarly(tCutShortRatio).OnComplete(
+					[this]()
+					{
+						OnStrafeAvoidComplete();
+					});
+		}
+	}
+
+	void PlayerMovement::OnStrafeAvoidComplete()
+	{
+		_isStrafeAvoiding = false;
+	}
+
 }
