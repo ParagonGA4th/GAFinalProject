@@ -126,7 +126,8 @@ namespace Pg::Engine::Physic
 		}
 
 		// 머티리얼 생성(임의)
-		_material = _physics->createMaterial(0.5f, 0.5f, 0.5f);
+		//_material = _physics->createMaterial(0.5f, 0.5f, 0.5f);
+		_material = _physics->createMaterial(0.5f, 0.5f, 0.1f); // Restitution : Bounciness를 줄인 것.
 
 		CreatePxScene();
 
@@ -327,7 +328,8 @@ namespace Pg::Engine::Physic
 		physx::PxSweepHit sweepHit;
 
 		//중력 설정.
-		sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
+		//sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
+		sceneDesc.gravity = physx::PxVec3(0.0f, -19.62f, 0.0f); //x2
 
 		_dispatcher = physx::PxDefaultCpuDispatcherCreate(2);
 		sceneDesc.cpuDispatcher = _dispatcher;

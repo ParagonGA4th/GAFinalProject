@@ -43,14 +43,25 @@ namespace Pg::DataScript
 
 		_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
 		assert(_selfCol != nullptr);
+		_selfCol->SetMass(5.0f);
+		// Height을 받아서, 반값을 기준으로 Intersection 계산할 준비 완료.
+		_halfColliderHeight = _selfCol->GetHeight() / 2.0f;
 
-		//_selfCol->SetPositionOffset({ 0.f,1.f,0.f });
+		_isJumping = false;
 	}
 
 	void PlayerMovement::Update()
 	{
-		//Z축 향해 뒤집기. 어디에서 불완전한 연결이 일어나는지는 확인해봐야 할 것 같다.
-		//Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGReflectVectorAgainstAxis(_object->_transform.GetForward(), {0,0,1});
+		ShootRayForward();
+		DetermineDirectionAndValues();
+		
+		UpdateWASD();
+		UpdateJump();
+		UpdateFacingDirection(_currentPlaneY); //Plane Y-Level 입력해야.
+	}
+
+	void PlayerMovement::ShootRayForward()
+	{
 		//tShouldShootDir = Pg::Math::PGFloat3Normalize(tShouldShootDir);
 		Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGFloat3Normalize(_object->_transform.GetForward());
 		tShouldShootDir = PGConvertD3DVec3RotToPhysX(tShouldShootDir);
@@ -65,32 +76,33 @@ namespace Pg::DataScript
 
 		_pgRayCast->MakeRay(tD3DOrigin,
 			tShouldShootDir, 30.0f, outHitPoint, nullptr);
-
-		UpdateWASD();
-		UpdateFacingDirection(0); //Plane Y-Level 입력해야.
 	}
 
-	void PlayerMovement::UpdateWASD()
+	void PlayerMovement::DetermineDirectionAndValues()
 	{
 		float dt = _pgTime->GetDeltaTime();
 		float tMoveSpeed = moveSpeed * 3.0f;
 
 		//Camera -> GameObject를 바라보는 방향이 Forward여야 한다!
 		//보간되고 있는 상황이 아니라, Target Pos를 기준으로 움직여야.
-		//Pg::Math::PGFLOAT3 relativeForward = this->_object->_transform._position - _mainCam->_object->_transform._position;
-		Pg::Math::PGFLOAT3 relativeForward = this->_object->_transform._position - _camBehavior->GetTargetCamPosition();
+		_relativeForward = this->_object->_transform._position - _camBehavior->GetTargetCamPosition();
 
 		//Y Vector 캔슬 + 정규화.
-		relativeForward.y = 0.0f;
-		relativeForward = Pg::Math::PGFloat3Normalize(relativeForward);
+		_relativeForward.y = 0.0f;
+		_relativeForward = Pg::Math::PGFloat3Normalize(_relativeForward);
 
 		//Y축이 항상 Global Y-Up을 가리키고 있을 테니, Cross하면 Left Vector.
-		Pg::Math::PGFLOAT3 relativeLeft = Pg::Math::PGFloat3Cross(relativeForward, Pg::Math::PGFLOAT3::GlobalUp());
+		_relativeLeft = Pg::Math::PGFloat3Cross(_relativeForward, Pg::Math::PGFLOAT3::GlobalUp());
 
-		relativeForward = { relativeForward.x * tMoveSpeed * dt, relativeForward.y * tMoveSpeed * dt, relativeForward.z * tMoveSpeed * dt };
-		relativeLeft = { relativeLeft.x * tMoveSpeed * dt, relativeLeft.y * tMoveSpeed * dt, relativeLeft.z * tMoveSpeed * dt };
+		_relativeForward = { _relativeForward.x * tMoveSpeed * dt, _relativeForward.y * tMoveSpeed * dt, _relativeForward.z * tMoveSpeed * dt };
+		_relativeLeft = { _relativeLeft.x * tMoveSpeed * dt, _relativeLeft.y * tMoveSpeed * dt, _relativeLeft.z * tMoveSpeed * dt };
 
+		//Face Direction에 필요하다. 현재 발에 있는 위치!
+		_currentPlaneY = this->_object->_transform._position.y - _halfColliderHeight;
+	}
 
+	void PlayerMovement::UpdateWASD()
+	{
 		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MoveFront) ||
 			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MoveBack) ||
 			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MoveLeft) ||
@@ -103,31 +115,31 @@ namespace Pg::DataScript
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveFront))
 		{
 			//_selfCol->AddForce(relativeForward, Pg::Data::ForceMode::eFORCE);
-			_object->_transform._position.x += relativeForward.x;
-			_object->_transform._position.y += relativeForward.y;
-			_object->_transform._position.z += relativeForward.z;
+			_object->_transform._position.x += _relativeForward.x;
+			_object->_transform._position.y += _relativeForward.y;
+			_object->_transform._position.z += _relativeForward.z;
 			
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveBack))
 		{
 			//_selfCol->AddForce(-relativeForward, Pg::Data::ForceMode::eFORCE);
-			_object->_transform._position.x -= relativeForward.x;
-			_object->_transform._position.y -= relativeForward.y;
-			_object->_transform._position.z -= relativeForward.z;
+			_object->_transform._position.x -= _relativeForward.x;
+			_object->_transform._position.y -= _relativeForward.y;
+			_object->_transform._position.z -= _relativeForward.z;
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveLeft))
 		{
 			//_selfCol->AddForce(relativeLeft, Pg::Data::ForceMode::eFORCE);
-			_object->_transform._position.x += relativeLeft.x;
-			_object->_transform._position.y += relativeLeft.y;
-			_object->_transform._position.z += relativeLeft.z;
+			_object->_transform._position.x += _relativeLeft.x;
+			_object->_transform._position.y += _relativeLeft.y;
+			_object->_transform._position.z += _relativeLeft.z;
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveRight))
 		{
 			//_selfCol->AddForce(-relativeLeft, Pg::Data::ForceMode::eFORCE);
-			_object->_transform._position.x -= relativeLeft.x;
-			_object->_transform._position.y -= relativeLeft.y;
-			_object->_transform._position.z -= relativeLeft.z;
+			_object->_transform._position.x -= _relativeLeft.x;
+			_object->_transform._position.y -= _relativeLeft.y;
+			_object->_transform._position.z -= _relativeLeft.z;
 		}
 
 		if (_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MoveFront) ||
@@ -153,6 +165,53 @@ namespace Pg::DataScript
 		
 			_selfCol->FreezeAxisX(true);
 			_selfCol->FreezeAxisZ(true);
+		}
+	}
+
+	void PlayerMovement::UpdateJump()
+	{
+		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::Space) && (!_isJumping))
+		{
+			_isJumping = true;
+			_recordedTimeSinceJump = 0.f;
+			_selfCol->AddForce(Pg::Math::PGFLOAT3::GlobalUp() * jumpPower, Pg::Data::ForceMode::eIMPULSE);
+		}
+
+		if (_isJumping)
+		{
+			//약간의 간격이 있어야 자신을 인식하지 않을 것이기에.
+			const float tSmallOffset = 0.05f; //추가적으로 Y Position Offset. 
+			const float tJumpCheckSmallDist = 0.1f; //밑으로 쏘는 정도
+			const float tMinimalTimeBeforeRaycastCheck = 0.4f;
+
+			//지난 시간 DeltaTime으로 점검.
+			_recordedTimeSinceJump += _pgTime->GetDeltaTime();
+
+			if (_recordedTimeSinceJump > tMinimalTimeBeforeRaycastCheck)
+			{
+				//밑으로 쏜다.
+				Pg::Math::PGFLOAT3 tShouldShootDir = -Pg::Math::PGFLOAT3::GlobalUp();
+				Pg::Math::PGFLOAT3 tShouldShootPosition = {
+					_object->_transform._position.x, _object->_transform._position.y - _halfColliderHeight - tSmallOffset, _object->_transform._position.z };
+
+				//Raycast 효과적인 범위 검사를 위한 임시.
+				//Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGFLOAT3::GlobalUp();
+				//Pg::Math::PGFLOAT3 tShouldShootPosition = {
+				//	_object->_transform._position.x, _object->_transform._position.y + _halfColliderHeight + tSmallOffset, _object->_transform._position.z };
+
+				//로직과 상관없는 거
+				Pg::Math::PGFLOAT3 outHitPoint;
+				Pg::Data::Collider* tOtherCollider = _pgRayCast->MakeRay(tShouldShootPosition,
+					tShouldShootDir, tJumpCheckSmallDist, outHitPoint, nullptr);
+
+				//매우 짦은 거리로 쏴야 한다. 닿으면 다시 점프를 재충전할 것이니.
+				if (tOtherCollider != nullptr)
+				{
+					//이제 Collider의 레이어를 여기서 다시 Sort해야 할 것이나,
+					//일단은 그 과정은 나중에!
+					_isJumping = false;
+				}
+			}
 		}
 	}
 
@@ -194,5 +253,4 @@ namespace Pg::DataScript
 		}
 
 	}
-
 }

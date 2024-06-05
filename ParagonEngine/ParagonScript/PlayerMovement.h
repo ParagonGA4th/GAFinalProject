@@ -54,15 +54,23 @@ namespace Pg::DataScript
 		//움직임 관련. 
 		float moveSpeed{ 4.0f };
 		float rotateMultiplier{ 2.0f };
+		float jumpPower{ 45.0f };
 
 	private:
+		void ShootRayForward();
+		void DetermineDirectionAndValues();
 		//WASD로 카메라 기준 이동.
 		void UpdateWASD();
-
+		void UpdateJump();
 		//클릭한 곳 기준 바라보기.
 		void UpdateFacingDirection(float yLevelPlane);
 
 		//공격하는 모션 등등, 값 관리
+		//항상 자신의 바닥부분에서 레이캐스트를 쏴야 한다. (점프를 했으면)
+	private:
+		Pg::Math::PGFLOAT3 _relativeForward;
+		Pg::Math::PGFLOAT3 _relativeLeft;
+
 
 	private:
 		InGameCameraBehavior* _camBehavior{ nullptr };
@@ -77,10 +85,12 @@ namespace Pg::DataScript
 
 	private:
 		bool _isJustSetRestraint{ false };
-
+		bool _isJumping = false;
 		bool _shouldRotate = false;
 		float _rotBeginRatio = 0.0f;
-
+		float _halfColliderHeight{};
+		float _currentPlaneY = 0.f;
+		float _recordedTimeSinceJump = 0.f;
 	};
 }
 
