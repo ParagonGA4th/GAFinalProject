@@ -1,3 +1,5 @@
+#ifndef ANIM_DASH 
+#define ANIM_DASH
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -24,3 +26,4 @@ namespace Pg::Data::BTree::Node
 		bool _isChangeAnim = { false };
 	};
 }
+#endif

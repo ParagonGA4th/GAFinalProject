@@ -25,8 +25,11 @@ void Enemy::Start()
 		Pg::Data::StaticBoxCollider* staticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
 		AISeight* aiSight = iter->_object->GetComponent<AISeight>();
 
-		colVec.push_back(staticCol);
-		aiSightVec.push_back(aiSight);
+		if (aiSight != nullptr)
+		{
+			colVec.push_back(staticCol);
+			aiSightVec.push_back(aiSight);
+		}
 	}
 }
 

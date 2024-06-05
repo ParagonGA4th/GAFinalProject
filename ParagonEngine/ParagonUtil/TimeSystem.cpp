@@ -37,7 +37,7 @@ namespace Pg::Util::Time
 
 		if (_deltaTime != 0)
 		{
-			_frameRate = static_cast<double>(1) / _deltaTime;
+			_frameRate = static_cast<int>(1.f / _deltaTime);
 		}
 
 		QueryPerformanceCounter(&_startTick);
