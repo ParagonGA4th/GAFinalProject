@@ -51,7 +51,7 @@ namespace Pg::Engine::BTree
 
 		using namespace Pg::Data::BTree;
 		_factory->registerNodeType<Node::Anim_Delay>("Anim_Delay");
-		_factory->registerNodeType<Node::Anim_Hit>("Anim_Hit");
+		_factory->registerNodeType<Node::Anim_HitFloating>("Anim_HitFloating");
 		_factory->registerNodeType<Node::isPlayerInSight>("isPlayerInSight");
 		_factory->registerNodeType<Node::isHitSpace>("isHitSpace");
 
@@ -61,8 +61,9 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::Anim_Dash>("Anim_Dash");
 		_factory->registerNodeType<Node::Anim_gAttack>("Anim_gAttack");
 		_factory->registerNodeType<Node::isDistanceClose>("isDistanceClose");
-		//_factory->registerNodeType<Node::Anim_gbArmAttack>("Anim_gbArmAttack");
-		//_factory->registerNodeType<Node::Anim_gbSpinAttack>("Anim_gbSpinAttack");
+
+		_factory->registerNodeType<Node::Anim_Shoot>("Anim_Shoot");
+		_factory->registerNodeType<Node::Anim_Stab>("Anim_Stab");
 
 #pragma endregion ACTUAL_NODE_REGISTRATION
 

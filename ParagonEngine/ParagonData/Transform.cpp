@@ -282,6 +282,22 @@ namespace Pg::Data
 		return nullptr;
 	}
 
+	Transform* Transform::GetChild(std::string name)
+	{
+		if (!_children.empty())
+		{
+			for (auto& child : _children)
+			{
+				if (child->_object->GetName() == name)
+				{
+					return child;
+				}
+			}
+		}
+
+		return nullptr;
+	}
+
 	//void Transform::SetParent(Transform* parent)
 	//{
 	//	//_parent = std::make_shared<Transform>(parent->_object);

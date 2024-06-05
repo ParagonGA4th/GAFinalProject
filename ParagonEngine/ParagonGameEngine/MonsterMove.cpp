@@ -2,8 +2,10 @@
 #include "SceneSystem.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
+#include "../ParagonData/MonsterHelper.h"
 #include "../ParagonUtil/TimeSystem.h"
 #include "../ParagonMath/PgMath.h"
+
 #include "Navigation.h"
 #include "MonsterStrucr.h"
 #include <singleton-cpp/singleton.h>
@@ -28,6 +30,8 @@ void MonsterMove::Start()
 	//플레이어 지정
 	_player = _sceneSystem->GetCurrentScene()->FindObjectWithName("Player");
 	_playerTransform = _player->GetComponent<Pg::Data::Transform>();
+
+	_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 }
 
 void MonsterMove::Update()
@@ -56,9 +60,18 @@ void MonsterMove::Chase()
 	{
 		//공격으로 전환하기.
 		//추후 로직 구현.
+
+		// 플레이어가 공격 범위 안에 있으면 
+		_monsterHelper->_isPlayerinHitSpace = true;
+		_monsterHelper->_isDistanceClose = true;
 	}
 	else
 	{
+		// 플레이어가 시야 안에 있으면
+		_monsterHelper->_isPlayerDetected = true;
+		_monsterHelper->_isPlayerinHitSpace = false;
+		_monsterHelper->_isDistanceClose = false;
+
 		//사정거리 밖이면 플레이어로 계속 다가가기.
 		Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
 		tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, plTrans._position, interpolation);

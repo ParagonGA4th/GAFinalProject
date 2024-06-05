@@ -1,5 +1,5 @@
-#ifndef ANIM_GATTACK 
-#define ANIM_GATTACK
+#ifndef ANIM_SHOOT 
+#define ANIM_SHOOT
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,12 +7,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_gAttack : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_Shoot : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_gAttack(const std::string& name, const BT::NodeConfiguration& config)
+		Anim_Shoot(const std::string& name, const BT::NodeConfiguration& config)
 			: BT::SyncActionNode(name, config) {}
-		virtual ~Anim_gAttack() = default;
+		virtual ~Anim_Shoot() = default;
 
 		virtual BT::NodeStatus tick() override;
 

@@ -24,6 +24,7 @@ namespace Pg::Data
 {
 	class GameObject;
 	class Transform;
+	class MonsterHelper;
 }
 
 class MonsterMove : public Pg::Data::Component
@@ -79,6 +80,7 @@ private:
 
 	Pg::Data::GameObject* _player;
 	Pg::Data::Transform* _playerTransform;
+	Pg::Data::MonsterHelper* _monsterHelper;
 
 protected:
 	//MonsterStatus _status;
