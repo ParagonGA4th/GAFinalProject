@@ -150,6 +150,7 @@
     <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="ComboSystem.h" />
     <ClInclude Include="EnemyBehaviour.h" />
+    <ClInclude Include="EnemyInfo.h" />
     <ClInclude Include="EnemySight.h" />
     <ClInclude Include="EventList_CameraRelated.h" />
     <ClInclude Include="EventList_EnemyRelated.h" />
