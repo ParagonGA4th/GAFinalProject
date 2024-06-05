@@ -2,6 +2,7 @@
 #include "EnemySight.h"
 #include "PlayerBattleBehavior.h"
 #include "BaseMonster.h"
+#include "EnemyInfo.h"
 #include "../ParagonData/MonsterHelper.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/BoxCollider.h"
