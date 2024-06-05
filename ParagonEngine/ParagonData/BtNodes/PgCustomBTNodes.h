@@ -3,7 +3,7 @@
 
 // public
 #include "../ParagonData/Anim_Delay.h"
-#include "../ParagonData/Anim_Hit.h"
+#include "../ParagonData/Anim_HitFloating.h"
 #include "../ParagonData/isPlayerInSight.h"
 #include "../ParagonData/isHitSpace.h"
 
@@ -15,5 +15,7 @@
 #include "../ParagonData/Anim_Dash.h"
 #include "../ParagonData/Anim_gAttack.h"
 #include "../ParagonData/isDistanceClose.h"
-//#include "../ParagonData/Anim_gbSpinAttack.h"
-//#include "../ParagonData/Anim_gbArmAttack.h"
+
+//wasp
+#include "../ParagonData/Anim_Shoot.h"
+#include "../ParagonData/Anim_Stab.h"
