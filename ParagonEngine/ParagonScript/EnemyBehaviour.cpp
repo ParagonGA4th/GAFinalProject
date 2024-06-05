@@ -33,18 +33,18 @@ namespace Pg::DataScript
 	{
 		{
 			//내부적으로 Physics보다 SceneSystem의 함수들이 나중에 호출됨. 그러니, 미리 할 수 있는 방법을 EngineMain-SceneSystem에 연결해두었다.
-			//_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
-			//assert(_collider != nullptr);
-			//_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
-			////_collider->SetCapsuleInfo(1.f, 1.f);
-			//_collider->FreezeAxisX(true);
-			//_collider->FreezeAxisY(true);
-			//_collider->FreezeAxisZ(true);
-			//_collider->FreezeLinearY(true);
+			_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
+			assert(_collider != nullptr);
+			_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
+			//_collider->SetCapsuleInfo(1.f, 1.f);
+			_collider->FreezeAxisX(true);
+			_collider->FreezeAxisY(true);
+			_collider->FreezeAxisZ(true);
+			_collider->FreezeLinearY(true);
 
 			//촬영용으로만.
-			//_collider->FreezeLinearX(true);
-			//_collider->FreezeLinearZ(true);
+			_collider->FreezeLinearX(true);
+			_collider->FreezeLinearZ(true);
 
 			//Debouncer.
 		}
@@ -69,7 +69,8 @@ namespace Pg::DataScript
 			//Pg::Data::BoxCollider* Col = iter->_object->GetComponent<Pg::Data::BoxCollider>();
 			//assert(staticCol != nullptr);
 			EnemySight* aiSight = iter->_object->GetComponent<EnemySight>();
-			assert(aiSight != nullptr);
+			if (aiSight == nullptr) break;
+			//assert(aiSight != nullptr);
 
 			colVec.push_back(staticCol);
 			//boxColVec.push_back(Col);
