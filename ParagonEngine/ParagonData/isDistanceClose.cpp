@@ -10,6 +10,7 @@ namespace Pg::Data::BTree::Node
 		{
 			if (monHelper->_isDistanceClose)
 			{
+				config().blackboard->set<bool>("ISCHANGE", false);
 				return BT::NodeStatus::SUCCESS;
 			}
 			else
