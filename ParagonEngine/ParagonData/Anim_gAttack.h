@@ -22,6 +22,7 @@ namespace Pg::Data::BTree::Node
 		}
 
 	private:
+		bool _isHitSpace = { false };
 		bool _isAnimEnd = { false };
 		bool _isChangeAnim = { false };
 	};
