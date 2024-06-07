@@ -27,12 +27,20 @@ namespace Pg::Data
 		bool GetIsInstanced() { return _isInstanced; }
 		bool GetIsAlphaClipped() { return _isAlphaClipped; }
 
+		void SetRendererOffset(Pg::Math::PGFLOAT3 vecOffset) { _rendererOffset = vecOffset; }
+		Pg::Math::PGFLOAT3 GetRendererOffset() { return _rendererOffset; }
+	
 	protected:
 		std::string _meshFilePath;
 		std::string _renderMaterialPath;
 
 		bool _isInstanced{ false };
 		bool _isAlphaClipped{ false };
+
+		//개별적인 Offset. XML에 기록되지 않고,
+		//Component들이 쉽게 세팅할 수 있게 기록.
+		//렌더러 Offset 설정.
+		Pg::Math::PGFLOAT3 _rendererOffset;
 	};
 }
 

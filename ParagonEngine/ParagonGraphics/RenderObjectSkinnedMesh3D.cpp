@@ -353,9 +353,16 @@ namespace Pg::Graphics
 	{
 		auto _DXStorage = LowDX11Storage::GetInstance();
 
+		//임시로 Translate값을 다르게 저장하고, 다시 원상 복귀한다.
+		Pg::Math::PGFLOAT3 tOriginalPosValue = GetBaseRenderer()->_object->_transform._position;
+		GetBaseRenderer()->_object->_transform._position = tOriginalPosValue + _rendererBase3DStorage->GetRendererOffset();
+
 		// 상수버퍼에 들어갈 값 셋팅
 		DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());
 		DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
+
+		//다시 Translate 원상복귀.
+		GetBaseRenderer()->_object->_transform._position = tOriginalPosValue;
 
 		//0.01 스케일링 적용.
 		tWorldTMMat = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f), tWorldTMMat);
