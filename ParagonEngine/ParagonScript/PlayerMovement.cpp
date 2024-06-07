@@ -45,9 +45,13 @@ namespace Pg::DataScript
 
 		_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
 		assert(_selfCol != nullptr);
-		_selfCol->SetMass(5.0f);
+		_selfCol->SetMass(5.f);
+		
 		// Height을 받아서, 반값을 기준으로 Intersection 계산할 준비 완료.
 		_halfColliderHeight = _selfCol->GetHeight() / 2.0f;
+
+		//자신이 속한 Half Collider 높이 만큼 RendererOffset 설정.
+		_renderer->SetRendererOffset({ 0.f, -_halfColliderHeight, 0.f });
 
 		_isJumping = false;
 	}
@@ -61,6 +65,10 @@ namespace Pg::DataScript
 		UpdateFacingDirection(_currentPlaneY); //Plane Y-Level 입력해야.
 
 		StrafeAvoidLogic();
+	}
+	void PlayerMovement::LateUpdate()
+	{
+		PlayAdequateAnimation();
 	}
 
 	void PlayerMovement::ShootRayForward()
@@ -107,14 +115,8 @@ namespace Pg::DataScript
 
 	void PlayerMovement::UpdateWASD()
 	{
-		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MoveFront) ||
-			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MoveBack) ||
-			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MoveLeft) ||
-			_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MoveRight))
-		{
-			///SetAnimation : Run
-			_renderer->SetAnimation("test_run.pganim", true);
-		}
+		//일단 무조건 안 움직인다고 생각하고, 움직일 떄만 Animation 적용.
+		_isMoving_Animation = false;
 
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveFront))
 		{
@@ -122,6 +124,8 @@ namespace Pg::DataScript
 			_object->_transform._position.x += _augmentedRelativeForward.x;
 			_object->_transform._position.y += _augmentedRelativeForward.y;
 			_object->_transform._position.z += _augmentedRelativeForward.z;
+
+			_isMoving_Animation = true;
 			
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveBack))
@@ -130,6 +134,8 @@ namespace Pg::DataScript
 			_object->_transform._position.x -= _augmentedRelativeForward.x;
 			_object->_transform._position.y -= _augmentedRelativeForward.y;
 			_object->_transform._position.z -= _augmentedRelativeForward.z;
+
+			_isMoving_Animation = true;
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveLeft))
 		{
@@ -137,6 +143,8 @@ namespace Pg::DataScript
 			_object->_transform._position.x += _augmentedRelativeLeft.x;
 			_object->_transform._position.y += _augmentedRelativeLeft.y;
 			_object->_transform._position.z += _augmentedRelativeLeft.z;
+
+			_isMoving_Animation = true;
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveRight))
 		{
@@ -144,6 +152,8 @@ namespace Pg::DataScript
 			_object->_transform._position.x -= _augmentedRelativeLeft.x;
 			_object->_transform._position.y -= _augmentedRelativeLeft.y;
 			_object->_transform._position.z -= _augmentedRelativeLeft.z;
+
+			_isMoving_Animation = true;
 		}
 
 		if (_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MoveFront) ||
@@ -151,9 +161,6 @@ namespace Pg::DataScript
 			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MoveLeft) ||
 			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MoveRight))
 		{
-			///SetAnimation : Idle.
-			_renderer->SetAnimation("test_idle.pganim", true);
-			
 			//멈췄다가 다시.
 			_isJustSetRestraint = true;
 			_selfCol->FreezeAxisX(true);
@@ -177,7 +184,12 @@ namespace Pg::DataScript
 		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::Space) && (!_isJumping))
 		{
 			_isJumping = true;
+			_isJumping_Animation = true;
 			_recordedTimeSinceJump = 0.f;
+
+			//아직 빨리 떨어질 LinearVelocity를 가하지 않았으니.
+			_isHeadingDownwardsToggle = false;
+
 			_selfCol->AddForce(Pg::Math::PGFLOAT3::GlobalUp() * jumpPower, Pg::Data::ForceMode::eIMPULSE);
 		}
 
@@ -187,12 +199,28 @@ namespace Pg::DataScript
 			const float tSmallOffset = 0.05f; //추가적으로 Y Position Offset. 
 			const float tJumpCheckSmallDist = 0.1f; //밑으로 쏘는 정도
 			const float tMinimalTimeBeforeRaycastCheck = 0.4f;
-
 			//지난 시간 DeltaTime으로 점검.
 			_recordedTimeSinceJump += _pgTime->GetDeltaTime();
 
 			if (_recordedTimeSinceJump > tMinimalTimeBeforeRaycastCheck)
 			{
+				if (!_isHeadingDownwardsToggle)
+				{
+					//한번 아래로 향하면, 계속 Downward Force를 적용할 수 있게 될 것이다.
+					Pg::Math::PGFLOAT3 tLinVel = _selfCol->GetVelocity();
+					if (tLinVel.y < 0)
+					{
+						_isHeadingDownwardsToggle = true;
+					}
+				}
+				else
+				{
+					//만약 내려가는 모션이라면, SetLinearVelocity를 실행.
+					//반복적으로 함수 실행의 경우, 중력의 적용을 받지 않는다.
+					Pg::Math::PGFLOAT3 tStrengthedDownForce = { 0.f, -30.f, 0.f };
+					_selfCol->SetVelocity(tStrengthedDownForce);
+				}
+			
 				//밑으로 쏜다.
 				Pg::Math::PGFLOAT3 tShouldShootDir = -Pg::Math::PGFLOAT3::GlobalUp();
 				Pg::Math::PGFLOAT3 tShouldShootPosition = {
@@ -213,7 +241,9 @@ namespace Pg::DataScript
 				{
 					//이제 Collider의 레이어를 여기서 다시 Sort해야 할 것이나,
 					//일단은 그 과정은 나중에!
+					_isJumping_Animation = false;
 					_isJumping = false;
+					//_selfCol->SetLinearDamping(_originalLinearDampingValue);
 				}
 			}
 		}
@@ -272,6 +302,9 @@ namespace Pg::DataScript
 			Pg::Math::PGFLOAT3 tActualForward = Pg::Math::PGReflectVectorAgainstAxis(_object->_transform.GetForward(), Pg::Math::PGFLOAT3::GlobalForward());
 			Pg::Math::PGFLOAT3 tTargetPos = _object->_transform._position - (-tActualForward * tAvoidDist);
 
+			//막 회피 로직 플레이 직전. 애니메이션 재생을 위한 Flag를 켜놓자.
+			_isAvoiding_Animation = true;
+
 			Pg::Util::Tween* tTween = _pgTween->CreateTween();
 			tTween->GetData(&(_object->_transform._position)).DoMove(tTargetPos, tAvoidBasedTotalTime).
 				SetEase(Pg::Util::Enums::eEasingMode::OUTEXPO).KillEarly(tCutShortRatio).OnComplete(
@@ -285,6 +318,55 @@ namespace Pg::DataScript
 	void PlayerMovement::OnStrafeAvoidComplete()
 	{
 		_isStrafeAvoiding = false;
+		
+		//애니메이션 트리거용.
+		_isAvoiding_Animation = true;
 	}
 
+
+	void PlayerMovement::PlayAdequateAnimation()
+	{
+		//우선, 디폴트로 출력되는 것은 Idle Animation. 
+
+		//곧 추가되어야 하는 것 : Combat System 들어오면 IsDead까지.
+		//이 부분에 대량으로 Bool 값 받자.
+
+		//Idle 초기 상태 세팅.
+		std::string tToPlayAnimationName = "PA_00001.pganim";
+		bool isLooping = true;
+		
+		if (_isDead_Animation)
+		{
+			//사망 애니메이션.
+			tToPlayAnimationName = "PA_00014.pganim";
+			isLooping = false;
+		}
+		else if (_isAvoiding_Animation)
+		{
+			//회피 애니메이션.
+			tToPlayAnimationName = "PA_00004.pganim";
+			isLooping = false;
+		}
+		else if (_isJumping_Animation)
+		{
+			//점프 애니메이션.
+			tToPlayAnimationName = "PA_00003.pganim";
+			isLooping = false;
+		}
+		else if (_isMoving_Animation)
+		{
+			//걷기 애니메이션
+			tToPlayAnimationName = "PA_00002.pganim";
+			isLooping = true;
+		}
+
+		//만약에 전 스트링과 같지 않을 시에.
+		if (_previousAnimationInput.compare(tToPlayAnimationName) != 0)
+		{
+			_renderer->SetAnimation(tToPlayAnimationName, isLooping);
+		}
+
+		//애니메이션 인풋 스트링 기록.
+		_previousAnimationInput = tToPlayAnimationName;
+	}
 }

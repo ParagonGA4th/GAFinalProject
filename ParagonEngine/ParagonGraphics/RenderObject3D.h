@@ -25,6 +25,7 @@ namespace Pg::Data
 {
 	class Transform;
 	class CameraData;
+	class RendererBase3D;
 }
 
 namespace Pg::Graphics
@@ -74,7 +75,7 @@ namespace Pg::Graphics
 	protected:
 		LowDX11Storage* _DXStorage;
 		Asset3DModelData* _modelData = nullptr;
-		
+		Pg::Data::RendererBase3D* _rendererBase3DStorage{ nullptr };
 		//Static, Skinned는 Constant Buffer 쪽에서 가져왔고, 
 		//Instanced는 사용 X.
 

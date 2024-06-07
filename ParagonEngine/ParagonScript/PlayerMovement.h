@@ -39,12 +39,13 @@ namespace Pg::DataScript
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;
+		virtual void LateUpdate() override;
 	
 
 		//움직임 관련. 
 		float moveSpeed{ 4.0f };
 		float rotateMultiplier{ 2.0f };
-		float jumpPower{ 45.0f };
+		float jumpPower{ 60.0f };
 
 		
 
@@ -56,6 +57,8 @@ namespace Pg::DataScript
 		void UpdateJump();
 		void UpdateFacingDirection(float yLevelPlane); //클릭한 곳 기준 바라보기.
 		void StrafeAvoidLogic();
+		void PlayAdequateAnimation(); //로직에 따라 올바른 애니메이션을 재생하는 함수.
+
 
 	private:
 		void OnStrafeAvoidComplete();
@@ -89,6 +92,17 @@ namespace Pg::DataScript
 		float _currentPlaneY = 0.f;
 		float _recordedTimeSinceJump = 0.f;
 		bool _isStrafeAvoiding{ false };
+		bool _isHeadingDownwardsToggle{ false };
+
+	private:
+		//개별적으로 애니메이션 출력 로직 관리.
+		//다 지나갈 시, Idle 출력.
+		bool _isMoving_Animation = false;
+		bool _isJumping_Animation = false;
+		bool _isAvoiding_Animation = false;
+		bool _isDead_Animation = false;
+		
+		std::string _previousAnimationInput;
 	};
 }
 
