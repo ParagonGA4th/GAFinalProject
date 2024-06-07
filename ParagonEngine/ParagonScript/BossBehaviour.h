@@ -5,6 +5,7 @@ namespace Pg::Data
 {
 	class Transform;
 	class GameObject;
+	class MonsterHelper;
 }
 
 namespace Pg::API
@@ -48,6 +49,7 @@ namespace Pg::DataScript
 
 		Pg::Data::GameObject* _player;
 		Pg::Data::Transform* _playerTransform;
+		Pg::Data::MonsterHelper* _monsterHelper;
 
 		BossGolemInfo _bossGolInfo;
 		BossGolemStatus _bossGolStat;
