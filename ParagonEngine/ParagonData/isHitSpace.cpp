@@ -3,6 +3,11 @@
 
 namespace Pg::Data::BTree::Node
 {
+	void isHitSpace::InitCustom()
+	{
+		config().blackboard->set<bool>("HITINIT", false);
+	}
+
 	BT::NodeStatus isHitSpace::tick()
 	{
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
@@ -10,10 +15,12 @@ namespace Pg::Data::BTree::Node
 		{
 			if (monHelper->_isPlayerinHitSpace)
 			{
+				config().blackboard->set<bool>("HITINIT", true);
 				return BT::NodeStatus::SUCCESS;
 			}
 			else
 			{
+				config().blackboard->set<bool>("HITINIT", false);
 				return BT::NodeStatus::FAILURE;
 			}
 		}
