@@ -5,12 +5,18 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_Idle::tick()
 	{
+		bool hitInit = config().blackboard->get<bool>("HITINIT");
+		bool isChange = config().blackboard->get<bool>("ISCHANGE");
+
+		if (hitInit && !isChange)
+		{
+			config().blackboard->set<bool>("ISCHANGE", true);
+			config().blackboard->set<bool>("HITINIT", false);
+		}
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
 			config().blackboard->set<std::string>("CURRENTANIM", "_00001");
-			bool isChange = config().blackboard->get<bool>("ISCHANGE");
-
 			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
 			animId.append("_00001.pganim");
 

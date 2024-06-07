@@ -45,7 +45,14 @@ namespace Pg::Data::BTree::Node
 			}
 		}
 
-		if (_isAnimEnd) config().blackboard->set<bool>("ISCHANGE", false);
-		return BT::NodeStatus::SUCCESS;
+		if (_isAnimEnd) 
+		{
+			config().blackboard->set<bool>("ISCHANGE", false);
+			return BT::NodeStatus::FAILURE;
+		}
+		else
+		{
+			return BT::NodeStatus::SUCCESS;
+		}
 	}
 }
