@@ -36,8 +36,6 @@ void MonsterMove::Start()
 
 void MonsterMove::Update()
 {
-	//Chase();
-
 	RotateToPlayer(_playerTransform->_position);
 	Chase();
 }
