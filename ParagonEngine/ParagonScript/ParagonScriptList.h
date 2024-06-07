@@ -35,3 +35,6 @@
 
 //사운드 관련
 #include "SoundManager.h"
+
+//몬스터 관련
+#include "BossBehaviour.h"
