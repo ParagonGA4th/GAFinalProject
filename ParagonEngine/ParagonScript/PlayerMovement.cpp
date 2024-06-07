@@ -66,6 +66,7 @@ namespace Pg::DataScript
 
 		StrafeAvoidLogic();
 	}
+
 	void PlayerMovement::LateUpdate()
 	{
 		PlayAdequateAnimation();
