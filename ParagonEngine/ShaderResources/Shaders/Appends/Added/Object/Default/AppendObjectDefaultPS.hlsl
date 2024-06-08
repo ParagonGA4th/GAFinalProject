@@ -165,11 +165,10 @@ POutQuad main(VOutQuad pin)
     //
     //if (0.9f < shadow)
     //{
-    //    res.Output = float4(float3(0.05f, 0.05f, 0.05f), 1.0f);
-    //}
+    //    res.Output = float4(float3(0.05f, 0.05f, 0.05f), 
     
-    //이건 나중에 대체될 수 있다.
-    float shadow = ShadowValue(GetLightPixelPos(pin.UV), GetNormal(pin.UV), firstLightDir);
+    //내부적으로 Saturate되어서 나온다.
+    float shadow = ShadowValue(GetLightPixelPos(pin.UV), GetNormal(pin.UV), _indep_MainLightDir);
     res.Output.xyz *= (1.0f - shadow);
     
     return res;

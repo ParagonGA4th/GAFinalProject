@@ -77,6 +77,9 @@ namespace Pg::Graphics
 			DirectX::XMMATRIX _lightProj;
 			DirectX::XMMATRIX _lightViewProj;
 
+			DirectX::XMFLOAT3 _indep_MainLightDir;
+			float _indep_MainLightRadiance;
+
 			DirLightGPU _dirLightArray[10];
 			unsigned int _dirLightCount;
 			unsigned int _pad1[3];

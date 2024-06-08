@@ -90,6 +90,11 @@ cbuffer cbRenderingInfo : register(b5)
     float4x4 _lightProj;
     float4x4 _lightViewProj;
     
+    //Directional Light Array와 독립적으로,
+    //셰도우 연산을 위해 첫번째 빛의 LightDir / Radiance는 기록.
+    float3 _indep_MainLightDir;
+    float _indep_MainLightRadiance;
+    
     PgDirectionalLight _dirLightArray[10];
     uint _dirLightCount;
     uint3 _pad1;

@@ -382,7 +382,7 @@ namespace Pg::Math
 	float PGFloat3LengthSquared(Pg::Math::PGFLOAT3 val);
 	
 	Pg::Math::PGFLOAT3 GetForwardVectorFromQuat(Pg::Math::PGQuaternion val);
-
+	Pg::Math::PGFLOAT3 GetUpVectorFromQuat(Pg::Math::PGQuaternion val);
 	Pg::Math::PGQuaternion PGQuaternionInverse(Pg::Math::PGQuaternion val);
 }
 
