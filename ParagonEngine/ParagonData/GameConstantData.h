@@ -15,7 +15,7 @@ namespace Pg::Data
 		static const unsigned int HEIGHT;
 		//static std::set<std::string> INSTANCING_EXCEPTION_MESH_PATH_SET;
 
-
+		static const unsigned int SHADOW_MAP_LENGTH;
 		//static const unsigned int FIXED_UPDATE_ELAPSED_MILLISEC; //근데 우리는 싱글쓰레드 단일 호출이고, 물리 루프 따로 아니라서 상관없을 것 같다.
 	};
 
@@ -23,4 +23,6 @@ namespace Pg::Data
 	__declspec(selectany) const unsigned int GameConstantData::WIDTH = 2560;
 	__declspec(selectany) const unsigned int GameConstantData::HEIGHT = 1440;
 	//__declspec(selectany) const unsigned int GameConstantData::FIXED_UPDATE_ELAPSED_MILLISEC = 20; // Unity랑 같은 0.02초.
+
+	__declspec(selectany) const unsigned int GameConstantData::SHADOW_MAP_LENGTH = 2048;
 }

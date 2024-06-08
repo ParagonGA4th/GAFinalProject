@@ -39,7 +39,11 @@ VOut1st_Instanced main(Vin1stPassInstanced_Layout input)
     output.vout1st_TangentW = normalize(mul((float3x3) World, input.vin1st_TangentL));
 	
 	// Color & UV(W) 값 전달.
-    output.vout1st_Color = input.vin1st_Color;
+    //output.vout1st_Color = input.vin1st_Color;
+	
+	//무조건 LightPos 기준으로 기록. 일반적으로 그려질 때, 이는 기록될 것이다.
+    float4 tLightPosH = mul(mul(_lightViewProj, World), float4(input.vin1st_PosL, 1.0f));
+    output.vout1st_LightPixelPos = tLightPosH.xyz / tLightPosH.w;
 	
 	//이제 Instancing 데이터 옮길 차례.
     output.vout1st_ObjID = input.vin1st_ObjID;

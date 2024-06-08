@@ -8,8 +8,7 @@
 Texture2D<float> GlobalShadowDepth_DSV_MainLight : register(t23); // DSV를 SRV로 접근한 결과. - Light
 Texture2D<float> GlobalShadowDepth_DSV_Camera : register(t24); // DSV를 SRV로 접근한 결과. - Camera
 
-const static uint SIZED_UP_SHADOW_VP_WIDTH = 4096;
-const static uint SIZED_UP_SHADOW_VP_HEIGHT = 4096;
+const static uint SIZED_UP_SHADOW_VP_LENGTH = 2048;
 
 //GetDepth -> DSV에서 옴
 float GetLightDepth_DSV(float2 pinUV)
@@ -22,33 +21,65 @@ float GetCameraDepth_DSV(float2 pinUV)
     return GlobalShadowDepth_DSV_Camera.Sample(fullScreenQuadSS, pinUV).r;
 }
 
-float ShadowCalculation(float3 worldPos, float3 normal, float3 lightDir)
+//float ShadowCalculation(float3 worldPos, float3 normal, float3 lightDir)
+//{
+//    float4 fragPosLightSpace = mul(float4(worldPos, 1.0f), _lightViewProj);
+//    
+//    float4 projCoords = fragPosLightSpace * float4(0.5f, -0.5f, 1.0f, 1.0f) + float4(0.5f, 0.5f, 0.0f, 1.0f);
+//    
+//    float closestDepth = GlobalShadowDepth_DSV_MainLight.Sample(defaultTextureSS, projCoords.xy).r;
+//
+//    float currentDepth = projCoords.z;
+//
+//    float bias = max(0.05 * (1.0 - dot(normal, lightDir)), ShadowBias);
+//    //float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
+//
+//    float shadow = 0.0;
+//    float2 texelSize = 1.0 / float2(10, 10); //Shadow의 Map Size가 10, 10으로 처리되었었다.
+//    for (int x = -1; x <= 1; ++x)
+//    {
+//        for (int y = -1; y <= 1; ++y)
+//        {
+//            float pcfDepth = GlobalShadowDepth_DSV_MainLight.Sample(defaultTextureSS, projCoords.xy + float2(x, y) * texelSize).r;
+//            //float pcfDepth = texture(shadowMap, projCoords.xy + float2(x, y) * texelSize).r;
+//            shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
+//        }
+//    }
+//    shadow /= 9.0f; // 3x3을 돌렸기에 9로 나눔.
+//    
+//    return shadow;
+//}
+
+float ShadowValue(float3 lightPixelPos, float3 normal, float3 lightDirection)
 {
-    float4 fragPosLightSpace = mul(float4(worldPos, 1.0f), _lightViewProj);
-    
-    float4 projCoords = fragPosLightSpace * float4(0.5f, -0.5f, 1.0f, 1.0f) + float4(0.5f, 0.5f, 0.0f, 1.0f);
-    
-    float closestDepth = GlobalShadowDepth_DSV_MainLight.Sample(defaultTextureSS, projCoords.xy).r;
-
-    float currentDepth = projCoords.z;
-
-    float bias = max(0.05 * (1.0 - dot(normal, lightDir)), ShadowBias);
-    //float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
-
-    float shadow = 0.0;
-    float2 texelSize = 1.0 / float2(10, 10); //Shadow의 Map Size가 10, 10으로 처리되었었다.
-    for (int x = -1; x <= 1; ++x)
+    // 셰도우 값.
+    float shadow = 0.0f;
+	// 이미 Clip되어 있던 섀도우 값을 옮김.
+    float3 lightCoords = lightPixelPos;
     {
-        for (int y = -1; y <= 1; ++y)
+        // [-1,1] Range -> [0,1] 리매핑. (셰도우 맵처럼)
+        lightCoords = (lightCoords + 1.0f) / 2.0f;
+        float currentDepth = lightCoords.z;
+		// Shadow Acne 막기.
+        float bias = max(0.025f * (1.0f - dot(normal, lightDirection)), 0.0005f);
+
+		// PCF 필터링. 4x4로 관리한다.
+        int sampleRadius = 2;
+        float2 pixelSize = 1.0 / float2(SIZED_UP_SHADOW_VP_LENGTH, SIZED_UP_SHADOW_VP_LENGTH);
+        for (int y = -sampleRadius; y <= sampleRadius; y++)
         {
-            float pcfDepth = GlobalShadowDepth_DSV_MainLight.Sample(defaultTextureSS, projCoords.xy + float2(x, y) * texelSize).r;
-            //float pcfDepth = texture(shadowMap, projCoords.xy + float2(x, y) * texelSize).r;
-            shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
+            for (int x = -sampleRadius; x <= sampleRadius; x++)
+            {
+                //float closestDepth = texture(shadowMap, lightCoords.xy + float2(x, y) * pixelSize).r;
+                float closestDepth = GlobalShadowDepth_DSV_MainLight.Sample(defaultTextureSS, lightCoords.xy + float2(x, y) * pixelSize).r;
+                if (currentDepth > closestDepth + bias)
+                    shadow += 1.0f;
+            }
         }
+		// Shadow의 평균값을 구한다.
+        shadow /= pow((sampleRadius * 2 + 1), 2);
     }
-    shadow /= 9.0f; // 3x3을 돌렸기에 9로 나눔.
-    
-    return shadow;
+    return saturate(shadow);
 }
 
 #endif // __DEFINED_APPENDS_SHADOW_FUNCTIONS_PS_HLSL__
