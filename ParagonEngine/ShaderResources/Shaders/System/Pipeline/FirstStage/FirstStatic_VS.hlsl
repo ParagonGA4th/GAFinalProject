@@ -30,7 +30,11 @@ VOut1st main(Vin1stPassStatic_Layout input)
 	output.vout1st_TangentW = mul((float3x3)gCBuf_WorldInvTranspose, input.vin1st_TangentL);
 	
 	// Color & UV(W) 값 전달.
-	output.vout1st_Color = input.vin1st_Color;
-
+	//output.vout1st_Color = input.vin1st_Color;
+	
+	//무조건 LightPos 기준으로 기록. 일반적으로 그려질 때, 이는 기록될 것이다.
+    float4 tLightPosH = mul(mul(_lightViewProj, gCBuf_World), float4(input.vin1st_PosL, 1.0f));
+    output.vout1st_LightPixelPos = tLightPosH.xyz / tLightPosH.w;
+	
 	return output;
 }

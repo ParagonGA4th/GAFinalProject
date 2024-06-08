@@ -48,7 +48,11 @@ VOut1st main(Vin1stPassSkinned_Layout input)
 	// Tangent를 Local -> World 이동.
     output.vout1st_TangentW = mul((float3x3) gCBuf_WorldInvTranspose, skinnedTangentL);
 	
-	output.vout1st_Color = input.vin1st_Color;
+    //무조건 LightPos 기준으로 기록. 일반적으로 그려질 때, 이는 기록될 것이다.
+	//output.vout1st_Color = input.vin1st_Color;
+    float4 tLightPosH = mul(mul(_lightViewProj, gCBuf_World), float4(skinnedPosL, 1.0f));
+    output.vout1st_LightPixelPos = tLightPosH.xyz / tLightPosH.w;
+	
     return output;
 }
 

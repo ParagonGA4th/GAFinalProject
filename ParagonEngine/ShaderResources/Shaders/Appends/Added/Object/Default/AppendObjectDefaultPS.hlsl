@@ -168,6 +168,9 @@ POutQuad main(VOutQuad pin)
     //    res.Output = float4(float3(0.05f, 0.05f, 0.05f), 1.0f);
     //}
     
+    //이건 나중에 대체될 수 있다.
+    float shadow = ShadowValue(GetLightPixelPos(pin.UV), GetNormal(pin.UV), firstLightDir);
+    res.Output.xyz *= (1.0f - shadow);
     
     return res;
 }

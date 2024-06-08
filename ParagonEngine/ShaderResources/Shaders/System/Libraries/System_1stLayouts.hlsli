@@ -77,7 +77,9 @@ struct VOut1st
     //Vin2ndAll의 결과물.
     float3  vout1st_NormalW     : NORMAL;
     float3  vout1st_TangentW    : TANGENT;
-    float3  vout1st_Color       : COLOR;
+    //float3  vout1st_Color       : COLOR;
+    //더 이상 Color는 쓰이지 않고, LightPosVec으로 대체되었다. Divide되어서 들어온다.
+    float3 vout1st_LightPixelPos : LIGHTPIXELPOS;
 };
 
 struct VOut1st_Instanced
@@ -92,7 +94,9 @@ struct VOut1st_Instanced
     //Vin2ndAll의 결과물.
     float3 vout1st_NormalW : NORMAL;
     float3 vout1st_TangentW : TANGENT;
-    float3 vout1st_Color : COLOR;
+    //float3 vout1st_Color : COLOR;
+    //더 이상 Color는 쓰이지 않고, LightPosVec으로 대체되었다. Divide되어서 들어온다.
+    float3 vout1st_LightPixelPos : LIGHTPIXELPOS;
 
     //ObjMat + Instance 기록.
     uint vout1st_ObjID : OBJECTID;
@@ -109,7 +113,7 @@ struct POut1st_Total //RGBA
     float4 pout1st_RT0 : SV_Target0; //RT0 : Texture UV Coords (xy), Mesh Material ID (z), W Divide Depth (w)
     float4 pout1st_RT1 : SV_Target1; //RT1 : World Space Normal (xyz), World Space Tangent.x (w)
     float4 pout1st_RT2 : SV_Target2; //RT2 : World Space Position (xyz), World Space Tangent.y (w)
-    float4 pout1st_RT3 : SV_Target3; //RT3 : 3D Model Color (xyz), World Space Tangent.z (w)
+    float4 pout1st_RT3 : SV_Target3; //RT3 : Light Pixel Pos (xyz), World Space Tangent.z (w)
     float4 pout1st_RT4 : SV_Target4; //RT4 : LightMap Sample Value (xyz), IsUseLightmap(w)
     
     //3rd Pass 통합.
