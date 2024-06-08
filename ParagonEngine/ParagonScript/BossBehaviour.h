@@ -1,10 +1,14 @@
 #pragma once
 #include "ScriptInterface.h"
+#include "EnemyInfo.h"
 
 namespace Pg::Data
 {
 	class Transform;
 	class GameObject;
+	class PhysicsCollision;
+	class SkinnedMeshRenderer;
+	class CapsuleCollider;
 }
 
 namespace Pg::API
@@ -26,9 +30,13 @@ namespace Pg::DataScript
 		BossBehaviour(Pg::Data::GameObject* obj);
 
 	public:
+		virtual void BeforePhysicsAwake() override;
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;
+
+		//공격에 맞았을 때
+		virtual void OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count);
 
 		//플레이어를 쫓는 함수
 		void Chase();
@@ -49,6 +57,10 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _player;
 		Pg::Data::Transform* _playerTransform;
 
+		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
+		Pg::Data::CapsuleCollider* _collider;
+
+		//골렘보스의 상태와 수치에 대한 정보.
 		BossGolemInfo _bossGolInfo;
 		BossGolemStatus _bossGolStat;
 

@@ -1,4 +1,6 @@
 #pragma once
+///모든 몬스터에 대한 상태와 정보를 담아주는 헤더.
+///
 
 // 몬스터의 상태
 enum class MiniGolemStatus
@@ -44,6 +46,9 @@ struct MiniGolemInfo
 	MiniGolemInfo& SetArmor(float armor) { _armor = armor;  return *this; };
 	MiniGolemInfo& SetAttackRange(float attackRange) { _attackRange = attackRange;  return *this; };
 	MiniGolemInfo& SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed;  return *this; };
+	
+	float GetMaxHp() { return _maxHp; };
+
 
 	float _hp;				// 체력
 
@@ -62,7 +67,7 @@ private:
 struct BossGolemInfo
 {
 	BossGolemInfo()
-		: _hp(0.0f), _armor(0.0f), _damage(0.0f), _attackRange(0.0f), _moveSpeed(20.0f), _rotationSpeed(100.0f),
+		: _hp(0.0f), _armor(0.0f), _damage(0.0f), _attackRange(0.0f), _moveSpeed(0.2f), _rotationSpeed(100.0f),
 		_maxHp(0.0f)
 	{};
 
