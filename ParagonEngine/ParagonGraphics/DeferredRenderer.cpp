@@ -93,6 +93,10 @@ namespace Pg::Graphics
 		RenderFirstSkinnedPass(renderObjectList, camData);
 		UpdateShadowDSV();
 		//RenderOpaqueShadowPass(renderObjectList, camData);
+		
+		//여기서 하는 것은, 이제 원래로 다시 Viewport를 돌려놓기.
+		_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_defaultViewport));
+
 
 		SendPBRBufferSRVs();
 		RenderOpaqueQuadPasses(renderObjectList, camData);

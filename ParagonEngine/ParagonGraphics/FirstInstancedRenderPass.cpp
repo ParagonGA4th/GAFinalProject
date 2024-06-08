@@ -123,6 +123,8 @@ namespace Pg::Graphics
 				continue;
 			}
 
+			_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_defaultViewport));
+
 			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = Pg::Math::PG2XM_MATRIX4X4(camData->_viewMatrix * camData->_projMatrix);
 			_switchableViewProjCBuffer->Update();
 			_switchableViewProjCBuffer->BindVS(1);
@@ -201,6 +203,8 @@ namespace Pg::Graphics
 			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = _d3dCarrierTempStorage->_mainLightPerspectiveViewProjMatrix;
 			_switchableViewProjCBuffer->Update();
 			_switchableViewProjCBuffer->BindVS(1);
+			_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_shadowMapViewport));
+
 
 			//Light ½ÃÁ¡ ·»´õ.
 			{
@@ -254,6 +258,7 @@ namespace Pg::Graphics
 			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = Pg::Math::PG2XM_MATRIX4X4(camData->_viewMatrix * camData->_projMatrix);
 			_switchableViewProjCBuffer->Update();
 			_switchableViewProjCBuffer->BindVS(1);
+			_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_defaultViewport));
 
 			//Camera ½ÃÁ¡ ·»´õ.
 			{
@@ -329,6 +334,7 @@ namespace Pg::Graphics
 			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = _d3dCarrierTempStorage->_mainLightPerspectiveViewProjMatrix;
 			_switchableViewProjCBuffer->Update();
 			_switchableViewProjCBuffer->BindVS(1);
+			_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_shadowMapViewport));
 
 			//Light ½ÃÁ¡ ·»´õ.
 			{
@@ -377,6 +383,7 @@ namespace Pg::Graphics
 				continue;
 			}
 
+			_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_defaultViewport));
 			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = Pg::Math::PG2XM_MATRIX4X4(camData->_viewMatrix * camData->_projMatrix);
 			_switchableViewProjCBuffer->Update();
 			_switchableViewProjCBuffer->BindVS(1);
@@ -449,6 +456,7 @@ namespace Pg::Graphics
 			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = _d3dCarrierTempStorage->_mainLightPerspectiveViewProjMatrix;
 			_switchableViewProjCBuffer->Update();
 			_switchableViewProjCBuffer->BindVS(1);
+			_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_shadowMapViewport));
 
 			//Light ½ÃÁ¡ ·»´õ.
 			{
@@ -506,6 +514,7 @@ namespace Pg::Graphics
 				continue;
 			}
 
+			_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_defaultViewport));
 			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = Pg::Math::PG2XM_MATRIX4X4(camData->_viewMatrix * camData->_projMatrix);
 			_switchableViewProjCBuffer->Update();
 			_switchableViewProjCBuffer->BindVS(1);
@@ -578,6 +587,7 @@ namespace Pg::Graphics
 			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = _d3dCarrierTempStorage->_mainLightPerspectiveViewProjMatrix;
 			_switchableViewProjCBuffer->Update();
 			_switchableViewProjCBuffer->BindVS(1);
+			_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_shadowMapViewport));
 
 			//Light ½ÃÁ¡ ·»´õ.
 			{
