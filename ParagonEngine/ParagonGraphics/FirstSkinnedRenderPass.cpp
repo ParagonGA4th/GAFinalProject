@@ -69,6 +69,7 @@ namespace Pg::Graphics
 
 					_ps->Bind();
 
+					_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_defaultViewport));
 					_switchableViewProjCBuffer->GetDataStruct()->_viewProj = Pg::Math::PG2XM_MATRIX4X4(camData->_viewMatrix * camData->_projMatrix);
 					_switchableViewProjCBuffer->Update();
 					_switchableViewProjCBuffer->BindVS(1);
@@ -85,6 +86,7 @@ namespace Pg::Graphics
 					_switchableViewProjCBuffer->GetDataStruct()->_viewProj = _d3dCarrierTempStorage->_mainLightPerspectiveViewProjMatrix;
 					_switchableViewProjCBuffer->Update();
 					_switchableViewProjCBuffer->BindVS(1);
+					_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_shadowMapViewport));
 
 					_ps->Unbind();
 					_depthRecordOnlyPS->Bind();
@@ -119,6 +121,9 @@ namespace Pg::Graphics
 	void FirstSkinnedRenderPass::ExecuteNextRenderRequirements()
 	{
 		//이제는 밖에서 한다.
+		
+		//여기서 하는 것은, 이제 원래로 다시 Viewport를 돌려놓기.
+		_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_defaultViewport));
 	}
 
 	void FirstSkinnedRenderPass::PassNextRequirements(D3DCarrier& gCarrier)
