@@ -877,19 +877,13 @@ namespace Pg::Math
 
 	Pg::Math::PGFLOAT3 GetForwardVectorFromQuat(PGQuaternion val)
 	{
-		//DirectX::XMFLOAT4 quat = PG2XM_QUATERNION(val);
-		//DirectX::XMVECTOR quaternion;
-		//quaternion = DirectX::XMLoadFloat4(&quat);
-		//
-		//float forwardX = 2.0f * (quat.x * quat.z + quat.w * quat.y);
-		//float forwardY = 2.0f * (quat.y * quat.z - quat.w * quat.x);
-		//float forwardZ = 1.0f - 2.0f * (quat.x * quat.x + quat.y * quat.y);
-		//
-		//DirectX::XMVECTOR forward = DirectX::XMVectorSet(forwardX, forwardY, forwardZ, 0.0f);
-		//forward = DirectX::XMVector3Normalize(forward);
-
-
 		PGFLOAT4 result = PGFloat4MultiplyMatrix(PGFLOAT4(0.f, 0.f, 1.f, 0.f), PGRotationMatrix(val));
+		return PGFloat3Normalize(PGFLOAT3(result.x, result.y, result.z));
+	}
+
+	Pg::Math::PGFLOAT3 GetUpVectorFromQuat(PGQuaternion val)
+	{
+		PGFLOAT4 result = PGFloat4MultiplyMatrix(PGFLOAT4(0.f, 1.f, 0.f, 0.f), PGRotationMatrix(val));
 		return PGFloat3Normalize(PGFLOAT3(result.x, result.y, result.z));
 	}
 
@@ -900,6 +894,5 @@ namespace Pg::Math
 		tOrig.Inverse(tQuat);
 		return XM2PG_QUATERNION(tQuat);
 	}
-
 }
 
