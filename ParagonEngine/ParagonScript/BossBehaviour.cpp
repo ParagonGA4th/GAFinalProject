@@ -1,10 +1,14 @@
 #include "BossBehaviour.h"
-#include "EnemyInfo.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgScene.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
+#include "../ParagonData/LayerMask.h"
+#include "../ParagonData/Collider.h"
+#include "../ParagonData/SkinnedMeshRenderer.h"
+#include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/PhysicsCollision.h"
 #include <singleton-cpp/singleton.h>
 #include <algorithm>
 
@@ -17,9 +21,14 @@ namespace Pg::DataScript
 		_pgScene = &singleton<Pg::API::PgScene>();
 	}
 
+	void BossBehaviour::BeforePhysicsAwake()
+	{
+		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
+	}
+
 	void BossBehaviour::Awake()
 	{
-
+		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 	}
 
 	void BossBehaviour::Start()
@@ -27,6 +36,9 @@ namespace Pg::DataScript
 		//플레이어 지정
 		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
+
+		//골렘의 체력 설정
+		_bossGolInfo.SetHp(10.f);
 	}
 
 	void BossBehaviour::Update()
@@ -35,9 +47,41 @@ namespace Pg::DataScript
 		Chase();
 	}
 
+
+	void BossBehaviour::OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count)
+	{
+		for (int i = 0; i < count; i++)
+		{
+			Pg::Data::PhysicsCollision* tCol = _colArr[i];
+
+			//충돌해오는 Actor들을 검사.
+			Pg::Data::Collider* arrowCol = Pg::Data::PhysicsCollision::GetActualOtherActor(tCol, this->_object);
+
+			//Physics Layer로 검사한다. 화살에 맞았을 때.
+			if (arrowCol->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_PROJECTILES)
+			{
+				//화살에 맞았을 때 피격행동 및 상태 구현.
+
+				//체력이 1씩 닳는다.
+				_bossGolInfo._hp -= 1.f;
+
+				//체력이 다 까이면
+				if (_bossGolInfo._hp <= 0.f)
+				{
+					//죽는 애니메이션 먼저 호출 필요함.
+					//애니메이션 전체 재생 후 다음으로 넘어가야 함.
+
+					//죽는다.
+					Dead();
+				}
+			}
+		}
+	}
+
 	void BossBehaviour::Chase()
 	{
-		float interpolation = 0.2f * _pgTime->GetDeltaTime();
+		//이동 속도 조절.
+		float interpolation = _bossGolInfo._moveSpeed * _pgTime->GetDeltaTime();
 
 		//auto plVec = _object->GetScene()->FindObjectsWithTag("TAG_Player");
 		//auto plTrans = plVec.at(0)->_transform;
@@ -108,6 +152,10 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Dead()
 	{
-
+		//상태를 죽음으로 변경.
+		_bossGolStat = BossGolemStatus::DEAD;
+		_collider->SetActive(false);
+		_meshRenderer->SetActive(false);
+		_object->SetActive(false);
 	}
 }
