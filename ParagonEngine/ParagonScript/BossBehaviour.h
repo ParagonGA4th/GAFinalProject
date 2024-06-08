@@ -9,6 +9,7 @@ namespace Pg::Data
 	class PhysicsCollision;
 	class SkinnedMeshRenderer;
 	class CapsuleCollider;
+	class MonsterHelper;
 }
 
 namespace Pg::API
@@ -56,6 +57,7 @@ namespace Pg::DataScript
 
 		Pg::Data::GameObject* _player;
 		Pg::Data::Transform* _playerTransform;
+		Pg::Data::MonsterHelper* _monsterHelper;
 
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
 		Pg::Data::CapsuleCollider* _collider;

@@ -9,6 +9,7 @@
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/PhysicsCollision.h"
+#include "../ParagonData/MonsterHelper.h"
 #include <singleton-cpp/singleton.h>
 #include <algorithm>
 
@@ -39,6 +40,7 @@ namespace Pg::DataScript
 
 		//골렘의 체력 설정
 		_bossGolInfo.SetHp(10.f);
+		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 	}
 
 	void BossBehaviour::Update()
@@ -101,15 +103,15 @@ namespace Pg::DataScript
 			_bossGolStat = BossGolemStatus::BASIC_ATTACK;
 
 			// 플레이어가 공격 범위 안에 있으면 
-			//_monsterHelper->_isPlayerinHitSpace = true;
-			//_monsterHelper->_isDistanceClose = true;
+			_monsterHelper->_isPlayerinHitSpace = true;
+			_monsterHelper->_isDistanceClose = false;
 		}
 		else
 		{
 			// 플레이어가 시야 안에 있으면
-			//_monsterHelper->_isPlayerDetected = true;
-			//_monsterHelper->_isPlayerinHitSpace = false;
-			//_monsterHelper->_isDistanceClose = false;
+			_monsterHelper->_isPlayerDetected = true;
+			_monsterHelper->_isPlayerinHitSpace = false;
+			_monsterHelper->_isDistanceClose = true;
 
 			//사정거리 밖이면 플레이어로 계속 다가가기.
 			Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
