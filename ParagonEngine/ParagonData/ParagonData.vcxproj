@@ -285,6 +285,7 @@
     <ClInclude Include="StaticSphereCollider.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="VisualEffectData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\DebugDraw.cpp" />

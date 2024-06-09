@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AlphaBlendedTotalRenderPass.h" />
+    <ClInclude Include="BillboardRenderPass.h" />
     <ClInclude Include="AnimationParser.h" />
     <ClInclude Include="Asset3DModelData.h" />
     <ClInclude Include="AssetAnimationDataDefine.h" />
@@ -156,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AlphaBlendedTotalRenderPass.cpp" />
+    <ClCompile Include="BillboardRenderPass.cpp" />
     <ClCompile Include="AnimationParser.cpp" />
     <ClCompile Include="Asset3DModelData.cpp" />
     <ClCompile Include="AssetAnimationDataDefine.cpp" />

@@ -171,4 +171,9 @@ namespace Pg::Util::Helper
 		return tRet;
 	}
 
+	std::vector<Pg::Data::VisualEffectData> CSVHelper::ReturnDataFromVisualEffectCSV(const std::string& csvPath)
+	{
+		assert(false && "아직 구현 안됨");
+	}
+
 }
