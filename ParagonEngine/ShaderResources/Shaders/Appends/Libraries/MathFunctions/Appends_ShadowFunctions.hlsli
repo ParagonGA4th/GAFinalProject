@@ -14,7 +14,7 @@ const static uint SIZED_UP_SHADOW_VP_LENGTH = 2048;
 float GetLightDepth_DSV(float2 pinUV)
 {
     return GlobalShadowDepth_DSV_MainLight.Sample(fullScreenQuadSS, pinUV).r;
-}
+}   
 
 float GetCameraDepth_DSV(float2 pinUV)
 {
@@ -50,18 +50,27 @@ float GetCameraDepth_DSV(float2 pinUV)
 //    return shadow;
 //}
 
-float ShadowValue(float3 lightPixelPos, float3 normal, float3 lightDirection)
+float ShadowValue(float3 worldPos, float3 normal, float3 lightDirection)
 {
     // 셰도우 값.
     float shadow = 0.0f;
 	// 이미 Clip되어 있던 섀도우 값을 옮김.
-    float3 lightCoords = lightPixelPos;
+    //float3 lightCoords = lightPixelPos;
     {
         // [-1,1] Range -> [0,1] 리매핑. (셰도우 맵처럼)
-        lightCoords = (lightCoords + 1.0f) / 2.0f;
-        float currentDepth = lightCoords.z;
+        //lightCoords = (lightCoords + 1.0f) / 2.0f;
+        //float currentDepth = lightCoords.z;   
+        float4 tLightH = mul(_lightViewProj, float4(worldPos, 1.0f));
+        tLightH.xyz /= tLightH.w;
+        //xy좌표 UV 좌표계로 변경.
+        float2 tTempUV = tLightH.xy;
+        tTempUV.y = -tTempUV.y;
+        tTempUV = tTempUV * 0.5f + 0.5f; // 이제 UV좌표계로 변환 완료.
+        
+        
 		// Shadow Acne 막기.
-        float bias = max(0.025f * (1.0f - dot(normal, lightDirection)), 0.0005f);
+        //float bias = max(0.025f * (1.0f - dot(normal, lightDirection)), 0.0005f);
+        float bias = 0.0001f;
 
 		// PCF 필터링. 4x4로 관리한다.
         int sampleRadius = 2;
@@ -71,9 +80,11 @@ float ShadowValue(float3 lightPixelPos, float3 normal, float3 lightDirection)
             for (int x = -sampleRadius; x <= sampleRadius; x++)
             {
                 //float closestDepth = texture(shadowMap, lightCoords.xy + float2(x, y) * pixelSize).r;
-                float closestDepth = GlobalShadowDepth_DSV_MainLight.Sample(defaultTextureSS, lightCoords.xy + float2(x, y) * pixelSize).r;
-                if (currentDepth > closestDepth + bias)
-                    shadow += 1.0f;
+                float closestDepth = GlobalShadowDepth_DSV_MainLight.Sample(defaultTextureSS, tTempUV.xy + float2(x, y) * pixelSize).r;
+                if (tLightH.z > closestDepth + bias)
+                {
+                    shadow += 1.0f; 
+                }
             }
         }
 		// Shadow의 평균값을 구한다.

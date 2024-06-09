@@ -13,8 +13,8 @@ POutQuad main(VOutQuad pin)
     POutQuad res;
     
     float2 tActualUV = GetUV_F2(pin.UV);
-    //float depthValue = GetDSVDepth_Unfiltered(tActualUV);
-    float depthValue = 0.1f;
+    float depthValue = GlobalShadowDepth_DSV_MainLight.Sample(fullScreenQuadSS, tActualUV);
+    //float depthValue = 0.1f;
     res.Output = float4(depthValue, depthValue, depthValue, 1.0f);
     //float depthValue = GetDepth_WDivide(tActualUV);
    
