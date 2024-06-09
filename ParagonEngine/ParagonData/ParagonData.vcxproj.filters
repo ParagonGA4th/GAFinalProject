@@ -595,6 +595,9 @@
     <ClInclude Include="Anim_Stab.h">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Stab</Filter>
     </ClInclude>
+    <ClInclude Include="VisualEffectData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">

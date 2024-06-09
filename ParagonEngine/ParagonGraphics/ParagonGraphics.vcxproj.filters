@@ -224,7 +224,7 @@
       <Filter>0_Main\Renderers\BaseSpecificRenderer</Filter>
     </ClInclude>
     <ClInclude Include="OutlineRenderPass.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\10_OutlineRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\11_OutlineRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="SizeTexture.h">
       <Filter>3_GraphicsResources\Resources\RenderTexture\Defines</Filter>
@@ -251,7 +251,7 @@
       <Filter>0_Main\RenderPass&amp;SendReceiver\6_OpaqueShadowPass</Filter>
     </ClInclude>
     <ClInclude Include="FogProcessingPass.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\9_FogProcessingPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\10_FogProcessingPass</Filter>
     </ClInclude>
     <ClInclude Include="RenderAnimation.h">
       <Filter>3_GraphicsResources\Resources\RenderAnimation</Filter>
@@ -324,6 +324,9 @@
     </ClInclude>
     <ClInclude Include="SystemInterfacedVertexShader.h">
       <Filter>3_GraphicsResources\SystemShader\SystemInterfacedVertexShader</Filter>
+    </ClInclude>
+    <ClInclude Include="BillboardRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\9_BillboardRenderPass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -511,7 +514,7 @@
       <Filter>0_Main\Renderers\BaseSpecificRenderer</Filter>
     </ClCompile>
     <ClCompile Include="OutlineRenderPass.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\10_OutlineRenderPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\11_OutlineRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="CubemapRenderer.cpp">
       <Filter>0_Main\Renderers\CubemapRenderer</Filter>
@@ -532,7 +535,7 @@
       <Filter>0_Main\RenderPass&amp;SendReceiver\6_OpaqueShadowPass</Filter>
     </ClCompile>
     <ClCompile Include="FogProcessingPass.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\9_FogProcessingPass</Filter>
+      <Filter>0_Main\RenderPass&amp;SendReceiver\10_FogProcessingPass</Filter>
     </ClCompile>
     <ClCompile Include="RenderAnimation.cpp">
       <Filter>3_GraphicsResources\Resources\RenderAnimation</Filter>
@@ -590,6 +593,9 @@
     </ClCompile>
     <ClCompile Include="SystemInterfacedVertexShader.cpp">
       <Filter>3_GraphicsResources\SystemShader\SystemInterfacedVertexShader</Filter>
+    </ClCompile>
+    <ClCompile Include="BillboardRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\9_BillboardRenderPass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -941,12 +947,6 @@
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\8_AlphaBlendingTotalRenderPass">
       <UniqueIdentifier>{f54e7a5e-4811-4fe0-a4b7-d2c4f483636e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\9_FogProcessingPass">
-      <UniqueIdentifier>{6c02a187-cef7-4bd3-bfcc-76bb3aa9b56a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\10_OutlineRenderPass">
-      <UniqueIdentifier>{923fdd6e-5157-47b0-8cac-b34658565252}</UniqueIdentifier>
-    </Filter>
     <Filter Include="14_LightmapRelated">
       <UniqueIdentifier>{1ea7bcc5-668d-48e1-9e39-f9ec01f7f869}</UniqueIdentifier>
     </Filter>
@@ -1018,6 +1018,15 @@
     </Filter>
     <Filter Include="6_HLSL\System\Pipeline\FirstStage_CameraDepth">
       <UniqueIdentifier>{3d619716-e81b-4b6e-81b2-1b94409afcf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\10_FogProcessingPass">
+      <UniqueIdentifier>{6c02a187-cef7-4bd3-bfcc-76bb3aa9b56a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\11_OutlineRenderPass">
+      <UniqueIdentifier>{923fdd6e-5157-47b0-8cac-b34658565252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\9_BillboardRenderPass">
+      <UniqueIdentifier>{8c6e63be-b0f2-4acc-a3d4-21169d2dd742}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
