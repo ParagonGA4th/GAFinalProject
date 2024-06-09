@@ -62,6 +62,7 @@ namespace Pg::DataScript
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
 		Pg::Data::CapsuleCollider* _collider;
 
+	public:
 		//골렘보스의 상태와 수치에 대한 정보.
 		BossGolemInfo _bossGolInfo;
 		BossGolemStatus _bossGolStat;
