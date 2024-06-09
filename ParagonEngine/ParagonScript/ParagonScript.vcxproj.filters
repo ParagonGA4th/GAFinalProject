@@ -130,6 +130,12 @@
     <Filter Include="AI\NavAgent">
       <UniqueIdentifier>{3184d62b-1880-4091-a223-25739402b05f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\EnemyInfo">
+      <UniqueIdentifier>{dbdee456-564f-4bee-befc-fbf8b1d2ddc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Boss">
+      <UniqueIdentifier>{67bd7eaa-7313-4c7d-b55e-a4649f88b0c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -215,6 +221,9 @@
     </ClCompile>
     <ClCompile Include="TitleManager.cpp">
       <Filter>UI\TitleUI</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBehaviour.cpp">
+      <Filter>AI\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -334,6 +343,12 @@
     </ClInclude>
     <ClInclude Include="TitleManager.h">
       <Filter>UI\TitleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyInfo.h">
+      <Filter>AI\EnemyInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBehaviour.h">
+      <Filter>AI\Boss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

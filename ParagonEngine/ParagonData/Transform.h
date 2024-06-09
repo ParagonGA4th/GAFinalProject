@@ -99,6 +99,7 @@ namespace Pg::Data
 		Transform* GetParent();
 		const std::vector<Transform*>& GetChildren();
 		Transform* GetChild(int index);
+		Transform* GetChild(std::string name);
 
 		bool HasParent();
 		void AddChild(Transform* child);

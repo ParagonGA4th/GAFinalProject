@@ -2,7 +2,10 @@
 #include "SceneSystem.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
+#include "../ParagonData/MonsterHelper.h"
 #include "../ParagonUtil/TimeSystem.h"
+#include "../ParagonMath/PgMath.h"
+
 #include "Navigation.h"
 #include "MonsterStrucr.h"
 #include <singleton-cpp/singleton.h>
@@ -27,28 +30,51 @@ void MonsterMove::Start()
 	//플레이어 지정
 	_player = _sceneSystem->GetCurrentScene()->FindObjectWithName("Player");
 	_playerTransform = _player->GetComponent<Pg::Data::Transform>();
+
+	_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 }
 
 void MonsterMove::Update()
 {
+	RotateToPlayer(_playerTransform->_position);
 	Chase();
 }
 
 void MonsterMove::Chase()
 {
-	auto bossPosition = _object->_transform._position;
+	float interpolation = 0.2f * _timeSystem->GetDeltaTime();
 
-	auto playerPosition = _playerTransform->_position;
+	//auto plVec = _object->GetScene()->FindObjectsWithTag("TAG_Player");
+	//auto plTrans = plVec.at(0)->_transform;
 
-	// 패턴의 사거리를 받아옴
-	if (!_isRotateFinish)
+	auto plVec = _player;
+	auto plTrans = plVec->_transform;
+
+	float distance = std::abs(std::sqrt(std::pow(plTrans._position.x - _object->_transform._position.x, 2)
+		+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
+
+	//일정 사정거리 안에 들어오면
+	if (distance <= 5.f)
 	{
-		// 보스와 플레이어 사이의 각도를 측정
-		auto angle = CalculateAngle({ bossPosition.x, bossPosition.y, bossPosition.z }, 
-			{ playerPosition.x, playerPosition.y, playerPosition.z });
+		//공격으로 전환하기.
+		//추후 로직 구현.
 
-		// 보스가 플레이어를 바라보게 함
-		_isRotateFinish = LookAtPlayer(angle, 0.5f);
+		// 플레이어가 공격 범위 안에 있으면 
+		_monsterHelper->_isPlayerinHitSpace = true;
+		_monsterHelper->_isDistanceClose = false;
+	}
+	else
+	{
+		// 플레이어가 시야 안에 있으면
+		_monsterHelper->_isPlayerDetected = true;
+		_monsterHelper->_isPlayerinHitSpace = false;
+		_monsterHelper->_isDistanceClose = true;
+
+		//사정거리 밖이면 플레이어로 계속 다가가기.
+		Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+		tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, plTrans._position, interpolation);
+		_object->_transform._position.x = tPosition.x;
+		_object->_transform._position.z = tPosition.z;
 	}
 }
 
@@ -95,7 +121,7 @@ bool MonsterMove::LookAtPlayer(float angle, float rotateSpeed)
 	float speed = _timeSystem->GetDeltaTime() * rotateSpeed;
 
 	// 에러 범위
-	float errorRange = speed * 1.0f;
+	float errorRange = speed * 2.0f;
 
 	// 현재 각도가 목표로 하는 각도보다 작을 경우
 	if (_object->_transform._rotation.y < angle)
@@ -125,6 +151,29 @@ bool MonsterMove::LookAtPlayer(float angle, float rotateSpeed)
 	else
 	{
 		return false;
+	}
+}
+
+void MonsterMove::RotateToPlayer(Pg::Math::PGFLOAT3& targetPos)
+{
+	// 플레이어 위치의 y값만 받기.
+	Pg::Math::PGFLOAT3 tRotBasePos = targetPos;
+	tRotBasePos.y = _object->_transform._position.y;
+
+	Pg::Math::PGFLOAT3 rotatePos = _object->_transform._position - tRotBasePos;
+
+	//정규화.
+	Pg::Math::PGFLOAT3 rotatePosNorm = Pg::Math::PGFloat3Normalize(rotatePos);
+
+	Pg::Math::PGQuaternion rotateQuat = PGLookRotation(rotatePosNorm, Pg::Math::PGFLOAT3::GlobalUp());
+
+	///플래그를 걸어 돌진의 여부까지 계산하기 위해 세팅.
+	if (!_isRotateFinish)
+	{
+		//회전이 끝날 때 까지 돌기.
+		Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, rotateQuat, std::clamp<float>(0.1f, 0.0f, 1.0f));
+
+		_object->_transform._rotation = currentTargetRotation;
 	}
 }
 
