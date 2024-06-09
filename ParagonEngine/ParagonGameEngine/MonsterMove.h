@@ -24,6 +24,7 @@ namespace Pg::Data
 {
 	class GameObject;
 	class Transform;
+	class MonsterHelper;
 }
 
 class MonsterMove : public Pg::Data::Component
@@ -44,6 +45,8 @@ public:
 	bool RotateToTarget(const DirectX::XMFLOAT3& targetPos);
 
 	bool LookAtPlayer(float angle, float rotateSpeed);
+
+	void RotateToPlayer(Pg::Math::PGFLOAT3& targetPos);
 
 	// 특정 포지션으로 이동시키기 (raycast true시 무언가에 막히면 거기까지만 찾아감)
 	void UpdateMove();
@@ -77,6 +80,7 @@ private:
 
 	Pg::Data::GameObject* _player;
 	Pg::Data::Transform* _playerTransform;
+	Pg::Data::MonsterHelper* _monsterHelper;
 
 protected:
 	//MonsterStatus _status;
