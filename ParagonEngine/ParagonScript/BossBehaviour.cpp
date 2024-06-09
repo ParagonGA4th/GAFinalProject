@@ -25,6 +25,13 @@ namespace Pg::DataScript
 	void BossBehaviour::BeforePhysicsAwake()
 	{
 		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
+		assert(_collider != nullptr);
+		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
+		//_collider->SetCapsuleInfo(1.f, 1.f);
+		_collider->FreezeAxisX(true);
+		_collider->FreezeAxisY(true);
+		_collider->FreezeAxisZ(true);
+		_collider->FreezeLinearY(true);
 	}
 
 	void BossBehaviour::Awake()
@@ -38,9 +45,11 @@ namespace Pg::DataScript
 		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
-		//골렘의 체력 설정
-		_bossGolInfo.SetHp(10.f);
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
+
+		//골렘의 정보 설정
+		_bossGolInfo.SetHp(10.f);
+		_bossGolInfo.SetAttackRange(3.f);
 	}
 
 	void BossBehaviour::Update()
@@ -95,19 +104,24 @@ namespace Pg::DataScript
 			+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
 
 		//일정 사정거리 안에 들어오면
-		if (distance <= 5.f)
+		if (distance <= _bossGolInfo._attackRange)
 		{
-			//공격으로 전환하기.
 
 			//상태 변경.
 			_bossGolStat = BossGolemStatus::BASIC_ATTACK;
 
-			// 플레이어가 공격 범위 안에 있으면 
+			//공격으로 전환하기.
+			Attack();
+
+			// 공격 애니메이션 출력.
 			_monsterHelper->_isPlayerinHitSpace = true;
 			_monsterHelper->_isDistanceClose = false;
 		}
 		else
 		{
+			//상태를 Chase로 변경.
+			_bossGolStat = BossGolemStatus::CHASE;
+
 			// 플레이어가 시야 안에 있으면
 			_monsterHelper->_isPlayerDetected = true;
 			_monsterHelper->_isPlayerinHitSpace = false;
@@ -118,9 +132,6 @@ namespace Pg::DataScript
 			tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, plTrans._position, interpolation);
 			_object->_transform._position.x = tPosition.x;
 			_object->_transform._position.z = tPosition.z;
-
-			//상태를 Chase로 변경.
-			_bossGolStat = BossGolemStatus::CHASE;
 		}
 	}
 
@@ -156,6 +167,8 @@ namespace Pg::DataScript
 	{
 		//상태를 죽음으로 변경.
 		_bossGolStat = BossGolemStatus::DEAD;
+
+		//다 꺼짐.
 		_collider->SetActive(false);
 		_meshRenderer->SetActive(false);
 		_object->SetActive(false);

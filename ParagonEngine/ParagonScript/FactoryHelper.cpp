@@ -1,5 +1,4 @@
 #include "FactoryHelper.h"
-
 #include "Script.h"
 #include "ParagonScriptList.h"
 
@@ -20,7 +19,7 @@ namespace Pg::DataScript
 			}
 
 			//키 값을, XML이 담을 수 없는 문자를 누락하게 바꾼다.
-			auto nodeHandler = Script::get_registry().extract(typeName);
+			auto nodeHandler = Script::get_registry().extract(typeName);	
 			nodeHandler.key() = tChangedString;
 			Script::get_registry().insert(std::move(nodeHandler));
 		}

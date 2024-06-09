@@ -136,6 +136,9 @@
     <Filter Include="AI\Boss">
       <UniqueIdentifier>{67bd7eaa-7313-4c7d-b55e-a4649f88b0c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\Attack">
+      <UniqueIdentifier>{cba2ea9e-7f83-4867-a7c7-b57f7efcd8bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -224,6 +227,9 @@
     </ClCompile>
     <ClCompile Include="BossBehaviour.cpp">
       <Filter>AI\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAttack.cpp">
+      <Filter>AI\Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="BossBehaviour.h">
       <Filter>AI\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttack.h">
+      <Filter>AI\Attack</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

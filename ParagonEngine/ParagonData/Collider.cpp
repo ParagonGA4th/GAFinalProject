@@ -18,7 +18,7 @@ namespace Pg::Data
 		_wasCollided(false),
 		_layer(0)
 	{
-		_collisionStorage.reserve(5);	
+		_collisionStorage.reserve(5);
 	}
 
 	void Collider::SetPositionOffset(PGFLOAT3 position)
