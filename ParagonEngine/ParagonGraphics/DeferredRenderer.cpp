@@ -427,8 +427,10 @@ namespace Pg::Graphics
 		}
 
 		//Main Light DSV วาด็.
-		_carrier->_mainLightGBufRT = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT);
-		_carrier->_mainLightGBufDSV = std::make_unique<GBufferDepthStencil>();
+		_carrier->_mainLightGBufRT = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT, 
+			DirectX::XMFLOAT2(Pg::Data::GameConstantData::SHADOW_MAP_LENGTH, Pg::Data::GameConstantData::SHADOW_MAP_LENGTH));
+		_carrier->_mainLightGBufDSV = std::make_unique<GBufferDepthStencil>(nullptr, 
+			DirectX::XMFLOAT2(Pg::Data::GameConstantData::SHADOW_MAP_LENGTH, Pg::Data::GameConstantData::SHADOW_MAP_LENGTH));
 	}
 
 	void DeferredRenderer::InitPBRDirectX()

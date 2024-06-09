@@ -86,6 +86,7 @@ cbuffer cbRenderingInfo : register(b5)
     float tPadding;
     float tPadding2;
     
+    
     float4x4 _lightView;
     float4x4 _lightProj;
     float4x4 _lightViewProj;

@@ -1,4 +1,5 @@
 #pragma once
+#include "../ParagonData/GameConstantData.h"
 
 class ID3D11Texture2D;
 class ID3D11DepthStencilView;
@@ -19,7 +20,7 @@ namespace Pg::Graphics
 	class GBufferDepthStencil
 	{
 	public:
-		GBufferDepthStencil(D3D11_DEPTH_STENCIL_DESC* dsDesc = nullptr);
+		GBufferDepthStencil(D3D11_DEPTH_STENCIL_DESC* dsDesc = nullptr, DirectX::XMFLOAT2 widthHeight = Pg::Data::GameConstantData::WIDTH_HEIGHT_PAIR);
 		~GBufferDepthStencil();
 	public:
 		ID3D11DepthStencilView*& GetDSV();
@@ -41,5 +42,6 @@ namespace Pg::Graphics
 
 	private:
 		LowDX11Storage* _DXStorage;
+		DirectX::XMFLOAT2 _widthHeight;
 	};
 }
