@@ -35,6 +35,8 @@ public:
 
 	virtual void Start() override;
 	virtual void Update() override;
+	//virtual void OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override;
+	virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
 
 	//플레이어를 쫓는 함수
 	void Chase();

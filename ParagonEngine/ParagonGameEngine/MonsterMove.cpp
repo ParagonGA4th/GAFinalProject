@@ -1,10 +1,12 @@
 #include "MonsterMove.h"
 #include "SceneSystem.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/Collider.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/MonsterHelper.h"
 #include "../ParagonUtil/TimeSystem.h"
 #include "../ParagonMath/PgMath.h"
+#include "../ParagonUtil/Log.h"
 
 #include "Navigation.h"
 #include "MonsterStrucr.h"
@@ -20,17 +22,17 @@ void MonsterMove::Start()
 {
 	auto& tNavSystem = singleton<Pg::Engine::Navigation>();
 	_navSystem = &tNavSystem;
-
+	
 	auto& tTimeSystem = singleton<Pg::Util::Time::TimeSystem>();
 	_timeSystem = &tTimeSystem;
-
+	
 	auto& tSceneSystem = singleton<Pg::Engine::SceneSystem>();
 	_sceneSystem = &tSceneSystem;
-
+	
 	//플레이어 지정
 	_player = _sceneSystem->GetCurrentScene()->FindObjectWithName("Player");
 	_playerTransform = _player->GetComponent<Pg::Data::Transform>();
-
+	
 	_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 }
 
@@ -38,6 +40,11 @@ void MonsterMove::Update()
 {
 	RotateToPlayer(_playerTransform->_position);
 	Chase();
+}
+
+void MonsterMove::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
+{
+
 }
 
 void MonsterMove::Chase()
