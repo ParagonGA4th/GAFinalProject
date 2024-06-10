@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+//Visual Effect 목록을 이렇게 받는다.
+
 namespace Pg::Data
 {
 	struct VisualEffectData
@@ -12,6 +14,11 @@ namespace Pg::Data
 		//0-100까지.
 		float _alphaPercentage{ 100.0f };
 		std::string _textureName;
-		bool _isGIF{ false };
+		bool _isSpriteSheet{ false };
+		unsigned int _frameCount{ 1 };
+		bool _isUseCustomVertexShader{ false };
+		std::string _customVertexShaderName{};
+		bool _isUseCustomPixelShader{ false };
+		std::string _customPixelShaderName{};
 	};
 }

@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <unordered_map>
+#include "VisualEffectRenderer.h"
 
 /// <summary>
 /// Final Render Pass : Quad에서의 값을 MainRenderTarget에 뿌려준다.
@@ -37,6 +38,7 @@ namespace Pg::Graphics
 /// 이를 단순 캐스팅으로 활용할 수 있게 세팅하자.
 /// Get한다음에 실행, 이런 느낌.
 /// </summary>
+
 namespace Pg::Graphics
 {
 	class BillboardRenderPass : public IRenderSinglePass
@@ -60,8 +62,8 @@ namespace Pg::Graphics
 				
 
 	private:
-		std::unique_ptr<SystemVertexShader> _vs;
-		std::unique_ptr<SystemPixelShader> _ps;
+		std::unique_ptr<VisualEffectRenderer> _visualEffectController{ nullptr };
+		
 
 	private:
 		LowDX11Storage* _DXStorage;

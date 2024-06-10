@@ -91,6 +91,8 @@
     <ClInclude Include="SystemPixelShader.h" />
     <ClInclude Include="TextureExtension.h" />
     <ClInclude Include="VignetteRenderPass.h" />
+    <ClInclude Include="VisualEffectRenderer.h" />
+    <ClInclude Include="VisualEffectGraphicsSet.h" />
     <ClInclude Include="WireframeRenderObject.h" />
     <ClInclude Include="RenderFont.h" />
     <ClInclude Include="RenderObject2DList.h" />
@@ -235,6 +237,7 @@
     <ClCompile Include="SceneInformationSender.cpp" />
     <ClCompile Include="SystemPixelShader.cpp" />
     <ClCompile Include="VignetteRenderPass.cpp" />
+    <ClCompile Include="VisualEffectRenderer.cpp" />
     <ClCompile Include="WireframeRenderObject.cpp" />
     <ClCompile Include="RenderFont.cpp" />
     <ClCompile Include="RenderMaterial.cpp" />

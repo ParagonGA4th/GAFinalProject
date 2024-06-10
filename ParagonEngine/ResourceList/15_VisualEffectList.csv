@@ -1,0 +1,2 @@
+EffectName,Is3DSpace,IsFacingCamera,IsAlphaBlended,AlphaPercentage,TextureName,IsSpriteSheet,FrameCount,IsUseCustomVertexShader,CustomVertexShaderName,IsUseCustomPixelShader,CustomPixelShaderName
+Testing,1,1,1,50,test.dds,1,5,0,NULL,1,Pixel.cso
