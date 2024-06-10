@@ -22,9 +22,11 @@ namespace Pg::Graphics
 
 	void BillboardRenderPass::Initialize()
 	{	
-		std::string tPath = _resourceListPath + "/15_BillboardEffectList.csv";
-		auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnDataFromVisualEffectCSV(tPath);
-		//...
+		_visualEffectController = std::make_unique<VisualEffectRenderer>();
+
+		std::string tPath = _resourceListPath + "/15_VisualEffectList.csv";
+		_visualEffectController->LoadAllEffects(Pg::Util::Helper::CSVHelper::ReturnDataFromVisualEffectCSV(tPath));
+	
 	}
 
 	void BillboardRenderPass::ReceiveRequiredElements(const D3DCarrier& carrier)

@@ -328,6 +328,12 @@
     <ClInclude Include="BillboardRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\9_BillboardRenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="VisualEffectRenderer.h">
+      <Filter>8_Helpers\VisualEffectController</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualEffectGraphicsSet.h">
+      <Filter>10_Structs\VisualEffectGraphicsSet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -596,6 +602,9 @@
     </ClCompile>
     <ClCompile Include="BillboardRenderPass.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\9_BillboardRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualEffectRenderer.cpp">
+      <Filter>8_Helpers\VisualEffectController</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1027,6 +1036,12 @@
     </Filter>
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\9_BillboardRenderPass">
       <UniqueIdentifier>{8c6e63be-b0f2-4acc-a3d4-21169d2dd742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectController">
+      <UniqueIdentifier>{8c08ad47-7787-45d9-9d7f-9155336c525b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\VisualEffectGraphicsSet">
+      <UniqueIdentifier>{eb15c073-4cc9-46dc-b543-108325986b57}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
