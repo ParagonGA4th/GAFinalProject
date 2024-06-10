@@ -43,7 +43,7 @@ namespace Pg::Graphics
 		//또한, 만들어진 current rendering map 역시 위에 기반한 메모리 마련.
 		for (auto& it : _visualEffectsMap)
 		{
-			_currentRenderingMap.insert(std::make_pair(it.second.get(), std::vector<Pg::Data::VisualEffectRenderObject*>());
+			_currentRenderingMap.insert(std::make_pair(it.second.get(), std::vector<Pg::Data::VisualEffectRenderObject*>()));
 		}
 
 		//그냥 1 이펙트당 1 SpriteBatch 상태가 반영된다고 생각하자.

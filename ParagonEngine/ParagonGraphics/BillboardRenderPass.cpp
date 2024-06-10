@@ -24,8 +24,8 @@ namespace Pg::Graphics
 	{	
 		_visualEffectController = std::make_unique<VisualEffectRenderer>();
 
-		std::string tPath = _resourceListPath + "/15_VisualEffectList.csv";
-		_visualEffectController->LoadAllEffects(Pg::Util::Helper::CSVHelper::ReturnDataFromVisualEffectCSV(tPath));
+		//std::string tPath = _resourceListPath + "/15_VisualEffectList.csv";
+		//_visualEffectController->LoadAllEffects(Pg::Util::Helper::CSVHelper::ReturnDataFromVisualEffectCSV(tPath));
 	
 	}
 
