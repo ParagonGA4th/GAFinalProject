@@ -70,9 +70,12 @@ float ShadowValue(float3 worldPos, float3 normal, float3 lightDirection)
         
 		// Shadow Acne 막기.
         //float bias = max(0.025f * (1.0f - dot(normal, lightDirection)), 0.0005f);
-        float bias = 0.0001f;
+        //float bias = 0.0001f;
+        //float bias = 0.001f;
+        float bias = 0.01f;
 
-		// PCF 필터링. 4x4로 관리한다.
+
+		// PCF 필터링. 5x5
         int sampleRadius = 2;
         float2 pixelSize = 1.0 / float2(SIZED_UP_SHADOW_VP_LENGTH, SIZED_UP_SHADOW_VP_LENGTH);
         for (int y = -sampleRadius; y <= sampleRadius; y++)

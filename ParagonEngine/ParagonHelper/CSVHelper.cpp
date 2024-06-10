@@ -270,6 +270,9 @@ namespace Pg::Util::Helper
 				tInput._customPixelShaderName = std::stoi(it.at(11));
 			}
 		}
+
+		return tRet;
+
 	}
 
 }
