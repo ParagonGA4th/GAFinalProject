@@ -33,10 +33,15 @@ void Pg::DataScript::Portal::SetNextScene(std::string nextScene)
 	_nextScene = nextScene;
 }
 
-void Pg::DataScript::Portal::OnTriggerEnter(Pg::Data::Collider* col)
+void Pg::DataScript::Portal::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
 {
-	if (col->_object->GetTag() == "TAG_Player")
+	for (int i = 0; i < count; i++)
 	{
-		_sceneHelper->SetCurrentScene(_nextScene);
+		Pg::Data::Collider* col = _colArr[i];
+
+		if (col->_object->GetTag() == "TAG_Player")
+		{
+			_sceneHelper->SetCurrentScene(_nextScene);
+		}
 	}
 }

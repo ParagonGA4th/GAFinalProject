@@ -1,6 +1,7 @@
 #pragma once
 #include "ScriptInterface.h"
 #include "EnemyInfo.h"
+#include "BaseMonster.h"
 
 namespace Pg::Data
 {
@@ -24,7 +25,7 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
-	class BossBehaviour : ScriptInterface<BossBehaviour>
+	class BossBehaviour : public ScriptInterface<BossBehaviour>, public BaseMonster
 	{	
 		DEFINE_PARAGON_SCRIPT(BossBehaviour);
 	public:

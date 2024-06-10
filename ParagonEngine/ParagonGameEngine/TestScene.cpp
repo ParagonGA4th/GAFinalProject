@@ -66,12 +66,12 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj3->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/UnrealTest/final_mon_boss.fbx");
 	//tObj3->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
-	GameObject* tObj2_1 = tCurrentScene->AddObject("Sphere1");
-	tObj2_1->GetComponent<Transform>()->_position = { 3.0f, 10.0f, 0.0f };
-	tObj2_1->AddComponent<StaticMeshRenderer>();
-	tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx");
-	tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	tObj2_1->AddComponent<ScreenPointTest>();
+	//GameObject* tObj2_1 = tCurrentScene->AddObject("Sphere1");
+	//tObj2_1->GetComponent<Transform>()->_position = { 3.0f, 10.0f, 0.0f };
+	//tObj2_1->AddComponent<StaticMeshRenderer>();
+	//tObj2_1->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/twcylinder/twcylinder.fbx");
+	//tObj2_1->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	//tObj2_1->AddComponent<ScreenPointTest>();
 
 
 	//GameObject* tObj2_2 = tCurrentScene->AddObject("Capsule1");
@@ -130,38 +130,48 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj5->GetComponent<StaticMeshRenderer>()->SetActive(true);
 	////tObj5->AddComponent<MoveForwardBack>();
 	////tObj5->GetComponent<MoveForwardBack>()->SetActive(true);
-	for (int i = 0; i < 10; i++)
-	{
-		for (int j = 0; j < 10; j++)
-		{
-			std::string tStr = "Cube";
-			tStr.append(std::to_string(i));
-			tStr += "_";
-			tStr.append(std::to_string(j));
-			Pg::Data::GameObject* tObj6 = tCurrentScene->AddObject(tStr);
+	//for (int i = 0; i < 10; i++)
+	//{
+	//	for (int j = 0; j < 10; j++)
+	//	{
+	//		std::string tStr = "Cube";
+	//		tStr.append(std::to_string(i));
+	//		tStr += "_";
+	//		tStr.append(std::to_string(j));
+	//		Pg::Data::GameObject* tObj6 = tCurrentScene->AddObject(tStr);
 
-			tObj6->GetComponent<Transform>()->_position = { (float)i*2, -3.0f, (float)j*2 };
-			tObj6->GetComponent<Transform>()->_scale = { 0.5f,0.5f,0.5f};
-			tObj6->GetComponent<Transform>()->_rotation = tObj6->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
-			//tObj6->AddComponent<BoxCollider>();
-			tObj6->AddComponent<StaticMeshRenderer>();
-			tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
-			tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
-		}
-	}
+	//		tObj6->GetComponent<Transform>()->_position = { (float)i*2, -3.0f, (float)j*2 };
+	//		tObj6->GetComponent<Transform>()->_scale = { 0.5f,0.5f,0.5f};
+	//		tObj6->GetComponent<Transform>()->_rotation = tObj6->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	//		//tObj6->AddComponent<BoxCollider>();
+	//		tObj6->AddComponent<StaticMeshRenderer>();
+	//		tObj6->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx");
+	//		tObj6->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	//	}
+	//}
 	
 	{
 		Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
 		tObj7->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
 		tObj7->GetComponent<Transform>()->_rotation = { 1.0f, 0.0f, 0.0f , 0.0f};
-		tObj7->GetComponent<Transform>()->_scale = { 100.0f, 100.0f, 100.f };
+		tObj7->GetComponent<Transform>()->_scale = { 2.0f, 2.0f, 2.f };
 		tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 		tObj7->AddComponent<PlaneCollider>();
-		tObj7->GetComponent<PlaneCollider>();
-		tObj7->AddComponent<StaticMeshRenderer>();
+		//tObj7->GetComponent<PlaneCollider>()->SetTrigger(true);
+		//tObj7->AddComponent<StaticMeshRenderer>();
 		//tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/TestingRecast/BattleSpace_res2.obj");
-		tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale.obj");
-		tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+		//tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale.obj");
+		//tObj7->GetComponent<StaticMeshRenderer>()->SetActive(true);
+	}
+
+	{
+		//Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane2");
+		//tObj7->GetComponent<Transform>()->_position = { 42.0f, 0.0f, 0.0f };
+		//tObj7->GetComponent<Transform>()->_rotation = { 1.0f, 0.0f, 0.0f , 0.0f };
+		//tObj7->GetComponent<Transform>()->_scale = { 2.0f, 2.0f, 2.f };
+		//tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+		//tObj7->AddComponent<PlaneCollider>();
+		//tObj7->GetComponent<PlaneCollider>()->SetTrigger(true);
 	}
 	
 	{
@@ -169,12 +179,12 @@ void Pg::Engine::TestScene::Initialize()
 		tObj7->GetComponent<Transform>()->_position = { 5.0f, 0.0f, 20.0f };
 		tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 		tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
-		//tObj7->AddComponent<CapsuleCollider>();
-		//tObj7->GetComponent<CapsuleCollider>()->SetCapsuleInfo(0.5f, 0.3f);
-		//tObj7->GetComponent<CapsuleCollider>()->SetPositionOffset({ 0.f, 0.7f, 0.f });
-		//tObj7->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
-		//tObj7->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
-		//tObj7->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+		tObj7->AddComponent<CapsuleCollider>();
+		tObj7->GetComponent<CapsuleCollider>()->SetCapsuleInfo(0.5f, 0.3f);
+		tObj7->GetComponent<CapsuleCollider>()->SetPositionOffset({ 0.f, 0.7f, 0.f });
+		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
+		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
+		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
 		tObj7->AddComponent<SkinnedMeshRenderer>();
 		tObj7->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/AnimMesh/ErikaMixamo/ErikaMixamo.fbx");
 		//tObj7->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_idle.pganim";
@@ -226,9 +236,10 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj7_1->AddComponent<NavTest>();
 
 	Pg::Data::GameObject* tObj7_2 = tCurrentScene->AddObject("Seight1");
+	tObj7_2->GetComponent<Transform>()->_position = { 0.f, 0.f, 2.3f };
 	tObj7_2->GetComponent<Transform>()->_scale = { 2.5f, 1.f, 1.f };
 	tObj7_2->AddComponent<StaticBoxCollider>();
-	tObj7_2->GetComponent<StaticBoxCollider>()->SetPositionOffset({ 0.f, 0.f, 2.3f });
+	//tObj7_2->GetComponent<StaticBoxCollider>()->SetPositionOffset({ 0.f, 0.f, 2.3f });
 	tObj7_2->GetComponent<StaticBoxCollider>()->SetTrigger(true);
 	//tObj7_2->GetComponent<StaticBoxCollider>()->SetScale(2.5f, 1.0f, 1.0f);
 	tObj7_2->AddComponent<AISeight>();
@@ -317,16 +328,20 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj23->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/PlainDiffuseMaterial.pgmat");
 	//tObj23->GetComponent<StaticMeshRenderer>()->SetActive(true);
 
-	//Pg::Data::GameObject* tObj24 = tCurrentScene->AddObject("TestingBT_Box");
-	//tObj24->GetComponent<Transform>()->_position = { 40.0f, -4.0f, 40.0f };
-	//tObj24->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
-	//tObj24->GetComponent<Transform>()->_rotation = tObj24->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
-	//tObj24->AddComponent<StaticMeshRenderer>();
-	//tObj24->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Cube/Cube.fbx");
-	//tObj24->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat");
-	//tObj24->GetComponent<StaticMeshRenderer>()->SetActive(true);
-	////Animator 추가.
-	//tObj24->AddComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Test/BTree_Testing1.xml");	
+	{
+		//Pg::Data::GameObject* tObj24 = tCurrentScene->AddObject("TestingBT_Box");
+		//tObj24->GetComponent<Transform>()->_position = { 21.0f, 5.f, 0.0f };
+		//tObj24->GetComponent<Transform>()->_scale = { 3.0f, 3.0f, 3.0f };
+		//tObj24->GetComponent<Transform>()->_rotation = tObj24->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+		//tObj24->AddComponent<BoxCollider>()->SetTrigger(true);
+		//tObj24->AddComponent<MonsterMove>();
+		//tObj24->AddComponent<StaticMeshRenderer>();
+		//tObj24->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Cube/Cube.fbx");
+		//tObj24->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat");
+		//tObj24->GetComponent<StaticMeshRenderer>()->SetActive(true);
+		//Animator 추가.
+		//tObj24->AddComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Test/BTree_Testing1.xml");	
+	}
 	 
 	Pg::Data::GameObject* tObj24 = tCurrentScene->AddObject("TextShowing");
 	tObj24->GetComponent<Transform>()->_position = {400.f, 40.0f, 0.0f };

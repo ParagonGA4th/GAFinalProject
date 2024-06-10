@@ -16,6 +16,7 @@ namespace Pg::DataScript
 	void EnemyAttack::BeforePhysicsAwake()
 	{
 		_collider = _object->GetComponent<Pg::Data::StaticBoxCollider>();
+		_collider->SetActive(false);
 	}
 
 	void EnemyAttack::Awake()
@@ -27,7 +28,6 @@ namespace Pg::DataScript
 
 	void EnemyAttack::Start()
 	{
-		_collider->SetActive(false);
 	}
 
 	void EnemyAttack::Update()
