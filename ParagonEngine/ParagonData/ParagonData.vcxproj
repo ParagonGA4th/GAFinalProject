@@ -227,7 +227,8 @@
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
-    <ClInclude Include="isDistanceClose.h" />
+    <ClInclude Include="isChase.h" />
+    <ClInclude Include="isDash.h" />
     <ClInclude Include="isHitSpace.h" />
     <ClInclude Include="isPlayerInSight.h" />
     <ClInclude Include="LayerMask.h" />
@@ -343,7 +344,8 @@
     <ClCompile Include="EditorCameraScript.cpp" />
     <ClCompile Include="Handle.cpp" />
     <ClCompile Include="ImageRenderer.cpp" />
-    <ClCompile Include="isDistanceClose.cpp" />
+    <ClCompile Include="isChase.cpp" />
+    <ClCompile Include="isDash.cpp" />
     <ClCompile Include="isHitSpace.cpp" />
     <ClCompile Include="isPlayerInSight.cpp" />
     <ClCompile Include="Light.cpp" />
