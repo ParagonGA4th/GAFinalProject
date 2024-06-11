@@ -253,8 +253,8 @@
     <ClCompile Include="Anim_gAttack.cpp">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_mAttack</Filter>
     </ClCompile>
-    <ClCompile Include="isDistanceClose.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\isDistanceClose</Filter>
+    <ClCompile Include="isDash.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\isDash</Filter>
     </ClCompile>
     <ClCompile Include="isPlayerInSight.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isPlayerInSight</Filter>
@@ -270,6 +270,9 @@
     </ClCompile>
     <ClCompile Include="Anim_Stab.cpp">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Stab</Filter>
+    </ClCompile>
+    <ClCompile Include="isChase.cpp">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isChase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -577,8 +580,8 @@
     <ClInclude Include="Anim_gAttack.h">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_mAttack</Filter>
     </ClInclude>
-    <ClInclude Include="isDistanceClose.h">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\isDistanceClose</Filter>
+    <ClInclude Include="isDash.h">
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\isDash</Filter>
     </ClInclude>
     <ClInclude Include="isPlayerInSight.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isPlayerInSight</Filter>
@@ -594,6 +597,9 @@
     </ClInclude>
     <ClInclude Include="Anim_Stab.h">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Stab</Filter>
+    </ClInclude>
+    <ClInclude Include="isChase.h">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isChase</Filter>
     </ClInclude>
     <ClInclude Include="VisualEffectData.h">
       <Filter>4_Structs</Filter>
@@ -873,9 +879,6 @@
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Golem">
       <UniqueIdentifier>{5fa8ee46-2a80-44f3-8158-0899037c55de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Golem\isDistanceClose">
-      <UniqueIdentifier>{d0b36f89-7d46-4078-b73a-32ab6a3ba4af}</UniqueIdentifier>
-    </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_Dash">
       <UniqueIdentifier>{92c7aaf5-7466-4286-b53d-effc4536fb5f}</UniqueIdentifier>
     </Filter>
@@ -905,6 +908,12 @@
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Ground Monster">
       <UniqueIdentifier>{76ce6f66-2390-4a8b-a8e9-0903ccc4c12f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicAnim\isChase">
+      <UniqueIdentifier>{1c46883a-eaba-4e18-83af-8b9f80fbdf8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Golem\isDash">
+      <UniqueIdentifier>{d0b36f89-7d46-4078-b73a-32ab6a3ba4af}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

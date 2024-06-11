@@ -50,8 +50,8 @@ namespace Pg::Data
 
 		//트리거에 관한 함수.
 		void OnTriggerStay();
-		void OnTriggerEnter(Collider* c);
-		void OnTriggerExit(Collider* c);
+		void OnTriggerEnter(Collider** _colArr, unsigned int count);
+		void OnTriggerExit(Collider** _colArr, unsigned int count);
 
 		//애니메이션 끝난거 신호.
 		void OnAnimationEnd();

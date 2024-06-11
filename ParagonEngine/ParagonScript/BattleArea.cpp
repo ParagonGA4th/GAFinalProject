@@ -31,7 +31,7 @@ void Pg::DataScript::BattleArea::Update()
 
 			auto& colPos = _collider->_object->_transform._position;
 			auto& playerPos = _player->_object->_transform._position;
-
+			
 			if (colPos.x - (_collider->_width / 2) > playerPos.x + (dcol->GetWidth() / 2))
 				playerPos.x = colPos.x - (_collider->_width / 2);
 
@@ -47,19 +47,28 @@ void Pg::DataScript::BattleArea::Update()
 	}
 }
 
-void Pg::DataScript::BattleArea::OnTriggerEnter(Pg::Data::Collider* col)
+void Pg::DataScript::BattleArea::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
 {
-	if (col->_object->GetTag() == "TAG_Player")
+	for (int i = 0; i < count; i++)
 	{
-		_onTriggerStay = true;
-		_player = col->_object->GetComponent<Pg::DataScript::PlayerBattleBehavior>();
+		Pg::Data::Collider* col = _colArr[i];
+
+		if (col->_object->GetTag() == "TAG_Player")
+		{
+			_onTriggerStay = true;
+			_player = col->_object->GetComponent<Pg::DataScript::PlayerBattleBehavior>();
+		}
 	}
 }
 
-void Pg::DataScript::BattleArea::OnTriggerExit(Pg::Data::Collider* col)
+void Pg::DataScript::BattleArea::OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count)
 {
-	if (col->_object->GetTag() == "TAG_Player")
+	for (int i = 0; i < count; i++)
 	{
-		_onTriggerStay = false;
+		Pg::Data::Collider* col = _colArr[i];
+		if (col->_object->GetTag() == "TAG_Player")
+		{
+			_onTriggerStay = false;
+		}
 	}
 }

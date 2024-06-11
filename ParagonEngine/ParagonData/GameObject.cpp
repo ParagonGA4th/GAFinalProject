@@ -417,26 +417,26 @@ namespace Pg::Data
 			{ iter.second->OnTriggerStay(); });
 	}
 
-	void GameObject::OnTriggerEnter(Collider* c)
+	void GameObject::OnTriggerEnter(Collider** _colArr, unsigned int count)
 	{
 		if (!_isActive)
 		{
 			return;
 		}
 
-		std::for_each(_componentList.begin(), _componentList.end(), [&c](auto& iter)
-			{ iter.second->OnTriggerEnter(c); });
+		std::for_each(_componentList.begin(), _componentList.end(), [&_colArr, &count](auto& iter)
+			{ iter.second->OnTriggerEnter(_colArr, count); });
 	}
 
-	void GameObject::OnTriggerExit(Collider* c)
+	void GameObject::OnTriggerExit(Collider** _colArr, unsigned int count)
 	{
 		if (!_isActive)
 		{
 			return;
 		}
 
-		std::for_each(_componentList.begin(), _componentList.end(), [&c](auto& iter)
-			{ iter.second->OnTriggerExit(c); });
+		std::for_each(_componentList.begin(), _componentList.end(), [&_colArr, &count](auto& iter)
+			{ iter.second->OnTriggerExit(_colArr, count); });
 	}
 
 

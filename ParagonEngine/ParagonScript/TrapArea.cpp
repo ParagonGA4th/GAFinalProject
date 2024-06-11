@@ -47,32 +47,40 @@ void Pg::DataScript::TrapArea::Update()
 	}
 }
 
-void Pg::DataScript::TrapArea::OnTriggerEnter(Pg::Data::Collider* col)
+void Pg::DataScript::TrapArea::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
 {
-	if (col->_object->GetTag() == "TAG_Player")
+	for (int i = 0; i < count; i++)
 	{
-		_onTriggerStay = true;
+		Pg::Data::Collider* col = _colArr[i];
+		if (col->_object->GetTag() == "TAG_Player")
+		{
+			_onTriggerStay = true;
 
-		// 플레이어의 움직임이 느려져야 함
-		_playerBattleBehavior = col->_object->GetComponent<Pg::DataScript::PlayerBattleBehavior>();
-		_playerMovement = col->_object->GetComponent<Pg::DataScript::PlayerMovement>();
-		assert(_playerBattleBehavior != nullptr && _playerMovement != nullptr);
+			// 플레이어의 움직임이 느려져야 함
+			_playerBattleBehavior = col->_object->GetComponent<Pg::DataScript::PlayerBattleBehavior>();
+			_playerMovement = col->_object->GetComponent<Pg::DataScript::PlayerMovement>();
+			assert(_playerBattleBehavior != nullptr && _playerMovement != nullptr);
 
-		_previousMoveSpeed = _playerMovement->moveSpeed;
-		_playerMovement->moveSpeed = _previousMoveSpeed / 2;
+			_previousMoveSpeed = _playerMovement->moveSpeed;
+			_playerMovement->moveSpeed = _previousMoveSpeed / 2;
+		}
 	}
 }
 
-void Pg::DataScript::TrapArea::OnTriggerExit(Pg::Data::Collider* col)
+void Pg::DataScript::TrapArea::OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count)
 {
-	if (col->_object->GetTag() == "TAG_Player")
+	for (int i = 0; i < count; i++)
 	{
-		_onTriggerStay = false;
-	
-		// 플레이어의 속도가 돌아와야 함
-		_playerMovement->moveSpeed = _previousMoveSpeed;
+		Pg::Data::Collider* col = _colArr[i];
+		if (col->_object->GetTag() == "TAG_Player")
+		{
+			_onTriggerStay = false;
 
-		auto mesh = _playerBattleBehavior->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-		mesh->SetActive(true);
+			// 플레이어의 속도가 돌아와야 함
+			_playerMovement->moveSpeed = _previousMoveSpeed;
+
+			auto mesh = _playerBattleBehavior->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+			mesh->SetActive(true);
+		}
 	}
 }

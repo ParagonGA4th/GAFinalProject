@@ -7,12 +7,13 @@ namespace Pg::Data::BTree::Node
 	{
 		bool hitInit = config().blackboard->get<bool>("HITINIT");
 		bool isChange = config().blackboard->get<bool>("ISCHANGE");
+		std::string prevAnim = config().blackboard->get<std::string>("PREVANIM");
 
-		if (hitInit && !isChange)
+		if (hitInit && (prevAnim.empty() || prevAnim.find("_00001") == std::string::npos)) 
 		{
 			config().blackboard->set<bool>("ISCHANGE", true);
-			config().blackboard->set<bool>("HITINIT", false);
 		}
+
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{

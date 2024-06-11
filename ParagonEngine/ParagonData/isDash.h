@@ -7,12 +7,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class isDistanceClose : public BT::SyncActionNode, public BasePgBtNode
+	class isDash : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		isDistanceClose(const std::string& name, const BT::NodeConfiguration& config)
+		isDash(const std::string& name, const BT::NodeConfiguration& config)
 			:BT::SyncActionNode(name, config) {};
-		virtual ~isDistanceClose() = default;
+		virtual ~isDash() = default;
 
 		virtual BT::NodeStatus tick() override;
 

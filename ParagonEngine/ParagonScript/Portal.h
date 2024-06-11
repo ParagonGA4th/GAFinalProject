@@ -21,7 +21,7 @@ namespace Pg::DataScript
 		void SetNextScene(std::string nextScene);
 
 	private:
-		virtual void OnTriggerEnter(Pg::Data::Collider* col) override;
+		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
 
 	private:
 		Pg::Data::StaticBoxCollider* _collider;

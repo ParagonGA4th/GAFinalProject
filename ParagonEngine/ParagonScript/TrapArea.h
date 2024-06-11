@@ -22,8 +22,8 @@ namespace Pg::DataScript
 		virtual void Update() override;
 
 	private:
-		virtual void OnTriggerEnter(Pg::Data::Collider* col) override;
-		virtual void OnTriggerExit(Pg::Data::Collider* col) override;
+		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
+		virtual void OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count) override;
 
 	private:
 		Pg::API::Time::PgTime* _deltaTime;

@@ -54,13 +54,14 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::Anim_HitFloating>("Anim_HitFloating");
 		_factory->registerNodeType<Node::isPlayerInSight>("isPlayerInSight");
 		_factory->registerNodeType<Node::isHitSpace>("isHitSpace");
+		_factory->registerNodeType<Node::isChase>("isChase");
 
 		_factory->registerNodeType<Node::Anim_Idle>("Anim_Idle");
 		_factory->registerNodeType<Node::Anim_Walk>("Anim_Walk");
 
 		_factory->registerNodeType<Node::Anim_Dash>("Anim_Dash");
 		_factory->registerNodeType<Node::Anim_gAttack>("Anim_gAttack");
-		_factory->registerNodeType<Node::isDistanceClose>("isDistanceClose");
+		_factory->registerNodeType<Node::isDash>("isDash");
 
 		_factory->registerNodeType<Node::Anim_Shoot>("Anim_Shoot");
 		_factory->registerNodeType<Node::Anim_Stab>("Anim_Stab");
