@@ -23,9 +23,6 @@ namespace Pg::Data::BTree::Node
 		{
 			return {};
 		}
-
-	private:
-		bool _isHitInit = { false };
 	};
 }
 #endif

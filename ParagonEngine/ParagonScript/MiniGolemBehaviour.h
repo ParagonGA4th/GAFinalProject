@@ -1,6 +1,6 @@
 #pragma once
 #include "ScriptInterface.h"
-#include "EnemyInfo.h"
+#include "MiniGolemInfo.h"
 #include "BaseMonster.h"
 
 namespace Pg::Data
@@ -14,7 +14,7 @@ namespace Pg::Data
 }
 
 namespace Pg::API
-{	
+{
 	class PgScene;
 
 	namespace Time
@@ -25,11 +25,11 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
-	class BossBehaviour : public ScriptInterface<BossBehaviour>, public BaseMonster
-	{	
-		DEFINE_PARAGON_SCRIPT(BossBehaviour);
+	class MiniGolemBehaviour : public ScriptInterface<MiniGolemBehaviour>, public BaseMonster
+	{
+		DEFINE_PARAGON_SCRIPT(MiniGolemBehaviour);
 	public:
-		BossBehaviour(Pg::Data::GameObject* obj);
+		MiniGolemBehaviour(Pg::Data::GameObject* obj);
 
 	public:
 		virtual void BeforePhysicsAwake() override;
@@ -40,8 +40,14 @@ namespace Pg::DataScript
 		//공격에 맞았을 때
 		virtual void OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count);
 
+		//플레이어 발견하지 않을때 하는 행동
+		void Idle();
+
 		//플레이어를 쫓는 함수
 		void Chase();
+
+		//돌진하는 함수
+		void Dash();
 
 		//타겟의 위치를 향해 바라봄.
 		void RotateToPlayer(Pg::Math::PGFLOAT3& targetPos);
@@ -64,11 +70,14 @@ namespace Pg::DataScript
 		Pg::Data::CapsuleCollider* _collider;
 
 	public:
-		//골렘보스의 상태와 수치에 대한 정보.
-		BossGolemInfo _bossGolInfo;
-		BossGolemStatus _bossGolStat;
+		//미니골렘의 상태와 수치에 대한 정보.
+		MiniGolemInfo* _miniGolInfo;
+		
+		//플레이어와의 거리 측정
+		float _distance;
 
 		bool _isRotateFinish;
+		bool _isDash;
 	};
 }
 

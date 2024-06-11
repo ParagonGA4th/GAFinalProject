@@ -43,8 +43,8 @@ namespace Pg::DataScript
 		virtual void OnCollisionStay() override {}
 		virtual void OnCollisionExit(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override {}
 
-		virtual void OnTriggerEnter(Pg::Data::Collider* c) override {}
-		virtual void OnTriggerExit(Pg::Data::Collider* c) override {}
+		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override {}
+		virtual void OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count) override {}
 
 	public:
 		//Scripting System 자동화를 위해.

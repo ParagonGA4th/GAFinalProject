@@ -197,13 +197,13 @@ namespace Pg::Engine::Physic
 				//트리거 감지
 				if (!dynamicCol->GetWasTrigger() && dynamicCol->GetIsTrigger())
 				{
-					gameObj->OnTriggerEnter(*dynamicCol->_triggerStorage.data());
-					PG_TRACE("D-TriggerEnter!");
+					gameObj->OnTriggerEnter(dynamicCol->_triggerStorage.data() , dynamicCol->_triggerStorage.size());
+					//PG_TRACE("D-TriggerEnter!");
 				}
 				else if (dynamicCol->GetWasTrigger() && !dynamicCol->GetIsTrigger())
 				{
-					gameObj->OnTriggerExit(*dynamicCol->_triggerStorage.data());
-					PG_TRACE("D-TriggerExit!");
+					gameObj->OnTriggerExit(dynamicCol->_triggerStorage.data(), dynamicCol->_triggerStorage.size());
+					//PG_TRACE("D-TriggerExit!");
 				}
 			}
 
@@ -245,13 +245,13 @@ namespace Pg::Engine::Physic
 				//트리거 감지
 				if (!staticCol->GetWasTrigger() && staticCol->GetIsTrigger())
 				{
-					gameObj->OnTriggerEnter(*staticCol->_triggerStorage.data());
-					PG_TRACE("S-TriggerEnter!");
+					gameObj->OnTriggerEnter(staticCol->_triggerStorage.data(), staticCol->_triggerStorage.size());
+					//PG_TRACE("S-TriggerEnter!");
 				}
 				else if (staticCol->GetWasTrigger() && !staticCol->GetIsTrigger())
 				{
-					gameObj->OnTriggerExit(*staticCol->_triggerStorage.data());
-					PG_TRACE("S-TriggerExit!");
+					gameObj->OnTriggerExit(staticCol->_triggerStorage.data(), staticCol->_triggerStorage.size());
+					//PG_TRACE("S-TriggerExit!");
 				}
 			}
 		}
@@ -893,6 +893,13 @@ namespace Pg::Engine::Physic
 
 				// Layer Mask 설정
 				shape->setSimulationFilterData({ planeCol->GetLayer(), 0, 0, 0 });
+
+				//Trigger 여부 판단
+				if (planeCol->GetTrigger())
+				{
+					shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+					shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+				}
 
 				//physx::PxRigidStatic* rigid = PxCreatePlane(*_physics, plane, *_material);
 				physx::PxRigidStatic* rigid = _physics->createRigidStatic(normalTm);

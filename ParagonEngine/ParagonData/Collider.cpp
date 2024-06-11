@@ -18,7 +18,7 @@ namespace Pg::Data
 		_wasCollided(false),
 		_layer(0)
 	{
-		_collisionStorage.reserve(5);	
+		_collisionStorage.reserve(5);
 	}
 
 	void Collider::SetPositionOffset(PGFLOAT3 position)
@@ -216,7 +216,7 @@ namespace Pg::Data
 
 	void Collider::Collider_OnCollisionExit(PhysicsCollision& c)
 	{
-		std::string tRes = "Collider_OnCollisionExit : ";
+		//std::string tRes = "Collider_OnCollisionExit : ";
 		//PG_TRACE(tRes.append(this->_object->GetName()).c_str());
 
 		this->_isCollide = false;
@@ -226,10 +226,10 @@ namespace Pg::Data
 
 	void Collider::Collider_OnTriggerEnter(Collider* c)
 	{
-		std::string tRes = "Collider_OnTriggerEnter : ";
-		//
-		// 
-		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+		//std::string tRes = "Collider_OnTriggerEnter : ";
+		////
+		//// 
+		//PG_TRACE(tRes.append(this->_object->GetName()).c_str());
 
 		this->_isTrigger = true;
 		this->_wasTriggered = false;
@@ -238,8 +238,8 @@ namespace Pg::Data
 
 	void Collider::Collider_OnTriggerExit(Collider* c)
 	{
-		std::string tRes = "Collider_OnTriggerExit : ";
-		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+		//std::string tRes = "Collider_OnTriggerExit : ";
+		//PG_TRACE(tRes.append(this->_object->GetName()).c_str());
 
 		this->_isTrigger = false;
 		this->_wasTriggered = true;

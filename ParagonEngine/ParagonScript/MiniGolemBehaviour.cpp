@@ -1,4 +1,4 @@
-#include "BossBehaviour.h"
+#include "MiniGolemBehaviour.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgScene.h"
@@ -10,19 +10,20 @@
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/MonsterHelper.h"
+
 #include <singleton-cpp/singleton.h>
 #include <algorithm>
 
 namespace Pg::DataScript
 {
-	BossBehaviour::BossBehaviour(Pg::Data::GameObject* obj) :
-		ScriptInterface(obj), BaseMonster(100.f, 5.f),_isRotateFinish(false)
+	MiniGolemBehaviour::MiniGolemBehaviour(Pg::Data::GameObject* obj) :
+		ScriptInterface(obj), BaseMonster(100.f, 5.f), _isRotateFinish(false)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgScene = &singleton<Pg::API::PgScene>();
 	}
 
-	void BossBehaviour::BeforePhysicsAwake()
+	void MiniGolemBehaviour::BeforePhysicsAwake()
 	{
 		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
 		assert(_collider != nullptr);
@@ -34,12 +35,12 @@ namespace Pg::DataScript
 		_collider->FreezeLinearY(true);
 	}
 
-	void BossBehaviour::Awake()
+	void MiniGolemBehaviour::Awake()
 	{
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 	}
 
-	void BossBehaviour::Start()
+	void MiniGolemBehaviour::Start()
 	{
 		//플레이어 지정
 		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
@@ -48,18 +49,38 @@ namespace Pg::DataScript
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		//골렘의 정보 설정
-		_bossGolInfo.SetHp(10.f);
-		_bossGolInfo.SetAttackRange(3.f);
+		_miniGolInfo->SetHp(10.f);
+		_miniGolInfo->SetAttackRange(3.f);
 	}
 
-	void BossBehaviour::Update()
+	void MiniGolemBehaviour::Update()
 	{
-		RotateToPlayer(_playerTransform->_position);
-		Chase();
+		//시야 안에 들어오면
+		if (_distance <= _miniGolInfo->GetSightRange())
+		{
+			//플레이어 바라봐라.
+			RotateToPlayer(_playerTransform->_position);
+
+			//돌진거리 안에 들어오면 돌진해라.
+			if (_distance <= _miniGolInfo->GetDashRange() && !_isDash)
+			{
+				_isDash = true;
+				_miniGolInfo->SetCurrentDashTime(0.f);
+			}
+
+			if (_isDash)
+			{
+				Dash();
+			}
+			//아니면 그냥 쫓아가라.
+			else
+			{
+				Chase();
+			}
+		}
 	}
 
-
-	void BossBehaviour::OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count)
+	void MiniGolemBehaviour::OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count)
 	{
 		for (int i = 0; i < count; i++)
 		{
@@ -74,10 +95,10 @@ namespace Pg::DataScript
 				//화살에 맞았을 때 피격행동 및 상태 구현.
 
 				//체력이 1씩 닳는다.
-				_bossGolInfo._hp -= 1.f;
+				_miniGolInfo->SetHp(_miniGolInfo->GetHp() - 1.f);
 
 				//체력이 다 까이면
-				if (_bossGolInfo._hp <= 0.f)
+				if (_miniGolInfo->GetHp() <= 0.f)
 				{
 					//죽는 애니메이션 먼저 호출 필요함.
 					//애니메이션 전체 재생 후 다음으로 넘어가야 함.
@@ -89,13 +110,15 @@ namespace Pg::DataScript
 		}
 	}
 
-	void BossBehaviour::Chase()
+	void MiniGolemBehaviour::Idle()
+	{
+
+	}
+
+	void MiniGolemBehaviour::Chase()
 	{
 		//이동 속도 조절.
-		float interpolation = _bossGolInfo._moveSpeed * _pgTime->GetDeltaTime();
-
-		//auto plVec = _object->GetScene()->FindObjectsWithTag("TAG_Player");
-		//auto plTrans = plVec.at(0)->_transform;
+		float interpolation = _miniGolInfo->GetMoveSpeed() * _pgTime->GetDeltaTime();
 
 		auto plVec = _player;
 		auto plTrans = plVec->_transform;
@@ -104,26 +127,28 @@ namespace Pg::DataScript
 			+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
 
 		//일정 사정거리 안에 들어오면
-		if (distance <= _bossGolInfo._attackRange)
+		if (distance <= _miniGolInfo->GetAttackRange())
 		{
 
 			//상태 변경.
-			_bossGolStat = BossGolemStatus::BASIC_ATTACK;
+			_miniGolInfo->_status = MiniGolemStatus::BASIC_ATTACK;
 
 			//공격으로 전환하기.
 			Attack();
 
 			// 공격 애니메이션 출력.
 			_monsterHelper->_isPlayerinHitSpace = true;
+			_monsterHelper->_isDistanceClose = false;
 		}
 		else
 		{
 			//상태를 Chase로 변경.
-			_bossGolStat = BossGolemStatus::CHASE;
+			_miniGolInfo->_status = MiniGolemStatus::CHASE;
 
 			// 플레이어가 시야 안에 있으면
 			_monsterHelper->_isPlayerDetected = true;
 			_monsterHelper->_isPlayerinHitSpace = false;
+			_monsterHelper->_isDistanceClose = true;
 
 			//사정거리 밖이면 플레이어로 계속 다가가기.
 			Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
@@ -133,7 +158,32 @@ namespace Pg::DataScript
 		}
 	}
 
-	void BossBehaviour::RotateToPlayer(Pg::Math::PGFLOAT3& targetPos)
+	void MiniGolemBehaviour::Dash()
+	{
+		// 돌진 지속 시간 동안 돌진
+		if (_miniGolInfo->GetCurrentDashTime() < _miniGolInfo->GetDashDuration())
+		{
+			_miniGolInfo->_status = MiniGolemStatus::DASH;
+
+			float interpolation = _miniGolInfo->GetDashSpeed() * _pgTime->GetDeltaTime();
+
+			Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+			tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
+			_object->_transform._position.x = tPosition.x;
+			_object->_transform._position.z = tPosition.z;
+
+			_miniGolInfo->SetCurrentDashTime(_miniGolInfo->GetCurrentDashTime() + _pgTime->GetDeltaTime());
+
+			//돌진 애니메이션 추가 필요.
+		}
+		// 돌진이 끝나면 상태를 변경
+		else
+		{
+			_isDash = false;
+		}
+	}
+
+	void MiniGolemBehaviour::RotateToPlayer(Pg::Math::PGFLOAT3& targetPos)
 	{
 		// 플레이어 위치의 y값만 받기.
 		Pg::Math::PGFLOAT3 tRotBasePos = targetPos;
@@ -156,15 +206,15 @@ namespace Pg::DataScript
 		}
 	}
 
-	void BossBehaviour::Attack()
+	void MiniGolemBehaviour::Attack()
 	{
 
 	}
 
-	void BossBehaviour::Dead()
+	void MiniGolemBehaviour::Dead()
 	{
 		//상태를 죽음으로 변경.
-		_bossGolStat = BossGolemStatus::DEAD;
+		_miniGolInfo->_status = MiniGolemStatus::DEAD;
 
 		//다 꺼짐.
 		_collider->SetActive(false);

@@ -136,6 +136,27 @@
     <Filter Include="AI\Boss">
       <UniqueIdentifier>{67bd7eaa-7313-4c7d-b55e-a4649f88b0c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\Attack">
+      <UniqueIdentifier>{cba2ea9e-7f83-4867-a7c7-b57f7efcd8bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\EnemyInfo\MiniGolem">
+      <UniqueIdentifier>{ec1dc7bf-8ce7-4f5b-b004-6b445c42d6e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\EnemyInfo\Stub">
+      <UniqueIdentifier>{2e8e4384-ad5c-4c0d-987b-6699f630c74e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\EnemyInfo\Mimic">
+      <UniqueIdentifier>{b54bb917-2e19-402b-a4f8-d8ca013ee37c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Enemy\MiniGolem">
+      <UniqueIdentifier>{24ea530f-7241-4cd1-92c9-6f46eabe06c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Enemy\Mimic">
+      <UniqueIdentifier>{5e67b585-1e53-4bd7-86b3-6b7fc29d98ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Enemy\Stub">
+      <UniqueIdentifier>{8b751b6b-4ed3-4673-a8f9-12e796720ac9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -224,6 +245,21 @@
     </ClCompile>
     <ClCompile Include="BossBehaviour.cpp">
       <Filter>AI\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAttack.cpp">
+      <Filter>AI\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniGolemInfo.cpp">
+      <Filter>AI\EnemyInfo\MiniGolem</Filter>
+    </ClCompile>
+    <ClCompile Include="MimicInfo.cpp">
+      <Filter>AI\EnemyInfo\Mimic</Filter>
+    </ClCompile>
+    <ClCompile Include="StubInfo.cpp">
+      <Filter>AI\EnemyInfo\Stub</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniGolemBehaviour.cpp">
+      <Filter>AI\Enemy\MiniGolem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +385,21 @@
     </ClInclude>
     <ClInclude Include="BossBehaviour.h">
       <Filter>AI\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttack.h">
+      <Filter>AI\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniGolemInfo.h">
+      <Filter>AI\EnemyInfo\MiniGolem</Filter>
+    </ClInclude>
+    <ClInclude Include="MimicInfo.h">
+      <Filter>AI\EnemyInfo\Mimic</Filter>
+    </ClInclude>
+    <ClInclude Include="StubInfo.h">
+      <Filter>AI\EnemyInfo\Stub</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniGolemBehaviour.h">
+      <Filter>AI\Enemy\MiniGolem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
