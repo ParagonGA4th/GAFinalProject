@@ -6,6 +6,7 @@
 #include "../ParagonData/Anim_HitFloating.h"
 #include "../ParagonData/isPlayerInSight.h"
 #include "../ParagonData/isHitSpace.h"
+#include "../ParagonData/isChase.h"
 
 // floating Monster
 #include "../ParagonData/Anim_Idle.h"
@@ -14,7 +15,7 @@
 //golem
 #include "../ParagonData/Anim_Dash.h"
 #include "../ParagonData/Anim_gAttack.h"
-#include "../ParagonData/isDistanceClose.h"
+#include "../ParagonData/isDash.h"
 
 //wasp
 #include "../ParagonData/Anim_Shoot.h"

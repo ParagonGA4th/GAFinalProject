@@ -49,12 +49,14 @@ void MonsterMove::Update()
 	//시야 안에 들어왔을 때 쫓아가라.
 	if (_distance <= _sightRange)
 	{
+		_monsterHelper->_isPlayerDetected = true;
 		RotateToPlayer(_playerTransform->_position);
 
 		//돌진거리 안에 들어오면 돌진해라.
 		if (_distance <= _dashRange && !_isDash)
 		{
 			_isDash = true;
+			_monsterHelper->_isDash = _isDash;
 			_currentDashTime = 0.0f;
 		}
 
@@ -65,6 +67,7 @@ void MonsterMove::Update()
 		//아니면 그냥 쫓아가라.
 		else 
 		{
+			_monsterHelper->_isChase = !_isDash;
 			Chase();
 		}
 	}
@@ -97,14 +100,10 @@ void MonsterMove::Chase()
 
 		// 플레이어가 공격 범위 안에 있으면 
 		_monsterHelper->_isPlayerinHitSpace = true;
-		_monsterHelper->_isDistanceClose = false;
 	}
 	else
 	{
-		// 플레이어가 시야 안에 있으면
-		_monsterHelper->_isPlayerDetected = true;
 		_monsterHelper->_isPlayerinHitSpace = false;
-		_monsterHelper->_isDistanceClose = true;
 
 		//사정거리 밖이면 플레이어로 계속 다가가기.
 		Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
@@ -132,6 +131,7 @@ void MonsterMove::Dash()
 	else 
 	{
 		_isDash = false; 
+		_monsterHelper->_isDash = _isDash;
 	}
 }
 
