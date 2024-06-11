@@ -41,6 +41,9 @@ public:
 	//플레이어를 쫓는 함수
 	void Chase();
 
+	//대쉬
+	void Dash();
+
 	//타겟의 위치로 이동
 	bool MoveToTarget(DirectX::XMFLOAT3& startPos, DirectX::XMFLOAT3& targetPos, float speed);
 	// 플레이어 바라보도록 회전시키기
@@ -69,10 +72,23 @@ private:
 
 	std::vector<std::pair<Pg::Math::PGFLOAT3, Pg::Math::PGFLOAT3>> _straightPath;
 
+	float _moveSpeed;
+	float _dashSpeed;
+	float _distance;
+
+	float _attackRange;
+	float _sightRange;
+
 	//몬스터의 상태
 	bool _isStart;
 	bool _isHit;
 	bool _isRotateFinish;
+
+	//대쉬 관련 변수.
+	bool _isDash;			//돌진 여부
+	float _dashRange;		//돌진 거리
+	float _dashDuration;	//돌진 지속 시간
+	float _currentDashTime; //현재 돌진 시간
 
 	bool _isMoving;
 	bool _isRotate;
