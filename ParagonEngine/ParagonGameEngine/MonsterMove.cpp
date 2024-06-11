@@ -13,9 +13,9 @@
 #include <singleton-cpp/singleton.h>
 
 MonsterMove::MonsterMove(Pg::Data::GameObject* obj) :
-	Component(obj), _isRotateFinish(false), _isDash(true),
-	_moveSpeed(0.2f), _dashSpeed(0.7f), _distance(0.f), _attackRange(3.f),
-	_sightRange(10.f), _dashRange(0.5f), _dashDuration(1.f), _currentDashTime(0.f)
+	Component(obj), _isRotateFinish(false), _isDash(false),_hasDashed(false),
+	_moveSpeed(0.2f), _dashSpeed(1.4f), _distance(0.f), _attackRange(3.f),
+	_sightRange(15.f), _dashRange(14.f), _dashDuration(1.f), _currentDashTime(0.f)
 {
 
 }
@@ -47,27 +47,33 @@ void MonsterMove::Update()
 		+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
 
 	//시야 안에 들어왔을 때 쫓아가라.
+	// 시야 안에 들어왔을 때 쫓아가라.
 	if (_distance <= _sightRange)
 	{
 		RotateToPlayer(_playerTransform->_position);
 
-		//돌진거리 안에 들어오면 돌진해라.
-		if (_distance <= _dashRange && !_isDash)
+		if (_distance <= _dashRange && _isDash == false && _hasDashed == false)
 		{
 			_isDash = true;
 			_currentDashTime = 0.0f;
 		}
 
-		if (_isDash) 
+		if (_isDash)
 		{
 			Dash();
 		}
-		//아니면 그냥 쫓아가라.
-		else 
+		else
 		{
 			Chase();
 		}
+
 	}
+	else
+	{
+		_isDash = false;
+		_hasDashed = false;
+	}
+
 
 }
 
@@ -127,11 +133,14 @@ void MonsterMove::Dash()
 		_object->_transform._position.z = tPosition.z;
 
 		_currentDashTime += _timeSystem->GetDeltaTime();
+
+		//돌진 애니메이션 추가 필요.
 	}
 	// 돌진이 끝나면 상태를 변경
 	else 
 	{
 		_isDash = false; 
+		_hasDashed = true;
 	}
 }
 

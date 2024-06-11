@@ -4,6 +4,7 @@
 #include "IScriptResettable.h"
 
 ///모든 몬스터가 상속받아야 할 베이스 클래스.
+///2024.06.10 기점으로 인터페이스로 사용하기로 변경.
 
 //ScriptResettable은 밑에서 따로 구현해야 하는데, 
 //일단 상속받게 하고 현 클래스에서는 자체 assert false를 발동해주자.

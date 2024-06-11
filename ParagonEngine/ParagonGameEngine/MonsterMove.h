@@ -86,6 +86,7 @@ private:
 
 	//대쉬 관련 변수.
 	bool _isDash;			//돌진 여부
+	bool _hasDashed;		//돌진했는지 여부
 	float _dashRange;		//돌진 거리
 	float _dashDuration;	//돌진 지속 시간
 	float _currentDashTime; //현재 돌진 시간
