@@ -162,6 +162,9 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="IScriptResettable.h" />
+    <ClInclude Include="MimicInfo.h" />
+    <ClInclude Include="MiniGolemBehaviour.h" />
+    <ClInclude Include="MiniGolemInfo.h" />
     <ClInclude Include="NavAgent.h" />
     <ClInclude Include="PauseBox.h" />
     <ClInclude Include="PlayerBattleBehavior.h" />
@@ -181,6 +184,7 @@
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SoundTest.h" />
     <ClInclude Include="StartButton.h" />
+    <ClInclude Include="StubInfo.h" />
     <ClInclude Include="TitleManager.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TrapArea.h" />
@@ -202,6 +206,9 @@
     <ClCompile Include="FactoryHelper.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="InGameCameraBehavior.cpp" />
+    <ClCompile Include="MimicInfo.cpp" />
+    <ClCompile Include="MiniGolemBehaviour.cpp" />
+    <ClCompile Include="MiniGolemInfo.cpp" />
     <ClCompile Include="NavAgent.cpp" />
     <ClCompile Include="PauseBox.cpp" />
     <ClCompile Include="PlayerBattleBehavior.cpp" />
@@ -213,6 +220,7 @@
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SoundTest.cpp" />
     <ClCompile Include="StartButton.cpp" />
+    <ClCompile Include="StubInfo.cpp" />
     <ClCompile Include="TitleManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TrapArea.cpp" />
