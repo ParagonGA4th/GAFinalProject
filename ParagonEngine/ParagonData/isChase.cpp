@@ -1,14 +1,14 @@
-#include "isDistanceClose.h"
+#include "isChase.h"
 #include "MonsterHelper.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus isDistanceClose::tick()
+	BT::NodeStatus isChase::tick()
 	{
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_isDistanceClose)
+			if (monHelper->_isChase && !monHelper->_isPlayerinHitSpace)
 			{
 				config().blackboard->set<bool>("ISCHANGE", false);
 				return BT::NodeStatus::SUCCESS;
