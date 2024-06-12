@@ -57,6 +57,9 @@ namespace Pg::DataScript
 		//플레이어를 공격.
 		void Attack(bool _isAttack);
 
+		//피격 시 애니메이션 출력을 위한 함수.
+		void Hit();
+
 		//피격 시 죽음.
 		void Dead();
 

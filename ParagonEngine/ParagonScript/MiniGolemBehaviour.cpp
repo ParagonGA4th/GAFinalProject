@@ -29,9 +29,11 @@ namespace Pg::DataScript
 		//골렘의 체력과 공격
 		_miniGolInfo = new MiniGolemInfo(5.f, 1.f);
 
-		///골렘의 사망행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
+		///골렘의 사망 및 피격행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
 		///몬스터에게 직접적으로 적용하기에 여기서는 사망 시 행동만 만들면 된다.
 		_miniGolInfo->_onDead = [this]() { Dead(); };
+
+		_miniGolInfo->_onHit = [this]() { Hit(); };
 	}
 
 	void MiniGolemBehaviour::BeforePhysicsAwake()
@@ -126,7 +128,7 @@ namespace Pg::DataScript
 			_monsterHelper->_isAnimationEnd = false;
 		}
 
-		PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
+		//PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
 	}
 
 	void MiniGolemBehaviour::Idle()
@@ -197,6 +199,13 @@ namespace Pg::DataScript
 			_monsterHelper->_isDash = _isDash;
 			_monsterHelper->_isChase = !_isDash;
 		}
+	}
+
+	void MiniGolemBehaviour::Hit()
+	{
+		PG_TRACE("Hit!");
+
+		//피격 애니메이션 들어가야 함.
 	}
 
 	void MiniGolemBehaviour::RotateToPlayer(Pg::Math::PGFLOAT3& targetPos)
