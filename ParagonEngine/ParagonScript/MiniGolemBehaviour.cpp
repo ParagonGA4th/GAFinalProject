@@ -27,7 +27,7 @@ namespace Pg::DataScript
 		_pgScene = &singleton<Pg::API::PgScene>();
 
 		//골렘의 체력과 공격
-		_miniGolInfo = new MiniGolemInfo(5.f, 1.f);
+		_miniGolInfo = new MiniGolemInfo(10.f, 1.f);
 
 		///골렘의 사망 및 피격행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
 		///몬스터에게 직접적으로 적용하기에 여기서는 사망 시 행동만 만들면 된다.
@@ -119,13 +119,13 @@ namespace Pg::DataScript
 		}
 
 
-		if (_monsterHelper->_isAnimationEnd && _monsterHelper->_isDead)
+		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
 		{
 			//다 꺼짐.
 			_collider->SetActive(false);
 			_meshRenderer->SetActive(false);
 			_object->SetActive(false);
-			_monsterHelper->_isAnimationEnd = false;
+			_monsterHelper->_isDeadDelay = false;
 		}
 
 		//PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
@@ -218,6 +218,23 @@ namespace Pg::DataScript
 		PG_TRACE("Hit!");
 
 		//피격 애니메이션 들어가야 함.
+		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
+		animId.append("_00003.pganim");
+
+		_meshRenderer->SetAnimation(animId, false);
+
+		std::string objName = _object->GetName();
+		objName = objName.substr(0, objName.rfind("_"));
+		objName.append("_Crtstal");
+		//if (objName.find("Golem") != std::string::npos) objName.append("_Crtstal");
+		//else objName.append("_Wing");
+
+		auto tchild = _object->_transform.GetChild(objName);
+		auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+		animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
+		animId.append("_10003.pganim");
+		tcMeshRenderer->SetAnimation(animId, false);
 	}
 
 	void MiniGolemBehaviour::RotateToPlayer(Pg::Math::PGFLOAT3& targetPos)

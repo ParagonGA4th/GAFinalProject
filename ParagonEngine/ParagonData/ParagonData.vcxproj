@@ -232,6 +232,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="isChase.h" />
     <ClInclude Include="isDash.h" />
+    <ClInclude Include="isDead.h" />
     <ClInclude Include="isHitSpace.h" />
     <ClInclude Include="isPlayerInSight.h" />
     <ClInclude Include="LayerMask.h" />
@@ -262,7 +263,6 @@
     <ClInclude Include="PhysicsContactPoint.h" />
     <ClInclude Include="PlaneCollider.h" />
     <ClInclude Include="PointLight.h" />
-    <ClInclude Include="Anim_HitFloating.h" />
     <ClInclude Include="RayCast.h" />
     <ClInclude Include="RendererChangeList.h" />
     <ClInclude Include="EditorMode.h" />
@@ -352,6 +352,7 @@
     <ClCompile Include="ImageRenderer.cpp" />
     <ClCompile Include="isChase.cpp" />
     <ClCompile Include="isDash.cpp" />
+    <ClCompile Include="isDead.cpp" />
     <ClCompile Include="isHitSpace.cpp" />
     <ClCompile Include="isPlayerInSight.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -363,7 +364,6 @@
     <ClCompile Include="PhysicsContactPoint.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
     <ClCompile Include="PointLight.cpp" />
-    <ClCompile Include="Anim_HitFloating.cpp" />
     <ClCompile Include="RayCast.cpp" />
     <ClCompile Include="RendererChangeList.cpp" />
     <ClCompile Include="EngineResource.cpp" />

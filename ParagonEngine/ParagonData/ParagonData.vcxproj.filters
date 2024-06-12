@@ -227,7 +227,7 @@
       <Filter>2_Component\AnimTransform</Filter>
     </ClCompile>
     <ClCompile Include="EditorCameraScript.cpp">
-      <Filter>13_EngineScripts\EditorCameraScript</Filter>
+      <Filter>2_Component\13_EngineScripts\EditorCameraScript</Filter>
     </ClCompile>
     <ClCompile Include="StaticCapsuleCollider.cpp">
       <Filter>2_Component\Collider\3D\StaticCollider\CapsuleCollider</Filter>
@@ -262,9 +262,6 @@
     <ClCompile Include="isHitSpace.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isHitSpace</Filter>
     </ClCompile>
-    <ClCompile Include="Anim_HitFloating.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_HitFloating</Filter>
-    </ClCompile>
     <ClCompile Include="Anim_Shoot.cpp">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Shoot</Filter>
     </ClCompile>
@@ -282,6 +279,9 @@
     </ClCompile>
     <ClCompile Include="Anim_DeadFloating.cpp">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_DeadFloating</Filter>
+    </ClCompile>
+    <ClCompile Include="isDead.cpp">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isDead</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -551,7 +551,7 @@
       <Filter>2_Component\AnimTransform</Filter>
     </ClInclude>
     <ClInclude Include="EditorCameraScript.h">
-      <Filter>13_EngineScripts\EditorCameraScript</Filter>
+      <Filter>2_Component\13_EngineScripts\EditorCameraScript</Filter>
     </ClInclude>
     <ClInclude Include="SerializerHelper.h">
       <Filter>2_Component\1_Helper\SerializerHelper</Filter>
@@ -598,9 +598,6 @@
     <ClInclude Include="isHitSpace.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isHitSpace</Filter>
     </ClInclude>
-    <ClInclude Include="Anim_HitFloating.h">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_HitFloating</Filter>
-    </ClInclude>
     <ClInclude Include="Anim_Shoot.h">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Shoot</Filter>
     </ClInclude>
@@ -618,6 +615,9 @@
     </ClInclude>
     <ClInclude Include="Anim_DeadFloating.h">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_DeadFloating</Filter>
+    </ClInclude>
+    <ClInclude Include="isDead.h">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isDead</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -852,12 +852,6 @@
     <Filter Include="2_Component\AnimTransform">
       <UniqueIdentifier>{6bd232b2-bcfc-48ef-b9c7-e6249f57f0fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="13_EngineScripts">
-      <UniqueIdentifier>{93d4cb98-3dcb-45a6-91b7-fca442321fd6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="13_EngineScripts\EditorCameraScript">
-      <UniqueIdentifier>{baaa2dab-5a8d-4839-83e7-26e03160a912}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2_Component\1_Helper\SerializerHelper">
       <UniqueIdentifier>{2e2cd2ef-5cb5-4fca-afc4-e98602257c67}</UniqueIdentifier>
     </Filter>
@@ -905,9 +899,6 @@
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\GolemBoss">
       <UniqueIdentifier>{571525dc-9df6-4341-93c5-9cc69b7dd5ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Anim_HitFloating">
-      <UniqueIdentifier>{61d4379d-8180-4131-9b8f-8d65550b6de1}</UniqueIdentifier>
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Wasp">
       <UniqueIdentifier>{959449db-22bf-4ba4-9667-72070b93857f}</UniqueIdentifier>
@@ -968,6 +959,15 @@
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Anim_DeadFloating">
       <UniqueIdentifier>{6db2d9ae-1385-4af0-85ca-f5b4030d6903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicAnim\isDead">
+      <UniqueIdentifier>{bb624604-e5e1-450e-ad3f-8f3147971551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\13_EngineScripts">
+      <UniqueIdentifier>{93d4cb98-3dcb-45a6-91b7-fca442321fd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\13_EngineScripts\EditorCameraScript">
+      <UniqueIdentifier>{baaa2dab-5a8d-4839-83e7-26e03160a912}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
