@@ -33,7 +33,11 @@ namespace Pg::DataScript
 		float GetMonsterHp();
 		float GetMonsterDamage();
 
+		//사망 시 발생하는 함수.
 		std::function<void()> _onDead;
+
+		//피격 시 발생하는 함수.
+		std::function<void()> _onHit;
 	protected:
 		//체력 / 공격력 관리는 여기서 진행된다.
 		const float _fullHealthValue; //전체 체력 외적으로 저장한다.
@@ -47,6 +51,12 @@ namespace Pg::DataScript
 		BaseMonsterHealthChangePair(BaseMonsterInfo* mon, float hChangeLvl) : _baseMonster(mon), _healthChangeLvl(hChangeLvl) {}
 		BaseMonsterInfo* _baseMonster;
 		float _healthChangeLvl; //음수로 되어야 한다.
+	};
+
+	struct BaseMonsterHitPair
+	{
+		BaseMonsterHitPair(BaseMonsterInfo* mon) : _baseMonster(mon) {}
+		BaseMonsterInfo* _baseMonster;
 	};
 }
 

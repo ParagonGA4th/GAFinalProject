@@ -57,6 +57,7 @@ namespace Pg::DataScript
 		void FindAllArrowsInMap();
 		void ArrowShootingLogic();
 		void CalculateMonsterDamages();
+		void CalculateMonsterHit();
 
 
 	public:
@@ -66,6 +67,7 @@ namespace Pg::DataScript
 		void ChangePlayerStamina(float level);
 
 		void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
+		void AddMonsterOnHitList(BaseMonsterInfo* monster);
 
 	public:
 		//체력 관련. -> 지금은 맵 기믹때문에 이렇게 해놨지만, 나중에는 별도로 이동해야.
@@ -81,6 +83,7 @@ namespace Pg::DataScript
 	private:
 		//매 프레임마다 clear.
 		std::vector<BaseMonsterHealthChangePair> _monsterHealthChangeList;
+		std::vector<BaseMonsterHitPair> _monsterOnHitList;
 
 	private:
 		Pg::API::Input::PgInput* _pgInput;
