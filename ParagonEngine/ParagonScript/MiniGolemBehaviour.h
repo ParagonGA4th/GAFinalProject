@@ -1,5 +1,6 @@
 #pragma once
 #include "ScriptInterface.h"
+#include "IEnemyBehaviour.h"
 #include "MiniGolemInfo.h"
 #include "BaseMonster.h"
 
@@ -11,6 +12,7 @@ namespace Pg::Data
 	class SkinnedMeshRenderer;
 	class CapsuleCollider;
 	class MonsterHelper;
+	class StaticBoxCollider;
 }
 
 namespace Pg::API
@@ -25,7 +27,7 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
-	class MiniGolemBehaviour : public ScriptInterface<MiniGolemBehaviour>, public BaseMonster
+	class MiniGolemBehaviour : public ScriptInterface<MiniGolemBehaviour>, public IEnemyBehaviour
 	{
 		DEFINE_PARAGON_SCRIPT(MiniGolemBehaviour);
 	public:
@@ -37,8 +39,8 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
-		//공격에 맞았을 때
-		virtual void OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count);
+		//플레이어에게 어떤 몬스터인지를 전달하기 위함.
+		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() override;
 
 		//플레이어 발견하지 않을때 하는 행동
 		void Idle();
@@ -69,15 +71,24 @@ namespace Pg::DataScript
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
 		Pg::Data::CapsuleCollider* _collider;
 
-	public:
-		//미니골렘의 상태와 수치에 대한 정보.
-		MiniGolemInfo* _miniGolInfo;
-		
+		std::vector<Pg::Data::StaticBoxCollider*> _attackCol;
+
 		//플레이어와의 거리 측정
 		float _distance;
 
+		//몬스터의 상태
+		bool _isStart;
+		bool _isHit;
 		bool _isRotateFinish;
-		bool _isDash;
+
+		//대쉬 관련 변수.
+		bool _isDash;			//돌진 여부
+		bool _hasDashed;		//돌진했는지 여부
+
+	public:
+		//미니골렘의 상태와 수치에 대한 정보.
+		MiniGolemInfo* _miniGolInfo;
+	
 	};
 }
 

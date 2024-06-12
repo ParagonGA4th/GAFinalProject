@@ -161,6 +161,7 @@
     <ClInclude Include="ExitButton.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="IEnemyBehaviour.h" />
     <ClInclude Include="IScriptResettable.h" />
     <ClInclude Include="MimicInfo.h" />
     <ClInclude Include="MiniGolemBehaviour.h" />

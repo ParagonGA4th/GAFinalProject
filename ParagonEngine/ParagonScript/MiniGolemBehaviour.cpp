@@ -6,21 +6,32 @@
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/Collider.h"
+#include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/MonsterHelper.h"
+#include "../ParagonUtil/Log.h"
 
 #include <singleton-cpp/singleton.h>
+#include <limits>
 #include <algorithm>
 
 namespace Pg::DataScript
 {
 	MiniGolemBehaviour::MiniGolemBehaviour(Pg::Data::GameObject* obj) :
-		ScriptInterface(obj), BaseMonster(100.f, 5.f), _isRotateFinish(false)
+		ScriptInterface(obj), _isRotateFinish(false),
+		_distance(0.f), _isDash(false), _hasDashed(false)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgScene = &singleton<Pg::API::PgScene>();
+
+		//골렘의 체력과 공격
+		_miniGolInfo = new MiniGolemInfo(5.f, 1.f);
+
+		///골렘의 사망행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
+		///몬스터에게 직접적으로 적용하기에 여기서는 사망 시 행동만 만들면 된다.
+		_miniGolInfo->_onDead = [this]() { Dead(); };
 	}
 
 	void MiniGolemBehaviour::BeforePhysicsAwake()
@@ -38,6 +49,10 @@ namespace Pg::DataScript
 	void MiniGolemBehaviour::Awake()
 	{
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+		//체력과 기본 공격력을 설정해준다.
+		//_miniGolInfo->SetMonsterHp(5.f);
+		//_miniGolInfo->SetMonsterDamage(1.f);
 	}
 
 	void MiniGolemBehaviour::Start()
@@ -48,66 +63,59 @@ namespace Pg::DataScript
 
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
-		//골렘의 정보 설정
-		_miniGolInfo->SetHp(10.f);
-		_miniGolInfo->SetAttackRange(3.f);
+		for (auto& iter : _object->_transform.GetChildren())
+		{
+			Pg::Data::StaticBoxCollider* staticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+
+			if (staticCol != nullptr)
+			{
+				_attackCol.push_back(staticCol);
+				staticCol->SetActive(false);
+			}
+		}
 	}
 
 	void MiniGolemBehaviour::Update()
 	{
-		//시야 안에 들어오면
+		auto plVec = _player;
+		auto plTrans = plVec->_transform;
+
+		_distance = std::abs(std::sqrt(std::pow(plTrans._position.x - _object->_transform._position.x, 2)
+			+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
+
+		// 시야 안에 들어왔을 때 쫓아가라.
 		if (_distance <= _miniGolInfo->GetSightRange())
 		{
-			//플레이어 바라봐라.
+			_monsterHelper->_isPlayerDetected = true;
 			RotateToPlayer(_playerTransform->_position);
 
-			//돌진거리 안에 들어오면 돌진해라.
-			if (_distance <= _miniGolInfo->GetDashRange() && !_isDash)
+			if (_distance <= _miniGolInfo->GetDashRange() && _isDash == false && _hasDashed == false)
 			{
 				_isDash = true;
+				_monsterHelper->_isDash = _isDash;
 				_miniGolInfo->SetCurrentDashTime(0.f);
 			}
 
+			//대쉬 true면 돌진해!!
 			if (_isDash)
 			{
 				Dash();
 			}
-			//아니면 그냥 쫓아가라.
 			else
 			{
+				_monsterHelper->_isChase = !_isDash;
 				Chase();
 			}
-		}
-	}
 
-	void MiniGolemBehaviour::OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count)
-	{
-		for (int i = 0; i < count; i++)
+		}
+		//시야에서 벗어나면 돌진 초기화
+		else
 		{
-			Pg::Data::PhysicsCollision* tCol = _colArr[i];
-
-			//충돌해오는 Actor들을 검사.
-			Pg::Data::Collider* arrowCol = Pg::Data::PhysicsCollision::GetActualOtherActor(tCol, this->_object);
-
-			//Physics Layer로 검사한다. 화살에 맞았을 때.
-			if (arrowCol->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_PROJECTILES)
-			{
-				//화살에 맞았을 때 피격행동 및 상태 구현.
-
-				//체력이 1씩 닳는다.
-				_miniGolInfo->SetHp(_miniGolInfo->GetHp() - 1.f);
-
-				//체력이 다 까이면
-				if (_miniGolInfo->GetHp() <= 0.f)
-				{
-					//죽는 애니메이션 먼저 호출 필요함.
-					//애니메이션 전체 재생 후 다음으로 넘어가야 함.
-
-					//죽는다.
-					Dead();
-				}
-			}
+			_isDash = false;
+			_hasDashed = false;
 		}
+
+		PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
 	}
 
 	void MiniGolemBehaviour::Idle()
@@ -120,14 +128,8 @@ namespace Pg::DataScript
 		//이동 속도 조절.
 		float interpolation = _miniGolInfo->GetMoveSpeed() * _pgTime->GetDeltaTime();
 
-		auto plVec = _player;
-		auto plTrans = plVec->_transform;
-
-		float distance = std::abs(std::sqrt(std::pow(plTrans._position.x - _object->_transform._position.x, 2)
-			+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
-
 		//일정 사정거리 안에 들어오면
-		if (distance <= _miniGolInfo->GetAttackRange())
+		if (_distance <= _miniGolInfo->GetAttackRange())
 		{
 
 			//상태 변경.
@@ -138,7 +140,6 @@ namespace Pg::DataScript
 
 			// 공격 애니메이션 출력.
 			_monsterHelper->_isPlayerinHitSpace = true;
-			_monsterHelper->_isDistanceClose = false;
 		}
 		else
 		{
@@ -148,11 +149,10 @@ namespace Pg::DataScript
 			// 플레이어가 시야 안에 있으면
 			_monsterHelper->_isPlayerDetected = true;
 			_monsterHelper->_isPlayerinHitSpace = false;
-			_monsterHelper->_isDistanceClose = true;
 
 			//사정거리 밖이면 플레이어로 계속 다가가기.
 			Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
-			tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, plTrans._position, interpolation);
+			tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
 			_object->_transform._position.x = tPosition.x;
 			_object->_transform._position.z = tPosition.z;
 		}
@@ -180,6 +180,7 @@ namespace Pg::DataScript
 		else
 		{
 			_isDash = false;
+			_hasDashed = true;
 		}
 	}
 
@@ -208,7 +209,20 @@ namespace Pg::DataScript
 
 	void MiniGolemBehaviour::Attack()
 	{
-
+		if (_distance <= _miniGolInfo->GetAttackRange())
+		{
+			for (auto& iter : _attackCol)
+			{
+				iter->SetActive(true);
+			}
+		}
+		else
+		{
+			for (auto& iter : _attackCol)
+			{
+				iter->SetActive(false);
+			}
+		}
 	}
 
 	void MiniGolemBehaviour::Dead()
@@ -220,5 +234,10 @@ namespace Pg::DataScript
 		_collider->SetActive(false);
 		_meshRenderer->SetActive(false);
 		_object->SetActive(false);
+	}
+
+	BaseMonsterInfo* MiniGolemBehaviour::ReturnBaseMonsterInfo()
+	{
+		return _miniGolInfo;
 	}
 }

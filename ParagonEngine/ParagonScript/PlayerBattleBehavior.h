@@ -65,7 +65,7 @@ namespace Pg::DataScript
 		void ChangePlayerMana(float level);
 		void ChangePlayerStamina(float level);
 
-		void AddMonsterHitList(BaseMonster* monster, float healthChangeLvl);
+		void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
 
 	public:
 		//체력 관련. -> 지금은 맵 기믹때문에 이렇게 해놨지만, 나중에는 별도로 이동해야.
