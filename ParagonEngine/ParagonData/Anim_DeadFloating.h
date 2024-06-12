@@ -24,6 +24,8 @@ namespace Pg::Data::BTree::Node
 
 	private:
 		bool _isAnimEnd = { false };
+		bool _isAnimChange = { false };
+		bool _isDelay = { false };
 	};
 }
 

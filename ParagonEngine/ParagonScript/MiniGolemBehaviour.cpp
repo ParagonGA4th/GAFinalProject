@@ -117,13 +117,13 @@ namespace Pg::DataScript
 		}
 
 
-		if (_monsterHelper->_isAnimationEnd && _monsterHelper->_isDead)
+		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
 		{
 			//´Ù ²¨Áü.
 			_collider->SetActive(false);
 			_meshRenderer->SetActive(false);
 			_object->SetActive(false);
-			_monsterHelper->_isAnimationEnd = false;
+			_monsterHelper->_isDeadDelay = false;
 		}
 
 		PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));

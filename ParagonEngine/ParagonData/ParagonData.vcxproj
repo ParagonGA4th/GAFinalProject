@@ -232,6 +232,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="isChase.h" />
     <ClInclude Include="isDash.h" />
+    <ClInclude Include="isDead.h" />
     <ClInclude Include="isHitSpace.h" />
     <ClInclude Include="isPlayerInSight.h" />
     <ClInclude Include="LayerMask.h" />
@@ -352,6 +353,7 @@
     <ClCompile Include="ImageRenderer.cpp" />
     <ClCompile Include="isChase.cpp" />
     <ClCompile Include="isDash.cpp" />
+    <ClCompile Include="isDead.cpp" />
     <ClCompile Include="isHitSpace.cpp" />
     <ClCompile Include="isPlayerInSight.cpp" />
     <ClCompile Include="Light.cpp" />
