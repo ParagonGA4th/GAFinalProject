@@ -209,7 +209,8 @@
     <ClInclude Include="Anim_Delay.h" />
     <ClInclude Include="Anim_gAttack.h" />
     <ClInclude Include="Anim_FloatingIdle.h" />
-    <ClInclude Include="Anim_PoisonGass.h" />
+    <ClInclude Include="Anim_GroundIdle.h" />
+    <ClInclude Include="Anim_PoisonGas.h" />
     <ClInclude Include="Anim_Stab.h" />
     <ClInclude Include="Anim_FloatingWalk.h" />
     <ClInclude Include="Anim_tAttack.h" />
@@ -236,6 +237,7 @@
     <ClInclude Include="isChase.h" />
     <ClInclude Include="isDash.h" />
     <ClInclude Include="isDead.h" />
+    <ClInclude Include="isDistanceClose.h" />
     <ClInclude Include="isHitSpace.h" />
     <ClInclude Include="isPlayerInSight.h" />
     <ClInclude Include="LayerMask.h" />
@@ -334,7 +336,8 @@
     <ClCompile Include="Anim_Delay.cpp" />
     <ClCompile Include="Anim_gAttack.cpp" />
     <ClCompile Include="Anim_FloatingIdle.cpp" />
-    <ClCompile Include="Anim_PoisonGass.cpp" />
+    <ClCompile Include="Anim_GroundIdle.cpp" />
+    <ClCompile Include="Anim_PoisonGas.cpp" />
     <ClCompile Include="Anim_Stab.cpp" />
     <ClCompile Include="Anim_FloatingWalk.cpp" />
     <ClCompile Include="Anim_tAttack.cpp" />
@@ -359,6 +362,7 @@
     <ClCompile Include="isChase.cpp" />
     <ClCompile Include="isDash.cpp" />
     <ClCompile Include="isDead.cpp" />
+    <ClCompile Include="isDistanceClose.cpp" />
     <ClCompile Include="isHitSpace.cpp" />
     <ClCompile Include="isPlayerInSight.cpp" />
     <ClCompile Include="Light.cpp" />

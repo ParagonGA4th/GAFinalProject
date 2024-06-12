@@ -4,15 +4,20 @@
 // public
 #include "../ParagonData/Anim_Delay.h"
 #include "../ParagonData/isPlayerInSight.h"
+#include "../ParagonData/isDistanceClose.h"
 #include "../ParagonData/isHitSpace.h"
 #include "../ParagonData/isChase.h"
 #include "../ParagonData/isDead.h"
 
-#include "../ParagonData/Anim_DeadFloating.h"
 
 // floating Monster
+#include "../ParagonData/Anim_DeadFloating.h"
 #include "../ParagonData/Anim_FloatingIdle.h"
 #include "../ParagonData/Anim_FloatingWalk.h"
+
+// Ground Monster
+#include "../ParagonData/Anim_DeadGround.h"
+#include "../ParagonData/Anim_GroundIdle.h"
 
 //golem
 #include "../ParagonData/Anim_Dash.h"
@@ -24,6 +29,5 @@
 #include "../ParagonData/Anim_Stab.h"
 
 //Trent
-#include "../ParagonData/Anim_DeadGround.h"
 #include "../ParagonData/Anim_tAttack.h"
-#include "../ParagonData/Anim_PoisonGass.h"
+#include "../ParagonData/Anim_PoisonGas.h"
