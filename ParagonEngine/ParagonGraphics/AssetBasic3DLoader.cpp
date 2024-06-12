@@ -52,14 +52,20 @@ namespace Pg::Graphics::Loader
 			//	aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_FixInfacingNormals | aiProcess_LimitBoneWeights); //aiProcess_EmbedTextures |
 			//
 
+			//const aiScene* pScene = _importer->ReadFile(path.c_str(),
+			//	aiProcess_Triangulate
+			//	| aiProcess_ConvertToLeftHanded
+			//	| aiProcess_PopulateArmatureData
+			//	| aiProcess_CalcTangentSpace
+			//	| aiProcess_LimitBoneWeights
+			//	| aiProcess_GenBoundingBoxes
+			//);
+
 			const aiScene* pScene = _importer->ReadFile(path.c_str(),
-				aiProcess_Triangulate
-				| aiProcess_ConvertToLeftHanded
-				| aiProcess_PopulateArmatureData
-				| aiProcess_CalcTangentSpace
-				| aiProcess_LimitBoneWeights
-				| aiProcess_GenBoundingBoxes
-			);
+				aiProcess_Triangulate |
+				aiProcess_ConvertToLeftHanded | aiProcess_JoinIdenticalVertices | aiProcess_GenBoundingBoxes |
+				aiProcess_CalcTangentSpace | aiProcess_PopulateArmatureData |
+				aiProcess_GenSmoothNormals | aiProcess_SortByPType | aiProcess_FixInfacingNormals | aiProcess_LimitBoneWeights);
 
 			assert(pScene != nullptr);
 

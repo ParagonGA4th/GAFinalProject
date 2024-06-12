@@ -232,7 +232,7 @@ namespace Pg::Graphics
 		for (auto& nodeAnim : _currentAnim->_animAssetData->_channelList)
 		{
 			DirectX::SimpleMath::Vector3 position;
-			DirectX::SimpleMath::Vector4 rotation;
+			DirectX::SimpleMath::Quaternion rotation;
 
 			const ModifiedNode_SkinnedMesh* node = _animatedModifNodeMap[nodeAnim->_nodeName];
 			//무조건 NodeAnim은 Node와 매칭되어야 하는데..?
@@ -242,6 +242,7 @@ namespace Pg::Graphics
 				//Armature.002라는 프로퍼티가 문제됨.
 				//일단은 무시할 것.
 				continue;
+				//assert(false);
 			}
 
 			//TODO : NodeAnim 없는 경우 대비.
@@ -313,8 +314,13 @@ namespace Pg::Graphics
 			//node->_relTransform->_position = { position.x, position.y, position.z};
 			//node->_relTransform->_rotation = { rotation.w, rotation.x, rotation.y, rotation.z };
 
+			rotation.Normalize();
+
 			node->_relTransform->SetLocalPosition(position);
 			node->_relTransform->SetLocalRotation(rotation);
+
+			//Open3d를 보고 체크.
+			//node->_relTransform->SetLocalScale({100.f,100.f,100.f});
 		
 			//Scale은 서포트하지 않는다. 다만, 0.01을 반영..?
 			//node->_relTransform->SetLocalScale({ 1.0f,1.0f, 1.0f });
