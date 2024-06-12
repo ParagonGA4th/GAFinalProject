@@ -18,7 +18,7 @@ namespace Pg::Data::BTree::Node
 			{
 				tMeshRenderer->SetAnimation(animId, true);
 				config().blackboard->set<bool>("ISCHANGE", true);
-
+				 
 				std::string objName = this->GetGameObject()->GetName();
 				objName = objName.substr(0, objName.rfind("_"));
 				if (objName.find("Golem") != std::string::npos) objName.append("_Crtstal");
