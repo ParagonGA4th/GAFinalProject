@@ -138,7 +138,6 @@ namespace Pg::DataScript
 
 			// 공격 애니메이션 출력.
 			_monsterHelper->_isPlayerinHitSpace = true;
-			_monsterHelper->_isDistanceClose = false;
 		}
 		else
 		{
@@ -148,7 +147,6 @@ namespace Pg::DataScript
 			// 플레이어가 시야 안에 있으면
 			_monsterHelper->_isPlayerDetected = true;
 			_monsterHelper->_isPlayerinHitSpace = false;
-			_monsterHelper->_isDistanceClose = true;
 
 			//사정거리 밖이면 플레이어로 계속 다가가기.
 			Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
