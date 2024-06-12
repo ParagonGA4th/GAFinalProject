@@ -10,11 +10,6 @@
 AISeight::AISeight(Pg::Data::GameObject* obj) :
 	Component(obj)
 {
-
-}
-
-void AISeight::Start()
-{
 	// Time
 	auto& tTimeSystem = singleton<Pg::Util::Time::TimeSystem>();
 	tTime = &tTimeSystem;
@@ -23,7 +18,16 @@ void AISeight::Start()
 	auto& tPhysicSystem = singleton<Pg::Engine::Physic::PhysicSystem>();
 	tPhysic = &tPhysicSystem;
 
+}
+
+void AISeight::BeforePhysicsAwake()
+{
 	col = _object->GetComponent<Pg::Data::StaticBoxCollider>();
+}
+
+void AISeight::Start()
+{
+
 }
 
 void AISeight::Update()
@@ -31,17 +35,12 @@ void AISeight::Update()
 
 }
 
-void AISeight::OnTriggerEnter(Pg::Data::Collider* c)
+void AISeight::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
 {
-	PG_TRACE("Ãæµ¹ÇÔ!!");
 
-	if (c->GetLayer() == 0)
-	{
-		_playerDetected = true;
-	}
 }
 
-void AISeight::OnTriggerExit(Pg::Data::Collider* c)
+void AISeight::OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count)
 {
 
 }

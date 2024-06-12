@@ -157,6 +157,9 @@
     <Filter Include="AI\Enemy\Stub">
       <UniqueIdentifier>{8b751b6b-4ed3-4673-a8f9-12e796720ac9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\Enemy\Interface">
+      <UniqueIdentifier>{d238558f-6eef-4768-902e-b372e028f1bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -400,6 +403,9 @@
     </ClInclude>
     <ClInclude Include="MiniGolemBehaviour.h">
       <Filter>AI\Enemy\MiniGolem</Filter>
+    </ClInclude>
+    <ClInclude Include="IEnemyBehaviour.h">
+      <Filter>AI\Enemy\Interface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

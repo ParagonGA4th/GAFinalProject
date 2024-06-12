@@ -36,11 +36,12 @@ public:
 
 	AISeight(Pg::Data::GameObject* obj);
 
+	virtual void BeforePhysicsAwake() override;
 	virtual void Start() override;
 	virtual void Update() override;
 
-	virtual void OnTriggerEnter(Pg::Data::Collider* c);
-	virtual void OnTriggerExit(Pg::Data::Collider* c);
+	virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
+	virtual void OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count) override;
 
 	bool _playerDetected = false;
 

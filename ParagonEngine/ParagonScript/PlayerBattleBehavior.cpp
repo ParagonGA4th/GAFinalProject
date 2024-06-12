@@ -172,7 +172,7 @@ namespace Pg::DataScript
 		}
 	}
 
-	void PlayerBattleBehavior::AddMonsterHitList(BaseMonster* monster, float healthChangeLvl)
+	void PlayerBattleBehavior::AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl)
 	{
 		_monsterHealthChangeList.push_back(BaseMonsterHealthChangePair(monster,healthChangeLvl));
 	}
@@ -188,7 +188,13 @@ namespace Pg::DataScript
 		//실제로 
 		for (auto& it : _monsterHealthChangeList)
 		{
-			it._baseMonster->ChangeMonsterHealth(it._healthChangeLvl);
+			//플레이어의
+			it._baseMonster->ChangeMonsterHp(it._healthChangeLvl);
+
+			if (it._baseMonster->GetMonsterHp() <= std::numeric_limits<float>::epsilon())
+			{
+				it._baseMonster->_onDead();
+			}
 		}
 
 		//이제 클리어.

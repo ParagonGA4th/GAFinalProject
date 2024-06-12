@@ -3,28 +3,44 @@
 
 namespace Pg::DataScript
 {
-	BaseMonster::BaseMonster(float fullHealth, float attackPower) : 
-		_health(fullHealth), _fullHealthValue(fullHealth), _attackPower(attackPower)
+	BaseMonsterInfo::BaseMonsterInfo(float fullHealth, float attackPower) :
+		_hp(fullHealth), _fullHealthValue(fullHealth), _damage(attackPower)
 	{
 		
 	}
 
-	void BaseMonster::HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2)
+	void BaseMonsterInfo::HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2)
 	{
 		assert(false && "이거 자체로 호출되면 오류다!");
 	}
 
-	void BaseMonster::ResetAll()
+	void BaseMonsterInfo::ResetAll()
 	{
 		assert(false && "이거 자체로 호출되면 오류다.");
 	}
 
-	void BaseMonster::ChangeMonsterHealth(float level)
+	void BaseMonsterInfo::ChangeMonsterHp(float level)
 	{
-		_health = std::clamp<float>(_health + level, 0.0f, _fullHealthValue);
+		_hp = std::clamp<float>(_hp + level, 0.0f, _fullHealthValue);
 	}
-	
 
-	//
+	void BaseMonsterInfo::SetMonsterDamage(float damage)
+	{
+		_damage = damage;
+	}
 
+	void BaseMonsterInfo::SetMonsterHp(float hp)
+	{
+		_hp = hp;
+	}
+
+	float BaseMonsterInfo::GetMonsterHp()
+	{
+		return _hp;
+	}
+
+	float BaseMonsterInfo::GetMonsterDamage()
+	{
+		return _damage;
+	}
 }

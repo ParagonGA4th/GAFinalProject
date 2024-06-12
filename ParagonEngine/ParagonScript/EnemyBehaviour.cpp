@@ -22,7 +22,7 @@
 namespace Pg::DataScript
 {
 	EnemyBehaviour::EnemyBehaviour(Pg::Data::GameObject* obj) :
-		ScriptInterface(obj), BaseMonster(100.f, 5.f)
+		ScriptInterface(obj), BaseMonsterInfo(100.f, 5.f)
 	{
 		_pgRayCast = &singleton<Pg::API::Raycast::PgRayCast>();
 
