@@ -1,10 +1,10 @@
-#include "Anim_PoisonGass.h"
+#include "Anim_PoisonGas.h"
 #include "SkinnedMeshRenderer.h"
 #include "MonsterHelper.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus Anim_PoisonGass::tick()
+	BT::NodeStatus Anim_PoisonGas::tick()
 	{
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)

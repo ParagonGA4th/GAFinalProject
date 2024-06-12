@@ -1,5 +1,5 @@
-#ifndef ANIM_POISONGASS 
-#define ANIM_POISONGASS
+#ifndef ANIM_POISONGAS 
+#define ANIM_POISONGAS
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,12 +7,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_PoisonGass : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_PoisonGas : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_PoisonGass(const std::string& name, const BT::NodeConfiguration& config)
+		Anim_PoisonGas(const std::string& name, const BT::NodeConfiguration& config)
 			: BT::SyncActionNode(name, config) {}
-		virtual ~Anim_PoisonGass() = default;
+		virtual ~Anim_PoisonGas() = default;
 
 		virtual BT::NodeStatus tick() override;
 

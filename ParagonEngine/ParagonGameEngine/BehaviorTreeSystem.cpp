@@ -56,11 +56,14 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::isChase>("isChase");
 		_factory->registerNodeType<Node::isHitSpace>("isHitSpace");
 		_factory->registerNodeType<Node::isPlayerInSight>("isPlayerInSight");
+		_factory->registerNodeType<Node::isDistanceClose>("isDistanceClose");
 
 		_factory->registerNodeType<Node::Anim_DeadFloating>("Anim_DeadFloating");
-
 		_factory->registerNodeType<Node::Anim_FloatingIdle>("Anim_FloatingIdle");
 		_factory->registerNodeType<Node::Anim_FloatingWalk>("Anim_FloatingWalk");
+
+		_factory->registerNodeType<Node::Anim_DeadFloating>("Anim_DeadGround");
+		_factory->registerNodeType<Node::Anim_GroundIdle>("Anim_GroundIdle");
 
 		_factory->registerNodeType<Node::Anim_Dash>("Anim_Dash");
 		_factory->registerNodeType<Node::Anim_gAttack>("Anim_gAttack");
@@ -69,9 +72,8 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::Anim_Shoot>("Anim_Shoot");
 		_factory->registerNodeType<Node::Anim_Stab>("Anim_Stab");
 
-		_factory->registerNodeType<Node::Anim_DeadGround>("Anim_DeadGround");
 		_factory->registerNodeType<Node::Anim_tAttack>("Anim_tAttack");
-		_factory->registerNodeType<Node::Anim_PoisonGass>("Anim_PoisonGass");
+		_factory->registerNodeType<Node::Anim_PoisonGas>("Anim_PoisonGas");
 
 
 #pragma endregion ACTUAL_NODE_REGISTRATION
