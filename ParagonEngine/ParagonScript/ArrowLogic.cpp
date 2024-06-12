@@ -217,6 +217,7 @@ namespace Pg::DataScript
 
 				//해당 데미지를 입력, PlayerBattleBehavior로 하여금 이를 처리할 수 있게 만든다.
 				_playerBattleBehavior->AddMonsterHitList(tEnemyBehaviour->ReturnBaseMonsterInfo(), -(ARROW_ATTACK_POWER * ComboSystem::DAMAGE_MULTIPLIER[tComboIndex]));
+				_playerBattleBehavior->AddMonsterOnHitList(tEnemyBehaviour->ReturnBaseMonsterInfo());
 
 				{
 					std::string tComboStr = "ComboCount : ";
