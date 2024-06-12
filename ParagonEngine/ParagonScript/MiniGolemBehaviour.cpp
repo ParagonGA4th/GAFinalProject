@@ -21,7 +21,7 @@ namespace Pg::DataScript
 {
 	MiniGolemBehaviour::MiniGolemBehaviour(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj), _isRotateFinish(false),
-		_distance(0.f), _isDash(false), _hasDashed(false)
+		_distance(0.f), _isDash(false), _hasDashed(false), _currentAttackTime(0.f), _startAttackTime(1.f), _endAttackTime(2.7f)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgScene = &singleton<Pg::API::PgScene>();
@@ -144,12 +144,23 @@ namespace Pg::DataScript
 		//일정 사정거리 안에 들어오면
 		if (_distance <= _miniGolInfo->GetAttackRange())
 		{
-
 			//상태 변경.
 			_miniGolInfo->_status = MiniGolemStatus::BASIC_ATTACK;
 
+			//애니메이션 딜레이를 위한 델타타임 체크.
+			_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
+
 			//공격
-			Attack(true);
+			if (_currentAttackTime >= _startAttackTime)
+			{
+				Attack(true);
+			}
+			if (_currentAttackTime >= _startAttackTime && _currentAttackTime >= _endAttackTime)
+			{
+				Attack(false);
+
+				_currentAttackTime = 0.f;
+			}
 
 			// 공격 애니메이션 출력.
 			_monsterHelper->_isPlayerinHitSpace = true;
@@ -160,6 +171,7 @@ namespace Pg::DataScript
 			_miniGolInfo->_status = MiniGolemStatus::CHASE;
 
 			Attack(false);
+			_currentAttackTime = 0.f;
 
 			// 플레이어가 시야 안에 있으면
 			_monsterHelper->_isPlayerinHitSpace = false;

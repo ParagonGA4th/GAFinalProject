@@ -3,6 +3,7 @@
 	<scenes>
 		<scene>TitleScene</scene>
 		<scene>Stage1</scene>
+		<scene>SampleScene</scene>
 		<scene>Stage2</scene>
 		<scene>BossStage</scene>
 	</scenes>
