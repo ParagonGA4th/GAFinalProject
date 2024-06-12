@@ -36,8 +36,6 @@ void MonsterMove::Start()
 	_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 	
 	_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
-
-	_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 }
 
 void MonsterMove::Update()
