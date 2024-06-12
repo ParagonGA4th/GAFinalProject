@@ -3,10 +3,12 @@
 
 // public
 #include "../ParagonData/Anim_Delay.h"
-#include "../ParagonData/Anim_HitFloating.h"
 #include "../ParagonData/isPlayerInSight.h"
 #include "../ParagonData/isHitSpace.h"
 #include "../ParagonData/isChase.h"
+
+#include "../ParagonData/Anim_HitFloating.h"
+#include "../ParagonData/Anim_DeadFloating.h"
 
 // floating Monster
 #include "../ParagonData/Anim_Idle.h"

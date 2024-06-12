@@ -93,6 +93,7 @@ namespace Pg::DataScript
 			{
 				_isDash = true;
 				_monsterHelper->_isDash = _isDash;
+				_monsterHelper->_isChase = !_isDash;
 				_miniGolInfo->SetCurrentDashTime(0.f);
 			}
 
@@ -115,7 +116,17 @@ namespace Pg::DataScript
 			_hasDashed = false;
 		}
 
-		//PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
+
+		if (_monsterHelper->_isAnimationEnd && _monsterHelper->_isDead)
+		{
+			//다 꺼짐.
+			_collider->SetActive(false);
+			_meshRenderer->SetActive(false);
+			_object->SetActive(false);
+			_monsterHelper->_isAnimationEnd = false;
+		}
+
+		PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
 	}
 
 	void MiniGolemBehaviour::Idle()
@@ -149,7 +160,6 @@ namespace Pg::DataScript
 			Attack(false);
 
 			// 플레이어가 시야 안에 있으면
-			_monsterHelper->_isPlayerDetected = true;
 			_monsterHelper->_isPlayerinHitSpace = false;
 
 			//사정거리 밖이면 플레이어로 계속 다가가기.
@@ -168,21 +178,24 @@ namespace Pg::DataScript
 			_miniGolInfo->_status = MiniGolemStatus::DASH;
 
 			float interpolation = _miniGolInfo->GetDashSpeed() * _pgTime->GetDeltaTime();
-
-			Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
-			tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
-			_object->_transform._position.x = tPosition.x;
-			_object->_transform._position.z = tPosition.z;
-
 			_miniGolInfo->SetCurrentDashTime(_miniGolInfo->GetCurrentDashTime() + _pgTime->GetDeltaTime());
 
-			//돌진 애니메이션 추가 필요.
+			// 돌진 시 준비 동작 애니매이션 때문
+			if (_miniGolInfo->GetCurrentDashTime() >= 0.4f)
+			{
+				Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+				tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
+				_object->_transform._position.x = tPosition.x;
+				_object->_transform._position.z = tPosition.z;
+			}
 		}
 		// 돌진이 끝나면 상태를 변경
 		else
 		{
 			_isDash = false;
 			_hasDashed = true;
+			_monsterHelper->_isDash = _isDash;
+			_monsterHelper->_isChase = !_isDash;
 		}
 	}
 
@@ -221,11 +234,7 @@ namespace Pg::DataScript
 	{
 		//상태를 죽음으로 변경.
 		_miniGolInfo->_status = MiniGolemStatus::DEAD;
-
-		//다 꺼짐.
-		_collider->SetActive(false);
-		_meshRenderer->SetActive(false);
-		_object->SetActive(false);
+		_monsterHelper->_isDead = true;
 	}
 
 	BaseMonsterInfo* MiniGolemBehaviour::ReturnBaseMonsterInfo()

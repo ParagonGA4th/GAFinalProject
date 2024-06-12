@@ -274,6 +274,15 @@
     <ClCompile Include="isChase.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isChase</Filter>
     </ClCompile>
+    <ClCompile Include="Anim_BossIdle.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Anim_BossIdle</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_BossDash.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Anim_BossDash</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_DeadFloating.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_DeadFloating</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -601,6 +610,15 @@
     <ClInclude Include="isChase.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isChase</Filter>
     </ClInclude>
+    <ClInclude Include="Anim_BossIdle.h">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Anim_BossIdle</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_BossDash.h">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Anim_BossDash</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_DeadFloating.h">
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_DeadFloating</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -908,6 +926,48 @@
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Golem\isDash">
       <UniqueIdentifier>{d0b36f89-7d46-4078-b73a-32ab6a3ba4af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss">
+      <UniqueIdentifier>{ab5292ed-46e7-45d5-bd5b-07876b13bd52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Anim_Neutralize">
+      <UniqueIdentifier>{b4e86225-95af-4881-88e9-f0ec669e6801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Attack">
+      <UniqueIdentifier>{fecc4b0c-0806-4020-b4d5-d90cb26edfe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Attack\Anim_LeftArmAttack">
+      <UniqueIdentifier>{d823548a-17ec-45bb-8f9e-f8a87774a1f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Attack\Anim_RightArmAttack">
+      <UniqueIdentifier>{96b9814c-afce-4612-b286-a2d9e7fd4d9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Attack\Anim_TwoArmAttack">
+      <UniqueIdentifier>{d493f185-335e-4dfc-a547-a190ae8fdf38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttack">
+      <UniqueIdentifier>{dc2204d5-97ae-425d-92e2-52208d591494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Attack\Anim_FlyAttack">
+      <UniqueIdentifier>{898245d5-410f-4f7b-a53d-3e4c81cc651d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Anim_BossDash">
+      <UniqueIdentifier>{f1f49594-296b-4e4d-b941-5bae3f700130}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Anim_BossWalk">
+      <UniqueIdentifier>{460b7782-64f3-48a1-bdba-351b106574b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Anim_BossIdle">
+      <UniqueIdentifier>{ab4a5416-5874-4e87-b360-594c577d52bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Anim_Evasion">
+      <UniqueIdentifier>{4dba592d-72e6-4c4f-94c5-60c2b52b273e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Anim_HitBoss">
+      <UniqueIdentifier>{8f3f74df-c99d-4af4-8670-4daaa550acde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Anim_DeadFloating">
+      <UniqueIdentifier>{6db2d9ae-1385-4af0-85ca-f5b4030d6903}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
