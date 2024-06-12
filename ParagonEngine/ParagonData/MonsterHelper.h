@@ -28,6 +28,7 @@ namespace Pg::Data
 		bool _isPlayerinHitSpace;		// 플레이어가 공격 범위 안에 있는지
 		bool _isChase;					// 몬스터가 플레이어를 쫒고 있는지
 		bool _isHit;					// 몬스터가 공격 받았는지
+		bool _isDead;					// 몬스터가 죽었는지
 
 		/// Golem
 		bool _isDash;					// 몬스터가 대쉬를 했는지(골렘 전용)
