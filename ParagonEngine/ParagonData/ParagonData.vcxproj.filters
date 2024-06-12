@@ -262,9 +262,6 @@
     <ClCompile Include="isHitSpace.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isHitSpace</Filter>
     </ClCompile>
-    <ClCompile Include="Anim_HitFloating.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_HitFloating</Filter>
-    </ClCompile>
     <ClCompile Include="Anim_Shoot.cpp">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Shoot</Filter>
     </ClCompile>
@@ -601,9 +598,6 @@
     <ClInclude Include="isHitSpace.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isHitSpace</Filter>
     </ClInclude>
-    <ClInclude Include="Anim_HitFloating.h">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_HitFloating</Filter>
-    </ClInclude>
     <ClInclude Include="Anim_Shoot.h">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Shoot</Filter>
     </ClInclude>
@@ -905,9 +899,6 @@
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\GolemBoss">
       <UniqueIdentifier>{571525dc-9df6-4341-93c5-9cc69b7dd5ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Anim_HitFloating">
-      <UniqueIdentifier>{61d4379d-8180-4131-9b8f-8d65550b6de1}</UniqueIdentifier>
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Wasp">
       <UniqueIdentifier>{959449db-22bf-4ba4-9667-72070b93857f}</UniqueIdentifier>

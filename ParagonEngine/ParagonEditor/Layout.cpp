@@ -29,13 +29,13 @@ void Pg::Editor::Window::Layout::Initialize()
 	std::map<std::string, std::map<std::string, bool*>> menubar;
 
 	menubar.insert({ "0 File", {} });
-	menubar.at("0 File").insert({ "0 New Scene (Ctrl + N)", &_isNewScene });
+	//menubar.at("0 File").insert({ "0 New Scene (Ctrl + N)", &_isNewScene });
 	menubar.at("0 File").insert({ "1 Open Scene (Ctrl + O)", &_isOpenScene });
-	menubar.at("0 File").insert({ "2 Save Scene (Ctrl + S)", &_isSaveScene });
+	//menubar.at("0 File").insert({ "2 Save Scene (Ctrl + S)", &_isSaveScene });
 	menubar.at("0 File").insert({ "3 Line", nullptr });
-	menubar.at("0 File").insert({ "4 New Project", &_isNewProj });
+	//menubar.at("0 File").insert({ "4 New Project", &_isNewProj });
 	menubar.at("0 File").insert({ "5 Open Project", &_isOpenProj });
-	menubar.at("0 File").insert({ "6 Save Project", &_isSaveProj });
+	//menubar.at("0 File").insert({ "6 Save Project", &_isSaveProj });
 
 	_widgetCon->CreateWidget<Pg::UI::Widget::MenuBar>(menubar);
 }
