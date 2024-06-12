@@ -55,7 +55,7 @@ namespace Pg::DataScript
 		void RotateToPlayer(Pg::Math::PGFLOAT3& targetPos);
 
 		//플레이어를 공격.
-		void Attack();
+		void Attack(bool _isAttack);
 
 		//피격 시 죽음.
 		void Dead();
