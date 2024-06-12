@@ -163,6 +163,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="IEnemyBehaviour.h" />
     <ClInclude Include="IScriptResettable.h" />
+    <ClInclude Include="MimicBehaviour.h" />
     <ClInclude Include="MimicInfo.h" />
     <ClInclude Include="MiniGolemBehaviour.h" />
     <ClInclude Include="MiniGolemInfo.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="FactoryHelper.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="InGameCameraBehavior.cpp" />
+    <ClCompile Include="MimicBehaviour.cpp" />
     <ClCompile Include="MimicInfo.cpp" />
     <ClCompile Include="MiniGolemBehaviour.cpp" />
     <ClCompile Include="MiniGolemInfo.cpp" />
