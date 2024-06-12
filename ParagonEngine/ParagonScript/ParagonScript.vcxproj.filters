@@ -264,6 +264,9 @@
     <ClCompile Include="MiniGolemBehaviour.cpp">
       <Filter>AI\Enemy\MiniGolem</Filter>
     </ClCompile>
+    <ClCompile Include="StubBehaviour.cpp">
+      <Filter>AI\Enemy\Stub</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -406,6 +409,9 @@
     </ClInclude>
     <ClInclude Include="IEnemyBehaviour.h">
       <Filter>AI\Enemy\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="StubBehaviour.h">
+      <Filter>AI\Enemy\Stub</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

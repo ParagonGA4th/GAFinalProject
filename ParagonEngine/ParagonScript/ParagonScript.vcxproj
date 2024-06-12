@@ -185,6 +185,7 @@
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SoundTest.h" />
     <ClInclude Include="StartButton.h" />
+    <ClInclude Include="StubBehaviour.h" />
     <ClInclude Include="StubInfo.h" />
     <ClInclude Include="TitleManager.h" />
     <ClInclude Include="TitleScene.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SoundTest.cpp" />
     <ClCompile Include="StartButton.cpp" />
+    <ClCompile Include="StubBehaviour.cpp" />
     <ClCompile Include="StubInfo.cpp" />
     <ClCompile Include="TitleManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />

@@ -78,6 +78,9 @@ namespace Pg::DataScript
 
 		//플레이어와의 거리 측정
 		float _distance;
+		float _startAttackTime;
+		float _endAttackTime;
+		float _currentAttackTime;
 
 		//몬스터의 상태
 		bool _isStart;
