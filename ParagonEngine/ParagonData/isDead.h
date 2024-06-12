@@ -1,5 +1,5 @@
-#ifndef ANIM_HITFLOATING
-#define ANIM_HITFLOATING
+#ifndef ISDEAD
+#define ISDEAD
 
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
@@ -8,12 +8,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_HitFloating : public BT::SyncActionNode, public BasePgBtNode
+	class isDead : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_HitFloating(const std::string& name, const BT::NodeConfiguration& config)
+		isDead(const std::string& name, const BT::NodeConfiguration& config)
 			:BT::SyncActionNode(name, config) {};
-		virtual ~Anim_HitFloating() = default;
+		virtual ~isDead() = default;
 
 		virtual BT::NodeStatus tick() override;
 
@@ -21,10 +21,6 @@ namespace Pg::Data::BTree::Node
 		{
 			return {};
 		}
-
-	private:
-		bool _isAnimEnd = { false };
 	};
 }
-
 #endif
