@@ -72,6 +72,7 @@ void MonsterMove::Update()
 		{
 			_isDash = true;
 			_monsterHelper->_isDash = _isDash;
+			_monsterHelper->_isChase = !_isDash;
 			_currentDashTime = 0.0f;
 		}
 
@@ -81,7 +82,6 @@ void MonsterMove::Update()
 		}
 		else
 		{
-			_monsterHelper->_isChase = !_isDash;
 			Chase();
 		}
 
@@ -153,15 +153,14 @@ void MonsterMove::Dash()
 	{
 		float interpolation = _dashSpeed * _timeSystem->GetDeltaTime();
 
-		_currentDashTime += _timeSystem->GetDeltaTime();
-
-		Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
-		tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
-		_object->_transform._position.x = tPosition.x;
-		_object->_transform._position.z = tPosition.z;
-
-
-		//돌진 애니메이션 추가 필요.
+		// 돌진 시 준비 동작 애니매이션 때문
+		if (_currentDashTime >= 0.4f)
+		{
+			Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+			tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
+			_object->_transform._position.x = tPosition.x;
+			_object->_transform._position.z = tPosition.z;
+		}
 	}
 	// 돌진이 끝나면 상태를 변경
 	else 
@@ -169,6 +168,7 @@ void MonsterMove::Dash()
 		_isDash = false; 
 		_hasDashed = true;
 		_monsterHelper->_isDash = _isDash;
+		_monsterHelper->_isChase = !_isDash;
 	}
 }
 
