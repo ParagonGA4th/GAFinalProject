@@ -51,10 +51,12 @@ namespace Pg::Engine::BTree
 
 		using namespace Pg::Data::BTree;
 		_factory->registerNodeType<Node::Anim_Delay>("Anim_Delay");
-		_factory->registerNodeType<Node::Anim_HitFloating>("Anim_HitFloating");
 		_factory->registerNodeType<Node::isPlayerInSight>("isPlayerInSight");
 		_factory->registerNodeType<Node::isHitSpace>("isHitSpace");
 		_factory->registerNodeType<Node::isChase>("isChase");
+
+		_factory->registerNodeType<Node::Anim_HitFloating>("Anim_HitFloating");
+		_factory->registerNodeType<Node::Anim_DeadFloating>("Anim_DeadFloating");
 
 		_factory->registerNodeType<Node::Anim_Idle>("Anim_Idle");
 		_factory->registerNodeType<Node::Anim_Walk>("Anim_Walk");
