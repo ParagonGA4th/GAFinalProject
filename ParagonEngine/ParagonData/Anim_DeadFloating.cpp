@@ -6,42 +6,45 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_DeadFloating::tick()
 	{
+		bool isChange = config().blackboard->get<bool>("ISCHANGE");
+		config().blackboard->set<std::string>("CURRENTANIM", "_00004");
+
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_isDead)
+			if (monHelper->_isAnimationEnd)
 			{
-				if (monHelper->_isAnimationEnd)
+				_isAnimEnd = true;
+				monHelper->_isAnimationEnd = false;
+			}
+			else
+			{
+				if(isChange) monHelper->_isDeadDelay = true;
+				_isAnimEnd = false;
+			}
+
+			auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+			if (tMeshRenderer != nullptr)
+			{
+				std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
+				animId.append("_00004.pganim");
+
+				if (tMeshRenderer->GetAnimation() != animId)
 				{
-					_isAnimEnd = true;
-				}
-				else
-				{
-					_isAnimEnd = false;
-				}
+					_isAnimChange = true;
+					tMeshRenderer->SetAnimation(animId, false);
 
-				auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-				if (tMeshRenderer != nullptr)
-				{
-					std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-					animId.append("_00004.pganim");
+					std::string objName = this->GetGameObject()->GetName();
+					objName = objName.substr(0, objName.rfind("_"));
+					if (objName.find("Golem") != std::string::npos) objName.append("_Crtstal");
+					else objName.append("_Wing");
 
-					if (tMeshRenderer->GetAnimation() != animId)
-					{
-						tMeshRenderer->SetAnimation(animId, false);
+					auto tchild = this->GetGameObject()->_transform.GetChild(objName);
+					auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 
-						std::string objName = this->GetGameObject()->GetName();
-						objName = objName.substr(0, objName.rfind("_"));
-						if (objName.find("Golem") != std::string::npos) objName.append("_Crtstal");
-						else objName.append("_Wing");
-
-						auto tchild = this->GetGameObject()->_transform.GetChild(objName);
-						auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-
-						animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-						animId.append("_10004.pganim");
-						tcMeshRenderer->SetAnimation(animId, false);
-					}
+					animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
+					animId.append("_10004.pganim");
+					tcMeshRenderer->SetAnimation(animId, false);
 				}
 			}
 			else
@@ -50,7 +53,9 @@ namespace Pg::Data::BTree::Node
 			}
 		}
 
-		if (_isAnimEnd) return BT::NodeStatus::FAILURE;
+		if (_isAnimEnd && _isAnimChange) _isDelay = true;
+			
+		if(_isDelay) return BT::NodeStatus::FAILURE;
 		else return BT::NodeStatus::SUCCESS;
 	}
 }
