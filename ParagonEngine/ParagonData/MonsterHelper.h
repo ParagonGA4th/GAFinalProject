@@ -31,7 +31,7 @@ namespace Pg::Data
 		bool _isDead;					// 몬스터가 죽었는지
 
 		/// Golem
-		bool _isDash;					// 몬스터가 대쉬를 했는지(골렘 전용)
+		bool _isDash;					// 몬스터가 대쉬를 했는지(with Boss)
 
 		/// Animation
 		bool _isAnimationEnd;			// 애니매이션이 끝났는지
