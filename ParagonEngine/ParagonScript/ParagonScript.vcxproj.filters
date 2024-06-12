@@ -267,6 +267,9 @@
     <ClCompile Include="StubBehaviour.cpp">
       <Filter>AI\Enemy\Stub</Filter>
     </ClCompile>
+    <ClCompile Include="MimicBehaviour.cpp">
+      <Filter>AI\Enemy\Mimic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -412,6 +415,9 @@
     </ClInclude>
     <ClInclude Include="StubBehaviour.h">
       <Filter>AI\Enemy\Stub</Filter>
+    </ClInclude>
+    <ClInclude Include="MimicBehaviour.h">
+      <Filter>AI\Enemy\Mimic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

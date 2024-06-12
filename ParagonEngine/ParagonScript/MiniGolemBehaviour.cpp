@@ -21,7 +21,8 @@ namespace Pg::DataScript
 {
 	MiniGolemBehaviour::MiniGolemBehaviour(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj), _isRotateFinish(false),
-		_distance(0.f), _isDash(false), _hasDashed(false), _currentAttackTime(0.f), _startAttackTime(1.f), _endAttackTime(2.7f)
+		_distance(0.f), _isDash(false), _hasDashed(false), _currentAttackTime(0.f), _startAttackTime(1.f), _endAttackTime(2.7f),
+		_respawnPos(0.f, 0.f, 0.f)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgScene = &singleton<Pg::API::PgScene>();
@@ -125,6 +126,10 @@ namespace Pg::DataScript
 			_collider->SetActive(false);
 			_meshRenderer->SetActive(false);
 			_object->SetActive(false);
+
+			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 지정된 위치로 보내준다.
+			_object->_transform._position = { 0, -1000, 0 };
+
 			_monsterHelper->_isDeadDelay = false;
 		}
 

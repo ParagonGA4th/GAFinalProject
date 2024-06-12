@@ -76,6 +76,9 @@ namespace Pg::DataScript
 
 		std::vector<Pg::Data::StaticBoxCollider*> _attackCol;
 
+		//몬스터가 리스폰 될 위치
+		Pg::Math::PGFLOAT3 _respawnPos;
+
 		//플레이어와의 거리 측정
 		float _distance;
 		float _startAttackTime;
