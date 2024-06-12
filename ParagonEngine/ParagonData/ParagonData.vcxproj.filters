@@ -241,11 +241,11 @@
     <ClCompile Include="Anim_Delay.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\Anim_Delay</Filter>
     </ClCompile>
-    <ClCompile Include="Anim_Idle.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_Idle</Filter>
+    <ClCompile Include="Anim_FloatingIdle.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_FloatingIdle</Filter>
     </ClCompile>
-    <ClCompile Include="Anim_Walk.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_Walk</Filter>
+    <ClCompile Include="Anim_FloatingWalk.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_FloatingWalk</Filter>
     </ClCompile>
     <ClCompile Include="Anim_Dash.cpp">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_Dash</Filter>
@@ -282,6 +282,15 @@
     </ClCompile>
     <ClCompile Include="isDead.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isDead</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_DeadGround.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Ground Monster\Anim_DeadGround</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_tAttack.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_tAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_PoisonGass.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_PoisonGas</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -577,11 +586,11 @@
     <ClInclude Include="Anim_Delay.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\Anim_Delay</Filter>
     </ClInclude>
-    <ClInclude Include="Anim_Idle.h">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_Idle</Filter>
+    <ClInclude Include="Anim_FloatingIdle.h">
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_FloatingIdle</Filter>
     </ClInclude>
-    <ClInclude Include="Anim_Walk.h">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_Walk</Filter>
+    <ClInclude Include="Anim_FloatingWalk.h">
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_FloatingWalk</Filter>
     </ClInclude>
     <ClInclude Include="Anim_Dash.h">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_Dash</Filter>
@@ -618,6 +627,15 @@
     </ClInclude>
     <ClInclude Include="isDead.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isDead</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_DeadGround.h">
+      <Filter>11_BtNodes\MonsterAnim\Ground Monster\Anim_DeadGround</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_tAttack.h">
+      <Filter>11_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_tAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_PoisonGass.h">
+      <Filter>11_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_PoisonGas</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -891,12 +909,6 @@
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_mAttack">
       <UniqueIdentifier>{187082aa-a4ee-4eac-8661-4a028c1b0de1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Anim_Idle">
-      <UniqueIdentifier>{b3b0291a-ec59-46f6-88c2-a2ae2668b8a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Anim_Walk">
-      <UniqueIdentifier>{0daee397-cac5-431b-bea4-998e158c3b11}</UniqueIdentifier>
-    </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\GolemBoss">
       <UniqueIdentifier>{571525dc-9df6-4341-93c5-9cc69b7dd5ea}</UniqueIdentifier>
     </Filter>
@@ -968,6 +980,24 @@
     </Filter>
     <Filter Include="2_Component\13_EngineScripts\EditorCameraScript">
       <UniqueIdentifier>{baaa2dab-5a8d-4839-83e7-26e03160a912}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Ground Monster\Trent">
+      <UniqueIdentifier>{c8b953b7-4e26-4e3e-a5af-0738b5416210}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_tAttack">
+      <UniqueIdentifier>{a07176c1-bbcf-4cb2-96ca-0cddafe580e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_PoisonGas">
+      <UniqueIdentifier>{7163c3f2-a6c2-4a40-a57b-44c4834e4921}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Ground Monster\Anim_DeadGround">
+      <UniqueIdentifier>{deed4680-403d-423f-9506-77fdf5056006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Anim_FloatingIdle">
+      <UniqueIdentifier>{b3b0291a-ec59-46f6-88c2-a2ae2668b8a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Anim_FloatingWalk">
+      <UniqueIdentifier>{0daee397-cac5-431b-bea4-998e158c3b11}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
