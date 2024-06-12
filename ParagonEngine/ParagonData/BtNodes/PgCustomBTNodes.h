@@ -11,8 +11,8 @@
 #include "../ParagonData/Anim_DeadFloating.h"
 
 // floating Monster
-#include "../ParagonData/Anim_Idle.h"
-#include "../ParagonData/Anim_Walk.h"
+#include "../ParagonData/Anim_FloatingIdle.h"
+#include "../ParagonData/Anim_FloatingWalk.h"
 
 //golem
 #include "../ParagonData/Anim_Dash.h"
@@ -22,3 +22,8 @@
 //wasp
 #include "../ParagonData/Anim_Shoot.h"
 #include "../ParagonData/Anim_Stab.h"
+
+//Trent
+#include "../ParagonData/Anim_DeadGround.h"
+#include "../ParagonData/Anim_tAttack.h"
+#include "../ParagonData/Anim_PoisonGass.h"
