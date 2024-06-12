@@ -115,7 +115,7 @@ namespace Pg::DataScript
 			_hasDashed = false;
 		}
 
-		PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
+		//PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
 	}
 
 	void MiniGolemBehaviour::Idle()
@@ -135,8 +135,8 @@ namespace Pg::DataScript
 			//상태 변경.
 			_miniGolInfo->_status = MiniGolemStatus::BASIC_ATTACK;
 
-			//공격으로 전환하기.
-			Attack();
+			//공격
+			Attack(true);
 
 			// 공격 애니메이션 출력.
 			_monsterHelper->_isPlayerinHitSpace = true;
@@ -145,6 +145,8 @@ namespace Pg::DataScript
 		{
 			//상태를 Chase로 변경.
 			_miniGolInfo->_status = MiniGolemStatus::CHASE;
+
+			Attack(false);
 
 			// 플레이어가 시야 안에 있으면
 			_monsterHelper->_isPlayerDetected = true;
@@ -207,21 +209,11 @@ namespace Pg::DataScript
 		}
 	}
 
-	void MiniGolemBehaviour::Attack()
+	void MiniGolemBehaviour::Attack(bool _isAttack)
 	{
-		if (_distance <= _miniGolInfo->GetAttackRange())
+		for (auto& iter : _attackCol)
 		{
-			for (auto& iter : _attackCol)
-			{
-				iter->SetActive(true);
-			}
-		}
-		else
-		{
-			for (auto& iter : _attackCol)
-			{
-				iter->SetActive(false);
-			}
+			iter->SetActive(_isAttack);
 		}
 	}
 
