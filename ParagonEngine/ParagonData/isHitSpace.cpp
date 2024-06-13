@@ -18,13 +18,13 @@ namespace Pg::Data::BTree::Node
 				config().blackboard->set<bool>("HITINIT", true);
 				return BT::NodeStatus::SUCCESS;
 			}
-			else
+			else  
 			{
 				config().blackboard->set<bool>("HITINIT", false);
+				config().blackboard->set<std::string>("PREVANIM", "");
 				return BT::NodeStatus::FAILURE;
 			}
 		}
-
 		return BT::NodeStatus::SUCCESS;
 	}
 }

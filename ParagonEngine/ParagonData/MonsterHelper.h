@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "MonsterState.h"
 
 /// <summary>
 /// 24.05.20 최민서
@@ -15,8 +16,9 @@ namespace Pg::Data
 		// 임시 기본생성자
 		MonsterHelper() = default;
 		MonsterHelper(GameObject* obj) : Component(obj), 
-			_isPlayerDetected(false), _isPlayerinHitSpace(false), _isDash(false), _isChase(false),
-			_isAnimationEnd(false) {};
+			_isPlayerDetected(false), _isPlayerinHitSpace(true), 
+			_isDistanceClose(false), _isDash(false), _isChase(false), _isHit(false),
+			_isAnimationEnd(false), _isDeadDelay(false) {};
 
 		virtual void OnAnimationEnd()
 		{
@@ -26,12 +28,16 @@ namespace Pg::Data
 		/// Public
 		bool _isPlayerDetected;			// 플레이어가 시야 안에 있는지
 		bool _isPlayerinHitSpace;		// 플레이어가 공격 범위 안에 있는지
+		bool _isDistanceClose;			// 플레이어와 거리가 가까운지(스킬을 쓰기 위한 거리)
 		bool _isChase;					// 몬스터가 플레이어를 쫒고 있는지
 		bool _isHit;					// 몬스터가 공격 받았는지
 		bool _isDead;					// 몬스터가 죽었는지
 
 		/// Golem
 		bool _isDash;					// 몬스터가 대쉬를 했는지(with Boss)
+
+		/// Trent
+		Pg::Data::TrentState _trentState = Pg::Data::TrentState::IDLE; // 그루터기의 현재 상태(행동패턴)
 
 		/// Animation
 		bool _isAnimationEnd;			// 애니매이션이 끝났는지

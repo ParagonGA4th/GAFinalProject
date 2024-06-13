@@ -204,15 +204,15 @@
     <ClInclude Include="Anim_BossDash.h" />
     <ClInclude Include="Anim_BossIdle.h" />
     <ClInclude Include="Anim_Dash.h" />
-    <ClInclude Include="Anim_DeadFloating.h" />
-    <ClInclude Include="Anim_DeadGround.h" />
+    <ClInclude Include="Anim_fDead.h" />
+    <ClInclude Include="Anim_gDead.h" />
     <ClInclude Include="Anim_Delay.h" />
     <ClInclude Include="Anim_gAttack.h" />
-    <ClInclude Include="Anim_FloatingIdle.h" />
-    <ClInclude Include="Anim_GroundIdle.h" />
+    <ClInclude Include="Anim_fIdle.h" />
+    <ClInclude Include="Anim_gIdle.h" />
     <ClInclude Include="Anim_PoisonGas.h" />
     <ClInclude Include="Anim_Stab.h" />
-    <ClInclude Include="Anim_FloatingWalk.h" />
+    <ClInclude Include="Anim_fWalk.h" />
     <ClInclude Include="Anim_tAttack.h" />
     <ClInclude Include="AssetDefines.h" />
     <ClInclude Include="AudioData.h" />
@@ -235,11 +235,13 @@
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="isChase.h" />
+    <ClInclude Include="isCoolDown.h" />
     <ClInclude Include="isDash.h" />
     <ClInclude Include="isDead.h" />
     <ClInclude Include="isDistanceClose.h" />
     <ClInclude Include="isHitSpace.h" />
     <ClInclude Include="isPlayerInSight.h" />
+    <ClInclude Include="isSkillAttack.h" />
     <ClInclude Include="LayerMask.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentList.h" />
@@ -294,6 +296,7 @@
     <ClInclude Include="StaticSphereCollider.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="MonsterState.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\DebugDraw.cpp" />
@@ -331,15 +334,15 @@
     <ClCompile Include="Anim_BossDash.cpp" />
     <ClCompile Include="Anim_BossIdle.cpp" />
     <ClCompile Include="Anim_Dash.cpp" />
-    <ClCompile Include="Anim_DeadFloating.cpp" />
-    <ClCompile Include="Anim_DeadGround.cpp" />
+    <ClCompile Include="Anim_fDead.cpp" />
+    <ClCompile Include="Anim_gDead.cpp" />
     <ClCompile Include="Anim_Delay.cpp" />
     <ClCompile Include="Anim_gAttack.cpp" />
-    <ClCompile Include="Anim_FloatingIdle.cpp" />
-    <ClCompile Include="Anim_GroundIdle.cpp" />
+    <ClCompile Include="Anim_fIdle.cpp" />
+    <ClCompile Include="Anim_gIdle.cpp" />
     <ClCompile Include="Anim_PoisonGas.cpp" />
     <ClCompile Include="Anim_Stab.cpp" />
-    <ClCompile Include="Anim_FloatingWalk.cpp" />
+    <ClCompile Include="Anim_fWalk.cpp" />
     <ClCompile Include="Anim_tAttack.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="BaseRenderer.cpp" />
@@ -360,11 +363,13 @@
     <ClCompile Include="Handle.cpp" />
     <ClCompile Include="ImageRenderer.cpp" />
     <ClCompile Include="isChase.cpp" />
+    <ClCompile Include="isCoolDown.cpp" />
     <ClCompile Include="isDash.cpp" />
     <ClCompile Include="isDead.cpp" />
     <ClCompile Include="isDistanceClose.cpp" />
     <ClCompile Include="isHitSpace.cpp" />
     <ClCompile Include="isPlayerInSight.cpp" />
+    <ClCompile Include="isSkillAttack.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="MoveForwardBack.cpp" />
     <ClCompile Include="NavigationField.cpp" />

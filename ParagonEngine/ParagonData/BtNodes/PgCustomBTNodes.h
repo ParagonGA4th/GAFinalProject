@@ -11,13 +11,15 @@
 
 
 // floating Monster
-#include "../ParagonData/Anim_DeadFloating.h"
-#include "../ParagonData/Anim_FloatingIdle.h"
-#include "../ParagonData/Anim_FloatingWalk.h"
+#include "../ParagonData/Anim_fDead.h"
+#include "../ParagonData/Anim_fIdle.h"
+#include "../ParagonData/Anim_fWalk.h"
 
 // Ground Monster
-#include "../ParagonData/Anim_DeadGround.h"
-#include "../ParagonData/Anim_GroundIdle.h"
+#include "../ParagonData/Anim_gDead.h"
+#include "../ParagonData/Anim_gIdle.h"
+#include "../ParagonData/isSkillAttack.h"
+#include "../ParagonData/isCoolDown.h"
 
 //golem
 #include "../ParagonData/Anim_Dash.h"

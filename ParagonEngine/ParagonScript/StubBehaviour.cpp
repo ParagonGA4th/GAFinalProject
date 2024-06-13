@@ -85,72 +85,97 @@ namespace Pg::DataScript
 		//공격 범위 안에 들어왔을 때
 		if (_distance <= _stubInfo->GetAttackRange())
 		{
+			_monsterHelper->_isPlayerinHitSpace = true;
 			RotateToPlayer(_playerTransform->_position);
 
-			//애니메이션 딜레이를 위한 델타타임 체크.
-			_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
-
-			//공격
-			switch (_stubInfo->_status)
+			if (_monsterHelper->_trentState == Pg::Data::TrentState::SKILL_ATTACK)
 			{
-				//Idle 상태일 때, 스킬 공격을 한다.
-			case StubStatus::IDLE:
-				_stubInfo->_status = StubStatus::SKILL_ATTACK;
-				_currentAttackTime = 0.f;
-				break;
-
-			case StubStatus::SKILL_ATTACK:
-				if (_currentAttackTime >= 1.f)
-				{
-					PG_TRACE("Skill!");
-					Skill(true); // 스킬 사용
-					_stubInfo->_status = StubStatus::SKILLCOOLDOWN;
-					_currentAttackTime = 0.f;
-				}
-				break;
-
-				//쿨타임
-			case StubStatus::SKILLCOOLDOWN:
-				if (_currentAttackTime >= 1.f)
-				{
-					PG_TRACE("Skill CoolDown!");
-					Skill(false); // 스킬 종료
-					_stubInfo->_status = StubStatus::BASIC_ATTACK;
-					_currentAttackTime = 0.f;
-				}
-				break;
-
-				//기본 공격
-			case StubStatus::BASIC_ATTACK:
-				if (_currentAttackTime >= 1.0f) 
-				{
-					PG_TRACE("Attack!");
-					Attack(true);
-					_attackCount++;
-					_currentAttackTime = 0.0f;
-
-					//3번 공격하면, 쿨타임
-					if (_attackCount >= 3) {
-						_stubInfo->_status = StubStatus::BASICCOOLDOWN;
-						_currentAttackTime = 0.0f;
-					}
-				}
-				break;
-
-			case StubStatus::BASICCOOLDOWN:
-				if (_currentAttackTime >= 1.0f) 
-				{
-					PG_TRACE("Attack CoolDown!");
-					Attack(false);
-					_stubInfo->_status = StubStatus::IDLE;
-					_currentAttackTime = 0.0f;
-					_attackCount = 0;
-				}
-				break;
+				PG_TRACE("Skill!");
+				Skill(true); // 스킬 사용
 			}
+			if (_monsterHelper->_trentState == Pg::Data::TrentState::SKILL_COOLDOWN)
+			{
+				PG_TRACE("Skill CoolDown!");
+				Skill(false); // 스킬 종료
+			}
+			if (_monsterHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_1 ||
+				_monsterHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_2 ||
+				_monsterHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_3)
+			{
+				PG_TRACE("Attack!");
+				Attack(false);
+			}
+			if (_monsterHelper->_trentState == Pg::Data::TrentState::BASICATTACK_COOLDOWN)
+			{
+				PG_TRACE("Attack CoolDown!");
+				Attack(false);
+			}
+
+			//애니메이션 딜레이를 위한 델타타임 체크.
+			//_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
+
+			////공격
+			//switch (_stubInfo->_status)
+			//{
+			//	//Idle 상태일 때, 스킬 공격을 한다.
+			//case StubStatus::IDLE:
+			//	_stubInfo->_status = StubStatus::SKILL_ATTACK;
+			//	_currentAttackTime = 0.f;
+			//	break;
+
+			//case StubStatus::SKILL_ATTACK:
+			//	if (_currentAttackTime >= 1.f)
+			//	{
+			//		PG_TRACE("Skill!");
+			//		Skill(true); // 스킬 사용
+			//		_stubInfo->_status = StubStatus::SKILLCOOLDOWN;
+			//		_currentAttackTime = 0.f;
+			//	}
+			//	break;
+
+			//	//쿨타임
+			//case StubStatus::SKILLCOOLDOWN:
+			//	if (_currentAttackTime >= 1.f)
+			//	{
+			//		PG_TRACE("Skill CoolDown!");
+			//		Skill(false); // 스킬 종료
+			//		_stubInfo->_status = StubStatus::BASIC_ATTACK;
+			//		_currentAttackTime = 0.f;
+			//	}
+			//	break;
+
+			//	//기본 공격
+			//case StubStatus::BASIC_ATTACK:
+			//	if (_currentAttackTime >= 1.0f) 
+			//	{
+			//		PG_TRACE("Attack!");
+			//		Attack(true);
+			//		_attackCount++;
+			//		_currentAttackTime = 0.0f;
+
+			//		//3번 공격하면, 쿨타임
+			//		if (_attackCount >= 3) {
+			//			_stubInfo->_status = StubStatus::BASICCOOLDOWN;
+			//			_currentAttackTime = 0.0f;
+			//		}
+			//	}
+			//	break;
+
+			//case StubStatus::BASICCOOLDOWN:
+			//	if (_currentAttackTime >= 1.0f) 
+			//	{
+			//		PG_TRACE("Attack CoolDown!");
+			//		Attack(false);
+			//		_stubInfo->_status = StubStatus::IDLE;
+			//		_currentAttackTime = 0.0f;
+			//		_attackCount = 0;
+			//	}
+			//	break;
+			//}
 		}
 		else
 		{
+			_monsterHelper->_isPlayerinHitSpace = false;
 			_stubInfo->_status = StubStatus::IDLE;
 			Attack(false);
 		}
@@ -180,23 +205,10 @@ namespace Pg::DataScript
 		PG_TRACE("Hit!");
 
 		//피격 애니메이션 들어가야 함.
-		//std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
-		//animId.append("_00003.pganim");
-		//
-		//_meshRenderer->SetAnimation(animId, false);
-		//
-		//std::string objName = _object->GetName();
-		//objName = objName.substr(0, objName.rfind("_"));
-		//objName.append("_Crtstal");
-		////if (objName.find("Golem") != std::string::npos) objName.append("_Crtstal");
-		////else objName.append("_Wing");
-		//
-		//auto tchild = _object->_transform.GetChild(objName);
-		//auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-		//
-		//animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
-		//animId.append("_10003.pganim");
-		//tcMeshRenderer->SetAnimation(animId, false);
+		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
+		animId.append("_00002.pganim");
+		
+		_meshRenderer->SetAnimation(animId, false);
 	}
 
 	void StubBehaviour::RotateToPlayer(Pg::Math::PGFLOAT3& targetPos)
