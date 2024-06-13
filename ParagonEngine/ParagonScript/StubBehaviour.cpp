@@ -8,7 +8,7 @@
 #include "../ParagonData/Collider.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
-#include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/StaticCapsuleCollider.h"
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/MonsterHelper.h"
 #include "../ParagonUtil/Log.h"
@@ -21,6 +21,7 @@ namespace Pg::DataScript
 {
 	StubBehaviour::StubBehaviour(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj), _distance(0.f), _currentAttackTime(0.f), _startAttackTime(1.f), _endAttackTime(2.7f)
+		,_attackCount(0)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgScene = &singleton<Pg::API::PgScene>();
@@ -37,14 +38,10 @@ namespace Pg::DataScript
 
 	void StubBehaviour::BeforePhysicsAwake()
 	{
-		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
+		_collider = _object->GetComponent<Pg::Data::StaticCapsuleCollider>();
 		assert(_collider != nullptr);
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
 		//_collider->SetCapsuleInfo(1.f, 1.f);
-		_collider->FreezeAxisX(true);
-		_collider->FreezeAxisY(true);
-		_collider->FreezeAxisZ(true);
-		_collider->FreezeLinearY(true);
 	}
 
 	void StubBehaviour::Awake()
@@ -79,46 +76,84 @@ namespace Pg::DataScript
 	void StubBehaviour::Update()
 	{
 		//초기엔 Idle상태.
-
 		Idle();
 
 		_distance = std::abs(std::sqrt(std::pow(_playerTransform->_position.x - _object->_transform._position.x, 2)
 			+ std::pow(_playerTransform->_position.z - _object->_transform._position.z, 2)));
 
-		// 시야 안에 들어왔을 때.
-		if (_distance <= _stubInfo->GetSightRange())
+
+		//공격 범위 안에 들어왔을 때
+		if (_distance <= _stubInfo->GetAttackRange())
 		{
-			_monsterHelper->_isPlayerDetected = true;
 			RotateToPlayer(_playerTransform->_position);
 
-			//공격 범위 안에 들어왔을 때
-			if (_distance <= _stubInfo->GetAttackRange())
-			{
-				Attack(true);
-			}
-			else
-			{
-				Attack(false);
-			}
+			//애니메이션 딜레이를 위한 델타타임 체크.
+			_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
 
-			//대쉬 true면 돌진해!!
-			//if (_isDash)
-			//{
-			//	Dash();
-			//}
-			//else
-			//{
-			//	_monsterHelper->_isChase = !_isDash;
-			//}
+			//공격
+			switch (_stubInfo->_status)
+			{
+				//Idle 상태일 때, 스킬 공격을 한다.
+			case StubStatus::IDLE:
+				_stubInfo->_status = StubStatus::SKILL_ATTACK;
+				_currentAttackTime = 0.f;
+				break;
 
+			case StubStatus::SKILL_ATTACK:
+				if (_currentAttackTime >= 1.f)
+				{
+					PG_TRACE("Skill!");
+					Skill(true); // 스킬 사용
+					_stubInfo->_status = StubStatus::SKILLCOOLDOWN;
+					_currentAttackTime = 0.f;
+				}
+				break;
+
+				//쿨타임
+			case StubStatus::SKILLCOOLDOWN:
+				if (_currentAttackTime >= 1.f)
+				{
+					PG_TRACE("Skill CoolDown!");
+					Skill(false); // 스킬 종료
+					_stubInfo->_status = StubStatus::BASIC_ATTACK;
+					_currentAttackTime = 0.f;
+				}
+				break;
+
+				//기본 공격
+			case StubStatus::BASIC_ATTACK:
+				if (_currentAttackTime >= 1.0f) 
+				{
+					PG_TRACE("Attack!");
+					Attack(true);
+					_attackCount++;
+					_currentAttackTime = 0.0f;
+
+					//3번 공격하면, 쿨타임
+					if (_attackCount >= 3) {
+						_stubInfo->_status = StubStatus::BASICCOOLDOWN;
+						_currentAttackTime = 0.0f;
+					}
+				}
+				break;
+
+			case StubStatus::BASICCOOLDOWN:
+				if (_currentAttackTime >= 1.0f) 
+				{
+					PG_TRACE("Attack CoolDown!");
+					Attack(false);
+					_stubInfo->_status = StubStatus::IDLE;
+					_currentAttackTime = 0.0f;
+					_attackCount = 0;
+				}
+				break;
+			}
 		}
-		//시야에서 벗어나면 돌진 초기화
 		else
 		{
-			//_isDash = false;
-			//_hasDashed = false;
+			_stubInfo->_status = StubStatus::IDLE;
+			Attack(false);
 		}
-
 
 		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
 		{
@@ -137,7 +172,7 @@ namespace Pg::DataScript
 
 	void StubBehaviour::Idle()
 	{
-
+		//애니메이션 들어가야함.
 	}
 
 	void StubBehaviour::Hit()
@@ -190,9 +225,12 @@ namespace Pg::DataScript
 		}
 	}
 
-	void StubBehaviour::Skill()
+	void StubBehaviour::Skill(bool _isSkill)
 	{
-
+		for (auto& iter : _attackCol)
+		{
+			iter->SetActive(_isSkill);
+		}
 	}
 
 	void StubBehaviour::Dead()

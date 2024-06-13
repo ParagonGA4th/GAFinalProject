@@ -12,6 +12,8 @@ enum class StubStatus
 
 	BASIC_ATTACK,		// 기본 공격
 	SKILL_ATTACK,		// 스킬 사용		// 스킬 구성에 따라 나뉠 예정
+	SKILLCOOLDOWN,		// 스킬 쿨타임
+	BASICCOOLDOWN		// 기본 공격 쿨타임
 };
 
 /// <summary>
@@ -31,13 +33,7 @@ namespace Pg::DataScript
 
 		StubInfo& SetArmor(float armor) { _armor = armor; return *this; }
 		StubInfo& SetAttackRange(float attackRange) { _attackRange = attackRange; return *this; }
-		StubInfo& SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed; return *this; }
-		StubInfo& SetSkillRange(float range) { _skillRange = range; return *this; }
-		StubInfo& SetSightRange(float range) { _sightRange = range; return *this; }
 
-		float GetMoveSpeed() const { return _moveSpeed; }
-		float GetSkillRange() const { return _skillRange; }
-		float GetSightRange() const { return _sightRange; }
 		float GetAttackRange() const { return _attackRange; }
 
 		StubStatus _status; // 상태
@@ -45,12 +41,8 @@ namespace Pg::DataScript
 	private:
 		float _armor;          // 방어력
 
-		float _sightRange;		//시야 범위
 		float _attackRange;    // 기본 공격 범위
-		float _moveSpeed;      // 이동속도
 		float _rotationSpeed;  // 회전 속도
-
-		float _skillRange;		//스킬 범위
 	};
 }
 

@@ -10,7 +10,7 @@ namespace Pg::Data
 	class GameObject;
 	class PhysicsCollision;
 	class SkinnedMeshRenderer;
-	class CapsuleCollider;
+	class StaticCapsuleCollider;
 	class MonsterHelper;
 	class StaticBoxCollider;
 }
@@ -52,7 +52,7 @@ namespace Pg::DataScript
 		void Attack(bool _isAttack);
 
 		//그루터기의 스킬공격
-		void Skill();
+		void Skill(bool _isSkill);
 
 		//피격 시 애니메이션 출력을 위한 함수.
 		void Hit();
@@ -69,7 +69,7 @@ namespace Pg::DataScript
 		Pg::Data::MonsterHelper* _monsterHelper;
 
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
-		Pg::Data::CapsuleCollider* _collider;
+		Pg::Data::StaticCapsuleCollider* _collider;
 
 		std::vector<Pg::Data::StaticBoxCollider*> _attackCol;
 
@@ -78,6 +78,9 @@ namespace Pg::DataScript
 		float _startAttackTime;
 		float _endAttackTime;
 		float _currentAttackTime;
+
+		//공격 패턴을 위한 카운트
+		int _attackCount;
 
 	public:
 		//그루터기의 상태와 수치에 대한 정보.
