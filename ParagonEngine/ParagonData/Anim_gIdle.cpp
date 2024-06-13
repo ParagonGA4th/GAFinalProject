@@ -1,22 +1,24 @@
-#include "Anim_GroundIdle.h"
+#include "Anim_gIdle.h"
 #include "SkinnedMeshRenderer.h"
+#include "MonsterHelper.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus Anim_GroundIdle::tick()
+	BT::NodeStatus Anim_gIdle::tick()
 	{
 		bool hitInit = config().blackboard->get<bool>("HITINIT");
-		bool isChange = config().blackboard->get<bool>("ISCHANGE");
 		std::string prevAnim = config().blackboard->get<std::string>("PREVANIM");
 
-		if (hitInit && (prevAnim.empty() || prevAnim.find("_00001") == std::string::npos))
+		if (hitInit && prevAnim.empty())
 		{
 			config().blackboard->set<bool>("ISCHANGE", true);
+			config().blackboard->set<std::string>("PREVANIM", "_00001");
 		}
 
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
+			bool isChange = config().blackboard->get<bool>("ISCHANGE");
 			config().blackboard->set<std::string>("CURRENTANIM", "_00001");
 			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
 			animId.append("_00001.pganim");

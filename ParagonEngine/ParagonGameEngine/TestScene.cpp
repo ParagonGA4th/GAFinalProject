@@ -225,11 +225,11 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
 	tObj7_1->GetComponent<CapsuleCollider>()->SetCapsuleInfo(1.0f, 1.5f);
 	tObj7_1->AddComponent<SkinnedMeshRenderer>();
-	tObj7_1->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/Monsters/mon_golemmini/mon_golemmini_body.fbx");
-	tObj7_1->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "GMA_00001.pganim";
+	tObj7_1->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/Monsters/trent/mon_trent.fbx");
+	tObj7_1->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "SMA_00001.pganim";
 	tObj7_1->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
 	tObj7_1->AddComponent<Animator>();
-	tObj7_1->GetComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Monster/Golem.xml");
+	tObj7_1->GetComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Monster/Trent.xml");
 	tObj7_1->AddComponent<MonsterMove>();
 	//tObj7_1->AddComponent<NavTest>();
 
@@ -243,14 +243,14 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7_2->AddComponent<AISeight>();
 	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_2);
 
-	Pg::Data::GameObject* tObj7_3 = tCurrentScene->AddObject("Golem1_Crtstal");
-	tObj7_3->GetComponent<Transform>()->_position = { 0.f, 0.f, 0.f };
-	tObj7_3->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
-	tObj7_3->AddComponent<SkinnedMeshRenderer>();
-	tObj7_3->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/Monsters/mon_golemmini/mon_golemmini_crystal.fbx");
-	tObj7_3->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "GMA_10001.pganim";
-	tObj7_3->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
-	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
+	//Pg::Data::GameObject* tObj7_3 = tCurrentScene->AddObject("Golem1_Crtstal");
+	//tObj7_3->GetComponent<Transform>()->_position = { 0.f, 0.f, 0.f };
+	//tObj7_3->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	//tObj7_3->AddComponent<SkinnedMeshRenderer>();
+	//tObj7_3->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/Monsters/mon_golemmini/mon_golemmini_crystal.fbx");
+	//tObj7_3->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "GMA_10001.pganim";
+	//tObj7_3->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
+	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
 
 
 	//Pg::Data::GameObject* tObj7_3 = tCurrentScene->AddObject("Seight2");
