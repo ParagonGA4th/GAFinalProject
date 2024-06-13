@@ -62,7 +62,7 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::Anim_FloatingIdle>("Anim_FloatingIdle");
 		_factory->registerNodeType<Node::Anim_FloatingWalk>("Anim_FloatingWalk");
 
-		_factory->registerNodeType<Node::Anim_DeadFloating>("Anim_DeadGround");
+		_factory->registerNodeType<Node::Anim_DeadGround>("Anim_DeadGround");
 		_factory->registerNodeType<Node::Anim_GroundIdle>("Anim_GroundIdle");
 
 		_factory->registerNodeType<Node::Anim_Dash>("Anim_Dash");
