@@ -58,12 +58,12 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::isPlayerInSight>("isPlayerInSight");
 		_factory->registerNodeType<Node::isDistanceClose>("isDistanceClose");
 
-		_factory->registerNodeType<Node::Anim_DeadFloating>("Anim_DeadFloating");
-		_factory->registerNodeType<Node::Anim_FloatingIdle>("Anim_FloatingIdle");
-		_factory->registerNodeType<Node::Anim_FloatingWalk>("Anim_FloatingWalk");
+		_factory->registerNodeType<Node::Anim_fDead>("Anim_fDead");
+		_factory->registerNodeType<Node::Anim_fIdle>("Anim_fIdle");
+		_factory->registerNodeType<Node::Anim_fWalk>("Anim_fWalk");
 
-		_factory->registerNodeType<Node::Anim_DeadGround>("Anim_DeadGround");
-		_factory->registerNodeType<Node::Anim_GroundIdle>("Anim_GroundIdle");
+		_factory->registerNodeType<Node::Anim_gDead>("Anim_gDead");
+		_factory->registerNodeType<Node::Anim_gIdle>("Anim_gIdle");
 
 		_factory->registerNodeType<Node::Anim_Dash>("Anim_Dash");
 		_factory->registerNodeType<Node::Anim_gAttack>("Anim_gAttack");
@@ -74,6 +74,8 @@ namespace Pg::Engine::BTree
 
 		_factory->registerNodeType<Node::Anim_tAttack>("Anim_tAttack");
 		_factory->registerNodeType<Node::Anim_PoisonGas>("Anim_PoisonGas");
+		_factory->registerNodeType<Node::isSkillAttack>("isSkillAttack");
+		_factory->registerNodeType<Node::isCoolDown>("isCoolDown");
 
 
 #pragma endregion ACTUAL_NODE_REGISTRATION
