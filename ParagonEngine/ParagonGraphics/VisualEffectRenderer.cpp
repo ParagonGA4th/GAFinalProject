@@ -85,8 +85,15 @@ namespace Pg::Graphics
 		{
 			//Render Set & Effect Vector.
 			//여기서 상태에 따라서 Render State를 다르게 지정하는 등 시행할 수 있을 것이다.
-			//
+			
+			//X,Y,Z 모두를 써 E출력할지, 2차원으로 처리할 지를 판단한다.
+			bool tIs3d = bRenderSet->_visualEffectData._is3dSpace; 
+			//3D의 경우 의미가 있는 설정이다. 3D공간에 있어도 자체 Rotation을 무시하고 카메라 바라보리를 결정.
+			bool tIsFaceCamera = bRenderSet->_visualEffectData._isFaceCamera; 
+			//프레임을 받아들여 인덱스를 가지고 AnimatedTexture처럼 출력해야 하는지를 구분.
+			bool tIsSpriteSheet = bRenderSet->_visualEffectData._isSpriteSheet;
 
+			//커스텀 셰이더 여부 + 등등을 해결해야 한다.
 			
 			for (auto& bEffectObject : bEffectObjectVec)
 			{

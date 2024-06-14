@@ -2,6 +2,7 @@
 #include "BaseSpecificRenderer.h"
 
 #include <dxtk/SpriteBatch.h>
+#include <dxtk/CommonStates.h>
 #include <memory>
 #include <string>
 /// <summary>
@@ -39,7 +40,7 @@ namespace Pg::Graphics
 
 		//Sprite Rendering¿ª ¿ß«ÿ.
 		std::unique_ptr<DirectX::SpriteBatch> _spriteBatch;
-
+		std::unique_ptr<DirectX::CommonStates> _dxtkCommonStates; 
 		Pg::Graphics::LowDX11Storage* _DXStorage;
 	};
 }
