@@ -71,7 +71,8 @@ namespace Pg::DataScript
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
 		Pg::Data::StaticCapsuleCollider* _collider;
 
-		std::vector<Pg::Data::StaticBoxCollider*> _attackCol;
+		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
+		std::vector<Pg::Data::StaticBoxCollider*> _skillAttackCol;
 
 		//플레이어와의 거리 측정
 		float _distance;

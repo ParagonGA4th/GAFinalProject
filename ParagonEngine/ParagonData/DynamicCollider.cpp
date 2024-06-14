@@ -165,6 +165,11 @@ namespace Pg::Data
 	void DynamicCollider::SetLinearDamping(float val)
 	{
 		_linearDamping = val;
+
+		if (_rigid != nullptr)
+		{
+			_rigid->setLinearDamping(val);
+		}
 	}
 
 	float DynamicCollider::GetLinearDamping()

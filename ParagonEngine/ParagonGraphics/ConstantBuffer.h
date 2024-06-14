@@ -70,6 +70,12 @@ namespace Pg::Graphics
 		_subresource.pSysMem = _cbData;
 
 		HR(_DXStorage->_device->CreateBuffer(&_desc, &_subresource, &(_Buffer)));
+
+#if defined(DEBUG) | defined(_DEBUG)
+		std::string tName = typeid(T).name();
+		tName += "_CB";
+		HR(_Buffer->SetPrivateData(WKPDID_D3DDebugObjectName, tName.length(), tName.data()));
+#endif
 	}
 
 	template<typename T>
@@ -94,6 +100,12 @@ namespace Pg::Graphics
 		_subresource.pSysMem = _cbData;
 
 		HR(_DXStorage->_device->CreateBuffer(&_desc, &_subresource, &(_Buffer)));
+
+#if defined(DEBUG) | defined(_DEBUG)
+		std::string tName = typeid(T).name();
+		tName += "_CB";
+		HR(_Buffer->SetPrivateData(WKPDID_D3DDebugObjectName, tName.length(), tName.data()));
+#endif
 	}
 
 	template<typename T>

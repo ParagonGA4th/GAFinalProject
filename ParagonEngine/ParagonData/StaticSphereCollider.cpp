@@ -32,17 +32,17 @@ namespace Pg::Data
 
 	float StaticSphereCollider::GetWidth() const
 	{
-		return _rad * 2 * _scaleOffset.x * _object->_transform._scale.x;
+		return _rad * 2 * _scaleOffset.x * fabs(_object->_transform._scale.x);
 	}
 
 	float StaticSphereCollider::GetHeight() const
 	{
-		return _rad * 2 * _scaleOffset.y * _object->_transform._scale.y;
+		return _rad * 2 * _scaleOffset.y * fabs(_object->_transform._scale.y);
 	}
 
 	float StaticSphereCollider::GetDepth() const
 	{
-		return _rad * 2 * _scaleOffset.z * _object->_transform._scale.z;
+		return _rad * 2 * _scaleOffset.z * fabs(_object->_transform._scale.z);
 	}
 
 	float StaticSphereCollider::GetRadius() const

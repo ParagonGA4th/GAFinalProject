@@ -14,7 +14,7 @@ namespace Pg::Graphics
 		DirLightGPU() {}
 		DirLightGPU(Pg::Data::DirectionalLight* light) :
 			_color(light->_color), _radiance(light->_radiance),
-			_direction(light->_direction) {}
+			_direction(Pg::Math::GetForwardVectorFromQuat(light->_object->_transform._rotation)) {}
 
 		Pg::Math::PGFLOAT3 _color;
 		float _radiance;
@@ -29,7 +29,7 @@ namespace Pg::Graphics
 		SpotLightGPU() {}
 		SpotLightGPU(Pg::Data::SpotLight* light) :
 			_color(light->_color), _radiance(light->_radiance),
-			_direction(light->_direction), _range(light->_range), _attenuation(light->_attenuation) {}
+			_direction(Pg::Math::GetForwardVectorFromQuat(light->_object->_transform._rotation)), _range(light->_range), _attenuation(light->_attenuation) {}
 
 		Pg::Math::PGFLOAT3 _color;
 		float _radiance;

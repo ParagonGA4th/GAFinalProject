@@ -50,14 +50,14 @@ float3 GetTangent(float2 quadUV)
     return internal_GBuffer[3].Sample(fullScreenQuadSS, quadUV).xyz;
 }
 
-float3 GetVertexColor(float2 quadUV)
+float3 GetLightPixelPos(float2 quadUV)
 {
-    //VertexBlending Color.
-    float color_x = internal_GBuffer[1].Sample(fullScreenQuadSS, quadUV).w;
-    float color_y = internal_GBuffer[2].Sample(fullScreenQuadSS, quadUV).w;
-    float color_z = internal_GBuffer[3].Sample(fullScreenQuadSS, quadUV).w;
+    //LightPixelPos
+    float val_x = internal_GBuffer[1].Sample(fullScreenQuadSS, quadUV).w;
+    float val_y = internal_GBuffer[2].Sample(fullScreenQuadSS, quadUV).w;
+    float val_z = internal_GBuffer[3].Sample(fullScreenQuadSS, quadUV).w;
    
-    return float3(color_x, color_y, color_z);
+    return float3(val_x, val_y, val_z);
 }
 
 float3 GetLightmapRGB(float2 quadUV)

@@ -277,16 +277,25 @@ namespace Pg::Graphics
 
 	void LowDX11Logic::CreateAndSetViewports()
 	{
-		// Viewport 구조체 생성
+		// Viewport 구조체 생성 -> Default.
 		CD3D11_VIEWPORT defaultViewport(
 			0.0f,
 			0.0f,
 			static_cast<float>(_DXStorage->_screenWidth),
 			static_cast<float>(_DXStorage->_screenHeight)
 		);
+		_DXStorage->_defaultViewport = defaultViewport;
 
-		// Viewport 지정
-		_DXStorage->_deviceContext->RSSetViewports(1, &defaultViewport);
+		CD3D11_VIEWPORT shadowMapViewport(
+			0.f,
+			0.f,
+			static_cast<float>(Pg::Data::GameConstantData::SHADOW_MAP_LENGTH),
+			static_cast<float>(Pg::Data::GameConstantData::SHADOW_MAP_LENGTH)
+		);
+		_DXStorage->_shadowMapViewport = shadowMapViewport;
+
+		// Viewport 지정 -> Default.
+		_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_defaultViewport));
 	}
 
 	void LowDX11Logic::Present()

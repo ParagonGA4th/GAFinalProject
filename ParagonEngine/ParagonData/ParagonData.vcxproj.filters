@@ -664,6 +664,12 @@
     <ClInclude Include="isSkillAttack.h">
       <Filter>11_BtNodes\MonsterAnim\Ground Monster\Trent\isSkillAttack</Filter>
     </ClInclude>
+    <ClInclude Include="VisualEffectData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualEffectRenderObject.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">

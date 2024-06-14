@@ -35,7 +35,9 @@ namespace Pg::Data
 
 	public:
 		BEGIN_VISITABLES(StaticCapsuleCollider);
-		VISITABLE(float, _radius);
+		//원래는 다른건 안다.. 하지만, Unreal Exporter 포맷 때문에, 강제로 Width로 이름을 바꿀 것이다. 실제 의미는 Radius.
+		//VISITABLE(float, _radius);
+		VISITABLE(float, _width);
 		VISITABLE(float, _halfHeight);
 		END_VISITABLES;
 	};

@@ -16,6 +16,7 @@
 
 #include "ParagonRenderer.h"
 #include "GeometryGenerator.h"
+#include "AssimpBufferParser.h"
 #include "Sprite.h"
 #include "Font.h"
 
@@ -104,6 +105,7 @@ namespace Pg::Graphics
 		//Default Input Layout ¼¼ÆÃ.
 		LayoutDefine::Initialize();
 		GeometryGenerator::Initialize();
+		Helper::AssimpBufferParser::Initialize();
 
 		_renderer->Initialize(&_prevRecordedEditMode, resourceListPath);
 

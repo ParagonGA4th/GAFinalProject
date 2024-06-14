@@ -15,7 +15,7 @@ namespace Pg::Data
 		//VISITABLE
 		PGFLOAT3 _color;
 		float _radiance;
-		PGFLOAT3 _direction;
+		//PGFLOAT3 _direction; -> 이건 무조건 Quaternion의 Transform에서 들고 와야 한다.
 		float _range;
 		PGFLOAT3 _attenuation;
 		//ENDVISITABLE

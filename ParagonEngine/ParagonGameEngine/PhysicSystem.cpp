@@ -126,7 +126,8 @@ namespace Pg::Engine::Physic
 		}
 
 		// 머티리얼 생성(임의)
-		_material = _physics->createMaterial(0.5f, 0.5f, 0.5f);
+		//_material = _physics->createMaterial(0.5f, 0.5f, 0.5f);
+		_material = _physics->createMaterial(0.5f, 0.5f, 0.1f); // Restitution : Bounciness를 줄인 것.
 
 		CreatePxScene();
 
@@ -327,7 +328,8 @@ namespace Pg::Engine::Physic
 		physx::PxSweepHit sweepHit;
 
 		//중력 설정.
-		sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
+		//sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
+		sceneDesc.gravity = physx::PxVec3(0.0f, -19.62f, 0.0f); //x2
 
 		_dispatcher = physx::PxDefaultCpuDispatcherCreate(2);
 		sceneDesc.cpuDispatcher = _dispatcher;
@@ -371,6 +373,8 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::InitMakeColliders()
 	{
+		PG_TRACE("Started Refreshing Colliders...");
+
 		//씬 전환 시 콜라이더 전부 해제 후 재로드.
 		if (!_rigidDynamicVec.empty() || !_rigidStaticVec.empty())
 		{
@@ -449,6 +453,8 @@ namespace Pg::Engine::Physic
 			}
 			AddObjectToScene();
 		}
+
+		PG_TRACE("...Ended Refreshing Colliders");
 	}
 
 
@@ -528,7 +534,12 @@ namespace Pg::Engine::Physic
 			{
 				Pg::Data::StaticCapsuleCollider* staticCapCol = dynamic_cast<Pg::Data::StaticCapsuleCollider*>(collider);
 
-				physx::PxShape* shape = _physics->createShape(physx::PxCapsuleGeometry(staticCapCol->GetRadius(), staticCapCol->GetHalfHeight()), *_material);
+				//physx::PxShape* shape = _physics->createShape(physx::PxCapsuleGeometry(staticCapCol->GetRadius(), staticCapCol->GetHalfHeight()), *_material);
+				//240609 : Scale은 Static의 경우 런타임에 변하지 않으니, Scale값이랑 곱하는 방법으로 형성.
+				//physx::PxShape* shape = _physics->createShape(physx::PxCapsuleGeometry(staticCapCol->GetRadius() * staticCapCol->_object->_transform._scale.x, 
+				//	staticCapCol->GetHalfHeight() * staticCapCol->_object->_transform._scale.y), *_material);
+				physx::PxShape* shape = _physics->createShape(physx::PxCapsuleGeometry(staticCapCol->GetRadius() * staticCapCol->_object->_transform._scale.x,
+					staticCapCol->GetHalfHeight()), *_material); // Half Height은 현재 Geometry적으로 연동이 되어 있지 않다. Debugging Geometry가 하나로 구성된 까닭 +a.
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
@@ -584,7 +595,9 @@ namespace Pg::Engine::Physic
 			{
 				Pg::Data::StaticSphereCollider* staticSphCol = dynamic_cast<Pg::Data::StaticSphereCollider*>(collider);
 
-				physx::PxShape* shape = _physics->createShape(physx::PxSphereGeometry(staticSphCol->GetRadius()), *_material);
+				//physx::PxShape* shape = _physics->createShape(physx::PxSphereGeometry(staticSphCol->GetRadius()), *_material);
+				//240609 : Scale은 Static의 경우 런타임에 변하지 않으니, Scale값이랑 곱하는 방법으로 형성.
+				physx::PxShape* shape = _physics->createShape(physx::PxSphereGeometry(staticSphCol->GetRadius() * staticSphCol->_object->_transform._scale.x), *_material);
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
@@ -641,8 +654,12 @@ namespace Pg::Engine::Physic
 			{
 				Pg::Data::BoxCollider* boxcol = dynamic_cast<Pg::Data::BoxCollider*>(collider);
 
-				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(boxcol->GetWidth() / 2.0f,
-					boxcol->GetHeight() / 2.0f, boxcol->GetDepth() / 2.0f), *_material);
+				//physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(boxcol->GetWidth() / 2.0f,
+				//	boxcol->GetHeight() / 2.0f, boxcol->GetDepth() / 2.0f), *_material);
+				//240609 : Scale은 Static의 경우 런타임에 변하지 않으니, Scale값이랑 곱하는 방법으로 형성.
+				//런타임에 변하지 않는 것을 기준으로 계산. 
+				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry((boxcol->GetWidth() / 2.0f) * boxcol->_object->_transform._scale.x,
+					(boxcol->GetHeight() / 2.0f) * boxcol->_object->_transform._scale.y, (boxcol->GetDepth() / 2.0f) * boxcol->_object->_transform._scale.z), *_material);
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
