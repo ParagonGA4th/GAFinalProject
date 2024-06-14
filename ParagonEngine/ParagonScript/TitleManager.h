@@ -54,6 +54,8 @@ namespace Pg::DataScript
 		
 	private:
 		std::string _nextScene;
+
+		bool _isOnButton;
 	};
 }
 

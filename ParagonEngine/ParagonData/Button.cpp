@@ -63,6 +63,8 @@ namespace Pg::Data
 			scaledMouseY >(objectY - GetImageHeight() / 2.0f) &&
 			scaledMouseY < (objectY + GetImageHeight() / 2.0f))
 		{
+			Hover();
+
 			if (_inputSystem->GetKeyDown(API::Input::MouseLeft))
 			{
 				ClickDown();
@@ -73,6 +75,10 @@ namespace Pg::Data
 				ClickUp();
 				PG_TRACE("ClickUp!");
 			}
+		}
+		else
+		{
+			NotHover();
 		}
 	}
 
@@ -86,6 +92,26 @@ namespace Pg::Data
 		return _onClickEvent;
 	}
 
+	void Button::SetHover(std::function<void()> hover)
+	{
+		_hover = hover;
+	}
+
+	std::function<void()> Button::GetHover() const
+	{
+		return _hover;
+	}
+
+	void Button::SetNotHover(std::function<void()> notHover)
+	{
+		_notHover = notHover;
+	}
+
+	std::function<void()> Button::GetNotHover() const
+	{
+		return _notHover;
+	}
+
 	void Button::SetOnClickUpEvent(std::function<void()> onClickEvent)
 	{
 		_onClickUpEvent = onClickEvent;
@@ -96,7 +122,6 @@ namespace Pg::Data
 		return _onClickUpEvent;
 	}
 
-
 	void Button::ClickDown()
 	{
 		if (_onClickEvent)
@@ -105,6 +130,24 @@ namespace Pg::Data
 		}
 
 		_isPressed = !_isPressed;
+	}
+
+	void Button::Hover()
+	{
+		//PG_TRACE("ClickStay!!");
+		if (_hover)
+		{
+			_hover();
+		}
+	}
+
+	void Button::NotHover()
+	{
+		if (_notHover)
+		{
+			_notHover();
+		}
+
 	}
 
 	void Button::ClickUp()
@@ -146,5 +189,10 @@ namespace Pg::Data
 	float Button::GetImageHeight()
 	{
 		return *_imageHeight;
+	}
+
+	ImageRenderer* Button::GetImageRenderer()
+	{
+		return _imageRenderer;
 	}
 }

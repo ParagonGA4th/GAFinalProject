@@ -21,7 +21,7 @@ namespace Pg::DataScript
 {
 	StubBehaviour::StubBehaviour(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj), _distance(0.f), _currentAttackTime(0.f), _startAttackTime(1.f), _endAttackTime(2.7f)
-		,_attackCount(0)
+		,_attackCount(0), _isRotateFinish(false)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgScene = &singleton<Pg::API::PgScene>();
@@ -117,7 +117,7 @@ namespace Pg::DataScript
 				_monsterHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_3)
 			{
 				PG_TRACE("Attack!");
-				Attack(false);
+				Attack(true);
 			}
 			if (_monsterHelper->_trentState == Pg::Data::TrentState::BASICATTACK_COOLDOWN)
 			{
@@ -201,6 +201,8 @@ namespace Pg::DataScript
 			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 보내준다.
 			_monsterHelper->_isDeadDelay = false;
 			
+			_isRotateFinish = true;
+
 			//그루터기는 죽으면 충돌만 꺼야함.
 			_collider->SetActive(false);
 		}
@@ -237,9 +239,12 @@ namespace Pg::DataScript
 
 		Pg::Math::PGQuaternion rotateQuat = PGLookRotation(rotatePosNorm, Pg::Math::PGFLOAT3::GlobalUp());
 
-		Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, rotateQuat, std::clamp<float>(0.1f, 0.0f, 1.0f));
+		if (_isRotateFinish == false)
+		{
+			Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, rotateQuat, std::clamp<float>(0.1f, 0.0f, 1.0f));
 
-		_object->_transform._rotation = currentTargetRotation;
+			_object->_transform._rotation = currentTargetRotation;
+		}		
 	}
 
 	void StubBehaviour::Attack(bool _isAttack)

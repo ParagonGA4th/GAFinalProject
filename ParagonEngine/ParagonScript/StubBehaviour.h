@@ -83,6 +83,8 @@ namespace Pg::DataScript
 		//공격 패턴을 위한 카운트
 		int _attackCount;
 
+		bool _isRotateFinish;
+
 	public:
 		//그루터기의 상태와 수치에 대한 정보.
 		StubInfo* _stubInfo;

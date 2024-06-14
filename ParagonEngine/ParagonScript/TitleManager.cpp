@@ -1,6 +1,7 @@
 #include "TitleManager.h"
 #include "../ParagonData/Button.h"
 #include "../ParagonData/AudioSource.h"
+#include "../ParagonData/ImageRenderer.h"
 #include "../ParagonAPI/PgScene.h"
 #include "../ParagonAPI/PgInput.h"
 
@@ -10,7 +11,7 @@
 namespace Pg::DataScript
 {
 	TitleManager::TitleManager(Pg::Data::GameObject* obj) :
-		ScriptInterface(obj)
+		ScriptInterface(obj), _isOnButton(false)
 	{
 		_pgScene = &singleton<Pg::API::PgScene>();
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
@@ -52,6 +53,16 @@ namespace Pg::DataScript
 				_btnClick->Play();
 				_titleAudioSource->Stop();
 			});
+		_startButton->SetHover([this]
+			{
+				//비활성화 활성화를 위한 이벤트
+				_startButton->GetImageRenderer()->SetImageIndex(1);
+			});
+		_startButton->SetNotHover([this]
+			{
+				//비활성화 활성화를 위한 이벤트
+				_startButton->GetImageRenderer()->SetImageIndex(0);
+			});
 		_startButton->SetOnClickUpEvent([this]
 			{
 				_pgScene->SetCurrentScene("Stage1");
@@ -80,6 +91,5 @@ namespace Pg::DataScript
 
 	void TitleManager::Update()
 	{
-
 	}
 }
