@@ -51,7 +51,7 @@ namespace Pg::DataScript
 		_halfColliderHeight = _selfCol->GetHeight() / 2.0f;
 
 		//자신이 속한 Half Collider 높이 만큼 RendererOffset 설정.
-		_renderer->SetRendererOffset({ 0.f, -_halfColliderHeight, 0.f });
+		//_renderer->SetRendererOffset({ 0.f, -_halfColliderHeight, 0.f });
 
 		_isJumping = false;
 	}
@@ -85,6 +85,9 @@ namespace Pg::DataScript
 		Pg::Math::PGFLOAT3 tD3DOrigin = { tBasePosition.x + tShouldShootDir.x * tFloat,
 						tBasePosition.y + tShouldShootDir.y * tFloat,
 						tBasePosition.z + tShouldShootDir.z * tFloat };
+
+		//D3DOrigin.y 좀 올리기.
+		tD3DOrigin.y += 2.f;
 
 		_pgRayCast->MakeRay(tD3DOrigin,
 			tShouldShootDir, 30.0f, outHitPoint, nullptr);
