@@ -48,6 +48,7 @@ namespace Pg::DataScript
 
 		///각 버튼마다 이벤트 설정해주기
 
+		//시작 버튼.
 		_startButton->SetOnClickDownEvent([this]
 			{
 				_btnClick->Play();
@@ -68,19 +69,52 @@ namespace Pg::DataScript
 				_pgScene->SetCurrentScene("Stage1");
 			});
 
+		//튜토리얼 버튼.
 		_howToPlayButton->SetOnClickDownEvent([this]
 			{
 				_btnClick->Play();
 			});
+		_howToPlayButton->SetHover([this]
+			{
+				//비활성화 활성화를 위한 이벤트
+				_howToPlayButton->GetImageRenderer()->SetImageIndex(1);
+			});
+		_howToPlayButton->SetNotHover([this]
+			{
+				//비활성화 활성화를 위한 이벤트
+				_howToPlayButton->GetImageRenderer()->SetImageIndex(0);
+			});
 
+		//파일 저장 버튼.
 		_saveFileButton->SetOnClickDownEvent([this]
 			{
 				_btnClick->Play();
 			});
+		_saveFileButton->SetHover([this]
+			{
+				//비활성화 활성화를 위한 이벤트
+				_saveFileButton->GetImageRenderer()->SetImageIndex(1);
+			});
+		_saveFileButton->SetNotHover([this]
+			{
+				//비활성화 활성화를 위한 이벤트
+				_saveFileButton->GetImageRenderer()->SetImageIndex(0);
+			});
 
+		//종료 버튼.
 		_exitButton->SetOnClickDownEvent([this]
 			{
 				_btnClick->Play();
+			});
+		_exitButton->SetHover([this]
+			{
+				//비활성화 활성화를 위한 이벤트
+				_exitButton->GetImageRenderer()->SetImageIndex(1);
+			});
+		_exitButton->SetNotHover([this]
+			{
+				//비활성화 활성화를 위한 이벤트
+				_exitButton->GetImageRenderer()->SetImageIndex(0);
 			});
 		_exitButton->SetOnClickUpEvent([this]
 			{
