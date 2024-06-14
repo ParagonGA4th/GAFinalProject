@@ -20,11 +20,6 @@ namespace Pg::Data::BTree::Node
 		{
 			return {};
 		}
-
-	private:
-		bool _isHitSpace = { false };
-		bool _isAnimEnd = { false };
-		bool _isChangeAnim = { false };
 	};
 }
 #endif
