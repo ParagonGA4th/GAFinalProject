@@ -1,5 +1,6 @@
 #include "StaticBoxCollider.h"
 #include "GameObject.h"
+#include <algorithm>
 
 namespace Pg::Data
 {
@@ -15,7 +16,7 @@ namespace Pg::Data
 	void StaticBoxCollider::OnSerialize(SerializeVector& sv)
 	{
 		Pg::Data::SerializerHelper::OnSerializerHelper<StaticBoxCollider>(this, sv);
-	}
+	}	
 
 	void StaticBoxCollider::OnDeserialize(SerializeVector& sv)
 	{
@@ -36,17 +37,21 @@ namespace Pg::Data
 
 	float StaticBoxCollider::GetWidth() const
 	{
-		return _width * _scaleOffset.x * fabs(_object->_transform._scale.x);
+		//Collider 기록에 의해 0에 가깝게 기록되는 경우 막기 위해 max 투입.
+		//return _width * _scaleOffset.x * fabs(_object->_transform._scale.x);
+		return _width * _scaleOffset.x * std::max(fabs(_object->_transform._scale.x), 0.001f);
 	}
 
 	float StaticBoxCollider::GetHeight() const
 	{
-		return _height * _scaleOffset.y * fabs(_object->_transform._scale.y);
+		//Collider 기록에 의해 0에 가깝게 기록되는 경우 막기 위해 max 투입.
+		return _height * _scaleOffset.y * std::max(fabs(_object->_transform._scale.y), 0.001f);
 	}
 
 	float StaticBoxCollider::GetDepth() const
 	{
-		return _depth * _scaleOffset.z * fabs(_object->_transform._scale.z);
+		//Collider 기록에 의해 0에 가깝게 기록되는 경우 막기 위해 max 투입.
+		return _depth * _scaleOffset.z * std::max(fabs(_object->_transform._scale.z), 0.001f);
 	}
 
 	void StaticBoxCollider::SetScale(float w, float h, float d)
