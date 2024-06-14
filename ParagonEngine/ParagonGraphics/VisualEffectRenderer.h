@@ -55,7 +55,8 @@ namespace Pg::Graphics
 		void RegisterVisualEffectObject(const std::string& effectName, Pg::Data::VisualEffectRenderObject* vfxObj);
 		void RemoveVisualEffectObject(Pg::Data::VisualEffectRenderObject* vfxObj);
 
-
+		//Main Render Loop에서 돌아가는 효과이다.
+		void Render();
 	private:
 		Manager::GraphicsResourceManager* _graphicsResourceManager{ nullptr };
 		
