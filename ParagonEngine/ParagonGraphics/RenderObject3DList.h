@@ -47,6 +47,10 @@ namespace Pg::Graphics
 		//Instancing되는 오브젝트들 분리? : 어떻게 할까.. 
 		//Material까지 유지하면 좋겠는데. 
 
+		//Alpha Clipping Instanced List: Proper and Culled Backwards.
+		std::map<Asset3DModelData*, std::unique_ptr<BufferInstancedPairList>> _instancedStaticAlphaClippedList;
+		std::map<Asset3DModelData*, std::unique_ptr<BufferInstancedPairList>> _instancedCulledOppositeStaticAlphaClippedList;
+
 		//Instanced Static List. - 일단은 Static만 하자!
 		//GameObject 기록할 필요 없을 것. 이미 Transform의 위치가 고정되어 있을 것이기 때문에.
 		//기록된 ID3D11Buffer는 인스턴싱에 따로 사용. 이 경우 renderobject의 내부 objmat 버퍼는 채워지지 않는다.

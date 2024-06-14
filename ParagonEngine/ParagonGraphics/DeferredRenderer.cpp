@@ -85,12 +85,18 @@ namespace Pg::Graphics
 
 		UnbindPreviousBoundResources();
 		UnbindExpiredResources();
+		UpdateCullingInformation(renderObjectList, camData);
 		SendSceneInformation(sceneInfoList, camData);
 
 		RenderFirstInstancedPass(renderObjectList, camData);
 		RenderFirstStaticPass(renderObjectList, camData);
 		RenderFirstSkinnedPass(renderObjectList, camData);
-		RenderOpaqueShadowPass(renderObjectList, camData);
+		UpdateShadowDSV();
+		//RenderOpaqueShadowPass(renderObjectList, camData);
+		
+		//여기서 하는 것은, 이제 원래로 다시 Viewport를 돌려놓기.
+		_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_defaultViewport));
+
 
 		SendPBRBufferSRVs();
 		RenderOpaqueQuadPasses(renderObjectList, camData);
@@ -255,7 +261,7 @@ namespace Pg::Graphics
 	{
 		//이 Send/Receive는 CPU <-> GPU 기준.
 		//Send = CPU->GPU. // Receive = GPU -> CPU
-		_sceneInformationSender->SendData(*infoList, camData);
+		_sceneInformationSender->SendData(_carrier, *infoList, camData);
 		_sceneInformationSender->ProcessData();
 		_sceneInformationSender->ReceiveData(*infoList);
 	}
@@ -330,6 +336,7 @@ namespace Pg::Graphics
 
 		//Shadow 관련 Depth 등록 해제.
 		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &tNullSRV);
+		_DXStorage->_deviceContext->PSSetShaderResources(24, 1, &tNullSRV);
 	}
 
 	void DeferredRenderer::InitOpaqueQuadDirectX()
@@ -370,21 +377,21 @@ namespace Pg::Graphics
 	void DeferredRenderer::InitFirstQuadDirectX()
 	{
 		//RT0
-		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		_carrier->_gBufRequiredInfoRT.push_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 		//RT1
-		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		_carrier->_gBufRequiredInfoRT.push_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 		//RT2
-		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		_carrier->_gBufRequiredInfoRT.push_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 		//RT3
-		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		_carrier->_gBufRequiredInfoRT.push_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 		//RT4
-		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		_carrier->_gBufRequiredInfoRT.push_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 		//RT5 -> ObjMatAoR
-		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		_carrier->_gBufRequiredInfoRT.push_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 		//RT6 -> AlbedoMetallic
-		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		_carrier->_gBufRequiredInfoRT.push_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 		//RT7 -> Normal Alpha
-		_carrier->_gBufRequiredInfoRT.emplace_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
+		_carrier->_gBufRequiredInfoRT.push_back(std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT));
 		//(Depth)
 		_carrier->_gBufRequiredInfoDSV = std::make_unique<GBufferDepthStencil>();
 
@@ -392,26 +399,38 @@ namespace Pg::Graphics
 		//Depth는 자동 연동 (DepthStencil 바인딩 공간 별도 존재)
 		for (auto& e : _carrier->_gBufRequiredInfoRT)
 		{
-			_carrier->_gBufRequiredRTVArray.emplace_back(e->GetRTV());
+			_carrier->_gBufRequiredRTVArray.push_back(e->GetRTV());
 		}
 
 		for (auto& e : _carrier->_gBufRequiredInfoRT)
 		{
-			_carrier->_gBufRequiredSRVArray.emplace_back(e->GetSRV());
+			_carrier->_gBufRequiredSRVArray.push_back(e->GetSRV());
 		}
 
 		//지금까지 바인딩된 값만큼 RTV Null Array를 만들어준다.
 		//DepthStencil을 더이상 RTV로 기록되지 않음.
+		assert(_carrier->NullRTV.empty());
+		_carrier->NullRTV.resize(_carrier->_gBufRequiredInfoRT.size());
 		for (int i = 0; i < _carrier->_gBufRequiredInfoRT.size(); ++i)
 		{
-			_carrier->NullRTV.emplace_back(nullptr);
+			ID3D11RenderTargetView* tNull = nullptr;
+			_carrier->NullRTV.at(i) = tNull;
 		}
 
 		//지금까지 바인딩된 값만큼 SRV Null Array를 만들어준다.
+		assert(_carrier->NullSRV.empty());
+		_carrier->NullSRV.resize(_carrier->_gBufRequiredSRVArray.size());
 		for (int i = 0; i < _carrier->_gBufRequiredSRVArray.size(); ++i)
 		{
-			_carrier->NullSRV.emplace_back(nullptr);
+			ID3D11ShaderResourceView* tNull = nullptr;
+			_carrier->NullSRV.at(i) = tNull;
 		}
+
+		//Main Light DSV 할당.
+		_carrier->_mainLightGBufRT = std::make_unique<GBufferRender>(DXGI_FORMAT_R32G32B32A32_TYPELESS, DXGI_FORMAT_R32G32B32A32_FLOAT, 
+			DirectX::XMFLOAT2(Pg::Data::GameConstantData::SHADOW_MAP_LENGTH, Pg::Data::GameConstantData::SHADOW_MAP_LENGTH));
+		_carrier->_mainLightGBufDSV = std::make_unique<GBufferDepthStencil>(nullptr, 
+			DirectX::XMFLOAT2(Pg::Data::GameConstantData::SHADOW_MAP_LENGTH, Pg::Data::GameConstantData::SHADOW_MAP_LENGTH));
 	}
 
 	void DeferredRenderer::InitPBRDirectX()
@@ -476,6 +495,17 @@ namespace Pg::Graphics
 		//VS / PS Constant Buffer -> LightInfo 값 리셋.
 		_DXStorage->_deviceContext->VSSetConstantBuffers(5, 1, &tNullBuffer);
 		_DXStorage->_deviceContext->PSSetConstantBuffers(5, 1, &tNullBuffer);
+	}
+
+	void DeferredRenderer::UpdateCullingInformation(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
+		renderObjectList->UpdateObjectCullingState(camData);
+	}
+
+	void DeferredRenderer::UpdateShadowDSV()
+	{
+		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &(_carrier->_mainLightGBufDSV->GetSRV()));
+		_DXStorage->_deviceContext->PSSetShaderResources(24, 1, &(_carrier->_gBufRequiredInfoDSV->GetSRV()));
 	}
 
 }

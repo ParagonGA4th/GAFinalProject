@@ -234,6 +234,8 @@
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
+
+    <ClInclude Include="VisualEffectRenderObject.h" />
     <ClInclude Include="isChase.h" />
     <ClInclude Include="isCoolDown.h" />
     <ClInclude Include="isDash.h" />
@@ -296,6 +298,7 @@
     <ClInclude Include="StaticSphereCollider.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="VisualEffectData.h" />
     <ClInclude Include="MonsterState.h" />
   </ItemGroup>
   <ItemGroup>

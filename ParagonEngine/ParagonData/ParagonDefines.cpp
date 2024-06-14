@@ -45,6 +45,8 @@ namespace Pg::Defines
 	const std::string GENERATED_MATERIAL_TEXTURE2DARRAY_PREFIX = "$GeneratedMaterial_Texture2DArray_$";
 
 	const std::string NON_INSTANCED_3DMODEL_PREFIX = "norm_";
+	const std::string BLENDED_OPTIONAL_3DMODEL_PREFIX = "blend_";
+	const std::string CLIPPED_3DMODEL_PREFIX = "clip_";
 
 	//셰이더 이름들.
 	const std::string DEFAULT_APPENDS_RENDER_VS_NAME = "AppendObjectDefaultVS.cso";
@@ -59,8 +61,13 @@ namespace Pg::Defines
 	const std::wstring FIRST_STAGE_ALPHABLENDED_PS = L"../Builds/x64/Debug/FirstStage_AlphaBlendedPS.cso";
 	const std::wstring FIRST_STAGE_PS_DIRECTORY = L"../Builds/x64/Debug/FirstStage_PS.cso";
 	const std::wstring FIRST_INSTANCED_STAGE_PS_DIRECTORY = L"../Builds/x64/Debug/FirstInstancedStage_PS.cso";
+	const std::wstring FIRST_DEPTH_ONLY_STAGE_PS_DIRECTORY = L"../Builds/x64/Debug/First_DepthRecordOnlyPS.cso";
+	const std::wstring FIRST_INSTANCED_DEPTH_ONLY_STAGE_PS_DIRECTORY = L"../Builds/x64/Debug/FirstInstanced_DepthRecordOnlyPS.cso";
 	const std::wstring FINAL_STAGE_VS_DIRECTORY = L"../Builds/x64/Debug/FinalStage_VS.cso";
 	const std::wstring FINAL_STAGE_PS_DIRECTORY = L"../Builds/x64/Debug/FinalStage_PS.cso";
+
+	const std::wstring FIRST_ALPHA_CLIPPING_PS_DIRECTORY = L"../Builds/x64/Debug/AlphaClippedInstancedStage_PS.cso";
+	const std::wstring FIRST_ALPHA_CLIPPING_INSTANCED_DEPTH_ONLY_STAGE_PS_DIRECTORY = L"../Builds/x64/Debug/AlphaClippedInstanced_DepthRecordOnlyPS.cso";
 
 	const std::wstring CUBEMAP_VS_DIRECTORY = L"../Builds/x64/Debug/CubemapVS.cso";
 	const std::wstring CUBEMAP_PS_DIRECTORY = L"../Builds/x64/Debug/CubemapPS.cso";

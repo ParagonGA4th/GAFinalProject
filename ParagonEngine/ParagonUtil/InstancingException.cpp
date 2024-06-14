@@ -3,7 +3,6 @@
 
 namespace Pg::Util
 {
-
 	InstancingException::InstancingException()
 	{
 
@@ -22,7 +21,6 @@ namespace Pg::Util
 		{
 			INSTANCING_EXCEPTION_MESH_PATH_SET.insert(it);
 		}
-
 	}
 
 	bool InstancingException::IsExceptionFromInstance(const std::string& meshPath)

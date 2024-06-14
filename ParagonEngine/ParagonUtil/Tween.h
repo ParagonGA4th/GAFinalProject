@@ -56,6 +56,12 @@ namespace Pg::Util
 		// Easing 세팅 함수
 		PARAGON_UTIL_DLL Tween& SetEase(Enums::eEasingMode type);
 
+		//이는 세팅할때 호출되기보다는, 자기 자신을 Kill하는 함수. ( == 실행 중지)
+		PARAGON_UTIL_DLL void Kill();
+		//최종 Duration에 도달하기 전에, 특정 시간이 이상 지났으면 바로 Kill해주기. Tween의 움직임은 살리되 일찍 끝내고 싶을 때 활용.
+		//무조건 DoMove 이후에 호출되어야.
+		PARAGON_UTIL_DLL Tween& KillEarly(float ratio);
+
 		// Easing 수학 함수
 		static float Linear(float x);
 
@@ -119,6 +125,5 @@ namespace Pg::Util
 		// easing data
 		static std::function<float(float)> _easings[31];
 		std::function<float(float)> _myEase;
-
 	};
 }

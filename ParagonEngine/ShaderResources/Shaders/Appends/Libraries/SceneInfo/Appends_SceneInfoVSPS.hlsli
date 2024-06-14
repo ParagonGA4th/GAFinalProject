@@ -79,28 +79,42 @@ float3 GetEyePosition()
 
 cbuffer cbRenderingInfo : register(b5)
 {
-    PgDirectionalLight _dirLightArray[10];
-    uint _dirLightCount;
-    
-    PgSpotLight _spotLightArray[10];
-    uint _spotLightCount;
-    
-    PgPointLight _pointLightArray[10];
-    uint _pointLightCount;
-    
-    //Directional Light 기준, 하나 이상 있어야 유효.
+     //Directional Light 기준, 하나 이상 있어야 유효.
     //Single Directional Light Shadow Map을 적용할 터이니.
+    float Camera_NearPlane;
+    float Camera_FarPlane;
+    float tPadding;
+    float tPadding2;
+    
+    
     float4x4 _lightView;
     float4x4 _lightProj;
     float4x4 _lightViewProj;
+    
+    //Directional Light Array와 독립적으로,
+    //셰도우 연산을 위해 첫번째 빛의 LightDir / Radiance는 기록.
+    float3 _indep_MainLightDir;
+    float _indep_MainLightRadiance;
+    
+    PgDirectionalLight _dirLightArray[10];
+    uint _dirLightCount;
+    uint3 _pad1;
+    
+    PgSpotLight _spotLightArray[10];
+    uint _spotLightCount;
+    uint3 _pad2;
+    
+    PgPointLight _pointLightArray[10];
+    uint _pointLightCount;
+    uint3 _pad3;
 }
 
 static const float ShadowBias = 0.005f;
 
 //<Temp>
 static const uint NumLights = 1;
-static const float3 firstLightDir = { 0, -1, 0 };
-static const float firstRad = 0.1f;
+static const float3 firstLightDir = { -0.707107, -0.707107, 0.000000 };
+static const float firstRad = 1.0f;
 //</Temp>
 
 #endif //__DEFINED_APPENDS_SCENEINFO_VS_PS_HLSL__
