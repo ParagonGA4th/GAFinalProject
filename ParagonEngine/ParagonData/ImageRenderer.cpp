@@ -1,4 +1,5 @@
 #include "ImageRenderer.h"
+#include "../ParagonUtil/Log.h"
 
 namespace Pg::Data
 {
@@ -34,7 +35,32 @@ namespace Pg::Data
 		return _imagePath;
 	}
 
-	
+	void ImageRenderer::SetImageIndex(unsigned int val)
+	{
+		if (_setImageIndexFunc)
+		{
+			_setImageIndexFunc(val);
+		}
+		else
+		{
+			PG_WARN("Function Not Yet Bound!");
+		}
+	}
 
+	unsigned int ImageRenderer::GetImageIndex()
+	{
+		unsigned int tRet = 0;
+
+		if (_getImageIndexFunc)
+		{
+			tRet = _getImageIndexFunc();
+		}
+		else
+		{
+			PG_WARN("Function Not Yet Bound!");
+		}
+
+		return tRet;
+	}
 }
 

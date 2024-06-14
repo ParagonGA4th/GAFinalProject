@@ -1,6 +1,6 @@
 #pragma once
 #include "RenderObject2D.h"
-
+#include <vector>
 /// <summary>
 /// ImageRenderer 컴포넌트와 1대1 대응하는 렌더오브젝트.
 /// </summary>
@@ -26,10 +26,15 @@ namespace Pg::Graphics
 		float* _imageWidth = nullptr;
 		float* _imageHeight = nullptr;
 
-	private:
-		RenderTexture2D* _texture2D;
+		unsigned int GetImageIndex();
+		void SetImageIndex(unsigned int val);
 
-		
+	private:
+		//RenderTexture2D* _texture2D;
+
+		//이제 인덱스로 바꿀 수 있게 할 것이다.
+		std::vector<RenderTexture2D*> _texture2DVector;
+		unsigned int _imageIndex{ 0 };
 	};
 }
 

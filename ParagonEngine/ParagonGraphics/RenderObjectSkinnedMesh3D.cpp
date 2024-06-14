@@ -310,6 +310,7 @@ namespace Pg::Graphics
 			}
 
 			// Scale이 만약 있으면 세팅. -> Num Scaling Keys로 표시했다!
+			// 일단 ScalingKeys의 개수가 0보다 클 때만 동작할 것!
 			if (nodeAnim->_numScalingKeys > 0)
 			{
 				int scaleIndex = 0;
