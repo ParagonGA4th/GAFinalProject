@@ -174,6 +174,55 @@ namespace Pg::Graphics
 						}
 					}
 				}
+				{
+					//여기는 Scaling: 만약 Scaling이 있으면 반영, 없으면 무시하게 해야 함.
+					pugi::xml_node tNode = tNodeAnimNode.child("NumScalingKeys");
+					if (tNode)
+					{
+						//NumScaling이 있으면 -> Scaling 관련 정보가 전부 다 있다는 뜻.
+						tNewNodeAnim->_numScalingKeys = tNode.text().as_uint();
+
+						if (tNewNodeAnim->_numScalingKeys > 0)
+						{
+							pugi::xml_node tListNode = tNodeAnimNode.child("ScalingKeyList");
+							tNewNodeAnim->_scalingKeyList.resize(tNewNodeAnim->_numScalingKeys);
+
+							unsigned int tInternalCount = 0;
+							//개별적인 VectorKey 파싱.
+							for (pugi::xml_node tKeyNode = tListNode.first_child();
+								tKeyNode; tKeyNode = tKeyNode.next_sibling())
+							{
+								pugi::xml_node tTimeNode = tKeyNode.child("Time");
+								tNewNodeAnim->_scalingKeyList.at(tInternalCount)._time = tTimeNode.text().as_float();
+
+								pugi::xml_node tValueNode = tKeyNode.child("Value");
+								std::string tValueString = tValueNode.text().get();
+
+								std::istringstream tStream(tValueString);
+								std::string tStrBuf;
+
+								//직접적으로 집어넣기.
+								//assert(std::getline(tStream, tStrBuf, ','));
+								std::getline(tStream, tStrBuf, ',');
+								tNewNodeAnim->_scalingKeyList.at(tInternalCount)._value.x = std::stof(tStrBuf);
+								//assert(std::getline(tStream, tStrBuf, ','));
+								std::getline(tStream, tStrBuf, ',');
+								tNewNodeAnim->_scalingKeyList.at(tInternalCount)._value.y = std::stof(tStrBuf);
+								//assert(std::getline(tStream, tStrBuf, ','));
+								std::getline(tStream, tStrBuf, ',');
+								tNewNodeAnim->_scalingKeyList.at(tInternalCount)._value.z = std::stof(tStrBuf);
+
+								//다음 Index로.
+								tInternalCount++;
+							}
+						}
+					}
+					else
+					{
+						//없으면 기록을 하지 않는다.
+						tNewNodeAnim->_numScalingKeys = 0;
+					}
+				}
 				//unique_ptr은 복사 불가. move로 투입.
 				anim->_animAssetData->_channelList.push_back(std::move(tNewNodeAnim));
 			}
@@ -194,7 +243,7 @@ namespace Pg::Graphics
 			const size_t suffixLen = suffix.length();
 			std::string input = anim->_animAssetData->_basedModelName;
 			// 접미어가 string의 마지막 부분에 있는지 확인..
-			if (input.length() < suffixLen || input.substr(input.length() - suffixLen) != suffix) 
+			if (input.length() < suffixLen || input.substr(input.length() - suffixLen) != suffix)
 			{
 				input += suffix;
 			}
