@@ -1,5 +1,5 @@
-#ifndef ANIM_FLOATINGIDLE 
-#define ANIM_FLOATINGIDLE
+#ifndef ANIM_FIDLE 
+#define ANIM_FIDLE
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,12 +7,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_FloatingIdle : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_fIdle : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_FloatingIdle(const std::string& name, const BT::NodeConfiguration& config) :
+		Anim_fIdle(const std::string& name, const BT::NodeConfiguration& config) :
 			BT::SyncActionNode(name, config) {}
-		virtual ~Anim_FloatingIdle() = default;
+		virtual ~Anim_fIdle() = default;
 
 		// 무조건 해당 Function을 오버라이드 해야 한다.
 		virtual BT::NodeStatus tick() override;

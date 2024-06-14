@@ -17,7 +17,7 @@ namespace Pg::Graphics
 		void Bind();
 		void Unbind();
 	private:
-		ID3D11PixelShader* _shader;
+		ID3D11PixelShader* _shader{ nullptr };
 	};
 }
 

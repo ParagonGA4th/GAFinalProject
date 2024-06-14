@@ -16,6 +16,7 @@ namespace Pg::Graphics
 	class GBufferDepthStencil;
 	class LowDX11Storage;
 	class SystemVertexShader;
+	class SystemInterfacedVertexShader;
 	class SystemPixelShader;
 	class D3DCarrier;
 }
@@ -38,15 +39,25 @@ namespace Pg::Graphics
 
 	private:
 		void CreateShaders();
+		
 		void RenderNormalInstanced(void* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderCulledOppositeInstanced(void* renderObjectList, Pg::Data::CameraData* camData);
 
+		void RenderAlphaClippedInstanced(void* renderObjectList, Pg::Data::CameraData* camData);
+		void RenderAlphaClippedCulledOppositeInstanced(void* renderObjectList, Pg::Data::CameraData* camData);
 	private:
+		//Normal
 		std::unique_ptr<SystemVertexShader> _vs;
 		std::unique_ptr<SystemPixelShader> _ps;
-	
+		std::unique_ptr<SystemPixelShader> _depthRecordOnlyPS;
+
+		//Alpha-Clipped.
+		std::unique_ptr<SystemPixelShader> _alphaClippedPS;
+		std::unique_ptr<SystemPixelShader> _alphaClippedDepthRecordOnlyPS;
+
 	private:
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbLightmapCollection>> _lightmapCBuffer{ nullptr };
+		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbSwitchableViewProj>> _switchableViewProjCBuffer{ nullptr };
 	private:
 		LowDX11Storage* _DXStorage;
 		const D3DCarrier* _d3dCarrierTempStorage;

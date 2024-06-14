@@ -17,8 +17,9 @@ namespace Pg::Graphics
 		ID3D11VertexShader* GetVertexShader();
 		void Bind();
 		void Unbind();
+
 	private:
-		ID3D11VertexShader* _shader;
+		ID3D11VertexShader* _shader{ nullptr };
 		ID3D11InputLayout* _inputLayout;
 		D3D_PRIMITIVE_TOPOLOGY _topology;
 		ID3D11RasterizerState* _rsState;

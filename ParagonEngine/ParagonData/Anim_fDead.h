@@ -1,5 +1,5 @@
-#ifndef ANIM_DEADFLOATING
-#define ANIM_DEADFLOATING
+#ifndef ANIM_FDEAD
+#define ANIM_FDEAD
 
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
@@ -8,12 +8,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_DeadFloating : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_fDead : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_DeadFloating(const std::string& name, const BT::NodeConfiguration& config)
+		Anim_fDead(const std::string& name, const BT::NodeConfiguration& config)
 			:BT::SyncActionNode(name, config) {};
-		virtual ~Anim_DeadFloating() = default;
+		virtual ~Anim_fDead() = default;
 
 		virtual BT::NodeStatus tick() override;
 

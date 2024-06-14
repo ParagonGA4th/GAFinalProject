@@ -2,6 +2,7 @@
 #include "LowDX11Storage.h"
 #include "GraphicsResourceManager.h"
 #include "AssetCombinedLoader.h"
+#include <filesystem>
 
 namespace Pg::Graphics
 {
@@ -26,6 +27,13 @@ namespace Pg::Graphics
 		GraphicsResourceManager* tResManager = Pg::Graphics::Manager::GraphicsResourceManager::Instance();
 		AssetCombinedLoader* tComLoader = tResManager->GetCombinedLoader();
 		tComLoader->LoadRenderPixelShader(_filePath, this);
+
+#if defined(DEBUG) | defined(_DEBUG)
+		std::string tName = std::filesystem::path(_filePath).filename().string();
+		tName += "_PS";
+		HR(_shader->SetPrivateData(WKPDID_D3DDebugObjectName, tName.length(), tName.data()));
+#endif
+
 	}
 
 	void RenderPixelShader::InternalUnload()

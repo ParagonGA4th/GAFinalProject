@@ -11,6 +11,7 @@
 
 //RenderPasses
 #include "AlphaBlendedTotalRenderPass.h"
+#include "BillboardRenderPass.h"
 
 namespace Pg::Data
 {
@@ -35,7 +36,7 @@ namespace Pg::Graphics
 	class Forward3DRenderer : public BaseSpecificRenderer
 	{
 	public:
-		Forward3DRenderer(D3DCarrier* d3dCarrier, const Pg::Data::Enums::eEditorMode* const editorMode);
+		Forward3DRenderer(D3DCarrier* d3dCarrier, const Pg::Data::Enums::eEditorMode* const editorMode, const std::string& resourceListPath);
 
 		virtual void Initialize() override;
 		virtual void SetupRenderPasses() override;
@@ -46,18 +47,22 @@ namespace Pg::Graphics
 		//매 프레임마다 Skinned 동작을 위해 사용.
 		void SetDeltaTime(float dt);
 
-		
+	private:
+		void RenderAlphaBlended3DPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
+		void RenderBillboardPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 
 
 	private:
 		std::unique_ptr<AlphaBlendedTotalRenderPass> _alphaBlendedTotalPass;
-		
+		std::unique_ptr<BillboardRenderPass> _billboardRenderPass;
+
 	private:
 		LowDX11Storage* _DXStorage;
 		float _deltaTimeStorage;
 
 	private:
 		const Pg::Data::Enums::eEditorMode* const _editorMode;
+		std::string _resourceListPath;
 
 	};
 }

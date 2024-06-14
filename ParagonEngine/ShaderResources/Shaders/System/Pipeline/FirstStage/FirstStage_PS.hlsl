@@ -23,22 +23,24 @@ POut1st_Total main(VOut1st input)
     //RT0 : Mesh Material ID. (z)
     output.pout1st_RT0.z = input.vout1st_MeshMatID;
     //RT0 : W Divide Depth
-    output.pout1st_RT0.w = input.vout1st_PosH.w / input.vout1st_PosH.z;
+    //output.pout1st_RT0.w = input.vout1st_PosH.w / input.vout1st_PosH.z;
+    output.pout1st_RT0.w = input.vout1st_PosH.z / input.vout1st_PosH.w;
     
     //RT1 : World Space Normal. (xyz)
     output.pout1st_RT1.xyz = input.vout1st_NormalW;
-    //RT1 : Vertex Color.x (w)
-    output.pout1st_RT1.w = input.vout1st_Color.x;
+    //RT1 : LightPixelPos.x (w)
+    //output.pout1st_RT1.w = input.vout1st_Color.x;
+    output.pout1st_RT1.w = input.vout1st_LightPixelPos.x;
         
     //RT2 : World Space Position. (xyz)
     output.pout1st_RT2.xyz = input.vout1st_PosW;
-    //RT2 :  Vertex Color.y (w)
-    output.pout1st_RT2.w = input.vout1st_Color.y;
+    //RT2 :  LightPixelPos.y (w)
+    output.pout1st_RT2.w = input.vout1st_LightPixelPos.y;
         
     //RT3 : World Space Tangent (xyz)
     output.pout1st_RT3.xyz = input.vout1st_TangentW;
-    //RT3 :  Vertex Color.z (w)
-    output.pout1st_RT3.w = input.vout1st_Color.z;
+    //RT3 :  LightPixelPos.z (w)
+    output.pout1st_RT3.w = input.vout1st_LightPixelPos.z;
 
     //비 인스턴싱된 값의 경우, 무조건 0을 기록한다. (SampledValue)
     //RT4 : LightMap Sample Value (xyz) + Lightmapping이 활용되었는지(w). 음수 : NO, 양수 : YES.

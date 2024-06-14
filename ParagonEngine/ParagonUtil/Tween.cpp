@@ -156,6 +156,24 @@ namespace Pg::Util
 		return *this;
 	}
 
+	//무조건 DoMove 이후에 호출.
+	Tween& Tween::KillEarly(float ratio)
+	{
+		if (_timer->_duration < std::numeric_limits<float>::epsilon())
+		{
+			assert(false && "DoMove 호출 전에 KillEarly를 사용해서 호출 의심");
+		}
+
+		//Kill Early를 사용한다.
+		_timer->_isUseKillEarly = true;
+
+		//보간 비율 활용해서 어느 Duration에서 자를지를 확인한다.
+		float tRatio = std::clamp<float>(ratio, 0.f, 1.f);
+		_timer->_floatKillEarlyDuration = _timer->_duration * tRatio;
+
+		return *this;
+	}
+
 	Tween& Tween::OnComplete(std::function<void()> func)
 	{
 		_onCompleteFunc = func;
@@ -407,5 +425,13 @@ namespace Pg::Util
 	{
 		return _isUsedRightNow;
 	}
+
+	void Tween::Kill()
+	{
+		//이 과정에서 IsActive가 꺼지니, TweenTimer의 Update Loop이 더 이상 실행되지 않을 것이기에. 괜찮.
+		_timer->ResetSelf();
+	}
+
+	
 
 }

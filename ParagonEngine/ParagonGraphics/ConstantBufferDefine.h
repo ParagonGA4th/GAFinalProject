@@ -68,18 +68,29 @@ namespace Pg::Graphics
 
 		struct cbRenderingInfo
 		{
-			DirLightGPU _dirLightArray[10];
-			unsigned int _dirLightCount;
-
-			SpotLightGPU _spotLightArray[10];
-			unsigned int _spotLightCount;
-
-			PointLightGPU _pointLightArray[10];
-			unsigned int _pointLightCount;
+			float _Camera_NearPlane;
+			float _Camera_FarPlane;
+			float tPadding1;
+			float tPadding2;
 
 			DirectX::XMMATRIX _lightView;
 			DirectX::XMMATRIX _lightProj;
 			DirectX::XMMATRIX _lightViewProj;
+
+			DirectX::XMFLOAT3 _indep_MainLightDir;
+			float _indep_MainLightRadiance;
+
+			DirLightGPU _dirLightArray[10];
+			unsigned int _dirLightCount;
+			unsigned int _pad1[3];
+
+			SpotLightGPU _spotLightArray[10];
+			unsigned int _spotLightCount;
+			unsigned int _pad2[3];
+
+			PointLightGPU _pointLightArray[10];
+			unsigned int _pointLightCount;
+			unsigned int _pad3[3];
 		};
 
 		struct SingleObjMatIdSet
@@ -93,6 +104,10 @@ namespace Pg::Graphics
 			SingleLightMapSet gBuf_LightMapSet[Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING];
 		};
 
+		struct cbSwitchableViewProj
+		{
+			DirectX::XMMATRIX _viewProj;
+		};
 		//struct cbObjMatIDCollection
 		//{
 		//	SingleObjMatIdSet gBuf_ObjMatIdSet[Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING];

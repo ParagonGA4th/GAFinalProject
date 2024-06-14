@@ -3,6 +3,9 @@
 #include "IRenderSinglePass.h"
 #include "../ParagonData/EditorMode.h"
 #include "DX11Headers.h"
+#include "ConstantBuffer.h"
+#include "ConstantBufferDefine.h"
+
 #include <vector>
 #include <memory>
 
@@ -16,6 +19,7 @@ namespace Pg::Graphics
 	class GBufferDepthStencil;
 	class LowDX11Storage;
 	class SystemVertexShader;
+	class SystemInterfacedVertexShader;
 	class SystemPixelShader;
 }
 
@@ -42,11 +46,13 @@ namespace Pg::Graphics
 	private:
 		std::unique_ptr<SystemVertexShader> _vs;
 		std::unique_ptr<SystemPixelShader> _ps;
+		std::unique_ptr<SystemPixelShader> _depthRecordOnlyPS;
 
 	private:
 		float _deltaTimeStorage{ 0.f };
 		LowDX11Storage* _DXStorage{ nullptr };
 		const D3DCarrier* _d3dCarrierTempStorage{ nullptr };
+		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbSwitchableViewProj>> _switchableViewProjCBuffer{ nullptr };
 
 	private:
 		const Pg::Data::Enums::eEditorMode* const _editorMode;

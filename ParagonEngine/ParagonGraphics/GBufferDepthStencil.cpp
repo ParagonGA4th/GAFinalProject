@@ -4,9 +4,9 @@
 
 namespace Pg::Graphics
 {
-	GBufferDepthStencil::GBufferDepthStencil(D3D11_DEPTH_STENCIL_DESC* dsDesc)
+	GBufferDepthStencil::GBufferDepthStencil(D3D11_DEPTH_STENCIL_DESC* dsDesc, DirectX::XMFLOAT2 widthHeight)
 		:_Buffer(), _DSV(), _SRV(),
-		_DXStorage(LowDX11Storage::GetInstance())
+		_DXStorage(LowDX11Storage::GetInstance()), _widthHeight(widthHeight)
 	{
 		//Default.
 		//DXGI_FORMAT_R32_TYPELESS -> Buffer Format
@@ -32,8 +32,8 @@ namespace Pg::Graphics
 	{
 		D3D11_TEXTURE2D_DESC tDesc;
 
-		tDesc.Width = _DXStorage->_screenWidth;
-		tDesc.Height = _DXStorage->_screenHeight;
+		tDesc.Width = _widthHeight.x;
+		tDesc.Height = _widthHeight.y;
 		tDesc.MipLevels = 1;
 		tDesc.ArraySize = 1; // 0ภฬ พฦดิ.
 		tDesc.Format = format;
