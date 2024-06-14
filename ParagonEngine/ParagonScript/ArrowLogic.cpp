@@ -10,6 +10,7 @@
 #include "../ParagonUtil/Log.h"
 
 #include "BaseMonster.h"
+#include "IEnemyBehaviour.h"
 #include "PlayerBattleBehavior.h"
 #include "ComboSystem.h"
 
@@ -201,8 +202,8 @@ namespace Pg::DataScript
 				//몬스터 때렸다는 것.
 				//자신이 직접 데미지를 연산하는 것이 아니다! 
 				//기록해서 PlayerBattleBehavior가 처리해 줄 것.
-				BaseMonster* tBaseMonster = tRealOtherActor->_object->GetComponent<BaseMonster>();
-				assert((tBaseMonster != nullptr) && "무조건 찾았어야 했다");
+				IEnemyBehaviour* tEnemyBehaviour = tRealOtherActor->_object->GetComponent<IEnemyBehaviour>();
+				assert((tEnemyBehaviour != nullptr) && "무조건 찾았어야 했다");
 
 				//ComboSystem한테 적 때렸다고 전달.
 				_comboSystem->HitObject(true);
@@ -215,7 +216,8 @@ namespace Pg::DataScript
 				_collider->SetActive(false);
 
 				//해당 데미지를 입력, PlayerBattleBehavior로 하여금 이를 처리할 수 있게 만든다.
-				_playerBattleBehavior->AddMonsterHitList(tBaseMonster, -(ARROW_ATTACK_POWER * ComboSystem::DAMAGE_MULTIPLIER[tComboIndex]));
+				_playerBattleBehavior->AddMonsterHitList(tEnemyBehaviour->ReturnBaseMonsterInfo(), -(ARROW_ATTACK_POWER * ComboSystem::DAMAGE_MULTIPLIER[tComboIndex]));
+				_playerBattleBehavior->AddMonsterOnHitList(tEnemyBehaviour->ReturnBaseMonsterInfo());
 
 				{
 					std::string tComboStr = "ComboCount : ";

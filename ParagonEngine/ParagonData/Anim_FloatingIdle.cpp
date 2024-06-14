@@ -1,9 +1,9 @@
-#include "Anim_Idle.h"
+#include "Anim_FloatingIdle.h"
 #include "SkinnedMeshRenderer.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus Anim_Idle::tick()
+	BT::NodeStatus Anim_FloatingIdle::tick()
 	{
 		bool hitInit = config().blackboard->get<bool>("HITINIT");
 		bool isChange = config().blackboard->get<bool>("ISCHANGE");

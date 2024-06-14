@@ -1,5 +1,5 @@
-#ifndef ANIM_WALK 
-#define ANIM_WALK
+#ifndef ANIM_GROUNDIDLE 
+#define ANIM_GROUNDIDLE
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,12 +7,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_Walk : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_GroundIdle : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_Walk(const std::string& name, const BT::NodeConfiguration& config) :
+		Anim_GroundIdle(const std::string& name, const BT::NodeConfiguration& config) :
 			BT::SyncActionNode(name, config) {}
-		virtual ~Anim_Walk() = default;
+		virtual ~Anim_GroundIdle() = default;
 
 		// 무조건 해당 Function을 오버라이드 해야 한다.
 		virtual BT::NodeStatus tick() override;

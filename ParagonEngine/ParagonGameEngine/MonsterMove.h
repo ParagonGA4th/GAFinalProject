@@ -25,6 +25,7 @@ namespace Pg::Data
 	class GameObject;
 	class Transform;
 	class MonsterHelper;
+	class StaticBoxCollider;
 }
 
 class MonsterMove : public Pg::Data::Component
@@ -33,6 +34,7 @@ public:
 
 	MonsterMove(Pg::Data::GameObject* obj);
 
+	virtual void BeforePhysicsAwake() override;
 	virtual void Start() override;
 	virtual void Update() override;
 	//virtual void OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override;
@@ -100,6 +102,8 @@ private:
 	Pg::Data::GameObject* _player;
 	Pg::Data::Transform* _playerTransform;
 	Pg::Data::MonsterHelper* _monsterHelper;
+
+	std::vector<Pg::Data::StaticBoxCollider*> _attackCol;
 
 protected:
 	//MonsterStatus _status;

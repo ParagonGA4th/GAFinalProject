@@ -1,7 +1,9 @@
 #include "MonsterMove.h"
 #include "SceneSystem.h"
+#include "AISeight.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Collider.h"
+#include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/MonsterHelper.h"
 #include "../ParagonUtil/TimeSystem.h"
@@ -17,25 +19,39 @@ MonsterMove::MonsterMove(Pg::Data::GameObject* obj) :
 	_moveSpeed(0.2f), _dashSpeed(1.4f), _distance(0.f), _attackRange(3.f),
 	_sightRange(15.f), _dashRange(14.f), _dashDuration(1.f), _currentDashTime(0.f)
 {
+	auto& tNavSystem = singleton<Pg::Engine::Navigation>();
+	_navSystem = &tNavSystem;
+
+	auto& tTimeSystem = singleton<Pg::Util::Time::TimeSystem>();
+	_timeSystem = &tTimeSystem;
+
+	auto& tSceneSystem = singleton<Pg::Engine::SceneSystem>();
+	_sceneSystem = &tSceneSystem;
+}
+
+void MonsterMove::BeforePhysicsAwake()
+{
 
 }
 
 void MonsterMove::Start()
 {
-	auto& tNavSystem = singleton<Pg::Engine::Navigation>();
-	_navSystem = &tNavSystem;
-	
-	auto& tTimeSystem = singleton<Pg::Util::Time::TimeSystem>();
-	_timeSystem = &tTimeSystem;
-	
-	auto& tSceneSystem = singleton<Pg::Engine::SceneSystem>();
-	_sceneSystem = &tSceneSystem;
-	
 	//플레이어 지정
 	_player = _sceneSystem->GetCurrentScene()->FindObjectWithName("Player");
 	_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 	
 	_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
+
+	for (auto& iter : _object->_transform.GetChildren())
+	{
+		Pg::Data::StaticBoxCollider* staticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+
+		if (staticCol != nullptr) 
+		{
+			_attackCol.push_back(staticCol);
+			staticCol->SetActive(false);
+		}
+	}
 }
 
 void MonsterMove::Update()
@@ -46,7 +62,6 @@ void MonsterMove::Update()
 	_distance = std::abs(std::sqrt(std::pow(plTrans._position.x - _object->_transform._position.x, 2)
 		+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
 
-	//시야 안에 들어왔을 때 쫓아가라.
 	// 시야 안에 들어왔을 때 쫓아가라.
 	if (_distance <= _sightRange)
 	{
@@ -57,6 +72,7 @@ void MonsterMove::Update()
 		{
 			_isDash = true;
 			_monsterHelper->_isDash = _isDash;
+			_monsterHelper->_isChase = !_isDash;
 			_currentDashTime = 0.0f;
 		}
 
@@ -66,11 +82,11 @@ void MonsterMove::Update()
 		}
 		else
 		{
-			_monsterHelper->_isChase = !_isDash;
 			Chase();
 		}
 
 	}
+	//시야에서 벗어나면 돌진 초기화
 	else
 	{
 		_isDash = false;
@@ -98,17 +114,28 @@ void MonsterMove::Chase()
 	//auto plVec = _object->GetScene()->FindObjectsWithTag("TAG_Player");
 	//auto plTrans = plVec.at(0)->_transform;
 
-	//일정 사정거리 안에 들어오면
+	// 플레이어가 공격 범위 안에 있으면 
 	if (_distance <= _attackRange)
 	{
 		//공격으로 전환하기.
-		//추후 로직 구현.
+		//트리거 켜라
+		for (auto& iter : _attackCol)
+		{
+			iter->SetActive(true);
+		}
 
-		// 플레이어가 공격 범위 안에 있으면 
+		//애니메이션
 		_monsterHelper->_isPlayerinHitSpace = true;
 	}
 	else
 	{
+		//트리거 꺼라.
+		for (auto& iter : _attackCol)
+		{
+			iter->SetActive(false);
+		}
+
+		//애니메이션
 		_monsterHelper->_isPlayerinHitSpace = false;
 
 		//사정거리 밖이면 플레이어로 계속 다가가기.
@@ -126,14 +153,14 @@ void MonsterMove::Dash()
 	{
 		float interpolation = _dashSpeed * _timeSystem->GetDeltaTime();
 
-		Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
-		tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
-		_object->_transform._position.x = tPosition.x;
-		_object->_transform._position.z = tPosition.z;
-
-		_currentDashTime += _timeSystem->GetDeltaTime();
-
-		//돌진 애니메이션 추가 필요.
+		// 돌진 시 준비 동작 애니매이션 때문
+		if (_currentDashTime >= 0.4f)
+		{
+			Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+			tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
+			_object->_transform._position.x = tPosition.x;
+			_object->_transform._position.z = tPosition.z;
+		}
 	}
 	// 돌진이 끝나면 상태를 변경
 	else 
@@ -141,6 +168,7 @@ void MonsterMove::Dash()
 		_isDash = false; 
 		_hasDashed = true;
 		_monsterHelper->_isDash = _isDash;
+		_monsterHelper->_isChase = !_isDash;
 	}
 }
 

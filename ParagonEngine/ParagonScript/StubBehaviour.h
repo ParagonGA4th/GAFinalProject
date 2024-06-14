@@ -1,7 +1,7 @@
 #pragma once
 #include "ScriptInterface.h"
 #include "IEnemyBehaviour.h"
-#include "MiniGolemInfo.h"
+#include "StubInfo.h"
 #include "BaseMonster.h"
 
 namespace Pg::Data
@@ -10,7 +10,7 @@ namespace Pg::Data
 	class GameObject;
 	class PhysicsCollision;
 	class SkinnedMeshRenderer;
-	class CapsuleCollider;
+	class StaticCapsuleCollider;
 	class MonsterHelper;
 	class StaticBoxCollider;
 }
@@ -27,11 +27,11 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
-	class MiniGolemBehaviour : public ScriptInterface<MiniGolemBehaviour>, public IEnemyBehaviour
+	class StubBehaviour : public ScriptInterface<StubBehaviour>, public IEnemyBehaviour
 	{
-		DEFINE_PARAGON_SCRIPT(MiniGolemBehaviour);
+		DEFINE_PARAGON_SCRIPT(StubBehaviour);
 	public:
-		MiniGolemBehaviour(Pg::Data::GameObject* obj);
+		StubBehaviour(Pg::Data::GameObject* obj);
 
 	public:
 		virtual void BeforePhysicsAwake() override;
@@ -45,17 +45,14 @@ namespace Pg::DataScript
 		//플레이어 발견하지 않을때 하는 행동
 		void Idle();
 
-		//플레이어를 쫓는 함수
-		void Chase();
-
-		//돌진하는 함수
-		void Dash();
-
 		//타겟의 위치를 향해 바라봄.
 		void RotateToPlayer(Pg::Math::PGFLOAT3& targetPos);
 
 		//플레이어를 공격.
 		void Attack(bool _isAttack);
+
+		//그루터기의 스킬공격
+		void Skill(bool _isSkill);
 
 		//피격 시 애니메이션 출력을 위한 함수.
 		void Hit();
@@ -72,12 +69,9 @@ namespace Pg::DataScript
 		Pg::Data::MonsterHelper* _monsterHelper;
 
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
-		Pg::Data::CapsuleCollider* _collider;
+		Pg::Data::StaticCapsuleCollider* _collider;
 
 		std::vector<Pg::Data::StaticBoxCollider*> _attackCol;
-
-		//몬스터가 리스폰 될 위치
-		Pg::Math::PGFLOAT3 _respawnPos;
 
 		//플레이어와의 거리 측정
 		float _distance;
@@ -85,19 +79,13 @@ namespace Pg::DataScript
 		float _endAttackTime;
 		float _currentAttackTime;
 
-		//몬스터의 상태
-		bool _isStart;
-		bool _isHit;
-		bool _isRotateFinish;
-
-		//대쉬 관련 변수.
-		bool _isDash;			//돌진 여부
-		bool _hasDashed;		//돌진했는지 여부
+		//공격 패턴을 위한 카운트
+		int _attackCount;
 
 	public:
-		//미니골렘의 상태와 수치에 대한 정보.
-		MiniGolemInfo* _miniGolInfo;
-	
+		//그루터기의 상태와 수치에 대한 정보.
+		StubInfo* _stubInfo;
+
 	};
 }
 

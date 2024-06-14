@@ -35,7 +35,7 @@ namespace Pg::DataScript
 		DEFINE_PARAGON_SCRIPT(ArrowLogic);
 
 	public:
-		inline static const float ARROW_ATTACK_POWER = 10.0f;
+		inline static const float ARROW_ATTACK_POWER = 1.f;
 
 	public:
 		ArrowLogic(Pg::Data::GameObject* obj);
