@@ -30,7 +30,7 @@ namespace Pg::DataScript
 		//미믹의 체력과 공격
 		_mimicInfo = new MimicInfo(10.f, 1.f);
 
-		///골렘의 사망 및 피격행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
+		///미믹의 사망 및 피격행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
 		///몬스터에게 직접적으로 적용하기에 여기서는 사망 시 행동만 만들면 된다.
 		_mimicInfo->_onDead = [this]() { Dead(); };
 
@@ -150,7 +150,7 @@ namespace Pg::DataScript
 		if (_distance <= _mimicInfo->GetAttackRange())
 		{
 			//상태 변경.
-			_mimicInfo->_status = MiniGolemStatus::BASIC_ATTACK;
+			_mimicInfo->_status = MimicStatus::BASIC_ATTACK;
 
 			//애니메이션 딜레이를 위한 델타타임 체크.
 			_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
@@ -173,7 +173,7 @@ namespace Pg::DataScript
 		else
 		{
 			//상태를 Chase로 변경.
-			_mimicInfo->_status = MiniGolemStatus::CHASE;
+			_mimicInfo->_status = MimicStatus::CHASE;
 
 			Attack(false);
 			_currentAttackTime = 0.f;
@@ -194,23 +194,23 @@ namespace Pg::DataScript
 		PG_TRACE("Hit!");
 
 		//피격 애니메이션 들어가야 함.
-		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
-		animId.append("_00003.pganim");
-
-		_meshRenderer->SetAnimation(animId, false);
-
-		std::string objName = _object->GetName();
-		objName = objName.substr(0, objName.rfind("_"));
-		objName.append("_Crtstal");
-		//if (objName.find("Golem") != std::string::npos) objName.append("_Crtstal");
-		//else objName.append("_Wing");
-
-		auto tchild = _object->_transform.GetChild(objName);
-		auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-
-		animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
-		animId.append("_10003.pganim");
-		tcMeshRenderer->SetAnimation(animId, false);
+		//std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
+		//animId.append("_00003.pganim");
+		//
+		//_meshRenderer->SetAnimation(animId, false);
+		//
+		//std::string objName = _object->GetName();
+		//objName = objName.substr(0, objName.rfind("_"));
+		//objName.append("_Crtstal");
+		////if (objName.find("Golem") != std::string::npos) objName.append("_Crtstal");
+		////else objName.append("_Wing");
+		//
+		//auto tchild = _object->_transform.GetChild(objName);
+		//auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		//
+		//animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
+		//animId.append("_10003.pganim");
+		//tcMeshRenderer->SetAnimation(animId, false);
 	}
 
 	void MimicBehaviour::RotateToPlayer(Pg::Math::PGFLOAT3& targetPos)
@@ -243,7 +243,7 @@ namespace Pg::DataScript
 	void MimicBehaviour::Dead()
 	{
 		//상태를 죽음으로 변경.
-		_mimicInfo->_status = MiniGolemStatus::DEAD;
+		_mimicInfo->_status = MimicStatus::DEAD;
 		_monsterHelper->_isDead = true;
 	}
 

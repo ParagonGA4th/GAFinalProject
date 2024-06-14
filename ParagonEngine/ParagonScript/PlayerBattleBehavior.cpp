@@ -133,6 +133,10 @@ namespace Pg::DataScript
 					//우리 Forward랑 다른 로직이 된 것 같다. 그러니, Forward를 Rotation을 갖고 Custom으로 구해주자.
 					//PlayerBehavior랑 같은 위치. -> 나중에 PhysX 연동은 고쳐져야!
 
+					//시작점 역시 Offset 하기로 했었다.
+					Pg::Math::PGFLOAT3 tStartingPosition = _object->_transform._position + Pg::Math::PGFLOAT3(0.f, 2.f, 0.f);
+
+
 					//Z축 향해 뒤집기. 어디에서 불완전한 연결이 일어나는지는 확인해봐야 할 것 같다.
 					Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGReflectVectorAgainstAxis(-_object->_transform.GetForward(), { 0,0,1 });
 					tShouldShootDir = Pg::Math::PGFloat3Normalize(tShouldShootDir);
@@ -140,7 +144,8 @@ namespace Pg::DataScript
 					//Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGFloat3Normalize(_object->_transform.GetForward());
 
 					float tDistanceToSpawnFrom = 3.0f;
-					_arrowVec[i]->ShootArrow(_object->_transform._position + tShouldShootDir * tDistanceToSpawnFrom, tShouldShootDir);
+					//_arrowVec[i]->ShootArrow(_object->_transform._position + tShouldShootDir * tDistanceToSpawnFrom, tShouldShootDir);
+					_arrowVec[i]->ShootArrow(tStartingPosition + tShouldShootDir * tDistanceToSpawnFrom, tShouldShootDir);
 					tDidShoot = true;
 					break;
 				}
