@@ -63,12 +63,26 @@ namespace Pg::DataScript
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
-			Pg::Data::StaticBoxCollider* staticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+			// 자식 오브젝트의 이름을 얻어옵니다.
+			std::string childName = iter->_object->GetName();
 
-			if (staticCol != nullptr)
+			if (childName == "TrentBasicAttackRange")
 			{
-				_attackCol.push_back(staticCol);
-				staticCol->SetActive(false);
+				Pg::Data::StaticBoxCollider* basicStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (basicStaticCol != nullptr)
+				{
+					_basicAttackCol.push_back(basicStaticCol);  // 벡터에 추가
+					basicStaticCol->SetActive(false);  // 비활성화
+				}
+			}
+			else if (childName == "TrentSkillAttackRange")
+			{
+				Pg::Data::StaticBoxCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (skillStaticCol != nullptr)
+				{
+					_skillAttackCol.push_back(skillStaticCol);  // 벡터에 추가
+					skillStaticCol->SetActive(false);  // 비활성화
+				}
 			}
 		}
 	}
@@ -102,7 +116,7 @@ namespace Pg::DataScript
 			case StubStatus::SKILL_ATTACK:
 				if (_currentAttackTime >= 1.f)
 				{
-					PG_TRACE("Skill!");
+					//PG_TRACE("Skill!");
 					Skill(true); // 스킬 사용
 					_stubInfo->_status = StubStatus::SKILLCOOLDOWN;
 					_currentAttackTime = 0.f;
@@ -113,7 +127,7 @@ namespace Pg::DataScript
 			case StubStatus::SKILLCOOLDOWN:
 				if (_currentAttackTime >= 1.f)
 				{
-					PG_TRACE("Skill CoolDown!");
+					//PG_TRACE("Skill CoolDown!");
 					Skill(false); // 스킬 종료
 					_stubInfo->_status = StubStatus::BASIC_ATTACK;
 					_currentAttackTime = 0.f;
@@ -124,7 +138,7 @@ namespace Pg::DataScript
 			case StubStatus::BASIC_ATTACK:
 				if (_currentAttackTime >= 1.0f) 
 				{
-					PG_TRACE("Attack!");
+					//PG_TRACE("Attack!");
 					Attack(true);
 					_attackCount++;
 					_currentAttackTime = 0.0f;
@@ -140,7 +154,7 @@ namespace Pg::DataScript
 			case StubStatus::BASICCOOLDOWN:
 				if (_currentAttackTime >= 1.0f) 
 				{
-					PG_TRACE("Attack CoolDown!");
+					//PG_TRACE("Attack CoolDown!");
 					Attack(false);
 					_stubInfo->_status = StubStatus::IDLE;
 					_currentAttackTime = 0.0f;
@@ -155,16 +169,15 @@ namespace Pg::DataScript
 			Attack(false);
 		}
 
+		//몬스터가 사망하는 애니메이션이 출력된 후
 		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
 		{
-			//다 꺼짐.
-			_collider->SetActive(false);
-			_meshRenderer->SetActive(false);
-			_object->SetActive(false);
 
 			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 보내준다.
-			_object->_transform._position = { 0, -1000, 0 };
 			_monsterHelper->_isDeadDelay = false;
+			
+			//그루터기는 죽으면 충돌만 꺼야함.
+			_collider->SetActive(false);
 		}
 
 		//PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
@@ -219,7 +232,7 @@ namespace Pg::DataScript
 
 	void StubBehaviour::Attack(bool _isAttack)
 	{
-		for (auto& iter : _attackCol)
+		for (auto& iter : _basicAttackCol)
 		{
 			iter->SetActive(_isAttack);
 		}
@@ -227,7 +240,7 @@ namespace Pg::DataScript
 
 	void StubBehaviour::Skill(bool _isSkill)
 	{
-		for (auto& iter : _attackCol)
+		for (auto& iter : _skillAttackCol)
 		{
 			iter->SetActive(_isSkill);
 		}
@@ -236,6 +249,7 @@ namespace Pg::DataScript
 	void StubBehaviour::Dead()
 	{
 		//상태를 죽음으로 변경.
+		PG_TRACE("Dead.");
 		_stubInfo->_status = StubStatus::DEAD;
 		_monsterHelper->_isDead = true;
 	}
