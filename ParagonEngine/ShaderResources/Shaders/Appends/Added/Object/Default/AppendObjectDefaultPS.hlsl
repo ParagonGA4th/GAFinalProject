@@ -159,18 +159,9 @@ POutQuad main(VOutQuad pin)
         res.Output = float4(DefaultLightingOperation(pin.UV));
     }
     
-    //이거 아니다. 
-    //float shadow = ShadowCalculation(GetPosition(pin.UV), GetNormal(pin.UV), float3(
-    //    -0.707107, -0.707107, 0.000000));
-    //
-    //if (0.9f < shadow)
-    //{
-    //    res.Output = float4(float3(0.05f, 0.05f, 0.05f), 
-    
     //내부적으로 Saturate되어서 나온다.
-    float shadow = ShadowValue(GetPosition(pin.UV), GetNormal(pin.UV), _indep_MainLightDir);
-    res.Output.xyz *= (1.0f - shadow);
-    //res.Output.xyz *= (shadow);
+    //float shadow = ShadowValue(GetPosition(pin.UV), GetNormal(pin.UV), _indep_MainLightDir);
+    //res.Output.xyz *= (1.0f - shadow);
     
     return res;
 }
