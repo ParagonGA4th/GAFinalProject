@@ -12,7 +12,6 @@ namespace Pg::Data::BTree::Node
 			if (monHelper->_isAnimationEnd)
 			{
 				_isAnimEnd = true;
-				monHelper->_isAnimationEnd = false;
 			}
 			else
 			{
