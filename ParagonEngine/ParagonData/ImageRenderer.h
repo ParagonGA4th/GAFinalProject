@@ -33,8 +33,8 @@ namespace Pg::Data
 		void SetImagePath(std::string path);
 		std::string GetImagePath();
 
-		//100.f 가 가장 최대.
-		float _fillRatio = 100.f;
+		void SetFillRatio(float val);
+		float GetFillRatio();
 
 		void SetImageIndex(unsigned int val);
 		unsigned int GetImageIndex(); // Defaults to 0
@@ -47,6 +47,9 @@ namespace Pg::Data
 	private:
 		std::function<void(unsigned int)> _setImageIndexFunc;
 		std::function<unsigned int(void)> _getImageIndexFunc;
+
+		//100.f 가 가장 최대.
+		float _fillRatio = 100.f;
 	};
 }
 

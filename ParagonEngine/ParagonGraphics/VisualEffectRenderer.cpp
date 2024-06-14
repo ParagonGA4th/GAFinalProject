@@ -79,6 +79,23 @@ namespace Pg::Graphics
 		}
 	}
 
+	void VisualEffectRenderer::Render()
+	{
+		for (auto& [bRenderSet, bEffectObjectVec] : _currentRenderingMap)
+		{
+			//Render Set & Effect Vector.
+			//여기서 상태에 따라서 Render State를 다르게 지정하는 등 시행할 수 있을 것이다.
+			//
 
+			
+			for (auto& bEffectObject : bEffectObjectVec)
+			{
+				//개별적인 Render Object 단계.
+			}
+
+
+
+		}
+	}
 
 }
