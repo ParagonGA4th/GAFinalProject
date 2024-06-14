@@ -255,7 +255,7 @@ namespace Pg::DataScript
 		Pg::Math::PGQuaternion rotateQuat = PGLookRotation(rotatePosNorm, Pg::Math::PGFLOAT3::GlobalUp());
 
 		///플래그를 걸어 돌진의 여부까지 계산하기 위해 세팅.
-		if (_isRotateFinish)
+		if (_isRotateFinish == false)
 		{
 			//회전이 끝날 때 까지 돌기.
 			Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, rotateQuat, std::clamp<float>(0.1f, 0.0f, 1.0f));
