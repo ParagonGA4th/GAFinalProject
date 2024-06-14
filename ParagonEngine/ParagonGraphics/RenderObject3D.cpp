@@ -1,11 +1,11 @@
 #include "RenderObject3D.h"
 #include "GraphicsResourceManager.h"
 #include "../ParagonData/BaseRenderer.h"
+#include "../ParagonData/RendererBase3D.h"
 #include "../ParagonHelper/ResourceHelper.h"
 #include "LowDX11Storage.h"
 #include "MathHelper.h"
 #include "ConstantBufferDefine.h"
-
 #include "DX11Headers.h"
 
 #include "Asset3DModelData.h"
@@ -27,7 +27,8 @@ namespace Pg::Graphics
 	RenderObject3D::RenderObject3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID) : RenderObjectBase(baseRenderer), _objectID(objID), _materialIdPointer(nullptr), _isInternalUpToDate(false)
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
-
+		_rendererBase3DStorage = static_cast<Pg::Data::RendererBase3D*>(baseRenderer);
+		assert(_rendererBase3DStorage != nullptr);
 		//하단에서 별도로 VB/IB (Static, Skinned Mesh 따로 만들어줘야 함)
 	}
 

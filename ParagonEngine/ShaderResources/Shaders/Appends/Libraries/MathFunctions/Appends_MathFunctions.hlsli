@@ -157,4 +157,19 @@ float3 sRGB2Lin(float3 col)
     return pow(col, 2.2);
 }
 
+float3 ACES_Filming_Tonemapping(float3 col)
+{
+    float3 x = col;
+    
+     //<ACES Filmic Tone Mapping Curve>
+    float a = 2.51f;
+    float b = 0.03f;
+    float c = 2.43f;
+    float d = 0.59f;
+    float e = 0.14f;
+    
+    // float3 val = gammaCorrection(saturate((x * (a * x + b)) / (x * (c * x + d) + e)));
+    return saturate((x * (a * x + b)) / (x * (c * x + d) + e));
+}
+
 #endif // __DEFINED_APPENDS_MATH_FUNCTIONS_PS_HLSL__

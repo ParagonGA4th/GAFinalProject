@@ -57,7 +57,6 @@ namespace Pg::Data
 		VISITABLE(std::string, _materialName);
 		VISITABLE(std::string, _initAnimName);
 		END_VISITABLES;
-
 	private:
 		//RenderObjectSkinnedMesh가 등록한다.
 		//return bool == 해당 함수가 성공했는지. (GraphicsSceneParser가 별도로 연결해준다)

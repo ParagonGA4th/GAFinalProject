@@ -10,6 +10,12 @@
 float4 DefaultLightingOperation(float2 quadUV)
 {
     float3 albedo = sRGB2Lin(GetAlbedoMap(quadUV));
+    
+    //<>여기까지, 다른 작업 잘 보이게 작동하는 것. 
+    albedo = ACES_Filming_Tonemapping(albedo);
+    return float4(gammaCorrection(albedo).rgb, 1.0f);
+    //</>여기까지.
+    
     float metalness = sRGB2Lin(GetMetallicMap(quadUV));
     float roughness = sRGB2Lin(GetRoughnessMap(quadUV));
     
@@ -42,15 +48,16 @@ float4 DefaultLightingOperation(float2 quadUV)
     
     // 위치/빛 정보가 있는 라이팅을 위한 직접과 연산.
     float3 directLighting = 0.0;
-    uint tNumLight = 3;
+    uint tNumLight = 1;
     for (uint i = 0; i < tNumLight; ++i)
     {
-        //float3 Li = -lights[i].direction;
-        //float3 Lradiance = lights[i].radiance;
-        
-        //라이팅이 시스템 상으로 들어오기 전까지는 해당값 처럼.
+        //일단, SCENEINFORMATIONSENDER -> 나중에 CHANGE.
         float3 Li = -lightDirArr[i];
         float3 Lradiance = lightRadianceArr[i];
+        
+        //라이팅이 시스템 상으로 들어오기 전까지는 해당값 처럼.
+        //float3 Li = -_dirLightArray[i].direction;
+        //float3 Lradiance = _dirLightArray[i].radiance;
     
         //빛 입사 / 아웃 사이 하프벡터
         float3 Lh = normalize(Li + Lo);
@@ -87,35 +94,38 @@ float4 DefaultLightingOperation(float2 quadUV)
     //현재로서는 IBL 디폴트 사용.
     float3 ambientLighting = { 0.0f, 0.0f, 0.0f };
     {
-        // 노말 방향에서 디퓨즈 Irradiance 샘플링.
-	    // ...DiffuseHDR.
+  // 노말 방향에서 디퓨즈 Irradiance 샘플링.
+   // ...DiffuseHDR.
         float3 irradiance = GetDiffuseIrradianceMap(N);
-    
-	    // Ambient Lighting을 위한 프레넬 텀 계산.
-	    // 이미 필터링되어 있고, Irradiance가 여러 방향에서 오니 cosLo를 쓴다.
+
+   // Ambient Lighting을 위한 프레넬 텀 계산.
+   // 이미 필터링되어 있고, Irradiance가 여러 방향에서 오니 cosLo를 쓴다.
         float3 F = PBR_fresnelSchlick(F0, cosLo);
-    
-	    // Diffuse 기여 팩터 가져온다 (직접광과 동일한 방식)
+
+   // Diffuse 기여 팩터 가져온다 (직접광과 동일한 방식)
         float3 kd = lerp(1.0 - F, 0.0, metalness);
-    
-	    // Irradiance 맵은 램버트 BRDF 기반 방출 Radiance를 기록한다. 1/PI 필요 X.
+
+   // Irradiance 맵은 램버트 BRDF 기반 방출 Radiance를 기록한다. 1/PI 필요 X.
         float3 diffuseIBL = kd * albedo * irradiance;
-    
-	    // 미리 필터링된 Specular Reflection 환경을 올바른 밉맵 레벨에서 샘플링.
-	    //...SpecularHDR. 
+
+   // 미리 필터링된 Specular Reflection 환경을 올바른 밉맵 레벨에서 샘플링.
+   //...SpecularHDR. 
         uint specularTextureLevels = IBL_querySpecularTextureLevels();
         float3 specularIrradiance = GetSpecularIrradianceMap(Lr, roughness * specularTextureLevels);
-    
-		// 쿡-토런스 스페큘러 BRDF -> 분할-합계 근사치 계수 구하기.
+	// 쿡-토런스 스페큘러 BRDF -> 분할-합계 근사치 계수 구하기.
         float2 specularBRDF = IBL_GetSpecularBRDF(float2(cosLo, roughness));
-    
-		// Specular IBL.
+
+	// Specular IBL.
         float3 specularIBL = (F0 * specularBRDF.x + specularBRDF.y) * specularIrradiance;
-    
-		// 전체 간접광 기여 정도.
+
+	// 전체 간접광 기여 정도.
         ambientLighting = diffuseIBL + specularIBL;
+        ambientLighting = ACES_Filming_Tonemapping(ambientLighting);
+        ambientLighting /= 2.0f;
+
     }
    
+    
     //리턴.
     return float4(gammaCorrection(directLighting) + ambientLighting, 1.0);
 }
@@ -135,23 +145,23 @@ POutQuad main(VOutQuad pin)
     {
         //이 샘플링되었던 LightmapRGB 값 가져오기 + Gamma Correction.
         float4 lightColor = float4(GetLightmapRGB(pin.UV), 1.f);
-        lightColor.rgb = pow(lightColor.rgb, 1.f / 2.2f);
-        float4 albedo = float4(sRGB2Lin(GetAlbedoMap(pin.UV)), 1.0f);
+        //lightColor.rgb = pow(lightColor.rgb, 1.f / 2.2f);
+        lightColor.rgb = ACES_Filming_Tonemapping(lightColor.rgb);
+        //float4 albedo = float4(sRGB2Lin(GetAlbedoMap(pin.UV)), 1.0f);
+        float4 albedo = float4(GetAlbedoMap(pin.UV), 1.0f);
+        
         //Color Correction해서 기록.
-        res.Output = albedo * lightColor;
+        res.Output = albedo * float4(lightColor.rgb, 1.0f);
     }
     else
     {
          //라이트맵을 안 쓰는 경우
-        res.Output = DefaultLightingOperation(pin.UV);
+        res.Output = float4(DefaultLightingOperation(pin.UV));
     }
     
-    //이거 아니다. 
-    //float shadow = ShadowCalculation(GetPosition(pin.UV), GetNormal(pin.UV), _dirLightArray[0].direction);
-    //if (0.1f > shadow)
-    //{
-    //    res.Output.rgb = float3(0.05f, 0.05f, 0.05f);
-    //}
+    //내부적으로 Saturate되어서 나온다.
+    //float shadow = ShadowValue(GetPosition(pin.UV), GetNormal(pin.UV), _indep_MainLightDir);
+    //res.Output.xyz *= (1.0f - shadow);
     
     return res;
 }

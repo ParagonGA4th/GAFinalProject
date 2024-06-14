@@ -875,5 +875,24 @@ namespace Pg::Math
 		return DirectX::XMVectorGetX(DirectX::XMVector3LengthSq(PG2XM_FLOAT3_VECTOR(val)));
 	}
 
+	Pg::Math::PGFLOAT3 GetForwardVectorFromQuat(PGQuaternion val)
+	{
+		PGFLOAT4 result = PGFloat4MultiplyMatrix(PGFLOAT4(0.f, 0.f, 1.f, 0.f), PGRotationMatrix(val));
+		return PGFloat3Normalize(PGFLOAT3(result.x, result.y, result.z));
+	}
+
+	Pg::Math::PGFLOAT3 GetUpVectorFromQuat(PGQuaternion val)
+	{
+		PGFLOAT4 result = PGFloat4MultiplyMatrix(PGFLOAT4(0.f, 1.f, 0.f, 0.f), PGRotationMatrix(val));
+		return PGFloat3Normalize(PGFLOAT3(result.x, result.y, result.z));
+	}
+
+	Pg::Math::PGQuaternion PGQuaternionInverse(PGQuaternion val)
+	{
+		DirectX::SimpleMath::Quaternion tOrig = PG2XM_QUATERNION_VECTOR(val);
+		DirectX::SimpleMath::Quaternion tQuat;
+		tOrig.Inverse(tQuat);
+		return XM2PG_QUATERNION(tQuat);
+	}
 }
 

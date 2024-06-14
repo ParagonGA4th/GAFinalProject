@@ -86,7 +86,8 @@ namespace Pg::Data
 						if (tFirst.compare(tSecond) == 0)
 						{
 							//이러면 값이 일치한다는 것. 
-							str.erase(positions[1]);
+							str.erase(positions[3]);	// 이게 원래 오브젝트 이름 회복하는 거
+							//str.erase(positions[1]); 
 						}
 					}
 				}
@@ -121,18 +122,31 @@ namespace Pg::Data
 
 		//인스턴싱 : XML에서 기록.
 		std::string tPrefixFromName = _meshName.substr(0, 5);
+		std::string tPrefixFromNameOneLonger = _meshName.substr(0, 6);
 		//Mesh Path Set / 만약 Default Material이 아닌 경우 MaterialPath까지 배치 완료.
 		bool tIsPartOfInstanceException = singleton<Pg::Util::InstancingException>().IsExceptionFromInstance(_meshFilePath);
-		if (tPrefixFromName.compare(Pg::Defines::NON_INSTANCED_3DMODEL_PREFIX) == 0 || tIsPartOfInstanceException)
+		if (tPrefixFromName.compare(Pg::Defines::NON_INSTANCED_3DMODEL_PREFIX) == 0 || 
+			tPrefixFromNameOneLonger.compare(Pg::Defines::BLENDED_OPTIONAL_3DMODEL_PREFIX) == 0 ||
+			tIsPartOfInstanceException)
 		{
 			_isInstanced = false;
 			_object->_transform._isCanMove = true;
 		}
 		else
 		{
-			//norm_으로 시작하지 않기 때문에, 인스턴스된 렌더링이 적용됨!
+			//norm_이나 blend_로 시작하지 않기 때문에, 인스턴스된 렌더링이 적용됨!
 			_isInstanced = true;
 			_object->_transform._isCanMove = false;
+
+			//Clipping되는 애들은 모두 인스턴싱에 적용될 것이다. -> 
+			if (tPrefixFromName.compare(Pg::Defines::CLIPPED_3DMODEL_PREFIX) == 0)
+			{
+				_isAlphaClipped = true;
+			}
+			else
+			{
+				_isAlphaClipped = false;
+			}
 		}
 		//여기까지 인스턴싱
 

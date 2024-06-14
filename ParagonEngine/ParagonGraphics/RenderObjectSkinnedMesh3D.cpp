@@ -82,8 +82,8 @@ namespace Pg::Graphics
 	{
 		_cbFirstBase->BindVS(0);
 		_cbFirstBase->BindPS(0);
-		_cbAllSkinnedNodes->BindVS(1);
-		_cbAllSkinnedBones->BindVS(2);
+		_cbAllSkinnedNodes->BindVS(2);
+		_cbAllSkinnedBones->BindVS(3);
 
 		// Albedo
 		_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(_modelData->_pbrTextureArrays[0]->GetSRV()));
@@ -91,12 +91,12 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(_modelData->_pbrTextureArrays[1]->GetSRV()));
 		// ARM
 		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(_modelData->_pbrTextureArrays[2]->GetSRV()));
+
+		BindMainVertexIndexBuffer();
 	}
 
 	void RenderObjectSkinnedMesh3D::First_Render(const float* const dt)
 	{
-		BindMainVertexIndexBuffer();
-
 		//아트에서 들어오는 리소스들은 모두 싱글Mesh이지만,
 		//FBX에 들어오면서부터는 내부의 다른 Material 사용으로 쪼개질 것이다.
 		//애니메이션 연산에는 연관X, 형식 유지를 위해 출력.
@@ -118,8 +118,8 @@ namespace Pg::Graphics
 	{
 		_cbFirstBase->UnbindVS(0);
 		_cbFirstBase->UnbindPS(0);
-		_cbAllSkinnedNodes->UnbindVS(1);
-		_cbAllSkinnedBones->UnbindVS(2);
+		_cbAllSkinnedNodes->UnbindVS(2);
+		_cbAllSkinnedBones->UnbindVS(3);
 
 		ID3D11ShaderResourceView* tNullSRV = nullptr;
 		// Albedo
@@ -232,7 +232,7 @@ namespace Pg::Graphics
 		for (auto& nodeAnim : _currentAnim->_animAssetData->_channelList)
 		{
 			DirectX::SimpleMath::Vector3 position;
-			DirectX::SimpleMath::Vector4 rotation;
+			DirectX::SimpleMath::Quaternion rotation;
 
 			const ModifiedNode_SkinnedMesh* node = _animatedModifNodeMap[nodeAnim->_nodeName];
 			//무조건 NodeAnim은 Node와 매칭되어야 하는데..?
@@ -242,6 +242,7 @@ namespace Pg::Graphics
 				//Armature.002라는 프로퍼티가 문제됨.
 				//일단은 무시할 것.
 				continue;
+				//assert(false);
 			}
 
 			//TODO : NodeAnim 없는 경우 대비.
@@ -313,8 +314,13 @@ namespace Pg::Graphics
 			//node->_relTransform->_position = { position.x, position.y, position.z};
 			//node->_relTransform->_rotation = { rotation.w, rotation.x, rotation.y, rotation.z };
 
+			rotation.Normalize();
+
 			node->_relTransform->SetLocalPosition(position);
 			node->_relTransform->SetLocalRotation(rotation);
+
+			//Open3d를 보고 체크.
+			//node->_relTransform->SetLocalScale({100.f,100.f,100.f});
 		
 			//Scale은 서포트하지 않는다. 다만, 0.01을 반영..?
 			//node->_relTransform->SetLocalScale({ 1.0f,1.0f, 1.0f });
@@ -353,9 +359,16 @@ namespace Pg::Graphics
 	{
 		auto _DXStorage = LowDX11Storage::GetInstance();
 
+		//임시로 Translate값을 다르게 저장하고, 다시 원상 복귀한다.
+		Pg::Math::PGFLOAT3 tOriginalPosValue = GetBaseRenderer()->_object->_transform._position;
+		GetBaseRenderer()->_object->_transform._position = tOriginalPosValue + _rendererBase3DStorage->GetRendererOffset();
+
 		// 상수버퍼에 들어갈 값 셋팅
 		DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());
 		DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
+
+		//다시 Translate 원상복귀.
+		GetBaseRenderer()->_object->_transform._position = tOriginalPosValue;
 
 		//0.01 스케일링 적용.
 		tWorldTMMat = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f), tWorldTMMat);
@@ -446,6 +459,8 @@ namespace Pg::Graphics
 		const ModifiedNode_SkinnedMesh* tVal = _animatedModifNodeMap.at(animNodeName);
 		return tVal->_relTransform.get();
 	}
+
+	
 
 }
 

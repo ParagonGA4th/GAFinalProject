@@ -25,6 +25,9 @@ namespace Pg::Graphics
 
 		// 쉐이더 바이트코드를 멤버에 저장
 		ID3DBlob* _byteCode;
+
+		//디버그용, 따로 FilePath 저장.
+		std::string _filePath;
 	};
 }
 

@@ -40,7 +40,8 @@ namespace Pg::Data::BTree::Node
 				config().blackboard->set<std::string>("PREVANIM", "");
 			}
 
-			if (currentAnim.find("_00004") != std::string::npos)
+			if (currentAnim.find("_00004") != std::string::npos
+				|| currentAnim.find("_00003") != std::string::npos)
 			{
 				config().blackboard->set<bool>("ISCHANGE", true);
 				config().blackboard->set<std::string>("PREVANIM", "");

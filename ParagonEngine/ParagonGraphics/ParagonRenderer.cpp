@@ -60,7 +60,7 @@ namespace Pg::Graphics
 		_forward2dRenderer = std::make_unique<Forward2DRenderer>(_gCarrier.get());
 		_forward2dRenderer->Initialize();
 
-		_forward3dRenderer = std::make_unique<Forward3DRenderer>(_gCarrier.get(), editorMode);
+		_forward3dRenderer = std::make_unique<Forward3DRenderer>(_gCarrier.get(), editorMode, resourceListPath);
 		_forward3dRenderer->Initialize();
 
 		_debugRenderer = std::make_unique<DebugRenderer>(_gCarrier.get());

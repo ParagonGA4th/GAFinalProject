@@ -6,6 +6,7 @@
 #include "MathHelper.h"
 #include "Asset3DModelData.h"
 #include "AssetModelDataDefine.h"
+#include "../ParagonUtil/Log.h"
 
 namespace Pg::Graphics
 {
@@ -133,13 +134,22 @@ namespace Pg::Graphics
 
 	void RenderObject3DList::UpdateObjectCullingState(Pg::Data::CameraData* camData)
 	{
+		using namespace DirectX;
+		//일단은 차이가 없게 하기 위해서, 리턴. 발표 끝나고 이어서 할것.
+		//더 급 한 것 부 터 하 자
+		return;
+		///왜인지는 모르겠지만.. => 거꾸로 적용된다. 이거 고쳐야.
+
 		DirectX::XMMATRIX tViewMat = Helper::MathHelper::PG2XM_MATRIX(camData->_viewMatrix);
 		DirectX::XMMATRIX tProjMat = Helper::MathHelper::PG2XM_MATRIX(camData->_projMatrix);
-			
+		DirectX::XMMATRIX tVP = DirectX::XMMatrixMultiply(tViewMat, tProjMat);
 		DirectX::BoundingFrustum tFrustum;
-		DirectX::BoundingFrustum::CreateFromMatrix(tFrustum, DirectX::XMMatrixMultiply(tViewMat, tProjMat));
+		DirectX::BoundingFrustum::CreateFromMatrix(tFrustum, tVP);
 
-		//DirectX::SimpleMath::
+		//해당 AABB들을 Transform에 따라서 이동시켜줘야 한다.
+
+		//렌더 디버깅용.
+		int tRenderCount = 0;
 
 		for (auto& [bRenderMat, bVecPtr] : _staticList)
 		{
@@ -150,14 +160,25 @@ namespace Pg::Graphics
 				RenderObjectStaticMesh3D* tROMesh = bVecPtr->at(i).second.get();
 				for (auto& tActualModelMesh : tROMesh->_modelData->_assetSceneData->_meshList)
 				{
-					if (tFrustum.Intersects(tActualModelMesh._AABB))
+					DirectX::BoundingOrientedBox tOrientedBoundary;
+					tOrientedBoundary.Center = tActualModelMesh._AABB.Center;
+					tOrientedBoundary.Extents = tActualModelMesh._AABB.Extents; //Quaternion은 디폴트 유지.
+					Pg::Data::Transform* tObjTrans = &(tROMesh->GetBaseRenderer()->_object->_transform);
+					DirectX::XMMATRIX tWorldTM = Pg::Math::PG2XM_MATRIX4X4(tObjTrans->GetWorldTM());
+					DirectX::XMMATRIX tTransViewMat = Pg::Math::PG2XM_MATRIX4X4(
+						Pg::Math::GetViewMatrixFromTransformValues(tObjTrans->GetRight(), tObjTrans->GetUp(), tObjTrans->GetForward(), tObjTrans->_position));
+					tOrientedBoundary.Transform(tOrientedBoundary, DirectX::XMMatrixInverse(nullptr, tTransViewMat) * tWorldTM);
+
+					if (tFrustum.Intersects(tOrientedBoundary))
 					{
 						// 하나라도 Intersect하면, 렌더해줘야 한다.
 						tShouldBeCulled = false;
+						tRenderCount++;
 						break;
 					}
 				}
 				tROMesh->SetIsCulledFromRendering(tShouldBeCulled);
+				//tROMesh->SetIsCulledFromRendering(!tShouldBeCulled);
 			}
 		}
 
@@ -170,14 +191,25 @@ namespace Pg::Graphics
 				RenderObjectSkinnedMesh3D* tROMesh = bVecPtr->at(i).second.get();
 				for (auto& tActualModelMesh : tROMesh->_modelData->_assetSceneData->_meshList)
 				{
-					if (tFrustum.Intersects(tActualModelMesh._AABB))
+					DirectX::BoundingOrientedBox tOrientedBoundary;
+					tOrientedBoundary.Center = tActualModelMesh._AABB.Center;
+					tOrientedBoundary.Extents = tActualModelMesh._AABB.Extents; //Quaternion은 디폴트 유지.
+					Pg::Data::Transform* tObjTrans = &(tROMesh->GetBaseRenderer()->_object->_transform);
+					DirectX::XMMATRIX tWorldTM = Pg::Math::PG2XM_MATRIX4X4(tObjTrans->GetWorldTM());
+					DirectX::XMMATRIX tTransViewMat = Pg::Math::PG2XM_MATRIX4X4(
+						Pg::Math::GetViewMatrixFromTransformValues(tObjTrans->GetRight(), tObjTrans->GetUp(), tObjTrans->GetForward(), tObjTrans->_position));
+					tOrientedBoundary.Transform(tOrientedBoundary, DirectX::XMMatrixInverse(nullptr, tTransViewMat) * tWorldTM);
+
+					if (tFrustum.Intersects(tOrientedBoundary))
 					{
 						// 하나라도 Intersect하면, 렌더해줘야 한다.
 						tShouldBeCulled = false;
+						tRenderCount++;
 						break;
 					}
 				}
 				tROMesh->SetIsCulledFromRendering(tShouldBeCulled);
+				//tROMesh->SetIsCulledFromRendering(!tShouldBeCulled);
 			}
 		}
 
@@ -189,14 +221,25 @@ namespace Pg::Graphics
 				RenderObjectSkinnedMesh3D* tROMesh = it->_eitherSkinnedMesh.get();
 				for (auto& tActualModelMesh : tROMesh->_modelData->_assetSceneData->_meshList)
 				{
-					if (tFrustum.Intersects(tActualModelMesh._AABB))
+					DirectX::BoundingOrientedBox tOrientedBoundary;
+					tOrientedBoundary.Center = tActualModelMesh._AABB.Center;
+					tOrientedBoundary.Extents = tActualModelMesh._AABB.Extents; //Quaternion은 디폴트 유지.
+					Pg::Data::Transform* tObjTrans = &(tROMesh->GetBaseRenderer()->_object->_transform);
+					DirectX::XMMATRIX tWorldTM = Pg::Math::PG2XM_MATRIX4X4(tObjTrans->GetWorldTM());
+					DirectX::XMMATRIX tTransViewMat = Pg::Math::PG2XM_MATRIX4X4(
+						Pg::Math::GetViewMatrixFromTransformValues(tObjTrans->GetRight(), tObjTrans->GetUp(), tObjTrans->GetForward(), tObjTrans->_position));
+					tOrientedBoundary.Transform(tOrientedBoundary, DirectX::XMMatrixInverse(nullptr, tTransViewMat) * tWorldTM);
+
+					if (tFrustum.Intersects(tOrientedBoundary))
 					{
 						// 하나라도 Intersect하면, 렌더해줘야 한다.
 						tShouldBeCulled = false;
+						tRenderCount++;
 						break;
 					}
 				}
 				tROMesh->SetIsCulledFromRendering(tShouldBeCulled);
+				//tROMesh->SetIsCulledFromRendering(!tShouldBeCulled);
 			}
 			else
 			{
@@ -204,16 +247,29 @@ namespace Pg::Graphics
 				RenderObjectStaticMesh3D* tROMesh = it->_eitherStaticMesh.get();
 				for (auto& tActualModelMesh : tROMesh->_modelData->_assetSceneData->_meshList)
 				{
-					if (tFrustum.Intersects(tActualModelMesh._AABB))
+					DirectX::BoundingOrientedBox tOrientedBoundary;
+					tOrientedBoundary.Center = tActualModelMesh._AABB.Center;
+					tOrientedBoundary.Extents = tActualModelMesh._AABB.Extents; //Quaternion은 디폴트 유지.
+					Pg::Data::Transform* tObjTrans = &(tROMesh->GetBaseRenderer()->_object->_transform);
+					DirectX::XMMATRIX tWorldTM = Pg::Math::PG2XM_MATRIX4X4(tObjTrans->GetWorldTM());
+					DirectX::XMMATRIX tTransViewMat = Pg::Math::PG2XM_MATRIX4X4(
+						Pg::Math::GetViewMatrixFromTransformValues(tObjTrans->GetRight(), tObjTrans->GetUp(), tObjTrans->GetForward(), tObjTrans->_position));
+					tOrientedBoundary.Transform(tOrientedBoundary, DirectX::XMMatrixInverse(nullptr, tTransViewMat) * tWorldTM);
+
+					if (tFrustum.Intersects(tOrientedBoundary))
 					{
 						// 하나라도 Intersect하면, 렌더해줘야 한다.
 						tShouldBeCulled = false;
+						tRenderCount++;
 						break;
 					}
 				}
 				tROMesh->SetIsCulledFromRendering(tShouldBeCulled);
+				//tROMesh->SetIsCulledFromRendering(!tShouldBeCulled);
 			}
 		}
+
+		//PG_TRACE(std::to_string(tRenderCount).c_str());
 	}
 
 }
