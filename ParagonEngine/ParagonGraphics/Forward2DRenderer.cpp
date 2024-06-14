@@ -14,6 +14,7 @@ namespace Pg::Graphics
 	void Forward2DRenderer::Initialize()
 	{
 		_spriteBatch = std::make_unique<DirectX::SpriteBatch>(_DXStorage->_deviceContext);
+		_dxtkCommonStates = std::make_unique<DirectX::CommonStates>(_DXStorage->_device);
 	}
 
 	void Forward2DRenderer::SetupRenderPasses()
@@ -31,7 +32,7 @@ namespace Pg::Graphics
 		//Sprite
 		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_quadMainGDS->GetDSV());
 
-		_spriteBatch->Begin(DirectX::SpriteSortMode_BackToFront);
+		_spriteBatch->Begin(DirectX::SpriteSortMode_BackToFront, _dxtkCommonStates->NonPremultiplied());
 
 		for (auto& it : render2DList->_list)
 		{
