@@ -11,11 +11,9 @@ namespace Pg::Data::BTree::Node
 		{
 			if (monHelper->_isAnimationEnd)
 			{
-				_isAnimEnd = true;
-			}
-			else
-			{
-				_isAnimEnd = false;
+				monHelper->_isAnimationEnd = false;
+				config().blackboard->set<bool>("ISSKILLANIMEND", true);
+				config().blackboard->set<bool>("ISCHANGE", false);
 			}
 		}
 
@@ -32,9 +30,6 @@ namespace Pg::Data::BTree::Node
 				config().blackboard->set<bool>("ISCHANGE", true);
 			}
 		}
-
-		if (_isAnimEnd) config().blackboard->set<bool>("ISCHANGE", false);
-
 		return BT::NodeStatus::SUCCESS;
 	}
 }
