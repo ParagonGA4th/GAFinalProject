@@ -62,5 +62,16 @@ namespace Pg::Data
 
 		return tRet;
 	}
+
+	void ImageRenderer::SetFillRatio(float val)
+	{
+		_fillRatio = std::clamp<float>(val, 0.f, 100.f);
+	}
+
+	float ImageRenderer::GetFillRatio()
+	{
+		return _fillRatio;
+	}
+
 }
 
