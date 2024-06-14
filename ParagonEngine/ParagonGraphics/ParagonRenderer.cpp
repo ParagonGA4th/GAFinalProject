@@ -139,13 +139,17 @@ namespace Pg::Graphics
 	{
 		_currentScene = newScene;
 
+		PG_TRACE("Started Parsing SceneData...");
 		//현재 ParseSceneData 내부 구현체에 왜 매번 Graphics 객체를 다시 만드는지 모르겠지만..
 		//일단 급하니 나중에 TODO.
 		ParseSceneData(newScene);
+		PG_TRACE("...Ended Parsing SceneData");
 
 		//GPU Lightmap Data 세팅. 씬이 바뀔때 마다.
+		PG_TRACE("Started GPU Lightmapping Setup...");
 		_lightmapManager->SetGPULightmapDataWithScene(newScene, _sceneParser->GetRenderObject3DList());
 		_sceneParser->GetSceneInformationList()->_isUseLightmap = _lightmapManager->GetIsSceneUseLightmap();
+		PG_TRACE("...Ended GPU Lightmapping Setup");
 	}
 
 	void ParagonRenderer::PassBoxGeometryData(const std::vector<Pg::Data::BoxInfo*>& const boxColVec)
