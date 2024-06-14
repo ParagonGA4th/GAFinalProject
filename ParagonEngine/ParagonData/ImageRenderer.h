@@ -2,6 +2,7 @@
 #include "RendererBase2D.h"
 
 #include <string>
+#include <functional>
 #include <visit_struct/visit_struct.hpp>
 
 /// <summary>
@@ -9,12 +10,18 @@
 /// 각종 스프라이트 이미지와 빈 패널을 위한 컴포넌트 클래스
 /// </summary>
 
+namespace Pg::Graphics
+{
+	class RenderObjectImage2D;
+}
+
 namespace Pg::Data
 {
 	class GameObject;
 
 	class ImageRenderer : public RendererBase2D
 	{
+		friend class Pg::Graphics::RenderObjectImage2D;
 	public:
 		ImageRenderer(GameObject* obj);
 
@@ -29,10 +36,17 @@ namespace Pg::Data
 		//100.f 가 가장 최대.
 		float _fillRatio = 100.f;
 
+		void SetImageIndex(unsigned int val);
+		unsigned int GetImageIndex(); // Defaults to 0
+
 	public:
 		BEGIN_VISITABLES(ImageRenderer);
 		VISITABLE(std::string, _imagePath); // 필수 조건
 		END_VISITABLES;
+
+	private:
+		std::function<void(unsigned int)> _setImageIndexFunc;
+		std::function<unsigned int(void)> _getImageIndexFunc;
 	};
 }
 
