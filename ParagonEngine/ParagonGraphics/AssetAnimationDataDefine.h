@@ -109,6 +109,12 @@ namespace Pg::Graphics
 
 		//Rotation Key들의 리스트.
 		std::vector<QuatKey_AssetData> _rotationKeyList;
+
+		//Scaling Key들의 개수.
+		unsigned int _numScalingKeys = 0;
+
+		//Scaling Key들의 개수.
+		std::vector<VectorKey_AssetData> _scalingKeyList;
 	};
 
 	//Animtion을 보관하기 위해 사용되는 구조체.

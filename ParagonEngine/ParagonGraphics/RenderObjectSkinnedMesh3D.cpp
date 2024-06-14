@@ -233,6 +233,7 @@ namespace Pg::Graphics
 		{
 			DirectX::SimpleMath::Vector3 position;
 			DirectX::SimpleMath::Quaternion rotation;
+			DirectX::SimpleMath::Vector3 scale;
 
 			const ModifiedNode_SkinnedMesh* node = _animatedModifNodeMap[nodeAnim->_nodeName];
 			//무조건 NodeAnim은 Node와 매칭되어야 하는데..?
@@ -270,7 +271,6 @@ namespace Pg::Graphics
 				{
 					position = nodeAnim->_positionKeyList[0]._value;
 				}
-
 				else
 				{
 					double t = (_currentTick - nodeAnim->_positionKeyList[positionIndex - 1]._time) / (nodeAnim->_positionKeyList[positionIndex]._time - nodeAnim->_positionKeyList[positionIndex - 1]._time);
@@ -309,8 +309,41 @@ namespace Pg::Graphics
 				}
 			}
 
-			auto tMat = DirectX::XMMatrixAffineTransformation({1,1,1}, { 0,0,0,0 }, rotation, position);
+			// Scale이 만약 있으면 세팅. -> Num Scaling Keys로 표시했다!
+			if (nodeAnim->_numScalingKeys > 0)
+			{
+				int scaleIndex = 0;
+				//Last Frame 유지 시도, 240521
+				if (_currentAnim->_animAssetData->_durationTick - _currentTick < std::numeric_limits<double>::epsilon())
+				{
+					scaleIndex = nodeAnim->_numScalingKeys - 1;
+				}
+				else
+				{
+					for (int i = 0; i < nodeAnim->_numScalingKeys; i++)
+					{
+						if (_currentTick < nodeAnim->_scalingKeyList[i]._time)
+						{
+							scaleIndex = i;		// i-1 < _animationTickTime < i
+							break;
+						}
+					}
+				}
+				if (scaleIndex == 0)
+				{
+					scale = nodeAnim->_scalingKeyList[0]._value;
+				}
+				else
+				{
+					double t = (_currentTick - nodeAnim->_scalingKeyList[scaleIndex - 1]._time) / (nodeAnim->_scalingKeyList[scaleIndex]._time - nodeAnim->_scalingKeyList[scaleIndex - 1]._time);
+					scale = DirectX::XMVectorLerp(nodeAnim->_scalingKeyList[scaleIndex - 1]._value, nodeAnim->_scalingKeyList[scaleIndex]._value, (float)t);
+				}
 
+				node->_relTransform->SetLocalScale(scale);
+			}
+
+
+			//auto tMat = DirectX::XMMatrixAffineTransformation({1,1,1}, { 0,0,0,0 }, rotation, position);
 			//node->_relTransform->_position = { position.x, position.y, position.z};
 			//node->_relTransform->_rotation = { rotation.w, rotation.x, rotation.y, rotation.z };
 
@@ -318,6 +351,7 @@ namespace Pg::Graphics
 
 			node->_relTransform->SetLocalPosition(position);
 			node->_relTransform->SetLocalRotation(rotation);
+			
 
 			//Open3d를 보고 체크.
 			//node->_relTransform->SetLocalScale({100.f,100.f,100.f});
