@@ -25,7 +25,7 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
-	class BossBehaviour : public ScriptInterface<BossBehaviour>, public BaseMonster
+	class BossBehaviour : public ScriptInterface<BossBehaviour>, public BaseMonsterInfo
 	{	
 		DEFINE_PARAGON_SCRIPT(BossBehaviour);
 	public:

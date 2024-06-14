@@ -161,7 +161,9 @@
     <ClInclude Include="ExitButton.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="IEnemyBehaviour.h" />
     <ClInclude Include="IScriptResettable.h" />
+    <ClInclude Include="MimicBehaviour.h" />
     <ClInclude Include="MimicInfo.h" />
     <ClInclude Include="MiniGolemBehaviour.h" />
     <ClInclude Include="MiniGolemInfo.h" />
@@ -184,6 +186,7 @@
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SoundTest.h" />
     <ClInclude Include="StartButton.h" />
+    <ClInclude Include="StubBehaviour.h" />
     <ClInclude Include="StubInfo.h" />
     <ClInclude Include="TitleManager.h" />
     <ClInclude Include="TitleScene.h" />
@@ -206,6 +209,7 @@
     <ClCompile Include="FactoryHelper.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="InGameCameraBehavior.cpp" />
+    <ClCompile Include="MimicBehaviour.cpp" />
     <ClCompile Include="MimicInfo.cpp" />
     <ClCompile Include="MiniGolemBehaviour.cpp" />
     <ClCompile Include="MiniGolemInfo.cpp" />
@@ -220,6 +224,7 @@
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SoundTest.cpp" />
     <ClCompile Include="StartButton.cpp" />
+    <ClCompile Include="StubBehaviour.cpp" />
     <ClCompile Include="StubInfo.cpp" />
     <ClCompile Include="TitleManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />

@@ -64,6 +64,7 @@ namespace Pg::DataScript
 
 		ArrowShootingLogic();
 		CalculateMonsterDamages();
+		CalculateMonsterHit();
 
 		
 	}
@@ -172,9 +173,15 @@ namespace Pg::DataScript
 		}
 	}
 
-	void PlayerBattleBehavior::AddMonsterHitList(BaseMonster* monster, float healthChangeLvl)
+	void PlayerBattleBehavior::AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl)
 	{
 		_monsterHealthChangeList.push_back(BaseMonsterHealthChangePair(monster,healthChangeLvl));
+	}
+
+
+	void PlayerBattleBehavior::AddMonsterOnHitList(BaseMonsterInfo* monster)
+	{
+		_monsterOnHitList.push_back(BaseMonsterHitPair(monster));
 	}
 
 	void PlayerBattleBehavior::CalculateMonsterDamages()
@@ -188,10 +195,32 @@ namespace Pg::DataScript
 		//실제로 
 		for (auto& it : _monsterHealthChangeList)
 		{
-			it._baseMonster->ChangeMonsterHealth(it._healthChangeLvl);
+			it._baseMonster->ChangeMonsterHp(it._healthChangeLvl);
+
+			if (it._baseMonster->GetMonsterHp() <= std::numeric_limits<float>::epsilon())
+			{
+				it._baseMonster->_onDead();
+			}
 		}
 
 		//이제 클리어.
 		_monsterHealthChangeList.clear();
+	}
+
+	void PlayerBattleBehavior::CalculateMonsterHit()
+	{
+		//SceneSystem 함수는 무조건 Physics의 On시리즈보다 빨리 호출된다는 것을 활용.
+		if (_monsterOnHitList.empty())
+		{
+			return;
+		}
+
+		//몬스터가 피격 시 Hit 함수 호출
+		for (auto& it : _monsterOnHitList)
+		{
+			it._baseMonster->_onHit();
+		}
+
+		_monsterOnHitList.clear();
 	}
 }

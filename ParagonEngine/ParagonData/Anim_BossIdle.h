@@ -1,5 +1,5 @@
-#ifndef ISDASH 
-#define ISDASH
+#ifndef ANIM_BOSSIDLE
+#define ANIM_BOSSIDLE
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,12 +7,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class isDash : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_BossIdle : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		isDash(const std::string& name, const BT::NodeConfiguration& config)
-			:BT::SyncActionNode(name, config) {};
-		virtual ~isDash() = default;
+		Anim_BossIdle(const std::string& name, const BT::NodeConfiguration& config)
+			: BT::SyncActionNode(name, config) {}
+		virtual ~Anim_BossIdle() = default;
 
 		virtual BT::NodeStatus tick() override;
 
@@ -20,6 +20,8 @@ namespace Pg::Data::BTree::Node
 		{
 			return {};
 		}
+
+	private:
 	};
 }
 #endif

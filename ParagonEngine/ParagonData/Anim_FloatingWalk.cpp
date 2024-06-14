@@ -1,9 +1,9 @@
-#include "Anim_Walk.h"
+#include "Anim_FloatingWalk.h"
 #include "SkinnedMeshRenderer.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus Anim_Walk::tick()
+	BT::NodeStatus Anim_FloatingWalk::tick()
 	{
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
@@ -18,7 +18,7 @@ namespace Pg::Data::BTree::Node
 			{
 				tMeshRenderer->SetAnimation(animId, true);
 				config().blackboard->set<bool>("ISCHANGE", true);
-
+				 
 				std::string objName = this->GetGameObject()->GetName();
 				objName = objName.substr(0, objName.rfind("_"));
 				if (objName.find("Golem") != std::string::npos) objName.append("_Crtstal");

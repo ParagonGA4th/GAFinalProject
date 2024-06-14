@@ -230,12 +230,10 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7_1->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
 	tObj7_1->AddComponent<Animator>();
 	tObj7_1->GetComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Monster/Golem.xml");
-	//tObj7_1->AddComponent<MovingTest>();
-	tObj7_1->AddComponent<Enemy>();
 	tObj7_1->AddComponent<MonsterMove>();
 	//tObj7_1->AddComponent<NavTest>();
 
-	Pg::Data::GameObject* tObj7_2 = tCurrentScene->AddObject("Seight1");
+	Pg::Data::GameObject* tObj7_2 = tCurrentScene->AddObject("GolemAttackRange");
 	tObj7_2->GetComponent<Transform>()->_position = { 0.f, 0.f, 2.3f };
 	tObj7_2->GetComponent<Transform>()->_scale = { 2.5f, 1.f, 1.f };
 	tObj7_2->AddComponent<StaticBoxCollider>();

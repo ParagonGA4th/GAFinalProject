@@ -227,7 +227,7 @@
       <Filter>2_Component\AnimTransform</Filter>
     </ClCompile>
     <ClCompile Include="EditorCameraScript.cpp">
-      <Filter>13_EngineScripts\EditorCameraScript</Filter>
+      <Filter>2_Component\13_EngineScripts\EditorCameraScript</Filter>
     </ClCompile>
     <ClCompile Include="StaticCapsuleCollider.cpp">
       <Filter>2_Component\Collider\3D\StaticCollider\CapsuleCollider</Filter>
@@ -241,17 +241,17 @@
     <ClCompile Include="Anim_Delay.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\Anim_Delay</Filter>
     </ClCompile>
-    <ClCompile Include="Anim_Idle.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_Idle</Filter>
+    <ClCompile Include="Anim_FloatingIdle.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_FloatingIdle</Filter>
     </ClCompile>
-    <ClCompile Include="Anim_Walk.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_Walk</Filter>
+    <ClCompile Include="Anim_FloatingWalk.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_FloatingWalk</Filter>
     </ClCompile>
     <ClCompile Include="Anim_Dash.cpp">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_Dash</Filter>
     </ClCompile>
     <ClCompile Include="Anim_gAttack.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_mAttack</Filter>
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_gAttack</Filter>
     </ClCompile>
     <ClCompile Include="isDash.cpp">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\isDash</Filter>
@@ -262,9 +262,6 @@
     <ClCompile Include="isHitSpace.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isHitSpace</Filter>
     </ClCompile>
-    <ClCompile Include="Anim_HitFloating.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_HitFloating</Filter>
-    </ClCompile>
     <ClCompile Include="Anim_Shoot.cpp">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Shoot</Filter>
     </ClCompile>
@@ -273,6 +270,33 @@
     </ClCompile>
     <ClCompile Include="isChase.cpp">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isChase</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_BossIdle.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Anim_BossIdle</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_BossDash.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Anim_BossDash</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_DeadFloating.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_DeadFloating</Filter>
+    </ClCompile>
+    <ClCompile Include="isDead.cpp">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isDead</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_DeadGround.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Ground Monster\Anim_DeadGround</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_tAttack.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_tAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_PoisonGas.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_PoisonGas</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_GroundIdle.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Ground Monster\Anim_GroundIdle</Filter>
+    </ClCompile>
+    <ClCompile Include="isDistanceClose.cpp">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isDistanceClose</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -542,7 +566,7 @@
       <Filter>2_Component\AnimTransform</Filter>
     </ClInclude>
     <ClInclude Include="EditorCameraScript.h">
-      <Filter>13_EngineScripts\EditorCameraScript</Filter>
+      <Filter>2_Component\13_EngineScripts\EditorCameraScript</Filter>
     </ClInclude>
     <ClInclude Include="SerializerHelper.h">
       <Filter>2_Component\1_Helper\SerializerHelper</Filter>
@@ -568,17 +592,17 @@
     <ClInclude Include="Anim_Delay.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\Anim_Delay</Filter>
     </ClInclude>
-    <ClInclude Include="Anim_Idle.h">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_Idle</Filter>
+    <ClInclude Include="Anim_FloatingIdle.h">
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_FloatingIdle</Filter>
     </ClInclude>
-    <ClInclude Include="Anim_Walk.h">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_Walk</Filter>
+    <ClInclude Include="Anim_FloatingWalk.h">
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_FloatingWalk</Filter>
     </ClInclude>
     <ClInclude Include="Anim_Dash.h">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_Dash</Filter>
     </ClInclude>
     <ClInclude Include="Anim_gAttack.h">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_mAttack</Filter>
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_gAttack</Filter>
     </ClInclude>
     <ClInclude Include="isDash.h">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Golem\isDash</Filter>
@@ -589,9 +613,6 @@
     <ClInclude Include="isHitSpace.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isHitSpace</Filter>
     </ClInclude>
-    <ClInclude Include="Anim_HitFloating.h">
-      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_HitFloating</Filter>
-    </ClInclude>
     <ClInclude Include="Anim_Shoot.h">
       <Filter>11_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Shoot</Filter>
     </ClInclude>
@@ -600,6 +621,33 @@
     </ClInclude>
     <ClInclude Include="isChase.h">
       <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isChase</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_BossIdle.h">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Anim_BossIdle</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_BossDash.h">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Anim_BossDash</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_DeadFloating.h">
+      <Filter>11_BtNodes\MonsterAnim\Floating Monster\Anim_DeadFloating</Filter>
+    </ClInclude>
+    <ClInclude Include="isDead.h">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isDead</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_DeadGround.h">
+      <Filter>11_BtNodes\MonsterAnim\Ground Monster\Anim_DeadGround</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_tAttack.h">
+      <Filter>11_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_tAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_PoisonGas.h">
+      <Filter>11_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_PoisonGas</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_GroundIdle.h">
+      <Filter>11_BtNodes\MonsterAnim\Ground Monster\Anim_GroundIdle</Filter>
+    </ClInclude>
+    <ClInclude Include="isDistanceClose.h">
+      <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isDistanceClose</Filter>
     </ClInclude>
     <ClInclude Include="VisualEffectData.h">
       <Filter>4_Structs</Filter>
@@ -840,12 +888,6 @@
     <Filter Include="2_Component\AnimTransform">
       <UniqueIdentifier>{6bd232b2-bcfc-48ef-b9c7-e6249f57f0fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="13_EngineScripts">
-      <UniqueIdentifier>{93d4cb98-3dcb-45a6-91b7-fca442321fd6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="13_EngineScripts\EditorCameraScript">
-      <UniqueIdentifier>{baaa2dab-5a8d-4839-83e7-26e03160a912}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2_Component\1_Helper\SerializerHelper">
       <UniqueIdentifier>{2e2cd2ef-5cb5-4fca-afc4-e98602257c67}</UniqueIdentifier>
     </Filter>
@@ -882,20 +924,8 @@
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_Dash">
       <UniqueIdentifier>{92c7aaf5-7466-4286-b53d-effc4536fb5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_mAttack">
-      <UniqueIdentifier>{187082aa-a4ee-4eac-8661-4a028c1b0de1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Anim_Idle">
-      <UniqueIdentifier>{b3b0291a-ec59-46f6-88c2-a2ae2668b8a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Anim_Walk">
-      <UniqueIdentifier>{0daee397-cac5-431b-bea4-998e158c3b11}</UniqueIdentifier>
-    </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\GolemBoss">
       <UniqueIdentifier>{571525dc-9df6-4341-93c5-9cc69b7dd5ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Anim_HitFloating">
-      <UniqueIdentifier>{61d4379d-8180-4131-9b8f-8d65550b6de1}</UniqueIdentifier>
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Wasp">
       <UniqueIdentifier>{959449db-22bf-4ba4-9667-72070b93857f}</UniqueIdentifier>
@@ -914,6 +944,84 @@
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Golem\isDash">
       <UniqueIdentifier>{d0b36f89-7d46-4078-b73a-32ab6a3ba4af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss">
+      <UniqueIdentifier>{ab5292ed-46e7-45d5-bd5b-07876b13bd52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Anim_Neutralize">
+      <UniqueIdentifier>{b4e86225-95af-4881-88e9-f0ec669e6801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Attack">
+      <UniqueIdentifier>{fecc4b0c-0806-4020-b4d5-d90cb26edfe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Attack\Anim_LeftArmAttack">
+      <UniqueIdentifier>{d823548a-17ec-45bb-8f9e-f8a87774a1f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Attack\Anim_RightArmAttack">
+      <UniqueIdentifier>{96b9814c-afce-4612-b286-a2d9e7fd4d9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Attack\Anim_TwoArmAttack">
+      <UniqueIdentifier>{d493f185-335e-4dfc-a547-a190ae8fdf38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttack">
+      <UniqueIdentifier>{dc2204d5-97ae-425d-92e2-52208d591494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Attack\Anim_FlyAttack">
+      <UniqueIdentifier>{898245d5-410f-4f7b-a53d-3e4c81cc651d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Anim_BossDash">
+      <UniqueIdentifier>{f1f49594-296b-4e4d-b941-5bae3f700130}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Anim_BossWalk">
+      <UniqueIdentifier>{460b7782-64f3-48a1-bdba-351b106574b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Anim_BossIdle">
+      <UniqueIdentifier>{ab4a5416-5874-4e87-b360-594c577d52bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Anim_Evasion">
+      <UniqueIdentifier>{4dba592d-72e6-4c4f-94c5-60c2b52b273e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Anim_HitBoss">
+      <UniqueIdentifier>{8f3f74df-c99d-4af4-8670-4daaa550acde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Anim_DeadFloating">
+      <UniqueIdentifier>{6db2d9ae-1385-4af0-85ca-f5b4030d6903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicAnim\isDead">
+      <UniqueIdentifier>{bb624604-e5e1-450e-ad3f-8f3147971551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\13_EngineScripts">
+      <UniqueIdentifier>{93d4cb98-3dcb-45a6-91b7-fca442321fd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\13_EngineScripts\EditorCameraScript">
+      <UniqueIdentifier>{baaa2dab-5a8d-4839-83e7-26e03160a912}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Ground Monster\Trent">
+      <UniqueIdentifier>{c8b953b7-4e26-4e3e-a5af-0738b5416210}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_tAttack">
+      <UniqueIdentifier>{a07176c1-bbcf-4cb2-96ca-0cddafe580e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_PoisonGas">
+      <UniqueIdentifier>{7163c3f2-a6c2-4a40-a57b-44c4834e4921}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Ground Monster\Anim_DeadGround">
+      <UniqueIdentifier>{deed4680-403d-423f-9506-77fdf5056006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Anim_FloatingIdle">
+      <UniqueIdentifier>{b3b0291a-ec59-46f6-88c2-a2ae2668b8a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Anim_FloatingWalk">
+      <UniqueIdentifier>{0daee397-cac5-431b-bea4-998e158c3b11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Ground Monster\Anim_GroundIdle">
+      <UniqueIdentifier>{ef412e0e-d8f5-4bb6-a34e-5e43a91009a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_gAttack">
+      <UniqueIdentifier>{187082aa-a4ee-4eac-8661-4a028c1b0de1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\0_PublicAnim\isDistanceClose">
+      <UniqueIdentifier>{c880e1e2-0d87-438b-a2de-2a2a0b2fe792}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

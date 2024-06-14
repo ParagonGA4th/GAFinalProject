@@ -16,7 +16,7 @@
 namespace Pg::DataScript
 {
 	BossBehaviour::BossBehaviour(Pg::Data::GameObject* obj) :
-		ScriptInterface(obj), BaseMonster(100.f, 5.f),_isRotateFinish(false)
+		ScriptInterface(obj), BaseMonsterInfo(100.f, 5.f),_isRotateFinish(false)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgScene = &singleton<Pg::API::PgScene>();

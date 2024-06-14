@@ -33,7 +33,7 @@ namespace Pg::DataScript
 	class EnemySight;
 	class PlayerBattleBehavior;
 
-	class EnemyBehaviour : public ScriptInterface<EnemyBehaviour>, public BaseMonster
+	class EnemyBehaviour : public ScriptInterface<EnemyBehaviour>, public BaseMonsterInfo
 	{
 		DEFINE_PARAGON_SCRIPT(EnemyBehaviour);
 
