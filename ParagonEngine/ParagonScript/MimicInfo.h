@@ -4,16 +4,16 @@
 #include "IEvent.h"
 
 //미니골렘의 상태
-enum class MiniGolemStatus
+enum class MimicStatus
 {
 	IDLE,				// 다음 공격 패턴을 정함
 
 	CHASE,				// 플레이어 추적
-	DASH,				// 돌진
 
 	DEAD,				// 사망
 
 	BASIC_ATTACK,		// 기본 공격
+	SKILL_ATTACK		// 스킬 공격
 };
 
 /// <summary>
@@ -40,7 +40,7 @@ namespace Pg::DataScript
 		float GetSightRange() const { return _sightRange; }
 		float GetAttackRange() const { return _attackRange; }
 
-		MiniGolemStatus _status; // 상태
+		MimicStatus _status; // 상태
 
 	private:
 		float _armor;          // 방어력
