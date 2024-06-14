@@ -373,6 +373,8 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::InitMakeColliders()
 	{
+		PG_TRACE("Started Refreshing Colliders...");
+
 		//씬 전환 시 콜라이더 전부 해제 후 재로드.
 		if (!_rigidDynamicVec.empty() || !_rigidStaticVec.empty())
 		{
@@ -451,6 +453,8 @@ namespace Pg::Engine::Physic
 			}
 			AddObjectToScene();
 		}
+
+		PG_TRACE("...Ended Refreshing Colliders");
 	}
 
 
