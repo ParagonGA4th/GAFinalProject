@@ -92,14 +92,6 @@ namespace Pg::DataScript
 			_monsterHelper->_isPlayerDetected = true;
 			RotateToPlayer(_playerTransform->_position);
 
-			//if (_distance <= _mimicInfo->GetDashRange() && _isDash == false && _hasDashed == false)
-			//{
-			//	_isDash = true;
-			//	_monsterHelper->_isDash = _isDash;
-			//	_monsterHelper->_isChase = !_isDash;
-			//	_mimicInfo->SetCurrentDashTime(0.f);
-			//}
-
 			//대쉬 true면 돌진해!!
 			if (_isDash)
 			{

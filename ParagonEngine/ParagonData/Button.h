@@ -36,6 +36,8 @@ namespace Pg::Data
 		virtual void Update() override;
 
 		void ClickDown();
+		void Hover();
+		void NotHover();
 		void ClickUp();
 
 		//Script 사용 위해 API로 전향
@@ -45,6 +47,12 @@ namespace Pg::Data
 		void SetOnClickUpEvent(std::function<void()> onClickEvent);
 		std::function<void()> GetOnClickUpEvent() const;
 
+		void SetHover(std::function<void()> hover);
+		std::function<void()> GetHover() const;
+
+		void SetNotHover(std::function<void()> notHover);
+		std::function<void()> GetNotHover() const;
+
 		void SetImagePath(const std::string& path);
 		void SetImageSize(float width, float height);
 		
@@ -53,6 +61,8 @@ namespace Pg::Data
 		
 		void SetImageHeight(float height);
 		float GetImageHeight();
+
+		ImageRenderer* GetImageRenderer();
 
 	public:
 		//이미지의 사이즈
@@ -69,6 +79,8 @@ namespace Pg::Data
 
 		std::function<void()> _onClickEvent;
 		std::function<void()> _onClickUpEvent;
+		std::function<void()> _hover;
+		std::function<void()> _notHover;
 
 		bool _isPressed;	//버튼 누른 여부 체크.
 	};

@@ -47,6 +47,10 @@ namespace Pg::Graphics
 
 			for (auto& it : outStringVector)
 			{
+				if (it.empty())
+				{
+					continue;
+				}
 				//Image 데이터를 받기.
 				auto tTexture2dData = GraphicsResourceManager::Instance()->GetResource(it, eAssetDefine::_TEXTURE2D);
 				_texture2DVector.push_back(static_cast<RenderTexture2D*>(tTexture2dData.get()));
