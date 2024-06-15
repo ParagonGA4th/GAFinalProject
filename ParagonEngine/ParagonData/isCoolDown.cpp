@@ -12,7 +12,7 @@ namespace Pg::Data::BTree::Node
 	{
 		bool isCoolDownAnimEnd = config().blackboard->get<bool>("ISCOOLDOWNANIMEND");
 		bool isSkillAnimEnd = config().blackboard->get<bool>("ISSKILLANIMEND");
-		
+
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
@@ -25,7 +25,7 @@ namespace Pg::Data::BTree::Node
 			{
 				return BT::NodeStatus::SUCCESS;
 			}
-			else if(!isCoolDownAnimEnd && 
+			else if (!isCoolDownAnimEnd &&
 				(monHelper->_trentState == Pg::Data::TrentState::SKILL_COOLDOWN || monHelper->_trentState == Pg::Data::TrentState::BASICATTACK_COOLDOWN))
 			{
 				return BT::NodeStatus::SUCCESS;
