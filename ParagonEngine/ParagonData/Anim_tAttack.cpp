@@ -14,6 +14,9 @@ namespace Pg::Data::BTree::Node
 				_isChangeAnim = false;
 				monHelper->_isAnimationEnd = false;
 
+				if (monHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_3)
+					monHelper->_trentState = Pg::Data::TrentState::BASICATTACK_COOLDOWN;
+
 				config().blackboard->set<bool>("ISCHANGE", false);
 			}
 			else
@@ -33,14 +36,12 @@ namespace Pg::Data::BTree::Node
 
 				if (!_isChangeAnim &&
 					(monHelper->_trentState == Pg::Data::TrentState::SKILL_COOLDOWN ||
-					 monHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_1 ||
-					 monHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_2 ||
-					 monHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_3 ))
+						monHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_1 ||
+						monHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_2))
 				{
 					if (monHelper->_trentState == Pg::Data::TrentState::SKILL_COOLDOWN) monHelper->_trentState = Pg::Data::TrentState::BASIC_ATTACK_1;
 					else if (monHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_1) monHelper->_trentState = Pg::Data::TrentState::BASIC_ATTACK_2;
 					else if (monHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_2) monHelper->_trentState = Pg::Data::TrentState::BASIC_ATTACK_3;
-					else if (monHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_3) monHelper->_trentState = Pg::Data::TrentState::BASICATTACK_COOLDOWN;
 
 					_isChangeAnim = true;
 					tMeshRenderer->SetAnimation(animId, false);
