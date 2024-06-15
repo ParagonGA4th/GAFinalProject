@@ -41,6 +41,7 @@ namespace Pg::Data
 
 		/// Animation
 		bool _isAnimationEnd;			// 애니매이션이 끝났는지
+		bool _isAnimChange;				// 애니매이션이 바뀌었는지
 		bool _isDeadDelay;				// 몬스터가 죽은 후 딜레이
 	};
 }

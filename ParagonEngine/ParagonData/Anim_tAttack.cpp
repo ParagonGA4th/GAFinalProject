@@ -13,6 +13,7 @@ namespace Pg::Data::BTree::Node
 			{
 				_isChangeAnim = false;
 				monHelper->_isAnimationEnd = false;
+				monHelper->_isAnimChange = false;
 
 				if (monHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_3)
 					monHelper->_trentState = Pg::Data::TrentState::BASICATTACK_COOLDOWN;
@@ -21,6 +22,7 @@ namespace Pg::Data::BTree::Node
 			}
 			else
 			{
+				if (!monHelper->_isAnimChange) monHelper->_isAnimChange = true;
 				if (monHelper->_trentState == Pg::Data::TrentState::SKILL_COOLDOWN)
 				{
 					if (_isChangeAnim) _isChangeAnim = false;
