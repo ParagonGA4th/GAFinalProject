@@ -246,4 +246,8 @@ namespace Pg::Core
 		_graphics->GraphicsConnectDefaultResources();
 	}
 
+	void EngineGraphicsAdapter::OnParagonProjectLoad(const std::vector<Pg::Data::Scene*>& sceneVec)
+	{
+		_engine->OnParagonProjectLoad(sceneVec);
+	}
 }

@@ -1,4 +1,6 @@
 #pragma once
+
+#pragma once
 #include "ScriptInterface.h"
 #include "GameState.h"
 
@@ -9,9 +11,9 @@ namespace Pg::API::Time { class PgTime; }
 
 namespace Pg::DataScript
 {
-	class GameManager : public ScriptInterface<GameManager>
+	class InGameManager : public ScriptInterface<InGameManager>
 	{
-		DEFINE_PARAGON_SCRIPT_SINGLETON(GameManager);
+		DEFINE_PARAGON_SCRIPT_SINGLETON(InGameManager);
 
 	public:
 		virtual void Awake() override;
@@ -31,11 +33,12 @@ namespace Pg::DataScript
 		int _playersLife;				// 플레이어의 목숨
 		ePlayerState _playerState;		// 플레이어의 상태
 		std::vector<std::pair<std::string, bool>> _artifacts;	// 플레이어가 보유 중인 아티팩트
-		
+
 		/// Stage
 		int _numberOfMonstersKilled;	// 죽은 몬스터의 개수
 		// SceneName, monsterType, monsters Number
 		std::vector<std::pair<std::string, std::pair<std::string, int>>> _numberOfMonsters;	// 스테이지 별 몬스터의 개수
 	};
 }
+
 

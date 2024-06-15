@@ -125,6 +125,9 @@ namespace Pg::Core
 		//디폴트 리소스 로드된 후, 그래픽스에서 연동.
 		void GraphicsConnectDefaultResources();
 
+		//Paragon Project가 로딩되었을 때.
+		void OnParagonProjectLoad(const std::vector<Pg::Data::Scene*>& sceneVec);
+
 	private:
 		std::unique_ptr<IEngine> _engine;					//게임 엔진
 		std::unique_ptr<IGraphics> _graphics;				//그래픽스 엔진

@@ -25,6 +25,12 @@ namespace Pg::API
 	{
 		return _sceneSystem->GetCurrentScene();
 	}
+
+	std::vector<Pg::Data::Scene*> PgScene::GetProjectSceneList()
+	{
+		return _sceneSystem->GetProjectSceneList();
+	}
+
 }
 
 

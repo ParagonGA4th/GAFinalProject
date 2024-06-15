@@ -8,6 +8,7 @@
 //#include "../ParagonGameEngine/InputSystem.h"
 #include <d3d11.h>
 
+#include <vector>
 #include <memory>
 
 //struct ID3D11Device;
@@ -56,6 +57,9 @@ namespace Pg::Core
 		void FinalRender();
 		void EndRender();
 		void Finalize();
+
+		//.pgproject가 로드되었을 때, 단 한번 전달.
+		void OnParagonProjectLoad(const std::vector<Pg::Data::Scene*>& sceneVec);
 
 	private:
 		const WCHAR* _className;

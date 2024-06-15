@@ -330,9 +330,28 @@ namespace Pg::Engine
 
 					_isNeedToChangeScene = false;
 					return;
-				}
+				}	
 			}
 			assert(false && "SceneName과 동일한 Scene이 존재하지 않음.");	
 		}
 	}
+
+	void SceneSystem::SetProjectSceneList(const std::vector<Pg::Data::Scene*>& sceneVec)
+	{
+		if (!_projectSceneList.empty())
+		{
+			//만약 비어있지 않았다면 Clear.
+			_projectSceneList.clear();
+		}
+
+		//옮기기.
+		std::copy(sceneVec.begin(), sceneVec.end(), std::back_inserter(_projectSceneList));
+	}
+
+	std::vector<Pg::Data::Scene*> SceneSystem::GetProjectSceneList()
+	{
+		//복사된 버전을 반환.
+		return _projectSceneList;
+	}
+
 }

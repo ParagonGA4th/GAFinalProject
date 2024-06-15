@@ -173,4 +173,13 @@ namespace Pg::Core
 		if (define == Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL) return _assetManager->GetMaterialNamesWithoutDefault();
 		else return _assetManager->GetResourcesNameByDefine(define);
 	}
+
+	void ProcessMain::OnParagonProjectLoad(const std::vector<Pg::Data::Scene*>& sceneVec)
+	{
+		//IEngine에게 전달할 것이다. PgProject 실행은 앞으로 게임의 실행 조건에 필수적으로 들어간다.
+		//결국 TotalGameManager에 값을 전달할 수 있어야 한다.
+		//SceneSystem에서 Project에 저장되어 있는 리스트를 받을 수 있게 한다.
+		//GetProjectSceneList(); 이런 것이 있는 것.
+		_engineGraphicsAdapter->OnParagonProjectLoad(sceneVec);
+	}
 }

@@ -357,4 +357,10 @@ namespace Pg::Engine
 	{
 		_physicSystem->CheckDeleteRuntimeColliders(objVecP);
 	}
+
+	void EngineMain::OnParagonProjectLoad(const std::vector<Pg::Data::Scene*>& sceneVec)
+	{
+		_sceneSystem->SetProjectSceneList(sceneVec);
+	}
+
 }

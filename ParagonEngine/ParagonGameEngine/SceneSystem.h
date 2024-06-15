@@ -63,6 +63,9 @@ namespace Pg::Engine
 		void SetSceneList(std::vector<Scene*> scenes);
 		std::vector<Scene*> GetSceneList();
 
+		void SetProjectSceneList(const std::vector<Pg::Data::Scene*>& sceneVec);
+		PARAGON_ENGINE_DLL std::vector<Pg::Data::Scene*> GetProjectSceneList();
+		
 		//새로운 씬을 생성한다.
 		Scene* CreateScene(const std::string& sceneName);
 
@@ -89,6 +92,9 @@ namespace Pg::Engine
 	private:
 		Scene* _currentScene = nullptr;
 		std::unordered_map<std::string, Scene*> _sceneList;
+
+		//Project Scene List 따로 보관.
+		std::vector<Pg::Data::Scene*> _projectSceneList;
 
 	private:
 		SoundSystem* _soundSystem = nullptr;
