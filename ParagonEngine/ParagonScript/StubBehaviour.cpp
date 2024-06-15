@@ -117,8 +117,8 @@ namespace Pg::DataScript
 				_monsterHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_3)
 			{
 				PG_TRACE("Attack!");
-				Attack(true);
-			}
+				Attack(!(_monsterHelper->_isAnimationEnd));
+			}			
 			if (_monsterHelper->_trentState == Pg::Data::TrentState::BASICATTACK_COOLDOWN)
 			{
 				PG_TRACE("Attack CoolDown!");
