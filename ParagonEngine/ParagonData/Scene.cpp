@@ -166,6 +166,17 @@ namespace Pg::Data
 			});
 	}
 
+	void Scene::GrabManagedObjects()
+	{
+		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
+			{
+				if (iter->GetActive())
+				{
+					iter->GrabManagedObjects();
+				}
+			});
+	}
+
 	//이제는 void를 반환. 일괄적으로 Scene Loop 기준 연산하기 때문.
 	void Scene::AddObjectRuntime(const std::string& obj)
 	{
@@ -317,7 +328,4 @@ namespace Pg::Data
 	{
 		_is3D = is3d;
 	}
-
-	
-
 }

@@ -71,7 +71,7 @@ namespace Pg::Engine
 			{
 				//PG_ERROR("now Checking");
 				CheckMoveDontDestroyOnLoadObjects(_currentScene);
-				StartDontDestroyOnLoadObjects();
+				AwakeStartDontDestroyOnLoadObjects();
 
 				/// Play Mode일 경우 다시 호출
 				auto& tPhysicSystem = singleton<Physic::PhysicSystem>();
@@ -100,7 +100,9 @@ namespace Pg::Engine
 			UpdateDontDestroyOnLoadObjects();
 			_currentScene->Update();
 			_currentScene->OnAnimationEnd();
+			FixedUpdateDontDestroyOnLoadObjects();
 			_currentScene->FixedUpdate();
+			LateUpdateDontDestroyOnLoadObjects();
 			_currentScene->LateUpdate();
 
 			//런타임 Add/Remove 오브젝트 관리.
@@ -141,6 +143,14 @@ namespace Pg::Engine
 		std::for_each(_currentScene->GetObjectList().begin(), _currentScene->GetObjectList().end(), [](auto& iter)
 			{ iter->ResetDebouncerBoolean(); });
 
+		//SetCurrentScene이 호출되었을 때, Global한 애들 기준으로 (Static Vector, Don't Destroy On Load)
+		//OnSceneChange_Global()을 호출한다. (일반 오브젝트들에는 해당되지 않는다)
+		if (!(Pg::Data::Scene::_dontDestroyOnList.empty()))
+		{
+			std::for_each(Pg::Data::Scene::_dontDestroyOnList.begin(), Pg::Data::Scene::_dontDestroyOnList.end(), [&scene](auto& iter)
+				{ iter->OnSceneChange_Global(scene); });
+		}
+	
 		//씬이 바뀔 시 사운드 전부 다시 로드.
 		auto& tSoundSystem = singleton<SoundSystem>();
 		_soundSystem = &tSoundSystem;
@@ -282,7 +292,7 @@ namespace Pg::Engine
 		}
 	}
 
-	void SceneSystem::StartDontDestroyOnLoadObjects()
+	void SceneSystem::AwakeStartDontDestroyOnLoadObjects()
 	{
 		if (Pg::Data::Scene::_dontDestroyOnList.empty())
 		{
@@ -292,6 +302,11 @@ namespace Pg::Engine
 		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
 		{
 			it->ResetDebouncerBoolean();
+		}
+
+		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
+		{
+			it->Awake();
 		}
 
 		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
@@ -310,6 +325,32 @@ namespace Pg::Engine
 		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
 		{
 			it->Update();
+		}
+	}
+
+	void SceneSystem::FixedUpdateDontDestroyOnLoadObjects()
+	{
+		if (Pg::Data::Scene::_dontDestroyOnList.empty())
+		{
+			return;
+		}
+
+		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
+		{
+			it->FixedUpdate();
+		}
+	}
+
+	void SceneSystem::LateUpdateDontDestroyOnLoadObjects()
+	{
+		if (Pg::Data::Scene::_dontDestroyOnList.empty())
+		{
+			return;
+		}
+
+		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
+		{
+			it->LateUpdate();
 		}
 	}
 
@@ -336,7 +377,7 @@ namespace Pg::Engine
 		}
 	}
 
-	void SceneSystem::SetProjectSceneList(const std::vector<Pg::Data::Scene*>& sceneVec)
+	void SceneSystem::SetProjectSceneList_GrabManagedObjects(const std::vector<Pg::Data::Scene*>& sceneVec)
 	{
 		if (!_projectSceneList.empty())
 		{
@@ -346,6 +387,15 @@ namespace Pg::Engine
 
 		//옮기기.
 		std::copy(sceneVec.begin(), sceneVec.end(), std::back_inserter(_projectSceneList));
+
+		//동시에, 새로운 Manager들에 한정하여, 다른 동작을 하지 말고,
+		//단순히 그들을 모아둘 수단이 필요하다. (플로우 관리를 위해)
+		for (auto& it : _projectSceneList)
+		{
+			//내부적으로 GrabManagedObjects (매니저들이 관리하는 대상 등등, 모아두기 위해)
+			//카메라 같은 애들은 내부적으로 불가.
+			it->GrabManagedObjects();
+		}
 	}
 
 	std::vector<Pg::Data::Scene*> SceneSystem::GetProjectSceneList()
@@ -353,5 +403,4 @@ namespace Pg::Engine
 		//복사된 버전을 반환.
 		return _projectSceneList;
 	}
-
 }

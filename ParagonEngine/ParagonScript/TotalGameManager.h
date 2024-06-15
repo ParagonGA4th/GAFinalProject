@@ -2,6 +2,8 @@
 #include "ScriptInterface.h"
 #include "GameState.h"
 
+#include "../ParagonData/Scene.h"
+
 #include <string>
 #include <vector>
 
@@ -10,6 +12,7 @@
 /// </summary>
 
 namespace Pg::API::Time { class PgTime; }
+namespace Pg::API { class PgScene; }
 
 namespace Pg::DataScript
 {
@@ -21,8 +24,12 @@ namespace Pg::DataScript
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;
+
+	public:
+		//SceneÀÌ ¹Ù²ð ¶§
+		virtual void OnSceneChange_Global(Pg::Data::Scene* changedScene) override;
 	private:
-		int _testValue{ 1 };
+		Pg::API::PgScene* _pgScene{ nullptr };
 	};
 }
 

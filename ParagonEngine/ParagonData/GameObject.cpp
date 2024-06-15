@@ -341,7 +341,7 @@ namespace Pg::Data
 				component = new BoxCollider(this);
 				AddComponent("class Pg::Data::BoxCollider", component);
 				return component;
-			}			
+			}
 		}
 		return nullptr;
 	}
@@ -380,7 +380,12 @@ namespace Pg::Data
 		}
 
 		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-			{ iter.second->OnCollisionStay(); });
+			{
+				if (iter.second->GetActive())
+				{
+					iter.second->OnCollisionStay();
+				}
+			});
 	}
 
 	void GameObject::OnCollisionEnter(PhysicsCollision** _colArr, unsigned int count)
@@ -391,9 +396,13 @@ namespace Pg::Data
 		}
 
 		std::for_each(_componentList.begin(), _componentList.end(), [&_colArr, &count](auto& iter)
-			{ iter.second->OnCollisionEnter(_colArr, count); });
+			{
+				if (iter.second->GetActive())
+				{
+					iter.second->OnCollisionEnter(_colArr, count);
+				}
+			});
 	}
-
 
 	void GameObject::OnCollisionExit(PhysicsCollision** _colArr, unsigned int count)
 	{
@@ -403,7 +412,12 @@ namespace Pg::Data
 		}
 
 		std::for_each(_componentList.begin(), _componentList.end(), [&_colArr, &count](auto& iter)
-			{ iter.second->OnCollisionExit(_colArr, count); });
+			{
+				if (iter.second->GetActive())
+				{
+					iter.second->OnCollisionExit(_colArr, count);
+				}
+			});
 	}
 
 	void GameObject::OnTriggerStay()
@@ -414,7 +428,12 @@ namespace Pg::Data
 		}
 
 		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-			{ iter.second->OnTriggerStay(); });
+			{
+				if (iter.second->GetActive())
+				{
+					iter.second->OnTriggerStay();
+				}
+			});
 	}
 
 	void GameObject::OnTriggerEnter(Collider** _colArr, unsigned int count)
@@ -425,7 +444,12 @@ namespace Pg::Data
 		}
 
 		std::for_each(_componentList.begin(), _componentList.end(), [&_colArr, &count](auto& iter)
-			{ iter.second->OnTriggerEnter(_colArr, count); });
+			{
+				if (iter.second->GetActive())
+				{
+					iter.second->OnTriggerEnter(_colArr, count);
+				}
+			});
 	}
 
 	void GameObject::OnTriggerExit(Collider** _colArr, unsigned int count)
@@ -436,9 +460,13 @@ namespace Pg::Data
 		}
 
 		std::for_each(_componentList.begin(), _componentList.end(), [&_colArr, &count](auto& iter)
-			{ iter.second->OnTriggerExit(_colArr, count); });
+			{ 
+				if (iter.second->GetActive())
+				{
+					iter.second->OnTriggerExit(_colArr, count);
+				}
+			});
 	}
-
 
 	void GameObject::OnDestroy()
 	{
@@ -509,6 +537,30 @@ namespace Pg::Data
 	void GameObject::TurnOnAnimationEnd()
 	{
 		_isTurnedOnAnimationEnd = true;
+	}
+
+	void GameObject::OnSceneChange_Global(Pg::Data::Scene* changedScene)
+	{
+		if (!_isActive)
+		{
+			return;
+		}
+
+		//GetActive ¹Ý¿µ ¾ÈµÊ.
+		std::for_each(_componentList.begin(), _componentList.end(), [&changedScene](auto& iter)
+			{ iter.second->OnSceneChange_Global(changedScene); });
+	}
+
+	void GameObject::GrabManagedObjects()
+	{
+		if (!_isActive)
+		{
+			return;
+		}
+
+		//GetActive ¹Ý¿µ ¾ÈµÊ.
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->GrabManagedObjects(); });
 	}
 
 }
