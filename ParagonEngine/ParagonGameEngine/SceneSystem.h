@@ -63,7 +63,8 @@ namespace Pg::Engine
 		void SetSceneList(std::vector<Scene*> scenes);
 		std::vector<Scene*> GetSceneList();
 
-		void SetProjectSceneList(const std::vector<Pg::Data::Scene*>& sceneVec);
+		//내부적으로 스크립트 형태로 존재하는 오브젝트들이 (일반 오브젝트에 한정, DontDestroyOnLoad는 해당되지 않음)
+		void SetProjectSceneList_GrabManagedObjects(const std::vector<Pg::Data::Scene*>& sceneVec);
 		PARAGON_ENGINE_DLL std::vector<Pg::Data::Scene*> GetProjectSceneList();
 		
 		//새로운 씬을 생성한다.
@@ -85,8 +86,10 @@ namespace Pg::Engine
 		void SetCurrentScene_Internal(Scene* scene);
 	private:
 		void CheckMoveDontDestroyOnLoadObjects(Pg::Data::Scene* scene);
-		void StartDontDestroyOnLoadObjects();
+		void AwakeStartDontDestroyOnLoadObjects();
 		void UpdateDontDestroyOnLoadObjects();
+		void FixedUpdateDontDestroyOnLoadObjects();
+		void LateUpdateDontDestroyOnLoadObjects();
 		void UpdateActualSceneChange();
 
 	private:

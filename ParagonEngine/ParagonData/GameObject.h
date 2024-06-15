@@ -56,6 +56,18 @@ namespace Pg::Data
 		//애니메이션 끝난거 신호.
 		void OnAnimationEnd();
 
+		//일반 오브젝트 / 컴포넌트들에 한해 영향이 없을 것이다.
+		//DontDestroyOnLoad로 마킹된 애들만,
+		//해당 함수가 Scene이 변경되었을 때 실행된다.
+		void OnSceneChange_Global(Pg::Data::Scene* changedScene);
+
+		//Update Loop이랑 별개로 동작, GrabManagedObjects (매니저의 관리를 위해)
+		//매니저들은 일반적으로 [SerializeField] 등으로 가져올 요소들을
+		//해당 함수에서 가지고 있어야 한다.
+		//그래야 Project 단위의 작업이 가능할 것이다.
+		//Tag / Name으로 가져오는 작업만 해당 공간에서 할 수 있다.
+		void GrabManagedObjects();
+
 	public:
 		void OnDestroy();
 

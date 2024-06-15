@@ -50,6 +50,9 @@ namespace Pg::Data
 		void FixedUpdate();
 		void LateUpdate();
 
+		//기존 Update Loop이랑 별개로 작동, ProjectLoad될 떄 단일 작동.
+		void GrabManagedObjects();
+
 		void SetIs3D(bool is3d);
 		bool GetIs3D() const;
 	

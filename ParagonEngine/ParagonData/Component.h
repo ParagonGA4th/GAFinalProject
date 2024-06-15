@@ -11,6 +11,8 @@
 namespace Pg::Data
 {
 	class GameObject;
+	class Scene;
+
 	class Component
 	{
 	public:
@@ -47,6 +49,14 @@ namespace Pg::Data
 
 		virtual void OnSerialize(SerializeVector& sv) {}
 		virtual void OnDeserialize(SerializeVector& sv) {}
+
+		//일반 오브젝트 / 컴포넌트들에 한해 영향이 없을 것이다.
+		//DontDestroyOnLoad로 마킹된 애들만,
+		//해당 함수가 Scene이 변경되었을 때 실행된다.
+		virtual void OnSceneChange_Global(Pg::Data::Scene* changedScene) {}
+
+		//매니저들이 관리하는 오브젝트를 가져올 수 있게 하기 위해서.
+		virtual void GrabManagedObjects() {}
 
 	public:
 		void SetActive(bool active);

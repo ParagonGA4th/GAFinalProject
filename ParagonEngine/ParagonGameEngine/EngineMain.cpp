@@ -360,7 +360,7 @@ namespace Pg::Engine
 
 	void EngineMain::OnParagonProjectLoad(const std::vector<Pg::Data::Scene*>& sceneVec)
 	{
-		_sceneSystem->SetProjectSceneList(sceneVec);
+		_sceneSystem->SetProjectSceneList_GrabManagedObjects(sceneVec);
 	}
 
 }
