@@ -121,7 +121,7 @@ namespace Pg::Graphics
 					std::string tModelName = Pg::Util::Helper::ResourceHelper::GetNameFromPath(tStaticRenderer->GetMeshFilePath());
 					std::string tObjName = bInstancedPairList->_instancedStaticPairVec.at(i)._instancedRenderObject->GetBaseRenderer()->_object->GetName();
 
-					//이를 기반으로 값을 찾자!
+					//이를 기반으로 값을 찾자!	
 					SingleLightMapSet& toBeCopiedTo = bInstancedPairList->_instancedLightMapSetVec.at(i);
 					SingleLightMapSet& toBeCopiedFrom = tRenderLightmapData->_beforeAlignMaps.at(tModelName).at(tObjName);
 
