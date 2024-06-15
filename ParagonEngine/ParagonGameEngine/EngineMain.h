@@ -112,6 +112,7 @@ namespace Pg::Engine
 		//씬이 바뀌었는지 다른 파트들에게 알려줄 수 있다. nullptr이면 안 변했던 것.
 		PARAGON_ENGINE_DLL virtual Pg::Data::Scene* NotifyIfChangedScene() override;
 			
+		PARAGON_ENGINE_DLL virtual void OnParagonProjectLoad(const std::vector<Pg::Data::Scene*>& sceneVec) override;
 	private:
 		Pg::Core::ProcessMain* _coreMain = nullptr;
 

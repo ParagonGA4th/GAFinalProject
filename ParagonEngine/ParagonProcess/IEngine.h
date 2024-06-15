@@ -65,5 +65,8 @@ namespace Pg::Core
 
 		//씬이 바뀌었다고 다른 파트들에게 알려줄 수 있다. 안 바뀌었을시 Nullptr.
 		virtual Pg::Data::Scene* NotifyIfChangedScene() abstract;
+
+		//SceneManager한테 Project의 Scene을 알려주기 위한 용도이다.
+		virtual void OnParagonProjectLoad(const std::vector<Pg::Data::Scene*>& sceneVec) abstract;
 	};
 }
