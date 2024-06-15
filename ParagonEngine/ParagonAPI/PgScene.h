@@ -23,6 +23,8 @@ namespace Pg::API
 
 		Pg::Data::Scene* GetCurrentScene();
 
+		std::vector<Pg::Data::Scene*> GetProjectSceneList();
+
 	private:
 		Pg::Engine::SceneSystem* _sceneSystem = nullptr;
 	};

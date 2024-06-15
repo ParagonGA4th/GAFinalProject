@@ -42,3 +42,6 @@
 #include "MiniGolemBehaviour.h"
 #include "StubBehaviour.h"
 #include "MimicBehaviour.h"
+
+//매니저용
+#include "TotalGameManager.h"
