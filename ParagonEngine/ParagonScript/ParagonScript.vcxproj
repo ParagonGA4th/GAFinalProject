@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="ArrowLogic.h" />
     <ClInclude Include="ArrowShooterBehavior.h" />
+    <ClInclude Include="IAreaHandler.h" />
     <ClInclude Include="BaseMonster.h" />
     <ClInclude Include="BattleArea.h" />
     <ClInclude Include="BossBehaviour.h" />
@@ -159,6 +160,8 @@
     <ClInclude Include="EventList_GameFlowRelated.h" />
     <ClInclude Include="EventList_PlayerRelated.h" />
     <ClInclude Include="ExitButton.h" />
+    <ClInclude Include="IEnemyHandler.h" />
+    <ClInclude Include="IGUIHandler.h" />
     <ClInclude Include="InGameManager.h" />
     <ClInclude Include="TotalGameManager.h" />
     <ClInclude Include="GameState.h" />
