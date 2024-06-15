@@ -159,7 +159,8 @@
     <ClInclude Include="EventList_GameFlowRelated.h" />
     <ClInclude Include="EventList_PlayerRelated.h" />
     <ClInclude Include="ExitButton.h" />
-    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="InGameManager.h" />
+    <ClInclude Include="TotalGameManager.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="IEnemyBehaviour.h" />
     <ClInclude Include="IScriptResettable.h" />
@@ -207,7 +208,8 @@
     <ClCompile Include="EventTest.cpp" />
     <ClCompile Include="ExitButton.cpp" />
     <ClCompile Include="FactoryHelper.cpp" />
-    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="InGameManager.cpp" />
+    <ClCompile Include="TotalGameManager.cpp" />
     <ClCompile Include="InGameCameraBehavior.cpp" />
     <ClCompile Include="MimicBehaviour.cpp" />
     <ClCompile Include="MimicInfo.cpp" />

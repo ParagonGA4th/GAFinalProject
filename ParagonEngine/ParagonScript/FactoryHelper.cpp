@@ -1,9 +1,9 @@
 #include "FactoryHelper.h"
 #include "Script.h"
 #include "ParagonScriptList.h"
-
 #include "../ParagonData/GameObject.h"
 #include <cassert>
+
 namespace Pg::DataScript
 {
 	void FactoryHelper::Initialize()
@@ -23,6 +23,8 @@ namespace Pg::DataScript
 			nodeHandler.key() = tChangedString;
 			Script::get_registry().insert(std::move(nodeHandler));
 		}
+
+		//PG_TRACE(std::to_string(Script::get_registry().size()).append(" Scripts Initialized."));
 	}
 
 	void FactoryHelper::AddScript(Pg::Data::GameObject* obj, const std::string& scriptType)
