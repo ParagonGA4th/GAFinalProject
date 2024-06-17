@@ -77,6 +77,10 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::isSkillAttack>("isSkillAttack");
 		_factory->registerNodeType<Node::isCoolDown>("isCoolDown");
 
+		_factory->registerNodeType<Node::isTouched>("isTouched");
+		_factory->registerNodeType<Node::Anim_mAttack>("Anim_mAttack");
+		_factory->registerNodeType<Node::Anim_mChase>("Anim_mChase");
+
 
 #pragma endregion ACTUAL_NODE_REGISTRATION
 
