@@ -15,6 +15,9 @@ namespace Pg::Util::Debug
 		spdlog::set_pattern("%^[%s / %! / %#]: %v%$");
 		_spdLogger = spdlog::stdout_color_mt("PgLog");
 		_spdLogger->set_level(spdlog::level::trace);
+
+		//InitializeµÇ¾ú´Ù.
+		_isInitialized = true;
 	}
 
 	void Log::Finalize()
