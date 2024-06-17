@@ -6,12 +6,12 @@
 
 namespace Pg::DataScript
 {
-	class CreditSceneGUIHandler : public ScriptInterface<CreditSceneGUIHandler>, public IGUIHandler
+	class CreditsSceneGUIHandler : public ScriptInterface<CreditsSceneGUIHandler>, public IGUIHandler
 	{
-		DEFINE_PARAGON_SCRIPT(CreditSceneGUIHandler);
+		DEFINE_PARAGON_SCRIPT(CreditsSceneGUIHandler);
 
 	public:
-		CreditSceneGUIHandler(Pg::Data::GameObject* obj);
+		CreditsSceneGUIHandler(Pg::Data::GameObject* obj);
 
 		virtual void Awake() override;
 		virtual void Start() override;
