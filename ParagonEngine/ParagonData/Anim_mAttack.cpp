@@ -1,10 +1,10 @@
-#include "Anim_gAttack.h"
+#include "Anim_mAttack.h"
 #include "SkinnedMeshRenderer.h"
 #include "MonsterHelper.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus Anim_gAttack::tick()
+	BT::NodeStatus Anim_mAttack::tick()
 	{
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
@@ -19,27 +19,17 @@ namespace Pg::Data::BTree::Node
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
-			config().blackboard->set<std::string>("CURRENTANIM", "_00006");
+			config().blackboard->set<std::string>("CURRENTANIM", "_00004");
 			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-			animId.append("_00006.pganim");
+			animId.append("_00004.pganim");
 
 			if (tMeshRenderer->GetAnimation() != animId)
 			{
 				tMeshRenderer->SetAnimation(animId, false);
 				config().blackboard->set<bool>("ISCHANGE", true);
-
-				std::string objName = this->GetGameObject()->GetName();
-				objName = objName.substr(0, objName.rfind("_"));
-				objName.append("_Crtstal");
-
-				auto tchild = this->GetGameObject()->_transform.GetChild(objName);
-				auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-
-				animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-				animId.append("_10006.pganim");
-				tcMeshRenderer->SetAnimation(animId, false);
 			}
 		}
+
 		return BT::NodeStatus::SUCCESS;
 	}
 }

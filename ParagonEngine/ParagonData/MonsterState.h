@@ -1,15 +1,27 @@
 #pragma once
 namespace Pg::Data
 {
+	// 공격 패턴이 있는 몬스터를 behaviortree의 node 를 통해 제어하기 위해
+
 	enum class TrentState
 	{
 		IDLE,
-		SKILL_ATTACK,
 		BASIC_ATTACK_1,
 		BASIC_ATTACK_2,
 		BASIC_ATTACK_3,
-		SKILL_COOLDOWN,
 		BASICATTACK_COOLDOWN,
+		SKILL_ATTACK,
+		SKILL_COOLDOWN,
+		DEAD
+	};	
+	
+	enum class BossState
+	{
+		IDLE,
+		PASE_1,
+		PASE_2,
+		PASE_3,
+		PASE_4,
 		DEAD
 	};
 }
