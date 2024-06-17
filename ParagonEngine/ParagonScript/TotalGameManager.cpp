@@ -110,6 +110,14 @@ namespace Pg::DataScript
 		//ProjectLoad -> EngineMain의 업데이트이기에, 가능한 로직일 것. 
 		for (auto& bScene : _pgScene->GetProjectSceneList())
 		{
+			//이름이 Sample Scene이면 스킵.
+			if ((bScene->GetSceneName().compare("SampleScene") == 0) ||
+				(bScene->GetSceneName().compare("SampleScene.pgscene") == 0))
+			{
+				//SampleScene이면 Handler들을 받지 않는다.
+				continue;
+			}
+
 			//3D Scene만 받아서, 관리 및 호출을 한다.
 			if (!(bScene->GetIs3D()))
 			{
