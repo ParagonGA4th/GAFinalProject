@@ -74,7 +74,6 @@ namespace Pg::Engine
 					if (!tBoxCol->GetActive())
 					{
 						continue;
-
 					}
 
 					DrawBoxDebug(&(tBoxCol->_boxInfo));
@@ -84,7 +83,6 @@ namespace Pg::Engine
 					if (!tStaticBoxCol->GetActive())
 					{
 						continue;
-
 					}
 
 					DrawBoxDebug(&(tStaticBoxCol->_boxInfo));
@@ -94,7 +92,6 @@ namespace Pg::Engine
 					if (!tStaticShpereCol->GetActive())
 					{
 						continue;
-
 					}
 
 					DrawSphereDebug(&(tStaticShpereCol->_sphereInfo));
@@ -114,7 +111,6 @@ namespace Pg::Engine
 					if (!tCapsuleCol->GetActive())
 					{
 						continue;
-
 					}
 
 					DrawCapsuleDebug(&(tCapsuleCol->_capsuleInfo));
@@ -124,7 +120,6 @@ namespace Pg::Engine
 					if (!tShpereCol->GetActive())
 					{
 						continue;
-
 					}
 
 					DrawSphereDebug(&(tShpereCol->_sphereInfo));
@@ -134,7 +129,6 @@ namespace Pg::Engine
 					if (!tPlaneCol->GetActive())
 					{
 						continue;
-
 					}
 
 					DrawPlaneDebug(&(tPlaneCol->_planeInfo));
@@ -144,21 +138,25 @@ namespace Pg::Engine
 					if (!tRayCast->GetActive())
 					{
 						continue;
-
 					}
 
 					DrawRayCastDebug(tRayCast->_rayCastInfo);
 				}
 				else if (tButton != nullptr)
 				{
-					//버튼 디버그 넣어야 함.
+					if (!tRayCast->GetActive())
+					{
+						//버튼 디버그 넣어야 함.
+						continue;
+					}
+
 					DrawBox2DDebug(tButton->_box2dInfo);
 				}
 			}
 		}
 
 		assert(true);
-	}	
+	}
 
 
 	void DebugSystem::Finalize()
@@ -171,7 +169,7 @@ namespace Pg::Engine
 		_isDebug = isdebug;
 	}
 
-	void DebugSystem::DrawBoxDebug(Pg::Data::BoxInfo * boxInfo)
+	void DebugSystem::DrawBoxDebug(Pg::Data::BoxInfo* boxInfo)
 	{
 		_boxVec.push_back(boxInfo);
 	}
@@ -236,7 +234,7 @@ namespace Pg::Engine
 
 	const std::vector<Pg::Data::LineInfo>& DebugSystem::GetLineVector() const
 	{
-		return _lineVec;                                
+		return _lineVec;
 	}
 
 	const std::vector<Pg::Data::SphereInfo*>& DebugSystem::GetSphereVector() const
@@ -319,9 +317,9 @@ namespace Pg::Engine
 		return _isDebug;
 	}
 
-	
-	
-	
-	
+
+
+
+
 
 }

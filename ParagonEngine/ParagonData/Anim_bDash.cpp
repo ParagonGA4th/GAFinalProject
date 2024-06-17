@@ -1,10 +1,10 @@
-#include "Anim_BossDash.h"
+#include "Anim_bDash.h"
 #include "SkinnedMeshRenderer.h"
 #include "MonsterHelper.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus Anim_BossDash::tick()
+	BT::NodeStatus Anim_bDash::tick()
 	{
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)

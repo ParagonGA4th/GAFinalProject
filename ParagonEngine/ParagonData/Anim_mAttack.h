@@ -1,5 +1,5 @@
-#ifndef ANIM_BOSSIDLE
-#define ANIM_BOSSIDLE
+#ifndef ANIM_MATTACK 
+#define ANIM_MATTACK
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,12 +7,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_BossIdle : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_mAttack : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_BossIdle(const std::string& name, const BT::NodeConfiguration& config)
+		Anim_mAttack(const std::string& name, const BT::NodeConfiguration& config)
 			: BT::SyncActionNode(name, config) {}
-		virtual ~Anim_BossIdle() = default;
+		virtual ~Anim_mAttack() = default;
 
 		virtual BT::NodeStatus tick() override;
 
@@ -20,8 +20,6 @@ namespace Pg::Data::BTree::Node
 		{
 			return {};
 		}
-
-	private:
 	};
 }
 #endif

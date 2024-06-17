@@ -1,24 +1,24 @@
-#include "Anim_BossIdle.h"
+#include "Anim_mChase.h"
 #include "SkinnedMeshRenderer.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus Anim_BossIdle::tick()
+	BT::NodeStatus Anim_mChase::tick()
 	{
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
-			//config().blackboard->set<std::string>("CURRENTANIM", "_00001");
+			config().blackboard->set<std::string>("CURRENTANIM", "_00006");
 			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-			animId.append("_00001.pganim");
+			animId.append("_00006.pganim");
 
 			if (tMeshRenderer->GetAnimation() != animId)
 			{
 				tMeshRenderer->SetAnimation(animId, true);
-				return BT::NodeStatus::SUCCESS;
+				config().blackboard->set<bool>("ISCHANGE", true);
 			}
 		}
 
-		return BT::NodeStatus::FAILURE;
+		return BT::NodeStatus::SUCCESS;
 	}
 }
