@@ -33,3 +33,9 @@
 //Trent
 #include "../ParagonData/Anim_tAttack.h"
 #include "../ParagonData/Anim_PoisonGas.h"
+
+
+//Mimic
+#include "../ParagonData/isTouched.h"
+#include "../ParagonData/Anim_mAttack.h"
+#include "../ParagonData/Anim_mChase.h"

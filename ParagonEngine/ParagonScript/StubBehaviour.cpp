@@ -191,6 +191,7 @@ namespace Pg::DataScript
 		{
 			_monsterHelper->_isPlayerinHitSpace = false;
 			_stubInfo->_status = StubStatus::IDLE;
+			_monsterHelper->_trentState = Pg::Data::TrentState::IDLE;
 			Attack(false);
 		}
 
