@@ -187,12 +187,6 @@
     <Filter Include="Content\1_ConcreteHandlers\0_TitleScene_2D\TitleSceneGUIHandler">
       <UniqueIdentifier>{747177f0-6d15-4a45-a153-353ac1ab65f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\1_ConcreteHandlers\6_CreditScene_2D">
-      <UniqueIdentifier>{9df79145-790b-4bf1-86b6-358322f51198}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\1_ConcreteHandlers\6_CreditScene_2D\CreditSceneGUIHandler">
-      <UniqueIdentifier>{37dab18b-11e4-45d2-ac2d-126f1a5654bd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Content\1_ConcreteHandlers\1_Stage1Scene_3D">
       <UniqueIdentifier>{cf2e71cf-e60d-434d-a8a7-176cdaba88f1}</UniqueIdentifier>
     </Filter>
@@ -217,17 +211,23 @@
     <Filter Include="Content\1_ConcreteHandlers\2_Stage2Scene_3D\Stage2GUIHandler">
       <UniqueIdentifier>{7c1949d6-2708-494f-9b11-56651658756c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\1_ConcreteHandlers\3_BossScene_3D">
+    <Filter Include="Content\1_ConcreteHandlers\3_BossStage_3D">
       <UniqueIdentifier>{558cf089-508e-4446-923c-86fef33d5fcf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\1_ConcreteHandlers\3_BossScene_3D\BossSceneAreaHandler">
+    <Filter Include="Content\1_ConcreteHandlers\3_BossStage_3D\BossStageAreaHandler">
       <UniqueIdentifier>{beedc513-1ede-4df8-9300-10786a3c0a39}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\1_ConcreteHandlers\3_BossScene_3D\BossSceneEnemyHandler">
+    <Filter Include="Content\1_ConcreteHandlers\3_BossStage_3D\BossStageEnemyHandler">
       <UniqueIdentifier>{ece70eff-715d-4890-ad06-a1c6a517d91e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\1_ConcreteHandlers\3_BossScene_3D\BossSceneGUIHandler">
+    <Filter Include="Content\1_ConcreteHandlers\3_BossStage_3D\BossStageGUIHandler">
       <UniqueIdentifier>{f24f1ee4-cb05-450a-a0a0-6d87d23e116c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\6_CreditsScene_2D">
+      <UniqueIdentifier>{9df79145-790b-4bf1-86b6-358322f51198}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\6_CreditsScene_2D\CreditsSceneGUIHandler">
+      <UniqueIdentifier>{37dab18b-11e4-45d2-ac2d-126f1a5654bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -339,8 +339,8 @@
     <ClCompile Include="InGameManager.cpp">
       <Filter>Content\GlobalManagers\1_InGameManager</Filter>
     </ClCompile>
-    <ClCompile Include="CreditSceneGUIHandler.cpp">
-      <Filter>Content\1_ConcreteHandlers\6_CreditScene_2D\CreditSceneGUIHandler</Filter>
+    <ClCompile Include="CreditsSceneGUIHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\6_CreditsScene_2D\CreditsSceneGUIHandler</Filter>
     </ClCompile>
     <ClCompile Include="TitleSceneGUIHandler.cpp">
       <Filter>Content\1_ConcreteHandlers\0_TitleScene_2D\TitleSceneGUIHandler</Filter>
@@ -363,14 +363,14 @@
     <ClCompile Include="Stage2GUIHandler.cpp">
       <Filter>Content\1_ConcreteHandlers\2_Stage2Scene_3D\Stage2GUIHandler</Filter>
     </ClCompile>
-    <ClCompile Include="BossSceneAreaHandler.cpp">
-      <Filter>Content\1_ConcreteHandlers\3_BossScene_3D\BossSceneAreaHandler</Filter>
+    <ClCompile Include="BossStageAreaHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\3_BossStage_3D\BossStageAreaHandler</Filter>
     </ClCompile>
-    <ClCompile Include="BossSceneEnemyHandler.cpp">
-      <Filter>Content\1_ConcreteHandlers\3_BossScene_3D\BossSceneEnemyHandler</Filter>
+    <ClCompile Include="BossStageEnemyHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\3_BossStage_3D\BossStageEnemyHandler</Filter>
     </ClCompile>
-    <ClCompile Include="BossSceneGUIHandler.cpp">
-      <Filter>Content\1_ConcreteHandlers\3_BossScene_3D\BossSceneGUIHandler</Filter>
+    <ClCompile Include="BossStageGUIHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\3_BossStage_3D\BossStageGUIHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -531,8 +531,8 @@
       <Filter>3_Interfaces\Handlers\IGUIHandler</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="CreditSceneGUIHandler.h">
-      <Filter>Content\1_ConcreteHandlers\6_CreditScene_2D\CreditSceneGUIHandler</Filter>
+    <ClInclude Include="CreditsSceneGUIHandler.h">
+      <Filter>Content\1_ConcreteHandlers\6_CreditsScene_2D\CreditsSceneGUIHandler</Filter>
     </ClInclude>
     <ClInclude Include="TitleSceneGUIHandler.h">
       <Filter>Content\1_ConcreteHandlers\0_TitleScene_2D\TitleSceneGUIHandler</Filter>
@@ -555,14 +555,14 @@
     <ClInclude Include="Stage2GUIHandler.h">
       <Filter>Content\1_ConcreteHandlers\2_Stage2Scene_3D\Stage2GUIHandler</Filter>
     </ClInclude>
-    <ClInclude Include="BossSceneAreaHandler.h">
-      <Filter>Content\1_ConcreteHandlers\3_BossScene_3D\BossSceneAreaHandler</Filter>
+    <ClInclude Include="BossStageAreaHandler.h">
+      <Filter>Content\1_ConcreteHandlers\3_BossStage_3D\BossStageAreaHandler</Filter>
     </ClInclude>
-    <ClInclude Include="BossSceneEnemyHandler.h">
-      <Filter>Content\1_ConcreteHandlers\3_BossScene_3D\BossSceneEnemyHandler</Filter>
+    <ClInclude Include="BossStageEnemyHandler.h">
+      <Filter>Content\1_ConcreteHandlers\3_BossStage_3D\BossStageEnemyHandler</Filter>
     </ClInclude>
-    <ClInclude Include="BossSceneGUIHandler.h">
-      <Filter>Content\1_ConcreteHandlers\3_BossScene_3D\BossSceneGUIHandler</Filter>
+    <ClInclude Include="BossStageGUIHandler.h">
+      <Filter>Content\1_ConcreteHandlers\3_BossStage_3D\BossStageGUIHandler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

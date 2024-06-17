@@ -7,12 +7,12 @@
 
 namespace Pg::DataScript
 {
-	class BossSceneAreaHandler : public ScriptInterface<BossSceneAreaHandler>, public IAreaHandler
+	class BossStageAreaHandler : public ScriptInterface<BossStageAreaHandler>, public IAreaHandler
 	{
-		DEFINE_PARAGON_SCRIPT(BossSceneAreaHandler);
+		DEFINE_PARAGON_SCRIPT(BossStageAreaHandler);
 
 	public:
-		BossSceneAreaHandler(Pg::Data::GameObject* obj);
+		BossStageAreaHandler(Pg::Data::GameObject* obj);
 
 		virtual void GrabManagedObjects() override;
 		virtual void Start() override;

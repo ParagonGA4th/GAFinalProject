@@ -1,25 +1,26 @@
 #pragma once
+
 #include "ScriptInterface.h"
-#include "IGUIHandler.h"
+#include "IEnemyHandler.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
 
 namespace Pg::DataScript
 {
-	class BossSceneGUIHandler : public ScriptInterface<BossSceneGUIHandler>, public IGUIHandler
+	class BossStageEnemyHandler : public ScriptInterface<BossStageEnemyHandler>, public IEnemyHandler
 	{
-		DEFINE_PARAGON_SCRIPT(BossSceneGUIHandler);
+		DEFINE_PARAGON_SCRIPT(BossStageEnemyHandler);
 
 	public:
-		BossSceneGUIHandler(Pg::Data::GameObject* obj);
+		BossStageEnemyHandler(Pg::Data::GameObject* obj);
 
 		virtual void GrabManagedObjects() override;
 		virtual void Start() override;
 		virtual void Update() override;
 
-		//IGUI Handler.
+		//Handler.
 		virtual void ResetToInitialState() override;
-
 	};
 }
+
 

@@ -173,7 +173,6 @@ namespace Pg::DataScript
 						tPlayerBattleBehavior = bObj->GetComponent<PlayerBattleBehavior>();
 					}
 
-
 					if (tAreaHandler != nullptr &&
 						tEnemyHandler != nullptr &&
 						tGUIHandler != nullptr &&
