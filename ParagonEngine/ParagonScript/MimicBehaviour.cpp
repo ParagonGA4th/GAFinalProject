@@ -186,23 +186,10 @@ namespace Pg::DataScript
 		PG_TRACE("Hit!");
 
 		//피격 애니메이션 들어가야 함.
-		//std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
-		//animId.append("_00003.pganim");
-		//
-		//_meshRenderer->SetAnimation(animId, false);
-		//
-		//std::string objName = _object->GetName();
-		//objName = objName.substr(0, objName.rfind("_"));
-		//objName.append("_Crtstal");
-		////if (objName.find("Golem") != std::string::npos) objName.append("_Crtstal");
-		////else objName.append("_Wing");
-		//
-		//auto tchild = _object->_transform.GetChild(objName);
-		//auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-		//
-		//animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
-		//animId.append("_10003.pganim");
-		//tcMeshRenderer->SetAnimation(animId, false);
+		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
+		animId.append("_00003.pganim");
+
+		_meshRenderer->SetAnimation(animId, false);
 	}
 
 	void MimicBehaviour::RotateToPlayer(Pg::Math::PGFLOAT3& targetPos)

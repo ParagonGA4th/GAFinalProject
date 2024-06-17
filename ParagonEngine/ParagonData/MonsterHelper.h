@@ -39,6 +39,9 @@ namespace Pg::Data
 		/// Trent
 		Pg::Data::TrentState _trentState = Pg::Data::TrentState::IDLE; // 그루터기의 현재 상태(행동패턴)
 
+		/// Mimic
+		bool _isTouched;				// 플레이어가 미믹과 상호작용 했는지 
+
 		/// Animation
 		bool _isAnimationEnd;			// 애니매이션이 끝났는지
 		bool _isAnimChange;				// 애니매이션이 바뀌었는지
