@@ -144,7 +144,7 @@ namespace Pg::Engine
 				}
 				else if (tButton != nullptr)
 				{
-					if (!tRayCast->GetActive())
+					if (!tButton->GetActive())
 					{
 						//버튼 디버그 넣어야 함.
 						continue;
