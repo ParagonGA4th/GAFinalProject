@@ -168,6 +168,8 @@ namespace Pg::Data
 
 	void Scene::GrabManagedObjects()
 	{
+		//DontDestroyOnLoad에는 해당되지 않는다.
+
 		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
 			{
 				if (iter->GetActive())

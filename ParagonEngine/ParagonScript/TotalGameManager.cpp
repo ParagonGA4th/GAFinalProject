@@ -40,35 +40,30 @@ namespace Pg::DataScript
 			SelectCheatCodeWithin();
 		}
 
+		//하부 함수 호출 로직 실행.
+		if (!_subFunctionStorageVector.empty())
+		{
+			//비지 않았을 때만 실행.
+			for (auto& it : _subFunctionStorageVector)
+			{
+				//지금까지 하부 컴포넌트에서 호출한 함수를 일괄적으로 실행.
+				it();
+			}
 
+			_subFunctionStorageVector.clear();
+		}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		//그외 추가 기능들.
 	}
 
 	void TotalGameManager::OnSceneChange_Global(Pg::Data::Scene* changedScene)
 	{
 		// 내부적으로 모든 걸 컨트롤해야 한다.
 		// 우선 필요한 정보 Initialize.
-		if (!_isManagingCalled)
+		if (!_isManagingInitializeCalled)
 		{
 			Initialize(changedScene);
-			_isManagingCalled = true;
+			_isManagingInitializeCalled = true;
 		}
 
 		//현재 Handler Bundle 받는다. 2D Scene일 경우 nullptr.
@@ -84,13 +79,9 @@ namespace Pg::DataScript
 
 		// 초기 상태로 다시 되돌려 놓기. 씬 시작시 시점.
 		// 이런 식으로, Flow Control을 담당한다.
-		_currentHandlerBundle3d->_areaHandler->ResetToInitialState();
-		_currentHandlerBundle3d->_enemyHandler->ResetToInitialState();
-		_currentHandlerBundle3d->_guiHandler->ResetToInitialState();
-		_currentHandlerBundle3d->_playerBehavior->ResetAll();
+		Internal_CallForEntireSceneReset(changedScene, NULL, nullptr);
 
-
-
+		//..
 	}
 
 	void TotalGameManager::Initialize(Pg::Data::Scene* changedScene)
@@ -191,7 +182,7 @@ namespace Pg::DataScript
 				assert((tPlayerBattleBehavior != nullptr) && "Player가 걸리면 3D씬인데 없음");
 
 				//이 시점에서는 Handler들 모두 존재.
-				std::unique_ptr<HandlerBundle> tHandlerBundle = std::make_unique<HandlerBundle>();
+				std::unique_ptr<HandlerBundle3D> tHandlerBundle = std::make_unique<HandlerBundle3D>();
 				tHandlerBundle->_areaHandler = tAreaHandler;
 				tHandlerBundle->_enemyHandler = tEnemyHandler;
 				tHandlerBundle->_guiHandler = tGUIHandler;
@@ -236,5 +227,34 @@ namespace Pg::DataScript
 
 		//
 	}
+
+	void TotalGameManager::CallForEntireSceneReset(Pg::Data::Scene* targetScene, int potValue, void* potPointer)
+	{
+		//나중에 일괄적 호출할 수 있도록, 함수 포인터 저장.
+		_subFunctionStorageVector.push_back([this, targetScene, potValue, potPointer]()
+			{
+				Internal_CallForEntireSceneReset(targetScene, potValue, potPointer);
+			});
+	}
+
+	void TotalGameManager::Internal_CallForEntireSceneReset(Pg::Data::Scene* targetScene, int potValue, void* potPointer)
+	{
+		//어쨌든 2D / 3D 여부 구분해서 관리해야 한다.
+		if (_currentHandlerBundle3d == nullptr)
+		{
+			//2D 로직.
+			assert(_currentGUIHander2d != nullptr);
+			_currentGUIHander2d->ResetToInitialState();
+		}
+		else
+		{
+			//3D 로직.
+			_currentHandlerBundle3d->_areaHandler->ResetToInitialState();
+			_currentHandlerBundle3d->_enemyHandler->ResetToInitialState();
+			_currentHandlerBundle3d->_guiHandler->ResetToInitialState();
+			_currentHandlerBundle3d->_playerBehavior->ResetAll();
+		}
+	}
+
 
 }

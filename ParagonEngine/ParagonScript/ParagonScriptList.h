@@ -26,7 +26,7 @@
 #include "Portal.h"
 
 //UI ฐüทร
-#include "TitleManager.h"
+#include "TitleSceneGUIHandler.h"
 #include "TitleScene.h"
 #include "StartButton.h"
 #include "ExitButton.h"
