@@ -23,7 +23,6 @@ namespace Pg::Data::BTree::Node
 				config().blackboard->set<bool>("HITINIT", false);
 				config().blackboard->set<std::string>("PREVANIM", "");
 
-				if (GetGameObject()->GetName().find("Trent") != std::string::npos) monHelper->_trentState = Pg::Data::TrentState::IDLE;
 				return BT::NodeStatus::FAILURE;
 			}
 		}
