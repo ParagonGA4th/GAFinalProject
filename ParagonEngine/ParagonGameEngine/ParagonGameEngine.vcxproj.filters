@@ -178,6 +178,12 @@
     <ClInclude Include="MonsterStrucr.h">
       <Filter>4_WorkSpace\SceneView\Scripts\AI</Filter>
     </ClInclude>
+    <ClInclude Include="PhysicsAllocator.h">
+      <Filter>2_System\PhysicSystem\PhysicsAllocator</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsErrorCallback.h">
+      <Filter>2_System\PhysicSystem\PhysicsErrorCallback</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -517,6 +523,12 @@
     </Filter>
     <Filter Include="4_WorkSpace\SceneView\Scripts\NavTest">
       <UniqueIdentifier>{8ce763cb-9eda-4ed9-b191-9d1dfdfeee7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\PhysicsAllocator">
+      <UniqueIdentifier>{1633028b-51c7-40f4-a699-24824e5911a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\PhysicsErrorCallback">
+      <UniqueIdentifier>{224b0d71-42fc-48af-8e22-afa160e6ddf7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

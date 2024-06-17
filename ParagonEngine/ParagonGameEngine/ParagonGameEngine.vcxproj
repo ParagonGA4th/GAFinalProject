@@ -251,7 +251,9 @@ copy $(SolutionDir)lib\libzmq\$(PlatformTarget)\$(Configuration)\libzmq-v143-mt-
     <ClInclude Include="NavTestSecond.h" />
     <ClInclude Include="ParagonRecast.h" />
     <ClInclude Include="PgLayer.h" />
+    <ClInclude Include="PhysicsAllocator.h" />
     <ClInclude Include="PhysicsCallback.h" />
+    <ClInclude Include="PhysicsErrorCallback.h" />
     <ClInclude Include="PhysicSystem.h" />
     <ClInclude Include="PrintRuntimeData.h" />
     <ClInclude Include="RayCastTest.h">
