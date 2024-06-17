@@ -1,4 +1,5 @@
 #include "PhysicSystem.h"
+
 #include "SceneSystem.h"
 #include "DebugSystem.h"
 #include "PgLayer.h"
@@ -19,6 +20,11 @@
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonData/RayCast.h"
 #include "../ParagonUtil/Log.h"
+#include "../ParagonUtil/CustomAssert.h"
+
+//CPU Dispatcher : Core Count 알기 위해.
+#include <thread>
+#include <algorithm>
 
 namespace Pg::Engine::Physic
 {
@@ -82,6 +88,7 @@ namespace Pg::Engine::Physic
 		//DebugSystem 멤버변수 저장.
 		_debugSystem = debugSystem;
 
+		//Custom Allocator 반영 w/ Custom Error Callback.
 		_foundation = PxCreateFoundation(PX_PHYSICS_VERSION, _allocator, _errorCallback);
 		if (!_foundation) throw("PxCreateFoundation Failed!");
 
@@ -122,7 +129,7 @@ namespace Pg::Engine::Physic
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_PLAYER, { LAYER_DEFAULT, LAYER_MONSTER, LAYER_MAP });
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_MONSTER, { LAYER_DEFAULT, LAYER_PLAYER,  LAYER_MONSTER, LAYER_PROJECTILES, LAYER_MAP });
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_PROJECTILES, { LAYER_DEFAULT,   LAYER_MONSTER, }); //Projectile 기준으로 자기 자신과 플레이어, 이렇게 충돌 못하게. 
-			Pg::Engine::PgLayer::SetCollisionData(LAYER_MAP, { LAYER_PLAYER,   LAYER_MONSTER, });
+			Pg::Engine::PgLayer::SetCollisionData(LAYER_MAP, { LAYER_PLAYER,   LAYER_MONSTER, }); //무조건 Layer 5여야 한다. 다른 대안은 존재 X.
 		}
 
 		// 머티리얼 생성(임의)
@@ -331,13 +338,14 @@ namespace Pg::Engine::Physic
 		//sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
 		sceneDesc.gravity = physx::PxVec3(0.0f, -19.62f, 0.0f); //x2
 
-		_dispatcher = physx::PxDefaultCpuDispatcherCreate(2);
+
+		//_dispatcher = physx::PxDefaultCpuDispatcherCreate(2);
+		_dispatcher = physx::PxDefaultCpuDispatcherCreate(std::clamp<unsigned int>(std::thread::hardware_concurrency() - 1, 1, 4)); //4개까지 허용. Like Flax.
 		sceneDesc.cpuDispatcher = _dispatcher;
 		sceneDesc.filterShader = ContactReportFilterShader;
-		//sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
-		//sceneDesc.filterShader = FilterShader;
-		sceneDesc.simulationEventCallback = _physicsCallback.get();
 
+		sceneDesc.simulationEventCallback = _physicsCallback.get();
+		
 		_pxScene = _physics->createScene(sceneDesc);
 
 		// Pvd에 정보 보내기
@@ -451,8 +459,10 @@ namespace Pg::Engine::Physic
 			{
 				MakeStaticShpereCollider(obj);
 			}
-			AddObjectToScene();
 		}
+
+		//만들어진 모든 Actor들, 한꺼번에 추가한다.
+		AddAllObjectsToScene();
 
 		PG_TRACE("...Ended Refreshing Colliders");
 	}
@@ -487,6 +497,7 @@ namespace Pg::Engine::Physic
 				trans.p = { offsetP.x, offsetP.y , offsetP.z };
 
 				boxShape->setLocalPose(trans);
+				//assert(trans.isValid());
 
 				//Trigger 여부 판단
 				if (staticBoxcol->GetTrigger())
@@ -551,6 +562,7 @@ namespace Pg::Engine::Physic
 				trans.p = { offsetP.x, offsetP.y , offsetP.z };
 
 				shape->setLocalPose(trans);
+				//assert(trans.isValid());
 
 				//Trigger 여부 판단
 				if (staticCapCol->GetTrigger())
@@ -608,6 +620,7 @@ namespace Pg::Engine::Physic
 				trans.p = { offsetP.x, offsetP.y , offsetP.z };
 
 				shape->setLocalPose(trans);
+				//assert(trans.isValid());
 
 				//Trigger 여부 판단
 				if (staticSphCol->GetTrigger())
@@ -674,6 +687,7 @@ namespace Pg::Engine::Physic
 				trans.p = { offsetP.x, offsetP.y , offsetP.z };
 
 				boxShape->setLocalPose(trans);
+				//assert(trans.isValid());
 
 				Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 
@@ -746,6 +760,7 @@ namespace Pg::Engine::Physic
 				trans.p = { offsetP.x, offsetP.y , offsetP.z };
 
 				shape->setLocalPose(trans);
+				//assert(trans.isValid());
 
 				//Trigger 여부 판단
 				if (sphCol->GetTrigger())
@@ -816,6 +831,7 @@ namespace Pg::Engine::Physic
 				auto offsetP = collider->GetPositionOffset();
 				trans.p = { offsetP.x, offsetP.y , offsetP.z };
 				shape->setLocalPose(trans);
+				//assert(trans.isValid());
 
 				//Trigger 여부 판단
 				if (capCol->GetTrigger())
@@ -1077,19 +1093,28 @@ namespace Pg::Engine::Physic
 	}
 
 	///만들어진 Collider 객체를 Scene으로 추가하는 역할.
-	void PhysicSystem::AddObjectToScene()
+	void PhysicSystem::AddAllObjectsToScene()
 	{
+		//240617 리팩토링, addActors로 전환.
+
+		std::vector<physx::PxActor*> _actorCollection;
+
 		for (auto& rigidDynamic : _rigidDynamicVec)
 		{
 			static_cast<Pg::Data::DynamicCollider*>(rigidDynamic->userData)->UpdateTransform();
-			_pxScene->addActor(*rigidDynamic);
+			//_pxScene->addActor(*rigidDynamic);
+			_actorCollection.push_back(rigidDynamic);
 		}
 
 		for (auto& rigidStatic : _rigidStaticVec)
 		{
 			static_cast<Pg::Data::StaticCollider*>(rigidStatic->userData)->UpdateTransform();
-			_pxScene->addActor(*rigidStatic);
+			//_pxScene->addActor(*rigidStatic);
+			_actorCollection.push_back(rigidStatic);
 		}
+
+		//한꺼번에 추가.
+		CustomAssert(_pxScene->addActors(_actorCollection.data(), _actorCollection.size()));
 	}
 
 	///매 프레임마다 충돌 이벤트 감지

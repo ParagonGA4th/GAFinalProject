@@ -32,6 +32,9 @@ namespace Pg::Util::Debug
 		PARAGON_UTIL_DLL void SetLoggerLevel(int level);
 
 		PARAGON_UTIL_DLL std::shared_ptr<spdlog::logger>& GetLogger();
+
+		PARAGON_UTIL_DLL bool IsInitialized() { return _isInitialized; }
+
 	private:
 		void CreateConsoleWindow();
 
@@ -42,8 +45,13 @@ namespace Pg::Util::Debug
 		int m_ConsoleHandleR = 0;
 		int m_ConsoleHandleW = 0;
 		FILE* m_ConsoleFilePtr = nullptr;
+
+	private:
+		//IsInitialized
+		bool _isInitialized{ false };
 	};
 }
+
 
 //0단계 : 평화
 #ifndef PG_TRACE
