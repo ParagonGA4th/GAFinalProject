@@ -148,9 +148,6 @@
     <ClInclude Include="PgLayer.h">
       <Filter>2_System\PhysicSystem\PhysicsLayer</Filter>
     </ClInclude>
-    <ClInclude Include="AISeight.h">
-      <Filter>4_WorkSpace\SceneView\Scripts\AI\Sight</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>4_WorkSpace\SceneView\Scripts\AI\Enemy</Filter>
     </ClInclude>
@@ -177,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="MonsterStrucr.h">
       <Filter>4_WorkSpace\SceneView\Scripts\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AISeight.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\AI\AISight</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -336,9 +336,6 @@
     <ClCompile Include="PgLayer.cpp">
       <Filter>2_System\PhysicSystem\PhysicsLayer</Filter>
     </ClCompile>
-    <ClCompile Include="AISeight.cpp">
-      <Filter>4_WorkSpace\SceneView\Scripts\AI\Sight</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>4_WorkSpace\SceneView\Scripts\AI\Enemy</Filter>
     </ClCompile>
@@ -362,6 +359,9 @@
     </ClCompile>
     <ClCompile Include="MonsterMove.cpp">
       <Filter>4_WorkSpace\SceneView\Scripts\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AISeight.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\AI\AISight</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -497,9 +497,6 @@
     <Filter Include="4_WorkSpace\SceneView\Scripts\AI">
       <UniqueIdentifier>{d01096b5-f5a8-4e70-847d-71dd8716b3be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="4_WorkSpace\SceneView\Scripts\AI\Sight">
-      <UniqueIdentifier>{1b15bf57-d303-4b72-ae83-d314415fabeb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="4_WorkSpace\SceneView\Scripts\AI\Enemy">
       <UniqueIdentifier>{6f9f991d-a267-4392-92f5-b8ed2e70183d}</UniqueIdentifier>
     </Filter>
@@ -517,6 +514,9 @@
     </Filter>
     <Filter Include="4_WorkSpace\SceneView\Scripts\NavTest">
       <UniqueIdentifier>{8ce763cb-9eda-4ed9-b191-9d1dfdfeee7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\AI\AISight">
+      <UniqueIdentifier>{8597a48b-2f89-4b41-b73c-ca0166891ef9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
