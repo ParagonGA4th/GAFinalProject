@@ -2,6 +2,9 @@
 
 //PhysX <-> CPP 교류를 위한 헤더.
 #include "PhysicsCallback.h"
+#include "PhysicsAllocator.h"
+#include "PhysicsErrorCallback.h"
+
 #include "Pxphysics.h"
 #include "PxphysicsAPI.h"
 #include <PxSimulationEventCallback.h>
@@ -48,7 +51,7 @@ namespace Pg::Engine::Physic
 
 		void Finalize();
 
-		void AddObjectToScene();
+		void AddAllObjectsToScene();
 
 		void Flush();
 
@@ -95,8 +98,13 @@ namespace Pg::Engine::Physic
 	private:
 		
 		//PhysX연동을 위한 변수들
-		physx::PxDefaultAllocator		_allocator;
-		physx::PxDefaultErrorCallback	_errorCallback;
+		//메모리 : 자체 양식으로 Allocate한다. From Flax.
+		//physx::PxDefaultAllocator		_allocator;
+		PhysicsAllocator				_allocator;
+
+		//재정의, PG_WARN 형식으로 출력할 것.
+		//physx::PxDefaultErrorCallback	_errorCallback;
+		PhysicsErrorCallback			_errorCallback;
 		physx::PxTolerancesScale		_toleranceScale;
 		physx::PxPhysics*				_physics;
 		physx::PxFoundation*			_foundation = nullptr;
