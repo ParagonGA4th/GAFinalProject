@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <vector>
 #include <memory>
+#include <functional>
 
 /// <summary>
 /// 기존 내용은 InGameManager로 이전, 얘는 Total GameFlow를 관리한다.
@@ -37,6 +38,19 @@ namespace Pg::DataScript
 		//Scene이 바뀔 때 Global Object만 루프로 호출됨.
 		virtual void OnSceneChange_Global(Pg::Data::Scene* changedScene) override;
 
+	public:
+		//하위 객체들이 호출할 수 있는 함수 목록:
+		//일단 이 함수가 유일하다. 리셋은 이 정도.
+		//동일한 매개변수 체제를 가져서, 추후에 다른 옵션이 호출되는 것을 대비.
+		void CallForEntireSceneReset(Pg::Data::Scene* targetScene, int potValue, void* potPointer);
+		
+
+	private:
+		//내부적으로 정해진 타이밍에 호출할 수 있게.
+		void Internal_CallForEntireSceneReset(Pg::Data::Scene* targetScene, int potValue, void* potPointer);
+
+		//하위 컴포넌트들이 호출할 수 있게, 함수들을 보관하고 있다.
+		std::vector<std::function<void()>> _subFunctionStorageVector;
 
 	private:
 		void Initialize(Pg::Data::Scene* changedScene);
@@ -57,7 +71,7 @@ namespace Pg::DataScript
 	public:
 		//개별적인 Struct 관리. Flow 관련된 구조체들을 묶어 놓은 것이다.
 		//모두 다 개별 3D Scene에 개별적으로 존재해야 하는 애들이다.
-		struct HandlerBundle
+		struct HandlerBundle3D
 		{
 			IAreaHandler* _areaHandler = nullptr;
 			IEnemyHandler* _enemyHandler = nullptr;
@@ -67,16 +81,16 @@ namespace Pg::DataScript
 
 	private:
 		//Flow 관리를 위해 보관하는 정보. (3D)
-		std::unordered_map<Pg::Data::Scene*, std::unique_ptr<HandlerBundle>> _scene3dHandlerBundleMap;
+		std::unordered_map<Pg::Data::Scene*, std::unique_ptr<HandlerBundle3D>> _scene3dHandlerBundleMap;
 		//Flow 관리를 위해 보관하는 정보. (2D)
 		std::unordered_map<Pg::Data::Scene*, IGUIHandler*> _scene2dHandlerBundleMap;
 
 		//2D/3D 보관에 따라 nullptr 할당이 달라진다.
-		HandlerBundle* _currentHandlerBundle3d{ nullptr }; //3D의 경우 nullptr면 안됨, 2D면 nullptr여야.
+		HandlerBundle3D* _currentHandlerBundle3d{ nullptr }; //3D의 경우 nullptr면 안됨, 2D면 nullptr여야.
 		IGUIHandler* _currentGUIHander2d{ nullptr }; //3D의 경우 nullptr여야, 2D면 nullptr면 안됨..
 
-		//전체 값이 받아졌는지 -> 
-		bool _isManagingCalled{ false };
+		//전체 값이 받아졌는지 -> Initialize를 초기에 하기 위해서.
+		bool _isManagingInitializeCalled{ false };
 	};
 }
 

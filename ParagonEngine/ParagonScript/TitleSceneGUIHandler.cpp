@@ -1,4 +1,4 @@
-#include "TitleManager.h"
+#include "TitleSceneGUIHandler.h"
 #include "../ParagonData/Button.h"
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonData/ImageRenderer.h"
@@ -10,14 +10,14 @@
 
 namespace Pg::DataScript
 {
-	TitleManager::TitleManager(Pg::Data::GameObject* obj) :
+	TitleSceneGUIHandler::TitleSceneGUIHandler(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj), _isOnButton(false)
 	{
 		_pgScene = &singleton<Pg::API::PgScene>();
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
 	}
 
-	void TitleManager::Awake()
+	void TitleSceneGUIHandler::GrabManagedObjects()
 	{
 		//Start버튼
 		_start = _pgScene->GetCurrentScene()->FindObjectWithName("Start");
@@ -42,7 +42,7 @@ namespace Pg::DataScript
 		_titleAudioSource = _title->GetComponent<Pg::Data::AudioSource>();
 	}
 
-	void TitleManager::Start()
+	void TitleSceneGUIHandler::Start()
 	{
 		_titleAudioSource->Play();
 
@@ -123,7 +123,13 @@ namespace Pg::DataScript
 			});
 	}
 
-	void TitleManager::Update()
+	void TitleSceneGUIHandler::Update()
 	{
 	}
+
+	void TitleSceneGUIHandler::ResetToInitialState()
+	{
+		// Title Scene에서 리셋할 것은 딱히 존재하지 않는다.
+	}
+
 }
