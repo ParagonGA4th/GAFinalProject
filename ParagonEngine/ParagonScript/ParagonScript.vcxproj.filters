@@ -166,6 +166,9 @@
     <Filter Include="Content\GlobalManagers\1_InGameManager">
       <UniqueIdentifier>{8566bef1-7541-4928-a706-a317217ab1a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\EnemyInfo\Boss">
+      <UniqueIdentifier>{840a7ac2-8f22-4dfe-8bd2-5144b34be6f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -278,6 +281,9 @@
     </ClCompile>
     <ClCompile Include="InGameManager.cpp">
       <Filter>Content\GlobalManagers\1_InGameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="BossInfo.cpp">
+      <Filter>AI\EnemyInfo\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -430,6 +436,9 @@
     </ClInclude>
     <ClInclude Include="InGameManager.h">
       <Filter>Content\GlobalManagers\1_InGameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BossInfo.h">
+      <Filter>AI\EnemyInfo\Boss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

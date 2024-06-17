@@ -33,21 +33,21 @@ namespace Pg::DataScript
 	void EnemyAttack::Update()
 	{
 		//보스골렘의 상태가 일반 공격일 때
-		if (_enemyBehaviour->_bossGolStat == BossGolemStatus::BASIC_ATTACK)
-		{
-			//공격 범위 활성화
-			_collider->SetActive(true);
-		}
-		//스킬 공격일 때
-		else if (_enemyBehaviour->_bossGolStat == BossGolemStatus::SKILL_ATTACK)
-		{
-
-		}
-		else if(_enemyBehaviour->_bossGolStat == BossGolemStatus::CHASE ||
-			_enemyBehaviour->_bossGolStat == BossGolemStatus::IDLE)
-		{
-			//공격 범위 비활성화
-			_collider->SetActive(false);
-		}
+		//if (_enemyBehaviour->_bossGolStat == BossGolemStatus::BASIC_ATTACK)
+		//{
+		//	//공격 범위 활성화
+		//	_collider->SetActive(true);
+		//}
+		////스킬 공격일 때
+		//else if (_enemyBehaviour->_bossGolStat == BossGolemStatus::SKILL_ATTACK)
+		//{
+		//
+		//}
+		//else if(_enemyBehaviour->_bossGolStat == BossGolemStatus::CHASE ||
+		//	_enemyBehaviour->_bossGolStat == BossGolemStatus::IDLE)
+		//{
+		//	//공격 범위 비활성화
+		//	_collider->SetActive(false);
+		//}
 	}
 }
