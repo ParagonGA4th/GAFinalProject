@@ -245,8 +245,9 @@
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="isNeutralize.h" />
     <ClInclude Include="isTouched.h" />
-    <ClInclude Include="Pase_1.h" />
+    <ClInclude Include="isPase_1.h" />
     <ClInclude Include="VisualEffectRenderObject.h" />
     <ClInclude Include="isChase.h" />
     <ClInclude Include="isCoolDown.h" />
@@ -394,6 +395,7 @@
     <ClCompile Include="isDead.cpp" />
     <ClCompile Include="isDistanceClose.cpp" />
     <ClCompile Include="isHitSpace.cpp" />
+    <ClCompile Include="isNeutralize.cpp" />
     <ClCompile Include="isPlayerInSight.cpp" />
     <ClCompile Include="isSkillAttack.cpp" />
     <ClCompile Include="isTouched.cpp" />
@@ -402,7 +404,7 @@
     <ClCompile Include="NavigationField.cpp" />
     <ClCompile Include="NavMeshAgent.cpp" />
     <ClCompile Include="ParagonDefines.cpp" />
-    <ClCompile Include="Pase_1.cpp" />
+    <ClCompile Include="isPase_1.cpp" />
     <ClCompile Include="PhysicsCollision.cpp" />
     <ClCompile Include="PhysicsContactPoint.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
