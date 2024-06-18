@@ -15,6 +15,9 @@
 #include "IGUIHandler.h"
 #include "PlayerBattleBehavior.h"
 
+//다른 매니저들, etc.
+#include "InGameManager.h"
+
 namespace Pg::DataScript
 {
 	//이거 실행 전에 GrabManagedObject가 호출되어야 한다.
@@ -81,8 +84,7 @@ namespace Pg::DataScript
 		// 초기 상태로 다시 되돌려 놓기. 씬 시작시 시점.
 		// 이런 식으로, Flow Control을 담당한다.
 		Internal_CallForEntireSceneReset(changedScene, NULL, nullptr);
-
-		//..
+		
 	}
 
 	void TotalGameManager::Initialize(Pg::Data::Scene* changedScene)
@@ -98,7 +100,11 @@ namespace Pg::DataScript
 		// Scene별로 Bundle들을 받는다.
 		SetupBundlesForAllScenes();
 
-		//2D / 3D 따라서 나눠서 관리. 
+		//2D / 3D 따라서 나눠서 관리.
+		//게임 매니저를 켤지 말지도 TotalGameManager가 관리한다.
+
+		//다른 매니저들 보관. 같은 오브젝트에 보관하려고 하고 있다.
+		//_inGameManager = InGameManager::GetInstance(_object);
 	}
 
 	void TotalGameManager::SetupBundlesForAllScenes()
@@ -262,5 +268,9 @@ namespace Pg::DataScript
 		}
 	}
 
+	Pg::DataScript::HandlerBundle3D* TotalGameManager::GetCurrentHandlerBundle()
+	{
+		return _currentHandlerBundle3d;
+	}
 
 }

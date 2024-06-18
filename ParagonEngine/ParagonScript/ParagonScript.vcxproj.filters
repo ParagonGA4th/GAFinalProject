@@ -232,6 +232,12 @@
     <Filter Include="Content\1_ConcreteHandlers\6_CreditsScene_2D\CreditsSceneGUIHandler">
       <UniqueIdentifier>{37dab18b-11e4-45d2-ac2d-126f1a5654bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\0_Structs">
+      <UniqueIdentifier>{09410f86-394f-4aec-ab9c-0c2bec2940f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Interfaces\Managers">
+      <UniqueIdentifier>{af6cab41-24dc-4892-9fa5-ee117586680f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -572,6 +578,15 @@
     </ClInclude>
     <ClInclude Include="BossStageGUIHandler.h">
       <Filter>Content\1_ConcreteHandlers\3_BossStage_3D\BossStageGUIHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="HandleBundle3D.h">
+      <Filter>Content\0_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDefinesAndStructs.h">
+      <Filter>Content\0_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformSimpleStorage.h">
+      <Filter>Content\0_Structs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

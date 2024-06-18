@@ -86,6 +86,7 @@ namespace Pg::Data
 		std::vector<Pg::Data::GameObject*> FindObjectsWithTag(const std::string& tag);
 		
 		//파괴되지 않는 오브젝트들은 SceneSystem에서 따로 가져가서 오브젝트의 "소속"을 SceneSystem으로 변경.
+		//여기 내부 소속 오브젝트들은 무조건 내부적으로 Pg::Data::ISortableGlobalObject를 상속받아야 한다.
 		static std::vector<GameObject*> _dontDestroyOnList; 
 
 		//이거 Lightmaps Vector. Scene에서 이런 정보가 들어와야 한다.

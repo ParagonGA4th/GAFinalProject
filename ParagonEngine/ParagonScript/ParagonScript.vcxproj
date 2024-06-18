@@ -147,6 +147,8 @@
     <ClInclude Include="BossStageAreaHandler.h" />
     <ClInclude Include="BossStageEnemyHandler.h" />
     <ClInclude Include="BossStageGUIHandler.h" />
+    <ClInclude Include="EnemyDefinesAndStructs.h" />
+    <ClInclude Include="HandleBundle3D.h" />
     <ClInclude Include="IAreaHandler.h" />
     <ClInclude Include="BaseMonster.h" />
     <ClInclude Include="BattleArea.h" />
@@ -206,6 +208,7 @@
     <ClInclude Include="StubInfo.h" />
     <ClInclude Include="TitleSceneGUIHandler.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="TransformSimpleStorage.h" />
     <ClInclude Include="TrapArea.h" />
   </ItemGroup>
   <ItemGroup>
