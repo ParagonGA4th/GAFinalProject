@@ -27,17 +27,17 @@ Pg::Editor::System::FileSystem::~FileSystem()
 
 void Pg::Editor::System::FileSystem::Initialize()
 {
-	// project가 처음 open 될 때는 기존 폴더(Builds//x64//Relase//)에 있는 sample load.
+#if defined(DEBUG) | defined(_DEBUG)
+#else
 
-	if (_dataContainer->GetCurrentScene() == nullptr ||
-		_dataContainer->GetCurrentScene()->GetSceneName().find("Sample") != std::string::npos)
-	{
-		_rootPathWithFileName = fs::current_path().string();
-		_rootPathWithFileName = _rootPathWithFileName.substr(0, _rootPathWithFileName.rfind("\\"));
-		_rootPathWithFileName += "\\SampleProject\\SampleProject.pgproject";
+	_rootPathWithFileName = fs::current_path().string();
+	_rootPathWithFileName = _rootPathWithFileName.substr(0, _rootPathWithFileName.rfind("\\"));
+	_rootPathWithFileName += "\\StolenYouth\\StolenYouth.pgproject";
 
-		_dataManager->DataLoad(_rootPathWithFileName);
-	}
+	_dataManager->DataLoad(_rootPathWithFileName);
+	_fileEvent->Invoke(Pg::Editor::eEventType::ONPROJECTLOAD);
+#endif
+
 
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_NEWSCENE, [&]() { NewScene(); });
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_OPENSCENE, [&]() { OpenScene(); });
@@ -112,6 +112,7 @@ void Pg::Editor::System::FileSystem::OpenProject()
 	ShowDialog(true);
 	_dataManager->DataLoad(_rootPathWithFileName);
 	CreateFolderPath();
+	_fileEvent->Invoke(Pg::Editor::eEventType::ONPROJECTLOAD);
 }
 
 void Pg::Editor::System::FileSystem::SaveProject()

@@ -168,7 +168,7 @@ namespace Pg::Util::Helper
 #if defined(DEBUG) | defined(_DEBUG)
 		return tRet;
 #else
-		tRet = std::regex_replace(tRet, std::regex("Debug"), "Release"); // 대체: 'Debug' -> 'Release'
+		tRet.replace(tRet.find(L"Debug"), std::wstring(L"Debug").length(), L"Release");
 		return tRet;
 #endif
 	}
@@ -179,7 +179,7 @@ namespace Pg::Util::Helper
 #if defined(DEBUG) | defined(_DEBUG)
 		return tRet;
 #else
-		tRet = std::regex_replace(tRet, std::regex("Debug"), "Release"); // 대체: 'Debug' -> 'Release'
+		tRet.replace(tRet.find("Debug"), std::string("Debug").length(),"Release" );
 		return tRet;
 #endif
 	}

@@ -33,18 +33,6 @@ namespace Pg::Data::BTree::Node
 				{
 					_isAnimChange = true;
 					tMeshRenderer->SetAnimation(animId, false);
-
-					std::string objName = this->GetGameObject()->GetName();
-					objName = objName.substr(0, objName.rfind("_"));
-					if (objName.find("Golem") != std::string::npos) objName.append("_Crtstal");
-					else objName.append("_Wing");
-
-					auto tchild = this->GetGameObject()->_transform.GetChild(objName);
-					auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-
-					animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-					animId.append("_10004.pganim");
-					tcMeshRenderer->SetAnimation(animId, false);
 				}
 			}
 			else

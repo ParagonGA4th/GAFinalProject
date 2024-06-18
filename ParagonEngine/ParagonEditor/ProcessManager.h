@@ -30,6 +30,7 @@ namespace Pg::Editor::Manager
 		void GetAssetList(void* define);
 		void SetEditorMousePosX(void* x);
 		void SetEditorMousePosY(void* y);
+		void OnParagonProjectLoad();
 
 	private:
 		std::unique_ptr<Pg::Core::ProcessMain> _coreMain;
