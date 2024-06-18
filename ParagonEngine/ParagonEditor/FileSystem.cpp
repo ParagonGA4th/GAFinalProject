@@ -35,7 +35,7 @@ void Pg::Editor::System::FileSystem::Initialize()
 	_rootPathWithFileName += "\\StolenYouth\\StolenYouth.pgproject";
 
 	_dataManager->DataLoad(_rootPathWithFileName);
-	_fileEvent->Invoke(eEventType::ONPROJECTLOAD);
+	_fileEvent->Invoke(Pg::Editor::eEventType::ONPROJECTLOAD);
 #endif
 
 
@@ -112,6 +112,7 @@ void Pg::Editor::System::FileSystem::OpenProject()
 	ShowDialog(true);
 	_dataManager->DataLoad(_rootPathWithFileName);
 	CreateFolderPath();
+	_fileEvent->Invoke(Pg::Editor::eEventType::ONPROJECTLOAD);
 }
 
 void Pg::Editor::System::FileSystem::SaveProject()
