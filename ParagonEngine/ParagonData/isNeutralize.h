@@ -20,7 +20,10 @@ namespace Pg::Data::BTree::Node
 
 		static BT::PortsList providedPorts()
 		{
-			return {};
+			BT::PortsList list;
+			list.insert(BT::BidirectionalPort<bool>("_netInit"));
+
+			return list;
 		}
 	};
 }
