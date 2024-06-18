@@ -22,7 +22,7 @@ namespace Pg::DataScript
 {
 	MiniGolemBehaviour::MiniGolemBehaviour(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj), _isRotateFinish(false),
-		_distance(0.f), _isDash(false), _hasDashed(false), _currentAttackTime(0.f), _startAttackTime(0.8f), _endAttackTime(2.7f),
+		_distance(0.f), _isDash(false), _hasDashed(false), _currentAttackTime(0.f), _startAttackTime(0.7f), _endAttackTime(2.7f),
 		_respawnPos(0.f, 0.f, 0.f)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
@@ -307,6 +307,12 @@ namespace Pg::DataScript
 		//상태를 죽음으로 변경.
 		_miniGolInfo->_status = MiniGolemStatus::DEAD;
 		_dieSound->Play();
+
+		//중간에 사운드가 안꺼질 경우를 대비해 싹 다 종료.
+		_hitSound->Stop();
+		_attackSound->Stop();
+		_dashSound->Stop();
+
 		_collider->SetActive(false);
 		_monsterHelper->_isDead = true;
 		_isRotateFinish = true;
