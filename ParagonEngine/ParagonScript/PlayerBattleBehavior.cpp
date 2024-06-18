@@ -6,6 +6,7 @@
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/DynamicCollider.h"
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonUtil/Log.h"
 
@@ -56,6 +57,9 @@ namespace Pg::DataScript
 		_comboSystem->SystemStart();
 
 		FindAllArrowsInMap();
+
+		_commonAttackSound = _object->GetScene()->FindObjectWithName("PlayerCommonAttackSound");
+		_commonAttackAudio = _commonAttackSound->GetComponent<Pg::Data::AudioSource>();
 	}
 
 	void PlayerBattleBehavior::Update()
@@ -120,7 +124,8 @@ namespace Pg::DataScript
 
 	void PlayerBattleBehavior::ArrowShootingLogic()
 	{
-		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyN))
+		//마우스 좌클릭 시 공격.
+		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseLeft))
 		{
 			bool tDidShoot = false;
 
@@ -158,6 +163,8 @@ namespace Pg::DataScript
 				//여튼, 그건 나중에 할 일.
 				PG_TRACE("아직 충분히 반환되지 않음. 나중에 FixedSizeQueue로?");
 			}
+
+			_commonAttackAudio->Play();
 		}
 	}
 

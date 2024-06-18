@@ -13,6 +13,7 @@ namespace Pg::Data
 	class CapsuleCollider;
 	class MonsterHelper;
 	class StaticBoxCollider;
+	class AudioSource;
 }
 
 namespace Pg::API
@@ -79,6 +80,17 @@ namespace Pg::DataScript
 		//몬스터가 리스폰 될 위치
 		Pg::Math::PGFLOAT3 _respawnPos;
 
+	private:
+		Pg::Data::GameObject* _miniGolemHit;
+		Pg::Data::AudioSource* _hitSound;
+
+		Pg::Data::GameObject* _miniGolemDie;
+		Pg::Data::AudioSource* _dieSound;
+
+		Pg::Data::GameObject* _miniGolemDash;
+		Pg::Data::AudioSource* _dashSound;
+
+	private:
 		//플레이어와의 거리 측정
 		float _distance;
 		float _startAttackTime;
@@ -93,6 +105,7 @@ namespace Pg::DataScript
 		//대쉬 관련 변수.
 		bool _isDash;			//돌진 여부
 		bool _hasDashed;		//돌진했는지 여부
+		bool _isDashSoundPlaying = false; //돌진 소리
 
 	public:
 		//미니골렘의 상태와 수치에 대한 정보.

@@ -98,13 +98,14 @@ namespace Pg::Engine
 		_soundSystem->Initialize(resourceListPath);
 
 		///Recast 관련 테스트.
-		_navSystem->Initialize();
+		///맵 경로의 수정으로 Recast를 사용할 일이 없어져서 지움.
+		//_navSystem->Initialize();
 		//_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/BattleSpace_res2.obj", 0);
-		_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 0);
-		_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 1);
-		_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 2);
-		_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 3);
-		_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 4);
+		//_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 0);
+		//_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 1);
+		//_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 2);
+		//_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 3);
+		//_navSystem->HandleBuild("../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast_DoubleScale_FlippedInBlender.obj", 4);
 		_behaviorTreeSystem->Initialize(resourceListPath);
 
 		///Recast관련 테스트 코드.
@@ -179,7 +180,7 @@ namespace Pg::Engine
 		}
 
 		///Recast관련 업데이트
-		_navSystem->HandleUpdate(_timeSystem->GetDeltaTime());
+		//_navSystem->HandleUpdate(_timeSystem->GetDeltaTime());
 
 		
 		///Mesh가 빌드 된 후 그려야 하기에, 더 나중에 있어야 한다.
