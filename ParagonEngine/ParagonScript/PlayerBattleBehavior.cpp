@@ -115,7 +115,7 @@ namespace Pg::DataScript
 
 	void PlayerBattleBehavior::ResetAll()
 	{
-		assert(false && "not implemented yet");
+		//assert(false && "not implemented yet");
 	}
 
 	void PlayerBattleBehavior::ArrowShootingLogic()
