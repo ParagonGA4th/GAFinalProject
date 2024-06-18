@@ -9,6 +9,15 @@
 #include "../ParagonData/isChase.h"
 #include "../ParagonData/isDead.h"
 
+// Boss
+#include "../ParagonData/Anim_bDead.h"
+#include "../ParagonData/Anim_bIdle.h"
+#include "../ParagonData/Anim_bWalk.h"
+#include "../ParagonData/Anim_bDash.h"
+#include "../ParagonData/Anim_LeftArmAttack.h"
+#include "../ParagonData/Anim_RightArmAttack.h"
+#include "../ParagonData/Anim_TwoArmAttack.h"
+#include "../ParagonData/Pase_1.h"
 
 // floating Monster
 #include "../ParagonData/Anim_fDead.h"

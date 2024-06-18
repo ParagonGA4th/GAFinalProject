@@ -340,6 +340,9 @@
     <ClCompile Include="Anim_TwoArmAttack.cpp">
       <Filter>11_BtNodes\MonsterAnim\Boss\Attack\Anim_TwoArmAttack</Filter>
     </ClCompile>
+    <ClCompile Include="Pase_1.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Pase\Pase_1</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -742,6 +745,9 @@
     <ClInclude Include="Anim_TwoArmAttack.h">
       <Filter>11_BtNodes\MonsterAnim\Boss\Attack\Anim_TwoArmAttack</Filter>
     </ClInclude>
+    <ClInclude Include="Pase_1.h">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Pase\Pase_1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -1127,6 +1133,12 @@
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Boss\Anim_bDead">
       <UniqueIdentifier>{291638b8-89fa-4a53-8aab-0506eca7180b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Pase">
+      <UniqueIdentifier>{437e5a23-c5e7-4ac7-9f2d-d918b7530074}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Pase\Pase_1">
+      <UniqueIdentifier>{08d9ee4d-52ec-4d00-afe3-c8514f9a631d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

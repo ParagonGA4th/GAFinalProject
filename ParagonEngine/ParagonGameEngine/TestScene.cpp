@@ -211,7 +211,7 @@ void Pg::Engine::TestScene::Initialize()
 	
 
 	///AI
-	Pg::Data::GameObject* tObj7_1 = tCurrentScene->AddObject("Golem1_Body");
+	Pg::Data::GameObject* tObj7_1 = tCurrentScene->AddObject("Boss");
 	tObj7_1->GetComponent<Transform>()->_position = { -8.0f, 3.0f, 8.0f };
 	tObj7_1->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
@@ -225,11 +225,11 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
 	tObj7_1->GetComponent<CapsuleCollider>()->SetCapsuleInfo(1.0f, 1.5f);
 	tObj7_1->AddComponent<SkinnedMeshRenderer>();
-	tObj7_1->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/Monsters/trent/mon_trent.fbx");
-	tObj7_1->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "SMA_00001.pganim";
+	tObj7_1->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/Monsters/boss/mon_boss.fbx");
+	tObj7_1->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "MBA_00001.pganim";
 	tObj7_1->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
 	tObj7_1->AddComponent<Animator>();
-	tObj7_1->GetComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Monster/Trent.xml");
+	tObj7_1->GetComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Monster/Boss.xml");
 	tObj7_1->AddComponent<MonsterMove>();
 	//tObj7_1->AddComponent<NavTest>();
 

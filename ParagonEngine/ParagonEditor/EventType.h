@@ -23,5 +23,6 @@ namespace Pg::Editor
 		_ASSETLIST,
 		_MOUSEPOSX,
 		_MOUSEPOSY,
+		ONPROJECTLOAD
 	};
 }

@@ -8,7 +8,7 @@ namespace Pg::Data::BTree::Node
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
-			//config().blackboard->set<std::string>("CURRENTANIM", "_00001");
+			config().blackboard->set<std::string>("CURRENTANIM", "_00001");
 			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
 			animId.append("_00001.pganim");
 

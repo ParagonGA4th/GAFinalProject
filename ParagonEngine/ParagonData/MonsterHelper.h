@@ -33,6 +33,9 @@ namespace Pg::Data
 		bool _isHit;					// 몬스터가 공격 받았는지
 		bool _isDead;					// 몬스터가 죽었는지
 
+		/// Boss
+		bool _Pase_1;
+
 		/// Golem
 		bool _isDash;					// 몬스터가 대쉬를 했는지(with Boss)
 

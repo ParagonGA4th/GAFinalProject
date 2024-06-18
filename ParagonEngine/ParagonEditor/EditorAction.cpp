@@ -17,10 +17,12 @@ Pg::Editor::Core::EditorAction::EditorAction()
 	_appName(L"ParagonEngine")
 {
 	_editorManagers.emplace_back(new Pg::Editor::Manager::ProcessManager(_screenWidth, _screenHeight));
+
+#if defined(DEBUG) | defined(_DEBUG)
 	_editorManagers.emplace_back(new Pg::Editor::Manager::EditorManager());
-
+#endif
+	
 	_fileSystem = std::make_unique<Pg::Editor::System::FileSystem>();
-
 	_editorEvent = std::make_unique<Pg::Editor::Event>();
 }
 
@@ -35,8 +37,8 @@ void Pg::Editor::Core::EditorAction::Initialize()
 	WindowRegisterClass(ins);
 	CreateWindows(ins);
 
-	for (auto& manager : _editorManagers) { manager->Initialize(_hWnd); }
 	_fileSystem->Initialize();
+	for (auto& manager : _editorManagers) { manager->Initialize(_hWnd); }
 }
 void Pg::Editor::Core::EditorAction::Loop()
 {		
@@ -54,8 +56,10 @@ void Pg::Editor::Core::EditorAction::Loop()
 		else
 		{
 			_editorManagers.at(0)->Update();
+#if defined(DEBUG) | defined(_DEBUG)
 			_editorManagers.at(1)->Update();
 			_editorManagers.at(1)->LateUpdate();
+#endif
 			_editorManagers.at(0)->LateUpdate();
 		}
 	}
