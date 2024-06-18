@@ -22,7 +22,7 @@ namespace Pg::DataScript
 {
 	MiniGolemBehaviour::MiniGolemBehaviour(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj), _isRotateFinish(false),
-		_distance(0.f), _isDash(false), _hasDashed(false), _currentAttackTime(0.f), _startAttackTime(1.f), _endAttackTime(2.7f),
+		_distance(0.f), _isDash(false), _hasDashed(false), _currentAttackTime(0.f), _startAttackTime(0.8f), _endAttackTime(2.7f),
 		_respawnPos(0.f, 0.f, 0.f)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
@@ -74,6 +74,9 @@ namespace Pg::DataScript
 
 		_miniGolemDash = _object->GetScene()->FindObjectWithName("MiniGolemDashSound");
 		_dashSound = _miniGolemDash->GetComponent<Pg::Data::AudioSource>();
+
+		_miniGolemAttack = _object->GetScene()->FindObjectWithName("MiniGolemAttackSound");
+		_attackSound = _miniGolemAttack->GetComponent<Pg::Data::AudioSource>();
 
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
@@ -168,6 +171,12 @@ namespace Pg::DataScript
 			//공격
 			if (_currentAttackTime >= _startAttackTime)
 			{
+				if (!_isAttackSoundPlaying) 
+				{
+					_attackSound->Play();
+					_isAttackSoundPlaying = true;
+				}
+
 				Attack(true);
 			}
 			if (_currentAttackTime >= _startAttackTime && _currentAttackTime >= _endAttackTime)
@@ -186,6 +195,8 @@ namespace Pg::DataScript
 			_miniGolInfo->_status = MiniGolemStatus::CHASE;
 
 			Attack(false);
+			_isAttackSoundPlaying = false;
+			_attackSound->Stop();
 			_currentAttackTime = 0.f;
 
 			// 플레이어가 시야 안에 있으면
