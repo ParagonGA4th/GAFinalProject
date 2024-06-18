@@ -43,6 +43,19 @@ namespace Pg::API::Input
 		KeyB,
 		KeyN,
 		KeyM,
-		Esc
+		Esc,
+
+		KeyBackSlash,
+
+		KeyNum1,
+		KeyNum2,
+		KeyNum3,
+		KeyNum4, 
+		KeyNum5,
+		KeyNum6,
+		KeyNum7,
+		KeyNum8,
+		KeyNum9,
+		KeyNum0
 	};
 }

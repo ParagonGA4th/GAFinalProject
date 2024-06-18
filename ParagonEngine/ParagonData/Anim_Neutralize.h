@@ -1,5 +1,34 @@
-#pragma once
-class Anim_Neutralize
+#ifndef ANIM_NEUTRALIZE
+#define ANIM_NEUTRALIZE
+#include <behaviortree_cpp_v3/action_node.h>
+#include <behaviortree_cpp_v3/bt_factory.h>
+
+#include "BtNodes/BasePgBtNode.h"
+
+namespace Pg::Data::BTree::Node
 {
-};
+	class Anim_Neutralize : public BT::SyncActionNode, public BasePgBtNode
+	{
+	public:
+		Anim_Neutralize(const std::string& name, const BT::NodeConfiguration& config)
+			: BT::SyncActionNode(name, config) {}
+		virtual ~Anim_Neutralize() = default;
+
+		virtual BT::NodeStatus tick() override;
+
+		static BT::PortsList providedPorts()
+		{
+			return {};
+		}
+
+	private:
+		bool _isAnimEnd = { false };
+		bool _isInit = { false };
+		bool _isLoading = { false };
+		bool _isEnd = { false };
+
+		std::string _animId;
+	};
+}
+#endif
 

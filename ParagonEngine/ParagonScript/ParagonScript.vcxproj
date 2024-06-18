@@ -144,6 +144,10 @@
   <ItemGroup>
     <ClInclude Include="ArrowLogic.h" />
     <ClInclude Include="ArrowShooterBehavior.h" />
+    <ClInclude Include="BossStageAreaHandler.h" />
+    <ClInclude Include="BossStageEnemyHandler.h" />
+    <ClInclude Include="BossStageGUIHandler.h" />
+    <ClInclude Include="IAreaHandler.h" />
     <ClInclude Include="BaseMonster.h" />
     <ClInclude Include="BattleArea.h" />
     <ClInclude Include="BossBehaviour.h" />
@@ -160,7 +164,17 @@
     <ClInclude Include="EventList_GameFlowRelated.h" />
     <ClInclude Include="EventList_PlayerRelated.h" />
     <ClInclude Include="ExitButton.h" />
+    <ClInclude Include="IEnemyHandler.h" />
+    <ClInclude Include="IGUIHandler.h" />
     <ClInclude Include="InGameManager.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="CreditsSceneGUIHandler.h" />
+    <ClInclude Include="Stage1AreaHandler.h" />
+    <ClInclude Include="Stage1EnemyHandler.h" />
+    <ClInclude Include="Stage1GUIHandler.h" />
+    <ClInclude Include="Stage2AreaHandler.h" />
+    <ClInclude Include="Stage2EnemyHandler.h" />
+    <ClInclude Include="Stage2GUIHandler.h" />
     <ClInclude Include="TotalGameManager.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="IEnemyBehaviour.h" />
@@ -190,7 +204,7 @@
     <ClInclude Include="StartButton.h" />
     <ClInclude Include="StubBehaviour.h" />
     <ClInclude Include="StubInfo.h" />
-    <ClInclude Include="TitleManager.h" />
+    <ClInclude Include="TitleSceneGUIHandler.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TrapArea.h" />
   </ItemGroup>
@@ -201,6 +215,9 @@
     <ClCompile Include="BattleArea.cpp" />
     <ClCompile Include="BossBehaviour.cpp" />
     <ClCompile Include="BossInfo.cpp" />
+    <ClCompile Include="BossStageAreaHandler.cpp" />
+    <ClCompile Include="BossStageEnemyHandler.cpp" />
+    <ClCompile Include="BossStageGUIHandler.cpp" />
     <ClCompile Include="CameraShake.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="ComboSystem.cpp" />
@@ -211,6 +228,13 @@
     <ClCompile Include="ExitButton.cpp" />
     <ClCompile Include="FactoryHelper.cpp" />
     <ClCompile Include="InGameManager.cpp" />
+    <ClCompile Include="CreditsSceneGUIHandler.cpp" />
+    <ClCompile Include="Stage1AreaHandler.cpp" />
+    <ClCompile Include="Stage1EnemyHandler.cpp" />
+    <ClCompile Include="Stage1GUIHandler.cpp" />
+    <ClCompile Include="Stage2AreaHandler.cpp" />
+    <ClCompile Include="Stage2EnemyHandler.cpp" />
+    <ClCompile Include="Stage2GUIHandler.cpp" />
     <ClCompile Include="TotalGameManager.cpp" />
     <ClCompile Include="InGameCameraBehavior.cpp" />
     <ClCompile Include="MimicBehaviour.cpp" />
@@ -230,9 +254,12 @@
     <ClCompile Include="StartButton.cpp" />
     <ClCompile Include="StubBehaviour.cpp" />
     <ClCompile Include="StubInfo.cpp" />
-    <ClCompile Include="TitleManager.cpp" />
+    <ClCompile Include="TitleSceneGUIHandler.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TrapArea.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ParagonScript.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -114,6 +114,22 @@ namespace Pg::Util::Input
 		CustomAssert(_map->MapBool(eKeyCode::KeyX, _keyboardId, gainput::KeyX));
 		CustomAssert(_map->MapBool(eKeyCode::KeyZ, _keyboardId, gainput::KeyZ));
 
+		CustomAssert(_map->MapBool(eKeyCode::KeyZ, _keyboardId, gainput::KeyZ));
+
+		CustomAssert(_map->MapBool(eKeyCode::KeyBackSlash, _keyboardId, gainput::KeyBackslash));
+
+		//숫자들 싹 다 매핑해놓았음.
+		CustomAssert(_map->MapBool(eKeyCode::KeyNum1, _keyboardId, gainput::Key1));
+		CustomAssert(_map->MapBool(eKeyCode::KeyNum2, _keyboardId, gainput::Key2));
+		CustomAssert(_map->MapBool(eKeyCode::KeyNum3, _keyboardId, gainput::Key3));
+		CustomAssert(_map->MapBool(eKeyCode::KeyNum4, _keyboardId, gainput::Key4));
+		CustomAssert(_map->MapBool(eKeyCode::KeyNum5, _keyboardId, gainput::Key5));
+		CustomAssert(_map->MapBool(eKeyCode::KeyNum6, _keyboardId, gainput::Key6));
+		CustomAssert(_map->MapBool(eKeyCode::KeyNum7, _keyboardId, gainput::Key7));
+		CustomAssert(_map->MapBool(eKeyCode::KeyNum8, _keyboardId, gainput::Key8));
+		CustomAssert(_map->MapBool(eKeyCode::KeyNum9, _keyboardId, gainput::Key9));
+		CustomAssert(_map->MapBool(eKeyCode::KeyNum0, _keyboardId, gainput::Key0));
+
 		//gainput::SimultaneouslyDownGesture* sdg = _manager->CreateAndGetDevice<gainput::SimultaneouslyDownGesture>();
 		//sdg->AddButton(_keyboardId, gainput::KeyCtrlL);
 		//sdg->AddButton(_keyboardId, gainput::KeyS);
