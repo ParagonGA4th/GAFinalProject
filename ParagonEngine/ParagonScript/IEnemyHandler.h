@@ -1,4 +1,5 @@
 #pragma once
+#include "EnemyDefinesAndStructs.h"
 
 //Component의 자식은 아니다. 
 //별개로 존재한다. 플로우 관리를 위해.
@@ -13,7 +14,12 @@ namespace Pg::DataScript
 		//초기 상태로 되돌리는 함수. 어떤 이유가 되던, 리셋해야 할 때.
 		virtual void ResetToInitialState() abstract;
 		//...
+
+	public:
+		
+		
+
+
 	};
 }
-
 

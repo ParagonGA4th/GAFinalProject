@@ -9,7 +9,7 @@ namespace Pg::DataScript
 
 	void Stage1AreaHandler::GrabManagedObjects()
 	{
-
+		//¾ÆÆ¼ÆÑÆ® 
 	}
 
 	void Stage1AreaHandler::Start()

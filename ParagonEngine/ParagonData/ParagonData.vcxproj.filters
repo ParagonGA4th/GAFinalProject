@@ -748,6 +748,9 @@
     <ClInclude Include="Pase_1.h">
       <Filter>11_BtNodes\MonsterAnim\Boss\Pase\Pase_1</Filter>
     </ClInclude>
+    <ClInclude Include="ISortableGlobalObject.h">
+      <Filter>13_Interfaces\ISortableGlobalObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -1139,6 +1142,12 @@
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Boss\Pase\Pase_1">
       <UniqueIdentifier>{08d9ee4d-52ec-4d00-afe3-c8514f9a631d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="13_Interfaces">
+      <UniqueIdentifier>{62fbe24f-4efe-42fe-939a-497008c8250c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="13_Interfaces\ISortableGlobalObject">
+      <UniqueIdentifier>{0033e539-be88-4991-ae25-a12a586f65ca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
