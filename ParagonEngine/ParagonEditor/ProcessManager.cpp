@@ -48,9 +48,14 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd)
 	_editorEvent->AddEvent(Pg::Editor::eEventType::_ASSETLIST, [&](void* define) { GetAssetList(define); });
 	_editorEvent->AddEvent(Pg::Editor::eEventType::_MOUSEPOSX, [&](void* posX) { SetEditorMousePosX(posX); });
 	_editorEvent->AddEvent(Pg::Editor::eEventType::_MOUSEPOSY, [&](void* posY) { SetEditorMousePosY(posY); });
+	_editorEvent->AddEvent(Pg::Editor::eEventType::ONPROJECTLOAD, [&]() { OnParagonProjectLoad(); });
 
-	if (_dataContainer->GetCurrentScene() == nullptr)
-		_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
+#if defined(DEBUG) | defined(_DEBUG)
+#else
+	SetEditorMode(Pg::Data::Enums::eEditorMode::_GAME);
+	_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
+	_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
+#endif
 }
 
 void Pg::Editor::Manager::ProcessManager::Update()
@@ -64,6 +69,7 @@ void Pg::Editor::Manager::ProcessManager::Update()
 
 	_coreMain->FinalRender();
 
+#if defined(DEBUG) | defined(_DEBUG)
 	if (_input->GetKeyDown(API::Input::eKeyCode::EditorOnOff))
 	{
 		_dataContainer->SetEditorOnOff(!_dataContainer->GetEditorOnOff());
@@ -89,7 +95,6 @@ void Pg::Editor::Manager::ProcessManager::Update()
 			else
 				_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
 		}
-		//if (_input->GetKeyDown(API::Input::eKeyCode::Save)) _editorEvent->Invoke(eEventType::_SAVEPROJECT);
 	}
 	else
 	{
@@ -97,20 +102,10 @@ void Pg::Editor::Manager::ProcessManager::Update()
 		_input->SetEditorMouseY(-10.f);
 	}
 
-
-	//if (_coreMain->GetEditorAdapter()->GetCurrentScene() != nullptr
-	//	&& _dataContainer->GetCurrentScene() == nullptr)
-	//{
-	//	_dataContainer->SetCurrentScene(_coreMain->GetEditorAdapter()->GetCurrentScene());
-	//}
-
-	//if (_dataContainer->GetSceneList().size() > 0)
-	//{
-	//	_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
-	//	_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
-	//}
-
-	//if (_input->GetKeyDown(API::Input::eKeyCode::Save)) _editorEvent->Invoke(eEventType::_SAVEPROJECT);
+#else
+	_input->SetEditorMouseX(-10.f);
+	_input->SetEditorMouseY(-10.f);
+#endif
 }
 
 void Pg::Editor::Manager::ProcessManager::LateUpdate()
@@ -176,4 +171,9 @@ void Pg::Editor::Manager::ProcessManager::SetEditorMousePosY(void* y)
 		_input->SetEditorMouseY(*(static_cast<float*>(y)));
 	else 
 		_input->SetEditorMouseY(-10.f);
+}
+
+void Pg::Editor::Manager::ProcessManager::OnParagonProjectLoad()
+{
+	_coreMain->OnParagonProjectLoad(_dataContainer->GetSceneList());
 }
