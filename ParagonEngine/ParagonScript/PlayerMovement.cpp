@@ -6,6 +6,7 @@
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/Scene.h"
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonAPI/PgInput.h"
@@ -49,6 +50,13 @@ namespace Pg::DataScript
 		
 		// Height을 받아서, 반값을 기준으로 Intersection 계산할 준비 완료.
 		_halfColliderHeight = _selfCol->GetHeight() / 2.0f;
+
+		//AudioSource 컴포넌트 들고오기
+		_playerWalkSound = _object->GetScene()->FindObjectWithName("PlayerWalkOutSound");
+		_walkAudio = _playerWalkSound->GetComponent<Pg::Data::AudioSource>();
+
+		_playerJumpSound = _object->GetScene()->FindObjectWithName("PlayerJumpSound");
+		_jumpAudio = _playerJumpSound->GetComponent<Pg::Data::AudioSource>();
 
 		//자신이 속한 Half Collider 높이 만큼 RendererOffset 설정.
 		//_renderer->SetRendererOffset({ 0.f, -_halfColliderHeight, 0.f });
@@ -130,6 +138,11 @@ namespace Pg::DataScript
 			_object->_transform._position.z += _augmentedRelativeForward.z;
 
 			_isMoving_Animation = true;
+
+			if (!_isWalkAudioPlaying) {
+				_walkAudio->Play();
+				_isWalkAudioPlaying = true;
+			}
 			
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveBack))
@@ -140,6 +153,11 @@ namespace Pg::DataScript
 			_object->_transform._position.z -= _augmentedRelativeForward.z;
 
 			_isMoving_Animation = true;
+
+			if (!_isWalkAudioPlaying) {
+				_walkAudio->Play();
+				_isWalkAudioPlaying = true;
+			}
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveLeft))
 		{
@@ -149,6 +167,11 @@ namespace Pg::DataScript
 			_object->_transform._position.z += _augmentedRelativeLeft.z;
 
 			_isMoving_Animation = true;
+
+			if (!_isWalkAudioPlaying) {
+				_walkAudio->Play();
+				_isWalkAudioPlaying = true;
+			}
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveRight))
 		{
@@ -158,6 +181,11 @@ namespace Pg::DataScript
 			_object->_transform._position.z -= _augmentedRelativeLeft.z;
 
 			_isMoving_Animation = true;
+
+			if (!_isWalkAudioPlaying) {
+				_walkAudio->Play();
+				_isWalkAudioPlaying = true;
+			}
 		}
 
 		if (_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MoveFront) ||
@@ -170,6 +198,11 @@ namespace Pg::DataScript
 			_selfCol->FreezeAxisX(true);
 			_selfCol->FreezeAxisY(true);
 			_selfCol->FreezeAxisZ(true);
+
+			if (_isWalkAudioPlaying) {
+				_walkAudio->Stop();
+				_isWalkAudioPlaying = false;
+			}
 		}
 
 		//PhysX 업데이트를 1차례 거친 후, 다시 리셋.
@@ -195,6 +228,9 @@ namespace Pg::DataScript
 			_isHeadingDownwardsToggle = false;
 
 			_selfCol->AddForce(Pg::Math::PGFLOAT3::GlobalUp() * jumpPower, Pg::Data::ForceMode::eIMPULSE);
+
+			//사운드 재생.
+			_jumpAudio->Play();
 		}
 
 		if (_isJumping)
@@ -221,8 +257,8 @@ namespace Pg::DataScript
 				{
 					//만약 내려가는 모션이라면, SetLinearVelocity를 실행.
 					//반복적으로 함수 실행의 경우, 중력의 적용을 받지 않는다.
-					Pg::Math::PGFLOAT3 tStrengthedDownForce = { 0.f, -30.f, 0.f };
-					_selfCol->SetVelocity(tStrengthedDownForce);
+					//Pg::Math::PGFLOAT3 tStrengthedDownForce = { 0.f, -30.f, 0.f };
+					//_selfCol->SetVelocity(tStrengthedDownForce);
 				}
 			
 				//밑으로 쏜다.
@@ -255,41 +291,35 @@ namespace Pg::DataScript
 
 	void PlayerMovement::UpdateFacingDirection(float yLevelPlane)
 	{
-		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseLeft))
-		{
-			_targetPos = _mainCam->ScreenPointToWorldPlanePoint({ _pgInput->GetMouseX(), _pgInput->GetMouseY() },
-				Pg::Math::PGFLOAT3::GlobalUp(), yLevelPlane);
-			//Ex.
-			//0,1,0 노말에 비해 -1만큼 Distance가 있어야 y=1에 위치할 수 있다.
+		///마우스의 움직임으로 판별.
 
-			//뺄 때 y축 차이를 없애기 위해서.
-			_targetPos.y = _object->_transform._position.y;
-			//Pg::Math::PGFLOAT3 lookPos = _targetPos - _object->_transform._position;
-			//Pg::Math::PGFLOAT3 lookPos = _object->_transform._position - _targetPos;
-			Pg::Math::PGFLOAT3 tLookPos = _object->_transform._position - _targetPos;
-			_targetRotation = PGLookRotation(tLookPos, Pg::Math::PGFLOAT3::GlobalUp());
+		_targetPos = _mainCam->ScreenPointToWorldPlanePoint({ _pgInput->GetMouseX(), _pgInput->GetMouseY() },
+			Pg::Math::PGFLOAT3::GlobalUp(), yLevelPlane);
+		//Ex.
+		//0,1,0 노말에 비해 -1만큼 Distance가 있어야 y=1에 위치할 수 있다.
 
-			//업데이트할 값 정하고 Update 루프에서 처리하도록.
-			_rotBeginRatio = 0.0f;
-			_shouldRotate = true;
-		}
+		//뺄 때 y축 차이를 없애기 위해서.
+		_targetPos.y = _object->_transform._position.y;
+		//Pg::Math::PGFLOAT3 lookPos = _targetPos - _object->_transform._position;
+		//Pg::Math::PGFLOAT3 lookPos = _object->_transform._position - _targetPos;
+		Pg::Math::PGFLOAT3 tLookPos = _object->_transform._position - _targetPos;
+		_targetRotation = PGLookRotation(tLookPos, Pg::Math::PGFLOAT3::GlobalUp());
 
-		if (_shouldRotate)
-		{
-			//Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, _targetRotation, std::clamp<float>(_rotBeginRatio, 0.0f, 1.0f));
-			//유니티와의 차이.
-			Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, _targetRotation, std::clamp<float>(_rotBeginRatio, 0.0f, 1.0f));
-			//_selfCol->MoveRotation(currentTargetRotation);
-			_object->_transform._rotation = currentTargetRotation;
+		//업데이트할 값 정하고 Update 루프에서 처리하도록.
+		_rotBeginRatio = 1.f;
 
-			_rotBeginRatio += _pgTime->GetDeltaTime() * rotateMultiplier;
-			if (_rotBeginRatio > 1.0f)
-			{
-				_shouldRotate = false;
-				_rotBeginRatio = 0.0f;
-				_selfCol->SetAngularVelocity({ 0,0,0 });
-			}
-		}
+		//Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, _targetRotation, std::clamp<float>(_rotBeginRatio, 0.0f, 1.0f));
+		//유니티와의 차이.
+		Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, _targetRotation, std::clamp<float>(_rotBeginRatio, 0.0f, 1.0f));
+		//_selfCol->MoveRotation(currentTargetRotation);
+		_object->_transform._rotation = currentTargetRotation;
+
+		//_rotBeginRatio += _pgTime->GetDeltaTime() * rotateMultiplier;
+		//if (_rotBeginRatio > 1.0f)
+		//{
+		//	_rotBeginRatio = 0.0f;
+		//	_selfCol->SetAngularVelocity({ 0,0,0 });
+		//}
 	}
 
 	void PlayerMovement::StrafeAvoidLogic()

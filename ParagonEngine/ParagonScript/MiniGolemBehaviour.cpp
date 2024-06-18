@@ -6,6 +6,7 @@
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/Collider.h"
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/CapsuleCollider.h"
@@ -63,6 +64,16 @@ namespace Pg::DataScript
 		//플레이어 지정
 		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
+
+		//AudioSource 컴포넌트 들고오기
+		_miniGolemHit = _object->GetScene()->FindObjectWithName("MiniGolemHitSound");
+		_hitSound = _miniGolemHit->GetComponent<Pg::Data::AudioSource>();
+
+		_miniGolemDie = _object->GetScene()->FindObjectWithName("MiniGolemDeadSound");
+		_dieSound = _miniGolemDie->GetComponent<Pg::Data::AudioSource>();
+
+		_miniGolemDash = _object->GetScene()->FindObjectWithName("MiniGolemDashSound");
+		_dashSound = _miniGolemDash->GetComponent<Pg::Data::AudioSource>();
 
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
@@ -195,6 +206,11 @@ namespace Pg::DataScript
 		{
 			_miniGolInfo->_status = MiniGolemStatus::DASH;
 
+			if (!_isDashSoundPlaying) {
+				_dashSound->Play();
+				_isDashSoundPlaying = true;
+			}
+
 			float interpolation = _miniGolInfo->GetDashSpeed() * _pgTime->GetDeltaTime();
 			_miniGolInfo->SetCurrentDashTime(_miniGolInfo->GetCurrentDashTime() + _pgTime->GetDeltaTime());
 
@@ -212,6 +228,7 @@ namespace Pg::DataScript
 		{
 			_isDash = false;
 			_hasDashed = true;
+			_isDashSoundPlaying = false;
 			_monsterHelper->_isDash = _isDash;
 			_monsterHelper->_isChase = !_isDash;
 		}
@@ -220,6 +237,8 @@ namespace Pg::DataScript
 	void MiniGolemBehaviour::Hit()
 	{
 		PG_TRACE("Hit!");
+
+		_hitSound->Play();
 
 		//피격 애니메이션 들어가야 함.
 		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
@@ -276,6 +295,7 @@ namespace Pg::DataScript
 	{
 		//상태를 죽음으로 변경.
 		_miniGolInfo->_status = MiniGolemStatus::DEAD;
+		_dieSound->Play();
 		_collider->SetActive(false);
 		_monsterHelper->_isDead = true;
 		_isRotateFinish = true;

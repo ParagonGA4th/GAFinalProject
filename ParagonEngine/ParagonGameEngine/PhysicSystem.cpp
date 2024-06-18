@@ -158,7 +158,7 @@ namespace Pg::Engine::Physic
 		//미리 쌓였던 EventCallback Clear.
 		_physicsCallback->Clear();
 
-		_pxScene->simulate(0.01f);
+		_pxScene->simulate(dTime);
 
 		_pxScene->fetchResults(true);
 
@@ -336,7 +336,7 @@ namespace Pg::Engine::Physic
 
 		//중력 설정.
 		//sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
-		sceneDesc.gravity = physx::PxVec3(0.0f, -19.62f, 0.0f); //x2
+		sceneDesc.gravity = physx::PxVec3(0.0f, -29.43f, 0.0f); //x3
 
 
 		//_dispatcher = physx::PxDefaultCpuDispatcherCreate(2);
