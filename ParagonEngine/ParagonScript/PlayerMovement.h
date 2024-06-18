@@ -7,6 +7,7 @@ namespace Pg::Data
 	class Camera;
 	class DynamicCollider;
 	class SkinnedMeshRenderer;
+	class AudioSource;
 }
 
 //namespace Pg::DataScript
@@ -45,7 +46,7 @@ namespace Pg::DataScript
 		//움직임 관련. 
 		float moveSpeed{ 4.0f };
 		float rotateMultiplier{ 2.0f };
-		float jumpPower{ 70.0f };
+		float jumpPower{ 80.0f };
 
 		
 
@@ -84,9 +85,18 @@ namespace Pg::DataScript
 		Pg::Math::PGQuaternion _targetRotation;
 
 	private:
+		//플레이어 사운드 관련 변수
+		Pg::Data::GameObject* _playerWalkSound;
+		Pg::Data::GameObject* _playerJumpSound;
+
+		Pg::Data::AudioSource* _walkAudio;
+		Pg::Data::AudioSource* _jumpAudio;
+
+	private:
 		bool _isJustSetRestraint{ false };
 		bool _isJumping = false;
 		bool _shouldRotate = false;
+		bool _isWalkAudioPlaying = false;
 		float _rotBeginRatio = 0.0f;
 		float _halfColliderHeight{};
 		float _currentPlaneY = 0.f;

@@ -23,6 +23,7 @@ namespace Pg::API
 namespace Pg::Data
 {
 	class DynamicCollider;
+	class AudioSource;
 }
 
 namespace Pg::DataScript
@@ -89,6 +90,11 @@ namespace Pg::DataScript
 		Pg::API::Input::PgInput* _pgInput;
 		std::vector<ArrowLogic*> _arrowVec;
 		Pg::Data::DynamicCollider* _selfCol{ nullptr };
+
+	private:
+		//사운드 관련 변수
+		Pg::Data::GameObject* _commonAttackSound;
+		Pg::Data::AudioSource* _commonAttackAudio;
 	};
 }
 
