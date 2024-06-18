@@ -151,6 +151,7 @@
     <ClInclude Include="BaseMonster.h" />
     <ClInclude Include="BattleArea.h" />
     <ClInclude Include="BossBehaviour.h" />
+    <ClInclude Include="BossInfo.h" />
     <ClInclude Include="CameraShake.h" />
     <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="ComboSystem.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="BaseMonster.cpp" />
     <ClCompile Include="BattleArea.cpp" />
     <ClCompile Include="BossBehaviour.cpp" />
+    <ClCompile Include="BossInfo.cpp" />
     <ClCompile Include="BossStageAreaHandler.cpp" />
     <ClCompile Include="BossStageEnemyHandler.cpp" />
     <ClCompile Include="BossStageGUIHandler.cpp" />

@@ -166,6 +166,9 @@
     <Filter Include="Content\GlobalManagers\1_InGameManager">
       <UniqueIdentifier>{8566bef1-7541-4928-a706-a317217ab1a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\EnemyInfo\Boss">
+      <UniqueIdentifier>{840a7ac2-8f22-4dfe-8bd2-5144b34be6f9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="3_Interfaces\Handlers">
       <UniqueIdentifier>{f775b516-3909-4935-8fb3-7513ff737f62}</UniqueIdentifier>
     </Filter>
@@ -338,6 +341,9 @@
     </ClCompile>
     <ClCompile Include="InGameManager.cpp">
       <Filter>Content\GlobalManagers\1_InGameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="BossInfo.cpp">
+      <Filter>AI\EnemyInfo\Boss</Filter>
     </ClCompile>
     <ClCompile Include="CreditsSceneGUIHandler.cpp">
       <Filter>Content\1_ConcreteHandlers\6_CreditsScene_2D\CreditsSceneGUIHandler</Filter>
@@ -520,6 +526,9 @@
     </ClInclude>
     <ClInclude Include="InGameManager.h">
       <Filter>Content\GlobalManagers\1_InGameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BossInfo.h">
+      <Filter>AI\EnemyInfo\Boss</Filter>
     </ClInclude>
     <ClInclude Include="IAreaHandler.h">
       <Filter>3_Interfaces\Handlers\IAreaHandler</Filter>

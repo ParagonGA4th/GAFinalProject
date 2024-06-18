@@ -246,6 +246,7 @@
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="isTouched.h" />
+    <ClInclude Include="Pase_1.h" />
     <ClInclude Include="VisualEffectRenderObject.h" />
     <ClInclude Include="isChase.h" />
     <ClInclude Include="isCoolDown.h" />
@@ -401,6 +402,7 @@
     <ClCompile Include="NavigationField.cpp" />
     <ClCompile Include="NavMeshAgent.cpp" />
     <ClCompile Include="ParagonDefines.cpp" />
+    <ClCompile Include="Pase_1.cpp" />
     <ClCompile Include="PhysicsCollision.cpp" />
     <ClCompile Include="PhysicsContactPoint.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />

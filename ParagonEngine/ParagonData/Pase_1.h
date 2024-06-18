@@ -1,5 +1,5 @@
-#ifndef ANIM_BWALK
-#define ANIM_BWALK
+#ifndef PASE_1
+#define PASE_1
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,12 +7,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_bWalk : public BT::SyncActionNode, public BasePgBtNode
+	class Pase_1 : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_bWalk(const std::string& name, const BT::NodeConfiguration& config)
+		Pase_1(const std::string& name, const BT::NodeConfiguration& config)
 			: BT::SyncActionNode(name, config) {}
-		virtual ~Anim_bWalk() = default;
+		virtual ~Pase_1() = default;
 
 		virtual BT::NodeStatus tick() override;
 
@@ -20,8 +20,7 @@ namespace Pg::Data::BTree::Node
 		{
 			return {};
 		}
-
-	private:
 	};
 }
 #endif
+

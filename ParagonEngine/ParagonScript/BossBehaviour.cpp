@@ -20,6 +20,15 @@ namespace Pg::DataScript
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgScene = &singleton<Pg::API::PgScene>();
+
+		//골렘의 체력과 공격
+		_bossInfo = new BossInfo(20.f, 2.f);
+
+		///보스의 사망 및 피격행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
+		///몬스터에게 직접적으로 적용하기에 여기서는 사망 시 행동만 만들면 된다.
+		_bossInfo->_onDead = [this]() { Dead(); };
+
+		_bossInfo->_onHit = [this]() { Hit(); };
 	}
 
 	void BossBehaviour::BeforePhysicsAwake()
@@ -46,53 +55,19 @@ namespace Pg::DataScript
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
-
-		//골렘의 정보 설정
-		_bossGolInfo.SetHp(10.f);
-		_bossGolInfo.SetAttackRange(3.f);
 	}
 
 	void BossBehaviour::Update()
 	{
-		RotateToPlayer(_playerTransform->_position);
-		Chase();
-	}
-
-
-	void BossBehaviour::OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count)
-	{
-		for (int i = 0; i < count; i++)
-		{
-			Pg::Data::PhysicsCollision* tCol = _colArr[i];
-
-			//충돌해오는 Actor들을 검사.
-			Pg::Data::Collider* arrowCol = Pg::Data::PhysicsCollision::GetActualOtherActor(tCol, this->_object);
-
-			//Physics Layer로 검사한다. 화살에 맞았을 때.
-			if (arrowCol->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_PROJECTILES)
-			{
-				//화살에 맞았을 때 피격행동 및 상태 구현.
-
-				//체력이 1씩 닳는다.
-				_bossGolInfo._hp -= 1.f;
-
-				//체력이 다 까이면
-				if (_bossGolInfo._hp <= 0.f)
-				{
-					//죽는 애니메이션 먼저 호출 필요함.
-					//애니메이션 전체 재생 후 다음으로 넘어가야 함.
-
-					//죽는다.
-					Dead();
-				}
-			}
-		}
+		///보스의 행동패턴 들어가야함.
+		//RotateToPlayer(_playerTransform->_position);
+		//Chase();
 	}
 
 	void BossBehaviour::Chase()
 	{
 		//이동 속도 조절.
-		float interpolation = _bossGolInfo._moveSpeed * _pgTime->GetDeltaTime();
+		float interpolation = _bossInfo->GetMoveSpeed() * _pgTime->GetDeltaTime();
 
 		//auto plVec = _object->GetScene()->FindObjectsWithTag("TAG_Player");
 		//auto plTrans = plVec.at(0)->_transform;
@@ -102,35 +77,17 @@ namespace Pg::DataScript
 
 		float distance = std::abs(std::sqrt(std::pow(plTrans._position.x - _object->_transform._position.x, 2)
 			+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
+		//상태를 Chase로 변경.
 
-		//일정 사정거리 안에 들어오면
-		if (distance <= _bossGolInfo._attackRange)
-		{
+		// 플레이어가 시야 안에 있으면
+		_monsterHelper->_isPlayerDetected = true;
+		_monsterHelper->_isPlayerinHitSpace = false;
 
-			//상태 변경.
-			_bossGolStat = BossGolemStatus::BASIC_ATTACK;
-
-			//공격으로 전환하기.
-			Attack();
-
-			// 공격 애니메이션 출력.
-			_monsterHelper->_isPlayerinHitSpace = true;
-		}
-		else
-		{
-			//상태를 Chase로 변경.
-			_bossGolStat = BossGolemStatus::CHASE;
-
-			// 플레이어가 시야 안에 있으면
-			_monsterHelper->_isPlayerDetected = true;
-			_monsterHelper->_isPlayerinHitSpace = false;
-
-			//사정거리 밖이면 플레이어로 계속 다가가기.
-			Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
-			tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, plTrans._position, interpolation);
-			_object->_transform._position.x = tPosition.x;
-			_object->_transform._position.z = tPosition.z;
-		}
+		//사정거리 밖이면 플레이어로 계속 다가가기.
+		Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+		tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, plTrans._position, interpolation);
+		_object->_transform._position.x = tPosition.x;
+		_object->_transform._position.z = tPosition.z;
 	}
 
 	void BossBehaviour::RotateToPlayer(Pg::Math::PGFLOAT3& targetPos)
@@ -156,16 +113,62 @@ namespace Pg::DataScript
 		}
 	}
 
+	void BossBehaviour::Dash()
+	{
+		// 돌진 지속 시간 동안 돌진
+		if (_isRotateFinish && _bossInfo->GetCurrentDashTime() < _bossInfo->GetDashDuration())
+		{
+			_bossInfo->_status = BossStatus::DASH;
+
+			float interpolation = _bossInfo->GetDashSpeed() * _pgTime->GetDeltaTime();
+			_bossInfo->SetCurrentDashTime(_bossInfo->GetCurrentDashTime() + _pgTime->GetDeltaTime());
+
+			// 돌진 시 준비 동작 애니매이션 때문
+			if (_bossInfo->GetCurrentDashTime() >= 0.4f)
+			{
+				Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
+				forwardDir.y = 0; // y축 이동을 막기 위해 y값을 0으로 설정
+
+				Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+				tPosition = tPosition + forwardDir * interpolation;
+
+				_object->_transform._position.x = tPosition.x;
+				_object->_transform._position.z = tPosition.z;
+			}
+		}
+		// 돌진이 끝나면 상태를 변경
+		else if (_bossInfo->GetCurrentDashTime() >= _bossInfo->GetDashDuration())
+		{
+			_isDash = false;
+			_hasDashed = true;
+			_monsterHelper->_isDash = _isDash;
+			_monsterHelper->_isChase = !_isDash;
+		}
+	}
+
 	void BossBehaviour::Attack()
+	{
+
+	}
+
+	void BossBehaviour::Avoid()
+	{
+
+	}
+
+
+	void BossBehaviour::Hit()
+	{
+
+	}
+
+	void BossBehaviour::neutralize()
 	{
 
 	}
 
 	void BossBehaviour::Dead()
 	{
-		//상태를 죽음으로 변경.
-		_bossGolStat = BossGolemStatus::DEAD;
-
 		//다 꺼짐.
 		_collider->SetActive(false);
 		_meshRenderer->SetActive(false);
