@@ -20,25 +20,31 @@ namespace Pg::DataScript
 	void TitleSceneGUIHandler::GrabManagedObjects()
 	{
 		//Start버튼
-		_start = _pgScene->GetCurrentScene()->FindObjectWithName("Start");
+		//이제 여기에서는 현재 씬이 아니라, 자신의 오브젝트가 속한 씬을 가져와야 한다.
+		//_start = _pgScene->GetCurrentScene()->FindObjectWithName("Start");
+		_start = _object->GetScene()->FindObjectWithName("Start");
 		_startButton = _start->GetComponent<Pg::Data::Button>();
 
 		_btnClick = _start->GetComponent<Pg::Data::AudioSource>();
 
 		//SaveFile버튼
-		_saveFile = _pgScene->GetCurrentScene()->FindObjectWithName("SaveFile");
+		//_saveFile = _pgScene->GetCurrentScene()->FindObjectWithName("SaveFile");
+		_saveFile = _object->GetScene()->FindObjectWithName("SaveFile");
 		_saveFileButton = _saveFile->GetComponent<Pg::Data::Button>();
 
 		//Tutorial버튼
-		_howToPlay = _pgScene->GetCurrentScene()->FindObjectWithName("HowToPlay");
+		//_howToPlay = _pgScene->GetCurrentScene()->FindObjectWithName("HowToPlay");
+		_howToPlay = _object->GetScene()->FindObjectWithName("HowToPlay");
 		_howToPlayButton = _howToPlay->GetComponent<Pg::Data::Button>();
 
 		//Exit버튼
-		_exit = _pgScene->GetCurrentScene()->FindObjectWithName("Exit");
+		//_exit = _pgScene->GetCurrentScene()->FindObjectWithName("Exit");
+		_exit = _object->GetScene()->FindObjectWithName("Exit");
 		_exitButton = _exit->GetComponent<Pg::Data::Button>();
 
 		//타이틀에 존재하는 AudioSource 찾기
-		_title = _pgScene->GetCurrentScene()->FindObjectWithName("Title");
+		//_title = _pgScene->GetCurrentScene()->FindObjectWithName("Title");
+		_title = _object->GetScene()->FindObjectWithName("Title");
 		_titleAudioSource = _title->GetComponent<Pg::Data::AudioSource>();
 	}
 

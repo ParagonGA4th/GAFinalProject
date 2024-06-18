@@ -60,6 +60,7 @@ namespace Pg::DataScript
 	{
 		// 내부적으로 모든 걸 컨트롤해야 한다.
 		// 우선 필요한 정보 Initialize.
+		//이런 식으로 실질적인 Awake 등 Function 수행.
 		if (!_isManagingInitializeCalled)
 		{
 			Initialize(changedScene);
@@ -87,7 +88,7 @@ namespace Pg::DataScript
 	void TotalGameManager::Initialize(Pg::Data::Scene* changedScene)
 	{
 		// 게임이 시작되고, 자신이 있을 수 있는 SceneList들을 알아야 한다.
-		// PgScene 받기.
+		//// PgScene 받기.
 		_pgScene = &singleton<Pg::API::PgScene>();
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
 
@@ -98,8 +99,6 @@ namespace Pg::DataScript
 		SetupBundlesForAllScenes();
 
 		//2D / 3D 따라서 나눠서 관리. 
-
-
 	}
 
 	void TotalGameManager::SetupBundlesForAllScenes()
