@@ -34,7 +34,11 @@ namespace Pg::Data
 		bool _isDead;					// 몬스터가 죽었는지
 
 		/// Boss
-		bool _Pase_1;
+		Pg::Data::BossState _bossState = Pg::Data::BossState::IDLE;
+		bool isPase_1;					// 보스의 1페이즈
+		bool isPase_2;					// 보스의 1페이즈
+		bool isPase_3;					// 보스의 1페이즈
+		bool isNeutralize;				// 보스가 무력화 되었는지
 
 		/// Golem
 		bool _isDash;					// 몬스터가 대쉬를 했는지(with Boss)

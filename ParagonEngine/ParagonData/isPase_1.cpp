@@ -1,26 +1,21 @@
-#include "Pase_1.h"
+#include "isPase_1.h"
 #include "MonsterHelper.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus Pase_1::tick()
+	BT::NodeStatus isPase_1::tick()
 	{
-		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
-		if (monHelper != nullptr)
-		{
-			//if (monHelper->_Pase_1)
+		//auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
+		//if (monHelper != nullptr)
+		//{
+			//if (monHelper->isPase_1)
 			//{
-			//	config().blackboard->set<bool>("HITINIT", true);
+			// monHelper->_bossState = Pg::Data::BossState::PASE_1;
 			//	return BT::NodeStatus::SUCCESS;
 			//}
 			//else
 			//{
-			//	config().blackboard->set<bool>("HITINIT", false);
 			//	config().blackboard->set<std::string>("PREVANIM", "");
-
-			//	return BT::NodeStatus::FAILURE;
-			//}
-		}
 		bool attack_1 = config().blackboard->get<bool>("ISRANIMEND");
 		bool attack_2 = config().blackboard->get<bool>("ISLANIMEND");
 		bool attack_3 = config().blackboard->get<bool>("ISTANIMEND");
@@ -33,6 +28,11 @@ namespace Pg::Data::BTree::Node
 			config().blackboard->set<bool>("ISTANIMEND", false);
 		}
 
-		return BT::NodeStatus::SUCCESS;
+			//	return BT::NodeStatus::FAILURE;
+			//}
+		//}
+
+
+		return BT::NodeStatus::FAILURE;
 	}
 }
