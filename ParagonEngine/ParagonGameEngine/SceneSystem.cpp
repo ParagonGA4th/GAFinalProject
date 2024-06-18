@@ -299,10 +299,13 @@ namespace Pg::Engine
 			return;
 		}
 
-		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
-		{
-			it->ResetDebouncerBoolean();
-		}
+		//밖에서 한번만 실행된다.
+		//이는, 로직 상의 문제로,
+		//Dont Destroy On Load가 바뀌었을 때, DebouncerBoolean이 바뀌도록 위치 이동.
+		//for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
+		//{
+		//	it->ResetDebouncerBoolean();
+		//}
 
 		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
 		{
@@ -395,6 +398,23 @@ namespace Pg::Engine
 			//내부적으로 GrabManagedObjects (매니저들이 관리하는 대상 등등, 모아두기 위해)
 			//카메라 같은 애들은 내부적으로 불가.
 			it->GrabManagedObjects();
+		}
+		
+		//Don't Destroy On Load를 실제로 옮겨야 할 것이다..
+		//OnSceneChange_Global을 실행해야 하기 때문.
+		//Project 기준 0번째 인덱스의 씬에서 Don't Destroy On Load 오브젝트들 옮김.
+		//Ex. TotalGameManager등을 연동하기 위해서.
+		CheckMoveDontDestroyOnLoadObjects(sceneVec.at(0));
+
+		//이로서 Don't Destroy On Load는 0번째 씬에서밖에 있을 수 없다.
+		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
+		{
+			it->OnSceneChange_Global(sceneVec.at(0));
+		}
+
+		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
+		{
+			it->ResetDebouncerBoolean();
 		}
 	}
 

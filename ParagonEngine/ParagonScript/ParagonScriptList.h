@@ -25,8 +25,7 @@
 #include "EnemySight.h"
 #include "Portal.h"
 
-//UI 관련
-#include "TitleManager.h"
+//UI 관련 (개별)
 #include "TitleScene.h"
 #include "StartButton.h"
 #include "ExitButton.h"
@@ -43,5 +42,28 @@
 #include "StubBehaviour.h"
 #include "MimicBehaviour.h"
 
-//매니저용
+//글로벌 매니저용
 #include "TotalGameManager.h"
+
+//로컬 매니저용.
+
+//TitleScene - 2D
+#include "TitleSceneGUIHandler.h"
+
+//Stage1Scene - 3D
+#include "Stage1AreaHandler.h"
+#include "Stage1EnemyHandler.h"
+#include "Stage1GUIHandler.h"
+
+//Stage2Scene - 3D
+#include "Stage2AreaHandler.h"
+#include "Stage2EnemyHandler.h"
+#include "Stage2GUIHandler.h"
+
+//BossStage - 3D
+#include "BossStageAreaHandler.h"
+#include "BossStageEnemyHandler.h"
+#include "BossStageGUIHandler.h"
+
+//CreditsScene - 2D
+#include "CreditsSceneGUIHandler.h"

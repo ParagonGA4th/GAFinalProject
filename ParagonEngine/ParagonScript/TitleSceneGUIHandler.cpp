@@ -1,4 +1,4 @@
-#include "TitleManager.h"
+#include "TitleSceneGUIHandler.h"
 #include "../ParagonData/Button.h"
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonData/ImageRenderer.h"
@@ -10,39 +10,45 @@
 
 namespace Pg::DataScript
 {
-	TitleManager::TitleManager(Pg::Data::GameObject* obj) :
+	TitleSceneGUIHandler::TitleSceneGUIHandler(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj), _isOnButton(false)
 	{
 		_pgScene = &singleton<Pg::API::PgScene>();
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
 	}
 
-	void TitleManager::Awake()
+	void TitleSceneGUIHandler::GrabManagedObjects()
 	{
 		//Start버튼
-		_start = _pgScene->GetCurrentScene()->FindObjectWithName("Start");
+		//이제 여기에서는 현재 씬이 아니라, 자신의 오브젝트가 속한 씬을 가져와야 한다.
+		//_start = _pgScene->GetCurrentScene()->FindObjectWithName("Start");
+		_start = _object->GetScene()->FindObjectWithName("Start");
 		_startButton = _start->GetComponent<Pg::Data::Button>();
 
 		_btnClick = _start->GetComponent<Pg::Data::AudioSource>();
 
 		//SaveFile버튼
-		_saveFile = _pgScene->GetCurrentScene()->FindObjectWithName("SaveFile");
+		//_saveFile = _pgScene->GetCurrentScene()->FindObjectWithName("SaveFile");
+		_saveFile = _object->GetScene()->FindObjectWithName("SaveFile");
 		_saveFileButton = _saveFile->GetComponent<Pg::Data::Button>();
 
 		//Tutorial버튼
-		_howToPlay = _pgScene->GetCurrentScene()->FindObjectWithName("HowToPlay");
+		//_howToPlay = _pgScene->GetCurrentScene()->FindObjectWithName("HowToPlay");
+		_howToPlay = _object->GetScene()->FindObjectWithName("HowToPlay");
 		_howToPlayButton = _howToPlay->GetComponent<Pg::Data::Button>();
 
 		//Exit버튼
-		_exit = _pgScene->GetCurrentScene()->FindObjectWithName("Exit");
+		//_exit = _pgScene->GetCurrentScene()->FindObjectWithName("Exit");
+		_exit = _object->GetScene()->FindObjectWithName("Exit");
 		_exitButton = _exit->GetComponent<Pg::Data::Button>();
 
 		//타이틀에 존재하는 AudioSource 찾기
-		_title = _pgScene->GetCurrentScene()->FindObjectWithName("Title");
+		//_title = _pgScene->GetCurrentScene()->FindObjectWithName("Title");
+		_title = _object->GetScene()->FindObjectWithName("Title");
 		_titleAudioSource = _title->GetComponent<Pg::Data::AudioSource>();
 	}
 
-	void TitleManager::Start()
+	void TitleSceneGUIHandler::Start()
 	{
 		_titleAudioSource->Play();
 
@@ -123,7 +129,13 @@ namespace Pg::DataScript
 			});
 	}
 
-	void TitleManager::Update()
+	void TitleSceneGUIHandler::Update()
 	{
 	}
+
+	void TitleSceneGUIHandler::ResetToInitialState()
+	{
+		// Title Scene에서 리셋할 것은 딱히 존재하지 않는다.
+	}
+
 }
