@@ -90,6 +90,9 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _miniGolemDash;
 		Pg::Data::AudioSource* _dashSound;
 
+		Pg::Data::GameObject* _miniGolemAttack;
+		Pg::Data::AudioSource* _attackSound;
+
 	private:
 		//플레이어와의 거리 측정
 		float _distance;
@@ -105,7 +108,9 @@ namespace Pg::DataScript
 		//대쉬 관련 변수.
 		bool _isDash;			//돌진 여부
 		bool _hasDashed;		//돌진했는지 여부
+
 		bool _isDashSoundPlaying = false; //돌진 소리
+		bool _isAttackSoundPlaying = false; //공격 소리
 
 	public:
 		//미니골렘의 상태와 수치에 대한 정보.
