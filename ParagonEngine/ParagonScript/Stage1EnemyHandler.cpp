@@ -37,6 +37,10 @@ namespace Pg::DataScript
 				tVecIter.push_back(tToInsert);
 			}
 		}
+
+		// 별개로, Enemy들 내부에서는 따로 GrabManagedObjects()가 호출되어야 하며,
+		// 이는 개별 소속한 콜라이더 정보 등을 들고 있어야 한다.
+		// 만약 개별 순서가 중요하다면, 별개의 함수를 차례로 호출하는 것까지 생각해야 하고.
 	}
 
 	void Stage1EnemyHandler::Start()
