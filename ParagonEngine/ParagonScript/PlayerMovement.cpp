@@ -9,6 +9,7 @@
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/DynamicCollider.h"
+#include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgRayCast.h"
@@ -26,6 +27,12 @@ namespace Pg::DataScript
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgRayCast = &singleton<Pg::API::Raycast::PgRayCast>();
 		_pgTween = &singleton<Pg::API::Tween::PgTween>();
+	}
+
+	void PlayerMovement::BeforePhysicsAwake()
+	{
+		//_selfCapCol = _object->GetComponent<Pg::Data::CapsuleCollider>();
+		//_selfCapCol->FreezeAxisY(true);
 	}
 
 	void PlayerMovement::Awake()
@@ -138,6 +145,7 @@ namespace Pg::DataScript
 			_object->_transform._position.z += _augmentedRelativeForward.z;
 
 			_isMoving_Animation = true;
+			_isMoving = true;
 
 			if (!_isWalkAudioPlaying) {
 				_walkAudio->Play();
@@ -153,6 +161,7 @@ namespace Pg::DataScript
 			_object->_transform._position.z -= _augmentedRelativeForward.z;
 
 			_isMoving_Animation = true;
+			_isMoving = true;
 
 			if (!_isWalkAudioPlaying) {
 				_walkAudio->Play();
@@ -167,6 +176,7 @@ namespace Pg::DataScript
 			_object->_transform._position.z += _augmentedRelativeLeft.z;
 
 			_isMoving_Animation = true;
+			_isMoving = true;
 
 			if (!_isWalkAudioPlaying) {
 				_walkAudio->Play();
@@ -181,6 +191,7 @@ namespace Pg::DataScript
 			_object->_transform._position.z -= _augmentedRelativeLeft.z;
 
 			_isMoving_Animation = true;
+			_isMoving = true;
 
 			if (!_isWalkAudioPlaying) {
 				_walkAudio->Play();
@@ -195,6 +206,7 @@ namespace Pg::DataScript
 		{
 			//멈췄다가 다시.
 			_isJustSetRestraint = true;
+			_isMoving = false;
 			_selfCol->FreezeAxisX(true);
 			_selfCol->FreezeAxisY(true);
 			_selfCol->FreezeAxisZ(true);
@@ -221,6 +233,7 @@ namespace Pg::DataScript
 		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::Space) && (!_isJumping))
 		{
 			_isJumping = true;
+			_isMoving = true;
 			_isJumping_Animation = true;
 			_recordedTimeSinceJump = 0.f;
 
@@ -283,6 +296,7 @@ namespace Pg::DataScript
 					//일단은 그 과정은 나중에!
 					_isJumping_Animation = false;
 					_isJumping = false;
+					_isMoving = false;
 					//_selfCol->SetLinearDamping(_originalLinearDampingValue);
 				}
 			}
@@ -402,5 +416,10 @@ namespace Pg::DataScript
 
 		//애니메이션 인풋 스트링 기록.
 		_previousAnimationInput = tToPlayAnimationName;
+	}
+
+	bool PlayerMovement::GetIsMoving()
+	{
+		return _isMoving;
 	}
 }

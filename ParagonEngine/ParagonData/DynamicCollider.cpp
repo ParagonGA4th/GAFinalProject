@@ -10,7 +10,7 @@ namespace Pg::Data
 		_isAngularFreezeX(false),
 		_isAngularFreezeY(false),
 		_isAngularFreezeZ(false),
-		_linearDamping(0.9f),
+		_linearDamping(0.f),
 		_linearVelocity(0.f, 0.f, 0.f)
 	{
 
