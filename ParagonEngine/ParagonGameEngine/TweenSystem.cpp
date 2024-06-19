@@ -112,6 +112,27 @@ namespace Pg::Engine
 		}
 	}
 
+	void TweenSystem::KillAllTweens()
+	{
+		//자신 모든거 리셋.
+		for (auto& it : _tweensInAction)
+		{
+			it->ResetSelf();
+		}
+		
+		//OnCompleteFunc 실행 못하게 함. 아예 다 죽여버리는 거라서.
+		
+		//두 런타임 객체 깨트리기.
+		if (!_tweensInAction.empty())
+		{
+			_tweensInAction.clear();
+		}
+
+		if (!_deleteObj.empty())
+		{
+			_deleteObj.clear();
+		}
+	}
 	
 
 }

@@ -41,6 +41,7 @@ namespace Pg::Engine
 	public:
 		//API로 익스포팅용 : 트윈을 만들기.
 		PARAGON_ENGINE_DLL Pg::Util::Tween* CreateTween();
+		PARAGON_ENGINE_DLL void KillAllTweens();
 		
 	};
 }

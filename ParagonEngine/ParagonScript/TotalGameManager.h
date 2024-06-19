@@ -20,6 +20,7 @@
 namespace Pg::API::Time { class PgTime; }
 namespace Pg::API::Input { class PgInput; }
 namespace Pg::API { class PgScene; }
+namespace Pg::API::Tween { class PgTween; }
 
 namespace Pg::DataScript
 {
@@ -71,6 +72,7 @@ namespace Pg::DataScript
 	private:
 		Pg::API::PgScene* _pgScene{ nullptr };
 		Pg::API::Input::PgInput* _pgInput{ nullptr };
+		Pg::API::Tween::PgTween* _pgTween{ nullptr };
 
 	private:
 		//Flow 관리를 위해 보관하는 정보. (3D)
