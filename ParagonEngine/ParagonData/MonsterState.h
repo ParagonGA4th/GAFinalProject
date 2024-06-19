@@ -18,15 +18,18 @@ namespace Pg::Data
 	enum class BossState
 	{
 		IDLE,
-		PASE_1,
-		PASE_2,
-		PASE_3,
 		BASIC_ATTACK_1,
 		BASIC_ATTACK_2,
 		BASIC_ATTACK_3,
-		BOSS_PASE_2,
-		BOSS_PASE_3,
-		BOSS_PASE_4,
+		SKILL_FEATHER_ATTACK,
+		SKILL_FLY_ATTACK,
 		DEAD
+	};
+
+	enum class BossPase
+	{
+		PASE_1,
+		PASE_2,
+		PASE_3,
 	};
 }
