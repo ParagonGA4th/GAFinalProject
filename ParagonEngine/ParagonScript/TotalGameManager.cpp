@@ -4,6 +4,7 @@
 
 #include "../ParagonAPI/PgScene.h"
 #include "../ParagonAPI/PgInput.h"
+#include "../ParagonAPI/PgTween.h"
 
 #include <algorithm>
 #include <cassert>
@@ -70,6 +71,8 @@ namespace Pg::DataScript
 			_isManagingInitializeCalled = true;
 		}
 
+		_pgTween->KillAllTweens();
+
 		//현재 Handler Bundle 받는다. 2D Scene일 경우 nullptr.
 		SetCurrentHandlerBundle(changedScene);
 
@@ -93,6 +96,7 @@ namespace Pg::DataScript
 		//// PgScene 받기.
 		_pgScene = &singleton<Pg::API::PgScene>();
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
+		_pgTween = &singleton<Pg::API::Tween::PgTween>();
 
 		// 반드시 해당 Object는 Don't Destroy On Load 설정이 되어 있어야 한다.
 		assert(_object->GetDontDestroyOnLoad() && "XML에서 이렇게 들어왔어야 한다");
