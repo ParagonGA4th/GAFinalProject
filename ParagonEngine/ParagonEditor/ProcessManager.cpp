@@ -53,6 +53,7 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd)
 #if defined(DEBUG) | defined(_DEBUG)
 #else
 	SetEditorMode(Pg::Data::Enums::eEditorMode::_GAME);
+	_coreMain->OnParagonProjectLoad(_dataContainer->GetSceneList());
 	_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
 	_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
 #endif
