@@ -5,6 +5,8 @@
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
 
+#include <vector>
+
 namespace Pg::DataScript
 {
 	class Stage1AreaHandler : public ScriptInterface<Stage1AreaHandler>, public IAreaHandler
