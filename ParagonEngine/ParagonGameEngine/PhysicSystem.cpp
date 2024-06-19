@@ -345,6 +345,9 @@ namespace Pg::Engine::Physic
 		sceneDesc.filterShader = ContactReportFilterShader;
 
 		sceneDesc.simulationEventCallback = _physicsCallback.get();
+
+		// Sub-Stepping 설정
+		//_pxScene->setSubStepCount(5, 1.0f / 60.0f);
 		
 		_pxScene = _physics->createScene(sceneDesc);
 
@@ -699,6 +702,10 @@ namespace Pg::Engine::Physic
 				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry((boxcol->GetWidth() / 2.0f) * boxcol->_object->_transform._scale.x,
 					(boxcol->GetHeight() / 2.0f) * boxcol->_object->_transform._scale.y, (boxcol->GetDepth() / 2.0f) * boxcol->_object->_transform._scale.z), *_material);
 
+				// 충돌 오프셋 설정
+				boxShape->setContactOffset(0.01f); // 적절한 값으로 설정
+				boxShape->setRestOffset(0.01f);   // 적절한 값으로 설정
+
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
 				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
@@ -733,6 +740,10 @@ namespace Pg::Engine::Physic
 				//임시 아닌 이렇게 합쳐서 갈 예정.
 				//2023.12.11
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(worldTm);
+
+				//충돌 정확도 계산을 하기위한 코드
+				rigid->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_CCD, true);
+				rigid->setSolverIterationCounts(16, 4);
 
 				// Layer Mask 설정
 				boxShape->setSimulationFilterData({ boxcol->GetLayer(), 0, 0, 0 });
@@ -773,6 +784,11 @@ namespace Pg::Engine::Physic
 				physx::PxShape* shape = _physics->createShape(physx::PxSphereGeometry(sphCol->GetRadius()), *_material);
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
+				
+				// 충돌 오프셋 설정
+				shape->setContactOffset(0.01f); // 적절한 값으로 설정
+				shape->setRestOffset(0.01f);   // 적절한 값으로 설정
+
 				physx::PxTransform trans(physx::PxIdentity);
 				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
 
@@ -803,6 +819,8 @@ namespace Pg::Engine::Physic
 				shape->setSimulationFilterData({ sphCol->GetLayer(), 0, 0, 0 });
 
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(worldTm);
+				rigid->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_CCD, true);
+				rigid->setSolverIterationCounts(16, 4);
 
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
@@ -842,6 +860,11 @@ namespace Pg::Engine::Physic
 
 				//RotationOffset 설정
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
+				
+				// 충돌 오프셋 설정
+				shape->setContactOffset(0.01f); // 적절한 값으로 설정
+				shape->setRestOffset(0.01f);   // 적절한 값으로 설정
+
 				physx::PxTransform trans(physx::PxIdentity);
 
 				//quat = Pg::Math::PGConvertD3DQuatRotToPhysX(quat);
@@ -878,6 +901,8 @@ namespace Pg::Engine::Physic
 				//worldTm.q = { rot.w, rot.x, rot.y, rot.z };
 
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(worldTm);
+				rigid->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_CCD, true);
+				rigid->setSolverIterationCounts(16, 4);
 
 				// Layer Mask 설정
 				shape->setSimulationFilterData({ capCol->GetLayer(), 0, 0, 0 });
