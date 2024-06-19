@@ -29,9 +29,8 @@ Path,SoundGroup,isLoop
 ../Resources/Sounds/InGame/Effect/ES_O_Jail.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/ES_O_Button.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/ES_O_GateOpen.ogg,Effect,0
-../Resources/Sounds/InGame/Effect/MiniGolem/ES_CM_G_Attack_01.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/MiniGolem/ES_CM_G_Attack_02.ogg,Effect,1
-../Resources/Sounds/InGame/Effect/MiniGolem/ES_CM_G_Attack.ogg,Effect,1
+../Resources/Sounds/InGame/Effect/MiniGolem/ES_CM_G_Attack.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/MiniGolem/ES_CM_G_Die.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/MiniGolem/ES_CM_G_Hit.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/MiniGolem/ES_CM_G_Rush.ogg,Effect,0

@@ -182,7 +182,7 @@ namespace Pg::DataScript
 			if (_currentAttackTime >= _startAttackTime && _currentAttackTime >= _endAttackTime)
 			{
 				Attack(false);
-
+				_isAttackSoundPlaying = false;
 				_currentAttackTime = 0.f;
 			}
 
@@ -195,18 +195,37 @@ namespace Pg::DataScript
 			_miniGolInfo->_status = MiniGolemStatus::CHASE;
 
 			Attack(false);
+			//사운드 초기화
 			_isAttackSoundPlaying = false;
-			_attackSound->Stop();
 			_currentAttackTime = 0.f;
 
 			// 플레이어가 시야 안에 있으면
 			_monsterHelper->_isPlayerinHitSpace = false;
 
 			//사정거리 밖이면 플레이어로 계속 다가가기.
-			Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
-			tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
-			_object->_transform._position.x = tPosition.x;
-			_object->_transform._position.z = tPosition.z;
+			///보간하면서 이동할 시 마지막에 느려지는 현상을 발생하기 위해 제거.
+			Pg::Math::PGFLOAT3 currentPosition = _object->_transform._position;
+			Pg::Math::PGFLOAT3 targetPosition = _playerTransform->_position;
+
+			// 목표 지점까지의 방향 벡터 계산
+			Pg::Math::PGFLOAT3 direction = targetPosition - currentPosition;
+			direction.y = 0; // y축 이동을 막기 위해 y값을 0으로 설정
+
+			// 방향 벡터를 정규화
+			Pg::Math::PGFLOAT3 directionNorm = Pg::Math::PGFloat3Normalize(direction);
+
+			// 일정한 속도로 이동
+			Pg::Math::PGFLOAT3 movement = directionNorm * interpolation;
+
+			currentPosition.x += movement.x;
+			currentPosition.z += movement.z;
+
+			_object->_transform._position = currentPosition;
+
+			//Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+			//tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
+			//_object->_transform._position.x = tPosition.x;
+			//_object->_transform._position.z = tPosition.z;
 		}
 	}
 
