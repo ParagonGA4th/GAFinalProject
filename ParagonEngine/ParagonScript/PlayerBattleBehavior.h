@@ -10,6 +10,7 @@ namespace Pg::DataScript
 	class ComboSystem;
 
 	class ArrowLogic;
+	class PlayerMovement;
 }
 
 namespace Pg::API
@@ -17,6 +18,11 @@ namespace Pg::API
 	namespace Input
 	{
 		class PgInput;
+	};
+
+	namespace Time
+	{
+		class PgTime;
 	};
 }
 
@@ -42,7 +48,7 @@ namespace Pg::DataScript
 	public:
 		PlayerBattleBehavior(Pg::Data::GameObject* obj); 
 
-		virtual void BeforePhysicsUpdate() override;
+		virtual void BeforePhysicsAwake() override;
 		virtual void Awake();
 		virtual void Start();
 		virtual void Update();
@@ -77,6 +83,10 @@ namespace Pg::DataScript
 		float manaPoint{ MAX_PLAYER_MANA };
 		float staminaPoint{ MAX_PLAYER_STAMINA };
 
+		float _timeSinceLastShot = 0.f;
+		//공격 쿨타임
+		const float _shootCooldown = 0.8f; 
+
 	private:
 		CombatSystem* _combatSystem{ nullptr };
 		ComboSystem* _comboSystem{ nullptr };
@@ -88,8 +98,10 @@ namespace Pg::DataScript
 
 	private:
 		Pg::API::Input::PgInput* _pgInput;
+		Pg::API::Time::PgTime* _pgTime;
 		std::vector<ArrowLogic*> _arrowVec;
 		Pg::Data::DynamicCollider* _selfCol{ nullptr };
+		PlayerMovement* _playerMovement;
 
 	private:
 		//사운드 관련 변수

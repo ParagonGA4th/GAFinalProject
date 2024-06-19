@@ -156,7 +156,6 @@ namespace Pg::DataScript
 
 	}
 
-
 	void BossBehaviour::Hit()
 	{
 

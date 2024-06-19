@@ -487,16 +487,41 @@ namespace Pg::Engine::Physic
 				physx::PxTransform trans(physx::PxIdentity);
 
 				trans.q = physx::PxQuat(quat.x / 2.0f, quat.y / 2.0f, quat.z / 2.0f, quat.w);
+				// 유효성 검사
+				//if (!trans.q.isFinite()) 
+				//{
+				//	//std::cerr << "Invalid quaternion in PxTransform initialization." << std::endl;
+				//	return;
+				//}
 
 				// 회전 오프셋을 z축으로 90도 회전시킴
 				//physx::PxQuat rotation90(physx::PxPi / 2.0f, physx::PxVec3(0.0f, 0.0f, 1.0f));
 				//trans.q = trans.q * rotation90;
+				// 유효성 검사
+				//if (!trans.q.isFinite()) 
+				//{
+				//	//std::cerr << "Invalid quaternion after rotation." << std::endl;
+				//	return;
+				//}
+
 
 				//PositionOffset 설정
 				auto offsetP = collider->GetPositionOffset();
 				trans.p = { offsetP.x, offsetP.y , offsetP.z };
+				// 유효성 검사
+				//if (!trans.isValid()) 
+				//{
+				//	//std::cerr << "Invalid PxTransform after setting position." << std::endl;
+				//	return;
+				//}
 
 				boxShape->setLocalPose(trans);
+				// 유효성 검사
+				//if (!trans.isValid()) 
+				//{
+				//	//std::cerr << "Invalid PxTransform after setLocalPose." << std::endl;
+				//	return;
+				//}
 				//assert(trans.isValid());
 
 				//Trigger 여부 판단
