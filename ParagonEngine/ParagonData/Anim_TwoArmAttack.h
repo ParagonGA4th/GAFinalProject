@@ -13,17 +13,12 @@ namespace Pg::Data::BTree::Node
 		Anim_TwoArmAttack(const std::string& name, const BT::NodeConfiguration& config)
 			: BT::SyncActionNode(name, config) {}
 		virtual ~Anim_TwoArmAttack() = default;
-		
-		virtual void InitCustom();
 
 		virtual BT::NodeStatus tick() override;
 
 		static BT::PortsList providedPorts()
 		{
-			BT::PortsList list;
-			list.insert(BT::BidirectionalPort<bool>("_isTAnimEnd"));
-
-			return list;
+			return  {};
 		}
 	};
 }
