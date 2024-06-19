@@ -17,7 +17,7 @@ namespace Pg::Data
 		// 임시 기본생성자
 		MonsterHelper() = default;
 		MonsterHelper(GameObject* obj) : Component(obj),
-			_isPlayerDetected(false), _isPlayerinHitSpace(true),
+			_isPlayerDetected(false), _isPlayerinHitSpace(false),
 			_isDistanceClose(false), _isDash(false), _isChase(false), _isHit(false),
 			_isAnimationEnd(false), _isDeadDelay(false)
 		{

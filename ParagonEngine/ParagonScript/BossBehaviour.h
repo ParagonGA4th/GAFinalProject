@@ -1,5 +1,6 @@
 #pragma once
 #include "ScriptInterface.h"
+#include "IEnemyBehaviour.h"
 #include "BossInfo.h"
 #include "BaseMonster.h"
 
@@ -25,7 +26,7 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
-	class BossBehaviour : public ScriptInterface<BossBehaviour>, public BaseMonsterInfo
+	class BossBehaviour : public ScriptInterface<BossBehaviour>, public IEnemyBehaviour
 	{	
 		DEFINE_PARAGON_SCRIPT(BossBehaviour);
 	public:
@@ -36,6 +37,9 @@ namespace Pg::DataScript
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;
+
+		//플레이어에게 어떤 몬스터인지를 전달하기 위함.
+		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() override;
 
 		//플레이어를 쫓는 함수
 		void Chase();
