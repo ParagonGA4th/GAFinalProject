@@ -41,7 +41,9 @@ void Pg::DataScript::Portal::OnTriggerEnter(Pg::Data::Collider** _colArr, unsign
 
 		if (col->_object->GetTag() == "TAG_Player")
 		{
-			_sceneHelper->SetCurrentScene(_nextScene);
+			if (_sceneHelper->GetCurrentScene()->GetSceneName() == "Stage1") _sceneHelper->SetCurrentScene("Stage2");
+			else if (_sceneHelper->GetCurrentScene()->GetSceneName() == "Stage2") _sceneHelper->SetCurrentScene("BossStage");
+			//_sceneHelper->SetCurrentScene(_nextScene);
 		}
 	}
 }

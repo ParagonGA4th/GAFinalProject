@@ -47,7 +47,6 @@ namespace Pg::DataScript
 		_collider->FreezeAxisX(true);
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
-		_collider->FreezeLinearY(true);
 	}
 
 	void MiniGolemBehaviour::Awake()
@@ -177,6 +176,8 @@ namespace Pg::DataScript
 					_isAttackSoundPlaying = true;
 				}
 
+				// 공격 애니메이션 출력.
+				_monsterHelper->_isPlayerinHitSpace = true;
 				Attack(true);
 			}
 			if (_currentAttackTime >= _startAttackTime && _currentAttackTime >= _endAttackTime)
@@ -185,9 +186,6 @@ namespace Pg::DataScript
 				_isAttackSoundPlaying = false;
 				_currentAttackTime = 0.f;
 			}
-
-			// 공격 애니메이션 출력.
-			_monsterHelper->_isPlayerinHitSpace = true;
 		}
 		else
 		{

@@ -58,6 +58,9 @@ namespace Pg::DataScript
 
 		float _dashDuration;	//돌진 지속 시간
 		float _cureentDashTime; //현재 돌진 시간
+
+		float _currentNeutralize; //무력화 지속 시간
+		float _endNeutralize; //무력화 지속 시간
 	};
 }
 

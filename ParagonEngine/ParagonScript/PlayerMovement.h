@@ -37,6 +37,7 @@ namespace Pg::DataScript
 	public:
 		PlayerMovement(Pg::Data::GameObject* obj);
 
+		virtual void BeforePhysicsAwake() override;
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;
@@ -48,6 +49,7 @@ namespace Pg::DataScript
 		float rotateMultiplier{ 2.0f };
 		float jumpPower{ 80.0f };
 
+		bool GetIsMoving();	//플레이어의 이동여부를 전달하여 공격금지하게 해야함.
 		
 
 	private:
@@ -59,8 +61,6 @@ namespace Pg::DataScript
 		void UpdateFacingDirection(float yLevelPlane); //클릭한 곳 기준 바라보기.
 		void StrafeAvoidLogic();
 		void PlayAdequateAnimation(); //로직에 따라 올바른 애니메이션을 재생하는 함수.
-
-
 	private:
 		void OnStrafeAvoidComplete();
 
@@ -76,6 +76,7 @@ namespace Pg::DataScript
 		InGameCameraBehavior* _camBehavior{ nullptr };
 		Pg::Data::Camera* _mainCam{ nullptr };
 		Pg::Data::DynamicCollider* _selfCol{ nullptr };
+		//Pg::Data::CapsuleCollider* _selfCapCol{ nullptr };
 		Pg::Data::SkinnedMeshRenderer* _renderer{ nullptr };
 		Pg::API::Input::PgInput* _pgInput{ nullptr };
 		Pg::API::Time::PgTime* _pgTime{ nullptr };
@@ -95,6 +96,7 @@ namespace Pg::DataScript
 	private:
 		bool _isJustSetRestraint{ false };
 		bool _isJumping = false;
+		bool _isMoving = false;
 		bool _shouldRotate = false;
 		bool _isWalkAudioPlaying = false;
 		float _rotBeginRatio = 0.0f;

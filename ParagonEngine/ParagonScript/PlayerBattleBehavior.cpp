@@ -2,12 +2,14 @@
 #include "CombatSystem.h"
 #include "ComboSystem.h"
 #include "ArrowLogic.h"
+#include "PlayerMovement.h"
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonAPI/PgInput.h"
+#include "../ParagonAPI/PgTime.h"
 #include "../ParagonUtil/Log.h"
 
 //일어날 수 있는 Event들의 리스트
@@ -23,9 +25,10 @@ namespace Pg::DataScript
 	PlayerBattleBehavior::PlayerBattleBehavior(Pg::Data::GameObject* obj) : ScriptInterface(obj)
 	{
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
+		_pgTime = &singleton<Pg::API::Time::PgTime>();
 	}
 
-	void PlayerBattleBehavior::BeforePhysicsUpdate()
+	void PlayerBattleBehavior::BeforePhysicsAwake()
 	{
 		static bool tVal = true;
 
@@ -35,6 +38,7 @@ namespace Pg::DataScript
 			assert(_selfCol != nullptr);
 
 			_selfCol->FreezeAxisX(true);
+			_selfCol->FreezeAxisY(true);
 			_selfCol->FreezeAxisZ(true);
 			_selfCol->SetMass(2.0f);
 			//자기 자신이 Player이니, Collider의 레이어를 설정해준다.
@@ -50,6 +54,8 @@ namespace Pg::DataScript
 		//무조건 생성자는 안됨! -> AddComponent에서 만들어진 다음에는, Static Variable Initialization에 따라 재생성되지 않는다.
 		_combatSystem = CombatSystem::GetInstance(nullptr);
 		_comboSystem = ComboSystem::GetInstance();
+
+		_playerMovement = _object->GetComponent<PlayerMovement>();
 	}
 
 	void PlayerBattleBehavior::Start()
@@ -124,47 +130,67 @@ namespace Pg::DataScript
 
 	void PlayerBattleBehavior::ArrowShootingLogic()
 	{
-		//마우스 좌클릭 시 공격.
-		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseLeft))
+		if(_playerMovement->GetIsMoving() == false)
 		{
-			bool tDidShoot = false;
+			// 경과 시간을 누적
+			_timeSinceLastShot += _pgTime->GetDeltaTime();
 
-			for (int i = 0; i < _arrowVec.size(); i++)
+			// 쿨다운이 아직 남아 있으면 리턴
+			if (_timeSinceLastShot < _shootCooldown)
 			{
-				//지금 쏘고 있지 않은 컴포넌트만 허용해야.
-				if (!(_arrowVec[i]->GetIsNowShooting()))
+				return;
+			}
+
+			//마우스 좌클릭 시 공격.
+			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseLeft))
+			{
+				bool tDidShoot = false;
+
+				for (int i = 0; i < _arrowVec.size(); i++)
 				{
-					using namespace Pg::Math;
-					//우리 Forward랑 다른 로직이 된 것 같다. 그러니, Forward를 Rotation을 갖고 Custom으로 구해주자.
-					//PlayerBehavior랑 같은 위치. -> 나중에 PhysX 연동은 고쳐져야!
+					//지금 쏘고 있지 않은 컴포넌트만 허용해야.
+					if (!(_arrowVec[i]->GetIsNowShooting()))
+					{
+						using namespace Pg::Math;
+						//우리 Forward랑 다른 로직이 된 것 같다. 그러니, Forward를 Rotation을 갖고 Custom으로 구해주자.
+						//PlayerBehavior랑 같은 위치. -> 나중에 PhysX 연동은 고쳐져야!
 
-					//시작점 역시 Offset 하기로 했었다.
-					Pg::Math::PGFLOAT3 tStartingPosition = _object->_transform._position + Pg::Math::PGFLOAT3(0.f, 2.f, 0.f);
+						//시작점 역시 Offset 하기로 했었다.
+						Pg::Math::PGFLOAT3 tStartingPosition = _object->_transform._position + Pg::Math::PGFLOAT3(0.f, 2.f, 0.f);
 
 
-					//Z축 향해 뒤집기. 어디에서 불완전한 연결이 일어나는지는 확인해봐야 할 것 같다.
-					Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGReflectVectorAgainstAxis(-_object->_transform.GetForward(), { 0,0,1 });
-					tShouldShootDir = Pg::Math::PGFloat3Normalize(tShouldShootDir);
+						//Z축 향해 뒤집기. 어디에서 불완전한 연결이 일어나는지는 확인해봐야 할 것 같다.
+						Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGReflectVectorAgainstAxis(-_object->_transform.GetForward(), { 0,0,1 });
+						tShouldShootDir = Pg::Math::PGFloat3Normalize(tShouldShootDir);
 
-					//Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGFloat3Normalize(_object->_transform.GetForward());
+						//Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGFloat3Normalize(_object->_transform.GetForward());
 
-					float tDistanceToSpawnFrom = 3.0f;
-					//_arrowVec[i]->ShootArrow(_object->_transform._position + tShouldShootDir * tDistanceToSpawnFrom, tShouldShootDir);
-					_arrowVec[i]->ShootArrow(tStartingPosition + tShouldShootDir * tDistanceToSpawnFrom, tShouldShootDir);
-					tDidShoot = true;
-					break;
+						float tDistanceToSpawnFrom = 0.01f;
+						//_arrowVec[i]->ShootArrow(_object->_transform._position + tShouldShootDir * tDistanceToSpawnFrom, tShouldShootDir);
+						_arrowVec[i]->ShootArrow(tStartingPosition + tShouldShootDir * tDistanceToSpawnFrom, tShouldShootDir);
+						tDidShoot = true;
+
+						//쿨타임 초기화
+						_timeSinceLastShot = 0.0f;
+						break;
+					}
+
 				}
-			}
 
-			if (!tDidShoot)
-			{
-				//쐈어야 하는데 기존의 것 중에서 준비되어 있는 오브젝트가 존재하지 않는다!
-				//기존 것 중에서 오래된 요소를 찾아서, (FixedSizeQueue) 여기 기준으로 마지막을 원래대로 돌려야 한다.
-				//여튼, 그건 나중에 할 일.
-				PG_TRACE("아직 충분히 반환되지 않음. 나중에 FixedSizeQueue로?");
-			}
+				if (!tDidShoot)
+				{
+					//쐈어야 하는데 기존의 것 중에서 준비되어 있는 오브젝트가 존재하지 않는다!
+					//기존 것 중에서 오래된 요소를 찾아서, (FixedSizeQueue) 여기 기준으로 마지막을 원래대로 돌려야 한다.
+					//여튼, 그건 나중에 할 일.
+					PG_TRACE("아직 충분히 반환되지 않음. 나중에 FixedSizeQueue로?");
+				}
 
-			_commonAttackAudio->Play();
+				_commonAttackAudio->Play();
+			}
+		}
+		else
+		{
+			return;
 		}
 	}
 
