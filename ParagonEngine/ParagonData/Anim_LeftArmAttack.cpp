@@ -4,25 +4,17 @@
 
 namespace Pg::Data::BTree::Node
 {
-	void Anim_LeftArmAttack::InitCustom()
-	{
-		config().blackboard->set<bool>("ISLANIMEND", false);
-	}
-
 	BT::NodeStatus Anim_LeftArmAttack::tick()
 	{
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			bool isAnimEnd = config().blackboard->get<bool>("ISLANIMEND");
-			if (isAnimEnd) return BT::NodeStatus::FAILURE;
+			if (monHelper->_bossState != Pg::Data::BossState::BASIC_ATTACK_2) 
+				return BT::NodeStatus::FAILURE;
 			if (monHelper->_isAnimationEnd)
 			{
-				if (!isAnimEnd)
-				{
-					monHelper->_isAnimationEnd = false;
-					config().blackboard->set<bool>("ISLANIMEND", true);
-				}
+				monHelper->_isAnimationEnd = false;
+				monHelper->_bossState = Pg::Data::BossState::BASIC_ATTACK_3;
 			}
 		}
 
