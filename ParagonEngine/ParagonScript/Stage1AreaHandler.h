@@ -2,10 +2,13 @@
 
 #include "ScriptInterface.h"
 #include "IAreaHandler.h"
+#include "MovingObjectDefinesAndStructs.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
 
+#include <string>
 #include <vector>
+#include <unordered_map>
 
 namespace Pg::DataScript
 {
@@ -22,6 +25,14 @@ namespace Pg::DataScript
 
 		//Handler
 		virtual void ResetToInitialState() override;
+
+
+	private:
+		//MovingObject 관리를 위해.
+		//ObjectName / MovingObject
+		std::unordered_map<std::string, MovingObjectAggregate> _managedMovingObjectList;
+
+
 	};
 }
 
