@@ -6,6 +6,7 @@
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/Collider.h"
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/CapsuleCollider.h"
@@ -21,7 +22,7 @@ namespace Pg::DataScript
 {
 	MiniGolemBehaviour::MiniGolemBehaviour(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj), _isRotateFinish(false),
-		_distance(0.f), _isDash(false), _hasDashed(false), _currentAttackTime(0.f), _startAttackTime(1.f), _endAttackTime(2.7f),
+		_distance(0.f), _isDash(false), _hasDashed(false), _currentAttackTime(0.f), _startAttackTime(0.7f), _endAttackTime(2.7f),
 		_respawnPos(0.f, 0.f, 0.f)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
@@ -63,6 +64,19 @@ namespace Pg::DataScript
 		//플레이어 지정
 		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
+
+		//AudioSource 컴포넌트 들고오기
+		_miniGolemHit = _object->GetScene()->FindObjectWithName("MiniGolemHitSound");
+		_hitSound = _miniGolemHit->GetComponent<Pg::Data::AudioSource>();
+
+		_miniGolemDie = _object->GetScene()->FindObjectWithName("MiniGolemDeadSound");
+		_dieSound = _miniGolemDie->GetComponent<Pg::Data::AudioSource>();
+
+		_miniGolemDash = _object->GetScene()->FindObjectWithName("MiniGolemDashSound");
+		_dashSound = _miniGolemDash->GetComponent<Pg::Data::AudioSource>();
+
+		_miniGolemAttack = _object->GetScene()->FindObjectWithName("MiniGolemAttackSound");
+		_attackSound = _miniGolemAttack->GetComponent<Pg::Data::AudioSource>();
 
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
@@ -157,12 +171,18 @@ namespace Pg::DataScript
 			//공격
 			if (_currentAttackTime >= _startAttackTime)
 			{
+				if (!_isAttackSoundPlaying) 
+				{
+					_attackSound->Play();
+					_isAttackSoundPlaying = true;
+				}
+
 				Attack(true);
 			}
 			if (_currentAttackTime >= _startAttackTime && _currentAttackTime >= _endAttackTime)
 			{
 				Attack(false);
-
+				_isAttackSoundPlaying = false;
 				_currentAttackTime = 0.f;
 			}
 
@@ -175,16 +195,37 @@ namespace Pg::DataScript
 			_miniGolInfo->_status = MiniGolemStatus::CHASE;
 
 			Attack(false);
+			//사운드 초기화
+			_isAttackSoundPlaying = false;
 			_currentAttackTime = 0.f;
 
 			// 플레이어가 시야 안에 있으면
 			_monsterHelper->_isPlayerinHitSpace = false;
 
 			//사정거리 밖이면 플레이어로 계속 다가가기.
-			Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
-			tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
-			_object->_transform._position.x = tPosition.x;
-			_object->_transform._position.z = tPosition.z;
+			///보간하면서 이동할 시 마지막에 느려지는 현상을 발생하기 위해 제거.
+			Pg::Math::PGFLOAT3 currentPosition = _object->_transform._position;
+			Pg::Math::PGFLOAT3 targetPosition = _playerTransform->_position;
+
+			// 목표 지점까지의 방향 벡터 계산
+			Pg::Math::PGFLOAT3 direction = targetPosition - currentPosition;
+			direction.y = 0; // y축 이동을 막기 위해 y값을 0으로 설정
+
+			// 방향 벡터를 정규화
+			Pg::Math::PGFLOAT3 directionNorm = Pg::Math::PGFloat3Normalize(direction);
+
+			// 일정한 속도로 이동
+			Pg::Math::PGFLOAT3 movement = directionNorm * interpolation;
+
+			currentPosition.x += movement.x;
+			currentPosition.z += movement.z;
+
+			_object->_transform._position = currentPosition;
+
+			//Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+			//tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
+			//_object->_transform._position.x = tPosition.x;
+			//_object->_transform._position.z = tPosition.z;
 		}
 	}
 
@@ -194,6 +235,11 @@ namespace Pg::DataScript
 		if (_miniGolInfo->GetCurrentDashTime() < _miniGolInfo->GetDashDuration())
 		{
 			_miniGolInfo->_status = MiniGolemStatus::DASH;
+
+			if (!_isDashSoundPlaying) {
+				_dashSound->Play();
+				_isDashSoundPlaying = true;
+			}
 
 			float interpolation = _miniGolInfo->GetDashSpeed() * _pgTime->GetDeltaTime();
 			_miniGolInfo->SetCurrentDashTime(_miniGolInfo->GetCurrentDashTime() + _pgTime->GetDeltaTime());
@@ -212,6 +258,7 @@ namespace Pg::DataScript
 		{
 			_isDash = false;
 			_hasDashed = true;
+			_isDashSoundPlaying = false;
 			_monsterHelper->_isDash = _isDash;
 			_monsterHelper->_isChase = !_isDash;
 		}
@@ -220,6 +267,8 @@ namespace Pg::DataScript
 	void MiniGolemBehaviour::Hit()
 	{
 		PG_TRACE("Hit!");
+
+		_hitSound->Play();
 
 		//피격 애니메이션 들어가야 함.
 		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
@@ -276,6 +325,13 @@ namespace Pg::DataScript
 	{
 		//상태를 죽음으로 변경.
 		_miniGolInfo->_status = MiniGolemStatus::DEAD;
+		_dieSound->Play();
+
+		//중간에 사운드가 안꺼질 경우를 대비해 싹 다 종료.
+		_hitSound->Stop();
+		_attackSound->Stop();
+		_dashSound->Stop();
+
 		_collider->SetActive(false);
 		_monsterHelper->_isDead = true;
 		_isRotateFinish = true;

@@ -70,7 +70,8 @@ void Pg::Editor::System::FileSystem::OpenScene()
 
 	if (_rootPathWithFileName.find("Asset") != std::string::npos)
 	{
-		_rootPathWithFileName = _rootPathWithFileName.substr(0, _rootPathWithFileName.rfind("\\Asset"));
+		_rootPathWithFileName = _rootPathWithFileName.substr(0, _rootPathWithFileName.rfind("Asset"));
+		if (_scenePath.empty()) CreateFolderPath();
 	}
 }
 

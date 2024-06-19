@@ -29,8 +29,8 @@ namespace Pg::DataScript
 		virtual void FixedUpdate() override;
 
 		float _speed = 2.0f;
-		float _currentRotationAmt = 0.f;
-		float _lookDownAngle = 40.f;
+		float _currentRotationAmt = -90.f;
+		float _lookDownAngle = 60.f;
 
 		Pg::Math::PGFLOAT3 GetTargetCamPosition(); 
 
@@ -44,7 +44,7 @@ namespace Pg::DataScript
 		//const Pg::Math::PGFLOAT3 camOffset{ -15, 10, -15 };
 		
 		//직선 기준, Rotation은 별도가 될 것이다.
-		const Pg::Math::PGFLOAT3 camOffset{ 0, 10, -15 };
+		const Pg::Math::PGFLOAT3 camOffset{ 0, 20, -15 };
 
 	private:
 		Pg::Math::PGFLOAT3 _targetCamPosition;

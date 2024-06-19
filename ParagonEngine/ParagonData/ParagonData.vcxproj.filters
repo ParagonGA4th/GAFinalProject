@@ -340,8 +340,11 @@
     <ClCompile Include="Anim_TwoArmAttack.cpp">
       <Filter>11_BtNodes\MonsterAnim\Boss\Attack\Anim_TwoArmAttack</Filter>
     </ClCompile>
-    <ClCompile Include="Pase_1.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Boss\Pase\Pase_1</Filter>
+    <ClCompile Include="isPase_1.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Pase\isPase_1</Filter>
+    </ClCompile>
+    <ClCompile Include="isNeutralize.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Boss\isNeutralize</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -745,11 +748,14 @@
     <ClInclude Include="Anim_TwoArmAttack.h">
       <Filter>11_BtNodes\MonsterAnim\Boss\Attack\Anim_TwoArmAttack</Filter>
     </ClInclude>
-    <ClInclude Include="Pase_1.h">
-      <Filter>11_BtNodes\MonsterAnim\Boss\Pase\Pase_1</Filter>
+    <ClInclude Include="isPase_1.h">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Pase\isPase_1</Filter>
     </ClInclude>
     <ClInclude Include="ISortableGlobalObject.h">
       <Filter>13_Interfaces\ISortableGlobalObject</Filter>
+    </ClInclude>
+    <ClInclude Include="isNeutralize.h">
+      <Filter>11_BtNodes\MonsterAnim\Boss\isNeutralize</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1140,8 +1146,11 @@
     <Filter Include="11_BtNodes\MonsterAnim\Boss\Pase">
       <UniqueIdentifier>{437e5a23-c5e7-4ac7-9f2d-d918b7530074}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Boss\Pase\Pase_1">
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Pase\isPase_1">
       <UniqueIdentifier>{08d9ee4d-52ec-4d00-afe3-c8514f9a631d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\isNeutralize">
+      <UniqueIdentifier>{adfcd039-57d9-405d-8899-7b823ccb6305}</UniqueIdentifier>
     </Filter>
     <Filter Include="13_Interfaces">
       <UniqueIdentifier>{62fbe24f-4efe-42fe-939a-497008c8250c}</UniqueIdentifier>

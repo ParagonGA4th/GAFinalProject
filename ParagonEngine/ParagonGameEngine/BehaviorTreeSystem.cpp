@@ -65,7 +65,9 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::Anim_RightArmAttack>("Anim_RightArmAttack");
 		_factory->registerNodeType<Node::Anim_LeftArmAttack>("Anim_LeftArmAttack");
 		_factory->registerNodeType<Node::Anim_TwoArmAttack>("Anim_TwoArmAttack");
-		_factory->registerNodeType<Node::Pase_1>("Pase_1");
+		_factory->registerNodeType<Node::Anim_Neutralize>("Anim_Neutralize");
+		_factory->registerNodeType<Node::isPase_1>("isPase_1");
+		_factory->registerNodeType<Node::isNeutralize>("isNeutralize");
 
 		_factory->registerNodeType<Node::Anim_fDead>("Anim_fDead");
 		_factory->registerNodeType<Node::Anim_fIdle>("Anim_fIdle");
