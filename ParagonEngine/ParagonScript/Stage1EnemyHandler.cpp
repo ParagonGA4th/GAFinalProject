@@ -66,7 +66,7 @@ namespace Pg::DataScript
 				//원래대로 Transform 바꿔주기.
 				tEnemyStorage._transStorage.ToTransform(&(tEnemyStorage._enemyObj->_transform));
 
-				//다시 원래대로 본인의 정보 돌려놓기.
+				//다시 원래대로 본인의 정보 돌려놓기. 내부에서 SetActive 필요해주어야 한다. 
 				tEnemyStorage._enemyBehav->ReturnBaseMonsterInfo()->ResetAll();
 			}
 		}
