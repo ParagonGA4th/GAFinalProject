@@ -173,4 +173,10 @@ namespace Pg::DataScript
 		_meshRenderer->SetActive(false);
 		_object->SetActive(false);
 	}
+
+	BaseMonsterInfo* BossBehaviour::ReturnBaseMonsterInfo()
+	{
+		return _bossInfo;
+	}
+
 }
