@@ -14,16 +14,11 @@ namespace Pg::Data::BTree::Node
 			: BT::SyncActionNode(name, config) {}
 		virtual ~Anim_RightArmAttack() = default;
 
-		virtual void InitCustom();
-
 		virtual BT::NodeStatus tick() override;
 
 		static BT::PortsList providedPorts()
 		{
-			BT::PortsList list;
-			list.insert(BT::BidirectionalPort<bool>("_isRAnimEnd"));
-
-			return list;
+			return {};
 		}
 	};
 }

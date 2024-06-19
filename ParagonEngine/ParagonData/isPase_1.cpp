@@ -3,36 +3,34 @@
 
 namespace Pg::Data::BTree::Node
 {
+	void isPase_1::InitCustom()
+	{
+		config().blackboard->set<bool>("PASEINIT", false);
+	}
+
 	BT::NodeStatus isPase_1::tick()
 	{
-		//auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
-		//if (monHelper != nullptr)
-		//{
-			//if (monHelper->isPase_1)
-			//{
-			// monHelper->_bossState = Pg::Data::BossState::PASE_1;
-			//	return BT::NodeStatus::SUCCESS;
-			//}
-			//else
-			//{
-			//	config().blackboard->set<std::string>("PREVANIM", "");
-		bool attack_1 = config().blackboard->get<bool>("ISRANIMEND");
-		bool attack_2 = config().blackboard->get<bool>("ISLANIMEND");
-		bool attack_3 = config().blackboard->get<bool>("ISTANIMEND");
-		bool hold = config().blackboard->get<bool>("ISCHANGE");;
-
-		if (attack_1 && attack_2 && attack_3 && !hold)
+		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
+		if (monHelper != nullptr)
 		{
-			config().blackboard->set<bool>("ISRANIMEND", false);
-			config().blackboard->set<bool>("ISLANIMEND", false);
-			config().blackboard->set<bool>("ISTANIMEND", false);
+			bool paseInit = config().blackboard->get<bool>("PASEINIT");
+			if (monHelper->isPase_1)
+			{
+				monHelper->_bossPase = Pg::Data::BossPase::PASE_1;
+				if (!paseInit)
+				{
+					monHelper->_bossState = Pg::Data::BossState::BASIC_ATTACK_1;
+					config().blackboard->set<bool>("PASEINIT", true);
+				}
+				return BT::NodeStatus::SUCCESS;
+			}
+			else
+			{
+				if (paseInit) config().blackboard->set<bool>("PASEINIT", false);
+				return BT::NodeStatus::FAILURE;
+			}
 		}
 
-			//	return BT::NodeStatus::FAILURE;
-			//}
-		//}
-
-
-		return BT::NodeStatus::FAILURE;
+		return BT::NodeStatus::SUCCESS;
 	}
 }
