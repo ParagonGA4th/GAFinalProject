@@ -47,7 +47,6 @@ namespace Pg::DataScript
 		_collider->FreezeAxisX(true);
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
-		_collider->FreezeLinearY(true);
 	}
 
 	void MiniGolemBehaviour::Awake()
