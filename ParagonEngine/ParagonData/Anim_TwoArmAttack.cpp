@@ -4,25 +4,19 @@
 
 namespace Pg::Data::BTree::Node
 {
-	void Anim_TwoArmAttack::InitCustom()
-	{
-		config().blackboard->set<bool>("ISTANIMEND", false);
-	}
-
 	BT::NodeStatus Anim_TwoArmAttack::tick()
 	{
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			bool isAnimEnd = config().blackboard->get<bool>("ISTANIMEND");
-			if (isAnimEnd) return BT::NodeStatus::FAILURE;
+			if (monHelper->_bossState != Pg::Data::BossState::BASIC_ATTACK_3) return BT::NodeStatus::FAILURE;
 			if (monHelper->_isAnimationEnd)
 			{
-				if (!isAnimEnd)
+				monHelper->_isAnimationEnd = false;
+				monHelper->_bossState = Pg::Data::BossState::IDLE;
+				if (monHelper->_bossPase == Pg::Data::BossPase::PASE_1)
 				{
-					monHelper->_isAnimationEnd = false;
-					config().blackboard->set<bool>("ISTANIMEND", true);
-					config().blackboard->set<std::string>("PREVANIM", "_00007");
+					config().blackboard->set<std::string>("NEXTANIM", monHelper->_bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_1]);
 				}
 			}
 		}
