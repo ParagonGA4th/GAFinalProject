@@ -24,6 +24,12 @@ namespace Pg::DataScript
 			tVecIter.reserve(tGOVec.size());
 			for (auto& tGO : tGOVec)
 			{
+				if (tGO->_transform.GetParent() != nullptr)
+				{
+					//부모 있으면 관리 리스트에서 빠진다.
+					continue;
+				}
+
 				IEnemyBehaviour* tEB = tGO->GetComponent<IEnemyBehaviour>();
 				assert(tEB != nullptr && "Enemy는 무조건 IEnemyBehaviour의 하부 구현체가 컴포넌트로 있어야 한다.");
 				

@@ -11,6 +11,15 @@
 #include <vector>
 #include <unordered_map>
 
+/// <summary>
+/// Ex. Wasp Body - Wings라면,
+// Body가 IEnemyBehaviour를 가지고,Wings는 Body를 부모로 둬야 한다.
+// Mimic - Box도 Mimic의 자식이 Box가 되어야 하고,
+// GolemBody - GolemCrystal도 마찬가지다.
+// 항상 주가 되는 오브젝트가 IEnemyBehaviour를 갖고 있어야 한다.
+// 해당 오브젝트는, 자식의 주도권을 쥔다.
+/// </summary>
+
 namespace Pg::DataScript
 {
 	class Stage1EnemyHandler : public ScriptInterface<Stage1EnemyHandler>, public IEnemyHandler
