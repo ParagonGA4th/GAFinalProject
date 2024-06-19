@@ -2,8 +2,14 @@
 
 #include "ScriptInterface.h"
 #include "IEnemyHandler.h"
+#include "TransformSimpleStorage.h"
+#include "IEnemyBehaviour.h"
+
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
+
+#include <vector>
+#include <unordered_map>
 
 namespace Pg::DataScript
 {
@@ -20,6 +26,11 @@ namespace Pg::DataScript
 
 		//Handler.
 		virtual void ResetToInitialState() override;
+
+	private:
+		// Monster TAG / Instance. 
+		// Tag별로 나누어서 관리한다.
+		std::unordered_map<std::string, std::vector<EnemyAggregate>> _managedMonstersList;
 	};
 }
 
