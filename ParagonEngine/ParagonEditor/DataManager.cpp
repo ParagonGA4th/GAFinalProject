@@ -10,6 +10,7 @@
 #include "../ParagonData/Slider.h"
 #include "../ParagonScript/FactoryHelper.h"
 #include "../ParagonHelper/UUIDGenerator.h"
+#include "../ParagonData/DynamicCollider.h"
 
 #include <sstream>
 #include <algorithm>
@@ -326,16 +327,19 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 
 						if (typeName.find("Collider") != std::string::npos)
 						{
+							auto dyCol = obj->GetComponent<Pg::Data::DynamicCollider>();
+							if (dyCol != nullptr)
+							{
+								pugi::xml_node dyNode = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "kinematic"; });
+								if (dyNode != nullptr)
+								{
+									dyCol->SetKinematic(Pg::Serialize::Serializer::DeserializeBoolean(&dyNode, ""));
+								}
+							}
+
 							auto col = obj->GetComponent<Pg::Data::Collider>();
 
 							pugi::xml_node node = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "trigger"; });
-							//col->SetLayer(Pg::Serialize::Serializer::DeserializeUint(&node, ""));
-
-							//240521 : Unreal에는 기록이 되지 않았으니, node empty 검사. 
-							//그냥 Unreal Exporter를 가공해서 이에 맞게 하자!
-							//if (!node.empty())
-							//{
-								//node = node.next_sibling();
 							col->SetTrigger(Pg::Serialize::Serializer::DeserializeBoolean(&node, ""));
 
 							node = node.next_sibling();
@@ -343,7 +347,6 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 
 							node = node.next_sibling();
 							col->SetRotationOffset(Pg::Serialize::Serializer::DeserializePGQuaternion(&node));
-							//}
 						}
 					}
 					else

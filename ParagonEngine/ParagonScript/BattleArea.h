@@ -5,7 +5,7 @@
 namespace Pg::Data 
 { 
 	class Collider; 
-	class StaticSphereCollider;
+	class SphereCollider;
 }
 
 namespace Pg::DataScript
@@ -27,7 +27,7 @@ namespace Pg::DataScript
 		virtual void OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count) override;
 		
 	private:
-		Pg::Data::StaticSphereCollider* _collider;
+		Pg::Data::SphereCollider* _collider;
 		Pg::DataScript::PlayerBattleBehavior* _player;
 
 		int _monster = 1;
