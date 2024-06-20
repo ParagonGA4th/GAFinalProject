@@ -70,7 +70,7 @@ namespace Pg::Engine
 				editMode == Data::Enums::eEditorMode::_EDIT))
 			{
 				//PG_ERROR("now Checking");
-				CheckMoveDontDestroyOnLoadObjects(_currentScene);
+				CheckMoveSortDontDestroyOnLoadObjects(_currentScene);
 				AwakeStartDontDestroyOnLoadObjects();
 
 				/// Play Mode일 경우 다시 호출
@@ -229,7 +229,7 @@ namespace Pg::Engine
 		return _isStarted;
 	}
 
-	void SceneSystem::CheckMoveDontDestroyOnLoadObjects(Pg::Data::Scene* scene)
+	void SceneSystem::CheckMoveSortDontDestroyOnLoadObjects(Pg::Data::Scene* scene)
 	{
 		std::vector<Pg::Data::GameObject*> tGlobalObjSceneList;
 
@@ -270,6 +270,22 @@ namespace Pg::Engine
 		{
 			scene->_objectList.erase(std::remove_if(scene->_objectList.begin(),
 				scene->_objectList.end(), tFoundFunc), scene->_objectList.end());
+		}
+
+		//이제, ISortableGlobalObject에 따른 정렬을 한다.
+		if (!(Pg::Data::Scene::_dontDestroyOnList.empty()))
+		{
+			//비어있지 않으면, sort.
+			std::sort(Pg::Data::Scene::_dontDestroyOnList.begin(), Pg::Data::Scene::_dontDestroyOnList.end(),
+				[](Pg::Data::GameObject*& lhs, Pg::Data::GameObject*& rhs) -> bool
+				{ 
+					//1 Global Object = 1 Manager Component 원칙에 따라서 되는 것이다.
+					Pg::Data::ISortableGlobalObject* tLHS = lhs->GetComponent<Pg::Data::ISortableGlobalObject>();
+					Pg::Data::ISortableGlobalObject* tRHS = rhs->GetComponent<Pg::Data::ISortableGlobalObject>();
+					
+					assert((tLHS != nullptr && tRHS != nullptr) && "Global Manager Object 내부 ISortableGlobalObject 상속 컴포넌트 못 찾음");
+					return (tLHS->GetPriorityIndex() <= tRHS->GetPriorityIndex());
+				});
 		}
 	}
 
@@ -404,7 +420,7 @@ namespace Pg::Engine
 		//OnSceneChange_Global을 실행해야 하기 때문.
 		//Project 기준 0번째 인덱스의 씬에서 Don't Destroy On Load 오브젝트들 옮김.
 		//Ex. TotalGameManager등을 연동하기 위해서.
-		CheckMoveDontDestroyOnLoadObjects(sceneVec.at(0));
+		CheckMoveSortDontDestroyOnLoadObjects(sceneVec.at(0));
 
 		//이로서 Don't Destroy On Load는 0번째 씬에서밖에 있을 수 없다.
 		for (auto& it : Pg::Data::Scene::_dontDestroyOnList)

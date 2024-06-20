@@ -245,8 +245,11 @@
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
+<<<<<<< HEAD
     <ClInclude Include="ISortableGlobalObject.h" />
+=======
     <ClInclude Include="isNeutralize.h" />
+>>>>>>> main
     <ClInclude Include="isTouched.h" />
     <ClInclude Include="isPase_1.h" />
     <ClInclude Include="VisualEffectRenderObject.h" />

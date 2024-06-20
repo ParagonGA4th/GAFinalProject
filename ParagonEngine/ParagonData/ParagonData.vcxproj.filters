@@ -751,6 +751,9 @@
     <ClInclude Include="isPase_1.h">
       <Filter>11_BtNodes\MonsterAnim\Boss\Pase\isPase_1</Filter>
     </ClInclude>
+    <ClInclude Include="ISortableGlobalObject.h">
+      <Filter>13_Interfaces\ISortableGlobalObject</Filter>
+    </ClInclude>
     <ClInclude Include="isNeutralize.h">
       <Filter>11_BtNodes\MonsterAnim\Boss\isNeutralize</Filter>
     </ClInclude>
@@ -1148,6 +1151,12 @@
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Boss\isNeutralize">
       <UniqueIdentifier>{adfcd039-57d9-405d-8899-7b823ccb6305}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="13_Interfaces">
+      <UniqueIdentifier>{62fbe24f-4efe-42fe-939a-497008c8250c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="13_Interfaces\ISortableGlobalObject">
+      <UniqueIdentifier>{0033e539-be88-4991-ae25-a12a586f65ca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

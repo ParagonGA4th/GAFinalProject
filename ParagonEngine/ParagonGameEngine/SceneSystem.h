@@ -1,6 +1,7 @@
 #pragma once
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonData/Scene.h"
+#include "../ParagonData/ISortableGlobalObject.h"
 #include "../ParagonData/EditorMode.h"
 
 #include "EngineDLLExporter.h"
@@ -85,7 +86,7 @@ namespace Pg::Engine
 	private:
 		void SetCurrentScene_Internal(Scene* scene);
 	private:
-		void CheckMoveDontDestroyOnLoadObjects(Pg::Data::Scene* scene);
+		void CheckMoveSortDontDestroyOnLoadObjects(Pg::Data::Scene* scene);
 		void AwakeStartDontDestroyOnLoadObjects();
 		void UpdateDontDestroyOnLoadObjects();
 		void FixedUpdateDontDestroyOnLoadObjects();
