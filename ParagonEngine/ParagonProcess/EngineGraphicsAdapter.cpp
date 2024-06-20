@@ -164,6 +164,7 @@ namespace Pg::Core
 
 	void EngineGraphicsAdapter::SyncLoadGraphicsResources()
 	{
+		//그래픽스가 로드되지 않았으면 BTree System Tick()을 막는 등, 방법이 필요할 듯 하다. 
 		//얘가 발동되었을 때만 1차 로드해주어야 한다. 
 		if (_engine->NotifyIfChangedScene() != nullptr)
 		{

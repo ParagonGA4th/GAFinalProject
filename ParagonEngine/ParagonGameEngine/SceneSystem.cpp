@@ -73,6 +73,7 @@ namespace Pg::Engine
 				CheckMoveSortDontDestroyOnLoadObjects(_currentScene);
 				AwakeStartDontDestroyOnLoadObjects();
 
+				///PLAY STOP?
 				/// Play Mode일 경우 다시 호출
 				auto& tPhysicSystem = singleton<Physic::PhysicSystem>();
 				_physicSystem = &tPhysicSystem;
@@ -143,6 +144,7 @@ namespace Pg::Engine
 		std::for_each(_currentScene->GetObjectList().begin(), _currentScene->GetObjectList().end(), [](auto& iter)
 			{ iter->ResetDebouncerBoolean(); });
 
+
 		//SetCurrentScene이 호출되었을 때, Global한 애들 기준으로 (Static Vector, Don't Destroy On Load)
 		//OnSceneChange_Global()을 호출한다. (일반 오브젝트들에는 해당되지 않는다)
 		if (!(Pg::Data::Scene::_dontDestroyOnList.empty()))
@@ -150,27 +152,38 @@ namespace Pg::Engine
 			std::for_each(Pg::Data::Scene::_dontDestroyOnList.begin(), Pg::Data::Scene::_dontDestroyOnList.end(), [&scene](auto& iter)
 				{ iter->OnSceneChange_Global(scene); });
 		}
-	
+		PG_TRACE("OnSceneChange Global Called");
+
 		//씬이 바뀔 시 사운드 전부 다시 로드.
 		auto& tSoundSystem = singleton<SoundSystem>();
 		_soundSystem = &tSoundSystem;
 		_soundSystem->SyncAudioSources();
+		PG_TRACE("SyncAudioSources Called");
 
 		//충돌 객체 또한 전부 다시 로드.
 		auto& tPhysicSystem = singleton<Physic::PhysicSystem>();
 		_physicSystem = &tPhysicSystem;
 		_physicSystem->InitMakeColliders();
+		PG_TRACE("InitMakeColliders Called");
 
 		//현재 업데이트시켜야 하는 Behavior Tree List 역시 다시 로드.
 		auto& tBTSystem = singleton<BTree::BehaviorTreeSystem>();
 		_btSystem = &tBTSystem;
 		_btSystem->SyncSceneActiveBT();
+		PG_TRACE("SyncSceneActiveBT Called");
 	}
 
 	void SceneSystem::SetCurrentScene(const std::string& sceneName)
 	{
 		_toChangeScene = sceneName;
 		_isNeedToChangeScene = true;
+
+		PG_TRACE(sceneName);
+
+		if (sceneName == "Stage1")
+		{
+			assert("");
+		}
 	}
 
 	Pg::Data::Scene* SceneSystem::GetCurrentScene()
