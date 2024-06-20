@@ -99,7 +99,6 @@ void Pg::Editor::Data::DataContainer::SetCurrentScene(std::string sceneName)
 
 void Pg::Editor::Data::DataContainer::SetCurrentScene(Pg::Data::Scene* scene)
 {
-	_isSceneChanged = true;
 	_currentScene = scene;
 }
 
