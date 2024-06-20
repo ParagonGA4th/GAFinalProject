@@ -64,9 +64,29 @@ namespace Pg::Graphics
 
 	void GraphicsSceneParser::ParseSceneData(const Pg::Data::Scene* const newScene)
 	{
+		//이거 일단은 개별적으로 오브젝트를 Save해놔야 할 것이다.
+		
 		//Scene을 파싱해서, 실제 렌더되어야 하는 Object를 연동한다.
 		//나중에 같은 씬을 유지하는 중에 오브젝트들 중 하나의 렌더러가 꺼진다거나 
 		//상황은 아직 유지 못함. 나중에 _rendererChangeList를 활용하면 된다!
+		std::string tSceneName = newScene->GetSceneNameConst();
+		if (_graphicsObjectsListContainer.contains(tSceneName))
+		{
+			//만약 포함되어 있으면, 그대로 그걸로 스위칭.
+			//Current List Set 할당.
+			_currentListSet = _graphicsObjectsListContainer.at(tSceneName).get();
+
+			//Early Return.
+			assert((_currentListSet != nullptr) && "무조건 있어야 동작함");
+			return;
+		}
+
+		//새로운 객체 만들기.
+		//기존의 직접적 RenderObject 리스트들 클리어. + SceneInformationList.
+		auto tIt = _graphicsObjectsListContainer.insert(std::make_pair(tSceneName, std::make_unique<GraphicObjectListSet>()));
+		//현재 List Set 할당.
+		_currentListSet = tIt.first->second.get();
+		assert((_currentListSet != nullptr) && "무조건 있어야 동작함");
 
 		ResetParser();
 
@@ -88,7 +108,6 @@ namespace Pg::Graphics
 		PlaceCubemapList();
 
 
-		assert("");
 	}
 
 	void GraphicsSceneParser::HandleRenderObjectsRuntime()
@@ -179,27 +198,27 @@ namespace Pg::Graphics
 
 	Pg::Graphics::RenderObject2DList* GraphicsSceneParser::GetRenderObject2DList()
 	{
-		return _renderObject2DList.get();
+		return _currentListSet->_renderObject2DList.get();
 	}
 
 	Pg::Graphics::RenderObject3DList* GraphicsSceneParser::GetRenderObject3DList()
 	{
-		return _renderObject3DList.get();
+		return _currentListSet->_renderObject3DList.get();
 	}
 
 	Pg::Graphics::RenderObjectCubemapList* GraphicsSceneParser::GetRenderObjectCubemapList()
 	{
-		return _cubeMapList.get();
+		return _currentListSet->_cubeMapList.get();
 	}
 
 	Pg::Graphics::RenderObjectWireframeList* GraphicsSceneParser::GetRenderObjectWireframeList()
 	{
-		return _primObjectList.get();
+		return _currentListSet->_primObjectList.get();
 	}
 
 	Pg::Graphics::SceneInformationList* GraphicsSceneParser::GetSceneInformationList()
 	{
-		return _sceneInfoList.get();
+		return _currentListSet->_sceneInfoList.get();
 	}
 
 	void GraphicsSceneParser::SetupPrimitiveWireframeObjects(const Pg::Data::Scene* const newScene)
@@ -210,11 +229,11 @@ namespace Pg::Graphics
 		}
 
 		// Primitive RenderObject 투입 + Initialize();
-		_primObjectList->_list.push_back(std::make_unique<Grid>());
-		_primObjectList->_list.push_back(std::make_unique<Axis>());
+		_currentListSet->_primObjectList->_list.push_back(std::make_unique<Grid>());
+		_currentListSet->_primObjectList->_list.push_back(std::make_unique<Axis>());
 
 		//일괄적으로 BuildBuffers 수행.
-		for (auto& it : _primObjectList->_list)
+		for (auto& it : _currentListSet->_primObjectList->_list)
 		{
 			it->BuildBuffers();
 		}
@@ -229,18 +248,12 @@ namespace Pg::Graphics
 		{
 			//Cubemap 데이터를 받기.
 			auto tCubemapData = GraphicsResourceManager::Instance()->GetResource(Pg::Defines::ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH, eAssetDefine::_CUBEMAP);
-			_cubeMapList->_list.push_back(static_cast<RenderCubemap*>(tCubemapData.get()));
+			_currentListSet->_cubeMapList->_list.push_back(static_cast<RenderCubemap*>(tCubemapData.get()));
 		}
 	}
 
 	void GraphicsSceneParser::ResetParser()
 	{
-		//기존의 직접적 RenderObject 리스트들 클리어. + SceneInformationList.
-		_renderObject2DList.reset(new RenderObject2DList());
-		_renderObject3DList.reset(new RenderObject3DList());
-		_cubeMapList.reset(new RenderObjectCubemapList());
-		_primObjectList.reset(new RenderObjectWireframeList());
-		_sceneInfoList.reset(new SceneInformationList());
 
 		//새로운 씬을 로드하니, 자체적인 Object Count를 리셋한다.
 		//씬이 바뀌기 전까지는 ObjectId3dCount가 바뀌지 않을 것.
@@ -313,7 +326,7 @@ namespace Pg::Graphics
 				//Material Path Set를 RenderObject3DList에서 찾기(Index), 없으면 로직 에러.
 				//auto it = std::find(_renderObject3DList->_materialPathSet.begin(), _renderObject3DList->_materialPathSet.end(), tMatPth);
 
-				auto it = std::find_if(_renderObject3DList->_materialPathSet.begin(), _renderObject3DList->_materialPathSet.end(),
+				auto it = std::find_if(_currentListSet->_renderObject3DList->_materialPathSet.begin(), _currentListSet->_renderObject3DList->_materialPathSet.end(),
 					[&tMatPth](const std::pair<std::string, RenderMaterial*>& val)
 					-> bool {return (val.first == tMatPth); });
 				//곧 들어갈 Material ID;
@@ -322,7 +335,7 @@ namespace Pg::Graphics
 				RenderMaterial* tMaterialInput = nullptr;
 
 				//못 찾았으면, Default Material을 만들어서 넣어준다.
-				if (it == _renderObject3DList->_materialPathSet.end())
+				if (it == _currentListSet->_renderObject3DList->_materialPathSet.end())
 				{
 					//CreateDefaultMaterialInstance;
 					std::filesystem::path tTempMeshPath = tBaseR3D->GetMeshFilePath();
@@ -350,11 +363,11 @@ namespace Pg::Graphics
 					//이미 존재할 시에는 넣어주면 안됨.
 					//있으면 새로운 벡터를 만들지 않음. (insert_or_assign에서 TryEmplace로 변경)
 
-					_renderObject3DList->_staticList.try_emplace(tRenderMat, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectStaticMesh3D>>>>());
-					_renderObject3DList->_skinnedList.try_emplace(tRenderMat, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectSkinnedMesh3D>>>>());
+					_currentListSet->_renderObject3DList->_staticList.try_emplace(tRenderMat, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectStaticMesh3D>>>>());
+					_currentListSet->_renderObject3DList->_skinnedList.try_emplace(tRenderMat, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectSkinnedMesh3D>>>>());
 
 					//일단은 Default Material ID를 설정해주기.
-					_renderObject3DList->_materialPathSet.try_emplace(tDefaultMatInstName, tRenderMat);
+					_currentListSet->_renderObject3DList->_materialPathSet.try_emplace(tDefaultMatInstName, tRenderMat);
 
 					//일괄적 부여를 위해 Material 포인터 부여.
 					tMaterialInput = tRenderMat;
@@ -395,7 +408,7 @@ namespace Pg::Graphics
 						tUPtr->_eitherStaticMesh = std::make_unique<RenderObjectStaticMesh3D>(tBaseRenderer, _objectId3dCount);
 						tUPtr->_eitherStaticMesh->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
 
-						_renderObject3DList->_allAlphaBlendedList.push_back(std::move(tUPtr));
+						_currentListSet->_renderObject3DList->_allAlphaBlendedList.push_back(std::move(tUPtr));
 					}
 					//SkinnedMeshRenderer
 					else if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::SkinnedMeshRenderer*).name())) == 0)
@@ -404,7 +417,7 @@ namespace Pg::Graphics
 						tUPtr->_eitherSkinnedMesh = std::make_unique<RenderObjectSkinnedMesh3D>(tBaseRenderer, _objectId3dCount);
 						tUPtr->_eitherSkinnedMesh->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
 
-						_renderObject3DList->_allAlphaBlendedList.push_back(std::move(tUPtr));
+						_currentListSet->_renderObject3DList->_allAlphaBlendedList.push_back(std::move(tUPtr));
 					}
 				}
 				else //그냥 불투명 렌더링.
@@ -412,20 +425,20 @@ namespace Pg::Graphics
 					//StaticMeshRenderer
 					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
 					{
-						_renderObject3DList->_staticList.at(tMaterialInput)->push_back(std::make_pair(obj,
+						_currentListSet->_renderObject3DList->_staticList.at(tMaterialInput)->push_back(std::make_pair(obj,
 							std::make_unique<RenderObjectStaticMesh3D>(tBaseRenderer, _objectId3dCount)));
 
 						//개별적으로 MaterialID 할당. 값이랑은 무관할 것이다.
-						_renderObject3DList->_staticList.at(tMaterialInput)->back().second->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
+						_currentListSet->_renderObject3DList->_staticList.at(tMaterialInput)->back().second->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
 					}
 					//SkinnedMeshRenderer
 					else if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::SkinnedMeshRenderer*).name())) == 0)
 					{
-						_renderObject3DList->_skinnedList.at(tMaterialInput)->push_back(std::make_pair(obj,
+						_currentListSet->_renderObject3DList->_skinnedList.at(tMaterialInput)->push_back(std::make_pair(obj,
 							std::make_unique<RenderObjectSkinnedMesh3D>(tBaseRenderer, _objectId3dCount)));
 
 						//개별적으로 MaterialID 할당. 값이랑은 무관할 것이다.
-						_renderObject3DList->_skinnedList.at(tMaterialInput)->back().second->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
+						_currentListSet->_renderObject3DList->_skinnedList.at(tMaterialInput)->back().second->SetMaterialIdPointer(&(tMaterialInput->GetMaterialID()));
 					}
 				}
 
@@ -440,17 +453,17 @@ namespace Pg::Graphics
 
 				if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::TextRenderer*).name())) == 0)
 				{
-					_renderObject2DList->_list.push_back(std::make_pair(obj,
+					_currentListSet->_renderObject2DList->_list.push_back(std::make_pair(obj,
 						std::make_unique<RenderObjectText2D>(tBaseRenderer)));
 				}
 
 				//ImageRenderer
 				if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::ImageRenderer*).name())) == 0)
 				{
-					_renderObject2DList->_list.push_back(std::make_pair(obj,
+					_currentListSet->_renderObject2DList->_list.push_back(std::make_pair(obj,
 						std::make_unique<RenderObjectImage2D>(tBaseRenderer)));
 
-					RenderObjectImage2D* tTemp = static_cast<RenderObjectImage2D*>(_renderObject2DList->_list.back().second.get());
+					RenderObjectImage2D* tTemp = static_cast<RenderObjectImage2D*>(_currentListSet->_renderObject2DList->_list.back().second.get());
 					t2DBase->_width = *(tTemp->_imageWidth);
 					t2DBase->_height = *(tTemp->_imageHeight);
 				}
@@ -513,10 +526,10 @@ namespace Pg::Graphics
 					auto tRes = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tBaseR3D->GetMeshFilePath(), Pg::Data::Enums::eAssetDefine::_3DMODEL);
 					Asset3DModelData* modelData = static_cast<Asset3DModelData*>(tRes.get());
 					//없으면 넣고, 있으면 무시하고.
-					_renderObject3DList->_instancedStaticList.try_emplace(modelData, std::make_unique<BufferInstancedPairList>());
-					_renderObject3DList->_instancedCulledOppositeStaticList.try_emplace(modelData, std::make_unique<BufferInstancedPairList>());
-					_renderObject3DList->_instancedStaticAlphaClippedList.try_emplace(modelData, std::make_unique<BufferInstancedPairList>());
-					_renderObject3DList->_instancedCulledOppositeStaticAlphaClippedList.try_emplace(modelData, std::make_unique<BufferInstancedPairList>());
+					_currentListSet->_renderObject3DList->_instancedStaticList.try_emplace(modelData, std::make_unique<BufferInstancedPairList>());
+					_currentListSet->_renderObject3DList->_instancedCulledOppositeStaticList.try_emplace(modelData, std::make_unique<BufferInstancedPairList>());
+					_currentListSet->_renderObject3DList->_instancedStaticAlphaClippedList.try_emplace(modelData, std::make_unique<BufferInstancedPairList>());
+					_currentListSet->_renderObject3DList->_instancedCulledOppositeStaticAlphaClippedList.try_emplace(modelData, std::make_unique<BufferInstancedPairList>());
 
 					if (tBaseRenderer->GetRendererTypeName().compare(std::string(typeid(Pg::Data::StaticMeshRenderer*).name())) == 0)
 					{
@@ -527,7 +540,7 @@ namespace Pg::Graphics
 						if (tIsAlphaClipped && !tIsScaleOddMinus)
 						{
 							//알파 클리핑은 적용, 일반적.
-							auto& tVectorPtr = _renderObject3DList->_instancedStaticAlphaClippedList.at(modelData)->_instancedStaticPairVec;
+							auto& tVectorPtr = _currentListSet->_renderObject3DList->_instancedStaticAlphaClippedList.at(modelData)->_instancedStaticPairVec;
 
 							//값 넣기. 주의! ID3D1Buffer가 같이 들어갔다. (Instancing을 위해)
 							tVectorPtr.push_back(InstancedStaticPair(tMaterialInput, std::make_shared<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
@@ -536,7 +549,7 @@ namespace Pg::Graphics
 						else if (tIsAlphaClipped && tIsScaleOddMinus)
 						{
 							//알파 클리핑은 적용, 반대로 뒤집힘.
-							auto& tVectorPtr = _renderObject3DList->_instancedCulledOppositeStaticAlphaClippedList.at(modelData)->_instancedStaticPairVec;
+							auto& tVectorPtr = _currentListSet->_renderObject3DList->_instancedCulledOppositeStaticAlphaClippedList.at(modelData)->_instancedStaticPairVec;
 
 							//값 넣기. 주의! ID3D1Buffer가 같이 들어갔다. (Instancing을 위해)
 							tVectorPtr.push_back(InstancedStaticPair(tMaterialInput, std::make_shared<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
@@ -545,7 +558,7 @@ namespace Pg::Graphics
 						else if (!tIsAlphaClipped && !tIsScaleOddMinus)
 						{
 							// 알파 클리핑 적용 X, 일반적.
-							auto& tVectorPtr = _renderObject3DList->_instancedStaticList.at(modelData)->_instancedStaticPairVec;
+							auto& tVectorPtr = _currentListSet->_renderObject3DList->_instancedStaticList.at(modelData)->_instancedStaticPairVec;
 
 							//값 넣기. 주의! ID3D1Buffer가 같이 들어갔다. (Instancing을 위해)
 							tVectorPtr.push_back(InstancedStaticPair(tMaterialInput, std::make_shared<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
@@ -555,7 +568,7 @@ namespace Pg::Graphics
 						{
 							// 알파 클리핑 적용 X, 반대로 뒤집힘.
 
-							auto& tVectorPtr = _renderObject3DList->_instancedCulledOppositeStaticList.at(modelData)->_instancedStaticPairVec;
+							auto& tVectorPtr = _currentListSet->_renderObject3DList->_instancedCulledOppositeStaticList.at(modelData)->_instancedStaticPairVec;
 
 							//값 넣기. 주의! ID3D1Buffer가 같이 들어갔다. (Instancing을 위해)
 							tVectorPtr.push_back(InstancedStaticPair(tMaterialInput, std::make_shared<RenderObjectInstancedMesh3D>(tBaseRenderer, _objectId3dCount)));
@@ -583,7 +596,7 @@ namespace Pg::Graphics
 		using Pg::Graphics::Helper::GraphicsResourceHelper;
 
 
-		for (auto& it : _renderObject3DList->_skinnedList)
+		for (auto& it : _currentListSet->_renderObject3DList->_skinnedList)
 		{
 			for (auto& [go, ro] : *(it.second.get()))
 			{
@@ -599,7 +612,7 @@ namespace Pg::Graphics
 			}
 		}
 
-		for (auto& it : _renderObject3DList->_allAlphaBlendedList)
+		for (auto& it : _currentListSet->_renderObject3DList->_allAlphaBlendedList)
 		{
 			if (it->_isSkinned)
 			{
@@ -620,7 +633,7 @@ namespace Pg::Graphics
 	void GraphicsSceneParser::CheckCreateObjMatBuffersAll()
 	{
 		//모든 오브젝트 렌더링. (static)
-		for (auto& it : _renderObject3DList->_staticList)
+		for (auto& it : _currentListSet->_renderObject3DList->_staticList)
 		{
 			//Vector
 			for (int i = 0; i < it.second->size(); i++)
@@ -636,7 +649,7 @@ namespace Pg::Graphics
 		}
 
 		//모든 오브젝트 렌더링. (skinned)
-		for (auto& it : _renderObject3DList->_skinnedList)
+		for (auto& it : _currentListSet->_renderObject3DList->_skinnedList)
 		{
 			//Vector
 			for (int i = 0; i < it.second->size(); i++)
@@ -652,7 +665,7 @@ namespace Pg::Graphics
 		}
 
 		//Instanced 객체 추가해야 한다. 작동 방식은 일부 다르지만.
-		for (auto& [bModelData, bBufferVecPair] : _renderObject3DList->_instancedStaticList)
+		for (auto& [bModelData, bBufferVecPair] : _currentListSet->_renderObject3DList->_instancedStaticList)
 		{
 			auto& bVecPtr = bBufferVecPair->_instancedStaticPairVec;
 
@@ -675,7 +688,7 @@ namespace Pg::Graphics
 			}
 		}
 
-		for (auto& [bModelData, bBufferVecPair] : _renderObject3DList->_instancedCulledOppositeStaticList)
+		for (auto& [bModelData, bBufferVecPair] : _currentListSet->_renderObject3DList->_instancedCulledOppositeStaticList)
 		{
 			auto& bVecPtr = bBufferVecPair->_instancedStaticPairVec;
 
@@ -706,7 +719,7 @@ namespace Pg::Graphics
 			//일반적인 Backface Culling 대상.
 			std::vector<std::pair<Asset3DModelData*, std::vector<RenderObjectInstancedMesh3D*>>> tToMakeInstSeparateVec;
 
-			for (auto& [bModelData, bVecPair] : _renderObject3DList->_instancedStaticList)
+			for (auto& [bModelData, bVecPair] : _currentListSet->_renderObject3DList->_instancedStaticList)
 			{
 				//
 				auto& bVecPtr = bVecPair->_instancedStaticPairVec;
@@ -737,7 +750,7 @@ namespace Pg::Graphics
 			{
 				auto& tModel = tToMakeInstSeparateVec.at(i).first;
 
-				BufferInstancedPairList* tBufferInstancedPairList = _renderObject3DList->_instancedStaticList.at(tModel).get();
+				BufferInstancedPairList* tBufferInstancedPairList = _currentListSet->_renderObject3DList->_instancedStaticList.at(tModel).get();
 				auto& tVB = tBufferInstancedPairList->_vb;
 				auto& tInstanceVector = tToMakeInstSeparateVec.at(i).second;
 				//이게 대응되는 요소가 될 것이다.
@@ -750,7 +763,7 @@ namespace Pg::Graphics
 			//거꾸로 컬링되어야 하는 대상.
 			std::vector<std::pair<Asset3DModelData*, std::vector<RenderObjectInstancedMesh3D*>>> tToMakeInstSeparateVec;
 
-			for (auto& [bModelData, bVecPair] : _renderObject3DList->_instancedCulledOppositeStaticList)
+			for (auto& [bModelData, bVecPair] : _currentListSet->_renderObject3DList->_instancedCulledOppositeStaticList)
 			{
 				auto& bVecPtr = bVecPair->_instancedStaticPairVec;
 
@@ -780,7 +793,7 @@ namespace Pg::Graphics
 			for (int i = 0; i < tToMakeInstSeparateVec.size(); i++)
 			{
 				auto& tModel = tToMakeInstSeparateVec.at(i).first;
-				auto& tMatchingIter = _renderObject3DList->_instancedCulledOppositeStaticList.at(tModel);
+				auto& tMatchingIter = _currentListSet->_renderObject3DList->_instancedCulledOppositeStaticList.at(tModel);
 				auto& tVB = tMatchingIter->_vb;
 				auto& tInstanceVector = tToMakeInstSeparateVec.at(i).second;
 				//이게 대응되는 요소가 될 것이다.
@@ -792,7 +805,7 @@ namespace Pg::Graphics
 
 		//사실상 ForwardRendering을 사용할 Alpha Blended Object들은 이 순서가 필요 없지만,
 		//구조 일원화를 위해 투입한다.
-		for (auto& it : _renderObject3DList->_allAlphaBlendedList)
+		for (auto& it : _currentListSet->_renderObject3DList->_allAlphaBlendedList)
 		{
 			if (it->_isSkinned)
 			{
@@ -810,7 +823,7 @@ namespace Pg::Graphics
 		Pg::Data::GameObject* tRet = nullptr;
 
 		//Static List 내부 찾기.
-		for (auto& [bMatPath, bVectorPtr] : _renderObject3DList->_staticList)
+		for (auto& [bMatPath, bVectorPtr] : _currentListSet->_renderObject3DList->_staticList)
 		{
 			for (int i = 0; i < bVectorPtr->size(); i++)
 			{
@@ -825,7 +838,7 @@ namespace Pg::Graphics
 		}
 
 		//Skinned List 내부 찾기.
-		for (auto& [bMatPath, bVectorPtr] : _renderObject3DList->_skinnedList)
+		for (auto& [bMatPath, bVectorPtr] : _currentListSet->_renderObject3DList->_skinnedList)
 		{
 			for (int i = 0; i < bVectorPtr->size(); i++)
 			{
@@ -839,7 +852,7 @@ namespace Pg::Graphics
 			}
 		}
 
-		for (auto& [bModelData, bCollection] : _renderObject3DList->_instancedStaticList)
+		for (auto& [bModelData, bCollection] : _currentListSet->_renderObject3DList->_instancedStaticList)
 		{
 			for (auto& it : bCollection->_instancedStaticPairVec)
 			{
@@ -851,7 +864,7 @@ namespace Pg::Graphics
 			}
 		}
 
-		for (auto& [bModelData, bCollection] : _renderObject3DList->_instancedCulledOppositeStaticList)
+		for (auto& [bModelData, bCollection] : _currentListSet->_renderObject3DList->_instancedCulledOppositeStaticList)
 		{
 			for (auto& it : bCollection->_instancedStaticPairVec)
 			{
@@ -863,7 +876,7 @@ namespace Pg::Graphics
 			}
 		}
 
-		for (auto& it : _renderObject3DList->_allAlphaBlendedList)
+		for (auto& it : _currentListSet->_renderObject3DList->_allAlphaBlendedList)
 		{
 			if (it->_isSkinned)
 			{
@@ -896,7 +909,7 @@ namespace Pg::Graphics
 		unsigned int tRet = NULL;
 
 		//Static List 내부 찾기.
-		for (auto& [bMatPath, bVectorPtr] : _renderObject3DList->_staticList)
+		for (auto& [bMatPath, bVectorPtr] : _currentListSet->_renderObject3DList->_staticList)
 		{
 			for (int i = 0; i < bVectorPtr->size(); i++)
 			{
@@ -911,7 +924,7 @@ namespace Pg::Graphics
 		}
 
 		//Skinned List 내부 찾기.
-		for (auto& [bMatPath, bVectorPtr] : _renderObject3DList->_skinnedList)
+		for (auto& [bMatPath, bVectorPtr] : _currentListSet->_renderObject3DList->_skinnedList)
 		{
 			for (int i = 0; i < bVectorPtr->size(); i++)
 			{
@@ -925,7 +938,7 @@ namespace Pg::Graphics
 			}
 		}
 
-		for (auto& [bModelData, bCollection] : _renderObject3DList->_instancedStaticList)
+		for (auto& [bModelData, bCollection] : _currentListSet->_renderObject3DList->_instancedStaticList)
 		{
 			for (auto& it : bCollection->_instancedStaticPairVec)
 			{
@@ -937,7 +950,7 @@ namespace Pg::Graphics
 			}
 		}
 
-		for (auto& [bModelData, bCollection] : _renderObject3DList->_instancedCulledOppositeStaticList)
+		for (auto& [bModelData, bCollection] : _currentListSet->_renderObject3DList->_instancedCulledOppositeStaticList)
 		{
 			for (auto& it : bCollection->_instancedStaticPairVec)
 			{
@@ -949,7 +962,7 @@ namespace Pg::Graphics
 			}
 		}
 
-		for (auto& it : _renderObject3DList->_allAlphaBlendedList)
+		for (auto& it : _currentListSet->_renderObject3DList->_allAlphaBlendedList)
 		{
 			if (it->_isSkinned)
 			{
@@ -1004,14 +1017,14 @@ namespace Pg::Graphics
 		if (renderVec.empty())
 		{
 			//해당 컴포넌트 있던 겜옵젝 -> 컴포넌트가 사라지는 경우. (없으면 아무것도 하지 않음)
-			_renderObject2DList->DeleteRenderObjectWithGameObject(obj);
-			_renderObject3DList->DeleteRenderObjectWithGameObject(obj);
+			_currentListSet->_renderObject2DList->DeleteRenderObjectWithGameObject(obj);
+			_currentListSet->_renderObject3DList->DeleteRenderObjectWithGameObject(obj);
 
 			return;
 		}
 
-		auto tRo2d = _renderObject2DList->GetRenderObjectWithGameObject(obj);
-		auto tRo3d = _renderObject3DList->GetRenderObjectWithGameObject(obj);
+		auto tRo2d = _currentListSet->_renderObject2DList->GetRenderObjectWithGameObject(obj);
+		auto tRo3d = _currentListSet->_renderObject3DList->GetRenderObjectWithGameObject(obj);
 		if (tRo2d.empty() && tRo3d.empty())
 		{
 			// 1. 해당 컴포넌트 없는 겜옵젝 -> 컴포넌트가 생기는 경우.
@@ -1023,8 +1036,8 @@ namespace Pg::Graphics
 
 		// 2. 해당 컴포넌트 있던 겜옵젝 -> 컴포넌트 값이 수정되는 경우.
 		//어쨌든 지우고 다시 만들어야 한다.
-		_renderObject2DList->DeleteRenderObjectWithGameObject(obj);
-		_renderObject3DList->DeleteRenderObjectWithGameObject(obj);
+		_currentListSet->_renderObject2DList->DeleteRenderObjectWithGameObject(obj);
+		_currentListSet->_renderObject3DList->DeleteRenderObjectWithGameObject(obj);
 		AddSingleRenderObject(obj);
 
 	}
@@ -1034,8 +1047,8 @@ namespace Pg::Graphics
 		auto renderVec = obj->GetComponents<Pg::Data::BaseRenderer>();
 
 		//(없으면 아무것도 하지 않음)
-		_renderObject2DList->DeleteRenderObjectWithGameObject(obj);
-		_renderObject3DList->DeleteRenderObjectWithGameObject(obj);
+		_currentListSet->_renderObject2DList->DeleteRenderObjectWithGameObject(obj);
+		_currentListSet->_renderObject3DList->DeleteRenderObjectWithGameObject(obj);
 	}
 	void GraphicsSceneParser::PlaceCorrectPathSingleRenderer(Pg::Data::GameObject* tGameObject)
 	{
@@ -1151,18 +1164,18 @@ namespace Pg::Graphics
 			auto res = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(it, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
 			RenderMaterial* tRenderMat = static_cast<RenderMaterial*>(res.get());
 			//일단은 Default Material ID를 설정해주기.
-			_renderObject3DList->_materialPathSet.try_emplace(it, tRenderMat);
+			_currentListSet->_renderObject3DList->_materialPathSet.try_emplace(it, tRenderMat);
 		}
 
 		//ID는 이제 상관 없다. 따로 일괄적으로 부여하기 때문에.
 		//기록하는 방식을 String -> RenderMat 포인터로 변경!
 
 		//3. unordered_map (_renderObject3DList->_list) 세팅.
-		for (auto& it : _renderObject3DList->_materialPathSet)
+		for (auto& it : _currentListSet->_renderObject3DList->_materialPathSet)
 		{
 			//중요 : 이미 존재하면 새로 만들면 안된다.
-			_renderObject3DList->_staticList.try_emplace(it.second, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectStaticMesh3D>>>>());
-			_renderObject3DList->_skinnedList.try_emplace(it.second, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectSkinnedMesh3D>>>>());
+			_currentListSet->_renderObject3DList->_staticList.try_emplace(it.second, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectStaticMesh3D>>>>());
+			_currentListSet->_renderObject3DList->_skinnedList.try_emplace(it.second, std::make_unique<std::vector<std::pair<Pg::Data::GameObject*, std::unique_ptr<RenderObjectSkinnedMesh3D>>>>());
 		}
 	}
 
@@ -1186,7 +1199,7 @@ namespace Pg::Graphics
 				Pg::Data::DirectionalLight* tDirLight = dynamic_cast<Pg::Data::DirectionalLight*>(tSingleLight);
 				if (tDirLight != nullptr)
 				{
-					_sceneInfoList->_dirLightList.push_back(tDirLight);
+					_currentListSet->_sceneInfoList->_dirLightList.push_back(tDirLight);
 					continue;
 				}
 
@@ -1194,7 +1207,7 @@ namespace Pg::Graphics
 				Pg::Data::SpotLight* tSpotLight = dynamic_cast<Pg::Data::SpotLight*>(tSingleLight);
 				if (tSpotLight != nullptr)
 				{
-					_sceneInfoList->_spotLightList.push_back(tSpotLight);
+					_currentListSet->_sceneInfoList->_spotLightList.push_back(tSpotLight);
 					continue;
 				}
 
@@ -1202,7 +1215,7 @@ namespace Pg::Graphics
 				Pg::Data::PointLight* tPointLight = dynamic_cast<Pg::Data::PointLight*>(tSingleLight);
 				if (tPointLight != nullptr)
 				{
-					_sceneInfoList->_pointLightList.push_back(tPointLight);
+					_currentListSet->_sceneInfoList->_pointLightList.push_back(tPointLight);
 					continue;
 				}
 			}
@@ -1271,8 +1284,8 @@ namespace Pg::Graphics
 					//임시 리스트에서 찾았다는 얘기 -> 그러니까, 밑의 Erase-Remove_If Idiom에서 찾은 애들만 지우라는 말!
 					return std::ranges::find(tEnteredDirLights, val) != tEnteredDirLights.end();
 				};
-			_sceneInfoList->_dirLightList.erase(std::remove_if(_sceneInfoList->_dirLightList.begin(),
-				_sceneInfoList->_dirLightList.end(), tIsDirAlready), _sceneInfoList->_dirLightList.end());
+			_currentListSet->_sceneInfoList->_dirLightList.erase(std::remove_if(_currentListSet->_sceneInfoList->_dirLightList.begin(),
+				_currentListSet->_sceneInfoList->_dirLightList.end(), tIsDirAlready), _currentListSet->_sceneInfoList->_dirLightList.end());
 		}
 		{
 			auto tIsSpotAlready = [&](Pg::Data::SpotLight* val)
@@ -1280,8 +1293,8 @@ namespace Pg::Graphics
 					//임시 리스트에서 찾았다는 얘기 -> 그러니까, 밑의 Erase-Remove_If Idiom에서 찾은 애들만 지우라는 말!
 					return std::ranges::find(tEnteredSpotLights, val) != tEnteredSpotLights.end();
 				};
-			_sceneInfoList->_spotLightList.erase(std::remove_if(_sceneInfoList->_spotLightList.begin(),
-				_sceneInfoList->_spotLightList.end(), tIsSpotAlready), _sceneInfoList->_spotLightList.end());
+			_currentListSet->_sceneInfoList->_spotLightList.erase(std::remove_if(_currentListSet->_sceneInfoList->_spotLightList.begin(),
+				_currentListSet->_sceneInfoList->_spotLightList.end(), tIsSpotAlready), _currentListSet->_sceneInfoList->_spotLightList.end());
 		}
 		{
 			auto tIsPointAlready = [&](Pg::Data::PointLight* val)
@@ -1289,14 +1302,14 @@ namespace Pg::Graphics
 					//임시 리스트에서 찾았다는 얘기 -> 그러니까, 밑의 Erase-Remove_If Idiom에서 찾은 애들만 지우라는 말!
 					return std::ranges::find(tEnteredPointLights, val) != tEnteredPointLights.end();
 				};
-			_sceneInfoList->_pointLightList.erase(std::remove_if(_sceneInfoList->_pointLightList.begin(),
-				_sceneInfoList->_pointLightList.end(), tIsPointAlready), _sceneInfoList->_pointLightList.end());
+			_currentListSet->_sceneInfoList->_pointLightList.erase(std::remove_if(_currentListSet->_sceneInfoList->_pointLightList.begin(),
+				_currentListSet->_sceneInfoList->_pointLightList.end(), tIsPointAlready), _currentListSet->_sceneInfoList->_pointLightList.end());
 		}
 
 		//겹친거 삭제한 다음에, 다시 값을 넣는다. (수정이기 때문)
-		std::copy(tEnteredDirLights.begin(), tEnteredDirLights.end(), std::back_inserter(_sceneInfoList->_dirLightList));
-		std::copy(tEnteredSpotLights.begin(), tEnteredSpotLights.end(), std::back_inserter(_sceneInfoList->_spotLightList));
-		std::copy(tEnteredPointLights.begin(), tEnteredPointLights.end(), std::back_inserter(_sceneInfoList->_pointLightList));
+		std::copy(tEnteredDirLights.begin(), tEnteredDirLights.end(), std::back_inserter(_currentListSet->_sceneInfoList->_dirLightList));
+		std::copy(tEnteredSpotLights.begin(), tEnteredSpotLights.end(), std::back_inserter(_currentListSet->_sceneInfoList->_spotLightList));
+		std::copy(tEnteredPointLights.begin(), tEnteredPointLights.end(), std::back_inserter(_currentListSet->_sceneInfoList->_pointLightList));
 
 		//Data 자체를 가져다가 쓰기 때문에, 같은 경우는 별도의 연동이 필요 없음.
 		//Intensity를 기반으로 Sort. ( '>' Operator Overloading )
@@ -1359,8 +1372,8 @@ namespace Pg::Graphics
 					//임시 리스트에서 찾았다는 얘기 -> 그러니까, 밑의 Erase-Remove_If Idiom에서 찾은 애들만 지우라는 말!
 					return std::ranges::find(tEnteredDirLights, val) != tEnteredDirLights.end();
 				};
-			_sceneInfoList->_dirLightList.erase(std::remove_if(_sceneInfoList->_dirLightList.begin(),
-				_sceneInfoList->_dirLightList.end(), tIsDirAlready), _sceneInfoList->_dirLightList.end());
+			_currentListSet->_sceneInfoList->_dirLightList.erase(std::remove_if(_currentListSet->_sceneInfoList->_dirLightList.begin(),
+				_currentListSet->_sceneInfoList->_dirLightList.end(), tIsDirAlready), _currentListSet->_sceneInfoList->_dirLightList.end());
 		}
 		{
 			auto tIsSpotAlready = [&](Pg::Data::SpotLight* val)
@@ -1368,8 +1381,8 @@ namespace Pg::Graphics
 					//임시 리스트에서 찾았다는 얘기 -> 그러니까, 밑의 Erase-Remove_If Idiom에서 찾은 애들만 지우라는 말!
 					return std::ranges::find(tEnteredSpotLights, val) != tEnteredSpotLights.end();
 				};
-			_sceneInfoList->_spotLightList.erase(std::remove_if(_sceneInfoList->_spotLightList.begin(),
-				_sceneInfoList->_spotLightList.end(), tIsSpotAlready), _sceneInfoList->_spotLightList.end());
+			_currentListSet->_sceneInfoList->_spotLightList.erase(std::remove_if(_currentListSet->_sceneInfoList->_spotLightList.begin(),
+				_currentListSet->_sceneInfoList->_spotLightList.end(), tIsSpotAlready), _currentListSet->_sceneInfoList->_spotLightList.end());
 		}
 		{
 			auto tIsPointAlready = [&](Pg::Data::PointLight* val)
@@ -1377,8 +1390,8 @@ namespace Pg::Graphics
 					//임시 리스트에서 찾았다는 얘기 -> 그러니까, 밑의 Erase-Remove_If Idiom에서 찾은 애들만 지우라는 말!
 					return std::ranges::find(tEnteredPointLights, val) != tEnteredPointLights.end();
 				};
-			_sceneInfoList->_pointLightList.erase(std::remove_if(_sceneInfoList->_pointLightList.begin(),
-				_sceneInfoList->_pointLightList.end(), tIsPointAlready), _sceneInfoList->_pointLightList.end());
+			_currentListSet->_sceneInfoList->_pointLightList.erase(std::remove_if(_currentListSet->_sceneInfoList->_pointLightList.begin(),
+				_currentListSet->_sceneInfoList->_pointLightList.end(), tIsPointAlready), _currentListSet->_sceneInfoList->_pointLightList.end());
 		}
 
 		//원본 리스트에서 삭제를 했음.
@@ -1388,21 +1401,21 @@ namespace Pg::Graphics
 
 	void GraphicsSceneParser::SortSceneInfoLightsVector()
 	{
-		if (!(_sceneInfoList->_dirLightList.empty()))
+		if (!(_currentListSet->_sceneInfoList->_dirLightList.empty()))
 		{
-			std::sort(_sceneInfoList->_dirLightList.begin(), _sceneInfoList->_dirLightList.end(),
+			std::sort(_currentListSet->_sceneInfoList->_dirLightList.begin(), _currentListSet->_sceneInfoList->_dirLightList.end(),
 				[](Pg::Data::DirectionalLight* a, Pg::Data::DirectionalLight* b) {return a > b; });
 		}
 
-		if (!(_sceneInfoList->_spotLightList.empty()))
+		if (!(_currentListSet->_sceneInfoList->_spotLightList.empty()))
 		{
-			std::sort(_sceneInfoList->_spotLightList.begin(), _sceneInfoList->_spotLightList.end(),
+			std::sort(_currentListSet->_sceneInfoList->_spotLightList.begin(), _currentListSet->_sceneInfoList->_spotLightList.end(),
 				[](Pg::Data::SpotLight* a, Pg::Data::SpotLight* b) {return a > b; });
 		}
 
-		if (!(_sceneInfoList->_pointLightList.empty()))
+		if (!(_currentListSet->_sceneInfoList->_pointLightList.empty()))
 		{
-			std::sort(_sceneInfoList->_pointLightList.begin(), _sceneInfoList->_pointLightList.end(),
+			std::sort(_currentListSet->_sceneInfoList->_pointLightList.begin(), _currentListSet->_sceneInfoList->_pointLightList.end(),
 				[](Pg::Data::PointLight* a, Pg::Data::PointLight* b) {return a > b; });
 		}
 	}
