@@ -71,7 +71,11 @@ namespace Pg::Data
 		void FreezeLinearZ(bool isActive);
 
 		void SetMass(float value);
-		void SetUseGravity(float value);
+		void SetUseGravity(bool value);
+		bool GetUseGravity();
+
+		void SetKinematic(bool value);
+		bool GetKinematic();
 	public:
 
 		//Collider 클래스에 적용되어있기에 가상함수로...
@@ -95,6 +99,7 @@ namespace Pg::Data
 		float _linearDamping;
 		float _mass{ 1.0f };
 		bool _useGravity{ true };
+		bool _isKinematic{ false };
 
 		//특정 방향으로의 중력값 조절.
 		Pg::Math::PGFLOAT3 _linearVelocity;

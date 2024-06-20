@@ -69,7 +69,7 @@ void Pg::DataScript::BattleArea::OnTriggerEnter(Pg::Data::Collider** _colArr, un
 	{
 		Pg::Data::Collider* col = _colArr[i];
 
-		if (col->_object->GetName() == "PlayerSensor")
+		if (col->_object->GetTag() == "TAG_Sensor")
 		{
 			_onTriggerStay = true;
 			_player = col->_object->_transform.GetParent()->_object->GetComponent<Pg::DataScript::PlayerBattleBehavior>();
