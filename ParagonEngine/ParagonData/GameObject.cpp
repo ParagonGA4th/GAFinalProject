@@ -336,6 +336,13 @@ namespace Pg::Data
 				return component;
 			}
 
+			if (componentType.compare("class Pg::Data::SphereCollider") == 0)
+			{
+				component = new SphereCollider(this);
+				AddComponent("class Pg::Data::SphereCollider", component);
+				return component;
+			}
+
 			if (componentType.compare("class Pg::Data::BoxCollider") == 0)
 			{
 				component = new BoxCollider(this);

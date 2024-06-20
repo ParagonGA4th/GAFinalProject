@@ -2,7 +2,7 @@
 #include "PlayerBattleBehavior.h"
 
 #include "../ParagonData/DynamicCollider.h"
-#include "../ParagonData/StaticSphereCollider.h"
+#include "../ParagonData/SphereCollider.h"
 
 Pg::DataScript::BattleArea::BattleArea(Pg::Data::GameObject* obj)
 	:ScriptInterface(obj)
@@ -11,7 +11,7 @@ Pg::DataScript::BattleArea::BattleArea(Pg::Data::GameObject* obj)
 
 void Pg::DataScript::BattleArea::Awake()
 {
-	_collider = _object->GetComponent<Pg::Data::StaticSphereCollider>();
+	_collider = _object->GetComponent<Pg::Data::SphereCollider>();
 	assert(_collider != nullptr);
 }
 
