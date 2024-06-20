@@ -2,7 +2,11 @@
 #include "ScriptInterface.h"
 #include "../ParagonMath/PgMath.h"
 
-namespace Pg::Data { class Collider; class StaticBoxCollider; }
+namespace Pg::Data 
+{ 
+	class Collider; 
+	class StaticSphereCollider;
+}
 
 namespace Pg::DataScript
 {
@@ -23,7 +27,7 @@ namespace Pg::DataScript
 		virtual void OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count) override;
 		
 	private:
-		Pg::Data::StaticBoxCollider* _collider;
+		Pg::Data::StaticSphereCollider* _collider;
 		Pg::DataScript::PlayerBattleBehavior* _player;
 
 		int _monster = 1;
