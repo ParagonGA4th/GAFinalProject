@@ -43,7 +43,6 @@ namespace Pg::DataScript
 		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
 		assert(_collider != nullptr);
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
-		//_collider->SetCapsuleInfo(1.f, 1.f);
 		_collider->FreezeAxisX(true);
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
