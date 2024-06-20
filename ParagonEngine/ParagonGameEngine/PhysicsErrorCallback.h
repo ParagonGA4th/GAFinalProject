@@ -13,14 +13,14 @@ namespace Pg::Engine
 	{
 		virtual void reportError(physx::PxErrorCode::Enum code, const char* message, const char* file, int line) override
 		{
-			Pg::Util::Debug::Log& tLogger = singleton<Pg::Util::Debug::Log>();
-			if (tLogger.IsInitialized())
-			{
-				//File Name ONLY.
-				std::filesystem::path tFile = file;
-
-				PG_WARN("PhysX Error! Code: {0}.\n{1}\nSource: {2} : {3}.", static_cast<int>(code), std::string(message), tFile.filename().string(), line);
-			}
+			//Pg::Util::Debug::Log& tLogger = singleton<Pg::Util::Debug::Log>();
+			//if (tLogger.IsInitialized())
+			//{
+			//	//File Name ONLY.
+			//	std::filesystem::path tFile = file;
+			//
+			//	PG_WARN("PhysX Error! Code: {0}.\n{1}\nSource: {2} : {3}.", static_cast<int>(code), std::string(message), tFile.filename().string(), line);
+			//}
 		}
 	};
 }

@@ -111,14 +111,14 @@ namespace Pg::Data
 
 		if (!_isStarted)
 		{
-			//for_each구문을 이용하여 componentList를 싹다 돌리기.
-			std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			for (int i = 0; i < _componentList.size(); i++)
+			{
+				auto& iter = _componentList.at(i);
+				if (iter.second->GetActive())
 				{
-					if (iter.second->GetActive())
-					{
-						iter.second->Start();
-					}
-				});
+					iter.second->Start();
+				}
+			}
 
 			_isStarted = true;
 		}
