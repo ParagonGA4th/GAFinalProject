@@ -247,6 +247,8 @@ namespace Pg::Engine
 			return;
 		}
 
+		//PG_WARN("Inside, Working");
+
 		//Static List에서 해당 값을 찾았다는 조건 람다.
 		auto tFoundFunc = [&](Pg::Data::GameObject* val)
 			{
@@ -275,6 +277,14 @@ namespace Pg::Engine
 		//이제, ISortableGlobalObject에 따른 정렬을 한다.
 		if (!(Pg::Data::Scene::_dontDestroyOnList.empty()))
 		{
+			//PG_WARN("Starting to sort");
+			//PG_WARN(std::to_string(Pg::Data::Scene::_dontDestroyOnList.size()));
+			//
+			//for (auto& it : Pg::Data::Scene::_dontDestroyOnList)
+			//{
+			//	PG_WARN(it->GetName());
+			//}
+
 			//비어있지 않으면, sort.
 			std::sort(Pg::Data::Scene::_dontDestroyOnList.begin(), Pg::Data::Scene::_dontDestroyOnList.end(),
 				[](Pg::Data::GameObject*& lhs, Pg::Data::GameObject*& rhs) -> bool
