@@ -11,6 +11,7 @@ namespace Pg::Data
 	class PhysicsCollision;
 	class SkinnedMeshRenderer;
 	class CapsuleCollider;
+	class StaticBoxCollider;
 	class MonsterHelper;
 }
 
@@ -77,6 +78,8 @@ namespace Pg::DataScript
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
 		Pg::Data::CapsuleCollider* _collider;
 
+		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
+
 	public:
 		//골렘보스의 상태와 수치에 대한 정보.
 		BossInfo* _bossInfo;
@@ -84,8 +87,12 @@ namespace Pg::DataScript
 		bool _isRotateFinish;
 
 		//대쉬 관련 변수.
-		bool _isDash;			//돌진 여부
-		bool _hasDashed;		//돌진했는지 여부
+		bool _isDash{ false };			//돌진 여부
+		bool _hasDashed{ false };		//돌진했는지 여부
+
+		bool _isNeutralize{ false };	//무력화 상태 여부
+
+		bool _isChasing{ true };		//추적 상태 여부
 	};
 }
 

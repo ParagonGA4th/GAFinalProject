@@ -35,6 +35,8 @@ namespace Pg::DataScript
 		BossInfo& SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed; return *this; }
 		BossInfo& SetCurrentDashTime(float time) { _cureentDashTime = time; return *this; }
 		BossInfo& SetSightRange(float range) { _sightRange = range; return *this; }
+		BossInfo& SetCurrentNeutralize(float time) { _currentNeutralize = time; return *this; }
+		BossInfo& SetEndNeutralize(float time) { _endNeutralize = time; return *this; }
 
 		float GetMoveSpeed() const { return _moveSpeed; }
 		float GetDashSpeed() const { return _dashSpeed; }
@@ -43,6 +45,8 @@ namespace Pg::DataScript
 		float GetDashRange() const { return _dashRange; }
 		float GetDashDuration() const { return _dashDuration; }
 		float GetCurrentDashTime() { return _cureentDashTime; }
+		float GetCurrentNeutralize() { return _currentNeutralize; }
+		float GetEndNeutralize() { return _endNeutralize; }
 
 		BossStatus _status; // ป๓ลย
 

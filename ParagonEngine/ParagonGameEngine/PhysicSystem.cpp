@@ -487,46 +487,24 @@ namespace Pg::Engine::Physic
 				physx::PxShape* boxShape = _physics->createShape(physx::PxBoxGeometry(staticBoxcol->GetWidth() / 2.0f,
 					staticBoxcol->GetHeight() / 2.0f, staticBoxcol->GetDepth() / 2.0f), *_material);
 
+				// 충돌 오프셋 설정
+				boxShape->setContactOffset(0.2f); // 적절한 값으로 설정
+				boxShape->setRestOffset(0.1f);   // 적절한 값으로 설정
+
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
 
 				trans.q = physx::PxQuat(quat.x / 2.0f, quat.y / 2.0f, quat.z / 2.0f, quat.w);
-				// 유효성 검사
-				//if (!trans.q.isFinite()) 
-				//{
-				//	//std::cerr << "Invalid quaternion in PxTransform initialization." << std::endl;
-				//	return;
-				//}
 
 				// 회전 오프셋을 z축으로 90도 회전시킴
 				//physx::PxQuat rotation90(physx::PxPi / 2.0f, physx::PxVec3(0.0f, 0.0f, 1.0f));
 				//trans.q = trans.q * rotation90;
-				// 유효성 검사
-				//if (!trans.q.isFinite()) 
-				//{
-				//	//std::cerr << "Invalid quaternion after rotation." << std::endl;
-				//	return;
-				//}
-
 
 				//PositionOffset 설정
 				auto offsetP = collider->GetPositionOffset();
 				trans.p = { offsetP.x, offsetP.y , offsetP.z };
-				// 유효성 검사
-				//if (!trans.isValid()) 
-				//{
-				//	//std::cerr << "Invalid PxTransform after setting position." << std::endl;
-				//	return;
-				//}
 
 				boxShape->setLocalPose(trans);
-				// 유효성 검사
-				//if (!trans.isValid()) 
-				//{
-				//	//std::cerr << "Invalid PxTransform after setLocalPose." << std::endl;
-				//	return;
-				//}
-				//assert(trans.isValid());
 
 				//Trigger 여부 판단
 				if (staticBoxcol->GetTrigger())
@@ -580,6 +558,10 @@ namespace Pg::Engine::Physic
 				//	staticCapCol->GetHalfHeight() * staticCapCol->_object->_transform._scale.y), *_material);
 				physx::PxShape* shape = _physics->createShape(physx::PxCapsuleGeometry(staticCapCol->GetRadius() * staticCapCol->_object->_transform._scale.x,
 					staticCapCol->GetHalfHeight()), *_material); // Half Height은 현재 Geometry적으로 연동이 되어 있지 않다. Debugging Geometry가 하나로 구성된 까닭 +a.
+
+				// 충돌 오프셋 설정
+				shape->setContactOffset(0.2f); // 적절한 값으로 설정
+				shape->setRestOffset(0.1f);   // 적절한 값으로 설정
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
@@ -639,6 +621,10 @@ namespace Pg::Engine::Physic
 				//physx::PxShape* shape = _physics->createShape(physx::PxSphereGeometry(staticSphCol->GetRadius()), *_material);
 				//240609 : Scale은 Static의 경우 런타임에 변하지 않으니, Scale값이랑 곱하는 방법으로 형성.
 				physx::PxShape* shape = _physics->createShape(physx::PxSphereGeometry(staticSphCol->GetRadius() * staticSphCol->_object->_transform._scale.x), *_material);
+
+				// 충돌 오프셋 설정
+				shape->setContactOffset(0.2f); // 적절한 값으로 설정
+				shape->setRestOffset(0.1f);   // 적절한 값으로 설정
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
@@ -704,8 +690,8 @@ namespace Pg::Engine::Physic
 					(boxcol->GetHeight() / 2.0f) * boxcol->_object->_transform._scale.y, (boxcol->GetDepth() / 2.0f) * boxcol->_object->_transform._scale.z), *_material);
 
 				// 충돌 오프셋 설정
-				boxShape->setContactOffset(0.01f); // 적절한 값으로 설정
-				boxShape->setRestOffset(0.01f);   // 적절한 값으로 설정
+				boxShape->setContactOffset(0.2f); // 적절한 값으로 설정
+				boxShape->setRestOffset(0.1f);   // 적절한 값으로 설정
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
@@ -743,7 +729,7 @@ namespace Pg::Engine::Physic
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(worldTm);
 
 				//충돌 정확도 계산을 하기위한 코드
-				rigid->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_CCD, true);
+				//rigid->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_CCD, true);
 				rigid->setSolverIterationCounts(16, 4);
 
 				// Layer Mask 설정
@@ -787,8 +773,8 @@ namespace Pg::Engine::Physic
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				
 				// 충돌 오프셋 설정
-				shape->setContactOffset(0.01f); // 적절한 값으로 설정
-				shape->setRestOffset(0.01f);   // 적절한 값으로 설정
+				shape->setContactOffset(0.2f); // 적절한 값으로 설정
+				shape->setRestOffset(0.1f);   // 적절한 값으로 설정
 
 				physx::PxTransform trans(physx::PxIdentity);
 				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
@@ -820,7 +806,7 @@ namespace Pg::Engine::Physic
 				shape->setSimulationFilterData({ sphCol->GetLayer(), 0, 0, 0 });
 
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(worldTm);
-				rigid->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_CCD, true);
+				//rigid->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_CCD, true);
 				rigid->setSolverIterationCounts(16, 4);
 
 				//Rigid의 중력 조정
@@ -863,8 +849,8 @@ namespace Pg::Engine::Physic
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				
 				// 충돌 오프셋 설정
-				shape->setContactOffset(0.01f); // 적절한 값으로 설정
-				shape->setRestOffset(0.01f);   // 적절한 값으로 설정
+				shape->setContactOffset(0.2f); // 적절한 값으로 설정
+				shape->setRestOffset(0.1f);   // 적절한 값으로 설정
 
 				physx::PxTransform trans(physx::PxIdentity);
 
@@ -902,7 +888,7 @@ namespace Pg::Engine::Physic
 				//worldTm.q = { rot.w, rot.x, rot.y, rot.z };
 
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(worldTm);
-				rigid->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_CCD, true);
+				//rigid->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_CCD, true);
 				rigid->setSolverIterationCounts(16, 4);
 
 				// Layer Mask 설정
