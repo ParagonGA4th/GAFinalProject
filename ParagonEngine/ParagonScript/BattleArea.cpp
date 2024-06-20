@@ -1,8 +1,8 @@
 #include "BattleArea.h"
 #include "PlayerBattleBehavior.h"
 
-#include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/DynamicCollider.h"
+#include "../ParagonData/StaticSphereCollider.h"
 
 Pg::DataScript::BattleArea::BattleArea(Pg::Data::GameObject* obj)
 	:ScriptInterface(obj)
@@ -11,7 +11,7 @@ Pg::DataScript::BattleArea::BattleArea(Pg::Data::GameObject* obj)
 
 void Pg::DataScript::BattleArea::Awake()
 {
-	_collider = _object->GetComponent<Pg::Data::StaticBoxCollider>();
+	_collider = _object->GetComponent<Pg::Data::StaticSphereCollider>();
 	assert(_collider != nullptr);
 }
 
@@ -29,20 +29,36 @@ void Pg::DataScript::BattleArea::Update()
 		{
 			auto dcol = _player->_object->GetComponent<Pg::Data::DynamicCollider>();
 
-			auto& colPos = _collider->_object->_transform._position;
-			auto& playerPos = _player->_object->_transform._position;
-			
-			if (colPos.x - (_collider->_width / 2) > playerPos.x + (dcol->GetWidth() / 2))
-				playerPos.x = colPos.x - (_collider->_width / 2);
+			auto& spherePos = _collider->_object->_transform._position;
+			auto& boxPos = _player->_object->_transform._position;
 
-			if (colPos.x + (_collider->_width / 2) < playerPos.x - (dcol->GetWidth() / 2))
-				playerPos.x = colPos.x + (_collider->_width / 2);
+			float sphereRadius = _collider->GetRadius();
+			float boxHalfWidth = dcol->GetWidth() / 2;
+			float boxHalfDepth = dcol->GetDepth() / 2;
 
-			if (colPos.z - (_collider->_depth / 2) > playerPos.z + (dcol->GetDepth() / 2))
-				playerPos.z = colPos.z - (_collider->_depth / 2);
+			// 구의 중심에서 박스의 중심까지의 벡터
+			float dx = boxPos.x - spherePos.x;
+			float dz = boxPos.z - spherePos.z;
+			float distanceSquared = dx * dx + dz * dz;
 
-			if (colPos.z + (_collider->_depth / 2) < playerPos.z - (dcol->GetDepth() / 2))
-				playerPos.z = colPos.z + (_collider->_depth / 2);
+			// 박스의 각 모서리가 구의 경계를 넘지 않도록 조정
+			float radiusMinusHalfDiagonal = sphereRadius - sqrt(boxHalfWidth * boxHalfWidth + boxHalfDepth * boxHalfDepth);
+
+			if (distanceSquared > radiusMinusHalfDiagonal * radiusMinusHalfDiagonal)
+			{
+				// 박스를 구의 내부로 밀어 넣기
+				float distance = sqrt(distanceSquared);
+				float overlap = distance - radiusMinusHalfDiagonal;
+
+				// 거리 벡터를 정규화
+				float invDistance = 1.0f / distance;
+				float normX = dx * invDistance;
+				float normZ = dz * invDistance;
+
+				// 박스 위치를 구의 내부로 밀어 넣기
+				boxPos.x -= normX * overlap;
+				boxPos.z -= normZ * overlap;
+			}
 		}
 	}
 }
@@ -53,10 +69,10 @@ void Pg::DataScript::BattleArea::OnTriggerEnter(Pg::Data::Collider** _colArr, un
 	{
 		Pg::Data::Collider* col = _colArr[i];
 
-		if (col->_object->GetTag() == "TAG_Player")
+		if (col->_object->GetName() == "PlayerSensor")
 		{
 			_onTriggerStay = true;
-			_player = col->_object->GetComponent<Pg::DataScript::PlayerBattleBehavior>();
+			_player = col->_object->_transform.GetParent()->_object->GetComponent<Pg::DataScript::PlayerBattleBehavior>();
 		}
 	}
 }
@@ -66,7 +82,7 @@ void Pg::DataScript::BattleArea::OnTriggerExit(Pg::Data::Collider** _colArr, uns
 	for (int i = 0; i < count; i++)
 	{
 		Pg::Data::Collider* col = _colArr[i];
-		if (col->_object->GetTag() == "TAG_Player")
+		if (col->_object->GetName() == "PlayerSensor")
 		{
 			_onTriggerStay = false;
 		}
