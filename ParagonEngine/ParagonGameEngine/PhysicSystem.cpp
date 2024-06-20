@@ -729,8 +729,10 @@ namespace Pg::Engine::Physic
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(worldTm);
 
 				//충돌 정확도 계산을 하기위한 코드
-				//rigid->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_CCD, true);
 				rigid->setSolverIterationCounts(16, 4);
+
+				rigid->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, collider->GetKinematic());
+				rigid->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, !(collider->GetUseGravity()));
 
 				// Layer Mask 설정
 				boxShape->setSimulationFilterData({ boxcol->GetLayer(), 0, 0, 0 });
@@ -808,6 +810,9 @@ namespace Pg::Engine::Physic
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(worldTm);
 				//rigid->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_CCD, true);
 				rigid->setSolverIterationCounts(16, 4);
+
+				rigid->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, collider->GetKinematic());
+				rigid->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, !(collider->GetUseGravity()));
 
 				//Rigid의 중력 조정
 				rigid->setAngularDamping(0.5f);
@@ -890,6 +895,9 @@ namespace Pg::Engine::Physic
 				physx::PxRigidDynamic* rigid = _physics->createRigidDynamic(worldTm);
 				//rigid->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_CCD, true);
 				rigid->setSolverIterationCounts(16, 4);
+
+				rigid->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, collider->GetKinematic());
+				rigid->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, !(collider->GetUseGravity()));
 
 				// Layer Mask 설정
 				shape->setSimulationFilterData({ capCol->GetLayer(), 0, 0, 0 });

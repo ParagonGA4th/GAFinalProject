@@ -38,16 +38,30 @@ namespace Pg::Data
 		_object->_transform._rotation = localQuat;
 	}
 
-	void DynamicCollider::UpdateTransform()                   
+	void DynamicCollider::UpdateTransform()
 	{
 		//PxTransform을 자체 Transform과 연결시킨다.
 		using namespace Pg::Math;
 
 		//PGFLOAT4 position = PGFloat4MultiplyMatrix({ GetPositionOffset(), 1.f }, _object->_transform.GetWorldTM());
-		PGFLOAT3 position = _object->_transform._position;
+		PGFLOAT3 position;
 
-		PGQuaternion rotation = _object->_transform._rotation;
+		PGQuaternion rotation;
 		//PGQuaternion rotation = Pg::Math::PGQuaternionMultiply(GetRotationOffset(), _object->_transform._rotation);
+		//Previously Working / No Parent
+		//{
+		//	position = _object->_transform._position;
+		//	rotation = _object->_transform._rotation;
+		//}
+
+		DirectX::XMMATRIX tWorld = PG2XM_MATRIX4X4(_object->_transform.GetWorldTM());
+		DirectX::XMVECTOR tScl;
+		DirectX::XMVECTOR tRot;
+		DirectX::XMVECTOR tTrs;
+		DirectX::XMMatrixDecompose(&tScl, &tRot, &tTrs, tWorld);
+		position = XM2PG_FLOAT3_VECTOR(tTrs);
+		rotation = XM2PG_QUATERNION(tRot);
+
 
 		physx::PxTransform transform;
 
@@ -200,9 +214,10 @@ namespace Pg::Data
 		}
 	}
 
-	void DynamicCollider::SetUseGravity(float value)
+	void DynamicCollider::SetUseGravity(bool value)
 	{
 		_useGravity = value;
+
 		if (_rigid != nullptr)
 		{
 			_rigid->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, !value);
@@ -252,4 +267,18 @@ namespace Pg::Data
 		}
 	}
 
+	bool DynamicCollider::GetUseGravity()
+	{
+		return _useGravity;
+	}
+
+	void DynamicCollider::SetKinematic(bool value)
+	{
+		_isKinematic = value;
+	}
+
+	bool DynamicCollider::GetKinematic()
+	{
+		return _isKinematic;
+	}
 }

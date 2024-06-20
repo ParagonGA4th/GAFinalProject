@@ -10,6 +10,7 @@
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/BoxCollider.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgRayCast.h"
@@ -31,6 +32,19 @@ namespace Pg::DataScript
 
 	void PlayerMovement::BeforePhysicsAwake()
 	{
+		/*for (auto& iter : _object->_transform.GetChildren())
+		{
+			Pg::Data::BoxCollider* sensorCol = iter->_object->GetComponent<Pg::Data::BoxCollider>();
+
+			if (sensorCol != nullptr)
+			{
+				_boxColVec.push_back(sensorCol);
+				sensorCol->FreezeLinearX(true);
+				sensorCol->FreezeLinearX(true);
+				sensorCol->FreezeLinearX(true);
+				sensorCol->SetUseGravity(false);
+			}
+		}*/
 		//_selfCapCol = _object->GetComponent<Pg::Data::CapsuleCollider>();
 		//_selfCapCol->FreezeAxisY(true);
 	}
@@ -54,6 +68,7 @@ namespace Pg::DataScript
 		_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
 		assert(_selfCol != nullptr);
 		_selfCol->SetMass(5.f);
+		_selfCol->SetKinematic(true);
 		
 		// Height을 받아서, 반값을 기준으로 Intersection 계산할 준비 완료.
 		_halfColliderHeight = _selfCol->GetHeight() / 2.0f;
@@ -64,6 +79,7 @@ namespace Pg::DataScript
 
 		_playerJumpSound = _object->GetScene()->FindObjectWithName("PlayerJumpSound");
 		_jumpAudio = _playerJumpSound->GetComponent<Pg::Data::AudioSource>();
+
 
 		//자신이 속한 Half Collider 높이 만큼 RendererOffset 설정.
 		//_renderer->SetRendererOffset({ 0.f, -_halfColliderHeight, 0.f });

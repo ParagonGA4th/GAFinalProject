@@ -6,6 +6,7 @@ namespace Pg::Data
 {
 	class Camera;
 	class DynamicCollider;
+	class BoxCollider;
 	class SkinnedMeshRenderer;
 	class AudioSource;
 }
@@ -92,6 +93,8 @@ namespace Pg::DataScript
 
 		Pg::Data::AudioSource* _walkAudio;
 		Pg::Data::AudioSource* _jumpAudio;
+
+		std::vector<Pg::Data::BoxCollider*> _boxColVec;
 
 	private:
 		bool _isJustSetRestraint{ false };
