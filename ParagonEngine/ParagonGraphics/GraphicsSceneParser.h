@@ -22,6 +22,30 @@ namespace Pg::Data
 
 namespace Pg::Graphics
 {
+	struct GraphicObjectListSet
+	{
+		//만들어질 때 새롭게 객체 할당.
+		GraphicObjectListSet()
+		{
+			_renderObject2DList.reset(new RenderObject2DList());
+			_renderObject3DList.reset(new RenderObject3DList());
+			_cubeMapList.reset(new RenderObjectCubemapList());
+			_primObjectList.reset(new RenderObjectWireframeList());
+			_sceneInfoList.reset(new SceneInformationList());
+		}
+
+		std::unique_ptr<RenderObject2DList> _renderObject2DList;
+		std::unique_ptr<RenderObject3DList> _renderObject3DList;
+		std::unique_ptr<RenderObjectCubemapList> _cubeMapList;
+		//Axis/Grid
+		std::unique_ptr<RenderObjectWireframeList> _primObjectList;
+		//Scene 관련된 정보 Syncing을 위해 존재한다.
+		std::unique_ptr<SceneInformationList> _sceneInfoList;
+	};
+}
+
+namespace Pg::Graphics
+{
 	class GraphicsSceneParser
 	{
 	public:
@@ -99,14 +123,22 @@ namespace Pg::Graphics
 		void ModifySingleRenderObject(Pg::Data::GameObject* obj);
 		void DeleteSingleRenderObject(Pg::Data::GameObject* obj);
 	private:
-		//저장된 GameObject <=> RenderObject들.
-		std::unique_ptr<RenderObject2DList> _renderObject2DList;
-		std::unique_ptr<RenderObject3DList> _renderObject3DList;
-		std::unique_ptr<RenderObjectCubemapList> _cubeMapList;
-		//Axis/Grid
-		std::unique_ptr<RenderObjectWireframeList> _primObjectList;
-		//Scene 관련된 정보 Syncing을 위해 존재한다.
-		std::unique_ptr<SceneInformationList> _sceneInfoList;
+		////저장된 GameObject <=> RenderObject들.
+		//std::unique_ptr<RenderObject2DList> _renderObject2DList;
+		//std::unique_ptr<RenderObject3DList> _renderObject3DList;
+		//std::unique_ptr<RenderObjectCubemapList> _cubeMapList;
+		////Axis/Grid
+		//std::unique_ptr<RenderObjectWireframeList> _primObjectList;
+		////Scene 관련된 정보 Syncing을 위해 존재한다.
+		//std::unique_ptr<SceneInformationList> _sceneInfoList;
+		
+		//씬 별 세이브를 위해서.
+		//들어온 거 검사하기. 이미 로드했던 요소면 다시 로드하지 않고, 
+		//저장되어 있는 정보 활용.
+		//Scene Name / GraphicsListSet.
+		std::unordered_map<std::string, std::unique_ptr<GraphicObjectListSet>> _graphicsObjectsListContainer;
+		GraphicObjectListSet* _currentListSet{ nullptr };
+
 	private:
 		//3DObject들의 ID를 기록해서 렌더링 엔진에 올린다.
 		UINT _objectId3dCount{ 1 };
@@ -116,6 +148,7 @@ namespace Pg::Graphics
 		std::vector<Pg::Data::GameObject*> _runtimeAddedObjectList;
 		std::vector<Pg::Data::GameObject*> _runtimeModifiedObjectList;
 		std::vector<Pg::Data::GameObject*> _runtimeDeletedObjectList;
+	
 	};
 }
 

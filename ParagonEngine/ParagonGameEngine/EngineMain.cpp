@@ -156,6 +156,8 @@ namespace Pg::Engine
 
 		//외적인 SceneLoad 로직 Start 관련, 항상 SceneSystem 체크한다.
 		_sceneSystem->DebounceSceneLoadStatus(_currentRecordedEditMode);
+		
+		//PG_TRACE(_sceneSystem->GetCurrentScene()->GetSceneName());
 
 		//기록된 Edit Mode가 EDIT/NONE으로 설정되었을시, 실행을 Update를 실행하지 않는다.
 		//Early Return.

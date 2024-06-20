@@ -3,6 +3,7 @@
 #include "../ParagonData/Camera.h"
 #include "../ParagonData/GameConstantData.h"
 #include "../ParagonData/EditorCameraScript.h"
+#include "../ParagonUtil/Log.h"
 #include <algorithm>
 #include <windows.h>
 

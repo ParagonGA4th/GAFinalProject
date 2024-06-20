@@ -46,6 +46,11 @@ namespace Pg::Engine::BTree
 		void AddUniformRunningAnimator(const std::string& path);
 		void RemoveUniformRunningAnimator(const std::string& path);
 
+	public:
+		//EngineMain에서 호출되어야 함. 
+		//Scene이 바뀌면 Animator 싹 다 죽여줘야 함.
+		//void OnSceneChange(Pg::Data::Scene* changedScene);
+
 	private:
 		//해당 Location들에
 

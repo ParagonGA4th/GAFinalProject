@@ -90,7 +90,6 @@ namespace Pg::Core
 
 		//직접 호출 X, 프로세스에 의해 일괄적으로 Add/Modify/Delete된 오브젝트 실제로 반영하는데 쓰일 것.
 		virtual void HandleRenderObjectsRuntime() abstract;
-	
 	};
 
 }

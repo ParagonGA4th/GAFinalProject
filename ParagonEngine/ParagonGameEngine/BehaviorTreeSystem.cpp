@@ -295,4 +295,11 @@ namespace Pg::Engine::BTree
 		//Path / XML 버퍼 순서대로 집어넣는다.
 		_instancedTreePathContentStorage.insert(std::make_pair(path, buffer.str()));
 	}
+
+	////Scene이 바뀌었을 때, 더 이상 별개의 업데이트 없애야 / 바뀌어야.
+	//void BehaviorTreeSystem::OnSceneChange(Pg::Data::Scene* changedScene)
+	//{
+	//
+	//}
+
 }
