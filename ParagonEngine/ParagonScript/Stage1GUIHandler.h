@@ -1,8 +1,12 @@
 #pragma once
 #include "ScriptInterface.h"
 #include "IGUIHandler.h"
+#include "GUIDefinesAndStructs.h"
+
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
+
+#include <unordered_map>
 
 namespace Pg::DataScript
 {
@@ -20,6 +24,10 @@ namespace Pg::DataScript
 		//IGUI Handler.
 		virtual void ResetToInitialState() override;
 
+
+	private:
+		//Obj Name / GUIAggregate
+		std::unordered_map<std::string, GUIAggregate> _managedGuiObjectList;
 	};
 }
 

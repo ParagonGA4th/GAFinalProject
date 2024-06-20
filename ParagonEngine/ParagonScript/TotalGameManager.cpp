@@ -4,6 +4,7 @@
 
 #include "../ParagonAPI/PgScene.h"
 #include "../ParagonAPI/PgInput.h"
+#include "../ParagonAPI/PgTween.h"
 
 #include <algorithm>
 #include <cassert>
@@ -14,6 +15,9 @@
 #include "IEnemyHandler.h"
 #include "IGUIHandler.h"
 #include "PlayerBattleBehavior.h"
+
+//다른 매니저들, etc.
+#include "InGameManager.h"
 
 namespace Pg::DataScript
 {
@@ -67,6 +71,8 @@ namespace Pg::DataScript
 			_isManagingInitializeCalled = true;
 		}
 
+		_pgTween->KillAllTweens();
+
 		//현재 Handler Bundle 받는다. 2D Scene일 경우 nullptr.
 		SetCurrentHandlerBundle(changedScene);
 
@@ -81,8 +87,7 @@ namespace Pg::DataScript
 		// 초기 상태로 다시 되돌려 놓기. 씬 시작시 시점.
 		// 이런 식으로, Flow Control을 담당한다.
 		Internal_CallForEntireSceneReset(changedScene, NULL, nullptr);
-
-		//..
+		
 	}
 
 	void TotalGameManager::Initialize(Pg::Data::Scene* changedScene)
@@ -91,6 +96,7 @@ namespace Pg::DataScript
 		//// PgScene 받기.
 		_pgScene = &singleton<Pg::API::PgScene>();
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
+		_pgTween = &singleton<Pg::API::Tween::PgTween>();
 
 		// 반드시 해당 Object는 Don't Destroy On Load 설정이 되어 있어야 한다.
 		assert(_object->GetDontDestroyOnLoad() && "XML에서 이렇게 들어왔어야 한다");
@@ -98,7 +104,11 @@ namespace Pg::DataScript
 		// Scene별로 Bundle들을 받는다.
 		SetupBundlesForAllScenes();
 
-		//2D / 3D 따라서 나눠서 관리. 
+		//2D / 3D 따라서 나눠서 관리.
+		//게임 매니저를 켤지 말지도 TotalGameManager가 관리한다.
+
+		//다른 매니저들 보관. 같은 오브젝트에 보관하려고 하고 있다.
+		//_inGameManager = InGameManager::GetInstance(_object);
 	}
 
 	void TotalGameManager::SetupBundlesForAllScenes()
@@ -262,5 +272,9 @@ namespace Pg::DataScript
 		}
 	}
 
+	Pg::DataScript::HandlerBundle3D* TotalGameManager::GetCurrentHandlerBundle()
+	{
+		return _currentHandlerBundle3d;
+	}
 
 }

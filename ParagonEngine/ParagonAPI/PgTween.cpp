@@ -15,4 +15,9 @@ namespace Pg::API::Tween
 		return _tweenSystem->CreateTween();
 	}
 
+	void PgTween::KillAllTweens()
+	{
+		_tweenSystem->KillAllTweens();
+	}
+
 }

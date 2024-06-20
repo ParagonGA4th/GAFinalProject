@@ -20,6 +20,8 @@ namespace Pg::API::Tween
 
 		//실제 API에서 사용.
 		Pg::Util::Tween* CreateTween();
+
+		void KillAllTweens();
 		
 	private:
 		Pg::Engine::TweenSystem* _tweenSystem;

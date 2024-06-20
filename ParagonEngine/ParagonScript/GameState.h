@@ -10,6 +10,7 @@ namespace Pg::DataScript
 		_STOP,			// 게임이 끝났을 때
 	};
 
+	
 	enum class ePlayerState
 	{
 		_NONE,		// 플레이어가 존재하지 않을 때(게임이 플레이 되지 않았을 때)
