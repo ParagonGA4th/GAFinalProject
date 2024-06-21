@@ -275,9 +275,9 @@ namespace Pg::DataScript
 
 		std::string objName = _object->GetName();
 		objName = objName.substr(0, objName.rfind("_"));
-		objName.append("_Crtstal");
-		//if (objName.find("Golem") != std::string::npos) objName.append("_Crtstal");
-		//else objName.append("_Wing");
+		//objName.append("_Crtstal");
+		if (objName.find("Golem") != std::string::npos) objName.append("_Crtstal");
+		else objName.append("_Wing");
 
 		auto tchild = _object->_transform.GetChild(objName);
 		auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
