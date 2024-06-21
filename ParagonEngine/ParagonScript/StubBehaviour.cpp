@@ -3,6 +3,7 @@
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgScene.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/Collider.h"
@@ -67,6 +68,19 @@ namespace Pg::DataScript
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
+
+		//AudioSource 컴포넌트 들고오기
+		_stubHit = _object->GetScene()->FindObjectWithName("TrentHitSound");
+		_hitSound = _stubHit->GetComponent<Pg::Data::AudioSource>();
+
+		_stubDie = _object->GetScene()->FindObjectWithName("TrentDieSound");
+		_dieSound = _stubDie->GetComponent<Pg::Data::AudioSource>();
+
+		_stubSkill = _object->GetScene()->FindObjectWithName("MiniGolemDashSound");
+		_skillSound = _stubSkill->GetComponent<Pg::Data::AudioSource>();
+
+		_stubAttack = _object->GetScene()->FindObjectWithName("TrentAttackSound");
+		_attackSound = _stubAttack->GetComponent<Pg::Data::AudioSource>();
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
@@ -227,6 +241,8 @@ namespace Pg::DataScript
 	{
 		PG_TRACE("Hit!");
 
+		_hitSound->Play();
+
 		//피격 애니메이션 들어가야 함.
 		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
 		animId.append("_00002.pganim");
@@ -275,6 +291,7 @@ namespace Pg::DataScript
 	{
 		//상태를 죽음으로 변경.
 		PG_TRACE("Dead.");
+		_dieSound->Play();
 		_stubInfo->_status = StubStatus::DEAD;
 		_monsterHelper->_isDead = true;
 	}

@@ -74,6 +74,19 @@ namespace Pg::DataScript
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _skillAttackCol;
 
+	private:
+		Pg::Data::GameObject* _stubHit;
+		Pg::Data::AudioSource* _hitSound;
+
+		Pg::Data::GameObject* _stubDie;
+		Pg::Data::AudioSource* _dieSound;
+
+		Pg::Data::GameObject* _stubSkill;
+		Pg::Data::AudioSource* _skillSound;
+
+		Pg::Data::GameObject* _stubAttack;
+		Pg::Data::AudioSource* _attackSound;
+	private:
 		//플레이어와의 거리 측정
 		float _distance;
 		float _startAttackTime;
