@@ -1,10 +1,10 @@
-#include "Anim_Neutralize.h"
+#include "Anim_Down.h"
 #include "SkinnedMeshRenderer.h"
 #include "MonsterHelper.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus Anim_Neutralize::tick()
+	BT::NodeStatus Anim_Down::tick()
 	{
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
@@ -19,7 +19,7 @@ namespace Pg::Data::BTree::Node
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
-			bool netInit = config().blackboard->get<bool>("NETINIT");
+			bool netInit = config().blackboard->get<bool>("DOWNINIT");
 			_animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
 
 			if (netInit && (_isInit || !_isInit))
