@@ -338,9 +338,11 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 							}
 
 							auto col = obj->GetComponent<Pg::Data::Collider>();
-
 							pugi::xml_node node = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "trigger"; });
 							col->SetTrigger(Pg::Serialize::Serializer::DeserializeBoolean(&node, ""));
+
+							//pugi::xml_node node = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "layer"; });
+							//col->SetLayer(Pg::Serialize::Serializer::DeserializeUint(&node, ""));
 
 							node = node.next_sibling();
 							col->SetPositionOffset(Pg::Serialize::Serializer::DeserializePGFloat3(&node));
@@ -378,6 +380,8 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 
 	for (auto& object : scene->GetObjectList())
 	{
+		if (object->GetName().compare("EditorCamera") == 0) continue;
+
 		pugi::xml_node xmlObject = node.append_child("object");
 
 		Pg::Serialize::Serializer::SerializeString(&xmlObject, "name", object->GetName());
@@ -394,6 +398,8 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 		pugi::xml_node objComponents = xmlObject.append_child("components");
 		for (auto& component : object->GetComponentList())
 		{
+			if (component.first.compare("MonsterHelper") == 0) continue;
+
 			// 확인한 component의 type에 따라 serialize 한다
 			pugi::xml_node objComponent = objComponents.append_child("component");
 
@@ -407,8 +413,15 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 
 			if (component.first.find("Collider") != std::string::npos)
 			{
+				auto dyCol = object->GetComponent<Pg::Data::DynamicCollider>();
+				if (dyCol != nullptr)
+				{
+					if (dyCol->GetKinematic())
+						Pg::Serialize::Serializer::SerializeBoolean(&componentData, "kinematic", dyCol->GetKinematic());
+				}
+
 				auto col = object->GetComponent<Pg::Data::Collider>();
-				Pg::Serialize::Serializer::SerializeUint(&componentData, "layer", col->GetLayer());
+				//Pg::Serialize::Serializer::SerializeUint(&componentData, "layer", col->GetLayer());
 				Pg::Serialize::Serializer::SerializeBoolean(&componentData, "trigger", col->GetTrigger());
 				Pg::Serialize::Serializer::SerializePGFloat3(&componentData, "positionOffset", col->GetPositionOffset());
 				Pg::Serialize::Serializer::SerializePGQuat(&componentData, "rotationOffset", col->GetRotationOffset());

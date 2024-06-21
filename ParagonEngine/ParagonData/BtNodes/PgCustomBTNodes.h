@@ -17,9 +17,9 @@
 #include "../ParagonData/Anim_LeftArmAttack.h"
 #include "../ParagonData/Anim_RightArmAttack.h"
 #include "../ParagonData/Anim_TwoArmAttack.h"
-#include "../ParagonData/Anim_Neutralize.h"
+#include "../ParagonData/Anim_Down.h"
 #include "../ParagonData/isPase_1.h"
-#include "../ParagonData/isNeutralize.h"
+#include "../ParagonData/isDown.h"
 
 // floating Monster
 #include "../ParagonData/Anim_fDead.h"
