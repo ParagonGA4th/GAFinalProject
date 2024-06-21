@@ -156,13 +156,19 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::UpdatePhysics(float dTime)
 	{
+		float fixedDeltaTime = 1.0f / 60.0f;
 		//미리 쌓였던 EventCallback Clear.
 		_physicsCallback->Clear();
 
-		_pxScene->simulate(dTime);
+		while (dTime >= fixedDeltaTime)
+		{
+			_pxScene->simulate(fixedDeltaTime);
 
-		_pxScene->fetchResults(true);
+			_pxScene->fetchResults(true);
 
+			dTime -= fixedDeltaTime;
+		}
+		
 		//Event 셋업.
 		//Update가 다 끝났을 시, Callback 함수의 마무리 함수를 호출.
 		_physicsCallback->CollectResults();
