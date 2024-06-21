@@ -691,8 +691,8 @@ namespace Pg::Engine::Physic
 					(boxcol->GetHeight() / 2.0f) * boxcol->_object->_transform._scale.y, (boxcol->GetDepth() / 2.0f) * boxcol->_object->_transform._scale.z), *_material);
 
 				// 충돌 오프셋 설정
-				boxShape->setContactOffset(2.f); // 적절한 값으로 설정
-				boxShape->setRestOffset(1.f);   // 적절한 값으로 설정
+				//boxShape->setContactOffset(2.f); // 적절한 값으로 설정
+				//boxShape->setRestOffset(1.f);   // 적절한 값으로 설정
 
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
@@ -776,8 +776,8 @@ namespace Pg::Engine::Physic
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				
 				// 충돌 오프셋 설정
-				shape->setContactOffset(2.f); // 적절한 값으로 설정
-				shape->setRestOffset(1.f);   // 적절한 값으로 설정
+				//shape->setContactOffset(2.f); // 적절한 값으로 설정
+				//shape->setRestOffset(1.f);   // 적절한 값으로 설정
 
 				physx::PxTransform trans(physx::PxIdentity);
 				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
@@ -855,8 +855,8 @@ namespace Pg::Engine::Physic
 				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				
 				// 충돌 오프셋 설정
-				shape->setContactOffset(2.f); // 적절한 값으로 설정
-				shape->setRestOffset(1.f);   // 적절한 값으로 설정
+				//shape->setContactOffset(2.f); // 적절한 값으로 설정
+				//shape->setRestOffset(1.f);   // 적절한 값으로 설정
 
 				physx::PxTransform trans(physx::PxIdentity);
 
