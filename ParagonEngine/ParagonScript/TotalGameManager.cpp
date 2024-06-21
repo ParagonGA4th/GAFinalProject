@@ -204,6 +204,9 @@ namespace Pg::DataScript
 				tHandlerBundle->_guiHandler = tGUIHandler;
 				tHandlerBundle->_playerBehavior = tPlayerBattleBehavior;
 
+				//초기 Player Position 기록.
+				tHandlerBundle->_originalPlayerTransStorage = TransformSimpleStorage(&(tPlayerBattleBehavior->_object->_transform));
+
 				//값을 설정한 다음에 투입.
 				_scene3dHandlerBundleMap.insert(std::make_pair(bScene, std::move(tHandlerBundle)));
 			}
@@ -268,6 +271,9 @@ namespace Pg::DataScript
 			_currentHandlerBundle3d->_areaHandler->ResetToInitialState();
 			_currentHandlerBundle3d->_enemyHandler->ResetToInitialState();
 			_currentHandlerBundle3d->_guiHandler->ResetToInitialState();
+
+			//Player 위치 원위치.
+			_currentHandlerBundle3d->_originalPlayerTransStorage.ToTransform(&(_currentHandlerBundle3d->_playerBehavior->_object->_transform));
 			_currentHandlerBundle3d->_playerBehavior->ResetAll();
 		}
 	}

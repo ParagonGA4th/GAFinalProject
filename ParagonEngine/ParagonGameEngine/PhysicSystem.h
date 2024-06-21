@@ -126,6 +126,9 @@ namespace Pg::Engine::Physic
 	private:
 		const float fixedDeltaTime = 1.0f / 60.0f;
 		float accumulator = 0.f;
+
+	private:
+		bool _isScene3D{ true };
 	};
 }
 
