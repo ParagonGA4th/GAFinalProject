@@ -1,6 +1,6 @@
 #include "Portal.h"
 
-#include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/BoxCollider.h"
 #include "../ParagonAPI/PgScene.h"
 
 Pg::DataScript::Portal::Portal(Pg::Data::GameObject* obj)
@@ -11,7 +11,7 @@ Pg::DataScript::Portal::Portal(Pg::Data::GameObject* obj)
 
 void Pg::DataScript::Portal::Awake()
 {
-	_collider = _object->GetComponent<Pg::Data::StaticBoxCollider>();
+	_collider = _object->GetComponent<Pg::Data::BoxCollider>();
 	assert(_collider != nullptr);
 
 	_sceneHelper = new Pg::API::PgScene();

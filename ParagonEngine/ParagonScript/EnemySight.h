@@ -11,7 +11,7 @@ namespace Pg::Data
 
 namespace Pg::DataScript
 {
-	class PlayerBattleBehavior;
+	class PlayerHandler;
 
 	class EnemySight : public ScriptInterface<EnemySight>
 	{
@@ -30,7 +30,7 @@ namespace Pg::DataScript
 		bool _playerDetected = false;
 
 	private:
-		PlayerBattleBehavior* _playerBattleBehavior;
+		PlayerHandler* _playerBattleBehavior;
 		//Pg::Data::StaticCollider* _collider;
 		Pg::Data::BoxCollider* _collider;
 

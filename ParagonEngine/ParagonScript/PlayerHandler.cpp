@@ -1,4 +1,4 @@
-#include "PlayerBattleBehavior.h"
+#include "PlayerHandler.h"
 #include "CombatSystem.h"
 #include "ComboSystem.h"
 #include "ArrowLogic.h"
@@ -22,13 +22,13 @@
 
 namespace Pg::DataScript
 {
-	PlayerBattleBehavior::PlayerBattleBehavior(Pg::Data::GameObject* obj) : ScriptInterface(obj)
+	PlayerHandler::PlayerHandler(Pg::Data::GameObject* obj) : ScriptInterface(obj)
 	{
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 	}
 
-	void PlayerBattleBehavior::BeforePhysicsAwake()
+	void PlayerHandler::BeforePhysicsAwake()
 	{
 		static bool tVal = true;
 
@@ -49,7 +49,7 @@ namespace Pg::DataScript
 
 	}
 
-	void PlayerBattleBehavior::Awake()
+	void PlayerHandler::Awake()
 	{
 		//무조건 생성자는 안됨! -> AddComponent에서 만들어진 다음에는, Static Variable Initialization에 따라 재생성되지 않는다.
 		_combatSystem = CombatSystem::GetInstance(nullptr);
@@ -58,7 +58,7 @@ namespace Pg::DataScript
 		_playerMovement = _object->GetComponent<PlayerMovement>();
 	}
 
-	void PlayerBattleBehavior::Start()
+	void PlayerHandler::Start()
 	{
 		_comboSystem->SystemStart();
 
@@ -68,7 +68,7 @@ namespace Pg::DataScript
 		_commonAttackAudio = _commonAttackSound->GetComponent<Pg::Data::AudioSource>();
 	}
 
-	void PlayerBattleBehavior::Update()
+	void PlayerHandler::Update()
 	{
 		_comboSystem->SystemUpdate();
 
@@ -79,12 +79,12 @@ namespace Pg::DataScript
 		
 	}
 
-	void PlayerBattleBehavior::LateUpdate()
+	void PlayerHandler::LateUpdate()
 	{
 
 	}
 
-	void PlayerBattleBehavior::HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2)
+	void PlayerHandler::HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2)
 	{
 		if (e.GetIdentifier() == Event_PlayerDeath::_identifier);
 		{
@@ -96,7 +96,7 @@ namespace Pg::DataScript
 		}
 	}
 
-	void PlayerBattleBehavior::ChangePlayerHealth(float level)
+	void PlayerHandler::ChangePlayerHealth(float level)
 	{
 		healthPoint = std::clamp<float>(healthPoint + level, 0.0f, MAX_PLAYER_HEALTH);
 
@@ -113,22 +113,22 @@ namespace Pg::DataScript
 
 	}
 
-	void PlayerBattleBehavior::ChangePlayerMana(float level)
+	void PlayerHandler::ChangePlayerMana(float level)
 	{
 		manaPoint = std::clamp<float>(manaPoint + level, 0.0f, MAX_PLAYER_MANA);
 	}
 
-	void PlayerBattleBehavior::ChangePlayerStamina(float level)
+	void PlayerHandler::ChangePlayerStamina(float level)
 	{
 		staminaPoint = std::clamp<float>(staminaPoint + level, 0.0f, MAX_PLAYER_STAMINA);
 	}
 
-	void PlayerBattleBehavior::ResetAll()
+	void PlayerHandler::ResetAll()
 	{
 		//assert(false && "not implemented yet");
 	}
 
-	void PlayerBattleBehavior::ArrowShootingLogic()
+	void PlayerHandler::ArrowShootingLogic()
 	{
 		if(_playerMovement->GetIsMoving() == false)
 		{
@@ -194,7 +194,7 @@ namespace Pg::DataScript
 		}
 	}
 
-	void PlayerBattleBehavior::FindAllArrowsInMap()
+	void PlayerHandler::FindAllArrowsInMap()
 	{
 		//ArrowLogic의 Awake에서 자신의 Tag를 이미 "TAG_Arrow"로 설정해놨었을 것이다.
 		//모든 Arrow들 받아오기. 한 30개는 되어야 빈틈을 눈치를 못 챌 것이다.
@@ -211,18 +211,18 @@ namespace Pg::DataScript
 		}
 	}
 
-	void PlayerBattleBehavior::AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl)
+	void PlayerHandler::AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl)
 	{
 		_monsterHealthChangeList.push_back(BaseMonsterHealthChangePair(monster,healthChangeLvl));
 	}
 
 
-	void PlayerBattleBehavior::AddMonsterOnHitList(BaseMonsterInfo* monster)
+	void PlayerHandler::AddMonsterOnHitList(BaseMonsterInfo* monster)
 	{
 		_monsterOnHitList.push_back(BaseMonsterHitPair(monster));
 	}
 
-	void PlayerBattleBehavior::CalculateMonsterDamages()
+	void PlayerHandler::CalculateMonsterDamages()
 	{
 		//SceneSystem 함수는 무조건 Physics의 On시리즈보다 빨리 호출된다는 것을 활용.
 		if (_monsterHealthChangeList.empty())
@@ -245,7 +245,7 @@ namespace Pg::DataScript
 		_monsterHealthChangeList.clear();
 	}
 
-	void PlayerBattleBehavior::CalculateMonsterHit()
+	void PlayerHandler::CalculateMonsterHit()
 	{
 		//SceneSystem 함수는 무조건 Physics의 On시리즈보다 빨리 호출된다는 것을 활용.
 		if (_monsterOnHitList.empty())

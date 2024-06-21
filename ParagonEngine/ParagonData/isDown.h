@@ -1,5 +1,5 @@
-#ifndef ISNEUTRALIZE
-#define ISNEUTRALIZE
+#ifndef ISDOWN
+#define ISDOWN
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,12 +7,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class isNeutralize : public BT::SyncActionNode, public BasePgBtNode
+	class isDown : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		isNeutralize(const std::string& name, const BT::NodeConfiguration& config)
+		isDown(const std::string& name, const BT::NodeConfiguration& config)
 			: BT::SyncActionNode(name, config) {}
-		virtual ~isNeutralize() = default;
+		virtual ~isDown() = default;
 
 		virtual void InitCustom();
 
@@ -21,7 +21,7 @@ namespace Pg::Data::BTree::Node
 		static BT::PortsList providedPorts()
 		{
 			BT::PortsList list;
-			list.insert(BT::BidirectionalPort<bool>("_netInit"));
+			list.insert(BT::BidirectionalPort<bool>("_downInit"));
 
 			return list;
 		}

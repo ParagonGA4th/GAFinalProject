@@ -10,7 +10,7 @@
 /// 실제로 오브젝트를 사용하는 클래스들의 전방선언이 있을 곳.
 namespace Pg::DataScript
 {
-	class PlayerBattleBehavior;
+	class PlayerHandler;
 	class CombatSystem;
 	class BaseMonster;
 }
@@ -64,7 +64,7 @@ namespace Pg::DataScript
 
 
 	private:
-		PlayerBattleBehavior* _player{ nullptr };
+		PlayerHandler* _player{ nullptr };
 		std::vector<Pg::Data::GameObject*> _monsterList;
 		std::vector<Pg::Data::GameObject*> _projectileList;
 
