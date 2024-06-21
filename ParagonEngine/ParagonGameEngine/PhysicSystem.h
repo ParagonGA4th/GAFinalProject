@@ -122,6 +122,9 @@ namespace Pg::Engine::Physic
 
 		std::vector<Pg::Data::GameObject*> _tempAddedObjectsInPhysics;
 		std::vector<Pg::Data::GameObject*> _tempDeletedObjectsInPhysics;
+
+	private:
+		bool _isScene3D{ true };
 	};
 }
 
