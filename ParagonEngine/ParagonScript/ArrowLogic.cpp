@@ -11,7 +11,7 @@
 
 #include "BaseMonster.h"
 #include "IEnemyBehaviour.h"
-#include "PlayerBattleBehavior.h"
+#include "PlayerHandler.h"
 #include "ComboSystem.h"
 
 #include <cassert>

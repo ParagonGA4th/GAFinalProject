@@ -218,7 +218,7 @@
     <ClInclude Include="Anim_LeftArmAttack.h" />
     <ClInclude Include="Anim_mAttack.h" />
     <ClInclude Include="Anim_mChase.h" />
-    <ClInclude Include="Anim_Neutralize.h" />
+    <ClInclude Include="Anim_Down.h" />
     <ClInclude Include="Anim_PoisonGas.h" />
     <ClInclude Include="Anim_RightArmAttack.h" />
     <ClInclude Include="Anim_Stab.h" />
@@ -246,7 +246,7 @@
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ISortableGlobalObject.h" />
-    <ClInclude Include="isNeutralize.h" />
+    <ClInclude Include="isDown.h" />
     <ClInclude Include="isTouched.h" />
     <ClInclude Include="isPase_1.h" />
     <ClInclude Include="VisualEffectRenderObject.h" />
@@ -365,7 +365,7 @@
     <ClCompile Include="Anim_LeftArmAttack.cpp" />
     <ClCompile Include="Anim_mAttack.cpp" />
     <ClCompile Include="Anim_mChase.cpp" />
-    <ClCompile Include="Anim_Neutralize.cpp" />
+    <ClCompile Include="Anim_Down.cpp" />
     <ClCompile Include="Anim_PoisonGas.cpp" />
     <ClCompile Include="Anim_RightArmAttack.cpp" />
     <ClCompile Include="Anim_Stab.cpp" />
@@ -396,7 +396,7 @@
     <ClCompile Include="isDead.cpp" />
     <ClCompile Include="isDistanceClose.cpp" />
     <ClCompile Include="isHitSpace.cpp" />
-    <ClCompile Include="isNeutralize.cpp" />
+    <ClCompile Include="isDown.cpp" />
     <ClCompile Include="isPlayerInSight.cpp" />
     <ClCompile Include="isSkillAttack.cpp" />
     <ClCompile Include="isTouched.cpp" />

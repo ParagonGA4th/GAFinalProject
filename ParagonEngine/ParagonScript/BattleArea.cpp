@@ -1,5 +1,5 @@
 #include "BattleArea.h"
-#include "PlayerBattleBehavior.h"
+#include "PlayerHandler.h"
 
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonData/SphereCollider.h"
@@ -80,7 +80,7 @@ void Pg::DataScript::BattleArea::OnTriggerEnter(Pg::Data::Collider** _colArr, un
 		if (col->_object->GetTag() == "TAG_Sensor")
 		{
 			_onTriggerStay = true;
-			_player = col->_object->_transform.GetParent()->_object->GetComponent<Pg::DataScript::PlayerBattleBehavior>();
+			_player = col->_object->_transform.GetParent()->_object->GetComponent<Pg::DataScript::PlayerHandler>();
 		}
 	}
 }

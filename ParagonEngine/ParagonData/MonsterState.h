@@ -18,6 +18,7 @@ namespace Pg::Data
 	enum class BossState
 	{
 		IDLE,
+		DOWN,
 		BASIC_ATTACK_1,
 		BASIC_ATTACK_2,
 		BASIC_ATTACK_3,

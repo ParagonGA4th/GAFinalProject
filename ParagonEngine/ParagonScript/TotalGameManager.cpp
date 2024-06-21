@@ -14,7 +14,7 @@
 #include "IAreaHandler.h"
 #include "IEnemyHandler.h"
 #include "IGUIHandler.h"
-#include "PlayerBattleBehavior.h"
+#include "PlayerHandler.h"
 
 //다른 매니저들, etc.
 #include "InGameManager.h"
@@ -157,7 +157,7 @@ namespace Pg::DataScript
 				Pg::DataScript::IAreaHandler* tAreaHandler = nullptr;
 				Pg::DataScript::IEnemyHandler* tEnemyHandler = nullptr;
 				Pg::DataScript::IGUIHandler* tGUIHandler = nullptr;
-				Pg::DataScript::PlayerBattleBehavior* tPlayerBattleBehavior = nullptr;
+				Pg::DataScript::PlayerHandler* tPlayerBattleBehavior = nullptr;
 
 				//값 받아서 따로 저장하기. (Handler 시리즈)
 				for (auto& bObj : bScene->GetObjectList())
@@ -179,7 +179,7 @@ namespace Pg::DataScript
 
 					if (tPlayerBattleBehavior == nullptr)
 					{
-						tPlayerBattleBehavior = bObj->GetComponent<PlayerBattleBehavior>();
+						tPlayerBattleBehavior = bObj->GetComponent<PlayerHandler>();
 					}
 
 					if (tAreaHandler != nullptr &&

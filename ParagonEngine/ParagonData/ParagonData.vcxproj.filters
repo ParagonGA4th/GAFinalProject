@@ -322,8 +322,8 @@
     <ClCompile Include="Anim_Evasion.cpp">
       <Filter>11_BtNodes\MonsterAnim\Boss\Anim_Evasion</Filter>
     </ClCompile>
-    <ClCompile Include="Anim_Neutralize.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Boss\Anim_Neutralize</Filter>
+    <ClCompile Include="Anim_Down.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Anim_Down</Filter>
     </ClCompile>
     <ClCompile Include="Anim_FeatherAttack.cpp">
       <Filter>11_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttack</Filter>
@@ -343,8 +343,8 @@
     <ClCompile Include="isPase_1.cpp">
       <Filter>11_BtNodes\MonsterAnim\Boss\Pase\isPase_1</Filter>
     </ClCompile>
-    <ClCompile Include="isNeutralize.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Boss\isNeutralize</Filter>
+    <ClCompile Include="isDown.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Boss\isDown</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -730,8 +730,8 @@
     <ClInclude Include="Anim_Evasion.h">
       <Filter>11_BtNodes\MonsterAnim\Boss\Anim_Evasion</Filter>
     </ClInclude>
-    <ClInclude Include="Anim_Neutralize.h">
-      <Filter>11_BtNodes\MonsterAnim\Boss\Anim_Neutralize</Filter>
+    <ClInclude Include="Anim_Down.h">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Anim_Down</Filter>
     </ClInclude>
     <ClInclude Include="Anim_FeatherAttack.h">
       <Filter>11_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttack</Filter>
@@ -754,8 +754,8 @@
     <ClInclude Include="ISortableGlobalObject.h">
       <Filter>13_Interfaces\ISortableGlobalObject</Filter>
     </ClInclude>
-    <ClInclude Include="isNeutralize.h">
-      <Filter>11_BtNodes\MonsterAnim\Boss\isNeutralize</Filter>
+    <ClInclude Include="isDown.h">
+      <Filter>11_BtNodes\MonsterAnim\Boss\isDown</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1050,9 +1050,6 @@
     <Filter Include="11_BtNodes\MonsterAnim\Boss">
       <UniqueIdentifier>{ab5292ed-46e7-45d5-bd5b-07876b13bd52}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Boss\Anim_Neutralize">
-      <UniqueIdentifier>{b4e86225-95af-4881-88e9-f0ec669e6801}</UniqueIdentifier>
-    </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Boss\Attack">
       <UniqueIdentifier>{fecc4b0c-0806-4020-b4d5-d90cb26edfe2}</UniqueIdentifier>
     </Filter>
@@ -1149,14 +1146,17 @@
     <Filter Include="11_BtNodes\MonsterAnim\Boss\Pase\isPase_1">
       <UniqueIdentifier>{08d9ee4d-52ec-4d00-afe3-c8514f9a631d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Boss\isNeutralize">
-      <UniqueIdentifier>{adfcd039-57d9-405d-8899-7b823ccb6305}</UniqueIdentifier>
-    </Filter>
     <Filter Include="13_Interfaces">
       <UniqueIdentifier>{62fbe24f-4efe-42fe-939a-497008c8250c}</UniqueIdentifier>
     </Filter>
     <Filter Include="13_Interfaces\ISortableGlobalObject">
       <UniqueIdentifier>{0033e539-be88-4991-ae25-a12a586f65ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Anim_Down">
+      <UniqueIdentifier>{b4e86225-95af-4881-88e9-f0ec669e6801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\isDown">
+      <UniqueIdentifier>{adfcd039-57d9-405d-8899-7b823ccb6305}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -10,7 +10,7 @@ namespace Pg::Data
 
 namespace Pg::DataScript
 {
-	class PlayerBattleBehavior;
+	class PlayerHandler;
 	class BattleArea : public ScriptInterface<BattleArea>
 	{
 		DEFINE_PARAGON_SCRIPT(BattleArea);
@@ -28,7 +28,7 @@ namespace Pg::DataScript
 		
 	private:
 		Pg::Data::SphereCollider* _collider;
-		Pg::DataScript::PlayerBattleBehavior* _player;
+		Pg::DataScript::PlayerHandler* _player;
 
 		int _monster = 1;
 		bool _onTriggerStay;
