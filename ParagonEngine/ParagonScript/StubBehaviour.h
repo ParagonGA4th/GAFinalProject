@@ -13,6 +13,7 @@ namespace Pg::Data
 	class BoxCollider;
 	class MonsterHelper;
 	class StaticBoxCollider;
+	class AudioSource;
 }
 
 namespace Pg::API

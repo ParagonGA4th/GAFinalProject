@@ -35,6 +35,10 @@ Path,SoundGroup,isLoop
 ../Resources/Sounds/InGame/Effect/MiniGolem/ES_CM_G_Hit.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/MiniGolem/ES_CM_G_Rush.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/MiniGolem/ES_CM_G_Summons.ogg,Effect,0
+../Resources/Sounds/InGame/Effect/Trent/ES_CM_S_Attack.ogg,Effect,0
+../Resources/Sounds/InGame/Effect/Trent/ES_CM_S_Die.ogg,Effect,0
+../Resources/Sounds/InGame/Effect/Trent/ES_CM_S_Find.ogg,Effect,0
+../Resources/Sounds/InGame/Effect/Trent/ES_CM_S_Hit.ogg,Effect,0
 ../Resources/Sounds/InGame/Bgm/BG_TS_Title.ogg,Effect,0
 ../Resources/Sounds/InGame/Bgm/BG_MS_MainStage_1.ogg,Effect,1
 ../Resources/Sounds/InGame/Bgm/BS_MS_MainStage_2.ogg,Effect,1
