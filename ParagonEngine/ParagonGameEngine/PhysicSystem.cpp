@@ -127,7 +127,7 @@ namespace Pg::Engine::Physic
 			//전체 테스팅, 프로그래머가 2차원 배열 전체 내용 맞게 커밋해놓자. (-> ex. (0,1) 이 0bit이라면, (1,0)도 똑같이 0bit으로 해놓는 것!
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_DEFAULT, { LAYER_DEFAULT, LAYER_PLAYER, LAYER_MONSTER, LAYER_PROJECTILES });
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_PLAYER, { LAYER_DEFAULT, LAYER_MAP });
-			Pg::Engine::PgLayer::SetCollisionData(LAYER_MONSTER, { LAYER_DEFAULT, LAYER_PLAYER, LAYER_MONSTER, LAYER_PROJECTILES, LAYER_MAP });
+			Pg::Engine::PgLayer::SetCollisionData(LAYER_MONSTER, { LAYER_DEFAULT, LAYER_MONSTER, LAYER_PROJECTILES, LAYER_MAP });
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_PROJECTILES, { LAYER_DEFAULT,   LAYER_MONSTER, }); //Projectile 기준으로 자기 자신과 플레이어, 이렇게 충돌 못하게. 
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_MAP, { LAYER_PLAYER,   LAYER_MONSTER, }); //무조건 Layer 5여야 한다. 다른 대안은 존재 X.
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_MOVABLE_OBJECTS, { LAYER_PLAYER, LAYER_MONSTER }); // 얘는 움직일 수 있는 Movable Objects. Box / Door 등 기믹일 것이다.
