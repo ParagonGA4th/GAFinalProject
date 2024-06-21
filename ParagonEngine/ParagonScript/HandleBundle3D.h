@@ -1,5 +1,5 @@
 #pragma once
-
+#include "TransformSimpleStorage.h"
 ///3D 씬 정보 관리를 위해서.
 
 namespace Pg::DataScript
@@ -18,5 +18,6 @@ namespace Pg::DataScript
 		IEnemyHandler* _enemyHandler = nullptr;
 		IGUIHandler* _guiHandler = nullptr;
 		PlayerBattleBehavior* _playerBehavior = nullptr;
+		TransformSimpleStorage _originalPlayerTransStorage;
 	};
 }
