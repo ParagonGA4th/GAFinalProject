@@ -156,6 +156,12 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::UpdatePhysics(float dTime)
 	{
+		//만약 Scene이 3D 모드가 아니면 실행하지 않는다.
+		if (!_isScene3D)
+		{
+			return;
+		}
+
 		//미리 쌓였던 EventCallback Clear.
 		_physicsCallback->Clear();
 
@@ -288,6 +294,12 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::UpdateTransform()
 	{
+		//만약 Scene이 3D 모드가 아니면 실행하지 않는다.
+		if (!_isScene3D)
+		{
+			return;
+		}
+
 		for (auto& rigid : _rigidDynamicVec)
 		{
 			Pg::Data::DynamicCollider* dynamicCol = static_cast<Pg::Data::DynamicCollider*>(rigid->userData);
@@ -469,6 +481,10 @@ namespace Pg::Engine::Physic
 		AddAllObjectsToScene();
 
 		PG_TRACE("...Ended Refreshing Colliders");
+
+		//Scene 상태 기록.
+		
+		this->_isScene3D = _sceneSystem->GetCurrentScene()->GetIs3D();
 	}
 
 
@@ -1170,6 +1186,12 @@ namespace Pg::Engine::Physic
 	///매 프레임마다 충돌 이벤트 감지
 	void PhysicSystem::Flush()
 	{
+		//만약 Scene이 3D 모드가 아니면 실행하지 않는다.
+		if (!_isScene3D)
+		{
+			return;
+		}
+
 		for (auto& rigid : _rigidDynamicVec)
 		{
 			static_cast<Pg::Data::DynamicCollider*>(rigid->userData)->Flush();
@@ -1193,6 +1215,12 @@ namespace Pg::Engine::Physic
 
 	void PhysicSystem::ApplyRuntimeChangesCollider()
 	{
+		//만약 Scene이 3D 모드가 아니면 실행하지 않는다.
+		if (!_isScene3D)
+		{
+			return;
+		}
+
 		for (auto& it : _tempAddedObjectsInPhysics)
 		{
 			ApplyAddSingleCollider(it);
