@@ -7,8 +7,8 @@
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/Collider.h"
 #include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
-#include "../ParagonData/StaticCapsuleCollider.h"
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/MonsterHelper.h"
 #include "../ParagonUtil/Log.h"
@@ -38,9 +38,16 @@ namespace Pg::DataScript
 
 	void StubBehaviour::BeforePhysicsAwake()
 	{
-		_collider = _object->GetComponent<Pg::Data::StaticCapsuleCollider>();
+		_collider = _object->GetComponent<Pg::Data::BoxCollider>();
 		assert(_collider != nullptr);
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
+
+		//그루터기는 절대 움직이면 안되므로 전부 Freeze
+		_collider->FreezeAxisX(true);
+		_collider->FreezeAxisY(true);
+		_collider->FreezeAxisZ(true);
+		_collider->FreezeLinearX(true);
+		_collider->FreezeLinearZ(true);
 		//_collider->SetCapsuleInfo(1.f, 1.f);
 	}
 
