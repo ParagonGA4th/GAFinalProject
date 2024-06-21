@@ -68,7 +68,6 @@ namespace Pg::DataScript
 		_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
 		assert(_selfCol != nullptr);
 		_selfCol->SetMass(5.f);
-		_selfCol->SetKinematic(true);
 		
 		// Height을 받아서, 반값을 기준으로 Intersection 계산할 준비 완료.
 		_halfColliderHeight = _selfCol->GetHeight() / 2.0f;

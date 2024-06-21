@@ -400,7 +400,7 @@ void Pg::Editor::Manager::DataManager::DataSerialize(pugi::xml_node node, Pg::Da
 		{
 			if (component.first.find("MonsterHelper") != std::string::npos) continue;
 
-			// 확인한 component의 type에 따라 serialize 한다
+			// 확인한 component의 type에 따라 serialize 한다 
 			pugi::xml_node objComponent = objComponents.append_child("component");
 
 			// 변수명, 타입, 값

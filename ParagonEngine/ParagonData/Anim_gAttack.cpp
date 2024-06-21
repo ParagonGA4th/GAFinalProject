@@ -30,7 +30,8 @@ namespace Pg::Data::BTree::Node
 
 				std::string objName = this->GetGameObject()->GetName();
 				objName = objName.substr(0, objName.rfind("_"));
-				objName.append("_Crtstal");
+				if (objName.find("Golem") != std::string::npos) objName.append("_Crtstal");
+				else objName.append("_Wing");
 
 				auto tchild = this->GetGameObject()->_transform.GetChild(objName);
 				auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
