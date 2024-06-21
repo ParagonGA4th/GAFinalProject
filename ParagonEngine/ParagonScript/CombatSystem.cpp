@@ -1,7 +1,7 @@
 #include "CombatSystem.h"
 
 //실제로 CombatSystem을 사용하는 애들의 리스트.
-#include "PlayerBattleBehavior.h"
+#include "PlayerHandler.h"
 
 //Event들의 리스트.
 #include "EventList_PlayerRelated.h"
@@ -69,18 +69,18 @@ namespace Pg::DataScript
 
 	void CombatSystem::RegisterPlayer(Pg::Data::GameObject* obj)
 	{
-		PlayerBattleBehavior* tPlayer = obj->GetComponent<PlayerBattleBehavior>();
+		PlayerHandler* tPlayer = obj->GetComponent<PlayerHandler>();
 		assert(tPlayer != nullptr);
 		_player = tPlayer;
 
 		//구현체에 따라서 어떤 이벤트들을 등록하고 삭제시켜야 할지, 정해야 한다.
 		//_identifier가 이벤트 추가에 따라 늘어날 것이기에, 여러 개를 Subscribe해야 할 것이다.
 		Subscribe(Event_PlayerDeath::_identifier,
-			std::bind(&PlayerBattleBehavior::HandleEvents, _player, std::placeholders::_1, 
+			std::bind(&PlayerHandler::HandleEvents, _player, std::placeholders::_1, 
 				std::placeholders::_2, std::placeholders::_3));
 
 		Subscribe(Event_PlayerOnLowHealth::_identifier,
-			std::bind(&PlayerBattleBehavior::HandleEvents, _player, std::placeholders::_1,
+			std::bind(&PlayerHandler::HandleEvents, _player, std::placeholders::_1,
 				std::placeholders::_2, std::placeholders::_3));
 
 		//Subscribe(Event_PlayerManaChange::_identifier,

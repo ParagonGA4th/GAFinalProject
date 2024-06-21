@@ -1,6 +1,6 @@
 #include "EnemyBehaviour.h"
 #include "EnemySight.h"
-#include "PlayerBattleBehavior.h"
+#include "PlayerHandler.h"
 #include "BaseMonster.h"
 #include "EnemyInfo.h"
 #include "../ParagonData/MonsterHelper.h"

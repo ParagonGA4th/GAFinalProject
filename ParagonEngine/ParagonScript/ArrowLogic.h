@@ -24,7 +24,7 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
-	class PlayerBattleBehavior;
+	class PlayerHandler;
 	class ComboSystem;
 }
 
@@ -51,7 +51,7 @@ namespace Pg::DataScript
 
 		//BattleBehavior 스크립트를 갖고 로직 제어할 수 있게 하기. 
 		//외적으로 할당해서 값을 넣어준다.
-		PlayerBattleBehavior* _playerBattleBehavior{ nullptr };
+		PlayerHandler* _playerBattleBehavior{ nullptr };
 
 	public:
 		void ResetState(); //상태 내부 리셋.
