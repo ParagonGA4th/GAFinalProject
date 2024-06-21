@@ -76,11 +76,14 @@ namespace Pg::DataScript
 		_stubDie = _object->GetScene()->FindObjectWithName("TrentDieSound");
 		_dieSound = _stubDie->GetComponent<Pg::Data::AudioSource>();
 
-		_stubSkill = _object->GetScene()->FindObjectWithName("MiniGolemDashSound");
+		_stubSkill = _object->GetScene()->FindObjectWithName("TrentSKillSound");
 		_skillSound = _stubSkill->GetComponent<Pg::Data::AudioSource>();
 
 		_stubAttack = _object->GetScene()->FindObjectWithName("TrentAttackSound");
 		_attackSound = _stubAttack->GetComponent<Pg::Data::AudioSource>();
+
+		_stubFind = _object->GetScene()->FindObjectWithName("TrentFindSound");
+		_findSound = _stubFind->GetComponent<Pg::Data::AudioSource>();
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
@@ -122,6 +125,13 @@ namespace Pg::DataScript
 		{
 			_monsterHelper->_isPlayerinHitSpace = true;
 			RotateToPlayer(_playerTransform->_position);
+
+			//사운드 재생.
+			if (!_isFindSoundPlaying)
+			{
+				_findSound->Play();
+				_isFindSoundPlaying = true;
+			}
 
 			if (_monsterHelper->_trentState == Pg::Data::TrentState::SKILL_ATTACK)
 			{
@@ -211,6 +221,7 @@ namespace Pg::DataScript
 		else
 		{
 			_monsterHelper->_isPlayerinHitSpace = false;
+			_isFindSoundPlaying = false;
 			_stubInfo->_status = StubStatus::IDLE;
 			_monsterHelper->_trentState = Pg::Data::TrentState::IDLE;
 			Attack(false);
