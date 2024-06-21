@@ -10,7 +10,7 @@ namespace Pg::Data
 	class GameObject;
 	class PhysicsCollision;
 	class SkinnedMeshRenderer;
-	class StaticCapsuleCollider;
+	class BoxCollider;
 	class MonsterHelper;
 	class StaticBoxCollider;
 }
@@ -69,7 +69,7 @@ namespace Pg::DataScript
 		Pg::Data::MonsterHelper* _monsterHelper;
 
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
-		Pg::Data::StaticCapsuleCollider* _collider;
+		Pg::Data::BoxCollider* _collider;
 
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _skillAttackCol;
