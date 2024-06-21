@@ -25,41 +25,49 @@ void Pg::DataScript::BattleArea::Update()
 	// 플레이어가 전투 구역에 있는 모든 몬스터를 해치웠을 경우 빠져나갈 수 있음
 	if (!_onTriggerStay)
 	{
-		if (_player != nullptr && _monster != 0)
-		{
-			auto dcol = _player->_object->GetComponent<Pg::Data::DynamicCollider>();
+		//if (_player != nullptr && _monster != 0)
+		//{
+		//	auto dcol = _player->_object->GetComponent<Pg::Data::DynamicCollider>();
 
-			auto& spherePos = _collider->_object->_transform._position;
-			auto& boxPos = _player->_object->_transform._position;
+		//	auto& spherePos = _collider->_object->_transform._position;
+		//	auto& boxPos = _player->_object->_transform._position;
 
-			float sphereRadius = _collider->GetRadius();
-			float boxHalfWidth = dcol->GetWidth() / 2;
-			float boxHalfDepth = dcol->GetDepth() / 2;
+		//	float sphereRadius = _collider->GetRadius();
+		//	float boxHalfWidth = dcol->GetWidth() / 2;
+		//	float boxHalfDepth = dcol->GetDepth() / 2;
 
-			// 구의 중심에서 박스의 중심까지의 벡터
-			float dx = boxPos.x - spherePos.x;
-			float dz = boxPos.z - spherePos.z;
-			float distanceSquared = dx * dx + dz * dz;
+		//	// 구의 중심에서 박스의 중심까지의 벡터
+		//	float dx = boxPos.x - spherePos.x;
+		//	float dz = boxPos.z - spherePos.z;
+		//	float distanceSquared = dx * dx + dz * dz;
 
-			// 박스의 각 모서리가 구의 경계를 넘지 않도록 조정
-			float radiusMinusHalfDiagonal = sphereRadius - sqrt(boxHalfWidth * boxHalfWidth + boxHalfDepth * boxHalfDepth);
+		//	// 박스의 각 모서리가 구의 경계를 넘지 않도록 조정
+		//	float radiusMinusHalfDiagonal = sphereRadius - sqrt(boxHalfWidth * boxHalfWidth + boxHalfDepth * boxHalfDepth);
 
-			if (distanceSquared > radiusMinusHalfDiagonal * radiusMinusHalfDiagonal)
-			{
-				// 박스를 구의 내부로 밀어 넣기
-				float distance = sqrt(distanceSquared);
-				float overlap = distance - radiusMinusHalfDiagonal;
+		//	if (distanceSquared > radiusMinusHalfDiagonal * radiusMinusHalfDiagonal)
+		//	{
+		//		// 박스를 구의 내부로 밀어 넣기
+		//		float distance = sqrt(distanceSquared);
+		//		float overlap = distance - radiusMinusHalfDiagonal;
 
-				// 거리 벡터를 정규화
-				float invDistance = 1.0f / distance;
-				float normX = dx * invDistance;
-				float normZ = dz * invDistance;
+		//		// 거리 벡터를 정규화
+		//		float invDistance = 1.0f / distance;
+		//		float normX = dx * invDistance;
+		//		float normZ = dz * invDistance;
 
-				// 박스 위치를 구의 내부로 밀어 넣기
-				boxPos.x -= normX * overlap;
-				boxPos.z -= normZ * overlap;
-			}
-		}
+		//		// 박스 위치를 구의 내부로 밀어 넣기
+		//		boxPos.x -= normX * overlap;
+		//		boxPos.z -= normZ * overlap;
+		//	}
+		//} 
+
+		//else if (_monster == 0)
+		//{
+		//	_object->SetActive(false);
+		//	_collider->SetActive(false);
+
+		//	_object->_transform._position.y = -10000.f;
+		//}
 	}
 }
 
