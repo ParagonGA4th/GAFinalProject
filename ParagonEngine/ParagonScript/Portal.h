@@ -2,7 +2,7 @@
 #include "ScriptInterface.h"
 #include <string>
 
-namespace Pg::Data { class StaticBoxCollider; }
+namespace Pg::Data { class BoxCollider; }
 namespace Pg::API { class PgScene; }
 
 namespace Pg::DataScript
@@ -24,7 +24,7 @@ namespace Pg::DataScript
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
 
 	private:
-		Pg::Data::StaticBoxCollider* _collider;
+		Pg::Data::BoxCollider* _collider;
 		Pg::API::PgScene* _sceneHelper;
 
 		std::string _nextScene;

@@ -76,7 +76,7 @@ namespace Pg::DataScript
 		_stubDie = _object->GetScene()->FindObjectWithName("TrentDieSound");
 		_dieSound = _stubDie->GetComponent<Pg::Data::AudioSource>();
 
-		_stubSkill = _object->GetScene()->FindObjectWithName("TrentSKillSound");
+		_stubSkill = _object->GetScene()->FindObjectWithName("TrentSkillSound");
 		_skillSound = _stubSkill->GetComponent<Pg::Data::AudioSource>();
 
 		_stubAttack = _object->GetScene()->FindObjectWithName("TrentAttackSound");
