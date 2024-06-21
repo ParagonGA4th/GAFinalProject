@@ -81,8 +81,9 @@ namespace Pg::DataScript
 	{
 		///보스의 행동패턴 들어가야함.
 		RotateToPlayer(_playerTransform->_position);
-		Chase();
-		neutralize();
+		Dash();
+		//Chase();
+		//neutralize();
 	}
 
 	void BossBehaviour::Chase()
