@@ -86,6 +86,9 @@ namespace Pg::DataScript
 
 		Pg::Data::GameObject* _stubAttack;
 		Pg::Data::AudioSource* _attackSound;
+
+		Pg::Data::GameObject* _stubFind;
+		Pg::Data::AudioSource* _findSound;
 	private:
 		//플레이어와의 거리 측정
 		float _distance;
@@ -97,6 +100,7 @@ namespace Pg::DataScript
 		int _attackCount;
 
 		bool _isRotateFinish;
+		bool _isFindSoundPlaying{ false };
 
 	public:
 		//그루터기의 상태와 수치에 대한 정보.
