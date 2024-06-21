@@ -122,6 +122,10 @@ namespace Pg::Engine::Physic
 
 		std::vector<Pg::Data::GameObject*> _tempAddedObjectsInPhysics;
 		std::vector<Pg::Data::GameObject*> _tempDeletedObjectsInPhysics;
+
+	private:
+		const float fixedDeltaTime = 1.0f / 60.0f;
+		float accumulator = 0.f;
 	};
 }
 
