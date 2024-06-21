@@ -34,9 +34,9 @@ namespace Pg::Data
 
 namespace Pg::DataScript
 {
-	class PlayerBattleBehavior : public ScriptInterface<PlayerBattleBehavior>, public IObserver, public IScriptResettable
+	class PlayerHandler : public ScriptInterface<PlayerHandler>, public IObserver, public IScriptResettable
 	{
-		DEFINE_PARAGON_SCRIPT(PlayerBattleBehavior);
+		DEFINE_PARAGON_SCRIPT(PlayerHandler);
 
 	public:
 		//µðÆÄÀÎ.
@@ -46,7 +46,7 @@ namespace Pg::DataScript
 		inline static const float MAX_PLAYER_STAMINA = 100.0f;
 
 	public:
-		PlayerBattleBehavior(Pg::Data::GameObject* obj); 
+		PlayerHandler(Pg::Data::GameObject* obj); 
 
 		virtual void BeforePhysicsAwake() override;
 		virtual void Awake();

@@ -1,7 +1,7 @@
 #include "TrapArea.h"
 
 #include "PlayerMovement.h"
-#include "PlayerBattleBehavior.h"
+#include "PlayerHandler.h"
 
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/StaticBoxCollider.h"
@@ -57,7 +57,7 @@ void Pg::DataScript::TrapArea::OnTriggerEnter(Pg::Data::Collider** _colArr, unsi
 			_onTriggerStay = true;
 
 			// 플레이어의 움직임이 느려져야 함
-			_playerBattleBehavior = col->_object->GetComponent<Pg::DataScript::PlayerBattleBehavior>();
+			_playerBattleBehavior = col->_object->GetComponent<Pg::DataScript::PlayerHandler>();
 			_playerMovement = col->_object->GetComponent<Pg::DataScript::PlayerMovement>();
 			assert(_playerBattleBehavior != nullptr && _playerMovement != nullptr);
 

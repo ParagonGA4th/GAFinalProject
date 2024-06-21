@@ -8,7 +8,7 @@ namespace Pg::API::Time { class PgTime; }
 namespace Pg::DataScript
 {
 	class PlayerMovement;
-	class PlayerBattleBehavior;
+	class PlayerHandler;
 
 	class TrapArea : public ScriptInterface<TrapArea>
 	{
@@ -29,7 +29,7 @@ namespace Pg::DataScript
 		Pg::API::Time::PgTime* _deltaTime;
 		Pg::Data::StaticBoxCollider* _collider;
 		Pg::DataScript::PlayerMovement* _playerMovement;
-		Pg::DataScript::PlayerBattleBehavior* _playerBattleBehavior;
+		Pg::DataScript::PlayerHandler* _playerBattleBehavior;
 
 		// 플레이어의 기본 속도
 		float _previousMoveSpeed;

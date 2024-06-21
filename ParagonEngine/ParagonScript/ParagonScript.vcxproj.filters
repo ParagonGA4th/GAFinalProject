@@ -291,7 +291,7 @@
     <ClCompile Include="TrapArea.cpp">
       <Filter>Content\MapLogic\Trap Area</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBattleBehavior.cpp">
+    <ClCompile Include="PlayerHandler.cpp">
       <Filter>Content\PlayerBattleBehavior</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBehaviour.cpp">
@@ -452,7 +452,7 @@
     <ClInclude Include="ScriptEventHelper.h">
       <Filter>2_Events\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBattleBehavior.h">
+    <ClInclude Include="PlayerHandler.h">
       <Filter>Content\PlayerBattleBehavior</Filter>
     </ClInclude>
     <ClInclude Include="EventList_PlayerRelated.h">

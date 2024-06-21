@@ -31,7 +31,7 @@ namespace Pg::API
 namespace Pg::DataScript
 {
 	class EnemySight;
-	class PlayerBattleBehavior;
+	class PlayerHandler;
 
 	class EnemyBehaviour : public ScriptInterface<EnemyBehaviour>, public BaseMonsterInfo
 	{
@@ -51,7 +51,7 @@ namespace Pg::DataScript
 		Pg::Data::MonsterHelper * _monsterHelper;
 		Pg::API::Raycast::PgRayCast* _pgRayCast;
 		EnemySight* _enemySight = nullptr;
-		PlayerBattleBehavior* _playerBattleBehavior;
+		PlayerHandler* _playerBattleBehavior;
 
 		std::vector<Pg::Data::StaticBoxCollider*> colVec;
 		std::vector<Pg::Data::BoxCollider*> boxColVec;
