@@ -72,18 +72,37 @@ namespace Pg::DataScript
 			}
 			else if (childName == "TrentSkillAttackRange")
 			{
-				
+
 			}
 		}
 	}
 
 	void BossBehaviour::Update()
 	{
-		///보스의 행동패턴 들어가야함.
-		RotateToPlayer(_playerTransform->_position);
-		Dash();
-		//Chase();
-		//neutralize();
+		// 보스가 플레이어를 바라보고 있는 시간 추적
+		if (_isRotatingToPlayer)
+		{
+			RotateToPlayer(_playerTransform->_position);
+			_rotateToPlayerTime += _pgTime->GetDeltaTime();
+
+			// 3초 동안 바라본 후 돌진 시작
+			if (_rotateToPlayerTime >= 10.0f && _isDash == false && _hasDashed == false)
+			{
+				_isDash = true;
+				_isRotatingToPlayer = false;
+				//_rotateToPlayerTime = 0.0f; // 타이머 초기화
+				_bossInfo->SetCurrentDashTime(0.f);
+			}
+		}
+		else
+		{
+			if (_isDash)
+			{
+				Dash();
+			}
+			//Chase();
+			//neutralize();
+		}
 	}
 
 	void BossBehaviour::Chase()
@@ -149,33 +168,30 @@ namespace Pg::DataScript
 	void BossBehaviour::Dash()
 	{
 		// 돌진 지속 시간 동안 돌진
-		if (_isRotateFinish && _bossInfo->GetCurrentDashTime() < _bossInfo->GetDashDuration())
+		if (_bossInfo->GetCurrentDashTime() < _bossInfo->GetDashDuration())
 		{
 			_bossInfo->_status = BossStatus::DASH;
 
 			float interpolation = _bossInfo->GetDashSpeed() * _pgTime->GetDeltaTime();
 			_bossInfo->SetCurrentDashTime(_bossInfo->GetCurrentDashTime() + _pgTime->GetDeltaTime());
 
-			// 돌진 시 준비 동작 애니매이션 때문
-			if (_bossInfo->GetCurrentDashTime() >= 0.4f)
-			{
-				Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
-				forwardDir.y = 0; // y축 이동을 막기 위해 y값을 0으로 설정
+			Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
+			forwardDir.y = 0; // y축 이동을 막기 위해 y값을 0으로 설정
 
-				Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
-				tPosition = tPosition + forwardDir * interpolation;
+			Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+			tPosition = tPosition + forwardDir * interpolation;
 
-				_object->_transform._position.x = tPosition.x;
-				_object->_transform._position.z = tPosition.z;
-			}
+			_object->_transform._position.x = tPosition.x;
+			_object->_transform._position.z = tPosition.z;
 		}
 		// 돌진이 끝나면 상태를 변경
 		else if (_bossInfo->GetCurrentDashTime() >= _bossInfo->GetDashDuration())
 		{
 			_isDash = false;
 			_hasDashed = true;
-			_monsterHelper->_isDash = _isDash;
-			_monsterHelper->_isChase = !_isDash;
+			_bossInfo->SetCurrentDashTime(0.0f); // 현재 돌진 시간을 초기화
+			_isRotatingToPlayer = true; // 다시 플레이어를 바라보도록 설정
+			_rotateToPlayerTime = 0.f;
 		}
 	}
 
@@ -184,9 +200,32 @@ namespace Pg::DataScript
 
 	}
 
-	void BossBehaviour::Avoid()
+	void BossBehaviour::Evade()
 	{
+		// 회피 로직 구현
+		if (_bossInfo->GetCurrentEvadeTime() < _bossInfo->GetEvadeDuration())
+		{
+			_bossInfo->_status = BossStatus::EVADE;
 
+			float interpolation = _bossInfo->GetEvadeSpeed() * _pgTime->GetDeltaTime();
+			_bossInfo->SetCurrentEvadeTime(_bossInfo->GetCurrentEvadeTime() + _pgTime->GetDeltaTime());
+
+			// 회피 방향 설정 (예: 플레이어의 반대 방향으로)
+			Pg::Math::PGFLOAT3 backwardDir = -Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
+			backwardDir.y = 0; // y축 이동을 막기 위해 y값을 0으로 설정
+
+			Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+			tPosition = tPosition + backwardDir * interpolation;
+
+			_object->_transform._position.x = tPosition.x;
+			_object->_transform._position.z = tPosition.z;
+		}
+		else if (_bossInfo->GetCurrentEvadeTime() >= _bossInfo->GetEvadeDuration())
+		{
+			_isEvading = false;
+			_bossInfo->SetCurrentEvadeTime(0.0f); // 현재 회피 시간을 초기화
+			_isRotatingToPlayer = true; // 다시 플레이어를 바라보도록 설정
+		}
 	}
 
 	void BossBehaviour::Hit()
