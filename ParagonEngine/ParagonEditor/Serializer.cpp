@@ -290,10 +290,13 @@ bool Pg::Serialize::Serializer::DeserializeBoolean(pugi::xml_node* node, const s
 	else
 	{
 		pugi::xml_node nodeName = node->child(name.c_str());
-
 		if (nodeName)
 		{
 			return nodeName.text().as_bool();
+		}
+		else
+		{
+			return false;
 		}
 	}
 }

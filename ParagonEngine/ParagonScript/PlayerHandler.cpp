@@ -7,6 +7,7 @@
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/DynamicCollider.h"
+#include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/PgTime.h"
@@ -36,6 +37,9 @@ namespace Pg::DataScript
 		{
 			_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
 			assert(_selfCol != nullptr);
+
+			_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+			assert(_meshRenderer != nullptr);
 
 			_selfCol->FreezeAxisX(true);
 			_selfCol->FreezeAxisY(true);
@@ -76,12 +80,12 @@ namespace Pg::DataScript
 		CalculateMonsterDamages();
 		CalculateMonsterHit();
 
-		
+
 	}
 
 	void PlayerHandler::LateUpdate()
 	{
-
+		PlayAdequateAnimation();
 	}
 
 	void PlayerHandler::HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2)
@@ -105,7 +109,7 @@ namespace Pg::DataScript
 		{
 			_combatSystem->Post(Event_PlayerOnLowHealth(), _object, healthPoint);
 		}
-		else if(healthPoint < std::numeric_limits<float>::epsilon())
+		else if (healthPoint < std::numeric_limits<float>::epsilon())
 		{
 			//만약 체력이 0일 경우, 
 			_combatSystem->Post(Event_PlayerDeath(), _object, 0.0f);
@@ -128,9 +132,15 @@ namespace Pg::DataScript
 		//assert(false && "not implemented yet");
 	}
 
+	void PlayerHandler::OnAnimationEnd()
+	{
+		// Loop가 안되는 모든 애니매이션의 flag는 여기서 false로 변경
+		_isHit = false;
+	}
+
 	void PlayerHandler::ArrowShootingLogic()
 	{
-		if(_playerMovement->GetIsMoving() == false)
+		if (_playerMovement->GetIsMoving() == false)
 		{
 			// 경과 시간을 누적
 			_timeSinceLastShot += _pgTime->GetDeltaTime();
@@ -144,6 +154,11 @@ namespace Pg::DataScript
 			//마우스 좌클릭 시 공격.
 			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseLeft))
 			{
+				_isHit = true;
+				_hitCount++;
+				if (_hitCount >= 4) _hitCount = 1;
+				PG_TRACE(_hitCount);
+
 				bool tDidShoot = false;
 
 				for (int i = 0; i < _arrowVec.size(); i++)
@@ -190,6 +205,7 @@ namespace Pg::DataScript
 		}
 		else
 		{
+			_hitCount = 0;
 			return;
 		}
 	}
@@ -213,7 +229,7 @@ namespace Pg::DataScript
 
 	void PlayerHandler::AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl)
 	{
-		_monsterHealthChangeList.push_back(BaseMonsterHealthChangePair(monster,healthChangeLvl));
+		_monsterHealthChangeList.push_back(BaseMonsterHealthChangePair(monster, healthChangeLvl));
 	}
 
 
@@ -260,5 +276,47 @@ namespace Pg::DataScript
 		}
 
 		_monsterOnHitList.clear();
+	}
+	void PlayerHandler::PlayAdequateAnimation()
+	{
+		//우선, 디폴트로 출력되는 것은 Idle Animation. 
+
+		//Idle 초기 상태 세팅.
+		std::string tToPlayAnimationName = "PA_00001.pganim";
+		bool isLooping = true;
+
+		if (_isHit)
+		{
+			isLooping = false; 
+			tToPlayAnimationName = "PA_0000" + std::to_string(_hitCount + 4) + ".pganim";
+			PG_TRACE(tToPlayAnimationName);
+		}
+		//else if (_isAvoiding_Animation)
+		//{
+		//	//회피 애니메이션.
+		//	tToPlayAnimationName = "PA_00004.pganim";
+		//	isLooping = false;
+		//}
+		//else if (_isJumping_Animation)
+		//{
+		//	//점프 애니메이션.
+		//	tToPlayAnimationName = "PA_00003.pganim";
+		//	isLooping = false;
+		//}
+		//else if (_isMoving_Animation)
+		//{
+		//	//걷기 애니메이션
+		//	tToPlayAnimationName = "PA_00002.pganim";
+		//	isLooping = true;
+		//}
+
+		//만약에 전 스트링과 같지 않을 시에.
+		if (_prevAnimationInput.compare(tToPlayAnimationName) != 0)
+		{
+			_meshRenderer->SetAnimation(tToPlayAnimationName, isLooping);
+		}
+
+		//애니메이션 인풋 스트링 기록.
+		_prevAnimationInput = tToPlayAnimationName;
 	}
 }
