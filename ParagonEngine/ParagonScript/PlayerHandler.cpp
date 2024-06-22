@@ -157,7 +157,6 @@ namespace Pg::DataScript
 				_isHit = true;
 				_hitCount++;
 				if (_hitCount >= 4) _hitCount = 1;
-				PG_TRACE(_hitCount);
 
 				bool tDidShoot = false;
 
@@ -287,9 +286,9 @@ namespace Pg::DataScript
 
 		if (_isHit)
 		{
+			//공격 애니매이션
 			isLooping = false; 
 			tToPlayAnimationName = "PA_0000" + std::to_string(_hitCount + 4) + ".pganim";
-			PG_TRACE(tToPlayAnimationName);
 		}
 		//else if (_isAvoiding_Animation)
 		//{

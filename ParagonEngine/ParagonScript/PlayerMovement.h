@@ -44,14 +44,15 @@ namespace Pg::DataScript
 		virtual void Update() override;
 		virtual void LateUpdate() override;
 	
+		//Animation이 끝났을 때 호출 되는 함수
+		virtual void OnAnimationEnd() override;
 
 		//움직임 관련. 
 		float moveSpeed{ 4.0f };
 		float rotateMultiplier{ 2.0f };
-		float jumpPower{ 80.0f };
+		float jumpPower{ 200.0f };
 
 		bool GetIsMoving();	//플레이어의 이동여부를 전달하여 공격금지하게 해야함.
-		
 
 	private:
 		//In Update Loop
@@ -114,7 +115,6 @@ namespace Pg::DataScript
 		//다 지나갈 시, Idle 출력.
 		bool _isMoving_Animation = false;
 		bool _isJumping_Animation = false;
-		bool _isAvoiding_Animation = false;
 		bool _isDead_Animation = false;
 		
 		std::string _previousAnimationInput;

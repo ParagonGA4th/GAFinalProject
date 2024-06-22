@@ -102,6 +102,11 @@ namespace Pg::DataScript
 		PlayAdequateAnimation();
 	}
 
+	void PlayerMovement::OnAnimationEnd()
+	{
+		_isJumping_Animation = false;
+	}
+
 	void PlayerMovement::ShootRayForward()
 	{
 		//tShouldShootDir = Pg::Math::PGFloat3Normalize(tShouldShootDir);
@@ -356,6 +361,7 @@ namespace Pg::DataScript
 		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyUp) && (!_isStrafeAvoiding))
 		{
 			_isStrafeAvoiding = true;
+			_renderer->SetAnimation("PA_00004.pganim", false);
 
 			//ForwardVector의 Back 방향으로 이동해야 한다.
 			const float tAvoidDist = 3.0f; //실제로 이동한 거리.
@@ -365,27 +371,15 @@ namespace Pg::DataScript
 			Pg::Math::PGFLOAT3 tActualForward = Pg::Math::PGReflectVectorAgainstAxis(_object->_transform.GetForward(), Pg::Math::PGFLOAT3::GlobalForward());
 			Pg::Math::PGFLOAT3 tTargetPos = _object->_transform._position - (-tActualForward * tAvoidDist);
 
-			//막 회피 로직 플레이 직전. 애니메이션 재생을 위한 Flag를 켜놓자.
-			_isAvoiding_Animation = true;
-
 			Pg::Util::Tween* tTween = _pgTween->CreateTween();
 			tTween->GetData(&(_object->_transform._position)).DoMove(tTargetPos, tAvoidBasedTotalTime).
 				SetEase(Pg::Util::Enums::eEasingMode::OUTEXPO).KillEarly(tCutShortRatio).OnComplete(
 					[this]()
 					{
-						OnStrafeAvoidComplete();
+						_isStrafeAvoiding = false;
 					});
 		}
 	}
-
-	void PlayerMovement::OnStrafeAvoidComplete()
-	{
-		_isStrafeAvoiding = false;
-		
-		//애니메이션 트리거용.
-		_isAvoiding_Animation = true;
-	}
-
 
 	void PlayerMovement::PlayAdequateAnimation()
 	{
@@ -402,12 +396,6 @@ namespace Pg::DataScript
 		{
 			//사망 애니메이션.
 			tToPlayAnimationName = "PA_00014.pganim";
-			isLooping = false;
-		}
-		else if (_isAvoiding_Animation)
-		{
-			//회피 애니메이션.
-			tToPlayAnimationName = "PA_00004.pganim";
 			isLooping = false;
 		}
 		else if (_isJumping_Animation)
