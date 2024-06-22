@@ -56,7 +56,7 @@ namespace Pg::DataScript
 		void Attack();
 
 		//회피하는 로직.
-		void Avoid();
+		void Evade();
 
 		//보스의 무력화 상태
 		void neutralize();
@@ -93,6 +93,13 @@ namespace Pg::DataScript
 		bool _isNeutralize{ false };	//무력화 상태 여부
 
 		bool _isChasing{ true };		//추적 상태 여부
+
+		//보스 행동 로직 테스트를 위한 변수
+		//팔요시 사용하나 제거해도 무관.
+		bool _isRotatingToPlayer{ true };
+		float _rotateToPlayerTime = 0.f;
+
+		bool _isEvading{ false };
 	};
 }
 
