@@ -9,6 +9,7 @@ enum class BossStatus
 
 	CHASE,				// 플레이어 추적
 	DASH,				// 돌진
+	EVADE,				// 회피
 
 	DEAD,				// 사망
 
@@ -34,17 +35,21 @@ namespace Pg::DataScript
 		BossInfo& SetAttackRange(float attackRange) { _attackRange = attackRange; return *this; }
 		BossInfo& SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed; return *this; }
 		BossInfo& SetCurrentDashTime(float time) { _cureentDashTime = time; return *this; }
+		BossInfo& SetCurrentEvadeTime(float time) { _currentEvadeTime = time; return *this; }
 		BossInfo& SetSightRange(float range) { _sightRange = range; return *this; }
 		BossInfo& SetCurrentNeutralize(float time) { _currentNeutralize = time; return *this; }
 		BossInfo& SetEndNeutralize(float time) { _endNeutralize = time; return *this; }
 
 		float GetMoveSpeed() const { return _moveSpeed; }
 		float GetDashSpeed() const { return _dashSpeed; }
+		float GetEvadeSpeed() const { return _evadeSpeed; }
 		float GetSightRange() const { return _sightRange; }
 		float GetAttackRange() const { return _attackRange; }
 		float GetDashRange() const { return _dashRange; }
 		float GetDashDuration() const { return _dashDuration; }
+		float GetEvadeDuration() const { return _evadeDuration; }
 		float GetCurrentDashTime() { return _cureentDashTime; }
+		float GetCurrentEvadeTime() { return _currentEvadeTime; }
 		float GetCurrentNeutralize() { return _currentNeutralize; }
 		float GetEndNeutralize() { return _endNeutralize; }
 
@@ -59,9 +64,13 @@ namespace Pg::DataScript
 		float _moveSpeed;      // 이동속도
 		float _rotationSpeed;  // 회전 속도
 		float _dashSpeed;		// 돌진 속도
+		float _evadeSpeed;		// 회피 속도
 
 		float _dashDuration;	//돌진 지속 시간
 		float _cureentDashTime; //현재 돌진 시간
+
+		float _evadeDuration;	//회피 지속 시간
+		float _currentEvadeTime;//현재 회피 시간
 
 		float _currentNeutralize; //무력화 지속 시간
 		float _endNeutralize; //무력화 지속 시간
