@@ -532,13 +532,19 @@ namespace Pg::Engine::Physic
 				// trans.q = trans.q * rotation90;
 
 				// 자식 객체의 위치 오프셋을 부모 객체의 월드 변환에 적용
-				Pg::Math::PGFLOAT3 offsetP = collider->GetPositionOffset();
-				Pg::Math::PGFLOAT3 worldOffset = Pg::Math::PGFloat3MultiplyMatrix(offsetP, obj->_transform.GetWorldTM());
-				trans.p = physx::PxVec3(worldOffset.x, worldOffset.y, worldOffset.z);
+				//Pg::Math::PGFLOAT3 offsetP = collider->GetPositionOffset();
+				//Pg::Math::PGFLOAT3 worldOffset = Pg::Math::PGFloat3MultiplyMatrix(offsetP, obj->_transform.GetWorldTM());
+				//trans.p = physx::PxVec3(worldOffset.x, worldOffset.y, worldOffset.z);
+				//
+				//physx::PxTransform worldTm(trans.p);
 
 				// PositionOffset 설정
 				auto offsetP = collider->GetPositionOffset();
 				trans.p = physx::PxVec3(offsetP.x, offsetP.y, offsetP.z);
+
+				Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
+
+				physx::PxTransform worldTm(physx::PxVec3(position.x, position.y, position.z));
 
 				boxShape->setLocalPose(trans);
 
@@ -549,9 +555,7 @@ namespace Pg::Engine::Physic
 					boxShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
 				}
 
-				Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 
-				physx::PxTransform worldTm(physx::PxVec3(position.x, position.y, position.z));
 
 				staticBoxcol->SetPxShape(boxShape);
 
