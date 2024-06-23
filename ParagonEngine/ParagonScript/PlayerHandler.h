@@ -10,7 +10,8 @@ namespace Pg::DataScript
 	class ComboSystem;
 
 	class ArrowLogic;
-	class PlayerMovement;
+	class PlayerMovementSector;
+	class PlayerBattleSector;
 }
 
 namespace Pg::API
@@ -82,6 +83,8 @@ namespace Pg::DataScript
 		void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
 		void AddMonsterOnHitList(BaseMonsterInfo* monster);
 
+		void SetPlayerMoveSpeed(float val);
+		float GetPlayerMoveSpeed();
 
 	public:
 		//체력 관련. -> 지금은 맵 기믹때문에 이렇게 해놨지만, 나중에는 별도로 이동해야.
@@ -97,7 +100,12 @@ namespace Pg::DataScript
 	private:
 		CombatSystem* _combatSystem{ nullptr };
 		ComboSystem* _comboSystem{ nullptr };
+		
 
+	private:
+		//내부적으로 Movement 등 Sector들 관리.
+		std::unique_ptr<PlayerMovementSector> _playerMovementSector;
+		std::unique_ptr<PlayerBattleSector> _playerBattleSector;
 	private:
 		//매 프레임마다 clear.
 		std::vector<BaseMonsterHealthChangePair> _monsterHealthChangeList;
@@ -109,7 +117,7 @@ namespace Pg::DataScript
 		std::vector<ArrowLogic*> _arrowVec;
 		Pg::Data::DynamicCollider* _selfCol{ nullptr };
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer{ nullptr };
-		PlayerMovement* _playerMovement;
+		PlayerMovementSector* _playerMovement;
 
 	private:
 		//사운드 관련 변수

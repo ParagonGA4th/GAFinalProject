@@ -1,6 +1,7 @@
 #pragma once
-#include "ScriptInterface.h"
+#include "../ParagonData/GameObject.h"
 #include "IObserver.h"
+#include "IScriptResettable.h"
 
 namespace Pg::Data
 {
@@ -10,12 +11,6 @@ namespace Pg::Data
 	class SkinnedMeshRenderer;
 	class AudioSource;
 }
-
-//namespace Pg::DataScript
-//{
-//	class Camera;
-//	class DynamicCollider;
-//}
 
 namespace Pg::API
 {
@@ -28,31 +23,39 @@ namespace Pg::API
 namespace Pg::DataScript
 {
 	class InGameCameraBehavior;
+	class PlayerHandler;
 }
+
+/// <summary>
+/// 이제 하나의 컴포넌트가 아니라, 
+/// 하나의 Sector (Player Handler가 자체 관리하게 된다.)
+/// </summary>
 
 namespace Pg::DataScript
 {
-	class PlayerMovement : public ScriptInterface<PlayerMovement> //, public IObserver
+	class PlayerMovementSector : public IObserver, public IScriptResettable //: public ScriptInterface<PlayerMovementSector> //, public IObserver
 	{
-		DEFINE_PARAGON_SCRIPT(PlayerMovement);
+		friend class PlayerHandler;
 	public:
-		PlayerMovement(Pg::Data::GameObject* obj);
+		PlayerMovementSector(Pg::Data::GameObject* obj);
 
-		virtual void BeforePhysicsAwake() override;
-		virtual void Awake() override;
-		virtual void Start() override;
-		virtual void Update() override;
-		virtual void LateUpdate() override;
+		//얘네들은 Component에 의해 작동되는 것 X, Script 자체에서 수명을 관리한다.
+		void BeforePhysicsAwake();
+		void Awake() ;
+		void Start() ;
+		void Update() ;
+		void LateUpdate() ;
 	
 		//Animation이 끝났을 때 호출 되는 함수
-		virtual void OnAnimationEnd() override;
+		void OnAnimationEnd() ;
 
+		bool GetIsMoving();	//플레이어의 이동여부를 전달하여 공격금지하게 해야함.
+
+	private:
 		//움직임 관련. 
 		float moveSpeed{ 4.0f };
 		float rotateMultiplier{ 2.0f };
 		float jumpPower{ 200.0f };
-
-		bool GetIsMoving();	//플레이어의 이동여부를 전달하여 공격금지하게 해야함.
 
 	private:
 		//In Update Loop
@@ -67,7 +70,11 @@ namespace Pg::DataScript
 		void OnStrafeAvoidComplete();
 
 		//공격하는 모션 등등, 값 관리
-		//항상 자신의 바닥부분에서 레이캐스트를 쏴야 한다. (점프를 했으면)
+		//항상 자신의 바닥부분에서 레이캐스트를 쏴야 한다. (점프를 했으면)]
+
+	private:
+		Pg::Data::GameObject* _object;
+
 	private:
 		Pg::Math::PGFLOAT3 _relativeForward;
 		Pg::Math::PGFLOAT3 _relativeLeft;

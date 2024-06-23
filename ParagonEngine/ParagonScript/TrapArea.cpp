@@ -1,6 +1,6 @@
 #include "TrapArea.h"
 
-#include "PlayerMovement.h"
+//#include "PlayerMovementSector.h"
 #include "PlayerHandler.h"
 
 #include "../ParagonData/SkinnedMeshRenderer.h"
@@ -58,11 +58,12 @@ void Pg::DataScript::TrapArea::OnTriggerEnter(Pg::Data::Collider** _colArr, unsi
 
 			// 플레이어의 움직임이 느려져야 함
 			_playerBattleBehavior = col->_object->GetComponent<Pg::DataScript::PlayerHandler>();
-			_playerMovement = col->_object->GetComponent<Pg::DataScript::PlayerMovement>();
-			assert(_playerBattleBehavior != nullptr && _playerMovement != nullptr);
+			//_playerMovement = col->_object->GetComponent<Pg::DataScript::PlayerMovementSector>();
+			assert(_playerBattleBehavior != nullptr);
+			//assert(_playerBattleBehavior != nullptr && _playerMovement != nullptr);
 
-			_previousMoveSpeed = _playerMovement->moveSpeed;
-			_playerMovement->moveSpeed = _previousMoveSpeed / 2;
+			_previousMoveSpeed = _playerBattleBehavior->GetPlayerMoveSpeed();
+			_playerBattleBehavior->SetPlayerMoveSpeed( _previousMoveSpeed / 2.0f);
 		}
 	}
 }
@@ -77,7 +78,7 @@ void Pg::DataScript::TrapArea::OnTriggerExit(Pg::Data::Collider** _colArr, unsig
 			_onTriggerStay = false;
 
 			// 플레이어의 속도가 돌아와야 함
-			_playerMovement->moveSpeed = _previousMoveSpeed;
+			_playerBattleBehavior->SetPlayerMoveSpeed(_previousMoveSpeed);
 
 			auto mesh = _playerBattleBehavior->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 			mesh->SetActive(true);
