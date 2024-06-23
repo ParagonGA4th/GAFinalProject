@@ -1,5 +1,5 @@
-#ifndef ISPASE_1
-#define ISPASE_1
+#ifndef ISPASE_3
+#define ISPASE_3
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,12 +7,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class isPase_1 : public BT::SyncActionNode, public BasePgBtNode
+	class isPase_3 : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		isPase_1(const std::string& name, const BT::NodeConfiguration& config)
+		isPase_3(const std::string& name, const BT::NodeConfiguration& config)
 			: BT::SyncActionNode(name, config) {}
-		virtual ~isPase_1() = default;
+		virtual ~isPase_3() = default;
 
 		virtual void InitCustom();
 
@@ -21,7 +21,7 @@ namespace Pg::Data::BTree::Node
 		static BT::PortsList providedPorts()
 		{
 			BT::PortsList list;
-			list.insert(BT::BidirectionalPort<bool>("_pase1Init"));
+			list.insert(BT::BidirectionalPort<bool>("_pase3Init"));
 
 			return list;
 		}

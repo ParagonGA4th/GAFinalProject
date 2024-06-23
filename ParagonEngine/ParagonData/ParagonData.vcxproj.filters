@@ -346,6 +346,12 @@
     <ClCompile Include="isDown.cpp">
       <Filter>11_BtNodes\MonsterAnim\Boss\isDown</Filter>
     </ClCompile>
+    <ClCompile Include="isPase_2.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Pase\isPase_2</Filter>
+    </ClCompile>
+    <ClCompile Include="isPase_3.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Pase\isPase_3</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -757,6 +763,12 @@
     <ClInclude Include="isDown.h">
       <Filter>11_BtNodes\MonsterAnim\Boss\isDown</Filter>
     </ClInclude>
+    <ClInclude Include="isPase_2.h">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Pase\isPase_2</Filter>
+    </ClInclude>
+    <ClInclude Include="isPase_3.h">
+      <Filter>11_BtNodes\MonsterAnim\Boss\Pase\isPase_3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -1157,6 +1169,12 @@
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Boss\isDown">
       <UniqueIdentifier>{adfcd039-57d9-405d-8899-7b823ccb6305}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Pase\isPase_2">
+      <UniqueIdentifier>{c9d93511-c5d7-441d-81ef-f80c2b749858}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\Pase\isPase_3">
+      <UniqueIdentifier>{520aafd3-8cab-4cd5-b753-a7e10941cac8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

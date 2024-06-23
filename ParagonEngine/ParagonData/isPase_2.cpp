@@ -1,32 +1,32 @@
-#include "isPase_1.h"
+#include "isPase_2.h"
 #include "MonsterHelper.h"
 
 namespace Pg::Data::BTree::Node
 {
-	void isPase_1::InitCustom()
+	void isPase_2::InitCustom()
 	{
-		config().blackboard->set<bool>("PASEONEINIT", false);
+		config().blackboard->set<bool>("PASETWOINIT", false);
 	}
 
-	BT::NodeStatus isPase_1::tick()
+	BT::NodeStatus isPase_2::tick()
 	{
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			bool paseInit = config().blackboard->get<bool>("PASEONEINIT");
+			bool paseInit = config().blackboard->get<bool>("PASETWOINIT");
 			if (monHelper->isPase_1)
 			{
-				monHelper->_bossPase = Pg::Data::BossPase::PASE_1;
+				monHelper->_bossPase = Pg::Data::BossPase::PASE_2;
 				if (!paseInit)
 				{
 					monHelper->_bossState = Pg::Data::BossState::BASIC_ATTACK_1;
-					config().blackboard->set<bool>("PASEONEINIT", true);
+					config().blackboard->set<bool>("PASETWOINIT", true);
 				}
 				return BT::NodeStatus::SUCCESS;
 			}
 			else
 			{
-				if (paseInit) config().blackboard->set<bool>("PASEONEINIT", false);
+				if (paseInit) config().blackboard->set<bool>("PASETWOINIT", false);
 				return BT::NodeStatus::FAILURE;
 			}
 		}

@@ -18,6 +18,10 @@
 #include "../ParagonData/Anim_RightArmAttack.h"
 #include "../ParagonData/Anim_TwoArmAttack.h"
 #include "../ParagonData/Anim_Down.h"
+#include "../ParagonData/Anim_Evasion.h"
+#include "../ParagonData/Anim_FeatherAttack.h"
+#include "../ParagonData/Anim_FlyAttack.h"
+#include "../ParagonData/Anim_Evasion.h"
 #include "../ParagonData/isPase_1.h"
 #include "../ParagonData/isDown.h"
 
