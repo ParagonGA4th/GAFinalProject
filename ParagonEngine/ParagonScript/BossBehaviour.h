@@ -100,6 +100,8 @@ namespace Pg::DataScript
 		float _rotateToPlayerTime = 0.f;
 
 		bool _isEvading{ false };
+		bool _hasEvaded{ false };
+		float _evadeCooldownTime = 0.f;
 	};
 }
 

@@ -79,19 +79,30 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Update()
 	{
-		// 보스가 플레이어를 바라보고 있는 시간 추적
+		///회피와 돌진을 테스트하기 위한 임의의 로직.
+		///애니메이션을 통한 행동 패턴에 맞게 들어갈 예정.
+	// 보스가 플레이어를 바라보고 있는 시간 추적
 		if (_isRotatingToPlayer)
 		{
 			RotateToPlayer(_playerTransform->_position);
 			_rotateToPlayerTime += _pgTime->GetDeltaTime();
 
 			// 3초 동안 바라본 후 돌진 시작
-			if (_rotateToPlayerTime >= 10.0f && _isDash == false && _hasDashed == false)
+			if (_rotateToPlayerTime >= 3.0f)
 			{
-				_isDash = true;
 				_isRotatingToPlayer = false;
-				//_rotateToPlayerTime = 0.0f; // 타이머 초기화
-				_bossInfo->SetCurrentDashTime(0.f);
+				_rotateToPlayerTime = 0.0f; // 타이머 초기화
+
+				if (!_isEvading)
+				{
+					_isDash = true;
+					_bossInfo->SetCurrentDashTime(0.0f); // 돌진 시간을 초기화하여 돌진 시작
+				}
+				else
+				{
+					_hasEvaded = true;
+					_bossInfo->SetCurrentEvadeTime(0.0f); // 회피 시간을 초기화하여 회피 시작
+				}
 			}
 		}
 		else
@@ -100,9 +111,23 @@ namespace Pg::DataScript
 			{
 				Dash();
 			}
-			//Chase();
-			//neutralize();
+			else if (_hasEvaded)
+			{
+				Evade();
+			}
 		}
+
+		// 회피 쿨다운 관리
+		if (!_isEvading)
+		{
+			_evadeCooldownTime += _pgTime->GetDeltaTime();
+			if (_evadeCooldownTime >= 5.0f) // 5초 쿨다운
+			{
+				_isEvading = true;
+				_evadeCooldownTime = 0.0f;
+			}
+		}
+
 	}
 
 	void BossBehaviour::Chase()
