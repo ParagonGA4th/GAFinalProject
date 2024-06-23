@@ -2,7 +2,8 @@
 #include "CombatSystem.h"
 #include "ComboSystem.h"
 #include "ArrowLogic.h"
-#include "PlayerMovement.h"
+#include "PlayerMovementSector.h"
+#include "PlayerBattleSector.h"
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/LayerMask.h"
@@ -27,6 +28,9 @@ namespace Pg::DataScript
 	{
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
+		
+		_playerMovementSector = std::make_unique<PlayerMovementSector>(obj);
+		_playerBattleSector = std::make_unique<PlayerBattleSector>(obj);
 	}
 
 	void PlayerHandler::BeforePhysicsAwake()
@@ -59,7 +63,7 @@ namespace Pg::DataScript
 		_combatSystem = CombatSystem::GetInstance(nullptr);
 		_comboSystem = ComboSystem::GetInstance();
 
-		_playerMovement = _object->GetComponent<PlayerMovement>();
+		_playerMovement = _object->GetComponent<PlayerMovementSector>();
 	}
 
 	void PlayerHandler::Start()
@@ -318,4 +322,15 @@ namespace Pg::DataScript
 		//애니메이션 인풋 스트링 기록.
 		_prevAnimationInput = tToPlayAnimationName;
 	}
+
+	void PlayerHandler::SetPlayerMoveSpeed(float val)
+	{
+		_playerMovementSector->moveSpeed = val;
+	}
+
+	float PlayerHandler::GetPlayerMoveSpeed()
+	{
+		return _playerMovementSector->moveSpeed;
+	}
+
 }
