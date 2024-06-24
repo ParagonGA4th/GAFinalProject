@@ -15,7 +15,7 @@ namespace Pg::DataScript
 
 		//구역별 리셋만이 필요할 때. 
 		//virtual void ResetAreaUntil(int index) abstract;
-		
+		virtual void ResetAreaWithIndex(unsigned int index) abstract;
 		//...
 	};
 }

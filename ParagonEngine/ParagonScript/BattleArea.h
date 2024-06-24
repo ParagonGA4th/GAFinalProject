@@ -1,5 +1,6 @@
 #pragma once
 #include "ScriptInterface.h"
+#include "IMovableObject.h"
 #include "../ParagonMath/PgMath.h"
 
 namespace Pg::Data 
@@ -11,7 +12,7 @@ namespace Pg::Data
 namespace Pg::DataScript
 {
 	class PlayerHandler;
-	class BattleArea : public ScriptInterface<BattleArea>
+	class BattleArea : public ScriptInterface<BattleArea>, public IMovableObject
 	{
 		DEFINE_PARAGON_SCRIPT(BattleArea);
 
@@ -22,6 +23,9 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
+	public:
+		virtual void ResetAll() override;
+		virtual unsigned int GetDesignatedAreaIndex() override;
 	private:
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
 		virtual void OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count) override;
