@@ -78,4 +78,15 @@ namespace Pg::DataScript
 		}
 	}
 
+	void Stage1EnemyHandler::TransformEachEnemy(std::function<void(IEnemyBehaviour*)> func)
+	{
+		for (auto& [bTagName, bVec] : _managedMonstersList)
+		{
+			for (auto& tEnemyStorage : bVec)
+			{
+				func(tEnemyStorage._enemyBehav);
+			}
+		}
+	}
+
 }

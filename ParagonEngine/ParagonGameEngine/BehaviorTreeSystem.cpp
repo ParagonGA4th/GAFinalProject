@@ -69,8 +69,8 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::Anim_FlyAttack>("Anim_FlyAttack");
 		_factory->registerNodeType<Node::Anim_Down>("Anim_Down");
 		_factory->registerNodeType<Node::isPase_1>("isPase_1");
-		_factory->registerNodeType<Node::isPase_1>("isPase_2");
-		_factory->registerNodeType<Node::isPase_1>("isPase_3");
+		_factory->registerNodeType<Node::isPase_2>("isPase_2");
+		_factory->registerNodeType<Node::isPase_3>("isPase_3");
 		_factory->registerNodeType<Node::isDown>("isDown");
 
 		_factory->registerNodeType<Node::Anim_fDead>("Anim_fDead");
