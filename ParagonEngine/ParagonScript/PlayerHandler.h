@@ -73,6 +73,9 @@ namespace Pg::DataScript
 		//void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
 		//void AddMonsterOnHitList(BaseMonsterInfo* monster);
 
+		//CPP에서는 잔재가 남아있었다.
+		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
+
 		void SetPlayerMoveSpeed(float val);
 		float GetPlayerMoveSpeed();
 
