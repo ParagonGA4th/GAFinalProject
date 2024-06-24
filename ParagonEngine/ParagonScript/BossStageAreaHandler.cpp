@@ -83,4 +83,9 @@ namespace Pg::DataScript
 		}
 	}
 
+	void BossStageAreaHandler::ResetAreaWithIndex(unsigned int index)
+	{
+
+	}
+
 }

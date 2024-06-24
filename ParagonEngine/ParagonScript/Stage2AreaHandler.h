@@ -25,6 +25,7 @@ namespace Pg::DataScript
 
 		//Handler
 		virtual void ResetToInitialState() override;
+		virtual void ResetAreaWithIndex(unsigned int index) abstract;
 
 	private:
 		//MovingObject 관리를 위해.

@@ -85,6 +85,10 @@ namespace Pg::DataScript
 		}
 	}
 
+	void Stage2AreaHandler::ResetAreaWithIndex(unsigned int index)
+	{
+
+	}
 	
 
 }

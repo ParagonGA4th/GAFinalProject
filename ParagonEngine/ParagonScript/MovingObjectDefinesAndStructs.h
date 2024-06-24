@@ -14,5 +14,4 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _moveObj = nullptr;
 		TransformSimpleStorage _transStorage;
 	};
-
 }
