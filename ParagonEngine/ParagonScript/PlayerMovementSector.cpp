@@ -1,6 +1,7 @@
-#include "PlayerMovement.h"
+#include "PlayerMovementSector.h"
 
 #include "InGameCameraBehavior.h"
+#include "PlayerHandler.h"
 
 #include "../ParagonData/Camera.h"
 #include "../ParagonData/GameObject.h"
@@ -21,7 +22,7 @@
 
 namespace Pg::DataScript
 {
-	PlayerMovement::PlayerMovement(Pg::Data::GameObject* obj) : ScriptInterface(obj)
+	PlayerMovementSector::PlayerMovementSector(PlayerHandler* playerHandler) : _playerHandler(playerHandler), _object(playerHandler->_object)
 	{
 		//Input 객체 받아오기.
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
@@ -30,7 +31,12 @@ namespace Pg::DataScript
 		_pgTween = &singleton<Pg::API::Tween::PgTween>();
 	}
 
-	void PlayerMovement::BeforePhysicsAwake()
+	void PlayerMovementSector::GrabManagedObjects()
+	{
+
+	}
+
+	void PlayerMovementSector::BeforePhysicsAwake()
 	{
 		/*for (auto& iter : _object->_transform.GetChildren())
 		{
@@ -49,13 +55,13 @@ namespace Pg::DataScript
 		//_selfCapCol->FreezeAxisY(true);
 	}
 
-	void PlayerMovement::Awake()
+	void PlayerMovementSector::Awake()
 	{
 		
 		
 	}
 
-	void PlayerMovement::Start()
+	void PlayerMovementSector::Start()
 	{
 		//다른 스크립트의 Awake에서 새롭게 인게임 메인카메라를 설정해야 한다.
 		_mainCam = _object->GetScene()->GetMainCamera();
@@ -86,7 +92,7 @@ namespace Pg::DataScript
 		_isJumping = false;
 	}
 
-	void PlayerMovement::Update()
+	void PlayerMovementSector::Update()
 	{
 		ShootRayForward();
 		DetermineDirectionAndValues();
@@ -97,17 +103,17 @@ namespace Pg::DataScript
 		StrafeAvoidLogic();
 	}
 
-	void PlayerMovement::LateUpdate()
+	void PlayerMovementSector::LateUpdate()
 	{
 		PlayAdequateAnimation();
 	}
 
-	void PlayerMovement::OnAnimationEnd()
+	void PlayerMovementSector::OnAnimationEnd()
 	{
 		_isJumping_Animation = false;
 	}
 
-	void PlayerMovement::ShootRayForward()
+	void PlayerMovementSector::ShootRayForward()
 	{
 		//tShouldShootDir = Pg::Math::PGFloat3Normalize(tShouldShootDir);
 		Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGFloat3Normalize(_object->_transform.GetForward());
@@ -128,7 +134,7 @@ namespace Pg::DataScript
 			tShouldShootDir, 30.0f, outHitPoint, nullptr);
 	}
 
-	void PlayerMovement::DetermineDirectionAndValues()
+	void PlayerMovementSector::DetermineDirectionAndValues()
 	{
 		float dt = _pgTime->GetDeltaTime();
 		float tMoveSpeed = moveSpeed * 3.0f;
@@ -152,7 +158,7 @@ namespace Pg::DataScript
 		_currentPlaneY = this->_object->_transform._position.y - _halfColliderHeight;
 	}
 
-	void PlayerMovement::UpdateWASD()
+	void PlayerMovementSector::UpdateWASD()
 	{
 		//일단 무조건 안 움직인다고 생각하고, 움직일 떄만 Animation 적용.
 		_isMoving_Animation = false;
@@ -248,7 +254,7 @@ namespace Pg::DataScript
 		}
 	}
 
-	void PlayerMovement::UpdateJump()
+	void PlayerMovementSector::UpdateJump()
 	{
 		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::Space) && (!_isJumping))
 		{
@@ -323,7 +329,7 @@ namespace Pg::DataScript
 		}
 	}
 
-	void PlayerMovement::UpdateFacingDirection(float yLevelPlane)
+	void PlayerMovementSector::UpdateFacingDirection(float yLevelPlane)
 	{
 		///마우스의 움직임으로 판별.
 
@@ -356,7 +362,7 @@ namespace Pg::DataScript
 		//}
 	}
 
-	void PlayerMovement::StrafeAvoidLogic()
+	void PlayerMovementSector::StrafeAvoidLogic()
 	{
 		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyUp) && (!_isStrafeAvoiding))
 		{
@@ -381,7 +387,7 @@ namespace Pg::DataScript
 		}
 	}
 
-	void PlayerMovement::PlayAdequateAnimation()
+	void PlayerMovementSector::PlayAdequateAnimation()
 	{
 		//우선, 디폴트로 출력되는 것은 Idle Animation. 
 
@@ -421,8 +427,32 @@ namespace Pg::DataScript
 		_previousAnimationInput = tToPlayAnimationName;
 	}
 
-	bool PlayerMovement::GetIsMoving()
+	bool PlayerMovementSector::GetIsMoving()
 	{
 		return _isMoving;
 	}
+
+	void PlayerMovementSector::OnStrafeAvoidComplete()
+	{
+		//이거 원래 있었는데?
+		//왜 삭제되었지?
+	}
+
+	void PlayerMovementSector::FixedUpdate()
+	{
+
+	}
+
+	void PlayerMovementSector::HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2)
+	{
+
+	}
+
+	void PlayerMovementSector::ResetAll()
+	{
+
+	}
+
+	
+
 }

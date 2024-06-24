@@ -74,4 +74,9 @@ namespace Pg::DataScript
 		}
 	}
 
+	void Stage2EnemyHandler::TransformEachEnemy(std::function<void(IEnemyBehaviour*)> func)
+	{
+
+	}
+
 }

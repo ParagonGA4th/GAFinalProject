@@ -1,5 +1,6 @@
 #pragma once
 #include "ScriptInterface.h"
+#include "IProjectile.h"
 #include "../ParagonMath/PgMath.h"
 
 namespace Pg::Data
@@ -26,11 +27,12 @@ namespace Pg::DataScript
 {
 	class PlayerHandler;
 	class ComboSystem;
+	class CombatSystem;
 }
 
 namespace Pg::DataScript
 {
-	class ArrowLogic : public ScriptInterface<ArrowLogic>
+	class ArrowLogic : public ScriptInterface<ArrowLogic>, public IProjectile
 	{
 		DEFINE_PARAGON_SCRIPT(ArrowLogic);
 
@@ -91,6 +93,8 @@ namespace Pg::DataScript
 	private:
 		//ComboSystem 갖고 있기.
 		ComboSystem* _comboSystem{ nullptr };
+
+		CombatSystem* _combatSystem{ nullptr };
 	};
 }
 
