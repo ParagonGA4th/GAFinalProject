@@ -66,9 +66,14 @@ namespace Pg::Engine
 		void SyncAudioSources();
 	public:
 		std::unordered_map<std::string, Pg::Data::AudioData*>& GetSoundMap();
+		
+		void LoadSoundListOnProjectLoad(const std::vector<Pg::Data::Scene*>& sceneVec);
 
 	private:
 		void CreateSingleSounds(const std::string& resourceListPath);
+
+		//빼놓은 기능.
+		void InsertSingleSceneAudioSources(Pg::Data::Scene* scene);
 
 	private:
 		FMOD::System* _system;
@@ -76,7 +81,7 @@ namespace Pg::Engine
 		std::unordered_map<Pg::Data::eSoundGroup, FMOD::ChannelGroup*> _channelGroupVec;
 
 		std::unordered_map<std::string, Pg::Data::AudioData*> _soundMap;
-		std::unordered_map<std::string, Pg::Data::AudioSource*> _audioSoureceMap;
+		std::unordered_map<std::string, Pg::Data::AudioSource*> _audioSourceMap;
 
 		unsigned int _maxSound;		//사운드 최대 갯수
 		unsigned int _maxGroup;		//사운드 그룹 최대 갯수
