@@ -13,7 +13,7 @@
 #include "RayCastTest.h"
 
 //실제 사용될 Content용 Script들.
-#include "PlayerMovement.h"
+//#include "PlayerMovementSector.h"
 #include "InGameCameraBehavior.h"
 #include "CameraShake.h"
 #include "ComboSystem.h"
@@ -47,7 +47,9 @@
 
 //글로벌 매니저용
 #include "TotalGameManager.h"
-
+#include "InGameManager.h"
+#include "CombatSystem.h"
+#include "GlobalSoundManager.h"
 //로컬 매니저용.
 
 //TitleScene - 2D

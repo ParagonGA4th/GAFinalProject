@@ -1,7 +1,10 @@
 #pragma once
 #include "ScriptInterface.h"
+#include "IScriptResettable.h"
+#include "../ParagonData/ISortableGlobalObject.h"
 #include "IEvent.h"
 #include "ScriptEventHelper.h"
+#include "BaseMonster.h"
 #include <functional>
 #include <string>
 #include <variant>
@@ -13,7 +16,12 @@ namespace Pg::DataScript
 	class PlayerHandler;
 	class CombatSystem;
 	class BaseMonster;
+	struct HandlerBundle3D;
+	class IEnemyBehaviour;
+	class IProjectile;
 }
+
+namespace Pg::API { class PgScene; }
 
 /// <summary>
 /// 게임 안에서 컴뱃을 관리하는 시스템. 싱글턴 스크립트로 관리된다.
@@ -24,11 +32,12 @@ namespace Pg::DataScript
 
 namespace Pg::DataScript
 {
-	class CombatSystem : public ScriptInterface<CombatSystem>
+	class CombatSystem : public ScriptInterface<CombatSystem>, public Pg::Data::ISortableGlobalObject, public IScriptResettable
 	{
 		//이 매크로를 쓴다면, 생성자를 멋대로 쓰면 안된다.
 		//다른 생성자에 멋대로 Singleton CombatSystem 가져오면 안됨!
 		//또한, DontDestroyOnLoad 오브젝트에 가져다가 써야 할 것.
+		//Title Scene 내부에 포함되어 있어야 한다.
 		DEFINE_PARAGON_SCRIPT_SINGLETON(CombatSystem);
 	
 	public:
@@ -37,8 +46,33 @@ namespace Pg::DataScript
 		// 대부분의 로직을 FixedUpdate()에서 활용했으면 좋겠다. 
 		// Update에서 로직을 처리하고 - FixedUpdate에서 CombatSystem - 
 		// LateUpdate에서 받은 오브젝트가 이에 맞는 처리를 해준다.
+		virtual void Update() override;
 		virtual void FixedUpdate() override;
+		virtual void LateUpdate() override;
 
+		//무조건적으로, 씬이 변할 때 가져다가 쓰여야 한다.
+		virtual void OnSceneChange_Global(Pg::Data::Scene* changedScene) override;
+
+		//내부의 데이터들을 전부 리셋한다.
+		virtual void ResetAll() override;
+
+	public:
+		//현재로서는 가장 마지막 Priority.
+		virtual unsigned int GetPriorityIndex() override { return 2; }
+
+	public:
+		//외부 핸들러들이 본 함수를 호출할 수 있게 한다.
+		//이는 자체 관리가 아닌 이벤트 등록을 위해.
+		//개별적으로 Subscribe해도 되지만, 좀더 일부 요소는 편하게 작동시킬 수 있게 한다.
+		//이 함수를 통해 플레이어를 Combat System에게 부착시킨다. 
+		void RegisterPlayer(PlayerHandler* pl);
+
+		//여기에는 Monster들의 상위 BaseClass / Interface가 존재해야 한다.
+		void RegisterSingleEnemy(IEnemyBehaviour* enemy);
+
+		//게임 안에서 쓰이는 모든 투사체들의 상위 BaseClass / Interface가 존재해야 한다.
+		void RegisterSingleProjectile(IProjectile* proj);
+	
 	public:
 		// Player의 프로퍼티를 직접 변경하는 Wrapper이다. 무조건 Combat System을 통해서 게임 로직을 진행해야
 		// 꼬이지 않게 할 것이다.
@@ -48,25 +82,39 @@ namespace Pg::DataScript
 		void ChangePlayerMana(float level);
 		void ChangePlayerStamina(float level);
 
-	private:
-		//내부의 데이터들을 전부 리셋한다.
-		void ResetAll();
-
-		//개별적으로 Subscribe해도 되지만, 좀더 일부 요소는 편하게 작동시킬 수 있게 한다.
-		//이 함수를 통해 플레이어를 Combat System에게 부착시킨다. 
-		void RegisterPlayer(Pg::Data::GameObject* obj);
-
-		//여기에는 Monster들의 상위 BaseClass / Interface가 존재해야 한다.
-		void RegisterSingleMonster(Pg::Data::GameObject* obj);
-
-		//게임 안에서 쓰이는 모든 투사체들의 상위 BaseClass / Interface가 존재해야 한다.
-		void RegisterProjectiles(Pg::Data::GameObject* obj);
-
+	public:
+		//개별적인 Combat 등록.
+		//Monster Script들이 자의적으로 호출하는 함수.
+		void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
+		void AddMonsterOnHitList(BaseMonsterInfo* monster);
 
 	private:
-		PlayerHandler* _player{ nullptr };
-		std::vector<Pg::Data::GameObject*> _monsterList;
-		std::vector<Pg::Data::GameObject*> _projectileList;
+		//매 프레임마다 clear.
+		std::vector<BaseMonsterHealthChangePair> _monsterHealthChangeList;
+		std::vector<BaseMonsterHitPair> _monsterOnHitList;
+
+		HandlerBundle3D* _currentHandlerBundle3D{ nullptr };
+	private:
+		void CalculateMonsterDamages();
+		void CalculateMonsterHit();
+
+		
+
+	private:
+		//전체 값이 받아졌는지 -> Initialize를 초기에 하기 위해서.
+		bool _isManagingInitializeCalled{ false };
+
+		Pg::API::PgScene* _pgScene{ nullptr };
+
+		//Initialize.
+		void Initialize(Pg::Data::Scene* changedScene);
+
+
+		//개별 Handler의 사용으로 더 이상은 필요X.
+		//private:
+		//	PlayerHandler* _player{ nullptr };
+		//	std::vector<Pg::Data::GameObject*> _monsterList;
+		//	std::vector<Pg::Data::GameObject*> _projectileList;
 
 
 	public: //Combat System이 일종의 이벤트 시스템처럼 동작하는 부분이다.
@@ -79,7 +127,6 @@ namespace Pg::DataScript
 
 	private:
 		std::map<std::string, std::vector<SlotType>> _observers;
-		CombatSystem* _combatSystem;
 	};
 }
 

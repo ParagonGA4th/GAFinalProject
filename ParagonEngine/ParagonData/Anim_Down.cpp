@@ -6,6 +6,9 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_Down::tick()
 	{
+		bool downInit = config().blackboard->get<bool>("DOWNINIT");
+		if (!downInit) return BT::NodeStatus::FAILURE;
+
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
@@ -19,10 +22,9 @@ namespace Pg::Data::BTree::Node
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
-			bool netInit = config().blackboard->get<bool>("DOWNINIT");
 			_animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
 
-			if (netInit && (_isInit || !_isInit))
+			if (downInit && (_isInit || !_isInit))
 			{
 				_isInit = true;
 				_animId.append("_00011.pganim");
@@ -37,7 +39,7 @@ namespace Pg::Data::BTree::Node
 			{
 				_isLoading = false;
 				_isEnd = true;
-				config().blackboard->set<bool>("NETINIT", false);
+				config().blackboard->set<bool>("DOWNINIT", false);
 				_animId.append("_00016.pganim");
 			}
 

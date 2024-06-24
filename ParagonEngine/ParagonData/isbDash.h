@@ -1,5 +1,10 @@
-#ifndef ANIM_BDASH
-#define ANIM_BDASH
+#pragma once
+class isbDash
+{
+};
+
+#ifndef ISBDASH 
+#define ISBDASH
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,12 +12,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_bDash : public BT::SyncActionNode, public BasePgBtNode
+	class isbDash : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_bDash(const std::string& name, const BT::NodeConfiguration& config)
-			: BT::SyncActionNode(name, config) {}
-		virtual ~Anim_bDash() = default;
+		isbDash(const std::string& name, const BT::NodeConfiguration& config)
+			:BT::SyncActionNode(name, config) {};
+		virtual ~isbDash() = default;
 
 		virtual BT::NodeStatus tick() override;
 

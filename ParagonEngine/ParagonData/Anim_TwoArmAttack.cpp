@@ -13,25 +13,35 @@ namespace Pg::Data::BTree::Node
 			if (monHelper->_isAnimationEnd)
 			{
 				monHelper->_isAnimationEnd = false;
+				monHelper->_isAnimChange = false;
 				monHelper->_bossState = Pg::Data::BossState::IDLE;
-				if (monHelper->_bossPase == Pg::Data::BossPase::PASE_1)
+				config().blackboard->set<std::string>
+					("NEXTANIM", monHelper->_bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_1]);
+				if (monHelper->_bossPase == Pg::Data::BossPase::PASE_2)
 				{
-					config().blackboard->set<std::string>("NEXTANIM", monHelper->_bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_1]);
+					if (_isSkillTime)
+					{
+						config().blackboard->set<std::string>
+							("NEXTANIM", monHelper->_bossStateListByEnum[Pg::Data::BossState::SKILL_FEATHER_ATTACK]);
+					}
+
+					_isSkillTime = !_isSkillTime;
 				}
 			}
-		}
 
-		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-		if (tMeshRenderer != nullptr)
-		{
-			config().blackboard->set<std::string>("CURRENTANIM", "_00007");
-			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-			animId.append("_00007.pganim");
 
-			if (tMeshRenderer->GetAnimation() != animId)
+			auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+			if (tMeshRenderer != nullptr)
 			{
-				tMeshRenderer->SetAnimation(animId, false);
-				config().blackboard->set<bool>("ISCHANGE", true);
+				config().blackboard->set<std::string>("CURRENTANIM", "_00007");
+				std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
+				animId.append("_00007.pganim");
+
+				if (tMeshRenderer->GetAnimation() != animId)
+				{
+					tMeshRenderer->SetAnimation(animId, false);
+					monHelper->_isAnimChange = true;
+				}
 			}
 		}
 		return BT::NodeStatus::SUCCESS;

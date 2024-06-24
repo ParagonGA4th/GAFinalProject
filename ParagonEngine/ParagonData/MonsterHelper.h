@@ -18,8 +18,11 @@ namespace Pg::Data
 		MonsterHelper() = default;
 		MonsterHelper(GameObject* obj) : Component(obj),
 			_isPlayerDetected(false), _isPlayerinHitSpace(false),
-			_isDistanceClose(false), _isDash(false), _isChase(false), _isHit(false),
-			_isAnimationEnd(false), _isDeadDelay(false)
+			_isDistanceClose(false), _isChase(false), _isHit(false), _isDead(false),
+			_isPase_1(false), _isPase_2(false), _isPase_3(false), _isDown(false), _isDistanceFar(false),
+			_isDash(false),
+			_isTouched(false),
+			_isAnimationEnd(false), _isAnimChange(false), _isDeadDelay(false)
 		{
 			_bossStateListByString["Idle"] = Pg::Data::BossState::IDLE;
 			_bossStateListByString["BAttack_1"] = Pg::Data::BossState::BASIC_ATTACK_1;
@@ -54,10 +57,11 @@ namespace Pg::Data
 		Pg::Data::BossPase _bossPase = Pg::Data::BossPase::PASE_1;
 		std::unordered_map<std::string, Pg::Data::BossState> _bossStateListByString;
 		std::unordered_map<Pg::Data::BossState, std::string> _bossStateListByEnum;
-		bool isPase_1;					// 보스의 1페이즈
-		bool isPase_2;					// 보스의 1페이즈
-		bool isPase_3;					// 보스의 1페이즈
-		bool isNeutralize;				// 보스가 무력화 되었는지
+		bool _isPase_1;					// 보스의 1페이즈
+		bool _isPase_2;					// 보스의 1페이즈
+		bool _isPase_3;					// 보스의 1페이즈
+		bool _isDown;					// 보스가 무력화 되었는지
+		bool _isDistanceFar;			// 플레이어와 보스의 거리가 먼 지
 
 		/// Golem
 		bool _isDash;					// 몬스터가 대쉬를 했는지(with Boss)

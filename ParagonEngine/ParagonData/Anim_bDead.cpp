@@ -19,7 +19,8 @@ namespace Pg::Data::BTree::Node
 			}
 			else
 			{
-				if (isChange) monHelper->_isDeadDelay = true;
+				if (isChange) 
+					monHelper->_isDeadDelay = true;
 				_isAnimEnd = false;
 			}
 
