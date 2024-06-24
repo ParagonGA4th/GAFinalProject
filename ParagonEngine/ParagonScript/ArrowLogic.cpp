@@ -13,6 +13,7 @@
 #include "IEnemyBehaviour.h"
 #include "PlayerHandler.h"
 #include "ComboSystem.h"
+#include "CombatSystem.h"
 
 #include <cassert>
 #include <algorithm>
@@ -28,6 +29,9 @@ namespace Pg::DataScript
 
 	void ArrowLogic::BeforePhysicsAwake()
 	{
+		//CombatSystem 받아오자.
+		_combatSystem = CombatSystem::GetInstance(nullptr);
+
 		//내부적으로 Physics보다 SceneSystem의 함수들이 나중에 호출됨. 그러니, 미리 할 수 있는 방법을 EngineMain-SceneSystem에 연결해두었다.
 		_collider = _object->GetComponent<Pg::Data::BoxCollider>();
 		assert(_collider != nullptr);
@@ -216,8 +220,8 @@ namespace Pg::DataScript
 				_collider->SetActive(false);
 
 				//해당 데미지를 입력, PlayerBattleBehavior로 하여금 이를 처리할 수 있게 만든다.
-				_playerBattleBehavior->AddMonsterHitList(tEnemyBehaviour->ReturnBaseMonsterInfo(), -(ARROW_ATTACK_POWER * ComboSystem::DAMAGE_MULTIPLIER[tComboIndex]));
-				_playerBattleBehavior->AddMonsterOnHitList(tEnemyBehaviour->ReturnBaseMonsterInfo());
+				_combatSystem->AddMonsterHitList(tEnemyBehaviour->ReturnBaseMonsterInfo(), -(ARROW_ATTACK_POWER * ComboSystem::DAMAGE_MULTIPLIER[tComboIndex]));
+				_combatSystem->AddMonsterOnHitList(tEnemyBehaviour->ReturnBaseMonsterInfo());
 
 				{
 					std::string tComboStr = "ComboCount : ";

@@ -143,7 +143,7 @@ namespace Pg::Engine
 		//무조건 볼륨 설정 후 재생.
 		SetAllGroupVolume();
 
-		for (auto& iter : _audioSoureceMap)
+		for (auto& iter : _audioSourceMap)
 		{
 			Pg::Data::AudioSource*& audioSource = iter.second;
 			Pg::Data::AudioData*& audioData = audioSource->_audioData;
@@ -180,7 +180,7 @@ namespace Pg::Engine
 
 	void SoundSystem::SetAllGroupVolume()
 	{
-		for (auto iter = _audioSoureceMap.begin(); iter != _audioSoureceMap.end(); iter++)
+		for (auto iter = _audioSourceMap.begin(); iter != _audioSourceMap.end(); iter++)
 		{
 			Pg::Data::AudioSource*& audioSource = iter->second;
 			Pg::Data::AudioData*& audioData = audioSource->_audioData;
@@ -210,7 +210,7 @@ namespace Pg::Engine
 		//	audioData.channel->setVolume(_audioSource->GetVolume());
 		//}
 
-		for (auto& iter : _audioSoureceMap)
+		for (auto& iter : _audioSourceMap)
 		{
 			Pg::Data::AudioSource*& audioSource = iter.second;
 			Pg::Data::AudioData*& audioData = audioSource->_audioData;
@@ -251,50 +251,17 @@ namespace Pg::Engine
 	void SoundSystem::SyncAudioSources()
 	{
 		//원래 있던 AudioSourceList();
-		if (!_audioSoureceMap.empty())
+		if (!_audioSourceMap.empty())
 		{
-			_audioSoureceMap.clear();
+			_audioSourceMap.clear();
 		}
 
 		//싱글턴
 		auto& tSceneSystem = singleton<SceneSystem>();
 		_sceneSystem = &tSceneSystem;
 
-		for (auto& it : _sceneSystem->GetCurrentScene()->GetObjectList())
-		{
-			Pg::Data::AudioSource* tAudioSource = it->GetComponent<Pg::Data::AudioSource>();
-
-			if (tAudioSource != nullptr)
-			{
-				assert(!tAudioSource->GetAudioName().empty() && "AudioSource의 Audio Name이 비워져 있으면 안됨");
-				//auto tAudioDataIt = _soundMap.find(tAudioSource->GetAudioName());
-
-				//이제는 이름으로 찾는다.
-				std::string name = tAudioSource->GetAudioName();
-				Pg::Data::AudioData* tDataFound = nullptr;
-				std::string tFullPath = "";
-				for (auto& it : _soundMap)
-				{
-					std::filesystem::path tPath = it.first;
-					std::string tVal = tPath.filename().string();
-
-					if (tVal.compare(name) == 0)
-					{
-						//동일 이름의 리소스가 있을 경우.
-						tFullPath = it.first;
-						tDataFound = it.second;
-					}
-				}
-				//</>
-
-				assert(tDataFound != nullptr && "SoundMap 내부에서 들어온 String 값의 AudioData를 찾지 못함");
-
-				tAudioSource->_audioData = tDataFound;
-
-				_audioSoureceMap.insert(std::make_pair(tFullPath, tAudioSource));
-			}
-
-		}
+		//그냥 다시 찾아라.
+		InsertSingleSceneAudioSources(_sceneSystem->GetCurrentScene());
 
 		assert("");
 	}
@@ -328,4 +295,57 @@ namespace Pg::Engine
 	{
 		return _effectVolume;
 	}
+
+	void SoundSystem::LoadSoundListOnProjectLoad(const std::vector<Pg::Data::Scene*>& sceneVec)
+	{
+		//Project Load에 속한 Scene들에 있어, 개별적으로 AudioData를 넣는 것 자체가 중요.
+		for (auto& bProjScene : sceneVec)
+		{
+			InsertSingleSceneAudioSources(bProjScene);
+		}
+
+		// 이 자체는 AudioData를 채워넣는 것 자체에 의의가 있었다. 
+		// 그러므로, 현재 Scene의 관리 대상이 아니므로, Clear.
+		_audioSourceMap.clear();
+	}
+
+	void SoundSystem::InsertSingleSceneAudioSources(Pg::Data::Scene* scene)
+	{
+		for (auto& it : scene->GetObjectList())
+		{
+			Pg::Data::AudioSource* tAudioSource = it->GetComponent<Pg::Data::AudioSource>();
+
+			if (tAudioSource != nullptr)
+			{
+				assert(!tAudioSource->GetAudioName().empty() && "AudioSource의 Audio Name이 비워져 있으면 안됨");
+				//auto tAudioDataIt = _soundMap.find(tAudioSource->GetAudioName());
+
+				//이제는 이름으로 찾는다.
+				std::string name = tAudioSource->GetAudioName();
+				Pg::Data::AudioData* tDataFound = nullptr;
+				std::string tFullPath = "";
+				for (auto& it : _soundMap)
+				{
+					std::filesystem::path tPath = it.first;
+					std::string tVal = tPath.filename().string();
+
+					if (tVal.compare(name) == 0)
+					{
+						//동일 이름의 리소스가 있을 경우.
+						tFullPath = it.first;
+						tDataFound = it.second;
+					}
+				}
+				//</>
+
+				assert(tDataFound != nullptr && "SoundMap 내부에서 들어온 String 값의 AudioData를 찾지 못함");
+
+				tAudioSource->_audioData = tDataFound;
+
+				_audioSourceMap.insert(std::make_pair(tFullPath, tAudioSource));
+			}
+
+		}
+	}
+
 }

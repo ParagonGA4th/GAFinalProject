@@ -74,4 +74,10 @@ namespace Pg::DataScript
 			}
 		}
 	}
+
+	void BossStageEnemyHandler::TransformEachEnemy(std::function<void(IEnemyBehaviour*)> func)
+	{
+
+	}
+
 }

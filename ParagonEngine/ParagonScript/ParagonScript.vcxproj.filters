@@ -28,9 +28,6 @@
     <Filter Include="Content">
       <UniqueIdentifier>{09670d3c-a87a-4f81-b154-42cb1b745625}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\CombatSystem">
-      <UniqueIdentifier>{0674ed6d-3008-448f-9db0-e3cabd7ed726}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Content\InGameCameraBehavior">
       <UniqueIdentifier>{00365054-e5bc-4e48-a164-ce50d6ec82fc}</UniqueIdentifier>
     </Filter>
@@ -67,17 +64,8 @@
     <Filter Include="2_Events\Interface">
       <UniqueIdentifier>{e6a55af9-4bf3-4dc2-b598-aebfb1d53dbf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\CombatSystem\EventRelated">
-      <UniqueIdentifier>{1c94f4da-23b6-42ea-aa5e-589edaa81ef3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2_Events\Helper">
       <UniqueIdentifier>{52f11182-1aad-49f6-a208-526ca6e14f3b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\PlayerMovement">
-      <UniqueIdentifier>{2e6ac2b5-bce0-4ab8-8854-bab3a583a260}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\PlayerBattleBehavior">
-      <UniqueIdentifier>{d3746401-48fd-4da7-92cf-3b0ce8192645}</UniqueIdentifier>
     </Filter>
     <Filter Include="Content\MapLogic\Portal">
       <UniqueIdentifier>{b67c5cbe-562c-4b9a-ae33-35d1852b0d4d}</UniqueIdentifier>
@@ -244,6 +232,24 @@
     <Filter Include="3_Interfaces\Instances\IMovableObject">
       <UniqueIdentifier>{e06291f5-2cb3-43ec-9272-498e6a0256f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\PlayerHandler">
+      <UniqueIdentifier>{d3746401-48fd-4da7-92cf-3b0ce8192645}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\PlayerHandler\PlayerMovementSector">
+      <UniqueIdentifier>{19bb1c3e-51c7-4473-9cd1-062d0f6ab47f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\PlayerHandler\PlayerBattleSector">
+      <UniqueIdentifier>{6cfebe80-2f9a-45d0-8415-6e89ba4b25f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\GlobalManagers\2_CombatSystem">
+      <UniqueIdentifier>{0d92025d-62f4-4201-af39-9d103af5fbce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\EventRelated">
+      <UniqueIdentifier>{1c94f4da-23b6-42ea-aa5e-589edaa81ef3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\GlobalManagers\3_SoundSystem">
+      <UniqueIdentifier>{0ece6805-e22e-4d8e-bd15-f1e4994b48a1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="AI\Attack\MiniGolemAttack">
       <UniqueIdentifier>{b4243350-77fb-49e4-993e-4a05bc52a4ea}</UniqueIdentifier>
     </Filter>
@@ -276,17 +282,11 @@
     <ClCompile Include="ComboSystem.cpp">
       <Filter>Content\ComboSystem</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerMovement.cpp">
-      <Filter>Content\PlayerMovement</Filter>
-    </ClCompile>
     <ClCompile Include="InGameCameraBehavior.cpp">
       <Filter>Content\InGameCameraBehavior</Filter>
     </ClCompile>
     <ClCompile Include="CameraShake.cpp">
       <Filter>Content\CameraShake</Filter>
-    </ClCompile>
-    <ClCompile Include="CombatSystem.cpp">
-      <Filter>Content\CombatSystem</Filter>
     </ClCompile>
     <ClCompile Include="ArrowShooterBehavior.cpp">
       <Filter>Content\ArrowShooterBehavior</Filter>
@@ -301,7 +301,7 @@
       <Filter>Content\MapLogic\Trap Area</Filter>
     </ClCompile>
     <ClCompile Include="PlayerHandler.cpp">
-      <Filter>Content\PlayerBattleBehavior</Filter>
+      <Filter>Content\1_ConcreteHandlers\PlayerHandler</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBehaviour.cpp">
       <Filter>AI\Enemy</Filter>
@@ -408,6 +408,18 @@
     <ClCompile Include="TrentAttack.cpp">
       <Filter>AI\Attack\TrentAttack</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerMovementSector.cpp">
+      <Filter>Content\1_ConcreteHandlers\PlayerHandler\PlayerMovementSector</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCombatSector.cpp">
+      <Filter>Content\1_ConcreteHandlers\PlayerHandler\PlayerBattleSector</Filter>
+    </ClCompile>
+    <ClCompile Include="CombatSystem.cpp">
+      <Filter>Content\GlobalManagers\2_CombatSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalSoundManager.cpp">
+      <Filter>Content\GlobalManagers\3_SoundSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -437,17 +449,11 @@
     <ClInclude Include="ComboSystem.h">
       <Filter>Content\ComboSystem</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerMovement.h">
-      <Filter>Content\PlayerMovement</Filter>
-    </ClInclude>
     <ClInclude Include="InGameCameraBehavior.h">
       <Filter>Content\InGameCameraBehavior</Filter>
     </ClInclude>
     <ClInclude Include="CameraShake.h">
       <Filter>Content\CameraShake</Filter>
-    </ClInclude>
-    <ClInclude Include="CombatSystem.h">
-      <Filter>Content\CombatSystem</Filter>
     </ClInclude>
     <ClInclude Include="ArrowShooterBehavior.h">
       <Filter>Content\ArrowShooterBehavior</Filter>
@@ -471,19 +477,19 @@
       <Filter>2_Events\Helper</Filter>
     </ClInclude>
     <ClInclude Include="PlayerHandler.h">
-      <Filter>Content\PlayerBattleBehavior</Filter>
+      <Filter>Content\1_ConcreteHandlers\PlayerHandler</Filter>
     </ClInclude>
     <ClInclude Include="EventList_PlayerRelated.h">
-      <Filter>Content\CombatSystem\EventRelated</Filter>
+      <Filter>Content\EventRelated</Filter>
     </ClInclude>
     <ClInclude Include="IScriptResettable.h">
       <Filter>3_Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="EventList_GameFlowRelated.h">
-      <Filter>Content\CombatSystem\EventRelated</Filter>
+      <Filter>Content\EventRelated</Filter>
     </ClInclude>
     <ClInclude Include="EventList_EnemyRelated.h">
-      <Filter>Content\CombatSystem\EventRelated</Filter>
+      <Filter>Content\EventRelated</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBehaviour.h">
       <Filter>AI\Enemy</Filter>
@@ -492,7 +498,7 @@
       <Filter>AI\Sight</Filter>
     </ClInclude>
     <ClInclude Include="EventList_CameraRelated.h">
-      <Filter>Content\CombatSystem\EventRelated</Filter>
+      <Filter>Content\EventRelated</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
       <Filter>Content\MapLogic\Portal</Filter>
@@ -629,6 +635,21 @@
     </ClInclude>
     <ClInclude Include="TrentAttack.h">
       <Filter>AI\Attack\TrentAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMovementSector.h">
+      <Filter>Content\1_ConcreteHandlers\PlayerHandler\PlayerMovementSector</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCombatSector.h">
+      <Filter>Content\1_ConcreteHandlers\PlayerHandler\PlayerBattleSector</Filter>
+    </ClInclude>
+    <ClInclude Include="IProjectile.h">
+      <Filter>3_Interfaces\Instances</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatSystem.h">
+      <Filter>Content\GlobalManagers\2_CombatSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalSoundManager.h">
+      <Filter>Content\GlobalManagers\3_SoundSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

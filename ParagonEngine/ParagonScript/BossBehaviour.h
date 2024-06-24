@@ -16,7 +16,7 @@ namespace Pg::Data
 }
 
 namespace Pg::API
-{	
+{
 	class PgScene;
 
 	namespace Time
@@ -28,7 +28,7 @@ namespace Pg::API
 namespace Pg::DataScript
 {
 	class BossBehaviour : public ScriptInterface<BossBehaviour>, public IEnemyBehaviour
-	{	
+	{
 		DEFINE_PARAGON_SCRIPT(BossBehaviour);
 	public:
 		BossBehaviour(Pg::Data::GameObject* obj);
@@ -53,7 +53,10 @@ namespace Pg::DataScript
 		void Dash();
 
 		//플레이어를 공격.
-		void Attack();
+		void Attack(bool _isAttack);
+
+		//보스의 스킬공격
+		void Skill(bool _isSkill);
 
 		//회피하는 로직.
 		void Evade();
@@ -84,11 +87,15 @@ namespace Pg::DataScript
 		//골렘보스의 상태와 수치에 대한 정보.
 		BossInfo* _bossInfo;
 
+		float _distance;				//보스와 플레이어와의 거리
+		bool _isPlayerInit{ false };
+
 		bool _isRotateFinish;
 
 		//대쉬 관련 변수.
 		bool _isDash{ false };			//돌진 여부
 		bool _hasDashed{ false };		//돌진했는지 여부
+		int _dashCount{ 0 };			//몇 번 돌진 했는지
 
 		bool _isNeutralize{ false };	//무력화 상태 여부
 
@@ -102,6 +109,7 @@ namespace Pg::DataScript
 		bool _isEvading{ false };
 		bool _hasEvaded{ false };
 		float _evadeCooldownTime = 0.f;
+
 	};
 }
 
