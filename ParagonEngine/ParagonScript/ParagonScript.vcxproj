@@ -172,7 +172,7 @@
     <ClInclude Include="IMovableObject.h" />
     <ClInclude Include="InGameManager.h" />
     <ClInclude Include="MovingObjectDefinesAndStructs.h" />
-    <ClInclude Include="PlayerBattleSector.h" />
+    <ClInclude Include="PlayerCombatSector.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="CreditsSceneGUIHandler.h" />
     <ClInclude Include="Stage1AreaHandler.h" />
@@ -236,7 +236,7 @@
     <ClCompile Include="FactoryHelper.cpp" />
     <ClCompile Include="InGameManager.cpp" />
     <ClCompile Include="CreditsSceneGUIHandler.cpp" />
-    <ClCompile Include="PlayerBattleSector.cpp" />
+    <ClCompile Include="PlayerCombatSector.cpp" />
     <ClCompile Include="Stage1AreaHandler.cpp" />
     <ClCompile Include="Stage1EnemyHandler.cpp" />
     <ClCompile Include="Stage1GUIHandler.cpp" />

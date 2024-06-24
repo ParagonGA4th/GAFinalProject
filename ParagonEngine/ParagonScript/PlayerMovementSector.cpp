@@ -1,6 +1,7 @@
 #include "PlayerMovementSector.h"
 
 #include "InGameCameraBehavior.h"
+#include "PlayerHandler.h"
 
 #include "../ParagonData/Camera.h"
 #include "../ParagonData/GameObject.h"
@@ -21,7 +22,7 @@
 
 namespace Pg::DataScript
 {
-	PlayerMovementSector::PlayerMovementSector(Pg::Data::GameObject* obj) : _object(obj)
+	PlayerMovementSector::PlayerMovementSector(PlayerHandler* playerHandler) : _playerHandler(playerHandler), _object(playerHandler->_object)
 	{
 		//Input 객체 받아오기.
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
@@ -430,6 +431,21 @@ namespace Pg::DataScript
 	{
 		//이거 원래 있었는데?
 		//왜 삭제되었지?
+	}
+
+	void PlayerMovementSector::FixedUpdate()
+	{
+
+	}
+
+	void PlayerMovementSector::HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2)
+	{
+
+	}
+
+	void PlayerMovementSector::ResetAll()
+	{
+
 	}
 
 }

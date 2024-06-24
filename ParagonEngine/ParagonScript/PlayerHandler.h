@@ -11,7 +11,7 @@ namespace Pg::DataScript
 
 	class ArrowLogic;
 	class PlayerMovementSector;
-	class PlayerBattleSector;
+	class PlayerCombatSector;
 }
 
 namespace Pg::API
@@ -51,10 +51,11 @@ namespace Pg::DataScript
 		PlayerHandler(Pg::Data::GameObject* obj); 
 
 		virtual void BeforePhysicsAwake() override;
-		virtual void Awake();
-		virtual void Start();
-		virtual void Update();
-		virtual void LateUpdate();
+		virtual void Awake() override;
+		virtual void Start() override;
+		virtual void Update() override;
+		virtual void FixedUpdate() override;
+		virtual void LateUpdate() override;
 
 		//IObserver : 전체적인 Event 전달을 기준으로 작동할 것.
 		virtual void HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2) override;
@@ -64,15 +65,6 @@ namespace Pg::DataScript
 
 		//Animation이 끝났을 때 호출 되는 함수
 		virtual void OnAnimationEnd() override;
-
-	private:
-		void FindAllArrowsInMap();
-		void ArrowShootingLogic();
-		void CalculateMonsterDamages();
-		void CalculateMonsterHit();
-
-	private:
-		void PlayAdequateAnimation();	// 플레이어 행동에 따른 맞는 애니매이션 출력
 
 	public:
 		//플레이어에게 들어오는 개별적인 로직은 따로 분리됨.
@@ -93,9 +85,11 @@ namespace Pg::DataScript
 		float manaPoint{ MAX_PLAYER_MANA };
 		float staminaPoint{ MAX_PLAYER_STAMINA };
 
-		float _timeSinceLastShot = 0.f;
-		//공격 쿨타임
-		const float _shootCooldown = 0.8f; 
+	public:
+		//Sector 사이의 교류를 위해.
+		//나중에는 사용 최소화를 목적으로.
+		PlayerMovementSector* GetPlayerMovementSector();
+		PlayerCombatSector* GetPlayerCombatSector();
 
 	private:
 		CombatSystem* _combatSystem{ nullptr };
@@ -105,31 +99,10 @@ namespace Pg::DataScript
 	private:
 		//내부적으로 Movement 등 Sector들 관리.
 		std::unique_ptr<PlayerMovementSector> _playerMovementSector;
-		std::unique_ptr<PlayerBattleSector> _playerBattleSector;
-	private:
-		//매 프레임마다 clear.
-		std::vector<BaseMonsterHealthChangePair> _monsterHealthChangeList;
-		std::vector<BaseMonsterHitPair> _monsterOnHitList;
+		std::unique_ptr<PlayerCombatSector> _playerCombatSector;
 
-	private:
-		Pg::API::Input::PgInput* _pgInput;
-		Pg::API::Time::PgTime* _pgTime;
-		std::vector<ArrowLogic*> _arrowVec;
 		Pg::Data::DynamicCollider* _selfCol{ nullptr };
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer{ nullptr };
-		PlayerMovementSector* _playerMovement;
-
-	private:
-		//사운드 관련 변수
-		Pg::Data::GameObject* _commonAttackSound;
-		Pg::Data::AudioSource* _commonAttackAudio;
-
-
-	private:
-		// 플레이어 애니매이션 관련 변수
-		std::string _prevAnimationInput;
-		bool _isHit;
-		int _hitCount = 0;
 	};
 }
 

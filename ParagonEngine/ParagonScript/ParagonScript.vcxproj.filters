@@ -393,7 +393,7 @@
     <ClCompile Include="PlayerMovementSector.cpp">
       <Filter>Content\1_ConcreteHandlers\PlayerHandler\PlayerMovementSector</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBattleSector.cpp">
+    <ClCompile Include="PlayerCombatSector.cpp">
       <Filter>Content\1_ConcreteHandlers\PlayerHandler\PlayerBattleSector</Filter>
     </ClCompile>
   </ItemGroup>
@@ -609,7 +609,7 @@
     <ClInclude Include="PlayerMovementSector.h">
       <Filter>Content\1_ConcreteHandlers\PlayerHandler\PlayerMovementSector</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBattleSector.h">
+    <ClInclude Include="PlayerCombatSector.h">
       <Filter>Content\1_ConcreteHandlers\PlayerHandler\PlayerBattleSector</Filter>
     </ClInclude>
   </ItemGroup>
