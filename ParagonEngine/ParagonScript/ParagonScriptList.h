@@ -24,6 +24,8 @@
 #include "EnemyBehaviour.h"
 #include "EnemySight.h"
 #include "Portal.h"
+#include "AreaPassingTrigger.h"
+#include "DeathPlane.h"
 
 //UI 관련 (개별)
 #include "TitleScene.h"

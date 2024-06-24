@@ -4,8 +4,8 @@
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/LayerMask.h"
 
-#include "TrapArea.h"
-#include "BattleArea.h"
+#include "DeathPlane.h"
+#include "AreaPassingTrigger.h"
 
 #include "../ParagonUtil/CustomAssert.h"
 
@@ -51,17 +51,15 @@ namespace Pg::DataScript
 		{
 			// Layer 검사는 따로 하지 않음 : 
 			// LAYER_MOVABLE_OBJECTS는 w/o 가능.
-			Pg::Data::Collider* tCol = bObj->GetComponent<Pg::Data::Collider>();
+			IMovableObject* tMo = bObj->GetComponent<IMovableObject>();
 
-			if (tCol != nullptr)
+			if (tMo != nullptr)
 			{
 				// Collider가 있다는 것.
 				// 따로 기존 로직에 관여하지 않고, 옵젝중 움직일 수 있는 애만.
 				// Renderer는 동일 오브젝트 내부에 있을 것이다.
-				//
-				IMovableObject* tMo = bObj->GetComponent<IMovableObject>();
-				assert((tMo != nullptr)
-					&& "Layer가 무조건 MOVABLE_OBJECTS면, IMoveableObject 상속받은 오브젝트를 내부적으로 가지고 있어야 한다.");
+				//assert((tMo != nullptr)
+				//	&& "Layer가 무조건 MOVABLE_OBJECTS면, IMoveableObject 상속받은 오브젝트를 내부적으로 가지고 있어야 한다.");
 
 				//객체별로 달라야 한다.
 				unsigned int tDesignatedIndex = tMo->GetDesignatedAreaIndex();
@@ -74,6 +72,29 @@ namespace Pg::DataScript
 				tToInsert._transStorage = TransformSimpleStorage(&(bObj->_transform));
 
 				bIndexedMap.insert(std::make_pair(bObj->GetName(), tToInsert));
+
+				continue;
+			}
+
+			//이제는 DeathPlane / AreaPassingTrigger 검사.
+			//자체 저장 + 자신의 객체 주소 전달.
+			DeathPlane* tDeathPlane = bObj->GetComponent<DeathPlane>();
+			if (tDeathPlane != nullptr)
+			{
+				tDeathPlane->StoreDesignatedAreaHandler(this);
+				_deathPlaneList.push_back(tDeathPlane);
+
+				continue;
+			}
+
+			AreaPassingTrigger* tAreaTrigger = bObj->GetComponent<AreaPassingTrigger>();
+			if (tAreaTrigger != nullptr)
+			{
+				tAreaTrigger->StoreDesignatedAreaHandler(this);
+				_areaTriggerMap.insert(std::make_pair(tAreaTrigger,
+					(unsigned int)(tAreaTrigger->_areaIndex)));
+
+				continue;
 			}
 		}
 	}
@@ -114,6 +135,16 @@ namespace Pg::DataScript
 		{
 			bAgg._moveBehav->ResetAll();
 		}
+	}
+
+	void Stage1AreaHandler::SetCurrentAreaIndex(unsigned int index)
+	{
+		_currentAreaIndex = index;
+	}
+
+	void Stage1AreaHandler::OnPlayerHitDeathPlane()
+	{
+
 	}
 
 }

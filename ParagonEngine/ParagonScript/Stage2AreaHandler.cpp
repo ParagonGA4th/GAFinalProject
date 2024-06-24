@@ -89,6 +89,15 @@ namespace Pg::DataScript
 	{
 
 	}
-	
+
+	void Stage2AreaHandler::SetCurrentAreaIndex(unsigned int index)
+	{
+
+	}
+
+	void Stage2AreaHandler::OnPlayerHitDeathPlane()
+	{
+
+	}
 
 }

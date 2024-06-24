@@ -262,6 +262,12 @@
     <Filter Include="3_Interfaces\Instances\ISingleGUI">
       <UniqueIdentifier>{39f52471-3438-4c7c-b8a8-8cd34fa94aee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\MapLogic\DeathPlane">
+      <UniqueIdentifier>{a073b386-69ef-4b06-921a-11712a7065a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\MapLogic\AreaPassingTrigger">
+      <UniqueIdentifier>{0a1133bd-c23c-4556-8591-cd44ff7eebef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -422,6 +428,12 @@
     </ClCompile>
     <ClCompile Include="GlobalSoundManager.cpp">
       <Filter>Content\GlobalManagers\3_GlobalSoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaPassingTrigger.cpp">
+      <Filter>Content\MapLogic\AreaPassingTrigger</Filter>
+    </ClCompile>
+    <ClCompile Include="DeathPlane.cpp">
+      <Filter>Content\MapLogic\DeathPlane</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -656,6 +668,12 @@
     </ClInclude>
     <ClInclude Include="ISingleGUI.h">
       <Filter>3_Interfaces\Instances\ISingleGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaPassingTrigger.h">
+      <Filter>Content\MapLogic\AreaPassingTrigger</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathPlane.h">
+      <Filter>Content\MapLogic\DeathPlane</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

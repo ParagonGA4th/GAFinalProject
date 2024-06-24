@@ -142,11 +142,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AreaPassingTrigger.h" />
     <ClInclude Include="ArrowLogic.h" />
     <ClInclude Include="ArrowShooterBehavior.h" />
     <ClInclude Include="BossStageAreaHandler.h" />
     <ClInclude Include="BossStageEnemyHandler.h" />
     <ClInclude Include="BossStageGUIHandler.h" />
+    <ClInclude Include="DeathPlane.h" />
     <ClInclude Include="EnemyDefinesAndStructs.h" />
     <ClInclude Include="GUIDefinesAndStructs.h" />
     <ClInclude Include="HandleBundle3D.h" />
@@ -222,6 +224,7 @@
     <ClInclude Include="TrentAttack.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AreaPassingTrigger.cpp" />
     <ClCompile Include="ArrowLogic.cpp" />
     <ClCompile Include="ArrowShooterBehavior.cpp" />
     <ClCompile Include="BaseMonster.cpp" />
@@ -234,6 +237,7 @@
     <ClCompile Include="CameraShake.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="ComboSystem.cpp" />
+    <ClCompile Include="DeathPlane.cpp" />
     <ClCompile Include="EnemyAttack.cpp" />
     <ClCompile Include="EnemyBehaviour.cpp" />
     <ClCompile Include="EnemySight.cpp" />
