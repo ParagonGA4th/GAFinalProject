@@ -247,9 +247,6 @@
     <Filter Include="Content\EventRelated">
       <UniqueIdentifier>{1c94f4da-23b6-42ea-aa5e-589edaa81ef3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\GlobalManagers\3_SoundSystem">
-      <UniqueIdentifier>{0ece6805-e22e-4d8e-bd15-f1e4994b48a1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="AI\Attack\MiniGolemAttack">
       <UniqueIdentifier>{b4243350-77fb-49e4-993e-4a05bc52a4ea}</UniqueIdentifier>
     </Filter>
@@ -258,6 +255,12 @@
     </Filter>
     <Filter Include="AI\Attack\MimicAttack">
       <UniqueIdentifier>{b954f578-f946-4bb9-b254-32ed10ae328a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\GlobalManagers\3_GlobalSoundManager">
+      <UniqueIdentifier>{0ece6805-e22e-4d8e-bd15-f1e4994b48a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Interfaces\Instances\ISingleGUI">
+      <UniqueIdentifier>{39f52471-3438-4c7c-b8a8-8cd34fa94aee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -418,7 +421,7 @@
       <Filter>Content\GlobalManagers\2_CombatSystem</Filter>
     </ClCompile>
     <ClCompile Include="GlobalSoundManager.cpp">
-      <Filter>Content\GlobalManagers\3_SoundSystem</Filter>
+      <Filter>Content\GlobalManagers\3_GlobalSoundManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -649,7 +652,10 @@
       <Filter>Content\GlobalManagers\2_CombatSystem</Filter>
     </ClInclude>
     <ClInclude Include="GlobalSoundManager.h">
-      <Filter>Content\GlobalManagers\3_SoundSystem</Filter>
+      <Filter>Content\GlobalManagers\3_GlobalSoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ISingleGUI.h">
+      <Filter>3_Interfaces\Instances\ISingleGUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

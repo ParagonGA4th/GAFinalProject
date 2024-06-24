@@ -172,6 +172,7 @@
     <ClInclude Include="IMovableObject.h" />
     <ClInclude Include="InGameManager.h" />
     <ClInclude Include="IProjectile.h" />
+    <ClInclude Include="ISingleGUI.h" />
     <ClInclude Include="MimicAttack.h" />
     <ClInclude Include="MiniGolemAttack.h" />
     <ClInclude Include="MovingObjectDefinesAndStructs.h" />
