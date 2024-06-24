@@ -23,6 +23,8 @@
 #include "../ParagonData/Anim_FlyAttack.h"
 #include "../ParagonData/Anim_Evasion.h"
 #include "../ParagonData/isPase_1.h"
+#include "../ParagonData/isPase_2.h"
+#include "../ParagonData/isPase_3.h"
 #include "../ParagonData/isDown.h"
 
 // floating Monster
