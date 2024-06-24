@@ -318,4 +318,10 @@ namespace Pg::DataScript
 		//애니메이션 인풋 스트링 기록.
 		_prevAnimationInput = tToPlayAnimationName;
 	}
+
+	void PlayerHandler::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
+	{
+		PG_TRACE("HIT : PLAYER");
+	}
+
 }

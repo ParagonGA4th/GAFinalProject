@@ -64,6 +64,9 @@ namespace Pg::DataScript
 		//Animation이 끝났을 때 호출 되는 함수
 		virtual void OnAnimationEnd() override;
 
+		//TOREMOVE.
+		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
+
 	private:
 		void FindAllArrowsInMap();
 		void ArrowShootingLogic();
