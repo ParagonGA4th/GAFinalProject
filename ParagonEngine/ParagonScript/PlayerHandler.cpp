@@ -30,6 +30,13 @@ namespace Pg::DataScript
 		_playerCombatSector = std::make_unique<PlayerCombatSector>(this);
 	}
 
+	void PlayerHandler::GrabManagedObjects()
+	{
+		//개별적으로 함수 실행.
+		_playerMovementSector->GrabManagedObjects();
+		_playerCombatSector->GrabManagedObjects();
+	}
+
 	void PlayerHandler::BeforePhysicsAwake()
 	{
 		//무조건 생성자는 안됨! -> AddComponent에서 만들어진 다음에는, Static Variable Initialization에 따라 재생성되지 않는다.
@@ -128,15 +135,6 @@ namespace Pg::DataScript
 		_playerMovementSector->ResetAll();
 
 	}
-	void PlayerHandler::AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl)
-	{
-		_playerCombatSector->AddMonsterHitList(monster, healthChangeLvl);
-	}
-
-	void PlayerHandler::AddMonsterOnHitList(BaseMonsterInfo* monster)
-	{
-		_playerCombatSector->AddMonsterOnHitList(monster);
-	}
 
 	void PlayerHandler::SetPlayerMoveSpeed(float val)
 	{
@@ -158,6 +156,7 @@ namespace Pg::DataScript
 		return _playerCombatSector.get();
 	}
 
+	
 	
 
 }

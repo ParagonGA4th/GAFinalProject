@@ -40,6 +40,7 @@ namespace Pg::DataScript
 	{
 		DEFINE_PARAGON_SCRIPT(PlayerHandler);
 
+		friend class CombatSystem;
 	public:
 		//디파인.
 		inline static const float MAX_PLAYER_HEALTH = 100.0f;
@@ -49,6 +50,8 @@ namespace Pg::DataScript
 
 	public:
 		PlayerHandler(Pg::Data::GameObject* obj); 
+
+		virtual void GrabManagedObjects() override;
 
 		virtual void BeforePhysicsAwake() override;
 		virtual void Awake() override;
@@ -66,17 +69,18 @@ namespace Pg::DataScript
 		//Animation이 끝났을 때 호출 되는 함수
 		virtual void OnAnimationEnd() override;
 
-	public:
+		//이거 CombatSystem에 있어야.
+		//void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
+		//void AddMonsterOnHitList(BaseMonsterInfo* monster);
+
+		void SetPlayerMoveSpeed(float val);
+		float GetPlayerMoveSpeed();
+
+	private:
 		//플레이어에게 들어오는 개별적인 로직은 따로 분리됨.
 		void ChangePlayerHealth(float level);
 		void ChangePlayerMana(float level);
 		void ChangePlayerStamina(float level);
-
-		void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
-		void AddMonsterOnHitList(BaseMonsterInfo* monster);
-
-		void SetPlayerMoveSpeed(float val);
-		float GetPlayerMoveSpeed();
 
 	public:
 		//체력 관련. -> 지금은 맵 기믹때문에 이렇게 해놨지만, 나중에는 별도로 이동해야.

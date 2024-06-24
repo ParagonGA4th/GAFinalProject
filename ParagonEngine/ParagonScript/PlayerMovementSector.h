@@ -39,13 +39,15 @@ namespace Pg::DataScript
 	public:
 		PlayerMovementSector(PlayerHandler* playerHandler);
 
+		void GrabManagedObjects();
+
 		//얘네들은 Component에 의해 작동되는 것 X, Script 자체에서 수명을 관리한다.
 		void BeforePhysicsAwake();
-		void Awake() ;
-		void Start() ;
-		void Update() ;
+		void Awake();
+		void Start();
+		void Update();
 		void FixedUpdate();
-		void LateUpdate() ;
+		void LateUpdate();
 	
 		//Animation이 끝났을 때 호출 되는 함수
 		void OnAnimationEnd();
@@ -60,7 +62,7 @@ namespace Pg::DataScript
 		//IScriptResettable. 다시 자기 자신을 리셋하는 함수.
 		virtual void ResetAll() override;
 
-	private:
+	public:
 		bool GetIsMoving();	//플레이어의 이동여부를 전달하여 공격금지하게 해야함.
 	
 	private:

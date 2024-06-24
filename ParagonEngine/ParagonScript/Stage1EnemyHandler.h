@@ -35,7 +35,7 @@ namespace Pg::DataScript
 
 		//Handler.
 		virtual void ResetToInitialState() override;
-
+		virtual void TransformEachEnemy(std::function<void(IEnemyBehaviour*)> func) override;
 	private:
 		// Monster TAG / Instance. 
 		// Tag별로 나누어서 관리한다.

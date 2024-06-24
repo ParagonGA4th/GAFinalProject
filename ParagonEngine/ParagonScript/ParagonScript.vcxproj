@@ -171,6 +171,7 @@
     <ClInclude Include="IGUIHandler.h" />
     <ClInclude Include="IMovableObject.h" />
     <ClInclude Include="InGameManager.h" />
+    <ClInclude Include="IProjectile.h" />
     <ClInclude Include="MovingObjectDefinesAndStructs.h" />
     <ClInclude Include="PlayerCombatSector.h" />
     <ClInclude Include="resource.h" />

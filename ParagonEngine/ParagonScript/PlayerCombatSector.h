@@ -19,6 +19,9 @@ namespace Pg::DataScript
 	public:
 		PlayerCombatSector(PlayerHandler* playerHandler);
 
+
+		void GrabManagedObjects();
+
 		//얘네들은 Component에 의해 작동되는 것 X, Script 자체에서 수명을 관리한다.
 		void BeforePhysicsAwake();
 		void Awake();
@@ -37,21 +40,17 @@ namespace Pg::DataScript
 
 	public:
 		void ArrowShootingLogic();
-		void CalculateMonsterDamages();
-		void CalculateMonsterHit();
 
-		//Monster Script들이 자의적으로 호출하는 함수.
-		void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
-		void AddMonsterOnHitList(BaseMonsterInfo* monster);
+		//CombatSystem으로 이동.
+		////Monster Script들이 자의적으로 호출하는 함수.
+		//void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
+		//void AddMonsterOnHitList(BaseMonsterInfo* monster);
 
 	private:
 		void FindAllArrowsInMap();
 		void PlayAdequateAnimation();
 
-	private:
-		//매 프레임마다 clear.
-		std::vector<BaseMonsterHealthChangePair> _monsterHealthChangeList;
-		std::vector<BaseMonsterHitPair> _monsterOnHitList;
+	
 
 	private:
 		PlayerHandler* _playerHandler;
