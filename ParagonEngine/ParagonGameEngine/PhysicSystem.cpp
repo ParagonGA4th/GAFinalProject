@@ -511,40 +511,20 @@ namespace Pg::Engine::Physic
 					staticBoxcol->GetHeight() / 2.0f, staticBoxcol->GetDepth() / 2.0f), *_material);
 
 				// 충돌 오프셋 설정
-				boxShape->setContactOffset(2.f); // 적절한 값으로 설정
-				boxShape->setRestOffset(1.f);   // 적절한 값으로 설정
+				boxShape->setContactOffset(0.2f); // 적절한 값으로 설정
+				boxShape->setRestOffset(0.1f);   // 적절한 값으로 설정
 
-				// 부모 객체의 월드 회전
-				Pg::Math::PGQuaternion parentQuat = obj->_transform._rotation;
-
-				// 자식 객체의 로컬 회전
-				Pg::Math::PGQuaternion localQuat = collider->GetRotationOffset();
-
-				// 결합된 회전 (월드 회전)
-				Pg::Math::PGQuaternion combinedQuat = PGQuaternionMultiply(localQuat, parentQuat);
-
-				// PhysX 쿼터니언 변환
+				Pg::Math::PGQuaternion quat = PGQuaternionMultiply(collider->GetRotationOffset(), obj->_transform._rotation);
 				physx::PxTransform trans(physx::PxIdentity);
-				trans.q = physx::PxQuat(combinedQuat.x, combinedQuat.y, combinedQuat.z, combinedQuat.w);
+				trans.q = physx::PxQuat(quat.x, quat.y, quat.z, quat.w);
 
-				// 회전 오프셋을 z축으로 90도 회전시킴 (필요 시 주석 해제)
-				// physx::PxQuat rotation90(physx::PxPi / 2.0f, physx::PxVec3(0.0f, 0.0f, 1.0f));
-				// trans.q = trans.q * rotation90;
-
-				// 자식 객체의 위치 오프셋을 부모 객체의 월드 변환에 적용
-				//Pg::Math::PGFLOAT3 offsetP = collider->GetPositionOffset();
-				//Pg::Math::PGFLOAT3 worldOffset = Pg::Math::PGFloat3MultiplyMatrix(offsetP, obj->_transform.GetWorldTM());
-				//trans.p = physx::PxVec3(worldOffset.x, worldOffset.y, worldOffset.z);
-				//
-				//physx::PxTransform worldTm(trans.p);
-
-				// PositionOffset 설정
+				//PositionOffset 설정
 				auto offsetP = collider->GetPositionOffset();
-				trans.p = physx::PxVec3(offsetP.x, offsetP.y, offsetP.z);
+				trans.p = { offsetP.x, offsetP.y , offsetP.z };
 
 				Pg::Math::PGFLOAT3 position = Pg::Math::PGFloat3MultiplyMatrix(collider->GetPositionOffset(), obj->_transform.GetWorldTM());
 
-				physx::PxTransform worldTm(physx::PxVec3(position.x, position.y, position.z));
+				physx::PxTransform worldTm = {position.x, position.y, position.z};
 
 				boxShape->setLocalPose(trans);
 
@@ -555,18 +535,15 @@ namespace Pg::Engine::Physic
 					boxShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
 				}
 
-
-
 				staticBoxcol->SetPxShape(boxShape);
 
 				// Layer Mask 설정
 				boxShape->setSimulationFilterData({ staticBoxcol->GetLayer(), 0, 0, 0 });
 
 				physx::PxRigidStatic* rigid = _physics->createRigidStatic(worldTm);
-
 				rigid->attachShape(*boxShape);
 
-				// Collider가 꺼져 있으면 eDisableSimulation PhysX 내부에서 활성화.
+				//Collider가 꺼져 있으면 eDisableSimulation PhysX 내부에서 활성화.
 				rigid->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !staticBoxcol->GetActive());
 
 				staticBoxcol->SetPxRigidStatic(rigid);

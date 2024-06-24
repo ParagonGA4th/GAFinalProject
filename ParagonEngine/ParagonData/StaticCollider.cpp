@@ -22,12 +22,25 @@ namespace Pg::Data
 	{
 		using namespace Pg::Math;
 
-		PGFLOAT4 position = PGFLOAT4(GetPositionOffset(), 1.0f) * _object->_transform.GetWorldTM();
-		PGQuaternion rotation = PGQuaternionMultiply(GetRotationOffset(), _object->_transform._rotation);
+		//PGFLOAT3 offsetP = GetPositionOffset();
+		//PGFLOAT4 offsetPos4(offsetP.x, offsetP.y, offsetP.z, 1.0f);
+		//PGFLOAT4 worldPos4 = offsetPos4 * _object->_transform.GetWorldTM();
+		//PGFLOAT3 worldPos(worldPos4.x, worldPos4.y, worldPos4.z);
 
-		//PGFLOAT3 position = _object->_transform._position;
+		//PGQuaternion rotationOffset = GetRotationOffset();
+		//PGQuaternion worldRotation = _object->_transform._rotation;
+		//PGQuaternion combinedRotation = PGQuaternionMultiply(worldRotation, rotationOffset);
 
-		//PGQuaternion rotation = _object->_transform._rotation;
+		PGFLOAT3 position = _object->_transform._position;
+		PGQuaternion rotation = _object->_transform._rotation;
+
+		DirectX::XMMATRIX tWorld = PG2XM_MATRIX4X4(_object->_transform.GetWorldTM());
+		DirectX::XMVECTOR tScale;
+		DirectX::XMVECTOR tRot;
+		DirectX::XMVECTOR tPos;
+		DirectX::XMMatrixDecompose(&tScale, &tRot, &tPos, tWorld);
+		position = XM2PG_FLOAT3_VECTOR(tPos);
+		rotation = XM2PG_QUATERNION(tRot);
 
 		physx::PxTransform transform;
 
@@ -40,14 +53,7 @@ namespace Pg::Data
 		transform.q.z = rotation.z;
 		transform.q.w = rotation.w;
 
-		/*position.x = transform.p.x;
-		position.y = transform.p.y;
-		position.z = transform.p.z;
-
-		rotation.x = transform.q.x;
-		rotation.y = transform.q.y;
-		rotation.z = transform.q.z;
-		rotation.w = transform.q.w;*/
+		//transform.q = physx::PxQuat(combinedRotation.x, combinedRotation.y, combinedRotation.z, combinedRotation.w);
 
 		_rigid->setGlobalPose(transform);
 	}
