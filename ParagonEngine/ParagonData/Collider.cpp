@@ -226,10 +226,10 @@ namespace Pg::Data
 
 	void Collider::Collider_OnTriggerEnter(Collider* c)
 	{
-		//std::string tRes = "Collider_OnTriggerEnter : ";
-		////
-		//// 
-		//PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+		std::string tRes = "Collider_OnTriggerEnter : ";
+		//
+		// 
+		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
 
 		this->_isTrigger = true;
 		this->_wasTriggered = false;

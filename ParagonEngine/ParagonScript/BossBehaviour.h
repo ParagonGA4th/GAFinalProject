@@ -59,7 +59,7 @@ namespace Pg::DataScript
 		void Evade();
 
 		//보스의 무력화 상태
-		void neutralize();
+		void Neutralize();
 
 		//피격 시 행동.
 		void Hit();

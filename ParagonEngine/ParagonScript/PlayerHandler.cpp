@@ -100,6 +100,16 @@ namespace Pg::DataScript
 		}
 	}
 
+	void PlayerHandler::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
+	{
+		for (int i = 0; i < count; i++)
+		{
+			Pg::Data::Collider* col = _colArr[i];
+
+			PG_TRACE("HIT : PLAYER");
+		}
+	}
+
 	void PlayerHandler::ChangePlayerHealth(float level)
 	{
 		healthPoint = std::clamp<float>(healthPoint + level, 0.0f, MAX_PLAYER_HEALTH);
@@ -318,10 +328,4 @@ namespace Pg::DataScript
 		//애니메이션 인풋 스트링 기록.
 		_prevAnimationInput = tToPlayAnimationName;
 	}
-
-	void PlayerHandler::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
-	{
-		PG_TRACE("HIT : PLAYER");
-	}
-
 }

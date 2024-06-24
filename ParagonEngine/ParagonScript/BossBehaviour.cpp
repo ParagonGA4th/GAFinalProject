@@ -81,9 +81,13 @@ namespace Pg::DataScript
 	{
 		///회피와 돌진을 테스트하기 위한 임의의 로직.
 		///애니메이션을 통한 행동 패턴에 맞게 들어갈 예정.
-	// 보스가 플레이어를 바라보고 있는 시간 추적
-		if (_isRotatingToPlayer)
+		// 보스가 플레이어를 바라보고 있는 시간 추적
+
+		//Neutralize();
+
+		if (_isRotatingToPlayer && !_isNeutralize)
 		{
+			Chase();
 			RotateToPlayer(_playerTransform->_position);
 			_rotateToPlayerTime += _pgTime->GetDeltaTime();
 
@@ -105,7 +109,7 @@ namespace Pg::DataScript
 				}
 			}
 		}
-		else
+		else if(!_isRotatingToPlayer && !_isNeutralize)
 		{
 			if (_isDash)
 			{
@@ -127,7 +131,6 @@ namespace Pg::DataScript
 				_evadeCooldownTime = 0.0f;
 			}
 		}
-
 	}
 
 	void BossBehaviour::Chase()
@@ -235,6 +238,9 @@ namespace Pg::DataScript
 			float interpolation = _bossInfo->GetEvadeSpeed() * _pgTime->GetDeltaTime();
 			_bossInfo->SetCurrentEvadeTime(_bossInfo->GetCurrentEvadeTime() + _pgTime->GetDeltaTime());
 
+			//무적이어야 함.
+			_collider->SetActive(false);
+
 			// 회피 방향 설정 (예: 플레이어의 반대 방향으로)
 			Pg::Math::PGFLOAT3 backwardDir = -Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
 			backwardDir.y = 0; // y축 이동을 막기 위해 y값을 0으로 설정
@@ -247,6 +253,7 @@ namespace Pg::DataScript
 		}
 		else if (_bossInfo->GetCurrentEvadeTime() >= _bossInfo->GetEvadeDuration())
 		{
+			_collider->SetActive(true);
 			_isEvading = false;
 			_bossInfo->SetCurrentEvadeTime(0.0f); // 현재 회피 시간을 초기화
 			_isRotatingToPlayer = true; // 다시 플레이어를 바라보도록 설정
@@ -258,7 +265,7 @@ namespace Pg::DataScript
 
 	}
 
-	void BossBehaviour::neutralize()
+	void BossBehaviour::Neutralize()
 	{
 		//체력이 반 이상 떨어지면
 		if (_bossInfo->GetMonsterHp() <= 10.f)
@@ -267,14 +274,12 @@ namespace Pg::DataScript
 			_bossInfo->SetCurrentNeutralize(_bossInfo->GetCurrentNeutralize() + _pgTime->GetDeltaTime());
 
 			_isNeutralize = true;
-			_isChasing = false;
 
 			// 시간이 끝나면 상태를 변경
 			if (_isNeutralize && _bossInfo->GetCurrentNeutralize() >= _bossInfo->GetEndNeutralize())
 			{
 				//무력화 해제.
 				_isNeutralize = false;
-				_isChasing = true;
 				_bossInfo->SetCurrentNeutralize(0.f);
 			}
 		}

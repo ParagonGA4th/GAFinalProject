@@ -1052,7 +1052,7 @@ namespace Pg::Engine::Physic
 
 			//피격 데이터 전달.
 			raycastCol = static_cast<Pg::Engine::Collider*>(actor->userData);
-			PG_TRACE(raycastCol->_object->GetName());
+			//PG_TRACE(raycastCol->_object->GetName());
 
 			tHitPoint = _hitBuffer.block.position;
 
