@@ -1,5 +1,6 @@
-#ifndef ANIM_BDASH
-#define ANIM_BDASH
+#ifndef ISDISTANCEFAR
+#define ISDISTANCEFAR
+
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,12 +8,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_bDash : public BT::SyncActionNode, public BasePgBtNode
+	class isDistanceFar : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_bDash(const std::string& name, const BT::NodeConfiguration& config)
-			: BT::SyncActionNode(name, config) {}
-		virtual ~Anim_bDash() = default;
+		isDistanceFar(const std::string& name, const BT::NodeConfiguration& config)
+			:BT::SyncActionNode(name, config) {};
+		virtual ~isDistanceFar() = default;
 
 		virtual BT::NodeStatus tick() override;
 
@@ -23,3 +24,4 @@ namespace Pg::Data::BTree::Node
 	};
 }
 #endif
+

@@ -9,23 +9,26 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
+			if (monHelper->_bossState != Pg::Data::BossState::EVASION)
+				return BT::NodeStatus::FAILURE;
+
 			if (monHelper->_isAnimationEnd)
 			{
-				return BT::NodeStatus::FAILURE;
+				monHelper->_isAnimationEnd = false;
+				monHelper->_bossState = Pg::Data::BossState::SKILL_FEATHER_ATTACK;
 			}
 		}
 
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
-			config().blackboard->set<std::string>("CURRENTANIM", "_00011");
+			config().blackboard->set<std::string>("CURRENTANIM", "_00012");
 			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-			animId.append("_00011.pganim");
+			animId.append("_00012.pganim");
 
 			if (tMeshRenderer->GetAnimation() != animId)
 			{
 				tMeshRenderer->SetAnimation(animId, false);
-				config().blackboard->set<bool>("ISCHANGE", true);
 			}
 		}
 		return BT::NodeStatus::SUCCESS;

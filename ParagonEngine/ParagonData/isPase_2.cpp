@@ -14,12 +14,12 @@ namespace Pg::Data::BTree::Node
 		if (monHelper != nullptr)
 		{
 			bool paseInit = config().blackboard->get<bool>("PASETWOINIT");
-			if (monHelper->isPase_1)
+			if (monHelper->_isPase_1)
 			{
 				monHelper->_bossPase = Pg::Data::BossPase::PASE_2;
 				if (!paseInit)
 				{
-					monHelper->_bossState = Pg::Data::BossState::BASIC_ATTACK_1;
+					monHelper->_bossState = Pg::Data::BossState::EVASION;
 					config().blackboard->set<bool>("PASETWOINIT", true);
 				}
 				return BT::NodeStatus::SUCCESS;
