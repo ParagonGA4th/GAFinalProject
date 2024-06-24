@@ -11,6 +11,13 @@
 #include <unordered_map>
 #include <map>
 
+
+namespace Pg::DataScript
+{
+	class DeathPlane;
+	class AreaPassingTrigger;
+}
+
 namespace Pg::DataScript
 {
 	class Stage1AreaHandler : public ScriptInterface<Stage1AreaHandler>, public IAreaHandler
@@ -27,8 +34,8 @@ namespace Pg::DataScript
 		//Handler
 		virtual void ResetToInitialState() override;
 		virtual void ResetAreaWithIndex(unsigned int index) abstract;
-
-	
+		virtual void SetCurrentAreaIndex(unsigned int index) override;
+		virtual void OnPlayerHitDeathPlane() override;
 
 	private:
 		// MovingObject 관리를 위해.
@@ -38,8 +45,17 @@ namespace Pg::DataScript
 			std::unordered_map<std::string, 
 			MovingObjectAggregate>>  _managedMovingObjectList;
 
-		//클래스. 
+		//떨어지면 죽는 Death Plane들 관리. 
+		std::vector<DeathPlane*> _deathPlaneList;
+
+		//Area 영역 구분하는 Trigger들 따로 관리.
+		std::map<AreaPassingTrigger*, unsigned int> _areaTriggerMap;
+
+		//자신이 속한 Stage의 Area 전체 개수.
 		const unsigned int _stageAreaCount{ 3 };
+
+		//현재 Player가 속한 Area Index를 보관.
+		unsigned int _currentAreaIndex{ 0 };
 
 	};
 }

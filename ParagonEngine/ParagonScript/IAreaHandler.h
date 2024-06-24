@@ -16,7 +16,16 @@ namespace Pg::DataScript
 		//구역별 리셋만이 필요할 때. 
 		//virtual void ResetAreaUntil(int index) abstract;
 		virtual void ResetAreaWithIndex(unsigned int index) abstract;
+
+		// AreaPassingTrigger에 의해 :
+		// 현재 Player가 어디 있는지 전달될 수 있게.
+		virtual void SetCurrentAreaIndex(unsigned int index) abstract;
+		
+		//Player가 Death Plane에 도달했을 때.
+		virtual void OnPlayerHitDeathPlane() abstract;
 		//...
+
+
 	};
 }
 

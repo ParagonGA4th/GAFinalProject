@@ -88,4 +88,14 @@ namespace Pg::DataScript
 
 	}
 
+	void BossStageAreaHandler::SetCurrentAreaIndex(unsigned int index)
+	{
+
+	}
+
+	void BossStageAreaHandler::OnPlayerHitDeathPlane()
+	{
+
+	}
+
 }
