@@ -171,6 +171,8 @@
     <ClInclude Include="IGUIHandler.h" />
     <ClInclude Include="IMovableObject.h" />
     <ClInclude Include="InGameManager.h" />
+    <ClInclude Include="MimicAttack.h" />
+    <ClInclude Include="MiniGolemAttack.h" />
     <ClInclude Include="MovingObjectDefinesAndStructs.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="CreditsSceneGUIHandler.h" />
@@ -213,6 +215,7 @@
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TransformSimpleStorage.h" />
     <ClInclude Include="TrapArea.h" />
+    <ClInclude Include="TrentAttack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrowLogic.cpp" />
@@ -235,6 +238,8 @@
     <ClCompile Include="FactoryHelper.cpp" />
     <ClCompile Include="InGameManager.cpp" />
     <ClCompile Include="CreditsSceneGUIHandler.cpp" />
+    <ClCompile Include="MimicAttack.cpp" />
+    <ClCompile Include="MiniGolemAttack.cpp" />
     <ClCompile Include="Stage1AreaHandler.cpp" />
     <ClCompile Include="Stage1EnemyHandler.cpp" />
     <ClCompile Include="Stage1GUIHandler.cpp" />
@@ -263,6 +268,7 @@
     <ClCompile Include="TitleSceneGUIHandler.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TrapArea.cpp" />
+    <ClCompile Include="TrentAttack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ParagonScript.rc" />

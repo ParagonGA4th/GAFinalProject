@@ -244,6 +244,15 @@
     <Filter Include="3_Interfaces\Instances\IMovableObject">
       <UniqueIdentifier>{e06291f5-2cb3-43ec-9272-498e6a0256f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\Attack\MiniGolemAttack">
+      <UniqueIdentifier>{b4243350-77fb-49e4-993e-4a05bc52a4ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Attack\TrentAttack">
+      <UniqueIdentifier>{532d9e89-8112-4b1d-abcf-485445959561}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Attack\MimicAttack">
+      <UniqueIdentifier>{b954f578-f946-4bb9-b254-32ed10ae328a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -389,6 +398,15 @@
     </ClCompile>
     <ClCompile Include="BossStageGUIHandler.cpp">
       <Filter>Content\1_ConcreteHandlers\3_BossStage_3D\BossStageGUIHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniGolemAttack.cpp">
+      <Filter>AI\Attack\MiniGolemAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="MimicAttack.cpp">
+      <Filter>AI\Attack\MimicAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="TrentAttack.cpp">
+      <Filter>AI\Attack\TrentAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -602,6 +620,15 @@
     </ClInclude>
     <ClInclude Include="GUIDefinesAndStructs.h">
       <Filter>Content\0_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniGolemAttack.h">
+      <Filter>AI\Attack\MiniGolemAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="MimicAttack.h">
+      <Filter>AI\Attack\MimicAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="TrentAttack.h">
+      <Filter>AI\Attack\TrentAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
