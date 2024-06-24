@@ -31,6 +31,11 @@ namespace Pg::DataScript
 		_pgTween = &singleton<Pg::API::Tween::PgTween>();
 	}
 
+	void PlayerMovementSector::GrabManagedObjects()
+	{
+
+	}
+
 	void PlayerMovementSector::BeforePhysicsAwake()
 	{
 		/*for (auto& iter : _object->_transform.GetChildren())
@@ -447,5 +452,7 @@ namespace Pg::DataScript
 	{
 
 	}
+
+	
 
 }

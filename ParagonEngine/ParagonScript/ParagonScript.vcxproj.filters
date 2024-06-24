@@ -612,6 +612,9 @@
     <ClInclude Include="PlayerCombatSector.h">
       <Filter>Content\1_ConcreteHandlers\PlayerHandler\PlayerBattleSector</Filter>
     </ClInclude>
+    <ClInclude Include="IProjectile.h">
+      <Filter>3_Interfaces\Instances</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ParagonScript.rc" />

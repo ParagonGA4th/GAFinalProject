@@ -26,6 +26,11 @@ namespace Pg::DataScript
 		assert(_selfCol != nullptr);
 	}
 
+	void PlayerCombatSector::GrabManagedObjects()
+	{
+		FindAllArrowsInMap();
+	}
+
 	void PlayerCombatSector::BeforePhysicsAwake()
 	{
 		_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
@@ -49,7 +54,7 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::Start()
 	{
-		FindAllArrowsInMap();
+		
 
 		_commonAttackSound = _object->GetScene()->FindObjectWithName("PlayerCommonAttackSound");
 		_commonAttackAudio = _commonAttackSound->GetComponent<Pg::Data::AudioSource>();
@@ -58,8 +63,8 @@ namespace Pg::DataScript
 	void PlayerCombatSector::Update()
 	{
 		ArrowShootingLogic();
-		CalculateMonsterDamages();
-		CalculateMonsterHit();
+		
+		//나머지 로직은 Combat System으로 이동.
 	}
 
 	void PlayerCombatSector::LateUpdate()
@@ -165,57 +170,7 @@ namespace Pg::DataScript
 		}
 	}
 
-	void PlayerCombatSector::AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl)
-	{
-		_monsterHealthChangeList.push_back(BaseMonsterHealthChangePair(monster, healthChangeLvl));
-	}
-
-
-	void PlayerCombatSector::AddMonsterOnHitList(BaseMonsterInfo* monster)
-	{
-		_monsterOnHitList.push_back(BaseMonsterHitPair(monster));
-	}
-
-	void PlayerCombatSector::CalculateMonsterDamages()
-	{
-		//SceneSystem 함수는 무조건 Physics의 On시리즈보다 빨리 호출된다는 것을 활용.
-		if (_monsterHealthChangeList.empty())
-		{
-			return;
-		}
-
-		//실제로 
-		for (auto& it : _monsterHealthChangeList)
-		{
-			it._baseMonster->ChangeMonsterHp(it._healthChangeLvl);
-
-			if (it._baseMonster->GetMonsterHp() <= std::numeric_limits<float>::epsilon())
-			{
-				it._baseMonster->_onDead();
-			}
-		}
-
-		//이제 클리어.
-		_monsterHealthChangeList.clear();
-	}
-
-	void PlayerCombatSector::CalculateMonsterHit()
-	{
-		//SceneSystem 함수는 무조건 Physics의 On시리즈보다 빨리 호출된다는 것을 활용.
-		if (_monsterOnHitList.empty())
-		{
-			return;
-		}
-
-		//몬스터가 피격 시 Hit 함수 호출
-		for (auto& it : _monsterOnHitList)
-		{
-			it._baseMonster->_onHit();
-		}
-
-		_monsterOnHitList.clear();
-	}
-
+	
 	void PlayerCombatSector::PlayAdequateAnimation()
 	{
 		//우선, 디폴트로 출력되는 것은 Idle Animation. 
@@ -269,5 +224,7 @@ namespace Pg::DataScript
 	{
 
 	}
+
+	
 
 }
