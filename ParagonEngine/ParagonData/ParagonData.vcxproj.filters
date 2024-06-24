@@ -296,7 +296,7 @@
       <Filter>11_BtNodes\MonsterAnim\Ground Monster\Anim_gIdle</Filter>
     </ClCompile>
     <ClCompile Include="isDistanceClose.cpp">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isDistanceClose</Filter>
+      <Filter>11_BtNodes\MonsterAnim\Boss\isDistanceClose</Filter>
     </ClCompile>
     <ClCompile Include="isCoolDown.cpp">
       <Filter>11_BtNodes\MonsterAnim\Ground Monster\Trent\isCoolDown</Filter>
@@ -351,6 +351,12 @@
     </ClCompile>
     <ClCompile Include="isPase_3.cpp">
       <Filter>11_BtNodes\MonsterAnim\Boss\Pase\isPase_3</Filter>
+    </ClCompile>
+    <ClCompile Include="isDistanceFar.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Boss\isDistanceFar</Filter>
+    </ClCompile>
+    <ClCompile Include="isbDash.cpp">
+      <Filter>11_BtNodes\MonsterAnim\Boss\isbDash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -701,7 +707,7 @@
       <Filter>11_BtNodes\MonsterAnim\Ground Monster\Anim_gIdle</Filter>
     </ClInclude>
     <ClInclude Include="isDistanceClose.h">
-      <Filter>11_BtNodes\MonsterAnim\0_PublicAnim\isDistanceClose</Filter>
+      <Filter>11_BtNodes\MonsterAnim\Boss\isDistanceClose</Filter>
     </ClInclude>
     <ClInclude Include="MonsterState.h">
       <Filter>11_BtNodes\MonsterAnim</Filter>
@@ -768,6 +774,12 @@
     </ClInclude>
     <ClInclude Include="isPase_3.h">
       <Filter>11_BtNodes\MonsterAnim\Boss\Pase\isPase_3</Filter>
+    </ClInclude>
+    <ClInclude Include="isDistanceFar.h">
+      <Filter>11_BtNodes\MonsterAnim\Boss\isDistanceFar</Filter>
+    </ClInclude>
+    <ClInclude Include="isbDash.h">
+      <Filter>11_BtNodes\MonsterAnim\Boss\isbDash</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1104,9 +1116,6 @@
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_gAttack">
       <UniqueIdentifier>{187082aa-a4ee-4eac-8661-4a028c1b0de1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\0_PublicAnim\isDistanceClose">
-      <UniqueIdentifier>{c880e1e2-0d87-438b-a2de-2a2a0b2fe792}</UniqueIdentifier>
-    </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Floating Monster\Anim_fDead">
       <UniqueIdentifier>{6db2d9ae-1385-4af0-85ca-f5b4030d6903}</UniqueIdentifier>
     </Filter>
@@ -1175,6 +1184,15 @@
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Boss\Pase\isPase_3">
       <UniqueIdentifier>{520aafd3-8cab-4cd5-b753-a7e10941cac8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\isDistanceClose">
+      <UniqueIdentifier>{c880e1e2-0d87-438b-a2de-2a2a0b2fe792}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\isDistanceFar">
+      <UniqueIdentifier>{ad4b8906-18c8-4fa8-8528-e7b58c7a2bd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_BtNodes\MonsterAnim\Boss\isbDash">
+      <UniqueIdentifier>{a32f528f-453c-4c78-895a-743892bc18d8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

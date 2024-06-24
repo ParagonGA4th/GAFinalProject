@@ -16,6 +16,7 @@ namespace Pg::Data::BTree::Node
 			if (monHelper->_isPlayerinHitSpace)
 			{
 				config().blackboard->set<bool>("HITINIT", true);
+				monHelper->_isPlayerinHitSpace = true;
 				return BT::NodeStatus::SUCCESS;
 			}
 			else  

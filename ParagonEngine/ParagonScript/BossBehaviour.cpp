@@ -79,55 +79,93 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Update()
 	{
+		_distance = std::abs(std::sqrt(std::pow(_playerTransform->_position.x - _object->_transform._position.x, 2)
+			+ std::pow(_playerTransform->_position.z - _object->_transform._position.z, 2)));
+
 		///회피와 돌진을 테스트하기 위한 임의의 로직.
 		///애니메이션을 통한 행동 패턴에 맞게 들어갈 예정.
 	// 보스가 플레이어를 바라보고 있는 시간 추적
+		if (_distance <= _bossInfo->GetSightRange()) { _isPlayerInit = true; _monsterHelper->_isPlayerDetected = true; }
+		if (!_isPlayerInit) return;
+
 		if (_isRotatingToPlayer)
 		{
 			RotateToPlayer(_playerTransform->_position);
 			_rotateToPlayerTime += _pgTime->GetDeltaTime();
 
-			// 3초 동안 바라본 후 돌진 시작
-			if (_rotateToPlayerTime >= 3.0f)
+			if (_dashCount <= 2)
 			{
-				_isRotatingToPlayer = false;
-				_rotateToPlayerTime = 0.0f; // 타이머 초기화
-
-				if (!_isEvading)
-				{
-					_isDash = true;
-					_bossInfo->SetCurrentDashTime(0.0f); // 돌진 시간을 초기화하여 돌진 시작
-				}
-				else
-				{
-					_hasEvaded = true;
-					_bossInfo->SetCurrentEvadeTime(0.0f); // 회피 시간을 초기화하여 회피 시작
-				}
-			}
-		}
-		else
-		{
-			if (_isDash)
-			{
+				_monsterHelper->_isDash = true;
+				_isDash = true;
 				Dash();
 			}
-			else if (_hasEvaded)
+			else
 			{
-				Evade();
+				_isDash = false;
+				_monsterHelper->_isDash = false;
+			}
+
+			// 3초 동안 바라본 후 돌진 시작
+			//if (_rotateToPlayerTime >= 3.0f)
+			//{
+			//	_isRotatingToPlayer = false;
+			//	_rotateToPlayerTime = 0.0f; // 타이머 초기화
+
+			//	if (!_isEvading)
+			//	{
+			//		_isDash = true;
+			//		_bossInfo->SetCurrentDashTime(0.0f); // 돌진 시간을 초기화하여 돌진 시작
+			//	}
+			//	else
+			//	{
+			//		_hasEvaded = true;
+			//		_bossInfo->SetCurrentEvadeTime(0.0f); // 회피 시간을 초기화하여 회피 시작
+			//	}
+			//}
+			if (!_isDash)
+			{
+				if (_distance <= _bossInfo->GetAttackRange())
+				{
+					_monsterHelper->_isPase_1 = true;
+					if (_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
+						_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_2 /*||
+						_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_3*/)
+					{
+						Attack(_monsterHelper->_isAnimChange);
+					}
+					if (_monsterHelper->_bossState == Pg::Data::BossState::IDLE)
+					{
+						Attack(false);
+					}
+				}
 			}
 		}
+		//else
+		//{
+		//	if (_isDash)
+		//	{
+		//		Dash();
+		//	}
+		//	else if (_hasEvaded)
+		//	{
+		//		Evade();
+		//	}
+		//}
+		if(!_isDash) Chase();
 
-		// 회피 쿨다운 관리
-		if (!_isEvading)
+		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
 		{
-			_evadeCooldownTime += _pgTime->GetDeltaTime();
-			if (_evadeCooldownTime >= 5.0f) // 5초 쿨다운
-			{
-				_isEvading = true;
-				_evadeCooldownTime = 0.0f;
-			}
-		}
+			//다 꺼짐.
+			_collider->SetActive(false);
+			_meshRenderer->SetActive(false);
+			_object->SetActive(false);
 
+			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 지정된 위치로 보내준다.
+			_object->_transform._position = { 0, -1000, 0 };
+
+			_monsterHelper->_isDead = false;
+			_monsterHelper->_isDeadDelay = false;
+		}
 	}
 
 	void BossBehaviour::Chase()
@@ -135,16 +173,12 @@ namespace Pg::DataScript
 		//이동 속도 조절.
 		float interpolation = _bossInfo->GetMoveSpeed() * _pgTime->GetDeltaTime();
 
-		auto plVec = _player;
-		auto plTrans = plVec->_transform;
-
-		float distance = std::abs(std::sqrt(std::pow(plTrans._position.x - _object->_transform._position.x, 2)
-			+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
 		//상태를 Chase로 변경.
 
 		//애니메이션
 		_monsterHelper->_isPlayerDetected = true;
 		_monsterHelper->_isPlayerinHitSpace = false;
+		_monsterHelper->_isChase = true;
 
 		//사정거리 밖이면 플레이어로 계속 다가가기.
 		///보간하면서 이동할 시 마지막에 느려지는 현상을 발생하기 위해 제거.
@@ -193,7 +227,7 @@ namespace Pg::DataScript
 	void BossBehaviour::Dash()
 	{
 		// 돌진 지속 시간 동안 돌진
-		if (_bossInfo->GetCurrentDashTime() < _bossInfo->GetDashDuration())
+		if (_monsterHelper->_bossState == Pg::Data::BossState::DASH)
 		{
 			_bossInfo->_status = BossStatus::DASH;
 
@@ -210,25 +244,68 @@ namespace Pg::DataScript
 			_object->_transform._position.z = tPosition.z;
 		}
 		// 돌진이 끝나면 상태를 변경
-		else if (_bossInfo->GetCurrentDashTime() >= _bossInfo->GetDashDuration())
+		else
 		{
-			_isDash = false;
+			// 돌진 애니매이션을 다시 로드 하기 위해 IDLE 애니매이션 추가
+			std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
+			animId.append("_00001.pganim");
+
+			_meshRenderer->SetAnimation(animId, false);
+
 			_hasDashed = true;
 			_bossInfo->SetCurrentDashTime(0.0f); // 현재 돌진 시간을 초기화
 			_isRotatingToPlayer = true; // 다시 플레이어를 바라보도록 설정
 			_rotateToPlayerTime = 0.f;
+			_dashCount++;
+		}
+
+		//if (_bossInfo->GetCurrentDashTime() < _bossInfo->GetDashDuration())
+		//{
+		//	_bossInfo->_status = BossStatus::DASH;
+
+		//	float interpolation = _bossInfo->GetDashSpeed() * _pgTime->GetDeltaTime();
+		//	_bossInfo->SetCurrentDashTime(_bossInfo->GetCurrentDashTime() + _pgTime->GetDeltaTime());
+
+		//	Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
+		//	forwardDir.y = 0; // y축 이동을 막기 위해 y값을 0으로 설정
+
+		//	Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+		//	tPosition = tPosition + forwardDir * interpolation;
+
+		//	_object->_transform._position.x = tPosition.x;
+		//	_object->_transform._position.z = tPosition.z;
+		//}
+		//// 돌진이 끝나면 상태를 변경
+		//else if (_bossInfo->GetCurrentDashTime() >= _bossInfo->GetDashDuration())
+		//{
+		//	_isDash = false;
+		//	_hasDashed = true;
+		//	_bossInfo->SetCurrentDashTime(0.0f); // 현재 돌진 시간을 초기화
+		//	_isRotatingToPlayer = true; // 다시 플레이어를 바라보도록 설정
+		//	_rotateToPlayerTime = 0.f;
+		//}
+	}
+
+	void BossBehaviour::Attack(bool _isAttack)
+	{
+		for (auto& iter : _basicAttackCol)
+		{
+			iter->SetActive(_isAttack);
 		}
 	}
 
-	void BossBehaviour::Attack()
+	void BossBehaviour::Skill(bool _isSkill)
 	{
-
+		//for (auto& iter : _skillAttackCol)
+		//{
+		//	iter->SetActive(_isSkill);
+		//}
 	}
 
 	void BossBehaviour::Evade()
 	{
 		// 회피 로직 구현
-		if (_bossInfo->GetCurrentEvadeTime() < _bossInfo->GetEvadeDuration())
+		if (_monsterHelper->_bossState == Pg::Data::BossState::EVASION)
 		{
 			_bossInfo->_status = BossStatus::EVADE;
 
@@ -245,17 +322,48 @@ namespace Pg::DataScript
 			_object->_transform._position.x = tPosition.x;
 			_object->_transform._position.z = tPosition.z;
 		}
-		else if (_bossInfo->GetCurrentEvadeTime() >= _bossInfo->GetEvadeDuration())
+		else
 		{
 			_isEvading = false;
 			_bossInfo->SetCurrentEvadeTime(0.0f); // 현재 회피 시간을 초기화
 			_isRotatingToPlayer = true; // 다시 플레이어를 바라보도록 설정
 		}
+
+		//if (_bossInfo->GetCurrentEvadeTime() < _bossInfo->GetEvadeDuration())
+		//{
+		//	_bossInfo->_status = BossStatus::EVADE;
+
+		//	float interpolation = _bossInfo->GetEvadeSpeed() * _pgTime->GetDeltaTime();
+		//	_bossInfo->SetCurrentEvadeTime(_bossInfo->GetCurrentEvadeTime() + _pgTime->GetDeltaTime());
+
+		//	// 회피 방향 설정 (예: 플레이어의 반대 방향으로)
+		//	Pg::Math::PGFLOAT3 backwardDir = -Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
+		//	backwardDir.y = 0; // y축 이동을 막기 위해 y값을 0으로 설정
+
+		//	Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+		//	tPosition = tPosition + backwardDir * interpolation;
+
+		//	_object->_transform._position.x = tPosition.x;
+		//	_object->_transform._position.z = tPosition.z;
+		//}
+		//else if (_bossInfo->GetCurrentEvadeTime() >= _bossInfo->GetEvadeDuration())
+		//{
+		//	_isEvading = false;
+		//	_bossInfo->SetCurrentEvadeTime(0.0f); // 현재 회피 시간을 초기화
+		//	_isRotatingToPlayer = true; // 다시 플레이어를 바라보도록 설정
+		//}
 	}
 
 	void BossBehaviour::Hit()
 	{
+		//피격 애니메이션 들어가야 함.
+		if (_isChasing)
+		{
+			std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
+			animId.append("_00010.pganim");
 
+			_meshRenderer->SetAnimation(animId, false);
+		}
 	}
 
 	void BossBehaviour::neutralize()
@@ -268,6 +376,7 @@ namespace Pg::DataScript
 
 			_isNeutralize = true;
 			_isChasing = false;
+			_monsterHelper->_isDown = true;
 
 			// 시간이 끝나면 상태를 변경
 			if (_isNeutralize && _bossInfo->GetCurrentNeutralize() >= _bossInfo->GetEndNeutralize())
@@ -275,6 +384,7 @@ namespace Pg::DataScript
 				//무력화 해제.
 				_isNeutralize = false;
 				_isChasing = true;
+				//_monsterHelper->_isDown = false;
 				_bossInfo->SetCurrentNeutralize(0.f);
 			}
 		}
@@ -283,18 +393,11 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Dead()
 	{
-		//다 꺼짐.
-		_collider->SetActive(false);
-		_meshRenderer->SetActive(false);
-		_object->SetActive(false);
-
-		///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 지정된 위치로 보내준다.
-		_object->_transform._position = { 0, -1000, 0 };
+		_monsterHelper->_isDead = true;
 	}
 
 	BaseMonsterInfo* BossBehaviour::ReturnBaseMonsterInfo()
 	{
 		return _bossInfo;
 	}
-
 }

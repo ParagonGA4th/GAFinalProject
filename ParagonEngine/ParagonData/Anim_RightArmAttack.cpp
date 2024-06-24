@@ -12,25 +12,26 @@ namespace Pg::Data::BTree::Node
 			if (monHelper->_bossState != Pg::Data::BossState::BASIC_ATTACK_1) return BT::NodeStatus::FAILURE;
 			if (monHelper->_isAnimationEnd)
 			{
+				monHelper->_isAnimChange = false;
 				monHelper->_isAnimationEnd = false;
 				monHelper->_bossState = Pg::Data::BossState::BASIC_ATTACK_2;
 			}
-		}
 
-		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-		if (tMeshRenderer != nullptr)
-		{
-			config().blackboard->set<std::string>("CURRENTANIM", "_00005");
-			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-			animId.append("_00005.pganim");
 
-			if (tMeshRenderer->GetAnimation() != animId)
+			auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+			if (tMeshRenderer != nullptr)
 			{
-				tMeshRenderer->SetAnimation(animId, false);
-				config().blackboard->set<bool>("ISCHANGE", true);
+				config().blackboard->set<std::string>("CURRENTANIM", "_00005");
+				std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
+				animId.append("_00005.pganim");
+
+				if (tMeshRenderer->GetAnimation() != animId)
+				{
+					tMeshRenderer->SetAnimation(animId, false);
+					monHelper->_isAnimChange = true;
+				}
 			}
 		}
-
 		return BT::NodeStatus::SUCCESS;
 	}
 }

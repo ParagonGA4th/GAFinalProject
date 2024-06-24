@@ -19,6 +19,9 @@ namespace Pg::Data
 	{
 		IDLE,
 		DOWN,
+		EVASION,
+		DASH,
+		CHASE,
 		BASIC_ATTACK_1,
 		BASIC_ATTACK_2,
 		BASIC_ATTACK_3,

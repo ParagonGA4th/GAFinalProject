@@ -1,16 +1,16 @@
-#include "isDistanceClose.h"
+#include "isbDash.h"
 #include "MonsterHelper.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus isDistanceClose::tick()
+	BT::NodeStatus isbDash::tick()
 	{
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_isDistanceClose)
+			if (monHelper->_isDash)
 			{
-				monHelper->_bossState = Pg::Data::BossState::EVASION;
+				monHelper->_bossState = Pg::Data::BossState::DASH;
 				return BT::NodeStatus::SUCCESS;
 			}
 			else

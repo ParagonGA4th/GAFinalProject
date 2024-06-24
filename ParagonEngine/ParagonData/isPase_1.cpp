@@ -14,7 +14,7 @@ namespace Pg::Data::BTree::Node
 		if (monHelper != nullptr)
 		{
 			bool paseInit = config().blackboard->get<bool>("PASEONEINIT");
-			if (monHelper->isPase_1)
+			if (monHelper->_isPase_1)
 			{
 				monHelper->_bossPase = Pg::Data::BossPase::PASE_1;
 				if (!paseInit)
@@ -31,6 +31,6 @@ namespace Pg::Data::BTree::Node
 			}
 		}
 
-		return BT::NodeStatus::SUCCESS;
+		return BT::NodeStatus::FAILURE;
 	}
 }

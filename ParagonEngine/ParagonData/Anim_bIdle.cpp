@@ -15,26 +15,26 @@ namespace Pg::Data::BTree::Node
 
 	BT::NodeStatus Anim_bIdle::tick()
 	{
-		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-		if (tMeshRenderer != nullptr)
-		{
-			config().blackboard->set<std::string>("CURRENTANIM", "_00001");
-			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-			animId.append("_00001.pganim");
-
-			if (tMeshRenderer->GetAnimation() != animId)
-			{
-				tMeshRenderer->SetAnimation(animId, true);
-			}
-		}
-
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
+			if (monHelper->_bossState != Pg::Data::BossState::IDLE) return BT::NodeStatus::FAILURE;
+			auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+			if (tMeshRenderer != nullptr)
+			{
+				config().blackboard->set<std::string>("CURRENTANIM", "_00001");
+				std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
+				animId.append("_00001.pganim");
+
+				if (tMeshRenderer->GetAnimation() != animId)
+				{
+					tMeshRenderer->SetAnimation(animId, true);
+				}
+			}
+
 			auto holdTime = getInput<float>("_holdTime");
 
 			if (holdTime.value() == -1.f) return BT::NodeStatus::SUCCESS;
-
 			if (holdTime.value() - _value <= 0.f)
 			{
 				_value = 0.f;
@@ -49,6 +49,7 @@ namespace Pg::Data::BTree::Node
 				_value += _deltaTime->GetDeltaTime();
 				return BT::NodeStatus::SUCCESS;
 			}
+
 		}
 
 		return BT::NodeStatus::FAILURE;
