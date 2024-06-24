@@ -11,6 +11,17 @@
 /// (구) PlayerBattleBehavior가 담당하는 역할.
 /// </summary>
 
+namespace Pg::API
+{
+	namespace Input { class PgInput; }
+	namespace Time { class PgTime; }
+}
+
+namespace Pg::DataScript
+{
+	class ArrowLogic;
+}
+
 namespace Pg::DataScript
 {
 	class PlayerCombatSector : public IObserver, public IScriptResettable

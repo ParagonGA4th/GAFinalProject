@@ -4,6 +4,7 @@
 #include "../ParagonData/ISortableGlobalObject.h"
 #include "IEvent.h"
 #include "ScriptEventHelper.h"
+#include "BaseMonster.h"
 #include <functional>
 #include <string>
 #include <variant>

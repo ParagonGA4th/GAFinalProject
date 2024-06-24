@@ -44,7 +44,9 @@
 
 //글로벌 매니저용
 #include "TotalGameManager.h"
-
+#include "InGameManager.h"
+#include "CombatSystem.h"
+#include "GlobalSoundManager.h"
 //로컬 매니저용.
 
 //TitleScene - 2D
