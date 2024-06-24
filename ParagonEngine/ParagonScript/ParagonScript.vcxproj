@@ -171,9 +171,12 @@
     <ClInclude Include="IGUIHandler.h" />
     <ClInclude Include="IMovableObject.h" />
     <ClInclude Include="InGameManager.h" />
+    <ClInclude Include="IProjectile.h" />
     <ClInclude Include="MovingObjectDefinesAndStructs.h" />
+    <ClInclude Include="PlayerCombatSector.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="CreditsSceneGUIHandler.h" />
+    <ClInclude Include="GlobalSoundManager.h" />
     <ClInclude Include="Stage1AreaHandler.h" />
     <ClInclude Include="Stage1EnemyHandler.h" />
     <ClInclude Include="Stage1GUIHandler.h" />
@@ -198,7 +201,7 @@
     <ClInclude Include="IEvent.h" />
     <ClInclude Include="InGameCameraBehavior.h" />
     <ClInclude Include="IObserver.h" />
-    <ClInclude Include="PlayerMovement.h" />
+    <ClInclude Include="PlayerMovementSector.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="RayCastTest.h" />
     <ClInclude Include="Script.h" />
@@ -235,6 +238,8 @@
     <ClCompile Include="FactoryHelper.cpp" />
     <ClCompile Include="InGameManager.cpp" />
     <ClCompile Include="CreditsSceneGUIHandler.cpp" />
+    <ClCompile Include="PlayerCombatSector.cpp" />
+    <ClCompile Include="GlobalSoundManager.cpp" />
     <ClCompile Include="Stage1AreaHandler.cpp" />
     <ClCompile Include="Stage1EnemyHandler.cpp" />
     <ClCompile Include="Stage1GUIHandler.cpp" />
@@ -250,7 +255,7 @@
     <ClCompile Include="NavAgent.cpp" />
     <ClCompile Include="PauseBox.cpp" />
     <ClCompile Include="PlayerHandler.cpp" />
-    <ClCompile Include="PlayerMovement.cpp" />
+    <ClCompile Include="PlayerMovementSector.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="RayCastTest.cpp" />

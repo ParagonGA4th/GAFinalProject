@@ -25,6 +25,7 @@ namespace Pg::API::Tween { class PgTween; }
 namespace Pg::DataScript
 {
 	class InGameManager;
+	class CombatSystem;
 
 	class TotalGameManager : public ScriptInterface<TotalGameManager>, public Pg::Data::ISortableGlobalObject
 	{
@@ -54,6 +55,9 @@ namespace Pg::DataScript
 		//내부적으로 정해진 타이밍에 호출할 수 있게.
 		void Internal_CallForEntireSceneReset(Pg::Data::Scene* targetScene, int potValue, void* potPointer);
 
+		//Combat System Unit 구성. RegisterXXX 시리즈 호출.
+		void RegisterCombatSystemUnits();
+
 		//하위 컴포넌트들이 호출할 수 있게, 함수들을 보관하고 있다.
 		std::vector<std::function<void()>> _subFunctionStorageVector;
 
@@ -61,7 +65,7 @@ namespace Pg::DataScript
 		void Initialize(Pg::Data::Scene* changedScene);
 		void SetupBundlesForAllScenes();
 		void SetCurrentHandlerBundle(Pg::Data::Scene* changedScene);
-
+		
 
 	private:
 		//하드코딩된 치트 함수들. '\' + 콤비네이션으로 호출할 수 있게.
@@ -90,6 +94,8 @@ namespace Pg::DataScript
 	private:
 		//보관중인 다른 매니저들.
 		//InGameManager* _inGameManager{ nullptr };
+
+		CombatSystem* _combatSystem{ nullptr };
 	};
 }
 

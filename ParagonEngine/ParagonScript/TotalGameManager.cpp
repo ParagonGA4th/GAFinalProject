@@ -18,6 +18,7 @@
 
 //다른 매니저들, etc.
 #include "InGameManager.h"
+#include "CombatSystem.h"
 
 namespace Pg::DataScript
 {
@@ -88,6 +89,18 @@ namespace Pg::DataScript
 		// 이런 식으로, Flow Control을 담당한다.
 		Internal_CallForEntireSceneReset(changedScene, NULL, nullptr);
 		
+		//리셋을 명시적으로 호출해줘야.
+		//옵저버 클리어만으로 전에 있던 Player / Monster / Projectile 전부 상태 관리에서 리셋된다.
+		//이미 Clear된 상태였으면 무시.
+		_combatSystem->ResetAll();
+
+		//현재 Handler가 다시 셋된 다음, CombatSystem에 레지스터.
+		if (_currentHandlerBundle3d != nullptr)
+		{
+			// == 3D일때만,
+			RegisterCombatSystemUnits();
+		}
+		
 	}
 
 	void TotalGameManager::Initialize(Pg::Data::Scene* changedScene)
@@ -97,6 +110,7 @@ namespace Pg::DataScript
 		_pgScene = &singleton<Pg::API::PgScene>();
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
 		_pgTween = &singleton<Pg::API::Tween::PgTween>();
+
 
 		// 반드시 해당 Object는 Don't Destroy On Load 설정이 되어 있어야 한다.
 		assert(_object->GetDontDestroyOnLoad() && "XML에서 이렇게 들어왔어야 한다");
@@ -108,7 +122,10 @@ namespace Pg::DataScript
 		//게임 매니저를 켤지 말지도 TotalGameManager가 관리한다.
 
 		//다른 매니저들 보관. 같은 오브젝트에 보관하려고 하고 있다.
-		//_inGameManager = InGameManager::GetInstance(_object);
+		//_inGameManager = InGameManager::GetInstance(nullptr);
+		
+		//Combat System 등, 인 게임 매니저 시스템 받아오기.
+		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
 	void TotalGameManager::SetupBundlesForAllScenes()
@@ -227,7 +244,16 @@ namespace Pg::DataScript
 			_currentGUIHander2d = _scene2dHandlerBundleMap.at(changedScene);
 			_currentHandlerBundle3d = nullptr;
 		}
+	}
 
+	void TotalGameManager::RegisterCombatSystemUnits()
+	{
+		_combatSystem->RegisterPlayer(_currentHandlerBundle3d->_playerBehavior);
+		
+		//내부적으로 std::transform처럼 값이 호출될 것. std::function<void(IEnemyBehaviour*)>의 형태일 것이다.
+		_currentHandlerBundle3d->_enemyHandler->TransformEachEnemy(std::bind(&CombatSystem::RegisterSingleEnemy, _combatSystem, std::placeholders::_1));
+	
+		//Projectile은 외적으로 자신이 CombatSystem한테 등록을 해야 할 것이다.
 	}
 
 	void TotalGameManager::SelectCheatCodeWithin()
@@ -282,5 +308,7 @@ namespace Pg::DataScript
 	{
 		return _currentHandlerBundle3d;
 	}
+
+	
 
 }

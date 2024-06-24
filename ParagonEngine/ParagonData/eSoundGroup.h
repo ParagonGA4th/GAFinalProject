@@ -7,11 +7,11 @@ namespace Pg::Data
 {
 	enum class eSoundGroup
 	{
-		BGM,
-		InGame,
-		Effect,
+		BGM = 0,
+		InGame = 1,
+		Effect = 2,
 
 		//enumÀÇ °¹¼ö
-		Count
+		Count = 3
 	};
 }
