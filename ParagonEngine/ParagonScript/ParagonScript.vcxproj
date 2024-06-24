@@ -176,6 +176,7 @@
     <ClInclude Include="PlayerCombatSector.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="CreditsSceneGUIHandler.h" />
+    <ClInclude Include="GlobalSoundManager.h" />
     <ClInclude Include="Stage1AreaHandler.h" />
     <ClInclude Include="Stage1EnemyHandler.h" />
     <ClInclude Include="Stage1GUIHandler.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="InGameManager.cpp" />
     <ClCompile Include="CreditsSceneGUIHandler.cpp" />
     <ClCompile Include="PlayerCombatSector.cpp" />
+    <ClCompile Include="GlobalSoundManager.cpp" />
     <ClCompile Include="Stage1AreaHandler.cpp" />
     <ClCompile Include="Stage1EnemyHandler.cpp" />
     <ClCompile Include="Stage1GUIHandler.cpp" />
