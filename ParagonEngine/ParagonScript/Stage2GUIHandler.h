@@ -1,6 +1,6 @@
 #pragma once
 #include "ScriptInterface.h"
-#include "IGUIHandler.h"
+#include "BaseGUIHandler.h"
 #include "GUIDefinesAndStructs.h"
 
 #include "../ParagonMath/PgMath.h"
@@ -10,7 +10,7 @@
 
 namespace Pg::DataScript
 {
-	class Stage2GUIHandler : public ScriptInterface<Stage2GUIHandler>, public IGUIHandler
+	class Stage2GUIHandler : public ScriptInterface<Stage2GUIHandler>, public BaseGUIHandler
 	{
 		DEFINE_PARAGON_SCRIPT(Stage2GUIHandler);
 

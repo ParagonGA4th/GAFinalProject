@@ -1,6 +1,6 @@
 #pragma once
 #include "ScriptInterface.h"
-#include "IGUIHandler.h"
+#include "BaseGUIHandler.h"
 
 namespace Pg::Data
 {
@@ -25,7 +25,7 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
-	class TitleSceneGUIHandler : public ScriptInterface<TitleSceneGUIHandler>, public IGUIHandler
+	class TitleSceneGUIHandler : public ScriptInterface<TitleSceneGUIHandler>, public BaseGUIHandler
 	{
 		DEFINE_PARAGON_SCRIPT(TitleSceneGUIHandler);
 

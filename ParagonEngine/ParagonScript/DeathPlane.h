@@ -1,6 +1,6 @@
 #pragma once
 #include "ScriptInterface.h"
-#include "IAreaHandler.h"
+#include "BaseAreaHandler.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
 
@@ -21,11 +21,11 @@ namespace Pg::DataScript
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
 	
 	public:
-		void StoreDesignatedAreaHandler(IAreaHandler* areaHandler);
+		void StoreDesignatedAreaHandler(BaseAreaHandler* areaHandler);
 		
 
 	private:
-		IAreaHandler* _areaHandler{ nullptr };
+		BaseAreaHandler* _areaHandler{ nullptr };
 	
 	};
 }

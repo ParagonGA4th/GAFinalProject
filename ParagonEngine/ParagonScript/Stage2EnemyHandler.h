@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ScriptInterface.h"
-#include "IEnemyHandler.h"
+#include "BaseEnemyHandler.h"
 #include "IEnemyBehaviour.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
@@ -11,7 +11,7 @@
 
 namespace Pg::DataScript
 {
-	class Stage2EnemyHandler : public ScriptInterface<Stage2EnemyHandler>, public IEnemyHandler
+	class Stage2EnemyHandler : public ScriptInterface<Stage2EnemyHandler>, public BaseEnemyHandler
 	{
 		DEFINE_PARAGON_SCRIPT(Stage2EnemyHandler);
 
@@ -22,13 +22,6 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
-		//Handler.
-		virtual void ResetToInitialState() override;
-		virtual void TransformEachEnemy(std::function<void(IEnemyBehaviour*)> func) override;
-	private:
-		// Monster TAG / Instance. 
-		// Tag별로 나누어서 관리한다.
-		std::unordered_map<std::string, std::vector<EnemyAggregate>> _managedMonstersList;
 	};
 }
 

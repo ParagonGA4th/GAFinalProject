@@ -1,16 +1,14 @@
 #pragma once
 
 #include "ScriptInterface.h"
-#include "IEnemyHandler.h"
+#include "BaseEnemyHandler.h"
 #include "TransformSimpleStorage.h"
 #include "IEnemyBehaviour.h"
 
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
 
-#include <vector>
-#include <unordered_map>
-#include <map>
+
 
 /// <summary>
 /// Ex. Wasp Body - Wings라면,
@@ -23,7 +21,7 @@
 
 namespace Pg::DataScript
 {
-	class Stage1EnemyHandler : public ScriptInterface<Stage1EnemyHandler>, public IEnemyHandler
+	class Stage1EnemyHandler : public ScriptInterface<Stage1EnemyHandler>, public BaseEnemyHandler
 	{
 		DEFINE_PARAGON_SCRIPT(Stage1EnemyHandler);
 
@@ -33,13 +31,8 @@ namespace Pg::DataScript
 		virtual void GrabManagedObjects() override;
 		virtual void Start() override;
 		virtual void Update() override;
-
-		//Handler.
-		virtual void ResetToInitialState() override;
-		virtual void TransformEachEnemy(std::function<void(IEnemyBehaviour*)> func) override;
-		
 	private:
-		void GrabOrganizeAllEnemies();
+		
 
 	private:
 		const unsigned int _entireAreaCount{ 3 };
@@ -47,8 +40,7 @@ namespace Pg::DataScript
 		// Monster TAG / Instance. 
 		// Tag별로 나누어서 관리한다.
 		// Area도 나누어서 보관.
-		std::map<unsigned int, 
-			std::unordered_map<std::string, std::vector<EnemyAggregate>>> _managedMonstersList;
+		
 	};
 }
 
