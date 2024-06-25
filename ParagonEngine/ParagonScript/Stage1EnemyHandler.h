@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <unordered_map>
+#include <map>
 
 /// <summary>
 /// Ex. Wasp Body - Wings라면,
@@ -36,10 +37,18 @@ namespace Pg::DataScript
 		//Handler.
 		virtual void ResetToInitialState() override;
 		virtual void TransformEachEnemy(std::function<void(IEnemyBehaviour*)> func) override;
+		
 	private:
+		void GrabOrganizeAllEnemies();
+
+	private:
+		const unsigned int _entireAreaCount{ 3 };
+
 		// Monster TAG / Instance. 
 		// Tag별로 나누어서 관리한다.
-		std::unordered_map<std::string, std::vector<EnemyAggregate>> _managedMonstersList;
+		// Area도 나누어서 보관.
+		std::map<unsigned int, 
+			std::unordered_map<std::string, std::vector<EnemyAggregate>>> _managedMonstersList;
 	};
 }
 
