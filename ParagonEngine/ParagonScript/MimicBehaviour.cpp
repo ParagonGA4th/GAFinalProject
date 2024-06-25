@@ -6,6 +6,7 @@
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/Collider.h"
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
@@ -64,6 +65,9 @@ namespace Pg::DataScript
 		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
+		_mimicMoveSound = _pgScene->GetCurrentScene()->FindObjectWithName("MimicMoveSound");
+		_moveAudio = _mimicMoveSound->GetComponent<Pg::Data::AudioSource>();
+
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		for (auto& iter : _object->_transform.GetChildren())
@@ -104,13 +108,6 @@ namespace Pg::DataScript
 			}
 
 		}
-		//시야에서 벗어나면 돌진 초기화
-		else
-		{
-			_isDash = false;
-			_hasDashed = false;
-		}
-
 
 		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
 		{
@@ -178,6 +175,13 @@ namespace Pg::DataScript
 			tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
 			_object->_transform._position.x = tPosition.x;
 			_object->_transform._position.z = tPosition.z;
+
+			//사운드 재생
+			if (!_isMoving) 
+			{
+				_moveAudio->Play();
+				_isMoving = true;
+			}
 		}
 	}
 
@@ -224,5 +228,10 @@ namespace Pg::DataScript
 		//상태를 죽음으로 변경.
 		_mimicInfo->_status = MimicStatus::DEAD;
 		_monsterHelper->_isDead = true;
+
+		if (_isMoving) 
+		{
+			_moveAudio->Stop();
+		}
 	}
 }

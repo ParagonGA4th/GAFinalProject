@@ -145,6 +145,7 @@
     <ClInclude Include="AreaPassingTrigger.h" />
     <ClInclude Include="ArrowLogic.h" />
     <ClInclude Include="ArrowShooterBehavior.h" />
+    <ClInclude Include="BossAttack.h" />
     <ClInclude Include="BossStageAreaHandler.h" />
     <ClInclude Include="BossStageEnemyHandler.h" />
     <ClInclude Include="BossStageGUIHandler.h" />
@@ -233,6 +234,7 @@
     <ClCompile Include="BaseGUIHandler.cpp" />
     <ClCompile Include="BaseMonster.cpp" />
     <ClCompile Include="BattleArea.cpp" />
+    <ClCompile Include="BossAttack.cpp" />
     <ClCompile Include="BossBehaviour.cpp" />
     <ClCompile Include="BossInfo.cpp" />
     <ClCompile Include="BossStageAreaHandler.cpp" />

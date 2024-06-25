@@ -1,5 +1,6 @@
 #include "MiniGolemAttack.h"
 #include "CombatSystem.h"
+#include "MiniGolemAttack.h"
 #include "../ParagonData/Collider.h"
 #include "../ParagonUtil/Log.h"
 
@@ -37,7 +38,7 @@ namespace Pg::DataScript
 			//플레이어한테 데미지를 주어라
 			if (col->_object->GetTag() == "TAG_Player")
 			{
-				//_combatSystem->ChangePlayerHealth(-1.f);
+				_combatSystem->ChangePlayerHealth(-1.f);
 			}
 		}
 	}

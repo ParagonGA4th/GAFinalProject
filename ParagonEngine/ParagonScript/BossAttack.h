@@ -4,21 +4,19 @@
 namespace Pg::DataScript
 {
 	class CombatSystem;
-	class MimicBehaviour;
 
-	class MimicAttack : public ScriptInterface<MimicAttack>
+	class BossAttack : public ScriptInterface<BossAttack>
 	{
-		DEFINE_PARAGON_SCRIPT(MimicAttack);
+		DEFINE_PARAGON_SCRIPT(BossAttack);
 	public:
-		MimicAttack(Pg::Data::GameObject* obj);
+		BossAttack(Pg::Data::GameObject* obj);
 
-		virtual void BeforePhysicsAwake() override;
 		virtual void Awake() override;
+		virtual void Start() override;
 		virtual void Update() override;
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
+
 	private:
 		CombatSystem* _combatSystem{ nullptr };
-		MimicBehaviour* _mimicBehaviour;
 	};
 }
-

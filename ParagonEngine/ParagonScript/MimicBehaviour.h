@@ -13,6 +13,7 @@ namespace Pg::Data
 	class BoxCollider;
 	class MonsterHelper;
 	class StaticBoxCollider;
+	class AudioSource;
 }
 
 namespace Pg::API
@@ -83,6 +84,10 @@ namespace Pg::DataScript
 		//몬스터가 리스폰 될 위치
 		Pg::Math::PGFLOAT3 _respawnPos;
 
+		Pg::Data::GameObject* _mimicMoveSound;
+		Pg::Data::AudioSource* _moveAudio;
+
+	private:
 		//플레이어와의 거리 측정
 		float _distance;
 		float _startAttackTime;
@@ -98,6 +103,7 @@ namespace Pg::DataScript
 		bool _isDash;			//돌진 여부
 		bool _hasDashed;		//돌진했는지 여부
 
+		bool _isMoving{ false };
 	public:
 		//미믹의 상태와 수치에 대한 정보.
 		MimicInfo* _mimicInfo;
