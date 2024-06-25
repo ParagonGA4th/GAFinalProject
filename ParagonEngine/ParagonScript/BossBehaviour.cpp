@@ -3,6 +3,7 @@
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgScene.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/Collider.h"
@@ -23,7 +24,7 @@ namespace Pg::DataScript
 		_pgScene = &singleton<Pg::API::PgScene>();
 
 		//골렘의 체력과 공격
-		_bossInfo = new BossInfo(20.f, 2.f);
+		_bossInfo = new BossInfo(40.f, 4.f);
 
 		///보스의 사망 및 피격행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
 		///몬스터에게 직접적으로 적용하기에 여기서는 사망 시 행동만 만들면 된다.
@@ -41,20 +42,6 @@ namespace Pg::DataScript
 		_collider->FreezeAxisX(true);
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
-	}
-
-	void BossBehaviour::Awake()
-	{
-		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-	}
-
-	void BossBehaviour::Start()
-	{
-		//플레이어 지정
-		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
-		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
-
-		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
@@ -75,6 +62,23 @@ namespace Pg::DataScript
 
 			}
 		}
+	}
+
+	void BossBehaviour::Awake()
+	{
+		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+	}
+
+	void BossBehaviour::Start()
+	{
+		//플레이어 지정
+		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
+		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
+
+		_bossWalkSound = _pgScene->GetCurrentScene()->FindObjectWithName("BossWalkSound");
+		_walkAudio = _bossWalkSound->GetComponent<Pg::Data::AudioSource>();
+
+		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 	}
 
 	void BossBehaviour::Update()
@@ -200,6 +204,13 @@ namespace Pg::DataScript
 		currentPosition.z += movement.z;
 
 		_object->_transform._position = currentPosition;
+
+		//사운드 재생
+		if (!_isMoving)
+		{
+			_walkAudio->Play();
+			_isMoving = true;
+		}
 	}
 
 	void BossBehaviour::RotateToPlayer(Pg::Math::PGFLOAT3& targetPos)
@@ -243,6 +254,12 @@ namespace Pg::DataScript
 
 			_object->_transform._position.x = tPosition.x;
 			_object->_transform._position.z = tPosition.z;
+
+			if (_isMoving)
+			{
+				_walkAudio->Stop();
+				_isMoving = false;
+			}
 		}
 		// 돌진이 끝나면 상태를 변경
 		else
