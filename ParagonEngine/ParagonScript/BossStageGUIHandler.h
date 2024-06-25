@@ -20,12 +20,8 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
-		//IGUI Handler.
-		virtual void ResetToInitialState() override;
-
-	private:
-		//Obj Name / GUIAggregate
-		std::unordered_map<std::string, GUIAggregate> _managedGuiObjectList;
+		//필수 구현.
+		virtual void AssignPointersToGUI() override;
 
 	};
 }

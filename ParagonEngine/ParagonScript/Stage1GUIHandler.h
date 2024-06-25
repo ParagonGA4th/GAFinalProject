@@ -15,11 +15,7 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
-
-	private:
-		void GrabAllGUIObjects();
-		void AssignPointersToGUI();
-
+		virtual void AssignPointersToGUI() override;
 	};
 }
 
