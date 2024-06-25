@@ -40,7 +40,7 @@ namespace Pg::DataScript
 	void TotalGameManager::Update()
 	{
 		// '\' 누르면 치트 고를 수 있을 것
-		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyBackSlash))
+		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::KeyNum0))
 		{
 			SelectCheatCodeWithin();
 		}
@@ -262,20 +262,23 @@ namespace Pg::DataScript
 		// '\' + NUM 순서인 것.
 		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyNum1))
 		{
-			//
+			_pgScene->SetCurrentScene("Stage1");
 		}
 		else if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyNum2))
 		{
-
+			_pgScene->SetCurrentScene("Stage2");
 		}
-
+		else if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyNum3))
+		{
+			_pgScene->SetCurrentScene("BossStage");
+		}
 
 		//
 	}
 
 	void TotalGameManager::CallForEntireSceneReset(Pg::Data::Scene* targetScene, int potValue, void* potPointer)
 	{
-		//나중에 일괄적 호출할 수 있도록, 함수 포인터 저장.
+		//나중에 일괄적 호출할 수 있도록, 함수 포인터 저장._pgSc3ne->GetKeyDown
 		_subFunctionStorageVector.push_back([this, targetScene, potValue, potPointer]()
 			{
 				Internal_CallForEntireSceneReset(targetScene, potValue, potPointer);
