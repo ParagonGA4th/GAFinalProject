@@ -1,5 +1,6 @@
 #pragma once
 #include "RendererBase2D.h"
+#include "eFillRatioDirection.h"
 
 #include <string>
 #include <functional>
@@ -39,6 +40,9 @@ namespace Pg::Data
 		void SetImageIndex(unsigned int val);
 		unsigned int GetImageIndex(); // Defaults to 0
 
+		void SetFillRatioDirection(eFillRatioDirection val);
+		eFillRatioDirection GetFillRatioDirection();
+
 	public:
 		BEGIN_VISITABLES(ImageRenderer);
 		VISITABLE(std::string, _imagePath); // 필수 조건
@@ -50,6 +54,9 @@ namespace Pg::Data
 
 		//100.f 가 가장 최대.
 		float _fillRatio = 100.f;
+
+		//FillRatio 채워지는 양상.
+		eFillRatioDirection _fillRatioDirection{ eFillRatioDirection::LEFT_TO_RIGHT };
 	};
 }
 

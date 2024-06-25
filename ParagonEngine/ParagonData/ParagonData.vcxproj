@@ -245,6 +245,7 @@
     <ClInclude Include="CameraData.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="eFillRatioDirection.h" />
     <ClInclude Include="isbDash.h" />
     <ClInclude Include="ISortableGlobalObject.h" />
     <ClInclude Include="isDown.h" />

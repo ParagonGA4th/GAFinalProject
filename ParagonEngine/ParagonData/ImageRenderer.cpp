@@ -73,5 +73,15 @@ namespace Pg::Data
 		return _fillRatio;
 	}
 
+	void ImageRenderer::SetFillRatioDirection(eFillRatioDirection val)
+	{
+		_fillRatioDirection = val;
+	}
+
+	eFillRatioDirection ImageRenderer::GetFillRatioDirection()
+	{
+		return _fillRatioDirection;
+	}
+
 }
 
