@@ -72,6 +72,8 @@ namespace Pg::Graphics
 
 		_fillRatio = &(tImageRenderer->_fillRatio);
 		_sortingLayer = &(tImageRenderer->_sortingLayer);
+
+		_fillRatioDirection = &(tImageRenderer->_fillRatioDirection);
 	}
 
 	void RenderObjectImage2D::Render(DirectX::SpriteBatch* spriteBatch, Pg::Data::CameraData* camData)
@@ -86,7 +88,6 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT2 ttScale = { _baseRenderer->_object->_transform._scale.x, _baseRenderer->_object->_transform._scale.y };
 		float ttScaleAverage = (ttScale.x + ttScale.y) / 2.0f;
 
-		DirectX::XMFLOAT2 ttOrigin = DirectX::XMFLOAT2(*_imageWidth / 2.0f, *_imageHeight / 2.0f);
 		//DirectX::XMFLOAT2 ttOrigin = DirectX::XMFLOAT2(0.0f,0.0f);
 
 		//실제로 그려주는 과정.
@@ -94,11 +95,10 @@ namespace Pg::Graphics
 		//DirectX::XMFLOAT4 ttFF = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, _alpha);
 		DirectX::XMVECTOR ttTintColor = DirectX::XMLoadFloat4(&ttFF);
 
-		//SourceRect를 오브젝트 그대로 조정한다음에, 출력할 수 있지 않을까?
-		float tCorrectedRatio = std::clamp(*_fillRatio, std::numeric_limits<float>::epsilon(), 100.0f); //이제 DivideByZero생기지 않음.
-
 		//여기에 있는 비율은 Fill 값을 대변
-		RECT tImageRect = { 0,0, static_cast<LONG>((*_imageWidth) * (tCorrectedRatio / 100.0f)), static_cast<LONG>(*_imageHeight) };
+		RECT tImageRect{};
+		DirectX::XMFLOAT2 ttOrigin{}; 
+		ReturnAppropriateFillRectOrigin(*_fillRatioDirection, tImageRect, ttOrigin);
 
 		//SortingLayer 정리.
 		float tTrueSortingLayer = static_cast<float>(std::clamp(*_sortingLayer, (UINT)0, (UINT)100)) / 100.f;
@@ -124,4 +124,41 @@ namespace Pg::Graphics
 
 		_imageIndex = std::clamp<unsigned int>(val, 0u, _texture2DVector.size() - 1);
 	}
+
+	
+
+	void RenderObjectImage2D::ReturnAppropriateFillRectOrigin(Pg::Data::eFillRatioDirection dir, RECT& outRect, DirectX::XMFLOAT2& outOrigin)
+	{
+		//SourceRect를 오브젝트 그대로 조정한다음에, 출력할 수 있지 않을까?
+		float tCorrectedRatio = std::clamp(*_fillRatio, std::numeric_limits<float>::epsilon(), 100.0f); //이제 DivideByZero생기지 않음.
+
+		if (dir == Pg::Data::eFillRatioDirection::LEFT_TO_RIGHT)
+		{
+			//여기에 있는 비율은 Fill 값을 대변
+			outRect = { 0,0, static_cast<LONG>((*_imageWidth) * (tCorrectedRatio / 100.0f)), static_cast<LONG>(*_imageHeight) };
+			outOrigin = DirectX::XMFLOAT2(*_imageWidth / 2.0f, *_imageHeight / 2.0f);
+		}
+		else if (dir == Pg::Data::eFillRatioDirection::DOWN_TO_UP)
+		{
+			LONG tImageHeight = static_cast<LONG>(*_imageHeight);
+			LONG tVal = static_cast<LONG>((*_imageHeight) * (tCorrectedRatio / 100.0f));
+
+			outRect = { 0, tImageHeight - tVal, static_cast<LONG>(*_imageWidth), tImageHeight };
+			outOrigin = DirectX::XMFLOAT2(*_imageWidth / 2.0f, *_imageHeight / 2.0f); 
+			//현재로서는 조정이 DOWN_TO_UP 기준으로 안되어 있는 상태.
+			//후순위에 해야.
+		}
+		else if (dir == Pg::Data::eFillRatioDirection::UP_TO_DOWN)
+		{
+			outRect = { 0,0, static_cast<LONG>(*_imageWidth),
+				static_cast<LONG>((*_imageHeight) * (tCorrectedRatio / 100.0f)) };
+			outOrigin = DirectX::XMFLOAT2(*_imageWidth / 2.0f, *_imageHeight / 2.0f);
+		}
+		else
+		{
+			//여기는 미정의.
+			assert(false);
+		}
+	}
+
 }

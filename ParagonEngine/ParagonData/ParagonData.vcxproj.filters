@@ -775,6 +775,9 @@
     <ClInclude Include="isbDash.h">
       <Filter>11_BtNodes\MonsterAnim\Boss\isbDash</Filter>
     </ClInclude>
+    <ClInclude Include="eFillRatioDirection.h">
+      <Filter>5_Enums</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
