@@ -29,20 +29,20 @@ namespace Pg::DataScript
 	{
 		float tImpVal = std::clamp<float>(*_percentageSource, 0.f, _maxVal);
 
-		//테스트용.
-		{
-			static float time = 0.1f;
-			time += 0.1f;
-
-			const float frequency = 0.5;
-			const float phase = 0;
-
-			// Calculate the sine value (-1 to 1)
-			float sineValue = std::sin(2 * std::numbers::pi * frequency * time + phase);
-
-			// Map the sine value to the range 0-100
-			tImpVal = (sineValue + 1) * 50;
-		}
+		////테스트용.
+		//{
+		//	static float time = 0.1f;
+		//	time += 0.1f;
+		//
+		//	const float frequency = 0.5;
+		//	const float phase = 0;
+		//
+		//	// Calculate the sine value (-1 to 1)
+		//	float sineValue = std::sin(2 * std::numbers::pi * frequency * time + phase);
+		//
+		//	// Map the sine value to the range 0-100
+		//	tImpVal = (sineValue + 1) * 50;
+		//}
 
 
 		float tRatio = (tImpVal / _maxVal) * 100.f; // 0-100 사이.
