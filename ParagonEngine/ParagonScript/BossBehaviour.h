@@ -13,6 +13,7 @@ namespace Pg::Data
 	class CapsuleCollider;
 	class StaticBoxCollider;
 	class MonsterHelper;
+	class AudioSource;
 }
 
 namespace Pg::API
@@ -83,10 +84,14 @@ namespace Pg::DataScript
 
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 
+		Pg::Data::GameObject* _bossWalkSound;
+		Pg::Data::AudioSource* _walkAudio;
+
 	public:
 		//골렘보스의 상태와 수치에 대한 정보.
 		BossInfo* _bossInfo;
 
+	private:
 		float _distance;				//보스와 플레이어와의 거리
 		bool _isPlayerInit{ false };
 
@@ -110,6 +115,7 @@ namespace Pg::DataScript
 		bool _hasEvaded{ false };
 		float _evadeCooldownTime = 0.f;
 
+		bool _isMoving{ false };
 	};
 }
 

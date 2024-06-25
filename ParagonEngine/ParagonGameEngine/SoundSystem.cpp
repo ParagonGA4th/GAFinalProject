@@ -253,6 +253,14 @@ namespace Pg::Engine
 		//원래 있던 AudioSourceList();
 		if (!_audioSourceMap.empty())
 		{
+			for (auto& it : _audioSourceMap)
+			{
+				it.second->Stop();
+			}
+
+			//전 씬에 있던 사운드 멈추기.
+			UpdateSounds();
+
 			_audioSourceMap.clear();
 		}
 
