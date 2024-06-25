@@ -19,7 +19,7 @@ namespace Pg::Data::BTree::Node
 				monHelper->_bossPase = Pg::Data::BossPase::PASE_3;
 				if (!paseInit)
 				{
-					monHelper->_bossState = Pg::Data::BossState::BASIC_ATTACK_1;
+					monHelper->_bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_1;
 					config().blackboard->set<bool>("PASETHREEINIT", true);
 				}
 				return BT::NodeStatus::SUCCESS;

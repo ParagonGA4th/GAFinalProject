@@ -29,14 +29,24 @@ namespace Pg::Data
 			_bossStateListByString["BAttack_2"] = Pg::Data::BossState::BASIC_ATTACK_2;
 			_bossStateListByString["BAttack_3"] = Pg::Data::BossState::BASIC_ATTACK_3;
 			_bossStateListByString["SFeatherAttack"] = Pg::Data::BossState::SKILL_FEATHER_ATTACK;
-			_bossStateListByString["SFlyAttack"] = Pg::Data::BossState::SKILL_FLY_ATTACK;
+			_bossStateListByString["SFlyAttack1"] = Pg::Data::BossState::SKILL_FLY_ATTACK_1;
+			_bossStateListByString["SFlyAttackPre1"] = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1;
+			_bossStateListByString["SFlyAttack2"] = Pg::Data::BossState::SKILL_FLY_ATTACK_2;
+			_bossStateListByString["SFlyAttackPre2"] = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2;
+			_bossStateListByString["SFlyAttack3"] = Pg::Data::BossState::SKILL_FLY_ATTACK_3;
+			_bossStateListByString["SFlyAttackPre3"] = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3;
 
 			_bossStateListByEnum[Pg::Data::BossState::IDLE] = "Idle";
 			_bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_1] = "BAttack_1";
 			_bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_2] = "BAttack_2";
 			_bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_3] = "BAttack_3";
 			_bossStateListByEnum[Pg::Data::BossState::SKILL_FEATHER_ATTACK] = "SFeatherAttack";
-			_bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK] = "SFlyAttack";
+			_bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_1] = "SFlyAttack1";
+			_bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1] = "SFlyAttackPre1";
+			_bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_2] = "SFlyAttack2";
+			_bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2] = "SFlyAttackPre2";
+			_bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_3] = "SFlyAttack3";
+			_bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3] = "SFlyAttackPre3";
 		};
 
 		virtual void OnAnimationEnd()
