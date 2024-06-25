@@ -1,6 +1,6 @@
 #pragma once
 #include "ScriptInterface.h"
-#include "IMovableObject.h"
+#include "IConfinedArea.h"
 #include "../ParagonMath/PgMath.h"
 
 namespace Pg::Data 
@@ -12,13 +12,17 @@ namespace Pg::Data
 namespace Pg::DataScript
 {
 	class PlayerHandler;
-	class BattleArea : public ScriptInterface<BattleArea>, public IMovableObject
+	class BaseEnemyHandler;
+	class BaseAreaHandler;
+
+	class BattleArea : public ScriptInterface<BattleArea>, public IConfinedArea
 	{
 		DEFINE_PARAGON_SCRIPT(BattleArea);
 
 	public:
 		BattleArea(Pg::Data::GameObject* obj);
 
+		virtual void GrabManagedObjects() override;
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;
@@ -26,16 +30,31 @@ namespace Pg::DataScript
 	public:
 		virtual void ResetAll() override;
 		virtual unsigned int GetDesignatedAreaIndex() override;
-	private:
+		virtual void SetActivate(bool val) override { _isActivated = val; }
+
+	public:
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
 		virtual void OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count) override;
 		
+	public:
+		BEGIN_VISITABLES(BattleArea);
+		VISITABLE(unsigned int, _areaIndex);
+		END_VISITABLES;
+
 	private:
 		Pg::Data::SphereCollider* _collider;
 		Pg::DataScript::PlayerHandler* _player;
 
 		int _monster = 1;
-		bool _onTriggerStay;
+		bool _onTriggerStay{ false };
+
+	private:
+		//자신이 속해 있는 씬의 기타 핸들러들.
+		BaseAreaHandler* _areaHandler{ nullptr };
+		BaseEnemyHandler* _enemyHandler{ nullptr };
+
+	private:
+		bool _isActivated{ true };
 	};
 }
 

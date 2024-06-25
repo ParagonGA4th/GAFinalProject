@@ -4,11 +4,27 @@
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonData/SphereCollider.h"
 
+#include "TotalGameManager.h"
+#include "BaseEnemyHandler.h"
+#include "BaseAreaHandler.h"
+
 namespace Pg::DataScript
 {
 	BattleArea::BattleArea(Pg::Data::GameObject* obj)
 		:ScriptInterface(obj)
 	{
+	}
+
+	void BattleArea::GrabManagedObjects()
+	{
+		//자신이 속한 곳의 AreaHandler / EnemyHandler를 받아오기.
+		//적 보고 로직 등에 사용될 것.
+		TotalGameManager* tTotalGameManager = TotalGameManager::GetInstance(nullptr);
+		HandlerBundle3D* tHB = tTotalGameManager->GetHandlerBundleByScene(_object->GetScene());
+		this->_areaHandler = tHB->_areaHandler;
+		assert(_areaHandler != nullptr);
+		this->_enemyHandler = tHB->_enemyHandler;
+		assert(_enemyHandler != nullptr);
 	}
 
 	void BattleArea::Awake()
@@ -19,6 +35,7 @@ namespace Pg::DataScript
 
 	void BattleArea::Start()
 	{
+
 	}
 
 	void BattleArea::Update()
@@ -81,8 +98,12 @@ namespace Pg::DataScript
 
 			if (col->_object->GetTag() == "TAG_Sensor")
 			{
+				//이 자체는 다시 플레이어가 갈 수 있는 영역 한정 위함.
 				_onTriggerStay = true;
 				_player = col->_object->_transform.GetParent()->_object->GetComponent<Pg::DataScript::PlayerHandler>();
+
+				//밑은 적 등록 / 모두 죽일 시 : 판단 로직을 마련 위함.
+				//이때는, Enemy가 죽었을 때 Handler에게 죽었다고 알려주는 로직이 필요.
 			}
 		}
 	}
@@ -101,14 +122,15 @@ namespace Pg::DataScript
 
 	unsigned int BattleArea::GetDesignatedAreaIndex()
 	{
-		// 임시 
-		return 0;
+		return _areaIndex;
 	}
 
 	void BattleArea::ResetAll()
 	{
-
+		_isActivated = true;
 	}
+
+
 
 }
 

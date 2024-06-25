@@ -51,6 +51,10 @@ namespace Pg::DataScript
 		//2D일 경우, nullptr를 반환할 것.
 		HandlerBundle3D* GetCurrentHandlerBundle();
 
+		//Scene 파라미터에 따라 HandlerBundle3D 리턴.
+		HandlerBundle3D* GetHandlerBundleByScene(Pg::Data::Scene* scene);
+
+
 	private:
 		//내부적으로 정해진 타이밍에 호출할 수 있게.
 		void Internal_CallForEntireSceneReset(Pg::Data::Scene* targetScene, int potValue, void* potPointer);

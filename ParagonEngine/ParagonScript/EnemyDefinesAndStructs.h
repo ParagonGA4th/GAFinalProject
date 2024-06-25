@@ -34,5 +34,6 @@ namespace Pg::DataScript
 		IEnemyBehaviour* _enemyBehav = nullptr;
 		Pg::Data::GameObject* _enemyObj = nullptr;
 		TransformSimpleStorage _transStorage;
+		bool _isAlive{ true }; //살아 있으면 이렇게 리셋.
 	};
 }

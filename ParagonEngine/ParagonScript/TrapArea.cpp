@@ -90,13 +90,12 @@ namespace Pg::DataScript
 
 	unsigned int TrapArea::GetDesignatedAreaIndex()
 	{
-		// юс╫ц 
-		return 0;
+		return _areaIndex;
 	}
 
 	void TrapArea::ResetAll()
 	{
-
+		_isActivated = true;
 	}
 
 }

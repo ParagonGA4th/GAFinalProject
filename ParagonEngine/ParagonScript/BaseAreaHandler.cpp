@@ -1,4 +1,5 @@
 #include "BaseAreaHandler.h"
+#include "HandleBundle3D.h"
 
 #include "../ParagonData/Collider.h"
 #include "../ParagonData/Scene.h"
@@ -31,6 +32,15 @@ namespace Pg::DataScript
 				bAgg._moveBehav->ResetAll();
 			}
 		}
+
+		//IConfinedArea 역시 동일한 처리.
+		for (auto& bConfinedIndexVec : _confinedAreaList)
+		{
+			for (auto& it : *bConfinedIndexVec)
+			{
+				it->ResetAll();
+			}
+		}
 	}
 
 	void BaseAreaHandler::ResetAreaWithIndex(unsigned int index)
@@ -42,6 +52,13 @@ namespace Pg::DataScript
 		for (auto& [bObjName, bAgg] : bIndexMap)
 		{
 			bAgg._moveBehav->ResetAll();
+		}
+
+		//IConfinedArea 역시 동일한 처리.
+		auto& bConfinedIndexVec = _confinedAreaList.at(tAreaIndex);
+		for (auto& it : *bConfinedIndexVec)
+		{
+			it->ResetAll();
 		}
 	}
 
@@ -87,6 +104,9 @@ namespace Pg::DataScript
 			//.at이 out of index가 뜨지 않게 하기 위해서.
 			_managedMovingObjectList.insert(std::make_pair(i, std::unordered_map<std::string,
 				MovingObjectAggregate>()));
+
+			//마찬가지. 
+			_confinedAreaList.push_back(std::make_unique<std::vector<IConfinedArea*>>());
 		}
 
 		for (auto& bObj : _object->GetScene()->GetObjectList())
@@ -118,6 +138,17 @@ namespace Pg::DataScript
 				continue;
 			}
 
+			//BattleArea / TrapArea 등 IConfinedArea를 받아야 한다.
+			IConfinedArea* tConfinedArea = bObj->GetComponent<IConfinedArea>();
+			if (tConfinedArea != nullptr)
+			{
+				unsigned int tDesignatedIndex = tConfinedArea->GetDesignatedAreaIndex();
+				auto& bVecPtr = _confinedAreaList.at(tDesignatedIndex);
+				bVecPtr->push_back(tConfinedArea);
+
+				continue;
+			}
+
 			//이제는 DeathPlane / AreaPassingTrigger 검사.
 			//자체 저장 + 자신의 객체 주소 전달.
 			DeathPlane* tDeathPlane = bObj->GetComponent<DeathPlane>();
@@ -138,6 +169,15 @@ namespace Pg::DataScript
 
 				continue;
 			}
+		}
+	}
+
+	void BaseAreaHandler::SetActivateConfinedAreaIndex(unsigned int index, bool val)
+	{
+		auto& bConfinedIndexVec = _confinedAreaList.at(index);
+		for (auto& it : *bConfinedIndexVec)
+		{
+			it->SetActivate(val);
 		}
 	}
 

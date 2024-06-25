@@ -274,6 +274,9 @@
     <Filter Include="3_Interfaces\Handlers\BaseGUIHandler">
       <UniqueIdentifier>{c6863133-1607-418b-a08f-61294da8edf5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3_Interfaces\Instances\IConfinedArea">
+      <UniqueIdentifier>{425438f8-7b40-4fe4-80ee-5b2c9356d425}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -701,6 +704,9 @@
     </ClInclude>
     <ClInclude Include="GUI_PercentageFillBar.h">
       <Filter>UI\InGameUI\GUI_PercentageFillBar</Filter>
+    </ClInclude>
+    <ClInclude Include="IConfinedArea.h">
+      <Filter>3_Interfaces\Instances\IConfinedArea</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
