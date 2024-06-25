@@ -1,8 +1,11 @@
 #pragma once
 #include "ScriptInterface.h"
 #include "BaseGUIHandler.h"
+
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
+
+
 
 namespace Pg::DataScript
 {
@@ -13,12 +16,12 @@ namespace Pg::DataScript
 	public:
 		CreditsSceneGUIHandler(Pg::Data::GameObject* obj);
 
+		virtual void GrabManagedObjects() override;
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;
 
-		//IGUI Handler.
-		virtual void ResetToInitialState() override;
+		virtual void AssignPointersToGUI() override;
 
 	};
 }
