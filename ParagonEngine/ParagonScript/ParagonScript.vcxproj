@@ -173,6 +173,7 @@
     <ClInclude Include="ExitButton.h" />
     <ClInclude Include="BaseEnemyHandler.h" />
     <ClInclude Include="BaseGUIHandler.h" />
+    <ClInclude Include="IConfinedArea.h" />
     <ClInclude Include="IMovableObject.h" />
     <ClInclude Include="InGameManager.h" />
     <ClInclude Include="IProjectile.h" />

@@ -12,6 +12,8 @@
 
 namespace Pg::DataScript
 {
+	class HandlerBundle3D;
+
 	class BaseEnemyHandler
 	{
 	public:
@@ -25,13 +27,23 @@ namespace Pg::DataScript
 		//IEnemyBehaviour를 대상으로 호출되는 것.
 		void TransformEachEnemy(std::function<void(IEnemyBehaviour*)> func);
 
+		//개별 Enemy가 사망했을 떄, Handler에게 알려줘야 한다.
+		//전체가 사망했을 때, BattleArea 같은 요소들에게 알려주기는 해야 한다.
+		//단적인 호출이 되어야.
+		void FromEnemyNotifyDead(const std::string& tagName, IEnemyBehaviour* behav);
+
 	protected:
 		//Derived Class들이 GrabManagedObject 부분에서 호출하는 부분.
 		void GrabOrganizeAllEnemies(Pg::Data::GameObject* obj);
 
+	public:
+		//자신이 속한 HandlerBundle3D를 알아야 한다.
+		HandlerBundle3D* _belongHandlerBundle3D{ nullptr };
+	
 	protected:
 		unsigned int _entireAreaCount;
 
+		//Area Index // <Tag Name / EnemyAgg>
 		std::map<unsigned int,
 			std::unordered_map<std::string, std::vector<EnemyAggregate>>> _managedMonstersList;
 	};

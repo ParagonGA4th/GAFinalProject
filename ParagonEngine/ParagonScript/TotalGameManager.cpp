@@ -221,6 +221,12 @@ namespace Pg::DataScript
 				tHandlerBundle->_guiHandler = tGUIHandler;
 				tHandlerBundle->_playerBehavior = tPlayerBattleBehavior;
 
+				//추후 로직을 위해 소속한 HandlerBundle3D 주소 개별적으로 저장.
+				// Area & Enemy.
+				tHandlerBundle->_areaHandler->_belongHandlerBundle3D = tHandlerBundle.get();
+				tHandlerBundle->_enemyHandler->_belongHandlerBundle3D = tHandlerBundle.get();
+
+
 				//초기 Player Position 기록.
 				tHandlerBundle->_originalPlayerTransStorage = TransformSimpleStorage(&(tPlayerBattleBehavior->_object->_transform));
 
@@ -312,6 +318,17 @@ namespace Pg::DataScript
 		return _currentHandlerBundle3d;
 	}
 
+	Pg::DataScript::HandlerBundle3D* TotalGameManager::GetHandlerBundleByScene(Pg::Data::Scene* scene)
+	{
+		if (scene->GetIs3D())
+		{
+			return _scene3dHandlerBundleMap.at(scene).get();
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
 	
 
 }

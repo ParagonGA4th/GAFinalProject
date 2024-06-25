@@ -1,5 +1,7 @@
 #include "BaseEnemyHandler.h"
+#include "BaseAreaHandler.h"
 #include "../ParagonData/Scene.h"
+#include "HandleBundle3D.h"
 
 namespace Pg::DataScript
 {
@@ -92,6 +94,7 @@ namespace Pg::DataScript
 					tToInsert._enemyBehav = tEB;
 					tToInsert._enemyObj = tGO;
 					tToInsert._transStorage = TransformSimpleStorage(&(tGO->_transform));
+					tToInsert._isAlive = true; //무조건 살아 있게 시작.
 
 					//내부적으로 원래 Transform을 보관한다.
 					tActualStoreVecIter.push_back(tToInsert);
@@ -122,6 +125,9 @@ namespace Pg::DataScript
 
 					//다시 원래대로 본인의 정보 돌려놓기. 내부에서 SetActive 필요해주어야 한다. 
 					tEnemyStorage._enemyBehav->ReturnBaseMonsterInfo()->ResetAll();
+
+					//다시 살아 있게 _isAlive 원래대로 기록.
+					tEnemyStorage._isAlive = true;
 				}
 			}
 		}
@@ -141,4 +147,44 @@ namespace Pg::DataScript
 			}
 		}
 	}
+
+	void BaseEnemyHandler::FromEnemyNotifyDead(const std::string& tagName, IEnemyBehaviour* behav)
+	{
+		//일단 개별적인 거 등록.
+		auto& bBelongAreaMap = _managedMonstersList.at(behav->GetBelongAreaIndex());
+		auto& bBelongTagVector = bBelongAreaMap.at(tagName);
+
+		for (auto& it : bBelongTagVector)
+		{
+			if (it._enemyBehav == behav)
+			{
+				//죽었다고 기록. 나중에 리스폰 등 이벤트는 리셋에 의해 제어될 것.
+				it._isAlive = false;
+			}
+		}
+		
+		//이제, AreaMap 파싱해서, 한 Area 안에서 모두 죽은 상태인지 확인. 
+		//만약 그럴 경우 -> BaseAreaHandler를 호출할 것.
+		bool tIsAtLeastOneAlive = false;
+		for (auto& [bTagName, bAggVec] : bBelongAreaMap)
+		{
+			for (auto& it : bAggVec)
+			{
+				if (it._isAlive)
+				{
+					tIsAtLeastOneAlive = true;
+					//Nested For Goto Escape.
+					goto gFoundPoint;
+				}
+			}
+		}
+
+		gFoundPoint:
+		//단 하나도 살아 있는 객체가 없다면, 해당 상황시 AreaHandler의 함수를 호출.
+		if (!tIsAtLeastOneAlive)
+		{
+			_belongHandlerBundle3D->_areaHandler->SetActivateConfinedAreaIndex(false);
+		}
+	}
+
 }
