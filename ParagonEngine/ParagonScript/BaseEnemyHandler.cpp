@@ -33,17 +33,24 @@ namespace Pg::DataScript
 			std::vector<std::pair<Pg::Data::GameObject*, IEnemyBehaviour*>> tAllAreaOfSingleTagEnemyBehavVec;
 
 			//오브젝트와 동일한 Size.
-			tAllAreaOfSingleTagEnemyBehavVec.resize(tAllAreaOfSingleTagGOVec.size());
+			//tAllAreaOfSingleTagEnemyBehavVec.resize(tAllAreaOfSingleTagGOVec.size());
 
-			//모든 GameObject를 갖고 있는 애들: -> IEnemyBehaviour를 가지고 있어야 하는데,
-			//이를 담고 있는 동일 인덱스로 설정. (Vector 컴포넌트로 옮기기)
+			// 모든 GameObject를 갖고 있는 애들: -> IEnemyBehaviour를 가지고 있어야 하는데,
+			// 이를 담고 있는 동일 인덱스로 설정. (Vector 컴포넌트로 옮기기)
 			for (int i = 0; i < tAllAreaOfSingleTagEnemyBehavVec.size(); i++)
 			{
 				//Enemy Behaviour 객체를 받아오기, Assert 점검 역시 해야.
 				auto& bObject = tAllAreaOfSingleTagGOVec.at(i);
+
+				if (bObject->_transform.HasParent())
+				{
+					// Parent가 있으면 담지 않는다.
+					continue;
+				}
+
 				IEnemyBehaviour* tEnBehav = bObject->GetComponent<IEnemyBehaviour>();
 				assert((tEnBehav != nullptr) && "Enemy Tag를 가지고 있으면, 무조건 IEnemyBehaviour를 가진 Script가 컴포넌트로 있어야!");
-				tAllAreaOfSingleTagEnemyBehavVec.at(i) = std::make_pair(bObject, tEnBehav);
+				tAllAreaOfSingleTagEnemyBehavVec.push_back(std::make_pair(bObject, tEnBehav));
 			}
 
 			//Index는 Area ID / 나머지는 해당하는 Vector들.
