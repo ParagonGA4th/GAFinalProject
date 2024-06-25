@@ -259,6 +259,9 @@
     <Filter Include="AI\Attack\MimicAttack">
       <UniqueIdentifier>{b954f578-f946-4bb9-b254-32ed10ae328a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\Attack\BossAttack">
+      <UniqueIdentifier>{39832d48-da90-4559-a886-a52949bd7d0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -419,6 +422,9 @@
     </ClCompile>
     <ClCompile Include="GlobalSoundManager.cpp">
       <Filter>Content\GlobalManagers\3_SoundSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="BossAttack.cpp">
+      <Filter>AI\Attack\BossAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -650,6 +656,9 @@
     </ClInclude>
     <ClInclude Include="GlobalSoundManager.h">
       <Filter>Content\GlobalManagers\3_SoundSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="BossAttack.h">
+      <Filter>AI\Attack\BossAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
