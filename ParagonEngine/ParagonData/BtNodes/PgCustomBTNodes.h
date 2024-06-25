@@ -27,7 +27,6 @@
 #include "../ParagonData/isPase_3.h"
 #include "../ParagonData/isDown.h"
 #include "../ParagonData/isbDash.h"
-#include "../ParagonData/isDistanceFar.h"
 
 // floating Monster
 #include "../ParagonData/Anim_fDead.h"

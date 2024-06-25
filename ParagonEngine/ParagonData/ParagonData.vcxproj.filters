@@ -352,9 +352,6 @@
     <ClCompile Include="isPase_3.cpp">
       <Filter>11_BtNodes\MonsterAnim\Boss\Pase\isPase_3</Filter>
     </ClCompile>
-    <ClCompile Include="isDistanceFar.cpp">
-      <Filter>11_BtNodes\MonsterAnim\Boss\isDistanceFar</Filter>
-    </ClCompile>
     <ClCompile Include="isbDash.cpp">
       <Filter>11_BtNodes\MonsterAnim\Boss\isbDash</Filter>
     </ClCompile>
@@ -775,9 +772,6 @@
     <ClInclude Include="isPase_3.h">
       <Filter>11_BtNodes\MonsterAnim\Boss\Pase\isPase_3</Filter>
     </ClInclude>
-    <ClInclude Include="isDistanceFar.h">
-      <Filter>11_BtNodes\MonsterAnim\Boss\isDistanceFar</Filter>
-    </ClInclude>
     <ClInclude Include="isbDash.h">
       <Filter>11_BtNodes\MonsterAnim\Boss\isbDash</Filter>
     </ClInclude>
@@ -1187,9 +1181,6 @@
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Boss\isDistanceClose">
       <UniqueIdentifier>{c880e1e2-0d87-438b-a2de-2a2a0b2fe792}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="11_BtNodes\MonsterAnim\Boss\isDistanceFar">
-      <UniqueIdentifier>{ad4b8906-18c8-4fa8-8528-e7b58c7a2bd6}</UniqueIdentifier>
     </Filter>
     <Filter Include="11_BtNodes\MonsterAnim\Boss\isbDash">
       <UniqueIdentifier>{a32f528f-453c-4c78-895a-743892bc18d8}</UniqueIdentifier>
