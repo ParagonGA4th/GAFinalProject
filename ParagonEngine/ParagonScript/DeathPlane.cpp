@@ -45,7 +45,7 @@ namespace Pg::DataScript
 		}
 	}
 
-	void DeathPlane::StoreDesignatedAreaHandler(IAreaHandler* areaHandler)
+	void DeathPlane::StoreDesignatedAreaHandler(BaseAreaHandler* areaHandler)
 	{
 		//후에 함수 호출을 위해 마련.
 		_areaHandler = areaHandler;

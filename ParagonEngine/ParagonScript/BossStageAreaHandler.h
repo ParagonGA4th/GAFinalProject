@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ScriptInterface.h"
-#include "IAreaHandler.h"
+#include "BaseAreaHandler.h"
 #include "MovingObjectDefinesAndStructs.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
@@ -13,9 +13,13 @@
 
 namespace Pg::DataScript
 {
-	class BossStageAreaHandler : public ScriptInterface<BossStageAreaHandler>, public IAreaHandler
+	class BossStageAreaHandler : public ScriptInterface<BossStageAreaHandler>, public BaseAreaHandler
 	{
 		DEFINE_PARAGON_SCRIPT(BossStageAreaHandler);
+
+	public:
+		//자신이 속한 Stage의 Area 전체 개수.
+		enum { ENTIRE_AREA_COUNT = 3 };
 
 	public:
 		BossStageAreaHandler(Pg::Data::GameObject* obj);
@@ -23,17 +27,6 @@ namespace Pg::DataScript
 		virtual void GrabManagedObjects() override;
 		virtual void Start() override;
 		virtual void Update() override;
-
-		//Handler
-		virtual void ResetToInitialState() override;
-		virtual void ResetAreaWithIndex(unsigned int index) override;
-		virtual void SetCurrentAreaIndex(unsigned int index) override;
-		virtual void OnPlayerHitDeathPlane() override;
-
-	private:
-		//MovingObject 관리를 위해.
-		//ObjectName / MovingObject
-		std::unordered_map<std::string, MovingObjectAggregate> _managedMovingObjectList;
 	};
 }
 

@@ -42,7 +42,7 @@ namespace Pg::DataScript
 		}
 	}
 
-	void AreaPassingTrigger::StoreDesignatedAreaHandler(IAreaHandler* areaHandler)
+	void AreaPassingTrigger::StoreDesignatedAreaHandler(BaseAreaHandler* areaHandler)
 	{
 		//후에 함수 호출을 위해 마련.
 		_areaHandler = areaHandler;

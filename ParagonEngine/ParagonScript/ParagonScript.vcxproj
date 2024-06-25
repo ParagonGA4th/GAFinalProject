@@ -153,7 +153,7 @@
     <ClInclude Include="GUIDefinesAndStructs.h" />
     <ClInclude Include="GUI_PercentageFillBar.h" />
     <ClInclude Include="HandleBundle3D.h" />
-    <ClInclude Include="IAreaHandler.h" />
+    <ClInclude Include="BaseAreaHandler.h" />
     <ClInclude Include="BaseMonster.h" />
     <ClInclude Include="BattleArea.h" />
     <ClInclude Include="BossBehaviour.h" />
@@ -170,8 +170,8 @@
     <ClInclude Include="EventList_GameFlowRelated.h" />
     <ClInclude Include="EventList_PlayerRelated.h" />
     <ClInclude Include="ExitButton.h" />
-    <ClInclude Include="IEnemyHandler.h" />
-    <ClInclude Include="IGUIHandler.h" />
+    <ClInclude Include="BaseEnemyHandler.h" />
+    <ClInclude Include="BaseGUIHandler.h" />
     <ClInclude Include="IMovableObject.h" />
     <ClInclude Include="InGameManager.h" />
     <ClInclude Include="IProjectile.h" />
@@ -228,6 +228,9 @@
     <ClCompile Include="AreaPassingTrigger.cpp" />
     <ClCompile Include="ArrowLogic.cpp" />
     <ClCompile Include="ArrowShooterBehavior.cpp" />
+    <ClCompile Include="BaseAreaHandler.cpp" />
+    <ClCompile Include="BaseEnemyHandler.cpp" />
+    <ClCompile Include="BaseGUIHandler.cpp" />
     <ClCompile Include="BaseMonster.cpp" />
     <ClCompile Include="BattleArea.cpp" />
     <ClCompile Include="BossBehaviour.cpp" />

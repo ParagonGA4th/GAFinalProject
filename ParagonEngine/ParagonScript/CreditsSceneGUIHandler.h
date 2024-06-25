@@ -1,12 +1,12 @@
 #pragma once
 #include "ScriptInterface.h"
-#include "IGUIHandler.h"
+#include "BaseGUIHandler.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
 
 namespace Pg::DataScript
 {
-	class CreditsSceneGUIHandler : public ScriptInterface<CreditsSceneGUIHandler>, public IGUIHandler
+	class CreditsSceneGUIHandler : public ScriptInterface<CreditsSceneGUIHandler>, public BaseGUIHandler
 	{
 		DEFINE_PARAGON_SCRIPT(CreditsSceneGUIHandler);
 
