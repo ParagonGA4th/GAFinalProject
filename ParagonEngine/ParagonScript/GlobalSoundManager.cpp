@@ -30,6 +30,8 @@ namespace Pg::DataScript
 
 		//πŸ≤Ô æ¿ ¿˙¿Â.
 		_currentScene = changedScene;
+
+		StopAllSoundGroups();
 	}
 
 	void GlobalSoundManager::Initialize(Pg::Data::Scene* changedScene)
