@@ -33,6 +33,7 @@
 #include "ExitButton.h"
 #include "PauseBox.h"
 #include "NavAgent.h"
+#include "GUI_PercentageFillBar.h"
 
 //사운드 관련
 #include "SoundManager.h"

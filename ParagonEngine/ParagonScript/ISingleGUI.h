@@ -12,6 +12,6 @@ namespace Pg::DataScript
 		//이는 Handler에서 일괄적으로 Setup 과정에서 전달하게 될 것이다.
 		//해당 정보를 해석하는 양상은 개별 클래스마다 달라지게 될 것이다.
 		//해당 Script는 Renderer2D에 접속해서, FillRatio, Index 등등을 바꾸게 된다. 
-		virtual void ReceiveDependentPointers(void* p1, void* p2, void* p3) abstract;
+		virtual void ReceiveDependentPointers(void* p1, void* p2, void* p3, double v1, double v2, double v3) abstract;
 	};
 }

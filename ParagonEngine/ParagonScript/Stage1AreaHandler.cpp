@@ -144,6 +144,9 @@ namespace Pg::DataScript
 
 	void Stage1AreaHandler::OnPlayerHitDeathPlane()
 	{
+		//플레이어 죽이고 
+		//SceneReset, 일단은 전체로.
+		//영역 냐누기 NO. (테스트 빌드 기준)
 
 	}
 

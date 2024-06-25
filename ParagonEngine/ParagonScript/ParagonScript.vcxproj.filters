@@ -268,6 +268,9 @@
     <Filter Include="Content\MapLogic\AreaPassingTrigger">
       <UniqueIdentifier>{0a1133bd-c23c-4556-8591-cd44ff7eebef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\InGameUI\GUI_PercentageFillBar">
+      <UniqueIdentifier>{31a91f8e-2a1f-417f-83aa-5af898ef59ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -435,6 +438,7 @@
     <ClCompile Include="DeathPlane.cpp">
       <Filter>Content\MapLogic\DeathPlane</Filter>
     </ClCompile>
+    <ClCompile Include="GUI_PercentageFillBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -675,6 +679,7 @@
     <ClInclude Include="DeathPlane.h">
       <Filter>Content\MapLogic\DeathPlane</Filter>
     </ClInclude>
+    <ClInclude Include="GUI_PercentageFillBar.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ParagonScript.rc" />

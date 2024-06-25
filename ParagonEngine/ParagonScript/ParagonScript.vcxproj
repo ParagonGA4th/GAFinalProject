@@ -151,6 +151,7 @@
     <ClInclude Include="DeathPlane.h" />
     <ClInclude Include="EnemyDefinesAndStructs.h" />
     <ClInclude Include="GUIDefinesAndStructs.h" />
+    <ClInclude Include="GUI_PercentageFillBar.h" />
     <ClInclude Include="HandleBundle3D.h" />
     <ClInclude Include="IAreaHandler.h" />
     <ClInclude Include="BaseMonster.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="EventTest.cpp" />
     <ClCompile Include="ExitButton.cpp" />
     <ClCompile Include="FactoryHelper.cpp" />
+    <ClCompile Include="GUI_PercentageFillBar.cpp" />
     <ClCompile Include="InGameManager.cpp" />
     <ClCompile Include="CreditsSceneGUIHandler.cpp" />
     <ClCompile Include="PlayerCombatSector.cpp" />
