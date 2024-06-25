@@ -26,6 +26,10 @@ namespace Pg::DataScript
 
 
 	private:
+		void GrabAllGUIObjects();
+		void AssignPointersToGUI();
+
+	private:
 		//Obj Name / GUIAggregate
 		std::unordered_map<std::string, GUIAggregate> _managedGuiObjectList;
 	};

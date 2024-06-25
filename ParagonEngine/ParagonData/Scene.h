@@ -85,6 +85,9 @@ namespace Pg::Data
 		//태그를 갖고 오브젝트들을 찾아서 반환한다.
 		std::vector<Pg::Data::GameObject*> FindObjectsWithTag(const std::string& tag);
 		
+		template <typename T>
+		T* FindSingleComponentInScene();
+
 		//파괴되지 않는 오브젝트들은 SceneSystem에서 따로 가져가서 오브젝트의 "소속"을 SceneSystem으로 변경.
 		//여기 내부 소속 오브젝트들은 무조건 내부적으로 Pg::Data::ISortableGlobalObject를 상속받아야 한다.
 		static std::vector<GameObject*> _dontDestroyOnList; 
@@ -118,6 +121,23 @@ namespace Pg::Data
 
 		
 	};
+
+	template <typename T>
+	T* Pg::Data::Scene::FindSingleComponentInScene()
+	{
+		T* tRet = nullptr;
+		for (auto& it : this->GetObjectList())
+		{
+			tRet = it->GetComponent<T>();
+			if (tRet != nullptr)
+			{
+				break;
+			}
+		}
+
+		return tRet;
+	}
+
 }
 
 

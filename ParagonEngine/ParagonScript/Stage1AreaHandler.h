@@ -33,7 +33,7 @@ namespace Pg::DataScript
 
 		//Handler
 		virtual void ResetToInitialState() override;
-		virtual void ResetAreaWithIndex(unsigned int index) abstract;
+		virtual void ResetAreaWithIndex(unsigned int index) override;
 		virtual void SetCurrentAreaIndex(unsigned int index) override;
 		virtual void OnPlayerHitDeathPlane() override;
 
