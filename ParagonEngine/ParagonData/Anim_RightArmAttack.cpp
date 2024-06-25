@@ -14,7 +14,9 @@ namespace Pg::Data::BTree::Node
 			{
 				monHelper->_isAnimChange = false;
 				monHelper->_isAnimationEnd = false;
-				monHelper->_bossState = Pg::Data::BossState::BASIC_ATTACK_2;
+
+				if (_isCast)
+					monHelper->_bossState = Pg::Data::BossState::BASIC_ATTACK_2;
 			}
 
 
@@ -23,7 +25,8 @@ namespace Pg::Data::BTree::Node
 			{
 				config().blackboard->set<std::string>("CURRENTANIM", "_00005");
 				std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-				animId.append("_00005.pganim");
+				if (_isCast) animId.append("_00005.pganim");
+				else animId.append("_00005.pganim"); // 캐스팅 애니매이션
 
 				if (tMeshRenderer->GetAnimation() != animId)
 				{

@@ -246,7 +246,6 @@
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="isbDash.h" />
-    <ClInclude Include="isDistanceFar.h" />
     <ClInclude Include="ISortableGlobalObject.h" />
     <ClInclude Include="isDown.h" />
     <ClInclude Include="isPase_2.h" />
@@ -400,7 +399,6 @@
     <ClCompile Include="isDash.cpp" />
     <ClCompile Include="isDead.cpp" />
     <ClCompile Include="isDistanceClose.cpp" />
-    <ClCompile Include="isDistanceFar.cpp" />
     <ClCompile Include="isHitSpace.cpp" />
     <ClCompile Include="isDown.cpp" />
     <ClCompile Include="isPase_2.cpp" />

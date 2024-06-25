@@ -74,7 +74,6 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::isPase_3>("isPase_3");
 		_factory->registerNodeType<Node::isDown>("isDown");
 		_factory->registerNodeType<Node::isbDash>("isbDash");
-		_factory->registerNodeType<Node::isDistanceFar>("isDistanceFar");
 
 		_factory->registerNodeType<Node::Anim_fDead>("Anim_fDead");
 		_factory->registerNodeType<Node::Anim_fIdle>("Anim_fIdle");
