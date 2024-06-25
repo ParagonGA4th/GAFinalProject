@@ -19,7 +19,7 @@ namespace Pg::Engine
 {
 
 	DebugSystem::DebugSystem() :
-		_isDebug(true)
+		_isDebug(false)
 	{
 
 	}

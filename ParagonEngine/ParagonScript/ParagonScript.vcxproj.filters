@@ -247,6 +247,9 @@
     <Filter Include="AI\Attack\MimicAttack">
       <UniqueIdentifier>{b954f578-f946-4bb9-b254-32ed10ae328a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\Attack\BossAttack">
+      <UniqueIdentifier>{39832d48-da90-4559-a886-a52949bd7d0c}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Content\GlobalManagers\3_GlobalSoundManager">
       <UniqueIdentifier>{0ece6805-e22e-4d8e-bd15-f1e4994b48a1}</UniqueIdentifier>
     </Filter>
@@ -431,6 +434,9 @@
     </ClCompile>
     <ClCompile Include="GlobalSoundManager.cpp">
       <Filter>Content\GlobalManagers\3_GlobalSoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="BossAttack.cpp">
+      <Filter>AI\Attack\BossAttack</Filter>
     </ClCompile>
     <ClCompile Include="AreaPassingTrigger.cpp">
       <Filter>Content\MapLogic\AreaPassingTrigger</Filter>
@@ -680,6 +686,9 @@
     </ClInclude>
     <ClInclude Include="GlobalSoundManager.h">
       <Filter>Content\GlobalManagers\3_GlobalSoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BossAttack.h">
+      <Filter>AI\Attack\BossAttack</Filter>
     </ClInclude>
     <ClInclude Include="ISingleGUI.h">
       <Filter>3_Interfaces\Instances\ISingleGUI</Filter>

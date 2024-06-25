@@ -40,6 +40,9 @@ Path,SoundGroup,isLoop
 ../Resources/Sounds/InGame/Effect/Trent/ES_CM_S_Find.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/Trent/ES_CM_S_Find_test.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/Trent/ES_CM_S_Hit.ogg,Effect,0
+../Resources/Sounds/InGame/Effect/Mimic/ES_CM_M_Move.ogg,Effect,1
+../Resources/Sounds/InGame/Effect/Mimic/ES_CM_M_Open.ogg,Effect,0
+../Resources/Sounds/InGame/Effect/Boss/ES_B_FootStep.ogg,Effect,1
 ../Resources/Sounds/InGame/Bgm/BG_TS_Title.ogg,Effect,0
 ../Resources/Sounds/InGame/Bgm/BG_MS_MainStage_1.ogg,Effect,1
 ../Resources/Sounds/InGame/Bgm/BS_MS_MainStage_2.ogg,Effect,1

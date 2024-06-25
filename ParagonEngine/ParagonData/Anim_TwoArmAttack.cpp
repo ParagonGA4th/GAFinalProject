@@ -19,14 +19,26 @@ namespace Pg::Data::BTree::Node
 					("NEXTANIM", monHelper->_bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_1]);
 				if (monHelper->_bossPase == Pg::Data::BossPase::PASE_2)
 				{
-					if (_isSkillTime)
+					if (_isSPSkillTime)
 					{
 						config().blackboard->set<std::string>
 							("NEXTANIM", monHelper->_bossStateListByEnum[Pg::Data::BossState::SKILL_FEATHER_ATTACK]);
 					}
 
-					_isSkillTime = !_isSkillTime;
+					_isSPSkillTime = !_isSPSkillTime;
 				}
+				if (monHelper->_bossPase == Pg::Data::BossPase::PASE_3)
+				{
+					if (_isTPSkillTime >= 3 )
+					{
+						config().blackboard->set<std::string>
+							("NEXTANIM", monHelper->_bossStateListByEnum[Pg::Data::BossState::SKILL_FEATHER_ATTACK]);
+						_isTPSkillTime = 0; // Reset
+					}
+
+					_isTPSkillTime++;
+				}
+
 			}
 
 
