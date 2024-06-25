@@ -37,8 +37,7 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
-
-		virtual void ResetToInitialState() override;
+		virtual void AssignPointersToGUI() override;
 
 	private:
 		Pg::API::PgScene* _pgScene = nullptr;
