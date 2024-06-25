@@ -12,6 +12,7 @@ namespace Pg::DataScript
 	{
 	public:
 		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() abstract;
+		virtual unsigned int GetBelongAreaIndex() abstract; //자신이 속해 있는 Area Index를 반환한다.
 	};
 }
 

@@ -398,9 +398,4 @@ namespace Pg::DataScript
 	{
 		_monsterHelper->_isDead = true;
 	}
-
-	BaseMonsterInfo* BossBehaviour::ReturnBaseMonsterInfo()
-	{
-		return _bossInfo;
-	}
 }

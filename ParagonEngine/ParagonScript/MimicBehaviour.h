@@ -39,9 +39,6 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
-		//플레이어에게 어떤 몬스터인지를 전달하기 위함.
-		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() override;
-
 		//플레이어 발견하지 않을때 하는 행동
 		void Idle();
 
@@ -59,6 +56,16 @@ namespace Pg::DataScript
 
 		//피격 시 호출되는 함수
 		void Hit();
+
+	public:
+		BEGIN_VISITABLES(MimicBehaviour);
+		VISITABLE(unsigned int, _areaIndex);
+		END_VISITABLES;
+
+	public:
+		//플레이어에게 어떤 몬스터인지를 전달하기 위함.
+		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() override { return _mimicInfo; }
+		virtual unsigned int GetBelongAreaIndex() override { return _areaIndex; }
 
 	private:
 		Pg::API::Time::PgTime* _pgTime;

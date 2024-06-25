@@ -225,9 +225,4 @@ namespace Pg::DataScript
 		_mimicInfo->_status = MimicStatus::DEAD;
 		_monsterHelper->_isDead = true;
 	}
-
-	BaseMonsterInfo* MimicBehaviour::ReturnBaseMonsterInfo()
-	{
-		return _mimicInfo;
-	}
 }

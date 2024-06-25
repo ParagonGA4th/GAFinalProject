@@ -306,9 +306,4 @@ namespace Pg::DataScript
 		_stubInfo->_status = StubStatus::DEAD;
 		_monsterHelper->_isDead = true;
 	}
-
-	BaseMonsterInfo* StubBehaviour::ReturnBaseMonsterInfo()
-	{
-		return _stubInfo;
-	}
 }
