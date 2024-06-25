@@ -17,18 +17,22 @@ namespace Pg::DataScript
 
 	void BattleArea::GrabManagedObjects()
 	{
-		//자신이 속한 곳의 AreaHandler / EnemyHandler를 받아오기.
-		//적 보고 로직 등에 사용될 것.
-		TotalGameManager* tTotalGameManager = TotalGameManager::GetInstance(nullptr);
-		HandlerBundle3D* tHB = tTotalGameManager->GetHandlerBundleByScene(_object->GetScene());
-		this->_areaHandler = tHB->_areaHandler;
-		assert(_areaHandler != nullptr);
-		this->_enemyHandler = tHB->_enemyHandler;
-		assert(_enemyHandler != nullptr);
+		
 	}
 
 	void BattleArea::Awake()
 	{
+		//자신이 속한 곳의 AreaHandler / EnemyHandler를 받아오기.
+		//적 보고 로직 등에 사용될 것.
+		{
+			TotalGameManager* tTotalGameManager = TotalGameManager::GetInstance(nullptr);
+			HandlerBundle3D* tHB = tTotalGameManager->GetHandlerBundleByScene(_object->GetScene());
+			this->_areaHandler = tHB->_areaHandler;
+			assert(_areaHandler != nullptr);
+			this->_enemyHandler = tHB->_enemyHandler;
+			assert(_enemyHandler != nullptr);
+		}
+		
 		_collider = _object->GetComponent<Pg::Data::SphereCollider>();
 		assert(_collider != nullptr);
 	}

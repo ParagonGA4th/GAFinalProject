@@ -151,7 +151,8 @@ namespace Pg::DataScript
 	void BaseEnemyHandler::FromEnemyNotifyDead(const std::string& tagName, IEnemyBehaviour* behav)
 	{
 		//일단 개별적인 거 등록.
-		auto& bBelongAreaMap = _managedMonstersList.at(behav->GetBelongAreaIndex());
+		unsigned int tAreaIndex = behav->GetBelongAreaIndex();
+		auto& bBelongAreaMap = _managedMonstersList.at(tAreaIndex);
 		auto& bBelongTagVector = bBelongAreaMap.at(tagName);
 
 		for (auto& it : bBelongTagVector)
@@ -183,7 +184,7 @@ namespace Pg::DataScript
 		//단 하나도 살아 있는 객체가 없다면, 해당 상황시 AreaHandler의 함수를 호출.
 		if (!tIsAtLeastOneAlive)
 		{
-			_belongHandlerBundle3D->_areaHandler->SetActivateConfinedAreaIndex(false);
+			_belongHandlerBundle3D->_areaHandler->SetActivateConfinedAreaIndex(tAreaIndex, false);
 		}
 	}
 
