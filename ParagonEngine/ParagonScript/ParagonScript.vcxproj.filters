@@ -438,7 +438,9 @@
     <ClCompile Include="DeathPlane.cpp">
       <Filter>Content\MapLogic\DeathPlane</Filter>
     </ClCompile>
-    <ClCompile Include="GUI_PercentageFillBar.cpp" />
+    <ClCompile Include="GUI_PercentageFillBar.cpp">
+      <Filter>UI\InGameUI\GUI_PercentageFillBar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -679,7 +681,9 @@
     <ClInclude Include="DeathPlane.h">
       <Filter>Content\MapLogic\DeathPlane</Filter>
     </ClInclude>
-    <ClInclude Include="GUI_PercentageFillBar.h" />
+    <ClInclude Include="GUI_PercentageFillBar.h">
+      <Filter>UI\InGameUI\GUI_PercentageFillBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ParagonScript.rc" />

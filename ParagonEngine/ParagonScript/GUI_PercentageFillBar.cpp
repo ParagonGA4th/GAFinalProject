@@ -31,16 +31,17 @@ namespace Pg::DataScript
 
 		//테스트용.
 		{
-			float time = 0.01f;
+			static float time = 0.1f;
+			time += 0.1f;
 
 			const float frequency = 0.5;
 			const float phase = 0;
 
 			// Calculate the sine value (-1 to 1)
-			float sineValue = std::sin(2 *  * frequency * time + phase);
+			float sineValue = std::sin(2 * std::numbers::pi * frequency * time + phase);
 
 			// Map the sine value to the range 0-100
-			float mappedValue = (sineValue + 1) * 50;
+			tImpVal = (sineValue + 1) * 50;
 		}
 
 

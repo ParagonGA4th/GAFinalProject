@@ -333,9 +333,4 @@ namespace Pg::DataScript
 		_monsterHelper->_isDead = true;
 		_isRotateFinish = true;
 	}
-
-	BaseMonsterInfo* MiniGolemBehaviour::ReturnBaseMonsterInfo()
-	{
-		return _miniGolInfo;
-	}
 }
