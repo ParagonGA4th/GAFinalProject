@@ -96,6 +96,8 @@ namespace Pg::DataScript
 		_stubFind = _object->GetScene()->FindObjectWithName("TrentFindSound");
 		_findSound = _stubFind->GetComponent<Pg::Data::AudioSource>();
 
+		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
+
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			// 자식 오브젝트의 이름을 얻어옵니다.
