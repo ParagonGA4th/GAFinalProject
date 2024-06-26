@@ -60,7 +60,7 @@ namespace Pg::DataScript
 
 	public:
 		BEGIN_VISITABLES(MimicBehaviour);
-		VISITABLE(unsigned int, _areaIndex);
+		VISITABLE_INIT(unsigned int, _areaIndex, 0);
 		END_VISITABLES;
 
 	public:

@@ -18,6 +18,9 @@
 #include <limits>
 #include <algorithm>
 
+#include "TotalGameManager.h"
+#include "BaseEnemyHandler.h"
+
 namespace Pg::DataScript
 {
 	MiniGolemBehaviour::MiniGolemBehaviour(Pg::Data::GameObject* obj) :
@@ -66,6 +69,15 @@ namespace Pg::DataScript
 		//체력과 기본 공격력을 설정해준다.
 		//_miniGolInfo->SetMonsterHp(5.f);
 		//_miniGolInfo->SetMonsterDamage(1.f);
+
+		//자신이 속한 곳의 AreaHandler / EnemyHandler를 받아오기.
+		//적 보고 로직 등에 사용될 것.
+		{
+			TotalGameManager* tTotalGameManager = TotalGameManager::GetInstance(nullptr);
+			HandlerBundle3D* tHB = tTotalGameManager->GetHandlerBundleByScene(_object->GetScene());
+			this->_enemyHandler = tHB->_enemyHandler;
+			assert(_enemyHandler != nullptr);
+		}
 	}
 
 	void MiniGolemBehaviour::Start()
@@ -332,5 +344,8 @@ namespace Pg::DataScript
 		_collider->SetActive(false);
 		_monsterHelper->_isDead = true;
 		_isRotateFinish = true;
+
+		//이제, Handler에게 자신이 죽었다는 것을 알려주자.
+		_enemyHandler->FromEnemyNotifyDead(_object->GetTag(), this);
 	}
 }

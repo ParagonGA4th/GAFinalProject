@@ -28,6 +28,9 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
+	class PlayerHandler;
+	class BaseEnemyHandler;
+
 	class MiniGolemBehaviour : public ScriptInterface<MiniGolemBehaviour>, public IEnemyBehaviour
 	{
 		DEFINE_PARAGON_SCRIPT(MiniGolemBehaviour);
@@ -65,7 +68,7 @@ namespace Pg::DataScript
 
 	public:
 		BEGIN_VISITABLES(MiniGolemBehaviour);
-		VISITABLE(unsigned int, _areaIndex);
+		VISITABLE_INIT(unsigned int, _areaIndex, 0);
 		END_VISITABLES;
 
 	public:
@@ -125,6 +128,8 @@ namespace Pg::DataScript
 		//미니골렘의 상태와 수치에 대한 정보.
 		MiniGolemInfo* _miniGolInfo;
 	
+	private:
+		BaseEnemyHandler* _enemyHandler{ nullptr };
 	};
 }
 
