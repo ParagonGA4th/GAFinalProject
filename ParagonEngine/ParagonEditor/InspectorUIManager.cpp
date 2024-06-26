@@ -18,6 +18,7 @@
 #include "../ParagonUI/DragFloat3.h"
 #include "../ParagonUI/Selectable.h"
 #include "../ParagonUI/Popup.h"
+#include "../ParagonUI/InputInt.h"
 
 #include "../ParagonUI/Column.h"
 #include "../ParagonUI/Collaps.h"
@@ -141,7 +142,10 @@ void Pg::Editor::Window::InspectorUIManager::ChangedUI()
 					_changedUI->CreateColumnsWidget<Pg::UI::Widget::Text>(valName);
 
 					if (typeInfo == typeid(bool).name())
-						_changedUI->CreateColumnsWidget<Pg::UI::Widget::CheckBox>(valName, static_cast<bool*>(val));
+						_changedUI->CreateColumnsWidget<Pg::UI::Widget::CheckBox>(valName, static_cast<bool*>(val));				
+					
+					if (typeInfo == typeid(int).name() || typeInfo == typeid(unsigned int).name())
+						_changedUI->CreateColumnsWidget<Pg::UI::Widget::InputInt>(valName, static_cast<int*>(val));
 
 					if (typeInfo == typeid(std::string).name())
 					{

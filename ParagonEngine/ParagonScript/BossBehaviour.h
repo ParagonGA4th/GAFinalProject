@@ -4,6 +4,8 @@
 #include "BossInfo.h"
 #include "BaseMonster.h"
 
+#include <visit_struct/visit_struct.hpp>
+
 namespace Pg::Data
 {
 	class Transform;
@@ -40,6 +42,9 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
+		virtual void OnDeserialize(SerializeVector& sv) override;
+		virtual void OnSerialize(SerializeVector& sv) override;
+
 		//플레이어를 쫓는 함수
 		void Chase();
 
@@ -69,8 +74,8 @@ namespace Pg::DataScript
 		void Dead();
 
 	public:
-		BEGIN_VISITABLES(BossBehaviour);
-		VISITABLE_INIT(unsigned int, _areaIndex, 0);
+		BEGIN_VISITABLES(Pg::DataScript::BossBehaviour);
+		VISITABLE(int, _areaIndex);
 		END_VISITABLES;
 
 	public:
@@ -94,6 +99,11 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _bossWalkSound;
 		Pg::Data::AudioSource* _walkAudio;
 
+		Pg::Data::GameObject* _bossRushSound;
+		Pg::Data::AudioSource* _rushAudio;
+
+		Pg::Data::GameObject* _bossDieSound;
+		Pg::Data::AudioSource* _dieAudio;
 	public:
 		//골렘보스의 상태와 수치에 대한 정보.
 		BossInfo* _bossInfo;
@@ -124,6 +134,7 @@ namespace Pg::DataScript
 		float _evadeCooldownTime = 0.f;
 
 		bool _isMoving{ false };
+		bool _isRushSoundPlaying{ false };
 	};
 }
 

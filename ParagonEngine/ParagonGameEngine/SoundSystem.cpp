@@ -23,9 +23,9 @@ namespace Pg::Engine
 		_soundMap(),
 		_maxSound(),
 		_maxGroup(3),
-		_bgmVolume(0.5f),
-		_ingameVolume(0.5f),
-		_effectVolume(0.5f)
+		_bgmVolume(1.f),
+		_ingameVolume(1.f),
+		_effectVolume(0.7f)
 	{
 		//FMOD √ ±‚»≠
 		FMOD::System_Create(&_system);

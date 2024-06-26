@@ -33,11 +33,21 @@ namespace Pg::DataScript
 		_bossInfo->_onHit = [this]() { Hit(); };
 	}
 
+	void BossBehaviour::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper(this, sv);
+	}
+
+	void BossBehaviour::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
+	}
+
 	void BossBehaviour::BeforePhysicsAwake()
 	{
 		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
 		assert(_collider != nullptr);
-		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
+		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_BOSS);
 		//_collider->SetCapsuleInfo(1.f, 1.f);
 		_collider->FreezeAxisX(true);
 		_collider->FreezeAxisY(true);
@@ -77,6 +87,12 @@ namespace Pg::DataScript
 
 		_bossWalkSound = _pgScene->GetCurrentScene()->FindObjectWithName("BossWalkSound");
 		_walkAudio = _bossWalkSound->GetComponent<Pg::Data::AudioSource>();
+
+		_bossRushSound = _pgScene->GetCurrentScene()->FindObjectWithName("BossRushSound");
+		_rushAudio = _bossRushSound->GetComponent<Pg::Data::AudioSource>();
+
+		_bossDieSound = _pgScene->GetCurrentScene()->FindObjectWithName("BossDieSound");
+		_dieAudio = _bossDieSound->GetComponent<Pg::Data::AudioSource>();
 
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 	}
@@ -126,7 +142,13 @@ namespace Pg::DataScript
 				_monsterHelper->_isDash = false;
 			}
 
-			if (!_isDash) Chase();
+			if (!_isDash)
+			{
+				if (_isChasing)
+				{
+					Chase();
+				}
+			}
 			// 3초 동안 바라본 후 돌진 시작
 			//if (_rotateToPlayerTime >= 3.0f)
 			//{
@@ -148,6 +170,7 @@ namespace Pg::DataScript
 			{
 				if (_distance <= _bossInfo->GetAttackRange())
 				{
+					_isChasing = false;
 					_monsterHelper->_isPlayerinHitSpace = true;
 					_monsterHelper->_isPase_1 = true;
 
@@ -161,6 +184,10 @@ namespace Pg::DataScript
 					{
 						Attack(false);
 					}
+				}
+				else
+				{
+					_isChasing = true;
 				}
 			}
 		}
@@ -264,6 +291,12 @@ namespace Pg::DataScript
 				_walkAudio->Stop();
 				_isMoving = false;
 			}
+
+			if (!_isRushSoundPlaying)
+			{
+				_rushAudio->Play();
+				_isRushSoundPlaying = true;
+			}
 		}
 		// 돌진이 끝나면 상태를 변경
 		else
@@ -277,35 +310,10 @@ namespace Pg::DataScript
 			_hasDashed = true;
 			_bossInfo->SetCurrentDashTime(0.0f); // 현재 돌진 시간을 초기화
 			_isRotatingToPlayer = true; // 다시 플레이어를 바라보도록 설정
+			_isRushSoundPlaying = false;// 사운드 초기화
 			_rotateToPlayerTime = 0.f;
 			_dashCount++;
 		}
-
-		//if (_bossInfo->GetCurrentDashTime() < _bossInfo->GetDashDuration())
-		//{
-		//	_bossInfo->_status = BossStatus::DASH;
-
-		//	float interpolation = _bossInfo->GetDashSpeed() * _pgTime->GetDeltaTime();
-		//	_bossInfo->SetCurrentDashTime(_bossInfo->GetCurrentDashTime() + _pgTime->GetDeltaTime());
-
-		//	Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
-		//	forwardDir.y = 0; // y축 이동을 막기 위해 y값을 0으로 설정
-
-		//	Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
-		//	tPosition = tPosition + forwardDir * interpolation;
-
-		//	_object->_transform._position.x = tPosition.x;
-		//	_object->_transform._position.z = tPosition.z;
-		//}
-		//// 돌진이 끝나면 상태를 변경
-		//else if (_bossInfo->GetCurrentDashTime() >= _bossInfo->GetDashDuration())
-		//{
-		//	_isDash = false;
-		//	_hasDashed = true;
-		//	_bossInfo->SetCurrentDashTime(0.0f); // 현재 돌진 시간을 초기화
-		//	_isRotatingToPlayer = true; // 다시 플레이어를 바라보도록 설정
-		//	_rotateToPlayerTime = 0.f;
-		//}
 	}
 
 	void BossBehaviour::Attack(bool _isAttack)
@@ -427,5 +435,6 @@ namespace Pg::DataScript
 	void BossBehaviour::Dead()
 	{
 		_monsterHelper->_isDead = true;
+		_dieAudio->Play();
 	}
 }
