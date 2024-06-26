@@ -4,6 +4,8 @@
 
 namespace Pg::DataScript
 {
+	class PauseBox;
+
 	class Stage1GUIHandler : public ScriptInterface<Stage1GUIHandler>, public BaseGUIHandler
 	{
 		DEFINE_PARAGON_SCRIPT(Stage1GUIHandler);
@@ -16,6 +18,13 @@ namespace Pg::DataScript
 		virtual void Update() override;
 
 		virtual void AssignPointersToGUI() override;
+
+		//얘만 독특하게 관리하게 할 때. 
+		virtual void AdditionalReset() override;
+
+	private:
+		PauseBox* _pauseBox;
+
 	};
 }
 

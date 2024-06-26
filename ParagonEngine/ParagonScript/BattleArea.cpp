@@ -102,12 +102,24 @@ namespace Pg::DataScript
 
 	void BattleArea::ResetAll()
 	{
+		//다시 값 돌려놓기.
 		_isActivated = true;
+
+		//Collider 여부는 Confine에서 해결됨.
+
+		//Stay 끄기.
+		_onTriggerStay = false;
 	}
 
 	void BattleArea::ConfinePlayer()
 	{
 		auto dcol = _player->_object->GetComponent<Pg::Data::DynamicCollider>();
+		
+		//만약 SetActive가 True가 아니면 Set.
+		if (!dcol->GetActive())
+		{
+			dcol->SetActive(true);
+		}
 
 		auto& spherePos = _collider->_object->_transform._position;
 		auto& boxPos = _player->_object->_transform._position;
@@ -146,9 +158,10 @@ namespace Pg::DataScript
 		//이제 다시 들어오기 전까지는 못 오게.
 		_onTriggerStay = false;
 
-		_object->SetActive(false);
+		//콜라이더 끄기.
 		_collider->SetActive(false);
 
+		//감옥 보내기.
 		_object->_transform._position.y = -10000.f;
 	}
 

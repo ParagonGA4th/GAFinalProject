@@ -18,6 +18,9 @@ namespace Pg::DataScript
 	public:
 		//초기 상태로 되돌리는 함수. 어떤 이유가 되던, 리셋해야 할 때.
 		void ResetToInitialState();
+
+		//ResetToInitialState 말고, 개별 구현체별로 할 일이 있을 경우 받아야 함.
+		virtual void AdditionalReset() {};
 		//...
 
 	protected:

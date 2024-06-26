@@ -49,7 +49,7 @@ namespace Pg::DataScript
 		Pg::Data::SphereCollider* _collider;
 		Pg::DataScript::PlayerHandler* _player;
 
-		int _monster = 1;
+		//int _monster = 1;
 		bool _onTriggerStay{ false };
 
 	private:

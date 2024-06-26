@@ -299,6 +299,7 @@ namespace Pg::DataScript
 			//2D 로직.
 			assert(_currentGUIHander2d != nullptr);
 			_currentGUIHander2d->ResetToInitialState();
+			_currentGUIHander2d->AdditionalReset();
 		}
 		else
 		{
@@ -306,6 +307,7 @@ namespace Pg::DataScript
 			_currentHandlerBundle3d->_areaHandler->ResetToInitialState();
 			_currentHandlerBundle3d->_enemyHandler->ResetToInitialState();
 			_currentHandlerBundle3d->_guiHandler->ResetToInitialState();
+			_currentHandlerBundle3d->_guiHandler->AdditionalReset();
 
 			//Player 위치 원위치.
 			_currentHandlerBundle3d->_originalPlayerTransStorage.ToTransform(&(_currentHandlerBundle3d->_playerBehavior->_object->_transform));

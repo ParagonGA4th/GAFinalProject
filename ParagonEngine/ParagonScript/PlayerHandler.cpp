@@ -143,6 +143,11 @@ namespace Pg::DataScript
 		//assert(false && "not implemented yet");
 		_playerCombatSector->ResetAll();
 		_playerMovementSector->ResetAll();
+		
+		//Á×Àº ÀÌÈÄ : Heal
+		healthPoint = MAX_PLAYER_HEALTH;
+		manaPoint = MAX_PLAYER_MANA;
+		staminaPoint = MAX_PLAYER_STAMINA;
 
 	}
 
