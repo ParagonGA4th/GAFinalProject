@@ -28,8 +28,8 @@ namespace Pg::DataScript
 		_pgScene = &singleton<Pg::API::PgScene>();
 
 		//골렘의 체력과 공격
-		//_bossInfo = new BossInfo(40.f, 4.f);
-		_bossInfo = new BossInfo(2.f, 4.f);
+		_bossInfo = new BossInfo(40.f, 4.f);
+		//_bossInfo = new BossInfo(2.f, 4.f);
 
 		///보스의 사망 및 피격행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
 		///몬스터에게 직접적으로 적용하기에 여기서는 사망 시 행동만 만들면 된다.
@@ -111,15 +111,6 @@ namespace Pg::DataScript
 		_distance = std::abs(std::sqrt(std::pow(_playerTransform->_position.x - _object->_transform._position.x, 2)
 			+ std::pow(_playerTransform->_position.z - _object->_transform._position.z, 2)));
 
-		///회피와 돌진을 테스트하기 위한 임의의 로직.
-		///애니메이션을 통한 행동 패턴에 맞게 들어갈 예정.
-	// 보스가 플레이어를 바라보고 있는 시간 추적
-		if (_distance <= _bossInfo->GetSightRange()) { _isPlayerInit = true; _monsterHelper->_isPlayerDetected = true; }
-		if (!_isPlayerInit) return;
-
-		Neutralize();
-		if (_isNeutralize) return;
-
 		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
 		{
 			//다 꺼짐.
@@ -136,6 +127,15 @@ namespace Pg::DataScript
 			//게임을 이겼다고 (==Boss 죽였다고 Event Post) 알리기!
 			_combatSystem->Post(Event_OnBossDeathGameWin(), NULL, NULL);
 		}
+
+		///회피와 돌진을 테스트하기 위한 임의의 로직.
+		///애니메이션을 통한 행동 패턴에 맞게 들어갈 예정.
+	// 보스가 플레이어를 바라보고 있는 시간 추적
+		if (_distance <= _bossInfo->GetSightRange()) { _isPlayerInit = true; _monsterHelper->_isPlayerDetected = true; }
+		if (!_isPlayerInit) return;
+
+		Neutralize();
+		if (_isNeutralize) return;
 
 		if (_isRotatingToPlayer)
 		{
