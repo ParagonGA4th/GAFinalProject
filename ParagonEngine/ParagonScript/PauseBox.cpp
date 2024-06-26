@@ -18,28 +18,31 @@ namespace Pg::DataScript
 		_pgScene = &singleton<Pg::API::PgScene>();
 	}
 
-	void PauseBox::Awake()
+	void PauseBox::GrabManagedObjects()
 	{
 		//일시정지 창 닫기.
-		auto btnObj = _pgScene->GetCurrentScene()->FindObjectWithName("PauseExit");
+		btnObj = _object->GetScene()->FindObjectWithName("PauseExit");
 		//_object->GetComponent<Pg::Data::Transform>()->AddChild(btnObj);
 
 		//메인메뉴로 가기.
-		auto menuObj = _pgScene->GetCurrentScene()->FindObjectWithName("GotoMenu");
+		 menuObj = _object->GetScene()->FindObjectWithName("GotoMenu");
 		//_object->GetComponent<Pg::Data::Transform>()->AddChild(menuObj);
 
 		//튜토리얼로 가기.
-		auto tutorialObj = _pgScene->GetCurrentScene()->FindObjectWithName("TutorialButton");
+		 tutorialObj = _object->GetScene()->FindObjectWithName("TutorialButton");
 		//_object->GetComponent<Pg::Data::Transform>()->AddChild(tutorialObj);
 
 		//설정으로 가기.
-		auto optionObj = _pgScene->GetCurrentScene()->FindObjectWithName("OptionButton");
+		 optionObj = _object->GetScene()->FindObjectWithName("OptionButton");
 		//_object->GetComponent<Pg::Data::Transform>()->AddChild(optionObj);
 
 		//인게임 브금
-		auto ingameSoundObj = _pgScene->GetCurrentScene()->FindObjectWithName("SoundManager");
+		 ingameSoundObj = _object->GetScene()->FindObjectWithName("SoundManager");
 		_ingameSound = ingameSoundObj->GetComponent<Pg::Data::AudioSource>();
+	}
 
+	void PauseBox::Awake()
+	{
 		//일시정지 창 활성화 및 비활성화
 		btnObj->GetComponent<Pg::Data::Button>()->SetOnClickDownEvent([this]
 			{
@@ -118,4 +121,12 @@ namespace Pg::DataScript
 			_isPaused = false;
 		}
 	}
+
+	void PauseBox::ResetAll()
+	{
+		Awake();
+		Start();
+	}
+	
+
 }

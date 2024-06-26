@@ -7,6 +7,8 @@
 
 #include "PlayerHandler.h"
 
+#include "PauseBox.h"
+
 namespace Pg::DataScript
 {
 	Stage1GUIHandler::Stage1GUIHandler(Pg::Data::GameObject* obj) : ScriptInterface(obj)
@@ -41,6 +43,15 @@ namespace Pg::DataScript
 		_managedGuiObjectList.at("HealthBar")._guiComponent->ReceiveDependentPointers(
 			(void*)tPH->ReturnPlayerHealthPointPointerConst(), nullptr, nullptr, 
 			tPH->MAX_PLAYER_HEALTH, NULL, NULL);
+
+		//GUIHandler 나오기 전 작업물, 하드 셋.
+		_pauseBox = _object->GetScene()->FindSingleComponentInScene<PauseBox>();
+		assert(_pauseBox != nullptr);
+	}
+
+	void Stage1GUIHandler::AdditionalReset()
+	{
+		_pauseBox->ResetAll();
 	}
 
 }

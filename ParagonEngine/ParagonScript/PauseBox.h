@@ -1,6 +1,6 @@
 #pragma once
 #include "ScriptInterface.h"
-
+#include "IScriptResettable.h"
 namespace Pg::Data
 {
 	class Button;
@@ -20,7 +20,7 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
-	class PauseBox : public ScriptInterface<PauseBox>
+	class PauseBox : public ScriptInterface<PauseBox>, public IScriptResettable
 	{
 		DEFINE_PARAGON_SCRIPT(PauseBox);
 
@@ -28,19 +28,30 @@ namespace Pg::DataScript
 		PauseBox(Pg::Data::GameObject* obj);
 
 	public:
+		virtual void GrabManagedObjects() override;
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;
+
+	public:
+		virtual void ResetAll() override;
 
 	private:
 		Pg::Data::Button* _button;
 		Pg::API::Input::PgInput* _pgInput = nullptr;
 		Pg::API::PgScene* _pgScene = nullptr;
 
-		Pg::Data::AudioSource* _ingameSound;
 
 		//ÇÃ·¡±×
 		bool _isPaused = false;
+
+	private:
+		Pg::Data::GameObject* btnObj;
+		Pg::Data::GameObject* menuObj;
+		Pg::Data::GameObject* tutorialObj;
+		Pg::Data::GameObject* optionObj;
+		Pg::Data::GameObject* ingameSoundObj;
+		Pg::Data::AudioSource* _ingameSound;
 	};
 }
 

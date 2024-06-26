@@ -1,4 +1,6 @@
 #include "InGameManager.h"
+#include "PlayerHandler.h"
+
 //#include "Portal.h"
 #include "TotalGameManager.h"
 #include "CombatSystem.h"
@@ -148,9 +150,13 @@ namespace Pg::DataScript
 			//여러 개의 이벤트들이 한꺼번에 핸들링 될 경우, 이렇게 활용됨. 
 			//const Event_PlayerDeath& demoEvent = static_cast<const Event_PlayerDeath&>(e);
 			PG_ERROR("PLAYER_INGAMEMANGER_HANDLE_EVENTS");
+
+			// 현재 자신이 속해 있는 씬.
+			Pg::Data::Scene* tBelongScene = _handlerBundle3D->_playerBehavior->_object->GetScene();
+
+			// 전체 씬 리셋하기.
+			TotalGameManager::GetInstance(nullptr)->CallForEntireSceneReset(tBelongScene, NULL, nullptr);
 		}
-
-
 	}
 
 	
