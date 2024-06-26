@@ -1,6 +1,7 @@
 #include "BossBehaviour.h"
 #include "CombatSystem.h"
 #include "EventList_GameFlowRelated.h"
+#include "CameraShake.h"
 
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
@@ -101,6 +102,8 @@ namespace Pg::DataScript
 		_dieAudio = _bossDieSound->GetComponent<Pg::Data::AudioSource>();
 
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
+
+		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 	}
 
 	void BossBehaviour::Update()
@@ -399,6 +402,9 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Hit()
 	{
+		//카메라 흔들림
+		_cameraShake->CauseShake(0.25f);
+
 		//피격 애니메이션 들어가야 함.
 		if (_isChasing)
 		{

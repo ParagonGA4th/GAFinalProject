@@ -370,7 +370,7 @@ namespace Pg::DataScript
 
 	void PlayerMovementSector::StrafeAvoidLogic()
 	{
-		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyUp) && (!_isStrafeAvoiding))
+		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::CtrlL) && (!_isStrafeAvoiding))
 		{
 			_isStrafeAvoiding = true;
 			_renderer->SetAnimation("PA_00004.pganim", false);

@@ -1,4 +1,5 @@
 #include "StubBehaviour.h"
+#include "CameraShake.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgScene.h"
@@ -262,6 +263,7 @@ namespace Pg::DataScript
 	{
 		PG_TRACE("Hit!");
 
+		_cameraShake->CauseShake(0.25f);
 		_hitSound->Play();
 
 		//피격 애니메이션 들어가야 함.

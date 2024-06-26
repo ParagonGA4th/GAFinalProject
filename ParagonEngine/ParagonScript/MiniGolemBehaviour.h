@@ -32,6 +32,7 @@ namespace Pg::DataScript
 {
 	class PlayerHandler;
 	class BaseEnemyHandler;
+	class CameraShake;
 
 	class MiniGolemBehaviour : public ScriptInterface<MiniGolemBehaviour>, public IEnemyBehaviour
 	{
@@ -108,6 +109,8 @@ namespace Pg::DataScript
 
 		Pg::Data::GameObject* _miniGolemAttack;
 		Pg::Data::AudioSource* _attackSound;
+
+		CameraShake* _cameraShake;
 
 	private:
 		//플레이어와의 거리 측정

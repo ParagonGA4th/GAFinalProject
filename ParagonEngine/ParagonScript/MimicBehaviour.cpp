@@ -1,4 +1,5 @@
 #include "MimicBehaviour.h"
+#include "CameraShake.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgScene.h"
@@ -79,6 +80,8 @@ namespace Pg::DataScript
 		_moveAudio = _mimicMoveSound->GetComponent<Pg::Data::AudioSource>();
 
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
+
+		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
@@ -197,6 +200,9 @@ namespace Pg::DataScript
 
 	void MimicBehaviour::Hit()
 	{
+		//카메라 흔들림
+		_cameraShake->CauseShake(0.25f);
+
 		PG_TRACE("Hit!");
 
 		//피격 애니메이션 들어가야 함.

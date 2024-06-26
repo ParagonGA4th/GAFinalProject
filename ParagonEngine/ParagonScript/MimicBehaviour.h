@@ -30,6 +30,8 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
+	class CameraShake;
+
 	class MimicBehaviour : public ScriptInterface<MimicBehaviour>, public IEnemyBehaviour
 	{
 		DEFINE_PARAGON_SCRIPT(MimicBehaviour);
@@ -91,6 +93,8 @@ namespace Pg::DataScript
 
 		Pg::Data::GameObject* _mimicMoveSound;
 		Pg::Data::AudioSource* _moveAudio;
+
+		CameraShake* _cameraShake;
 
 	private:
 		//플레이어와의 거리 측정

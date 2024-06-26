@@ -30,6 +30,8 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
+	class CameraShake;
+
 	class StubBehaviour : public ScriptInterface<StubBehaviour>, public IEnemyBehaviour
 	{
 		DEFINE_PARAGON_SCRIPT(StubBehaviour);
@@ -102,6 +104,8 @@ namespace Pg::DataScript
 
 		Pg::Data::GameObject* _stubFind;
 		Pg::Data::AudioSource* _findSound;
+
+		CameraShake* _cameraShake;
 	private:
 		//플레이어와의 거리 측정
 		float _distance;
