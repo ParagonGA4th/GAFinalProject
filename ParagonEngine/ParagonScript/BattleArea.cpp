@@ -50,18 +50,18 @@ namespace Pg::DataScript
 		// 플레이어가 전투 구역에 있는 모든 몬스터를 해치웠을 경우 빠져나갈 수 있음
 		if (_onTriggerStay)
 		{
-			if (_player != nullptr)
-			{
-				if (_isActivated)
-				{
-					ConfinePlayer();
-				}
-				else
-				{
-					PG_ERROR("EXITNOW");
-					DeactivateArea();
-				}
-			}
+			//if (_player != nullptr)
+			//{
+			//	if (_isActivated)
+			//	{
+			//		ConfinePlayer();
+			//	}
+			//	else
+			//	{
+			//		PG_ERROR("EXITNOW");
+			//		DeactivateArea();
+			//	}
+			//}
 		}
 	}
 
