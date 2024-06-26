@@ -1,5 +1,6 @@
 #pragma once
 #include "RenderObject2D.h"
+#include "../ParagonData/eFillRatioDirection.h"
 #include <vector>
 /// <summary>
 /// ImageRenderer 컴포넌트와 1대1 대응하는 렌더오브젝트.
@@ -26,8 +27,14 @@ namespace Pg::Graphics
 		float* _imageWidth = nullptr;
 		float* _imageHeight = nullptr;
 
+		Pg::Data::eFillRatioDirection* _fillRatioDirection = nullptr;
+
 		unsigned int GetImageIndex();
 		void SetImageIndex(unsigned int val);
+
+	private:
+		//FillRatio에 따라서 다른 RECT가 반환됨.
+		void ReturnAppropriateFillRectOrigin(Pg::Data::eFillRatioDirection dir, RECT& outRect, DirectX::XMFLOAT2& outOrigin);
 
 	private:
 		//RenderTexture2D* _texture2D;

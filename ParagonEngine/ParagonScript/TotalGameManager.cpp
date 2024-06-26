@@ -11,9 +11,9 @@
 #include <singleton-cpp/singleton.h>
 
 //Handler 시리즈.
-#include "IAreaHandler.h"
-#include "IEnemyHandler.h"
-#include "IGUIHandler.h"
+#include "BaseAreaHandler.h"
+#include "BaseEnemyHandler.h"
+#include "BaseGUIHandler.h"
 #include "PlayerHandler.h"
 
 //다른 매니저들, etc.
@@ -151,13 +151,13 @@ namespace Pg::DataScript
 				//공통점 : 둘 다 2D Scene이라는 것.
 				//2D 씬들은 GUI만을 세팅하면 될 것이다.
 				//GUIHandler만을 투입!
-				Pg::DataScript::IGUIHandler* tGUIHandler = nullptr;
+				Pg::DataScript::BaseGUIHandler* tGUIHandler = nullptr;
 
 				for (auto& bObj : bScene->GetObjectList())
 				{
 					if (tGUIHandler == nullptr)
 					{
-						tGUIHandler = bObj->GetComponent<IGUIHandler>();
+						tGUIHandler = bObj->GetComponent<BaseGUIHandler>();
 					}
 
 					if (tGUIHandler != nullptr)
@@ -171,9 +171,9 @@ namespace Pg::DataScript
 			}
 			else
 			{
-				Pg::DataScript::IAreaHandler* tAreaHandler = nullptr;
-				Pg::DataScript::IEnemyHandler* tEnemyHandler = nullptr;
-				Pg::DataScript::IGUIHandler* tGUIHandler = nullptr;
+				Pg::DataScript::BaseAreaHandler* tAreaHandler = nullptr;
+				Pg::DataScript::BaseEnemyHandler* tEnemyHandler = nullptr;
+				Pg::DataScript::BaseGUIHandler* tGUIHandler = nullptr;
 				Pg::DataScript::PlayerHandler* tPlayerBattleBehavior = nullptr;
 
 				//값 받아서 따로 저장하기. (Handler 시리즈)
@@ -181,17 +181,17 @@ namespace Pg::DataScript
 				{
 					if (tAreaHandler == nullptr)
 					{
-						tAreaHandler = bObj->GetComponent<IAreaHandler>();
+						tAreaHandler = bObj->GetComponent<BaseAreaHandler>();
 					}
 
 					if (tEnemyHandler == nullptr)
 					{
-						tEnemyHandler = bObj->GetComponent<IEnemyHandler>();
+						tEnemyHandler = bObj->GetComponent<BaseEnemyHandler>();
 					}
 
 					if (tGUIHandler == nullptr)
 					{
-						tGUIHandler = bObj->GetComponent<IGUIHandler>();
+						tGUIHandler = bObj->GetComponent<BaseGUIHandler>();
 					}
 
 					if (tPlayerBattleBehavior == nullptr)
@@ -220,6 +220,12 @@ namespace Pg::DataScript
 				tHandlerBundle->_enemyHandler = tEnemyHandler;
 				tHandlerBundle->_guiHandler = tGUIHandler;
 				tHandlerBundle->_playerBehavior = tPlayerBattleBehavior;
+
+				//추후 로직을 위해 소속한 HandlerBundle3D 주소 개별적으로 저장.
+				// Area & Enemy.
+				tHandlerBundle->_areaHandler->_belongHandlerBundle3D = tHandlerBundle.get();
+				tHandlerBundle->_enemyHandler->_belongHandlerBundle3D = tHandlerBundle.get();
+
 
 				//초기 Player Position 기록.
 				tHandlerBundle->_originalPlayerTransStorage = TransformSimpleStorage(&(tPlayerBattleBehavior->_object->_transform));
@@ -312,6 +318,17 @@ namespace Pg::DataScript
 		return _currentHandlerBundle3d;
 	}
 
+	Pg::DataScript::HandlerBundle3D* TotalGameManager::GetHandlerBundleByScene(Pg::Data::Scene* scene)
+	{
+		if (scene->GetIs3D())
+		{
+			return _scene3dHandlerBundleMap.at(scene).get();
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
 	
 
 }

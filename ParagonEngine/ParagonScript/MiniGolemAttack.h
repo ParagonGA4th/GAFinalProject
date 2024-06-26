@@ -10,6 +10,7 @@ namespace Pg::Data
 namespace Pg::DataScript
 {
 	class CombatSystem;
+	class MiniGolemAttack;
 
 	class MiniGolemAttack : public ScriptInterface<MiniGolemAttack>
 	{
@@ -23,6 +24,7 @@ namespace Pg::DataScript
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
 	private:
 		CombatSystem* _combatSystem{ nullptr };
+		MiniGolemAttack* _miniGolemAttack{ nullptr };
 	};
 }
 

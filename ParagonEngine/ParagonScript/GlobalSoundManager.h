@@ -40,8 +40,8 @@ namespace Pg::DataScript
 		//외부 호출 함수용.
 		void PauseSoundGroup(Pg::Data::eSoundGroup groupCh);
 		void StopSoundGroup(Pg::Data::eSoundGroup groupCh);
-		void PauseAllSoundGroups();
-		void StopAllSoundGroups();
+		void PauseAllSoundGroups();			   // 얘네는 씬이 바뀔 때에는 제 기능을 못할 것이다.
+		void StopAllSoundGroups();			   // 얘네는 씬이 바뀔 때에는 제 기능을 못할 것이다.
 
 
 	private:

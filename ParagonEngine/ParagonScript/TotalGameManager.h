@@ -51,6 +51,10 @@ namespace Pg::DataScript
 		//2D일 경우, nullptr를 반환할 것.
 		HandlerBundle3D* GetCurrentHandlerBundle();
 
+		//Scene 파라미터에 따라 HandlerBundle3D 리턴.
+		HandlerBundle3D* GetHandlerBundleByScene(Pg::Data::Scene* scene);
+
+
 	private:
 		//내부적으로 정해진 타이밍에 호출할 수 있게.
 		void Internal_CallForEntireSceneReset(Pg::Data::Scene* targetScene, int potValue, void* potPointer);
@@ -82,11 +86,11 @@ namespace Pg::DataScript
 		//Flow 관리를 위해 보관하는 정보. (3D)
 		std::unordered_map<Pg::Data::Scene*, std::unique_ptr<HandlerBundle3D>> _scene3dHandlerBundleMap;
 		//Flow 관리를 위해 보관하는 정보. (2D)
-		std::unordered_map<Pg::Data::Scene*, IGUIHandler*> _scene2dHandlerBundleMap;
+		std::unordered_map<Pg::Data::Scene*, BaseGUIHandler*> _scene2dHandlerBundleMap;
 
 		//2D/3D 보관에 따라 nullptr 할당이 달라진다.
 		HandlerBundle3D* _currentHandlerBundle3d{ nullptr }; //3D의 경우 nullptr면 안됨, 2D면 nullptr여야.
-		IGUIHandler* _currentGUIHander2d{ nullptr }; //3D의 경우 nullptr여야, 2D면 nullptr면 안됨..
+		BaseGUIHandler* _currentGUIHander2d{ nullptr }; //3D의 경우 nullptr여야, 2D면 nullptr면 안됨..
 
 		//전체 값이 받아졌는지 -> Initialize를 초기에 하기 위해서.
 		bool _isManagingInitializeCalled{ false };

@@ -4,9 +4,9 @@
 
 namespace Pg::DataScript
 {
-	class IAreaHandler;
-	class IEnemyHandler;
-	class IGUIHandler;
+	class BaseAreaHandler;
+	class BaseEnemyHandler;
+	class BaseGUIHandler;
 	class PlayerHandler;
 
 	//개별적인 Struct 관리. Flow 관련된 구조체들을 묶어 놓은 것이다.
@@ -14,9 +14,9 @@ namespace Pg::DataScript
 
 	struct HandlerBundle3D
 	{
-		IAreaHandler* _areaHandler = nullptr;
-		IEnemyHandler* _enemyHandler = nullptr;
-		IGUIHandler* _guiHandler = nullptr;
+		BaseAreaHandler* _areaHandler = nullptr;
+		BaseEnemyHandler* _enemyHandler = nullptr;
+		BaseGUIHandler* _guiHandler = nullptr;
 		PlayerHandler* _playerBehavior = nullptr;
 		TransformSimpleStorage _originalPlayerTransStorage;
 	};

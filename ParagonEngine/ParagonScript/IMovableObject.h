@@ -10,5 +10,9 @@ namespace Pg::DataScript
 	public:
 		//위치를 빼놓고, 다른 상태는 원본으로 돌려줘야 하는 함수.
 		virtual void ResetAll() abstract;
+
+		//자신이 속한 영역의 인덱스 - 반환받기.
+		//개별 객체 별로 다른 값을 리턴해야 한다.
+		virtual unsigned int GetDesignatedAreaIndex() abstract;
 	};
 }

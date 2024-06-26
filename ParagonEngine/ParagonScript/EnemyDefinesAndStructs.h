@@ -1,6 +1,7 @@
 #pragma once
 #include "../ParagonData/GameObject.h"
 #include "TransformSimpleStorage.h"
+#include "IEnemyBehaviour.h"
 
 #include <string>
 #include <array>
@@ -26,12 +27,13 @@ namespace Pg::DataScript
 	};
 	
 	//Enemy Handler들을 위해 존재.
-	class IEnemyBehaviour;
+	//class IEnemyBehaviour;
 
 	struct EnemyAggregate
 	{
 		IEnemyBehaviour* _enemyBehav = nullptr;
 		Pg::Data::GameObject* _enemyObj = nullptr;
 		TransformSimpleStorage _transStorage;
+		bool _isAlive{ true }; //살아 있으면 이렇게 리셋.
 	};
 }

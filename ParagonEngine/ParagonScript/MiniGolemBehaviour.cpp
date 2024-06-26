@@ -46,6 +46,17 @@ namespace Pg::DataScript
 		_collider->FreezeAxisX(true);
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
+
+		for (auto& iter : _object->_transform.GetChildren())
+		{
+			Pg::Data::StaticBoxCollider* staticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+
+			if (staticCol != nullptr)
+			{
+				_attackCol.push_back(staticCol);
+				staticCol->SetActive(false);
+			}
+		}
 	}
 
 	void MiniGolemBehaviour::Awake()
@@ -77,17 +88,6 @@ namespace Pg::DataScript
 		_attackSound = _miniGolemAttack->GetComponent<Pg::Data::AudioSource>();
 
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
-
-		for (auto& iter : _object->_transform.GetChildren())
-		{
-			Pg::Data::StaticBoxCollider* staticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
-
-			if (staticCol != nullptr)
-			{
-				_attackCol.push_back(staticCol);
-				staticCol->SetActive(false);
-			}
-		}
 	}
 
 	void MiniGolemBehaviour::Update()
@@ -332,10 +332,5 @@ namespace Pg::DataScript
 		_collider->SetActive(false);
 		_monsterHelper->_isDead = true;
 		_isRotateFinish = true;
-	}
-
-	BaseMonsterInfo* MiniGolemBehaviour::ReturnBaseMonsterInfo()
-	{
-		return _miniGolInfo;
 	}
 }
