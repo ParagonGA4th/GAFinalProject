@@ -28,9 +28,6 @@
     <ClCompile Include="Serializer.cpp">
       <Filter>3_File\Data\Serialize</Filter>
     </ClCompile>
-    <ClCompile Include="DataManager.cpp">
-      <Filter>3_File\Data\DataManager</Filter>
-    </ClCompile>
     <ClCompile Include="DataContainer.cpp">
       <Filter>3_File\Data\DataContainer</Filter>
     </ClCompile>
@@ -60,6 +57,9 @@
     </ClCompile>
     <ClCompile Include="ToolBar.cpp">
       <Filter>2_Windows\ToolBar</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>3_File\Data\DataManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

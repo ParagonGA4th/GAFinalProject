@@ -51,7 +51,7 @@ namespace Pg::Serialize
 		static bool DeserializeBoolean(pugi::xml_node* node, const std::string& name);
 		
 		static void DeserializeInt(pugi::xml_node* node, const std::string& name, int& result);
-		static bool DeserializeInt(pugi::xml_node* node, const std::string& name);
+		static int DeserializeInt(pugi::xml_node* node, const std::string& name);
 
 		static void DeserializeFloat(pugi::xml_node* node, const std::string& name, float& result);
 		static float DeserializeFloat(pugi::xml_node* node, const std::string& name);

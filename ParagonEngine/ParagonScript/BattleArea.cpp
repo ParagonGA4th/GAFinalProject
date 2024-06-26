@@ -17,6 +17,17 @@ namespace Pg::DataScript
 	{
 	}
 
+	void BattleArea::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper(this, sv);
+	}
+
+	void BattleArea::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
+	}
+
+
 	void BattleArea::GrabManagedObjects()
 	{
 		

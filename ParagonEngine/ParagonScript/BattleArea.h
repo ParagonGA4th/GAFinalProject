@@ -22,6 +22,9 @@ namespace Pg::DataScript
 	public:
 		BattleArea(Pg::Data::GameObject* obj);
 
+		virtual void OnDeserialize(SerializeVector& sv) override;
+		virtual void OnSerialize(SerializeVector& sv) override;
+
 		virtual void GrabManagedObjects() override;
 		virtual void Awake() override;
 		virtual void Start() override;

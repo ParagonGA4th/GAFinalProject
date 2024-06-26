@@ -4,16 +4,16 @@
 
 namespace Pg::UI::Widget
 {
-	class InputFloat : public IWidget
+	class InputInt : public IWidget
 	{
 	public:
-		InputFloat(std::string label, float* input);
+		InputInt(std::string label, int* input);
 		virtual void Update() override;
 		virtual std::string GetWidgetLabel() override;
 
 	private:
 		std::string _label;
-		float* _inputFloat;
+		int* _inputFloat;
 	};
 }
 

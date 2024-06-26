@@ -4,6 +4,8 @@
 #include "BossInfo.h"
 #include "BaseMonster.h"
 
+#include <visit_struct/visit_struct.hpp>
+
 namespace Pg::Data
 {
 	class Transform;
@@ -40,6 +42,9 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
+		virtual void OnDeserialize(SerializeVector& sv) override;
+		virtual void OnSerialize(SerializeVector& sv) override;
+
 		//플레이어를 쫓는 함수
 		void Chase();
 
@@ -69,8 +74,8 @@ namespace Pg::DataScript
 		void Dead();
 
 	public:
-		BEGIN_VISITABLES(BossBehaviour);
-		VISITABLE_INIT(unsigned int, _areaIndex, 0);
+		BEGIN_VISITABLES(Pg::DataScript::BossBehaviour);
+		VISITABLE(int, _areaIndex);
 		END_VISITABLES;
 
 	public:
