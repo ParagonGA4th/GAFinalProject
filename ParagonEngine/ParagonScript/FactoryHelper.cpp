@@ -27,7 +27,7 @@ namespace Pg::DataScript
 		//PG_TRACE(std::to_string(Script::get_registry().size()).append(" Scripts Initialized."));
 	}
 
-	void FactoryHelper::AddScript(Pg::Data::GameObject* obj, const std::string& scriptType)
+	void FactoryHelper::AddScript(Pg::Data::GameObject* obj, const std::string& scriptType, SerializeVector& sv)
 	{
 		//명시적으로 include가 되어야 Registry가 반응한다.
 		for (auto& iter : Script::get_registry()) 
@@ -35,6 +35,7 @@ namespace Pg::DataScript
 			if (scriptType.compare(iter.first) == 0)
 			{
 				obj->AddComponent(scriptType, iter.second(obj));
+				iter.second(obj)->OnDeserialize(sv);
 				return;
 			}
 		}

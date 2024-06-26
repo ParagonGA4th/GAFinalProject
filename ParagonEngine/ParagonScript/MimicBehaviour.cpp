@@ -38,6 +38,16 @@ namespace Pg::DataScript
 		_mimicInfo->_onHit = [this]() { Hit(); };
 	}
 
+	void MimicBehaviour::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper(this, sv);
+	}
+
+	void MimicBehaviour::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
+	}
+
 	void MimicBehaviour::BeforePhysicsAwake()
 	{
 		_collider = _object->GetComponent<Pg::Data::BoxCollider>();

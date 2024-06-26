@@ -64,7 +64,7 @@
     <ClInclude Include="MenuBar.h">
       <Filter>0_UI\1_Widget\MenuBar</Filter>
     </ClInclude>
-    <ClInclude Include="InputFloat.h">
+    <ClInclude Include="InputInt.h">
       <Filter>0_UI\1_Widget\InputFloat</Filter>
     </ClInclude>
     <ClInclude Include="InputFloat3.h">
@@ -159,7 +159,7 @@
     <ClCompile Include="MenuBar.cpp">
       <Filter>0_UI\1_Widget\MenuBar</Filter>
     </ClCompile>
-    <ClCompile Include="InputFloat.cpp">
+    <ClCompile Include="InputInt.cpp">
       <Filter>0_UI\1_Widget\InputFloat</Filter>
     </ClCompile>
     <ClCompile Include="InputFloat3.cpp">
