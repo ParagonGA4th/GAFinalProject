@@ -57,8 +57,8 @@ namespace Pg::DataScript
 
 	void PlayerMovementSector::Awake()
 	{
-		
-		
+
+
 	}
 
 	void PlayerMovementSector::Start()
@@ -74,7 +74,7 @@ namespace Pg::DataScript
 		_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
 		assert(_selfCol != nullptr);
 		_selfCol->SetMass(5.f);
-		
+
 		// Height을 받아서, 반값을 기준으로 Intersection 계산할 준비 완료.
 		_halfColliderHeight = _selfCol->GetHeight() / 2.0f;
 
@@ -100,6 +100,11 @@ namespace Pg::DataScript
 		UpdateJump();
 		UpdateFacingDirection(_currentPlaneY); //Plane Y-Level 입력해야.
 
+		if (_playerHandler->healthPoint < std::numeric_limits<float>::epsilon())
+		{
+			_isDead_Animation = true;
+		}
+
 		StrafeAvoidLogic();
 	}
 
@@ -111,6 +116,7 @@ namespace Pg::DataScript
 	void PlayerMovementSector::OnAnimationEnd()
 	{
 		_isJumping_Animation = false;
+		_isDead_Animation = false;
 	}
 
 	void PlayerMovementSector::ShootRayForward()
@@ -177,7 +183,7 @@ namespace Pg::DataScript
 				_walkAudio->Play();
 				_isWalkAudioPlaying = true;
 			}
-			
+
 		}
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveBack))
 		{
@@ -248,7 +254,7 @@ namespace Pg::DataScript
 		{
 			//다시 호출 안되게.
 			_isJustSetRestraint = false;
-		
+
 			_selfCol->FreezeAxisX(true);
 			_selfCol->FreezeAxisZ(true);
 		}
@@ -299,7 +305,7 @@ namespace Pg::DataScript
 					//Pg::Math::PGFLOAT3 tStrengthedDownForce = { 0.f, -30.f, 0.f };
 					//_selfCol->SetVelocity(tStrengthedDownForce);
 				}
-			
+
 				//밑으로 쏜다.
 				Pg::Math::PGFLOAT3 tShouldShootDir = -Pg::Math::PGFLOAT3::GlobalUp();
 				Pg::Math::PGFLOAT3 tShouldShootPosition = {
@@ -397,7 +403,7 @@ namespace Pg::DataScript
 		//Idle 초기 상태 세팅.
 		std::string tToPlayAnimationName = "PA_00001.pganim";
 		bool isLooping = true;
-		
+
 		if (_isDead_Animation)
 		{
 			//사망 애니메이션.
@@ -453,6 +459,6 @@ namespace Pg::DataScript
 
 	}
 
-	
+
 
 }
