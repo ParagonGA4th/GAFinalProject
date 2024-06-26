@@ -102,15 +102,6 @@ namespace Pg::DataScript
 		_distance = std::abs(std::sqrt(std::pow(_playerTransform->_position.x - _object->_transform._position.x, 2)
 			+ std::pow(_playerTransform->_position.z - _object->_transform._position.z, 2)));
 
-		///회피와 돌진을 테스트하기 위한 임의의 로직.
-		///애니메이션을 통한 행동 패턴에 맞게 들어갈 예정.
-	// 보스가 플레이어를 바라보고 있는 시간 추적
-		if (_distance <= _bossInfo->GetSightRange()) { _isPlayerInit = true; _monsterHelper->_isPlayerDetected = true; }
-		if (!_isPlayerInit) return;
-
-		Neutralize();
-		if (_isNeutralize) return;
-
 		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
 		{
 			//다 꺼짐.
@@ -124,6 +115,15 @@ namespace Pg::DataScript
 			_monsterHelper->_isDead = false;
 			_monsterHelper->_isDeadDelay = false;
 		}
+
+		///회피와 돌진을 테스트하기 위한 임의의 로직.
+		///애니메이션을 통한 행동 패턴에 맞게 들어갈 예정.
+	// 보스가 플레이어를 바라보고 있는 시간 추적
+		if (_distance <= _bossInfo->GetSightRange()) { _isPlayerInit = true; _monsterHelper->_isPlayerDetected = true; }
+		if (!_isPlayerInit) return;
+
+		Neutralize();
+		if (_isNeutralize) return;
 
 		if (_isRotatingToPlayer)
 		{
