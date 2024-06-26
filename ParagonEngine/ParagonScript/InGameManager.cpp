@@ -6,6 +6,7 @@
 #include "CombatSystem.h"
 
 #include "EventList_PlayerRelated.h"
+#include "EventList_GameFlowRelated.h"
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonUtil/Log.h"
@@ -139,13 +140,17 @@ namespace Pg::DataScript
 		_combatSystem->Subscribe(Event_PlayerDeath::_identifier,
 			std::bind(&InGameManager::HandleEvents, bSelf, std::placeholders::_1,
 				std::placeholders::_2, std::placeholders::_3), true);
+
+		_combatSystem->Subscribe(Event_OnBossDeathGameWin::_identifier,
+			std::bind(&InGameManager::HandleEvents, bSelf, std::placeholders::_1,
+				std::placeholders::_2, std::placeholders::_3), true);
 	}
 
 	void InGameManager::HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2)
 	{
 		PG_ERROR("ENTERED");
 
-		if (e.GetIdentifier() == Event_PlayerDeath::_identifier);
+		if (e.GetIdentifier() == Event_PlayerDeath::_identifier)
 		{
 			//여러 개의 이벤트들이 한꺼번에 핸들링 될 경우, 이렇게 활용됨. 
 			//const Event_PlayerDeath& demoEvent = static_cast<const Event_PlayerDeath&>(e);
@@ -157,10 +162,11 @@ namespace Pg::DataScript
 			// 전체 씬 리셋하기.
 			TotalGameManager::GetInstance(nullptr)->CallForEntireSceneReset(tBelongScene, NULL, nullptr);
 		}
+		else if (e.GetIdentifier() == Event_OnBossDeathGameWin::_identifier)
+		{
+			_pgScene->SetCurrentScene("TitleScene");
+		}
 	}
-
-	
-
 }
 
 //이거 보고 참고할 요소 찾아라.
