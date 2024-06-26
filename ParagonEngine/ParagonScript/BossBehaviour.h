@@ -140,6 +140,8 @@ namespace Pg::DataScript
 
 		bool _isMoving{ false };
 		bool _isRushSoundPlaying{ false };
+
+		bool _isDeadInit{ false };
 	};
 }
 

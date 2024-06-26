@@ -2,6 +2,7 @@
 #include "../ParagonData/GameObject.h"
 #include "IObserver.h"
 #include "IScriptResettable.h"
+#include <limits>
 
 namespace Pg::Data
 {
@@ -69,7 +70,7 @@ namespace Pg::DataScript
 		//움직임 관련. 
 		float moveSpeed{ 4.0f };
 		float rotateMultiplier{ 2.0f };
-		float jumpPower{ 200.0f };
+		float jumpPower{ 80.0f };
 
 	private:
 		//In Update Loop
