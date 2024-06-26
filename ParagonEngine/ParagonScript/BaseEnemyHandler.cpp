@@ -1,6 +1,7 @@
 #include "BaseEnemyHandler.h"
 #include "BaseAreaHandler.h"
 #include "../ParagonData/Scene.h"
+#include "../ParagonUtil/Log.h"
 #include "HandleBundle3D.h"
 
 namespace Pg::DataScript
@@ -39,7 +40,7 @@ namespace Pg::DataScript
 
 			// 모든 GameObject를 갖고 있는 애들: -> IEnemyBehaviour를 가지고 있어야 하는데,
 			// 이를 담고 있는 동일 인덱스로 설정. (Vector 컴포넌트로 옮기기)
-			for (int i = 0; i < tAllAreaOfSingleTagEnemyBehavVec.size(); i++)
+			for (int i = 0; i < tAllAreaOfSingleTagGOVec.size(); i++)
 			{
 				//Enemy Behaviour 객체를 받아오기, Assert 점검 역시 해야.
 				auto& bObject = tAllAreaOfSingleTagGOVec.at(i);
@@ -155,12 +156,17 @@ namespace Pg::DataScript
 		auto& bBelongAreaMap = _managedMonstersList.at(tAreaIndex);
 		auto& bBelongTagVector = bBelongAreaMap.at(tagName);
 
+		PG_ERROR("called dead");
+
 		for (auto& it : bBelongTagVector)
 		{
 			if (it._enemyBehav == behav)
 			{
 				//죽었다고 기록. 나중에 리스폰 등 이벤트는 리셋에 의해 제어될 것.
 				it._isAlive = false;
+
+				std::string tMSG = it._enemyObj->GetName() + std::string("called dead");
+				PG_ERROR(tMSG);
 			}
 		}
 		
@@ -180,7 +186,7 @@ namespace Pg::DataScript
 			}
 		}
 
-		gFoundPoint:
+	gFoundPoint:
 		//단 하나도 살아 있는 객체가 없다면, 해당 상황시 AreaHandler의 함수를 호출.
 		if (!tIsAtLeastOneAlive)
 		{
