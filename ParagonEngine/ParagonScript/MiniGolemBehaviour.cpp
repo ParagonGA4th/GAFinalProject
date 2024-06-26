@@ -26,7 +26,7 @@ namespace Pg::DataScript
 	MiniGolemBehaviour::MiniGolemBehaviour(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj), _isRotateFinish(false),
 		_distance(0.f), _isDash(false), _hasDashed(false), _currentAttackTime(0.f), _startAttackTime(0.7f), _endAttackTime(2.7f),
-		_respawnPos(0.f, 0.f, 0.f)
+		_respawnPos(0.f, 0.f, 0.f), _areaIndex(0)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgScene = &singleton<Pg::API::PgScene>();
