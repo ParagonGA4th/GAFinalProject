@@ -3,6 +3,8 @@
 #include "IConfinedArea.h"
 #include "../ParagonMath/PgMath.h"
 
+#include <visit_struct/visit_struct.hpp>
+
 namespace Pg::Data 
 { 
 	class Collider; 
@@ -29,7 +31,6 @@ namespace Pg::DataScript
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;
-
 	public:
 		virtual void ResetAll() override;
 		virtual unsigned int GetDesignatedAreaIndex() override;
@@ -45,7 +46,7 @@ namespace Pg::DataScript
 		
 	public:
 		BEGIN_VISITABLES(BattleArea);
-		VISITABLE_INIT(unsigned int, _areaIndex, 0);
+		VISITABLE(int, _areaIndex);
 		END_VISITABLES;
 
 	private:

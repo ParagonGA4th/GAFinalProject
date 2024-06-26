@@ -3,6 +3,8 @@
 #include "IConfinedArea.h"
 #include "../ParagonMath/PgMath.h"
 
+#include <visit_struct/visit_struct.hpp>
+
 namespace Pg::Data { class Collider; class StaticBoxCollider; }
 namespace Pg::API::Time { class PgTime; }
 
@@ -33,7 +35,7 @@ namespace Pg::DataScript
 
 	public:
 		BEGIN_VISITABLES(TrapArea);
-		VISITABLE(unsigned int, _areaIndex);
+		VISITABLE(int, _areaIndex);
 		END_VISITABLES;
 
 	private:

@@ -9,6 +9,7 @@
 #include "../ParagonData/Handle.h"
 #include "../ParagonData/Slider.h"
 #include "../ParagonScript/FactoryHelper.h"
+#include "../ParagonScript/Script.h"
 #include "../ParagonHelper/UUIDGenerator.h"
 #include "../ParagonData/DynamicCollider.h"
 
@@ -353,7 +354,16 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 					}
 					else
 					{
-						Pg::DataScript::FactoryHelper::AddScript(obj, typeName, tSerVec);
+						Pg::DataScript::FactoryHelper::AddScript(obj, typeName);
+						if(typeName.find("Behaviour") != std::string::npos || 
+							typeName.find("Area") != std::string::npos)
+						{
+							auto scriptData = obj->GetComponent<Pg::DataScript::Script>();
+							if (scriptData != nullptr)
+							{
+								scriptData->OnDeserialize(tSerVec);
+							}
+						}
 					}
 				}
 

@@ -46,6 +46,8 @@ namespace Pg::DataScript
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override {}
 		virtual void OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count) override {}
 
+		virtual void OnDeserialize(SerializeVector& sv) override {};
+		virtual void OnSerialize(SerializeVector& sv) override {};
 	public:
 		//Scripting System 자동화를 위해.
 		using create_instance = std::function<Script*(Pg::Data::GameObject* obj)>;
