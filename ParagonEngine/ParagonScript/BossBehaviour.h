@@ -30,6 +30,8 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
+	class CombatSystem;
+
 	class BossBehaviour : public ScriptInterface<BossBehaviour>, public IEnemyBehaviour
 	{
 		DEFINE_PARAGON_SCRIPT(BossBehaviour);
@@ -108,6 +110,7 @@ namespace Pg::DataScript
 		//골렘보스의 상태와 수치에 대한 정보.
 		BossInfo* _bossInfo;
 
+		CombatSystem* _combatSystem;
 	private:
 		float _distance;				//보스와 플레이어와의 거리
 		bool _isPlayerInit{ false };

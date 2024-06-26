@@ -42,7 +42,11 @@ namespace Pg::DataScript
 		DEFINE_EVENT_IDENTIFIER("Event_OnBigBossGameAreaEnter");
 	};
 
-	
+	class Event_OnBossDeathGameWin : public IEvent
+	{
+		DEFINE_EVENT_IDENTIFIER("Event_OnBossDeathGameWin");
+	};
+
 
 }
 

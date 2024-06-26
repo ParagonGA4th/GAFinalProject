@@ -96,26 +96,27 @@ namespace Pg::DataScript
 		std::string tTypeString = std::string(eventVal.GetIdentifier());
 
 		//아직 옵서버가 없는 이벤트들이라면 Early-Return. 
-		if (_observers.find(tTypeString) == _observers.end())
+		if (_observers.find(tTypeString) != _observers.end())
 		{
-			return;
+			//없으면 vector subscription range 문제로 죽어야 한다.
+			//LOCAL.
+			auto&& observers = _observers.at(tTypeString);
+			for (auto&& observer : observers)
+			{
+				//실제로 관찰당한 옵서버들 : 호출.
+				observer(eventVal, usedVariant1, usedVariant2);
+			}
 		}
 		
-		//없으면 vector subscription range 문제로 죽어야 한다.
-		//LOCAL.
-		auto&& observers = _observers.at(tTypeString);
-		for (auto&& observer : observers)
+		if (_globalObservers.find(tTypeString) != _globalObservers.end())
 		{
-			//실제로 관찰당한 옵서버들 : 호출.
-			observer(eventVal, usedVariant1, usedVariant2);
-		}
-
-		//GLOBAL
-		auto&& g_observers = _globalObservers.at(tTypeString);
-		for (auto&& observer : g_observers)
-		{
-			//실제로 관찰당한 옵서버들 : 호출.
-			observer(eventVal, usedVariant1, usedVariant2);
+			//GLOBAL
+			auto&& g_observers = _globalObservers.at(tTypeString);
+			for (auto&& observer : g_observers)
+			{
+				//실제로 관찰당한 옵서버들 : 호출.
+				observer(eventVal, usedVariant1, usedVariant2);
+			}
 		}
 	}
 
