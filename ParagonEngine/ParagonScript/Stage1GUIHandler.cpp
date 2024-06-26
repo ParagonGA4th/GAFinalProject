@@ -6,7 +6,6 @@
 #include "../ParagonData/Scene.h"
 
 #include "PlayerHandler.h"
-
 #include "PauseBox.h"
 
 namespace Pg::DataScript
