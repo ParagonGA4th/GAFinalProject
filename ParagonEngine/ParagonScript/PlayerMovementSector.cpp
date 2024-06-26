@@ -113,7 +113,7 @@ namespace Pg::DataScript
 		PlayAdequateAnimation();
 	}
 
-	void PlayerMovementSector::OnAnimationEnd()
+	void PlayerMovementSector::OnAnimationEnd(const std::string& justEndedAnimation)
 	{
 		_isJumping_Animation = false;
 		_isDead_Animation = false;

@@ -49,7 +49,7 @@ namespace Pg::Data
 			_bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3] = "SFlyAttackPre3";
 		};
 
-		virtual void OnAnimationEnd()
+		virtual void OnAnimationEnd(const std::string& justEndedAnimation) override
 		{
 			_isAnimationEnd = true;
 		};

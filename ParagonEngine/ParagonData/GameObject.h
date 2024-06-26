@@ -115,7 +115,7 @@ namespace Pg::Data
 		//Awake / Start 함수 다시금 실행 할 수 있게 만들어놓는다.
 		void ResetDebouncerBoolean();
 
-		void TurnOnAnimationEnd();
+		void TurnOnAnimationEnd(const std::string& justEndedAnimation);
 	public:
 		Transform& _transform;
 
@@ -132,6 +132,9 @@ namespace Pg::Data
 		bool _isActive;
 		std::string _objName;
 		std::string _objTag;
+
+		//OnAnimationEnd 기록용.
+		std::string _tempRecordJustEndedAnimation;
 
 	private:
 		Pg::Data::Scene* _belongScene;

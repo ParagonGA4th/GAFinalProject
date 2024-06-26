@@ -51,7 +51,7 @@ namespace Pg::DataScript
 		void LateUpdate();
 	
 		//Animation이 끝났을 때 호출 되는 함수
-		void OnAnimationEnd();
+		void OnAnimationEnd(const std::string& justEndedAnimation);
 
 
 

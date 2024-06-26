@@ -83,10 +83,10 @@ namespace Pg::DataScript
 		_playerCombatSector->LateUpdate();
 	}
 
-	void PlayerHandler::OnAnimationEnd()
+	void PlayerHandler::OnAnimationEnd(const std::string& justEndedAnimation)
 	{
-		_playerMovementSector->OnAnimationEnd();
-		_playerCombatSector->OnAnimationEnd();
+		_playerMovementSector->OnAnimationEnd(justEndedAnimation);
+		_playerCombatSector->OnAnimationEnd(justEndedAnimation); 
 	}
 
 	void PlayerHandler::HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2)
