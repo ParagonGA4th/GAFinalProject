@@ -1,4 +1,7 @@
 #include "BossBehaviour.h"
+#include "CombatSystem.h"
+#include "EventList_GameFlowRelated.h"
+
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgScene.h"
@@ -25,6 +28,7 @@ namespace Pg::DataScript
 
 		//골렘의 체력과 공격
 		_bossInfo = new BossInfo(40.f, 4.f);
+		//_bossInfo = new BossInfo(2.f, 4.f);
 
 		///보스의 사망 및 피격행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
 		///몬스터에게 직접적으로 적용하기에 여기서는 사망 시 행동만 만들면 된다.
@@ -77,6 +81,8 @@ namespace Pg::DataScript
 	void BossBehaviour::Awake()
 	{
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
 	void BossBehaviour::Start()
@@ -114,6 +120,9 @@ namespace Pg::DataScript
 
 			_monsterHelper->_isDead = false;
 			_monsterHelper->_isDeadDelay = false;
+
+			//게임을 이겼다고 (==Boss 죽였다고 Event Post) 알리기!
+			_combatSystem->Post(Event_OnBossDeathGameWin(), NULL, NULL);
 		}
 
 		///회피와 돌진을 테스트하기 위한 임의의 로직.
@@ -436,5 +445,7 @@ namespace Pg::DataScript
 	{
 		_monsterHelper->_isDead = true;
 		_dieAudio->Play();
+
+
 	}
 }
