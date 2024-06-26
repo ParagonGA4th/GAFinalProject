@@ -205,7 +205,7 @@ namespace Pg::Graphics
 
 					if (!_isEndFrameCalled)
 					{
-						GetBaseRenderer()->_object->TurnOnAnimationEnd();
+						GetBaseRenderer()->_object->TurnOnAnimationEnd(_currentAnim->GetFileName());
 					
 						_isEndFrameCalled = true;
 					}

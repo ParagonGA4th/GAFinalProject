@@ -67,7 +67,7 @@ namespace Pg::DataScript
 		virtual void ResetAll() override;
 
 		//Animation이 끝났을 때 호출 되는 함수
-		virtual void OnAnimationEnd() override;
+		virtual void OnAnimationEnd(const std::string& justEndedAnimation) override;
 
 		//이거 CombatSystem에 있어야.
 		//void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
