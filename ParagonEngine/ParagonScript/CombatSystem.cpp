@@ -75,9 +75,20 @@ namespace Pg::DataScript
 		}
 	}
 
-	void CombatSystem::Subscribe(const std::string& descriptor, SlotType&& slot)
+	void CombatSystem::Subscribe(const std::string& descriptor, SlotType&& slot, bool isGlobal)
 	{
-		_observers[descriptor].push_back(slot);
+		//없으면 새로운 칸 추가.
+		_observers.try_emplace(descriptor, std::vector<SlotType>());
+		_globalObservers.try_emplace(descriptor, std::vector<SlotType>());
+
+		if (isGlobal)
+		{
+			_globalObservers.at(descriptor).push_back(slot);
+		}
+		else
+		{
+			_observers.at(descriptor).push_back(slot);
+		}
 	}
 
 	void CombatSystem::Post(const IEvent& eventVal, UsedVariant usedVariant1, UsedVariant usedVariant2) const
@@ -91,9 +102,17 @@ namespace Pg::DataScript
 		}
 		
 		//없으면 vector subscription range 문제로 죽어야 한다.
+		//LOCAL.
 		auto&& observers = _observers.at(tTypeString);
-
 		for (auto&& observer : observers)
+		{
+			//실제로 관찰당한 옵서버들 : 호출.
+			observer(eventVal, usedVariant1, usedVariant2);
+		}
+
+		//GLOBAL
+		auto&& g_observers = _globalObservers.at(tTypeString);
+		for (auto&& observer : g_observers)
 		{
 			//실제로 관찰당한 옵서버들 : 호출.
 			observer(eventVal, usedVariant1, usedVariant2);

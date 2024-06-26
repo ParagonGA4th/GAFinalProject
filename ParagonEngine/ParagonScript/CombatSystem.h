@@ -120,13 +120,14 @@ namespace Pg::DataScript
 	public: //Combat System이 일종의 이벤트 시스템처럼 동작하는 부분이다.
 		
 		//이벤트가 호출될 때마다, 해당 식별자를 받고, 맵을 오가서 Observer 전체를 호출.
-		void Subscribe(const std::string& descriptor, SlotType&& slot);
+		void Subscribe(const std::string& descriptor, SlotType&& slot, bool isGlobal = false);
 
 		//자신에 관심 있는 모든 옵서버들한테 이벤트들을 보낼 수 있다.
 		void Post(const IEvent& eventVal, UsedVariant usedVariant1, UsedVariant usedVariant2) const;
 
 	private:
 		std::map<std::string, std::vector<SlotType>> _observers;
+		std::map<std::string, std::vector<SlotType>> _globalObservers; //InGameManager 같은 리셋되지 않는 범주의 경우, 다르게 관리되어야.
 	};
 }
 

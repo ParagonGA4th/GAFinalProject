@@ -1,8 +1,12 @@
 #include "InGameManager.h"
 //#include "Portal.h"
 #include "TotalGameManager.h"
+#include "CombatSystem.h"
+
+#include "EventList_PlayerRelated.h"
 
 #include "../ParagonData/Scene.h"
+#include "../ParagonUtil/Log.h"
 
 #include "../ParagonAPI/PgScene.h"
 #include "../ParagonAPI/PgTime.h"
@@ -16,11 +20,7 @@ namespace Pg::DataScript
 {
 	void InGameManager::Awake()
 	{
-		{
-			static bool tAssureNoDoubleCall = true;
-			assert(tAssureNoDoubleCall && "한번만 전 게임 플로우 내부에서 호출되어야");
-			tAssureNoDoubleCall = false;
-		}
+		RegisterToCombatSystemEvents();
 	}
 
 	void InGameManager::Start()
@@ -37,6 +37,8 @@ namespace Pg::DataScript
 			// Update에서 Local Handler한테 지시하고,
 			// LateUpdate 등에서 이를 뒤늦게 회수하는 방식도 고려 중.
 			
+
+
 
 
 
@@ -92,7 +94,6 @@ namespace Pg::DataScript
 
 		//또한, GameState를 따로 설정하면서 관리.
 		
-
 	}
 
 	void InGameManager::Initialize(Pg::Data::Scene* changedScene)
@@ -108,12 +109,51 @@ namespace Pg::DataScript
 		//Total Game Manager 가져오기. 
 		_totalGameManager = TotalGameManager::GetInstance(nullptr);
 		assert(_totalGameManager != nullptr);
+
+		_combatSystem = CombatSystem::GetInstance(nullptr);
+		assert(_combatSystem != nullptr);
 	}
 
 	bool InGameManager::GetEnableGameManagerUpdate()
 	{
 		return _isUpdating;
 	}
+
+	void InGameManager::ChangePlayerLife(int level)
+	{
+		_playersLife = std::clamp<int>(_playersLife + level, 0, MAX_PLAYER_LIFE);
+	}
+
+	void InGameManager::ChangeMonsterKillCount(int level)
+	{
+		_numberOfMonstersKilled = std::clamp<int>(_numberOfMonstersKilled + level, 0, MAX_MONSTER_COUNT_IN_LEVEL);
+	}
+
+	void InGameManager::RegisterToCombatSystemEvents()
+	{
+		InGameManager* bSelf = this;
+
+		//글로벌 객체에서 등록하니.
+		_combatSystem->Subscribe(Event_PlayerDeath::_identifier,
+			std::bind(&InGameManager::HandleEvents, bSelf, std::placeholders::_1,
+				std::placeholders::_2, std::placeholders::_3), true);
+	}
+
+	void InGameManager::HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2)
+	{
+		PG_ERROR("ENTERED");
+
+		if (e.GetIdentifier() == Event_PlayerDeath::_identifier);
+		{
+			//여러 개의 이벤트들이 한꺼번에 핸들링 될 경우, 이렇게 활용됨. 
+			//const Event_PlayerDeath& demoEvent = static_cast<const Event_PlayerDeath&>(e);
+			PG_ERROR("PLAYER_INGAMEMANGER_HANDLE_EVENTS");
+		}
+
+
+	}
+
+	
 
 }
 
