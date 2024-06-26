@@ -187,13 +187,13 @@ namespace Pg::DataScript
 		}
 		//else if (_isAvoiding_Animation)
 		//{
-		//	//회피 애니메이션.
+		//	//스킬 애니메이션.
 		//	tToPlayAnimationName = "PA_00004.pganim";
 		//	isLooping = false;
 		//}
 		//else if (_isJumping_Animation)
 		//{
-		//	//점프 애니메이션.
+		//	//궁극기 애니메이션.
 		//	tToPlayAnimationName = "PA_00003.pganim";
 		//	isLooping = false;
 		//}
