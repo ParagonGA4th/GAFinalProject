@@ -317,7 +317,7 @@ void Pg::Serialize::Serializer::DeserializeInt(pugi::xml_node* node, const std::
 	}
 }
 
-bool Pg::Serialize::Serializer::DeserializeInt(pugi::xml_node* node, const std::string& name)
+int Pg::Serialize::Serializer::DeserializeInt(pugi::xml_node* node, const std::string& name)
 {
 	if (name.empty())
 	{

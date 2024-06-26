@@ -41,6 +41,16 @@ namespace Pg::DataScript
 		_miniGolInfo->_onHit = [this]() { Hit(); };
 	}
 
+	void MiniGolemBehaviour::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper(this, sv);
+	}
+
+	void MiniGolemBehaviour::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
+	}
+
 	void MiniGolemBehaviour::BeforePhysicsAwake()
 	{
 		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();

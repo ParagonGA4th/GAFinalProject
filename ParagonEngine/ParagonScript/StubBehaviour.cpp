@@ -37,6 +37,16 @@ namespace Pg::DataScript
 		_stubInfo->_onHit = [this]() { Hit(); };
 	}
 
+	void StubBehaviour::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper(this, sv);
+	}
+
+	void StubBehaviour::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
+	}
+
 	void StubBehaviour::BeforePhysicsAwake()
 	{
 		_collider = _object->GetComponent<Pg::Data::BoxCollider>();

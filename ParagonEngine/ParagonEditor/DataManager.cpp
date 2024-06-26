@@ -353,7 +353,7 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 					}
 					else
 					{
-						Pg::DataScript::FactoryHelper::AddScript(obj, typeName);
+						Pg::DataScript::FactoryHelper::AddScript(obj, typeName, tSerVec);
 					}
 				}
 

@@ -4,6 +4,8 @@
 #include "MiniGolemInfo.h"
 #include "BaseMonster.h"
 
+#include <visit_struct/visit_struct.hpp>
+
 namespace Pg::Data
 {
 	class Transform;
@@ -43,6 +45,8 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
+		virtual void OnDeserialize(SerializeVector& sv) override;
+		virtual void OnSerialize(SerializeVector& sv) override;
 		
 		
 		//플레이어 발견하지 않을때 하는 행동
@@ -67,8 +71,8 @@ namespace Pg::DataScript
 		void Dead();
 
 	public:
-		BEGIN_VISITABLES(MiniGolemBehaviour);
-		VISITABLE_INIT(unsigned int, _areaIndex, 0);
+		BEGIN_VISITABLES(Pg::DataScript::MiniGolemBehaviour);
+		VISITABLE(int, _areaIndex);
 		END_VISITABLES;
 
 	public:

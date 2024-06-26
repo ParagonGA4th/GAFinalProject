@@ -4,6 +4,8 @@
 #include "MimicInfo.h"
 #include "BaseMonster.h"
 
+#include <visit_struct/visit_struct.hpp>
+
 namespace Pg::Data
 {
 	class Transform;
@@ -40,6 +42,9 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
+		virtual void OnDeserialize(SerializeVector& sv) override;
+		virtual void OnSerialize(SerializeVector& sv) override;
+
 		//플레이어 발견하지 않을때 하는 행동
 		void Idle();
 
@@ -59,8 +64,8 @@ namespace Pg::DataScript
 		void Hit();
 
 	public:
-		BEGIN_VISITABLES(MimicBehaviour);
-		VISITABLE_INIT(unsigned int, _areaIndex, 0);
+		BEGIN_VISITABLES(Pg::DataScript::MimicBehaviour);
+		VISITABLE(int, _areaIndex);
 		END_VISITABLES;
 
 	public:
