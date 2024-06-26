@@ -15,8 +15,8 @@ namespace Pg::Data::BTree::Node
 				monHelper->_isAnimChange = false;
 				monHelper->_isAnimationEnd = false;
 
-				if (_isCast)
-					monHelper->_bossState = Pg::Data::BossState::BASIC_ATTACK_2;
+				//if (_isCast)
+				monHelper->_bossState = Pg::Data::BossState::BASIC_ATTACK_2;
 			}
 
 
