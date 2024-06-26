@@ -7,12 +7,17 @@ namespace Pg::Data::BTree::Node
 	BT::NodeStatus Anim_gIdle::tick()
 	{
 		bool hitInit = config().blackboard->get<bool>("HITINIT");
-		bool isAnimEnd = config().blackboard->get<bool>("ISCOOLDOWNANIMEND");
 
-		if (hitInit && !isAnimEnd)
+		if(GetGameObject()->GetName().find("Stub") != std::string::npos) 
+			_isAnimEnd = config().blackboard->get<bool>("ISCOOLDOWNANIMEND");
+
+		if (hitInit && !_isAnimEnd)
 		{
-			config().blackboard->set<bool>("ISCHANGE", false);
-			config().blackboard->set<std::string>("PREVANIM", "");
+			if (GetGameObject()->GetName().find("Stub") == std::string::npos)
+				_isAnimEnd = true;
+
+			config().blackboard->set<bool>("ISCHANGE", true);
+			config().blackboard->set<std::string>("PREVANIM", "_00001");
 		}
 
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
