@@ -8,9 +8,15 @@
 #include "DeathPlane.h"
 #include "AreaPassingTrigger.h"
 
+#include "InGameManager.h"
+#include "TotalGameManager.h"
+#include "PlayerHandler.h"
+#include "CombatSystem.h"
+
 #include "../ParagonUtil/CustomAssert.h"
 
 #include <algorithm>
+
 namespace Pg::DataScript
 {
 	BaseAreaHandler::BaseAreaHandler(unsigned int entireAreaCount) : _entireAreaCount(entireAreaCount)
@@ -72,6 +78,17 @@ namespace Pg::DataScript
 		//플레이어 죽이고 
 		//SceneReset, 일단은 전체로.
 		//영역 냐누기 NO. (테스트 빌드 기준)
+
+		// 하나만큼 Player의 라이프 깎기.
+		// Clamp하기 때문에, 확정적으로 죽이는 것이다.
+		CombatSystem::GetInstance(nullptr)->ChangePlayerHealth(-10000.0f);
+
+		// 현재 자신이 속해 있는 씬.
+		Pg::Data::Scene* tBelongScene = _belongHandlerBundle3D->_playerBehavior->_object->GetScene();
+		
+		// 전체 씬 리셋하기.
+		TotalGameManager::GetInstance(nullptr)->CallForEntireSceneReset(tBelongScene, NULL, nullptr);
+
 
 	}
 

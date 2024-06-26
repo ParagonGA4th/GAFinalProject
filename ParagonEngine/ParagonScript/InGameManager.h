@@ -4,6 +4,7 @@
 #include "ScriptInterface.h"
 #include "GameState.h"
 #include "HandleBundle3D.h"
+#include "IObserver.h"
 
 #include "../ParagonData/ISortableGlobalObject.h"
 
@@ -23,10 +24,15 @@ namespace Pg::API { class PgScene; }
 namespace Pg::DataScript
 {
 	class TotalGameManager;
+	class CombatSystem;
 
-	class InGameManager : public ScriptInterface<InGameManager>, public Pg::Data::ISortableGlobalObject
+	class InGameManager : public ScriptInterface<InGameManager>, public Pg::Data::ISortableGlobalObject, public IObserver
 	{
 		DEFINE_PARAGON_SCRIPT_SINGLETON(InGameManager);
+
+	public:
+		static const int MAX_PLAYER_LIFE = 3;
+		static const int MAX_MONSTER_COUNT_IN_LEVEL = 100;
 
 	public:
 		virtual void Awake() override;
@@ -41,6 +47,9 @@ namespace Pg::DataScript
 		//TotalGameManager 다음으로 호출.
 		virtual unsigned int GetPriorityIndex() override { return 1; }
 
+		//IObserver : HandleEvents.
+		virtual void HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2) override;
+
 	public:
 		bool GetEnableGameManagerUpdate();
 
@@ -48,8 +57,17 @@ namespace Pg::DataScript
 		//Initialize.
 		void Initialize(Pg::Data::Scene* changedScene);
 
+		void RegisterToCombatSystemEvents();
 		// Logic 업데이트, 3D일 경우에.
 		// 밖에서 들어올지 말지 결정.
+
+	public:
+		void ChangePlayerLife(int level);
+		void ChangeMonsterKillCount(int level);
+	private:
+		//현재 쓰이는 애들.
+		int _playersLife{ MAX_PLAYER_LIFE };				// 플레이어의 목숨
+		int _numberOfMonstersKilled{ 0 };					// 죽은 몬스터의 개수, Scene 바뀜 / 리셋 시마다 바뀔 것.
 
 	private:
 		float _gameTime;				// 게임 내 시간
@@ -57,13 +75,12 @@ namespace Pg::DataScript
 		//std::string _currentSceneName;	// 현재 씬
 		//std::vector<std::string> _sceneList; // 씬들의 목록
 
-		/// Player
-		int _playersLife;				// 플레이어의 목숨
+		
 		ePlayerState _playerState;		// 플레이어의 상태
 		std::vector<std::pair<std::string, bool>> _artifacts;	// 플레이어가 보유 중인 아티팩트
 
 		/// Stage
-		int _numberOfMonstersKilled;	// 죽은 몬스터의 개수
+		
 		
 	
 		
@@ -86,6 +103,9 @@ namespace Pg::DataScript
 
 		//현재 3D일 경우, 무조건 nullptr가 아님. 아닐 경우는 nullptr 맞다.
 		HandlerBundle3D* _handlerBundle3D{ nullptr };
+
+		CombatSystem* _combatSystem{ nullptr };
+		
 
 	};
 }
