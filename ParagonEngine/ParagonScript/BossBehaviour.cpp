@@ -110,6 +110,9 @@ namespace Pg::DataScript
 
 		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
 		{
+			_monsterHelper->_isDead = false;
+			_monsterHelper->_isDeadDelay = false;
+
 			//다 꺼짐.
 			_collider->SetActive(false);
 			_meshRenderer->SetActive(false);
@@ -117,9 +120,6 @@ namespace Pg::DataScript
 
 			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 지정된 위치로 보내준다.
 			_object->_transform._position = { 0, -1000, 0 };
-
-			_monsterHelper->_isDead = false;
-			_monsterHelper->_isDeadDelay = false;
 
 			//게임을 이겼다고 (==Boss 죽였다고 Event Post) 알리기!
 			_combatSystem->Post(Event_OnBossDeathGameWin(), NULL, NULL);
@@ -443,9 +443,11 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Dead()
 	{
-		_monsterHelper->_isDead = true;
-		_dieAudio->Play();
-
-
+		if (!_isDeadInit)
+		{
+			_monsterHelper->_isDead = true;
+			_dieAudio->Play();
+			_isDeadInit = true;
+		}
 	}
 }
