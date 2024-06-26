@@ -41,11 +41,11 @@ namespace Pg::Data
 		virtual void OnCollisionStay() {}
 		virtual void OnCollisionExit(PhysicsCollision** _colArr, unsigned int count) {}
 
-		virtual void OnTriggerEnter(Collider** _colArr, unsigned int count) {};
+		virtual void OnTriggerEnter(Collider** _colArr, unsigned int count) {}
 		virtual void OnTriggerStay() {}
-		virtual void OnTriggerExit(Collider** _colArr, unsigned int count) {};
+		virtual void OnTriggerExit(Collider** _colArr, unsigned int count) {}
 
-		virtual void OnAnimationEnd() {}
+		virtual void OnAnimationEnd(const std::string& justEndedAnimation) {}
 
 		virtual void OnSerialize(SerializeVector& sv) {}
 		virtual void OnDeserialize(SerializeVector& sv) {}

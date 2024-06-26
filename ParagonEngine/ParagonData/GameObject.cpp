@@ -524,16 +524,20 @@ namespace Pg::Data
 		}
 		if (_isTurnedOnAnimationEnd)
 		{
-			std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
-				{ iter.second->OnAnimationEnd(); });
+			std::string justEndedAnimation = _tempRecordJustEndedAnimation;
+
+			std::for_each(_componentList.begin(), _componentList.end(), [justEndedAnimation](auto& iter)
+				{ iter.second->OnAnimationEnd(justEndedAnimation); });
 
 			_isTurnedOnAnimationEnd = false;
+			_tempRecordJustEndedAnimation = "";
 		}
 	}
 
-	void GameObject::TurnOnAnimationEnd()
+	void GameObject::TurnOnAnimationEnd(const std::string& justEndedAnimation)
 	{
 		_isTurnedOnAnimationEnd = true;
+		_tempRecordJustEndedAnimation = justEndedAnimation;
 	}
 
 	void GameObject::OnSceneChange_Global(Pg::Data::Scene* changedScene)

@@ -9,7 +9,7 @@ namespace Pg::Data
 {
 	Camera::Camera(Pg::Data::GameObject* obj) :
 		Pg::Data::Component(obj),
-		_nearZ(0.1f), _farZ(300.0f), _fovY(PG_PI * 0.4f)
+		_nearZ(10.0f), _farZ(80.0f), _fovY(PG_PI * 0.4f)
 	{
 		FACTORY_INIT;
 

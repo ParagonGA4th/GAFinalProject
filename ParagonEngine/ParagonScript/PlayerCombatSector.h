@@ -40,7 +40,7 @@ namespace Pg::DataScript
 		void Update();
 		void FixedUpdate();
 		void LateUpdate();
-		void OnAnimationEnd();
+		void OnAnimationEnd(const std::string& justEndedAnimation);
 
 	public:
 		//IObserver : 전체적인 Event 전달을 기준으로 작동할 것.
