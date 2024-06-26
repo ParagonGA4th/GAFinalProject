@@ -10,6 +10,8 @@
 
 namespace Pg::DataScript
 {
+	class PauseBox;
+
 	class BossStageGUIHandler : public ScriptInterface<BossStageGUIHandler>, public BaseGUIHandler
 	{
 		DEFINE_PARAGON_SCRIPT(BossStageGUIHandler);
@@ -23,6 +25,11 @@ namespace Pg::DataScript
 		//필수 구현.
 		virtual void AssignPointersToGUI() override;
 
+		//얘만 독특하게 관리하게 할 때. 
+		virtual void AdditionalReset() override;
+
+	private:
+		PauseBox* _pauseBox;
 	};
 }
 
