@@ -166,7 +166,20 @@ namespace Pg::DataScript
 		return _playerCombatSector.get();
 	}
 
-	
+	const float* PlayerHandler::ReturnPlayerHealthPointPointerConst() const
+	{
+		return &healthPoint;
+	}
+
+	const float* PlayerHandler::ReturnPlayerManaPointPointerConst() const
+	{
+		return &manaPoint;
+	}
+
+	const float* PlayerHandler::ReturnPlayerStaminaPointPointerConst() const
+	{
+		return &staminaPoint;
+	}
 	
 
 }

@@ -98,6 +98,12 @@ namespace Pg::DataScript
 		PlayerMovementSector* GetPlayerMovementSector();
 		PlayerCombatSector* GetPlayerCombatSector();
 
+	public:
+		//GUI를 보여주기 위해, 수정이 불가능한 포인터를 반환하게 한다.
+		const float* ReturnPlayerHealthPointPointerConst() const;
+		const float* ReturnPlayerManaPointPointerConst() const;
+		const float* ReturnPlayerStaminaPointPointerConst() const;
+
 	private:
 		CombatSystem* _combatSystem{ nullptr };
 		ComboSystem* _comboSystem{ nullptr };

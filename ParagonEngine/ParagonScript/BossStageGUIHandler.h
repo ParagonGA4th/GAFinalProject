@@ -1,6 +1,6 @@
 #pragma once
 #include "ScriptInterface.h"
-#include "IGUIHandler.h"
+#include "BaseGUIHandler.h"
 #include "GUIDefinesAndStructs.h"
 
 #include "../ParagonMath/PgMath.h"
@@ -10,7 +10,7 @@
 
 namespace Pg::DataScript
 {
-	class BossStageGUIHandler : public ScriptInterface<BossStageGUIHandler>, public IGUIHandler
+	class BossStageGUIHandler : public ScriptInterface<BossStageGUIHandler>, public BaseGUIHandler
 	{
 		DEFINE_PARAGON_SCRIPT(BossStageGUIHandler);
 	public:
@@ -20,12 +20,8 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
-		//IGUI Handler.
-		virtual void ResetToInitialState() override;
-
-	private:
-		//Obj Name / GUIAggregate
-		std::unordered_map<std::string, GUIAggregate> _managedGuiObjectList;
+		//필수 구현.
+		virtual void AssignPointersToGUI() override;
 
 	};
 }

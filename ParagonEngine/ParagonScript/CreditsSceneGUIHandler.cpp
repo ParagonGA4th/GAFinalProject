@@ -7,6 +7,12 @@ namespace Pg::DataScript
 
 	}
 
+	void CreditsSceneGUIHandler::GrabManagedObjects()
+	{
+		GrabOrganizeAllGUI(_object);
+		AssignPointersToGUI();
+	}
+
 	void CreditsSceneGUIHandler::Awake()
 	{
 
@@ -22,9 +28,11 @@ namespace Pg::DataScript
 
 	}
 
-	void CreditsSceneGUIHandler::ResetToInitialState()
+	void CreditsSceneGUIHandler::AssignPointersToGUI()
 	{
-		
+		//
 	}
+
+	
 
 }

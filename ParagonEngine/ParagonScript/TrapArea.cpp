@@ -12,76 +12,90 @@
 
 #include <singleton-cpp/singleton.h>
 
-Pg::DataScript::TrapArea::TrapArea(Pg::Data::GameObject* obj)
-	: ScriptInterface(obj)
+namespace Pg::DataScript
 {
-}
-
-void Pg::DataScript::TrapArea::Awake()
-{
-	_collider = _object->GetComponent<Pg::Data::StaticBoxCollider>();
-	assert(_collider != nullptr);
-
-	auto& tdelta = singleton<Pg::API::Time::PgTime>();
-	_deltaTime = &tdelta;
-}
-
-void Pg::DataScript::TrapArea::Start()
-{
-}
-
-void Pg::DataScript::TrapArea::Update()
-{
-	//Exit 할 때 nullptr 할당 해줘야. CombatSystem을 통한 연결 작업 중, 일단은 보여줘야 하니 이렇게 ㄱㄱ!
-	if (_playerBattleBehavior != nullptr)
+	TrapArea::TrapArea(Pg::Data::GameObject* obj)
+		: ScriptInterface(obj)
 	{
-		auto dcol = _playerBattleBehavior->_object->GetComponent<Pg::Data::DynamicCollider>();
+	}
 
-		if (_onTriggerStay)
+	void TrapArea::Awake()
+	{
+		_collider = _object->GetComponent<Pg::Data::StaticBoxCollider>();
+		assert(_collider != nullptr);
+
+		auto& tdelta = singleton<Pg::API::Time::PgTime>();
+		_deltaTime = &tdelta;
+	}
+
+	void TrapArea::Start()
+	{
+	}
+
+	void TrapArea::Update()
+	{
+		//Exit 할 때 nullptr 할당 해줘야. CombatSystem을 통한 연결 작업 중, 일단은 보여줘야 하니 이렇게 ㄱㄱ!
+		if (_playerBattleBehavior != nullptr)
 		{
-			// 플레이어의 체력이 계속 깎여야 함
-			_playerBattleBehavior->healthPoint -= _deltaTime->GetDeltaTime() * _damage;
-			auto mesh = _playerBattleBehavior->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-			mesh->SetActive(!mesh->GetActive());
+			auto dcol = _playerBattleBehavior->_object->GetComponent<Pg::Data::DynamicCollider>();
+
+			if (_onTriggerStay)
+			{
+				// 플레이어의 체력이 계속 깎여야 함
+				_playerBattleBehavior->healthPoint -= _deltaTime->GetDeltaTime() * _damage;
+				auto mesh = _playerBattleBehavior->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+				mesh->SetActive(!mesh->GetActive());
+			}
 		}
 	}
-}
 
-void Pg::DataScript::TrapArea::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
-{
-	for (int i = 0; i < count; i++)
+	void TrapArea::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
 	{
-		Pg::Data::Collider* col = _colArr[i];
-		if (col->_object->GetTag() == "TAG_Player")
+		for (int i = 0; i < count; i++)
 		{
-			_onTriggerStay = true;
+			Pg::Data::Collider* col = _colArr[i];
+			if (col->_object->GetTag() == "TAG_Player")
+			{
+				_onTriggerStay = true;
 
-			// 플레이어의 움직임이 느려져야 함
-			_playerBattleBehavior = col->_object->GetComponent<Pg::DataScript::PlayerHandler>();
-			//_playerMovement = col->_object->GetComponent<Pg::DataScript::PlayerMovementSector>();
-			assert(_playerBattleBehavior != nullptr);
-			//assert(_playerBattleBehavior != nullptr && _playerMovement != nullptr);
+				// 플레이어의 움직임이 느려져야 함
+				_playerBattleBehavior = col->_object->GetComponent<Pg::DataScript::PlayerHandler>();
+				//_playerMovement = col->_object->GetComponent<Pg::DataScript::PlayerMovementSector>();
+				assert(_playerBattleBehavior != nullptr);
+				//assert(_playerBattleBehavior != nullptr && _playerMovement != nullptr);
 
-			_previousMoveSpeed = _playerBattleBehavior->GetPlayerMoveSpeed();
-			_playerBattleBehavior->SetPlayerMoveSpeed( _previousMoveSpeed / 2.0f);
+				_previousMoveSpeed = _playerBattleBehavior->GetPlayerMoveSpeed();
+				_playerBattleBehavior->SetPlayerMoveSpeed(_previousMoveSpeed / 2.0f);
+			}
 		}
 	}
-}
 
-void Pg::DataScript::TrapArea::OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count)
-{
-	for (int i = 0; i < count; i++)
+	void TrapArea::OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count)
 	{
-		Pg::Data::Collider* col = _colArr[i];
-		if (col->_object->GetTag() == "TAG_Player")
+		for (int i = 0; i < count; i++)
 		{
-			_onTriggerStay = false;
+			Pg::Data::Collider* col = _colArr[i];
+			if (col->_object->GetTag() == "TAG_Player")
+			{
+				_onTriggerStay = false;
 
-			// 플레이어의 속도가 돌아와야 함
-			_playerBattleBehavior->SetPlayerMoveSpeed(_previousMoveSpeed);
+				// 플레이어의 속도가 돌아와야 함
+				_playerBattleBehavior->SetPlayerMoveSpeed(_previousMoveSpeed);
 
-			auto mesh = _playerBattleBehavior->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-			mesh->SetActive(true);
+				auto mesh = _playerBattleBehavior->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+				mesh->SetActive(true);
+			}
 		}
 	}
+
+	unsigned int TrapArea::GetDesignatedAreaIndex()
+	{
+		return _areaIndex;
+	}
+
+	void TrapArea::ResetAll()
+	{
+		_isActivated = true;
+	}
+
 }

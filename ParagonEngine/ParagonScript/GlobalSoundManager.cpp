@@ -28,10 +28,14 @@ namespace Pg::DataScript
 			_isManagingInitializeCalled = true;
 		}
 
+		if (_currentScene != nullptr)
+		{
+			StopAllSoundGroups();
+		}
+
 		//πŸ≤Ô æ¿ ¿˙¿Â.
 		_currentScene = changedScene;
 
-		StopAllSoundGroups();
 	}
 
 	void GlobalSoundManager::Initialize(Pg::Data::Scene* changedScene)

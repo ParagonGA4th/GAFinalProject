@@ -13,6 +13,7 @@ namespace Pg::Data
 	class BoxCollider;
 	class MonsterHelper;
 	class StaticBoxCollider;
+	class AudioSource;
 }
 
 namespace Pg::API
@@ -39,9 +40,6 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
-		//플레이어에게 어떤 몬스터인지를 전달하기 위함.
-		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() override;
-
 		//플레이어 발견하지 않을때 하는 행동
 		void Idle();
 
@@ -60,6 +58,16 @@ namespace Pg::DataScript
 		//피격 시 호출되는 함수
 		void Hit();
 
+	public:
+		BEGIN_VISITABLES(MimicBehaviour);
+		VISITABLE(unsigned int, _areaIndex);
+		END_VISITABLES;
+
+	public:
+		//플레이어에게 어떤 몬스터인지를 전달하기 위함.
+		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() override { return _mimicInfo; }
+		virtual unsigned int GetBelongAreaIndex() override { return _areaIndex; }
+
 	private:
 		Pg::API::Time::PgTime* _pgTime;
 		Pg::API::PgScene* _pgScene;
@@ -76,6 +84,10 @@ namespace Pg::DataScript
 		//몬스터가 리스폰 될 위치
 		Pg::Math::PGFLOAT3 _respawnPos;
 
+		Pg::Data::GameObject* _mimicMoveSound;
+		Pg::Data::AudioSource* _moveAudio;
+
+	private:
 		//플레이어와의 거리 측정
 		float _distance;
 		float _startAttackTime;
@@ -91,6 +103,7 @@ namespace Pg::DataScript
 		bool _isDash;			//돌진 여부
 		bool _hasDashed;		//돌진했는지 여부
 
+		bool _isMoving{ false };
 	public:
 		//미믹의 상태와 수치에 대한 정보.
 		MimicInfo* _mimicInfo;

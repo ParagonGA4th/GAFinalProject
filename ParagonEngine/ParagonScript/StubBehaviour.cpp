@@ -135,24 +135,24 @@ namespace Pg::DataScript
 
 			if (_monsterHelper->_trentState == Pg::Data::TrentState::SKILL_ATTACK)
 			{
-				PG_TRACE("Skill!");
+				//PG_TRACE("Skill!");
 				Skill(true); // 스킬 사용
 			}
 			if (_monsterHelper->_trentState == Pg::Data::TrentState::SKILL_COOLDOWN)
 			{
-				PG_TRACE("Skill CoolDown!");
+				//PG_TRACE("Skill CoolDown!");
 				Skill(false); // 스킬 종료
 			}
 			if (_monsterHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_1 ||
 				_monsterHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_2 ||
 				_monsterHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_3)
 			{
-				PG_TRACE("Attack!");
+				//PG_TRACE("Attack!");
 				Attack(_monsterHelper->_isAnimChange);
 			}			
 			if (_monsterHelper->_trentState == Pg::Data::TrentState::BASICATTACK_COOLDOWN)
 			{
-				PG_TRACE("Attack CoolDown!");
+				//PG_TRACE("Attack CoolDown!");
 				Attack(false);
 			}
 
@@ -305,10 +305,5 @@ namespace Pg::DataScript
 		_dieSound->Play();
 		_stubInfo->_status = StubStatus::DEAD;
 		_monsterHelper->_isDead = true;
-	}
-
-	BaseMonsterInfo* StubBehaviour::ReturnBaseMonsterInfo()
-	{
-		return _stubInfo;
 	}
 }

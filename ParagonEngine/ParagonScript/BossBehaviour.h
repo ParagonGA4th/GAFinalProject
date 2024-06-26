@@ -13,6 +13,7 @@ namespace Pg::Data
 	class CapsuleCollider;
 	class StaticBoxCollider;
 	class MonsterHelper;
+	class AudioSource;
 }
 
 namespace Pg::API
@@ -38,9 +39,6 @@ namespace Pg::DataScript
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;
-
-		//플레이어에게 어떤 몬스터인지를 전달하기 위함.
-		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() override;
 
 		//플레이어를 쫓는 함수
 		void Chase();
@@ -70,6 +68,16 @@ namespace Pg::DataScript
 		//피격 시 죽음.
 		void Dead();
 
+	public:
+		BEGIN_VISITABLES(BossBehaviour);
+		VISITABLE(unsigned int, _areaIndex);
+		END_VISITABLES;
+
+	public:
+		//플레이어에게 어떤 몬스터인지를 전달하기 위함.
+		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() override { return _bossInfo; }
+		virtual unsigned int GetBelongAreaIndex() override { return _areaIndex; }
+
 	private:
 		Pg::API::Time::PgTime* _pgTime;
 		Pg::API::PgScene* _pgScene;
@@ -83,10 +91,14 @@ namespace Pg::DataScript
 
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 
+		Pg::Data::GameObject* _bossWalkSound;
+		Pg::Data::AudioSource* _walkAudio;
+
 	public:
 		//골렘보스의 상태와 수치에 대한 정보.
 		BossInfo* _bossInfo;
 
+	private:
 		float _distance;				//보스와 플레이어와의 거리
 		bool _isPlayerInit{ false };
 
@@ -111,6 +123,7 @@ namespace Pg::DataScript
 		bool _hasEvaded{ false };
 		float _evadeCooldownTime = 0.f;
 
+		bool _isMoving{ false };
 	};
 }
 

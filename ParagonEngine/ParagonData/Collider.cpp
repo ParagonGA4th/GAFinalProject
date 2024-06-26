@@ -229,7 +229,7 @@ namespace Pg::Data
 		std::string tRes = "Collider_OnTriggerEnter : ";
 		//
 		// 
-		PG_TRACE(tRes.append(this->_object->GetName()).c_str());
+		//PG_TRACE(tRes.append(this->_object->GetName()).c_str());
 
 		this->_isTrigger = true;
 		this->_wasTriggered = false;

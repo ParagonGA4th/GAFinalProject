@@ -142,15 +142,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AreaPassingTrigger.h" />
     <ClInclude Include="ArrowLogic.h" />
     <ClInclude Include="ArrowShooterBehavior.h" />
+    <ClInclude Include="BossAttack.h" />
     <ClInclude Include="BossStageAreaHandler.h" />
     <ClInclude Include="BossStageEnemyHandler.h" />
     <ClInclude Include="BossStageGUIHandler.h" />
+    <ClInclude Include="DeathPlane.h" />
     <ClInclude Include="EnemyDefinesAndStructs.h" />
     <ClInclude Include="GUIDefinesAndStructs.h" />
+    <ClInclude Include="GUI_PercentageFillBar.h" />
     <ClInclude Include="HandleBundle3D.h" />
-    <ClInclude Include="IAreaHandler.h" />
+    <ClInclude Include="BaseAreaHandler.h" />
     <ClInclude Include="BaseMonster.h" />
     <ClInclude Include="BattleArea.h" />
     <ClInclude Include="BossBehaviour.h" />
@@ -167,11 +171,13 @@
     <ClInclude Include="EventList_GameFlowRelated.h" />
     <ClInclude Include="EventList_PlayerRelated.h" />
     <ClInclude Include="ExitButton.h" />
-    <ClInclude Include="IEnemyHandler.h" />
-    <ClInclude Include="IGUIHandler.h" />
+    <ClInclude Include="BaseEnemyHandler.h" />
+    <ClInclude Include="BaseGUIHandler.h" />
+    <ClInclude Include="IConfinedArea.h" />
     <ClInclude Include="IMovableObject.h" />
     <ClInclude Include="InGameManager.h" />
     <ClInclude Include="IProjectile.h" />
+    <ClInclude Include="ISingleGUI.h" />
     <ClInclude Include="MimicAttack.h" />
     <ClInclude Include="MiniGolemAttack.h" />
     <ClInclude Include="MovingObjectDefinesAndStructs.h" />
@@ -221,10 +227,15 @@
     <ClInclude Include="TrentAttack.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AreaPassingTrigger.cpp" />
     <ClCompile Include="ArrowLogic.cpp" />
     <ClCompile Include="ArrowShooterBehavior.cpp" />
+    <ClCompile Include="BaseAreaHandler.cpp" />
+    <ClCompile Include="BaseEnemyHandler.cpp" />
+    <ClCompile Include="BaseGUIHandler.cpp" />
     <ClCompile Include="BaseMonster.cpp" />
     <ClCompile Include="BattleArea.cpp" />
+    <ClCompile Include="BossAttack.cpp" />
     <ClCompile Include="BossBehaviour.cpp" />
     <ClCompile Include="BossInfo.cpp" />
     <ClCompile Include="BossStageAreaHandler.cpp" />
@@ -233,12 +244,14 @@
     <ClCompile Include="CameraShake.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="ComboSystem.cpp" />
+    <ClCompile Include="DeathPlane.cpp" />
     <ClCompile Include="EnemyAttack.cpp" />
     <ClCompile Include="EnemyBehaviour.cpp" />
     <ClCompile Include="EnemySight.cpp" />
     <ClCompile Include="EventTest.cpp" />
     <ClCompile Include="ExitButton.cpp" />
     <ClCompile Include="FactoryHelper.cpp" />
+    <ClCompile Include="GUI_PercentageFillBar.cpp" />
     <ClCompile Include="InGameManager.cpp" />
     <ClCompile Include="CreditsSceneGUIHandler.cpp" />
     <ClCompile Include="PlayerCombatSector.cpp" />

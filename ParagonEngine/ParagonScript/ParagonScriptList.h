@@ -24,6 +24,8 @@
 #include "EnemyBehaviour.h"
 #include "EnemySight.h"
 #include "Portal.h"
+#include "AreaPassingTrigger.h"
+#include "DeathPlane.h"
 
 //UI 관련 (개별)
 #include "TitleScene.h"
@@ -31,6 +33,7 @@
 #include "ExitButton.h"
 #include "PauseBox.h"
 #include "NavAgent.h"
+#include "GUI_PercentageFillBar.h"
 
 //사운드 관련
 #include "SoundManager.h"
@@ -44,6 +47,7 @@
 #include "MiniGolemAttack.h"
 #include "TrentAttack.h"
 #include "MimicAttack.h"
+#include "BossAttack.h"
 
 //글로벌 매니저용
 #include "TotalGameManager.h"
