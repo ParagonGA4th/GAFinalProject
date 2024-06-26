@@ -31,6 +31,7 @@ namespace Pg::API
 namespace Pg::DataScript
 {
 	class CombatSystem;
+	class CameraShake;
 
 	class BossBehaviour : public ScriptInterface<BossBehaviour>, public IEnemyBehaviour
 	{
@@ -111,6 +112,7 @@ namespace Pg::DataScript
 		BossInfo* _bossInfo;
 
 		CombatSystem* _combatSystem;
+		CameraShake* _cameraShake;
 	private:
 		float _distance;				//보스와 플레이어와의 거리
 		bool _isPlayerInit{ false };
