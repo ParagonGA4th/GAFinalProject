@@ -3,7 +3,7 @@
 namespace Pg::DataScript
 {
 	BossInfo::BossInfo(float fullHealth, float attackPower) : BaseMonsterInfo(fullHealth, attackPower),
-		_moveSpeed(2.f), _dashSpeed(10.0f), _attackRange(4.f),
+		_moveSpeed(2.f), _dashSpeed(10.0f), _attackRange(8.f),
 		_sightRange(15.f), _dashRange(14.f), _dashDuration(2.f),
 		_currentNeutralize(0.f), _endNeutralize(3.f), _currentEvadeTime(0.f),
 		_evadeDuration(2.f), _evadeSpeed(10.0f)
