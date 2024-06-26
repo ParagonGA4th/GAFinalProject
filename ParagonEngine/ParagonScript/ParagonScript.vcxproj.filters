@@ -277,6 +277,9 @@
     <Filter Include="3_Interfaces\Instances\IConfinedArea">
       <UniqueIdentifier>{425438f8-7b40-4fe4-80ee-5b2c9356d425}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\SortingLayer">
+      <UniqueIdentifier>{3ed7b03f-8241-4f02-91e6-f8a85898641c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -458,6 +461,9 @@
     </ClCompile>
     <ClCompile Include="BaseGUIHandler.cpp">
       <Filter>3_Interfaces\Handlers\BaseGUIHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="SetInGameSortingLayer.cpp">
+      <Filter>UI\SortingLayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -707,6 +713,9 @@
     </ClInclude>
     <ClInclude Include="IConfinedArea.h">
       <Filter>3_Interfaces\Instances\IConfinedArea</Filter>
+    </ClInclude>
+    <ClInclude Include="SetInGameSortingLayer.h">
+      <Filter>UI\SortingLayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

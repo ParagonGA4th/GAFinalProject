@@ -1,4 +1,5 @@
 #include "MiniGolemBehaviour.h"
+#include "CameraShake.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgScene.h"
@@ -110,6 +111,8 @@ namespace Pg::DataScript
 		_attackSound = _miniGolemAttack->GetComponent<Pg::Data::AudioSource>();
 
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
+
+		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 	}
 
 	void MiniGolemBehaviour::Update()
@@ -287,6 +290,7 @@ namespace Pg::DataScript
 	{
 		PG_TRACE("Hit!");
 
+		_cameraShake->CauseShake(0.25f);
 		_hitSound->Play();
 
 		//피격 애니메이션 들어가야 함.

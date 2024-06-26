@@ -185,6 +185,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="CreditsSceneGUIHandler.h" />
     <ClInclude Include="GlobalSoundManager.h" />
+    <ClInclude Include="SetInGameSortingLayer.h" />
     <ClInclude Include="Stage1AreaHandler.h" />
     <ClInclude Include="Stage1EnemyHandler.h" />
     <ClInclude Include="Stage1GUIHandler.h" />
@@ -258,6 +259,7 @@
     <ClCompile Include="GlobalSoundManager.cpp" />
     <ClCompile Include="MimicAttack.cpp" />
     <ClCompile Include="MiniGolemAttack.cpp" />
+    <ClCompile Include="SetInGameSortingLayer.cpp" />
     <ClCompile Include="Stage1AreaHandler.cpp" />
     <ClCompile Include="Stage1EnemyHandler.cpp" />
     <ClCompile Include="Stage1GUIHandler.cpp" />
