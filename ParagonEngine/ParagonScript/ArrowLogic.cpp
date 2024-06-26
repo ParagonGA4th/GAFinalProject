@@ -200,7 +200,8 @@ namespace Pg::DataScript
 
 			//Physics Layer로 검사한다.
 			//몬스터일 때 설정하는 것이니.
-			if (tRealOtherActor->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_MONSTER)
+			if (tRealOtherActor->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_MONSTER || 
+				tRealOtherActor->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_BOSS)
 			{
 
 				//몬스터 때렸다는 것.
