@@ -35,10 +35,14 @@ namespace Pg::DataScript
 	public:
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
 		virtual void OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count) override;
+
+	private:
+		void ConfinePlayer();
+		void DeactivateArea();
 		
 	public:
 		BEGIN_VISITABLES(BattleArea);
-		VISITABLE(unsigned int, _areaIndex);
+		VISITABLE_INIT(unsigned int, _areaIndex, 0);
 		END_VISITABLES;
 
 	private:
