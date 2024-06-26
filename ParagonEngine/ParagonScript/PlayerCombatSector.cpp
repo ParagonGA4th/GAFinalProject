@@ -214,7 +214,7 @@ namespace Pg::DataScript
 		_prevAnimationInput = tToPlayAnimationName;
 	}
 
-	void PlayerCombatSector::OnAnimationEnd()
+	void PlayerCombatSector::OnAnimationEnd(const std::string& justEndedAnimation)
 	{
 		// Loop가 안되는 모든 애니매이션의 flag는 여기서 false로 변경
 		_isHit = false;

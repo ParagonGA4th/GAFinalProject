@@ -136,6 +136,7 @@ namespace Pg::Data
 
 	void Scene::OnAnimationEnd()
 	{
+		//const std::string justEndedAnimation
 		std::for_each(_objectList.begin(), _objectList.end(), [](auto& iter)
 			{
 				if (iter->GetActive())
