@@ -99,6 +99,11 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _bossWalkSound;
 		Pg::Data::AudioSource* _walkAudio;
 
+		Pg::Data::GameObject* _bossRushSound;
+		Pg::Data::AudioSource* _rushAudio;
+
+		Pg::Data::GameObject* _bossDieSound;
+		Pg::Data::AudioSource* _dieAudio;
 	public:
 		//골렘보스의 상태와 수치에 대한 정보.
 		BossInfo* _bossInfo;
@@ -129,6 +134,7 @@ namespace Pg::DataScript
 		float _evadeCooldownTime = 0.f;
 
 		bool _isMoving{ false };
+		bool _isRushSoundPlaying{ false };
 	};
 }
 
