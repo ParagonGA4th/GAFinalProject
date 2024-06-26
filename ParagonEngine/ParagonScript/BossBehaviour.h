@@ -109,7 +109,8 @@ namespace Pg::DataScript
 		bool _hasDashed{ false };		//돌진했는지 여부
 		int _dashCount{ 0 };			//몇 번 돌진 했는지
 
-		bool _isNeutralize{ false };	//무력화 상태 여부
+		bool _isNeutralizeInit{ false };	//무력화 여부
+		bool _isNeutralize{ false };		//무력화 상태 여부
 
 		bool _isChasing{ true };		//추적 상태 여부
 

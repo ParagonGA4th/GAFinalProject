@@ -92,9 +92,25 @@ namespace Pg::DataScript
 		if (_distance <= _bossInfo->GetSightRange()) { _isPlayerInit = true; _monsterHelper->_isPlayerDetected = true; }
 		if (!_isPlayerInit) return;
 
+		Neutralize();
+		if (_isNeutralize) return;
+
+		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
+		{
+			//다 꺼짐.
+			_collider->SetActive(false);
+			_meshRenderer->SetActive(false);
+			_object->SetActive(false);
+
+			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 지정된 위치로 보내준다.
+			_object->_transform._position = { 0, -1000, 0 };
+
+			_monsterHelper->_isDead = false;
+			_monsterHelper->_isDeadDelay = false;
+		}
+
 		if (_isRotatingToPlayer)
 		{
-			Chase();
 			RotateToPlayer(_playerTransform->_position);
 			_rotateToPlayerTime += _pgTime->GetDeltaTime();
 
@@ -110,6 +126,7 @@ namespace Pg::DataScript
 				_monsterHelper->_isDash = false;
 			}
 
+			if (!_isDash) Chase();
 			// 3초 동안 바라본 후 돌진 시작
 			//if (_rotateToPlayerTime >= 3.0f)
 			//{
@@ -131,7 +148,9 @@ namespace Pg::DataScript
 			{
 				if (_distance <= _bossInfo->GetAttackRange())
 				{
+					_monsterHelper->_isPlayerinHitSpace = true;
 					_monsterHelper->_isPase_1 = true;
+
 					if (_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
 						_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_2 /*||
 						_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_3*/)
@@ -156,21 +175,6 @@ namespace Pg::DataScript
 		//		Evade();
 		//	}
 		//}
-		if(!_isDash) Chase();
-
-		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
-		{
-			//다 꺼짐.
-			_collider->SetActive(false);
-			_meshRenderer->SetActive(false);
-			_object->SetActive(false);
-
-			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 지정된 위치로 보내준다.
-			_object->_transform._position = { 0, -1000, 0 };
-
-			_monsterHelper->_isDead = false;
-			_monsterHelper->_isDeadDelay = false;
-		}
 	}
 
 	void BossBehaviour::Chase()
@@ -396,17 +400,26 @@ namespace Pg::DataScript
 			//무력화 상태 시작.
 			_bossInfo->SetCurrentNeutralize(_bossInfo->GetCurrentNeutralize() + _pgTime->GetDeltaTime());
 
-			_isNeutralize = true;
-			_monsterHelper->_isDown = true;
-
 			// 시간이 끝나면 상태를 변경
-			if (_isNeutralize && _bossInfo->GetCurrentNeutralize() >= _bossInfo->GetEndNeutralize())
+			if (_isNeutralizeInit && _bossInfo->GetCurrentNeutralize() >= _bossInfo->GetEndNeutralize())
 			{
 				//무력화 해제.
 				_isNeutralize = false;
-				//_monsterHelper->_isDown = false;
+				_monsterHelper->_isDown = false;
 				_bossInfo->SetCurrentNeutralize(0.f);
+				return;
 			}
+
+			if (!_isNeutralizeInit)
+			{
+				_monsterHelper->_isDown = true;
+				_monsterHelper->_isChase = false;
+				_monsterHelper->_isDash = false;
+				_monsterHelper->_isDistanceClose = false;
+			}
+
+			_isNeutralize = true;
+			_isNeutralizeInit = true;
 		}
 
 	}
