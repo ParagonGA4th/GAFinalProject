@@ -103,6 +103,20 @@ namespace Pg::DataScript
 		_distance = std::abs(std::sqrt(std::pow(plTrans._position.x - _object->_transform._position.x, 2)
 			+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
 
+		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
+		{
+			//다 꺼짐.
+			_collider->SetActive(false);
+			_meshRenderer->SetActive(false);
+			_object->SetActive(false);
+
+			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 지정된 위치로 보내준다.
+			_object->_transform._position = { 0, -1000, 0 };
+
+			_monsterHelper->_isDeadDelay = false;
+			_monsterHelper->_isDead = true;
+		}
+
 		// 시야 안에 들어왔을 때 쫓아가라.
 		if (_distance <= _mimicInfo->GetSightRange())
 		{
@@ -121,20 +135,6 @@ namespace Pg::DataScript
 			}
 
 		}
-
-		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
-		{
-			//다 꺼짐.
-			_collider->SetActive(false);
-			_meshRenderer->SetActive(false);
-			_object->SetActive(false);
-
-			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 지정된 위치로 보내준다.
-			_object->_transform._position = { 0, -1000, 0 };
-
-			_monsterHelper->_isDeadDelay = false;
-		}
-
 		//PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
 	}
 

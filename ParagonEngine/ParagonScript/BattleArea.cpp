@@ -30,7 +30,7 @@ namespace Pg::DataScript
 
 	void BattleArea::GrabManagedObjects()
 	{
-		
+
 	}
 
 	void BattleArea::Awake()
@@ -45,7 +45,7 @@ namespace Pg::DataScript
 			this->_enemyHandler = tHB->_enemyHandler;
 			assert(_enemyHandler != nullptr);
 		}
-		
+
 		_collider = _object->GetComponent<Pg::Data::SphereCollider>();
 		assert(_collider != nullptr);
 	}
@@ -59,20 +59,25 @@ namespace Pg::DataScript
 	{
 		// 1스테이지에서는 플레이어가 전투 구역에서 벗어나지 못하도록 막아주는 투명벽이 있음
 		// 플레이어가 전투 구역에 있는 모든 몬스터를 해치웠을 경우 빠져나갈 수 있음
+
 		if (_onTriggerStay)
 		{
-			//if (_player != nullptr)
-			//{
-			//	if (_isActivated)
-			//	{
-			//		ConfinePlayer();
-			//	}
-			//	else
-			//	{
-			//		PG_ERROR("EXITNOW");
-			//		DeactivateArea();
-			//	}
-			//}
+			if (_player != nullptr)
+			{
+				if (_object->GetScene()->GetSceneName() == "Stage1" || 
+					_object->GetScene()->GetSceneName() == "BossStage")
+				{
+					if (_isActivated)
+					{
+						ConfinePlayer();
+					}
+					else
+					{
+						PG_ERROR("EXITNOW");
+						DeactivateArea();
+					}
+				}
+			}
 		}
 	}
 
@@ -125,7 +130,7 @@ namespace Pg::DataScript
 	void BattleArea::ConfinePlayer()
 	{
 		auto dcol = _player->_object->GetComponent<Pg::Data::DynamicCollider>();
-		
+
 		//만약 SetActive가 True가 아니면 Set.
 		if (!dcol->GetActive())
 		{
