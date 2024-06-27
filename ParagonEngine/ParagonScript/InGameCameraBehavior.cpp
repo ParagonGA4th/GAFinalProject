@@ -46,6 +46,16 @@ namespace Pg::DataScript
 		_object->GetScene()->SetMainCamera(_selfCamera);
 	}
 
+	void InGameCameraBehavior::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper(this, sv);
+	}
+
+	void InGameCameraBehavior::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
+	}
+
 	void InGameCameraBehavior::Start()
 	{
 
@@ -107,9 +117,9 @@ namespace Pg::DataScript
 		using namespace DirectX;
 
 		//Target Position 설정. -> 나중에 Lerp할 때 반영될 것이다. 초기 상태 세팅.
-		_targetCamPosition.x = _playerTransform->_position.x + camOffset.x;
-		_targetCamPosition.y = _playerTransform->_position.y + camOffset.y;
-		_targetCamPosition.z = _playerTransform->_position.z + camOffset.z;
+		_targetCamPosition.x = _playerTransform->_position.x + _camOffset.x;
+		_targetCamPosition.y = _playerTransform->_position.y + _camOffset.y;
+		_targetCamPosition.z = _playerTransform->_position.z + _camOffset.z;
 
 		//Rotation은 바로 반영이 된다. -> 일단 초기 상태를 세팅.
 		
@@ -132,7 +142,7 @@ namespace Pg::DataScript
 			//	_currentRotationAmt += 1.f;
 			//}
 
-			float rotationAngle = XMConvertToRadians(fmod(_currentRotationAmt, 360.f));
+			float rotationAngle = XMConvertToRadians(fmod(_currentRotation, 360.f));
 
 			//Rotation Axis & Angle.
 			XMMATRIX rotationMatrix = XMMatrixRotationAxis(rotationAxis, rotationAngle);
