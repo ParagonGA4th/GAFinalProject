@@ -141,6 +141,8 @@ namespace Pg::Graphics
 		_renderer->UiRender(_camData);
 
 		_renderer->PostProcessingRender(_camData);
+
+		_renderer->DebugQuadsOverlayRender();
 	}
 
 	//Pg::Data::GameObject* GraphicsMain::GetPickedGameObjectWithRatios(float widthRatio, float heightRatio)

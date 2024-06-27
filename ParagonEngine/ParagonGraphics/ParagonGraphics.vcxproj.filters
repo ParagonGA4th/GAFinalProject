@@ -334,6 +334,7 @@
     <ClInclude Include="VisualEffectGraphicsSet.h">
       <Filter>10_Structs\VisualEffectGraphicsSet</Filter>
     </ClInclude>
+    <ClInclude Include="DebugOverlayQuad.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -606,6 +607,7 @@
     <ClCompile Include="VisualEffectRenderer.cpp">
       <Filter>8_Helpers\VisualEffectRenderer</Filter>
     </ClCompile>
+    <ClCompile Include="DebugOverlayQuad.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -1042,6 +1044,9 @@
     </Filter>
     <Filter Include="8_Helpers\VisualEffectRenderer">
       <UniqueIdentifier>{8c08ad47-7787-45d9-9d7f-9155336c525b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\DebugOverlayQuad">
+      <UniqueIdentifier>{e694605e-b4b8-4e36-ae4f-a9ba3394a9fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

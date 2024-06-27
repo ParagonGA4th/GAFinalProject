@@ -40,6 +40,7 @@ namespace Pg::Graphics
 		virtual void SetupRenderPasses() override;
 
 		void RenderPostProcessingStages(void* renderObjectList, Pg::Data::CameraData* camData);
+		void RenderDebugQuadsOverlay();
 
 		virtual void RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData) override;
 		virtual void ConfirmCarrierData() override;

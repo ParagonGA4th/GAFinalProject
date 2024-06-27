@@ -122,6 +122,11 @@ namespace Pg::Graphics
 		_finalRenderer->RenderPostProcessingStages(nullptr, camData);
 	}
 
+	void ParagonRenderer::DebugQuadsOverlayRender()
+	{
+		_finalRenderer->RenderDebugQuadsOverlay();
+	}
+
 	void ParagonRenderer::FinalRender(Pg::Data::CameraData* camData)
 	{
 		//내부적으로 알아서 구분해줄 것. (Picking에 따라 Outline 모드가 내부적으로 호출될 것이기 때문에!
@@ -297,4 +302,7 @@ namespace Pg::Graphics
 	{
 		_sceneParser->HandleRenderObjectsRuntime();
 	}
+
+	
+
 }
