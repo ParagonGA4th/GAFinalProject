@@ -36,6 +36,7 @@
     </ClInclude>
     <ClInclude Include="BaseSpecificRenderer.h" />
     <ClInclude Include="BloomRenderPass.h" />
+    <ClInclude Include="DebugOverlayQuad.h" />
     <ClInclude Include="DirectXTexEXR.h" />
     <ClInclude Include="FirstInstancedRenderPass.h" />
     <ClInclude Include="IndividualLightsGPU.h" />
@@ -174,6 +175,7 @@
     </ClCompile>
     <ClCompile Include="BaseSpecificRenderer.cpp" />
     <ClCompile Include="BloomRenderPass.cpp" />
+    <ClCompile Include="DebugOverlayQuad.cpp" />
     <ClCompile Include="DirectXTexEXR.cpp" />
     <ClCompile Include="FirstInstancedRenderPass.cpp" />
     <ClCompile Include="LightmapManager.cpp" />

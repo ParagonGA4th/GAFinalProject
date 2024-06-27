@@ -78,6 +78,7 @@ namespace Pg::Graphics
 		void DebugRender(Pg::Data::CameraData* camData);	// 별도로 Debug Render를 한다.
 		void UiRender(Pg::Data::CameraData* camData);		// 2D UI를 렌더링한다.
 		void PostProcessingRender(Pg::Data::CameraData* camData); //PostProcessing을 렌더링한다.
+		void DebugQuadsOverlayRender();
 		void FinalRender(Pg::Data::CameraData* camData);	// MainRenderTarget으로 보내주는 역할을 한다.
 		void EndRender();
 
