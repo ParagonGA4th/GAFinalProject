@@ -56,7 +56,7 @@ namespace Pg::Data
 		float _fillRatio = 100.f;
 
 		//FillRatio 채워지는 양상.
-		eFillRatioDirection _fillRatioDirection{ eFillRatioDirection::LEFT_TO_RIGHT };
+		eFillRatioDirection _fillRatioDirection{ eFillRatioDirection::DOWN_TO_UP };
 	};
 }
 
