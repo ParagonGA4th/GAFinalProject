@@ -133,27 +133,31 @@ namespace Pg::DataScript
 
 
 			float rotationAngle = 0.f;
-			//{
-			//	Pg::Math::PGFLOAT3 tPlayerPosition = _playerTransform->_position;
-			//	tPlayerPosition.y = tCenterOfCircle.y;
-			//	Pg::Math::PGFLOAT3 tCenterLookVector = PGFloat3Normalize(tPlayerPosition - tCenterOfCircle);
-			//	tCenterLookVector = PGReflectVectorAgainstAxis(tCenterLookVector, Pg::Math::PGFLOAT3::GlobalForward());
-			//
-			//	tRotAmount = PGFloat3Dot(tCenterLookVector, Pg::Math::PGFLOAT3::GlobalForward());
-			//	tRotAmount *= 360.f;
-			//
-			//	rotationAngle = XMConvertToRadians(tRotAmount);
-			//}
 			{
-				if (GetAsyncKeyState(VK_LSHIFT) & 0x8000)
-				{
-					tRotAmount += 1.f;
-				}
+				Pg::Math::PGFLOAT3 tPlayerPosition = _playerTransform->_position;
+				tPlayerPosition.y = tCenterOfCircle.y;
+				Pg::Math::PGFLOAT3 tCenterLookVector = -PGFloat3Normalize(tPlayerPosition - tCenterOfCircle);
+				//tCenterLookVector = PGReflectVectorAgainstAxis(tCenterLookVector, Pg::Math::PGFLOAT3::GlobalForward());
+				rotationAngle = XMVectorGetX(XMVector3AngleBetweenVectors(PG2XM_FLOAT3_VECTOR(tCenterLookVector), PG2XM_FLOAT3_VECTOR(Pg::Math::PGFLOAT3::GlobalForward())));
 
-				rotationAngle = XMConvertToRadians(fmod(tRotAmount, 360.f));
+				
+
+				//tRotAmount = PGFloat3Dot(tCenterLookVector, Pg::Math::PGFLOAT3::GlobalForward());
+				//tRotAmount *= 360.f;
+
+				//rotationAngle = XMConvertToRadians(tRotAmount);
+				//PG_ERROR(std::to_string(tRotAmount));
 			}
+			//{
+			//	if (GetAsyncKeyState(VK_LSHIFT) & 0x8000)
+			//	{
+			//		tRotAmount += 1.f;
+			//	}
+			//
+			//	rotationAngle = XMConvertToRadians(fmod(tRotAmount, 360.f));
+			//	PG_ERROR(std::to_string(fmod(tRotAmount,360.f)));
+			//}
 
-			PG_ERROR(std::to_string(fmod(tRotAmount,360.f)));
 
 
 			//Rotation Axis & Angle.
