@@ -169,6 +169,7 @@ namespace Pg::DataScript
 		//일단 무조건 안 움직인다고 생각하고, 움직일 떄만 Animation 적용.
 		_isMoving_Animation = false;
 
+
 		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveFront))
 		{
 			//_selfCol->AddForce(relativeForward, Pg::Data::ForceMode::eFORCE);
