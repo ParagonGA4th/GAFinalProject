@@ -48,6 +48,9 @@ namespace Pg::DataScript
 		END_VISITABLES;
 
 	private:
+		void Default_PlayerFollowMode();
+		void Boss_RotateAroundMode();
+
 		void UpdateTargetTransforms();
 		void LerpFollowPlayer();
 
