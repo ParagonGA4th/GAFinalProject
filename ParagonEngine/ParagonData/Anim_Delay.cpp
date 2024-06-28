@@ -47,6 +47,11 @@ namespace Pg::Data::BTree::Node
 				config().blackboard->set<std::string>("PREVANIM", "");
 			}
 
+			if (GetGameObject()->GetName().find("Stub") != std::string::npos)
+			{
+				config().blackboard->set<bool>("COOLINIT", false);
+			}
+
 			return BT::NodeStatus::FAILURE;
 		}
 		else
