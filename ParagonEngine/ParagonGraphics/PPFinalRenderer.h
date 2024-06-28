@@ -12,6 +12,9 @@
 #include "BloomRenderPass.h"
 #include "LUTRenderPass.h"
 
+//DebugOverlayQuads
+#include "DebugOverlayQuad.h"
+
 namespace Pg::Data
 {
 	class GameObject;
@@ -40,7 +43,7 @@ namespace Pg::Graphics
 		virtual void SetupRenderPasses() override;
 
 		void RenderPostProcessingStages(void* renderObjectList, Pg::Data::CameraData* camData);
-		void RenderDebugQuadsOverlay();
+		void RenderDebugQuadsOverlay(); // TO ADD.
 
 		virtual void RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData) override;
 		virtual void ConfirmCarrierData() override;
@@ -60,6 +63,7 @@ namespace Pg::Graphics
 	private:
 		void InitPostProcessingQuads();
 		void CreateStagingPickingBuffer();
+		void CreateDebugOverlayQuads(); // TO ADD.
 	private:
 		//PostProcessing은 전부 같은 버텍스 셰이더 활용, 이를 분리했다.
 		std::unique_ptr<SystemVertexShader> _ppSystemVertexShader;
@@ -70,6 +74,8 @@ namespace Pg::Graphics
 		//PostProcessing Passes.
 		std::vector<std::unique_ptr<IRenderSinglePass>> _postprocessingRenderPassList;
 
+		//DebugOverlayQuads
+		std::vector<std::unique_ptr<DebugOverlayQuad>> _debugOverlayQuadList;
 	
 
 		ID3D11Texture2D* _pickingStagingBuffer = nullptr;

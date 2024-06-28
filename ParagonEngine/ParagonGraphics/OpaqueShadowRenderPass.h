@@ -5,8 +5,7 @@
 #include <memory>
 
 /// <summary>
-/// Main Light 기준 Depth 기록 + Main Light 기준 WVP 값 기록.
-/// Pixel 
+/// 
 /// </summary>
 
 namespace Pg::Graphics
