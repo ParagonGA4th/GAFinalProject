@@ -22,7 +22,7 @@ namespace Pg::Data::BTree::Node
 		static BT::PortsList providedPorts()
 		{
 			BT::PortsList list;
-			list.insert(BT::BidirectionalPort<bool>("_isCoolDownAnimEnd"));
+			list.insert(BT::BidirectionalPort<bool>("_coolDownInit"));
 
 			return list;
 		}
