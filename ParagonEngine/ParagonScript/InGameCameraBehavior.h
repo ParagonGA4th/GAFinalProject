@@ -32,7 +32,7 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void FixedUpdate() override;
 
-		Pg::Math::PGFLOAT3 GetTargetCamPosition(); 
+		Pg::Math::PGFLOAT3 GetTargetCamPosition();
 
 
 		//스테이지 마다 시점이 다를 경우를 대비해 수정 가능하게 변경
@@ -57,8 +57,6 @@ namespace Pg::DataScript
 	private:
 		Pg::Data::Transform* _playerTransform{ nullptr };
 		Pg::Data::Camera* _selfCamera{ nullptr };
-		//const Pg::Math::PGFLOAT3 camOffset{ -15, 10, -15 };
-		
 
 
 	private:

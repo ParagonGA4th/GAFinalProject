@@ -61,9 +61,9 @@ namespace Pg::DataScript
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			// 자식 오브젝트의 이름을 얻어옵니다.
-			std::string childName = iter->_object->GetName();
+			std::string childTag = iter->_object->GetTag();
 
-			if (childName == "BossBasicAttackRange")
+			if (childTag == "TAG_Attack")
 			{
 				Pg::Data::StaticBoxCollider* basicStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
 				if (basicStaticCol != nullptr)
@@ -72,9 +72,14 @@ namespace Pg::DataScript
 					basicStaticCol->SetActive(false);  // 비활성화
 				}
 			}
-			else if (childName == "TrentSkillAttackRange")
+			else if (childTag == "TAG_WindBlast")
 			{
-
+				Pg::Data::StaticBoxCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (skillStaticCol != nullptr)
+				{
+					_windBlastAttackCol.push_back(skillStaticCol);
+					skillStaticCol->SetActive(false);
+				}
 			}
 		}
 	}
@@ -130,7 +135,7 @@ namespace Pg::DataScript
 
 		///회피와 돌진을 테스트하기 위한 임의의 로직.
 		///애니메이션을 통한 행동 패턴에 맞게 들어갈 예정.
-	// 보스가 플레이어를 바라보고 있는 시간 추적
+		// 보스가 플레이어를 바라보고 있는 시간 추적
 		if (_distance <= _bossInfo->GetSightRange()) { _isPlayerInit = true; _monsterHelper->_isPlayerDetected = true; }
 		if (!_isPlayerInit) return;
 
@@ -190,7 +195,8 @@ namespace Pg::DataScript
 						_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_2 /*||
 						_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_3*/)
 					{
-						Attack(_monsterHelper->_isAnimChange);
+						//Attack(_monsterHelper->_isAnimChange);
+						_useStormBlast = true;
 					}
 					if (_monsterHelper->_bossState == Pg::Data::BossState::IDLE)
 					{
@@ -203,17 +209,9 @@ namespace Pg::DataScript
 				}
 			}
 		}
-		//else
-		//{
-		//	if (_isDash)
-		//	{
-		//		Dash();
-		//	}
-		//	else if (_hasEvaded)
-		//	{
-		//		Evade();
-		//	}
-		//}
+
+		//돌풍 스킬
+		UpdateSkill();
 	}
 
 	void BossBehaviour::Chase()
@@ -342,6 +340,40 @@ namespace Pg::DataScript
 		//{
 		//	iter->SetActive(_isSkill);
 		//}
+	}
+
+	void BossBehaviour::UpdateSkill()
+	{
+		// 돌풍 스킬의 이동 및 충돌 처리
+		if (_useStormBlast)
+		{
+			float elapsed = _bossInfo->GetStartWindBlastTime() + _pgTime->GetDeltaTime();
+
+			if (elapsed < _bossInfo->GetWindBlastDuration())
+			{
+				Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
+				forwardDir.y = 0; // y축 이동을 막기 위해 y값을 0으로 설정
+
+				//돌풍 콜라이더 앞으로 전진
+				for (auto& iter : _windBlastAttackCol)
+				{
+					iter->_object->_transform._position = 
+						iter->_object->_transform._position + forwardDir * _bossInfo->GetWindBlastSpeed() * _pgTime->GetDeltaTime();
+				}
+			}
+			else
+			{
+				for (auto& iter : _windBlastAttackCol)
+				{
+					iter->SetActive(false);
+					iter->_object->_transform._position = { 0.f, 0.f, 2.f };
+				}
+				
+				_useStormBlast = false;
+
+				_bossInfo->SetStartWindBlastDurationTime(0.f);
+			}
+		}
 	}
 
 	void BossBehaviour::Evade()
