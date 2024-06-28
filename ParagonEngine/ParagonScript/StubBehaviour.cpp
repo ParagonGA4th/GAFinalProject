@@ -101,9 +101,9 @@ namespace Pg::DataScript
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			// 자식 오브젝트의 이름을 얻어옵니다.
-			std::string childName = iter->_object->GetName();
+			std::string childTag = iter->_object->GetTag();
 
-			if (childName == "TrentBasicAttackRange")
+			if (childTag == "TAG_Attack")
 			{
 				Pg::Data::StaticBoxCollider* basicStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
 				if (basicStaticCol != nullptr)
@@ -112,7 +112,7 @@ namespace Pg::DataScript
 					basicStaticCol->SetActive(false);  // 비활성화
 				}
 			}
-			else if (childName == "TrentSkillAttackRange")
+			else if (childTag == "TAG_Skill")
 			{
 				Pg::Data::StaticBoxCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
 				if (skillStaticCol != nullptr)
