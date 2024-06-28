@@ -170,84 +170,83 @@ namespace Pg::DataScript
 		_isMoving_Animation = false;
 
 
-		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveFront))
+		Pg::Math::PGFLOAT3 totalMovement = { 0.0f, 0.0f, 0.0f };
+		bool isMoving = false;
+
+		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveFront)) 
 		{
-			//_selfCol->AddForce(relativeForward, Pg::Data::ForceMode::eFORCE);
-			_object->_transform._position.x += _augmentedRelativeForward.x;
-			_object->_transform._position.y += _augmentedRelativeForward.y;
-			_object->_transform._position.z += _augmentedRelativeForward.z;
+			totalMovement.x += _augmentedRelativeForward.x;
+			totalMovement.y += _augmentedRelativeForward.y;
+			totalMovement.z += _augmentedRelativeForward.z;
+			isMoving = true;
+		}
+
+		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveBack)) 
+		{
+			totalMovement.x -= _augmentedRelativeForward.x;
+			totalMovement.y -= _augmentedRelativeForward.y;
+			totalMovement.z -= _augmentedRelativeForward.z;
+			isMoving = true;
+		}
+
+		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveLeft)) 
+		{
+			totalMovement.x += _augmentedRelativeLeft.x;
+			totalMovement.y += _augmentedRelativeLeft.y;
+			totalMovement.z += _augmentedRelativeLeft.z;
+			isMoving = true;
+		}
+
+		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveRight)) 
+		{
+			totalMovement.x -= _augmentedRelativeLeft.x;
+			totalMovement.y -= _augmentedRelativeLeft.y;
+			totalMovement.z -= _augmentedRelativeLeft.z;
+			isMoving = true;
+		}
+
+		if (isMoving) 
+		{
+			// 정규화
+			Pg::Math::PGFLOAT3 movementDirection = Pg::Math::PGFloat3Normalize(totalMovement);
+
+			// 속도 조절
+			Pg::Math::PGFLOAT3 movement = movementDirection * moveSpeed * _pgTime->GetDeltaTime();
+
+			// 위치 업데이트
+			_object->_transform._position.x += movement.x;
+			_object->_transform._position.y += movement.y;
+			_object->_transform._position.z += movement.z;
 
 			_isMoving_Animation = true;
 			_isMoving = true;
 
-			if (!_isWalkAudioPlaying) {
+			if (!_isWalkAudioPlaying) 
+			{
 				_walkAudio->Play();
 				_isWalkAudioPlaying = true;
 			}
-
 		}
-		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveBack))
+		else 
 		{
-			//_selfCol->AddForce(-relativeForward, Pg::Data::ForceMode::eFORCE);
-			_object->_transform._position.x -= _augmentedRelativeForward.x;
-			_object->_transform._position.y -= _augmentedRelativeForward.y;
-			_object->_transform._position.z -= _augmentedRelativeForward.z;
-
-			_isMoving_Animation = true;
-			_isMoving = true;
-
-			if (!_isWalkAudioPlaying) {
-				_walkAudio->Play();
-				_isWalkAudioPlaying = true;
-			}
-		}
-		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveLeft))
-		{
-			//_selfCol->AddForce(relativeLeft, Pg::Data::ForceMode::eFORCE);
-			_object->_transform._position.x += _augmentedRelativeLeft.x;
-			_object->_transform._position.y += _augmentedRelativeLeft.y;
-			_object->_transform._position.z += _augmentedRelativeLeft.z;
-
-			_isMoving_Animation = true;
-			_isMoving = true;
-
-			if (!_isWalkAudioPlaying) {
-				_walkAudio->Play();
-				_isWalkAudioPlaying = true;
-			}
-		}
-		if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MoveRight))
-		{
-			//_selfCol->AddForce(-relativeLeft, Pg::Data::ForceMode::eFORCE);
-			_object->_transform._position.x -= _augmentedRelativeLeft.x;
-			_object->_transform._position.y -= _augmentedRelativeLeft.y;
-			_object->_transform._position.z -= _augmentedRelativeLeft.z;
-
-			_isMoving_Animation = true;
-			_isMoving = true;
-
-			if (!_isWalkAudioPlaying) {
-				_walkAudio->Play();
-				_isWalkAudioPlaying = true;
+			_isMoving = false;
+			if (_isWalkAudioPlaying) 
+			{
+				_walkAudio->Stop();
+				_isWalkAudioPlaying = false;
 			}
 		}
 
 		if (_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MoveFront) ||
 			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MoveBack) ||
 			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MoveLeft) ||
-			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MoveRight))
+			_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MoveRight)) 
 		{
-			//멈췄다가 다시.
 			_isJustSetRestraint = true;
 			_isMoving = false;
 			_selfCol->FreezeAxisX(true);
 			_selfCol->FreezeAxisY(true);
 			_selfCol->FreezeAxisZ(true);
-
-			if (_isWalkAudioPlaying) {
-				_walkAudio->Stop();
-				_isWalkAudioPlaying = false;
-			}
 		}
 
 		//PhysX 업데이트를 1차례 거친 후, 다시 리셋.

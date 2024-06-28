@@ -64,6 +64,8 @@ namespace Pg::DataScript
 		//보스의 스킬공격
 		void Skill(bool _isSkill);
 
+		void UpdateSkill();
+
 		//회피하는 로직.
 		void Evade();
 
@@ -98,6 +100,7 @@ namespace Pg::DataScript
 		Pg::Data::CapsuleCollider* _collider;
 
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
+		std::vector<Pg::Data::StaticBoxCollider*> _windBlastAttackCol;
 
 		Pg::Data::GameObject* _bossWalkSound;
 		Pg::Data::AudioSource* _walkAudio;
@@ -142,6 +145,8 @@ namespace Pg::DataScript
 		bool _isRushSoundPlaying{ false };
 
 		bool _isDeadInit{ false };
+
+		bool _useStormBlast{ false };
 	};
 }
 
