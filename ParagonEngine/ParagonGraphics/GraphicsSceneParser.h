@@ -123,6 +123,11 @@ namespace Pg::Graphics
 		void ModifySingleRenderObject(Pg::Data::GameObject* obj);
 		void DeleteSingleRenderObject(Pg::Data::GameObject* obj);
 	private:
+		void CreateBackFaceInstancedTRSBuffer();
+		void CreateFrontFaceInstancedTRSBuffer();
+		void CreateClippedBackFaceInstancedTRSBuffer();
+		void CreateClippedFrontFaceInstancedTRSBuffer();
+	private:
 		////저장된 GameObject <=> RenderObject들.
 		//std::unique_ptr<RenderObject2DList> _renderObject2DList;
 		//std::unique_ptr<RenderObject3DList> _renderObject3DList;

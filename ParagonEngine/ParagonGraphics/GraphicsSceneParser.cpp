@@ -65,7 +65,7 @@ namespace Pg::Graphics
 	void GraphicsSceneParser::ParseSceneData(const Pg::Data::Scene* const newScene)
 	{
 		//이거 일단은 개별적으로 오브젝트를 Save해놔야 할 것이다.
-		
+
 		//Scene을 파싱해서, 실제 렌더되어야 하는 Object를 연동한다.
 		//나중에 같은 씬을 유지하는 중에 오브젝트들 중 하나의 렌더러가 꺼진다거나 
 		//상황은 아직 유지 못함. 나중에 _rendererChangeList를 활용하면 된다!
@@ -712,96 +712,61 @@ namespace Pg::Graphics
 			}
 		}
 
+		for (auto& [bModelData, bBufferVecPair] : _currentListSet->_renderObject3DList->_instancedStaticAlphaClippedList)
+		{
+			auto& bVecPtr = bBufferVecPair->_instancedStaticPairVec;
+
+			//assert(bVecPtr != nullptr);
+			//assert(!bVecPtr.empty());
+
+			if (bVecPtr.empty())
+			{
+				continue;
+			}
+
+			unsigned int tVecVBSize = bVecPtr.size();
+
+			for (int i = 0; i < tVecVBSize; i++)
+			{
+				if (!(bVecPtr.at(i)._instancedRenderObject->_isInternalUpToDate))
+				{
+					bVecPtr.at(i)._instancedRenderObject->CreateObjMatBuffers();
+					bVecPtr.at(i)._instancedRenderObject->_isInternalUpToDate = true;
+				}
+			}
+		}
+
+		for (auto& [bModelData, bBufferVecPair] : _currentListSet->_renderObject3DList->_instancedCulledOppositeStaticAlphaClippedList)
+		{
+			auto& bVecPtr = bBufferVecPair->_instancedStaticPairVec;
+
+			//assert(bVecPtr != nullptr);
+			//assert(!bVecPtr.empty());
+
+			if (bVecPtr.empty())
+			{
+				continue;
+			}
+
+			unsigned int tVecVBSize = bVecPtr.size();
+
+			for (int i = 0; i < tVecVBSize; i++)
+			{
+				if (!(bVecPtr.at(i)._instancedRenderObject->_isInternalUpToDate))
+				{
+					bVecPtr.at(i)._instancedRenderObject->CreateObjMatBuffers();
+					bVecPtr.at(i)._instancedRenderObject->_isInternalUpToDate = true;
+				}
+			}
+		}
+
 		//위는 Instanced 관련해서 CB만든 거였고 -> 이제 VB 만들어야 한다.
 		//만들어놓은 Instancing Format을 기준으로 Vector를 만들어 넣자.
 		//버퍼 만들기 위한 임시 버퍼.
-		{
-			//일반적인 Backface Culling 대상.
-			std::vector<std::pair<Asset3DModelData*, std::vector<RenderObjectInstancedMesh3D*>>> tToMakeInstSeparateVec;
-
-			for (auto& [bModelData, bVecPair] : _currentListSet->_renderObject3DList->_instancedStaticList)
-			{
-				//
-				auto& bVecPtr = bVecPair->_instancedStaticPairVec;
-
-				//assert(bVecPtr != nullptr);
-				//assert(!bVecPtr.empty());
-				if (bVecPtr.empty())
-				{
-					continue;
-				}
-
-				unsigned int tVecVBSize = bVecPtr.size();
-
-				//개별 요소 추가.
-				tToMakeInstSeparateVec.push_back(std::make_pair(bModelData, std::vector<RenderObjectInstancedMesh3D*>()));
-
-				//3D Model 중심으로 변환해야 한다.
-				for (int i = 0; i < tVecVBSize; i++)
-				{
-					auto tInstancedMesh = bVecPtr.at(i)._instancedRenderObject.get();
-					//개별적인 요소 담기.
-					tToMakeInstSeparateVec.back().second.push_back(tInstancedMesh);
-				}
-			}
-
-			auto t3DLoader = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetBasic3DLoader();
-			for (int i = 0; i < tToMakeInstSeparateVec.size(); i++)
-			{
-				auto& tModel = tToMakeInstSeparateVec.at(i).first;
-
-				BufferInstancedPairList* tBufferInstancedPairList = _currentListSet->_renderObject3DList->_instancedStaticList.at(tModel).get();
-				auto& tVB = tBufferInstancedPairList->_vb;
-				auto& tInstanceVector = tToMakeInstSeparateVec.at(i).second;
-				//이게 대응되는 요소가 될 것이다.
-
-				//인스턴싱을 위한 ObjID / MatID / Transform 버퍼 로드.
-				t3DLoader->LoadObjMatTRSBufferInstanced(tVB, tInstanceVector);
-			}
-		}
-		{
-			//거꾸로 컬링되어야 하는 대상.
-			std::vector<std::pair<Asset3DModelData*, std::vector<RenderObjectInstancedMesh3D*>>> tToMakeInstSeparateVec;
-
-			for (auto& [bModelData, bVecPair] : _currentListSet->_renderObject3DList->_instancedCulledOppositeStaticList)
-			{
-				auto& bVecPtr = bVecPair->_instancedStaticPairVec;
-
-				//assert(bVecPtr != nullptr);
-				//assert(!bVecPtr.empty());
-
-				if (bVecPtr.empty())
-				{
-					continue;
-				}
-
-				unsigned int tVecVBSize = bVecPtr.size();
-
-				//개별 요소 추가.
-				tToMakeInstSeparateVec.push_back(std::make_pair(bModelData, std::vector<RenderObjectInstancedMesh3D*>()));
-
-				//3D Model 중심으로 변환해야 한다.
-				for (int i = 0; i < tVecVBSize; i++)
-				{
-					auto tInstancedMesh = bVecPtr.at(i)._instancedRenderObject.get();
-					//개별적인 요소 담기.
-					tToMakeInstSeparateVec.back().second.push_back(tInstancedMesh);
-				}
-			}
-
-			auto t3DLoader = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetBasic3DLoader();
-			for (int i = 0; i < tToMakeInstSeparateVec.size(); i++)
-			{
-				auto& tModel = tToMakeInstSeparateVec.at(i).first;
-				auto& tMatchingIter = _currentListSet->_renderObject3DList->_instancedCulledOppositeStaticList.at(tModel);
-				auto& tVB = tMatchingIter->_vb;
-				auto& tInstanceVector = tToMakeInstSeparateVec.at(i).second;
-				//이게 대응되는 요소가 될 것이다.
-
-				//인스턴싱을 위한 ObjID / MatID / Transform 버퍼 로드.
-				t3DLoader->LoadObjMatTRSBufferInstanced(tVB, tInstanceVector);
-			}
-		}
+		CreateBackFaceInstancedTRSBuffer();
+		CreateFrontFaceInstancedTRSBuffer();
+		CreateClippedBackFaceInstancedTRSBuffer();
+		CreateClippedFrontFaceInstancedTRSBuffer();
 
 		//사실상 ForwardRendering을 사용할 Alpha Blended Object들은 이 순서가 필요 없지만,
 		//구조 일원화를 위해 투입한다.
@@ -1431,4 +1396,188 @@ namespace Pg::Graphics
 		//실제로 이제 존재하는 모든 Material에 ID를 새로 부여.
 		Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetCombinedLoader()->RemapAppendedMatID();
 	}
+
+	void GraphicsSceneParser::CreateBackFaceInstancedTRSBuffer()
+	{
+		//일반적인 Backface Culling 대상.
+		std::vector<std::pair<Asset3DModelData*, std::vector<RenderObjectInstancedMesh3D*>>> tToMakeInstSeparateVec;
+
+		for (auto& [bModelData, bVecPair] : _currentListSet->_renderObject3DList->_instancedStaticList)
+		{
+			//
+			auto& bVecPtr = bVecPair->_instancedStaticPairVec;
+
+			//assert(bVecPtr != nullptr);
+			//assert(!bVecPtr.empty());
+			if (bVecPtr.empty())
+			{
+				continue;
+			}
+
+			unsigned int tVecVBSize = bVecPtr.size();
+
+			//개별 요소 추가.
+			tToMakeInstSeparateVec.push_back(std::make_pair(bModelData, std::vector<RenderObjectInstancedMesh3D*>()));
+
+			//3D Model 중심으로 변환해야 한다.
+			for (int i = 0; i < tVecVBSize; i++)
+			{
+				auto tInstancedMesh = bVecPtr.at(i)._instancedRenderObject.get();
+				//개별적인 요소 담기.
+				tToMakeInstSeparateVec.back().second.push_back(tInstancedMesh);
+			}
+		}
+
+		auto t3DLoader = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetBasic3DLoader();
+		for (int i = 0; i < tToMakeInstSeparateVec.size(); i++)
+		{
+			auto& tModel = tToMakeInstSeparateVec.at(i).first;
+
+			BufferInstancedPairList* tBufferInstancedPairList = _currentListSet->_renderObject3DList->_instancedStaticList.at(tModel).get();
+			auto& tVB = tBufferInstancedPairList->_vb;
+			auto& tInstanceVector = tToMakeInstSeparateVec.at(i).second;
+			//이게 대응되는 요소가 될 것이다.
+
+			//인스턴싱을 위한 ObjID / MatID / Transform 버퍼 로드.
+			t3DLoader->LoadObjMatTRSBufferInstanced(tVB, tInstanceVector);
+		}
+	}
+
+
+	void GraphicsSceneParser::CreateFrontFaceInstancedTRSBuffer()
+	{
+		//거꾸로 컬링되어야 하는 대상.
+		std::vector<std::pair<Asset3DModelData*, std::vector<RenderObjectInstancedMesh3D*>>> tToMakeInstSeparateVec;
+
+		for (auto& [bModelData, bVecPair] : _currentListSet->_renderObject3DList->_instancedCulledOppositeStaticList)
+		{
+			auto& bVecPtr = bVecPair->_instancedStaticPairVec;
+
+			//assert(bVecPtr != nullptr);
+			//assert(!bVecPtr.empty());
+
+			if (bVecPtr.empty())
+			{
+				continue;
+			}
+
+			unsigned int tVecVBSize = bVecPtr.size();
+
+			//개별 요소 추가.
+			tToMakeInstSeparateVec.push_back(std::make_pair(bModelData, std::vector<RenderObjectInstancedMesh3D*>()));
+
+			//3D Model 중심으로 변환해야 한다.
+			for (int i = 0; i < tVecVBSize; i++)
+			{
+				auto tInstancedMesh = bVecPtr.at(i)._instancedRenderObject.get();
+				//개별적인 요소 담기.
+				tToMakeInstSeparateVec.back().second.push_back(tInstancedMesh);
+			}
+		}
+
+		auto t3DLoader = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetBasic3DLoader();
+		for (int i = 0; i < tToMakeInstSeparateVec.size(); i++)
+		{
+			auto& tModel = tToMakeInstSeparateVec.at(i).first;
+			auto& tMatchingIter = _currentListSet->_renderObject3DList->_instancedCulledOppositeStaticList.at(tModel);
+			auto& tVB = tMatchingIter->_vb;
+			auto& tInstanceVector = tToMakeInstSeparateVec.at(i).second;
+			//이게 대응되는 요소가 될 것이다.
+
+			//인스턴싱을 위한 ObjID / MatID / Transform 버퍼 로드.
+			t3DLoader->LoadObjMatTRSBufferInstanced(tVB, tInstanceVector);
+		}
+	}
+
+	void GraphicsSceneParser::CreateClippedBackFaceInstancedTRSBuffer()
+	{
+		//일반적인 Backface Culling 대상.
+		std::vector<std::pair<Asset3DModelData*, std::vector<RenderObjectInstancedMesh3D*>>> tToMakeInstSeparateVec;
+
+		for (auto& [bModelData, bVecPair] : _currentListSet->_renderObject3DList->_instancedStaticAlphaClippedList)
+		{
+			//
+			auto& bVecPtr = bVecPair->_instancedStaticPairVec;
+
+			//assert(bVecPtr != nullptr);
+			//assert(!bVecPtr.empty());
+			if (bVecPtr.empty())
+			{
+				continue;
+			}
+
+			unsigned int tVecVBSize = bVecPtr.size();
+
+			//개별 요소 추가.
+			tToMakeInstSeparateVec.push_back(std::make_pair(bModelData, std::vector<RenderObjectInstancedMesh3D*>()));
+
+			//3D Model 중심으로 변환해야 한다.
+			for (int i = 0; i < tVecVBSize; i++)
+			{
+				auto tInstancedMesh = bVecPtr.at(i)._instancedRenderObject.get();
+				//개별적인 요소 담기.
+				tToMakeInstSeparateVec.back().second.push_back(tInstancedMesh);
+			}
+		}
+
+		auto t3DLoader = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetBasic3DLoader();
+		for (int i = 0; i < tToMakeInstSeparateVec.size(); i++)
+		{
+			auto& tModel = tToMakeInstSeparateVec.at(i).first;
+
+			BufferInstancedPairList* tBufferInstancedPairList = _currentListSet->_renderObject3DList->_instancedStaticAlphaClippedList.at(tModel).get();
+			auto& tVB = tBufferInstancedPairList->_vb;
+			auto& tInstanceVector = tToMakeInstSeparateVec.at(i).second;
+			//이게 대응되는 요소가 될 것이다.
+
+			//인스턴싱을 위한 ObjID / MatID / Transform 버퍼 로드.
+			t3DLoader->LoadObjMatTRSBufferInstanced(tVB, tInstanceVector);
+		}
+	}
+
+	void GraphicsSceneParser::CreateClippedFrontFaceInstancedTRSBuffer()
+	{
+		//거꾸로 컬링되어야 하는 대상.
+		std::vector<std::pair<Asset3DModelData*, std::vector<RenderObjectInstancedMesh3D*>>> tToMakeInstSeparateVec;
+
+		for (auto& [bModelData, bVecPair] : _currentListSet->_renderObject3DList->_instancedCulledOppositeStaticAlphaClippedList)
+		{
+			auto& bVecPtr = bVecPair->_instancedStaticPairVec;
+
+			//assert(bVecPtr != nullptr);
+			//assert(!bVecPtr.empty());
+
+			if (bVecPtr.empty())
+			{
+				continue;
+			}
+
+			unsigned int tVecVBSize = bVecPtr.size();
+
+			//개별 요소 추가.
+			tToMakeInstSeparateVec.push_back(std::make_pair(bModelData, std::vector<RenderObjectInstancedMesh3D*>()));
+
+			//3D Model 중심으로 변환해야 한다.
+			for (int i = 0; i < tVecVBSize; i++)
+			{
+				auto tInstancedMesh = bVecPtr.at(i)._instancedRenderObject.get();
+				//개별적인 요소 담기.
+				tToMakeInstSeparateVec.back().second.push_back(tInstancedMesh);
+			}
+		}
+
+		auto t3DLoader = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetBasic3DLoader();
+		for (int i = 0; i < tToMakeInstSeparateVec.size(); i++)
+		{
+			auto& tModel = tToMakeInstSeparateVec.at(i).first;
+			auto& tMatchingIter = _currentListSet->_renderObject3DList->_instancedCulledOppositeStaticAlphaClippedList.at(tModel);
+			auto& tVB = tMatchingIter->_vb;
+			auto& tInstanceVector = tToMakeInstSeparateVec.at(i).second;
+			//이게 대응되는 요소가 될 것이다.
+
+			//인스턴싱을 위한 ObjID / MatID / Transform 버퍼 로드.
+			t3DLoader->LoadObjMatTRSBufferInstanced(tVB, tInstanceVector);
+		}
+	}
+
 }
