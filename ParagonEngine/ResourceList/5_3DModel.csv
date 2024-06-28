@@ -1,12 +1,4 @@
 3DModels
-../Resources/3DModels/UnrealTest/SM_floor.fbx
-../Resources/3DModels/UnrealTest/SM_rock.fbx
-../Resources/3DModels/UnrealTest/SM_pillar.fbx
-../Resources/3DModels/UnrealTest/SM_templestairs.fbx
-../Resources/3DModels/UnrealTest/SM_brazierstand.fbx
-../Resources/3DModels/UnrealTest/SM_rockpillar.fbx
-../Resources/3DModels/UnrealTest/gizmo.fbx
-../Resources/3DModels/UnrealTest/test.fbx
 ../Resources/3DModels/StaticMesh/Cuptower/Cuptower.fbx
 ../Resources/3DModels/StaticMesh/DefaultGeometry/DefaultGeometry.fbx
 ../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx
@@ -20,10 +12,6 @@
 ../Resources/3DModels/BasicMesh/Capsule/Capsule.fbx
 ../Resources/3DModels/BasicMesh/Plane/plane.fbx
 ../Resources/3DModels/StaticMesh/arrow/arrow.fbx
-../Resources/3DModels/AnimMesh/ErikaMixamo/ErikaMixamo.fbx
-../Resources/3DModels/AnimMesh/CylinderRemastered/CylinderRemastered.fbx
-../Resources/3DModels/UnrealTest/mon_golemmini.fbx
-../Resources/3DModels/UnrealTest/final_mon_boss.fbx
 ../Resources/3DModels/StaticMesh/TestingRecast/TestingRecast.obj
 ../Resources/3DModels/StaticMesh/FitArrow/FitArrow.fbx
 ../Resources/3DModels/StaticMesh/swamp/swamp.fbx
@@ -32,7 +20,6 @@
 ../Resources/3DModels/StaticMesh/TestingRecast/BattleSpace2_fix.obj
 ../Resources/3DModels/StaticMesh/TestingRecast/BattleSpace_res2.obj
 ../Resources/3DModels/StaticMesh/CollisionWeirdShape/CollisionWeirdShape.fbx
-../Resources/3DModels/AnimMesh/PpakMonster/PpakMonster.fbx
 ../Resources/3DModels/LightmappingTest/norm_SM_door.fbx
 ../Resources/3DModels/Monsters/mon_golemmini/mon_golemmini_body.fbx
 ../Resources/3DModels/Monsters/mon_golemmini/mon_golemmini_crystal.fbx

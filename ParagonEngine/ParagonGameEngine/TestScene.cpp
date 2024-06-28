@@ -50,6 +50,7 @@
 
 void Pg::Engine::TestScene::Initialize()
 {
+#ifdef DEBUG
 	using namespace Pg::Data;
 
 	//���� ���⼭ MainCamera �ֱ� ����.
@@ -174,25 +175,25 @@ void Pg::Engine::TestScene::Initialize()
 		//tObj7->GetComponent<PlaneCollider>()->SetTrigger(true);
 	}
 	
-	{
-		Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Player");
-		tObj7->GetComponent<Transform>()->_position = { 5.0f, 0.0f, 20.0f };
-		tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
-		tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
-		tObj7->AddComponent<CapsuleCollider>();
-		tObj7->GetComponent<CapsuleCollider>()->SetCapsuleInfo(0.5f, 0.3f);
-		tObj7->GetComponent<CapsuleCollider>()->SetPositionOffset({ 0.f, 0.7f, 0.f });
-		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
-		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
-		tObj7->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
-		tObj7->AddComponent<SkinnedMeshRenderer>();
-		tObj7->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/AnimMesh/ErikaMixamo/ErikaMixamo.fbx");
-		//tObj7->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_idle.pganim";
-		tObj7->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_run.pganim";
-		tObj7->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
-		//tObj7->AddComponent<NavTestSecond>();
-		tObj7->AddComponent<MovingTest>();
-	}
+	//{
+	//	Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Player");
+	//	tObj7->GetComponent<Transform>()->_position = { 5.0f, 0.0f, 20.0f };
+	//	tObj7->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	//	tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	//	tObj7->AddComponent<CapsuleCollider>();
+	//	tObj7->GetComponent<CapsuleCollider>()->SetCapsuleInfo(0.5f, 0.3f);
+	//	tObj7->GetComponent<CapsuleCollider>()->SetPositionOffset({ 0.f, 0.7f, 0.f });
+	//	tObj7->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
+	//	tObj7->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
+	//	tObj7->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+	//	tObj7->AddComponent<SkinnedMeshRenderer>();
+	//	tObj7->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/AnimMesh/ErikaMixamo/ErikaMixamo.fbx");
+	//	//tObj7->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_idle.pganim";
+	//	tObj7->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "test_run.pganim";
+	//	tObj7->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
+	//	//tObj7->AddComponent<NavTestSecond>();
+	//	tObj7->AddComponent<MovingTest>();
+	//}
 
 	//for (int i = 0; i < 30; i++)
 	//{
@@ -233,15 +234,15 @@ void Pg::Engine::TestScene::Initialize()
 	tObj7_1->AddComponent<MonsterMove>();
 	//tObj7_1->AddComponent<NavTest>();
 
-	Pg::Data::GameObject* tObj7_2 = tCurrentScene->AddObject("GolemAttackRange");
-	tObj7_2->GetComponent<Transform>()->_position = { 0.f, 0.f, 2.3f };
-	tObj7_2->GetComponent<Transform>()->_scale = { 2.5f, 1.f, 1.f };
-	tObj7_2->AddComponent<StaticBoxCollider>();
-	//tObj7_2->GetComponent<StaticBoxCollider>()->SetPositionOffset({ 0.f, 0.f, 2.3f });
-	tObj7_2->GetComponent<StaticBoxCollider>()->SetTrigger(true);
-	//tObj7_2->GetComponent<StaticBoxCollider>()->SetScale(2.5f, 1.0f, 1.0f);
-	tObj7_2->AddComponent<AISeight>();
-	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_2);
+	//Pg::Data::GameObject* tObj7_2 = tCurrentScene->AddObject("GolemAttackRange");
+	//tObj7_2->GetComponent<Transform>()->_position = { 0.f, 0.f, 2.3f };
+	//tObj7_2->GetComponent<Transform>()->_scale = { 2.5f, 1.f, 1.f };
+	//tObj7_2->AddComponent<StaticBoxCollider>();
+	////tObj7_2->GetComponent<StaticBoxCollider>()->SetPositionOffset({ 0.f, 0.f, 2.3f });
+	//tObj7_2->GetComponent<StaticBoxCollider>()->SetTrigger(true);
+	////tObj7_2->GetComponent<StaticBoxCollider>()->SetScale(2.5f, 1.0f, 1.0f);
+	//tObj7_2->AddComponent<AISeight>();
+	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_2);
 
 	//Pg::Data::GameObject* tObj7_3 = tCurrentScene->AddObject("Golem1_Crtstal");
 	//tObj7_3->GetComponent<Transform>()->_position = { 0.f, 0.f, 0.f };
@@ -357,6 +358,7 @@ void Pg::Engine::TestScene::Initialize()
 	////Animator 추가.
 	//tObj24->AddComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Test/BTree_Testing1.xml");
 	assert(true);
+#endif
 }
 
 /*tObj2->GetComponent<Pg::Data::BoxCollider>()->FreezeAxisX(true);
