@@ -107,7 +107,9 @@ namespace Pg::Graphics
 		//실제 리소스를 사용해야 하기에, Initialize에서 현재 호출하고 있지 않음.
 		PlaceCubemapList();
 
-
+		//일단 비교.
+		//auto tMatVec = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetAllResourcesByDefine(Data::Enums::eAssetDefine::_RENDERMATERIAL);
+		//assert("");
 	}
 
 	void GraphicsSceneParser::HandleRenderObjectsRuntime()
@@ -514,6 +516,9 @@ namespace Pg::Graphics
 						std::string tDefaultMatInstName = Pg::Graphics::Helper::GraphicsResourceHelper::GetDefaultMaterialNameFromMeshName(tTempMeshName);
 						auto res = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetResource(tDefaultMatInstName, Pg::Data::Enums::eAssetDefine::_RENDERMATERIAL);
 						tMaterialInput = static_cast<RenderMaterial*>(res.get());
+
+						//일단은 Default Material ID를 설정해주기.
+						//_currentListSet->_renderObject3DList->_materialPathSet.try_emplace(tDefaultMatInstName, tMaterialInput);
 					}
 					else
 					{
