@@ -373,10 +373,11 @@ namespace Pg::DataScript
 		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::CtrlL) && (!_isStrafeAvoiding))
 		{
 			_isStrafeAvoiding = true;
+			_selfCol->SetActive(false);
 			_renderer->SetAnimation("PA_00004.pganim", false);
 
 			//ForwardVector의 Back 방향으로 이동해야 한다.
-			const float tAvoidDist = 3.0f; //실제로 이동한 거리.
+			const float tAvoidDist = 7.0f; //실제로 이동한 거리.
 			const float tAvoidBasedTotalTime = 1.0f; //Tween 시간 비율로 Cut 전에, 전체 시간.
 			const float tCutShortRatio = 0.5f; //언제 빨리 끝낼지, 0-1.
 
@@ -389,6 +390,7 @@ namespace Pg::DataScript
 					[this]()
 					{
 						_isStrafeAvoiding = false;
+						_selfCol->SetActive(true);
 					});
 		}
 	}
