@@ -7,7 +7,7 @@ namespace Pg::DataScript
 		_sightRange(15.f), _dashRange(14.f), _dashDuration(2.f),
 		_currentNeutralize(0.f), _endNeutralize(3.f), _currentEvadeTime(0.f),
 		_evadeDuration(1.5f), _evadeSpeed(10.0f), _windBlastDuration(2.f),
-		_windBlastSpeed(5.f), _startWindBlastTime(0.f)
+		_windBlastSpeed(10.f), _startWindBlastTime(0.f)
 	{
 
 	}
