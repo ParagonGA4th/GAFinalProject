@@ -5,7 +5,6 @@
 
 namespace Pg::DataScript
 {
-
 	BossAttack::BossAttack(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj)
 	{
@@ -29,7 +28,6 @@ namespace Pg::DataScript
 
 	void BossAttack::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
 	{
-		
 		for (int i = 0; i < count; i++)
 		{
 			Pg::Data::Collider* col = _colArr[i];

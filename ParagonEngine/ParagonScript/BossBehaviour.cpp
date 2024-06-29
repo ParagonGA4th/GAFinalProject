@@ -192,7 +192,7 @@ namespace Pg::DataScript
 						_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_2 /*||
 						_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_3*/)
 					{
-						Attack(_monsterHelper->_isAnimChange);
+						//Attack(_monsterHelper->_isAnimChange);
 						_useStormBlast = true;
 					}
 					if (_monsterHelper->_bossState == Pg::Data::BossState::IDLE)
@@ -344,18 +344,34 @@ namespace Pg::DataScript
 		// 돌풍 스킬의 이동 및 충돌 처리
 		if (_useStormBlast)
 		{
-			float elapsed = _bossInfo->GetStartWindBlastTime() + _pgTime->GetDeltaTime();
+			_bossInfo->SetStartWindBlastDurationTime(_bossInfo->GetStartWindBlastTime() + _pgTime->GetDeltaTime());
 
-			if (elapsed < _bossInfo->GetWindBlastDuration())
+			if (_bossInfo->GetStartWindBlastTime() < _bossInfo->GetWindBlastDuration())
 			{
 				Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
-				forwardDir.y = 0; // y축 이동을 막기 위해 y값을 0으로 설정
+				
+				//자신이 바라보는 방향으로 쏴야하기 때문에 z축빼고 전부 고정.
+				forwardDir.y = 0;
+				forwardDir.x = 0;
+				forwardDir = Pg::Math::PGFloat3Normalize(forwardDir);
 
-				//돌풍 콜라이더 앞으로 전진
-				for (auto& iter : _windBlastAttackCol)
+				if (forwardDir.z > 0)
 				{
-					iter->_object->_transform._position = 
-						iter->_object->_transform._position + forwardDir * _bossInfo->GetWindBlastSpeed() * _pgTime->GetDeltaTime();
+					//돌풍 콜라이더 앞으로 전진
+					for (auto& iter : _windBlastAttackCol)
+					{
+						iter->SetActive(true);
+						iter->_object->_transform._position.z += forwardDir.z * _bossInfo->GetWindBlastSpeed() * _pgTime->GetDeltaTime();
+					}
+				}
+				else
+				{
+					//돌풍 콜라이더 앞으로 전진
+					for (auto& iter : _windBlastAttackCol)
+					{
+						iter->SetActive(true);
+						iter->_object->_transform._position.z -= forwardDir.z * _bossInfo->GetWindBlastSpeed() * _pgTime->GetDeltaTime();
+					}
 				}
 			}
 			else
