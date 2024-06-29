@@ -537,14 +537,20 @@ void Pg::Serialize::Serializer::DeserializePGFloat3(pugi::xml_node* node, Pg::Ma
 Pg::Math::PGFLOAT3 Pg::Serialize::Serializer::DeserializePGFloat3(pugi::xml_node* node)
 {
 	pugi::xml_node nodeName = node->child("x");
+	Pg::Math::PGFLOAT3 result;
 	if (nodeName)
 	{
-		Pg::Math::PGFLOAT3 result;
 		result.x = nodeName.first_child().text().as_float();
 		result.y = nodeName.next_sibling().first_child().text().as_float();
 		result.z = nodeName.next_sibling().next_sibling().first_child().text().as_float();
-		return result;
 	}
+	else
+	{
+		result.x = 0.f;
+		result.y = 0.f;
+		result.z = 0.f;
+	}
+	return result;
 }
 
 
@@ -563,15 +569,22 @@ void Pg::Serialize::Serializer::DeserializePGFloat4(pugi::xml_node* node, Pg::Ma
 Pg::Math::PGFLOAT4 Pg::Serialize::Serializer::DeserializePGFloat4(pugi::xml_node* node)
 {
 	pugi::xml_node nodeName = node->child("w");
+	Pg::Math::PGFLOAT4 result;
 	if (nodeName)
 	{
-		Pg::Math::PGFLOAT4 result;
 		result.w = nodeName.first_child().text().as_float();
 		result.x = nodeName.next_sibling().first_child().text().as_float();
 		result.y = nodeName.next_sibling().next_sibling().first_child().text().as_float();
 		result.z = nodeName.next_sibling().next_sibling().next_sibling().first_child().text().as_float();
-		return result;
 	}
+	else
+	{
+		result.w = 1.0f;
+		result.x = 0.f;
+		result.y = 0.f;
+		result.z = 0.f;
+	}
+	return result;
 }
 
 void Pg::Serialize::Serializer::DeserializePGQuaternion(pugi::xml_node* node, Pg::Math::PGQuaternion& result)
@@ -589,13 +602,20 @@ void Pg::Serialize::Serializer::DeserializePGQuaternion(pugi::xml_node* node, Pg
 Pg::Math::PGQuaternion Pg::Serialize::Serializer::DeserializePGQuaternion(pugi::xml_node* node)
 {
 	pugi::xml_node nodeName = node->child("w");
+		Pg::Math::PGQuaternion result;
 	if (nodeName)
 	{
-		Pg::Math::PGQuaternion result;
 		result.w = nodeName.first_child().text().as_float();
 		result.x = nodeName.next_sibling().first_child().text().as_float();
 		result.y = nodeName.next_sibling().next_sibling().first_child().text().as_float();
 		result.z = nodeName.next_sibling().next_sibling().next_sibling().first_child().text().as_float();
-		return result;
 	}
+	else
+	{
+		result.w = 1.0f;
+		result.x = 0.f;
+		result.y = 0.f;
+		result.z = 0.f;
+	}
+	return result;
 }

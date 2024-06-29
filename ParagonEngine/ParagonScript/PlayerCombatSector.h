@@ -79,7 +79,7 @@ namespace Pg::DataScript
 	private:
 		float _timeSinceLastShot = 0.f;
 		//공격 쿨타임
-		const float _shootCooldown = 0.8f;
+		const float _shootCooldown = 0.6f;
 
 	private:
 		// 플레이어 애니매이션 관련 변수
