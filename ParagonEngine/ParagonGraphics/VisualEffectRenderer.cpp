@@ -1,7 +1,13 @@
 #include "VisualEffectRenderer.h"
 #include "GraphicsResourceManager.h"
 #include "LowDX11Storage.h"
+#include "../ParagonData/AssetDefines.h"
 #include <cassert>
+
+//Custom DXTK Effects.
+#include "OneTextureEffect3D.h"
+#include "TwoTextureEffect3D.h"
+#include "ThreeTextureEffect3D.h"
 
 namespace Pg::Graphics
 {
@@ -21,13 +27,14 @@ namespace Pg::Graphics
 		//모든 이펙트 로딩.
 		for (auto& it : vec)
 		{
-			auto tReturnVal = _visualEffectsMap.insert(std::make_pair(it._effectName, std::make_unique<VERenderingSet>(it, it._is3dSpace)));
+			auto tReturnVal = _visualEffectsMap.insert(std::make_pair(it._effectName, std::make_unique<VERenderingSet>(it)));
 			auto& bVESetPtr = tReturnVal.first->second;
 			const auto& tEffectData = tReturnVal.first->second->_visualEffectData;
 
-			//3D Space 소속여부로 다른 로드.
-			if (tEffectData._is3dSpace) { Load3DSpaceEffect(bVESetPtr.get()); }
-			else { Load2DSpaceEffect(bVESetPtr.get()); }
+			LoadSingleEffect(bVESetPtr.get());
+			////3D Space 소속여부로 다른 로드.
+			//if (tEffectData._is3dSpace) { Load3DSpaceEffect(bVESetPtr.get()); }
+			//else { Load2DSpaceEffect(bVESetPtr.get()); }
 
 			
 			//여기까지 VisualEffectGraphicsSet 세팅.
@@ -101,7 +108,7 @@ namespace Pg::Graphics
 			{
 
 			}
-			bRenderSet->_spriteBatch->Draw();
+			//bRenderSet->_spriteBatch->Draw();
 			for (auto& bEffectObject : bEffectObjectVec)
 			{
 				//개별적인 Render Object 단계.
@@ -112,16 +119,56 @@ namespace Pg::Graphics
 		}
 	}
 
-	void VisualEffectRenderer::Load2DSpaceEffect(VERenderingSet* veSet)
+	void VisualEffectRenderer::LoadSingleEffect(VERenderingSet* veSet)
 	{
-		auto& tVisualEffectGraphicsSet = veSet->_veGraphicsSet2D;
+		auto& tVisualEffectGraphicsSet = veSet->_veGraphicsSet;
 		auto& tEffectData = veSet->_visualEffectData;
 
-		//여기부터 VisualEffectGraphicsSet 세팅.
-		tVisualEffectGraphicsSet->_renderTexture = static_cast<RenderTexture2D*>(_graphicsResourceManager->GetResourceByName
-		(tEffectData._textureName, Pg::Data::Enums::eAssetDefine::_TEXTURE2D).get());
-		assert(tVisualEffectGraphicsSet->_renderTexture != nullptr);
+		//Texture : 하나인지, 여러 개인지를 알려야 한다.
+		//ImageRenderer와 동일한 방식, 다만, 이건 이름으로 반복하는 것.
+		{
+			auto& bTexture2DVector = tVisualEffectGraphicsSet->_renderTextureVec;
+			auto& bTextureInputNames = tEffectData._textureName;
 
+			//HOTFIX. 이제 Image Path Data는 우선 '^'이 들어 있는지부터 확인.
+			if (bTextureInputNames.find('^') == std::string::npos)
+			{
+				//캐럿 못 찾음 - 1개만 들어있는 것.
+				//Image 데이터를 받기.
+				auto tTexture2dData = _graphicsResourceManager->GetResourceByName(bTextureInputNames, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+				bTexture2DVector.push_back(static_cast<RenderTexture2D*>(tTexture2dData.get()));
+			}
+			else
+			{
+				std::string token;
+				std::stringstream ss(bTextureInputNames);
+				std::vector<std::string> outStringVector;
+				//Ex. "^asd.png^ase.png^asf.png" 이런 식으로 path가 존재해야 한다.
+				//전부 다 크기가 같아야 동작.
+				//캐럿을 기준으로 이미지 받아들이는 거 나누기.
+				while (std::getline(ss, token, '^'))
+				{
+					outStringVector.push_back(token);
+				}
+
+				for (auto& it : outStringVector)
+				{
+					if (it.empty())
+					{
+						continue;
+					}
+					//Image 데이터를 받기.
+					auto tTexture2dData = _graphicsResourceManager->GetResourceByName(it, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+					bTexture2DVector.push_back(static_cast<RenderTexture2D*>(tTexture2dData.get()));
+				}
+			}
+
+			//사이즈 기록.
+			veSet->_veGraphicsSet->_textureSize = bTexture2DVector.size();
+			assert(veSet->_veGraphicsSet->_textureSize != 0);
+		}
+
+		//이 두개, 만약 Nullptr면 기본을 사용하는 것.
 		if (tEffectData._isUseCustomVertexShader)
 		{
 			tVisualEffectGraphicsSet->_customRenderVertexShader = static_cast<RenderVertexShader*>(_graphicsResourceManager->GetResourceByName
@@ -133,17 +180,62 @@ namespace Pg::Graphics
 			tVisualEffectGraphicsSet->_customRenderPixelShader = static_cast<RenderPixelShader*>(_graphicsResourceManager->GetResourceByName
 			(tEffectData._customPixelShaderName, Pg::Data::Enums::eAssetDefine::_RENDER_PIXELSHADER).get());
 		}
+
+		//3D 공간에서의 Plane.
+		if (tEffectData._is3dSpace)
+		{
+			unsigned int tTextureSize = veSet->_veGraphicsSet->_textureSize;
+			auto& bEffect = tVisualEffectGraphicsSet->_effect3D;
+			
+			//하나라도 Custom을 쓰는지 / 다 디폴트인지.
+			if ((!tEffectData._isUseCustomVertexShader) && (!tEffectData._isUseCustomPixelShader))
+			{
+				switch (tTextureSize)
+				{
+					//Texture가 하나밖에 없다면, Basic Effect를 넣기. 그렇게 
+					case 1: { bEffect = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device); } break;
+					case 2: { bEffect = std::make_unique<DirectX::DualTextureEffect>(_DXStorage->_device); } break;
+					default: { assert(false && "3개 이상은 DXTK 자체 이펙트 시리즈에서 불가."); } break;
+				}
+			}
+			else
+			{
+				switch (tTextureSize)
+				{
+					//Texture가 하나밖에 없다면, Basic Effect를 넣기. 그렇게 
+					case 1: { bEffect = std::make_unique<OneTextureEffect3D>(_DXStorage->_device); } break;
+					case 2: { bEffect = std::make_unique<TwoTextureEffect3D>(_DXStorage->_device); } break;
+					case 3: { bEffect = std::make_unique<ThreeTextureEffect3D>(_DXStorage->_device); } break;
+					default: { assert(false && "4개 이상은 불가."); } break;
+				}
+			}
+			
+			//InputLayout을 맞게 만들기 위해 - Custom을 사용해도 PosNormalTex는 유지해야 한다.
+			void const* shaderByteCode;
+			size_t byteCodeLength;
+			bEffect->GetVertexShaderBytecode(&shaderByteCode, &byteCodeLength);
+
+			HR(_DXStorage->_device->CreateInputLayout(DirectX::VertexPositionNormalTexture::InputElements,
+				DirectX::VertexPositionNormalTexture::InputElementCount,
+				shaderByteCode, byteCodeLength,
+				&(tVisualEffectGraphicsSet->_inputLayout3D)));
+		}
+		else //2D 공간에서 Plane.
+		{
+
+		}
+
+
+
+		
+
+
+
+
+
 	}
 
-	void VisualEffectRenderer::Load3DSpaceEffect(VERenderingSet* veSet)
-	{
-		auto& tVisualEffectGraphicsSet = veSet->_veGraphicsSet3D;
-		auto& tEffectData = veSet->_visualEffectData;
-		//내부적으로 Mesh인지, 아닌지 역시 구분해야 한다. 
-		//Mesh라면, Asset3DModelData 가져와서 렌더해야 한다.
-		//해당 정보 가져와서 렌더하게 하면 끝나는 문제.
-		if(tEffectData._
-	}
+
 
 	//void VisualEffectRenderer::Render3dSpaceQuadEffect(VERenderingSet* veSet, Pg::Data::VisualEffectRenderObject* veObj)
 	//{

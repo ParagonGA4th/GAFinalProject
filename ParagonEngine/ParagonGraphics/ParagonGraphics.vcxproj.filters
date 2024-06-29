@@ -335,6 +335,13 @@
       <Filter>10_Structs\VisualEffectGraphicsSet</Filter>
     </ClInclude>
     <ClInclude Include="DebugOverlayQuad.h" />
+    <ClInclude Include="TwoTextureEffect3D.h">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\TwoTextureEffect3D</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreeTextureEffect3D.h">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\ThreeTextureEffect3D</Filter>
+    </ClInclude>
+    <ClInclude Include="OneTextureEffect3D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -608,6 +615,13 @@
       <Filter>8_Helpers\VisualEffectRenderer</Filter>
     </ClCompile>
     <ClCompile Include="DebugOverlayQuad.cpp" />
+    <ClCompile Include="TwoTextureEffect3D.cpp">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\TwoTextureEffect3D</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreeTextureEffect3D.cpp">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\ThreeTextureEffect3D</Filter>
+    </ClCompile>
+    <ClCompile Include="OneTextureEffect3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -1047,6 +1061,18 @@
     </Filter>
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\9_VisualEffectRenderPass">
       <UniqueIdentifier>{8c6e63be-b0f2-4acc-a3d4-21169d2dd742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect">
+      <UniqueIdentifier>{fd3ee343-878d-4157-92a0-f177f41b04f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\ThreeTextureEffect3D">
+      <UniqueIdentifier>{d3ca59c5-ff97-4c1a-9dd3-e747848bf7f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\TwoTextureEffect3D">
+      <UniqueIdentifier>{9d718686-3ca4-4bcf-8d0d-70e2659eac53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\OneTextureEffect3D">
+      <UniqueIdentifier>{762acaa2-d97e-41ff-bb5d-fca785429bde}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
