@@ -20,6 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AlphaBlendedTotalRenderPass.h" />
+    <ClInclude Include="OneTextureEffect3D.h" />
+    <ClInclude Include="ThreeTextureEffect3D.h" />
+    <ClInclude Include="TwoTextureEffect3D.h" />
     <ClInclude Include="VisualEffectRenderPass.h" />
     <ClInclude Include="AnimationParser.h" />
     <ClInclude Include="Asset3DModelData.h" />
@@ -160,6 +163,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AlphaBlendedTotalRenderPass.cpp" />
+    <ClCompile Include="OneTextureEffect3D.cpp" />
+    <ClCompile Include="ThreeTextureEffect3D.cpp" />
+    <ClCompile Include="TwoTextureEffect3D.cpp" />
     <ClCompile Include="VisualEffectRenderPass.cpp" />
     <ClCompile Include="AnimationParser.cpp" />
     <ClCompile Include="Asset3DModelData.cpp" />

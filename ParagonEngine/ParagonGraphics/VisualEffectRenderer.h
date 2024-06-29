@@ -7,8 +7,7 @@
 #include <memory>
 #include <tuple>
 #include <unordered_map>
-#include <dxtk/SpriteBatch.h>
-#include <dxtk/GeometricPrimitive.h>
+
 
 namespace Pg::Graphics
 {
@@ -30,32 +29,19 @@ namespace Pg::Graphics
 {
 	struct VERenderingSet
 	{
-		VERenderingSet(Pg::Data::VisualEffectData veData, bool is3d) :
+		VERenderingSet(Pg::Data::VisualEffectData veData) :
 			_visualEffectData(veData)
 		{
-			if (is3d) { _veGraphicsSet3D = new VisualEffectGraphicsSet3D(); }
-			else { _veGraphicsSet2D = new VisualEffectGraphicsSet2D(); }
+			_veGraphicsSet = new VisualEffectGraphicsSet();
 		}
 		~VERenderingSet()
 		{
-			if (_veGraphicsSet2D != nullptr) { delete _veGraphicsSet2D; }
-			if (_veGraphicsSet3D != nullptr) { delete _veGraphicsSet3D; }
+			if (_veGraphicsSet != nullptr) { delete _veGraphicsSet; }
 		}
 		Pg::Data::VisualEffectData _visualEffectData;
 
-		VisualEffectGraphicsSet2D* _veGraphicsSet2D{ nullptr };
-		VisualEffectGraphicsSet3D* _veGraphicsSet3D{ nullptr };
+		VisualEffectGraphicsSet* _veGraphicsSet{ nullptr };
 		//그 다음에 기타 정보가 필요하다면 투입될 것.
-
-		//다른 조건으로 렌더를 할 때. 
-		//3DSpace : DX11::BasicEffect같은 요소들이 달라져야 한다.
-		//2DSpace : DX11::SpriteBatch가 Begin에 등록해줘야 한다.
-		//
-		////2D Space Rendering일 경우, 활용.
-		//std::unique_ptr<DirectX::SpriteBatch> _spriteBatch;
-		//
-		////3D Space Rendering일 경우, 활용.
-		//std::unique_ptr<DirectX::GeometricPrimitive> _geoPrim;
 	};
 }
 
@@ -89,8 +75,8 @@ namespace Pg::Graphics
 		void Render();
 
 	private:
-		void Load2DSpaceEffect(VERenderingSet* veSet);
-		void Load3DSpaceEffect(VERenderingSet* veSet);
+		void LoadSingleEffect(VERenderingSet* veSet);
+		//void Load3DSpaceEffect(VERenderingSet* veSet);
 		//void Render3dSpaceQuadEffect(VERenderingSet* veSet, Pg::Data::VisualEffectRenderObject* veObj);
 		//void Render2dSpaceQuadEffect(VERenderingSet* veSet, Pg::Data::VisualEffectRenderObject* veObj);
 		//추가로 더 추가될 수 있음.

@@ -14,7 +14,7 @@ namespace Pg::Data
 		//0-100까지.
 		float _alphaPercentage{ 100.0f };
 		std::string _textureName;
-		bool _isSpriteSheet{ false };
+		bool _isSpriteSheet{ false }; //Main Texture에 한정. 2번째 텍스쳐부터는 시트가 될 수 없다.
 		unsigned int _frameCount{ 1 };
 		bool _isUseCustomVertexShader{ false };
 		std::string _customVertexShaderName{};

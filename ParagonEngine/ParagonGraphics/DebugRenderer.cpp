@@ -103,7 +103,7 @@ namespace Pg::Graphics
 
 			void const* shaderByteCode;
 			size_t byteCodeLength;
-
+			//https://github.com/microsoft/DirectXTK/wiki/Authoring-an-Effect
 			_basicEffect->GetVertexShaderBytecode(&shaderByteCode, &byteCodeLength);
 
 			HR(_DXStorage->_device->CreateInputLayout(DirectX::VertexPositionColor::InputElements,
