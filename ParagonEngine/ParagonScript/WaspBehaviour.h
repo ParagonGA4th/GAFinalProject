@@ -1,0 +1,118 @@
+#pragma once
+#include "ScriptInterface.h"
+#include "IEnemyBehaviour.h"
+#include "WaspInfo.h"
+
+#include <vector>
+#include <visit_struct/visit_struct.hpp>
+
+namespace Pg::Data
+{
+	class Transform;
+	class GameObject;
+	class PhysicsCollision;
+	class SkinnedMeshRenderer;
+	class CapsuleCollider;
+	class MonsterHelper;
+	class StaticBoxCollider;
+	class AudioSource;
+}
+
+namespace Pg::API
+{
+	class PgScene;
+
+	namespace Time
+	{
+		class PgTime;
+	}
+}
+
+namespace Pg::DataScript
+{
+	class PlayerHandler;
+	class CameraShake;
+
+	class WaspBehaviour : public ScriptInterface<WaspBehaviour>, public IEnemyBehaviour
+	{
+		DEFINE_PARAGON_SCRIPT(WaspBehaviour);
+	public:
+		WaspBehaviour(Pg::Data::GameObject* obj);
+
+	public:
+		virtual void BeforePhysicsAwake() override;
+		virtual void Awake() override;
+		virtual void Start() override;
+		virtual void Update() override;
+
+		virtual void OnDeserialize(SerializeVector& sv) override;
+		virtual void OnSerialize(SerializeVector& sv) override;
+
+		//플레이어를 쫓는 함수
+		void Chase();
+
+		//플레이어를 공격.
+		void UpdateAttack();
+
+		//피격 시 애니메이션 출력을 위한 함수.
+		void Hit();
+
+		//피격 시 죽음.
+		void Dead();
+
+	public:
+		BEGIN_VISITABLES(Pg::DataScript::WaspBehaviour);
+		VISITABLE(int, _areaIndex);
+		END_VISITABLES;
+
+	public:
+		//플레이어에게 어떤 몬스터인지를 전달하기 위함.
+		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() override { return _waspInfo; }
+		virtual unsigned int GetBelongAreaIndex() override { return _areaIndex; } //자신이 속해 있는 Area Index를 반환한다.
+
+	public:
+		//미니골렘의 상태와 수치에 대한 정보.
+		WaspInfo* _waspInfo;
+
+	private:
+		Pg::API::Time::PgTime* _pgTime;
+		Pg::API::PgScene* _pgScene;
+		Pg::Data::CapsuleCollider* _collider;
+
+		Pg::Data::GameObject* _player;
+		Pg::Data::Transform* _playerTransform;
+		Pg::Data::MonsterHelper* _monsterHelper;
+
+		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
+		std::vector<Pg::Data::StaticBoxCollider*> _skillAttackCol;
+	
+	private:
+		Pg::Data::GameObject* _waspHit;
+		Pg::Data::AudioSource* _hitSound;
+
+		Pg::Data::GameObject* _waspDie;
+		Pg::Data::AudioSource* _dieSound;
+
+		Pg::Data::GameObject* _waspDash;
+		Pg::Data::AudioSource* _dashSound;
+
+		Pg::Data::GameObject* _waspAttack;
+		Pg::Data::AudioSource* _attackSound;
+
+		CameraShake* _cameraShake;
+
+	private:
+		//플레이어와의 거리 측정
+		float _distance;
+		float _startAttackTime;
+		float _endAttackTime;
+		float _currentAttackTime;
+
+		//사툰드 관련 변수
+		bool _isAttackSoundPlaying{ false };
+
+		//공격 관련 변수
+		bool _isAttackStart{ false };
+	};
+}
+

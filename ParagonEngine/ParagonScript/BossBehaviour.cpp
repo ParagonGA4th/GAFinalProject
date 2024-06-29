@@ -193,7 +193,7 @@ namespace Pg::DataScript
 						_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_3*/)
 					{
 						//Attack(_monsterHelper->_isAnimChange);
-						_useStormBlast = true;
+						_useStormBlast = true;	
 					}
 					if (_monsterHelper->_bossState == Pg::Data::BossState::IDLE)
 					{
