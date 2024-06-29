@@ -38,7 +38,7 @@ namespace Pg::DataScript
 			if (col->_object->GetTag() == "TAG_Player")
 			{
 				PG_TRACE("Player Hit!");
-				_combatSystem->ChangePlayerHealth(-2.f);
+				_combatSystem->ChangePlayerHealth(-4.f);
 			}
 		}
 	}

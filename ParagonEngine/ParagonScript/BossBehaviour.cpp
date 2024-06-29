@@ -161,10 +161,7 @@ namespace Pg::DataScript
 
 			if (!_isDash)
 			{
-				if (_isChasing)
-				{
-					Chase();
-				}
+				Chase();
 			}
 			// 3초 동안 바라본 후 돌진 시작
 			//if (_rotateToPlayerTime >= 3.0f)
@@ -195,7 +192,7 @@ namespace Pg::DataScript
 						_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_2 /*||
 						_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_3*/)
 					{
-						//Attack(_monsterHelper->_isAnimChange);
+						Attack(_monsterHelper->_isAnimChange);
 						_useStormBlast = true;
 					}
 					if (_monsterHelper->_bossState == Pg::Data::BossState::IDLE)
