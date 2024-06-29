@@ -1,5 +1,6 @@
 #include "VisualEffectRenderer.h"
 #include "GraphicsResourceManager.h"
+#include "LowDX11Storage.h"
 #include <cassert>
 
 namespace Pg::Graphics
@@ -7,6 +8,7 @@ namespace Pg::Graphics
 	VisualEffectRenderer::VisualEffectRenderer()
 	{
 		_graphicsResourceManager = Manager::GraphicsResourceManager::Instance();
+		_DXStorage = LowDX11Storage::GetInstance();
 	}
 
 	VisualEffectRenderer::~VisualEffectRenderer()
@@ -19,25 +21,21 @@ namespace Pg::Graphics
 		//모든 이펙트 로딩.
 		for (auto& it : vec)
 		{
-			auto tReturnVal = _visualEffectsMap.insert(std::make_pair(it._effectName, std::make_unique<VERenderingSet>(it, VisualEffectGraphicsSet())));
+			auto tReturnVal = _visualEffectsMap.insert(std::make_pair(it._effectName, std::make_unique<VERenderingSet>(it, it._is3dSpace)));
+			auto& bVESetPtr = tReturnVal.first->second;
 			const auto& tEffectData = tReturnVal.first->second->_visualEffectData;
-			auto& tVisualEffectGraphicsSet = tReturnVal.first->second->_visualEffectGraphicsSet;
 
-			tVisualEffectGraphicsSet._renderTexture = static_cast<RenderTexture2D*>(_graphicsResourceManager->GetResourceByName
-			(tEffectData._textureName, Pg::Data::Enums::eAssetDefine::_TEXTURE2D).get());
-			assert(tVisualEffectGraphicsSet._renderTexture != nullptr);
+			//3D Space 소속여부로 다른 로드.
+			if (tEffectData._is3dSpace) { Load3DSpaceEffect(bVESetPtr.get()); }
+			else { Load2DSpaceEffect(bVESetPtr.get()); }
 
-			if (tEffectData._isUseCustomVertexShader)
-			{
-				tVisualEffectGraphicsSet._customRenderVertexShader = static_cast<RenderVertexShader*>(_graphicsResourceManager->GetResourceByName
-				(tEffectData._customVertexShaderName, Pg::Data::Enums::eAssetDefine::_RENDER_VERTEXSHADER).get());
-			}
+			
+			//여기까지 VisualEffectGraphicsSet 세팅.
 
-			if (tEffectData._isUseCustomPixelShader)
-			{
-				tVisualEffectGraphicsSet._customRenderPixelShader = static_cast<RenderPixelShader*>(_graphicsResourceManager->GetResourceByName
-				(tEffectData._customPixelShaderName, Pg::Data::Enums::eAssetDefine::_RENDER_PIXELSHADER).get());
-			}
+			///SpriteBatch / GeometricPrimitive 만들기. 추후에 변경 사항에 따라서 수정되어야 한다.
+			//bVESetPtr->_spriteBatch = std::make_unique<DirectX::SpriteBatch>(_DXStorage->_deviceContext);
+
+			///여기서, 개별적인 SpriteBatch 설정에 따른 설정을 해줘야 할 것이다.
 		}
 
 		//또한, 만들어진 current rendering map 역시 위에 기반한 메모리 마련.
@@ -94,7 +92,16 @@ namespace Pg::Graphics
 			bool tIsSpriteSheet = bRenderSet->_visualEffectData._isSpriteSheet;
 
 			//커스텀 셰이더 여부 + 등등을 해결해야 한다.
-			
+			if (tIs3d)
+			{
+
+
+			}
+			else
+			{
+
+			}
+			bRenderSet->_spriteBatch->Draw();
 			for (auto& bEffectObject : bEffectObjectVec)
 			{
 				//개별적인 Render Object 단계.
@@ -104,5 +111,48 @@ namespace Pg::Graphics
 
 		}
 	}
+
+	void VisualEffectRenderer::Load2DSpaceEffect(VERenderingSet* veSet)
+	{
+		auto& tVisualEffectGraphicsSet = veSet->_veGraphicsSet2D;
+		auto& tEffectData = veSet->_visualEffectData;
+
+		//여기부터 VisualEffectGraphicsSet 세팅.
+		tVisualEffectGraphicsSet->_renderTexture = static_cast<RenderTexture2D*>(_graphicsResourceManager->GetResourceByName
+		(tEffectData._textureName, Pg::Data::Enums::eAssetDefine::_TEXTURE2D).get());
+		assert(tVisualEffectGraphicsSet->_renderTexture != nullptr);
+
+		if (tEffectData._isUseCustomVertexShader)
+		{
+			tVisualEffectGraphicsSet->_customRenderVertexShader = static_cast<RenderVertexShader*>(_graphicsResourceManager->GetResourceByName
+			(tEffectData._customVertexShaderName, Pg::Data::Enums::eAssetDefine::_RENDER_VERTEXSHADER).get());
+		}
+
+		if (tEffectData._isUseCustomPixelShader)
+		{
+			tVisualEffectGraphicsSet->_customRenderPixelShader = static_cast<RenderPixelShader*>(_graphicsResourceManager->GetResourceByName
+			(tEffectData._customPixelShaderName, Pg::Data::Enums::eAssetDefine::_RENDER_PIXELSHADER).get());
+		}
+	}
+
+	void VisualEffectRenderer::Load3DSpaceEffect(VERenderingSet* veSet)
+	{
+		auto& tVisualEffectGraphicsSet = veSet->_veGraphicsSet3D;
+		auto& tEffectData = veSet->_visualEffectData;
+		//내부적으로 Mesh인지, 아닌지 역시 구분해야 한다. 
+		//Mesh라면, Asset3DModelData 가져와서 렌더해야 한다.
+		//해당 정보 가져와서 렌더하게 하면 끝나는 문제.
+		if(tEffectData._
+	}
+
+	//void VisualEffectRenderer::Render3dSpaceQuadEffect(VERenderingSet* veSet, Pg::Data::VisualEffectRenderObject* veObj)
+	//{
+	//
+	//}
+	//
+	//void VisualEffectRenderer::Render2dSpaceQuadEffect(VERenderingSet* veSet, Pg::Data::VisualEffectRenderObject* veObj)
+	//{
+	//
+	//}
 
 }

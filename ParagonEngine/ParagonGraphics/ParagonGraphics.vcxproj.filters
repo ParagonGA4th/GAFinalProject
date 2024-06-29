@@ -325,8 +325,8 @@
     <ClInclude Include="SystemInterfacedVertexShader.h">
       <Filter>3_GraphicsResources\SystemShader\SystemInterfacedVertexShader</Filter>
     </ClInclude>
-    <ClInclude Include="BillboardRenderPass.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\9_BillboardRenderPass</Filter>
+    <ClInclude Include="VisualEffectRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\9_VisualEffectRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="VisualEffectRenderer.h">
       <Filter>8_Helpers\VisualEffectRenderer</Filter>
@@ -601,8 +601,8 @@
     <ClCompile Include="SystemInterfacedVertexShader.cpp">
       <Filter>3_GraphicsResources\SystemShader\SystemInterfacedVertexShader</Filter>
     </ClCompile>
-    <ClCompile Include="BillboardRenderPass.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\9_BillboardRenderPass</Filter>
+    <ClCompile Include="VisualEffectRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\9_VisualEffectRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="VisualEffectRenderer.cpp">
       <Filter>8_Helpers\VisualEffectRenderer</Filter>
@@ -1036,9 +1036,6 @@
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\11_OutlineRenderPass">
       <UniqueIdentifier>{923fdd6e-5157-47b0-8cac-b34658565252}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\9_BillboardRenderPass">
-      <UniqueIdentifier>{8c6e63be-b0f2-4acc-a3d4-21169d2dd742}</UniqueIdentifier>
-    </Filter>
     <Filter Include="10_Structs\VisualEffectGraphicsSet">
       <UniqueIdentifier>{eb15c073-4cc9-46dc-b543-108325986b57}</UniqueIdentifier>
     </Filter>
@@ -1047,6 +1044,9 @@
     </Filter>
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\DebugOverlayQuad">
       <UniqueIdentifier>{e694605e-b4b8-4e36-ae4f-a9ba3394a9fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\9_VisualEffectRenderPass">
+      <UniqueIdentifier>{8c6e63be-b0f2-4acc-a3d4-21169d2dd742}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

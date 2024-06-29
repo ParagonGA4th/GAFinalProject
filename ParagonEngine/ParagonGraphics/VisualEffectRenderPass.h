@@ -41,11 +41,11 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class BillboardRenderPass : public IRenderSinglePass
+	class VisualEffectRenderPass : public IRenderSinglePass
 	{
 	public:
-		BillboardRenderPass(const std::string& resourceListPath);
-		~BillboardRenderPass();
+		VisualEffectRenderPass(const std::string& resourceListPath);
+		~VisualEffectRenderPass();
 
 		virtual void Initialize() override;
 		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;
