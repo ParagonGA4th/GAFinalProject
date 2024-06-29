@@ -1,7 +1,4 @@
 Path,SoundGroup,isLoop
-../Resources/Sounds/Test/TitleBGM.mp3,BGM,0
-../Resources/Sounds/Test/Ingame.mp3,BGM,0
-../Resources/Sounds/Test/jump.mp3,Effect,0
 ../Resources/Sounds/InGame/Effect/ES_Click.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/Player/ES_PC_FootStep_in.ogg,Effect,1
 ../Resources/Sounds/InGame/Effect/Player/ES_PC_FootStep_out.ogg,Effect,1

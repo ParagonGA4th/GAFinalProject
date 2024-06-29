@@ -46,6 +46,16 @@ namespace Pg::DataScript
 		_object->GetScene()->SetMainCamera(_selfCamera);
 	}
 
+	void InGameCameraBehavior::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper(this, sv);
+	}
+
+	void InGameCameraBehavior::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
+	}
+
 	void InGameCameraBehavior::Start()
 	{
 
@@ -53,8 +63,9 @@ namespace Pg::DataScript
 
 	void InGameCameraBehavior::FixedUpdate()
 	{
-		UpdateTargetTransforms();
-		LerpFollowPlayer();
+		Default_PlayerFollowMode();
+
+		//Boss_RotateAroundMode();
 
 		//if (GetAsyncKeyState(VK_F8) & 0x8000)
 		//{
@@ -87,6 +98,120 @@ namespace Pg::DataScript
 
 	}
 
+	void InGameCameraBehavior::Default_PlayerFollowMode()
+	{
+		UpdateTargetTransforms();
+		LerpFollowPlayer();
+	}
+
+	void InGameCameraBehavior::Boss_RotateAroundMode()
+	{
+		const Pg::Math::PGFLOAT3 tCenterOfCircle = { 0.04f, 2.95f, 0.24f };
+		const float tAboveValue = 15.f;
+		const float tDistance = 15.0f;
+		static float tRotAmount = 270.f;
+		static float tLookDownRotTemp = 60.f;
+
+
+		using namespace DirectX;
+
+		//계산을 반영할 것.
+		Pg::Math::PGFLOAT3 tYCenterTarget = { tCenterOfCircle.x, tCenterOfCircle.y + tAboveValue, tCenterOfCircle.z };
+		tYCenterTarget.z -= tDistance;
+		XMVECTOR position = XMVectorSet(tYCenterTarget.x, tYCenterTarget.y, tYCenterTarget.z, 1.0f);
+		XMVECTOR rotation = XMVectorSet(0, 0, 0, 1); // = PG2XM_QUATERNION_VECTOR(_object->_transform._rotation);
+		//Presave.
+		{
+			//내부 Rotate Around 계산. - Position.
+			//Player의 X and Z는 받되, Y는 자신으로 유지.
+			//Y축을 기준으로 돌 것이다.
+			XMVECTOR pivotPoint = XMVectorSet(tCenterOfCircle.x, tCenterOfCircle.y, tCenterOfCircle.z, 1.0f);
+			XMVECTOR rotationAxis = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+			//이게 실질적으로 Transform.RotateAround이랑 같을 것이다.
+			//_currentRotationAmt는 나중에 FollowLogic이 나오면 이를 기반으로 동작할 수 있을 것.
+
+
+			float rotationAngle = 0.f;
+			{
+				Pg::Math::PGFLOAT3 tPlayerPosition = _playerTransform->_position;
+				tPlayerPosition.y = tCenterOfCircle.y;
+				Pg::Math::PGFLOAT3 tCenterLookVector = -PGFloat3Normalize(tPlayerPosition - tCenterOfCircle);
+				//tCenterLookVector = PGReflectVectorAgainstAxis(tCenterLookVector, Pg::Math::PGFLOAT3::GlobalForward());
+				rotationAngle = XMVectorGetX(XMVector3AngleBetweenVectors(PG2XM_FLOAT3_VECTOR(tCenterLookVector), PG2XM_FLOAT3_VECTOR(Pg::Math::PGFLOAT3::GlobalForward())));
+
+				
+
+				//tRotAmount = PGFloat3Dot(tCenterLookVector, Pg::Math::PGFLOAT3::GlobalForward());
+				//tRotAmount *= 360.f;
+
+				//rotationAngle = XMConvertToRadians(tRotAmount);
+				//PG_ERROR(std::to_string(tRotAmount));
+			}
+			//{
+			//	if (GetAsyncKeyState(VK_LSHIFT) & 0x8000)
+			//	{
+			//		tRotAmount += 1.f;
+			//	}
+			//
+			//	rotationAngle = XMConvertToRadians(fmod(tRotAmount, 360.f));
+			//	PG_ERROR(std::to_string(fmod(tRotAmount,360.f)));
+			//}
+
+
+
+			//Rotation Axis & Angle.
+			XMMATRIX rotationMatrix = XMMatrixRotationAxis(rotationAxis, rotationAngle);
+
+			//현재 Forward Direction 보존.
+			XMVECTOR forward = XMVector3Rotate(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), rotation);
+
+			//Pivot Point로 오브젝트 Translate.
+			XMMATRIX translationToPivot = XMMatrixTranslationFromVector(XMVectorNegate(pivotPoint));
+			position = XMVector3Transform(position, translationToPivot);
+
+			//Pivot Point 중심으로 Object Rotation.
+			XMMATRIX rotationAroundPivot = rotationMatrix;
+			position = XMVector3Transform(position, rotationAroundPivot);
+
+			//오브젝트를 Pivot Point와 상대적으로, 원위치를 향해 Translate.
+			XMMATRIX translationFromPivot = XMMatrixTranslationFromVector(pivotPoint);
+			position = XMVector3Transform(position, translationFromPivot);
+		}
+
+		Pg::Math::PGFLOAT3 tSameYPT = { tCenterOfCircle.x, _object->_transform._position.y, tCenterOfCircle.z };
+		Pg::Math::PGFLOAT3 tLookVector = -PGFloat3Normalize(tSameYPT - _object->_transform._position);
+		_targetCamRotation = PGLookRotation(tLookVector, Pg::Math::PGFLOAT3::GlobalUp());
+		//Y축 대한 Flip:  
+		_targetCamRotation.w *= -1.0f;
+		DirectX::XMVECTOR tCurrentCamRot = PG2XM_QUATERNION_VECTOR(_targetCamRotation);
+
+		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
+		{
+			tLookDownRotTemp += 1.f;
+		}
+
+		DirectX::XMVECTOR tTemp = DirectX::XMQuaternionRotationRollPitchYaw(-Pg::Math::PGConvertToRadians(fmod(tLookDownRotTemp, 360.f)), 0, 0);
+		_targetCamRotation = Pg::Math::XM2PG_QUATERNION(DirectX::XMQuaternionMultiply(tCurrentCamRot, tTemp));
+		_targetCamPosition = Pg::Math::XM2PG_FLOAT3_VECTOR(position);
+
+
+
+		//TargetPosition으로 역 대입, 나중에 보간될 것.
+
+		float interpolation = std::clamp<float>(_speed * _pgTime->GetDeltaTime(), 0.f, 1.f);
+		float faster_interpolation = std::clamp<float>(_speed * 3.f * _pgTime->GetDeltaTime(), 0.f, 1.f);
+
+		//Position
+		Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+		tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _targetCamPosition, interpolation);
+		_object->_transform._position = tPosition;
+
+		//Rotation
+		_object->_transform._rotation = PGQuaternionSlerp(_object->_transform._rotation, _targetCamRotation, faster_interpolation);
+
+	}
+
 	void InGameCameraBehavior::LerpFollowPlayer()
 	{
 		float interpolation = std::clamp<float>(_speed * _pgTime->GetDeltaTime(), 0.f, 1.f);
@@ -107,12 +232,12 @@ namespace Pg::DataScript
 		using namespace DirectX;
 
 		//Target Position 설정. -> 나중에 Lerp할 때 반영될 것이다. 초기 상태 세팅.
-		_targetCamPosition.x = _playerTransform->_position.x + camOffset.x;
-		_targetCamPosition.y = _playerTransform->_position.y + camOffset.y;
-		_targetCamPosition.z = _playerTransform->_position.z + camOffset.z;
+		_targetCamPosition.x = _playerTransform->_position.x + _camOffset.x;
+		_targetCamPosition.y = _playerTransform->_position.y + _camOffset.y;
+		_targetCamPosition.z = _playerTransform->_position.z + _camOffset.z;
 
 		//Rotation은 바로 반영이 된다. -> 일단 초기 상태를 세팅.
-		
+
 		//계산을 반영할 것.
 		XMVECTOR position = XMVectorSet(_targetCamPosition.x, _targetCamPosition.y, _targetCamPosition.z, 1.0f);
 		XMVECTOR rotation = PG2XM_QUATERNION_VECTOR(_object->_transform._rotation);
@@ -132,7 +257,7 @@ namespace Pg::DataScript
 			//	_currentRotationAmt += 1.f;
 			//}
 
-			float rotationAngle = XMConvertToRadians(fmod(_currentRotationAmt, 360.f));
+			float rotationAngle = XMConvertToRadians(fmod(_currentRotation, 360.f));
 
 			//Rotation Axis & Angle.
 			XMMATRIX rotationMatrix = XMMatrixRotationAxis(rotationAxis, rotationAngle);
@@ -165,7 +290,7 @@ namespace Pg::DataScript
 		//Y축 대한 Flip:  
 		_targetCamRotation.w *= -1.0f;
 		DirectX::XMVECTOR tCurrentCamRot = PG2XM_QUATERNION_VECTOR(_targetCamRotation);
-		
+
 		DirectX::XMVECTOR tTemp = DirectX::XMQuaternionRotationRollPitchYaw(-PGConvertToRadians(_lookDownAngle), 0, 0);
 		_targetCamRotation = XM2PG_QUATERNION(DirectX::XMQuaternionMultiply(tCurrentCamRot, tTemp));
 

@@ -39,6 +39,9 @@ namespace Pg::DataScript
 		BossInfo& SetSightRange(float range) { _sightRange = range; return *this; }
 		BossInfo& SetCurrentNeutralize(float time) { _currentNeutralize = time; return *this; }
 		BossInfo& SetEndNeutralize(float time) { _endNeutralize = time; return *this; }
+		BossInfo& SetWindBlastDuration(float time) { _windBlastDuration = time; return *this; }
+		BossInfo& SetWindBlastSpeed(float speed) { _windBlastSpeed = speed; return *this; }
+		BossInfo& SetStartWindBlastDurationTime(float time) { _startWindBlastTime = time; return *this; }
 
 		float GetMoveSpeed() const { return _moveSpeed; }
 		float GetDashSpeed() const { return _dashSpeed; }
@@ -52,6 +55,9 @@ namespace Pg::DataScript
 		float GetCurrentEvadeTime() { return _currentEvadeTime; }
 		float GetCurrentNeutralize() { return _currentNeutralize; }
 		float GetEndNeutralize() { return _endNeutralize; }
+		float GetWindBlastDuration() { return _windBlastDuration; }
+		float GetWindBlastSpeed() { return _windBlastSpeed; }
+		float GetStartWindBlastTime() { return _startWindBlastTime; }
 
 		BossStatus _status; // 상태
 
@@ -74,6 +80,10 @@ namespace Pg::DataScript
 
 		float _currentNeutralize; //무력화 지속 시간
 		float _endNeutralize; //무력화 지속 시간
+
+		float _windBlastDuration; //돌풍 지속 시간
+		float _windBlastSpeed; //돌풍 속도
+		float _startWindBlastTime; //돌풍 시작 시간
 	};
 }
 
