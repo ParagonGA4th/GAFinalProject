@@ -38,7 +38,7 @@ namespace Pg::Graphics
 		_alphaBlendedTotalPass = std::make_unique<AlphaBlendedTotalRenderPass>(_editorMode);
 		_alphaBlendedTotalPass->Initialize();
 
-		_billboardRenderPass = std::make_unique<BillboardRenderPass>(_resourceListPath);
+		_billboardRenderPass = std::make_unique<VisualEffectRenderPass>(_resourceListPath);
 		_billboardRenderPass->Initialize();
 	}
 

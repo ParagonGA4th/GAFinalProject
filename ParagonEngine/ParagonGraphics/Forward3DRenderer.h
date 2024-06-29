@@ -11,7 +11,7 @@
 
 //RenderPasses
 #include "AlphaBlendedTotalRenderPass.h"
-#include "BillboardRenderPass.h"
+#include "VisualEffectRenderPass.h"
 
 namespace Pg::Data
 {
@@ -54,7 +54,7 @@ namespace Pg::Graphics
 
 	private:
 		std::unique_ptr<AlphaBlendedTotalRenderPass> _alphaBlendedTotalPass;
-		std::unique_ptr<BillboardRenderPass> _billboardRenderPass;
+		std::unique_ptr<VisualEffectRenderPass> _billboardRenderPass;
 
 	private:
 		LowDX11Storage* _DXStorage;

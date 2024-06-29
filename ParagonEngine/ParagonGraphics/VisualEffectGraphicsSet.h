@@ -5,10 +5,24 @@
 
 namespace Pg::Graphics
 {
-	struct VisualEffectGraphicsSet
+	struct VisualEffectGraphicsSet2D
 	{
 		RenderTexture2D* _renderTexture{ nullptr };
 		RenderVertexShader* _customRenderVertexShader{ nullptr };
 		RenderPixelShader* _customRenderPixelShader{ nullptr };
 	};
+
+	struct VisualEffectGraphicsSet3D
+	{
+		RenderTexture2D* _renderTexture{ nullptr };
+		RenderVertexShader* _customRenderVertexShader{ nullptr };
+		RenderPixelShader* _customRenderPixelShader{ nullptr };
+	
+		
+	
+	
+	
+	
+	};
+
 }
