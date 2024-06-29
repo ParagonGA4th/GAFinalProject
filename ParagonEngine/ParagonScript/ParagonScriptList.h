@@ -45,6 +45,7 @@
 #include "MiniGolemBehaviour.h"
 #include "StubBehaviour.h"
 #include "MimicBehaviour.h"
+#include "WaspBehaviour.h"
 #include "MiniGolemAttack.h"
 #include "TrentAttack.h"
 #include "MimicAttack.h"
