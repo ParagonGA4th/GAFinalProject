@@ -132,7 +132,7 @@ namespace Pg::DataScript
 			if (_distance <= _miniGolInfo->GetDashRange() && _isDash == false && _hasDashed == false)
 			{
 				_isDash = true;
-				_monsterHelper->_isDash = _isDash;
+				_monsterHelper->_mGolemFlag._isDash = _isDash;
 				_monsterHelper->_isChase = !_isDash;
 				_miniGolInfo->SetCurrentDashTime(0.f);
 			}
@@ -281,7 +281,7 @@ namespace Pg::DataScript
 			_isDash = false;
 			_hasDashed = true;
 			_isDashSoundPlaying = false;
-			_monsterHelper->_isDash = _isDash;
+			_monsterHelper->_mGolemFlag._isDash = _isDash;
 			_monsterHelper->_isChase = !_isDash;
 		}
 	}
