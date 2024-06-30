@@ -184,11 +184,6 @@ namespace Pg::Engine
 			if (!tIsJustChangedScene)
 			{
 				_behaviorTreeSystem->Update();
-				PG_WARN("UPDATING LIKE NORMAL");
-			}
-			else
-			{
-				PG_ERROR("JUST CHANGED");
 			}
 
 			_physicSystem->UpdateTransform();
