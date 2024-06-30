@@ -85,12 +85,26 @@ namespace Pg::DataScript
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
-			Pg::Data::StaticBoxCollider* staticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+			// 자식 오브젝트의 이름을 얻어옵니다.
+			std::string childTag = iter->_object->GetTag();
 
-			if (staticCol != nullptr)
+			if (childTag == "TAG_Attack")
 			{
-				_attackCol.push_back(staticCol);
-				staticCol->SetActive(false);
+				Pg::Data::StaticBoxCollider* basicStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (basicStaticCol != nullptr)
+				{
+					_basicAttackCol.push_back(basicStaticCol);  // 벡터에 추가
+					basicStaticCol->SetActive(false);  // 비활성화
+				}
+			}
+			else if (childTag == "TAG_Skill")
+			{
+				Pg::Data::StaticBoxCollider* skillCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (skillCol != nullptr)
+				{
+					_skillAttackCol.push_back(skillCol);
+					skillCol->SetActive(false);
+				}
 			}
 		}
 	}
@@ -123,19 +137,13 @@ namespace Pg::DataScript
 			_monsterHelper->_isPlayerDetected = true;
 			RotateToPlayer(_playerTransform->_position);
 
-			//대쉬 true면 돌진해!!
-			if (_isDash)
-			{
-				
-			}
-			else
-			{
-				_monsterHelper->_isChase = !_isDash;
-				Chase();
-			}
+			_monsterHelper->_isChase = !_isDash;
 
+			Chase();
 		}
-		//PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
+
+		//코인 투척 스킬
+		UpdateSkill();
 	}
 
 	void MimicBehaviour::Idle()
@@ -156,6 +164,8 @@ namespace Pg::DataScript
 
 			//애니메이션 딜레이를 위한 델타타임 체크.
 			_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
+
+			_useCoinThrow = true;
 
 			//공격
 			if (_currentAttackTime >= _startAttackTime)
@@ -233,9 +243,60 @@ namespace Pg::DataScript
 
 	void MimicBehaviour::Attack(bool _isAttack)
 	{
-		for (auto& iter : _attackCol)
+		for (auto& iter : _basicAttackCol)
 		{
 			iter->SetActive(_isAttack);
+		}
+	}
+
+
+	void MimicBehaviour::UpdateSkill()
+	{
+		// 돌풍 스킬의 이동 및 충돌 처리
+		if (_useCoinThrow)
+		{
+			_mimicInfo->SetStartSKillTime(_mimicInfo->GetStartSkillTime() + _pgTime->GetDeltaTime());
+
+			if (_mimicInfo->GetStartSkillTime() < _mimicInfo->GetSkillDuration())
+			{
+				Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
+
+				//자신이 바라보는 방향으로 쏴야하기 때문에 z축빼고 전부 고정.
+				forwardDir.y = 0;
+				forwardDir.x = 0;
+				forwardDir = Pg::Math::PGFloat3Normalize(forwardDir);
+
+				if (forwardDir.z > 0)
+				{
+					//돌풍 콜라이더 앞으로 전진
+					for (auto& iter : _skillAttackCol)
+					{
+						iter->SetActive(true);
+						iter->_object->_transform._position.z += forwardDir.z * _mimicInfo->GetSkillSpeed() * _pgTime->GetDeltaTime();
+					}
+				}
+				else
+				{
+					//돌풍 콜라이더 앞으로 전진
+					for (auto& iter : _skillAttackCol)
+					{
+						iter->SetActive(true);
+						iter->_object->_transform._position.z -= forwardDir.z * _mimicInfo->GetSkillSpeed() * _pgTime->GetDeltaTime();
+					}
+				}
+			}
+			else
+			{
+				for (auto& iter : _skillAttackCol)
+				{
+					iter->SetActive(false);
+					iter->_object->_transform._position = { 0.f, 2.f, 2.f };
+				}
+
+				_useCoinThrow = false;
+
+				_mimicInfo->SetStartSKillTime(0.f);
+			}
 		}
 	}
 

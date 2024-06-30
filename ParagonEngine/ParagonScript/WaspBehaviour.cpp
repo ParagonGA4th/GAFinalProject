@@ -196,7 +196,7 @@ namespace Pg::DataScript
 
 	void WaspBehaviour::UpdateAttack()
 	{
-		// 돌풍 스킬의 이동 및 충돌 처리
+		//투사체 처리
 		if (_isAttackStart)
 		{
 			_startAttackTime += _pgTime->GetDeltaTime();
@@ -209,10 +209,10 @@ namespace Pg::DataScript
 				forwardDir.y = 0;
 				forwardDir.x = 0;
 				forwardDir = Pg::Math::PGFloat3Normalize(forwardDir);
-
+				
+				//자신의 rotation에 따라 날아가는 방향 맞춰서 설정.
 				if (forwardDir.z > 0)
 				{
-					//돌풍 콜라이더 앞으로 전진
 					for (auto& iter : _basicAttackCol)
 					{
 						iter->SetActive(true);
@@ -221,7 +221,6 @@ namespace Pg::DataScript
 				}
 				else
 				{
-					//돌풍 콜라이더 앞으로 전진
 					for (auto& iter : _basicAttackCol)
 					{
 						iter->SetActive(true);
