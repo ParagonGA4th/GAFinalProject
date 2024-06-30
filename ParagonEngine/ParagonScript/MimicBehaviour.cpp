@@ -113,8 +113,8 @@ namespace Pg::DataScript
 			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 지정된 위치로 보내준다.
 			_object->_transform._position = { 0, -1000, 0 };
 
-			_monsterHelper->_isDeadDelay = false;
 			_monsterHelper->_isDead = true;
+			_monsterHelper->_isDeadDelay = false;
 		}
 
 		// 시야 안에 들어왔을 때 쫓아가라.
@@ -157,6 +157,9 @@ namespace Pg::DataScript
 			//애니메이션 딜레이를 위한 델타타임 체크.
 			_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
 
+			// 공격 애니메이션 출력.
+			_monsterHelper->_isPlayerinHitSpace = true;
+
 			//공격
 			if (_currentAttackTime >= _startAttackTime)
 			{
@@ -168,9 +171,6 @@ namespace Pg::DataScript
 
 				_currentAttackTime = 0.f;
 			}
-
-			// 공격 애니메이션 출력.
-			_monsterHelper->_isPlayerinHitSpace = true;
 		}
 		else
 		{
@@ -182,6 +182,7 @@ namespace Pg::DataScript
 
 			// 플레이어가 시야 안에 있으면
 			_monsterHelper->_isPlayerinHitSpace = false;
+			_monsterHelper->_isChase = true;
 
 			//사정거리 밖이면 플레이어로 계속 다가가기.
 			Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
@@ -243,7 +244,9 @@ namespace Pg::DataScript
 	{
 		//상태를 죽음으로 변경.
 		_mimicInfo->_status = MimicStatus::DEAD;
-		_monsterHelper->_isDead = true;
+		_monsterHelper->_isDead = true;		
+		_monsterHelper->_isPlayerinHitSpace = false;
+		_monsterHelper->_isChase = false;
 
 		if (_isMoving) 
 		{

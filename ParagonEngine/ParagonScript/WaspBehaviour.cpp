@@ -263,7 +263,21 @@ namespace Pg::DataScript
 
 	void WaspBehaviour::Hit()
 	{
+		//std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
+		//animId.append("_00003.pganim");
 
+		//_meshRenderer->SetAnimation(animId, false);
+
+		//std::string objName = _object->GetName();
+		//objName = objName.substr(0, objName.rfind("_"));
+		//objName.append("_Wing");
+
+		//auto tchild = _object->_transform.GetChild(objName);
+		//auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+		//animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
+		//animId.append("_10003.pganim");
+		//tcMeshRenderer->SetAnimation(animId, false);
 	}
 
 	void WaspBehaviour::Dead()

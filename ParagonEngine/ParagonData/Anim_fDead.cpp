@@ -6,18 +6,14 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_fDead::tick()
 	{
-		float isHolding = config().blackboard->get<bool>("ISHOLDING");
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
 			if (monHelper->_isAnimationEnd)
 			{
-				if (!isHolding)
-				{
-					monHelper->_isDeadDelay = true;
-					monHelper->_isAnimationEnd = false;
-					return BT::NodeStatus::FAILURE;
-				}
+				monHelper->_isDeadDelay = true;
+				monHelper->_isAnimationEnd = false;
+				return BT::NodeStatus::FAILURE;
 			}
 
 			auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();

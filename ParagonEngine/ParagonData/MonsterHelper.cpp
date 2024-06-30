@@ -15,6 +15,7 @@ void Pg::Data::MonsterHelper::OnAnimationEnd(const std::string& justEndedAnimati
 {
 	_isAnimationEnd = true;
 }
+
 void Pg::Data::MonsterHelper::BossInit()
 {
 	_bossFlag._isPase_1 = true;
