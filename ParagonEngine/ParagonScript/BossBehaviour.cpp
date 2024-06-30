@@ -149,14 +149,14 @@ namespace Pg::DataScript
 
 			if (_dashCount <= 2)
 			{
-				_monsterHelper->_isDash = true;
+				_monsterHelper->_bossFlag._isDash = true;
 				_isDash = true;
 				Dash();
 			}
 			else
 			{
 				_isDash = false;
-				_monsterHelper->_isDash = false;
+				_monsterHelper->_bossFlag._isDash = false;
 			}
 
 			if (!_isDash)
@@ -186,16 +186,16 @@ namespace Pg::DataScript
 				{
 					_isChasing = false;
 					_monsterHelper->_isPlayerinHitSpace = true;
-					_monsterHelper->_isPase_1 = true;
+					_monsterHelper->_bossFlag._isPase_1 = true;
 
-					if (_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
-						_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_2 /*||
+					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
+						_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2 /*||
 						_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_3*/)
 					{
 						//Attack(_monsterHelper->_isAnimChange);
 						_useStormBlast = true;	
 					}
-					if (_monsterHelper->_bossState == Pg::Data::BossState::IDLE)
+					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE)
 					{
 						Attack(false);
 					}
@@ -277,7 +277,7 @@ namespace Pg::DataScript
 	void BossBehaviour::Dash()
 	{
 		// 돌진 지속 시간 동안 돌진
-		if (_monsterHelper->_bossState == Pg::Data::BossState::DASH)
+		if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::DASH)
 		{
 			_bossInfo->_status = BossStatus::DASH;
 
@@ -392,7 +392,7 @@ namespace Pg::DataScript
 	void BossBehaviour::Evade()
 	{
 		// 회피 로직 구현
-		if (_monsterHelper->_bossState == Pg::Data::BossState::EVASION)
+		if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::EVASION)
 		{
 			_bossInfo->_status = BossStatus::EVADE;
 
@@ -473,16 +473,16 @@ namespace Pg::DataScript
 			{
 				//무력화 해제.
 				_isNeutralize = false;
-				_monsterHelper->_isDown = false;
+				_monsterHelper->_bossFlag._isDown = false;
 				_bossInfo->SetCurrentNeutralize(0.f);
 				return;
 			}
 
 			if (!_isNeutralizeInit)
 			{
-				_monsterHelper->_isDown = true;
+				_monsterHelper->_bossFlag._isDown = true;
 				_monsterHelper->_isChase = false;
-				_monsterHelper->_isDash = false;
+				_monsterHelper->_bossFlag._isDash = false;
 				_monsterHelper->_isDistanceClose = false;
 			}
 
@@ -496,7 +496,16 @@ namespace Pg::DataScript
 	{
 		if (!_isDeadInit)
 		{
+			_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::DEAD;
+			_monsterHelper->_bossFlag._bossPase = Pg::Data::BossPase::PASE_1;
+
 			_monsterHelper->_isDead = true;
+			_monsterHelper->_isPlayerDetected = false;
+			_monsterHelper->_isPlayerinHitSpace = false;
+			_monsterHelper->_isChase = false;
+			_monsterHelper->_bossFlag._isDash = false;
+			_monsterHelper->_bossFlag._isDown = false;
+
 			_dieAudio->Play();
 			_isDeadInit = true;
 		}

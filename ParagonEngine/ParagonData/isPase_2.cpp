@@ -3,34 +3,24 @@
 
 namespace Pg::Data::BTree::Node
 {
-	void isPase_2::InitCustom()
-	{
-		config().blackboard->set<bool>("PASETWOINIT", false);
-	}
-
 	BT::NodeStatus isPase_2::tick()
 	{
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			bool paseInit = config().blackboard->get<bool>("PASETWOINIT");
-			if (monHelper->_isPase_2)
+			if (monHelper->_bossFlag._isPase_1)
 			{
-				monHelper->_bossPase = Pg::Data::BossPase::PASE_2;
-				if (!paseInit)
+				monHelper->_bossFlag._bossPase = Pg::Data::BossPase::PASE_2;
+				if (!_isInit)
 				{
-					monHelper->_bossState = Pg::Data::BossState::EVASION;
-					config().blackboard->set<bool>("PASETWOINIT", true);
+					monHelper->_bossFlag._bossState = Pg::Data::BossState::EVASION;
+					_isInit = true;
 				}
 				return BT::NodeStatus::SUCCESS;
 			}
-			else
-			{
-				if (paseInit) config().blackboard->set<bool>("PASETWOINIT", false);
-				return BT::NodeStatus::FAILURE;
-			}
 		}
 
-		return BT::NodeStatus::SUCCESS;
+		if (_isInit) _isInit = !_isInit;
+		return BT::NodeStatus::FAILURE;
 	}
 }

@@ -3,24 +3,19 @@
 
 namespace Pg::Data::BTree::Node
 {
-	void isDown::InitCustom()
-	{
-		config().blackboard->set<bool>("DOWNINIT", false);
-	}
-
 	BT::NodeStatus isDown::tick()
 	{
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_isDown)
+			if (monHelper->_bossFlag._isDown)
 			{
-				config().blackboard->set<bool>("DOWNINIT", true);
-				monHelper->_bossState = Pg::Data::BossState::DOWN;
+				monHelper->_bossFlag._bossState = Pg::Data::BossState::DOWN;
 				return BT::NodeStatus::SUCCESS;
 			}
 			else
 			{
+				monHelper->_bossFlag._bossState = Pg::Data::BossState::DOWNENDED;
 				return BT::NodeStatus::FAILURE;
 			}
 		}

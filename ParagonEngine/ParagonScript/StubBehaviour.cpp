@@ -146,24 +146,24 @@ namespace Pg::DataScript
 				_isFindSoundPlaying = true;
 			}
 
-			if (_monsterHelper->_trentState == Pg::Data::TrentState::SKILL_ATTACK)
+			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::SKILL_ATTACK)
 			{
 				//PG_TRACE("Skill!");
 				Skill(true); // 스킬 사용
 			}
-			if (_monsterHelper->_trentState == Pg::Data::TrentState::SKILL_COOLDOWN)
+			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::SKILL_COOLDOWN)
 			{
 				//PG_TRACE("Skill CoolDown!");
 				Skill(false); // 스킬 종료
 			}
-			if (_monsterHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_1 ||
-				_monsterHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_2 ||
-				_monsterHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_3)
+			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::BASIC_ATTACK_1 ||
+				_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::BASIC_ATTACK_2 ||
+				_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::BASIC_ATTACK_3)
 			{
 				//PG_TRACE("Attack!");
 				Attack(_monsterHelper->_isAnimChange);
 			}			
-			if (_monsterHelper->_trentState == Pg::Data::TrentState::BASICATTACK_COOLDOWN)
+			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::BASICATTACK_COOLDOWN)
 			{
 				//PG_TRACE("Attack CoolDown!");
 				Attack(false);
@@ -236,7 +236,7 @@ namespace Pg::DataScript
 			_monsterHelper->_isPlayerinHitSpace = false;
 			_isFindSoundPlaying = false;
 			_stubInfo->_status = StubStatus::IDLE;
-			//_monsterHelper->_trentState = Pg::Data::TrentState::IDLE;
+			//_monsterHelper->_stubState = Pg::Data::StubState::IDLE;
 			Attack(false);
 		}
 
@@ -245,6 +245,7 @@ namespace Pg::DataScript
 		{
 
 			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 보내준다.
+			_monsterHelper->_isDead = false;
 			_monsterHelper->_isDeadDelay = false;
 			
 			_isRotateFinish = true;
@@ -319,5 +320,7 @@ namespace Pg::DataScript
 		_dieSound->Play();
 		_stubInfo->_status = StubStatus::DEAD;
 		_monsterHelper->_isDead = true;
+		_monsterHelper->_isPlayerDetected = false;
+		_monsterHelper->_isPlayerinHitSpace = false;
 	}
 }

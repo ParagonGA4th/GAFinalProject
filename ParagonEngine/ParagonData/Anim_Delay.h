@@ -24,16 +24,13 @@ namespace Pg::Data::BTree::Node
 		{
 			BT::PortsList list;
 			list.insert(BT::BidirectionalPort<float>("_holdTime"));
-			list.insert(BT::BidirectionalPort<bool>("_isAnimChange"));
-			list.insert(BT::BidirectionalPort<std::string>("_currentAnim"));
-			list.insert(BT::BidirectionalPort<std::string>("_prevAnim"));
-
+			list.insert(BT::BidirectionalPort<bool>("_isHolding"));
 			return list;
 		}
 
 	private:
 		Pg::Util::Time::TimeSystem* _deltaTime;
-		float _value;
+		float value{ 0.f };
 	};
 }
 

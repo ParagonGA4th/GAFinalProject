@@ -22,12 +22,7 @@ namespace Pg::Data::BTree::Node
 		}
 
 	private:
-		bool _isAnimEnd = { false };
-		bool _isInit = { false };
-		bool _isLoading = { false };
-		bool _isEnd = { false };
-
-		std::string _animId;
+		bool _isInit{ false };
 	};
 }
 #endif

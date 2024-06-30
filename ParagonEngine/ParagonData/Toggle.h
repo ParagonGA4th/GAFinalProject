@@ -1,5 +1,5 @@
-#ifndef ANIM_TATTACK 
-#define ANIM_TATTACK
+#ifndef TOGGLE
+#define TOGGLE
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,12 +7,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_tAttack : public BT::SyncActionNode, public BasePgBtNode
+	class Toggle : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_tAttack(const std::string& name, const BT::NodeConfiguration& config)
+		Toggle(const std::string& name, const BT::NodeConfiguration& config)
 			: BT::SyncActionNode(name, config) {}
-		virtual ~Anim_tAttack() = default;
+		virtual ~Toggle() = default;
 
 		virtual BT::NodeStatus tick() override;
 
@@ -20,6 +20,9 @@ namespace Pg::Data::BTree::Node
 		{
 			return {};
 		}
+	private:
+		bool _toggle{ true };
 	};
 }
+
 #endif

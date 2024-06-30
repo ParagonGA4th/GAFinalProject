@@ -36,7 +36,6 @@
 // Ground Monster
 #include "../ParagonData/Anim_gDead.h"
 #include "../ParagonData/Anim_gIdle.h"
-#include "../ParagonData/isSkillAttack.h"
 #include "../ParagonData/isCoolDown.h"
 
 //golem
@@ -47,6 +46,7 @@
 //wasp
 #include "../ParagonData/Anim_Shoot.h"
 #include "../ParagonData/Anim_Stab.h"
+#include "../ParagonData/Toggle.h"
 
 //Trent
 #include "../ParagonData/Anim_tAttack.h"

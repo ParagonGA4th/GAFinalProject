@@ -121,8 +121,22 @@ namespace Pg::DataScript
 			+ std::pow(_player->_transform._position.z - _object->_transform._position.z, 2)));
 
 
+		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
+		{
+			//다 꺼짐.
+			//_meshRenderer->SetActive(false);
+			_object->SetActive(false);
+
+			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 지정된 위치로 보내준다.
+			_object->_transform._position = { 0, -1000, 0 };
+
+			_monsterHelper->_isDead = false;
+			_monsterHelper->_isDeadDelay = false;
+		}
+
 		///일반공격 로직 (무조건 제일 끝에 존재해야 함)
 		UpdateAttack();
+		
 	}
 
 	void WaspBehaviour::Chase()
@@ -150,6 +164,7 @@ namespace Pg::DataScript
 
 				// 공격 애니메이션 출력.
 				_monsterHelper->_isPlayerinHitSpace = true;
+				_monsterHelper->_isChase = false;
 				//Attack(true);
 			}
 			if (_currentAttackTime >= _startAttackTime && _currentAttackTime >= _endAttackTime)
@@ -170,7 +185,9 @@ namespace Pg::DataScript
 			//_currentAttackTime = 0.f;
 
 			// 플레이어가 시야 안에 있으면
+			_monsterHelper->_isPlayerDetected = true;
 			_monsterHelper->_isPlayerinHitSpace = false;
+			_monsterHelper->_isChase = true;
 
 			//사정거리 밖이면 플레이어로 계속 다가가기.
 			///보간하면서 이동할 시 마지막에 느려지는 현상을 발생하기 위해 제거.
@@ -251,7 +268,9 @@ namespace Pg::DataScript
 
 	void WaspBehaviour::Dead()
 	{
-
+		_monsterHelper->_isDead = true;
+		_monsterHelper->_isPlayerDetected = false;
+		_monsterHelper->_isPlayerinHitSpace = false;
+		_monsterHelper->_isChase = false;
 	}
-
 }

@@ -10,15 +10,11 @@ namespace Pg::Data::BTree::Node
 		{
 			if (monHelper->_isDistanceClose)
 			{
-				monHelper->_bossState = Pg::Data::BossState::EVASION;
+				monHelper->_bossFlag._bossState = Pg::Data::BossState::EVASION;
 				return BT::NodeStatus::SUCCESS;
-			}
-			else
-			{
-				return BT::NodeStatus::FAILURE;
 			}
 		}
 
-		return BT::NodeStatus::SUCCESS;
+		return BT::NodeStatus::FAILURE;
 	}
 }

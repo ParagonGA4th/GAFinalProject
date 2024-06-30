@@ -6,27 +6,28 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_mAttack::tick()
 	{
+		bool isHolding = config().blackboard->get<bool>("ISHOLDING");
+		if (isHolding) return BT::NodeStatus::FAILURE;
+
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
 			if (monHelper->_isAnimationEnd)
 			{
 				monHelper->_isAnimationEnd = false;
-				config().blackboard->set<bool>("ISCHANGE", false);
+				return BT::NodeStatus::FAILURE;
 			}
 		}
 
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
-			config().blackboard->set<std::string>("CURRENTANIM", "_00004");
 			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
 			animId.append("_00004.pganim");
 
 			if (tMeshRenderer->GetAnimation() != animId)
 			{
 				tMeshRenderer->SetAnimation(animId, false);
-				config().blackboard->set<bool>("ISCHANGE", true);
 			}
 		}
 
