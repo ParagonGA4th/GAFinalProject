@@ -16,6 +16,7 @@
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonData/NavMeshAgent.h"
 #include "../ParagonData/NavigationField.h"
+#include "../ParagonData/MonsterHelper.h"
 
 //#include "../ParagonData/BaseRenderer.h" //Render ���� ���� ����.
 //#include "../ParagonData/RendererBase2D.h" //Render ���� ���� ����.
@@ -50,7 +51,7 @@
 
 void Pg::Engine::TestScene::Initialize()
 {
-#ifdef DEBUG
+#if DEBUG
 	using namespace Pg::Data;
 
 	//���� ���⼭ MainCamera �ֱ� ����.
@@ -212,25 +213,26 @@ void Pg::Engine::TestScene::Initialize()
 	
 
 	///AI
-	//Pg::Data::GameObject* tObj7_1 = tCurrentScene->AddObject("Boss");
-	//tObj7_1->GetComponent<Transform>()->_position = { -8.0f, 3.0f, 8.0f };
-	//tObj7_1->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
-	////tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
-	////tObj7_1->GetComponent<Transform>()->AddChild(tObj7_4);
-	//tObj7_1->GetComponent<Transform>()->_rotation = tObj7_1->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	Pg::Data::GameObject* tObj7_1 = tCurrentScene->AddObject("Stub");
+	tObj7_1->GetComponent<Transform>()->_position = { -8.0f, 3.0f, 8.0f };
+	tObj7_1->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
+	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_4);
+	tObj7_1->GetComponent<Transform>()->_rotation = tObj7_1->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 	//tObj7_1->AddComponent<CapsuleCollider>();
-	////tObj7_1->GetComponent<CapsuleCollider>()->SetPositionOffset({ 0.f, 2.5f, 0.f });
-	////tObj7_1->GetComponent<CapsuleCollider>()->SetRotationOffset({ 0.f, 0.f, 90.f, 0.f });
+	//tObj7_1->GetComponent<CapsuleCollider>()->SetPositionOffset({ 0.f, 2.5f, 0.f });
+	//tObj7_1->GetComponent<CapsuleCollider>()->SetRotationOffset({ 0.f, 0.f, 90.f, 0.f });
 	//tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
 	//tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
 	//tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
 	//tObj7_1->GetComponent<CapsuleCollider>()->SetCapsuleInfo(1.0f, 1.5f);
-	//tObj7_1->AddComponent<SkinnedMeshRenderer>();
-	//tObj7_1->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/Monsters/boss/mon_boss.fbx");
-	//tObj7_1->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "MBA_00001.pganim";
-	//tObj7_1->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
-	//tObj7_1->AddComponent<Animator>();
-	//tObj7_1->GetComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Monster/Boss.xml");
+	tObj7_1->AddComponent<SkinnedMeshRenderer>();
+	tObj7_1->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/Monsters/wasp/mon_wasp_body.fbx");
+	tObj7_1->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "BMA_00001.pganim";
+	tObj7_1->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
+	tObj7_1->AddComponent<Animator>();
+	tObj7_1->GetComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Monster/Wasp.xml");
+	tObj7_1->AddComponent<MonsterHelper>();
 	//tObj7_1->AddComponent<MonsterMove>();
 	//tObj7_1->AddComponent<NavTest>();
 
@@ -244,14 +246,14 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj7_2->AddComponent<AISeight>();
 	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_2);
 
-	//Pg::Data::GameObject* tObj7_3 = tCurrentScene->AddObject("Golem1_Crtstal");
-	//tObj7_3->GetComponent<Transform>()->_position = { 0.f, 0.f, 0.f };
-	//tObj7_3->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
-	//tObj7_3->AddComponent<SkinnedMeshRenderer>();
-	//tObj7_3->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/Monsters/mon_golemmini/mon_golemmini_crystal.fbx");
-	//tObj7_3->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "GMA_10001.pganim";
-	//tObj7_3->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
-	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
+	Pg::Data::GameObject* tObj7_3 = tCurrentScene->AddObject("Wasp1_Wing");
+	tObj7_3->GetComponent<Transform>()->_position = { 0.f, 0.f, 0.f };
+	tObj7_3->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	tObj7_3->AddComponent<SkinnedMeshRenderer>();
+	tObj7_3->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/Monsters/wasp/mon_wasp_wing.fbx");
+	tObj7_3->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "BMA_10001.pganim";
+	tObj7_3->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
+	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
 
 
 	//Pg::Data::GameObject* tObj7_3 = tCurrentScene->AddObject("Seight2");

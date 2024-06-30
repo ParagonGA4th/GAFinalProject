@@ -12,12 +12,8 @@ namespace Pg::Data::BTree::Node
 			{
 				return BT::NodeStatus::SUCCESS;
 			}
-			else
-			{
-				return BT::NodeStatus::FAILURE;
-			}
 		}
 
-		return BT::NodeStatus::SUCCESS;
+		return BT::NodeStatus::FAILURE;
 	}
 }

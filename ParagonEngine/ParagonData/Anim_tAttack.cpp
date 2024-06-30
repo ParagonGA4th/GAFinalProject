@@ -11,43 +11,33 @@ namespace Pg::Data::BTree::Node
 		{
 			if (monHelper->_isAnimationEnd)
 			{
-				_isChangeAnim = false;
 				monHelper->_isAnimationEnd = false;
 				monHelper->_isAnimChange = false;
 
-				if (monHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_3)
-					monHelper->_trentState = Pg::Data::TrentState::BASICATTACK_COOLDOWN;
-
-				config().blackboard->set<bool>("ISCHANGE", false);
-			}
-			else
-			{
-				if (!monHelper->_isAnimChange) monHelper->_isAnimChange = true;
-				if (monHelper->_trentState == Pg::Data::TrentState::SKILL_COOLDOWN)
+				if (monHelper->_stubFlag._stubState == Pg::Data::StubState::BASIC_ATTACK_3)
 				{
-					if (_isChangeAnim) _isChangeAnim = false;
+					monHelper->_stubFlag._stubState = Pg::Data::StubState::BASICATTACK_COOLDOWN;
+					return BT::NodeStatus::FAILURE;
 				}
 			}
 
 			auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 			if (tMeshRenderer != nullptr)
 			{
-				config().blackboard->set<std::string>("CURRENTANIM", "_00004");
 				std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
 				animId.append("_00004.pganim");
 
-				if (!_isChangeAnim &&
-					(monHelper->_trentState == Pg::Data::TrentState::SKILL_COOLDOWN ||
-						monHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_1 ||
-						monHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_2))
+				if (!monHelper->_isAnimChange &&
+					(monHelper->_stubFlag._stubState == Pg::Data::StubState::SKILL_COOLDOWN ||
+						monHelper->_stubFlag._stubState == Pg::Data::StubState::BASIC_ATTACK_1 ||
+						monHelper->_stubFlag._stubState == Pg::Data::StubState::BASIC_ATTACK_2))
 				{
-					if (monHelper->_trentState == Pg::Data::TrentState::SKILL_COOLDOWN) monHelper->_trentState = Pg::Data::TrentState::BASIC_ATTACK_1;
-					else if (monHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_1) monHelper->_trentState = Pg::Data::TrentState::BASIC_ATTACK_2;
-					else if (monHelper->_trentState == Pg::Data::TrentState::BASIC_ATTACK_2) monHelper->_trentState = Pg::Data::TrentState::BASIC_ATTACK_3;
+					if (monHelper->_stubFlag._stubState == Pg::Data::StubState::SKILL_COOLDOWN) monHelper->_stubFlag._stubState = Pg::Data::StubState::BASIC_ATTACK_1;
+					else if (monHelper->_stubFlag._stubState == Pg::Data::StubState::BASIC_ATTACK_1) monHelper->_stubFlag._stubState = Pg::Data::StubState::BASIC_ATTACK_2;
+					else if (monHelper->_stubFlag._stubState == Pg::Data::StubState::BASIC_ATTACK_2) monHelper->_stubFlag._stubState = Pg::Data::StubState::BASIC_ATTACK_3;
 
-					_isChangeAnim = true;
+					monHelper->_isAnimChange = true;
 					tMeshRenderer->SetAnimation(animId, false);
-					config().blackboard->set<bool>("ISCHANGE", true);
 				}
 			}
 		}

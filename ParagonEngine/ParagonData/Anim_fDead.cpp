@@ -6,21 +6,18 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_fDead::tick()
 	{
-		bool isChange = config().blackboard->get<bool>("ISCHANGE");
-		config().blackboard->set<std::string>("CURRENTANIM", "_00004");
-
+		float isHolding = config().blackboard->get<bool>("ISHOLDING");
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
 			if (monHelper->_isAnimationEnd)
 			{
-				_isAnimEnd = true;
-				monHelper->_isAnimationEnd = false;
-			}
-			else
-			{
-				if(isChange) monHelper->_isDeadDelay = true;
-				_isAnimEnd = false;
+				if (!isHolding)
+				{
+					monHelper->_isDeadDelay = true;
+					monHelper->_isAnimationEnd = false;
+					return BT::NodeStatus::FAILURE;
+				}
 			}
 
 			auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
@@ -31,7 +28,6 @@ namespace Pg::Data::BTree::Node
 
 				if (tMeshRenderer->GetAnimation() != animId)
 				{
-					_isAnimChange = true;
 					tMeshRenderer->SetAnimation(animId, false);
 
 					std::string objName = this->GetGameObject()->GetName();
@@ -47,15 +43,7 @@ namespace Pg::Data::BTree::Node
 					tcMeshRenderer->SetAnimation(animId, false);
 				}
 			}
-			else
-			{
-				return BT::NodeStatus::FAILURE;
-			}
 		}
-
-		if (_isAnimEnd && _isAnimChange) _isDelay = true;
-			
-		if(_isDelay) return BT::NodeStatus::FAILURE;
-		else return BT::NodeStatus::SUCCESS;
+		return BT::NodeStatus::SUCCESS;
 	}
 }

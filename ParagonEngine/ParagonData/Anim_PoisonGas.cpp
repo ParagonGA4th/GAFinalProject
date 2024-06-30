@@ -9,25 +9,30 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
+			if (monHelper->_stubFlag._stubState != Pg::Data::StubState::IDLE &&
+				monHelper->_stubFlag._stubState != Pg::Data::StubState::BASICATTACK_COOLDOWN &&
+				monHelper->_stubFlag._stubState != Pg::Data::StubState::SKILL_ATTACK)
+			{
+				return BT::NodeStatus::FAILURE;
+			}
+
 			if (monHelper->_isAnimationEnd)
 			{
 				monHelper->_isAnimationEnd = false;
-				config().blackboard->set<bool>("ISSKILLANIMEND", true);
-				config().blackboard->set<bool>("ISCHANGE", false);
+				monHelper->_stubFlag._stubState = Pg::Data::StubState::SKILL_COOLDOWN;
 			}
-		}
 
-		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-		if (tMeshRenderer != nullptr)
-		{
-			config().blackboard->set<std::string>("CURRENTANIM", "_00005");
-			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-			animId.append("_00005.pganim");
-
-			if (tMeshRenderer->GetAnimation() != animId)
+			auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+			if (tMeshRenderer != nullptr)
 			{
-				tMeshRenderer->SetAnimation(animId, false);
-				config().blackboard->set<bool>("ISCHANGE", true);
+				std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
+				animId.append("_00005.pganim");
+
+				if (tMeshRenderer->GetAnimation() != animId)
+				{
+					monHelper->_stubFlag._stubState = Pg::Data::StubState::SKILL_ATTACK;
+					tMeshRenderer->SetAnimation(animId, false);
+				}
 			}
 		}
 		return BT::NodeStatus::SUCCESS;

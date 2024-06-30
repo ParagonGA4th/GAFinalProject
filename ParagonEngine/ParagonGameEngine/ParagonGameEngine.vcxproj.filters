@@ -169,9 +169,6 @@
     <ClInclude Include="NavTestSecond.h">
       <Filter>4_WorkSpace\SceneView\Scripts\NavTest</Filter>
     </ClInclude>
-    <ClInclude Include="MonsterMove.h">
-      <Filter>4_WorkSpace\SceneView\Scripts\AI</Filter>
-    </ClInclude>
     <ClInclude Include="MonsterStrucr.h">
       <Filter>4_WorkSpace\SceneView\Scripts\AI</Filter>
     </ClInclude>
@@ -362,9 +359,6 @@
     </ClCompile>
     <ClCompile Include="NavTestSecond.cpp">
       <Filter>4_WorkSpace\SceneView\Scripts\NavTest</Filter>
-    </ClCompile>
-    <ClCompile Include="MonsterMove.cpp">
-      <Filter>4_WorkSpace\SceneView\Scripts\AI</Filter>
     </ClCompile>
     <ClCompile Include="AISeight.cpp">
       <Filter>4_WorkSpace\SceneView\Scripts\AI\AISight</Filter>

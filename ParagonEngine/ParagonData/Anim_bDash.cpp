@@ -9,13 +9,13 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_bossState != Pg::Data::BossState::DASH)
+			if (monHelper->_bossFlag._bossState != Pg::Data::BossState::DASH)
 				return BT::NodeStatus::FAILURE;
 
 			if (monHelper->_isAnimationEnd)
 			{
 				monHelper->_isAnimationEnd = false;
-				monHelper->_bossState = Pg::Data::BossState::IDLE;
+				monHelper->_bossFlag._bossState = Pg::Data::BossState::IDLE;
 				return BT::NodeStatus::FAILURE;
 			}
 		}
