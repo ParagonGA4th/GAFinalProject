@@ -1,9 +1,10 @@
 #include "OneTextureEffect3D.h"
+#include "VisualEffectRenderer.h"
+#include "RenderVertexShader.h"
 
 namespace Pg::Graphics
 {
-
-	OneTextureEffect3D::OneTextureEffect3D(ID3D11Device* device)
+	OneTextureEffect3D::OneTextureEffect3D(ID3D11Device* device, VERenderingSet* veSet) : BaseCustomEffect(veSet)
 	{
 
 	}
@@ -15,7 +16,8 @@ namespace Pg::Graphics
 
 	void OneTextureEffect3D::GetVertexShaderBytecode(void const** pShaderByteCode, size_t* pByteCodeLength)
 	{
-
+		assert(_veSet->_veGraphicsSet->_customRenderVertexShader != nullptr);
+		_veSet->_veGraphicsSet->_customRenderVertexShader->GetVertexShaderBytecode(pShaderByteCode, pByteCodeLength);
 	}
 
 	void XM_CALLCONV OneTextureEffect3D::SetWorld(DirectX::FXMMATRIX value)

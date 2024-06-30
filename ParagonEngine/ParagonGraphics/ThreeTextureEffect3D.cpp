@@ -1,8 +1,8 @@
 #include "ThreeTextureEffect3D.h"
-
+#include "VisualEffectRenderer.h"
 namespace Pg::Graphics
 {
-	ThreeTextureEffect3D::ThreeTextureEffect3D(ID3D11Device* device)
+	ThreeTextureEffect3D::ThreeTextureEffect3D(ID3D11Device* device, VERenderingSet* veSet) : BaseCustomEffect(veSet)
 	{
 
 	}
@@ -14,7 +14,8 @@ namespace Pg::Graphics
 
 	void ThreeTextureEffect3D::GetVertexShaderBytecode(void const** pShaderByteCode, size_t* pByteCodeLength)
 	{
-
+		assert(_veSet->_veGraphicsSet->_customRenderVertexShader != nullptr);
+		_veSet->_veGraphicsSet->_customRenderVertexShader->GetVertexShaderBytecode(pShaderByteCode, pByteCodeLength);
 	}
 
 	void XM_CALLCONV ThreeTextureEffect3D::SetWorld(DirectX::FXMMATRIX value)

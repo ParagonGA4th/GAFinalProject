@@ -16,6 +16,7 @@ namespace Pg::Graphics
 	class LowDX11Storage;
 	class SystemVertexShader;
 	class SystemPixelShader;
+	class D3DCarrier;
 }
 
 /// <summary>
@@ -69,5 +70,6 @@ namespace Pg::Graphics
 		LowDX11Storage* _DXStorage;
 
 		std::string _resourceListPath;
+		const D3DCarrier* _carrier{ nullptr };
 	};
 }

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AlphaBlendedTotalRenderPass.h" />
+    <ClInclude Include="BaseCustomEffect.h" />
     <ClInclude Include="OneTextureEffect3D.h" />
     <ClInclude Include="ThreeTextureEffect3D.h" />
     <ClInclude Include="TwoTextureEffect3D.h" />

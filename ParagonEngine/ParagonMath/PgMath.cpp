@@ -488,6 +488,19 @@ namespace Pg::Math
 		return XM2PG_FLOAT4X4(tRet);
 	}
 
+	Pg::Math::PGFLOAT4X4 PGGetWorldMatrixFromValues(const PGFLOAT3 position, const PGQuaternion rotation, const PGFLOAT3 scale)
+	{
+		XMMATRIX tPosMat = XMMatrixTranslation(position.x, position.y, position.z);
+
+		XMFLOAT4 tXMFF = PG2XM_QUATERNION(rotation);
+		XMVECTOR tXMQuat = XMLoadFloat4(&tXMFF);
+		XMMATRIX tRotMat = XMMatrixRotationQuaternion(tXMQuat);
+
+		XMMATRIX tSclMat = XMMatrixScaling(scale.x, scale.y, scale.z);
+
+		return XM2PG_MATRIX4X4(XMMatrixMultiply(XMMatrixMultiply(tSclMat, tRotMat), tPosMat));
+	}
+
 	//												Field Of View Y°¢			Á¾È¾ºñ			Near Z Plane	Far Z Plane
 	Pg::Math::PGFLOAT4X4 PGMatrixPerspectiveFovLH(float fovAngleY, float aspectRatio, float nearZ, float farZ)
 	{
@@ -873,6 +886,12 @@ namespace Pg::Math
 	float PGFloat3LengthSquared(PGFLOAT3 val)
 	{
 		return DirectX::XMVectorGetX(DirectX::XMVector3LengthSq(PG2XM_FLOAT3_VECTOR(val)));
+	}
+
+	Pg::Math::PGFLOAT3 GetRightVectorFromQuat(PGQuaternion val)
+	{
+		PGFLOAT4 result = PGFloat4MultiplyMatrix(PGFLOAT4(1.f, 0.f, 0.f, 0.f), PGRotationMatrix(val));
+		return PGFloat3Normalize(PGFLOAT3(result.x, result.y, result.z));
 	}
 
 	Pg::Math::PGFLOAT3 GetForwardVectorFromQuat(PGQuaternion val)
