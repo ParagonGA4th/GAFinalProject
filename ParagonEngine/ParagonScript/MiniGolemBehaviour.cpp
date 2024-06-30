@@ -123,6 +123,21 @@ namespace Pg::DataScript
 		_distance = std::abs(std::sqrt(std::pow(plTrans._position.x - _object->_transform._position.x, 2)
 			+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
 
+		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
+		{
+			//다 꺼짐.
+			_meshRenderer->SetActive(false);
+			_object->SetActive(false);
+
+			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 지정된 위치로 보내준다.
+			_object->_transform._position = { 0, -1000, 0 };
+
+			_monsterHelper->_isDeadDelay = false;
+			_monsterHelper->_isDead = true;
+		}
+
+		if (_monsterHelper->_isDead) return;
+
 		// 시야 안에 들어왔을 때 쫓아가라.
 		if (_distance <= _miniGolInfo->GetSightRange())
 		{
@@ -155,20 +170,6 @@ namespace Pg::DataScript
 			_isDash = false;
 			_hasDashed = false;
 		}
-
-
-		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
-		{
-			//다 꺼짐.
-			_meshRenderer->SetActive(false);
-			_object->SetActive(false);
-
-			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 지정된 위치로 보내준다.
-			_object->_transform._position = { 0, -1000, 0 };
-
-			_monsterHelper->_isDeadDelay = false;
-		}
-
 		//PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
 	}
 
@@ -201,6 +202,7 @@ namespace Pg::DataScript
 				}
 
 				// 공격 애니메이션 출력.
+				_monsterHelper->_isChase = false;
 				_monsterHelper->_isPlayerinHitSpace = true;
 				Attack(true);
 			}
@@ -223,6 +225,7 @@ namespace Pg::DataScript
 
 			// 플레이어가 시야 안에 있으면
 			_monsterHelper->_isPlayerinHitSpace = false;
+			_monsterHelper->_isChase = true;
 
 			//사정거리 밖이면 플레이어로 계속 다가가기.
 			///보간하면서 이동할 시 마지막에 느려지는 현상을 발생하기 위해 제거.
@@ -301,9 +304,7 @@ namespace Pg::DataScript
 
 		std::string objName = _object->GetName();
 		objName = objName.substr(0, objName.rfind("_"));
-		//objName.append("_Crtstal");
-		if (objName.find("Golem") != std::string::npos) objName.append("_Crtstal");
-		else objName.append("_Wing");
+		objName.append("_Crtstal");
 
 		auto tchild = _object->_transform.GetChild(objName);
 		auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
@@ -357,6 +358,10 @@ namespace Pg::DataScript
 
 		_collider->SetActive(false);
 		_monsterHelper->_isDead = true;
+		_monsterHelper->_isPlayerDetected = false;
+		_monsterHelper->_isPlayerinHitSpace = false;
+		_monsterHelper->_isChase = false;
+		_monsterHelper->_mGolemFlag._isDash = false;
 		_isRotateFinish = true;
 
 		//이제, Handler에게 자신이 죽었다는 것을 알려주자.

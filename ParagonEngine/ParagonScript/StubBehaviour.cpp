@@ -320,7 +320,6 @@ namespace Pg::DataScript
 		_dieSound->Play();
 		_stubInfo->_status = StubStatus::DEAD;
 		_monsterHelper->_isDead = true;
-		_monsterHelper->_isPlayerDetected = false;
 		_monsterHelper->_isPlayerinHitSpace = false;
 	}
 }

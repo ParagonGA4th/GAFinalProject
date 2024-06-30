@@ -17,8 +17,8 @@ namespace Pg::Data::BTree::Node
 				if (monHelper->_stubFlag._stubState == Pg::Data::StubState::BASIC_ATTACK_3)
 				{
 					monHelper->_stubFlag._stubState = Pg::Data::StubState::BASICATTACK_COOLDOWN;
-					return BT::NodeStatus::FAILURE;
 				}
+				return BT::NodeStatus::FAILURE;
 			}
 
 			auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
