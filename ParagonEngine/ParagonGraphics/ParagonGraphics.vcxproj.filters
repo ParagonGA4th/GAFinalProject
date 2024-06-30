@@ -334,14 +334,21 @@
     <ClInclude Include="VisualEffectGraphicsSet.h">
       <Filter>10_Structs\VisualEffectGraphicsSet</Filter>
     </ClInclude>
-    <ClInclude Include="DebugOverlayQuad.h" />
     <ClInclude Include="TwoTextureEffect3D.h">
       <Filter>8_Helpers\VisualEffectRenderer\IEffect\TwoTextureEffect3D</Filter>
     </ClInclude>
     <ClInclude Include="ThreeTextureEffect3D.h">
       <Filter>8_Helpers\VisualEffectRenderer\IEffect\ThreeTextureEffect3D</Filter>
     </ClInclude>
-    <ClInclude Include="OneTextureEffect3D.h" />
+    <ClInclude Include="BaseCustomEffect.h">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\BaseCustomEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="OneTextureEffect3D.h">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\OneTextureEffect3D</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugOverlayQuad.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\DebugOverlayQuad</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsMain.cpp">
@@ -614,14 +621,18 @@
     <ClCompile Include="VisualEffectRenderer.cpp">
       <Filter>8_Helpers\VisualEffectRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="DebugOverlayQuad.cpp" />
     <ClCompile Include="TwoTextureEffect3D.cpp">
       <Filter>8_Helpers\VisualEffectRenderer\IEffect\TwoTextureEffect3D</Filter>
     </ClCompile>
     <ClCompile Include="ThreeTextureEffect3D.cpp">
       <Filter>8_Helpers\VisualEffectRenderer\IEffect\ThreeTextureEffect3D</Filter>
     </ClCompile>
-    <ClCompile Include="OneTextureEffect3D.cpp" />
+    <ClCompile Include="OneTextureEffect3D.cpp">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\OneTextureEffect3D</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugOverlayQuad.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\DebugOverlayQuad</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Main">
@@ -1073,6 +1084,9 @@
     </Filter>
     <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\OneTextureEffect3D">
       <UniqueIdentifier>{762acaa2-d97e-41ff-bb5d-fca785429bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\BaseCustomEffect">
+      <UniqueIdentifier>{2a301e52-3d55-47af-a7cb-0268ed76fb21}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

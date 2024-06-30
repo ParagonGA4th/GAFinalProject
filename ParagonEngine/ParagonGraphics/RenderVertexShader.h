@@ -42,6 +42,8 @@ namespace Pg::Graphics
 		void Bind();
 		void Unbind();
 
+		void GetVertexShaderBytecode(void const** pShaderByteCode, size_t* pByteCodeLength);
+
 	private:
 		LowDX11Storage* _DXStorage = nullptr;
 

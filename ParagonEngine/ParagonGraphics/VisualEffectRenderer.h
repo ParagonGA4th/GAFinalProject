@@ -1,5 +1,6 @@
 #pragma once
 #include "../ParagonData/VisualEffectData.h"
+#include "../ParagonData/CameraData.h"
 #include "../ParagonData/VisualEffectRenderObject.h"
 #include "../ParagonUtil/Tween.h"
 #include "VisualEffectGraphicsSet.h"
@@ -8,6 +9,7 @@
 #include <tuple>
 #include <unordered_map>
 
+#include <dxtk/CommonStates.h>
 
 namespace Pg::Graphics
 {
@@ -72,7 +74,7 @@ namespace Pg::Graphics
 		void RemoveVisualEffectObject(Pg::Data::VisualEffectRenderObject* vfxObj);
 
 		//Main Render Loop에서 돌아가는 효과이다.
-		void Render();
+		void Render(Pg::Data::CameraData* camData);
 
 	private:
 		void LoadSingleEffect(VERenderingSet* veSet);
@@ -91,5 +93,7 @@ namespace Pg::Graphics
 		//현재 렌더되는 오브젝트 목록.
 		std::unordered_map<VERenderingSet*, std::vector<Pg::Data::VisualEffectRenderObject*>> _currentRenderingMap;
 		
+		//CommonState 저장.
+		std::unique_ptr<DirectX::CommonStates> _commonStates{ nullptr };
 	};
 }

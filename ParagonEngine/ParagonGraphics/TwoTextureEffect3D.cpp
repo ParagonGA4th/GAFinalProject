@@ -1,8 +1,8 @@
 #include "TwoTextureEffect3D.h"
-
+#include "VisualEffectRenderer.h"
 namespace Pg::Graphics
 {
-	TwoTextureEffect3D::TwoTextureEffect3D(ID3D11Device* device)
+	TwoTextureEffect3D::TwoTextureEffect3D(ID3D11Device* device, VERenderingSet* veSet) : BaseCustomEffect(veSet)
 	{
 
 	}
@@ -14,7 +14,8 @@ namespace Pg::Graphics
 
 	void TwoTextureEffect3D::GetVertexShaderBytecode(void const** pShaderByteCode, size_t* pByteCodeLength)
 	{
-
+		assert(_veSet->_veGraphicsSet->_customRenderVertexShader != nullptr);
+		_veSet->_veGraphicsSet->_customRenderVertexShader->GetVertexShaderBytecode(pShaderByteCode, pByteCodeLength);
 	}
 
 	void XM_CALLCONV TwoTextureEffect3D::SetWorld(DirectX::FXMMATRIX value)
