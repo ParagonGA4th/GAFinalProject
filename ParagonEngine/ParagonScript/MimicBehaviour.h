@@ -59,6 +59,8 @@ namespace Pg::DataScript
 		//공격 함수
 		void Attack(bool _isAttack);
 
+		void UpdateSkill();
+
 		//사망 시 호출되는 함수
 		void Dead();
 
@@ -86,7 +88,8 @@ namespace Pg::DataScript
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
 		Pg::Data::BoxCollider* _collider;
 
-		std::vector<Pg::Data::StaticBoxCollider*> _attackCol;
+		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
+		std::vector<Pg::Data::StaticBoxCollider*> _skillAttackCol;
 
 		//몬스터가 리스폰 될 위치
 		Pg::Math::PGFLOAT3 _respawnPos;
@@ -113,6 +116,9 @@ namespace Pg::DataScript
 		bool _hasDashed;		//돌진했는지 여부
 
 		bool _isMoving{ false };
+
+		//스킬 사용 여부
+		bool _useCoinThrow{ false };
 	public:
 		//미믹의 상태와 수치에 대한 정보.
 		MimicInfo* _mimicInfo;
