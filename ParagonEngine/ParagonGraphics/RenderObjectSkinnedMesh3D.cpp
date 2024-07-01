@@ -135,6 +135,8 @@ namespace Pg::Graphics
 		assert(_modelData->_assetSkinnedData->_viableAnimations.contains(animName) &&
 			"걸리면 유효하지 않은 Animation 로드 시도한 것");
 
+		//PrevAnim 기록. Nullptr가 아니면 무조건 보간해야!
+		this->_prevAnim = this->_currentAnim;
 		this->_currentAnim = _modelData->_assetSkinnedData->_viableAnimations.at(animName);
 
 		//명시적으로 돌리는 시간 리셋.
@@ -162,26 +164,6 @@ namespace Pg::Graphics
 			//Script 딴에서 로직 처리가 되었을 것이다.
 			_animationTime += (*dt);
 			_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
-
-			//if (_currentTick > _currentAnim->_animAssetData->_durationTick)
-			//{
-			//	if (_isLoop)
-			//	{
-			//		double secondPerTick = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
-			//		int count = 0;
-			//		while (secondPerTick * (count + 1) < _animationTime)
-			//		{
-			//			count++;
-			//		}
-			//		_animationTime -= count * secondPerTick;
-			//		_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
-			//	}
-			//	else
-			//	{
-			//		_animationTime = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
-			//		_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
-			//	}
-			//}
 
 			//마지막 프레임 유지 시도.
 			if (_currentTick > _currentAnim->_animAssetData->_durationTick)
@@ -247,112 +229,37 @@ namespace Pg::Graphics
 			}
 
 			//TODO : NodeAnim 없는 경우 대비.
+			//if (_prevAnim != nullptr)
+			//{
+			//	//Blending 필요.
+			//	DirectX::SimpleMath::Vector3 prev_position;
+			//	DirectX::SimpleMath::Quaternion prev_rotation;
+			//	DirectX::SimpleMath::Vector3 prev_scale;
+			//
+			//	DirectX::SimpleMath::Vector3 now_position;
+			//	DirectX::SimpleMath::Quaternion now_rotation;
+			//	DirectX::SimpleMath::Vector3 now_scale;
+			//
+			//
+			//}
+			//else
+			//{
+			//	//그냥 출력하면 됨.
+			//	position = FillPositionForNodeAnim(_currentAnim, nodeAnim.get());
+			//	rotation = FillRotationForNodeAnim(_currentAnim, nodeAnim.get());
+			//	scale = FillScaleForNodeAnim(_currentAnim, nodeAnim.get());
+			//}
+
+			//그냥 출력하면 됨.
+			position = FillPositionForNodeAnim(_currentAnim, nodeAnim.get());
+			rotation = FillRotationForNodeAnim(_currentAnim, nodeAnim.get());
+			scale = FillScaleForNodeAnim(_currentAnim, nodeAnim.get());
 			
-			// Position
-			{
-				int positionIndex = 0;
-				//Last Frame 유지 시도, 240521
-				if (_currentAnim->_animAssetData->_durationTick - _currentTick < std::numeric_limits<double>::epsilon())
-				{
-					positionIndex = nodeAnim->_numPositionKeys - 1;
-				}
-				else
-				{
-					for (int i = 0; i < nodeAnim->_numPositionKeys; i++)
-					{
-						if (_currentTick < nodeAnim->_positionKeyList[i]._time)
-						{
-							positionIndex = i;		// i-1 < _animationTickTime < i
-							break;
-						}
-					}
-				}
-				if (positionIndex == 0)
-				{
-					position = nodeAnim->_positionKeyList[0]._value;
-				}
-				else
-				{
-					double t = (_currentTick - nodeAnim->_positionKeyList[positionIndex - 1]._time) / (nodeAnim->_positionKeyList[positionIndex]._time - nodeAnim->_positionKeyList[positionIndex - 1]._time);
-					position = DirectX::XMVectorLerp(nodeAnim->_positionKeyList[positionIndex - 1]._value, nodeAnim->_positionKeyList[positionIndex]._value, (float)t);
-				}
-			}
-
-			// Rotation
-			{
-				int rotationIndex = 0;
-				//Last Frame 유지 시도, 240521
-				if (_currentAnim->_animAssetData->_durationTick - _currentTick < std::numeric_limits<double>::epsilon())
-				{
-					rotationIndex = nodeAnim->_numRotationKeys - 1;
-				}
-				else
-				{
-					for (int i = 0; i < nodeAnim->_numRotationKeys; i++)
-					{
-						if (_currentTick < nodeAnim->_rotationKeyList[i]._time)
-						{
-							rotationIndex = i;
-							break;
-						}
-					}
-				}
-				
-				if (rotationIndex == 0)
-				{
-					rotation = nodeAnim->_rotationKeyList[0]._value;
-				}
-				else
-				{
-					double t = (_currentTick - nodeAnim->_rotationKeyList[rotationIndex - 1]._time) / (nodeAnim->_rotationKeyList[rotationIndex]._time - nodeAnim->_rotationKeyList[rotationIndex - 1]._time);
-					rotation = DirectX::XMQuaternionSlerp(nodeAnim->_rotationKeyList[rotationIndex - 1]._value, nodeAnim->_rotationKeyList[rotationIndex]._value, (float)t);
-				}
-			}
-
-			// Scale이 만약 있으면 세팅. -> Num Scaling Keys로 표시했다!
-			// 일단 ScalingKeys의 개수가 0보다 클 때만 동작할 것!
-			if (nodeAnim->_numScalingKeys > 0)
-			{
-				int scaleIndex = 0;
-				//Last Frame 유지 시도, 240521
-				if (_currentAnim->_animAssetData->_durationTick - _currentTick < std::numeric_limits<double>::epsilon())
-				{
-					scaleIndex = nodeAnim->_numScalingKeys - 1;
-				}
-				else
-				{
-					for (int i = 0; i < nodeAnim->_numScalingKeys; i++)
-					{
-						if (_currentTick < nodeAnim->_scalingKeyList[i]._time)
-						{
-							scaleIndex = i;		// i-1 < _animationTickTime < i
-							break;
-						}
-					}
-				}
-				if (scaleIndex == 0)
-				{
-					scale = nodeAnim->_scalingKeyList[0]._value;
-				}
-				else
-				{
-					double t = (_currentTick - nodeAnim->_scalingKeyList[scaleIndex - 1]._time) / (nodeAnim->_scalingKeyList[scaleIndex]._time - nodeAnim->_scalingKeyList[scaleIndex - 1]._time);
-					scale = DirectX::XMVectorLerp(nodeAnim->_scalingKeyList[scaleIndex - 1]._value, nodeAnim->_scalingKeyList[scaleIndex]._value, (float)t);
-				}
-
-				node->_relTransform->SetLocalScale(scale);
-			}
-
-
-			//auto tMat = DirectX::XMMatrixAffineTransformation({1,1,1}, { 0,0,0,0 }, rotation, position);
-			//node->_relTransform->_position = { position.x, position.y, position.z};
-			//node->_relTransform->_rotation = { rotation.w, rotation.x, rotation.y, rotation.z };
-
 			rotation.Normalize();
-
 			node->_relTransform->SetLocalPosition(position);
 			node->_relTransform->SetLocalRotation(rotation);
-			
+			//일단은 Scale 반영하지 않음.
+			//node->_relTransform->SetLocalScale(scale); 
 
 			//Open3d를 보고 체크.
 			//node->_relTransform->SetLocalScale({100.f,100.f,100.f});
@@ -495,7 +402,115 @@ namespace Pg::Graphics
 		return tVal->_relTransform.get();
 	}
 
-	
+	DirectX::SimpleMath::Vector3 RenderObjectSkinnedMesh3D::FillPositionForNodeAnim(RenderAnimation* renderAnim, NodeAnim_AssetData* nodeAnim)
+	{
+		DirectX::SimpleMath::Vector3 position;
+		// Position
+		{
+			int positionIndex = 0;
+			//Last Frame 유지 시도, 240521
+			if (renderAnim->_animAssetData->_durationTick - _currentTick < std::numeric_limits<double>::epsilon())
+			{
+				positionIndex = nodeAnim->_numPositionKeys - 1;
+			}
+			else
+			{
+				for (int i = 0; i < nodeAnim->_numPositionKeys; i++)
+				{
+					if (_currentTick < nodeAnim->_positionKeyList[i]._time)
+					{
+						positionIndex = i;		// i-1 < _animationTickTime < i
+						break;
+					}
+				}
+			}
+			if (positionIndex == 0)
+			{
+				position = nodeAnim->_positionKeyList[0]._value;
+			}
+			else
+			{
+				double t = (_currentTick - nodeAnim->_positionKeyList[positionIndex - 1]._time) / (nodeAnim->_positionKeyList[positionIndex]._time - nodeAnim->_positionKeyList[positionIndex - 1]._time);
+				position = DirectX::XMVectorLerp(nodeAnim->_positionKeyList[positionIndex - 1]._value, nodeAnim->_positionKeyList[positionIndex]._value, (float)t);
+			}
+		}
+		return position;
+	}
+
+	DirectX::SimpleMath::Quaternion RenderObjectSkinnedMesh3D::FillRotationForNodeAnim(RenderAnimation* renderAnim, NodeAnim_AssetData* nodeAnim)
+	{
+		// Rotation
+		DirectX::SimpleMath::Quaternion rotation;
+		{
+			int rotationIndex = 0;
+			//Last Frame 유지 시도, 240521
+			if (renderAnim->_animAssetData->_durationTick - _currentTick < std::numeric_limits<double>::epsilon())
+			{
+				rotationIndex = nodeAnim->_numRotationKeys - 1;
+			}
+			else
+			{
+				for (int i = 0; i < nodeAnim->_numRotationKeys; i++)
+				{
+					if (_currentTick < nodeAnim->_rotationKeyList[i]._time)
+					{
+						rotationIndex = i;
+						break;
+					}
+				}
+			}
+
+			if (rotationIndex == 0)
+			{
+				rotation = nodeAnim->_rotationKeyList[0]._value;
+			}
+			else
+			{
+				double t = (_currentTick - nodeAnim->_rotationKeyList[rotationIndex - 1]._time) / (nodeAnim->_rotationKeyList[rotationIndex]._time - nodeAnim->_rotationKeyList[rotationIndex - 1]._time);
+				rotation = DirectX::XMQuaternionSlerp(nodeAnim->_rotationKeyList[rotationIndex - 1]._value, nodeAnim->_rotationKeyList[rotationIndex]._value, (float)t);
+			}
+		}
+
+		return rotation;
+	}
+
+	DirectX::SimpleMath::Vector3 RenderObjectSkinnedMesh3D::FillScaleForNodeAnim(RenderAnimation* renderAnim, NodeAnim_AssetData* nodeAnim)
+	{
+		DirectX::SimpleMath::Vector3 scale;
+		// Scale이 만약 있으면 세팅. -> Num Scaling Keys로 표시했다!
+			// 일단 ScalingKeys의 개수가 0보다 클 때만 동작할 것!
+		if (nodeAnim->_numScalingKeys > 0)
+		{
+			int scaleIndex = 0;
+			//Last Frame 유지 시도, 240521
+			if (renderAnim->_animAssetData->_durationTick - _currentTick < std::numeric_limits<double>::epsilon())
+			{
+				scaleIndex = nodeAnim->_numScalingKeys - 1;
+			}
+			else
+			{
+				for (int i = 0; i < nodeAnim->_numScalingKeys; i++)
+				{
+					if (_currentTick < nodeAnim->_scalingKeyList[i]._time)
+					{
+						scaleIndex = i;		// i-1 < _animationTickTime < i
+						break;
+					}
+				}
+			}
+			if (scaleIndex == 0)
+			{
+				scale = nodeAnim->_scalingKeyList[0]._value;
+			}
+			else
+			{
+				double t = (_currentTick - nodeAnim->_scalingKeyList[scaleIndex - 1]._time) / (nodeAnim->_scalingKeyList[scaleIndex]._time - nodeAnim->_scalingKeyList[scaleIndex - 1]._time);
+				scale = DirectX::XMVectorLerp(nodeAnim->_scalingKeyList[scaleIndex - 1]._value, nodeAnim->_scalingKeyList[scaleIndex]._value, (float)t);
+			}
+		}
+
+		return scale;
+	}
 
 }
 
