@@ -88,7 +88,7 @@ namespace Pg::DataScript
 
 	void WaspBehaviour::Awake()
 	{
-
+		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 	}
 
 	void WaspBehaviour::Start()
@@ -124,7 +124,8 @@ namespace Pg::DataScript
 		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
 		{
 			//다 꺼짐.
-			//_meshRenderer->SetActive(false);
+			_meshRenderer->SetActive(false);
+			_collider->SetActive(false);
 			_object->SetActive(false);
 
 			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 지정된 위치로 보내준다.
@@ -134,8 +135,16 @@ namespace Pg::DataScript
 			_monsterHelper->_isDeadDelay = false;
 		}
 
+		if (_distance <= _waspInfo->GetSightRange())
+		{
+			_monsterHelper->_isPlayerDetected = true;
+			RotateToPlayer(_playerTransform->_position);
+
+			Chase();
+		}
+
 		///일반공격 로직 (무조건 제일 끝에 존재해야 함)
-		UpdateAttack();
+		//UpdateAttack();
 		
 	}
 
@@ -152,27 +161,26 @@ namespace Pg::DataScript
 
 			//애니메이션 딜레이를 위한 델타타임 체크.
 			_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
-
+			
+			_isAttackStart = true;
+			UpdateAttack();
 			//공격
-			if (_currentAttackTime >= _startAttackTime)
-			{
-				//if (!_isAttackSoundPlaying)
-				//{
-				//	_attackSound->Play();
-				//	_isAttackSoundPlaying = true;
-				//}
+			//if (_currentAttackTime >= _startAttackTime)
+			//{
+			//	//if (!_isAttackSoundPlaying)
+			//	//{
+			//	//	_attackSound->Play();
+			//	//	_isAttackSoundPlaying = true;
+			//	//}
 
-				// 공격 애니메이션 출력.
-				_monsterHelper->_isPlayerinHitSpace = true;
-				_monsterHelper->_isChase = false;
-				//Attack(true);
-			}
-			if (_currentAttackTime >= _startAttackTime && _currentAttackTime >= _endAttackTime)
-			{
-				//Attack(false);
-				//_isAttackSoundPlaying = false;
-				//_currentAttackTime = 0.f;
-			}
+			//	//Attack(true);
+			//}
+			//if (_currentAttackTime >= _startAttackTime && _currentAttackTime >= _endAttackTime)
+			//{
+			//	//Attack(false);
+			//	//_isAttackSoundPlaying = false;
+			//	//_currentAttackTime = 0.f;
+			//}
 		}
 		else
 		{
@@ -216,6 +224,9 @@ namespace Pg::DataScript
 		//투사체 처리
 		if (_isAttackStart)
 		{
+			_monsterHelper->_isPlayerinHitSpace = true;
+			_monsterHelper->_isChase = false;
+
 			_startAttackTime += _pgTime->GetDeltaTime();
 
 			if (_startAttackTime < _waspInfo->GetAttackDuration())
@@ -262,21 +273,46 @@ namespace Pg::DataScript
 
 	void WaspBehaviour::Hit()
 	{
-		//std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
-		//animId.append("_00003.pganim");
+		if (_monsterHelper->_isDead) return;
 
-		//_meshRenderer->SetAnimation(animId, false);
+		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
+		animId.append("_00003.pganim");
 
-		//std::string objName = _object->GetName();
-		//objName = objName.substr(0, objName.rfind("_"));
-		//objName.append("_Wing");
+		_meshRenderer->SetAnimation(animId, false);
 
-		//auto tchild = _object->_transform.GetChild(objName);
-		//auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		std::string objName = _object->GetName();
+		objName = objName.substr(0, objName.rfind("_"));
+		objName.append("_Wing");
 
-		//animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
-		//animId.append("_10003.pganim");
-		//tcMeshRenderer->SetAnimation(animId, false);
+		auto tchild = _object->_transform.GetChild(objName);
+		auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+		animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
+		animId.append("_10003.pganim");
+		tcMeshRenderer->SetAnimation(animId, false);
+	}
+
+	void WaspBehaviour::RotateToPlayer(Pg::Math::PGFLOAT3& targetPos)
+	{
+		// 플레이어 위치의 y값만 받기.
+		Pg::Math::PGFLOAT3 tRotBasePos = targetPos;
+		tRotBasePos.y = _object->_transform._position.y;
+
+		Pg::Math::PGFLOAT3 rotatePos = _object->_transform._position - tRotBasePos;
+
+		//정규화.
+		Pg::Math::PGFLOAT3 rotatePosNorm = Pg::Math::PGFloat3Normalize(rotatePos);
+
+		Pg::Math::PGQuaternion rotateQuat = PGLookRotation(rotatePosNorm, Pg::Math::PGFLOAT3::GlobalUp());
+
+		///플래그를 걸어 돌진의 여부까지 계산하기 위해 세팅.
+		if (_isRotateFinish == false)
+		{
+			//회전이 끝날 때 까지 돌기.
+			Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, rotateQuat, std::clamp<float>(0.1f, 0.0f, 1.0f));
+
+			_object->_transform._rotation = currentTargetRotation;
+		}
 	}
 
 	void WaspBehaviour::Dead()

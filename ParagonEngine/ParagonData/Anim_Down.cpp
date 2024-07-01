@@ -6,12 +6,17 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_Down::tick()
 	{
+		bool downInit = config().blackboard->get<bool>("DOWNINIT");
+		if (!downInit) return BT::NodeStatus::FAILURE;
+
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
 			if (monHelper->_isAnimationEnd)
 			{
-				monHelper->_isAnimationEnd = false;
+				if (monHelper->_bossFlag._bossState != Pg::Data::BossState::DOWNENDED)
+					monHelper->_isAnimationEnd = false;
+
 				return BT::NodeStatus::FAILURE;
 			}
 
@@ -24,7 +29,7 @@ namespace Pg::Data::BTree::Node
 
 				if (monHelper->_bossFlag._bossState == Pg::Data::BossState::DOWN)
 				{
-					if(!_isInit) _animId.append("_00011.pganim");
+					if (!_isInit) _animId.append("_00011.pganim");
 					else _animId.append("_00015.pganim"); _loop = true;
 				}
 
