@@ -88,7 +88,7 @@ namespace Pg::DataScript
 
 	void WaspBehaviour::Awake()
 	{
-
+		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 	}
 
 	void WaspBehaviour::Start()
@@ -162,9 +162,6 @@ namespace Pg::DataScript
 				//	_isAttackSoundPlaying = true;
 				//}
 
-				// 공격 애니메이션 출력.
-				_monsterHelper->_isPlayerinHitSpace = true;
-				_monsterHelper->_isChase = false;
 				//Attack(true);
 			}
 			if (_currentAttackTime >= _startAttackTime && _currentAttackTime >= _endAttackTime)
@@ -216,6 +213,9 @@ namespace Pg::DataScript
 		//투사체 처리
 		if (_isAttackStart)
 		{
+			_monsterHelper->_isPlayerinHitSpace = true;
+			_monsterHelper->_isChase = false;
+
 			_startAttackTime += _pgTime->GetDeltaTime();
 
 			if (_startAttackTime < _waspInfo->GetAttackDuration())
@@ -262,21 +262,23 @@ namespace Pg::DataScript
 
 	void WaspBehaviour::Hit()
 	{
-		//std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
-		//animId.append("_00003.pganim");
+		if (_monsterHelper->_isDead) return;
 
-		//_meshRenderer->SetAnimation(animId, false);
+		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
+		animId.append("_00003.pganim");
 
-		//std::string objName = _object->GetName();
-		//objName = objName.substr(0, objName.rfind("_"));
-		//objName.append("_Wing");
+		_meshRenderer->SetAnimation(animId, false);
 
-		//auto tchild = _object->_transform.GetChild(objName);
-		//auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		std::string objName = _object->GetName();
+		objName = objName.substr(0, objName.rfind("_"));
+		objName.append("_Wing");
 
-		//animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
-		//animId.append("_10003.pganim");
-		//tcMeshRenderer->SetAnimation(animId, false);
+		auto tchild = _object->_transform.GetChild(objName);
+		auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+		animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
+		animId.append("_10003.pganim");
+		tcMeshRenderer->SetAnimation(animId, false);
 	}
 
 	void WaspBehaviour::Dead()

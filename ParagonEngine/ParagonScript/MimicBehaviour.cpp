@@ -211,6 +211,8 @@ namespace Pg::DataScript
 
 	void MimicBehaviour::Hit()
 	{
+		if (_monsterHelper->_isDead) return;
+
 		//카메라 흔들림
 		_cameraShake->CauseShake(0.25f);
 

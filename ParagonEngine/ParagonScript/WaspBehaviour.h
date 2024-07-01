@@ -83,6 +83,8 @@ namespace Pg::DataScript
 		Pg::Data::Transform* _playerTransform;
 		Pg::Data::MonsterHelper* _monsterHelper;
 
+		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
+
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _skillAttackCol;
 	
