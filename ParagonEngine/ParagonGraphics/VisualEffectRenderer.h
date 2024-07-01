@@ -4,6 +4,8 @@
 #include "../ParagonData/VisualEffectRenderObject.h"
 #include "../ParagonUtil/Tween.h"
 #include "VisualEffectGraphicsSet.h"
+#include "SystemVertexShader.h"
+
 #include <vector>
 #include <memory>
 #include <tuple>
@@ -26,6 +28,14 @@ namespace Pg::Graphics
 /// Renderer를 연결한 Script를 보여주는 형식으로 해야 한다.
 /// 여기는 BillBoard 2D / 3D만 할당하게 하자.
 /// </summary>
+
+namespace Pg::Util
+{
+	namespace Time
+	{
+		class TimeSystem;
+	}
+}
 
 namespace Pg::Graphics
 {
@@ -95,5 +105,8 @@ namespace Pg::Graphics
 		
 		//CommonState 저장.
 		std::unique_ptr<DirectX::CommonStates> _commonStates{ nullptr };
+	
+	private:
+		Pg::Util::Time::TimeSystem* _timeSystem{ nullptr };
 	};
 }
