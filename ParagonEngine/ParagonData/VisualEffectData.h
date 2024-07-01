@@ -27,6 +27,6 @@ namespace Pg::Data
 		bool _isUseCustomVertexShader{ false };		//반영
 		std::string _customVertexShaderName{};		//반영
 		bool _isUseCustomPixelShader{ false };		//반영
-		std::string _customPixelShaderName{};		//반영
+		std::string _customPixelShaderName{};		//반영 
 	};
 }
