@@ -6,13 +6,16 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_gAttack::tick()
 	{
+		bool isHolding = config().blackboard->get<bool>("ISHOLDING");
+		if(isHolding) return BT::NodeStatus::FAILURE;
+
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
 			if (monHelper->_isAnimationEnd)
 			{
 				monHelper->_isAnimationEnd = false;
-				config().blackboard->set<bool>("ISCHANGE", false);
+				return BT::NodeStatus::FAILURE;
 			}
 		}
 
@@ -26,7 +29,6 @@ namespace Pg::Data::BTree::Node
 			if (tMeshRenderer->GetAnimation() != animId)
 			{
 				tMeshRenderer->SetAnimation(animId, false);
-				config().blackboard->set<bool>("ISCHANGE", true);
 
 				std::string objName = this->GetGameObject()->GetName();
 				objName = objName.substr(0, objName.rfind("_"));

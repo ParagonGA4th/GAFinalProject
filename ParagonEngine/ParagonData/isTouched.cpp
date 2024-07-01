@@ -8,17 +8,12 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_isTouched)
+			if (monHelper->_mimicFlag._isTouched)
 			{
 				return BT::NodeStatus::SUCCESS;
 			}
-			else
-			{
-				return BT::NodeStatus::FAILURE;
-			}
 		}
 
-		return BT::NodeStatus::SUCCESS;
+		return BT::NodeStatus::FAILURE;
 	}
-
 }

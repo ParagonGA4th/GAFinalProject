@@ -15,16 +15,11 @@ namespace Pg::Data::BTree::Node
 			:BT::SyncActionNode(name, config) {};
 		virtual ~isCoolDown() = default;
 
-		virtual void InitCustom();
-
 		virtual BT::NodeStatus tick() override;
 
 		static BT::PortsList providedPorts()
 		{
-			BT::PortsList list;
-			list.insert(BT::BidirectionalPort<bool>("_coolDownInit"));
-
-			return list;
+			return {};
 		}
 	};
 }

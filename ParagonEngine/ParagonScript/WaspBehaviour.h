@@ -1,9 +1,9 @@
 #pragma once
 #include "ScriptInterface.h"
 #include "IEnemyBehaviour.h"
-#include "MimicInfo.h"
-#include "BaseMonster.h"
+#include "WaspInfo.h"
 
+#include <vector>
 #include <visit_struct/visit_struct.hpp>
 
 namespace Pg::Data
@@ -12,7 +12,7 @@ namespace Pg::Data
 	class GameObject;
 	class PhysicsCollision;
 	class SkinnedMeshRenderer;
-	class BoxCollider;
+	class CapsuleCollider;
 	class MonsterHelper;
 	class StaticBoxCollider;
 	class AudioSource;
@@ -30,13 +30,14 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
+	class PlayerHandler;
 	class CameraShake;
 
-	class MimicBehaviour : public ScriptInterface<MimicBehaviour>, public IEnemyBehaviour
+	class WaspBehaviour : public ScriptInterface<WaspBehaviour>, public IEnemyBehaviour
 	{
-		DEFINE_PARAGON_SCRIPT(MimicBehaviour);
+		DEFINE_PARAGON_SCRIPT(WaspBehaviour);
 	public:
-		MimicBehaviour(Pg::Data::GameObject* obj);
+		WaspBehaviour(Pg::Data::GameObject* obj);
 
 	public:
 		virtual void BeforePhysicsAwake() override;
@@ -47,55 +48,56 @@ namespace Pg::DataScript
 		virtual void OnDeserialize(SerializeVector& sv) override;
 		virtual void OnSerialize(SerializeVector& sv) override;
 
-		//플레이어 발견하지 않을때 하는 행동
-		void Idle();
-
 		//플레이어를 쫓는 함수
 		void Chase();
 
-		//타겟의 위치를 향해 바라봄.
-		void RotateToPlayer(Pg::Math::PGFLOAT3& targetPos);
-		
-		//공격 함수
-		void Attack(bool _isAttack);
+		//플레이어를 공격.
+		void UpdateAttack();
 
-		void UpdateSkill();
-
-		//사망 시 호출되는 함수
-		void Dead();
-
-		//피격 시 호출되는 함수
+		//피격 시 애니메이션 출력을 위한 함수.
 		void Hit();
 
+		//피격 시 죽음.
+		void Dead();
+
 	public:
-		BEGIN_VISITABLES(Pg::DataScript::MimicBehaviour);
+		BEGIN_VISITABLES(Pg::DataScript::WaspBehaviour);
 		VISITABLE(int, _areaIndex);
 		END_VISITABLES;
 
 	public:
 		//플레이어에게 어떤 몬스터인지를 전달하기 위함.
-		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() override { return _mimicInfo; }
-		virtual unsigned int GetBelongAreaIndex() override { return _areaIndex; }
+		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() override { return _waspInfo; }
+		virtual unsigned int GetBelongAreaIndex() override { return _areaIndex; } //자신이 속해 있는 Area Index를 반환한다.
+
+	public:
+		//미니골렘의 상태와 수치에 대한 정보.
+		WaspInfo* _waspInfo;
 
 	private:
 		Pg::API::Time::PgTime* _pgTime;
 		Pg::API::PgScene* _pgScene;
+		Pg::Data::CapsuleCollider* _collider;
 
 		Pg::Data::GameObject* _player;
 		Pg::Data::Transform* _playerTransform;
 		Pg::Data::MonsterHelper* _monsterHelper;
 
-		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
-		Pg::Data::BoxCollider* _collider;
-
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _skillAttackCol;
+	
+	private:
+		Pg::Data::GameObject* _waspHit;
+		Pg::Data::AudioSource* _hitSound;
 
-		//몬스터가 리스폰 될 위치
-		Pg::Math::PGFLOAT3 _respawnPos;
+		Pg::Data::GameObject* _waspDie;
+		Pg::Data::AudioSource* _dieSound;
 
-		Pg::Data::GameObject* _mimicMoveSound;
-		Pg::Data::AudioSource* _moveAudio;
+		Pg::Data::GameObject* _waspDash;
+		Pg::Data::AudioSource* _dashSound;
+
+		Pg::Data::GameObject* _waspAttack;
+		Pg::Data::AudioSource* _attackSound;
 
 		CameraShake* _cameraShake;
 
@@ -106,22 +108,11 @@ namespace Pg::DataScript
 		float _endAttackTime;
 		float _currentAttackTime;
 
-		//몬스터의 상태
-		bool _isStart;
-		bool _isHit;
-		bool _isRotateFinish;
+		//사툰드 관련 변수
+		bool _isAttackSoundPlaying{ false };
 
-		//대쉬 관련 변수.
-		bool _isDash;			//돌진 여부
-		bool _hasDashed;		//돌진했는지 여부
-
-		bool _isMoving{ false };
-
-		//스킬 사용 여부
-		bool _useCoinThrow{ false };
-	public:
-		//미믹의 상태와 수치에 대한 정보.
-		MimicInfo* _mimicInfo;
+		//공격 관련 변수
+		bool _isAttackStart{ false };
 	};
 }
 

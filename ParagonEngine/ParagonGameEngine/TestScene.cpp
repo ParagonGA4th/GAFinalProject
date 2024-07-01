@@ -16,6 +16,7 @@
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonData/NavMeshAgent.h"
 #include "../ParagonData/NavigationField.h"
+#include "../ParagonData/MonsterHelper.h"
 
 //#include "../ParagonData/BaseRenderer.h" //Render ���� ���� ����.
 //#include "../ParagonData/RendererBase2D.h" //Render ���� ���� ����.
@@ -41,7 +42,6 @@
 #include "ArrowAction.h"
 #include "ScreenPointTest.h"
 #include "DemoPlayerAction.h"
-#include "MonsterMove.h"
 
 #include "../ParagonData/SpotLight.h"
 #include "../ParagonData/PointLight.h"
@@ -50,7 +50,7 @@
 
 void Pg::Engine::TestScene::Initialize()
 {
-#ifdef DEBUG
+#if DEBUG
 	using namespace Pg::Data;
 
 	//���� ���⼭ MainCamera �ֱ� ����.
@@ -152,12 +152,12 @@ void Pg::Engine::TestScene::Initialize()
 	//}
 	
 	{
-		Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
-		tObj7->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
-		tObj7->GetComponent<Transform>()->_rotation = { 1.0f, 0.0f, 0.0f , 0.0f};
-		tObj7->GetComponent<Transform>()->_scale = { 2.0f, 2.0f, 2.f };
-		tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
-		tObj7->AddComponent<PlaneCollider>();
+		//Pg::Data::GameObject* tObj7 = tCurrentScene->AddObject("Plane");
+		//tObj7->GetComponent<Transform>()->_position = { 0.0f, 0.0f, 0.0f };
+		//tObj7->GetComponent<Transform>()->_rotation = { 1.0f, 0.0f, 0.0f , 0.0f};
+		//tObj7->GetComponent<Transform>()->_scale = { 2.0f, 2.0f, 2.f };
+		//tObj7->GetComponent<Transform>()->_rotation = tObj7->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+		//tObj7->AddComponent<PlaneCollider>();
 		//tObj7->GetComponent<PlaneCollider>()->SetTrigger(true);
 		//tObj7->AddComponent<StaticMeshRenderer>();
 		//tObj7->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/StaticMesh/TestingRecast/BattleSpace_res2.obj");
@@ -212,26 +212,27 @@ void Pg::Engine::TestScene::Initialize()
 	
 
 	///AI
-	Pg::Data::GameObject* tObj7_1 = tCurrentScene->AddObject("Boss");
+	Pg::Data::GameObject* tObj7_1 = tCurrentScene->AddObject("Stub");
 	tObj7_1->GetComponent<Transform>()->_position = { -8.0f, 3.0f, 8.0f };
 	tObj7_1->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
 	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
 	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_4);
 	tObj7_1->GetComponent<Transform>()->_rotation = tObj7_1->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
-	tObj7_1->AddComponent<CapsuleCollider>();
+	//tObj7_1->AddComponent<CapsuleCollider>();
 	//tObj7_1->GetComponent<CapsuleCollider>()->SetPositionOffset({ 0.f, 2.5f, 0.f });
 	//tObj7_1->GetComponent<CapsuleCollider>()->SetRotationOffset({ 0.f, 0.f, 90.f, 0.f });
-	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
-	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
-	tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
-	tObj7_1->GetComponent<CapsuleCollider>()->SetCapsuleInfo(1.0f, 1.5f);
+	//tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisX(true);
+	//tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisY(true);
+	//tObj7_1->GetComponent<CapsuleCollider>()->FreezeAxisZ(true);
+	//tObj7_1->GetComponent<CapsuleCollider>()->SetCapsuleInfo(1.0f, 1.5f);
 	tObj7_1->AddComponent<SkinnedMeshRenderer>();
-	tObj7_1->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/Monsters/boss/mon_boss.fbx");
-	tObj7_1->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "MBA_00001.pganim";
+	tObj7_1->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/Monsters/wasp/mon_wasp_body.fbx");
+	tObj7_1->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "BMA_00001.pganim";
 	tObj7_1->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
 	tObj7_1->AddComponent<Animator>();
-	tObj7_1->GetComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Monster/Boss.xml");
-	tObj7_1->AddComponent<MonsterMove>();
+	tObj7_1->GetComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Monster/Wasp.xml");
+	tObj7_1->AddComponent<MonsterHelper>();
+	//tObj7_1->AddComponent<MonsterMove>();
 	//tObj7_1->AddComponent<NavTest>();
 
 	//Pg::Data::GameObject* tObj7_2 = tCurrentScene->AddObject("GolemAttackRange");
@@ -244,14 +245,14 @@ void Pg::Engine::TestScene::Initialize()
 	//tObj7_2->AddComponent<AISeight>();
 	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_2);
 
-	//Pg::Data::GameObject* tObj7_3 = tCurrentScene->AddObject("Golem1_Crtstal");
-	//tObj7_3->GetComponent<Transform>()->_position = { 0.f, 0.f, 0.f };
-	//tObj7_3->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
-	//tObj7_3->AddComponent<SkinnedMeshRenderer>();
-	//tObj7_3->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/Monsters/mon_golemmini/mon_golemmini_crystal.fbx");
-	//tObj7_3->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "GMA_10001.pganim";
-	//tObj7_3->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
-	//tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
+	Pg::Data::GameObject* tObj7_3 = tCurrentScene->AddObject("Wasp1_Wing");
+	tObj7_3->GetComponent<Transform>()->_position = { 0.f, 0.f, 0.f };
+	tObj7_3->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	tObj7_3->AddComponent<SkinnedMeshRenderer>();
+	tObj7_3->GetComponent<SkinnedMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/Monsters/wasp/mon_wasp_wing.fbx");
+	tObj7_3->GetComponent<SkinnedMeshRenderer>()->_initAnimName = "BMA_10001.pganim";
+	tObj7_3->GetComponent<SkinnedMeshRenderer>()->SetActive(true);
+	tObj7_1->GetComponent<Transform>()->AddChild(tObj7_3);
 
 
 	//Pg::Data::GameObject* tObj7_3 = tCurrentScene->AddObject("Seight2");
@@ -268,8 +269,8 @@ void Pg::Engine::TestScene::Initialize()
 
 
 	///버튼 & 오디오
-	Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Button");
-	tObj8->GetComponent<Transform>()->_position = { 100.0f, 200.0f, 0.0f };
+	//Pg::Data::GameObject* tObj8 = tCurrentScene->AddObject("Button");
+	//tObj8->GetComponent<Transform>()->_position = { 100.0f, 200.0f, 0.0f };
 	//tObj8->AddComponent<Button>();
 	//tObj8->GetComponent<Button>()->SetImagePath("../Resources/Textures/Sprites/StartCrunch.png");
 	//tObj8->GetComponent<Button>()->SetImageSize(200.0f, 200.0f);
@@ -342,15 +343,15 @@ void Pg::Engine::TestScene::Initialize()
 		//tObj24->AddComponent<Animator>()->SetBehaviorTreePath("../Resources/BehaviorTrees/Test/BTree_Testing1.xml");	
 	}
 	 
-	Pg::Data::GameObject* tObj24 = tCurrentScene->AddObject("TextShowing");
-	tObj24->GetComponent<Transform>()->_position = {400.f, 40.0f, 0.0f };
-	tObj24->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
-	tObj24->GetComponent<Transform>()->_rotation = tObj24->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
+	//Pg::Data::GameObject* tObj24 = tCurrentScene->AddObject("TextShowing");
+	//tObj24->GetComponent<Transform>()->_position = {400.f, 40.0f, 0.0f };
+	//tObj24->GetComponent<Transform>()->_scale = { 1.0f, 1.0f, 1.0f };
+	//tObj24->GetComponent<Transform>()->_rotation = tObj24->GetComponent<Transform>()->EulerToQuaternion(0.0f, 0.0f, 0.0f);
 
-	tObj24->AddComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_16.spritefont");
-	tObj24->GetComponent<TextRenderer>()->SetString("FPS");
-	tObj24->GetComponent<TextRenderer>()->SetFontColor({0,0,0,1});
-	tObj24->AddComponent<PrintRuntimeData>();
+	//tObj24->AddComponent<TextRenderer>()->SetFont("../Resources/Fonts/NotoSansKR_16.spritefont");
+	//tObj24->GetComponent<TextRenderer>()->SetString("FPS");
+	//tObj24->GetComponent<TextRenderer>()->SetFontColor({0,0,0,1});
+	//tObj24->AddComponent<PrintRuntimeData>();
 
 	//tObj24->GetComponent<StaticMeshRenderer>()->SetMeshFilePath("../Resources/3DModels/BasicMesh/Cube/Cube.fbx");
 	//tObj24->GetComponent<StaticMeshRenderer>()->SetMaterialFilePath("../ShaderResources/Materials/RoadLavaConeTestMat.pgmat");

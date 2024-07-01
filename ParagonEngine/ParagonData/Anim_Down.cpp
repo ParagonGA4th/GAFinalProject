@@ -6,52 +6,40 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_Down::tick()
 	{
-		bool downInit = config().blackboard->get<bool>("DOWNINIT");
-		if (!downInit) return BT::NodeStatus::FAILURE;
-
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
 			if (monHelper->_isAnimationEnd)
 			{
-				_isAnimEnd = true;
 				monHelper->_isAnimationEnd = false;
+				return BT::NodeStatus::FAILURE;
 			}
-
 
 			auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 			if (tMeshRenderer != nullptr)
 			{
+				std::string _animId;
+				bool _loop = false;
 				_animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
 
-				if ((_isLoading || !_isLoading) && !monHelper->_isDown)
+				if (monHelper->_bossFlag._bossState == Pg::Data::BossState::DOWN)
 				{
-					_isLoading = false;
-					_isEnd = true;
-					config().blackboard->set<bool>("DOWNINIT", false);
+					if(!_isInit) _animId.append("_00011.pganim");
+					else _animId.append("_00015.pganim"); _loop = true;
+				}
+
+				if (monHelper->_bossFlag._bossState == Pg::Data::BossState::DOWNENDED)
+				{
 					_animId.append("_00016.pganim");
-				}
-				else if ((_isInit && _isAnimEnd) || _isLoading)
-				{
-					_isInit = false;
-					_isLoading = true;
-					_animId.append("_00015.pganim");
-				}
-				else if (downInit && (_isInit || !_isInit))
-				{
-					_isInit = true;
-					_animId.append("_00011.pganim");
 				}
 
 				if (tMeshRenderer->GetAnimation() != _animId)
 				{
-					tMeshRenderer->SetAnimation(_animId, _isLoading);
-					_isAnimEnd = false;
+					tMeshRenderer->SetAnimation(_animId, _loop);
 				}
 			}
 		}
 
-		if (_isEnd && _isAnimEnd) return BT::NodeStatus::FAILURE;
-		else return BT::NodeStatus::SUCCESS;
+		return BT::NodeStatus::SUCCESS;
 	}
 }

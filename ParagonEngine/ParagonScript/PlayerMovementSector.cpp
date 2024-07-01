@@ -161,7 +161,27 @@ namespace Pg::DataScript
 		_augmentedRelativeLeft = { _relativeLeft.x * tMoveSpeed * dt, _relativeLeft.y * tMoveSpeed * dt, _relativeLeft.z * tMoveSpeed * dt };
 
 		//Face Direction에 필요하다. 현재 발에 있는 위치!
-		_currentPlaneY = this->_object->_transform._position.y - _halfColliderHeight;
+		//원본
+		//_currentPlaneY = this->_object->_transform._position.y - _halfColliderHeight;
+		
+		//Position Offset 반영 수정본.
+		_currentPlaneY = this->_object->_transform._position.y - _halfColliderHeight - _selfCol->GetPositionOffset().y;
+		
+		//각도에 따른 클릭 포인트 오차 발생, 해당 문제를 해결해보자, _currentPlaneY를 Offset하는 방향으로!
+		{
+			//둘 다 정규화되어 있으니 -1 ~ 1 반환할 것.
+			//이제 절대값으로 0-1이 되었음.
+			float tLookVectorSimilarity = fabs(PGFloat3Dot(_relativeForward, Pg::Math::PGFLOAT3::GlobalUp()));
+
+			//각도에 따라 비율이 달라지겠지만...
+			DirectX::XMVECTOR tXMForward = PG2XM_FLOAT3_VECTOR(_relativeForward);
+			DirectX::XMVECTOR tForwardQuat = DirectX::XMQuaternionNormalize(DirectX::XMQuaternionRotationRollPitchYawFromVector(tXMForward));
+			DirectX::XMVECTOR tCamLookQuat = DirectX::XMQuaternionNormalize(PG2XM_QUATERNION_VECTOR(_camBehavior->_object->_transform._rotation));
+			float tQuatDot = fabs(DirectX::XMVectorGetX(DirectX::XMQuaternionDot(tForwardQuat, tCamLookQuat)));
+
+			//+해야.
+			_currentPlaneY = _currentPlaneY - tLookVectorSimilarity;
+		}
 	}
 
 	void PlayerMovementSector::UpdateWASD()

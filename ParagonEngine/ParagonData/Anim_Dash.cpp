@@ -11,12 +11,8 @@ namespace Pg::Data::BTree::Node
 		{
 			if (monHelper->_isAnimationEnd)
 			{
-				_isAnimEnd = true;
 				monHelper->_isAnimationEnd = false;
-			}
-			else
-			{
-				_isAnimEnd = false;
+				return BT::NodeStatus::FAILURE;
 			}
 		}
 
@@ -29,7 +25,6 @@ namespace Pg::Data::BTree::Node
 			if (tMeshRenderer->GetAnimation() != animId)
 			{
 				tMeshRenderer->SetAnimation(animId, false);
-				_isChangeAnim = true;
 
 				std::string objName = this->GetGameObject()->GetName();
 				objName = objName.substr(0, objName.rfind("_"));
@@ -43,13 +38,8 @@ namespace Pg::Data::BTree::Node
 				animId.append("_10005.pganim");
 				tcMeshRenderer->SetAnimation(animId, false);
 			}
-			else
-			{
-				_isChangeAnim = false;
-			}
 		}
 
-		if(_isAnimEnd && _isChangeAnim) return BT::NodeStatus::FAILURE;
-		else return BT::NodeStatus::SUCCESS;
+		return BT::NodeStatus::SUCCESS;
 	}
 }

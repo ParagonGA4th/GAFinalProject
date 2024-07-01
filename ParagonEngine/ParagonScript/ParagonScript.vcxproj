@@ -226,6 +226,8 @@
     <ClInclude Include="TransformSimpleStorage.h" />
     <ClInclude Include="TrapArea.h" />
     <ClInclude Include="TrentAttack.h" />
+    <ClInclude Include="WaspBehaviour.h" />
+    <ClInclude Include="WaspInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AreaPassingTrigger.cpp" />
@@ -289,6 +291,8 @@
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TrapArea.cpp" />
     <ClCompile Include="TrentAttack.cpp" />
+    <ClCompile Include="WaspBehaviour.cpp" />
+    <ClCompile Include="WaspInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ParagonScript.rc" />

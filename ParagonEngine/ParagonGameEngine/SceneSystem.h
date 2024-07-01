@@ -52,7 +52,7 @@ namespace Pg::Engine
 		//EditorCameraScript를 Sync에 맞춰서 넣는 로직을 별도 분리.
 		void DebounceSceneLoadStatus(Pg::Data::Enums::eEditorMode editMode);
 		void BeforePhysicsUpdateInGame();
-		void Update(bool isActualInGame); 
+		bool Update(bool isActualInGame); 
 
 		void LoadEmptyScene();
 		void UnLoadSCene();
@@ -91,7 +91,7 @@ namespace Pg::Engine
 		void UpdateDontDestroyOnLoadObjects();
 		void FixedUpdateDontDestroyOnLoadObjects();
 		void LateUpdateDontDestroyOnLoadObjects();
-		void UpdateActualSceneChange();
+		bool UpdateActualSceneChange();
 
 	private:
 		Scene* _currentScene = nullptr;

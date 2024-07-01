@@ -89,7 +89,7 @@ namespace Pg::Engine
 		_currentScene->BeforePhysicsUpdate();
 	}
 
-	void SceneSystem::Update(bool isActualInGame)
+	bool SceneSystem::Update(bool isActualInGame)
 	{
 		//Object 단위로 내부적으로 실행할지 말지를 판단하기에, 상관없다.
 		if (isActualInGame)
@@ -115,7 +115,8 @@ namespace Pg::Engine
 			_currentScene->Internal_EngineUpdate();
 		}
 
-		UpdateActualSceneChange();
+		bool tIsJustSceneChanged = UpdateActualSceneChange();
+		return tIsJustSceneChanged;
 	}
 
 	void SceneSystem::LoadEmptyScene()
@@ -396,7 +397,7 @@ namespace Pg::Engine
 		}
 	}
 
-	void SceneSystem::UpdateActualSceneChange()
+	bool SceneSystem::UpdateActualSceneChange()
 	{
 		if (_isNeedToChangeScene)
 		{
@@ -410,13 +411,17 @@ namespace Pg::Engine
 					{
 						_toChangeScene.clear();
 					}
-
 					_isNeedToChangeScene = false;
-					return;
+					
+					//지금 당장 Scene이 변했다는 말.
+					return true;
 				}	
 			}
 			assert(false && "SceneName과 동일한 Scene이 존재하지 않음.");	
 		}
+
+		//지금 당장 Scene이 바뀌지 않았다는 말.
+		return false;
 	}
 
 	void SceneSystem::SetProjectSceneList_GrabManagedObjects(const std::vector<Pg::Data::Scene*>& sceneVec)
