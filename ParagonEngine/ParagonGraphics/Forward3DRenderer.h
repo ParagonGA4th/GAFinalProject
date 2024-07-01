@@ -47,6 +47,9 @@ namespace Pg::Graphics
 		//매 프레임마다 Skinned 동작을 위해 사용.
 		void SetDeltaTime(float dt);
 
+	public:
+		VisualEffectRenderer* GetVisualEffectRenderer();
+
 	private:
 		void RenderAlphaBlended3DPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderBillboardPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);

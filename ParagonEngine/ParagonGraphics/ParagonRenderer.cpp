@@ -17,6 +17,8 @@
 #include "DebugRenderer.h"
 #include "PPFinalRenderer.h"
 
+#include "VisualEffectRenderer.h"
+
 #include "../ParagonData/Scene.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonData/GameObject.h"
@@ -303,6 +305,10 @@ namespace Pg::Graphics
 		_sceneParser->HandleRenderObjectsRuntime();
 	}
 
+	Pg::Graphics::VisualEffectRenderer* ParagonRenderer::GetVisualEffectRenderer()
+	{
+		return _forward3dRenderer->GetVisualEffectRenderer();
+	}
 	
 
 }

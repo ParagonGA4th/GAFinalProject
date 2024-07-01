@@ -83,4 +83,10 @@ namespace Pg::Graphics
 		_billboardRenderPass->ExecuteNextRenderRequirements();
 		_billboardRenderPass->PassNextRequirements(*_carrier);
 	}
+
+	Pg::Graphics::VisualEffectRenderer* Forward3DRenderer::GetVisualEffectRenderer()
+	{
+		return _billboardRenderPass->GetVisualEffectRenderer();
+	}
+
 }
