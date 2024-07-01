@@ -15,6 +15,8 @@ namespace Pg::Graphics
 		virtual ~SystemVertexShader();
 
 		ID3D11VertexShader* GetVertexShader();
+		ID3D11InputLayout* GetInputLayout();
+
 		void Bind();
 		void Unbind();
 

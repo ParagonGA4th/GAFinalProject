@@ -9,7 +9,15 @@
 #include "TwoTextureEffect3D.h"
 #include "ThreeTextureEffect3D.h"
 
+#include "../ParagonUtil/TimeSystem.h"
+#include "../ParagonData/ParagonDefines.h"
+#include "../ParagonData/GameConstantData.h"
+#include "../ParagonHelper/ResourceHelper.h"
+
 #include "GeometryGenerator.h"
+#include "LayoutDefine.h"
+
+#include <singleton-cpp/singleton.h>
 
 namespace Pg::Graphics
 {
@@ -18,6 +26,12 @@ namespace Pg::Graphics
 		_graphicsResourceManager = Manager::GraphicsResourceManager::Instance();
 		_DXStorage = LowDX11Storage::GetInstance();
 		_commonStates = std::make_unique<DirectX::CommonStates>(_DXStorage->_device);
+
+		_timeSystem = &singleton<Pg::Util::Time::TimeSystem>();
+		//_systemSpriteInputLayoutPurposeVS = std::make_unique<SystemVertexShader>();
+		//using Pg::Util::Helper::ResourceHelper;
+		//std::make_unique<SystemVertexShader>(ResourceHelper::IfReleaseChangeDebugTextW(Pg::Defines::SPRITE_VERTEX_SHADER_TEST_DIRECTORY), ,
+		//	LowDX11Storage::GetInstance()->_solidState, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	}
 
 	VisualEffectRenderer::~VisualEffectRenderer()
@@ -39,7 +53,7 @@ namespace Pg::Graphics
 			//if (tEffectData._is3dSpace) { Load3DSpaceEffect(bVESetPtr.get()); }
 			//else { Load2DSpaceEffect(bVESetPtr.get()); }
 
-			
+
 			//여기까지 VisualEffectGraphicsSet 세팅.
 
 			///SpriteBatch / GeometricPrimitive 만들기. 추후에 변경 사항에 따라서 수정되어야 한다.
@@ -61,7 +75,28 @@ namespace Pg::Graphics
 	{
 		assert(_visualEffectsMap.contains(effectName) && "무조건 이미 로드된 EffectName을 가지고 로드해야 한다");
 		//Current Rendering Map에 Visual Effect Map 추가.
-		_currentRenderingMap.at(_visualEffectsMap.at(effectName).get()).push_back(vfxObj);
+		VERenderingSet* tVeSet = _visualEffectsMap.at(effectName).get();
+		_currentRenderingMap.at(tVeSet).push_back(vfxObj);
+
+		//2D일 때 예외 처리.
+		if (tVeSet->_veGraphicsSet->_effect3D != nullptr)
+		{
+			//디폴트 렌더모드가 아닐 때
+			auto& tSprite2D = tVeSet->_veGraphicsSet->_spriteEffect2D;
+			if (!(tSprite2D->_isDefaultRenderMode))
+			{
+				if (tSprite2D->_animatedTexture != nullptr)
+				{
+					//Animated Reset.
+					tSprite2D->_animatedTexture->Reset();
+				}
+				else
+				{
+					//Scrolling Background.
+					tSprite2D->_scrollingBackground->Reset();
+				}
+			}
+		}
 	}
 
 	void VisualEffectRenderer::RemoveVisualEffectObject(Pg::Data::VisualEffectRenderObject* vfxObj)
@@ -92,7 +127,7 @@ namespace Pg::Graphics
 		//Depth Stencil Setting.
 		//Quad의 Depth랑 합쳐서 출력되어야 한다. 
 		//이는 밖에서 처리된다. 
-		
+
 		for (auto& [bRenderSet, bEffectObjectVec] : _currentRenderingMap)
 		{
 			//Render Set & Effect Vector.
@@ -100,11 +135,11 @@ namespace Pg::Graphics
 			DirectX::XMVECTOR tCamPos = PG2XM_FLOAT3_VECTOR(camData->_position);
 
 			//X,Y,Z 모두를 써 E출력할지, 2차원으로 처리할 지를 판단한다.
-			bool tIs3d = bRenderSet->_visualEffectData._is3dSpace; 
+			bool tIs3d = bRenderSet->_visualEffectData._is3dSpace;
 			//3D의 경우 의미가 있는 설정이다. 3D공간에 있어도 자체 Rotation을 무시하고 카메라 바라보리를 결정.
-			bool tIsFaceCamera = bRenderSet->_visualEffectData._isFaceCamera; 
+			bool tIsFaceCamera = bRenderSet->_visualEffectData._isFaceCamera;
 			//프레임을 받아들여 인덱스를 가지고 AnimatedTexture처럼 출력해야 하는지를 구분.
-			bool tIsSpriteSheet = bRenderSet->_visualEffectData._isSpriteSheet;
+			Pg::Data::eSpriteMode tIsSpriteSheet = bRenderSet->_visualEffectData._spriteMode;
 
 			//커스텀 셰이더 여부 + 등등을 해결해야 한다.
 			if (tIs3d)
@@ -122,7 +157,7 @@ namespace Pg::Graphics
 				//XMMatrixLookAtLH
 
 				//모두 같은 레이아웃을 3D 기준으로 사용할 것이기에, 세팅.
-				_DXStorage->_deviceContext->IASetInputLayout(bRenderSet->_veGraphicsSet->_inputLayout3D);
+				_DXStorage->_deviceContext->IASetInputLayout(bRenderSet->_veGraphicsSet->_inputLayout);
 
 				//Texture 투입.
 				//BasicEffect거나 / 우리가 만든 BaseCustomEffect의 자식일 수도 있다.
@@ -142,7 +177,7 @@ namespace Pg::Graphics
 						bCustomMaybe->SetTexture(i, bRenderSet->_veGraphicsSet->_renderTextureVec.at(i)->GetSRV());
 					}
 				}
-				
+
 				// Bind Buffers
 				UINT stride = sizeof(GeometryGenerator::GeomVertex_PosNormalTex);
 				UINT offset = 0;
@@ -183,11 +218,59 @@ namespace Pg::Graphics
 			}
 			else
 			{
+				//2D.
+				auto& bVeSet = bRenderSet->_veGraphicsSet;
+				auto& bSpriteEffect2D = bVeSet->_spriteEffect2D;
+				auto& tEffectData = bRenderSet->_visualEffectData;
 
+				bVeSet->_spriteBatch->Begin(
+					DirectX::SpriteSortMode_BackToFront, bVeSet->_customBlendState,
+					nullptr, nullptr, nullptr, [&bVeSet]
+					{
+						bVeSet->_spriteEffect2D->SetCustomShaderInfo();
+					}
+				);
+
+				if (tEffectData._spriteMode == Pg::Data::_DEFAULT)
+				{
+					for (auto& bEffectObject : bEffectObjectVec)
+					{
+						auto& tFirstTexture = bVeSet->_renderTextureVec.at(0);
+						//RECT outRect = { 0,0, tFirstTexture->GetFileWidth(), tFirstTexture->GetFileHeight() };
+
+						//기본 설정으로 그리기, Rotation / Scale 반영하지 않음.
+						bVeSet->_spriteBatch->Draw(
+							tFirstTexture->GetSRV(), DirectX::XMFLOAT2(bEffectObject->_position.x, bEffectObject->_position.y));
+					}
+				}
+				else if (tEffectData._spriteMode == Pg::Data::_SPRITE_SHEET)
+				{
+					for (auto& bEffectObject : bEffectObjectVec)
+					{
+						bVeSet->_spriteEffect2D->_animatedTexture->Update(_timeSystem->GetDeltaTime());
+						bVeSet->_spriteEffect2D->_animatedTexture->Draw(bVeSet->_spriteBatch.get(), DirectX::XMFLOAT2(bEffectObject->_position.x, bEffectObject->_position.y));
+					}
+				}
+				else if (tEffectData._spriteMode == Pg::Data::_SCROLLING_BG)
+				{
+					for (auto& bEffectObject : bEffectObjectVec)
+					{
+						//Scroll 속도는 일단 FIX.
+						bVeSet->_spriteEffect2D->_scrollingBackground->Update(_timeSystem->GetDeltaTime() * 10.f);
+						bVeSet->_spriteEffect2D->_scrollingBackground->Draw(bVeSet->_spriteBatch.get());
+					}
+				}
+				else
+				{
+					assert(false && "미정의");
+				}
+
+
+				bVeSet->_spriteBatch->End();
 			}
 			//bRenderSet->_spriteBatch->Draw();
-			
-		
+
+
 			//BlendState Reset.
 			_DXStorage->_deviceContext->OMSetBlendState(NULL, NULL, 0xffffffff);
 		}
@@ -265,16 +348,16 @@ namespace Pg::Graphics
 			unsigned int tTextureSize = veSet->_veGraphicsSet->_textureSize;
 			auto& bEffect = tVisualEffectGraphicsSet->_effect3D;
 			auto& bStoreMatrixForm = tVisualEffectGraphicsSet->_effectStoreMatrixForm;
-			
+
 			//하나라도 Custom을 쓰는지 / 다 디폴트인지.
 			if ((!tEffectData._isUseCustomVertexShader) && (!tEffectData._isUseCustomPixelShader))
 			{
 				switch (tTextureSize)
 				{
 					//Texture가 하나밖에 없다면, Basic Effect를 넣기. 그렇게	
-					case 1: 
-					{ 
-						bEffect = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device); 
+					case 1:
+					{
+						bEffect = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
 						DirectX::BasicEffect* tBasicEffect = static_cast<DirectX::BasicEffect*>(bEffect.get());
 						tBasicEffect->SetTextureEnabled(true);
 						tBasicEffect->SetLightingEnabled(false);
@@ -284,13 +367,13 @@ namespace Pg::Graphics
 
 						//BasicEffect이니, 이를 기록.
 						tVisualEffectGraphicsSet->_dxtkBasicEffect = tBasicEffect;
-					} 
+					}
 					break;
-					default: 
-					{ 
+					default:
+					{
 						//Dual도 안되게 해놓았다.
-						assert(false && "2개 이상은 DXTK 자체 이펙트 시리즈에서 불가."); 
-					} 
+						assert(false && "2개 이상은 DXTK 자체 이펙트 시리즈에서 불가.");
+					}
 					break;
 				}
 			}
@@ -301,29 +384,29 @@ namespace Pg::Graphics
 				switch (tTextureSize)
 				{
 					//Texture가 하나밖에 없다면, Basic Effect를 넣기. 그렇게 
-					case 1: 
-					{ 
-						bEffect = std::make_unique<OneTextureEffect3D>(_DXStorage->_device, veSet); 
+					case 1:
+					{
+						bEffect = std::make_unique<OneTextureEffect3D>(_DXStorage->_device, veSet);
 						auto bCustom = static_cast<OneTextureEffect3D*>(bEffect.get());
 						bStoreMatrixForm = static_cast<DirectX::IEffectMatrices*>(bCustom);
 
 						//별도로 기록.
 						bBaseCustomEffect = bCustom;
-					} 
+					}
 					break;
-					case 2: 
-					{ 
-						bEffect = std::make_unique<TwoTextureEffect3D>(_DXStorage->_device, veSet); 
+					case 2:
+					{
+						bEffect = std::make_unique<TwoTextureEffect3D>(_DXStorage->_device, veSet);
 						auto bCustom = static_cast<TwoTextureEffect3D*>(bEffect.get());
 						bStoreMatrixForm = static_cast<DirectX::IEffectMatrices*>(bCustom);
 
 						//별도로 기록.
 						bBaseCustomEffect = bCustom;
-					} 
+					}
 					break;
-					case 3: 
-					{ 
-						bEffect = std::make_unique<ThreeTextureEffect3D>(_DXStorage->_device, veSet); 
+					case 3:
+					{
+						bEffect = std::make_unique<ThreeTextureEffect3D>(_DXStorage->_device, veSet);
 						auto bCustom = static_cast<ThreeTextureEffect3D*>(bEffect.get());
 						bStoreMatrixForm = static_cast<DirectX::IEffectMatrices*>(bCustom);
 
@@ -331,14 +414,14 @@ namespace Pg::Graphics
 						bBaseCustomEffect = bCustom;
 					}
 					break;
-					default: 
-					{ 
+					default:
+					{
 						assert(false && "4개 이상은 불가.");
 					}
 					break;
 				}
 			}
-			
+
 			//InputLayout을 맞게 만들기 위해 - Custom을 사용해도 PosNormalTex는 유지해야 한다.
 			//일단, 값 유지.
 			void const* shaderByteCode;
@@ -348,27 +431,59 @@ namespace Pg::Graphics
 			HR(_DXStorage->_device->CreateInputLayout(DirectX::VertexPositionNormalTexture::InputElements,
 				DirectX::VertexPositionNormalTexture::InputElementCount,
 				shaderByteCode, byteCodeLength,
-				&(tVisualEffectGraphicsSet->_inputLayout3D)));
+				&(tVisualEffectGraphicsSet->_inputLayout)));
 
 			//이제, 값 정하기.
 			//Alpha Blend != Alpha Clip.
 			//나중에 Apply 적용 시, 값은 밖에서 되는 것이 아니라, Effect 안에서 되어야 한다. (VEGraphicSet 접근을)
 			// 또한, CustomVertexShader / CustomPixelShader는 둘 다 한꺼번에 쓰거나 / 말거나해야!
-			
+
 		}
 		else //2D 공간에서 Plane.
 		{
 			//ScreenSpace에서 적용되는 공간.
 			//적용할 BlendState 적용.	
 			tVisualEffectGraphicsSet->_spriteBatch = std::make_unique<DirectX::SpriteBatch>(_DXStorage->_deviceContext);
+			tVisualEffectGraphicsSet->_spriteEffect2D = std::make_unique<SpriteEffect2D>(veSet);
 			//나머지는 렌더할 때 적용해야 할 것 같다.
-			
+			tVisualEffectGraphicsSet->_inputLayout = LayoutDefine::GetSpriteCustomLayout();
+
 			//Custom 2D Shader 양식 :
 			// https://raw.githubusercontent.com/wiki/Microsoft/DirectXTK/shaders/BloomExtract.hlsl
 			// https://github.com/microsoft/DirectXTK/wiki/Writing-custom-shaders
 			//Texture2D<float4> Texture : register(t0);
 			//sampler TextureSampler : register(s0);
 			//float4 main(float4 color : COLOR0, float2 texCoord : TEXCOORD0) : SV_Target0
+
+			//만약 SpriteSheet이라면, 다른 클래스로 등록.
+			//다른 셰이더를 넣어주는 것으로 해결할 수 있을 것.
+
+			auto& bSpriteEffect2D = tVisualEffectGraphicsSet->_spriteEffect2D;
+			if (tEffectData._spriteMode == Pg::Data::_DEFAULT)
+			{
+				//디폴트 렌더 모드.
+				bSpriteEffect2D->_isDefaultRenderMode = true;
+			}
+			else if (tEffectData._spriteMode == Pg::Data::_SPRITE_SHEET)
+			{
+				//SpriteSheet 모드.
+				bSpriteEffect2D->_animatedTexture = std::make_unique<AnimatedTexture>();
+				//일단 Default Frames Per Second = 2.
+				bSpriteEffect2D->_animatedTexture->Load(tVisualEffectGraphicsSet->_renderTextureVec.at(0)->GetSRV(), tEffectData._frameCount, 2);
+				//미리 로드.
+
+			}
+			else if (tEffectData._spriteMode == Pg::Data::_SCROLLING_BG)
+			{
+				//Scrolling Background 모드.
+				bSpriteEffect2D->_scrollingBackground = std::make_unique<ScrollingBackground>();
+				bSpriteEffect2D->_scrollingBackground->Load(tVisualEffectGraphicsSet->_renderTextureVec.at(0)->GetSRV());
+				bSpriteEffect2D->_scrollingBackground->SetWindow(Pg::Data::GameConstantData::WIDTH, Pg::Data::GameConstantData::HEIGHT);
+			}
+			else
+			{
+				assert(false && "미정의");
+			}
 		}
 	}
 

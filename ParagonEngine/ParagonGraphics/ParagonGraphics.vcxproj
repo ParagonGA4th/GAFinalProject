@@ -20,8 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AlphaBlendedTotalRenderPass.h" />
+    <ClInclude Include="AnimatedTexture.h" />
     <ClInclude Include="BaseCustomEffect.h" />
     <ClInclude Include="OneTextureEffect3D.h" />
+    <ClInclude Include="ScrollingBackground.h" />
+    <ClInclude Include="SpriteEffect2D.h" />
     <ClInclude Include="ThreeTextureEffect3D.h" />
     <ClInclude Include="TwoTextureEffect3D.h" />
     <ClInclude Include="VisualEffectRenderPass.h" />
@@ -165,6 +168,7 @@
   <ItemGroup>
     <ClCompile Include="AlphaBlendedTotalRenderPass.cpp" />
     <ClCompile Include="OneTextureEffect3D.cpp" />
+    <ClCompile Include="SpriteEffect2D.cpp" />
     <ClCompile Include="ThreeTextureEffect3D.cpp" />
     <ClCompile Include="TwoTextureEffect3D.cpp" />
     <ClCompile Include="VisualEffectRenderPass.cpp" />
@@ -390,6 +394,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\PrimitiveVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\SpriteInputUsageTest\SpriteInputUsageTest_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\SpriteInputUsageTest\SpriteInputUsageTest_VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>

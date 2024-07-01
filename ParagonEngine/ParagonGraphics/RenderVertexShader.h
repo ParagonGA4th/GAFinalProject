@@ -41,6 +41,7 @@ namespace Pg::Graphics
 	public:
 		void Bind();
 		void Unbind();
+		ID3D11VertexShader* GetVertexShader();
 
 		void GetVertexShaderBytecode(void const** pShaderByteCode, size_t* pByteCodeLength);
 

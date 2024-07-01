@@ -25,7 +25,7 @@ namespace Pg::Graphics
 		void XM_CALLCONV SetProjection(DirectX::FXMMATRIX value) override;
 		void XM_CALLCONV SetMatrices(DirectX::FXMMATRIX world, DirectX::CXMMATRIX view, DirectX::CXMMATRIX projection) override;
 
-		virtual void SetTexture(unsigned int index, ID3D11ShaderResourceView* value) override;
+		virtual void SetTexture(unsigned int index, ID3D11ShaderResourceView*& value) override;
 		virtual unsigned int GetTextureCount() override { return 3; };
 	};
 }

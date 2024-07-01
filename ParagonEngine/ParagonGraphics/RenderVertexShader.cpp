@@ -63,4 +63,9 @@ namespace Pg::Graphics
 		*pByteCodeLength = _byteCode->GetBufferSize();
 	}
 
+	ID3D11VertexShader* RenderVertexShader::GetVertexShader()
+	{
+		return _shader;
+	}
+
 }

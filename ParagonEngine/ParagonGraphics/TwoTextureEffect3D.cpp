@@ -38,7 +38,7 @@ namespace Pg::Graphics
 
 	}
 
-	void TwoTextureEffect3D::SetTexture(unsigned int index, ID3D11ShaderResourceView* value)
+	void TwoTextureEffect3D::SetTexture(unsigned int index, ID3D11ShaderResourceView*& value)
 	{
 
 	}

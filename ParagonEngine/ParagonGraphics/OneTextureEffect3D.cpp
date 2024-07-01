@@ -40,7 +40,7 @@ namespace Pg::Graphics
 
 	}
 
-	void OneTextureEffect3D::SetTexture(unsigned int index, ID3D11ShaderResourceView* value)
+	void OneTextureEffect3D::SetTexture(unsigned int index, ID3D11ShaderResourceView*& value)
 	{
 
 	}

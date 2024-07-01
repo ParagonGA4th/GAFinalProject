@@ -231,15 +231,14 @@ namespace Pg::Util::Helper
 				tInput._textureName = it.at(5);
 			}
 			
-			//IsSpriteSheet
+			//eSpriteMode
 			{
-				int tBoolInt = std::stoi(it.at(6));
-				assert((tBoolInt == 0 || tBoolInt == 1) && "0/1이 아니면 Bool 치환 불가능.");
-				tInput._isSpriteSheet = static_cast<bool>(tBoolInt);
+				int tInt = std::stoi(it.at(6));
+				tInput._spriteMode = static_cast<Pg::Data::eSpriteMode>(tInt);
 			}
 
 			//만약 IsSpriteSheet면 FrameCount 몇개인지 알아야 함.
-			if (tInput._isSpriteSheet)
+			if (tInput._spriteMode == Pg::Data::eSpriteMode::_SPRITE_SHEET)
 			{
 				tInput._frameCount = std::stoul(it.at(7));
 			}
