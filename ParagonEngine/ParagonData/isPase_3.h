@@ -14,17 +14,15 @@ namespace Pg::Data::BTree::Node
 			: BT::SyncActionNode(name, config) {}
 		virtual ~isPase_3() = default;
 
-		virtual void InitCustom();
-
 		virtual BT::NodeStatus tick() override;
 
 		static BT::PortsList providedPorts()
 		{
-			BT::PortsList list;
-			list.insert(BT::BidirectionalPort<bool>("_pase3Init"));
-
-			return list;
+			return {};
 		}
+
+	private:
+		bool _isInit;
 	};
 }
 #endif

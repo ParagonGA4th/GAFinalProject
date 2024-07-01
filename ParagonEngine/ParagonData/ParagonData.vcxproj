@@ -253,6 +253,8 @@
     <ClInclude Include="isPase_3.h" />
     <ClInclude Include="isTouched.h" />
     <ClInclude Include="isPase_1.h" />
+    <ClInclude Include="MonsterFlag.h" />
+    <ClInclude Include="Toggle.h" />
     <ClInclude Include="VisualEffectRenderObject.h" />
     <ClInclude Include="isChase.h" />
     <ClInclude Include="isCoolDown.h" />
@@ -261,7 +263,6 @@
     <ClInclude Include="isDistanceClose.h" />
     <ClInclude Include="isHitSpace.h" />
     <ClInclude Include="isPlayerInSight.h" />
-    <ClInclude Include="isSkillAttack.h" />
     <ClInclude Include="LayerMask.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentList.h" />
@@ -405,9 +406,9 @@
     <ClCompile Include="isPase_2.cpp" />
     <ClCompile Include="isPase_3.cpp" />
     <ClCompile Include="isPlayerInSight.cpp" />
-    <ClCompile Include="isSkillAttack.cpp" />
     <ClCompile Include="isTouched.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="MonsterHelper.cpp" />
     <ClCompile Include="MoveForwardBack.cpp" />
     <ClCompile Include="NavigationField.cpp" />
     <ClCompile Include="NavMeshAgent.cpp" />
@@ -437,6 +438,7 @@
     <ClCompile Include="StaticMeshRenderer.cpp" />
     <ClCompile Include="StaticSphereCollider.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
+    <ClCompile Include="Toggle.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

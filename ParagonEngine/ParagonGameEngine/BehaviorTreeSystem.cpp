@@ -88,10 +88,10 @@ namespace Pg::Engine::BTree
 
 		_factory->registerNodeType<Node::Anim_Shoot>("Anim_Shoot");
 		_factory->registerNodeType<Node::Anim_Stab>("Anim_Stab");
+		_factory->registerNodeType<Node::Toggle>("Toggle");
 
 		_factory->registerNodeType<Node::Anim_tAttack>("Anim_tAttack");
 		_factory->registerNodeType<Node::Anim_PoisonGas>("Anim_PoisonGas");
-		_factory->registerNodeType<Node::isSkillAttack>("isSkillAttack");
 		_factory->registerNodeType<Node::isCoolDown>("isCoolDown");
 
 		_factory->registerNodeType<Node::isTouched>("isTouched");

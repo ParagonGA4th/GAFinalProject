@@ -3,7 +3,7 @@ namespace Pg::Data
 {
 	// 공격 패턴이 있는 몬스터를 behaviortree의 node 를 통해 제어하기 위해
 
-	enum class TrentState
+	enum class StubState
 	{
 		IDLE,
 		BASIC_ATTACK_1,
@@ -19,6 +19,7 @@ namespace Pg::Data
 	{
 		IDLE,
 		DOWN,
+		DOWNENDED,
 		EVASION,
 		DASH,
 		CHASE,

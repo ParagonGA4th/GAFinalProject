@@ -280,6 +280,12 @@
     <Filter Include="UI\SortingLayer">
       <UniqueIdentifier>{3ed7b03f-8241-4f02-91e6-f8a85898641c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\EnemyInfo\Wasp">
+      <UniqueIdentifier>{d0f30d1a-f33a-4b8b-8d58-000ddf395817}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Enemy\Wasp">
+      <UniqueIdentifier>{fe1e0277-27c5-4d3b-a7bd-441e893610e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -464,6 +470,12 @@
     </ClCompile>
     <ClCompile Include="SetInGameSortingLayer.cpp">
       <Filter>UI\SortingLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="WaspBehaviour.cpp">
+      <Filter>AI\Enemy\Wasp</Filter>
+    </ClCompile>
+    <ClCompile Include="WaspInfo.cpp">
+      <Filter>AI\EnemyInfo\Wasp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -716,6 +728,12 @@
     </ClInclude>
     <ClInclude Include="SetInGameSortingLayer.h">
       <Filter>UI\SortingLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="WaspBehaviour.h">
+      <Filter>AI\Enemy\Wasp</Filter>
+    </ClInclude>
+    <ClInclude Include="WaspInfo.h">
+      <Filter>AI\EnemyInfo\Wasp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

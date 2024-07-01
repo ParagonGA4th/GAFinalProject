@@ -5,8 +5,6 @@
 
 #include "BtNodes/BasePgBtNode.h"
 
-namespace Pg::Util::Time { class TimeSystem; }
-
 namespace Pg::Data::BTree::Node
 {
 	class Anim_bIdle : public BT::SyncActionNode, public BasePgBtNode
@@ -18,20 +16,14 @@ namespace Pg::Data::BTree::Node
 
 		virtual BT::NodeStatus tick() override;
 
-		virtual void InitCustom();
-
 		static BT::PortsList providedPorts()
 		{
-			BT::PortsList list;
-			list.insert(BT::BidirectionalPort<float>("_holdTime"));
-			list.insert(BT::BidirectionalPort<std::string>("_nextAnim"));
-
-			return list;
+			return {};
 		}
 
 	private:
-		Pg::Util::Time::TimeSystem* _deltaTime;
-		float _value = 0.f;
+		bool _isSPSkillTime{ false };
+		int _isTPSkillTime = 0;
 	};
 }
 #endif

@@ -6,31 +6,28 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_Shoot::tick()
 	{
+		bool isHolding = config().blackboard->get<bool>("ISHOLDING");
+		if (isHolding) return BT::NodeStatus::FAILURE;
+
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
 			if (monHelper->_isAnimationEnd)
 			{
-				_isAnimEnd = true;
 				monHelper->_isAnimationEnd = false;
-			}
-			else
-			{
-				_isAnimEnd = false;
+				return BT::NodeStatus::FAILURE;
 			}
 		}
 
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{
-			config().blackboard->set<std::string>("CURRENTANIM", "_00005");
 			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
 			animId.append("_00005.pganim");
 
 			if (tMeshRenderer->GetAnimation() != animId)
 			{
 				tMeshRenderer->SetAnimation(animId, false);
-				config().blackboard->set<bool>("ISCHANGE", true);
 
 				std::string objName = this->GetGameObject()->GetName();
 				objName = objName.substr(0, objName.rfind("_"));
@@ -45,7 +42,6 @@ namespace Pg::Data::BTree::Node
 			}
 		}
 
-		if (_isAnimEnd) config().blackboard->set<bool>("ISCHANGE", false);
 		return BT::NodeStatus::SUCCESS;
 	}
 }

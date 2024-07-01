@@ -165,7 +165,7 @@ namespace Pg::Engine
 			_currentRecordedEditMode == Data::Enums::eEditorMode::_EDIT)
 		{
 			//Internal 함수들만 호출.
-			_sceneSystem->Update(false);
+			bool tWorking = _sceneSystem->Update(false);
 		}
 		else
 		{
@@ -173,10 +173,19 @@ namespace Pg::Engine
 			_sceneSystem->BeforePhysicsUpdateInGame(); //Physics 발동 전 업데이트가 필요하다면! 심지어 Awake()보다도 전이다. 이제 BeforePhysicsAwake()까지 포함.
 			_physicSystem->UpdatePhysics(_timeSystem->GetDeltaTime());
 			_physicSystem->Flush();
-			_sceneSystem->Update(true);
+
+			//SceneSystem은 동일 프레임에 씬이 바뀌었는지를 반환한다.
+			bool tIsJustChangedScene = _sceneSystem->Update(true);
+
 			_tweenSystem->Update();
 			_soundSystem->Update();
-			_behaviorTreeSystem->Update();
+
+			//만약 동일 프레임에 씬이 바뀌지 않았을 때만, BehaviorTreeSystem을 업데이트한다.
+			if (!tIsJustChangedScene)
+			{
+				_behaviorTreeSystem->Update();
+			}
+
 			_physicSystem->UpdateTransform();
 			_physicSystem->ApplyRuntimeChangesCollider(); // 현재로서는 하는 거 없음. 
 		}
