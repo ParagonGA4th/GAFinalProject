@@ -185,16 +185,21 @@ namespace Pg::DataScript
 				if (_distance <= _bossInfo->GetAttackRange())
 				{
 					_isChasing = false;
+					_monsterHelper->_isChase = false;
 					_monsterHelper->_isPlayerinHitSpace = true;
 					_monsterHelper->_bossFlag._isPase_1 = true;
 
 					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
-						_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2 /*||
-						_monsterHelper->_bossState == Pg::Data::BossState::BASIC_ATTACK_3*/)
+						_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2 )
 					{
-						//Attack(_monsterHelper->_isAnimChange);
+						Attack(_monsterHelper->_isAnimChange);
+					}
+					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3)
+					{
+						Attack(false);
 						_useStormBlast = true;	
 					}
+
 					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE)
 					{
 						Attack(false);
@@ -379,7 +384,7 @@ namespace Pg::DataScript
 				for (auto& iter : _windBlastAttackCol)
 				{
 					iter->SetActive(false);
-					iter->_object->_transform._position = { 0.f, 0.f, 2.f };
+					iter->_object->_transform._position = { 0.f, 0.f, 1.f };
 				}
 				
 				_useStormBlast = false;
@@ -447,6 +452,8 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Hit()
 	{
+		if (_monsterHelper->_isDead) return;
+
 		//카메라 흔들림
 		_cameraShake->CauseShake(0.25f);
 

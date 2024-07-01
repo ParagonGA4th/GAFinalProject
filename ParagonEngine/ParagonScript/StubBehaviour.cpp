@@ -264,6 +264,8 @@ namespace Pg::DataScript
 
 	void StubBehaviour::Hit()
 	{
+		if (_monsterHelper->_isDead) return;
+
 		PG_TRACE("Hit!");
 
 		_cameraShake->CauseShake(0.25f);
