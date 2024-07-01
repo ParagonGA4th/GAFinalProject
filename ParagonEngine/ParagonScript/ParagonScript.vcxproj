@@ -179,6 +179,7 @@
     <ClInclude Include="IProjectile.h" />
     <ClInclude Include="ISingleGUI.h" />
     <ClInclude Include="MimicAttack.h" />
+    <ClInclude Include="MimicSkillAttack.h" />
     <ClInclude Include="MiniGolemAttack.h" />
     <ClInclude Include="MovingObjectDefinesAndStructs.h" />
     <ClInclude Include="PlayerCombatSector.h" />
@@ -257,6 +258,7 @@
     <ClCompile Include="GUI_PercentageFillBar.cpp" />
     <ClCompile Include="InGameManager.cpp" />
     <ClCompile Include="CreditsSceneGUIHandler.cpp" />
+    <ClCompile Include="MimicSkillAttack.cpp" />
     <ClCompile Include="PlayerCombatSector.cpp" />
     <ClCompile Include="GlobalSoundManager.cpp" />
     <ClCompile Include="MimicAttack.cpp" />
