@@ -14,11 +14,15 @@ namespace Pg::Data::BTree::Node
 			: BT::SyncActionNode(name, config) {}
 		virtual ~isDown() = default;
 
+		virtual void InitCustom();
+
 		virtual BT::NodeStatus tick() override;
 
 		static BT::PortsList providedPorts()
 		{
-			return {};
+			BT::PortsList list;
+			list.insert(BT::BidirectionalPort<bool>("_downInit"));
+			return list;
 		}
 	};
 }

@@ -57,6 +57,8 @@ namespace Pg::DataScript
 		//피격 시 애니메이션 출력을 위한 함수.
 		void Hit();
 
+		void RotateToPlayer(Pg::Math::PGFLOAT3& targetPos);
+
 		//피격 시 죽음.
 		void Dead();
 
@@ -82,6 +84,8 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _player;
 		Pg::Data::Transform* _playerTransform;
 		Pg::Data::MonsterHelper* _monsterHelper;
+
+		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
 
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _skillAttackCol;
@@ -113,6 +117,8 @@ namespace Pg::DataScript
 
 		//공격 관련 변수
 		bool _isAttackStart{ false };
+
+		bool _isRotateFinish;
 	};
 }
 
