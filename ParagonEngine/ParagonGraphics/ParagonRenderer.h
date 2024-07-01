@@ -37,6 +37,8 @@ namespace Pg::Graphics
 	class LightmapManager;
 
 	class SceneInformationList;
+
+	class VisualEffectRenderer;
 }
 
 namespace Pg::Graphics
@@ -95,6 +97,10 @@ namespace Pg::Graphics
 
 		//실제로 연동해서 처리 (기존에 Add/Modify/Delete되었던 오브젝트 변화 실제 반영)
 		void HandleRenderObjectsRuntime();
+
+	public:
+		VisualEffectRenderer* GetVisualEffectRenderer();
+
 
 	private:
 		//씬 데이터 받아들이기. (렌더에 적합한 형태로)

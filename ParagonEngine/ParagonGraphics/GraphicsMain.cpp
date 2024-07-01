@@ -17,6 +17,7 @@
 #include "ParagonRenderer.h"
 #include "GeometryGenerator.h"
 #include "AssimpBufferParser.h"
+#include "VisualEffectRenderer.h"
 #include "Sprite.h"
 #include "Font.h"
 
@@ -379,4 +380,10 @@ namespace Pg::Graphics
 		//기존의 Editor Mode Enum 기록.
 		_prevRecordedEditMode = editorMode;
 	}
+
+	Pg::Graphics::VisualEffectRenderer* GraphicsMain::GetVisualEffectRenderer()
+	{
+		return _renderer->GetVisualEffectRenderer();
+	}
+
 }

@@ -59,8 +59,8 @@ namespace Pg::Graphics
 	public:
 		//Effect Registering은 CSV를 통해서 이루어진다.
 		void RegisterAllEffects();
-
-				
+		//Renderer 리턴, PgGraphics를 위해.
+		VisualEffectRenderer* GetVisualEffectRenderer() { return _visualEffectController.get(); }
 
 	private:
 		std::unique_ptr<VisualEffectRenderer> _visualEffectController{ nullptr };
