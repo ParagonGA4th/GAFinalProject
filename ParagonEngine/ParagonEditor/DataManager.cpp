@@ -339,11 +339,18 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 							}
 
 							auto col = obj->GetComponent<Pg::Data::Collider>();
-							pugi::xml_node node = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "trigger"; });
-							col->SetTrigger(Pg::Serialize::Serializer::DeserializeBoolean(&node, ""));
+							pugi::xml_node node = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "layer"; });
+							if (node != nullptr)
+							{
+								col->SetLayer(Pg::Serialize::Serializer::DeserializeUint(&node, ""));
+								node = node.next_sibling();
+							}
+							else
+							{
+								node = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "trigger"; });
+							}
 
-							//pugi::xml_node node = component.find_node([&](const pugi::xml_node& node) { return std::string(node.name()) == "layer"; });
-							//col->SetLayer(Pg::Serialize::Serializer::DeserializeUint(&node, ""));
+							col->SetTrigger(Pg::Serialize::Serializer::DeserializeBoolean(&node, ""));
 
 							node = node.next_sibling();
 							col->SetPositionOffset(Pg::Serialize::Serializer::DeserializePGFloat3(&node));
@@ -355,7 +362,7 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 					else
 					{
 						Pg::DataScript::FactoryHelper::AddScript(obj, typeName);
-						if(typeName.find("Behaviour") != std::string::npos || 
+						if (typeName.find("Behaviour") != std::string::npos ||
 							typeName.find("Area") != std::string::npos ||
 							typeName.find("InGameCamera") != std::string::npos)
 						{
