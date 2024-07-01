@@ -260,6 +260,9 @@ void Pg::Editor::Window::InspectorUIManager::ColliderUI(std::string comName)
 		layerType.emplace_back("LAYER_MONSTER");
 		layerType.emplace_back("LAYER_PROJECTILES");
 		layerType.emplace_back("LAYER_MAP");
+		layerType.emplace_back("LAYER_BACKGROUND");
+		layerType.emplace_back("LAYER_MOVABLE_OBJECTS");
+		layerType.emplace_back("LAYER_BOSS");
 
 		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Text>("layer");
 		_changedUI->CreateColumnsWidget<Pg::UI::Widget::Combo>("##layer", layerType, _layer);

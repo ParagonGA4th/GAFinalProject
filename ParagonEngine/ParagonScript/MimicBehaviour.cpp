@@ -1,5 +1,6 @@
 #include "MimicBehaviour.h"
 #include "CameraShake.h"
+#include "MimicSkillAttack.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgScene.h"
@@ -11,6 +12,7 @@
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
+#include "../ParagonData/StaticMeshRenderer.h"
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/MonsterHelper.h"
 #include "../ParagonUtil/Log.h"
@@ -78,6 +80,12 @@ namespace Pg::DataScript
 
 		_mimicMoveSound = _pgScene->GetCurrentScene()->FindObjectWithName("MimicMoveSound");
 		_moveAudio = _mimicMoveSound->GetComponent<Pg::Data::AudioSource>();
+		
+		//코인 SetActive를 위해
+		_coin = _object->GetScene()->FindObjectWithName(_coinName);
+		_coinRenderer = _coin->GetComponent<Pg::Data::StaticMeshRenderer>();
+		_coin->SetActive(false);
+		_coinRenderer->SetActive(false);
 
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
@@ -99,6 +107,8 @@ namespace Pg::DataScript
 			}
 			else if (childTag == "TAG_Skill")
 			{
+				_mimicSkillAttack = iter->_object->GetComponent<MimicSkillAttack>();
+
 				Pg::Data::StaticBoxCollider* skillCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
 				if (skillCol != nullptr)
 				{
@@ -116,6 +126,13 @@ namespace Pg::DataScript
 
 		_distance = std::abs(std::sqrt(std::pow(plTrans._position.x - _object->_transform._position.x, 2)
 			+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
+
+		if (_isRotateToPlayer)
+		{
+			RotateToPlayer(_playerTransform->_position);
+
+			Chase();
+		}
 
 		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
 		{
@@ -135,11 +152,9 @@ namespace Pg::DataScript
 		if (_distance <= _mimicInfo->GetSightRange())
 		{
 			_monsterHelper->_isPlayerDetected = true;
-			RotateToPlayer(_playerTransform->_position);
+			_isRotateToPlayer = true;
 
 			_monsterHelper->_isChase = !_isDash;
-
-			Chase();
 		}
 
 		//코인 투척 스킬
@@ -165,7 +180,7 @@ namespace Pg::DataScript
 			//애니메이션 딜레이를 위한 델타타임 체크.
 			_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
 
-			_useCoinThrow = true;
+			_useCoinThrow = false;
 
 			// 공격 애니메이션 출력.
 			_monsterHelper->_isPlayerinHitSpace = true;
@@ -181,6 +196,12 @@ namespace Pg::DataScript
 
 				_currentAttackTime = 0.f;
 			}
+		}
+		else if (_distance >= _distance <= _mimicInfo->GetAttackRange() &&
+			_distance <= _mimicInfo->GetSkillAttackRange())
+		{
+			_useCoinThrow = true;
+			Attack(false);
 		}
 		else
 		{
@@ -255,12 +276,13 @@ namespace Pg::DataScript
 
 	void MimicBehaviour::UpdateSkill()
 	{
-		// 돌풍 스킬의 이동 및 충돌 처리
+		//스킬의 이동 및 충돌 처리
 		if (_useCoinThrow)
 		{
-			_mimicInfo->SetStartSKillTime(_mimicInfo->GetStartSkillTime() + _pgTime->GetDeltaTime());
 
-			if (_mimicInfo->GetStartSkillTime() < _mimicInfo->GetSkillDuration())
+			_mimicInfo->SetCurrentSKillTime(_mimicInfo->GetCurrentSkillTime() + _pgTime->GetDeltaTime());
+
+			if (_mimicInfo->GetCurrentSkillTime() > _mimicInfo->GetStartSkillTime())
 			{
 				Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
 
@@ -269,36 +291,59 @@ namespace Pg::DataScript
 				forwardDir.x = 0;
 				forwardDir = Pg::Math::PGFloat3Normalize(forwardDir);
 
-				if (forwardDir.z > 0)
+				if (_mimicInfo->GetCurrentSkillTime() < _mimicInfo->GetSkillDuration())
 				{
-					//돌풍 콜라이더 앞으로 전진
-					for (auto& iter : _skillAttackCol)
+					//추적 멈춤
+					_isRotateToPlayer = false;
+
+					//자신의 rotation에 따라 날아가는 방향 맞춰서 설정.
+					if (forwardDir.z > 0)
 					{
-						iter->SetActive(true);
-						iter->_object->_transform._position.z += forwardDir.z * _mimicInfo->GetSkillSpeed() * _pgTime->GetDeltaTime();
+						for (auto& iter : _skillAttackCol)
+						{
+							iter->SetActive(true);
+							iter->_object->_transform._position.z += forwardDir.z * _mimicInfo->GetSkillSpeed() * _pgTime->GetDeltaTime();
+						}
+					}
+					else
+					{
+						for (auto& iter : _skillAttackCol)
+						{
+							iter->SetActive(true);
+							iter->_object->_transform._position.z -= forwardDir.z * _mimicInfo->GetSkillSpeed() * _pgTime->GetDeltaTime();
+						}
+					}
+
+					_coinRenderer->SetActive(true);
+
+					//스킬 사용 중에 플레이어한테 맞으면
+					if (_mimicSkillAttack->_isPlayerHit)
+					{
+						//다 사라져라
+						for (auto& iter : _skillAttackCol)
+						{
+							iter->SetActive(false);
+							iter->_object->_transform._position = { 0.f, 1.f, 2.f };
+						}
+
+						_coinRenderer->SetActive(false);
 					}
 				}
 				else
 				{
-					//돌풍 콜라이더 앞으로 전진
 					for (auto& iter : _skillAttackCol)
 					{
-						iter->SetActive(true);
-						iter->_object->_transform._position.z -= forwardDir.z * _mimicInfo->GetSkillSpeed() * _pgTime->GetDeltaTime();
+						iter->SetActive(false);
+						iter->_object->_transform._position = { 0.f, 1.f, 2.f };
 					}
-				}
-			}
-			else
-			{
-				for (auto& iter : _skillAttackCol)
-				{
-					iter->SetActive(false);
-					iter->_object->_transform._position = { 0.f, 2.f, 2.f };
-				}
 
-				_useCoinThrow = false;
+					_coinRenderer->SetActive(false);
+					_useCoinThrow = false;
+					_isRotateToPlayer = true;
+					_mimicSkillAttack->_isPlayerHit = false;
 
-				_mimicInfo->SetStartSKillTime(0.f);
+					_mimicInfo->SetCurrentSKillTime(0.f);
+				}
 			}
 		}
 	}

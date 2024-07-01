@@ -1,6 +1,7 @@
 #include "Transform.h"
 #include "GameObject.h"
 #include "../ParagonUtil/Log.h"
+#include "../ParagonUtil/CustomAssert.h"
 #include <cmath>
 #include <limits>
 #include <algorithm>
@@ -254,6 +255,19 @@ namespace Pg::Data
 		}
 
 		return result;
+	}
+
+	Pg::Math::PGFLOAT3 Transform::GetWorldPosition()
+	{
+		Pg::Math::PGFLOAT4X4 tT = GetWorldTM();
+		DirectX::XMMATRIX tXM = PG2XM_MATRIX4X4(tT);
+
+		DirectX::XMVECTOR outScale;
+		DirectX::XMVECTOR outRotQuat;
+		DirectX::XMVECTOR outTrans;
+		CustomAssert(DirectX::XMMatrixDecompose(&outScale, &outRotQuat, &outTrans, tXM));
+
+		return XM2PG_FLOAT3_VECTOR(outTrans);
 	}
 
 	Pg::Math::PGFLOAT4X4 Transform::GetLocalTM()
@@ -518,5 +532,7 @@ namespace Pg::Data
 	{
 		return _isCanMove;
 	}
+
+
 
 }
