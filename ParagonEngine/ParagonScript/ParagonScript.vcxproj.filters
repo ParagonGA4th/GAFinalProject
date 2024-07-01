@@ -477,6 +477,9 @@
     <ClCompile Include="WaspInfo.cpp">
       <Filter>AI\EnemyInfo\Wasp</Filter>
     </ClCompile>
+    <ClCompile Include="MimicSkillAttack.cpp">
+      <Filter>AI\Attack\MimicAttack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -734,6 +737,9 @@
     </ClInclude>
     <ClInclude Include="WaspInfo.h">
       <Filter>AI\EnemyInfo\Wasp</Filter>
+    </ClInclude>
+    <ClInclude Include="MimicSkillAttack.h">
+      <Filter>AI\Attack\MimicAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

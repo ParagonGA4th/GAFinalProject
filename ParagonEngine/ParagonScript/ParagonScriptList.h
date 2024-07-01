@@ -49,6 +49,7 @@
 #include "MiniGolemAttack.h"
 #include "TrentAttack.h"
 #include "MimicAttack.h"
+#include "MimicSkillAttack.h"
 #include "BossAttack.h"
 
 //글로벌 매니저용

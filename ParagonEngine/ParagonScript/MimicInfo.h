@@ -33,16 +33,20 @@ namespace Pg::DataScript
 
 		MimicInfo& SetArmor(float armor) { _armor = armor; return *this; }
 		MimicInfo& SetAttackRange(float attackRange) { _attackRange = attackRange; return *this; }
+		MimicInfo& SetSkillAttackRange(float attackRange) { _skillAttackRange = attackRange; return *this; }
 		MimicInfo& SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed; return *this; }
 		MimicInfo& SetSightRange(float range) { _sightRange = range; return *this; }
 		MimicInfo& SetStartSKillTime(float time) { _startSkillTime = time; return *this; }
+		MimicInfo& SetCurrentSKillTime(float time) { _currentSkillTime = time; return *this; }
 		MimicInfo& SetSkillDuration(float dur) { _skillDuration = dur; return *this; }
 		MimicInfo& SetSkillSpeed(float speed) { _skillSpeed = speed; return *this; }
 
 		float GetMoveSpeed() const { return _moveSpeed; }
 		float GetSightRange() const { return _sightRange; }
 		float GetAttackRange() const { return _attackRange; }
+		float GetSkillAttackRange() const { return _skillAttackRange; }
 		float GetStartSkillTime() const { return _startSkillTime; }
+		float GetCurrentSkillTime() const { return _currentSkillTime; }
 		float GetSkillDuration() const { return _skillDuration; }
 		float GetSkillSpeed() const { return _skillSpeed; }
 
@@ -53,10 +57,12 @@ namespace Pg::DataScript
 
 		float _sightRange;		//시야 범위
 		float _attackRange;    // 기본 공격 범위
+		float _skillAttackRange;    // 스킬 공격 범위
 		float _moveSpeed;      // 이동속도
 		float _rotationSpeed;  // 회전 속도
 
 		float _startSkillTime;
+		float _currentSkillTime;
 		float _skillDuration;
 		float _skillSpeed;
 	};
