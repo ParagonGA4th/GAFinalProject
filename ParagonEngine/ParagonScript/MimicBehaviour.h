@@ -12,6 +12,7 @@ namespace Pg::Data
 	class GameObject;
 	class PhysicsCollision;
 	class SkinnedMeshRenderer;
+	class StaticMeshRenderer;
 	class BoxCollider;
 	class MonsterHelper;
 	class StaticBoxCollider;
@@ -31,6 +32,7 @@ namespace Pg::API
 namespace Pg::DataScript
 {
 	class CameraShake;
+	class MimicSkillAttack;
 
 	class MimicBehaviour : public ScriptInterface<MimicBehaviour>, public IEnemyBehaviour
 	{
@@ -70,6 +72,7 @@ namespace Pg::DataScript
 	public:
 		BEGIN_VISITABLES(Pg::DataScript::MimicBehaviour);
 		VISITABLE(int, _areaIndex);
+		VISITABLE(std::string, _coinName);
 		END_VISITABLES;
 
 	public:
@@ -85,6 +88,9 @@ namespace Pg::DataScript
 		Pg::Data::Transform* _playerTransform;
 		Pg::Data::MonsterHelper* _monsterHelper;
 
+		Pg::Data::GameObject* _coin;
+		Pg::Data::StaticMeshRenderer* _coinRenderer;
+
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
 		Pg::Data::BoxCollider* _collider;
 
@@ -98,6 +104,7 @@ namespace Pg::DataScript
 		Pg::Data::AudioSource* _moveAudio;
 
 		CameraShake* _cameraShake;
+		MimicSkillAttack* _mimicSkillAttack;
 
 	private:
 		//플레이어와의 거리 측정
@@ -119,6 +126,8 @@ namespace Pg::DataScript
 
 		//스킬 사용 여부
 		bool _useCoinThrow{ false };
+
+		bool _isRotateToPlayer{ false };
 	public:
 		//미믹의 상태와 수치에 대한 정보.
 		MimicInfo* _mimicInfo;

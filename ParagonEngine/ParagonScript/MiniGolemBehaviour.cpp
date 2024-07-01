@@ -136,8 +136,6 @@ namespace Pg::DataScript
 			_monsterHelper->_isDead = true;
 		}
 
-		if (_monsterHelper->_isDead) return;
-
 		// 시야 안에 들어왔을 때 쫓아가라.
 		if (_distance <= _miniGolInfo->GetSightRange())
 		{
@@ -291,6 +289,8 @@ namespace Pg::DataScript
 
 	void MiniGolemBehaviour::Hit()
 	{
+		if (_monsterHelper->_isDead) return;
+
 		PG_TRACE("Hit!");
 
 		_cameraShake->CauseShake(0.25f);
