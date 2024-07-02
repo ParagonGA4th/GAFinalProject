@@ -14,12 +14,12 @@ namespace Pg::DataScript
 
 	void MimicAttack::BeforePhysicsAwake()
 	{
-
+		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
 	void MimicAttack::Awake()
 	{
-		_combatSystem = CombatSystem::GetInstance(nullptr);
+
 	}
 
 	void MimicAttack::Update()

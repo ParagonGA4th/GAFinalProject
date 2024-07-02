@@ -34,6 +34,7 @@ namespace Pg::DataScript
 	class PlayerHandler;
 	class CameraShake;
 	class WaspAttack;
+	class WaspSkillAttack;
 
 	class WaspBehaviour : public ScriptInterface<WaspBehaviour>, public IEnemyBehaviour
 	{
@@ -56,6 +57,8 @@ namespace Pg::DataScript
 		//플레이어를 공격.
 		void UpdateAttack();
 
+		void UpdateSkillAttack();
+
 		//피격 시 애니메이션 출력을 위한 함수.
 		void Hit();
 
@@ -63,7 +66,6 @@ namespace Pg::DataScript
 
 		//피격 시 죽음.
 		void Dead();
-
 	public:
 		BEGIN_VISITABLES(Pg::DataScript::WaspBehaviour);
 		VISITABLE(int, _areaIndex);
@@ -111,6 +113,7 @@ namespace Pg::DataScript
 
 		CameraShake* _cameraShake;
 		WaspAttack* _waspAttackScript;
+		WaspSkillAttack* _waspSkillAttackScript;
 
 	private:
 		//플레이어와의 거리 측정
@@ -122,7 +125,9 @@ namespace Pg::DataScript
 		//공격 관련 변수
 		bool _isAttackStart{ false };
 
-		bool _isRotateFinish;
+		bool _isRotateToPlayer{ false };
+
+		bool _isSkillStart{ false };
 	};
 }
 
