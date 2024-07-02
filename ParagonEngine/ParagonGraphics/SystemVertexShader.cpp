@@ -40,5 +40,11 @@ namespace Pg::Graphics
 	{
 		_DXStorage->_deviceContext->VSSetShader(nullptr, nullptr, 0);
 	}
+
+	ID3D11InputLayout* SystemVertexShader::GetInputLayout()
+	{
+		return _inputLayout;
+	}
+
 }
 

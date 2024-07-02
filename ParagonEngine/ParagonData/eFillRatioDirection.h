@@ -6,7 +6,7 @@ namespace Pg::Data
 	enum eFillRatioDirection
 	{
 		LEFT_TO_RIGHT = 0,
-		DOWN_TO_UP = 1,
+		DOWN_TO_UP = 1, // 이거는 현재 못 씀.
 		UP_TO_DOWN = 2
 	};
 }

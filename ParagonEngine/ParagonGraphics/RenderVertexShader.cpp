@@ -57,4 +57,15 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->VSSetShader(nullptr, nullptr, 0);
 	}
 
+	void RenderVertexShader::GetVertexShaderBytecode(void const** pShaderByteCode, size_t* pByteCodeLength)
+	{
+		*pShaderByteCode = _byteCode->GetBufferPointer();
+		*pByteCodeLength = _byteCode->GetBufferSize();
+	}
+
+	ID3D11VertexShader* RenderVertexShader::GetVertexShader()
+	{
+		return _shader;
+	}
+
 }

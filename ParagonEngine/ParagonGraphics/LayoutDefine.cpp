@@ -7,6 +7,7 @@
 
 #include <d3d11.h>
 #include <fstream>
+#include <dxtk/VertexTypes.h>
 #include <cassert>
 #include <vector>
 
@@ -41,6 +42,7 @@ namespace Pg::Graphics
 	ID3D11InputLayout* LayoutDefine::_deferredQuadLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_cubemapLayout = nullptr;
 	ID3D11InputLayout* LayoutDefine::_wireframePrimitiveLayout = nullptr;
+	ID3D11InputLayout* LayoutDefine::_spriteCustomLayout = nullptr;
 	//ID3D11InputLayout* LayoutDefine::_vinPerObjMatStaticLayout = nullptr;
 	//ID3D11InputLayout* LayoutDefine::_vinPerObjMatSkinnedLayout = nullptr;
 
@@ -52,6 +54,7 @@ namespace Pg::Graphics
 		CreateDeferredQuadLayout();
 		CreateWireframePrimitiveLayout();
 		CreateCubemapLayout();
+		CreateSpriteCustomLayout();
 		//CreatePerObjMatStaticLayout();
 		//CreatePerObjMatSkinnedLayout();
 	}
@@ -84,6 +87,11 @@ namespace Pg::Graphics
 	ID3D11InputLayout* LayoutDefine::GetCubemapLayout()
 	{
 		return _cubemapLayout;
+	}
+
+	ID3D11InputLayout* LayoutDefine::GetSpriteCustomLayout()
+	{
+		return _spriteCustomLayout;
 	}
 
 	//ID3D11InputLayout* LayoutDefine::GetPerObjMatStaticLayout()
@@ -251,6 +259,22 @@ namespace Pg::Graphics
 		HR(_device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_cubemapLayout));
 	}
 
+	void LayoutDefine::CreateSpriteCustomLayout()
+	{
+		//SpriteInputUsageTest_VS.cso
+		LowDX11Storage* tDXStorage = LowDX11Storage::GetInstance();
+		ID3D11Device* _device = tDXStorage->_device;
+		ID3D11DeviceContext* _devcon = tDXStorage->_deviceContext;
+
+		ID3DBlob* tByteCode = nullptr;
+		HR(D3DReadFileToBlob(ResourceHelper::IfReleaseChangeDebugTextW(SPRITE_VERTEX_SHADER_TEST_DIRECTORY).c_str(), &(tByteCode)));
+
+		//Vertex Shader - DXTKÀÇ VertexPositionColorTexture¸¦ °¡Á®¿È.
+		HR(_device->CreateInputLayout(DirectX::VertexPositionColorTexture::InputElements, 
+			DirectX::VertexPositionColorTexture::InputElementCount, tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_spriteCustomLayout));
+	}
+
+
 	//void LayoutDefine::CreatePerObjMatStaticLayout()
 	//{
 	//	LowDX11Storage* tDXStorage = LowDX11Storage::GetInstance();
@@ -273,7 +297,6 @@ namespace Pg::Graphics
 	//	HR(_device->CreateInputLayout(tDesc, ARRAYSIZE(tDesc), tByteCode->GetBufferPointer(), tByteCode->GetBufferSize(), &_vinPerObjMatStaticLayout));
 	//}
 	//
-	//void LayoutDefine::CreatePerObjMatSkinnedLayout()
 	//{
 	//	LowDX11Storage* tDXStorage = LowDX11Storage::GetInstance();
 	//	ID3D11Device* _device = tDXStorage->_device;

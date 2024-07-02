@@ -98,7 +98,7 @@ namespace Pg::Graphics
 		//여기에 있는 비율은 Fill 값을 대변
 		RECT tImageRect{};
 		DirectX::XMFLOAT2 ttOrigin{}; 
-		ReturnAppropriateFillRectOrigin(*_fillRatioDirection, tImageRect, ttOrigin);
+		ReturnAppropriateFillRectOriginTrans(*_fillRatioDirection, tImageRect, ttOrigin, ttTrans);
 
 		//SortingLayer 정리.
 		float tTrueSortingLayer = static_cast<float>(std::clamp(*_sortingLayer, (UINT)0, (UINT)100)) / 100.f;
@@ -127,7 +127,7 @@ namespace Pg::Graphics
 
 	
 
-	void RenderObjectImage2D::ReturnAppropriateFillRectOrigin(Pg::Data::eFillRatioDirection dir, RECT& outRect, DirectX::XMFLOAT2& outOrigin)
+	void RenderObjectImage2D::ReturnAppropriateFillRectOriginTrans(Pg::Data::eFillRatioDirection dir, RECT& outRect, DirectX::XMFLOAT2& outOrigin, DirectX::XMFLOAT2& outTrans)
 	{
 		//SourceRect를 오브젝트 그대로 조정한다음에, 출력할 수 있지 않을까?
 		float tCorrectedRatio = std::clamp(*_fillRatio, std::numeric_limits<float>::epsilon(), 100.0f); //이제 DivideByZero생기지 않음.
@@ -140,13 +140,18 @@ namespace Pg::Graphics
 		}
 		else if (dir == Pg::Data::eFillRatioDirection::DOWN_TO_UP)
 		{
-			LONG tImageHeight = static_cast<LONG>(*_imageHeight);
-			LONG tVal = static_cast<LONG>((*_imageHeight) * (tCorrectedRatio / 100.0f));
-
-			outRect = { 0, tImageHeight - tVal, static_cast<LONG>(*_imageWidth), tImageHeight };
-			outOrigin = DirectX::XMFLOAT2(*_imageWidth / 2.0f, *_imageHeight / 2.0f); 
-			//현재로서는 조정이 DOWN_TO_UP 기준으로 안되어 있는 상태.
-			//후순위에 해야.
+			//float tRealPercentage = tCorrectedRatio / 100.f;
+			//LONG tImageHeight = static_cast<LONG>(*_imageHeight);
+			//int tVisibleHeight = static_cast<int>(tImageHeight * tRealPercentage);
+			//
+			//outRect = {
+			//	0, tImageHeight - tVisibleHeight,
+			//	static_cast<LONG>(*_imageWidth), tImageHeight };
+			//outOrigin = DirectX::XMFLOAT2(*_imageWidth / 2.0f, *_imageHeight / 2.0f); 
+			//outTrans.y -= tVisibleHeight;
+			////현재로서는 조정이 DOWN_TO_UP 기준으로 안되어 있는 상태.
+			////후순위에 해야.
+			assert(false && "현재 쓰이지 않음");
 		}
 		else if (dir == Pg::Data::eFillRatioDirection::UP_TO_DOWN)
 		{

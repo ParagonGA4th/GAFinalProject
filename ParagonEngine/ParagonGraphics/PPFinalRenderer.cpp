@@ -58,6 +58,11 @@ namespace Pg::Graphics
 		}
 	}
 
+	void PPFinalRenderer::CreateDebugOverlayQuads()
+	{
+
+	}
+
 	unsigned int PPFinalRenderer::GetPickingObjectID(unsigned int widthPixel, unsigned int heightPixel)
 	{
 		//[DEPRECATED]
@@ -198,6 +203,20 @@ namespace Pg::Graphics
 		_ppSystemVertexShader->Unbind();
 	}
 
+	void PPFinalRenderer::RenderDebugQuadsOverlay()
+	{
+		//VIEWPORT 커팅 세팅.
+		//D3D11_VIEWPORT viewport;
+		//viewport.TopLeftX = 100.0f;
+		//viewport.TopLeftY = 100.0f;
+		//viewport.Width = 400.0f;
+		//viewport.Height = 300.0f;
+		//viewport.MinDepth = 0.0f;
+		//viewport.MaxDepth = 1.0f;
+
+
+	}
+
 	void PPFinalRenderer::ConnectDefaultResources()
 	{
 		for (auto& it : _postprocessingRenderPassList)
@@ -205,7 +224,10 @@ namespace Pg::Graphics
 			it->ConnectDefaultResources();
 		}
 	}
+
 	
+	
+
 
 	
 	

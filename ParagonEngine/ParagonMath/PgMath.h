@@ -322,6 +322,7 @@ namespace Pg::Math
 	Pg::Math::PGFLOAT4X4 PGRotationMatrix(const Pg::Math::PGQuaternion rotation);
 	Pg::Math::PGFLOAT4X4 PGTranslateMatrix(const Pg::Math::PGFLOAT3 position);
 
+	Pg::Math::PGFLOAT4X4 PGGetWorldMatrixFromValues(const Pg::Math::PGFLOAT3 position, const Pg::Math::PGQuaternion rotation, const Pg::Math::PGFLOAT3 scale);
 	Pg::Math::PGFLOAT4X4 PGMatrixPerspectiveFovLH(float fovAngleY, float aspectRatio, float nearZ, float farZ);
 	Pg::Math::PGFLOAT4X4 PGMatrixOrthographicLH(float viewWidth, float viewHeight, float nearZ, float farZ);
 
@@ -381,6 +382,7 @@ namespace Pg::Math
 	//∫§≈Õ¿« ±Ê¿Ã¿« ¡¶∞ˆ ∏Æ≈œ.
 	float PGFloat3LengthSquared(Pg::Math::PGFLOAT3 val);
 	
+	Pg::Math::PGFLOAT3 GetRightVectorFromQuat(Pg::Math::PGQuaternion val);
 	Pg::Math::PGFLOAT3 GetForwardVectorFromQuat(Pg::Math::PGQuaternion val);
 	Pg::Math::PGFLOAT3 GetUpVectorFromQuat(Pg::Math::PGQuaternion val);
 	Pg::Math::PGQuaternion PGQuaternionInverse(Pg::Math::PGQuaternion val);
