@@ -11,7 +11,7 @@
 #include "PlayerMove.h"
 #include "EventTest.h"
 #include "RayCastTest.h"
-
+#include "AddEffectorTest.h"
 //실제 사용될 Content용 Script들.
 //#include "PlayerMovementSector.h"
 #include "InGameCameraBehavior.h"

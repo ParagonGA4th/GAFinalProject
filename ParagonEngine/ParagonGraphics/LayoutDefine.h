@@ -198,6 +198,13 @@ namespace Pg::Graphics
 			DirectX::XMFLOAT3 posL;
 			DirectX::XMFLOAT4 color;
 		};
+
+		struct VinSpriteCustom
+		{
+			DirectX::XMFLOAT4 color;
+			DirectX::XMFLOAT2 tex;
+			DirectX::XMFLOAT4 pos;
+		};
 		//</인스턴싱 따른 레이아웃 재정의 영향을 받지 않는다.>
 
 		static void Initialize();
@@ -216,6 +223,7 @@ namespace Pg::Graphics
 
 		static ID3D11InputLayout* GetWireframePrimitiveLayout();
 		static ID3D11InputLayout* GetCubemapLayout();
+		static ID3D11InputLayout* GetSpriteCustomLayout();
 
 		//static ID3D11InputLayout* GetPerObjMatStaticLayout();
 		//static ID3D11InputLayout* GetPerObjMatSkinnedLayout();
@@ -226,6 +234,7 @@ namespace Pg::Graphics
 		static ID3D11InputLayout* _deferredQuadLayout;
 		static ID3D11InputLayout* _wireframePrimitiveLayout; 
 		static ID3D11InputLayout* _cubemapLayout;
+		static ID3D11InputLayout* _spriteCustomLayout;
 		//static ID3D11InputLayout* _vinPerObjMatStaticLayout;
 		//static ID3D11InputLayout* _vinPerObjMatSkinnedLayout;
 
@@ -236,6 +245,7 @@ namespace Pg::Graphics
 		static void CreateDeferredQuadLayout();
 		static void CreateWireframePrimitiveLayout();
 		static void CreateCubemapLayout();
+		static void CreateSpriteCustomLayout();
 		//static void CreatePerObjMatStaticLayout();
 		//static void CreatePerObjMatSkinnedLayout();
 

@@ -27,16 +27,11 @@ Pg::Editor::System::FileSystem::~FileSystem()
 
 void Pg::Editor::System::FileSystem::Initialize()
 {
-#if defined(DEBUG) | defined(_DEBUG)
-#else
-
 	_rootPathWithFileName = fs::current_path().string();
 	_rootPathWithFileName = _rootPathWithFileName.substr(0, _rootPathWithFileName.rfind("\\"));
 	_rootPathWithFileName += "\\StolenYouth\\StolenYouth.pgproject";
 
 	_dataManager->DataLoad(_rootPathWithFileName);
-#endif
-
 
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_NEWSCENE, [&]() { NewScene(); });
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_OPENSCENE, [&]() { OpenScene(); });

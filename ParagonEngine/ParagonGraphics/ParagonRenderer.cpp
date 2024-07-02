@@ -17,6 +17,8 @@
 #include "DebugRenderer.h"
 #include "PPFinalRenderer.h"
 
+#include "VisualEffectRenderer.h"
+
 #include "../ParagonData/Scene.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonData/GameObject.h"
@@ -120,6 +122,11 @@ namespace Pg::Graphics
 	void ParagonRenderer::PostProcessingRender(Pg::Data::CameraData* camData)
 	{
 		_finalRenderer->RenderPostProcessingStages(nullptr, camData);
+	}
+
+	void ParagonRenderer::DebugQuadsOverlayRender()
+	{
+		_finalRenderer->RenderDebugQuadsOverlay();
 	}
 
 	void ParagonRenderer::FinalRender(Pg::Data::CameraData* camData)
@@ -297,4 +304,11 @@ namespace Pg::Graphics
 	{
 		_sceneParser->HandleRenderObjectsRuntime();
 	}
+
+	Pg::Graphics::VisualEffectRenderer* ParagonRenderer::GetVisualEffectRenderer()
+	{
+		return _forward3dRenderer->GetVisualEffectRenderer();
+	}
+	
+
 }

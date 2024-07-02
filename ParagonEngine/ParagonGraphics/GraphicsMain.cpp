@@ -17,6 +17,7 @@
 #include "ParagonRenderer.h"
 #include "GeometryGenerator.h"
 #include "AssimpBufferParser.h"
+#include "VisualEffectRenderer.h"
 #include "Sprite.h"
 #include "Font.h"
 
@@ -141,6 +142,8 @@ namespace Pg::Graphics
 		_renderer->UiRender(_camData);
 
 		_renderer->PostProcessingRender(_camData);
+
+		_renderer->DebugQuadsOverlayRender();
 	}
 
 	//Pg::Data::GameObject* GraphicsMain::GetPickedGameObjectWithRatios(float widthRatio, float heightRatio)
@@ -377,4 +380,10 @@ namespace Pg::Graphics
 		//기존의 Editor Mode Enum 기록.
 		_prevRecordedEditMode = editorMode;
 	}
+
+	Pg::Graphics::VisualEffectRenderer* GraphicsMain::GetVisualEffectRenderer()
+	{
+		return _renderer->GetVisualEffectRenderer();
+	}
+
 }

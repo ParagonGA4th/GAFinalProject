@@ -66,6 +66,8 @@ namespace Pg::Defines
 	const std::wstring FINAL_STAGE_VS_DIRECTORY = L"../Builds/x64/Debug/FinalStage_VS.cso";
 	const std::wstring FINAL_STAGE_PS_DIRECTORY = L"../Builds/x64/Debug/FinalStage_PS.cso";
 
+	const std::wstring SPRITE_VERTEX_SHADER_TEST_DIRECTORY = L"../Builds/x64/Debug/SpriteInputUsageTest_VS.cso";
+
 	const std::wstring FIRST_ALPHA_CLIPPING_PS_DIRECTORY = L"../Builds/x64/Debug/AlphaClippedInstancedStage_PS.cso";
 	const std::wstring FIRST_ALPHA_CLIPPING_INSTANCED_DEPTH_ONLY_STAGE_PS_DIRECTORY = L"../Builds/x64/Debug/AlphaClippedInstanced_DepthRecordOnlyPS.cso";
 

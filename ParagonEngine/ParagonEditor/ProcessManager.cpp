@@ -51,11 +51,11 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd)
 	_editorEvent->AddEvent(Pg::Editor::eEventType::ONPROJECTLOAD, [&]() { OnParagonProjectLoad(); });
 
 #if defined(DEBUG) | defined(_DEBUG)
-#else
-	SetEditorMode(Pg::Data::Enums::eEditorMode::_GAME);
 	_coreMain->OnParagonProjectLoad(_dataContainer->GetSceneList());
 	_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
 	_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
+#else
+	SetEditorMode(Pg::Data::Enums::eEditorMode::_GAME);
 #endif
 }
 
@@ -158,10 +158,10 @@ void Pg::Editor::Manager::ProcessManager::GetAssetList(void* define)
 
 void Pg::Editor::Manager::ProcessManager::SetEditorMousePosX(void* x)
 {
-	if (_coreMain->GetEditorAdapter()->GetEditorMode() == Pg::Data::Enums::eEditorMode::_EDIT || 
+	if (_coreMain->GetEditorAdapter()->GetEditorMode() == Pg::Data::Enums::eEditorMode::_EDIT ||
 		_coreMain->GetEditorAdapter()->GetEditorMode() == Pg::Data::Enums::eEditorMode::_PLAY)
 		_input->SetEditorMouseX(*(static_cast<float*>(x)));
-	else 
+	else
 		_input->SetEditorMouseX(-10.f);
 }
 
@@ -170,7 +170,7 @@ void Pg::Editor::Manager::ProcessManager::SetEditorMousePosY(void* y)
 	if (_coreMain->GetEditorAdapter()->GetEditorMode() == Pg::Data::Enums::eEditorMode::_EDIT ||
 		_coreMain->GetEditorAdapter()->GetEditorMode() == Pg::Data::Enums::eEditorMode::_PLAY)
 		_input->SetEditorMouseY(*(static_cast<float*>(y)));
-	else 
+	else
 		_input->SetEditorMouseY(-10.f);
 }
 

@@ -20,7 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AlphaBlendedTotalRenderPass.h" />
-    <ClInclude Include="BillboardRenderPass.h" />
+    <ClInclude Include="AnimatedTexture.h" />
+    <ClInclude Include="BaseCustomEffect.h" />
+    <ClInclude Include="OneTextureEffect3D.h" />
+    <ClInclude Include="ScrollingBackground.h" />
+    <ClInclude Include="SpriteEffect2D.h" />
+    <ClInclude Include="ThreeTextureEffect3D.h" />
+    <ClInclude Include="TwoTextureEffect3D.h" />
+    <ClInclude Include="VisualEffectRenderPass.h" />
     <ClInclude Include="AnimationParser.h" />
     <ClInclude Include="Asset3DModelData.h" />
     <ClInclude Include="AssetAnimationDataDefine.h" />
@@ -36,6 +43,7 @@
     </ClInclude>
     <ClInclude Include="BaseSpecificRenderer.h" />
     <ClInclude Include="BloomRenderPass.h" />
+    <ClInclude Include="DebugOverlayQuad.h" />
     <ClInclude Include="DirectXTexEXR.h" />
     <ClInclude Include="FirstInstancedRenderPass.h" />
     <ClInclude Include="IndividualLightsGPU.h" />
@@ -159,7 +167,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AlphaBlendedTotalRenderPass.cpp" />
-    <ClCompile Include="BillboardRenderPass.cpp" />
+    <ClCompile Include="OneTextureEffect3D.cpp" />
+    <ClCompile Include="SpriteEffect2D.cpp" />
+    <ClCompile Include="ThreeTextureEffect3D.cpp" />
+    <ClCompile Include="TwoTextureEffect3D.cpp" />
+    <ClCompile Include="VisualEffectRenderPass.cpp" />
     <ClCompile Include="AnimationParser.cpp" />
     <ClCompile Include="Asset3DModelData.cpp" />
     <ClCompile Include="AssetAnimationDataDefine.cpp" />
@@ -174,6 +186,7 @@
     </ClCompile>
     <ClCompile Include="BaseSpecificRenderer.cpp" />
     <ClCompile Include="BloomRenderPass.cpp" />
+    <ClCompile Include="DebugOverlayQuad.cpp" />
     <ClCompile Include="DirectXTexEXR.cpp" />
     <ClCompile Include="FirstInstancedRenderPass.cpp" />
     <ClCompile Include="LightmapManager.cpp" />
@@ -381,6 +394,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\PrimitiveVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\SpriteInputUsageTest\SpriteInputUsageTest_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\SpriteInputUsageTest\SpriteInputUsageTest_VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
