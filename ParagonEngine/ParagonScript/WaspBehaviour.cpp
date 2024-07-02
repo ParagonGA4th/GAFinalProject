@@ -1,5 +1,6 @@
 #include "WaspBehaviour.h"
 #include "CameraShake.h"
+#include "WaspAttack.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgScene.h"
@@ -10,6 +11,7 @@
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
+#include "../ParagonData/StaticMeshRenderer.h"
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/MonsterHelper.h"
@@ -67,6 +69,8 @@ namespace Pg::DataScript
 
 			if (childTag == "TAG_Attack")
 			{
+				_waspAttackScript = iter->_object->GetComponent<WaspAttack>();
+
 				Pg::Data::StaticBoxCollider* basicStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
 				if (basicStaticCol != nullptr)
 				{
@@ -96,6 +100,11 @@ namespace Pg::DataScript
 		//플레이어 지정
 		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
+
+		//코인 SetActive를 위해
+		_corn = _object->GetScene()->FindObjectWithName(_cornName);
+		_cornRenderer = _corn->GetComponent<Pg::Data::StaticMeshRenderer>();
+		_cornRenderer->SetActive(false);
 
 		//AudioSource 컴포넌트 들고오기
 		//_miniGolemHit = _object->GetScene()->FindObjectWithName("MiniGolemHitSound");
@@ -144,7 +153,7 @@ namespace Pg::DataScript
 		}
 
 		///일반공격 로직 (무조건 제일 끝에 존재해야 함)
-		//UpdateAttack();
+		UpdateAttack();
 		
 	}
 
@@ -160,10 +169,9 @@ namespace Pg::DataScript
 			_waspInfo->_status = WaspStatus::BASIC_ATTACK;
 
 			//애니메이션 딜레이를 위한 델타타임 체크.
-			_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
+			//_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
 			
 			_isAttackStart = true;
-			UpdateAttack();
 			//공격
 			//if (_currentAttackTime >= _startAttackTime)
 			//{
@@ -187,6 +195,7 @@ namespace Pg::DataScript
 			//상태를 Chase로 변경.
 			_waspInfo->_status = WaspStatus::CHASE;
 
+			_isAttackStart = false;
 			//Attack(false);
 			//사운드 초기화
 			//_isAttackSoundPlaying = false;
@@ -227,9 +236,9 @@ namespace Pg::DataScript
 			_monsterHelper->_isPlayerinHitSpace = true;
 			_monsterHelper->_isChase = false;
 
-			_startAttackTime += _pgTime->GetDeltaTime();
+			_waspInfo->SetCurrentAttackTime(_waspInfo->GetCurrentAttackTime() +_pgTime->GetDeltaTime());
 
-			if (_startAttackTime < _waspInfo->GetAttackDuration())
+			if (_waspInfo->GetCurrentAttackTime() > _waspInfo->GetStartAttackTime())
 			{
 				Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
 
@@ -238,35 +247,53 @@ namespace Pg::DataScript
 				forwardDir.x = 0;
 				forwardDir = Pg::Math::PGFloat3Normalize(forwardDir);
 				
-				//자신의 rotation에 따라 날아가는 방향 맞춰서 설정.
-				if (forwardDir.z > 0)
+				if (_waspInfo->GetCurrentAttackTime() < _waspInfo->GetAttackDuration())
 				{
-					for (auto& iter : _basicAttackCol)
+					//자신의 rotation에 따라 날아가는 방향 맞춰서 설정.
+					if (forwardDir.z > 0)
 					{
-						iter->SetActive(true);
-						iter->_object->_transform._position.z += forwardDir.z * _waspInfo->GetAttackSpeed() * _pgTime->GetDeltaTime();
+						for (auto& iter : _basicAttackCol)
+						{
+							iter->SetActive(true);
+							iter->_object->_transform._position.z += forwardDir.z * _waspInfo->GetAttackSpeed() * _pgTime->GetDeltaTime();
+						}
+						_cornRenderer->SetActive(true);
+					}
+					else
+					{
+						for (auto& iter : _basicAttackCol)
+						{
+							iter->SetActive(true);
+							iter->_object->_transform._position.z -= forwardDir.z * _waspInfo->GetAttackSpeed() * _pgTime->GetDeltaTime();
+						}
+						_cornRenderer->SetActive(true);
+					}
+
+					//스킬 사용 중에 플레이어한테 맞으면
+					if (_waspAttackScript->_isPlayerHit)
+					{
+						//다 사라져라
+						for (auto& iter : _skillAttackCol)
+						{
+							iter->SetActive(false);
+							iter->_object->_transform._position = { 0.f, 0.f, 1.f };
+						}
+
+						_cornRenderer->SetActive(false);
 					}
 				}
 				else
 				{
 					for (auto& iter : _basicAttackCol)
 					{
-						iter->SetActive(true);
-						iter->_object->_transform._position.z -= forwardDir.z * _waspInfo->GetAttackSpeed() * _pgTime->GetDeltaTime();
+						iter->SetActive(false);
+						iter->_object->_transform._position = { 0.f, 0.f, 1.f };
 					}
-				}
-			}
-			else
-			{
-				for (auto& iter : _basicAttackCol)
-				{
-					iter->SetActive(false);
-					iter->_object->_transform._position = { 0.f, 0.f, 2.f };
-				}
 
-				_isAttackStart = false;
-
-				//_waspInfo->SetStartWindBlastDurationTime(0.f);
+					_isAttackStart = false;
+					_waspAttackScript->_isPlayerHit = false;
+					_waspInfo->SetCurrentAttackTime(0.f);
+				}
 			}
 		}
 	}
