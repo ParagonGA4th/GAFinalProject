@@ -29,7 +29,8 @@ namespace Pg::Graphics
 	class RenderObjectSkinnedMesh3D : public RenderObject3D
 	{
 		friend class ParagonRenderer;
-
+	public:
+		inline static const float ANIMATION_BLEND_SPEED = 10.f;
 	public:
 		RenderObjectSkinnedMesh3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID);
 		~RenderObjectSkinnedMesh3D();
