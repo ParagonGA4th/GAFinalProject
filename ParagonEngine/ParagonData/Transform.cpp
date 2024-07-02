@@ -270,6 +270,20 @@ namespace Pg::Data
 		return XM2PG_FLOAT3_VECTOR(outTrans);
 	}
 
+
+	Pg::Math::PGQuaternion Transform::GetWorldRotation()
+	{
+		Pg::Math::PGFLOAT4X4 tT = GetWorldTM();
+		DirectX::XMMATRIX tXM = PG2XM_MATRIX4X4(tT);
+
+		DirectX::XMVECTOR outScale;
+		DirectX::XMVECTOR outRotQuat;
+		DirectX::XMVECTOR outTrans;
+		CustomAssert(DirectX::XMMatrixDecompose(&outScale, &outRotQuat, &outTrans, tXM));
+
+		return XM2PG_QUATERNION(outRotQuat);
+	}
+
 	Pg::Math::PGFLOAT4X4 Transform::GetLocalTM()
 	{
 		//Scale: 0값 되는 것 막기.
@@ -532,7 +546,4 @@ namespace Pg::Data
 	{
 		return _isCanMove;
 	}
-
-
-
 }

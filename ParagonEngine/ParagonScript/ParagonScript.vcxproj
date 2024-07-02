@@ -228,8 +228,10 @@
     <ClInclude Include="TransformSimpleStorage.h" />
     <ClInclude Include="TrapArea.h" />
     <ClInclude Include="TrentAttack.h" />
+    <ClInclude Include="WaspAttack.h" />
     <ClInclude Include="WaspBehaviour.h" />
     <ClInclude Include="WaspInfo.h" />
+    <ClInclude Include="WaspSkillAttack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AddEffectorTest.cpp" />
@@ -295,8 +297,10 @@
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TrapArea.cpp" />
     <ClCompile Include="TrentAttack.cpp" />
+    <ClCompile Include="WaspAttack.cpp" />
     <ClCompile Include="WaspBehaviour.cpp" />
     <ClCompile Include="WaspInfo.cpp" />
+    <ClCompile Include="WaspSkillAttack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ParagonScript.rc" />
