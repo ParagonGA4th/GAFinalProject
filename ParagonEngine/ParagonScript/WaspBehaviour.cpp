@@ -1,6 +1,7 @@
 #include "WaspBehaviour.h"
 #include "CameraShake.h"
 #include "WaspAttack.h"
+#include "WaspSkillAttack.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgScene.h"
@@ -80,6 +81,8 @@ namespace Pg::DataScript
 			}
 			else if (childTag == "TAG_Skill")
 			{
+				_waspSkillAttackScript = iter->_object->GetComponent<WaspSkillAttack>();
+
 				Pg::Data::StaticBoxCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
 				if (skillStaticCol != nullptr)
 				{
@@ -129,6 +132,12 @@ namespace Pg::DataScript
 		_distance = std::abs(std::sqrt(std::pow(_player->_transform._position.x - _object->_transform._position.x, 2)
 			+ std::pow(_player->_transform._position.z - _object->_transform._position.z, 2)));
 
+		if (_isRotateToPlayer)
+		{
+			RotateToPlayer(_playerTransform->_position);
+
+			Chase();
+		}
 
 		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
 		{
@@ -147,14 +156,12 @@ namespace Pg::DataScript
 		if (_distance <= _waspInfo->GetSightRange())
 		{
 			_monsterHelper->_isPlayerDetected = true;
-			RotateToPlayer(_playerTransform->_position);
-
-			Chase();
+			_isRotateToPlayer = true;
 		}
 
-		///일반공격 로직 (무조건 제일 끝에 존재해야 함)
+		///로직 (무조건 제일 끝에 존재해야 함)
 		UpdateAttack();
-		
+		//UpdateSkillAttack();
 	}
 
 	void WaspBehaviour::Chase()
@@ -171,6 +178,7 @@ namespace Pg::DataScript
 			//애니메이션 딜레이를 위한 델타타임 체크.
 			//_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
 			
+			//_isRotateToPlayer = true;
 			_isAttackStart = true;
 			//공격
 			//if (_currentAttackTime >= _startAttackTime)
@@ -196,6 +204,7 @@ namespace Pg::DataScript
 			_waspInfo->_status = WaspStatus::CHASE;
 
 			_isAttackStart = false;
+			_isSkillStart = false;
 			//Attack(false);
 			//사운드 초기화
 			//_isAttackSoundPlaying = false;
@@ -231,7 +240,7 @@ namespace Pg::DataScript
 	void WaspBehaviour::UpdateAttack()
 	{
 		//투사체 처리
-		if (_isAttackStart)
+		if (_isSkillStart)
 		{
 			_monsterHelper->_isPlayerinHitSpace = true;
 			_monsterHelper->_isChase = false;
@@ -249,6 +258,11 @@ namespace Pg::DataScript
 				
 				if (_waspInfo->GetCurrentAttackTime() < _waspInfo->GetAttackDuration())
 				{
+					//추적 멈춤
+					_isRotateToPlayer = false;
+
+					_cornRenderer->SetActive(true);
+
 					//자신의 rotation에 따라 날아가는 방향 맞춰서 설정.
 					if (forwardDir.z > 0)
 					{
@@ -257,7 +271,6 @@ namespace Pg::DataScript
 							iter->SetActive(true);
 							iter->_object->_transform._position.z += forwardDir.z * _waspInfo->GetAttackSpeed() * _pgTime->GetDeltaTime();
 						}
-						_cornRenderer->SetActive(true);
 					}
 					else
 					{
@@ -266,7 +279,6 @@ namespace Pg::DataScript
 							iter->SetActive(true);
 							iter->_object->_transform._position.z -= forwardDir.z * _waspInfo->GetAttackSpeed() * _pgTime->GetDeltaTime();
 						}
-						_cornRenderer->SetActive(true);
 					}
 
 					//스킬 사용 중에 플레이어한테 맞으면
@@ -289,10 +301,90 @@ namespace Pg::DataScript
 						iter->SetActive(false);
 						iter->_object->_transform._position = { 0.f, 0.f, 1.f };
 					}
+					
+					_cornRenderer->SetActive(false);
 
 					_isAttackStart = false;
+					_isRotateToPlayer = true;
 					_waspAttackScript->_isPlayerHit = false;
 					_waspInfo->SetCurrentAttackTime(0.f);
+				}
+			}
+		}
+	}
+
+	void WaspBehaviour::UpdateSkillAttack()
+	{
+		//투사체 처리
+		if (_isAttackStart)
+		{
+			_monsterHelper->_isPlayerinHitSpace = true;
+			_monsterHelper->_isChase = false;
+
+			_waspInfo->SetCurrentSkillTime(_waspInfo->GetCurrentSkillTime() + _pgTime->GetDeltaTime());
+
+			if (_waspInfo->GetCurrentSkillTime() > _waspInfo->GetStartSkillTime())
+			{
+				Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
+
+				//자신이 바라보는 방향으로 쏴야하기 때문에 z축빼고 전부 고정.
+				forwardDir.y = 0;
+				forwardDir.x = 0;
+				forwardDir = Pg::Math::PGFloat3Normalize(forwardDir);
+
+				if (_waspInfo->GetCurrentSkillTime() < _waspInfo->GetSkillDuration())
+				{
+					//추적 멈춤
+					_isRotateToPlayer = false;
+
+					_cornRenderer->SetActive(true);
+
+					//자신의 rotation에 따라 날아가는 방향 맞춰서 설정.
+					if (forwardDir.z > 0)
+					{
+						for (auto& iter : _skillAttackCol)
+						{
+							iter->SetActive(true);
+							iter->_object->_transform._position.z += forwardDir.z * _waspInfo->GetSkillSpeed() * _pgTime->GetDeltaTime();
+						}
+					}
+					else
+					{
+						for (auto& iter : _skillAttackCol)
+						{
+							iter->SetActive(true);
+							iter->_object->_transform._position.z -= forwardDir.z * _waspInfo->GetSkillSpeed() * _pgTime->GetDeltaTime();
+						}
+					}
+
+					//스킬 사용 중에 플레이어한테 맞으면
+					if (_waspSkillAttackScript->_isPlayerHit)
+					{
+						//다 사라져라
+						for (auto& iter : _skillAttackCol)
+						{
+							iter->SetActive(false);
+							iter->_object->_transform._position = { 0.f, 0.f, 1.f };
+						}
+
+						_cornRenderer->SetActive(false);
+						//_waspAttackScript->_isPlayerHit = false;
+					}
+				}
+				else
+				{
+					for (auto& iter : _skillAttackCol)
+					{
+						iter->SetActive(false);
+						iter->_object->_transform._position = { 0.f, 0.f, 1.f };
+					}
+
+					_cornRenderer->SetActive(false);
+
+					_isAttackStart = false;
+					_isRotateToPlayer = true;
+					_waspSkillAttackScript->_isPlayerHit = false;
+					_waspInfo->SetCurrentSkillTime(0.f);
 				}
 			}
 		}
@@ -333,13 +425,10 @@ namespace Pg::DataScript
 		Pg::Math::PGQuaternion rotateQuat = PGLookRotation(rotatePosNorm, Pg::Math::PGFLOAT3::GlobalUp());
 
 		///플래그를 걸어 돌진의 여부까지 계산하기 위해 세팅.
-		if (_isRotateFinish == false)
-		{
-			//회전이 끝날 때 까지 돌기.
-			Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, rotateQuat, std::clamp<float>(0.1f, 0.0f, 1.0f));
+		//회전이 끝날 때 까지 돌기.
+		Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, rotateQuat, std::clamp<float>(0.1f, 0.0f, 1.0f));
 
-			_object->_transform._rotation = currentTargetRotation;
-		}
+		_object->_transform._rotation = currentTargetRotation;
 	}
 
 	void WaspBehaviour::Dead()
