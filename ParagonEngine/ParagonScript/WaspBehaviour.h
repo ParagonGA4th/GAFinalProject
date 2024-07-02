@@ -12,6 +12,7 @@ namespace Pg::Data
 	class GameObject;
 	class PhysicsCollision;
 	class SkinnedMeshRenderer;
+	class StaticMeshRenderer;
 	class CapsuleCollider;
 	class MonsterHelper;
 	class StaticBoxCollider;
@@ -32,6 +33,7 @@ namespace Pg::DataScript
 {
 	class PlayerHandler;
 	class CameraShake;
+	class WaspAttack;
 
 	class WaspBehaviour : public ScriptInterface<WaspBehaviour>, public IEnemyBehaviour
 	{
@@ -65,6 +67,7 @@ namespace Pg::DataScript
 	public:
 		BEGIN_VISITABLES(Pg::DataScript::WaspBehaviour);
 		VISITABLE(int, _areaIndex);
+		VISITABLE(std::string, _cornName);
 		END_VISITABLES;
 
 	public:
@@ -103,14 +106,15 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _waspAttack;
 		Pg::Data::AudioSource* _attackSound;
 
+		Pg::Data::GameObject* _corn;
+		Pg::Data::StaticMeshRenderer* _cornRenderer;
+
 		CameraShake* _cameraShake;
+		WaspAttack* _waspAttackScript;
 
 	private:
 		//플레이어와의 거리 측정
 		float _distance;
-		float _startAttackTime;
-		float _endAttackTime;
-		float _currentAttackTime;
 
 		//사툰드 관련 변수
 		bool _isAttackSoundPlaying{ false };

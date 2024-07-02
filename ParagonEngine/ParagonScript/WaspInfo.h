@@ -34,14 +34,19 @@ namespace Pg::DataScript
 		WaspInfo& SetAttackRange(float attackRange) { _attackRange = attackRange; return *this; }
 		WaspInfo& SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed; return *this; }
 		WaspInfo& SetSightRange(float range) { _sightRange = range; return *this; }
+		WaspInfo& SetStartAttackTime(float time) { _startAttackTime = time; return *this; }
+		WaspInfo& SetCurrentAttackTime(float time) { _currentAttackTime = time; return *this; }
 
 		float GetMoveSpeed() const { return _moveSpeed; }
-		float GetDashSpeed() const { return _dashSpeed; }
-		float GetAttackSpeed() const { return _dashSpeed; }
+		float GetEvadeSpeed() const { return _evadeSpeed; }
+		float GetAttackSpeed() const { return _attackSpeed; }
 		float GetSightRange() const { return _sightRange; }
 		float GetAttackRange() const { return _attackRange; }
-		float GetDashRange() const { return _dashRange; }
+		float GetDashRange() const { return _evadeRange; }
 		float GetAttackDuration() const { return _attackDuration; }
+		float GetAttackTime() const { return _attackDuration; }
+		float GetStartAttackTime() const { return _startAttackTime; }
+		float GetCurrentAttackTime() const { return _currentAttackTime; }
 
 		WaspStatus _status; // 상태
 
@@ -50,13 +55,16 @@ namespace Pg::DataScript
 
 		float _sightRange;		//시야 범위
 		float _attackRange;    // 기본 공격 범위
-		float _dashRange;		//돌진 범위
+		float _evadeRange;		//회피 범위
 		float _moveSpeed;      // 이동속도
 		float _rotationSpeed;  // 회전 속도
-		float _dashSpeed;		// 돌진 속도
+		float _evadeSpeed;		//회피 속도
 
 		float _attackDuration;	//공격 지속 시간
 		float _attackSpeed;		//투사체 속도
+
+		float _startAttackTime;
+		float _currentAttackTime;
 	};
 }
 

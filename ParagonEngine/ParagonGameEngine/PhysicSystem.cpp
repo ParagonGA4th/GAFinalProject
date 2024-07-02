@@ -125,6 +125,7 @@ namespace Pg::Engine::Physic
 			//Pg::Engine::PgLayer::SetCollisionData(LAYER_PROJECTILES, { });
 
 			//전체 테스팅, 프로그래머가 2차원 배열 전체 내용 맞게 커밋해놓자. (-> ex. (0,1) 이 0bit이라면, (1,0)도 똑같이 0bit으로 해놓는 것!
+			///Map의 레이어가 LAYER_DEFAULT로 들어오는 관계로 수정 추가로 더 필요할 예정.
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_DEFAULT, { LAYER_DEFAULT, LAYER_PLAYER, LAYER_MONSTER, LAYER_MAP, LAYER_BACKGROUND,LAYER_MOVABLE_OBJECTS, LAYER_BOSS });
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_PLAYER, { LAYER_DEFAULT,LAYER_MAP, LAYER_BACKGROUND,LAYER_MOVABLE_OBJECTS, LAYER_BOSS });
 			Pg::Engine::PgLayer::SetCollisionData(LAYER_MONSTER, { LAYER_DEFAULT, LAYER_MONSTER, LAYER_PROJECTILES, LAYER_MAP, LAYER_BACKGROUND, LAYER_MOVABLE_OBJECTS});
