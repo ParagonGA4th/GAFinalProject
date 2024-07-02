@@ -64,7 +64,11 @@ namespace Pg::Graphics
 		void UpdateSkinnedCB();
 	private:
 		//현재 재생 중인 애니메이션.
-		RenderAnimation* _currentAnim;
+		RenderAnimation* _currentAnim{ nullptr };
+
+		//Animation Blending을 위해, 전에 있던 Animation 보관.
+		//Blending 끝나면, Nullptr로 번환.
+		RenderAnimation* _prevAnim{ nullptr };
 
 		//애니메이션 재생 관리. 
 		//double _currentTick;
@@ -74,6 +78,7 @@ namespace Pg::Graphics
 		double _animationTime{ 0.0 }; // 현재 애니메이션이 재생된 시간
 		double _currentTick{ 0.0 };	  // 현재 재생되고 있는 틱.
 		bool _isEndFrameCalled{false};
+		float _blendLerpRatio{ 0.0f };
 	private:
 		//개별 Skinning 객체별 독립적인 애니메이션을 실행하기 위해 존재하는 CopyNode.
 		std::unique_ptr<ModifiedNode_SkinnedMesh> _copiedModifyRootNode;
@@ -83,7 +88,13 @@ namespace Pg::Graphics
 		//배열대로 실제로 행렬들을 투입하는 것.
 		void FillInNodeBuffer(const ModifiedNode_SkinnedMesh* const selfNode);
 		void FillInBoneBuffer(const ModifiedNode_SkinnedMesh* const selfNode);
-	
+
+	private:
+		DirectX::SimpleMath::Vector3 FillPositionForNodeAnim(RenderAnimation* renderAnim, NodeAnim_AssetData* nodeAnim);
+		DirectX::SimpleMath::Quaternion FillRotationForNodeAnim(RenderAnimation* renderAnim, NodeAnim_AssetData* nodeAnim);
+		DirectX::SimpleMath::Vector3 FillScaleForNodeAnim(RenderAnimation* renderAnim, NodeAnim_AssetData* nodeAnim);
+
+
 	private:
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>> _cbFirstBase;
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinnedNodes>> _cbAllSkinnedNodes;

@@ -16,6 +16,7 @@ namespace Pg::Graphics
 	class LowDX11Storage;
 	class SystemVertexShader;
 	class SystemPixelShader;
+	class D3DCarrier;
 }
 
 /// <summary>
@@ -41,11 +42,11 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class BillboardRenderPass : public IRenderSinglePass
+	class VisualEffectRenderPass : public IRenderSinglePass
 	{
 	public:
-		BillboardRenderPass(const std::string& resourceListPath);
-		~BillboardRenderPass();
+		VisualEffectRenderPass(const std::string& resourceListPath);
+		~VisualEffectRenderPass();
 
 		virtual void Initialize() override;
 		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;
@@ -58,8 +59,8 @@ namespace Pg::Graphics
 	public:
 		//Effect Registering은 CSV를 통해서 이루어진다.
 		void RegisterAllEffects();
-
-				
+		//Renderer 리턴, PgGraphics를 위해.
+		VisualEffectRenderer* GetVisualEffectRenderer() { return _visualEffectController.get(); }
 
 	private:
 		std::unique_ptr<VisualEffectRenderer> _visualEffectController{ nullptr };
@@ -69,5 +70,6 @@ namespace Pg::Graphics
 		LowDX11Storage* _DXStorage;
 
 		std::string _resourceListPath;
+		const D3DCarrier* _carrier{ nullptr };
 	};
 }

@@ -286,6 +286,9 @@
     <Filter Include="AI\Enemy\Wasp">
       <UniqueIdentifier>{fe1e0277-27c5-4d3b-a7bd-441e893610e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Testing\AddEffectorTest">
+      <UniqueIdentifier>{f7862d36-36ff-4d16-9032-10061dcb2af1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -479,6 +482,9 @@
     </ClCompile>
     <ClCompile Include="MimicSkillAttack.cpp">
       <Filter>AI\Attack\MimicAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="AddEffectorTest.cpp">
+      <Filter>Testing\AddEffectorTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -740,6 +746,9 @@
     </ClInclude>
     <ClInclude Include="MimicSkillAttack.h">
       <Filter>AI\Attack\MimicAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="AddEffectorTest.h">
+      <Filter>Testing\AddEffectorTest</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

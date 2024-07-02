@@ -59,6 +59,7 @@ namespace Pg::Graphics
 	class LowDX11Logic;
 	class LowDX11Storage;
 	class ParagonRenderer;
+	class VisualEffectRenderer;
 
 	class GraphicsMain : public Pg::Core::IGraphics
 	{
@@ -137,6 +138,10 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL virtual void HandleRenderObjectsRuntime() override;
 	public:
 		PARAGON_GRAPHICS_DLL virtual void OnWindowResized(int screenWidth, int screenHeight) override;
+	
+	public:
+		VisualEffectRenderer* GetVisualEffectRenderer();
+
 	private:
 		//불완전하게 전달된 CamData에 투영 행렬을 넣는다.
 		void FillCamDataProjection(Pg::Data::CameraData* camData);

@@ -50,4 +50,10 @@ namespace Pg::Graphics
 	{
 		_DXStorage->_deviceContext->PSSetShader(nullptr, nullptr, 0);
 	}
+
+	ID3D11PixelShader* RenderPixelShader::GetPixelShader()
+	{
+		return _shader;
+	}
+
 }

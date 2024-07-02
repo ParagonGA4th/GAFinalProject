@@ -12,7 +12,7 @@ namespace Pg::Data
 		//Ex. IsFaceCamera면 Rotation이 반영이 안됨.
 		//Ex. Is3DSpace가 False면, Position은 X,Y만 쓰이고 .. etc.
 		Pg::Math::PGFLOAT3 _position{};
-		Pg::Math::PGFLOAT3 _rotation{};
+		Pg::Math::PGQuaternion _rotation{};
 		Pg::Math::PGFLOAT3 _scale{};
 
 		bool GetActive() { return _isActive; }

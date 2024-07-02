@@ -375,6 +375,8 @@ namespace Pg::Graphics
 	{
 		RenderObject3DList* tRenderObjectList = reinterpret_cast<RenderObject3DList*>(renderObjectList);
 
+		_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidNoCullingState);
+
 		for (auto& [bModel, bBufferPairList] : tRenderObjectList->_instancedStaticAlphaClippedList)
 		{
 			//만약 렌더할게 비어있다면, continue.
@@ -504,7 +506,8 @@ namespace Pg::Graphics
 		RenderObject3DList* tRenderObjectList = reinterpret_cast<RenderObject3DList*>(renderObjectList);
 
 		//렌더하기 전에, Rasterizer State Cull 반대로 돌리면 된다. 얘는 반대로 컬링홰야 하는 친구이니.
-		_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidFrontfaceCullingState);
+		_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidNoCullingState);
+		//_DXStorage->_deviceContext->RSSetState(_DXStorage->_solidNoCullingState);
 
 		for (auto& [bModel, bBufferPairList] : tRenderObjectList->_instancedCulledOppositeStaticAlphaClippedList)
 		{

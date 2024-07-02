@@ -325,14 +325,38 @@
     <ClInclude Include="SystemInterfacedVertexShader.h">
       <Filter>3_GraphicsResources\SystemShader\SystemInterfacedVertexShader</Filter>
     </ClInclude>
-    <ClInclude Include="BillboardRenderPass.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\9_BillboardRenderPass</Filter>
+    <ClInclude Include="VisualEffectRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\9_VisualEffectRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="VisualEffectRenderer.h">
       <Filter>8_Helpers\VisualEffectRenderer</Filter>
     </ClInclude>
     <ClInclude Include="VisualEffectGraphicsSet.h">
       <Filter>10_Structs\VisualEffectGraphicsSet</Filter>
+    </ClInclude>
+    <ClInclude Include="TwoTextureEffect3D.h">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\TwoTextureEffect3D</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreeTextureEffect3D.h">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\ThreeTextureEffect3D</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCustomEffect.h">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\BaseCustomEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="OneTextureEffect3D.h">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\OneTextureEffect3D</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugOverlayQuad.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\DebugOverlayQuad</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteEffect2D.h">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\2D\SpriteEffect2D</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedTexture.h">
+      <Filter>8_Helpers\VisualEffectRenderer\DXTKAddon</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollingBackground.h">
+      <Filter>8_Helpers\VisualEffectRenderer\DXTKAddon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -600,11 +624,26 @@
     <ClCompile Include="SystemInterfacedVertexShader.cpp">
       <Filter>3_GraphicsResources\SystemShader\SystemInterfacedVertexShader</Filter>
     </ClCompile>
-    <ClCompile Include="BillboardRenderPass.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\9_BillboardRenderPass</Filter>
+    <ClCompile Include="VisualEffectRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\9_VisualEffectRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="VisualEffectRenderer.cpp">
       <Filter>8_Helpers\VisualEffectRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="TwoTextureEffect3D.cpp">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\TwoTextureEffect3D</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreeTextureEffect3D.cpp">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\ThreeTextureEffect3D</Filter>
+    </ClCompile>
+    <ClCompile Include="OneTextureEffect3D.cpp">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\OneTextureEffect3D</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugOverlayQuad.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\DebugOverlayQuad</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteEffect2D.cpp">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\2D\SpriteEffect2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1034,14 +1073,47 @@
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\11_OutlineRenderPass">
       <UniqueIdentifier>{923fdd6e-5157-47b0-8cac-b34658565252}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\9_BillboardRenderPass">
-      <UniqueIdentifier>{8c6e63be-b0f2-4acc-a3d4-21169d2dd742}</UniqueIdentifier>
-    </Filter>
     <Filter Include="10_Structs\VisualEffectGraphicsSet">
       <UniqueIdentifier>{eb15c073-4cc9-46dc-b543-108325986b57}</UniqueIdentifier>
     </Filter>
     <Filter Include="8_Helpers\VisualEffectRenderer">
       <UniqueIdentifier>{8c08ad47-7787-45d9-9d7f-9155336c525b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\DebugOverlayQuad">
+      <UniqueIdentifier>{e694605e-b4b8-4e36-ae4f-a9ba3394a9fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\9_VisualEffectRenderPass">
+      <UniqueIdentifier>{8c6e63be-b0f2-4acc-a3d4-21169d2dd742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect">
+      <UniqueIdentifier>{fd3ee343-878d-4157-92a0-f177f41b04f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D">
+      <UniqueIdentifier>{0375b8b6-d951-4df9-a375-40a38d21f281}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D\OneTextureEffect3D">
+      <UniqueIdentifier>{762acaa2-d97e-41ff-bb5d-fca785429bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D\ThreeTextureEffect3D">
+      <UniqueIdentifier>{d3ca59c5-ff97-4c1a-9dd3-e747848bf7f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D\TwoTextureEffect3D">
+      <UniqueIdentifier>{9d718686-3ca4-4bcf-8d0d-70e2659eac53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\2D">
+      <UniqueIdentifier>{4f162e06-5e9e-4035-85f8-00af5a210092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\BaseCustomEffect">
+      <UniqueIdentifier>{2a301e52-3d55-47af-a7cb-0268ed76fb21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\2D\SpriteEffect2D">
+      <UniqueIdentifier>{830484db-00ea-471a-9369-9a7fca2ec99b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\Others\SpriteInputUsageTest">
+      <UniqueIdentifier>{28fa7df2-ba2e-4dd6-aa34-e3ff38a90003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\DXTKAddon">
+      <UniqueIdentifier>{fa1d6b11-3c23-466a-ba68-2efe5ecca49b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1161,6 +1233,12 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage_CameraDepth\AlphaClippedInstanced_DepthRecordOnlyPS.hlsl">
       <Filter>6_HLSL\System\Pipeline\FirstStage_CameraDepth</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\SpriteInputUsageTest\SpriteInputUsageTest_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Others\SpriteInputUsageTest</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\SpriteInputUsageTest\SpriteInputUsageTest_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Others\SpriteInputUsageTest</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
