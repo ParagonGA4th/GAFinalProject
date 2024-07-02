@@ -253,6 +253,18 @@ namespace Pg::Graphics
 			HR(_DXStorage->_device->CreateRasterizerState(
 				&(_DXStorage->_solidFrontfaceCullingDesc), &(_DXStorage->_solidFrontfaceCullingState)));
 		}
+
+		// Solid (NOCULL)
+		{
+			ZeroMemory(&(_DXStorage->_solidNoCullingDesc), sizeof(D3D11_RASTERIZER_DESC));
+			_DXStorage->_solidNoCullingDesc.FillMode = D3D11_FILL_SOLID;
+			_DXStorage->_solidNoCullingDesc.CullMode = D3D11_CULL_NONE;
+			_DXStorage->_solidNoCullingDesc.FrontCounterClockwise = false;
+			_DXStorage->_solidNoCullingDesc.DepthClipEnable = false;
+
+			HR(_DXStorage->_device->CreateRasterizerState(
+				&(_DXStorage->_solidNoCullingDesc), &(_DXStorage->_solidNoCullingState)));
+		}
 		
 		// Wireframe
 		{

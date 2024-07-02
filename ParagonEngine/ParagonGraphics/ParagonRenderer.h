@@ -37,6 +37,8 @@ namespace Pg::Graphics
 	class LightmapManager;
 
 	class SceneInformationList;
+
+	class VisualEffectRenderer;
 }
 
 namespace Pg::Graphics
@@ -78,6 +80,7 @@ namespace Pg::Graphics
 		void DebugRender(Pg::Data::CameraData* camData);	// 별도로 Debug Render를 한다.
 		void UiRender(Pg::Data::CameraData* camData);		// 2D UI를 렌더링한다.
 		void PostProcessingRender(Pg::Data::CameraData* camData); //PostProcessing을 렌더링한다.
+		void DebugQuadsOverlayRender();
 		void FinalRender(Pg::Data::CameraData* camData);	// MainRenderTarget으로 보내주는 역할을 한다.
 		void EndRender();
 
@@ -94,6 +97,10 @@ namespace Pg::Graphics
 
 		//실제로 연동해서 처리 (기존에 Add/Modify/Delete되었던 오브젝트 변화 실제 반영)
 		void HandleRenderObjectsRuntime();
+
+	public:
+		VisualEffectRenderer* GetVisualEffectRenderer();
+
 
 	private:
 		//씬 데이터 받아들이기. (렌더에 적합한 형태로)

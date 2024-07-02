@@ -222,6 +222,12 @@ namespace Pg::Graphics::Loader
 			tElement._matID = instancedMeshList.at(i)->GetMaterialID();
 			tElement._objectID = instancedMeshList.at(i)->GetObjectID();
 
+			if (tElement._matID > 100000)
+			{
+				//불가.
+				assert(false && "불가.");
+			}
+
 			//Transform 가져오기.
 			Pg::Math::PGFLOAT4X4 tWorldTM = instancedMeshList.at(i)->GetBaseRenderer()->_object->_transform.GetWorldTM();
 			DirectX::XMMATRIX tWorldTMMat = Pg::Math::PG2XM_MATRIX4X4(tWorldTM);

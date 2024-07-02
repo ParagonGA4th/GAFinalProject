@@ -29,7 +29,7 @@ namespace Pg::DataScript
 	{
 		float tImpVal = std::clamp<float>(*_percentageSource, 0.f, _maxVal);
 
-		////테스트용.
+		//테스트용.
 		//{
 		//	static float time = 0.1f;
 		//	time += 0.1f;

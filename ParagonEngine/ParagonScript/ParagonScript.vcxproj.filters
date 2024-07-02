@@ -289,6 +289,9 @@
     <Filter Include="AI\Attack\WaspAttack">
       <UniqueIdentifier>{e57b1e17-9b4f-4394-9b01-2e678b835c44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Testing\AddEffectorTest">
+      <UniqueIdentifier>{f7862d36-36ff-4d16-9032-10061dcb2af1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -488,6 +491,9 @@
     </ClCompile>
     <ClCompile Include="WaspSkillAttack.cpp">
       <Filter>AI\Attack\WaspAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="AddEffectorTest.cpp">
+      <Filter>Testing\AddEffectorTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -755,6 +761,9 @@
     </ClInclude>
     <ClInclude Include="WaspSkillAttack.h">
       <Filter>AI\Attack\WaspAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="AddEffectorTest.h">
+      <Filter>Testing\AddEffectorTest</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

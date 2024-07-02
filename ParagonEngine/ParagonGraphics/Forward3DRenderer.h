@@ -11,7 +11,7 @@
 
 //RenderPasses
 #include "AlphaBlendedTotalRenderPass.h"
-#include "BillboardRenderPass.h"
+#include "VisualEffectRenderPass.h"
 
 namespace Pg::Data
 {
@@ -47,6 +47,9 @@ namespace Pg::Graphics
 		//매 프레임마다 Skinned 동작을 위해 사용.
 		void SetDeltaTime(float dt);
 
+	public:
+		VisualEffectRenderer* GetVisualEffectRenderer();
+
 	private:
 		void RenderAlphaBlended3DPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderBillboardPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
@@ -54,7 +57,7 @@ namespace Pg::Graphics
 
 	private:
 		std::unique_ptr<AlphaBlendedTotalRenderPass> _alphaBlendedTotalPass;
-		std::unique_ptr<BillboardRenderPass> _billboardRenderPass;
+		std::unique_ptr<VisualEffectRenderPass> _billboardRenderPass;
 
 	private:
 		LowDX11Storage* _DXStorage;

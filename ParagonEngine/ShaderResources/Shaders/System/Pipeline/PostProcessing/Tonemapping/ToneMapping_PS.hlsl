@@ -27,6 +27,9 @@ POutQuad main(VOutQuad pin)
     //굳이 필요 없을 것 같다!! => 김용준 교수님 PPT 참고.
      //</ACES Filmic Tone Mapping Curve>
     
+    //더 이상 Tonemapping은 쓰지 않는다.
+    //개별적인 처리가 될 것이기에.
+    
     res.Output = float4(val, 1.0f);
     
     return res;

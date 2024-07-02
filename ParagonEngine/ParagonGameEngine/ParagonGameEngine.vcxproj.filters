@@ -31,9 +31,6 @@
     <ClInclude Include="PhysicsCallback.h">
       <Filter>2_System\PhysicSystem\PhysicsCallback</Filter>
     </ClInclude>
-    <ClInclude Include="TestScene.h">
-      <Filter>4_WorkSpace\SceneView</Filter>
-    </ClInclude>
     <ClInclude Include="RayCastTest.h">
       <Filter>4_WorkSpace\SceneView\Scripts\RayCastTest</Filter>
     </ClInclude>
@@ -188,9 +185,6 @@
     </ClCompile>
     <ClCompile Include="EngineResourceManager.cpp">
       <Filter>3_GameEngineResources\EngineResourceManager</Filter>
-    </ClCompile>
-    <ClCompile Include="TestScene.cpp">
-      <Filter>4_WorkSpace\SceneView</Filter>
     </ClCompile>
     <ClCompile Include="PhysicSystem.cpp">
       <Filter>2_System\PhysicSystem</Filter>

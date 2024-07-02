@@ -81,6 +81,8 @@ namespace Pg::Defines
 	extern const std::wstring FINAL_STAGE_VS_DIRECTORY;
 	extern const std::wstring FINAL_STAGE_PS_DIRECTORY;
 
+	extern const std::wstring SPRITE_VERTEX_SHADER_TEST_DIRECTORY;
+
 	extern const std::wstring CUBEMAP_VS_DIRECTORY;
 	extern const std::wstring CUBEMAP_PS_DIRECTORY;
 	extern const std::wstring PRIMTIVE_VS_DIRECTORY;

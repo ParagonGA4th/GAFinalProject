@@ -102,7 +102,7 @@ namespace Pg::Graphics
 	private:
 		LowDX11Storage* _DXStorage;
 		LowDX11Logic* _DXLogic;
-		Pg::Util::Time::TimeSystem* _timeSystem;
+		Pg::Util::Time::TimeSystem* _timeSystem{ nullptr };
 
 	private:
 		//SystemVertexShader : Primitive
@@ -161,7 +161,7 @@ namespace Pg::Graphics
 
 	private:
 		//DepthWrite¸¦ ²ô±â.
-		ID3D11DepthStencilState* _depthWriteOffDSS;
+		ID3D11DepthStencilState* _depthWriteOffDSS{ nullptr };
 
 		
 	};

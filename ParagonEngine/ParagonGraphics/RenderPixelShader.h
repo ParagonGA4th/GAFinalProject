@@ -41,6 +41,7 @@ namespace Pg::Graphics
 	public:
 		void Bind();
 		void Unbind();
+		ID3D11PixelShader* GetPixelShader();
 
 	private:
 		LowDX11Storage* _DXStorage = nullptr;
