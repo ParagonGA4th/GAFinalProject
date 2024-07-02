@@ -138,6 +138,7 @@ namespace Pg::Graphics
 		//PrevAnim 기록. Nullptr가 아니면 무조건 보간해야!
 		this->_prevAnim = this->_currentAnim;
 		this->_currentAnim = _modelData->_assetSkinnedData->_viableAnimations.at(animName);
+		_blendLerpRatio = 0.0f;
 
 		//명시적으로 돌리는 시간 리셋.
 		_animationTime = 0.0;
@@ -188,7 +189,7 @@ namespace Pg::Graphics
 					if (!_isEndFrameCalled)
 					{
 						GetBaseRenderer()->_object->TurnOnAnimationEnd(_currentAnim->GetFileName());
-					
+
 						_isEndFrameCalled = true;
 					}
 				}
@@ -210,63 +211,79 @@ namespace Pg::Graphics
 		/////TOREMOVE
 		//this->_currentTick = 0;
 
+		//별도로 _prevAnim을 유지해야 하는지, 아닌지 검사.
+		if (_prevAnim != nullptr)
+		{
+			//속도 더 빨리? 그러면 Lerp Ratio 막 이만큼 더 추가해야 했을 것!
+			_blendLerpRatio += (dt * ANIMATION_BLEND_SPEED);
+			if (_blendLerpRatio >= 1.0f)
+			{
+				//일단 한정 다시 0으로 돌린다.
+				_blendLerpRatio = 0.f;
+				_prevAnim = nullptr;
+			}
+		}
 
 		for (auto& nodeAnim : _currentAnim->_animAssetData->_channelList)
 		{
 			DirectX::SimpleMath::Vector3 position;
 			DirectX::SimpleMath::Quaternion rotation;
-			DirectX::SimpleMath::Vector3 scale;
+			//DirectX::SimpleMath::Vector3 scale;
 
+			//NodeAnim이 중요한 이유 : Name과, 값을 찾기 위해서.
 			const ModifiedNode_SkinnedMesh* node = _animatedModifNodeMap[nodeAnim->_nodeName];
+
 			//무조건 NodeAnim은 Node와 매칭되어야 하는데..?
 			if (node == nullptr)
 			{
-				//애초에 못 찾았으면 안되는데.. 원래 FBX에 없었던 값이 채워지는 것 같다.
-				//Armature.002라는 프로퍼티가 문제됨.
-				//일단은 무시할 것.
+				//일단은 이렇게 처리.
 				continue;
-				//assert(false);
 			}
 
-			//TODO : NodeAnim 없는 경우 대비.
-			//if (_prevAnim != nullptr)
-			//{
-			//	//Blending 필요.
-			//	DirectX::SimpleMath::Vector3 prev_position;
-			//	DirectX::SimpleMath::Quaternion prev_rotation;
-			//	DirectX::SimpleMath::Vector3 prev_scale;
-			//
-			//	DirectX::SimpleMath::Vector3 now_position;
-			//	DirectX::SimpleMath::Quaternion now_rotation;
-			//	DirectX::SimpleMath::Vector3 now_scale;
-			//
-			//
-			//}
-			//else
-			//{
-			//	//그냥 출력하면 됨.
-			//	position = FillPositionForNodeAnim(_currentAnim, nodeAnim.get());
-			//	rotation = FillRotationForNodeAnim(_currentAnim, nodeAnim.get());
-			//	scale = FillScaleForNodeAnim(_currentAnim, nodeAnim.get());
-			//}
+			if (_prevAnim != nullptr)
+			{
+				auto& bPrevChannelList = _prevAnim->_animAssetData->_channelList;	//PrevAnim에서 동일한 NodeAnim을 찾아야 한다.
+				NodeAnim_AssetData* tPrevFoundNodeAnim = nullptr;					//자신의 이름과 이름이 같은 NodeAnim 찾기.
+				for (auto& bPrevNodeAnim : bPrevChannelList)
+				{
+					if (bPrevNodeAnim->_nodeName.compare(nodeAnim->_nodeName) == 0)
+					{
+						tPrevFoundNodeAnim = bPrevNodeAnim.get();
+						break;
+					}
+				}
 
-			//그냥 출력하면 됨.
-			position = FillPositionForNodeAnim(_currentAnim, nodeAnim.get());
-			rotation = FillRotationForNodeAnim(_currentAnim, nodeAnim.get());
-			scale = FillScaleForNodeAnim(_currentAnim, nodeAnim.get());
-			
+				if (tPrevFoundNodeAnim != nullptr)
+				{
+					//찾았다.
+					//Blending 필요.
+					DirectX::SimpleMath::Vector3 prev_position = FillPositionForNodeAnim(_prevAnim, tPrevFoundNodeAnim);
+					DirectX::SimpleMath::Quaternion prev_rotation = FillRotationForNodeAnim(_prevAnim, tPrevFoundNodeAnim);
+
+					DirectX::SimpleMath::Vector3 now_position = FillPositionForNodeAnim(_currentAnim, nodeAnim.get());
+					DirectX::SimpleMath::Quaternion now_rotation = FillRotationForNodeAnim(_currentAnim, nodeAnim.get());
+
+					assert(_blendLerpRatio <= 1.0f);
+					position = DirectX::SimpleMath::Vector3::Lerp(prev_position, now_position, _blendLerpRatio);
+					rotation = DirectX::SimpleMath::Quaternion::Slerp(prev_rotation, now_rotation, _blendLerpRatio);
+				}
+				else
+				{
+					position = FillPositionForNodeAnim(_currentAnim, nodeAnim.get());
+					rotation = FillRotationForNodeAnim(_currentAnim, nodeAnim.get());
+				}
+			}
+			else
+			{
+				//그냥 출력하면 됨.
+				position = FillPositionForNodeAnim(_currentAnim, nodeAnim.get());
+				rotation = FillRotationForNodeAnim(_currentAnim, nodeAnim.get());
+				//scale = FillScaleForNodeAnim(_currentAnim, nodeAnim.get());
+			}
+
 			rotation.Normalize();
 			node->_relTransform->SetLocalPosition(position);
 			node->_relTransform->SetLocalRotation(rotation);
-			//일단은 Scale 반영하지 않음.
-			//node->_relTransform->SetLocalScale(scale); 
-
-			//Open3d를 보고 체크.
-			//node->_relTransform->SetLocalScale({100.f,100.f,100.f});
-		
-			//Scale은 서포트하지 않는다. 다만, 0.01을 반영..?
-			//node->_relTransform->SetLocalScale({ 1.0f,1.0f, 1.0f });
-			//node->_relTransform->SetLocalScale({ 0.01f, 0.01f, 0.01f });
 		}
 	}
 
@@ -343,14 +360,14 @@ namespace Pg::Graphics
 		if (selfNode->_index >= 0)
 		{
 			// nodeBuffer->transformMatrix[node->index] = DirectX::XMMatrixTranspose(node->GetWorldMatrix());
-			
+
 			DirectX::SimpleMath::Matrix tInputData = DirectX::XMMatrixTranspose(selfNode->_relTransform->GetWorldTM());
 			DirectX::SimpleMath::Matrix tZeroMat = DirectX::XMMatrixSet(0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
 			assert(tInputData != tZeroMat);
 
 			//일단 외적으로 Decompose 및 재투입은 하지 않은 상황.
 			_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] = tInputData;
-				
+
 
 			//_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] = selfNode->_relTransform->GetWorldTM();
 		}
