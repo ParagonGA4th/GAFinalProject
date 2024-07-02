@@ -81,6 +81,10 @@ namespace Pg::Graphics
 		//2D일 때 예외 처리.
 		if (tVeSet->_veGraphicsSet->_effect3D != nullptr)
 		{
+			assert("");
+		}
+		else
+		{
 			//디폴트 렌더모드가 아닐 때
 			auto& tSprite2D = tVeSet->_veGraphicsSet->_spriteEffect2D;
 			if (!(tSprite2D->_isDefaultRenderMode))
