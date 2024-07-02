@@ -94,6 +94,7 @@ namespace Pg::Data
 		// 월드 행렬 (부모 유무를 고려)
 		PGFLOAT4X4 GetWorldTM();
 		PGFLOAT3 GetWorldPosition();
+		PGQuaternion GetWorldRotation();
 		PGFLOAT4X4 GetLocalTM();
 
 		// 종속성 세팅 함수

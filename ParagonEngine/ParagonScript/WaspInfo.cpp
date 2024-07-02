@@ -3,9 +3,9 @@
 namespace Pg::DataScript
 {
 	WaspInfo::WaspInfo(float fullHealth, float attackPower) : BaseMonsterInfo(fullHealth, attackPower),
-		_moveSpeed(1.f), _dashSpeed(1.4f), _attackRange(5.f),
-		_sightRange(15.f), _dashRange(14.f), _attackDuration(1.5f),
-		_attackSpeed(3.f)
+		_moveSpeed(1.f), _evadeSpeed(5.f), _attackRange(10.f),
+		_sightRange(15.f), _evadeRange(14.f), _attackDuration(3.f),
+		_attackSpeed(3.f), _startAttackTime(1.f), _currentAttackTime(0.f)
 	{
 
 	}

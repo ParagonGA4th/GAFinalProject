@@ -286,6 +286,9 @@
     <Filter Include="AI\Enemy\Wasp">
       <UniqueIdentifier>{fe1e0277-27c5-4d3b-a7bd-441e893610e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\Attack\WaspAttack">
+      <UniqueIdentifier>{e57b1e17-9b4f-4394-9b01-2e678b835c44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -479,6 +482,12 @@
     </ClCompile>
     <ClCompile Include="MimicSkillAttack.cpp">
       <Filter>AI\Attack\MimicAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="WaspAttack.cpp">
+      <Filter>AI\Attack\WaspAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="WaspSkillAttack.cpp">
+      <Filter>AI\Attack\WaspAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -740,6 +749,12 @@
     </ClInclude>
     <ClInclude Include="MimicSkillAttack.h">
       <Filter>AI\Attack\MimicAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="WaspAttack.h">
+      <Filter>AI\Attack\WaspAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="WaspSkillAttack.h">
+      <Filter>AI\Attack\WaspAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
