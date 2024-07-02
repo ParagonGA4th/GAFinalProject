@@ -130,6 +130,11 @@ namespace Pg::Graphics
 
 		for (auto& [bRenderSet, bEffectObjectVec] : _currentRenderingMap)
 		{
+			if (bEffectObjectVec.empty())
+			{
+				continue;
+			}
+
 			//Render Set & Effect Vector.
 			//여기서 상태에 따라서 Render State를 다르게 지정하는 등 시행할 수 있을 것이다.
 			DirectX::XMVECTOR tCamPos = PG2XM_FLOAT3_VECTOR(camData->_position);
@@ -223,50 +228,60 @@ namespace Pg::Graphics
 				auto& bSpriteEffect2D = bVeSet->_spriteEffect2D;
 				auto& tEffectData = bRenderSet->_visualEffectData;
 
-				bVeSet->_spriteBatch->Begin(
-					DirectX::SpriteSortMode_BackToFront, bVeSet->_customBlendState,
-					nullptr, nullptr, nullptr, [&bVeSet]
-					{
-						bVeSet->_spriteEffect2D->SetCustomShaderInfo();
-					}
-				);
+				
 
-				if (tEffectData._spriteMode == Pg::Data::_DEFAULT)
+				if (tEffectData._spriteMode == Pg::Data::_SCROLLING_BG)
 				{
-					for (auto& bEffectObject : bEffectObjectVec)
-					{
-						auto& tFirstTexture = bVeSet->_renderTextureVec.at(0);
-						//RECT outRect = { 0,0, tFirstTexture->GetFileWidth(), tFirstTexture->GetFileHeight() };
+					bVeSet->_spriteBatch->Begin(
+						DirectX::SpriteSortMode_BackToFront);
 
-						//기본 설정으로 그리기, Rotation / Scale 반영하지 않음.
-						bVeSet->_spriteBatch->Draw(
-							tFirstTexture->GetSRV(), DirectX::XMFLOAT2(bEffectObject->_position.x, bEffectObject->_position.y));
-					}
-				}
-				else if (tEffectData._spriteMode == Pg::Data::_SPRITE_SHEET)
-				{
-					for (auto& bEffectObject : bEffectObjectVec)
-					{
-						bVeSet->_spriteEffect2D->_animatedTexture->Update(_timeSystem->GetDeltaTime());
-						bVeSet->_spriteEffect2D->_animatedTexture->Draw(bVeSet->_spriteBatch.get(), DirectX::XMFLOAT2(bEffectObject->_position.x, bEffectObject->_position.y));
-					}
-				}
-				else if (tEffectData._spriteMode == Pg::Data::_SCROLLING_BG)
-				{
 					for (auto& bEffectObject : bEffectObjectVec)
 					{
 						//Scroll 속도는 일단 FIX.
 						bVeSet->_spriteEffect2D->_scrollingBackground->Update(_timeSystem->GetDeltaTime() * 10.f);
 						bVeSet->_spriteEffect2D->_scrollingBackground->Draw(bVeSet->_spriteBatch.get());
 					}
+
+					bVeSet->_spriteBatch->End();
 				}
 				else
 				{
-					assert(false && "미정의");
+					bVeSet->_spriteBatch->Begin(
+						DirectX::SpriteSortMode_BackToFront, bVeSet->_customBlendState,
+						nullptr, nullptr, nullptr, [&bVeSet]
+						{
+							bVeSet->_spriteEffect2D->SetCustomShaderInfo();
+						}
+					);
+
+					if (tEffectData._spriteMode == Pg::Data::_DEFAULT)
+					{
+						for (auto& bEffectObject : bEffectObjectVec)
+						{
+							auto& tFirstTexture = bVeSet->_renderTextureVec.at(0);
+							//RECT outRect = { 0,0, tFirstTexture->GetFileWidth(), tFirstTexture->GetFileHeight() };
+
+							//기본 설정으로 그리기, Rotation / Scale 반영하지 않음.
+							bVeSet->_spriteBatch->Draw(
+								tFirstTexture->GetSRV(), DirectX::XMFLOAT2(bEffectObject->_position.x, bEffectObject->_position.y));
+						}
+					}
+					else if (tEffectData._spriteMode == Pg::Data::_SPRITE_SHEET)
+					{
+						for (auto& bEffectObject : bEffectObjectVec)
+						{
+							const float ACCELERATE_FACTOR = 100.0f;
+							bVeSet->_spriteEffect2D->_animatedTexture->Update(_timeSystem->GetDeltaTime() * ACCELERATE_FACTOR);
+							bVeSet->_spriteEffect2D->_animatedTexture->Draw(bVeSet->_spriteBatch.get(), DirectX::XMFLOAT2(bEffectObject->_position.x, bEffectObject->_position.y));
+						}
+					}
+					else
+					{
+						assert(false && "미정의");
+					}
+
+					bVeSet->_spriteBatch->End();
 				}
-
-
-				bVeSet->_spriteBatch->End();
 			}
 			//bRenderSet->_spriteBatch->Draw();
 

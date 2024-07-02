@@ -98,12 +98,12 @@ namespace Pg::Graphics
 		_deferredRenderer->RenderContents(_sceneParser->GetRenderObject3DList(), _sceneParser->GetSceneInformationList(), camData);
 		_deferredRenderer->ConfirmCarrierData();
 
-		_forward3dRenderer->RenderContents(_sceneParser->GetRenderObject3DList(), nullptr, camData);
-		_forward3dRenderer->ConfirmCarrierData();
-
 		// Cubemap Renderer.
 		_cubemapRenderer->RenderContents(_sceneParser->GetRenderObjectCubemapList(), nullptr, camData);
 		_cubemapRenderer->ConfirmCarrierData();
+
+		_forward3dRenderer->RenderContents(_sceneParser->GetRenderObject3DList(), nullptr, camData);
+		_forward3dRenderer->ConfirmCarrierData();
 	}
 
 	void ParagonRenderer::DebugRender(Pg::Data::CameraData* camData)

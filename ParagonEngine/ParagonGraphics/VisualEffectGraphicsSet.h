@@ -17,7 +17,7 @@ namespace Pg::Graphics
 	struct VisualEffectGraphicsSet
 	{
 		unsigned int _textureSize{ 0 };
-		std::vector<RenderTexture2D*> _renderTextureVec{ nullptr };
+		std::vector<RenderTexture2D*> _renderTextureVec;
 		RenderVertexShader* _customRenderVertexShader{ nullptr };
 		RenderPixelShader* _customRenderPixelShader{ nullptr }; 
 		ID3D11BlendState* _customBlendState{ nullptr };
