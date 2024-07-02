@@ -1,2 +1,3 @@
 EffectName,Is3DSpace,IsFacingCamera,IsAlphaBlended,AlphaPercentage,TextureName,eSpriteMode,FrameCount,IsUseCustomVertexShader,CustomVertexShaderName,IsUseCustomPixelShader,CustomPixelShaderName
-Testing,1,1,1,50,test.dds,1,5,0,NULL,1,Pixel.cso
+Effect_FireArrow,0,0,0,100,fire_arrow.png,1,6,0,NULL,0,NULL
+Effect_Credits,0,0,0,100,StarWarsCredits.png,2,1,0,NULL,0,NULL
