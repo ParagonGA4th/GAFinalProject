@@ -5,9 +5,6 @@
 #include "BehaviorTreeSystem.h"
 //#include "EditorCameraScript.h"
 
-//Script System 마련 전 Test 용.
-#include "TestScene.h"
-
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/RendererBase2D.h"
@@ -36,25 +33,17 @@ namespace Pg::Engine
 	{
 		///<기존SampleScene코드>
 		////여기에는 (TBA) Scene 관리 로직 etc 있어야!
-		//_sceneList.insert({"SampleScene", new Pg::Data::Scene("SampleScene")});
-		//_currentScene = _sceneList.at("SampleScene");
-		///</기존SampleScene코드>
-
-		///<임시Test용: TO REMOVE>
-		TestScene* tTestScene = new TestScene();
-		tTestScene->Initialize();
-
-		_sceneList.insert({ "SampleScene",  tTestScene->GetCurrentScene() });
+		_sceneList.insert({ "SampleScene", new Pg::Data::Scene("SampleScene") });
 		_currentScene = _sceneList.at("SampleScene");
-		///<임시Test용: TO REMOVE>
+		///</기존SampleScene코드>
 
 		//일단 별도로 Initialize할 때 기존 로직을 무너뜨리지 않기 위해서 Scene의 내용을 추가했음.
 		//씬이 시작하기 전, 일괄적으로 AddObject / DeleteObject 외부에서 호출된 요소들을 반영한다.
 		//모든 씬들에 대하여 설정. 일괄적으로 반영하고 시작한다.
 		//이제는 런타임 추가용 함수 / 에디터타임 추가용 함수 분리되었기에 크게 문제 X.
 		//없어도 문제되지 않을 것이기에, 제거.
-		//std::for_each(_sceneList.begin(), _sceneList.end(), [](auto& iter)
-		//	{ iter.second->HandleAddDeleteInScene(); });
+		std::for_each(_sceneList.begin(), _sceneList.end(), [](auto& iter)
+			{ iter.second->HandleAddDeleteInScene(); });
 	}
 
 	//Editor모드 받아서 검사.

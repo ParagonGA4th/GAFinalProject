@@ -280,7 +280,6 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="ModelData.h" />
     <ClInclude Include="MonsterHelper.h" />
-    <ClInclude Include="MoveForwardBack.h" />
     <ClInclude Include="NavigationField.h" />
     <ClInclude Include="NavMeshAgent.h" />
     <ClInclude Include="ParagonDefines.h" />
@@ -409,7 +408,6 @@
     <ClCompile Include="isTouched.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="MonsterHelper.cpp" />
-    <ClCompile Include="MoveForwardBack.cpp" />
     <ClCompile Include="NavigationField.cpp" />
     <ClCompile Include="NavMeshAgent.cpp" />
     <ClCompile Include="ParagonDefines.cpp" />
