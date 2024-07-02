@@ -314,7 +314,7 @@ namespace Pg::Graphics
 						{
 							if (!(bEffectObject->GetActive())) { continue; }
 
-							const float ACCELERATE_FACTOR = 100.0f;
+							const float ACCELERATE_FACTOR = 10.f;
 							bVeSet->_spriteEffect2D->_animatedTexture->Update(_timeSystem->GetDeltaTime() * ACCELERATE_FACTOR);
 							bVeSet->_spriteEffect2D->_animatedTexture->Draw(bVeSet->_spriteBatch.get(), DirectX::XMFLOAT2(bEffectObject->_position.x, bEffectObject->_position.y));
 						}
