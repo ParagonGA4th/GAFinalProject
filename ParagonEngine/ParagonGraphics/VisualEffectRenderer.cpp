@@ -195,6 +195,8 @@ namespace Pg::Graphics
 				//3D Rendering 전담.
 				for (auto& bEffectObject : bEffectObjectVec)
 				{
+					if (!(bEffectObject->GetActive())) { continue; }
+
 					//개별적인 Render Object 단계.
 					tWorldMat = PG2XM_MATRIX4X4(Pg::Math::PGGetWorldMatrixFromValues(
 						bEffectObject->_position, bEffectObject->_rotation, bEffectObject->_scale));
@@ -237,6 +239,7 @@ namespace Pg::Graphics
 
 					for (auto& bEffectObject : bEffectObjectVec)
 					{
+						if (!(bEffectObject->GetActive())) { continue; }
 						//Scroll 속도는 일단 FIX.
 						bVeSet->_spriteEffect2D->_scrollingBackground->Update(_timeSystem->GetDeltaTime() * 10.f);
 						bVeSet->_spriteEffect2D->_scrollingBackground->Draw(bVeSet->_spriteBatch.get());
@@ -258,6 +261,8 @@ namespace Pg::Graphics
 					{
 						for (auto& bEffectObject : bEffectObjectVec)
 						{
+							if (!(bEffectObject->GetActive())) { continue; }
+
 							auto& tFirstTexture = bVeSet->_renderTextureVec.at(0);
 							//RECT outRect = { 0,0, tFirstTexture->GetFileWidth(), tFirstTexture->GetFileHeight() };
 
@@ -270,6 +275,8 @@ namespace Pg::Graphics
 					{
 						for (auto& bEffectObject : bEffectObjectVec)
 						{
+							if (!(bEffectObject->GetActive())) { continue; }
+
 							const float ACCELERATE_FACTOR = 100.0f;
 							bVeSet->_spriteEffect2D->_animatedTexture->Update(_timeSystem->GetDeltaTime() * ACCELERATE_FACTOR);
 							bVeSet->_spriteEffect2D->_animatedTexture->Draw(bVeSet->_spriteBatch.get(), DirectX::XMFLOAT2(bEffectObject->_position.x, bEffectObject->_position.y));

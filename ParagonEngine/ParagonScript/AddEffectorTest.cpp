@@ -43,6 +43,8 @@ namespace Pg::DataScript
 			{
 				_pgGraphics->RemoveEffectObject(tObj);
 				delete tObj;
+
+				tObj = nullptr;
 			}
 		}
 	}
