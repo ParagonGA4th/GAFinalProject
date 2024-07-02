@@ -32,11 +32,15 @@ namespace Pg::DataScript
 	{
 		if (_pgInput->GetKeyDown(API::Input::KeyNum7))
 		{
-			tObj = new Pg::Data::VisualEffectRenderObject();
-			tObj->_position = { 0,10,0 };
-			//_pgGraphics->RegisterEffectObject("Effect_FireArrow", tObj);
-			//_pgGraphics->RegisterEffectObject("Effect_Credits", tObj);
-			_pgGraphics->RegisterEffectObject("Effect_3D_FireArrow", tObj);
+			if (tObj == nullptr)
+			{
+				tObj = new Pg::Data::VisualEffectRenderObject();
+				tObj->_position = { 0,0,0 };
+				//_pgGraphics->RegisterEffectObject("Effect_FireArrow", tObj);
+				//_pgGraphics->RegisterEffectObject("Effect_Credits", tObj);
+				_pgGraphics->RegisterEffectObject("Effect_3D_FireArrow", tObj);
+
+			}
 		}
 		else if (_pgInput->GetKeyDown(API::Input::KeyNum8))
 		{
