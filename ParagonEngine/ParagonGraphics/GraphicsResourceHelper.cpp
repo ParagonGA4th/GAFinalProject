@@ -392,4 +392,19 @@ namespace Pg::Graphics::Helper
 		return eTextureExtension::_UNMANAGED;
 	}
 
+	bool GraphicsResourceHelper::IsMaterialDefaultMaterial(RenderMaterial* renderMat)
+	{
+		std::string tMain = renderMat->GetFileName();
+		std::size_t ind = tMain.find(Pg::Defines::GENERATED_MATERIAL_PREFIX); //Substring 시작 위치 찾기.
+
+		if (ind != std::string::npos)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 }
