@@ -35,6 +35,8 @@ namespace Pg::Graphics
 
 		//</PostProcessing>
 		
+		//FadeInOut
+		_fadeInOutPass = std::make_unique<FadeInOutPass>();
 
 		//Final Render Pass. (From을 요구한다) -> 매개변수로.
 		_finalRenderPass = std::make_unique<FinalRenderPass>();
@@ -56,6 +58,8 @@ namespace Pg::Graphics
 		{
 			it->Initialize();
 		}
+
+		_fadeInOutPass->Initialize();
 	}
 
 	void PPFinalRenderer::CreateDebugOverlayQuads()
@@ -142,7 +146,7 @@ namespace Pg::Graphics
 
 		//만약 PostProcessing Stage가 없으면, Editor에서 받을 SRV가 없을 수도. 
 		//최종 PostProcessing Stage로 설정하자 -> 이건 개별 Pass에서.
-		_carrier->_toSendSRVToEngine = _carrier->_PPSwitch2->GetSRV();
+		_carrier->_toSendSRVToEngine = _carrier->_PPSwitch1->GetSRV();
 	}
 
 	void PPFinalRenderer::CreateStagingPickingBuffer()
@@ -201,6 +205,17 @@ namespace Pg::Graphics
 
 		//Default Quad Vertex Shader Unbind.
 		_ppSystemVertexShader->Unbind();
+
+		//FadeIn-Out 관리.	
+		{
+			_carrier->_toSendSRVToEngine = _carrier->_PPSwitch1->GetSRV();
+			_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_PPSwitch1->GetRTV()), nullptr);
+			
+			//static float t = 0.f;
+			//t += 0.1f;
+			//float val = fabs(sin(t));
+			_fadeInOutPass->Render(1.0f, _carrier, _carrier->_PPSwitch2->GetSRV());
+		}
 	}
 
 	void PPFinalRenderer::RenderDebugQuadsOverlay()

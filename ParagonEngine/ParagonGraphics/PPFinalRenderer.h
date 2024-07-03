@@ -12,6 +12,8 @@
 #include "BloomRenderPass.h"
 #include "LUTRenderPass.h"
 
+#include "FadeInOutPass.h"
+
 //DebugOverlayQuads
 #include "DebugOverlayQuad.h"
 
@@ -73,6 +75,8 @@ namespace Pg::Graphics
 
 		//PostProcessing Passes.
 		std::vector<std::unique_ptr<IRenderSinglePass>> _postprocessingRenderPassList;
+
+		std::unique_ptr<FadeInOutPass> _fadeInOutPass;
 
 		//DebugOverlayQuads
 		std::vector<std::unique_ptr<DebugOverlayQuad>> _debugOverlayQuadList;
