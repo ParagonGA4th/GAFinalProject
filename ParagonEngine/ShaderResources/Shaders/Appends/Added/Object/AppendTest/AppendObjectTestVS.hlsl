@@ -13,9 +13,16 @@ cbuffer cbAppendsObjectVS : register(b8)
 VOutQuad main(VinQuad vin)
 {   
     VOutQuad vout;
-    
-    vout.PositionH = float4(vin.Position, 1.0f);
-    vout.UV = vin.UV;
+    if (toggleNoise)
+    {
+        vout.PositionH = float4(vin.Position, 1.0f);
+        vout.UV = 1.0f - vin.UV;
+    }
+    else
+    {
+        vout.PositionH = float4(vin.Position, 1.0f);
+        vout.UV = vin.UV;
+    }
     
     return vout;
 }

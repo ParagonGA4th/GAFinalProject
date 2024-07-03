@@ -10,7 +10,6 @@ static const float Epsilon = 0.00001;
 static const float3 Fdielectric = 0.04;
 //</Defines>
 
-
 float3 NormalSampleToWorldSpace(float3 normalMapSample, float3 unitNormalW, float3 tangentW)
 {
     float3 normalT = 2.0f * normalMapSample - 1.0f; // 0-1¿¡¼­ -1-1·Î.

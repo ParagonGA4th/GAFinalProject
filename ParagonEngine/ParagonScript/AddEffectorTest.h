@@ -31,11 +31,17 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
+
+	private:
+		void InUpdate_EffectTest();
+
+
 	private:
 		Pg::API::Graphics::PgGraphics* _pgGraphics;
 		Pg::API::Input::PgInput* _pgInput;
 
 		Pg::Data::VisualEffectRenderObject* tObj{ nullptr };
+		void* _ptrRenderMat{ nullptr };
 	};
 }
 

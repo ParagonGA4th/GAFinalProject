@@ -1302,6 +1302,9 @@
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_SwitchingViewProj.hlsli">
       <Filter>6_HLSL\System\Libraries</Filter>
     </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_UVFunctions.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\MathFunctions</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ParagonGraphics.rc">

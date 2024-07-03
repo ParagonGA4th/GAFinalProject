@@ -25,10 +25,36 @@ namespace Pg::DataScript
 
 	void AddEffectorTest::Start()
 	{
+		_ptrRenderMat = _pgGraphics->GetRenderMaterialWithName("RoadLavaConeTestMat.pgmat");
+		assert(_ptrRenderMat != nullptr);
 		
 	}
 
 	void AddEffectorTest::Update()
+	{
+		if (_pgInput->GetKeyDown(API::Input::KeyNum7))
+		{
+			_pgGraphics->Material_SetBoolPS(_ptrRenderMat, "isOne", true);
+		}
+		else if (_pgInput->GetKeyUp(API::Input::KeyNum7))
+		{
+			_pgGraphics->Material_SetBoolPS(_ptrRenderMat, "isOne", false);
+		}
+
+		if (_pgInput->GetKeyDown(API::Input::KeyNum8))
+		{
+			_pgGraphics->Material_SetBoolVS(_ptrRenderMat, "toggleNoise", true);
+		}
+		else if (_pgInput->GetKeyUp(API::Input::KeyNum8))
+		{
+			_pgGraphics->Material_SetBoolVS(_ptrRenderMat, "toggleNoise", false);
+		}
+
+
+			//toggleNoise
+	}
+
+	void AddEffectorTest::InUpdate_EffectTest()
 	{
 		if (_pgInput->GetKeyDown(API::Input::KeyNum7))
 		{

@@ -54,7 +54,8 @@ namespace Pg::Graphics
 			DirectX::XMMATRIX gCBuf_InvViewMatrix;
 
 			DirectX::XMFLOAT2 gCBuf_ScreenWidthHeight;
-			DirectX::XMFLOAT2 gCBuf_TempPadding;
+			float gCBuf_RadianTimeLoop{ 0.f };
+			float gCBuf_TempPadding;
 
 			DirectX::XMFLOAT3 gCBuf_EyePosition;
 			int gCBuf_IsSceneUseLightmap;
