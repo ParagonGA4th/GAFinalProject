@@ -240,7 +240,7 @@ namespace Pg::DataScript
 	void WaspBehaviour::UpdateAttack()
 	{
 		//투사체 처리
-		if (_isSkillStart)
+		if (_isAttackStart)
 		{
 			_monsterHelper->_isPlayerinHitSpace = true;
 			_monsterHelper->_isChase = false;
