@@ -12,6 +12,7 @@ namespace Pg::DataScript
 		BossAttack(Pg::Data::GameObject* obj);
 
 		virtual void Awake() override;
+		virtual void BeforePhysicsAwake() override;
 		virtual void Start() override;
 		virtual void Update() override;
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;

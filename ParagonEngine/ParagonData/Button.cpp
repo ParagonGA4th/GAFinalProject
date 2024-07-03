@@ -6,6 +6,7 @@
 #include "../ParagonUtil/InputSystem.h"
 
 #include "GameObject.h"
+#include <cassert>
 
 namespace Pg::Data
 {
@@ -26,7 +27,7 @@ namespace Pg::Data
 		//j->AddComponent<TextRenderer>();
 	}
 
-	void Button::Internal_EngineAwake()
+	void Button::GrabManagedObjects()
 	{
 		if (!_object->GetComponent<ImageRenderer>())
 		{
@@ -35,6 +36,7 @@ namespace Pg::Data
 
 		//이미지 기본으로 들어있어야 함.
 		_imageRenderer = _object->GetComponent<ImageRenderer>();
+		assert(_imageRenderer != nullptr);
 		_imageWidth = &(_imageRenderer->_width);
 		_imageHeight = &(_imageRenderer->_height);
 	}
