@@ -1,36 +1,37 @@
-#include "BossAttack.h"
+#include "WindBlastAttack.h"
 #include "CombatSystem.h"
 #include "../ParagonData/Collider.h"
 #include "../ParagonUtil/Log.h"
 
 namespace Pg::DataScript
 {
-	BossAttack::BossAttack(Pg::Data::GameObject* obj) :
+	WindBlastAttack::WindBlastAttack(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj)
 	{
 
 	}
 
-	void BossAttack::BeforePhysicsAwake()
+
+	void WindBlastAttack::BeforePhysicsAwake()
 	{
 		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
-	void BossAttack::Awake()
+	void WindBlastAttack::Awake()
 	{
 
 	}
 
-	void BossAttack::Start()
+	void WindBlastAttack::Start()
 	{
 	}
 
-	void BossAttack::Update()
+	void WindBlastAttack::Update()
 	{
 
 	}
 
-	void BossAttack::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
+	void WindBlastAttack::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
 	{
 		for (int i = 0; i < count; i++)
 		{
@@ -40,7 +41,7 @@ namespace Pg::DataScript
 			if (col->_object->GetTag() == "TAG_Player")
 			{
 				PG_TRACE("Player Hit!");
-				_combatSystem->ChangePlayerHealth(-4.f);
+				_combatSystem->ChangePlayerHealth(-8.f);
 			}
 		}
 	}

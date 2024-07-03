@@ -495,6 +495,12 @@
     <ClCompile Include="AddEffectorTest.cpp">
       <Filter>Testing\AddEffectorTest</Filter>
     </ClCompile>
+    <ClCompile Include="WindBlastAttack.cpp">
+      <Filter>AI\Attack\BossAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="LightSkillAttack.cpp">
+      <Filter>AI\Attack\BossAttack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -764,6 +770,12 @@
     </ClInclude>
     <ClInclude Include="AddEffectorTest.h">
       <Filter>Testing\AddEffectorTest</Filter>
+    </ClInclude>
+    <ClInclude Include="WindBlastAttack.h">
+      <Filter>AI\Attack\BossAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="LightSkillAttack.h">
+      <Filter>AI\Attack\BossAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -179,6 +179,7 @@
     <ClInclude Include="InGameManager.h" />
     <ClInclude Include="IProjectile.h" />
     <ClInclude Include="ISingleGUI.h" />
+    <ClInclude Include="LightSkillAttack.h" />
     <ClInclude Include="MimicAttack.h" />
     <ClInclude Include="MimicSkillAttack.h" />
     <ClInclude Include="MiniGolemAttack.h" />
@@ -232,6 +233,7 @@
     <ClInclude Include="WaspBehaviour.h" />
     <ClInclude Include="WaspInfo.h" />
     <ClInclude Include="WaspSkillAttack.h" />
+    <ClInclude Include="WindBlastAttack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AddEffectorTest.cpp" />
@@ -262,6 +264,7 @@
     <ClCompile Include="GUI_PercentageFillBar.cpp" />
     <ClCompile Include="InGameManager.cpp" />
     <ClCompile Include="CreditsSceneGUIHandler.cpp" />
+    <ClCompile Include="LightSkillAttack.cpp" />
     <ClCompile Include="MimicSkillAttack.cpp" />
     <ClCompile Include="PlayerCombatSector.cpp" />
     <ClCompile Include="GlobalSoundManager.cpp" />
@@ -301,6 +304,7 @@
     <ClCompile Include="WaspBehaviour.cpp" />
     <ClCompile Include="WaspInfo.cpp" />
     <ClCompile Include="WaspSkillAttack.cpp" />
+    <ClCompile Include="WindBlastAttack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ParagonScript.rc" />
