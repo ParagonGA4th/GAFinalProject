@@ -37,7 +37,7 @@ namespace Pg::Graphics
 	class LightmapManager;
 
 	class SceneInformationList;
-
+	class GraphicsApiExporter;
 	class VisualEffectRenderer;
 }
 
@@ -45,6 +45,7 @@ namespace Pg::Graphics
 {
 	class ParagonRenderer
 	{
+		friend class GraphicsApiExporter;
 	public:
 		ParagonRenderer();
 		~ParagonRenderer();

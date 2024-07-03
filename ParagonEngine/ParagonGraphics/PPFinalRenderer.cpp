@@ -11,6 +11,8 @@
 #include "../ParagonData/LightType.h"
 
 #include "../ParagonUtil/Log.h"
+#include "../ParagonUtil/TimeSystem.h"
+#include <singleton-cpp/singleton.h>
 
 namespace Pg::Graphics
 {
@@ -32,6 +34,9 @@ namespace Pg::Graphics
 		_postprocessingRenderPassList.push_back(std::make_unique<BloomRenderPass>(_carrier->_PPSwitch2, _carrier->_PPSwitch1));
 		_postprocessingRenderPassList.push_back(std::make_unique<LUTRenderPass>(_carrier->_PPSwitch1, _carrier->_PPSwitch2));
 		
+		//중간에 TimeSystem 받아오기.
+		_timeSystem = &singleton<Pg::Util::Time::TimeSystem>();
+
 
 		//</PostProcessing>
 		
@@ -208,13 +213,11 @@ namespace Pg::Graphics
 
 		//FadeIn-Out 관리.	
 		{
+			UpdateFadeLogic();
+
 			_carrier->_toSendSRVToEngine = _carrier->_PPSwitch1->GetSRV();
 			_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_PPSwitch1->GetRTV()), nullptr);
-			
-			//static float t = 0.f;
-			//t += 0.1f;
-			//float val = fabs(sin(t));
-			_fadeInOutPass->Render(1.0f, _carrier, _carrier->_PPSwitch2->GetSRV());
+			_fadeInOutPass->Render(_fadeEffectSourceRatio, _carrier, _carrier->_PPSwitch2->GetSRV());
 		}
 	}
 
@@ -240,11 +243,42 @@ namespace Pg::Graphics
 		}
 	}
 
-	
-	
+	void PPFinalRenderer::Effect_FadeIn()
+	{
+		_isFadingIn = true;
+		_isFadingOut = false;
+	}
 
+	void PPFinalRenderer::Effect_FadeOut()
+	{
+		_isFadingOut = true;
+		_isFadingIn = false;
+	}
 
-	
+	void PPFinalRenderer::UpdateFadeLogic()
+	{
+		if (_isFadingIn)
+		{
+			_fadeEffectSourceRatio += _timeSystem->GetDeltaTime();
+			if (_fadeEffectSourceRatio >= 1.0f)
+			{
+				_fadeEffectSourceRatio = 1.0f;
+				_isFadingIn = false;
+			}
+		}
+		else if (_isFadingOut)
+		{
+			_fadeEffectSourceRatio -= _timeSystem->GetDeltaTime();
+			if (_fadeEffectSourceRatio <= 0.f)
+			{
+				_fadeEffectSourceRatio = 0.f;
+				_isFadingOut = false;
+			}
+		}
+
+		//0-1로 한정. 필요 없겠지만 추가로 작성.
+		_fadeEffectSourceRatio = std::clamp<float>(_fadeEffectSourceRatio, 0.f, 1.f);
+	}
 	
 
 }

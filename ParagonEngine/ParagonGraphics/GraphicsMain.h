@@ -63,6 +63,7 @@ namespace Pg::Graphics
 
 	class GraphicsMain : public Pg::Core::IGraphics
 	{
+		friend class GraphicsApiExporter;
 	public:
 		PARAGON_GRAPHICS_DLL GraphicsMain(Pg::Core::ProcessMain* core);
 		virtual ~GraphicsMain();

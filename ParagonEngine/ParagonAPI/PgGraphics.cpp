@@ -116,4 +116,14 @@ namespace Pg::API::Graphics
 		_graphicsApiExporter->Material_SetFloat4PS(renderMat, varName, value);
 	}
 
+	void PgGraphics::ScreenSpace_FadeIn()
+	{
+		_graphicsApiExporter->ScreenSpace_FadeIn();
+	}
+
+	void PgGraphics::ScreenSpace_FadeOut()
+	{
+		_graphicsApiExporter->ScreenSpace_FadeOut();
+	}
+
 }

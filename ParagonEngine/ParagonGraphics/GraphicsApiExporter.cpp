@@ -2,7 +2,9 @@
 #include "GraphicsMain.h"
 #include "VisualEffectRenderer.h"
 #include "GraphicsResourceManager.h"
+#include "ParagonRenderer.h"
 #include "RenderMaterial.h"
+#include "PPFinalRenderer.h"
 
 #include "../ParagonUtil/Log.h"
 #include "../ParagonData/AssetDefines.h"
@@ -159,5 +161,16 @@ namespace Pg::Graphics
 		DirectX::XMFLOAT4 tValue = Pg::Math::PG2XM_FLOAT4(value);
 		tRenderMat->SetFloat4PS(varName, tValue);
 	}
+
+	void GraphicsApiExporter::ScreenSpace_FadeIn()
+	{
+		_graphicsMain->_renderer->_finalRenderer->Effect_FadeIn();
+	}
+
+	void GraphicsApiExporter::ScreenSpace_FadeOut()
+	{
+		_graphicsMain->_renderer->_finalRenderer->Effect_FadeOut();
+	}
+
 }
 

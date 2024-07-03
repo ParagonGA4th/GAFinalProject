@@ -56,6 +56,9 @@ namespace Pg::Graphics
 
 		//PostProcessing 껐다키는 것도 여기에서 할 수 있어야.
 		//Ex. DXTK's DualPostProcessing 같은 걸로 인 & 아웃.
+		PARAGON_GRAPHICS_DLL void ScreenSpace_FadeIn();
+		PARAGON_GRAPHICS_DLL void ScreenSpace_FadeOut();
+
 
 	private:
 		GraphicsMain* _graphicsMain{ nullptr };
