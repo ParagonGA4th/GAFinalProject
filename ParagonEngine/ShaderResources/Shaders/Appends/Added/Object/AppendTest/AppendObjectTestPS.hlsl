@@ -2,6 +2,7 @@
 
 //Append Shader에 쓰일 셰이더 Commons
 #include "../../../Libraries/Appends_PSCommon.hlsli"
+#include "../../../Libraries/MathFunctions/Appends_UVFunctions.hlsli"
 
 //상수버퍼는 무조건 b8에서 시작. 
 cbuffer cbAppendsObject : register(b8)
@@ -29,7 +30,9 @@ POutQuad main(VOutQuad pin)
     }
     else
     {
-        res.Output = t2_DiffuseTexture2.Sample(defaultTextureSS, GetUV_F2(pin.UV));
+        float2 tUVF2 = GetUV_F2(pin.UV);
+        tUVF2 = TileUV(tUVF2, float2(1, 1), float2(gCBuf_RadianTimeLoop, 0));
+        res.Output = t2_DiffuseTexture2.Sample(defaultTextureSS, tUVF2);
     }
     
     //Pseudo-Fog Test.

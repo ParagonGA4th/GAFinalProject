@@ -13,15 +13,19 @@
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/GameConstantData.h"
+#include "../ParagonUtil/TimeSystem.h"
 
 #include <algorithm> 
 #include <cmath> 
+#include <limits>
+#include <singleton-cpp/singleton.h>
 
 namespace Pg::Graphics
 {
 	SceneInformationSender::SceneInformationSender()
 	{
 		_DXStorage = LowDX11Storage::GetInstance();
+		_timeSystem = &singleton<Pg::Util::Time::TimeSystem>();
 	}
 
 	SceneInformationSender::~SceneInformationSender()
@@ -57,6 +61,12 @@ namespace Pg::Graphics
 		_cbSceneInfo->GetDataStruct()->gCBuf_InvViewMatrix = DirectX::XMMatrixInverse(nullptr, _cbSceneInfo->GetDataStruct()->gCBuf_ViewMatrix);
 
 		_cbSceneInfo->GetDataStruct()->gCBuf_ScreenWidthHeight = { (float)Pg::Data::GameConstantData::WIDTH, (float)Pg::Data::GameConstantData::HEIGHT };
+
+		//gCBuf_RadianTimeLoop
+		_currentRecordDegrees += _timeSystem->GetDeltaTime();
+		_currentRecordDegrees = fmod(_currentRecordDegrees, 360.f);
+		_cbSceneInfo->GetDataStruct()->gCBuf_RadianTimeLoop = DirectX::XMConvertToRadians(_currentRecordDegrees);
+
 		_cbSceneInfo->GetDataStruct()->gCBuf_EyePosition = PG2XM_FLOAT3(_savedCamData->_position);
 		_cbSceneInfo->GetDataStruct()->gCBuf_IsSceneUseLightmap = _savedSceneInfo->_isUseLightmap;
 
@@ -155,16 +165,16 @@ namespace Pg::Graphics
 
 
 
-		////Camera World 행렬
-		//{
-		//	DirectX::XMVECTOR tPos = XMVectorSet(tNew)
-		//}
+			////Camera World 행렬
+			//{
+			//	DirectX::XMVECTOR tPos = XMVectorSet(tNew)
+			//}
 
 
 
 
-			//LightView를 다르게 넣는 것과 더해,
-			//추가된 MainLightDir / Radiance를 옮겨야 한다.
+				//LightView를 다르게 넣는 것과 더해,
+				//추가된 MainLightDir / Radiance를 옮겨야 한다.
 			_cbRenderingInfo->GetDataStruct()->_indep_MainLightDir = PG2XM_FLOAT3(tForwardDir);
 			_cbRenderingInfo->GetDataStruct()->_indep_MainLightRadiance = tMainLightRadiance;
 

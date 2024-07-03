@@ -74,33 +74,37 @@ namespace Pg::DataScript
 
 		_pgTween->KillAllTweens();
 
-		//현재 Handler Bundle 받는다. 2D Scene일 경우 nullptr.
-		SetCurrentHandlerBundle(changedScene);
-
-		// 해당 Prop / 바뀐 배경 / 바뀐 적 오브젝트들을 모두 리셋할 수 있어야 하고,
-		// 플레이어의 스탯 및 위치를 리셋해야 하며.
-		// AreaHandler / EnemyHandler / GUIHandler (Stage1 / Stage2 맵 관리 여부 - 상관없이 인터페이스로 빼서 관리하자)
-		// 개별 Stage 별로 다르게 관리를 해야 하기에, 인터페이스로 빼는 것이 필수이다.
-		// 개별적으로 다른 UI 오브젝트들을 모으는 등, 미리 관리를 하고 있어야 한다. 이를 위해.
-		// 이를 위해 GrabManagedObjects() 가 마련되었다.
-		// Player Object까지 전체 관리.
-
-		// 초기 상태로 다시 되돌려 놓기. 씬 시작시 시점.
-		// 이런 식으로, Flow Control을 담당한다.
-		Internal_CallForEntireSceneReset(changedScene, NULL, nullptr);
-		
-		//리셋을 명시적으로 호출해줘야.
-		//옵저버 클리어만으로 전에 있던 Player / Monster / Projectile 전부 상태 관리에서 리셋된다.
-		//이미 Clear된 상태였으면 무시.
-		_combatSystem->ResetAll();
-
-		//현재 Handler가 다시 셋된 다음, CombatSystem에 레지스터.
-		if (_currentHandlerBundle3d != nullptr)
+		//테스트 목적으로 만들어진 Scene이 아니라면.
+		if ((changedScene->GetSceneName().compare("ToRemove_GraphicsTest") != 0) &&
+			(changedScene->GetSceneName().compare("ToRemove_GraphicsTest.pgscene") != 0))
 		{
-			// == 3D일때만,
-			RegisterCombatSystemUnits();
+			//현재 Handler Bundle 받는다. 2D Scene일 경우 nullptr.
+			SetCurrentHandlerBundle(changedScene);
+
+			// 해당 Prop / 바뀐 배경 / 바뀐 적 오브젝트들을 모두 리셋할 수 있어야 하고,
+			// 플레이어의 스탯 및 위치를 리셋해야 하며.
+			// AreaHandler / EnemyHandler / GUIHandler (Stage1 / Stage2 맵 관리 여부 - 상관없이 인터페이스로 빼서 관리하자)
+			// 개별 Stage 별로 다르게 관리를 해야 하기에, 인터페이스로 빼는 것이 필수이다.
+			// 개별적으로 다른 UI 오브젝트들을 모으는 등, 미리 관리를 하고 있어야 한다. 이를 위해.
+			// 이를 위해 GrabManagedObjects() 가 마련되었다.
+			// Player Object까지 전체 관리.
+
+			// 초기 상태로 다시 되돌려 놓기. 씬 시작시 시점.
+			// 이런 식으로, Flow Control을 담당한다.
+			Internal_CallForEntireSceneReset(changedScene, NULL, nullptr);
+
+			//리셋을 명시적으로 호출해줘야.
+			//옵저버 클리어만으로 전에 있던 Player / Monster / Projectile 전부 상태 관리에서 리셋된다.
+			//이미 Clear된 상태였으면 무시.
+			_combatSystem->ResetAll();
+
+			//현재 Handler가 다시 셋된 다음, CombatSystem에 레지스터.
+			if (_currentHandlerBundle3d != nullptr)
+			{
+				// == 3D일때만,
+				RegisterCombatSystemUnits();
+			}
 		}
-		
 	}
 
 	void TotalGameManager::Initialize(Pg::Data::Scene* changedScene)
@@ -138,7 +142,9 @@ namespace Pg::DataScript
 		{
 			//이름이 Sample Scene이면 스킵.
 			if ((bScene->GetSceneName().compare("SampleScene") == 0) ||
-				(bScene->GetSceneName().compare("SampleScene.pgscene") == 0))
+				(bScene->GetSceneName().compare("SampleScene.pgscene") == 0) ||
+				(bScene->GetSceneName().compare("ToRemove_GraphicsTest") == 0) ||
+				(bScene->GetSceneName().compare("ToRemove_GraphicsTest.pgscene") == 0))
 			{
 				//SampleScene이면 Handler들을 받지 않는다.
 				continue;
@@ -277,6 +283,10 @@ namespace Pg::DataScript
 		else if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyNum3))
 		{
 			_pgScene->SetCurrentScene("BossStage");
+		}
+		else if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyNum9))
+		{
+			_pgScene->SetCurrentScene("ToRemove_GraphicsTest");
 		}
 
 		//

@@ -4,6 +4,11 @@
 #include "ConstantBufferDefine.h"
 #include <memory>
 
+namespace Pg::Util
+{
+	namespace Time { class TimeSystem; }
+}
+
 namespace Pg::Graphics
 {
 	class LowDX11Storage;
@@ -45,6 +50,9 @@ namespace Pg::Graphics
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbSceneInfo>> _cbSceneInfo;
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbRenderingInfo>> _cbRenderingInfo;
 
+	private:
+		Pg::Util::Time::TimeSystem* _timeSystem{ nullptr };
+		float _currentRecordDegrees{ 0.f };
 	};
 }
 

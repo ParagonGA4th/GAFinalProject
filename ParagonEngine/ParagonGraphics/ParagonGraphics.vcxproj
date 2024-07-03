@@ -469,6 +469,7 @@
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Appends_VSCommon.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_MathFunctions.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_ShadowFunctions.hlsli" />
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_UVFunctions.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_BufferSRVRegisters.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_ObjMat.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\SamplerStates\Appends_SamplerStates.hlsli" />

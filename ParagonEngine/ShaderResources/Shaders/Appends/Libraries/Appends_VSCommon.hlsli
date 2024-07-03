@@ -5,5 +5,6 @@
 
 //System
 #include "../../System/Libraries/System_QuadLayouts.hlsli"
+#include "SceneInfo/Appends_SceneInfoVSPS.hlsli"
 
 #endif //__DEFINED_APPENDS_VS_COMMON_HLSL__
