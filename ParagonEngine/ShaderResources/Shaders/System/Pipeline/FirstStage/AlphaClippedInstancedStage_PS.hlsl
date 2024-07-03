@@ -8,8 +8,9 @@
 #include "../../../Appends/Libraries/SamplerStates/Appends_SamplerStates.hlsli"
 
 Texture2DArray<float4> AlbedoTextureArray : register(t8);
-Texture2DArray<float4> AlphaTextureArray : register(t9);
+//Texture2DArray<float4> NormalTextureArray : register(t9);
 //Texture2DArray<float4> ArmTextureArray : register(t10);
+Texture2DArray<float4> AlphaTextureArray : register(t11);
 
 const static float ALPHA_CLIPPING_THRESHOLD = 0.5f;
 
@@ -51,7 +52,8 @@ POut1st_Total main(VOut1st_Instanced input)
     //5,6,7
     //float3 tARMSampleVal = ArmTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
     //인스턴싱이라서 사용하지 않음!
-    float3 tZeroVal = float3(0.0f, 0.0f, 0.0f);
+    float3 tZeroVal = float3(1.f,1.f,1.f);
+    //float3 tZeroVal = tARMSampleVal;
     
     //ObjMat 전달.
     output.pout_ObjMatAoR.x = input.vout1st_ObjID;

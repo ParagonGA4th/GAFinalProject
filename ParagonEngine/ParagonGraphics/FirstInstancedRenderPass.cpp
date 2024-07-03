@@ -138,12 +138,13 @@ namespace Pg::Graphics
 				//메인 VS(Camera-Based) / PS 바인드. 
 				_ps->Bind();
 
+				//그냥 살려두자. Lighting Check.
 				// Albedo
 				_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(bModel->_pbrTextureArrays[0]->GetSRV()));
 				//// Normal
-				//_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(bModel->_pbrTextureArrays[1]->GetSRV()));
-				//// ARM
-				//_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(bModel->_pbrTextureArrays[2]->GetSRV()));
+				_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(bModel->_pbrTextureArrays[1]->GetSRV()));
+				// ARM
+				_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(bModel->_pbrTextureArrays[2]->GetSRV()));
 
 				//우선적으로, ConstantBuffer부터 셋한다.
 				assert(bBufferPairList->_instancedLightMapSetVec.size() <= Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING);
@@ -192,10 +193,10 @@ namespace Pg::Graphics
 				ID3D11ShaderResourceView* tNullSRV = nullptr;
 				// Albedo
 				_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &tNullSRV);
-				//// Normal
-				//_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
-				//// ARM
-				//_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
+				// Normal
+				_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
+				// ARM
+				_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
 			}
 
 			///이제 VertexBuffer가 아직도 Binding되어 있을 이 상황에서, ViewProj Switching. 값만 바꾸자.
@@ -269,12 +270,13 @@ namespace Pg::Graphics
 				//메인 VS(Camera-Based) / PS 바인드. 
 				_ps->Bind();
 
+				//라이팅 테스트 : 그냥 살려두기.
 				// Albedo
 				_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(bModel->_pbrTextureArrays[0]->GetSRV()));
-				//// Normal
-				//_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(bModel->_pbrTextureArrays[1]->GetSRV()));
-				//// ARM
-				//_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(bModel->_pbrTextureArrays[2]->GetSRV()));
+				// Normal
+				_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(bModel->_pbrTextureArrays[1]->GetSRV()));
+				// ARM
+				_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(bModel->_pbrTextureArrays[2]->GetSRV()));
 
 				//우선적으로, ConstantBuffer부터 셋한다.
 				assert(bBufferPairList->_instancedLightMapSetVec.size() <= Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING);
@@ -323,10 +325,10 @@ namespace Pg::Graphics
 				ID3D11ShaderResourceView* tNullSRV = nullptr;
 				// Albedo
 				_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &tNullSRV);
-				//// Normal
-				//_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
-				//// ARM
-				//_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
+				// Normal
+				_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
+				// ARM
+				_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
 			}
 
 			///이제 VertexBuffer가 아직도 Binding되어 있을 이 상황에서, ViewProj Switching. 값만 바꾸자.
@@ -401,8 +403,12 @@ namespace Pg::Graphics
 
 				// Albedo
 				_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(bModel->_pbrTextureArrays[0]->GetSRV()));
+				//// Normal 
+				//_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(bModel->_pbrTextureArrays[1]->GetSRV()));
+				//// ARM
+				//_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(bModel->_pbrTextureArrays[2]->GetSRV()));
 				// Alpha
-				_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(bModel->_pbrTextureArrays[3]->GetSRV()));
+				_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &(bModel->_pbrTextureArrays[3]->GetSRV()));
 
 				//우선적으로, ConstantBuffer부터 셋한다.
 				assert(bBufferPairList->_instancedLightMapSetVec.size() <= Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING);
@@ -451,6 +457,11 @@ namespace Pg::Graphics
 				ID3D11ShaderResourceView* tNullSRV = nullptr;
 				// Albedo
 				_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &tNullSRV);
+				//// Normal
+				//_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
+				//// Arm
+				//_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
+
 			}
 
 			///이제 VertexBuffer가 아직도 Binding되어 있을 이 상황에서, ViewProj Switching. 값만 바꾸자.
@@ -495,7 +506,7 @@ namespace Pg::Graphics
 				ID3D11ShaderResourceView* tNullSRV = nullptr;
 
 				// Alpha
-				_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
+				_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &tNullSRV);
 			}
 
 		}
@@ -533,8 +544,12 @@ namespace Pg::Graphics
 
 				// Albedo
 				_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(bModel->_pbrTextureArrays[0]->GetSRV()));
+				//// Normal 
+				//_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(bModel->_pbrTextureArrays[1]->GetSRV()));
+				//// ARM
+				//_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(bModel->_pbrTextureArrays[2]->GetSRV()));
 				// Alpha
-				_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(bModel->_pbrTextureArrays[3]->GetSRV()));
+				_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &(bModel->_pbrTextureArrays[3]->GetSRV()));
 
 				//우선적으로, ConstantBuffer부터 셋한다.
 				assert(bBufferPairList->_instancedLightMapSetVec.size() <= Pg::Defines::MAXIMUM_OBJECT_COUNT_PER_INSTANCING);
@@ -583,6 +598,10 @@ namespace Pg::Graphics
 				ID3D11ShaderResourceView* tNullSRV = nullptr;
 				// Albedo
 				_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &tNullSRV);
+				//// Normal
+				//_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
+				//// ARM
+				//_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
 			}
 
 			///이제 VertexBuffer가 아직도 Binding되어 있을 이 상황에서, ViewProj Switching. 값만 바꾸자.
@@ -627,7 +646,7 @@ namespace Pg::Graphics
 				ID3D11ShaderResourceView* tNullSRV = nullptr;
 
 				// Alpha
-				_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
+				_DXStorage->_deviceContext->PSSetShaderResources(11, 1, &tNullSRV);
 			}
 
 		}
