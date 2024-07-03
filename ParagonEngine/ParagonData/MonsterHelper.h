@@ -25,6 +25,7 @@ namespace Pg::Data
 		void GolemInit();
 		void StubInit();
 		void MimicInit();
+		void WaspInit();
 
 	public:
 		/// Public
@@ -46,6 +47,7 @@ namespace Pg::Data
 		Pg::Data::MiniGolem _mGolemFlag;
 		Pg::Data::Stub _stubFlag;
 		Pg::Data::Mimic _mimicFlag;
+		Pg::Data::Wasp _waspFlag;
 	};
 }
 

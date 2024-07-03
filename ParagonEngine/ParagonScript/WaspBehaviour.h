@@ -70,6 +70,7 @@ namespace Pg::DataScript
 		BEGIN_VISITABLES(Pg::DataScript::WaspBehaviour);
 		VISITABLE(int, _areaIndex);
 		VISITABLE(std::string, _cornName);
+		VISITABLE(std::string, _skillCornName);
 		END_VISITABLES;
 
 	public:
@@ -110,6 +111,9 @@ namespace Pg::DataScript
 
 		Pg::Data::GameObject* _corn;
 		Pg::Data::StaticMeshRenderer* _cornRenderer;
+
+		Pg::Data::GameObject* _skillCorn;
+		Pg::Data::StaticMeshRenderer* _skillCornRenderer;
 
 		CameraShake* _cameraShake;
 		WaspAttack* _waspAttackScript;
