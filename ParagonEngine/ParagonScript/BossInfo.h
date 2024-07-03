@@ -42,6 +42,9 @@ namespace Pg::DataScript
 		BossInfo& SetWindBlastDuration(float time) { _windBlastDuration = time; return *this; }
 		BossInfo& SetWindBlastSpeed(float speed) { _windBlastSpeed = speed; return *this; }
 		BossInfo& SetStartWindBlastDurationTime(float time) { _startWindBlastTime = time; return *this; }
+		BossInfo& SetLightSkillDurationTime(float time) { _lightSkillDuration = time; return *this; }
+		BossInfo& SetStartLightSkillTime(float time) { _startLightSkillTime = time; return *this; }
+		BossInfo& SetCurrentLightSkillTime(float time) { _currentLightSkillTime = time; return *this; }
 
 		float GetMoveSpeed() const { return _moveSpeed; }
 		float GetDashSpeed() const { return _dashSpeed; }
@@ -58,6 +61,9 @@ namespace Pg::DataScript
 		float GetWindBlastDuration() { return _windBlastDuration; }
 		float GetWindBlastSpeed() { return _windBlastSpeed; }
 		float GetStartWindBlastTime() { return _startWindBlastTime; }
+		float GetLightSkillDuration() { return _lightSkillDuration; }
+		float GetStartLightSkillTime() { return _startLightSkillTime; }
+		float GetCurrentLightSkillTime() { return _currentLightSkillTime; }
 
 		BossStatus _status; // 상태
 
@@ -84,6 +90,10 @@ namespace Pg::DataScript
 		float _windBlastDuration; //돌풍 지속 시간
 		float _windBlastSpeed; //돌풍 속도
 		float _startWindBlastTime; //돌풍 시작 시간
+
+		float _lightSkillDuration; //빛 스킬 지속 시간
+		float _startLightSkillTime; //빛 스킬 시작 시간
+		float _currentLightSkillTime; //현재 빛 스킬 시간
 	};
 }
 
