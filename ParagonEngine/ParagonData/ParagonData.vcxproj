@@ -221,7 +221,6 @@
     <ClInclude Include="Anim_Down.h" />
     <ClInclude Include="Anim_PoisonGas.h" />
     <ClInclude Include="Anim_RightArmAttack.h" />
-    <ClInclude Include="Anim_Stab.h" />
     <ClInclude Include="Anim_fWalk.h" />
     <ClInclude Include="Anim_tAttack.h" />
     <ClInclude Include="Anim_TwoArmAttack.h" />
@@ -372,7 +371,6 @@
     <ClCompile Include="Anim_Down.cpp" />
     <ClCompile Include="Anim_PoisonGas.cpp" />
     <ClCompile Include="Anim_RightArmAttack.cpp" />
-    <ClCompile Include="Anim_Stab.cpp" />
     <ClCompile Include="Anim_fWalk.cpp" />
     <ClCompile Include="Anim_tAttack.cpp" />
     <ClCompile Include="Anim_TwoArmAttack.cpp" />

@@ -61,10 +61,9 @@ namespace Pg::DataScript
 		//플레이어를 공격.
 		void Attack(bool _isAttack);
 
-		//보스의 스킬공격
-		void Skill(bool _isSkill);
-
+		//보스의 스킬 공격들.
 		void UpdateSkill();
+		void UpdatePhaseTwoSkill();
 
 		//회피하는 로직.
 		void Evade();
@@ -77,6 +76,8 @@ namespace Pg::DataScript
 
 		//피격 시 죽음.
 		void Dead();
+
+		float RandomRange(float min, float max);
 
 	public:
 		BEGIN_VISITABLES(Pg::DataScript::BossBehaviour);
@@ -101,6 +102,7 @@ namespace Pg::DataScript
 
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _windBlastAttackCol;
+		std::vector<Pg::Data::StaticBoxCollider*> _lightAttackCol;
 
 		Pg::Data::GameObject* _bossWalkSound;
 		Pg::Data::AudioSource* _walkAudio;
@@ -147,6 +149,12 @@ namespace Pg::DataScript
 		bool _isDeadInit{ false };
 
 		bool _useStormBlast{ false };
+
+		bool _useLightSkill{ false };
+
+		float _activationInterval{ 1.f }; // 각 콜라이더가 활성화되는 시간 간격
+		float _nextActivationTime{ 0.0f }; // 다음 콜라이더가 활성화될 시간
+		size_t _currentColIndex = 0;      // 현재 활성화할 콜라이더의 인덱스
 	};
 }
 

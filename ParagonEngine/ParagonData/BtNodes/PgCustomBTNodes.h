@@ -45,7 +45,6 @@
 
 //wasp
 #include "../ParagonData/Anim_Shoot.h"
-#include "../ParagonData/Anim_Stab.h"
 #include "../ParagonData/Toggle.h"
 
 //Trent

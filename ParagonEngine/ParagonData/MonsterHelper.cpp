@@ -10,6 +10,7 @@ Pg::Data::MonsterHelper::MonsterHelper(GameObject* obj)
 	GolemInit();
 	StubInit();
 	MimicInit();
+	WaspInit();
 }
 void Pg::Data::MonsterHelper::OnAnimationEnd(const std::string& justEndedAnimation)
 {
@@ -65,4 +66,9 @@ void Pg::Data::MonsterHelper::StubInit()
 void Pg::Data::MonsterHelper::MimicInit()
 {
 	_mimicFlag._isTouched = false;
+}
+
+void Pg::Data::MonsterHelper::WaspInit()
+{
+	_waspFlag._attackCount = 0;
 }
