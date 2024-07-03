@@ -32,6 +32,9 @@ void Pg::Editor::System::FileSystem::Initialize()
 	_rootPathWithFileName += "\\StolenYouth\\StolenYouth.pgproject";
 
 	_dataManager->DataLoad(_rootPathWithFileName);
+#if defined(DEBUG) | defined(_DEBUG)
+	CreateFolder();
+#endif
 
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_NEWSCENE, [&]() { NewScene(); });
 	_fileEvent->AddEvent(Pg::Editor::eEventType::_OPENSCENE, [&]() { OpenScene(); });

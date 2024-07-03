@@ -50,10 +50,10 @@ void Pg::Editor::Manager::ProcessManager::Initialize(void* hWnd)
 	_editorEvent->AddEvent(Pg::Editor::eEventType::_MOUSEPOSY, [&](void* posY) { SetEditorMousePosY(posY); });
 	_editorEvent->AddEvent(Pg::Editor::eEventType::ONPROJECTLOAD, [&]() { OnParagonProjectLoad(); });
 
-#if defined(DEBUG) | defined(_DEBUG)
 	_coreMain->OnParagonProjectLoad(_dataContainer->GetSceneList());
 	_coreMain->GetEditorAdapter()->SetSceneList(_dataContainer->GetSceneList());
 	_coreMain->GetEditorAdapter()->SetCurrentScene(_dataContainer->GetCurrentScene());
+#if defined(DEBUG) | defined(_DEBUG)
 #else
 	SetEditorMode(Pg::Data::Enums::eEditorMode::_GAME);
 #endif
