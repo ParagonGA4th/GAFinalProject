@@ -51,4 +51,10 @@ namespace Pg::Data
 	{
 		bool _isTouched;				// 플레이어가 미믹과 상호작용 했는지 
 	};
+
+	/// Wasp
+	struct Wasp
+	{
+		int _attackCount;				// 공격 횟수(스킬 사용을 위한)
+	};
 }

@@ -87,7 +87,6 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::isDash>("isDash");
 
 		_factory->registerNodeType<Node::Anim_Shoot>("Anim_Shoot");
-		_factory->registerNodeType<Node::Anim_Stab>("Anim_Stab");
 		_factory->registerNodeType<Node::Toggle>("Toggle");
 
 		_factory->registerNodeType<Node::Anim_tAttack>("Anim_tAttack");

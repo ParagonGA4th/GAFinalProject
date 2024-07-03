@@ -262,9 +262,6 @@
     <ClCompile Include="Anim_Shoot.cpp">
       <Filter>9_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Shoot</Filter>
     </ClCompile>
-    <ClCompile Include="Anim_Stab.cpp">
-      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Stab</Filter>
-    </ClCompile>
     <ClCompile Include="isChase.cpp">
       <Filter>9_BtNodes\MonsterAnim\0_PublicAnim\isChase</Filter>
     </ClCompile>
@@ -667,9 +664,6 @@
     <ClInclude Include="Anim_Shoot.h">
       <Filter>9_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Shoot</Filter>
     </ClInclude>
-    <ClInclude Include="Anim_Stab.h">
-      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Stab</Filter>
-    </ClInclude>
     <ClInclude Include="isChase.h">
       <Filter>9_BtNodes\MonsterAnim\0_PublicAnim\isChase</Filter>
     </ClInclude>
@@ -1064,9 +1058,6 @@
     </Filter>
     <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Shoot">
       <UniqueIdentifier>{ac30a1df-2006-4c4d-98a9-faf97bbca303}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Stab">
-      <UniqueIdentifier>{68f04074-20e9-452d-8389-8ec7dee021f2}</UniqueIdentifier>
     </Filter>
     <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\Wasp\Toggle">
       <UniqueIdentifier>{1ccbe4fa-57bb-42a1-9ec1-da1204785e48}</UniqueIdentifier>
