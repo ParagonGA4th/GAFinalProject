@@ -70,6 +70,8 @@ namespace Pg::Graphics::Helper
 		//Texture2DArray를 위한 확장자 .pgt2arr의 내용 String을 Vector로 바꾸어 내보낸다.
 		static void ReadPGT2ARRContents(const std::string& pgt2arrContent, std::vector<std::string>& outStringVector);
 
+		static bool IsMaterialDefaultMaterial(RenderMaterial* renderMat);
+
 		static eSizeTexture GetSizeTextureFromUINT(unsigned int width, unsigned int height);
 
 		static eTextureExtension GetTexExtFromPath(const std::string& path);
