@@ -34,7 +34,7 @@ float4 DefaultLightingOperation(float4 baseColor, float2 quadUV)
     float3 F0 = lerp(Fdielectric, baseColor.xyz, metalness);
     
     //테스트 후 다른 걸로 교체.
-    float3 lightDirArr[3] = { normalize(float3(0.3, -0.9, 0.2)), normalize(float3(-0.1, -0.95, -0.15)), normalize(float3(0.25, -0.85, -0.45))  };
+    float3 lightDirArr[3] = { normalize(float3(0.3, -0.9, 0.2)), normalize(float3(-0.1, -0.95, -0.15)), normalize(float3(0.25, -0.85, -0.45)) };
     float lightRadianceArr[3] = { firstRad, firstRad, firstRad };
     
     float3 directLighting = 0.0;
@@ -136,23 +136,23 @@ POutQuad main(VOutQuad pin)
     color = pow(color, 2.2f); // Correction.
     
     //다시 Albedo만 나오게 복귀. 이는 임시.
-    res.Output = float4(color.xyz, 1.0f);
+    //res.Output = float4(color.xyz, 1.0f);
     
     //라이트맵이 아직 없는 이 상황, 일단은 해제했음.
-   //라이트 맵을 쓰는 경우
-   //if (IsUseLightmap(pin.UV) && gCBuf_IsSceneUseLightmap)
-   //{
-   //    float4 lightColor = float4(GetLightmapRGB(pin.UV), 1.f);
-   //    lightColor *= color;
-   //    float3 x = max(0, lightColor.xyz - 0.004); //무조건 일정 이상 값을 보여주기 위해.
-   //    lightColor.xyz = (x * (6.2 * x + 0.5)) / (x * (6.2 * x + 1.7) + 0.06); // Uncharted 2 Tonemapping. 문제 있을 시 ACES Filmic으로 교체.
-   //    res.Output = lightColor;
-   //}
-   //else
-   //{
-   //     //라이트맵을 안 쓰는 경우
-   //    res.Output = float4(DefaultLightingOperation(color, pin.UV));
-   //}
+    //라이트 맵을 쓰는 경우
+    if (IsUseLightmap(pin.UV) && gCBuf_IsSceneUseLightmap)
+    {
+        float4 lightColor = float4(GetLightmapRGB(pin.UV), 1.f);
+        lightColor *= color;
+        float3 x = max(0, lightColor.xyz - 0.004); //무조건 일정 이상 값을 보여주기 위해.
+        lightColor.xyz = (x * (6.2 * x + 0.5)) / (x * (6.2 * x + 1.7) + 0.06); // Uncharted 2 Tonemapping. 문제 있을 시 ACES Filmic으로 교체.
+        res.Output = lightColor;
+    }
+    else
+    {
+        //라이트맵을 안 쓰는 경우
+        res.Output = float4(DefaultLightingOperation(color, pin.UV));
+    }
     
     //내부적으로 Saturate되어서 나온다.
    //float shadow = ShadowValue(GetPosition(pin.UV), GetNormal(pin.UV), _indep_MainLightDir);
