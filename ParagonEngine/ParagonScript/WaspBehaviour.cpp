@@ -161,7 +161,7 @@ namespace Pg::DataScript
 
 		///로직 (무조건 제일 끝에 존재해야 함)
 		UpdateAttack();
-		//UpdateSkillAttack();
+		UpdateSkillAttack();
 	}
 
 	void WaspBehaviour::Chase()
@@ -180,6 +180,7 @@ namespace Pg::DataScript
 			
 			//_isRotateToPlayer = true;
 			_isAttackStart = true;
+			
 			//공격
 			//if (_currentAttackTime >= _startAttackTime)
 			//{
@@ -316,7 +317,7 @@ namespace Pg::DataScript
 	void WaspBehaviour::UpdateSkillAttack()
 	{
 		//투사체 처리
-		if (_isAttackStart)
+		if (_isSkillStart)
 		{
 			_monsterHelper->_isPlayerinHitSpace = true;
 			_monsterHelper->_isChase = false;
