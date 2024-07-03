@@ -56,7 +56,7 @@ namespace Pg::DataScript
 	void WaspBehaviour::BeforePhysicsAwake()
 	{
 		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
-		assert(_collider != nullptr);
+		//assert(_collider != nullptr);
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
 		//_collider->SetCapsuleInfo(1.f, 1.f);
 		_collider->FreezeAxisX(true);
@@ -177,10 +177,22 @@ namespace Pg::DataScript
 
 			//애니메이션 딜레이를 위한 델타타임 체크.
 			//_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
-			
+			_monsterHelper->_isPlayerinHitSpace = true;
+			_monsterHelper->_isChase = false;
+
 			//_isRotateToPlayer = true;
-			_isAttackStart = true;
-			
+
+			if (_monsterHelper->_waspFlag._attackCount <= 1)
+			{
+				_isAttackStart = true;
+				_isSkillStart = false;
+			}
+			else
+			{
+				_isSkillStart = true;
+				_isAttackStart = false;
+			}
+
 			//공격
 			//if (_currentAttackTime >= _startAttackTime)
 			//{
@@ -206,6 +218,8 @@ namespace Pg::DataScript
 
 			_isAttackStart = false;
 			_isSkillStart = false;
+			_monsterHelper->_waspFlag._attackCount = 0;
+
 			//Attack(false);
 			//사운드 초기화
 			//_isAttackSoundPlaying = false;
@@ -243,10 +257,7 @@ namespace Pg::DataScript
 		//투사체 처리
 		if (_isAttackStart)
 		{
-			_monsterHelper->_isPlayerinHitSpace = true;
-			_monsterHelper->_isChase = false;
-
-			_waspInfo->SetCurrentAttackTime(_waspInfo->GetCurrentAttackTime() +_pgTime->GetDeltaTime());
+			_waspInfo->SetCurrentAttackTime(_waspInfo->GetCurrentAttackTime() + _pgTime->GetDeltaTime());
 
 			if (_waspInfo->GetCurrentAttackTime() > _waspInfo->GetStartAttackTime())
 			{
@@ -256,7 +267,7 @@ namespace Pg::DataScript
 				forwardDir.y = 0;
 				forwardDir.x = 0;
 				forwardDir = Pg::Math::PGFloat3Normalize(forwardDir);
-				
+
 				if (_waspInfo->GetCurrentAttackTime() < _waspInfo->GetAttackDuration())
 				{
 					//추적 멈춤
@@ -302,7 +313,7 @@ namespace Pg::DataScript
 						iter->SetActive(false);
 						iter->_object->_transform._position = { 0.f, 0.f, 1.f };
 					}
-					
+
 					_cornRenderer->SetActive(false);
 
 					_isAttackStart = false;
@@ -319,9 +330,6 @@ namespace Pg::DataScript
 		//투사체 처리
 		if (_isSkillStart)
 		{
-			_monsterHelper->_isPlayerinHitSpace = true;
-			_monsterHelper->_isChase = false;
-
 			_waspInfo->SetCurrentSkillTime(_waspInfo->GetCurrentSkillTime() + _pgTime->GetDeltaTime());
 
 			if (_waspInfo->GetCurrentSkillTime() > _waspInfo->GetStartSkillTime())
