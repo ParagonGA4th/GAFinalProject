@@ -43,7 +43,7 @@ namespace Pg::Graphics::Loader
 		void LoadDefaultRenderMaterial(const std::string& defInstMatName, RenderMaterial* renderMat);
 	
 		//Material Parser 내부의 Material ID Remapping (씬이 바뀔 게임) 전체!
-		void RemapMaterialIdAll();
+		void RemapMaterialIdForUninitMaterials();
 
 		//중간에 추가되는 Material Parser 내부의 Material ID 일부 매핑, 추가만!
 		void RemapAppendedMatID();

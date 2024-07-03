@@ -1,5 +1,6 @@
 #pragma once
 #include "ScriptInterface.h"
+#include "../ParagonData/VisualEffectRenderObject.h"
 #include <visit_struct/visit_struct.hpp>
 
 namespace Pg::Data
@@ -10,10 +11,9 @@ namespace Pg::Data
 
 namespace Pg::API
 {
-	namespace Time
-	{
-		class PgTime;
-	}
+	namespace Input { class PgInput; }
+	namespace Time { class PgTime; }
+	namespace Graphics { class PgGraphics; }
 }
 
 namespace Pg::DataScript
@@ -30,6 +30,12 @@ namespace Pg::DataScript
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;
+
+	private:
+		Pg::API::Graphics::PgGraphics* _pgGraphics;
+		Pg::API::Input::PgInput* _pgInput;
+
+		Pg::Data::VisualEffectRenderObject* tObj{ nullptr };
 	};
 }
 

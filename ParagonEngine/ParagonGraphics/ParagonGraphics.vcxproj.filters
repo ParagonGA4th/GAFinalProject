@@ -208,9 +208,6 @@
     <ClInclude Include="FirstStaticRenderPass.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\2_FirstStaticRenderPass</Filter>
     </ClInclude>
-    <ClInclude Include="OpaqueQuadRenderPass.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicsSceneParser.h">
       <Filter>8_Helpers\GraphicsSceneParser</Filter>
     </ClInclude>
@@ -357,6 +354,12 @@
     </ClInclude>
     <ClInclude Include="ScrollingBackground.h">
       <Filter>8_Helpers\VisualEffectRenderer\DXTKAddon</Filter>
+    </ClInclude>
+    <ClInclude Include="OpaqueQuadRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass\OpaqueQuadRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultQuadRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass\DefaultQuadRenderPass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -531,9 +534,6 @@
     <ClCompile Include="FirstStaticRenderPass.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\2_FirstStaticRenderPass</Filter>
     </ClCompile>
-    <ClCompile Include="OpaqueQuadRenderPass.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicsSceneParser.cpp">
       <Filter>8_Helpers\GraphicsSceneParser</Filter>
     </ClCompile>
@@ -644,6 +644,12 @@
     </ClCompile>
     <ClCompile Include="SpriteEffect2D.cpp">
       <Filter>8_Helpers\VisualEffectRenderer\IEffect\2D\SpriteEffect2D</Filter>
+    </ClCompile>
+    <ClCompile Include="OpaqueQuadRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass\OpaqueQuadRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultQuadRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass\DefaultQuadRenderPass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1114,6 +1120,12 @@
     </Filter>
     <Filter Include="8_Helpers\VisualEffectRenderer\DXTKAddon">
       <UniqueIdentifier>{fa1d6b11-3c23-466a-ba68-2efe5ecca49b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass\DefaultQuadRenderPass">
+      <UniqueIdentifier>{0594f9a0-43c2-4b38-a503-9d6c0316c8a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass\OpaqueQuadRenderPass">
+      <UniqueIdentifier>{4e4ed402-2001-4e59-8abf-ef58874576f2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

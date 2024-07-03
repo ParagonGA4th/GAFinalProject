@@ -2,6 +2,7 @@
 #include "LowDX11Storage.h"
 #include "LayoutDefine.h"
 #include "GraphicsResourceManager.h"
+#include "GraphicsResourceHelper.h"
 #include "RenderMaterial.h"
 #include "RenderCubemap.h"
 #include "RenderTexture2D.h"
@@ -18,6 +19,7 @@
 #include "FirstSkinnedRenderPass.h"
 #include "OpaqueQuadRenderPass.h"
 #include "OpaqueShadowRenderPass.h"
+#include "DefaultQuadRenderPass.h"
 #include "FinalRenderPass.h"
 
 #include "../ParagonData/GameObject.h"
@@ -97,8 +99,8 @@ namespace Pg::Graphics
 		//여기서 하는 것은, 이제 원래로 다시 Viewport를 돌려놓기.
 		_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_defaultViewport));
 
-
 		SendPBRBufferSRVs();
+		RenderDefaultQuadPass(renderObjectList, camData);
 		RenderOpaqueQuadPasses(renderObjectList, camData);
 	}
 
@@ -124,6 +126,9 @@ namespace Pg::Graphics
 
 		//6. OpaqueShadowRenderPass.
 		_opaqueShadowPass = std::make_unique<OpaqueShadowRenderPass>();
+
+		//Default Pass.
+		_defaultQuadRenderPass = std::make_unique<DefaultQuadRenderPass>();
 	}
 
 	void DeferredRenderer::SetupOpaqueQuadRenderPasses()
@@ -144,13 +149,18 @@ namespace Pg::Graphics
 		//N개의 Material이 있으면, N개의 Pass가 만들어진다.
 		using Pg::Graphics::Manager::GraphicsResourceManager;
 		auto tMatVec = GraphicsResourceManager::Instance()->GetAllResourcesByDefine(Data::Enums::eAssetDefine::_RENDERMATERIAL);
+
 		for (auto& it : tMatVec)
 		{
 			RenderMaterial* tRM = static_cast<RenderMaterial*>(it.get());
 			assert(tRM != nullptr);
 
-			if (!tRM->GetIsUseAlphaBlending())
+			bool tIsDefaultMaterial = Pg::Graphics::Helper::GraphicsResourceHelper::IsMaterialDefaultMaterial(tRM);
+
+			//Default Material이 아닐 때만 이렇게 처리한다는 말이다.
+			if ((!tRM->GetIsUseAlphaBlending()) && (!tIsDefaultMaterial))
 			{
+				assert((tRM->GetMaterialID() != 0) && (tRM->GetMaterialID() != 1));
 				_opaqueQuadPassesVector.push_back(new OpaqueQuadRenderPass(tRM));
 			}
 		}
@@ -162,8 +172,8 @@ namespace Pg::Graphics
 		_firstStaticRenderPass->Initialize();
 		_firstSkinnedRenderPass->Initialize();
 		_sceneInformationSender->Initialize();
-
 		_opaqueShadowPass->Initialize();
+		_defaultQuadRenderPass->Initialize();
 	}
 
 	void DeferredRenderer::InitializeResettablePasses()
@@ -266,7 +276,7 @@ namespace Pg::Graphics
 		_sceneInformationSender->ReceiveData(*infoList);
 	}
 
-	void DeferredRenderer::RenderOpaqueQuadPasses(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	void DeferredRenderer::RenderDefaultQuadPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
 	{
 		//Opaque Quad 전용 RTV / DSV 클리어.
 		_DXStorage->_deviceContext->ClearDepthStencilView(_opaqueQuadDSV->GetDSV(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0.0f);
@@ -274,6 +284,17 @@ namespace Pg::Graphics
 
 		//Opaque Quad에서 사용되는 정보들 캐리어에 투입.
 		_carrier->_dsv = _opaqueQuadDSV->GetDSV();
+
+		_defaultQuadRenderPass->ReceiveRequiredElements(*_carrier);
+		_defaultQuadRenderPass->BindPass();
+		_defaultQuadRenderPass->RenderPass(renderObjectList, camData);
+		_defaultQuadRenderPass->UnbindPass();
+		_defaultQuadRenderPass->ExecuteNextRenderRequirements();
+		_defaultQuadRenderPass->PassNextRequirements(*_carrier);
+	}
+
+	void DeferredRenderer::RenderOpaqueQuadPasses(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData)
+	{
 
 		//Opaque Quad Render Pass 
 		for (int i = 0; i < _opaqueQuadPassesVector.size(); i++)
@@ -507,7 +528,6 @@ namespace Pg::Graphics
 		_DXStorage->_deviceContext->PSSetShaderResources(23, 1, &(_carrier->_mainLightGBufDSV->GetSRV()));
 		_DXStorage->_deviceContext->PSSetShaderResources(24, 1, &(_carrier->_gBufRequiredInfoDSV->GetSRV()));
 	}
-
 }
 
 

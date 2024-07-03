@@ -111,7 +111,7 @@ namespace Pg::Graphics
 		RenderPixelShader* _pixelShader;
 
 		//렌더가 되면서 새로 Opaque Material ID가 부여된다.
-		unsigned int _materialID;
+		unsigned int _materialID{ 1 }; //1로 시작.
 
 		//외부에서 Scene이 시작되었을 때 마킹됨.
 		RenderMaterial::eInitState _initState{ RenderMaterial::eInitState::_NONE };

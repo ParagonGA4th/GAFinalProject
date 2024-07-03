@@ -46,7 +46,6 @@ namespace Pg::Graphics::Loader
 		//일괄적으로 정해진 때에서 3DList를 받아오기.
 		//Object / Material ID 당연히 개별로 가져와야 할 것이다.
 		void LoadObjMatTRSBufferInstanced(ID3D11Buffer*& vb, const std::vector<RenderObjectInstancedMesh3D*>& instancedMeshList);
-
 	private:
 		std::unique_ptr<Assimp::Importer>_importer;
 	};
