@@ -49,55 +49,83 @@ namespace Pg::Graphics
 		//intrinsic->_cbBufferSize = 0;
 	}
 
-	void MaterialParser::RemapMaterialIdAll()
+	void MaterialParser::RemapMaterialIdForUninitMaterials()
 	{
 		//다시 부여를 해야 하니 값을 리셋.
-		this->_matIdRecord = 1;
-		auto tMatVec = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetAllResourcesByDefine(Data::Enums::eAssetDefine::_RENDERMATERIAL);
+		using Pg::Graphics::Manager::GraphicsResourceManager;
+		using Pg::Graphics::Helper::GraphicsResourceHelper;
+
+		//더 이상 RenderMat들을 리셋하지 않는다.
+		//그저, 필요한 만큼만 렌더 + Material 추가될수록 ++로 등록하기 위해.
+		auto tMatVec = GraphicsResourceManager::Instance()->GetAllResourcesByDefine(Data::Enums::eAssetDefine::_RENDERMATERIAL);
 
 		for (auto& it : tMatVec)
 		{
 			//참조라 재할당 가능.
 			RenderMaterial* tRenderMat = static_cast<RenderMaterial*>(it.get());
-			tRenderMat->GetMaterialID() = _matIdRecord;
-			tRenderMat->_initState = RenderMaterial::eInitState::_FROM_SCENE;
-			//겹치게 하지 않기 위해서.
-			_matIdRecord++;
+			if (tRenderMat->_initState == RenderMaterial::eInitState::_NONE)
+			{
+				if (!(GraphicsResourceHelper::IsMaterialDefaultMaterial(tRenderMat)))
+				{
+					//Custom Material일 때만 해당, 아직 초기화 안 되었을 때.
+					tRenderMat->GetMaterialID() = _matIdRecord;
+					tRenderMat->_initState = RenderMaterial::eInitState::_FROM_SCENE;
+
+					//겹치게 하지 않기 위해서.
+					_matIdRecord++;
+				}
+				else
+				{
+					//Default ID. (1)
+					tRenderMat->GetMaterialID() = 1;
+					tRenderMat->_initState = RenderMaterial::eInitState::_FROM_SCENE; // 더 이상 INIT되지 않게.
+				}
+			}
 		}
 
+		assert("");
 		//이 시점에서는, MatIdRecord가 겹치지 않는다.
 		//Appended될 기반이 될 것.
 	}
 
 	void MaterialParser::RemapAppendedMatID()
 	{
-		auto tMatVec = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetAllResourcesByDefine(Data::Enums::eAssetDefine::_RENDERMATERIAL);
-
-		for (auto& it : tMatVec)
-		{
-			//참조라 재할당 가능.
-			RenderMaterial* tRenderMat = static_cast<RenderMaterial*>(it.get());
-
-			//NONE일때만 새로운 ID를 부여.
-			if (tRenderMat->_initState == RenderMaterial::eInitState::_NONE)
-			{
-				tRenderMat->GetMaterialID() = _matIdRecord;
-				tRenderMat->_initState = RenderMaterial::eInitState::_ADDED_LATER;
-				//겹치게 하지 않기 위해서.
-				_matIdRecord++;
-			}
-		}
+		//사용하지 않음.
+		assert(false && "사용하지 않음, 게임 빌드에서는");
+		//using Pg::Graphics::Manager::GraphicsResourceManager;
+		//using Pg::Graphics::Helper::GraphicsResourceHelper;
+		//
+		//auto tMatVec = GraphicsResourceManager::Instance()->GetAllResourcesByDefine(Data::Enums::eAssetDefine::_RENDERMATERIAL);
+		//
+		//for (auto& it : tMatVec)
+		//{
+		//	//참조라 재할당 가능.
+		//	RenderMaterial* tRenderMat = static_cast<RenderMaterial*>(it.get());
+		//	bool isDefaultMat = GraphicsResourceHelper::IsMaterialDefaultMaterial(tRenderMat);
+		//	
+		//
+		//	//NONE일때만 새로운 ID를 부여.
+		//	if (tRenderMat->_initState == RenderMaterial::eInitState::_NONE)
+		//	{
+		//		tRenderMat->GetMaterialID() = _matIdRecord;
+		//		tRenderMat->_initState = RenderMaterial::eInitState::_ADDED_LATER;
+		//		//겹치게 하지 않기 위해서.
+		//		_matIdRecord++;
+		//	}
+		//}
 	}
 
 	void MaterialParser::ResetAllKnownInitStates()
 	{
-		auto tMatVec = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetAllResourcesByDefine(Data::Enums::eAssetDefine::_RENDERMATERIAL);
-
-		for (auto& it : tMatVec)
-		{
-			RenderMaterial* tRenderMat = static_cast<RenderMaterial*>(it.get());
-			tRenderMat->_initState = RenderMaterial::eInitState::_NONE;
-		}
+		//더이상 리셋하는 기능을 가지고 있으면 안됨. Default 뺴고, 앞으로 계속 추가될 것이기 때문.
+		//처음부터 리셋하는 매커니즘이 아니라, 아직 Init 안 되었으면 +하는 방식으로 되게 될 것.
+		//auto tMatVec = Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetAllResourcesByDefine(Data::Enums::eAssetDefine::_RENDERMATERIAL);
+		//
+		//for (auto& it : tMatVec)
+		//{
+		//	RenderMaterial* tRenderMat = static_cast<RenderMaterial*>(it.get());
+		//	tRenderMat->_initState = RenderMaterial::eInitState::_NONE;
+		//}
 	}
 
 	//대표적인 예시 : "test4.pgmat"

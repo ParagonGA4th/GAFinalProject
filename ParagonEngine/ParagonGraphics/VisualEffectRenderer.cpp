@@ -81,6 +81,10 @@ namespace Pg::Graphics
 		//2D일 때 예외 처리.
 		if (tVeSet->_veGraphicsSet->_effect3D != nullptr)
 		{
+			assert("");
+		}
+		else
+		{
 			//디폴트 렌더모드가 아닐 때
 			auto& tSprite2D = tVeSet->_veGraphicsSet->_spriteEffect2D;
 			if (!(tSprite2D->_isDefaultRenderMode))
@@ -130,6 +134,11 @@ namespace Pg::Graphics
 
 		for (auto& [bRenderSet, bEffectObjectVec] : _currentRenderingMap)
 		{
+			if (bEffectObjectVec.empty())
+			{
+				continue;
+			}
+
 			//Render Set & Effect Vector.
 			//여기서 상태에 따라서 Render State를 다르게 지정하는 등 시행할 수 있을 것이다.
 			DirectX::XMVECTOR tCamPos = PG2XM_FLOAT3_VECTOR(camData->_position);
@@ -159,6 +168,15 @@ namespace Pg::Graphics
 				//모두 같은 레이아웃을 3D 기준으로 사용할 것이기에, 세팅.
 				_DXStorage->_deviceContext->IASetInputLayout(bRenderSet->_veGraphicsSet->_inputLayout);
 
+				if (bRenderSet->_visualEffectData._isAlphaBlended)
+				{
+					_DXStorage->_deviceContext->OMSetBlendState(_commonStates->AlphaBlend(), NULL, 0xffffffff);
+				}
+				else
+				{
+					_DXStorage->_deviceContext->OMSetBlendState(_commonStates->NonPremultiplied(), NULL, 0xffffffff);
+				}
+
 				//Texture 투입.
 				//BasicEffect거나 / 우리가 만든 BaseCustomEffect의 자식일 수도 있다.
 				if (bBasicEffectMaybe != nullptr)
@@ -166,6 +184,7 @@ namespace Pg::Graphics
 					//DXTK의 기본적인 이펙트를 가지고 만들어졌다. DirectX::BasicEffect.
 					//무조건 한개일 것이다 이러면 Texture.
 					bBasicEffectMaybe->SetTexture(bRenderSet->_veGraphicsSet->_renderTextureVec.at(0)->GetSRV());
+					bBasicEffectMaybe->SetAlpha((bRenderSet->_visualEffectData._alphaPercentage / 100.f));
 				}
 				else
 				{
@@ -190,23 +209,50 @@ namespace Pg::Graphics
 				//3D Rendering 전담.
 				for (auto& bEffectObject : bEffectObjectVec)
 				{
+					if (!(bEffectObject->GetActive())) { continue; }
+
+					Pg::Math::PGQuaternion tFaceDir = bEffectObject->_rotation;
+					if (bRenderSet->_visualEffectData._isFaceCamera)
+					{
+						{
+							//XMVECTOR playerPosition = PG2XM_FLOAT3_VECTOR(camData->_position);
+							//XMVECTOR objectPosition = PG2XM_FLOAT3_VECTOR(bEffectObject->_position);
+							//XMVECTOR upVector = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);  // Typically, Y is up
+							//
+							//// Calculate the direction from the object to the player
+							//XMVECTOR direction = XMVectorSubtract(playerPosition, objectPosition);
+							//
+							//// Create the "look at" matrix
+							//XMMATRIX lookAtMatrix = XMMatrixLookAtLH(objectPosition, playerPosition, upVector);
+							//
+							//// Extract the rotation quaternion from the look at matrix
+							//XMVECTOR rotationQuaternion = XMQuaternionRotationMatrix(lookAtMatrix);
+							//tFaceDir = Pg::Math::XM2PG_QUATERNION(rotationQuaternion);
+						}
+						{
+							XMVECTOR playerPosition = PG2XM_FLOAT3_VECTOR(camData->_position);
+							XMVECTOR objectPosition = PG2XM_FLOAT3_VECTOR(bEffectObject->_position);
+							XMVECTOR upVector = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);  // Typically, Y is up
+
+							// Calculate the direction from the object to the player
+							//XMVECTOR vec = XMVectorSubtract(playerPosition, objectPosition);
+							XMVECTOR vec = XMVector3Normalize(XMVectorSubtract(objectPosition, playerPosition));
+
+							// Compute the quaternion that rotates the forward vector (0,0,1) to the given direction
+							XMVECTOR forward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+							XMVECTOR axis = XMVector3Cross(forward, vec);
+							float angle = acosf(XMVectorGetX(XMVector3Dot(forward, vec)));
+
+							XMVECTOR rotationQuaternion = XMQuaternionRotationAxis(axis, angle);
+							tFaceDir = Pg::Math::XM2PG_QUATERNION(rotationQuaternion);
+						}
+					}
+
 					//개별적인 Render Object 단계.
 					tWorldMat = PG2XM_MATRIX4X4(Pg::Math::PGGetWorldMatrixFromValues(
-						bEffectObject->_position, bEffectObject->_rotation, bEffectObject->_scale));
+						bEffectObject->_position, tFaceDir, bEffectObject->_scale));
 
-					//Camera Face Value.
-					if (!tIsFaceCamera)
-					{
-						tViewMat = DirectX::XMMatrixLookAtLH(
-							tCamPos, PG2XM_FLOAT3_VECTOR(bEffectObject->_position), tGlobalUp);
-					}
-					else
-					{
-						Pg::Math::PGFLOAT3 tLclRight = Pg::Math::GetRightVectorFromQuat(bEffectObject->_rotation);
-						Pg::Math::PGFLOAT3 tLclUp = Pg::Math::GetUpVectorFromQuat(bEffectObject->_rotation);
-						Pg::Math::PGFLOAT3 tLclForward = Pg::Math::GetForwardVectorFromQuat(bEffectObject->_rotation);
-						tViewMat = PG2XM_MATRIX4X4(Pg::Math::GetViewMatrixFromTransformValues(tLclRight, tLclUp, tLclForward, bEffectObject->_position));
-					}
+					tViewMat = PG2XM_MATRIX4X4(camData->_viewMatrix);
 
 					//Matrix Setting을 한다.
 					bStoreMatForm->SetMatrices(tWorldMat, tViewMat, tProjMat);
@@ -223,50 +269,63 @@ namespace Pg::Graphics
 				auto& bSpriteEffect2D = bVeSet->_spriteEffect2D;
 				auto& tEffectData = bRenderSet->_visualEffectData;
 
-				bVeSet->_spriteBatch->Begin(
-					DirectX::SpriteSortMode_BackToFront, bVeSet->_customBlendState,
-					nullptr, nullptr, nullptr, [&bVeSet]
-					{
-						bVeSet->_spriteEffect2D->SetCustomShaderInfo();
-					}
-				);
+				if (tEffectData._spriteMode == Pg::Data::_SCROLLING_BG)
+				{
+					bVeSet->_spriteBatch->Begin(
+						DirectX::SpriteSortMode_BackToFront);
 
-				if (tEffectData._spriteMode == Pg::Data::_DEFAULT)
-				{
 					for (auto& bEffectObject : bEffectObjectVec)
 					{
-						auto& tFirstTexture = bVeSet->_renderTextureVec.at(0);
-						//RECT outRect = { 0,0, tFirstTexture->GetFileWidth(), tFirstTexture->GetFileHeight() };
-
-						//기본 설정으로 그리기, Rotation / Scale 반영하지 않음.
-						bVeSet->_spriteBatch->Draw(
-							tFirstTexture->GetSRV(), DirectX::XMFLOAT2(bEffectObject->_position.x, bEffectObject->_position.y));
-					}
-				}
-				else if (tEffectData._spriteMode == Pg::Data::_SPRITE_SHEET)
-				{
-					for (auto& bEffectObject : bEffectObjectVec)
-					{
-						bVeSet->_spriteEffect2D->_animatedTexture->Update(_timeSystem->GetDeltaTime());
-						bVeSet->_spriteEffect2D->_animatedTexture->Draw(bVeSet->_spriteBatch.get(), DirectX::XMFLOAT2(bEffectObject->_position.x, bEffectObject->_position.y));
-					}
-				}
-				else if (tEffectData._spriteMode == Pg::Data::_SCROLLING_BG)
-				{
-					for (auto& bEffectObject : bEffectObjectVec)
-					{
+						if (!(bEffectObject->GetActive())) { continue; }
 						//Scroll 속도는 일단 FIX.
 						bVeSet->_spriteEffect2D->_scrollingBackground->Update(_timeSystem->GetDeltaTime() * 10.f);
 						bVeSet->_spriteEffect2D->_scrollingBackground->Draw(bVeSet->_spriteBatch.get());
 					}
+
+					bVeSet->_spriteBatch->End();
 				}
 				else
 				{
-					assert(false && "미정의");
+					bVeSet->_spriteBatch->Begin(
+						DirectX::SpriteSortMode_BackToFront, bVeSet->_customBlendState,
+						nullptr, nullptr, nullptr, [&bVeSet]
+						{
+							bVeSet->_spriteEffect2D->SetCustomShaderInfo();
+						}
+					);
+
+					if (tEffectData._spriteMode == Pg::Data::_DEFAULT)
+					{
+						for (auto& bEffectObject : bEffectObjectVec)
+						{
+							if (!(bEffectObject->GetActive())) { continue; }
+
+							auto& tFirstTexture = bVeSet->_renderTextureVec.at(0);
+							//RECT outRect = { 0,0, tFirstTexture->GetFileWidth(), tFirstTexture->GetFileHeight() };
+
+							//기본 설정으로 그리기, Rotation / Scale 반영하지 않음.
+							bVeSet->_spriteBatch->Draw(
+								tFirstTexture->GetSRV(), DirectX::XMFLOAT2(bEffectObject->_position.x, bEffectObject->_position.y));
+						}
+					}
+					else if (tEffectData._spriteMode == Pg::Data::_SPRITE_SHEET)
+					{
+						for (auto& bEffectObject : bEffectObjectVec)
+						{
+							if (!(bEffectObject->GetActive())) { continue; }
+
+							const float ACCELERATE_FACTOR = 10.f;
+							bVeSet->_spriteEffect2D->_animatedTexture->Update(_timeSystem->GetDeltaTime() * ACCELERATE_FACTOR);
+							bVeSet->_spriteEffect2D->_animatedTexture->Draw(bVeSet->_spriteBatch.get(), DirectX::XMFLOAT2(bEffectObject->_position.x, bEffectObject->_position.y));
+						}
+					}
+					else
+					{
+						assert(false && "미정의");
+					}
+
+					bVeSet->_spriteBatch->End();
 				}
-
-
-				bVeSet->_spriteBatch->End();
 			}
 			//bRenderSet->_spriteBatch->Draw();
 
