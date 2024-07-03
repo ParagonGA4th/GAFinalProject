@@ -23,6 +23,7 @@
     <ClInclude Include="AnimatedTexture.h" />
     <ClInclude Include="BaseCustomEffect.h" />
     <ClInclude Include="DefaultQuadRenderPass.h" />
+    <ClInclude Include="FadeInOutPass.h" />
     <ClInclude Include="OneTextureEffect3D.h" />
     <ClInclude Include="ScrollingBackground.h" />
     <ClInclude Include="SpriteEffect2D.h" />
@@ -169,6 +170,7 @@
   <ItemGroup>
     <ClCompile Include="AlphaBlendedTotalRenderPass.cpp" />
     <ClCompile Include="DefaultQuadRenderPass.cpp" />
+    <ClCompile Include="FadeInOutPass.cpp" />
     <ClCompile Include="OneTextureEffect3D.cpp" />
     <ClCompile Include="SpriteEffect2D.cpp" />
     <ClCompile Include="ThreeTextureEffect3D.cpp" />
