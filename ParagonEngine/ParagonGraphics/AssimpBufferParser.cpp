@@ -460,6 +460,7 @@ namespace Pg::Graphics::Helper
 					
 					std::string tTextureName;
 					std::string tFbmPart;
+					std::string tFBMPartNoExt;
 					//리소스 fbm fbx 이름 따라서 연동할 수 있게.
 					{
 						std::string tTexturePath = tAssimpTexturePath.C_Str();
@@ -468,8 +469,8 @@ namespace Pg::Graphics::Helper
 					}
 					{
 						std::filesystem::path tTempRecordingPath(directory);
-						tFbmPart = tTempRecordingPath.stem().string();
-						tFbmPart += ".fbm";
+						tFBMPartNoExt = tTempRecordingPath.stem().string();
+						tFbmPart = tFBMPartNoExt.append(".fbm");
 					}
 
 					//이전에, Directory에서 .fbx라는 파일 경로에서 TextureX가 파생되는 것이 아니라,
@@ -494,6 +495,19 @@ namespace Pg::Graphics::Helper
 						{
 							//동일 파일 이름을 가진 리소스가 있다. 기존의 "Complete" Path를 변경.
 							tCompletePath = tGraphicsResourceManager->GetResourcePathByName(tFilename, eAssetDefine::_TEXTURE2D);
+
+							//이 경우, 이미 있었다는 것인데,
+							//만약 tCompletePath에 위 tFBMPartNoExt이 안들어 있었다면 워닝 띄우자!
+							{
+								std::size_t ind = tCompletePath.find(tFBMPartNoExt); //Substring 시작 위치 찾기.
+								//만약
+								if (ind == std::string::npos)
+								{
+									//못 찾았으면 Warning 출력.
+									PG_WARN("{0} : 다른 FBX에 할당된 FBM 내부 텍스쳐, {1} 활용.", tFbmPart, tCompletePath);
+								}
+							}
+							
 						}
 						else
 						{
