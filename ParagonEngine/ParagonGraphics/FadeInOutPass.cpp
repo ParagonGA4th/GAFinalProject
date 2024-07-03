@@ -1,7 +1,6 @@
 #include "FadeInOutPass.h"
 #include "LowDX11Storage.h"
 #include "D3DCarrier.h"
-
 namespace Pg::Graphics
 {
 	FadeInOutPass::FadeInOutPass() : _DXStorage(LowDX11Storage::GetInstance())

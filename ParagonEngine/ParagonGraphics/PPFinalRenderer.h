@@ -29,6 +29,11 @@ namespace Pg::Graphics
 	class SystemVertexShader;
 }
 
+namespace Pg::Util
+{
+	namespace Time { class TimeSystem; }
+}
+
 /// <summary>
 /// 마지막으로 렌더될 요소들이 여기로 전달.
 /// 바로 MainRenderTarget으로 정보가 전달된다.
@@ -62,10 +67,23 @@ namespace Pg::Graphics
 		
 		void ConnectDefaultResources();
 
+	public:
+		//API용
+		void Effect_FadeIn();
+		void Effect_FadeOut();
+
+	private:
+		float _fadeEffectSourceRatio{ 1.f };
+		bool _isFadingIn{ false };
+		bool _isFadingOut{ false };
+
 	private:
 		void InitPostProcessingQuads();
 		void CreateStagingPickingBuffer();
 		void CreateDebugOverlayQuads(); // TO ADD.
+
+	private:
+		void UpdateFadeLogic();
 	private:
 		//PostProcessing은 전부 같은 버텍스 셰이더 활용, 이를 분리했다.
 		std::unique_ptr<SystemVertexShader> _ppSystemVertexShader;
@@ -90,6 +108,8 @@ namespace Pg::Graphics
 
 		std::unique_ptr<GBufferRender> _postProcessingBuffer1;
 		std::unique_ptr<GBufferRender> _postProcessingBuffer2;
+	
+		Pg::Util::Time::TimeSystem* _timeSystem{ nullptr };
 	};
 }
 //finalRenderer->RenderOutlineStencil();

@@ -51,6 +51,8 @@ namespace Pg::API::Graphics
 		void Material_SetFloat4VS(void* renderMat, const std::string& varName, Pg::Math::PGFLOAT4 value);
 		void Material_SetFloat4PS(void* renderMat, const std::string& varName, Pg::Math::PGFLOAT4 value);
 
+		void ScreenSpace_FadeIn();
+		void ScreenSpace_FadeOut();
 	private:
 		Pg::Graphics::GraphicsApiExporter* _graphicsApiExporter{ nullptr };
 	};

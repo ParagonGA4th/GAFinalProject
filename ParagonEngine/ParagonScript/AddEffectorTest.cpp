@@ -34,24 +34,12 @@ namespace Pg::DataScript
 	{
 		if (_pgInput->GetKeyDown(API::Input::KeyNum7))
 		{
-			_pgGraphics->Material_SetBoolPS(_ptrRenderMat, "isOne", true);
+			_pgGraphics->ScreenSpace_FadeOut();
 		}
 		else if (_pgInput->GetKeyUp(API::Input::KeyNum7))
 		{
-			_pgGraphics->Material_SetBoolPS(_ptrRenderMat, "isOne", false);
+			_pgGraphics->ScreenSpace_FadeIn();
 		}
-
-		if (_pgInput->GetKeyDown(API::Input::KeyNum8))
-		{
-			_pgGraphics->Material_SetBoolVS(_ptrRenderMat, "toggleNoise", true);
-		}
-		else if (_pgInput->GetKeyUp(API::Input::KeyNum8))
-		{
-			_pgGraphics->Material_SetBoolVS(_ptrRenderMat, "toggleNoise", false);
-		}
-
-
-			//toggleNoise
 	}
 
 	void AddEffectorTest::InUpdate_EffectTest()
@@ -77,6 +65,27 @@ namespace Pg::DataScript
 
 				tObj = nullptr;
 			}
+		}
+	}
+
+	void AddEffectorTest::InUpdate_MaterialChange()
+	{
+		if (_pgInput->GetKeyDown(API::Input::KeyNum7))
+		{
+			_pgGraphics->Material_SetBoolPS(_ptrRenderMat, "isOne", true);
+		}
+		else if (_pgInput->GetKeyUp(API::Input::KeyNum7))
+		{
+			_pgGraphics->Material_SetBoolPS(_ptrRenderMat, "isOne", false);
+		}
+
+		if (_pgInput->GetKeyDown(API::Input::KeyNum8))
+		{
+			_pgGraphics->Material_SetBoolVS(_ptrRenderMat, "toggleNoise", true);
+		}
+		else if (_pgInput->GetKeyUp(API::Input::KeyNum8))
+		{
+			_pgGraphics->Material_SetBoolVS(_ptrRenderMat, "toggleNoise", false);
 		}
 	}
 
