@@ -81,6 +81,15 @@ namespace Pg::DataScript
 					skillStaticCol->SetActive(false);
 				}
 			}
+			else if (childTag == "TAG_Light")
+			{
+				Pg::Data::StaticBoxCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (skillStaticCol != nullptr)
+				{
+					_lightAttackCol.push_back(skillStaticCol);
+					skillStaticCol->SetActive(false);
+				}
+			}
 		}
 	}
 
@@ -192,17 +201,18 @@ namespace Pg::DataScript
 					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
 						_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2 )
 					{
-						Attack(_monsterHelper->_isAnimChange);
+						//Attack(_monsterHelper->_isAnimChange);
+						_useLightSkill = true;
 					}
 					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3)
 					{
-						Attack(false);
-						_useStormBlast = true;	
+						//Attack(false);
+						//_useStormBlast = true;	
 					}
 
 					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE)
 					{
-						Attack(false);
+						//Attack(false);
 					}
 				}
 				else
@@ -214,6 +224,9 @@ namespace Pg::DataScript
 
 		//돌풍 스킬
 		UpdateSkill();
+
+		//빛기둥 스킬
+		UpdatePhaseTwoSkill();
 	}
 
 	void BossBehaviour::Chase()
@@ -336,14 +349,6 @@ namespace Pg::DataScript
 		}
 	}
 
-	void BossBehaviour::Skill(bool _isSkill)
-	{
-		//for (auto& iter : _skillAttackCol)
-		//{
-		//	iter->SetActive(_isSkill);
-		//}
-	}
-
 	void BossBehaviour::UpdateSkill()
 	{
 		// 돌풍 스킬의 이동 및 충돌 처리
@@ -394,6 +399,46 @@ namespace Pg::DataScript
 		}
 	}
 
+	void BossBehaviour::UpdatePhaseTwoSkill()
+	{
+		//빛기둥 스킬의 이동 및 충돌 처리
+		if (_useLightSkill)
+		{
+			_bossInfo->SetStartLightSkillTime(_bossInfo->GetStartLightSkillTime() + _pgTime->GetDeltaTime());
+
+			// 빛기둥 콜라이더를 임의의 위치에 순차적으로 생성
+			if (_bossInfo->GetStartLightSkillTime() >= _nextActivationTime)
+			{
+				if (_currentColIndex < _lightAttackCol.size())
+				{
+					auto& iter = _lightAttackCol[_currentColIndex];
+					iter->SetActive(true);
+
+					//BattleArea의 값에 따라 수정할 예정
+					//Pg::Math::PGFLOAT3 randomPosition = { RandomRange(), 0, RandomRange() };
+					//iter->_object->_transform._position = randomPosition;
+
+					_currentColIndex++;
+					_nextActivationTime += _activationInterval;
+				}
+			}
+			if (_bossInfo->GetStartLightSkillTime() >= _bossInfo->GetLightSkillDuration())
+			{
+				// 빛기둥 콜라이더 비활성화
+				for (auto& iter : _lightAttackCol)
+				{
+					iter->SetActive(false);
+					//iter->_object->_transform._position = { 0.f, -1000.f, 0.f }; // 비활성화 위치로 설정
+				}
+
+				_bossInfo->SetStartLightSkillTime(0.f);
+				_useLightSkill = false;
+				_currentColIndex = 0;       // 초기화
+				_nextActivationTime = 0.0f; // 초기화
+			}
+		}
+	}
+
 	void BossBehaviour::Evade()
 	{
 		// 회피 로직 구현
@@ -424,30 +469,6 @@ namespace Pg::DataScript
 			_bossInfo->SetCurrentEvadeTime(0.0f); // 현재 회피 시간을 초기화
 			_isRotatingToPlayer = true; // 다시 플레이어를 바라보도록 설정
 		}
-
-		//if (_bossInfo->GetCurrentEvadeTime() < _bossInfo->GetEvadeDuration())
-		//{
-		//	_bossInfo->_status = BossStatus::EVADE;
-
-		//	float interpolation = _bossInfo->GetEvadeSpeed() * _pgTime->GetDeltaTime();
-		//	_bossInfo->SetCurrentEvadeTime(_bossInfo->GetCurrentEvadeTime() + _pgTime->GetDeltaTime());
-
-		//	// 회피 방향 설정 (예: 플레이어의 반대 방향으로)
-		//	Pg::Math::PGFLOAT3 backwardDir = -Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
-		//	backwardDir.y = 0; // y축 이동을 막기 위해 y값을 0으로 설정
-
-		//	Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
-		//	tPosition = tPosition + backwardDir * interpolation;
-
-		//	_object->_transform._position.x = tPosition.x;
-		//	_object->_transform._position.z = tPosition.z;
-		//}
-		//else if (_bossInfo->GetCurrentEvadeTime() >= _bossInfo->GetEvadeDuration())
-		//{
-		//	_isEvading = false;
-		//	_bossInfo->SetCurrentEvadeTime(0.0f); // 현재 회피 시간을 초기화
-		//	_isRotatingToPlayer = true; // 다시 플레이어를 바라보도록 설정
-		//}
 	}
 
 	void BossBehaviour::Hit()
@@ -495,8 +516,8 @@ namespace Pg::DataScript
 
 			_isNeutralize = true;
 			_isNeutralizeInit = true;
-		}
 
+		}
 	}
 
 	void BossBehaviour::Dead()
@@ -516,5 +537,9 @@ namespace Pg::DataScript
 			_dieAudio->Play();
 			_isDeadInit = true;
 		}
+	}
+	float BossBehaviour::RandomRange(float min, float max)
+	{
+		return min + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (max - min)));
 	}
 }
