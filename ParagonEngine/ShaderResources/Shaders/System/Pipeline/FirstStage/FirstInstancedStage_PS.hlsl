@@ -8,8 +8,8 @@
 #include "../../../Appends/Libraries/SamplerStates/Appends_SamplerStates.hlsli"
 
 Texture2DArray<float4> AlbedoTextureArray : register(t8);
-//Texture2DArray<float4> NormalTextureArray : register(t9);
-//Texture2DArray<float4> ArmTextureArray : register(t10);
+Texture2DArray<float4> NormalTextureArray : register(t9);
+Texture2DArray<float4> ArmTextureArray : register(t10);
 
 POut1st_Total main(VOut1st_Instanced input)
 {
@@ -46,9 +46,10 @@ POut1st_Total main(VOut1st_Instanced input)
     
     //5,6,7
     float3 tT2UV3 = float3(input.vout1st_Tex, input.vout1st_MeshMatID);
-    //float3 tARMSampleVal = ArmTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
+    float3 tARMSampleVal = ArmTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
     //인스턴싱이라서 사용하지 않음!
-    float3 tZeroVal = float3(0.0f, 0.0f, 0.0f);
+    //float3 tZeroVal = float3(0.0f, 0.0f, 0.0f);
+    float3 tZeroVal = tARMSampleVal;
     
     //ObjMat 전달.
     output.pout_ObjMatAoR.x = input.vout1st_ObjID;
@@ -62,8 +63,8 @@ POut1st_Total main(VOut1st_Instanced input)
     //Metallic Map 전달.
     output.pout_AlbedoMetallic.w = tZeroVal.z;
     //Normal Map 전달.
-    //output.pout_NormalAlpha.xyz = NormalTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
-    output.pout_NormalAlpha.xyz = tZeroVal;
+    output.pout_NormalAlpha.xyz = NormalTextureArray.Sample(defaultTextureSS, tT2UV3).xyz;
+    //output.pout_NormalAlpha.xyz = tZeroVal;
     //Alpha를 전달하지는 않는다.
     
     return output;
