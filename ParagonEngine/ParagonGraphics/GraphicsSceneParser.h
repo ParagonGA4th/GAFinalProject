@@ -83,7 +83,7 @@ namespace Pg::Graphics
 		void ResetParser();
 		void PlacePathsFromName(const Pg::Data::Scene* const newScene);
 		void CheckForPathNameErrors(const Pg::Data::Scene* const newScene);
-		void RemapMaterialIdAll();
+		void RemapMaterialIdForUninitMaterials();
 		void ExtractMaterialPaths(const Pg::Data::Scene* const newScene);
 		void SyncRenderObjects(const Pg::Data::Scene* const newScene);
 		void SyncSceneAllLights(const Pg::Data::Scene* const newScene);

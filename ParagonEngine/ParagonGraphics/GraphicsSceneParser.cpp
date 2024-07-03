@@ -95,9 +95,9 @@ namespace Pg::Graphics
 
 		ExtractMaterialPaths(newScene);
 		SyncRenderObjects(newScene); //디폴트 매터리얼을 만들어주는 역할 역시 한다.
-		RemapMaterialIdAll();
-		SetupPrimitiveWireframeObjects(newScene);
+		RemapMaterialIdForUninitMaterials();
 		CreateAllInstancedRenderObjects(newScene); //Default Material 생성 + MaterialID Remapping + SyncRenderObject 다 끝나고, 별개로 Instanced RenderObjects 만들기.
+		SetupPrimitiveWireframeObjects(newScene);
 		SyncSceneAllLights(newScene);
 		CheckBindAdequateFunctions();
 		//이제 별도로 렌더링과 관련된 오브젝트들을 받아야 한다.
@@ -127,6 +127,8 @@ namespace Pg::Graphics
 		{
 			return;
 		}
+
+		assert(false && "여기부터 이 함수는 사용하지 않기로 했다");
 
 		//Added Objects : 미리 PlaceCorrectPath & Error Check.
 		std::for_each(_runtimeAddedObjectList.begin(), _runtimeAddedObjectList.end(), [this](Pg::Data::GameObject*& it)
@@ -261,7 +263,7 @@ namespace Pg::Graphics
 		//씬이 바뀌기 전까지는 ObjectId3dCount가 바뀌지 않을 것.
 		this->_objectId3dCount = 1;
 
-		//Material에 InitState를 전부 다 None으로 부여.
+		//Material에 InitState를 전부 다 None으로 부여. -> 이는 변경되어 이제 Initialize된 State가 아닐 떄에만 작동.
 		Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetCombinedLoader()->ResetAllKnownMatInitStates();
 
 	}
@@ -1390,10 +1392,10 @@ namespace Pg::Graphics
 		}
 	}
 
-	void GraphicsSceneParser::RemapMaterialIdAll()
+	void GraphicsSceneParser::RemapMaterialIdForUninitMaterials()
 	{
 		//실제로 이제 존재하는 모든 Material에 ID를 새로 부여.
-		Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetCombinedLoader()->RemapMaterialIdAll();
+		Pg::Graphics::Manager::GraphicsResourceManager::Instance()->GetCombinedLoader()->RemapMaterialIdForUninitMaterials();
 	}
 
 	void GraphicsSceneParser::RemapAppendedMatID()
