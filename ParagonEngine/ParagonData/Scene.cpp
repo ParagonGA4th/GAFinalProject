@@ -21,6 +21,7 @@ namespace Pg::Data
 		//Scene이 만들어질 경우 무조건 MainCamera가 오브젝트로 생성이 되어 있어야 함!
 		{
 			GameObject* cameraObject = AddObject("EditorCamera");
+			cameraObject->SetTag("TAG_EditorCamera");
 			Camera* tEditorCam = cameraObject->AddComponent<Pg::Data::Camera>();
 			cameraObject->AddComponent<Pg::Data::EditorCameraScript>();
 
