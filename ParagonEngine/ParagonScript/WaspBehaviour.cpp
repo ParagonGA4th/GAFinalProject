@@ -96,6 +96,16 @@ namespace Pg::DataScript
 	void WaspBehaviour::Awake()
 	{
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+		//코인 SetActive를 위해
+		_corn = _object->GetScene()->FindObjectWithName(_cornName);
+		_cornRenderer = _corn->GetComponent<Pg::Data::StaticMeshRenderer>();
+		_cornRenderer->SetActive(false);
+
+		//코인 SetActive를 위해
+		_skillCorn = _object->GetScene()->FindObjectWithName(_skillCornName);
+		_skillCornRenderer = _skillCorn->GetComponent<Pg::Data::StaticMeshRenderer>();
+		_skillCornRenderer->SetActive(false);
 	}
 
 	void WaspBehaviour::Start()
@@ -103,11 +113,6 @@ namespace Pg::DataScript
 		//플레이어 지정
 		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
-
-		//코인 SetActive를 위해
-		_corn = _object->GetScene()->FindObjectWithName(_cornName);
-		_cornRenderer = _corn->GetComponent<Pg::Data::StaticMeshRenderer>();
-		_cornRenderer->SetActive(false);
 
 		//AudioSource 컴포넌트 들고오기
 		//_miniGolemHit = _object->GetScene()->FindObjectWithName("MiniGolemHitSound");
@@ -179,8 +184,8 @@ namespace Pg::DataScript
 			//_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
 			
 			//_isRotateToPlayer = true;
-			_isAttackStart = true;
-			
+			//_isAttackStart = true;
+			_isSkillStart = true;
 			//공격
 			//if (_currentAttackTime >= _startAttackTime)
 			//{
@@ -338,7 +343,7 @@ namespace Pg::DataScript
 					//추적 멈춤
 					_isRotateToPlayer = false;
 
-					_cornRenderer->SetActive(true);
+					_skillCornRenderer->SetActive(true);
 
 					//자신의 rotation에 따라 날아가는 방향 맞춰서 설정.
 					if (forwardDir.z > 0)
@@ -368,7 +373,7 @@ namespace Pg::DataScript
 							iter->_object->_transform._position = { 0.f, 0.f, 1.f };
 						}
 
-						_cornRenderer->SetActive(false);
+						_skillCornRenderer->SetActive(false);
 						//_waspAttackScript->_isPlayerHit = false;
 					}
 				}
@@ -380,7 +385,7 @@ namespace Pg::DataScript
 						iter->_object->_transform._position = { 0.f, 0.f, 1.f };
 					}
 
-					_cornRenderer->SetActive(false);
+					_skillCornRenderer->SetActive(false);
 
 					_isAttackStart = false;
 					_isRotateToPlayer = true;
