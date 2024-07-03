@@ -32,7 +32,7 @@ namespace Pg::Data
 		static const char* GetFactoryKey() { return "class Pg::Data::Button"; }
 
 	public:
-		virtual void Internal_EngineAwake() override;
+		virtual void GrabManagedObjects() override;
 		virtual void Update() override;
 
 		void ClickDown();

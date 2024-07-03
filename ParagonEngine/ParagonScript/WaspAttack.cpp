@@ -19,11 +19,11 @@ namespace Pg::DataScript
 	void WaspAttack::BeforePhysicsAwake()
 	{
 		_col = _object->GetComponent<Pg::Data::StaticBoxCollider>();
+		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
 	void WaspAttack::Awake()
 	{
-		_combatSystem = CombatSystem::GetInstance(nullptr);
 
 		_corn = _object->GetScene()->FindObjectWithName(_cornName);
 		_cornRenderer = _corn->GetComponent<Pg::Data::StaticMeshRenderer>();

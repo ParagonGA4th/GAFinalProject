@@ -14,11 +14,11 @@ namespace Pg::DataScript
 	void TrentAttack::BeforePhysicsAwake()
 	{
 
+		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
 	void TrentAttack::Awake()
 	{
-		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
 	void TrentAttack::Update()

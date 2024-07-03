@@ -61,7 +61,7 @@ namespace Pg::DataScript
 
 		int _comboCount{ 0 };
 		float _time{ 0.f };
-		float _delay{ 0.3f };
+		float _delay{ 1.0f };
 	};
 }
 

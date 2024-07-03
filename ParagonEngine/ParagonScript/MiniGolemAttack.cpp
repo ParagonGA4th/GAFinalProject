@@ -15,12 +15,12 @@ namespace Pg::DataScript
 
 	void MiniGolemAttack::BeforePhysicsAwake()
 	{
-	
+		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
 	void MiniGolemAttack::Awake()
 	{
-		_combatSystem = CombatSystem::GetInstance(nullptr);
+
 	}
 
 	void MiniGolemAttack::Update()

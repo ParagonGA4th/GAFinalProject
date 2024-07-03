@@ -41,6 +41,9 @@ namespace Pg::Graphics
 		//StaticMeshRenderer 따로 포인터를 받기.
 		Pg::Data::SkinnedMeshRenderer* tSkinnedMeshRenderer = static_cast<Pg::Data::SkinnedMeshRenderer*>(GetBaseRenderer());
 
+		//일단, 포인터 받아오기.
+		ANIMATION_BLEND_SPEED_POINTER = &(tSkinnedMeshRenderer->_animBlendFactor);
+
 		//Mesh 데이터를 받기.
 		auto tModelData = GraphicsResourceManager::Instance()->GetResource(tSkinnedMeshRenderer->GetMeshFilePath(), eAssetDefine::_3DMODEL);
 		_modelData = static_cast<Asset3DModelData*>(tModelData.get());
@@ -215,7 +218,7 @@ namespace Pg::Graphics
 		if (_prevAnim != nullptr)
 		{
 			//속도 더 빨리? 그러면 Lerp Ratio 막 이만큼 더 추가해야 했을 것!
-			_blendLerpRatio += (dt * ANIMATION_BLEND_SPEED);
+			_blendLerpRatio += (dt * (*ANIMATION_BLEND_SPEED_POINTER));
 			if (_blendLerpRatio >= 1.0f)
 			{
 				//일단 한정 다시 0으로 돌린다.

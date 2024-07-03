@@ -11,6 +11,12 @@ namespace Pg::DataScript
 
 	}
 
+
+	void BossAttack::BeforePhysicsAwake()
+	{
+		_combatSystem = CombatSystem::GetInstance(nullptr);
+	}
+
 	void BossAttack::Awake()
 	{
 
@@ -18,7 +24,6 @@ namespace Pg::DataScript
 
 	void BossAttack::Start()
 	{
-		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
 	void BossAttack::Update()
