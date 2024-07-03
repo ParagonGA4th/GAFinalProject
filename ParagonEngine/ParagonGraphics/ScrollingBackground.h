@@ -82,14 +82,15 @@ namespace Pg::Graphics
 
 		void Update(float deltaY)
 		{
-			mScreenPos.y += deltaY;
+			mScreenPos.y -= deltaY;
 			mScreenPos.y = fmodf(mScreenPos.y, float(mTextureHeight));
 		}
 
 		void Reset()
 		{
 			//ScreenPos Reset.
-			mScreenPos.y = 0;
+			//mScreenPos.y = 0;
+			mScreenPos.y = mTextureHeight;
 		}
 
 		void Draw(DirectX::SpriteBatch* batch) const

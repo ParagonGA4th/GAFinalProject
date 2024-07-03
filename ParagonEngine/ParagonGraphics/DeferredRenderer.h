@@ -5,6 +5,7 @@
 #include "GBufferRender.h"
 #include "GBufferDepthStencil.h"
 #include "BaseSpecificRenderer.h"
+#include "DefaultQuadRenderPass.h"
 #include <vector>
 #include <array>
 #include <memory>
@@ -31,6 +32,7 @@ namespace Pg::Graphics
 	class SceneInformationSender;
 	class OpaqueQuadRenderPass;
 	class OpaqueShadowRenderPass;
+	class DefaultQuadRenderPass;
 }
 
 namespace Pg::Graphics
@@ -72,6 +74,7 @@ namespace Pg::Graphics
 		void RenderFirstStaticPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderFirstSkinnedPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void SendSceneInformation(SceneInformationList* infoList, Pg::Data::CameraData* camData);
+		void RenderDefaultQuadPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderOpaqueQuadPasses(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void RenderOpaqueShadowPass(RenderObject3DList* renderObjectList, Pg::Data::CameraData* camData);
 		void UnbindExpiredResources();
@@ -84,6 +87,7 @@ namespace Pg::Graphics
 		std::unique_ptr<FirstStaticRenderPass> _firstStaticRenderPass;
 		std::unique_ptr<FirstSkinnedRenderPass> _firstSkinnedRenderPass;
 		std::unique_ptr<SceneInformationSender> _sceneInformationSender;
+		std::unique_ptr<DefaultQuadRenderPass> _defaultQuadRenderPass;
 		std::vector<OpaqueQuadRenderPass*> _opaqueQuadPassesVector;
 		std::unique_ptr<OpaqueShadowRenderPass> _opaqueShadowPass;
 
