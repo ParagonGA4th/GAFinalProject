@@ -36,8 +36,8 @@ namespace Pg::Defines
 	const std::string ASSET_DEFAULT_IBL_SPECULAR_IRRADIANCE_CUBEMAP_PATH = "../Resources/Textures/Cubemaps/IBL/KloppenheimSky/KloppenheimSky_IBLMapSpecularHDR.dds";
 	const std::string ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH = "../Resources/Textures/Cubemaps/IBL/KloppenheimSky/KloppenheimSky_IBLMapBrdf.dds";
 
-	//const std::string ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH = "../Resources/Textures/room.dds";
-	const std::string ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH = "../Resources/Textures/Cubemaps/IBL/KloppenheimSky/KloppenheimSky_IBLMapDiffuseMDR.dds";
+	const std::string ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH = "../Resources/Textures/room.dds";
+	//const std::string ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH = "../Resources/Textures/Cubemaps/IBL/KloppenheimSky/KloppenheimSky_IBLMapDiffuseMDR.dds";
 
 	const std::string ASSET_DEFAULT_PRELOADED_LUT_PATH = "../Resources/Textures/LUT/Testing/TestLUT_Preloaded.jpg";
 
