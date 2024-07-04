@@ -35,6 +35,7 @@ namespace Pg::DataScript
 	private:
 		void InUpdate_EffectTest();
 		void InUpdate_MaterialChange();
+		void InUpdate_Fade();
 
 	private:
 		Pg::API::Graphics::PgGraphics* _pgGraphics;

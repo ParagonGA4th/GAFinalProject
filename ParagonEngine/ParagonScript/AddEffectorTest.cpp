@@ -32,14 +32,7 @@ namespace Pg::DataScript
 
 	void AddEffectorTest::Update()
 	{
-		if (_pgInput->GetKeyDown(API::Input::KeyNum7))
-		{
-			_pgGraphics->ScreenSpace_FadeOut();
-		}
-		else if (_pgInput->GetKeyUp(API::Input::KeyNum7))
-		{
-			_pgGraphics->ScreenSpace_FadeIn();
-		}
+		InUpdate_MaterialChange();
 	}
 
 	void AddEffectorTest::InUpdate_EffectTest()
@@ -86,6 +79,18 @@ namespace Pg::DataScript
 		else if (_pgInput->GetKeyUp(API::Input::KeyNum8))
 		{
 			_pgGraphics->Material_SetBoolVS(_ptrRenderMat, "toggleNoise", false);
+		}
+	}
+
+	void AddEffectorTest::InUpdate_Fade()
+	{
+		if (_pgInput->GetKeyDown(API::Input::KeyNum7))
+		{
+			_pgGraphics->ScreenSpace_FadeOut();
+		}
+		else if (_pgInput->GetKeyUp(API::Input::KeyNum7))
+		{
+			_pgGraphics->ScreenSpace_FadeIn();
 		}
 	}
 
