@@ -1,5 +1,6 @@
 #include "VisualEffectRenderer.h"
 #include "GraphicsResourceManager.h"
+#include "GraphicsResourceHelper.h"
 #include "LowDX11Storage.h"
 #include "../ParagonData/AssetDefines.h"
 #include <cassert>
@@ -16,6 +17,7 @@
 
 #include "GeometryGenerator.h"
 #include "LayoutDefine.h"
+#include "RenderTexture2DArray.h"
 
 #include <singleton-cpp/singleton.h>
 
@@ -346,36 +348,48 @@ namespace Pg::Graphics
 			auto& bTexture2DVector = tVisualEffectGraphicsSet->_renderTextureVec;
 			auto& bTextureInputNames = tEffectData._textureName;
 
-			//HOTFIX. 이제 Image Path Data는 우선 '^'이 들어 있는지부터 확인.
-			if (bTextureInputNames.find('^') == std::string::npos)
+			//PGT2ARR인지, 아닌지 구별해야 한다.
+			//확장자 구별.
+			if (bTextureInputNames.find(".pgt2arr") != std::string::npos)
 			{
-				//캐럿 못 찾음 - 1개만 들어있는 것.
-				//Image 데이터를 받기.
-				auto tTexture2dData = _graphicsResourceManager->GetResourceByName(bTextureInputNames, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
-				bTexture2DVector.push_back(static_cast<RenderTexture2D*>(tTexture2dData.get()));
+				//Texture2DArray 형태로 돌아옴.
+				auto tTemp = _graphicsResourceManager->GetResourceByName(bTextureInputNames, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
+				RenderTexture2DArray* tTexture2dDataArray = static_cast<RenderTexture2DArray*>(tTemp.get());
+				bTexture2DVector = tTexture2dDataArray->GetSingleRenderTexture2DArray(); //PGT2ARR에서 Texture2D 꺼내오기. 
 			}
 			else
 			{
-				std::string token;
-				std::stringstream ss(bTextureInputNames);
-				std::vector<std::string> outStringVector;
-				//Ex. "^asd.png^ase.png^asf.png" 이런 식으로 path가 존재해야 한다.
-				//전부 다 크기가 같아야 동작.
-				//캐럿을 기준으로 이미지 받아들이는 거 나누기.
-				while (std::getline(ss, token, '^'))
+				//HOTFIX. 이제 Image Path Data는 우선 '^'이 들어 있는지부터 확인.
+				if (bTextureInputNames.find('^') == std::string::npos)
 				{
-					outStringVector.push_back(token);
-				}
-
-				for (auto& it : outStringVector)
-				{
-					if (it.empty())
-					{
-						continue;
-					}
+					//캐럿 못 찾음 - 1개만 들어있는 것.
 					//Image 데이터를 받기.
-					auto tTexture2dData = _graphicsResourceManager->GetResourceByName(it, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+					auto tTexture2dData = _graphicsResourceManager->GetResourceByName(bTextureInputNames, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
 					bTexture2DVector.push_back(static_cast<RenderTexture2D*>(tTexture2dData.get()));
+				}
+				else
+				{
+					std::string token;
+					std::stringstream ss(bTextureInputNames);
+					std::vector<std::string> outStringVector;
+					//Ex. "^asd.png^ase.png^asf.png" 이런 식으로 path가 존재해야 한다.
+					//전부 다 크기가 같아야 동작.
+					//캐럿을 기준으로 이미지 받아들이는 거 나누기.
+					while (std::getline(ss, token, '^'))
+					{
+						outStringVector.push_back(token);
+					}
+
+					for (auto& it : outStringVector)
+					{
+						if (it.empty())
+						{
+							continue;
+						}
+						//Image 데이터를 받기.
+						auto tTexture2dData = _graphicsResourceManager->GetResourceByName(it, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);
+						bTexture2DVector.push_back(static_cast<RenderTexture2D*>(tTexture2dData.get()));
+					}
 				}
 			}
 
