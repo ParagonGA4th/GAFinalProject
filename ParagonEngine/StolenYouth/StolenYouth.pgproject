@@ -6,6 +6,5 @@
 		<scene>Stage2</scene>
 		<scene>BossStage</scene>
 		<scene>CreditsScene</scene>
-		<scene>ToRemove_GraphicsTest</scene>
 	</scenes>
 </proejct>
