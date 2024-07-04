@@ -213,12 +213,16 @@ namespace Pg::DataScript
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE)
 				{
-					//Attack(false);
+					Attack(false);
 				}
 			}
 			else
 			{
 				_isChasing = true;
+				_isRotatingToPlayer = true;
+				_monsterHelper->_isChase = true;
+				_monsterHelper->_isPlayerinHitSpace = false;
+				_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::IDLE;
 			}
 		}
 
