@@ -56,3 +56,4 @@
 #include "../ParagonData/isTouched.h"
 #include "../ParagonData/Anim_mAttack.h"
 #include "../ParagonData/Anim_mChase.h"
+#include "../ParagonData/Anim_ThrowCoin.h"
