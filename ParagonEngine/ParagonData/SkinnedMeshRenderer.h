@@ -39,6 +39,9 @@ namespace Pg::Data
 		std::string GetAnimation();
 		void SetAnimation(const std::string& animName, bool isLoop);
 
+		void SetAlphaPercentage(float per);
+		float GetAlphaPercentage();
+
 		//본 이름을 기반으로 Transform을 찾을 수 있다. (단, 당연히 RootNode에 상대적일 것, World 관련 행렬 따로 곱해야.)
 		Pg::Data::AnimTransform* FindAnimTransform(const std::string& animNodeName);
 	public:
@@ -60,6 +63,7 @@ namespace Pg::Data
 
 		//이것도 이제 VISITABLE에 추가되어야! 기본적으로 10 정도가 적당하나, 보스 등 일부 기준으로 더 느려야.
 		float _animBlendFactor{ 10.f }; 
+		float _alphaPercentage{ 100.f };
 	private:
 		//RenderObjectSkinnedMesh가 등록한다.
 		//return bool == 해당 함수가 성공했는지. (GraphicsSceneParser가 별도로 연결해준다)
