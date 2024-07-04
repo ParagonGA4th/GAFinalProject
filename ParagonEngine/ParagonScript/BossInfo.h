@@ -2,7 +2,7 @@
 #include "BaseMonster.h"
 #include "IEvent.h"
 
-//미니골렘의 상태
+//샤치의 상태
 enum class BossStatus
 {
 	IDLE,				// 다음 공격 패턴을 정함
@@ -17,7 +17,7 @@ enum class BossStatus
 };
 
 /// <summary>
-/// 미니골렘의 정보
+/// 샤치의 정보
 /// </summary>
 namespace Pg::DataScript
 {

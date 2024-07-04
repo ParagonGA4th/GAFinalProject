@@ -100,6 +100,8 @@ namespace Pg::DataScript
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
 		Pg::Data::CapsuleCollider* _collider;
 
+		Pg::Data::SkinnedMeshRenderer* _windRenderer;
+
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _windBlastAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _lightAttackCol;
@@ -153,7 +155,7 @@ namespace Pg::DataScript
 		bool _useLightSkill{ false };
 
 		float _activationInterval{ 1.f }; // 각 콜라이더가 활성화되는 시간 간격
-		float _nextActivationTime{ 0.0f }; // 다음 콜라이더가 활성화될 시간
+		float _nextActivationTime{ 1.0f }; // 다음 콜라이더가 활성화될 시간
 		size_t _currentColIndex = 0;      // 현재 활성화할 콜라이더의 인덱스
 	};
 }
