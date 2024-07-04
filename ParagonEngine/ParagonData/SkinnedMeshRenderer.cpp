@@ -169,8 +169,13 @@ namespace Pg::Data
 		return _findAnimTransformFunction(animNodeName);
 	}
 
-	
+	void SkinnedMeshRenderer::SetAlphaPercentage(float per)
+	{
+		_alphaPercentage = per;
+	}
 
-	
-
+	float SkinnedMeshRenderer::GetAlphaPercentage()
+	{
+		return _alphaPercentage;
+	}
 }

@@ -37,7 +37,6 @@ namespace Pg::DataScript
 
 	void WaspAttack::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
 	{
-		PG_TRACE("Player Hit!");
 		for (int i = 0; i < count; i++)
 		{
 			Pg::Data::Collider* col = _colArr[i];
@@ -45,6 +44,7 @@ namespace Pg::DataScript
 			//플레이어한테 데미지를 주어라
 			if (col->_object->GetTag() == "TAG_Player")
 			{
+				PG_TRACE("Player Hit!");
 				_combatSystem->ChangePlayerHealth(-1.f);
 				_isPlayerHit = true;
 			}

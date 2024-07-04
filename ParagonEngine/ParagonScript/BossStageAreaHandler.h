@@ -19,7 +19,7 @@ namespace Pg::DataScript
 
 	public:
 		//자신이 속한 Stage의 Area 전체 개수.
-		enum { ENTIRE_AREA_COUNT = 3 };
+		enum { ENTIRE_AREA_COUNT = 5 };
 
 	public:
 		BossStageAreaHandler(Pg::Data::GameObject* obj);

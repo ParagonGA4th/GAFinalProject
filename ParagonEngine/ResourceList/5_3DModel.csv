@@ -32,10 +32,8 @@
 ../Resources/3DModels/Monsters/wasp/mon_wasp_wing.fbx
 ../Resources/3DModels/Monsters/trent/mon_trent.fbx
 ../Resources/3DModels/Monsters/boss/mon_boss.fbx
+../Resources/3DModels/Monsters/boss/boss_effect.fbx
 ../Resources/3DModels/Monsters/mimic/mon_mimic.fbx
-../Resources/3DModels/Stage_1/norm_SM_gimic01.fbx
-../Resources/3DModels/Stage_1/norm_SM_gimic02.fbx
-../Resources/3DModels/Stage_1/SM_altar_ring.fbx
 ../Resources/3DModels/Stage_1/clip_SM_banner01.fbx
 ../Resources/3DModels/Stage_1/clip_SM_banner02.fbx
 ../Resources/3DModels/Stage_1/clip_SM_circle.fbx
@@ -134,3 +132,10 @@
 ../Resources/3DModels/Stage_2/SM_2stage_waterfull.fbx
 ../Resources/3DModels/Character/char_main.fbx
 ../Resources/3DModels/StaticMesh/CollisionWarblingShape/CollisionWarblingShape.fbx
+../Resources/3DModels/Stage_3/SM_3stage_circle.fbx
+../Resources/3DModels/Stage_3/SM_3stage_floor.fbx
+../Resources/3DModels/Stage_3/SM_3stage_ring.fbx
+../Resources/3DModels/Stage_3/SM_3stage_rock01.fbx
+../Resources/3DModels/Stage_3/SM_3stage_rock02.fbx
+../Resources/3DModels/Stage_3/SM_3stage_stonefloor.fbx
+../Resources/3DModels/Stage_3/SM_3stage_stonefloor_half.fbx
