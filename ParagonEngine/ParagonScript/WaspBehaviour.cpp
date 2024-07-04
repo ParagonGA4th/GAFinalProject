@@ -137,13 +137,6 @@ namespace Pg::DataScript
 		_distance = std::abs(std::sqrt(std::pow(_player->_transform._position.x - _object->_transform._position.x, 2)
 			+ std::pow(_player->_transform._position.z - _object->_transform._position.z, 2)));
 
-		if (_isRotateToPlayer)
-		{
-			RotateToPlayer(_playerTransform->_position);
-
-			Chase();
-		}
-
 		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
 		{
 			//´Ù ²¨Áü.
@@ -156,6 +149,14 @@ namespace Pg::DataScript
 
 			_monsterHelper->_isDead = false;
 			_monsterHelper->_isDeadDelay = false;
+		}
+		if (_monsterHelper->_isDead) return;
+
+		if (_isRotateToPlayer)
+		{
+			RotateToPlayer(_playerTransform->_position);
+
+			Chase();
 		}
 
 		if (_distance <= _waspInfo->GetSightRange())

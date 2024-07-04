@@ -352,6 +352,9 @@
     <ClCompile Include="MonsterHelper.cpp">
       <Filter>2_Component\1_Helper\MonsterHelper</Filter>
     </ClCompile>
+    <ClCompile Include="Anim_ThrowCoin.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_ThrowCoin</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -772,6 +775,9 @@
     <ClInclude Include="MonsterFlag.h">
       <Filter>2_Component\1_Helper\MonsterHelper</Filter>
     </ClInclude>
+    <ClInclude Include="Anim_ThrowCoin.h">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_ThrowCoin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -1175,6 +1181,9 @@
     </Filter>
     <Filter Include="11_Interfaces\ISortableGlobalObject">
       <UniqueIdentifier>{0033e539-be88-4991-ae25-a12a586f65ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_ThrowCoin">
+      <UniqueIdentifier>{cd3d0e33-f0aa-4472-9010-2e34abdafe3d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
