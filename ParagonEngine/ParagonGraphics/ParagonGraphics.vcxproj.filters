@@ -332,16 +332,16 @@
       <Filter>10_Structs\VisualEffectGraphicsSet</Filter>
     </ClInclude>
     <ClInclude Include="TwoTextureEffect3D.h">
-      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\TwoTextureEffect3D</Filter>
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\Static\TwoTextureEffect3D</Filter>
     </ClInclude>
     <ClInclude Include="ThreeTextureEffect3D.h">
-      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\ThreeTextureEffect3D</Filter>
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\Static\ThreeTextureEffect3D</Filter>
     </ClInclude>
     <ClInclude Include="BaseCustomEffect.h">
       <Filter>8_Helpers\VisualEffectRenderer\IEffect\BaseCustomEffect</Filter>
     </ClInclude>
     <ClInclude Include="OneTextureEffect3D.h">
-      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\OneTextureEffect3D</Filter>
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\Static\OneTextureEffect3D</Filter>
     </ClInclude>
     <ClInclude Include="DebugOverlayQuad.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\DebugOverlayQuad</Filter>
@@ -634,13 +634,13 @@
       <Filter>8_Helpers\VisualEffectRenderer</Filter>
     </ClCompile>
     <ClCompile Include="TwoTextureEffect3D.cpp">
-      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\TwoTextureEffect3D</Filter>
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\Static\TwoTextureEffect3D</Filter>
     </ClCompile>
     <ClCompile Include="ThreeTextureEffect3D.cpp">
-      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\ThreeTextureEffect3D</Filter>
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\Static\ThreeTextureEffect3D</Filter>
     </ClCompile>
     <ClCompile Include="OneTextureEffect3D.cpp">
-      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\OneTextureEffect3D</Filter>
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\Static\OneTextureEffect3D</Filter>
     </ClCompile>
     <ClCompile Include="DebugOverlayQuad.cpp">
       <Filter>0_Main\RenderPass&amp;SendReceiver\DebugOverlayQuad</Filter>
@@ -1091,15 +1091,6 @@
     <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D">
       <UniqueIdentifier>{0375b8b6-d951-4df9-a375-40a38d21f281}</UniqueIdentifier>
     </Filter>
-    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D\OneTextureEffect3D">
-      <UniqueIdentifier>{762acaa2-d97e-41ff-bb5d-fca785429bde}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D\ThreeTextureEffect3D">
-      <UniqueIdentifier>{d3ca59c5-ff97-4c1a-9dd3-e747848bf7f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D\TwoTextureEffect3D">
-      <UniqueIdentifier>{9d718686-3ca4-4bcf-8d0d-70e2659eac53}</UniqueIdentifier>
-    </Filter>
     <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\2D">
       <UniqueIdentifier>{4f162e06-5e9e-4035-85f8-00af5a210092}</UniqueIdentifier>
     </Filter>
@@ -1135,6 +1126,18 @@
     </Filter>
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\19_FadeInOutPass">
       <UniqueIdentifier>{3f71dca2-1d40-421e-b169-54367dc03a99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D\Static">
+      <UniqueIdentifier>{53e4dbfc-8be9-4d4d-89a6-66d676d3addb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D\Static\OneTextureEffect3D">
+      <UniqueIdentifier>{762acaa2-d97e-41ff-bb5d-fca785429bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D\Static\ThreeTextureEffect3D">
+      <UniqueIdentifier>{d3ca59c5-ff97-4c1a-9dd3-e747848bf7f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D\Static\TwoTextureEffect3D">
+      <UniqueIdentifier>{9d718686-3ca4-4bcf-8d0d-70e2659eac53}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -41,7 +41,11 @@ namespace Pg::Graphics
 		BaseCustomEffect* _baseCustomEffect{ nullptr };
 		//만약 BasicEffect라면, 해당 포인터가 채워져 있을 것이다.
 		DirectX::BasicEffect* _dxtkBasicEffect{ nullptr };
-
+		//BasicEffect만 시간 상 3D plane effect에 활용할 것이다.
+		bool _isBillboardAnimation{ false };
+		unsigned int _currentTextureFrame{ 0 };
+		float _recordedTime{ 0.f };
+		float _changeBaseTime{ 0.25f }; //이건 나중에 Serialize할 수 있을 수도?
 		
 	};
 }
