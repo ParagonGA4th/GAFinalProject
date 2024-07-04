@@ -183,9 +183,36 @@ namespace Pg::Graphics
 				//BasicEffect거나 / 우리가 만든 BaseCustomEffect의 자식일 수도 있다.
 				if (bBasicEffectMaybe != nullptr)
 				{
-					//DXTK의 기본적인 이펙트를 가지고 만들어졌다. DirectX::BasicEffect.
-					//무조건 한개일 것이다 이러면 Texture.
-					bBasicEffectMaybe->SetTexture(bRenderSet->_veGraphicsSet->_renderTextureVec.at(0)->GetSRV());
+					//빌보드 애니메이션 여부에 따라서 달라진다.
+					auto& bIsBillboardAnim = bRenderSet->_veGraphicsSet->_isBillboardAnimation;
+					if (bIsBillboardAnim)
+					{
+						///여기 해야 한다.
+						unsigned int tCurrentFrame = bRenderSet->_veGraphicsSet->_currentTextureFrame;
+						bBasicEffectMaybe->SetTexture(bRenderSet->_veGraphicsSet->_renderTextureVec.at(tCurrentFrame)->GetSRV());
+						
+						//Animated Logic. 
+						bRenderSet->_veGraphicsSet->_recordedTime += _timeSystem->GetDeltaTime();
+						if (bRenderSet->_veGraphicsSet->_recordedTime >= bRenderSet->_veGraphicsSet->_changeBaseTime)
+						{
+							//RecordedTime Reset.
+							bRenderSet->_veGraphicsSet->_recordedTime = 0.f;
+							if (tCurrentFrame >= bRenderSet->_veGraphicsSet->_textureSize - 1)
+							{
+								tCurrentFrame = 0;
+							}
+							else
+							{
+								tCurrentFrame++;
+							}
+						}
+					}
+					else
+					{
+						//DXTK의 기본적인 이펙트를 가지고 만들어졌다. DirectX::BasicEffect.
+						//무조건 한개일 것이다 이러면 Texture.
+						bBasicEffectMaybe->SetTexture(bRenderSet->_veGraphicsSet->_renderTextureVec.at(0)->GetSRV());
+					}
 					bBasicEffectMaybe->SetAlpha((bRenderSet->_visualEffectData._alphaPercentage / 100.f));
 				}
 				else
@@ -342,6 +369,7 @@ namespace Pg::Graphics
 		auto& tVisualEffectGraphicsSet = veSet->_veGraphicsSet;
 		auto& tEffectData = veSet->_visualEffectData;
 
+		bool _IsPGT2ARR = false;
 		//Texture : 하나인지, 여러 개인지를 알려야 한다.
 		//ImageRenderer와 동일한 방식, 다만, 이건 이름으로 반복하는 것.
 		{
@@ -349,13 +377,14 @@ namespace Pg::Graphics
 			auto& bTextureInputNames = tEffectData._textureName;
 
 			//PGT2ARR인지, 아닌지 구별해야 한다.
-			//확장자 구별.
+			//확장자 구별. -> PGT2ARR은 SpriteAnimation 용도 / 그냥 ^연속으로 기록시, One-Two-Three 시리즈.
 			if (bTextureInputNames.find(".pgt2arr") != std::string::npos)
 			{
 				//Texture2DArray 형태로 돌아옴.
 				auto tTemp = _graphicsResourceManager->GetResourceByName(bTextureInputNames, Pg::Data::Enums::eAssetDefine::_TEXTURE2DARRAY);
 				RenderTexture2DArray* tTexture2dDataArray = static_cast<RenderTexture2DArray*>(tTemp.get());
 				bTexture2DVector = tTexture2dDataArray->GetSingleRenderTexture2DArray(); //PGT2ARR에서 Texture2D 꺼내오기. 
+				_IsPGT2ARR = true;
 			}
 			else
 			{
@@ -391,6 +420,8 @@ namespace Pg::Graphics
 						bTexture2DVector.push_back(static_cast<RenderTexture2D*>(tTexture2dData.get()));
 					}
 				}
+
+				_IsPGT2ARR = false;
 			}
 
 			//사이즈 기록.
@@ -440,6 +471,9 @@ namespace Pg::Graphics
 
 						//BasicEffect이니, 이를 기록.
 						tVisualEffectGraphicsSet->_dxtkBasicEffect = tBasicEffect;
+
+						//PGT2ARR인지 기록 -> 유일하게 Billboard Sprite Animation을 서포트할 것이다.
+						tVisualEffectGraphicsSet->_isBillboardAnimation = _IsPGT2ARR;
 					}
 					break;
 					default:
@@ -454,44 +488,52 @@ namespace Pg::Graphics
 			{
 				auto& bBaseCustomEffect = tVisualEffectGraphicsSet->_baseCustomEffect;
 
-				switch (tTextureSize)
+				if (_IsPGT2ARR)
 				{
-					//Texture가 하나밖에 없다면, Basic Effect를 넣기. 그렇게 
-					case 1:
+					//이건 Support 안 할 것이다.
+					assert(false);
+				}
+				else
+				{
+					switch (tTextureSize)
 					{
-						bEffect = std::make_unique<OneTextureEffect3D>(_DXStorage->_device, veSet);
-						auto bCustom = static_cast<OneTextureEffect3D*>(bEffect.get());
-						bStoreMatrixForm = static_cast<DirectX::IEffectMatrices*>(bCustom);
+						//Texture가 하나밖에 없다면, Basic Effect를 넣기. 그렇게 
+						case 1:
+						{
+							bEffect = std::make_unique<OneTextureEffect3D>(_DXStorage->_device, veSet);
+							auto bCustom = static_cast<OneTextureEffect3D*>(bEffect.get());
+							bStoreMatrixForm = static_cast<DirectX::IEffectMatrices*>(bCustom);
 
-						//별도로 기록.
-						bBaseCustomEffect = bCustom;
-					}
-					break;
-					case 2:
-					{
-						bEffect = std::make_unique<TwoTextureEffect3D>(_DXStorage->_device, veSet);
-						auto bCustom = static_cast<TwoTextureEffect3D*>(bEffect.get());
-						bStoreMatrixForm = static_cast<DirectX::IEffectMatrices*>(bCustom);
+							//별도로 기록.
+							bBaseCustomEffect = bCustom;
+						}
+						break;
+						case 2:
+						{
+							bEffect = std::make_unique<TwoTextureEffect3D>(_DXStorage->_device, veSet);
+							auto bCustom = static_cast<TwoTextureEffect3D*>(bEffect.get());
+							bStoreMatrixForm = static_cast<DirectX::IEffectMatrices*>(bCustom);
 
-						//별도로 기록.
-						bBaseCustomEffect = bCustom;
-					}
-					break;
-					case 3:
-					{
-						bEffect = std::make_unique<ThreeTextureEffect3D>(_DXStorage->_device, veSet);
-						auto bCustom = static_cast<ThreeTextureEffect3D*>(bEffect.get());
-						bStoreMatrixForm = static_cast<DirectX::IEffectMatrices*>(bCustom);
+							//별도로 기록.
+							bBaseCustomEffect = bCustom;
+						}
+						break;
+						case 3:
+						{
+							bEffect = std::make_unique<ThreeTextureEffect3D>(_DXStorage->_device, veSet);
+							auto bCustom = static_cast<ThreeTextureEffect3D*>(bEffect.get());
+							bStoreMatrixForm = static_cast<DirectX::IEffectMatrices*>(bCustom);
 
-						//별도로 기록.
-						bBaseCustomEffect = bCustom;
+							//별도로 기록.
+							bBaseCustomEffect = bCustom;
+						}
+						break;
+						default:
+						{
+							assert(false && "4개 이상은 불가.");
+						}
+						break;
 					}
-					break;
-					default:
-					{
-						assert(false && "4개 이상은 불가.");
-					}
-					break;
 				}
 			}
 
