@@ -82,6 +82,10 @@ namespace Pg::Graphics::Loader
 			}
 
 			MultipleRenderTexture2DToTexture2DArray(tSingleRenderTexture2DArray.data(), tSingleRenderTexture2DArray.size(), outTextureData);
+
+			//이제, 기존 PGT2ARR에서 SingleRenderTexture2DArray에 포인터 이동. 별개로 RenderTexture2D들의 벡터들 형태로도 저장하는 것.
+			std::copy(tSingleRenderTexture2DArray.begin(), tSingleRenderTexture2DArray.end(), 
+				std::back_inserter(outTextureData->_singleRenderTexture2DArray));
 		}
 	}
 
