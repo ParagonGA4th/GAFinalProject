@@ -223,6 +223,7 @@
     <ClInclude Include="Anim_RightArmAttack.h" />
     <ClInclude Include="Anim_fWalk.h" />
     <ClInclude Include="Anim_tAttack.h" />
+    <ClInclude Include="Anim_ThrowCoin.h" />
     <ClInclude Include="Anim_TwoArmAttack.h" />
     <ClInclude Include="AssetDefines.h" />
     <ClInclude Include="AudioData.h" />
@@ -373,6 +374,7 @@
     <ClCompile Include="Anim_RightArmAttack.cpp" />
     <ClCompile Include="Anim_fWalk.cpp" />
     <ClCompile Include="Anim_tAttack.cpp" />
+    <ClCompile Include="Anim_ThrowCoin.cpp" />
     <ClCompile Include="Anim_TwoArmAttack.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="BaseRenderer.cpp" />

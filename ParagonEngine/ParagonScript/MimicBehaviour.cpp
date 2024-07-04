@@ -80,7 +80,7 @@ namespace Pg::DataScript
 
 		_mimicMoveSound = _pgScene->GetCurrentScene()->FindObjectWithName("MimicMoveSound");
 		_moveAudio = _mimicMoveSound->GetComponent<Pg::Data::AudioSource>();
-		
+
 		//코인 SetActive를 위해
 		_coin = _object->GetScene()->FindObjectWithName(_coinName);
 		_coinRenderer = _coin->GetComponent<Pg::Data::StaticMeshRenderer>();
@@ -127,13 +127,6 @@ namespace Pg::DataScript
 		_distance = std::abs(std::sqrt(std::pow(plTrans._position.x - _object->_transform._position.x, 2)
 			+ std::pow(plTrans._position.z - _object->_transform._position.z, 2)));
 
-		if (_isRotateToPlayer)
-		{
-			RotateToPlayer(_playerTransform->_position);
-
-			Chase();
-		}
-
 		if (_monsterHelper->_isDeadDelay && _monsterHelper->_isDead)
 		{
 			//다 꺼짐.
@@ -147,6 +140,14 @@ namespace Pg::DataScript
 			_monsterHelper->_isDead = true;
 			_monsterHelper->_isDeadDelay = false;
 		}
+		if (_monsterHelper->_isDead) return;
+
+		if (_isRotateToPlayer)
+		{
+			RotateToPlayer(_playerTransform->_position);
+
+			Chase();
+		}
 
 		// 시야 안에 들어왔을 때 쫓아가라.
 		if (_distance <= _mimicInfo->GetSightRange())
@@ -159,6 +160,8 @@ namespace Pg::DataScript
 
 		//코인 투척 스킬
 		UpdateSkill();
+
+		PG_TRACE(_monsterHelper->_isDistanceClose);
 	}
 
 	void MimicBehaviour::Idle()
@@ -184,6 +187,7 @@ namespace Pg::DataScript
 
 			// 공격 애니메이션 출력.
 			_monsterHelper->_isPlayerinHitSpace = true;
+			_monsterHelper->_isDistanceClose = true;
 
 			//공격
 			if (_currentAttackTime >= _startAttackTime)
@@ -201,6 +205,7 @@ namespace Pg::DataScript
 			_distance <= _mimicInfo->GetSkillAttackRange())
 		{
 			_useCoinThrow = true;
+			_monsterHelper->_isDistanceClose = false;
 			Attack(false);
 		}
 		else
@@ -222,7 +227,7 @@ namespace Pg::DataScript
 			_object->_transform._position.z = tPosition.z;
 
 			//사운드 재생
-			if (!_isMoving) 
+			if (!_isMoving)
 			{
 				_moveAudio->Play();
 				_isMoving = true;
@@ -352,11 +357,11 @@ namespace Pg::DataScript
 	{
 		//상태를 죽음으로 변경.
 		_mimicInfo->_status = MimicStatus::DEAD;
-		_monsterHelper->_isDead = true;		
+		_monsterHelper->_isDead = true;
 		_monsterHelper->_isPlayerinHitSpace = false;
 		_monsterHelper->_isChase = false;
 
-		if (_isMoving) 
+		if (_isMoving)
 		{
 			_moveAudio->Stop();
 		}
