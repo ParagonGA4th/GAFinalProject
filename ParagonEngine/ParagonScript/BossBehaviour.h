@@ -100,6 +100,8 @@ namespace Pg::DataScript
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
 		Pg::Data::CapsuleCollider* _collider;
 
+		Pg::Data::SkinnedMeshRenderer* _windRenderer;
+
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _windBlastAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _lightAttackCol;
