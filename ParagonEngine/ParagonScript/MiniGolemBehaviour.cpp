@@ -217,9 +217,9 @@ namespace Pg::DataScript
 			_miniGolInfo->_status = MiniGolemStatus::CHASE;
 
 			Attack(false);
+			_currentAttackTime = 0.f;
 			//사운드 초기화
 			_isAttackSoundPlaying = false;
-			_currentAttackTime = 0.f;
 
 			// 플레이어가 시야 안에 있으면
 			_monsterHelper->_isPlayerinHitSpace = false;

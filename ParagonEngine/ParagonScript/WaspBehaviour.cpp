@@ -224,6 +224,10 @@ namespace Pg::DataScript
 
 			_isAttackStart = false;
 			_isSkillStart = false;
+
+			//스킬 델타타임 초기화
+			_waspInfo->SetCurrentAttackTime(1.f);
+			_waspInfo->SetCurrentSkillTime(0.f);
 			_monsterHelper->_waspFlag._attackCount = 0;
 
 			//Attack(false);
@@ -325,7 +329,7 @@ namespace Pg::DataScript
 					_isAttackStart = false;
 					_isRotateToPlayer = true;
 					_waspAttackScript->_isPlayerHit = false;
-					_waspInfo->SetCurrentAttackTime(0.f);
+					_waspInfo->SetCurrentAttackTime(1.f);
 				}
 			}
 		}
