@@ -64,8 +64,7 @@ namespace Pg::DataScript
 		{
 			if (_player != nullptr)
 			{
-				if (_object->GetScene()->GetSceneName() == "Stage1" || 
-					_object->GetScene()->GetSceneName() == "BossStage")
+				if (_object->GetScene()->GetSceneName() != "Stage2")
 				{
 					if (_isActivated)
 					{
