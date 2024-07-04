@@ -1,6 +1,12 @@
 #pragma once
 #include "ScriptInterface.h"
 
+namespace Pg::Data
+{
+	class SkinnedMeshRenderer;
+	class GameObject;
+}
+
 namespace Pg::DataScript
 {
 	class CombatSystem;
@@ -19,6 +25,9 @@ namespace Pg::DataScript
 
 	private:
 		CombatSystem* _combatSystem{ nullptr };
+
+		Pg::Data::GameObject* _wind;
+		Pg::Data::SkinnedMeshRenderer* _windRenderer;
 	};
 }
 

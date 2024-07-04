@@ -107,6 +107,11 @@ namespace Pg::DataScript
 	{
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 
+		_windRenderer = _object->GetScene()->FindObjectWithName("BossWindBlastEffect")->
+			GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+		_windRenderer->SetActive(false);
+
 		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
@@ -166,69 +171,54 @@ namespace Pg::DataScript
 			RotateToPlayer(_playerTransform->_position);
 			_rotateToPlayerTime += _pgTime->GetDeltaTime();
 
-			if (_dashCount <= 2)
-			{
-				_monsterHelper->_bossFlag._isDash = true;
-				_isDash = true;
-				Dash();
-			}
-			else
-			{
-				_isDash = false;
-				_monsterHelper->_bossFlag._isDash = false;
-			}
-
 			if (!_isDash)
 			{
 				Chase();
 			}
-			// 3초 동안 바라본 후 돌진 시작
-			//if (_rotateToPlayerTime >= 3.0f)
-			//{
-			//	_isRotatingToPlayer = false;
-			//	_rotateToPlayerTime = 0.0f; // 타이머 초기화
+		}
 
-			//	if (!_isEvading)
-			//	{
-			//		_isDash = true;
-			//		_bossInfo->SetCurrentDashTime(0.0f); // 돌진 시간을 초기화하여 돌진 시작
-			//	}
-			//	else
-			//	{
-			//		_hasEvaded = true;
-			//		_bossInfo->SetCurrentEvadeTime(0.0f); // 회피 시간을 초기화하여 회피 시작
-			//	}
-			//}
-			if (!_isDash)
+		if (_dashCount <= 2)
+		{
+			_monsterHelper->_bossFlag._isDash = true;
+			_isDash = true;
+			Dash();
+		}
+		else
+		{
+			_isDash = false;
+			_monsterHelper->_bossFlag._isDash = false;
+		}
+
+		if (!_isDash)
+		{
+			if (_distance <= _bossInfo->GetAttackRange())
 			{
-				if (_distance <= _bossInfo->GetAttackRange())
-				{
-					_isChasing = false;
-					_monsterHelper->_isChase = false;
-					_monsterHelper->_isPlayerinHitSpace = true;
-					_monsterHelper->_bossFlag._isPase_1 = true;
+				_isChasing = false;
 
-					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
-						_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2 )
-					{
-						//Attack(_monsterHelper->_isAnimChange);
-						_useLightSkill = true;
-					}
-					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3)
-					{
-						//Attack(false);
-						//_useStormBlast = true;	
-					}
+				_monsterHelper->_isChase = false;
+				_monsterHelper->_isPlayerinHitSpace = true;
+				_monsterHelper->_bossFlag._isPase_1 = true;
 
-					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE)
-					{
-						//Attack(false);
-					}
-				}
-				else
+				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
+					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2)
 				{
-					_isChasing = true;
+					Attack(_monsterHelper->_isAnimChange);
+					//_useLightSkill = true;
 				}
+				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3)
+				{
+					Attack(false);
+					_useStormBlast = true;
+				}
+
+				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE)
+				{
+					//Attack(false);
+				}
+			}
+			else
+			{
+				_isChasing = true;
 			}
 		}
 
@@ -309,6 +299,8 @@ namespace Pg::DataScript
 		{
 			_bossInfo->_status = BossStatus::DASH;
 
+			_isRotatingToPlayer = false;
+
 			float interpolation = _bossInfo->GetDashSpeed() * _pgTime->GetDeltaTime();
 			_bossInfo->SetCurrentDashTime(_bossInfo->GetCurrentDashTime() + _pgTime->GetDeltaTime());
 
@@ -364,6 +356,8 @@ namespace Pg::DataScript
 		// 돌풍 스킬의 이동 및 충돌 처리
 		if (_useStormBlast)
 		{
+			_isRotatingToPlayer = false;
+
 			_bossInfo->SetStartWindBlastDurationTime(_bossInfo->GetStartWindBlastTime() + _pgTime->GetDeltaTime());
 
 			if (_bossInfo->GetStartWindBlastTime() < _bossInfo->GetWindBlastDuration())
@@ -374,6 +368,8 @@ namespace Pg::DataScript
 				forwardDir.y = 0;
 				forwardDir.x = 0;
 				forwardDir = Pg::Math::PGFloat3Normalize(forwardDir);
+
+				_windRenderer->SetActive(true);
 
 				if (forwardDir.z > 0)
 				{
@@ -403,6 +399,8 @@ namespace Pg::DataScript
 				}
 				
 				_useStormBlast = false;
+				_isRotatingToPlayer = true;
+				_windRenderer->SetActive(false);
 
 				_bossInfo->SetStartWindBlastDurationTime(0.f);
 			}
