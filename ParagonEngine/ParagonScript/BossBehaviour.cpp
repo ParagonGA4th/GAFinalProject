@@ -81,14 +81,24 @@ namespace Pg::DataScript
 					skillStaticCol->SetActive(false);
 				}
 			}
-			else if (childTag == "TAG_Light")
+			//else if (childTag == "TAG_Light")
+			//{
+			//	Pg::Data::StaticBoxCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+			//	if (skillStaticCol != nullptr)
+			//	{
+			//		_lightAttackCol.push_back(skillStaticCol);
+			//		skillStaticCol->SetActive(false);
+			//	}
+			//}
+		}
+
+		for (auto& iter : _object->GetScene()->FindObjectsWithTag("TAG_Light"))
+		{
+			Pg::Data::StaticBoxCollider* skillStaticCol = iter->GetComponent<Pg::Data::StaticBoxCollider>();
+			if (skillStaticCol != nullptr)
 			{
-				Pg::Data::StaticBoxCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
-				if (skillStaticCol != nullptr)
-				{
-					_lightAttackCol.push_back(skillStaticCol);
-					skillStaticCol->SetActive(false);
-				}
+				_lightAttackCol.push_back(skillStaticCol);
+				skillStaticCol->SetActive(false);
 			}
 		}
 	}
@@ -404,10 +414,10 @@ namespace Pg::DataScript
 		//빛기둥 스킬의 이동 및 충돌 처리
 		if (_useLightSkill)
 		{
-			_bossInfo->SetStartLightSkillTime(_bossInfo->GetStartLightSkillTime() + _pgTime->GetDeltaTime());
+			_bossInfo->SetCurrentLightSkillTime(_bossInfo->GetCurrentLightSkillTime() + _pgTime->GetDeltaTime());
 
 			// 빛기둥 콜라이더를 임의의 위치에 순차적으로 생성
-			if (_bossInfo->GetStartLightSkillTime() >= _nextActivationTime)
+			if (_bossInfo->GetCurrentLightSkillTime() >= _nextActivationTime)
 			{
 				if (_currentColIndex < _lightAttackCol.size())
 				{
@@ -415,23 +425,23 @@ namespace Pg::DataScript
 					iter->SetActive(true);
 
 					//BattleArea의 값에 따라 수정할 예정
-					//Pg::Math::PGFLOAT3 randomPosition = { RandomRange(), 0, RandomRange() };
-					//iter->_object->_transform._position = randomPosition;
+					Pg::Math::PGFLOAT3 randomPosition = { RandomRange(-12.f, 12.f), 0, RandomRange(-12.f,12.f) };
+					iter->_object->_transform._position = randomPosition;
 
 					_currentColIndex++;
 					_nextActivationTime += _activationInterval;
 				}
 			}
-			if (_bossInfo->GetStartLightSkillTime() >= _bossInfo->GetLightSkillDuration())
+			if (_bossInfo->GetCurrentLightSkillTime() >= _bossInfo->GetLightSkillDuration())
 			{
 				// 빛기둥 콜라이더 비활성화
 				for (auto& iter : _lightAttackCol)
 				{
 					iter->SetActive(false);
-					//iter->_object->_transform._position = { 0.f, -1000.f, 0.f }; // 비활성화 위치로 설정
+					iter->_object->_transform._position = { 0.f, -100.f, 0.f }; // 비활성화 위치로 설정
 				}
 
-				_bossInfo->SetStartLightSkillTime(0.f);
+				_bossInfo->SetCurrentLightSkillTime(0.f);
 				_useLightSkill = false;
 				_currentColIndex = 0;       // 초기화
 				_nextActivationTime = 0.0f; // 초기화
