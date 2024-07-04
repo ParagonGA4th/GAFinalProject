@@ -96,6 +96,7 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::isTouched>("isTouched");
 		_factory->registerNodeType<Node::Anim_mAttack>("Anim_mAttack");
 		_factory->registerNodeType<Node::Anim_mChase>("Anim_mChase");
+		_factory->registerNodeType<Node::Anim_ThrowCoin>("Anim_ThrowCoin");
 
 
 #pragma endregion ACTUAL_NODE_REGISTRATION
