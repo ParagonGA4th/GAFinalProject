@@ -8,6 +8,7 @@
 
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include <DirectXMath.h>
 #include <singleton-cpp/singleton.h>
 
@@ -161,7 +162,15 @@ namespace Pg::Data
 		}
 	}
 
+	void StaticMeshRenderer::SetAlphaPercentage(float per)
+	{
+		_alphaPercentage = std::clamp<float>(per, 0.f, 100.f);
+	}
 
+	float StaticMeshRenderer::GetAlphaPercentage()
+	{
+		return _alphaPercentage;
+	}
 
 
 	//void StaticMeshRenderer::Update()

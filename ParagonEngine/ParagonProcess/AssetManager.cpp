@@ -384,6 +384,10 @@ namespace Pg::Core::Manager
 
 		LoadResource(ResourceHelper::IfReleaseChangeDebugText(Pg::Defines::DEFAULT_APPENDS_RENDER_VS_PATH), eAssetDefine::_RENDER_VERTEXSHADER);
 		LoadResource(ResourceHelper::IfReleaseChangeDebugText(Pg::Defines::DEFAULT_APPENDS_RENDER_PS_PATH), eAssetDefine::_RENDER_PIXELSHADER);
+
+		LoadResource(ResourceHelper::IfReleaseChangeDebugText(Pg::Defines::DEFAULT_ALPHA_STATIC_VS_PATH), eAssetDefine::_RENDER_VERTEXSHADER);
+		LoadResource(ResourceHelper::IfReleaseChangeDebugText(Pg::Defines::DEFAULT_ALPHA_SKINNED_VS_PATH), eAssetDefine::_RENDER_VERTEXSHADER);
+		LoadResource(ResourceHelper::IfReleaseChangeDebugText(Pg::Defines::DEFAULT_ALPHA_PS_PATH), eAssetDefine::_RENDER_PIXELSHADER);
 	}
 
 

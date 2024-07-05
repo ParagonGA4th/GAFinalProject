@@ -27,6 +27,9 @@ namespace Pg::Data
 		virtual void OnSerialize(SerializeVector& sv) override;
 		virtual void OnDeserialize(SerializeVector& sv) override;
 
+		void SetAlphaPercentage(float per);
+		float GetAlphaPercentage();
+
 	public:
 		//일단은 에디터에서 값을 받아서 만들어지지만,
 		//해당 Mesh에서,
@@ -40,5 +43,8 @@ namespace Pg::Data
 		VISITABLE(std::string, _meshName);
 		VISITABLE(std::string, _materialName);
 		END_VISITABLES;
+
+		//하나가 더 추가되어야 한다. Alpha 일 때만 쓰이는 애. //0-100 범위.
+		float _alphaPercentage{ 50.f };
 	};
 }

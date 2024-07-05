@@ -39,7 +39,7 @@ namespace Pg::Graphics
 		virtual void InternalUnload() override;
 
 	public:
-		void Bind();
+		void Bind(ID3D11InputLayout* customInputLayout = nullptr);
 		void Unbind();
 		ID3D11VertexShader* GetVertexShader();
 

@@ -337,6 +337,24 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\AlphaDefault\AlphaDefaultSkinned_VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\AlphaDefault\AlphaDefaultStage_PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\AlphaDefault\AlphaDefaultStatic_VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FinalStage\FinalStage_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -480,6 +498,7 @@
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_InstancedValues.hlsli" />
     <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_PBRBufferTextures.hlsli" />
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_1stLayouts.hlsli" />
+    <None Include="..\ShaderResources\Shaders\System\Libraries\System_AlphaDefaultInfo.hlsli" />
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_SwitchingViewProj.hlsli" />
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjectBuffers.hlsli" />
     <None Include="..\ShaderResources\Shaders\System\Libraries\System_PostProcessingResources.hlsli" />

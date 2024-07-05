@@ -68,6 +68,9 @@ namespace Pg::Graphics
 		{
 			_cbAllSkinnedBones->GetDataStruct()->gCBuf_Bones[i] = DirectX::SimpleMath::Matrix::Identity;
 		}
+
+		//Skinned 별도로 보관, Alpha 용도.
+		this->_skinnedMeshRenderer = tSkinnedMeshRenderer;
 	}
 
 	RenderObjectSkinnedMesh3D::~RenderObjectSkinnedMesh3D()

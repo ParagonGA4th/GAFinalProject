@@ -16,6 +16,9 @@ namespace Pg::Graphics
 	{
 		AlphaBlendedTuple(Pg::Data::GameObject* go, RenderMaterial* mat, bool isSkinned) :
 			_obj(go), _renderMat(mat), _isSkinned(isSkinned) {}
+		~AlphaBlendedTuple() 
+		{
+		}
 
 		//std::sort가 강제로 Copy가 아니라 Move Semantics에 의해 동작할 수 있게.
 		AlphaBlendedTuple(const AlphaBlendedTuple& rhs) = delete;
@@ -54,7 +57,7 @@ namespace Pg::Graphics
 
 		//<불변 데이터>
 		const Pg::Data::GameObject* _obj;
-		const RenderMaterial* _renderMat;
+		RenderMaterial* _renderMat;
 		bool _isSkinned; //이 값을 따라서 어떤 값을 렌더해야 할지가 달라진다.
 
 		std::unique_ptr<RenderObjectStaticMesh3D> _eitherStaticMesh;

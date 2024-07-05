@@ -1,7 +1,10 @@
 #pragma once
 #include "IRenderSinglePass.h"
 #include "DX11Headers.h"
+#include "ConstantBuffer.h"
+#include "ConstantBufferDefine.h"
 #include "../ParagonData/EditorMode.h"
+#include <dxtk/CommonStates.h>
 #include <vector>
 #include <memory>
 
@@ -12,6 +15,7 @@ namespace Pg::Graphics
 	class LowDX11Storage;
 	class SystemVertexShader;
 	class SystemPixelShader;
+	class D3DCarrier;
 }
 
 /// <summary>
@@ -41,9 +45,12 @@ namespace Pg::Graphics
 	private:
 		float _deltaTimeStorage;
 		const Pg::Data::Enums::eEditorMode* const _editorMode;
+		const D3DCarrier* _carrier{ nullptr };
+		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbAlphaDefault>> _cbAlpha;
 
 	private:
 		LowDX11Storage* _DXStorage;
+		std::unique_ptr<DirectX::CommonStates> _commonStates{ nullptr };
 	};
 }
 

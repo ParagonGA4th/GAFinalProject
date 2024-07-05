@@ -41,14 +41,14 @@ namespace Pg::Defines
 	extern const std::string ASSET_DEFAULT_ARM_TEXTURE_PATH_2048;
 	extern const std::string ASSET_DEFAULT_SPECULAR_TEXTURE_PATH_2048;
 	//extern const std::string ASSET_DEFAULT_DISPLACEMENT_TEXTURE_PATH_2048;
-	
+
 	extern const std::string ASSET_DEFAULT_IBL_DIFFUSE_IRRADIANCE_CUBEMAP_PATH;
 	extern const std::string ASSET_DEFAULT_IBL_SPECULAR_IRRADIANCE_CUBEMAP_PATH;
 	extern const std::string ASSET_DEFAULT_IBL_SPECULAR_BRDF_LUT_TEXTURE_PATH;
 	extern const std::string ASSET_DEFAULT_ENVIRONMENT_CUBEMAP_PATH;
-	
+
 	extern const std::string ASSET_DEFAULT_PRELOADED_LUT_PATH;
-	
+
 	// ^, $ 리소스 이름에 활용 금지!
 	//모든 디폴트 매터리얼들이 부여받는 Prefix. 이는 일반 리소스 생성에서 활용할 수 없다.
 	extern const std::string GENERATED_MATERIAL_PREFIX;
@@ -67,6 +67,14 @@ namespace Pg::Defines
 
 	extern const std::string DEFAULT_APPENDS_RENDER_VS_PATH;
 	extern const std::string DEFAULT_APPENDS_RENDER_PS_PATH;
+
+	extern const std::string DEFAULT_ALPHA_STATIC_VS_NAME;
+	extern const std::string DEFAULT_ALPHA_SKINNED_VS_NAME;
+	extern const std::string DEFAULT_ALPHA_PS_NAME;
+
+	extern const std::string DEFAULT_ALPHA_STATIC_VS_PATH;
+	extern const std::string DEFAULT_ALPHA_SKINNED_VS_PATH;
+	extern const std::string DEFAULT_ALPHA_PS_PATH;
 
 	extern const std::wstring FIRST_STATIC_VS_DIRECTORY;
 	extern const std::wstring FIRST_SKINNED_VS_DIRECTORY;
@@ -90,7 +98,7 @@ namespace Pg::Defines
 
 	extern const std::wstring SHADOW_RECORD_DEPTH_VS_DIRECTORY;
 	extern const std::wstring SHADOW_RECORD_DEPTH_PS_DIRECTORY;
-	
+
 	extern const std::wstring SELECTED_OUTLINE_VS_DIRECTORY;
 	extern const std::wstring SELECTED_OUTLINE_BLUR_PS_DIRECTORY;
 	extern const std::wstring SELECTED_OUTLINE_SINGLE_COLOR_PS_DIRECTORY;

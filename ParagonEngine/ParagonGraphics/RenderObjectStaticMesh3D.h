@@ -29,9 +29,16 @@ namespace Pg::Graphics
 		virtual void First_BindBuffers() override;
 		virtual void First_Render(const float* const dt) override;
 		virtual void First_UnbindBuffers() override;
+		
+		Pg::Data::StaticMeshRenderer* GetStaticMeshRenderer() { return _staticMeshRenderer; }
 	private:
 		//후에 셰이더 라이팅에 쓰일 메인 Vertex / Index Buffer 바인딩.
 		void BindMainVertexIndexBuffer();
+
+
+	private:
+		//내부 SkinnedMeshRenderer 캐스팅해서 보관하고 있다.
+		Pg::Data::StaticMeshRenderer* _staticMeshRenderer{ nullptr };
 	
 		std::unique_ptr<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>> _cbFirst;
 	};

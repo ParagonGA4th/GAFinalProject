@@ -55,6 +55,14 @@ namespace Pg::Defines
 	const std::string DEFAULT_APPENDS_RENDER_VS_PATH = "../Builds/x64/Debug/AppendObjectDefaultVS.cso";
 	const std::string DEFAULT_APPENDS_RENDER_PS_PATH = "../Builds/x64/Debug/AppendObjectDefaultPS.cso";
 
+	const std::string DEFAULT_ALPHA_STATIC_VS_NAME = "AlphaDefaultStatic_VS.cso";
+	const std::string DEFAULT_ALPHA_SKINNED_VS_NAME = "AlphaDefaultSkinned_VS.cso";
+	const std::string DEFAULT_ALPHA_PS_NAME = "AlphaDefaultStage_PS.cso";
+
+	const std::string DEFAULT_ALPHA_STATIC_VS_PATH = "../Builds/x64/Debug/AlphaDefaultStatic_VS.cso";
+	const std::string DEFAULT_ALPHA_SKINNED_VS_PATH = "../Builds/x64/Debug/AlphaDefaultSkinned_VS.cso";
+	const std::string DEFAULT_ALPHA_PS_PATH = "../Builds/x64/Debug/AlphaDefaultStage_PS.cso";
+
 	const std::wstring FIRST_STATIC_VS_DIRECTORY = L"../Builds/x64/Debug/FirstStatic_VS.cso";
 	const std::wstring FIRST_SKINNED_VS_DIRECTORY = L"../Builds/x64/Debug/FirstSkinned_VS.cso";
 	const std::wstring FIRST_INSTANCED_VS_DIRECTORY = L"../Builds/x64/Debug/FirstInstanced_VS.cso";
