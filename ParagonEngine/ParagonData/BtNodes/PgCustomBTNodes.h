@@ -28,6 +28,17 @@
 #include "../ParagonData/isDown.h"
 #include "../ParagonData/isbDash.h"
 
+//golem Boss
+#include "../ParagonData/Anim_gbLeftArmAttack.h"
+#include "../ParagonData/Anim_gbRightArmAttack.h"
+#include "../ParagonData/Anim_gbTwoArmAttack.h"
+#include "../ParagonData/Anim_SpinAttack.h"
+#include "../ParagonData/Anim_gDown.h"
+#include "../ParagonData/isgPase_1.h"
+#include "../ParagonData/isgPase_2.h"
+#include "../ParagonData/isgSkill.h"
+#include "../ParagonData/isgDown.h"
+
 // floating Monster
 #include "../ParagonData/Anim_fDead.h"
 #include "../ParagonData/Anim_fIdle.h"
