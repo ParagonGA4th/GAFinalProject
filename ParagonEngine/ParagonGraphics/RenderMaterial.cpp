@@ -320,10 +320,10 @@ namespace Pg::Graphics
 		_psIntrinsics->_cbByteUpdateBuffer->PutXMFloat4(value, tByteOffset);
 	}
 
-	void RenderMaterial::Bind()
+	void RenderMaterial::Bind(ID3D11InputLayout* customInputLayout)
 	{
 		//VS Binding
-		_vertexShader->Bind();
+		_vertexShader->Bind(customInputLayout);
 		_pixelShader->Bind();
 
 		//Vertex Shader

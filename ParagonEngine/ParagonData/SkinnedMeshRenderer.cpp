@@ -9,6 +9,7 @@
 #include <cassert>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 
 namespace Pg::Data
 {
@@ -171,7 +172,7 @@ namespace Pg::Data
 
 	void SkinnedMeshRenderer::SetAlphaPercentage(float per)
 	{
-		_alphaPercentage = per;
+		_alphaPercentage = std::clamp<float>(per, 0.f, 100.f);
 	}
 
 	float SkinnedMeshRenderer::GetAlphaPercentage()

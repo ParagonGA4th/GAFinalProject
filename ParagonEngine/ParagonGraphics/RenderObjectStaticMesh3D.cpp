@@ -34,6 +34,9 @@ namespace Pg::Graphics
 
 		//Constant Buffer Data를 생성.
 		_cbFirst = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>>();
+
+		//Skinned 별도로 보관, Alpha 용도.
+		this->_staticMeshRenderer = tStaticMeshRenderer;
 	}
 
 	RenderObjectStaticMesh3D::~RenderObjectStaticMesh3D()

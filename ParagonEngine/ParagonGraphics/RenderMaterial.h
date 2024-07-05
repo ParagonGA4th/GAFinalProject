@@ -13,6 +13,7 @@
 
 struct ID3D11Buffer;
 struct D3D11_SUBRESOURCE_DATA;
+struct ID3D11InputLayout;
 
 namespace Pg::Graphics
 {
@@ -54,7 +55,7 @@ namespace Pg::Graphics
 
 		// 매 오브젝트마다 업데이트되는거 아님. 
 		// 같은 Material 들고 있는 오브젝트 단위로 업데이트: Texture, SRV, Material별 ConstantBuffer.
-		void Bind();
+		void Bind(ID3D11InputLayout* customInputLayout = nullptr);
 		void Unbind();
 
 		unsigned int& GetMaterialID();
@@ -118,6 +119,8 @@ namespace Pg::Graphics
 
 		//IsUseAlphaBlending
 		bool _isUseAlphaBlending{ false };
+		//알파 블렌딩이 사용되었을 때, Static / Skinned 여부까지 판단. -> 다른 Shader를 할당하기 위해!
+		bool _whenAlphaIsSkinned{ false }; 
 
 	private:
 		LowDX11Storage* _DXStorage;

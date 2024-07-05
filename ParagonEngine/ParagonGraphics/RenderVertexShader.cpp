@@ -40,10 +40,20 @@ namespace Pg::Graphics
 
 	}
 
-	void RenderVertexShader::Bind()
+	void RenderVertexShader::Bind(ID3D11InputLayout* customInputLayout)
 	{
-		// Input Layout
-		_DXStorage->_deviceContext->IASetInputLayout(_inputLayout);
+		//nullptr일 때는 Custom Input Layout 활용.
+		if (customInputLayout == nullptr)
+		{
+			// Input Layout
+			_DXStorage->_deviceContext->IASetInputLayout(_inputLayout);
+		}
+		else
+		{
+			// Custom Input Layout
+			_DXStorage->_deviceContext->IASetInputLayout(customInputLayout);
+		}
+
 		// Shader
 		_DXStorage->_deviceContext->VSSetShader(_shader, nullptr, 0);
 		// Topology 

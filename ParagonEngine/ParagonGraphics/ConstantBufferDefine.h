@@ -40,6 +40,14 @@ namespace Pg::Graphics
 			DirectX::XMMATRIX gCBuf_World;
 		};
 
+		//Alpha 사용시, VS / PS 공동 바인드.
+		struct cbAlphaDefault
+		{
+			DirectX::XMMATRIX gCBuf_CameraViewProj; //VP
+			float gCBuf_ObjectAlpha; //오브젝트 단위 알파 올리기, 0-1.
+			DirectX::XMFLOAT3 gCBuf_LeftPadding; // 패딩.
+		};
+
 		//같은 구성이므로 하나로 사용.
 		//struct cbPerObjMatSkinned
 		//{

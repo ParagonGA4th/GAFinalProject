@@ -47,6 +47,7 @@ namespace Pg::Graphics
 		void SetAnimation(const std::string& animName, bool isLoop);
 
 		Pg::Data::AnimTransform* FindAnimTransform(const std::string& animNodeName);
+		Pg::Data::SkinnedMeshRenderer* GetSkinnedMeshRenderer() { return _skinnedMeshRenderer; }
 
 	private:
 		//Start-End 애니메이션 시간 입력. Refresh
@@ -61,6 +62,12 @@ namespace Pg::Graphics
 		//ConstantBufferUpdate.
 		void UpdateMainCB(Pg::Data::CameraData* camData);
 		void UpdateSkinnedCB();
+
+
+	private:
+		//내부 SkinnedMeshRenderer 캐스팅해서 보관하고 있다.
+		Pg::Data::SkinnedMeshRenderer* _skinnedMeshRenderer{ nullptr };
+
 	private:
 		//현재 재생 중인 애니메이션.
 		RenderAnimation* _currentAnim{ nullptr };
