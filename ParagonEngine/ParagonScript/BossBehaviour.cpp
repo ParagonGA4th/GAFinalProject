@@ -362,9 +362,9 @@ namespace Pg::DataScript
 		{
 			_isRotatingToPlayer = false;
 
-			_bossInfo->SetStartWindBlastDurationTime(_bossInfo->GetStartWindBlastTime() + _pgTime->GetDeltaTime());
+			_bossInfo->SetCurrentWindBlastDurationTime(_bossInfo->GetCurrentWindBlastTime() + _pgTime->GetDeltaTime());
 
-			if (_bossInfo->GetStartWindBlastTime() < _bossInfo->GetWindBlastDuration())
+			if (_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetStartWindBlastTime())
 			{
 				Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
 				
@@ -394,7 +394,7 @@ namespace Pg::DataScript
 					}
 				}
 			}
-			else
+			if(_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetWindBlastDuration())
 			{
 				for (auto& iter : _windBlastAttackCol)
 				{
@@ -406,7 +406,7 @@ namespace Pg::DataScript
 				_isRotatingToPlayer = true;
 				_windRenderer->SetActive(false);
 
-				_bossInfo->SetStartWindBlastDurationTime(0.f);
+				_bossInfo->SetCurrentWindBlastDurationTime(0.f);
 			}
 		}
 	}
