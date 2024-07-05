@@ -1,11 +1,14 @@
-#include "Anim_Dash.h"
+#include "Anim_SpinAttack.h"
 #include "SkinnedMeshRenderer.h"
 #include "MonsterHelper.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus Anim_Dash::tick()
+	BT::NodeStatus Anim_SpinAttack::tick()
 	{
+		bool isHolding = config().blackboard->get<bool>("ISHOLDING");
+		if (isHolding) return BT::NodeStatus::FAILURE;
+
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
@@ -20,7 +23,7 @@ namespace Pg::Data::BTree::Node
 		if (tMeshRenderer != nullptr)
 		{
 			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-			animId.append("_00005.pganim");
+			animId.append("_00009.pganim");
 
 			if (tMeshRenderer->GetAnimation() != animId)
 			{
@@ -34,7 +37,7 @@ namespace Pg::Data::BTree::Node
 				auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 
 				animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-				animId.append("_10005.pganim");
+				animId.append("_10009.pganim");
 				tcMeshRenderer->SetAnimation(animId, false);
 			}
 		}

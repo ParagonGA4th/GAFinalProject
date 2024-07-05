@@ -32,6 +32,9 @@ namespace Pg::Data
 		bool _isPase_2;					// 중간보스의 1페이즈
 		bool _isPase_3;					// 중간보스의 1페이즈
 
+		bool _isSkill;					// 스킬 사용 여부
+		bool _isDown;					// 스킬 사용 여부
+
 		bool _isDash;					// 골렘 대쉬
 	};	
 	
