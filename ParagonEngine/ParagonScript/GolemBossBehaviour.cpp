@@ -199,30 +199,47 @@ namespace Pg::DataScript
 		if (_distance <= _golBossInfo->GetAttackRange())
 		{
 			//상태 변경.
-			_golBossInfo->_status = GolemBossStatus::BASIC_ATTACK;
+			//_golBossInfo->_status = GolemBossStatus::BASIC_ATTACK;
 
-			//애니메이션 딜레이를 위한 델타타임 체크.
-			_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
+			////애니메이션 딜레이를 위한 델타타임 체크.
+			//_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
 
-			//공격
-			if (_currentAttackTime >= _startAttackTime)
+			////공격
+			//if (_currentAttackTime >= _startAttackTime)
+			//{
+			//	if (!_isAttackSoundPlaying)
+			//	{
+			//		_attackSound->Play();
+			//		_isAttackSoundPlaying = true;
+			//	}
+
+			//	// 공격 애니메이션 출력.
+			//	Attack(true);
+			//}
+			//if (_currentAttackTime >= _startAttackTime && _currentAttackTime >= _endAttackTime)
+			//{
+			//	Attack(false);
+			//	_isAttackSoundPlaying = false;
+			//	_currentAttackTime = 0.f;
+			//}
+
+			_monsterHelper->_isChase = false;
+			_monsterHelper->_isPlayerinHitSpace = true;
+
+			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK)
 			{
-				if (!_isAttackSoundPlaying)
-				{
-					_attackSound->Play();
-					_isAttackSoundPlaying = true;
-				}
-
-				// 공격 애니메이션 출력.
-				_monsterHelper->_isChase = false;
-				_monsterHelper->_isPlayerinHitSpace = true;
-				Attack(true);
+				//Skill(_monsterHelper->_isAnimationEnd); // 스킬 사용
 			}
-			if (_currentAttackTime >= _startAttackTime && _currentAttackTime >= _endAttackTime)
+			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK_1 ||
+				_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK_2 ||
+				_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK_3)
+			{
+				Attack(_monsterHelper->_isAnimChange);
+			}
+			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::IDLE)
 			{
 				Attack(false);
-				_isAttackSoundPlaying = false;
-				_currentAttackTime = 0.f;
+				//Skill(false);
 			}
 		}
 		else

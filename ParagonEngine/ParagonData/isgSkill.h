@@ -14,15 +14,12 @@ namespace Pg::Data::BTree::Node
 			: BT::SyncActionNode(name, config) {}
 		virtual ~isgSkill() = default;
 
-
 		virtual BT::NodeStatus tick() override;
 
 		static BT::PortsList providedPorts()
 		{
 			return {};
 		}
-	private:
-		bool _isInit{ false };
 	};
 }
 #endif
