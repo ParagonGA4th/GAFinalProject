@@ -10,7 +10,7 @@ namespace Pg::Data::BTree::Node
 		{
 			if (monHelper->_bGolemFlag._isDown)
 			{
-				monHelper->_bGolemFlag._bossState = Pg::Data::BossState::DOWN;
+				monHelper->_bGolemFlag._bossState = Pg::Data::GolemBossState::DOWN;
 				return BT::NodeStatus::SUCCESS;
 			}
 		}

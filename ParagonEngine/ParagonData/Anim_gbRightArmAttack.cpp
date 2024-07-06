@@ -12,7 +12,7 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_bossFlag._bossState != Pg::Data::BossState::BASIC_ATTACK_1)
+			if (monHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::BASIC_ATTACK_1)
 				return BT::NodeStatus::FAILURE;
 
 			if (monHelper->_isAnimationEnd)
@@ -21,7 +21,7 @@ namespace Pg::Data::BTree::Node
 				monHelper->_isAnimationEnd = false;
 
 				//if (_isCast)
-				monHelper->_bossFlag._bossState = Pg::Data::BossState::BASIC_ATTACK_2;
+				monHelper->_bGolemFlag._bossState = Pg::Data::GolemBossState::BASIC_ATTACK_2;
 			}
 
 
@@ -29,7 +29,7 @@ namespace Pg::Data::BTree::Node
 			if (tMeshRenderer != nullptr)
 			{
 				std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-				animId.append("_00005.pganim");
+				animId.append("_00006.pganim");
 				//if (_isCast) 
 				//else animId.append("_00014.pganim"); // 캐스팅 애니매이션
 
@@ -37,6 +37,17 @@ namespace Pg::Data::BTree::Node
 				{
 					tMeshRenderer->SetAnimation(animId, false);
 					monHelper->_isAnimChange = true;
+
+					std::string objName = this->GetGameObject()->GetName();
+					objName = objName.substr(0, objName.rfind("_"));
+					objName.append("_Crtstal");
+
+					auto tchild = this->GetGameObject()->_transform.GetChild(objName);
+					auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+					animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
+					animId.append("_10006.pganim");
+					tcMeshRenderer->SetAnimation(animId, false);
 				}
 			}
 		}
