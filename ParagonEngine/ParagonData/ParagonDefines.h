@@ -104,7 +104,7 @@ namespace Pg::Defines
 	extern const std::wstring SELECTED_OUTLINE_SINGLE_COLOR_PS_DIRECTORY;
 
 	extern const std::wstring POSTPROCESSING_DEFAULT_VS_DIRECTORY;
-	extern const std::wstring TONEMAPPING_PS_DIRECTORY;
+	extern const std::wstring HEIGHTFOG_PS_DIRECTORY;
 	extern const std::wstring VIGNETTE_PS_DIRECTORY;
 	extern const std::wstring BLOOM_PS_DIRECTORY;
 	extern const std::wstring LUT_PS_DIRECTORY;

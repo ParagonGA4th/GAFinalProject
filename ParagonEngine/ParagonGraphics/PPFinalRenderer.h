@@ -7,7 +7,7 @@
 //RenderPass
 #include "OutlineRenderPass.h"
 #include "FinalRenderPass.h"
-#include "TonemappingRenderPass.h"
+#include "HeightFogRenderPass.h"
 #include "VignetteRenderPass.h"
 #include "BloomRenderPass.h"
 #include "LUTRenderPass.h"
@@ -50,6 +50,7 @@ namespace Pg::Graphics
 		virtual void SetupRenderPasses() override;
 
 		void RenderPostProcessingStages(void* renderObjectList, Pg::Data::CameraData* camData);
+		void RenderFadeInOut();
 		void RenderDebugQuadsOverlay(); // TO ADD.
 
 		virtual void RenderContents(void* renderObjectList, void* optionalRequirement, Pg::Data::CameraData* camData) override;

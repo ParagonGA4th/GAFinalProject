@@ -30,7 +30,9 @@ namespace Pg::Graphics
 	void Forward2DRenderer::Render(RenderObject2DList* render2DList, Pg::Data::CameraData* camData)
 	{
 		//Sprite
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_quadMainGDS->GetDSV());
+		//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_quadMainGDS->GetDSV());
+		//PostProcessing이 끝난 후.
+		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_PPSwitch2->GetRTV()), _carrier->_quadMainGDS->GetDSV());
 
 		_spriteBatch->Begin(DirectX::SpriteSortMode_BackToFront, _dxtkCommonStates->NonPremultiplied());
 

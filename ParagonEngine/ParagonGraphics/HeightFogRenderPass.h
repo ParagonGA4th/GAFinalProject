@@ -18,11 +18,11 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
-	class TonemappingRenderPass : public IRenderSinglePass
+	class HeightFogRenderPass : public IRenderSinglePass
 	{
 	public:
-		TonemappingRenderPass(GBufferRender* from, GBufferRender* to);
-		~TonemappingRenderPass();
+		HeightFogRenderPass(GBufferRender* from, GBufferRender* to);
+		~HeightFogRenderPass();
 
 		virtual void Initialize() override;
 		virtual void ReceiveRequiredElements(const D3DCarrier& carrier) override;

@@ -139,10 +139,9 @@ namespace Pg::Graphics
 		//DebugRender 기능, 일단은 디폴트로 켜두었음.
 		_renderer->DebugRender(_camData);
 
-		_renderer->UiRender(_camData);
-
 		_renderer->PostProcessingRender(_camData);
-
+		_renderer->UiRender(_camData);
+		_renderer->FadeInOutRender();
 		_renderer->DebugQuadsOverlayRender();
 	}
 

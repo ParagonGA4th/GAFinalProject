@@ -66,7 +66,7 @@
     <ClInclude Include="SingleLightmapSet.h" />
     <ClInclude Include="LUTRenderPass.h" />
     <ClInclude Include="SystemInterfacedVertexShader.h" />
-    <ClInclude Include="TonemappingRenderPass.h" />
+    <ClInclude Include="HeightFogRenderPass.h" />
     <ClInclude Include="SceneInformationList.h" />
     <ClInclude Include="IRenderSinglePass.h" />
     <ClInclude Include="ConstantBuffer.h" />
@@ -213,7 +213,7 @@
     <ClCompile Include="RenderObjectInstancedMesh3D.cpp" />
     <ClCompile Include="LUTRenderPass.cpp" />
     <ClCompile Include="SystemInterfacedVertexShader.cpp" />
-    <ClCompile Include="TonemappingRenderPass.cpp" />
+    <ClCompile Include="HeightFogRenderPass.cpp" />
     <ClCompile Include="OpaqueQuadRenderPass.cpp" />
     <ClCompile Include="OutlineRenderPass.cpp" />
     <ClCompile Include="RenderAnimation.cpp" />
@@ -451,7 +451,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Tonemapping\ToneMapping_PS.hlsl">
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Tonemapping\HeightFog_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>

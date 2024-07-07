@@ -309,6 +309,11 @@ namespace Pg::Graphics
 	{
 		return _forward3dRenderer->GetVisualEffectRenderer();
 	}
-	
+
+	void ParagonRenderer::FadeInOutRender()
+	{
+		_finalRenderer->RenderFadeInOut();
+	}
+
 
 }
