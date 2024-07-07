@@ -29,7 +29,7 @@ namespace Pg::Graphics
 		_outlineRenderPass = std::make_unique<OutlineRenderPass>();
 
 		//Initialize PostProcessing RenderPassses. (여기다) (모두 From-To의 양식을 따른다)
-		_postprocessingRenderPassList.push_back(std::make_unique<TonemappingRenderPass>(_carrier->_quadMainRT, _carrier->_PPSwitch1));
+		_postprocessingRenderPassList.push_back(std::make_unique<HeightFogRenderPass>(_carrier->_quadMainRT, _carrier->_PPSwitch1));
 		_postprocessingRenderPassList.push_back(std::make_unique<VignetteRenderPass>(_carrier->_PPSwitch1, _carrier->_PPSwitch2));
 		_postprocessingRenderPassList.push_back(std::make_unique<BloomRenderPass>(_carrier->_PPSwitch2, _carrier->_PPSwitch1));
 		_postprocessingRenderPassList.push_back(std::make_unique<LUTRenderPass>(_carrier->_PPSwitch1, _carrier->_PPSwitch2));
@@ -211,14 +211,7 @@ namespace Pg::Graphics
 		//Default Quad Vertex Shader Unbind.
 		_ppSystemVertexShader->Unbind();
 
-		//FadeIn-Out 관리.	
-		{
-			UpdateFadeLogic();
-
-			_carrier->_toSendSRVToEngine = _carrier->_PPSwitch1->GetSRV();
-			_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_PPSwitch1->GetRTV()), nullptr);
-			_fadeInOutPass->Render(_fadeEffectSourceRatio, _carrier, _carrier->_PPSwitch2->GetSRV());
-		}
+		
 	}
 
 	void PPFinalRenderer::RenderDebugQuadsOverlay()
@@ -279,6 +272,18 @@ namespace Pg::Graphics
 		//0-1로 한정. 필요 없겠지만 추가로 작성.
 		_fadeEffectSourceRatio = std::clamp<float>(_fadeEffectSourceRatio, 0.f, 1.f);
 	}
-	
+
+	void PPFinalRenderer::RenderFadeInOut()
+	{
+		//FadeIn-Out 관리.	
+		{
+			UpdateFadeLogic();
+
+			_carrier->_toSendSRVToEngine = _carrier->_PPSwitch1->GetSRV();
+			_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_PPSwitch1->GetRTV()), nullptr);
+			_fadeInOutPass->Render(_fadeEffectSourceRatio, _carrier, _carrier->_PPSwitch2->GetSRV());
+		}
+	}
+
 
 }

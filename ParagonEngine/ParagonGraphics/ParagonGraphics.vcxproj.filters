@@ -277,8 +277,8 @@
     <ClInclude Include="GraphicsApiExporter.h">
       <Filter>12_GraphicsAPI</Filter>
     </ClInclude>
-    <ClInclude Include="TonemappingRenderPass.h">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\16_TonemappingRenderPass</Filter>
+    <ClInclude Include="HeightFogRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\16_HeightFogRenderPass</Filter>
     </ClInclude>
     <ClInclude Include="IndividualLightsGPU.h">
       <Filter>0_Main\RenderPass&amp;SendReceiver\0_SceneInformationSender\IndividualLightsGPU</Filter>
@@ -585,8 +585,8 @@
     <ClCompile Include="GraphicsApiExporter.cpp">
       <Filter>12_GraphicsAPI</Filter>
     </ClCompile>
-    <ClCompile Include="TonemappingRenderPass.cpp">
-      <Filter>0_Main\RenderPass&amp;SendReceiver\16_TonemappingRenderPass</Filter>
+    <ClCompile Include="HeightFogRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\16_HeightFogRenderPass</Filter>
     </ClCompile>
     <ClCompile Include="RenderObject3DList.cpp">
       <Filter>10_Structs\RenderingList\RenderObject3DList</Filter>
@@ -1115,9 +1115,6 @@
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\15_LUTRenderPass">
       <UniqueIdentifier>{46752a2b-940f-453e-ae60-13deca165c49}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Main\RenderPass&amp;SendReceiver\16_TonemappingRenderPass">
-      <UniqueIdentifier>{8aa14f88-db08-4907-a027-750d80991ea5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\17_BloomRenderPass">
       <UniqueIdentifier>{8b2318d0-76c3-4d62-bb5b-ea02914d23b2}</UniqueIdentifier>
     </Filter>
@@ -1141,6 +1138,9 @@
     </Filter>
     <Filter Include="6_HLSL\System\Pipeline\AlphaDefault">
       <UniqueIdentifier>{1802da75-26fc-4de5-8705-2c524ed166e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\16_HeightFogRenderPass">
+      <UniqueIdentifier>{8aa14f88-db08-4907-a027-750d80991ea5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1228,7 +1228,7 @@
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\PostProcessingDefault_VS.hlsl">
       <Filter>6_HLSL\System\Pipeline\PostProcessing</Filter>
     </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Tonemapping\ToneMapping_PS.hlsl">
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Tonemapping\HeightFog_PS.hlsl">
       <Filter>6_HLSL\System\Pipeline\PostProcessing\Tonemapping</Filter>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstInstanced_VS.hlsl">
