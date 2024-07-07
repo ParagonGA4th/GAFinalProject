@@ -99,17 +99,17 @@ namespace Pg::DataScript
 		Pg::Math::PGFLOAT3 _respawnPos;
 
 	private:
-		Pg::Data::GameObject* _miniGolemHit;
-		Pg::Data::AudioSource* _hitSound;
-
-		Pg::Data::GameObject* _miniGolemDie;
-		Pg::Data::AudioSource* _dieSound;
-
-		Pg::Data::GameObject* _miniGolemDash;
-		Pg::Data::AudioSource* _dashSound;
-
-		Pg::Data::GameObject* _miniGolemAttack;
-		Pg::Data::AudioSource* _attackSound;
+		//Pg::Data::GameObject* _miniGolemHit;
+		//Pg::Data::AudioSource* _hitSound;
+		//
+		//Pg::Data::GameObject* _miniGolemDie;
+		//Pg::Data::AudioSource* _dieSound;
+		//
+		//Pg::Data::GameObject* _miniGolemDash;
+		//Pg::Data::AudioSource* _dashSound;
+		//
+		//Pg::Data::GameObject* _miniGolemAttack;
+		//Pg::Data::AudioSource* _attackSound;
 
 		CameraShake* _cameraShake;
 
