@@ -84,12 +84,12 @@ namespace Pg::Graphics
 			//InputLayout + Alpha (정규화된) : 기록.
 			if (bAlphaBlendedTuple->_isSkinned)
 			{
-				tInputLayout = LayoutDefine::GetStatic1stLayout();
+				tInputLayout = LayoutDefine::GetSkinned1stLayout();
 				tNormalizedAlpha = bAlphaBlendedTuple->_eitherSkinnedMesh->GetSkinnedMeshRenderer()->GetAlphaPercentage() / 100.f;
 			}
 			else
 			{
-				tInputLayout = LayoutDefine::GetSkinned1stLayout();
+				tInputLayout = LayoutDefine::GetStatic1stLayout();
 				tNormalizedAlpha = bAlphaBlendedTuple->_eitherStaticMesh->GetStaticMeshRenderer()->GetAlphaPercentage() / 100.f;
 			}
 
