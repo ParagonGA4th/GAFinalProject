@@ -43,6 +43,7 @@
 #include "BossBehaviour.h"
 #include "EnemyAttack.h"
 #include "MiniGolemBehaviour.h"
+#include "GolemBossBehaviour.h"
 #include "StubBehaviour.h"
 #include "MimicBehaviour.h"
 #include "WaspBehaviour.h"

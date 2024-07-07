@@ -15,6 +15,19 @@ namespace Pg::Data
 		DEAD
 	};	
 	
+	enum class GolemBossState
+	{
+		IDLE,
+		DOWN,
+		DASH,
+		CHASE,
+		BASIC_ATTACK_1,
+		BASIC_ATTACK_2,
+		BASIC_ATTACK_3,
+		SKILL_ATTACK,
+		DEAD
+	};
+
 	enum class BossState
 	{
 		IDLE,

@@ -210,10 +210,14 @@
     <ClInclude Include="Anim_fDead.h" />
     <ClInclude Include="Anim_FeatherAttack.h" />
     <ClInclude Include="Anim_FlyAttack.h" />
+    <ClInclude Include="Anim_gbLeftArmAttack.h" />
+    <ClInclude Include="Anim_gbRightArmAttack.h" />
+    <ClInclude Include="Anim_gbTwoArmAttack.h" />
     <ClInclude Include="Anim_gDead.h" />
     <ClInclude Include="Anim_Delay.h" />
     <ClInclude Include="Anim_gAttack.h" />
     <ClInclude Include="Anim_fIdle.h" />
+    <ClInclude Include="Anim_gDown.h" />
     <ClInclude Include="Anim_gIdle.h" />
     <ClInclude Include="Anim_LeftArmAttack.h" />
     <ClInclude Include="Anim_mAttack.h" />
@@ -222,6 +226,7 @@
     <ClInclude Include="Anim_PoisonGas.h" />
     <ClInclude Include="Anim_RightArmAttack.h" />
     <ClInclude Include="Anim_fWalk.h" />
+    <ClInclude Include="Anim_SpinAttack.h" />
     <ClInclude Include="Anim_tAttack.h" />
     <ClInclude Include="Anim_ThrowCoin.h" />
     <ClInclude Include="Anim_TwoArmAttack.h" />
@@ -247,6 +252,10 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="eFillRatioDirection.h" />
     <ClInclude Include="isbDash.h" />
+    <ClInclude Include="isgDown.h" />
+    <ClInclude Include="isgPase_1.h" />
+    <ClInclude Include="isgPase_2.h" />
+    <ClInclude Include="isgSkill.h" />
     <ClInclude Include="ISortableGlobalObject.h" />
     <ClInclude Include="isDown.h" />
     <ClInclude Include="isPase_2.h" />
@@ -361,10 +370,14 @@
     <ClCompile Include="Anim_fDead.cpp" />
     <ClCompile Include="Anim_FeatherAttack.cpp" />
     <ClCompile Include="Anim_FlyAttack.cpp" />
+    <ClCompile Include="Anim_gbLeftArmAttack.cpp" />
+    <ClCompile Include="Anim_gbRightArmAttack.cpp" />
+    <ClCompile Include="Anim_gbTwoArmAttack.cpp" />
     <ClCompile Include="Anim_gDead.cpp" />
     <ClCompile Include="Anim_Delay.cpp" />
     <ClCompile Include="Anim_gAttack.cpp" />
     <ClCompile Include="Anim_fIdle.cpp" />
+    <ClCompile Include="Anim_gDown.cpp" />
     <ClCompile Include="Anim_gIdle.cpp" />
     <ClCompile Include="Anim_LeftArmAttack.cpp" />
     <ClCompile Include="Anim_mAttack.cpp" />
@@ -373,6 +386,7 @@
     <ClCompile Include="Anim_PoisonGas.cpp" />
     <ClCompile Include="Anim_RightArmAttack.cpp" />
     <ClCompile Include="Anim_fWalk.cpp" />
+    <ClCompile Include="Anim_SpinAttack.cpp" />
     <ClCompile Include="Anim_tAttack.cpp" />
     <ClCompile Include="Anim_ThrowCoin.cpp" />
     <ClCompile Include="Anim_TwoArmAttack.cpp" />
@@ -400,6 +414,10 @@
     <ClCompile Include="isDash.cpp" />
     <ClCompile Include="isDead.cpp" />
     <ClCompile Include="isDistanceClose.cpp" />
+    <ClCompile Include="isgDown.cpp" />
+    <ClCompile Include="isgPase_1.cpp" />
+    <ClCompile Include="isgPase_2.cpp" />
+    <ClCompile Include="isgSkill.cpp" />
     <ClCompile Include="isHitSpace.cpp" />
     <ClCompile Include="isDown.cpp" />
     <ClCompile Include="isPase_2.cpp" />

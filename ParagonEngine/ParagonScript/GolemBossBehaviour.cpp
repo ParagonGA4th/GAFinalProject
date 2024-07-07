@@ -201,28 +201,23 @@ namespace Pg::DataScript
 			//상태 변경.
 			_golBossInfo->_status = GolemBossStatus::BASIC_ATTACK;
 
-			//애니메이션 딜레이를 위한 델타타임 체크.
-			_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
+			_monsterHelper->_isChase = false;
+			_monsterHelper->_isPlayerinHitSpace = true;
 
-			//공격
-			if (_currentAttackTime >= _startAttackTime)
+			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK)
 			{
-				if (!_isAttackSoundPlaying)
-				{
-					_attackSound->Play();
-					_isAttackSoundPlaying = true;
-				}
-
-				// 공격 애니메이션 출력.
-				_monsterHelper->_isChase = false;
-				_monsterHelper->_isPlayerinHitSpace = true;
-				Attack(true);
+				//Skill(_monsterHelper->_isAnimationEnd); // 스킬 사용
 			}
-			if (_currentAttackTime >= _startAttackTime && _currentAttackTime >= _endAttackTime)
+			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK_1 ||
+				_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK_2 ||
+				_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK_3)
+			{
+				Attack(_monsterHelper->_isAnimChange);
+			}
+			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::IDLE)
 			{
 				Attack(false);
-				_isAttackSoundPlaying = false;
-				_currentAttackTime = 0.f;
+				//Skill(false);
 			}
 		}
 		else
@@ -274,7 +269,7 @@ namespace Pg::DataScript
 			_golBossInfo->_status = GolemBossStatus::DASH;
 
 			if (!_isDashSoundPlaying) {
-				_dashSound->Play();
+				//_dashSound->Play();
 				_isDashSoundPlaying = true;
 			}
 
@@ -308,7 +303,7 @@ namespace Pg::DataScript
 		PG_TRACE("Hit!");
 
 		_cameraShake->CauseShake(0.25f);
-		_hitSound->Play();
+		//_hitSound->Play();
 
 		//피격 애니메이션 들어가야 함.
 		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
@@ -363,12 +358,12 @@ namespace Pg::DataScript
 	{
 		//상태를 죽음으로 변경.
 		_golBossInfo->_status = GolemBossStatus::DEAD;
-		_dieSound->Play();
+		//_dieSound->Play();
 
 		//중간에 사운드가 안꺼질 경우를 대비해 싹 다 종료.
-		_hitSound->Stop();
-		_attackSound->Stop();
-		_dashSound->Stop();
+		//_hitSound->Stop();
+		//_attackSound->Stop();
+		//_dashSound->Stop();
 
 		_collider->SetActive(false);
 		_monsterHelper->_isDead = true;

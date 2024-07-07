@@ -298,6 +298,9 @@
     <Filter Include="AI\EnemyInfo\GolemBoss">
       <UniqueIdentifier>{e8eb1a05-c00f-4f9b-878c-034f92f6301a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI\Attack\GolemBossAttack">
+      <UniqueIdentifier>{b628ca7b-1d5e-438c-94bc-ef9b5e9fd196}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -512,6 +515,12 @@
     </ClCompile>
     <ClCompile Include="GolemBossInfo.cpp">
       <Filter>AI\EnemyInfo\GolemBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="GolemBossAttack.cpp">
+      <Filter>AI\Attack\GolemBossAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="GolemBossSkillAttack.cpp">
+      <Filter>AI\Attack\GolemBossAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -794,6 +803,12 @@
     </ClInclude>
     <ClInclude Include="GolemBossInfo.h">
       <Filter>AI\EnemyInfo\GolemBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="GolemBossSkillAttack.h">
+      <Filter>AI\Attack\GolemBossAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="GolemBossAttack.h">
+      <Filter>AI\Attack\GolemBossAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
