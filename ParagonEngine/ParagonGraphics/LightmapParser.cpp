@@ -75,7 +75,7 @@ namespace Pg::Graphics
 			if (tMeshName.find("shadow") != std::string::npos || tMeshName.find("Shadow") != std::string::npos)
 			{
 				//존재한다는 얘기. 해당 내용 기록하지 않고, 다음 노드로.
-				continue; 
+				continue;
 			}
 
 			UINT tLightmapID = std::stoul(tRoNode.child("LightmapIndex").text().get());
