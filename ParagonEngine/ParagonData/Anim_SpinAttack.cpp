@@ -12,6 +12,9 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
+			if (monHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::SKILL_ATTACK)
+				return BT::NodeStatus::FAILURE;
+
 			if (monHelper->_isAnimationEnd)
 			{
 				monHelper->_isAnimationEnd = false;

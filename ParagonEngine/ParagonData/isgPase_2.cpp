@@ -8,9 +8,9 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_bGolemFlag._isPase_1)
+			if (monHelper->_bGolemFlag._isPase_2)
 			{
-				monHelper->_bGolemFlag._bossPase = Pg::Data::BossPase::PASE_1;
+				monHelper->_bGolemFlag._bossPase = Pg::Data::BossPase::PASE_2;
 				if (!_isInit)
 				{
 					monHelper->_bGolemFlag._bossState = Pg::Data::GolemBossState::BASIC_ATTACK_1;

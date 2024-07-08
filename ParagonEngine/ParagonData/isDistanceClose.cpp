@@ -8,9 +8,8 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_isDistanceClose)
+			if (monHelper->_isDistanceClose || monHelper->_bossFlag._bossState == Pg::Data::BossState::EVASION)
 			{
-				monHelper->_bossFlag._bossState = Pg::Data::BossState::EVASION;
 				return BT::NodeStatus::SUCCESS;
 			}
 		}

@@ -10,7 +10,6 @@ namespace Pg::Data
 		Pg::Data::BossState _bossState = Pg::Data::BossState::IDLE;
 		Pg::Data::BossPase _bossPase = Pg::Data::BossPase::PASE_1;
 
-		std::unordered_map<std::string, Pg::Data::BossState> _bossStateListByString;
 		std::unordered_map<Pg::Data::BossState, std::string> _bossStateListByEnum;
 
 		bool _isPase_1;					// 보스의 1페이즈
@@ -27,6 +26,8 @@ namespace Pg::Data
 	{
 		Pg::Data::GolemBossState _bossState;
 		Pg::Data::BossPase _bossPase;
+
+		std::unordered_map<Pg::Data::GolemBossState, std::string> _bossStateListByEnum;
 
 		bool _isPase_1;					// 중간보스의 1페이즈
 		bool _isPase_2;					// 중간보스의 1페이즈
