@@ -142,14 +142,18 @@ POutQuad main(VOutQuad pin)
     {
         float4 lightColor = float4(GetLightmapRGB(pin.UV), 1.f);
         lightColor *= color;
-        float3 x = max(0, lightColor.xyz - 0.004); //무조건 일정 이상 값을 보여주기 위해.
-        lightColor.xyz = (x * (6.2 * x + 0.5)) / (x * (6.2 * x + 1.7) + 0.06); // Uncharted 2 Tonemapping. 문제 있을 시 ACES Filmic으로 교체.
-        res.Output = lightColor;
+        res.Output = float4(Uncharted2_Tonemapping(lightColor.xyz), 1.0f);
+        //res.Output = float4(ACES_Filming_Tonemapping(lightColor.xyz), 1.0f);
+        //res.Output = float4(lightColor.xyz, 1.0f);
+
     }
     else
     {
         //라이트맵을 안 쓰는 경우
-        res.Output = float4(DefaultLightingOperation(color, pin.UV));
+        float4 col = DefaultLightingOperation(color, pin.UV);
+        
+        res.Output = float4(Uncharted2_Tonemapping(col.xyz), 1.0f);
+        //res.Output = float4(ACES_Filming_Tonemapping(col.xyz), 1.0f);
     }
     
     //내부적으로 Saturate되어서 나온다.
