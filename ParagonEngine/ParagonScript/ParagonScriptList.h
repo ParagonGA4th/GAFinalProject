@@ -56,6 +56,8 @@
 #include "BossAttack.h"
 #include "WindBlastAttack.h"
 #include "LightSkillAttack.h"
+#include "GolemBossAttack.h"
+#include "GolemBossSkillAttack.h"
 
 //글로벌 매니저용
 #include "TotalGameManager.h"

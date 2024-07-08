@@ -11,6 +11,7 @@
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/StaticSphereCollider.h"
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/MonsterHelper.h"
 #include "../ParagonUtil/Log.h"
@@ -77,7 +78,7 @@ namespace Pg::DataScript
 			}
 			else if (childTag == "TAG_Skill")
 			{
-				Pg::Data::StaticBoxCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				Pg::Data::StaticSphereCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticSphereCollider>();
 				if (skillStaticCol != nullptr)
 				{
 					_skillAttackCol.push_back(skillStaticCol);
@@ -209,7 +210,7 @@ namespace Pg::DataScript
 
 			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK)
 			{
-				//Skill(_monsterHelper->_isAnimationEnd); // 스킬 사용
+				Skill(_monsterHelper->_isAnimationEnd); // 스킬 사용
 			}
 			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK_1 ||
 				_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK_2 ||
@@ -220,7 +221,7 @@ namespace Pg::DataScript
 			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::IDLE)
 			{
 				Attack(false);
-				//Skill(false);
+				Skill(false);
 			}
 		}
 		else
@@ -354,6 +355,14 @@ namespace Pg::DataScript
 		for (auto& iter : _attackCol)
 		{
 			iter->SetActive(_isAttack);
+		}
+	}
+
+	void GolemBossBehaviour::Skill(bool _isSkill)
+	{
+		for (auto& iter : _skillAttackCol)
+		{
+			iter->SetActive(_isSkill);
 		}
 	}
 

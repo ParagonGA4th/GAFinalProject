@@ -234,7 +234,7 @@ namespace Pg::Graphics
 		{
 			DirectX::SimpleMath::Vector3 position;
 			DirectX::SimpleMath::Quaternion rotation;
-			//DirectX::SimpleMath::Vector3 scale;
+			DirectX::SimpleMath::Vector3 scale;
 
 			//NodeAnim이 중요한 이유 : Name과, 값을 찾기 위해서.
 			const ModifiedNode_SkinnedMesh* node = _animatedModifNodeMap[nodeAnim->_nodeName];
@@ -265,18 +265,22 @@ namespace Pg::Graphics
 					//Blending 필요.
 					DirectX::SimpleMath::Vector3 prev_position = FillPositionForNodeAnim(_prevAnim, tPrevFoundNodeAnim);
 					DirectX::SimpleMath::Quaternion prev_rotation = FillRotationForNodeAnim(_prevAnim, tPrevFoundNodeAnim);
+					//DirectX::SimpleMath::Vector3 prev_scale = FillScaleForNodeAnim(_prevAnim, tPrevFoundNodeAnim);
 
 					DirectX::SimpleMath::Vector3 now_position = FillPositionForNodeAnim(_currentAnim, nodeAnim.get());
 					DirectX::SimpleMath::Quaternion now_rotation = FillRotationForNodeAnim(_currentAnim, nodeAnim.get());
+					//DirectX::SimpleMath::Vector3 now_scale = FillScaleForNodeAnim(_currentAnim, nodeAnim.get());
 
 					assert(_blendLerpRatio <= 1.0f);
 					position = DirectX::SimpleMath::Vector3::Lerp(prev_position, now_position, _blendLerpRatio);
 					rotation = DirectX::SimpleMath::Quaternion::Slerp(prev_rotation, now_rotation, _blendLerpRatio);
+					//scale = DirectX::SimpleMath::Vector3::Lerp(prev_scale, now_scale, _blendLerpRatio);
 				}
 				else
 				{
 					position = FillPositionForNodeAnim(_currentAnim, nodeAnim.get());
 					rotation = FillRotationForNodeAnim(_currentAnim, nodeAnim.get());
+					//scale = FillScaleForNodeAnim(_currentAnim, nodeAnim.get());
 				}
 			}
 			else
@@ -290,6 +294,7 @@ namespace Pg::Graphics
 			rotation.Normalize();
 			node->_relTransform->SetLocalPosition(position);
 			node->_relTransform->SetLocalRotation(rotation);
+			//node->_relTransform->SetLocalScale(scale); // 스케일 반영 안한다.
 		}
 	}
 

@@ -13,6 +13,7 @@ namespace Pg::Data
 	class PhysicsCollision;
 	class SkinnedMeshRenderer;
 	class CapsuleCollider;
+	class StaticSphereCollider;
 	class MonsterHelper;
 	class StaticBoxCollider;
 	class AudioSource;
@@ -64,6 +65,7 @@ namespace Pg::DataScript
 
 		//플레이어를 공격.
 		void Attack(bool _isAttack);
+		void Skill(bool _isSkill);
 
 		//피격 시 애니메이션 출력을 위한 함수.
 		void Hit();
@@ -93,7 +95,7 @@ namespace Pg::DataScript
 		Pg::Data::CapsuleCollider* _collider;
 
 		std::vector<Pg::Data::StaticBoxCollider*> _attackCol;
-		std::vector<Pg::Data::StaticBoxCollider*> _skillAttackCol;
+		std::vector<Pg::Data::StaticSphereCollider*> _skillAttackCol;
 
 		//몬스터가 리스폰 될 위치
 		Pg::Math::PGFLOAT3 _respawnPos;

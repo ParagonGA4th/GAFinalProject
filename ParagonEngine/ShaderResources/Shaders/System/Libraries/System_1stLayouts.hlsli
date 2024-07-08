@@ -56,8 +56,7 @@ struct Vin1stPassSkinned_Layout
     float vin1st_BlendWeight0 : BLENDWEIGHT0;
     float vin1st_BlendWeight1 : BLENDWEIGHT1;
     float vin1st_BlendWeight2 : BLENDWEIGHT2;
-    
-    uint vin1st_NodeIndex       : NODE_INDEX;
+    float vin1st_BlendWeight3 : BLENDWEIGHT3;
     
     //Vin2ndAll
     float3 vin1st_NormalL : NORMAL;
