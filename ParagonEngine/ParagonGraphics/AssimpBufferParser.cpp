@@ -349,10 +349,11 @@ namespace Pg::Graphics::Helper
 				vertices[vid + j]._blendWeight0 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[0];
 				vertices[vid + j]._blendWeight1 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[1];
 				vertices[vid + j]._blendWeight2 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[2];
+				vertices[vid + j]._blendWeight3 = vertexBoneVector.at(j + tTotalElapsedVertexCount).Weights[3];
 
 				//SKINNED는 Lightmap UV가 불가능하다! Node Index로 값 바꿀 것. 
 				//Node Index 값 투입.
-				vertices[vid + j]._nodeIndex = sceneData->_meshList[i]._belongNodeIndex;
+				//vertices[vid + j]._nodeIndex = sceneData->_meshList[i]._belongNodeIndex;
 
 				//2nd
 				vertices2nd[vid + j]._normalL = DirectX::XMFLOAT3{ norm.x, norm.y, norm.z };

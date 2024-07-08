@@ -42,8 +42,9 @@ namespace Pg::Graphics
 			float			  _blendWeight0;
 			float			  _blendWeight1;
 			float			  _blendWeight2;
+			float			  _blendWeight3;
 
-			unsigned int _nodeIndex;
+			//unsigned int _nodeIndex;
 		};
 
 		//모든 3D Mesh들의 2nd Vertex Buffer. 
