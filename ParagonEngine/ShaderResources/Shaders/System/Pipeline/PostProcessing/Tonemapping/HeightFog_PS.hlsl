@@ -22,15 +22,18 @@ POutQuad main(VOutQuad pin)
     //만약 Height이 일정 수준보다 낮으면 : Cubemap 값이 이미 들어오고 / 이를 섞어서 넘길 수 있을 것이다.
     float3 worldPos = GetPosition(pin.UV);
     float height = worldPos.y;
+   
+    float4 staticFogColor = float4(0.6627f, 0.745f, 0.8313f, 1.0f);
+    
+    float viewVal = gCBuf_EyePosition.y - worldPos.y;
+    
     //float viewDistance = length(worldPos - gCBuf_EyePosition);
-    float viewDistance = abs(worldPos.y - gCBuf_EyePosition.y);
+    float viewDistance = viewVal;
     float fogFactor = (FOG_END_LEVEL_Y - viewDistance) / (FOG_END_LEVEL_Y - FOG_START_LEVEL_Y);
     fogFactor = saturate(fogFactor);
     float heightFactor = exp(-FOG_DENSITY * height);
-    //float finalFogFactor = fogFactor * heightFactor;
-    float finalFogFactor = fogFactor * heightFactor / 3.0f;
-    
-    float4 staticFogColor = float4(0.6627f, 0.745f, 0.8313f, 1.0f);
+        //float finalFogFactor = fogFactor * heightFactor;
+    float finalFogFactor = saturate(fogFactor * heightFactor / 3.0f);
     res.Output = lerp(originalColor, staticFogColor, finalFogFactor);
     
     return res;
