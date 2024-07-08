@@ -116,80 +116,50 @@ namespace Pg::Graphics
 
 
 		//Shadow를 구하기 위한 행렬 반환.
+		float tLightSeparatedDistance = 50.f;
+		Pg::Math::PGFLOAT3 tForwardDir;
+		float tMainLightRadiance;
+		tForwardDir = { 0.f, -1.f, 0.f };
+		tMainLightRadiance = 1.0f;
+
+		//Scene이 가리키는 중앙 지점이랑 가까운 지점에 있어야 한다.
+		using namespace DirectX;
+		Pg::Math::PGFLOAT3 tNewPosition = { 0.f, 0.f, 0.0f };
+
+		// 일단이 Direction 자체가 연동이 안되어 있을 수도 있다. 만약 그럴 경우 -> Direction 자체를 LightComponent에서 없애고, Transform Quaternion에서 매번 변환하게 해야 한다.
+		Pg::Math::PGFLOAT3 tLightPos = tNewPosition + (-tForwardDir) * tLightSeparatedDistance;
+		XMVECTOR lightPosition = PG2XM_FLOAT3_VECTOR(tLightPos);
+		//LightPosition에서 NewPosition을 바라보면 될 것.
+		XMVECTOR targetPosition = PG2XM_FLOAT3_VECTOR(tNewPosition);
+		XMVECTOR upVector = PG2XM_FLOAT3_VECTOR(Pg::Math::PGFLOAT3::GlobalUp());
+
+		//Light의 World를 구하기.
 		{
-			//																			RIGHT							UP						FORWARD
-			//Pg::Math::PGFLOAT4X4 tView = Pg::Math::GetViewMatrixFromTransformValues({ 0.707107, 0.000000, 0.707107 }, { 0, 0.707107, 0.707107 }, { -0.707107, -0.707107, 0.000000 }, { 100,100,
-
-			float tLightSeparatedDistance = 50.f;
-			Pg::Math::PGFLOAT3 tForwardDir;
-			float tMainLightRadiance;
-			//if (tDirInputCount > 0)
-			//{
-			//	tForwardDir = Pg::Math::GetForwardVectorFromQuat(_savedSceneInfo->_dirLightList.at(0)->_object->_transform._rotation);
-			//	tForwardDir = Pg::Math::PGFloat3Normalize(tForwardDir);
-			//	tMainLightRadiance = _savedSceneInfo->_dirLightList.at(0)->_radiance;
-			//}
-			//else
-			//{
-				//tForwardDir = { -0.707107f, -0.707107f, 0.f };
-			tForwardDir = { 0.f, -1.f, 0.f };
-			tMainLightRadiance = 1.0f;
-			//}
-
-			//Scene이 가리키는 중앙 지점이랑 가까운 지점에 있어야 한다.
-			using namespace DirectX;
-			//Pg::Math::PGFLOAT3 tNewPosition = _savedCamData->_position;
-			//Pg::Math::PGFLOAT3 tNewPosition = { 0.f, 0.f, -5.0f };
-			Pg::Math::PGFLOAT3 tNewPosition = { 0.f, 0.f, 0.0f };
-
-			// 일단이 Direction 자체가 연동이 안되어 있을 수도 있다. 만약 그럴 경우 -> Direction 자체를 LightComponent에서 없애고, Transform Quaternion에서 매번 변환하게 해야 한다.
-			Pg::Math::PGFLOAT3 tLightPos = tNewPosition + (-tForwardDir) * tLightSeparatedDistance;
-			XMVECTOR lightPosition = PG2XM_FLOAT3_VECTOR(tLightPos);
-			//LightPosition에서 NewPosition을 바라보면 될 것.
-			XMVECTOR targetPosition = PG2XM_FLOAT3_VECTOR(tNewPosition);
-			//XMVECTOR targetPosition = PG2XM_FLOAT3_VECTOR(Pg::Math::PGFLOAT3{ 0.0f, 0.0f, 0.0f });
-			XMVECTOR upVector = PG2XM_FLOAT3_VECTOR(Pg::Math::PGFLOAT3::GlobalUp());
-			//_cbRenderingInfo->GetDataStruct()->_lightView = XMMatrixLookAtLH(lightPosition, targetPosition, upVector);
-
-			//Light의 World를 구하기.
-			{
-				XMVECTOR tLightWorldPosition = lightPosition;
-				XMVECTOR tLightQuat = XMQuaternionRotationAxis(XMVectorSet(1.f, 0.f, 0.f, 1.0f), XMConvertToRadians(90.f));
-				XMVECTOR tLightScale = XMVectorSet(1.f, 1.f, 1.f, 1.f);
-				XMMATRIX tLightWorldMatrix = XMMatrixAffineTransformation(tLightScale, XMVectorZero(), tLightQuat, tLightWorldPosition);
-				XMMATRIX tLightViewMatrix = XMMatrixInverse(nullptr, tLightWorldMatrix);
-				_cbRenderingInfo->GetDataStruct()->_lightView = tLightViewMatrix;
-			}
-
-
-
-
-
-			////Camera World 행렬
-			//{
-			//	DirectX::XMVECTOR tPos = XMVectorSet(tNew)
-			//}
-
-
-
-
-				//LightView를 다르게 넣는 것과 더해,
-				//추가된 MainLightDir / Radiance를 옮겨야 한다.
-			_cbRenderingInfo->GetDataStruct()->_indep_MainLightDir = PG2XM_FLOAT3(tForwardDir);
-			_cbRenderingInfo->GetDataStruct()->_indep_MainLightRadiance = tMainLightRadiance;
-
-			//float width = 35.0f * 2.0f;  // right - left
-			//float height = 35.0f * 2.0f; // top - bottom
-
-			float width = 20.0f * 2.0f;  // right - left
-			float height = 20.0f * 2.0f; // top - bottom
-			Pg::Math::PGFLOAT4X4 tProj = Pg::Math::PGMatrixOrthographicLH(width,
-				height, _savedCamData->_nearZ, _savedCamData->_farZ);
-
-			_cbRenderingInfo->GetDataStruct()->_lightProj = PG2XM_MATRIX4X4(tProj);
-			_cbRenderingInfo->GetDataStruct()->_lightViewProj = DirectX::XMMatrixMultiply(
-				_cbRenderingInfo->GetDataStruct()->_lightView, _cbRenderingInfo->GetDataStruct()->_lightProj);
+			XMVECTOR tLightWorldPosition = lightPosition;
+			XMVECTOR tLightQuat = XMQuaternionRotationAxis(XMVectorSet(1.f, 0.f, 0.f, 1.0f), XMConvertToRadians(90.f));
+			XMVECTOR tLightScale = XMVectorSet(1.f, 1.f, 1.f, 1.f);
+			XMMATRIX tLightWorldMatrix = XMMatrixAffineTransformation(tLightScale, XMVectorZero(), tLightQuat, tLightWorldPosition);
+			XMMATRIX tLightViewMatrix = XMMatrixInverse(nullptr, tLightWorldMatrix);
+			_cbRenderingInfo->GetDataStruct()->_lightView = tLightViewMatrix;
 		}
+
+		//LightView를 다르게 넣는 것과 더해,
+		//추가된 MainLightDir / Radiance를 옮겨야 한다.
+		_cbRenderingInfo->GetDataStruct()->_indep_MainLightDir = PG2XM_FLOAT3(tForwardDir);
+		_cbRenderingInfo->GetDataStruct()->_indep_MainLightRadiance = tMainLightRadiance;
+
+		//float width = 35.0f * 2.0f;  // right - left
+		//float height = 35.0f * 2.0f; // top - bottom
+
+		float width = 20.0f * 2.0f;  // right - left
+		float height = 20.0f * 2.0f; // top - bottom
+		Pg::Math::PGFLOAT4X4 tProj = Pg::Math::PGMatrixOrthographicLH(width,
+			height, _savedCamData->_nearZ, _savedCamData->_farZ);
+
+		_cbRenderingInfo->GetDataStruct()->_lightProj = PG2XM_MATRIX4X4(tProj);
+		_cbRenderingInfo->GetDataStruct()->_lightViewProj = DirectX::XMMatrixMultiply(
+			_cbRenderingInfo->GetDataStruct()->_lightView, _cbRenderingInfo->GetDataStruct()->_lightProj);
+
 
 		///그 전에, LightViewProj를 CamData에 옮겨주자! 맨 처음에 실행되니 문제 없이 실행될 것.
 		_carrier->_mainLightPerspectiveViewProjMatrix = _cbRenderingInfo->GetDataStruct()->_lightViewProj;
