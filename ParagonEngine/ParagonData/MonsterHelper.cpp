@@ -7,6 +7,7 @@ Pg::Data::MonsterHelper::MonsterHelper(GameObject* obj)
 	_isAnimationEnd(false), _isAnimChange(false), _isDeadDelay(false)
 {
 	BossInit();
+	GolemBossInit();
 	GolemInit();
 	StubInit();
 	MimicInit();
@@ -29,18 +30,6 @@ void Pg::Data::MonsterHelper::BossInit()
 	_bossFlag._bossState = Pg::Data::BossState::IDLE;
 	_bossFlag._bossPase = Pg::Data::BossPase::PASE_1;
 
-	_bossFlag._bossStateListByString["Idle"] = Pg::Data::BossState::IDLE;
-	_bossFlag._bossStateListByString["BAttack_1"] = Pg::Data::BossState::BASIC_ATTACK_1;
-	_bossFlag._bossStateListByString["BAttack_2"] = Pg::Data::BossState::BASIC_ATTACK_2;
-	_bossFlag._bossStateListByString["BAttack_3"] = Pg::Data::BossState::BASIC_ATTACK_3;
-	_bossFlag._bossStateListByString["SFeatherAttack"] = Pg::Data::BossState::SKILL_FEATHER_ATTACK;
-	_bossFlag._bossStateListByString["SFlyAttack1"] = Pg::Data::BossState::SKILL_FLY_ATTACK_1;
-	_bossFlag._bossStateListByString["SFlyAttackPre1"] = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1;
-	_bossFlag._bossStateListByString["SFlyAttack2"] = Pg::Data::BossState::SKILL_FLY_ATTACK_2;
-	_bossFlag._bossStateListByString["SFlyAttackPre2"] = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2;
-	_bossFlag._bossStateListByString["SFlyAttack3"] = Pg::Data::BossState::SKILL_FLY_ATTACK_3;
-	_bossFlag._bossStateListByString["SFlyAttackPre3"] = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3;
-
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::IDLE] = "Idle";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_1] = "BAttack_1";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_2] = "BAttack_2";
@@ -53,6 +42,25 @@ void Pg::Data::MonsterHelper::BossInit()
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_3] = "SFlyAttack3";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3] = "SFlyAttackPre3";
 }
+
+void Pg::Data::MonsterHelper::GolemBossInit()
+{
+	_bGolemFlag._isPase_1 = true;
+	_bGolemFlag._isPase_2 = false;
+
+	_bGolemFlag._isDash = false;
+	_bGolemFlag._isDown = false;
+
+	_bGolemFlag._bossState = Pg::Data::GolemBossState::IDLE;
+	_bGolemFlag._bossPase = Pg::Data::BossPase::PASE_1;
+
+	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::IDLE] = "Idle";
+	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::BASIC_ATTACK_1] = "BAttack_1";
+	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::BASIC_ATTACK_2] = "BAttack_2";
+	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::BASIC_ATTACK_3] = "BAttack_3";
+	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::SKILL_ATTACK] = "SAttack";
+}
+
 void Pg::Data::MonsterHelper::GolemInit()
 {
 	_mGolemFlag._isDash = false;
@@ -72,3 +80,4 @@ void Pg::Data::MonsterHelper::WaspInit()
 {
 	_waspFlag._attackCount = 0;
 }
+

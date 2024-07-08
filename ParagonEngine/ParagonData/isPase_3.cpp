@@ -8,14 +8,20 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_bossFlag._isPase_1)
+			if (monHelper->_bossFlag._isPase_3)
 			{
 				monHelper->_bossFlag._bossPase = Pg::Data::BossPase::PASE_3;
-				if (!_isInit)
+				if (_isInit)
 				{
-					monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_1;
+					if (monHelper->_bossFlag._bossState == Pg::Data::BossState::EVASION)
+						monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_1;
+				}
+				else
+				{
+					monHelper->_bossFlag._bossState = Pg::Data::BossState::EVASION;
 					_isInit = true;
 				}
+				
 				return BT::NodeStatus::SUCCESS;
 			}
 		}

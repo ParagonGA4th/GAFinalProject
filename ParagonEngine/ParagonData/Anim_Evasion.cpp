@@ -9,13 +9,16 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_bossFlag._bossState != Pg::Data::BossState::EVASION)
-				return BT::NodeStatus::FAILURE;
+			if (monHelper->_bossFlag._bossState == Pg::Data::BossState::EVASION) _isParttern = true;
 
 			if (monHelper->_isAnimationEnd)
 			{
 				monHelper->_isAnimationEnd = false;
-				//monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FEATHER_ATTACK;
+				if (_isParttern)
+				{
+					monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FEATHER_ATTACK;
+					_isParttern = false;
+				}
 			}
 		}
 

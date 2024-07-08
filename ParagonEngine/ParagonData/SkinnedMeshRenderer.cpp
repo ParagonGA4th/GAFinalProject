@@ -13,7 +13,9 @@
 
 namespace Pg::Data
 {
-	SkinnedMeshRenderer::SkinnedMeshRenderer(GameObject* obj) : RendererBase3D(obj)
+	SkinnedMeshRenderer::SkinnedMeshRenderer(GameObject* obj) 
+		: RendererBase3D(obj)
+		//_animBlendFactor(10.f), _alphaPercentage(50.f)
 	{
 		SetRendererTypeName(typeid(this).name());
 	}

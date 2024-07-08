@@ -67,10 +67,12 @@ namespace Pg::DataScript
 
 		//Boss_RotateAroundMode();
 
-		//if (GetAsyncKeyState(VK_F8) & 0x8000)
-		//{
-		//	_object->_transform._rotation = Pg::Math::PGRotateQuaternion(_object->_transform._rotation, { 0,1,0 }, 0.1);
-		//}
+		if (GetAsyncKeyState(VK_F8) & 0x8000)
+		{
+			auto pCamera = _object->GetScene()->FindObjectsWithTag("TAG_EditorCamera");
+			auto cameraObj = pCamera.at(0)->GetComponent<Pg::Data::Camera>();
+			if(cameraObj != nullptr) _object->GetScene()->SetMainCamera(cameraObj);
+		}
 		//if (GetAsyncKeyState(VK_F9) & 0x8000)
 		//{
 		//	_object->_transform._rotation = Pg::Math::PGRotateQuaternion(_object->_transform._rotation, { 1,0,0 }, 0.1);

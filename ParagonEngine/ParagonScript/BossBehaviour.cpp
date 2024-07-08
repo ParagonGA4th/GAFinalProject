@@ -197,7 +197,7 @@ namespace Pg::DataScript
 
 				_monsterHelper->_isChase = false;
 				_monsterHelper->_isPlayerinHitSpace = true;
-				_monsterHelper->_bossFlag._isPase_1 = true;
+				_monsterHelper->_bossFlag._isPase_2 = true;
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2)

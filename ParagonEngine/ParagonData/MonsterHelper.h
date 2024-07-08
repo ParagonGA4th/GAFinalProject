@@ -22,6 +22,7 @@ namespace Pg::Data
 
 	private:
 		void BossInit();
+		void GolemBossInit();
 		void GolemInit();
 		void StubInit();
 		void MimicInit();

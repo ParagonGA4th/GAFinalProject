@@ -8,6 +8,12 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
+			std::string state = monHelper->_bGolemFlag._bossStateListByEnum[monHelper->_bGolemFlag._bossState];
+			if (state.find("BAttack") != std::string::npos)
+			{
+				return BT::NodeStatus::SUCCESS;
+			}
+
 			if (monHelper->_bGolemFlag._isPase_1)
 			{
 				monHelper->_bGolemFlag._bossPase = Pg::Data::BossPase::PASE_1;
