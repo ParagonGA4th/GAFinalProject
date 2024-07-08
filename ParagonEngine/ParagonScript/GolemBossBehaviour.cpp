@@ -125,7 +125,8 @@ namespace Pg::DataScript
 		//_miniGolemAttack = _object->GetScene()->FindObjectWithName("MiniGolemAttackSound");
 		//_attackSound = _miniGolemAttack->GetComponent<Pg::Data::AudioSource>();
 
-		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
+		if (_object->GetComponent<Pg::Data::MonsterHelper>() == nullptr)
+			_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 	}
@@ -184,6 +185,7 @@ namespace Pg::DataScript
 			_hasDashed = false;
 		}
 		//PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
+		PG_TRACE(_meshRenderer->GetAnimation());
 	}
 
 	void GolemBossBehaviour::Idle()
@@ -204,6 +206,7 @@ namespace Pg::DataScript
 
 			_monsterHelper->_isChase = false;
 			_monsterHelper->_isPlayerinHitSpace = true;
+			_monsterHelper->_bGolemFlag._isPase_1 = true;
 
 			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK)
 			{

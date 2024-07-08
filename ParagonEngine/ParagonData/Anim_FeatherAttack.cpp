@@ -16,8 +16,6 @@ namespace Pg::Data::BTree::Node
 			{
 				monHelper->_isAnimationEnd = false;
 				monHelper->_bossFlag._bossState = Pg::Data::BossState::IDLE;
-				//config().blackboard->set<std::string>
-				//	("NEXTANIM", monHelper->_bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_1]);
 			}
 		}
 
