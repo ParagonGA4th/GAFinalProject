@@ -16,6 +16,9 @@
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/MonsterHelper.h"
+
+#include "../ParagonAPI/PgTween.h"
+
 #include <singleton-cpp/singleton.h>
 #include <algorithm>
 
@@ -202,13 +205,14 @@ namespace Pg::DataScript
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2)
 				{
-					Attack(_monsterHelper->_isAnimChange);
+					//Attack(_monsterHelper->_isAnimChange);
 					//_useLightSkill = true;
+					_useTakeDownSkill = true;
 				}
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3)
 				{
-					Attack(false);
-					_useStormBlast = true;
+					//Attack(false);
+					//_useStormBlast = true;
 				}
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE)
@@ -231,6 +235,9 @@ namespace Pg::DataScript
 
 		//빛기둥 스킬
 		UpdatePhaseTwoSkill();
+
+		//내려찍기 스킬
+		UpdatePhaseThreeSkill();
 	}
 
 	void BossBehaviour::Chase()
@@ -421,6 +428,9 @@ namespace Pg::DataScript
 			// 빛기둥 콜라이더를 임의의 위치에 순차적으로 생성
 			if (_bossInfo->GetCurrentLightSkillTime() >= _nextActivationTime)
 			{
+				//자신은 무적이 된다.
+				_collider->SetActive(false);
+
 				if (_currentColIndex < _lightAttackCol.size())
 				{
 					auto& iter = _lightAttackCol[_currentColIndex];
@@ -447,7 +457,47 @@ namespace Pg::DataScript
 				_useLightSkill = false;
 				_currentColIndex = 0;       // 초기화
 				_nextActivationTime = 0.0f; // 초기화
+
+				//무적 해제
+				_collider->SetActive(false);
 			}
+		}
+	}
+
+	void BossBehaviour::UpdatePhaseThreeSkill()
+	{
+		if(_useTakeDownSkill)
+		{
+			// Tween 생성
+			Pg::Util::Tween* riseTween = _pgTween->CreateTween();
+			Pg::Util::Tween* fallTween = _pgTween->CreateTween();
+
+			// 현재 위치 저장
+			Pg::Math::PGFLOAT3 currentPosition = _object->_transform._position;
+
+			// 목표 위치 설정
+			Pg::Math::PGFLOAT3 risePosition = currentPosition;
+			risePosition.y += 5.0f; // 상승할 거리
+
+			Pg::Math::PGFLOAT3 fallPosition = currentPosition;
+			fallPosition.y -= 10.0f; // 내려찍을 거리
+
+			// 상승 Tween 설정
+			riseTween->GetData(&(_object->_transform._position))
+				.DoMove(risePosition, 0.5f) // 0.5초 동안 상승
+				.SetEase(Pg::Util::Enums::eEasingMode::OUTQUART)
+				.OnComplete([this, fallTween, fallPosition]()
+					{
+						// 하강 Tween 설정
+						fallTween->GetData(&(_object->_transform._position))
+							.DoMove(fallPosition, 1.0f) // 1초 동안 하강
+							.SetEase(Pg::Util::Enums::eEasingMode::INQUART)
+							.OnComplete([this]()
+								{
+									// 내려찍기 후 추가 동작
+									_useTakeDownSkill = false;
+								});
+					});
 		}
 	}
 
