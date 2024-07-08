@@ -26,6 +26,11 @@ namespace Pg::API
 	{
 		class PgTime;
 	}
+
+	namespace Tween
+	{
+		class PgTween;
+	}
 }
 
 namespace Pg::DataScript
@@ -64,6 +69,7 @@ namespace Pg::DataScript
 		//보스의 스킬 공격들.
 		void UpdateSkill();
 		void UpdatePhaseTwoSkill();
+		void UpdatePhaseThreeSkill();
 
 		//회피하는 로직.
 		void Evade();
@@ -91,6 +97,7 @@ namespace Pg::DataScript
 
 	private:
 		Pg::API::Time::PgTime* _pgTime;
+		Pg::API::Tween::PgTween* _pgTween;
 		Pg::API::PgScene* _pgScene;
 
 		Pg::Data::GameObject* _player;
@@ -153,6 +160,8 @@ namespace Pg::DataScript
 		bool _useStormBlast{ false };
 
 		bool _useLightSkill{ false };
+		
+		bool _useTakeDownSkill{ false };
 
 		float _activationInterval{ 1.f }; // 각 콜라이더가 활성화되는 시간 간격
 		float _nextActivationTime{ 1.0f }; // 다음 콜라이더가 활성화될 시간
