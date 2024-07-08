@@ -1,10 +1,25 @@
 #include "Anim_fIdle.h"
+#include "MonsterHelper.h"
 #include "SkinnedMeshRenderer.h"
 
 namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_fIdle::tick()
 	{
+		if (GetGameObject()->GetName().find("Boss") != std::string::npos)
+		{
+			auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
+			if (monHelper != nullptr)
+			{
+				monHelper->_bGolemFlag._bossState = Pg::Data::GolemBossState::BASIC_ATTACK_1;
+				if (monHelper->_bGolemFlag._bossPase == Pg::Data::BossPase::PASE_2)
+				{
+					bool isHolding = config().blackboard->get<bool>("ISHOLDING");
+					if (!isHolding) monHelper->_bGolemFlag._bossState = Pg::Data::GolemBossState::SKILL_ATTACK;
+				}
+			}
+		}
+
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{

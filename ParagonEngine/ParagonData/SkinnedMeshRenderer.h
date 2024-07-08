@@ -59,6 +59,8 @@ namespace Pg::Data
 		VISITABLE(std::string, _meshName);
 		VISITABLE(std::string, _materialName);
 		VISITABLE(std::string, _initAnimName);
+		//VISITABLE(float, _animBlendFactor);
+		//VISITABLE(float, _alphaPercentage);
 		END_VISITABLES;
 
 		//이것도 이제 VISITABLE에 추가되어야! 기본적으로 10 정도가 적당하나, 보스 등 일부 기준으로 더 느려야.
