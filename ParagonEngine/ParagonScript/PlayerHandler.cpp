@@ -12,6 +12,7 @@
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/PgTime.h"
+#include "../ParagonAPI/PgGraphics.h"
 #include "../ParagonUtil/Log.h"
 
 //일어날 수 있는 Event들의 리스트
@@ -65,6 +66,8 @@ namespace Pg::DataScript
 
 	void PlayerHandler::Update()
 	{
+
+
 		_comboSystem->SystemUpdate();
 
 		_playerMovementSector->Update();

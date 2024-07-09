@@ -19,6 +19,7 @@ namespace Pg::API
 	namespace Time { class PgTime; }
 	namespace Raycast { class PgRayCast; }
 	namespace Tween { class PgTween; }
+	namespace Graphics { class PgGraphics; }
 }
 
 namespace Pg::DataScript
@@ -107,6 +108,7 @@ namespace Pg::DataScript
 		Pg::API::Time::PgTime* _pgTime{ nullptr };
 		Pg::API::Raycast::PgRayCast* _pgRayCast{ nullptr };
 		Pg::API::Tween::PgTween* _pgTween{ nullptr };
+		Pg::API::Graphics::PgGraphics* _pgGraphics{ nullptr };
 		Pg::Math::PGFLOAT3 _targetPos;
 		Pg::Math::PGQuaternion _targetRotation;
 

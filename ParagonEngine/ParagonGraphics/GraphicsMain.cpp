@@ -142,7 +142,6 @@ namespace Pg::Graphics
 		_renderer->PostProcessingRender(_camData);
 		_renderer->UiRender(_camData);
 		_renderer->FadeInOutRender();
-		_renderer->DebugQuadsOverlayRender();
 	}
 
 	//Pg::Data::GameObject* GraphicsMain::GetPickedGameObjectWithRatios(float widthRatio, float heightRatio)
@@ -188,6 +187,8 @@ namespace Pg::Graphics
 	{
 		//Main Render Target으로 보내기.
 		_renderer->FinalRender(_camData);
+		//추가 Debugging이 있을 경우.
+		_renderer->DebugQuadsOverlayRender();
 	}
 
 	void GraphicsMain::EndRender()
@@ -383,6 +384,11 @@ namespace Pg::Graphics
 	Pg::Graphics::VisualEffectRenderer* GraphicsMain::GetVisualEffectRenderer()
 	{
 		return _renderer->GetVisualEffectRenderer();
+	}
+
+	Pg::Data::CameraData* GraphicsMain::GetCamData()
+	{
+		return _camData;
 	}
 
 }

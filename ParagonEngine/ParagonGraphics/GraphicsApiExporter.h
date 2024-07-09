@@ -59,9 +59,12 @@ namespace Pg::Graphics
 		PARAGON_GRAPHICS_DLL void ScreenSpace_FadeIn();
 		PARAGON_GRAPHICS_DLL void ScreenSpace_FadeOut();
 
+		//Player의 Position : Graphics한테 전달.
+		PARAGON_GRAPHICS_DLL void RegisterPlayerPosition(Pg::Math::PGFLOAT3 playerPos);
 
 	private:
 		GraphicsMain* _graphicsMain{ nullptr };
+		
 	};
 }
 

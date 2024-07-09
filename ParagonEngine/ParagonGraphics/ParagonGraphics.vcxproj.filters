@@ -1142,6 +1142,9 @@
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\16_HeightFogRenderPass">
       <UniqueIdentifier>{8aa14f88-db08-4907-a027-750d80991ea5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\Debug">
+      <UniqueIdentifier>{778e3bc9-0724-4c69-9dd3-70b353ae469b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
@@ -1275,6 +1278,9 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\AlphaDefault\AlphaDefaultStatic_VS.hlsl">
       <Filter>6_HLSL\System\Pipeline\AlphaDefault</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Debug\Debug_ShadowMap_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Debug</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

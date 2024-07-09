@@ -116,7 +116,8 @@ namespace Pg::Graphics
 
 
 		//Shadow를 구하기 위한 행렬 반환.
-		float tLightSeparatedDistance = 50.f;
+		//float tLightSeparatedDistance = 100.f;
+		float tLightSeparatedDistance = 200.f;
 		Pg::Math::PGFLOAT3 tForwardDir;
 		float tMainLightRadiance;
 		tForwardDir = { 0.f, -1.f, 0.f };
@@ -124,7 +125,17 @@ namespace Pg::Graphics
 
 		//Scene이 가리키는 중앙 지점이랑 가까운 지점에 있어야 한다.
 		using namespace DirectX;
-		Pg::Math::PGFLOAT3 tNewPosition = { 0.f, 0.f, 0.0f };
+		//Pg::Math::PGFLOAT3 tNewPosition = { 0.f, 0.f, 0.0f };
+		Pg::Math::PGFLOAT3 tCamPosition = _savedCamData->_position;
+		Pg::Math::PGFLOAT3 tPlyPosition = _savedCamData->_playerPosition;
+		//Pg::Math::PGFLOAT3 tHeadedVector = PGFloat3Normalize(tCamPosition - tPlyPosition);
+		//Pg::Math::PGFLOAT3 tHeadedVector = PGFloat3Normalize(tPlyPosition - tCamPosition);
+		//Pg::Math::PGFLOAT3 tNewPosition = tPlyPosition += (tHeadedVector * 10);
+		Pg::Math::PGFLOAT3 tNewPosition = tPlyPosition;
+		tNewPosition.y += 20.f;
+		//Pg::Math::PGFLOAT3 tCameraForwardVec = Pg::Math::PGFloat3Normalize(Pg::Math::GetForwardVectorFromQuat(_savedCamData->_rotation));
+		//tNewPosition.x -= (tCameraForwardVec.x * 20.0f);
+		//tNewPosition.z -= (tCameraForwardVec.z * 20.0f);
 
 		// 일단이 Direction 자체가 연동이 안되어 있을 수도 있다. 만약 그럴 경우 -> Direction 자체를 LightComponent에서 없애고, Transform Quaternion에서 매번 변환하게 해야 한다.
 		Pg::Math::PGFLOAT3 tLightPos = tNewPosition + (-tForwardDir) * tLightSeparatedDistance;
