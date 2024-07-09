@@ -16,6 +16,8 @@
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/MonsterHelper.h"
+
+#include "../ParagonUtil/Log.h"
 #include <singleton-cpp/singleton.h>
 #include <algorithm>
 
@@ -197,7 +199,9 @@ namespace Pg::DataScript
 
 				_monsterHelper->_isChase = false;
 				_monsterHelper->_isPlayerinHitSpace = true;
-				_monsterHelper->_bossFlag._isPase_2 = true;
+				_monsterHelper->_bossFlag._isPase_1 = true;
+
+				PG_TRACE(_meshRenderer->GetAnimation());
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2)
@@ -231,6 +235,7 @@ namespace Pg::DataScript
 
 		//빛기둥 스킬
 		UpdatePhaseTwoSkill();
+
 	}
 
 	void BossBehaviour::Chase()
@@ -367,7 +372,7 @@ namespace Pg::DataScript
 			if (_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetStartWindBlastTime())
 			{
 				Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
-				
+
 				//자신이 바라보는 방향으로 쏴야하기 때문에 z축빼고 전부 고정.
 				forwardDir.y = 0;
 				forwardDir.x = 0;
@@ -394,14 +399,14 @@ namespace Pg::DataScript
 					}
 				}
 			}
-			if(_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetWindBlastDuration())
+			if (_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetWindBlastDuration())
 			{
 				for (auto& iter : _windBlastAttackCol)
 				{
 					iter->SetActive(false);
 					iter->_object->_transform._position = { 0.f, 0.f, 1.f };
 				}
-				
+
 				_useStormBlast = false;
 				_isRotatingToPlayer = true;
 				_windRenderer->SetActive(false);
