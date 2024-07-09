@@ -96,8 +96,7 @@ namespace Pg::Defines
 	const std::wstring VIGNETTE_PS_DIRECTORY = L"../Builds/x64/Debug/Vignette_PS.cso";
 	const std::wstring BLOOM_PS_DIRECTORY = L"../Builds/x64/Debug/Bloom_PS.cso";
 	const std::wstring LUT_PS_DIRECTORY = L"../Builds/x64/Debug/LUT_PS.cso";
-
-
+	const std::wstring DEBUG_SHADOW_QUAD_PS_DIRECTORY = L"../Builds/x64/Debug/Debug_ShadowMap_PS.cso";
 }
 
 

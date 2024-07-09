@@ -8,6 +8,7 @@
 
 #include "../ParagonUtil/Log.h"
 #include "../ParagonData/AssetDefines.h"
+#include "../ParagonData/CameraData.h"
 
 #include <cassert>
 
@@ -170,6 +171,13 @@ namespace Pg::Graphics
 	void GraphicsApiExporter::ScreenSpace_FadeOut()
 	{
 		_graphicsMain->_renderer->_finalRenderer->Effect_FadeOut();
+	}
+
+	void GraphicsApiExporter::RegisterPlayerPosition(Pg::Math::PGFLOAT3 playerPos)
+	{
+		Pg::Data::CameraData* tCamData = _graphicsMain->GetCamData();
+		//딱 값을 정의해서 쓸 수 있게 만들기.
+		tCamData->_playerPosition = playerPos;
 	}
 
 }

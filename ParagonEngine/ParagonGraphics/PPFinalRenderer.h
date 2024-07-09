@@ -1,6 +1,7 @@
 #pragma once
 #include "SystemVertexShader.h"
 #include "SystemPixelShader.h"
+#include "DebugOverlayQuad.h"
 #include "BaseSpecificRenderer.h"
 #include "DX11Headers.h"
 
@@ -27,6 +28,7 @@ namespace Pg::Graphics
 {
 	class LowDX11Storage;
 	class SystemVertexShader;
+	class DebugOverlayQuad;
 }
 
 namespace Pg::Util
@@ -111,6 +113,10 @@ namespace Pg::Graphics
 		std::unique_ptr<GBufferRender> _postProcessingBuffer2;
 	
 		Pg::Util::Time::TimeSystem* _timeSystem{ nullptr };
+
+	private:
+		//ShadowMap Quad.
+		std::unique_ptr<DebugOverlayQuad> _debugOverlayShadowQuad;
 	};
 }
 //finalRenderer->RenderOutlineStencil();

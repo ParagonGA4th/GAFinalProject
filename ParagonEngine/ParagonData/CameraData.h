@@ -31,6 +31,10 @@ namespace Pg::Data
 		float _nearWindowHeight;
 		float _farWindowHeight;
 
+	public:
+		//플레이어의 위치를 스크립트에서 기록할 수 있게!
+		Pg::Math::PGFLOAT3 _playerPosition{ 0.f,0.f,0.f };
+
 		//Pg::Math::PGFLOAT4X4 _mainLightPerspectiveViewProjMatrix;
 	};
 }

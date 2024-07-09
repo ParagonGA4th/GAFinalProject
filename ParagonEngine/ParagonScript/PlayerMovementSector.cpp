@@ -16,6 +16,7 @@
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgRayCast.h"
 #include "../ParagonAPI/PgTween.h"
+#include "../ParagonAPI/PgGraphics.h"
 
 #include <singleton-cpp/singleton.h>
 #include <algorithm>
@@ -29,6 +30,7 @@ namespace Pg::DataScript
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgRayCast = &singleton<Pg::API::Raycast::PgRayCast>();
 		_pgTween = &singleton<Pg::API::Tween::PgTween>();
+		_pgGraphics = &singleton<Pg::API::Graphics::PgGraphics>();
 	}
 
 	void PlayerMovementSector::GrabManagedObjects()
@@ -106,6 +108,9 @@ namespace Pg::DataScript
 		}
 
 		StrafeAvoidLogic();
+
+		//Player Position ±â·Ï.
+		_pgGraphics->RegisterPlayerPosition(_playerHandler->_object->_transform._position);
 	}
 
 	void PlayerMovementSector::LateUpdate()
