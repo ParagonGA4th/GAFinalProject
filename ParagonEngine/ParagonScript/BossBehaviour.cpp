@@ -17,7 +17,8 @@
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/MonsterHelper.h"
 
-#include "../ParagonUtil/Log.h"
+#include "../ParagonAPI/PgTween.h"
+
 #include <singleton-cpp/singleton.h>
 #include <algorithm>
 
@@ -28,6 +29,7 @@ namespace Pg::DataScript
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgScene = &singleton<Pg::API::PgScene>();
+		_pgTween = &singleton<Pg::API::Tween::PgTween>();
 
 		//골렘의 체력과 공격
 		_bossInfo = new BossInfo(40.f, 4.f);
@@ -199,24 +201,25 @@ namespace Pg::DataScript
 
 				_monsterHelper->_isChase = false;
 				_monsterHelper->_isPlayerinHitSpace = true;
-				_monsterHelper->_bossFlag._isPase_1 = true;
-
-				PG_TRACE(_meshRenderer->GetAnimation());
+				_monsterHelper->_bossFlag._isPase_2 = true;
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2)
 				{
-					Attack(_monsterHelper->_isAnimChange);
+					//Attack(_monsterHelper->_isAnimChange);
 					//_useLightSkill = true;
+					_useTakeDownSkill = true;
 				}
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3)
 				{
-					Attack(false);
-					_useStormBlast = true;
+					//Attack(false);
+					_useTakeDownSkill = false;
+					//_useStormBlast = true;
 				}
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE)
 				{
+					_useTakeDownSkill = false;
 					Attack(false);
 				}
 			}
@@ -236,6 +239,8 @@ namespace Pg::DataScript
 		//빛기둥 스킬
 		UpdatePhaseTwoSkill();
 
+		//내려찍기 스킬
+		UpdatePhaseThreeSkill();
 	}
 
 	void BossBehaviour::Chase()
@@ -372,7 +377,7 @@ namespace Pg::DataScript
 			if (_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetStartWindBlastTime())
 			{
 				Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
-
+				
 				//자신이 바라보는 방향으로 쏴야하기 때문에 z축빼고 전부 고정.
 				forwardDir.y = 0;
 				forwardDir.x = 0;
@@ -399,14 +404,14 @@ namespace Pg::DataScript
 					}
 				}
 			}
-			if (_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetWindBlastDuration())
+			if(_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetWindBlastDuration())
 			{
 				for (auto& iter : _windBlastAttackCol)
 				{
 					iter->SetActive(false);
 					iter->_object->_transform._position = { 0.f, 0.f, 1.f };
 				}
-
+				
 				_useStormBlast = false;
 				_isRotatingToPlayer = true;
 				_windRenderer->SetActive(false);
@@ -426,6 +431,9 @@ namespace Pg::DataScript
 			// 빛기둥 콜라이더를 임의의 위치에 순차적으로 생성
 			if (_bossInfo->GetCurrentLightSkillTime() >= _nextActivationTime)
 			{
+				//자신은 무적이 된다.
+				_collider->SetActive(false);
+
 				if (_currentColIndex < _lightAttackCol.size())
 				{
 					auto& iter = _lightAttackCol[_currentColIndex];
@@ -452,13 +460,66 @@ namespace Pg::DataScript
 				_useLightSkill = false;
 				_currentColIndex = 0;       // 초기화
 				_nextActivationTime = 0.0f; // 초기화
+
+				//무적 해제
+				_collider->SetActive(false);
 			}
+		}
+	}
+
+	void BossBehaviour::UpdatePhaseThreeSkill()
+	{
+		///테스트를 위해 한번만 동작하고 막아둠(지워야 함)
+		static bool tVal = false;
+
+		if (_useTakeDownSkill && (!tVal))
+		{
+			// Tween 생성
+			Pg::Util::Tween* riseTween = _pgTween->CreateTween();
+			
+			_collider->SetActive(false);
+
+			_isRotatingToPlayer = false;
+			tVal = true;
+			// 현재 위치 저장
+			Pg::Math::PGFLOAT3 currentPosition = _object->_transform._position;
+
+			// 목표 위치 설정
+			Pg::Math::PGFLOAT3 risePosition = currentPosition;
+			risePosition.y += 10.0f; // 상승할 거리
+
+			// 상승 Tween 설정
+			riseTween->GetData(&(_object->_transform._position))
+				.DoMove(risePosition, 1.f) // 0.5초 동안 상승
+				.SetEase(Pg::Util::Enums::eEasingMode::OUTQUART)
+				.OnComplete([this]()
+					{
+						_goUp = true;
+					});
+		}
+		if (_goUp)
+		{
+			Pg::Util::Tween* fallTween = _pgTween->CreateTween();
+			Pg::Math::PGFLOAT3 fallPosition = _playerTransform->_position;
+			_goUp = false;
+			// 하강 Tween 설정
+			fallTween->GetData(&(_object->_transform._position))
+				.DoMove(fallPosition, 1.f) // 1초 동안 하강
+				.SetEase(Pg::Util::Enums::eEasingMode::INQUART)
+				.OnComplete([this]()
+					{
+						// 내려찍기 후 추가 동작
+						_useTakeDownSkill = false;
+						_isRotatingToPlayer = true;
+						_collider->SetActive(true);
+					});
 		}
 	}
 
 	void BossBehaviour::Evade()
 	{
 		// 회피 로직 구현
+		///쿨타임 추가 필요함(5초 정도)
 		if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::EVASION)
 		{
 			_bossInfo->_status = BossStatus::EVADE;
