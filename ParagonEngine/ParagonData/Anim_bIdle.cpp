@@ -12,10 +12,9 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (isHolding)
+		 	if (isHolding)
 			{
-				monHelper->_bossFlag._bossState = Pg::Data::BossState::BASIC_ATTACK_1;
-
+				monHelper->_bossFlag._bossState = Pg::Data::BossState::CASTING;
 				if (monHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_2)
 				{
 					if (_isSPSkillTime)
@@ -36,6 +35,7 @@ namespace Pg::Data::BTree::Node
 				}
 			}
 		}
+
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{

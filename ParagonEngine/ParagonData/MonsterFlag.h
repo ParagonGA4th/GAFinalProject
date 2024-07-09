@@ -18,6 +18,11 @@ namespace Pg::Data
 
 		bool _isDown;					// 보스가 무력화 되었는지
 		bool _isDash;					// 보스가 대쉬를 했는지
+
+		void StateReset()
+		{
+			_bossState = Pg::Data::BossState::IDLE;
+		}
 	};
 
 

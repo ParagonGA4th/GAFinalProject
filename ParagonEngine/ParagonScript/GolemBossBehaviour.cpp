@@ -185,7 +185,6 @@ namespace Pg::DataScript
 			_hasDashed = false;
 		}
 		//PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
-		PG_TRACE(_meshRenderer->GetAnimation());
 	}
 
 	void GolemBossBehaviour::Idle()
