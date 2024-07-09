@@ -29,6 +29,7 @@ namespace Pg::DataScript
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgScene = &singleton<Pg::API::PgScene>();
+		_pgTween = &singleton<Pg::API::Tween::PgTween>();
 
 		//골렘의 체력과 공격
 		_bossInfo = new BossInfo(40.f, 4.f);
@@ -212,11 +213,13 @@ namespace Pg::DataScript
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3)
 				{
 					//Attack(false);
+					_useTakeDownSkill = false;
 					//_useStormBlast = true;
 				}
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE)
 				{
+					_useTakeDownSkill = false;
 					Attack(false);
 				}
 			}
@@ -466,37 +469,49 @@ namespace Pg::DataScript
 
 	void BossBehaviour::UpdatePhaseThreeSkill()
 	{
-		if(_useTakeDownSkill)
+		///테스트를 위해 한번만 동작하고 막아둠(지워야 함)
+		static bool tVal = false;
+
+		if (_useTakeDownSkill && (!tVal))
 		{
 			// Tween 생성
 			Pg::Util::Tween* riseTween = _pgTween->CreateTween();
-			Pg::Util::Tween* fallTween = _pgTween->CreateTween();
+			
+			_collider->SetActive(false);
 
+			_isRotatingToPlayer = false;
+			tVal = true;
 			// 현재 위치 저장
 			Pg::Math::PGFLOAT3 currentPosition = _object->_transform._position;
 
 			// 목표 위치 설정
 			Pg::Math::PGFLOAT3 risePosition = currentPosition;
-			risePosition.y += 5.0f; // 상승할 거리
-
-			Pg::Math::PGFLOAT3 fallPosition = currentPosition;
-			fallPosition.y -= 10.0f; // 내려찍을 거리
+			risePosition.y += 10.0f; // 상승할 거리
 
 			// 상승 Tween 설정
 			riseTween->GetData(&(_object->_transform._position))
-				.DoMove(risePosition, 0.5f) // 0.5초 동안 상승
+				.DoMove(risePosition, 1.f) // 0.5초 동안 상승
 				.SetEase(Pg::Util::Enums::eEasingMode::OUTQUART)
-				.OnComplete([this, fallTween, fallPosition]()
+				.OnComplete([this]()
 					{
-						// 하강 Tween 설정
-						fallTween->GetData(&(_object->_transform._position))
-							.DoMove(fallPosition, 1.0f) // 1초 동안 하강
-							.SetEase(Pg::Util::Enums::eEasingMode::INQUART)
-							.OnComplete([this]()
-								{
-									// 내려찍기 후 추가 동작
-									_useTakeDownSkill = false;
-								});
+						_goUp = true;
+					});
+		}
+		if (_goUp)
+		{
+			Pg::Util::Tween* fallTween = _pgTween->CreateTween();
+			Pg::Math::PGFLOAT3 fallPosition = _playerTransform->_position;
+			_goUp = false;
+			// 하강 Tween 설정
+			fallTween->GetData(&(_object->_transform._position))
+				.DoMove(fallPosition, 1.f) // 1초 동안 하강
+				.SetEase(Pg::Util::Enums::eEasingMode::INQUART)
+				.OnComplete([this]()
+					{
+						// 내려찍기 후 추가 동작
+						_useTakeDownSkill = false;
+						_isRotatingToPlayer = true;
+						_collider->SetActive(true);
 					});
 		}
 	}
@@ -504,6 +519,7 @@ namespace Pg::DataScript
 	void BossBehaviour::Evade()
 	{
 		// 회피 로직 구현
+		///쿨타임 추가 필요함(5초 정도)
 		if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::EVASION)
 		{
 			_bossInfo->_status = BossStatus::EVADE;
