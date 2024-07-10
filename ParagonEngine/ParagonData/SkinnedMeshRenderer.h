@@ -59,13 +59,13 @@ namespace Pg::Data
 		VISITABLE(std::string, _meshName);
 		VISITABLE(std::string, _materialName);
 		VISITABLE(std::string, _initAnimName);
-		//VISITABLE(float, _animBlendFactor);
-		//VISITABLE(float, _alphaPercentage);
+		VISITABLE(float, _animBlendFactor);
+		VISITABLE(float, _alphaPercentage);
 		END_VISITABLES;
 
 		//이것도 이제 VISITABLE에 추가되어야! 기본적으로 10 정도가 적당하나, 보스 등 일부 기준으로 더 느려야.
-		float _animBlendFactor{ 10.f }; 
-		float _alphaPercentage{ 50.f }; //0 - 100 범위. Alpha Blending을 사용할 때만 쓰인다.
+		//float _animBlendFactor{ 10.f }; 
+		//float _alphaPercentage{ 50.f }; //0 - 100 범위. Alpha Blending을 사용할 때만 쓰인다.
 	private:
 		//RenderObjectSkinnedMesh가 등록한다.
 		//return bool == 해당 함수가 성공했는지. (GraphicsSceneParser가 별도로 연결해준다)
