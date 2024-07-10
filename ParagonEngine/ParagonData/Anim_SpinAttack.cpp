@@ -12,39 +12,47 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::SKILL_ATTACK)
+			if (monHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::SKILL_ATTACK_1
+				&& monHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::SKILL_ATTACK_2)
 				return BT::NodeStatus::FAILURE;
 
 			if (monHelper->_isAnimationEnd)
 			{
 				monHelper->_isAnimationEnd = false;
+				_isAnimChange = false;
+				
+				if (monHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_1)
+					monHelper->_bGolemFlag._bossState = Pg::Data::GolemBossState::SKILL_ATTACK_2;
+
 				return BT::NodeStatus::FAILURE;
 			}
-		}
 
-		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-		if (tMeshRenderer != nullptr)
-		{
-			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-			animId.append("_00009.pganim");
-
-			if (tMeshRenderer->GetAnimation() != animId)
+			auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+			if (tMeshRenderer != nullptr)
 			{
-				tMeshRenderer->SetAnimation(animId, false);
+				std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
+				animId.append("_00009.pganim");
 
-				std::string objName = this->GetGameObject()->GetName();
-				objName = objName.substr(0, objName.rfind("_"));
-				objName.append("_Crtstal");
+				if (!_isAnimChange &&
+					(tMeshRenderer->GetAnimation() != animId
+						|| monHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_2))
+				{
+					tMeshRenderer->SetAnimation(animId, false);
+					_isAnimChange = true;
 
-				auto tchild = this->GetGameObject()->_transform.GetChild(objName);
-				auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+					std::string objName = this->GetGameObject()->GetName();
+					objName = objName.substr(0, objName.rfind("_"));
+					objName.append("_Crtstal");
 
-				animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-				animId.append("_10009.pganim");
-				tcMeshRenderer->SetAnimation(animId, false);
+					auto tchild = this->GetGameObject()->_transform.GetChild(objName);
+					auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+					animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
+					animId.append("_10009.pganim");
+					tcMeshRenderer->SetAnimation(animId, false);
+				}
 			}
 		}
-
 		return BT::NodeStatus::SUCCESS;
 	}
 }

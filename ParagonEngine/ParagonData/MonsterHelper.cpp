@@ -35,6 +35,8 @@ void Pg::Data::MonsterHelper::BossInit()
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_2] = "BAttack_2";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_3] = "BAttack_3";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FEATHER_ATTACK] = "SFeatherAttack";
+	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FEATHER_ATTACK_PREPARE] = "SFeatherAttackPre";
+	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FEATHER_ATTACK_END] = "SFeatherAttackEnd";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_1] = "SFlyAttack1";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1] = "SFlyAttackPre1";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_2] = "SFlyAttack2";

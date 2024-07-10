@@ -21,9 +21,6 @@ namespace Pg::Data::BTree::Node
 		{
 			return {};
 		}
-
-	private:
-		bool _isParttern{ false };
 	};
 }
 #endif
