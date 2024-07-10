@@ -142,7 +142,7 @@ namespace Pg::Graphics
 	
 	public:
 		VisualEffectRenderer* GetVisualEffectRenderer();
-
+		Pg::Data::CameraData* GetCamData();
 	private:
 		//불완전하게 전달된 CamData에 투영 행렬을 넣는다.
 		void FillCamDataProjection(Pg::Data::CameraData* camData);
@@ -154,6 +154,8 @@ namespace Pg::Graphics
 
 		//원래는 Engine에서 필요한 리소스들을 씬의 상태/양상에 따라 로드해왔어야 하지만, 지금은 그럴 수 없으니 임시.
 		void TempResourceMeshLoad();
+
+		
 
 	private:
 		HRESULT hr;

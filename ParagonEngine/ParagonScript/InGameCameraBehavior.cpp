@@ -253,11 +253,10 @@ namespace Pg::DataScript
 
 			//이게 실질적으로 Transform.RotateAround이랑 같을 것이다.
 			//_currentRotationAmt는 나중에 FollowLogic이 나오면 이를 기반으로 동작할 수 있을 것.
-
-			//if (GetAsyncKeyState(VK_LSHIFT) & 0x8000)
-			//{
-			//	_currentRotationAmt += 1.f;
-			//}
+			if (GetAsyncKeyState(VK_LSHIFT) & 0x8000)
+			{
+				_currentRotation += 1.f;
+			}
 
 			float rotationAngle = XMConvertToRadians(fmod(_currentRotation, 360.f));
 

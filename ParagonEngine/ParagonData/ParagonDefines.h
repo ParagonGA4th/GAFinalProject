@@ -108,6 +108,7 @@ namespace Pg::Defines
 	extern const std::wstring VIGNETTE_PS_DIRECTORY;
 	extern const std::wstring BLOOM_PS_DIRECTORY;
 	extern const std::wstring LUT_PS_DIRECTORY;
+	extern const std::wstring DEBUG_SHADOW_QUAD_PS_DIRECTORY;
 
 
 }

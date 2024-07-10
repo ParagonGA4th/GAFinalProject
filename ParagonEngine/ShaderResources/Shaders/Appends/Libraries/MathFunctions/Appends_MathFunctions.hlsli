@@ -171,4 +171,10 @@ float3 ACES_Filming_Tonemapping(float3 col)
     return saturate((x * (a * x + b)) / (x * (c * x + d) + e));
 }
 
+float3 Uncharted2_Tonemapping(float3 col)
+{
+    float3 x = max(0, col.xyz - 0.004); //무조건 일정 이상 값을 보여주기 위해.
+    return (x * (6.2 * x + 0.5)) / (x * (6.2 * x + 1.7) + 0.06); // Uncharted 2 Tonemapping. 문제 있을 시 ACES Filmic으로 교체.
+}
+
 #endif // __DEFINED_APPENDS_MATH_FUNCTIONS_PS_HLSL__

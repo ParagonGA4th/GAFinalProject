@@ -126,4 +126,9 @@ namespace Pg::API::Graphics
 		_graphicsApiExporter->ScreenSpace_FadeOut();
 	}
 
+	void PgGraphics::RegisterPlayerPosition(Pg::Math::PGFLOAT3 playerPos)
+	{
+		_graphicsApiExporter->RegisterPlayerPosition(playerPos);
+	}
+
 }

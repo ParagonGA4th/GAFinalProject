@@ -16,15 +16,9 @@ namespace Pg::DataScript
 
 namespace Pg::API
 {
-	namespace Input
-	{
-		class PgInput;
-	};
-
-	namespace Time
-	{
-		class PgTime;
-	};
+	namespace Input { class PgInput; };
+	namespace Time { class PgTime; };
+	namespace Graphics { class PgGraphics;  }
 }
 
 namespace Pg::Data
@@ -107,7 +101,6 @@ namespace Pg::DataScript
 	private:
 		CombatSystem* _combatSystem{ nullptr };
 		ComboSystem* _comboSystem{ nullptr };
-		
 
 	private:
 		//내부적으로 Movement 등 Sector들 관리.
