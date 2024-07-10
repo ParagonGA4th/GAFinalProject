@@ -198,6 +198,7 @@ namespace Pg::DataScript
 			if (_distance <= _bossInfo->GetAttackRange())
 			{
 				_isChasing = false;
+				_isRotatingToPlayer = false;
 
 				_monsterHelper->_isChase = false;
 				_monsterHelper->_isPlayerinHitSpace = true;
@@ -206,15 +207,15 @@ namespace Pg::DataScript
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2)
 				{
-					//Attack(_monsterHelper->_isAnimChange);
+					Attack(_monsterHelper->_isAnimChange);
 					//_useLightSkill = true;
-					_useTakeDownSkill = true;
+					//_useTakeDownSkill = true;
 				}
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3)
 				{
 					//Attack(false);
-					_useTakeDownSkill = false;
-					//_useStormBlast = true;
+					//_useTakeDownSkill = false;
+					_useStormBlast = true;
 				}
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE)
