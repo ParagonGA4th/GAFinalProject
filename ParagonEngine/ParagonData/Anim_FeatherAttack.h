@@ -20,6 +20,9 @@ namespace Pg::Data::BTree::Node
 		{
 			return {};
 		}
+
+	private:
+		bool _isInit{ false };
 	};
 }
 #endif
