@@ -84,11 +84,6 @@ namespace Pg::DataScript
 		_collider->SetUseGravity(false);
 	}
 
-	void ArrowLogic::EnableDrop()
-	{
-		_collider->SetUseGravity(true);
-	}
-
 	bool ArrowLogic::GetIsNowShooting()
 	{
 		return _isNowShooting;
@@ -128,8 +123,16 @@ namespace Pg::DataScript
 			.SetEase(Pg::Util::Enums::eEasingMode::OUTQUART)
 			.OnComplete([this]()
 				{
-					EnableDrop();
+					//이제는 막 물리를 끄는 것도 아니고, 
+					//그냥 사라지게 해야 한다.
+					EndShootingSelf();
 				});
+	}
+
+	void ArrowLogic::EndShootingSelf()
+	{
+		_collider->SetActive(false);
+		_meshRenderer->SetActive(false);
 	}
 
 	void ArrowLogic::IfValidActualShootLogic()

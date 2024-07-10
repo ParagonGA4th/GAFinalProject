@@ -87,7 +87,6 @@ namespace Pg::DataScript
 		_playerJumpSound = _object->GetScene()->FindObjectWithName("PlayerJumpSound");
 		_jumpAudio = _playerJumpSound->GetComponent<Pg::Data::AudioSource>();
 
-
 		//자신이 속한 Half Collider 높이 만큼 RendererOffset 설정.
 		//_renderer->SetRendererOffset({ 0.f, -_halfColliderHeight, 0.f });
 
@@ -363,7 +362,6 @@ namespace Pg::DataScript
 	void PlayerMovementSector::UpdateFacingDirection(float yLevelPlane)
 	{
 		///마우스의 움직임으로 판별.
-
 		_targetPos = _mainCam->ScreenPointToWorldPlanePoint({ _pgInput->GetMouseX(), _pgInput->GetMouseY() },
 			Pg::Math::PGFLOAT3::GlobalUp(), yLevelPlane);
 		//Ex.
@@ -371,26 +369,14 @@ namespace Pg::DataScript
 
 		//뺄 때 y축 차이를 없애기 위해서.
 		_targetPos.y = _object->_transform._position.y;
-		//Pg::Math::PGFLOAT3 lookPos = _targetPos - _object->_transform._position;
-		//Pg::Math::PGFLOAT3 lookPos = _object->_transform._position - _targetPos;
 		Pg::Math::PGFLOAT3 tLookPos = _object->_transform._position - _targetPos;
 		_targetRotation = PGLookRotation(tLookPos, Pg::Math::PGFLOAT3::GlobalUp());
 
 		//업데이트할 값 정하고 Update 루프에서 처리하도록.
 		_rotBeginRatio = 1.f;
-
-		//Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, _targetRotation, std::clamp<float>(_rotBeginRatio, 0.0f, 1.0f));
 		//유니티와의 차이.
 		Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, _targetRotation, std::clamp<float>(_rotBeginRatio, 0.0f, 1.0f));
-		//_selfCol->MoveRotation(currentTargetRotation);
 		_object->_transform._rotation = currentTargetRotation;
-
-		//_rotBeginRatio += _pgTime->GetDeltaTime() * rotateMultiplier;
-		//if (_rotBeginRatio > 1.0f)
-		//{
-		//	_rotBeginRatio = 0.0f;
-		//	_selfCol->SetAngularVelocity({ 0,0,0 });
-		//}
 	}
 
 	void PlayerMovementSector::StrafeAvoidLogic()
@@ -467,8 +453,7 @@ namespace Pg::DataScript
 
 	void PlayerMovementSector::OnStrafeAvoidComplete()
 	{
-		//이거 원래 있었는데?
-		//왜 삭제되었지?
+
 	}
 
 	void PlayerMovementSector::FixedUpdate()
@@ -486,6 +471,10 @@ namespace Pg::DataScript
 
 	}
 
+	void PlayerMovementSector::SetIsAbleToJump(bool val)
+	{
+		this->_isAbleToJump = val;
+	}
 
 
 }
