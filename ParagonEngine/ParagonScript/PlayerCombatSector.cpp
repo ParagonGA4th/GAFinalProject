@@ -49,15 +49,13 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::Awake()
 	{
-
+		_commonAttackSound = _object->GetScene()->FindObjectWithName("PlayerCommonAttackSound");
+		_commonAttackAudio = _commonAttackSound->GetComponent<Pg::Data::AudioSource>();
 	}
 
 	void PlayerCombatSector::Start()
 	{
 		
-
-		_commonAttackSound = _object->GetScene()->FindObjectWithName("PlayerCommonAttackSound");
-		_commonAttackAudio = _commonAttackSound->GetComponent<Pg::Data::AudioSource>();
 	}
 
 	void PlayerCombatSector::Update()
@@ -65,6 +63,11 @@ namespace Pg::DataScript
 		ArrowShootingLogic();
 		
 		//나머지 로직은 Combat System으로 이동.
+	}
+
+	void PlayerCombatSector::FixedUpdate()
+	{
+
 	}
 
 	void PlayerCombatSector::LateUpdate()
@@ -185,24 +188,6 @@ namespace Pg::DataScript
 			isLooping = false;
 			tToPlayAnimationName = "PA_0000" + std::to_string(_hitCount + 4) + ".pganim";
 		}
-		//else if (_isAvoiding_Animation)
-		//{
-		//	//스킬 애니메이션.
-		//	tToPlayAnimationName = "PA_00004.pganim";
-		//	isLooping = false;
-		//}
-		//else if (_isJumping_Animation)
-		//{
-		//	//궁극기 애니메이션.
-		//	tToPlayAnimationName = "PA_00003.pganim";
-		//	isLooping = false;
-		//}
-		//else if (_isMoving_Animation)
-		//{
-		//	//걷기 애니메이션
-		//	tToPlayAnimationName = "PA_00002.pganim";
-		//	isLooping = true;
-		//}
 
 		//만약에 전 스트링과 같지 않을 시에.
 		if (_prevAnimationInput.compare(tToPlayAnimationName) != 0)
@@ -220,10 +205,7 @@ namespace Pg::DataScript
 		_isHit = false;
 	}
 
-	void PlayerCombatSector::FixedUpdate()
-	{
-
-	}
+	
 
 	
 
