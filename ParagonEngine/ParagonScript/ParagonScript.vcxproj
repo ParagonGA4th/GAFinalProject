@@ -184,6 +184,7 @@
     <ClInclude Include="IProjectile.h" />
     <ClInclude Include="ISingleGUI.h" />
     <ClInclude Include="LightSkillAttack.h" />
+    <ClInclude Include="MimicActive.h" />
     <ClInclude Include="MimicAttack.h" />
     <ClInclude Include="MimicSkillAttack.h" />
     <ClInclude Include="MiniGolemAttack.h" />
@@ -273,6 +274,7 @@
     <ClCompile Include="InGameManager.cpp" />
     <ClCompile Include="CreditsSceneGUIHandler.cpp" />
     <ClCompile Include="LightSkillAttack.cpp" />
+    <ClCompile Include="MimicActive.cpp" />
     <ClCompile Include="MimicSkillAttack.cpp" />
     <ClCompile Include="PlayerCombatSector.cpp" />
     <ClCompile Include="GlobalSoundManager.cpp" />

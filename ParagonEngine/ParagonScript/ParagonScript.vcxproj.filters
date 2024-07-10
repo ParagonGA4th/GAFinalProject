@@ -522,6 +522,9 @@
     <ClCompile Include="GolemBossSkillAttack.cpp">
       <Filter>AI\Attack\GolemBossAttack</Filter>
     </ClCompile>
+    <ClCompile Include="MimicActive.cpp">
+      <Filter>AI\Enemy\Mimic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -809,6 +812,9 @@
     </ClInclude>
     <ClInclude Include="GolemBossAttack.h">
       <Filter>AI\Attack\GolemBossAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="MimicActive.h">
+      <Filter>AI\Enemy\Mimic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
