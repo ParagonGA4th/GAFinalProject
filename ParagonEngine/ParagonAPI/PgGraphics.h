@@ -51,8 +51,13 @@ namespace Pg::API::Graphics
 		void Material_SetFloat4VS(void* renderMat, const std::string& varName, Pg::Math::PGFLOAT4 value);
 		void Material_SetFloat4PS(void* renderMat, const std::string& varName, Pg::Math::PGFLOAT4 value);
 
+		//ScreenSpace Effect.
 		void ScreenSpace_FadeIn();
 		void ScreenSpace_FadeOut();
+
+		//Player의 위치, 그래픽스 엔진도 알게 하자.
+		void RegisterPlayerPosition(Pg::Math::PGFLOAT3 playerPos);
+
 	private:
 		Pg::Graphics::GraphicsApiExporter* _graphicsApiExporter{ nullptr };
 	};

@@ -9,6 +9,7 @@
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/CameraData.h"
 #include "../ParagonData/LightType.h"
+#include "../ParagonData/ParagonDefines.h"
 
 #include "../ParagonUtil/Log.h"
 #include "../ParagonUtil/TimeSystem.h"
@@ -25,6 +26,7 @@ namespace Pg::Graphics
 	{
 		CreateStagingPickingBuffer();
 		InitPostProcessingQuads();
+		CreateDebugOverlayQuads();
 
 		_outlineRenderPass = std::make_unique<OutlineRenderPass>();
 
@@ -33,13 +35,13 @@ namespace Pg::Graphics
 		_postprocessingRenderPassList.push_back(std::make_unique<VignetteRenderPass>(_carrier->_PPSwitch1, _carrier->_PPSwitch2));
 		_postprocessingRenderPassList.push_back(std::make_unique<BloomRenderPass>(_carrier->_PPSwitch2, _carrier->_PPSwitch1));
 		_postprocessingRenderPassList.push_back(std::make_unique<LUTRenderPass>(_carrier->_PPSwitch1, _carrier->_PPSwitch2));
-		
+
 		//중간에 TimeSystem 받아오기.
 		_timeSystem = &singleton<Pg::Util::Time::TimeSystem>();
 
 
 		//</PostProcessing>
-		
+
 		//FadeInOut
 		_fadeInOutPass = std::make_unique<FadeInOutPass>();
 
@@ -67,11 +69,6 @@ namespace Pg::Graphics
 		_fadeInOutPass->Initialize();
 	}
 
-	void PPFinalRenderer::CreateDebugOverlayQuads()
-	{
-
-	}
-
 	unsigned int PPFinalRenderer::GetPickingObjectID(unsigned int widthPixel, unsigned int heightPixel)
 	{
 		//[DEPRECATED]
@@ -96,7 +93,7 @@ namespace Pg::Graphics
 		UINT offset = (heightPixel * rowPitch) + (widthPixel * 4);
 
 		memcpy(float2Value, pData + offset, sizeof(float) * 4);
-		
+
 		// Unmap the staging buffer
 		_DXStorage->_deviceContext->Unmap(_pickingStagingBuffer, 0);
 
@@ -188,7 +185,7 @@ namespace Pg::Graphics
 	}
 
 	void PPFinalRenderer::RenderPostProcessingStages(void* renderObjectList, Pg::Data::CameraData* camData)
-	{	
+	{
 		//미리 RenderTarget Clear. Depth Buffer는 바인딩 자체가 안 될 것이니, Clear 필요 X.
 		//이제 개별적으로 클리어 필요할 것.
 		_DXStorage->_deviceContext->ClearRenderTargetView(_carrier->_PPSwitch1->GetRTV(), _DXStorage->_backgroundColor);
@@ -210,20 +207,6 @@ namespace Pg::Graphics
 
 		//Default Quad Vertex Shader Unbind.
 		_ppSystemVertexShader->Unbind();
-
-		
-	}
-
-	void PPFinalRenderer::RenderDebugQuadsOverlay()
-	{
-		//VIEWPORT 커팅 세팅.
-		//D3D11_VIEWPORT viewport;
-		//viewport.TopLeftX = 100.0f;
-		//viewport.TopLeftY = 100.0f;
-		//viewport.Width = 400.0f;
-		//viewport.Height = 300.0f;
-		//viewport.MinDepth = 0.0f;
-		//viewport.MaxDepth = 1.0f;
 
 
 	}
@@ -285,5 +268,29 @@ namespace Pg::Graphics
 		}
 	}
 
+	void PPFinalRenderer::CreateDebugOverlayQuads()
+	{
+#if defined(DEBUG) | defined(_DEBUG)
+		D3D11_VIEWPORT viewport;
+		viewport.TopLeftX = 100.0f;
+		viewport.TopLeftY = 100.0f;
+		viewport.Width = 400.0f;
+		viewport.Height = 400.0f;
+		viewport.MinDepth = 0.0f;
+		viewport.MaxDepth = 1.0f;
+		
+		//DirectX::XMFLOAT2 widthHeight = { Pg::Data::GameConstantData::WIDTH, Pg::Data::GameConstantData::HEIGHT };
+		DirectX::XMFLOAT2 widthHeight = { 300, 300 };
+		_debugOverlayShadowQuad = std::make_unique<DebugOverlayQuad>(
+			Pg::Defines::DEBUG_SHADOW_QUAD_PS_DIRECTORY, viewport, widthHeight);
+#endif
+	}
+
+	void PPFinalRenderer::RenderDebugQuadsOverlay()
+	{
+#if defined(DEBUG) | defined(_DEBUG)
+		_debugOverlayShadowQuad->Render();
+#endif
+	}
 
 }
