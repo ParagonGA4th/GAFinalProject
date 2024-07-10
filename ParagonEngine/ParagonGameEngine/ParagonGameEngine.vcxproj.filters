@@ -178,6 +178,9 @@
     <ClInclude Include="AISeight.h">
       <Filter>4_WorkSpace\SceneView\Scripts\AI\AISight</Filter>
     </ClInclude>
+    <ClInclude Include="DetectTriggers_PxQFC.h">
+      <Filter>2_System\PhysicSystem\DetectTriggers_PxQFC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMain.cpp">
@@ -517,6 +520,9 @@
     </Filter>
     <Filter Include="2_System\PhysicSystem\PhysicsErrorCallback">
       <UniqueIdentifier>{224b0d71-42fc-48af-8e22-afa160e6ddf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\DetectTriggers_PxQFC">
+      <UniqueIdentifier>{0bbaecc7-1c87-4537-8509-03516f3ec8f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

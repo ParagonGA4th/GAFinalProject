@@ -343,7 +343,7 @@ namespace Pg::DataScript
 				//로직과 상관없는 거
 				Pg::Math::PGFLOAT3 outHitPoint;
 				Pg::Data::Collider* tOtherCollider = _pgRayCast->MakeRay(tShouldShootPosition,
-					tShouldShootDir, tJumpCheckSmallDist, outHitPoint, nullptr);
+					tShouldShootDir, tJumpCheckSmallDist, outHitPoint, nullptr, false); // Trigger 이제 감지하지 마라!
 
 				//매우 짦은 거리로 쏴야 한다. 닿으면 다시 점프를 재충전할 것이니.
 				if (tOtherCollider != nullptr)
