@@ -17,9 +17,9 @@ namespace Pg::API::Raycast
 		_physicSystem = &tPhysicSystem;
 	}
 
-	Pg::Data::Collider* PgRayCast::MakeRay(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length, Pg::Math::PGFLOAT3& outHitPoint, int* type, bool detectTriggers, Pg::Data::Enums::eLayerMask excludeLayer)
+	Pg::Data::Collider* PgRayCast::MakeRay(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length, Pg::Math::PGFLOAT3& outHitPoint, int* type, bool detectTriggers)
 	{
-		return _physicSystem->MakeRayCast(origin, dir, length, outHitPoint, type, detectTriggers, excludeLayer);
+		return _physicSystem->MakeRayCast(origin, dir, length, outHitPoint, type, detectTriggers);
 	}
 	void PgRayCast::MakeSphereRay(const Pg::Math::PGFLOAT3& tOrigin, const Pg::Math::PGFLOAT3& tDir, float tRad, float max, unsigned int maxColCnt, Pg::Data::Collider**& colDataPointer)
 	{

@@ -40,27 +40,23 @@ namespace Pg::DataScript
 
 	void PlayerHandler::BeforePhysicsAwake()
 	{
+		GetInternalVariables();
+
 		//무조건 생성자는 안됨! -> AddComponent에서 만들어진 다음에는, Static Variable Initialization에 따라 재생성되지 않는다.
 		//CombatSystem은 TitleScene에 들어가야 할 것.
 		_combatSystem = CombatSystem::GetInstance(nullptr);
 		_comboSystem = ComboSystem::GetInstance();
 
-		//Scene의 이름을 기반으로 점프가 가능한지, 불가한지를 보내기.
-		std::string tBelongSceneName = _object->GetScene()->GetSceneName();
-		bool tCanJump = (tBelongSceneName.compare("Stage2") == 0);
-		_playerMovementSector->SetIsAbleToJump(tCanJump);
-
 		//개별적으로 함수 실행.
 		_playerMovementSector->BeforePhysicsAwake();
 		_playerCombatSector->BeforePhysicsAwake();
 
-		_selfCol = _object->GetComponent<Pg::Data::CapsuleCollider>();
-		_selfCol->FreezeAxisX(true);
-		_selfCol->FreezeAxisY(true);
-		_selfCol->FreezeAxisZ(true);
-		_selfCol->SetMass(2.0f);
-		_selfCol->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PLAYER);
-		PG_TRACE(_selfCol->GetLayer());
+		{
+			//Scene의 이름을 기반으로 점프가 가능한지, 불가한지를 보내기.
+			std::string tBelongSceneName = _object->GetScene()->GetSceneName();
+			bool tCanJump = (tBelongSceneName.compare("Stage2") == 0);
+			_playerMovementSector->SetIsAbleToJump(tCanJump);
+		}
 	}
 
 	void PlayerHandler::Awake()
@@ -198,6 +194,36 @@ namespace Pg::DataScript
 	{
 		return &staminaPoint;
 	}
-	
+
+	void PlayerHandler::GetInternalVariables()
+	{
+		_selfCol = _object->GetComponent<Pg::Data::CapsuleCollider>();
+		_selfCol->FreezeAxisX(true);
+		_selfCol->FreezeAxisY(true);
+		_selfCol->FreezeAxisZ(true);
+		_selfCol->SetMass(5.0f);
+		_selfCol->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PLAYER);
+		PG_TRACE(_selfCol->GetLayer());
+
+		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		assert(_meshRenderer != nullptr);
+
+
+		//Sounds.
+		Pg::Data::GameObject* tCommonAttackSound = _object->GetScene()->FindObjectWithName("PlayerCommonAttackSound");
+		_commonAttackAudio = tCommonAttackSound->GetComponent<Pg::Data::AudioSource>();
+
+		Pg::Data::GameObject* tPlayerWalkSound = _object->GetScene()->FindObjectWithName("PlayerWalkOutSound");
+		_walkAudio = tPlayerWalkSound->GetComponent<Pg::Data::AudioSource>();
+
+		Pg::Data::GameObject* tPlayerJumpSound = _object->GetScene()->FindObjectWithName("PlayerJumpSound");
+		_jumpAudio = tPlayerJumpSound->GetComponent<Pg::Data::AudioSource>();
+
+
+
+
+
+	}
+
 
 }

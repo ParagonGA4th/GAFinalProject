@@ -46,25 +46,9 @@ namespace Pg::DataScript
 
 	void PlayerMovementSector::Awake()
 	{
-		_renderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-		assert(_renderer != nullptr);
-
-		_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
-		assert(_selfCol != nullptr);
-		_selfCol->SetMass(5.f);
-
 		// Height을 받아서, 반값을 기준으로 Intersection 계산할 준비 완료.
-		_halfColliderHeight = _selfCol->GetHeight() / 2.0f;
-
-		//AudioSource 컴포넌트 들고오기
-		_playerWalkSound = _object->GetScene()->FindObjectWithName("PlayerWalkOutSound");
-		_walkAudio = _playerWalkSound->GetComponent<Pg::Data::AudioSource>();
-
-		_playerJumpSound = _object->GetScene()->FindObjectWithName("PlayerJumpSound");
-		_jumpAudio = _playerJumpSound->GetComponent<Pg::Data::AudioSource>();
-
+		_halfColliderHeight = _playerHandler->_selfCol->GetHeight() / 2.0f;
 		_isJumping = false;
-
 		//Camera의 Awake에서 MainCamera가 들어올 것이다. 이거 빼고 다 받자.
 	}
 
@@ -152,7 +136,7 @@ namespace Pg::DataScript
 		//_currentPlaneY = this->_object->_transform._position.y - _halfColliderHeight;
 		
 		//Position Offset 반영 수정본.
-		_currentPlaneY = this->_object->_transform._position.y - _halfColliderHeight - _selfCol->GetPositionOffset().y;
+		_currentPlaneY = this->_object->_transform._position.y - _halfColliderHeight - _playerHandler->_selfCol->GetPositionOffset().y;
 		
 		//각도에 따른 클릭 포인트 오차 발생, 해당 문제를 해결해보자, _currentPlaneY를 Offset하는 방향으로!
 		{
@@ -230,7 +214,7 @@ namespace Pg::DataScript
 
 			if (!_isWalkAudioPlaying) 
 			{
-				_walkAudio->Play();
+				_playerHandler->_walkAudio->Play();
 				_isWalkAudioPlaying = true;
 			}
 		}
@@ -239,7 +223,7 @@ namespace Pg::DataScript
 			_isMoving = false;
 			if (_isWalkAudioPlaying) 
 			{
-				_walkAudio->Stop();
+				_playerHandler->_walkAudio->Stop();
 				_isWalkAudioPlaying = false;
 			}
 		}
@@ -251,9 +235,9 @@ namespace Pg::DataScript
 		{
 			_isJustSetRestraint = true;
 			_isMoving = false;
-			_selfCol->FreezeAxisX(true);
-			_selfCol->FreezeAxisY(true);
-			_selfCol->FreezeAxisZ(true);
+			_playerHandler->_selfCol->FreezeAxisX(true);
+			_playerHandler->_selfCol->FreezeAxisY(true);
+			_playerHandler->_selfCol->FreezeAxisZ(true);
 		}
 
 		//PhysX 업데이트를 1차례 거친 후, 다시 리셋.
@@ -262,8 +246,8 @@ namespace Pg::DataScript
 			//다시 호출 안되게.
 			_isJustSetRestraint = false;
 
-			_selfCol->FreezeAxisX(true);
-			_selfCol->FreezeAxisZ(true);
+			_playerHandler->_selfCol->FreezeAxisX(true);
+			_playerHandler->_selfCol->FreezeAxisZ(true);
 		}
 	}
 
@@ -277,47 +261,48 @@ namespace Pg::DataScript
 			_isJumping_Animation = true;
 			_recordedTimeSinceJump = 0.f;
 
-			_selfCol->AddForce(Pg::Math::PGFLOAT3::GlobalUp() * jumpPower, Pg::Data::ForceMode::eIMPULSE);
+			_playerHandler->_selfCol->AddForce(Pg::Math::PGFLOAT3::GlobalUp() * jumpPower, Pg::Data::ForceMode::eIMPULSE);
 
 			//사운드 재생.
-			_jumpAudio->Play();
+			_playerHandler->_jumpAudio->Play();
 		}
 
 		if (_isJumping)
 		{
 			//약간의 간격이 있어야 자신을 인식하지 않을 것이기에.
 			const float tSmallOffset = 0.01f; //추가적으로 Y Position Offset. 
-			//const float tJumpCheckSmallDist = 0.1f; //밑으로 쏘는 정도
-			const float tJumpCheckSmallDist = 10.f; //밑으로 쏘는 정도
+			const float tJumpCheckSmallDist = 0.1f; //밑으로 쏘는 정도
+			//const float tJumpCheckSmallDist = 10.f; //밑으로 쏘는 정도
 			const float tMinimalTimeBeforeRaycastCheck = 0.4f;
 
 			//지난 시간 DeltaTime으로 점검.
 			_recordedTimeSinceJump += _pgTime->GetDeltaTime();
-			PG_ERROR("RECORDING");
+			//PG_ERROR("RECORDING");
 			if (_recordedTimeSinceJump > tMinimalTimeBeforeRaycastCheck)
 			{
 				//밑으로 쏜다.
 				Pg::Math::PGFLOAT3 tShouldShootDir = -Pg::Math::PGFLOAT3::GlobalUp();
-				//Pg::Math::PGFLOAT3 tShouldShootPosition = {
-				//	_object->_transform._position.x,
-				//	_object->_transform._position.y - _halfColliderHeight - tSmallOffset,
-				//	_object->_transform._position.z };
 				Pg::Math::PGFLOAT3 tShouldShootPosition = {
 					_object->_transform._position.x,
-					_object->_transform._position.y,
+					_object->_transform._position.y - _halfColliderHeight - tSmallOffset,
 					_object->_transform._position.z };
+
+				//Pg::Math::PGFLOAT3 tShouldShootPosition = {
+				//	_object->_transform._position.x,
+				//	_object->_transform._position.y,
+				//	_object->_transform._position.z };
 
 				//로직과 상관없는 거
 				Pg::Math::PGFLOAT3 outHitPoint;
 				Pg::Data::Collider* tOtherCollider = _pgRayCast->MakeRay(tShouldShootPosition,
-					tShouldShootDir, tJumpCheckSmallDist, outHitPoint, nullptr, false, Data::Enums::LAYER_PLAYER); // Trigger 이제 감지하지 마라!
+					tShouldShootDir, tJumpCheckSmallDist, outHitPoint, nullptr, false); // Trigger 이제 감지하지 마라!
 
-				assert(tOtherCollider->GetLayer() != Data::Enums::LAYER_PLAYER);
 
 				//매우 짦은 거리로 쏴야 한다. 닿으면 다시 점프를 재충전할 것이니.
 				if (tOtherCollider != nullptr)
 				{
-					PG_WARN("COLLIDERCHECK");
+					assert(tOtherCollider->GetLayer() != Data::Enums::LAYER_PLAYER);
+					//PG_WARN("COLLIDERCHECK");
 					//이제 Collider의 레이어를 여기서 다시 Sort해야 할 것이나,
 					//일단은 그 과정은 나중에!
 					_isJumping_Animation = false;
@@ -354,8 +339,8 @@ namespace Pg::DataScript
 		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::CtrlL) && (!_isStrafeAvoiding))
 		{
 			_isStrafeAvoiding = true;
-			_selfCol->SetActive(false);
-			_renderer->SetAnimation("PA_00004.pganim", false);
+			_playerHandler->_selfCol->SetActive(false);
+			_playerHandler->_meshRenderer->SetAnimation("PA_00004.pganim", false);
 
 			//ForwardVector의 Back 방향으로 이동해야 한다.
 			const float tAvoidDist = 7.0f; //실제로 이동한 거리.
@@ -371,7 +356,7 @@ namespace Pg::DataScript
 					[this]()
 					{
 						_isStrafeAvoiding = false;
-						_selfCol->SetActive(true);
+						_playerHandler->_selfCol->SetActive(true);
 					});
 		}
 	}
@@ -409,7 +394,7 @@ namespace Pg::DataScript
 		//만약에 전 스트링과 같지 않을 시에.
 		if (_previousAnimationInput.compare(tToPlayAnimationName) != 0)
 		{
-			_renderer->SetAnimation(tToPlayAnimationName, isLooping);
+			_playerHandler->_meshRenderer->SetAnimation(tToPlayAnimationName, isLooping);
 		}
 
 		//애니메이션 인풋 스트링 기록.

@@ -53,7 +53,7 @@ void RayCastTest::Update()
 	int type = 0;
 	tPhysic->MakeRayCast({_object->_transform._position.x + 0.8f,
 						_object->_transform._position.y - 0.5f,
-						_object->_transform._position.z + 0.8f }, { 0.0f,0.0f,1.0f }, 10.0f, outHitPoint, &type, true, Pg::Data::Enums::SELECT_NONE);
+						_object->_transform._position.z + 0.8f }, { 0.0f,0.0f,1.0f }, 10.0f, outHitPoint, &type, true);
 
 	//tPhysic->MakeSphereCast({ _object->_transform._position.x,
 	//					_object->_transform._position.y,
