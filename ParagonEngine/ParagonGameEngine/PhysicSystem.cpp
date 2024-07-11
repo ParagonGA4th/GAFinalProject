@@ -1026,8 +1026,7 @@ namespace Pg::Engine::Physic
 		physx::PxRaycastBuffer _hitBuffer;
 		//Trigger 감지하는지 입력된 정보에 따라 필터링. 
 		bool _isHit = _pxScene->raycast(rayCastOrigin, rayCastDir, tLength, _hitBuffer,
-			physx::PxHitFlag::eDEFAULT, physx::PxQueryFilterData(physx::PxFilterData(), physx::PxQueryFlag::ePREFILTER), &tDetectTriggersCallback);
-
+			physx::PxHitFlag::eDEFAULT, physx::PxQueryFilterData(physx::PxFilterData(), physx::PxQueryFlag::eDYNAMIC | physx::PxQueryFlag::eSTATIC | physx::PxQueryFlag::ePREFILTER), &tDetectTriggersCallback);
 		physx::PxVec3 tHitPoint = { 0.f,0.f,0.f };
 
 		//만약 RayCast에 맞았다면
