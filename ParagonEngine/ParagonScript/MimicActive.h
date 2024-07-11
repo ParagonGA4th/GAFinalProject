@@ -1,6 +1,13 @@
 #pragma once
 #include "ScriptInterface.h"
 
+#include <visit_struct/visit_struct.hpp>
+
+namespace Pg::Data
+{
+	class StaticBoxCollider;
+}
+
 namespace Pg::DataScript
 {
 	class MimicActive : public ScriptInterface<MimicActive>
@@ -13,6 +20,17 @@ namespace Pg::DataScript
 		virtual void Awake() override;
 		virtual void Update() override;
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
+
+		virtual void OnDeserialize(SerializeVector& sv) override;
+		virtual void OnSerialize(SerializeVector& sv) override;
+	public:
+		BEGIN_VISITABLES(Pg::DataScript::MimicActive);
+		VISITABLE(std::string, _mimicName);
+		END_VISITABLES;
+
+	private:
+		Pg::Data::GameObject* _mimic;
+		Pg::Data::StaticBoxCollider* _collider;
 	};
 }
 
