@@ -19,6 +19,7 @@ namespace Pg::Data
 		MonsterHelper(GameObject* obj);
 
 		virtual void OnAnimationEnd(const std::string& justEndedAnimation) override;
+		void Reset();
 
 	private:
 		void BossInit();

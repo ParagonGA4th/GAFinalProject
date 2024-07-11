@@ -37,6 +37,7 @@ namespace Pg::Data
 		EVASION,
 		DASH,
 		CHASE,
+		CAST,
 		BASIC_ATTACK_1,
 		BASIC_ATTACK_2,
 		BASIC_ATTACK_3,
