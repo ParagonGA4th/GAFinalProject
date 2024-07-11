@@ -20,8 +20,15 @@ namespace Pg::Data::BTree::Node
 				monHelper->_isAnimChange = false;
 				monHelper->_isAnimationEnd = false;
 
-				//if (_isCast)
-				monHelper->_bGolemFlag._bossState = Pg::Data::GolemBossState::BASIC_ATTACK_2;
+				if (_isCast)
+				{
+					monHelper->_bGolemFlag._bossState = Pg::Data::GolemBossState::BASIC_ATTACK_2;
+					_isCast = false;
+				}
+				else
+				{
+					_isCast = true;
+				}
 			}
 
 
@@ -29,14 +36,13 @@ namespace Pg::Data::BTree::Node
 			if (tMeshRenderer != nullptr)
 			{
 				std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-				animId.append("_00006.pganim");
-				//if (_isCast) 
-				//else animId.append("_00014.pganim"); // 캐스팅 애니매이션
+				if (_isCast) animId.append("_00006.pganim");
+				else animId.append("_00011.pganim"); // 캐스팅 애니매이션
 
 				if (tMeshRenderer->GetAnimation() != animId)
 				{
 					tMeshRenderer->SetAnimation(animId, false);
-					monHelper->_isAnimChange = true;
+					if (_isCast) monHelper->_isAnimChange = true;
 
 					std::string objName = this->GetGameObject()->GetName();
 					objName = objName.substr(0, objName.rfind("_"));
@@ -46,7 +52,8 @@ namespace Pg::Data::BTree::Node
 					auto tcMeshRenderer = tchild->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 
 					animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-					animId.append("_10006.pganim");
+					if (_isCast) animId.append("_10006.pganim");
+					else animId.append("_10011.pganim");
 					tcMeshRenderer->SetAnimation(animId, false);
 				}
 			}

@@ -3,6 +3,7 @@
 #include "SceneSystem.h"
 #include "DebugSystem.h"
 #include "PgLayer.h"
+#include "DetectTriggers_PxQFC.h"
 
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/LayerMask.h"
@@ -1004,7 +1005,7 @@ namespace Pg::Engine::Physic
 	}
 
 	///Raycast 생성하기
-	Pg::Data::Collider* PhysicSystem::MakeRayCast(Pg::Math::PGFLOAT3 tOrigin, Pg::Math::PGFLOAT3 tDir, float tLength, Pg::Math::PGFLOAT3& outHitPoint, int* bType)
+	Pg::Data::Collider* PhysicSystem::MakeRayCast(Pg::Math::PGFLOAT3 tOrigin, Pg::Math::PGFLOAT3 tDir, float tLength, Pg::Math::PGFLOAT3& outHitPoint, int* bType, bool detectTriggers)
 	{
 		physx::PxVec3 rayCastOrigin;
 		rayCastOrigin.x = tOrigin.x;
@@ -1018,9 +1019,14 @@ namespace Pg::Engine::Physic
 
 		Pg::Data::Collider* raycastCol = nullptr;
 
+		//QueryFiltering (Trigger 포함 여부 검사) - 조건문.
+		DetectTriggers_PxQFC tDetectTriggersCallback(detectTriggers);
+
 		//RayCast 버퍼 생성.
 		physx::PxRaycastBuffer _hitBuffer;
-		bool _isHit = _pxScene->raycast(rayCastOrigin, rayCastDir, tLength, _hitBuffer);
+		//Trigger 감지하는지 입력된 정보에 따라 필터링. 
+		bool _isHit = _pxScene->raycast(rayCastOrigin, rayCastDir, tLength, _hitBuffer,
+			physx::PxHitFlag::eDEFAULT, physx::PxQueryFilterData(physx::PxFilterData(), physx::PxQueryFlag::ePREFILTER), &tDetectTriggersCallback);
 
 		physx::PxVec3 tHitPoint = { 0.f,0.f,0.f };
 
