@@ -203,6 +203,8 @@ namespace Pg::DataScript
 			//상태 변경.
 			_golBossInfo->_status = GolemBossStatus::BASIC_ATTACK;
 
+			_meshRenderer->_animBlendFactor = 0.0f;
+
 			_monsterHelper->_isChase = false;
 			_monsterHelper->_isPlayerinHitSpace = true;
 			_monsterHelper->_bGolemFlag._isPase_1 = true;
@@ -228,6 +230,7 @@ namespace Pg::DataScript
 		{
 			//상태를 Chase로 변경.
 			_golBossInfo->_status = GolemBossStatus::CHASE;
+			_meshRenderer->_animBlendFactor = 10.0f;
 
 			Attack(false);
 			//사운드 초기화
