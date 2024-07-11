@@ -12,8 +12,7 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::SKILL_ATTACK_1
-				&& monHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::SKILL_ATTACK_2)
+			if (monHelper->_bGolemFlag._bossStateListByEnum[monHelper->_bGolemFlag._bossState].find("SAttack") == std::string::npos)
 				return BT::NodeStatus::FAILURE;
 
 			if (monHelper->_isAnimationEnd)
