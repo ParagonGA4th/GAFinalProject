@@ -9,7 +9,8 @@ namespace Pg::Data::BTree::Node
 		if (monHelper != nullptr)
 		{
 			std::string state = monHelper->_bossFlag._bossStateListByEnum[monHelper->_bossFlag._bossState];
-			if (state.find("BAttack") != std::string::npos)
+			if (state.find("BAttack") != std::string::npos &&
+				state.find("Cast") != std::string::npos)
 			{
 				return BT::NodeStatus::SUCCESS;
 			}
@@ -20,7 +21,7 @@ namespace Pg::Data::BTree::Node
 
 				if (!_isInit)
 				{
-					monHelper->_bossFlag._bossState = Pg::Data::BossState::BASIC_ATTACK_1;
+					monHelper->_bossFlag._bossState = Pg::Data::BossState::CAST;
 					_isInit = true;
 				}
 

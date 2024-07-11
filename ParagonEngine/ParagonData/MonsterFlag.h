@@ -19,9 +19,16 @@ namespace Pg::Data
 		bool _isDown;					// 보스가 무력화 되었는지
 		bool _isDash;					// 보스가 대쉬를 했는지
 
-		void StateReset()
+		void Reset()
 		{
+			_isPase_1 = true;
+			_isPase_2 = false;
+			_isPase_3 = false;
+			_isDown = false;
+			_isDash = false;
+
 			_bossState = Pg::Data::BossState::IDLE;
+			_bossPase = Pg::Data::BossPase::PASE_1;
 		}
 	};
 
@@ -42,28 +49,62 @@ namespace Pg::Data
 		bool _isDown;					// 스킬 사용 여부
 
 		bool _isDash;					// 골렘 대쉬
+
+		void Reset()
+		{
+			_isPase_1 = true;
+			_isPase_2 = false;
+			_isPase_3 = false;
+
+			_isSkill = false;
+			_isDown = false;
+			_isDash = false;
+
+			_bossState = Pg::Data::GolemBossState::IDLE;
+			_bossPase = Pg::Data::BossPase::PASE_1;
+		}
 	};	
 	
 	struct MiniGolem
 	{
 		bool _isDash;					// 골렘 대쉬
+
+		void Reset()
+		{
+			_isDash = false;
+		}
 	};
 
 	/// Trent
 	struct Stub
 	{
-		Pg::Data::StubState _stubState; // 그루터기의 현재 상태(행동패턴)
+		Pg::Data::StubState _stubState = Pg::Data::StubState::IDLE; // 그루터기의 현재 상태(행동패턴)
+	
+		void Reset()
+		{
+			_stubState = Pg::Data::StubState::IDLE;
+		}
 	};
 
 	/// Mimic
 	struct Mimic
 	{
 		bool _isTouched;				// 플레이어가 미믹과 상호작용 했는지 
+
+		void Reset()
+		{
+			_isTouched = false;
+		}
 	};
 
 	/// Wasp
 	struct Wasp
 	{
 		int _attackCount;				// 공격 횟수(스킬 사용을 위한)
+
+		void Reset()
+		{
+			_attackCount = 0;
+		}
 	};
 }
