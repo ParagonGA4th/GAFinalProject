@@ -12,12 +12,14 @@
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/Collider.h"
 #include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/StaticSphereCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/MonsterHelper.h"
 
 #include "../ParagonAPI/PgTween.h"
+#include "../ParagonUtil/Log.h"
 
 #include <singleton-cpp/singleton.h>
 #include <algorithm>
@@ -54,14 +56,6 @@ namespace Pg::DataScript
 
 	void BossBehaviour::BeforePhysicsAwake()
 	{
-		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
-		assert(_collider != nullptr);
-		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_BOSS);
-		//_collider->SetCapsuleInfo(1.f, 1.f);
-		_collider->FreezeAxisX(true);
-		_collider->FreezeAxisY(true);
-		_collider->FreezeAxisZ(true);
-
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			// 자식 오브젝트의 이름을 얻어옵니다.
@@ -85,15 +79,15 @@ namespace Pg::DataScript
 					skillStaticCol->SetActive(false);
 				}
 			}
-			//else if (childTag == "TAG_Light")
-			//{
-			//	Pg::Data::StaticBoxCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
-			//	if (skillStaticCol != nullptr)
-			//	{
-			//		_lightAttackCol.push_back(skillStaticCol);
-			//		skillStaticCol->SetActive(false);
-			//	}
-			//}
+			else if (childTag == "TAG_TakeDown")
+			{
+				Pg::Data::StaticSphereCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticSphereCollider>();
+				if (skillStaticCol != nullptr)
+				{
+					_takeDownCol.push_back(skillStaticCol);
+					skillStaticCol->SetActive(false);
+				}
+			}
 		}
 
 		for (auto& iter : _object->GetScene()->FindObjectsWithTag("TAG_Light"))
@@ -137,6 +131,15 @@ namespace Pg::DataScript
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
+
+		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
+		assert(_collider != nullptr);
+		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
+		PG_TRACE(_collider->GetLayer());
+		//_collider->SetCapsuleInfo(1.f, 1.f);
+		_collider->FreezeAxisX(true);
+		_collider->FreezeAxisY(true);
+		_collider->FreezeAxisZ(true);
 	}
 
 	void BossBehaviour::Update()
@@ -207,15 +210,15 @@ namespace Pg::DataScript
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2)
 				{
-					Attack(_monsterHelper->_isAnimChange);
+					//Attack(_monsterHelper->_isAnimChange);
 					//_useLightSkill = true;
-					//_useTakeDownSkill = true;
+					_useTakeDownSkill = true;
 				}
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3)
 				{
 					//Attack(false);
 					//_useTakeDownSkill = false;
-					_useStormBlast = true;
+					//_useStormBlast = true;
 				}
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE)
@@ -487,7 +490,7 @@ namespace Pg::DataScript
 
 			// 목표 위치 설정
 			Pg::Math::PGFLOAT3 risePosition = currentPosition;
-			risePosition.y += 10.0f; // 상승할 거리
+			risePosition.y += 15.0f; // 상승할 거리
 
 			// 상승 Tween 설정
 			riseTween->GetData(&(_object->_transform._position))
@@ -500,8 +503,16 @@ namespace Pg::DataScript
 		}
 		if (_goUp)
 		{
+			//내려찍기 콜라이더 활성화
+			for (auto& iter : _takeDownCol)
+			{
+				iter->SetActive(true);
+			}
+
 			Pg::Util::Tween* fallTween = _pgTween->CreateTween();
 			Pg::Math::PGFLOAT3 fallPosition = _playerTransform->_position;
+			fallPosition.y += 4.0f;
+
 			_goUp = false;
 			// 하강 Tween 설정
 			fallTween->GetData(&(_object->_transform._position))
@@ -512,8 +523,28 @@ namespace Pg::DataScript
 						// 내려찍기 후 추가 동작
 						_useTakeDownSkill = false;
 						_isRotatingToPlayer = true;
-						_collider->SetActive(true);
+						_goUp = false;
+						_isGenerateCol = true;
+						//내려찍기 콜라이더 활성화
+						for (auto& iter : _takeDownCol)
+						{
+							iter->SetActive(false);
+						}
+
 					});
+		}
+		if(_isGenerateCol)
+		{
+			//내려찍기가 끝나자마자 collider 생성 시 튀는 경우가 생겨
+			//DeltaTime으로 약간의 딜레이를 준다.
+			_currentGenerateTime += _pgTime->GetDeltaTime();
+
+			if (_currentGenerateTime >= _regenerateTime)
+			{
+				_collider->SetActive(true);
+				_currentGenerateTime = 0.f;
+				_isGenerateCol = false;
+			}
 		}
 	}
 
@@ -620,5 +651,20 @@ namespace Pg::DataScript
 	float BossBehaviour::RandomRange(float min, float max)
 	{
 		return min + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (max - min)));
+	}
+
+	void BossBehaviour::OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count)
+	{
+		for (int i = 0; i < count; i++)
+		{
+			Pg::Data::PhysicsCollision* col = _colArr[i];
+			Pg::Data::Collider* tRealOtherActor = Pg::Data::PhysicsCollision::GetActualOtherActor(col, this->_object);
+
+			//플레이어한테 데미지를 주어라
+			if (tRealOtherActor->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_PLAYER)
+			{
+				PG_TRACE("Player Hit!");
+			}
+		}
 	}
 }

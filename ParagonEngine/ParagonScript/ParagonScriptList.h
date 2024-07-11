@@ -57,6 +57,7 @@
 #include "BossAttack.h"
 #include "WindBlastAttack.h"
 #include "LightSkillAttack.h"
+#include "TakeDownAttack.h"
 #include "GolemBossAttack.h"
 #include "GolemBossSkillAttack.h"
 

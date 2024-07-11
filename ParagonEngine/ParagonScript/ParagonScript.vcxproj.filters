@@ -525,6 +525,9 @@
     <ClCompile Include="MimicActive.cpp">
       <Filter>AI\Enemy\Mimic</Filter>
     </ClCompile>
+    <ClCompile Include="TakeDownAttack.cpp">
+      <Filter>AI\Attack\BossAttack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -815,6 +818,9 @@
     </ClInclude>
     <ClInclude Include="MimicActive.h">
       <Filter>AI\Enemy\Mimic</Filter>
+    </ClInclude>
+    <ClInclude Include="TakeDownAttack.h">
+      <Filter>AI\Attack\BossAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
