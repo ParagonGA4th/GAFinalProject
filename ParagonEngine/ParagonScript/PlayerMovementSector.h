@@ -133,7 +133,6 @@ namespace Pg::DataScript
 		float _currentPlaneY = 0.f;
 		float _recordedTimeSinceJump = 0.f;
 		bool _isStrafeAvoiding{ false };
-		bool _isHeadingDownwardsToggle{ false };
 		bool _isAbleToJump{ false };
 	private:
 		//개별적으로 애니메이션 출력 로직 관리.

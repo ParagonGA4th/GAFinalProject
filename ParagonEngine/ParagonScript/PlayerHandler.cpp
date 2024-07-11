@@ -71,8 +71,6 @@ namespace Pg::DataScript
 
 	void PlayerHandler::Update()
 	{
-
-
 		_comboSystem->SystemUpdate();
 
 		_playerMovementSector->Update();
@@ -156,7 +154,6 @@ namespace Pg::DataScript
 		healthPoint = MAX_PLAYER_HEALTH;
 		manaPoint = MAX_PLAYER_MANA;
 		staminaPoint = MAX_PLAYER_STAMINA;
-
 	}
 
 	void PlayerHandler::SetPlayerMoveSpeed(float val)

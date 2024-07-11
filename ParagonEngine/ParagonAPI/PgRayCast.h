@@ -1,5 +1,6 @@
 #pragma once
 #include "../ParagonMath/PgMath.h"
+#include "../ParagonData/LayerMask.h"
 
 #include <memory>
 
@@ -31,7 +32,7 @@ namespace Pg::API::Raycast
 
 		//스크립팅 시 호출! 
 		//히트한 포인트도 참조자로 리턴하게 설정, Collider가 Nullptr가 아닐 경우 참조자 리턴값은 내부에서 변경된 것이다.
-		Pg::Data::Collider* MakeRay(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length, Pg::Math::PGFLOAT3& outHitPoint, int* type = nullptr, bool detectTriggers = true);
+		Pg::Data::Collider* MakeRay(Pg::Math::PGFLOAT3 origin, Pg::Math::PGFLOAT3 dir, float length, Pg::Math::PGFLOAT3& outHitPoint, int* type = nullptr, bool detectTriggers = true, Pg::Data::Enums::eLayerMask excludeLayer = Data::Enums::eLayerMask::SELECT_NONE);
 		//Pg::Data::Collider* ScreenPointToRay(Pg::Data::Camera* cam, Pg::Math::PGFLOAT2 screenPointNormalized, float length, Pg::Math::PGFLOAT3& outHitPoint, int* type = nullptr);
 		
 		void MakeSphereRay(const Pg::Math::PGFLOAT3& tOrigin, const Pg::Math::PGFLOAT3& tDir,
