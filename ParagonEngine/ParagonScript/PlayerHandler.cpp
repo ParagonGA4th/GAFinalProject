@@ -7,7 +7,7 @@
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/LayerMask.h"
-#include "../ParagonData/DynamicCollider.h"
+#include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonAPI/PgInput.h"
@@ -53,6 +53,14 @@ namespace Pg::DataScript
 		//개별적으로 함수 실행.
 		_playerMovementSector->BeforePhysicsAwake();
 		_playerCombatSector->BeforePhysicsAwake();
+
+		_selfCol = _object->GetComponent<Pg::Data::CapsuleCollider>();
+		_selfCol->FreezeAxisX(true);
+		_selfCol->FreezeAxisY(true);
+		_selfCol->FreezeAxisZ(true);
+		_selfCol->SetMass(2.0f);
+		_selfCol->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PLAYER);
+		PG_TRACE(_selfCol->GetLayer());
 	}
 
 	void PlayerHandler::Awake()
