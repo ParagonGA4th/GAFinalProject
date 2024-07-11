@@ -11,7 +11,7 @@ namespace Pg::Engine
 	class DetectTriggers_PxQFC : public physx::PxQueryFilterCallback
 	{
 	public:
-		DetectTriggers_PxQFC(bool detectTriggers, Pg::Data::Enums::eLayerMask excludeLayer) : _isDetectTriggers(detectTriggers), _excludeLayer(excludeLayer) {}
+		DetectTriggers_PxQFC(bool detectTriggers) : _isDetectTriggers(detectTriggers) {}
 
 		physx::PxQueryHitType::Enum preFilter(const physx::PxFilterData& filterData, const physx::PxShape* shape, const physx::PxRigidActor* actor, physx::PxHitFlags& queryFlags) override
 		{
@@ -24,10 +24,12 @@ namespace Pg::Engine
 				
 			//제외할 레이어와 같으면 NONE 리턴.
 			//const physx::PxFilterData shapeFilter = shape->getQueryFilterData();
-			if (filterData.word0 == _excludeLayer)
-			{
-				return physx::PxQueryHitType::eNONE;
-			}
+			////bool tOne = (filterData.word0 == _excludeLayer);
+			////bool tTwo = (shapeFilter.word0 == _excludeLayer);
+			//if ((filterData.word0 == _excludeLayer) || (shapeFilter.word0 == _excludeLayer))
+			//{
+			//	return physx::PxQueryHitType::eNONE;
+			//}
 
 			// Trigger라면, 저장된 값에 의해 조건문 분기.
 			if (shape->getFlags() & physx::PxShapeFlag::eTRIGGER_SHAPE)
@@ -47,6 +49,5 @@ namespace Pg::Engine
 
 	private:
 		bool _isDetectTriggers;
-		unsigned int _excludeLayer;
 	};
 }

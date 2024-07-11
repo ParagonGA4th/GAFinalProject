@@ -1005,7 +1005,7 @@ namespace Pg::Engine::Physic
 	}
 
 	///Raycast 생성하기
-	Pg::Data::Collider* PhysicSystem::MakeRayCast(Pg::Math::PGFLOAT3 tOrigin, Pg::Math::PGFLOAT3 tDir, float tLength, Pg::Math::PGFLOAT3& outHitPoint, int* bType, bool detectTriggers, Pg::Data::Enums::eLayerMask excludeLayer)
+	Pg::Data::Collider* PhysicSystem::MakeRayCast(Pg::Math::PGFLOAT3 tOrigin, Pg::Math::PGFLOAT3 tDir, float tLength, Pg::Math::PGFLOAT3& outHitPoint, int* bType, bool detectTriggers)
 	{
 		physx::PxVec3 rayCastOrigin;
 		rayCastOrigin.x = tOrigin.x;
@@ -1020,7 +1020,7 @@ namespace Pg::Engine::Physic
 		Pg::Data::Collider* raycastCol = nullptr;
 
 		//QueryFiltering (Trigger 포함 여부 검사) - 조건문.
-		DetectTriggers_PxQFC tDetectTriggersCallback(detectTriggers, excludeLayer);
+		DetectTriggers_PxQFC tDetectTriggersCallback(detectTriggers);
 
 		//RayCast 버퍼 생성.
 		physx::PxRaycastBuffer _hitBuffer;
