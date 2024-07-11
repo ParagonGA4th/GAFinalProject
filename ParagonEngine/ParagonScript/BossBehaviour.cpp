@@ -132,14 +132,6 @@ namespace Pg::DataScript
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
-		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
-		assert(_collider != nullptr);
-		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
-		PG_TRACE(_collider->GetLayer());
-		//_collider->SetCapsuleInfo(1.f, 1.f);
-		_collider->FreezeAxisX(true);
-		_collider->FreezeAxisY(true);
-		_collider->FreezeAxisZ(true);
 	}
 
 	void BossBehaviour::Update()
@@ -200,25 +192,39 @@ namespace Pg::DataScript
 		{
 			if (_distance <= _bossInfo->GetAttackRange())
 			{
+				_meshRenderer->_animBlendFactor = 0.0f;
 				_isChasing = false;
 				_isRotatingToPlayer = false;
 
 				_monsterHelper->_isChase = false;
 				_monsterHelper->_isPlayerinHitSpace = true;
-				_monsterHelper->_bossFlag._isPase_2 = true;
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2)
 				{
-					//Attack(_monsterHelper->_isAnimChange);
+					Attack(_monsterHelper->_isAnimChange);
 					//_useLightSkill = true;
-					_useTakeDownSkill = true;
+					//_useTakeDownSkill = true;
 				}
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3)
 				{
 					//Attack(false);
 					//_useTakeDownSkill = false;
-					//_useStormBlast = true;
+					_useStormBlast = true;
+				}				
+				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK) // 빛기둥
+				{
+					//Attack(false);
+					//_useTakeDownSkill = false;
+					_useStormBlast = true;
+				}
+				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_1 ||
+					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2 ||
+					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_3)
+				{
+					//Attack(false);
+					//_useTakeDownSkill = false;
+					_useStormBlast = true;
 				}
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE)
@@ -229,6 +235,7 @@ namespace Pg::DataScript
 			}
 			else
 			{
+				_meshRenderer->_animBlendFactor = 10.0f;
 				_isChasing = true;
 				_isRotatingToPlayer = true;
 				_monsterHelper->_isChase = true;
@@ -603,6 +610,19 @@ namespace Pg::DataScript
 		//체력이 반 이상 떨어지면
 		if (_bossInfo->GetMonsterHp() <= 10.f)
 		{
+			if (_monsterHelper->_bossFlag._isPase_1)
+			{
+				_monsterHelper->_bossFlag._isPase_1 = false;
+				_monsterHelper->_bossFlag._isPase_2 = true;
+				_monsterHelper->_bossFlag._isPase_3 = false;
+			}
+			if (_monsterHelper->_bossFlag._isPase_2)
+			{
+				_monsterHelper->_bossFlag._isPase_1 = false;
+				_monsterHelper->_bossFlag._isPase_2 = false;
+				_monsterHelper->_bossFlag._isPase_3 = true;
+			}
+
 			//무력화 상태 시작.
 			_bossInfo->SetCurrentNeutralize(_bossInfo->GetCurrentNeutralize() + _pgTime->GetDeltaTime());
 
@@ -651,20 +671,5 @@ namespace Pg::DataScript
 	float BossBehaviour::RandomRange(float min, float max)
 	{
 		return min + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (max - min)));
-	}
-
-	void BossBehaviour::OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count)
-	{
-		for (int i = 0; i < count; i++)
-		{
-			Pg::Data::PhysicsCollision* col = _colArr[i];
-			Pg::Data::Collider* tRealOtherActor = Pg::Data::PhysicsCollision::GetActualOtherActor(col, this->_object);
-
-			//플레이어한테 데미지를 주어라
-			if (tRealOtherActor->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_PLAYER)
-			{
-				PG_TRACE("Player Hit!");
-			}
-		}
 	}
 }

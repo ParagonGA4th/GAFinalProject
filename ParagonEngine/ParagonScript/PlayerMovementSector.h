@@ -63,13 +63,10 @@ namespace Pg::DataScript
 
 	public:
 		bool GetIsMoving();	//플레이어의 이동여부를 전달하여 공격금지하게 해야함.
-	
-	public:
 		void SetIsAbleToJump(bool val);
-
+	
 	private:
 		//움직임 관련. 
-
 		float moveSpeed{ 10.0f };
 		float rotateMultiplier{ 2.0f };
 		float jumpPower{ 80.0f };
@@ -83,6 +80,7 @@ namespace Pg::DataScript
 		void UpdateFacingDirection(float yLevelPlane); //클릭한 곳 기준 바라보기.
 		void StrafeAvoidLogic();
 		void PlayAdequateAnimation(); //로직에 따라 올바른 애니메이션을 재생하는 함수.
+
 	private:
 		void OnStrafeAvoidComplete();
 
@@ -101,9 +99,8 @@ namespace Pg::DataScript
 	private:
 		InGameCameraBehavior* _camBehavior{ nullptr };
 		Pg::Data::Camera* _mainCam{ nullptr };
-		Pg::Data::DynamicCollider* _selfCol{ nullptr };
-		//Pg::Data::CapsuleCollider* _selfCapCol{ nullptr };
-		Pg::Data::SkinnedMeshRenderer* _renderer{ nullptr };
+
+
 		Pg::API::Input::PgInput* _pgInput{ nullptr };
 		Pg::API::Time::PgTime* _pgTime{ nullptr };
 		Pg::API::Raycast::PgRayCast* _pgRayCast{ nullptr };
@@ -111,14 +108,6 @@ namespace Pg::DataScript
 		Pg::API::Graphics::PgGraphics* _pgGraphics{ nullptr };
 		Pg::Math::PGFLOAT3 _targetPos;
 		Pg::Math::PGQuaternion _targetRotation;
-
-	private:
-		//플레이어 사운드 관련 변수
-		Pg::Data::GameObject* _playerWalkSound;
-		Pg::Data::GameObject* _playerJumpSound;
-
-		Pg::Data::AudioSource* _walkAudio;
-		Pg::Data::AudioSource* _jumpAudio;
 
 		std::vector<Pg::Data::BoxCollider*> _boxColVec;
 
@@ -133,7 +122,6 @@ namespace Pg::DataScript
 		float _currentPlaneY = 0.f;
 		float _recordedTimeSinceJump = 0.f;
 		bool _isStrafeAvoiding{ false };
-		bool _isHeadingDownwardsToggle{ false };
 		bool _isAbleToJump{ false };
 	private:
 		//개별적으로 애니메이션 출력 로직 관리.

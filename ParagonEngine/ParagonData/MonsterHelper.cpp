@@ -13,9 +13,30 @@ Pg::Data::MonsterHelper::MonsterHelper(GameObject* obj)
 	MimicInit();
 	WaspInit();
 }
+
 void Pg::Data::MonsterHelper::OnAnimationEnd(const std::string& justEndedAnimation)
 {
 	_isAnimationEnd = true;
+}
+
+void Pg::Data::MonsterHelper::Reset()
+{
+	_isPlayerDetected = false; 
+	_isPlayerinHitSpace = false;
+	_isDistanceClose = false;
+	_isChase = false; 
+	_isHit = false;
+	_isDead = false;
+	_isAnimationEnd = false;
+	_isAnimChange = false; 
+	_isDeadDelay = false;
+
+	_bossFlag.Reset();
+	_bGolemFlag.Reset();
+	_mGolemFlag.Reset();
+	_stubFlag.Reset();
+	_mimicFlag.Reset();
+	_waspFlag.Reset();
 }
 
 void Pg::Data::MonsterHelper::BossInit()
@@ -31,6 +52,7 @@ void Pg::Data::MonsterHelper::BossInit()
 	_bossFlag._bossPase = Pg::Data::BossPase::PASE_1;
 
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::IDLE] = "Idle";
+	_bossFlag._bossStateListByEnum[Pg::Data::BossState::CAST] = "Cast";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_1] = "BAttack_1";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_2] = "BAttack_2";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_3] = "BAttack_3";
@@ -83,4 +105,3 @@ void Pg::Data::MonsterHelper::WaspInit()
 {
 	_waspFlag._attackCount = 0;
 }
-

@@ -12,6 +12,7 @@
 #include "extensions/PxDefaultErrorCallback.h"
 #include "../ParagonProcess/CoreSingleton.h"
 #include "../ParagonData/DebugData.h"
+#include "../ParagonData/LayerMask.h"
 #include "../ParagonMath/PgMath.h"
 #include <vector>
 #include <memory>
