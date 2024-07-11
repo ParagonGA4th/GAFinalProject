@@ -365,7 +365,8 @@ void Pg::Editor::Manager::DataManager::DataDeserialize(pugi::xml_node root, int 
 						if (typeName.find("Behaviour") != std::string::npos ||
 							typeName.find("Area") != std::string::npos ||
 							typeName.find("InGameCamera") != std::string::npos ||
-							typeName.find("Attack") != std::string::npos)
+							typeName.find("Attack") != std::string::npos ||
+							typeName.find("Mimic") != std::string::npos)
 						{
 							auto scriptData = obj->GetComponent<Pg::DataScript::Script>();
 							if (scriptData != nullptr)
