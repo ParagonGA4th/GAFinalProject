@@ -24,6 +24,7 @@ namespace Pg::API
 namespace Pg::Data
 {
 	class DynamicCollider;
+	class CapsuleCollider;
 	class AudioSource;
 	class SkinnedMeshRenderer;
 }
@@ -107,7 +108,7 @@ namespace Pg::DataScript
 		std::unique_ptr<PlayerMovementSector> _playerMovementSector;
 		std::unique_ptr<PlayerCombatSector> _playerCombatSector;
 
-		Pg::Data::DynamicCollider* _selfCol{ nullptr };
+		Pg::Data::CapsuleCollider* _selfCol{ nullptr };
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer{ nullptr };
 	};
 }
