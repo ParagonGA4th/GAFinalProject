@@ -11,6 +11,8 @@ namespace Pg::Data::Enums
 		LAYER_MAP = 4,				// 맵 기믹(함정, 전투 등)
 		LAYER_BACKGROUND = 5,		// 맵 배경
 		LAYER_MOVABLE_OBJECTS = 6,	// 움직일 수 있는 맵 배경.
-		LAYER_BOSS = 7
+		LAYER_BOSS = 7,
+
+		SELECT_NONE = 16 //이는 실제로 사용되어서는 안된다. Raycast Filtering을 위해.
 	};
 }

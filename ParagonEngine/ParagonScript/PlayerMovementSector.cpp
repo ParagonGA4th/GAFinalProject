@@ -12,6 +12,7 @@
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/BoxCollider.h"
+#include "../ParagonUtil/Log.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgRayCast.h"
@@ -40,36 +41,11 @@ namespace Pg::DataScript
 
 	void PlayerMovementSector::BeforePhysicsAwake()
 	{
-		/*for (auto& iter : _object->_transform.GetChildren())
-		{
-			Pg::Data::BoxCollider* sensorCol = iter->_object->GetComponent<Pg::Data::BoxCollider>();
-
-			if (sensorCol != nullptr)
-			{
-				_boxColVec.push_back(sensorCol);
-				sensorCol->FreezeLinearX(true);
-				sensorCol->FreezeLinearX(true);
-				sensorCol->FreezeLinearX(true);
-				sensorCol->SetUseGravity(false);
-			}
-		}*/
-		//_selfCapCol = _object->GetComponent<Pg::Data::CapsuleCollider>();
-		//_selfCapCol->FreezeAxisY(true);
+		
 	}
 
 	void PlayerMovementSector::Awake()
 	{
-
-
-	}
-
-	void PlayerMovementSector::Start()
-	{
-		//다른 스크립트의 Awake에서 새롭게 인게임 메인카메라를 설정해야 한다.
-		_mainCam = _object->GetScene()->GetMainCamera();
-		_camBehavior = _mainCam->_object->GetComponent<Pg::DataScript::InGameCameraBehavior>();
-		assert(_camBehavior != nullptr);
-
 		_renderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		assert(_renderer != nullptr);
 
@@ -87,10 +63,17 @@ namespace Pg::DataScript
 		_playerJumpSound = _object->GetScene()->FindObjectWithName("PlayerJumpSound");
 		_jumpAudio = _playerJumpSound->GetComponent<Pg::Data::AudioSource>();
 
-		//자신이 속한 Half Collider 높이 만큼 RendererOffset 설정.
-		//_renderer->SetRendererOffset({ 0.f, -_halfColliderHeight, 0.f });
-
 		_isJumping = false;
+
+		//Camera의 Awake에서 MainCamera가 들어올 것이다. 이거 빼고 다 받자.
+	}
+
+	void PlayerMovementSector::Start()
+	{
+		//다른 스크립트의 Awake에서 새롭게 인게임 메인카메라를 설정해야 한다.
+		_mainCam = _object->GetScene()->GetMainCamera();
+		_camBehavior = _mainCam->_object->GetComponent<Pg::DataScript::InGameCameraBehavior>();
+		assert(_camBehavior != nullptr);
 	}
 
 	void PlayerMovementSector::Update()
@@ -287,14 +270,12 @@ namespace Pg::DataScript
 	void PlayerMovementSector::UpdateJump()
 	{
 		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::Space) && (!_isJumping))
+		//if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::Space))
 		{
 			_isJumping = true;
 			_isMoving = true;
 			_isJumping_Animation = true;
 			_recordedTimeSinceJump = 0.f;
-
-			//아직 빨리 떨어질 LinearVelocity를 가하지 않았으니.
-			_isHeadingDownwardsToggle = false;
 
 			_selfCol->AddForce(Pg::Math::PGFLOAT3::GlobalUp() * jumpPower, Pg::Data::ForceMode::eIMPULSE);
 
@@ -305,49 +286,38 @@ namespace Pg::DataScript
 		if (_isJumping)
 		{
 			//약간의 간격이 있어야 자신을 인식하지 않을 것이기에.
-			const float tSmallOffset = 0.05f; //추가적으로 Y Position Offset. 
-			const float tJumpCheckSmallDist = 0.1f; //밑으로 쏘는 정도
+			const float tSmallOffset = 0.01f; //추가적으로 Y Position Offset. 
+			//const float tJumpCheckSmallDist = 0.1f; //밑으로 쏘는 정도
+			const float tJumpCheckSmallDist = 10.f; //밑으로 쏘는 정도
 			const float tMinimalTimeBeforeRaycastCheck = 0.4f;
+
 			//지난 시간 DeltaTime으로 점검.
 			_recordedTimeSinceJump += _pgTime->GetDeltaTime();
-
+			PG_ERROR("RECORDING");
 			if (_recordedTimeSinceJump > tMinimalTimeBeforeRaycastCheck)
 			{
-				if (!_isHeadingDownwardsToggle)
-				{
-					//한번 아래로 향하면, 계속 Downward Force를 적용할 수 있게 될 것이다.
-					Pg::Math::PGFLOAT3 tLinVel = _selfCol->GetVelocity();
-					if (tLinVel.y < 0)
-					{
-						_isHeadingDownwardsToggle = true;
-					}
-				}
-				else
-				{
-					//만약 내려가는 모션이라면, SetLinearVelocity를 실행.
-					//반복적으로 함수 실행의 경우, 중력의 적용을 받지 않는다.
-					//Pg::Math::PGFLOAT3 tStrengthedDownForce = { 0.f, -30.f, 0.f };
-					//_selfCol->SetVelocity(tStrengthedDownForce);
-				}
-
 				//밑으로 쏜다.
 				Pg::Math::PGFLOAT3 tShouldShootDir = -Pg::Math::PGFLOAT3::GlobalUp();
-				Pg::Math::PGFLOAT3 tShouldShootPosition = {
-					_object->_transform._position.x, _object->_transform._position.y - _halfColliderHeight - tSmallOffset, _object->_transform._position.z };
-
-				//Raycast 효과적인 범위 검사를 위한 임시.
-				//Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGFLOAT3::GlobalUp();
 				//Pg::Math::PGFLOAT3 tShouldShootPosition = {
-				//	_object->_transform._position.x, _object->_transform._position.y + _halfColliderHeight + tSmallOffset, _object->_transform._position.z };
+				//	_object->_transform._position.x,
+				//	_object->_transform._position.y - _halfColliderHeight - tSmallOffset,
+				//	_object->_transform._position.z };
+				Pg::Math::PGFLOAT3 tShouldShootPosition = {
+					_object->_transform._position.x,
+					_object->_transform._position.y,
+					_object->_transform._position.z };
 
 				//로직과 상관없는 거
 				Pg::Math::PGFLOAT3 outHitPoint;
 				Pg::Data::Collider* tOtherCollider = _pgRayCast->MakeRay(tShouldShootPosition,
-					tShouldShootDir, tJumpCheckSmallDist, outHitPoint, nullptr, false); // Trigger 이제 감지하지 마라!
+					tShouldShootDir, tJumpCheckSmallDist, outHitPoint, nullptr, false, Data::Enums::LAYER_PLAYER); // Trigger 이제 감지하지 마라!
+
+				assert(tOtherCollider->GetLayer() != Data::Enums::LAYER_PLAYER);
 
 				//매우 짦은 거리로 쏴야 한다. 닿으면 다시 점프를 재충전할 것이니.
 				if (tOtherCollider != nullptr)
 				{
+					PG_WARN("COLLIDERCHECK");
 					//이제 Collider의 레이어를 여기서 다시 Sort해야 할 것이나,
 					//일단은 그 과정은 나중에!
 					_isJumping_Animation = false;
