@@ -12,7 +12,8 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_bossFlag._bossState != Pg::Data::BossState::BASIC_ATTACK_1)
+			if (monHelper->_bossFlag._bossState != Pg::Data::BossState::BASIC_ATTACK_1 && 
+				monHelper->_bossFlag._bossState != Pg::Data::BossState::CAST)
 				return BT::NodeStatus::FAILURE;
 
 			if (monHelper->_isAnimationEnd)
@@ -25,7 +26,11 @@ namespace Pg::Data::BTree::Node
 					monHelper->_bossFlag._bossState = Pg::Data::BossState::BASIC_ATTACK_2;
 					_isCast = false;
 				}
-				else _isCast = true;
+				else
+				{
+					monHelper->_bossFlag._bossState = Pg::Data::BossState::BASIC_ATTACK_1;
+					_isCast = true;
+				}
 			}
 
 			auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();

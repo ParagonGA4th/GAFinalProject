@@ -1,5 +1,6 @@
 #pragma once
 #include "../ParagonMath/PgMath.h"
+#include "../ParagonData/LayerMask.h"
 
 #include <memory>
 

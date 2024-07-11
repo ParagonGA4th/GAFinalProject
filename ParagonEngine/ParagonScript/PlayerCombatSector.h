@@ -24,6 +24,8 @@ namespace Pg::DataScript
 
 namespace Pg::DataScript
 {
+	class PlayerHandler;
+
 	class PlayerCombatSector : public IObserver, public IScriptResettable
 	{
 		friend class PlayerHandler;
@@ -66,16 +68,7 @@ namespace Pg::DataScript
 	private:
 		PlayerHandler* _playerHandler;
 		Pg::Data::GameObject* _object;
-		Pg::Data::SkinnedMeshRenderer* _meshRenderer{ nullptr };
-		Pg::Data::DynamicCollider* _selfCol{ nullptr };
-
 		std::vector<ArrowLogic*> _arrowVec;
-
-	private:
-		//사운드 관련 변수
-		Pg::Data::GameObject* _commonAttackSound;
-		Pg::Data::AudioSource* _commonAttackAudio;
-
 	private:
 		float _timeSinceLastShot = 0.f;
 		//공격 쿨타임

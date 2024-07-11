@@ -66,7 +66,7 @@ namespace Pg::DataScript
 
 				_previousMoveSpeed = _playerBattleBehavior->GetPlayerMoveSpeed();
 				_playerBattleBehavior->SetPlayerMoveSpeed(_previousMoveSpeed / 2.0f);
-			}
+			} 
 		}
 	}
 

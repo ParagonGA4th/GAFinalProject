@@ -36,6 +36,9 @@ namespace Pg::DataScript
 		DEFINE_PARAGON_SCRIPT(PlayerHandler);
 
 		friend class CombatSystem;
+		friend class PlayerMovementSector;
+		friend class PlayerCombatSector;
+
 	public:
 		//디파인.
 		inline static const float MAX_PLAYER_HEALTH = 100.0f;
@@ -100,6 +103,9 @@ namespace Pg::DataScript
 		const float* ReturnPlayerStaminaPointPointerConst() const;
 
 	private:
+		void GetInternalVariables();
+
+	private:
 		CombatSystem* _combatSystem{ nullptr };
 		ComboSystem* _comboSystem{ nullptr };
 
@@ -110,6 +116,12 @@ namespace Pg::DataScript
 
 		Pg::Data::CapsuleCollider* _selfCol{ nullptr };
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer{ nullptr };
+
+		//사운드 관련 변수
+		Pg::Data::AudioSource* _commonAttackAudio;
+		Pg::Data::AudioSource* _walkAudio;
+		Pg::Data::AudioSource* _jumpAudio;
+
 	};
 }
 

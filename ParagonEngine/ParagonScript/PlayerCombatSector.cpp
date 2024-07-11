@@ -18,12 +18,6 @@ namespace Pg::DataScript
 	{
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
-
-		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-		assert(_meshRenderer != nullptr);
-
-		_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
-		assert(_selfCol != nullptr);
 	}
 
 	void PlayerCombatSector::GrabManagedObjects()
@@ -33,24 +27,12 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::BeforePhysicsAwake()
 	{
-		_selfCol = _object->GetComponent<Pg::Data::DynamicCollider>();
-		assert(_selfCol != nullptr);
-
-		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-		assert(_meshRenderer != nullptr);
-
-		_selfCol->FreezeAxisX(true);
-		_selfCol->FreezeAxisY(true);
-		_selfCol->FreezeAxisZ(true);
-		_selfCol->SetMass(2.0f);
-		//자기 자신이 Player이니, Collider의 레이어를 설정해준다.
-		_selfCol->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PLAYER);
+	
 	}
 
 	void PlayerCombatSector::Awake()
 	{
-		_commonAttackSound = _object->GetScene()->FindObjectWithName("PlayerCommonAttackSound");
-		_commonAttackAudio = _commonAttackSound->GetComponent<Pg::Data::AudioSource>();
+		
 	}
 
 	void PlayerCombatSector::Start()
@@ -163,7 +145,7 @@ namespace Pg::DataScript
 					PG_TRACE("아직 충분히 반환되지 않음. 나중에 FixedSizeQueue로?");
 				}
 
-				_commonAttackAudio->Play();
+				_playerHandler->_commonAttackAudio->Play();
 			}
 		}
 		else
@@ -192,7 +174,7 @@ namespace Pg::DataScript
 		//만약에 전 스트링과 같지 않을 시에.
 		if (_prevAnimationInput.compare(tToPlayAnimationName) != 0)
 		{
-			_meshRenderer->SetAnimation(tToPlayAnimationName, isLooping);
+			_playerHandler->_meshRenderer->SetAnimation(tToPlayAnimationName, isLooping);
 		}
 
 		//애니메이션 인풋 스트링 기록.
