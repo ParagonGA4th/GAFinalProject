@@ -1,29 +1,32 @@
 #pragma once
 #include "ScriptInterface.h"
 
-
 namespace Pg::Data
 {
-	class StaticBoxCollider;
+	class SkinnedMeshRenderer;
+	class GameObject;
 }
 
 namespace Pg::DataScript
 {
 	class CombatSystem;
 
-	class GolemBossSkillAttack : public ScriptInterface<GolemBossSkillAttack>
+	class TakeDownAttack : public ScriptInterface<TakeDownAttack>
 	{
-		DEFINE_PARAGON_SCRIPT(GolemBossSkillAttack);
+		DEFINE_PARAGON_SCRIPT(TakeDownAttack);
 	public:
-		GolemBossSkillAttack(Pg::Data::GameObject* obj);
+		TakeDownAttack(Pg::Data::GameObject* obj);
 
-		virtual void BeforePhysicsAwake() override;
 		virtual void Awake() override;
+		virtual void BeforePhysicsAwake() override;
+		virtual void Start() override;
 		virtual void Update() override;
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
+
 	private:
 		CombatSystem* _combatSystem{ nullptr };
 	};
 }
+
 
 

@@ -200,6 +200,7 @@
     <ClInclude Include="Stage2AreaHandler.h" />
     <ClInclude Include="Stage2EnemyHandler.h" />
     <ClInclude Include="Stage2GUIHandler.h" />
+    <ClInclude Include="TakeDownAttack.h" />
     <ClInclude Include="TotalGameManager.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="IEnemyBehaviour.h" />
@@ -287,6 +288,7 @@
     <ClCompile Include="Stage2AreaHandler.cpp" />
     <ClCompile Include="Stage2EnemyHandler.cpp" />
     <ClCompile Include="Stage2GUIHandler.cpp" />
+    <ClCompile Include="TakeDownAttack.cpp" />
     <ClCompile Include="TotalGameManager.cpp" />
     <ClCompile Include="InGameCameraBehavior.cpp" />
     <ClCompile Include="MimicBehaviour.cpp" />

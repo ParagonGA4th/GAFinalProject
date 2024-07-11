@@ -14,6 +14,7 @@ namespace Pg::Data
 	class SkinnedMeshRenderer;
 	class CapsuleCollider;
 	class StaticBoxCollider;
+	class StaticSphereCollider;
 	class MonsterHelper;
 	class AudioSource;
 }
@@ -49,6 +50,8 @@ namespace Pg::DataScript
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;
+
+		virtual void OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override;
 
 		virtual void OnDeserialize(SerializeVector& sv) override;
 		virtual void OnSerialize(SerializeVector& sv) override;
@@ -112,6 +115,7 @@ namespace Pg::DataScript
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _windBlastAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _lightAttackCol;
+		std::vector<Pg::Data::StaticSphereCollider*> _takeDownCol;
 
 		Pg::Data::GameObject* _bossWalkSound;
 		Pg::Data::AudioSource* _walkAudio;
@@ -164,6 +168,11 @@ namespace Pg::DataScript
 		bool _useTakeDownSkill{ false };
 
 		bool _goUp{ false };
+		bool _isGenerateCol{ false };
+
+		//내려찍기 후의 collider 재생성
+		float _currentGenerateTime = 0.f;
+		float _regenerateTime = 0.1f;
 
 		float _activationInterval{ 1.f }; // 각 콜라이더가 활성화되는 시간 간격
 		float _nextActivationTime{ 1.0f }; // 다음 콜라이더가 활성화될 시간
