@@ -53,6 +53,8 @@ namespace Pg::DataScript
 
 	void MimicBehaviour::BeforePhysicsAwake()
 	{
+		//_object->SetActive(false);
+
 		_collider = _object->GetComponent<Pg::Data::BoxCollider>();
 		assert(_collider != nullptr);
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
@@ -161,7 +163,7 @@ namespace Pg::DataScript
 		//코인 투척 스킬
 		UpdateSkill();
 
-		PG_TRACE(_monsterHelper->_isDistanceClose);
+		//PG_TRACE(_monsterHelper->_isDistanceClose);
 	}
 
 	void MimicBehaviour::Idle()

@@ -52,6 +52,7 @@
 #include "TrentAttack.h"
 #include "MimicAttack.h"
 #include "MimicSkillAttack.h"
+#include "MimicActive.h"
 #include "WaspAttack.h"
 #include "BossAttack.h"
 #include "WindBlastAttack.h"
