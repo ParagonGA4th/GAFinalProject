@@ -53,8 +53,6 @@ namespace Pg::DataScript
 
 	void MimicBehaviour::BeforePhysicsAwake()
 	{
-		//_object->SetActive(false);
-
 		_collider = _object->GetComponent<Pg::Data::BoxCollider>();
 		assert(_collider != nullptr);
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
@@ -63,19 +61,7 @@ namespace Pg::DataScript
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
 		_collider->FreezeLinearY(true);
-	}
 
-	void MimicBehaviour::Awake()
-	{
-		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-
-		//체력과 기본 공격력을 설정해준다.
-		//_miniGolInfo->SetMonsterHp(5.f);
-		//_miniGolInfo->SetMonsterDamage(1.f);
-	}
-
-	void MimicBehaviour::Start()
-	{
 		//플레이어 지정
 		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
@@ -119,6 +105,23 @@ namespace Pg::DataScript
 				}
 			}
 		}
+	}
+
+	void MimicBehaviour::Awake()
+	{
+
+		//체력과 기본 공격력을 설정해준다.
+		//_miniGolInfo->SetMonsterHp(5.f);
+		//_miniGolInfo->SetMonsterDamage(1.f);
+	}
+
+	void MimicBehaviour::Start()
+	{
+		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+		_meshRenderer->SetActive(false);
+		_collider->SetActive(false);
+		this->SetActive(false);
 	}
 
 	void MimicBehaviour::Update()
