@@ -197,12 +197,12 @@ namespace Pg::DataScript
 		{
 			if (_distance <= _bossInfo->GetAttackRange())
 			{
+				_meshRenderer->_animBlendFactor = 0.0f;
 				_isChasing = false;
 				_isRotatingToPlayer = false;
 
 				_monsterHelper->_isChase = false;
 				_monsterHelper->_isPlayerinHitSpace = true;
-				_monsterHelper->_bossFlag._isPase_2 = true;
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2)
@@ -212,6 +212,20 @@ namespace Pg::DataScript
 					//_useTakeDownSkill = true;
 				}
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3)
+				{
+					//Attack(false);
+					//_useTakeDownSkill = false;
+					_useStormBlast = true;
+				}				
+				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK) // 빛기둥
+				{
+					//Attack(false);
+					//_useTakeDownSkill = false;
+					_useStormBlast = true;
+				}
+				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_1 ||
+					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2 ||
+					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_3)
 				{
 					//Attack(false);
 					//_useTakeDownSkill = false;
@@ -226,6 +240,7 @@ namespace Pg::DataScript
 			}
 			else
 			{
+				_meshRenderer->_animBlendFactor = 10.0f;
 				_isChasing = true;
 				_isRotatingToPlayer = true;
 				_monsterHelper->_isChase = true;
@@ -572,6 +587,19 @@ namespace Pg::DataScript
 		//체력이 반 이상 떨어지면
 		if (_bossInfo->GetMonsterHp() <= 10.f)
 		{
+			if (_monsterHelper->_bossFlag._isPase_1)
+			{
+				_monsterHelper->_bossFlag._isPase_1 = false;
+				_monsterHelper->_bossFlag._isPase_2 = true;
+				_monsterHelper->_bossFlag._isPase_3 = false;
+			}
+			if (_monsterHelper->_bossFlag._isPase_2)
+			{
+				_monsterHelper->_bossFlag._isPase_1 = false;
+				_monsterHelper->_bossFlag._isPase_2 = false;
+				_monsterHelper->_bossFlag._isPase_3 = true;
+			}
+
 			//무력화 상태 시작.
 			_bossInfo->SetCurrentNeutralize(_bossInfo->GetCurrentNeutralize() + _pgTime->GetDeltaTime());
 
