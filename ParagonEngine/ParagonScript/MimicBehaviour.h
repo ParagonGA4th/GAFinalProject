@@ -91,9 +91,6 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _coin;
 		Pg::Data::StaticMeshRenderer* _coinRenderer;
 
-		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
-		Pg::Data::BoxCollider* _collider;
-
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _skillAttackCol;
 
@@ -105,6 +102,11 @@ namespace Pg::DataScript
 
 		CameraShake* _cameraShake;
 		MimicSkillAttack* _mimicSkillAttack;
+
+	public:
+		//MimicActive를 통해 다시 활성화 시켜주기 위함.
+		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
+		Pg::Data::BoxCollider* _collider;
 
 	private:
 		//플레이어와의 거리 측정

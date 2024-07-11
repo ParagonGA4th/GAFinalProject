@@ -6,10 +6,13 @@
 namespace Pg::Data
 {
 	class StaticBoxCollider;
+	class SkinnedMeshRenderer;
 }
 
 namespace Pg::DataScript
 {
+	class MimicBehaviour;
+
 	class MimicActive : public ScriptInterface<MimicActive>
 	{
 		DEFINE_PARAGON_SCRIPT(MimicActive);
@@ -31,6 +34,8 @@ namespace Pg::DataScript
 	private:
 		Pg::Data::GameObject* _mimic;
 		Pg::Data::StaticBoxCollider* _collider;
+		Pg::Data::SkinnedMeshRenderer* _renderer;
+		MimicBehaviour* _mimicBehaviour;
 	};
 }
 
