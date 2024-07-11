@@ -61,7 +61,7 @@ namespace Pg::DataScript
 		void ShootArrow(Pg::Math::PGFLOAT3 initialPos, Pg::Math::PGFLOAT3 shootDir); //자기 자신인 화살을 쏘기.
 
 	private:
-		void EnableDrop(); //중력 다시 켜기.
+		void EndShootingSelf(); //다 썼다는 얘기. 중력을 키지도 말고, 그냥사라지자.
 		void CarryOutShoot(); //실제로 총을 쏘는 로직, Tweening 사용.
 		void IfValidActualShootLogic(); //실제 총 쏘는 If문.
 	private:	//인게임 내 프로퍼티들.

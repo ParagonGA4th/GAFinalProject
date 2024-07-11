@@ -45,6 +45,11 @@ namespace Pg::DataScript
 		_combatSystem = CombatSystem::GetInstance(nullptr);
 		_comboSystem = ComboSystem::GetInstance();
 
+		//Scene의 이름을 기반으로 점프가 가능한지, 불가한지를 보내기.
+		std::string tBelongSceneName = _object->GetScene()->GetSceneName();
+		bool tCanJump = (tBelongSceneName.compare("Stage2") == 0);
+		_playerMovementSector->SetIsAbleToJump(tCanJump);
+
 		//개별적으로 함수 실행.
 		_playerMovementSector->BeforePhysicsAwake();
 		_playerCombatSector->BeforePhysicsAwake();

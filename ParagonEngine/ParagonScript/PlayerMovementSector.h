@@ -54,9 +54,6 @@ namespace Pg::DataScript
 		//Animation이 끝났을 때 호출 되는 함수
 		void OnAnimationEnd(const std::string& justEndedAnimation);
 
-
-
-
 	public:
 		//IObserver : 전체적인 Event 전달을 기준으로 작동할 것.
 		virtual void HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2) override;
@@ -67,6 +64,9 @@ namespace Pg::DataScript
 	public:
 		bool GetIsMoving();	//플레이어의 이동여부를 전달하여 공격금지하게 해야함.
 	
+	public:
+		void SetIsAbleToJump(bool val);
+
 	private:
 		//움직임 관련. 
 
@@ -134,7 +134,7 @@ namespace Pg::DataScript
 		float _recordedTimeSinceJump = 0.f;
 		bool _isStrafeAvoiding{ false };
 		bool _isHeadingDownwardsToggle{ false };
-
+		bool _isAbleToJump{ false };
 	private:
 		//개별적으로 애니메이션 출력 로직 관리.
 		//다 지나갈 시, Idle 출력.

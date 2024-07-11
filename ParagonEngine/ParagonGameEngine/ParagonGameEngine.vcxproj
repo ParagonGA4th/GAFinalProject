@@ -253,6 +253,7 @@ copy $(SolutionDir)lib\libzmq\$(PlatformTarget)\$(Configuration)\libzmq-v143-mt-
     <ClInclude Include="PhysicsAllocator.h" />
     <ClInclude Include="PhysicsCallback.h" />
     <ClInclude Include="PhysicsErrorCallback.h" />
+    <ClInclude Include="DetectTriggers_PxQFC.h" />
     <ClInclude Include="PhysicSystem.h" />
     <ClInclude Include="PrintRuntimeData.h" />
     <ClInclude Include="RayCastTest.h">

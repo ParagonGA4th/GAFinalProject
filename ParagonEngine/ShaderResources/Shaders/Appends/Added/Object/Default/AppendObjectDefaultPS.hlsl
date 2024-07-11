@@ -157,8 +157,9 @@ POutQuad main(VOutQuad pin)
     }
     
     //내부적으로 Saturate되어서 나온다.
-    //float shadow = ShadowValue(GetPosition(pin.UV), GetNormal(pin.UV), _indep_MainLightDir);
-    //res.Output.xyz *= (1.0f - shadow);
+    float shadow = ShadowValue(GetPosition(pin.UV), GetNormal(pin.UV), _indep_MainLightDir);
+    shadow /= 4.0f;
+    res.Output.xyz *= (1.0f - shadow);
     
     return res;
 }

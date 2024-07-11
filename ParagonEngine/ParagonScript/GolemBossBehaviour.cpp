@@ -207,7 +207,8 @@ namespace Pg::DataScript
 			_monsterHelper->_isPlayerinHitSpace = true;
 			_monsterHelper->_bGolemFlag._isPase_1 = true;
 
-			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK)
+			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_1 ||
+				_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_2)
 			{
 				Skill(_monsterHelper->_isAnimationEnd); // 스킬 사용
 			}
