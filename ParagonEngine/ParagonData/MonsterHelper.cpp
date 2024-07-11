@@ -60,7 +60,8 @@ void Pg::Data::MonsterHelper::GolemBossInit()
 	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::BASIC_ATTACK_1] = "BAttack_1";
 	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::BASIC_ATTACK_2] = "BAttack_2";
 	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::BASIC_ATTACK_3] = "BAttack_3";
-	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::SKILL_ATTACK] = "SAttack";
+	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::SKILL_ATTACK_1] = "SAttack_1";
+	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::SKILL_ATTACK_2] = "SAttack_2";
 }
 
 void Pg::Data::MonsterHelper::GolemInit()
