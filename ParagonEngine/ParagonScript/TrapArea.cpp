@@ -1,6 +1,5 @@
 #include "TrapArea.h"
-
-//#include "PlayerMovementSector.h"
+#include "CombatSystem.h"
 #include "PlayerHandler.h"
 
 #include "../ParagonData/SkinnedMeshRenderer.h"
@@ -26,6 +25,8 @@ namespace Pg::DataScript
 
 		auto& tdelta = singleton<Pg::API::Time::PgTime>();
 		_deltaTime = &tdelta;
+
+		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
 	void TrapArea::Start()
@@ -34,18 +35,10 @@ namespace Pg::DataScript
 
 	void TrapArea::Update()
 	{
-		//Exit 할 때 nullptr 할당 해줘야. CombatSystem을 통한 연결 작업 중, 일단은 보여줘야 하니 이렇게 ㄱㄱ!
-		if (_playerBattleBehavior != nullptr)
+		if (_onTriggerStay)
 		{
-			auto dcol = _playerBattleBehavior->_object->GetComponent<Pg::Data::DynamicCollider>();
-
-			if (_onTriggerStay)
-			{
-				// 플레이어의 체력이 계속 깎여야 함
-				_playerBattleBehavior->healthPoint -= _deltaTime->GetDeltaTime() * _damage;
-				auto mesh = _playerBattleBehavior->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-				mesh->SetActive(!mesh->GetActive());
-			}
+			// 플레이어의 체력이 계속 깎여야 함
+			_combatSystem->ChangePlayerHealth(_deltaTime->GetDeltaTime() * _damage * -1.f);
 		}
 	}
 
@@ -66,7 +59,7 @@ namespace Pg::DataScript
 
 				_previousMoveSpeed = _playerBattleBehavior->GetPlayerMoveSpeed();
 				_playerBattleBehavior->SetPlayerMoveSpeed(_previousMoveSpeed / 2.0f);
-			} 
+			}
 		}
 	}
 
