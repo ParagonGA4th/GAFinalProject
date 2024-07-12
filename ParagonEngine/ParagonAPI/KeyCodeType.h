@@ -8,8 +8,8 @@ namespace Pg::API::Input
 		MoveBack,
 		MoveLeft,
 		MoveRight,
-		MoveUp,
-		MoveDown,
+		KeyE,
+		KeyQ,
 
 		ButtonMenu,
 		ButtonConfirm,
@@ -43,6 +43,7 @@ namespace Pg::API::Input
 		KeyB,
 		KeyN,
 		KeyM,
+		KeyF,
 		Esc,
 
 		KeyBackSlash,

@@ -3,6 +3,8 @@
 #include "ArrowLogic.h"
 #include "PlayerHandler.h"
 #include "PlayerMovementSector.h"
+#include "CombatSystem.h"
+#include "EventList_PlayerRelated.h"
 #include "../ParagonUtil/Log.h"
 
 #include "../ParagonAPI/PgInput.h"
@@ -27,23 +29,25 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::BeforePhysicsAwake()
 	{
-	
+
 	}
 
 	void PlayerCombatSector::Awake()
 	{
-		
+
 	}
 
 	void PlayerCombatSector::Start()
 	{
-		
+
 	}
 
 	void PlayerCombatSector::Update()
 	{
-		ArrowShootingLogic();
-		
+		SelectActivateActiveSkill();
+		ProcessInputsForStrongAttack();
+		ProcessInputsForUltimateAttack();
+		AllAttacksLogic();
 		//나머지 로직은 Combat System으로 이동.
 	}
 
@@ -64,7 +68,145 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::ResetAll()
 	{
+		// 공격 관련 변수들 리셋.
+		_startedClickingTime = 0.f;
+		_isStrongAttackStartEligible = true;
+		_startedStrongAttackChargeTime = 0.f;
+		_isUltimateAttackStartEligible = true;
+		_isStartedUltimateAttackChargeTime = 0.f;
 
+		//현재 공격 상태 리셋.
+		_isStrongAttackingNow = false;
+		_isUltimateAttackingNow = false;
+
+		//UI Manager : 내부 액티브스킬 GUI 초기 세팅 따로 해야 한다.
+	}
+
+	void PlayerCombatSector::PlayAdequateAnimation()
+	{
+		//우선, 디폴트로 출력되는 것은 Idle Animation. 
+
+		//Idle 초기 상태 세팅.
+		std::string tToPlayAnimationName = "PA_00001.pganim";
+		bool isLooping = true;
+
+		if (_isHit)
+		{
+			//공격 애니매이션
+			isLooping = false;
+			tToPlayAnimationName = "PA_0000" + std::to_string(_hitCount + 4) + ".pganim";
+		}
+
+		//만약에 전 스트링과 같지 않을 시에.
+		if (_prevAnimationInput.compare(tToPlayAnimationName) != 0)
+		{
+			_playerHandler->_meshRenderer->SetAnimation(tToPlayAnimationName, isLooping);
+		}
+
+		//애니메이션 인풋 스트링 기록.
+		_prevAnimationInput = tToPlayAnimationName;
+	}
+
+	void PlayerCombatSector::OnAnimationEnd(const std::string& justEndedAnimation)
+	{
+		// Loop가 안되는 모든 애니매이션의 flag는 여기서 false로 변경
+		_isHit = false;
+	}
+
+	void PlayerCombatSector::SelectActivateActiveSkill()
+	{
+		// 일반 공격 : 그냥 지금처럼 화살 
+		// 액티브면 불 / 얼음 화살 이렇게 스위칭이고,
+		// Q - E로 바꾸면 즉시 화살 쏘는 것처럼 투사체 나감.
+		//Q와 E를 누르면 Switch.
+		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyQ))
+		{
+			//Event HandleEvents에서 나중에 구분해야 한다.
+			_playerHandler->_combatSystem->Post(Event_UI_SetActiveSkill(), false, NULL);
+			ActivateFireAttack();
+		}
+		else if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyE))
+		{
+			//Event HandleEvents에서 나중에 구분해야 한다.
+			_playerHandler->_combatSystem->Post(Event_UI_SetActiveSkill(), true, NULL);
+			ActivateIceAttack();
+		}
+	}
+
+	void PlayerCombatSector::ProcessInputsForStrongAttack()
+	{
+		//마우스 클릭한 순간부터 기록 시작.
+
+		//만약 강공격을 쓸 수 있는 상태라면
+		if (_isStrongAttackStartEligible)
+		{
+			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseLeft))
+			{
+				_startedClickingTime = 0.f;
+			}
+
+			if (_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MouseLeft))
+			{
+				//다시 클릭되기까지 쓰이지 않을 것.
+				_startedClickingTime = 0.f;
+			}
+
+			if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MouseLeft))
+			{
+				_startedClickingTime += _pgTime->GetDeltaTime();
+
+				//만약 2초보다 더 길게 클릭한다면 -> 강공격 발동.
+				if (_startedClickingTime >= 2.0f);
+				{
+					ActivateStrongAttack();
+					_startedClickingTime = 0.f;
+					_startedStrongAttackChargeTime = 0.f;
+					_isStrongAttackStartEligible = false;
+				}
+			}
+		}
+		else
+		{
+			// 강공격이 이제 불가능하다면, 다시 쿨다운 재충전을 위한 순간들이 필요하다.
+			_startedStrongAttackChargeTime += _pgTime->GetDeltaTime();
+			//3초 쿨다운 필요.
+			if (_startedStrongAttackChargeTime >= STRONG_ATTACK_COOLDOWN_TIME)
+			{
+				//다시 호출될 수 있게.
+				_isStrongAttackStartEligible = true;
+				_startedStrongAttackChargeTime = 0.f;
+			}
+		}
+	}
+
+	void PlayerCombatSector::ProcessInputsForUltimateAttack()
+	{
+		if (_isUltimateAttackStartEligible)
+		{
+			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyF))
+			{
+				// ManaPoint가 10보다 크거나 같음.
+				if (_playerHandler->manaPoint >= ULTIMATE_ATTACK_REQUIRED_MANA)
+				{
+					_playerHandler->ChangePlayerMana(-100000.f);
+					
+					ActivateUltimateAttack();
+					// 0으로 다시 돌려놓기. 쿨다운을 위해.
+					_isStartedUltimateAttackChargeTime = 0.f;
+					_isUltimateAttackStartEligible = false;
+				}
+			}
+		}
+		else
+		{
+			//아니면, 궁극기을 위해 쿨다운 재충전을 해야 한다.
+			_isStartedUltimateAttackChargeTime += _pgTime->GetDeltaTime();
+			if (_isStartedUltimateAttackChargeTime >= ULTIMATE_ATTACK_COOLDOWN_TIME)
+			{
+				_isUltimateAttackStartEligible = true;
+				_isStartedUltimateAttackChargeTime = 0.f;
+			}
+		}
 	}
 
 	void PlayerCombatSector::FindAllArrowsInMap()
@@ -82,6 +224,14 @@ namespace Pg::DataScript
 				_arrowVec.push_back(tALogic);
 			}
 		}
+	}
+
+	void PlayerCombatSector::AllAttacksLogic()
+	{
+		// 여기서 불 / 얼음을 나눈다. Active Skill로 나누어야 한다.
+		ArrowShootingLogic();
+
+
 	}
 
 	void PlayerCombatSector::ArrowShootingLogic()
@@ -155,40 +305,24 @@ namespace Pg::DataScript
 		}
 	}
 
-	
-	void PlayerCombatSector::PlayAdequateAnimation()
+	void PlayerCombatSector::ActivateStrongAttack()
 	{
-		//우선, 디폴트로 출력되는 것은 Idle Animation. 
 
-		//Idle 초기 상태 세팅.
-		std::string tToPlayAnimationName = "PA_00001.pganim";
-		bool isLooping = true;
-
-		if (_isHit)
-		{
-			//공격 애니매이션
-			isLooping = false;
-			tToPlayAnimationName = "PA_0000" + std::to_string(_hitCount + 4) + ".pganim";
-		}
-
-		//만약에 전 스트링과 같지 않을 시에.
-		if (_prevAnimationInput.compare(tToPlayAnimationName) != 0)
-		{
-			_playerHandler->_meshRenderer->SetAnimation(tToPlayAnimationName, isLooping);
-		}
-
-		//애니메이션 인풋 스트링 기록.
-		_prevAnimationInput = tToPlayAnimationName;
 	}
 
-	void PlayerCombatSector::OnAnimationEnd(const std::string& justEndedAnimation)
+	void PlayerCombatSector::ActivateUltimateAttack()
 	{
-		// Loop가 안되는 모든 애니매이션의 flag는 여기서 false로 변경
-		_isHit = false;
+
 	}
 
-	
+	void PlayerCombatSector::ActivateFireAttack()
+	{
 
-	
+	}
+
+	void PlayerCombatSector::ActivateIceAttack()
+	{
+
+	}
 
 }

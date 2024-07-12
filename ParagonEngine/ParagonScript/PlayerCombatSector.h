@@ -29,6 +29,11 @@ namespace Pg::DataScript
 	class PlayerCombatSector : public IObserver, public IScriptResettable
 	{
 		friend class PlayerHandler;
+
+		inline static const float STRONG_ATTACK_COOLDOWN_TIME = 3.f;
+		inline static const float ULTIMATE_ATTACK_COOLDOWN_TIME = 30.f;
+		inline static const float ULTIMATE_ATTACK_REQUIRED_MANA = 10.f;
+
 	public:
 		PlayerCombatSector(PlayerHandler* playerHandler);
 
@@ -51,19 +56,22 @@ namespace Pg::DataScript
 		//IScriptResettable. 다시 자기 자신을 리셋하는 함수.
 		virtual void ResetAll() override;
 
-	public:
+	private:
+		void AllAttacksLogic();
 		void ArrowShootingLogic();
 
-		//CombatSystem으로 이동.
-		////Monster Script들이 자의적으로 호출하는 함수.
-		//void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
-		//void AddMonsterOnHitList(BaseMonsterInfo* monster);
-
-	private:
 		void FindAllArrowsInMap();
 		void PlayAdequateAnimation();
+		void SelectActivateActiveSkill();
+		void ProcessInputsForStrongAttack();
+		void ProcessInputsForUltimateAttack();
 
-	
+		//얘네들은 활성화만 시키고, 로직 실행은 외적으로.
+		//여러 프레임 동안 이루어져야 한다. 
+		void ActivateStrongAttack();
+		void ActivateUltimateAttack(); 
+		void ActivateFireAttack();
+		void ActivateIceAttack();
 
 	private:
 		PlayerHandler* _playerHandler;
@@ -79,6 +87,18 @@ namespace Pg::DataScript
 		std::string _prevAnimationInput;
 		bool _isHit;
 		int _hitCount = 0;
+
+	private:
+		//강공격 실행을 위해, 클릭한 순간들을 기록한다.
+		float _startedClickingTime{ 0.f };
+		bool _isStrongAttackStartEligible{ true };
+		float _startedStrongAttackChargeTime{ 0.f };
+		bool _isStrongAttackingNow{ false };
+
+		//궁극기 실행을 위해, 클릭한 순간들을 기록한다.
+		bool _isUltimateAttackStartEligible{ true };
+		float _isStartedUltimateAttackChargeTime{ 0.f };
+		bool _isUltimateAttackingNow{ false };
 
 	private:
 		Pg::API::Input::PgInput* _pgInput;
