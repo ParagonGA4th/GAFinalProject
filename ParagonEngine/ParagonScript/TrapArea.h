@@ -12,6 +12,7 @@ namespace Pg::DataScript
 {
 	class PlayerMovementSector;
 	class PlayerHandler;
+	class CombatSystem;
 
 	class TrapArea : public ScriptInterface<TrapArea>, public IConfinedArea
 	{
@@ -43,6 +44,7 @@ namespace Pg::DataScript
 		Pg::Data::StaticBoxCollider* _collider;
 		//Pg::DataScript::PlayerMovementSector* _playerMovement;
 		Pg::DataScript::PlayerHandler* _playerBattleBehavior;
+		Pg::DataScript::CombatSystem* _combatSystem;
 
 		// 플레이어의 기본 속도
 		float _previousMoveSpeed;
