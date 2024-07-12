@@ -56,6 +56,14 @@ namespace Pg::DataScript
 
 	void BossBehaviour::BeforePhysicsAwake()
 	{
+		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
+		assert(_collider != nullptr);
+		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_BOSS);
+		//_collider->SetCapsuleInfo(1.f, 1.f);
+		_collider->FreezeAxisX(true);
+		_collider->FreezeAxisY(true);
+		_collider->FreezeAxisZ(true);
+
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			// 자식 오브젝트의 이름을 얻어옵니다.
@@ -192,7 +200,7 @@ namespace Pg::DataScript
 		{
 			if (_distance <= _bossInfo->GetAttackRange())
 			{
-				_meshRenderer->_animBlendFactor = 0.0f;
+				//_meshRenderer->_animBlendFactor = 0.0f;
 				_isChasing = false;
 				_isRotatingToPlayer = false;
 
@@ -203,7 +211,6 @@ namespace Pg::DataScript
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2)
 				{
 					Attack(_monsterHelper->_isAnimChange);
-					//_useLightSkill = true;
 					//_useTakeDownSkill = true;
 				}
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3)
@@ -214,22 +221,22 @@ namespace Pg::DataScript
 				}				
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK) // 빛기둥
 				{
+					_useLightSkill = true;
 					//Attack(false);
 					//_useTakeDownSkill = false;
-					_useStormBlast = true;
+					//_useStormBlast = true;
 				}
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_1 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_3)
 				{
 					//Attack(false);
-					//_useTakeDownSkill = false;
-					_useStormBlast = true;
+					_useTakeDownSkill = true;
+					//_useStormBlast = true;
 				}
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE)
 				{
-					_useTakeDownSkill = false;
 					Attack(false);
 				}
 			}
@@ -443,7 +450,7 @@ namespace Pg::DataScript
 			if (_bossInfo->GetCurrentLightSkillTime() >= _nextActivationTime)
 			{
 				//자신은 무적이 된다.
-				_collider->SetActive(false);
+				//_collider->SetActive(false);
 
 				if (_currentColIndex < _lightAttackCol.size())
 				{
@@ -473,7 +480,7 @@ namespace Pg::DataScript
 				_nextActivationTime = 0.0f; // 초기화
 
 				//무적 해제
-				_collider->SetActive(false);
+				//_collider->SetActive(true);
 			}
 		}
 	}
@@ -596,7 +603,8 @@ namespace Pg::DataScript
 		_cameraShake->CauseShake(0.25f);
 
 		//피격 애니메이션 들어가야 함.
-		if (_isChasing)
+		if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE ||
+			_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::CHASE)
 		{
 			std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
 			animId.append("_00010.pganim");
@@ -607,22 +615,33 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Neutralize()
 	{
-		//체력이 반 이상 떨어지면
-		if (_bossInfo->GetMonsterHp() <= 10.f)
+		//체력이 30 밑으로 떨어지면
+		if (_bossInfo->GetMonsterHp() <= 30.f)
 		{
 			if (_monsterHelper->_bossFlag._isPase_1)
 			{
+				_isNeutralize = true;
 				_monsterHelper->_bossFlag._isPase_1 = false;
 				_monsterHelper->_bossFlag._isPase_2 = true;
 				_monsterHelper->_bossFlag._isPase_3 = false;
 			}
+
+			_isPhase1End = true;
+		}
+		if (_isPhase1End && !_isPhase2End && _bossInfo->GetMonsterHp() <= 20.f)
+		{
 			if (_monsterHelper->_bossFlag._isPase_2)
 			{
+				_isNeutralize = true;
 				_monsterHelper->_bossFlag._isPase_1 = false;
 				_monsterHelper->_bossFlag._isPase_2 = false;
 				_monsterHelper->_bossFlag._isPase_3 = true;
 			}
 
+			_isPhase2End = true;
+		}
+		if (_isNeutralize)
+		{
 			//무력화 상태 시작.
 			_bossInfo->SetCurrentNeutralize(_bossInfo->GetCurrentNeutralize() + _pgTime->GetDeltaTime());
 
@@ -633,7 +652,6 @@ namespace Pg::DataScript
 				_isNeutralize = false;
 				_monsterHelper->_bossFlag._isDown = false;
 				_bossInfo->SetCurrentNeutralize(0.f);
-				return;
 			}
 
 			if (!_isNeutralizeInit)
@@ -642,11 +660,8 @@ namespace Pg::DataScript
 				_monsterHelper->_isChase = false;
 				_monsterHelper->_bossFlag._isDash = false;
 				_monsterHelper->_isDistanceClose = false;
+				_isNeutralizeInit = true;
 			}
-
-			_isNeutralize = true;
-			_isNeutralizeInit = true;
-
 		}
 	}
 

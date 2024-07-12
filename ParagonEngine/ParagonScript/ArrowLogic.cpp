@@ -169,7 +169,7 @@ namespace Pg::DataScript
 		}
 	}
 
-	void ArrowLogic::OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count)
+	void ArrowLogic::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
 	{
 		if (_comboSystem == nullptr)
 		{
@@ -180,7 +180,7 @@ namespace Pg::DataScript
 		for (int i = 0; i < count; i++)
 		{
 			//무조건 해당 수만큼은 들어온다.
-			Pg::Data::PhysicsCollision* tCol = _colArr[i];
+			Pg::Data::Collider* tCol = _colArr[i];
 
 			//{
 			//	std::string tString = "ENTERED MONSTER: ";
@@ -199,18 +199,17 @@ namespace Pg::DataScript
 			//{
 			//	tRealOtherActor = tCol->_otherActor;
 			//}
-			Pg::Data::Collider* tRealOtherActor = Pg::Data::PhysicsCollision::GetActualOtherActor(tCol, this->_object);
 
 			//Physics Layer로 검사한다.
 			//몬스터일 때 설정하는 것이니.
-			if (tRealOtherActor->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_MONSTER || 
-				tRealOtherActor->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_BOSS)
+			if (tCol->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_MONSTER ||
+				tCol->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_BOSS)
 			{
 
 				//몬스터 때렸다는 것.
 				//자신이 직접 데미지를 연산하는 것이 아니다! 
 				//기록해서 PlayerBattleBehavior가 처리해 줄 것.
-				IEnemyBehaviour* tEnemyBehaviour = tRealOtherActor->_object->GetComponent<IEnemyBehaviour>();
+				IEnemyBehaviour* tEnemyBehaviour = tCol->_object->GetComponent<IEnemyBehaviour>();
 				assert((tEnemyBehaviour != nullptr) && "무조건 찾았어야 했다");
 
 				//ComboSystem한테 적 때렸다고 전달.
