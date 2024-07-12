@@ -47,7 +47,7 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void FixedUpdate() override;
 
-		virtual void OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override;
+		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
 		//virtual void OnCollisionExit(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override;
 
 

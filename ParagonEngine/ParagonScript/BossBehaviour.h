@@ -51,8 +51,6 @@ namespace Pg::DataScript
 		virtual void Start() override;
 		virtual void Update() override;
 
-		virtual void OnCollisionEnter(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override;
-
 		virtual void OnDeserialize(SerializeVector& sv) override;
 		virtual void OnSerialize(SerializeVector& sv) override;
 
@@ -173,6 +171,9 @@ namespace Pg::DataScript
 		//내려찍기 후의 collider 재생성
 		float _currentGenerateTime = 0.f;
 		float _regenerateTime = 0.1f;
+
+		bool _isPhase1End{ false };
+		bool _isPhase2End{ false };
 
 		float _activationInterval{ 1.f }; // 각 콜라이더가 활성화되는 시간 간격
 		float _nextActivationTime{ 1.0f }; // 다음 콜라이더가 활성화될 시간
