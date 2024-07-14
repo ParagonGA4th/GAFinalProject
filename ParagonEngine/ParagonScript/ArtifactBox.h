@@ -1,6 +1,16 @@
 #pragma once
 #include "ScriptInterface.h"
 
+namespace Pg::Data
+{
+	class StaticBoxCollider;
+}
+
+namespace Pg::API
+{
+	namespace Input { class PgInput; }
+}
+
 namespace Pg::DataScript
 {
 	class ArtifactBox : public ScriptInterface<ArtifactBox>
@@ -17,5 +27,13 @@ namespace Pg::DataScript
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
 		virtual void OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count) override;
 
+		virtual void OnAnimationEnd(const std::string& justEndedAnimation) override;
+
+	private:
+		Pg::API::Input::PgInput* _pgInput{ nullptr };
+		Pg::Data::StaticBoxCollider* _collider{ nullptr };
+
+		bool _onTriggerStay{ false };
+		bool _animEnd{ false };
 	};
 }
