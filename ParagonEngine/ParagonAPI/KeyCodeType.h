@@ -43,6 +43,7 @@ namespace Pg::API::Input
 		KeyB,
 		KeyN,
 		KeyM,
+		KeyF,
 		Esc,
 
 		KeyBackSlash,
