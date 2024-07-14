@@ -3,6 +3,12 @@
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
 
+namespace Pg::API
+{
+	namespace Time { class PgTime; }
+	namespace Tween { class PgTween; }
+}
+
 namespace Pg::DataScript
 {
 	class MushroomTrampoline : public ScriptInterface<MushroomTrampoline>
@@ -18,7 +24,9 @@ namespace Pg::DataScript
 
 		//자신이 Trigger, 자신에 부딪힌 Collider들의 정보를 받아서 활용하게 된다.
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
-
+		
+	private:
+		Pg::API::Tween::PgTween* _pgTween;
 	};
 }
 
