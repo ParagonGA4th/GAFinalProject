@@ -40,15 +40,29 @@ namespace Pg::DataScript
 		_collider->SetUseGravity(false);
 		_collider->FreezeAxisX(true);
 		_collider->FreezeAxisZ(true);
+
+		_meshRenderer = _object->GetComponent<Pg::Data::StaticMeshRenderer>();
+		assert(_meshRenderer != nullptr);
+
+		//무조건 자기 자신이 소속된 오브젝트의 Tag를 "TAG_Arrow"로 바꿈.
+		_object->SetTag("TAG_Arrow");
 	}
 
 	void ArrowLogic::Awake()
 	{
-		//무조건 자기 자신이 소속된 오브젝트의 Tag를 "TAG_Arrow"로 바꿈.
-		_object->SetTag("TAG_Arrow");
-
-		_meshRenderer = _object->GetComponent<Pg::Data::StaticMeshRenderer>();
-		assert(_meshRenderer != nullptr);
+		// ArrowType에 따라서 다르게 세팅해야 한다.
+		switch (_arrowType)
+		{
+			case -1: { InitSelfAsIceArrow(); } break;
+			case 0: {InitSelfAsNormalArrow(); } break;
+			case 1: {InitSelfAsFireArrow(); } break;
+			default:
+			{
+				PG_ERROR("Not Supported Arrow Type");
+				assert(false);
+			}
+			break;
+		}
 	}
 
 	void ArrowLogic::Start()
@@ -239,6 +253,21 @@ namespace Pg::DataScript
 				_comboSystem->HitObject(false);
 			}
 		}
+	}
+
+	void ArrowLogic::InitSelfAsNormalArrow()
+	{
+		//현재 일반 화살처럼.
+	}
+
+	void ArrowLogic::InitSelfAsIceArrow()
+	{
+		//잠깐 멈추거나, 속도 느리게.
+	}
+
+	void ArrowLogic::InitSelfAsFireArrow()
+	{
+		//독뎀 : 도트데미지 있게 해야.
 	}
 
 	//void ArrowLogic::OnCollisionExit(Pg::Data::PhysicsCollision** _colArr, unsigned int count)

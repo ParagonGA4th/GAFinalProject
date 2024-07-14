@@ -224,16 +224,35 @@ namespace Pg::DataScript
 			auto tALogic = it->GetComponent<Pg::DataScript::ArrowLogic>();
 			if (tALogic != nullptr)
 			{
+				if (tALogic->_arrowType == -1)
+				{
+					//Ice.
+				}
+				else if (tALogic->_arrowType == 0)
+				{
+					//Normal.
+				}
+				else if (tALogic->_arrowType == 1)
+				{
+					//Fire.
+				}
+				else {assert(false && "서포트 안함 이 타입은.") }
 				//Arrow에 자신 할당.
 				tALogic->_playerBattleBehavior = _playerHandler;
 				_arrowVec.push_back(tALogic);
 			}
 		}
+
+		//Material별로 다르게 셋해줘야 한다.
+		//UltimateArrowAttack은 별도로 자식 객체가 될 것.
+		//IceArrow : 15개 / FireArrow : 15개 / 일반 Arrow : 20개.
+		
 	}
 
 	void PlayerCombatSector::AllAttacksLogic()
 	{
 		// 여기서 불 / 얼음을 나눈다. Active Skill로 나누어야 한다.
+		// IceArrow / FireArrow 이렇게 관리되어야 한다.
 		ArrowShootingLogic();
 
 
