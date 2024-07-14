@@ -221,7 +221,14 @@ namespace Pg::Graphics
 		if (_prevAnim != nullptr)
 		{
 			//속도 더 빨리? 그러면 Lerp Ratio 막 이만큼 더 추가해야 했을 것!
+			if ((*ANIMATION_BLEND_SPEED_POINTER) <= std::numeric_limits<float>::epsilon())
+			{
+				//BlendSpeed를 0으로 한 경우, 바로 Switching 가능하게 1로 하드코딩해서 넘어가게 해준다.
+				_blendLerpRatio = 100.f; // 무조건 돌아오게. 
+			}
+
 			_blendLerpRatio += (dt * (*ANIMATION_BLEND_SPEED_POINTER));
+
 			if (_blendLerpRatio >= 1.0f)
 			{
 				//일단 한정 다시 0으로 돌린다.
