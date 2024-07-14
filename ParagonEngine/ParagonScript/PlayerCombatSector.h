@@ -83,6 +83,13 @@ namespace Pg::DataScript
 		//모든 공격들에 한정해서, 벡터와 오디오 등을 받으면 일괄적으로 Shoot 실행.
 		void ExecuteSpecificArrowShoot(std::vector<ArrowLogic*>* typeArrowVec, 
 			Pg::Data::AudioSource* audioSource, float& outIfDoneResetTime);
+		
+	private:
+		//지상이 형 / 민서가 내부를 채워줘야 할 함수들.
+		//딱 한번, 공격이 나가야 할 때 단발적으로 호출되는 함수.
+		void InvokeSingleUltimateAttack();
+		void InvokeSingleStrongAttack();
+	
 	private:
 		PlayerHandler* _playerHandler;
 		Pg::Data::GameObject* _object;
@@ -114,6 +121,10 @@ namespace Pg::DataScript
 		bool _isUltimateAttackingNow{ false };
 		bool _isIceAttackingNow{ false };
 		bool _isFireAttackingNow{ false };
+
+		//단발성이 아닌, Strong Attack / Ultimate Attack을 위해 값 보관을 하려 쓰는 값들.
+		bool _isJustUltimateAttackInvoked{ false };
+		bool _isJustStrongAttackInvoked{ false };
 
 	private:
 		Pg::API::Input::PgInput* _pgInput;
