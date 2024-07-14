@@ -1,6 +1,8 @@
 #include "PlayerCombatSector.h"
 #include "../ParagonData/Scene.h"
+#include "../ParagonData/StaticBoxCollider.h"
 #include "ArrowLogic.h"
+#include "UltimateArrowLogic.h"
 #include "PlayerHandler.h"
 #include "PlayerMovementSector.h"
 #include "CombatSystem.h"
@@ -24,12 +26,18 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::GrabManagedObjects()
 	{
-		FindAllArrowsInMap();
+	    FindAllArrowsInMap();
 	}
 
 	void PlayerCombatSector::BeforePhysicsAwake()
 	{
 
+		//궁극기 화살
+		_ultimateArrow = _object->GetScene()->FindObjectWithName("UltimateArrow");
+		_ulArrowCol = _ultimateArrow->GetComponent<Pg::Data::StaticBoxCollider>();
+		_ulArrowCol->SetActive(false);
+
+		_ulArrowLogic = _ultimateArrow->GetComponent<UltimateArrowLogic>();
 	}
 
 	void PlayerCombatSector::Awake()
@@ -44,6 +52,9 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::Update()
 	{
+		
+		ShootUltimateArrowLogic(); // 이거 합쳐야 한다.
+
 		ProcessInputsForActiveSkills();
 		ProcessInputsForStrongAttack();
 		ProcessInputsForUltimateAttack();
@@ -118,6 +129,11 @@ namespace Pg::DataScript
 		//
 		////애니메이션 인풋 스트링 기록.
 		//_prevAnimationInput = tToPlayAnimationName;
+
+		//else if (_useUltimateSkill)
+		//{
+		//	//궁극기 애니메이션 들어가야 함.
+		//	}
 	}
 
 	void PlayerCombatSector::OnAnimationEnd(const std::string& justEndedAnimation)
@@ -340,6 +356,9 @@ namespace Pg::DataScript
 			//마우스 좌클릭 시 공격.
 			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseLeft))
 			{
+				//_isHit = true;
+				//_hitCount++;
+				//if (_hitCount >= 4) _hitCount = 1;
 				//Normal Arrow Shooting.
 				ExecuteSpecificArrowShoot(&_normalArrowVec, _playerHandler->_commonAttackAudio, _normal_timeSinceLastShot);
 			}
@@ -482,6 +501,20 @@ namespace Pg::DataScript
 		}
 	}
 
+	void PlayerCombatSector::ShootUltimateArrowLogic()
+	{
+		if (_playerHandler->GetPlayerMovementSector()->GetIsMoving() == false)
+		{
+			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyF))
+			{
+				_useUltimateSkill = true;
+				_ulArrowCol->SetActive(true);
+				_ulArrowLogic->_isSkillStart = true;
+			}
+		}
+	}
+	
+	
 	void PlayerCombatSector::ExecuteSpecificArrowShoot(std::vector<ArrowLogic*>* typeArrowVec, Pg::Data::AudioSource* audioSource, float& outIfDoneResetTime)
 	{
 		//ComboCounting은 ComboSystem에서 회수해야 한다.

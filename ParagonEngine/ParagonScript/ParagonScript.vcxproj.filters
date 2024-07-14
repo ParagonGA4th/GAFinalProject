@@ -40,15 +40,6 @@
     <Filter Include="Content\ComboSystem">
       <UniqueIdentifier>{98345f97-48e6-4681-94f4-95356979c0c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\MapLogic">
-      <UniqueIdentifier>{60dacf1e-8333-49a9-bd45-d23cb8c39d7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\MapLogic\Battle Area">
-      <UniqueIdentifier>{8ced682f-fa91-41f6-8307-505b7e436271}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\MapLogic\Trap Area">
-      <UniqueIdentifier>{97fbc82b-eb64-4f85-ac1e-ec7b60f4df45}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Testing">
       <UniqueIdentifier>{daa6dc03-7e54-4e67-be4b-29d4fd3b9f6b}</UniqueIdentifier>
     </Filter>
@@ -63,9 +54,6 @@
     </Filter>
     <Filter Include="2_Events\Helper">
       <UniqueIdentifier>{52f11182-1aad-49f6-a208-526ca6e14f3b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\MapLogic\Portal">
-      <UniqueIdentifier>{b67c5cbe-562c-4b9a-ae33-35d1852b0d4d}</UniqueIdentifier>
     </Filter>
     <Filter Include="3_Interfaces">
       <UniqueIdentifier>{dffc01e4-4135-4508-ab76-7ad67dc1e127}</UniqueIdentifier>
@@ -253,12 +241,6 @@
     <Filter Include="3_Interfaces\Instances\ISingleGUI">
       <UniqueIdentifier>{39f52471-3438-4c7c-b8a8-8cd34fa94aee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\MapLogic\DeathPlane">
-      <UniqueIdentifier>{a073b386-69ef-4b06-921a-11712a7065a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\MapLogic\AreaPassingTrigger">
-      <UniqueIdentifier>{0a1133bd-c23c-4556-8591-cd44ff7eebef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\InGameUI\GUI_PercentageFillBar">
       <UniqueIdentifier>{31a91f8e-2a1f-417f-83aa-5af898ef59ef}</UniqueIdentifier>
     </Filter>
@@ -297,6 +279,30 @@
     </Filter>
     <Filter Include="AI\Attack\GolemBossAttack">
       <UniqueIdentifier>{b628ca7b-1d5e-438c-94bc-ef9b5e9fd196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick">
+      <UniqueIdentifier>{60dacf1e-8333-49a9-bd45-d23cb8c39d7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\Battle Area">
+      <UniqueIdentifier>{8ced682f-fa91-41f6-8307-505b7e436271}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\Trap Area">
+      <UniqueIdentifier>{97fbc82b-eb64-4f85-ac1e-ec7b60f4df45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\Portal">
+      <UniqueIdentifier>{b67c5cbe-562c-4b9a-ae33-35d1852b0d4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\DeathPlane">
+      <UniqueIdentifier>{a073b386-69ef-4b06-921a-11712a7065a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\AreaPassingTrigger">
+      <UniqueIdentifier>{0a1133bd-c23c-4556-8591-cd44ff7eebef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\MushroomTrampoline">
+      <UniqueIdentifier>{79ce7a04-4d48-406b-8859-89edca463784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\Stair">
+      <UniqueIdentifier>{93222ae7-33c5-42e2-bf74-ed50995412b7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Content\ArrowRelated">
       <UniqueIdentifier>{7920b905-0ce0-484f-8770-6fae0971d254}</UniqueIdentifier>
@@ -340,10 +346,10 @@
       <Filter>Content\ArrowRelated\ArrowLogic</Filter>
     </ClCompile>
     <ClCompile Include="BattleArea.cpp">
-      <Filter>Content\MapLogic\Battle Area</Filter>
+      <Filter>Content\Gimmick\Battle Area</Filter>
     </ClCompile>
     <ClCompile Include="TrapArea.cpp">
-      <Filter>Content\MapLogic\Trap Area</Filter>
+      <Filter>Content\Gimmick\Trap Area</Filter>
     </ClCompile>
     <ClCompile Include="PlayerHandler.cpp">
       <Filter>Content\1_ConcreteHandlers\PlayerHandler</Filter>
@@ -355,7 +361,7 @@
       <Filter>AI\Sight</Filter>
     </ClCompile>
     <ClCompile Include="Portal.cpp">
-      <Filter>Content\MapLogic\Portal</Filter>
+      <Filter>Content\Gimmick\Portal</Filter>
     </ClCompile>
     <ClCompile Include="BaseMonster.cpp">
       <Filter>Content\Monsters\BaseClass</Filter>
@@ -469,10 +475,10 @@
       <Filter>AI\Attack\BossAttack</Filter>
     </ClCompile>
     <ClCompile Include="AreaPassingTrigger.cpp">
-      <Filter>Content\MapLogic\AreaPassingTrigger</Filter>
+      <Filter>Content\Gimmick\AreaPassingTrigger</Filter>
     </ClCompile>
     <ClCompile Include="DeathPlane.cpp">
-      <Filter>Content\MapLogic\DeathPlane</Filter>
+      <Filter>Content\Gimmick\DeathPlane</Filter>
     </ClCompile>
     <ClCompile Include="GUI_PercentageFillBar.cpp">
       <Filter>UI\InGameUI\GUI_PercentageFillBar</Filter>
@@ -531,6 +537,15 @@
     <ClCompile Include="TakeDownAttack.cpp">
       <Filter>AI\Attack\BossAttack</Filter>
     </ClCompile>
+    <ClCompile Include="UltimateArrowLogic.cpp">
+      <Filter>Content\ArrowLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="MushroomTrampoline.cpp">
+      <Filter>Content\Gimmick\MushroomTrampoline</Filter>
+    </ClCompile>
+    <ClCompile Include="Stair.cpp">
+      <Filter>Content\Gimmick\Stair</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -573,10 +588,10 @@
       <Filter>Content\ArrowRelated\ArrowLogic</Filter>
     </ClInclude>
     <ClInclude Include="BattleArea.h">
-      <Filter>Content\MapLogic\Battle Area</Filter>
+      <Filter>Content\Gimmick\Battle Area</Filter>
     </ClInclude>
     <ClInclude Include="TrapArea.h">
-      <Filter>Content\MapLogic\Trap Area</Filter>
+      <Filter>Content\Gimmick\Trap Area</Filter>
     </ClInclude>
     <ClInclude Include="IEvent.h">
       <Filter>2_Events\Interface</Filter>
@@ -612,7 +627,7 @@
       <Filter>Content\EventRelated</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
-      <Filter>Content\MapLogic\Portal</Filter>
+      <Filter>Content\Gimmick\Portal</Filter>
     </ClInclude>
     <ClInclude Include="BaseMonster.h">
       <Filter>Content\Monsters\BaseClass</Filter>
@@ -686,7 +701,6 @@
     <ClInclude Include="BaseGUIHandler.h">
       <Filter>3_Interfaces\Handlers\BaseGUIHandler</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
     <ClInclude Include="CreditsSceneGUIHandler.h">
       <Filter>Content\1_ConcreteHandlers\6_CreditsScene_2D\CreditsSceneGUIHandler</Filter>
     </ClInclude>
@@ -769,10 +783,10 @@
       <Filter>3_Interfaces\Instances\ISingleGUI</Filter>
     </ClInclude>
     <ClInclude Include="AreaPassingTrigger.h">
-      <Filter>Content\MapLogic\AreaPassingTrigger</Filter>
+      <Filter>Content\Gimmick\AreaPassingTrigger</Filter>
     </ClInclude>
     <ClInclude Include="DeathPlane.h">
-      <Filter>Content\MapLogic\DeathPlane</Filter>
+      <Filter>Content\Gimmick\DeathPlane</Filter>
     </ClInclude>
     <ClInclude Include="GUI_PercentageFillBar.h">
       <Filter>UI\InGameUI\GUI_PercentageFillBar</Filter>
@@ -825,8 +839,14 @@
     <ClInclude Include="TakeDownAttack.h">
       <Filter>AI\Attack\BossAttack</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="ParagonScript.rc" />
+    <ClInclude Include="UltimateArrowLogic.h">
+      <Filter>Content\ArrowLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="MushroomTrampoline.h">
+      <Filter>Content\Gimmick\MushroomTrampoline</Filter>
+    </ClInclude>
+    <ClInclude Include="Stair.h">
+      <Filter>Content\Gimmick\Stair</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

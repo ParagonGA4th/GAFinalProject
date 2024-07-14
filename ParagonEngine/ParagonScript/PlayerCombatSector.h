@@ -11,6 +11,10 @@
 /// (구) PlayerBattleBehavior가 담당하는 역할.
 /// </summary>
 
+namespace Pg::Data 
+{
+	class StaticBoxCollider;
+}
 namespace Pg::API
 {
 	namespace Input { class PgInput; }
@@ -20,6 +24,7 @@ namespace Pg::API
 namespace Pg::DataScript
 {
 	class ArrowLogic;
+	class UltimateArrowLogic;
 }
 
 namespace Pg::DataScript
@@ -67,8 +72,16 @@ namespace Pg::DataScript
 	private:
 		void AllAttacksLogic();
 		void NormalArrowShootingLogic();
-
 		void FindAllArrowsInMap();
+		//CombatSystem으로 이동.
+		////Monster Script들이 자의적으로 호출하는 함수.
+		//void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
+		//void AddMonsterOnHitList(BaseMonsterInfo* monster);
+
+
+		//플레이어 궁극기
+		void ShootUltimateArrowLogic();
+	private:
 		void PlayAdequateAnimation();
 
 		void ProcessInputsForActiveSkills();
@@ -105,6 +118,10 @@ namespace Pg::DataScript
 		std::vector<ArrowLogic*> _normalArrowVec;
 		std::vector<ArrowLogic*> _iceArrowVec;
 		std::vector<ArrowLogic*> _fireArrowVec;
+
+		Pg::Data::GameObject* _ultimateArrow;
+		Pg::Data::StaticBoxCollider* _ulArrowCol;
+		UltimateArrowLogic* _ulArrowLogic;
 	private:
 		//Normal에 한정.
 		float _normal_timeSinceLastShot = 0.f;
@@ -116,6 +133,8 @@ namespace Pg::DataScript
 		std::string _prevAnimationInput;
 		//bool _isHit;
 		//int _hitCount = 0;
+		//bool _isHit;
+		bool _useUltimateSkill{ false }; //이건 Invoke에 들어가야 한다.
 
 	private:
 		//강공격 실행을 위해, 클릭한 순간들을 기록한다.
