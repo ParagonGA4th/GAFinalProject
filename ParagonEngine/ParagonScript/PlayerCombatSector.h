@@ -76,7 +76,9 @@ namespace Pg::DataScript
 	private:
 		PlayerHandler* _playerHandler;
 		Pg::Data::GameObject* _object;
-		std::vector<ArrowLogic*> _arrowVec;
+		std::vector<ArrowLogic*> _normalArrowVec;
+		std::vector<ArrowLogic*> _iceArrowVec;
+		std::vector<ArrowLogic*> _fireArrowVec;
 	private:
 		float _timeSinceLastShot = 0.f;
 		//공격 쿨타임

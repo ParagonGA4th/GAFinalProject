@@ -34,9 +34,6 @@
     <Filter Include="Content\CameraShake">
       <UniqueIdentifier>{705983d2-43e3-4d82-9858-84f39cbb8b4e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\ArrowLogic">
-      <UniqueIdentifier>{92bf8d9e-c566-4aa7-a2db-c8c78cef92c8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Content\ArrowShooterBehavior">
       <UniqueIdentifier>{d7b2144c-23a2-4494-8783-36a43df1d931}</UniqueIdentifier>
     </Filter>
@@ -301,6 +298,12 @@
     <Filter Include="AI\Attack\GolemBossAttack">
       <UniqueIdentifier>{b628ca7b-1d5e-438c-94bc-ef9b5e9fd196}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\ArrowRelated">
+      <UniqueIdentifier>{7920b905-0ce0-484f-8770-6fae0971d254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\ArrowRelated\ArrowLogic">
+      <UniqueIdentifier>{92bf8d9e-c566-4aa7-a2db-c8c78cef92c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -334,7 +337,7 @@
       <Filter>Content\ArrowShooterBehavior</Filter>
     </ClCompile>
     <ClCompile Include="ArrowLogic.cpp">
-      <Filter>Content\ArrowLogic</Filter>
+      <Filter>Content\ArrowRelated\ArrowLogic</Filter>
     </ClCompile>
     <ClCompile Include="BattleArea.cpp">
       <Filter>Content\MapLogic\Battle Area</Filter>
@@ -567,7 +570,7 @@
       <Filter>Content\ArrowShooterBehavior</Filter>
     </ClInclude>
     <ClInclude Include="ArrowLogic.h">
-      <Filter>Content\ArrowLogic</Filter>
+      <Filter>Content\ArrowRelated\ArrowLogic</Filter>
     </ClInclude>
     <ClInclude Include="BattleArea.h">
       <Filter>Content\MapLogic\Battle Area</Filter>
