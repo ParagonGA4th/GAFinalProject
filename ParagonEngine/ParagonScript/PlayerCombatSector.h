@@ -11,6 +11,10 @@
 /// (구) PlayerBattleBehavior가 담당하는 역할.
 /// </summary>
 
+namespace Pg::Data 
+{
+	class StaticBoxCollider;
+}
 namespace Pg::API
 {
 	namespace Input { class PgInput; }
@@ -20,6 +24,7 @@ namespace Pg::API
 namespace Pg::DataScript
 {
 	class ArrowLogic;
+	class UltimateArrowLogic;
 }
 
 namespace Pg::DataScript
@@ -59,8 +64,10 @@ namespace Pg::DataScript
 		//void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
 		//void AddMonsterOnHitList(BaseMonsterInfo* monster);
 
+
+		//플레이어 궁극기
+		void ShootUltimateArrowLogic();
 	private:
-		void FindAllArrowsInMap();
 		void PlayAdequateAnimation();
 
 	
@@ -69,6 +76,10 @@ namespace Pg::DataScript
 		PlayerHandler* _playerHandler;
 		Pg::Data::GameObject* _object;
 		std::vector<ArrowLogic*> _arrowVec;
+
+		Pg::Data::GameObject* _ultimateArrow;
+		Pg::Data::StaticBoxCollider* _ulArrowCol;
+		UltimateArrowLogic* _ulArrowLogic;
 	private:
 		float _timeSinceLastShot = 0.f;
 		//공격 쿨타임
@@ -78,6 +89,7 @@ namespace Pg::DataScript
 		// 플레이어 애니매이션 관련 변수
 		std::string _prevAnimationInput;
 		bool _isHit;
+		bool _useUltimateSkill{ false };
 		int _hitCount = 0;
 
 	private:

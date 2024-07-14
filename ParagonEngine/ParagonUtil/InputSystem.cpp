@@ -81,6 +81,7 @@ namespace Pg::Util::Input
 		CustomAssert(_map->MapBool(eKeyCode::MoveUp, _keyboardId, gainput::KeyE));
 		CustomAssert(_map->MapBool(eKeyCode::MoveDown, _keyboardId, gainput::KeyQ));
 		CustomAssert(_map->MapBool(eKeyCode::KeyZ, _keyboardId, gainput::KeyZ));
+		CustomAssert(_map->MapBool(eKeyCode::KeyF, _keyboardId, gainput::KeyF));
 		CustomAssert(_map->MapBool(eKeyCode::CtrlL, _keyboardId, gainput::KeyCtrlL));
 
 		CustomAssert(_map->MapBool(eKeyCode::ButtonConfirm, _keyboardId, gainput::KeyReturn));
