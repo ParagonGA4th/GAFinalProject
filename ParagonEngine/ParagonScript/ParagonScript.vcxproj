@@ -191,6 +191,7 @@
     <ClInclude Include="MiniGolemAttack.h" />
     <ClInclude Include="MovingObjectDefinesAndStructs.h" />
     <ClInclude Include="MushroomTrampoline.h" />
+    <ClInclude Include="ArtifactBox.h" />
     <ClInclude Include="PlayerCombatSector.h" />
     <ClInclude Include="CreditsSceneGUIHandler.h" />
     <ClInclude Include="GlobalSoundManager.h" />
@@ -281,6 +282,7 @@
     <ClCompile Include="MimicActive.cpp" />
     <ClCompile Include="MimicSkillAttack.cpp" />
     <ClCompile Include="MushroomTrampoline.cpp" />
+    <ClCompile Include="ArtifactBox.cpp" />
     <ClCompile Include="PlayerCombatSector.cpp" />
     <ClCompile Include="GlobalSoundManager.cpp" />
     <ClCompile Include="MimicAttack.cpp" />
