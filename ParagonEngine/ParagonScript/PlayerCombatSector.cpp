@@ -143,12 +143,14 @@ namespace Pg::DataScript
 			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseLeft))
 			{
 				_startedClickingTime = 0.f;
+				//PG_WARN("STARTING_COUNTING");
 			}
 
 			if (_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MouseLeft))
 			{
 				//다시 클릭되기까지 쓰이지 않을 것.
 				_startedClickingTime = 0.f;
+				//PG_WARN("ENDING_COUNTING");
 			}
 
 			if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MouseLeft))
@@ -156,8 +158,9 @@ namespace Pg::DataScript
 				_startedClickingTime += _pgTime->GetDeltaTime();
 
 				//만약 2초보다 더 길게 클릭한다면 -> 강공격 발동.
-				if (_startedClickingTime >= 2.0f);
+				if (_startedClickingTime >= 2.0f)
 				{
+					//PG_ERROR("Counting : {0}", _startedClickingTime);
 					ActivateStrongAttack();
 					_startedClickingTime = 0.f;
 					_startedStrongAttackChargeTime = 0.f;
@@ -167,11 +170,13 @@ namespace Pg::DataScript
 		}
 		else
 		{
+			//PG_ERROR("Cooldown : {0}", _startedStrongAttackChargeTime);
 			// 강공격이 이제 불가능하다면, 다시 쿨다운 재충전을 위한 순간들이 필요하다.
 			_startedStrongAttackChargeTime += _pgTime->GetDeltaTime();
 			//3초 쿨다운 필요.
 			if (_startedStrongAttackChargeTime >= STRONG_ATTACK_COOLDOWN_TIME)
 			{
+				//PG_ERROR("COOLDOWNDONE");
 				//다시 호출될 수 있게.
 				_isStrongAttackStartEligible = true;
 				_startedStrongAttackChargeTime = 0.f;
@@ -307,22 +312,22 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::ActivateStrongAttack()
 	{
-
+		PG_ERROR("ActivateStrongAttack");
 	}
 
 	void PlayerCombatSector::ActivateUltimateAttack()
 	{
-
+		PG_ERROR("ActivateUltimateAttack");
 	}
 
 	void PlayerCombatSector::ActivateFireAttack()
 	{
-
+		PG_ERROR("ActivateFireAttack");
 	}
 
 	void PlayerCombatSector::ActivateIceAttack()
 	{
-
+		PG_ERROR("ActivateIceAttack");
 	}
 
 }
