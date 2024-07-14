@@ -142,7 +142,11 @@ namespace Pg::Graphics
 			"걸리면 유효하지 않은 Animation 로드 시도한 것");
 
 		//PrevAnim 기록. Nullptr가 아니면 무조건 보간해야!
-		this->_prevAnim = this->_currentAnim;
+		if ((*ANIMATION_BLEND_SPEED_POINTER) > std::numeric_limits<float>::epsilon())
+		{
+			//0이 아니어야 PrevAnim 자체에 값을 넣는다.
+			this->_prevAnim = this->_currentAnim;
+		}
 		this->_currentAnim = _modelData->_assetSkinnedData->_viableAnimations.at(animName);
 		_blendLerpRatio = 0.0f;
 
@@ -220,8 +224,15 @@ namespace Pg::Graphics
 		//별도로 _prevAnim을 유지해야 하는지, 아닌지 검사.
 		if (_prevAnim != nullptr)
 		{
-			//속도 더 빨리? 그러면 Lerp Ratio 막 이만큼 더 추가해야 했을 것!
+			////속도 더 빨리? 그러면 Lerp Ratio 막 이만큼 더 추가해야 했을 것!
+			//if ((*ANIMATION_BLEND_SPEED_POINTER) <= std::numeric_limits<float>::epsilon())
+			//{
+			//	//BlendSpeed를 0으로 한 경우, 바로 Switching 가능하게 1로 하드코딩해서 넘어가게 해준다.
+			//	_blendLerpRatio = 100.f; // 무조건 돌아오게. 
+			//}
+
 			_blendLerpRatio += (dt * (*ANIMATION_BLEND_SPEED_POINTER));
+
 			if (_blendLerpRatio >= 1.0f)
 			{
 				//일단 한정 다시 0으로 돌린다.
