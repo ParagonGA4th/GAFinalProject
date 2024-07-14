@@ -44,7 +44,7 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::Update()
 	{
-		SelectActivateActiveSkill();
+		ProcessInputsForActiveSkills();
 		ProcessInputsForStrongAttack();
 		ProcessInputsForUltimateAttack();
 		AllAttacksLogic();
@@ -72,8 +72,12 @@ namespace Pg::DataScript
 		_startedClickingTime = 0.f;
 		_isStrongAttackStartEligible = true;
 		_startedStrongAttackChargeTime = 0.f;
+
 		_isUltimateAttackStartEligible = true;
 		_isStartedUltimateAttackChargeTime = 0.f;
+
+		_isActiveSkillSwitchEligible = true;
+		_isStartedActiveSkillChargeTime = 0.f;
 
 		//현재 공격 상태 리셋.
 		_isStrongAttackingNow = false;
@@ -84,6 +88,10 @@ namespace Pg::DataScript
 		//단발성 아닌 공격들 위해 세팅.
 		_isJustStrongAttackInvoked = false;
 		_isJustUltimateAttackInvoked = false;
+
+		_startedUltimateAttackingTime = 0.f;
+		_startedStrongAttackingTime = 0.f;
+
 		//UI Manager : 내부 액티브스킬 GUI 초기 세팅 따로 해야 한다.
 	}
 
@@ -118,26 +126,47 @@ namespace Pg::DataScript
 		//_isHit = false;
 	}
 
-	void PlayerCombatSector::SelectActivateActiveSkill()
+	void PlayerCombatSector::ProcessInputsForActiveSkills()
 	{
 		// 일반 공격 : 그냥 지금처럼 화살 
 		// 액티브면 불 / 얼음 화살 이렇게 스위칭이고,
 		// Q - E로 바꾸면 즉시 화살 쏘는 것처럼 투사체 나감.
 		//Q와 E를 누르면 Switch.
-		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyQ))
+
+		if (_isActiveSkillSwitchEligible)
 		{
-			if (ActivateFireAttack())
+			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyQ))
 			{
-				//Event HandleEvents에서 나중에 구분해야 한다.
-				_playerHandler->_combatSystem->Post(Event_UI_SetActiveSkill(), false, NULL);
+				if (CheckActivateFireAttack())
+				{
+					//Event HandleEvents에서 나중에 구분해야 한다.
+					_playerHandler->_combatSystem->Post(Event_UI_SetActiveSkill(), false, NULL);
+					//이제 Cooldown 세자.
+					_isActiveSkillSwitchEligible = false;
+					_isStartedActiveSkillChargeTime = 0.f;
+				}
+			}
+			else if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyE))
+			{
+				if (CheckActivateIceAttack())
+				{
+					//Event HandleEvents에서 나중에 구분해야 한다.
+					_playerHandler->_combatSystem->Post(Event_UI_SetActiveSkill(), true, NULL);
+					//이제 Cooldown 세자.
+					_isActiveSkillSwitchEligible = false;
+					_isStartedActiveSkillChargeTime = 0.f;
+				}
 			}
 		}
-		else if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyE))
+		else
 		{
-			if (ActivateIceAttack())
+			//쿨다운 세기.
+			_isStartedActiveSkillChargeTime += _pgTime->GetDeltaTime();
+
+			if (_isStartedActiveSkillChargeTime >= ACTIVE_SKILL_COOLDOWN_TIME)
 			{
-				//Event HandleEvents에서 나중에 구분해야 한다.
-				_playerHandler->_combatSystem->Post(Event_UI_SetActiveSkill(), true, NULL);
+				_isActiveSkillSwitchEligible = true;
+				_isStartedActiveSkillChargeTime = 0.f;
 			}
 		}
 	}
@@ -150,7 +179,7 @@ namespace Pg::DataScript
 		if (_isStrongAttackStartEligible)
 		{
 			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseLeft) ||
-				_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MouseLeft) || 
+				_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MouseLeft) ||
 				_playerHandler->GetPlayerMovementSector()->GetIsMoving())
 			{
 				_startedClickingTime = 0.f;
@@ -164,10 +193,12 @@ namespace Pg::DataScript
 				if (_startedClickingTime >= 2.0f)
 				{
 					//PG_ERROR("Counting : {0}", _startedClickingTime);
-					ActivateStrongAttack();
-					_startedClickingTime = 0.f;
-					_startedStrongAttackChargeTime = 0.f;
-					_isStrongAttackStartEligible = false;
+					if (CheckActivateStrongAttack())
+					{
+						_startedClickingTime = 0.f;
+						_startedStrongAttackChargeTime = 0.f;
+						_isStrongAttackStartEligible = false;
+					}
 				}
 			}
 		}
@@ -193,17 +224,12 @@ namespace Pg::DataScript
 		{
 			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyF))
 			{
-				// ManaPoint가 10보다 크거나 같음.
-				if (_playerHandler->manaPoint >= ULTIMATE_ATTACK_REQUIRED_MANA)
+				//궁극기 성공하면
+				if (CheckActivateUltimateAttack())
 				{
-					//궁극기 성공하면
-					if (ActivateUltimateAttack())
-					{
-						_playerHandler->ChangePlayerMana(-100000.f);
-						// 0으로 다시 돌려놓기. 쿨다운을 위해.
-						_isStartedUltimateAttackChargeTime = 0.f;
-						_isUltimateAttackStartEligible = false;
-					}
+					// 0으로 다시 돌려놓기. 쿨다운을 위해.
+					_isStartedUltimateAttackChargeTime = 0.f;
+					_isUltimateAttackStartEligible = false;
 				}
 			}
 		}
@@ -278,7 +304,7 @@ namespace Pg::DataScript
 					//Ice Shooting. Sound / float타임 교체해야.
 					ExecuteSpecificArrowShoot(&_iceArrowVec, _playerHandler->_commonAttackAudio, _normal_timeSinceLastShot);
 					//단발성.
-					_isIceAttackingNow = false; 
+					_isIceAttackingNow = false;
 				}
 				else if (_isFireAttackingNow)
 				{
@@ -290,7 +316,7 @@ namespace Pg::DataScript
 				{
 					//
 				}
-				
+
 			}
 		}
 
@@ -325,21 +351,38 @@ namespace Pg::DataScript
 		}
 	}
 
-	bool PlayerCombatSector::ActivateUltimateAttack()
+	bool PlayerCombatSector::CheckActivateUltimateAttack()
 	{
 		PG_ERROR("ActivateUltimateAttack");
 		//들어왔다는 것은 궁극기가 쓰일 수 있다는 뜻.
 		//가장 우선권을 가지고 있다.
-		_isUltimateAttackingNow = true;
-		_isJustUltimateAttackInvoked = true; // 멀티 프레임 공격이니, 막 발동되었다는 의미로.
-		return true;
+
+		// ManaPoint가 10보다 크거나 같음.
+		if (_playerHandler->manaPoint >= ULTIMATE_ATTACK_REQUIRED_MANA)
+		{
+			//마나 사용. Clamp라 0으로 될 것이다.
+			_playerHandler->ChangePlayerMana(-ULTIMATE_ATTACK_REQUIRED_MANA);
+
+			_isUltimateAttackingNow = true;
+			_isJustUltimateAttackInvoked = true; // 멀티 프레임 공격이니, 막 발동되었다는 의미로.
+			return true;
+		}
+		else
+		{
+			_isUltimateAttackingNow = false;
+			return false;
+		}
 	}
 
-	bool PlayerCombatSector::ActivateStrongAttack()
-	{	
+	bool PlayerCombatSector::CheckActivateStrongAttack()
+	{
 		PG_ERROR("ActivateStrongAttack");
-		if (!_isUltimateAttackingNow)
+		//1칸 이상은 있어야 발동될 수 있을 것.
+		if ((!_isUltimateAttackingNow) && (_playerHandler->staminaPoint >= STRONG_ATTACK_REQUIRED_STAMINA))
 		{
+			//스태미너 1칸 사용 (5칸 중에)
+			_playerHandler->ChangePlayerStamina(-STRONG_ATTACK_REQUIRED_STAMINA);
+
 			_isStrongAttackingNow = true;
 			_isJustStrongAttackInvoked = true; // 멀티 프레임 공격이니, 막 발동되었다는 의미로.
 			return true; //강공격 가능.
@@ -351,11 +394,16 @@ namespace Pg::DataScript
 		}
 	}
 
-	bool PlayerCombatSector::ActivateFireAttack()
+	bool PlayerCombatSector::CheckActivateFireAttack()
 	{
 		PG_ERROR("ActivateFireAttack");
-		if ((!_isUltimateAttackingNow) && (!_isStrongAttackingNow))
+		if ((!_isUltimateAttackingNow)
+			&& (!_isStrongAttackingNow)
+			&& (_playerHandler->manaPoint >= FIRE_ATTACK_REQUIRED_MANA))
 		{
+			//마나 한칸 사용.
+			_playerHandler->ChangePlayerMana(-FIRE_ATTACK_REQUIRED_MANA);
+
 			_isFireAttackingNow = true;
 			_isIceAttackingNow = false; //상대도 캔슬.
 			return true;
@@ -367,11 +415,16 @@ namespace Pg::DataScript
 		}
 	}
 
-	bool PlayerCombatSector::ActivateIceAttack()
+	bool PlayerCombatSector::CheckActivateIceAttack()
 	{
 		PG_ERROR("ActivateIceAttack");
-		if ((!_isUltimateAttackingNow) && (!_isStrongAttackingNow))
+		if ((!_isUltimateAttackingNow)
+			&& (!_isStrongAttackingNow)
+			&& (_playerHandler->manaPoint >= ICE_ATTACK_REQUIRED_MANA))
 		{
+			//마나 한칸 사용.
+			_playerHandler->ChangePlayerMana(-ICE_ATTACK_REQUIRED_MANA);
+
 			_isIceAttackingNow = true;
 			_isFireAttackingNow = false; //상대도 캔슬.
 			return true;
@@ -391,13 +444,19 @@ namespace Pg::DataScript
 			//Ultimate Invoke 부분이 여기로!
 			InvokeSingleUltimateAttack();
 			_isJustUltimateAttackInvoked = false;
+			_startedUltimateAttackingTime = 0.f;
 		}
 
 		//시간을 세든, 끝날 때의 신호를 받든해서 더 이상 멀티프레임 공격을 실행중이지 않다는 것 알려야.
-		//여러 프레임이 걸쳐 이루어지는 로직.
-		
-		//더 이상은 호출되지 않는다.
-		_isUltimateAttackingNow = false;
+		//여러 프레임이 걸쳐 이루어지는 로직. -> 시간을 세는 방식.
+		_startedUltimateAttackingTime += _pgTime->GetDeltaTime();
+		if (_startedUltimateAttackingTime >= ULTIMATE_ATTACK_DURATION)
+		{
+			//더 이상은 호출되지 않는다. Ultimate 관련된 모든거 다 리셋.
+			_startedUltimateAttackingTime = 0.f;
+			_isJustUltimateAttackInvoked = false;
+			_isUltimateAttackingNow = false;
+		}
 	}
 
 	void PlayerCombatSector::UpdateExecuteStrongAttack()
@@ -405,16 +464,22 @@ namespace Pg::DataScript
 		//반복적으로 들어올 것이다.
 		if (_isJustStrongAttackInvoked)
 		{
-			//Strong Invoke 부분이 여기로!
+			//Strong Invoke 부분이 여기로! Strong 관련된 모든거 다 리셋.
 			InvokeSingleStrongAttack();
 			_isJustStrongAttackInvoked = false;
+			_startedStrongAttackingTime = 0.f;
 		}
 
 		//시간을 세든, 끝날 때의 신호를 받든해서 더 이상 멀티프레임 공격을 실행중이지 않다는 것 알려야.
-		//여러 프레임이 걸쳐 이루어지는 로직.
-
-		//더 이상은 호출되지 않는다.
-		_isStrongAttackingNow = false;
+		//여러 프레임이 걸쳐 이루어지는 로직. -> 시간을 세는 방식.
+		_startedStrongAttackingTime += _pgTime->GetDeltaTime();
+		if (_startedStrongAttackingTime >= STRONG_ATTACK_DURATION)
+		{
+			//더 이상은 호출되지 않는다.
+			_startedStrongAttackingTime = 0.f;
+			_isJustStrongAttackInvoked = false;
+			_isStrongAttackingNow = false;
+		}
 	}
 
 	void PlayerCombatSector::ExecuteSpecificArrowShoot(std::vector<ArrowLogic*>* typeArrowVec, Pg::Data::AudioSource* audioSource, float& outIfDoneResetTime)

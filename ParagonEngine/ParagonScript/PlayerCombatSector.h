@@ -32,11 +32,19 @@ namespace Pg::DataScript
 
 		inline static const float STRONG_ATTACK_COOLDOWN_TIME = 3.f;
 		inline static const float ULTIMATE_ATTACK_COOLDOWN_TIME = 30.f;
+		inline static const float ACTIVE_SKILL_COOLDOWN_TIME = 10.f;
+
+		inline static const float ULTIMATE_ATTACK_DURATION = 3.0f;
+		inline static const float STRONG_ATTACK_DURATION = 1.0f;
+
 		inline static const float ULTIMATE_ATTACK_REQUIRED_MANA = 10.f;
+		inline static const float ICE_ATTACK_REQUIRED_MANA = 10.f;
+		inline static const float FIRE_ATTACK_REQUIRED_MANA = 10.f;
+
+		inline static const float STRONG_ATTACK_REQUIRED_STAMINA = 1.0f;
 
 	public:
 		PlayerCombatSector(PlayerHandler* playerHandler);
-
 
 		void GrabManagedObjects();
 
@@ -63,18 +71,19 @@ namespace Pg::DataScript
 		void FindAllArrowsInMap();
 		void PlayAdequateAnimation();
 
-		void SelectActivateActiveSkill();
+		void ProcessInputsForActiveSkills();
 		void ProcessInputsForStrongAttack();
 		void ProcessInputsForUltimateAttack();
 
 		//얘네들은 실행 시키고, 로직 실행은 외적으로.
 		//여러 프레임 동안 이루어져야 한다. 
 		//성공하면 True / 실패하면 False.
-		//(이는 다른 공격의 실행 상태에 따라 결정)
-		bool ActivateStrongAttack();
-		bool ActivateUltimateAttack();
-		bool ActivateFireAttack();
-		bool ActivateIceAttack();
+		//(이는 다른 공격의 실행 상태 + 스탯에 따라 결정)
+		//내부에서 필요 스탯 소모까지 완료한다.
+		bool CheckActivateStrongAttack();
+		bool CheckActivateUltimateAttack();
+		bool CheckActivateFireAttack();
+		bool CheckActivateIceAttack();
 
 		//즉시 실행하는 함수들.
 		void UpdateExecuteStrongAttack();
@@ -119,12 +128,17 @@ namespace Pg::DataScript
 		bool _isUltimateAttackStartEligible{ true };
 		float _isStartedUltimateAttackChargeTime{ 0.f };
 		bool _isUltimateAttackingNow{ false };
+
+		bool _isActiveSkillSwitchEligible{ true };
+		float _isStartedActiveSkillChargeTime{ 0.f };
 		bool _isIceAttackingNow{ false };
 		bool _isFireAttackingNow{ false };
 
 		//단발성이 아닌, Strong Attack / Ultimate Attack을 위해 값 보관을 하려 쓰는 값들.
 		bool _isJustUltimateAttackInvoked{ false };
 		bool _isJustStrongAttackInvoked{ false };
+		float _startedUltimateAttackingTime{ 0.f };
+		float _startedStrongAttackingTime{ 0.f };
 
 	private:
 		Pg::API::Input::PgInput* _pgInput;
