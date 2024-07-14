@@ -78,39 +78,40 @@ namespace Pg::DataScript
 		//현재 공격 상태 리셋.
 		_isStrongAttackingNow = false;
 		_isUltimateAttackingNow = false;
-
+		_isIceAttackingNow = false;
+		_isFireAttackingNow = false;
 		//UI Manager : 내부 액티브스킬 GUI 초기 세팅 따로 해야 한다.
 	}
 
 	void PlayerCombatSector::PlayAdequateAnimation()
 	{
-		//우선, 디폴트로 출력되는 것은 Idle Animation. 
-
-		//Idle 초기 상태 세팅.
-		std::string tToPlayAnimationName = "PA_00001.pganim";
-		bool isLooping = true;
-
-		if (_isHit)
-		{
-			//공격 애니매이션
-			isLooping = false;
-			tToPlayAnimationName = "PA_0000" + std::to_string(_hitCount + 4) + ".pganim";
-		}
-
-		//만약에 전 스트링과 같지 않을 시에.
-		if (_prevAnimationInput.compare(tToPlayAnimationName) != 0)
-		{
-			_playerHandler->_meshRenderer->SetAnimation(tToPlayAnimationName, isLooping);
-		}
-
-		//애니메이션 인풋 스트링 기록.
-		_prevAnimationInput = tToPlayAnimationName;
+		////우선, 디폴트로 출력되는 것은 Idle Animation. 
+		//
+		////Idle 초기 상태 세팅.
+		//std::string tToPlayAnimationName = "PA_00001.pganim";
+		//bool isLooping = true;
+		//
+		//if (_isHit)
+		//{
+		//	//공격 애니매이션
+		//	isLooping = false;
+		//	tToPlayAnimationName = "PA_0000" + std::to_string(_hitCount + 4) + ".pganim";
+		//}
+		//
+		////만약에 전 스트링과 같지 않을 시에.
+		//if (_prevAnimationInput.compare(tToPlayAnimationName) != 0)
+		//{
+		//	_playerHandler->_meshRenderer->SetAnimation(tToPlayAnimationName, isLooping);
+		//}
+		//
+		////애니메이션 인풋 스트링 기록.
+		//_prevAnimationInput = tToPlayAnimationName;
 	}
 
 	void PlayerCombatSector::OnAnimationEnd(const std::string& justEndedAnimation)
 	{
 		// Loop가 안되는 모든 애니매이션의 flag는 여기서 false로 변경
-		_isHit = false;
+		//_isHit = false;
 	}
 
 	void PlayerCombatSector::SelectActivateActiveSkill()
@@ -121,15 +122,19 @@ namespace Pg::DataScript
 		//Q와 E를 누르면 Switch.
 		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyQ))
 		{
-			//Event HandleEvents에서 나중에 구분해야 한다.
-			_playerHandler->_combatSystem->Post(Event_UI_SetActiveSkill(), false, NULL);
-			ActivateFireAttack();
+			if (ActivateFireAttack())
+			{
+				//Event HandleEvents에서 나중에 구분해야 한다.
+				_playerHandler->_combatSystem->Post(Event_UI_SetActiveSkill(), false, NULL);
+			}
 		}
 		else if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyE))
 		{
-			//Event HandleEvents에서 나중에 구분해야 한다.
-			_playerHandler->_combatSystem->Post(Event_UI_SetActiveSkill(), true, NULL);
-			ActivateIceAttack();
+			if (ActivateIceAttack())
+			{
+				//Event HandleEvents에서 나중에 구분해야 한다.
+				_playerHandler->_combatSystem->Post(Event_UI_SetActiveSkill(), true, NULL);
+			}
 		}
 	}
 
@@ -140,17 +145,11 @@ namespace Pg::DataScript
 		//만약 강공격을 쓸 수 있는 상태라면
 		if (_isStrongAttackStartEligible)
 		{
-			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseLeft))
+			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseLeft) ||
+				_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MouseLeft) || 
+				_playerHandler->GetPlayerMovementSector()->GetIsMoving())
 			{
 				_startedClickingTime = 0.f;
-				//PG_WARN("STARTING_COUNTING");
-			}
-
-			if (_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MouseLeft))
-			{
-				//다시 클릭되기까지 쓰이지 않을 것.
-				_startedClickingTime = 0.f;
-				//PG_WARN("ENDING_COUNTING");
 			}
 
 			if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MouseLeft))
@@ -193,12 +192,14 @@ namespace Pg::DataScript
 				// ManaPoint가 10보다 크거나 같음.
 				if (_playerHandler->manaPoint >= ULTIMATE_ATTACK_REQUIRED_MANA)
 				{
-					_playerHandler->ChangePlayerMana(-100000.f);
-					
-					ActivateUltimateAttack();
-					// 0으로 다시 돌려놓기. 쿨다운을 위해.
-					_isStartedUltimateAttackChargeTime = 0.f;
-					_isUltimateAttackStartEligible = false;
+					//궁극기 성공하면
+					if (ActivateUltimateAttack())
+					{
+						_playerHandler->ChangePlayerMana(-100000.f);
+						// 0으로 다시 돌려놓기. 쿨다운을 위해.
+						_isStartedUltimateAttackChargeTime = 0.f;
+						_isUltimateAttackStartEligible = false;
+					}
 				}
 			}
 		}
@@ -224,129 +225,222 @@ namespace Pg::DataScript
 			auto tALogic = it->GetComponent<Pg::DataScript::ArrowLogic>();
 			if (tALogic != nullptr)
 			{
+				tALogic->_playerBattleBehavior = _playerHandler;
+
 				if (tALogic->_arrowType == -1)
 				{
 					//Ice.
+					_iceArrowVec.push_back(tALogic);
 				}
 				else if (tALogic->_arrowType == 0)
 				{
 					//Normal.
+					_normalArrowVec.push_back(tALogic);
 				}
 				else if (tALogic->_arrowType == 1)
 				{
 					//Fire.
+					_fireArrowVec.push_back(tALogic);
 				}
-				else {assert(false && "서포트 안함 이 타입은.") }
-				//Arrow에 자신 할당.
-				tALogic->_playerBattleBehavior = _playerHandler;
-				_arrowVec.push_back(tALogic);
+				else { assert(false && "서포트 안함 이 타입은."); }
 			}
 		}
 
 		//Material별로 다르게 셋해줘야 한다.
 		//UltimateArrowAttack은 별도로 자식 객체가 될 것.
 		//IceArrow : 15개 / FireArrow : 15개 / 일반 Arrow : 20개.
-		
 	}
 
 	void PlayerCombatSector::AllAttacksLogic()
 	{
 		// 여기서 불 / 얼음을 나눈다. Active Skill로 나누어야 한다.
 		// IceArrow / FireArrow 이렇게 관리되어야 한다.
-		ArrowShootingLogic();
 
+		//Normal 제외 공격들.
+		if (_isUltimateAttackingNow)
+		{
+			//궁극기
+			UpdateExecuteUltimateAttack();
+		}
+		else
+		{
+			if (_isStrongAttackingNow)
+			{
+				UpdateExecuteStrongAttack();
+			}
+			else
+			{
+				if (_isIceAttackingNow)
+				{
+					//Ice Shooting. Sound / float타임 교체해야.
+					ExecuteSpecificArrowShoot(&_iceArrowVec, _playerHandler->_commonAttackAudio, _normal_timeSinceLastShot);
+					//단발성.
+					_isIceAttackingNow = false; 
+				}
+				else if (_isFireAttackingNow)
+				{
+					//Fire Shooting. Sound / float타임 교체해야.
+					ExecuteSpecificArrowShoot(&_fireArrowVec, _playerHandler->_commonAttackAudio, _normal_timeSinceLastShot);
+					_isFireAttackingNow = false;
+				}
+				else
+				{
+					//
+				}
+				
+			}
+		}
 
+		NormalArrowShootingLogic();
 	}
 
-	void PlayerCombatSector::ArrowShootingLogic()
+	void PlayerCombatSector::NormalArrowShootingLogic()
 	{
-		if (_playerHandler->GetPlayerMovementSector()->GetIsMoving() == false)
+		//움직여도 시간 자체는 충전되어야 한다.
+		// 경과 시간을 누적
+		_normal_timeSinceLastShot += _pgTime->GetDeltaTime();
+
+		// 쿨다운이 아직 남아 있으면 리턴
+		if (_normal_timeSinceLastShot < _normal_shootCooldown)
 		{
-			// 경과 시간을 누적
-			_timeSinceLastShot += _pgTime->GetDeltaTime();
+			return;
+		}
 
-			// 쿨다운이 아직 남아 있으면 리턴
-			if (_timeSinceLastShot < _shootCooldown)
-			{
-				return;
-			}
-
+		if (!(_playerHandler->GetPlayerMovementSector()->GetIsMoving()))
+		{
 			//마우스 좌클릭 시 공격.
 			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseLeft))
 			{
-				_isHit = true;
-				_hitCount++;
-				if (_hitCount >= 4) _hitCount = 1;
-
-				bool tDidShoot = false;
-
-				for (int i = 0; i < _arrowVec.size(); i++)
-				{
-					//지금 쏘고 있지 않은 컴포넌트만 허용해야.
-					if (!(_arrowVec[i]->GetIsNowShooting()))
-					{
-						using namespace Pg::Math;
-						//우리 Forward랑 다른 로직이 된 것 같다. 그러니, Forward를 Rotation을 갖고 Custom으로 구해주자.
-						//PlayerBehavior랑 같은 위치. -> 나중에 PhysX 연동은 고쳐져야!
-
-						//시작점 역시 Offset 하기로 했었다.
-						Pg::Math::PGFLOAT3 tStartingPosition = _object->_transform._position + Pg::Math::PGFLOAT3(0.f, 2.f, 0.f);
-
-
-						//Z축 향해 뒤집기. 어디에서 불완전한 연결이 일어나는지는 확인해봐야 할 것 같다.
-						Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGReflectVectorAgainstAxis(-_object->_transform.GetForward(), { 0,0,1 });
-						tShouldShootDir = Pg::Math::PGFloat3Normalize(tShouldShootDir);
-
-						//Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGFloat3Normalize(_object->_transform.GetForward());
-
-						float tDistanceToSpawnFrom = 0.01f;
-						//_arrowVec[i]->ShootArrow(_object->_transform._position + tShouldShootDir * tDistanceToSpawnFrom, tShouldShootDir);
-						_arrowVec[i]->ShootArrow(tStartingPosition + tShouldShootDir * tDistanceToSpawnFrom, tShouldShootDir);
-						tDidShoot = true;
-
-						//쿨타임 초기화
-						_timeSinceLastShot = 0.0f;
-						break;
-					}
-
-				}
-
-				if (!tDidShoot)
-				{
-					//쐈어야 하는데 기존의 것 중에서 준비되어 있는 오브젝트가 존재하지 않는다!
-					//기존 것 중에서 오래된 요소를 찾아서, (FixedSizeQueue) 여기 기준으로 마지막을 원래대로 돌려야 한다.
-					//여튼, 그건 나중에 할 일.
-					PG_TRACE("아직 충분히 반환되지 않음. 나중에 FixedSizeQueue로?");
-				}
-
-				_playerHandler->_commonAttackAudio->Play();
+				//Normal Arrow Shooting.
+				ExecuteSpecificArrowShoot(&_normalArrowVec, _playerHandler->_commonAttackAudio, _normal_timeSinceLastShot);
 			}
 		}
 		else
 		{
-			_hitCount = 0;
+			//_hitCount = 0;
 			return;
 		}
 	}
 
-	void PlayerCombatSector::ActivateStrongAttack()
-	{
-		PG_ERROR("ActivateStrongAttack");
-	}
-
-	void PlayerCombatSector::ActivateUltimateAttack()
+	bool PlayerCombatSector::ActivateUltimateAttack()
 	{
 		PG_ERROR("ActivateUltimateAttack");
+		//들어왔다는 것은 궁극기가 쓰일 수 있다는 뜻.
+		//가장 우선권을 가지고 있다.
+		_isUltimateAttackingNow = true;
+
+		return true;
 	}
 
-	void PlayerCombatSector::ActivateFireAttack()
+	bool PlayerCombatSector::ActivateStrongAttack()
+	{	
+		PG_ERROR("ActivateStrongAttack");
+		if (!_isUltimateAttackingNow)
+		{
+			_isStrongAttackingNow = true;
+			return true; //강공격 가능.
+		}
+		else
+		{
+			_isStrongAttackingNow = false;
+			return false; //강공격 불가.
+		}
+	}
+
+	bool PlayerCombatSector::ActivateFireAttack()
 	{
 		PG_ERROR("ActivateFireAttack");
+		if ((!_isUltimateAttackingNow) && (!_isStrongAttackingNow))
+		{
+			_isFireAttackingNow = true;
+			_isIceAttackingNow = false; //상대도 캔슬.
+			return true;
+		}
+		else
+		{
+			_isFireAttackingNow = false;
+			return false;
+		}
 	}
 
-	void PlayerCombatSector::ActivateIceAttack()
+	bool PlayerCombatSector::ActivateIceAttack()
 	{
 		PG_ERROR("ActivateIceAttack");
+		if ((!_isUltimateAttackingNow) && (!_isStrongAttackingNow))
+		{
+			_isIceAttackingNow = true;
+			_isFireAttackingNow = false; //상대도 캔슬.
+			return true;
+		}
+		else
+		{
+			_isIceAttackingNow = false;
+			return false;
+		}
 	}
+
+	void PlayerCombatSector::UpdateExecuteStrongAttack()
+	{
+		//반복적으로 들어올 것이다.
+
+
+	}
+
+	void PlayerCombatSector::UpdateExecuteUltimateAttack()
+	{
+		//반복적으로 들어올 것이다.
+
+
+	}
+
+	void PlayerCombatSector::ExecuteSpecificArrowShoot(std::vector<ArrowLogic*>* typeArrowVec, Pg::Data::AudioSource* audioSource, float& outIfDoneResetTime)
+	{
+		//ComboCounting은 ComboSystem에서 회수해야 한다.
+
+		bool tDidShoot = false;
+
+		for (int i = 0; i < typeArrowVec->size(); i++)
+		{
+			//지금 쏘고 있지 않은 컴포넌트만 허용해야.
+			if (!(typeArrowVec->at(i)->GetIsNowShooting()))
+			{
+				using namespace Pg::Math;
+				//우리 Forward랑 다른 로직이 된 것 같다. 그러니, Forward를 Rotation을 갖고 Custom으로 구해주자.
+				//PlayerBehavior랑 같은 위치. -> 나중에 PhysX 연동은 고쳐져야!
+
+				//시작점 역시 Offset 하기로 했었다.
+				Pg::Math::PGFLOAT3 tStartingPosition = _object->_transform._position + Pg::Math::PGFLOAT3(0.f, 2.f, 0.f);
+
+
+				//Z축 향해 뒤집기. 어디에서 불완전한 연결이 일어나는지는 확인해봐야 할 것 같다.
+				Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGReflectVectorAgainstAxis(-_object->_transform.GetForward(), { 0,0,1 });
+				tShouldShootDir = Pg::Math::PGFloat3Normalize(tShouldShootDir);
+
+				//Pg::Math::PGFLOAT3 tShouldShootDir = Pg::Math::PGFloat3Normalize(_object->_transform.GetForward());
+
+				float tDistanceToSpawnFrom = 0.01f;
+				//_arrowVec[i]->ShootArrow(_object->_transform._position + tShouldShootDir * tDistanceToSpawnFrom, tShouldShootDir);
+				typeArrowVec->at(i)->ShootArrow(tStartingPosition + tShouldShootDir * tDistanceToSpawnFrom, tShouldShootDir);
+				tDidShoot = true;
+
+				//쿨타임 초기화
+				outIfDoneResetTime = 0.0f;
+				break;
+			}
+
+		}
+
+		if (!tDidShoot)
+		{
+			//쐈어야 하는데 기존의 것 중에서 준비되어 있는 오브젝트가 존재하지 않는다!
+			//기존 것 중에서 오래된 요소를 찾아서, (FixedSizeQueue) 여기 기준으로 마지막을 원래대로 돌려야 한다.
+			//여튼, 그건 나중에 할 일.
+			PG_TRACE("아직 충분히 반환되지 않음. 나중에 FixedSizeQueue로?");
+		}
+
+		audioSource->Play();
+	}
+
+	
 
 }

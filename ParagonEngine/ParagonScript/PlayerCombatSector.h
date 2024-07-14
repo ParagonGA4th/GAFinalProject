@@ -58,21 +58,31 @@ namespace Pg::DataScript
 
 	private:
 		void AllAttacksLogic();
-		void ArrowShootingLogic();
+		void NormalArrowShootingLogic();
 
 		void FindAllArrowsInMap();
 		void PlayAdequateAnimation();
+
 		void SelectActivateActiveSkill();
 		void ProcessInputsForStrongAttack();
 		void ProcessInputsForUltimateAttack();
 
-		//얘네들은 활성화만 시키고, 로직 실행은 외적으로.
+		//얘네들은 실행 시키고, 로직 실행은 외적으로.
 		//여러 프레임 동안 이루어져야 한다. 
-		void ActivateStrongAttack();
-		void ActivateUltimateAttack(); 
-		void ActivateFireAttack();
-		void ActivateIceAttack();
+		//성공하면 True / 실패하면 False.
+		//(이는 다른 공격의 실행 상태에 따라 결정)
+		bool ActivateStrongAttack();
+		bool ActivateUltimateAttack();
+		bool ActivateFireAttack();
+		bool ActivateIceAttack();
 
+		//즉시 실행하는 함수들.
+		void UpdateExecuteStrongAttack();
+		void UpdateExecuteUltimateAttack();
+		//Ice/Fire/Normal
+		//모든 공격들에 한정해서, 벡터와 오디오 등을 받으면 일괄적으로 Shoot 실행.
+		void ExecuteSpecificArrowShoot(std::vector<ArrowLogic*>* typeArrowVec, 
+			Pg::Data::AudioSource* audioSource, float& outIfDoneResetTime);
 	private:
 		PlayerHandler* _playerHandler;
 		Pg::Data::GameObject* _object;
@@ -80,15 +90,16 @@ namespace Pg::DataScript
 		std::vector<ArrowLogic*> _iceArrowVec;
 		std::vector<ArrowLogic*> _fireArrowVec;
 	private:
-		float _timeSinceLastShot = 0.f;
+		//Normal에 한정.
+		float _normal_timeSinceLastShot = 0.f;
 		//공격 쿨타임
-		const float _shootCooldown = 0.6f;
+		const float _normal_shootCooldown = 0.6f;
 
 	private:
 		// 플레이어 애니매이션 관련 변수
 		std::string _prevAnimationInput;
-		bool _isHit;
-		int _hitCount = 0;
+		//bool _isHit;
+		//int _hitCount = 0;
 
 	private:
 		//강공격 실행을 위해, 클릭한 순간들을 기록한다.
@@ -101,6 +112,8 @@ namespace Pg::DataScript
 		bool _isUltimateAttackStartEligible{ true };
 		float _isStartedUltimateAttackChargeTime{ 0.f };
 		bool _isUltimateAttackingNow{ false };
+		bool _isIceAttackingNow{ false };
+		bool _isFireAttackingNow{ false };
 
 	private:
 		Pg::API::Input::PgInput* _pgInput;
