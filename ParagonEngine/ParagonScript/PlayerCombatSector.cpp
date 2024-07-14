@@ -80,6 +80,10 @@ namespace Pg::DataScript
 		_isUltimateAttackingNow = false;
 		_isIceAttackingNow = false;
 		_isFireAttackingNow = false;
+
+		//단발성 아닌 공격들 위해 세팅.
+		_isJustStrongAttackInvoked = false;
+		_isJustUltimateAttackInvoked = false;
 		//UI Manager : 내부 액티브스킬 GUI 초기 세팅 따로 해야 한다.
 	}
 
@@ -259,7 +263,6 @@ namespace Pg::DataScript
 		//Normal 제외 공격들.
 		if (_isUltimateAttackingNow)
 		{
-			//궁극기
 			UpdateExecuteUltimateAttack();
 		}
 		else
@@ -328,7 +331,7 @@ namespace Pg::DataScript
 		//들어왔다는 것은 궁극기가 쓰일 수 있다는 뜻.
 		//가장 우선권을 가지고 있다.
 		_isUltimateAttackingNow = true;
-
+		_isJustUltimateAttackInvoked = true; // 멀티 프레임 공격이니, 막 발동되었다는 의미로.
 		return true;
 	}
 
@@ -338,6 +341,7 @@ namespace Pg::DataScript
 		if (!_isUltimateAttackingNow)
 		{
 			_isStrongAttackingNow = true;
+			_isJustStrongAttackInvoked = true; // 멀티 프레임 공격이니, 막 발동되었다는 의미로.
 			return true; //강공격 가능.
 		}
 		else
@@ -379,18 +383,38 @@ namespace Pg::DataScript
 		}
 	}
 
-	void PlayerCombatSector::UpdateExecuteStrongAttack()
-	{
-		//반복적으로 들어올 것이다.
-
-
-	}
-
 	void PlayerCombatSector::UpdateExecuteUltimateAttack()
 	{
 		//반복적으로 들어올 것이다.
+		if (_isJustUltimateAttackInvoked)
+		{
+			//Ultimate Invoke 부분이 여기로!
+			InvokeSingleUltimateAttack();
+			_isJustUltimateAttackInvoked = false;
+		}
 
+		//시간을 세든, 끝날 때의 신호를 받든해서 더 이상 멀티프레임 공격을 실행중이지 않다는 것 알려야.
+		//여러 프레임이 걸쳐 이루어지는 로직.
+		
+		//더 이상은 호출되지 않는다.
+		_isUltimateAttackingNow = false;
+	}
 
+	void PlayerCombatSector::UpdateExecuteStrongAttack()
+	{
+		//반복적으로 들어올 것이다.
+		if (_isJustStrongAttackInvoked)
+		{
+			//Strong Invoke 부분이 여기로!
+			InvokeSingleStrongAttack();
+			_isJustStrongAttackInvoked = false;
+		}
+
+		//시간을 세든, 끝날 때의 신호를 받든해서 더 이상 멀티프레임 공격을 실행중이지 않다는 것 알려야.
+		//여러 프레임이 걸쳐 이루어지는 로직.
+
+		//더 이상은 호출되지 않는다.
+		_isStrongAttackingNow = false;
 	}
 
 	void PlayerCombatSector::ExecuteSpecificArrowShoot(std::vector<ArrowLogic*>* typeArrowVec, Pg::Data::AudioSource* audioSource, float& outIfDoneResetTime)
@@ -441,6 +465,15 @@ namespace Pg::DataScript
 		audioSource->Play();
 	}
 
-	
+	void PlayerCombatSector::InvokeSingleUltimateAttack()
+	{
+
+	}
+
+	void PlayerCombatSector::InvokeSingleStrongAttack()
+	{
+
+	}
+
 
 }
