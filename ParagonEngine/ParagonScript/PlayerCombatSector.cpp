@@ -1,6 +1,8 @@
 #include "PlayerCombatSector.h"
 #include "../ParagonData/Scene.h"
+#include "../ParagonData/StaticBoxCollider.h"
 #include "ArrowLogic.h"
+#include "UltimateArrowLogic.h"
 #include "PlayerHandler.h"
 #include "PlayerMovementSector.h"
 #include "../ParagonUtil/Log.h"
@@ -22,12 +24,16 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::GrabManagedObjects()
 	{
-		FindAllArrowsInMap();
 	}
 
 	void PlayerCombatSector::BeforePhysicsAwake()
 	{
-	
+		//궁극기 화살
+		_ultimateArrow = _object->GetScene()->FindObjectWithName("UltimateArrow");
+		_ulArrowCol = _ultimateArrow->GetComponent<Pg::Data::StaticBoxCollider>();
+		_ulArrowCol->SetActive(false);
+
+		_ulArrowLogic = _ultimateArrow->GetComponent<UltimateArrowLogic>();
 	}
 
 	void PlayerCombatSector::Awake()
@@ -43,7 +49,8 @@ namespace Pg::DataScript
 	void PlayerCombatSector::Update()
 	{
 		ArrowShootingLogic();
-		
+		ShootUltimateArrowLogic();
+
 		//나머지 로직은 Combat System으로 이동.
 	}
 
@@ -65,23 +72,6 @@ namespace Pg::DataScript
 	void PlayerCombatSector::ResetAll()
 	{
 
-	}
-
-	void PlayerCombatSector::FindAllArrowsInMap()
-	{
-		//ArrowLogic의 Awake에서 자신의 Tag를 이미 "TAG_Arrow"로 설정해놨었을 것이다.
-		//모든 Arrow들 받아오기. 한 30개는 되어야 빈틈을 눈치를 못 챌 것이다.
-		std::vector<Pg::Data::GameObject*> allObjects = _object->GetScene()->FindObjectsWithTag("TAG_Arrow");
-		for (auto& it : allObjects)
-		{
-			auto tALogic = it->GetComponent<Pg::DataScript::ArrowLogic>();
-			if (tALogic != nullptr)
-			{
-				//Arrow에 자신 할당.
-				tALogic->_playerBattleBehavior = _playerHandler;
-				_arrowVec.push_back(tALogic);
-			}
-		}
 	}
 
 	void PlayerCombatSector::ArrowShootingLogic()
@@ -155,6 +145,18 @@ namespace Pg::DataScript
 		}
 	}
 
+	void PlayerCombatSector::ShootUltimateArrowLogic()
+	{
+		if (_playerHandler->GetPlayerMovementSector()->GetIsMoving() == false)
+		{
+			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyF))
+			{
+				_useUltimateSkill = true;
+				_ulArrowCol->SetActive(true);
+				_ulArrowLogic->_isSkillStart = true;
+			}
+		}
+	}
 	
 	void PlayerCombatSector::PlayAdequateAnimation()
 	{
@@ -169,6 +171,10 @@ namespace Pg::DataScript
 			//공격 애니매이션
 			isLooping = false;
 			tToPlayAnimationName = "PA_0000" + std::to_string(_hitCount + 4) + ".pganim";
+		}
+		else if (_useUltimateSkill)
+		{
+			//궁극기 애니메이션 들어가야 함.
 		}
 
 		//만약에 전 스트링과 같지 않을 시에.
@@ -186,9 +192,4 @@ namespace Pg::DataScript
 		// Loop가 안되는 모든 애니매이션의 flag는 여기서 false로 변경
 		_isHit = false;
 	}
-
-	
-
-	
-
 }

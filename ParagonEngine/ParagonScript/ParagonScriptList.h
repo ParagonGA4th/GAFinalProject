@@ -18,6 +18,7 @@
 #include "CameraShake.h"
 #include "ComboSystem.h"
 #include "ArrowLogic.h"
+#include "UltimateArrowLogic.h"
 #include "ArrowShooterBehavior.h"
 #include "BattleArea.h"
 #include "TrapArea.h"
