@@ -27,6 +27,7 @@
 #include "Portal.h"
 #include "AreaPassingTrigger.h"
 #include "DeathPlane.h"
+#include "ArtifactBox.h"
 
 //UI 관련 (개별)
 #include "TitleScene.h"
