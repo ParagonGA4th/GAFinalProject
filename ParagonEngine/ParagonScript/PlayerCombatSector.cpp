@@ -1,6 +1,7 @@
 #include "PlayerCombatSector.h"
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/StaticSphereCollider.h"
 #include "ArrowLogic.h"
 #include "UltimateArrowLogic.h"
 #include "PlayerHandler.h"
@@ -30,7 +31,7 @@ namespace Pg::DataScript
 	{
 		//±Ã±Ø±â È­»ì
 		_ultimateArrow = _object->GetScene()->FindObjectWithName("UltimateArrow");
-		_ulArrowCol = _ultimateArrow->GetComponent<Pg::Data::StaticBoxCollider>();
+		_ulArrowCol = _ultimateArrow->GetComponent<Pg::Data::StaticSphereCollider>();
 		_ulArrowCol->SetActive(false);
 
 		_ulArrowLogic = _ultimateArrow->GetComponent<UltimateArrowLogic>();
