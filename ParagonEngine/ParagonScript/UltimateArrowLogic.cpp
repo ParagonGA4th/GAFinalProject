@@ -2,7 +2,7 @@
 
 #include "../ParagonData/StaticMeshRenderer.h"
 #include "../ParagonData/BoxCollider.h"
-#include "../ParagonData/StaticSphereCollider.h"
+#include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/PhysicsCollision.h"
 
@@ -34,7 +34,7 @@ namespace Pg::DataScript
 		_combatSystem = CombatSystem::GetInstance(nullptr);
 
 		//내부적으로 Physics보다 SceneSystem의 함수들이 나중에 호출됨. 그러니, 미리 할 수 있는 방법을 EngineMain-SceneSystem에 연결해두었다.
-		_collider = _object->GetComponent<Pg::Data::StaticSphereCollider>();
+		_collider = _object->GetComponent<Pg::Data::StaticBoxCollider>();
 		assert(_collider != nullptr);
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PROJECTILES);
 	}

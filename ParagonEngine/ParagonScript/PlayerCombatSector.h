@@ -13,7 +13,7 @@
 
 namespace Pg::Data 
 {
-	class StaticSphereCollider;
+	class StaticBoxCollider;
 }
 namespace Pg::API
 {
@@ -78,7 +78,7 @@ namespace Pg::DataScript
 		std::vector<ArrowLogic*> _arrowVec;
 
 		Pg::Data::GameObject* _ultimateArrow;
-		Pg::Data::StaticSphereCollider* _ulArrowCol;
+		Pg::Data::StaticBoxCollider* _ulArrowCol;
 		UltimateArrowLogic* _ulArrowLogic;
 	private:
 		float _timeSinceLastShot = 0.f;

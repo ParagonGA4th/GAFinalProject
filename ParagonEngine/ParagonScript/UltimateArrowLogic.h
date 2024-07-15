@@ -6,7 +6,7 @@
 namespace Pg::Data
 {
 	class StaticMeshRenderer;
-	class StaticSphereCollider;
+	class StaticBoxCollider;
 	class PhysicsCollision;
 }
 
@@ -84,7 +84,7 @@ namespace Pg::DataScript
 
 	private:	//자신의 컴포넌트들.
 		Pg::Data::StaticMeshRenderer* _meshRenderer;
-		Pg::Data::StaticSphereCollider* _collider;
+		Pg::Data::StaticBoxCollider* _collider;
 
 	private:	//API
 		Pg::API::Time::PgTime* _pgTime;
