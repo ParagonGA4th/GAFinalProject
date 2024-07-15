@@ -290,6 +290,8 @@ namespace Pg::DataScript
 				else { assert(false && "서포트 안함 이 타입은."); }
 			}
 		}
+		assert("");
+		//if (_iceArrowVec.empty() ||
 
 		//Material별로 다르게 셋해줘야 한다.
 		//UltimateArrowAttack은 별도로 자식 객체가 될 것.

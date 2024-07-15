@@ -4,6 +4,7 @@
 #include "../ParagonMath/PgMath.h"
 #include "IEnemyBehaviour.h"
 #include <functional>
+#include <visit_struct/visit_struct.hpp>
 
 /// <summary>
 /// Normal / Fire / Ice를 모두 담당할 것이다.
@@ -64,7 +65,9 @@ namespace Pg::DataScript
 		VISITABLE(int, _arrowType); // -1 : Ice / 0 : Normal / 1 : Fire.
 		END_VISITABLES;
 
-
+		//Serializers.
+		virtual void OnSerialize(SerializeVector& sv) override;
+		virtual void OnDeserialize(SerializeVector& sv) override;
 	public:
 		//BattleBehavior 스크립트를 갖고 로직 제어할 수 있게 하기. 
 		//외적으로 할당해서 값을 넣어준다.

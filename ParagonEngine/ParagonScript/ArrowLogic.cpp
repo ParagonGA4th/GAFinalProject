@@ -259,6 +259,14 @@ namespace Pg::DataScript
 		_combatSystem->AddMonsterFireDamageList(behav->ReturnBaseMonsterInfo());
 	}
 
+	void ArrowLogic::OnSerialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnSerializerHelper<ArrowLogic>(this, sv);
+	}
 
+	void ArrowLogic::OnDeserialize(SerializeVector& sv)
+	{
+		Pg::Data::SerializerHelper::OnDeserializerHelper<ArrowLogic>(this, sv);
+	}
 
 }
