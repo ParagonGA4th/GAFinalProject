@@ -324,4 +324,26 @@ namespace Pg::DataScript
 		_monsterHelper->_isDead = true;
 		_monsterHelper->_isPlayerinHitSpace = false;
 	}
+
+	void StubBehaviour::ResetAll()
+	{
+		//공격 패턴을 위한 카운트
+		int _attackCount = 0;
+
+		_currentAttackTime = 0.f;
+		_isRotateFinish = false;
+		_isFindSoundPlaying = false;
+
+		//충돌객체 전부 초기화
+		_collider->SetActive(true);
+
+		for (auto& iter : _basicAttackCol)
+		{
+			iter->SetActive(false);
+		}
+		for (auto& iter : _skillAttackCol)
+		{
+			iter->SetActive(false);
+		}
+	}
 }

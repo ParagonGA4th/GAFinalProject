@@ -692,4 +692,57 @@ namespace Pg::DataScript
 	{
 		return min + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (max - min)));
 	}
+
+	void BossBehaviour::ResetAll()
+	{
+		//플래그 전부 초기화.
+		 _dashCount = 0;
+		 _isRotatingToPlayer = true;
+		 _rotateToPlayerTime = 0.f;
+
+		 _isNeutralizeInit = false;
+		 _isNeutralize = false;
+		 _isChasing = true;
+		 _isEvading = false;
+		 _hasEvaded = false;
+		 _evadeCooldownTime = 0.f;
+
+		 _isMoving = false;
+		 _isRushSoundPlaying = false ;
+
+		 _isDeadInit = false;
+
+		 _useStormBlast = false;
+
+		 _useLightSkill = false;
+
+		 _useTakeDownSkill = false;
+
+		 _goUp = false;
+		 _isGenerateCol = false;
+
+		 _currentGenerateTime = 0.f;
+
+		 _isPhase1End = false;
+		 _isPhase2End = false;
+
+		 //충돌 객체 전부 초기화.
+		 _collider->SetActive(true);
+		 for (auto& iter : _basicAttackCol)
+		 {
+			 iter->SetActive(false);
+		 }
+		 for (auto& iter : _windBlastAttackCol)
+		 {
+			 iter->SetActive(false);
+		 }
+		 for (auto& iter : _lightAttackCol)
+		 {
+			 iter->SetActive(false);
+		 }
+		 for (auto& iter : _takeDownCol)
+		 {
+			 iter->SetActive(false);
+		 }
+	}
 }

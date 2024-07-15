@@ -18,6 +18,6 @@ namespace Pg::DataScript
 
 	void WaspInfo::ResetAll()
 	{
-
+		_hp = _fullHealthValue;
 	}
 }

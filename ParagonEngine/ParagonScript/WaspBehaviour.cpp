@@ -107,6 +107,7 @@ namespace Pg::DataScript
 				_wingMeshRenderer = iter->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 				if (_wingMeshRenderer != nullptr)
 				{
+					//기본값 설정.
 					_wingMeshRenderer->SetAlphaPercentage(50.f);
 				}
 			}
@@ -471,5 +472,31 @@ namespace Pg::DataScript
 		_monsterHelper->_isPlayerDetected = false;
 		_monsterHelper->_isPlayerinHitSpace = false;
 		_monsterHelper->_isChase = false;
+	}
+
+	void WaspBehaviour::ResetAll()
+	{
+
+		//사툰드 관련 변수
+		bool _isAttackSoundPlaying = false;
+
+		//공격 관련 변수
+		bool _isAttackStart = false;
+
+		bool _isRotateToPlayer = false;
+
+		bool _isSkillStart = false;
+
+		//충돌객체 전부 초기화
+		_collider->SetActive(true);
+
+		for (auto& iter : _basicAttackCol)
+		{
+			iter->SetActive(false);
+		}
+		for (auto& iter : _skillAttackCol)
+		{
+			iter->SetActive(false);
+		}
 	}
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "ScriptInterface.h"
 #include "IEnemyBehaviour.h"
+#include "IScriptResettable.h"
 #include "BossInfo.h"
 #include "BaseMonster.h"
 
@@ -39,7 +40,7 @@ namespace Pg::DataScript
 	class CombatSystem;
 	class CameraShake;
 
-	class BossBehaviour : public ScriptInterface<BossBehaviour>, public IEnemyBehaviour
+	class BossBehaviour : public ScriptInterface<BossBehaviour>, public IEnemyBehaviour, public IScriptResettable
 	{
 		DEFINE_PARAGON_SCRIPT(BossBehaviour);
 	public:
@@ -53,6 +54,8 @@ namespace Pg::DataScript
 
 		virtual void OnDeserialize(SerializeVector& sv) override;
 		virtual void OnSerialize(SerializeVector& sv) override;
+
+		virtual void ResetAll() override;
 
 		//플레이어를 쫓는 함수
 		void Chase();

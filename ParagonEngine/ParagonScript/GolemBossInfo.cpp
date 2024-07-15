@@ -16,6 +16,6 @@ namespace Pg::DataScript
 
 	void GolemBossInfo::ResetAll()
 	{
-
+		_hp = _fullHealthValue;
 	}
 }
