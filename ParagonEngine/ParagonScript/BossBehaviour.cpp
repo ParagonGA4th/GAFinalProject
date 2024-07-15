@@ -636,6 +636,11 @@ namespace Pg::DataScript
 				_monsterHelper->_bossFlag._isPase_1 = false;
 				_monsterHelper->_bossFlag._isPase_2 = false;
 				_monsterHelper->_bossFlag._isPase_3 = true;
+
+				if (_isNeutralizeInit)
+				{
+					_isNeutralizeInit = false;
+				}
 			}
 
 			_isPhase2End = true;

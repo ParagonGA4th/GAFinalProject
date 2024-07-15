@@ -13,7 +13,7 @@
 
 namespace Pg::Data 
 {
-	class StaticBoxCollider;
+	class StaticSphereCollider;
 }
 namespace Pg::API
 {
@@ -69,16 +69,14 @@ namespace Pg::DataScript
 		void ShootUltimateArrowLogic();
 	private:
 		void PlayAdequateAnimation();
-
-	
-
+		void FindAllArrowsInMap();
 	private:
 		PlayerHandler* _playerHandler;
 		Pg::Data::GameObject* _object;
 		std::vector<ArrowLogic*> _arrowVec;
 
 		Pg::Data::GameObject* _ultimateArrow;
-		Pg::Data::StaticBoxCollider* _ulArrowCol;
+		Pg::Data::StaticSphereCollider* _ulArrowCol;
 		UltimateArrowLogic* _ulArrowLogic;
 	private:
 		float _timeSinceLastShot = 0.f;
@@ -97,5 +95,3 @@ namespace Pg::DataScript
 		Pg::API::Time::PgTime* _pgTime;
 	};
 }
-
-

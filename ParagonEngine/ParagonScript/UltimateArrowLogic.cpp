@@ -1,8 +1,8 @@
 #include "UltimateArrowLogic.h"
 
-#include "../ParagonData/StaticMeshRenderer.h"
+#include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/BoxCollider.h"
-#include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/StaticSphereCollider.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/PhysicsCollision.h"
 
@@ -34,14 +34,14 @@ namespace Pg::DataScript
 		_combatSystem = CombatSystem::GetInstance(nullptr);
 
 		//내부적으로 Physics보다 SceneSystem의 함수들이 나중에 호출됨. 그러니, 미리 할 수 있는 방법을 EngineMain-SceneSystem에 연결해두었다.
-		_collider = _object->GetComponent<Pg::Data::StaticBoxCollider>();
+		_collider = _object->GetComponent<Pg::Data::StaticSphereCollider>();
 		assert(_collider != nullptr);
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PROJECTILES);
 	}
 
 	void UltimateArrowLogic::Awake()
 	{
-		_meshRenderer = _object->GetComponent<Pg::Data::StaticMeshRenderer>();
+		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		assert(_meshRenderer != nullptr);
 	}
 
@@ -55,43 +55,13 @@ namespace Pg::DataScript
 		CarryOutShoot();
 	}
 
-	bool UltimateArrowLogic::GetIsNowShooting()
-	{
-		return _isNowShooting;
-	}
-
 	void UltimateArrowLogic::CarryOutShoot()
 	{
 		if (_isSkillStart)
 		{
-			Pg::Util::Tween* tTween = _pgTween->CreateTween();
-
-			Pg::Math::PGFLOAT3 fallPosition = _object->_transform._position;
-			fallPosition.y -= 5.f;
-			//Tween 작동.
-			tTween->GetData(&(_object->_transform._position))
-				.DoMove(fallPosition, 1.f)
-				.SetEase(Pg::Util::Enums::eEasingMode::INQUART)
-				.OnComplete([this]()
-					{
-						//_isSkillEnd = true;
-						_isSkillStart = false;
-						EndShootingSelf();
-					});
-		}
-		if (_isSkillEnd)
-		{
-			float dTime = 0.f;
-			dTime += _pgTime->GetDeltaTime();
-
-			if (dTime >= 1.f)
-			{
-				
-				dTime = 0.f;
-
-				_isSkillEnd = false;
-
-			}
+			///여기에 궁극기 애니메이션 및 콜라이더 추가되면 된다.
+			_collider->SetActive(true);
+			_meshRenderer->SetActive(true);
 		}
 	}
 
