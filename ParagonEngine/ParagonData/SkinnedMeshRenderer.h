@@ -42,6 +42,9 @@ namespace Pg::Data
 		void SetAlphaPercentage(float per);
 		float GetAlphaPercentage();
 
+		void SetanimBlendFactor(float per);
+		float GetanimBlendFactor();
+
 		//본 이름을 기반으로 Transform을 찾을 수 있다. (단, 당연히 RootNode에 상대적일 것, World 관련 행렬 따로 곱해야.)
 		Pg::Data::AnimTransform* FindAnimTransform(const std::string& animNodeName);
 

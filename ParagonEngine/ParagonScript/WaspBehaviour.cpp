@@ -97,6 +97,21 @@ namespace Pg::DataScript
 	{
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 
+		for (auto& iter : _object->_transform.GetChildren())
+		{
+			// 자식 오브젝트의 이름을 얻어옵니다.
+			std::string childTag = iter->_object->GetTag();
+
+			if (childTag == "TAG_Wasp")
+			{
+				_wingMeshRenderer = iter->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+				if (_wingMeshRenderer != nullptr)
+				{
+					_wingMeshRenderer->SetAlphaPercentage(50.f);
+				}
+			}
+		}
+
 		//코인 SetActive를 위해
 		_corn = _object->GetScene()->FindObjectWithName(_cornName);
 		_cornRenderer = _corn->GetComponent<Pg::Data::StaticMeshRenderer>();
