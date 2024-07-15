@@ -929,9 +929,6 @@
     <Filter Include="6_HLSL\Appends\Libraries\MathFunctions">
       <UniqueIdentifier>{e9a1063c-bc0e-4256-a6c8-3abcac342bf6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6_HLSL\Appends\Added\Object\ShadowTest">
-      <UniqueIdentifier>{47b10104-dd45-4fa0-8d52-15bf986d7562}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0_Main\Renderers\CubemapRenderer">
       <UniqueIdentifier>{d2fd682a-24a1-48b3-a2c6-49673c3e95ae}</UniqueIdentifier>
     </Filter>
@@ -1145,6 +1142,9 @@
     <Filter Include="6_HLSL\System\Pipeline\Debug">
       <UniqueIdentifier>{778e3bc9-0724-4c69-9dd3-70b353ae469b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="6_HLSL\Appends\Added\Object\Arrow">
+      <UniqueIdentifier>{47b10104-dd45-4fa0-8d52-15bf986d7562}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
@@ -1209,12 +1209,6 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_Blur_PS.hlsl">
       <Filter>6_HLSL\System\Pipeline\Outline</Filter>
-    </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\ShadowTest\AppendShadowTestPS.hlsl">
-      <Filter>6_HLSL\Appends\Added\Object\ShadowTest</Filter>
-    </FxCompile>
-    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\ShadowTest\AppendShadowTestVS.hlsl">
-      <Filter>6_HLSL\Appends\Added\Object\ShadowTest</Filter>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Experimental\AppendExperimentalTestPS.hlsl">
       <Filter>6_HLSL\Appends\Added\Object\Experimental</Filter>
@@ -1281,6 +1275,12 @@
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Debug\Debug_ShadowMap_PS.hlsl">
       <Filter>6_HLSL\System\Pipeline\Debug</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Arrow\Append_ArrowUsagePS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\Arrow</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Arrow\Append_ArrowUsageVS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\Arrow</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
