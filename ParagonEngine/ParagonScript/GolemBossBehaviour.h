@@ -1,6 +1,8 @@
 #pragma once
 #include "ScriptInterface.h"
 #include "IEnemyBehaviour.h"
+#include "IScriptResettable.h"
+#include "BaseMonster.h"
 #include "GolemBossInfo.h"
 #include "BaseMonster.h"
 
@@ -35,7 +37,7 @@ namespace Pg::DataScript
 	class BaseEnemyHandler;
 	class CameraShake;
 
-	class GolemBossBehaviour : public ScriptInterface<GolemBossBehaviour>, public IEnemyBehaviour
+	class GolemBossBehaviour : public ScriptInterface<GolemBossBehaviour>, public IEnemyBehaviour, public IScriptResettable
 	{
 		DEFINE_PARAGON_SCRIPT(GolemBossBehaviour);
 	public:
@@ -49,6 +51,8 @@ namespace Pg::DataScript
 
 		virtual void OnDeserialize(SerializeVector& sv) override;
 		virtual void OnSerialize(SerializeVector& sv) override;
+
+		virtual void ResetAll() override;
 
 
 		//플레이어 발견하지 않을때 하는 행동

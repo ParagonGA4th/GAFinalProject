@@ -15,6 +15,6 @@ namespace Pg::DataScript
 
 	void StubInfo::ResetAll()
 	{
-
+		_hp = _fullHealthValue;
 	}
 }

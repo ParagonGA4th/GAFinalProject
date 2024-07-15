@@ -1,6 +1,7 @@
 #pragma once
 #include "ScriptInterface.h"
 #include "IEnemyBehaviour.h"
+#include "IScriptResettable.h"
 #include "StubInfo.h"
 #include "BaseMonster.h"
 
@@ -32,7 +33,7 @@ namespace Pg::DataScript
 {
 	class CameraShake;
 
-	class StubBehaviour : public ScriptInterface<StubBehaviour>, public IEnemyBehaviour
+	class StubBehaviour : public ScriptInterface<StubBehaviour>, public IEnemyBehaviour, public IScriptResettable
 	{
 		DEFINE_PARAGON_SCRIPT(StubBehaviour);
 	public:
@@ -46,6 +47,8 @@ namespace Pg::DataScript
 
 		virtual void OnDeserialize(SerializeVector& sv) override;
 		virtual void OnSerialize(SerializeVector& sv) override;
+
+		virtual void ResetAll() override;
 
 		//플레이어 발견하지 않을때 하는 행동
 		void Idle();
