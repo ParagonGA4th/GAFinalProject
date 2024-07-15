@@ -8,6 +8,8 @@
 #include "EventList_PlayerRelated.h"
 
 #include "../ParagonAPI/PgScene.h"
+#include "../ParagonAPI/PgTime.h"
+#include "../ParagonUtil/Log.h"
 #include <singleton-cpp/singleton.h>
 #include <cassert>
 
@@ -29,10 +31,6 @@ namespace Pg::DataScript
 		//NullPtr일 경우 동작 안 할 것.
 		_currentHandlerBundle3D = TotalGameManager::GetInstance(nullptr)->GetCurrentHandlerBundle();
 
-		//리셋은 TotalGameManager에서 이미 되었음.
-
-		//이제, 다시 값을 가져와야 한다. 
-		//이미 
 
 	}
 
@@ -45,8 +43,13 @@ namespace Pg::DataScript
 	{
 		if (_currentHandlerBundle3D != nullptr)
 		{
+			//Normal Damage 계산. 
 			CalculateMonsterDamages();
 			CalculateMonsterHit();
+
+			// Ice / Fire Damage 계산.
+			CalculateFireDamages();
+			CalculateIceDamages();
 		}
 	}
 
@@ -168,7 +171,16 @@ namespace Pg::DataScript
 		_monsterOnHitList.push_back(BaseMonsterHitPair(monster));
 	}
 
-	
+	void CombatSystem::AddMonsterIceDamageList(BaseMonsterInfo* monster)
+	{
+		_iceMonsterHealthChangeList.push_back(IceEffect_MonsterHitPair(monster));
+	}
+
+	void CombatSystem::AddMonsterFireDamageList(BaseMonsterInfo* monster)
+	{
+		_fireMonsterHealthChangeList.push_back(FireEffect_MonsterHitPair(monster));
+	}
+
 	void CombatSystem::CalculateMonsterDamages()
 	{
 		//SceneSystem 함수는 무조건 Physics의 On시리즈보다 빨리 호출된다는 것을 활용.
@@ -180,12 +192,8 @@ namespace Pg::DataScript
 		//실제로 
 		for (auto& it : _monsterHealthChangeList)
 		{
+			//안으로 Dead 호출부 움직임.
 			it._baseMonster->ChangeMonsterHp(it._healthChangeLvl);
-
-			if (it._baseMonster->GetMonsterHp() <= std::numeric_limits<float>::epsilon())
-			{
-				it._baseMonster->_onDead();
-			}
 		}
 
 		//이제 클리어.
@@ -209,14 +217,102 @@ namespace Pg::DataScript
 		_monsterOnHitList.clear();
 	}
 
+	void CombatSystem::CalculateIceDamages()
+	{
+		//없으면 리턴.
+		if (_iceMonsterHealthChangeList.empty())
+		{
+			return;
+		}
+
+		//시간에 맞춰서 데미지 연산을 멀티 프레임 동안 해야 하기에,
+		std::list<IceEffect_MonsterHitPair>::iterator tIter = _iceMonsterHealthChangeList.begin();
+		float dt = _pgTime->GetDeltaTime();
+
+		//끝날 때까지.
+		while (tIter != _iceMonsterHealthChangeList.end())
+		{
+			//0보다 남은 시간이 줄으면 수명 CUT.
+			bool tTimeLowerThanZero = (tIter->_remainingTime < 0);
+			bool tIsMonsterDead = tIter->_baseMonster->IsMonsterDead();
+
+			//지우기.
+			if (tTimeLowerThanZero || tIsMonsterDead)
+			{
+				//지우기 전에, Speed 원래대로 돌려줘야 한다.
+				tIter->_baseMonster->SetMonsterSpeed(IceEffect_MonsterHitPair::NORMAL_SPEED_MULTIPLIER);
+				//지우기.
+				tIter = _iceMonsterHealthChangeList.erase(tIter);
+			}
+			else
+			{
+				//델타타임만큼 줄이기.
+				tIter->_remainingTime -= dt;
+				//tIter : Speed 세팅 필요. 그냥 매 프레임 세팅.
+				tIter->_baseMonster->SetMonsterSpeed(IceEffect_MonsterHitPair::SLOW_SPEED_MULTIPLIER);
+				//다음 Iter로.
+				++tIter;
+			}
+		}
+	}
+
+	void CombatSystem::CalculateFireDamages()
+	{
+		//없으면 리턴.
+		if (_fireMonsterHealthChangeList.empty())
+		{
+			return;
+		}
+
+		//시간에 맞춰서 데미지 연산을 멀티 프레임 동안 해야 하기에,
+		std::list<FireEffect_MonsterHitPair>::iterator tIter = _fireMonsterHealthChangeList.begin();
+		float dt = _pgTime->GetDeltaTime();
+
+		//끝날 때까지.
+		while (tIter != _fireMonsterHealthChangeList.end())
+		{
+			//0보다 남은 시간이 줄으면 수명 CUT.
+			bool tTimeLowerThanZero = (tIter->_remainingTime < 0);
+			bool tIsMonsterDead = tIter->_baseMonster->IsMonsterDead();
+
+			//지우기.
+			if (tTimeLowerThanZero || tIsMonsterDead)
+			{
+				tIter = _fireMonsterHealthChangeList.erase(tIter);
+			}
+			else
+			{
+				//델타타임만큼 줄이기.
+				tIter->_remainingTime -= dt;
+				//true면 업데이트해야 한다. 값 세팅해야.
+				if (tIter->_remainingTime - (float)(tIter->_roundingNum) < 0)
+				{
+					//실제로 데미지 계산하는 로직.
+					PG_WARN("Fire DAMAGE");
+
+					//OnDead는 Change 내부에 호출에 될 것이다. 또한, 중복되면 안 들어올 것.
+					//미리 HealthChange에서 비슷한 로직이 실행될 것이기 때문.
+					tIter->_baseMonster->ChangeMonsterHp(-FireEffect_MonsterHitPair::DOT_DAMAGE);
+
+					//Rounding Time 하나 마이너스.
+					--(tIter->_roundingNum);
+					assert(tIter->_roundingNum >= 0); //로직 상 걸리면 안됨.
+				}
+
+				//다음 Iter로.
+				++tIter;
+			}
+		}
+	}
 	void CombatSystem::Initialize(Pg::Data::Scene* changedScene)
 	{
 		// 반드시 해당 Object는 Don't Destroy On Load 설정이 되어 있어야 한다.
 		assert(_object->GetDontDestroyOnLoad() && "XML에서 이렇게 들어왔어야 한다");
 
 		_pgScene = &singleton<Pg::API::PgScene>();
+		_pgTime = &singleton<Pg::API::Time::PgTime>();
 	}
 
-	
+
 
 }

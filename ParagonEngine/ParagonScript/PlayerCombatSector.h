@@ -77,10 +77,6 @@ namespace Pg::DataScript
 		////Monster Script들이 자의적으로 호출하는 함수.
 		//void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
 		//void AddMonsterOnHitList(BaseMonsterInfo* monster);
-
-
-		//플레이어 궁극기
-		void ShootUltimateArrowLogic();
 	private:
 		void PlayAdequateAnimation();
 

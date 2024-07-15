@@ -54,8 +54,8 @@ namespace Pg::DataScript
 		switch (_arrowType)
 		{
 			case -1: { InitSelfAsIceArrow(); } break;
-			case 0: {InitSelfAsNormalArrow(); } break;
-			case 1: {InitSelfAsFireArrow(); } break;
+			case 0: { InitSelfAsNormalArrow(); } break;
+			case 1: { InitSelfAsFireArrow(); } break;
 			default:
 			{
 				PG_ERROR("Not Supported Arrow Type");
@@ -119,14 +119,6 @@ namespace Pg::DataScript
 
 	void ArrowLogic::CarryOutShoot()
 	{
-		//쏘는 방향으로 Rotation 변경.
-		//_object->_transform._rotation = PGEulerToQuaternion(_shootDir);
-		//_object->_transform._rotation = Pg::Math::PGLookRotation(PGFloat3Normalize(_targetPos - _initialPos), { 0,1,0 });
-
-		//Pg::Math::PGFLOAT3 tRotTarget = _targetPos - _initialPos;
-		//tRotTarget.y = 0;
-		//_object->_transform._rotation = Pg::Math::PGEulerToQuaternion(PGFloat3Normalize(tRotTarget));
-
 		//트윈 시스템도 손봐야 할 것 같다.
 		//Tween 발동.
 		Pg::Util::Tween* tTween = _pgTween->CreateTween();
@@ -163,9 +155,6 @@ namespace Pg::DataScript
 				//Renderer / Collider 키기.
 				_collider->SetActive(true);
 				_meshRenderer->SetActive(true);
-				// 여기다가, rigidbody의 setgravity도 꺼주어야 함!
-				//Rigidbody SetGravity 끄기.
-				_collider->SetUseGravity(false);
 
 				CarryOutShoot();
 			}
@@ -196,30 +185,11 @@ namespace Pg::DataScript
 			//무조건 해당 수만큼은 들어온다.
 			Pg::Data::Collider* tCol = _colArr[i];
 
-			//{
-			//	std::string tString = "ENTERED MONSTER: ";
-			//	tString += std::to_string(count);
-			//	PG_TRACE(tString.c_str());
-			//}
-			/////PhysicsCollision이 리턴될 때, thisActor, otherActor의 순서가 일정하지 않다.
-			/////그러니, 실제로 다른 충돌한 Actor를 사용!
-			//Pg::Data::Collider* tRealOtherActor = nullptr;
-			//
-			//if (tCol->_thisActor->_object != this->_object)
-			//{
-			//	tRealOtherActor = tCol->_thisActor;
-			//}
-			//else
-			//{
-			//	tRealOtherActor = tCol->_otherActor;
-			//}
-
 			//Physics Layer로 검사한다.
 			//몬스터일 때 설정하는 것이니.
 			if (tCol->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_MONSTER ||
 				tCol->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_BOSS)
 			{
-
 				//몬스터 때렸다는 것.
 				//자신이 직접 데미지를 연산하는 것이 아니다! 
 				//기록해서 PlayerBattleBehavior가 처리해 줄 것.
@@ -236,16 +206,15 @@ namespace Pg::DataScript
 				_meshRenderer->SetActive(false);
 				_collider->SetActive(false);
 
-				//해당 데미지를 입력, PlayerBattleBehavior로 하여금 이를 처리할 수 있게 만든다.
-				_combatSystem->AddMonsterHitList(tEnemyBehaviour->ReturnBaseMonsterInfo(), -(ARROW_ATTACK_POWER * ComboSystem::DAMAGE_MULTIPLIER[tComboIndex]));
-				_combatSystem->AddMonsterOnHitList(tEnemyBehaviour->ReturnBaseMonsterInfo());
+				//Damage Logic 실행, 콤보는 공격의 종류와 상관없이 유지될 것이니.
+				_assignedDamageLogic(tEnemyBehaviour, tComboIndex);
 
-				{
-					std::string tComboStr = "ComboCount : ";
-					tComboStr += std::to_string(_comboSystem->GetComboCount());
-					tComboStr += " // ";
-					PG_TRACE(tComboStr.c_str());
-				}
+				//{
+				//	std::string tComboStr = "ComboCount : ";
+				//	tComboStr += std::to_string(_comboSystem->GetComboCount());
+				//	tComboStr += " // ";
+				//	PG_TRACE(tComboStr.c_str());
+				//}
 			}
 			else
 			{
@@ -258,21 +227,38 @@ namespace Pg::DataScript
 	void ArrowLogic::InitSelfAsNormalArrow()
 	{
 		//현재 일반 화살처럼.
+		_assignedDamageLogic = std::bind(&ArrowLogic::NormalArrowDamageLogic, this, std::placeholders::_1, std::placeholders::_2);
 	}
 
 	void ArrowLogic::InitSelfAsIceArrow()
 	{
 		//잠깐 멈추거나, 속도 느리게.
+		_assignedDamageLogic = std::bind(&ArrowLogic::IceArrowDamageLogic, this, std::placeholders::_1, std::placeholders::_2);
 	}
 
 	void ArrowLogic::InitSelfAsFireArrow()
 	{
 		//독뎀 : 도트데미지 있게 해야.
+		_assignedDamageLogic = std::bind(&ArrowLogic::FireArrowDamageLogic, this, std::placeholders::_1, std::placeholders::_2);
 	}
 
-	//void ArrowLogic::OnCollisionExit(Pg::Data::PhysicsCollision** _colArr, unsigned int count)
-	//{
-	//	PG_TRACE("EXIT CALLED");
-	//}
+	void ArrowLogic::NormalArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex)
+	{
+		//해당 데미지를 입력, PlayerBattleBehavior로 하여금 이를 처리할 수 있게 만든다.
+		_combatSystem->AddMonsterHitList(behav->ReturnBaseMonsterInfo(), -(ARROW_ATTACK_POWER * ComboSystem::DAMAGE_MULTIPLIER[comboIndex]));
+		_combatSystem->AddMonsterOnHitList(behav->ReturnBaseMonsterInfo());
+	}
+
+	void ArrowLogic::IceArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex)
+	{
+		_combatSystem->AddMonsterIceDamageList(behav->ReturnBaseMonsterInfo());
+	}
+
+	void ArrowLogic::FireArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex)
+	{
+		_combatSystem->AddMonsterFireDamageList(behav->ReturnBaseMonsterInfo());
+	}
+
+
 
 }
