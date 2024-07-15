@@ -192,4 +192,13 @@ namespace Pg::Data
 		_playVariable = 1;
 	}
 
+	void SkinnedMeshRenderer::SetanimBlendFactor(float per)
+	{
+		_animBlendFactor = per;
+	}
+
+	float SkinnedMeshRenderer::GetanimBlendFactor()
+	{
+		return _animBlendFactor;
+	}
 }

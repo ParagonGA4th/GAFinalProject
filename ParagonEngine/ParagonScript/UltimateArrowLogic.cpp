@@ -43,6 +43,7 @@ namespace Pg::DataScript
 	{
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		assert(_meshRenderer != nullptr);
+		_meshRenderer->SetActive(false);
 	}
 
 	void UltimateArrowLogic::Start()
@@ -92,7 +93,6 @@ namespace Pg::DataScript
 			if (tCol->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_MONSTER ||
 				tCol->GetLayer() == Pg::Data::Enums::eLayerMask::LAYER_BOSS)
 			{
-
 				//몬스터 때렸다는 것.
 				//자신이 직접 데미지를 연산하는 것이 아니다! 
 				//기록해서 PlayerBattleBehavior가 처리해 줄 것.
@@ -102,23 +102,10 @@ namespace Pg::DataScript
 				//ComboSystem한테 적 때렸다고 전달.
 				_comboSystem->HitObject(true);
 
-				int tComboIndex = std::clamp<int>(_comboSystem->GetComboCount(), 1, ComboSystem::MAXIMUM_HIT_COUNT);
-				tComboIndex -= 1; //무조건 ComboCount가 1 / 2 / 3 당 0, 1, 2를 각각 반환하게 설정하는 것이다. 인덱스 이슈. 
-
-				//실제 충돌을 한 것이니, Collider와 Renderer를 끄자!
-				_meshRenderer->SetActive(false);
-				_collider->SetActive(false);
 
 				//해당 데미지를 입력, PlayerBattleBehavior로 하여금 이를 처리할 수 있게 만든다.
-				_combatSystem->AddMonsterHitList(tEnemyBehaviour->ReturnBaseMonsterInfo(), -(ARROW_ATTACK_POWER * ComboSystem::DAMAGE_MULTIPLIER[tComboIndex]));
+				_combatSystem->AddMonsterHitList(tEnemyBehaviour->ReturnBaseMonsterInfo(), -(ARROW_ATTACK_POWER));
 				_combatSystem->AddMonsterOnHitList(tEnemyBehaviour->ReturnBaseMonsterInfo());
-
-				{
-					std::string tComboStr = "ComboCount : ";
-					tComboStr += std::to_string(_comboSystem->GetComboCount());
-					tComboStr += " // ";
-					PG_TRACE(tComboStr.c_str());
-				}
 			}
 			else
 			{

@@ -92,6 +92,7 @@ namespace Pg::DataScript
 		Pg::Data::MonsterHelper* _monsterHelper;
 
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
+		Pg::Data::SkinnedMeshRenderer* _wingMeshRenderer;
 
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _skillAttackCol;
