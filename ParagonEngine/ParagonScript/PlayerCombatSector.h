@@ -13,6 +13,7 @@
 
 namespace Pg::Data 
 {
+	class StaticBoxCollider;
 	class StaticSphereCollider;
 }
 namespace Pg::API
@@ -34,9 +35,27 @@ namespace Pg::DataScript
 	class PlayerCombatSector : public IObserver, public IScriptResettable
 	{
 		friend class PlayerHandler;
+
+		//Monster OnHit : 5의 마나를 얻는 느낌.
+		//ex. Monster Wave에 들어가서, 3마리를 잡으면 스킬 쓸 수 있을 것이다.
+		//Mana는 0으로 시작.
+		inline static const float STRONG_ATTACK_COOLDOWN_TIME = 3.f;
+		inline static const float ULTIMATE_ATTACK_COOLDOWN_TIME = 30.f;
+		inline static const float ICE_ATTACK_COOLDOWN_TIME = 10.f;
+		inline static const float FIRE_ATTACK_COOLDOWN_TIME = 10.f;
+
+		inline static const float ULTIMATE_ATTACK_DURATION = 3.0f;
+		inline static const float STRONG_ATTACK_DURATION = 1.0f;
+
+		inline static const float ULTIMATE_ATTACK_REQUIRED_MANA = 50.f;
+		inline static const float ICE_ATTACK_REQUIRED_MANA = 30.f;
+		inline static const float FIRE_ATTACK_REQUIRED_MANA = 30.f;
+
+		//100 중 1/5
+		inline static const float STRONG_ATTACK_REQUIRED_STAMINA = 20.0f;
+
 	public:
 		PlayerCombatSector(PlayerHandler* playerHandler);
-
 
 		void GrabManagedObjects();
 
@@ -56,42 +75,96 @@ namespace Pg::DataScript
 		//IScriptResettable. 다시 자기 자신을 리셋하는 함수.
 		virtual void ResetAll() override;
 
-	public:
-		void ArrowShootingLogic();
-
+	private:
+		void AllAttacksLogic();
+		void NormalArrowShootingLogic();
+		void FindAllArrowsInMap();
 		//CombatSystem으로 이동.
 		////Monster Script들이 자의적으로 호출하는 함수.
 		//void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
 		//void AddMonsterOnHitList(BaseMonsterInfo* monster);
-
-
-		//플레이어 궁극기
-		void ShootUltimateArrowLogic();
 	private:
 		void PlayAdequateAnimation();
-		void FindAllArrowsInMap();
+
+		void ProcessInputsForActiveSkills();
+		void ProcessInputsForStrongAttack();
+		void ProcessInputsForUltimateAttack();
+
+		//얘네들은 실행 시키고, 로직 실행은 외적으로.
+		//여러 프레임 동안 이루어져야 한다. 
+		//성공하면 True / 실패하면 False.
+		//(이는 다른 공격의 실행 상태 + 스탯에 따라 결정)
+		//내부에서 필요 스탯 소모까지 완료한다.
+		bool CheckActivateStrongAttack();
+		bool CheckActivateUltimateAttack();
+		bool CheckActivateFireAttack();
+		bool CheckActivateIceAttack();
+
+		//즉시 실행하는 함수들.
+		void UpdateExecuteStrongAttack();
+		void UpdateExecuteUltimateAttack();
+		//Ice/Fire/Normal
+		//모든 공격들에 한정해서, 벡터와 오디오 등을 받으면 일괄적으로 Shoot 실행.
+		void ExecuteSpecificArrowShoot(std::vector<ArrowLogic*>* typeArrowVec, 
+			Pg::Data::AudioSource* audioSource, float& outIfDoneResetTime);
+		
+	private:
+		//지상이 형 / 민서가 내부를 채워줘야 할 함수들.
+		//딱 한번, 공격이 나가야 할 때 단발적으로 호출되는 함수.
+		void InvokeSingleUltimateAttack();
+		void InvokeSingleStrongAttack();
+	
 	private:
 		PlayerHandler* _playerHandler;
 		Pg::Data::GameObject* _object;
-		std::vector<ArrowLogic*> _arrowVec;
+		std::vector<ArrowLogic*> _normalArrowVec;
+		std::vector<ArrowLogic*> _iceArrowVec;
+		std::vector<ArrowLogic*> _fireArrowVec;
 
-		Pg::Data::GameObject* _ultimateArrow;
-		Pg::Data::StaticSphereCollider* _ulArrowCol;
 		UltimateArrowLogic* _ulArrowLogic;
 	private:
-		float _timeSinceLastShot = 0.f;
+		//Normal에 한정.
+		float _normal_timeSinceLastShot = 0.f;
 		//공격 쿨타임
-		const float _shootCooldown = 0.6f;
+		const float _normal_shootCooldown = 0.6f;
 
 	private:
 		// 플레이어 애니매이션 관련 변수
 		std::string _prevAnimationInput;
-		bool _isHit;
-		bool _useUltimateSkill{ false };
-		int _hitCount = 0;
+		//bool _isHit;
+		//int _hitCount = 0;
+		//bool _isHit;
+		bool _useUltimateSkill{ false }; //이건 Invoke에 들어가야 한다.
+
+	private:
+		//강공격 실행을 위해, 클릭한 순간들을 기록한다.
+		float _startedClickingTime{ 0.f };
+		bool _isStrongAttackStartEligible{ true };
+		float _startedStrongAttackChargeTime{ 0.f };
+		bool _isStrongAttackingNow{ false };
+
+		//궁극기 실행을 위해, 클릭한 순간들을 기록한다.
+		bool _isUltimateAttackStartEligible{ true };
+		float _isStartedUltimateAttackChargeTime{ 0.f };
+		bool _isUltimateAttackingNow{ false };
+
+		bool _isIceAttackStartEligible{ true };
+		bool _isFireAttackStartEligible{ true };
+		float _isStartedIceSkillChargeTime{ 0.f };
+		float _isStartedFireSkillChargeTime{ 0.f };
+		bool _isIceAttackingNow{ false };
+		bool _isFireAttackingNow{ false };
+
+		//단발성이 아닌, Strong Attack / Ultimate Attack을 위해 값 보관을 하려 쓰는 값들.
+		bool _isJustUltimateAttackInvoked{ false };
+		bool _isJustStrongAttackInvoked{ false };
+		float _startedUltimateAttackingTime{ 0.f };
+		float _startedStrongAttackingTime{ 0.f };
 
 	private:
 		Pg::API::Input::PgInput* _pgInput;
 		Pg::API::Time::PgTime* _pgTime;
 	};
 }
+
+

@@ -22,6 +22,12 @@ namespace Pg::DataScript
 	void BaseMonsterInfo::ChangeMonsterHp(float level)
 	{
 		_hp = std::clamp<float>(_hp + level, 0.0f, _fullHealthValue);
+
+		//Á×À¸¸é OnDead È£Ãâ.
+		if (_hp <= std::numeric_limits<float>::epsilon())
+		{
+			_onDead();
+		}
 	}
 
 	void BaseMonsterInfo::SetMonsterDamage(float damage)
@@ -43,4 +49,20 @@ namespace Pg::DataScript
 	{
 		return _damage;
 	}
+
+	bool BaseMonsterInfo::IsMonsterDead()
+	{
+		return _hp <= std::numeric_limits<float>::epsilon();
+	}
+
+	void BaseMonsterInfo::SetMonsterSpeedRatio(float speed)
+	{
+		_speed = speed;
+	}
+
+	float BaseMonsterInfo::GetMonsterSpeedRatio()
+	{
+		return _speed;
+	}
+
 }

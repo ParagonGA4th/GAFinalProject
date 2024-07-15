@@ -88,7 +88,7 @@ namespace Pg::Data
 
 			_object->_transform._position = POS;
 		}
-		if (tInput->GetKey(MoveUp))
+		if (tInput->GetKey(KeyE))
 		{
 			Pg::Math::PGFLOAT3 UP = _object->_transform.GetUp();
 			Pg::Math::PGFLOAT3 POS = _object->_transform._position;
@@ -99,7 +99,7 @@ namespace Pg::Data
 
 			_object->_transform._position = POS;
 		}
-		if (tInput->GetKey(MoveDown))
+		if (tInput->GetKey(KeyQ))
 		{
 			Pg::Math::PGFLOAT3 UP = _object->_transform.GetUp();
 			Pg::Math::PGFLOAT3 POS = _object->_transform._position;

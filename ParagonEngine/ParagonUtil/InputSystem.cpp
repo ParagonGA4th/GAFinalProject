@@ -78,8 +78,8 @@ namespace Pg::Util::Input
 		CustomAssert(_map->MapBool(eKeyCode::MoveBack, _keyboardId, gainput::KeyS));
 		CustomAssert(_map->MapBool(eKeyCode::MoveLeft, _keyboardId, gainput::KeyA));
 		CustomAssert(_map->MapBool(eKeyCode::MoveRight, _keyboardId, gainput::KeyD));
-		CustomAssert(_map->MapBool(eKeyCode::MoveUp, _keyboardId, gainput::KeyE));
-		CustomAssert(_map->MapBool(eKeyCode::MoveDown, _keyboardId, gainput::KeyQ));
+		CustomAssert(_map->MapBool(eKeyCode::KeyE, _keyboardId, gainput::KeyE));
+		CustomAssert(_map->MapBool(eKeyCode::KeyQ, _keyboardId, gainput::KeyQ));
 		CustomAssert(_map->MapBool(eKeyCode::KeyZ, _keyboardId, gainput::KeyZ));
 		CustomAssert(_map->MapBool(eKeyCode::KeyF, _keyboardId, gainput::KeyF));
 		CustomAssert(_map->MapBool(eKeyCode::CtrlL, _keyboardId, gainput::KeyCtrlL));
@@ -112,6 +112,7 @@ namespace Pg::Util::Input
 		CustomAssert(_map->MapBool(eKeyCode::KeyB, _keyboardId, gainput::KeyB));
 		CustomAssert(_map->MapBool(eKeyCode::KeyN, _keyboardId, gainput::KeyN));
 		CustomAssert(_map->MapBool(eKeyCode::KeyM, _keyboardId, gainput::KeyM));
+		CustomAssert(_map->MapBool(eKeyCode::KeyF, _keyboardId, gainput::KeyF));
 
 		CustomAssert(_map->MapBool(eKeyCode::KeyX, _keyboardId, gainput::KeyX));
 		CustomAssert(_map->MapBool(eKeyCode::KeyZ, _keyboardId, gainput::KeyZ));

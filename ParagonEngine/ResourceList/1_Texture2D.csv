@@ -1,9 +1,9 @@
 Texture2D
 ../Resources/Textures/Sprites/LPDiskAlpha.png
 ../Resources/Textures/Sprites/GameProgressBar.png
-../Resources/Textures/Sprites/StartCrunch.png
-../Resources/Textures/tw_normal.png
-../Resources/Textures/tw_diffuse.png
+../Resources/Textures/ArrowRelated/normal_arrow_texture.tga
+../Resources/Textures/ArrowRelated/fire_arrow_texture.tga
+../Resources/Textures/ArrowRelated/ice_arrow_texture.tga
 ../Resources/Textures/wook.jpg
 ../Resources/Textures/TileTexture2048x2048.dds
 ../Resources/Textures/Sprites/UI/Test_SliderBarDown.png
