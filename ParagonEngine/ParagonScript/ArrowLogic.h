@@ -2,6 +2,13 @@
 #include "ScriptInterface.h"
 #include "IProjectile.h"
 #include "../ParagonMath/PgMath.h"
+#include "IEnemyBehaviour.h"
+#include <functional>
+#include <visit_struct/visit_struct.hpp>
+
+/// <summary>
+/// Normal / Fire / Ice를 모두 담당할 것이다.
+/// </summary>
 
 namespace Pg::Data
 {
@@ -51,6 +58,17 @@ namespace Pg::DataScript
 		//virtual void OnCollisionExit(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override;
 
 
+	public:
+		//Material은 이 Property 설정과 더불어 다르게 등록되어야 한다.
+		//FitArrow는 같되, 내부 Material을 모두 다르게 등록하자.
+		BEGIN_VISITABLES(ArrowLogic);
+		VISITABLE(int, _arrowType); // -1 : Ice / 0 : Normal / 1 : Fire.
+		END_VISITABLES;
+
+		//Serializers.
+		virtual void OnSerialize(SerializeVector& sv) override;
+		virtual void OnDeserialize(SerializeVector& sv) override;
+	public:
 		//BattleBehavior 스크립트를 갖고 로직 제어할 수 있게 하기. 
 		//외적으로 할당해서 값을 넣어준다.
 		PlayerHandler* _playerBattleBehavior{ nullptr };
@@ -59,6 +77,18 @@ namespace Pg::DataScript
 		void ResetState(); //상태 내부 리셋.
 		bool GetIsNowShooting(); //현재 쏘고 있는지 리턴.
 		void ShootArrow(Pg::Math::PGFLOAT3 initialPos, Pg::Math::PGFLOAT3 shootDir); //자기 자신인 화살을 쏘기.
+
+	private:
+		void InitSelfAsNormalArrow();
+		void InitSelfAsIceArrow();
+		void InitSelfAsFireArrow();
+	
+	private:
+		void NormalArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex);
+		void IceArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex);
+		void FireArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex);
+		
+		std::function<void(Pg::DataScript::IEnemyBehaviour*, int)> _assignedDamageLogic;
 
 	private:
 		void EndShootingSelf(); //다 썼다는 얘기. 중력을 키지도 말고, 그냥사라지자.
@@ -82,11 +112,13 @@ namespace Pg::DataScript
 		Pg::Math::PGFLOAT3 _targetPos;
 		Pg::Math::PGFLOAT3 _shootDir;
 
-	private:	//자신의 컴포넌트들.
+	private:	
+		//자신의 컴포넌트들.
 		Pg::Data::StaticMeshRenderer* _meshRenderer;
 		Pg::Data::BoxCollider* _collider;
 
-	private:	//API
+	private:	
+		//API
 		Pg::API::Time::PgTime* _pgTime;
 		Pg::API::Tween::PgTween* _pgTween;
 
