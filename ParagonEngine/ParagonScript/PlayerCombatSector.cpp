@@ -86,8 +86,11 @@ namespace Pg::DataScript
 		_isUltimateAttackStartEligible = true;
 		_isStartedUltimateAttackChargeTime = 0.f;
 
-		_isActiveSkillSwitchEligible = true;
-		_isStartedActiveSkillChargeTime = 0.f;
+		_isIceAttackStartEligible = true;
+		_isFireAttackStartEligible = true;
+
+		_isStartedIceSkillChargeTime = 0.f;
+		_isStartedFireSkillChargeTime = 0.f;
 
 		//현재 공격 상태 리셋.
 		_isStrongAttackingNow = false;
@@ -148,7 +151,7 @@ namespace Pg::DataScript
 		// Q - E로 바꾸면 즉시 화살 쏘는 것처럼 투사체 나감.
 		//Q와 E를 누르면 Switch.
 
-		if (_isActiveSkillSwitchEligible)
+		if (_isFireAttackStartEligible)
 		{
 			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyQ))
 			{
@@ -157,33 +160,51 @@ namespace Pg::DataScript
 					//Event HandleEvents에서 나중에 구분해야 한다.
 					_playerHandler->_combatSystem->Post(Event_UI_SetActiveSkill(), false, NULL);
 					//이제 Cooldown 세자.
-					_isActiveSkillSwitchEligible = false;
-					_isStartedActiveSkillChargeTime = 0.f;
-				}
-			}
-			else if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyE))
-			{
-				if (CheckActivateIceAttack())
-				{
-					//Event HandleEvents에서 나중에 구분해야 한다.
-					_playerHandler->_combatSystem->Post(Event_UI_SetActiveSkill(), true, NULL);
-					//이제 Cooldown 세자.
-					_isActiveSkillSwitchEligible = false;
-					_isStartedActiveSkillChargeTime = 0.f;
+					_isFireAttackStartEligible = false;
+					_isStartedFireSkillChargeTime = 0.f;
 				}
 			}
 		}
 		else
 		{
 			//쿨다운 세기.
-			_isStartedActiveSkillChargeTime += _pgTime->GetDeltaTime();
+			_isStartedFireSkillChargeTime += _pgTime->GetDeltaTime();
 
-			if (_isStartedActiveSkillChargeTime >= ACTIVE_SKILL_COOLDOWN_TIME)
+			if (_isStartedFireSkillChargeTime >= FIRE_ATTACK_COOLDOWN_TIME)
 			{
-				_isActiveSkillSwitchEligible = true;
-				_isStartedActiveSkillChargeTime = 0.f;
+				_isFireAttackStartEligible = true;
+				_isStartedFireSkillChargeTime = 0.f;
 			}
 		}
+
+
+		if (_isIceAttackStartEligible)
+		{
+			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyE))
+			{
+				if (CheckActivateIceAttack())
+				{
+					//Event HandleEvents에서 나중에 구분해야 한다.
+					_playerHandler->_combatSystem->Post(Event_UI_SetActiveSkill(), true, NULL);
+					//이제 Cooldown 세자.
+					_isStartedIceSkillChargeTime = false;
+					_isStartedIceSkillChargeTime = 0.f;
+				}
+			}
+		}
+		else
+		{
+			//쿨다운 세기.
+			_isStartedIceSkillChargeTime += _pgTime->GetDeltaTime();
+
+			if (_isStartedIceSkillChargeTime >= ICE_ATTACK_COOLDOWN_TIME)
+			{
+				_isIceAttackStartEligible = true;
+				_isStartedIceSkillChargeTime = 0.f;
+			}
+		}
+
+
 	}
 
 	void PlayerCombatSector::ProcessInputsForStrongAttack()
@@ -323,7 +344,7 @@ namespace Pg::DataScript
 					//단발성.
 					_isIceAttackingNow = false;
 				}
-				else if (_isFireAttackingNow)
+				if (_isFireAttackingNow)
 				{
 					//Fire Shooting. Sound / float타임 교체해야.
 					ExecuteSpecificArrowShoot(&_fireArrowVec, _playerHandler->_commonAttackAudio, _normal_timeSinceLastShot);
@@ -373,13 +394,15 @@ namespace Pg::DataScript
 
 	bool PlayerCombatSector::CheckActivateUltimateAttack()
 	{
-		PG_ERROR("ActivateUltimateAttack");
+		
 		//들어왔다는 것은 궁극기가 쓰일 수 있다는 뜻.
 		//가장 우선권을 가지고 있다.
 
 		// ManaPoint가 10보다 크거나 같음.
 		if (_playerHandler->manaPoint >= ULTIMATE_ATTACK_REQUIRED_MANA)
 		{
+			PG_ERROR("ActivateUltimateAttack");
+
 			//마나 사용. Clamp라 0으로 될 것이다.
 			_playerHandler->ChangePlayerMana(-ULTIMATE_ATTACK_REQUIRED_MANA);
 
@@ -396,10 +419,12 @@ namespace Pg::DataScript
 
 	bool PlayerCombatSector::CheckActivateStrongAttack()
 	{
-		PG_ERROR("ActivateStrongAttack");
+	
 		//1칸 이상은 있어야 발동될 수 있을 것.
 		if ((!_isUltimateAttackingNow) && (_playerHandler->staminaPoint >= STRONG_ATTACK_REQUIRED_STAMINA))
 		{
+			PG_ERROR("ActivateStrongAttack");
+
 			//스태미너 1칸 사용 (5칸 중에)
 			_playerHandler->ChangePlayerStamina(-STRONG_ATTACK_REQUIRED_STAMINA);
 
@@ -416,16 +441,17 @@ namespace Pg::DataScript
 
 	bool PlayerCombatSector::CheckActivateFireAttack()
 	{
-		PG_ERROR("ActivateFireAttack");
 		if ((!_isUltimateAttackingNow)
 			&& (!_isStrongAttackingNow)
 			&& (_playerHandler->manaPoint >= FIRE_ATTACK_REQUIRED_MANA))
 		{
+			PG_ERROR("ActivateFireAttack");
+
 			//마나 한칸 사용.
 			_playerHandler->ChangePlayerMana(-FIRE_ATTACK_REQUIRED_MANA);
 
 			_isFireAttackingNow = true;
-			_isIceAttackingNow = false; //상대도 캔슬.
+			//_isIceAttackingNow = false; //상대도 취소 하지 않음.
 			return true;
 		}
 		else
@@ -437,16 +463,17 @@ namespace Pg::DataScript
 
 	bool PlayerCombatSector::CheckActivateIceAttack()
 	{
-		PG_ERROR("ActivateIceAttack");
 		if ((!_isUltimateAttackingNow)
 			&& (!_isStrongAttackingNow)
 			&& (_playerHandler->manaPoint >= ICE_ATTACK_REQUIRED_MANA))
 		{
+			PG_ERROR("ActivateIceAttack");
+
 			//마나 한칸 사용.
 			_playerHandler->ChangePlayerMana(-ICE_ATTACK_REQUIRED_MANA);
 
 			_isIceAttackingNow = true;
-			_isFireAttackingNow = false; //상대도 캔슬.
+			//_isFireAttackingNow = false; //상대도 취소 하지 않음.
 			return true;
 		}
 		else
