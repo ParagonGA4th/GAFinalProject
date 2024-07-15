@@ -181,4 +181,15 @@ namespace Pg::Data
 	{
 		return _alphaPercentage;
 	}
+
+	void SkinnedMeshRenderer::PauseAnim()
+	{
+		_playVariable = 0;
+	}
+
+	void SkinnedMeshRenderer::PlayAnim()
+	{
+		_playVariable = 1;
+	}
+
 }
