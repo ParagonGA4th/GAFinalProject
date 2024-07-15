@@ -43,6 +43,7 @@ namespace Pg::Graphics
 
 		//일단, 포인터 받아오기.
 		ANIMATION_BLEND_SPEED_POINTER = &(tSkinnedMeshRenderer->_animBlendFactor);
+		ANIMATION_PAUSE_PROPERTY_POINTER = &(tSkinnedMeshRenderer->_playVariable);
 
 		//Mesh 데이터를 받기.
 		auto tModelData = GraphicsResourceManager::Instance()->GetResource(tSkinnedMeshRenderer->GetMeshFilePath(), eAssetDefine::_3DMODEL);
@@ -173,7 +174,10 @@ namespace Pg::Graphics
 		else
 		{
 			//Script 딴에서 로직 처리가 되었을 것이다.
-			_animationTime += (*dt);
+			//Play/Pause 세팅.
+			float tPauseVar = (float)(*ANIMATION_PAUSE_PROPERTY_POINTER);
+
+			_animationTime += (*dt) * tPauseVar;
 			_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
 
 			//마지막 프레임 유지 시도.
