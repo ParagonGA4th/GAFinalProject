@@ -36,8 +36,8 @@ namespace Pg::DataScript
 		bool IsMonsterDead();
 
 		//이는 모든 Monster가 이동할 때, 고려해야 할 Factor이다.
-		void SetMonsterSpeed(float speed);
-		float GetMonsterSpeed();
+		void SetMonsterSpeedRatio(float speed);
+		float GetMonsterSpeedRatio(); 
 
 		//사망 시 발생하는 함수.
 		std::function<void()> _onDead;
@@ -50,7 +50,7 @@ namespace Pg::DataScript
 		float _hp;
 		float _damage;
 
-		//Speed가 바뀌어야 할 때, 
+		//Speed Multiplier. 개별 Behaviour들이 모두 얘를 기반으로 이동 곱해야 한다.
 		float _speed{ 1.0f };
 
 	};

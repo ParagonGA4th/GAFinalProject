@@ -240,7 +240,7 @@ namespace Pg::DataScript
 			if (tTimeLowerThanZero || tIsMonsterDead)
 			{
 				//지우기 전에, Speed 원래대로 돌려줘야 한다.
-				tIter->_baseMonster->SetMonsterSpeed(IceEffect_MonsterHitPair::NORMAL_SPEED_MULTIPLIER);
+				tIter->_baseMonster->SetMonsterSpeedRatio(IceEffect_MonsterHitPair::NORMAL_SPEED_MULTIPLIER);
 				//지우기.
 				tIter = _iceMonsterHealthChangeList.erase(tIter);
 			}
@@ -249,7 +249,7 @@ namespace Pg::DataScript
 				//델타타임만큼 줄이기.
 				tIter->_remainingTime -= dt;
 				//tIter : Speed 세팅 필요. 그냥 매 프레임 세팅.
-				tIter->_baseMonster->SetMonsterSpeed(IceEffect_MonsterHitPair::SLOW_SPEED_MULTIPLIER);
+				tIter->_baseMonster->SetMonsterSpeedRatio(IceEffect_MonsterHitPair::SLOW_SPEED_MULTIPLIER);
 				//다음 Iter로.
 				++tIter;
 			}

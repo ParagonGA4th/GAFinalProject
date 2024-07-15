@@ -2,7 +2,7 @@
 #include "ScriptInterface.h"
 #include "IProjectile.h"
 #include "../ParagonMath/PgMath.h"
-
+#include "IEnemyBehaviour.h"
 #include <functional>
 
 /// <summary>
@@ -85,7 +85,7 @@ namespace Pg::DataScript
 		void IceArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex);
 		void FireArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex);
 		
-		std::function<void(IEnemyBehaviour*, int)> _assignedDamageLogic{ nullptr };
+		std::function<void(Pg::DataScript::IEnemyBehaviour*, int)> _assignedDamageLogic;
 
 	private:
 		void EndShootingSelf(); //다 썼다는 얘기. 중력을 키지도 말고, 그냥사라지자.
