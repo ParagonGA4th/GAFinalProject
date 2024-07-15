@@ -3,6 +3,8 @@
 #include "IProjectile.h"
 #include "../ParagonMath/PgMath.h"
 
+#include <functional>
+
 /// <summary>
 /// Normal / Fire / Ice를 모두 담당할 것이다.
 /// </summary>
@@ -77,7 +79,13 @@ namespace Pg::DataScript
 		void InitSelfAsNormalArrow();
 		void InitSelfAsIceArrow();
 		void InitSelfAsFireArrow();
-
+	
+	private:
+		void NormalArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex);
+		void IceArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex);
+		void FireArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex);
+		
+		std::function<void(IEnemyBehaviour*, int)> _assignedDamageLogic{ nullptr };
 
 	private:
 		void EndShootingSelf(); //다 썼다는 얘기. 중력을 키지도 말고, 그냥사라지자.
@@ -101,11 +109,13 @@ namespace Pg::DataScript
 		Pg::Math::PGFLOAT3 _targetPos;
 		Pg::Math::PGFLOAT3 _shootDir;
 
-	private:	//자신의 컴포넌트들.
+	private:	
+		//자신의 컴포넌트들.
 		Pg::Data::StaticMeshRenderer* _meshRenderer;
 		Pg::Data::BoxCollider* _collider;
 
-	private:	//API
+	private:	
+		//API
 		Pg::API::Time::PgTime* _pgTime;
 		Pg::API::Tween::PgTween* _pgTween;
 

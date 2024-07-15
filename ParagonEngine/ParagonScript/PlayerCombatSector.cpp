@@ -500,19 +500,6 @@ namespace Pg::DataScript
 			_isStrongAttackingNow = false;
 		}
 	}
-
-	void PlayerCombatSector::ShootUltimateArrowLogic()
-	{
-		if (_playerHandler->GetPlayerMovementSector()->GetIsMoving() == false)
-		{
-			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyF))
-			{
-				_useUltimateSkill = true;
-				_ulArrowCol->SetActive(true);
-				_ulArrowLogic->_isSkillStart = true;
-			}
-		}
-	}
 	
 	
 	void PlayerCombatSector::ExecuteSpecificArrowShoot(std::vector<ArrowLogic*>* typeArrowVec, Pg::Data::AudioSource* audioSource, float& outIfDoneResetTime)
@@ -565,7 +552,9 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::InvokeSingleUltimateAttack()
 	{
-
+		//궁극기 발동 로직. 이렇게 켜주는 거고, 내부적으로 알아서 민서가 꺼줘야 함 (onAnimationEnd에 맞춰서)
+		_ulArrowCol->SetActive(true); //충돌 키는 용.
+		_ulArrowLogic->_isSkillStart = true; //로직 키는 용.
 	}
 
 	void PlayerCombatSector::InvokeSingleStrongAttack()
