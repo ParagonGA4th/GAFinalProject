@@ -55,12 +55,12 @@ namespace Pg::DataScript
 		return _hp <= std::numeric_limits<float>::epsilon();
 	}
 
-	void BaseMonsterInfo::SetMonsterSpeed(float speed)
+	void BaseMonsterInfo::SetMonsterSpeedRatio(float speed)
 	{
 		_speed = speed;
 	}
 
-	float BaseMonsterInfo::GetMonsterSpeed()
+	float BaseMonsterInfo::GetMonsterSpeedRatio()
 	{
 		return _speed;
 	}

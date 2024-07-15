@@ -31,13 +31,14 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::BeforePhysicsAwake()
 	{
-
-		//궁극기 화살
+		//궁극기 관련 요소 모두 찾기.
 		_ultimateArrow = _object->GetScene()->FindObjectWithName("UltimateArrow");
+		assert(_ultimateArrow != nullptr);
 		_ulArrowCol = _ultimateArrow->GetComponent<Pg::Data::StaticBoxCollider>();
+		assert(_ulArrowCol != nullptr);
 		_ulArrowCol->SetActive(false);
-
 		_ulArrowLogic = _ultimateArrow->GetComponent<UltimateArrowLogic>();
+		assert(_ulArrowLogic != nullptr);
 	}
 
 	void PlayerCombatSector::Awake()
@@ -52,12 +53,10 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::Update()
 	{
-		
-		ShootUltimateArrowLogic(); // 이거 합쳐야 한다.
-
+		//지상이 형 로직은 이미 합쳐졌다.
 		ProcessInputsForActiveSkills();
-		ProcessInputsForStrongAttack();
 		ProcessInputsForUltimateAttack();
+		ProcessInputsForStrongAttack();
 		AllAttacksLogic();
 		//나머지 로직은 Combat System으로 이동.
 	}
