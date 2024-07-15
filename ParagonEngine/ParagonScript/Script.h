@@ -48,6 +48,9 @@ namespace Pg::DataScript
 
 		virtual void OnDeserialize(SerializeVector& sv) override {};
 		virtual void OnSerialize(SerializeVector& sv) override {};
+
+		virtual void OnAnimationEnd(const std::string& justEndedAnimation) override {};
+
 	public:
 		//Scripting System 자동화를 위해.
 		using create_instance = std::function<Script*(Pg::Data::GameObject* obj)>;

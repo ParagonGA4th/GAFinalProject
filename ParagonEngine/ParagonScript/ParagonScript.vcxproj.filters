@@ -310,6 +310,9 @@
     <Filter Include="Content\ArrowRelated\ArrowLogic">
       <UniqueIdentifier>{92bf8d9e-c566-4aa7-a2db-c8c78cef92c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Gimmick\ArtifactBox">
+      <UniqueIdentifier>{71c13a6b-8508-4a31-a9a1-cb71e9334b8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -545,6 +548,9 @@
     </ClCompile>
     <ClCompile Include="Stair.cpp">
       <Filter>Content\Gimmick\Stair</Filter>
+    </ClCompile>
+    <ClCompile Include="ArtifactBox.cpp">
+      <Filter>Content\Gimmick\ArtifactBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -847,6 +853,9 @@
     </ClInclude>
     <ClInclude Include="Stair.h">
       <Filter>Content\Gimmick\Stair</Filter>
+    </ClInclude>
+    <ClInclude Include="ArtifactBox.h">
+      <Filter>Content\Gimmick\ArtifactBox</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
