@@ -33,6 +33,12 @@ namespace Pg::DataScript
 		float GetMonsterHp();
 		float GetMonsterDamage();
 
+		bool IsMonsterDead();
+
+		//이는 모든 Monster가 이동할 때, 고려해야 할 Factor이다.
+		void SetMonsterSpeedRatio(float speed);
+		float GetMonsterSpeedRatio(); 
+
 		//사망 시 발생하는 함수.
 		std::function<void()> _onDead;
 
@@ -43,6 +49,9 @@ namespace Pg::DataScript
 		const float _fullHealthValue; //전체 체력 외적으로 저장한다.
 		float _hp;
 		float _damage;
+
+		//Speed Multiplier. 개별 Behaviour들이 모두 얘를 기반으로 이동 곱해야 한다.
+		float _speed{ 1.0f };
 
 	};
 
@@ -58,6 +67,37 @@ namespace Pg::DataScript
 		BaseMonsterHitPair(BaseMonsterInfo* mon) : _baseMonster(mon) {}
 		BaseMonsterInfo* _baseMonster;
 	};
+
+	//Fire / Ice 데미지에 활용될 것이다.
+	//총 5초간, 1초마다 1 데미지가 들어간다.
+	//죽었으면 당연히 캔슬.
+	//막 맞았을 때 피격 존재. Immediate + 도트뎀.
+	struct FireEffect_MonsterHitPair
+	{
+		inline static const float DOT_DAMAGE = 1.0f;
+		inline static const float REMAINING_TIME = 5.0f;
+
+		FireEffect_MonsterHitPair(BaseMonsterInfo* mon) : 
+			_baseMonster(mon), _remainingTime(REMAINING_TIME), _roundingNum(REMAINING_TIME) {}
+		BaseMonsterInfo* _baseMonster;
+		float _remainingTime; //남은 시간 실시간 카운팅.
+		int _roundingNum; //N번 남았다.
+	};
+	
+	//3초간, 원래 속도를 1로 둘 때, 0.5배의 속도로 CombatSystem이 해줘야.
+	struct IceEffect_MonsterHitPair
+	{
+		inline static const float REMAINING_TIME = 3.f;
+		inline static const float SLOW_SPEED_MULTIPLIER = 0.5f;
+		inline static const float NORMAL_SPEED_MULTIPLIER = 1.0f;
+
+		IceEffect_MonsterHitPair(BaseMonsterInfo* mon) : 
+			_baseMonster(mon), _remainingTime(REMAINING_TIME) {}
+		BaseMonsterInfo* _baseMonster;
+		float _remainingTime;
+	};
+
+	
 }
 
 

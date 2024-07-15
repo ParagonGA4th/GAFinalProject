@@ -43,7 +43,7 @@ namespace Pg::DataScript
 		//디파인.
 		inline static const float MAX_PLAYER_HEALTH = 100.0f;
 		inline static const float PLAYER_HEALTH_LOW_BARRIER = 20.0f;
-		inline static const float MAX_PLAYER_MANA = 100.0f;
+		inline static const float MAX_PLAYER_MANA = 100.0f; // Mana는 100이 최대.
 		inline static const float MAX_PLAYER_STAMINA = 100.0f;
 
 	public:
