@@ -1,6 +1,6 @@
 #include "PlayerCombatSector.h"
 #include "../ParagonData/Scene.h"
-#include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/StaticSphereCollider.h"
 #include "ArrowLogic.h"
 #include "UltimateArrowLogic.h"
 #include "PlayerHandler.h"
@@ -24,13 +24,14 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::GrabManagedObjects()
 	{
+		FindAllArrowsInMap();
 	}
 
 	void PlayerCombatSector::BeforePhysicsAwake()
 	{
 		//±Ã±Ø±â È­»ì
 		_ultimateArrow = _object->GetScene()->FindObjectWithName("UltimateArrow");
-		_ulArrowCol = _ultimateArrow->GetComponent<Pg::Data::StaticBoxCollider>();
+		_ulArrowCol = _ultimateArrow->GetComponent<Pg::Data::StaticSphereCollider>();
 		_ulArrowCol->SetActive(false);
 
 		_ulArrowLogic = _ultimateArrow->GetComponent<UltimateArrowLogic>();
@@ -154,6 +155,20 @@ namespace Pg::DataScript
 				_useUltimateSkill = true;
 				_ulArrowCol->SetActive(true);
 				_ulArrowLogic->_isSkillStart = true;
+			}
+		}
+	}
+
+	void PlayerCombatSector::FindAllArrowsInMap()
+	{
+		std::vector<Pg::Data::GameObject*> allObjects = _object->GetScene()->FindObjectsWithTag("TAG_Arrow");
+		for (auto& it : allObjects)
+		{
+			auto tALogic = it->GetComponent<Pg::DataScript::ArrowLogic>();
+			if (tALogic != nullptr)
+			{
+				tALogic->_playerBattleBehavior = _playerHandler;
+				_arrowVec.push_back(tALogic);
 			}
 		}
 	}
