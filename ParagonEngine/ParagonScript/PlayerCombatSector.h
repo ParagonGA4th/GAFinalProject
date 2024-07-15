@@ -36,18 +36,23 @@ namespace Pg::DataScript
 	{
 		friend class PlayerHandler;
 
+		//Monster OnHit : 5의 마나를 얻는 느낌.
+		//ex. Monster Wave에 들어가서, 3마리를 잡으면 스킬 쓸 수 있을 것이다.
+		//Mana는 0으로 시작.
 		inline static const float STRONG_ATTACK_COOLDOWN_TIME = 3.f;
 		inline static const float ULTIMATE_ATTACK_COOLDOWN_TIME = 30.f;
-		inline static const float ACTIVE_SKILL_COOLDOWN_TIME = 10.f;
+		inline static const float ICE_ATTACK_COOLDOWN_TIME = 10.f;
+		inline static const float FIRE_ATTACK_COOLDOWN_TIME = 10.f;
 
 		inline static const float ULTIMATE_ATTACK_DURATION = 3.0f;
 		inline static const float STRONG_ATTACK_DURATION = 1.0f;
 
-		inline static const float ULTIMATE_ATTACK_REQUIRED_MANA = 10.f;
-		inline static const float ICE_ATTACK_REQUIRED_MANA = 10.f;
-		inline static const float FIRE_ATTACK_REQUIRED_MANA = 10.f;
+		inline static const float ULTIMATE_ATTACK_REQUIRED_MANA = 50.f;
+		inline static const float ICE_ATTACK_REQUIRED_MANA = 30.f;
+		inline static const float FIRE_ATTACK_REQUIRED_MANA = 30.f;
 
-		inline static const float STRONG_ATTACK_REQUIRED_STAMINA = 1.0f;
+		//100 중 1/5
+		inline static const float STRONG_ATTACK_REQUIRED_STAMINA = 20.0f;
 
 	public:
 		PlayerCombatSector(PlayerHandler* playerHandler);
@@ -143,8 +148,10 @@ namespace Pg::DataScript
 		float _isStartedUltimateAttackChargeTime{ 0.f };
 		bool _isUltimateAttackingNow{ false };
 
-		bool _isActiveSkillSwitchEligible{ true };
-		float _isStartedActiveSkillChargeTime{ 0.f };
+		bool _isIceAttackStartEligible{ true };
+		bool _isFireAttackStartEligible{ true };
+		float _isStartedIceSkillChargeTime{ 0.f };
+		float _isStartedFireSkillChargeTime{ 0.f };
 		bool _isIceAttackingNow{ false };
 		bool _isFireAttackingNow{ false };
 
