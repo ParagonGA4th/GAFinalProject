@@ -3,10 +3,9 @@
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
 
-namespace Pg::API
+namespace Pg::Data
 {
-	namespace Time { class PgTime; }
-	namespace Tween { class PgTween; }
+	class CapsuleCollider;
 }
 
 namespace Pg::DataScript
@@ -24,9 +23,12 @@ namespace Pg::DataScript
 
 		//자신이 Trigger, 자신에 부딪힌 Collider들의 정보를 받아서 활용하게 된다.
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
-		
+
 	private:
-		Pg::API::Tween::PgTween* _pgTween;
+		Pg::Data::CapsuleCollider* _playerCap;
+		float _jumpPower = 80.f;
+
+		bool _isTrigger{ false };
 	};
 }
 
