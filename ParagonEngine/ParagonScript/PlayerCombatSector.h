@@ -14,6 +14,7 @@
 namespace Pg::Data 
 {
 	class StaticBoxCollider;
+	class StaticSphereCollider;
 }
 namespace Pg::API
 {
@@ -115,8 +116,6 @@ namespace Pg::DataScript
 		std::vector<ArrowLogic*> _iceArrowVec;
 		std::vector<ArrowLogic*> _fireArrowVec;
 
-		Pg::Data::GameObject* _ultimateArrow;
-		Pg::Data::StaticBoxCollider* _ulArrowCol;
 		UltimateArrowLogic* _ulArrowLogic;
 	private:
 		//Normal¿¡ ÇÑÁ¤.

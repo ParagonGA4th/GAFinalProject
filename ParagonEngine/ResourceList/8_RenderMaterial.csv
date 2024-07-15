@@ -2,3 +2,6 @@ Materials
 ../ShaderResources/Materials/RoadLavaConeTestMat.pgmat
 ../ShaderResources/Materials/PlainDiffuseMaterial.pgmat
 ../ShaderResources/Materials/ExperimentalMaterial.pgmat
+../ShaderResources/Materials/Arrows/Material_NormalArrow.pgmat
+../ShaderResources/Materials/Arrows/Material_IceArrow.pgmat
+../ShaderResources/Materials/Arrows/Material_FireArrow.pgmat
