@@ -44,6 +44,10 @@ namespace Pg::Data
 
 		//본 이름을 기반으로 Transform을 찾을 수 있다. (단, 당연히 RootNode에 상대적일 것, World 관련 행렬 따로 곱해야.)
 		Pg::Data::AnimTransform* FindAnimTransform(const std::string& animNodeName);
+
+		void PauseAnim();
+		void PlayAnim();
+
 	public:
 		//Scene이 시작할 때 일괄적으로 호출하기 위해서.
 		//Internal Logic으로 연관.
@@ -74,6 +78,9 @@ namespace Pg::Data
 		std::function<Pg::Data::AnimTransform*(const std::string&)> _findAnimTransformFunction;
 
 		std::string _currentAnim;
+
+		//이는 Pause / Play를 위해서.
+		int _playVariable{ 1 };
 	};
 }
 

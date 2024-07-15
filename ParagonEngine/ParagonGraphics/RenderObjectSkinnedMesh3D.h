@@ -87,6 +87,7 @@ namespace Pg::Graphics
 		float _blendLerpRatio{ 0.0f };
 		
 		float* ANIMATION_BLEND_SPEED_POINTER{ nullptr };
+		int* ANIMATION_PAUSE_PROPERTY_POINTER{ nullptr };
 	private:
 		//개별 Skinning 객체별 독립적인 애니메이션을 실행하기 위해 존재하는 CopyNode.
 		std::unique_ptr<ModifiedNode_SkinnedMesh> _copiedModifyRootNode;
