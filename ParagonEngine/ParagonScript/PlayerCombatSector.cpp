@@ -1,6 +1,7 @@
 #include "PlayerCombatSector.h"
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/StaticSphereCollider.h"
 #include "ArrowLogic.h"
 #include "UltimateArrowLogic.h"
 #include "PlayerHandler.h"
@@ -31,13 +32,12 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::BeforePhysicsAwake()
 	{
+		Pg::Data::GameObject* tUltimateArrow;
+
 		//궁극기 관련 요소 모두 찾기.
-		_ultimateArrow = _object->GetScene()->FindObjectWithName("UltimateArrow");
-		assert(_ultimateArrow != nullptr);
-		_ulArrowCol = _ultimateArrow->GetComponent<Pg::Data::StaticBoxCollider>();
-		assert(_ulArrowCol != nullptr);
-		_ulArrowCol->SetActive(false);
-		_ulArrowLogic = _ultimateArrow->GetComponent<UltimateArrowLogic>();
+		tUltimateArrow = _object->GetScene()->FindObjectWithName("UltimateArrow");
+		assert(tUltimateArrow != nullptr);
+		_ulArrowLogic = tUltimateArrow->GetComponent<UltimateArrowLogic>();
 		assert(_ulArrowLogic != nullptr);
 	}
 
@@ -552,7 +552,7 @@ namespace Pg::DataScript
 	void PlayerCombatSector::InvokeSingleUltimateAttack()
 	{
 		//궁극기 발동 로직. 이렇게 켜주는 거고, 내부적으로 알아서 민서가 꺼줘야 함 (onAnimationEnd에 맞춰서)
-		_ulArrowCol->SetActive(true); //충돌 키는 용.
+		//_ulArrowCol->SetActive(true); //충돌 키는 용.
 		_ulArrowLogic->_isSkillStart = true; //로직 키는 용.
 	}
 

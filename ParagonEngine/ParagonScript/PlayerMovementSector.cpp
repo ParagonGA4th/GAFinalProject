@@ -301,7 +301,7 @@ namespace Pg::DataScript
 				//매우 짦은 거리로 쏴야 한다. 닿으면 다시 점프를 재충전할 것이니.
 				if (tOtherCollider != nullptr)
 				{
-					assert(tOtherCollider->GetLayer() != Data::Enums::LAYER_PLAYER);
+					//assert(tOtherCollider->GetLayer() != Data::Enums::LAYER_PLAYER);
 					//PG_WARN("COLLIDERCHECK");
 					//이제 Collider의 레이어를 여기서 다시 Sort해야 할 것이나,
 					//일단은 그 과정은 나중에!
