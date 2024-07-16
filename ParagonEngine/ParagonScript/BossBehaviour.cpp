@@ -124,16 +124,16 @@ namespace Pg::DataScript
 	void BossBehaviour::Start()
 	{
 		//플레이어 지정
-		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
+		_player = _object->GetScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
-		_bossWalkSound = _pgScene->GetCurrentScene()->FindObjectWithName("BossWalkSound");
+		_bossWalkSound = _object->GetScene()->FindObjectWithName("BossWalkSound");
 		_walkAudio = _bossWalkSound->GetComponent<Pg::Data::AudioSource>();
 
-		_bossRushSound = _pgScene->GetCurrentScene()->FindObjectWithName("BossRushSound");
+		_bossRushSound = _object->GetScene()->FindObjectWithName("BossRushSound");
 		_rushAudio = _bossRushSound->GetComponent<Pg::Data::AudioSource>();
 
-		_bossDieSound = _pgScene->GetCurrentScene()->FindObjectWithName("BossDieSound");
+		_bossDieSound = _object->GetScene()->FindObjectWithName("BossDieSound");
 		_dieAudio = _bossDieSound->GetComponent<Pg::Data::AudioSource>();
 
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();

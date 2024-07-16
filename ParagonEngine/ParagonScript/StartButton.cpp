@@ -22,7 +22,7 @@ namespace Pg::DataScript
 		_audioSource = _object->GetComponent<Pg::Data::AudioSource>();
 
 		//타이틀에 존재하는 AudioSource 찾기
-		_title = _pgScene->GetCurrentScene()->FindObjectWithName("Title");
+		_title = _object->GetScene()->FindObjectWithName("Title");
 		_titleAudioSource = _title->GetComponent<Pg::Data::AudioSource>();
 	}
 
