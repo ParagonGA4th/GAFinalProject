@@ -64,6 +64,7 @@ namespace Pg::DataScript
 		_collider->FreezeAxisZ(true);
 
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
@@ -209,9 +210,6 @@ namespace Pg::DataScript
 
 		//_miniGolemAttack = _object->GetScene()->FindObjectWithName("MiniGolemAttackSound");
 		//_attackSound = _miniGolemAttack->GetComponent<Pg::Data::AudioSource>();
-
-		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
-
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 	}
 

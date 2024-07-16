@@ -65,6 +65,7 @@ namespace Pg::DataScript
 		_collider->FreezeAxisZ(true);
 
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		_windRenderer = _object->GetScene()->FindObjectWithName("BossWindBlastEffect")->
 			GetComponent<Pg::Data::SkinnedMeshRenderer>();
@@ -183,7 +184,6 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Awake()
 	{
-
 		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
@@ -201,8 +201,6 @@ namespace Pg::DataScript
 
 		_bossDieSound = _object->GetScene()->FindObjectWithName("BossDieSound");
 		_dieAudio = _bossDieSound->GetComponent<Pg::Data::AudioSource>();
-
-		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
