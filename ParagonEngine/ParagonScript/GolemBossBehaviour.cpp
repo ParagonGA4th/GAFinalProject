@@ -448,7 +448,7 @@ namespace Pg::DataScript
 
 		//충돌객체 전부 초기화
 		_collider->SetActive(true);
-
+		_meshRenderer->SetActive(true);
 
 		for (auto& iter : _attackCol)
 		{

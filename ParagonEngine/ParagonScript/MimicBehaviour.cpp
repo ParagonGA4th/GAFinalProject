@@ -123,6 +123,10 @@ namespace Pg::DataScript
 		_coin->SetActive(false);
 		_coinRenderer->SetActive(false);
 
+		_meshRenderer->SetActive(false);
+		_collider->SetActive(false);
+		this->SetActive(false);
+
 		//clear 필요함.
 		if (!_basicAttackCol.empty() || !_skillAttackCol.empty())
 		{
@@ -168,9 +172,6 @@ namespace Pg::DataScript
 	void MimicBehaviour::Start()
 	{
 
-		_meshRenderer->SetActive(false);
-		_collider->SetActive(false);
-		this->SetActive(false);
 	}
 
 	void MimicBehaviour::Update()
@@ -438,7 +439,9 @@ namespace Pg::DataScript
 		_isRotateToPlayer = false;
 
 		//충돌객체 전부 초기화
-		_collider->SetActive(true);
+		_meshRenderer->SetActive(false);
+		_collider->SetActive(false);
+		this->SetActive(false);
 
 		for (auto& iter : _basicAttackCol)
 		{
