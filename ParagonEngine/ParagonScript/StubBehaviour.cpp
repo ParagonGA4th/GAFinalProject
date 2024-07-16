@@ -61,6 +61,8 @@ namespace Pg::DataScript
 		_collider->FreezeLinearX(true);
 		_collider->FreezeLinearZ(true);
 
+		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
 		//플레이어 지정
 		_player = _object->GetScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
@@ -160,7 +162,6 @@ namespace Pg::DataScript
 
 	void StubBehaviour::Awake()
 	{
-		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 
 		//체력과 기본 공격력을 설정해준다.
 		//_miniGolInfo->SetMonsterHp(5.f);
@@ -384,6 +385,7 @@ namespace Pg::DataScript
 
 		//충돌객체 전부 초기화
 		_collider->SetActive(true);
+		_meshRenderer->SetActive(true);
 
 		for (auto& iter : _basicAttackCol)
 		{
