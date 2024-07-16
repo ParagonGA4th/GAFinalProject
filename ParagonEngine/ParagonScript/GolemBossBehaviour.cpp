@@ -230,7 +230,7 @@ namespace Pg::DataScript
 	void GolemBossBehaviour::Chase()
 	{
 		//이동 속도 조절.
-		float interpolation = _golBossInfo->GetMoveSpeed() * _pgTime->GetDeltaTime();
+		float interpolation = _golBossInfo->GetMoveSpeed() * _golBossInfo->GetMonsterSpeedRatio() * _pgTime->GetDeltaTime();
 
 		//일정 사정거리 안에 들어오면
 		if (_distance <= _golBossInfo->GetAttackRange())
