@@ -71,6 +71,8 @@ namespace Pg::DataScript
 				staticCol->SetActive(false);
 			}
 		}
+
+		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 	}
 
 	void MiniGolemBehaviour::BeforePhysicsAwake()
@@ -130,8 +132,6 @@ namespace Pg::DataScript
 
 		_miniGolemAttack = _object->GetScene()->FindObjectWithName("MiniGolemAttackSound");
 		_attackSound = _miniGolemAttack->GetComponent<Pg::Data::AudioSource>();
-
-		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 	}
@@ -414,5 +414,8 @@ namespace Pg::DataScript
 		{
 			iter->SetActive(false);
 		}
+
+		// 애니매이션 관련 전부 초기화
+		_monsterHelper->Reset();
 	}
 }

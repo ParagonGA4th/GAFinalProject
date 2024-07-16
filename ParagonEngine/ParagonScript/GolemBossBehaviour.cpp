@@ -62,6 +62,8 @@ namespace Pg::DataScript
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
 
+		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
+		
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			// 자식 오브젝트의 이름을 얻어옵니다.
@@ -159,9 +161,6 @@ namespace Pg::DataScript
 		//
 		//_miniGolemAttack = _object->GetScene()->FindObjectWithName("MiniGolemAttackSound");
 		//_attackSound = _miniGolemAttack->GetComponent<Pg::Data::AudioSource>();
-
-		if (_object->GetComponent<Pg::Data::MonsterHelper>() == nullptr)
-			_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 	}
@@ -450,5 +449,8 @@ namespace Pg::DataScript
 		{
 			iter->SetActive(false);
 		}
+
+		// 애니매이션 관련 전부 초기화
+		_monsterHelper->Reset();
 	}
 }
