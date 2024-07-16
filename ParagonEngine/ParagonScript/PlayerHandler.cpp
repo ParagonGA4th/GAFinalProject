@@ -225,5 +225,9 @@ namespace Pg::DataScript
 
 	}
 
+	Pg::Data::CapsuleCollider* PlayerHandler::GetPlayerSelfCol()
+	{
+		return _selfCol;
+	}
 
 }

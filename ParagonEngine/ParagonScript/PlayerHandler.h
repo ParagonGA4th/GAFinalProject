@@ -95,6 +95,7 @@ namespace Pg::DataScript
 		//나중에는 사용 최소화를 목적으로.
 		PlayerMovementSector* GetPlayerMovementSector();
 		PlayerCombatSector* GetPlayerCombatSector();
+		Pg::Data::CapsuleCollider* GetPlayerSelfCol();
 
 	public:
 		//GUI를 보여주기 위해, 수정이 불가능한 포인터를 반환하게 한다.
