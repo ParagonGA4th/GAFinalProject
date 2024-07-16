@@ -53,6 +53,41 @@ namespace Pg::DataScript
 		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
 	}
 
+	void GolemBossBehaviour::GrabManagedObjects()
+	{
+		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
+		assert(_collider != nullptr);
+		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
+		_collider->FreezeAxisX(true);
+		_collider->FreezeAxisY(true);
+		_collider->FreezeAxisZ(true);
+
+		for (auto& iter : _object->_transform.GetChildren())
+		{
+			// 자식 오브젝트의 이름을 얻어옵니다.
+			std::string childTag = iter->_object->GetTag();
+
+			if (childTag == "TAG_Attack")
+			{
+				Pg::Data::StaticBoxCollider* basicStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (basicStaticCol != nullptr)
+				{
+					_attackCol.push_back(basicStaticCol);  // 벡터에 추가
+					basicStaticCol->SetActive(false);  // 비활성화
+				}
+			}
+			else if (childTag == "TAG_Skill")
+			{
+				Pg::Data::StaticSphereCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticSphereCollider>();
+				if (skillStaticCol != nullptr)
+				{
+					_skillAttackCol.push_back(skillStaticCol);
+					skillStaticCol->SetActive(false);
+				}
+			}
+		}
+	}
+
 	void GolemBossBehaviour::BeforePhysicsAwake()
 	{
 		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
@@ -405,6 +440,7 @@ namespace Pg::DataScript
 
 		//충돌객체 전부 초기화
 		_collider->SetActive(true);
+
 
 		for (auto& iter : _attackCol)
 		{
