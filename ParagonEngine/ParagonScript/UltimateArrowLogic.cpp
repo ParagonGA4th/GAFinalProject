@@ -81,7 +81,7 @@ namespace Pg::DataScript
 		{
 			_meshRenderer->_alphaPercentage -= ALPHA_PERCENT;
 			
-			if (_meshRenderer->_alphaPercentage == 0.f)
+			if (_meshRenderer->_alphaPercentage <= std::numeric_limits<float>::epsilon())
 			{
 				_meshRenderer->SetAnimation("ult_atk_0.pganim", false);
 				_meshRenderer->PauseAnim();
