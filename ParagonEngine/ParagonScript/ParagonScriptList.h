@@ -28,6 +28,7 @@
 #include "AreaPassingTrigger.h"
 #include "DeathPlane.h"
 #include "ArtifactBox.h"
+#include "ArtifactBoxAnim.h"
 #include "MushroomTrampoline.h"
 
 //UI 관련 (개별)
