@@ -64,10 +64,27 @@ namespace Pg::DataScript
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
 
+		//플레이어 지정
+		_player = _object->GetScene()->FindObjectWithName("Player");
+		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
+
+		_bossWalkSound = _object->GetScene()->FindObjectWithName("BossWalkSound");
+		_walkAudio = _bossWalkSound->GetComponent<Pg::Data::AudioSource>();
+
+		_bossRushSound = _object->GetScene()->FindObjectWithName("BossRushSound");
+		_rushAudio = _bossRushSound->GetComponent<Pg::Data::AudioSource>();
+
+		_bossDieSound = _object->GetScene()->FindObjectWithName("BossDieSound");
+		_dieAudio = _bossDieSound->GetComponent<Pg::Data::AudioSource>();
+
+		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
+
+		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
+
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 
-		_windRenderer = _object->GetScene()->FindObjectWithName("BossWindBlastEffect")->
-			GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		_wind = _object->GetScene()->FindObjectWithName("BossWindBlastEffect");
+		_windRenderer = _wind->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
@@ -124,7 +141,7 @@ namespace Pg::DataScript
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
 
-		_windRenderer->SetActive(false);
+		_windRenderer->SetAlphaPercentage(0.f);
 
 		//clear 필요함.
 		if (!_basicAttackCol.empty() || !_windBlastAttackCol.empty() || !_lightAttackCol.empty()
@@ -189,22 +206,6 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Start()
 	{
-		//플레이어 지정
-		_player = _object->GetScene()->FindObjectWithName("Player");
-		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
-
-		_bossWalkSound = _object->GetScene()->FindObjectWithName("BossWalkSound");
-		_walkAudio = _bossWalkSound->GetComponent<Pg::Data::AudioSource>();
-
-		_bossRushSound = _object->GetScene()->FindObjectWithName("BossRushSound");
-		_rushAudio = _bossRushSound->GetComponent<Pg::Data::AudioSource>();
-
-		_bossDieSound = _object->GetScene()->FindObjectWithName("BossDieSound");
-		_dieAudio = _bossDieSound->GetComponent<Pg::Data::AudioSource>();
-
-		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
-
-		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
 	}
 
@@ -319,7 +320,10 @@ namespace Pg::DataScript
 
 		//돌풍 스킬
 		UpdateSkill();
-
+		if (_offWind)
+		{
+			_windRenderer->SetAlphaPercentage();
+		}
 		//빛기둥 스킬
 		UpdatePhaseTwoSkill();
 
@@ -467,7 +471,7 @@ namespace Pg::DataScript
 				forwardDir.x = 0;
 				forwardDir = Pg::Math::PGFloat3Normalize(forwardDir);
 
-				_windRenderer->SetActive(true);
+				_windRenderer->SetAlphaPercentage(100.f);
 
 				if (forwardDir.z > 0)
 				{
@@ -498,7 +502,7 @@ namespace Pg::DataScript
 				
 				_useStormBlast = false;
 				_isRotatingToPlayer = true;
-				_windRenderer->SetActive(false);
+				
 
 				_bossInfo->SetCurrentWindBlastDurationTime(0.f);
 			}
@@ -779,6 +783,7 @@ namespace Pg::DataScript
 		 _isDeadInit = false;
 
 		 _useStormBlast = false;
+		 _offWind = false;
 
 		 _useLightSkill = false;
 

@@ -112,6 +112,7 @@ namespace Pg::DataScript
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
 		Pg::Data::CapsuleCollider* _collider;
 
+		Pg::Data::GameObject* _wind;
 		Pg::Data::SkinnedMeshRenderer* _windRenderer;
 
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
@@ -164,6 +165,7 @@ namespace Pg::DataScript
 		bool _isDeadInit{ false };
 
 		bool _useStormBlast{ false };
+		bool _offWind{ false };
 
 		bool _useLightSkill{ false };
 		
