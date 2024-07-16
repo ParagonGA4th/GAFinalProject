@@ -49,6 +49,7 @@ namespace Pg::DataScript
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
 		//virtual void OnCollisionExit(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override;
 
+		virtual void OnAnimationEnd(const std::string& justEndedAnimation) override;
 
 		//BattleBehavior 스크립트를 갖고 로직 제어할 수 있게 하기. 
 		//외적으로 할당해서 값을 넣어준다.
@@ -65,6 +66,10 @@ namespace Pg::DataScript
 	private:
 		//스킬 끝나는 시간.
 		bool _isSkillEnd{ false };
+
+		// 애니매이션 관련
+		bool _isAnimEnd{ false };
+		inline static const float ALPHA_PERCENT = 1.f;
 
 	private:
 
