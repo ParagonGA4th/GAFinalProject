@@ -19,13 +19,13 @@ namespace Pg::Data
 	void DynamicCollider::Start()
 	{
 		//각각의 축들을 Freeze 시켜주는 역할을 한다.
-		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, _isAngularFreezeX);
-		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, _isAngularFreezeY);
-		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, _isAngularFreezeZ);
-
-		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_X, _isLinearFreezeX);
-		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, _isLinearFreezeY);
-		_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, _isLinearFreezeZ);
+		//_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, _isAngularFreezeX);
+		//_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, _isAngularFreezeY);
+		//_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, _isAngularFreezeZ);
+		//
+		//_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_X, _isLinearFreezeX);
+		//_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, _isLinearFreezeY);
+		//_rigid->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, _isLinearFreezeZ);
 	}
 
 	void DynamicCollider::UpdatePhysics(PGFLOAT3 pos, PGQuaternion quat)

@@ -76,6 +76,15 @@ namespace Pg::Data
 
 		void SetKinematic(bool value);
 		bool GetKinematic();
+
+		bool GetAngularFreezeX() { return _isAngularFreezeX; }
+		bool GetAngularFreezeY() { return _isAngularFreezeY; }
+		bool GetAngularFreezeZ() { return _isAngularFreezeZ; }
+
+		bool GetLinearFreezeX() { return _isLinearFreezeX; }
+		bool GetLinearFreezeY() { return _isLinearFreezeY; }
+		bool GetLinearFreezeZ() { return _isLinearFreezeZ; }
+
 	public:
 
 		//Collider 클래스에 적용되어있기에 가상함수로...

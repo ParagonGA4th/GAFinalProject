@@ -313,6 +313,9 @@
     <Filter Include="Content\Gimmick\ArtifactBox">
       <UniqueIdentifier>{71c13a6b-8508-4a31-a9a1-cb71e9334b8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Gimmick\ArtifactBoxAnim">
+      <UniqueIdentifier>{e00c24cb-a2e1-4a70-af66-8ddbc1e5fa7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -540,9 +543,6 @@
     <ClCompile Include="TakeDownAttack.cpp">
       <Filter>AI\Attack\BossAttack</Filter>
     </ClCompile>
-    <ClCompile Include="UltimateArrowLogic.cpp">
-      <Filter>Content\ArrowLogic</Filter>
-    </ClCompile>
     <ClCompile Include="MushroomTrampoline.cpp">
       <Filter>Content\Gimmick\MushroomTrampoline</Filter>
     </ClCompile>
@@ -551,6 +551,10 @@
     </ClCompile>
     <ClCompile Include="ArtifactBox.cpp">
       <Filter>Content\Gimmick\ArtifactBox</Filter>
+    </ClCompile>
+    <ClCompile Include="UltimateArrowLogic.cpp" />
+    <ClCompile Include="ArtifactBoxAnim.cpp">
+      <Filter>Content\Gimmick\ArtifactBoxAnim</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -845,9 +849,6 @@
     <ClInclude Include="TakeDownAttack.h">
       <Filter>AI\Attack\BossAttack</Filter>
     </ClInclude>
-    <ClInclude Include="UltimateArrowLogic.h">
-      <Filter>Content\ArrowLogic</Filter>
-    </ClInclude>
     <ClInclude Include="MushroomTrampoline.h">
       <Filter>Content\Gimmick\MushroomTrampoline</Filter>
     </ClInclude>
@@ -856,6 +857,10 @@
     </ClInclude>
     <ClInclude Include="ArtifactBox.h">
       <Filter>Content\Gimmick\ArtifactBox</Filter>
+    </ClInclude>
+    <ClInclude Include="UltimateArrowLogic.h" />
+    <ClInclude Include="ArtifactBoxAnim.h">
+      <Filter>Content\Gimmick\ArtifactBoxAnim</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
