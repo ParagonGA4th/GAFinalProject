@@ -126,6 +126,7 @@ namespace Pg::DataScript
 
 					//다시 원래대로 본인의 정보 돌려놓기. 내부에서 SetActive 필요해주어야 한다. 
 					tEnemyStorage._enemyBehav->ReturnBaseMonsterInfo()->ResetAll();
+					tEnemyStorage._enemyBehav->ResetAll();
 
 					//다시 살아 있게 _isAlive 원래대로 기록.
 					tEnemyStorage._isAlive = true;

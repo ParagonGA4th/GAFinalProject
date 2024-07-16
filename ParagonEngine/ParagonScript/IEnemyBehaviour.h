@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseMonster.h"
+#include "IScriptResettable.h"
 
 /// <summary>
 /// 모든 몬스터의 BehaviourScript가 상속받을 인터페이스.
@@ -13,6 +14,7 @@ namespace Pg::DataScript
 	public:
 		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() abstract;
 		virtual unsigned int GetBelongAreaIndex() abstract; //자신이 속해 있는 Area Index를 반환한다.
+		virtual void ResetAll() abstract;
 	};
 }
 
