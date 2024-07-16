@@ -82,6 +82,7 @@ namespace Pg::DataScript
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		_wind = _object->GetScene()->FindObjectWithName("BossWindBlastEffect");
 		_windRenderer = _wind->GetComponent<Pg::Data::SkinnedMeshRenderer>();
@@ -200,7 +201,6 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Awake()
 	{
-
 		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
