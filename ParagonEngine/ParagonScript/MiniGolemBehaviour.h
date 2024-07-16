@@ -2,6 +2,7 @@
 #include "ScriptInterface.h"
 #include "IEnemyBehaviour.h"
 #include "MiniGolemInfo.h"
+#include "IScriptResettable.h"
 #include "BaseMonster.h"
 
 #include <visit_struct/visit_struct.hpp>
@@ -34,7 +35,7 @@ namespace Pg::DataScript
 	class BaseEnemyHandler;
 	class CameraShake;
 
-	class MiniGolemBehaviour : public ScriptInterface<MiniGolemBehaviour>, public IEnemyBehaviour
+	class MiniGolemBehaviour : public ScriptInterface<MiniGolemBehaviour>, public IEnemyBehaviour, public IScriptResettable
 	{
 		DEFINE_PARAGON_SCRIPT(MiniGolemBehaviour);
 	public:
@@ -47,7 +48,9 @@ namespace Pg::DataScript
 		virtual void Update() override;
 
 		virtual void OnDeserialize(SerializeVector& sv) override;
-		virtual void OnSerialize(SerializeVector& sv) override;
+		virtual void OnSerialize(SerializeVector& sv) override;	
+
+		virtual void ResetAll() override;
 		
 		
 		//플레이어 발견하지 않을때 하는 행동
@@ -113,6 +116,7 @@ namespace Pg::DataScript
 		CameraShake* _cameraShake;
 
 	private:
+
 		//플레이어와의 거리 측정
 		float _distance;
 		float _startAttackTime;

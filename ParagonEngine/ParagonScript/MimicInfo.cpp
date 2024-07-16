@@ -17,6 +17,7 @@ namespace Pg::DataScript
 
 	void MimicInfo::ResetAll()
 	{
-
+		//체력 초기화
+		_hp = _fullHealthValue;
 	}
 }

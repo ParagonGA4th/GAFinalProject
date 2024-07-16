@@ -16,6 +16,6 @@ namespace Pg::DataScript
 
 	void MiniGolemInfo::ResetAll()
 	{
-
+		_hp = _fullHealthValue;
 	}
 }

@@ -5,8 +5,8 @@
 
 namespace Pg::Data
 {
-	class StaticMeshRenderer;
-	class StaticBoxCollider;
+	class SkinnedMeshRenderer;
+	class StaticSphereCollider;
 	class PhysicsCollision;
 }
 
@@ -37,7 +37,7 @@ namespace Pg::DataScript
 		DEFINE_PARAGON_SCRIPT(UltimateArrowLogic);
 
 	public:
-		inline static const float ARROW_ATTACK_POWER = 1.f;
+		inline static const float ARROW_ATTACK_POWER = 5.f;
 
 	public:
 		UltimateArrowLogic(Pg::Data::GameObject* obj);
@@ -55,36 +55,26 @@ namespace Pg::DataScript
 		PlayerHandler* _playerBattleBehavior{ nullptr };
 
 	public:
-		bool GetIsNowShooting(); //현재 쏘고 있는지 리턴.
 		void CarryOutShoot(); //실제로 총을 쏘는 로직, Tweening 사용.
 
 		bool _isSkillStart{ false };
 
 	private:
-		void EndShootingSelf(); //다 썼다는 얘기. 중력을 키지도 말고, 그냥사라지자.
-	private:	//인게임 내 프로퍼티들.
-		//N초 이후에 지워라!
-		const float _afterDestroySec{ 3.0f };
-		//떨어지기 전의 거리.
-		const float _arrowDistBeforeFall{ 13.0f };
-		// 미리 자기 자신에 영향 안 주는 Layer 설정되어 있어야.
-		const float _secondsBeforeGravity{ 1.0f };
+		void EndShootingSelf();
 
-	private:	//ArrowShooterBehavior(매니저)가 참조할 변수이다.
-		bool _isNowShooting = false;
+	private:
 		//스킬 끝나는 시간.
 		bool _isSkillEnd{ false };
 
 	private:
+
 		bool _startCountingTime = false;
 		float _elapsedTime = 0.0f;
-		Pg::Math::PGFLOAT3 _initialPos;
-		Pg::Math::PGFLOAT3 _targetPos;
-		Pg::Math::PGFLOAT3 _shootDir;
+
 
 	private:	//자신의 컴포넌트들.
-		Pg::Data::StaticMeshRenderer* _meshRenderer;
-		Pg::Data::StaticBoxCollider* _collider;
+		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
+		Pg::Data::StaticSphereCollider* _collider;
 
 	private:	//API
 		Pg::API::Time::PgTime* _pgTime;

@@ -97,6 +97,22 @@ namespace Pg::DataScript
 	{
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 
+		for (auto& iter : _object->_transform.GetChildren())
+		{
+			// 자식 오브젝트의 이름을 얻어옵니다.
+			std::string childTag = iter->_object->GetTag();
+
+			if (childTag == "TAG_Wasp")
+			{
+				_wingMeshRenderer = iter->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+				if (_wingMeshRenderer != nullptr)
+				{
+					//기본값 설정.
+					_wingMeshRenderer->SetAlphaPercentage(50.f);
+				}
+			}
+		}
+
 		//코인 SetActive를 위해
 		_corn = _object->GetScene()->FindObjectWithName(_cornName);
 		_cornRenderer = _corn->GetComponent<Pg::Data::StaticMeshRenderer>();
@@ -456,5 +472,31 @@ namespace Pg::DataScript
 		_monsterHelper->_isPlayerDetected = false;
 		_monsterHelper->_isPlayerinHitSpace = false;
 		_monsterHelper->_isChase = false;
+	}
+
+	void WaspBehaviour::ResetAll()
+	{
+
+		//사툰드 관련 변수
+		bool _isAttackSoundPlaying = false;
+
+		//공격 관련 변수
+		bool _isAttackStart = false;
+
+		bool _isRotateToPlayer = false;
+
+		bool _isSkillStart = false;
+
+		//충돌객체 전부 초기화
+		_collider->SetActive(true);
+
+		for (auto& iter : _basicAttackCol)
+		{
+			iter->SetActive(false);
+		}
+		for (auto& iter : _skillAttackCol)
+		{
+			iter->SetActive(false);
+		}
 	}
 }
