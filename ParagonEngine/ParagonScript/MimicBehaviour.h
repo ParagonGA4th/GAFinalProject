@@ -35,7 +35,7 @@ namespace Pg::DataScript
 	class CameraShake;
 	class MimicSkillAttack;
 
-	class MimicBehaviour : public ScriptInterface<MimicBehaviour>, public IEnemyBehaviour, public IScriptResettable
+	class MimicBehaviour : public ScriptInterface<MimicBehaviour>, public IEnemyBehaviour
 	{
 		DEFINE_PARAGON_SCRIPT(MimicBehaviour);
 	public:

@@ -37,13 +37,14 @@ namespace Pg::DataScript
 	class BaseEnemyHandler;
 	class CameraShake;
 
-	class GolemBossBehaviour : public ScriptInterface<GolemBossBehaviour>, public IEnemyBehaviour, public IScriptResettable
+	class GolemBossBehaviour : public ScriptInterface<GolemBossBehaviour>, public IEnemyBehaviour
 	{
 		DEFINE_PARAGON_SCRIPT(GolemBossBehaviour);
 	public:
 		GolemBossBehaviour(Pg::Data::GameObject* obj);
 
 	public:
+		virtual void GrabManagedObjects() override;
 		virtual void BeforePhysicsAwake() override;
 		virtual void Awake() override;
 		virtual void Start() override;
