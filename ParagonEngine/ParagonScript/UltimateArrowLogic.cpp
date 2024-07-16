@@ -43,7 +43,12 @@ namespace Pg::DataScript
 	{
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		assert(_meshRenderer != nullptr);
-		_meshRenderer->SetActive(false);
+		//_meshRenderer->SetActive(false);
+		_meshRenderer->_alphaPercentage = 0.f;
+
+
+		_meshRenderer->SetAnimation("ult_atk_0.pganim", false);
+		_meshRenderer->PauseAnim();
 	}
 
 	void UltimateArrowLogic::Start()
@@ -54,6 +59,7 @@ namespace Pg::DataScript
 	void UltimateArrowLogic::Update()
 	{
 		CarryOutShoot();
+		EndShootingSelf();
 	}
 
 	void UltimateArrowLogic::CarryOutShoot()
@@ -61,18 +67,27 @@ namespace Pg::DataScript
 		if (_isSkillStart)
 		{
 			///여기에 궁극기 애니메이션 및 콜라이더 추가되면 된다.
+			_meshRenderer->PlayAnim();
 			_collider->SetActive(true);
-			_meshRenderer->SetActive(true);
+			//_meshRenderer->SetActive(true);
+			_meshRenderer->_alphaPercentage = 100.f;
+			_isSkillStart = false;
 		}
 	}
 
 	void UltimateArrowLogic::EndShootingSelf()
 	{
-		//_collider->SetActive(false);
-		//_meshRenderer->SetActive(false);
-
-		//오브젝트 다시 초기위치로 돌아가야 함.
-		_object->_transform._position = { 0.f,10.f,5.f };
+		if (_isAnimEnd)
+		{
+			_meshRenderer->_alphaPercentage -= ALPHA_PERCENT;
+			
+			if (_meshRenderer->_alphaPercentage == 0.f)
+			{
+				_meshRenderer->SetAnimation("ult_atk_0.pganim", false);
+				_meshRenderer->PauseAnim();
+				_isAnimEnd = false;
+			}
+		}
 	}
 
 	void UltimateArrowLogic::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
@@ -113,5 +128,10 @@ namespace Pg::DataScript
 				_comboSystem->HitObject(false);
 			}
 		}
+	}
+
+	void UltimateArrowLogic::OnAnimationEnd(const std::string& justEndedAnimation)
+	{
+		_isAnimEnd = true;
 	}
 }
