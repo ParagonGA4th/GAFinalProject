@@ -177,7 +177,7 @@ namespace Pg::DataScript
 	void MimicBehaviour::Chase()
 	{
 		//이동 속도 조절.
-		float interpolation = _mimicInfo->GetMoveSpeed() * _pgTime->GetDeltaTime();
+		float interpolation = _mimicInfo->GetMoveSpeed() * _mimicInfo->GetMonsterSpeedRatio() * _pgTime->GetDeltaTime();
 
 		//일정 사정거리 안에 들어오면
 		if (_distance <= _mimicInfo->GetAttackRange())

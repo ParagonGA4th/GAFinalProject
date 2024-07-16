@@ -264,7 +264,7 @@ namespace Pg::DataScript
 	void BossBehaviour::Chase()
 	{
 		//이동 속도 조절.
-		float interpolation = _bossInfo->GetMoveSpeed() * _pgTime->GetDeltaTime();
+		float interpolation = _bossInfo->GetMoveSpeed() * _bossInfo->GetMonsterSpeedRatio() * _pgTime->GetDeltaTime();
 
 		//상태를 Chase로 변경.
 
