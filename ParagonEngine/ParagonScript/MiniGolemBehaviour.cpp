@@ -84,6 +84,12 @@ namespace Pg::DataScript
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
 
+		//clear 필요함.
+		if (!_attackCol.empty())
+		{
+			_attackCol.clear();
+		}
+
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			Pg::Data::StaticBoxCollider* staticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
@@ -117,7 +123,7 @@ namespace Pg::DataScript
 	void MiniGolemBehaviour::Start()
 	{
 		//플레이어 지정
-		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
+		_player = _object->GetScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
 		//AudioSource 컴포넌트 들고오기
@@ -200,7 +206,7 @@ namespace Pg::DataScript
 	void MiniGolemBehaviour::Chase()
 	{
 		//이동 속도 조절.
-		float interpolation = _miniGolInfo->GetMoveSpeed() * _pgTime->GetDeltaTime();
+		float interpolation = _miniGolInfo->GetMoveSpeed() * _miniGolInfo->GetMonsterSpeedRatio() * _pgTime->GetDeltaTime();
 
 		//일정 사정거리 안에 들어오면
 		if (_distance <= _miniGolInfo->GetAttackRange())
@@ -402,13 +408,7 @@ namespace Pg::DataScript
 		_isAttackSoundPlaying = false; //공격 소리
 
 		//충돌객체 전부 초기화
-		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
 		_collider->SetActive(true);		
-		assert(_collider != nullptr);
-		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
-		_collider->FreezeAxisX(true);
-		_collider->FreezeAxisY(true);
-		_collider->FreezeAxisZ(true);
 
 		for (auto& iter : _attackCol)
 		{

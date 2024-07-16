@@ -24,9 +24,14 @@ Texture2D
 ../Resources/Textures/Sprites/UI/artifact3.png
 ../Resources/Textures/Sprites/UI/Communication.png
 ../Resources/Textures/Sprites/UI/GotoMenu.png
-../Resources/Textures/Sprites/UI/healthBar.png
-../Resources/Textures/Sprites/UI/healthBar_Frame.png
+../Resources/Textures/Sprites/UI/HealthBar.png
+../Resources/Textures/Sprites/UI/HealthBar_Frame.png
+../Resources/Textures/Sprites/UI/ManaBar_Frame.png
 ../Resources/Textures/Sprites/UI/ManaBar.png
+../Resources/Textures/Sprites/UI/StaminaBar_1.png
+../Resources/Textures/Sprites/UI/StaminaBar_2.png
+../Resources/Textures/Sprites/UI/StaminaBar_3.png
+../Resources/Textures/Sprites/UI/StaminaBar_4.png
 ../Resources/Textures/Sprites/UI/Option.png
 ../Resources/Textures/Sprites/UI/PauseBox.png
 ../Resources/Textures/Sprites/UI/PauseExit.png

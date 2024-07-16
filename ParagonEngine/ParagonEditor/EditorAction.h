@@ -24,10 +24,12 @@ namespace Pg::Editor::Core
 		ATOM WindowRegisterClass(HINSTANCE hInstance);
 		BOOL CreateWindows(HINSTANCE hInstance);
 		static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+		void SetCustomCursor();
 
 	private:
 		HWND _hWnd;
 		MSG _msg;
+		static HCURSOR _cursor;
 
 		float _screenWidth;
 		float _screenHeight;

@@ -1175,9 +1175,22 @@ namespace Pg::Engine::Physic
 
 		for (auto& rigidDynamic : _rigidDynamicVec)
 		{
-			static_cast<Pg::Data::DynamicCollider*>(rigidDynamic->userData)->UpdateTransform();
+			Pg::Data::DynamicCollider* dynamicCol = static_cast<Pg::Data::DynamicCollider*>(rigidDynamic->userData);
+			dynamicCol->UpdateTransform();
 			//_pxScene->addActor(*rigidDynamic);
+
+			//씬이 재시작 될 때 마다 갱신시켜주기 위함.
+			//각각의 축들을 Freeze 시켜주는 역할을 한다.
+			rigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, dynamicCol->GetAngularFreezeX());
+			rigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, dynamicCol->GetAngularFreezeY());
+			rigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, dynamicCol->GetAngularFreezeZ());
+
+			rigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_X, dynamicCol->GetLinearFreezeX());
+			rigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, dynamicCol->GetLinearFreezeY());
+			rigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, dynamicCol->GetLinearFreezeZ());
+			
 			_actorCollection.push_back(rigidDynamic);
+
 		}
 
 		for (auto& rigidStatic : _rigidStaticVec)
