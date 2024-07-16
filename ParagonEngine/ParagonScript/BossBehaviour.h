@@ -48,6 +48,7 @@ namespace Pg::DataScript
 
 	public:
 		virtual void BeforePhysicsAwake() override;
+		virtual void GrabManagedObjects() override;
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;

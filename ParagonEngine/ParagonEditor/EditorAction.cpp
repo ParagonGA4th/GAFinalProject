@@ -11,6 +11,8 @@
 
 #include "../ParagonUtil/Log.h"
 
+HCURSOR Pg::Editor::Core::EditorAction::_cursor = NULL;
+
 Pg::Editor::Core::EditorAction::EditorAction()
 	:_hWnd(),
 	_screenWidth(Pg::Data::GameConstantData::WIDTH), _screenHeight(Pg::Data::GameConstantData::HEIGHT),
@@ -36,6 +38,7 @@ void Pg::Editor::Core::EditorAction::Initialize()
 	HINSTANCE ins = GetModuleHandle(NULL);
 	WindowRegisterClass(ins);
 	CreateWindows(ins);
+	SetCustomCursor();
 
 	_fileSystem->Initialize();
 	for (auto& manager : _editorManagers) { manager->Initialize(_hWnd); }
@@ -115,6 +118,13 @@ BOOL Pg::Editor::Core::EditorAction::CreateWindows(HINSTANCE hInstance)
 	return TRUE;
 }
 
+void Pg::Editor::Core::EditorAction::SetCustomCursor()
+{
+	_cursor = LoadCursorFromFileW(L"../Resources/Textures/Sprites/UI/AimPoint.cur");
+	assert(_cursor != NULL);
+	SetCursor(_cursor);
+}
+
 LRESULT CALLBACK Pg::Editor::Core::EditorAction::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
@@ -122,8 +132,18 @@ LRESULT CALLBACK Pg::Editor::Core::EditorAction::WndProc(HWND hWnd, UINT message
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			break;
+		case WM_SETCURSOR:
+			if (LOWORD(lParam) == HTCLIENT)
+			{
+				SetCursor(_cursor);
+				return TRUE;
+			}
+			break;
 		default:
 			return DefWindowProcW(hWnd, message, wParam, lParam);
 	}
 	return 0;
 }
+
+
+

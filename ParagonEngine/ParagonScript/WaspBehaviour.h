@@ -44,6 +44,7 @@ namespace Pg::DataScript
 		WaspBehaviour(Pg::Data::GameObject* obj);
 
 	public:
+		virtual void GrabManagedObjects() override;
 		virtual void BeforePhysicsAwake() override;
 		virtual void Awake() override;
 		virtual void Start() override;

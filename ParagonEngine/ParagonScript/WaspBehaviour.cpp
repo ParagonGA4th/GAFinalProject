@@ -53,7 +53,7 @@ namespace Pg::DataScript
 		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
 	}
 
-	void WaspBehaviour::BeforePhysicsAwake()
+	void WaspBehaviour::GrabManagedObjects()
 	{
 		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
 		//assert(_collider != nullptr);
@@ -62,6 +62,84 @@ namespace Pg::DataScript
 		_collider->FreezeAxisX(true);
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
+
+		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+		for (auto& iter : _object->_transform.GetChildren())
+		{
+			// 자식 오브젝트의 이름을 얻어옵니다.
+			std::string childTag = iter->_object->GetTag();
+
+			if (childTag == "TAG_Attack")
+			{
+				_waspAttackScript = iter->_object->GetComponent<WaspAttack>();
+
+				Pg::Data::StaticBoxCollider* basicStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (basicStaticCol != nullptr)
+				{
+					_basicAttackCol.push_back(basicStaticCol);  // 벡터에 추가
+					basicStaticCol->SetActive(false);  // 비활성화
+				}
+			}
+			else if (childTag == "TAG_Skill")
+			{
+				_waspSkillAttackScript = iter->_object->GetComponent<WaspSkillAttack>();
+
+				Pg::Data::StaticBoxCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (skillStaticCol != nullptr)
+				{
+					_skillAttackCol.push_back(skillStaticCol);
+					skillStaticCol->SetActive(false);
+				}
+			}
+		}
+
+		//코인 SetActive를 위해
+		_corn = _object->GetScene()->FindObjectWithName(_cornName);
+		_cornRenderer = _corn->GetComponent<Pg::Data::StaticMeshRenderer>();
+		_cornRenderer->SetActive(false);
+
+		//코인 SetActive를 위해
+		_skillCorn = _object->GetScene()->FindObjectWithName(_skillCornName);
+		_skillCornRenderer = _skillCorn->GetComponent<Pg::Data::StaticMeshRenderer>();
+		_skillCornRenderer->SetActive(false);
+
+		for (auto& iter : _object->_transform.GetChildren())
+		{
+			// 자식 오브젝트의 이름을 얻어옵니다.
+			std::string childTag = iter->_object->GetTag();
+
+			if (childTag == "TAG_Wasp")
+			{
+				_wingMeshRenderer = iter->_object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+				if (_wingMeshRenderer != nullptr)
+				{
+					//기본값 설정.
+					_wingMeshRenderer->SetAlphaPercentage(50.f);
+				}
+			}
+		}
+	}
+
+	void WaspBehaviour::BeforePhysicsAwake()
+	{
+		//_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
+		//assert(_collider != nullptr);
+		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
+		//_collider->SetCapsuleInfo(1.f, 1.f);
+		_collider->FreezeAxisX(true);
+		_collider->FreezeAxisY(true);
+		_collider->FreezeAxisZ(true);
+
+		_cornRenderer->SetActive(false);
+		_skillCornRenderer->SetActive(false);
+
+		//clear 필요함.
+		if (!_basicAttackCol.empty() || !_skillAttackCol.empty())
+		{
+			_basicAttackCol.clear();
+			_skillAttackCol.clear();
+		}
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
@@ -95,7 +173,6 @@ namespace Pg::DataScript
 
 	void WaspBehaviour::Awake()
 	{
-		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
@@ -112,22 +189,12 @@ namespace Pg::DataScript
 				}
 			}
 		}
-
-		//코인 SetActive를 위해
-		_corn = _object->GetScene()->FindObjectWithName(_cornName);
-		_cornRenderer = _corn->GetComponent<Pg::Data::StaticMeshRenderer>();
-		_cornRenderer->SetActive(false);
-
-		//코인 SetActive를 위해
-		_skillCorn = _object->GetScene()->FindObjectWithName(_skillCornName);
-		_skillCornRenderer = _skillCorn->GetComponent<Pg::Data::StaticMeshRenderer>();
-		_skillCornRenderer->SetActive(false);
 	}
 
 	void WaspBehaviour::Start()
 	{
 		//플레이어 지정
-		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
+		_player = _object->GetScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
 		//AudioSource 컴포넌트 들고오기
@@ -489,6 +556,7 @@ namespace Pg::DataScript
 
 		//충돌객체 전부 초기화
 		_collider->SetActive(true);
+		_meshRenderer->SetActive(true);
 
 		for (auto& iter : _basicAttackCol)
 		{

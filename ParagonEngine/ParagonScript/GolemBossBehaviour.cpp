@@ -62,8 +62,9 @@ namespace Pg::DataScript
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
 
+		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
-		
+
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			// 자식 오브젝트의 이름을 얻어옵니다.
@@ -92,12 +93,19 @@ namespace Pg::DataScript
 
 	void GolemBossBehaviour::BeforePhysicsAwake()
 	{
-		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
+		//_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
 		assert(_collider != nullptr);
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
 		_collider->FreezeAxisX(true);
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
+
+		//clear 필요함.
+		if (!_attackCol.empty() || !_skillAttackCol.empty())
+		{
+			_attackCol.clear();
+			_skillAttackCol.clear();
+		}
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
@@ -127,7 +135,6 @@ namespace Pg::DataScript
 
 	void GolemBossBehaviour::Awake()
 	{
-		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 
 		//체력과 기본 공격력을 설정해준다.
 		//_miniGolInfo->SetMonsterHp(5.f);
@@ -146,7 +153,7 @@ namespace Pg::DataScript
 	void GolemBossBehaviour::Start()
 	{
 		//플레이어 지정
-		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
+		_player = _object->GetScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
 		//AudioSource 컴포넌트 들고오기
@@ -229,7 +236,7 @@ namespace Pg::DataScript
 	void GolemBossBehaviour::Chase()
 	{
 		//이동 속도 조절.
-		float interpolation = _golBossInfo->GetMoveSpeed() * _pgTime->GetDeltaTime();
+		float interpolation = _golBossInfo->GetMoveSpeed() * _golBossInfo->GetMonsterSpeedRatio() * _pgTime->GetDeltaTime();
 
 		//일정 사정거리 안에 들어오면
 		if (_distance <= _golBossInfo->GetAttackRange())
@@ -439,7 +446,7 @@ namespace Pg::DataScript
 
 		//충돌객체 전부 초기화
 		_collider->SetActive(true);
-
+		_meshRenderer->SetActive(true);
 
 		for (auto& iter : _attackCol)
 		{
@@ -449,8 +456,5 @@ namespace Pg::DataScript
 		{
 			iter->SetActive(false);
 		}
-
-		// 애니매이션 관련 전부 초기화
-		_monsterHelper->Reset();
 	}
 }

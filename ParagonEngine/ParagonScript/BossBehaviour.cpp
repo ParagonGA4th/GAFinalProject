@@ -54,7 +54,7 @@ namespace Pg::DataScript
 		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
 	}
 
-	void BossBehaviour::BeforePhysicsAwake()
+	void BossBehaviour::GrabManagedObjects()
 	{
 		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
 		assert(_collider != nullptr);
@@ -63,6 +63,78 @@ namespace Pg::DataScript
 		_collider->FreezeAxisX(true);
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
+
+		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+		_windRenderer = _object->GetScene()->FindObjectWithName("BossWindBlastEffect")->
+			GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+		for (auto& iter : _object->_transform.GetChildren())
+		{
+			// 자식 오브젝트의 이름을 얻어옵니다.
+			std::string childTag = iter->_object->GetTag();
+
+			if (childTag == "TAG_Attack")
+			{
+				Pg::Data::StaticBoxCollider* basicStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (basicStaticCol != nullptr)
+				{
+					_basicAttackCol.push_back(basicStaticCol);  // 벡터에 추가
+					basicStaticCol->SetActive(false);  // 비활성화
+				}
+			}
+			else if (childTag == "TAG_WindBlast")
+			{
+				Pg::Data::StaticBoxCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (skillStaticCol != nullptr)
+				{
+					_windBlastAttackCol.push_back(skillStaticCol);
+					skillStaticCol->SetActive(false);
+				}
+			}
+			else if (childTag == "TAG_TakeDown")
+			{
+				Pg::Data::StaticSphereCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticSphereCollider>();
+				if (skillStaticCol != nullptr)
+				{
+					_takeDownCol.push_back(skillStaticCol);
+					skillStaticCol->SetActive(false);
+				}
+			}
+		}
+
+		for (auto& iter : _object->GetScene()->FindObjectsWithTag("TAG_Light"))
+		{
+			Pg::Data::StaticBoxCollider* skillStaticCol = iter->GetComponent<Pg::Data::StaticBoxCollider>();
+			if (skillStaticCol != nullptr)
+			{
+				_lightAttackCol.push_back(skillStaticCol);
+				skillStaticCol->SetActive(false);
+			}
+		}
+	}
+
+	void BossBehaviour::BeforePhysicsAwake()
+	{
+		//_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
+		assert(_collider != nullptr);
+		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_BOSS);
+		//_collider->SetCapsuleInfo(1.f, 1.f);
+		_collider->FreezeAxisX(true);
+		_collider->FreezeAxisY(true);
+		_collider->FreezeAxisZ(true);
+
+		_windRenderer->SetActive(false);
+
+		//clear 필요함.
+		if (!_basicAttackCol.empty() || !_windBlastAttackCol.empty() || !_lightAttackCol.empty()
+			|| !_takeDownCol.empty())
+		{
+			_basicAttackCol.clear();
+			_windBlastAttackCol.clear();
+			_lightAttackCol.clear();
+			_takeDownCol.clear();
+		}
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
@@ -111,12 +183,6 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Awake()
 	{
-		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-
-		_windRenderer = _object->GetScene()->FindObjectWithName("BossWindBlastEffect")->
-			GetComponent<Pg::Data::SkinnedMeshRenderer>();
-
-		_windRenderer->SetActive(false);
 
 		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
@@ -124,16 +190,16 @@ namespace Pg::DataScript
 	void BossBehaviour::Start()
 	{
 		//플레이어 지정
-		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
+		_player = _object->GetScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
-		_bossWalkSound = _pgScene->GetCurrentScene()->FindObjectWithName("BossWalkSound");
+		_bossWalkSound = _object->GetScene()->FindObjectWithName("BossWalkSound");
 		_walkAudio = _bossWalkSound->GetComponent<Pg::Data::AudioSource>();
 
-		_bossRushSound = _pgScene->GetCurrentScene()->FindObjectWithName("BossRushSound");
+		_bossRushSound = _object->GetScene()->FindObjectWithName("BossRushSound");
 		_rushAudio = _bossRushSound->GetComponent<Pg::Data::AudioSource>();
 
-		_bossDieSound = _pgScene->GetCurrentScene()->FindObjectWithName("BossDieSound");
+		_bossDieSound = _object->GetScene()->FindObjectWithName("BossDieSound");
 		_dieAudio = _bossDieSound->GetComponent<Pg::Data::AudioSource>();
 
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
@@ -264,7 +330,7 @@ namespace Pg::DataScript
 	void BossBehaviour::Chase()
 	{
 		//이동 속도 조절.
-		float interpolation = _bossInfo->GetMoveSpeed() * _pgTime->GetDeltaTime();
+		float interpolation = _bossInfo->GetMoveSpeed() * _bossInfo->GetMonsterSpeedRatio() * _pgTime->GetDeltaTime();
 
 		//상태를 Chase로 변경.
 
@@ -728,6 +794,8 @@ namespace Pg::DataScript
 
 		 //충돌 객체 전부 초기화.
 		 _collider->SetActive(true);
+		 _meshRenderer->SetActive(true);
+
 		 for (auto& iter : _basicAttackCol)
 		 {
 			 iter->SetActive(false);

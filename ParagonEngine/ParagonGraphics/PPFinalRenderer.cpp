@@ -270,27 +270,27 @@ namespace Pg::Graphics
 
 	void PPFinalRenderer::CreateDebugOverlayQuads()
 	{
-#if defined(DEBUG) | defined(_DEBUG)
-		D3D11_VIEWPORT viewport;
-		viewport.TopLeftX = 100.0f;
-		viewport.TopLeftY = 100.0f;
-		viewport.Width = 400.0f;
-		viewport.Height = 400.0f;
-		viewport.MinDepth = 0.0f;
-		viewport.MaxDepth = 1.0f;
-		
-		//DirectX::XMFLOAT2 widthHeight = { Pg::Data::GameConstantData::WIDTH, Pg::Data::GameConstantData::HEIGHT };
-		DirectX::XMFLOAT2 widthHeight = { 300, 300 };
-		_debugOverlayShadowQuad = std::make_unique<DebugOverlayQuad>(
-			Pg::Defines::DEBUG_SHADOW_QUAD_PS_DIRECTORY, viewport, widthHeight);
-#endif
+//#if defined(DEBUG) | defined(_DEBUG)
+//		D3D11_VIEWPORT viewport;
+//		viewport.TopLeftX = 100.0f;
+//		viewport.TopLeftY = 100.0f;
+//		viewport.Width = 400.0f;
+//		viewport.Height = 400.0f;
+//		viewport.MinDepth = 0.0f;
+//		viewport.MaxDepth = 1.0f;
+//		
+//		//DirectX::XMFLOAT2 widthHeight = { Pg::Data::GameConstantData::WIDTH, Pg::Data::GameConstantData::HEIGHT };
+//		DirectX::XMFLOAT2 widthHeight = { 300, 300 };
+//		_debugOverlayShadowQuad = std::make_unique<DebugOverlayQuad>(
+//			Pg::Defines::DEBUG_SHADOW_QUAD_PS_DIRECTORY, viewport, widthHeight);
+//#endif
 	}
 
 	void PPFinalRenderer::RenderDebugQuadsOverlay()
 	{
-#if defined(DEBUG) | defined(_DEBUG)
-		_debugOverlayShadowQuad->Render();
-#endif
+//#if defined(DEBUG) | defined(_DEBUG)
+//		_debugOverlayShadowQuad->Render();
+//#endif
 	}
 
 }
