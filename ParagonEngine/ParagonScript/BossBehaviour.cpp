@@ -322,7 +322,8 @@ namespace Pg::DataScript
 		UpdateSkill();
 		if (_offWind)
 		{
-			_windRenderer->SetAlphaPercentage();
+			_windRenderer->SetAlphaPercentage(0.f);
+			_offWind = false;
 		}
 		//ºû±âµÕ ½ºÅ³
 		UpdatePhaseTwoSkill();
@@ -502,7 +503,7 @@ namespace Pg::DataScript
 				
 				_useStormBlast = false;
 				_isRotatingToPlayer = true;
-				
+				_offWind = true;
 
 				_bossInfo->SetCurrentWindBlastDurationTime(0.f);
 			}
