@@ -21,17 +21,14 @@ namespace Pg::DataScript
 
 	void ArtifactBox::Awake()
 	{
-		std::string objName = _object->GetName();
-		std::string num = objName.substr(objName.size() - 1, 1);
-		auto childObj = _object->_transform.GetChild("ArtifactBox_" + num)->_object;
-		
+		auto childObj = _object->_transform.GetParent()->_object;
 		_renderer = childObj->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		//childObj->SetActive(true);
 		//childObj->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(true);
 
 		//_renderer->SetActive(true);
 
-		_renderer->SetAnimation("OB_00002", false);
+		_renderer->SetAnimation("OB_00002.pganim", false);
 		_renderer->PauseAnim();
 	}
 
@@ -41,9 +38,9 @@ namespace Pg::DataScript
 		if (_animEnd)
 		{
 			// active ²ô±â
-			_renderer->_object->SetActive(false);
-			_renderer->_object->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(false);
 			_renderer->SetActive(false);
+			_renderer->_object->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(false);
+			_renderer->_object->SetActive(false);
 			_animEnd = false;
 		}
 
