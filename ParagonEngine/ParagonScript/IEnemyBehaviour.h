@@ -12,6 +12,9 @@ namespace Pg::DataScript
 	class IEnemyBehaviour
 	{
 	public:
+		//플레이어가 일반공격으로 몬스터를 타격 시 충전되는 마나
+		inline static const float INCREMENT_MANA_AMT = 5.f;
+	public:
 		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() abstract;
 		virtual unsigned int GetBelongAreaIndex() abstract; //자신이 속해 있는 Area Index를 반환한다.
 		virtual void ResetAll() abstract;
