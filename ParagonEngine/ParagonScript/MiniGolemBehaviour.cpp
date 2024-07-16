@@ -82,6 +82,12 @@ namespace Pg::DataScript
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
 
+		//clear 필요함.
+		if (!_attackCol.empty())
+		{
+			_attackCol.clear();
+		}
+
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			Pg::Data::StaticBoxCollider* staticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
@@ -115,7 +121,7 @@ namespace Pg::DataScript
 	void MiniGolemBehaviour::Start()
 	{
 		//플레이어 지정
-		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
+		_player = _object->GetScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
 		//AudioSource 컴포넌트 들고오기

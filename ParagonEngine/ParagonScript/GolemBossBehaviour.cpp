@@ -62,6 +62,8 @@ namespace Pg::DataScript
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
 
+		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			// 자식 오브젝트의 이름을 얻어옵니다.
@@ -90,12 +92,19 @@ namespace Pg::DataScript
 
 	void GolemBossBehaviour::BeforePhysicsAwake()
 	{
-		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
+		//_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
 		assert(_collider != nullptr);
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
 		_collider->FreezeAxisX(true);
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
+
+		//clear 필요함.
+		if (!_attackCol.empty() || !_skillAttackCol.empty())
+		{
+			_attackCol.clear();
+			_skillAttackCol.clear();
+		}
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
@@ -125,7 +134,6 @@ namespace Pg::DataScript
 
 	void GolemBossBehaviour::Awake()
 	{
-		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 
 		//체력과 기본 공격력을 설정해준다.
 		//_miniGolInfo->SetMonsterHp(5.f);
@@ -144,7 +152,7 @@ namespace Pg::DataScript
 	void GolemBossBehaviour::Start()
 	{
 		//플레이어 지정
-		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
+		_player = _object->GetScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
 		//AudioSource 컴포넌트 들고오기

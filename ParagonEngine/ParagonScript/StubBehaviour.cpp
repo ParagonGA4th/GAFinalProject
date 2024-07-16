@@ -48,7 +48,7 @@ namespace Pg::DataScript
 		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
 	}
 
-	void StubBehaviour::BeforePhysicsAwake()
+	void StubBehaviour::GrabManagedObjects()
 	{
 		_collider = _object->GetComponent<Pg::Data::BoxCollider>();
 		assert(_collider != nullptr);
@@ -60,22 +60,9 @@ namespace Pg::DataScript
 		_collider->FreezeAxisZ(true);
 		_collider->FreezeLinearX(true);
 		_collider->FreezeLinearZ(true);
-		//_collider->SetCapsuleInfo(1.f, 1.f);
-	}
 
-	void StubBehaviour::Awake()
-	{
-		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-
-		//체력과 기본 공격력을 설정해준다.
-		//_miniGolInfo->SetMonsterHp(5.f);
-		//_miniGolInfo->SetMonsterDamage(1.f);
-	}
-
-	void StubBehaviour::Start()
-	{
 		//플레이어 지정
-		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
+		_player = _object->GetScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
@@ -122,6 +109,67 @@ namespace Pg::DataScript
 				}
 			}
 		}
+	}
+
+	void StubBehaviour::BeforePhysicsAwake()
+	{
+		//_collider = _object->GetComponent<Pg::Data::BoxCollider>();
+		assert(_collider != nullptr);
+		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
+
+		//그루터기는 절대 움직이면 안되므로 전부 Freeze
+		_collider->FreezeAxisX(true);
+		_collider->FreezeAxisY(true);
+		_collider->FreezeAxisZ(true);
+		_collider->FreezeLinearX(true);
+		_collider->FreezeLinearZ(true);
+		//_collider->SetCapsuleInfo(1.f, 1.f);
+
+		//clear 필요함.
+		if (!_basicAttackCol.empty() || !_skillAttackCol.empty())
+		{
+			_basicAttackCol.clear();
+			_skillAttackCol.clear();
+		}
+
+		for (auto& iter : _object->_transform.GetChildren())
+		{
+			// 자식 오브젝트의 이름을 얻어옵니다.
+			std::string childTag = iter->_object->GetTag();
+
+			if (childTag == "TAG_Attack")
+			{
+				Pg::Data::StaticBoxCollider* basicStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (basicStaticCol != nullptr)
+				{
+					_basicAttackCol.push_back(basicStaticCol);  // 벡터에 추가
+					basicStaticCol->SetActive(false);  // 비활성화
+				}
+			}
+			else if (childTag == "TAG_Skill")
+			{
+				Pg::Data::StaticBoxCollider* skillStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (skillStaticCol != nullptr)
+				{
+					_skillAttackCol.push_back(skillStaticCol);  // 벡터에 추가
+					skillStaticCol->SetActive(false);  // 비활성화
+				}
+			}
+		}
+	}
+
+	void StubBehaviour::Awake()
+	{
+		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+		//체력과 기본 공격력을 설정해준다.
+		//_miniGolInfo->SetMonsterHp(5.f);
+		//_miniGolInfo->SetMonsterDamage(1.f);
+	}
+
+	void StubBehaviour::Start()
+	{
+
 	}
 
 	void StubBehaviour::Update()

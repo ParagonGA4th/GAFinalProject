@@ -51,7 +51,7 @@ namespace Pg::DataScript
 		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
 	}
 
-	void MimicBehaviour::BeforePhysicsAwake()
+	void MimicBehaviour::GrabManagedObjects()
 	{
 		_collider = _object->GetComponent<Pg::Data::BoxCollider>();
 		assert(_collider != nullptr);
@@ -63,10 +63,10 @@ namespace Pg::DataScript
 		_collider->FreezeLinearY(true);
 
 		//플레이어 지정
-		_player = _pgScene->GetCurrentScene()->FindObjectWithName("Player");
+		_player = _object->GetScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
-		_mimicMoveSound = _pgScene->GetCurrentScene()->FindObjectWithName("MimicMoveSound");
+		_mimicMoveSound = _object->GetScene()->FindObjectWithName("MimicMoveSound");
 		_moveAudio = _mimicMoveSound->GetComponent<Pg::Data::AudioSource>();
 
 		//코인 SetActive를 위해
@@ -75,6 +75,7 @@ namespace Pg::DataScript
 		_coin->SetActive(false);
 		_coinRenderer->SetActive(false);
 
+		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
@@ -107,9 +108,58 @@ namespace Pg::DataScript
 		}
 	}
 
+	void MimicBehaviour::BeforePhysicsAwake()
+	{
+		//_collider = _object->GetComponent<Pg::Data::BoxCollider>();
+		assert(_collider != nullptr);
+		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
+		//_collider->SetCapsuleInfo(1.f, 1.f);
+		_collider->FreezeAxisX(true);
+		_collider->FreezeAxisY(true);
+		_collider->FreezeAxisZ(true);
+		_collider->FreezeLinearY(true);
+
+		//코인 SetActive를 위해
+		_coin->SetActive(false);
+		_coinRenderer->SetActive(false);
+
+		//clear 필요함.
+		if (!_basicAttackCol.empty() || !_skillAttackCol.empty())
+		{
+			_basicAttackCol.clear();
+			_skillAttackCol.clear();
+		}
+
+		for (auto& iter : _object->_transform.GetChildren())
+		{
+			// 자식 오브젝트의 이름을 얻어옵니다.
+			std::string childTag = iter->_object->GetTag();
+
+			if (childTag == "TAG_Attack")
+			{
+				Pg::Data::StaticBoxCollider* basicStaticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (basicStaticCol != nullptr)
+				{
+					_basicAttackCol.push_back(basicStaticCol);  // 벡터에 추가
+					basicStaticCol->SetActive(false);  // 비활성화
+				}
+			}
+			else if (childTag == "TAG_Skill")
+			{
+				_mimicSkillAttack = iter->_object->GetComponent<MimicSkillAttack>();
+
+				Pg::Data::StaticBoxCollider* skillCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (skillCol != nullptr)
+				{
+					_skillAttackCol.push_back(skillCol);
+					skillCol->SetActive(false);
+				}
+			}
+		}
+	}
+
 	void MimicBehaviour::Awake()
 	{
-
 		//체력과 기본 공격력을 설정해준다.
 		//_miniGolInfo->SetMonsterHp(5.f);
 		//_miniGolInfo->SetMonsterDamage(1.f);
@@ -117,7 +167,6 @@ namespace Pg::DataScript
 
 	void MimicBehaviour::Start()
 	{
-		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 
 		_meshRenderer->SetActive(false);
 		_collider->SetActive(false);

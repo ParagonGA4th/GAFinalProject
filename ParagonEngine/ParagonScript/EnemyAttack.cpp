@@ -22,7 +22,7 @@ namespace Pg::DataScript
 	void EnemyAttack::Awake()
 	{
 		//°ø°ÝÀ» ÇÒ º¸½º°ñ·½ÀÇ Á¤º¸¸¦ µé°í ¿È.
-		_enemy = _pgScene->GetCurrentScene()->FindObjectsWithTag("TAG_Boss");
+		_enemy = _object->GetScene()->FindObjectsWithTag("TAG_Boss");
 		_enemyBehaviour = _enemy.at(0)->GetComponent<Pg::DataScript::BossBehaviour>();
 	}
 
