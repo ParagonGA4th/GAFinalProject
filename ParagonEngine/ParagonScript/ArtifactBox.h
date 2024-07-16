@@ -3,7 +3,7 @@
 
 namespace Pg::Data
 {
-	class StaticBoxCollider;
+	class SkinnedMeshRenderer;
 }
 
 namespace Pg::API
@@ -31,7 +31,7 @@ namespace Pg::DataScript
 
 	private:
 		Pg::API::Input::PgInput* _pgInput{ nullptr };
-		Pg::Data::StaticBoxCollider* _collider{ nullptr };
+		Pg::Data::SkinnedMeshRenderer* _renderer{ nullptr };
 
 		bool _onTriggerStay{ false };
 		bool _animEnd{ false };
