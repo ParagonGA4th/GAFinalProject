@@ -1,6 +1,7 @@
 #pragma once
 #include "ScriptInterface.h"
 #include "IEnemyBehaviour.h"
+#include "IScriptResettable.h"
 #include "WaspInfo.h"
 
 #include <vector>
@@ -36,7 +37,7 @@ namespace Pg::DataScript
 	class WaspAttack;
 	class WaspSkillAttack;
 
-	class WaspBehaviour : public ScriptInterface<WaspBehaviour>, public IEnemyBehaviour
+	class WaspBehaviour : public ScriptInterface<WaspBehaviour>, public IEnemyBehaviour, public IScriptResettable
 	{
 		DEFINE_PARAGON_SCRIPT(WaspBehaviour);
 	public:
@@ -50,6 +51,8 @@ namespace Pg::DataScript
 
 		virtual void OnDeserialize(SerializeVector& sv) override;
 		virtual void OnSerialize(SerializeVector& sv) override;
+
+		virtual void ResetAll() override;
 
 		//플레이어를 쫓는 함수
 		void Chase();
@@ -92,6 +95,7 @@ namespace Pg::DataScript
 		Pg::Data::MonsterHelper* _monsterHelper;
 
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
+		Pg::Data::SkinnedMeshRenderer* _wingMeshRenderer;
 
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _skillAttackCol;

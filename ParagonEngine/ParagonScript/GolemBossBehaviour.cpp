@@ -391,4 +391,28 @@ namespace Pg::DataScript
 		//이제, Handler에게 자신이 죽었다는 것을 알려주자.
 		_enemyHandler->FromEnemyNotifyDead(_object->GetTag(), this);
 	}
+
+	void GolemBossBehaviour::ResetAll()
+	{
+		_isStart = false;
+		_isHit = false;
+		_isRotateFinish = false;
+		_isDash = false;			//돌진 여부
+		_hasDashed = false;		//돌진했는지 여부
+
+		_isDashSoundPlaying = false; //돌진 소리
+		_isAttackSoundPlaying = false; //공격 소리
+
+		//충돌객체 전부 초기화
+		_collider->SetActive(true);
+
+		for (auto& iter : _attackCol)
+		{
+			iter->SetActive(false);
+		}
+		for (auto& iter : _skillAttackCol)
+		{
+			iter->SetActive(false);
+		}
+	}
 }

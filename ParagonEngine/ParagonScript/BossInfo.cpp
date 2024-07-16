@@ -20,6 +20,7 @@ namespace Pg::DataScript
 
 	void BossInfo::ResetAll()
 	{
-
+		//여기에 게임이 재시작 시 모든 것이 초기화 되어야 한다.
+		_hp = _fullHealthValue;
 	}
 }

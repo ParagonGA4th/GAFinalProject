@@ -371,4 +371,33 @@ namespace Pg::DataScript
 			_moveAudio->Stop();
 		}
 	}
+
+	void MimicBehaviour::ResetAll()
+	{
+		//몬스터의 상태
+		_isStart = false;
+		_isHit = false;
+		_isRotateFinish = false;
+
+		_isDash = false;			//돌진 여부
+		_hasDashed = false;		//돌진했는지 여부
+
+		_isMoving = false;
+
+		_useCoinThrow = false;
+
+		_isRotateToPlayer = false;
+
+		//충돌객체 전부 초기화
+		_collider->SetActive(true);
+
+		for (auto& iter : _basicAttackCol)
+		{
+			iter->SetActive(false);
+		}
+		for (auto& iter : _skillAttackCol)
+		{
+			iter->SetActive(false);
+		}
+	}
 }

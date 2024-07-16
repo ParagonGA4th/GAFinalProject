@@ -22,6 +22,14 @@ namespace Pg::DataScript
 }
 
 namespace Pg::API { class PgScene; }
+namespace Pg::API 
+{ 
+	namespace Time
+	{
+		class PgTime;
+	}
+	
+}
 
 /// <summary>
 /// 게임 안에서 컴뱃을 관리하는 시스템. 싱글턴 스크립트로 관리된다.
@@ -88,14 +96,26 @@ namespace Pg::DataScript
 		void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
 		void AddMonsterOnHitList(BaseMonsterInfo* monster);
 
+		//IceArrow 등록.
+		void AddMonsterIceDamageList(BaseMonsterInfo* monster);
+		//FireArrow 등록.
+		void AddMonsterFireDamageList(BaseMonsterInfo* monster);
+
+		//매 프레임마다 삭제되지는 않는다.
+		//다만, MonsterInfo에 
 	private:
 		//매 프레임마다 clear.
 		std::vector<BaseMonsterHealthChangePair> _monsterHealthChangeList;
 		std::vector<BaseMonsterHitPair> _monsterOnHitList;
 
+		std::list<IceEffect_MonsterHitPair> _iceMonsterHealthChangeList;
+		std::list<FireEffect_MonsterHitPair> _fireMonsterHealthChangeList;
+
 		HandlerBundle3D* _currentHandlerBundle3D{ nullptr };
 	private:
 		void CalculateMonsterDamages();
+		void CalculateIceDamages();
+		void CalculateFireDamages();
 		void CalculateMonsterHit();
 
 		
@@ -105,6 +125,7 @@ namespace Pg::DataScript
 		bool _isManagingInitializeCalled{ false };
 
 		Pg::API::PgScene* _pgScene{ nullptr };
+		Pg::API::Time::PgTime* _pgTime{ nullptr };
 
 		//Initialize.
 		void Initialize(Pg::Data::Scene* changedScene);
