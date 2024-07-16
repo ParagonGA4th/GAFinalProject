@@ -395,5 +395,8 @@ namespace Pg::DataScript
 		{
 			iter->SetActive(false);
 		}
+
+		// 애니매이션 관련 전부 초기화
+		_monsterHelper->Reset();
 	}
 }
