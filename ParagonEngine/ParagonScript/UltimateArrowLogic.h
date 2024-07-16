@@ -42,6 +42,7 @@ namespace Pg::DataScript
 	public:
 		UltimateArrowLogic(Pg::Data::GameObject* obj);
 
+		virtual void GrabManagedObjects() override;
 		virtual void BeforePhysicsAwake() override;
 		virtual void Awake() override;
 		virtual void Start() override;
@@ -88,7 +89,7 @@ namespace Pg::DataScript
 	private:
 		//ComboSystem 갖고 있기.
 		ComboSystem* _comboSystem{ nullptr };
-
+		PlayerHandler* _playerHandler{ nullptr };
 		CombatSystem* _combatSystem{ nullptr };
 	};
 }

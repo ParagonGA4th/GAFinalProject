@@ -295,8 +295,8 @@ namespace Pg::DataScript
 					tIter->_baseMonster->ChangeMonsterHp(-FireEffect_MonsterHitPair::DOT_DAMAGE);
 
 					//Rounding Time 하나 마이너스.
-					--(tIter->_roundingNum);
 					assert(tIter->_roundingNum >= 0); //로직 상 걸리면 안됨.
+					--(tIter->_roundingNum);
 				}
 
 				//다음 Iter로.

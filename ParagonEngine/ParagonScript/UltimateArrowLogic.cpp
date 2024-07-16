@@ -3,6 +3,7 @@
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/StaticSphereCollider.h"
+#include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/PhysicsCollision.h"
 
@@ -13,6 +14,8 @@
 #include "BaseMonster.h"
 #include "IEnemyBehaviour.h"
 #include "PlayerHandler.h"
+#include "PlayerMovementSector.h"
+#include "TotalGameManager.h"
 #include "ComboSystem.h"
 #include "CombatSystem.h"
 
@@ -28,6 +31,11 @@ namespace Pg::DataScript
 		_pgTween = &singleton<Pg::API::Tween::PgTween>();
 	}
 
+	void UltimateArrowLogic::GrabManagedObjects()
+	{
+		//
+	}
+
 	void UltimateArrowLogic::BeforePhysicsAwake()
 	{
 		//CombatSystem 받아오자.
@@ -37,6 +45,10 @@ namespace Pg::DataScript
 		_collider = _object->GetComponent<Pg::Data::StaticSphereCollider>();
 		assert(_collider != nullptr);
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PROJECTILES);
+		_collider->SetActive(false);
+
+		HandlerBundle3D* tH3d = TotalGameManager::GetInstance(nullptr)->GetHandlerBundleByScene(_object->GetScene());
+		_playerHandler = tH3d->_playerBehavior;
 	}
 
 	void UltimateArrowLogic::Awake()
@@ -71,6 +83,10 @@ namespace Pg::DataScript
 			_collider->SetActive(true);
 			//_meshRenderer->SetActive(true);
 			_meshRenderer->_alphaPercentage = 100.f;
+			_playerHandler->GetPlayerMovementSector()->SetUSeUltimateSkill(true);
+
+			//플레이어 무적
+			_playerHandler->GetPlayerSelfCol()->SetActive(false);
 			_isSkillStart = false;
 		}
 	}
@@ -85,6 +101,11 @@ namespace Pg::DataScript
 			{
 				_meshRenderer->SetAnimation("ult_atk_0.pganim", false);
 				_meshRenderer->PauseAnim();
+				_collider->SetActive(false);
+				_playerHandler->GetPlayerMovementSector()->SetUSeUltimateSkill(false);
+
+				//플레이어 무적 해제.
+				_playerHandler->GetPlayerSelfCol()->SetActive(true);
 				_isAnimEnd = false;
 			}
 		}
@@ -134,4 +155,7 @@ namespace Pg::DataScript
 	{
 		_isAnimEnd = true;
 	}
+
+	
+
 }

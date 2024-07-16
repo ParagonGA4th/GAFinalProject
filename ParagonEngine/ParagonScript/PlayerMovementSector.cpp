@@ -64,16 +64,21 @@ namespace Pg::DataScript
 	{
 		ShootRayForward();
 		DetermineDirectionAndValues();
-		UpdateWASD();
-		UpdateJump();
-		UpdateFacingDirection(_currentPlaneY); //Plane Y-Level 입력해야.
+
+		if (!_useUltimateSkill)
+		{
+			UpdateWASD();
+			UpdateJump();
+			UpdateFacingDirection(_currentPlaneY); //Plane Y-Level 입력해야.
+			StrafeAvoidLogic();
+		}
+		
+
 
 		if (_playerHandler->healthPoint < std::numeric_limits<float>::epsilon())
 		{
 			_isDead_Animation = true;
 		}
-
-		StrafeAvoidLogic();
 
 		//Player Position 기록.
 		_pgGraphics->RegisterPlayerPosition(_playerHandler->_object->_transform._position);
