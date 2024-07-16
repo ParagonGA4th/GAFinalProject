@@ -52,6 +52,27 @@ namespace Pg::DataScript
 		Pg::Data::SerializerHelper::OnSerializerHelper(this, sv);
 	}
 
+	void MiniGolemBehaviour::GrabManagedObjects()
+	{
+		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
+		assert(_collider != nullptr);
+		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
+		_collider->FreezeAxisX(true);
+		_collider->FreezeAxisY(true);
+		_collider->FreezeAxisZ(true);
+
+		for (auto& iter : _object->_transform.GetChildren())
+		{
+			Pg::Data::StaticBoxCollider* staticCol = iter->_object->GetComponent<Pg::Data::StaticBoxCollider>();
+
+			if (staticCol != nullptr)
+			{
+				_attackCol.push_back(staticCol);
+				staticCol->SetActive(false);
+			}
+		}
+	}
+
 	void MiniGolemBehaviour::BeforePhysicsAwake()
 	{
 		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
@@ -381,12 +402,17 @@ namespace Pg::DataScript
 		_isAttackSoundPlaying = false; //공격 소리
 
 		//충돌객체 전부 초기화
-		_collider->SetActive(true);
+		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
+		_collider->SetActive(true);		
+		assert(_collider != nullptr);
+		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
+		_collider->FreezeAxisX(true);
+		_collider->FreezeAxisY(true);
+		_collider->FreezeAxisZ(true);
 
 		for (auto& iter : _attackCol)
 		{
 			iter->SetActive(false);
 		}
 	}
-
 }

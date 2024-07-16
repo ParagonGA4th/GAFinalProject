@@ -37,7 +37,7 @@ namespace Pg::DataScript
 	class WaspAttack;
 	class WaspSkillAttack;
 
-	class WaspBehaviour : public ScriptInterface<WaspBehaviour>, public IEnemyBehaviour, public IScriptResettable
+	class WaspBehaviour : public ScriptInterface<WaspBehaviour>, public IEnemyBehaviour
 	{
 		DEFINE_PARAGON_SCRIPT(WaspBehaviour);
 	public:

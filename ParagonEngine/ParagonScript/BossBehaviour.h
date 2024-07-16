@@ -40,7 +40,7 @@ namespace Pg::DataScript
 	class CombatSystem;
 	class CameraShake;
 
-	class BossBehaviour : public ScriptInterface<BossBehaviour>, public IEnemyBehaviour, public IScriptResettable
+	class BossBehaviour : public ScriptInterface<BossBehaviour>, public IEnemyBehaviour	
 	{
 		DEFINE_PARAGON_SCRIPT(BossBehaviour);
 	public:

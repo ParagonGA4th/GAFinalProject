@@ -33,7 +33,7 @@ namespace Pg::DataScript
 {
 	class CameraShake;
 
-	class StubBehaviour : public ScriptInterface<StubBehaviour>, public IEnemyBehaviour, public IScriptResettable
+	class StubBehaviour : public ScriptInterface<StubBehaviour>, public IEnemyBehaviour
 	{
 		DEFINE_PARAGON_SCRIPT(StubBehaviour);
 	public:
