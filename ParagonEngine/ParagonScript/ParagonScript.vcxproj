@@ -243,6 +243,7 @@
     <ClInclude Include="TransformSimpleStorage.h" />
     <ClInclude Include="TrapArea.h" />
     <ClInclude Include="TrentAttack.h" />
+    <ClInclude Include="TrentSkillAttack.h" />
     <ClInclude Include="UltimateArrowLogic.h" />
     <ClInclude Include="WaspAttack.h" />
     <ClInclude Include="WaspBehaviour.h" />
@@ -328,6 +329,7 @@
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TrapArea.cpp" />
     <ClCompile Include="TrentAttack.cpp" />
+    <ClCompile Include="TrentSkillAttack.cpp" />
     <ClCompile Include="UltimateArrowLogic.cpp" />
     <ClCompile Include="WaspAttack.cpp" />
     <ClCompile Include="WaspBehaviour.cpp" />

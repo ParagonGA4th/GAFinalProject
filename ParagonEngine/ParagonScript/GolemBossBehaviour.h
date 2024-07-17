@@ -104,6 +104,7 @@ namespace Pg::DataScript
 
 		//몬스터가 리스폰 될 위치
 		Pg::Math::PGFLOAT3 _respawnPos;
+		Pg::Math::PGFLOAT3 _rendererOffset = {0.f, -2.f, 0.f};
 
 	private:
 		//Pg::Data::GameObject* _miniGolemHit;

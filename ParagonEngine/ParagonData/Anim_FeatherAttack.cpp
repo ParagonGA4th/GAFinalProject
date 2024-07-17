@@ -24,7 +24,10 @@ namespace Pg::Data::BTree::Node
 				}
 
 				if (monHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK_PREPARE)
+				{
+					_isInit = true;
 					monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FEATHER_ATTACK;
+				}
 
 				monHelper->_isAnimationEnd = false;
 
@@ -38,7 +41,11 @@ namespace Pg::Data::BTree::Node
 				bool _loop = false;
 				std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
 				if (!_isInit) animId.append("_00008.pganim");
-				else animId.append("_00017.pganim"); _loop = true;
+				else 
+				{
+					animId.append("_00017.pganim"); 
+					_loop = true;
+				}
 
 				if (monHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK_END)
 					animId.append("_00018.pganim");

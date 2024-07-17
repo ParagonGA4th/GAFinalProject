@@ -576,6 +576,9 @@
     <ClCompile Include="StrongAttackLogic.cpp">
       <Filter>Content\ArrowRelated\ArrowLogic</Filter>
     </ClCompile>
+    <ClCompile Include="TrentSkillAttack.cpp">
+      <Filter>AI\Attack\TrentAttack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -889,6 +892,9 @@
     </ClInclude>
     <ClInclude Include="UltimateArrowLogic.h">
       <Filter>Content\ArrowRelated\ArrowLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="TrentSkillAttack.h">
+      <Filter>AI\Attack\TrentAttack</Filter>
     </ClInclude>
     <ClInclude Include="GUI_CoolDownWhiteFill.h">
       <Filter>UI\InGameUI\GUI_CoolDownWhiteFill</Filter>
