@@ -32,10 +32,16 @@ namespace Pg::DataScript
 namespace Pg::DataScript
 {
 	class PlayerHandler;
+	class Stage1GUIHandler;
+	class Stage2GUIHandler;
+	class BossStageGUIHandler;
 
 	class PlayerCombatSector : public IObserver, public IScriptResettable
 	{
 		friend class PlayerHandler;
+		friend class Stage1GUIHandler;
+		friend class Stage2GUIHandler;
+		friend class BossStageGUIHandler;
 
 		//Monster OnHit : 5의 마나를 얻는 느낌.
 		//ex. Monster Wave에 들어가서, 3마리를 잡으면 스킬 쓸 수 있을 것이다.
