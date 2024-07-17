@@ -18,6 +18,7 @@ namespace Pg::API::Time
 	public:
 
 		void Initialize();
+		void SetPauseGame(bool val);
 
 		float GetDeltaTime();
 		float GetFrameRate();

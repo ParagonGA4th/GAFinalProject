@@ -568,6 +568,9 @@
     <ClCompile Include="UltimateArrowLogic.cpp">
       <Filter>Content\ArrowRelated\ArrowLogic</Filter>
     </ClCompile>
+    <ClCompile Include="TrentSkillAttack.cpp">
+      <Filter>AI\Attack\TrentAttack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -882,6 +885,9 @@
     </ClInclude>
     <ClInclude Include="UltimateArrowLogic.h">
       <Filter>Content\ArrowRelated\ArrowLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="TrentSkillAttack.h">
+      <Filter>AI\Attack\TrentAttack</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

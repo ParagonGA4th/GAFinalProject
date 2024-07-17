@@ -16,6 +16,11 @@ namespace Pg::API
 	{
 		class PgInput;
 	}
+
+	namespace Time
+	{
+		class PgTime;
+	}
 }
 
 namespace Pg::DataScript
@@ -40,6 +45,7 @@ namespace Pg::DataScript
 		Pg::Data::Button* _button;
 		Pg::API::Input::PgInput* _pgInput = nullptr;
 		Pg::API::PgScene* _pgScene = nullptr;
+		Pg::API::Time::PgTime* _pgTime = nullptr;
 
 
 		//ÇÃ·¡±×

@@ -63,6 +63,7 @@ namespace Pg::DataScript
 		_collider->FreezeAxisZ(true);
 
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		_meshRenderer->SetRendererOffset(_rendererOffset);
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		for (auto& iter : _object->_transform.GetChildren())
@@ -99,6 +100,8 @@ namespace Pg::DataScript
 		_collider->FreezeAxisX(true);
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
+
+		_meshRenderer->SetRendererOffset(_rendererOffset);
 
 		//clear « ø‰«‘.
 		if (!_attackCol.empty() || !_skillAttackCol.empty())
