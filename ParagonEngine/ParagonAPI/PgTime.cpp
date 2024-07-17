@@ -19,4 +19,9 @@ namespace Pg::API::Time
 	{
 		return _timeSystem->GetFrameRate();
 	}
+
+	void PgTime::SetPauseGame(bool val)
+	{
+		_timeSystem->SetPauseGame(val);
+	}
 }

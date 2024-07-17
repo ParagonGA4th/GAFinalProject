@@ -4,6 +4,7 @@
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/PgScene.h"
+#include "../ParagonAPI/PgTime.h"
 #include "../ParagonData/ImageRenderer.h"
 #include <cassert>
 
@@ -16,6 +17,7 @@ namespace Pg::DataScript
 	{
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
 		_pgScene = &singleton<Pg::API::PgScene>();
+		_pgTime = &singleton<Pg::API::Time::PgTime>();
 	}
 
 	void PauseBox::GrabManagedObjects()
@@ -57,6 +59,7 @@ namespace Pg::DataScript
 					im->SetActive(false);
 				}
 
+				_pgTime->SetPauseGame(false);
 				_isPaused = false;
 			});
 
@@ -103,7 +106,8 @@ namespace Pg::DataScript
 				btn->SetActive(true);
 				im->SetActive(true);
 			}
-
+			
+			_pgTime->SetPauseGame(true);
 			_isPaused = true;
 		}
 		else if (_pgInput->GetKeyDown(eKeyCode::Esc) && _isPaused == true)
@@ -118,6 +122,8 @@ namespace Pg::DataScript
 				btn->SetActive(false);
 				im->SetActive(false);
 			}
+
+			_pgTime->SetPauseGame(false);
 			_isPaused = false;
 		}
 	}

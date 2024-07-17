@@ -42,6 +42,13 @@ namespace Pg::Util::Time
 
 		QueryPerformanceCounter(&_startTick);
 
+		//
+		if (_isPausedGame)
+		{
+			// DeltaTime이 일시정지 상태라면 _deltaTime을 0으로 설정
+			_deltaTime = 0.0f;
+		}
+
 		//hWnd가 들어왔으니, 
 		//Windows Title을 FPS 기록용으로 사용. (밑부터 성능 자체에 상관 X)
 		{
@@ -61,9 +68,10 @@ namespace Pg::Util::Time
 			{
 				tCounter = 0;
 			}
-			
+
 			assert(SetWindowTextW(_hWnd, tTitleString.c_str()));
 		}
+
 	}
 
 	void TimeSystem::MeasureFrame(float deltaTime)
@@ -95,4 +103,8 @@ namespace Pg::Util::Time
 		return &_deltaTime;
 	}
 
+	void TimeSystem::SetPauseGame(bool val)
+	{
+		_isPausedGame = val;
+	}
 }

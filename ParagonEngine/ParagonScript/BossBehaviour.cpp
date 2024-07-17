@@ -491,6 +491,8 @@ namespace Pg::DataScript
 		{
 			iter->SetActive(_isAttack);
 		}
+
+		_walkAudio->Stop();
 	}
 
 	void BossBehaviour::UpdateSkill()
@@ -499,6 +501,7 @@ namespace Pg::DataScript
 		if (_useStormBlast)
 		{
 			_isRotatingToPlayer = false;
+			_walkAudio->Stop();
 
 			_bossInfo->SetCurrentWindBlastDurationTime(_bossInfo->GetCurrentWindBlastTime() + _pgTime->GetDeltaTime());
 
@@ -547,6 +550,7 @@ namespace Pg::DataScript
 		//빛기둥 스킬의 이동 및 충돌 처리
 		if (_useLightSkill)
 		{
+			_walkAudio->Stop();
 			_bossInfo->SetCurrentLightSkillTime(_bossInfo->GetCurrentLightSkillTime() + _pgTime->GetDeltaTime());
 
 			// 빛기둥 콜라이더를 임의의 위치에 순차적으로 생성
@@ -605,6 +609,8 @@ namespace Pg::DataScript
 
 		if (_useTakeDownSkill && (!tVal))
 		{
+			_walkAudio->Stop();
+
 			// Tween 생성
 			Pg::Util::Tween* riseTween = _pgTween->CreateTween();
 			

@@ -72,10 +72,10 @@ namespace Pg::DataScript
 		_moveAudio = _mimicMoveSound->GetComponent<Pg::Data::AudioSource>();
 
 		Pg::Data::GameObject* _mimicHitSound = _object->GetScene()->FindObjectWithName("MimicHitSound");
-		_hitAudio = _mimicMoveSound->GetComponent<Pg::Data::AudioSource>();
+		_hitAudio = _mimicHitSound->GetComponent<Pg::Data::AudioSource>();
 
 		Pg::Data::GameObject* _mimicDieSound = _object->GetScene()->FindObjectWithName("MimicDieSound");
-		_dieAudio = _mimicMoveSound->GetComponent<Pg::Data::AudioSource>();
+		_dieAudio = _mimicDieSound->GetComponent<Pg::Data::AudioSource>();
 
 		//코인 SetActive를 위해
 		_coin = _object->GetScene()->FindObjectWithName(_coinName);
@@ -362,11 +362,11 @@ namespace Pg::DataScript
 				forwardDir.x = 0;
 				forwardDir = Pg::Math::PGFloat3Normalize(forwardDir);
 
-				_isRotateToPlayer = false;
 
 				if (_mimicInfo->GetCurrentSkillTime() < _mimicInfo->GetSkillDuration())
 				{
 					//추적 멈춤
+					_isRotateToPlayer = false;
 
 					//자신의 rotation에 따라 날아가는 방향 맞춰서 설정.
 					if (forwardDir.z > 0)

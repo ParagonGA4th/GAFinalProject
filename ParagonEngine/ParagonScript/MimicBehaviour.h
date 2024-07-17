@@ -133,6 +133,7 @@ namespace Pg::DataScript
 		bool _hasDashed;		//돌진했는지 여부
 
 		bool _isMoving{ false };
+		//bool _isChasing{ true };
 
 		//스킬 사용 여부
 		bool _useCoinThrow{ false };
