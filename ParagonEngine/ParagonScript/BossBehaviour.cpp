@@ -80,6 +80,7 @@ namespace Pg::DataScript
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		_meshRenderer->SetRendererOffset(_rendererOffset);
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		_wind = _object->GetScene()->FindObjectWithName("BossWindBlastEffect");
@@ -147,6 +148,7 @@ namespace Pg::DataScript
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
 
+		_meshRenderer->SetRendererOffset(_rendererOffset);
 
 		_windRenderer->SetAnimation("boss_effect_0.pganim", false);
 		_windRenderer->PauseAnim();

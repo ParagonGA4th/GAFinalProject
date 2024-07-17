@@ -127,6 +127,8 @@ namespace Pg::DataScript
 		Pg::Data::AudioSource* _fireSkillAudio;
 		Pg::Data::AudioSource* _iceSkillAudio;
 		Pg::Data::AudioSource* _ultimateSkillAudio;
+		Pg::Data::AudioSource* _hitAudio;
+		Pg::Data::AudioSource* _dieAudio;
 
 	};
 }

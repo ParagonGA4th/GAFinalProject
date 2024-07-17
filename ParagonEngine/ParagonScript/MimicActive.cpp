@@ -5,6 +5,7 @@
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/BoxCollider.h"
+#include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Scene.h"
 #include "../ParagonAPI/PgInput.h"
