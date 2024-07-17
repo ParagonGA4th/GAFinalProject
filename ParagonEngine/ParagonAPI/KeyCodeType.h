@@ -57,6 +57,8 @@ namespace Pg::API::Input
 		KeyNum7,
 		KeyNum8,
 		KeyNum9,
-		KeyNum0
+		KeyNum0,
+
+		KeyR
 	};
 }

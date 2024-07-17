@@ -316,6 +316,9 @@
     <Filter Include="Content\Gimmick\ArtifactBoxAnim">
       <UniqueIdentifier>{e00c24cb-a2e1-4a70-af66-8ddbc1e5fa7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\PlayerHandler\Enums">
+      <UniqueIdentifier>{88093d94-f5cc-4f84-af7a-3c7245bb2f67}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Content\Gimmick\Bridge">
       <UniqueIdentifier>{5dfddef5-e57a-4372-8002-267236837114}</UniqueIdentifier>
     </Filter>
@@ -558,6 +561,7 @@
     <ClCompile Include="ArtifactBoxAnim.cpp">
       <Filter>Content\Gimmick\ArtifactBoxAnim</Filter>
     </ClCompile>
+    <ClCompile Include="StrongAttackLogic.cpp" />
     <ClCompile Include="Bridge.cpp">
       <Filter>Content\Gimmick\Bridge</Filter>
     </ClCompile>
@@ -868,6 +872,10 @@
     </ClInclude>
     <ClInclude Include="ArtifactBoxAnim.h">
       <Filter>Content\Gimmick\ArtifactBoxAnim</Filter>
+    </ClInclude>
+    <ClInclude Include="StrongAttackLogic.h" />
+    <ClInclude Include="PartialAttackType.h">
+      <Filter>Content\1_ConcreteHandlers\PlayerHandler\Enums</Filter>
     </ClInclude>
     <ClInclude Include="Bridge.h">
       <Filter>Content\Gimmick\Bridge</Filter>
