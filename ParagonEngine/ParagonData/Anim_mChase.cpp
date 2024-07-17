@@ -9,7 +9,8 @@ namespace Pg::Data::BTree::Node
 		if (tMeshRenderer != nullptr)
 		{
 			std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-			animId.append("_00006.pganim");
+			if (animId.empty()) animId = "MMA_00006.pganim";
+			else animId.append("_00006.pganim");
 
 			if (tMeshRenderer->GetAnimation() != animId)
 			{
