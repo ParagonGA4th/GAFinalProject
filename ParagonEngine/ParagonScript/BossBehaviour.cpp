@@ -77,8 +77,6 @@ namespace Pg::DataScript
 		_bossDieSound = _object->GetScene()->FindObjectWithName("BossDieSound");
 		_dieAudio = _bossDieSound->GetComponent<Pg::Data::AudioSource>();
 
-		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
-
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
@@ -124,10 +122,17 @@ namespace Pg::DataScript
 		for (auto& iter : _object->GetScene()->FindObjectsWithTag("TAG_Light"))
 		{
 			Pg::Data::StaticBoxCollider* skillStaticCol = iter->GetComponent<Pg::Data::StaticBoxCollider>();
+			Pg::Data::SkinnedMeshRenderer* skillRenderer = iter->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+			
 			if (skillStaticCol != nullptr)
 			{
 				_lightAttackCol.push_back(skillStaticCol);
 				skillStaticCol->SetActive(false);
+			}
+			if (skillRenderer != nullptr)
+			{
+				_lightSkillRenderer.push_back(skillRenderer);
+				skillRenderer->SetAlphaPercentage(0.f);
 			}
 		}
 	}
@@ -142,6 +147,9 @@ namespace Pg::DataScript
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
 
+
+		_windRenderer->SetAnimation("boss_effect_0.pganim", false);
+		_windRenderer->PauseAnim();
 		_windRenderer->SetAlphaPercentage(0.f);
 
 		//clear 필요함.
@@ -191,10 +199,17 @@ namespace Pg::DataScript
 		for (auto& iter : _object->GetScene()->FindObjectsWithTag("TAG_Light"))
 		{
 			Pg::Data::StaticBoxCollider* skillStaticCol = iter->GetComponent<Pg::Data::StaticBoxCollider>();
+			Pg::Data::SkinnedMeshRenderer* skillRenderer = iter->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
 			if (skillStaticCol != nullptr)
 			{
 				_lightAttackCol.push_back(skillStaticCol);
 				skillStaticCol->SetActive(false);
+			}
+			if (skillRenderer != nullptr)
+			{
+				_lightSkillRenderer.push_back(skillRenderer);
+				skillRenderer->SetAlphaPercentage(0.f);
 			}
 		}
 	}
@@ -322,8 +337,22 @@ namespace Pg::DataScript
 		UpdateSkill();
 		if (_offWind)
 		{
-			_windRenderer->SetAlphaPercentage(0.f);
-			_offWind = false;
+			_windRenderer->SetAlphaPercentage(_windRenderer->GetAlphaPercentage() - ALPHA_PERCENT);
+
+			if (_windRenderer->GetAlphaPercentage() <= std::numeric_limits<float>::epsilon())
+			{
+				_windRenderer->SetAnimation("boss_effect_0.pganim", false);
+				_windRenderer->PauseAnim();
+				for (auto& iter : _windBlastAttackCol)
+				{
+					iter->SetActive(false);
+					iter->_object->_transform._position = { 0.f, 0.f, 1.f };
+				}
+
+				_bossInfo->SetCurrentWindBlastDurationTime(0.f);
+				_useStormBlast = false;
+				_offWind = false;
+			}
 		}
 		//빛기둥 스킬
 		UpdatePhaseTwoSkill();
@@ -472,6 +501,7 @@ namespace Pg::DataScript
 				forwardDir.x = 0;
 				forwardDir = Pg::Math::PGFloat3Normalize(forwardDir);
 
+				_windRenderer->PlayAnim();
 				_windRenderer->SetAlphaPercentage(100.f);
 
 				if (forwardDir.z > 0)
@@ -495,17 +525,9 @@ namespace Pg::DataScript
 			}
 			if(_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetWindBlastDuration())
 			{
-				for (auto& iter : _windBlastAttackCol)
-				{
-					iter->SetActive(false);
-					iter->_object->_transform._position = { 0.f, 0.f, 1.f };
-				}
-				
-				_useStormBlast = false;
 				_isRotatingToPlayer = true;
 				_offWind = true;
 
-				_bossInfo->SetCurrentWindBlastDurationTime(0.f);
 			}
 		}
 	}
@@ -526,7 +548,10 @@ namespace Pg::DataScript
 				if (_currentColIndex < _lightAttackCol.size())
 				{
 					auto& iter = _lightAttackCol[_currentColIndex];
+					auto& iter2 = _lightSkillRenderer[_currentColIndex];
+					
 					iter->SetActive(true);
+					iter2->SetAlphaPercentage(100.f);
 
 					//BattleArea의 값에 따라 수정할 예정
 					Pg::Math::PGFLOAT3 randomPosition = { RandomRange(-12.f, 12.f), 0, RandomRange(-12.f,12.f) };
@@ -543,6 +568,10 @@ namespace Pg::DataScript
 				{
 					iter->SetActive(false);
 					iter->_object->_transform._position = { 0.f, -100.f, 0.f }; // 비활성화 위치로 설정
+				}
+				for (auto& iter : _lightSkillRenderer)
+				{
+					iter->SetAlphaPercentage(0.f);
 				}
 
 				_bossInfo->SetCurrentLightSkillTime(0.f);
@@ -820,6 +849,6 @@ namespace Pg::DataScript
 		 }
 
 		 // 애니매이션 관련 전부 초기화
-		 _monsterHelper->Reset();
+		 //_monsterHelper->Reset();
 	}
 }

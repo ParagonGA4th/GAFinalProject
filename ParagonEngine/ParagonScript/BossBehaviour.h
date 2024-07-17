@@ -100,6 +100,8 @@ namespace Pg::DataScript
 		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() override { return _bossInfo; }
 		virtual unsigned int GetBelongAreaIndex() override { return _areaIndex; }
 
+		inline static const float ALPHA_PERCENT = 1.f;
+
 	private:
 		Pg::API::Time::PgTime* _pgTime;
 		Pg::API::Tween::PgTween* _pgTween;
@@ -114,6 +116,8 @@ namespace Pg::DataScript
 
 		Pg::Data::GameObject* _wind;
 		Pg::Data::SkinnedMeshRenderer* _windRenderer;
+
+		std::vector<Pg::Data::SkinnedMeshRenderer*> _lightSkillRenderer;
 
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _windBlastAttackCol;
