@@ -1,5 +1,5 @@
 3DModels
-../Resources/3DModels/StaticMesh/Cuptower/Cuptower.fbx
+../Resources/3DModels/Effects/wind_effect.fbx
 ../Resources/3DModels/StaticMesh/DefaultGeometry/DefaultGeometry.fbx
 ../Resources/3DModels/StaticMesh/LavaWoodCone/LavaWoodCone.fbx
 ../Resources/3DModels/StaticMesh/SimpleCube/simplecube.fbx
@@ -141,4 +141,6 @@
 ../Resources/3DModels/Stage_3/SM_3stage_stonefloor.fbx
 ../Resources/3DModels/Stage_3/SM_3stage_stonefloor_half.fbx
 ../Resources/3DModels/UlArrow/ult_atk.fbx
+
 ../Resources/3DModels/BossPillar/bosspillar.fbx
+../Resources/3DModels/Stage_1/norm_SM_cloud.fbx

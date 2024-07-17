@@ -341,7 +341,7 @@ namespace Pg::DataScript
 
 	void PlayerMovementSector::StrafeAvoidLogic()
 	{
-		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::CtrlL) && (!_isStrafeAvoiding))
+		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::CtrlL) && (!_isStrafeAvoiding) && (_playerHandler->GetIsStaminaReadyToUse()))
 		{
 			_isStrafeAvoiding = true;
 			_playerHandler->_selfCol->SetActive(false);

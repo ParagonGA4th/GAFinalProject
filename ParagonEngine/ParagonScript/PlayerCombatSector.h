@@ -26,6 +26,7 @@ namespace Pg::DataScript
 {
 	class ArrowLogic;
 	class UltimateArrowLogic;
+	class StrongAttackLogic;
 }
 
 namespace Pg::DataScript
@@ -52,7 +53,10 @@ namespace Pg::DataScript
 		inline static const float FIRE_ATTACK_REQUIRED_MANA = 30.f;
 
 		//100 중 1/5
-		inline static const float STRONG_ATTACK_REQUIRED_STAMINA = 20.0f;
+		inline static const int STRONG_ATTACK_REQUIRED_STAMINA = 1;
+
+		// Stamina : 15초에 한칸씩 찬다. 총 5칸. 재충전 시간 조건은 0칸이어야.
+		// 다 충전되기 전에는 쓰일 수 없다.
 
 	public:
 		PlayerCombatSector(PlayerHandler* playerHandler);
@@ -122,6 +126,7 @@ namespace Pg::DataScript
 		std::vector<ArrowLogic*> _fireArrowVec;
 
 		UltimateArrowLogic* _ulArrowLogic;
+		StrongAttackLogic* _strongAttackLogic;
 	private:
 		//Normal에 한정.
 		float _normal_timeSinceLastShot = 0.f;

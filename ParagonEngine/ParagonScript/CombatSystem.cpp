@@ -173,9 +173,9 @@ namespace Pg::DataScript
 		_currentHandlerBundle3D->_playerBehavior->ChangePlayerStamina(level);
 	}
 
-	void CombatSystem::AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl)
+	void CombatSystem::AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl, ePartialAttackType partType)
 	{
-		_monsterHealthChangeList.push_back(BaseMonsterHealthChangePair(monster, healthChangeLvl));
+		_monsterHealthChangeList.push_back(BaseMonsterHealthChangePair(monster, healthChangeLvl, partType));
 	}
 
 	void CombatSystem::AddMonsterOnHitList(BaseMonsterInfo* monster)
@@ -204,6 +204,22 @@ namespace Pg::DataScript
 		//실제로 
 		for (auto& it : _monsterHealthChangeList)
 		{
+			//여기서 스탯 충전까지 같이 해준다.
+			switch (it._partialAttackType)
+			{
+				case ePartialAttackType::eNORMAL_HIT: [[fallthrough]];
+				case ePartialAttackType::eSTRONG_HIT:
+				{
+					ChangePlayerMana(INCREMENT_MANA_ONHIT_AMT);
+				}
+				break;
+				case ePartialAttackType::eULTIMATE_HIT:
+				{
+					//
+				}
+				break;
+			}
+
 			//안으로 Dead 호출부 움직임.
 			it._baseMonster->ChangeMonsterHp(it._healthChangeLvl);
 		}
