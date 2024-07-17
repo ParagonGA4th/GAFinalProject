@@ -4,6 +4,7 @@
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/StaticSphereCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/PhysicsCollision.h"
 
@@ -84,6 +85,9 @@ namespace Pg::DataScript
 			//_meshRenderer->SetActive(true);
 			_meshRenderer->_alphaPercentage = 100.f;
 			_playerHandler->GetPlayerMovementSector()->SetUSeUltimateSkill(true);
+
+			//사운드 재생
+			_playerHandler->GetUltimateSkillAudio()->Play();
 
 			//플레이어 무적
 			_playerHandler->GetPlayerSelfCol()->SetActive(false);
