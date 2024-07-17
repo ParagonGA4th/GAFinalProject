@@ -102,9 +102,8 @@ namespace Pg::DataScript
 				//ComboSystem한테 적 때렸다고 전달.
 				_comboSystem->HitObject(true);
 
-
 				//해당 데미지를 입력, PlayerBattleBehavior로 하여금 이를 처리할 수 있게 만든다.
-				_combatSystem->AddMonsterHitList(tEnemyBehaviour->ReturnBaseMonsterInfo(), -(ARROW_ATTACK_POWER));
+				_combatSystem->AddMonsterHitList(tEnemyBehaviour->ReturnBaseMonsterInfo(), -(ULTIMATE_ATTACK_POWER), ePartialAttackType::eULTIMATE_HIT);
 				_combatSystem->AddMonsterOnHitList(tEnemyBehaviour->ReturnBaseMonsterInfo());
 			}
 			else
