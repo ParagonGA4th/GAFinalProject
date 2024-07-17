@@ -133,6 +133,8 @@ namespace Pg::Util::Input
 		CustomAssert(_map->MapBool(eKeyCode::KeyNum9, _keyboardId, gainput::Key9));
 		CustomAssert(_map->MapBool(eKeyCode::KeyNum0, _keyboardId, gainput::Key0));
 
+		CustomAssert(_map->MapBool(eKeyCode::KeyR, _keyboardId, gainput::KeyR));
+
 		//gainput::SimultaneouslyDownGesture* sdg = _manager->CreateAndGetDevice<gainput::SimultaneouslyDownGesture>();
 		//sdg->AddButton(_keyboardId, gainput::KeyCtrlL);
 		//sdg->AddButton(_keyboardId, gainput::KeyS);

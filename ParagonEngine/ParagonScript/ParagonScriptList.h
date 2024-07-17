@@ -30,6 +30,7 @@
 #include "ArtifactBox.h"
 #include "ArtifactBoxAnim.h"
 #include "MushroomTrampoline.h"
+#include "StrongAttackLogic.h"
 #include "Stair.h"
 #include "Bridge.h"
 

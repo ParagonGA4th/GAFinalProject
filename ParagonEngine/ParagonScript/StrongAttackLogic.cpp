@@ -133,6 +133,8 @@ namespace Pg::DataScript
 		_object->_transform._position = _prisonPos;
 		_collider->SetActive(false);
 		_meshRenderer->SetAlphaPercentage(0.f);
+
+		_isActivated = false;
 	}
 
 	void StrongAttackLogic::Activate(const Pg::Math::PGFLOAT3* basePos)
