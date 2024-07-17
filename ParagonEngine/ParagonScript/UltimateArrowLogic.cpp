@@ -4,6 +4,7 @@
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/StaticSphereCollider.h"
 #include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/PhysicsCollision.h"
 
@@ -85,6 +86,9 @@ namespace Pg::DataScript
 			_meshRenderer->_alphaPercentage = 100.f;
 			_playerHandler->GetPlayerMovementSector()->SetUSeUltimateSkill(true);
 
+			//사운드 재생
+			_playerHandler->GetUltimateSkillAudio()->Play();
+
 			//플레이어 무적
 			_playerHandler->GetPlayerSelfCol()->SetActive(false);
 			_isSkillStart = false;
@@ -138,9 +142,8 @@ namespace Pg::DataScript
 				//ComboSystem한테 적 때렸다고 전달.
 				_comboSystem->HitObject(true);
 
-
 				//해당 데미지를 입력, PlayerBattleBehavior로 하여금 이를 처리할 수 있게 만든다.
-				_combatSystem->AddMonsterHitList(tEnemyBehaviour->ReturnBaseMonsterInfo(), -(ARROW_ATTACK_POWER));
+				_combatSystem->AddMonsterHitList(tEnemyBehaviour->ReturnBaseMonsterInfo(), -(ULTIMATE_ATTACK_POWER), ePartialAttackType::eULTIMATE_HIT);
 				_combatSystem->AddMonsterOnHitList(tEnemyBehaviour->ReturnBaseMonsterInfo());
 			}
 			else

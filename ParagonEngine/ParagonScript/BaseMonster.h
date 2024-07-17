@@ -1,8 +1,8 @@
 #pragma once
-#include "IScriptResettable.h"
 #include "IObserver.h"
 #include "IScriptResettable.h"
-
+//#include "EnemyDefinesAndStructs.h"
+#include "PartialAttackType.h"
 #include <functional>
 
 ///모든 몬스터가 상속받아야 할 베이스 클래스.
@@ -57,9 +57,11 @@ namespace Pg::DataScript
 
 	struct BaseMonsterHealthChangePair
 	{
-		BaseMonsterHealthChangePair(BaseMonsterInfo* mon, float hChangeLvl) : _baseMonster(mon), _healthChangeLvl(hChangeLvl) {}
+		BaseMonsterHealthChangePair(BaseMonsterInfo* mon, float hChangeLvl, ePartialAttackType partType) : 
+			_baseMonster(mon), _healthChangeLvl(hChangeLvl), _partialAttackType(partType) {}
 		BaseMonsterInfo* _baseMonster;
 		float _healthChangeLvl; //음수로 되어야 한다.
+		ePartialAttackType _partialAttackType; //마나 계산을 위해.
 	};
 
 	struct BaseMonsterHitPair

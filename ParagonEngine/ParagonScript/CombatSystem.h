@@ -5,6 +5,7 @@
 #include "IEvent.h"
 #include "ScriptEventHelper.h"
 #include "BaseMonster.h"
+#include "EnemyDefinesAndStructs.h"
 #include <functional>
 #include <string>
 #include <variant>
@@ -49,6 +50,9 @@ namespace Pg::DataScript
 		DEFINE_PARAGON_SCRIPT_SINGLETON(CombatSystem);
 	
 	public:
+		inline static const float INCREMENT_MANA_ONHIT_AMT = 5.f;
+
+	public:
 		virtual void Start() override;
 
 		// 대부분의 로직을 FixedUpdate()에서 활용했으면 좋겠다. 
@@ -84,7 +88,6 @@ namespace Pg::DataScript
 	public:
 		// Player의 프로퍼티를 직접 변경하는 Wrapper이다. 무조건 Combat System을 통해서 게임 로직을 진행해야
 		// 꼬이지 않게 할 것이다.
-		
 		//플레이어에게 들어오는 개별적인 로직은 따로 분리됨.
 		void ChangePlayerHealth(float level);
 		void ChangePlayerMana(float level);
@@ -93,7 +96,8 @@ namespace Pg::DataScript
 	public:
 		//개별적인 Combat 등록.
 		//Monster Script들이 자의적으로 호출하는 함수.
-		void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
+		//Normal / Strong / Ultimate 모두 활용.
+		void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl, ePartialAttackType partType);
 		void AddMonsterOnHitList(BaseMonsterInfo* monster);
 
 		//IceArrow 등록.
