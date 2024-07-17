@@ -17,6 +17,7 @@ namespace Pg::DataScript
 	{
 		auto child = _object->_transform.GetChildren().at(0)->_object;
 		_artiBox = child->GetComponent<Pg::DataScript::ArtifactBox>();
+		assert(_artiBox != nullptr);
 
 		_renderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		_renderer->SetAnimation("OB_00002.pganim", false);
@@ -28,7 +29,8 @@ namespace Pg::DataScript
 		else
 		{
 			auto child = _object->_transform.GetChildren().at(1)->_object;
-			if(child != nullptr) child->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(true);
+			auto ccol = child->GetComponent<Pg::Data::StaticBoxCollider>();
+			if (ccol != nullptr) ccol->SetActive(true);
 		}
 		_object->SetActive(true);
 	}
@@ -46,7 +48,8 @@ namespace Pg::DataScript
 			else
 			{
 				auto child = _object->_transform.GetChildren().at(1)->_object;
-				if (child != nullptr) child->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(false);
+				auto ccol = child->GetComponent<Pg::Data::StaticBoxCollider>();
+				if (ccol != nullptr) ccol->SetActive(true);
 			}
 			_renderer->_object->SetActive(false);
 			_animEnd = false;
