@@ -18,7 +18,7 @@ namespace Pg::Data::BTree::Node
 			if (monHelper->_isAnimationEnd)
 			{
 				monHelper->_isAnimationEnd = false;
-				monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FEATHER_ATTACK;
+				monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FEATHER_ATTACK_PREPARE;
 			}
 		}
 

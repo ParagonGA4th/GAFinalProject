@@ -18,7 +18,7 @@ namespace Pg::Data::BTree::Node
 				if (monHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_2)
 				{
 					if (_isSPSkillTime)
-						monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FEATHER_ATTACK;
+						monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FEATHER_ATTACK_PREPARE;
 
 					_isSPSkillTime = !_isSPSkillTime;
 				}
@@ -27,7 +27,7 @@ namespace Pg::Data::BTree::Node
 				{
 					if (_isTPSkillTime >= 3)
 					{
-						monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FEATHER_ATTACK;
+						monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1;
 						_isTPSkillTime = 0; // Reset
 					}
 

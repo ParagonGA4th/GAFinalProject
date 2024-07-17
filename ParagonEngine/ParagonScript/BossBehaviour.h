@@ -100,6 +100,8 @@ namespace Pg::DataScript
 		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() override { return _bossInfo; }
 		virtual unsigned int GetBelongAreaIndex() override { return _areaIndex; }
 
+		inline static const float  ALPHA_PERCENT  = 1.f;
+
 	private:
 		Pg::API::Time::PgTime* _pgTime;
 		Pg::API::Tween::PgTween* _pgTween;
@@ -112,7 +114,10 @@ namespace Pg::DataScript
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
 		Pg::Data::CapsuleCollider* _collider;
 
+		Pg::Data::GameObject* _wind;
 		Pg::Data::SkinnedMeshRenderer* _windRenderer;
+
+		std::vector<Pg::Data::SkinnedMeshRenderer*> _lightSkillRenderer;
 
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _windBlastAttackCol;
@@ -164,6 +169,7 @@ namespace Pg::DataScript
 		bool _isDeadInit{ false };
 
 		bool _useStormBlast{ false };
+		bool _offWind{ false };
 
 		bool _useLightSkill{ false };
 		
@@ -180,7 +186,7 @@ namespace Pg::DataScript
 		bool _isPhase2End{ false };
 
 		float _activationInterval{ 1.f }; // 각 콜라이더가 활성화되는 시간 간격
-		float _nextActivationTime{ 1.0f }; // 다음 콜라이더가 활성화될 시간
+		float _nextActivationTime{ 2.0f }; // 다음 콜라이더가 활성화될 시간
 		size_t _currentColIndex = 0;      // 현재 활성화할 콜라이더의 인덱스
 	};
 }

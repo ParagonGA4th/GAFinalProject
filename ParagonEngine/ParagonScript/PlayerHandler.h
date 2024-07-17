@@ -96,6 +96,8 @@ namespace Pg::DataScript
 		//나중에는 사용 최소화를 목적으로.
 		PlayerMovementSector* GetPlayerMovementSector();
 		PlayerCombatSector* GetPlayerCombatSector();
+		Pg::Data::CapsuleCollider* GetPlayerSelfCol();
+		Pg::Data::AudioSource* GetUltimateSkillAudio() { return _ultimateSkillAudio; }
 
 	public:
 		//GUI를 보여주기 위해, 수정이 불가능한 포인터를 반환하게 한다.
@@ -131,6 +133,10 @@ namespace Pg::DataScript
 		Pg::Data::AudioSource* _commonAttackAudio;
 		Pg::Data::AudioSource* _walkAudio;
 		Pg::Data::AudioSource* _jumpAudio;
+		Pg::Data::AudioSource* _avoidAudio;
+		Pg::Data::AudioSource* _fireSkillAudio;
+		Pg::Data::AudioSource* _iceSkillAudio;
+		Pg::Data::AudioSource* _ultimateSkillAudio;
 
 		//강공격에 쓰이는 콜라이더 오브젝트.
 
