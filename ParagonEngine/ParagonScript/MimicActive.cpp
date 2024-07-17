@@ -32,7 +32,8 @@ namespace Pg::DataScript
 
 	void MimicActive::Awake()
 	{
-
+		_renderer->SetAnimation("OB_00002.pganim", false);
+		_renderer->PauseAnim();
 	}
 
 	void MimicActive::OnDeserialize(SerializeVector& sv)
@@ -62,7 +63,6 @@ namespace Pg::DataScript
 				_collider->SetActive(false);
 				_renderer->SetActive(false);
 				_object->SetActive(false);
-
 			}
 		}
 	}
