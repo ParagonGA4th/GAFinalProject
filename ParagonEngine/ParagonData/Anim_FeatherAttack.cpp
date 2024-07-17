@@ -14,8 +14,8 @@ namespace Pg::Data::BTree::Node
 
 			if (monHelper->_isAnimationEnd)
 			{
-				if (monHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK_PREPARE)
-					monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FEATHER_ATTACK;
+				if (monHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK_END)
+					monHelper->_bossFlag._bossState = Pg::Data::BossState::IDLE;	
 
 				if (monHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK)
 				{
@@ -23,8 +23,8 @@ namespace Pg::Data::BTree::Node
 					monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FEATHER_ATTACK_END;
 				}
 
-				if (monHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK_END)
-					monHelper->_bossFlag._bossState = Pg::Data::BossState::IDLE;	
+				if (monHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK_PREPARE)
+					monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FEATHER_ATTACK;
 
 				monHelper->_isAnimationEnd = false;
 
