@@ -81,6 +81,7 @@ namespace Pg::DataScript
 			_meshRenderer->SetAlphaPercentage(_meshRenderer->GetAlphaPercentage() - (FADEINOUT_SPEED * dt));
 			if (_meshRenderer->GetAlphaPercentage() <= std::numeric_limits<float>::epsilon())
 			{
+				_collider->SetActive(false);
 				_isDisappearing = false;
 			}
 		}
@@ -162,7 +163,6 @@ namespace Pg::DataScript
 		
 		//바로 위치 다른 곳으로.
 		_object->_transform._position = _prisonPos;
-		_collider->SetActive(false);
 
 		//Alpha 값도 설정.
 		// 100에서 0으로 가야 한다.

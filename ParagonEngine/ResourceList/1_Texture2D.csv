@@ -3,9 +3,9 @@ Texture2D
 ../Resources/Textures/ArrowRelated/fire_arrow_texture.tga
 ../Resources/Textures/ArrowRelated/ice_arrow_texture.tga
 ../Resources/Textures/wook.jpg
-../Resources/Textures/TileTexture2048x2048.dds
-../Resources/Textures/Sprites/UI/Test_SliderBarDown.png
-../Resources/Textures/Sprites/UI/Test_SliderBarUI.png
+../Resources/Textures/Sprites/UI/Skill1_Frame_W.png
+../Resources/Textures/Sprites/UI/Skill2_Frame_W.png
+../Resources/Textures/Sprites/UI/Ultimate_Frame_W.png
 ../Resources/Textures/DarkTexture2048x2048.dds
 ../Resources/Textures/Sprites/MainScene.png
 ../Resources/Textures/Sprites/UI/ExitButton_Title_Disabled.png

@@ -36,7 +36,7 @@ namespace Pg::DataScript
 
 	public:
 		inline static const float STRONG_ATTACK_POWER = 5.f;
-		inline static const float FADEINOUT_SPEED = 100.f;
+		inline static const float FADEINOUT_SPEED = 300.f;
 		inline static const float KNOCKBACK_FACTOR = 3.0f;
 
 	public:

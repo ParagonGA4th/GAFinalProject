@@ -160,6 +160,7 @@
     <ClInclude Include="GolemBossInfo.h" />
     <ClInclude Include="GolemBossSkillAttack.h" />
     <ClInclude Include="GUIDefinesAndStructs.h" />
+    <ClInclude Include="GUI_CoolDownWhiteFill.h" />
     <ClInclude Include="GUI_PercentageFillBar.h" />
     <ClInclude Include="HandleBundle3D.h" />
     <ClInclude Include="BaseAreaHandler.h" />
@@ -281,6 +282,7 @@
     <ClCompile Include="GolemBossBehaviour.cpp" />
     <ClCompile Include="GolemBossInfo.cpp" />
     <ClCompile Include="GolemBossSkillAttack.cpp" />
+    <ClCompile Include="GUI_CoolDownWhiteFill.cpp" />
     <ClCompile Include="GUI_PercentageFillBar.cpp" />
     <ClCompile Include="InGameManager.cpp" />
     <ClCompile Include="CreditsSceneGUIHandler.cpp" />

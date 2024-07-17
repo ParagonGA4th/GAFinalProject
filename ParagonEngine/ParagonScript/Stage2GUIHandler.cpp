@@ -6,6 +6,7 @@
 #include "../ParagonData/Scene.h"
 
 #include "PlayerHandler.h"
+#include "PlayerCombatSector.h"
 #include "PauseBox.h"
 
 namespace Pg::DataScript
@@ -43,6 +44,18 @@ namespace Pg::DataScript
 		_managedGuiObjectList.at("ManaBar")._guiComponent->ReceiveDependentPointers(
 			(void*)tPH->ReturnPlayerManaPointPointerConst(), nullptr, nullptr,
 			tPH->MAX_PLAYER_MANA, NULL, NULL);
+
+		_managedGuiObjectList.at("Skill1_WhiteFill")._guiComponent->ReceiveDependentPointers(
+			(void*)&(tPH->GetPlayerCombatSector()->_isStartedFireSkillChargeTime), nullptr, nullptr,
+			PlayerCombatSector::FIRE_ATTACK_COOLDOWN_TIME, NULL, NULL);
+
+		_managedGuiObjectList.at("Skill2_WhiteFill")._guiComponent->ReceiveDependentPointers(
+			(void*)&(tPH->GetPlayerCombatSector()->_isStartedIceSkillChargeTime), nullptr, nullptr,
+			PlayerCombatSector::ICE_ATTACK_COOLDOWN_TIME, NULL, NULL);
+
+		_managedGuiObjectList.at("UltimateUI_WhiteFill")._guiComponent->ReceiveDependentPointers(
+			(void*)&(tPH->GetPlayerCombatSector()->_isStartedUltimateAttackChargeTime), nullptr, nullptr,
+			PlayerCombatSector::ULTIMATE_ATTACK_COOLDOWN_TIME, NULL, NULL);
 
 		//GUIHandler 나오기 전 작업물, 하드 셋.
 		_pauseBox = _object->GetScene()->FindSingleComponentInScene<PauseBox>();
