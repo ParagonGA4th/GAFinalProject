@@ -61,7 +61,9 @@ namespace Pg::Graphics
 
 		//Player의 Position : Graphics한테 전달.
 		PARAGON_GRAPHICS_DLL void RegisterPlayerPosition(Pg::Math::PGFLOAT3 playerPos);
-
+		
+		//Manual Switch Mode 일 경우, billboard 상태일 때 Texture Index 스위칭 가능, nullptr 검사 필요
+		PARAGON_GRAPHICS_DLL unsigned int* GetEffectTextureIndexPointer(const std::string& effectName);
 	private:
 		GraphicsMain* _graphicsMain{ nullptr };
 		

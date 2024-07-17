@@ -4,15 +4,29 @@
 #include "../ParagonData/ImageRenderer.h"
 #include "../ParagonData/TextRenderer.h"
 #include "../ParagonData/Scene.h"
+#include "../ParagonAPI/PgGraphics.h"
+#include "TotalGameManager.h"
 
 #include "PlayerHandler.h"
 #include "PauseBox.h"
+#include "CombatSystem.h"
+
+#include <singleton-cpp/singleton.h>
 
 namespace Pg::DataScript
 {
 	Stage1GUIHandler::Stage1GUIHandler(Pg::Data::GameObject* obj) : ScriptInterface(obj)
 	{
+		_pgGraphics = &singleton<Pg::API::Graphics::PgGraphics>();
+	}
 
+	Stage1GUIHandler::~Stage1GUIHandler()
+	{
+		if (_staminaBillboardObject != nullptr)
+		{
+			_pgGraphics->RemoveEffectObject(_staminaBillboardObject);
+			delete _staminaBillboardObject;
+		}
 	}
 
 	void Stage1GUIHandler::GrabManagedObjects()
@@ -22,16 +36,19 @@ namespace Pg::DataScript
 		
 		//얘는 Abstract이다. 무조건 GrabManaged에서 호출되었어야.
 		AssignPointersToGUI();
+
+		//이는 Stamina 등록을 해주기 위해. Object. _isActive만 꺼놓는 방식으로 등록해놓는다.
+		//SetupStaminaBillboardRenderObject();
 	}
 
 	void Stage1GUIHandler::Start()
 	{
-
+		//_staminaBillboardObject->SetActive(true);
 	}
 
 	void Stage1GUIHandler::Update()
 	{
-
+		//MatchUpdateStaminaToRO();
 	}
 
 	void Stage1GUIHandler::AssignPointersToGUI()
@@ -43,14 +60,45 @@ namespace Pg::DataScript
 			(void*)tPH->ReturnPlayerHealthPointPointerConst(), nullptr, nullptr, 
 			tPH->MAX_PLAYER_HEALTH, NULL, NULL);
 
+		_managedGuiObjectList.at("ManaBar")._guiComponent->ReceiveDependentPointers(
+			(void*)tPH->ReturnPlayerManaPointPointerConst(), nullptr, nullptr,
+			tPH->MAX_PLAYER_MANA, NULL, NULL);
+
 		//GUIHandler 나오기 전 작업물, 하드 셋.
 		_pauseBox = _object->GetScene()->FindSingleComponentInScene<PauseBox>();
 		assert(_pauseBox != nullptr);
+
+		////플레이어 가져오기.
+		//auto tHandlerBundle = TotalGameManager::GetInstance(nullptr)->GetHandlerBundleByScene(_object->GetScene());
+		//assert(tHandlerBundle != nullptr);
+		//_playerTransform = &(tHandlerBundle->_playerBehavior->_object->_transform);
+		//
+		//_staminaTextureIndexPointer = _pgGraphics->GetEffectTextureIndexPointer("Effect_StaminaStats");
+		//assert(_staminaTextureIndexPointer != nullptr);
 	}
 
 	void Stage1GUIHandler::AdditionalReset()
 	{
 		_pauseBox->ResetAll();
 	}
+
+	void Stage1GUIHandler::SetupStaminaBillboardRenderObject()
+	{
+		_staminaBillboardObject = new Pg::Data::VisualEffectRenderObject();
+		//EffectObject 등록.
+		_pgGraphics->RegisterEffectObject("Effect_StaminaStats",_staminaBillboardObject);
+		_staminaBillboardObject->SetActive(false);
+	}
+
+	void Stage1GUIHandler::MatchUpdateStaminaToRO()
+	{
+		CombatSystem* tCombatSystem = CombatSystem::GetInstance(nullptr);
+
+		//Offset 줘서 띄우기.
+		//_staminaBillboardObject->_position = _playerTransform->_position + Pg::Math::PGFLOAT3(0, 3, 0);
+		//tCombatSystem->
+
+	}
+
 
 }

@@ -86,6 +86,8 @@ namespace Pg::Graphics
 		//Main Render Loop에서 돌아가는 효과이다.
 		void Render(Pg::Data::CameraData* camData);
 
+		//인덱스를 설정할 수 있어야 하기에, 이펙트 유효 + ManualSwitchMode가 꺼져 있으면 nullptr 반환.
+		unsigned int* GetEffectTextureIndexPointer(const std::string& effectName);
 	private:
 		void LoadSingleEffect(VERenderingSet* veSet);
 		//void Load3DSpaceEffect(VERenderingSet* veSet);
