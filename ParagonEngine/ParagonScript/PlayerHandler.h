@@ -44,7 +44,8 @@ namespace Pg::DataScript
 		inline static const float MAX_PLAYER_HEALTH = 100.0f;
 		inline static const float PLAYER_HEALTH_LOW_BARRIER = 20.0f;
 		inline static const float MAX_PLAYER_MANA = 100.0f; // Mana는 100이 최대.
-		inline static const float MAX_PLAYER_STAMINA = 100.0f;
+		inline static const int MAX_PLAYER_STAMINA = 5;
+		inline static const float STAMINA_ONE_SLOT_CHARGE_TIME = 15.0f;
 
 	public:
 		PlayerHandler(Pg::Data::GameObject* obj); 
@@ -81,14 +82,14 @@ namespace Pg::DataScript
 		//플레이어에게 들어오는 개별적인 로직은 따로 분리됨.
 		void ChangePlayerHealth(float level);
 		void ChangePlayerMana(float level);
-		void ChangePlayerStamina(float level);
+		void ChangePlayerStamina(int level);
 
 	public:
 		//체력 관련. -> 지금은 맵 기믹때문에 이렇게 해놨지만, 나중에는 별도로 이동해야.
 		//최고 체력은 일단 100이다.
 		float healthPoint{ MAX_PLAYER_HEALTH };
 		float manaPoint{ MAX_PLAYER_MANA };
-		float staminaPoint{ MAX_PLAYER_STAMINA };
+		int staminaPoint{ MAX_PLAYER_STAMINA };
 
 	public:
 		//Sector 사이의 교류를 위해.
@@ -96,19 +97,29 @@ namespace Pg::DataScript
 		PlayerMovementSector* GetPlayerMovementSector();
 		PlayerCombatSector* GetPlayerCombatSector();
 		Pg::Data::CapsuleCollider* GetPlayerSelfCol();
+		Pg::Data::AudioSource* GetUltimateSkillAudio() { return _ultimateSkillAudio; }
 
 	public:
 		//GUI를 보여주기 위해, 수정이 불가능한 포인터를 반환하게 한다.
 		const float* ReturnPlayerHealthPointPointerConst() const;
 		const float* ReturnPlayerManaPointPointerConst() const;
-		const float* ReturnPlayerStaminaPointPointerConst() const;
+		const int* ReturnPlayerStaminaPointPointerConst() const;
+
+		bool GetIsStaminaReadyToUse();
 
 	private:
 		void GetInternalVariables();
-
+		void UpdateStamina();
 	private:
 		CombatSystem* _combatSystem{ nullptr };
 		ComboSystem* _comboSystem{ nullptr };
+		Pg::API::Time::PgTime* _pgTime{ nullptr };
+
+		//Stamina 관련된 스탯 (회피 / 강공격)
+		//두 섹터가 공유해서 써야 한다.
+		bool _isStaminaReadyToUse{ true };
+		bool _shouldStaminaCharge{ false };
+		float _staminaCountingTime{ 0.f };
 
 	private:
 		//내부적으로 Movement 등 Sector들 관리.
@@ -122,6 +133,14 @@ namespace Pg::DataScript
 		Pg::Data::AudioSource* _commonAttackAudio;
 		Pg::Data::AudioSource* _walkAudio;
 		Pg::Data::AudioSource* _jumpAudio;
+		Pg::Data::AudioSource* _avoidAudio;
+		Pg::Data::AudioSource* _fireSkillAudio;
+		Pg::Data::AudioSource* _iceSkillAudio;
+		Pg::Data::AudioSource* _ultimateSkillAudio;
+
+		//강공격에 쓰이는 콜라이더 오브젝트.
+
+		//Pg::Data::StaticSphereCollider* _strongAttackCol{ nullptr };
 
 	};
 }

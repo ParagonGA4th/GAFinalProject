@@ -100,7 +100,7 @@ namespace Pg::DataScript
 		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() override { return _bossInfo; }
 		virtual unsigned int GetBelongAreaIndex() override { return _areaIndex; }
 
-		inline static const float ALPHA_PERCENT = 1.f;
+		inline static const float  ALPHA_PERCENT  = 1.f;
 
 	private:
 		Pg::API::Time::PgTime* _pgTime;
@@ -186,7 +186,7 @@ namespace Pg::DataScript
 		bool _isPhase2End{ false };
 
 		float _activationInterval{ 1.f }; // 각 콜라이더가 활성화되는 시간 간격
-		float _nextActivationTime{ 1.0f }; // 다음 콜라이더가 활성화될 시간
+		float _nextActivationTime{ 2.0f }; // 다음 콜라이더가 활성화될 시간
 		size_t _currentColIndex = 0;      // 현재 활성화할 콜라이더의 인덱스
 	};
 }

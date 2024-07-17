@@ -245,7 +245,7 @@ namespace Pg::DataScript
 	void ArrowLogic::NormalArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex)
 	{
 		//해당 데미지를 입력, PlayerBattleBehavior로 하여금 이를 처리할 수 있게 만든다.
-		_combatSystem->AddMonsterHitList(behav->ReturnBaseMonsterInfo(), -(ARROW_ATTACK_POWER * ComboSystem::DAMAGE_MULTIPLIER[comboIndex]));
+		_combatSystem->AddMonsterHitList(behav->ReturnBaseMonsterInfo(), -(ARROW_ATTACK_POWER * ComboSystem::DAMAGE_MULTIPLIER[comboIndex]), ePartialAttackType::eNORMAL_HIT);
 		_combatSystem->AddMonsterOnHitList(behav->ReturnBaseMonsterInfo());
 	}
 

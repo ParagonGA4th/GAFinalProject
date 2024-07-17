@@ -301,13 +301,6 @@ namespace Pg::DataScript
 					//_useTakeDownSkill = false;
 					_useStormBlast = true;
 				}				
-				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK) // 빛기둥
-				{
-					_useLightSkill = true;
-					//Attack(false);
-					//_useTakeDownSkill = false;
-					//_useStormBlast = true;
-				}
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_1 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_3)
@@ -322,7 +315,12 @@ namespace Pg::DataScript
 					Attack(false);
 				}
 			}
-			else
+			else if(_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
+				_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2 ||
+				_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3 ||
+				_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_1 ||
+				_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2 ||
+				_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_3)
 			{
 				_meshRenderer->_animBlendFactor = 10.0f;
 				_isChasing = true;
@@ -330,6 +328,16 @@ namespace Pg::DataScript
 				_monsterHelper->_isChase = true;
 				_monsterHelper->_isPlayerinHitSpace = false;
 				_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::IDLE;
+			}
+
+			if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK) // 빛기둥
+			{
+				_isRotatingToPlayer = false;
+				_isChasing = false;
+				_useLightSkill = true;
+				//Attack(false);
+				//_useTakeDownSkill = false;
+				//_useStormBlast = true;
 			}
 		}
 
@@ -492,7 +500,7 @@ namespace Pg::DataScript
 
 			_bossInfo->SetCurrentWindBlastDurationTime(_bossInfo->GetCurrentWindBlastTime() + _pgTime->GetDeltaTime());
 
-			if (_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetStartWindBlastTime())
+			if (_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetStartWindBlastTime() && !_offWind)
 			{
 				Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
 				
@@ -540,25 +548,28 @@ namespace Pg::DataScript
 			_bossInfo->SetCurrentLightSkillTime(_bossInfo->GetCurrentLightSkillTime() + _pgTime->GetDeltaTime());
 
 			// 빛기둥 콜라이더를 임의의 위치에 순차적으로 생성
-			if (_bossInfo->GetCurrentLightSkillTime() >= _nextActivationTime)
+			if (_bossInfo->GetCurrentLightSkillTime() >= _bossInfo->GetStartLightSkillTime())
 			{
-				//자신은 무적이 된다.
-				//_collider->SetActive(false);
-
-				if (_currentColIndex < _lightAttackCol.size())
+				if (_bossInfo->GetCurrentLightSkillTime() >= _nextActivationTime)
 				{
-					auto& iter = _lightAttackCol[_currentColIndex];
-					auto& iter2 = _lightSkillRenderer[_currentColIndex];
-					
-					iter->SetActive(true);
-					iter2->SetAlphaPercentage(100.f);
+					//자신은 무적이 된다.
+					//_collider->SetActive(false);
 
-					//BattleArea의 값에 따라 수정할 예정
-					Pg::Math::PGFLOAT3 randomPosition = { RandomRange(-12.f, 12.f), 0, RandomRange(-12.f,12.f) };
-					iter->_object->_transform._position = randomPosition;
+					if (_currentColIndex < _lightAttackCol.size())
+					{
+						auto& iter = _lightAttackCol[_currentColIndex];
+						auto& iter2 = _lightSkillRenderer[_currentColIndex];
 
-					_currentColIndex++;
-					_nextActivationTime += _activationInterval;
+						iter->SetActive(true);
+						iter2->SetAlphaPercentage(100.f);
+
+						//BattleArea의 값에 따라 수정할 예정
+						Pg::Math::PGFLOAT3 randomPosition = { RandomRange(-12.f, 12.f), 0, RandomRange(-12.f,12.f) };
+						iter->_object->_transform._position = randomPosition;
+
+						_currentColIndex++;
+						_nextActivationTime += _activationInterval;
+					}
 				}
 			}
 			if (_bossInfo->GetCurrentLightSkillTime() >= _bossInfo->GetLightSkillDuration())
