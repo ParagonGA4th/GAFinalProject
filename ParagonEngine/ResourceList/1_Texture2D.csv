@@ -1,6 +1,4 @@
 Texture2D
-../Resources/Textures/Sprites/LPDiskAlpha.png
-../Resources/Textures/Sprites/GameProgressBar.png
 ../Resources/Textures/ArrowRelated/normal_arrow_texture.tga
 ../Resources/Textures/ArrowRelated/fire_arrow_texture.tga
 ../Resources/Textures/ArrowRelated/ice_arrow_texture.tga

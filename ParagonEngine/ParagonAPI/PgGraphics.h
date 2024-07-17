@@ -58,6 +58,8 @@ namespace Pg::API::Graphics
 		//Player의 위치, 그래픽스 엔진도 알게 하자.
 		void RegisterPlayerPosition(Pg::Math::PGFLOAT3 playerPos);
 
+		unsigned int* GetEffectTextureIndexPointer(const std::string& effectName);
+
 	private:
 		Pg::Graphics::GraphicsApiExporter* _graphicsApiExporter{ nullptr };
 	};

@@ -28,5 +28,6 @@ namespace Pg::Data
 		std::string _customVertexShaderName{};		//반영
 		bool _isUseCustomPixelShader{ false };		//반영
 		std::string _customPixelShaderName{};		//반영 
+		bool _manualSwitchingMode{ false }; //만약 3d billboard animation일 경우, 다음 칸으로 넘기는 것을 플레이어의 조작으로 기반할것인가?
 	};
 }

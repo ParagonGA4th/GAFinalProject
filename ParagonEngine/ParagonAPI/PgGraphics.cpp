@@ -131,4 +131,9 @@ namespace Pg::API::Graphics
 		_graphicsApiExporter->RegisterPlayerPosition(playerPos);
 	}
 
+	unsigned int* PgGraphics::GetEffectTextureIndexPointer(const std::string& effectName)
+	{
+		return _graphicsApiExporter->GetEffectTextureIndexPointer(effectName);
+	}
+
 }

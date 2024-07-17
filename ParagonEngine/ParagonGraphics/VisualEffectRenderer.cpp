@@ -190,7 +190,7 @@ namespace Pg::Graphics
 						///여기 해야 한다.
 						unsigned int tCurrentFrame = bRenderSet->_veGraphicsSet->_currentTextureFrame;
 						bBasicEffectMaybe->SetTexture(bRenderSet->_veGraphicsSet->_renderTextureVec.at(tCurrentFrame)->GetSRV());
-						
+
 						//Animated Logic. 
 						bRenderSet->_veGraphicsSet->_recordedTime += _timeSystem->GetDeltaTime();
 						if (bRenderSet->_veGraphicsSet->_recordedTime >= bRenderSet->_veGraphicsSet->_changeBaseTime)
@@ -211,7 +211,12 @@ namespace Pg::Graphics
 					{
 						//DXTK의 기본적인 이펙트를 가지고 만들어졌다. DirectX::BasicEffect.
 						//무조건 한개일 것이다 이러면 Texture.
-						bBasicEffectMaybe->SetTexture(bRenderSet->_veGraphicsSet->_renderTextureVec.at(0)->GetSRV());
+						unsigned int tCurrentFrame = 0;
+						if (bRenderSet->_visualEffectData._manualSwitchingMode)
+						{
+							tCurrentFrame = bRenderSet->_veGraphicsSet->_currentTextureFrame;
+						}
+						bBasicEffectMaybe->SetTexture(bRenderSet->_veGraphicsSet->_renderTextureVec.at(tCurrentFrame)->GetSRV());
 					}
 					bBasicEffectMaybe->SetAlpha((bRenderSet->_visualEffectData._alphaPercentage / 100.f));
 				}
@@ -479,6 +484,7 @@ namespace Pg::Graphics
 					default:
 					{
 						//Dual도 안되게 해놓았다.
+						//이제는 Basic Effect 스위칭 가능하게.
 						assert(false && "2개 이상은 DXTK 자체 이펙트 시리즈에서 불가.");
 					}
 					break;
@@ -599,6 +605,25 @@ namespace Pg::Graphics
 			{
 				assert(false && "미정의");
 			}
+		}
+	}
+
+	unsigned int* VisualEffectRenderer::GetEffectTextureIndexPointer(const std::string& effectName)
+	{
+		if (_visualEffectsMap.contains(effectName))
+		{
+			auto& bSet = _visualEffectsMap.at(effectName);
+
+			unsigned int* tRet = nullptr;
+			if (bSet->_visualEffectData._manualSwitchingMode)
+			{
+				tRet = &(bSet->_veGraphicsSet->_currentTextureFrame);
+			}
+			return tRet;
+		}
+		else
+		{
+			return nullptr;
 		}
 	}
 
