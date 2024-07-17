@@ -28,7 +28,7 @@ namespace Pg::DataScript
 		else
 		{
 			auto child = _object->_transform.GetChildren().at(1)->_object;
-			child->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(true);
+			if(child != nullptr) child->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(true);
 		}
 		_object->SetActive(true);
 	}
@@ -42,11 +42,11 @@ namespace Pg::DataScript
 			_renderer->SetActive(false);
 
 			auto col = _object->GetComponent<Pg::Data::StaticBoxCollider>();
-			if (col != nullptr) col->SetActive(true);
+			if (col != nullptr) col->SetActive(false);
 			else
 			{
 				auto child = _object->_transform.GetChildren().at(1)->_object;
-				child->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(true);
+				if (child != nullptr) child->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(false);
 			}
 			_renderer->_object->SetActive(false);
 			_animEnd = false;
