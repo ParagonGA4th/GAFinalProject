@@ -340,14 +340,14 @@ namespace Pg::DataScript
 				if (_isIceAttackingNow)
 				{
 					//Ice Shooting. Sound / float타임 교체해야.
-					ExecuteSpecificArrowShoot(&_iceArrowVec, _playerHandler->_commonAttackAudio, _normal_timeSinceLastShot);
+					ExecuteSpecificArrowShoot(&_iceArrowVec, _playerHandler->_iceSkillAudio, _normal_timeSinceLastShot);
 					//단발성.
 					_isIceAttackingNow = false;
 				}
 				if (_isFireAttackingNow)
 				{
 					//Fire Shooting. Sound / float타임 교체해야.
-					ExecuteSpecificArrowShoot(&_fireArrowVec, _playerHandler->_commonAttackAudio, _normal_timeSinceLastShot);
+					ExecuteSpecificArrowShoot(&_fireArrowVec, _playerHandler->_fireSkillAudio, _normal_timeSinceLastShot);
 					_isFireAttackingNow = false;
 				}
 				else

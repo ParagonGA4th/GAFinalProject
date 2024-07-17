@@ -346,6 +346,7 @@ namespace Pg::DataScript
 			_isStrafeAvoiding = true;
 			_playerHandler->_selfCol->SetActive(false);
 			_playerHandler->_meshRenderer->SetAnimation("PA_00004.pganim", false);
+			_playerHandler->_avoidAudio->Play();
 
 			//ForwardVector의 Back 방향으로 이동해야 한다.
 			const float tAvoidDist = 7.0f; //실제로 이동한 거리.

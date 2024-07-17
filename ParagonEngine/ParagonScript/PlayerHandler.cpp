@@ -219,9 +219,17 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* tPlayerJumpSound = _object->GetScene()->FindObjectWithName("PlayerJumpSound");
 		_jumpAudio = tPlayerJumpSound->GetComponent<Pg::Data::AudioSource>();
 
+		Pg::Data::GameObject* tPlayerAvoidSound = _object->GetScene()->FindObjectWithName("PlayerAvoidSound");
+		_avoidAudio = tPlayerAvoidSound->GetComponent<Pg::Data::AudioSource>();
 
+		Pg::Data::GameObject* tPlayerFireSkillSound = _object->GetScene()->FindObjectWithName("PlayerFireSkillAttackSound");
+		_fireSkillAudio = tPlayerFireSkillSound->GetComponent<Pg::Data::AudioSource>();
 
+		Pg::Data::GameObject* tPlayerIceSkillSound = _object->GetScene()->FindObjectWithName("PlayerIceSkillound");
+		_iceSkillAudio = tPlayerIceSkillSound->GetComponent<Pg::Data::AudioSource>();
 
+		Pg::Data::GameObject* tPlayerUltimateSkillSound = _object->GetScene()->FindObjectWithName("PlayerUltimateSkillSound");
+		_ultimateSkillAudio = tPlayerUltimateSkillSound->GetComponent<Pg::Data::AudioSource>();
 
 	}
 
