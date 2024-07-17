@@ -47,7 +47,7 @@ namespace Pg::DataScript
 		inline static const float ULTIMATE_ATTACK_DURATION = 3.0f;
 		inline static const float STRONG_ATTACK_DURATION = 1.0f;
 
-		inline static const float ULTIMATE_ATTACK_REQUIRED_MANA = 50.f;
+		inline static const float ULTIMATE_ATTACK_REQUIRED_MANA = 100.f;
 		inline static const float ICE_ATTACK_REQUIRED_MANA = 30.f;
 		inline static const float FIRE_ATTACK_REQUIRED_MANA = 30.f;
 

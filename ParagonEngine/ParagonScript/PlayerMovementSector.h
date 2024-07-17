@@ -64,6 +64,9 @@ namespace Pg::DataScript
 	public:
 		bool GetIsMoving();	//플레이어의 이동여부를 전달하여 공격금지하게 해야함.
 		void SetIsAbleToJump(bool val);
+
+		bool GetUseUltimateSkill() { return _useUltimateSkill; }
+		void SetUSeUltimateSkill(bool val) { _useUltimateSkill = val; }
 	
 	private:
 		//움직임 관련. 
@@ -123,6 +126,7 @@ namespace Pg::DataScript
 		float _recordedTimeSinceJump = 0.f;
 		bool _isStrafeAvoiding{ false };
 		bool _isAbleToJump{ false };
+		bool _useUltimateSkill{ false };
 	private:
 		//개별적으로 애니메이션 출력 로직 관리.
 		//다 지나갈 시, Idle 출력.

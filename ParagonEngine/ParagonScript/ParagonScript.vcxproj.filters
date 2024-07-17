@@ -319,6 +319,9 @@
     <Filter Include="Content\1_ConcreteHandlers\PlayerHandler\Enums">
       <UniqueIdentifier>{88093d94-f5cc-4f84-af7a-3c7245bb2f67}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Gimmick\Bridge">
+      <UniqueIdentifier>{5dfddef5-e57a-4372-8002-267236837114}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -555,11 +558,16 @@
     <ClCompile Include="ArtifactBox.cpp">
       <Filter>Content\Gimmick\ArtifactBox</Filter>
     </ClCompile>
-    <ClCompile Include="UltimateArrowLogic.cpp" />
     <ClCompile Include="ArtifactBoxAnim.cpp">
       <Filter>Content\Gimmick\ArtifactBoxAnim</Filter>
     </ClCompile>
     <ClCompile Include="StrongAttackLogic.cpp" />
+    <ClCompile Include="Bridge.cpp">
+      <Filter>Content\Gimmick\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="UltimateArrowLogic.cpp">
+      <Filter>Content\ArrowRelated\ArrowLogic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -862,13 +870,18 @@
     <ClInclude Include="ArtifactBox.h">
       <Filter>Content\Gimmick\ArtifactBox</Filter>
     </ClInclude>
-    <ClInclude Include="UltimateArrowLogic.h" />
     <ClInclude Include="ArtifactBoxAnim.h">
       <Filter>Content\Gimmick\ArtifactBoxAnim</Filter>
     </ClInclude>
     <ClInclude Include="StrongAttackLogic.h" />
     <ClInclude Include="PartialAttackType.h">
       <Filter>Content\1_ConcreteHandlers\PlayerHandler\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Bridge.h">
+      <Filter>Content\Gimmick\Bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="UltimateArrowLogic.h">
+      <Filter>Content\ArrowRelated\ArrowLogic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

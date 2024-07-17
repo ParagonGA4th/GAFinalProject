@@ -3,6 +3,8 @@
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/StaticSphereCollider.h"
+#include "../ParagonData/CapsuleCollider.h"
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonData/LayerMask.h"
 #include "../ParagonData/PhysicsCollision.h"
 
@@ -13,6 +15,8 @@
 #include "BaseMonster.h"
 #include "IEnemyBehaviour.h"
 #include "PlayerHandler.h"
+#include "PlayerMovementSector.h"
+#include "TotalGameManager.h"
 #include "ComboSystem.h"
 #include "CombatSystem.h"
 
@@ -28,6 +32,11 @@ namespace Pg::DataScript
 		_pgTween = &singleton<Pg::API::Tween::PgTween>();
 	}
 
+	void UltimateArrowLogic::GrabManagedObjects()
+	{
+		//
+	}
+
 	void UltimateArrowLogic::BeforePhysicsAwake()
 	{
 		//CombatSystem 받아오자.
@@ -37,13 +46,22 @@ namespace Pg::DataScript
 		_collider = _object->GetComponent<Pg::Data::StaticSphereCollider>();
 		assert(_collider != nullptr);
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_PROJECTILES);
+		_collider->SetActive(false);
+
+		HandlerBundle3D* tH3d = TotalGameManager::GetInstance(nullptr)->GetHandlerBundleByScene(_object->GetScene());
+		_playerHandler = tH3d->_playerBehavior;
 	}
 
 	void UltimateArrowLogic::Awake()
 	{
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		assert(_meshRenderer != nullptr);
-		_meshRenderer->SetActive(false);
+		//_meshRenderer->SetActive(false);
+		_meshRenderer->_alphaPercentage = 0.f;
+
+
+		_meshRenderer->SetAnimation("ult_atk_0.pganim", false);
+		_meshRenderer->PauseAnim();
 	}
 
 	void UltimateArrowLogic::Start()
@@ -54,6 +72,7 @@ namespace Pg::DataScript
 	void UltimateArrowLogic::Update()
 	{
 		CarryOutShoot();
+		EndShootingSelf();
 	}
 
 	void UltimateArrowLogic::CarryOutShoot()
@@ -61,18 +80,39 @@ namespace Pg::DataScript
 		if (_isSkillStart)
 		{
 			///여기에 궁극기 애니메이션 및 콜라이더 추가되면 된다.
+			_meshRenderer->PlayAnim();
 			_collider->SetActive(true);
-			_meshRenderer->SetActive(true);
+			//_meshRenderer->SetActive(true);
+			_meshRenderer->_alphaPercentage = 100.f;
+			_playerHandler->GetPlayerMovementSector()->SetUSeUltimateSkill(true);
+
+			//사운드 재생
+			_playerHandler->GetUltimateSkillAudio()->Play();
+
+			//플레이어 무적
+			_playerHandler->GetPlayerSelfCol()->SetActive(false);
+			_isSkillStart = false;
 		}
 	}
 
 	void UltimateArrowLogic::EndShootingSelf()
 	{
-		//_collider->SetActive(false);
-		//_meshRenderer->SetActive(false);
+		if (_isAnimEnd)
+		{
+			_meshRenderer->_alphaPercentage -= ALPHA_PERCENT;
+			
+			if (_meshRenderer->_alphaPercentage <= std::numeric_limits<float>::epsilon())
+			{
+				_meshRenderer->SetAnimation("ult_atk_0.pganim", false);
+				_meshRenderer->PauseAnim();
+				_collider->SetActive(false);
+				_playerHandler->GetPlayerMovementSector()->SetUSeUltimateSkill(false);
 
-		//오브젝트 다시 초기위치로 돌아가야 함.
-		_object->_transform._position = { 0.f,10.f,5.f };
+				//플레이어 무적 해제.
+				_playerHandler->GetPlayerSelfCol()->SetActive(true);
+				_isAnimEnd = false;
+			}
+		}
 	}
 
 	void UltimateArrowLogic::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
@@ -113,4 +153,12 @@ namespace Pg::DataScript
 			}
 		}
 	}
+
+	void UltimateArrowLogic::OnAnimationEnd(const std::string& justEndedAnimation)
+	{
+		_isAnimEnd = true;
+	}
+
+	
+
 }

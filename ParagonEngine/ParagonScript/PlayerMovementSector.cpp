@@ -64,16 +64,21 @@ namespace Pg::DataScript
 	{
 		ShootRayForward();
 		DetermineDirectionAndValues();
-		UpdateWASD();
-		UpdateJump();
-		UpdateFacingDirection(_currentPlaneY); //Plane Y-Level 입력해야.
+
+		if (!_useUltimateSkill)
+		{
+			UpdateWASD();
+			UpdateJump();
+			UpdateFacingDirection(_currentPlaneY); //Plane Y-Level 입력해야.
+			StrafeAvoidLogic();
+		}
+		
+
 
 		if (_playerHandler->healthPoint < std::numeric_limits<float>::epsilon())
 		{
 			_isDead_Animation = true;
 		}
-
-		StrafeAvoidLogic();
 
 		//Player Position 기록.
 		_pgGraphics->RegisterPlayerPosition(_playerHandler->_object->_transform._position);
@@ -341,6 +346,7 @@ namespace Pg::DataScript
 			_isStrafeAvoiding = true;
 			_playerHandler->_selfCol->SetActive(false);
 			_playerHandler->_meshRenderer->SetAnimation("PA_00004.pganim", false);
+			_playerHandler->_avoidAudio->Play();
 
 			//ForwardVector의 Back 방향으로 이동해야 한다.
 			const float tAvoidDist = 7.0f; //실제로 이동한 거리.

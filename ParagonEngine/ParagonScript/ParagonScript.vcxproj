@@ -152,6 +152,7 @@
     <ClInclude Include="BossStageAreaHandler.h" />
     <ClInclude Include="BossStageEnemyHandler.h" />
     <ClInclude Include="BossStageGUIHandler.h" />
+    <ClInclude Include="Bridge.h" />
     <ClInclude Include="DeathPlane.h" />
     <ClInclude Include="EnemyDefinesAndStructs.h" />
     <ClInclude Include="GolemBossAttack.h" />
@@ -265,6 +266,7 @@
     <ClCompile Include="BossStageAreaHandler.cpp" />
     <ClCompile Include="BossStageEnemyHandler.cpp" />
     <ClCompile Include="BossStageGUIHandler.cpp" />
+    <ClCompile Include="Bridge.cpp" />
     <ClCompile Include="CameraShake.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="ComboSystem.cpp" />

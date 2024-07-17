@@ -3,6 +3,11 @@
 
 #include <visit_struct/visit_struct.hpp>
 
+namespace Pg::API
+{
+	namespace Input { class PgInput; }
+}
+
 namespace Pg::Data
 {
 	class StaticBoxCollider;
@@ -23,6 +28,7 @@ namespace Pg::DataScript
 		virtual void Awake() override;
 		virtual void Update() override;
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
+		virtual void OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count) override;
 
 		virtual void OnDeserialize(SerializeVector& sv) override;
 		virtual void OnSerialize(SerializeVector& sv) override;
@@ -36,6 +42,9 @@ namespace Pg::DataScript
 		Pg::Data::StaticBoxCollider* _collider;
 		Pg::Data::SkinnedMeshRenderer* _renderer;
 		MimicBehaviour* _mimicBehaviour;
+
+		Pg::API::Input::PgInput* _pgInput{ nullptr };
+		bool _onTriggerStay{ false };
 	};
 }
 
