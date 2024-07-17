@@ -117,7 +117,6 @@ namespace Pg::DataScript
 				// Knockback 주기.
 				// 오브젝트를 서로 뺀다. 
 				ApplyKnockback(tCol);
-				
 			}
 			else
 			{

@@ -5,6 +5,7 @@
 #include "ParagonRenderer.h"
 #include "RenderMaterial.h"
 #include "PPFinalRenderer.h"
+#include "Forward3DRenderer.h"
 
 #include "../ParagonUtil/Log.h"
 #include "../ParagonData/AssetDefines.h"
@@ -180,5 +181,10 @@ namespace Pg::Graphics
 		tCamData->_playerPosition = playerPos;
 	}
 
-}
+	unsigned int* GraphicsApiExporter::GetEffectTextureIndexPointer(const std::string& effectName)
+	{
+		return _graphicsMain->_renderer->_forward3dRenderer->GetVisualEffectRenderer()->GetEffectTextureIndexPointer(effectName);
+	}
 
+}
+//unsigned int* GraphicsApiExporter::GetEffectTextureIndexPointer(const std::string& effectName)

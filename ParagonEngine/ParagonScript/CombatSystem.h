@@ -93,6 +93,7 @@ namespace Pg::DataScript
 		void ChangePlayerMana(float level);
 		void ChangePlayerStamina(float level);
 
+		
 	public:
 		//개별적인 Combat 등록.
 		//Monster Script들이 자의적으로 호출하는 함수.

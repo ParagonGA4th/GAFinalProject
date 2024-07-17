@@ -46,6 +46,5 @@ namespace Pg::Graphics
 		unsigned int _currentTextureFrame{ 0 };
 		float _recordedTime{ 0.f };
 		float _changeBaseTime{ 0.25f }; //이건 나중에 Serialize할 수 있을 수도?
-		
 	};
 }

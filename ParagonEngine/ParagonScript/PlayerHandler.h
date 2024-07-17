@@ -44,8 +44,8 @@ namespace Pg::DataScript
 		inline static const float MAX_PLAYER_HEALTH = 100.0f;
 		inline static const float PLAYER_HEALTH_LOW_BARRIER = 20.0f;
 		inline static const float MAX_PLAYER_MANA = 100.0f; // Mana는 100이 최대.
-		inline static const int MAX_PLAYER_STAMINA = 5;
-		inline static const float STAMINA_ONE_SLOT_CHARGE_TIME = 15.0f;
+		inline static const int MAX_PLAYER_STAMINA = 3;
+		inline static const float STAMINA_ONE_SLOT_CHARGE_TIME = 20.0f;
 
 	public:
 		PlayerHandler(Pg::Data::GameObject* obj); 
@@ -137,10 +137,6 @@ namespace Pg::DataScript
 		Pg::Data::AudioSource* _fireSkillAudio;
 		Pg::Data::AudioSource* _iceSkillAudio;
 		Pg::Data::AudioSource* _ultimateSkillAudio;
-
-		//강공격에 쓰이는 콜라이더 오브젝트.
-
-		//Pg::Data::StaticSphereCollider* _strongAttackCol{ nullptr };
 
 	};
 }
