@@ -4,6 +4,7 @@
 #include "../ParagonData/StaticSphereCollider.h"
 #include "ArrowLogic.h"
 #include "UltimateArrowLogic.h"
+#include "StrongAttackLogic.h"
 #include "PlayerHandler.h"
 #include "PlayerMovementSector.h"
 #include "CombatSystem.h"
@@ -28,6 +29,9 @@ namespace Pg::DataScript
 	void PlayerCombatSector::GrabManagedObjects()
 	{
 	    FindAllArrowsInMap();
+
+		_strongAttackLogic = _object->GetScene()->FindSingleComponentInScene<StrongAttackLogic>();
+		assert(_strongAttackLogic != nullptr);
 	}
 
 	void PlayerCombatSector::BeforePhysicsAwake()
@@ -216,12 +220,14 @@ namespace Pg::DataScript
 		{
 			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseLeft) ||
 				_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MouseLeft) ||
+				_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseRight) ||
+				_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MouseRight) ||
 				_playerHandler->GetPlayerMovementSector()->GetIsMoving())
 			{
 				_startedClickingTime = 0.f;
 			}
 
-			if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MouseLeft))
+			if (_pgInput->GetKey(Pg::API::Input::eKeyCode::MouseRight))
 			{
 				_startedClickingTime += _pgTime->GetDeltaTime();
 
@@ -258,7 +264,7 @@ namespace Pg::DataScript
 	{
 		if (_isUltimateAttackStartEligible)
 		{
-			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyF))
+			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyR))
 			{
 				//궁극기 성공하면
 				if (CheckActivateUltimateAttack())
@@ -524,6 +530,9 @@ namespace Pg::DataScript
 		_startedStrongAttackingTime += _pgTime->GetDeltaTime();
 		if (_startedStrongAttackingTime >= STRONG_ATTACK_DURATION)
 		{
+			//이제 Strong Attack 비활성화
+			_strongAttackLogic->Deactivate();
+
 			//더 이상은 호출되지 않는다.
 			_startedStrongAttackingTime = 0.f;
 			_isJustStrongAttackInvoked = false;
@@ -589,7 +598,7 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::InvokeSingleStrongAttack()
 	{
-
+		_strongAttackLogic->Activate(&(_playerHandler->_object->_transform._position));
 	}
 
 

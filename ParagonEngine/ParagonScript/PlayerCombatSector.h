@@ -26,6 +26,7 @@ namespace Pg::DataScript
 {
 	class ArrowLogic;
 	class UltimateArrowLogic;
+	class StrongAttackLogic;
 }
 
 namespace Pg::DataScript
@@ -125,6 +126,7 @@ namespace Pg::DataScript
 		std::vector<ArrowLogic*> _fireArrowVec;
 
 		UltimateArrowLogic* _ulArrowLogic;
+		StrongAttackLogic* _strongAttackLogic;
 	private:
 		//Normal¿¡ ÇÑÁ¤.
 		float _normal_timeSinceLastShot = 0.f;
