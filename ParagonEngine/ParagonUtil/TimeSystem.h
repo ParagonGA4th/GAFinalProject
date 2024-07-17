@@ -26,6 +26,7 @@ namespace Pg::Util::Time
 
 		//일괄적으로 델타타임의 포인터를 받아서 갖다가 쓸 수 있게. 변경 불가하게 const * const 처리.
 		PARAGON_UTIL_DLL const float* const GetDeltaTimePointer();
+		PARAGON_UTIL_DLL void SetPauseGame(bool val);
 
 	public:
 		float _deltaTime = 0.f; 
@@ -40,6 +41,9 @@ namespace Pg::Util::Time
 	private:
 		double totalTime = 0.0;
 		int frameCount = 0;
+
+		//게임 일시정지를 위해.
+		bool _isPausedGame = false;
 
 		HWND _hWnd;
 

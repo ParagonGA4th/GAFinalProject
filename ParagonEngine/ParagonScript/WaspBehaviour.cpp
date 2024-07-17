@@ -60,6 +60,7 @@ namespace Pg::DataScript
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
 		//_collider->SetCapsuleInfo(1.f, 1.f);
 		_collider->FreezeAxisX(true);
+		_collider->FreezeLinearY(true);
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
 
@@ -130,6 +131,7 @@ namespace Pg::DataScript
 		//_collider->SetCapsuleInfo(1.f, 1.f);
 		_collider->FreezeAxisX(true);
 		_collider->FreezeAxisY(true);
+		_collider->FreezeLinearY(true);
 		_collider->FreezeAxisZ(true);
 
 		_cornRenderer->SetActive(false);

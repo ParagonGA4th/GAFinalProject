@@ -245,6 +245,12 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* tPlayerUltimateSkillSound = _object->GetScene()->FindObjectWithName("PlayerUltimateSkillSound");
 		_ultimateSkillAudio = tPlayerUltimateSkillSound->GetComponent<Pg::Data::AudioSource>();
 
+		Pg::Data::GameObject* tPlayerHitSound = _object->GetScene()->FindObjectWithName("PlayerHitSound");
+		_hitAudio = tPlayerHitSound->GetComponent<Pg::Data::AudioSource>();
+
+		Pg::Data::GameObject* tPlayerDieSound = _object->GetScene()->FindObjectWithName("PlayerDieSound");
+		_dieAudio = tPlayerDieSound->GetComponent<Pg::Data::AudioSource>();
+
 	}
 
 	bool PlayerHandler::GetIsStaminaReadyToUse()

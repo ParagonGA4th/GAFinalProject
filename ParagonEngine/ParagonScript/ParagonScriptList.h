@@ -58,6 +58,7 @@
 #include "MiniGolemBehaviour.h"
 #include "MiniGolemAttack.h"
 #include "TrentAttack.h"
+#include "TrentSkillAttack.h"
 #include "MimicAttack.h"
 #include "MimicSkillAttack.h"
 #include "MimicActive.h"

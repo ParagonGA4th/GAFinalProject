@@ -3,7 +3,7 @@
 namespace Pg::DataScript
 {
 	StubInfo::StubInfo(float fullHealth, float attackPower) : BaseMonsterInfo(fullHealth, attackPower),
-		_attackRange(30.f)
+		_attackRange(15.f)
 	{
 
 	}
