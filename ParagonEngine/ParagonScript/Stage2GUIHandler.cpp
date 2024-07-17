@@ -40,6 +40,10 @@ namespace Pg::DataScript
 			(void*)tPH->ReturnPlayerHealthPointPointerConst(), nullptr, nullptr,
 			tPH->MAX_PLAYER_HEALTH, NULL, NULL);
 
+		_managedGuiObjectList.at("ManaBar")._guiComponent->ReceiveDependentPointers(
+			(void*)tPH->ReturnPlayerManaPointPointerConst(), nullptr, nullptr,
+			tPH->MAX_PLAYER_MANA, NULL, NULL);
+
 		//GUIHandler 나오기 전 작업물, 하드 셋.
 		_pauseBox = _object->GetScene()->FindSingleComponentInScene<PauseBox>();
 		assert(_pauseBox != nullptr);
