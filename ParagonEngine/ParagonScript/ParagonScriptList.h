@@ -30,6 +30,7 @@
 #include "ArtifactBox.h"
 #include "ArtifactBoxAnim.h"
 #include "MushroomTrampoline.h"
+#include "StrongAttackLogic.h"
 
 //UI 관련 (개별)
 #include "TitleScene.h"
