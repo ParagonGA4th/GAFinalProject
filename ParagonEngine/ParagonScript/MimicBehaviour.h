@@ -15,6 +15,7 @@ namespace Pg::Data
 	class SkinnedMeshRenderer;
 	class StaticMeshRenderer;
 	class BoxCollider;
+	class CapsuleCollider;
 	class MonsterHelper;
 	class StaticBoxCollider;
 	class AudioSource;
@@ -100,9 +101,12 @@ namespace Pg::DataScript
 
 		//몬스터가 리스폰 될 위치
 		Pg::Math::PGFLOAT3 _respawnPos;
+		Pg::Math::PGFLOAT3 _rendererOffset = {0.f, -2.f, 0.f};
 
 		Pg::Data::GameObject* _mimicMoveSound;
 		Pg::Data::AudioSource* _moveAudio;
+		Pg::Data::AudioSource* _hitAudio;
+		Pg::Data::AudioSource* _dieAudio;
 
 		CameraShake* _cameraShake;
 		MimicSkillAttack* _mimicSkillAttack;
@@ -110,7 +114,7 @@ namespace Pg::DataScript
 	public:
 		//MimicActive를 통해 다시 활성화 시켜주기 위함.
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
-		Pg::Data::BoxCollider* _collider;
+		Pg::Data::CapsuleCollider* _collider;
 
 	private:
 		//플레이어와의 거리 측정

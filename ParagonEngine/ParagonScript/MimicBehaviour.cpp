@@ -10,6 +10,7 @@
 #include "../ParagonData/Collider.h"
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonData/BoxCollider.h"
+#include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/StaticMeshRenderer.h"
@@ -53,12 +54,12 @@ namespace Pg::DataScript
 
 	void MimicBehaviour::GrabManagedObjects()
 	{
-		_collider = _object->GetComponent<Pg::Data::BoxCollider>();
+		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
 		assert(_collider != nullptr);
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
 		//_collider->SetCapsuleInfo(1.f, 1.f);
 		_collider->FreezeAxisX(true);
-		_collider->FreezeAxisY(true);
+		//_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
 		_collider->FreezeLinearY(true);
 
@@ -66,8 +67,15 @@ namespace Pg::DataScript
 		_player = _object->GetScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
+		//사운드
 		_mimicMoveSound = _object->GetScene()->FindObjectWithName("MimicMoveSound");
 		_moveAudio = _mimicMoveSound->GetComponent<Pg::Data::AudioSource>();
+
+		Pg::Data::GameObject* _mimicHitSound = _object->GetScene()->FindObjectWithName("MimicHitSound");
+		_hitAudio = _mimicMoveSound->GetComponent<Pg::Data::AudioSource>();
+
+		Pg::Data::GameObject* _mimicDieSound = _object->GetScene()->FindObjectWithName("MimicDieSound");
+		_dieAudio = _mimicMoveSound->GetComponent<Pg::Data::AudioSource>();
 
 		//코인 SetActive를 위해
 		_coin = _object->GetScene()->FindObjectWithName(_coinName);
@@ -76,6 +84,7 @@ namespace Pg::DataScript
 		_coinRenderer->SetActive(false);
 
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		_meshRenderer->SetRendererOffset(_rendererOffset);
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
@@ -115,7 +124,7 @@ namespace Pg::DataScript
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
 		//_collider->SetCapsuleInfo(1.f, 1.f);
 		_collider->FreezeAxisX(true);
-		_collider->FreezeAxisY(true);
+		//_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
 		_collider->FreezeLinearY(true);
 
@@ -124,6 +133,7 @@ namespace Pg::DataScript
 		_coinRenderer->SetActive(false);
 
 		_meshRenderer->SetActive(false);
+		_meshRenderer->SetRendererOffset(_rendererOffset);
 		_collider->SetActive(false);
 		this->SetActive(false);
 
@@ -197,20 +207,16 @@ namespace Pg::DataScript
 		}
 		if (_monsterHelper->_isDead) return;
 
+		_monsterHelper->_isPlayerDetected = true;
+		_isRotateToPlayer = true;
+
+		_monsterHelper->_isChase = true;
+
 		if (_isRotateToPlayer)
 		{
 			RotateToPlayer(_playerTransform->_position);
 
 			Chase();
-		}
-
-		// 시야 안에 들어왔을 때 쫓아가라.
-		if (_distance <= _mimicInfo->GetSightRange())
-		{
-			_monsterHelper->_isPlayerDetected = true;
-			_isRotateToPlayer = true;
-
-			_monsterHelper->_isChase = !_isDash;
 		}
 
 		//코인 투척 스킬
@@ -234,6 +240,7 @@ namespace Pg::DataScript
 		{
 			//상태 변경.
 			_mimicInfo->_status = MimicStatus::BASIC_ATTACK;
+			_moveAudio->Stop();
 
 			//애니메이션 딜레이를 위한 델타타임 체크.
 			_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
@@ -243,6 +250,7 @@ namespace Pg::DataScript
 			// 공격 애니메이션 출력.
 			_monsterHelper->_isPlayerinHitSpace = true;
 			_monsterHelper->_isDistanceClose = true;
+			_monsterHelper->_isChase = false;
 
 			//공격
 			if (_currentAttackTime >= _startAttackTime)
@@ -255,12 +263,15 @@ namespace Pg::DataScript
 
 				_currentAttackTime = 0.f;
 			}
+
 		}
 		else if (_distance >= _distance <= _mimicInfo->GetAttackRange() &&
 			_distance <= _mimicInfo->GetSkillAttackRange())
 		{
 			_useCoinThrow = true;
+			_monsterHelper->_isChase = false;
 			_monsterHelper->_isDistanceClose = false;
+			_moveAudio->Stop();
 			Attack(false);
 		}
 		else
@@ -304,6 +315,7 @@ namespace Pg::DataScript
 		animId.append("_00003.pganim");
 
 		_meshRenderer->SetAnimation(animId, false);
+		_hitAudio->Play();
 	}
 
 	void MimicBehaviour::RotateToPlayer(Pg::Math::PGFLOAT3& targetPos)
@@ -339,7 +351,6 @@ namespace Pg::DataScript
 		//스킬의 이동 및 충돌 처리
 		if (_useCoinThrow)
 		{
-
 			_mimicInfo->SetCurrentSKillTime(_mimicInfo->GetCurrentSkillTime() + _pgTime->GetDeltaTime());
 
 			if (_mimicInfo->GetCurrentSkillTime() > _mimicInfo->GetStartSkillTime())
@@ -351,10 +362,11 @@ namespace Pg::DataScript
 				forwardDir.x = 0;
 				forwardDir = Pg::Math::PGFloat3Normalize(forwardDir);
 
+				_isRotateToPlayer = false;
+
 				if (_mimicInfo->GetCurrentSkillTime() < _mimicInfo->GetSkillDuration())
 				{
 					//추적 멈춤
-					_isRotateToPlayer = false;
 
 					//자신의 rotation에 따라 날아가는 방향 맞춰서 설정.
 					if (forwardDir.z > 0)
@@ -398,8 +410,8 @@ namespace Pg::DataScript
 					}
 
 					_coinRenderer->SetActive(false);
-					_useCoinThrow = false;
 					_isRotateToPlayer = true;
+					_useCoinThrow = false;
 					_mimicSkillAttack->_isPlayerHit = false;
 
 					_mimicInfo->SetCurrentSKillTime(0.f);
@@ -415,11 +427,9 @@ namespace Pg::DataScript
 		_monsterHelper->_isDead = true;
 		_monsterHelper->_isPlayerinHitSpace = false;
 		_monsterHelper->_isChase = false;
+		_moveAudio->Stop();
 
-		if (_isMoving)
-		{
-			_moveAudio->Stop();
-		}
+		_dieAudio->Play();
 	}
 
 	void MimicBehaviour::ResetAll()

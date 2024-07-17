@@ -7,6 +7,7 @@
 //Event들의 리스트.
 #include "EventList_PlayerRelated.h"
 
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonAPI/PgScene.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonUtil/Log.h"
@@ -149,6 +150,17 @@ namespace Pg::DataScript
 	void CombatSystem::ChangePlayerHealth(float level)
 	{
 		_currentHandlerBundle3D->_playerBehavior->ChangePlayerHealth(level);
+
+		//피격
+		if (level <= 0.f)
+		{
+			_currentHandlerBundle3D->_playerBehavior->_hitAudio->Play();
+		}
+		//회복
+		else
+		{
+			//_currentHandlerBundle3D->_playerBehavior->;
+		}
 	}
 
 	void CombatSystem::ChangePlayerMana(float level)
