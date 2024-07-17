@@ -193,6 +193,7 @@
     <ClInclude Include="MovingObjectDefinesAndStructs.h" />
     <ClInclude Include="MushroomTrampoline.h" />
     <ClInclude Include="ArtifactBox.h" />
+    <ClInclude Include="PartialAttackType.h" />
     <ClInclude Include="PlayerCombatSector.h" />
     <ClInclude Include="CreditsSceneGUIHandler.h" />
     <ClInclude Include="GlobalSoundManager.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="Stage2EnemyHandler.h" />
     <ClInclude Include="Stage2GUIHandler.h" />
     <ClInclude Include="Stair.h" />
+    <ClInclude Include="StrongAttackLogic.h" />
     <ClInclude Include="TakeDownAttack.h" />
     <ClInclude Include="TotalGameManager.h" />
     <ClInclude Include="GameState.h" />
@@ -297,6 +299,7 @@
     <ClCompile Include="Stage2EnemyHandler.cpp" />
     <ClCompile Include="Stage2GUIHandler.cpp" />
     <ClCompile Include="Stair.cpp" />
+    <ClCompile Include="StrongAttackLogic.cpp" />
     <ClCompile Include="TakeDownAttack.cpp" />
     <ClCompile Include="TotalGameManager.cpp" />
     <ClCompile Include="InGameCameraBehavior.cpp" />

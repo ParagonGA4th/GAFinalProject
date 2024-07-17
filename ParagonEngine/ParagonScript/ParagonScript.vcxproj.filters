@@ -316,6 +316,9 @@
     <Filter Include="Content\Gimmick\ArtifactBoxAnim">
       <UniqueIdentifier>{e00c24cb-a2e1-4a70-af66-8ddbc1e5fa7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\PlayerHandler\Enums">
+      <UniqueIdentifier>{88093d94-f5cc-4f84-af7a-3c7245bb2f67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -556,6 +559,7 @@
     <ClCompile Include="ArtifactBoxAnim.cpp">
       <Filter>Content\Gimmick\ArtifactBoxAnim</Filter>
     </ClCompile>
+    <ClCompile Include="StrongAttackLogic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -861,6 +865,10 @@
     <ClInclude Include="UltimateArrowLogic.h" />
     <ClInclude Include="ArtifactBoxAnim.h">
       <Filter>Content\Gimmick\ArtifactBoxAnim</Filter>
+    </ClInclude>
+    <ClInclude Include="StrongAttackLogic.h" />
+    <ClInclude Include="PartialAttackType.h">
+      <Filter>Content\1_ConcreteHandlers\PlayerHandler\Enums</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

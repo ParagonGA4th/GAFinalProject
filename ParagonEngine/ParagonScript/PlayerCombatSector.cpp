@@ -421,7 +421,9 @@ namespace Pg::DataScript
 	{
 	
 		//1칸 이상은 있어야 발동될 수 있을 것.
-		if ((!_isUltimateAttackingNow) && (_playerHandler->staminaPoint >= STRONG_ATTACK_REQUIRED_STAMINA))
+		if ((!_isUltimateAttackingNow) 
+			&& (_playerHandler->staminaPoint >= STRONG_ATTACK_REQUIRED_STAMINA)
+			&& (_playerHandler->GetIsStaminaReadyToUse()))
 		{
 			PG_ERROR("ActivateStrongAttack");
 

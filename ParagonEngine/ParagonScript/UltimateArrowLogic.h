@@ -37,7 +37,7 @@ namespace Pg::DataScript
 		DEFINE_PARAGON_SCRIPT(UltimateArrowLogic);
 
 	public:
-		inline static const float ARROW_ATTACK_POWER = 5.f;
+		inline static const float ULTIMATE_ATTACK_POWER = 5.f;
 
 	public:
 		UltimateArrowLogic(Pg::Data::GameObject* obj);

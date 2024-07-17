@@ -29,6 +29,8 @@ namespace Pg::DataScript
 	{
 		_playerMovementSector = std::make_unique<PlayerMovementSector>(this);
 		_playerCombatSector = std::make_unique<PlayerCombatSector>(this);
+
+		_pgTime = &singleton<Pg::API::Time::PgTime>();
 	}
 
 	void PlayerHandler::GrabManagedObjects()
@@ -76,6 +78,8 @@ namespace Pg::DataScript
 	void PlayerHandler::Update()
 	{
 		_comboSystem->SystemUpdate();
+
+		UpdateStamina();
 
 		_playerMovementSector->Update();
 		_playerCombatSector->Update();
@@ -143,9 +147,14 @@ namespace Pg::DataScript
 		manaPoint = std::clamp<float>(manaPoint + level, 0.0f, MAX_PLAYER_MANA);
 	}
 
-	void PlayerHandler::ChangePlayerStamina(float level)
+	void PlayerHandler::ChangePlayerStamina(int level)
 	{
-		staminaPoint = std::clamp<float>(staminaPoint + level, 0.0f, MAX_PLAYER_STAMINA);
+		staminaPoint = std::clamp<int>(staminaPoint + level, 0, MAX_PLAYER_STAMINA);
+
+		if (staminaPoint == 0)
+		{
+			_shouldStaminaCharge = true;
+		}
 	}
 
 	void PlayerHandler::ResetAll()
@@ -154,9 +163,14 @@ namespace Pg::DataScript
 		_playerCombatSector->ResetAll();
 		_playerMovementSector->ResetAll();
 		
+		//다시 스태미너를 쓸 수 있을 것이다.
+		_isStaminaReadyToUse = true;
+		_shouldStaminaCharge = false;
+		_staminaCountingTime = 0.f;
+
 		//죽은 이후 : Heal
 		healthPoint = MAX_PLAYER_HEALTH;
-		manaPoint = MAX_PLAYER_MANA;
+		manaPoint = 0; //Mana는 처음 0으로 시작한다.
 		staminaPoint = MAX_PLAYER_STAMINA;
 	}
 
@@ -190,7 +204,7 @@ namespace Pg::DataScript
 		return &manaPoint;
 	}
 
-	const float* PlayerHandler::ReturnPlayerStaminaPointPointerConst() const
+	const int* PlayerHandler::ReturnPlayerStaminaPointPointerConst() const
 	{
 		return &staminaPoint;
 	}
@@ -225,5 +239,41 @@ namespace Pg::DataScript
 
 	}
 
+	bool PlayerHandler::GetIsStaminaReadyToUse()
+	{
+		return _isStaminaReadyToUse;
+	}
+
+	void PlayerHandler::UpdateStamina()
+	{
+		if (_shouldStaminaCharge)
+		{
+			_staminaCountingTime += _pgTime->GetDeltaTime();
+			if (_staminaCountingTime > STAMINA_ONE_SLOT_CHARGE_TIME)
+			{
+				//하나씩 충전.
+				ChangePlayerStamina(1);
+				_staminaCountingTime = 0.f;
+			}
+			
+			if (staminaPoint == MAX_PLAYER_STAMINA)
+			{
+				_shouldStaminaCharge = false;
+				_staminaCountingTime = 0.f;
+			
+				//이제 스태미너 쓸 수 있게 세팅.
+				_isStaminaReadyToUse = true;
+			}
+		}
+
+		if (staminaPoint == 0)
+		{
+			// 만약 스태미너 포인트가 0이면, 계속 false 할당.
+			// 어차피 차면 더 이상 업데이트하지 않는다.
+			_isStaminaReadyToUse = false;
+			//Stamina Charge
+			_shouldStaminaCharge = true;
+		}
+	}
 
 }
