@@ -93,6 +93,8 @@ namespace Pg::DataScript
 		std::vector<Pg::Data::StaticBoxCollider*> _basicAttackCol;
 		std::vector<Pg::Data::StaticBoxCollider*> _skillAttackCol;
 
+		Pg::Math::PGFLOAT3 _rendererOffset = { 0.f, -1.f, 0.f };
+
 	private:
 		Pg::Data::GameObject* _stubHit;
 		Pg::Data::AudioSource* _hitSound;
