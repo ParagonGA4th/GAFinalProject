@@ -111,6 +111,7 @@ namespace Pg::DataScript
 				//플레이어 무적 해제.
 				_playerHandler->GetPlayerSelfCol()->SetActive(true);
 				_isAnimEnd = false;
+				_ultimateSkill = false;
 			}
 		}
 	}
@@ -159,6 +160,16 @@ namespace Pg::DataScript
 		_isAnimEnd = true;
 	}
 
-	
+	void UltimateArrowLogic::StartSkill()
+	{
+		_isSkillStart = true;
+		_ultimateSkill = true;
+	}
+
+	bool UltimateArrowLogic::GetUltimateSkillEnd()
+	{
+		return _ultimateSkill;
+	}
+
 
 }

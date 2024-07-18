@@ -177,7 +177,7 @@ namespace Pg::DataScript
 		//단발성이 아닌, Strong Attack / Ultimate Attack을 위해 값 보관을 하려 쓰는 값들.
 		bool _isJustUltimateAttackInvoked{ false };
 		bool _isJustStrongAttackInvoked{ false };
-		float _startedUltimateAttackingTime{ 0.f };
+		//float _startedUltimateAttackingTime{ 0.f };
 		float _startedStrongAttackingTime{ 0.f };
 
 	private:
