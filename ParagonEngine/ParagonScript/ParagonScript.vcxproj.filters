@@ -564,7 +564,7 @@
     <ClCompile Include="ArtifactBoxAnim.cpp">
       <Filter>Content\Gimmick\ArtifactBoxAnim</Filter>
     </ClCompile>
-    <ClCompile Include="Bridge.cpp">
+    <ClCompile Include="Stage1_Bridge.cpp">
       <Filter>Content\Gimmick\Bridge</Filter>
     </ClCompile>
     <ClCompile Include="UltimateArrowLogic.cpp">
@@ -578,6 +578,12 @@
     </ClCompile>
     <ClCompile Include="TrentSkillAttack.cpp">
       <Filter>AI\Attack\TrentAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="BridgeHelper.cpp">
+      <Filter>Content\Gimmick\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2_Bridge.cpp">
+      <Filter>Content\Gimmick\Bridge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -887,7 +893,7 @@
     <ClInclude Include="PartialAttackType.h">
       <Filter>Content\1_ConcreteHandlers\PlayerHandler\Enums</Filter>
     </ClInclude>
-    <ClInclude Include="Bridge.h">
+    <ClInclude Include="Stage1_Bridge.h">
       <Filter>Content\Gimmick\Bridge</Filter>
     </ClInclude>
     <ClInclude Include="UltimateArrowLogic.h">
@@ -901,6 +907,12 @@
     </ClInclude>
     <ClInclude Include="StrongAttackLogic.h">
       <Filter>Content\ArrowRelated\ArrowLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="BridgeHelper.h">
+      <Filter>Content\Gimmick\Bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2_Bridge.h">
+      <Filter>Content\Gimmick\Bridge</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
