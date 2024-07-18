@@ -65,17 +65,29 @@ namespace Pg::DataScript
 			(void*)tPH->ReturnPlayerManaPointPointerConst(), nullptr, nullptr,
 			tPH->MAX_PLAYER_MANA, NULL, NULL);
 
-		_managedGuiObjectList.at("Skill1_WhiteFill")._guiComponent->ReceiveDependentPointers(
-			(void*)&(tPH->GetPlayerCombatSector()->_isStartedFireSkillChargeTime), nullptr, nullptr,
-			PlayerCombatSector::FIRE_ATTACK_COOLDOWN_TIME, NULL, NULL);
+		{
+			_managedGuiObjectList.at("Skill1_WhiteFill")._guiComponent->ReceiveDependentPointers(
+				(void*)&(tPH->GetPlayerCombatSector()->_isStartedFireSkillChargeTime),
+				(void*)&(tPH->GetPlayerCombatSector()->_isFireAttackStartEligible),
+				(void*)&(tPH->GetPlayerCombatSector()->_checkFireAttack),
+				PlayerCombatSector::FIRE_ATTACK_COOLDOWN_TIME, PlayerCombatSector::FIRE_ATTACK_REQUIRED_MANA, NULL);
+		}
 
-		_managedGuiObjectList.at("Skill2_WhiteFill")._guiComponent->ReceiveDependentPointers(
-			(void*)&(tPH->GetPlayerCombatSector()->_isStartedIceSkillChargeTime), nullptr, nullptr,
-			PlayerCombatSector::ICE_ATTACK_COOLDOWN_TIME, NULL, NULL);
+		{
+			_managedGuiObjectList.at("Skill2_WhiteFill")._guiComponent->ReceiveDependentPointers(
+				(void*)&(tPH->GetPlayerCombatSector()->_isStartedIceSkillChargeTime),
+				(void*)&(tPH->GetPlayerCombatSector()->_isIceAttackStartEligible),
+				(void*)&(tPH->GetPlayerCombatSector()->_checkIceAttack),
+				PlayerCombatSector::ICE_ATTACK_COOLDOWN_TIME, PlayerCombatSector::ICE_ATTACK_REQUIRED_MANA, NULL);
+		}
 
-		_managedGuiObjectList.at("UltimateUI_WhiteFill")._guiComponent->ReceiveDependentPointers(
-			(void*)&(tPH->GetPlayerCombatSector()->_isStartedUltimateAttackChargeTime), nullptr, nullptr,
-			PlayerCombatSector::ULTIMATE_ATTACK_COOLDOWN_TIME, NULL, NULL);
+		{
+			_managedGuiObjectList.at("UltimateUI_WhiteFill")._guiComponent->ReceiveDependentPointers(
+				(void*)&(tPH->GetPlayerCombatSector()->_isStartedUltimateAttackChargeTime),
+				(void*)&(tPH->GetPlayerCombatSector()->_isUltimateAttackStartEligible),
+				(void*)&(tPH->GetPlayerCombatSector()->_checkUltimateAttack),
+				PlayerCombatSector::ULTIMATE_ATTACK_COOLDOWN_TIME, PlayerCombatSector::ULTIMATE_ATTACK_REQUIRED_MANA, NULL);
+		}
 
 		//GUIHandler 나오기 전 작업물, 하드 셋.
 		_pauseBox = _object->GetScene()->FindSingleComponentInScene<PauseBox>();
