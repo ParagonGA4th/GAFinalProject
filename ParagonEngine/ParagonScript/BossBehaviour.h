@@ -133,7 +133,7 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _bossDieSound;
 		Pg::Data::AudioSource* _dieAudio;
 
-		Pg::Math::PGFLOAT3 _rendererOffset = { 0.f, -2.f, 0.f };
+		Pg::Math::PGFLOAT3 _rendererOffset = { 0.f, -4.f, 0.f };
 	public:
 		//골렘보스의 상태와 수치에 대한 정보.
 		BossInfo* _bossInfo;
