@@ -286,7 +286,6 @@ namespace Pg::DataScript
 			{
 				//_meshRenderer->_animBlendFactor = 0.0f;
 				_isChasing = false;
-				_isRotatingToPlayer = false;
 
 				_monsterHelper->_isChase = false;
 				_monsterHelper->_isPlayerinHitSpace = true;
@@ -299,6 +298,7 @@ namespace Pg::DataScript
 				}
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3)
 				{
+					_isRotatingToPlayer = false;
 					//Attack(false);
 					//_useTakeDownSkill = false;
 					_useStormBlast = true;
@@ -735,9 +735,9 @@ namespace Pg::DataScript
 	void BossBehaviour::Neutralize()
 	{
 		//Ã¼·ÂÀÌ 30 ¹ØÀ¸·Î ¶³¾îÁö¸é
-		if (_bossInfo->GetMonsterHp() <= 30.f)
+		if (_bossInfo->GetMonsterHp() <= 30.f || _bossInfo->GetMonsterHp() <= 10.f)
 		{
-			if (_monsterHelper->_bossFlag._isPase_1)
+			if (!_isPhase1End && _monsterHelper->_bossFlag._isPase_1)
 			{
 				_isNeutralize = true;
 				_monsterHelper->_bossFlag._isPase_1 = false;
@@ -752,9 +752,9 @@ namespace Pg::DataScript
 			if (_monsterHelper->_bossFlag._isPase_2)
 			{
 				_isNeutralize = true;
-				_monsterHelper->_bossFlag._isPase_1 = false;
+				_monsterHelper->_bossFlag._isPase_1 = true;
 				_monsterHelper->_bossFlag._isPase_2 = false;
-				_monsterHelper->_bossFlag._isPase_3 = true;
+				_monsterHelper->_bossFlag._isPase_3 = false;
 
 				if (_isNeutralizeInit)
 				{
