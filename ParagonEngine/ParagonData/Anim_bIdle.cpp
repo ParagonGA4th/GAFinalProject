@@ -12,16 +12,9 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-		 	if (isHolding)
+			if (isHolding)
 			{
 				monHelper->_bossFlag._bossState = Pg::Data::BossState::CAST;
-				if (monHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_2)
-				{
-					if (_isSPSkillTime)
-						monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FEATHER_ATTACK_PREPARE;
-
-					_isSPSkillTime = !_isSPSkillTime;
-				}
 
 				if (monHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_3)
 				{

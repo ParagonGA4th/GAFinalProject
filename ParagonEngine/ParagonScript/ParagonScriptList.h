@@ -32,7 +32,9 @@
 #include "MushroomTrampoline.h"
 #include "StrongAttackLogic.h"
 #include "Stair.h"
-#include "Bridge.h"
+#include "Stage1_Bridge.h"
+#include "Stage2_Bridge.h"
+#include "BridgeHelper.h"
 
 //UI 관련 (개별)
 #include "TitleScene.h"
