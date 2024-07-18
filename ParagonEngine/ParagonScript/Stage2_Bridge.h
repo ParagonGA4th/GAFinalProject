@@ -1,4 +1,9 @@
 #pragma once
+class Stage2_Bridge
+{
+};
+
+#pragma once
 #include "ScriptInterface.h"
 #include "../ParagonData/GameObject.h"
 
@@ -11,12 +16,13 @@ namespace Pg::Data
 
 namespace Pg::DataScript
 {
-	class Bridge : public ScriptInterface<Bridge>
+	class BridgeHelper;
+	class Stage2_Bridge : public ScriptInterface<Stage2_Bridge>
 	{
-		DEFINE_PARAGON_SCRIPT(Bridge);
+		DEFINE_PARAGON_SCRIPT(Stage2_Bridge);
 
 	public:
-		Bridge(Pg::Data::GameObject* obj);
+		Stage2_Bridge(Pg::Data::GameObject* obj);
 
 		virtual void GrabManagedObjects() override;
 
@@ -28,7 +34,13 @@ namespace Pg::DataScript
 		std::vector<Pg::Data::StaticMeshRenderer*> _renderers;
 		Pg::Data::StaticBoxCollider* _collider;
 
-		inline static const float ALPHA_PERCENT = 1.f;
+		Pg::DataScript::BridgeHelper* _bridgeHelper;
+
+		inline static const float ALPHA_PERCENT = 1.0f;
+		inline static const float POSITION_PERCENT = 0.3f;
+
+		int _index = 0;
+		float _rollbackPos = 3.513f;
 	};
 }
 
