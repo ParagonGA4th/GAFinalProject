@@ -2,6 +2,7 @@
 #include "GraphicsResourceManager.h"
 #include "GraphicsResourceHelper.h"
 #include "LowDX11Storage.h"
+#include "D3DCarrier.h"
 #include "../ParagonData/AssetDefines.h"
 #include <cassert>
 
@@ -130,7 +131,7 @@ namespace Pg::Graphics
 		}
 	}
 
-	void VisualEffectRenderer::Render(Pg::Data::CameraData* camData)
+	void VisualEffectRenderer::Render(const D3DCarrier* carrier, Pg::Data::CameraData* camData)
 	{
 		//Depth Stencil Setting.
 		//Quad의 Depth랑 합쳐서 출력되어야 한다. 
@@ -157,6 +158,17 @@ namespace Pg::Graphics
 			//커스텀 셰이더 여부 + 등등을 해결해야 한다.
 			if (tIs3d)
 			{
+				if (bRenderSet->_visualEffectData._ignoreDepth)
+				{
+					//설정.
+					_DXStorage->_deviceContext->OMSetRenderTargets(1, &(carrier->_quadMainRT->GetRTV()), nullptr);
+				}
+				else
+				{
+					//설정.
+					_DXStorage->_deviceContext->OMSetRenderTargets(1, &(carrier->_quadMainRT->GetRTV()), carrier->_gBufRequiredInfoDSV->GetDSV());
+				}
+
 				auto& bRenderEffect3D = bRenderSet->_veGraphicsSet->_effect3D;
 				auto& bStoreMatForm = bRenderSet->_veGraphicsSet->_effectStoreMatrixForm;
 				auto& bBasicEffectMaybe = bRenderSet->_veGraphicsSet->_dxtkBasicEffect;
@@ -302,6 +314,9 @@ namespace Pg::Graphics
 			}
 			else
 			{
+				//설정.
+				_DXStorage->_deviceContext->OMSetRenderTargets(1, &(carrier->_quadMainRT->GetRTV()), carrier->_gBufRequiredInfoDSV->GetDSV());
+
 				//2D.
 				auto& bVeSet = bRenderSet->_veGraphicsSet;
 				auto& bSpriteEffect2D = bVeSet->_spriteEffect2D;
@@ -367,7 +382,7 @@ namespace Pg::Graphics
 			}
 			//bRenderSet->_spriteBatch->Draw();
 
-
+			_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 			//BlendState Reset.
 			_DXStorage->_deviceContext->OMSetBlendState(NULL, NULL, 0xffffffff);
 		}

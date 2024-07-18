@@ -59,6 +59,8 @@ namespace Pg::Graphics
 
 namespace Pg::Graphics
 {
+	struct D3DCarrier;
+
 	class VisualEffectRenderer
 	{
 		//Billboard Render Pass만 쓰일 수 있다.
@@ -84,7 +86,7 @@ namespace Pg::Graphics
 		void RemoveVisualEffectObject(Pg::Data::VisualEffectRenderObject* vfxObj);
 
 		//Main Render Loop에서 돌아가는 효과이다.
-		void Render(Pg::Data::CameraData* camData);
+		void Render(const D3DCarrier* carrier, Pg::Data::CameraData* camData);
 
 		//인덱스를 설정할 수 있어야 하기에, 이펙트 유효 + ManualSwitchMode가 꺼져 있으면 nullptr 반환.
 		unsigned int* GetEffectTextureIndexPointer(const std::string& effectName);

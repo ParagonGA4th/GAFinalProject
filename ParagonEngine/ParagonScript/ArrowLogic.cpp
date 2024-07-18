@@ -7,6 +7,8 @@
 
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgTween.h"
+#include "../ParagonAPI/PgGraphics.h"
+
 #include "../ParagonUtil/Log.h"
 
 #include "BaseMonster.h"
@@ -25,6 +27,12 @@ namespace Pg::DataScript
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgTween = &singleton<Pg::API::Tween::PgTween>();
+		_pgGraphics = &singleton<Pg::API::Graphics::PgGraphics>();
+	}
+
+	void ArrowLogic::GrabManagedObjects()
+	{
+		InitTrailObjects();
 	}
 
 	void ArrowLogic::BeforePhysicsAwake()
@@ -268,5 +276,27 @@ namespace Pg::DataScript
 	{
 		Pg::Data::SerializerHelper::OnDeserializerHelper<ArrowLogic>(this, sv);
 	}
+
+	void ArrowLogic::FollowTrail()
+	{
+
+	}
+
+	void ArrowLogic::CleanOnSceneChange()
+	{
+		
+	}
+
+	void ArrowLogic::InitTrailObjects()
+	{
+		////Trail Object들을 등록.
+		//for (int i = 0; i < TRAIL_DIVIDED_COUNT; i++)
+		//{
+		//	Pg::Data::VisualEffectRenderObject* vo = new Pg::Data::VisualEffectRenderObject();
+		//	_pgGraphics->RegisterEffectObject("Effect_ArrowTrail", vo);
+		//}
+	}
+
+
 
 }
