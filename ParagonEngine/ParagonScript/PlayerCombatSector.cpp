@@ -61,8 +61,11 @@ namespace Pg::DataScript
 		ProcessInputsForActiveSkills();
 		ProcessInputsForUltimateAttack();
 		ProcessInputsForStrongAttack();
+		UpdateForGUIVariables();
 		AllAttacksLogic();
 		//나머지 로직은 Combat System으로 이동.
+
+		//PG_WARN("ICE : {0}", _isStartedIceSkillChargeTime);
 	}
 
 	void PlayerCombatSector::FixedUpdate()
@@ -191,7 +194,7 @@ namespace Pg::DataScript
 					//Event HandleEvents에서 나중에 구분해야 한다.
 					_playerHandler->_combatSystem->Post(Event_UI_SetActiveSkill(), true, NULL);
 					//이제 Cooldown 세자.
-					_isStartedIceSkillChargeTime = false;
+					_isIceAttackStartEligible = false;
 					_isStartedIceSkillChargeTime = 0.f;
 				}
 			}
@@ -405,7 +408,7 @@ namespace Pg::DataScript
 		//가장 우선권을 가지고 있다.
 
 		// ManaPoint가 10보다 크거나 같음.
-		if (_playerHandler->manaPoint >= ULTIMATE_ATTACK_REQUIRED_MANA)
+		if (CheckUltimateAttack())
 		{
 			PG_ERROR("ActivateUltimateAttack");
 
@@ -427,9 +430,7 @@ namespace Pg::DataScript
 	{
 	
 		//1칸 이상은 있어야 발동될 수 있을 것.
-		if ((!_isUltimateAttackingNow) 
-			&& (_playerHandler->staminaPoint >= STRONG_ATTACK_REQUIRED_STAMINA)
-			&& (_playerHandler->GetIsStaminaReadyToUse()))
+		if (CheckStrongAttack())
 		{
 			PG_ERROR("ActivateStrongAttack");
 
@@ -449,9 +450,7 @@ namespace Pg::DataScript
 
 	bool PlayerCombatSector::CheckActivateFireAttack()
 	{
-		if ((!_isUltimateAttackingNow)
-			&& (!_isStrongAttackingNow)
-			&& (_playerHandler->manaPoint >= FIRE_ATTACK_REQUIRED_MANA))
+		if (CheckFireAttack())
 		{
 			PG_ERROR("ActivateFireAttack");
 
@@ -471,9 +470,7 @@ namespace Pg::DataScript
 
 	bool PlayerCombatSector::CheckActivateIceAttack()
 	{
-		if ((!_isUltimateAttackingNow)
-			&& (!_isStrongAttackingNow)
-			&& (_playerHandler->manaPoint >= ICE_ATTACK_REQUIRED_MANA))
+		if (CheckIceAttack())
 		{
 			PG_ERROR("ActivateIceAttack");
 
@@ -601,5 +598,38 @@ namespace Pg::DataScript
 		_strongAttackLogic->Activate(&(_playerHandler->_object->_transform._position));
 	}
 
+	bool PlayerCombatSector::CheckStrongAttack()
+	{
+		return (!_isUltimateAttackingNow)
+			&& (_playerHandler->staminaPoint >= STRONG_ATTACK_REQUIRED_STAMINA)
+			&& (_playerHandler->GetIsStaminaReadyToUse());
+	}
+
+	bool PlayerCombatSector::CheckUltimateAttack()
+	{
+		return (_playerHandler->manaPoint >= ULTIMATE_ATTACK_REQUIRED_MANA);
+	}
+
+	bool PlayerCombatSector::CheckFireAttack()
+	{
+		return (!_isUltimateAttackingNow)
+			&& (!_isStrongAttackingNow)
+			&& (_playerHandler->manaPoint >= FIRE_ATTACK_REQUIRED_MANA);
+	}
+
+	bool PlayerCombatSector::CheckIceAttack()
+	{
+		return (!_isUltimateAttackingNow)
+			&& (!_isStrongAttackingNow)
+			&& (_playerHandler->manaPoint >= ICE_ATTACK_REQUIRED_MANA);
+	}
+
+	void PlayerCombatSector::UpdateForGUIVariables()
+	{
+		_checkUltimateAttack = CheckUltimateAttack();
+		_checkStrongAttack = CheckStrongAttack();
+		_checkFireAttack = CheckFireAttack();
+		_checkIceAttack = CheckIceAttack();
+	}
 
 }
