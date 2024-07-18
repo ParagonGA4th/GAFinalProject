@@ -39,6 +39,7 @@ namespace Pg::DataScript
 {
 	class CombatSystem;
 	class CameraShake;
+	class BaseEnemyHandler;
 
 	class BossBehaviour : public ScriptInterface<BossBehaviour>, public IEnemyBehaviour	
 	{
@@ -134,6 +135,10 @@ namespace Pg::DataScript
 		Pg::Data::AudioSource* _dieAudio;
 
 		Pg::Math::PGFLOAT3 _rendererOffset = { 0.f, -2.f, 0.f };
+
+	private:
+		BaseEnemyHandler* _enemyHandler{ nullptr };
+
 	public:
 		//골렘보스의 상태와 수치에 대한 정보.
 		BossInfo* _bossInfo;
