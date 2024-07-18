@@ -4,6 +4,7 @@
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/StaticMeshRenderer.h"  
 #include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/SphereCollider.h"
 
 #include "../ParagonUtil/Log.h"
 
@@ -24,12 +25,8 @@ namespace Pg::DataScript
 			else _renderers.emplace_back(i->GetComponent<Pg::Data::StaticMeshRenderer>());
 		}
 
-		//auto obj = _object->GetScene()->FindObjectWithName("BridgeHelper");
-		//if (obj != nullptr)
-		//{
-		//	_bridgeHelper = obj->GetComponent<Pg::DataScript::BridgeHelper>();
-		//	assert(_bridgeHelper != nullptr);
-		//}
+		_area = _object->GetScene()->FindObjectWithName("BattleArea_1")->GetComponent<Pg::Data::SphereCollider>();
+		assert(_area != nullptr);
 	}
 
 	void Stage2_Bridge::BeforePhysicsAwake()
@@ -42,47 +39,30 @@ namespace Pg::DataScript
 		for (auto i : _renderers)
 		{
 			//i->_object->_transform._position.y = -3.f;
-			//i->SetActive(false);
+			i->SetActive(false);
 			i->_alphaPercentage = 0.f;
 		}
 
-		//_collider->SetActive(false);
+		_collider->SetActive(false);
 	}
 
 	void Stage2_Bridge::Update()
 	{
-		//if (_bridgeHelper->_isTrig)
-		//{
-		//	//auto renderer = _renderers.at(_index);
-		//	//renderer->SetActive(true);
+		if (!_area->GetActive())
+		{
+			for (auto ren : _renderers)
+			{
+				ren->SetActive(true);
 
-		//	//if (renderer->_object->_transform._position.y >= _rollbackPos)
-		//	//{
-		//	//	if (_index == 2) _rollbackPos = 4.024f;
-		//	//	if (_index == 3)
-		//	//	{
-		//	//		_index = 0;
-		//	//		_bridgeHelper->_isTrig = false;
-
-		//	//		_collider->SetActive(true);
-		//	//	}
-
-		//	//	_index++;
-		//	//}
-
-		//	//renderer->_object->_transform._position.y += POSITION_PERCENT;
-
-		//	for (auto ren : _renderers)
-		//	{
-		//		if (ren->_alphaPercentage >= 100.f)
-		//		{
-		//			_collider->SetActive(true);
-		//		}
-		//		else
-		//		{
-		//			ren->_alphaPercentage += ALPHA_PERCENT;
-		//		}
-		//	}
-		//}
+				if (ren->_alphaPercentage >= 100.f)
+				{
+					_collider->SetActive(true);
+				}
+				else
+				{
+					ren->_alphaPercentage += ALPHA_PERCENT;
+				}
+			}
+		}
 	}
 }

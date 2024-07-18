@@ -325,6 +325,9 @@
     <Filter Include="UI\InGameUI\GUI_CoolDownWhiteFill">
       <UniqueIdentifier>{d1e02cd3-8e84-4a8c-841f-19baad89f746}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Gimmick\Grating">
+      <UniqueIdentifier>{8d42b782-e87a-416a-8310-bb07f7ba58f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -584,6 +587,9 @@
     </ClCompile>
     <ClCompile Include="Stage2_Bridge.cpp">
       <Filter>Content\Gimmick\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="Grating.cpp">
+      <Filter>Content\Gimmick\Grating</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -913,6 +919,9 @@
     </ClInclude>
     <ClInclude Include="Stage2_Bridge.h">
       <Filter>Content\Gimmick\Bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="Grating.h">
+      <Filter>Content\Gimmick\Grating</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

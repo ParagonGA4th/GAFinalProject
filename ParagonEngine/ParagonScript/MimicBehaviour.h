@@ -35,6 +35,7 @@ namespace Pg::DataScript
 {
 	class CameraShake;
 	class MimicSkillAttack;
+	class BaseEnemyHandler;
 
 	class MimicBehaviour : public ScriptInterface<MimicBehaviour>, public IEnemyBehaviour
 	{
@@ -115,6 +116,9 @@ namespace Pg::DataScript
 		//MimicActive를 통해 다시 활성화 시켜주기 위함.
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
 		Pg::Data::CapsuleCollider* _collider;
+
+	private:
+		BaseEnemyHandler* _enemyHandler{ nullptr };
 
 	private:
 		//플레이어와의 거리 측정
