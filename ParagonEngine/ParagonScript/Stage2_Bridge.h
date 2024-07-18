@@ -1,9 +1,4 @@
 #pragma once
-class Stage2_Bridge
-{
-};
-
-#pragma once
 #include "ScriptInterface.h"
 #include "../ParagonData/GameObject.h"
 
@@ -33,6 +28,7 @@ namespace Pg::DataScript
 	private:
 		std::vector<Pg::Data::StaticMeshRenderer*> _renderers;
 		Pg::Data::StaticBoxCollider* _collider;
+		Pg::Data::SphereCollider* _area;
 
 		Pg::DataScript::BridgeHelper* _bridgeHelper;
 
