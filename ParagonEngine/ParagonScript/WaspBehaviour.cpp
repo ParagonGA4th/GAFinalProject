@@ -67,6 +67,8 @@ namespace Pg::DataScript
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
+		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
+
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			// 자식 오브젝트의 이름을 얻어옵니다.
@@ -498,6 +500,7 @@ namespace Pg::DataScript
 
 		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
 		animId.append("_00003.pganim");
+		_cameraShake->CauseShake(0.25f);
 
 		_meshRenderer->SetAnimation(animId, false);
 

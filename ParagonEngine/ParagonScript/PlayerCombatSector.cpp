@@ -28,7 +28,7 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::GrabManagedObjects()
 	{
-	    FindAllArrowsInMap();
+		FindAllArrowsInMap();
 
 		_strongAttackLogic = _object->GetScene()->FindSingleComponentInScene<StrongAttackLogic>();
 		assert(_strongAttackLogic != nullptr);
@@ -109,7 +109,6 @@ namespace Pg::DataScript
 		_isJustStrongAttackInvoked = false;
 		_isJustUltimateAttackInvoked = false;
 
-		_startedUltimateAttackingTime = 0.f;
 		_startedStrongAttackingTime = 0.f;
 
 		//UI Manager : 내부 액티브스킬 GUI 초기 세팅 따로 해야 한다.
@@ -367,7 +366,11 @@ namespace Pg::DataScript
 			}
 		}
 
-		NormalArrowShootingLogic();
+		//궁극기 쏠 때는 일반공격 막아야함.
+		if (!_ulArrowLogic->GetUltimateSkillEnd())
+		{
+			NormalArrowShootingLogic();
+		}
 	}
 
 	void PlayerCombatSector::NormalArrowShootingLogic()
@@ -403,7 +406,7 @@ namespace Pg::DataScript
 
 	bool PlayerCombatSector::CheckActivateUltimateAttack()
 	{
-		
+
 		//들어왔다는 것은 궁극기가 쓰일 수 있다는 뜻.
 		//가장 우선권을 가지고 있다.
 
@@ -428,7 +431,7 @@ namespace Pg::DataScript
 
 	bool PlayerCombatSector::CheckActivateStrongAttack()
 	{
-	
+
 		//1칸 이상은 있어야 발동될 수 있을 것.
 		if (CheckStrongAttack())
 		{
@@ -496,16 +499,13 @@ namespace Pg::DataScript
 			//Ultimate Invoke 부분이 여기로!
 			InvokeSingleUltimateAttack();
 			_isJustUltimateAttackInvoked = false;
-			_startedUltimateAttackingTime = 0.f;
 		}
 
 		//시간을 세든, 끝날 때의 신호를 받든해서 더 이상 멀티프레임 공격을 실행중이지 않다는 것 알려야.
 		//여러 프레임이 걸쳐 이루어지는 로직. -> 시간을 세는 방식.
-		_startedUltimateAttackingTime += _pgTime->GetDeltaTime();
-		if (_startedUltimateAttackingTime >= ULTIMATE_ATTACK_DURATION)
+		if (!_ulArrowLogic->GetUltimateSkillEnd())
 		{
 			//더 이상은 호출되지 않는다. Ultimate 관련된 모든거 다 리셋.
-			_startedUltimateAttackingTime = 0.f;
 			_isJustUltimateAttackInvoked = false;
 			_isUltimateAttackingNow = false;
 		}
@@ -536,8 +536,8 @@ namespace Pg::DataScript
 			_isStrongAttackingNow = false;
 		}
 	}
-	
-	
+
+
 	void PlayerCombatSector::ExecuteSpecificArrowShoot(std::vector<ArrowLogic*>* typeArrowVec, Pg::Data::AudioSource* audioSource, float& outIfDoneResetTime)
 	{
 		//ComboCounting은 ComboSystem에서 회수해야 한다.
@@ -590,7 +590,8 @@ namespace Pg::DataScript
 	{
 		//궁극기 발동 로직. 이렇게 켜주는 거고, 내부적으로 알아서 민서가 꺼줘야 함 (onAnimationEnd에 맞춰서)
 		//_ulArrowCol->SetActive(true); //충돌 키는 용.
-		_ulArrowLogic->_isSkillStart = true; //로직 키는 용.
+		//_ulArrowLogic->_isSkillStart = true; //로직 키는 용.
+		_ulArrowLogic->StartSkill();
 	}
 
 	void PlayerCombatSector::InvokeSingleStrongAttack()
