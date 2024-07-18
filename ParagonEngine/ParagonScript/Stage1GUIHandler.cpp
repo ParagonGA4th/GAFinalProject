@@ -1,5 +1,6 @@
 #include "Stage1GUIHandler.h"
 #include "TransformSimpleStorage.h"
+#include "../ParagonUtil/Log.h"
 
 #include "../ParagonData/ImageRenderer.h"
 #include "../ParagonData/TextRenderer.h"
@@ -39,17 +40,17 @@ namespace Pg::DataScript
 		AssignPointersToGUI();
 
 		//이는 Stamina 등록을 해주기 위해. Object. _isActive만 꺼놓는 방식으로 등록해놓는다.
-		//SetupStaminaBillboardRenderObject();
+		SetupStaminaBillboardRenderObject();
 	}
 
 	void Stage1GUIHandler::Start()
 	{
-		//_staminaBillboardObject->SetActive(true);
+		_staminaBillboardObject->SetActive(true);
 	}
 
 	void Stage1GUIHandler::Update()
 	{
-		//MatchUpdateStaminaToRO();
+		MatchUpdateStaminaToRO();
 	}
 
 	void Stage1GUIHandler::AssignPointersToGUI()
@@ -93,13 +94,11 @@ namespace Pg::DataScript
 		_pauseBox = _object->GetScene()->FindSingleComponentInScene<PauseBox>();
 		assert(_pauseBox != nullptr);
 
-		////플레이어 가져오기.
-		//auto tHandlerBundle = TotalGameManager::GetInstance(nullptr)->GetHandlerBundleByScene(_object->GetScene());
-		//assert(tHandlerBundle != nullptr);
-		//_playerTransform = &(tHandlerBundle->_playerBehavior->_object->_transform);
-		//
-		//_staminaTextureIndexPointer = _pgGraphics->GetEffectTextureIndexPointer("Effect_StaminaStats");
-		//assert(_staminaTextureIndexPointer != nullptr);
+		//플레이어 가져오기.
+		_playerTransform = &(tPH->_object->_transform);
+
+		_staminaTextureIndexPointer = _pgGraphics->GetEffectTextureIndexPointer("Effect_StaminaStats");
+		assert(_staminaTextureIndexPointer != nullptr);
 	}
 
 	void Stage1GUIHandler::AdditionalReset()
@@ -120,10 +119,18 @@ namespace Pg::DataScript
 		CombatSystem* tCombatSystem = CombatSystem::GetInstance(nullptr);
 
 		//Offset 줘서 띄우기.
-		//_staminaBillboardObject->_position = _playerTransform->_position + Pg::Math::PGFLOAT3(0, 3, 0);
-		//tCombatSystem->
+		_staminaBillboardObject->_position = _playerTransform->_position + Pg::Math::PGFLOAT3(0, STAMINA_GUI_Y_OFFSET, 0);
+		_staminaBillboardObject->_scale = { 1.0f, 0.3f, 1.0f };
 
+		//Stamina 받기.
+		*_staminaTextureIndexPointer = tCombatSystem->GetPlayerStamina();
+		
+		//PG_WARN("STAMINA : {0}", *_staminaTextureIndexPointer);
 	}
 
+	void Stage1GUIHandler::CleanOnSceneChange()
+	{
+		_staminaBillboardObject->SetActive(false);
+	}
 
 }
