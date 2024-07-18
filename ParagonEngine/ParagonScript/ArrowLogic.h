@@ -2,6 +2,7 @@
 #include "ScriptInterface.h"
 #include "IProjectile.h"
 #include "../ParagonMath/PgMath.h"
+#include "../ParagonData/VisualEffectRenderObject.h"
 #include "IEnemyBehaviour.h"
 #include <functional>
 #include <visit_struct/visit_struct.hpp>
@@ -19,15 +20,9 @@ namespace Pg::Data
 
 namespace Pg::API
 {
-	namespace Time
-	{
-		class PgTime;
-	}
-
-	namespace Tween
-	{
-		class PgTween;
-	}
+	namespace Time { class PgTime; } 
+	namespace Tween { class PgTween; }
+	namespace Graphics { class PgGraphics; }
 }
 
 namespace Pg::DataScript
@@ -45,14 +40,17 @@ namespace Pg::DataScript
 
 	public:
 		inline static const float ARROW_ATTACK_POWER = 1.f;
+		inline static const int TRAIL_DIVIDED_COUNT = 4;
 
 	public:
 		ArrowLogic(Pg::Data::GameObject* obj);
 
+		virtual void GrabManagedObjects() override;
 		virtual void BeforePhysicsAwake() override;
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void FixedUpdate() override;
+		virtual void CleanOnSceneChange() override;
 
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
 		//virtual void OnCollisionExit(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override;
@@ -83,6 +81,10 @@ namespace Pg::DataScript
 		void InitSelfAsIceArrow();
 		void InitSelfAsFireArrow();
 	
+		void InitTrailObjects();
+	private:
+		void FollowTrail();
+
 	private:
 		void NormalArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex);
 		void IceArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex);
@@ -121,12 +123,15 @@ namespace Pg::DataScript
 		//API
 		Pg::API::Time::PgTime* _pgTime;
 		Pg::API::Tween::PgTween* _pgTween;
+		Pg::API::Graphics::PgGraphics* _pgGraphics;
 
 	private:
 		//ComboSystem 갖고 있기.
 		ComboSystem* _comboSystem{ nullptr };
 
 		CombatSystem* _combatSystem{ nullptr };
+
+		std::vector<Pg::Data::VisualEffectRenderObject*> _trailList;
 	};
 }
 
