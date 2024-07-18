@@ -58,6 +58,10 @@ namespace Pg::Data
 		//매니저들이 관리하는 오브젝트를 가져올 수 있게 하기 위해서.
 		virtual void GrabManagedObjects() {}
 
+		//Don't Destroy가 아닌 오브젝트들 한정, Effect Object 등 Update와 독립적인 오브젝트들 있을 경우
+		//Manual Cleanup 허용하기.
+		virtual void CleanOnSceneChange() {}
+
 	public:
 		void SetActive(bool active);
 		bool GetActive();

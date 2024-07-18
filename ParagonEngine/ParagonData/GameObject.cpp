@@ -564,4 +564,11 @@ namespace Pg::Data
 			{ iter.second->GrabManagedObjects(); });
 	}
 
+	void GameObject::CleanOnSceneChange()
+	{
+		//GetActive ¹Ý¿µ ¾ÈµÊ.
+		std::for_each(_componentList.begin(), _componentList.end(), [](auto& iter)
+			{ iter.second->CleanOnSceneChange(); });
+	}
+
 }

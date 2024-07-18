@@ -341,6 +341,19 @@ namespace Pg::DataScript
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 	}
 
+	float CombatSystem::GetPlayerHealth()
+	{
+		return _currentHandlerBundle3D->_playerBehavior->healthPoint;
+	}
 
+	float CombatSystem::GetPlayerMana()
+	{
+		return _currentHandlerBundle3D->_playerBehavior->manaPoint;
+	}
+
+	unsigned int CombatSystem::GetPlayerStamina()
+	{
+		return _currentHandlerBundle3D->_playerBehavior->staminaPoint;
+	}
 
 }

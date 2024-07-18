@@ -93,6 +93,10 @@ namespace Pg::DataScript
 		void ChangePlayerMana(float level);
 		void ChangePlayerStamina(float level);
 
+		float GetPlayerHealth();
+		float GetPlayerMana();
+		unsigned int GetPlayerStamina();
+
 		
 	public:
 		//개별적인 Combat 등록.
