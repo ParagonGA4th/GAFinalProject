@@ -24,6 +24,7 @@ namespace Pg::DataScript
 		virtual void GrabManagedObjects() override;
 		virtual void Start() override;
 		virtual void Update() override;
+		virtual void CleanOnSceneChange() override;
 
 		virtual void AssignPointersToGUI() override;
 

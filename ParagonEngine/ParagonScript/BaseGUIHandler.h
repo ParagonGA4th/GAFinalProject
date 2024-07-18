@@ -17,6 +17,9 @@ namespace Pg::DataScript
 	class BaseGUIHandler
 	{
 	public:
+		inline static const float STAMINA_GUI_Y_OFFSET = 4.f;
+
+	public:
 		//초기 상태로 되돌리는 함수. 어떤 이유가 되던, 리셋해야 할 때.
 		void ResetToInitialState();
 

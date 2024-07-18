@@ -58,15 +58,16 @@ namespace Pg::DataScript
 
 	public:
 		void CarryOutShoot(); //실제로 총을 쏘는 로직, Tweening 사용.
+		void StartSkill();
 
-		bool _isSkillStart{ false };
-
+		bool GetUltimateSkillEnd();
 	private:
 		void EndShootingSelf();
 
 	private:
 		//스킬 끝나는 시간.
 		bool _isSkillEnd{ false };
+		bool _ultimateSkill{ false };
 
 		// 애니매이션 관련
 		bool _isAnimEnd{ false };
@@ -74,6 +75,7 @@ namespace Pg::DataScript
 
 	private:
 
+		bool _isSkillStart{ false };
 		bool _startCountingTime = false;
 		float _elapsedTime = 0.0f;
 
