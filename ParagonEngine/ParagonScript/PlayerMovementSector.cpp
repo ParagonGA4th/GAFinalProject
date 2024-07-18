@@ -287,10 +287,12 @@ namespace Pg::DataScript
 			{
 				//¹ØÀ¸·Î ½ð´Ù.
 				Pg::Math::PGFLOAT3 tShouldShootDir = -Pg::Math::PGFLOAT3::GlobalUp();
-				Pg::Math::PGFLOAT3 tShouldShootPosition = {
+				Pg::Math::PGFLOAT3 tShouldShootPosition = 
+				{
 					_object->_transform._position.x,
 					_object->_transform._position.y - _halfColliderHeight - tSmallOffset,
-					_object->_transform._position.z };
+					_object->_transform._position.z 
+				};
 
 				//Pg::Math::PGFLOAT3 tShouldShootPosition = {
 				//	_object->_transform._position.x,

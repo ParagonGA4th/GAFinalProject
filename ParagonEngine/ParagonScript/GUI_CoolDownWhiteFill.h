@@ -3,6 +3,7 @@
 #include "ISingleGUI.h"
 
 #include "../ParagonData/ImageRenderer.h"
+#include <functional>
 
 namespace Pg::DataScript
 {
@@ -17,9 +18,14 @@ namespace Pg::DataScript
 		virtual void ReceiveDependentPointers(void* p1, void* p2, void* p3, double v1, double v2, double v3) override;
 		virtual void Update();
 
+		
 	private:
 		const float* _percentageSource{ nullptr };
+		const bool* _isStartEligible{ nullptr };
+		const bool* _isCheckedBoolPointer{ nullptr };
+
 		float _maxVal;
+		float _requiredSkillManaAmt{ 0.f };
 		Pg::Data::ImageRenderer* _imageRenderer{ nullptr };
 	};
 }
