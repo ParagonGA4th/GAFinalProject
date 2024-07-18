@@ -260,7 +260,7 @@ namespace Pg::DataScript
 		if (_isRotatingToPlayer)
 		{
 			RotateToPlayer(_playerTransform->_position);
-			_rotateToPlayerTime += _pgTime->GetDeltaTime();
+
 
 			if (!_isDash)
 			{
@@ -285,7 +285,17 @@ namespace Pg::DataScript
 			if (_distance <= _bossInfo->GetAttackRange())
 			{
 				//_meshRenderer->_animBlendFactor = 0.0f;
-				_isChasing = false;
+				
+				if (!_isPhase2)
+				{
+					_isRotatingToPlayer = true;
+					_isChasing = true;
+				}
+				else
+				{
+					_isRotatingToPlayer = false;
+					_isChasing = false;
+				}
 
 				_monsterHelper->_isChase = false;
 				_monsterHelper->_isPlayerinHitSpace = true;
@@ -294,6 +304,7 @@ namespace Pg::DataScript
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2)
 				{
 					Attack(_monsterHelper->_isAnimChange);
+					//_isRotatingToPlayer = true;
 					//_useTakeDownSkill = true;
 				}
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3)
@@ -325,6 +336,7 @@ namespace Pg::DataScript
 				_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_3)
 			{
 				_meshRenderer->_animBlendFactor = 10.0f;
+				Attack(false);
 				_isChasing = true;
 				_isRotatingToPlayer = true;
 				_monsterHelper->_isChase = true;
@@ -334,8 +346,7 @@ namespace Pg::DataScript
 
 			if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK) // 빛기둥
 			{
-				_isRotatingToPlayer = false;
-				_isChasing = false;
+				//_isPhase2 = true;
 				_useLightSkill = true;
 				//Attack(false);
 				//_useTakeDownSkill = false;
@@ -361,6 +372,7 @@ namespace Pg::DataScript
 
 				_bossInfo->SetCurrentWindBlastDurationTime(0.f);
 				_useStormBlast = false;
+				_isRotatingToPlayer = true;
 				_offWind = false;
 			}
 		}
@@ -480,7 +492,6 @@ namespace Pg::DataScript
 			_bossInfo->SetCurrentDashTime(0.0f); // 현재 돌진 시간을 초기화
 			_isRotatingToPlayer = true; // 다시 플레이어를 바라보도록 설정
 			_isRushSoundPlaying = false;// 사운드 초기화
-			_rotateToPlayerTime = 0.f;
 			_dashCount++;
 		}
 	}
@@ -501,6 +512,7 @@ namespace Pg::DataScript
 		if (_useStormBlast)
 		{
 			_isRotatingToPlayer = false;
+
 			_walkAudio->Stop();
 
 			_bossInfo->SetCurrentWindBlastDurationTime(_bossInfo->GetCurrentWindBlastTime() + _pgTime->GetDeltaTime());
@@ -538,7 +550,6 @@ namespace Pg::DataScript
 			}
 			if(_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetWindBlastDuration())
 			{
-				_isRotatingToPlayer = true;
 				_offWind = true;
 
 			}
@@ -570,7 +581,7 @@ namespace Pg::DataScript
 						iter2->SetAlphaPercentage(100.f);
 
 						//BattleArea의 값에 따라 수정할 예정
-						Pg::Math::PGFLOAT3 randomPosition = { RandomRange(-12.f, 12.f), 0, RandomRange(-12.f,12.f) };
+						Pg::Math::PGFLOAT3 randomPosition = { RandomRange(-10.f, 10.f), 0, RandomRange(-10.f,10.f) };
 						iter->_object->_transform._position = randomPosition;
 
 						_currentColIndex++;
@@ -746,6 +757,7 @@ namespace Pg::DataScript
 			}
 
 			_isPhase1End = true;
+			_isPhase2 = true;
 		}
 		if (_isPhase1End && !_isPhase2End && _bossInfo->GetMonsterHp() <= 20.f)
 		{
@@ -803,6 +815,7 @@ namespace Pg::DataScript
 			_monsterHelper->_bossFlag._isDash = false;
 			_monsterHelper->_bossFlag._isDown = false;
 
+			_walkAudio->Stop();
 			_dieAudio->Play();
 			_isDeadInit = true;
 		}

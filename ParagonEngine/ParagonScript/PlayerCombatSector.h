@@ -96,6 +96,7 @@ namespace Pg::DataScript
 	private:
 		void PlayAdequateAnimation();
 
+		void UpdateForGUIVariables();
 		void ProcessInputsForActiveSkills();
 		void ProcessInputsForStrongAttack();
 		void ProcessInputsForUltimateAttack();
@@ -105,6 +106,13 @@ namespace Pg::DataScript
 		//성공하면 True / 실패하면 False.
 		//(이는 다른 공격의 실행 상태 + 스탯에 따라 결정)
 		//내부에서 필요 스탯 소모까지 완료한다.
+
+		//체크만 완료하는 애들.
+		bool CheckStrongAttack();
+		bool CheckUltimateAttack();
+		bool CheckFireAttack();
+		bool CheckIceAttack();
+
 		bool CheckActivateStrongAttack();
 		bool CheckActivateUltimateAttack();
 		bool CheckActivateFireAttack();
@@ -137,7 +145,7 @@ namespace Pg::DataScript
 		//Normal에 한정.
 		float _normal_timeSinceLastShot = 0.f;
 		//공격 쿨타임
-		const float _normal_shootCooldown = 0.6f;
+		const float _normal_shootCooldown = 0.8f;
 
 	private:
 		// 플레이어 애니매이션 관련 변수
@@ -171,6 +179,13 @@ namespace Pg::DataScript
 		bool _isJustStrongAttackInvoked{ false };
 		float _startedUltimateAttackingTime{ 0.f };
 		float _startedStrongAttackingTime{ 0.f };
+
+	private:
+		//실제 로직에서 활용되지 않는다. 그저, Check시리즈의 값을 전해줄 뿐.
+		bool _checkStrongAttack{ false };
+		bool _checkUltimateAttack{ false };
+		bool _checkFireAttack{ false };
+		bool _checkIceAttack{ false };
 
 	private:
 		Pg::API::Input::PgInput* _pgInput;

@@ -5,6 +5,7 @@
 #include "../ParagonData/GameObject.h"
 
 #include <unordered_map>
+#include <functional>
 
 //Component의 자식은 아니다. 
 //별개로 존재한다. 플로우 관리를 위해.
