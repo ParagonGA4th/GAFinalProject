@@ -124,6 +124,10 @@ namespace Pg::Engine
 
 	void SceneSystem::SetCurrentScene_Internal(Pg::Data::Scene* scene)
 	{
+		//전에 있던 씬에서 오브젝트 클린업.
+		std::for_each(_currentScene->GetObjectList().begin(), _currentScene->GetObjectList().end(), [](auto& iter)
+			{iter->CleanOnSceneChange(); });
+
 		//현재 씬 저장된거 바꾸기.
 		_currentScene = scene;
 
@@ -133,7 +137,6 @@ namespace Pg::Engine
 		//현재 있는 모든 Scene 내부 GameObject 다시 Awake / Start 실행 가능하게 리셋.
 		std::for_each(_currentScene->GetObjectList().begin(), _currentScene->GetObjectList().end(), [](auto& iter)
 			{ iter->ResetDebouncerBoolean(); });
-
 
 		//SetCurrentScene이 호출되었을 때, Global한 애들 기준으로 (Static Vector, Don't Destroy On Load)
 		//OnSceneChange_Global()을 호출한다. (일반 오브젝트들에는 해당되지 않는다)

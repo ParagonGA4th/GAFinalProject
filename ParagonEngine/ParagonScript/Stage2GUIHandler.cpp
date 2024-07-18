@@ -9,27 +9,43 @@
 #include "PlayerCombatSector.h"
 #include "PauseBox.h"
 
+#include "../ParagonAPI/PgGraphics.h"
+#include "CombatSystem.h"
+#include <singleton-cpp/singleton.h>
+
 namespace Pg::DataScript
 {
 	Stage2GUIHandler::Stage2GUIHandler(Pg::Data::GameObject* obj) : ScriptInterface(obj)
 	{
+		_pgGraphics = &singleton<Pg::API::Graphics::PgGraphics>();
+	}
 
+	Stage2GUIHandler::~Stage2GUIHandler()
+	{
+		if (_staminaBillboardObject != nullptr)
+		{
+			_pgGraphics->RemoveEffectObject(_staminaBillboardObject);
+			delete _staminaBillboardObject;
+		}
 	}
 
 	void Stage2GUIHandler::GrabManagedObjects()
 	{
 		GrabOrganizeAllGUI(_object);
 		AssignPointersToGUI();
+
+		//이는 Stamina 등록을 해주기 위해. Object. _isActive만 꺼놓는 방식으로 등록해놓는다.
+		SetupStaminaBillboardRenderObject();
 	}
 
 	void Stage2GUIHandler::Start()
 	{
-
+		_staminaBillboardObject->SetActive(true);
 	}
 
 	void Stage2GUIHandler::Update()
 	{
-
+		MatchUpdateStaminaToRO();
 	}
 
 	void Stage2GUIHandler::AssignPointersToGUI()
@@ -73,11 +89,46 @@ namespace Pg::DataScript
 		//GUIHandler 나오기 전 작업물, 하드 셋.
 		_pauseBox = _object->GetScene()->FindSingleComponentInScene<PauseBox>();
 		assert(_pauseBox != nullptr);
+
+		//플레이어 가져오기.
+		_playerTransform = &(tPH->_object->_transform);
+
+		_staminaTextureIndexPointer = _pgGraphics->GetEffectTextureIndexPointer("Effect_StaminaStats");
+		assert(_staminaTextureIndexPointer != nullptr);
 	}
 
 	void Stage2GUIHandler::AdditionalReset()
 	{
 		_pauseBox->ResetAll();
 	}
+
+	void Stage2GUIHandler::SetupStaminaBillboardRenderObject()
+	{
+		_staminaBillboardObject = new Pg::Data::VisualEffectRenderObject();
+		//EffectObject 등록.
+		_pgGraphics->RegisterEffectObject("Effect_StaminaStats", _staminaBillboardObject);
+		_staminaBillboardObject->SetActive(false);
+	}
+
+	void Stage2GUIHandler::MatchUpdateStaminaToRO()
+	{
+		CombatSystem* tCombatSystem = CombatSystem::GetInstance(nullptr);
+
+		//Offset 줘서 띄우기.
+		_staminaBillboardObject->_position = _playerTransform->_position + Pg::Math::PGFLOAT3(0, STAMINA_GUI_Y_OFFSET, 0);
+		_staminaBillboardObject->_scale = { 1.0f, 0.3f, 1.0f };
+
+		//Stamina 받기.
+		*_staminaTextureIndexPointer = tCombatSystem->GetPlayerStamina();
+
+		//PG_WARN("STAMINA : {0}", *_staminaTextureIndexPointer);
+	}
+
+	void Stage2GUIHandler::CleanOnSceneChange()
+	{
+		_staminaBillboardObject->SetActive(false);
+	}
+
+
 
 }

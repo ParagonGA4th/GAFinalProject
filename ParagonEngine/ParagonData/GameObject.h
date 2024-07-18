@@ -68,6 +68,10 @@ namespace Pg::Data
 		//Tag / Name으로 가져오는 작업만 해당 공간에서 할 수 있다.
 		void GrabManagedObjects();
 
+		//Don't Destroy가 아닌 오브젝트들 한정, Effect Object 등 Update와 독립적인 오브젝트들 있을 경우
+		//Manual Cleanup 허용하기.
+		void CleanOnSceneChange();
+
 	public:
 		void OnDestroy();
 

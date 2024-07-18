@@ -134,7 +134,7 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _bossDieSound;
 		Pg::Data::AudioSource* _dieAudio;
 
-		Pg::Math::PGFLOAT3 _rendererOffset = { 0.f, -2.f, 0.f };
+		Pg::Math::PGFLOAT3 _rendererOffset = { 0.f, -4.f, 0.f };
 
 	private:
 		BaseEnemyHandler* _enemyHandler{ nullptr };

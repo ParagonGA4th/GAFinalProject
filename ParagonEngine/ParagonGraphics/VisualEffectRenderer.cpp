@@ -11,6 +11,7 @@
 #include "ThreeTextureEffect3D.h"
 
 #include "../ParagonUtil/TimeSystem.h"
+#include "../ParagonUtil/CustomAssert.h"
 #include "../ParagonData/ParagonDefines.h"
 #include "../ParagonData/GameConstantData.h"
 #include "../ParagonHelper/ResourceHelper.h"
@@ -20,6 +21,7 @@
 #include "RenderTexture2DArray.h"
 
 #include <singleton-cpp/singleton.h>
+#include <dxtk/SimpleMath.h>
 
 namespace Pg::Graphics
 {
@@ -245,46 +247,48 @@ namespace Pg::Graphics
 				{
 					if (!(bEffectObject->GetActive())) { continue; }
 
-					Pg::Math::PGQuaternion tFaceDir = bEffectObject->_rotation;
+					//Pg::Math::PGQuaternion tFaceDir = bEffectObject->_rotation;
 					if (bRenderSet->_visualEffectData._isFaceCamera)
 					{
 						{
-							//XMVECTOR playerPosition = PG2XM_FLOAT3_VECTOR(camData->_position);
-							//XMVECTOR objectPosition = PG2XM_FLOAT3_VECTOR(bEffectObject->_position);
-							//XMVECTOR upVector = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);  // Typically, Y is up
-							//
-							//// Calculate the direction from the object to the player
-							//XMVECTOR direction = XMVectorSubtract(playerPosition, objectPosition);
-							//
-							//// Create the "look at" matrix
-							//XMMATRIX lookAtMatrix = XMMatrixLookAtLH(objectPosition, playerPosition, upVector);
-							//
-							//// Extract the rotation quaternion from the look at matrix
-							//XMVECTOR rotationQuaternion = XMQuaternionRotationMatrix(lookAtMatrix);
-							//tFaceDir = Pg::Math::XM2PG_QUATERNION(rotationQuaternion);
-						}
-						{
+							//using namespace DirectX::SimpleMath;
+							using namespace DirectX::SimpleMath;
+
 							XMVECTOR playerPosition = PG2XM_FLOAT3_VECTOR(camData->_position);
 							XMVECTOR objectPosition = PG2XM_FLOAT3_VECTOR(bEffectObject->_position);
-							XMVECTOR upVector = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);  // Typically, Y is up
+							XMVECTOR v = objectPosition - playerPosition;
+							Vector3 tSubVec = XMVectorSet(0.f, XMVectorGetY(v), 0.f, 0.f);
+							
 
-							// Calculate the direction from the object to the player
-							//XMVECTOR vec = XMVectorSubtract(playerPosition, objectPosition);
-							XMVECTOR vec = XMVector3Normalize(XMVectorSubtract(objectPosition, playerPosition));
+							Vector3 tObjPos = { bEffectObject->_position.x, bEffectObject->_position.y, bEffectObject->_position.z };
+							Vector3 tCameraPos = { camData->_position.x, camData->_position.y, camData->_position.z };
+							Vector3 tRotateAxis{ 0,1,0 };
 
-							// Compute the quaternion that rotates the forward vector (0,0,1) to the given direction
-							XMVECTOR forward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-							XMVECTOR axis = XMVector3Cross(forward, vec);
-							float angle = acosf(XMVectorGetX(XMVector3Dot(forward, vec)));
+							Pg::Math::PGFLOAT3 tFor = GetForwardVectorFromQuat(camData->_rotation);
+							Vector3 tCameraForward = { tFor.x, tFor.y, tFor.z };
+							Vector3 tObjectForward = tCameraPos + (tSubVec * 10.f);
+							tObjectForward.Normalize();
 
-							XMVECTOR rotationQuaternion = XMQuaternionRotationAxis(axis, angle);
-							tFaceDir = Pg::Math::XM2PG_QUATERNION(rotationQuaternion);
+							Matrix tTrans = Matrix::CreateConstrainedBillboard(tObjPos, tCameraPos, tRotateAxis, &tCameraForward, &tObjectForward);
+							XMVECTOR tOutScale;
+							XMVECTOR tOutQuat;
+							XMVECTOR tOutPos;
+							CustomAssert(XMMatrixDecompose(&tOutScale, &tOutQuat, &tOutPos, tTrans));
+
+							bEffectObject->_position = Pg::Math::XM2PG_FLOAT3_VECTOR(tOutPos);
+							bEffectObject->_rotation = Pg::Math::XM2PG_QUATERNION(tOutQuat);
+							//bEffectObject->_scale = Pg::Math::XM2PG_FLOAT3_VECTOR(tOutScale);
+							//Scale은 반영하지 않음.
 						}
+
 					}
 
 					//개별적인 Render Object 단계.
+					//tWorldMat = PG2XM_MATRIX4X4(Pg::Math::PGGetWorldMatrixFromValues(
+					//	bEffectObject->_position, tFaceDir, bEffectObject->_scale));
+
 					tWorldMat = PG2XM_MATRIX4X4(Pg::Math::PGGetWorldMatrixFromValues(
-						bEffectObject->_position, tFaceDir, bEffectObject->_scale));
+						bEffectObject->_position, bEffectObject->_rotation, bEffectObject->_scale));
 
 					tViewMat = PG2XM_MATRIX4X4(camData->_viewMatrix);
 
@@ -461,34 +465,42 @@ namespace Pg::Graphics
 			//하나라도 Custom을 쓰는지 / 다 디폴트인지.
 			if ((!tEffectData._isUseCustomVertexShader) && (!tEffectData._isUseCustomPixelShader))
 			{
-				switch (tTextureSize)
-				{
-					//Texture가 하나밖에 없다면, Basic Effect를 넣기. 그렇게	
-					case 1:
-					{
-						bEffect = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
-						DirectX::BasicEffect* tBasicEffect = static_cast<DirectX::BasicEffect*>(bEffect.get());
-						tBasicEffect->SetTextureEnabled(true);
-						tBasicEffect->SetLightingEnabled(false);
-						//나중에 여기다가 Emission Default로 설정할 수도 있다.
+				//switch (tTextureSize)
+				//{
+				//	//Texture가 하나밖에 없다면, Basic Effect를 넣기. 그렇게	
+				//	case 1:
+				//	{
+				//		
+				//	}
+				//	break;
+				//	default:
+				//	{
+				//		//Dual도 안되게 해놓았다.
+				//		//이제는 Basic Effect 스위칭 가능하게.
+				//		//assert(false && "2개 이상은 DXTK 자체 이펙트 시리즈에서 불가.");
+				//
+				//
+				//
+				//
+				//
+				//
+				//
+				//	}
+				//	break;
+				//}
+				bEffect = std::make_unique<DirectX::BasicEffect>(_DXStorage->_device);
+				DirectX::BasicEffect* tBasicEffect = static_cast<DirectX::BasicEffect*>(bEffect.get());
+				tBasicEffect->SetTextureEnabled(true);
+				tBasicEffect->SetLightingEnabled(false);
+				//나중에 여기다가 Emission Default로 설정할 수도 있다.
 
-						bStoreMatrixForm = static_cast<DirectX::IEffectMatrices*>(tBasicEffect);
+				bStoreMatrixForm = static_cast<DirectX::IEffectMatrices*>(tBasicEffect);
 
-						//BasicEffect이니, 이를 기록.
-						tVisualEffectGraphicsSet->_dxtkBasicEffect = tBasicEffect;
+				//BasicEffect이니, 이를 기록.
+				tVisualEffectGraphicsSet->_dxtkBasicEffect = tBasicEffect;
 
-						//PGT2ARR인지 기록 -> 유일하게 Billboard Sprite Animation을 서포트할 것이다.
-						tVisualEffectGraphicsSet->_isBillboardAnimation = _IsPGT2ARR;
-					}
-					break;
-					default:
-					{
-						//Dual도 안되게 해놓았다.
-						//이제는 Basic Effect 스위칭 가능하게.
-						assert(false && "2개 이상은 DXTK 자체 이펙트 시리즈에서 불가.");
-					}
-					break;
-				}
+				//PGT2ARR인지 기록 -> 유일하게 Billboard Sprite Animation을 서포트할 것이다.
+				tVisualEffectGraphicsSet->_isBillboardAnimation = _IsPGT2ARR;
 			}
 			else
 			{
