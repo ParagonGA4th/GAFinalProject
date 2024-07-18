@@ -62,6 +62,7 @@ namespace Pg::DataScript
 		_collider->FreezeLinearZ(true);
 
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		_meshRenderer->SetRendererOffset(_rendererOffset);
 
 		//플레이어 지정
 		_player = _object->GetScene()->FindObjectWithName("Player");
@@ -126,6 +127,8 @@ namespace Pg::DataScript
 		_collider->FreezeLinearX(true);
 		_collider->FreezeLinearZ(true);
 		//_collider->SetCapsuleInfo(1.f, 1.f);
+
+		_meshRenderer->SetRendererOffset(_rendererOffset);
 
 		//clear 필요함.
 		if (!_basicAttackCol.empty() || !_skillAttackCol.empty())

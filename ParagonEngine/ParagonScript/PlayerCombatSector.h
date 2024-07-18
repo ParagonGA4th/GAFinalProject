@@ -137,7 +137,7 @@ namespace Pg::DataScript
 		//Normal에 한정.
 		float _normal_timeSinceLastShot = 0.f;
 		//공격 쿨타임
-		const float _normal_shootCooldown = 0.6f;
+		const float _normal_shootCooldown = 0.8f;
 
 	private:
 		// 플레이어 애니매이션 관련 변수

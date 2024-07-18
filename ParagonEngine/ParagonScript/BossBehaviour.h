@@ -100,7 +100,7 @@ namespace Pg::DataScript
 		virtual BaseMonsterInfo* ReturnBaseMonsterInfo() override { return _bossInfo; }
 		virtual unsigned int GetBelongAreaIndex() override { return _areaIndex; }
 
-		inline static const float  ALPHA_PERCENT  = 1.f;
+		inline static const float  ALPHA_PERCENT  = 6.f;
 
 	private:
 		Pg::API::Time::PgTime* _pgTime;
@@ -184,6 +184,8 @@ namespace Pg::DataScript
 		float _currentGenerateTime = 0.f;
 		float _regenerateTime = 0.1f;
 
+		//페이즈2 시작될 땐 움직이면 안된다.
+		bool _isPhase2{ false };
 		bool _isPhase1End{ false };
 		bool _isPhase2End{ false };
 
