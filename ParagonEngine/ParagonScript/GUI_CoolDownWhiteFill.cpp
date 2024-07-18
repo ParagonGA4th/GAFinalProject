@@ -26,32 +26,43 @@ namespace Pg::DataScript
 	{
 		//비율로 계산해서 출력할 수 있게 하기 위해서.
 		_percentageSource = (const float*)p1;
+
+		//이제는 Bool값으로 가능한지 + Mana까지 해서 필터링해야 한다.
+		_isStartEligible = (const bool*)p2;
+		_isCheckedBoolPointer = (const bool*)p3;
+
+		//
 		_maxVal = v1;
+		_requiredSkillManaAmt = v2;
 	}
 
 	void GUI_CoolDownWhiteFill::Update()
 	{
-		float tImpVal = std::clamp<float>(*_percentageSource, 0.f, _maxVal);
-		
-		//테스트용.
-		//{
-		//	static float time = 0.1f;
-		//	time += 0.01f;
-		//
-		//	const float frequency = 0.5;
-		//	const float phase = 0;
-		//
-		//	// Calculate the sine value (-1 to 1)
-		//	float sineValue = std::sin(2 * std::numbers::pi * frequency * time + phase);
-		//
-		//	// Map the sine value to the range 0-100
-		//	tImpVal = (sineValue + 1) * 50;
-		//}
+		//처음에는 안되는 것을 가정.
+		float tRatio = 100.f;
 
-		float tRatio = (tImpVal / _maxVal) * 100.f; // 0-100 사이.
-		tRatio = 100.0f - tRatio;
-		PG_WARN(tRatio);
+		bool tIsStartEligible = *_isStartEligible;
 
+		//발동은 된다는 얘기.
+		if (tIsStartEligible)
+		{
+			//마나도 충족.
+			if (_isCheckedBoolPointer)
+			{
+				tRatio = 0.f;
+			}
+			else
+			{
+				//불가능.
+				tRatio = 100.f;
+			}
+		}
+		else
+		{
+			float tImpVal = std::clamp<float>(*_percentageSource, 0.f, _maxVal);
+			tRatio = (tImpVal / _maxVal) * 100.f; // 0-100 사이.
+			tRatio = 100.0f - tRatio;
+		}
 
 		_imageRenderer->SetFillRatio(tRatio);
 	}
