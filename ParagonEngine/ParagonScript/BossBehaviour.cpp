@@ -313,6 +313,7 @@ namespace Pg::DataScript
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2)
 				{
 					Attack(_monsterHelper->_isAnimChange);
+					
 					//_isRotatingToPlayer = true;
 					//_useTakeDownSkill = true;
 				}
@@ -781,8 +782,10 @@ namespace Pg::DataScript
 				{
 					_isNeutralizeInit = false;
 				}
+
 			}
 
+			_isPhase2 = false;
 			_isPhase2End = true;
 		}
 		if (_isNeutralize)
