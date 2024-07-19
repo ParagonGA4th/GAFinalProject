@@ -24,6 +24,7 @@ namespace Pg::DataScript
 	{
 		_collider = _object->GetComponent<Pg::Data::StaticBoxCollider>();
 		_renderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		_renderer->SetRendererOffset(_rendererOffset);
 
 		_mimic = _object->GetScene()->FindObjectWithName(_mimicName);
 		assert(_mimic != nullptr);
