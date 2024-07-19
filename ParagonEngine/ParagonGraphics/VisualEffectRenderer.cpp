@@ -250,8 +250,20 @@ namespace Pg::Graphics
 				UINT offset = 0;
 
 				//VB / IB / Topology 세팅. 다 쿼드라서 매번 바꿀 필요 X.
-				_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(GeometryGenerator::_QUAD_VB), &stride, &offset);
-				_DXStorage->_deviceContext->IASetIndexBuffer(GeometryGenerator::_QUAD_IB, DXGI_FORMAT_R32_UINT, 0);
+				//누워있는지, 아닌지만 보자.
+				if (bRenderSet->_visualEffectData._isQuadLyingDown)
+				{
+					//누워 있다.
+					_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(GeometryGenerator::LYING_DOWN_QUAD_VB), &stride, &offset);
+					_DXStorage->_deviceContext->IASetIndexBuffer(GeometryGenerator::LYING_DOWN_QUAD_IB, DXGI_FORMAT_R32_UINT, 0);
+				}
+				else
+				{
+					//서 있다, 디폴트처럼.
+					_DXStorage->_deviceContext->IASetVertexBuffers(0, 1, &(GeometryGenerator::_QUAD_VB), &stride, &offset);
+					_DXStorage->_deviceContext->IASetIndexBuffer(GeometryGenerator::_QUAD_IB, DXGI_FORMAT_R32_UINT, 0);
+				}
+
 				_DXStorage->_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 				//3D Rendering 전담.

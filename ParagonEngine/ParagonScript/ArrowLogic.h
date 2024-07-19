@@ -40,7 +40,7 @@ namespace Pg::DataScript
 
 	public:
 		inline static const float ARROW_ATTACK_POWER = 1.f;
-		inline static const int TRAIL_DIVIDED_COUNT = 4;
+		inline static const int TRAIL_DIVIDED_COUNT = 2; //두 개씩만 가지고 있자.
 
 	public:
 		ArrowLogic(Pg::Data::GameObject* obj);
@@ -81,10 +81,9 @@ namespace Pg::DataScript
 		void InitSelfAsIceArrow();
 		void InitSelfAsFireArrow();
 	
-		void InitTrailObjects();
 	private:
-		void FollowTrail();
-
+		void InitTrailObjects();
+		void TurnOffAllTrailObjects();
 	private:
 		void NormalArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex);
 		void IceArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex);
@@ -96,6 +95,9 @@ namespace Pg::DataScript
 		void EndShootingSelf(); //다 썼다는 얘기. 중력을 키지도 말고, 그냥사라지자.
 		void CarryOutShoot(); //실제로 총을 쏘는 로직, Tweening 사용.
 		void IfValidActualShootLogic(); //실제 총 쏘는 If문.
+		void TrailUpdateLogic(); // Trail 보이는 로직 업데이트
+
+
 	private:	//인게임 내 프로퍼티들.
 		//N초 이후에 지워라!
 		const float _afterDestroySec{ 3.0f };
@@ -106,7 +108,12 @@ namespace Pg::DataScript
 
 	private:	//ArrowShooterBehavior(매니저)가 참조할 변수이다.
 		bool _isNowShooting = false;
-		
+		//막 쏘기 시작.
+		bool _isJustInvokedShoot = false;
+
+		int _trailActiveCount{ 0 };
+		float _trailActiveTime{ 0.f };
+
 	private:
 		bool _startCountingTime = false;
 		float _elapsedTime = 0.0f;
