@@ -28,7 +28,7 @@ namespace Pg::DataScript
 		if (_areaIndex == 0)
 			_otherCol = _object->GetScene()->FindObjectWithName("BattleArea_MiniGolem")->GetComponent<Pg::Data::Collider>();
 		else
-			_otherCol = _object->GetScene()->FindObjectWithName("ArtifactBoxCol_2")->GetComponent<Pg::Data::Collider>();
+			_otherCol = _object->GetScene()->FindObjectWithName("ArtifactBox_2")->GetComponent<Pg::Data::Collider>();
 	}
 
 	void Grating::BeforePhysicsAwake()
@@ -38,7 +38,7 @@ namespace Pg::DataScript
 
 	void Grating::Awake()
 	{
-		_renderer->SetActive(true);
+		//_renderer->SetActive(true);
 		_renderer->_alphaPercentage = 100.f;
 		_collider->SetActive(true);
 	}
@@ -49,7 +49,7 @@ namespace Pg::DataScript
 		{
 			if (_renderer->_alphaPercentage <= std::numeric_limits<float>::epsilon())
 			{
-				_renderer->SetActive(false);
+				//_renderer->SetActive(false);
 				_collider->SetActive(false);
 			}
 			else
