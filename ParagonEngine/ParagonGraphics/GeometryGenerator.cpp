@@ -16,6 +16,8 @@ namespace Pg::Graphics
 
 	ID3D11Buffer* GeometryGenerator::_QUAD_IB = nullptr;
 	ID3D11Buffer* GeometryGenerator::_QUAD_VB = nullptr;
+	ID3D11Buffer* GeometryGenerator::LYING_DOWN_QUAD_IB = nullptr;
+	ID3D11Buffer* GeometryGenerator::LYING_DOWN_QUAD_VB = nullptr;
 
 	void GeometryGenerator::CreateBox(float width, float height, float depth, MeshData_PosColor& meshData)
 	{
@@ -440,51 +442,108 @@ namespace Pg::Graphics
 	{
 		auto _DXStorage = LowDX11Storage::GetInstance();
 
-		GeometryGenerator::MeshData_PosNormalTex tMeshData;
-		GeometryGenerator::GenerateFullscreenQuad(tMeshData);
+		//FullScreenQuad
+		{
+			GeometryGenerator::MeshData_PosNormalTex tMeshData;
+			GeometryGenerator::GenerateFullscreenQuad(tMeshData);
 
-		// Buffer Description
-		D3D11_BUFFER_DESC VBDesc;
-		VBDesc.Usage = D3D11_USAGE_DEFAULT;
-		VBDesc.ByteWidth = tMeshData.Vertices.size() * sizeof(GeometryGenerator::MeshData_PosNormalTex);
-		VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		VBDesc.CPUAccessFlags = 0;
-		VBDesc.MiscFlags = 0;
+			// Buffer Description
+			D3D11_BUFFER_DESC VBDesc;
+			VBDesc.Usage = D3D11_USAGE_DEFAULT;
+			VBDesc.ByteWidth = tMeshData.Vertices.size() * sizeof(GeometryGenerator::MeshData_PosNormalTex);
+			VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			VBDesc.CPUAccessFlags = 0;
+			VBDesc.MiscFlags = 0;
 
-		// Subresource Data
-		D3D11_SUBRESOURCE_DATA VBInitData;
-		VBInitData.pSysMem = tMeshData.Vertices.data();
-		VBInitData.SysMemPitch = 0;
-		VBInitData.SysMemSlicePitch = 0;
+			// Subresource Data
+			D3D11_SUBRESOURCE_DATA VBInitData;
+			VBInitData.pSysMem = tMeshData.Vertices.data();
+			VBInitData.SysMemPitch = 0;
+			VBInitData.SysMemSlicePitch = 0;
 
-		// Create the vertex buffer.
-		HRESULT hr = _DXStorage->_device->CreateBuffer(&VBDesc, &VBInitData, &_QUAD_VB);
-		assert(SUCCEEDED(hr));
+			// Create the vertex buffer.
+			HRESULT hr = _DXStorage->_device->CreateBuffer(&VBDesc, &VBInitData, &_QUAD_VB);
+			assert(SUCCEEDED(hr));
 
-		// Buffer Description
-		D3D11_BUFFER_DESC IBDesc;
-		IBDesc.Usage = D3D11_USAGE_DEFAULT;
-		IBDesc.ByteWidth = tMeshData.Indices.size() * sizeof(unsigned int);
-		IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-		IBDesc.CPUAccessFlags = 0;
-		IBDesc.MiscFlags = 0;
+			// Buffer Description
+			D3D11_BUFFER_DESC IBDesc;
+			IBDesc.Usage = D3D11_USAGE_DEFAULT;
+			IBDesc.ByteWidth = tMeshData.Indices.size() * sizeof(unsigned int);
+			IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+			IBDesc.CPUAccessFlags = 0;
+			IBDesc.MiscFlags = 0;
 
-		// Subresource Data
-		D3D11_SUBRESOURCE_DATA IBInitData;
-		IBInitData.pSysMem = tMeshData.Indices.data();
-		IBInitData.SysMemPitch = 0;
-		IBInitData.SysMemSlicePitch = 0;
+			// Subresource Data
+			D3D11_SUBRESOURCE_DATA IBInitData;
+			IBInitData.pSysMem = tMeshData.Indices.data();
+			IBInitData.SysMemPitch = 0;
+			IBInitData.SysMemSlicePitch = 0;
 
-		// Create the Index buffer.
-		hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &_QUAD_IB);
-		assert(SUCCEEDED(hr));
+			// Create the Index buffer.
+			hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &_QUAD_IB);
+			assert(SUCCEEDED(hr));
+		}
+		
+		//Lying Down Full Screen Quad.
+		{
+			GeometryGenerator::MeshData_PosNormalTex tMeshData;
+			GeometryGenerator::GenerateFullscreenQuad_LyingDown(tMeshData);
+
+			// Buffer Description
+			D3D11_BUFFER_DESC VBDesc;
+			VBDesc.Usage = D3D11_USAGE_DEFAULT;
+			VBDesc.ByteWidth = tMeshData.Vertices.size() * sizeof(GeometryGenerator::MeshData_PosNormalTex);
+			VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			VBDesc.CPUAccessFlags = 0;
+			VBDesc.MiscFlags = 0;
+
+			// Subresource Data
+			D3D11_SUBRESOURCE_DATA VBInitData;
+			VBInitData.pSysMem = tMeshData.Vertices.data();
+			VBInitData.SysMemPitch = 0;
+			VBInitData.SysMemSlicePitch = 0;
+
+			// Create the vertex buffer.
+			HRESULT hr = _DXStorage->_device->CreateBuffer(&VBDesc, &VBInitData, &LYING_DOWN_QUAD_VB);
+			assert(SUCCEEDED(hr));
+
+			// Buffer Description
+			D3D11_BUFFER_DESC IBDesc;
+			IBDesc.Usage = D3D11_USAGE_DEFAULT;
+			IBDesc.ByteWidth = tMeshData.Indices.size() * sizeof(unsigned int);
+			IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+			IBDesc.CPUAccessFlags = 0;
+			IBDesc.MiscFlags = 0;
+
+			// Subresource Data
+			D3D11_SUBRESOURCE_DATA IBInitData;
+			IBInitData.pSysMem = tMeshData.Indices.data();
+			IBInitData.SysMemPitch = 0;
+			IBInitData.SysMemSlicePitch = 0;
+
+			// Create the Index buffer.
+			hr = _DXStorage->_device->CreateBuffer(&IBDesc, &IBInitData, &LYING_DOWN_QUAD_IB);
+			assert(SUCCEEDED(hr));
+		}
 	}
 
+	void GeometryGenerator::GenerateFullscreenQuad_LyingDown(MeshData_PosNormalTex& a_meshData)
+	{
+		a_meshData.Vertices.resize(4);
+		a_meshData.Indices.resize(6);
 
-	
-	
+		// 누워 있는 Quad.
+		a_meshData.Vertices[0] = { { -1.0f, 0.0f, -1.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f } };
+		a_meshData.Vertices[1] = { { -1.0f, 0.0f,  1.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f } };
+		a_meshData.Vertices[2] = { { 1.0f, 0.0f,  1.0f }, { 0.0f, 1.0f, 0.0f }, { 1.0f, 0.0f } };
+		a_meshData.Vertices[3] = { { 1.0f, 0.0f, -1.0f }, { 0.0f, 1.0f, 0.0f }, { 1.0f, 1.0f } };
 
-	
-
+		a_meshData.Indices[0] = 0;
+		a_meshData.Indices[1] = 1;
+		a_meshData.Indices[2] = 2;
+		a_meshData.Indices[3] = 0;
+		a_meshData.Indices[4] = 2;
+		a_meshData.Indices[5] = 3;
+	}
 }
 

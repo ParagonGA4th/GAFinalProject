@@ -64,18 +64,19 @@ namespace Pg::DataScript
 		{
 			if (_player != nullptr)
 			{
-				if (_object->GetScene()->GetSceneName() != "Stage2")
+				if (_isActivated)
 				{
-					if (_isActivated)
+					if (_object->GetScene()->GetSceneName() != "Stage2")
 					{
 						ConfinePlayer();
 					}
-					else
-					{
-						PG_ERROR("EXITNOW");
-						DeactivateArea();
-					}
 				}
+				else
+				{
+					PG_ERROR("EXITNOW");
+					DeactivateArea();
+				}
+
 			}
 		}
 	}

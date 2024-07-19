@@ -1,5 +1,6 @@
-EffectName,Is3DSpace,IsFacingCamera,IsAlphaBlended,AlphaPercentage,TextureName,eSpriteMode,FrameCount,IsUseCustomVertexShader,CustomVertexShaderName,IsUseCustomPixelShader,CustomPixelShaderName,ManualSwitchingMode
-Effect_FireArrow,0,0,0,100,fire_arrow.png,1,6,0,NULL,0,NULL,0
-Effect_Credits,0,0,0,100,StarWarsCredits.png,2,1,0,NULL,0,NULL,0
-Effect_3D_FireArrow,1,1,0,100,fire_arrow.png,0,1,0,NULL,0,NULL,0
-Effect_StaminaStats,1,1,0,100,^StaminaBar_4.png^StaminaBar_1.png^StaminaBar_2.png^StaminaBar_3.png,0,1,0,NULL,0,NULL,1
+EffectName,Is3DSpace,IsFacingCamera,IsAlphaBlended,AlphaPercentage,TextureName,eSpriteMode,FrameCount,IsUseCustomVertexShader,CustomVertexShaderName,IsUseCustomPixelShader,CustomPixelShaderName,ManualSwitchingMode,IgnoreDepth,IsQuadLyingDown
+Effect_FireArrow,0,0,0,100,fire_arrow.png,1,6,0,NULL,0,NULL,0,0,0
+Effect_Credits,0,0,0,100,StarWarsCredits.png,2,1,0,NULL,0,NULL,0,0,0
+Effect_3D_FireArrow,1,1,0,100,fire_arrow.png,0,1,0,NULL,0,NULL,0,0,0
+Effect_StaminaStats,1,1,0,100,^StaminaBar_4.png^StaminaBar_1.png^StaminaBar_2.png^StaminaBar_3.png,0,1,0,NULL,0,NULL,1,1,0
+Effect_ArrowTrail,1,0,0,100,^ArrowTrail_3.png^ArrowTrail_4.png,0,1,0,NULL,0,NULL,1,0,1

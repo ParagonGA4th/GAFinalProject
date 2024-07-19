@@ -15,8 +15,28 @@ namespace Pg::DataScript
 
 	void ArtifactBoxAnim::Awake()
 	{
-		auto child = _object->_transform.GetChildren().at(0)->_object;
-		_artiBox = child->GetComponent<Pg::DataScript::ArtifactBox>();
+		//순서가 맞지 않을 수 있기에, 수정.
+		Pg::Data::GameObject* tArtifactChild = nullptr;
+		Pg::Data::GameObject* tOtherChild = nullptr;
+
+		//진짜 갖고 있는 애 찾기.
+		auto& tChildrenList = _object->_transform.GetChildren();
+		unsigned int tListSize = tChildrenList.size();
+		for (int i = 0; i < tListSize; i++)
+		{
+			auto child = tChildrenList.at(i)->_object;
+			Pg::DataScript::ArtifactBox* tArtiBox = child->GetComponent<Pg::DataScript::ArtifactBox>();
+			if (tArtiBox != nullptr)
+			{
+				tArtifactChild = child;
+				_artiBox = tArtiBox;
+			}
+			else
+			{
+				tOtherChild = child;
+			}
+		}
+		
 		assert(_artiBox != nullptr);
 
 		_renderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
@@ -28,7 +48,8 @@ namespace Pg::DataScript
 		if (col != nullptr) col->SetActive(true);
 		else
 		{
-			auto child = _object->_transform.GetChildren().at(1)->_object;
+			//auto child = _object->_transform.GetChildren().at(1)->_object;
+			auto child = tOtherChild;
 			auto ccol = child->GetComponent<Pg::Data::StaticBoxCollider>();
 			if (ccol != nullptr) ccol->SetActive(true);
 		}

@@ -2,6 +2,8 @@
 #include "CameraShake.h"
 #include "WaspAttack.h"
 #include "WaspSkillAttack.h"
+#include "BaseEnemyHandler.h"
+
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgScene.h"
@@ -178,6 +180,12 @@ namespace Pg::DataScript
 
 	void WaspBehaviour::Awake()
 	{
+		{
+			TotalGameManager* tTotalGameManager = TotalGameManager::GetInstance(nullptr);
+			HandlerBundle3D* tHB = tTotalGameManager->GetHandlerBundleByScene(_object->GetScene());
+			this->_enemyHandler = tHB->_enemyHandler;
+			assert(_enemyHandler != nullptr);
+		}
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
@@ -543,6 +551,8 @@ namespace Pg::DataScript
 		_monsterHelper->_isPlayerDetected = false;
 		_monsterHelper->_isPlayerinHitSpace = false;
 		_monsterHelper->_isChase = false;
+
+		_enemyHandler->FromEnemyNotifyDead(_object->GetTag(), this);
 	}
 
 	void WaspBehaviour::ResetAll()

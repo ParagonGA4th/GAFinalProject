@@ -32,6 +32,7 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
+	class BaseEnemyHandler;
 	class PlayerHandler;
 	class CameraShake;
 	class WaspAttack;
@@ -123,6 +124,9 @@ namespace Pg::DataScript
 		CameraShake* _cameraShake;
 		WaspAttack* _waspAttackScript;
 		WaspSkillAttack* _waspSkillAttackScript;
+
+	private:
+		BaseEnemyHandler* _enemyHandler{ nullptr };
 
 	private:
 		//플레이어와의 거리 측정

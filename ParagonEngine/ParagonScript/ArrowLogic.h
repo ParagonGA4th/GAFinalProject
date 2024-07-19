@@ -2,6 +2,7 @@
 #include "ScriptInterface.h"
 #include "IProjectile.h"
 #include "../ParagonMath/PgMath.h"
+#include "../ParagonData/VisualEffectRenderObject.h"
 #include "IEnemyBehaviour.h"
 #include <functional>
 #include <visit_struct/visit_struct.hpp>
@@ -9,6 +10,10 @@
 /// <summary>
 /// Normal / Fire / Ice를 모두 담당할 것이다.
 /// </summary>
+namespace Pg::Util
+{
+	class Tween;
+}
 
 namespace Pg::Data
 {
@@ -19,15 +24,9 @@ namespace Pg::Data
 
 namespace Pg::API
 {
-	namespace Time
-	{
-		class PgTime;
-	}
-
-	namespace Tween
-	{
-		class PgTween;
-	}
+	namespace Time { class PgTime; } 
+	namespace Tween { class PgTween; }
+	namespace Graphics { class PgGraphics; }
 }
 
 namespace Pg::DataScript
@@ -45,14 +44,17 @@ namespace Pg::DataScript
 
 	public:
 		inline static const float ARROW_ATTACK_POWER = 1.f;
+		//inline static const int TRAIL_DIVIDED_COUNT = 2; //두 개씩만 가지고 있자.
 
 	public:
 		ArrowLogic(Pg::Data::GameObject* obj);
 
+		virtual void GrabManagedObjects() override;
 		virtual void BeforePhysicsAwake() override;
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void FixedUpdate() override;
+		virtual void CleanOnSceneChange() override;
 
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
 		//virtual void OnCollisionExit(Pg::Data::PhysicsCollision** _colArr, unsigned int count) override;
@@ -84,6 +86,9 @@ namespace Pg::DataScript
 		void InitSelfAsFireArrow();
 	
 	private:
+		void InitTrailObjects();
+		void TurnOffAllTrailObjects();
+	private:
 		void NormalArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex);
 		void IceArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex);
 		void FireArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex);
@@ -94,6 +99,9 @@ namespace Pg::DataScript
 		void EndShootingSelf(); //다 썼다는 얘기. 중력을 키지도 말고, 그냥사라지자.
 		void CarryOutShoot(); //실제로 총을 쏘는 로직, Tweening 사용.
 		void IfValidActualShootLogic(); //실제 총 쏘는 If문.
+		void TrailUpdateLogic(); // Trail 보이는 로직 업데이트
+
+
 	private:	//인게임 내 프로퍼티들.
 		//N초 이후에 지워라!
 		const float _afterDestroySec{ 3.0f };
@@ -104,7 +112,12 @@ namespace Pg::DataScript
 
 	private:	//ArrowShooterBehavior(매니저)가 참조할 변수이다.
 		bool _isNowShooting = false;
-		
+		//막 쏘기 시작.
+		bool _isJustInvokedShoot = false;
+
+		int _trailActiveCount{ 0 };
+		float _trailActiveTime{ 0.f };
+
 	private:
 		bool _startCountingTime = false;
 		float _elapsedTime = 0.0f;
@@ -121,12 +134,16 @@ namespace Pg::DataScript
 		//API
 		Pg::API::Time::PgTime* _pgTime;
 		Pg::API::Tween::PgTween* _pgTween;
+		Pg::API::Graphics::PgGraphics* _pgGraphics;
 
+		Pg::Util::Tween* _usingTween;
 	private:
 		//ComboSystem 갖고 있기.
 		ComboSystem* _comboSystem{ nullptr };
 
 		CombatSystem* _combatSystem{ nullptr };
+
+		Pg::Data::VisualEffectRenderObject* _soleTrail;
 	};
 }
 

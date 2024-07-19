@@ -7,6 +7,8 @@
 
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgTween.h"
+#include "../ParagonAPI/PgGraphics.h"
+
 #include "../ParagonUtil/Log.h"
 
 #include "BaseMonster.h"
@@ -25,6 +27,12 @@ namespace Pg::DataScript
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgTween = &singleton<Pg::API::Tween::PgTween>();
+		_pgGraphics = &singleton<Pg::API::Graphics::PgGraphics>();
+	}
+
+	void ArrowLogic::GrabManagedObjects()
+	{
+		InitTrailObjects();
 	}
 
 	void ArrowLogic::BeforePhysicsAwake()
@@ -46,6 +54,9 @@ namespace Pg::DataScript
 
 		//무조건 자기 자신이 소속된 오브젝트의 Tag를 "TAG_Arrow"로 바꿈.
 		_object->SetTag("TAG_Arrow");
+
+		//모든 Trail 오브젝트들 끄기.
+		TurnOffAllTrailObjects();
 	}
 
 	void ArrowLogic::Awake()
@@ -75,12 +86,15 @@ namespace Pg::DataScript
 	void ArrowLogic::FixedUpdate()
 	{
 		IfValidActualShootLogic();
+		TrailUpdateLogic();
 	}
 
 	void ArrowLogic::ResetState()
 	{
 		//리셋이 되었으니, 다시 쏠 수 있는 상태가 되었다. 
 		_isNowShooting = false;
+		_isJustInvokedShoot = false;
+
 		_startCountingTime = false;
 		_elapsedTime = 0.0f;
 		_initialPos = { 0,0,0 };
@@ -96,6 +110,8 @@ namespace Pg::DataScript
 
 		//RigidBody UseGravity도 꺼주기.
 		_collider->SetUseGravity(false);
+
+		TurnOffAllTrailObjects();
 	}
 
 	bool ArrowLogic::GetIsNowShooting()
@@ -107,6 +123,7 @@ namespace Pg::DataScript
 	{
 		//스스로에게 사용되는 중이라고 상태 설정.
 		_isNowShooting = true;
+		_isJustInvokedShoot = true;
 
 		_initialPos = initialPos;
 		_shootDir = shootDir;
@@ -122,6 +139,7 @@ namespace Pg::DataScript
 		//트윈 시스템도 손봐야 할 것 같다.
 		//Tween 발동.
 		Pg::Util::Tween* tTween = _pgTween->CreateTween();
+		_usingTween = tTween;
 
 		//Tween 작동.
 		tTween->GetData(&(_object->_transform._position))
@@ -133,12 +151,15 @@ namespace Pg::DataScript
 					//그냥 사라지게 해야 한다.
 					EndShootingSelf();
 				});
+
+		//Tween 기록.
 	}
 
 	void ArrowLogic::EndShootingSelf()
 	{
 		_collider->SetActive(false);
 		_meshRenderer->SetActive(false);
+		TurnOffAllTrailObjects();
 	}
 
 	void ArrowLogic::IfValidActualShootLogic()
@@ -164,8 +185,8 @@ namespace Pg::DataScript
 			if (_elapsedTime > _afterDestroySec)
 			{
 				ResetState();
+				TurnOffAllTrailObjects();
 			}
-
 
 			//Elapsed Time 기록.
 			_elapsedTime += _pgTime->GetDeltaTime();
@@ -205,7 +226,10 @@ namespace Pg::DataScript
 				//실제 충돌을 한 것이니, Collider와 Renderer를 끄자!
 				_meshRenderer->SetActive(false);
 				_collider->SetActive(false);
-
+				_usingTween->Kill();
+				//충돌했으면 Trail도 꺼야 한다.
+				TurnOffAllTrailObjects();
+			
 				//Damage Logic 실행, 콤보는 공격의 종류와 상관없이 유지될 것이니.
 				_assignedDamageLogic(tEnemyBehaviour, tComboIndex);
 
@@ -268,5 +292,93 @@ namespace Pg::DataScript
 	{
 		Pg::Data::SerializerHelper::OnDeserializerHelper<ArrowLogic>(this, sv);
 	}
+
+	void ArrowLogic::CleanOnSceneChange()
+	{
+		TurnOffAllTrailObjects();
+	}
+
+	void ArrowLogic::InitTrailObjects()
+	{
+		//Trail Object들을 등록.
+		Pg::Data::VisualEffectRenderObject* vo = new Pg::Data::VisualEffectRenderObject();
+		_pgGraphics->RegisterEffectObject("Effect_ArrowTrail", vo);
+		_soleTrail = vo;
+
+		TurnOffAllTrailObjects();
+	}
+
+	void ArrowLogic::TurnOffAllTrailObjects()
+	{
+		//PG_WARN("Turned Off");
+		//TRAIL_DIVIDED_COUNT 2개여야 한다.
+		_soleTrail->SetActive(false);
+
+		//for (int i = 0; i < TRAIL_DIVIDED_COUNT; i++)
+		//{
+		//	
+		//}
+	}
+
+	void ArrowLogic::TrailUpdateLogic()
+	{
+		const float DIST_FACTOR = 1.75f;
+		const float MINOR_DISTORTION = 0.5f;
+	
+		//만약 지금 쏘고 있는 상태라면
+		if (_isNowShooting && (_meshRenderer->GetActive()))
+		{
+			if (_isJustInvokedShoot)
+			{
+				//막 발동 시작.
+				_isJustInvokedShoot = false;
+
+				//Time 세기 위해서 리셋.
+				_trailActiveCount = 0;
+				_trailActiveTime = 0.f;
+
+				//이펙트 살리기 하나.
+				_soleTrail->SetActive(true);
+			}
+
+			Pg::Math::PGFLOAT3 tCurArrowPos = _object->_transform._position;
+			// Arrow는 눕혀서 바인딩된다. (BindObject)
+			
+			// 시간이 지날수록, 스폰해야 한다. 
+			float dt = _pgTime->GetDeltaTime();
+			_trailActiveTime += dt;
+
+			Pg::Math::PGFLOAT3 tForwardDirection = Pg::Math::PGFloat3Normalize(tCurArrowPos - _targetPos);
+			
+			float tSinOffset = (fabs(sin(_trailActiveTime)) + 3.0f) * (0.3f);
+
+			//0번째 Set.
+			float tZeroOffsetFactor = DIST_FACTOR * tSinOffset;
+			_soleTrail->_position = tCurArrowPos + (tForwardDirection * tZeroOffsetFactor);
+			_soleTrail->_rotation = _object->_transform._rotation;
+			_soleTrail->_scale = Pg::Math::PGFLOAT3(0.5f, 1.f, 2.f);
+
+			//if ((_trailActiveTime > 0.2f) && (_trailActiveTime < 0.3f))
+			//{
+			//	//반복 호출해도 부하 X.
+			//	_trailList.at(1)->SetActive(true);
+			//}
+			//if (_trailActiveTime > 0.2f)
+			//{
+			//	float tFirstOffsetFactor = 2.0f * DIST_FACTOR * tSinOffset;
+			//	_trailList.at(1)->_position = tCurArrowPos + (tForwardDirection * tFirstOffsetFactor);
+			//	_trailList.at(1)->_rotation = _object->_transform._rotation;
+			//}
+
+			//PG_WARN("Zero State : {0}", _trailList.at(0)->GetActive());
+			//PG_WARN("First State : {0}", _trailList.at(1)->GetActive());
+		}
+		else
+		{
+			TurnOffAllTrailObjects();
+		}
+	}
+
+
 
 }
