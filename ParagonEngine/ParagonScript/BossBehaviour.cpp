@@ -2,6 +2,8 @@
 #include "CombatSystem.h"
 #include "EventList_GameFlowRelated.h"
 #include "CameraShake.h"
+#include "BaseEnemyHandler.h"
+#include "TotalGameManager.h"
 
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
@@ -218,6 +220,13 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Awake()
 	{
+		{
+			TotalGameManager* tTotalGameManager = TotalGameManager::GetInstance(nullptr);
+			HandlerBundle3D* tHB = tTotalGameManager->GetHandlerBundleByScene(_object->GetScene());
+			this->_enemyHandler = tHB->_enemyHandler;
+			assert(_enemyHandler != nullptr);
+		}
+
 		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
@@ -818,6 +827,8 @@ namespace Pg::DataScript
 			_walkAudio->Stop();
 			_dieAudio->Play();
 			_isDeadInit = true;
+
+			_enemyHandler->FromEnemyNotifyDead(_object->GetTag(), this);
 		}
 	}
 	float BossBehaviour::RandomRange(float min, float max)
