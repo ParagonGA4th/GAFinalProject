@@ -199,41 +199,42 @@ namespace Pg::Graphics
 				_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
 			}
 
-			///이제 VertexBuffer가 아직도 Binding되어 있을 이 상황에서, ViewProj Switching. 값만 바꾸자.
+			/////이제 VertexBuffer가 아직도 Binding되어 있을 이 상황에서, ViewProj Switching. 값만 바꾸자.
 			_switchableViewProjCBuffer->UnbindVS(1);
-			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = _d3dCarrierTempStorage->_mainLightPerspectiveViewProjMatrix;
-			_switchableViewProjCBuffer->Update();
-			_switchableViewProjCBuffer->BindVS(1);
-			_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_shadowMapViewport));
+			_ps->Unbind();
+			//_switchableViewProjCBuffer->GetDataStruct()->_viewProj = _d3dCarrierTempStorage->_mainLightPerspectiveViewProjMatrix;
+			//_switchableViewProjCBuffer->Update();
+			//_switchableViewProjCBuffer->BindVS(1);
+			//_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_shadowMapViewport));
 
 
 			//Light 시점 렌더.
 			{
 				// Unbind RenderTarget
-				_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
-
-				//Shadow 렌더 위한 스위칭.
-				//_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				ID3D11RenderTargetView* tEmptyRenderTargets[1] = { _d3dCarrierTempStorage->_mainLightGBufRT->GetRTV() };
-				_DXStorage->_deviceContext->OMSetRenderTargets(1, tEmptyRenderTargets, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				
-				_ps->Unbind();
-				_depthRecordOnlyPS->Bind();
-
-				int tMeshCount = bModel->_assetSceneData->_totalMeshCount;
-				for (int i = 0; i < tMeshCount; i++)
-				{
-					//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
-					UINT tToDrawIndexCount = bModel->_assetSceneData->_meshList[i]._numIndices;
-
-					//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
-					_DXStorage->_deviceContext->DrawIndexedInstanced(tToDrawIndexCount, bBufferPairList->_instancedStaticPairVec.size(),
-						bModel->_assetSceneData->_meshList[i]._indexOffset,
-						bModel->_assetSceneData->_meshList[i]._vertexOffset, 0);
-				}
-
-				_switchableViewProjCBuffer->UnbindVS(1);
-				_depthRecordOnlyPS->Unbind();
+				//_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
+				//
+				////Shadow 렌더 위한 스위칭.
+				////_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				//ID3D11RenderTargetView* tEmptyRenderTargets[1] = { _d3dCarrierTempStorage->_mainLightGBufRT->GetRTV() };
+				//_DXStorage->_deviceContext->OMSetRenderTargets(1, tEmptyRenderTargets, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				//
+				//_ps->Unbind();
+				//_depthRecordOnlyPS->Bind();
+				//
+				//int tMeshCount = bModel->_assetSceneData->_totalMeshCount;
+				//for (int i = 0; i < tMeshCount; i++)
+				//{
+				//	//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
+				//	UINT tToDrawIndexCount = bModel->_assetSceneData->_meshList[i]._numIndices;
+				//
+				//	//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
+				//	_DXStorage->_deviceContext->DrawIndexedInstanced(tToDrawIndexCount, bBufferPairList->_instancedStaticPairVec.size(),
+				//		bModel->_assetSceneData->_meshList[i]._indexOffset,
+				//		bModel->_assetSceneData->_meshList[i]._vertexOffset, 0);
+				//}
+				//
+				//_switchableViewProjCBuffer->UnbindVS(1);
+				//_depthRecordOnlyPS->Unbind();
 				_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 				//기록도 다 했으니, 다음을 위한 준비.
 			}
@@ -333,40 +334,40 @@ namespace Pg::Graphics
 
 			///이제 VertexBuffer가 아직도 Binding되어 있을 이 상황에서, ViewProj Switching. 값만 바꾸자.
 			_switchableViewProjCBuffer->UnbindVS(1);
-			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = _d3dCarrierTempStorage->_mainLightPerspectiveViewProjMatrix;
-			_switchableViewProjCBuffer->Update();
-			_switchableViewProjCBuffer->BindVS(1);
-			_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_shadowMapViewport));
+			//_switchableViewProjCBuffer->GetDataStruct()->_viewProj = _d3dCarrierTempStorage->_mainLightPerspectiveViewProjMatrix;
+			//_switchableViewProjCBuffer->Update();
+			//_switchableViewProjCBuffer->BindVS(1);
+			//_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_shadowMapViewport));
 
 			//Light 시점 렌더.
 			{
 				// Unbind RenderTarget
-				_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
-
-				//Shadow 렌더 위한 스위칭.
-				//_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				ID3D11RenderTargetView* tEmptyRenderTargets[1] = { _d3dCarrierTempStorage->_mainLightGBufRT->GetRTV() };
-				_DXStorage->_deviceContext->OMSetRenderTargets(1, tEmptyRenderTargets, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				//_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
+				//
+				////Shadow 렌더 위한 스위칭.
+				////_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				////_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				//ID3D11RenderTargetView* tEmptyRenderTargets[1] = { _d3dCarrierTempStorage->_mainLightGBufRT->GetRTV() };
+				//_DXStorage->_deviceContext->OMSetRenderTargets(1, tEmptyRenderTargets, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
 
 				//_vs->Bind(1);
 				_ps->Unbind();
-				_depthRecordOnlyPS->Bind();
-
-				int tMeshCount = bModel->_assetSceneData->_totalMeshCount;
-				for (int i = 0; i < tMeshCount; i++)
-				{
-					//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
-					UINT tToDrawIndexCount = bModel->_assetSceneData->_meshList[i]._numIndices;
-
-					//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
-					_DXStorage->_deviceContext->DrawIndexedInstanced(tToDrawIndexCount, bBufferPairList->_instancedStaticPairVec.size(),
-						bModel->_assetSceneData->_meshList[i]._indexOffset,
-						bModel->_assetSceneData->_meshList[i]._vertexOffset, 0);
-				}
-
-				_switchableViewProjCBuffer->UnbindVS(1);
-				_depthRecordOnlyPS->Unbind();
+				//_depthRecordOnlyPS->Bind();
+				//
+				//int tMeshCount = bModel->_assetSceneData->_totalMeshCount;
+				//for (int i = 0; i < tMeshCount; i++)
+				//{
+				//	//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
+				//	UINT tToDrawIndexCount = bModel->_assetSceneData->_meshList[i]._numIndices;
+				//
+				//	//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
+				//	_DXStorage->_deviceContext->DrawIndexedInstanced(tToDrawIndexCount, bBufferPairList->_instancedStaticPairVec.size(),
+				//		bModel->_assetSceneData->_meshList[i]._indexOffset,
+				//		bModel->_assetSceneData->_meshList[i]._vertexOffset, 0);
+				//}
+				//
+				//_switchableViewProjCBuffer->UnbindVS(1);
+				//_depthRecordOnlyPS->Unbind();
 				_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 				//기록도 다 했으니, 다음을 위한 준비.
 			}
@@ -466,39 +467,39 @@ namespace Pg::Graphics
 
 			///이제 VertexBuffer가 아직도 Binding되어 있을 이 상황에서, ViewProj Switching. 값만 바꾸자.
 			_switchableViewProjCBuffer->UnbindVS(1);
-			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = _d3dCarrierTempStorage->_mainLightPerspectiveViewProjMatrix;
-			_switchableViewProjCBuffer->Update();
-			_switchableViewProjCBuffer->BindVS(1);
-			_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_shadowMapViewport));
+			//_switchableViewProjCBuffer->GetDataStruct()->_viewProj = _d3dCarrierTempStorage->_mainLightPerspectiveViewProjMatrix;
+			//_switchableViewProjCBuffer->Update();
+			//_switchableViewProjCBuffer->BindVS(1);
+			//_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_shadowMapViewport));
 
 			//Light 시점 렌더.
 			{
-				// Unbind RenderTarget
-				_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
-
-				//Shadow 렌더 위한 스위칭.
-				//_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				ID3D11RenderTargetView* tEmptyRenderTargets[1] = { _d3dCarrierTempStorage->_mainLightGBufRT->GetRTV() };
-				_DXStorage->_deviceContext->OMSetRenderTargets(1, tEmptyRenderTargets, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				//// Unbind RenderTarget
+				//_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
+				//
+				////Shadow 렌더 위한 스위칭.
+				////_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				////_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				//ID3D11RenderTargetView* tEmptyRenderTargets[1] = { _d3dCarrierTempStorage->_mainLightGBufRT->GetRTV() };
+				//_DXStorage->_deviceContext->OMSetRenderTargets(1, tEmptyRenderTargets, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
 
 				_alphaClippedPS->Unbind();
-				_alphaClippedDepthRecordOnlyPS->Bind();
-
-				int tMeshCount = bModel->_assetSceneData->_totalMeshCount;
-				for (int i = 0; i < tMeshCount; i++)
-				{
-					//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
-					UINT tToDrawIndexCount = bModel->_assetSceneData->_meshList[i]._numIndices;
-
-					//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
-					_DXStorage->_deviceContext->DrawIndexedInstanced(tToDrawIndexCount, bBufferPairList->_instancedStaticPairVec.size(),
-						bModel->_assetSceneData->_meshList[i]._indexOffset,
-						bModel->_assetSceneData->_meshList[i]._vertexOffset, 0);
-				}
-
-				_switchableViewProjCBuffer->UnbindVS(1);
-				_alphaClippedDepthRecordOnlyPS->Unbind();
+				//_alphaClippedDepthRecordOnlyPS->Bind();
+				//
+				//int tMeshCount = bModel->_assetSceneData->_totalMeshCount;
+				//for (int i = 0; i < tMeshCount; i++)
+				//{
+				//	//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
+				//	UINT tToDrawIndexCount = bModel->_assetSceneData->_meshList[i]._numIndices;
+				//
+				//	//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
+				//	_DXStorage->_deviceContext->DrawIndexedInstanced(tToDrawIndexCount, bBufferPairList->_instancedStaticPairVec.size(),
+				//		bModel->_assetSceneData->_meshList[i]._indexOffset,
+				//		bModel->_assetSceneData->_meshList[i]._vertexOffset, 0);
+				//}
+				//
+				//_switchableViewProjCBuffer->UnbindVS(1);
+				//_alphaClippedDepthRecordOnlyPS->Unbind();
 				_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 				//기록도 다 했으니, 다음을 위한 준비.
 
@@ -606,39 +607,39 @@ namespace Pg::Graphics
 
 			///이제 VertexBuffer가 아직도 Binding되어 있을 이 상황에서, ViewProj Switching. 값만 바꾸자.
 			_switchableViewProjCBuffer->UnbindVS(1);
-			_switchableViewProjCBuffer->GetDataStruct()->_viewProj = _d3dCarrierTempStorage->_mainLightPerspectiveViewProjMatrix;
-			_switchableViewProjCBuffer->Update();
-			_switchableViewProjCBuffer->BindVS(1);
-			_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_shadowMapViewport));
+			//_switchableViewProjCBuffer->GetDataStruct()->_viewProj = _d3dCarrierTempStorage->_mainLightPerspectiveViewProjMatrix;
+			//_switchableViewProjCBuffer->Update();
+			//_switchableViewProjCBuffer->BindVS(1);
+			//_DXStorage->_deviceContext->RSSetViewports(1, &(_DXStorage->_shadowMapViewport));
 
 			//Light 시점 렌더.
 			{
 				// Unbind RenderTarget
-				_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
-
-				//Shadow 렌더 위한 스위칭.
-				//_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				//_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
-				ID3D11RenderTargetView* tEmptyRenderTargets[1] = { _d3dCarrierTempStorage->_mainLightGBufRT->GetRTV() };
-				_DXStorage->_deviceContext->OMSetRenderTargets(1, tEmptyRenderTargets, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				//_DXStorage->_deviceContext->OMSetRenderTargets(_d3dCarrierTempStorage->_gBufRequiredRTVArray.size(), _d3dCarrierTempStorage->NullRTV.data(), nullptr);
+				//
+				////Shadow 렌더 위한 스위칭.
+				////_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				////_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_d3dCarrierTempStorage->_mainLightGBufRT->GetRTV()), _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
+				//ID3D11RenderTargetView* tEmptyRenderTargets[1] = { _d3dCarrierTempStorage->_mainLightGBufRT->GetRTV() };
+				//_DXStorage->_deviceContext->OMSetRenderTargets(1, tEmptyRenderTargets, _d3dCarrierTempStorage->_mainLightGBufDSV->GetDSV());
 				
 				_alphaClippedPS->Unbind();
-				_alphaClippedDepthRecordOnlyPS->Bind();
+				//_alphaClippedDepthRecordOnlyPS->Bind();
 
-				int tMeshCount = bModel->_assetSceneData->_totalMeshCount;
-				for (int i = 0; i < tMeshCount; i++)
-				{
-					//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
-					UINT tToDrawIndexCount = bModel->_assetSceneData->_meshList[i]._numIndices;
-
-					//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
-					_DXStorage->_deviceContext->DrawIndexedInstanced(tToDrawIndexCount, bBufferPairList->_instancedStaticPairVec.size(),
-						bModel->_assetSceneData->_meshList[i]._indexOffset,
-						bModel->_assetSceneData->_meshList[i]._vertexOffset, 0);
-				}
-
-				_switchableViewProjCBuffer->UnbindVS(1);
-				_alphaClippedDepthRecordOnlyPS->Unbind();
+				//int tMeshCount = bModel->_assetSceneData->_totalMeshCount;
+				//for (int i = 0; i < tMeshCount; i++)
+				//{
+				//	//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
+				//	UINT tToDrawIndexCount = bModel->_assetSceneData->_meshList[i]._numIndices;
+				//
+				//	//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
+				//	_DXStorage->_deviceContext->DrawIndexedInstanced(tToDrawIndexCount, bBufferPairList->_instancedStaticPairVec.size(),
+				//		bModel->_assetSceneData->_meshList[i]._indexOffset,
+				//		bModel->_assetSceneData->_meshList[i]._vertexOffset, 0);
+				//}
+				//
+				//_switchableViewProjCBuffer->UnbindVS(1);
+				//_alphaClippedDepthRecordOnlyPS->Unbind();
 				_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 				//기록도 다 했으니, 다음을 위한 준비.
 
