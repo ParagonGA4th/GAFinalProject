@@ -87,8 +87,6 @@ namespace Pg::DataScript
 	{
 		IfValidActualShootLogic();
 		TrailUpdateLogic();
-
-		
 	}
 
 	void ArrowLogic::ResetState()
@@ -141,6 +139,7 @@ namespace Pg::DataScript
 		//트윈 시스템도 손봐야 할 것 같다.
 		//Tween 발동.
 		Pg::Util::Tween* tTween = _pgTween->CreateTween();
+		_usingTween = tTween;
 
 		//Tween 작동.
 		tTween->GetData(&(_object->_transform._position))
@@ -152,6 +151,8 @@ namespace Pg::DataScript
 					//그냥 사라지게 해야 한다.
 					EndShootingSelf();
 				});
+
+		//Tween 기록.
 	}
 
 	void ArrowLogic::EndShootingSelf()
@@ -225,7 +226,7 @@ namespace Pg::DataScript
 				//실제 충돌을 한 것이니, Collider와 Renderer를 끄자!
 				_meshRenderer->SetActive(false);
 				_collider->SetActive(false);
-
+				_usingTween->Kill();
 				//충돌했으면 Trail도 꺼야 한다.
 				TurnOffAllTrailObjects();
 			
@@ -300,12 +301,9 @@ namespace Pg::DataScript
 	void ArrowLogic::InitTrailObjects()
 	{
 		//Trail Object들을 등록.
-		for (int i = 0; i < TRAIL_DIVIDED_COUNT; i++)
-		{
-			Pg::Data::VisualEffectRenderObject* vo = new Pg::Data::VisualEffectRenderObject();
-			_pgGraphics->RegisterEffectObject("Effect_ArrowTrail", vo);
-			_trailList.push_back(vo);
-		}
+		Pg::Data::VisualEffectRenderObject* vo = new Pg::Data::VisualEffectRenderObject();
+		_pgGraphics->RegisterEffectObject("Effect_ArrowTrail", vo);
+		_soleTrail = vo;
 
 		TurnOffAllTrailObjects();
 	}
@@ -314,8 +312,7 @@ namespace Pg::DataScript
 	{
 		//PG_WARN("Turned Off");
 		//TRAIL_DIVIDED_COUNT 2개여야 한다.
-		_trailList.at(0)->SetActive(false);
-		_trailList.at(1)->SetActive(false);
+		_soleTrail->SetActive(false);
 
 		//for (int i = 0; i < TRAIL_DIVIDED_COUNT; i++)
 		//{
@@ -341,7 +338,7 @@ namespace Pg::DataScript
 				_trailActiveTime = 0.f;
 
 				//이펙트 살리기 하나.
-				_trailList.at(0)->SetActive(true);
+				_soleTrail->SetActive(true);
 			}
 
 			Pg::Math::PGFLOAT3 tCurArrowPos = _object->_transform._position;
@@ -357,20 +354,21 @@ namespace Pg::DataScript
 
 			//0번째 Set.
 			float tZeroOffsetFactor = DIST_FACTOR * tSinOffset;
-			_trailList.at(0)->_position = tCurArrowPos + (tForwardDirection * tZeroOffsetFactor);
-			_trailList.at(0)->_rotation = _object->_transform._rotation;
+			_soleTrail->_position = tCurArrowPos + (tForwardDirection * tZeroOffsetFactor);
+			_soleTrail->_rotation = _object->_transform._rotation;
+			_soleTrail->_scale = Pg::Math::PGFLOAT3(0.5f, 1.f, 2.f);
 
-			if ((_trailActiveTime > 0.2f) && (_trailActiveTime < 0.3f))
-			{
-				//반복 호출해도 부하 X.
-				_trailList.at(1)->SetActive(true);
-			}
-			if (_trailActiveTime > 0.2f)
-			{
-				float tFirstOffsetFactor = 2.0f * DIST_FACTOR * tSinOffset;
-				_trailList.at(1)->_position = tCurArrowPos + (tForwardDirection * tFirstOffsetFactor);
-				_trailList.at(1)->_rotation = _object->_transform._rotation;
-			}
+			//if ((_trailActiveTime > 0.2f) && (_trailActiveTime < 0.3f))
+			//{
+			//	//반복 호출해도 부하 X.
+			//	_trailList.at(1)->SetActive(true);
+			//}
+			//if (_trailActiveTime > 0.2f)
+			//{
+			//	float tFirstOffsetFactor = 2.0f * DIST_FACTOR * tSinOffset;
+			//	_trailList.at(1)->_position = tCurArrowPos + (tForwardDirection * tFirstOffsetFactor);
+			//	_trailList.at(1)->_rotation = _object->_transform._rotation;
+			//}
 
 			//PG_WARN("Zero State : {0}", _trailList.at(0)->GetActive());
 			//PG_WARN("First State : {0}", _trailList.at(1)->GetActive());
