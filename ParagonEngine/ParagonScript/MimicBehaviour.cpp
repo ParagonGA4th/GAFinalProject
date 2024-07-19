@@ -175,6 +175,9 @@ namespace Pg::DataScript
 				}
 			}
 		}
+
+
+
 	}
 
 	void MimicBehaviour::Awake()
@@ -182,18 +185,10 @@ namespace Pg::DataScript
 		//체력과 기본 공격력을 설정해준다.
 		//_miniGolInfo->SetMonsterHp(5.f);
 		//_miniGolInfo->SetMonsterDamage(1.f);
-
-		{
-			TotalGameManager* tTotalGameManager = TotalGameManager::GetInstance(nullptr);
-			HandlerBundle3D* tHB = tTotalGameManager->GetHandlerBundleByScene(_object->GetScene());
-			this->_enemyHandler = tHB->_enemyHandler;
-			assert(_enemyHandler != nullptr);
-		}
 	}
 
 	void MimicBehaviour::Start()
 	{
-
 	}
 
 	void MimicBehaviour::Update()
@@ -442,6 +437,11 @@ namespace Pg::DataScript
 		_moveAudio->Stop();
 
 		_dieAudio->Play();
+
+		TotalGameManager* tTotalGameManager = TotalGameManager::GetInstance(nullptr);
+		HandlerBundle3D* tHB = tTotalGameManager->GetHandlerBundleByScene(_object->GetScene());
+		this->_enemyHandler = tHB->_enemyHandler;
+		assert(_enemyHandler != nullptr);
 
 		_enemyHandler->FromEnemyNotifyDead(_object->GetTag(), this);
 	}
