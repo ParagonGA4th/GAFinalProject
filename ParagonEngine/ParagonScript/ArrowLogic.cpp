@@ -54,6 +54,9 @@ namespace Pg::DataScript
 
 		//무조건 자기 자신이 소속된 오브젝트의 Tag를 "TAG_Arrow"로 바꿈.
 		_object->SetTag("TAG_Arrow");
+
+		//모든 Trail 오브젝트들 끄기.
+		TurnOffAllTrailObjects();
 	}
 
 	void ArrowLogic::Awake()
@@ -83,12 +86,17 @@ namespace Pg::DataScript
 	void ArrowLogic::FixedUpdate()
 	{
 		IfValidActualShootLogic();
+		TrailUpdateLogic();
+
+		
 	}
 
 	void ArrowLogic::ResetState()
 	{
 		//리셋이 되었으니, 다시 쏠 수 있는 상태가 되었다. 
 		_isNowShooting = false;
+		_isJustInvokedShoot = false;
+
 		_startCountingTime = false;
 		_elapsedTime = 0.0f;
 		_initialPos = { 0,0,0 };
@@ -104,6 +112,8 @@ namespace Pg::DataScript
 
 		//RigidBody UseGravity도 꺼주기.
 		_collider->SetUseGravity(false);
+
+		TurnOffAllTrailObjects();
 	}
 
 	bool ArrowLogic::GetIsNowShooting()
@@ -115,6 +125,7 @@ namespace Pg::DataScript
 	{
 		//스스로에게 사용되는 중이라고 상태 설정.
 		_isNowShooting = true;
+		_isJustInvokedShoot = true;
 
 		_initialPos = initialPos;
 		_shootDir = shootDir;
@@ -147,6 +158,7 @@ namespace Pg::DataScript
 	{
 		_collider->SetActive(false);
 		_meshRenderer->SetActive(false);
+		TurnOffAllTrailObjects();
 	}
 
 	void ArrowLogic::IfValidActualShootLogic()
@@ -172,8 +184,8 @@ namespace Pg::DataScript
 			if (_elapsedTime > _afterDestroySec)
 			{
 				ResetState();
+				TurnOffAllTrailObjects();
 			}
-
 
 			//Elapsed Time 기록.
 			_elapsedTime += _pgTime->GetDeltaTime();
@@ -214,6 +226,9 @@ namespace Pg::DataScript
 				_meshRenderer->SetActive(false);
 				_collider->SetActive(false);
 
+				//충돌했으면 Trail도 꺼야 한다.
+				TurnOffAllTrailObjects();
+			
 				//Damage Logic 실행, 콤보는 공격의 종류와 상관없이 유지될 것이니.
 				_assignedDamageLogic(tEnemyBehaviour, tComboIndex);
 
@@ -277,24 +292,93 @@ namespace Pg::DataScript
 		Pg::Data::SerializerHelper::OnDeserializerHelper<ArrowLogic>(this, sv);
 	}
 
-	void ArrowLogic::FollowTrail()
-	{
-
-	}
-
 	void ArrowLogic::CleanOnSceneChange()
 	{
-		
+		TurnOffAllTrailObjects();
 	}
 
 	void ArrowLogic::InitTrailObjects()
 	{
-		////Trail Object들을 등록.
+		//Trail Object들을 등록.
+		for (int i = 0; i < TRAIL_DIVIDED_COUNT; i++)
+		{
+			Pg::Data::VisualEffectRenderObject* vo = new Pg::Data::VisualEffectRenderObject();
+			_pgGraphics->RegisterEffectObject("Effect_ArrowTrail", vo);
+			_trailList.push_back(vo);
+		}
+
+		TurnOffAllTrailObjects();
+	}
+
+	void ArrowLogic::TurnOffAllTrailObjects()
+	{
+		//PG_WARN("Turned Off");
+		//TRAIL_DIVIDED_COUNT 2개여야 한다.
+		_trailList.at(0)->SetActive(false);
+		_trailList.at(1)->SetActive(false);
+
 		//for (int i = 0; i < TRAIL_DIVIDED_COUNT; i++)
 		//{
-		//	Pg::Data::VisualEffectRenderObject* vo = new Pg::Data::VisualEffectRenderObject();
-		//	_pgGraphics->RegisterEffectObject("Effect_ArrowTrail", vo);
+		//	
 		//}
+	}
+
+	void ArrowLogic::TrailUpdateLogic()
+	{
+		const float DIST_FACTOR = 1.75f;
+		const float MINOR_DISTORTION = 0.5f;
+	
+		//만약 지금 쏘고 있는 상태라면
+		if (_isNowShooting && (_meshRenderer->GetActive()))
+		{
+			if (_isJustInvokedShoot)
+			{
+				//막 발동 시작.
+				_isJustInvokedShoot = false;
+
+				//Time 세기 위해서 리셋.
+				_trailActiveCount = 0;
+				_trailActiveTime = 0.f;
+
+				//이펙트 살리기 하나.
+				_trailList.at(0)->SetActive(true);
+			}
+
+			Pg::Math::PGFLOAT3 tCurArrowPos = _object->_transform._position;
+			// Arrow는 눕혀서 바인딩된다. (BindObject)
+			
+			// 시간이 지날수록, 스폰해야 한다. 
+			float dt = _pgTime->GetDeltaTime();
+			_trailActiveTime += dt;
+
+			Pg::Math::PGFLOAT3 tForwardDirection = Pg::Math::PGFloat3Normalize(tCurArrowPos - _targetPos);
+			
+			float tSinOffset = (fabs(sin(_trailActiveTime)) + 3.0f) * (0.3f);
+
+			//0번째 Set.
+			float tZeroOffsetFactor = DIST_FACTOR * tSinOffset;
+			_trailList.at(0)->_position = tCurArrowPos + (tForwardDirection * tZeroOffsetFactor);
+			_trailList.at(0)->_rotation = _object->_transform._rotation;
+
+			if ((_trailActiveTime > 0.2f) && (_trailActiveTime < 0.3f))
+			{
+				//반복 호출해도 부하 X.
+				_trailList.at(1)->SetActive(true);
+			}
+			if (_trailActiveTime > 0.2f)
+			{
+				float tFirstOffsetFactor = 2.0f * DIST_FACTOR * tSinOffset;
+				_trailList.at(1)->_position = tCurArrowPos + (tForwardDirection * tFirstOffsetFactor);
+				_trailList.at(1)->_rotation = _object->_transform._rotation;
+			}
+
+			//PG_WARN("Zero State : {0}", _trailList.at(0)->GetActive());
+			//PG_WARN("First State : {0}", _trailList.at(1)->GetActive());
+		}
+		else
+		{
+			TurnOffAllTrailObjects();
+		}
 	}
 
 
