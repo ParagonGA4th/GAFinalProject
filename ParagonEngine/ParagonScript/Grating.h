@@ -5,6 +5,8 @@
 namespace Pg::Data
 {
 	class StaticMeshRenderer;
+	class StaticBoxCollider;
+	class Collider;
 }
 
 namespace Pg::DataScript
@@ -22,8 +24,15 @@ namespace Pg::DataScript
 		virtual void Awake() override;
 		virtual void Update() override;
 
+	public:
+		BEGIN_VISITABLES(Pg::DataScript::Grating);
+		VISITABLE(int, _areaIndex);
+		END_VISITABLES;
+
 	private:
-		Pg::Data::StaticMeshRenderer* _renderers;
+		Pg::Data::StaticMeshRenderer* _renderer;
+		Pg::Data::StaticBoxCollider* _collider;
+		Pg::Data::Collider* _otherCol;
 
 		inline static const float ALPHA_PERCENT = 1.0f;
 	};
