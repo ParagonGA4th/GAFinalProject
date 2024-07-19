@@ -500,6 +500,7 @@ namespace Pg::DataScript
 
 		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
 		animId.append("_00003.pganim");
+
 		_cameraShake->CauseShake(0.25f);
 
 		_meshRenderer->SetAnimation(animId, false);

@@ -138,7 +138,8 @@ namespace Pg::DataScript
 		//스킬 사용 여부
 		bool _useCoinThrow{ false };
 
-		bool _isRotateToPlayer{ false };
+		//미믹은 어그로가 풀리면 안됨.
+		bool _isRotateToPlayer{ true };
 	public:
 		//미믹의 상태와 수치에 대한 정보.
 		MimicInfo* _mimicInfo;
