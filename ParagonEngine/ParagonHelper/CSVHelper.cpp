@@ -282,6 +282,13 @@ namespace Pg::Util::Helper
 				assert((tBoolInt == 0 || tBoolInt == 1) && "0/1이 아니면 Bool 치환 불가능.");
 				tInput._ignoreDepth = static_cast<bool>(tBoolInt);
 			}
+
+			//IsQuadLyingDown
+			{
+				int tBoolInt = std::stoi(it.at(14));
+				assert((tBoolInt == 0 || tBoolInt == 1) && "0/1이 아니면 Bool 치환 불가능.");
+				tInput._isQuadLyingDown = static_cast<bool>(tBoolInt);
+			}
 		}
 
 		return tRet;
