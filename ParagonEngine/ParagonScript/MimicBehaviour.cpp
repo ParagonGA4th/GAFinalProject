@@ -208,16 +208,15 @@ namespace Pg::DataScript
 		if (_monsterHelper->_isDead) return;
 
 		_monsterHelper->_isPlayerDetected = true;
-		_isRotateToPlayer = true;
 
 		_monsterHelper->_isChase = true;
 
 		if (_isRotateToPlayer)
 		{
 			RotateToPlayer(_playerTransform->_position);
-
-			Chase();
 		}
+
+		Chase();
 
 		//코인 투척 스킬
 		UpdateSkill();
@@ -245,12 +244,23 @@ namespace Pg::DataScript
 			//애니메이션 딜레이를 위한 델타타임 체크.
 			_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
 
+			_isMoving = false;
+			_isRotateToPlayer = true;
 			_useCoinThrow = false;
 
 			// 공격 애니메이션 출력.
 			_monsterHelper->_isPlayerinHitSpace = true;
 			_monsterHelper->_isDistanceClose = true;
 			_monsterHelper->_isChase = false;
+
+			//코인 다시 원래 위치로.
+			for (auto& iter : _skillAttackCol)
+			{
+				iter->SetActive(false);
+				iter->_object->_transform._position = { 0.f, 1.f, 2.f };
+			}
+
+			_coinRenderer->SetActive(false);
 
 			//공격
 			if (_currentAttackTime >= _startAttackTime)
@@ -280,6 +290,8 @@ namespace Pg::DataScript
 			_mimicInfo->_status = MimicStatus::CHASE;
 
 			Attack(false);
+			_isRotateToPlayer = true;
+			_useCoinThrow = false;  
 			_currentAttackTime = 0.f;
 
 			// 플레이어가 시야 안에 있으면
@@ -291,6 +303,15 @@ namespace Pg::DataScript
 			tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
 			_object->_transform._position.x = tPosition.x;
 			_object->_transform._position.z = tPosition.z;
+
+			//코인 다시 원래 위치로.
+			for (auto& iter : _skillAttackCol)
+			{
+				iter->SetActive(false);
+				iter->_object->_transform._position = { 0.f, 1.f, 2.f };
+			}
+
+			_coinRenderer->SetActive(false);
 
 			//사운드 재생
 			if (!_isMoving)
@@ -411,6 +432,7 @@ namespace Pg::DataScript
 
 					_coinRenderer->SetActive(false);
 					_isRotateToPlayer = true;
+					_isMoving = false;
 					_useCoinThrow = false;
 					_mimicSkillAttack->_isPlayerHit = false;
 

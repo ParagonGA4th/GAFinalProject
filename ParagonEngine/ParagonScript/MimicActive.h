@@ -43,6 +43,8 @@ namespace Pg::DataScript
 		Pg::Data::SkinnedMeshRenderer* _renderer;
 		MimicBehaviour* _mimicBehaviour;
 
+		Pg::Math::PGFLOAT3 _rendererOffset = { 0.f, -0.5f, 0.f };
+
 		Pg::API::Input::PgInput* _pgInput{ nullptr };
 		bool _onTriggerStay{ false };
 	};
