@@ -34,7 +34,7 @@ namespace Pg::DataScript
 		Pg::Data::StaticBoxCollider* _collider;
 		Pg::Data::Collider* _otherCol;
 
-		inline static const float ALPHA_PERCENT = 1.0f;
+		inline static const float ALPHA_PERCENT = 0.8f;
 	};
 }
 
