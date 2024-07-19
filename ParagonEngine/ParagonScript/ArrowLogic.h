@@ -10,6 +10,10 @@
 /// <summary>
 /// Normal / Fire / Ice를 모두 담당할 것이다.
 /// </summary>
+namespace Pg::Util
+{
+	class Tween;
+}
 
 namespace Pg::Data
 {
@@ -40,7 +44,7 @@ namespace Pg::DataScript
 
 	public:
 		inline static const float ARROW_ATTACK_POWER = 1.f;
-		inline static const int TRAIL_DIVIDED_COUNT = 2; //두 개씩만 가지고 있자.
+		//inline static const int TRAIL_DIVIDED_COUNT = 2; //두 개씩만 가지고 있자.
 
 	public:
 		ArrowLogic(Pg::Data::GameObject* obj);
@@ -132,13 +136,14 @@ namespace Pg::DataScript
 		Pg::API::Tween::PgTween* _pgTween;
 		Pg::API::Graphics::PgGraphics* _pgGraphics;
 
+		Pg::Util::Tween* _usingTween;
 	private:
 		//ComboSystem 갖고 있기.
 		ComboSystem* _comboSystem{ nullptr };
 
 		CombatSystem* _combatSystem{ nullptr };
 
-		std::vector<Pg::Data::VisualEffectRenderObject*> _trailList;
+		Pg::Data::VisualEffectRenderObject* _soleTrail;
 	};
 }
 
