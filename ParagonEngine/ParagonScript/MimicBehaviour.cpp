@@ -1,9 +1,13 @@
 #include "MimicBehaviour.h"
 #include "CameraShake.h"
 #include "MimicSkillAttack.h"
+#include "BaseEnemyHandler.h"
+#include "TotalGameManager.h"
+
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgScene.h"
+
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/LayerMask.h"
@@ -16,6 +20,7 @@
 #include "../ParagonData/StaticMeshRenderer.h"
 #include "../ParagonData/PhysicsCollision.h"
 #include "../ParagonData/MonsterHelper.h"
+
 #include "../ParagonUtil/Log.h"
 
 #include <singleton-cpp/singleton.h>
@@ -170,6 +175,9 @@ namespace Pg::DataScript
 				}
 			}
 		}
+
+
+
 	}
 
 	void MimicBehaviour::Awake()
@@ -181,7 +189,6 @@ namespace Pg::DataScript
 
 	void MimicBehaviour::Start()
 	{
-
 	}
 
 	void MimicBehaviour::Update()
@@ -452,6 +459,13 @@ namespace Pg::DataScript
 		_moveAudio->Stop();
 
 		_dieAudio->Play();
+
+		TotalGameManager* tTotalGameManager = TotalGameManager::GetInstance(nullptr);
+		HandlerBundle3D* tHB = tTotalGameManager->GetHandlerBundleByScene(_object->GetScene());
+		this->_enemyHandler = tHB->_enemyHandler;
+		assert(_enemyHandler != nullptr);
+
+		_enemyHandler->FromEnemyNotifyDead(_object->GetTag(), this);
 	}
 
 	void MimicBehaviour::ResetAll()

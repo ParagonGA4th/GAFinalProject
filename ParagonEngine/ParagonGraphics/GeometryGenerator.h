@@ -94,6 +94,7 @@ namespace Pg::Graphics
 		///</summary>
 		static void GenerateFullscreenQuad(MeshData_PosNormalTex& a_meshData); //[TW] Deferred Rendering 위해 개조.
 
+		static void GenerateFullscreenQuad_LyingDown(MeshData_PosNormalTex& a_meshData);
 
 	public:
 		static unsigned int QUAD_VERTEX_COUNT;
@@ -101,6 +102,10 @@ namespace Pg::Graphics
 
 		static ID3D11Buffer* _QUAD_VB;
 		static ID3D11Buffer* _QUAD_IB;
+
+		static ID3D11Buffer* LYING_DOWN_QUAD_VB;
+		static ID3D11Buffer* LYING_DOWN_QUAD_IB;
+
 	private:
 		static void BuildCylinderTopCap(float bottomRadius, float topRadius, float height, UINT sliceCount, UINT stackCount, MeshData_PosColor& meshData);
 		static void BuildCylinderBottomCap(float bottomRadius, float topRadius, float height, UINT sliceCount, UINT stackCount, MeshData_PosColor& meshData);

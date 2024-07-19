@@ -21,7 +21,7 @@ namespace Pg::DataScript
 			 "TAG_Boss",
 			 "TAG_GolemBoss",
 			 "TAG_Mimic",
-			 "TAG_Trent",
+			 "TAG_Stub",
 			 "TAG_Wasp"
 		};
 	};

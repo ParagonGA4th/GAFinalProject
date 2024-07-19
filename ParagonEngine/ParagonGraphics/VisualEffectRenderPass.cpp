@@ -42,14 +42,8 @@ namespace Pg::Graphics
 
 	void VisualEffectRenderPass::RenderPass(void* renderObjectList, Pg::Data::CameraData* camData)
 	{
-		//설정.
-		_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_quadMainRT->GetRTV()), _carrier->_gBufRequiredInfoDSV->GetDSV());
-
 		//실제 이펙트 렌더 로직.
-		_visualEffectController->Render(camData);
-
-		//더 이상 값을 설정하지 않을 때 이런 식으로 할당 해제해주면 된다.
-		_DXStorage->_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
+		_visualEffectController->Render(_carrier, camData);
 	}
 
 	void VisualEffectRenderPass::UnbindPass()
