@@ -41,7 +41,8 @@ namespace Pg::DataScript
 
 	void PlayerMovementSector::BeforePhysicsAwake()
 	{
-		
+		//제거해야
+		//_playerHandler->_selfCol->SetUseGravity(false);
 	}
 
 	void PlayerMovementSector::Awake()
@@ -72,9 +73,7 @@ namespace Pg::DataScript
 			UpdateFacingDirection(_currentPlaneY); //Plane Y-Level 입력해야.
 			StrafeAvoidLogic();
 		}
-		
-
-
+	
 		if (_playerHandler->healthPoint < std::numeric_limits<float>::epsilon())
 		{
 			_isDead_Animation = true;
@@ -259,7 +258,6 @@ namespace Pg::DataScript
 	void PlayerMovementSector::UpdateJump()
 	{
 		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::Space) && (!_isJumping))
-		//if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::Space))
 		{
 			_isJumping = true;
 			_isMoving = true;
@@ -304,18 +302,27 @@ namespace Pg::DataScript
 				Pg::Data::Collider* tOtherCollider = _pgRayCast->MakeRay(tShouldShootPosition,
 					tShouldShootDir, tJumpCheckSmallDist, outHitPoint, nullptr, false); // Trigger 이제 감지하지 마라!
 
-
 				//매우 짦은 거리로 쏴야 한다. 닿으면 다시 점프를 재충전할 것이니.
-				if (tOtherCollider != nullptr)
+				if ((tOtherCollider != nullptr) && (tOtherCollider->GetLayer() != Data::Enums::LAYER_PLAYER))
 				{
-					//assert(tOtherCollider->GetLayer() != Data::Enums::LAYER_PLAYER);
-					//PG_WARN("COLLIDERCHECK");
 					//이제 Collider의 레이어를 여기서 다시 Sort해야 할 것이나,
 					//일단은 그 과정은 나중에!
-					_isJumping_Animation = false;
-					_isJumping = false;
-					_isMoving = false;
-					//_selfCol->SetLinearDamping(_originalLinearDampingValue);
+					ResetJumpEnabling();
+				}
+
+				if (_recordedTimeSinceJump > MINIMAL_JUMP_ERROR_CHECK_TIME)
+				{
+					//이제는 밑에서 위로 쏘는 것으로 문제를 고칠 것이다. N초 이상 지나면, 위를 향해 쏘는 것으로
+					Pg::Math::PGFLOAT3 tBackupCheckPos = 
+						_object->_transform._position - Pg::Math::PGFLOAT3(0.1f, MINIMAL_JUMP_ERROR_CHECK_OFFSET, 0.f);
+					Pg::Math::PGFLOAT3 tOutPoint;
+					Pg::Data::Collider* tExcepCol = _pgRayCast->MakeRay(tBackupCheckPos,
+						Pg::Math::PGFLOAT3::GlobalUp(), MINIMAL_JUMP_ERROR_CHECK_DISTANCE, tOutPoint, nullptr, false); // Trigger 이제 감지하지 마라!
+						
+					if ((tExcepCol != nullptr) && tExcepCol->GetLayer() != Data::Enums::eLayerMask::LAYER_PLAYER)
+					{
+ 						ResetJumpEnabling();
+					}
 				}
 			}
 		}
@@ -439,5 +446,12 @@ namespace Pg::DataScript
 		this->_isAbleToJump = val;
 	}
 
+	void PlayerMovementSector::ResetJumpEnabling()
+	{
+		_isJumping_Animation = false;
+		_isJumping = false;
+		_isMoving = false;
+		//_selfCol->SetLinearDamping(_originalLinearDampingValue);
+	}
 
 }
