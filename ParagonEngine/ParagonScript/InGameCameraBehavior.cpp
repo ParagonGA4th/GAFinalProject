@@ -143,9 +143,17 @@ namespace Pg::DataScript
 		// CENTEROFCIRCLE에서 플레이어로 가는 방향 벡터
 		//XMVECTOR baseToPlayer = XMVectorSubtract(XMLoadFloat3(&playerPosition), XMLoadFloat3(&basePosition));
 		XMVECTOR baseToPlayer = XMVectorSubtract(XMLoadFloat3(&basePosition), XMLoadFloat3(&playerPosition));
-		//float tBaseToPlayer = 
 
-		
+		float tDistSq = XMVectorGetX(XMVector3LengthSq(baseToPlayer));
+
+		//DistanceSquared가 중앙으로부터 일정 거리 이상일 때만 로직 처리를 하자.
+		//const float ERROR_PROOF_DISTANCE_SQUARED = 4.0f;
+		//PG_WARN(tDistSq);
+		//if (tDistSq < ERROR_PROOF_DISTANCE_SQUARED)
+		//{
+		//	return;
+		//}
+
 		//방향을 XZ Plane으로 사영 (Y 무시)
 		XMVECTOR direction = XMVectorSetY(baseToPlayer, 0.0f);
 		direction = XMVector3Normalize(direction);
@@ -168,7 +176,6 @@ namespace Pg::DataScript
 		_targetCamPosition = Pg::Math::XM2PG_FLOAT3_VECTOR(position);
 
 		//TargetPosition으로 역 대입, 나중에 보간될 것.
-
 		float interpolation = std::clamp<float>(_speed * _pgTime->GetDeltaTime(), 0.f, 1.f);
 		float faster_interpolation = std::clamp<float>(_speed * 3.f * _pgTime->GetDeltaTime(), 0.f, 1.f);
 
