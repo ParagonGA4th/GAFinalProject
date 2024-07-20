@@ -15,7 +15,7 @@ namespace Pg::Data
 
 	RendererBase3D::RendererBase3D(GameObject* obj) : BaseRenderer(obj), _meshFilePath(""), _renderMaterialPath("")
 	{
-		
+
 	}
 
 	RendererBase3D::~RendererBase3D()
@@ -63,6 +63,16 @@ namespace Pg::Data
 	std::string RendererBase3D::GetMaterialFilePath()
 	{
 		return _renderMaterialPath;
+	}
+
+	void RendererBase3D::SetRendererRotationOriginOffset(Pg::Math::PGFLOAT3 vecOffset)
+	{
+		//부모가 있는 오브젝트라면, 해당되지 않게 간단하게 해놓았다.
+		assert((_object->_transform.GetParent() == nullptr) && "무조건 이 함수를 쓰려면 부모가 없어야");
+
+		_isUseRotationOriginOffset = true;
+		_rotationOriginOffset = vecOffset;
+
 	}
 
 }

@@ -29,10 +29,14 @@ namespace Pg::Data
 
 		void SetRendererOffset(Pg::Math::PGFLOAT3 vecOffset) { _rendererOffset = vecOffset; }
 		Pg::Math::PGFLOAT3 GetRendererOffset() { return _rendererOffset; }
-	
+
+		void SetRendererRotationOriginOffset(Pg::Math::PGFLOAT3 vecOffset);
+		Pg::Math::PGFLOAT3 GetRendererRotationOriginOffset() { return _rotationOriginOffset; }
+
+		bool GetIsUseRotationOriginOffset() { return _isUseRotationOriginOffset; }
 	protected:
 		std::string _meshFilePath;
-		std::string _renderMaterialPath;
+		std::string _renderMaterialPath;	
 
 		bool _isInstanced{ false };
 		bool _isAlphaClipped{ false };
@@ -41,6 +45,12 @@ namespace Pg::Data
 		//Component들이 쉽게 세팅할 수 있게 기록.
 		//렌더러 Offset 설정.
 		Pg::Math::PGFLOAT3 _rendererOffset;
+
+		//얘는 Rotation Origin까지 영향을 미칠 것이다.
+		Pg::Math::PGFLOAT3 _rotationOriginOffset;
+
+		//안 쓰면 무조건 False. Set을 해야 반영이 될 것이다.
+		bool _isUseRotationOriginOffset{ false };
 	};
 }
 
