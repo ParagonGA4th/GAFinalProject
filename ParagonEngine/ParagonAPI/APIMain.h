@@ -50,6 +50,7 @@ namespace Pg::API
 	{
 	public:
 		virtual void Initialize() override;
+		virtual void UpdateLoop() override;
 		virtual void Finalize() override;
 
 	private:

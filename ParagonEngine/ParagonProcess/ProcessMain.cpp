@@ -97,6 +97,8 @@ namespace Pg::Core
 			_engineGraphicsAdapter->GetCurrentScene(),
 			_engineGraphicsAdapter->GetDeltaTime(),
 			_engineGraphicsAdapter->GetCameraData());
+		
+		_api->UpdateLoop();
 	}
 
 	void ProcessMain::BeginRender()

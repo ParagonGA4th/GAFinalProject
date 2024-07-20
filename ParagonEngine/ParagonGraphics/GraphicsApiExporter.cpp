@@ -186,5 +186,15 @@ namespace Pg::Graphics
 		return _graphicsMain->_renderer->_forward3dRenderer->GetVisualEffectRenderer()->GetEffectTextureIndexPointer(effectName);
 	}
 
+	bool GraphicsApiExporter::GetIsFadingIn()
+	{
+		return _graphicsMain->_renderer->_finalRenderer->GetIsFadingIn();
+	}
+
+	bool GraphicsApiExporter::GetIsFadingOut()
+	{
+		return _graphicsMain->_renderer->_finalRenderer->GetIsFadingOut();
+	}
+
 }
 //unsigned int* GraphicsApiExporter::GetEffectTextureIndexPointer(const std::string& effectName)

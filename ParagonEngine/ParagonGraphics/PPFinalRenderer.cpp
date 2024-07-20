@@ -223,19 +223,36 @@ namespace Pg::Graphics
 	{
 		_isFadingIn = true;
 		_isFadingOut = false;
+
+		//FadeIn Logic 그냥 안에서 실행.
+		//while (_isFadingIn)
+		//{
+		//	PG_WARN("FADING_IN");
+		//	//끝날때까지.
+		//	WhenActivatedUpdateFadeLogic();
+		//}
 	}
 
 	void PPFinalRenderer::Effect_FadeOut()
 	{
 		_isFadingOut = true;
 		_isFadingIn = false;
+
+		//while (_isFadingOut)
+		//{
+		//	PG_WARN("FADING_OUT");
+		//	//끝날때까지.
+		//	WhenActivatedUpdateFadeLogic();
+		//}
 	}
 
-	void PPFinalRenderer::UpdateFadeLogic()
+	void PPFinalRenderer::WhenActivatedUpdateFadeLogic()
 	{
+		//float dt = _timeSystem->GetDeltaTime();
+		float dt = 0.01f;
 		if (_isFadingIn)
 		{
-			_fadeEffectSourceRatio += _timeSystem->GetDeltaTime();
+			_fadeEffectSourceRatio += dt;
 			if (_fadeEffectSourceRatio >= 1.0f)
 			{
 				_fadeEffectSourceRatio = 1.0f;
@@ -244,7 +261,7 @@ namespace Pg::Graphics
 		}
 		else if (_isFadingOut)
 		{
-			_fadeEffectSourceRatio -= _timeSystem->GetDeltaTime();
+			_fadeEffectSourceRatio -= dt;
 			if (_fadeEffectSourceRatio <= 0.f)
 			{
 				_fadeEffectSourceRatio = 0.f;
@@ -260,7 +277,7 @@ namespace Pg::Graphics
 	{
 		//FadeIn-Out 관리.	
 		{
-			UpdateFadeLogic();
+			WhenActivatedUpdateFadeLogic();
 
 			_carrier->_toSendSRVToEngine = _carrier->_PPSwitch1->GetSRV();
 			_DXStorage->_deviceContext->OMSetRenderTargets(1, &(_carrier->_PPSwitch1->GetRTV()), nullptr);
