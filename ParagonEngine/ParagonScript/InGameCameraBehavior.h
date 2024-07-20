@@ -21,6 +21,8 @@ namespace Pg::DataScript
 	class InGameCameraBehavior : public ScriptInterface<InGameCameraBehavior>
 	{
 		DEFINE_PARAGON_SCRIPT(InGameCameraBehavior);
+	public:
+		inline static const Pg::Math::PGFLOAT3 CENTER_OF_BOSS_STAGE_CIRCLE = { 0.04f, 2.95f, 0.24f };
 
 	public:
 		InGameCameraBehavior(Pg::Data::GameObject* obj);
