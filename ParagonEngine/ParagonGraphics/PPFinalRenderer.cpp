@@ -223,6 +223,7 @@ namespace Pg::Graphics
 	{
 		_isFadingIn = true;
 		_isFadingOut = false;
+		//_fadeEffectSourceRatio = 1.0f;
 
 		//FadeIn Logic 그냥 안에서 실행.
 		//while (_isFadingIn)
@@ -237,8 +238,8 @@ namespace Pg::Graphics
 	{
 		_isFadingOut = true;
 		_isFadingIn = false;
-
-		//while (_isFadingOut)
+		//_fadeEffectSourceRatio = 0.0f;
+		//while (_isFadingOut)	
 		//{
 		//	PG_WARN("FADING_OUT");
 		//	//끝날때까지.
