@@ -63,9 +63,9 @@ namespace Pg::DataScript
 
 	void InGameCameraBehavior::FixedUpdate()
 	{
-		Default_PlayerFollowMode();
+		//Default_PlayerFollowMode();
 
-		//Boss_RotateAroundMode();
+		Boss_RotateAroundMode();
 
 		if (GetAsyncKeyState(VK_F8) & 0x8000)
 		{
@@ -108,7 +108,7 @@ namespace Pg::DataScript
 
 	void InGameCameraBehavior::Boss_RotateAroundMode()
 	{
-		const Pg::Math::PGFLOAT3 tCenterOfCircle = { 0.04f, 2.95f, 0.24f };
+
 		const float tAboveValue = 15.f;
 		const float tDistance = 15.0f;
 		static float tRotAmount = 270.f;
@@ -118,7 +118,7 @@ namespace Pg::DataScript
 		using namespace DirectX;
 
 		//계산을 반영할 것.
-		Pg::Math::PGFLOAT3 tYCenterTarget = { tCenterOfCircle.x, tCenterOfCircle.y + tAboveValue, tCenterOfCircle.z };
+		Pg::Math::PGFLOAT3 tYCenterTarget = { CENTER_OF_BOSS_STAGE_CIRCLE.x, CENTER_OF_BOSS_STAGE_CIRCLE.y + tAboveValue, CENTER_OF_BOSS_STAGE_CIRCLE.z };
 		tYCenterTarget.z -= tDistance;
 		XMVECTOR position = XMVectorSet(tYCenterTarget.x, tYCenterTarget.y, tYCenterTarget.z, 1.0f);
 		XMVECTOR rotation = XMVectorSet(0, 0, 0, 1); // = PG2XM_QUATERNION_VECTOR(_object->_transform._rotation);
@@ -127,7 +127,7 @@ namespace Pg::DataScript
 			//내부 Rotate Around 계산. - Position.
 			//Player의 X and Z는 받되, Y는 자신으로 유지.
 			//Y축을 기준으로 돌 것이다.
-			XMVECTOR pivotPoint = XMVectorSet(tCenterOfCircle.x, tCenterOfCircle.y, tCenterOfCircle.z, 1.0f);
+			XMVECTOR pivotPoint = XMVectorSet(CENTER_OF_BOSS_STAGE_CIRCLE.x, CENTER_OF_BOSS_STAGE_CIRCLE.y, CENTER_OF_BOSS_STAGE_CIRCLE.z, 1.0f);
 			XMVECTOR rotationAxis = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
 			//이게 실질적으로 Transform.RotateAround이랑 같을 것이다.
@@ -137,8 +137,8 @@ namespace Pg::DataScript
 			float rotationAngle = 0.f;
 			{
 				Pg::Math::PGFLOAT3 tPlayerPosition = _playerTransform->_position;
-				tPlayerPosition.y = tCenterOfCircle.y;
-				Pg::Math::PGFLOAT3 tCenterLookVector = -PGFloat3Normalize(tPlayerPosition - tCenterOfCircle);
+				tPlayerPosition.y = CENTER_OF_BOSS_STAGE_CIRCLE.y;
+				Pg::Math::PGFLOAT3 tCenterLookVector = -PGFloat3Normalize(tPlayerPosition - CENTER_OF_BOSS_STAGE_CIRCLE);
 				//tCenterLookVector = PGReflectVectorAgainstAxis(tCenterLookVector, Pg::Math::PGFLOAT3::GlobalForward());
 				rotationAngle = XMVectorGetX(XMVector3AngleBetweenVectors(PG2XM_FLOAT3_VECTOR(tCenterLookVector), PG2XM_FLOAT3_VECTOR(Pg::Math::PGFLOAT3::GlobalForward())));
 
@@ -181,7 +181,7 @@ namespace Pg::DataScript
 			position = XMVector3Transform(position, translationFromPivot);
 		}
 
-		Pg::Math::PGFLOAT3 tSameYPT = { tCenterOfCircle.x, _object->_transform._position.y, tCenterOfCircle.z };
+		Pg::Math::PGFLOAT3 tSameYPT = { CENTER_OF_BOSS_STAGE_CIRCLE.x, _object->_transform._position.y, CENTER_OF_BOSS_STAGE_CIRCLE.z };
 		Pg::Math::PGFLOAT3 tLookVector = -PGFloat3Normalize(tSameYPT - _object->_transform._position);
 		_targetCamRotation = PGLookRotation(tLookVector, Pg::Math::PGFLOAT3::GlobalUp());
 		//Y축 대한 Flip:  
