@@ -349,8 +349,30 @@ namespace Pg::Graphics
 		GetBaseRenderer()->_object->_transform._position = tOriginalPosValue + _rendererBase3DStorage->GetRendererOffset();
 
 		// 상수버퍼에 들어갈 값 셋팅
-		DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());
-		DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
+		//DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());
+		//DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
+
+		DirectX::XMMATRIX tWorldTMMat = DirectX::XMMatrixIdentity();
+		if (_rendererBase3DStorage->GetIsUseRotationOriginOffset())
+		{
+			//쓰면, Parent가 없어야 한다.
+			auto& tTrans = GetBaseRenderer()->_object->_transform;
+			DirectX::XMMATRIX tScaleMat = DirectX::XMMatrixScaling(tTrans._scale.x, tTrans._scale.y, tTrans._scale.z);
+			DirectX::XMMATRIX tOrigRotMat = Pg::Math::PG2XM_MATRIX4X4(Pg::Math::PGRotationMatrix(tTrans._rotation));
+			DirectX::XMMATRIX tTransMat = Pg::Math::PG2XM_MATRIX4X4(Pg::Math::PGTranslateMatrix(tTrans._position));
+
+			Pg::Math::PGFLOAT3 pivot = _rendererBase3DStorage->GetRendererRotationOriginOffset();
+			DirectX::XMMATRIX toPivot = DirectX::XMMatrixTranslation(-pivot.x, -pivot.y, -pivot.z);
+			DirectX::XMMATRIX fromPivot = DirectX::XMMatrixTranslation(pivot.x, pivot.y, pivot.z);
+
+			using namespace DirectX;
+			tWorldTMMat = tScaleMat * toPivot * tOrigRotMat * fromPivot * tTransMat;
+		}
+		else
+		{
+			DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());
+			tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
+		}
 
 		//다시 Translate 원상복귀.
 		GetBaseRenderer()->_object->_transform._position = tOriginalPosValue;
