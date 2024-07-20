@@ -96,19 +96,29 @@ namespace Pg::DataScript
 		float _prevManaPoint = 0.f;
 		int _prevStaminaPoint = 0;
 
-		if (changedScene->GetSceneName() == "Stage2" ||
-			changedScene->GetSceneName() == "BossStage")
+		//Title Scene 등 2D Scene에서 넘어가는 경우의 수 FIX.
+		bool tIsInfoTransferPossible = (_recordedPreviousScene != nullptr) && (_recordedPreviousScene->GetIs3D());
+
+		//예전 시점.
+		if (changedScene->GetIs3D() && tIsInfoTransferPossible)
 		{
 			_prevHealthPoint = _handlerBundle3D->_playerBehavior->healthPoint;
 			_prevManaPoint = _handlerBundle3D->_playerBehavior->manaPoint;
 			_prevStaminaPoint = _handlerBundle3D->_playerBehavior->staminaPoint;
 		}
+		else
+		{
+			_prevHealthPoint = PlayerHandler::MAX_PLAYER_HEALTH;
+			_prevManaPoint = PlayerHandler::MAX_PLAYER_MANA;
+			_prevStaminaPoint = PlayerHandler::MAX_PLAYER_STAMINA;
+		}
 
 		//TotalGameManager가 무조건 앞에서 업데이트되었을 것이니, 
 		//내부에서 업데이트된 HandlerBundle3D를 받아온다. 2D일 경우 nullptr.
 		_handlerBundle3D = _totalGameManager->GetCurrentHandlerBundle();
-		if (changedScene->GetSceneName() == "Stage2" ||
-			changedScene->GetSceneName() == "BossStage")
+
+		//바뀐 시점
+		if (changedScene->GetIs3D())
 		{
 			_handlerBundle3D->_playerBehavior->healthPoint = _prevHealthPoint;
 			_handlerBundle3D->_playerBehavior->manaPoint = _prevManaPoint;
@@ -116,6 +126,9 @@ namespace Pg::DataScript
 		}
 
 		//또한, GameState를 따로 설정하면서 관리.
+
+		//다음 Switch를 위해 전에 속해 있던 Scene 기록.
+		_recordedPreviousScene = changedScene;
 	}
 
 	void InGameManager::Initialize(Pg::Data::Scene* changedScene)

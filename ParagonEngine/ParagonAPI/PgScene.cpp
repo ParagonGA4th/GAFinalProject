@@ -1,5 +1,6 @@
 #include "PgScene.h"
 #include "../ParagonGameEngine/SceneSystem.h"
+#include "../ParagonUtil/Log.h"
 #include "PgGraphics.h"
 #include <singleton-cpp/singleton.h>
 
@@ -23,24 +24,10 @@ namespace Pg::API
 
 	void PgScene::SetCurrentScene(const std::string& sceneName)
 	{
-		//FadeOut
-		_pgGraphics->ScreenSpace_FadeOut();
-
-		//활성화
-		_inMidstTransition = true;
-		//막 FadeOut 시작했음.
-		_inMidstFadingOut = true;
-		//아직 FadeIn하면 안됨.
-		_inMidstFadingIn = false;
+		PG_WARN("Setting Current Scene");
 		//바뀔 Scene 이름 미리 저장해놓고 있기.
 		_toChangeSceneName = sceneName;
-
-		//if ()
-
-		//_pgGraphics->ScreenSpace_FadeOut();
-		//_sceneSystem->SetCurrentScene(sceneName);
-		//_pgGraphics->ScreenSpace_FadeIn();
-		//Fade In
+		_shouldChangeScene = true;
 	}
 
 	Pg::Data::Scene* PgScene::GetCurrentScene()
@@ -55,6 +42,31 @@ namespace Pg::API
 
 	void PgScene::UpdateLoop()
 	{
+		if (_shouldChangeScene)
+		{
+			if (!_inMidstTransition)
+			{
+				PG_WARN("IsInvokedFadeOut");
+
+				//FadeOut
+				_pgGraphics->ScreenSpace_FadeOut();
+
+				//활성화
+				_inMidstTransition = true;
+				//막 FadeOut 시작했음.
+				_inMidstFadingOut = true;
+				//아직 FadeIn하면 안됨.
+				_inMidstFadingIn = false;
+			}
+			else
+			{
+				PG_WARN("SceneChange: 최소 호출 시간 이전에 재호출되었다.해당 로직 막기");
+			}
+
+			//다시 발동될 때까지 OFF.
+			_shouldChangeScene = false;
+		}
+		
 		if (_inMidstTransition)
 		{
 			//들어오기 전에 무조건 Fade Out 하고 있을 것이다.
@@ -62,6 +74,7 @@ namespace Pg::API
 			//Fade Out이 되는 중 + 다 끝났다면?
 			if (_inMidstFadingOut && (!(_pgGraphics->GetIsFadingOut())))
 			{
+				PG_WARN("IsInvokedFadeIn");
 				//드디어 FadeOut이 끝.
 				assert(!_toChangeSceneName.empty());
 				_sceneSystem->SetCurrentScene(_toChangeSceneName);
@@ -72,7 +85,7 @@ namespace Pg::API
 
 			if (_inMidstFadingIn && (!(_pgGraphics->GetIsFadingIn())))
 			{
-				//다 끝났다는 말.
+				//다 끝났다는 말.	
 				ResetSceneBoolValues();
 			}
 		}
@@ -81,6 +94,7 @@ namespace Pg::API
 
 	void PgScene::ResetSceneBoolValues()
 	{
+		_shouldChangeScene = false;
 		_inMidstTransition = false;
 		_inMidstFadingOut = false;
 		_inMidstFadingIn = false;

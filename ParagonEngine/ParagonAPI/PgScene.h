@@ -34,6 +34,8 @@ namespace Pg::API
 		Pg::Engine::SceneSystem* _sceneSystem = nullptr;
 		Pg::API::Graphics::PgGraphics* _pgGraphics = nullptr;
 
+		bool _shouldChangeScene{ false };
+
 		bool _inMidstTransition{ false };
 		bool _inMidstFadingOut{ false };
 		bool _inMidstFadingIn{ false };
