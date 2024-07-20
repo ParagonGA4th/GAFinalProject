@@ -124,6 +124,13 @@ namespace Pg::Engine
 
 	void SceneSystem::SetCurrentScene_Internal(Pg::Data::Scene* scene)
 	{
+		//FadeOut Activate.
+		//if (_fadeOutFunction)
+		//{
+		//	PG_WARN("FADING_OUT");
+		//	_fadeOutFunction();
+		//}
+
 		//전에 있던 씬에서 오브젝트 클린업.
 		std::for_each(_currentScene->GetObjectList().begin(), _currentScene->GetObjectList().end(), [](auto& iter)
 			{iter->CleanOnSceneChange(); });
@@ -164,6 +171,13 @@ namespace Pg::Engine
 		_btSystem = &tBTSystem;
 		_btSystem->SyncSceneActiveBT();
 		PG_TRACE("SyncSceneActiveBT Called");
+
+		//FadeIn Activate.
+		//if (_fadeInFunction)
+		//{
+		//	PG_WARN("FADING_IN");
+		//	_fadeInFunction();
+		//}
 	}
 
 	void SceneSystem::SetCurrentScene(const std::string& sceneName)
@@ -294,11 +308,11 @@ namespace Pg::Engine
 			//비어있지 않으면, sort.
 			std::sort(Pg::Data::Scene::_dontDestroyOnList.begin(), Pg::Data::Scene::_dontDestroyOnList.end(),
 				[](Pg::Data::GameObject*& lhs, Pg::Data::GameObject*& rhs) -> bool
-				{ 
+				{
 					//1 Global Object = 1 Manager Component 원칙에 따라서 되는 것이다.
 					Pg::Data::ISortableGlobalObject* tLHS = lhs->GetComponent<Pg::Data::ISortableGlobalObject>();
 					Pg::Data::ISortableGlobalObject* tRHS = rhs->GetComponent<Pg::Data::ISortableGlobalObject>();
-					
+
 					assert((tLHS != nullptr && tRHS != nullptr) && "Global Manager Object 내부 ISortableGlobalObject 상속 컴포넌트 못 찾음");
 					return (tLHS->GetPriorityIndex() <= tRHS->GetPriorityIndex());
 				});
@@ -398,18 +412,18 @@ namespace Pg::Engine
 				if (iter.first == _toChangeScene)
 				{
 					SetCurrentScene_Internal(iter.second);
-					
+
 					if (!_toChangeScene.empty())
 					{
 						_toChangeScene.clear();
 					}
 					_isNeedToChangeScene = false;
-					
+
 					//지금 당장 Scene이 변했다는 말.
 					return true;
-				}	
+				}
 			}
-			assert(false && "SceneName과 동일한 Scene이 존재하지 않음.");	
+			assert(false && "SceneName과 동일한 Scene이 존재하지 않음.");
 		}
 
 		//지금 당장 Scene이 바뀌지 않았다는 말.
@@ -435,7 +449,7 @@ namespace Pg::Engine
 			//카메라 같은 애들은 내부적으로 불가.
 			it->GrabManagedObjects();
 		}
-		
+
 		//Don't Destroy On Load를 실제로 옮겨야 할 것이다..
 		//OnSceneChange_Global을 실행해야 하기 때문.
 		//Project 기준 0번째 인덱스의 씬에서 Don't Destroy On Load 오브젝트들 옮김.
@@ -459,4 +473,13 @@ namespace Pg::Engine
 		//복사된 버전을 반환.
 		return _projectSceneList;
 	}
+
+	//void SceneSystem::AssignFunctionToSceneSystem(std::function<void()> fadeInFunction, std::function<void()> fadeOutFunction)
+	//{
+	//	_fadeInFunction = fadeInFunction;
+	//	_fadeOutFunction = fadeOutFunction;
+	//	assert(_fadeInFunction);
+	//	assert(_fadeOutFunction);
+	//}
+
 }

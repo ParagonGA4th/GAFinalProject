@@ -75,6 +75,9 @@ namespace Pg::Graphics
 		void Effect_FadeIn();
 		void Effect_FadeOut();
 
+		bool GetIsFadingIn() { return _isFadingIn; }
+		bool GetIsFadingOut() { return _isFadingOut; }
+
 	private:
 		float _fadeEffectSourceRatio{ 1.f };
 		bool _isFadingIn{ false };
@@ -86,7 +89,7 @@ namespace Pg::Graphics
 		void CreateDebugOverlayQuads(); // TO ADD.
 
 	private:
-		void UpdateFadeLogic();
+		void WhenActivatedUpdateFadeLogic();
 	private:
 		//PostProcessing은 전부 같은 버텍스 셰이더 활용, 이를 분리했다.
 		std::unique_ptr<SystemVertexShader> _ppSystemVertexShader;

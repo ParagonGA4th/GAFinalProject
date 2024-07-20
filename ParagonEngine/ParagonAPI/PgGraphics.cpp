@@ -136,4 +136,14 @@ namespace Pg::API::Graphics
 		return _graphicsApiExporter->GetEffectTextureIndexPointer(effectName);
 	}
 
+	bool PgGraphics::GetIsFadingIn()
+	{
+		return _graphicsApiExporter->GetIsFadingIn();
+	}
+
+	bool PgGraphics::GetIsFadingOut()
+	{
+		return _graphicsApiExporter->GetIsFadingOut();
+	}
+
 }

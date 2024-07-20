@@ -8,6 +8,7 @@ namespace Pg::Core
 	{
 	public:
 		virtual void Initialize() abstract;
+		virtual void UpdateLoop() abstract;
 		virtual void Finalize() abstract;
 	};
 }
