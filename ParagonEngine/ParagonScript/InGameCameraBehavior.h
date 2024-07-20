@@ -1,6 +1,7 @@
 #pragma once
 #include "ScriptInterface.h"
 #include <visit_struct/visit_struct.hpp>
+#include <functional>
 
 namespace Pg::Data
 {
@@ -59,7 +60,7 @@ namespace Pg::DataScript
 	private:
 		Pg::Data::Transform* _playerTransform{ nullptr };
 		Pg::Data::Camera* _selfCamera{ nullptr };
-
+		std::function<void()> _cameraUpdateMainFunc;
 
 	private:
 		Pg::Math::PGFLOAT3 _targetCamPosition;
