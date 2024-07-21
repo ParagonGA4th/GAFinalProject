@@ -46,6 +46,7 @@
 #include "NavAgent.h"
 #include "GUI_PercentageFillBar.h"
 #include "GUI_CoolDownWhiteFill.h"
+#include "GUI_StrongAttackStatus.h"
 #include "SetInGameSortingLayer.h"
 
 //사운드 관련

@@ -42,12 +42,12 @@ namespace Pg::DataScript
 		float tRatio = 100.f;
 
 		bool tIsStartEligible = *_isStartEligible;
-
+		bool tBool = *_isCheckedBoolPointer;
 		//발동은 된다는 얘기.
 		if (tIsStartEligible)
 		{
 			//마나도 충족.
-			if (_isCheckedBoolPointer)
+			if (tBool)
 			{
 				tRatio = 0.f;
 			}

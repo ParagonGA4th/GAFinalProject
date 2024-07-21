@@ -154,6 +154,9 @@ namespace Pg::Engine
 			}
 		}
 
+		//다른 로직 외적으로, 보관용이고 로직 상으로 아무것도 안하는 Editor Mode 정보만 저장.
+		_sceneSystem->PassEditorModeForStoring(_currentRecordedEditMode);
+
 		//외적인 SceneLoad 로직 Start 관련, 항상 SceneSystem 체크한다.
 		_sceneSystem->DebounceSceneLoadStatus(_currentRecordedEditMode);
 		

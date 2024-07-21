@@ -69,6 +69,9 @@ namespace Pg::Engine
 		void SetProjectSceneList_GrabManagedObjects(const std::vector<Pg::Data::Scene*>& sceneVec);
 		PARAGON_ENGINE_DLL std::vector<Pg::Data::Scene*> GetProjectSceneList();
 
+		void PassEditorModeForStoring(Pg::Data::Enums::eEditorMode mode);
+
+		PARAGON_ENGINE_DLL Pg::Data::Enums::eEditorMode GetEditorMode();
 		//PARAGON_ENGINE_DLL void AssignFunctionToSceneSystem(std::function<void()> fadeInFunction, std::function<void()> fadeOutFunction);
 		
 		//새로운 씬을 생성한다.
@@ -108,6 +111,7 @@ namespace Pg::Engine
 		BTree::BehaviorTreeSystem* _btSystem = nullptr;
 		std::string _toChangeScene{};
 		bool _isNeedToChangeScene{ false };
+		Pg::Data::Enums::eEditorMode _justStoreMode{ Pg::Data::Enums::eEditorMode::_NONE };
 
 		//std::function<void()> _fadeInFunction;
 		//std::function<void()> _fadeOutFunction;
