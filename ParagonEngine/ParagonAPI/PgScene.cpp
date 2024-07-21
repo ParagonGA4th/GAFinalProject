@@ -101,6 +101,11 @@ namespace Pg::API
 		_toChangeSceneName = "";
 	}
 
+	Pg::Data::Enums::eEditorMode PgScene::GetEditorMode()
+	{
+		return _sceneSystem->GetEditorMode();
+	}
+
 	//void PgScene::AssignFunctionToSceneSystem()
 	//{
 	//	//std::function<void()> tFadeInFunction = std::bind(&Graphics::PgGraphics::ScreenSpace_FadeIn, _pgGraphics);

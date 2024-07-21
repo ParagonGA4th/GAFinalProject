@@ -86,6 +86,15 @@ namespace Pg::DataScript
 				PlayerCombatSector::ULTIMATE_ATTACK_COOLDOWN_TIME, PlayerCombatSector::ULTIMATE_ATTACK_REQUIRED_MANA, NULL);
 		}
 
+		//쿨다운 할당. Near Mouse Cursor.
+		{
+			_managedGuiObjectList.at("GUI_StrongAttackCooldown_Frame")._guiComponent->ReceiveDependentPointers(
+				(void*)&(tPH->GetPlayerCombatSector()->_startedStrongAttackChargeTime),
+				(void*)&(tPH->GetPlayerCombatSector()->_isStrongAttackStartEligible),
+				(void*)&(tPH->GetPlayerCombatSector()->_checkStrongAttack),
+				PlayerCombatSector::STRONG_ATTACK_COOLDOWN_TIME, NULL, NULL);
+		}
+
 		//GUIHandler 나오기 전 작업물, 하드 셋.
 		_pauseBox = _object->GetScene()->FindSingleComponentInScene<PauseBox>();
 		assert(_pauseBox != nullptr);

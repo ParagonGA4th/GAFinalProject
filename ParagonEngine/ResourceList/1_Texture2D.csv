@@ -2,7 +2,6 @@ Texture2D
 ../Resources/Textures/ArrowRelated/normal_arrow_texture.tga
 ../Resources/Textures/ArrowRelated/fire_arrow_texture.tga
 ../Resources/Textures/ArrowRelated/ice_arrow_texture.tga
-../Resources/Textures/wook.jpg
 ../Resources/Textures/Sprites/UI/Skill1_Frame_W.png
 ../Resources/Textures/Sprites/UI/Skill2_Frame_W.png
 ../Resources/Textures/Sprites/UI/Ultimate_Frame_W.png
@@ -82,3 +81,5 @@ Texture2D
 ../Resources/Textures/ArrowRelated/Trail/ArrowTrail_2.png
 ../Resources/Textures/ArrowRelated/Trail/ArrowTrail_3.png
 ../Resources/Textures/ArrowRelated/Trail/ArrowTrail_4.png
+../Resources/Textures/Sprites/UI/AP_ChargeAttackBar.png
+../Resources/Textures/Sprites/UI/AP_ChargeAttackBar_Frame.png

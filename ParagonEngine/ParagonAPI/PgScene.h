@@ -1,5 +1,6 @@
 #pragma once
 #include "../ParagonData/Scene.h"
+#include "../ParagonData/EditorMode.h"
 #include <string>
 
 namespace Pg::Engine { class SceneSystem; }
@@ -23,6 +24,8 @@ namespace Pg::API
 		Pg::Data::Scene* GetCurrentScene();
 
 		std::vector<Pg::Data::Scene*> GetProjectSceneList();
+
+		Pg::Data::Enums::eEditorMode GetEditorMode();
 
 	private:
 		//void AssignFunctionToSceneSystem();

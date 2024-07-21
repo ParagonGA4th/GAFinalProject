@@ -601,9 +601,8 @@ namespace Pg::DataScript
 
 	bool PlayerCombatSector::CheckStrongAttack()
 	{
-		return (!_isUltimateAttackingNow)
-			&& (_playerHandler->staminaPoint >= STRONG_ATTACK_REQUIRED_STAMINA)
-			&& (_playerHandler->GetIsStaminaReadyToUse());
+		return ((_playerHandler->GetIsStaminaReadyToUse()) && (!_isUltimateAttackingNow)
+			&& (_playerHandler->staminaPoint >= STRONG_ATTACK_REQUIRED_STAMINA));
 	}
 
 	bool PlayerCombatSector::CheckUltimateAttack()

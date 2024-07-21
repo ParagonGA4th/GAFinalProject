@@ -474,6 +474,16 @@ namespace Pg::Engine
 		return _projectSceneList;
 	}
 
+	Pg::Data::Enums::eEditorMode SceneSystem::GetEditorMode()
+	{
+		return _justStoreMode;
+	}
+
+	void SceneSystem::PassEditorModeForStoring(Pg::Data::Enums::eEditorMode mode)
+	{
+		_justStoreMode = mode;
+	}
+
 	//void SceneSystem::AssignFunctionToSceneSystem(std::function<void()> fadeInFunction, std::function<void()> fadeOutFunction)
 	//{
 	//	_fadeInFunction = fadeInFunction;
