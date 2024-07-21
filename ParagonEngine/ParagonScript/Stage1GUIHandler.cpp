@@ -67,15 +67,15 @@ namespace Pg::DataScript
 			tPH->MAX_PLAYER_MANA, NULL, NULL);
 
 		{
-			_managedGuiObjectList.at("Skill1_WhiteFill")._guiComponent->ReceiveDependentPointers(
+			_managedGuiObjectList.at("Skill2_WhiteFill")._guiComponent->ReceiveDependentPointers(
 				(void*)&(tPH->GetPlayerCombatSector()->_isStartedFireSkillChargeTime),
 				(void*)&(tPH->GetPlayerCombatSector()->_isFireAttackStartEligible),
 				(void*)&(tPH->GetPlayerCombatSector()->_checkFireAttack),
 				PlayerCombatSector::FIRE_ATTACK_COOLDOWN_TIME, PlayerCombatSector::FIRE_ATTACK_REQUIRED_MANA, NULL);
-		}
+		}	
 
 		{
-			_managedGuiObjectList.at("Skill2_WhiteFill")._guiComponent->ReceiveDependentPointers(
+			_managedGuiObjectList.at("Skill1_WhiteFill")._guiComponent->ReceiveDependentPointers(
 				(void*)&(tPH->GetPlayerCombatSector()->_isStartedIceSkillChargeTime),
 				(void*)&(tPH->GetPlayerCombatSector()->_isIceAttackStartEligible),
 				(void*)&(tPH->GetPlayerCombatSector()->_checkIceAttack),
