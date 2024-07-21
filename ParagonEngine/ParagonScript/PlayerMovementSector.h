@@ -69,6 +69,10 @@ namespace Pg::DataScript
 		void SetUSeUltimateSkill(bool val) { _useUltimateSkill = val; }
 	
 	private:
+		inline static const float MINIMAL_JUMP_ERROR_CHECK_TIME = 1.0f;
+		inline static const float MINIMAL_JUMP_ERROR_CHECK_OFFSET = 7.f;
+		inline static const float MINIMAL_JUMP_ERROR_CHECK_DISTANCE = 10.f;
+
 		//움직임 관련. 
 		float moveSpeed{ 10.0f };
 		float rotateMultiplier{ 2.0f };
@@ -86,7 +90,7 @@ namespace Pg::DataScript
 
 	private:
 		void OnStrafeAvoidComplete();
-
+		void ResetJumpEnabling();
 		//공격하는 모션 등등, 값 관리
 		//항상 자신의 바닥부분에서 레이캐스트를 쏴야 한다. (점프를 했으면)]
 

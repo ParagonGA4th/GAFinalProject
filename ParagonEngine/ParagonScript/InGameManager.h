@@ -105,6 +105,9 @@ namespace Pg::DataScript
 		HandlerBundle3D* _handlerBundle3D{ nullptr };
 
 		CombatSystem* _combatSystem{ nullptr };
+
+		//전에 자신이 속해 있었던 Scene.
+		Pg::Data::Scene* _recordedPreviousScene{ nullptr };
 		
 
 	};

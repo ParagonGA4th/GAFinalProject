@@ -2,6 +2,7 @@
 #include "ScriptInterface.h"
 #include "IProjectile.h"
 #include "../ParagonMath/PgMath.h"
+#include "../ParagonData/Transform.h"
 
 namespace Pg::Data
 {
@@ -37,7 +38,7 @@ namespace Pg::DataScript
 	public:
 		inline static const float STRONG_ATTACK_POWER = 5.f;
 		inline static const float FADEINOUT_SPEED = 300.f;
-		inline static const float KNOCKBACK_FACTOR = 3.0f;
+		inline static const float KNOCKBACK_FACTOR = 8.0f;
 
 	public:
 		StrongAttackLogic(Pg::Data::GameObject* obj);
@@ -81,6 +82,7 @@ namespace Pg::DataScript
 
 		const Pg::Math::PGFLOAT3 _prisonPos{ 0, -100, 0 };
 
+		Pg::Data::Transform* _playerTransform{ nullptr };
 	private:
 		//ComboSystem 갖고 있기.
 		ComboSystem* _comboSystem{ nullptr };
