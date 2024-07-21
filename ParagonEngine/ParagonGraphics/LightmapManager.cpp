@@ -104,11 +104,39 @@ namespace Pg::Graphics
 				std::string tObjName = bInstancedPairList->_instancedStaticPairVec.at(i)._instancedRenderObject->GetBaseRenderer()->_object->GetName();
 
 				//이를 기반으로 값을 찾자!
-				SingleLightMapSet& toBeCopiedTo = bInstancedPairList->_instancedLightMapSetVec.at(i);
-				SingleLightMapSet& toBeCopiedFrom = tRenderLightmapData->_beforeAlignMaps.at(tModelName).at(tObjName);
+				try
+				{
+					//이를 기반으로 값을 찾자!	
+					SingleLightMapSet& toBeCopiedTo = bInstancedPairList->_instancedLightMapSetVec.at(i);
 
-				//POD니 memcpy 가능.
-				memcpy(&toBeCopiedTo, &toBeCopiedFrom, sizeof(SingleLightMapSet));
+					SingleLightMapSet* toBeCopiedFrom = nullptr;
+					if (tRenderLightmapData->_beforeAlignMaps.at(tModelName).contains(tObjName))
+					{
+						toBeCopiedFrom = &(tRenderLightmapData->_beforeAlignMaps.at(tModelName).at(tObjName));
+					}
+					else
+					{
+						if (tObjName.find("nocol_") != std::string::npos)
+						{
+							//nocol_을 삭제하고 찾아본다.
+							tObjName = tObjName.substr(6);
+							toBeCopiedFrom = &(tRenderLightmapData->_beforeAlignMaps.at(tModelName).at(tObjName));
+						}
+						else
+						{
+							PG_ERROR("{0}은 nocol_ 문제도 아니다.", tObjName);
+						}
+					}
+					//SingleLightMapSet& toBeCopiedFrom = tRenderLightmapData->_beforeAlignMaps.at(tModelName).at(tObjName);
+
+					//POD니 memcpy 가능.
+					memcpy(&toBeCopiedTo, toBeCopiedFrom, sizeof(SingleLightMapSet));
+				}
+				catch (std::exception& e)
+				{
+					PG_ERROR("{0}가 Scene/Lightmap 중 하나에 없다.", tObjName);
+				}
+				
 			}
 		}
 
@@ -130,14 +158,42 @@ namespace Pg::Graphics
 				std::string tModelName = Pg::Util::Helper::ResourceHelper::GetNameFromPath(tStaticRenderer->GetMeshFilePath());
 				std::string tObjName = bInstancedPairList->_instancedStaticPairVec.at(i)._instancedRenderObject->GetBaseRenderer()->_object->GetName();
 
-				//이를 기반으로 값을 찾자!	
-				SingleLightMapSet& toBeCopiedTo = bInstancedPairList->_instancedLightMapSetVec.at(i);
-				SingleLightMapSet& toBeCopiedFrom = tRenderLightmapData->_beforeAlignMaps.at(tModelName).at(tObjName);
+				try
+				{
+					//이를 기반으로 값을 찾자!	
+					SingleLightMapSet& toBeCopiedTo = bInstancedPairList->_instancedLightMapSetVec.at(i);
 
-				//POD니 memcpy 가능.
-				memcpy(&toBeCopiedTo, &toBeCopiedFrom, sizeof(SingleLightMapSet));
+					SingleLightMapSet* toBeCopiedFrom = nullptr;
+					if (tRenderLightmapData->_beforeAlignMaps.at(tModelName).contains(tObjName))
+					{
+						toBeCopiedFrom = &(tRenderLightmapData->_beforeAlignMaps.at(tModelName).at(tObjName));
+					}
+					else
+					{
+						if (tObjName.find("nocol_") != std::string::npos)
+						{
+							//nocol_을 삭제하고 찾아본다.
+							tObjName = tObjName.substr(6);
+							toBeCopiedFrom = &(tRenderLightmapData->_beforeAlignMaps.at(tModelName).at(tObjName));
+						}
+						else
+						{
+							PG_ERROR("{0}은 nocol_ 문제도 아니다.", tObjName);
+						}
+					}
+					//SingleLightMapSet& toBeCopiedFrom = tRenderLightmapData->_beforeAlignMaps.at(tModelName).at(tObjName);
+						
+					//POD니 memcpy 가능.
+					memcpy(&toBeCopiedTo, toBeCopiedFrom, sizeof(SingleLightMapSet));
+				}
+				catch (std::exception& e)
+				{
+					PG_ERROR("{0}가 Scene/Lightmap 중 하나에 없다.", tObjName);
+				}
 			}
 		}
+
+		assert("");
 		//이제 재정렬이 끝났다!
 		//tRenderLightmapData->_isAligned = true;
 	//}

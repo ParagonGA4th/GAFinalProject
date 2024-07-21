@@ -55,6 +55,9 @@ namespace Pg::API::Graphics
 		void ScreenSpace_FadeIn();
 		void ScreenSpace_FadeOut();
 
+		bool GetIsFadingIn();
+		bool GetIsFadingOut();
+
 		//Player의 위치, 그래픽스 엔진도 알게 하자.
 		void RegisterPlayerPosition(Pg::Math::PGFLOAT3 playerPos);
 

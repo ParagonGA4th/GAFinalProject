@@ -7,6 +7,7 @@
 #include "EngineDLLExporter.h"
 #include <unordered_map>
 #include <vector>
+#include <functional>
 
 /// <summary>
 /// 변지상의 SceneSystem.
@@ -67,13 +68,14 @@ namespace Pg::Engine
 		//내부적으로 스크립트 형태로 존재하는 오브젝트들이 (일반 오브젝트에 한정, DontDestroyOnLoad는 해당되지 않음)
 		void SetProjectSceneList_GrabManagedObjects(const std::vector<Pg::Data::Scene*>& sceneVec);
 		PARAGON_ENGINE_DLL std::vector<Pg::Data::Scene*> GetProjectSceneList();
+
+		//PARAGON_ENGINE_DLL void AssignFunctionToSceneSystem(std::function<void()> fadeInFunction, std::function<void()> fadeOutFunction);
 		
 		//새로운 씬을 생성한다.
 		Scene* CreateScene(const std::string& sceneName);
 
 		//얘는 Scene이 멈출 때, 동작을 할 것이다. Edit Mode로 변했을 때. 
 		void OnStopScene();
-
 
 		//현재 씬으로 지정된 것을 삭제한다.
 		void DeleteCurrentScene();
@@ -106,6 +108,9 @@ namespace Pg::Engine
 		BTree::BehaviorTreeSystem* _btSystem = nullptr;
 		std::string _toChangeScene{};
 		bool _isNeedToChangeScene{ false };
+
+		//std::function<void()> _fadeInFunction;
+		//std::function<void()> _fadeOutFunction;
 	};
 }
 

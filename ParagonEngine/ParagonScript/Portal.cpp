@@ -2,6 +2,9 @@
 
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonAPI/PgScene.h"
+#include "TotalGameManager.h"
+
+#include <singleton-cpp/singleton.h>
 
 Pg::DataScript::Portal::Portal(Pg::Data::GameObject* obj)
 	:ScriptInterface(obj)
@@ -14,8 +17,8 @@ void Pg::DataScript::Portal::Awake()
 	_collider = _object->GetComponent<Pg::Data::BoxCollider>();
 	assert(_collider != nullptr);
 
-	_sceneHelper = new Pg::API::PgScene();
-	_sceneHelper->Initialize();
+	_sceneHelper = &singleton<Pg::API::PgScene>();
+	//_sceneHelper->Initialize();
 }
 
 void Pg::DataScript::Portal::Start()
@@ -41,8 +44,14 @@ void Pg::DataScript::Portal::OnTriggerEnter(Pg::Data::Collider** _colArr, unsign
 
 		if (col->_object->GetName() == "PlayerSensor")
 		{
-			if (_sceneHelper->GetCurrentScene()->GetSceneName() == "Stage1") _sceneHelper->SetCurrentScene("Stage2");
-			else if (_sceneHelper->GetCurrentScene()->GetSceneName() == "Stage2") _sceneHelper->SetCurrentScene("BossStage");
+			if (_sceneHelper->GetCurrentScene()->GetSceneName() == "Stage1")
+			{
+				_sceneHelper->SetCurrentScene("Stage2");
+			}
+			else if (_sceneHelper->GetCurrentScene()->GetSceneName() == "Stage2")
+			{
+				_sceneHelper->SetCurrentScene("BossStage");
+			}
 			//_sceneHelper->SetCurrentScene(_nextScene);
 		}
 	}

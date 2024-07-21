@@ -1,5 +1,6 @@
 #include "StrongAttackLogic.h"
 
+#include "../ParagonData/Scene.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/StaticSphereCollider.h"
@@ -35,12 +36,27 @@ namespace Pg::DataScript
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		_collider = _object->GetComponent<Pg::Data::StaticSphereCollider>();
 		assert(_collider->GetTrigger());
+
+		//자신의 Scene에 속한 Player Transform을 가져오자.
+		PlayerHandler* tPlayer = _object->GetScene()->FindSingleComponentInScene<PlayerHandler>();
+		_playerTransform = &(tPlayer->_object->_transform);
 	}
 
 	void StrongAttackLogic::BeforePhysicsAwake()
 	{
 		//CombatSystem 받아오자.
 		_combatSystem = CombatSystem::GetInstance(nullptr);
+
+		//Collision이 링킹되기 전에, 설정을 조정하자.
+		_collider->_rad = 4.0f;
+		
+		//로직상 Offset으로 해결 못할 것 같다. 
+		//Rotation Origin이 달라져야 하기 때문.
+		//이를 오히려 급하게 추가하는 것이 나은가?
+		
+		//_collider->SetPositionOffset({ 0, 0, -3.f });
+		////MeshRenderer는 Renderer Offset이 필요하다.
+		//_meshRenderer->SetRendererOffset(Pg::Math::PGFLOAT3(0, 0, -3.f));
 	}
 
 	void StrongAttackLogic::Awake()
@@ -61,7 +77,20 @@ namespace Pg::DataScript
 		if (_isActivated)
 		{
 			//Position 업데이트. 로직상 포인터 null 뜨면 안됨.
-			_object->_transform._position = (*_basePos);
+			//+ Forward Direction만큼 앞에 있어야 한다.
+			const float FORWARD_FACTOR = 4.0f;
+
+			_object->_transform._rotation = _playerTransform->_rotation;
+			Pg::Math::PGFLOAT3 tForwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
+			tForwardDir = Pg::Math::PGFloat3Normalize(tForwardDir);
+			tForwardDir = tForwardDir * FORWARD_FACTOR; //해당 방향만큼 앞에 있게.
+			Pg::Math::PGFLOAT3 tBasePos = (*_basePos);
+
+			_object->_transform._position = tBasePos + tForwardDir;
+
+			//Minus Position : Rotate Origin.
+			//Pg:
+			//_meshRenderer->SetRendererRotationOriginOffset(tMinusPos);
 		}
 
 		if (_isAppearing)

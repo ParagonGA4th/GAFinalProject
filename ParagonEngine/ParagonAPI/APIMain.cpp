@@ -48,8 +48,16 @@ namespace Pg::API
 		_pgRecast->Initialize();
 	}
 
+	void APIMain::UpdateLoop()
+	{
+		_pgScene->UpdateLoop();
+	}
+
 	void APIMain::Finalize()
 	{
 
 	}
+
+
+
 }
