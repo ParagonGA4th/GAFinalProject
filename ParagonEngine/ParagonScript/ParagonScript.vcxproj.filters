@@ -591,6 +591,9 @@
     <ClCompile Include="Grating.cpp">
       <Filter>Content\Gimmick\Grating</Filter>
     </ClCompile>
+    <ClCompile Include="PauseOptionBox.cpp">
+      <Filter>UI\InGameUI\PauseUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -922,6 +925,9 @@
     </ClInclude>
     <ClInclude Include="Grating.h">
       <Filter>Content\Gimmick\Grating</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseOptionBox.h">
+      <Filter>UI\InGameUI\PauseUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

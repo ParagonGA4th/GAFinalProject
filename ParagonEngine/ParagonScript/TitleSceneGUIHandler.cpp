@@ -66,6 +66,22 @@ namespace Pg::DataScript
 				_howToPlayButton->GetImageRenderer()->SetImageIndex(0);
 			});
 
+		//튜토리얼 버튼.
+		_creditButton->SetOnClickDownEvent([this]
+			{
+				_btnClick->Play();
+			});
+		_creditButton->SetHover([this]
+			{
+				//비활성화 활성화를 위한 이벤트
+				_creditButton->GetImageRenderer()->SetImageIndex(1);
+			});
+		_creditButton->SetNotHover([this]
+			{
+				//비활성화 활성화를 위한 이벤트
+				_creditButton->GetImageRenderer()->SetImageIndex(0);
+			});
+
 		//파일 저장 버튼.
 		_saveFileButton->SetOnClickDownEvent([this]
 			{
@@ -140,6 +156,11 @@ namespace Pg::DataScript
 		//_title = _object->GetScene()->FindObjectWithName("Title");
 		_title = _object->GetScene()->FindObjectWithName("Title");
 		_titleAudioSource = _title->GetComponent<Pg::Data::AudioSource>();
+
+		//타이틀에 존재하는 AudioSource 찾기
+//_title = _object->GetScene()->FindObjectWithName("Title");
+		_credit = _object->GetScene()->FindObjectWithName("Credit");
+		_creditButton = _credit->GetComponent<Pg::Data::Button>();
 	}
 
 }
