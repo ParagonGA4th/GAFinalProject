@@ -59,16 +59,13 @@ namespace Pg::Data
 		//		break;
 		//	}
 		//}
-	}
 
-	void Slider::Start()
-	{
 		//버튼이 자식 객체로써 존재한다.
 		//GameObject* buttonObject = new GameObject("sliderBtn");
 		//buttonObject->AddComponent<Button>();
-		
+
 		assert(_handle != nullptr && "이 시점에서 무조건 Handle 있어야 함");
-		
+
 		//핸들의 위치 한정.
 		_handle->_object->_transform._position = this->_object->_transform._position;
 
@@ -84,6 +81,11 @@ namespace Pg::Data
 			_minHeight = tPixelMin / GameConstantData::HEIGHT;
 			_maxHeight = tPixelMax / GameConstantData::HEIGHT;
 		}
+	}
+
+	void Slider::Start()
+	{
+		
 		
 	}
 
@@ -109,6 +111,8 @@ namespace Pg::Data
 			_handle->_object->_transform._position.x = newPosition * GameConstantData::WIDTH;
 
 			_value = (newPosition - _minWidth) / (_maxWidth - _minWidth);
+
+			PG_WARN(_value);
 
 			if (_onValueEvent)
 			{
