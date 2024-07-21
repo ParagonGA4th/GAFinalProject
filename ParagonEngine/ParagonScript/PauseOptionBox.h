@@ -1,6 +1,7 @@
 #pragma once
 #include "ScriptInterface.h"
 #include "IScriptResettable.h"
+
 namespace Pg::Data
 {
 	class Button;
@@ -24,16 +25,21 @@ namespace Pg::API
 	{
 		class PgTime;
 	}
+
+	namespace Sound
+	{
+		class PgAudio;
+	}
 }
 
 namespace Pg::DataScript
 {
-	class PauseBox : public ScriptInterface<PauseBox>, public IScriptResettable
+	class PauseOptionBox : public ScriptInterface<PauseOptionBox>, public IScriptResettable
 	{
-		DEFINE_PARAGON_SCRIPT(PauseBox);
+		DEFINE_PARAGON_SCRIPT(PauseOptionBox);
 
 	public:
-		PauseBox(Pg::Data::GameObject* obj);
+		PauseOptionBox(Pg::Data::GameObject* obj);
 
 	public:
 		virtual void GrabManagedObjects() override;
@@ -49,6 +55,7 @@ namespace Pg::DataScript
 		Pg::API::Input::PgInput* _pgInput = nullptr;
 		Pg::API::PgScene* _pgScene = nullptr;
 		Pg::API::Time::PgTime* _pgTime = nullptr;
+		Pg::API::Sound::PgAudio* _pgAudio = nullptr;
 
 
 		//ÇÃ·¡±×
@@ -60,23 +67,25 @@ namespace Pg::DataScript
 
 		Pg::Data::GameObject* menuObj;
 		Pg::Data::Button* _menuBtn;
-		
+
 		Pg::Data::GameObject* tutorialObj;
 		Pg::Data::Button* _tutorialBtn;
-		
+
 		Pg::Data::GameObject* optionObj;
 		Pg::Data::Button* _optionBtn;
-		
-		Pg::Data::GameObject* ingameSoundObj;
-		
-		Pg::Data::AudioSource* _ingameSound;
 
-		Pg::Data::GameObject* _optionBox;
-		
+		Pg::Data::GameObject* ingameSoundObj;
+
+		Pg::Data::GameObject* _pauseBox;
+
 		Pg::Data::Slider* _soundBar;
-		Pg::Data::Button* _optionExitBtn;
 		Pg::Data::Handle* _soundHandle;
 		Pg::Data::ImageRenderer* _soundHandleRenderer;
+
+		Pg::Data::AudioSource* _ingameSound;
+
+	private:
 	};
 }
+
 

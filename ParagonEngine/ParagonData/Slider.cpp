@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Button.h"
 #include "Handle.h"
+#include "Scene.h"
 #include "GameConstantData.h"
 #include "ImageRenderer.h"
 
@@ -39,18 +40,25 @@ namespace Pg::Data
 		_imageHeight = &(_imageRenderer->_height);
 
 		//Scene에서 설정했던 Handle객체를 찾는다.
-		auto handleObj = _object->GetComponent<Transform>()->GetChildren();
+		auto handleObj = _object->GetScene()->FindSingleComponentInScene<Handle>();
 
-		for (auto iter : handleObj)
+		Pg::Data::GameObject* tGO = handleObj->_object;
+		auto tHandle = tGO->GetComponent<Handle>();
+		if (tHandle != nullptr)
 		{
-			Pg::Data::GameObject* tGO = iter->_object;
-			auto tHandle = tGO->GetComponent<Handle>();
-			if (tHandle != nullptr)
-			{
-				_handle = tHandle;
-				break;
-			}
+			_handle = tHandle;
 		}
+
+		//for (auto iter : handleObj)
+		//{
+		//	Pg::Data::GameObject* tGO = iter->_object;
+		//	auto tHandle = tGO->GetComponent<Handle>();
+		//	if (tHandle != nullptr)
+		//	{
+		//		_handle = tHandle;
+		//		break;
+		//	}
+		//}
 	}
 
 	void Slider::Start()
@@ -92,7 +100,7 @@ namespace Pg::Data
 
 		if (_isClick)
 		{
-			PG_TRACE("SLIDE~~");
+			//PG_TRACE("SLIDE~~");
 			
 			float newPosition = _inputSystem->GetMouseX();
 

@@ -58,6 +58,9 @@ namespace Pg::DataScript
 		
 		Pg::Data::GameObject* _exit{ nullptr };
 		Pg::Data::Button* _exitButton{ nullptr };
+
+		Pg::Data::GameObject* _credit{ nullptr };
+		Pg::Data::Button* _creditButton{ nullptr };
 		
 	private:
 		bool _isOnButton;

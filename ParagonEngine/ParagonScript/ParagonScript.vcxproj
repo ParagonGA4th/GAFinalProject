@@ -153,6 +153,7 @@
     <ClInclude Include="BossStageEnemyHandler.h" />
     <ClInclude Include="BossStageGUIHandler.h" />
     <ClInclude Include="Grating.h" />
+    <ClInclude Include="PauseOptionBox.h" />
     <ClInclude Include="Stage1_Bridge.h" />
     <ClInclude Include="BridgeHelper.h" />
     <ClInclude Include="DeathPlane.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="BossStageEnemyHandler.cpp" />
     <ClCompile Include="BossStageGUIHandler.cpp" />
     <ClCompile Include="Grating.cpp" />
+    <ClCompile Include="PauseOptionBox.cpp" />
     <ClCompile Include="Stage1_Bridge.cpp" />
     <ClCompile Include="BridgeHelper.cpp" />
     <ClCompile Include="CameraShake.cpp" />
