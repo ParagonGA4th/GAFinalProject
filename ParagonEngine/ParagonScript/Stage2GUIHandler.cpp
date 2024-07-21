@@ -63,7 +63,7 @@ namespace Pg::DataScript
 
 
 		{
-			_managedGuiObjectList.at("Skill1_WhiteFill")._guiComponent->ReceiveDependentPointers(
+			_managedGuiObjectList.at("Skill2_WhiteFill")._guiComponent->ReceiveDependentPointers(
 				(void*)&(tPH->GetPlayerCombatSector()->_isStartedFireSkillChargeTime),
 				(void*)&(tPH->GetPlayerCombatSector()->_isFireAttackStartEligible),
 				(void*)&(tPH->GetPlayerCombatSector()->_checkFireAttack),
@@ -71,7 +71,7 @@ namespace Pg::DataScript
 		}
 
 		{
-			_managedGuiObjectList.at("Skill2_WhiteFill")._guiComponent->ReceiveDependentPointers(
+			_managedGuiObjectList.at("Skill1_WhiteFill")._guiComponent->ReceiveDependentPointers(
 				(void*)&(tPH->GetPlayerCombatSector()->_isStartedIceSkillChargeTime),
 				(void*)&(tPH->GetPlayerCombatSector()->_isIceAttackStartEligible),
 				(void*)&(tPH->GetPlayerCombatSector()->_checkIceAttack),
