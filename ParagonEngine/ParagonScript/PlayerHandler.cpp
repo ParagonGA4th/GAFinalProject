@@ -70,6 +70,8 @@ namespace Pg::DataScript
 	{
 		_playerMovementSector->Awake();
 		_playerCombatSector->Awake();
+
+		_imgRenderer->SetActive(false);
 	}
 
 	void PlayerHandler::Start()
@@ -230,6 +232,7 @@ namespace Pg::DataScript
 		PG_TRACE(_selfCol->GetLayer());
 
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		//_meshRenderer->SetRendererOffset(_rendererOffSet);
 		assert(_meshRenderer != nullptr);
 
 
@@ -301,6 +304,11 @@ namespace Pg::DataScript
 			_isStaminaReadyToUse = false;
 			//Stamina Charge
 			_shouldStaminaCharge = true;
+		}
+
+		if (_object->GetScene()->GetSceneName() == "Stage1" && artifactCount > 0)
+		{
+			_imgRenderer->SetActive(true);
 		}
 
 		_imgRenderer->SetImageIndex(artifactCount);

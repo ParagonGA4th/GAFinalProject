@@ -13,6 +13,7 @@ namespace Pg::Data
 
 namespace Pg::DataScript
 {
+	class CombatSystem;
 	class PlayerHandler;
 	class BaseEnemyHandler;
 	class BaseAreaHandler;
@@ -60,6 +61,7 @@ namespace Pg::DataScript
 		//자신이 속해 있는 씬의 기타 핸들러들.
 		BaseAreaHandler* _areaHandler{ nullptr };
 		BaseEnemyHandler* _enemyHandler{ nullptr };
+		CombatSystem* _combatSystem{ nullptr };
 
 	private:
 		bool _isActivated{ true };
