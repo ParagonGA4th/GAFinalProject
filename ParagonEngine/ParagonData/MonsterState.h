@@ -63,6 +63,7 @@ namespace Pg::Data
 
 	enum class BossPase
 	{
+		PASE_INIT,
 		PASE_1,
 		PASE_2,
 		PASE_3,

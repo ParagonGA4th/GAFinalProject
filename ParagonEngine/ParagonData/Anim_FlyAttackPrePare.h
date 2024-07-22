@@ -1,5 +1,5 @@
-#ifndef ANIM_FLYATTACK 
-#define ANIM_FLYATTACK
+#ifndef ANIM_FLYATTACKPREPARE 
+#define ANIM_FLYATTACKPREPARE
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,12 +7,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_FlyAttack : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_FlyAttackPrePare : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_FlyAttack(const std::string& name, const BT::NodeConfiguration& config)
+		Anim_FlyAttackPrePare(const std::string& name, const BT::NodeConfiguration& config)
 			: BT::SyncActionNode(name, config) {}
-		virtual ~Anim_FlyAttack() = default;
+		virtual ~Anim_FlyAttackPrePare() = default;
 
 
 		virtual BT::NodeStatus tick() override;

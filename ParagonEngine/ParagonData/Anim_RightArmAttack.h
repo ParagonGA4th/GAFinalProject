@@ -20,8 +20,6 @@ namespace Pg::Data::BTree::Node
 		{
 			return {};
 		}
-	private:
-		bool _isCast{ false };
 	};
 }
 #endif

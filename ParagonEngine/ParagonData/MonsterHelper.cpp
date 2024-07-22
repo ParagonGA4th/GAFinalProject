@@ -41,7 +41,6 @@ void Pg::Data::MonsterHelper::Reset()
 
 void Pg::Data::MonsterHelper::BossInit()
 {
-	_bossFlag._isDash = false;
 	_bossFlag._isDownInit = false;
 	_bossFlag._isDown = false;
 	_bossFlag._isDownEnd = false;
