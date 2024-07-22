@@ -230,7 +230,7 @@ namespace Pg::Core::Manager
 		//Texture2D
 		{
 			std::string tPath = tUniformPath + "/1_Texture2D.csv";
-			auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromResourceCSV(tPath);
+			auto tPathVec = Pg::Util::Helper::CSVHelper::ReturnFilePathFromTexture2dCSV(tPath);
 			for (auto& it : tPathVec)
 			{
 				LoadResource(it, Pg::Data::Enums::eAssetDefine::_TEXTURE2D);

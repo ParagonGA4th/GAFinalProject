@@ -1,4 +1,7 @@
 #include "Grating.h"
+#include "HandleBundle3D.h"
+#include "TotalGameManager.h"
+#include "PlayerHandler.h"
 
 #include "../ParagonData/Scene.h"
 #include "../ParagonData/StaticMeshRenderer.h"
@@ -19,6 +22,7 @@ namespace Pg::DataScript
 		_renderer = _object->GetComponent<Pg::Data::StaticMeshRenderer>();
 		assert(_renderer);
 
+
 		for (auto col : _object->_transform.GetChildren())
 		{
 			_collider = col->_object->GetComponent<Pg::Data::StaticBoxCollider>();
@@ -26,9 +30,14 @@ namespace Pg::DataScript
 		}
 
 		if (_areaIndex == 0)
+		{
 			_otherCol = _object->GetScene()->FindObjectWithName("BattleArea_MiniGolem")->GetComponent<Pg::Data::Collider>();
+		}
 		else
-			_otherCol = _object->GetScene()->FindObjectWithName("ArtifactBox_2")->GetComponent<Pg::Data::Collider>();
+		{
+			HandlerBundle3D* tH3d = TotalGameManager::GetInstance(nullptr)->GetHandlerBundleByScene(_object->GetScene());
+			_playerHandler = tH3d->_playerBehavior;
+		}
 	}
 
 	void Grating::BeforePhysicsAwake()
@@ -45,7 +54,9 @@ namespace Pg::DataScript
 
 	void Grating::Update()
 	{
-		if (!_otherCol->GetActive())
+		bool isStart = _areaIndex == 0 ? !_otherCol->GetActive() : _playerHandler->artifactCount >= 3;
+
+		if (isStart)
 		{
 			if (_renderer->_alphaPercentage <= std::numeric_limits<float>::epsilon())
 			{
