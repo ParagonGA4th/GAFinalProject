@@ -134,6 +134,10 @@ namespace Pg::DataScript
 
 		Subscribe(Event_PlayerOnLowHealth::_identifier,
 			std::bind(&PlayerHandler::HandleEvents, player, std::placeholders::_1,
+				std::placeholders::_2, std::placeholders::_3));		
+
+		Subscribe(Event_PlayerGetArtifact::_identifier,
+			std::bind(&PlayerHandler::HandleEvents, player, std::placeholders::_1,
 				std::placeholders::_2, std::placeholders::_3));
 	}
 

@@ -29,7 +29,7 @@
 				<Case>t2_DiffuseTexture</Case>
 			</VariableOrder>
 			<Variables>
-				<Case Name="t2_DiffuseTexture" Type="Texture2D" ResourceReturnType="PG_RETURN_TYPE_FLOAT" RegisterCount="25" Value="DarkTexture2048x2048.dds" />
+				<Case Name="t2_DiffuseTexture" Type="Texture2D" ResourceReturnType="PG_RETURN_TYPE_FLOAT" RegisterCount="25" Value="MainScene.png" />
 			</Variables>
 		</Textures>
 	</PixelShader>

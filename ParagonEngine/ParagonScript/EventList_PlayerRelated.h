@@ -20,11 +20,18 @@ namespace Pg::DataScript
 		DEFINE_EVENT_IDENTIFIER("Event_PlayerDeath");
 	};
 
+	class Event_PlayerGetArtifact : public IEvent
+	{
+		//자기 자신 기준 Event Identifier 등록.
+		DEFINE_EVENT_IDENTIFIER("Event_PlayerGetArtifact");
+	};
+
 	class Event_UI_SetActiveSkill : public IEvent
 	{
 		//자기 자신 기준 Event Identifier 등록.
 		DEFINE_EVENT_IDENTIFIER("Event_UI_SetActiveSkill");
-	};
+	};	
+	
 }
 
 

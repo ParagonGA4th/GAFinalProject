@@ -40,8 +40,34 @@ namespace Pg::Graphics::Loader
 		outTextureData->_textureExt = GraphicsResourceHelper::GetTexExtFromPath(path);
 	}
 
-	void AssetBasic2DLoader::LoadTexture2D(const std::string& path, RenderTexture2D* outTextureData)
+	void AssetBasic2DLoader::LoadTexture2D(const std::string& pathValue, RenderTexture2D* outTextureData)
 	{
+		std::string path;
+		//if (pathValue.find("#") != std::string::npos)
+		//{
+		//	//Texture2D 한정, String 마지막 쪼개서 #으로 나눈다.
+		//	std::stringstream tPathSS(pathValue);
+		//	std::string segment;
+		//	std::vector<std::string> seglist;
+		//
+		//	while (std::getline(tPathSS, segment, '#'))
+		//	{
+		//		seglist.push_back(segment);
+		//	}
+		//
+		//	path = seglist.at(0);
+		//
+		//	if (seglist.size() > 1)
+		//	{
+		//		outTextureData->_isIgnoreSRGB = std::stoi(seglist.at(1));
+		//	}
+		//}
+		//else
+		//{
+			//못 찾았으면 걍 할당.
+			path = pathValue;
+		//}
+
 		LoadInternalRenderTexture2D(path, outTextureData);
 		outTextureData->_textureExt = GraphicsResourceHelper::GetTexExtFromPath(path);
 
@@ -84,7 +110,7 @@ namespace Pg::Graphics::Loader
 			MultipleRenderTexture2DToTexture2DArray(tSingleRenderTexture2DArray.data(), tSingleRenderTexture2DArray.size(), outTextureData);
 
 			//이제, 기존 PGT2ARR에서 SingleRenderTexture2DArray에 포인터 이동. 별개로 RenderTexture2D들의 벡터들 형태로도 저장하는 것.
-			std::copy(tSingleRenderTexture2DArray.begin(), tSingleRenderTexture2DArray.end(), 
+			std::copy(tSingleRenderTexture2DArray.begin(), tSingleRenderTexture2DArray.end(),
 				std::back_inserter(outTextureData->_singleRenderTexture2DArray));
 		}
 	}
@@ -242,7 +268,7 @@ namespace Pg::Graphics::Loader
 
 			HR(DirectX::CreateDDSTextureFromFileEx(_DXStorage->_device, _DXStorage->_deviceContext, tWStrPath.c_str(), NULL, D3D11_USAGE_DEFAULT, tBindingFlags, tCPUAccessFlags, tMiscFlags,
 				DirectX::DDS_LOADER_DEFAULT, &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
-		
+
 		}
 		else if (ResourceHelper::IsResourceTGA(path))
 		{
@@ -251,7 +277,7 @@ namespace Pg::Graphics::Loader
 
 			//TGA 파일 자체 로딩.
 			HR(DirectX::LoadFromTGAFile(tWStrPath.c_str(), DirectX::TGA_FLAGS_NONE, nullptr, *image));
-			
+
 			//TGA 기준 MipMap 생성.
 			HR(DirectX::GenerateMipMaps(image->GetImages(), image->GetImageCount(), image->GetMetadata(), DirectX::TEX_FILTER_DEFAULT, (size_t)NULL, *(mipChain.get())));
 
@@ -264,7 +290,7 @@ namespace Pg::Graphics::Loader
 			ID3D11Resource* res = nullptr;
 			outTextureData->GetSRV()->GetResource(&res);
 			outTextureData->GetResource() = res;
-			
+
 			//GenerateMips 테스트.
 			//_DXStorage->_deviceContext->GenerateMips(outTextureData->GetSRV());
 		}
@@ -294,9 +320,19 @@ namespace Pg::Graphics::Loader
 			//	DirectX::WIC_LOADER_DEFAULT, &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
 
 			//FORCE -> RGBA32
+			//HR(DirectX::CreateWICTextureFromFileEx(_DXStorage->_device, tWStrPath.c_str(), NULL, D3D11_USAGE_DEFAULT, tBindingFlags, tCPUAccessFlags, tMiscFlags,
+			//	DirectX::WIC_LOADER_FORCE_RGBA32, &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
+			//RGBA32?
+
+			//Normal : Default
+			//Ignore 선택 : 달라짐.
+			// 조정 Asset관리문제에 따라 새롭게 Ignore_SRGB Force.
+			//DirectX::WIC_LOADER_FLAGS tWICColFlag = (outTextureData->_isIgnoreSRGB) ? DirectX::WIC_LOADER_IGNORE_SRGB : DirectX::WIC_LOADER_DEFAULT;
+			DirectX::WIC_LOADER_FLAGS tWICColFlag = DirectX::WIC_LOADER_IGNORE_SRGB;
+
 			HR(DirectX::CreateWICTextureFromFileEx(_DXStorage->_device, tWStrPath.c_str(), NULL, D3D11_USAGE_DEFAULT, tBindingFlags, tCPUAccessFlags, tMiscFlags,
-				DirectX::WIC_LOADER_FORCE_RGBA32, &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
-		
+				tWICColFlag, &(outTextureData->GetResource()), &(outTextureData->GetSRV())));
+
 			//GenerateMips 테스트.
 			_DXStorage->_deviceContext->GenerateMips(outTextureData->GetSRV());
 		}
