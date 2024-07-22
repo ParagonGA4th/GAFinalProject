@@ -73,15 +73,6 @@ namespace Pg::DataScript
 			{
 				renderer->_object->_transform._position.y += POSITION_PERCENT;
 			}
-
-			//if (render->_alphaPercentage >= 100.f)
-			//{
-			//	_collider->SetActive(true);
-			//}
-			//else
-			//{
-			//	render->_alphaPercentage += ALPHA_PERCENT;
-			//}
 		}
 	}
 }

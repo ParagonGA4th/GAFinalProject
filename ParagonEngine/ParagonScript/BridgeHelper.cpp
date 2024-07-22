@@ -34,17 +34,4 @@ namespace Pg::DataScript
 			}
 		}
 	}
-
-	void BridgeHelper::OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count)
-	{
-		for (int i = 0; i < count; i++)
-		{
-			Pg::Data::Collider* col = _colArr[i];
-
-			if (col->_object->GetTag() == "TAG_Player")
-			{
-				_isTrig = false;
-			}
-		}
-	}
 }

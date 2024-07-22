@@ -21,7 +21,6 @@ namespace Pg::DataScript
 		virtual void Update() override;
 
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;
-		virtual void OnTriggerExit(Pg::Data::Collider** _colArr, unsigned int count) override;
 
 	public:
 		bool _isTrig{ false };

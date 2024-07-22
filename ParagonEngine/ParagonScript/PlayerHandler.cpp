@@ -10,6 +10,7 @@
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/AudioSource.h"
+#include "../ParagonData/ImageRenderer.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgGraphics.h"
@@ -38,6 +39,10 @@ namespace Pg::DataScript
 		//개별적으로 함수 실행.
 		_playerMovementSector->GrabManagedObjects();
 		_playerCombatSector->GrabManagedObjects();
+
+		//artifact
+		_imgRenderer = _object->GetScene()->FindObjectWithName("ArtifactText")->GetComponent<Pg::Data::ImageRenderer>();
+		assert(_imgRenderer);
 	}
 
 	void PlayerHandler::BeforePhysicsAwake()
@@ -105,14 +110,16 @@ namespace Pg::DataScript
 
 	void PlayerHandler::HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2)
 	{
-		if (e.GetIdentifier() == Event_PlayerDeath::_identifier);
+		if (e.GetIdentifier() == Event_PlayerDeath::_identifier)
 		{
 			//여러 개의 이벤트들이 한꺼번에 핸들링 될 경우, 이렇게 활용됨. 
 			//const Event_PlayerDeath& demoEvent = static_cast<const Event_PlayerDeath&>(e);
-
-
-
 		}
+		else if (e.GetIdentifier() == Event_PlayerGetArtifact::_identifier)
+		{
+			artifactCount++;
+		}
+
 	}
 
 	void PlayerHandler::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
@@ -172,6 +179,9 @@ namespace Pg::DataScript
 		healthPoint = MAX_PLAYER_HEALTH;
 		manaPoint = 0; //Mana는 처음 0으로 시작한다.
 		staminaPoint = MAX_PLAYER_STAMINA;
+
+		// 아티팩트 혹시 모르니까..
+		artifactCount = 0;
 	}
 
 	void PlayerHandler::SetPlayerMoveSpeed(float val)
@@ -292,6 +302,7 @@ namespace Pg::DataScript
 			//Stamina Charge
 			_shouldStaminaCharge = true;
 		}
-	}
 
+		_imgRenderer->SetImageIndex(artifactCount);
+	}
 }

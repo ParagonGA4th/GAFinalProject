@@ -8,6 +8,7 @@ namespace Pg::Data
 
 namespace Pg::DataScript
 {
+	class CombatSystem;
 	class ArtifactBox;
 	class ArtifactBoxAnim : public ScriptInterface<ArtifactBoxAnim>
 	{
@@ -19,11 +20,14 @@ namespace Pg::DataScript
 		virtual void Awake() override;
 		virtual void Update() override;
 
+		virtual void GrabManagedObjects() override;
+
 		virtual void OnAnimationEnd(const std::string& justEndedAnimation) override;
 
 	private:
 		Pg::Data::SkinnedMeshRenderer* _renderer{ nullptr };
-		ArtifactBox* _artiBox;
+		ArtifactBox* _artiBox{ nullptr };
+		CombatSystem* _combatSystem{ nullptr };
 
 		bool _animEnd{ false };
 	};

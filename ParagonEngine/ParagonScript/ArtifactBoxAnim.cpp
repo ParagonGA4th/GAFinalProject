@@ -1,5 +1,7 @@
 #include "ArtifactBoxAnim.h"
 #include "ArtifactBox.h"
+#include "CombatSystem.h"
+#include "EventList_PlayerRelated.h"
 
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
@@ -11,6 +13,11 @@ namespace Pg::DataScript
 	ArtifactBoxAnim::ArtifactBoxAnim(Pg::Data::GameObject* obj)
 		:ScriptInterface(obj)
 	{
+	}
+
+	void ArtifactBoxAnim::GrabManagedObjects()
+	{
+		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
 	void ArtifactBoxAnim::Awake()
@@ -44,6 +51,8 @@ namespace Pg::DataScript
 			_object->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(false);
 			_renderer->_object->SetActive(false);
 			_animEnd = false;
+
+			_combatSystem->Post(Event_PlayerGetArtifact(), NULL, NULL);
 		}
 
 		if (_artiBox->_isOpen)
