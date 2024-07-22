@@ -237,6 +237,8 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Update()
 	{
+		PG_TRACE(_monsterHelper->_bossFlag._bossStateListByEnum[_monsterHelper->_bossFlag._bossState]);
+
 		_distance = std::abs(std::sqrt(std::pow(_playerTransform->_position.x - _object->_transform._position.x, 2)
 			+ std::pow(_playerTransform->_position.z - _object->_transform._position.z, 2)));
 
@@ -276,16 +278,15 @@ namespace Pg::DataScript
 			}
 		}
 
-		if (_dashCount <= 2)
+		if (_dashCount <= 3)
 		{
-			_monsterHelper->_bossFlag._isDash = true;
+			_monsterHelper->_bossFlag._bossState = Data::BossState::DASH;
 			_isDash = true;
 			Dash();
 		}
 		else
 		{
 			_isDash = false;
-			_monsterHelper->_bossFlag._isDash = false;
 		}
 
 		if (!_isDash)
@@ -350,7 +351,6 @@ namespace Pg::DataScript
 				_isRotatingToPlayer = true;
 				_monsterHelper->_isChase = true;
 				_monsterHelper->_isPlayerinHitSpace = false;
-				_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::IDLE;
 			}
 
 			if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK) // 빛기둥
@@ -743,42 +743,21 @@ namespace Pg::DataScript
 
 		//피격 애니메이션 들어가야 함.
 		if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE ||
-			_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::CHASE)
-		{
-			std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
-			animId.append("_00010.pganim");
+			_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::CHASE) return;
 
-			_meshRenderer->SetAnimation(animId, false);
-		}
+		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
+		animId.append("_00010.pganim");
+
+		_meshRenderer->SetAnimation(animId, false);
 	}
 
 	void BossBehaviour::Neutralize()
 	{
 		//체력이 30 밑으로 떨어지면
-		if (_bossInfo->GetMonsterHp() <= 7.5f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_1)
-		{
-			if(!_isNeutralize && !_monsterHelper->_bossFlag._isDown) 
-				_monsterHelper->_bossFlag._isDownInit = true;
-		}
-		//if (_isPhase1End && !_isPhase2End && _bossInfo->GetMonsterHp() <= 20.f)
-		//{
-		//	if (_monsterHelper->_bossFlag._isPase_2)
-		//	{
-		//		_isNeutralize = true;
-		//		_monsterHelper->_bossFlag._isPase_1 = true;
-		//		_monsterHelper->_bossFlag._isPase_2 = false;
-		//		_monsterHelper->_bossFlag._isPase_3 = false;
+		if (!(_bossInfo->GetMonsterHp() <= 5.0f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_2)) return;
+		if (!(_bossInfo->GetMonsterHp() <= 7.5f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_1)) return;
 
-		//		if (_isNeutralizeInit)
-		//		{
-		//			_isNeutralizeInit = false;
-		//		}
-
-		//	}
-
-		//	_isPhase2 = false;
-		//	_isPhase2End = true;
-		//}
+		if (!_isNeutralize && !_monsterHelper->_bossFlag._isDown && !_monsterHelper->_bossFlag._isDownEnd) _monsterHelper->_bossFlag._isDownInit = true;
 		if (_monsterHelper->_bossFlag._isDown) _isNeutralize = true;
 		if (_monsterHelper->_bossFlag._isDownEnd && _monsterHelper->_isAnimationEnd)
 		{
@@ -805,7 +784,6 @@ namespace Pg::DataScript
 			if (!_isNeutralizeInit)
 			{
 				_monsterHelper->_isChase = false;
-				_monsterHelper->_bossFlag._isDash = false;
 				_monsterHelper->_isDistanceClose = false;
 				_isNeutralizeInit = true;
 			}
@@ -816,15 +794,19 @@ namespace Pg::DataScript
 	{
 		if (!_isDeadInit)
 		{
-			_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::DEAD;
-			_monsterHelper->_bossFlag._bossPase = Pg::Data::BossPase::PASE_1;
+			//_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::DEAD;
+			//_monsterHelper->_bossFlag._bossPase = Pg::Data::BossPase::PASE_1;
 
+			//_monsterHelper->_isPlayerDetected = false;
+			//_monsterHelper->_isPlayerinHitSpace = false;
+			//_monsterHelper->_isChase = false;
+			//_monsterHelper->_bossFlag._isDash = false;
+			//_monsterHelper->_bossFlag._isDown = false;
+
+			_monsterHelper->Reset();
 			_monsterHelper->_isDead = true;
-			_monsterHelper->_isPlayerDetected = false;
-			_monsterHelper->_isPlayerinHitSpace = false;
-			_monsterHelper->_isChase = false;
-			_monsterHelper->_bossFlag._isDash = false;
-			_monsterHelper->_bossFlag._isDown = false;
+
+			_dashCount = 0;
 
 			_walkAudio->Stop();
 			_dieAudio->Play();
