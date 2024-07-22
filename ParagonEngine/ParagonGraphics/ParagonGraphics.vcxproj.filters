@@ -986,9 +986,6 @@
     <Filter Include="6_HLSL\System\Pipeline\PostProcessing">
       <UniqueIdentifier>{e476e259-2429-49d8-9752-72d8194edf37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6_HLSL\System\Pipeline\PostProcessing\Tonemapping">
-      <UniqueIdentifier>{67542de1-60b6-4a3d-9928-1db047191542}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0_Main\RenderPass&amp;SendReceiver\20_ProcessFinalRenderPass">
       <UniqueIdentifier>{eaa8e6b3-4a91-4e77-858e-d882be91ee71}</UniqueIdentifier>
     </Filter>
@@ -1145,6 +1142,9 @@
     <Filter Include="6_HLSL\Appends\Added\Object\Arrow">
       <UniqueIdentifier>{47b10104-dd45-4fa0-8d52-15bf986d7562}</UniqueIdentifier>
     </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\PostProcessing\HeightFog">
+      <UniqueIdentifier>{67542de1-60b6-4a3d-9928-1db047191542}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
@@ -1226,7 +1226,7 @@
       <Filter>6_HLSL\System\Pipeline\PostProcessing</Filter>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Tonemapping\HeightFog_PS.hlsl">
-      <Filter>6_HLSL\System\Pipeline\PostProcessing\Tonemapping</Filter>
+      <Filter>6_HLSL\System\Pipeline\PostProcessing\HeightFog</Filter>
     </FxCompile>
     <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstInstanced_VS.hlsl">
       <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>

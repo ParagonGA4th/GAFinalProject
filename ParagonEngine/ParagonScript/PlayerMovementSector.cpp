@@ -257,7 +257,7 @@ namespace Pg::DataScript
 
 	void PlayerMovementSector::UpdateJump()
 	{
-		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::Space) && (!_isJumping))
+		if (_isAbleToJump && _pgInput->GetKeyDown(Pg::API::Input::eKeyCode::Space) && (!_isJumping))
 		{
 			_isJumping = true;
 			_isMoving = true;
