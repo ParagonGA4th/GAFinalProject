@@ -1,5 +1,5 @@
-#ifndef ISDOWN
-#define ISDOWN
+#ifndef ANIM_DOWNSTART
+#define ANIM_DOWNSTART
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,12 +7,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class isDown : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_DownStart : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		isDown(const std::string& name, const BT::NodeConfiguration& config)
+		Anim_DownStart(const std::string& name, const BT::NodeConfiguration& config)
 			: BT::SyncActionNode(name, config) {}
-		virtual ~isDown() = default;
+		virtual ~Anim_DownStart() = default;
 
 		virtual BT::NodeStatus tick() override;
 

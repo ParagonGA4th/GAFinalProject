@@ -9,6 +9,8 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
+			monHelper->_state = Pg::Data::MonsterState::DEAD;
+
 			if (monHelper->_isAnimationEnd)
 			{
 				monHelper->_isDeadDelay = true;

@@ -318,10 +318,11 @@ namespace Pg::DataScript
 	{
 		if (_monsterHelper->_isDead) return;
 
-		PG_TRACE("Hit!");
-
 		_cameraShake->CauseShake(0.25f);
 		_hitSound->Play();
+
+		if (_monsterHelper->_state != Pg::Data::MonsterState::IDLE ||
+			_monsterHelper->_state != Pg::Data::MonsterState::CHASE) return;
 
 		//피격 애니메이션 들어가야 함.
 		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));

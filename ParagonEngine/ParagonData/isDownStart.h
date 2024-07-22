@@ -1,5 +1,5 @@
-#ifndef ISTOUCHED
-#define ISTOUCHED
+#ifndef ISDOWNSTART
+#define ISDOWNSTART
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,12 +7,12 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class isTouched : public BT::SyncActionNode, public BasePgBtNode
+	class isDownStart : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		isTouched(const std::string& name, const BT::NodeConfiguration& config)
+		isDownStart(const std::string& name, const BT::NodeConfiguration& config)
 			: BT::SyncActionNode(name, config) {}
-		virtual ~isTouched() = default;
+		virtual ~isDownStart() = default;
 
 		virtual BT::NodeStatus tick() override;
 

@@ -41,12 +41,10 @@ void Pg::Data::MonsterHelper::Reset()
 
 void Pg::Data::MonsterHelper::BossInit()
 {
-	_bossFlag._isPase_1 = true;
-	_bossFlag._isPase_2 = false;
-	_bossFlag._isPase_3 = false;
-
 	_bossFlag._isDash = false;
+	_bossFlag._isDownInit = false;
 	_bossFlag._isDown = false;
+	_bossFlag._isDownEnd = false;
 
 	_bossFlag._bossState = Pg::Data::BossState::IDLE;
 	_bossFlag._bossPase = Pg::Data::BossPase::PASE_1;

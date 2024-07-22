@@ -6,6 +6,9 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_gIdle::tick()
 	{
+		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
+		if (monHelper != nullptr) monHelper->_state = Pg::Data::MonsterState::IDLE;
+
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{

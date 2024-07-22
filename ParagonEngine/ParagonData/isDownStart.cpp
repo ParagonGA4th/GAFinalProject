@@ -1,15 +1,16 @@
-#include "isTouched.h"
+#include "isDownStart.h"
 #include "MonsterHelper.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus isTouched::tick()
+	BT::NodeStatus isDownStart::tick()
 	{
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_mimicFlag._isTouched)
+			if (monHelper->_bossFlag._isDownInit)
 			{
+				monHelper->_bossFlag._bossState = Pg::Data::BossState::DOWN;
 				return BT::NodeStatus::SUCCESS;
 			}
 		}
