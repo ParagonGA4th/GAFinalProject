@@ -12,19 +12,16 @@ namespace Pg::Data
 
 		std::unordered_map<Pg::Data::BossState, std::string> _bossStateListByEnum;
 
-		bool _isPase_1;					// 보스의 1페이즈
-		bool _isPase_2;					// 보스의 1페이즈
-		bool _isPase_3;					// 보스의 1페이즈
-
+		bool _isDownInit;				// 보스 무력화 시작
 		bool _isDown;					// 보스가 무력화 되었는지
+		bool _isDownEnd;				// 보스 무력화 종료
 		bool _isDash;					// 보스가 대쉬를 했는지
 
 		void Reset()
 		{
-			_isPase_1 = true;
-			_isPase_2 = false;
-			_isPase_3 = false;
+			_isDownInit = false;
 			_isDown = false;
+			_isDownEnd = false;
 			_isDash = false;
 
 			_bossState = Pg::Data::BossState::IDLE;

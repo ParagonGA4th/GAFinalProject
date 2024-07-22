@@ -11,6 +11,7 @@ namespace Pg::Data::BTree::Node
 		{
 			if (monHelper->_isAnimationEnd)
 			{
+				monHelper->_state = Pg::Data::MonsterState::DASH;
 				monHelper->_isAnimationEnd = false;
 				return BT::NodeStatus::FAILURE;
 			}

@@ -14,6 +14,7 @@ namespace Pg::Data::BTree::Node
 		{
 			if (monHelper->_isAnimationEnd)
 			{
+				monHelper->_state = Pg::Data::MonsterState::ATTACK;
 				monHelper->_waspFlag._attackCount++;
 				if (monHelper->_waspFlag._attackCount > 2) monHelper->_waspFlag._attackCount = 0;
 				monHelper->_isAnimationEnd = false;

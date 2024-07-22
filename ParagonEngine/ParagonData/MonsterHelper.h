@@ -44,6 +44,8 @@ namespace Pg::Data
 		bool _isDeadDelay;				// 몬스터가 죽은 후 딜레이
 
 		/// Monsters
+		Pg::Data::MonsterState _state;	// 패턴이 없는 몬스터들의 state
+
 		Pg::Data::Boss _bossFlag;
 		Pg::Data::GolemBoss _bGolemFlag;
 		Pg::Data::MiniGolem _mGolemFlag;

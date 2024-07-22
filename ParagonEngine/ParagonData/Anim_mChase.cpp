@@ -1,10 +1,14 @@
 #include "Anim_mChase.h"
+#include "MonsterHelper.h"
 #include "SkinnedMeshRenderer.h"
 
 namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_mChase::tick()
 	{
+		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
+		if (monHelper != nullptr) monHelper->_state = Pg::Data::MonsterState::CHASE;
+
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		if (tMeshRenderer != nullptr)
 		{

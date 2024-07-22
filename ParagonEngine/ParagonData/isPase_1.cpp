@@ -8,25 +8,25 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			std::string state = monHelper->_bossFlag._bossStateListByEnum[monHelper->_bossFlag._bossState];
-			if (state.find("BAttack") != std::string::npos &&
-				state.find("Cast") != std::string::npos)
-			{
-				return BT::NodeStatus::SUCCESS;
-			}
+			//std::string state = monHelper->_bossFlag._bossStateListByEnum[monHelper->_bossFlag._bossState];
+			//if (state.find("BAttack") != std::string::npos &&
+			//	state.find("Cast") != std::string::npos)
+			//{
+			//	return BT::NodeStatus::SUCCESS;
+			//}
 
-			if (monHelper->_bossFlag._isPase_1)
-			{
-				monHelper->_bossFlag._bossPase = Pg::Data::BossPase::PASE_1;
+			//if (monHelper->_bossFlag._isPase_1)
+			//{
+			//	monHelper->_bossFlag._bossPase = Pg::Data::BossPase::PASE_1;
 
-				if (!_isInit)
-				{
-					monHelper->_bossFlag._bossState = Pg::Data::BossState::CAST;
-					_isInit = true;
-				}
+			//	if (!_isInit)
+			//	{
+			//		monHelper->_bossFlag._bossState = Pg::Data::BossState::CAST;
+			//		_isInit = true;
+			//	}
 
-				return BT::NodeStatus::SUCCESS;
-			}
+			//	return BT::NodeStatus::SUCCESS;
+			//}
 		}
 
 		if (_isInit) _isInit = !_isInit;
