@@ -146,6 +146,7 @@ namespace Pg::DataScript
 		{
 			//만약 체력이 0일 경우, 
 			_combatSystem->Post(Event_PlayerDeath(), _object, 0.0f);
+			_playerlife--;
 		}
 
 	}
@@ -269,6 +270,7 @@ namespace Pg::DataScript
 	{
 		return _isStaminaReadyToUse;
 	}
+
 	Pg::Data::CapsuleCollider* PlayerHandler::GetPlayerSelfCol()
 	{
 		return _selfCol;
@@ -311,5 +313,10 @@ namespace Pg::DataScript
 		}
 
 		_imgRenderer->SetImageIndex(artifactCount);
+	}
+
+	int PlayerHandler::GetPlayerLife()
+	{
+		return _playerlife;
 	}
 }

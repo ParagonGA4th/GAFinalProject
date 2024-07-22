@@ -105,11 +105,11 @@ namespace Pg::DataScript
 				}
 
 				//Final Boss일 경우,
-				if ((_areaIndex == 5))
-				{
-					//Invoke. 
-					_combatSystem->Post(Event_OnFinalBossGameAreaEnter(), NULL, NULL);
-				}
+				//if ((_areaIndex == 5))
+				//{
+				//	//Invoke. 
+				//	
+				//}
 				//밑은 적 등록 / 모두 죽일 시 : 판단 로직을 마련 위함.
 				//이때는, Enemy가 죽었을 때 Handler에게 죽었다고 알려주는 로직이 필요.
 			}

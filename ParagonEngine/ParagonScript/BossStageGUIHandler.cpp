@@ -65,9 +65,9 @@ namespace Pg::DataScript
 			std::bind(&BossStageGUIHandler::HandleEvents, this, std::placeholders::_1,
 				std::placeholders::_2, std::placeholders::_3));
 
-		_finalBossBar_Fill->SetActive(false);
-		_finalBossBar_Frame->SetActive(false);
-		_finalBossBar_Back->SetActive(false);
+		_finalBossBar_Fill->SetActive(true);
+		_finalBossBar_Frame->SetActive(true);
+		_finalBossBar_Back->SetActive(true);
 	}
 
 	void BossStageGUIHandler::Update()
