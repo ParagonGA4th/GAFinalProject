@@ -6,9 +6,6 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_Cast::tick()
 	{
-		bool isHolding = config().blackboard->get<bool>("ISHOLDING");
-		if (isHolding) return BT::NodeStatus::FAILURE;
-
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
