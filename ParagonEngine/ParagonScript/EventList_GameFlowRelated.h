@@ -31,23 +31,31 @@ namespace Pg::DataScript
 	};
 
 	// 중간 보스 (미니보스) 게임 영역에 들어갈 때.
-	class Event_OnMiniBossGameAreaEnter : public IEvent
+	class Event_OnGolemBossGameAreaEnter : public IEvent
 	{
-		DEFINE_EVENT_IDENTIFIER("Event_OnMiniBossGameAreaEnter");
+		DEFINE_EVENT_IDENTIFIER("Event_OnGolemBossGameAreaEnter");
 	};
 
 	// 대형 보스 게임 영역에 들어갈 때.
-	class Event_OnBigBossGameAreaEnter : public IEvent
+	class Event_OnFinalBossGameAreaEnter : public IEvent
 	{
-		DEFINE_EVENT_IDENTIFIER("Event_OnBigBossGameAreaEnter");
+		DEFINE_EVENT_IDENTIFIER("Event_OnFinalBossGameAreaEnter");
 	};
 
-	class Event_OnBossDeathGameWin : public IEvent
+	class Event_EnableJump : public IEvent
 	{
-		DEFINE_EVENT_IDENTIFIER("Event_OnBossDeathGameWin");
+		DEFINE_EVENT_IDENTIFIER("Event_EnableJump");
 	};
 
+	class Event_OnFinalBossDeathGameWin : public IEvent
+	{
+		DEFINE_EVENT_IDENTIFIER("Event_OnFinalBossDeathGameWin");
+	};
 
+	class Event_DisableJump : public IEvent
+	{
+		DEFINE_EVENT_IDENTIFIER("Event_DisableJump");
+	};
 }
 
 

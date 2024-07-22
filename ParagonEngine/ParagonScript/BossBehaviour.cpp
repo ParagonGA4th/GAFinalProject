@@ -254,7 +254,7 @@ namespace Pg::DataScript
 			_object->_transform._position = { 0, -1000, 0 };
 
 			//게임을 이겼다고 (==Boss 죽였다고 Event Post) 알리기!
-			_combatSystem->Post(Event_OnBossDeathGameWin(), NULL, NULL);
+			_combatSystem->Post(Event_OnFinalBossDeathGameWin(), NULL, NULL);
 		}
 
 		///회피와 돌진을 테스트하기 위한 임의의 로직.
