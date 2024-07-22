@@ -36,6 +36,7 @@ namespace Pg::DataScript
 	class PlayerHandler;
 	class BaseEnemyHandler;
 	class CameraShake;
+	class CombatSystem;
 
 	class GolemBossBehaviour : public ScriptInterface<GolemBossBehaviour>, public IEnemyBehaviour
 	{
@@ -120,6 +121,7 @@ namespace Pg::DataScript
 		//Pg::Data::AudioSource* _attackSound;
 
 		CameraShake* _cameraShake;
+		CombatSystem* _combatSystem;
 
 	private:
 		//플레이어와의 거리 측정

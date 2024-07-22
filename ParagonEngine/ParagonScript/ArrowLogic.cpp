@@ -144,7 +144,7 @@ namespace Pg::DataScript
 		//Tween 작동.
 		tTween->GetData(&(_object->_transform._position))
 			.DoMove(_targetPos, _secondsBeforeGravity)
-			.SetEase(Pg::Util::Enums::eEasingMode::OUTQUART)
+			.SetEase(Pg::Util::Enums::eEasingMode::OUTQUART).KillEarly(0.7f)
 			.OnComplete([this]()
 				{
 					//이제는 막 물리를 끄는 것도 아니고, 

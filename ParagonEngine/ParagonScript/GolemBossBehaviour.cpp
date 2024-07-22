@@ -1,5 +1,7 @@
 #include "GolemBossBehaviour.h"
 #include "CameraShake.h"
+#include "EventList_GameFlowRelated.h"
+#include "CombatSystem.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgScene.h"
@@ -151,6 +153,8 @@ namespace Pg::DataScript
 			this->_enemyHandler = tHB->_enemyHandler;
 			assert(_enemyHandler != nullptr);
 		}
+
+		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
 	void GolemBossBehaviour::Start()
@@ -434,6 +438,8 @@ namespace Pg::DataScript
 
 		//이제, Handler에게 자신이 죽었다는 것을 알려주자.
 		_enemyHandler->FromEnemyNotifyDead(_object->GetTag(), this);
+
+		_combatSystem->Post(Event_EnableJump(), NULL, NULL);
 	}
 
 	void GolemBossBehaviour::ResetAll()
