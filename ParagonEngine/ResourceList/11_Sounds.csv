@@ -46,7 +46,7 @@ Path,SoundGroup,isLoop
 ../Resources/Sounds/InGame/Effect/Boss/ES_B_Die.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/Boss/ES_B_Rush.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/Boss/ES_B_Down.ogg,Effect,0
-../Resources/Sounds/InGame/Bgm/BG_TS_Title.ogg,BGM,0
+../Resources/Sounds/InGame/Bgm/BG_TS_Title.ogg,BGM,1
 ../Resources/Sounds/InGame/Bgm/BG_MS_MainStage_1.ogg,BGM,1
 ../Resources/Sounds/InGame/Bgm/BG_MS_MainStage_2.ogg,BGM,1
 ../Resources/Sounds/InGame/Bgm/BG_MS_MainStage_Boss.ogg,BGM,1

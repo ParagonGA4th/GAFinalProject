@@ -135,6 +135,7 @@ namespace Pg::DataScript
 		if (_recordedPreviousScene->GetSceneName() == "BossStage")
 		{
 			_combatSystem->Post(Event_DisableJump(), NULL, NULL);
+			_combatSystem->Post(Event_OnFinalBossGameAreaEnter(), NULL, NULL);
 		}
 		else if (_recordedPreviousScene->GetSceneName() == "Stage1")
 		{

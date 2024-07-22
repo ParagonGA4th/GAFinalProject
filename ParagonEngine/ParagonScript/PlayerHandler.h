@@ -114,6 +114,7 @@ namespace Pg::DataScript
 		const int* ReturnPlayerStaminaPointPointerConst() const;
 
 		bool GetIsStaminaReadyToUse();
+		int GetPlayerLife();
 
 	private:
 		void GetInternalVariables();
@@ -148,8 +149,11 @@ namespace Pg::DataScript
 		Pg::Data::AudioSource* _hitAudio;
 		Pg::Data::AudioSource* _dieAudio;
 
-		Pg::Math::PGFLOAT3 _rendererOffSet = { 0.f, -2.f, 0.f };
+		Pg::Math::PGFLOAT3 _rendererOffSet = { 0.f, -1.f, 0.f };
 
+		//플레이어의 라이프.
+		//떨어지거나 체력이 0이면 하나씩 없어진다.
+		int _playerlife = 3;
 	};
 }
 

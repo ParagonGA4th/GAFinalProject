@@ -10,7 +10,6 @@
 
 namespace Pg::DataScript
 {
-
 	Stage2_Bridge::Stage2_Bridge(Pg::Data::GameObject* obj)
 		:ScriptInterface(obj)
 	{
@@ -43,7 +42,7 @@ namespace Pg::DataScript
 			i->_alphaPercentage = 0.f;
 		}
 
-		_collider->SetActive(false);
+		//_collider->SetActive(false);
 	}
 
 	void Stage2_Bridge::Update()
