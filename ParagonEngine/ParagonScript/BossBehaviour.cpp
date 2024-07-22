@@ -278,16 +278,16 @@ namespace Pg::DataScript
 			}
 		}
 
-		if (_dashCount <= 3)
-		{
-			_monsterHelper->_bossFlag._bossState = Data::BossState::DASH;
-			_isDash = true;
-			Dash();
-		}
-		else
-		{
-			_isDash = false;
-		}
+		//if (_dashCount <= 2)
+		//{
+		//	_monsterHelper->_bossFlag._bossState = Data::BossState::DASH;
+		//	_isDash = true;
+		//	Dash();
+		//}
+		//else
+		//{
+		//	_isDash = false;
+		//}
 
 		if (!_isDash)
 		{
