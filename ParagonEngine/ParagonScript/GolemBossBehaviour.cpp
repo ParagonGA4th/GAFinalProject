@@ -354,11 +354,11 @@ namespace Pg::DataScript
 	void GolemBossBehaviour::Hit()
 	{
 		if (_monsterHelper->_isDead) return;
-
-		PG_TRACE("Hit!");
-
 		_cameraShake->CauseShake(0.25f);
 		//_hitSound->Play();
+
+		if (_monsterHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::IDLE ||
+			_monsterHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::CHASE) return;
 
 		//피격 애니메이션 들어가야 함.
 		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
