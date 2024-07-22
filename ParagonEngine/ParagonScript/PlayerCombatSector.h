@@ -27,6 +27,7 @@ namespace Pg::DataScript
 	class ArrowLogic;
 	class UltimateArrowLogic;
 	class StrongAttackLogic;
+	class ComboSystem;
 }
 
 namespace Pg::DataScript
@@ -76,7 +77,6 @@ namespace Pg::DataScript
 		void Update();
 		void FixedUpdate();
 		void LateUpdate();
-		void OnAnimationEnd(const std::string& justEndedAnimation);
 
 	public:
 		//IObserver : 전체적인 Event 전달을 기준으로 작동할 것.
@@ -94,8 +94,6 @@ namespace Pg::DataScript
 		//void AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl);
 		//void AddMonsterOnHitList(BaseMonsterInfo* monster);
 	private:
-		void PlayAdequateAnimation();
-
 		void UpdateForGUIVariables();
 		void ProcessInputsForActiveSkills();
 		void ProcessInputsForStrongAttack();
@@ -141,6 +139,8 @@ namespace Pg::DataScript
 
 		UltimateArrowLogic* _ulArrowLogic;
 		StrongAttackLogic* _strongAttackLogic;
+
+		ComboSystem* _comboSystem;
 	private:
 		//Normal에 한정.
 		float _normal_timeSinceLastShot = 0.f;
