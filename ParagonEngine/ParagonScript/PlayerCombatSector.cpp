@@ -554,7 +554,8 @@ namespace Pg::DataScript
 				//PlayerBehavior랑 같은 위치. -> 나중에 PhysX 연동은 고쳐져야!
 
 				//시작점 역시 Offset 하기로 했었다.
-				Pg::Math::PGFLOAT3 tStartingPosition = _object->_transform._position + Pg::Math::PGFLOAT3(0.f, 2.f, 0.f);
+				//Pg::Math::PGFLOAT3 tStartingPosition = _object->_transform._position + Pg::Math::PGFLOAT3(0.f, 2.f, 0.f);
+				Pg::Math::PGFLOAT3 tStartingPosition = _object->_transform._position;
 
 
 				//Z축 향해 뒤집기. 어디에서 불완전한 연결이 일어나는지는 확인해봐야 할 것 같다.

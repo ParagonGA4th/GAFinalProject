@@ -1,5 +1,7 @@
 #include "BattleArea.h"
 #include "PlayerHandler.h"
+#include "CombatSystem.h"
+#include "EventList_PlayerRelated.h"
 
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonData/SphereCollider.h"
@@ -30,7 +32,7 @@ namespace Pg::DataScript
 
 	void BattleArea::GrabManagedObjects()
 	{
-
+		_combatSystem = CombatSystem::GetInstance(nullptr);
 	}
 
 	void BattleArea::Awake()
@@ -75,8 +77,9 @@ namespace Pg::DataScript
 				{
 					PG_ERROR("EXITNOW");
 					DeactivateArea();
+					if (_object->GetScene()->GetSceneName() == "Stage1" && _areaIndex == 0)
+						_combatSystem->Post(Event_PlayerGetArtifact(), NULL, NULL);
 				}
-
 			}
 		}
 	}

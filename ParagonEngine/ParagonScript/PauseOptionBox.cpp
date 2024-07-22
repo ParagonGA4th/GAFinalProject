@@ -140,6 +140,4 @@ namespace Pg::DataScript
 		Awake();
 		Start();
 	}
-
-
 }

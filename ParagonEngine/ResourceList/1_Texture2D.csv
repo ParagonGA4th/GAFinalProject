@@ -36,6 +36,9 @@ Texture2D,
 ../Resources/Textures/Sprites/UI/ManaBar_Frame.png,
 ../Resources/Textures/Sprites/UI/ManaBar.png,
 ../Resources/Textures/Sprites/UI/ManaBar_Back.png,
+../Resources/Textures/Sprites/UI/healthBar_Boss.png
+../Resources/Textures/Sprites/UI/healthBar_Boss_Frame.png
+../Resources/Textures/Sprites/UI/healthBar_Back_Boss.png
 ../Resources/Textures/Sprites/UI/StaminaBar_1.png,
 ../Resources/Textures/Sprites/UI/StaminaBar_2.png,
 ../Resources/Textures/Sprites/UI/StaminaBar_3.png,

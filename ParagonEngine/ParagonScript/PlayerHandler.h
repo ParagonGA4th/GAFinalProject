@@ -148,6 +148,8 @@ namespace Pg::DataScript
 		Pg::Data::AudioSource* _hitAudio;
 		Pg::Data::AudioSource* _dieAudio;
 
+		Pg::Math::PGFLOAT3 _rendererOffSet = { 0.f, -2.f, 0.f };
+
 	};
 }
 
