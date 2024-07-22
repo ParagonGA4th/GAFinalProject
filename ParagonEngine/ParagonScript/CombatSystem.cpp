@@ -156,7 +156,7 @@ namespace Pg::DataScript
 		_currentHandlerBundle3D->_playerBehavior->ChangePlayerHealth(level);
 
 		//ÇÇ°Ý
-		if (level <= 0.f)
+		if (level <= std::numeric_limits<float>::epsilon())
 		{
 			_currentHandlerBundle3D->_playerBehavior->_hitAudio->Play();
 		}

@@ -8,10 +8,12 @@
 #include "../ParagonAPI/PgGraphics.h"
 #include "PlayerCombatSector.h"
 #include "TotalGameManager.h"
+#include "GolemBossBehaviour.h"
 
 #include "PlayerHandler.h"
 #include "PauseBox.h"
 #include "CombatSystem.h"
+#include "EventList_GameFlowRelated.h"
 
 #include <singleton-cpp/singleton.h>
 
@@ -41,16 +43,37 @@ namespace Pg::DataScript
 
 		//이는 Stamina 등록을 해주기 위해. Object. _isActive만 꺼놓는 방식으로 등록해놓는다.
 		SetupStaminaBillboardRenderObject();
+
+		//GolemBoss Object.
+		SetupGolemBossHealthBar();
+
+		_golemBossBehaviour = _object->GetScene()->FindSingleComponentInScene<GolemBossBehaviour>();
+		assert(_golemBossBehaviour != nullptr);
 	}
 
 	void Stage1GUIHandler::Start()
 	{
 		_staminaBillboardObject->SetActive(true);
+
+		//_identifier가 이벤트 추가에 따라 늘어날 것이기에, 여러 개를 Subscribe해야 할 것이다.
+		CombatSystem::GetInstance(nullptr)->Subscribe(Event_OnGolemBossGameAreaEnter::_identifier,
+			std::bind(&Stage1GUIHandler::HandleEvents, this, std::placeholders::_1,
+				std::placeholders::_2, std::placeholders::_3));
+
+		// == GolemBoss 죽은 거랑 같은 의미.
+		CombatSystem::GetInstance(nullptr)->Subscribe(Event_EnableJump::_identifier,
+			std::bind(&Stage1GUIHandler::HandleEvents, this, std::placeholders::_1,
+				std::placeholders::_2, std::placeholders::_3));
+
+		_golemBossBar_Fill->SetActive(false);
+		_golemBossBar_Frame->SetActive(false);
+		_golemBossBar_Back->SetActive(false);
 	}
 
 	void Stage1GUIHandler::Update()
 	{
 		MatchUpdateStaminaToRO();
+		MatchUpdateBossHealthBar();
 	}
 
 	void Stage1GUIHandler::AssignPointersToGUI()
@@ -140,6 +163,56 @@ namespace Pg::DataScript
 	void Stage1GUIHandler::CleanOnSceneChange()
 	{
 		_staminaBillboardObject->SetActive(false);
+	}
+
+	void Stage1GUIHandler::SetupGolemBossHealthBar()
+	{
+		Pg::Data::GameObject* tGolemBossBarObject = _object->GetScene()->FindObjectWithName("GolemBossHealthBar");
+		assert(tGolemBossBarObject != nullptr);
+		_golemBossBar_Fill = tGolemBossBarObject->GetComponent<Pg::Data::ImageRenderer>();
+		assert(_golemBossBar_Fill != nullptr);
+
+		Pg::Data::GameObject* tGolemBossFrameObject = _object->GetScene()->FindObjectWithName("GolemBossHealthBar_Frame");
+		assert(tGolemBossFrameObject != nullptr);
+		_golemBossBar_Frame = tGolemBossFrameObject->GetComponent<Pg::Data::ImageRenderer>();
+		assert(_golemBossBar_Frame != nullptr);
+
+		Pg::Data::GameObject* tGolemBossBackObject = _object->GetScene()->FindObjectWithName("GolemBossHealthBar_Back");
+		assert(tGolemBossBackObject != nullptr);
+		_golemBossBar_Back = tGolemBossBackObject->GetComponent<Pg::Data::ImageRenderer>();
+		assert(_golemBossBar_Back != nullptr);
+
+		_golemBossBar_Fill->SetActive(false);
+		_golemBossBar_Frame->SetActive(false);
+		_golemBossBar_Back->SetActive(false);
+	}
+
+	void Stage1GUIHandler::HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2)
+	{
+		//만약 Event_OnGolemBossGameAreaEnter -> Boss Bar Enabled.
+		if (e.GetIdentifier() == Event_OnGolemBossGameAreaEnter::_identifier)
+		{
+			_golemBossBar_Fill->SetActive(true);
+			_golemBossBar_Frame->SetActive(true);
+			_golemBossBar_Back->SetActive(true);
+		}
+		else if (e.GetIdentifier() == Event_EnableJump::_identifier)
+		{
+			_golemBossBar_Fill->SetActive(false);
+			_golemBossBar_Frame->SetActive(false);
+			_golemBossBar_Back->SetActive(false);
+		}
+	}
+
+	void Stage1GUIHandler::MatchUpdateBossHealthBar()
+	{
+		if (_golemBossBar_Fill->GetActive())
+		{
+			float tHP = std::clamp<float>(_golemBossBehaviour->ReturnBaseMonsterInfo()->GetMonsterHp(), 0.f, GolemBossBehaviour::MAX_GOLEM_BOSS_HEALTH);
+			float tRatio = tHP / GolemBossBehaviour::MAX_GOLEM_BOSS_HEALTH;
+			tRatio *= 100.f;
+			_golemBossBar_Fill->SetFillRatio(tRatio);
+		}
 	}
 
 }

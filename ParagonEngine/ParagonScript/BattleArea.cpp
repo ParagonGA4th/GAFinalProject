@@ -2,6 +2,7 @@
 #include "PlayerHandler.h"
 #include "CombatSystem.h"
 #include "EventList_PlayerRelated.h"
+#include "EventList_GameFlowRelated.h"
 
 #include "../ParagonData/DynamicCollider.h"
 #include "../ParagonData/SphereCollider.h"
@@ -96,6 +97,19 @@ namespace Pg::DataScript
 				_onTriggerStay = true;
 				_player = col->_object->_transform.GetParent()->_object->GetComponent<Pg::DataScript::PlayerHandler>();
 
+				//Golem Boss일 경우,
+				if ((_areaIndex == 1))
+				{
+					//Invoke. 
+					_combatSystem->Post(Event_OnGolemBossGameAreaEnter(), NULL, NULL);
+				}
+
+				//Final Boss일 경우,
+				if ((_areaIndex == 5))
+				{
+					//Invoke. 
+					_combatSystem->Post(Event_OnFinalBossGameAreaEnter(), NULL, NULL);
+				}
 				//밑은 적 등록 / 모두 죽일 시 : 판단 로직을 마련 위함.
 				//이때는, Enemy가 죽었을 때 Handler에게 죽었다고 알려주는 로직이 필요.
 			}
@@ -182,6 +196,11 @@ namespace Pg::DataScript
 
 		//감옥 보내기.
 		_object->_transform._position.y = -10000.f;
+	}
+
+	void BattleArea::SetActivate(bool val)
+	{	
+		_isActivated = val;
 	}
 
 }
