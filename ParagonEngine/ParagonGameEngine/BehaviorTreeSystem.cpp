@@ -68,11 +68,15 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::Anim_FeatherAttack>("Anim_FeatherAttack");
 		_factory->registerNodeType<Node::Anim_FlyAttack>("Anim_FlyAttack");
 		_factory->registerNodeType<Node::Anim_Evasion>("Anim_Evasion");
+		_factory->registerNodeType<Node::Anim_DownStart>("Anim_DownStart");
 		_factory->registerNodeType<Node::Anim_Down>("Anim_Down");
+		_factory->registerNodeType<Node::Anim_DownEnd>("Anim_DownEnd");
 		_factory->registerNodeType<Node::isPase_1>("isPase_1");
 		_factory->registerNodeType<Node::isPase_2>("isPase_2");
 		_factory->registerNodeType<Node::isPase_3>("isPase_3");
+		_factory->registerNodeType<Node::isDownStart>("isDownStart");
 		_factory->registerNodeType<Node::isDown>("isDown");
+		_factory->registerNodeType<Node::isDownEnd>("isDownEnd");
 		_factory->registerNodeType<Node::isbDash>("isbDash");
 
 		_factory->registerNodeType<Node::Anim_gbLeftArmAttack>("Anim_gbLeftArmAttack");
@@ -103,7 +107,6 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::Anim_PoisonGas>("Anim_PoisonGas");
 		_factory->registerNodeType<Node::isCoolDown>("isCoolDown");
 
-		_factory->registerNodeType<Node::isTouched>("isTouched");
 		_factory->registerNodeType<Node::Anim_mAttack>("Anim_mAttack");
 		_factory->registerNodeType<Node::Anim_mChase>("Anim_mChase");
 		_factory->registerNodeType<Node::Anim_ThrowCoin>("Anim_ThrowCoin");

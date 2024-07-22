@@ -505,11 +505,13 @@ namespace Pg::DataScript
 	void WaspBehaviour::Hit()
 	{
 		if (_monsterHelper->_isDead) return;
+		_cameraShake->CauseShake(0.25f);
+
+		if (_monsterHelper->_state != Pg::Data::MonsterState::IDLE ||
+			_monsterHelper->_state != Pg::Data::MonsterState::CHASE) return;
 
 		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
 		animId.append("_00003.pganim");
-
-		_cameraShake->CauseShake(0.25f);
 
 		_meshRenderer->SetAnimation(animId, false);
 

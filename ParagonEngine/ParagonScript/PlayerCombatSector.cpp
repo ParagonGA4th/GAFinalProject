@@ -609,4 +609,8 @@ namespace Pg::DataScript
 		_checkIceAttack = CheckIceAttack();
 	}
 
+	void PlayerCombatSector::OnAnimationEnd(const std::string& justEndedAnimation)
+	{
+		_playerHandler->_meshRenderer->SetAnimation("PA_00001", true);
+	}
 }

@@ -28,7 +28,7 @@ namespace Pg::DataScript
 {
 	StubBehaviour::StubBehaviour(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj), _distance(0.f), _currentAttackTime(0.f), _startAttackTime(1.f), _endAttackTime(2.7f)
-		,_attackCount(0), _isRotateFinish(false)
+		, _attackCount(0), _isRotateFinish(false)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgScene = &singleton<Pg::API::PgScene>();
@@ -226,7 +226,7 @@ namespace Pg::DataScript
 			{
 				//PG_TRACE("Attack!");
 				Attack(_monsterHelper->_isAnimChange);
-			}			
+			}
 			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::BASICATTACK_COOLDOWN)
 			{
 				//PG_TRACE("Attack CoolDown!");
@@ -311,7 +311,7 @@ namespace Pg::DataScript
 			///RayCast에는 꺼져있는 Collider도 검사가 되기 때문에, 임의의 묘지로 보내준다.
 			_monsterHelper->_isDead = false;
 			_monsterHelper->_isDeadDelay = false;
-			
+
 			_isRotateFinish = true;
 
 			//그루터기는 죽으면 충돌만 꺼야함.
@@ -329,16 +329,18 @@ namespace Pg::DataScript
 	void StubBehaviour::Hit()
 	{
 		if (_monsterHelper->_isDead) return;
-
-		PG_TRACE("Hit!");
-
 		_cameraShake->CauseShake(0.25f);
 		_hitSound->Play();
+
+		if (_monsterHelper->_stubFlag._stubState != Pg::Data::StubState::IDLE ||
+			_monsterHelper->_stubFlag._stubState != Pg::Data::StubState::BASICATTACK_COOLDOWN||
+			_monsterHelper->_stubFlag._stubState != Pg::Data::StubState::SKILL_COOLDOWN) return;
+
 
 		//피격 애니메이션 들어가야 함.
 		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
 		animId.append("_00002.pganim");
-		
+
 		_meshRenderer->SetAnimation(animId, false);
 	}
 
@@ -360,7 +362,7 @@ namespace Pg::DataScript
 			Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, rotateQuat, std::clamp<float>(0.1f, 0.0f, 1.0f));
 
 			_object->_transform._rotation = currentTargetRotation;
-		}		
+		}
 	}
 
 	void StubBehaviour::Attack(bool _isAttack)

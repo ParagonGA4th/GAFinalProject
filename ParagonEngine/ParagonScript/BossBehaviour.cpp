@@ -126,7 +126,7 @@ namespace Pg::DataScript
 		{
 			Pg::Data::StaticBoxCollider* skillStaticCol = iter->GetComponent<Pg::Data::StaticBoxCollider>();
 			Pg::Data::SkinnedMeshRenderer* skillRenderer = iter->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-			
+
 			if (skillStaticCol != nullptr)
 			{
 				_lightAttackCol.push_back(skillStaticCol);
@@ -264,12 +264,11 @@ namespace Pg::DataScript
 		if (!_isPlayerInit) return;
 
 		Neutralize();
-		if (_isNeutralize) return;
+		if (_monsterHelper->_bossFlag._bossState == Data::BossState::DOWN) return;
 
 		if (_isRotatingToPlayer)
 		{
 			RotateToPlayer(_playerTransform->_position);
-
 
 			if (!_isDash)
 			{
@@ -294,17 +293,17 @@ namespace Pg::DataScript
 			if (_distance <= _bossInfo->GetAttackRange())
 			{
 				//_meshRenderer->_animBlendFactor = 0.0f;
-				
-				if (!_isPhase2)
-				{
-					_isRotatingToPlayer = true;
-					_isChasing = true;
-				}
-				else
-				{
-					_isRotatingToPlayer = false;
-					_isChasing = false;
-				}
+
+				//if (!_isPhase2)
+				//{
+				//	_isRotatingToPlayer = true;
+				//	_isChasing = true;
+				//}
+				//else
+				//{
+				//	_isRotatingToPlayer = false;
+				//	_isChasing = false;
+				//}
 
 				_monsterHelper->_isChase = false;
 				_monsterHelper->_isPlayerinHitSpace = true;
@@ -313,7 +312,7 @@ namespace Pg::DataScript
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2)
 				{
 					Attack(_monsterHelper->_isAnimChange);
-					
+
 					//_isRotatingToPlayer = true;
 					//_useTakeDownSkill = true;
 				}
@@ -323,7 +322,7 @@ namespace Pg::DataScript
 					//Attack(false);
 					//_useTakeDownSkill = false;
 					_useStormBlast = true;
-				}				
+				}
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_1 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_3)
@@ -338,7 +337,7 @@ namespace Pg::DataScript
 					Attack(false);
 				}
 			}
-			else if(_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
+			else if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
 				_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2 ||
 				_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3 ||
 				_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_1 ||
@@ -530,7 +529,7 @@ namespace Pg::DataScript
 			if (_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetStartWindBlastTime() && !_offWind)
 			{
 				Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
-				
+
 				//자신이 바라보는 방향으로 쏴야하기 때문에 z축빼고 전부 고정.
 				forwardDir.y = 0;
 				forwardDir.x = 0;
@@ -558,7 +557,7 @@ namespace Pg::DataScript
 					}
 				}
 			}
-			if(_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetWindBlastDuration())
+			if (_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetWindBlastDuration())
 			{
 				_offWind = true;
 
@@ -634,7 +633,7 @@ namespace Pg::DataScript
 
 			// Tween 생성
 			Pg::Util::Tween* riseTween = _pgTween->CreateTween();
-			
+
 			_collider->SetActive(false);
 
 			_isRotatingToPlayer = false;
@@ -687,7 +686,7 @@ namespace Pg::DataScript
 
 					});
 		}
-		if(_isGenerateCol)
+		if (_isGenerateCol)
 		{
 			//내려찍기가 끝나자마자 collider 생성 시 튀는 경우가 생겨
 			//DeltaTime으로 약간의 딜레이를 준다.
@@ -756,38 +755,31 @@ namespace Pg::DataScript
 	void BossBehaviour::Neutralize()
 	{
 		//체력이 30 밑으로 떨어지면
-		if (_bossInfo->GetMonsterHp() <= 30.f || _bossInfo->GetMonsterHp() <= 10.f)
+		if (_bossInfo->GetMonsterHp() <= 7.5f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_1)
 		{
-			if (!_isPhase1End && _monsterHelper->_bossFlag._isPase_1)
-			{
-				_isNeutralize = true;
-				_monsterHelper->_bossFlag._isPase_1 = false;
-				_monsterHelper->_bossFlag._isPase_2 = true;
-				_monsterHelper->_bossFlag._isPase_3 = false;
-			}
-
-			_isPhase1End = true;
-			_isPhase2 = true;
+			if(!_isNeutralize) _monsterHelper->_bossFlag._isDownInit = true;
 		}
-		if (_isPhase1End && !_isPhase2End && _bossInfo->GetMonsterHp() <= 20.f)
-		{
-			if (_monsterHelper->_bossFlag._isPase_2)
-			{
-				_isNeutralize = true;
-				_monsterHelper->_bossFlag._isPase_1 = true;
-				_monsterHelper->_bossFlag._isPase_2 = false;
-				_monsterHelper->_bossFlag._isPase_3 = false;
+		//if (_isPhase1End && !_isPhase2End && _bossInfo->GetMonsterHp() <= 20.f)
+		//{
+		//	if (_monsterHelper->_bossFlag._isPase_2)
+		//	{
+		//		_isNeutralize = true;
+		//		_monsterHelper->_bossFlag._isPase_1 = true;
+		//		_monsterHelper->_bossFlag._isPase_2 = false;
+		//		_monsterHelper->_bossFlag._isPase_3 = false;
 
-				if (_isNeutralizeInit)
-				{
-					_isNeutralizeInit = false;
-				}
+		//		if (_isNeutralizeInit)
+		//		{
+		//			_isNeutralizeInit = false;
+		//		}
 
-			}
+		//	}
 
-			_isPhase2 = false;
-			_isPhase2End = true;
-		}
+		//	_isPhase2 = false;
+		//	_isPhase2End = true;
+		//}
+		if (_monsterHelper->_bossFlag._isDown) _isNeutralize = true;
+
 		if (_isNeutralize)
 		{
 			//무력화 상태 시작.
@@ -799,12 +791,12 @@ namespace Pg::DataScript
 				//무력화 해제.
 				_isNeutralize = false;
 				_monsterHelper->_bossFlag._isDown = false;
+				_monsterHelper->_bossFlag._isDownEnd = true;
 				_bossInfo->SetCurrentNeutralize(0.f);
 			}
 
 			if (!_isNeutralizeInit)
 			{
-				_monsterHelper->_bossFlag._isDown = true;
 				_monsterHelper->_isChase = false;
 				_monsterHelper->_bossFlag._isDash = false;
 				_monsterHelper->_isDistanceClose = false;
@@ -842,59 +834,59 @@ namespace Pg::DataScript
 	void BossBehaviour::ResetAll()
 	{
 		//플래그 전부 초기화.
-		 _dashCount = 0;
-		 _isRotatingToPlayer = true;
-		 _rotateToPlayerTime = 0.f;
+		_dashCount = 0;
+		_isRotatingToPlayer = true;
+		_rotateToPlayerTime = 0.f;
 
-		 _isNeutralizeInit = false;
-		 _isNeutralize = false;
-		 _isChasing = true;
-		 _isEvading = false;
-		 _hasEvaded = false;
-		 _evadeCooldownTime = 0.f;
+		_isNeutralizeInit = false;
+		_isNeutralize = false;
+		_isChasing = true;
+		_isEvading = false;
+		_hasEvaded = false;
+		_evadeCooldownTime = 0.f;
 
-		 _isMoving = false;
-		 _isRushSoundPlaying = false ;
+		_isMoving = false;
+		_isRushSoundPlaying = false;
 
-		 _isDeadInit = false;
+		_isDeadInit = false;
 
-		 _useStormBlast = false;
-		 _offWind = false;
+		_useStormBlast = false;
+		_offWind = false;
 
-		 _useLightSkill = false;
+		_useLightSkill = false;
 
-		 _useTakeDownSkill = false;
+		_useTakeDownSkill = false;
 
-		 _goUp = false;
-		 _isGenerateCol = false;
+		_goUp = false;
+		_isGenerateCol = false;
 
-		 _currentGenerateTime = 0.f;
+		_currentGenerateTime = 0.f;
 
-		 _isPhase1End = false;
-		 _isPhase2End = false;
+		_isPhase1End = false;
+		_isPhase2End = false;
 
-		 //충돌 객체 전부 초기화.
-		 _collider->SetActive(true);
-		 _meshRenderer->SetActive(true);
+		//충돌 객체 전부 초기화.
+		_collider->SetActive(true);
+		_meshRenderer->SetActive(true);
 
-		 for (auto& iter : _basicAttackCol)
-		 {
-			 iter->SetActive(false);
-		 }
-		 for (auto& iter : _windBlastAttackCol)
-		 {
-			 iter->SetActive(false);
-		 }
-		 for (auto& iter : _lightAttackCol)
-		 {
-			 iter->SetActive(false);
-		 }
-		 for (auto& iter : _takeDownCol)
-		 {
-			 iter->SetActive(false);
-		 }
+		for (auto& iter : _basicAttackCol)
+		{
+			iter->SetActive(false);
+		}
+		for (auto& iter : _windBlastAttackCol)
+		{
+			iter->SetActive(false);
+		}
+		for (auto& iter : _lightAttackCol)
+		{
+			iter->SetActive(false);
+		}
+		for (auto& iter : _takeDownCol)
+		{
+			iter->SetActive(false);
+		}
 
-		 // 애니매이션 관련 전부 초기화
-		 //_monsterHelper->Reset();
+		// 애니매이션 관련 전부 초기화
+		//_monsterHelper->Reset();
 	}
 }
