@@ -25,7 +25,8 @@ namespace Pg::DataScript
 		GUI_StrongAttackStatus(Pg::Data::GameObject* obj);
 		virtual void GrabManagedObjects();
 		virtual void ReceiveDependentPointers(void* p1, void* p2, void* p3, double v1, double v2, double v3) override;
-		virtual void Update();
+		virtual void Start() override;
+		virtual void Update() override;
 
 	private:
 		void UpdateFillAmt();

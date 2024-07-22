@@ -36,10 +36,12 @@ namespace Pg::DataScript
 		_imageRendererBar = tBarObj->GetComponent<Pg::Data::ImageRenderer>();
 		assert(_imageRendererBar != nullptr);
 		_imageRendererBar->_sortingLayer = 1;
+		_imageRendererBar->SetActive(false);
 
 		//명시적으로 Bar 할당.
 		_imageRendererBar->SetFillRatioDirection(Pg::Data::eFillRatioDirection::UP_TO_DOWN);
 		_imageRendererBar->_sortingLayer = 2;
+		_imageRendererBar->SetActive(false);
 	}
 
 	void GUI_StrongAttackStatus::ReceiveDependentPointers(void* p1, void* p2, void* p3, double v1, double v2, double v3)
@@ -55,8 +57,26 @@ namespace Pg::DataScript
 		_maxVal = v1;
 	}
 
+	void GUI_StrongAttackStatus::Start()
+	{
+		_imageRendererBar->SetActive(false);
+		_imageRendererFrame->SetActive(false);
+	}
+
 	void GUI_StrongAttackStatus::Update()
 	{
+
+		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseRight))
+		{
+			_imageRendererBar->SetActive(true);
+			_imageRendererFrame->SetActive(true);
+		}
+		if (_pgInput->GetKeyUp(Pg::API::Input::eKeyCode::MouseRight))
+		{
+			_imageRendererBar->SetActive(false);
+			_imageRendererFrame->SetActive(false);
+		}
+
 		UpdatePosition();
 		UpdateFillAmt();
 	}

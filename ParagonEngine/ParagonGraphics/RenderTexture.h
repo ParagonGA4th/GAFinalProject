@@ -45,6 +45,8 @@ namespace Pg::Graphics
 		ID3D11Resource* _textureBuffer = nullptr;
 
 		eTextureExtension _textureExt = _UNMANAGED;
+		//만약 PNG 등 WIC라면, 해당 정보가 실제로 쓰일 것.
+		bool _isIgnoreSRGB{ false };
 	};
 }
 
