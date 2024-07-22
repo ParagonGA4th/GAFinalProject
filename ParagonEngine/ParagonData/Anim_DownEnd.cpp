@@ -11,8 +11,6 @@ namespace Pg::Data::BTree::Node
 		{
 			if (monHelper->_isAnimationEnd)
 			{
-				monHelper->_bossFlag._isDownEnd = false;
-
 				if (monHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_1)
 				{
 					monHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_2;
@@ -21,9 +19,6 @@ namespace Pg::Data::BTree::Node
 				{
 					monHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_3;
 				}
-
-				monHelper->_isAnimationEnd = false;
-
 				return BT::NodeStatus::FAILURE;
 			}
 
