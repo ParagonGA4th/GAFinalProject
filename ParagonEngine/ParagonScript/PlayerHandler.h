@@ -27,6 +27,7 @@ namespace Pg::Data
 	class CapsuleCollider;
 	class AudioSource;
 	class SkinnedMeshRenderer;
+	class ImageRenderer;
 }
 
 namespace Pg::DataScript
@@ -46,6 +47,7 @@ namespace Pg::DataScript
 		inline static const float MAX_PLAYER_MANA = 100.0f; // Mana는 100이 최대.
 		inline static const int MAX_PLAYER_STAMINA = 3;
 		inline static const float STAMINA_ONE_SLOT_CHARGE_TIME = 20.0f;
+		inline static const int MAX_ARTIFACT = 3;			// 아티팩트 개수는 최대 3개
 
 	public:
 		PlayerHandler(Pg::Data::GameObject* obj); 
@@ -90,6 +92,12 @@ namespace Pg::DataScript
 		float healthPoint{ MAX_PLAYER_HEALTH };
 		float manaPoint{ MAX_PLAYER_MANA };
 		int staminaPoint{ MAX_PLAYER_STAMINA };
+
+		/// 아티팩트 관련
+	public:
+		int artifactCount{ 0 }; // 초기 아티팩트 개수는 0개
+	private:
+		Pg::Data::ImageRenderer* _imgRenderer;
 
 	public:
 		//Sector 사이의 교류를 위해.

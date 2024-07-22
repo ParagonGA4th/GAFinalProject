@@ -11,6 +11,8 @@ namespace Pg::Data
 
 namespace Pg::DataScript
 {
+	class PlayerHandler;
+
 	class Grating : public ScriptInterface<Grating>
 	{
 		DEFINE_PARAGON_SCRIPT(Grating);
@@ -33,6 +35,8 @@ namespace Pg::DataScript
 		Pg::Data::StaticMeshRenderer* _renderer;
 		Pg::Data::StaticBoxCollider* _collider;
 		Pg::Data::Collider* _otherCol;
+
+		PlayerHandler* _playerHandler{ nullptr };
 
 		inline static const float ALPHA_PERCENT = 0.8f;
 	};
