@@ -1,22 +1,23 @@
 #include "PlayerCombatSector.h"
-#include "../ParagonData/Scene.h"
-#include "../ParagonData/StaticBoxCollider.h"
-#include "../ParagonData/StaticSphereCollider.h"
 #include "ArrowLogic.h"
 #include "UltimateArrowLogic.h"
 #include "StrongAttackLogic.h"
 #include "PlayerHandler.h"
 #include "PlayerMovementSector.h"
 #include "CombatSystem.h"
+#include "ComboSystem.h"
 #include "EventList_PlayerRelated.h"
-#include "../ParagonUtil/Log.h"
 
+#include "../ParagonData/Scene.h"
+#include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/StaticSphereCollider.h"
+#include "../ParagonData/LayerMask.h"
+#include "../ParagonUtil/Log.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/PgTime.h"
 
 #include <singleton-cpp/singleton.h>
 
-#include "../ParagonData/LayerMask.h"
 
 namespace Pg::DataScript
 {
@@ -52,7 +53,7 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::Start()
 	{
-
+		_comboSystem = ComboSystem::GetInstance();
 	}
 
 	void PlayerCombatSector::Update()
@@ -75,7 +76,6 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::LateUpdate()
 	{
-		PlayAdequateAnimation();
 	}
 
 	void PlayerCombatSector::HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2)
@@ -114,42 +114,6 @@ namespace Pg::DataScript
 		//UI Manager : 내부 액티브스킬 GUI 초기 세팅 따로 해야 한다.
 	}
 
-	void PlayerCombatSector::PlayAdequateAnimation()
-	{
-		////우선, 디폴트로 출력되는 것은 Idle Animation. 
-		//
-		////Idle 초기 상태 세팅.
-		//std::string tToPlayAnimationName = "PA_00001.pganim";
-		//bool isLooping = true;
-		//
-		//if (_isHit)
-		//{
-		//	//공격 애니매이션
-		//	isLooping = false;
-		//	tToPlayAnimationName = "PA_0000" + std::to_string(_hitCount + 4) + ".pganim";
-		//}
-		//
-		////만약에 전 스트링과 같지 않을 시에.
-		//if (_prevAnimationInput.compare(tToPlayAnimationName) != 0)
-		//{
-		//	_playerHandler->_meshRenderer->SetAnimation(tToPlayAnimationName, isLooping);
-		//}
-		//
-		////애니메이션 인풋 스트링 기록.
-		//_prevAnimationInput = tToPlayAnimationName;
-
-		//else if (_useUltimateSkill)
-		//{
-		//	//궁극기 애니메이션 들어가야 함.
-		//	}
-	}
-
-	void PlayerCombatSector::OnAnimationEnd(const std::string& justEndedAnimation)
-	{
-		// Loop가 안되는 모든 애니매이션의 flag는 여기서 false로 변경
-		//_isHit = false;
-	}
-
 	void PlayerCombatSector::ProcessInputsForActiveSkills()
 	{
 		// 일반 공격 : 그냥 지금처럼 화살 
@@ -168,6 +132,8 @@ namespace Pg::DataScript
 					//이제 Cooldown 세자.
 					_isFireAttackStartEligible = false;
 					_isStartedFireSkillChargeTime = 0.f;
+
+					_playerHandler->_meshRenderer->SetAnimation("PA_00009.pganim", false);
 				}
 			}
 		}
@@ -195,6 +161,8 @@ namespace Pg::DataScript
 					//이제 Cooldown 세자.
 					_isIceAttackStartEligible = false;
 					_isStartedIceSkillChargeTime = 0.f;
+
+					_playerHandler->_meshRenderer->SetAnimation("PA_00009.pganim", false);
 				}
 			}
 		}
@@ -390,16 +358,18 @@ namespace Pg::DataScript
 			//마우스 좌클릭 시 공격.
 			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseLeft))
 			{
-				//_isHit = true;
-				//_hitCount++;
-				//if (_hitCount >= 4) _hitCount = 1;
+				//공격 애니매이션
+				int animNum = _comboSystem->GetComboCount() + 4;
+				if (_comboSystem->GetComboCount() == 0) animNum++;
+
+				_playerHandler->_meshRenderer->SetAnimation("PA_0000" + std::to_string(animNum) + ".pganim", false);
+
 				//Normal Arrow Shooting.
 				ExecuteSpecificArrowShoot(&_normalArrowVec, _playerHandler->_commonAttackAudio, _normal_timeSinceLastShot);
 			}
 		}
 		else
 		{
-			//_hitCount = 0;
 			return;
 		}
 	}
@@ -593,11 +563,15 @@ namespace Pg::DataScript
 		//_ulArrowCol->SetActive(true); //충돌 키는 용.
 		//_ulArrowLogic->_isSkillStart = true; //로직 키는 용.
 		_ulArrowLogic->StartSkill();
+
+		_playerHandler->_meshRenderer->SetAnimation("PA_00011.pganim", false);
 	}
 
 	void PlayerCombatSector::InvokeSingleStrongAttack()
 	{
 		_strongAttackLogic->Activate(&(_playerHandler->_object->_transform._position));
+
+		_playerHandler->_meshRenderer->SetAnimation("PA_00008.pganim", false);
 	}
 
 	bool PlayerCombatSector::CheckStrongAttack()
