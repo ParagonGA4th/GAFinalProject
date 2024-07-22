@@ -65,7 +65,6 @@ namespace Pg::DataScript
 
 	void GUI_StrongAttackStatus::Update()
 	{
-
 		if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::MouseRight))
 		{
 			_imageRendererBar->SetActive(true);

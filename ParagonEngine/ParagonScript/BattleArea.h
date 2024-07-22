@@ -35,7 +35,7 @@ namespace Pg::DataScript
 	public:
 		virtual void ResetAll() override;
 		virtual unsigned int GetDesignatedAreaIndex() override;
-		virtual void SetActivate(bool val) override { _isActivated = val; }
+		virtual void SetActivate(bool val) override;
 
 	public:
 		virtual void OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count) override;

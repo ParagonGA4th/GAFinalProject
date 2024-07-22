@@ -1,10 +1,12 @@
 #pragma once
 #include "ScriptInterface.h"
 #include "BaseGUIHandler.h"
+#include "IObserver.h"
 #include "GUIDefinesAndStructs.h"
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/VisualEffectRenderObject.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/ImageRenderer.h"
 
 #include <unordered_map>
 
@@ -16,8 +18,9 @@ namespace Pg::API
 namespace Pg::DataScript
 {
 	class PauseBox;
+	class BossBehaviour;
 
-	class BossStageGUIHandler : public ScriptInterface<BossStageGUIHandler>, public BaseGUIHandler
+	class BossStageGUIHandler : public ScriptInterface<BossStageGUIHandler>, public BaseGUIHandler, public IObserver
 	{
 		DEFINE_PARAGON_SCRIPT(BossStageGUIHandler);
 	public:
@@ -35,10 +38,13 @@ namespace Pg::DataScript
 		//얘만 독특하게 관리하게 할 때. 
 		virtual void AdditionalReset() override;
 
+		//핸들링 이벤트.
+		virtual void HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2) override;
 	private:
 		void SetupStaminaBillboardRenderObject();
 		void MatchUpdateStaminaToRO();
-
+		void SetupBossHealthBar();
+		void MatchUpdateBossHealthBar();
 	private:
 		Pg::API::Graphics::PgGraphics* _pgGraphics{ nullptr };
 
@@ -46,6 +52,12 @@ namespace Pg::DataScript
 		Pg::Data::VisualEffectRenderObject* _staminaBillboardObject{ nullptr };
 		Pg::Data::Transform* _playerTransform{ nullptr };
 		unsigned int* _staminaTextureIndexPointer{ nullptr };
+
+		Pg::Data::ImageRenderer* _finalBossBar_Frame{ nullptr };
+		Pg::Data::ImageRenderer* _finalBossBar_Fill{ nullptr };
+		Pg::Data::ImageRenderer* _finalBossBar_Back{ nullptr };
+		
+		BossBehaviour* _finalBossBehaviour{ nullptr };
 	};
 }
 

@@ -177,8 +177,6 @@ namespace Pg::DataScript
 				_isStartedIceSkillChargeTime = 0.f;
 			}
 		}
-
-
 	}
 
 	void PlayerCombatSector::ProcessInputsForStrongAttack()
@@ -490,6 +488,8 @@ namespace Pg::DataScript
 			InvokeSingleStrongAttack();
 			_isJustStrongAttackInvoked = false;
 			_startedStrongAttackingTime = 0.f;
+
+			_playerHandler->GetPlayerMovementSector()->SetUseStrongSkill(true);
 		}
 
 		//시간을 세든, 끝날 때의 신호를 받든해서 더 이상 멀티프레임 공격을 실행중이지 않다는 것 알려야.
@@ -504,6 +504,8 @@ namespace Pg::DataScript
 			_startedStrongAttackingTime = 0.f;
 			_isJustStrongAttackInvoked = false;
 			_isStrongAttackingNow = false;
+
+			_playerHandler->GetPlayerMovementSector()->SetUseStrongSkill(false);
 		}
 	}
 

@@ -36,7 +36,7 @@ namespace Pg::DataScript
 		_pgTween = &singleton<Pg::API::Tween::PgTween>();
 
 		//골렘의 체력과 공격
-		_bossInfo = new BossInfo(40.f, 4.f);
+		_bossInfo = new BossInfo(MAX_BOSS_HEALTH, BOSS_ATTACK_POWER);
 		//_bossInfo = new BossInfo(2.f, 4.f);
 
 		///보스의 사망 및 피격행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
