@@ -302,7 +302,26 @@ namespace Pg::DataScript
 	{
 		//Trail Object들을 등록.
 		Pg::Data::VisualEffectRenderObject* vo = new Pg::Data::VisualEffectRenderObject();
-		_pgGraphics->RegisterEffectObject("Effect_ArrowTrail", vo);
+
+		switch (_arrowType)
+		{
+			case -1:
+			{
+				_pgGraphics->RegisterEffectObject("Effect_IceArrowTrail", vo);
+			}
+			break;
+			case 0:
+			{
+				_pgGraphics->RegisterEffectObject("Effect_ArrowTrail", vo);
+			}
+			break;
+			case 1:
+			{
+				_pgGraphics->RegisterEffectObject("Effect_FireArrowTrail", vo);
+			}
+			break;
+		}
+		
 		_soleTrail = vo;
 
 		TurnOffAllTrailObjects();
