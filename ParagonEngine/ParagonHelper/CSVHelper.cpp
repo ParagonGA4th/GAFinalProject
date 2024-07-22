@@ -38,6 +38,51 @@ namespace Pg::Util::Helper
 		return tRet;
 	}
 
+	std::vector<std::string> CSVHelper::ReturnFilePathFromTexture2dCSV(const std::string& csvPath)
+	{
+		rapidcsv::Document doc(csvPath);
+
+		auto& tPureData = doc.GetPureData();
+		assert(tPureData.size() >= 1 && "안 그러면 기본적인 리소스 포맷에 일치 X");
+
+		std::vector<std::string> tRet;
+
+		bool tPassedFirst = false;
+		for (auto& it : tPureData)
+		{
+			if (!tPassedFirst)
+			{
+				tPassedFirst = true;
+				continue;
+			}
+
+			//빈 String Path가 있으면 CSV Error 명시적으로 내면서 뻑내기.
+			//assert(!() && "Empty String Detected - CSV ERROR!");
+			if (it.at(0).empty())
+			{
+				continue;
+			}
+
+			//실제로 값 투입.
+			std::string tInputTexturePath = it.at(0);
+			//std::string tIgColorSpaceRaw = it.at(1);
+			//bool tIn = false;
+			//if ((tIgColorSpaceRaw.compare("NULL") != 0) && (!tIgColorSpaceRaw.empty()))
+			//{
+			//	//NULL이면 무시.
+			//	int tBoolInt = std::stoi(tIgColorSpaceRaw);
+			//	assert((tBoolInt == 0 || tBoolInt == 1) && "0/1이 아니면 Bool 치환 불가능.");
+			//	tIn = static_cast<bool>(tBoolInt);
+			//}
+			//
+			//tInputTexturePath += "#";
+			//tInputTexturePath.append(std::to_string(tIn));
+			tRet.push_back(tInputTexturePath);
+		}
+
+		return tRet;
+	}
+
 	std::vector<std::tuple<std::string, Pg::Data::eSoundGroup, bool>> CSVHelper::ReturnFilePathFromSoundFileCSV(const std::string& csvPath)
 	{
 		rapidcsv::Document doc(csvPath);
@@ -294,5 +339,4 @@ namespace Pg::Util::Helper
 		return tRet;
 
 	}
-
 }
