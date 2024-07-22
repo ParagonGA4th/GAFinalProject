@@ -70,6 +70,8 @@ namespace Pg::DataScript
 	{
 		_playerMovementSector->Awake();
 		_playerCombatSector->Awake();
+
+		_imgRenderer->SetActive(false);
 	}
 
 	void PlayerHandler::Start()
@@ -301,6 +303,11 @@ namespace Pg::DataScript
 			_isStaminaReadyToUse = false;
 			//Stamina Charge
 			_shouldStaminaCharge = true;
+		}
+
+		if (_object->GetScene()->GetSceneName() == "Stage1" && artifactCount > 0)
+		{
+			_imgRenderer->SetActive(true);
 		}
 
 		_imgRenderer->SetImageIndex(artifactCount);
