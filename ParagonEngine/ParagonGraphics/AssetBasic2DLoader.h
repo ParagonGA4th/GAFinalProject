@@ -30,7 +30,7 @@ namespace Pg::Graphics::Loader
 		void LoadTexture1D(const std::string& path, RenderTexture1D* outTextureData);
 
 		//Texture2D(Image)를 로드한다.
-		void LoadTexture2D(const std::string& path, RenderTexture2D* outTextureData);
+		void LoadTexture2D(const std::string& pathValue, RenderTexture2D* outTextureData);
 
 		//Texture2DArray를 로드한다.
 		void LoadTexture2DArray(bool isDDS, const std::string& path, RenderTexture2DArray* outTextureData);
