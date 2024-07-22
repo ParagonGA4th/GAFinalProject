@@ -1,5 +1,6 @@
 #include "InGameManager.h"
 #include "PlayerHandler.h"
+#include "PlayerMovementSector.h"
 
 //#include "Portal.h"
 #include "TotalGameManager.h"
@@ -129,6 +130,21 @@ namespace Pg::DataScript
 
 		//다음 Switch를 위해 전에 속해 있던 Scene 기록.
 		_recordedPreviousScene = changedScene;
+
+		//점프 막아둠.
+		if (_recordedPreviousScene->GetSceneName() == "BossStage")
+		{
+			_combatSystem->Post(Event_DisableJump(), NULL, NULL);
+		}
+		else if (_recordedPreviousScene->GetSceneName() == "Stage1")
+		{
+			_combatSystem->Post(Event_DisableJump(), NULL, NULL);
+		}
+		else if (_recordedPreviousScene->GetSceneName() == "Stage2")
+		{
+			_combatSystem->Post(Event_EnableJump(), NULL, NULL);
+		}
+	
 	}
 
 	void InGameManager::Initialize(Pg::Data::Scene* changedScene)
@@ -173,7 +189,15 @@ namespace Pg::DataScript
 			std::bind(&InGameManager::HandleEvents, bSelf, std::placeholders::_1,
 				std::placeholders::_2, std::placeholders::_3), true);
 
-		_combatSystem->Subscribe(Event_OnBossDeathGameWin::_identifier,
+		_combatSystem->Subscribe(Event_OnFinalBossDeathGameWin::_identifier,
+			std::bind(&InGameManager::HandleEvents, bSelf, std::placeholders::_1,
+				std::placeholders::_2, std::placeholders::_3), true);
+
+		_combatSystem->Subscribe(Event_EnableJump::_identifier,
+			std::bind(&InGameManager::HandleEvents, bSelf, std::placeholders::_1,
+				std::placeholders::_2, std::placeholders::_3), true);
+
+		_combatSystem->Subscribe(Event_DisableJump::_identifier,
 			std::bind(&InGameManager::HandleEvents, bSelf, std::placeholders::_1,
 				std::placeholders::_2, std::placeholders::_3), true);
 	}
@@ -194,9 +218,19 @@ namespace Pg::DataScript
 			// 전체 씬 리셋하기.
 			TotalGameManager::GetInstance(nullptr)->CallForEntireSceneReset(tBelongScene, NULL, nullptr);
 		}
-		else if (e.GetIdentifier() == Event_OnBossDeathGameWin::_identifier)
+		else if (e.GetIdentifier() == Event_OnFinalBossDeathGameWin::_identifier)
 		{
 			_pgScene->SetCurrentScene("TitleScene");
+		}
+		else if (e.GetIdentifier() == Event_EnableJump::_identifier)
+		{
+			TotalGameManager::GetInstance(nullptr)->GetCurrentHandlerBundle()->_playerBehavior->
+				GetPlayerMovementSector()->SetIsAbleToJump(true);
+		}
+		else if (e.GetIdentifier() == Event_DisableJump::_identifier)
+		{
+			TotalGameManager::GetInstance(nullptr)->GetCurrentHandlerBundle()->_playerBehavior->
+				GetPlayerMovementSector()->SetIsAbleToJump(false);
 		}
 	}
 }
