@@ -83,8 +83,6 @@ namespace Pg::DataScript
 		Pg::Data::ImageRenderer* _soundHandleRenderer;
 
 		Pg::Data::AudioSource* _ingameSound;
-
-	private:
 	};
 }
 
