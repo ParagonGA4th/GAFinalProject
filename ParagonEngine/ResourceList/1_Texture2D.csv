@@ -31,6 +31,9 @@ Texture2D
 ../Resources/Textures/Sprites/UI/Communication.png
 ../Resources/Textures/Sprites/UI/Health_ManaBar_Frame.png
 ../Resources/Textures/Sprites/UI/healthBar.png
+../Resources/Textures/Sprites/UI/healthBar_Boss.png
+../Resources/Textures/Sprites/UI/healthBar_Boss_Frame.png
+../Resources/Textures/Sprites/UI/healthBar_Back_Boss.png
 ../Resources/Textures/Sprites/UI/healthBar_Frame.png
 ../Resources/Textures/Sprites/UI/healthBar_Back.png
 ../Resources/Textures/Sprites/UI/ManaBar_Frame.png

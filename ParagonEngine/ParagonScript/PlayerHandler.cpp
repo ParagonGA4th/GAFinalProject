@@ -220,6 +220,7 @@ namespace Pg::DataScript
 		PG_TRACE(_selfCol->GetLayer());
 
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+		//_meshRenderer->SetRendererOffset(_rendererOffSet);
 		assert(_meshRenderer != nullptr);
 
 

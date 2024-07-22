@@ -331,6 +331,9 @@
     <Filter Include="UI\InGameUI\GUI_StrongAttackStatus">
       <UniqueIdentifier>{0ee32af1-a022-4866-8d2e-61ee4383dc1a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\InGameUI\HealthBarUI">
+      <UniqueIdentifier>{7970dbb7-4ef3-4a6f-951d-84656daf5edc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -599,6 +602,12 @@
     </ClCompile>
     <ClCompile Include="GUI_StrongAttackStatus.cpp">
       <Filter>UI\InGameUI\GUI_StrongAttackStatus</Filter>
+    </ClCompile>
+    <ClCompile Include="GolemBossHealthBar.cpp">
+      <Filter>UI\InGameUI\HealthBarUI</Filter>
+    </ClCompile>
+    <ClCompile Include="BossHealthBarUI.cpp">
+      <Filter>UI\InGameUI\HealthBarUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -937,6 +946,12 @@
     </ClInclude>
     <ClInclude Include="GUI_StrongAttackStatus.h">
       <Filter>UI\InGameUI\GUI_StrongAttackStatus</Filter>
+    </ClInclude>
+    <ClInclude Include="GolemBossHealthBar.h">
+      <Filter>UI\InGameUI\HealthBarUI</Filter>
+    </ClInclude>
+    <ClInclude Include="BossHealthBarUI.h">
+      <Filter>UI\InGameUI\HealthBarUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

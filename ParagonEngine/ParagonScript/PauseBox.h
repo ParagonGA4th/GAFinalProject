@@ -1,6 +1,7 @@
 #pragma once
 #include "ScriptInterface.h"
 #include "IScriptResettable.h"
+
 namespace Pg::Data
 {
 	class Button;
