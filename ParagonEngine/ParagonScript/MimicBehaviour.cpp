@@ -332,18 +332,18 @@ namespace Pg::DataScript
 	void MimicBehaviour::Hit()
 	{
 		if (_monsterHelper->_isDead) return;
-
 		//카메라 흔들림
 		_cameraShake->CauseShake(0.25f);
+		_hitAudio->Play();
 
-		PG_TRACE("Hit!");
+		if (_monsterHelper->_state != Pg::Data::MonsterState::IDLE ||
+			_monsterHelper->_state != Pg::Data::MonsterState::CHASE) return;
 
 		//피격 애니메이션 들어가야 함.
 		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
 		animId.append("_00003.pganim");
 
 		_meshRenderer->SetAnimation(animId, false);
-		_hitAudio->Play();
 	}
 
 	void MimicBehaviour::RotateToPlayer(Pg::Math::PGFLOAT3& targetPos)

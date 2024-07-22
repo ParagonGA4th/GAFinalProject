@@ -1,19 +1,19 @@
-#include "Anim_gDead.h"
+#include "Anim_DownStart.h"
 #include "SkinnedMeshRenderer.h"
 #include "MonsterHelper.h"
 
 namespace Pg::Data::BTree::Node
 {
-	BT::NodeStatus Anim_gDead::tick()
+	BT::NodeStatus Anim_DownStart::tick()
 	{
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
 			if (monHelper->_isAnimationEnd)
 			{
-				monHelper->_isDeadDelay = true;
+				monHelper->_bossFlag._isDownInit = false;
+				monHelper->_bossFlag._isDown = true;
 				monHelper->_isAnimationEnd = false;
-				monHelper->_state = Pg::Data::MonsterState::DEAD;
 				return BT::NodeStatus::FAILURE;
 			}
 
@@ -21,7 +21,7 @@ namespace Pg::Data::BTree::Node
 			if (tMeshRenderer != nullptr)
 			{
 				std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
-				animId.append("_00003.pganim");
+				animId.append("_00011.pganim");
 
 				if (tMeshRenderer->GetAnimation() != animId)
 				{

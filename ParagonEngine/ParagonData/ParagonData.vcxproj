@@ -207,6 +207,8 @@
     <ClInclude Include="Anim_bIdle.h" />
     <ClInclude Include="Anim_bWalk.h" />
     <ClInclude Include="Anim_Dash.h" />
+    <ClInclude Include="Anim_DownEnd.h" />
+    <ClInclude Include="Anim_DownStart.h" />
     <ClInclude Include="Anim_Evasion.h" />
     <ClInclude Include="Anim_fDead.h" />
     <ClInclude Include="Anim_FeatherAttack.h" />
@@ -253,6 +255,8 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="eFillRatioDirection.h" />
     <ClInclude Include="isbDash.h" />
+    <ClInclude Include="isDownEnd.h" />
+    <ClInclude Include="isDownStart.h" />
     <ClInclude Include="isgDown.h" />
     <ClInclude Include="isgPase_1.h" />
     <ClInclude Include="isgPase_2.h" />
@@ -261,7 +265,6 @@
     <ClInclude Include="isDown.h" />
     <ClInclude Include="isPase_2.h" />
     <ClInclude Include="isPase_3.h" />
-    <ClInclude Include="isTouched.h" />
     <ClInclude Include="isPase_1.h" />
     <ClInclude Include="MonsterFlag.h" />
     <ClInclude Include="Toggle.h" />
@@ -367,6 +370,8 @@
     <ClCompile Include="Anim_bIdle.cpp" />
     <ClCompile Include="Anim_bWalk.cpp" />
     <ClCompile Include="Anim_Dash.cpp" />
+    <ClCompile Include="Anim_DownEnd.cpp" />
+    <ClCompile Include="Anim_DownStart.cpp" />
     <ClCompile Include="Anim_Evasion.cpp" />
     <ClCompile Include="Anim_fDead.cpp" />
     <ClCompile Include="Anim_FeatherAttack.cpp" />
@@ -415,6 +420,8 @@
     <ClCompile Include="isDash.cpp" />
     <ClCompile Include="isDead.cpp" />
     <ClCompile Include="isDistanceClose.cpp" />
+    <ClCompile Include="isDownEnd.cpp" />
+    <ClCompile Include="isDownStart.cpp" />
     <ClCompile Include="isgDown.cpp" />
     <ClCompile Include="isgPase_1.cpp" />
     <ClCompile Include="isgPase_2.cpp" />
@@ -424,7 +431,6 @@
     <ClCompile Include="isPase_2.cpp" />
     <ClCompile Include="isPase_3.cpp" />
     <ClCompile Include="isPlayerInSight.cpp" />
-    <ClCompile Include="isTouched.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="MonsterHelper.cpp" />
     <ClCompile Include="NavigationField.cpp" />

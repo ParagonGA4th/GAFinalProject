@@ -14,6 +14,7 @@ namespace Pg::Data::BTree::Node
 		{
 			if (monHelper->_isAnimationEnd)
 			{
+				monHelper->_state = Pg::Data::MonsterState::ATTACK;
 				monHelper->_isAnimationEnd = false;
 			}
 		}

@@ -17,7 +17,9 @@
 #include "../ParagonData/Anim_LeftArmAttack.h"
 #include "../ParagonData/Anim_RightArmAttack.h"
 #include "../ParagonData/Anim_TwoArmAttack.h"
+#include "../ParagonData/Anim_DownStart.h"
 #include "../ParagonData/Anim_Down.h"
+#include "../ParagonData/Anim_DownEnd.h"
 #include "../ParagonData/Anim_Evasion.h"
 #include "../ParagonData/Anim_FeatherAttack.h"
 #include "../ParagonData/Anim_FlyAttack.h"
@@ -25,7 +27,9 @@
 #include "../ParagonData/isPase_1.h"
 #include "../ParagonData/isPase_2.h"
 #include "../ParagonData/isPase_3.h"
+#include "../ParagonData/isDownStart.h"
 #include "../ParagonData/isDown.h"
+#include "../ParagonData/isDownEnd.h"
 #include "../ParagonData/isbDash.h"
 
 //golem Boss
@@ -64,7 +68,6 @@
 
 
 //Mimic
-#include "../ParagonData/isTouched.h"
 #include "../ParagonData/Anim_mAttack.h"
 #include "../ParagonData/Anim_mChase.h"
 #include "../ParagonData/Anim_ThrowCoin.h"

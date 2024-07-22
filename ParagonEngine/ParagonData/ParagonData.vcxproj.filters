@@ -295,9 +295,6 @@
     <ClCompile Include="isCoolDown.cpp">
       <Filter>9_BtNodes\MonsterAnim\Ground Monster\Trent\isCoolDown</Filter>
     </ClCompile>
-    <ClCompile Include="isTouched.cpp">
-      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Mimic\isTouched</Filter>
-    </ClCompile>
     <ClCompile Include="Anim_mChase.cpp">
       <Filter>9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_mChase</Filter>
     </ClCompile>
@@ -314,7 +311,7 @@
       <Filter>9_BtNodes\MonsterAnim\Boss\Anim_Evasion</Filter>
     </ClCompile>
     <ClCompile Include="Anim_Down.cpp">
-      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_Down</Filter>
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\Anim_Down</Filter>
     </ClCompile>
     <ClCompile Include="Anim_FeatherAttack.cpp">
       <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttack</Filter>
@@ -335,7 +332,7 @@
       <Filter>9_BtNodes\MonsterAnim\Boss\Pase\isPase_1</Filter>
     </ClCompile>
     <ClCompile Include="isDown.cpp">
-      <Filter>9_BtNodes\MonsterAnim\Boss\isDown</Filter>
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\isDown</Filter>
     </ClCompile>
     <ClCompile Include="isPase_2.cpp">
       <Filter>9_BtNodes\MonsterAnim\Boss\Pase\isPase_2</Filter>
@@ -381,6 +378,18 @@
     </ClCompile>
     <ClCompile Include="Anim_gDown.cpp">
       <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Amim_gDown</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_DownEnd.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\Anim_DownEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_DownStart.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\Anim_DownStart</Filter>
+    </ClCompile>
+    <ClCompile Include="isDownEnd.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\isDownEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="isDownStart.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\isDownStart</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -736,9 +745,6 @@
     <ClInclude Include="VisualEffectRenderObject.h">
       <Filter>4_Structs</Filter>
     </ClInclude>
-    <ClInclude Include="isTouched.h">
-      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Mimic\isTouched</Filter>
-    </ClInclude>
     <ClInclude Include="Anim_mChase.h">
       <Filter>9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_mChase</Filter>
     </ClInclude>
@@ -755,7 +761,7 @@
       <Filter>9_BtNodes\MonsterAnim\Boss\Anim_Evasion</Filter>
     </ClInclude>
     <ClInclude Include="Anim_Down.h">
-      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_Down</Filter>
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\Anim_Down</Filter>
     </ClInclude>
     <ClInclude Include="Anim_FeatherAttack.h">
       <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttack</Filter>
@@ -779,7 +785,7 @@
       <Filter>11_Interfaces\ISortableGlobalObject</Filter>
     </ClInclude>
     <ClInclude Include="isDown.h">
-      <Filter>9_BtNodes\MonsterAnim\Boss\isDown</Filter>
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\isDown</Filter>
     </ClInclude>
     <ClInclude Include="isPase_2.h">
       <Filter>9_BtNodes\MonsterAnim\Boss\Pase\isPase_2</Filter>
@@ -831,6 +837,18 @@
     </ClInclude>
     <ClInclude Include="Anim_gDown.h">
       <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Amim_gDown</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_DownEnd.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\Anim_DownEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_DownStart.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\Anim_DownStart</Filter>
+    </ClInclude>
+    <ClInclude Include="isDownEnd.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\isDownEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="isDownStart.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\isDownStart</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1161,9 +1179,6 @@
     <Filter Include="9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_mChase">
       <UniqueIdentifier>{b3114e10-d520-4565-bba1-7bd26a68a0c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9_BtNodes\MonsterAnim\Ground Monster\Mimic\isTouched">
-      <UniqueIdentifier>{7c273904-78bb-4b87-9d9c-0de29d7bccf6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="9_BtNodes\MonsterAnim\Boss">
       <UniqueIdentifier>{ab5292ed-46e7-45d5-bd5b-07876b13bd52}</UniqueIdentifier>
     </Filter>
@@ -1212,12 +1227,6 @@
     <Filter Include="9_BtNodes\MonsterAnim\Boss\Pase\isPase_3">
       <UniqueIdentifier>{520aafd3-8cab-4cd5-b753-a7e10941cac8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9_BtNodes\MonsterAnim\Boss\Anim_Down">
-      <UniqueIdentifier>{b4e86225-95af-4881-88e9-f0ec669e6801}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="9_BtNodes\MonsterAnim\Boss\isDown">
-      <UniqueIdentifier>{adfcd039-57d9-405d-8899-7b823ccb6305}</UniqueIdentifier>
-    </Filter>
     <Filter Include="9_BtNodes\MonsterAnim\Boss\isDistanceClose">
       <UniqueIdentifier>{c880e1e2-0d87-438b-a2de-2a2a0b2fe792}</UniqueIdentifier>
     </Filter>
@@ -1265,6 +1274,27 @@
     </Filter>
     <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Amim_gDown">
       <UniqueIdentifier>{a6f03137-68fa-4e41-befb-3441beca37ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Down">
+      <UniqueIdentifier>{a82bf093-7411-4703-a325-b79cdd753dcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Down\isDown">
+      <UniqueIdentifier>{adfcd039-57d9-405d-8899-7b823ccb6305}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Down\Anim_Down">
+      <UniqueIdentifier>{b4e86225-95af-4881-88e9-f0ec669e6801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Down\isDownStart">
+      <UniqueIdentifier>{bed8bcb1-f669-4035-a061-3d44d2a851f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Down\isDownEnd">
+      <UniqueIdentifier>{5ff959f8-4781-4ac0-acf8-5a86387be013}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Down\Anim_DownStart">
+      <UniqueIdentifier>{d0ae978b-c920-4a20-a397-63f45b61377a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Down\Anim_DownEnd">
+      <UniqueIdentifier>{55f3cf3e-7eea-4a94-a3d5-256452dcaf03}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
