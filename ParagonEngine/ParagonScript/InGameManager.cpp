@@ -204,7 +204,7 @@ namespace Pg::DataScript
 
 	void InGameManager::HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2)
 	{
-		PG_ERROR("ENTERED");
+		//PG_ERROR("ENTERED");
 
 		if (e.GetIdentifier() == Event_PlayerDeath::_identifier)
 		{

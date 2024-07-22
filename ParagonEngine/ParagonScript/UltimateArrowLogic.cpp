@@ -84,7 +84,7 @@ namespace Pg::DataScript
 			_collider->SetActive(true);
 			//_meshRenderer->SetActive(true);
 			_meshRenderer->_alphaPercentage = 100.f;
-			_playerHandler->GetPlayerMovementSector()->SetUSeUltimateSkill(true);
+			_playerHandler->GetPlayerMovementSector()->SetUseUltimateSkill(true);
 
 			//사운드 재생
 			_playerHandler->GetUltimateSkillAudio()->Play();
@@ -106,7 +106,7 @@ namespace Pg::DataScript
 				_meshRenderer->SetAnimation("ult_atk_0.pganim", false);
 				_meshRenderer->PauseAnim();
 				_collider->SetActive(false);
-				_playerHandler->GetPlayerMovementSector()->SetUSeUltimateSkill(false);
+				_playerHandler->GetPlayerMovementSector()->SetUseUltimateSkill(false);
 
 				//플레이어 무적 해제.
 				_playerHandler->GetPlayerSelfCol()->SetActive(true);

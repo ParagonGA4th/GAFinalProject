@@ -66,7 +66,7 @@ namespace Pg::DataScript
 		ShootRayForward();
 		DetermineDirectionAndValues();
 
-		if (!_useUltimateSkill)
+		if ((!_useUltimateSkill) && (!_useStrongSkill))
 		{
 			UpdateWASD();
 			UpdateJump();

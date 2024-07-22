@@ -36,7 +36,7 @@ namespace Pg::DataScript
 		_pgScene = &singleton<Pg::API::PgScene>();
 
 		//골렘의 체력과 공격
-		_golBossInfo = new GolemBossInfo(20.f, 2.f);
+		_golBossInfo = new GolemBossInfo(MAX_GOLEM_BOSS_HEALTH, GOLEM_BOSS_ATTACK_POWER);
 
 		///골렘의 사망 및 피격행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
 		///몬스터에게 직접적으로 적용하기에 여기서는 사망 시 행동만 만들면 된다.
@@ -439,6 +439,7 @@ namespace Pg::DataScript
 		//이제, Handler에게 자신이 죽었다는 것을 알려주자.
 		_enemyHandler->FromEnemyNotifyDead(_object->GetTag(), this);
 
+		// == Event_EnableJump()는 죽은 거랑 같다.
 		_combatSystem->Post(Event_EnableJump(), NULL, NULL);
 	}
 
