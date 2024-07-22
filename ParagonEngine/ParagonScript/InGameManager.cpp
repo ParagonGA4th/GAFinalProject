@@ -109,7 +109,7 @@ namespace Pg::DataScript
 		else
 		{
 			_prevHealthPoint = PlayerHandler::MAX_PLAYER_HEALTH;
-			_prevManaPoint = PlayerHandler::MAX_PLAYER_MANA;
+			_prevManaPoint = 0.f;
 			_prevStaminaPoint = PlayerHandler::MAX_PLAYER_STAMINA;
 		}
 
