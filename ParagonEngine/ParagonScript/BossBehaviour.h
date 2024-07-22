@@ -45,9 +45,10 @@ namespace Pg::DataScript
 	{
 		DEFINE_PARAGON_SCRIPT(BossBehaviour);
 	public:
-		BossBehaviour(Pg::Data::GameObject* obj);
-
+		inline static const float MAX_BOSS_HEALTH = 40.f;
+		inline static const float BOSS_ATTACK_POWER = 4.f;
 	public:
+		BossBehaviour(Pg::Data::GameObject* obj);
 		virtual void BeforePhysicsAwake() override;
 		virtual void GrabManagedObjects() override;
 		virtual void Awake() override;

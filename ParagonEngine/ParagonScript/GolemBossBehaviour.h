@@ -42,9 +42,11 @@ namespace Pg::DataScript
 	{
 		DEFINE_PARAGON_SCRIPT(GolemBossBehaviour);
 	public:
-		GolemBossBehaviour(Pg::Data::GameObject* obj);
+		inline static const float MAX_GOLEM_BOSS_HEALTH = 20.f;
+		inline static const float GOLEM_BOSS_ATTACK_POWER = 2.f;
 
 	public:
+		GolemBossBehaviour(Pg::Data::GameObject* obj);
 		virtual void GrabManagedObjects() override;
 		virtual void BeforePhysicsAwake() override;
 		virtual void Awake() override;

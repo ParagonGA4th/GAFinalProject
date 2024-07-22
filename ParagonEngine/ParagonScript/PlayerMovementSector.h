@@ -66,8 +66,10 @@ namespace Pg::DataScript
 		void SetIsAbleToJump(bool val);
 
 		bool GetUseUltimateSkill() { return _useUltimateSkill; }
-		void SetUSeUltimateSkill(bool val) { _useUltimateSkill = val; }
+		void SetUseUltimateSkill(bool val) { _useUltimateSkill = val; }
 	
+		bool GetUseStrongSkill() { return _useStrongSkill; }
+		void SetUseStrongSkill(bool val) { _useStrongSkill = val; }
 	private:
 		inline static const float MINIMAL_JUMP_ERROR_CHECK_TIME = 1.0f;
 		inline static const float MINIMAL_JUMP_ERROR_CHECK_OFFSET = 7.f;
@@ -107,7 +109,6 @@ namespace Pg::DataScript
 		InGameCameraBehavior* _camBehavior{ nullptr };
 		Pg::Data::Camera* _mainCam{ nullptr };
 
-
 		Pg::API::Input::PgInput* _pgInput{ nullptr };
 		Pg::API::Time::PgTime* _pgTime{ nullptr };
 		Pg::API::Raycast::PgRayCast* _pgRayCast{ nullptr };
@@ -131,6 +132,7 @@ namespace Pg::DataScript
 		bool _isStrafeAvoiding{ false };
 		bool _isAbleToJump{ false };
 		bool _useUltimateSkill{ false };
+		bool _useStrongSkill{ false };
 	private:
 		//개별적으로 애니메이션 출력 로직 관리.
 		//다 지나갈 시, Idle 출력.
