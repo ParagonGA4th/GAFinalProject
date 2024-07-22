@@ -757,7 +757,8 @@ namespace Pg::DataScript
 		//Ã¼·ÂÀÌ 30 ¹ØÀ¸·Î ¶³¾îÁö¸é
 		if (_bossInfo->GetMonsterHp() <= 7.5f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_1)
 		{
-			if(!_isNeutralize) _monsterHelper->_bossFlag._isDownInit = true;
+			if(!_isNeutralize && !_monsterHelper->_bossFlag._isDown) 
+				_monsterHelper->_bossFlag._isDownInit = true;
 		}
 		//if (_isPhase1End && !_isPhase2End && _bossInfo->GetMonsterHp() <= 20.f)
 		//{
@@ -779,6 +780,12 @@ namespace Pg::DataScript
 		//	_isPhase2End = true;
 		//}
 		if (_monsterHelper->_bossFlag._isDown) _isNeutralize = true;
+		if (_monsterHelper->_bossFlag._isDownEnd && _monsterHelper->_isAnimationEnd)
+		{
+			_monsterHelper->_bossFlag._isDownEnd = false;
+			_monsterHelper->_isAnimationEnd = false;
+			_isNeutralize = false;
+		}
 
 		if (_isNeutralize)
 		{
