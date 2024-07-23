@@ -33,7 +33,7 @@ namespace Pg::DataScript
 		_pgScene = &singleton<Pg::API::PgScene>();
 
 		//골렘의 체력과 공격
-		_miniGolInfo = new MiniGolemInfo(10.f, 1.f);
+		_miniGolInfo = new MiniGolemInfo(50.f, 1.f);
 
 		///골렘의 사망 및 피격행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
 		///몬스터에게 직접적으로 적용하기에 여기서는 사망 시 행동만 만들면 된다.

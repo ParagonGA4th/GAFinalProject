@@ -12,7 +12,7 @@ Effect_Boss_AirSlash,1,1,0,100,^Boss_AirSlash_1.png^Boss_AirSlash_2.png^Boss_Air
 Effect_Boss_PreLightPillar,1,0,0,100,^Boss_PreLightPillar_1.png^Boss_PreLightPillar_2.png^Boss_PreLightPillar_3.png^Boss_PreLightPillar_4.png,0,1,0,NULL,0,NULL,1,0,1
 Effect_Claw_Tree,1,1,0,100,^Claw_Tree_1.png^Claw_Tree_2.png^Claw_Tree_3.png^Claw_Tree_4.png^Claw_Tree_5.png^Claw_Tree_6.png^Claw_Tree_7.png^Claw_Tree_8.png,0,1,0,NULL,0,NULL,1,0,0
 Effect_Fire,1,1,0,100,^fire1.png^fire2.png^fire3.png^fire4.png^fire5.png^fire6.png,0,1,0,NULL,0,NULL,1,0,0
-Effect_GroundDust,1,1,0,100,^GroundDust_1.png^GroundDust_2.png^GroundDust_3.png^GroundDust_4.png^GroundDust_5.png^GroundDust_6.png^GroundDust_7.png^GroundDust_8.png,0,1,0,NULL,0,NULL,1,0,0
+Effect_GroundDust,1,1,0,100,^GroundDust_1.png^GroundDust_2.png^GroundDust_3.png^GroundDust_4.png^GroundDust_5.png^GroundDust_6.png^GroundDust_7.png^GroundDust_8.png,0,1,0,NULL,0,NULL,1,0,1
 Effect_Ice,1,1,0,100,^ice1.png^ice2.png^ice3.png^ice4.png,0,1,0,NULL,0,NULL,1,0,0
 Effect_Mini_GroundCrack,1,0,0,100,^Mini_GroundCrack_1.png^Mini_GroundCrack_2.png^Mini_GroundCrack_3.png^Mini_GroundCrack_4.png^Mini_GroundCrack_5.png^Mini_GroundCrack_6.png,0,1,0,NULL,0,NULL,1,0,1
 Effect_Monster_Aggro,1,1,0,100,Aggro.png,0,1,0,NULL,0,NULL,1,0,1

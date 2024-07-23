@@ -33,6 +33,17 @@ namespace Pg::DataScript
 		_playerCombatSector = std::make_unique<PlayerCombatSector>(this);
 
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
+		_pgGraphics = &singleton<Pg::API::Graphics::PgGraphics>();
+	}
+
+	PlayerHandler::~PlayerHandler()
+	{
+		if (_groundDustRO != nullptr)
+		{
+			_pgGraphics->RemoveEffectObject(_groundDustRO);
+			delete _groundDustRO;
+			_groundDustRO = nullptr;
+		}
 	}
 
 	void PlayerHandler::GrabManagedObjects()
@@ -72,6 +83,8 @@ namespace Pg::DataScript
 		_playerMovementSector->Awake();
 		_playerCombatSector->Awake();
 
+		CreateEffectObjects();
+
 		if(_object->GetScene()->GetSceneName() == "Stage1" || _object->GetScene()->GetSceneName() == "BossStage") _imgRenderer->SetActive(false);
 	}
 
@@ -88,6 +101,7 @@ namespace Pg::DataScript
 		_comboSystem->SystemUpdate();
 
 		UpdateStamina();
+		UpdateVisualEffectObjects();
 
 		_playerMovementSector->Update();
 		_playerCombatSector->Update();
@@ -328,6 +342,45 @@ namespace Pg::DataScript
 			_combatSystem->Post(Event_OnGameOver(), NULL, NULL);
 		}
 	}
+
+	void PlayerHandler::CreateEffectObjects()
+	{
+		if (_groundDustRO == nullptr)
+		{
+			_groundDustRO = new Pg::Data::VisualEffectRenderObject();
+			_pgGraphics->RegisterEffectObject("Effect_GroundDust", _groundDustRO);
+			_dustImagePointer = _pgGraphics->GetEffectTextureIndexPointer("Effect_GroundDust");
+			_groundDustRO->SetActive(false);
+		}
+	}
+
+	void PlayerHandler::UpdateVisualEffectObjects()
+	{
+		if (_playerMovementSector->GetIsMoving())
+		{
+			_groundDustRO->SetActive(true);
+
+			_dustCounterVar++;
+
+			if (_dustCounterVar > _groundDustMaxIndex)
+			{
+				_dustCounterVar = 0;
+			}
+
+			if (_dustCounterVar <= _groundDustMaxIndex)
+			{
+				*_dustImagePointer = _dustCounterVar;
+			}
+			
+			_groundDustRO->_position = _object->_transform._position + Pg::Math::PGFLOAT3(1, 0.1, 1);
+			_groundDustRO->_scale = { 1,2,1 };
+		}
+		else
+		{
+			_groundDustRO->SetActive(false);
+		}
+	}
+
 	
 
 }

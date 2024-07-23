@@ -76,8 +76,8 @@ namespace Pg::DataScript
 	//막 맞았을 때 피격 존재. Immediate + 도트뎀.
 	struct FireEffect_MonsterHitPair
 	{
-		inline static const float DOT_DAMAGE = 1.0f;
-		inline static const float REMAINING_TIME = 5.0f;
+		inline static const float DOT_DAMAGE = 3.0f;
+		inline static const float REMAINING_TIME = 3.0f;
 
 		FireEffect_MonsterHitPair(BaseMonsterInfo* mon) : 
 			_baseMonster(mon), _remainingTime(REMAINING_TIME), _roundingNum(REMAINING_TIME) {}
