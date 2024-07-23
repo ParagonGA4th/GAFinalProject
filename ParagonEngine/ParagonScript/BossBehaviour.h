@@ -35,6 +35,11 @@ namespace Pg::API
 	}
 }
 
+namespace Pg::Util
+{
+	class Tween;
+}
+
 namespace Pg::DataScript
 {
 	class CombatSystem;
@@ -138,6 +143,9 @@ namespace Pg::DataScript
 
 		Pg::Math::PGFLOAT3 _rendererOffset = { 0.f, -4.f, 0.f };
 
+		Pg::Util::Tween* _riseTween;
+		Pg::Util::Tween* _fallTween;
+
 	private:
 		BaseEnemyHandler* _enemyHandler{ nullptr };
 
@@ -194,6 +202,9 @@ namespace Pg::DataScript
 
 		//페이즈2 시작될 땐 움직이면 안된다.
 		bool _isPhaseEnd{ false };
+
+		bool _isRiseTween{ false };
+		bool _isFallTween{ false };
 
 		float _activationInterval{ 1.f }; // 각 콜라이더가 활성화되는 시간 간격
 		float _nextActivationTime{ 2.0f }; // 다음 콜라이더가 활성화될 시간

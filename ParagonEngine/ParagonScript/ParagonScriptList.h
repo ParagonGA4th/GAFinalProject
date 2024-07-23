@@ -102,3 +102,6 @@
 
 //CreditsScene - 2D
 #include "CreditsSceneGUIHandler.h"
+
+//GameOverScene - 2D
+#include "GameOverSceneGUIHandler.h"

@@ -31,7 +31,6 @@ namespace Pg::DataScript
 		DEFINE_PARAGON_SCRIPT_SINGLETON(InGameManager);
 
 	public:
-		static const int MAX_PLAYER_LIFE = 3;
 		static const int MAX_MONSTER_COUNT_IN_LEVEL = 100;
 
 	public:
@@ -62,11 +61,8 @@ namespace Pg::DataScript
 		// 밖에서 들어올지 말지 결정.
 
 	public:
-		void ChangePlayerLife(int level);
 		void ChangeMonsterKillCount(int level);
 	private:
-		//현재 쓰이는 애들.
-		int _playersLife{ MAX_PLAYER_LIFE };				// 플레이어의 목숨
 		int _numberOfMonstersKilled{ 0 };					// 죽은 몬스터의 개수, Scene 바뀜 / 리셋 시마다 바뀔 것.
 
 	private:
