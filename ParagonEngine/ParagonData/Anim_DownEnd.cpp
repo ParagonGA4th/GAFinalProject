@@ -21,6 +21,10 @@ namespace Pg::Data::BTree::Node
 					monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1;
 					monHelper->_bossFlag._bossPase = Pg::Data::BossPase::PASE_3;
 				}
+
+				monHelper->_bossFlag._isDownEnd = false;
+				monHelper->_isAnimationEnd = false;
+
 				return BT::NodeStatus::FAILURE;
 			}
 
