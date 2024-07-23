@@ -6,6 +6,7 @@ namespace Pg::Data
 	class SkinnedMeshRenderer;
 	class ImageRenderer;
 	class BoxCollider;
+	class AudioSource;
 }
 
 namespace Pg::DataScript
@@ -30,6 +31,7 @@ namespace Pg::DataScript
 		Pg::Data::SkinnedMeshRenderer* _renderer{ nullptr };
 		Pg::Data::BoxCollider* _artiBoxCol{ nullptr };
 		Pg::Data::ImageRenderer* _artiUI{ nullptr };
+		Pg::Data::AudioSource* _boxOpenSound{ nullptr };
 		ArtifactBox* _artiBox{ nullptr };
 		CombatSystem* _combatSystem{ nullptr };
 

@@ -1,5 +1,6 @@
 Path,SoundGroup,isLoop
 ../Resources/Sounds/InGame/Effect/ES_Click.ogg,Effect,0
+../Resources/Sounds/InGame/Effect/ES_O_Box_Open.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/Player/ES_PC_FootStep_in.ogg,Effect,1
 ../Resources/Sounds/InGame/Effect/Player/ES_PC_FootStep_out.ogg,Effect,1
 ../Resources/Sounds/InGame/Effect/Player/ES_PC_jump_in.ogg,Effect,0

@@ -5,6 +5,7 @@
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/BoxCollider.h"
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonData/CapsuleCollider.h"
 #include "../ParagonData/GameObject.h"
 #include "../ParagonData/Scene.h"
@@ -18,6 +19,12 @@ namespace Pg::DataScript
 		ScriptInterface(obj)
 	{
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
+	}
+
+	void MimicActive::GrabManagedObjects()
+	{
+		Pg::Data::GameObject* _boxOpen = _object->GetScene()->FindObjectWithName("BoxOpenSound");
+		_boxOpenSound = _boxOpen->GetComponent<Pg::Data::AudioSource>();
 	}
 
 	void MimicActive::BeforePhysicsAwake()
@@ -59,6 +66,7 @@ namespace Pg::DataScript
 				_mimicBehaviour->SetActive(true);
 				_mimicBehaviour->_meshRenderer->SetActive(true);
 				_mimicBehaviour->_collider->SetActive(true);
+				_boxOpenSound->Play();
 
 				//박스 삭제.
 				_collider->SetActive(false);
