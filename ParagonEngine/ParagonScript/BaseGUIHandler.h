@@ -3,9 +3,11 @@
 
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/GameObject.h"
+#include "../ParagonData/ImageRenderer.h"
 
 #include <unordered_map>
 #include <functional>
+#include <array>
 
 //Component의 자식은 아니다. 
 //별개로 존재한다. 플로우 관리를 위해.
@@ -39,11 +41,18 @@ namespace Pg::DataScript
 		//Derived Class들은 이를 필수적으로 구현해야 한다 - 추상.
 		virtual void AssignPointersToGUI() abstract;
 
+		void GetLifeUIObjects(Pg::Data::GameObject* obj);
+		void UpdateLife();
+
 		void SetTutorialExplainUI(Pg::Data::GameObject* obj);
 
 	protected:
 		//Obj Name / GUIAggregate
 		std::unordered_map<std::string, GUIAggregate> _managedGuiObjectList;
+
+		std::array<Pg::Data::ImageRenderer*, 3> _heartArray;
+
+		int* _playerLifePointer{ nullptr };
 		Pg::Data::ImageRenderer* _avoidUI;
 		Pg::Data::ImageRenderer* _basicAttackUI;
 		Pg::Data::ImageRenderer* _interactionKeyUI;

@@ -334,6 +334,12 @@
     <Filter Include="UI\InGameUI\HealthBarUI">
       <UniqueIdentifier>{7970dbb7-4ef3-4a6f-951d-84656daf5edc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\7_GameOverScene_2D">
+      <UniqueIdentifier>{9b24f0f9-03dc-4ea9-b823-537d2217c2f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\7_GameOverScene_2D\GameOverSceneGUIHandler">
+      <UniqueIdentifier>{fa97309a-f0d7-4790-8ee0-bdbafed8cb9d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -608,6 +614,9 @@
     </ClCompile>
     <ClCompile Include="BossHealthBarUI.cpp">
       <Filter>UI\InGameUI\HealthBarUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverSceneGUIHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\7_GameOverScene_2D\GameOverSceneGUIHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -952,6 +961,9 @@
     </ClInclude>
     <ClInclude Include="BossHealthBarUI.h">
       <Filter>UI\InGameUI\HealthBarUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverSceneGUIHandler.h">
+      <Filter>Content\1_ConcreteHandlers\7_GameOverScene_2D\GameOverSceneGUIHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
