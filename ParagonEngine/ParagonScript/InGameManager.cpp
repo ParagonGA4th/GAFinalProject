@@ -96,6 +96,7 @@ namespace Pg::DataScript
 		float _prevHealthPoint = 0.f;
 		float _prevManaPoint = 0.f;
 		int _prevStaminaPoint = 0;
+		int _prevPlayerLife = 0;
 
 		//Title Scene 등 2D Scene에서 넘어가는 경우의 수 FIX.
 		bool tIsInfoTransferPossible = (_recordedPreviousScene != nullptr) && (_recordedPreviousScene->GetIs3D());
@@ -106,12 +107,14 @@ namespace Pg::DataScript
 			_prevHealthPoint = _handlerBundle3D->_playerBehavior->healthPoint;
 			_prevManaPoint = _handlerBundle3D->_playerBehavior->manaPoint;
 			_prevStaminaPoint = _handlerBundle3D->_playerBehavior->staminaPoint;
+			_prevPlayerLife = _handlerBundle3D->_playerBehavior->_playerlife;
 		}
 		else
 		{
 			_prevHealthPoint = PlayerHandler::MAX_PLAYER_HEALTH;
 			_prevManaPoint = 0.f;
 			_prevStaminaPoint = PlayerHandler::MAX_PLAYER_STAMINA;
+			_prevPlayerLife = PlayerHandler::MAX_LIFE_COUNT;
 		}
 
 		//TotalGameManager가 무조건 앞에서 업데이트되었을 것이니, 
@@ -124,6 +127,7 @@ namespace Pg::DataScript
 			_handlerBundle3D->_playerBehavior->healthPoint = _prevHealthPoint;
 			_handlerBundle3D->_playerBehavior->manaPoint = _prevManaPoint;
 			_handlerBundle3D->_playerBehavior->staminaPoint = _prevStaminaPoint;
+			_handlerBundle3D->_playerBehavior->_playerlife = _prevPlayerLife;
 		}
 
 		//또한, GameState를 따로 설정하면서 관리.
@@ -171,11 +175,6 @@ namespace Pg::DataScript
 		return _isUpdating;
 	}
 
-	void InGameManager::ChangePlayerLife(int level)
-	{
-		_playersLife = std::clamp<int>(_playersLife + level, 0, MAX_PLAYER_LIFE);
-	}
-
 	void InGameManager::ChangeMonsterKillCount(int level)
 	{
 		_numberOfMonstersKilled = std::clamp<int>(_numberOfMonstersKilled + level, 0, MAX_MONSTER_COUNT_IN_LEVEL);
@@ -201,6 +200,10 @@ namespace Pg::DataScript
 		_combatSystem->Subscribe(Event_DisableJump::_identifier,
 			std::bind(&InGameManager::HandleEvents, bSelf, std::placeholders::_1,
 				std::placeholders::_2, std::placeholders::_3), true);
+
+		_combatSystem->Subscribe(Event_OnGameOver::_identifier,
+			std::bind(&InGameManager::HandleEvents, bSelf, std::placeholders::_1,
+				std::placeholders::_2, std::placeholders::_3), true);
 	}
 
 	void InGameManager::HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2)
@@ -218,6 +221,9 @@ namespace Pg::DataScript
 
 			// 전체 씬 리셋하기.
 			TotalGameManager::GetInstance(nullptr)->CallForEntireSceneReset(tBelongScene, NULL, nullptr);
+
+			//그다음에, Life 하나 깎기.
+			_combatSystem->ChangePlayerLife(-1);
 		}
 		else if (e.GetIdentifier() == Event_OnFinalBossDeathGameWin::_identifier)
 		{
@@ -232,6 +238,10 @@ namespace Pg::DataScript
 		{
 			TotalGameManager::GetInstance(nullptr)->GetCurrentHandlerBundle()->_playerBehavior->
 				GetPlayerMovementSector()->SetIsAbleToJump(false);
+		}
+		else if (e.GetIdentifier() == Event_OnGameOver::_identifier)
+		{
+			_pgScene->SetCurrentScene("GameOverScene");
 		}
 	}
 }

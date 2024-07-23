@@ -85,4 +85,6 @@ Texture2D,
 ../Resources/Textures/ArrowRelated/Trail/trail_fire.tga,
 ../Resources/Textures/ArrowRelated/Trail/trail_ice.tga,
 ../Resources/Textures/Sprites/UI/AP_ChargeAttackBar.png,
-../Resources/Textures/Sprites/UI/AP_ChargeAttackBar_Frame.png
+../Resources/Textures/Sprites/UI/AP_ChargeAttackBar_Frame.png,
+../Resources/Textures/Sprites/UI/GameOver/GameOverBackground.png,
+../Resources/Textures/Sprites/UI/GameOver/GameOverText.png,
