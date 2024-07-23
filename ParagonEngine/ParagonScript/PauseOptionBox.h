@@ -34,6 +34,7 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
+	class PauseBox;
 	class PauseOptionBox : public ScriptInterface<PauseOptionBox>, public IScriptResettable
 	{
 		DEFINE_PARAGON_SCRIPT(PauseOptionBox);
@@ -77,6 +78,7 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* ingameSoundObj;
 
 		Pg::Data::GameObject* _pauseBox;
+		PauseBox* _pauseBoxComponent;
 
 		Pg::Data::Slider* _soundBar;
 		Pg::Data::Handle* _soundHandle;

@@ -8,24 +8,22 @@ namespace Pg::Data
 	struct Boss
 	{
 		Pg::Data::BossState _bossState = Pg::Data::BossState::IDLE;
-		Pg::Data::BossPase _bossPase = Pg::Data::BossPase::PASE_1;
+		Pg::Data::BossPase _bossPase = Pg::Data::BossPase::PASE_INIT;
 
 		std::unordered_map<Pg::Data::BossState, std::string> _bossStateListByEnum;
 
 		bool _isDownInit;				// 보스 무력화 시작
 		bool _isDown;					// 보스가 무력화 되었는지
 		bool _isDownEnd;				// 보스 무력화 종료
-		bool _isDash;					// 보스가 대쉬를 했는지
 
 		void Reset()
 		{
 			_isDownInit = false;
 			_isDown = false;
 			_isDownEnd = false;
-			_isDash = false;
 
 			_bossState = Pg::Data::BossState::IDLE;
-			_bossPase = Pg::Data::BossPase::PASE_1;
+			_bossPase = Pg::Data::BossPase::PASE_INIT;
 		}
 	};
 

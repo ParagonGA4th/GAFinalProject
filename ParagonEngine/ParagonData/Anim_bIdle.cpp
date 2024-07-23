@@ -7,26 +7,26 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_bIdle::tick()
 	{
-		bool isHolding = config().blackboard->get<bool>("ISHOLDING");
+		//bool isHolding = config().blackboard->get<bool>("ISHOLDING");
 
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (isHolding)
-			{
-				monHelper->_bossFlag._bossState = Pg::Data::BossState::CAST;
+			//if (isHolding)
+			//{
+			//	monHelper->_bossFlag._bossState = Pg::Data::BossState::CAST;
 
-				if (monHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_3)
-				{
-					if (_isTPSkillTime >= 3)
-					{
-						monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1;
-						_isTPSkillTime = 0; // Reset
-					}
+			//	if (monHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_3)
+			//	{
+			//		if (_isTPSkillTime >= 3)
+			//		{
+			//			monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1;
+			//			_isTPSkillTime = 0; // Reset
+			//		}
 
-					_isTPSkillTime++;
-				}
-			}
+			//		_isTPSkillTime++;
+			//	}
+			//}
 		}
 
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();

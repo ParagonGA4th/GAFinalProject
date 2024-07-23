@@ -15,7 +15,10 @@ namespace Pg::Data::BTree::Node
 			if (monHelper->_isAnimationEnd)
 			{
 				monHelper->_isAnimationEnd = false;
-				monHelper->_bossFlag._bossState = Pg::Data::BossState::IDLE;
+
+				if (monHelper->_bossFlag._bossPase != Pg::Data::BossPase::PASE_INIT)
+					monHelper->_bossFlag._bossState = Pg::Data::BossState::CAST;
+				
 				return BT::NodeStatus::FAILURE;
 			}
 		}

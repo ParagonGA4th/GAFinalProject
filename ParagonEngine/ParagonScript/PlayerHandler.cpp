@@ -71,7 +71,7 @@ namespace Pg::DataScript
 		_playerMovementSector->Awake();
 		_playerCombatSector->Awake();
 
-		_imgRenderer->SetActive(false);
+		if(_object->GetScene()->GetSceneName() == "Stage1") _imgRenderer->SetActive(false);
 	}
 
 	void PlayerHandler::Start()

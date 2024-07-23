@@ -391,6 +391,18 @@
     <ClCompile Include="isDownStart.cpp">
       <Filter>9_BtNodes\MonsterAnim\Boss\Down\isDownStart</Filter>
     </ClCompile>
+    <ClCompile Include="Anim_Cast.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_Cast</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_FeatherAttackEnd.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttackEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_FeatherAttackStart.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttackStart</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_FlyAttackPrePare.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FlyAttackPrePare</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -850,6 +862,18 @@
     <ClInclude Include="isDownStart.h">
       <Filter>9_BtNodes\MonsterAnim\Boss\Down\isDownStart</Filter>
     </ClInclude>
+    <ClInclude Include="Anim_Cast.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_Cast</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_FeatherAttackEnd.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttackEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_FeatherAttackStart.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttackStart</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_FlyAttackPrePare.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FlyAttackPrePare</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="0_Scene">
@@ -1295,6 +1319,18 @@
     </Filter>
     <Filter Include="9_BtNodes\MonsterAnim\Boss\Down\Anim_DownEnd">
       <UniqueIdentifier>{55f3cf3e-7eea-4a94-a3d5-256452dcaf03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Anim_Cast">
+      <UniqueIdentifier>{e4fdb15b-4271-4093-8195-a877a122b273}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttackStart">
+      <UniqueIdentifier>{15d0854d-d26d-42b6-a98f-4132130809f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttackEnd">
+      <UniqueIdentifier>{098fb3ae-bfaa-4718-a6e2-9e403e006a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Attack\Anim_FlyAttackPrePare">
+      <UniqueIdentifier>{ec4d5c3f-5387-4070-b790-9eb17f972673}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
