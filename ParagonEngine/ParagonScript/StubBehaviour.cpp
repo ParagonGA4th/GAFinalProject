@@ -224,7 +224,7 @@ namespace Pg::DataScript
 				//PG_TRACE("Attack!");
 				Attack(_monsterHelper->_isAnimChange);
 
-				if(!_monsterHelper->_isAnimChange) _isAttackSoundPlaying = _monsterHelper->_isAnimChange;
+				if (!_monsterHelper->_isAnimChange) _isAttackSoundPlaying = _monsterHelper->_isAnimChange;
 			}
 			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::BASICATTACK_COOLDOWN)
 			{
@@ -254,7 +254,9 @@ namespace Pg::DataScript
 			_isRotateFinish = true;
 
 			//그루터기는 죽으면 충돌만 꺼야함.
+			_meshRenderer->SetActive(false);
 			_collider->SetActive(false);
+			_object->SetActive(false);
 		}
 
 		//PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
@@ -271,8 +273,8 @@ namespace Pg::DataScript
 		_cameraShake->CauseShake(0.25f);
 		_hitSound->Play();
 
-		if (_monsterHelper->_stubFlag._stubState != Pg::Data::StubState::IDLE ||
-			_monsterHelper->_stubFlag._stubState != Pg::Data::StubState::BASICATTACK_COOLDOWN||
+		if (_monsterHelper->_stubFlag._stubState != Pg::Data::StubState::IDLE &&
+			_monsterHelper->_stubFlag._stubState != Pg::Data::StubState::BASICATTACK_COOLDOWN &&
 			_monsterHelper->_stubFlag._stubState != Pg::Data::StubState::SKILL_COOLDOWN) return;
 
 
