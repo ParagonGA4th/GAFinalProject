@@ -12,7 +12,7 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
-	class PauseBox;
+	class PauseOptionBox;
 	//class CombatSystem;
 	class GolemBossBehaviour;
 
@@ -45,7 +45,7 @@ namespace Pg::DataScript
 	private:
 		Pg::API::Graphics::PgGraphics* _pgGraphics{ nullptr };
 
-		PauseBox* _pauseBox{ nullptr };
+		PauseOptionBox* _pauseOptionBox{ nullptr };
 		Pg::Data::VisualEffectRenderObject* _staminaBillboardObject{ nullptr };
 		Pg::Data::Transform* _playerTransform{ nullptr };
 		unsigned int* _staminaTextureIndexPointer{ nullptr };
@@ -56,6 +56,8 @@ namespace Pg::DataScript
 		Pg::Data::ImageRenderer* _golemBossBar_Back{ nullptr };
 
 		GolemBossBehaviour* _golemBossBehaviour{ nullptr };
+
+		bool _isGolemBossMet = false;
 	};
 }
 
