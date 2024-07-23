@@ -14,6 +14,11 @@
 //인터페이스 활용 다중 상속.
 //GUI Handler들의 인터페이스.
 
+namespace Pg::Data
+{
+	class ImageRenderer;
+}
+
 namespace Pg::DataScript
 {
 	class BaseGUIHandler
@@ -39,6 +44,8 @@ namespace Pg::DataScript
 		void GetLifeUIObjects(Pg::Data::GameObject* obj);
 		void UpdateLife();
 
+		void SetTutorialExplainUI(Pg::Data::GameObject* obj);
+
 	protected:
 		//Obj Name / GUIAggregate
 		std::unordered_map<std::string, GUIAggregate> _managedGuiObjectList;
@@ -46,6 +53,13 @@ namespace Pg::DataScript
 		std::array<Pg::Data::ImageRenderer*, 3> _heartArray;
 
 		int* _playerLifePointer{ nullptr };
+		Pg::Data::ImageRenderer* _avoidUI;
+		Pg::Data::ImageRenderer* _basicAttackUI;
+		Pg::Data::ImageRenderer* _interactionKeyUI;
+		Pg::Data::ImageRenderer* _interactionUI;
+		Pg::Data::ImageRenderer* _jumpUI;
+		Pg::Data::ImageRenderer* _MoveUI;
+		Pg::Data::ImageRenderer* _strongAttackUI;
 	};
 }
 

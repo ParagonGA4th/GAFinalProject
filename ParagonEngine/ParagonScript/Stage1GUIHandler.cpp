@@ -51,6 +51,8 @@ namespace Pg::DataScript
 
 		_golemBossBehaviour = _object->GetScene()->FindSingleComponentInScene<GolemBossBehaviour>();
 		assert(_golemBossBehaviour != nullptr);
+
+		SetTutorialExplainUI(_object);
 	}
 
 	void Stage1GUIHandler::Start()

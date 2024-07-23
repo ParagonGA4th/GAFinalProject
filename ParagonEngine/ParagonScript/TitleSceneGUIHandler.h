@@ -50,9 +50,6 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _start{ nullptr };
 		Pg::Data::Button* _startButton{ nullptr };
 
-		Pg::Data::GameObject* _saveFile{ nullptr };
-		Pg::Data::Button* _saveFileButton{ nullptr };
-
 		Pg::Data::GameObject* _howToPlay{ nullptr };
 		Pg::Data::Button* _howToPlayButton{ nullptr };
 		
