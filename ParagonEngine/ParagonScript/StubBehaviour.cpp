@@ -212,10 +212,17 @@ namespace Pg::DataScript
 			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::SKILL_ATTACK)
 			{
 				Skill(true); // 스킬 사용
+				
+				if (!_isSkillSoundPlaying)
+				{
+					_skillSound->Play();
+					_isSkillSoundPlaying = true;
+				}
 			}
 			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::SKILL_COOLDOWN)
 			{
 				Skill(false); // 스킬 종료
+				_isSkillSoundPlaying = false;
 			}
 			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::BASIC_ATTACK_1 ||
 				_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::BASIC_ATTACK_2 ||
@@ -224,7 +231,21 @@ namespace Pg::DataScript
 				//PG_TRACE("Attack!");
 				Attack(_monsterHelper->_isAnimChange);
 
-				if(!_monsterHelper->_isAnimChange) _isAttackSoundPlaying = _monsterHelper->_isAnimChange;
+				if (!_isAttackSoundPlaying)
+				{
+					_attackSound->Play();
+					_isAttackSoundPlaying = true;
+				}
+
+				//애니메이션이 끝
+				if (!_monsterHelper->_isAnimChange) _isAnimStartInit = false;
+				
+				//애니메이션 시작
+				if(!_isAnimStartInit && _monsterHelper->_isAnimChange)
+				{
+					_isAttackSoundPlaying = false;
+					_isAnimStartInit = true;
+				}
 			}
 			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::BASICATTACK_COOLDOWN)
 			{
@@ -236,8 +257,8 @@ namespace Pg::DataScript
 		{
 			_monsterHelper->_isPlayerinHitSpace = false;
 			_isFindSoundPlaying = false;
-			_isAttackSoundPlaying = false;
-			_isSkillSoundPlaying = false;
+			//_isAttackSoundPlaying = false;
+			//_isSkillSoundPlaying = false;
 			_stubInfo->_status = StubStatus::IDLE;
 			//_monsterHelper->_stubState = Pg::Data::StubState::IDLE;
 			Attack(false);
