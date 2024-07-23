@@ -141,6 +141,7 @@ POutQuad main(VOutQuad pin)
     if (IsUseLightmap(pin.UV) && gCBuf_IsSceneUseLightmap)
     {
         float4 lightColor = float4(GetLightmapRGB(pin.UV), 1.f);
+        lightColor = max(lightColor, float4(0.1f, 0.1f, 0.1f, 1.f));
         lightColor *= color;
         res.Output = float4(Uncharted2_Tonemapping(lightColor.xyz), 1.0f);
         //res.Output = float4(ACES_Filming_Tonemapping(lightColor.xyz), 1.0f);
