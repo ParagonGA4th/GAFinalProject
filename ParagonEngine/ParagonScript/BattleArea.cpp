@@ -34,6 +34,7 @@ namespace Pg::DataScript
 	void BattleArea::GrabManagedObjects()
 	{
 		_combatSystem = CombatSystem::GetInstance(nullptr);
+		_boss = _object->GetScene()->FindObjectWithName("Boss");
 	}
 
 	void BattleArea::Awake()
@@ -72,6 +73,11 @@ namespace Pg::DataScript
 					if (_object->GetScene()->GetSceneName() != "Stage2")
 					{
 						ConfinePlayer();
+
+						if (_object->GetScene()->GetSceneName() == "BossStage")
+						{
+							ConfineBoss();
+						}
 					}
 				}
 				else
@@ -103,16 +109,22 @@ namespace Pg::DataScript
 					//Invoke. 
 					_combatSystem->Post(Event_OnGolemBossGameAreaEnter(), NULL, NULL);
 				}
-
 				//Final Boss일 경우,
-				//if ((_areaIndex == 5))
-				//{
-				//	//Invoke. 
-				//	
-				//}
+				if ((_areaIndex == 4))
+				{
+					//Invoke. 
+
+				}
 				//밑은 적 등록 / 모두 죽일 시 : 판단 로직을 마련 위함.
 				//이때는, Enemy가 죽었을 때 Handler에게 죽었다고 알려주는 로직이 필요.
 			}
+
+			if (col->_object->GetTag() == "TAG_Boss")
+			{
+				auto dCol = _boss->GetComponent<Pg::Data::DynamicCollider>();
+				dCol = col->_object->GetComponent<Pg::Data::DynamicCollider>();
+			}
+
 		}
 	}
 
@@ -147,6 +159,48 @@ namespace Pg::DataScript
 	void BattleArea::ConfinePlayer()
 	{
 		auto dcol = _player->_object->GetComponent<Pg::Data::DynamicCollider>();
+
+		//만약 SetActive가 True가 아니면 Set.
+		if (!dcol->GetActive())
+		{
+			dcol->SetActive(true);
+		}
+
+		auto& spherePos = _collider->_object->_transform._position;
+		auto& boxPos = _player->_object->_transform._position;
+
+		float sphereRadius = _collider->GetRadius();
+		float boxHalfWidth = dcol->GetWidth() / 2;
+		float boxHalfDepth = dcol->GetDepth() / 2;
+
+		// 구의 중심에서 박스의 중심까지의 벡터
+		float dx = boxPos.x - spherePos.x;
+		float dz = boxPos.z - spherePos.z;
+		float distanceSquared = dx * dx + dz * dz;
+
+		// 박스의 각 모서리가 구의 경계를 넘지 않도록 조정
+		float radiusMinusHalfDiagonal = sphereRadius - sqrt(boxHalfWidth * boxHalfWidth + boxHalfDepth * boxHalfDepth);
+
+		if (distanceSquared > radiusMinusHalfDiagonal * radiusMinusHalfDiagonal)
+		{
+			// 박스를 구의 내부로 밀어 넣기
+			float distance = sqrt(distanceSquared);
+			float overlap = distance - radiusMinusHalfDiagonal;
+
+			// 거리 벡터를 정규화
+			float invDistance = 1.0f / distance;
+			float normX = dx * invDistance;
+			float normZ = dz * invDistance;
+
+			// 박스 위치를 구의 내부로 밀어 넣기
+			boxPos.x -= normX * overlap;
+			boxPos.z -= normZ * overlap;
+		}
+	}
+
+	void BattleArea::ConfineBoss()
+	{
+		auto dcol = _boss->GetComponent<Pg::Data::DynamicCollider>();
 
 		//만약 SetActive가 True가 아니면 Set.
 		if (!dcol->GetActive())
