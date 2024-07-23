@@ -80,6 +80,15 @@ namespace Pg::DataScript
 		_bossDieSound = _object->GetScene()->FindObjectWithName("BossDieSound");
 		_dieAudio = _bossDieSound->GetComponent<Pg::Data::AudioSource>();
 
+		Pg::Data::GameObject* _downSound = _object->GetScene()->FindObjectWithName("BossDownSound");
+		_downAudio = _downSound->GetComponent<Pg::Data::AudioSource>();
+
+		Pg::Data::GameObject* _basicAttackSound1 = _object->GetScene()->FindObjectWithName("BossAttackSound1");
+		_basicAttackAudio1 = _basicAttackSound1->GetComponent<Pg::Data::AudioSource>();
+
+		Pg::Data::GameObject* _basicAttackSound2 = _object->GetScene()->FindObjectWithName("BossAttackSound2");
+		_basicAttackAudio2 = _basicAttackSound2->GetComponent<Pg::Data::AudioSource>();
+
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
@@ -238,6 +247,8 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Update()
 	{
+		//PG_TRACE(_monsterHelper->_bossFlag._bossStateListByEnum[_monsterHelper->_bossFlag._bossState]);
+	
 		_distance = std::abs(std::sqrt(std::pow(_playerTransform->_position.x - _object->_transform._position.x, 2)
 			+ std::pow(_playerTransform->_position.z - _object->_transform._position.z, 2)));
 
@@ -685,29 +696,31 @@ namespace Pg::DataScript
 							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_1)
 								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2;
 
+
 							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2)
-								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2;
+								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3;
 						});
 			}
-		}
-		if (_isGenerateCol)
-		{
-			//내려찍기가 끝나자마자 collider 생성 시 튀는 경우가 생겨
-			//DeltaTime으로 약간의 딜레이를 준다.
-			_currentGenerateTime += _pgTime->GetDeltaTime();
-
-			if (_currentGenerateTime >= _regenerateTime)
+			if (_isGenerateCol)
 			{
-				_collider->SetActive(true);
-				_currentGenerateTime = 0.f;
-				_isGenerateCol = false;
-				_isRiseTween = false;
-				_isFallTween = false;
+				//내려찍기가 끝나자마자 collider 생성 시 튀는 경우가 생겨
+				//DeltaTime으로 약간의 딜레이를 준다.
+				_currentGenerateTime += _pgTime->GetDeltaTime();
 
-				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2 ||
-					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3)
+				if (_currentGenerateTime >= _regenerateTime)
 				{
-					_useTakeDownSkill = true;
+					_collider->SetActive(true);
+					_currentGenerateTime = 0.f;
+					_isGenerateCol = false;
+
+
+					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2 ||
+						_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3)
+					{
+						_isRiseTween = false;
+						_isFallTween = false;
+						_useTakeDownSkill = true;
+					}
 				}
 			}
 		}
@@ -776,7 +789,16 @@ namespace Pg::DataScript
 
 		if (!isDown) return;
 
-		if (!_isNeutralize && !_monsterHelper->_bossFlag._isDown && !_monsterHelper->_bossFlag._isDownEnd) _monsterHelper->_bossFlag._isDownInit = true;
+		if (!_isNeutralize && !_monsterHelper->_bossFlag._isDown && !_monsterHelper->_bossFlag._isDownEnd)
+		{
+			_monsterHelper->_bossFlag._isDownInit = true;
+
+			if (!_isDownSoundPlaying)
+			{
+				_downAudio->Play();
+				_isDownSoundPlaying = true;
+			}
+		}
 		if (_monsterHelper->_bossFlag._isDown) _isNeutralize = true;
 		if (_monsterHelper->_bossFlag._isDownEnd) _isNeutralizeInit = false;
 
@@ -786,6 +808,7 @@ namespace Pg::DataScript
 			_bossInfo->SetCurrentNeutralize(_bossInfo->GetCurrentNeutralize() + _pgTime->GetDeltaTime());
 
 			_isRotatingToPlayer = false;
+			_walkAudio->Stop();
 
 			// 시간이 끝나면 상태를 변경
 			if (_isNeutralizeInit && _bossInfo->GetCurrentNeutralize() >= _bossInfo->GetEndNeutralize())
@@ -795,6 +818,7 @@ namespace Pg::DataScript
 				_monsterHelper->_bossFlag._isDown = false;
 				_monsterHelper->_bossFlag._isDownEnd = true;
 				_isRotatingToPlayer = true;
+				_isDownSoundPlaying = false;
 				_bossInfo->SetCurrentNeutralize(0.f);
 			}
 

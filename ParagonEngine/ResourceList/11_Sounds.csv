@@ -1,5 +1,6 @@
 Path,SoundGroup,isLoop
 ../Resources/Sounds/InGame/Effect/ES_Click.ogg,Effect,0
+../Resources/Sounds/InGame/Effect/ES_O_Box_Open.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/Player/ES_PC_FootStep_in.ogg,Effect,1
 ../Resources/Sounds/InGame/Effect/Player/ES_PC_FootStep_out.ogg,Effect,1
 ../Resources/Sounds/InGame/Effect/Player/ES_PC_jump_in.ogg,Effect,0
@@ -47,6 +48,9 @@ Path,SoundGroup,isLoop
 ../Resources/Sounds/InGame/Effect/Boss/ES_B_Die.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/Boss/ES_B_Rush.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/Boss/ES_B_Down.ogg,Effect,0
+../Resources/Sounds/InGame/Effect/Boss/ES_B_Attack_01_a.ogg,Effect,0
+../Resources/Sounds/InGame/Effect/Boss/ES_B_Attack_01_b.ogg,Effect,0
+../Resources/Sounds/InGame/Effect/Boss/ES_B_Attack_03_Down.ogg,Effect,0
 ../Resources/Sounds/InGame/Bgm/BG_TS_Title.ogg,BGM,1
 ../Resources/Sounds/InGame/Bgm/BG_MS_MainStage_1.ogg,BGM,1
 ../Resources/Sounds/InGame/Bgm/BG_MS_MainStage_2.ogg,BGM,1

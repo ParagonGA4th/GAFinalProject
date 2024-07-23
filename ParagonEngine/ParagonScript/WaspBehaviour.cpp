@@ -507,7 +507,7 @@ namespace Pg::DataScript
 		if (_monsterHelper->_isDead) return;
 		_cameraShake->CauseShake(0.25f);
 
-		if (_monsterHelper->_state != Pg::Data::MonsterState::IDLE ||
+		if (_monsterHelper->_state != Pg::Data::MonsterState::IDLE &&
 			_monsterHelper->_state != Pg::Data::MonsterState::CHASE) return;
 
 		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));

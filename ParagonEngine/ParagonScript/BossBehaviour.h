@@ -141,6 +141,11 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _bossDieSound;
 		Pg::Data::AudioSource* _dieAudio;
 
+		Pg::Data::AudioSource* _downAudio;
+
+		Pg::Data::AudioSource* _basicAttackAudio1;
+		Pg::Data::AudioSource* _basicAttackAudio2;
+
 		Pg::Math::PGFLOAT3 _rendererOffset = { 0.f, -4.f, 0.f };
 
 		Pg::Util::Tween* _riseTween;
@@ -205,6 +210,8 @@ namespace Pg::DataScript
 
 		bool _isRiseTween{ false };
 		bool _isFallTween{ false };
+
+		bool _isDownSoundPlaying{ false };
 
 		float _activationInterval{ 1.f }; // 각 콜라이더가 활성화되는 시간 간격
 		float _nextActivationTime{ 2.0f }; // 다음 콜라이더가 활성화될 시간
