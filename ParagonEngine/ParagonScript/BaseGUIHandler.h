@@ -12,6 +12,11 @@
 //인터페이스 활용 다중 상속.
 //GUI Handler들의 인터페이스.
 
+namespace Pg::Data
+{
+	class ImageRenderer;
+}
+
 namespace Pg::DataScript
 {
 	class BaseGUIHandler
@@ -34,9 +39,18 @@ namespace Pg::DataScript
 		//Derived Class들은 이를 필수적으로 구현해야 한다 - 추상.
 		virtual void AssignPointersToGUI() abstract;
 
+		void SetTutorialExplainUI(Pg::Data::GameObject* obj);
+
 	protected:
 		//Obj Name / GUIAggregate
 		std::unordered_map<std::string, GUIAggregate> _managedGuiObjectList;
+		Pg::Data::ImageRenderer* _avoidUI;
+		Pg::Data::ImageRenderer* _basicAttackUI;
+		Pg::Data::ImageRenderer* _interactionKeyUI;
+		Pg::Data::ImageRenderer* _interactionUI;
+		Pg::Data::ImageRenderer* _jumpUI;
+		Pg::Data::ImageRenderer* _MoveUI;
+		Pg::Data::ImageRenderer* _strongAttackUI;
 	};
 }
 

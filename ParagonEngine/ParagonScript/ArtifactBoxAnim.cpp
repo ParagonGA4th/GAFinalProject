@@ -3,7 +3,10 @@
 #include "CombatSystem.h"
 #include "EventList_PlayerRelated.h"
 
+#include "../ParagonData/Scene.h"
 #include "../ParagonData/StaticBoxCollider.h"
+#include "../ParagonData/BoxCollider.h"
+#include "../ParagonData/ImageRenderer.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 
 #include <singleton-cpp/singleton.h>
@@ -18,17 +21,22 @@ namespace Pg::DataScript
 	void ArtifactBoxAnim::GrabManagedObjects()
 	{
 		_combatSystem = CombatSystem::GetInstance(nullptr);
+		_renderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
+		for (auto child : _object->_transform.GetChildren())
+		{
+			_artiBox = child->_object->GetComponent<Pg::DataScript::ArtifactBox>();
+			_artiBoxCol = child->_object->GetComponent<Pg::Data::BoxCollider>();
+			assert(_artiBox != nullptr);
+			_artiBoxCol->SetActive(true);
+		}
+
+		Pg::Data::GameObject* _interactionKey = _object->GetScene()->FindObjectWithName("InteractionKeyUI");
+		_artiUI = _interactionKey->GetComponent<Pg::Data::ImageRenderer>();
 	}
 
 	void ArtifactBoxAnim::Awake()
 	{
-		for (auto child : _object->_transform.GetChildren())
-		{
-			_artiBox = child->_object->GetComponent<Pg::DataScript::ArtifactBox>();
-			assert(_artiBox != nullptr);
-		}
-
-		_renderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		_renderer->SetAnimation("OB_00002.pganim", false);
 		_renderer->PauseAnim();
 
@@ -36,6 +44,7 @@ namespace Pg::DataScript
 		auto col = _object->GetComponent<Pg::Data::StaticBoxCollider>();
 		assert(col != nullptr);
 
+		_artiBoxCol->SetActive(true);
 		col->SetActive(true);
 		_object->SetActive(true);
 	}
@@ -47,6 +56,8 @@ namespace Pg::DataScript
 		{
 			// active ²ô±â
 			_renderer->SetActive(false);
+			_artiBoxCol->SetActive(false);
+			_artiUI->SetActive(false);
 
 			_object->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(false);
 			_renderer->_object->SetActive(false);

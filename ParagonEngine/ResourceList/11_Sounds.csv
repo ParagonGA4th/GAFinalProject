@@ -33,7 +33,8 @@ Path,SoundGroup,isLoop
 ../Resources/Sounds/InGame/Effect/MiniGolem/ES_CM_G_Hit.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/MiniGolem/ES_CM_G_Rush.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/MiniGolem/ES_CM_G_Summons.ogg,Effect,0
-../Resources/Sounds/InGame/Effect/Trent/ES_CM_S_Attack.ogg,Effect,0
+../Resources/Sounds/InGame/Effect/Trent/ES_CM_S_Attack_01.ogg,Effect,0
+../Resources/Sounds/InGame/Effect/Trent/ES_CM_S_Attack_02.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/Trent/ES_CM_S_Die.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/Trent/ES_CM_S_Find.ogg,Effect,0
 ../Resources/Sounds/InGame/Effect/Trent/ES_CM_S_Find_test.ogg,Effect,0
