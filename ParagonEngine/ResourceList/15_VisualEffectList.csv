@@ -6,3 +6,5 @@ Effect_StaminaStats,1,1,0,100,^StaminaBar_4.png^StaminaBar_1.png^StaminaBar_2.pn
 Effect_ArrowTrail,1,0,0,100,trail_basic.tga,0,1,0,NULL,0,NULL,1,0,1
 Effect_FireArrowTrail,1,0,0,100,trail_fire.tga,0,1,0,NULL,0,NULL,1,0,1
 Effect_IceArrowTrail,1,0,0,100,trail_ice.tga,0,1,0,NULL,0,NULL,1,0,1
+Effect_BB_HowToInteract,1,1,0,100,InteractionKey.png,0,1,0,NULL,0,NULL,1,1,0
+Effect_BB_HowToJump,1,1,0,100,Jump.png,0,1,0,NULL,0,NULL,1,1,0

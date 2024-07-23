@@ -1,9 +1,11 @@
 #pragma once
 #include "ScriptInterface.h"
+#include "../ParagonData/VisualEffectRenderObject.h"
 
 namespace Pg::API
 {
 	namespace Input { class PgInput; }
+	namespace Graphics { class PgGraphics; }
 }
 
 namespace Pg::Data
@@ -19,6 +21,7 @@ namespace Pg::DataScript
 
 	public:
 		ArtifactBox(Pg::Data::GameObject* obj);
+		~ArtifactBox();
 
 		virtual void GrabManagedObjects() override;
 		virtual void BeforePhysicsAwake() override;
@@ -30,12 +33,14 @@ namespace Pg::DataScript
 
 	public:
 		bool _isOpen{ false };
+		Pg::Data::VisualEffectRenderObject* _instructionRO{ nullptr };
 
 	private:
 		Pg::API::Input::PgInput* _pgInput{ nullptr };
+		Pg::API::Graphics::PgGraphics* _pgGraphics{ nullptr };
 
-		Pg::Data::GameObject* _interactionUI;
-		Pg::Data::ImageRenderer* _interaction;
+		//Pg::Data::GameObject* _interactionUI;
+		//Pg::Data::ImageRenderer* _interaction;
 
 		bool _onTriggerStay{ false };
 	};
