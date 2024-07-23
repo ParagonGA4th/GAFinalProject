@@ -7,6 +7,7 @@
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/BoxCollider.h"
 #include "../ParagonData/ImageRenderer.h"
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 
 #include <singleton-cpp/singleton.h>
@@ -33,6 +34,9 @@ namespace Pg::DataScript
 
 		Pg::Data::GameObject* _interactionKey = _object->GetScene()->FindObjectWithName("InteractionKeyUI");
 		_artiUI = _interactionKey->GetComponent<Pg::Data::ImageRenderer>();
+
+		Pg::Data::GameObject* _boxOpen = _object->GetScene()->FindObjectWithName("BoxOpenSound");
+		_boxOpenSound = _boxOpen->GetComponent<Pg::Data::AudioSource>();
 	}
 
 	void ArtifactBoxAnim::Awake()
@@ -69,6 +73,7 @@ namespace Pg::DataScript
 		if (_artiBox->_isOpen)
 		{
 			_renderer->PlayAnim();
+			_boxOpenSound->Play();
 			_artiBox->_isOpen = false;
 		}
 	}
