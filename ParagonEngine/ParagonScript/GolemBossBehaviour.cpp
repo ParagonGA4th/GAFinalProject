@@ -260,18 +260,16 @@ namespace Pg::DataScript
 			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_1 ||
 				_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_2)
 			{
-				Skill(_monsterHelper->_isAnimationEnd); // 스킬 사용
+				Skill(_monsterHelper->_isAnimChange); // 스킬 사용
 			}
-			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK_1 ||
-				_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK_2 ||
-				_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK_3)
+			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK)
 			{
-				Attack(_monsterHelper->_isAnimChange);
-			}
-			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::IDLE)
-			{
-				Attack(false);
-				Skill(false);
+				Attack(!_monsterHelper->_isAnimationEnd);
+				if (_monsterHelper->_isAnimationEnd)
+				{
+					_monsterHelper->_isAnimationEnd = false;
+					_monsterHelper->_bGolemFlag._bossState = Pg::Data::GolemBossState::SKILL_ATTACK_1;
+				}
 			}
 		}
 		else

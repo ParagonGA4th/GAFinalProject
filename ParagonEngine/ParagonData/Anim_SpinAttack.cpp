@@ -6,9 +6,6 @@ namespace Pg::Data::BTree::Node
 {
 	BT::NodeStatus Anim_SpinAttack::tick()
 	{
-		bool isHolding = config().blackboard->get<bool>("ISHOLDING");
-		if (isHolding) return BT::NodeStatus::FAILURE;
-
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
@@ -18,7 +15,7 @@ namespace Pg::Data::BTree::Node
 			if (monHelper->_isAnimationEnd)
 			{
 				monHelper->_isAnimationEnd = false;
-				_isAnimChange = false;
+				monHelper->_isAnimChange = false;
 				
 				if (monHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_1)
 					monHelper->_bGolemFlag._bossState = Pg::Data::GolemBossState::SKILL_ATTACK_2;
@@ -32,12 +29,12 @@ namespace Pg::Data::BTree::Node
 				std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
 				animId.append("_00009.pganim");
 
-				if (!_isAnimChange &&
+				if (!monHelper->_isAnimChange &&
 					(tMeshRenderer->GetAnimation() != animId
 						|| monHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_2))
 				{
 					tMeshRenderer->SetAnimation(animId, false);
-					_isAnimChange = true;
+					monHelper->_isAnimChange = true;
 
 					std::string objName = this->GetGameObject()->GetName();
 					objName = objName.substr(0, objName.rfind("_"));
