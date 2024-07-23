@@ -57,11 +57,11 @@ void Pg::Data::MonsterHelper::BossInit()
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FEATHER_ATTACK_PREPARE] = "SFeatherAttackPre";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FEATHER_ATTACK_END] = "SFeatherAttackEnd";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_1] = "SFlyAttack1";
-	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1] = "SFlyAttackPre1";
+	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1] = "SFlyPre1";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_2] = "SFlyAttack2";
-	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2] = "SFlyAttackPre2";
+	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2] = "SFlyPre2";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_3] = "SFlyAttack3";
-	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3] = "SFlyAttackPre3";
+	_bossFlag._bossStateListByEnum[Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3] = "SFlyPre3";
 }
 
 void Pg::Data::MonsterHelper::GolemBossInit()

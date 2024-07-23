@@ -45,7 +45,7 @@ cbuffer cbSceneInfo : register(b4) // 이 자체는 VS / PS 모두 접근 가능.
     
     float2 gCBuf_ScreenWidthHeight;
     float gCBuf_RadianTimeLoop;
-    float gCBuf_TempPadding;
+    int gCBuf_OnlyShowLMIndex;
     
     float3 gCBuf_EyePosition;
     bool gCBuf_IsSceneUseLightmap; // bool로 캐스팅 상관X.
