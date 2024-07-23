@@ -63,7 +63,7 @@ namespace Pg::Graphics
 
 			DirectX::XMFLOAT2 gCBuf_ScreenWidthHeight;
 			float gCBuf_RadianTimeLoop{ 0.f };
-			float gCBuf_TempPadding;
+			int gCBuf_OnlyShowLMIndex;
 
 			DirectX::XMFLOAT3 gCBuf_EyePosition;
 			int gCBuf_IsSceneUseLightmap;
