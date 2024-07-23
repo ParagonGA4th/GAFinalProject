@@ -53,6 +53,8 @@ namespace Pg::DataScript
 
 	void BossStageGUIHandler::Start()
 	{
+		GetLifeUIObjects(_object);
+
 		_staminaBillboardObject->SetActive(true);
 
 		//_identifier가 이벤트 추가에 따라 늘어날 것이기에, 여러 개를 Subscribe해야 할 것이다.
@@ -74,6 +76,7 @@ namespace Pg::DataScript
 	{
 		MatchUpdateStaminaToRO();
 		MatchUpdateBossHealthBar();
+		UpdateLife();
 	}
 
 	void BossStageGUIHandler::AssignPointersToGUI()

@@ -56,6 +56,11 @@ namespace Pg::DataScript
 	{
 		DEFINE_EVENT_IDENTIFIER("Event_DisableJump");
 	};
+
+	class Event_OnGameOver : public IEvent
+	{
+		DEFINE_EVENT_IDENTIFIER("Event_OnGameOver");
+	};
 }
 
 

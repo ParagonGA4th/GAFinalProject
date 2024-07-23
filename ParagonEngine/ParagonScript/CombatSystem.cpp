@@ -177,6 +177,11 @@ namespace Pg::DataScript
 		_currentHandlerBundle3D->_playerBehavior->ChangePlayerStamina(level);
 	}
 
+	void CombatSystem::ChangePlayerLife(int level)
+	{
+		_currentHandlerBundle3D->_playerBehavior->ChangePlayerLife(level);
+	}
+
 	void CombatSystem::AddMonsterHitList(BaseMonsterInfo* monster, float healthChangeLvl, ePartialAttackType partType)
 	{
 		_monsterHealthChangeList.push_back(BaseMonsterHealthChangePair(monster, healthChangeLvl, partType));
@@ -359,5 +364,7 @@ namespace Pg::DataScript
 	{
 		return _currentHandlerBundle3D->_playerBehavior->staminaPoint;
 	}
+
+	
 
 }

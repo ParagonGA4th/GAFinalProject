@@ -92,6 +92,7 @@ namespace Pg::DataScript
 		void ChangePlayerHealth(float level);
 		void ChangePlayerMana(float level);
 		void ChangePlayerStamina(float level);
+		void ChangePlayerLife(int level);
 
 		float GetPlayerHealth();
 		float GetPlayerMana();
