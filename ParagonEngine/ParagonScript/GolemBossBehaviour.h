@@ -42,7 +42,7 @@ namespace Pg::DataScript
 	{
 		DEFINE_PARAGON_SCRIPT(GolemBossBehaviour);
 	public:
-		inline static const float MAX_GOLEM_BOSS_HEALTH = 20.f;
+		inline static const float MAX_GOLEM_BOSS_HEALTH = 200.f;
 		inline static const float GOLEM_BOSS_ATTACK_POWER = 2.f;
 
 	public:

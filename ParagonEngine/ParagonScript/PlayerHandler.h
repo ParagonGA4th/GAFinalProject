@@ -3,6 +3,7 @@
 #include "IObserver.h"
 #include "IScriptResettable.h"
 #include "BaseMonster.h"
+#include "../ParagonData/VisualEffectRenderObject.h"
 
 namespace Pg::DataScript
 {
@@ -50,7 +51,8 @@ namespace Pg::DataScript
 		inline static const int MAX_ARTIFACT = 3;			// 아티팩트 개수는 최대 3개
 		inline static const int MAX_LIFE_COUNT = 3;
 	public:
-		PlayerHandler(Pg::Data::GameObject* obj); 
+		PlayerHandler(Pg::Data::GameObject* obj);
+		~PlayerHandler();
 
 		virtual void GrabManagedObjects() override;
 
@@ -63,7 +65,7 @@ namespace Pg::DataScript
 
 		//IObserver : 전체적인 Event 전달을 기준으로 작동할 것.
 		virtual void HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2) override;
-	
+
 		//IScriptResettable. 다시 자기 자신을 리셋하는 함수.
 		virtual void ResetAll() override;
 
@@ -88,6 +90,8 @@ namespace Pg::DataScript
 
 		int GetPlayerLife();
 		void ChangePlayerLife(int level);
+
+		void CreateEffectObjects();
 
 	public:
 		//체력 관련. -> 지금은 맵 기믹때문에 이렇게 해놨지만, 나중에는 별도로 이동해야.
@@ -125,10 +129,15 @@ namespace Pg::DataScript
 	private:
 		void GetInternalVariables();
 		void UpdateStamina();
+		void UpdateVisualEffectObjects();
 	private:
 		CombatSystem* _combatSystem{ nullptr };
 		ComboSystem* _comboSystem{ nullptr };
 		Pg::API::Time::PgTime* _pgTime{ nullptr };
+		Pg::API::Graphics::PgGraphics* _pgGraphics{ nullptr };
+		unsigned int* _dustImagePointer;
+		const unsigned int _groundDustMaxIndex{ 7 };
+		unsigned int _dustCounterVar{ 0 };
 
 		//Stamina 관련된 스탯 (회피 / 강공격)
 		//두 섹터가 공유해서 써야 한다.
@@ -157,7 +166,7 @@ namespace Pg::DataScript
 
 		Pg::Math::PGFLOAT3 _rendererOffSet = { 0.f, -1.f, 0.f };
 
-		
+		Pg::Data::VisualEffectRenderObject* _groundDustRO{ nullptr };
 	};
 }
 
