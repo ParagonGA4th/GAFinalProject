@@ -69,6 +69,7 @@ namespace Pg::DataScript
 		//튜토리얼 버튼.
 		_creditButton->SetOnClickDownEvent([this]
 			{
+				_pgScene->SetCurrentScene("CreditsScene");
 				_btnClick->Play();
 			});
 		_creditButton->SetHover([this]

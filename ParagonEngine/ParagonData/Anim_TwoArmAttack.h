@@ -21,8 +21,7 @@ namespace Pg::Data::BTree::Node
 			return  {};
 		}
 	private:
-		bool _isSPSkillTime = false;
-		int _isTPSkillTime = 0;
+		bool _isNextPattern{ false };
 	};
 }
 #endif
