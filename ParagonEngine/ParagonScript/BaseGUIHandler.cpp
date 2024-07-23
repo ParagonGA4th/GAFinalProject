@@ -85,7 +85,6 @@ namespace Pg::DataScript
 
 		Pg::Data::GameObject* _avoid = obj->GetScene()->FindObjectWithName("AvoidUI");
 		Pg::Data::GameObject* _basicAttack = obj->GetScene()->FindObjectWithName("BasicAttackUI");
-		Pg::Data::GameObject* _interactionKey = obj->GetScene()->FindObjectWithName("InteractionKeyUI");
 		Pg::Data::GameObject* _interaction = obj->GetScene()->FindObjectWithName("InteractionUI");
 		Pg::Data::GameObject* _jump = obj->GetScene()->FindObjectWithName("JumpUI");
 		Pg::Data::GameObject* _move = obj->GetScene()->FindObjectWithName("MoveUI");
@@ -93,7 +92,6 @@ namespace Pg::DataScript
 
 		_avoidUI = _avoid->GetComponent<Pg::Data::ImageRenderer>();
 		_basicAttackUI = _basicAttack->GetComponent<Pg::Data::ImageRenderer>();
-		_interactionKeyUI = _interactionKey->GetComponent<Pg::Data::ImageRenderer>();
 		_interactionUI = _interaction->GetComponent<Pg::Data::ImageRenderer>();
 		_jumpUI = _jump->GetComponent<Pg::Data::ImageRenderer>();
 		_MoveUI = _move->GetComponent<Pg::Data::ImageRenderer>();
@@ -101,11 +99,17 @@ namespace Pg::DataScript
 
 		_avoidUI->SetActive(false);
 		_basicAttackUI->SetActive(false);
-		_interactionKeyUI->SetActive(false);
 		_interactionUI->SetActive(false);
 		_jumpUI->SetActive(false);
 		_MoveUI->SetActive(false);
 		_strongAttackUI->SetActive(false);
+
+		if (obj->GetScene()->GetSceneName() != "BossStage")
+		{
+			Pg::Data::GameObject* _interactionKey = obj->GetScene()->FindObjectWithName("InteractionKeyUI");
+			_interactionKeyUI = _interactionKey->GetComponent<Pg::Data::ImageRenderer>();
+			_interactionKeyUI->SetActive(false);
+		}
 	}
 	void BaseGUIHandler::GetLifeUIObjects(Pg::Data::GameObject* obj)
 	{
