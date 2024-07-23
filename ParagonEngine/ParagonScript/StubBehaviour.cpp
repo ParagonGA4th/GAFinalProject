@@ -212,12 +212,6 @@ namespace Pg::DataScript
 			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::SKILL_ATTACK)
 			{
 				Skill(true); // 스킬 사용
-
-				if (_monsterHelper->_isAnimationEnd)
-				{
-					_isSkillSoundPlaying = false;
-					_monsterHelper->_isAnimationEnd = false;
-				}
 			}
 			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::SKILL_COOLDOWN)
 			{
@@ -230,11 +224,7 @@ namespace Pg::DataScript
 				//PG_TRACE("Attack!");
 				Attack(_monsterHelper->_isAnimChange);
 
-				//if (_monsterHelper->_isAnimationEnd)
-				//{
-				//	_isAttackSoundPlaying = false;
-				//	_monsterHelper->_isAnimationEnd = false;
-				//}
+				if(!_monsterHelper->_isAnimChange) _isAttackSoundPlaying = _monsterHelper->_isAnimChange;
 			}
 			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::BASICATTACK_COOLDOWN)
 			{

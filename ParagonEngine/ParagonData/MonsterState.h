@@ -67,5 +67,6 @@ namespace Pg::Data
 		PASE_1,
 		PASE_2,
 		PASE_3,
+		PASE_4,
 	};
 }

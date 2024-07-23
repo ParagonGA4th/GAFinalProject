@@ -9,6 +9,7 @@
 #include "../ParagonData/ImageRenderer.h"
 #include "../ParagonData/AudioSource.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
+#include "../ParagonData/VisualEffectRenderObject.h"
 
 #include <singleton-cpp/singleton.h>
 
@@ -66,6 +67,7 @@ namespace Pg::DataScript
 			_object->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(false);
 			_renderer->_object->SetActive(false);
 			_animEnd = false;
+			_artiBox->_instructionRO->SetActive(false);
 
 			_combatSystem->Post(Event_PlayerGetArtifact(), NULL, NULL);
 		}

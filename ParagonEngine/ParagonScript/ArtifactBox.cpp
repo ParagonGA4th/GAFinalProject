@@ -7,6 +7,7 @@
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonAPI/PgInput.h"
+#include "../ParagonAPI/PgGraphics.h"
 
 #include <singleton-cpp/singleton.h>
 
@@ -16,12 +17,24 @@ namespace Pg::DataScript
 		:ScriptInterface(obj)
 	{
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
+		_pgGraphics = &singleton<Pg::API::Graphics::PgGraphics>();
+	}
+
+	ArtifactBox::~ArtifactBox()
+	{
+		if (_instructionRO != nullptr)
+		{
+			_pgGraphics->RemoveEffectObject(_instructionRO);
+
+			delete _instructionRO;
+			_instructionRO = nullptr;
+		}
 	}
 
 	void ArtifactBox::GrabManagedObjects()
 	{
-		_interactionUI = _object->GetScene()->FindObjectWithName("InteractionKeyUI");
-		_interaction = _interactionUI->GetComponent<Pg::Data::ImageRenderer>();
+		//_interactionUI = _object->GetScene()->FindObjectWithName("InteractionKeyUI");
+		//_interaction = _interactionUI->GetComponent<Pg::Data::ImageRenderer>();
 	}
 
 	void ArtifactBox::BeforePhysicsAwake()
@@ -30,6 +43,15 @@ namespace Pg::DataScript
 
 	void ArtifactBox::Awake()
 	{
+		//Test.
+		if (_instructionRO == nullptr)
+		{
+			_instructionRO = new Pg::Data::VisualEffectRenderObject();
+			_pgGraphics->RegisterEffectObject("Effect_BB_HowToInteract", _instructionRO);
+			_instructionRO->SetActive(false);
+			_instructionRO->_position = _object->_transform._position + Pg::Math::PGFLOAT3(0, 1, 0);
+			_instructionRO->_scale = { 3,1,1 };
+		}
 	}
 
 	void ArtifactBox::Update()
@@ -52,8 +74,9 @@ namespace Pg::DataScript
 
 			if (col->_object->GetTag() == "TAG_Sensor")
 			{
-				_interactionUI->SetActive(true);
-				_interaction->SetActive(true);
+				_instructionRO->SetActive(true);
+				//_interactionUI->SetActive(true);
+				//_interaction->SetActive(true);
 				_onTriggerStay = true;
 			}
 		}
@@ -67,10 +90,14 @@ namespace Pg::DataScript
 
 			if (col->_object->GetTag() == "TAG_Sensor")
 			{
-				_interactionUI->SetActive(false);
-				_interaction->SetActive(false);
+				//_interactionUI->SetActive(false);
+				//_interaction->SetActive(false);
+				_instructionRO->SetActive(false);
 				_onTriggerStay = false;
 			}
 		}
 	}
+
+	
+
 }
