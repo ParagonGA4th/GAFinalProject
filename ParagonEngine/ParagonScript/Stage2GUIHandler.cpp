@@ -36,16 +36,21 @@ namespace Pg::DataScript
 
 		//이는 Stamina 등록을 해주기 위해. Object. _isActive만 꺼놓는 방식으로 등록해놓는다.
 		SetupStaminaBillboardRenderObject();
+
+		SetTutorialExplainUI(_object);
 	}
 
 	void Stage2GUIHandler::Start()
 	{
+		GetLifeUIObjects(_object);
+
 		_staminaBillboardObject->SetActive(true);
 	}
 
 	void Stage2GUIHandler::Update()
 	{
 		MatchUpdateStaminaToRO();
+		UpdateLife();
 	}
 
 	void Stage2GUIHandler::AssignPointersToGUI()

@@ -18,6 +18,7 @@
 
 //일어날 수 있는 Event들의 리스트
 #include "EventList_PlayerRelated.h"
+#include "EventList_GameFlowRelated.h"
 
 #include <singleton-cpp/singleton.h>
 
@@ -147,9 +148,7 @@ namespace Pg::DataScript
 		{
 			//만약 체력이 0일 경우, 
 			_combatSystem->Post(Event_PlayerDeath(), _object, 0.0f);
-			_playerlife--;
 		}
-
 	}
 
 	void PlayerHandler::ChangePlayerMana(float level)
@@ -320,4 +319,15 @@ namespace Pg::DataScript
 	{
 		return _playerlife;
 	}
+
+	void PlayerHandler::ChangePlayerLife(int level)
+	{
+		_playerlife = std::clamp<int>(_playerlife + level, 0, MAX_LIFE_COUNT);
+		if (_playerlife == 0)
+		{
+			_combatSystem->Post(Event_OnGameOver(), NULL, NULL);
+		}
+	}
+	
+
 }

@@ -47,12 +47,16 @@ namespace Pg::DataScript
 		//Boss Bar 오브젝트들 가져오기.
 		SetupBossHealthBar();
 
+		SetTutorialExplainUI(_object);
+
 		_finalBossBehaviour = _object->GetScene()->FindSingleComponentInScene<BossBehaviour>();
 		assert(_finalBossBehaviour != nullptr);
 	}
 
 	void BossStageGUIHandler::Start()
 	{
+		GetLifeUIObjects(_object);
+
 		_staminaBillboardObject->SetActive(true);
 
 		//_identifier가 이벤트 추가에 따라 늘어날 것이기에, 여러 개를 Subscribe해야 할 것이다.
@@ -74,6 +78,7 @@ namespace Pg::DataScript
 	{
 		MatchUpdateStaminaToRO();
 		MatchUpdateBossHealthBar();
+		UpdateLife();
 	}
 
 	void BossStageGUIHandler::AssignPointersToGUI()
