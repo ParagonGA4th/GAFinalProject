@@ -14,7 +14,6 @@ namespace Pg::Data::BTree::Node
 
 	BT::NodeStatus Anim_Delay::tick()
 	{
-		PG_TRACE(_value);
 
 		auto holdTime = getInput<float>("_holdTime");				  // 대기하려는 시간
 		bool isHolding = config().blackboard->get<bool>("ISHOLDING"); // 대기중인가?
