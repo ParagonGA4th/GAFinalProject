@@ -11,7 +11,7 @@
 #include "BossBehaviour.h"
 
 #include "PlayerHandler.h"
-#include "PauseBox.h"
+#include "PauseOptionBox.h"
 #include "CombatSystem.h"
 #include "EventList_GameFlowRelated.h"
 
@@ -123,8 +123,8 @@ namespace Pg::DataScript
 		}
 
 		//GUIHandler 나오기 전 작업물, 하드 셋.
-		_pauseBox = _object->GetScene()->FindSingleComponentInScene<PauseBox>();
-		assert(_pauseBox != nullptr);
+		_pauseOptionBox = _object->GetScene()->FindSingleComponentInScene<PauseOptionBox>();
+		assert(_pauseOptionBox != nullptr);
 
 		//플레이어 가져오기.
 		_playerTransform = &(tPH->_object->_transform);
@@ -135,7 +135,7 @@ namespace Pg::DataScript
 
 	void BossStageGUIHandler::AdditionalReset()
 	{
-		_pauseBox->ResetAll();
+		_pauseOptionBox->ResetAll();
 	}
 
 	void BossStageGUIHandler::SetupStaminaBillboardRenderObject()

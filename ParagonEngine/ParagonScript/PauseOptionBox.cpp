@@ -1,4 +1,5 @@
 #include "PauseOptionBox.h"
+#include "PauseBox.h"
 #include "../ParagonData/Button.h"
 #include "../ParagonData/Slider.h"
 #include "../ParagonData/Handle.h"
@@ -37,6 +38,8 @@ namespace Pg::DataScript
 		_ingameSound = ingameSoundObj->GetComponent<Pg::Data::AudioSource>();
 
 		_pauseBox = _object->GetScene()->FindObjectWithName("PauseBox");
+		_pauseBoxComponent = _pauseBox->GetComponent<PauseBox>();
+		assert(_pauseBoxComponent != nullptr);
 
 		Pg::Data::GameObject* _soundBarObj = _object->GetScene()->FindObjectWithName("SoundBar");
 		_soundBar = _soundBarObj->GetComponent<Pg::Data::Slider>();
@@ -139,5 +142,7 @@ namespace Pg::DataScript
 	{
 		Awake();
 		Start();
+
+		_pauseBoxComponent->ResetAll();
 	}
 }
