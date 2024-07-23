@@ -103,6 +103,7 @@ namespace Pg::DataScript
 		virtual unsigned int GetBelongAreaIndex() override { return _areaIndex; }
 
 		inline static const float  ALPHA_PERCENT  = 6.f;
+		inline static const float  DASH_COOLTIME = 0.3f;
 
 	private:
 		Pg::API::Time::PgTime* _pgTime;
@@ -156,6 +157,7 @@ namespace Pg::DataScript
 		bool _isDash{ false };			//돌진 여부
 		bool _hasDashed{ false };		//돌진했는지 여부
 		int _dashCount{ 0 };			//몇 번 돌진 했는지
+		float _dashCoolTime = DASH_COOLTIME;	//돌진 후 다음 돌진을 위해 
 
 		bool _isNeutralizeInit{ false };	//무력화 여부
 		bool _isNeutralize{ false };		//무력화 상태 여부
@@ -191,9 +193,7 @@ namespace Pg::DataScript
 		float _regenerateTime = 0.1f;
 
 		//페이즈2 시작될 땐 움직이면 안된다.
-		bool _isPhase2{ false };
-		bool _isPhase1End{ false };
-		bool _isPhase2End{ false };
+		bool _isPhaseEnd{ false };
 
 		float _activationInterval{ 1.f }; // 각 콜라이더가 활성화되는 시간 간격
 		float _nextActivationTime{ 2.0f }; // 다음 콜라이더가 활성화될 시간
