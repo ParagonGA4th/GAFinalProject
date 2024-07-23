@@ -36,9 +36,9 @@ namespace Pg::DataScript
 		DEFINE_PARAGON_SCRIPT(StrongAttackLogic);
 
 	public:
-		inline static const float STRONG_ATTACK_POWER = 5.f;
+		inline static const float STRONG_ATTACK_POWER = 10.f;
 		inline static const float FADEINOUT_SPEED = 300.f;
-		inline static const float KNOCKBACK_FACTOR = 8.0f;
+		inline static const float KNOCKBACK_FACTOR = 16.0f;
 
 	public:
 		StrongAttackLogic(Pg::Data::GameObject* obj);
