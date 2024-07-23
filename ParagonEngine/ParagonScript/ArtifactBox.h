@@ -6,6 +6,11 @@ namespace Pg::API
 	namespace Input { class PgInput; }
 }
 
+namespace Pg::Data
+{
+	class ImageRenderer;
+}
+
 namespace Pg::DataScript
 {
 	class ArtifactBox : public ScriptInterface<ArtifactBox>
@@ -15,6 +20,7 @@ namespace Pg::DataScript
 	public:
 		ArtifactBox(Pg::Data::GameObject* obj);
 
+		virtual void GrabManagedObjects() override;
 		virtual void BeforePhysicsAwake() override;
 		virtual void Awake() override;
 		virtual void Update() override;
@@ -27,6 +33,9 @@ namespace Pg::DataScript
 
 	private:
 		Pg::API::Input::PgInput* _pgInput{ nullptr };
+
+		Pg::Data::GameObject* _interactionUI;
+		Pg::Data::ImageRenderer* _interaction;
 
 		bool _onTriggerStay{ false };
 	};

@@ -1,6 +1,9 @@
 #include "ArtifactBox.h"
 
 #include "../ParagonData/Collider.h"
+#include "../ParagonData/GameObject.h"
+#include "../ParagonData/ImageRenderer.h"
+#include "../ParagonData/Scene.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonAPI/PgInput.h"
@@ -13,6 +16,12 @@ namespace Pg::DataScript
 		:ScriptInterface(obj)
 	{
 		_pgInput = &singleton<Pg::API::Input::PgInput>();
+	}
+
+	void ArtifactBox::GrabManagedObjects()
+	{
+		_interactionUI = _object->GetScene()->FindObjectWithName("InteractionKeyUI");
+		_interaction = _interactionUI->GetComponent<Pg::Data::ImageRenderer>();
 	}
 
 	void ArtifactBox::BeforePhysicsAwake()
@@ -43,6 +52,8 @@ namespace Pg::DataScript
 
 			if (col->_object->GetTag() == "TAG_Sensor")
 			{
+				_interactionUI->SetActive(true);
+				_interaction->SetActive(true);
 				_onTriggerStay = true;
 			}
 		}
@@ -56,6 +67,8 @@ namespace Pg::DataScript
 
 			if (col->_object->GetTag() == "TAG_Sensor")
 			{
+				_interactionUI->SetActive(false);
+				_interaction->SetActive(false);
 				_onTriggerStay = false;
 			}
 		}
