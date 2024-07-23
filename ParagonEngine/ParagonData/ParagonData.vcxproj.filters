@@ -352,12 +352,6 @@
     <ClCompile Include="Anim_ThrowCoin.cpp">
       <Filter>9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_ThrowCoin</Filter>
     </ClCompile>
-    <ClCompile Include="Anim_gbLeftArmAttack.cpp">
-      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_gbLeftArmAttack</Filter>
-    </ClCompile>
-    <ClCompile Include="Anim_gbRightArmAttack.cpp">
-      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_gbRightArmAttack</Filter>
-    </ClCompile>
     <ClCompile Include="Anim_gbTwoArmAttack.cpp">
       <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_gbTwoArmAttack</Filter>
     </ClCompile>
@@ -402,6 +396,9 @@
     </ClCompile>
     <ClCompile Include="Anim_FlyAttackPrePare.cpp">
       <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FlyAttackPrePare</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_SpinDashAttack.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_SpinDashAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -823,12 +820,6 @@
     <ClInclude Include="Anim_ThrowCoin.h">
       <Filter>9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_ThrowCoin</Filter>
     </ClInclude>
-    <ClInclude Include="Anim_gbLeftArmAttack.h">
-      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_gbLeftArmAttack</Filter>
-    </ClInclude>
-    <ClInclude Include="Anim_gbRightArmAttack.h">
-      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_gbRightArmAttack</Filter>
-    </ClInclude>
     <ClInclude Include="Anim_gbTwoArmAttack.h">
       <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_gbTwoArmAttack</Filter>
     </ClInclude>
@@ -873,6 +864,9 @@
     </ClInclude>
     <ClInclude Include="Anim_FlyAttackPrePare.h">
       <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FlyAttackPrePare</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_SpinDashAttack.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_SpinDashAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1272,12 +1266,6 @@
     <Filter Include="9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_ThrowCoin">
       <UniqueIdentifier>{cd3d0e33-f0aa-4472-9010-2e34abdafe3d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_gbRightArmAttack">
-      <UniqueIdentifier>{65813e6c-3c71-42be-84c8-401156c0d19c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_gbLeftArmAttack">
-      <UniqueIdentifier>{1507bac9-4b34-4b46-b185-6ba5f18ba93a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_gbTwoArmAttack">
       <UniqueIdentifier>{e87618d1-dfce-466d-a7e9-cd7be242feda}</UniqueIdentifier>
     </Filter>
@@ -1331,6 +1319,9 @@
     </Filter>
     <Filter Include="9_BtNodes\MonsterAnim\Boss\Attack\Anim_FlyAttackPrePare">
       <UniqueIdentifier>{ec4d5c3f-5387-4070-b790-9eb17f972673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_SpinDashAttack">
+      <UniqueIdentifier>{2c471c8a-8b30-4657-b03e-e890c63ec903}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

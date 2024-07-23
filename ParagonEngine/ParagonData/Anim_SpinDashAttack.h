@@ -1,5 +1,6 @@
-#ifndef ANIM_GBLEFTARMATTACK 
-#define ANIM_GBLEFTARMATTACK
+#pragma once
+#ifndef ANIM_SPINDASHATTACK 
+#define ANIM_SPINDASHATTACK
 #include <behaviortree_cpp_v3/action_node.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -7,21 +8,19 @@
 
 namespace Pg::Data::BTree::Node
 {
-	class Anim_gbLeftArmAttack : public BT::SyncActionNode, public BasePgBtNode
+	class Anim_SpinDashAttack : public BT::SyncActionNode, public BasePgBtNode
 	{
 	public:
-		Anim_gbLeftArmAttack(const std::string& name, const BT::NodeConfiguration& config)
+		Anim_SpinDashAttack(const std::string& name, const BT::NodeConfiguration& config)
 			: BT::SyncActionNode(name, config) {}
-		virtual ~Anim_gbLeftArmAttack() = default;
+		virtual ~Anim_SpinDashAttack() = default;
 
 		virtual BT::NodeStatus tick() override;
 
 		static BT::PortsList providedPorts()
 		{
-			return {};
+			return  {};
 		}
-	private:
-		bool _isCast{ false };
 	};
 }
 #endif

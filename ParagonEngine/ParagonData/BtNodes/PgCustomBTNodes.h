@@ -37,10 +37,9 @@
 #include "../ParagonData/isbDash.h"
 
 //golem Boss
-#include "../ParagonData/Anim_gbLeftArmAttack.h"
-#include "../ParagonData/Anim_gbRightArmAttack.h"
 #include "../ParagonData/Anim_gbTwoArmAttack.h"
 #include "../ParagonData/Anim_SpinAttack.h"
+#include "../ParagonData/Anim_SpinDashAttack.h"
 #include "../ParagonData/Anim_gDown.h"
 #include "../ParagonData/isgPase_1.h"
 #include "../ParagonData/isgPase_2.h"

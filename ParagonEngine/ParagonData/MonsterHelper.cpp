@@ -76,11 +76,10 @@ void Pg::Data::MonsterHelper::GolemBossInit()
 	_bGolemFlag._bossPase = Pg::Data::BossPase::PASE_1;
 
 	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::IDLE] = "Idle";
-	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::BASIC_ATTACK_1] = "BAttack_1";
-	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::BASIC_ATTACK_2] = "BAttack_2";
-	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::BASIC_ATTACK_3] = "BAttack_3";
+	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::BASIC_ATTACK] = "BAttack";
 	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::SKILL_ATTACK_1] = "SAttack_1";
 	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::SKILL_ATTACK_2] = "SAttack_2";
+	_bGolemFlag._bossStateListByEnum[Pg::Data::GolemBossState::SKILL_DASH_ATTACK] = "SpinDashAttack";
 }
 
 void Pg::Data::MonsterHelper::GolemInit()
