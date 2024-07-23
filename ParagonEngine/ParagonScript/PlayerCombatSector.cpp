@@ -200,7 +200,7 @@ namespace Pg::DataScript
 				_startedClickingTime += _pgTime->GetDeltaTime();
 
 				//만약 2초보다 더 길게 클릭한다면 -> 강공격 발동.
-				if (_startedClickingTime >= 2.0f)
+				if (_startedClickingTime >= 1.0f)
 				{
 					//PG_ERROR("Counting : {0}", _startedClickingTime);
 					if (CheckActivateStrongAttack())
