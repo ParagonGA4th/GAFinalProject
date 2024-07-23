@@ -1,5 +1,6 @@
 #include "BaseGUIHandler.h"
 #include "TransformSimpleStorage.h"
+#include "TotalGameManager.h"
 
 #include "../ParagonData/ImageRenderer.h"
 #include "../ParagonData/TextRenderer.h"
@@ -110,4 +111,35 @@ namespace Pg::DataScript
 			_interactionKeyUI->SetActive(false);
 		}
 	}
+	void BaseGUIHandler::GetLifeUIObjects(Pg::Data::GameObject* obj)
+	{
+		for (int i = 1; i <= 3; i++)
+		{
+			Pg::Data::GameObject* tObj = obj->GetScene()->FindObjectWithName(std::string("Artifact").append(std::to_string(i)));
+			assert(tObj != nullptr);
+			_heartArray.at(i - 1) = tObj->GetComponent<Pg::Data::ImageRenderer>();
+			assert(_heartArray.at(i - 1) != nullptr);
+		}
+
+		auto tBundle = TotalGameManager::GetInstance(nullptr)->GetHandlerBundleByScene(obj->GetScene());
+		assert(tBundle != nullptr);
+		_playerLifePointer = &(tBundle->_playerBehavior->_playerlife);
+	}
+
+	void BaseGUIHandler::UpdateLife()
+	{
+		//0이 켜진거 / 1이 꺼진거.
+		int tHeartCount = *_playerLifePointer;
+
+		_heartArray[0]->SetImageIndex(1);
+		_heartArray[1]->SetImageIndex(1);
+		_heartArray[2]->SetImageIndex(1);
+
+		for (int i = 0; i < tHeartCount; i++)
+		{
+			//들어왔다는 것은 켜진다는 것을 의미.
+			_heartArray[i]->SetImageIndex(0);
+		}
+	}
+
 }

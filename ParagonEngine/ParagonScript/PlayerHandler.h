@@ -48,7 +48,7 @@ namespace Pg::DataScript
 		inline static const int MAX_PLAYER_STAMINA = 3;
 		inline static const float STAMINA_ONE_SLOT_CHARGE_TIME = 20.0f;
 		inline static const int MAX_ARTIFACT = 3;			// 아티팩트 개수는 최대 3개
-
+		inline static const int MAX_LIFE_COUNT = 3;
 	public:
 		PlayerHandler(Pg::Data::GameObject* obj); 
 
@@ -86,12 +86,19 @@ namespace Pg::DataScript
 		void ChangePlayerMana(float level);
 		void ChangePlayerStamina(int level);
 
+		int GetPlayerLife();
+		void ChangePlayerLife(int level);
+
 	public:
 		//체력 관련. -> 지금은 맵 기믹때문에 이렇게 해놨지만, 나중에는 별도로 이동해야.
 		//최고 체력은 일단 100이다.
 		float healthPoint{ MAX_PLAYER_HEALTH };
 		float manaPoint{ MAX_PLAYER_MANA };
 		int staminaPoint{ MAX_PLAYER_STAMINA };
+
+		//플레이어의 라이프.
+		//떨어지거나 체력이 0이면 하나씩 없어진다.
+		int _playerlife{ MAX_LIFE_COUNT };
 
 		/// 아티팩트 관련
 	public:
@@ -114,7 +121,6 @@ namespace Pg::DataScript
 		const int* ReturnPlayerStaminaPointPointerConst() const;
 
 		bool GetIsStaminaReadyToUse();
-		int GetPlayerLife();
 
 	private:
 		void GetInternalVariables();
@@ -151,9 +157,7 @@ namespace Pg::DataScript
 
 		Pg::Math::PGFLOAT3 _rendererOffSet = { 0.f, -1.f, 0.f };
 
-		//플레이어의 라이프.
-		//떨어지거나 체력이 0이면 하나씩 없어진다.
-		int _playerlife = 3;
+		
 	};
 }
 

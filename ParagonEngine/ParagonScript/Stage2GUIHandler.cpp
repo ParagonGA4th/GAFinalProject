@@ -42,12 +42,15 @@ namespace Pg::DataScript
 
 	void Stage2GUIHandler::Start()
 	{
+		GetLifeUIObjects(_object);
+
 		_staminaBillboardObject->SetActive(true);
 	}
 
 	void Stage2GUIHandler::Update()
 	{
 		MatchUpdateStaminaToRO();
+		UpdateLife();
 	}
 
 	void Stage2GUIHandler::AssignPointersToGUI()
