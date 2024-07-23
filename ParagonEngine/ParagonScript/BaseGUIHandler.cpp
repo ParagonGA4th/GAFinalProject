@@ -26,7 +26,7 @@ namespace Pg::DataScript
 			bAgg._guiObj->SetActive(bAgg._isObjActive);
 
 			//Component : SetActive ÇØÁÖ±â.
-			bAgg._rendererBase2D->SetActive(bAgg._isComponentActive);
+			//bAgg._rendererBase2D->SetActive(bAgg._isComponentActive);
 		}
 	}
 

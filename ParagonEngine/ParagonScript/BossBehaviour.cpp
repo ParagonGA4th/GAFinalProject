@@ -237,8 +237,6 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Update()
 	{
-		PG_TRACE(_monsterHelper->_bossFlag._bossStateListByEnum[_monsterHelper->_bossFlag._bossState]);
-
 		_distance = std::abs(std::sqrt(std::pow(_playerTransform->_position.x - _object->_transform._position.x, 2)
 			+ std::pow(_playerTransform->_position.z - _object->_transform._position.z, 2)));
 
@@ -259,52 +257,41 @@ namespace Pg::DataScript
 			_combatSystem->Post(Event_OnFinalBossDeathGameWin(), NULL, NULL);
 		}
 
-		///회피와 돌진을 테스트하기 위한 임의의 로직.
-		///애니메이션을 통한 행동 패턴에 맞게 들어갈 예정.
-		// 보스가 플레이어를 바라보고 있는 시간 추적
-		if (_distance <= _bossInfo->GetSightRange()) { _isPlayerInit = true; _monsterHelper->_isPlayerDetected = true; }
-		if (!_isPlayerInit) return;
+		if (_isRotatingToPlayer) RotateToPlayer(_playerTransform->_position);
+		if (_distance <= _bossInfo->GetSightRange() && !_isPlayerInit)
+		{
+			_monsterHelper->_isPlayerDetected = true;
+
+			if (_dashCount >= 3)
+			{
+				_isPlayerInit = true;
+				_monsterHelper->_bossFlag._bossState = Data::BossState::IDLE;
+				_monsterHelper->_bossFlag._bossPase = Data::BossPase::PASE_1;
+			}
+			else
+			{
+				_monsterHelper->_bossFlag._bossState = Data::BossState::DASH;
+				Dash();
+			}
+
+			return;
+		}
 
 		Neutralize();
 		if (_monsterHelper->_bossFlag._bossState == Data::BossState::DOWN) return;
 
-		if (_isRotatingToPlayer)
+		if (_monsterHelper->_bossFlag._bossState == Data::BossState::DASH)
 		{
-			RotateToPlayer(_playerTransform->_position);
-
-			if (!_isDash)
-			{
-				Chase();
-			}
+			Dash();
 		}
-
-		//if (_dashCount <= 2)
-		//{
-		//	_monsterHelper->_bossFlag._bossState = Data::BossState::DASH;
-		//	_isDash = true;
-		//	Dash();
-		//}
-		//else
-		//{
-		//	_isDash = false;
-		//}
-
-		if (!_isDash)
+		else
 		{
 			if (_distance <= _bossInfo->GetAttackRange())
 			{
 				//_meshRenderer->_animBlendFactor = 0.0f;
 
-				//if (!_isPhase2)
-				//{
-				//	_isRotatingToPlayer = true;
-				//	_isChasing = true;
-				//}
-				//else
-				//{
-				//	_isRotatingToPlayer = false;
-				//	_isChasing = false;
-				//}
+				_isRotatingToPlayer = true;
+				if (_monsterHelper->_bossFlag._bossPase == Data::BossPase::PASE_2) _isRotatingToPlayer = false;
 
 				_monsterHelper->_isChase = false;
 				_monsterHelper->_isPlayerinHitSpace = true;
@@ -332,35 +319,29 @@ namespace Pg::DataScript
 					_useTakeDownSkill = true;
 					//_useStormBlast = true;
 				}
-
-				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE)
+			}
+			else
+			{
+				if (_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FEATHER_ATTACK ||
+					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FEATHER_ATTACK_PREPARE ||
+					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1 ||
+					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2 ||
+					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3 ||
+					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::EVASION)
 				{
+					//_meshRenderer->_animBlendFactor = 10.0f;
+
+					Chase();
 					Attack(false);
+
+					_isRotatingToPlayer = true;
+					_monsterHelper->_isChase = true;
+					_monsterHelper->_isPlayerinHitSpace = false;
 				}
 			}
-			else if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
-				_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2 ||
-				_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3 ||
-				_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_1 ||
-				_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2 ||
-				_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_3)
-			{
-				_meshRenderer->_animBlendFactor = 10.0f;
-				Attack(false);
-				_isChasing = true;
-				_isRotatingToPlayer = true;
-				_monsterHelper->_isChase = true;
-				_monsterHelper->_isPlayerinHitSpace = false;
-			}
 
-			if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK) // 빛기둥
-			{
-				//_isPhase2 = true;
-				_useLightSkill = true;
-				//Attack(false);
-				//_useTakeDownSkill = false;
-				//_useStormBlast = true;
-			}
+			if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK) _useLightSkill = true;
+			else if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::EVASION) Evade();
 		}
 
 		//돌풍 스킬
@@ -446,19 +427,16 @@ namespace Pg::DataScript
 		Pg::Math::PGQuaternion rotateQuat = PGLookRotation(rotatePosNorm, Pg::Math::PGFLOAT3::GlobalUp());
 
 		///플래그를 걸어 돌진의 여부까지 계산하기 위해 세팅.
-		if (_isChasing == true)
-		{
 			//회전이 끝날 때 까지 돌기.
-			Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, rotateQuat, std::clamp<float>(0.1f, 0.0f, 1.0f));
+		Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, rotateQuat, std::clamp<float>(0.1f, 0.0f, 1.0f));
 
-			_object->_transform._rotation = currentTargetRotation;
-		}
+		_object->_transform._rotation = currentTargetRotation;
 	}
 
 	void BossBehaviour::Dash()
 	{
 		// 돌진 지속 시간 동안 돌진
-		if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::DASH)
+		if (_bossInfo->GetCurrentDashTime() <= _bossInfo->GetDashDuration())
 		{
 			_bossInfo->_status = BossStatus::DASH;
 
@@ -488,20 +466,26 @@ namespace Pg::DataScript
 				_isRushSoundPlaying = true;
 			}
 		}
-		// 돌진이 끝나면 상태를 변경
 		else
 		{
+			// 돌진이 끝나면 상태를 변경
 			// 돌진 애니매이션을 다시 로드 하기 위해 IDLE 애니매이션 추가
 			std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
 			animId.append("_00001.pganim");
 
-			_meshRenderer->SetAnimation(animId, false);
-
-			_hasDashed = true;
-			_bossInfo->SetCurrentDashTime(0.0f); // 현재 돌진 시간을 초기화
+			_meshRenderer->SetAnimation(animId, true);
+			_dashCoolTime -= _pgTime->GetDeltaTime();
 			_isRotatingToPlayer = true; // 다시 플레이어를 바라보도록 설정
-			_isRushSoundPlaying = false;// 사운드 초기화
-			_dashCount++;
+
+			if (_dashCoolTime <= std::numeric_limits<float>::epsilon())
+			{
+				_hasDashed = true;
+				_bossInfo->SetCurrentDashTime(0.0f); // 현재 돌진 시간을 초기화
+				_isRushSoundPlaying = false;// 사운드 초기화
+
+				_dashCount++;
+				_dashCoolTime = DASH_COOLTIME;
+			}
 		}
 	}
 
@@ -560,7 +544,6 @@ namespace Pg::DataScript
 			if (_bossInfo->GetCurrentWindBlastTime() >= _bossInfo->GetWindBlastDuration())
 			{
 				_offWind = true;
-
 			}
 		}
 	}
@@ -704,8 +687,10 @@ namespace Pg::DataScript
 	void BossBehaviour::Evade()
 	{
 		// 회피 로직 구현
+		PG_TRACE(_bossInfo->GetCurrentEvadeTime());
+
 		///쿨타임 추가 필요함(5초 정도)
-		if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::EVASION)
+		if (_bossInfo->GetCurrentEvadeTime() <= _bossInfo->GetEvadeDuration())
 		{
 			_bossInfo->_status = BossStatus::EVADE;
 
@@ -753,18 +738,19 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Neutralize()
 	{
-		//체력이 30 밑으로 떨어지면
-		if (!(_bossInfo->GetMonsterHp() <= 5.0f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_2)) return;
-		if (!(_bossInfo->GetMonsterHp() <= 7.5f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_1)) return;
+		bool isDown = false;
+
+		if ((_bossInfo->GetMonsterHp() <= 7.5f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_1) ||
+			_bossInfo->GetMonsterHp() <= 5.0f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_2)
+		{
+			isDown = true;
+		}
+
+		if (!isDown) return;
 
 		if (!_isNeutralize && !_monsterHelper->_bossFlag._isDown && !_monsterHelper->_bossFlag._isDownEnd) _monsterHelper->_bossFlag._isDownInit = true;
 		if (_monsterHelper->_bossFlag._isDown) _isNeutralize = true;
-		if (_monsterHelper->_bossFlag._isDownEnd && _monsterHelper->_isAnimationEnd)
-		{
-			_monsterHelper->_bossFlag._isDownEnd = false;
-			_monsterHelper->_isAnimationEnd = false;
-			_isNeutralize = false;
-		}
+		if (_monsterHelper->_bossFlag._isDownEnd) _isNeutralizeInit = false;
 
 		if (_isNeutralize)
 		{
@@ -829,7 +815,6 @@ namespace Pg::DataScript
 
 		_isNeutralizeInit = false;
 		_isNeutralize = false;
-		_isChasing = true;
 		_isEvading = false;
 		_hasEvaded = false;
 		_evadeCooldownTime = 0.f;
@@ -850,9 +835,6 @@ namespace Pg::DataScript
 		_isGenerateCol = false;
 
 		_currentGenerateTime = 0.f;
-
-		_isPhase1End = false;
-		_isPhase2End = false;
 
 		//충돌 객체 전부 초기화.
 		_collider->SetActive(true);
