@@ -43,7 +43,7 @@ namespace Pg::DataScript
 		DEFINE_PARAGON_SCRIPT(ArrowLogic);
 
 	public:
-		inline static const float ARROW_ATTACK_POWER = 1.f;
+		inline static const float ARROW_ATTACK_POWER = 8.f;
 		//inline static const int TRAIL_DIVIDED_COUNT = 2; //두 개씩만 가지고 있자.
 
 	public:
