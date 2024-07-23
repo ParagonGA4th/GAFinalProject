@@ -30,7 +30,7 @@ namespace Pg::Data::BTree::Node
 
 	private:
 		Pg::Util::Time::TimeSystem* _deltaTime;
-		float value{ 0.f };
+		float _value{ 0.f };
 	};
 }
 
