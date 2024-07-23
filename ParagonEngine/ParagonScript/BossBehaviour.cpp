@@ -291,8 +291,6 @@ namespace Pg::DataScript
 				//_meshRenderer->_animBlendFactor = 0.0f;
 
 				_isRotatingToPlayer = true;
-				if (_monsterHelper->_bossFlag._bossPase == Data::BossPase::PASE_2) _isRotatingToPlayer = false;
-
 				_monsterHelper->_isChase = false;
 				_monsterHelper->_isPlayerinHitSpace = true;
 
@@ -311,22 +309,16 @@ namespace Pg::DataScript
 					//_useTakeDownSkill = false;
 					_useStormBlast = true;
 				}
-				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_1 ||
-					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2 ||
-					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_3)
-				{
-					//Attack(false);
-					_useTakeDownSkill = true;
-					//_useStormBlast = true;
-				}
 			}
 			else
 			{
-				if (_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FEATHER_ATTACK ||
-					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FEATHER_ATTACK_PREPARE ||
-					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1 ||
-					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2 ||
-					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3 ||
+				if (_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FEATHER_ATTACK &&
+					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FEATHER_ATTACK_PREPARE &&
+					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1 &&
+					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2 &&
+					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3 &&
+					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FLY_ATTACK_1 &&
+					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::SKILL_FLY_ATTACK_2 &&
 					_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::EVASION)
 				{
 					//_meshRenderer->_animBlendFactor = 10.0f;
@@ -340,7 +332,15 @@ namespace Pg::DataScript
 				}
 			}
 
-			if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK) _useLightSkill = true;
+			if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FEATHER_ATTACK)
+			{
+				_isRotatingToPlayer = false;
+				_useLightSkill = true;
+			}
+			else if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1)
+			{
+				_useTakeDownSkill = true;
+			}
 			else if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::EVASION) Evade();
 		}
 
@@ -607,10 +607,7 @@ namespace Pg::DataScript
 
 	void BossBehaviour::UpdatePhaseThreeSkill()
 	{
-		///테스트를 위해 한번만 동작하고 막아둠(지워야 함)
-		static bool tVal = false;
-
-		if (_useTakeDownSkill && (!tVal))
+		if (_useTakeDownSkill)
 		{
 			_walkAudio->Stop();
 
@@ -620,21 +617,29 @@ namespace Pg::DataScript
 			_collider->SetActive(false);
 
 			_isRotatingToPlayer = false;
-			tVal = true;
+
 			// 현재 위치 저장
 			Pg::Math::PGFLOAT3 currentPosition = _object->_transform._position;
 
 			// 목표 위치 설정
 			Pg::Math::PGFLOAT3 risePosition = currentPosition;
-			risePosition.y += 15.0f; // 상승할 거리
+			risePosition.y += 10.0f; // 상승할 거리
 
 			// 상승 Tween 설정
 			riseTween->GetData(&(_object->_transform._position))
-				.DoMove(risePosition, 1.f) // 0.5초 동안 상승
+				.DoMove(risePosition, 2.f) // 0.5초 동안 상승
 				.SetEase(Pg::Util::Enums::eEasingMode::OUTQUART)
 				.OnComplete([this]()
 					{
 						_goUp = true;
+						if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1)
+							_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_1;
+
+						if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2)
+							_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_2;
+
+						if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3)
+							_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_3;
 					});
 		}
 		if (_goUp)
@@ -652,7 +657,7 @@ namespace Pg::DataScript
 			_goUp = false;
 			// 하강 Tween 설정
 			fallTween->GetData(&(_object->_transform._position))
-				.DoMove(fallPosition, 1.f) // 1초 동안 하강
+				.DoMove(fallPosition, 3.f) // 1초 동안 하강
 				.SetEase(Pg::Util::Enums::eEasingMode::INQUART)
 				.OnComplete([this]()
 					{
@@ -666,7 +671,11 @@ namespace Pg::DataScript
 						{
 							iter->SetActive(false);
 						}
+						if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_1)
+							_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2;
 
+						if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2)
+							_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2;
 					});
 		}
 		if (_isGenerateCol)
@@ -680,6 +689,12 @@ namespace Pg::DataScript
 				_collider->SetActive(true);
 				_currentGenerateTime = 0.f;
 				_isGenerateCol = false;
+
+				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2 ||
+					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3)
+				{
+					_useTakeDownSkill = true;
+				}
 			}
 		}
 	}
@@ -687,7 +702,6 @@ namespace Pg::DataScript
 	void BossBehaviour::Evade()
 	{
 		// 회피 로직 구현
-		PG_TRACE(_bossInfo->GetCurrentEvadeTime());
 
 		///쿨타임 추가 필요함(5초 정도)
 		if (_bossInfo->GetCurrentEvadeTime() <= _bossInfo->GetEvadeDuration())
@@ -698,7 +712,7 @@ namespace Pg::DataScript
 			_bossInfo->SetCurrentEvadeTime(_bossInfo->GetCurrentEvadeTime() + _pgTime->GetDeltaTime());
 
 			//무적이어야 함.
-			_collider->SetActive(false);
+			//_collider->SetActive(false);
 
 			// 회피 방향 설정 (예: 플레이어의 반대 방향으로)
 			Pg::Math::PGFLOAT3 backwardDir = -Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
@@ -712,7 +726,7 @@ namespace Pg::DataScript
 		}
 		else
 		{
-			_collider->SetActive(true);
+			//_collider->SetActive(true);
 			_isEvading = false;
 			_bossInfo->SetCurrentEvadeTime(0.0f); // 현재 회피 시간을 초기화
 			_isRotatingToPlayer = true; // 다시 플레이어를 바라보도록 설정
