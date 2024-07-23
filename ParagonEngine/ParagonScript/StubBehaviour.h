@@ -129,6 +129,8 @@ namespace Pg::DataScript
 
 		bool _isRotateFinish;
 		bool _isFindSoundPlaying{ false };
+		bool _isAttackSoundPlaying{ false };
+		bool _isSkillSoundPlaying{ false };
 
 	public:
 		//그루터기의 상태와 수치에 대한 정보.

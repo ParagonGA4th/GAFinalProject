@@ -196,7 +196,6 @@ namespace Pg::DataScript
 		_distance = std::abs(std::sqrt(std::pow(_playerTransform->_position.x - _object->_transform._position.x, 2)
 			+ std::pow(_playerTransform->_position.z - _object->_transform._position.z, 2)));
 
-
 		//공격 범위 안에 들어왔을 때
 		if (_distance <= _stubInfo->GetAttackRange())
 		{
@@ -212,12 +211,16 @@ namespace Pg::DataScript
 
 			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::SKILL_ATTACK)
 			{
-				//PG_TRACE("Skill!");
 				Skill(true); // 스킬 사용
+
+				if (_monsterHelper->_isAnimationEnd)
+				{
+					_isSkillSoundPlaying = false;
+					_monsterHelper->_isAnimationEnd = false;
+				}
 			}
 			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::SKILL_COOLDOWN)
 			{
-				//PG_TRACE("Skill CoolDown!");
 				Skill(false); // 스킬 종료
 			}
 			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::BASIC_ATTACK_1 ||
@@ -226,79 +229,25 @@ namespace Pg::DataScript
 			{
 				//PG_TRACE("Attack!");
 				Attack(_monsterHelper->_isAnimChange);
+
+				//if (_monsterHelper->_isAnimationEnd)
+				//{
+				//	_isAttackSoundPlaying = false;
+				//	_monsterHelper->_isAnimationEnd = false;
+				//}
 			}
 			if (_monsterHelper->_stubFlag._stubState == Pg::Data::StubState::BASICATTACK_COOLDOWN)
 			{
 				//PG_TRACE("Attack CoolDown!");
 				Attack(false);
 			}
-
-			//애니메이션 딜레이를 위한 델타타임 체크.
-			//_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
-
-			////공격
-			//switch (_stubInfo->_status)
-			//{
-			//	//Idle 상태일 때, 스킬 공격을 한다.
-			//case StubStatus::IDLE:
-			//	_stubInfo->_status = StubStatus::SKILL_ATTACK;
-			//	_currentAttackTime = 0.f;
-			//	break;
-
-			//case StubStatus::SKILL_ATTACK:
-			//	if (_currentAttackTime >= 1.f)
-			//	{
-			//		PG_TRACE("Skill!");
-			//		Skill(true); // 스킬 사용
-			//		_stubInfo->_status = StubStatus::SKILLCOOLDOWN;
-			//		_currentAttackTime = 0.f;
-			//	}
-			//	break;
-
-			//	//쿨타임
-			//case StubStatus::SKILLCOOLDOWN:
-			//	if (_currentAttackTime >= 1.f)
-			//	{
-			//		PG_TRACE("Skill CoolDown!");
-			//		Skill(false); // 스킬 종료
-			//		_stubInfo->_status = StubStatus::BASIC_ATTACK;
-			//		_currentAttackTime = 0.f;
-			//	}
-			//	break;
-
-			//	//기본 공격
-			//case StubStatus::BASIC_ATTACK:
-			//	if (_currentAttackTime >= 1.0f) 
-			//	{
-			//		PG_TRACE("Attack!");
-			//		Attack(true);
-			//		_attackCount++;
-			//		_currentAttackTime = 0.0f;
-
-			//		//3번 공격하면, 쿨타임
-			//		if (_attackCount >= 3) {
-			//			_stubInfo->_status = StubStatus::BASICCOOLDOWN;
-			//			_currentAttackTime = 0.0f;
-			//		}
-			//	}
-			//	break;
-
-			//case StubStatus::BASICCOOLDOWN:
-			//	if (_currentAttackTime >= 1.0f) 
-			//	{
-			//		PG_TRACE("Attack CoolDown!");
-			//		Attack(false);
-			//		_stubInfo->_status = StubStatus::IDLE;
-			//		_currentAttackTime = 0.0f;
-			//		_attackCount = 0;
-			//	}
-			//	break;
-			//}
 		}
 		else
 		{
 			_monsterHelper->_isPlayerinHitSpace = false;
 			_isFindSoundPlaying = false;
+			_isAttackSoundPlaying = false;
+			_isSkillSoundPlaying = false;
 			_stubInfo->_status = StubStatus::IDLE;
 			//_monsterHelper->_stubState = Pg::Data::StubState::IDLE;
 			Attack(false);

@@ -4,6 +4,8 @@
 namespace Pg::Data
 {
 	class SkinnedMeshRenderer;
+	class ImageRenderer;
+	class BoxCollider;
 }
 
 namespace Pg::DataScript
@@ -26,6 +28,8 @@ namespace Pg::DataScript
 
 	private:
 		Pg::Data::SkinnedMeshRenderer* _renderer{ nullptr };
+		Pg::Data::BoxCollider* _artiBoxCol{ nullptr };
+		Pg::Data::ImageRenderer* _artiUI{ nullptr };
 		ArtifactBox* _artiBox{ nullptr };
 		CombatSystem* _combatSystem{ nullptr };
 

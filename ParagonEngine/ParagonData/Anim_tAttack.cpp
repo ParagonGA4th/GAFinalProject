@@ -11,7 +11,7 @@ namespace Pg::Data::BTree::Node
 		{
 			if (monHelper->_isAnimationEnd)
 			{
-				monHelper->_isAnimationEnd = false;
+				//monHelper->_isAnimationEnd = false;
 				monHelper->_isAnimChange = false;
 
 				if (monHelper->_stubFlag._stubState == Pg::Data::StubState::BASIC_ATTACK_3)
