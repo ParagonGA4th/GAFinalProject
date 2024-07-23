@@ -8,6 +8,7 @@
 namespace Pg::Data 
 { 
 	class Collider; 
+	class GameObject;
 	class SphereCollider;
 }
 
@@ -43,6 +44,7 @@ namespace Pg::DataScript
 
 	private:
 		void ConfinePlayer();
+		void ConfineBoss();
 		void DeactivateArea();
 		
 	public:
@@ -53,6 +55,7 @@ namespace Pg::DataScript
 	private:
 		Pg::Data::SphereCollider* _collider;
 		Pg::DataScript::PlayerHandler* _player;
+		Pg::Data::GameObject* _boss;
 
 		//int _monster = 1;
 		bool _onTriggerStay{ false };

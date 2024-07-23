@@ -47,6 +47,8 @@ namespace Pg::DataScript
 		//Boss Bar 오브젝트들 가져오기.
 		SetupBossHealthBar();
 
+		SetTutorialExplainUI(_object);
+
 		_finalBossBehaviour = _object->GetScene()->FindSingleComponentInScene<BossBehaviour>();
 		assert(_finalBossBehaviour != nullptr);
 	}

@@ -21,6 +21,7 @@
 #include "../ParagonData/MonsterHelper.h"
 
 #include "../ParagonAPI/PgTween.h"
+#include "../ParagonUtil/Tween.h"
 #include "../ParagonUtil/Log.h"
 
 #include <singleton-cpp/singleton.h>
@@ -612,35 +613,40 @@ namespace Pg::DataScript
 			_walkAudio->Stop();
 
 			// Tween 생성
-			Pg::Util::Tween* riseTween = _pgTween->CreateTween();
+			if (!_isRiseTween)
+			{
+				PG_WARN("TAKINGDOWN");
+				_riseTween = _pgTween->CreateTween();
+				_isRiseTween = true;
 
-			_collider->SetActive(false);
+				_collider->SetActive(false);
 
-			_isRotatingToPlayer = false;
+				_isRotatingToPlayer = false;
 
-			// 현재 위치 저장
-			Pg::Math::PGFLOAT3 currentPosition = _object->_transform._position;
+				// 현재 위치 저장
+				Pg::Math::PGFLOAT3 currentPosition = _object->_transform._position;
 
-			// 목표 위치 설정
-			Pg::Math::PGFLOAT3 risePosition = currentPosition;
-			risePosition.y += 10.0f; // 상승할 거리
+				// 목표 위치 설정
+				Pg::Math::PGFLOAT3 risePosition = currentPosition;
+				risePosition.y += 5.f; // 상승할 거리
 
-			// 상승 Tween 설정
-			riseTween->GetData(&(_object->_transform._position))
-				.DoMove(risePosition, 2.f) // 0.5초 동안 상승
-				.SetEase(Pg::Util::Enums::eEasingMode::OUTQUART)
-				.OnComplete([this]()
-					{
-						_goUp = true;
-						if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1)
-							_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_1;
+				// 상승 Tween 설정
+				_riseTween->GetData(&(_object->_transform._position))
+					.DoMove(risePosition, 2.f) // 2초 동안 상승
+					.SetEase(Pg::Util::Enums::eEasingMode::OUTQUART)
+					.OnComplete([this]()
+						{
+							_goUp = true;
+							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1)
+								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_1;
 
-						if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2)
-							_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_2;
+							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2)
+								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_2;
 
-						if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3)
-							_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_3;
-					});
+							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3)
+								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_3;
+						});
+			}
 		}
 		if (_goUp)
 		{
@@ -650,33 +656,39 @@ namespace Pg::DataScript
 				iter->SetActive(true);
 			}
 
-			Pg::Util::Tween* fallTween = _pgTween->CreateTween();
-			Pg::Math::PGFLOAT3 fallPosition = _playerTransform->_position;
-			fallPosition.y += 4.0f;
+			// Tween 생성
+			if (!_isFallTween)
+			{
+				PG_WARN("GOINGUP");
+				_fallTween = _pgTween->CreateTween();
+				_isFallTween = true;
 
-			_goUp = false;
-			// 하강 Tween 설정
-			fallTween->GetData(&(_object->_transform._position))
-				.DoMove(fallPosition, 3.f) // 1초 동안 하강
-				.SetEase(Pg::Util::Enums::eEasingMode::INQUART)
-				.OnComplete([this]()
-					{
-						// 내려찍기 후 추가 동작
-						_useTakeDownSkill = false;
-						_isRotatingToPlayer = true;
-						_goUp = false;
-						_isGenerateCol = true;
-						//내려찍기 콜라이더 활성화
-						for (auto& iter : _takeDownCol)
+				Pg::Math::PGFLOAT3 fallPosition = _playerTransform->_position;
+				fallPosition.y += 4.0f;
+
+				// 하강 Tween 설정
+				_fallTween->GetData(&(_object->_transform._position))
+					.DoMove(fallPosition, 1.f) // 1초 동안 하강
+					.SetEase(Pg::Util::Enums::eEasingMode::OUTQUART)
+					.OnComplete([this]()
 						{
-							iter->SetActive(false);
-						}
-						if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_1)
-							_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2;
+							// 내려찍기 후 추가 동작
+							_useTakeDownSkill = false;
+							_isRotatingToPlayer = true;
+							_goUp = false;
+							_isGenerateCol = true;
+							//내려찍기 콜라이더 활성화
+							for (auto& iter : _takeDownCol)
+							{
+								iter->SetActive(false);
+							}
+							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_1)
+								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2;
 
-						if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2)
-							_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2;
-					});
+							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2)
+								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2;
+						});
+			}
 		}
 		if (_isGenerateCol)
 		{
@@ -689,6 +701,8 @@ namespace Pg::DataScript
 				_collider->SetActive(true);
 				_currentGenerateTime = 0.f;
 				_isGenerateCol = false;
+				_isRiseTween = false;
+				_isFallTween = false;
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3)
@@ -771,6 +785,8 @@ namespace Pg::DataScript
 			//무력화 상태 시작.
 			_bossInfo->SetCurrentNeutralize(_bossInfo->GetCurrentNeutralize() + _pgTime->GetDeltaTime());
 
+			_isRotatingToPlayer = false;
+
 			// 시간이 끝나면 상태를 변경
 			if (_isNeutralizeInit && _bossInfo->GetCurrentNeutralize() >= _bossInfo->GetEndNeutralize())
 			{
@@ -778,6 +794,7 @@ namespace Pg::DataScript
 				_isNeutralize = false;
 				_monsterHelper->_bossFlag._isDown = false;
 				_monsterHelper->_bossFlag._isDownEnd = true;
+				_isRotatingToPlayer = true;
 				_bossInfo->SetCurrentNeutralize(0.f);
 			}
 
