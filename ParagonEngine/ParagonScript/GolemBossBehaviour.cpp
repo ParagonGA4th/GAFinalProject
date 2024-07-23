@@ -357,7 +357,7 @@ namespace Pg::DataScript
 		_cameraShake->CauseShake(0.25f);
 		//_hitSound->Play();
 
-		if (_monsterHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::IDLE ||
+		if (_monsterHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::IDLE &&
 			_monsterHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::CHASE) return;
 
 		//피격 애니메이션 들어가야 함.

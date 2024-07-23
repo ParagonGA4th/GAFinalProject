@@ -11,6 +11,7 @@ namespace Pg::API
 namespace Pg::Data
 {
 	class StaticBoxCollider;
+	class AudioSource;
 	class SkinnedMeshRenderer;
 }
 
@@ -24,6 +25,7 @@ namespace Pg::DataScript
 	public:
 		MimicActive(Pg::Data::GameObject* obj);
 
+		virtual void GrabManagedObjects() override;
 		virtual void BeforePhysicsAwake() override;
 		virtual void Awake() override;
 		virtual void Update() override;
@@ -39,6 +41,7 @@ namespace Pg::DataScript
 
 	private:
 		Pg::Data::GameObject* _mimic;
+		Pg::Data::AudioSource* _boxOpenSound;
 		Pg::Data::StaticBoxCollider* _collider;
 		Pg::Data::SkinnedMeshRenderer* _renderer;
 		MimicBehaviour* _mimicBehaviour;
