@@ -14,6 +14,7 @@
 #include "../ParagonData/Transform.h"
 #include "../ParagonData/GameConstantData.h"
 #include "../ParagonUtil/TimeSystem.h"
+#include "../ParagonUtil/InputSystem.h"
 
 #include <algorithm> 
 #include <cmath> 
@@ -53,6 +54,16 @@ namespace Pg::Graphics
 
 	void SceneInformationSender::ProcessSceneInfoData()
 	{
+		auto& tInput = singleton<Pg::Util::Input::InputSystem>();
+		if (tInput.GetKeyDown(Pg::API::Input::eKeyCode::KeyB))
+		{
+			_cbSceneInfo->GetDataStruct()->gCBuf_OnlyShowLMIndex = std::clamp<int>(_cbSceneInfo->GetDataStruct()->gCBuf_OnlyShowLMIndex - 1, 0, 4);
+		}
+		if (tInput.GetKeyDown(Pg::API::Input::eKeyCode::KeyN))
+		{
+			_cbSceneInfo->GetDataStruct()->gCBuf_OnlyShowLMIndex = std::clamp<int>(_cbSceneInfo->GetDataStruct()->gCBuf_OnlyShowLMIndex + 1, 0, 4);
+		}
+
 		//Constant Buffer (SceneInfo) 업데이트.
 		_cbSceneInfo->GetDataStruct()->gCBuf_ViewMatrix = PG2XM_MATRIX4X4(_savedCamData->_viewMatrix);
 		_cbSceneInfo->GetDataStruct()->gCBuf_ProjMatrix = PG2XM_MATRIX4X4(_savedCamData->_projMatrix);
@@ -192,6 +203,8 @@ namespace Pg::Graphics
 	{
 		_cbSceneInfo = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbSceneInfo>>();
 		_cbRenderingInfo = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbRenderingInfo>>();
+
+		_cbSceneInfo->GetDataStruct()->gCBuf_OnlyShowLMIndex = 0;
 	}
 
 
