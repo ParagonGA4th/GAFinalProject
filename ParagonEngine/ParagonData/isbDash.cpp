@@ -8,11 +8,8 @@ namespace Pg::Data::BTree::Node
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
 		{
-			if (monHelper->_bossFlag._isDash)
-			{
-				monHelper->_bossFlag._bossState = Pg::Data::BossState::DASH;
+			if (monHelper->_bossFlag._bossState == Pg::Data::BossState::DASH)
 				return BT::NodeStatus::SUCCESS;
-			}
 		}
 
 		return BT::NodeStatus::FAILURE;

@@ -62,11 +62,15 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::Anim_bIdle>("Anim_bIdle");
 		_factory->registerNodeType<Node::Anim_bWalk>("Anim_bWalk");
 		_factory->registerNodeType<Node::Anim_bDash>("Anim_bDash");
+		_factory->registerNodeType<Node::Anim_Cast>("Anim_Cast");
 		_factory->registerNodeType<Node::Anim_RightArmAttack>("Anim_RightArmAttack");
 		_factory->registerNodeType<Node::Anim_LeftArmAttack>("Anim_LeftArmAttack");
 		_factory->registerNodeType<Node::Anim_TwoArmAttack>("Anim_TwoArmAttack");
+		_factory->registerNodeType<Node::Anim_FeatherAttackStart>("Anim_FeatherAttackStart");
 		_factory->registerNodeType<Node::Anim_FeatherAttack>("Anim_FeatherAttack");
+		_factory->registerNodeType<Node::Anim_FeatherAttackEnd>("Anim_FeatherAttackEnd");
 		_factory->registerNodeType<Node::Anim_FlyAttack>("Anim_FlyAttack");
+		_factory->registerNodeType<Node::Anim_FlyAttack>("Anim_FlyAttackPrePare");
 		_factory->registerNodeType<Node::Anim_Evasion>("Anim_Evasion");
 		_factory->registerNodeType<Node::Anim_DownStart>("Anim_DownStart");
 		_factory->registerNodeType<Node::Anim_Down>("Anim_Down");

@@ -7,7 +7,7 @@
 
 #include "PlayerHandler.h"
 #include "PlayerCombatSector.h"
-#include "PauseBox.h"
+#include "PauseOptionBox.h"
 
 #include "../ParagonAPI/PgGraphics.h"
 #include "CombatSystem.h"
@@ -96,8 +96,8 @@ namespace Pg::DataScript
 		}
 
 		//GUIHandler 나오기 전 작업물, 하드 셋.
-		_pauseBox = _object->GetScene()->FindSingleComponentInScene<PauseBox>();
-		assert(_pauseBox != nullptr);
+		_pauseOptionBox = _object->GetScene()->FindSingleComponentInScene<PauseOptionBox>();
+		assert(_pauseOptionBox != nullptr);
 
 		//플레이어 가져오기.
 		_playerTransform = &(tPH->_object->_transform);
@@ -108,7 +108,8 @@ namespace Pg::DataScript
 
 	void Stage2GUIHandler::AdditionalReset()
 	{
-		_pauseBox->ResetAll();
+		//_pauseBox->ResetAll();
+		_pauseOptionBox->ResetAll();
 	}
 
 	void Stage2GUIHandler::SetupStaminaBillboardRenderObject()

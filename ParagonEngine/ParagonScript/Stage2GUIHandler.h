@@ -15,7 +15,7 @@ namespace Pg::API
 
 namespace Pg::DataScript
 {
-	class PauseBox;
+	class PauseOptionBox;
 
 	class Stage2GUIHandler : public ScriptInterface<Stage2GUIHandler>, public BaseGUIHandler
 	{
@@ -42,7 +42,7 @@ namespace Pg::DataScript
 	private:
 		Pg::API::Graphics::PgGraphics* _pgGraphics{ nullptr };
 
-		PauseBox* _pauseBox{ nullptr };
+		PauseOptionBox* _pauseOptionBox{ nullptr };
 		Pg::Data::VisualEffectRenderObject* _staminaBillboardObject{ nullptr };
 		Pg::Data::Transform* _playerTransform{ nullptr };
 		unsigned int* _staminaTextureIndexPointer{ nullptr };

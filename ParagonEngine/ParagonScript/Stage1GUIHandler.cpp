@@ -12,8 +12,10 @@
 
 #include "PlayerHandler.h"
 #include "PauseBox.h"
+#include "PauseOptionBox.h"
 #include "CombatSystem.h"
 #include "EventList_GameFlowRelated.h"
+#include "EventList_PlayerRelated.h"
 
 #include <singleton-cpp/singleton.h>
 
@@ -37,7 +39,7 @@ namespace Pg::DataScript
 	{
 		//모든 GUI Handler들이 호출해야 하는 함수이다.
 		GrabOrganizeAllGUI(_object);
-		
+
 		//얘는 Abstract이다. 무조건 GrabManaged에서 호출되었어야.
 		AssignPointersToGUI();
 
@@ -65,6 +67,10 @@ namespace Pg::DataScript
 			std::bind(&Stage1GUIHandler::HandleEvents, this, std::placeholders::_1,
 				std::placeholders::_2, std::placeholders::_3));
 
+		CombatSystem::GetInstance(nullptr)->Subscribe(Event_PlayerDeath::_identifier,
+			std::bind(&Stage1GUIHandler::HandleEvents, this, std::placeholders::_1,
+				std::placeholders::_2, std::placeholders::_3));
+
 		_golemBossBar_Fill->SetActive(false);
 		_golemBossBar_Frame->SetActive(false);
 		_golemBossBar_Back->SetActive(false);
@@ -82,7 +88,7 @@ namespace Pg::DataScript
 		PlayerHandler* tPH = _object->GetScene()->FindSingleComponentInScene<PlayerHandler>();
 		assert(tPH != nullptr);
 		_managedGuiObjectList.at("HealthBar")._guiComponent->ReceiveDependentPointers(
-			(void*)tPH->ReturnPlayerHealthPointPointerConst(), nullptr, nullptr, 
+			(void*)tPH->ReturnPlayerHealthPointPointerConst(), nullptr, nullptr,
 			tPH->MAX_PLAYER_HEALTH, NULL, NULL);
 
 		_managedGuiObjectList.at("ManaBar")._guiComponent->ReceiveDependentPointers(
@@ -95,7 +101,7 @@ namespace Pg::DataScript
 				(void*)&(tPH->GetPlayerCombatSector()->_isFireAttackStartEligible),
 				(void*)&(tPH->GetPlayerCombatSector()->_checkFireAttack),
 				PlayerCombatSector::FIRE_ATTACK_COOLDOWN_TIME, PlayerCombatSector::FIRE_ATTACK_REQUIRED_MANA, NULL);
-		}	
+		}
 
 		{
 			_managedGuiObjectList.at("Skill1_WhiteFill")._guiComponent->ReceiveDependentPointers(
@@ -123,8 +129,8 @@ namespace Pg::DataScript
 		}
 
 		//GUIHandler 나오기 전 작업물, 하드 셋.
-		_pauseBox = _object->GetScene()->FindSingleComponentInScene<PauseBox>();
-		assert(_pauseBox != nullptr);
+		_pauseOptionBox = _object->GetScene()->FindSingleComponentInScene<PauseOptionBox>();
+		assert(_pauseOptionBox != nullptr);
 
 		//플레이어 가져오기.
 		_playerTransform = &(tPH->_object->_transform);
@@ -135,14 +141,14 @@ namespace Pg::DataScript
 
 	void Stage1GUIHandler::AdditionalReset()
 	{
-		_pauseBox->ResetAll();
+		_pauseOptionBox->ResetAll();
 	}
 
 	void Stage1GUIHandler::SetupStaminaBillboardRenderObject()
 	{
 		_staminaBillboardObject = new Pg::Data::VisualEffectRenderObject();
 		//EffectObject 등록.
-		_pgGraphics->RegisterEffectObject("Effect_StaminaStats",_staminaBillboardObject);
+		_pgGraphics->RegisterEffectObject("Effect_StaminaStats", _staminaBillboardObject);
 		_staminaBillboardObject->SetActive(false);
 	}
 
@@ -156,13 +162,14 @@ namespace Pg::DataScript
 
 		//Stamina 받기.
 		*_staminaTextureIndexPointer = tCombatSystem->GetPlayerStamina();
-		
+
 		//PG_WARN("STAMINA : {0}", *_staminaTextureIndexPointer);
 	}
 
 	void Stage1GUIHandler::CleanOnSceneChange()
 	{
 		_staminaBillboardObject->SetActive(false);
+		_isGolemBossMet = false;
 	}
 
 	void Stage1GUIHandler::SetupGolemBossHealthBar()
@@ -192,6 +199,8 @@ namespace Pg::DataScript
 		//만약 Event_OnGolemBossGameAreaEnter -> Boss Bar Enabled.
 		if (e.GetIdentifier() == Event_OnGolemBossGameAreaEnter::_identifier)
 		{
+			_isGolemBossMet = true;
+
 			_golemBossBar_Fill->SetActive(true);
 			_golemBossBar_Frame->SetActive(true);
 			_golemBossBar_Back->SetActive(true);
@@ -201,6 +210,12 @@ namespace Pg::DataScript
 			_golemBossBar_Fill->SetActive(false);
 			_golemBossBar_Frame->SetActive(false);
 			_golemBossBar_Back->SetActive(false);
+		}
+		else if (e.GetIdentifier() == Event_PlayerDeath::_identifier)
+		{
+			_golemBossBar_Fill->SetActive(_isGolemBossMet);
+			_golemBossBar_Frame->SetActive(_isGolemBossMet);
+			_golemBossBar_Back->SetActive(_isGolemBossMet);
 		}
 	}
 
