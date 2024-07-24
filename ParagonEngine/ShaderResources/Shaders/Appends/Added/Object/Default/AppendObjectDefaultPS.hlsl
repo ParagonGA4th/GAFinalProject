@@ -155,12 +155,12 @@ POutQuad main(VOutQuad pin)
     
     if (isUseLightmap && gCBuf_IsSceneUseLightmap)
     {
-        //if (isAlphaClipped)
-        //{
-        //    res.Output = float4(Uncharted2_Tonemapping(color.xyz), 1.0f);
-        //}
-        //else
-        //{
+        if (isAlphaClipped)
+        {
+            res.Output = float4(Uncharted2_Tonemapping(color.xyz), 1.0f);
+        }
+        else
+        {
             float4 lightColor = float4(GetLightmapRGB(pin.UV), 1.f);
             lightColor *= color;
             lightColor = float4(Uncharted2_Tonemapping(lightColor.xyz), 1.0f);
@@ -173,7 +173,7 @@ POutQuad main(VOutQuad pin)
             lightColor.xyz += (oDirSpecBRDF + oIndSpecBRDF);
 
             res.Output = lightColor;
-        //}
+        }
         //res.Output = float4(ACES_Filming_Tonemapping(lightColor.xyz), 1.0f);
         //res.Output = float4(lightColor.xyz, 1.0f);
 
