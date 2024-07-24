@@ -247,7 +247,7 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Update()
 	{
-		//PG_TRACE(_monsterHelper->_bossFlag._bossStateListByEnum[_monsterHelper->_bossFlag._bossState]);
+		PG_TRACE(_monsterHelper->_bossFlag._bossStateListByEnum[_monsterHelper->_bossFlag._bossState]);
 	
 		_distance = std::abs(std::sqrt(std::pow(_playerTransform->_position.x - _object->_transform._position.x, 2)
 			+ std::pow(_playerTransform->_position.z - _object->_transform._position.z, 2)));
@@ -883,8 +883,6 @@ namespace Pg::DataScript
 
 		_goUp = false;
 		_isGenerateCol = false;
-
-		_currentGenerateTime = 0.f;
 
 		//충돌 객체 전부 초기화.
 		_collider->SetActive(true);
