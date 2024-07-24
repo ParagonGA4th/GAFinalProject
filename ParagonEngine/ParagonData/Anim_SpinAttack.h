@@ -20,9 +20,6 @@ namespace Pg::Data::BTree::Node
 		{
 			return {};
 		}
-
-	private:
-		bool _isAnimChange{ false };
 	};
 }
 #endif

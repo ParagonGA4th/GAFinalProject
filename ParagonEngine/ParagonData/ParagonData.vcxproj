@@ -217,8 +217,6 @@
     <ClInclude Include="Anim_FeatherAttackStart.h" />
     <ClInclude Include="Anim_FlyAttack.h" />
     <ClInclude Include="Anim_FlyAttackPrePare.h" />
-    <ClInclude Include="Anim_gbLeftArmAttack.h" />
-    <ClInclude Include="Anim_gbRightArmAttack.h" />
     <ClInclude Include="Anim_gbTwoArmAttack.h" />
     <ClInclude Include="Anim_gDead.h" />
     <ClInclude Include="Anim_Delay.h" />
@@ -234,6 +232,7 @@
     <ClInclude Include="Anim_RightArmAttack.h" />
     <ClInclude Include="Anim_fWalk.h" />
     <ClInclude Include="Anim_SpinAttack.h" />
+    <ClInclude Include="Anim_SpinDashAttack.h" />
     <ClInclude Include="Anim_tAttack.h" />
     <ClInclude Include="Anim_ThrowCoin.h" />
     <ClInclude Include="Anim_TwoArmAttack.h" />
@@ -384,8 +383,6 @@
     <ClCompile Include="Anim_FeatherAttackStart.cpp" />
     <ClCompile Include="Anim_FlyAttack.cpp" />
     <ClCompile Include="Anim_FlyAttackPrePare.cpp" />
-    <ClCompile Include="Anim_gbLeftArmAttack.cpp" />
-    <ClCompile Include="Anim_gbRightArmAttack.cpp" />
     <ClCompile Include="Anim_gbTwoArmAttack.cpp" />
     <ClCompile Include="Anim_gDead.cpp" />
     <ClCompile Include="Anim_Delay.cpp" />
@@ -401,6 +398,7 @@
     <ClCompile Include="Anim_RightArmAttack.cpp" />
     <ClCompile Include="Anim_fWalk.cpp" />
     <ClCompile Include="Anim_SpinAttack.cpp" />
+    <ClCompile Include="Anim_SpinDashAttack.cpp" />
     <ClCompile Include="Anim_tAttack.cpp" />
     <ClCompile Include="Anim_ThrowCoin.cpp" />
     <ClCompile Include="Anim_TwoArmAttack.cpp" />

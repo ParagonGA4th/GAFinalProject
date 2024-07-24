@@ -71,6 +71,9 @@ namespace Pg::DataScript
 		//타겟의 위치를 향해 바라봄.
 		void RotateToPlayer(Pg::Math::PGFLOAT3& targetPos);
 
+		// 다음 페이즈로 넘어가기 위해
+		void Down();
+
 		//플레이어를 공격.
 		void Attack(bool _isAttack);
 		void Skill(bool _isSkill);
@@ -143,6 +146,10 @@ namespace Pg::DataScript
 
 		bool _isDashSoundPlaying = false; //돌진 소리
 		bool _isAttackSoundPlaying = false; //공격 소리
+		
+		// down 관련
+		bool _isDownInit;
+		bool _isDown;
 
 	public:
 		//미니골렘의 상태와 수치에 대한 정보.
