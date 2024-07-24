@@ -183,7 +183,7 @@ namespace Pg::DataScript
 
 	void GolemBossBehaviour::Update()
 	{
-		PG_TRACE(_monsterHelper->_bGolemFlag._bossStateListByEnum[_monsterHelper->_bGolemFlag._bossState]);
+		//PG_TRACE(_monsterHelper->_bGolemFlag._bossStateListByEnum[_monsterHelper->_bGolemFlag._bossState]);
 
 		auto plVec = _player;
 		auto plTrans = plVec->_transform;
