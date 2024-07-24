@@ -205,7 +205,6 @@ namespace Pg::Engine::BTree
 
 			}
 		}
-
 	}
 
 	void BehaviorTreeSystem::ManageAnimatorList()

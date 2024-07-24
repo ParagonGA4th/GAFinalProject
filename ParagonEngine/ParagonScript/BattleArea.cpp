@@ -73,11 +73,11 @@ namespace Pg::DataScript
 					if (_object->GetScene()->GetSceneName() != "Stage2")
 					{
 						ConfinePlayer();
+					}
 
-						if (_object->GetScene()->GetSceneName() == "BossStage")
-						{
-							ConfineBoss();
-						}
+					if (_object->GetScene()->GetSceneName() == "BossStage")
+					{
+						ConfineBoss();
 					}
 				}
 				else
@@ -121,8 +121,7 @@ namespace Pg::DataScript
 
 			if (col->_object->GetTag() == "TAG_Boss")
 			{
-				auto dCol = _boss->GetComponent<Pg::Data::DynamicCollider>();
-				dCol = col->_object->GetComponent<Pg::Data::DynamicCollider>();
+				_boss = col->_object;
 			}
 
 		}
