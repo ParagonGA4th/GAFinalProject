@@ -103,6 +103,9 @@ namespace Pg::DataScript
 		std::vector<Pg::Data::StaticBoxCollider*> _skillAttackCol;
 	
 	private:
+
+		Pg::Data::AudioSource* _moveSound;
+		
 		Pg::Data::GameObject* _waspHit;
 		Pg::Data::AudioSource* _hitSound;
 
@@ -134,6 +137,7 @@ namespace Pg::DataScript
 
 		//사툰드 관련 변수
 		bool _isAttackSoundPlaying{ false };
+		bool _isMoveSoundPlaying{ false };
 
 		//공격 관련 변수
 		bool _isAttackStart{ false };

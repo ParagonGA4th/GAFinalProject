@@ -51,7 +51,7 @@ namespace Pg::Data
 
 	public:
 		//Serialize를 위해 public으로.
-		Handle* _handle;
+		Handle* handleObj;
 
 	private:
 		//슬라이더의 값이 변경될 때 발생하는 이벤트.
@@ -75,5 +75,7 @@ namespace Pg::Data
 		float _maxHeight = 1.f;
 
 		bool _isClick;
+
+		void FindRequiredObject();
 	};
 }
