@@ -143,10 +143,6 @@ namespace Pg::DataScript
 		{
 			artifactCount++;
 		}		
-		else if (e.GetIdentifier() == Event_PlayerOnLowHealth::_identifier)
-		{
-			_meshRenderer->SetAnimation("PA_00012.pganim", false);
-		}
 	}
 
 	void PlayerHandler::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
@@ -161,6 +157,7 @@ namespace Pg::DataScript
 
 	void PlayerHandler::ChangePlayerHealth(float level)
 	{
+		_meshRenderer->SetAnimation("PA_00012.pganim", false);
 		healthPoint = std::clamp<float>(healthPoint + level, 0.0f, MAX_PLAYER_HEALTH);
 
 		if (healthPoint > std::numeric_limits<float>::epsilon() &&
