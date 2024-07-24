@@ -54,6 +54,17 @@ namespace Pg::DataScript
 		_howToPlayButton->SetOnClickDownEvent([this]
 			{
 				_btnClick->Play();
+
+				_tutorialRenderer->SetActive(true);
+
+				_leftbutton->SetActive(true);
+				_leftRenderer->SetActive(true);
+
+				_rightbutton->SetActive(true);
+				_rightRenderer->SetActive(true);
+
+				_exitbutton->SetActive(true);
+				_exitRenderer->SetActive(true);
 			});
 		_howToPlayButton->SetHover([this]
 			{
@@ -141,6 +152,21 @@ namespace Pg::DataScript
 //_title = _object->GetScene()->FindObjectWithName("Title");
 		_credit = _object->GetScene()->FindObjectWithName("Credit");
 		_creditButton = _credit->GetComponent<Pg::Data::Button>();
+
+		Pg::Data::GameObject* _tutorial = _object->GetScene()->FindObjectWithName("TutorialImage");
+		_tutorialRenderer = _tutorial->GetComponent<Pg::Data::ImageRenderer>();
+
+		Pg::Data::GameObject* _left = _object->GetScene()->FindObjectWithName("LeftArrow");
+		_leftbutton = _left->GetComponent<Pg::Data::Button>();
+		_leftRenderer = _left->GetComponent<Pg::Data::ImageRenderer>();
+
+		Pg::Data::GameObject* _right = _object->GetScene()->FindObjectWithName("RightArrow");
+		_rightbutton = _right->GetComponent<Pg::Data::Button>();
+		_rightRenderer = _right->GetComponent<Pg::Data::ImageRenderer>();
+
+		Pg::Data::GameObject* _exit = _object->GetScene()->FindObjectWithName("TutorialExit");
+		_exitbutton = _exit->GetComponent<Pg::Data::Button>();
+		_exitRenderer = _exit->GetComponent<Pg::Data::ImageRenderer>();
 	}
 
 }
