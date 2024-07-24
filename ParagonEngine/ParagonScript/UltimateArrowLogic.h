@@ -2,6 +2,7 @@
 #include "ScriptInterface.h"
 #include "IProjectile.h"
 #include "../ParagonMath/PgMath.h"
+#include "../ParagonData/VisualEffectRenderObject.h"
 
 namespace Pg::Data
 {
@@ -21,6 +22,8 @@ namespace Pg::API
 	{
 		class PgTween;
 	}
+	
+	namespace Graphics { class PgGraphics; }
 }
 
 namespace Pg::DataScript
@@ -41,6 +44,7 @@ namespace Pg::DataScript
 
 	public:
 		UltimateArrowLogic(Pg::Data::GameObject* obj);
+		virtual void CleanOnSceneChange() override;
 
 		virtual void GrabManagedObjects() override;
 		virtual void BeforePhysicsAwake() override;
@@ -63,6 +67,12 @@ namespace Pg::DataScript
 		bool GetUltimateSkillEnd();
 	private:
 		void EndShootingSelf();
+	
+	private:
+		//UpdateEffect;
+		//StartEffect();
+		void StartEffectHit();
+		void UpdateEffect();
 
 	private:
 		//스킬 끝나는 시간.
@@ -79,6 +89,9 @@ namespace Pg::DataScript
 		bool _startCountingTime = false;
 		float _elapsedTime = 0.0f;
 
+		bool _isHitEffectAlive = false;
+		float _effectCountTime = 0.f;
+
 
 	private:	//자신의 컴포넌트들.
 		Pg::Data::SkinnedMeshRenderer* _meshRenderer;
@@ -93,6 +106,11 @@ namespace Pg::DataScript
 		ComboSystem* _comboSystem{ nullptr };
 		PlayerHandler* _playerHandler{ nullptr };
 		CombatSystem* _combatSystem{ nullptr };
+
+	private:
+		//VO
+		Pg::API::Graphics::PgGraphics* _pgGraphics{ nullptr };
+		Pg::Data::VisualEffectRenderObject* _voUltimateHitOnMonster{ nullptr };
 	};
 }
 

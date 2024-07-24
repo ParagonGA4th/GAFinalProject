@@ -121,6 +121,7 @@ namespace Pg::DataScript
 
 	void ArrowLogic::ShootArrow(Pg::Math::PGFLOAT3 initialPos, Pg::Math::PGFLOAT3 shootDir)
 	{
+
 		//스스로에게 사용되는 중이라고 상태 설정.
 		_isNowShooting = true;
 		_isJustInvokedShoot = true;
@@ -230,6 +231,10 @@ namespace Pg::DataScript
 				//충돌했으면 Trail도 꺼야 한다.
 				TurnOffAllTrailObjects();
 			
+				//Base Info 기록. OnHit 호출을 위해.
+				//여기서는 실제로 Hit 했을 포인트.
+				tEnemyBehaviour->ReturnBaseMonsterInfo()->OnHitEnableHitEffect(_arrowType);
+
 				//Damage Logic 실행, 콤보는 공격의 종류와 상관없이 유지될 것이니.
 				_assignedDamageLogic(tEnemyBehaviour, tComboIndex);
 
@@ -275,11 +280,13 @@ namespace Pg::DataScript
 
 	void ArrowLogic::IceArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex)
 	{
+		_combatSystem->AddMonsterOnHitList(behav->ReturnBaseMonsterInfo());
 		_combatSystem->AddMonsterIceDamageList(behav->ReturnBaseMonsterInfo());
 	}
 
 	void ArrowLogic::FireArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex)
 	{
+		_combatSystem->AddMonsterOnHitList(behav->ReturnBaseMonsterInfo());
 		_combatSystem->AddMonsterFireDamageList(behav->ReturnBaseMonsterInfo());
 	}
 

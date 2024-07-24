@@ -125,7 +125,7 @@ namespace Pg::DataScript
 		const int* ReturnPlayerStaminaPointPointerConst() const;
 
 		bool GetIsStaminaReadyToUse();
-
+		void InvokeHitEffect();
 	private:
 		void GetInternalVariables();
 		void UpdateStamina();
@@ -167,6 +167,14 @@ namespace Pg::DataScript
 		Pg::Math::PGFLOAT3 _rendererOffSet = { 0.f, -1.f, 0.f };
 
 		Pg::Data::VisualEffectRenderObject* _groundDustRO{ nullptr };
+		Pg::Data::VisualEffectRenderObject* _hitRO{ nullptr };
+		
+		bool _isEffectPlayOnHit = false;
+		float _effectPlayOnHitTime = 0.f;
+		unsigned int* _chosenPtrEffect = nullptr;
+		//무적 상태일 떄의 효과 
+		//보관하고 있어야 한다.
+
 	};
 }
 

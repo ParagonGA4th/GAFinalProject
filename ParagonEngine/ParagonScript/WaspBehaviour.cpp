@@ -223,6 +223,8 @@ namespace Pg::DataScript
 		//_miniGolemAttack = _object->GetScene()->FindObjectWithName("MiniGolemAttackSound");
 		//_attackSound = _miniGolemAttack->GetComponent<Pg::Data::AudioSource>();
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
+
+		_waspInfo->StartBaseMonsterLogic();
 	}
 
 	void WaspBehaviour::Update()
@@ -261,6 +263,8 @@ namespace Pg::DataScript
 		///로직 (무조건 제일 끝에 존재해야 함)
 		UpdateAttack();
 		UpdateSkillAttack();
+
+		_waspInfo->UpdateBaseMonsterLogic(_object);
 	}
 
 	void WaspBehaviour::Chase()
