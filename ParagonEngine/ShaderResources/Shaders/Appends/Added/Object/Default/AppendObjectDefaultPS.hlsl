@@ -138,12 +138,21 @@ POutQuad main(VOutQuad pin)
     
     //라이트맵이 아직 없는 이 상황, 일단은 해제했음.
     //라이트 맵을 쓰는 경우
-    if (IsUseLightmap(pin.UV) && gCBuf_IsSceneUseLightmap)
+    bool isAlphaClipped = false;
+    bool isUseLightmap = IsUseLightmap(pin.UV, isAlphaClipped);
+    if (isUseLightmap && gCBuf_IsSceneUseLightmap)
     {
-        float4 lightColor = float4(GetLightmapRGB(pin.UV), 1.f);
-        lightColor = max(lightColor, float4(0.1f, 0.1f, 0.1f, 1.f));
-        lightColor *= color;
-        res.Output = float4(Uncharted2_Tonemapping(lightColor.xyz), 1.0f);
+        if (isAlphaClipped)
+        {
+            res.Output = float4(Uncharted2_Tonemapping(color.xyz), 1.0f);
+        }
+        else
+        {
+            float4 lightColor = float4(GetLightmapRGB(pin.UV), 1.f);
+            lightColor = max(lightColor, float4(0.1f, 0.1f, 0.1f, 1.f));
+            lightColor *= color;
+            res.Output = float4(Uncharted2_Tonemapping(lightColor.xyz), 1.0f);
+        }
         //res.Output = float4(ACES_Filming_Tonemapping(lightColor.xyz), 1.0f);
         //res.Output = float4(lightColor.xyz, 1.0f);
 

@@ -66,10 +66,14 @@ float3 GetLightmapRGB(float2 quadUV)
     return internal_GBuffer[4].Sample(fullScreenQuadSS, quadUV).rgb;
 }
 
-bool IsUseLightmap(float2 quadUV)
+bool IsUseLightmap(float2 quadUV, out bool isAlphaClipped)
 {
     //0보다 크면 Lightmapping을 활용하는 것이다.
-    return (internal_GBuffer[4].Sample(fullScreenQuadSS, quadUV).w > 0);
+    int val = internal_GBuffer[4].Sample(fullScreenQuadSS, quadUV).w;
+    isAlphaClipped = (val == 2);
+    return val > 0;
 }
+
+
 
 #endif //__DEFINED_APPENDS_GBUFFER_TEXTURES_HLSL__
