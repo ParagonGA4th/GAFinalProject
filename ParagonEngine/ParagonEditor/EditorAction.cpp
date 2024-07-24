@@ -84,7 +84,7 @@ ATOM Pg::Editor::Core::EditorAction::WindowRegisterClass(HINSTANCE hInstance)
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInstance;
-	wcex.hIcon = ExtractIconW(hInstance, L"../Resources/Icons/ApplePieTeamLogo256x256.ico", 0);
+	wcex.hIcon = ExtractIconW(hInstance, L"../Resources/Icons/TeamLogo.ico", 0);
 	wcex.hIconSm = wcex.hIcon;
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);

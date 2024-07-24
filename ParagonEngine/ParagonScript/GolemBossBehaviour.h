@@ -152,6 +152,8 @@ namespace Pg::DataScript
 		bool _isDownInit;
 		bool _isDown;
 
+		bool _rotateToPlayer{ false };
+
 	public:
 		//미니골렘의 상태와 수치에 대한 정보.
 		GolemBossInfo* _golBossInfo;
