@@ -135,8 +135,11 @@ namespace Pg::DataScript
 		else if (e.GetIdentifier() == Event_PlayerGetArtifact::_identifier)
 		{
 			artifactCount++;
+		}		
+		else if (e.GetIdentifier() == Event_PlayerOnLowHealth::_identifier)
+		{
+			_meshRenderer->SetAnimation("PA_00012.pganim", false);
 		}
-
 	}
 
 	void PlayerHandler::OnTriggerEnter(Pg::Data::Collider** _colArr, unsigned int count)
