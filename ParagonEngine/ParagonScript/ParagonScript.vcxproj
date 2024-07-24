@@ -217,6 +217,7 @@
     <ClInclude Include="Stair.h" />
     <ClInclude Include="StrongAttackLogic.h" />
     <ClInclude Include="TakeDownAttack.h" />
+    <ClInclude Include="TitleTutorial.h" />
     <ClInclude Include="TotalGameManager.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="IEnemyBehaviour.h" />
@@ -322,6 +323,7 @@
     <ClCompile Include="Stair.cpp" />
     <ClCompile Include="StrongAttackLogic.cpp" />
     <ClCompile Include="TakeDownAttack.cpp" />
+    <ClCompile Include="TitleTutorial.cpp" />
     <ClCompile Include="TotalGameManager.cpp" />
     <ClCompile Include="InGameCameraBehavior.cpp" />
     <ClCompile Include="MimicBehaviour.cpp" />

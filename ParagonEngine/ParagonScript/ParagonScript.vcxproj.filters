@@ -340,6 +340,9 @@
     <Filter Include="Content\1_ConcreteHandlers\7_GameOverScene_2D\GameOverSceneGUIHandler">
       <UniqueIdentifier>{fa97309a-f0d7-4790-8ee0-bdbafed8cb9d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\TitleUI\Tutorial">
+      <UniqueIdentifier>{187aa5fe-828e-40bd-af05-a1851852d489}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -617,6 +620,9 @@
     </ClCompile>
     <ClCompile Include="GameOverSceneGUIHandler.cpp">
       <Filter>Content\1_ConcreteHandlers\7_GameOverScene_2D\GameOverSceneGUIHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleTutorial.cpp">
+      <Filter>UI\TitleUI\Tutorial</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -964,6 +970,9 @@
     </ClInclude>
     <ClInclude Include="GameOverSceneGUIHandler.h">
       <Filter>Content\1_ConcreteHandlers\7_GameOverScene_2D\GameOverSceneGUIHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleTutorial.h">
+      <Filter>UI\TitleUI\Tutorial</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

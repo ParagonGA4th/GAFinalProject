@@ -247,8 +247,8 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Update()
 	{
-		PG_TRACE(_monsterHelper->_bossFlag._bossStateListByEnum[_monsterHelper->_bossFlag._bossState]);
-	
+		//PG_TRACE(_monsterHelper->_bossFlag._bossStateListByEnum[_monsterHelper->_bossFlag._bossState]);
+
 		_distance = std::abs(std::sqrt(std::pow(_playerTransform->_position.x - _object->_transform._position.x, 2)
 			+ std::pow(_playerTransform->_position.z - _object->_transform._position.z, 2)));
 
@@ -383,7 +383,7 @@ namespace Pg::DataScript
 
 		//내려찍기 스킬
 		UpdatePhaseThreeSkill();
-	
+
 		_bossInfo->UpdateBaseMonsterLogic(_object);
 	}
 
@@ -586,6 +586,8 @@ namespace Pg::DataScript
 						iter->SetActive(true);
 						iter2->SetAlphaPercentage(100.f);
 
+						iter2->PlayAnim();
+
 						//BattleArea의 값에 따라 수정할 예정
 						Pg::Math::PGFLOAT3 randomPosition = { RandomRange(-10.f, 10.f), 0, RandomRange(-10.f,10.f) };
 						iter->_object->_transform._position = randomPosition;
@@ -606,6 +608,8 @@ namespace Pg::DataScript
 				for (auto& iter : _lightSkillRenderer)
 				{
 					iter->SetAlphaPercentage(0.f);
+					iter->SetAnimation("bosspillar_0.pganim", false);
+					iter->PauseAnim();
 				}
 
 				_bossInfo->SetCurrentLightSkillTime(0.f);
@@ -700,7 +704,7 @@ namespace Pg::DataScript
 
 							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2)
 								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3;
-							
+
 							_isGenerateCol = true;
 
 						});
