@@ -611,6 +611,6 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::OnAnimationEnd(const std::string& justEndedAnimation)
 	{
-		_playerHandler->_meshRenderer->SetAnimation("PA_00001.pganim", true);
+		_playerHandler->_meshRenderer->SetAnimation("PA_00012.pganim", true);
 	}
 }
