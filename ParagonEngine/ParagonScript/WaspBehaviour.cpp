@@ -307,9 +307,16 @@ namespace Pg::DataScript
 			else
 			{
 				_isSkillStart = true;
+				if (!_isAttackSoundPlaying)
+				{
+					_attackSound->Play();
+					_isAttackSoundPlaying = true;
+				}
+
 				_isAttackStart = false;
-				_isAttackSoundPlaying = false;
 			}
+
+			if (_monsterHelper->_state == Pg::Data::MonsterState::IDLE) _isAttackSoundPlaying = false;
 
 			//АјАн
 			//if (_currentAttackTime >= _startAttackTime)

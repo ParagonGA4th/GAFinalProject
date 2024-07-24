@@ -167,17 +167,20 @@ namespace Pg::DataScript
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
 		//AudioSource 컴포넌트 들고오기
-		//_miniGolemHit = _object->GetScene()->FindObjectWithName("MiniGolemHitSound");
-		//_hitSound = _miniGolemHit->GetComponent<Pg::Data::AudioSource>();
-		//
-		//_miniGolemDie = _object->GetScene()->FindObjectWithName("MiniGolemDeadSound");
-		//_dieSound = _miniGolemDie->GetComponent<Pg::Data::AudioSource>();
-		//
-		//_miniGolemDash = _object->GetScene()->FindObjectWithName("MiniGolemDashSound");
-		//_dashSound = _miniGolemDash->GetComponent<Pg::Data::AudioSource>();
-		//
-		//_miniGolemAttack = _object->GetScene()->FindObjectWithName("MiniGolemAttackSound");
-		//_attackSound = _miniGolemAttack->GetComponent<Pg::Data::AudioSource>();
+		auto golemHitSound = _object->GetScene()->FindObjectWithName("GolemBossHitSound");
+		_hitSound = golemHitSound->GetComponent<Pg::Data::AudioSource>();
+		
+		auto golemDeadSound = _object->GetScene()->FindObjectWithName("GolemBossDieSound");
+		_dieSound = golemDeadSound->GetComponent<Pg::Data::AudioSource>();
+		
+		auto golemDashSound = _object->GetScene()->FindObjectWithName("GolemBossRushSound");
+		_rushSound = golemDashSound->GetComponent<Pg::Data::AudioSource>();
+		
+		auto basicAttackSound = _object->GetScene()->FindObjectWithName("GolemBossAttackSound1");
+		_basicAttackSound = basicAttackSound->GetComponent<Pg::Data::AudioSource>();
+		
+		auto spinAttackSound = _object->GetScene()->FindObjectWithName("GolemBossAttackSound2");
+		_spinAttackSound = spinAttackSound->GetComponent<Pg::Data::AudioSource>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
@@ -272,11 +275,26 @@ namespace Pg::DataScript
 			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_1 ||
 				_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_2)
 			{
+				if (!_isSpinAttackSoundPlaying)
+				{
+					_spinAttackSound->Play();
+					_isSpinAttackSoundPlaying = true;
+				}
+
 				Skill(_monsterHelper->_isAnimChange); // 스킬 사용
+				if (!_monsterHelper->_isAnimChange) _isSpinAttackSoundPlaying = false;
+
 				Attack(false);
+				_isAttackSoundPlaying = false;
 			}
 			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK)
 			{
+				if (!_isAttackSoundPlaying)
+				{
+					_basicAttackSound->Play();
+					_isAttackSoundPlaying = true;
+				}
+
 				Attack(true);
 			}
 		}
@@ -299,7 +317,19 @@ namespace Pg::DataScript
 			}
 			else if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_DASH_ATTACK)
 			{
+				if (!_isSpinAttackSoundPlaying)
+				{
+					_spinAttackSound->Play();
+					_isSpinAttackSoundPlaying = true;
+					_isSpinAttackSoundPlaying = true;
+				}
+
 				Skill(true);
+				if (_monsterHelper->_isAnimationEnd)
+				{
+					_isSpinAttackSoundPlaying = false;
+					_monsterHelper->_isAnimationEnd = false;
+				}
 			}
 
 			//사정거리 밖이면 플레이어로 계속 다가가기.
@@ -369,7 +399,7 @@ namespace Pg::DataScript
 	{
 		if (_monsterHelper->_isDead) return;
 		_cameraShake->CauseShake(0.25f);
-		//_hitSound->Play();
+		_hitSound->Play();
 
 		if (_monsterHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::IDLE ||
 			_monsterHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::CHASE) return;
@@ -463,12 +493,13 @@ namespace Pg::DataScript
 	{
 		//상태를 죽음으로 변경.
 		_golBossInfo->_status = GolemBossStatus::DEAD;
-		//_dieSound->Play();
+		_dieSound->Play();
 
 		//중간에 사운드가 안꺼질 경우를 대비해 싹 다 종료.
-		//_hitSound->Stop();
-		//_attackSound->Stop();
-		//_dashSound->Stop();
+		_hitSound->Stop();
+		_rushSound->Stop();
+		_basicAttackSound->Stop();
+		_spinAttackSound->Stop();
 
 		_collider->SetActive(false);
 		_monsterHelper->_isDead = true;
