@@ -13,6 +13,7 @@
 #include "../ParagonData/ImageRenderer.h"
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/PgTime.h"
+#include "../ParagonAPI/PgScene.h"
 #include "../ParagonAPI/PgGraphics.h"
 #include "../ParagonUtil/Log.h"
 
@@ -62,6 +63,8 @@ namespace Pg::DataScript
 		//artifact
 		_imgRenderer = _object->GetScene()->FindObjectWithName("ArtifactText")->GetComponent<Pg::Data::ImageRenderer>();
 		assert(_imgRenderer);
+
+		_sceneHelper = &singleton<Pg::API::PgScene>();
 	}
 
 	void PlayerHandler::BeforePhysicsAwake()
@@ -112,6 +115,14 @@ namespace Pg::DataScript
 
 		_playerMovementSector->Update();
 		_playerCombatSector->Update();
+
+		if (_object->GetScene()->GetSceneName() == "Stage2")
+		{
+			if (artifactCount == 3)
+			{
+				_sceneHelper->SetCurrentScene("BossStage");
+			}
+		}
 	}
 
 	void PlayerHandler::FixedUpdate()

@@ -48,10 +48,10 @@ void Pg::DataScript::Portal::OnTriggerEnter(Pg::Data::Collider** _colArr, unsign
 			{
 				_sceneHelper->SetCurrentScene("Stage2");
 			}
-			else if (_sceneHelper->GetCurrentScene()->GetSceneName() == "Stage2")
-			{
-				_sceneHelper->SetCurrentScene("BossStage");
-			}
+			//else if (_sceneHelper->GetCurrentScene()->GetSceneName() == "Stage2")
+			//{
+			//	_sceneHelper->SetCurrentScene("BossStage");
+			//}
 			//_sceneHelper->SetCurrentScene(_nextScene);
 		}
 	}
