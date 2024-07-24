@@ -48,6 +48,8 @@ namespace Pg::DataScript
 
 		bool IsMonsterDead();
 
+		bool IsEffectValid() { return _ptrEffectFrameIndex != nullptr; }
+
 		//이는 모든 Monster가 이동할 때, 고려해야 할 Factor이다.
 		void SetMonsterSpeedRatio(float speed);
 		float GetMonsterSpeedRatio(); 
