@@ -71,26 +71,35 @@ namespace Pg::DataScript
 		_player = _object->GetScene()->FindObjectWithName("Player");
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
-		_bossWalkSound = _object->GetScene()->FindObjectWithName("BossWalkSound");
-		_walkAudio = _bossWalkSound->GetComponent<Pg::Data::AudioSource>();
+		auto bossWalkSound = _object->GetScene()->FindObjectWithName("BossWalkSound");
+		_walkAudio = bossWalkSound->GetComponent<Pg::Data::AudioSource>();
 
-		_bossRushSound = _object->GetScene()->FindObjectWithName("BossRushSound");
-		_rushAudio = _bossRushSound->GetComponent<Pg::Data::AudioSource>();
+		auto bossRushSound = _object->GetScene()->FindObjectWithName("BossRushSound");
+		_rushAudio = bossRushSound->GetComponent<Pg::Data::AudioSource>();
 
-		_bossDieSound = _object->GetScene()->FindObjectWithName("BossDieSound");
-		_dieAudio = _bossDieSound->GetComponent<Pg::Data::AudioSource>();
+		auto bossDieSound = _object->GetScene()->FindObjectWithName("BossDieSound");
+		_dieAudio = bossDieSound->GetComponent<Pg::Data::AudioSource>();
 
-		Pg::Data::GameObject* _downSound = _object->GetScene()->FindObjectWithName("BossDownSound");
-		_downAudio = _downSound->GetComponent<Pg::Data::AudioSource>();
+		auto downSound = _object->GetScene()->FindObjectWithName("BossDownSound");
+		_downAudio = downSound->GetComponent<Pg::Data::AudioSource>();
 
-		Pg::Data::GameObject* _basicAttackSound1 = _object->GetScene()->FindObjectWithName("BossAttackSound1");
-		_basicAttackAudio1 = _basicAttackSound1->GetComponent<Pg::Data::AudioSource>();
+		auto basicAttackSound1 = _object->GetScene()->FindObjectWithName("BossAttackSound1");
+		_basicAttackAudio1 = basicAttackSound1->GetComponent<Pg::Data::AudioSource>();
 
-		Pg::Data::GameObject* _basicAttackSound2 = _object->GetScene()->FindObjectWithName("BossAttackSound2");
-		_basicAttackAudio2 = _basicAttackSound2->GetComponent<Pg::Data::AudioSource>();
+		auto basicAttackSound2 = _object->GetScene()->FindObjectWithName("BossAttackSound2");
+		_basicAttackAudio2 = basicAttackSound2->GetComponent<Pg::Data::AudioSource>();		
+		
+		auto laserSound = _object->GetScene()->FindObjectWithName("BossLaserSound");
+		_laserAttack = laserSound->GetComponent<Pg::Data::AudioSource>();
+		
+		auto upSound = _object->GetScene()->FindObjectWithName("BossUpSound");
+		_upSound = upSound->GetComponent<Pg::Data::AudioSource>();
+		
+		auto downSound = _object->GetScene()->FindObjectWithName("BossDownSound");
+		_downSound = downSound->GetComponent<Pg::Data::AudioSource>();
 
-		Pg::Data::GameObject* _hit = _object->GetScene()->FindObjectWithName("BossHitSound");
-		_hitAudio = _hit->GetComponent<Pg::Data::AudioSource>();
+		auto hit = _object->GetScene()->FindObjectWithName("BossHitSound");
+		_hitAudio = hit->GetComponent<Pg::Data::AudioSource>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
@@ -312,13 +321,25 @@ namespace Pg::DataScript
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2)
 				{
+					if (!_isAttackSoundPlaying)
+					{
+						_basicAttackAudio1->Play();
+						_isAttackSoundPlaying = true;
+					}
+
 					Attack(_monsterHelper->_isAnimChange);
+					if (!_monsterHelper->_isAnimChange) _isAttackSoundPlaying = false;
 
 					//_isRotatingToPlayer = true;
 					//_useTakeDownSkill = true;
 				}
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_3)
 				{
+					if (!_isStormAttackSoundPlaying)
+					{
+						_basicAttackAudio2->Play();
+						_isStormAttackSoundPlaying = true;
+					}
 					_isRotatingToPlayer = false;
 					//Attack(false);
 					//_useTakeDownSkill = false;
@@ -389,6 +410,7 @@ namespace Pg::DataScript
 				_useStormBlast = false;
 				_isRotatingToPlayer = true;
 				_offWind = false;
+				_isStormAttackSoundPlaying = false;
 			}
 		}
 		//빛기둥 스킬
@@ -641,6 +663,7 @@ namespace Pg::DataScript
 		if (_useTakeDownSkill)
 		{
 			_walkAudio->Stop();
+			_upSound->Play();
 
 			// Tween 생성
 			if (!_isRiseTween)
@@ -680,6 +703,9 @@ namespace Pg::DataScript
 		}
 		if (_goUp)
 		{
+			_upSound->Stop();
+			_downSound->Play();
+
 			//내려찍기 콜라이더 활성화
 			for (auto& iter : _takeDownCol)
 			{
@@ -729,6 +755,7 @@ namespace Pg::DataScript
 				_isRiseTween = false;
 				_isFallTween = false;
 				_goUp = false;
+				_downSound->Stop();
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3)
