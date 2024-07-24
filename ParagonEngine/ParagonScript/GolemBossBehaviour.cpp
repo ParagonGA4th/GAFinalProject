@@ -183,6 +183,8 @@ namespace Pg::DataScript
 
 	void GolemBossBehaviour::Update()
 	{
+		PG_TRACE(_monsterHelper->_bGolemFlag._bossStateListByEnum[_monsterHelper->_bGolemFlag._bossState]);
+
 		auto plVec = _player;
 		auto plTrans = plVec->_transform;
 
@@ -201,6 +203,9 @@ namespace Pg::DataScript
 			_monsterHelper->_isDeadDelay = false;
 			_monsterHelper->_isDead = true;
 		}
+
+		Down();
+		if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::DOWN) return;
 
 		// 시야 안에 들어왔을 때 쫓아가라.
 		if (_distance <= _golBossInfo->GetSightRange())
@@ -259,29 +264,22 @@ namespace Pg::DataScript
 
 			_monsterHelper->_isChase = false;
 			_monsterHelper->_isPlayerinHitSpace = true;
-			_monsterHelper->_bGolemFlag._isPase_1 = true;
 
 			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_1 ||
 				_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_2)
 			{
-				Skill(_monsterHelper->_isAnimationEnd); // 스킬 사용
-			}
-			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK_1 ||
-				_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK_2 ||
-				_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK_3)
-			{
-				Attack(_monsterHelper->_isAnimChange);
-			}
-			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::IDLE)
-			{
+				Skill(_monsterHelper->_isAnimChange); // 스킬 사용
 				Attack(false);
-				Skill(false);
+			}
+			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK)
+			{
+				Attack(true);
 			}
 		}
 		else
 		{
 			//상태를 Chase로 변경.
-			_golBossInfo->_status = GolemBossStatus::CHASE;
+			if(_monsterHelper->_bGolemFlag._bossPase == Pg::Data::BossPase::PASE_1) _golBossInfo->_status = GolemBossStatus::CHASE;
 			_meshRenderer->_animBlendFactor = 10.0f;
 
 			Attack(false);
@@ -327,7 +325,8 @@ namespace Pg::DataScript
 		{
 			_golBossInfo->_status = GolemBossStatus::DASH;
 
-			if (!_isDashSoundPlaying) {
+			if (!_isDashSoundPlaying)
+			{
 				//_dashSound->Play();
 				_isDashSoundPlaying = true;
 			}
@@ -361,7 +360,7 @@ namespace Pg::DataScript
 		_cameraShake->CauseShake(0.25f);
 		//_hitSound->Play();
 
-		if (_monsterHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::IDLE &&
+		if (_monsterHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::IDLE ||
 			_monsterHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::CHASE) return;
 
 		//피격 애니메이션 들어가야 함.
@@ -402,6 +401,34 @@ namespace Pg::DataScript
 			Pg::Math::PGQuaternion currentTargetRotation = PGQuaternionSlerp(_object->_transform._rotation, rotateQuat, std::clamp<float>(0.1f, 0.0f, 1.0f));
 
 			_object->_transform._rotation = currentTargetRotation;
+		}
+	}
+
+	void GolemBossBehaviour::Down()
+	{
+		if (_monsterHelper->_bGolemFlag._bossPase == Pg::Data::BossPase::PASE_1 && 
+			_golBossInfo->GetMonsterHp() <= 100.f)
+		{
+			_golBossInfo->SetCurrentDown(_golBossInfo->GetCurrentDown() + _pgTime->GetDeltaTime());
+
+			if (_isDownInit && _golBossInfo->GetCurrentDown() >= _golBossInfo->GetEndDown())
+			{
+				//무력화 해제.
+				_isDown = false;
+				_monsterHelper->_bGolemFlag._isDown = false;
+				_monsterHelper->_bGolemFlag._bossPase = Pg::Data::BossPase::PASE_2;
+				//_isRotatingToPlayer = true;
+				//_isDownSoundPlaying = false;
+				_golBossInfo->SetCurrentDown(0.f);
+			}
+
+			if (!_isDownInit)
+			{
+				_monsterHelper->_bGolemFlag._isDown = true;
+				_monsterHelper->_isChase = false;
+				_monsterHelper->_isDistanceClose = false;
+				_isDownInit = true;
+			}
 		}
 	}
 

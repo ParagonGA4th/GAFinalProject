@@ -35,6 +35,9 @@ namespace Pg::DataScript
 		GolemBossInfo& SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed; return *this; }
 		GolemBossInfo& SetCurrentDashTime(float time) { _cureentDashTime = time; return *this; }
 		GolemBossInfo& SetSightRange(float range) { _sightRange = range; return *this; }
+		GolemBossInfo& SetCurrentDown(float time) { _currentDown = time; return *this; }
+		GolemBossInfo& SetEndDown(float time) { _endDown = time; return *this; }
+
 
 		float GetMoveSpeed() const { return _moveSpeed; }
 		float GetDashSpeed() const { return _dashSpeed; }
@@ -42,7 +45,9 @@ namespace Pg::DataScript
 		float GetAttackRange() const { return _attackRange; }
 		float GetDashRange() const { return _dashRange; }
 		float GetDashDuration() const { return _dashDuration; }
-		float GetCurrentDashTime() { return _cureentDashTime; }
+		float GetCurrentDashTime() { return _cureentDashTime; }		
+		float GetEndDown() const { return _endDown; }
+		float GetCurrentDown() { return _currentDown; }
 
 		GolemBossStatus _status; // 상태
 
@@ -58,6 +63,9 @@ namespace Pg::DataScript
 
 		float _dashDuration;	//돌진 지속 시간
 		float _cureentDashTime; //현재 돌진 시간
+
+		float _currentDown; //무력화 지속 시간
+		float _endDown;		//무력화 지속 시간
 	};
 }
 

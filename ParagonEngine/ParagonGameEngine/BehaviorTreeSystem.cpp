@@ -83,10 +83,9 @@ namespace Pg::Engine::BTree
 		_factory->registerNodeType<Node::isDownEnd>("isDownEnd");
 		_factory->registerNodeType<Node::isbDash>("isbDash");
 
-		_factory->registerNodeType<Node::Anim_gbLeftArmAttack>("Anim_gbLeftArmAttack");
-		_factory->registerNodeType<Node::Anim_gbRightArmAttack>("Anim_gbRightArmAttack");
 		_factory->registerNodeType<Node::Anim_gbTwoArmAttack>("Anim_gbTwoArmAttack");
 		_factory->registerNodeType<Node::Anim_SpinAttack>("Anim_SpinAttack");
+		_factory->registerNodeType<Node::Anim_SpinDashAttack>("Anim_SpinDashAttack");
 		_factory->registerNodeType<Node::Anim_gDown>("Anim_gDown");
 		_factory->registerNodeType<Node::isgPase_1>("isgPase_1");
 		_factory->registerNodeType<Node::isgPase_2>("isgPase_2");
