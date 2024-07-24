@@ -69,6 +69,12 @@ namespace Pg::DataScript
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
+		Pg::Data::GameObject* _waspMove = _object->GetScene()->FindObjectWithName("WaspMoveSound");
+		_moveSound = _waspMove->GetComponent<Pg::Data::AudioSource>();
+
+		_waspAttack = _object->GetScene()->FindObjectWithName("WaspAttackSound");
+		_attackSound = _waspAttack->GetComponent<Pg::Data::AudioSource>();
+
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
 		for (auto& iter : _object->_transform.GetChildren())
@@ -278,6 +284,8 @@ namespace Pg::DataScript
 			//상태 변경.
 			_waspInfo->_status = WaspStatus::BASIC_ATTACK;
 
+			_isMoveSoundPlaying = false;
+
 			//애니메이션 딜레이를 위한 델타타임 체크.
 			//_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
 			_monsterHelper->_isPlayerinHitSpace = true;
@@ -289,11 +297,18 @@ namespace Pg::DataScript
 			{
 				_isAttackStart = true;
 				_isSkillStart = false;
+
+				if (!_isAttackSoundPlaying)
+				{
+					_attackSound->Play();
+					_isAttackSoundPlaying = true;
+				}
 			}
 			else
 			{
 				_isSkillStart = true;
 				_isAttackStart = false;
+				_isAttackSoundPlaying = false;
 			}
 
 			//공격
@@ -318,6 +333,12 @@ namespace Pg::DataScript
 		{
 			//상태를 Chase로 변경.
 			_waspInfo->_status = WaspStatus::CHASE;
+
+			if (!_isMoveSoundPlaying)
+			{
+				_moveSound->Play();
+				_isMoveSoundPlaying = true;
+			}
 
 			_isAttackStart = false;
 			_isSkillStart = false;

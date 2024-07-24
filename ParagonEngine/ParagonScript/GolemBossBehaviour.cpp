@@ -68,6 +68,9 @@ namespace Pg::DataScript
 		_meshRenderer->SetRendererOffset(_rendererOffset);
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
+		Pg::Data::GameObject* _rush = _object->GetScene()->FindObjectWithName("GolemBossRushSound");
+		_rushSound = _rush->GetComponent<Pg::Data::AudioSource>();
+
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			// 자식 오브젝트의 이름을 얻어옵니다.
@@ -327,7 +330,7 @@ namespace Pg::DataScript
 
 			if (!_isDashSoundPlaying)
 			{
-				//_dashSound->Play();
+				_rushSound->Play();
 				_isDashSoundPlaying = true;
 			}
 

@@ -50,6 +50,16 @@ namespace Pg::DataScript
 
 		//옵션창
 		_optionBox = _object->GetScene()->FindObjectWithName("PauseOptionBox");
+		
+		Pg::Data::GameObject* _tutorial = _object->GetScene()->FindObjectWithName("PauseBoxTutorial");
+		_tutorialRenderer = _tutorial->GetComponent<Pg::Data::ImageRenderer>();
+		_tutorialRenderer->SetActive(false);
+
+		Pg::Data::GameObject* _tutorialExit = _object->GetScene()->FindObjectWithName("PauseTutorialExit");
+		_tutorialExitRenderer = _tutorialExit->GetComponent<Pg::Data::ImageRenderer>();
+		_tutorialExitButton = _tutorialExit->GetComponent<Pg::Data::Button>();
+		_tutorialExitRenderer->SetActive(false);
+		_tutorialExitButton->SetActive(false);
 
 		Pg::Data::GameObject* _soundBarObj = _object->GetScene()->FindObjectWithName("SoundBar");
 		_soundBar = _soundBarObj->GetComponent<Pg::Data::Slider>();
@@ -64,6 +74,11 @@ namespace Pg::DataScript
 
 	void PauseBox::Awake()
 	{
+		_tutorialExitRenderer->SetActive(false);
+		_tutorialExitButton->SetActive(false);
+
+		_tutorialRenderer->SetActive(false);
+
 		//일시정지 창 활성화 및 비활성화
 		btnObj->GetComponent<Pg::Data::Button>()->SetOnClickDownEvent([this]
 			{
@@ -113,6 +128,12 @@ namespace Pg::DataScript
 				_exitBtn->GetImageRenderer()->SetImageIndex(0);
 			});
 
+		_tutorialBtn->SetOnClickDownEvent([this]
+			{
+				_tutorialRenderer->SetActive(true);
+				_tutorialExitRenderer->SetActive(true);
+				_tutorialExitButton->SetActive(true);
+			});
 		_tutorialBtn->SetHover([this]
 			{
 				//비활성화 활성화를 위한 이벤트
@@ -168,6 +189,23 @@ namespace Pg::DataScript
 			{
 				//비활성화 활성화를 위한 이벤트
 				_optionBtn->GetImageRenderer()->SetImageIndex(0);
+			});
+
+		_tutorialBtn->SetOnClickDownEvent([this]
+			{
+				_tutorialRenderer->SetActive(false);
+				_tutorialExitRenderer->SetActive(false);
+				_tutorialExitButton->SetActive(false);
+			});
+		_tutorialExitButton->SetHover([this]
+			{
+				//비활성화 활성화를 위한 이벤트
+				_tutorialExitButton->GetImageRenderer()->SetImageIndex(1);
+			});
+		_tutorialExitButton->SetNotHover([this]
+			{
+				//비활성화 활성화를 위한 이벤트
+				_tutorialExitButton->GetImageRenderer()->SetImageIndex(0);
 			});
 	}
 

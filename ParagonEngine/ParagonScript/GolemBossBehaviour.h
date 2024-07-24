@@ -112,6 +112,7 @@ namespace Pg::DataScript
 		Pg::Math::PGFLOAT3 _respawnPos;
 		Pg::Math::PGFLOAT3 _rendererOffset = {0.f, -2.f, 0.f};
 
+		Pg::Data::AudioSource* _rushSound;
 	private:
 		//Pg::Data::GameObject* _miniGolemHit;
 		//Pg::Data::AudioSource* _hitSound;
