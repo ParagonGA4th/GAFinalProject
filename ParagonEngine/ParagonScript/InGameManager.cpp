@@ -219,12 +219,8 @@ namespace Pg::DataScript
 			// 현재 자신이 속해 있는 씬.
 			Pg::Data::Scene* tBelongScene = _handlerBundle3D->_playerBehavior->_object->GetScene();
 
-			int prevArtifact = 0;
-			if (_handlerBundle3D->_playerBehavior->artifactCount > 0) prevArtifact = _handlerBundle3D->_playerBehavior->artifactCount;
-
 			// 전체 씬 리셋하기.
 			TotalGameManager::GetInstance(nullptr)->CallForEntireSceneReset(tBelongScene, NULL, nullptr);
-			_handlerBundle3D->_playerBehavior->artifactCount = prevArtifact;
 
 			//그다음에, Life 하나 깎기.
 			_combatSystem->ChangePlayerLife(-1);
