@@ -177,7 +177,7 @@ namespace Pg::DataScript
 		//_attackSound = _miniGolemAttack->GetComponent<Pg::Data::AudioSource>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
-		
+
 		_golBossInfo->StartBaseMonsterLogic();
 	}
 
@@ -210,8 +210,9 @@ namespace Pg::DataScript
 		// 시야 안에 들어왔을 때 쫓아가라.
 		if (_distance <= _golBossInfo->GetSightRange())
 		{
+			if (_rotateToPlayer) RotateToPlayer(_playerTransform->_position);
 			_monsterHelper->_isPlayerDetected = true;
-			RotateToPlayer(_playerTransform->_position);
+			_rotateToPlayer = true;
 
 			if (_distance <= _golBossInfo->GetDashRange() && _isDash == false && _hasDashed == false)
 			{
@@ -224,6 +225,7 @@ namespace Pg::DataScript
 			//대쉬 true면 돌진해!!
 			if (_isDash)
 			{
+				_rotateToPlayer = false;
 				Dash();
 			}
 			else
@@ -260,7 +262,7 @@ namespace Pg::DataScript
 			//상태 변경.
 			_golBossInfo->_status = GolemBossStatus::BASIC_ATTACK;
 
-			_meshRenderer->_animBlendFactor = 0.0f;
+			//_meshRenderer->_animBlendFactor = 0.0f;
 
 			_monsterHelper->_isChase = false;
 			_monsterHelper->_isPlayerinHitSpace = true;
@@ -279,7 +281,7 @@ namespace Pg::DataScript
 		else
 		{
 			//상태를 Chase로 변경.
-			if(_monsterHelper->_bGolemFlag._bossPase == Pg::Data::BossPase::PASE_1) _golBossInfo->_status = GolemBossStatus::CHASE;
+			_golBossInfo->_status = GolemBossStatus::CHASE;
 			_meshRenderer->_animBlendFactor = 10.0f;
 
 			Attack(false);
@@ -287,9 +289,16 @@ namespace Pg::DataScript
 			_isAttackSoundPlaying = false;
 			_currentAttackTime = 0.f;
 
-			// 플레이어가 시야 안에 있으면
-			_monsterHelper->_isPlayerinHitSpace = false;
-			_monsterHelper->_isChase = true;
+			// 페이즈 2 일때는 spin하면서 쫒아가야함
+			if (_monsterHelper->_bGolemFlag._bossPase == Pg::Data::BossPase::PASE_1)
+			{
+				_monsterHelper->_isPlayerinHitSpace = false;
+				_monsterHelper->_isChase = true;
+			}
+			else if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_DASH_ATTACK)
+			{
+				Skill(true);
+			}
 
 			//사정거리 밖이면 플레이어로 계속 다가가기.
 			///보간하면서 이동할 시 마지막에 느려지는 현상을 발생하기 위해 제거.
@@ -406,7 +415,7 @@ namespace Pg::DataScript
 
 	void GolemBossBehaviour::Down()
 	{
-		if (_monsterHelper->_bGolemFlag._bossPase == Pg::Data::BossPase::PASE_1 && 
+		if (_monsterHelper->_bGolemFlag._bossPase == Pg::Data::BossPase::PASE_1 &&
 			_golBossInfo->GetMonsterHp() <= 100.f)
 		{
 			_golBossInfo->SetCurrentDown(_golBossInfo->GetCurrentDown() + _pgTime->GetDeltaTime());
