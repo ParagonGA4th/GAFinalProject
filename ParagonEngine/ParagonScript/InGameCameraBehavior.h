@@ -53,6 +53,7 @@ namespace Pg::DataScript
 	private:
 		void Default_PlayerFollowMode();
 		void Boss_RotateAroundMode();
+		void FixCameraMode();
 
 		void UpdateTargetTransforms();
 		void LerpFollowPlayer();
@@ -66,6 +67,10 @@ namespace Pg::DataScript
 		Pg::Math::PGFLOAT3 _targetCamPosition;
 		Pg::Math::PGQuaternion _targetCamRotation;
 		Pg::API::Time::PgTime* _pgTime{ nullptr };
+
+		//카메라 고정 수치
+		Pg::Math::PGFLOAT3 _fixedRot = { 0.f,90.f,-40.f };
+		Pg::Math::PGFLOAT3 _fixedPos = { 15.f,15.f,0.f };
 	};
 }
 

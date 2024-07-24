@@ -108,6 +108,8 @@ namespace Pg::DataScript
 		Pg::Data::AudioSource* _moveAudio;
 		Pg::Data::AudioSource* _hitAudio;
 		Pg::Data::AudioSource* _dieAudio;
+		Pg::Data::AudioSource* _attackAudio;
+		Pg::Data::AudioSource* _skillAudio;
 
 		CameraShake* _cameraShake;
 		MimicSkillAttack* _mimicSkillAttack;
@@ -144,6 +146,9 @@ namespace Pg::DataScript
 
 		//미믹은 어그로가 풀리면 안됨.
 		bool _isRotateToPlayer{ true };
+
+		bool _isAttackSoundPlaying{ false };
+		bool _isSkillSoundPlaying{ false };
 	public:
 		//미믹의 상태와 수치에 대한 정보.
 		MimicInfo* _mimicInfo;

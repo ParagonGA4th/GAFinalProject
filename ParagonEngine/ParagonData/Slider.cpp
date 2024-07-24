@@ -29,58 +29,7 @@ namespace Pg::Data
 
 	void Slider::Internal_EngineAwake()
 	{
-		if (!_object->GetComponent<ImageRenderer>())
-		{
-			assert(false && "Slider의 ImageRenderer Component가 없습니다");
-		}
-
-		_imageRenderer = _object->GetComponent<ImageRenderer>();
-		_imageRenderer->_sortingLayer = 2;
-		_imageWidth = &(_imageRenderer->_width);
-		_imageHeight = &(_imageRenderer->_height);
-
-		//Scene에서 설정했던 Handle객체를 찾는다.
-		auto handleObj = _object->GetScene()->FindSingleComponentInScene<Handle>();
-
-		Pg::Data::GameObject* tGO = handleObj->_object;
-		auto tHandle = tGO->GetComponent<Handle>();
-		if (tHandle != nullptr)
-		{
-			_handle = tHandle;
-		}
-
-		//for (auto iter : handleObj)
-		//{
-		//	Pg::Data::GameObject* tGO = iter->_object;
-		//	auto tHandle = tGO->GetComponent<Handle>();
-		//	if (tHandle != nullptr)
-		//	{
-		//		_handle = tHandle;
-		//		break;
-		//	}
-		//}
-
-		//버튼이 자식 객체로써 존재한다.
-		//GameObject* buttonObject = new GameObject("sliderBtn");
-		//buttonObject->AddComponent<Button>();
-
-		assert(_handle != nullptr && "이 시점에서 무조건 Handle 있어야 함");
-
-		//핸들의 위치 한정.
-		_handle->_object->_transform._position = this->_object->_transform._position;
-
-		{
-			float tPixelMin = _object->_transform._position.x - (_imageRenderer->_width / 2);
-			float tPixelMax = _object->_transform._position.x + (_imageRenderer->_width / 2);
-			_minWidth = tPixelMin / GameConstantData::WIDTH;
-			_maxWidth = tPixelMax / GameConstantData::WIDTH;
-		}
-		{
-			float tPixelMin = _object->_transform._position.y - (_imageRenderer->_height / 2);
-			float tPixelMax = _object->_transform._position.y + (_imageRenderer->_height / 2);
-			_minHeight = tPixelMin / GameConstantData::HEIGHT;
-			_maxHeight = tPixelMax / GameConstantData::HEIGHT;
-		}
+		
 	}
 
 	void Slider::Start()
@@ -91,6 +40,11 @@ namespace Pg::Data
 
 	void Slider::Update()
 	{
+		if (handleObj == nullptr)
+		{
+			FindRequiredObject();
+		}
+
 		if (_inputSystem->GetKeyDown(API::Input::MouseLeft))
 		{
 			if (_inputSystem->GetMouseX() >= _minWidth && _inputSystem->GetMouseX() <= _maxWidth &&
@@ -108,7 +62,7 @@ namespace Pg::Data
 
 			newPosition = std::clamp(newPosition, _minWidth, _maxWidth);
 
-			_handle->_object->_transform._position.x = newPosition * GameConstantData::WIDTH;
+			handleObj->_object->_transform._position.x = newPosition * GameConstantData::WIDTH;
 
 			_value = (newPosition - _minWidth) / (_maxWidth - _minWidth);
 
@@ -176,4 +130,54 @@ namespace Pg::Data
 	{
 		return *_imageHeight;
 	}
+
+	void Slider::FindRequiredObject()
+	{
+		if (!_object->GetComponent<ImageRenderer>())
+		{
+			assert(false && "Slider의 ImageRenderer Component가 없습니다");
+		}
+
+		_imageRenderer = _object->GetComponent<ImageRenderer>();
+		_imageRenderer->_sortingLayer = 2;
+		_imageWidth = &(_imageRenderer->_width);
+		_imageHeight = &(_imageRenderer->_height);
+
+		//Scene에서 설정했던 Handle객체를 찾는다.
+		handleObj = _object->GetScene()->FindSingleComponentInScene<Handle>();
+
+		//for (auto iter : handleObj)
+		//{
+		//	Pg::Data::GameObject* tGO = iter->_object;
+		//	auto tHandle = tGO->GetComponent<Handle>();
+		//	if (tHandle != nullptr)
+		//	{
+		//		_handle = tHandle;
+		//		break;
+		//	}
+		//}
+
+		//버튼이 자식 객체로써 존재한다.
+		//GameObject* buttonObject = new GameObject("sliderBtn");
+		//buttonObject->AddComponent<Button>();
+
+		assert(handleObj != nullptr && "이 시점에서 무조건 Handle 있어야 함");
+
+		//핸들의 위치 한정.
+		handleObj->_object->_transform._position = this->_object->_transform._position;
+
+		{
+			float tPixelMin = _object->_transform._position.x - (_imageRenderer->_width / 2);
+			float tPixelMax = _object->_transform._position.x + (_imageRenderer->_width / 2);
+			_minWidth = tPixelMin / GameConstantData::WIDTH;
+			_maxWidth = tPixelMax / GameConstantData::WIDTH;
+		}
+		{
+			float tPixelMin = _object->_transform._position.y - (_imageRenderer->_height / 2);
+			float tPixelMax = _object->_transform._position.y + (_imageRenderer->_height / 2);
+			_minHeight = tPixelMin / GameConstantData::HEIGHT;
+			_maxHeight = tPixelMax / GameConstantData::HEIGHT;
+		}
+	}
+
 }

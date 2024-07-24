@@ -3,6 +3,7 @@
 #include "MimicSkillAttack.h"
 #include "BaseEnemyHandler.h"
 #include "TotalGameManager.h"
+#include "PlayerHandler.h"
 
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
@@ -81,6 +82,12 @@ namespace Pg::DataScript
 
 		Pg::Data::GameObject* _mimicDieSound = _object->GetScene()->FindObjectWithName("MimicDieSound");
 		_dieAudio = _mimicDieSound->GetComponent<Pg::Data::AudioSource>();
+
+		Pg::Data::GameObject* _mimicAttackSound = _object->GetScene()->FindObjectWithName("MimicAttackSound");
+		_attackAudio = _mimicAttackSound->GetComponent<Pg::Data::AudioSource>();
+
+		Pg::Data::GameObject* _mimicSkillSound = _object->GetScene()->FindObjectWithName("MimicSkillSound");
+		_skillAudio = _mimicSkillSound->GetComponent<Pg::Data::AudioSource>();
 
 		//코인 SetActive를 위해
 		_coin = _object->GetScene()->FindObjectWithName(_coinName);
@@ -281,11 +288,17 @@ namespace Pg::DataScript
 			if (_currentAttackTime >= _startAttackTime)
 			{
 				Attack(true);
+
+				if (!_isAttackSoundPlaying)
+				{
+					_attackAudio->Play();
+					_isAttackSoundPlaying = true;
+				}
 			}
 			if (_currentAttackTime >= _startAttackTime && _currentAttackTime >= _endAttackTime)
 			{
 				Attack(false);
-
+				_isAttackSoundPlaying = false;
 				_currentAttackTime = 0.f;
 			}
 
@@ -297,6 +310,7 @@ namespace Pg::DataScript
 			_monsterHelper->_isChase = false;
 			_monsterHelper->_isDistanceClose = false;
 			_moveAudio->Stop();
+
 			Attack(false);
 		}
 		else
@@ -344,7 +358,7 @@ namespace Pg::DataScript
 		_cameraShake->CauseShake(0.25f);
 		_hitAudio->Play();
 
-		if (_monsterHelper->_state != Pg::Data::MonsterState::IDLE &&
+		if (_monsterHelper->_state != Pg::Data::MonsterState::IDLE ||
 			_monsterHelper->_state != Pg::Data::MonsterState::CHASE) return;
 
 		//피격 애니메이션 들어가야 함.
@@ -391,6 +405,12 @@ namespace Pg::DataScript
 
 			if (_mimicInfo->GetCurrentSkillTime() > _mimicInfo->GetStartSkillTime())
 			{
+				if (!_isSkillSoundPlaying)
+				{
+					_skillAudio->Play();
+					_isSkillSoundPlaying = true;
+				}
+
 				Pg::Math::PGFLOAT3 forwardDir = Pg::Math::GetForwardVectorFromQuat(_object->_transform._rotation);
 
 				//자신이 바라보는 방향으로 쏴야하기 때문에 z축빼고 전부 고정.
@@ -449,6 +469,7 @@ namespace Pg::DataScript
 					_isRotateToPlayer = true;
 					_isMoving = false;
 					_useCoinThrow = false;
+					_isSkillSoundPlaying = false;
 					_mimicSkillAttack->_isPlayerHit = false;
 
 					_mimicInfo->SetCurrentSKillTime(0.f);
@@ -472,6 +493,11 @@ namespace Pg::DataScript
 		HandlerBundle3D* tHB = tTotalGameManager->GetHandlerBundleByScene(_object->GetScene());
 		this->_enemyHandler = tHB->_enemyHandler;
 		assert(_enemyHandler != nullptr);
+
+		if (_object->GetName() == "Mimic1")
+		{
+			tHB->_playerBehavior->artifactCount++;
+		}
 
 		_enemyHandler->FromEnemyNotifyDead(_object->GetTag(), this);
 	}

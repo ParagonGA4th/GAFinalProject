@@ -50,6 +50,7 @@ void Pg::Data::MonsterHelper::BossInit()
 
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::IDLE] = "Idle";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::CAST] = "Cast";
+	_bossFlag._bossStateListByEnum[Pg::Data::BossState::DASH] = "Dash";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_1] = "BAttack_1";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_2] = "BAttack_2";
 	_bossFlag._bossStateListByEnum[Pg::Data::BossState::BASIC_ATTACK_3] = "BAttack_3";

@@ -89,6 +89,9 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _basicAttackSound2 = _object->GetScene()->FindObjectWithName("BossAttackSound2");
 		_basicAttackAudio2 = _basicAttackSound2->GetComponent<Pg::Data::AudioSource>();
 
+		Pg::Data::GameObject* _hit = _object->GetScene()->FindObjectWithName("BossHitSound");
+		_hitAudio = _hit->GetComponent<Pg::Data::AudioSource>();
+
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
@@ -248,7 +251,7 @@ namespace Pg::DataScript
 	void BossBehaviour::Update()
 	{
 		//PG_TRACE(_monsterHelper->_bossFlag._bossStateListByEnum[_monsterHelper->_bossFlag._bossState]);
-	
+
 		_distance = std::abs(std::sqrt(std::pow(_playerTransform->_position.x - _object->_transform._position.x, 2)
 			+ std::pow(_playerTransform->_position.z - _object->_transform._position.z, 2)));
 
@@ -300,7 +303,7 @@ namespace Pg::DataScript
 		{
 			if (_distance <= _bossInfo->GetAttackRange())
 			{
-				//_meshRenderer->_animBlendFactor = 0.0f;
+				_meshRenderer->_animBlendFactor = 0.0f;
 
 				_isRotatingToPlayer = true;
 				_monsterHelper->_isChase = false;
@@ -320,6 +323,15 @@ namespace Pg::DataScript
 					//Attack(false);
 					//_useTakeDownSkill = false;
 					_useStormBlast = true;
+				}
+
+				if (_monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_3)
+				{
+					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::CAST ||
+						_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::CHASE)
+					{
+						_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::BASIC_ATTACK_1;
+					}
 				}
 			}
 			else
@@ -352,6 +364,7 @@ namespace Pg::DataScript
 			else if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1)
 			{
 				_useTakeDownSkill = true;
+				_useLightSkill = false;
 			}
 			else if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::EVASION) Evade();
 		}
@@ -383,7 +396,7 @@ namespace Pg::DataScript
 
 		//내려찍기 스킬
 		UpdatePhaseThreeSkill();
-	
+
 		_bossInfo->UpdateBaseMonsterLogic(_object);
 	}
 
@@ -586,6 +599,8 @@ namespace Pg::DataScript
 						iter->SetActive(true);
 						iter2->SetAlphaPercentage(100.f);
 
+						iter2->PlayAnim();
+
 						//BattleArea의 값에 따라 수정할 예정
 						Pg::Math::PGFLOAT3 randomPosition = { RandomRange(-10.f, 10.f), 0, RandomRange(-10.f,10.f) };
 						iter->_object->_transform._position = randomPosition;
@@ -606,6 +621,8 @@ namespace Pg::DataScript
 				for (auto& iter : _lightSkillRenderer)
 				{
 					iter->SetAlphaPercentage(0.f);
+					iter->SetAnimation("bosspillar_0.pganim", false);
+					iter->PauseAnim();
 				}
 
 				_bossInfo->SetCurrentLightSkillTime(0.f);
@@ -688,8 +705,7 @@ namespace Pg::DataScript
 							// 내려찍기 후 추가 동작
 							_useTakeDownSkill = false;
 							_isRotatingToPlayer = true;
-							_goUp = false;
-							_isGenerateCol = true;
+
 							//내려찍기 콜라이더 활성화
 							for (auto& iter : _takeDownCol)
 							{
@@ -701,28 +717,24 @@ namespace Pg::DataScript
 
 							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2)
 								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3;
+							
+							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_3)
+								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::DASH;
+
+							_isGenerateCol = true;
 						});
 			}
 			if (_isGenerateCol)
 			{
-				//내려찍기가 끝나자마자 collider 생성 시 튀는 경우가 생겨
-				//DeltaTime으로 약간의 딜레이를 준다.
-				_currentGenerateTime += _pgTime->GetDeltaTime();
+				_isRiseTween = false;
+				_isFallTween = false;
+				_goUp = false;
 
-				if (_currentGenerateTime >= _regenerateTime)
+				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2 ||
+					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3)
 				{
-					_collider->SetActive(true);
-					_currentGenerateTime = 0.f;
+					_useTakeDownSkill = true;
 					_isGenerateCol = false;
-
-
-					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2 ||
-						_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3)
-					{
-						_isRiseTween = false;
-						_isFallTween = false;
-						_useTakeDownSkill = true;
-					}
 				}
 			}
 		}
@@ -768,10 +780,11 @@ namespace Pg::DataScript
 
 		//카메라 흔들림
 		_cameraShake->CauseShake(0.25f);
+		_hitAudio->Play();
 
 		//피격 애니메이션 들어가야 함.
-		if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE ||
-			_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::CHASE) return;
+		if (_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::IDLE ||
+			_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::CHASE) return;
 
 		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
 		animId.append("_00010.pganim");
@@ -783,8 +796,8 @@ namespace Pg::DataScript
 	{
 		bool isDown = false;
 
-		if ((_bossInfo->GetMonsterHp() <= 7.5f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_1) ||
-			_bossInfo->GetMonsterHp() <= 5.0f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_2)
+		if ((_bossInfo->GetMonsterHp() <= 600.f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_1) ||
+			_bossInfo->GetMonsterHp() <= 400.0f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_2)
 		{
 			isDown = true;
 		}
@@ -848,6 +861,7 @@ namespace Pg::DataScript
 
 			_monsterHelper->Reset();
 			_monsterHelper->_isDead = true;
+			_isPlayerInit = false;
 
 			_dashCount = 0;
 
@@ -890,8 +904,6 @@ namespace Pg::DataScript
 
 		_goUp = false;
 		_isGenerateCol = false;
-
-		_currentGenerateTime = 0.f;
 
 		//충돌 객체 전부 초기화.
 		_collider->SetActive(true);

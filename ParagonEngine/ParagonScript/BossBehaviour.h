@@ -50,7 +50,7 @@ namespace Pg::DataScript
 	{
 		DEFINE_PARAGON_SCRIPT(BossBehaviour);
 	public:
-		inline static const float MAX_BOSS_HEALTH = 400.f;
+		inline static const float MAX_BOSS_HEALTH = 800.f;
 		inline static const float BOSS_ATTACK_POWER = 4.f;
 	public:
 		BossBehaviour(Pg::Data::GameObject* obj);
@@ -142,6 +142,7 @@ namespace Pg::DataScript
 		Pg::Data::AudioSource* _dieAudio;
 
 		Pg::Data::AudioSource* _downAudio;
+		Pg::Data::AudioSource* _hitAudio;
 
 		Pg::Data::AudioSource* _basicAttackAudio1;
 		Pg::Data::AudioSource* _basicAttackAudio2;
@@ -200,10 +201,6 @@ namespace Pg::DataScript
 
 		bool _goUp{ false };
 		bool _isGenerateCol{ false };
-
-		//내려찍기 후의 collider 재생성
-		float _currentGenerateTime = 0.f;
-		float _regenerateTime = 0.1f;
 
 		//페이즈2 시작될 땐 움직이면 안된다.
 		bool _isPhaseEnd{ false };

@@ -84,7 +84,7 @@ ATOM Pg::Editor::Core::EditorAction::WindowRegisterClass(HINSTANCE hInstance)
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInstance;
-	wcex.hIcon = ExtractIconW(hInstance, L"../Resources/Icons/ParagonEngineLogo.ico", 0);
+	wcex.hIcon = ExtractIconW(hInstance, L"../Resources/Icons/TeamLogo.ico", 0);
 	wcex.hIconSm = wcex.hIcon;
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
@@ -100,7 +100,7 @@ BOOL Pg::Editor::Core::EditorAction::CreateWindows(HINSTANCE hInstance)
 	//	CW_USEDEFAULT, CW_USEDEFAULT, _screenWidth, _screenHeight, nullptr, nullptr, hInstance, nullptr);
 
 	//Minimize && Resize 허용하지 않음.
-	_hWnd = CreateWindowW(_appName.c_str(), _appName.c_str(), WS_OVERLAPPED | WS_SYSMENU | WS_MINIMIZEBOX,
+	_hWnd = CreateWindowW(_appName.c_str(), _appName.c_str(), WS_POPUP,
 		CW_USEDEFAULT, CW_USEDEFAULT, _screenWidth, _screenHeight, nullptr, nullptr, hInstance, nullptr);
 
 	if (!_hWnd) return FALSE;

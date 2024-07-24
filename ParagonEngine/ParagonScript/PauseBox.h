@@ -78,6 +78,9 @@ namespace Pg::DataScript
 		Pg::Data::Button* _optionExitBtn;
 		Pg::Data::Handle* _soundHandle;
 		Pg::Data::ImageRenderer* _soundHandleRenderer;
+		Pg::Data::ImageRenderer* _tutorialRenderer;
+		Pg::Data::ImageRenderer* _tutorialExitRenderer;
+		Pg::Data::Button* _tutorialExitButton;
 	};
 }
 
