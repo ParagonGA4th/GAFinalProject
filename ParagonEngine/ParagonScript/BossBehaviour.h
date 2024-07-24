@@ -201,10 +201,6 @@ namespace Pg::DataScript
 		bool _goUp{ false };
 		bool _isGenerateCol{ false };
 
-		//내려찍기 후의 collider 재생성
-		float _currentGenerateTime = 0.f;
-		float _regenerateTime = 0.1f;
-
 		//페이즈2 시작될 땐 움직이면 안된다.
 		bool _isPhaseEnd{ false };
 
