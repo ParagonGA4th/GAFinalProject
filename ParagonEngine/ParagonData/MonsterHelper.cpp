@@ -66,9 +66,6 @@ void Pg::Data::MonsterHelper::BossInit()
 
 void Pg::Data::MonsterHelper::GolemBossInit()
 {
-	_bGolemFlag._isPase_1 = true;
-	_bGolemFlag._isPase_2 = false;
-
 	_bGolemFlag._isDash = false;
 	_bGolemFlag._isDown = false;
 

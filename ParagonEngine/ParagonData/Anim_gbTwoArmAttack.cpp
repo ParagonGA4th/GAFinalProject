@@ -11,6 +11,13 @@ namespace Pg::Data::BTree::Node
 		{
 			if (monHelper->_bGolemFlag._bossState != Pg::Data::GolemBossState::BASIC_ATTACK)
 				return BT::NodeStatus::FAILURE;
+
+			if (monHelper->_isAnimationEnd)
+			{
+				monHelper->_isAnimationEnd = false;
+				monHelper->_bGolemFlag._bossState = Pg::Data::GolemBossState::SKILL_ATTACK_1;
+				return BT::NodeStatus::FAILURE;	
+			}
 		}
 
 		auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();

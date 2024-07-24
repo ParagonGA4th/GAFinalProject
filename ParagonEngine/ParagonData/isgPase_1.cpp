@@ -14,9 +14,8 @@ namespace Pg::Data::BTree::Node
 				return BT::NodeStatus::SUCCESS;
 			}
 
-			if (monHelper->_bGolemFlag._isPase_1)
+			if (monHelper->_bGolemFlag._bossPase == Pg::Data::BossPase::PASE_1)
 			{
-				monHelper->_bGolemFlag._bossPase = Pg::Data::BossPase::PASE_1;
 				if (!_isInit)
 				{
 					monHelper->_bGolemFlag._bossState = Pg::Data::GolemBossState::BASIC_ATTACK;

@@ -36,10 +36,6 @@ namespace Pg::Data
 
 		std::unordered_map<Pg::Data::GolemBossState, std::string> _bossStateListByEnum;
 
-		bool _isPase_1;					// 중간보스의 1페이즈
-		bool _isPase_2;					// 중간보스의 1페이즈
-		bool _isPase_3;					// 중간보스의 1페이즈
-
 		bool _isSkill;					// 스킬 사용 여부
 		bool _isDown;					// 스킬 사용 여부
 
@@ -47,10 +43,6 @@ namespace Pg::Data
 
 		void Reset()
 		{
-			_isPase_1 = true;
-			_isPase_2 = false;
-			_isPase_3 = false;
-
 			_isSkill = false;
 			_isDown = false;
 			_isDash = false;
