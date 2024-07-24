@@ -170,7 +170,6 @@ namespace Pg::DataScript
 
 	void StubBehaviour::Awake()
 	{
-
 		//체력과 기본 공격력을 설정해준다.
 		//_miniGolInfo->SetMonsterHp(5.f);
 		//_miniGolInfo->SetMonsterDamage(1.f);
@@ -295,8 +294,8 @@ namespace Pg::DataScript
 		_cameraShake->CauseShake(0.25f);
 		_hitSound->Play();
 
-		if (_monsterHelper->_stubFlag._stubState != Pg::Data::StubState::IDLE &&
-			_monsterHelper->_stubFlag._stubState != Pg::Data::StubState::BASICATTACK_COOLDOWN &&
+		if (_monsterHelper->_stubFlag._stubState != Pg::Data::StubState::IDLE ||
+			_monsterHelper->_stubFlag._stubState != Pg::Data::StubState::BASICATTACK_COOLDOWN ||
 			_monsterHelper->_stubFlag._stubState != Pg::Data::StubState::SKILL_COOLDOWN) return;
 
 
