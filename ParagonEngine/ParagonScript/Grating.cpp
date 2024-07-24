@@ -54,7 +54,9 @@ namespace Pg::DataScript
 
 	void Grating::Update()
 	{
-		bool isStart = _areaIndex == 0 ? !_otherCol->GetActive() : _playerHandler->artifactCount >= 3;
+		bool isStart = false;
+		if (_areaIndex == 0) isStart = !_otherCol->GetActive();
+		else isStart = (_playerHandler->artifactCount >= 3);
 
 		if (isStart)
 		{

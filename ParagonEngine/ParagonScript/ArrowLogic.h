@@ -45,6 +45,8 @@ namespace Pg::DataScript
 
 	public:
 		inline static const float ARROW_ATTACK_POWER = 8.f;
+		inline static const float FIREARROW_ATTACK_POWER = 15.f;
+		inline static const float ICEARROW_ATTACK_POWER = 15.f;
 		//inline static const int TRAIL_DIVIDED_COUNT = 2; //두 개씩만 가지고 있자.
 
 	public:

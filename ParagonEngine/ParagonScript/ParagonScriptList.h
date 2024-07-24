@@ -44,6 +44,7 @@
 #include "PauseBox.h"
 #include "PauseOptionBox.h"
 #include "NavAgent.h"
+#include "TitleTutorial.h"
 #include "GUI_PercentageFillBar.h"
 #include "GUI_CoolDownWhiteFill.h"
 #include "GUI_StrongAttackStatus.h"

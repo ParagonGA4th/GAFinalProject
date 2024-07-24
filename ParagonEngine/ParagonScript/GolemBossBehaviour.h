@@ -112,6 +112,7 @@ namespace Pg::DataScript
 		Pg::Math::PGFLOAT3 _respawnPos;
 		Pg::Math::PGFLOAT3 _rendererOffset = {0.f, -2.f, 0.f};
 
+		Pg::Data::AudioSource* _rushSound;
 	private:
 		//Pg::Data::GameObject* _miniGolemHit;
 		//Pg::Data::AudioSource* _hitSound;
@@ -150,6 +151,8 @@ namespace Pg::DataScript
 		// down 관련
 		bool _isDownInit;
 		bool _isDown;
+
+		bool _rotateToPlayer{ false };
 
 	public:
 		//미니골렘의 상태와 수치에 대한 정보.

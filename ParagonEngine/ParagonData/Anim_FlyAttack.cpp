@@ -14,11 +14,7 @@ namespace Pg::Data::BTree::Node
 
 			if (monHelper->_isAnimationEnd)
 			{
-				monHelper->_isAnimationEnd = false;
-
-				if (monHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_3)
-					monHelper->_bossFlag._bossState = Pg::Data::BossState::DASH;
-					
+				monHelper->_isAnimationEnd = false;					
 				return BT::NodeStatus::FAILURE;
 			}
 
