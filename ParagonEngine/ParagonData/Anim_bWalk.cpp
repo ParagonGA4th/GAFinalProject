@@ -8,7 +8,7 @@ namespace Pg::Data::BTree::Node
 	{
 		auto monHelper = this->GetGameObject()->GetComponent<Pg::Data::MonsterHelper>();
 		if (monHelper != nullptr)
-		{
+		{				
 			auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();
 			if (tMeshRenderer != nullptr)
 			{

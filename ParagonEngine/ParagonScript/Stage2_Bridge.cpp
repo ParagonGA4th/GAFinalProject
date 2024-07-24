@@ -42,7 +42,7 @@ namespace Pg::DataScript
 			i->_alphaPercentage = 0.f;
 		}
 
-		//_collider->SetActive(false);
+		_collider->SetActive(false);
 	}
 
 	void Stage2_Bridge::Update()
