@@ -280,12 +280,16 @@ namespace Pg::DataScript
 
 	void ArrowLogic::IceArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex)
 	{
+		PG_WARN("ICE Damange : {0}", ICEARROW_ATTACK_POWER);
+		_combatSystem->AddMonsterHitList(behav->ReturnBaseMonsterInfo(), -(ICEARROW_ATTACK_POWER), ePartialAttackType::eICE_HIT);
 		_combatSystem->AddMonsterOnHitList(behav->ReturnBaseMonsterInfo());
 		_combatSystem->AddMonsterIceDamageList(behav->ReturnBaseMonsterInfo());
 	}
 
 	void ArrowLogic::FireArrowDamageLogic(IEnemyBehaviour* behav, int comboIndex)
 	{
+		PG_WARN("Fire Damange : {0}", FIREARROW_ATTACK_POWER);
+		_combatSystem->AddMonsterHitList(behav->ReturnBaseMonsterInfo(), -(FIREARROW_ATTACK_POWER), ePartialAttackType::eFIRE_HIT);
 		_combatSystem->AddMonsterOnHitList(behav->ReturnBaseMonsterInfo());
 		_combatSystem->AddMonsterFireDamageList(behav->ReturnBaseMonsterInfo());
 	}
