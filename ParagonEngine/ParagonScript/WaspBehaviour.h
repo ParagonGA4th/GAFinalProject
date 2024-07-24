@@ -137,6 +137,7 @@ namespace Pg::DataScript
 
 		//사툰드 관련 변수
 		bool _isAttackSoundPlaying{ false };
+		bool _isSkillAttackSoundPlaying{ false };
 		bool _isMoveSoundPlaying{ false };
 
 		//공격 관련 변수
