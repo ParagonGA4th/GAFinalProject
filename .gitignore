@@ -403,3 +403,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 ParagonEngine/.va/user/.vahashtags
+ParagonEngine/Resource/
