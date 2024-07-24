@@ -50,7 +50,7 @@ namespace Pg::DataScript
 		InGameCameraBehavior* tBased = this;
 		if (tBelongSceneName.compare("BossStage") == 0)
 		{
-			_cameraUpdateMainFunc = std::bind(&InGameCameraBehavior::Boss_RotateAroundMode, tBased);
+			_cameraUpdateMainFunc = std::bind(&InGameCameraBehavior::FixCameraMode, tBased);
 		}
 		else
 		{
@@ -203,6 +203,21 @@ namespace Pg::DataScript
 		_object->_transform._rotation = PGQuaternionSlerp(_object->_transform._rotation, _targetCamRotation, faster_interpolation);
 	}
 
+	void InGameCameraBehavior::FixCameraMode()
+	{
+		using namespace Pg::Math;
+
+		//카메라 rotation과 position을 고정
+		Pg::Math::PGFLOAT3 fixedPosition = _fixedPos;
+		Pg::Math::PGQuaternion fixedRotation = Pg::Math::PGEulerToQuaternion({ PGConvertToRadians(_fixedRot.x), PGConvertToRadians(_fixedRot.y), PGConvertToRadians(_fixedRot.z) }); // Example fixed rotation
+
+		_object->_transform._position = fixedPosition;
+		_object->_transform._rotation = fixedRotation;
+
+		_targetCamPosition = fixedPosition;
+		_targetCamRotation = fixedRotation;
+	}
+
 	void InGameCameraBehavior::UpdateTargetTransforms()
 	{
 		using namespace Pg::Math;
@@ -278,7 +293,4 @@ namespace Pg::DataScript
 	{
 		return _targetCamPosition;
 	}
-
-
-
 }
