@@ -185,7 +185,7 @@ namespace Pg::DataScript
 
 	void StubBehaviour::Start()
 	{
-
+		_stubInfo->StartBaseMonsterLogic();
 	}
 
 	void StubBehaviour::Update()
