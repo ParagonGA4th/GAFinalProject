@@ -116,7 +116,8 @@ namespace Pg::DataScript
 		Pg::Data::AudioSource* _dashSound;
 
 		Pg::Data::GameObject* _waspAttack;
-		Pg::Data::AudioSource* _attackSound;
+		Pg::Data::AudioSource* _attackSound_1;
+		Pg::Data::AudioSource* _attackSound_2;
 
 		Pg::Data::GameObject* _corn;
 		Pg::Data::StaticMeshRenderer* _cornRenderer;
