@@ -293,6 +293,12 @@ namespace Pg::DataScript
 
 			//_isRotateToPlayer = true;
 
+			if (_monsterHelper->_state == Pg::Data::MonsterState::IDLE)
+			{
+				_isAttackSoundPlaying = false;
+				_isSkillAttackSoundPlaying = false;
+			}
+
 			if (_monsterHelper->_waspFlag._attackCount <= 1)
 			{
 				_isAttackStart = true;
@@ -307,16 +313,14 @@ namespace Pg::DataScript
 			else
 			{
 				_isSkillStart = true;
-				if (!_isAttackSoundPlaying)
+				_isAttackStart = false;
+
+				if (!_isSkillAttackSoundPlaying)
 				{
 					_attackSound->Play();
-					_isAttackSoundPlaying = true;
+					_isSkillAttackSoundPlaying = true;
 				}
-
-				_isAttackStart = false;
 			}
-
-			if (_monsterHelper->_state == Pg::Data::MonsterState::IDLE) _isAttackSoundPlaying = false;
 
 			//АјАн
 			//if (_currentAttackTime >= _startAttackTime)
