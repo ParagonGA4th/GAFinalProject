@@ -10,6 +10,7 @@
 
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonAPI/PgTween.h"
+#include "../ParagonAPI/PgGraphics.h"
 #include "../ParagonUtil/Log.h"
 
 #include "BaseMonster.h"
@@ -30,6 +31,17 @@ namespace Pg::DataScript
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgTween = &singleton<Pg::API::Tween::PgTween>();
+		_pgGraphics = &singleton<Pg::API::Graphics::PgGraphics>();
+	}
+
+	void UltimateArrowLogic::CleanOnSceneChange()
+	{
+		if (_voUltimateHitOnMonster != nullptr)
+		{
+			_pgGraphics->RemoveEffectObject(_voUltimateHitOnMonster);
+			delete _voUltimateHitOnMonster;
+			_voUltimateHitOnMonster = nullptr;
+		}
 	}
 
 	void UltimateArrowLogic::GrabManagedObjects()
@@ -59,9 +71,16 @@ namespace Pg::DataScript
 		//_meshRenderer->SetActive(false);
 		_meshRenderer->_alphaPercentage = 0.f;
 
-
 		_meshRenderer->SetAnimation("ult_atk_0.pganim", false);
 		_meshRenderer->PauseAnim();
+
+		if (_voUltimateHitOnMonster == nullptr)
+		{
+			_voUltimateHitOnMonster = new Pg::Data::VisualEffectRenderObject();
+			_pgGraphics->RegisterEffectObject("Effect_Ultimate", _voUltimateHitOnMonster);
+		}
+		_voUltimateHitOnMonster->SetActive(false);
+		_isHitEffectAlive = false;
 	}
 
 	void UltimateArrowLogic::Start()
@@ -73,6 +92,7 @@ namespace Pg::DataScript
 	{
 		CarryOutShoot();
 		EndShootingSelf();
+		UpdateEffect();
 	}
 
 	void UltimateArrowLogic::CarryOutShoot()
@@ -100,7 +120,7 @@ namespace Pg::DataScript
 		if (_isAnimEnd)
 		{
 			_meshRenderer->_alphaPercentage -= ALPHA_PERCENT;
-			
+
 			if (_meshRenderer->_alphaPercentage <= std::numeric_limits<float>::epsilon())
 			{
 				_meshRenderer->SetAnimation("ult_atk_0.pganim", false);
@@ -143,6 +163,9 @@ namespace Pg::DataScript
 				//ComboSystem한테 적 때렸다고 전달.
 				_comboSystem->HitObject(true);
 
+				//이때, 이펙트 역시 호출시켜줘야.
+				StartEffectHit();
+
 				//해당 데미지를 입력, PlayerBattleBehavior로 하여금 이를 처리할 수 있게 만든다.
 				_combatSystem->AddMonsterHitList(tEnemyBehaviour->ReturnBaseMonsterInfo(), -(ULTIMATE_ATTACK_POWER), ePartialAttackType::eULTIMATE_HIT);
 				_combatSystem->AddMonsterOnHitList(tEnemyBehaviour->ReturnBaseMonsterInfo());
@@ -169,6 +192,38 @@ namespace Pg::DataScript
 	bool UltimateArrowLogic::GetUltimateSkillEnd()
 	{
 		return _ultimateSkill;
+	}
+
+	void UltimateArrowLogic::StartEffectHit()
+	{
+		_isHitEffectAlive = true;
+		_effectCountTime = 0.f;
+	}
+
+	void UltimateArrowLogic::UpdateEffect()
+	{
+		const float EFFECT_LASTING_TIME = 0.5f;
+
+		_voUltimateHitOnMonster->SetActive(false);
+
+		if (_isHitEffectAlive && _ultimateSkill)
+		{
+			if (_effectCountTime > EFFECT_LASTING_TIME)
+			{
+				_effectCountTime = 0.f;
+				_isHitEffectAlive = false;
+			}
+
+			_effectCountTime += _pgTime->GetDeltaTime();
+
+			_voUltimateHitOnMonster->SetActive(true);
+			_voUltimateHitOnMonster->_position = _object->_transform._position + Pg::Math::PGFLOAT3(1, 2, 1);
+			_voUltimateHitOnMonster->_scale = { 7,7,7 };
+		}
+		else
+		{
+			_effectCountTime = 0.f;
+		}
 	}
 
 

@@ -3,6 +3,7 @@
 #include "IScriptResettable.h"
 //#include "EnemyDefinesAndStructs.h"
 #include "PartialAttackType.h"
+#include "../ParagonData/VisualEffectRenderObject.h"
 #include <functional>
 
 ///모든 몬스터가 상속받아야 할 베이스 클래스.
@@ -10,18 +11,30 @@
 
 //ScriptResettable은 밑에서 따로 구현해야 하는데, 
 //일단 상속받게 하고 현 클래스에서는 자체 assert false를 발동해주자.
+
+namespace Pg::API
+{
+	namespace Time { class PgTime; }
+	namespace Graphics { class PgGraphics; }
+}
+
 namespace Pg::DataScript
 {
 	class BaseMonsterInfo : public IObserver, public IScriptResettable
 	{
 	public:
 		BaseMonsterInfo(float fullHealth, float attackPower);
+		~BaseMonsterInfo();
 
 		//IObserver : 전체적인 Event 전달을 기준으로 작동할 것.
 		virtual void HandleEvents(const IEvent& e, UsedVariant usedVar1, UsedVariant usedVar2) override;
 
 		//IScriptResettable. 다시 자기 자신을 리셋하는 함수.
 		virtual void ResetAll() override;
+
+		void StartBaseMonsterLogic(); //Start 내부에
+		void OnHitEnableHitEffect(int hitType); // Hit() 내부에
+		void UpdateBaseMonsterLogic(Pg::Data::GameObject* obj); // Update() 내부에
 
 		void SetMonsterHp(float hp);
 
@@ -53,6 +66,26 @@ namespace Pg::DataScript
 		//Speed Multiplier. 개별 Behaviour들이 모두 얘를 기반으로 이동 곱해야 한다.
 		float _speed{ 1.0f };
 
+	private:
+		bool _isActivatedEffect{ false };
+		float _isActivatedTime{ 0.f };
+
+		Pg::Data::VisualEffectRenderObject* _hitVO;
+		Pg::Data::VisualEffectRenderObject* _fireHitVO;
+		Pg::Data::VisualEffectRenderObject* _iceHitVO;
+
+		Pg::Data::VisualEffectRenderObject* _chosenVO;
+		unsigned int* _chosenPtrEffect{ nullptr };
+
+		unsigned int* _ptrEffectFrameIndex{ nullptr };
+		unsigned int* _ptrEffectFireFrameIndex{ nullptr };
+		unsigned int* _ptrEffectIceFrameIndex{ nullptr };
+
+		const float HIT_EFFECT_LASTING_TIME = 0.5f;
+
+	private:
+		Pg::API::Graphics::PgGraphics* _pgGraphics;
+		Pg::API::Time::PgTime* _getPgTime;
 	};
 
 	struct BaseMonsterHealthChangePair

@@ -44,6 +44,13 @@ namespace Pg::DataScript
 			delete _groundDustRO;
 			_groundDustRO = nullptr;
 		}
+
+		if (_hitRO != nullptr)
+		{
+			_pgGraphics->RemoveEffectObject(_hitRO);
+			delete _hitRO;
+			_hitRO = nullptr;
+		}
 	}
 
 	void PlayerHandler::GrabManagedObjects()
@@ -281,6 +288,8 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* tPlayerDieSound = _object->GetScene()->FindObjectWithName("PlayerDieSound");
 		_dieAudio = tPlayerDieSound->GetComponent<Pg::Data::AudioSource>();
 
+		//
+
 	}
 
 	bool PlayerHandler::GetIsStaminaReadyToUse()
@@ -355,10 +364,24 @@ namespace Pg::DataScript
 			_dustImagePointer = _pgGraphics->GetEffectTextureIndexPointer("Effect_GroundDust");
 			_groundDustRO->SetActive(false);
 		}
+
+		if (_hitRO == nullptr)
+		{
+			_hitRO = new Pg::Data::VisualEffectRenderObject();
+			_pgGraphics->RegisterEffectObject("Effect_Normal_Hit", _hitRO);
+			_hitRO->SetActive(false);
+
+			_chosenPtrEffect = _pgGraphics->GetEffectTextureIndexPointer("Effect_Normal_Hit");
+			assert(_chosenPtrEffect != nullptr);
+		}
+
+		_isEffectPlayOnHit = false;
+		_effectPlayOnHitTime = 0.f;
 	}
 
 	void PlayerHandler::UpdateVisualEffectObjects()
 	{
+		//Ground Dust
 		if (_playerMovementSector->GetIsMoving())
 		{
 			_groundDustRO->SetActive(true);
@@ -382,8 +405,37 @@ namespace Pg::DataScript
 		{
 			_groundDustRO->SetActive(false);
 		}
+
+		//Hit RO.
+		_hitRO->SetActive(false);
+
+		const float CLOSING_TIME = 0.5f;
+
+		if (_isEffectPlayOnHit)
+		{
+			_hitRO->SetActive(true);
+			_effectPlayOnHitTime += _pgTime->GetDeltaTime();
+			_hitRO->_position = _object->_transform._position;
+			_hitRO->_scale = { 5,5,5 };
+
+			if (_effectPlayOnHitTime < 0.1f) { (*_chosenPtrEffect) = 0; }
+			else if (_effectPlayOnHitTime < 0.2f) { (*_chosenPtrEffect) = 1; }
+			else if (_effectPlayOnHitTime < 0.3f) { (*_chosenPtrEffect) = 2; }
+			else { (*_chosenPtrEffect) = 3; }
+
+			if (_effectPlayOnHitTime > CLOSING_TIME)
+			{
+				_isEffectPlayOnHit = false;
+				_effectPlayOnHitTime = 0.f;
+			}
+		}
 	}
 
+	void PlayerHandler::InvokeHitEffect()
+	{
+		_isEffectPlayOnHit = true;
+		_effectPlayOnHitTime = 0.f;
+	}
 	
 
 }

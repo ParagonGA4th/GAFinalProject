@@ -4,6 +4,7 @@
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonData/VisualEffectRenderObject.h"
 #include "IEnemyBehaviour.h"
+#include "BaseMonster.h"
 #include <functional>
 #include <visit_struct/visit_struct.hpp>
 
