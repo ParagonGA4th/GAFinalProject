@@ -354,6 +354,7 @@ namespace Pg::DataScript
 		{
 			_isStrafeAvoiding = true;
 			_playerHandler->_selfCol->SetActive(false);
+			_playerHandler->staminaPoint--;
 			_playerHandler->_meshRenderer->SetAnimation("PA_00004.pganim", false);
 			_playerHandler->_avoidAudio->Play();
 

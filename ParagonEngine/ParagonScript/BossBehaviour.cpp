@@ -300,7 +300,7 @@ namespace Pg::DataScript
 		{
 			if (_distance <= _bossInfo->GetAttackRange())
 			{
-				//_meshRenderer->_animBlendFactor = 0.0f;
+				_meshRenderer->_animBlendFactor = 0.0f;
 
 				_isRotatingToPlayer = true;
 				_monsterHelper->_isChase = false;
@@ -320,6 +320,15 @@ namespace Pg::DataScript
 					//Attack(false);
 					//_useTakeDownSkill = false;
 					_useStormBlast = true;
+				}
+
+				if (_monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_3)
+				{
+					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::CAST ||
+						_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::CHASE)
+					{
+						_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::BASIC_ATTACK_1;
+					}
 				}
 			}
 			else
@@ -704,9 +713,11 @@ namespace Pg::DataScript
 
 							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2)
 								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3;
+							
+							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_3)
+								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::DASH;
 
 							_isGenerateCol = true;
-
 						});
 			}
 			if (_isGenerateCol)
@@ -780,8 +791,8 @@ namespace Pg::DataScript
 	{
 		bool isDown = false;
 
-		if ((_bossInfo->GetMonsterHp() <= 300.f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_1) ||
-			_bossInfo->GetMonsterHp() <= 200.0f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_2)
+		if ((_bossInfo->GetMonsterHp() <= 600.f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_1) ||
+			_bossInfo->GetMonsterHp() <= 400.0f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_2)
 		{
 			isDown = true;
 		}
@@ -845,6 +856,7 @@ namespace Pg::DataScript
 
 			_monsterHelper->Reset();
 			_monsterHelper->_isDead = true;
+			_isPlayerInit = false;
 
 			_dashCount = 0;
 
