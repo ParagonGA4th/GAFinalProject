@@ -124,6 +124,8 @@ namespace Pg::DataScript
 
 	void MimicBehaviour::BeforePhysicsAwake()
 	{
+		_mimicInfo->StartBaseMonsterLogic();
+
 		//_collider = _object->GetComponent<Pg::Data::BoxCollider>();
 		assert(_collider != nullptr);
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
@@ -140,7 +142,6 @@ namespace Pg::DataScript
 		_meshRenderer->SetActive(false);
 		_meshRenderer->SetRendererOffset(_rendererOffset);
 		_collider->SetActive(false);
-		this->SetActive(false);
 
 		//clear ÇÊ¿äÇÔ.
 		if (!_basicAttackCol.empty() || !_skillAttackCol.empty())
@@ -189,11 +190,16 @@ namespace Pg::DataScript
 
 	void MimicBehaviour::Start()
 	{
-		_mimicInfo->StartBaseMonsterLogic();
+		this->SetActive(false);
 	}
 
 	void MimicBehaviour::Update()
 	{
+		if (!_mimicInfo->IsEffectValid())
+		{
+			_mimicInfo->StartBaseMonsterLogic();
+		}
+
 		auto plVec = _player;
 		auto plTrans = plVec->_transform;
 
