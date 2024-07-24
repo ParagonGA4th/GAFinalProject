@@ -94,9 +94,6 @@ namespace Pg::DataScript
 		
 		auto upSound = _object->GetScene()->FindObjectWithName("BossUpSound");
 		_upSound = upSound->GetComponent<Pg::Data::AudioSource>();
-		
-		auto downSound = _object->GetScene()->FindObjectWithName("BossDownSound");
-		_downSound = downSound->GetComponent<Pg::Data::AudioSource>();
 
 		auto hit = _object->GetScene()->FindObjectWithName("BossHitSound");
 		_hitAudio = hit->GetComponent<Pg::Data::AudioSource>();
