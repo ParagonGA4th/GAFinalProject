@@ -281,6 +281,7 @@ namespace Pg::DataScript
 		}
 
 		//PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
+		_stubInfo->UpdateBaseMonsterLogic(_object);
 	}
 
 	void StubBehaviour::Idle()
