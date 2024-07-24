@@ -3,6 +3,7 @@
 #include "MimicSkillAttack.h"
 #include "BaseEnemyHandler.h"
 #include "TotalGameManager.h"
+#include "PlayerHandler.h"
 
 #include "../ParagonMath/PgMath.h"
 #include "../ParagonAPI/PgTime.h"
@@ -492,6 +493,11 @@ namespace Pg::DataScript
 		HandlerBundle3D* tHB = tTotalGameManager->GetHandlerBundleByScene(_object->GetScene());
 		this->_enemyHandler = tHB->_enemyHandler;
 		assert(_enemyHandler != nullptr);
+
+		if (_object->GetName() == "Mimic1")
+		{
+			tHB->_playerBehavior->artifactCount++;
+		}
 
 		_enemyHandler->FromEnemyNotifyDead(_object->GetTag(), this);
 	}

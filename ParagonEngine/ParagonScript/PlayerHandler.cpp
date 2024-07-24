@@ -204,7 +204,7 @@ namespace Pg::DataScript
 		staminaPoint = MAX_PLAYER_STAMINA;
 
 		// 아티팩트 혹시 모르니까..
-		artifactCount = 0;
+		//artifactCount = 0;
 	}
 
 	void PlayerHandler::SetPlayerMoveSpeed(float val)
