@@ -31,7 +31,7 @@ namespace Pg::Data::BTree::Node
 
 				animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
 				animId.append("_10009.pganim");
-				tcMeshRenderer->SetAnimation(animId, false);
+				tcMeshRenderer->SetAnimation(animId, true);
 			}
 
 		}

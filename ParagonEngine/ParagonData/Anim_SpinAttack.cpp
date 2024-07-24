@@ -17,6 +17,9 @@ namespace Pg::Data::BTree::Node
 				monHelper->_isAnimationEnd = false;
 				monHelper->_isAnimChange = false;
 				
+				if(monHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_2)
+					monHelper->_bGolemFlag._bossState = Pg::Data::GolemBossState::BASIC_ATTACK;
+
 				if (monHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_1)
 					monHelper->_bGolemFlag._bossState = Pg::Data::GolemBossState::SKILL_ATTACK_2;
 
