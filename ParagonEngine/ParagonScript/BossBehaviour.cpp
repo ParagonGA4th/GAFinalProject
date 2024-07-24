@@ -242,7 +242,7 @@ namespace Pg::DataScript
 
 	void BossBehaviour::Start()
 	{
-
+		_bossInfo->StartBaseMonsterLogic();
 	}
 
 	void BossBehaviour::Update()
@@ -383,6 +383,8 @@ namespace Pg::DataScript
 
 		//내려찍기 스킬
 		UpdatePhaseThreeSkill();
+	
+		_bossInfo->UpdateBaseMonsterLogic(_object);
 	}
 
 	void BossBehaviour::Chase()

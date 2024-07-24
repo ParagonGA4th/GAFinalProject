@@ -159,6 +159,9 @@ namespace Pg::DataScript
 		if (level <= std::numeric_limits<float>::epsilon())
 		{
 			_currentHandlerBundle3D->_playerBehavior->_hitAudio->Play();
+
+			//Effect도 플레이.
+			_currentHandlerBundle3D->_playerBehavior->InvokeHitEffect();
 		}
 		//회복
 		else
@@ -330,6 +333,9 @@ namespace Pg::DataScript
 					//OnDead는 Change 내부에 호출에 될 것이다. 또한, 중복되면 안 들어올 것.
 					//미리 HealthChange에서 비슷한 로직이 실행될 것이기 때문.
 					tIter->_baseMonster->ChangeMonsterHp(-FireEffect_MonsterHitPair::DOT_DAMAGE);
+
+					//Fire Invoke.
+					tIter->_baseMonster->OnHitEnableHitEffect(1);
 
 					//Rounding Time 하나 마이너스.
 					assert(tIter->_roundingNum >= 0); //로직 상 걸리면 안됨.

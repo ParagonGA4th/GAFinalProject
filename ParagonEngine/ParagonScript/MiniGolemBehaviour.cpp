@@ -140,6 +140,8 @@ namespace Pg::DataScript
 		_attackSound = _miniGolemAttack->GetComponent<Pg::Data::AudioSource>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
+
+		_miniGolInfo->StartBaseMonsterLogic();
 	}
 
 	void MiniGolemBehaviour::Update()
@@ -196,6 +198,8 @@ namespace Pg::DataScript
 			_hasDashed = false;
 		}
 		//PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
+
+		_miniGolInfo->UpdateBaseMonsterLogic(_object);
 	}
 
 	void MiniGolemBehaviour::Idle()

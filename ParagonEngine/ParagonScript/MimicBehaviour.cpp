@@ -189,6 +189,7 @@ namespace Pg::DataScript
 
 	void MimicBehaviour::Start()
 	{
+		_mimicInfo->StartBaseMonsterLogic();
 	}
 
 	void MimicBehaviour::Update()
@@ -229,6 +230,7 @@ namespace Pg::DataScript
 		UpdateSkill();
 
 		//PG_TRACE(_monsterHelper->_isDistanceClose);
+		_mimicInfo->UpdateBaseMonsterLogic(_object);
 	}
 
 	void MimicBehaviour::Idle()
