@@ -660,11 +660,11 @@ namespace Pg::DataScript
 		if (_useTakeDownSkill)
 		{
 			_walkAudio->Stop();
-			_upSound->Play();
 
 			// Tween 생성
 			if (!_isRiseTween)
 			{
+				_upSound->Play();
 				PG_WARN("TAKINGDOWN");
 				_riseTween = _pgTween->CreateTween();
 				_isRiseTween = true;
@@ -695,14 +695,13 @@ namespace Pg::DataScript
 
 							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3)
 								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_3;
+							
+							_upSound->Stop();
 						});
 			}
 		}
 		if (_goUp)
 		{
-			_upSound->Stop();
-			_downSound->Play();
-
 			//내려찍기 콜라이더 활성화
 			for (auto& iter : _takeDownCol)
 			{
@@ -712,6 +711,7 @@ namespace Pg::DataScript
 			// Tween 생성
 			if (!_isFallTween)
 			{
+				_downSound->Play();
 				PG_WARN("GOINGUP");
 				_fallTween = _pgTween->CreateTween();
 				_isFallTween = true;
@@ -745,6 +745,7 @@ namespace Pg::DataScript
 								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::DASH;
 
 							_isGenerateCol = true;
+							_downSound->Stop();
 						});
 			}
 			if (_isGenerateCol)
@@ -752,7 +753,6 @@ namespace Pg::DataScript
 				_isRiseTween = false;
 				_isFallTween = false;
 				_goUp = false;
-				_downSound->Stop();
 
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3)
