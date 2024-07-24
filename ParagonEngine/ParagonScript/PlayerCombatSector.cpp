@@ -66,6 +66,17 @@ namespace Pg::DataScript
 		AllAttacksLogic();
 		//나머지 로직은 Combat System으로 이동.
 
+		if (_isWaiting)
+		{
+			_attackWatingTime -= _pgTime->GetDeltaTime();
+			if (_attackWatingTime <= std::numeric_limits<float>::epsilon())
+			{
+				_playerHandler->_meshRenderer->SetAnimation("PA_00001.pganim", true);
+				_attackWatingTime = AFTER_ATTACK_WATING_TIME;
+				_isWaiting = false;
+			}
+		}
+
 		//PG_WARN("ICE : {0}", _isStartedIceSkillChargeTime);
 	}
 
@@ -611,11 +622,15 @@ namespace Pg::DataScript
 
 	void PlayerCombatSector::OnAnimationEnd(const std::string& justEndedAnimation)
 	{
-		//if (justEndedAnimation == "PA_00005.pgAnim" ||
-		//	justEndedAnimation == "PA_00006.pgAnim" ||
-		//	justEndedAnimation == "PA_00007.pgAnim")
-		//{
-		//	_playerHandler->_meshRenderer->SetAnimation("PA_00012.pganim", true);
-		//}
+		if (justEndedAnimation == "PA_00005.pganim" ||
+			justEndedAnimation == "PA_00006.pganim" ||
+			justEndedAnimation == "PA_00007.pganim" ||
+			justEndedAnimation == "PA_00008.pganim" ||
+			justEndedAnimation == "PA_00009.pganim" ||
+			justEndedAnimation == "PA_000011.pganim" )
+		{
+			_playerHandler->_meshRenderer->SetAnimation("PA_00015.pganim", false);
+			_isWaiting = true;
+		}
 	}
 }

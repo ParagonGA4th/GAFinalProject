@@ -62,6 +62,8 @@ namespace Pg::DataScript
 		//100 중 1/5
 		inline static const int STRONG_ATTACK_REQUIRED_STAMINA = 1;
 
+		inline static const float AFTER_ATTACK_WATING_TIME = 1.0f;
+
 		// Stamina : 15초에 한칸씩 찬다. 총 5칸. 재충전 시간 조건은 0칸이어야.
 		// 다 충전되기 전에는 쓰일 수 없다.
 
@@ -153,7 +155,8 @@ namespace Pg::DataScript
 		std::string _prevAnimationInput;
 		//bool _isHit;
 		//int _hitCount = 0;
-		//bool _isHit;
+		bool _isWaiting = { false };
+		float _attackWatingTime = AFTER_ATTACK_WATING_TIME;
 		bool _useUltimateSkill{ false }; //이건 Invoke에 들어가야 한다.
 
 	private:

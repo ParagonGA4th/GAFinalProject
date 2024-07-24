@@ -771,8 +771,8 @@ namespace Pg::DataScript
 		_cameraShake->CauseShake(0.25f);
 
 		//피격 애니메이션 들어가야 함.
-		if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::IDLE ||
-			_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::CHASE) return;
+		if (_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::IDLE ||
+			_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::CHASE) return;
 
 		std::string animId = _meshRenderer->GetAnimation().substr(0, _meshRenderer->GetAnimation().find("_"));
 		animId.append("_00010.pganim");
