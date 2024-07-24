@@ -709,6 +709,9 @@ namespace Pg::DataScript
 				//DeltaTime으로 약간의 딜레이를 준다.
 				_currentGenerateTime += _pgTime->GetDeltaTime();
 
+				_isRiseTween = false;
+				_isFallTween = false;
+
 				if (_currentGenerateTime >= _regenerateTime)
 				{
 					_collider->SetActive(true);
@@ -719,8 +722,6 @@ namespace Pg::DataScript
 					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2 ||
 						_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3)
 					{
-						_isRiseTween = false;
-						_isFallTween = false;
 						_useTakeDownSkill = true;
 					}
 				}
@@ -783,8 +784,8 @@ namespace Pg::DataScript
 	{
 		bool isDown = false;
 
-		if ((_bossInfo->GetMonsterHp() <= 7.5f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_1) ||
-			_bossInfo->GetMonsterHp() <= 5.0f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_2)
+		if ((_bossInfo->GetMonsterHp() <= 300.f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_1) ||
+			_bossInfo->GetMonsterHp() <= 200.0f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_2)
 		{
 			isDown = true;
 		}
