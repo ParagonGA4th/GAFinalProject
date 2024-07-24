@@ -100,7 +100,7 @@ BOOL Pg::Editor::Core::EditorAction::CreateWindows(HINSTANCE hInstance)
 	//	CW_USEDEFAULT, CW_USEDEFAULT, _screenWidth, _screenHeight, nullptr, nullptr, hInstance, nullptr);
 
 	//Minimize && Resize 허용하지 않음.
-	_hWnd = CreateWindowW(_appName.c_str(), _appName.c_str(), WS_OVERLAPPED | WS_SYSMENU | WS_MINIMIZEBOX,
+	_hWnd = CreateWindowW(_appName.c_str(), _appName.c_str(), WS_POPUP,
 		CW_USEDEFAULT, CW_USEDEFAULT, _screenWidth, _screenHeight, nullptr, nullptr, hInstance, nullptr);
 
 	if (!_hWnd) return FALSE;

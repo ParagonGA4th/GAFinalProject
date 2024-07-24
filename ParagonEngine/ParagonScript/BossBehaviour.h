@@ -142,6 +142,7 @@ namespace Pg::DataScript
 		Pg::Data::AudioSource* _dieAudio;
 
 		Pg::Data::AudioSource* _downAudio;
+		Pg::Data::AudioSource* _hitAudio;
 
 		Pg::Data::AudioSource* _basicAttackAudio1;
 		Pg::Data::AudioSource* _basicAttackAudio2;

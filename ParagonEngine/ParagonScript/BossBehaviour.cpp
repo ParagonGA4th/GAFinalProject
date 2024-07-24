@@ -89,6 +89,9 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _basicAttackSound2 = _object->GetScene()->FindObjectWithName("BossAttackSound2");
 		_basicAttackAudio2 = _basicAttackSound2->GetComponent<Pg::Data::AudioSource>();
 
+		Pg::Data::GameObject* _hit = _object->GetScene()->FindObjectWithName("BossHitSound");
+		_hitAudio = _hit->GetComponent<Pg::Data::AudioSource>();
+
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
 		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
@@ -352,6 +355,7 @@ namespace Pg::DataScript
 			else if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1)
 			{
 				_useTakeDownSkill = true;
+				_useLightSkill = false;
 			}
 			else if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::EVASION) Evade();
 		}
@@ -765,6 +769,7 @@ namespace Pg::DataScript
 
 		//카메라 흔들림
 		_cameraShake->CauseShake(0.25f);
+		_hitAudio->Play();
 
 		//피격 애니메이션 들어가야 함.
 		if (_monsterHelper->_bossFlag._bossState != Pg::Data::BossState::IDLE ||
