@@ -688,8 +688,7 @@ namespace Pg::DataScript
 							// 내려찍기 후 추가 동작
 							_useTakeDownSkill = false;
 							_isRotatingToPlayer = true;
-							_goUp = false;
-							_isGenerateCol = true;
+
 							//내려찍기 콜라이더 활성화
 							for (auto& iter : _takeDownCol)
 							{
@@ -701,29 +700,22 @@ namespace Pg::DataScript
 
 							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2)
 								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3;
+							
+							_isGenerateCol = true;
+
 						});
 			}
 			if (_isGenerateCol)
 			{
-				//내려찍기가 끝나자마자 collider 생성 시 튀는 경우가 생겨
-				//DeltaTime으로 약간의 딜레이를 준다.
-				_currentGenerateTime += _pgTime->GetDeltaTime();
-
 				_isRiseTween = false;
 				_isFallTween = false;
+				_goUp = false;
 
-				if (_currentGenerateTime >= _regenerateTime)
+				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2 ||
+					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3)
 				{
-					_collider->SetActive(true);
-					_currentGenerateTime = 0.f;
+					_useTakeDownSkill = true;
 					_isGenerateCol = false;
-
-
-					if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_2 ||
-						_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3)
-					{
-						_useTakeDownSkill = true;
-					}
 				}
 			}
 		}
