@@ -230,7 +230,6 @@ namespace Pg::DataScript
 			}
 			else
 			{
-				_monsterHelper->_isChase = !_isDash;
 				Chase();
 			}
 
