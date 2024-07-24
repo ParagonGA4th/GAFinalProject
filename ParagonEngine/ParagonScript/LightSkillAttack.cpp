@@ -1,6 +1,7 @@
 #include "LightSkillAttack.h"
 #include "CombatSystem.h"
 #include "../ParagonData/Collider.h"
+#include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonUtil/Log.h"
 
 namespace Pg::DataScript
@@ -11,6 +12,10 @@ namespace Pg::DataScript
 
 	}
 
+	void LightSkillAttack::GrabManagedObjects()
+	{
+		_renderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+	}
 
 	void LightSkillAttack::BeforePhysicsAwake()
 	{
@@ -19,7 +24,8 @@ namespace Pg::DataScript
 
 	void LightSkillAttack::Awake()
 	{
-
+		_renderer->SetAnimation("bosspillar_0.pganim", false);
+		_renderer->PauseAnim();
 	}
 
 	void LightSkillAttack::Start()
@@ -44,5 +50,10 @@ namespace Pg::DataScript
 				_combatSystem->ChangePlayerHealth(-8.f);
 			}
 		}
+	}
+
+	void LightSkillAttack::OnAnimationEnd(const std::string& justEndedAnimation)
+	{
+
 	}
 }
