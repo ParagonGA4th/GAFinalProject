@@ -157,6 +157,8 @@
     <ClInclude Include="GolemBossHealthBar.h" />
     <ClInclude Include="Grating.h" />
     <ClInclude Include="GUI_StrongAttackStatus.h" />
+    <ClInclude Include="ItemGoldenApple.h" />
+    <ClInclude Include="ItemNormalApple.h" />
     <ClInclude Include="PauseOptionBox.h" />
     <ClInclude Include="Stage1_Bridge.h" />
     <ClInclude Include="BridgeHelper.h" />
@@ -282,6 +284,8 @@
     <ClCompile Include="GolemBossHealthBar.cpp" />
     <ClCompile Include="Grating.cpp" />
     <ClCompile Include="GUI_StrongAttackStatus.cpp" />
+    <ClCompile Include="ItemGoldenApple.cpp" />
+    <ClCompile Include="ItemNormalApple.cpp" />
     <ClCompile Include="PauseOptionBox.cpp" />
     <ClCompile Include="Stage1_Bridge.cpp" />
     <ClCompile Include="BridgeHelper.cpp" />
