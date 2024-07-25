@@ -23,6 +23,9 @@ namespace Pg::DataScript
 		//초기 상태로 되돌리는 함수. 어떤 이유가 되던, 리셋해야 할 때.
 		void ResetToInitialState();
 
+		//만약 안 죽은 상태라면 무시하고, 안 죽었으면 Reset을 시킨다. 
+		void ResetIfNotDead();
+
 		//std::transform처럼, 각 함수에게 해당 함수를 호출시킨다.
 		//IEnemyBehaviour를 대상으로 호출되는 것.
 		void TransformEachEnemy(std::function<void(IEnemyBehaviour*)> func);
