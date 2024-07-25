@@ -166,9 +166,10 @@ namespace Pg::DataScript
 		}
 	}
 
-	void PlayerHandler::ChangePlayerHealth(float level)
+	void PlayerHandler::ChangePlayerHealth(float level, bool isTrap)
 	{
-		_meshRenderer->SetAnimation("PA_00012.pganim", false);
+		if(!isTrap) _meshRenderer->SetAnimation("PA_00012.pganim", false);
+
 		healthPoint = std::clamp<float>(healthPoint + level, 0.0f, MAX_PLAYER_HEALTH);
 
 		if (healthPoint > std::numeric_limits<float>::epsilon() &&

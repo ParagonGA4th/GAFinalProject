@@ -50,7 +50,7 @@ namespace Pg::DataScript
 	{
 		DEFINE_PARAGON_SCRIPT(BossBehaviour);
 	public:
-		inline static const float MAX_BOSS_HEALTH = 800.f;
+		inline static const float MAX_BOSS_HEALTH = 400.f;
 		inline static const float BOSS_ATTACK_POWER = 4.f;
 	public:
 		BossBehaviour(Pg::Data::GameObject* obj);
@@ -197,9 +197,6 @@ namespace Pg::DataScript
 
 		bool _goUp{ false };
 		bool _isGenerateCol{ false };
-
-		//페이즈2 시작될 땐 움직이면 안된다.
-		bool _isPhaseEnd{ false };
 
 		bool _isRiseTween{ false };
 		bool _isFallTween{ false };
