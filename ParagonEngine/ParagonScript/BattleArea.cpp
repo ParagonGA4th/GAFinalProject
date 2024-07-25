@@ -71,6 +71,8 @@ namespace Pg::DataScript
 
 		_collider = _object->GetComponent<Pg::Data::SphereCollider>();
 		assert(_collider != nullptr);
+
+		_isUI = true;
 	}
 
 	void BattleArea::Start()
@@ -95,13 +97,17 @@ namespace Pg::DataScript
 					}
 					else if (_object->GetScene()->GetSceneName() == "Stage1" && _areaIndex == 1)
 					{
-						_golemBossUI->SetActive(true);
+						if (_isUI)
+						{
+							_golemBossUI->SetActive(true);
+						}
 
 						dTime += _pgTime->GetDeltaTime();
 
 						if (dTime >= 3.f)
 						{
 							_golemBossUI->SetActive(false);
+							_isUI = false;
 							dTime = 0.f;
 						}
 					}
