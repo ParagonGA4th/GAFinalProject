@@ -10,7 +10,6 @@ namespace Pg::API::Time { class PgTime; }
 
 namespace Pg::DataScript
 {
-	class PlayerMovementSector;
 	class PlayerHandler;
 	class CombatSystem;
 
@@ -39,6 +38,8 @@ namespace Pg::DataScript
 		VISITABLE(int, _areaIndex);
 		END_VISITABLES;
 
+		inline static const float DAMAGE_SPEED = 0.5f;
+
 	private:
 		Pg::API::Time::PgTime* _deltaTime;
 		Pg::Data::StaticBoxCollider* _collider;
@@ -48,7 +49,7 @@ namespace Pg::DataScript
 
 		// 플레이어의 기본 속도
 		float _previousMoveSpeed;
-		float _damage = 0.2f;	 // 체력 감소 속도	
+		float _damage = -1.f; // 실제 데미지	
 
 		bool _onTriggerStay;
 		

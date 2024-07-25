@@ -11,14 +11,12 @@ namespace Pg::Data
 
 namespace Pg::DataScript
 {
-	class PlayerHandler;
-
-	class Grating : public ScriptInterface<Grating>
+	class Grating_1 : public ScriptInterface<Grating_1>
 	{
-		DEFINE_PARAGON_SCRIPT(Grating);
+		DEFINE_PARAGON_SCRIPT(Grating_1);
 
 	public:
-		Grating(Pg::Data::GameObject* obj);
+		Grating_1(Pg::Data::GameObject* obj);
 
 		virtual void GrabManagedObjects() override;
 
@@ -26,17 +24,10 @@ namespace Pg::DataScript
 		virtual void Awake() override;
 		virtual void Update() override;
 
-	public:
-		BEGIN_VISITABLES(Pg::DataScript::Grating);
-		VISITABLE(int, _areaIndex);
-		END_VISITABLES;
-
 	private:
 		Pg::Data::StaticMeshRenderer* _renderer;
 		Pg::Data::StaticBoxCollider* _collider;
 		Pg::Data::Collider* _otherCol;
-
-		PlayerHandler* _playerHandler{ nullptr };
 
 		inline static const float ALPHA_PERCENT = 0.8f;
 	};

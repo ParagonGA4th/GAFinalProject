@@ -58,7 +58,7 @@ namespace Pg::DataScript
 	{
 		if (_onTriggerStay)
 		{
-			 //상호작용 키
+			//상호작용 키
 			if (_pgInput->GetKeyDown(Pg::API::Input::eKeyCode::KeyF))
 			{
 				_isOpen = true;
@@ -74,7 +74,8 @@ namespace Pg::DataScript
 
 			if (col->_object->GetTag() == "TAG_Sensor")
 			{
-				_instructionRO->SetActive(true);
+				if (_object->GetScene()->GetSceneName() == "Stage1") _instructionRO->SetActive(true);
+
 				//_interactionUI->SetActive(true);
 				//_interaction->SetActive(true);
 				_onTriggerStay = true;
@@ -98,6 +99,6 @@ namespace Pg::DataScript
 		}
 	}
 
-	
+
 
 }

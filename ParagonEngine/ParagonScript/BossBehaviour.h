@@ -50,7 +50,7 @@ namespace Pg::DataScript
 	{
 		DEFINE_PARAGON_SCRIPT(BossBehaviour);
 	public:
-		inline static const float MAX_BOSS_HEALTH = 800.f;
+		inline static const float MAX_BOSS_HEALTH = 400.f;
 		inline static const float BOSS_ATTACK_POWER = 4.f;
 	public:
 		BossBehaviour(Pg::Data::GameObject* obj);
@@ -198,18 +198,16 @@ namespace Pg::DataScript
 		bool _goUp{ false };
 		bool _isGenerateCol{ false };
 
-		//페이즈2 시작될 땐 움직이면 안된다.
-		bool _isPhaseEnd{ false };
-
 		bool _isRiseTween{ false };
 		bool _isFallTween{ false };
 
 		bool _isDownSoundPlaying{ false };
 		bool _isAttackSoundPlaying{ false };
 		bool _isStormAttackSoundPlaying{ false };
+		bool _isLightSkillSoundPlaying{ false };
 
 		float _activationInterval{ 1.f }; // 각 콜라이더가 활성화되는 시간 간격
-		float _nextActivationTime{ 2.0f }; // 다음 콜라이더가 활성화될 시간
+		float _nextActivationTime{ 0.0f }; // 다음 콜라이더가 활성화될 시간
 		size_t _currentColIndex = 0;      // 현재 활성화할 콜라이더의 인덱스
 	};
 }

@@ -26,14 +26,14 @@ namespace Pg::DataScript
 {
 	MiniGolemBehaviour::MiniGolemBehaviour(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj), _isRotateFinish(false),
-		_distance(0.f), _isDash(false), _hasDashed(false), _currentAttackTime(0.f), _startAttackTime(0.7f), _endAttackTime(2.7f),
+		_distance(0.f), _isDash(false), _hasDashed(false), _currentAttackTime(0.f),
 		_respawnPos(0.f, 0.f, 0.f), _areaIndex(0)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgScene = &singleton<Pg::API::PgScene>();
 
 		//골렘의 체력과 공격
-		_miniGolInfo = new MiniGolemInfo(50.f, 1.f);
+		_miniGolInfo = new MiniGolemInfo(25.f, 1.f);
 
 		///골렘의 사망 및 피격행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
 		///몬스터에게 직접적으로 적용하기에 여기서는 사망 시 행동만 만들면 된다.
@@ -54,6 +54,8 @@ namespace Pg::DataScript
 
 	void MiniGolemBehaviour::GrabManagedObjects()
 	{
+		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+
 		_collider = _object->GetComponent<Pg::Data::CapsuleCollider>();
 		assert(_collider != nullptr);
 		_collider->SetLayer(Pg::Data::Enums::eLayerMask::LAYER_MONSTER);
@@ -84,6 +86,7 @@ namespace Pg::DataScript
 		_collider->FreezeAxisY(true);
 		_collider->FreezeAxisZ(true);
 
+
 		//clear 필요함.
 		if (!_attackCol.empty())
 		{
@@ -104,8 +107,6 @@ namespace Pg::DataScript
 
 	void MiniGolemBehaviour::Awake()
 	{
-		_meshRenderer = _object->GetComponent<Pg::Data::SkinnedMeshRenderer>();
-
 		//체력과 기본 공격력을 설정해준다.
 		//_miniGolInfo->SetMonsterHp(5.f);
 		//_miniGolInfo->SetMonsterDamage(1.f);
@@ -127,17 +128,17 @@ namespace Pg::DataScript
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
 		//AudioSource 컴포넌트 들고오기
-		_miniGolemHit = _object->GetScene()->FindObjectWithName("MiniGolemHitSound");
-		_hitSound = _miniGolemHit->GetComponent<Pg::Data::AudioSource>();
+		auto miniGolemHit = _object->GetScene()->FindObjectWithName("MiniGolemHitSound");
+		_hitSound = miniGolemHit->GetComponent<Pg::Data::AudioSource>();
 
-		_miniGolemDie = _object->GetScene()->FindObjectWithName("MiniGolemDeadSound");
-		_dieSound = _miniGolemDie->GetComponent<Pg::Data::AudioSource>();
+		auto miniGolemDie = _object->GetScene()->FindObjectWithName("MiniGolemDeadSound");
+		_dieSound = miniGolemDie->GetComponent<Pg::Data::AudioSource>();
 
-		_miniGolemDash = _object->GetScene()->FindObjectWithName("MiniGolemDashSound");
-		_dashSound = _miniGolemDash->GetComponent<Pg::Data::AudioSource>();
+		auto miniGolemDash = _object->GetScene()->FindObjectWithName("MiniGolemDashSound");
+		_dashSound = miniGolemDash->GetComponent<Pg::Data::AudioSource>();
 
-		_miniGolemAttack = _object->GetScene()->FindObjectWithName("MiniGolemAttackSound");
-		_attackSound = _miniGolemAttack->GetComponent<Pg::Data::AudioSource>();
+		auto miniGolemAttack = _object->GetScene()->FindObjectWithName("MiniGolemAttackSound");
+		_attackSound = miniGolemAttack->GetComponent<Pg::Data::AudioSource>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
@@ -222,7 +223,7 @@ namespace Pg::DataScript
 			_currentAttackTime = _currentAttackTime + _pgTime->GetDeltaTime();
 
 			//공격
-			if (_currentAttackTime >= _startAttackTime)
+			if (_currentAttackTime >= START_ATTACK_TIME)
 			{
 				if (!_isAttackSoundPlaying) 
 				{
@@ -235,7 +236,7 @@ namespace Pg::DataScript
 				_monsterHelper->_isPlayerinHitSpace = true;
 				Attack(true);
 			}
-			if (_currentAttackTime >= _startAttackTime && _currentAttackTime >= _endAttackTime)
+			if (_currentAttackTime >= START_ATTACK_TIME && _currentAttackTime >= END_ATTACK_TIME)
 			{
 				Attack(false);
 				_isAttackSoundPlaying = false;
@@ -403,8 +404,6 @@ namespace Pg::DataScript
 	void MiniGolemBehaviour::ResetAll()
 	{
 		//몬스터의 상태
-		_isStart = false;
-		_isHit = false;
 		_isRotateFinish = false;
 		_isDash = false;			//돌진 여부
 		_hasDashed = false;		//돌진했는지 여부
@@ -414,11 +413,15 @@ namespace Pg::DataScript
 
 		//충돌객체 전부 초기화
 		_collider->SetActive(true);		
+		_meshRenderer->SetActive(true);
 
 		for (auto& iter : _attackCol)
 		{
 			iter->SetActive(false);
 		}
+
+		_distance = 0.f;
+		_currentAttackTime = 0.f;
 
 		// 애니매이션 관련 전부 초기화
 		_monsterHelper->Reset();

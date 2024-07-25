@@ -612,9 +612,6 @@
     <ClCompile Include="Stage2_Bridge.cpp">
       <Filter>Content\Gimmick\Bridge</Filter>
     </ClCompile>
-    <ClCompile Include="Grating.cpp">
-      <Filter>Content\Gimmick\Grating</Filter>
-    </ClCompile>
     <ClCompile Include="PauseOptionBox.cpp">
       <Filter>UI\InGameUI\PauseUI</Filter>
     </ClCompile>
@@ -632,6 +629,12 @@
     </ClCompile>
     <ClCompile Include="TitleTutorial.cpp">
       <Filter>UI\TitleUI\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="Grating_1.cpp">
+      <Filter>Content\Gimmick\Grating</Filter>
+    </ClCompile>
+    <ClCompile Include="Grating_2.cpp">
+      <Filter>Content\Gimmick\Grating</Filter>
     </ClCompile>
     <ClCompile Include="ItemGoldenApple.cpp">
       <Filter>Content\ItemApple\ItemGoldenApple</Filter>
@@ -968,9 +971,6 @@
     <ClInclude Include="Stage2_Bridge.h">
       <Filter>Content\Gimmick\Bridge</Filter>
     </ClInclude>
-    <ClInclude Include="Grating.h">
-      <Filter>Content\Gimmick\Grating</Filter>
-    </ClInclude>
     <ClInclude Include="PauseOptionBox.h">
       <Filter>UI\InGameUI\PauseUI</Filter>
     </ClInclude>
@@ -994,6 +994,12 @@
     </ClInclude>
     <ClInclude Include="ItemNormalApple.h">
       <Filter>Content\ItemApple\ItemNormalApple</Filter>
+    </ClInclude>
+    <ClInclude Include="Grating_1.h">
+      <Filter>Content\Gimmick\Grating</Filter>
+    </ClInclude>
+    <ClInclude Include="Grating_2.h">
+      <Filter>Content\Gimmick\Grating</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

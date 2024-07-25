@@ -29,8 +29,7 @@ namespace Pg::DataScript
 {
 	GolemBossBehaviour::GolemBossBehaviour(Pg::Data::GameObject* obj) :
 		ScriptInterface(obj), _isRotateFinish(false),
-		_distance(0.f), _isDash(false), _hasDashed(false), _currentAttackTime(0.f), _startAttackTime(0.7f), _endAttackTime(2.7f),
-		_respawnPos(0.f, 0.f, 0.f), _areaIndex(0)
+		_distance(0.f), _isDash(false), _hasDashed(false), _respawnPos(0.f, 0.f, 0.f), _areaIndex(0)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgScene = &singleton<Pg::API::PgScene>();
@@ -70,6 +69,18 @@ namespace Pg::DataScript
 
 		Pg::Data::GameObject* _rush = _object->GetScene()->FindObjectWithName("GolemBossRushSound");
 		_rushSound = _rush->GetComponent<Pg::Data::AudioSource>();
+
+		auto _hit = _object->GetScene()->FindObjectWithName("GolemBossHitSound");
+		_hitSound = _hit->GetComponent<Pg::Data::AudioSource>();
+
+		auto _die = _object->GetScene()->FindObjectWithName("GolemBossDieSound");
+		_dieSound = _die->GetComponent<Pg::Data::AudioSource>();
+
+		auto basicAttackSound = _object->GetScene()->FindObjectWithName("GolemBossAttackSound1");
+		_basicAttackSound = basicAttackSound->GetComponent<Pg::Data::AudioSource>();
+
+		auto spinAttackSound = _object->GetScene()->FindObjectWithName("GolemBossAttackSound2");
+		_spinAttackSound = spinAttackSound->GetComponent<Pg::Data::AudioSource>();
 
 		for (auto& iter : _object->_transform.GetChildren())
 		{
@@ -167,20 +178,6 @@ namespace Pg::DataScript
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
 		//AudioSource 컴포넌트 들고오기
-		auto golemHitSound = _object->GetScene()->FindObjectWithName("GolemBossHitSound");
-		_hitSound = golemHitSound->GetComponent<Pg::Data::AudioSource>();
-		
-		auto golemDeadSound = _object->GetScene()->FindObjectWithName("GolemBossDieSound");
-		_dieSound = golemDeadSound->GetComponent<Pg::Data::AudioSource>();
-		
-		auto golemDashSound = _object->GetScene()->FindObjectWithName("GolemBossRushSound");
-		_rushSound = golemDashSound->GetComponent<Pg::Data::AudioSource>();
-		
-		auto basicAttackSound = _object->GetScene()->FindObjectWithName("GolemBossAttackSound1");
-		_basicAttackSound = basicAttackSound->GetComponent<Pg::Data::AudioSource>();
-		
-		auto spinAttackSound = _object->GetScene()->FindObjectWithName("GolemBossAttackSound2");
-		_spinAttackSound = spinAttackSound->GetComponent<Pg::Data::AudioSource>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
@@ -307,7 +304,6 @@ namespace Pg::DataScript
 			Attack(false);
 			//사운드 초기화
 			_isAttackSoundPlaying = false;
-			_currentAttackTime = 0.f;
 
 			// 페이즈 2 일때는 spin하면서 쫒아가야함
 			if (_monsterHelper->_bGolemFlag._bossPase == Pg::Data::BossPase::PASE_1)
@@ -448,7 +444,7 @@ namespace Pg::DataScript
 	void GolemBossBehaviour::Down()
 	{
 		if (_monsterHelper->_bGolemFlag._bossPase == Pg::Data::BossPase::PASE_1 &&
-			_golBossInfo->GetMonsterHp() <= 100.f)
+			_golBossInfo->GetMonsterHp() <= 50.f)
 		{
 			_golBossInfo->SetCurrentDown(_golBossInfo->GetCurrentDown() + _pgTime->GetDeltaTime());
 
@@ -518,8 +514,6 @@ namespace Pg::DataScript
 
 	void GolemBossBehaviour::ResetAll()
 	{
-		_isStart = false;
-		_isHit = false;
 		_isRotateFinish = false;
 		_isDash = false;			//돌진 여부
 		_hasDashed = false;		//돌진했는지 여부
@@ -539,5 +533,9 @@ namespace Pg::DataScript
 		{
 			iter->SetActive(false);
 		}
+
+		_distance = 0.f;
+
+		_monsterHelper->Reset();
 	}
 }
