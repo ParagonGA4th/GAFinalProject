@@ -80,6 +80,7 @@ namespace Pg::DataScript
 
 	private:
 		bool _isActivated{ true };
+		bool _isUI{ true };
 		float dTime = 0.f;
 
 	};
