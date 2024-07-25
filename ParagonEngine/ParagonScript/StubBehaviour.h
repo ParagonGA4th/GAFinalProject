@@ -97,19 +97,10 @@ namespace Pg::DataScript
 		Pg::Math::PGFLOAT3 _rendererOffset = { 0.f, -1.f, 0.f };
 
 	private:
-		Pg::Data::GameObject* _stubHit;
 		Pg::Data::AudioSource* _hitSound;
-
-		Pg::Data::GameObject* _stubDie;
 		Pg::Data::AudioSource* _dieSound;
-
-		Pg::Data::GameObject* _stubSkill;
 		Pg::Data::AudioSource* _skillSound;
-
-		Pg::Data::GameObject* _stubAttack;
 		Pg::Data::AudioSource* _attackSound;
-
-		Pg::Data::GameObject* _stubFind;
 		Pg::Data::AudioSource* _findSound;
 
 		CameraShake* _cameraShake;
@@ -120,9 +111,6 @@ namespace Pg::DataScript
 	private:
 		//플레이어와의 거리 측정
 		float _distance;
-		float _startAttackTime;
-		float _endAttackTime;
-		float _currentAttackTime;
 
 		//공격 패턴을 위한 카운트
 		int _attackCount;

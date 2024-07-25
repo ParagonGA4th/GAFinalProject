@@ -27,14 +27,13 @@
 namespace Pg::DataScript
 {
 	StubBehaviour::StubBehaviour(Pg::Data::GameObject* obj) :
-		ScriptInterface(obj), _distance(0.f), _currentAttackTime(0.f), _startAttackTime(1.f), _endAttackTime(2.7f)
-		, _attackCount(0), _isRotateFinish(false)
+		ScriptInterface(obj), _distance(0.f), _attackCount(0), _isRotateFinish(false)
 	{
 		_pgTime = &singleton<Pg::API::Time::PgTime>();
 		_pgScene = &singleton<Pg::API::PgScene>();
 
 		//골렘의 체력과 공격
-		_stubInfo = new StubInfo(85.f, 2.f);
+		_stubInfo = new StubInfo(43.f, 2.f);
 
 		///골렘의 사망 및 피격행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
 		///몬스터에게 직접적으로 적용하기에 여기서는 사망 시 행동만 만들면 된다.
@@ -76,20 +75,20 @@ namespace Pg::DataScript
 		_monsterHelper = _object->AddComponent<Pg::Data::MonsterHelper>();
 
 		//AudioSource 컴포넌트 들고오기
-		_stubHit = _object->GetScene()->FindObjectWithName("TrentHitSound");
-		_hitSound = _stubHit->GetComponent<Pg::Data::AudioSource>();
+		auto stubHit = _object->GetScene()->FindObjectWithName("TrentHitSound");
+		_hitSound = stubHit->GetComponent<Pg::Data::AudioSource>();
 
-		_stubDie = _object->GetScene()->FindObjectWithName("TrentDieSound");
-		_dieSound = _stubDie->GetComponent<Pg::Data::AudioSource>();
+		auto stubDie = _object->GetScene()->FindObjectWithName("TrentDieSound");
+		_dieSound = stubDie->GetComponent<Pg::Data::AudioSource>();
 
-		_stubSkill = _object->GetScene()->FindObjectWithName("TrentSkillSound");
-		_skillSound = _stubSkill->GetComponent<Pg::Data::AudioSource>();
+		auto stubSkill = _object->GetScene()->FindObjectWithName("TrentSkillSound");
+		_skillSound = stubSkill->GetComponent<Pg::Data::AudioSource>();
 
-		_stubAttack = _object->GetScene()->FindObjectWithName("TrentAttackSound");
-		_attackSound = _stubAttack->GetComponent<Pg::Data::AudioSource>();
+		auto stubAttack = _object->GetScene()->FindObjectWithName("TrentAttackSound");
+		_attackSound = stubAttack->GetComponent<Pg::Data::AudioSource>();
 
-		_stubFind = _object->GetScene()->FindObjectWithName("TrentFindSound");
-		_findSound = _stubFind->GetComponent<Pg::Data::AudioSource>();
+		auto stubFind = _object->GetScene()->FindObjectWithName("TrentFindSound");
+		_findSound = stubFind->GetComponent<Pg::Data::AudioSource>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
@@ -358,9 +357,8 @@ namespace Pg::DataScript
 	void StubBehaviour::ResetAll()
 	{
 		//공격 패턴을 위한 카운트
-		int _attackCount = 0;
+		_attackCount = 0;
 
-		_currentAttackTime = 0.f;
 		_isRotateFinish = false;
 		_isFindSoundPlaying = false;
 
@@ -376,6 +374,8 @@ namespace Pg::DataScript
 		{
 			iter->SetActive(false);
 		}
+
+		_distance = 0.f;
 
 		// 애니매이션 관련 전부 초기화
 		_monsterHelper->Reset();

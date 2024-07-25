@@ -35,7 +35,8 @@
 #include "Stage1_Bridge.h"
 #include "Stage2_Bridge.h"
 #include "BridgeHelper.h"
-#include "Grating.h"
+#include "Grating_1.h"
+#include "Grating_2.h"
 
 //UI 관련 (개별)
 #include "TitleScene.h"

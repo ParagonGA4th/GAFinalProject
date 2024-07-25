@@ -41,6 +41,10 @@ namespace Pg::DataScript
 	public:
 		MiniGolemBehaviour(Pg::Data::GameObject* obj);
 
+	private:
+		inline static const float START_ATTACK_TIME = 0.7f;
+		inline static const float END_ATTACK_TIME = 2.7f;
+
 	public:
 		virtual void BeforePhysicsAwake() override;
 		virtual void GrabManagedObjects() override;
@@ -102,16 +106,9 @@ namespace Pg::DataScript
 		Pg::Math::PGFLOAT3 _respawnPos;
 
 	private:
-		Pg::Data::GameObject* _miniGolemHit;
 		Pg::Data::AudioSource* _hitSound;
-
-		Pg::Data::GameObject* _miniGolemDie;
 		Pg::Data::AudioSource* _dieSound;
-
-		Pg::Data::GameObject* _miniGolemDash;
 		Pg::Data::AudioSource* _dashSound;
-
-		Pg::Data::GameObject* _miniGolemAttack;
 		Pg::Data::AudioSource* _attackSound;
 
 		CameraShake* _cameraShake;
@@ -120,13 +117,9 @@ namespace Pg::DataScript
 
 		//플레이어와의 거리 측정
 		float _distance;
-		float _startAttackTime;
-		float _endAttackTime;
 		float _currentAttackTime;
 
 		//몬스터의 상태
-		bool _isStart;
-		bool _isHit;
 		bool _isRotateFinish;
 
 		//대쉬 관련 변수.
