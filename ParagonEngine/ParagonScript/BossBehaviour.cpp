@@ -80,9 +80,6 @@ namespace Pg::DataScript
 		auto bossDieSound = _object->GetScene()->FindObjectWithName("BossDieSound");
 		_dieAudio = bossDieSound->GetComponent<Pg::Data::AudioSource>();
 
-		auto downSound = _object->GetScene()->FindObjectWithName("BossDownSound");
-		_downAudio = downSound->GetComponent<Pg::Data::AudioSource>();
-
 		auto basicAttackSound1 = _object->GetScene()->FindObjectWithName("BossAttackSound1");
 		_basicAttackAudio1 = basicAttackSound1->GetComponent<Pg::Data::AudioSource>();
 
@@ -94,6 +91,9 @@ namespace Pg::DataScript
 		
 		auto upSound = _object->GetScene()->FindObjectWithName("BossUpSound");
 		_upSound = upSound->GetComponent<Pg::Data::AudioSource>();
+
+		auto downSound = _object->GetScene()->FindObjectWithName("BossDownSound");
+		_downAudio = downSound->GetComponent<Pg::Data::AudioSource>();
 
 		auto hit = _object->GetScene()->FindObjectWithName("BossHitSound");
 		_hitAudio = hit->GetComponent<Pg::Data::AudioSource>();
@@ -610,6 +610,12 @@ namespace Pg::DataScript
 					//자신은 무적이 된다.
 					//_collider->SetActive(false);
 
+					if (!_isLightSkillSoundPlaying)
+					{
+						_laserAttack->Play();
+						_isLightSkillSoundPlaying = true;
+					}
+
 					if (_currentColIndex < _lightAttackCol.size())
 					{
 						auto& iter = _lightAttackCol[_currentColIndex];
@@ -619,6 +625,8 @@ namespace Pg::DataScript
 						iter2->SetAlphaPercentage(100.f);
 
 						iter2->PlayAnim();
+
+						_isLightSkillSoundPlaying = false;
 
 						//BattleArea의 값에 따라 수정할 예정
 						Pg::Math::PGFLOAT3 randomPosition = { RandomRange(-10.f, 10.f), 0, RandomRange(-10.f,10.f) };
@@ -711,7 +719,7 @@ namespace Pg::DataScript
 			// Tween 생성
 			if (!_isFallTween)
 			{
-				_downSound->Play();
+				_downAudio->Play();
 				PG_WARN("GOINGUP");
 				_fallTween = _pgTween->CreateTween();
 				_isFallTween = true;
@@ -745,7 +753,7 @@ namespace Pg::DataScript
 								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::DASH;
 
 							_isGenerateCol = true;
-							_downSound->Stop();
+							_downAudio->Stop();
 						});
 			}
 			if (_isGenerateCol)
@@ -820,8 +828,9 @@ namespace Pg::DataScript
 	{
 		bool isDown = false;
 
-		if ((_bossInfo->GetMonsterHp() <= 600.f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_1) ||
-			_bossInfo->GetMonsterHp() <= 400.0f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_2)
+		if ((_bossInfo->GetMonsterHp() <= 300.f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_1) ||
+			(_bossInfo->GetMonsterHp() <= 200.0f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_2) ||
+			(_bossInfo->GetMonsterHp() <= 100.0f && _monsterHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_3))
 		{
 			isDown = true;
 		}
@@ -904,6 +913,8 @@ namespace Pg::DataScript
 	void BossBehaviour::ResetAll()
 	{
 		//플래그 전부 초기화.
+		_distance = 0.f;
+		_isPlayerInit = false;
 		_dashCount = 0;
 		_isRotatingToPlayer = true;
 		_rotateToPlayerTime = 0.f;
@@ -950,7 +961,9 @@ namespace Pg::DataScript
 			iter->SetActive(false);
 		}
 
+
+
 		// 애니매이션 관련 전부 초기화
-		//_monsterHelper->Reset();
+		_monsterHelper->Reset();
 	}
 }

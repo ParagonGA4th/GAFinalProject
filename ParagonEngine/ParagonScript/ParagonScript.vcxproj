@@ -155,7 +155,8 @@
     <ClInclude Include="BossStageGUIHandler.h" />
     <ClInclude Include="GameOverSceneGUIHandler.h" />
     <ClInclude Include="GolemBossHealthBar.h" />
-    <ClInclude Include="Grating.h" />
+    <ClInclude Include="Grating_1.h" />
+    <ClInclude Include="Grating_2.h" />
     <ClInclude Include="GUI_StrongAttackStatus.h" />
     <ClInclude Include="ItemGoldenApple.h" />
     <ClInclude Include="ItemNormalApple.h" />
@@ -282,7 +283,8 @@
     <ClCompile Include="BossStageGUIHandler.cpp" />
     <ClCompile Include="GameOverSceneGUIHandler.cpp" />
     <ClCompile Include="GolemBossHealthBar.cpp" />
-    <ClCompile Include="Grating.cpp" />
+    <ClCompile Include="Grating_1.cpp" />
+    <ClCompile Include="Grating_2.cpp" />
     <ClCompile Include="GUI_StrongAttackStatus.cpp" />
     <ClCompile Include="ItemGoldenApple.cpp" />
     <ClCompile Include="ItemNormalApple.cpp" />

@@ -36,7 +36,7 @@ namespace Pg::DataScript
 		_pgScene = &singleton<Pg::API::PgScene>();
 
 		//wasp의 체력과 공격
-		_waspInfo = new WaspInfo(70.f, 1.f);
+		_waspInfo = new WaspInfo(35.f, 1.f);
 
 		///wasp의 사망 및 피격행동은 CombatSystem에서 공격의 콤보와 스킬에 따라
 		///몬스터에게 직접적으로 적용하기에 여기서는 사망 시 행동만 만들면 된다.
@@ -72,11 +72,18 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _waspMove = _object->GetScene()->FindObjectWithName("WaspMoveSound");
 		_moveSound = _waspMove->GetComponent<Pg::Data::AudioSource>();
 
-		_waspAttack = _object->GetScene()->FindObjectWithName("WaspAttackSound1");
-		_attackSound_1 = _waspAttack->GetComponent<Pg::Data::AudioSource>();
+		auto waspAttack1 = _object->GetScene()->FindObjectWithName("WaspAttackSound1");
+		_attackSound_1 = waspAttack1->GetComponent<Pg::Data::AudioSource>();
 
-		_waspAttack = _object->GetScene()->FindObjectWithName("WaspAttackSound2");
-		_attackSound_2 = _waspAttack->GetComponent<Pg::Data::AudioSource>();
+
+		_waspSkillAttack = _object->GetScene()->FindObjectWithName("WaspAttackSound2");
+		_attackSound_2 = _waspSkillAttack->GetComponent<Pg::Data::AudioSource>();
+
+		auto _waspHit = _object->GetScene()->FindObjectWithName("WaspHitSound");
+		_hitSound = _waspHit->GetComponent<Pg::Data::AudioSource>();
+
+		auto _waspDie = _object->GetScene()->FindObjectWithName("WaspDieSound");
+		_dieSound = _waspDie->GetComponent<Pg::Data::AudioSource>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
@@ -299,13 +306,14 @@ namespace Pg::DataScript
 			if (_monsterHelper->_state == Pg::Data::MonsterState::IDLE)
 			{
 				_isAttackSoundPlaying = false;
-				_isSkillAttackSoundPlaying = false;
+				//_isSkillAttackSoundPlaying = false;
 			}
 
 			if (_monsterHelper->_waspFlag._attackCount <= 1)
 			{
 				_isAttackStart = true;
 				_isSkillStart = false;
+				_isSkillAttackSoundPlaying = false;
 
 				if (!_isAttackSoundPlaying)
 				{
@@ -317,6 +325,7 @@ namespace Pg::DataScript
 			{
 				_isSkillStart = true;
 				_isAttackStart = false;
+				_isAttackSoundPlaying = false;
 
 				if (!_isSkillAttackSoundPlaying)
 				{
@@ -347,6 +356,9 @@ namespace Pg::DataScript
 		{
 			//상태를 Chase로 변경.
 			_waspInfo->_status = WaspStatus::CHASE;
+
+			_isAttackSoundPlaying = false;
+			_isSkillAttackSoundPlaying = false;
 
 			if (!_isMoveSoundPlaying)
 			{
@@ -543,8 +555,10 @@ namespace Pg::DataScript
 
 	void WaspBehaviour::Hit()
 	{
-		if (_monsterHelper->_isDead) return;
+		_hitSound->Play();
 		_cameraShake->CauseShake(0.25f);
+	
+		if (_monsterHelper->_isDead) return;
 
 		if (_monsterHelper->_state != Pg::Data::MonsterState::IDLE ||
 			_monsterHelper->_state != Pg::Data::MonsterState::CHASE) return;
@@ -593,21 +607,19 @@ namespace Pg::DataScript
 		_monsterHelper->_isPlayerinHitSpace = false;
 		_monsterHelper->_isChase = false;
 
+		_dieSound->Play();
 		_enemyHandler->FromEnemyNotifyDead(_object->GetTag(), this);
 	}
 
 	void WaspBehaviour::ResetAll()
 	{
-
-		//사툰드 관련 변수
+		//사운드 관련 변수
 		bool _isAttackSoundPlaying = false;
 
 		//공격 관련 변수
 		bool _isAttackStart = false;
-
-		bool _isRotateToPlayer = false;
-
 		bool _isSkillStart = false;
+		bool _isRotateToPlayer = false;
 
 		//충돌객체 전부 초기화
 		_collider->SetActive(true);
@@ -621,6 +633,8 @@ namespace Pg::DataScript
 		{
 			iter->SetActive(false);
 		}
+
+		_distance = 0.f;
 
 		// 애니매이션 관련 전부 초기화
 		_monsterHelper->Reset();

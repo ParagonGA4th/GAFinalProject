@@ -65,9 +65,8 @@ namespace Pg::DataScript
 			_artiUI->SetActive(false);
 
 			_object->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(false);
-			_renderer->_object->SetActive(false);
-			_animEnd = false;
 			_artiBox->_instructionRO->SetActive(false);
+			_animEnd = false;
 
 			_combatSystem->Post(Event_PlayerGetArtifact(), NULL, NULL);
 		}

@@ -1,10 +1,13 @@
 #include "TrapArea.h"
 #include "CombatSystem.h"
 #include "PlayerHandler.h"
+//#include "TotalGameManager.h"
+//#include "HandleBundle3D.h"
 
 #include "../ParagonData/SkinnedMeshRenderer.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/DynamicCollider.h"
+#include "../ParagonData/AudioSource.h"
 #include "../ParagonAPI/PgTime.h"
 #include "../ParagonUtil/Log.h"
 #include "../ParagonUtil/CheckInBox.h"
@@ -27,6 +30,9 @@ namespace Pg::DataScript
 		_deltaTime = &tdelta;
 
 		_combatSystem = CombatSystem::GetInstance(nullptr);
+
+		//TotalGameManager* tTotalGameManager = TotalGameManager::GetInstance(nullptr);
+		//_handler = tTotalGameManager->GetHandlerBundleByScene(_object->GetScene());
 	}
 
 	void TrapArea::Start()
@@ -38,7 +44,7 @@ namespace Pg::DataScript
 		if (_onTriggerStay)
 		{
 			// 플레이어의 체력이 계속 깎여야 함
-			_combatSystem->ChangePlayerHealth(_deltaTime->GetDeltaTime() * _damage * -1.f);
+			_combatSystem->ChangePlayerHealth(_deltaTime->GetDeltaTime() * DAMAGE_SPEED * _damage, true);
 		}
 	}
 
@@ -58,7 +64,7 @@ namespace Pg::DataScript
 				//assert(_playerBattleBehavior != nullptr && _playerMovement != nullptr);
 
 				_previousMoveSpeed = _playerBattleBehavior->GetPlayerMoveSpeed();
-				_playerBattleBehavior->SetPlayerMoveSpeed(_previousMoveSpeed / 2.0f);
+				_playerBattleBehavior->SetPlayerMoveSpeed(_previousMoveSpeed / 2.3f);
 			}
 		}
 	}

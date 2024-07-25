@@ -151,12 +151,12 @@ namespace Pg::DataScript
 
 	}
 
-	void CombatSystem::ChangePlayerHealth(float level)
+	void CombatSystem::ChangePlayerHealth(float level, bool isTrap)
 	{
-		_currentHandlerBundle3D->_playerBehavior->ChangePlayerHealth(level);
+		_currentHandlerBundle3D->_playerBehavior->ChangePlayerHealth(level, isTrap);
 
 		//ÇÇ°Ý
-		if (level <= std::numeric_limits<float>::epsilon())
+		if (level <= std::numeric_limits<float>::epsilon() && !isTrap)
 		{
 			_currentHandlerBundle3D->_playerBehavior->_hitAudio->Play();
 

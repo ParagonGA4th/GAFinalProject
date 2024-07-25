@@ -85,7 +85,7 @@ namespace Pg::DataScript
 
 	private:
 		//플레이어에게 들어오는 개별적인 로직은 따로 분리됨.
-		void ChangePlayerHealth(float level);
+		void ChangePlayerHealth(float level, bool isTrap = false);
 		void ChangePlayerMana(float level);
 		void ChangePlayerStamina(int level);
 

@@ -105,17 +105,10 @@ namespace Pg::DataScript
 	private:
 
 		Pg::Data::AudioSource* _moveSound;
-		
-		Pg::Data::GameObject* _waspHit;
 		Pg::Data::AudioSource* _hitSound;
-
-		Pg::Data::GameObject* _waspDie;
 		Pg::Data::AudioSource* _dieSound;
-
-		Pg::Data::GameObject* _waspDash;
 		Pg::Data::AudioSource* _dashSound;
-
-		Pg::Data::GameObject* _waspAttack;
+		Pg::Data::GameObject* _waspSkillAttack;
 		Pg::Data::AudioSource* _attackSound_1;
 		Pg::Data::AudioSource* _attackSound_2;
 

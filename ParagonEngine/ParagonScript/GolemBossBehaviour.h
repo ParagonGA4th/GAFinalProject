@@ -42,7 +42,7 @@ namespace Pg::DataScript
 	{
 		DEFINE_PARAGON_SCRIPT(GolemBossBehaviour);
 	public:
-		inline static const float MAX_GOLEM_BOSS_HEALTH = 200.f;
+		inline static const float MAX_GOLEM_BOSS_HEALTH = 100.f;
 		inline static const float GOLEM_BOSS_ATTACK_POWER = 2.f;
 
 	public:
@@ -125,13 +125,8 @@ namespace Pg::DataScript
 	private:
 		//플레이어와의 거리 측정
 		float _distance;
-		float _startAttackTime;
-		float _endAttackTime;
-		float _currentAttackTime;
 
 		//몬스터의 상태
-		bool _isStart;
-		bool _isHit;
 		bool _isRotateFinish;
 
 		//대쉬 관련 변수.
