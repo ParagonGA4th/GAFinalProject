@@ -112,19 +112,12 @@ namespace Pg::DataScript
 		Pg::Math::PGFLOAT3 _respawnPos;
 		Pg::Math::PGFLOAT3 _rendererOffset = {0.f, -2.f, 0.f};
 
-		Pg::Data::AudioSource* _rushSound;
 	private:
-		//Pg::Data::GameObject* _miniGolemHit;
-		//Pg::Data::AudioSource* _hitSound;
-		//
-		//Pg::Data::GameObject* _miniGolemDie;
-		//Pg::Data::AudioSource* _dieSound;
-		//
-		//Pg::Data::GameObject* _miniGolemDash;
-		//Pg::Data::AudioSource* _dashSound;
-		//
-		//Pg::Data::GameObject* _miniGolemAttack;
-		//Pg::Data::AudioSource* _attackSound;
+		Pg::Data::AudioSource* _hitSound;
+		Pg::Data::AudioSource* _rushSound;
+		Pg::Data::AudioSource* _dieSound;
+		Pg::Data::AudioSource* _basicAttackSound;
+		Pg::Data::AudioSource* _spinAttackSound;
 
 		CameraShake* _cameraShake;
 		CombatSystem* _combatSystem;
@@ -147,6 +140,7 @@ namespace Pg::DataScript
 
 		bool _isDashSoundPlaying = false; //倒柳 家府
 		bool _isAttackSoundPlaying = false; //傍拜 家府
+		bool _isSpinAttackSoundPlaying = false; //傍拜 家府
 		
 		// down 包访
 		bool _isDownInit;

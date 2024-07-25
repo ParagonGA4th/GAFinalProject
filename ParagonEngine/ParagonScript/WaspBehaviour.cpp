@@ -72,8 +72,11 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _waspMove = _object->GetScene()->FindObjectWithName("WaspMoveSound");
 		_moveSound = _waspMove->GetComponent<Pg::Data::AudioSource>();
 
-		_waspAttack = _object->GetScene()->FindObjectWithName("WaspAttackSound");
-		_attackSound = _waspAttack->GetComponent<Pg::Data::AudioSource>();
+		_waspAttack = _object->GetScene()->FindObjectWithName("WaspAttackSound1");
+		_attackSound_1 = _waspAttack->GetComponent<Pg::Data::AudioSource>();
+
+		_waspAttack = _object->GetScene()->FindObjectWithName("WaspAttackSound2");
+		_attackSound_2 = _waspAttack->GetComponent<Pg::Data::AudioSource>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
@@ -293,6 +296,12 @@ namespace Pg::DataScript
 
 			//_isRotateToPlayer = true;
 
+			if (_monsterHelper->_state == Pg::Data::MonsterState::IDLE)
+			{
+				_isAttackSoundPlaying = false;
+				_isSkillAttackSoundPlaying = false;
+			}
+
 			if (_monsterHelper->_waspFlag._attackCount <= 1)
 			{
 				_isAttackStart = true;
@@ -300,7 +309,7 @@ namespace Pg::DataScript
 
 				if (!_isAttackSoundPlaying)
 				{
-					_attackSound->Play();
+					_attackSound_1->Play();
 					_isAttackSoundPlaying = true;
 				}
 			}
@@ -308,7 +317,12 @@ namespace Pg::DataScript
 			{
 				_isSkillStart = true;
 				_isAttackStart = false;
-				_isAttackSoundPlaying = false;
+
+				if (!_isSkillAttackSoundPlaying)
+				{
+					_attackSound_2->Play();
+					_isSkillAttackSoundPlaying = true;
+				}
 			}
 
 			//АјАн

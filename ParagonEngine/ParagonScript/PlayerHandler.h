@@ -19,7 +19,8 @@ namespace Pg::API
 {
 	namespace Input { class PgInput; };
 	namespace Time { class PgTime; };
-	namespace Graphics { class PgGraphics;  }
+	namespace Graphics { class PgGraphics; }
+	class PgScene;
 }
 
 namespace Pg::Data
@@ -134,6 +135,7 @@ namespace Pg::DataScript
 		CombatSystem* _combatSystem{ nullptr };
 		ComboSystem* _comboSystem{ nullptr };
 		Pg::API::Time::PgTime* _pgTime{ nullptr };
+		Pg::API::PgScene* _sceneHelper{ nullptr };
 		Pg::API::Graphics::PgGraphics* _pgGraphics{ nullptr };
 		unsigned int* _dustImagePointer;
 		const unsigned int _groundDustMaxIndex{ 7 };
@@ -168,7 +170,7 @@ namespace Pg::DataScript
 
 		Pg::Data::VisualEffectRenderObject* _groundDustRO{ nullptr };
 		Pg::Data::VisualEffectRenderObject* _hitRO{ nullptr };
-		
+
 		bool _isEffectPlayOnHit = false;
 		float _effectPlayOnHitTime = 0.f;
 		unsigned int* _chosenPtrEffect = nullptr;

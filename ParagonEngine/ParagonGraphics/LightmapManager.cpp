@@ -122,15 +122,27 @@ namespace Pg::Graphics
 							tObjName = tObjName.substr(6);
 							toBeCopiedFrom = &(tRenderLightmapData->_beforeAlignMaps.at(tModelName).at(tObjName));
 						}
+						else if (tObjName.substr(tObjName.length() - 3) == ".00")
+						{
+							tObjName = tObjName.substr(0, tObjName.length() - 3);
+							toBeCopiedFrom = &(tRenderLightmapData->_beforeAlignMaps.at(tModelName).at(tObjName));
+						}
 						else
 						{
-							PG_ERROR("{0}은 nocol_ 문제도 아니다.", tObjName);
+							PG_ERROR("{0}은 nocol_ / .00 문제도 아니다.", tObjName);
 						}
 					}
 					//SingleLightMapSet& toBeCopiedFrom = tRenderLightmapData->_beforeAlignMaps.at(tModelName).at(tObjName);
 
-					//POD니 memcpy 가능.
-					memcpy(&toBeCopiedTo, toBeCopiedFrom, sizeof(SingleLightMapSet));
+					if (toBeCopiedFrom != nullptr)
+					{
+						//POD니 memcpy 가능.
+						memcpy(&toBeCopiedTo, toBeCopiedFrom, sizeof(SingleLightMapSet));
+					}
+					else
+					{
+						PG_ERROR("Not Normal");
+					}
 				}
 				catch (std::exception& e)
 				{
@@ -176,15 +188,30 @@ namespace Pg::Graphics
 							tObjName = tObjName.substr(6);
 							toBeCopiedFrom = &(tRenderLightmapData->_beforeAlignMaps.at(tModelName).at(tObjName));
 						}
+						else if (tObjName.substr(tObjName.length() - 3) == ".00")
+						{
+							tObjName = tObjName.substr(0, tObjName.length() - 3);
+							toBeCopiedFrom = &(tRenderLightmapData->_beforeAlignMaps.at(tModelName).at(tObjName));
+						}
 						else
 						{
-							PG_ERROR("{0}은 nocol_ 문제도 아니다.", tObjName);
+							PG_ERROR("{0}은 nocol_ / .00 문제도 아니다.", tObjName);
 						}
 					}
 					//SingleLightMapSet& toBeCopiedFrom = tRenderLightmapData->_beforeAlignMaps.at(tModelName).at(tObjName);
 						
-					//POD니 memcpy 가능.
-					memcpy(&toBeCopiedTo, toBeCopiedFrom, sizeof(SingleLightMapSet));
+					if (toBeCopiedFrom != nullptr)
+					{
+						//POD니 memcpy 가능.
+						memcpy(&toBeCopiedTo, toBeCopiedFrom, sizeof(SingleLightMapSet));
+					}
+					else
+					{
+						PG_ERROR("Not Normal");
+					}
+
+					////POD니 memcpy 가능.
+					//memcpy(&toBeCopiedTo, toBeCopiedFrom, sizeof(SingleLightMapSet));
 				}
 				catch (std::exception& e)
 				{

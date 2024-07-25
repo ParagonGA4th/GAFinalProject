@@ -55,19 +55,26 @@ namespace Pg::DataScript
 	void Grating::Update()
 	{
 		bool isStart = false;
-		if (_areaIndex == 0) isStart = !_otherCol->GetActive();
-		else isStart = (_playerHandler->artifactCount >= 3);
-
-		if (isStart)
+		if (_areaIndex == 0) 
 		{
-			if (_renderer->_alphaPercentage <= std::numeric_limits<float>::epsilon())
+			if (!_otherCol->GetActive())
 			{
-				//_renderer->SetActive(false);
-				_collider->SetActive(false);
+				if (_renderer->_alphaPercentage <= std::numeric_limits<float>::epsilon())
+				{
+					//_renderer->SetActive(false);
+					_collider->SetActive(false);
+				}
+				else
+				{
+					_renderer->_alphaPercentage -= ALPHA_PERCENT;
+				}
 			}
-			else
+		}
+		else
+		{
+			if (_playerHandler->artifactCount >= 3)
 			{
-				_renderer->_alphaPercentage -= ALPHA_PERCENT;
+
 			}
 		}
 	}
