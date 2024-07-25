@@ -204,9 +204,10 @@ namespace Pg::DataScript
 		bool _isDownSoundPlaying{ false };
 		bool _isAttackSoundPlaying{ false };
 		bool _isStormAttackSoundPlaying{ false };
+		bool _isLightSkillSoundPlaying{ false };
 
 		float _activationInterval{ 1.f }; // 각 콜라이더가 활성화되는 시간 간격
-		float _nextActivationTime{ 2.0f }; // 다음 콜라이더가 활성화될 시간
+		float _nextActivationTime{ 0.0f }; // 다음 콜라이더가 활성화될 시간
 		size_t _currentColIndex = 0;      // 현재 활성화할 콜라이더의 인덱스
 	};
 }

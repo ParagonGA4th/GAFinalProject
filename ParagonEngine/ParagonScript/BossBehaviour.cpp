@@ -610,6 +610,12 @@ namespace Pg::DataScript
 					//자신은 무적이 된다.
 					//_collider->SetActive(false);
 
+					if (!_isLightSkillSoundPlaying)
+					{
+						_laserAttack->Play();
+						_isLightSkillSoundPlaying = true;
+					}
+
 					if (_currentColIndex < _lightAttackCol.size())
 					{
 						auto& iter = _lightAttackCol[_currentColIndex];
@@ -619,6 +625,8 @@ namespace Pg::DataScript
 						iter2->SetAlphaPercentage(100.f);
 
 						iter2->PlayAnim();
+
+						_isLightSkillSoundPlaying = false;
 
 						//BattleArea의 값에 따라 수정할 예정
 						Pg::Math::PGFLOAT3 randomPosition = { RandomRange(-10.f, 10.f), 0, RandomRange(-10.f,10.f) };

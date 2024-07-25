@@ -70,6 +70,18 @@ namespace Pg::DataScript
 		Pg::Data::GameObject* _rush = _object->GetScene()->FindObjectWithName("GolemBossRushSound");
 		_rushSound = _rush->GetComponent<Pg::Data::AudioSource>();
 
+		auto _hit = _object->GetScene()->FindObjectWithName("GolemBossHitSound");
+		_hitSound = _hit->GetComponent<Pg::Data::AudioSource>();
+
+		auto _die = _object->GetScene()->FindObjectWithName("GolemBossDieSound");
+		_dieSound = _die->GetComponent<Pg::Data::AudioSource>();
+
+		auto basicAttackSound = _object->GetScene()->FindObjectWithName("GolemBossAttackSound1");
+		_basicAttackSound = basicAttackSound->GetComponent<Pg::Data::AudioSource>();
+
+		auto spinAttackSound = _object->GetScene()->FindObjectWithName("GolemBossAttackSound2");
+		_spinAttackSound = spinAttackSound->GetComponent<Pg::Data::AudioSource>();
+
 		for (auto& iter : _object->_transform.GetChildren())
 		{
 			// 자식 오브젝트의 이름을 얻어옵니다.
@@ -166,20 +178,6 @@ namespace Pg::DataScript
 		_playerTransform = _player->GetComponent<Pg::Data::Transform>();
 
 		//AudioSource 컴포넌트 들고오기
-		auto golemHitSound = _object->GetScene()->FindObjectWithName("GolemBossHitSound");
-		_hitSound = golemHitSound->GetComponent<Pg::Data::AudioSource>();
-		
-		auto golemDeadSound = _object->GetScene()->FindObjectWithName("GolemBossDieSound");
-		_dieSound = golemDeadSound->GetComponent<Pg::Data::AudioSource>();
-		
-		auto golemDashSound = _object->GetScene()->FindObjectWithName("GolemBossRushSound");
-		_rushSound = golemDashSound->GetComponent<Pg::Data::AudioSource>();
-		
-		auto basicAttackSound = _object->GetScene()->FindObjectWithName("GolemBossAttackSound1");
-		_basicAttackSound = basicAttackSound->GetComponent<Pg::Data::AudioSource>();
-		
-		auto spinAttackSound = _object->GetScene()->FindObjectWithName("GolemBossAttackSound2");
-		_spinAttackSound = spinAttackSound->GetComponent<Pg::Data::AudioSource>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
