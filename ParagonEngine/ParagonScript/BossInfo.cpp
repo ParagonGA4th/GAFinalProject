@@ -8,7 +8,7 @@ namespace Pg::DataScript
 		_currentNeutralize(0.f), _endNeutralize(3.f), _currentEvadeTime(0.f), _cureentDashTime(0.f),
 		_evadeDuration(0.8f), _evadeSpeed(5.0f), _windBlastDuration(1.5f), _currentWindBlastTime(0.f),
 		_windBlastSpeed(10.f), _startWindBlastTime(0.5f), _lightSkillDuration(8.f),
-		_startLightSkillTime(1.f), _currentLightSkillTime(0.f)
+		_startLightSkillTime(0.f), _currentLightSkillTime(0.f)
 	{
 
 	}
