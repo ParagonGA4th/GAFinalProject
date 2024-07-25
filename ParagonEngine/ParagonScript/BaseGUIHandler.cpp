@@ -92,14 +92,15 @@ namespace Pg::DataScript
 
 		_avoidUI = _avoid->GetComponent<Pg::Data::ImageRenderer>();
 		_basicAttackUI = _basicAttack->GetComponent<Pg::Data::ImageRenderer>();
-		_interactionUI = _interaction->GetComponent<Pg::Data::ImageRenderer>();
+		//_interactionUI = _interaction->GetComponent<Pg::Data::ImageRenderer>();
 		_jumpUI = _jump->GetComponent<Pg::Data::ImageRenderer>();
 		_MoveUI = _move->GetComponent<Pg::Data::ImageRenderer>();
 		_strongAttackUI = _strongAttack->GetComponent<Pg::Data::ImageRenderer>();
 
 		_avoidUI->SetActive(false);
+		_avoidUI->SetActive(false);
 		_basicAttackUI->SetActive(false);
-		_interactionUI->SetActive(false);
+		//_interactionUI->SetActive(false);
 		_jumpUI->SetActive(false);
 		_MoveUI->SetActive(false);
 		_strongAttackUI->SetActive(false);

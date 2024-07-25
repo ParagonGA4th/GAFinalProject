@@ -5,19 +5,23 @@
 #include "EventList_GameFlowRelated.h"
 
 #include "../ParagonData/DynamicCollider.h"
+#include "../ParagonData/ImageRenderer.h"
 #include "../ParagonData/SphereCollider.h"
+#include "../ParagonAPI/PgTime.h"
 
 #include "../ParagonUtil/Log.h"
 
 #include "TotalGameManager.h"
 #include "BaseEnemyHandler.h"
 #include "BaseAreaHandler.h"
+#include <singleton-cpp/singleton.h>
 
 namespace Pg::DataScript
 {
 	BattleArea::BattleArea(Pg::Data::GameObject* obj)
 		:ScriptInterface(obj)
 	{
+		_pgTime = &singleton<Pg::API::Time::PgTime>();
 	}
 
 	void BattleArea::OnDeserialize(SerializeVector& sv)
@@ -35,10 +39,25 @@ namespace Pg::DataScript
 	{
 		_combatSystem = CombatSystem::GetInstance(nullptr);
 		_boss = _object->GetScene()->FindObjectWithName("Boss");
+
+
 	}
 
 	void BattleArea::Awake()
 	{
+		if (_object->GetScene()->GetSceneName() == "Stage1")
+		{
+			auto _killMonster = _object->GetScene()->FindObjectWithName("KillMonsterUI");
+			_killMonsterUI = _killMonster->GetComponent<Pg::Data::ImageRenderer>();
+			assert(_killMonsterUI != nullptr);
+
+			auto _golemBoss = _object->GetScene()->FindObjectWithName("GolemBossUI");
+			_golemBossUI = _golemBoss->GetComponent<Pg::Data::ImageRenderer>();
+			assert(_golemBossUI != nullptr);
+
+			_killMonsterUI->SetActive(false);
+			_golemBossUI->SetActive(false);
+		}
 		//자신이 속한 곳의 AreaHandler / EnemyHandler를 받아오기.
 		//적 보고 로직 등에 사용될 것.
 		{
@@ -70,6 +89,23 @@ namespace Pg::DataScript
 			{
 				if (_isActivated)
 				{
+					if (_object->GetScene()->GetSceneName() == "Stage1" && _areaIndex == 0)
+					{
+						_killMonsterUI->SetActive(true);
+					}
+					else if (_object->GetScene()->GetSceneName() == "Stage1" && _areaIndex == 1)
+					{
+						_golemBossUI->SetActive(true);
+
+						dTime += _pgTime->GetDeltaTime();
+
+						if (dTime >= 3.f)
+						{
+							_golemBossUI->SetActive(false);
+							dTime = 0.f;
+						}
+					}
+
 					if (_object->GetScene()->GetSceneName() != "Stage2")
 					{
 						ConfinePlayer();
@@ -85,7 +121,14 @@ namespace Pg::DataScript
 					PG_ERROR("EXITNOW");
 					DeactivateArea();
 					if (_object->GetScene()->GetSceneName() == "Stage1" && _areaIndex == 0)
+					{
 						_combatSystem->Post(Event_PlayerGetArtifact(), NULL, NULL);
+						_killMonsterUI->SetActive(false);
+					}
+					if (_object->GetScene()->GetSceneName() == "Stage1" && _areaIndex == 0)
+					{
+						_golemBossUI->SetActive(false);
+					}
 				}
 			}
 		}
