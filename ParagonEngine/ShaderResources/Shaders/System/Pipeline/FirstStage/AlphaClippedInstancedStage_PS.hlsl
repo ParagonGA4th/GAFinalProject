@@ -44,9 +44,9 @@ POut1st_Total main(VOut1st_Instanced input)
     //RT3 : vout1st_LightPixelPos.z (w)
     output.pout1st_RT3.w = input.vout1st_LightPixelPos.z;
 
-    //RT4 : LightMap Sample Value (xyz) + Lightmapping이 활용되었는지(w). 음수 : NO, 양수 : YES. -> 그러니 여기에서는 양수.
+    //RT4 : LightMap Sample Value (xyz) + Lightmapping이 활용되었는지(w). 음수 : NO, 양수 : YES. -> 그러니 여기에서는 양수. // 2: Alpha Clip.
     output.pout1st_RT4.xyz = GetLightmapData(input.vout1st_LightmapUV, input.vout1st_InstanceID).xyz;
-    output.pout1st_RT4.w = 1.0f;
+    output.pout1st_RT4.w = 2.0f;
     //</Float4>
     
     //5,6,7

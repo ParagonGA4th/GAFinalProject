@@ -116,7 +116,8 @@ namespace Pg::DataScript
 		Pg::Data::AudioSource* _dashSound;
 
 		Pg::Data::GameObject* _waspAttack;
-		Pg::Data::AudioSource* _attackSound;
+		Pg::Data::AudioSource* _attackSound_1;
+		Pg::Data::AudioSource* _attackSound_2;
 
 		Pg::Data::GameObject* _corn;
 		Pg::Data::StaticMeshRenderer* _cornRenderer;
@@ -137,6 +138,7 @@ namespace Pg::DataScript
 
 		//사툰드 관련 변수
 		bool _isAttackSoundPlaying{ false };
+		bool _isSkillAttackSoundPlaying{ false };
 		bool _isMoveSoundPlaying{ false };
 
 		//공격 관련 변수

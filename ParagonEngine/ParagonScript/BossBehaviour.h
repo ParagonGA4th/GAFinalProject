@@ -132,20 +132,16 @@ namespace Pg::DataScript
 		std::vector<Pg::Data::StaticBoxCollider*> _lightAttackCol;
 		std::vector<Pg::Data::StaticSphereCollider*> _takeDownCol;
 
-		Pg::Data::GameObject* _bossWalkSound;
 		Pg::Data::AudioSource* _walkAudio;
-
-		Pg::Data::GameObject* _bossRushSound;
 		Pg::Data::AudioSource* _rushAudio;
-
-		Pg::Data::GameObject* _bossDieSound;
 		Pg::Data::AudioSource* _dieAudio;
-
 		Pg::Data::AudioSource* _downAudio;
 		Pg::Data::AudioSource* _hitAudio;
-
 		Pg::Data::AudioSource* _basicAttackAudio1;
 		Pg::Data::AudioSource* _basicAttackAudio2;
+		Pg::Data::AudioSource* _laserAttack;
+		Pg::Data::AudioSource* _upSound;
+		Pg::Data::AudioSource* _downSound;
 
 		Pg::Math::PGFLOAT3 _rendererOffset = { 0.f, -4.f, 0.f };
 
@@ -209,6 +205,8 @@ namespace Pg::DataScript
 		bool _isFallTween{ false };
 
 		bool _isDownSoundPlaying{ false };
+		bool _isAttackSoundPlaying{ false };
+		bool _isStormAttackSoundPlaying{ false };
 
 		float _activationInterval{ 1.f }; // 각 콜라이더가 활성화되는 시간 간격
 		float _nextActivationTime{ 2.0f }; // 다음 콜라이더가 활성화될 시간

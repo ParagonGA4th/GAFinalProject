@@ -2,6 +2,7 @@
 #define __DEFINED_APPENDS_INSTANCED_VALUES_HLSL__
 
 #include "../SamplerStates/Appends_SamplerStates.hlsli"
+#include "../SceneInfo/Appends_SceneInfoVSPS.hlsli"
 
 //Instancing ID가 같이 들어온다.
 
@@ -49,9 +50,41 @@ float4 GetLightmapData(float2 lightmapUV, uint instanceID)
     tNewUV.x += (gBuf_LightMapSet[instanceID].offset.x);
     tNewUV.y += (-gBuf_LightMapSet[instanceID].offset.y);
  
-//실제로 값 샘플링할 준비.
+    //실제로 값 샘플링할 준비.
     float3 tUV = float3(tNewUV, (float) gBuf_LightMapSet[instanceID].lightmapID);
-    return internal_LightmapArray.Sample(lightmapSS, tUV);
+    float4 tLightedVal = internal_LightmapArray.Sample(lightmapSS, tUV);
+    
+    //테스트.
+    //tLightedVal.xyz = pow(tLightedVal.xyz, 2.2f);
+    
+    float4 tRet = float4(tLightedVal.xyz, 1.0f);
+    
+    //if (gBuf_LightMapSet[instanceID].lightmapID == 0)
+    //{
+    //    tRet = float4(tLightedVal.x, 0, 0, 1);
+    //}
+    //else if (gBuf_LightMapSet[instanceID].lightmapID == 1)
+    //{
+    //    tRet = float4(0, tLightedVal.y, 0, 1);
+    //}
+    //else if (gBuf_LightMapSet[instanceID].lightmapID == 2)
+    //{
+    //    tRet = float4(0, 0, tLightedVal.z, 1);
+    //}
+    //else if (gBuf_LightMapSet[instanceID].lightmapID == 3)
+    //{
+    //    tRet = float4(tLightedVal.x, tLightedVal.y, 0, 1);
+    //   
+    //}
+    //else if (gBuf_LightMapSet[instanceID].lightmapID == 4)
+    //{
+    //    tRet = float4(0, tLightedVal.y, tLightedVal.z, 1);
+    //}
+    //else
+    //{
+    //    tRet = float4(0, 0, 0, 1);
+    //}
+    return tRet;
 }
 
 #endif //__DEFINED_APPENDS_INSTANCED_VALUES_HLSL__

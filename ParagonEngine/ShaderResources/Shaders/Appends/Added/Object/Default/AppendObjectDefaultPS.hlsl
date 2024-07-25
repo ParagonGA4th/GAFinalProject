@@ -7,16 +7,20 @@
 #include "../../../Libraries/MathFunctions/Appends_MathFunctions.hlsli"
 #include "../../../Libraries/MathFunctions/Appends_ShadowFunctions.hlsli"
 
-float4 DefaultLightingOperation(float4 baseColor, float2 quadUV)
+float4 DefaultLightingOperation(float4 baseColor, float2 quadUV, out float3 oDirSpecBRDF, out float3 oIndSpecBRDF)
 {
+    float CONTROL_FACTOR = 1.0f;
+    float IBL_CONTROL_FACTOR = 0.3f;
+    
     float3 albedo = baseColor.xyz;
     
-    float4 color = float4(1.f, 1.f, 1.f, 1.f);
-    color = float4(GetAlbedoMap(quadUV), 1.0f);
-    color.xyz = sRGB2Lin(color.xyz);
+    float4 color = float4(albedo, 1.0f);
     
-    float metalness = sRGB2Lin(GetMetallicMap(quadUV));
-    float roughness = sRGB2Lin(GetRoughnessMap(quadUV));
+    //float metalness = sRGB2Lin(GetMetallicMap(quadUV));
+    //float roughness = sRGB2Lin(GetRoughnessMap(quadUV));
+    float metalness = GetMetallicMap(quadUV);
+    float roughness = GetRoughnessMap(quadUV);
+    //float roughness = 1.0f;
     
     //Normal은 방향 유지가 잘 되는데.. 뭐가 문제?
     
@@ -34,7 +38,7 @@ float4 DefaultLightingOperation(float4 baseColor, float2 quadUV)
     float3 F0 = lerp(Fdielectric, baseColor.xyz, metalness);
     
     //테스트 후 다른 걸로 교체.
-    float3 lightDirArr[3] = { normalize(float3(0.3, -0.9, 0.2)), normalize(float3(-0.1, -0.95, -0.15)), normalize(float3(0.25, -0.85, -0.45)) };
+    float3 lightDirArr[3] = { normalize(float3(0.3, -0.9, -0.2)), normalize(float3(-0.1, -0.95, -0.15)), normalize(float3(0.25, -0.85, -0.45)) };
     float lightRadianceArr[3] = { firstRad, firstRad, firstRad };
     
     float3 directLighting = 0.0;
@@ -78,6 +82,8 @@ float4 DefaultLightingOperation(float4 baseColor, float2 quadUV)
   
         // Cook-Torrance specular microfacet BRDF.
         float3 specularBRDF = (F * D * G) / max(Epsilon, 4.0 * cosLi * cosLo);
+        specularBRDF *= CONTROL_FACTOR;
+        oDirSpecBRDF = specularBRDF;
   
         // Total contribution for this light.
         directLighting += (diffuseBRDF + specularBRDF) * Lradiance * cosLi;
@@ -88,36 +94,38 @@ float4 DefaultLightingOperation(float4 baseColor, float2 quadUV)
     {
          // 노말 방향에서 디퓨즈 Irradiance 샘플링.
          // ...DiffuseHDR.
-         float3 irradiance = GetDiffuseIrradianceMap(N);
+        float3 irradiance = GetDiffuseIrradianceMap(N);
      
-        // Ambient Lighting을 위한 프레넬 텀 계산.
-        // 이미 필터링되어 있고, Irradiance가 여러 방향에서 오니 cosLo를 쓴다.
-         float3 F = PBR_fresnelSchlick(F0, cosLo);
+         // Ambient Lighting을 위한 프레넬 텀 계산.
+         // 이미 필터링되어 있고, Irradiance가 여러 방향에서 오니 cosLo를 쓴다.
+        float3 F = PBR_fresnelSchlick(F0, cosLo);
      
          // Diffuse 기여 팩터 가져온다 (직접광과 동일한 방식)
-         float3 kd = lerp(1.0 - F, 0.0, metalness);
+        float3 kd = lerp(1.0 - F, 0.0, metalness);
      
-          // Irradiance 맵은 램버트 BRDF 기반 방출 Radiance를 기록한다. 1/PI 필요 X.
-         float3 diffuseIBL = kd * albedo * irradiance;
+         // Irradiance 맵은 램버트 BRDF 기반 방출 Radiance를 기록한다. 1/PI 필요 X.
+        float3 diffuseIBL = kd * albedo * irradiance;
      
-             // 미리 필터링된 Specular Reflection 환경을 올바른 밉맵 레벨에서 샘플링.
-             //...SpecularHDR. 
-         uint specularTextureLevels = IBL_querySpecularTextureLevels();
-         float3 specularIrradiance = GetSpecularIrradianceMap(Lr, roughness * specularTextureLevels);
+         // 미리 필터링된 Specular Reflection 환경을 올바른 밉맵 레벨에서 샘플링.
+         //...SpecularHDR. 
+        uint specularTextureLevels = IBL_querySpecularTextureLevels();
+        float3 specularIrradiance = GetSpecularIrradianceMap(Lr, roughness * specularTextureLevels);
          // 쿡-토런스 스페큘러 BRDF -> 분할-합계 근사치 계수 구하기.
-         float2 specularBRDF = IBL_GetSpecularBRDF(float2(cosLo, roughness));
+        float2 specularBRDF = IBL_GetSpecularBRDF(float2(cosLo, roughness));
      
          // Specular IBL.
-        float CONTROL_FACTOR = 0.1f;
+        float ao = GetAmbientOcclusionMap(quadUV);
         float3 specularIBL = (F0 * specularBRDF.x + specularBRDF.y) * specularIrradiance * CONTROL_FACTOR;
-     
+        specularIBL *= IBL_CONTROL_FACTOR;
+        oIndSpecBRDF = specularIBL * ao;
+        
+      
          // 전체 간접광 기여 정도.
-         ambientLighting = diffuseIBL + specularIBL;
-     }
-    
-    
+        ambientLighting = (diffuseIBL + specularIBL) * ao;
+    }
+   
     //리턴.
-    return float4(gammaCorrection(directLighting) + ambientLighting, 1.0);
+    return float4(directLighting + ambientLighting, 1.0f);
 }
 
 //반드시 인풋 = VOutQuad, 아웃풋 = POutQuad
@@ -138,28 +146,46 @@ POutQuad main(VOutQuad pin)
     
     //라이트맵이 아직 없는 이 상황, 일단은 해제했음.
     //라이트 맵을 쓰는 경우
-    if (IsUseLightmap(pin.UV) && gCBuf_IsSceneUseLightmap)
+    bool isAlphaClipped = false;
+    bool isUseLightmap = IsUseLightmap(pin.UV, isAlphaClipped);
+    
+    float3 oDirSpecBRDF = 0;
+    float3 oIndSpecBRDF = 0;
+    float4 col = DefaultLightingOperation(color, pin.UV, oDirSpecBRDF, oIndSpecBRDF);
+    
+    if (isUseLightmap && gCBuf_IsSceneUseLightmap)
     {
-        float4 lightColor = float4(GetLightmapRGB(pin.UV), 1.f);
-        lightColor = max(lightColor, float4(0.1f, 0.1f, 0.1f, 1.f));
-        lightColor *= color;
-        res.Output = float4(Uncharted2_Tonemapping(lightColor.xyz), 1.0f);
+        if (isAlphaClipped)
+        {
+            res.Output = float4(Uncharted2_Tonemapping(color.xyz), 1.0f);
+        }
+        else
+        {
+            float4 lightColor = float4(GetLightmapRGB(pin.UV), 1.f);
+            lightColor *= color;
+            lightColor = float4(Uncharted2_Tonemapping(lightColor.xyz), 1.0f);
+            
+            
+            oDirSpecBRDF = Uncharted2_Tonemapping(oDirSpecBRDF);
+            
+            oIndSpecBRDF = TonemappingNormalize(oIndSpecBRDF);
+            
+            lightColor.xyz += (oDirSpecBRDF + oIndSpecBRDF);
+
+            res.Output = lightColor;
+        }
         //res.Output = float4(ACES_Filming_Tonemapping(lightColor.xyz), 1.0f);
         //res.Output = float4(lightColor.xyz, 1.0f);
 
     }
     else
     {
-        //라이트맵을 안 쓰는 경우
-        float4 col = DefaultLightingOperation(color, pin.UV);
-        
         res.Output = float4(Uncharted2_Tonemapping(col.xyz), 1.0f);
-        //res.Output = float4(ACES_Filming_Tonemapping(col.xyz), 1.0f);
     }
     
     //내부적으로 Saturate되어서 나온다.
     float shadow = ShadowValue(GetPosition(pin.UV), GetNormal(pin.UV), _indep_MainLightDir);
-    shadow /= 4.0f;
+    shadow /= 2.0f;
     res.Output.xyz *= (1.0f - shadow);
     
     return res;
