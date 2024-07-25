@@ -195,4 +195,10 @@ namespace Pg::DataScript
 		}
 	}
 
+	void BaseEnemyHandler::ResetIfNotDead()
+	{
+		//죽지 않았다면 다 리셋하기. 
+		//if ()
+	}
+
 }
