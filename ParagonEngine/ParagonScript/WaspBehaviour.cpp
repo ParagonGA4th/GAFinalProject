@@ -75,8 +75,14 @@ namespace Pg::DataScript
 		_waspAttack = _object->GetScene()->FindObjectWithName("WaspAttackSound1");
 		_attackSound_1 = _waspAttack->GetComponent<Pg::Data::AudioSource>();
 
-		_waspAttack = _object->GetScene()->FindObjectWithName("WaspAttackSound2");
-		_attackSound_2 = _waspAttack->GetComponent<Pg::Data::AudioSource>();
+		_waspSkillAttack = _object->GetScene()->FindObjectWithName("WaspAttackSound2");
+		_attackSound_2 = _waspSkillAttack->GetComponent<Pg::Data::AudioSource>();
+
+		auto _waspHit = _object->GetScene()->FindObjectWithName("WaspHitSound");
+		_hitSound = _waspHit->GetComponent<Pg::Data::AudioSource>();
+
+		auto _waspDie = _object->GetScene()->FindObjectWithName("WaspDieSound");
+		_dieSound = _waspDie->GetComponent<Pg::Data::AudioSource>();
 
 		_cameraShake = _object->GetScene()->FindSingleComponentInScene<Pg::DataScript::CameraShake>();
 
@@ -299,7 +305,7 @@ namespace Pg::DataScript
 			if (_monsterHelper->_state == Pg::Data::MonsterState::IDLE)
 			{
 				_isAttackSoundPlaying = false;
-				_isSkillAttackSoundPlaying = false;
+				//_isSkillAttackSoundPlaying = false;
 			}
 
 			if (_monsterHelper->_waspFlag._attackCount <= 1)
@@ -347,6 +353,9 @@ namespace Pg::DataScript
 		{
 			//상태를 Chase로 변경.
 			_waspInfo->_status = WaspStatus::CHASE;
+
+			_isAttackSoundPlaying = false;
+			_isSkillAttackSoundPlaying = false;
 
 			if (!_isMoveSoundPlaying)
 			{
@@ -543,8 +552,10 @@ namespace Pg::DataScript
 
 	void WaspBehaviour::Hit()
 	{
-		if (_monsterHelper->_isDead) return;
+		_hitSound->Play();
 		_cameraShake->CauseShake(0.25f);
+	
+		if (_monsterHelper->_isDead) return;
 
 		if (_monsterHelper->_state != Pg::Data::MonsterState::IDLE ||
 			_monsterHelper->_state != Pg::Data::MonsterState::CHASE) return;
@@ -593,6 +604,7 @@ namespace Pg::DataScript
 		_monsterHelper->_isPlayerinHitSpace = false;
 		_monsterHelper->_isChase = false;
 
+		_dieSound->Play();
 		_enemyHandler->FromEnemyNotifyDead(_object->GetTag(), this);
 	}
 
