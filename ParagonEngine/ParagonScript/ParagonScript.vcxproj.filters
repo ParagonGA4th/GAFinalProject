@@ -343,6 +343,15 @@
     <Filter Include="UI\TitleUI\Tutorial">
       <UniqueIdentifier>{187aa5fe-828e-40bd-af05-a1851852d489}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\ItemApple">
+      <UniqueIdentifier>{e07ddc1b-008a-41ae-b4f6-554d9c58179f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\ItemApple\ItemGoldenApple">
+      <UniqueIdentifier>{e228d532-d507-45be-8ee6-d246b089e7e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\ItemApple\ItemNormalApple">
+      <UniqueIdentifier>{aecfd5d6-0807-4c93-97bb-287e8193d616}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlayerMove.cpp">
@@ -626,6 +635,12 @@
     </ClCompile>
     <ClCompile Include="Grating_2.cpp">
       <Filter>Content\Gimmick\Grating</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemGoldenApple.cpp">
+      <Filter>Content\ItemApple\ItemGoldenApple</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemNormalApple.cpp">
+      <Filter>Content\ItemApple\ItemNormalApple</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -973,6 +988,12 @@
     </ClInclude>
     <ClInclude Include="TitleTutorial.h">
       <Filter>UI\TitleUI\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemGoldenApple.h">
+      <Filter>Content\ItemApple\ItemGoldenApple</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemNormalApple.h">
+      <Filter>Content\ItemApple\ItemNormalApple</Filter>
     </ClInclude>
     <ClInclude Include="Grating_1.h">
       <Filter>Content\Gimmick\Grating</Filter>

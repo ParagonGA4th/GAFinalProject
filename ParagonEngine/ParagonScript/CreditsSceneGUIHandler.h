@@ -20,7 +20,7 @@ namespace Pg::DataScript
 		DEFINE_PARAGON_SCRIPT(CreditsSceneGUIHandler);
 
 	public:
-		inline static const float STAY_IN_SCENE_TIME = 4.f;
+		inline static const float STAY_IN_SCENE_TIME = 9.f;
 
 	public:
 		CreditsSceneGUIHandler(Pg::Data::GameObject* obj);
