@@ -6,6 +6,7 @@
 #include "../ParagonData/TextRenderer.h"
 #include "../ParagonData/Scene.h"
 #include "../ParagonAPI/PgGraphics.h"
+#include "../ParagonAPI/PgTime.h"
 #include "PlayerCombatSector.h"
 #include "TotalGameManager.h"
 #include "BossBehaviour.h"
@@ -22,6 +23,7 @@ namespace Pg::DataScript
 	BossStageGUIHandler::BossStageGUIHandler(Pg::Data::GameObject* obj) : ScriptInterface(obj)
 	{
 		_pgGraphics = &singleton<Pg::API::Graphics::PgGraphics>();
+		_pgTime = &singleton<Pg::API::Time::PgTime>();
 	}
 
 	BossStageGUIHandler::~BossStageGUIHandler()
@@ -51,6 +53,9 @@ namespace Pg::DataScript
 
 		_finalBossBehaviour = _object->GetScene()->FindSingleComponentInScene<BossBehaviour>();
 		assert(_finalBossBehaviour != nullptr);
+		
+		auto _boss = _object->GetScene()->FindObjectWithName("BossUI");
+		_bossUI = _boss->GetComponent<Pg::Data::ImageRenderer>();
 	}
 
 	void BossStageGUIHandler::Start()
@@ -72,6 +77,7 @@ namespace Pg::DataScript
 		_finalBossBar_Fill->SetActive(true);
 		_finalBossBar_Frame->SetActive(true);
 		_finalBossBar_Back->SetActive(true);
+		_bossUI->SetActive(true);
 	}
 
 	void BossStageGUIHandler::Update()
@@ -79,6 +85,15 @@ namespace Pg::DataScript
 		MatchUpdateStaminaToRO();
 		MatchUpdateBossHealthBar();
 		UpdateLife();
+
+
+		dTime = dTime + _pgTime->GetDeltaTime();
+
+		if (dTime >= 3.f)
+		{
+			_bossUI->SetActive(false);
+			dTime = 0.f;
+		}
 	}
 
 	void BossStageGUIHandler::AssignPointersToGUI()
@@ -201,6 +216,7 @@ namespace Pg::DataScript
 			_finalBossBar_Fill->SetActive(true);
 			_finalBossBar_Frame->SetActive(true);
 			_finalBossBar_Back->SetActive(true);
+			_bossUI->SetActive(true);
 		}
 		else if (e.GetIdentifier() == Event_OnFinalBossDeathGameWin::_identifier)
 		{
