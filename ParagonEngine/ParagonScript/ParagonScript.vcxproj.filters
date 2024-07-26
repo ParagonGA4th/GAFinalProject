@@ -642,6 +642,9 @@
     <ClCompile Include="ItemNormalApple.cpp">
       <Filter>Content\ItemApple\ItemNormalApple</Filter>
     </ClCompile>
+    <ClCompile Include="StairHelper.cpp">
+      <Filter>Content\Gimmick\Stair</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerMove.h">
@@ -1000,6 +1003,9 @@
     </ClInclude>
     <ClInclude Include="Grating_2.h">
       <Filter>Content\Gimmick\Grating</Filter>
+    </ClInclude>
+    <ClInclude Include="StairHelper.h">
+      <Filter>Content\Gimmick\Stair</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

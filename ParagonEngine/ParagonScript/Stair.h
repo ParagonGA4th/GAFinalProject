@@ -5,12 +5,13 @@
 namespace Pg::Data 
 {
 	class StaticMeshRenderer;
-	class StaticBoxCollider;
 	class SphereCollider;
+	class ImageRenderer;
 }
 
 namespace Pg::DataScript
 {
+	class StairHelper;
 	class Stair : public ScriptInterface<Stair>
 	{
 		DEFINE_PARAGON_SCRIPT(Stair);
@@ -25,8 +26,11 @@ namespace Pg::DataScript
 		virtual void Update() override;
 
 	private:
+		Pg::DataScript::StairHelper* _helper{ nullptr };
+
 		std::vector<Pg::Data::StaticMeshRenderer*> _renderers;
-		Pg::Data::SphereCollider* _area;
+		Pg::Data::SphereCollider* _area{ nullptr };
+		Pg::Data::ImageRenderer* _artiUI{ nullptr };
 
 		inline static const float ALPHA_PERCENT = 1.f;
 		inline static const float POSITION_PERCENT = 0.3f;
