@@ -81,7 +81,7 @@ namespace Pg::DataScript
 
 		// 하나만큼 Player의 라이프 깎기.
 		// Clamp하기 때문에, 확정적으로 죽이는 것이다.
-		CombatSystem::GetInstance(nullptr)->ChangePlayerHealth(-10000.0f);
+		CombatSystem::GetInstance(nullptr)->ChangePlayerHealth(-1.0f);
 	}
 
 	void BaseAreaHandler::GrabOrganizeAllAreas(Pg::Data::GameObject* obj)
