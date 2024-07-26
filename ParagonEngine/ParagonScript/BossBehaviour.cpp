@@ -883,20 +883,14 @@ namespace Pg::DataScript
 	{
 		if (!_isDeadInit)
 		{
-			//_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::DEAD;
-			//_monsterHelper->_bossFlag._bossPase = Pg::Data::BossPase::PASE_1;
+			_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::DEAD;
 
-			//_monsterHelper->_isPlayerDetected = false;
-			//_monsterHelper->_isPlayerinHitSpace = false;
-			//_monsterHelper->_isChase = false;
-			//_monsterHelper->_bossFlag._isDash = false;
-			//_monsterHelper->_bossFlag._isDown = false;
+			_monsterHelper->_isPlayerDetected = false;
+			_monsterHelper->_isPlayerinHitSpace = false;
+			_monsterHelper->_isChase = false;
+			_monsterHelper->_bossFlag._isDown = false;
 
-			_monsterHelper->Reset();
 			_monsterHelper->_isDead = true;
-			_isPlayerInit = false;
-
-			_dashCount = 0;
 
 			_walkAudio->Stop();
 			_dieAudio->Play();
@@ -960,8 +954,6 @@ namespace Pg::DataScript
 		{
 			iter->SetActive(false);
 		}
-
-
 
 		// 애니매이션 관련 전부 초기화
 		_monsterHelper->Reset();

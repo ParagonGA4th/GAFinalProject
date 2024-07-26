@@ -15,7 +15,7 @@ namespace Pg::Data::BTree::Node
 				std::string animId = tMeshRenderer->GetAnimation().substr(0, tMeshRenderer->GetAnimation().find("_"));
 				animId.append("_00009.pganim");
 
-				if (monHelper->_isAnimationEnd)
+				if (tMeshRenderer->GetAnimation() != animId || monHelper->_isAnimationEnd)
 				{
 					tMeshRenderer->SetAnimation(animId, false);
 
@@ -31,6 +31,8 @@ namespace Pg::Data::BTree::Node
 					tcMeshRenderer->SetAnimation(animId, false);
 				}
 			}
+
+			if (monHelper->_isAnimationEnd) monHelper->_isAnimationEnd = false;
 		}
 		return BT::NodeStatus::SUCCESS;
 	}
