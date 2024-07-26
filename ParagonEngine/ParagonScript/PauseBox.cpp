@@ -7,6 +7,7 @@
 #include "../ParagonAPI/PgInput.h"
 #include "../ParagonAPI/PgScene.h"
 #include "../ParagonAPI/PgTime.h"
+#include "../ParagonUtil/Log.h"
 #include "../ParagonData/ImageRenderer.h"
 #include <cassert>
 
@@ -130,6 +131,19 @@ namespace Pg::DataScript
 
 		_tutorialBtn->SetOnClickDownEvent([this]
 			{
+				//일시정시 창 끄기
+				_object->GetComponent<Pg::Data::ImageRenderer>()->SetActive(false);
+
+				for (auto& iter : _object->_transform.GetChildren())
+				{
+					Pg::Data::Button* btn = iter->_object->GetComponent<Pg::Data::Button>();
+					Pg::Data::ImageRenderer* im = iter->_object->GetComponent<Pg::Data::ImageRenderer>();
+
+					btn->SetActive(false);
+					im->SetActive(false);
+				}
+
+				PG_TRACE("Tutorial");
 				_tutorialRenderer->SetActive(true);
 				_tutorialExitRenderer->SetActive(true);
 				_tutorialExitButton->SetActive(true);
@@ -191,11 +205,22 @@ namespace Pg::DataScript
 				_optionBtn->GetImageRenderer()->SetImageIndex(0);
 			});
 
-		_tutorialBtn->SetOnClickDownEvent([this]
+		_tutorialExitButton->SetOnClickDownEvent([this]
 			{
 				_tutorialRenderer->SetActive(false);
 				_tutorialExitRenderer->SetActive(false);
 				_tutorialExitButton->SetActive(false);
+
+				_object->GetComponent<Pg::Data::ImageRenderer>()->SetActive(true);
+
+				for (auto& iter : _object->_transform.GetChildren())
+				{
+					Pg::Data::Button* btn = iter->_object->GetComponent<Pg::Data::Button>();
+					Pg::Data::ImageRenderer* im = iter->_object->GetComponent<Pg::Data::ImageRenderer>();
+
+					btn->SetActive(true);
+					im->SetActive(true);
+				}
 			});
 		_tutorialExitButton->SetHover([this]
 			{

@@ -118,7 +118,16 @@ namespace Pg::DataScript
 	void PlayerMovementSector::DetermineDirectionAndValues()
 	{
 		float dt = _pgTime->GetDeltaTime();
-		float tMoveSpeed = moveSpeed * 3.0f;
+		float tMoveSpeed = 0.f;
+
+		if (_playerHandler->_object->GetScene()->GetSceneName() == "BossStage")
+		{
+			tMoveSpeed = moveSpeed * 2.5f;
+		}
+		else
+		{
+			tMoveSpeed = moveSpeed * 3.0f;
+		}
 
 		//Camera -> GameObject를 바라보는 방향이 Forward여야 한다!
 		//보간되고 있는 상황이 아니라, Target Pos를 기준으로 움직여야.

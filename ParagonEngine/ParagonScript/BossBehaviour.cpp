@@ -668,6 +668,7 @@ namespace Pg::DataScript
 		if (_useTakeDownSkill)
 		{
 			_walkAudio->Stop();
+			_collider->SetActive(false);
 
 			// Tween 생성
 			if (!_isRiseTween)
@@ -677,7 +678,6 @@ namespace Pg::DataScript
 				_riseTween = _pgTween->CreateTween();
 				_isRiseTween = true;
 
-				_collider->SetActive(false);
 
 				_isRotatingToPlayer = false;
 
@@ -710,6 +710,9 @@ namespace Pg::DataScript
 		}
 		if (_goUp)
 		{
+				
+			_collider->SetActive(true);
+			
 			//내려찍기 콜라이더 활성화
 			for (auto& iter : _takeDownCol)
 			{
@@ -750,7 +753,12 @@ namespace Pg::DataScript
 								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3;
 							
 							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_3)
+							{
 								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::DASH;
+
+								//다 찍으면 콜라이더 켜기
+								_collider->SetActive(true);
+							}
 
 							_isGenerateCol = true;
 							_downAudio->Stop();
@@ -845,6 +853,25 @@ namespace Pg::DataScript
 			{
 				_downAudio->Play();
 				_isDownSoundPlaying = true;
+			}
+
+			// 빛기둥 콜라이더 비활성화
+			for (auto& iter : _lightAttackCol)
+			{
+				iter->SetActive(false);
+				iter->_object->_transform._position = { 0.f, -100.f, 0.f }; // 비활성화 위치로 설정
+			}
+			for (auto& iter : _lightSkillRenderer)
+			{
+				iter->SetAlphaPercentage(0.f);
+				iter->SetAnimation("bosspillar_0.pganim", false);
+				iter->PauseAnim();
+			}
+
+			//공격도 다 끄기
+			for (auto& iter : _basicAttackCol)
+			{
+				iter->SetActive(false);
 			}
 		}
 		if (_monsterHelper->_bossFlag._isDown) _isNeutralize = true;
