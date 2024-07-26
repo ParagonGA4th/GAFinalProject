@@ -158,6 +158,8 @@
     <ClInclude Include="Grating_1.h" />
     <ClInclude Include="Grating_2.h" />
     <ClInclude Include="GUI_StrongAttackStatus.h" />
+    <ClInclude Include="ItemGoldenApple.h" />
+    <ClInclude Include="ItemNormalApple.h" />
     <ClInclude Include="PauseOptionBox.h" />
     <ClInclude Include="Stage1_Bridge.h" />
     <ClInclude Include="BridgeHelper.h" />
@@ -284,6 +286,8 @@
     <ClCompile Include="Grating_1.cpp" />
     <ClCompile Include="Grating_2.cpp" />
     <ClCompile Include="GUI_StrongAttackStatus.cpp" />
+    <ClCompile Include="ItemGoldenApple.cpp" />
+    <ClCompile Include="ItemNormalApple.cpp" />
     <ClCompile Include="PauseOptionBox.cpp" />
     <ClCompile Include="Stage1_Bridge.cpp" />
     <ClCompile Include="BridgeHelper.cpp" />
