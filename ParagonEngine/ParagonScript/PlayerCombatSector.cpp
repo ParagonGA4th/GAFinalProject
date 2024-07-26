@@ -4,6 +4,7 @@
 #include "StrongAttackLogic.h"
 #include "PlayerHandler.h"
 #include "PlayerMovementSector.h"
+#include "BossBehaviour.h"
 #include "CombatSystem.h"
 #include "ComboSystem.h"
 #include "EventList_PlayerRelated.h"
@@ -33,6 +34,8 @@ namespace Pg::DataScript
 
 		_strongAttackLogic = _object->GetScene()->FindSingleComponentInScene<StrongAttackLogic>();
 		assert(_strongAttackLogic != nullptr);
+
+
 	}
 
 	void PlayerCombatSector::BeforePhysicsAwake()
@@ -44,6 +47,14 @@ namespace Pg::DataScript
 		assert(tUltimateArrow != nullptr);
 		_ulArrowLogic = tUltimateArrow->GetComponent<UltimateArrowLogic>();
 		assert(_ulArrowLogic != nullptr);
+
+		if (_playerHandler->_object->GetScene()->GetSceneName() == "BossStage")
+		{
+			auto _boss = _object->GetScene()->FindObjectWithName("Boss");
+			assert(_boss != nullptr);
+			_bossBehaviour = _boss->GetComponent<BossBehaviour>();
+			assert(_bossBehaviour != nullptr);
+		}
 	}
 
 	void PlayerCombatSector::Awake()
@@ -59,24 +70,26 @@ namespace Pg::DataScript
 	void PlayerCombatSector::Update()
 	{
 		//지상이 형 로직은 이미 합쳐졌다.
-		ProcessInputsForActiveSkills();
-		ProcessInputsForUltimateAttack();
-		ProcessInputsForStrongAttack();
-		UpdateForGUIVariables();
-		AllAttacksLogic();
-		//나머지 로직은 Combat System으로 이동.
-
-		if (_isWaiting)
+		if (_bossBehaviour->GetProhibitAttack() == false)
 		{
-			_attackWatingTime -= _pgTime->GetDeltaTime();
-			if (_attackWatingTime <= std::numeric_limits<float>::epsilon())
+			ProcessInputsForActiveSkills();
+			ProcessInputsForUltimateAttack();
+			ProcessInputsForStrongAttack();
+			UpdateForGUIVariables();
+			AllAttacksLogic();
+			//나머지 로직은 Combat System으로 이동.
+
+			if (_isWaiting)
 			{
-				_playerHandler->_meshRenderer->SetAnimation("PA_00001.pganim", true);
-				_attackWatingTime = AFTER_ATTACK_WATING_TIME;
-				_isWaiting = false;
+				_attackWatingTime -= _pgTime->GetDeltaTime();
+				if (_attackWatingTime <= std::numeric_limits<float>::epsilon())
+				{
+					_playerHandler->_meshRenderer->SetAnimation("PA_00001.pganim", true);
+					_attackWatingTime = AFTER_ATTACK_WATING_TIME;
+					_isWaiting = false;
+				}
 			}
 		}
-
 		//PG_WARN("ICE : {0}", _isStartedIceSkillChargeTime);
 	}
 

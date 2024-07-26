@@ -487,6 +487,7 @@ namespace Pg::DataScript
 			_bossInfo->_status = BossStatus::DASH;
 
 			_isRotatingToPlayer = false;
+			_prohibitAttack = false;
 
 			float interpolation = _bossInfo->GetDashSpeed() * _pgTime->GetDeltaTime();
 			_bossInfo->SetCurrentDashTime(_bossInfo->GetCurrentDashTime() + _pgTime->GetDeltaTime());
@@ -550,6 +551,7 @@ namespace Pg::DataScript
 		// 돌풍 스킬의 이동 및 충돌 처리
 		if (_useStormBlast)
 		{
+			_prohibitAttack = false;
 			_isRotatingToPlayer = false;
 
 			_walkAudio->Stop();
@@ -599,6 +601,7 @@ namespace Pg::DataScript
 		//빛기둥 스킬의 이동 및 충돌 처리
 		if (_useLightSkill)
 		{
+			_prohibitAttack = false;
 			_walkAudio->Stop();
 			_bossInfo->SetCurrentLightSkillTime(_bossInfo->GetCurrentLightSkillTime() + _pgTime->GetDeltaTime());
 
@@ -667,6 +670,10 @@ namespace Pg::DataScript
 	{
 		if (_useTakeDownSkill)
 		{
+			if (!_takeDownFinish)
+			{
+				_prohibitAttack = true;
+			}
 			_walkAudio->Stop();
 			_collider->SetActive(false);
 
@@ -710,7 +717,7 @@ namespace Pg::DataScript
 		}
 		if (_goUp)
 		{
-				
+			_prohibitAttack = true;
 			_collider->SetActive(true);
 			
 			//내려찍기 콜라이더 활성화
@@ -750,14 +757,18 @@ namespace Pg::DataScript
 
 
 							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_2)
+							{
 								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_3;
+							}
 							
 							if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::SKILL_FLY_ATTACK_3)
 							{
-								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::DASH;
+								_monsterHelper->_bossFlag._bossState = Pg::Data::BossState::CAST;
 
 								//다 찍으면 콜라이더 켜기
 								_collider->SetActive(true);
+								_prohibitAttack = false;
+								_takeDownFinish = true;
 							}
 
 							_isGenerateCol = true;
