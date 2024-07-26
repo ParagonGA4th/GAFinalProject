@@ -77,6 +77,7 @@ namespace Pg::DataScript
 
 					if (_object->GetScene()->GetSceneName() == "BossStage")
 					{
+						_player->SetPlayerMoveSpeed(6.f);
 						ConfineBoss();
 					}
 				}
@@ -123,7 +124,6 @@ namespace Pg::DataScript
 			{
 				_boss = col->_object;
 			}
-
 		}
 	}
 
@@ -208,7 +208,7 @@ namespace Pg::DataScript
 		}
 
 		auto& spherePos = _collider->_object->_transform._position;
-		auto& boxPos = _player->_object->_transform._position;
+		auto& boxPos = _boss->_transform._position;
 
 		float sphereRadius = _collider->GetRadius();
 		float boxHalfWidth = dcol->GetWidth() / 2;

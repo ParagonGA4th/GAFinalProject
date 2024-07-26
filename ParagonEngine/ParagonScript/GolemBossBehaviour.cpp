@@ -221,7 +221,6 @@ namespace Pg::DataScript
 			{
 				_isDash = true;
 				_monsterHelper->_mGolemFlag._isDash = _isDash;
-				_monsterHelper->_isChase = !_isDash;
 				_golBossInfo->SetCurrentDashTime(0.f);
 			}
 
@@ -229,13 +228,72 @@ namespace Pg::DataScript
 			if (_isDash)
 			{
 				_rotateToPlayer = false;
+				_monsterHelper->_isChase = false;
 				Dash();
 			}
 			else
 			{
-				Chase();
-			}
+				//일정 사정거리 안에 들어오면
+				if (_distance <= _golBossInfo->GetAttackRange())
+				{
+					//상태 변경.
+					_golBossInfo->_status = GolemBossStatus::BASIC_ATTACK;
 
+					//_meshRenderer->_animBlendFactor = 0.0f;
+
+					_monsterHelper->_isChase = false;
+					_monsterHelper->_isPlayerinHitSpace = true;
+
+					if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_1 ||
+						_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_2)
+					{
+						if (!_isSpinAttackSoundPlaying)
+						{
+							_spinAttackSound->Play();
+							_isSpinAttackSoundPlaying = true;
+						}
+
+						Skill(_monsterHelper->_isAnimChange); // 스킬 사용
+						if (!_monsterHelper->_isAnimChange) _isSpinAttackSoundPlaying = false;
+
+						Attack(false);
+						_isAttackSoundPlaying = false;
+					}
+					if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK)
+					{
+						if (!_isAttackSoundPlaying)
+						{
+							_basicAttackSound->Play();
+							_isAttackSoundPlaying = true;
+						}
+
+						Attack(true);
+					}
+				}
+				else
+				{
+					Chase();
+				}
+
+				if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_DASH_ATTACK)
+				{
+					if (!_isSpinAttackSoundPlaying)
+					{
+						_spinAttackSound->Play();
+						_isSpinAttackSoundPlaying = true;
+						_isSpinAttackSoundPlaying = true;
+					}
+
+					Skill(true);
+					if (_monsterHelper->_isAnimationEnd)
+					{
+						Skill(false);
+						_isSpinAttackSoundPlaying = false;
+						_monsterHelper->_isAnimationEnd = false;
+					}
+					Chase();
+				}
+			}
 		}
 		//시야에서 벗어나면 돌진 초기화
 		else
@@ -258,101 +316,42 @@ namespace Pg::DataScript
 		//이동 속도 조절.
 		float interpolation = _golBossInfo->GetMoveSpeed() * _golBossInfo->GetMonsterSpeedRatio() * _pgTime->GetDeltaTime();
 
-		//일정 사정거리 안에 들어오면
-		if (_distance <= _golBossInfo->GetAttackRange())
+		Attack(false);
+		//사운드 초기화
+		_isAttackSoundPlaying = false;
+
+		// 페이즈 2 일때는 spin하면서 쫒아가야함
+		if (_monsterHelper->_bGolemFlag._bossPase == Pg::Data::BossPase::PASE_1)
 		{
-			//상태 변경.
-			_golBossInfo->_status = GolemBossStatus::BASIC_ATTACK;
-
-			//_meshRenderer->_animBlendFactor = 0.0f;
-
-			_monsterHelper->_isChase = false;
-			_monsterHelper->_isPlayerinHitSpace = true;
-
-			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_1 ||
-				_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_ATTACK_2)
-			{
-				if (!_isSpinAttackSoundPlaying)
-				{
-					_spinAttackSound->Play();
-					_isSpinAttackSoundPlaying = true;
-				}
-
-				Skill(_monsterHelper->_isAnimChange); // 스킬 사용
-				if (!_monsterHelper->_isAnimChange) _isSpinAttackSoundPlaying = false;
-
-				Attack(false);
-				_isAttackSoundPlaying = false;
-			}
-			if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::BASIC_ATTACK)
-			{
-				if (!_isAttackSoundPlaying)
-				{
-					_basicAttackSound->Play();
-					_isAttackSoundPlaying = true;
-				}
-
-				Attack(true);
-			}
-		}
-		else
-		{
-			//상태를 Chase로 변경.
 			_golBossInfo->_status = GolemBossStatus::CHASE;
-			_meshRenderer->_animBlendFactor = 10.0f;
-
-			Attack(false);
-			//사운드 초기화
-			_isAttackSoundPlaying = false;
-
-			// 페이즈 2 일때는 spin하면서 쫒아가야함
-			if (_monsterHelper->_bGolemFlag._bossPase == Pg::Data::BossPase::PASE_1)
-			{
-				_monsterHelper->_isPlayerinHitSpace = false;
-				_monsterHelper->_isChase = true;
-			}
-			else if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_DASH_ATTACK)
-			{
-				if (!_isSpinAttackSoundPlaying)
-				{
-					_spinAttackSound->Play();
-					_isSpinAttackSoundPlaying = true;
-					_isSpinAttackSoundPlaying = true;
-				}
-
-				Skill(true);
-				if (_monsterHelper->_isAnimationEnd)
-				{
-					_isSpinAttackSoundPlaying = false;
-					_monsterHelper->_isAnimationEnd = false;
-				}
-			}
-
-			//사정거리 밖이면 플레이어로 계속 다가가기.
-			///보간하면서 이동할 시 마지막에 느려지는 현상을 발생하기 위해 제거.
-			Pg::Math::PGFLOAT3 currentPosition = _object->_transform._position;
-			Pg::Math::PGFLOAT3 targetPosition = _playerTransform->_position;
-
-			// 목표 지점까지의 방향 벡터 계산
-			Pg::Math::PGFLOAT3 direction = targetPosition - currentPosition;
-			direction.y = 0; // y축 이동을 막기 위해 y값을 0으로 설정
-
-			// 방향 벡터를 정규화
-			Pg::Math::PGFLOAT3 directionNorm = Pg::Math::PGFloat3Normalize(direction);
-
-			// 일정한 속도로 이동
-			Pg::Math::PGFLOAT3 movement = directionNorm * interpolation;
-
-			currentPosition.x += movement.x;
-			currentPosition.z += movement.z;
-
-			_object->_transform._position = currentPosition;
-
-			//Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
-			//tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
-			//_object->_transform._position.x = tPosition.x;
-			//_object->_transform._position.z = tPosition.z;
+			_monsterHelper->_isPlayerinHitSpace = false;
+			_monsterHelper->_isChase = true;
 		}
+
+		//사정거리 밖이면 플레이어로 계속 다가가기.
+		///보간하면서 이동할 시 마지막에 느려지는 현상을 발생하기 위해 제거.
+		Pg::Math::PGFLOAT3 currentPosition = _object->_transform._position;
+		Pg::Math::PGFLOAT3 targetPosition = _playerTransform->_position;
+
+		// 목표 지점까지의 방향 벡터 계산
+		Pg::Math::PGFLOAT3 direction = targetPosition - currentPosition;
+		direction.y = 0; // y축 이동을 막기 위해 y값을 0으로 설정
+
+		// 방향 벡터를 정규화
+		Pg::Math::PGFLOAT3 directionNorm = Pg::Math::PGFloat3Normalize(direction);
+
+		// 일정한 속도로 이동
+		Pg::Math::PGFLOAT3 movement = directionNorm * interpolation;
+
+		currentPosition.x += movement.x;
+		currentPosition.z += movement.z;
+
+		_object->_transform._position = currentPosition;
+
+		//Pg::Math::PGFLOAT3 tPosition = _object->_transform._position;
+		//tPosition = Pg::Math::PGFloat3Lerp(_object->_transform._position, _playerTransform->_position, interpolation);
+		//_object->_transform._position.x = tPosition.x;
+		//_object->_transform._position.z = tPosition.z;
 	}
 
 	void GolemBossBehaviour::Dash()
@@ -520,6 +519,8 @@ namespace Pg::DataScript
 
 		_isDashSoundPlaying = false; //돌진 소리
 		_isAttackSoundPlaying = false; //공격 소리
+
+		_isDownInit = false;
 
 		//충돌객체 전부 초기화
 		_collider->SetActive(true);
