@@ -25,7 +25,7 @@ namespace Pg::Data::BTree::Node
 					monHelper->_bossFlag._bossState = Pg::Data::BossState::DASH;
 					_isNextPattern = false;
 				}
-				else if(monHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_3) monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1;
+				//else if(monHelper->_bossFlag._bossPase == Pg::Data::BossPase::PASE_3) monHelper->_bossFlag._bossState = Pg::Data::BossState::SKILL_FLY_ATTACK_PREPARE_1;
 			}
 
 			auto tMeshRenderer = this->GetGameObject()->GetComponent<Pg::Data::SkinnedMeshRenderer>();

@@ -257,6 +257,7 @@ namespace Pg::DataScript
 	void BossBehaviour::Update()
 	{
 		//PG_TRACE(_monsterHelper->_bossFlag._bossStateListByEnum[_monsterHelper->_bossFlag._bossState]);
+		PG_TRACE(_meshRenderer->GetAnimation());
 
 		_distance = std::abs(std::sqrt(std::pow(_playerTransform->_position.x - _object->_transform._position.x, 2)
 			+ std::pow(_playerTransform->_position.z - _object->_transform._position.z, 2)));
@@ -313,8 +314,8 @@ namespace Pg::DataScript
 
 				_isRotatingToPlayer = true;
 				_monsterHelper->_isChase = false;
-				_monsterHelper->_isPlayerinHitSpace = true;
-
+				_monsterHelper->_isPlayerinHitSpace = true;			
+				
 				if (_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_1 ||
 					_monsterHelper->_bossFlag._bossState == Pg::Data::BossState::BASIC_ATTACK_2)
 				{
@@ -431,6 +432,11 @@ namespace Pg::DataScript
 		_monsterHelper->_isPlayerinHitSpace = false;
 		_monsterHelper->_isChase = true;
 
+		for (auto& iter : _takeDownCol)
+		{
+			iter->SetActive(false);
+		}
+
 		//사정거리 밖이면 플레이어로 계속 다가가기.
 		///보간하면서 이동할 시 마지막에 느려지는 현상을 발생하기 위해 제거.
 		Pg::Math::PGFLOAT3 currentPosition = _object->_transform._position;
@@ -489,6 +495,8 @@ namespace Pg::DataScript
 			_isRotatingToPlayer = false;
 			_prohibitAttack = false;
 
+			_collider->SetActive(false);
+
 			float interpolation = _bossInfo->GetDashSpeed() * _pgTime->GetDeltaTime();
 			_bossInfo->SetCurrentDashTime(_bossInfo->GetCurrentDashTime() + _pgTime->GetDeltaTime());
 
@@ -523,6 +531,7 @@ namespace Pg::DataScript
 			_meshRenderer->SetAnimation(animId, true);
 			_dashCoolTime -= _pgTime->GetDeltaTime();
 			_isRotatingToPlayer = true; // 다시 플레이어를 바라보도록 설정
+			_collider->SetActive(true);
 
 			if (_dashCoolTime <= std::numeric_limits<float>::epsilon())
 			{
@@ -675,7 +684,7 @@ namespace Pg::DataScript
 				_prohibitAttack = true;
 			}
 			_walkAudio->Stop();
-			_collider->SetActive(false);
+			_collider->SetActive(true);
 
 			// Tween 생성
 			if (!_isRiseTween)

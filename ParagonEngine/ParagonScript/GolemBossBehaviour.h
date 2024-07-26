@@ -143,6 +143,10 @@ namespace Pg::DataScript
 
 		bool _rotateToPlayer{ false };
 
+		bool _isAnimChange{ false };
+		bool animLoop{ false };
+		std::string animId;
+
 	public:
 		//미니골렘의 상태와 수치에 대한 정보.
 		GolemBossInfo* _golBossInfo;

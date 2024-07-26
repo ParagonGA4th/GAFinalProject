@@ -48,18 +48,18 @@ namespace Pg::DataScript
 		_ulArrowLogic = tUltimateArrow->GetComponent<UltimateArrowLogic>();
 		assert(_ulArrowLogic != nullptr);
 
-		if (_playerHandler->_object->GetScene()->GetSceneName() == "BossStage")
-		{
-			auto _boss = _object->GetScene()->FindObjectWithName("Boss");
-			assert(_boss != nullptr);
-			_bossBehaviour = _boss->GetComponent<BossBehaviour>();
-			assert(_bossBehaviour != nullptr);
-		}
+
 	}
 
 	void PlayerCombatSector::Awake()
 	{
-
+		if (_playerHandler->_object->GetScene()->GetSceneName() == "BossStage")
+		{
+			auto _boss = _playerHandler->_object->GetScene()->FindObjectWithName("Boss");
+			//assert(_boss != nullptr);
+			_bossBehaviour = _boss->GetComponent<BossBehaviour>();
+			//assert(_bossBehaviour != nullptr);
+		}
 	}
 
 	void PlayerCombatSector::Start()
@@ -70,7 +70,30 @@ namespace Pg::DataScript
 	void PlayerCombatSector::Update()
 	{
 		//지상이 형 로직은 이미 합쳐졌다.
-		if (_bossBehaviour->GetProhibitAttack() == false)
+		if (_playerHandler->_object->GetScene()->GetSceneName() == "BossStage")
+		{
+			if (_bossBehaviour->GetProhibitAttack() == false)
+			{
+				ProcessInputsForActiveSkills();
+				ProcessInputsForUltimateAttack();
+				ProcessInputsForStrongAttack();
+				UpdateForGUIVariables();
+				AllAttacksLogic();
+				//나머지 로직은 Combat System으로 이동.
+
+				if (_isWaiting)
+				{
+					_attackWatingTime -= _pgTime->GetDeltaTime();
+					if (_attackWatingTime <= std::numeric_limits<float>::epsilon())
+					{
+						_playerHandler->_meshRenderer->SetAnimation("PA_00001.pganim", true);
+						_attackWatingTime = AFTER_ATTACK_WATING_TIME;
+						_isWaiting = false;
+					}
+				}
+			}
+		}
+		else
 		{
 			ProcessInputsForActiveSkills();
 			ProcessInputsForUltimateAttack();
@@ -90,6 +113,7 @@ namespace Pg::DataScript
 				}
 			}
 		}
+
 		//PG_WARN("ICE : {0}", _isStartedIceSkillChargeTime);
 	}
 

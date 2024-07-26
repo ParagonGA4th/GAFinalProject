@@ -38,9 +38,8 @@ namespace Pg::DataScript
 	void BattleArea::GrabManagedObjects()
 	{
 		_combatSystem = CombatSystem::GetInstance(nullptr);
+
 		_boss = _object->GetScene()->FindObjectWithName("Boss");
-
-
 	}
 
 	void BattleArea::Awake()
@@ -73,6 +72,7 @@ namespace Pg::DataScript
 		assert(_collider != nullptr);
 
 		_isUI = true;
+
 	}
 
 	void BattleArea::Start()
@@ -119,6 +119,7 @@ namespace Pg::DataScript
 
 					if (_object->GetScene()->GetSceneName() == "BossStage")
 					{
+						PG_TRACE(_object->GetScene()->GetSceneName());
 						_player->SetPlayerMoveSpeed(6.f);
 						ConfineBoss();
 					}
@@ -169,10 +170,10 @@ namespace Pg::DataScript
 				//이때는, Enemy가 죽었을 때 Handler에게 죽었다고 알려주는 로직이 필요.
 			}
 
-			if (col->_object->GetTag() == "TAG_Boss")
-			{
-				_boss = col->_object;
-			}
+			//if (col->_object->GetTag() == "TAG_Boss")
+			//{
+			//	_boss = col->_object;
+			//}
 		}
 	}
 
@@ -301,7 +302,7 @@ namespace Pg::DataScript
 	}
 
 	void BattleArea::SetActivate(bool val)
-	{	
+	{
 		_isActivated = val;
 	}
 
