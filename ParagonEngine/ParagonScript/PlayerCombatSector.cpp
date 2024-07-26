@@ -70,26 +70,32 @@ namespace Pg::DataScript
 	void PlayerCombatSector::Update()
 	{
 		//지상이 형 로직은 이미 합쳐졌다.
-		if (_bossBehaviour->GetProhibitAttack() == false)
+		if (_bossBehaviour != nullptr)
 		{
-			ProcessInputsForActiveSkills();
-			ProcessInputsForUltimateAttack();
-			ProcessInputsForStrongAttack();
-			UpdateForGUIVariables();
-			AllAttacksLogic();
-			//나머지 로직은 Combat System으로 이동.
-
-			if (_isWaiting)
+			if (_bossBehaviour->GetProhibitAttack())
 			{
-				_attackWatingTime -= _pgTime->GetDeltaTime();
-				if (_attackWatingTime <= std::numeric_limits<float>::epsilon())
-				{
-					_playerHandler->_meshRenderer->SetAnimation("PA_00001.pganim", true);
-					_attackWatingTime = AFTER_ATTACK_WATING_TIME;
-					_isWaiting = false;
-				}
+				return;
 			}
 		}
+
+		ProcessInputsForActiveSkills();
+		ProcessInputsForUltimateAttack();
+		ProcessInputsForStrongAttack();
+		UpdateForGUIVariables();
+		AllAttacksLogic();
+		//나머지 로직은 Combat System으로 이동.
+
+		if (_isWaiting)
+		{
+			_attackWatingTime -= _pgTime->GetDeltaTime();
+			if (_attackWatingTime <= std::numeric_limits<float>::epsilon())
+			{
+				_playerHandler->_meshRenderer->SetAnimation("PA_00001.pganim", true);
+				_attackWatingTime = AFTER_ATTACK_WATING_TIME;
+				_isWaiting = false;
+			}
+		}
+
 		//PG_WARN("ICE : {0}", _isStartedIceSkillChargeTime);
 	}
 
@@ -640,7 +646,7 @@ namespace Pg::DataScript
 			justEndedAnimation == "PA_00007.pganim" ||
 			justEndedAnimation == "PA_00008.pganim" ||
 			justEndedAnimation == "PA_00009.pganim" ||
-			justEndedAnimation == "PA_000011.pganim" )
+			justEndedAnimation == "PA_000011.pganim")
 		{
 			_playerHandler->_meshRenderer->SetAnimation("PA_00015.pganim", false);
 			_isWaiting = true;
