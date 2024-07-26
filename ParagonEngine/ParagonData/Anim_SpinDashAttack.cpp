@@ -31,8 +31,6 @@ namespace Pg::Data::BTree::Node
 					tcMeshRenderer->SetAnimation(animId, false);
 				}
 			}
-
-			if (monHelper->_isAnimationEnd) monHelper->_isAnimationEnd = false;
 		}
 		return BT::NodeStatus::SUCCESS;
 	}

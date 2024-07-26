@@ -270,10 +270,6 @@ namespace Pg::DataScript
 						Attack(true);
 					}
 				}
-				else
-				{
-					Chase();
-				}
 
 				if (_monsterHelper->_bGolemFlag._bossState == Pg::Data::GolemBossState::SKILL_DASH_ATTACK)
 				{
@@ -291,8 +287,9 @@ namespace Pg::DataScript
 						_isSpinAttackSoundPlaying = false;
 						_monsterHelper->_isAnimationEnd = false;
 					}
-					Chase();
 				}
+
+				Chase();
 			}
 		}
 		//시야에서 벗어나면 돌진 초기화
@@ -304,6 +301,16 @@ namespace Pg::DataScript
 		//PG_TRACE(std::to_string(_miniGolInfo->GetMonsterHp()));
 
 		_golBossInfo->UpdateBaseMonsterLogic(_object);
+
+
+		if (_isAnimChange)
+		{
+			Pg::Data::GameObject* tchild = _object->_transform.GetChild("GolemBoss_Crtstal")->_object;
+			Pg::Data::SkinnedMeshRenderer* cskinned = nullptr;
+
+			if (tchild != nullptr) cskinned = tchild->GetComponent<Pg::Data::SkinnedMeshRenderer>();
+			if (cskinned != nullptr) cskinned->SetAnimation(animId, animLoop);
+		}
 	}
 
 	void GolemBossBehaviour::Idle()
