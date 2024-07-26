@@ -1,11 +1,12 @@
 #include "Stair.h"
+#include "StairHelper.h"
 
 #include "TotalGameManager.h"
 
 #include "../ParagonData/StaticMeshRenderer.h"
 #include "../ParagonData/StaticBoxCollider.h"
 #include "../ParagonData/SphereCollider.h"
-
+#include "../ParagonData/ImageRenderer.h"
 
 namespace Pg::DataScript
 {
@@ -20,9 +21,16 @@ namespace Pg::DataScript
 		{
 			_renderers.emplace_back(i->GetComponent<Pg::Data::StaticMeshRenderer>());
 		}
-
 		_area = _object->GetScene()->FindObjectWithName("BattleArea_GolemBoss")->GetComponent<Pg::Data::SphereCollider>();
 		assert(_area != nullptr);
+
+		if (_object->_transform.GetChild("GimickStairHelper") != nullptr)
+		{
+			_helper = _object->_transform.GetChild("GimickStairHelper")->_object->GetComponent<Pg::DataScript::StairHelper>();
+		}
+
+		Pg::Data::GameObject* _interactionKey = _object->GetScene()->FindObjectWithName("JumpUI");
+		_artiUI = _interactionKey->GetComponent<Pg::Data::ImageRenderer>();
 	}
 
 	void Stair::BeforePhysicsAwake()
@@ -39,37 +47,51 @@ namespace Pg::DataScript
 			i->_object->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(false);
 			//i->_alphaPercentage = 0.f;
 		}
+
 		_isGimickDone = false;
+		_artiUI->SetActive(false);
 	}
 
 	void Stair::Update()
 	{
-		if (!_area->GetActive() && !_isGimickDone)
+		if (!_area->GetActive())
 		{
-			auto renderer = _renderers.at(_index);
-			renderer->SetActive(true);
-			renderer->_object->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(true);
-
-			if (renderer->_object->_transform._position.y >= _rollbackPos)
+			if (!_isGimickDone)
 			{
-				if (_index == 0) _rollbackPos = 10.098f;
-				if (_index == 1) _rollbackPos = 11.140f;
-				if (_index == 2) _rollbackPos = 12.439f;
-				if (_index == 3)
+				auto renderer = _renderers.at(_index);
+				renderer->SetActive(true);
+				renderer->_object->GetComponent<Pg::Data::StaticBoxCollider>()->SetActive(true);
+
+				if (renderer->_object->_transform._position.y >= _rollbackPos)
 				{
-					_index = 0;
-					_isGimickDone = true;
-					return;
+					if (_index == 0) _rollbackPos = 10.098f;
+					if (_index == 1) _rollbackPos = 11.140f;
+					if (_index == 2) _rollbackPos = 12.439f;
+					if (_index == 3)
+					{
+						_index = 0;
+						_isGimickDone = true;
+						return;
+					}
+					_index++;
 				}
-				_index++;
+				else
+				{
+					renderer->_object->_transform._position.y += POSITION_PERCENT;
+				}
 			}
 			else
 			{
-				renderer->_object->_transform._position.y += POSITION_PERCENT;
+				if (_helper != nullptr)
+				{
+					//_artiUI->SetActive(_helper->_onTriggerStay);
+					_helper->EffectHelper(_helper->_onTriggerStay);
+				}
 			}
 
 			//if (_renderer->GetAlphaPercentage() >= 100.f)
 			//else _renderer->SetAlphaPercentage(_renderer->GetAlphaPercentage() + ALPHA_PERCENT);
 		}
+
 	}
 }

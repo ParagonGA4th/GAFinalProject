@@ -168,7 +168,7 @@ namespace Pg::DataScript
 
 	void PlayerHandler::ChangePlayerHealth(float level, bool isTrap)
 	{
-		if(!isTrap) _meshRenderer->SetAnimation("PA_00012.pganim", false);
+		if(!isTrap && std::signbit(level)) _meshRenderer->SetAnimation("PA_00012.pganim", false);
 
 		healthPoint = std::clamp<float>(healthPoint + level, 0.0f, MAX_PLAYER_HEALTH);
 
@@ -425,7 +425,7 @@ namespace Pg::DataScript
 			_hitRO->SetActive(true);
 			_effectPlayOnHitTime += _pgTime->GetDeltaTime();
 			_hitRO->_position = _object->_transform._position;
-			_hitRO->_scale = { 5,5,5 };
+			_hitRO->_scale = { 9,9,9 };
 
 			if (_effectPlayOnHitTime < 0.1f) { (*_chosenPtrEffect) = 0; }
 			else if (_effectPlayOnHitTime < 0.2f) { (*_chosenPtrEffect) = 1; }
