@@ -1,5 +1,6 @@
 #pragma once
 #include "ScriptInterface.h"
+#include <visit_struct/visit_struct.hpp>
 
 namespace Pg::Data
 {
@@ -26,6 +27,11 @@ namespace Pg::DataScript
 		virtual void GrabManagedObjects() override;
 
 		virtual void OnAnimationEnd(const std::string& justEndedAnimation) override;
+
+	public:
+		BEGIN_VISITABLES(ArtifactBoxAnim);
+		VISITABLE(bool, _isHp);
+		END_VISITABLES;
 
 	private:
 		Pg::Data::SkinnedMeshRenderer* _renderer{ nullptr };

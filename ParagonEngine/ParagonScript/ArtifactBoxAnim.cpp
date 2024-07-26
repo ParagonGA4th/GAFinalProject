@@ -68,7 +68,8 @@ namespace Pg::DataScript
 			_artiBox->_instructionRO->SetActive(false);
 			_animEnd = false;
 
-			_combatSystem->Post(Event_PlayerGetArtifact(), NULL, NULL);
+			if (!_isHp) _combatSystem->Post(Event_PlayerGetArtifact(), NULL, NULL);
+			else _combatSystem->ChangePlayerHealth(30.f);
 		}
 
 		if (_artiBox->_isOpen)
