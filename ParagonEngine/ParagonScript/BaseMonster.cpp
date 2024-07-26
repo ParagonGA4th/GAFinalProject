@@ -117,7 +117,7 @@ namespace Pg::DataScript
 			
 			//PG_WARN("SHOWING");
 			_chosenVO->_position = obj->_transform._position;
-			_chosenVO->_scale = { 5,5,5 };
+			_chosenVO->_scale = { 9,9,9 };
 			_chosenVO->SetActive(true);
 
 			if (_isActivatedTime < 0.1f) { (*_chosenPtrEffect) = 0; }
