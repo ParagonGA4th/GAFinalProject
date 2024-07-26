@@ -97,6 +97,8 @@ namespace Pg::DataScript
 
 		float RandomRange(float min, float max);
 
+		bool GetProhibitAttack() { return _prohibitAttack; }
+
 	public:
 		BEGIN_VISITABLES(Pg::DataScript::BossBehaviour);
 		VISITABLE(int, _areaIndex);
@@ -205,6 +207,10 @@ namespace Pg::DataScript
 		bool _isAttackSoundPlaying{ false };
 		bool _isStormAttackSoundPlaying{ false };
 		bool _isLightSkillSoundPlaying{ false };
+
+		//플레이어의 공격을 막고자 함
+		bool _prohibitAttack{ false };
+		bool _takeDownFinish{ false };
 
 		float _activationInterval{ 1.f }; // 각 콜라이더가 활성화되는 시간 간격
 		float _nextActivationTime{ 0.0f }; // 다음 콜라이더가 활성화될 시간

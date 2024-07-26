@@ -36,6 +36,7 @@ namespace Pg::DataScript
 	class Stage1GUIHandler;
 	class Stage2GUIHandler;
 	class BossStageGUIHandler;
+	class BossBehaviour;
 
 	class PlayerCombatSector : public IObserver, public IScriptResettable
 	{
@@ -144,6 +145,7 @@ namespace Pg::DataScript
 		StrongAttackLogic* _strongAttackLogic;
 
 		ComboSystem* _comboSystem;
+		BossBehaviour* _bossBehaviour;
 	private:
 		//Normal¿¡ ÇÑÁ¤.
 		float _normal_timeSinceLastShot = 0.f;
