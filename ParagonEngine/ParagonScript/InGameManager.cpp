@@ -41,21 +41,9 @@ namespace Pg::DataScript
 			// Update에서 Local Handler한테 지시하고,
 			// LateUpdate 등에서 이를 뒤늦게 회수하는 방식도 고려 중.
 			
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+			//3D 안에 있으니, 체력을 증가시키자.
+			const float INCREASE_FACTOR = 0.4f;
+			_combatSystem->ChangePlayerHealth(_pgTime->GetDeltaTime() * INCREASE_FACTOR);
 
 
 
