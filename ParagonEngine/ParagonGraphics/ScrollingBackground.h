@@ -82,7 +82,7 @@ namespace Pg::Graphics
 
 		void Update(float deltaY)
 		{
-			mScreenPos.y -= deltaY;
+			mScreenPos.y -= deltaY * 25.f;
 			mScreenPos.y = fmodf(mScreenPos.y, float(mTextureHeight));
 		}
 

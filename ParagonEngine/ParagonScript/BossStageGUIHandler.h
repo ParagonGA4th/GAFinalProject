@@ -13,6 +13,7 @@
 namespace Pg::API
 {
 	namespace Graphics { class PgGraphics; }
+	namespace Time { class PgTime; }
 }
 
 namespace Pg::DataScript
@@ -47,6 +48,7 @@ namespace Pg::DataScript
 		void MatchUpdateBossHealthBar();
 	private:
 		Pg::API::Graphics::PgGraphics* _pgGraphics{ nullptr };
+		Pg::API::Time::PgTime* _pgTime{ nullptr };
 
 		PauseOptionBox* _pauseOptionBox{ nullptr };
 		Pg::Data::VisualEffectRenderObject* _staminaBillboardObject{ nullptr };
@@ -56,8 +58,10 @@ namespace Pg::DataScript
 		Pg::Data::ImageRenderer* _finalBossBar_Frame{ nullptr };
 		Pg::Data::ImageRenderer* _finalBossBar_Fill{ nullptr };
 		Pg::Data::ImageRenderer* _finalBossBar_Back{ nullptr };
+		Pg::Data::ImageRenderer* _bossUI{ nullptr };
 		
 		BossBehaviour* _finalBossBehaviour{ nullptr };
+		float dTime = 0.f;
 	};
 }
 

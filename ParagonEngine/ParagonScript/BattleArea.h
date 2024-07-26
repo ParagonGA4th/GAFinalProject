@@ -10,6 +10,15 @@ namespace Pg::Data
 	class Collider; 
 	class GameObject;
 	class SphereCollider;
+	class ImageRenderer;
+}
+
+namespace Pg::API
+{
+	namespace Time
+	{
+		class PgTime;
+	}
 }
 
 namespace Pg::DataScript
@@ -54,8 +63,11 @@ namespace Pg::DataScript
 
 	private:
 		Pg::Data::SphereCollider* _collider;
+		Pg::API::Time::PgTime* _pgTime{ nullptr };
 		Pg::DataScript::PlayerHandler* _player;
 		Pg::Data::GameObject* _boss;
+		Pg::Data::ImageRenderer* _killMonsterUI;
+		Pg::Data::ImageRenderer* _golemBossUI;
 
 		//int _monster = 1;
 		bool _onTriggerStay{ false };
@@ -68,6 +80,9 @@ namespace Pg::DataScript
 
 	private:
 		bool _isActivated{ true };
+		bool _isUI{ true };
+		float dTime = 0.f;
+
 	};
 }
 
