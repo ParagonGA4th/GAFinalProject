@@ -15,7 +15,7 @@ Game Institute - Final Project
 - D3D11 셰이더 리플렉션 기반 자체 셰이더 매터리얼 시스템 및 에디터 (PgShaderParser)
 - 언리얼 맵 데이터 + 콜라이더 정보 파싱 및 이식
 - 유니티 라이트맵 데이터 이식, Mixed Lighting 구현 (리얼타임 + 유니티 라이트맵)
-- C++ Scripting && Compile Time Reflection
+- C++ Scripting & Compile Time Reflection
 - PhysX 활용 물리엔진
 - FMOD 사운드 시스템
 - 자체 자료양식 (라이트맵, 애니메이션, 매터리얼, 씬)
