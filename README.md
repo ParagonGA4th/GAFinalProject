@@ -23,7 +23,8 @@ Game Institute - Final Project
 - BehaviorTree.CPP 활용, 행동 트리 로직.
 
 ## 빌드 파일 
-
+20240726_FinalRelease.zip   
+https://drive.google.com/file/d/1rME4_pxHhvJAIlWs5VfaI4h3jok3q8Hj/view?usp=sharing   
 
 ## 리소스 / 라이브러리 연동
 https://drive.google.com/file/d/1PuR2Y16n6jOeUJ77kqd0DlvvAwhFV7nd/view?usp=sharing
