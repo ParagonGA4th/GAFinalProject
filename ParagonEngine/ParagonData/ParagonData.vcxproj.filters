@@ -1,0 +1,1327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Scene.cpp">
+      <Filter>0_Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>2_Component\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>2_Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseRenderer.cpp">
+      <Filter>2_Component\Renderer\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>2_Component\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineResource.cpp">
+      <Filter>3_Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsResource.cpp">
+      <Filter>3_Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>1_GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererChangeList.cpp">
+      <Filter>6_DataChangeList</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseResource.cpp">
+      <Filter>3_Resource\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>2_Component\Collider\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>2_Component\Collider\3D\DynamicCollider\BoxCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="CapsuleCollider.cpp">
+      <Filter>2_Component\Collider\3D\DynamicCollider\CapsuleCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>2_Component\Collider\3D\DynamicCollider\SphereCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>2_Component\Renderer\2D\TextRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageRenderer.cpp">
+      <Filter>2_Component\Renderer\2D\ImageRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererBase2D.cpp">
+      <Filter>2_Component\Renderer\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererBase3D.cpp">
+      <Filter>2_Component\Renderer\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticMeshRenderer.cpp">
+      <Filter>2_Component\Renderer\3D\StaticMeshRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceQueue.cpp">
+      <Filter>6_DataChangeList\ResourceQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicCollider.cpp">
+      <Filter>2_Component\Collider\3D\DynamicCollider\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticCollider.cpp">
+      <Filter>2_Component\Collider\3D\StaticCollider\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticBoxCollider.cpp">
+      <Filter>2_Component\Collider\3D\StaticCollider\BoxCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLight.cpp">
+      <Filter>2_Component\Light\DirectionalLight</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>2_Component\Light\PointLight</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>2_Component\Light\SpotLight</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>2_Component\Light\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinnedMeshRenderer.cpp">
+      <Filter>2_Component\Renderer\3D\SkinnedMeshRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneCollider.cpp">
+      <Filter>2_Component\Collider\3D\StaticCollider\PlaneCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>2_Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsContactPoint.cpp">
+      <Filter>8_Physics\PhysicsContactPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsCollision.cpp">
+      <Filter>8_Physics\PhysicsCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="RayCast.cpp">
+      <Filter>2_Component\Collider\RayCast</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSource.cpp">
+      <Filter>2_Component\Audio\AudioSource</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>2_Component\UI\Slider</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider2D.cpp">
+      <Filter>2_Component\Collider\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="ParagonDefines.cpp">
+      <Filter>7_ParagonDefines</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>2_Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="BtNodes\BTHelper.cpp">
+      <Filter>9_BtNodes\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="BtNodes\BTDefines.cpp">
+      <Filter>9_BtNodes\Defines</Filter>
+    </ClCompile>
+    <ClCompile Include="Handle.cpp">
+      <Filter>2_Component\UI\Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="NavMeshAgent.cpp">
+      <Filter>2_Component\Navigation\NavMeshAgent</Filter>
+    </ClCompile>
+    <ClCompile Include="NavigationField.cpp">
+      <Filter>2_Component\Navigation\NavigationField</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\DebugDraw.cpp">
+      <Filter>2_Component\Navigation\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\DetourDebugDraw.cpp">
+      <Filter>2_Component\Navigation\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\RecastDebugDraw.cpp">
+      <Filter>2_Component\Navigation\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\RecastDump.cpp">
+      <Filter>2_Component\Navigation\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourAlloc.cpp">
+      <Filter>2_Component\Navigation\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourAssert.cpp">
+      <Filter>2_Component\Navigation\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourCommon.cpp">
+      <Filter>2_Component\Navigation\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNavMesh.cpp">
+      <Filter>2_Component\Navigation\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNavMeshBuilder.cpp">
+      <Filter>2_Component\Navigation\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNavMeshQuery.cpp">
+      <Filter>2_Component\Navigation\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNode.cpp">
+      <Filter>2_Component\Navigation\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourCrowd.cpp">
+      <Filter>2_Component\Navigation\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourLocalBoundary.cpp">
+      <Filter>2_Component\Navigation\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourObstacleAvoidance.cpp">
+      <Filter>2_Component\Navigation\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourPathCorridor.cpp">
+      <Filter>2_Component\Navigation\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourPathQueue.cpp">
+      <Filter>2_Component\Navigation\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourProximityGrid.cpp">
+      <Filter>2_Component\Navigation\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourTileCache\DetourTileCache.cpp">
+      <Filter>2_Component\Navigation\src\DetourTileCache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourTileCache\DetourTileCacheBuilder.cpp">
+      <Filter>2_Component\Navigation\src\DetourTileCache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\Recast.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastAlloc.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastArea.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastAssert.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastContour.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastFilter.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastLayers.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastMesh.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastMeshDetail.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastRasterization.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastRegion.cpp">
+      <Filter>2_Component\Navigation\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimTransform.cpp">
+      <Filter>2_Component\AnimTransform</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorCameraScript.cpp">
+      <Filter>2_Component\13_EngineScripts\EditorCameraScript</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticCapsuleCollider.cpp">
+      <Filter>2_Component\Collider\3D\StaticCollider\CapsuleCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticSphereCollider.cpp">
+      <Filter>2_Component\Collider\3D\StaticCollider\SphereCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="BtNodes\bt_zmq_publisher.cpp">
+      <Filter>9_BtNodes\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_Delay.cpp">
+      <Filter>9_BtNodes\MonsterAnim\0_PublicAnim\Anim_Delay</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_fIdle.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Anim_fIdle</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_fWalk.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Anim_fWalk</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_Dash.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_gAttack.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_gAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="isDash.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Golem\isDash</Filter>
+    </ClCompile>
+    <ClCompile Include="isPlayerInSight.cpp">
+      <Filter>9_BtNodes\MonsterAnim\0_PublicAnim\isPlayerInSight</Filter>
+    </ClCompile>
+    <ClCompile Include="isHitSpace.cpp">
+      <Filter>9_BtNodes\MonsterAnim\0_PublicAnim\isHitSpace</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_Shoot.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Shoot</Filter>
+    </ClCompile>
+    <ClCompile Include="isChase.cpp">
+      <Filter>9_BtNodes\MonsterAnim\0_PublicAnim\isChase</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_bIdle.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_bIdle</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_bDash.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_bDash</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_fDead.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Anim_fDead</Filter>
+    </ClCompile>
+    <ClCompile Include="isDead.cpp">
+      <Filter>9_BtNodes\MonsterAnim\0_PublicAnim\isDead</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_gDead.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Anim_gDead</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_tAttack.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_tAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_PoisonGas.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_PoisonGas</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_gIdle.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Anim_gIdle</Filter>
+    </ClCompile>
+    <ClCompile Include="isDistanceClose.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\isDistanceClose</Filter>
+    </ClCompile>
+    <ClCompile Include="isCoolDown.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Trent\isCoolDown</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_mChase.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_mChase</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_mAttack.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_mAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_bDead.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_bDead</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_bWalk.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_bWalk</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_Evasion.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_Evasion</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_Down.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\Anim_Down</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_FeatherAttack.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_LeftArmAttack.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_LeftArmAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_FlyAttack.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FlyAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_RightArmAttack.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_RightArmAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_TwoArmAttack.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_TwoArmAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="isPase_1.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Pase\isPase_1</Filter>
+    </ClCompile>
+    <ClCompile Include="isDown.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\isDown</Filter>
+    </ClCompile>
+    <ClCompile Include="isPase_2.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Pase\isPase_2</Filter>
+    </ClCompile>
+    <ClCompile Include="isPase_3.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Pase\isPase_3</Filter>
+    </ClCompile>
+    <ClCompile Include="isbDash.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\isbDash</Filter>
+    </ClCompile>
+    <ClCompile Include="Toggle.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Wasp\Toggle</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterHelper.cpp">
+      <Filter>2_Component\1_Helper\MonsterHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_ThrowCoin.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_ThrowCoin</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_gbTwoArmAttack.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_gbTwoArmAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_SpinAttack.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_SpinAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="isgPase_1.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\isgPase_1</Filter>
+    </ClCompile>
+    <ClCompile Include="isgPase_2.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\isgPase_2</Filter>
+    </ClCompile>
+    <ClCompile Include="isgSkill.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\isgSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="isgDown.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\isgDown</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_gDown.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Amim_gDown</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_DownEnd.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\Anim_DownEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_DownStart.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\Anim_DownStart</Filter>
+    </ClCompile>
+    <ClCompile Include="isDownEnd.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\isDownEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="isDownStart.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\isDownStart</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_Cast.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_Cast</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_FeatherAttackEnd.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttackEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_FeatherAttackStart.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttackStart</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_FlyAttackPrePare.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FlyAttackPrePare</Filter>
+    </ClCompile>
+    <ClCompile Include="Anim_SpinDashAttack.cpp">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_SpinDashAttack</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scene.h">
+      <Filter>0_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>2_Component\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>2_Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseRenderer.h">
+      <Filter>2_Component\Renderer\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetDefines.h">
+      <Filter>7_ParagonDefines</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>2_Component\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>2_Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineResource.h">
+      <Filter>3_Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsResource.h">
+      <Filter>3_Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>1_GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererType.h">
+      <Filter>5_Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="LightType.h">
+      <Filter>5_Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererChangeList.h">
+      <Filter>6_DataChangeList</Filter>
+    </ClInclude>
+    <ClInclude Include="ParagonDefines.h">
+      <Filter>7_ParagonDefines</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorMode.h">
+      <Filter>5_Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseResource.h">
+      <Filter>3_Resource\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="LightData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTextData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>2_Component\Collider\3D\DynamicCollider\BoxCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="CapsuleCollider.h">
+      <Filter>2_Component\Collider\3D\DynamicCollider\CapsuleCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>2_Component\Collider\3D\DynamicCollider\SphereCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>2_Component\Collider\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>2_Component\Renderer\2D\TextRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageRenderer.h">
+      <Filter>2_Component\Renderer\2D\ImageRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererBase2D.h">
+      <Filter>2_Component\Renderer\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererBase3D.h">
+      <Filter>2_Component\Renderer\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticMeshRenderer.h">
+      <Filter>2_Component\Renderer\3D\StaticMeshRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceQueue.h">
+      <Filter>6_DataChangeList\ResourceQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticCollider.h">
+      <Filter>2_Component\Collider\3D\StaticCollider\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticBoxCollider.h">
+      <Filter>2_Component\Collider\3D\StaticCollider\BoxCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>2_Component\Light\DirectionalLight</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>2_Component\Light\PointLight</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>2_Component\Light\SpotLight</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>2_Component\Light\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinnedMeshRenderer.h">
+      <Filter>2_Component\Renderer\3D\SkinnedMeshRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneCollider.h">
+      <Filter>2_Component\Collider\3D\StaticCollider\PlaneCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="ForceMode.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsContactPoint.h">
+      <Filter>8_Physics\PhysicsContactPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsCollision.h">
+      <Filter>8_Physics\PhysicsCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="RayCast.h">
+      <Filter>2_Component\Collider\RayCast</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioSource.h">
+      <Filter>2_Component\Audio\AudioSource</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>2_Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>2_Component\UI\Slider</Filter>
+    </ClInclude>
+    <ClInclude Include="GameConstantData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider2D.h">
+      <Filter>2_Component\Collider\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="IComponent.h">
+      <Filter>2_Component\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicCollider.h" />
+    <ClInclude Include="eSoundState.h">
+      <Filter>2_Component\Audio\AudioSource\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="eSoundGroup.h">
+      <Filter>2_Component\Audio\AudioSource\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicCollider.h">
+      <Filter>2_Component\Collider\3D\DynamicCollider\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\BTHelper.h">
+      <Filter>9_BtNodes\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\BTDefines.h">
+      <Filter>9_BtNodes\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\BTreeShareData.h">
+      <Filter>9_BtNodes\ShareData</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\BTTemplateSpecialization.h">
+      <Filter>9_BtNodes\TemplateSpecialization</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\BasePgBtNode.h">
+      <Filter>9_BtNodes\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\PgCustomBTNodes.h">
+      <Filter>9_BtNodes\Collection</Filter>
+    </ClInclude>
+    <ClInclude Include="Handle.h">
+      <Filter>2_Component\UI\Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="NavMeshAgent.h">
+      <Filter>2_Component\Navigation\NavMeshAgent</Filter>
+    </ClInclude>
+    <ClInclude Include="data_factory.h">
+      <Filter>10_Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="NavigationField.h">
+      <Filter>2_Component\Navigation\NavigationField</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DebugDraw.h">
+      <Filter>2_Component\Navigation\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DetourDebugDraw.h">
+      <Filter>2_Component\Navigation\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDebugDraw.h">
+      <Filter>2_Component\Navigation\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDump.h">
+      <Filter>2_Component\Navigation\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAlloc.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAssert.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourCommon.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourMath.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMesh.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshBuilder.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshQuery.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNode.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourStatus.h">
+      <Filter>2_Component\Navigation\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourCrowd.h">
+      <Filter>2_Component\Navigation\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourLocalBoundary.h">
+      <Filter>2_Component\Navigation\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourObstacleAvoidance.h">
+      <Filter>2_Component\Navigation\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathCorridor.h">
+      <Filter>2_Component\Navigation\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathQueue.h">
+      <Filter>2_Component\Navigation\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourProximityGrid.h">
+      <Filter>2_Component\Navigation\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCache.h">
+      <Filter>2_Component\Navigation\include\DetourTileCache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCacheBuilder.h">
+      <Filter>2_Component\Navigation\include\DetourTileCache</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildSettings.h">
+      <Filter>2_Component\Navigation\NavigationField\FieldSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimTransform.h">
+      <Filter>2_Component\AnimTransform</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorCameraScript.h">
+      <Filter>2_Component\13_EngineScripts\EditorCameraScript</Filter>
+    </ClInclude>
+    <ClInclude Include="SerializerHelper.h">
+      <Filter>2_Component\1_Helper\SerializerHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentList.h">
+      <Filter>2_Component\1_Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticCapsuleCollider.h">
+      <Filter>2_Component\Collider\3D\StaticCollider\CapsuleCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticSphereCollider.h">
+      <Filter>2_Component\Collider\3D\StaticCollider\SphereCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="LayerMask.h">
+      <Filter>5_Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="BtNodes\bt_zmq_publisher.h">
+      <Filter>9_BtNodes\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_Delay.h">
+      <Filter>9_BtNodes\MonsterAnim\0_PublicAnim\Anim_Delay</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_fIdle.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Anim_fIdle</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_fWalk.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Anim_fWalk</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_Dash.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_gAttack.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_gAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="isDash.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Golem\isDash</Filter>
+    </ClInclude>
+    <ClInclude Include="isPlayerInSight.h">
+      <Filter>9_BtNodes\MonsterAnim\0_PublicAnim\isPlayerInSight</Filter>
+    </ClInclude>
+    <ClInclude Include="isHitSpace.h">
+      <Filter>9_BtNodes\MonsterAnim\0_PublicAnim\isHitSpace</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_Shoot.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Shoot</Filter>
+    </ClInclude>
+    <ClInclude Include="isChase.h">
+      <Filter>9_BtNodes\MonsterAnim\0_PublicAnim\isChase</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_bIdle.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_bIdle</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_bDash.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_bDash</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_fDead.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Anim_fDead</Filter>
+    </ClInclude>
+    <ClInclude Include="isDead.h">
+      <Filter>9_BtNodes\MonsterAnim\0_PublicAnim\isDead</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_gDead.h">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Anim_gDead</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_tAttack.h">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_tAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_PoisonGas.h">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_PoisonGas</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_gIdle.h">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Anim_gIdle</Filter>
+    </ClInclude>
+    <ClInclude Include="isDistanceClose.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\isDistanceClose</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterState.h">
+      <Filter>9_BtNodes\MonsterAnim</Filter>
+    </ClInclude>
+    <ClInclude Include="isCoolDown.h">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Trent\isCoolDown</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualEffectData.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualEffectRenderObject.h">
+      <Filter>4_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_mChase.h">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_mChase</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_mAttack.h">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_mAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_bDead.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_bDead</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_bWalk.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_bWalk</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_Evasion.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_Evasion</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_Down.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\Anim_Down</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_FeatherAttack.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_LeftArmAttack.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_LeftArmAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_FlyAttack.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FlyAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_RightArmAttack.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_RightArmAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_TwoArmAttack.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_TwoArmAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="isPase_1.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Pase\isPase_1</Filter>
+    </ClInclude>
+    <ClInclude Include="ISortableGlobalObject.h">
+      <Filter>11_Interfaces\ISortableGlobalObject</Filter>
+    </ClInclude>
+    <ClInclude Include="isDown.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\isDown</Filter>
+    </ClInclude>
+    <ClInclude Include="isPase_2.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Pase\isPase_2</Filter>
+    </ClInclude>
+    <ClInclude Include="isPase_3.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Pase\isPase_3</Filter>
+    </ClInclude>
+    <ClInclude Include="isbDash.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\isbDash</Filter>
+    </ClInclude>
+    <ClInclude Include="eFillRatioDirection.h">
+      <Filter>5_Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Toggle.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\Wasp\Toggle</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterHelper.h">
+      <Filter>2_Component\1_Helper\MonsterHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterFlag.h">
+      <Filter>2_Component\1_Helper\MonsterHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_ThrowCoin.h">
+      <Filter>9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_ThrowCoin</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_gbTwoArmAttack.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_gbTwoArmAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_SpinAttack.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_SpinAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="isgPase_1.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\isgPase_1</Filter>
+    </ClInclude>
+    <ClInclude Include="isgPase_2.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\isgPase_2</Filter>
+    </ClInclude>
+    <ClInclude Include="isgSkill.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\isgSkill</Filter>
+    </ClInclude>
+    <ClInclude Include="isgDown.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\isgDown</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_gDown.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Amim_gDown</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_DownEnd.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\Anim_DownEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_DownStart.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\Anim_DownStart</Filter>
+    </ClInclude>
+    <ClInclude Include="isDownEnd.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\isDownEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="isDownStart.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Down\isDownStart</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_Cast.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Anim_Cast</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_FeatherAttackEnd.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttackEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_FeatherAttackStart.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttackStart</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_FlyAttackPrePare.h">
+      <Filter>9_BtNodes\MonsterAnim\Boss\Attack\Anim_FlyAttackPrePare</Filter>
+    </ClInclude>
+    <ClInclude Include="Anim_SpinDashAttack.h">
+      <Filter>9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_SpinDashAttack</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="0_Scene">
+      <UniqueIdentifier>{2c5090ab-9153-4a59-96d5-9bc6a1ade861}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_GameObject">
+      <UniqueIdentifier>{cafc21f0-e330-4292-9151-5dcb47c2ccf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component">
+      <UniqueIdentifier>{15495bfd-c5eb-4bdb-8f16-58117261c1aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Resource">
+      <UniqueIdentifier>{37c9807d-abbf-4dc9-b157-55eaddba8b2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Structs">
+      <UniqueIdentifier>{b92c37fd-171d-4497-a7eb-838ed1280933}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Enums">
+      <UniqueIdentifier>{586942d2-d05b-4630-a5fb-beeab6f05744}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="7_ParagonDefines">
+      <UniqueIdentifier>{e2a211f3-a344-479d-9afb-faf956c259ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\BaseClass">
+      <UniqueIdentifier>{9168ff7f-900e-412c-8e28-b2e3cb5f1eb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Transform">
+      <UniqueIdentifier>{149b25af-6399-4d0e-8b7b-91cadc918c66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Camera">
+      <UniqueIdentifier>{dcff2f5d-d7ea-4f29-a493-24035708514e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Light">
+      <UniqueIdentifier>{68c10eaf-42c1-46a2-b110-40e48696e505}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider">
+      <UniqueIdentifier>{4417d714-ca78-49d0-9888-1c06b9c31ca5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer">
+      <UniqueIdentifier>{3845d0cb-630d-471a-8b81-07a323c027f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\BaseClass">
+      <UniqueIdentifier>{f92600e3-e432-4614-b52a-b07386de60d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Resource\BaseClass">
+      <UniqueIdentifier>{45458850-900a-49f8-912b-b811cde34b25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_DataChangeList">
+      <UniqueIdentifier>{0378711b-6cd9-48e8-a2ed-43014541b694}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\BaseClass">
+      <UniqueIdentifier>{da968cf0-ea1d-49cf-bb46-0f0469308f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\3D">
+      <UniqueIdentifier>{fd84d26f-d4c3-4172-9049-9d0100a57e05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\2D">
+      <UniqueIdentifier>{3cda6f4d-fe63-4073-b147-72e7dde2d895}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\2D\ImageRenderer">
+      <UniqueIdentifier>{08c41d8c-4084-4dbc-b009-2f4485943c04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\2D\TextRenderer">
+      <UniqueIdentifier>{8c7d751b-d13a-4ee8-9ba7-0de980154831}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\3D\StaticMeshRenderer">
+      <UniqueIdentifier>{27d5ab17-5ab9-4310-88f4-dd3a4a77dd4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_DataChangeList\ResourceQueue">
+      <UniqueIdentifier>{821c629c-71f3-45f1-aa90-034383729b81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Light\DirectionalLight">
+      <UniqueIdentifier>{9423fd94-9e78-4939-a0e6-578e16b176b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Light\PointLight">
+      <UniqueIdentifier>{bb93dee5-1bf0-4713-b0e9-02338707de61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Light\SpotLight">
+      <UniqueIdentifier>{0a5bf8bb-cb5f-4c4d-b7e0-f80122362764}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Light\BaseClass">
+      <UniqueIdentifier>{2ef27641-2cf8-49ec-b280-7ed07d890ecc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Renderer\3D\SkinnedMeshRenderer">
+      <UniqueIdentifier>{765ff04f-c71d-4daf-931c-cfa249af2d59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\UI">
+      <UniqueIdentifier>{924185cf-efa7-42c4-8eda-8fbfc742443c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\UI\Button">
+      <UniqueIdentifier>{b3e53bb0-eb90-4646-b909-89afba4cc3ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\UI\Slider">
+      <UniqueIdentifier>{070588a3-5e11-41b7-8963-d3fbd2a43f2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\RayCast">
+      <UniqueIdentifier>{e22317fe-af60-4228-a3ad-b506fdb2234a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\1_Helper">
+      <UniqueIdentifier>{0cab3ce3-54de-4268-8a7a-da6766709e25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Audio">
+      <UniqueIdentifier>{b80aa566-f134-427a-83e2-c88e559d4016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Audio\AudioSource">
+      <UniqueIdentifier>{35c0e4b5-5260-42bb-a4de-4dcc45d4a758}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D">
+      <UniqueIdentifier>{3e0f61ea-a1ce-4d11-9bc4-156079cd3ed1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Animator">
+      <UniqueIdentifier>{2cffbd03-cfa7-4306-a369-89497a5f3d83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\DynamicCollider">
+      <UniqueIdentifier>{51a8fda0-dcc5-41de-89fd-93a38be98935}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\DynamicCollider\BaseClass">
+      <UniqueIdentifier>{1addae72-f26e-4dca-a9c3-cff00f7ea7c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\DynamicCollider\BoxCollider">
+      <UniqueIdentifier>{65cd6fac-dea3-4df8-96e3-e40208df9e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\DynamicCollider\CapsuleCollider">
+      <UniqueIdentifier>{d0f0cb7a-d7a9-4ea9-bc7b-a551e630b35f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\DynamicCollider\SphereCollider">
+      <UniqueIdentifier>{209bfa5b-6385-49ed-b021-6c8efd240396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\StaticCollider">
+      <UniqueIdentifier>{50ebdce7-0ca3-4c8c-a882-148ef1c683e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\StaticCollider\BaseClass">
+      <UniqueIdentifier>{f53ca70a-f2f8-4087-97db-e1edfcdd8a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\StaticCollider\BoxCollider">
+      <UniqueIdentifier>{94c65e16-27ab-47cb-a5c4-f6cd9d8856cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\StaticCollider\PlaneCollider">
+      <UniqueIdentifier>{34510aec-ad30-4dcd-9cd2-d6bc26aac2b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\2D">
+      <UniqueIdentifier>{52e33170-5d69-44b5-a4ce-6089e7f8cbb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Audio\AudioSource\Enums">
+      <UniqueIdentifier>{d9c0e331-1e6d-4205-92a2-bac0027d31ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\UI\Handle">
+      <UniqueIdentifier>{d103ae49-ebd4-46a9-afaf-e3bd59f61851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation">
+      <UniqueIdentifier>{de463ef8-6fcc-433b-9b6a-8eeb0ac41ad7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\NavMeshAgent">
+      <UniqueIdentifier>{4af22f03-26d7-434c-94e3-693a05ffe7ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\NavigationField">
+      <UniqueIdentifier>{90d4b14c-769e-48be-9559-3a9f2aba613a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\include">
+      <UniqueIdentifier>{5968cffe-9894-4689-9a76-a5042f0dfa17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\src">
+      <UniqueIdentifier>{2622817f-6f7c-430c-9daa-69145ef89a3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\include\DebugUtils">
+      <UniqueIdentifier>{ac820931-8d87-4065-b629-6674e7d8058e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\include\Detour">
+      <UniqueIdentifier>{35922c75-dbc1-4ad6-a51a-87df38157eb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\include\DetourCrowd">
+      <UniqueIdentifier>{f49c63a6-706b-4cdb-b32a-d55820aa9a6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\include\DetourTileCache">
+      <UniqueIdentifier>{4921842c-84a0-4c1a-a224-8262321cdacd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\src\DebugUtils">
+      <UniqueIdentifier>{6b8c7940-824f-46d4-bcbb-3935e594437b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\src\Detour">
+      <UniqueIdentifier>{fbd07f0e-6e9f-4e60-abb9-e78371b7310e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\src\DetourCrowd">
+      <UniqueIdentifier>{cb7bd880-1efd-4b91-9d45-fb9df174c923}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\src\DetourTileCache">
+      <UniqueIdentifier>{4308231e-f593-44a3-bab2-ca36749418ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\src\Recast">
+      <UniqueIdentifier>{9a3e22ad-0a1b-40e6-919b-ca49452e69f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Navigation\NavigationField\FieldSetting">
+      <UniqueIdentifier>{8dbd8285-3186-42ae-9f92-577cca93dcc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\AnimTransform">
+      <UniqueIdentifier>{6bd232b2-bcfc-48ef-b9c7-e6249f57f0fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\1_Helper\SerializerHelper">
+      <UniqueIdentifier>{2e2cd2ef-5cb5-4fca-afc4-e98602257c67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\StaticCollider\CapsuleCollider">
+      <UniqueIdentifier>{b3e718c0-041a-44ff-ae62-96453e5836ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\Collider\3D\StaticCollider\SphereCollider">
+      <UniqueIdentifier>{fd22e24d-f688-4eec-9bf8-25a08f05e585}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\13_EngineScripts">
+      <UniqueIdentifier>{93d4cb98-3dcb-45a6-91b7-fca442321fd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\13_EngineScripts\EditorCameraScript">
+      <UniqueIdentifier>{baaa2dab-5a8d-4839-83e7-26e03160a912}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Component\1_Helper\MonsterHelper">
+      <UniqueIdentifier>{d545a3b5-ec40-436e-8914-adec805405f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Physics">
+      <UniqueIdentifier>{a08c6ece-cc21-4663-a345-b8e964068a7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Physics\PhysicsCollision">
+      <UniqueIdentifier>{8fcd22ad-9b92-4d44-8c15-1bf3df482043}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Physics\PhysicsContactPoint">
+      <UniqueIdentifier>{5ca282b1-8837-472f-a19f-ee3a5a7c2762}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes">
+      <UniqueIdentifier>{590d7338-e96a-455d-a77e-ab7218be50b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\Defines">
+      <UniqueIdentifier>{6d6d1119-e9b4-4745-b3c0-a9cc26f5a811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\Helper">
+      <UniqueIdentifier>{e8d5f3e2-0521-4181-ae9f-d012ff371e20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\ShareData">
+      <UniqueIdentifier>{2220a51e-ca93-47d9-a826-4d1aae2438c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\TemplateSpecialization">
+      <UniqueIdentifier>{adcd6377-dea3-4e2a-a129-ea8665b5cdd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\Collection">
+      <UniqueIdentifier>{f7d1b6d9-84e9-497a-b896-f63a80e1b8e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim">
+      <UniqueIdentifier>{921e64b0-dc5b-431a-b206-ce3d3d82fd9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\0_PublicAnim">
+      <UniqueIdentifier>{b8dc43eb-80d0-4a9f-8368-4c77a92bf5a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\0_PublicAnim\isPlayerInSight">
+      <UniqueIdentifier>{d64b6686-7ce4-47f4-95ca-9679e30ef789}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\0_PublicAnim\Anim_Delay">
+      <UniqueIdentifier>{7090b44c-4291-41cb-91dd-e249aa3a32cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\0_PublicAnim\isHitSpace">
+      <UniqueIdentifier>{10ac1f5d-e355-4700-b293-7c11ca8f97e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\0_PublicAnim\isChase">
+      <UniqueIdentifier>{1c46883a-eaba-4e18-83af-8b9f80fbdf8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\0_PublicAnim\isDead">
+      <UniqueIdentifier>{bb624604-e5e1-450e-ad3f-8f3147971551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster">
+      <UniqueIdentifier>{c1a85e42-496b-468b-bff8-733bf8613931}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\Golem">
+      <UniqueIdentifier>{5fa8ee46-2a80-44f3-8158-0899037c55de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_Dash">
+      <UniqueIdentifier>{92c7aaf5-7466-4286-b53d-effc4536fb5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\Golem\isDash">
+      <UniqueIdentifier>{d0b36f89-7d46-4078-b73a-32ab6a3ba4af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\Golem\Anim_gAttack">
+      <UniqueIdentifier>{187082aa-a4ee-4eac-8661-4a028c1b0de1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\GolemBoss">
+      <UniqueIdentifier>{571525dc-9df6-4341-93c5-9cc69b7dd5ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\Wasp">
+      <UniqueIdentifier>{959449db-22bf-4ba4-9667-72070b93857f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\Wasp\Anim_Shoot">
+      <UniqueIdentifier>{ac30a1df-2006-4c4d-98a9-faf97bbca303}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\Wasp\Toggle">
+      <UniqueIdentifier>{1ccbe4fa-57bb-42a1-9ec1-da1204785e48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\Anim_fDead">
+      <UniqueIdentifier>{6db2d9ae-1385-4af0-85ca-f5b4030d6903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\Anim_fIdle">
+      <UniqueIdentifier>{b3b0291a-ec59-46f6-88c2-a2ae2668b8a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\Anim_fWalk">
+      <UniqueIdentifier>{0daee397-cac5-431b-bea4-998e158c3b11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Ground Monster">
+      <UniqueIdentifier>{76ce6f66-2390-4a8b-a8e9-0903ccc4c12f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Ground Monster\Trent">
+      <UniqueIdentifier>{c8b953b7-4e26-4e3e-a5af-0738b5416210}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_tAttack">
+      <UniqueIdentifier>{a07176c1-bbcf-4cb2-96ca-0cddafe580e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Ground Monster\Trent\Anim_PoisonGas">
+      <UniqueIdentifier>{7163c3f2-a6c2-4a40-a57b-44c4834e4921}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Ground Monster\Trent\isCoolDown">
+      <UniqueIdentifier>{490ca645-e69a-49c1-9fe9-889e62d9ecba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Ground Monster\Anim_gDead">
+      <UniqueIdentifier>{deed4680-403d-423f-9506-77fdf5056006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Ground Monster\Anim_gIdle">
+      <UniqueIdentifier>{ef412e0e-d8f5-4bb6-a34e-5e43a91009a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Ground Monster\Mimic">
+      <UniqueIdentifier>{7d926eed-3fab-4347-9c36-5e26b9325ed7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_mAttack">
+      <UniqueIdentifier>{9014a0e1-51fc-456b-bf50-749660380cca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_mChase">
+      <UniqueIdentifier>{b3114e10-d520-4565-bba1-7bd26a68a0c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss">
+      <UniqueIdentifier>{ab5292ed-46e7-45d5-bd5b-07876b13bd52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Attack">
+      <UniqueIdentifier>{fecc4b0c-0806-4020-b4d5-d90cb26edfe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Attack\Anim_LeftArmAttack">
+      <UniqueIdentifier>{d823548a-17ec-45bb-8f9e-f8a87774a1f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Attack\Anim_RightArmAttack">
+      <UniqueIdentifier>{96b9814c-afce-4612-b286-a2d9e7fd4d9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Attack\Anim_TwoArmAttack">
+      <UniqueIdentifier>{d493f185-335e-4dfc-a547-a190ae8fdf38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttack">
+      <UniqueIdentifier>{dc2204d5-97ae-425d-92e2-52208d591494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Attack\Anim_FlyAttack">
+      <UniqueIdentifier>{898245d5-410f-4f7b-a53d-3e4c81cc651d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Anim_Evasion">
+      <UniqueIdentifier>{4dba592d-72e6-4c4f-94c5-60c2b52b273e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Anim_bDash">
+      <UniqueIdentifier>{f1f49594-296b-4e4d-b941-5bae3f700130}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Anim_bIdle">
+      <UniqueIdentifier>{ab4a5416-5874-4e87-b360-594c577d52bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Anim_bWalk">
+      <UniqueIdentifier>{460b7782-64f3-48a1-bdba-351b106574b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Anim_bDead">
+      <UniqueIdentifier>{291638b8-89fa-4a53-8aab-0506eca7180b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Pase">
+      <UniqueIdentifier>{437e5a23-c5e7-4ac7-9f2d-d918b7530074}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Pase\isPase_1">
+      <UniqueIdentifier>{08d9ee4d-52ec-4d00-afe3-c8514f9a631d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Pase\isPase_2">
+      <UniqueIdentifier>{c9d93511-c5d7-441d-81ef-f80c2b749858}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Pase\isPase_3">
+      <UniqueIdentifier>{520aafd3-8cab-4cd5-b753-a7e10941cac8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\isDistanceClose">
+      <UniqueIdentifier>{c880e1e2-0d87-438b-a2de-2a2a0b2fe792}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\isbDash">
+      <UniqueIdentifier>{a32f528f-453c-4c78-895a-743892bc18d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\BaseClass">
+      <UniqueIdentifier>{ce158e48-9c1d-4152-9952-3698beffdd2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Factory">
+      <UniqueIdentifier>{f444fc16-6341-47b9-a960-e843f33a3db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_Interfaces">
+      <UniqueIdentifier>{62fbe24f-4efe-42fe-939a-497008c8250c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_Interfaces\ISortableGlobalObject">
+      <UniqueIdentifier>{0033e539-be88-4991-ae25-a12a586f65ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Ground Monster\Mimic\Anim_ThrowCoin">
+      <UniqueIdentifier>{cd3d0e33-f0aa-4472-9010-2e34abdafe3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_gbTwoArmAttack">
+      <UniqueIdentifier>{e87618d1-dfce-466d-a7e9-cd7be242feda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_SpinAttack">
+      <UniqueIdentifier>{96204d36-b01e-4f26-83aa-9222ee41fb0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\isgPase_1">
+      <UniqueIdentifier>{fc500132-ee04-4509-a59e-c82d73969851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\isgPase_2">
+      <UniqueIdentifier>{91c1f3f0-b961-4460-8eb6-3af7ccaa3e02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\isgSkill">
+      <UniqueIdentifier>{f49c81bc-96c8-4a26-8d47-db06856ad008}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\isgDown">
+      <UniqueIdentifier>{1ddb652d-b9f1-4ad8-9611-4fe1f839d65b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Amim_gDown">
+      <UniqueIdentifier>{a6f03137-68fa-4e41-befb-3441beca37ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Down">
+      <UniqueIdentifier>{a82bf093-7411-4703-a325-b79cdd753dcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Down\isDown">
+      <UniqueIdentifier>{adfcd039-57d9-405d-8899-7b823ccb6305}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Down\Anim_Down">
+      <UniqueIdentifier>{b4e86225-95af-4881-88e9-f0ec669e6801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Down\isDownStart">
+      <UniqueIdentifier>{bed8bcb1-f669-4035-a061-3d44d2a851f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Down\isDownEnd">
+      <UniqueIdentifier>{5ff959f8-4781-4ac0-acf8-5a86387be013}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Down\Anim_DownStart">
+      <UniqueIdentifier>{d0ae978b-c920-4a20-a397-63f45b61377a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Down\Anim_DownEnd">
+      <UniqueIdentifier>{55f3cf3e-7eea-4a94-a3d5-256452dcaf03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Anim_Cast">
+      <UniqueIdentifier>{e4fdb15b-4271-4093-8195-a877a122b273}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttackStart">
+      <UniqueIdentifier>{15d0854d-d26d-42b6-a98f-4132130809f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Attack\Anim_FeatherAttackEnd">
+      <UniqueIdentifier>{098fb3ae-bfaa-4718-a6e2-9e403e006a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Boss\Attack\Anim_FlyAttackPrePare">
+      <UniqueIdentifier>{ec4d5c3f-5387-4070-b790-9eb17f972673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_BtNodes\MonsterAnim\Floating Monster\GolemBoss\Anim_SpinDashAttack">
+      <UniqueIdentifier>{2c471c8a-8b30-4657-b03e-e890c63ec903}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

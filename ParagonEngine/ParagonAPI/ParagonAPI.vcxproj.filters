@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="APIMain.cpp">
+      <Filter>0_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="PgTime.cpp">
+      <Filter>2_PgTime</Filter>
+    </ClCompile>
+    <ClCompile Include="PgRayCast.cpp">
+      <Filter>3_Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="PgAudio.cpp">
+      <Filter>4_PgAudio</Filter>
+    </ClCompile>
+    <ClCompile Include="PgTween.cpp">
+      <Filter>5_PgTween</Filter>
+    </ClCompile>
+    <ClCompile Include="PgGraphics.cpp">
+      <Filter>6_PgGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="PgScene.cpp">
+      <Filter>7_PgScene</Filter>
+    </ClCompile>
+    <ClCompile Include="PgRecast.cpp">
+      <Filter>8_PgRecast</Filter>
+    </ClCompile>
+    <ClCompile Include="PgInput.cpp">
+      <Filter>1_PgInput</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="APIMain.h">
+      <Filter>0_Main</Filter>
+    </ClInclude>
+    <ClInclude Include="PgInput.h">
+      <Filter>1_PgInput</Filter>
+    </ClInclude>
+    <ClInclude Include="PgTime.h">
+      <Filter>2_PgTime</Filter>
+    </ClInclude>
+    <ClInclude Include="PgRayCast.h">
+      <Filter>3_Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyCodeType.h">
+      <Filter>1_PgInput</Filter>
+    </ClInclude>
+    <ClInclude Include="PgAudio.h">
+      <Filter>4_PgAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="PgTween.h">
+      <Filter>5_PgTween</Filter>
+    </ClInclude>
+    <ClInclude Include="PgGraphics.h">
+      <Filter>6_PgGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="PgScene.h">
+      <Filter>7_PgScene</Filter>
+    </ClInclude>
+    <ClInclude Include="PgRecast.h">
+      <Filter>8_PgRecast</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="APIMain.cpp">
+      <Filter>0_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="PgInput.cpp">
+      <Filter>2_Input</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="0_Main">
+      <UniqueIdentifier>{aae0206b-fad3-4271-8437-0c20c1703ab4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_PgInput">
+      <UniqueIdentifier>{1352dff1-b3fa-4c1c-a88a-b28664cb30bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_PgTime">
+      <UniqueIdentifier>{75c7ac1e-f195-4d67-98a1-2bd2d7a7568c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Physics">
+      <UniqueIdentifier>{effa09d3-2c43-41e8-b51d-a0728af63d62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_PgAudio">
+      <UniqueIdentifier>{540fe732-f6a2-4687-8ef4-4abb29fddf65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_PgTween">
+      <UniqueIdentifier>{98998a1f-f7c3-439e-a708-38a2224e83bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_PgGraphics">
+      <UniqueIdentifier>{d5aa7e7c-ef3b-4903-b43d-472dd14e0473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="7_PgScene">
+      <UniqueIdentifier>{07c72688-2735-49fd-8027-e2cb93577fde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_PgRecast">
+      <UniqueIdentifier>{9e50c101-9eb3-45fa-95df-63f00f198c23}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

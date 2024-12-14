@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="EditorAdapter.cpp">
+      <Filter>0_Main\Adapter</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineGraphicsAdapter.cpp">
+      <Filter>0_Main\Adapter</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>1_Manager\AssetManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessMain.cpp">
+      <Filter>0_Main</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EditorAdapter.h">
+      <Filter>0_Main\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineGraphicsAdapter.h">
+      <Filter>0_Main\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="IAPI.h">
+      <Filter>0_Main\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IEngine.h">
+      <Filter>0_Main\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IGraphics.h">
+      <Filter>0_Main\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IUtil.h">
+      <Filter>0_Main\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreSingleton.h">
+      <Filter>0_Main\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>1_Manager\AssetManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessMain.h">
+      <Filter>0_Main</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="0_Main">
+      <UniqueIdentifier>{afe7b26a-85ad-484f-a70f-8eb9fc1a391f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Manager">
+      <UniqueIdentifier>{a1c31487-48a7-4190-97f3-cf2807be918d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Adapter">
+      <UniqueIdentifier>{c79f4698-0b67-4c2f-b561-cb1ddbe01d09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Interface">
+      <UniqueIdentifier>{84f40ae0-af85-4cb6-9172-5cdcc386f03e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Singleton">
+      <UniqueIdentifier>{3fd4203a-f45e-4399-bc7e-e0317bb86a07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Manager\AssetManager">
+      <UniqueIdentifier>{88146500-8cac-437f-af86-c1c922d3aa52}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

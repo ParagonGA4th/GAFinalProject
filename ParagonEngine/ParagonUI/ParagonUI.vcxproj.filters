@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="UIManager.h">
+      <Filter>1_Manager\UIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ImguiManager.h">
+      <Filter>1_Manager\ImguiManager</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx11.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_win32.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="InputText.h">
+      <Filter>0_UI\1_Widget\InputText</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>0_UI\1_Widget\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="IWidget.h">
+      <Filter>0_UI\1_Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="WidgetContainer.h">
+      <Filter>0_UI\1_Widget\0_Container</Filter>
+    </ClInclude>
+    <ClInclude Include="Column.h">
+      <Filter>0_UI\1_Widget\Layout\Column</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckBox.h">
+      <Filter>0_UI\1_Widget\CheckBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Collaps.h">
+      <Filter>0_UI\1_Widget\Layout\Collaps</Filter>
+    </ClInclude>
+    <ClInclude Include="Selectable.h">
+      <Filter>0_UI\1_Widget\Selectable</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>0_UI\1_Widget\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeNode.h">
+      <Filter>0_UI\1_Widget\TreeNode</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuBar.h">
+      <Filter>0_UI\1_Widget\MenuBar</Filter>
+    </ClInclude>
+    <ClInclude Include="InputInt.h">
+      <Filter>0_UI\1_Widget\InputFloat</Filter>
+    </ClInclude>
+    <ClInclude Include="InputFloat3.h">
+      <Filter>0_UI\1_Widget\InputFloat\InputFloat3</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>0_UI\1_Widget\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Combo.h">
+      <Filter>0_UI\1_Widget\Combo</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageButton.h">
+      <Filter>0_UI\1_Widget\Button\ImageButton</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuizmo.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Gizmo.h">
+      <Filter>0_UI\Gizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="DragFloat3.h">
+      <Filter>0_UI\1_Widget\InputFloat\DragFloat3</Filter>
+    </ClInclude>
+    <ClInclude Include="DragFloat.h">
+      <Filter>0_UI\1_Widget\InputFloat\DragFloat</Filter>
+    </ClInclude>
+    <ClInclude Include="ChildWindow.h">
+      <Filter>0_UI\1_Widget\Layout\ChildWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Hierarchy.h">
+      <Filter>0_UI\1_Widget\Selectable</Filter>
+    </ClInclude>
+    <ClInclude Include="RadioButton.h">
+      <Filter>0_UI\1_Widget\Button\RadioButton</Filter>
+    </ClInclude>
+    <ClInclude Include="Popup.h">
+      <Filter>0_UI\1_Widget\Popup</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>1_Manager\UIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ImguiManager.cpp">
+      <Filter>1_Manager\ImguiManager</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx11.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_win32.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="InputText.cpp">
+      <Filter>0_UI\1_Widget\InputText</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>0_UI\1_Widget\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="WidgetContainer.cpp">
+      <Filter>0_UI\1_Widget\0_Container</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckBox.cpp">
+      <Filter>0_UI\1_Widget\CheckBox</Filter>
+    </ClCompile>
+    <ClCompile Include="Collaps.cpp">
+      <Filter>0_UI\1_Widget\Layout\Collaps</Filter>
+    </ClCompile>
+    <ClCompile Include="Selectable.cpp">
+      <Filter>0_UI\1_Widget\Selectable</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>0_UI\1_Widget\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeNode.cpp">
+      <Filter>0_UI\1_Widget\TreeNode</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuBar.cpp">
+      <Filter>0_UI\1_Widget\MenuBar</Filter>
+    </ClCompile>
+    <ClCompile Include="InputInt.cpp">
+      <Filter>0_UI\1_Widget\InputFloat</Filter>
+    </ClCompile>
+    <ClCompile Include="InputFloat3.cpp">
+      <Filter>0_UI\1_Widget\InputFloat\InputFloat3</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>0_UI\1_Widget\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Combo.cpp">
+      <Filter>0_UI\1_Widget\Combo</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageButton.cpp">
+      <Filter>0_UI\1_Widget\Button\ImageButton</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuizmo.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Gizmo.cpp">
+      <Filter>0_UI\Gizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="DragFloat3.cpp">
+      <Filter>0_UI\1_Widget\InputFloat\DragFloat3</Filter>
+    </ClCompile>
+    <ClCompile Include="DragFloat.cpp">
+      <Filter>0_UI\1_Widget\InputFloat\DragFloat</Filter>
+    </ClCompile>
+    <ClCompile Include="ChildWindow.cpp">
+      <Filter>0_UI\1_Widget\Layout\ChildWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Hierarchy.cpp">
+      <Filter>0_UI\1_Widget\Selectable</Filter>
+    </ClCompile>
+    <ClCompile Include="RadioButton.cpp">
+      <Filter>0_UI\1_Widget\Button\RadioButton</Filter>
+    </ClCompile>
+    <ClCompile Include="Popup.cpp">
+      <Filter>0_UI\1_Widget\Popup</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="0_UI">
+      <UniqueIdentifier>{427891bd-96de-4fc0-8169-0d3d62b06bb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Imgui">
+      <UniqueIdentifier>{c020cbe5-8a4f-468f-a625-aa046b71e478}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget">
+      <UniqueIdentifier>{6eede181-c325-4cff-99c4-8e54ae7c4628}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Text">
+      <UniqueIdentifier>{da378bd8-a565-4043-946d-caf51aeb0412}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\InputText">
+      <UniqueIdentifier>{c164ae0c-6be8-42f1-a436-4dce87c0da1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\0_Container">
+      <UniqueIdentifier>{83c354e3-b3d9-4310-a860-14cd54ff164e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Layout">
+      <UniqueIdentifier>{8c44f05d-5b7a-4b1e-bebf-f2b1c29b77e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Layout\Column">
+      <UniqueIdentifier>{b238d2cb-4044-444e-96ba-e12a665b55bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\CheckBox">
+      <UniqueIdentifier>{a2478dac-1494-441a-b396-0e40ed93feec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Layout\Collaps">
+      <UniqueIdentifier>{cc1cce5b-5d80-4329-b6c6-c19a2d106775}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\InputFloat">
+      <UniqueIdentifier>{8d03de5d-22df-48ce-9dca-582187c04194}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Selectable">
+      <UniqueIdentifier>{2353fc5f-abee-4d60-9ba9-fbc1dbbe1163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Image">
+      <UniqueIdentifier>{19938d3d-b6ab-4d91-99c0-563f935032ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\TreeNode">
+      <UniqueIdentifier>{e5e4871b-502a-4a4f-ada8-af2cd1817ec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Manager">
+      <UniqueIdentifier>{30d79f0e-1bf5-48e0-b457-9559b051d776}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Manager\UIManager">
+      <UniqueIdentifier>{9b154547-b168-439d-909d-7c62f197831b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Manager\ImguiManager">
+      <UniqueIdentifier>{3ff707a4-63c1-49e4-a991-cad16938c7ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\MenuBar">
+      <UniqueIdentifier>{fd1a8c70-7862-4f7b-a987-1bc31db80ec8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\InputFloat\InputFloat3">
+      <UniqueIdentifier>{0cc46938-25f9-419d-a26e-be37d8dccf4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Button">
+      <UniqueIdentifier>{6a0ec460-e73c-4122-8941-7f7e7d697393}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Combo">
+      <UniqueIdentifier>{cb231de3-eb42-413d-a251-9c9475e5677e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Button\ImageButton">
+      <UniqueIdentifier>{3c29521f-733a-4b9b-ab7b-ad9b4723ff1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\Gizmo">
+      <UniqueIdentifier>{0073f77d-cd8b-4d3e-a9cd-ee4c3aef5175}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\InputFloat\DragFloat3">
+      <UniqueIdentifier>{c3b399a5-6522-4ce0-84cf-f963d3b75e72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\InputFloat\DragFloat">
+      <UniqueIdentifier>{8fddf2c4-e475-4226-8379-fba8c1c5f46a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Popup">
+      <UniqueIdentifier>{a4f0e7bf-5ad8-42fe-9583-d66fc9a85f86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Layout\ChildWindow">
+      <UniqueIdentifier>{b37f62f8-edf8-4802-93a8-092e4f263393}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_UI\1_Widget\Button\RadioButton">
+      <UniqueIdentifier>{4564f80d-7b03-48a4-892d-3703cbca3516}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

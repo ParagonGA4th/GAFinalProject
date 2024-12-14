@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{81fbf0ab-8941-4ae7-9d4e-385b16fd32fc}</ProjectGuid>
+    <RootNamespace>ParagonGameEngine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>true</EnableUnitySupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>true</EnableUnitySupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Builds\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Builds\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_EXPORT_ENGINE_DLL</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);;$(SolutionDir)lib\Recast\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_EXPORT_ENGINE_DLL</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);;$(SolutionDir)lib\Recast\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_EXPORT_ENGINE_DLL;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;NOMINMAX;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\physx;$(SolutionDir)include\Recast\Navigation;$(SolutionDir)include\libzmq</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
+      <MaxFilesInUnityFile>5</MaxFilesInUnityFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration);;$(SolutionDir)lib\libzmq\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;ParagonHelper.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;fmod_vc.lib;behaviortree_cpp_v3d.lib;gmock_maind.lib;gmockd.lib;gtest_maind.lib;gtestd.lib;gainput-d.lib;libzmq-v143-mt-gd-4_3_5.lib;libzmq-v143-mt-sgd-4_3_5.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysX_64.dll $(OutDir)
+copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXCommon_64.dll $(OutDir)
+copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXFoundation_64.dll $(OutDir)
+copy $(SolutionDir)lib\fmod\$(PlatformTarget)\fmod.dll $(OutDir)
+copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\behaviortree_cpp_v3d.dll $(OutDir)
+copy $(SolutionDir)lib\libzmq\$(PlatformTarget)\$(Configuration)\libzmq-v143-mt-gd-4_3_5.dll $(OutDir)</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_EXPORT_ENGINE_DLL;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;_CRT_SECURE_NO_WARNINGS;NOMINMAX</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\physx;$(SolutionDir)include\Recast\Navigation;$(SolutionDir)include\libzmq</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
+      <MaxFilesInUnityFile>5</MaxFilesInUnityFile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\Recast\$(Configuration);$(SolutionDir)lib\libzmq\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;ParagonHelper.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;fmod_vc.lib;behaviortree_cpp_v3.lib;gmock.lib;gmock_main.lib;gtest.lib;gtest_main.lib;gainput.lib;libzmq-v143-mt-4_3_5.lib;libzmq-v143-mt-s-4_3_5.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysX_64.dll $(OutDir)
+copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXCommon_64.dll $(OutDir)
+copy $(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration)\PhysXFoundation_64.dll $(OutDir)
+copy $(SolutionDir)lib\fmod\$(PlatformTarget)\fmod.dll $(OutDir)
+copy $(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration)\behaviortree_cpp_v3.dll $(OutDir)
+copy $(SolutionDir)lib\libzmq\$(PlatformTarget)\$(Configuration)\libzmq-v143-mt-4_3_5.dll $(OutDir)</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\fastlz\fastlz.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DebugDraw.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DetourDebugDraw.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDebugDraw.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDump.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourCrowd.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourLocalBoundary.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourObstacleAvoidance.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathCorridor.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathQueue.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourProximityGrid.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCache.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCacheBuilder.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAlloc.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAssert.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourCommon.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourMath.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMesh.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshBuilder.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshQuery.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNode.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourStatus.h" />
+    <ClInclude Include="..\include\Recast\Navigation\RecastDemo\ChunkyTriMesh.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Recast\Recast.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Recast\RecastAlloc.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Recast\RecastAssert.h" />
+    <ClInclude Include="AISeight.h" />
+    <ClInclude Include="ArrowAction.h" />
+    <ClInclude Include="BehaviorTreeSystem.h" />
+    <ClInclude Include="BTTest.h" />
+    <ClInclude Include="DebugSystem.h" />
+    <ClInclude Include="DemoPlayerAction.h" />
+    <ClInclude Include="dummy_nodes.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EngineDLLExporter.h" />
+    <ClInclude Include="EngineMain.h" />
+    <ClInclude Include="EngineResourceManager.h" />
+    <ClInclude Include="EventSystem.h" />
+    <ClInclude Include="EventTest.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="MeshLoaderObj.h" />
+    <ClInclude Include="MonsterStrucr.h" />
+    <ClInclude Include="MovingTest.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="NavGeom.h" />
+    <ClInclude Include="Navigation.h" />
+    <ClInclude Include="NavigationSystem.h" />
+    <ClInclude Include="NavTest.h" />
+    <ClInclude Include="NavTestSecond.h" />
+    <ClInclude Include="ParagonRecast.h" />
+    <ClInclude Include="PgLayer.h" />
+    <ClInclude Include="PhysicsAllocator.h" />
+    <ClInclude Include="PhysicsCallback.h" />
+    <ClInclude Include="PhysicsErrorCallback.h" />
+    <ClInclude Include="DetectTriggers_PxQFC.h" />
+    <ClInclude Include="PhysicSystem.h" />
+    <ClInclude Include="PrintRuntimeData.h" />
+    <ClInclude Include="RayCastTest.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="SceneSystem.h" />
+    <ClInclude Include="ScreenPointTest.h" />
+    <ClInclude Include="SoundSystem.h" />
+    <ClInclude Include="TweenSystem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AISeight.cpp" />
+    <ClCompile Include="ArrowAction.cpp" />
+    <ClCompile Include="..\include\fastlz\fastlz.c" />
+    <ClCompile Include="BehaviorTreeSystem.cpp" />
+    <ClCompile Include="DebugSystem.cpp" />
+    <ClCompile Include="DemoPlayerAction.cpp" />
+    <ClCompile Include="dummy_nodes.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EngineMain.cpp" />
+    <ClCompile Include="EngineResourceManager.cpp" />
+    <ClCompile Include="EventSystem.cpp" />
+    <ClCompile Include="EventTest.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="MeshLoaderObj.cpp" />
+    <ClCompile Include="MovingTest.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="NavGeom.cpp" />
+    <ClCompile Include="Navigation.cpp" />
+    <ClCompile Include="NavigationSystem.cpp" />
+    <ClCompile Include="Navigation\DebugUtils\DebugDraw.cpp" />
+    <ClCompile Include="Navigation\DebugUtils\DetourDebugDraw.cpp" />
+    <ClCompile Include="Navigation\DebugUtils\RecastDebugDraw.cpp" />
+    <ClCompile Include="Navigation\DebugUtils\RecastDump.cpp" />
+    <ClCompile Include="Navigation\DetourCrowd\DetourCrowd.cpp" />
+    <ClCompile Include="Navigation\DetourCrowd\DetourLocalBoundary.cpp" />
+    <ClCompile Include="Navigation\DetourCrowd\DetourObstacleAvoidance.cpp" />
+    <ClCompile Include="Navigation\DetourCrowd\DetourPathCorridor.cpp" />
+    <ClCompile Include="Navigation\DetourCrowd\DetourPathQueue.cpp" />
+    <ClCompile Include="Navigation\DetourCrowd\DetourProximityGrid.cpp" />
+    <ClCompile Include="Navigation\DetourTileCache\DetourTileCache.cpp" />
+    <ClCompile Include="Navigation\DetourTileCache\DetourTileCacheBuilder.cpp" />
+    <ClCompile Include="Navigation\Detour\DetourAlloc.cpp" />
+    <ClCompile Include="Navigation\Detour\DetourAssert.cpp" />
+    <ClCompile Include="Navigation\Detour\DetourCommon.cpp" />
+    <ClCompile Include="Navigation\Detour\DetourNavMesh.cpp" />
+    <ClCompile Include="Navigation\Detour\DetourNavMeshBuilder.cpp" />
+    <ClCompile Include="Navigation\Detour\DetourNavMeshQuery.cpp" />
+    <ClCompile Include="Navigation\Detour\DetourNode.cpp" />
+    <ClCompile Include="Navigation\RecastDemo\ChunkyTriMesh.cpp" />
+    <ClCompile Include="Navigation\Recast\Recast.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastAlloc.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastArea.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastAssert.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastContour.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastFilter.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastLayers.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastMesh.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastMeshDetail.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastRasterization.cpp" />
+    <ClCompile Include="Navigation\Recast\RecastRegion.cpp" />
+    <ClCompile Include="NavTest.cpp" />
+    <ClCompile Include="NavTestSecond.cpp" />
+    <ClCompile Include="PgLayer.cpp" />
+    <ClCompile Include="PhysicsCallback.cpp" />
+    <ClCompile Include="PhysicSystem.cpp" />
+    <ClCompile Include="PrintRuntimeData.cpp" />
+    <ClCompile Include="RayCastTest.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="SceneSystem.cpp" />
+    <ClCompile Include="ScreenPointTest.cpp" />
+    <ClCompile Include="SoundSystem.cpp" />
+    <ClCompile Include="TweenSystem.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

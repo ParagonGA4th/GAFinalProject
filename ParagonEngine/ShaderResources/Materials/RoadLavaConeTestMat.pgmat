@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<PgMaterial>
+	<IsUseAlphaBlending>0</IsUseAlphaBlending>
+	<VertexShader>
+		<FileName>AppendObjectTestVS.cso</FileName>
+		<ConstantBuffer>
+			<BufferName>cbAppendsObjectVS</BufferName>
+			<ByteCount>16</ByteCount>
+			<RegisterCount>8</RegisterCount>
+			<VariableOrder>
+				<Case>toggleNoise</Case>
+			</VariableOrder>
+			<Variables>
+				<Case Name="toggleNoise" Type="bool" Size="4" StartOffset="0">
+					<x>0</x>
+				</Case>
+			</Variables>
+		</ConstantBuffer>
+		<Textures>
+			<VariableOrder />
+			<Variables />
+		</Textures>
+	</VertexShader>
+	<PixelShader>
+		<FileName>AppendObjectTestPS.cso</FileName>
+		<ConstantBuffer>
+			<BufferName>cbAppendsObject</BufferName>
+			<ByteCount>16</ByteCount>
+			<RegisterCount>8</RegisterCount>
+			<VariableOrder>
+				<Case>isOne</Case>
+			</VariableOrder>
+			<Variables>
+				<Case Name="isOne" Type="bool" Size="4" StartOffset="0">
+					<x>0</x>
+				</Case>
+			</Variables>
+		</ConstantBuffer>
+		<Textures>
+			<VariableOrder>
+				<Case>t2_DiffuseTexture</Case>
+				<Case>t2_DiffuseTexture2</Case>
+			</VariableOrder>
+			<Variables>
+				<Case Name="t2_DiffuseTexture" Type="Texture2D" ResourceReturnType="PG_RETURN_TYPE_FLOAT" RegisterCount="25" Value="road_1_diffuseOriginal.dds" />
+				<Case Name="t2_DiffuseTexture2" Type="Texture2D" ResourceReturnType="PG_RETURN_TYPE_FLOAT" RegisterCount="26" Value="lava_1_diffuseOriginal.dds" />
+			</Variables>
+		</Textures>
+	</PixelShader>
+</PgMaterial>

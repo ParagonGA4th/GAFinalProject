@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Log.cpp">
+      <Filter>1_Log</Filter>
+    </ClCompile>
+    <ClCompile Include="UtilMain.cpp">
+      <Filter>0_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>2_Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Tween.cpp">
+      <Filter>3_Tween\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="TweenTimer.cpp">
+      <Filter>3_Tween\TweenTimer</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeSystem.cpp">
+      <Filter>4_TimeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckInBox.cpp">
+      <Filter>6_CheckInBox</Filter>
+    </ClCompile>
+    <ClCompile Include="InstancingException.cpp">
+      <Filter>8_InstancingException</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Log.h">
+      <Filter>1_Log</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilMain.h">
+      <Filter>0_Main</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>2_Input</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilDLLExporter.h">
+      <Filter>0_Main\DLLExporter</Filter>
+    </ClInclude>
+    <ClInclude Include="Tween.h">
+      <Filter>3_Tween\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="EasingMode.h">
+      <Filter>3_Tween\eEasingMode</Filter>
+    </ClInclude>
+    <ClInclude Include="TweenTimer.h">
+      <Filter>3_Tween\TweenTimer</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeSystem.h">
+      <Filter>4_TimeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="IResettable.h">
+      <Filter>5_Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckInBox.h">
+      <Filter>6_CheckInBox</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomAssert.h">
+      <Filter>7_CustomAssert</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancingException.h">
+      <Filter>8_InstancingException</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="0_Main">
+      <UniqueIdentifier>{7dcb6fc4-8d93-4143-8e69-49765f90ffa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Log">
+      <UniqueIdentifier>{37d8d201-062b-4e60-8cfd-2746348f124b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\DLLExporter">
+      <UniqueIdentifier>{42d99310-7ada-4718-835b-8d721e6c1f51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Input">
+      <UniqueIdentifier>{9f799264-5035-42e0-abe1-25693e2258c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Tween">
+      <UniqueIdentifier>{b101049f-aa93-4af5-8902-82a79bc8cc75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Tween\Instance">
+      <UniqueIdentifier>{2c913d93-aba3-40ae-8e67-64fb0935cb37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Tween\eEasingMode">
+      <UniqueIdentifier>{74a38206-8116-4383-a8b9-a4539765e3ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Tween\TweenTimer">
+      <UniqueIdentifier>{5304ecb1-e833-48dc-8f11-70a874e2bc4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_TimeSystem">
+      <UniqueIdentifier>{318fd7da-a003-46b1-98cc-e5fba8bf1baa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Interfaces">
+      <UniqueIdentifier>{ce401f8c-bb23-48c7-a7c6-5d69120d27e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_CheckInBox">
+      <UniqueIdentifier>{d7ef559f-24cf-4d70-b68a-f099fbb236fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="7_CustomAssert">
+      <UniqueIdentifier>{9971c8c1-f960-4a44-aaf7-cb25eb41d1cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_InstancingException">
+      <UniqueIdentifier>{bf2fd038-808a-439e-ac94-029c11efce49}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

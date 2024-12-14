@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="0_PgMath">
+      <UniqueIdentifier>{a5d1b0c8-6b43-4297-8001-d31a0c15573e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_HandmadeMath">
+      <UniqueIdentifier>{6151e8cb-cca8-4cee-b746-0d65e07fc333}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PgMath.h">
+      <Filter>0_PgMath</Filter>
+    </ClInclude>
+    <ClInclude Include="HandmadeMath.h">
+      <Filter>1_HandmadeMath</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PgMath.cpp">
+      <Filter>0_PgMath</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

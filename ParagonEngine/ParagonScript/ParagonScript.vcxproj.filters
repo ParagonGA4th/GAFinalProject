@@ -1,0 +1,1011 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="PlayerMove">
+      <UniqueIdentifier>{3b3d32f2-0726-45ec-9098-cb1669f8990d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EventTest">
+      <UniqueIdentifier>{21ea2018-edb4-4732-9965-50cd5f75b003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RayCastTest">
+      <UniqueIdentifier>{1fb7514c-5cfa-4514-82ab-bfd52144e937}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Factory">
+      <UniqueIdentifier>{73e23ad8-e0ab-4252-8e9c-896ea732a5ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_BaseClass">
+      <UniqueIdentifier>{70ddfed8-cbb9-437f-801f-ea992bf132b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoundTest">
+      <UniqueIdentifier>{a1a6b945-4cd4-42b0-bd0e-d8971d330898}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_BaseClass\ScriptInterface">
+      <UniqueIdentifier>{e619930e-65f8-4488-8ab2-0c39dca1fabd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_BaseClass\ParagonScriptList">
+      <UniqueIdentifier>{9c0b6d1c-0ad3-4940-8e52-95a9ebf81b5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content">
+      <UniqueIdentifier>{09670d3c-a87a-4f81-b154-42cb1b745625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\InGameCameraBehavior">
+      <UniqueIdentifier>{00365054-e5bc-4e48-a164-ce50d6ec82fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\CameraShake">
+      <UniqueIdentifier>{705983d2-43e3-4d82-9858-84f39cbb8b4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\ArrowShooterBehavior">
+      <UniqueIdentifier>{d7b2144c-23a2-4494-8783-36a43df1d931}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\ComboSystem">
+      <UniqueIdentifier>{98345f97-48e6-4681-94f4-95356979c0c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Testing">
+      <UniqueIdentifier>{daa6dc03-7e54-4e67-be4b-29d4fd3b9f6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Testing\TweenTest">
+      <UniqueIdentifier>{441c9016-b767-45df-bc76-f201dfdb2f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Events">
+      <UniqueIdentifier>{f052efad-21c6-40f5-8120-2698a91046ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Events\Interface">
+      <UniqueIdentifier>{e6a55af9-4bf3-4dc2-b598-aebfb1d53dbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Events\Helper">
+      <UniqueIdentifier>{52f11182-1aad-49f6-a208-526ca6e14f3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Interfaces">
+      <UniqueIdentifier>{dffc01e4-4135-4508-ab76-7ad67dc1e127}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI">
+      <UniqueIdentifier>{2a33d26a-8b1c-4a23-90b6-5736ca3f8fb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Enemy">
+      <UniqueIdentifier>{2dc765a3-4f3c-4717-84fc-0b0998b9f0c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Sight">
+      <UniqueIdentifier>{03ba09e1-06e2-47e2-9f42-23c36a8882de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Monsters">
+      <UniqueIdentifier>{edb23876-4786-4ab4-b00f-a03b96160354}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Monsters\BaseClass">
+      <UniqueIdentifier>{14911ae1-0442-4259-9ecb-107ce694e21e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\SoundManager">
+      <UniqueIdentifier>{9935366b-e361-48a7-b2d1-dc6fa30df9bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{2f378b17-dc89-4569-9ad7-9dab4c02e4f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\TitleUI">
+      <UniqueIdentifier>{69d0fb7e-3346-49e4-bd17-55d415bd810a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\TitleUI\ExitButton">
+      <UniqueIdentifier>{2e9ce200-f71c-498a-a247-c2c66abe2f73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\TitleUI\StartButton">
+      <UniqueIdentifier>{550784fb-5d14-42e2-892a-856d21fa413d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\TitleUI\TitleScene">
+      <UniqueIdentifier>{1af70350-7504-4fbb-a849-cebc3788912e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InGameUI">
+      <UniqueIdentifier>{a886122b-6899-4db5-ad61-7827470c1de5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InGameUI\PauseUI">
+      <UniqueIdentifier>{08be141c-74f4-470c-a6da-1f0b8889e568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\NavAgent">
+      <UniqueIdentifier>{3184d62b-1880-4091-a223-25739402b05f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\EnemyInfo">
+      <UniqueIdentifier>{dbdee456-564f-4bee-befc-fbf8b1d2ddc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Boss">
+      <UniqueIdentifier>{67bd7eaa-7313-4c7d-b55e-a4649f88b0c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Attack">
+      <UniqueIdentifier>{cba2ea9e-7f83-4867-a7c7-b57f7efcd8bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\EnemyInfo\MiniGolem">
+      <UniqueIdentifier>{ec1dc7bf-8ce7-4f5b-b004-6b445c42d6e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\EnemyInfo\Stub">
+      <UniqueIdentifier>{2e8e4384-ad5c-4c0d-987b-6699f630c74e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\EnemyInfo\Mimic">
+      <UniqueIdentifier>{b54bb917-2e19-402b-a4f8-d8ca013ee37c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Enemy\MiniGolem">
+      <UniqueIdentifier>{24ea530f-7241-4cd1-92c9-6f46eabe06c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Enemy\Mimic">
+      <UniqueIdentifier>{5e67b585-1e53-4bd7-86b3-6b7fc29d98ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Enemy\Stub">
+      <UniqueIdentifier>{8b751b6b-4ed3-4673-a8f9-12e796720ac9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Enemy\Interface">
+      <UniqueIdentifier>{d238558f-6eef-4768-902e-b372e028f1bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\GlobalManagers">
+      <UniqueIdentifier>{8c15a17b-360c-462a-a5cf-b1ac5b7b63db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\GlobalManagers\0_TotalGameManager">
+      <UniqueIdentifier>{91c521fc-a6c6-4fc8-9db1-030622a1024f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\GlobalManagers\1_InGameManager">
+      <UniqueIdentifier>{8566bef1-7541-4928-a706-a317217ab1a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\EnemyInfo\Boss">
+      <UniqueIdentifier>{840a7ac2-8f22-4dfe-8bd2-5144b34be6f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Interfaces\Handlers">
+      <UniqueIdentifier>{f775b516-3909-4935-8fb3-7513ff737f62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers">
+      <UniqueIdentifier>{62cb5073-4145-451b-8e0d-7df434532e32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\0_TitleScene_2D">
+      <UniqueIdentifier>{fad9de3d-a3fe-4702-b55c-9d2bb8740314}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\0_TitleScene_2D\TitleSceneGUIHandler">
+      <UniqueIdentifier>{747177f0-6d15-4a45-a153-353ac1ab65f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\1_Stage1Scene_3D">
+      <UniqueIdentifier>{cf2e71cf-e60d-434d-a8a7-176cdaba88f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\1_Stage1Scene_3D\Stage1GUIHandler">
+      <UniqueIdentifier>{4f874d09-6111-4e31-a9ca-f55400ac06c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\1_Stage1Scene_3D\Stage1EnemyHandler">
+      <UniqueIdentifier>{0a2ae12f-9309-4957-ad3d-53349e3a93c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\1_Stage1Scene_3D\Stage1AreaHandler">
+      <UniqueIdentifier>{01fad013-7b01-4c52-b363-1fd43e7075c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\2_Stage2Scene_3D">
+      <UniqueIdentifier>{d29fb24f-775d-4533-98ed-2b4896011dbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\2_Stage2Scene_3D\Stage2AreaHandler">
+      <UniqueIdentifier>{c1057dfb-0155-4e68-ae7b-40caf62f44a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\2_Stage2Scene_3D\Stage2EnemyHandler">
+      <UniqueIdentifier>{118de6fd-4bc0-4ddf-b5df-c1062f5b67c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\2_Stage2Scene_3D\Stage2GUIHandler">
+      <UniqueIdentifier>{7c1949d6-2708-494f-9b11-56651658756c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\3_BossStage_3D">
+      <UniqueIdentifier>{558cf089-508e-4446-923c-86fef33d5fcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\3_BossStage_3D\BossStageAreaHandler">
+      <UniqueIdentifier>{beedc513-1ede-4df8-9300-10786a3c0a39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\3_BossStage_3D\BossStageEnemyHandler">
+      <UniqueIdentifier>{ece70eff-715d-4890-ad06-a1c6a517d91e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\3_BossStage_3D\BossStageGUIHandler">
+      <UniqueIdentifier>{f24f1ee4-cb05-450a-a0a0-6d87d23e116c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\6_CreditsScene_2D">
+      <UniqueIdentifier>{9df79145-790b-4bf1-86b6-358322f51198}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\6_CreditsScene_2D\CreditsSceneGUIHandler">
+      <UniqueIdentifier>{37dab18b-11e4-45d2-ac2d-126f1a5654bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\0_Structs">
+      <UniqueIdentifier>{09410f86-394f-4aec-ab9c-0c2bec2940f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Interfaces\Managers">
+      <UniqueIdentifier>{af6cab41-24dc-4892-9fa5-ee117586680f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Interfaces\Instances">
+      <UniqueIdentifier>{33c90195-37b4-4c7c-9ec0-73aab4213631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Interfaces\Instances\IMovableObject">
+      <UniqueIdentifier>{e06291f5-2cb3-43ec-9272-498e6a0256f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\PlayerHandler">
+      <UniqueIdentifier>{d3746401-48fd-4da7-92cf-3b0ce8192645}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\PlayerHandler\PlayerMovementSector">
+      <UniqueIdentifier>{19bb1c3e-51c7-4473-9cd1-062d0f6ab47f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\PlayerHandler\PlayerBattleSector">
+      <UniqueIdentifier>{6cfebe80-2f9a-45d0-8415-6e89ba4b25f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\GlobalManagers\2_CombatSystem">
+      <UniqueIdentifier>{0d92025d-62f4-4201-af39-9d103af5fbce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\EventRelated">
+      <UniqueIdentifier>{1c94f4da-23b6-42ea-aa5e-589edaa81ef3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Attack\MiniGolemAttack">
+      <UniqueIdentifier>{b4243350-77fb-49e4-993e-4a05bc52a4ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Attack\TrentAttack">
+      <UniqueIdentifier>{532d9e89-8112-4b1d-abcf-485445959561}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Attack\MimicAttack">
+      <UniqueIdentifier>{b954f578-f946-4bb9-b254-32ed10ae328a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Attack\BossAttack">
+      <UniqueIdentifier>{39832d48-da90-4559-a886-a52949bd7d0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\GlobalManagers\3_GlobalSoundManager">
+      <UniqueIdentifier>{0ece6805-e22e-4d8e-bd15-f1e4994b48a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Interfaces\Instances\ISingleGUI">
+      <UniqueIdentifier>{39f52471-3438-4c7c-b8a8-8cd34fa94aee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InGameUI\GUI_PercentageFillBar">
+      <UniqueIdentifier>{31a91f8e-2a1f-417f-83aa-5af898ef59ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Interfaces\Handlers\BaseEnemyHandler">
+      <UniqueIdentifier>{3119a707-937b-42b7-aa18-560d1dd3af7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Interfaces\Handlers\BaseAreaHandler">
+      <UniqueIdentifier>{26639ca5-0d20-4a10-a8d6-c459bf38b7cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Interfaces\Handlers\BaseGUIHandler">
+      <UniqueIdentifier>{c6863133-1607-418b-a08f-61294da8edf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Interfaces\Instances\IConfinedArea">
+      <UniqueIdentifier>{425438f8-7b40-4fe4-80ee-5b2c9356d425}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\SortingLayer">
+      <UniqueIdentifier>{3ed7b03f-8241-4f02-91e6-f8a85898641c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\EnemyInfo\Wasp">
+      <UniqueIdentifier>{d0f30d1a-f33a-4b8b-8d58-000ddf395817}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Enemy\Wasp">
+      <UniqueIdentifier>{fe1e0277-27c5-4d3b-a7bd-441e893610e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Attack\WaspAttack">
+      <UniqueIdentifier>{e57b1e17-9b4f-4394-9b01-2e678b835c44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Testing\AddEffectorTest">
+      <UniqueIdentifier>{f7862d36-36ff-4d16-9032-10061dcb2af1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Enemy\GolemBoss">
+      <UniqueIdentifier>{d185f15b-76f0-4421-8a06-02b5b0197b31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\EnemyInfo\GolemBoss">
+      <UniqueIdentifier>{e8eb1a05-c00f-4f9b-878c-034f92f6301a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Attack\GolemBossAttack">
+      <UniqueIdentifier>{b628ca7b-1d5e-438c-94bc-ef9b5e9fd196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick">
+      <UniqueIdentifier>{60dacf1e-8333-49a9-bd45-d23cb8c39d7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\Battle Area">
+      <UniqueIdentifier>{8ced682f-fa91-41f6-8307-505b7e436271}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\Trap Area">
+      <UniqueIdentifier>{97fbc82b-eb64-4f85-ac1e-ec7b60f4df45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\Portal">
+      <UniqueIdentifier>{b67c5cbe-562c-4b9a-ae33-35d1852b0d4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\DeathPlane">
+      <UniqueIdentifier>{a073b386-69ef-4b06-921a-11712a7065a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\AreaPassingTrigger">
+      <UniqueIdentifier>{0a1133bd-c23c-4556-8591-cd44ff7eebef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\MushroomTrampoline">
+      <UniqueIdentifier>{79ce7a04-4d48-406b-8859-89edca463784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\Stair">
+      <UniqueIdentifier>{93222ae7-33c5-42e2-bf74-ed50995412b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\ArrowRelated">
+      <UniqueIdentifier>{7920b905-0ce0-484f-8770-6fae0971d254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\ArrowRelated\ArrowLogic">
+      <UniqueIdentifier>{92bf8d9e-c566-4aa7-a2db-c8c78cef92c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\ArtifactBox">
+      <UniqueIdentifier>{71c13a6b-8508-4a31-a9a1-cb71e9334b8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\ArtifactBoxAnim">
+      <UniqueIdentifier>{e00c24cb-a2e1-4a70-af66-8ddbc1e5fa7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\PlayerHandler\Enums">
+      <UniqueIdentifier>{88093d94-f5cc-4f84-af7a-3c7245bb2f67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\Bridge">
+      <UniqueIdentifier>{5dfddef5-e57a-4372-8002-267236837114}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InGameUI\GUI_CoolDownWhiteFill">
+      <UniqueIdentifier>{d1e02cd3-8e84-4a8c-841f-19baad89f746}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Gimmick\Grating">
+      <UniqueIdentifier>{8d42b782-e87a-416a-8310-bb07f7ba58f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InGameUI\GUI_StrongAttackStatus">
+      <UniqueIdentifier>{0ee32af1-a022-4866-8d2e-61ee4383dc1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InGameUI\HealthBarUI">
+      <UniqueIdentifier>{7970dbb7-4ef3-4a6f-951d-84656daf5edc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\7_GameOverScene_2D">
+      <UniqueIdentifier>{9b24f0f9-03dc-4ea9-b823-537d2217c2f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\1_ConcreteHandlers\7_GameOverScene_2D\GameOverSceneGUIHandler">
+      <UniqueIdentifier>{fa97309a-f0d7-4790-8ee0-bdbafed8cb9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\TitleUI\Tutorial">
+      <UniqueIdentifier>{187aa5fe-828e-40bd-af05-a1851852d489}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\ItemApple">
+      <UniqueIdentifier>{e07ddc1b-008a-41ae-b4f6-554d9c58179f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\ItemApple\ItemGoldenApple">
+      <UniqueIdentifier>{e228d532-d507-45be-8ee6-d246b089e7e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\ItemApple\ItemNormalApple">
+      <UniqueIdentifier>{aecfd5d6-0807-4c93-97bb-287e8193d616}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PlayerMove.cpp">
+      <Filter>PlayerMove</Filter>
+    </ClCompile>
+    <ClCompile Include="EventTest.cpp">
+      <Filter>EventTest</Filter>
+    </ClCompile>
+    <ClCompile Include="RayCastTest.cpp">
+      <Filter>RayCastTest</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>1_BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundTest.cpp">
+      <Filter>SoundTest</Filter>
+    </ClCompile>
+    <ClCompile Include="FactoryHelper.cpp">
+      <Filter>0_Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="ComboSystem.cpp">
+      <Filter>Content\ComboSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameCameraBehavior.cpp">
+      <Filter>Content\InGameCameraBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraShake.cpp">
+      <Filter>Content\CameraShake</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrowShooterBehavior.cpp">
+      <Filter>Content\ArrowShooterBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrowLogic.cpp">
+      <Filter>Content\ArrowRelated\ArrowLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleArea.cpp">
+      <Filter>Content\Gimmick\Battle Area</Filter>
+    </ClCompile>
+    <ClCompile Include="TrapArea.cpp">
+      <Filter>Content\Gimmick\Trap Area</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\PlayerHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBehaviour.cpp">
+      <Filter>AI\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySight.cpp">
+      <Filter>AI\Sight</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Content\Gimmick\Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseMonster.cpp">
+      <Filter>Content\Monsters\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="TotalGameManager.cpp">
+      <Filter>Content\GlobalManagers\0_TotalGameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Content\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>UI\TitleUI\TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="StartButton.cpp">
+      <Filter>UI\TitleUI\StartButton</Filter>
+    </ClCompile>
+    <ClCompile Include="ExitButton.cpp">
+      <Filter>UI\TitleUI\ExitButton</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseBox.cpp">
+      <Filter>UI\InGameUI\PauseUI</Filter>
+    </ClCompile>
+    <ClCompile Include="NavAgent.cpp">
+      <Filter>AI\NavAgent</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBehaviour.cpp">
+      <Filter>AI\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAttack.cpp">
+      <Filter>AI\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniGolemInfo.cpp">
+      <Filter>AI\EnemyInfo\MiniGolem</Filter>
+    </ClCompile>
+    <ClCompile Include="MimicInfo.cpp">
+      <Filter>AI\EnemyInfo\Mimic</Filter>
+    </ClCompile>
+    <ClCompile Include="StubInfo.cpp">
+      <Filter>AI\EnemyInfo\Stub</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniGolemBehaviour.cpp">
+      <Filter>AI\Enemy\MiniGolem</Filter>
+    </ClCompile>
+    <ClCompile Include="StubBehaviour.cpp">
+      <Filter>AI\Enemy\Stub</Filter>
+    </ClCompile>
+    <ClCompile Include="MimicBehaviour.cpp">
+      <Filter>AI\Enemy\Mimic</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameManager.cpp">
+      <Filter>Content\GlobalManagers\1_InGameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="BossInfo.cpp">
+      <Filter>AI\EnemyInfo\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditsSceneGUIHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\6_CreditsScene_2D\CreditsSceneGUIHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleSceneGUIHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\0_TitleScene_2D\TitleSceneGUIHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1GUIHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\1_Stage1Scene_3D\Stage1GUIHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1EnemyHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\1_Stage1Scene_3D\Stage1EnemyHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1AreaHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\1_Stage1Scene_3D\Stage1AreaHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2AreaHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\2_Stage2Scene_3D\Stage2AreaHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2EnemyHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\2_Stage2Scene_3D\Stage2EnemyHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2GUIHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\2_Stage2Scene_3D\Stage2GUIHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStageAreaHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\3_BossStage_3D\BossStageAreaHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStageEnemyHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\3_BossStage_3D\BossStageEnemyHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStageGUIHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\3_BossStage_3D\BossStageGUIHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniGolemAttack.cpp">
+      <Filter>AI\Attack\MiniGolemAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="MimicAttack.cpp">
+      <Filter>AI\Attack\MimicAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="TrentAttack.cpp">
+      <Filter>AI\Attack\TrentAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMovementSector.cpp">
+      <Filter>Content\1_ConcreteHandlers\PlayerHandler\PlayerMovementSector</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCombatSector.cpp">
+      <Filter>Content\1_ConcreteHandlers\PlayerHandler\PlayerBattleSector</Filter>
+    </ClCompile>
+    <ClCompile Include="CombatSystem.cpp">
+      <Filter>Content\GlobalManagers\2_CombatSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalSoundManager.cpp">
+      <Filter>Content\GlobalManagers\3_GlobalSoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="BossAttack.cpp">
+      <Filter>AI\Attack\BossAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaPassingTrigger.cpp">
+      <Filter>Content\Gimmick\AreaPassingTrigger</Filter>
+    </ClCompile>
+    <ClCompile Include="DeathPlane.cpp">
+      <Filter>Content\Gimmick\DeathPlane</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_PercentageFillBar.cpp">
+      <Filter>UI\InGameUI\GUI_PercentageFillBar</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseEnemyHandler.cpp">
+      <Filter>3_Interfaces\Handlers\BaseEnemyHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseAreaHandler.cpp">
+      <Filter>3_Interfaces\Handlers\BaseAreaHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseGUIHandler.cpp">
+      <Filter>3_Interfaces\Handlers\BaseGUIHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="SetInGameSortingLayer.cpp">
+      <Filter>UI\SortingLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="WaspBehaviour.cpp">
+      <Filter>AI\Enemy\Wasp</Filter>
+    </ClCompile>
+    <ClCompile Include="WaspInfo.cpp">
+      <Filter>AI\EnemyInfo\Wasp</Filter>
+    </ClCompile>
+    <ClCompile Include="MimicSkillAttack.cpp">
+      <Filter>AI\Attack\MimicAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="WaspAttack.cpp">
+      <Filter>AI\Attack\WaspAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="WaspSkillAttack.cpp">
+      <Filter>AI\Attack\WaspAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="AddEffectorTest.cpp">
+      <Filter>Testing\AddEffectorTest</Filter>
+    </ClCompile>
+    <ClCompile Include="WindBlastAttack.cpp">
+      <Filter>AI\Attack\BossAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="LightSkillAttack.cpp">
+      <Filter>AI\Attack\BossAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="GolemBossBehaviour.cpp">
+      <Filter>AI\Enemy\GolemBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="GolemBossInfo.cpp">
+      <Filter>AI\EnemyInfo\GolemBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="GolemBossAttack.cpp">
+      <Filter>AI\Attack\GolemBossAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="GolemBossSkillAttack.cpp">
+      <Filter>AI\Attack\GolemBossAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="MimicActive.cpp">
+      <Filter>AI\Enemy\Mimic</Filter>
+    </ClCompile>
+    <ClCompile Include="TakeDownAttack.cpp">
+      <Filter>AI\Attack\BossAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="MushroomTrampoline.cpp">
+      <Filter>Content\Gimmick\MushroomTrampoline</Filter>
+    </ClCompile>
+    <ClCompile Include="Stair.cpp">
+      <Filter>Content\Gimmick\Stair</Filter>
+    </ClCompile>
+    <ClCompile Include="ArtifactBox.cpp">
+      <Filter>Content\Gimmick\ArtifactBox</Filter>
+    </ClCompile>
+    <ClCompile Include="ArtifactBoxAnim.cpp">
+      <Filter>Content\Gimmick\ArtifactBoxAnim</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1_Bridge.cpp">
+      <Filter>Content\Gimmick\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="UltimateArrowLogic.cpp">
+      <Filter>Content\ArrowRelated\ArrowLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_CoolDownWhiteFill.cpp">
+      <Filter>UI\InGameUI\GUI_CoolDownWhiteFill</Filter>
+    </ClCompile>
+    <ClCompile Include="StrongAttackLogic.cpp">
+      <Filter>Content\ArrowRelated\ArrowLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="TrentSkillAttack.cpp">
+      <Filter>AI\Attack\TrentAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="BridgeHelper.cpp">
+      <Filter>Content\Gimmick\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2_Bridge.cpp">
+      <Filter>Content\Gimmick\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseOptionBox.cpp">
+      <Filter>UI\InGameUI\PauseUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_StrongAttackStatus.cpp">
+      <Filter>UI\InGameUI\GUI_StrongAttackStatus</Filter>
+    </ClCompile>
+    <ClCompile Include="GolemBossHealthBar.cpp">
+      <Filter>UI\InGameUI\HealthBarUI</Filter>
+    </ClCompile>
+    <ClCompile Include="BossHealthBarUI.cpp">
+      <Filter>UI\InGameUI\HealthBarUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverSceneGUIHandler.cpp">
+      <Filter>Content\1_ConcreteHandlers\7_GameOverScene_2D\GameOverSceneGUIHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleTutorial.cpp">
+      <Filter>UI\TitleUI\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="Grating_1.cpp">
+      <Filter>Content\Gimmick\Grating</Filter>
+    </ClCompile>
+    <ClCompile Include="Grating_2.cpp">
+      <Filter>Content\Gimmick\Grating</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemGoldenApple.cpp">
+      <Filter>Content\ItemApple\ItemGoldenApple</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemNormalApple.cpp">
+      <Filter>Content\ItemApple\ItemNormalApple</Filter>
+    </ClCompile>
+    <ClCompile Include="StairHelper.cpp">
+      <Filter>Content\Gimmick\Stair</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PlayerMove.h">
+      <Filter>PlayerMove</Filter>
+    </ClInclude>
+    <ClInclude Include="EventTest.h">
+      <Filter>EventTest</Filter>
+    </ClInclude>
+    <ClInclude Include="RayCastTest.h">
+      <Filter>RayCastTest</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>1_BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundTest.h">
+      <Filter>SoundTest</Filter>
+    </ClInclude>
+    <ClInclude Include="FactoryHelper.h">
+      <Filter>0_Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptInterface.h">
+      <Filter>1_BaseClass\ScriptInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="ParagonScriptList.h">
+      <Filter>1_BaseClass\ParagonScriptList</Filter>
+    </ClInclude>
+    <ClInclude Include="ComboSystem.h">
+      <Filter>Content\ComboSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameCameraBehavior.h">
+      <Filter>Content\InGameCameraBehavior</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraShake.h">
+      <Filter>Content\CameraShake</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrowShooterBehavior.h">
+      <Filter>Content\ArrowShooterBehavior</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrowLogic.h">
+      <Filter>Content\ArrowRelated\ArrowLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleArea.h">
+      <Filter>Content\Gimmick\Battle Area</Filter>
+    </ClInclude>
+    <ClInclude Include="TrapArea.h">
+      <Filter>Content\Gimmick\Trap Area</Filter>
+    </ClInclude>
+    <ClInclude Include="IEvent.h">
+      <Filter>2_Events\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IObserver.h">
+      <Filter>2_Events\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptEventHelper.h">
+      <Filter>2_Events\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHandler.h">
+      <Filter>Content\1_ConcreteHandlers\PlayerHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="EventList_PlayerRelated.h">
+      <Filter>Content\EventRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="IScriptResettable.h">
+      <Filter>3_Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="EventList_GameFlowRelated.h">
+      <Filter>Content\EventRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="EventList_EnemyRelated.h">
+      <Filter>Content\EventRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBehaviour.h">
+      <Filter>AI\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySight.h">
+      <Filter>AI\Sight</Filter>
+    </ClInclude>
+    <ClInclude Include="EventList_CameraRelated.h">
+      <Filter>Content\EventRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Content\Gimmick\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseMonster.h">
+      <Filter>Content\Monsters\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="TotalGameManager.h">
+      <Filter>Content\GlobalManagers\0_TotalGameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>2_Events\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Content\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>UI\TitleUI\TitleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="StartButton.h">
+      <Filter>UI\TitleUI\StartButton</Filter>
+    </ClInclude>
+    <ClInclude Include="ExitButton.h">
+      <Filter>UI\TitleUI\ExitButton</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseBox.h">
+      <Filter>UI\InGameUI\PauseUI</Filter>
+    </ClInclude>
+    <ClInclude Include="NavAgent.h">
+      <Filter>AI\NavAgent</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyInfo.h">
+      <Filter>AI\EnemyInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBehaviour.h">
+      <Filter>AI\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttack.h">
+      <Filter>AI\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniGolemInfo.h">
+      <Filter>AI\EnemyInfo\MiniGolem</Filter>
+    </ClInclude>
+    <ClInclude Include="MimicInfo.h">
+      <Filter>AI\EnemyInfo\Mimic</Filter>
+    </ClInclude>
+    <ClInclude Include="StubInfo.h">
+      <Filter>AI\EnemyInfo\Stub</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniGolemBehaviour.h">
+      <Filter>AI\Enemy\MiniGolem</Filter>
+    </ClInclude>
+    <ClInclude Include="IEnemyBehaviour.h">
+      <Filter>AI\Enemy\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="StubBehaviour.h">
+      <Filter>AI\Enemy\Stub</Filter>
+    </ClInclude>
+    <ClInclude Include="MimicBehaviour.h">
+      <Filter>AI\Enemy\Mimic</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameManager.h">
+      <Filter>Content\GlobalManagers\1_InGameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BossInfo.h">
+      <Filter>AI\EnemyInfo\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseAreaHandler.h">
+      <Filter>3_Interfaces\Handlers\BaseAreaHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseEnemyHandler.h">
+      <Filter>3_Interfaces\Handlers\BaseEnemyHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseGUIHandler.h">
+      <Filter>3_Interfaces\Handlers\BaseGUIHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditsSceneGUIHandler.h">
+      <Filter>Content\1_ConcreteHandlers\6_CreditsScene_2D\CreditsSceneGUIHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleSceneGUIHandler.h">
+      <Filter>Content\1_ConcreteHandlers\0_TitleScene_2D\TitleSceneGUIHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1GUIHandler.h">
+      <Filter>Content\1_ConcreteHandlers\1_Stage1Scene_3D\Stage1GUIHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1EnemyHandler.h">
+      <Filter>Content\1_ConcreteHandlers\1_Stage1Scene_3D\Stage1EnemyHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1AreaHandler.h">
+      <Filter>Content\1_ConcreteHandlers\1_Stage1Scene_3D\Stage1AreaHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2AreaHandler.h">
+      <Filter>Content\1_ConcreteHandlers\2_Stage2Scene_3D\Stage2AreaHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2EnemyHandler.h">
+      <Filter>Content\1_ConcreteHandlers\2_Stage2Scene_3D\Stage2EnemyHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2GUIHandler.h">
+      <Filter>Content\1_ConcreteHandlers\2_Stage2Scene_3D\Stage2GUIHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStageAreaHandler.h">
+      <Filter>Content\1_ConcreteHandlers\3_BossStage_3D\BossStageAreaHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStageEnemyHandler.h">
+      <Filter>Content\1_ConcreteHandlers\3_BossStage_3D\BossStageEnemyHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStageGUIHandler.h">
+      <Filter>Content\1_ConcreteHandlers\3_BossStage_3D\BossStageGUIHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="HandleBundle3D.h">
+      <Filter>Content\0_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDefinesAndStructs.h">
+      <Filter>Content\0_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformSimpleStorage.h">
+      <Filter>Content\0_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="IMovableObject.h">
+      <Filter>3_Interfaces\Instances\IMovableObject</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingObjectDefinesAndStructs.h">
+      <Filter>Content\0_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIDefinesAndStructs.h">
+      <Filter>Content\0_Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniGolemAttack.h">
+      <Filter>AI\Attack\MiniGolemAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="MimicAttack.h">
+      <Filter>AI\Attack\MimicAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="TrentAttack.h">
+      <Filter>AI\Attack\TrentAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMovementSector.h">
+      <Filter>Content\1_ConcreteHandlers\PlayerHandler\PlayerMovementSector</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCombatSector.h">
+      <Filter>Content\1_ConcreteHandlers\PlayerHandler\PlayerBattleSector</Filter>
+    </ClInclude>
+    <ClInclude Include="IProjectile.h">
+      <Filter>3_Interfaces\Instances</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatSystem.h">
+      <Filter>Content\GlobalManagers\2_CombatSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalSoundManager.h">
+      <Filter>Content\GlobalManagers\3_GlobalSoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BossAttack.h">
+      <Filter>AI\Attack\BossAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="ISingleGUI.h">
+      <Filter>3_Interfaces\Instances\ISingleGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaPassingTrigger.h">
+      <Filter>Content\Gimmick\AreaPassingTrigger</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathPlane.h">
+      <Filter>Content\Gimmick\DeathPlane</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_PercentageFillBar.h">
+      <Filter>UI\InGameUI\GUI_PercentageFillBar</Filter>
+    </ClInclude>
+    <ClInclude Include="IConfinedArea.h">
+      <Filter>3_Interfaces\Instances\IConfinedArea</Filter>
+    </ClInclude>
+    <ClInclude Include="SetInGameSortingLayer.h">
+      <Filter>UI\SortingLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="WaspBehaviour.h">
+      <Filter>AI\Enemy\Wasp</Filter>
+    </ClInclude>
+    <ClInclude Include="WaspInfo.h">
+      <Filter>AI\EnemyInfo\Wasp</Filter>
+    </ClInclude>
+    <ClInclude Include="MimicSkillAttack.h">
+      <Filter>AI\Attack\MimicAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="WaspAttack.h">
+      <Filter>AI\Attack\WaspAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="WaspSkillAttack.h">
+      <Filter>AI\Attack\WaspAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="AddEffectorTest.h">
+      <Filter>Testing\AddEffectorTest</Filter>
+    </ClInclude>
+    <ClInclude Include="WindBlastAttack.h">
+      <Filter>AI\Attack\BossAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="LightSkillAttack.h">
+      <Filter>AI\Attack\BossAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="GolemBossBehaviour.h">
+      <Filter>AI\Enemy\GolemBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="GolemBossInfo.h">
+      <Filter>AI\EnemyInfo\GolemBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="GolemBossSkillAttack.h">
+      <Filter>AI\Attack\GolemBossAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="GolemBossAttack.h">
+      <Filter>AI\Attack\GolemBossAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="MimicActive.h">
+      <Filter>AI\Enemy\Mimic</Filter>
+    </ClInclude>
+    <ClInclude Include="TakeDownAttack.h">
+      <Filter>AI\Attack\BossAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="MushroomTrampoline.h">
+      <Filter>Content\Gimmick\MushroomTrampoline</Filter>
+    </ClInclude>
+    <ClInclude Include="Stair.h">
+      <Filter>Content\Gimmick\Stair</Filter>
+    </ClInclude>
+    <ClInclude Include="ArtifactBox.h">
+      <Filter>Content\Gimmick\ArtifactBox</Filter>
+    </ClInclude>
+    <ClInclude Include="ArtifactBoxAnim.h">
+      <Filter>Content\Gimmick\ArtifactBoxAnim</Filter>
+    </ClInclude>
+    <ClInclude Include="PartialAttackType.h">
+      <Filter>Content\1_ConcreteHandlers\PlayerHandler\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1_Bridge.h">
+      <Filter>Content\Gimmick\Bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="UltimateArrowLogic.h">
+      <Filter>Content\ArrowRelated\ArrowLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="TrentSkillAttack.h">
+      <Filter>AI\Attack\TrentAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_CoolDownWhiteFill.h">
+      <Filter>UI\InGameUI\GUI_CoolDownWhiteFill</Filter>
+    </ClInclude>
+    <ClInclude Include="StrongAttackLogic.h">
+      <Filter>Content\ArrowRelated\ArrowLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="BridgeHelper.h">
+      <Filter>Content\Gimmick\Bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2_Bridge.h">
+      <Filter>Content\Gimmick\Bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseOptionBox.h">
+      <Filter>UI\InGameUI\PauseUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_StrongAttackStatus.h">
+      <Filter>UI\InGameUI\GUI_StrongAttackStatus</Filter>
+    </ClInclude>
+    <ClInclude Include="GolemBossHealthBar.h">
+      <Filter>UI\InGameUI\HealthBarUI</Filter>
+    </ClInclude>
+    <ClInclude Include="BossHealthBarUI.h">
+      <Filter>UI\InGameUI\HealthBarUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverSceneGUIHandler.h">
+      <Filter>Content\1_ConcreteHandlers\7_GameOverScene_2D\GameOverSceneGUIHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleTutorial.h">
+      <Filter>UI\TitleUI\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemGoldenApple.h">
+      <Filter>Content\ItemApple\ItemGoldenApple</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemNormalApple.h">
+      <Filter>Content\ItemApple\ItemNormalApple</Filter>
+    </ClInclude>
+    <ClInclude Include="Grating_1.h">
+      <Filter>Content\Gimmick\Grating</Filter>
+    </ClInclude>
+    <ClInclude Include="Grating_2.h">
+      <Filter>Content\Gimmick\Grating</Filter>
+    </ClInclude>
+    <ClInclude Include="StairHelper.h">
+      <Filter>Content\Gimmick\Stair</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

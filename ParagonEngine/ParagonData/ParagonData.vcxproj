@@ -1,0 +1,476 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{8743bfc1-e19a-463d-9f40-4d896b6af02b}</ProjectGuid>
+    <RootNamespace>ParagonSceneData</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>ParagonData</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>true</EnableUnitySupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>true</EnableUnitySupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)Builds\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)Builds\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Builds\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Builds\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>singleton.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>singleton.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;_CRT_SECURE_NO_WARNINGS;NOMINMAX</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\physx;$(SolutionDir)include\Recast\Navigation;$(SolutionDir)include\libzmq;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
+      <MaxFilesInUnityFile>5</MaxFilesInUnityFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonUtil.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;behaviortree_cpp_v3d.lib;gmock_maind.lib;gmockd.lib;gtest_maind.lib;gtestd.lib;libzmq-v143-mt-gd-4_3_5.lib;libzmq-v143-mt-sgd-4_3_5.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\libzmq\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;_CRT_SECURE_NO_WARNINGS;NOMINMAX</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\physx;$(SolutionDir)include\Recast\Navigation;$(SolutionDir)include\libzmq;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
+      <MaxFilesInUnityFile>5</MaxFilesInUnityFile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>singleton.lib;ParagonMath.lib;ParagonUtil.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;behaviortree_cpp_v3.lib;gmock.lib;gmock_main.lib;gtest.lib;gtest_main.lib;libzmq-v143-mt-4_3_5.lib;libzmq-v143-mt-s-4_3_5.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration);$(OutDir);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\libzmq\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DebugDraw.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DetourDebugDraw.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDebugDraw.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDump.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourCrowd.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourLocalBoundary.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourObstacleAvoidance.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathCorridor.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathQueue.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourProximityGrid.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCache.h" />
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCacheBuilder.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAlloc.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAssert.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourCommon.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourMath.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMesh.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshBuilder.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshQuery.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNode.h" />
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourStatus.h" />
+    <ClInclude Include="Animator.h" />
+    <ClInclude Include="AnimTransform.h" />
+    <ClInclude Include="Anim_bDash.h" />
+    <ClInclude Include="Anim_bDead.h" />
+    <ClInclude Include="Anim_bIdle.h" />
+    <ClInclude Include="Anim_bWalk.h" />
+    <ClInclude Include="Anim_Cast.h" />
+    <ClInclude Include="Anim_Dash.h" />
+    <ClInclude Include="Anim_DownEnd.h" />
+    <ClInclude Include="Anim_DownStart.h" />
+    <ClInclude Include="Anim_Evasion.h" />
+    <ClInclude Include="Anim_fDead.h" />
+    <ClInclude Include="Anim_FeatherAttack.h" />
+    <ClInclude Include="Anim_FeatherAttackEnd.h" />
+    <ClInclude Include="Anim_FeatherAttackStart.h" />
+    <ClInclude Include="Anim_FlyAttack.h" />
+    <ClInclude Include="Anim_FlyAttackPrePare.h" />
+    <ClInclude Include="Anim_gbTwoArmAttack.h" />
+    <ClInclude Include="Anim_gDead.h" />
+    <ClInclude Include="Anim_Delay.h" />
+    <ClInclude Include="Anim_gAttack.h" />
+    <ClInclude Include="Anim_fIdle.h" />
+    <ClInclude Include="Anim_gDown.h" />
+    <ClInclude Include="Anim_gIdle.h" />
+    <ClInclude Include="Anim_LeftArmAttack.h" />
+    <ClInclude Include="Anim_mAttack.h" />
+    <ClInclude Include="Anim_mChase.h" />
+    <ClInclude Include="Anim_Down.h" />
+    <ClInclude Include="Anim_PoisonGas.h" />
+    <ClInclude Include="Anim_RightArmAttack.h" />
+    <ClInclude Include="Anim_fWalk.h" />
+    <ClInclude Include="Anim_SpinAttack.h" />
+    <ClInclude Include="Anim_SpinDashAttack.h" />
+    <ClInclude Include="Anim_tAttack.h" />
+    <ClInclude Include="Anim_ThrowCoin.h" />
+    <ClInclude Include="Anim_TwoArmAttack.h" />
+    <ClInclude Include="AssetDefines.h" />
+    <ClInclude Include="AudioData.h" />
+    <ClInclude Include="AudioSource.h" />
+    <ClInclude Include="BaseRenderer.h" />
+    <ClInclude Include="BaseResource.h" />
+    <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="BoxCollider2D.h" />
+    <ClInclude Include="BtNodes\BasePgBtNode.h" />
+    <ClInclude Include="BtNodes\BTDefines.h" />
+    <ClInclude Include="BtNodes\BTHelper.h" />
+    <ClInclude Include="BtNodes\BTreeShareData.h" />
+    <ClInclude Include="BtNodes\BTTemplateSpecialization.h" />
+    <ClInclude Include="BtNodes\bt_zmq_publisher.h" />
+    <ClInclude Include="BtNodes\PgCustomBTNodes.h" />
+    <ClInclude Include="BuildSettings.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraData.h" />
+    <ClInclude Include="CapsuleCollider.h" />
+    <ClInclude Include="Collider.h" />
+    <ClInclude Include="eFillRatioDirection.h" />
+    <ClInclude Include="isbDash.h" />
+    <ClInclude Include="isDownEnd.h" />
+    <ClInclude Include="isDownStart.h" />
+    <ClInclude Include="isgDown.h" />
+    <ClInclude Include="isgPase_1.h" />
+    <ClInclude Include="isgPase_2.h" />
+    <ClInclude Include="isgSkill.h" />
+    <ClInclude Include="ISortableGlobalObject.h" />
+    <ClInclude Include="isDown.h" />
+    <ClInclude Include="isPase_2.h" />
+    <ClInclude Include="isPase_3.h" />
+    <ClInclude Include="isPase_1.h" />
+    <ClInclude Include="MonsterFlag.h" />
+    <ClInclude Include="Toggle.h" />
+    <ClInclude Include="VisualEffectRenderObject.h" />
+    <ClInclude Include="isChase.h" />
+    <ClInclude Include="isCoolDown.h" />
+    <ClInclude Include="isDash.h" />
+    <ClInclude Include="isDead.h" />
+    <ClInclude Include="isDistanceClose.h" />
+    <ClInclude Include="isHitSpace.h" />
+    <ClInclude Include="isPlayerInSight.h" />
+    <ClInclude Include="LayerMask.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentList.h" />
+    <ClInclude Include="data_factory.h" />
+    <ClInclude Include="DebugData.h" />
+    <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="DynamicCollider.h" />
+    <ClInclude Include="EditorCameraScript.h" />
+    <ClInclude Include="eSoundGroup.h" />
+    <ClInclude Include="eSoundState.h" />
+    <ClInclude Include="ForceMode.h" />
+    <ClInclude Include="GameConstantData.h" />
+    <ClInclude Include="Handle.h" />
+    <ClInclude Include="IComponent.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="ModelData.h" />
+    <ClInclude Include="MonsterHelper.h" />
+    <ClInclude Include="NavigationField.h" />
+    <ClInclude Include="NavMeshAgent.h" />
+    <ClInclude Include="ParagonDefines.h" />
+    <ClInclude Include="LightData.h" />
+    <ClInclude Include="LightType.h" />
+    <ClInclude Include="ImageRenderer.h" />
+    <ClInclude Include="PhysicsCollision.h" />
+    <ClInclude Include="PhysicsContactPoint.h" />
+    <ClInclude Include="PlaneCollider.h" />
+    <ClInclude Include="PointLight.h" />
+    <ClInclude Include="RayCast.h" />
+    <ClInclude Include="RendererChangeList.h" />
+    <ClInclude Include="EditorMode.h" />
+    <ClInclude Include="EngineResource.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GraphicsResource.h" />
+    <ClInclude Include="RendererBase2D.h" />
+    <ClInclude Include="RendererBase3D.h" />
+    <ClInclude Include="RendererType.h" />
+    <ClInclude Include="RenderTextData.h" />
+    <ClInclude Include="ResourceQueue.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SerializerHelper.h" />
+    <ClInclude Include="Anim_Shoot.h" />
+    <ClInclude Include="SkinnedMeshRenderer.h" />
+    <ClInclude Include="Slider.h" />
+    <ClInclude Include="SoundData.h" />
+    <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="SpotLight.h" />
+    <ClInclude Include="StaticBoxCollider.h" />
+    <ClInclude Include="StaticCapsuleCollider.h" />
+    <ClInclude Include="StaticCollider.h" />
+    <ClInclude Include="StaticMeshRenderer.h" />
+    <ClInclude Include="StaticSphereCollider.h" />
+    <ClInclude Include="TextRenderer.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="VisualEffectData.h" />
+    <ClInclude Include="MonsterState.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\DebugDraw.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\DetourDebugDraw.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\RecastDebugDraw.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DebugUtils\RecastDump.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourCrowd.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourLocalBoundary.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourObstacleAvoidance.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourPathCorridor.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourPathQueue.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourCrowd\DetourProximityGrid.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourTileCache\DetourTileCache.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\DetourTileCache\DetourTileCacheBuilder.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourAlloc.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourAssert.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourCommon.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNavMesh.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNavMeshBuilder.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNavMeshQuery.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Detour\DetourNode.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\Recast.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastAlloc.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastArea.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastAssert.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastContour.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastFilter.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastLayers.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastMesh.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastMeshDetail.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastRasterization.cpp" />
+    <ClCompile Include="..\ParagonGameEngine\Navigation\Recast\RecastRegion.cpp" />
+    <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="AnimTransform.cpp" />
+    <ClCompile Include="Anim_bDash.cpp" />
+    <ClCompile Include="Anim_bDead.cpp" />
+    <ClCompile Include="Anim_bIdle.cpp" />
+    <ClCompile Include="Anim_bWalk.cpp" />
+    <ClCompile Include="Anim_Cast.cpp" />
+    <ClCompile Include="Anim_Dash.cpp" />
+    <ClCompile Include="Anim_DownEnd.cpp" />
+    <ClCompile Include="Anim_DownStart.cpp" />
+    <ClCompile Include="Anim_Evasion.cpp" />
+    <ClCompile Include="Anim_fDead.cpp" />
+    <ClCompile Include="Anim_FeatherAttack.cpp" />
+    <ClCompile Include="Anim_FeatherAttackEnd.cpp" />
+    <ClCompile Include="Anim_FeatherAttackStart.cpp" />
+    <ClCompile Include="Anim_FlyAttack.cpp" />
+    <ClCompile Include="Anim_FlyAttackPrePare.cpp" />
+    <ClCompile Include="Anim_gbTwoArmAttack.cpp" />
+    <ClCompile Include="Anim_gDead.cpp" />
+    <ClCompile Include="Anim_Delay.cpp" />
+    <ClCompile Include="Anim_gAttack.cpp" />
+    <ClCompile Include="Anim_fIdle.cpp" />
+    <ClCompile Include="Anim_gDown.cpp" />
+    <ClCompile Include="Anim_gIdle.cpp" />
+    <ClCompile Include="Anim_LeftArmAttack.cpp" />
+    <ClCompile Include="Anim_mAttack.cpp" />
+    <ClCompile Include="Anim_mChase.cpp" />
+    <ClCompile Include="Anim_Down.cpp" />
+    <ClCompile Include="Anim_PoisonGas.cpp" />
+    <ClCompile Include="Anim_RightArmAttack.cpp" />
+    <ClCompile Include="Anim_fWalk.cpp" />
+    <ClCompile Include="Anim_SpinAttack.cpp" />
+    <ClCompile Include="Anim_SpinDashAttack.cpp" />
+    <ClCompile Include="Anim_tAttack.cpp" />
+    <ClCompile Include="Anim_ThrowCoin.cpp" />
+    <ClCompile Include="Anim_TwoArmAttack.cpp" />
+    <ClCompile Include="AudioSource.cpp" />
+    <ClCompile Include="BaseRenderer.cpp" />
+    <ClCompile Include="BaseResource.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="BoxCollider2D.cpp" />
+    <ClCompile Include="BtNodes\BTDefines.cpp" />
+    <ClCompile Include="BtNodes\BTHelper.cpp" />
+    <ClCompile Include="BtNodes\bt_zmq_publisher.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CapsuleCollider.cpp" />
+    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
+    <ClCompile Include="DynamicCollider.cpp" />
+    <ClCompile Include="EditorCameraScript.cpp" />
+    <ClCompile Include="Handle.cpp" />
+    <ClCompile Include="ImageRenderer.cpp" />
+    <ClCompile Include="isbDash.cpp" />
+    <ClCompile Include="isChase.cpp" />
+    <ClCompile Include="isCoolDown.cpp" />
+    <ClCompile Include="isDash.cpp" />
+    <ClCompile Include="isDead.cpp" />
+    <ClCompile Include="isDistanceClose.cpp" />
+    <ClCompile Include="isDownEnd.cpp" />
+    <ClCompile Include="isDownStart.cpp" />
+    <ClCompile Include="isgDown.cpp" />
+    <ClCompile Include="isgPase_1.cpp" />
+    <ClCompile Include="isgPase_2.cpp" />
+    <ClCompile Include="isgSkill.cpp" />
+    <ClCompile Include="isHitSpace.cpp" />
+    <ClCompile Include="isDown.cpp" />
+    <ClCompile Include="isPase_2.cpp" />
+    <ClCompile Include="isPase_3.cpp" />
+    <ClCompile Include="isPlayerInSight.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="MonsterHelper.cpp" />
+    <ClCompile Include="NavigationField.cpp" />
+    <ClCompile Include="NavMeshAgent.cpp" />
+    <ClCompile Include="ParagonDefines.cpp" />
+    <ClCompile Include="isPase_1.cpp" />
+    <ClCompile Include="PhysicsCollision.cpp" />
+    <ClCompile Include="PhysicsContactPoint.cpp" />
+    <ClCompile Include="PlaneCollider.cpp" />
+    <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="RayCast.cpp" />
+    <ClCompile Include="RendererChangeList.cpp" />
+    <ClCompile Include="EngineResource.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GraphicsResource.cpp" />
+    <ClCompile Include="RendererBase2D.cpp" />
+    <ClCompile Include="RendererBase3D.cpp" />
+    <ClCompile Include="ResourceQueue.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Anim_Shoot.cpp" />
+    <ClCompile Include="SkinnedMeshRenderer.cpp" />
+    <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
+    <ClCompile Include="StaticBoxCollider.cpp" />
+    <ClCompile Include="StaticCapsuleCollider.cpp" />
+    <ClCompile Include="StaticCollider.cpp" />
+    <ClCompile Include="StaticMeshRenderer.cpp" />
+    <ClCompile Include="StaticSphereCollider.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
+    <ClCompile Include="Toggle.cpp" />
+    <ClCompile Include="Transform.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

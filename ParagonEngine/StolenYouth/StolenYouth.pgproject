@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<proejct>
+	<scenes>
+		<scene>TitleScene</scene>
+		<scene>Stage1</scene>
+		<scene>Stage2</scene>
+		<scene>BossStage</scene>
+		<scene>CreditsScene</scene>
+		<scene>GameOverScene</scene>
+	</scenes>
+</proejct>

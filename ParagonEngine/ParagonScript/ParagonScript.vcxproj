@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{39080680-f7bb-4bbb-a507-78003575cddb}</ProjectGuid>
+    <RootNamespace>ParagonScript</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Builds\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Builds\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\physx</AdditionalIncludeDirectories>
+      <PreprocessToFile>false</PreprocessToFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)lib\Recast\$(Configuration);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib;ParagonAPI.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;ParagonHelper.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;fmod_vc.lib;behaviortree_cpp_v3d.lib;gmock_maind.lib;gmockd.lib;gtest_maind.lib;gtestd.lib;gainput-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_SILENCE_CXX20_CISO646_REMOVED_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)include\physx</AdditionalIncludeDirectories>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)lib\Recast\$(Configuration);$(SolutionDir)lib\behaviortree_cpp_v3\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\physx\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\fmod\$(PlatformTarget);$(SolutionDir)lib\gainput\$(PlatformTarget)\$(Configuration);$(SolutionDir)lib\singleton-cpp\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>singleton.lib;ParagonAPI.lib;ParagonMath.lib;ParagonData.lib;ParagonUtil.lib;ParagonHelper.lib;PhysXCommon_64.lib;PhysX_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;fmod_vc.lib;behaviortree_cpp_v3d.lib;gmock_maind.lib;gmockd.lib;gtest_maind.lib;gtestd.lib;gainput-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="AddEffectorTest.h" />
+    <ClInclude Include="AreaPassingTrigger.h" />
+    <ClInclude Include="ArrowLogic.h" />
+    <ClInclude Include="ArrowShooterBehavior.h" />
+    <ClInclude Include="ArtifactBoxAnim.h" />
+    <ClInclude Include="BossAttack.h" />
+    <ClInclude Include="BossHealthBarUI.h" />
+    <ClInclude Include="BossStageAreaHandler.h" />
+    <ClInclude Include="BossStageEnemyHandler.h" />
+    <ClInclude Include="BossStageGUIHandler.h" />
+    <ClInclude Include="GameOverSceneGUIHandler.h" />
+    <ClInclude Include="GolemBossHealthBar.h" />
+    <ClInclude Include="Grating_1.h" />
+    <ClInclude Include="Grating_2.h" />
+    <ClInclude Include="GUI_StrongAttackStatus.h" />
+    <ClInclude Include="ItemGoldenApple.h" />
+    <ClInclude Include="ItemNormalApple.h" />
+    <ClInclude Include="PauseOptionBox.h" />
+    <ClInclude Include="Stage1_Bridge.h" />
+    <ClInclude Include="BridgeHelper.h" />
+    <ClInclude Include="DeathPlane.h" />
+    <ClInclude Include="EnemyDefinesAndStructs.h" />
+    <ClInclude Include="GolemBossAttack.h" />
+    <ClInclude Include="GolemBossBehaviour.h" />
+    <ClInclude Include="GolemBossInfo.h" />
+    <ClInclude Include="GolemBossSkillAttack.h" />
+    <ClInclude Include="GUIDefinesAndStructs.h" />
+    <ClInclude Include="GUI_CoolDownWhiteFill.h" />
+    <ClInclude Include="GUI_PercentageFillBar.h" />
+    <ClInclude Include="HandleBundle3D.h" />
+    <ClInclude Include="BaseAreaHandler.h" />
+    <ClInclude Include="BaseMonster.h" />
+    <ClInclude Include="BattleArea.h" />
+    <ClInclude Include="BossBehaviour.h" />
+    <ClInclude Include="BossInfo.h" />
+    <ClInclude Include="CameraShake.h" />
+    <ClInclude Include="CombatSystem.h" />
+    <ClInclude Include="ComboSystem.h" />
+    <ClInclude Include="EnemyAttack.h" />
+    <ClInclude Include="EnemyBehaviour.h" />
+    <ClInclude Include="EnemyInfo.h" />
+    <ClInclude Include="EnemySight.h" />
+    <ClInclude Include="EventList_CameraRelated.h" />
+    <ClInclude Include="EventList_EnemyRelated.h" />
+    <ClInclude Include="EventList_GameFlowRelated.h" />
+    <ClInclude Include="EventList_PlayerRelated.h" />
+    <ClInclude Include="ExitButton.h" />
+    <ClInclude Include="BaseEnemyHandler.h" />
+    <ClInclude Include="BaseGUIHandler.h" />
+    <ClInclude Include="IConfinedArea.h" />
+    <ClInclude Include="IMovableObject.h" />
+    <ClInclude Include="InGameManager.h" />
+    <ClInclude Include="IProjectile.h" />
+    <ClInclude Include="ISingleGUI.h" />
+    <ClInclude Include="LightSkillAttack.h" />
+    <ClInclude Include="MimicActive.h" />
+    <ClInclude Include="MimicAttack.h" />
+    <ClInclude Include="MimicSkillAttack.h" />
+    <ClInclude Include="MiniGolemAttack.h" />
+    <ClInclude Include="MovingObjectDefinesAndStructs.h" />
+    <ClInclude Include="MushroomTrampoline.h" />
+    <ClInclude Include="ArtifactBox.h" />
+    <ClInclude Include="PartialAttackType.h" />
+    <ClInclude Include="PlayerCombatSector.h" />
+    <ClInclude Include="CreditsSceneGUIHandler.h" />
+    <ClInclude Include="GlobalSoundManager.h" />
+    <ClInclude Include="SetInGameSortingLayer.h" />
+    <ClInclude Include="Stage1AreaHandler.h" />
+    <ClInclude Include="Stage1EnemyHandler.h" />
+    <ClInclude Include="Stage1GUIHandler.h" />
+    <ClInclude Include="Stage2AreaHandler.h" />
+    <ClInclude Include="Stage2EnemyHandler.h" />
+    <ClInclude Include="Stage2GUIHandler.h" />
+    <ClInclude Include="Stage2_Bridge.h" />
+    <ClInclude Include="Stair.h" />
+    <ClInclude Include="StairHelper.h" />
+    <ClInclude Include="StrongAttackLogic.h" />
+    <ClInclude Include="TakeDownAttack.h" />
+    <ClInclude Include="TitleTutorial.h" />
+    <ClInclude Include="TotalGameManager.h" />
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="IEnemyBehaviour.h" />
+    <ClInclude Include="IScriptResettable.h" />
+    <ClInclude Include="MimicBehaviour.h" />
+    <ClInclude Include="MimicInfo.h" />
+    <ClInclude Include="MiniGolemBehaviour.h" />
+    <ClInclude Include="MiniGolemInfo.h" />
+    <ClInclude Include="NavAgent.h" />
+    <ClInclude Include="PauseBox.h" />
+    <ClInclude Include="PlayerHandler.h" />
+    <ClInclude Include="Portal.h" />
+    <ClInclude Include="ScriptEventHelper.h" />
+    <ClInclude Include="EventTest.h" />
+    <ClInclude Include="FactoryHelper.h" />
+    <ClInclude Include="IEvent.h" />
+    <ClInclude Include="InGameCameraBehavior.h" />
+    <ClInclude Include="IObserver.h" />
+    <ClInclude Include="PlayerMovementSector.h" />
+    <ClInclude Include="PlayerMove.h" />
+    <ClInclude Include="RayCastTest.h" />
+    <ClInclude Include="Script.h" />
+    <ClInclude Include="ScriptInterface.h" />
+    <ClInclude Include="ParagonScriptList.h" />
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="SoundTest.h" />
+    <ClInclude Include="StartButton.h" />
+    <ClInclude Include="StubBehaviour.h" />
+    <ClInclude Include="StubInfo.h" />
+    <ClInclude Include="TitleSceneGUIHandler.h" />
+    <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="TransformSimpleStorage.h" />
+    <ClInclude Include="TrapArea.h" />
+    <ClInclude Include="TrentAttack.h" />
+    <ClInclude Include="TrentSkillAttack.h" />
+    <ClInclude Include="UltimateArrowLogic.h" />
+    <ClInclude Include="WaspAttack.h" />
+    <ClInclude Include="WaspBehaviour.h" />
+    <ClInclude Include="WaspInfo.h" />
+    <ClInclude Include="WaspSkillAttack.h" />
+    <ClInclude Include="WindBlastAttack.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AddEffectorTest.cpp" />
+    <ClCompile Include="AreaPassingTrigger.cpp" />
+    <ClCompile Include="ArrowLogic.cpp" />
+    <ClCompile Include="ArrowShooterBehavior.cpp" />
+    <ClCompile Include="ArtifactBoxAnim.cpp" />
+    <ClCompile Include="BaseAreaHandler.cpp" />
+    <ClCompile Include="BaseEnemyHandler.cpp" />
+    <ClCompile Include="BaseGUIHandler.cpp" />
+    <ClCompile Include="BaseMonster.cpp" />
+    <ClCompile Include="BattleArea.cpp" />
+    <ClCompile Include="BossAttack.cpp" />
+    <ClCompile Include="BossBehaviour.cpp" />
+    <ClCompile Include="BossHealthBarUI.cpp" />
+    <ClCompile Include="BossInfo.cpp" />
+    <ClCompile Include="BossStageAreaHandler.cpp" />
+    <ClCompile Include="BossStageEnemyHandler.cpp" />
+    <ClCompile Include="BossStageGUIHandler.cpp" />
+    <ClCompile Include="GameOverSceneGUIHandler.cpp" />
+    <ClCompile Include="GolemBossHealthBar.cpp" />
+    <ClCompile Include="Grating_1.cpp" />
+    <ClCompile Include="Grating_2.cpp" />
+    <ClCompile Include="GUI_StrongAttackStatus.cpp" />
+    <ClCompile Include="ItemGoldenApple.cpp" />
+    <ClCompile Include="ItemNormalApple.cpp" />
+    <ClCompile Include="PauseOptionBox.cpp" />
+    <ClCompile Include="Stage1_Bridge.cpp" />
+    <ClCompile Include="BridgeHelper.cpp" />
+    <ClCompile Include="CameraShake.cpp" />
+    <ClCompile Include="CombatSystem.cpp" />
+    <ClCompile Include="ComboSystem.cpp" />
+    <ClCompile Include="DeathPlane.cpp" />
+    <ClCompile Include="EnemyAttack.cpp" />
+    <ClCompile Include="EnemyBehaviour.cpp" />
+    <ClCompile Include="EnemySight.cpp" />
+    <ClCompile Include="EventTest.cpp" />
+    <ClCompile Include="ExitButton.cpp" />
+    <ClCompile Include="FactoryHelper.cpp" />
+    <ClCompile Include="GolemBossAttack.cpp" />
+    <ClCompile Include="GolemBossBehaviour.cpp" />
+    <ClCompile Include="GolemBossInfo.cpp" />
+    <ClCompile Include="GolemBossSkillAttack.cpp" />
+    <ClCompile Include="GUI_CoolDownWhiteFill.cpp" />
+    <ClCompile Include="GUI_PercentageFillBar.cpp" />
+    <ClCompile Include="InGameManager.cpp" />
+    <ClCompile Include="CreditsSceneGUIHandler.cpp" />
+    <ClCompile Include="LightSkillAttack.cpp" />
+    <ClCompile Include="MimicActive.cpp" />
+    <ClCompile Include="MimicSkillAttack.cpp" />
+    <ClCompile Include="MushroomTrampoline.cpp" />
+    <ClCompile Include="ArtifactBox.cpp" />
+    <ClCompile Include="PlayerCombatSector.cpp" />
+    <ClCompile Include="GlobalSoundManager.cpp" />
+    <ClCompile Include="MimicAttack.cpp" />
+    <ClCompile Include="MiniGolemAttack.cpp" />
+    <ClCompile Include="SetInGameSortingLayer.cpp" />
+    <ClCompile Include="Stage1AreaHandler.cpp" />
+    <ClCompile Include="Stage1EnemyHandler.cpp" />
+    <ClCompile Include="Stage1GUIHandler.cpp" />
+    <ClCompile Include="Stage2AreaHandler.cpp" />
+    <ClCompile Include="Stage2EnemyHandler.cpp" />
+    <ClCompile Include="Stage2GUIHandler.cpp" />
+    <ClCompile Include="Stage2_Bridge.cpp" />
+    <ClCompile Include="Stair.cpp" />
+    <ClCompile Include="StairHelper.cpp" />
+    <ClCompile Include="StrongAttackLogic.cpp" />
+    <ClCompile Include="TakeDownAttack.cpp" />
+    <ClCompile Include="TitleTutorial.cpp" />
+    <ClCompile Include="TotalGameManager.cpp" />
+    <ClCompile Include="InGameCameraBehavior.cpp" />
+    <ClCompile Include="MimicBehaviour.cpp" />
+    <ClCompile Include="MimicInfo.cpp" />
+    <ClCompile Include="MiniGolemBehaviour.cpp" />
+    <ClCompile Include="MiniGolemInfo.cpp" />
+    <ClCompile Include="NavAgent.cpp" />
+    <ClCompile Include="PauseBox.cpp" />
+    <ClCompile Include="PlayerHandler.cpp" />
+    <ClCompile Include="PlayerMovementSector.cpp" />
+    <ClCompile Include="PlayerMove.cpp" />
+    <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="RayCastTest.cpp" />
+    <ClCompile Include="Script.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="SoundTest.cpp" />
+    <ClCompile Include="StartButton.cpp" />
+    <ClCompile Include="StubBehaviour.cpp" />
+    <ClCompile Include="StubInfo.cpp" />
+    <ClCompile Include="TitleSceneGUIHandler.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="TrapArea.cpp" />
+    <ClCompile Include="TrentAttack.cpp" />
+    <ClCompile Include="TrentSkillAttack.cpp" />
+    <ClCompile Include="UltimateArrowLogic.cpp" />
+    <ClCompile Include="WaspAttack.cpp" />
+    <ClCompile Include="WaspBehaviour.cpp" />
+    <ClCompile Include="WaspInfo.cpp" />
+    <ClCompile Include="WaspSkillAttack.cpp" />
+    <ClCompile Include="WindBlastAttack.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

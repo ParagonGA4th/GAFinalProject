@@ -1,0 +1,1347 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="GraphicsMain.h">
+      <Filter>0_Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsDLLExporter.h">
+      <Filter>1_DLLExporter</Filter>
+    </ClInclude>
+    <ClInclude Include="DX11Headers.h">
+      <Filter>5_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="LowDX11Logic.h">
+      <Filter>2_LowDX11</Filter>
+    </ClInclude>
+    <ClInclude Include="LowDX11Storage.h">
+      <Filter>2_LowDX11</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsResourceManager.h">
+      <Filter>3_GraphicsResources\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>5_Misc\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelShader.h">
+      <Filter>5_Misc\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="MathHelper.h">
+      <Filter>5_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderMaterial.h">
+      <Filter>3_GraphicsResources\Resources\RenderMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>3_GraphicsResources\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="TempCamera.h">
+      <Filter>5_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>7_OtherObject</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgenTest.h">
+      <Filter>5_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetBasic2DLoader.h">
+      <Filter>3_GraphicsResources\Loaders\AssetBasic2DLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetCombinedLoader.h">
+      <Filter>3_GraphicsResources\Loaders\AssetCombinedLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTexture2D.h">
+      <Filter>3_GraphicsResources\Resources\RenderTexture\RenderTexture2D</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsResourceHelper.h">
+      <Filter>8_Helpers\GraphicsResourceHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset3DModelData.h">
+      <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderUsageStruct3D.h">
+      <Filter>4_RenderObject\RenderUsageStruct\RenderUsageStruct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderUsageStruct2D.h">
+      <Filter>4_RenderObject\RenderUsageStruct\RenderUsageStruct2D</Filter>
+    </ClInclude>
+    <ClInclude Include="LayoutDefine.h">
+      <Filter>5_Misc\DefaultShaderDefines\LayoutDefine</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBufferDefine.h">
+      <Filter>5_Misc\DefaultShaderDefines\ConstantBufferDefine</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObject2D.h">
+      <Filter>4_RenderObject\RenderObject2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObject3D.h">
+      <Filter>4_RenderObject\RenderObject3D</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectBase.h">
+      <Filter>4_RenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialCluster.h">
+      <Filter>10_Structs\MaterialCluster</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoGeometryGenerator.h">
+      <Filter>9_Util\DemoGeometryGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometryGenerator.h">
+      <Filter>5_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectText2D.h">
+      <Filter>4_RenderObject\RenderObject2D\RenderObjectText2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectImage2D.h">
+      <Filter>4_RenderObject\RenderObject2D\RenderObjectImage2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectStaticMesh3D.h">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObject3DList.h">
+      <Filter>10_Structs\RenderingList\RenderObject3DList</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObject2DList.h">
+      <Filter>10_Structs\RenderingList\RenderObject2DList</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderFont.h">
+      <Filter>3_GraphicsResources\Resources\RenderFont</Filter>
+    </ClInclude>
+    <ClInclude Include="LightStructs.h">
+      <Filter>10_Structs\RenderingList</Filter>
+    </ClInclude>
+    <ClInclude Include="MultimaterialMesh.h">
+      <Filter>11_TempMultiMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPrepStructs.h">
+      <Filter>11_TempMultiMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetTextureType.h">
+      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetTextureType</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetAnimationDataDefine.h">
+      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetAnimationDataDefine</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetModelDataDefine.h">
+      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetModelDataDefine</Filter>
+    </ClInclude>
+    <ClInclude Include="AssimpBufferParser.h">
+      <Filter>8_Helpers\BufferParser</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectSkinnedMesh3D.h">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetBasic3DLoader.h">
+      <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemShader.h">
+      <Filter>3_GraphicsResources\SystemShader</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemVertexShader.h">
+      <Filter>3_GraphicsResources\SystemShader\SystemVertexShader</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderCubemap.h">
+      <Filter>3_GraphicsResources\Resources\RenderTexture\RenderCubemap</Filter>
+    </ClInclude>
+    <ClInclude Include="WireframeRenderObject.h">
+      <Filter>4_RenderObject\WireframeRenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>4_RenderObject\WireframeRenderObject\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="Axis.h">
+      <Filter>4_RenderObject\WireframeRenderObject\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemPixelShader.h">
+      <Filter>3_GraphicsResources\SystemShader\SystemPixelShader</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectCubemapList.h">
+      <Filter>10_Structs\RenderingList\RenderObjectCubemapList</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPixelShader.h">
+      <Filter>3_GraphicsResources\Resources\RenderShader\RenderPixelShader</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderVertexShader.h">
+      <Filter>3_GraphicsResources\Resources\RenderShader\RenderVertexShader</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectWireframeList.h">
+      <Filter>10_Structs\RenderingList\RenderObjectWireframeList</Filter>
+    </ClInclude>
+    <ClInclude Include="ParagonRenderer.h">
+      <Filter>0_Main\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="GBufferRender.h">
+      <Filter>0_Main\GBuffers\GBufferRender</Filter>
+    </ClInclude>
+    <ClInclude Include="GBufferDepthStencil.h">
+      <Filter>0_Main\GBuffers\GBufferDepthStencil</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialParser.h">
+      <Filter>8_Helpers\MaterialParser</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderParsingData.h">
+      <Filter>8_Helpers\MaterialParser\ShaderParsingData</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectLightList.h">
+      <Filter>5_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectLight.h">
+      <Filter>5_Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTextureCube.h">
+      <Filter>3_GraphicsResources\Resources\RenderTexture\RenderTextureCube</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTexture1D.h">
+      <Filter>3_GraphicsResources\Resources\RenderTexture\RenderTexture1D</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTexture2DArray.h">
+      <Filter>3_GraphicsResources\Resources\RenderTexture\RenderTexture2DArray</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTexture.h">
+      <Filter>3_GraphicsResources\Resources\RenderTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderSinglePass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstStaticRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\2_FirstStaticRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSceneParser.h">
+      <Filter>8_Helpers\GraphicsSceneParser</Filter>
+    </ClInclude>
+    <ClInclude Include="FinalRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\20_ProcessFinalRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DCarrier.h">
+      <Filter>0_Main\GraphicsCarrier</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseSpecificRenderer.h">
+      <Filter>0_Main\Renderers\BaseSpecificRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="OutlineRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\11_OutlineRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="SizeTexture.h">
+      <Filter>3_GraphicsResources\Resources\RenderTexture\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="CubemapRenderer.h">
+      <Filter>0_Main\Renderers\CubemapRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugRenderer.h">
+      <Filter>0_Main\Renderers\DebugRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="PPFinalRenderer.h">
+      <Filter>0_Main\Renderers\FinalRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="DeferredRenderer.h">
+      <Filter>0_Main\Renderers\DeferredRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Forward2DRenderer.h">
+      <Filter>0_Main\Renderers\Forward2DRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Forward3DRenderer.h">
+      <Filter>0_Main\Renderers\Forward3DRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="OpaqueShadowRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\6_OpaqueShadowPass</Filter>
+    </ClInclude>
+    <ClInclude Include="FogProcessingPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\10_FogProcessingPass</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderAnimation.h">
+      <Filter>3_GraphicsResources\Resources\RenderAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>RC</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationParser.h">
+      <Filter>8_Helpers\AnimationParser</Filter>
+    </ClInclude>
+    <ClInclude Include="ISendReceiver.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneInformationList.h">
+      <Filter>10_Structs\RenderingList\SceneInformationList</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstSkinnedRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\3_FirstSkinnedRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneInformationSender.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\0_SceneInformationSender</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureExtension.h">
+      <Filter>3_GraphicsResources\Resources\RenderTexture\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsApiExporter.h">
+      <Filter>12_GraphicsAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="HeightFogRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\16_HeightFogRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="IndividualLightsGPU.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\0_SceneInformationSender\IndividualLightsGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="AlphaBlendedTotalRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\8_AlphaBlendingTotalRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTexEXR.h">
+      <Filter>13_LibraryExtensions\DirectXTexEXR</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectInstancedMesh3D.h">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectInstancedMesh3D</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstInstancedRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\1_FirstInstancedRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="LightmapParser.h">
+      <Filter>14_LightmapRelated\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="LightmapManager.h">
+      <Filter>14_LightmapRelated\Lightmap</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering3DStructs.h">
+      <Filter>10_Structs\ComplementaryStructs</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleLightmapSet.h">
+      <Filter>14_LightmapRelated\Lightmap\SingleLightmapSet</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderLightmapData.h">
+      <Filter>14_LightmapRelated\Lightmap\RenderLightmapData</Filter>
+    </ClInclude>
+    <ClInclude Include="VignetteRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\18_VignetteRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="BloomRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\17_BloomRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="LUTRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\15_LUTRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemInterfacedVertexShader.h">
+      <Filter>3_GraphicsResources\SystemShader\SystemInterfacedVertexShader</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualEffectRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\9_VisualEffectRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualEffectRenderer.h">
+      <Filter>8_Helpers\VisualEffectRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualEffectGraphicsSet.h">
+      <Filter>10_Structs\VisualEffectGraphicsSet</Filter>
+    </ClInclude>
+    <ClInclude Include="TwoTextureEffect3D.h">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\Static\TwoTextureEffect3D</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreeTextureEffect3D.h">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\Static\ThreeTextureEffect3D</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCustomEffect.h">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\BaseCustomEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="OneTextureEffect3D.h">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\Static\OneTextureEffect3D</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugOverlayQuad.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\DebugOverlayQuad</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteEffect2D.h">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\2D\SpriteEffect2D</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedTexture.h">
+      <Filter>8_Helpers\VisualEffectRenderer\DXTKAddon</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollingBackground.h">
+      <Filter>8_Helpers\VisualEffectRenderer\DXTKAddon</Filter>
+    </ClInclude>
+    <ClInclude Include="OpaqueQuadRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass\OpaqueQuadRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultQuadRenderPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass\DefaultQuadRenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeInOutPass.h">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\19_FadeInOutPass</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GraphicsMain.cpp">
+      <Filter>0_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="LowDX11Logic.cpp">
+      <Filter>2_LowDX11</Filter>
+    </ClCompile>
+    <ClCompile Include="LowDX11Storage.cpp">
+      <Filter>2_LowDX11</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsResourceManager.cpp">
+      <Filter>3_GraphicsResources\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>5_Misc\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShader.cpp">
+      <Filter>5_Misc\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="MathHelper.cpp">
+      <Filter>5_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderMaterial.cpp">
+      <Filter>3_GraphicsResources\Resources\RenderMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="TempCamera.cpp">
+      <Filter>5_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>7_OtherObject</Filter>
+    </ClCompile>
+    <ClCompile Include="msdfgenTest.cpp">
+      <Filter>5_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetBasic2DLoader.cpp">
+      <Filter>3_GraphicsResources\Loaders\AssetBasic2DLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetCombinedLoader.cpp">
+      <Filter>3_GraphicsResources\Loaders\AssetCombinedLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTexture2D.cpp">
+      <Filter>3_GraphicsResources\Resources\RenderTexture\RenderTexture2D</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsResourceHelper.cpp">
+      <Filter>8_Helpers\GraphicsResourceHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset3DModelData.cpp">
+      <Filter>3_GraphicsResources\Asset3DModelData\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderUsageStruct3D.cpp">
+      <Filter>4_RenderObject\RenderUsageStruct\RenderUsageStruct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderUsageStruct2D.cpp">
+      <Filter>4_RenderObject\RenderUsageStruct\RenderUsageStruct2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObject2D.cpp">
+      <Filter>4_RenderObject\RenderObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectBase.cpp">
+      <Filter>4_RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialCluster.cpp">
+      <Filter>10_Structs\MaterialCluster</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoGeometryGenerator.cpp">
+      <Filter>9_Util\DemoGeometryGenerator</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryGenerator.cpp">
+      <Filter>5_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectText2D.cpp">
+      <Filter>4_RenderObject\RenderObject2D\RenderObjectText2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectImage2D.cpp">
+      <Filter>4_RenderObject\RenderObject2D\RenderObjectImage2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectStaticMesh3D.cpp">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderFont.cpp">
+      <Filter>3_GraphicsResources\Resources\RenderFont</Filter>
+    </ClCompile>
+    <ClCompile Include="MultimaterialMesh.cpp">
+      <Filter>11_TempMultiMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPrepStructs.cpp">
+      <Filter>11_TempMultiMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetAnimationDataDefine.cpp">
+      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetAnimationDataDefine</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetModelDataDefine.cpp">
+      <Filter>3_GraphicsResources\Asset3DModelData\Define\AssetModelDataDefine</Filter>
+    </ClCompile>
+    <ClCompile Include="AssimpBufferParser.cpp">
+      <Filter>8_Helpers\BufferParser</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectSkinnedMesh3D.cpp">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetBasic3DLoader.cpp">
+      <Filter>3_GraphicsResources\Loaders\AssetBasic3DLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemShader.cpp">
+      <Filter>3_GraphicsResources\SystemShader</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemVertexShader.cpp">
+      <Filter>3_GraphicsResources\SystemShader\SystemVertexShader</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderCubemap.cpp">
+      <Filter>3_GraphicsResources\Resources\RenderTexture\RenderCubemap</Filter>
+    </ClCompile>
+    <ClCompile Include="WireframeRenderObject.cpp">
+      <Filter>4_RenderObject\WireframeRenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>4_RenderObject\WireframeRenderObject\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="Axis.cpp">
+      <Filter>4_RenderObject\WireframeRenderObject\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemPixelShader.cpp">
+      <Filter>3_GraphicsResources\SystemShader\SystemPixelShader</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObject3D.cpp">
+      <Filter>4_RenderObject\RenderObject3D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPixelShader.cpp">
+      <Filter>3_GraphicsResources\Resources\RenderShader\RenderPixelShader</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderVertexShader.cpp">
+      <Filter>3_GraphicsResources\Resources\RenderShader\RenderVertexShader</Filter>
+    </ClCompile>
+    <ClCompile Include="LayoutDefine.cpp">
+      <Filter>5_Misc\DefaultShaderDefines\LayoutDefine</Filter>
+    </ClCompile>
+    <ClCompile Include="ParagonRenderer.cpp">
+      <Filter>0_Main\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="GBufferRender.cpp">
+      <Filter>0_Main\GBuffers\GBufferRender</Filter>
+    </ClCompile>
+    <ClCompile Include="GBufferDepthStencil.cpp">
+      <Filter>0_Main\GBuffers\GBufferDepthStencil</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialParser.cpp">
+      <Filter>8_Helpers\MaterialParser</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectLight.cpp">
+      <Filter>5_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectLightList.cpp">
+      <Filter>5_Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTextureCube.cpp">
+      <Filter>3_GraphicsResources\Resources\RenderTexture\RenderTextureCube</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTexture1D.cpp">
+      <Filter>3_GraphicsResources\Resources\RenderTexture\RenderTexture1D</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTexture2DArray.cpp">
+      <Filter>3_GraphicsResources\Resources\RenderTexture\RenderTexture2DArray</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTexture.cpp">
+      <Filter>3_GraphicsResources\Resources\RenderTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="FirstStaticRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\2_FirstStaticRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsSceneParser.cpp">
+      <Filter>8_Helpers\GraphicsSceneParser</Filter>
+    </ClCompile>
+    <ClCompile Include="FinalRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\20_ProcessFinalRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseSpecificRenderer.cpp">
+      <Filter>0_Main\Renderers\BaseSpecificRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="OutlineRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\11_OutlineRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="CubemapRenderer.cpp">
+      <Filter>0_Main\Renderers\CubemapRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugRenderer.cpp">
+      <Filter>0_Main\Renderers\DebugRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="DeferredRenderer.cpp">
+      <Filter>0_Main\Renderers\DeferredRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Forward2DRenderer.cpp">
+      <Filter>0_Main\Renderers\Forward2DRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Forward3DRenderer.cpp">
+      <Filter>0_Main\Renderers\Forward3DRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="OpaqueShadowRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\6_OpaqueShadowPass</Filter>
+    </ClCompile>
+    <ClCompile Include="FogProcessingPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\10_FogProcessingPass</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderAnimation.cpp">
+      <Filter>3_GraphicsResources\Resources\RenderAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationParser.cpp">
+      <Filter>8_Helpers\AnimationParser</Filter>
+    </ClCompile>
+    <ClCompile Include="FirstSkinnedRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\3_FirstSkinnedRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneInformationSender.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\0_SceneInformationSender</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsApiExporter.cpp">
+      <Filter>12_GraphicsAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="HeightFogRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\16_HeightFogRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObject3DList.cpp">
+      <Filter>10_Structs\RenderingList\RenderObject3DList</Filter>
+    </ClCompile>
+    <ClCompile Include="AlphaBlendedTotalRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\8_AlphaBlendingTotalRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTexEXR.cpp">
+      <Filter>13_LibraryExtensions\DirectXTexEXR</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObjectInstancedMesh3D.cpp">
+      <Filter>4_RenderObject\RenderObject3D\RenderObjectInstancedMesh3D</Filter>
+    </ClCompile>
+    <ClCompile Include="FirstInstancedRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\1_FirstInstancedRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="LightmapParser.cpp">
+      <Filter>14_LightmapRelated\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="LightmapManager.cpp">
+      <Filter>14_LightmapRelated\Lightmap</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderLightmapData.cpp">
+      <Filter>14_LightmapRelated\Lightmap\RenderLightmapData</Filter>
+    </ClCompile>
+    <ClCompile Include="PPFinalRenderer.cpp">
+      <Filter>0_Main\Renderers\FinalRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="VignetteRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\18_VignetteRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="BloomRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\17_BloomRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="LUTRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\15_LUTRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemInterfacedVertexShader.cpp">
+      <Filter>3_GraphicsResources\SystemShader\SystemInterfacedVertexShader</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualEffectRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\9_VisualEffectRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualEffectRenderer.cpp">
+      <Filter>8_Helpers\VisualEffectRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="TwoTextureEffect3D.cpp">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\Static\TwoTextureEffect3D</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreeTextureEffect3D.cpp">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\Static\ThreeTextureEffect3D</Filter>
+    </ClCompile>
+    <ClCompile Include="OneTextureEffect3D.cpp">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\3D\Static\OneTextureEffect3D</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugOverlayQuad.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\DebugOverlayQuad</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteEffect2D.cpp">
+      <Filter>8_Helpers\VisualEffectRenderer\IEffect\2D\SpriteEffect2D</Filter>
+    </ClCompile>
+    <ClCompile Include="OpaqueQuadRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass\OpaqueQuadRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultQuadRenderPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass\DefaultQuadRenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeInOutPass.cpp">
+      <Filter>0_Main\RenderPass&amp;SendReceiver\19_FadeInOutPass</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="0_Main">
+      <UniqueIdentifier>{dc50f58a-6093-474d-8e66-756fc4fc2f53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_DLLExporter">
+      <UniqueIdentifier>{2a9d5051-b3e8-4e99-9390-c294040bed50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc">
+      <UniqueIdentifier>{aa7de633-70a4-451c-a86e-ad1527be0c5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources">
+      <UniqueIdentifier>{650e58e0-fcc6-485b-86a0-e101de1badf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\ConstantBuffer">
+      <UniqueIdentifier>{3b0ebca8-e46d-4200-9175-9e1fc29b714a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject">
+      <UniqueIdentifier>{7662f813-7991-48ca-8246-539c96965edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL">
+      <UniqueIdentifier>{77b7d216-140c-4cfc-8018-b14b1c0dbd24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="7_OtherObject">
+      <UniqueIdentifier>{7c64f1b5-ece3-4874-b94c-0497ac7d8c3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Loaders">
+      <UniqueIdentifier>{5478088e-a0ba-437b-b59c-8afce3d941fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Loaders\AssetBasic3DLoader">
+      <UniqueIdentifier>{8bde66a2-083f-4cd5-9cc6-1c22c6cd3cda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Loaders\AssetBasic2DLoader">
+      <UniqueIdentifier>{f54e4c34-fc16-49e3-9d7b-16896e773323}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Loaders\AssetCombinedLoader">
+      <UniqueIdentifier>{66fd3bcc-89db-44cf-b180-47178916d916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Asset3DModelData">
+      <UniqueIdentifier>{0ee47e45-1bb3-4a25-a048-d46222ab75d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Asset3DModelData\Define">
+      <UniqueIdentifier>{dbd555d5-7923-4ea2-a30d-b7e1153de640}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers">
+      <UniqueIdentifier>{4f252221-d7dc-4261-a1e8-af415c8cd279}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\GraphicsResourceHelper">
+      <UniqueIdentifier>{5e99454b-e123-4aad-a1e9-b04a7f5f27aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Asset3DModelData\Data">
+      <UniqueIdentifier>{2378ba46-73ff-4ad8-afbd-fda3e746a452}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\DefaultShaderDefines">
+      <UniqueIdentifier>{cbedec0b-2e38-4472-8c12-eae65672c963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\DefaultShaderDefines\LayoutDefine">
+      <UniqueIdentifier>{a638cecb-2c78-4e1f-9852-6a9875e175dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\DefaultShaderDefines\ConstantBufferDefine">
+      <UniqueIdentifier>{16bd805c-10db-44a7-b3f7-812c12cf5848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject2D">
+      <UniqueIdentifier>{a5d557da-c728-46fa-898e-64566e7c83a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderUsageStruct">
+      <UniqueIdentifier>{32a7257b-5851-4242-979d-08f79f10d2c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderUsageStruct\RenderUsageStruct3D">
+      <UniqueIdentifier>{8bd2605b-2228-4fae-8023-52bc7e72664f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderUsageStruct\RenderUsageStruct2D">
+      <UniqueIdentifier>{4cd2830e-3afa-4b54-af3e-c5ac4530503d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject3D">
+      <UniqueIdentifier>{fc3d4563-d61f-4414-bf64-5df104bba382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\BufferParser">
+      <UniqueIdentifier>{d7c7a330-377f-40e7-9f17-442b42763150}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs">
+      <UniqueIdentifier>{d5434b36-98c9-4309-8ad7-3ffc755a200e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\MaterialCluster">
+      <UniqueIdentifier>{d996588d-430c-4bd3-b54b-218f353e692d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Asset3DModelData\Define\AssetTextureType">
+      <UniqueIdentifier>{da6af180-f6dd-4275-8b14-d4734f08cad6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject2D\RenderObjectText2D">
+      <UniqueIdentifier>{b78e51a2-d0d1-4aa9-8493-c344bd8a0de2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject2D\RenderObjectImage2D">
+      <UniqueIdentifier>{c954ace8-b4df-4b29-8dcd-ca88412d3809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject3D\RenderObjectStaticMesh3D">
+      <UniqueIdentifier>{cb121fc8-aa1e-4642-9f73-9136df3aeafe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="11_TempMultiMesh">
+      <UniqueIdentifier>{f1b3487e-afc1-4aa5-bd21-8bdbee8bb1ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Asset3DModelData\Define\AssetModelDataDefine">
+      <UniqueIdentifier>{86d0c1de-e5af-4401-b892-c866de0d2e29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Asset3DModelData\Define\AssetAnimationDataDefine">
+      <UniqueIdentifier>{3a363304-1b97-4ec2-b25b-d94c305bd55e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject3D\RenderObjectSkinnedMesh3D">
+      <UniqueIdentifier>{376e6232-d816-4923-85d1-1a601ecd9bca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\SystemShader">
+      <UniqueIdentifier>{aa2bdefd-95f0-4c27-ab56-c2d2153bfe8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\SystemShader\SystemVertexShader">
+      <UniqueIdentifier>{a6ac6a39-bc2f-4fcc-8981-526cdeda02e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\SystemShader\SystemPixelShader">
+      <UniqueIdentifier>{6f06b7ed-15bc-4a91-84f3-3fa70d757372}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\WireframeRenderObject">
+      <UniqueIdentifier>{21302cff-981d-4a96-a0be-a738bbe568e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\WireframeRenderObject\Axis">
+      <UniqueIdentifier>{cb0fb748-9344-4c38-addd-52dda81e1c78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\WireframeRenderObject\Grid">
+      <UniqueIdentifier>{bd7c2f99-626c-4bab-a759-96bff9d2861f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers">
+      <UniqueIdentifier>{85c26228-1841-4e91-9dca-07777d029ce5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\GBuffers">
+      <UniqueIdentifier>{90d4c724-7977-41d9-918a-7399baa4d36d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\GBuffers\GBufferRender">
+      <UniqueIdentifier>{81e58eca-6673-4ddc-9715-18d4b224991a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\GBuffers\GBufferDepthStencil">
+      <UniqueIdentifier>{f96d711a-63a6-4d9a-b7a9-0bfe64fa49f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends">
+      <UniqueIdentifier>{87c0723f-9bb6-49aa-a6c4-af2e32421d35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System">
+      <UniqueIdentifier>{a9626f1f-46a8-44cc-9d9a-363a321ab014}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Added">
+      <UniqueIdentifier>{81bf6634-e9fe-4a0c-9cc5-2250f83340f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Libraries">
+      <UniqueIdentifier>{1ca1e3e7-8001-403a-9f7b-a475a1c85c79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Added\Object">
+      <UniqueIdentifier>{3ac5cbe4-2862-4ea6-884c-c2c7950e2489}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Added\Screen">
+      <UniqueIdentifier>{9cc51b42-38de-4fa7-a3b2-71ccf960ef71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Added\Object\AppendTest">
+      <UniqueIdentifier>{11dc7d8c-f616-4d00-9930-e2f1459b3a13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Added\Screen\AppendTest">
+      <UniqueIdentifier>{d3a0d272-72ac-4f0d-a8bc-089e2c40e3eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Libraries\SamplerStates">
+      <UniqueIdentifier>{0baa090f-b82c-4632-8b9e-0e8758e8811d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Libraries\TextureBuffers">
+      <UniqueIdentifier>{a6656566-39b1-4554-a791-9df0b2fa38b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Libraries">
+      <UniqueIdentifier>{00280bba-0ece-48c0-a786-666afafb231d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline">
+      <UniqueIdentifier>{a6c0f22e-935e-40fe-8d8d-d5bd12b887e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\FirstStage">
+      <UniqueIdentifier>{50ae27f5-021b-48c9-8c3e-fd67d29e10c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\Others">
+      <UniqueIdentifier>{61659c06-c288-416a-a264-5b491fafd66b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\TempForward">
+      <UniqueIdentifier>{5cc1c07b-7adb-4c6e-9c3e-33101d692436}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\MaterialParser">
+      <UniqueIdentifier>{e3f86a17-cc31-4047-9192-e38e1672a170}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\MaterialParser\ShaderParsingData">
+      <UniqueIdentifier>{6b7b660e-302b-4608-bc72-3582afa311a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_LowDX11">
+      <UniqueIdentifier>{577db36a-a07a-4467-ba45-4eee9ec08406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Resources">
+      <UniqueIdentifier>{a2536428-d2e1-4ba7-b28c-cd21da03ddb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Manager">
+      <UniqueIdentifier>{0354da4f-fbf0-453e-a48b-c872c06bdd9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Resources\RenderFont">
+      <UniqueIdentifier>{0bae70f9-746e-4705-8ede-05ed5669a754}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Resources\RenderMaterial">
+      <UniqueIdentifier>{2b12d567-cab3-4baf-9dad-a6459170e77a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Resources\RenderShader">
+      <UniqueIdentifier>{4b14586b-ead3-4828-a35d-cc3403eb575b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Resources\RenderShader\RenderVertexShader">
+      <UniqueIdentifier>{dc324861-8542-43c3-8fdd-6a94803eea78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Resources\RenderShader\RenderPixelShader">
+      <UniqueIdentifier>{905c22c4-84cc-4f64-9c8b-e83160b6f2d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Resources\RenderTexture">
+      <UniqueIdentifier>{98a2ad60-f636-459e-9591-44a0f2f3df78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Resources\RenderTexture\RenderCubemap">
+      <UniqueIdentifier>{f37f8d83-c235-4e23-8aea-d16b41a934f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Resources\RenderTexture\RenderTextureCube">
+      <UniqueIdentifier>{2fdc0d6e-bfa8-45eb-8908-c5bc0e643b37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Resources\RenderTexture\RenderTexture2DArray">
+      <UniqueIdentifier>{2df29e28-6742-42b7-b9b6-a300c51ed5de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Resources\RenderTexture\RenderTexture1D">
+      <UniqueIdentifier>{c171e771-e7c4-4afa-9b0a-a7378a935378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Resources\RenderTexture\RenderTexture2D">
+      <UniqueIdentifier>{b58c515e-ab8f-4565-9dee-c36c20115eb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Misc\Shader">
+      <UniqueIdentifier>{cbc5a6ca-3861-4110-afef-551c8d1d0b32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_Util">
+      <UniqueIdentifier>{ac8e1c62-b6b6-4db3-9a29-773a07312fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="9_Util\DemoGeometryGenerator">
+      <UniqueIdentifier>{96a84336-e59f-4c8b-adc6-f708a51266cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\GraphicsSceneParser">
+      <UniqueIdentifier>{b052a2bd-ff95-4976-87eb-a72c2e8875d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\FinalStage">
+      <UniqueIdentifier>{878696b6-0a6a-428c-bcea-c8144f67c2ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Libraries\Required">
+      <UniqueIdentifier>{b3f843b3-e8ed-4158-b560-bea6631a5519}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\GraphicsCarrier">
+      <UniqueIdentifier>{1a442d5c-d63c-4770-91c3-2230f437fc41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers\BaseSpecificRenderer">
+      <UniqueIdentifier>{2ab3de6d-bd70-41bd-8a2e-5fa81c309038}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Added\Object\Default">
+      <UniqueIdentifier>{eea3932f-2258-46ec-8240-56c7dbf53ced}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\Outline">
+      <UniqueIdentifier>{a2aba0b7-51aa-4956-90fe-50969b2b3bd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Resources\RenderTexture\Defines">
+      <UniqueIdentifier>{36619f65-7405-4494-ba90-282a1642d679}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Libraries\SceneInfo">
+      <UniqueIdentifier>{7fc4aead-73f6-4b2d-832f-baa42d9ccb11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Libraries\MathFunctions">
+      <UniqueIdentifier>{e9a1063c-bc0e-4256-a6c8-3abcac342bf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers\CubemapRenderer">
+      <UniqueIdentifier>{d2fd682a-24a1-48b3-a2c6-49673c3e95ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers\DebugRenderer">
+      <UniqueIdentifier>{d36b3578-4d54-4744-b5a0-8def4d664bcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers\FinalRenderer">
+      <UniqueIdentifier>{a67629e7-2a17-4d0a-9b27-47d6cd83ef01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers\DeferredRenderer">
+      <UniqueIdentifier>{fee1d174-d870-429a-ae2b-da3630e7d65f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers\Forward2DRenderer">
+      <UniqueIdentifier>{aa62bd4a-cef9-425f-8754-9645905a3e22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\Renderers\Forward3DRenderer">
+      <UniqueIdentifier>{120f146f-438a-4e33-a792-36b513f5f8fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Added\Object\Experimental">
+      <UniqueIdentifier>{aea3b6ef-17bd-488e-83f4-53c007fc85ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\Resources\RenderAnimation">
+      <UniqueIdentifier>{e7522d58-315f-465d-a85d-89dfb48e9477}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\AnimationParser">
+      <UniqueIdentifier>{ae9dd685-f003-4ca8-94a6-35b19e3d8dff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RC">
+      <UniqueIdentifier>{ae741498-e1a1-488b-8b50-8ba348182e47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver">
+      <UniqueIdentifier>{b448a453-6fc8-4a56-bd6d-099ed77b88c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\RenderingList">
+      <UniqueIdentifier>{47066a72-c70a-4722-b502-e9a236a0d4dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\RenderingList\RenderObject2DList">
+      <UniqueIdentifier>{b98873a6-f807-4896-a495-23cd40399025}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\RenderingList\RenderObject3DList">
+      <UniqueIdentifier>{7615f067-2066-4839-8094-b58112896c55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\RenderingList\RenderObjectCubemapList">
+      <UniqueIdentifier>{9c9d30fe-4eeb-43a3-9ed4-6a4b2e608068}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\RenderingList\RenderObjectWireframeList">
+      <UniqueIdentifier>{97f30ae3-ee69-480e-8642-081ee54a39b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\RenderingList\SceneInformationList">
+      <UniqueIdentifier>{f461b862-9b89-4b55-95e1-c415c38a0ea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="12_GraphicsAPI">
+      <UniqueIdentifier>{5bb9308d-f793-4e7b-b7c3-293e28b8d88e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\PostProcessing">
+      <UniqueIdentifier>{e476e259-2429-49d8-9752-72d8194edf37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\20_ProcessFinalRenderPass">
+      <UniqueIdentifier>{eaa8e6b3-4a91-4e77-858e-d882be91ee71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_RenderObject\RenderObject3D\RenderObjectInstancedMesh3D">
+      <UniqueIdentifier>{b1759d1d-dd6e-4f7a-9eee-0043469bd4d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="13_LibraryExtensions">
+      <UniqueIdentifier>{b07712c3-1de6-4ffc-b485-a246c5c1af7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="13_LibraryExtensions\DirectXTexEXR">
+      <UniqueIdentifier>{920c9e4f-3fa7-4a5b-bfd8-2dbf231afa81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\8_AlphaBlendingTotalRenderPass">
+      <UniqueIdentifier>{f54e7a5e-4811-4fe0-a4b7-d2c4f483636e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="14_LightmapRelated">
+      <UniqueIdentifier>{1ea7bcc5-668d-48e1-9e39-f9ec01f7f869}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="14_LightmapRelated\Manager">
+      <UniqueIdentifier>{63f15778-b6ca-4cf7-83f3-7fa4508393e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="14_LightmapRelated\Lightmap">
+      <UniqueIdentifier>{517f72c4-304c-4153-aec9-1b949eca8c8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="14_LightmapRelated\Parser">
+      <UniqueIdentifier>{a7863247-d237-401e-b038-101af79600de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\ComplementaryStructs">
+      <UniqueIdentifier>{ad92431e-b20a-4cdf-865e-402c1df6c644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="14_LightmapRelated\Lightmap\SingleLightmapSet">
+      <UniqueIdentifier>{8ea9763c-59b5-4e5c-a627-ce843400f827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\0_SceneInformationSender">
+      <UniqueIdentifier>{56242de7-cd58-4a5b-9ea6-9eaaf9dedce7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\0_SceneInformationSender\IndividualLightsGPU">
+      <UniqueIdentifier>{31f1270b-2690-4160-85a0-3591fd4d0069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\1_FirstInstancedRenderPass">
+      <UniqueIdentifier>{2273686f-7bd9-46be-8ce8-36ffba18903c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\2_FirstStaticRenderPass">
+      <UniqueIdentifier>{3157d69f-ab00-40e8-9704-a984429cdac2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\3_FirstSkinnedRenderPass">
+      <UniqueIdentifier>{636663b6-22a8-4171-9908-02f7ecc98a42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="14_LightmapRelated\Lightmap\RenderLightmapData">
+      <UniqueIdentifier>{babffa6a-dc4c-43ab-b3eb-40de8eaf7a14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\PostProcessing\Vignette">
+      <UniqueIdentifier>{4218a496-6cdd-475a-9ac5-3838f89497ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\PostProcessing\Bloom">
+      <UniqueIdentifier>{eb9756c8-1b9f-4a3d-8f54-a2f2f3c89493}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\PostProcessing\LUT">
+      <UniqueIdentifier>{e7db1dc7-1475-48ed-803f-c5bc8cdc89b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\Shadows">
+      <UniqueIdentifier>{349ef2f9-9719-4232-8e4f-72e60cd16b44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\6_OpaqueShadowPass">
+      <UniqueIdentifier>{ce2af1b9-0ea1-45ac-81ce-f6fe2f9857b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass">
+      <UniqueIdentifier>{449cc130-19ee-4d9d-883c-be93c1eeaf50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GraphicsResources\SystemShader\SystemInterfacedVertexShader">
+      <UniqueIdentifier>{c39d04f9-bddf-418f-a071-c7d9d557d27b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\FirstStage_CameraDepth">
+      <UniqueIdentifier>{3d619716-e81b-4b6e-81b2-1b94409afcf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\10_FogProcessingPass">
+      <UniqueIdentifier>{6c02a187-cef7-4bd3-bfcc-76bb3aa9b56a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\11_OutlineRenderPass">
+      <UniqueIdentifier>{923fdd6e-5157-47b0-8cac-b34658565252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10_Structs\VisualEffectGraphicsSet">
+      <UniqueIdentifier>{eb15c073-4cc9-46dc-b543-108325986b57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer">
+      <UniqueIdentifier>{8c08ad47-7787-45d9-9d7f-9155336c525b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\DebugOverlayQuad">
+      <UniqueIdentifier>{e694605e-b4b8-4e36-ae4f-a9ba3394a9fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\9_VisualEffectRenderPass">
+      <UniqueIdentifier>{8c6e63be-b0f2-4acc-a3d4-21169d2dd742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect">
+      <UniqueIdentifier>{fd3ee343-878d-4157-92a0-f177f41b04f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D">
+      <UniqueIdentifier>{0375b8b6-d951-4df9-a375-40a38d21f281}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\2D">
+      <UniqueIdentifier>{4f162e06-5e9e-4035-85f8-00af5a210092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\BaseCustomEffect">
+      <UniqueIdentifier>{2a301e52-3d55-47af-a7cb-0268ed76fb21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\2D\SpriteEffect2D">
+      <UniqueIdentifier>{830484db-00ea-471a-9369-9a7fca2ec99b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\Others\SpriteInputUsageTest">
+      <UniqueIdentifier>{28fa7df2-ba2e-4dd6-aa34-e3ff38a90003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\DXTKAddon">
+      <UniqueIdentifier>{fa1d6b11-3c23-466a-ba68-2efe5ecca49b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass\DefaultQuadRenderPass">
+      <UniqueIdentifier>{0594f9a0-43c2-4b38-a503-9d6c0316c8a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\7_OpaqueQuadRenderPass\OpaqueQuadRenderPass">
+      <UniqueIdentifier>{4e4ed402-2001-4e59-8abf-ef58874576f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\15_LUTRenderPass">
+      <UniqueIdentifier>{46752a2b-940f-453e-ae60-13deca165c49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\17_BloomRenderPass">
+      <UniqueIdentifier>{8b2318d0-76c3-4d62-bb5b-ea02914d23b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\18_VignetteRenderPass">
+      <UniqueIdentifier>{fc6000d4-46bf-4c71-833f-9ff63fbae620}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\19_FadeInOutPass">
+      <UniqueIdentifier>{3f71dca2-1d40-421e-b169-54367dc03a99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D\Static">
+      <UniqueIdentifier>{53e4dbfc-8be9-4d4d-89a6-66d676d3addb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D\Static\OneTextureEffect3D">
+      <UniqueIdentifier>{762acaa2-d97e-41ff-bb5d-fca785429bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D\Static\ThreeTextureEffect3D">
+      <UniqueIdentifier>{d3ca59c5-ff97-4c1a-9dd3-e747848bf7f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8_Helpers\VisualEffectRenderer\IEffect\3D\Static\TwoTextureEffect3D">
+      <UniqueIdentifier>{9d718686-3ca4-4bcf-8d0d-70e2659eac53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\AlphaDefault">
+      <UniqueIdentifier>{1802da75-26fc-4de5-8705-2c524ed166e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Main\RenderPass&amp;SendReceiver\16_HeightFogRenderPass">
+      <UniqueIdentifier>{8aa14f88-db08-4907-a027-750d80991ea5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\Debug">
+      <UniqueIdentifier>{778e3bc9-0724-4c69-9dd3-70b353ae469b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\Appends\Added\Object\Arrow">
+      <UniqueIdentifier>{47b10104-dd45-4fa0-8d52-15bf986d7562}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_HLSL\System\Pipeline\PostProcessing\HeightFog">
+      <UniqueIdentifier>{67542de1-60b6-4a3d-9928-1db047191542}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestPS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Screen\AppendTest</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Screen\AppendTest\AppendScreenTestVS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Screen\AppendTest</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\AppendTest\AppendObjectTestPS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\AppendTest</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\AppendTest\AppendObjectTestVS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\AppendTest</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstSkinned_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstStage_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstStatic_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\TempForward\TempForwardPS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\TempForward</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\TempForward\TempForwardVS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\TempForward</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\TempForward\TempForwardVSSkinned.hlsl">
+      <Filter>6_HLSL\System\Pipeline\TempForward</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\CubemapPS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Others</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\CubemapVS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Others</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\PrimitivePS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Others</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\PrimitiveVS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Others</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FinalStage\FinalStage_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FinalStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FinalStage\FinalStage_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FinalStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Default\AppendObjectDefaultPS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\Default</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Default\AppendObjectDefaultVS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\Default</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_SingleColor_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Outline</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Outline</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Outline\SelectedOutline_Blur_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Outline</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Experimental\AppendExperimentalTestPS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\Experimental</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Experimental\AppendExperimentalTestVS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\Experimental</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\Shadow_RecordLightDepth_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Shadows</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Shadows\Shadow_RecordLightDepth_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Shadows</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\PostProcessingDefault_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\PostProcessing</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Tonemapping\HeightFog_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\PostProcessing\HeightFog</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstInstanced_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstInstancedStage_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\FirstStage_AlphaBlendedPS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Vignette\Vignette_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\PostProcessing\Vignette</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\Bloom\Bloom_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\PostProcessing\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\PostProcessing\LUT\LUT_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\PostProcessing\LUT</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage_CameraDepth\First_DepthRecordOnlyPS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage_CameraDepth</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage_CameraDepth\FirstInstanced_DepthRecordOnlyPS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage_CameraDepth</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage\AlphaClippedInstancedStage_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\FirstStage_CameraDepth\AlphaClippedInstanced_DepthRecordOnlyPS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\FirstStage_CameraDepth</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\SpriteInputUsageTest\SpriteInputUsageTest_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Others\SpriteInputUsageTest</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Others\SpriteInputUsageTest\SpriteInputUsageTest_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Others\SpriteInputUsageTest</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\AlphaDefault\AlphaDefaultSkinned_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\AlphaDefault</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\AlphaDefault\AlphaDefaultStage_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\AlphaDefault</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\AlphaDefault\AlphaDefaultStatic_VS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\AlphaDefault</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\System\Pipeline\Debug\Debug_ShadowMap_PS.hlsl">
+      <Filter>6_HLSL\System\Pipeline\Debug</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Arrow\Append_ArrowUsagePS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\Arrow</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderResources\Shaders\Appends\Added\Object\Arrow\Append_ArrowUsageVS.hlsl">
+      <Filter>6_HLSL\Appends\Added\Object\Arrow</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_GBufferTextures.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\TextureBuffers</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_InstancedValues.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\TextureBuffers</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\SamplerStates\Appends_SamplerStates.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\SamplerStates</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\Appends_PSCommon.hlsli">
+      <Filter>6_HLSL\Appends\Libraries</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\Appends_VSCommon.hlsli">
+      <Filter>6_HLSL\Appends\Libraries</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\System\Libraries\System_1stLayouts.hlsli">
+      <Filter>6_HLSL\System\Libraries</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\System\Libraries\System_PerObjectBuffers.hlsli">
+      <Filter>6_HLSL\System\Libraries</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\System\Libraries\System_QuadLayouts.hlsli">
+      <Filter>6_HLSL\System\Libraries</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_ObjMat.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\Required</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\TextureBuffers\Appends_PBRBufferTextures.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\TextureBuffers</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\SceneInfo\Appends_SceneInfoVSPS.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\SceneInfo</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_MathFunctions.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\MathFunctions</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\Required\Appends_BufferSRVRegisters.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\Required</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\System\Libraries\System_PostProcessingResources.hlsli">
+      <Filter>6_HLSL\System\Libraries</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_ShadowFunctions.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\MathFunctions</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\System\Libraries\System_SwitchingViewProj.hlsli">
+      <Filter>6_HLSL\System\Libraries</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\Appends\Libraries\MathFunctions\Appends_UVFunctions.hlsli">
+      <Filter>6_HLSL\Appends\Libraries\MathFunctions</Filter>
+    </None>
+    <None Include="..\ShaderResources\Shaders\System\Libraries\System_AlphaDefaultInfo.hlsli">
+      <Filter>6_HLSL\System\Libraries</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ParagonGraphics.rc">
+      <Filter>RC</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

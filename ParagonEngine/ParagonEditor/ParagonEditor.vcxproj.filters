@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="EditorManager.cpp">
+      <Filter>1_Main\EditorManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessManager.cpp">
+      <Filter>1_Main\ProcessManager</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem.cpp">
+      <Filter>3_File\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorAction.cpp">
+      <Filter>1_Main\EditorAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Inspector.cpp">
+      <Filter>2_Windows\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Hierarchy.cpp">
+      <Filter>2_Windows\Hierarchy</Filter>
+    </ClCompile>
+    <ClCompile Include="Filter.cpp">
+      <Filter>2_Windows\Filter</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>2_Windows\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Serializer.cpp">
+      <Filter>3_File\Data\Serialize</Filter>
+    </ClCompile>
+    <ClCompile Include="DataContainer.cpp">
+      <Filter>3_File\Data\DataContainer</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>2_Windows\0_WindowManager</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSystem.cpp">
+      <Filter>4_Event\EventSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>4_Event\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>1_Main\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Layout.cpp">
+      <Filter>2_Windows\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="InspectorDataManager.cpp">
+      <Filter>2_Windows\Inspector\Manager\DataManager</Filter>
+    </ClCompile>
+    <ClCompile Include="InspectorUIManager.cpp">
+      <Filter>2_Windows\Inspector\Manager\UIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="DontDestroy.cpp">
+      <Filter>2_Windows\DontDestroy</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBar.cpp">
+      <Filter>2_Windows\ToolBar</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>3_File\Data\DataManager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EditorManager.h">
+      <Filter>1_Main\EditorManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessManager.h">
+      <Filter>1_Main\ProcessManager</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorDLLExporter.h">
+      <Filter>0_Define\EditorDLLExporter</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem.h">
+      <Filter>3_File\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorAction.h">
+      <Filter>1_Main\EditorAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Inspector.h">
+      <Filter>2_Windows\Inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="Hierarchy.h">
+      <Filter>2_Windows\Hierarchy</Filter>
+    </ClInclude>
+    <ClInclude Include="Filter.h">
+      <Filter>2_Windows\Filter</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>2_Windows\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Serializer.h">
+      <Filter>3_File\Data\Serialize</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>3_File\Data\DataManager</Filter>
+    </ClInclude>
+    <ClInclude Include="DataContainer.h">
+      <Filter>3_File\Data\DataContainer</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
+      <Filter>2_Windows\0_WindowManager</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSystem.h">
+      <Filter>4_Event\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EventType.h">
+      <Filter>4_Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>4_Event\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>1_Main\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="IEditor.h">
+      <Filter>0_Define\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IEditorManager.h">
+      <Filter>0_Define\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="visit_struct.hpp">
+      <Filter>Visit_Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="visit_struct_boost_fusion.hpp">
+      <Filter>Visit_Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="visit_struct_boost_hana.hpp">
+      <Filter>Visit_Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="visit_struct_intrusive.hpp">
+      <Filter>Visit_Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Layout.h">
+      <Filter>2_Windows\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="IEditorWindow.h">
+      <Filter>2_Windows\1_Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectorDataManager.h">
+      <Filter>2_Windows\Inspector\Manager\DataManager</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectorUIManager.h">
+      <Filter>2_Windows\Inspector\Manager\UIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="DontDestroy.h">
+      <Filter>2_Windows\DontDestroy</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBar.h">
+      <Filter>2_Windows\ToolBar</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="4_Event">
+      <UniqueIdentifier>{748cb9ec-15ef-4e3f-8809-244b6fa1b409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows">
+      <UniqueIdentifier>{b8d9bc88-1ec5-40c6-b7e7-d60939984e22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\Inspector">
+      <UniqueIdentifier>{e2440d48-cd8e-49a9-9556-3a5dbb9ed882}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\Hierarchy">
+      <UniqueIdentifier>{6ae91111-abaf-4f4f-b15d-0f414182febf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\Filter">
+      <UniqueIdentifier>{8792ef46-46a9-4baf-89e7-cc33fbf3c364}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\Scene">
+      <UniqueIdentifier>{6623f742-824c-4f9a-a564-5adba5cb9421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\0_WindowManager">
+      <UniqueIdentifier>{0d62db5c-9dac-4cd4-bd9c-4db03efbaa91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_File">
+      <UniqueIdentifier>{ff87ba54-b4f3-4e3a-a9b8-294483913b95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_File\Data">
+      <UniqueIdentifier>{803e37e2-5951-4b8d-ba9f-cd15dbb8afe0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_File\Data\DataManager">
+      <UniqueIdentifier>{6614e59e-2228-43e9-bddd-eb646ddee662}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_File\Data\DataContainer">
+      <UniqueIdentifier>{88e59cc8-617e-445a-aec9-407720f7ba26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_File\Data\Serialize">
+      <UniqueIdentifier>{da92b7b7-5fa9-4def-a94a-fde8bd8f150c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Event\EventSystem">
+      <UniqueIdentifier>{e3f1f26a-702e-4fe1-9a00-132ba6bc00ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Event\Event">
+      <UniqueIdentifier>{a9522205-dcc9-40a2-99fe-2bf8e2530db5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Define">
+      <UniqueIdentifier>{0363f5c7-3ed9-4655-b75a-d655ab668f61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Define\EditorDLLExporter">
+      <UniqueIdentifier>{a5a395cd-a936-449b-a1d4-162579c4e265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Main">
+      <UniqueIdentifier>{3e46d354-9362-4258-8705-75d60113e615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Main\EditorAction">
+      <UniqueIdentifier>{30d81899-e0d9-43e2-ad07-85156101a297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Main\EditorManager">
+      <UniqueIdentifier>{56dfd14d-ea18-4fa8-8ae7-5ee43d02390e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Main\ProcessManager">
+      <UniqueIdentifier>{6aeadde7-4800-4c6e-8d2d-947ccce11ef1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Main\Editor">
+      <UniqueIdentifier>{a7e9b0f8-eca8-4862-a7f1-77937af49334}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Define\Interface">
+      <UniqueIdentifier>{70c8a54c-7cc3-4ce1-b272-d7d17b09dcb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_File\FileSystem">
+      <UniqueIdentifier>{2e9788a1-cb70-46ee-9880-2e87ffcefa55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visit_Struct">
+      <UniqueIdentifier>{ea5e6b9c-734c-465d-a4d8-52025f4060cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\Layout">
+      <UniqueIdentifier>{22ef4027-1948-44ca-834a-582a17202598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\ToolBar">
+      <UniqueIdentifier>{70b38a76-d7bb-4df6-9e77-799c102a7b72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\1_Interface">
+      <UniqueIdentifier>{c893f9ce-67b9-410c-b0a8-0a7471917c8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\Inspector\Manager">
+      <UniqueIdentifier>{60a87bed-b7aa-49a2-b9a3-3d9c267869fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\Inspector\Manager\UIManager">
+      <UniqueIdentifier>{e5ab064b-6b27-4c26-89ce-af43b125a0ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\Inspector\Manager\DataManager">
+      <UniqueIdentifier>{d760a842-7e00-41cb-882f-807c9a06a0b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Windows\DontDestroy">
+      <UniqueIdentifier>{223c34c9-dc94-46fc-b236-4d624af98323}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

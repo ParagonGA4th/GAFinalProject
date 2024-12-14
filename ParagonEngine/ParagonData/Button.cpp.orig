@@ -1,0 +1,71 @@
+#include "Button.h"
+#include "ImageRenderer.h"
+#include "TextRenderer.h"
+#include "../ParagonUtil/Log.h"
+
+#include "GameObject.h"
+
+namespace Pg::Data
+{
+	class GameObject;
+
+	Button::Button(GameObject* obj)
+		:Component(obj),
+		_onClickEvent(),
+		_isPressed(false)
+	{
+		
+		if (obj->GetComponent<ImageRenderer>())
+		{
+			assert(false);
+		}
+		
+		
+		_imageRenderer = obj->AddComponent<ImageRenderer>();
+		_imageWidth = &(_imageRenderer->_width);
+		_imageHeight = &(_imageRenderer->_height);
+		
+		//j->AddComponent<TextRenderer>();
+	}
+
+	void Button::Update()
+	{
+		PGFLOAT3 worldPos = _object->_transform._position;
+<<<<<<< HEAD
+		PGFLOAT2 LT = { worldPos.x - *_imageWidth / 2, worldPos.y - *_imageHeight / 2 };
+		PGFLOAT2 RB = { worldPos.x + *_imageWidth / 2, worldPos.y + *_imageHeight / 2 };
+		PGFLOAT4 color = { 1.0f,0.0f,0.0f,1.0f };
+=======
+		_box2dInfo.LT = { worldPos.x - _width / 2, worldPos.y - _height / 2 };
+		_box2dInfo.RB = { worldPos.x + _width / 2, worldPos.y + _height / 2 };
+		_box2dInfo.color = { 1.0f,0.0f,0.0f,1.0f };
+>>>>>>> b5d892865a09f09e2da2ac932e460b324f3fd248
+	}
+
+	void Button::SetOnClickEvent(std::function<void()> onClickEvent)
+	{
+		_onClickEvent = onClickEvent;
+	}
+
+	std::function<void()> Button::GetOnClickEvent() const
+	{
+		return _onClickEvent;
+	}
+
+	void Button::Click()
+	{
+		if (_onClickEvent)
+		{
+			_onClickEvent();
+		}
+
+		_isPressed = !_isPressed;
+
+		//PG_TRACE("Button Click!");
+	}
+
+	void Button::SetImagePath(const std::string& path)
+	{
+		_imageRenderer->SetImagePath(path);
+	}
+}

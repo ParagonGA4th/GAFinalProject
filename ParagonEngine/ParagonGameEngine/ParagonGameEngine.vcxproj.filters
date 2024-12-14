@@ -1,0 +1,528 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="EngineMain.h">
+      <Filter>0_Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDLLExporter.h">
+      <Filter>1_DLLExporter</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineResourceManager.h">
+      <Filter>3_GameEngineResources\EngineResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicSystem.h">
+      <Filter>2_System\PhysicSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneSystem.h">
+      <Filter>2_System\SceneSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSystem.h">
+      <Filter>2_System\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugSystem.h">
+      <Filter>2_System\DebugSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingTest.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\ObjectMove</Filter>
+    </ClInclude>
+    <ClInclude Include="PrintRuntimeData.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\RuntimeData</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsCallback.h">
+      <Filter>2_System\PhysicSystem\PhysicsCallback</Filter>
+    </ClInclude>
+    <ClInclude Include="RayCastTest.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\RayCastTest</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSystem.h">
+      <Filter>2_System\SoundSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="BTTest.h">
+      <Filter>5_BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="dummy_nodes.h">
+      <Filter>5_BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorTreeSystem.h">
+      <Filter>2_System\BehaviorTreeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EventTest.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\EventTest</Filter>
+    </ClInclude>
+    <ClInclude Include="NavigationSystem.h">
+      <Filter>2_System\NavigationSystem\BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAlloc.h">
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourAssert.h">
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourCommon.h">
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourMath.h">
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMesh.h">
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshBuilder.h">
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNavMeshQuery.h">
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourNode.h">
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Detour\DetourStatus.h">
+      <Filter>2_System\NavigationSystem\include\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourCrowd.h">
+      <Filter>2_System\NavigationSystem\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourLocalBoundary.h">
+      <Filter>2_System\NavigationSystem\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourObstacleAvoidance.h">
+      <Filter>2_System\NavigationSystem\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathCorridor.h">
+      <Filter>2_System\NavigationSystem\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourPathQueue.h">
+      <Filter>2_System\NavigationSystem\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourCrowd\DetourProximityGrid.h">
+      <Filter>2_System\NavigationSystem\include\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DebugDraw.h">
+      <Filter>2_System\NavigationSystem\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\DetourDebugDraw.h">
+      <Filter>2_System\NavigationSystem\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDebugDraw.h">
+      <Filter>2_System\NavigationSystem\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DebugUtils\RecastDump.h">
+      <Filter>2_System\NavigationSystem\include\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCache.h">
+      <Filter>2_System\NavigationSystem\include\DetourTileCache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\DetourTileCache\DetourTileCacheBuilder.h">
+      <Filter>2_System\NavigationSystem\include\DetourTileCache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Recast\Recast.h">
+      <Filter>2_System\NavigationSystem\include\Recast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Recast\RecastAlloc.h">
+      <Filter>2_System\NavigationSystem\include\Recast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\Recast\RecastAssert.h">
+      <Filter>2_System\NavigationSystem\include\Recast</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoPlayerAction.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\DemoPlayerAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrowAction.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\ArrowAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenPointTest.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\ScreenPointTest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Recast\Navigation\RecastDemo\ChunkyTriMesh.h">
+      <Filter>2_System\NavigationSystem\include\RecastDemo</Filter>
+    </ClInclude>
+    <ClInclude Include="ParagonRecast.h">
+      <Filter>2_System\NavigationSystem\CustomClass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\fastlz\fastlz.h">
+      <Filter>2_System\NavigationSystem\include\fastlz</Filter>
+    </ClInclude>
+    <ClInclude Include="PgLayer.h">
+      <Filter>2_System\PhysicSystem\PhysicsLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\AI\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Navigation.h">
+      <Filter>2_System\NavigationSystem\FixedClass</Filter>
+    </ClInclude>
+    <ClInclude Include="TweenSystem.h">
+      <Filter>2_System\TweenSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NavGeom.h">
+      <Filter>2_System\NavigationSystem\FixedClass\NavGeom</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLoaderObj.h">
+      <Filter>2_System\NavigationSystem\FixedClass\MeshLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="NavTest.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\NavTest</Filter>
+    </ClInclude>
+    <ClInclude Include="NavTestSecond.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\NavTest</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterStrucr.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsAllocator.h">
+      <Filter>2_System\PhysicSystem\PhysicsAllocator</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsErrorCallback.h">
+      <Filter>2_System\PhysicSystem\PhysicsErrorCallback</Filter>
+    </ClInclude>
+    <ClInclude Include="AISeight.h">
+      <Filter>4_WorkSpace\SceneView\Scripts\AI\AISight</Filter>
+    </ClInclude>
+    <ClInclude Include="DetectTriggers_PxQFC.h">
+      <Filter>2_System\PhysicSystem\DetectTriggers_PxQFC</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EngineMain.cpp">
+      <Filter>0_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineResourceManager.cpp">
+      <Filter>3_GameEngineResources\EngineResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicSystem.cpp">
+      <Filter>2_System\PhysicSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneSystem.cpp">
+      <Filter>2_System\SceneSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSystem.cpp">
+      <Filter>2_System\EventSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugSystem.cpp">
+      <Filter>2_System\DebugSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingTest.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\ObjectMove</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintRuntimeData.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\RuntimeData</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsCallback.cpp">
+      <Filter>2_System\PhysicSystem\PhysicsCallback</Filter>
+    </ClCompile>
+    <ClCompile Include="RayCastTest.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\RayCastTest</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSystem.cpp">
+      <Filter>2_System\SoundSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="dummy_nodes.cpp">
+      <Filter>5_BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorTreeSystem.cpp">
+      <Filter>2_System\BehaviorTreeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="EventTest.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\EventTest</Filter>
+    </ClCompile>
+    <ClCompile Include="NavigationSystem.cpp">
+      <Filter>2_System\NavigationSystem\BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Detour\DetourAlloc.cpp">
+      <Filter>2_System\NavigationSystem\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Detour\DetourAssert.cpp">
+      <Filter>2_System\NavigationSystem\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Detour\DetourCommon.cpp">
+      <Filter>2_System\NavigationSystem\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Detour\DetourNavMesh.cpp">
+      <Filter>2_System\NavigationSystem\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Detour\DetourNavMeshBuilder.cpp">
+      <Filter>2_System\NavigationSystem\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Detour\DetourNavMeshQuery.cpp">
+      <Filter>2_System\NavigationSystem\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Detour\DetourNode.cpp">
+      <Filter>2_System\NavigationSystem\src\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourCrowd\DetourCrowd.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourCrowd\DetourLocalBoundary.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourCrowd\DetourObstacleAvoidance.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourCrowd\DetourPathCorridor.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourCrowd\DetourPathQueue.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourCrowd\DetourProximityGrid.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourTileCache\DetourTileCache.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourTileCache</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DetourTileCache\DetourTileCacheBuilder.cpp">
+      <Filter>2_System\NavigationSystem\src\DetourTileCache</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DebugUtils\DebugDraw.cpp">
+      <Filter>2_System\NavigationSystem\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DebugUtils\DetourDebugDraw.cpp">
+      <Filter>2_System\NavigationSystem\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DebugUtils\RecastDebugDraw.cpp">
+      <Filter>2_System\NavigationSystem\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\DebugUtils\RecastDump.cpp">
+      <Filter>2_System\NavigationSystem\src\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\Recast.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastAlloc.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastArea.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastAssert.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastContour.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastFilter.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastLayers.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastMesh.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastMeshDetail.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastRasterization.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\Recast\RecastRegion.cpp">
+      <Filter>2_System\NavigationSystem\src\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoPlayerAction.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\DemoPlayerAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrowAction.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\ArrowAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenPointTest.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\ScreenPointTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\fastlz\fastlz.c">
+      <Filter>2_System\NavigationSystem\include\fastlz</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation\RecastDemo\ChunkyTriMesh.cpp">
+      <Filter>2_System\NavigationSystem\src\RecastDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="PgLayer.cpp">
+      <Filter>2_System\PhysicSystem\PhysicsLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\AI\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation.cpp">
+      <Filter>2_System\NavigationSystem\FixedClass</Filter>
+    </ClCompile>
+    <ClCompile Include="TweenSystem.cpp">
+      <Filter>2_System\TweenSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NavGeom.cpp">
+      <Filter>2_System\NavigationSystem\FixedClass\NavGeom</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshLoaderObj.cpp">
+      <Filter>2_System\NavigationSystem\FixedClass\MeshLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="NavTest.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\NavTest</Filter>
+    </ClCompile>
+    <ClCompile Include="NavTestSecond.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\NavTest</Filter>
+    </ClCompile>
+    <ClCompile Include="AISeight.cpp">
+      <Filter>4_WorkSpace\SceneView\Scripts\AI\AISight</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="0_Main">
+      <UniqueIdentifier>{05d15759-9684-4b7a-a054-99f0ccccab6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_DLLExporter">
+      <UniqueIdentifier>{d15258cb-232a-45bd-8392-3fb51d1aa74d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System">
+      <UniqueIdentifier>{1369cddb-fc70-4b89-985c-75b02032e8fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GameEngineResources">
+      <UniqueIdentifier>{d7a262c0-d579-42f5-aad5-96ea7b118f5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_GameEngineResources\EngineResourceManager">
+      <UniqueIdentifier>{1bf326f1-88d0-48a2-ab9a-fe5c04d17fbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace">
+      <UniqueIdentifier>{e2eec72b-9fb0-46fa-a146-29934a2125c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView">
+      <UniqueIdentifier>{f49d3efc-a1c7-4329-87a7-08623e0d1c8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem">
+      <UniqueIdentifier>{ee935016-be10-42a9-86ba-64378ce5b25c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\EventSystem">
+      <UniqueIdentifier>{8ced1db1-43f1-40fa-8b55-a9cd484d6fe7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\DebugSystem">
+      <UniqueIdentifier>{0c5d9658-5dcb-4e7a-ab78-73ae6f8c64df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts">
+      <UniqueIdentifier>{92d6b3ef-5bd2-4ba8-adb4-d0bd1ba974c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\EditorCamera">
+      <UniqueIdentifier>{6dc1a60a-4d00-42c0-919a-3a87267cf93b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\ObjectMove">
+      <UniqueIdentifier>{307f5ee2-6199-407c-997e-79f2858007a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\RuntimeData">
+      <UniqueIdentifier>{29d7e73a-378f-4789-9310-d3b1a43df4e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\SceneSystem">
+      <UniqueIdentifier>{b0b22550-0d8e-4869-9bb0-573c34426e6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\PhysicsCallback">
+      <UniqueIdentifier>{356183f5-6c8c-4046-81ca-003b8467c6ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\RayCastTest">
+      <UniqueIdentifier>{00531c1f-6b13-4d0b-8bad-297affd0826f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\SoundSystem">
+      <UniqueIdentifier>{e5bb6dc6-c6ca-4c02-a2a8-b7675dcf0dd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_BehaviorTree">
+      <UniqueIdentifier>{d63029ea-6b15-4b04-bf52-a170485ceaa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\EventTest">
+      <UniqueIdentifier>{cc8ad5aa-37ea-4ef4-82aa-d94dad1e2c71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem">
+      <UniqueIdentifier>{513cce2e-c81a-4425-8135-5cf527832f8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\BehaviorTreeSystem">
+      <UniqueIdentifier>{1f20ea8e-00e6-405d-ab94-eb72b4357e06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\BaseClass">
+      <UniqueIdentifier>{ddf371fd-dc38-445b-9422-d3dfddcea169}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include">
+      <UniqueIdentifier>{4286fe4a-c8a2-4bd3-87ac-8e1b2f5922c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\src">
+      <UniqueIdentifier>{cd918d2c-392f-4d00-bd12-9d434edc70fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\Detour">
+      <UniqueIdentifier>{20d8495e-2ec2-4864-8f04-4094038c7d67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\DetourCrowd">
+      <UniqueIdentifier>{e4477320-fe9b-4b1c-8ed9-46df265d7d98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\DebugUtils">
+      <UniqueIdentifier>{0f1f770c-dd07-4e99-9853-c97aaa97fb0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\DetourTileCache">
+      <UniqueIdentifier>{bce8ef7e-19af-4a2a-b1bb-e678abac40c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\Recast">
+      <UniqueIdentifier>{b9315cbb-d01b-46f1-9598-660f0d5705ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\src\Detour">
+      <UniqueIdentifier>{959c66f1-64f4-437c-981e-d4d5848a1c81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\src\DetourCrowd">
+      <UniqueIdentifier>{8da16e09-b90c-4e43-9323-ca863204d673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\src\DetourTileCache">
+      <UniqueIdentifier>{98483c69-b642-4b8d-9099-8463f951a2a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\src\Recast">
+      <UniqueIdentifier>{70a4c220-df30-424b-b6f3-aa6dc90071af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\src\DebugUtils">
+      <UniqueIdentifier>{45327d6d-6e0b-4355-8dfb-d093c891ec05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\DemoPlayerAction">
+      <UniqueIdentifier>{ad23cbfa-e0d5-4551-97e2-7659e6137be6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\ArrowAction">
+      <UniqueIdentifier>{e1b6b78d-6f76-4d7e-b8cb-b2fbb2b597df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\ScreenPointTest">
+      <UniqueIdentifier>{0bfb62db-bdd1-4fe6-a7b9-086e2cff171b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\RecastDemo">
+      <UniqueIdentifier>{b0a20b95-bb99-4faf-a72a-37111042caa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\CustomClass">
+      <UniqueIdentifier>{c93f6ce7-9915-44bd-9667-7787dc0c6e5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\include\fastlz">
+      <UniqueIdentifier>{f49539ee-5b99-42ec-aac4-507fa9908e04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\src\RecastDemo">
+      <UniqueIdentifier>{6eb82696-ca2e-4377-a920-916449bc53a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\PhysicsLayer">
+      <UniqueIdentifier>{f2a4720f-ff13-4657-9fcb-360cbffb9a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\AI">
+      <UniqueIdentifier>{d01096b5-f5a8-4e70-847d-71dd8716b3be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\AI\Enemy">
+      <UniqueIdentifier>{6f9f991d-a267-4392-92f5-b8ed2e70183d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\FixedClass">
+      <UniqueIdentifier>{c38ac2d1-70c7-4070-b757-c1d63ff8795b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\TweenSystem">
+      <UniqueIdentifier>{ae1bcc32-9c2a-4962-ad1d-53232977d52f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\FixedClass\NavGeom">
+      <UniqueIdentifier>{67d76ed8-32cd-46ac-bc45-5438549e593e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\NavigationSystem\FixedClass\MeshLoader">
+      <UniqueIdentifier>{746e7f1e-341d-416f-9ee1-799cd214ea2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\NavTest">
+      <UniqueIdentifier>{8ce763cb-9eda-4ed9-b191-9d1dfdfeee7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_WorkSpace\SceneView\Scripts\AI\AISight">
+      <UniqueIdentifier>{8597a48b-2f89-4b41-b73c-ca0166891ef9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\PhysicsAllocator">
+      <UniqueIdentifier>{1633028b-51c7-40f4-a699-24824e5911a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\PhysicsErrorCallback">
+      <UniqueIdentifier>{224b0d71-42fc-48af-8e22-afa160e6ddf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_System\PhysicSystem\DetectTriggers_PxQFC">
+      <UniqueIdentifier>{0bbaecc7-1c87-4537-8509-03516f3ec8f5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

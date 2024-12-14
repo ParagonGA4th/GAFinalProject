@@ -1,0 +1,744 @@
+#include "RenderObjectSkinnedMesh3D.h"
+
+#include "GraphicsResourceHelper.h"
+#include "GraphicsResourceManager.h"
+#include "LowDX11Storage.h"
+#include "LayoutDefine.h"
+#include "MathHelper.h"
+#include "RenderAnimation.h"
+#include "RenderTexture2D.h"
+#include "AssetBasic3DLoader.h"
+#include "AssetModelDataDefine.h"
+#include "AssetTextureType.h"
+#include "MaterialCluster.h"
+
+#include "../ParagonData/SkinnedMeshRenderer.h"
+#include "../ParagonData/ParagonDefines.h"
+#include "../ParagonData/AnimTransform.h"
+
+#include <dxtk/WICTextureLoader.h>
+#include <dxtk/SimpleMath.h>
+#include <singleton-cpp/singleton.h>
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <type_traits>
+
+namespace Pg::Graphics
+{
+	using Pg::Graphics::Helper::MathHelper;
+	using Pg::Graphics::Manager::GraphicsResourceManager;
+	using Pg::Data::Enums::eAssetDefine;
+
+	RenderObjectSkinnedMesh3D::RenderObjectSkinnedMesh3D(Pg::Data::BaseRenderer* baseRenderer, unsigned int objID) : RenderObject3D(baseRenderer, objID)
+	{
+		//SkinnedMesh도 똑같은 과정 거쳐야.
+		//StaticMeshRenderer 따로 포인터를 받기.
+		//Mesh 데이터를 받기.
+		//VB/IB 로드.
+		//Constant Buffer Data를 생성.
+
+		//StaticMeshRenderer 따로 포인터를 받기.
+		Pg::Data::SkinnedMeshRenderer* tSkinnedMeshRenderer = static_cast<Pg::Data::SkinnedMeshRenderer*>(GetBaseRenderer());
+
+		//일단, 포인터 받아오기.
+		ANIMATION_BLEND_SPEED_POINTER = &(tSkinnedMeshRenderer->_animBlendFactor);
+		ANIMATION_PAUSE_PROPERTY_POINTER = &(tSkinnedMeshRenderer->_playVariable);
+
+		//Mesh 데이터를 받기.
+		auto tModelData = GraphicsResourceManager::Instance()->GetResource(tSkinnedMeshRenderer->GetMeshFilePath(), eAssetDefine::_3DMODEL);
+		_modelData = static_cast<Asset3DModelData*>(tModelData.get());
+
+		//개별적으로 렌더에 쓰일 CopyModifiableNode : 생성.
+		_copiedModifyRootNode = std::make_unique<ModifiedNode_SkinnedMesh>(nullptr);
+
+		_copiedModifyRootNode->_relTransform->SetParent(nullptr, false);
+		_copiedModifyRootNode->RecursiveInitFromNode(_modelData->_assetSceneData->_rootNode.get(), _animatedModifNodeMap);
+
+		//Constant Buffer Data를 생성.
+		_cbFirstBase = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjectBase>>();
+		_cbAllSkinnedNodes = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinnedNodes>>();
+		_cbAllSkinnedBones = std::make_unique<ConstantBuffer<ConstantBufferDefine::cbPerObjectSkinnedBones>>();
+
+		for (int i = 0; i < Pg::Defines::ASSET_MAXIMUM_NODE_NUMBER_PER_MESH; i++)
+		{
+			_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[i] = DirectX::SimpleMath::Matrix::Identity;
+		}
+
+		for (int i = 0; i < Pg::Defines::ASSET_MAXIMUM_BONE_NUMBER_PER_MESH; i++)
+		{
+			_cbAllSkinnedBones->GetDataStruct()->gCBuf_Bones[i] = DirectX::SimpleMath::Matrix::Identity;
+		}
+
+		//Skinned 별도로 보관, Alpha 용도.
+		this->_skinnedMeshRenderer = tSkinnedMeshRenderer;
+	}
+
+	RenderObjectSkinnedMesh3D::~RenderObjectSkinnedMesh3D()
+	{
+
+	}
+
+	void RenderObjectSkinnedMesh3D::First_UpdateConstantBuffers(Pg::Data::CameraData* camData)
+	{
+		UpdateMainCB(camData);
+		UpdateSkinnedCB();
+	}
+
+	void RenderObjectSkinnedMesh3D::First_BindBuffers()
+	{
+		_cbFirstBase->BindVS(0);
+		_cbFirstBase->BindPS(0);
+		_cbAllSkinnedNodes->BindVS(2);
+		_cbAllSkinnedBones->BindVS(3);
+
+		// Albedo
+		_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &(_modelData->_pbrTextureArrays[0]->GetSRV()));
+		// Normal
+		_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &(_modelData->_pbrTextureArrays[1]->GetSRV()));
+		// ARM
+		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &(_modelData->_pbrTextureArrays[2]->GetSRV()));
+
+		BindMainVertexIndexBuffer();
+	}
+
+	void RenderObjectSkinnedMesh3D::First_Render(const float* const dt)
+	{
+		//아트에서 들어오는 리소스들은 모두 싱글Mesh이지만,
+		//FBX에 들어오면서부터는 내부의 다른 Material 사용으로 쪼개질 것이다.
+		//애니메이션 연산에는 연관X, 형식 유지를 위해 출력.
+
+		int tMeshCount = _modelData->_assetSceneData->_totalMeshCount;
+		for (int i = 0; i < tMeshCount; i++)
+		{
+			//MultiMesh -> Material 적용할 수 있게 여기서도 Vector Clear.
+			UINT tToDrawIndexCount = _modelData->_assetSceneData->_meshList[i]._numIndices;
+
+			//업데이트된 다음에 호출된 해당 Mesh만큼 그린다.
+			_DXStorage->_deviceContext->DrawIndexed(tToDrawIndexCount,
+				_modelData->_assetSceneData->_meshList[i]._indexOffset,
+				_modelData->_assetSceneData->_meshList[i]._vertexOffset);
+		}
+	}
+
+	void RenderObjectSkinnedMesh3D::First_UnbindBuffers()
+	{
+		_cbFirstBase->UnbindVS(0);
+		_cbFirstBase->UnbindPS(0);
+		_cbAllSkinnedNodes->UnbindVS(2);
+		_cbAllSkinnedBones->UnbindVS(3);
+
+		ID3D11ShaderResourceView* tNullSRV = nullptr;
+		// Albedo
+		_DXStorage->_deviceContext->PSSetShaderResources(8, 1, &tNullSRV);
+		// Normal
+		_DXStorage->_deviceContext->PSSetShaderResources(9, 1, &tNullSRV);
+		// ARM
+		_DXStorage->_deviceContext->PSSetShaderResources(10, 1, &tNullSRV);
+	}
+
+	void RenderObjectSkinnedMesh3D::SetAnimation(const std::string& animName, bool isLoop)
+	{
+		assert(_modelData->_assetSkinnedData->_viableAnimations.contains(animName) &&
+			"걸리면 유효하지 않은 Animation 로드 시도한 것");
+
+		//PrevAnim 기록. Nullptr가 아니면 무조건 보간해야!
+		if ((*ANIMATION_BLEND_SPEED_POINTER) > std::numeric_limits<float>::epsilon())
+		{
+			//0이 아니어야 PrevAnim 자체에 값을 넣는다.
+			this->_prevAnim = this->_currentAnim;
+		}
+		this->_currentAnim = _modelData->_assetSkinnedData->_viableAnimations.at(animName);
+		_blendLerpRatio = 0.0f;
+
+		//명시적으로 돌리는 시간 리셋.
+		_animationTime = 0.0;
+		_currentTick = 0.0;
+		_isEndFrameCalled = false;
+
+		//isLoop따라 값 설정. 해당 값은 일반적으로 데스등 장면에 활용될 것이니, 명시적으로 TPOSE를 넣지는 않을 것이다.
+		this->_isLoop = isLoop;
+	}
+
+	void RenderObjectSkinnedMesh3D::UpdateAnimationInfo(const float* const dt, const Pg::Data::Enums::eEditorMode* const editorMode)
+	{
+		if ((*editorMode) == Data::Enums::eEditorMode::_NONE ||
+			(*editorMode) == Data::Enums::eEditorMode::_EDIT)
+		{
+			_animationTime = 0.0;
+			_currentTick = 0.0;
+
+			//Animation을 돌리지 않는다.
+			UpdateAnimMatrices(0.0f);
+		}
+		else
+		{
+			//Script 딴에서 로직 처리가 되었을 것이다.
+			//Play/Pause 세팅.
+			float tPauseVar = (float)(*ANIMATION_PAUSE_PROPERTY_POINTER);
+
+			_animationTime += (*dt) * tPauseVar;
+			_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
+
+			//마지막 프레임 유지 시도.
+			if (_currentTick > _currentAnim->_animAssetData->_durationTick)
+			{
+				if (_isLoop)
+				{
+					double secondPerTick = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
+					int count = 0;
+					while (secondPerTick * (count + 1) < _animationTime)
+					{
+						count++;
+					}
+					_animationTime -= count * secondPerTick;
+					_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
+				}
+				else
+				{
+					_animationTime = _currentAnim->_animAssetData->_durationTick / _currentAnim->_animAssetData->_ticksPerSecond;
+					//_currentTick = _animationTime * _currentAnim->_animAssetData->_ticksPerSecond;
+					_currentTick = _currentAnim->_animAssetData->_durationTick;
+
+					if (!_isEndFrameCalled)
+					{
+						GetBaseRenderer()->_object->TurnOnAnimationEnd(_currentAnim->GetFileName());
+
+						_isEndFrameCalled = true;
+					}
+				}
+			}
+
+			//실제로 값 업데이트.
+			UpdateAnimMatrices(*dt);
+
+		}
+
+		//실제로 Animation대로 연산된 값을 알맞은 행렬의 배열로 투입.
+		FillInNodeBuffer(_copiedModifyRootNode.get());
+		FillInBoneBuffer(_copiedModifyRootNode.get());
+		assert("");
+	}
+
+	void RenderObjectSkinnedMesh3D::UpdateAnimMatrices(float dt)
+	{
+		/////TOREMOVE
+		//this->_currentTick = 0;
+
+		//별도로 _prevAnim을 유지해야 하는지, 아닌지 검사.
+		if (_prevAnim != nullptr)
+		{
+			////속도 더 빨리? 그러면 Lerp Ratio 막 이만큼 더 추가해야 했을 것!
+			//if ((*ANIMATION_BLEND_SPEED_POINTER) <= std::numeric_limits<float>::epsilon())
+			//{
+			//	//BlendSpeed를 0으로 한 경우, 바로 Switching 가능하게 1로 하드코딩해서 넘어가게 해준다.
+			//	_blendLerpRatio = 100.f; // 무조건 돌아오게. 
+			//}
+
+			_blendLerpRatio += (dt * (*ANIMATION_BLEND_SPEED_POINTER));
+
+			if (_blendLerpRatio >= 1.0f)
+			{
+				//일단 한정 다시 0으로 돌린다.
+				_blendLerpRatio = 0.f;
+				_prevAnim = nullptr;
+			}
+		}
+
+		for (auto& nodeAnim : _currentAnim->_animAssetData->_channelList)
+		{
+			DirectX::SimpleMath::Vector3 position;
+			DirectX::SimpleMath::Quaternion rotation;
+			DirectX::SimpleMath::Vector3 scale;
+
+			//NodeAnim이 중요한 이유 : Name과, 값을 찾기 위해서.
+			const ModifiedNode_SkinnedMesh* node = _animatedModifNodeMap[nodeAnim->_nodeName];
+
+			//무조건 NodeAnim은 Node와 매칭되어야 하는데..?
+			if (node == nullptr)
+			{
+				//일단은 이렇게 처리.
+				continue;
+			}
+
+			if (_prevAnim != nullptr)
+			{
+				auto& bPrevChannelList = _prevAnim->_animAssetData->_channelList;	//PrevAnim에서 동일한 NodeAnim을 찾아야 한다.
+				NodeAnim_AssetData* tPrevFoundNodeAnim = nullptr;					//자신의 이름과 이름이 같은 NodeAnim 찾기.
+				for (auto& bPrevNodeAnim : bPrevChannelList)
+				{
+					if (bPrevNodeAnim->_nodeName.compare(nodeAnim->_nodeName) == 0)
+					{
+						tPrevFoundNodeAnim = bPrevNodeAnim.get();
+						break;
+					}
+				}
+
+				if (tPrevFoundNodeAnim != nullptr)
+				{
+					//찾았다.
+					//Blending 필요.
+					DirectX::SimpleMath::Vector3 prev_position = FillPositionForNodeAnim(_prevAnim, tPrevFoundNodeAnim);
+					DirectX::SimpleMath::Quaternion prev_rotation = FillRotationForNodeAnim(_prevAnim, tPrevFoundNodeAnim);
+					//DirectX::SimpleMath::Vector3 prev_scale = FillScaleForNodeAnim(_prevAnim, tPrevFoundNodeAnim);
+
+					DirectX::SimpleMath::Vector3 now_position = FillPositionForNodeAnim(_currentAnim, nodeAnim.get());
+					DirectX::SimpleMath::Quaternion now_rotation = FillRotationForNodeAnim(_currentAnim, nodeAnim.get());
+					//DirectX::SimpleMath::Vector3 now_scale = FillScaleForNodeAnim(_currentAnim, nodeAnim.get());
+
+					assert(_blendLerpRatio <= 1.0f);
+					position = DirectX::SimpleMath::Vector3::Lerp(prev_position, now_position, _blendLerpRatio);
+					rotation = DirectX::SimpleMath::Quaternion::Slerp(prev_rotation, now_rotation, _blendLerpRatio);
+					//scale = DirectX::SimpleMath::Vector3::Lerp(prev_scale, now_scale, _blendLerpRatio);
+				}
+				else
+				{
+					position = FillPositionForNodeAnim(_currentAnim, nodeAnim.get());
+					rotation = FillRotationForNodeAnim(_currentAnim, nodeAnim.get());
+					//scale = FillScaleForNodeAnim(_currentAnim, nodeAnim.get());
+				}
+			}
+			else
+			{
+				//그냥 출력하면 됨.
+				position = FillPositionForNodeAnim(_currentAnim, nodeAnim.get());
+				rotation = FillRotationForNodeAnim(_currentAnim, nodeAnim.get());
+				//scale = FillScaleForNodeAnim(_currentAnim, nodeAnim.get());
+			}
+
+			rotation.Normalize();
+			node->_relTransform->SetLocalPosition(position);
+			node->_relTransform->SetLocalRotation(rotation);
+			//node->_relTransform->SetLocalScale(scale); // 스케일 반영 안한다.
+		}
+	}
+
+	//void RenderObjectSkinnedMesh3D::RefreshStartEndAnim()
+	//{
+	//	//다시 시간을 설정한 뒤에 시작한다.
+	//	this->_startedTime = std::chrono::steady_clock::now();
+	//
+	//	double tSecondsPerTick = 1.0f / (_currentAnim->_animAssetData->_durationTick);
+	//	float tDurationTickSec = static_cast<float>(tSecondsPerTick * (_currentAnim->_animAssetData->_durationTick));
+	//	//Ex. 3.5초면 3500 millisecond가 되어야 한다.
+	//	int tMS_TS = tDurationTickSec * 1000;
+	//
+	//	this->_expectedEndTime = _startedTime + std::chrono::milliseconds(tMS_TS);
+	//
+	//	//현재 Tick Reset.
+	//	this->_currentTick = 0;
+	//}
+
+	void RenderObjectSkinnedMesh3D::BindMainVertexIndexBuffer()
+	{
+		//Vertex Buffer Setting.
+		UINT stride[2] = { sizeof(LayoutDefine::Vin1stSkinned_Individual), sizeof(LayoutDefine::Vin2ndAll_Individual) };
+		UINT offset[2] = { 0,0 };
+		ID3D11Buffer* buffers[2] = { _modelData->_vertexBuffer, _modelData->_secondVertexBuffer };
+		_DXStorage->_deviceContext->IASetVertexBuffers(0, 2, buffers, stride, offset);
+		//Index Buffer Setting.
+		_DXStorage->_deviceContext->IASetIndexBuffer(_modelData->_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	}
+
+	void RenderObjectSkinnedMesh3D::UpdateMainCB(Pg::Data::CameraData* camData)
+	{
+		auto _DXStorage = LowDX11Storage::GetInstance();
+
+		//임시로 Translate값을 다르게 저장하고, 다시 원상 복귀한다.
+		Pg::Math::PGFLOAT3 tOriginalPosValue = GetBaseRenderer()->_object->_transform._position;
+		GetBaseRenderer()->_object->_transform._position = tOriginalPosValue + _rendererBase3DStorage->GetRendererOffset();
+
+		// 상수버퍼에 들어갈 값 셋팅
+		//DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());
+		//DirectX::XMMATRIX tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
+
+		DirectX::XMMATRIX tWorldTMMat = DirectX::XMMatrixIdentity();
+		if (_rendererBase3DStorage->GetIsUseRotationOriginOffset())
+		{
+			//쓰면, Parent가 없어야 한다.
+			auto& tTrans = GetBaseRenderer()->_object->_transform;
+			DirectX::XMMATRIX tScaleMat = DirectX::XMMatrixScaling(tTrans._scale.x, tTrans._scale.y, tTrans._scale.z);
+			DirectX::XMMATRIX tOrigRotMat = Pg::Math::PG2XM_MATRIX4X4(Pg::Math::PGRotationMatrix(tTrans._rotation));
+			DirectX::XMMATRIX tTransMat = Pg::Math::PG2XM_MATRIX4X4(Pg::Math::PGTranslateMatrix(tTrans._position));
+
+			Pg::Math::PGFLOAT3 pivot = _rendererBase3DStorage->GetRendererRotationOriginOffset();
+			DirectX::XMMATRIX toPivot = DirectX::XMMatrixTranslation(-pivot.x, -pivot.y, -pivot.z);
+			DirectX::XMMATRIX fromPivot = DirectX::XMMatrixTranslation(pivot.x, pivot.y, pivot.z);
+
+			using namespace DirectX;
+			tWorldTMMat = tScaleMat * toPivot * tOrigRotMat * fromPivot * tTransMat;
+		}
+		else
+		{
+			DirectX::XMFLOAT4X4 tWorldTM = Helper::MathHelper::PG2XM_FLOAT4X4(GetBaseRenderer()->_object->_transform.GetWorldTM());
+			tWorldTMMat = DirectX::XMLoadFloat4x4(&tWorldTM);
+		}
+
+		//다시 Translate 원상복귀.
+		GetBaseRenderer()->_object->_transform._position = tOriginalPosValue;
+
+		//0.01 스케일링 적용.
+		tWorldTMMat = DirectX::XMMatrixMultiply(DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f), tWorldTMMat);
+
+		//스케일링 적용 후에 InvTranspose를 곱해야지!
+		DirectX::XMMATRIX tWorldInvTransposeMat = DirectX::XMMatrixTranspose(DirectX::XMMatrixInverse(nullptr, tWorldTMMat));
+
+		_cbFirstBase->GetDataStruct()->gCBuf_World = tWorldTMMat;
+		_cbFirstBase->GetDataStruct()->gCBuf_WorldInvTranspose = tWorldInvTransposeMat;
+		_cbFirstBase->GetDataStruct()->gCBuf_ObjID = GetObjectID();
+		_cbFirstBase->GetDataStruct()->gCBuf_MatID = GetMaterialID();
+
+		//첫번째 Constant Buffer에는 얘만 넣어주면 된다.
+		_cbFirstBase->Update();
+	}
+
+	void RenderObjectSkinnedMesh3D::UpdateSkinnedCB()
+	{
+		// 따로 이제 값을 설정하는 것이 아닌, 업데이트 로직에 의해 이미 값이 들어가 있는 상태이다.
+		_cbAllSkinnedNodes->Update();
+		_cbAllSkinnedBones->Update();
+	}
+
+	void RenderObjectSkinnedMesh3D::FillInNodeBuffer(const ModifiedNode_SkinnedMesh* const selfNode)
+	{
+		// DX에서 HLSL 로 넘어갈때 자동으로 전치가 되서 넘어간다.
+		// HLSL 에서도 Row Major 하게 작성하고 싶으므로 미리 전치를 시켜놓는다.
+		// 총 전치가 2번되므로 HLSL에서도 Row Major한 Matrix로 사용한다.
+
+		if (selfNode->_index >= 0)
+		{
+			// nodeBuffer->transformMatrix[node->index] = DirectX::XMMatrixTranspose(node->GetWorldMatrix());
+
+			DirectX::SimpleMath::Matrix tInputData = DirectX::XMMatrixTranspose(selfNode->_relTransform->GetWorldTM());
+			DirectX::SimpleMath::Matrix tZeroMat = DirectX::XMMatrixSet(0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
+			assert(tInputData != tZeroMat);
+
+			//일단 외적으로 Decompose 및 재투입은 하지 않은 상황.
+			_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] = tInputData;
+
+
+			//_cbAllSkinnedNodes->GetDataStruct()->gCBuf_Nodes[selfNode->_index] = selfNode->_relTransform->GetWorldTM();
+		}
+
+		//Early Return
+		if (selfNode->_numChildren == 0)
+		{
+			return;
+		}
+
+		//nodeBuffer->transformMatrix[node->index] = DirectX::XMMatrixTranspose(node->worldTM);
+		for (int i = 0; i < selfNode->_childrenList.size(); i++)
+		{
+			FillInNodeBuffer(selfNode->_childrenList[i].get());
+		}
+	}
+
+	void RenderObjectSkinnedMesh3D::FillInBoneBuffer(const ModifiedNode_SkinnedMesh* const selfNode)
+	{
+		BoneInfo_AssetData* bone = selfNode->_bindedBone;
+
+		if (bone)
+		{
+			DirectX::SimpleMath::Matrix tInputData = DirectX::XMMatrixTranspose(bone->_offsetMatrix);
+			DirectX::SimpleMath::Matrix tZeroMat = DirectX::XMMatrixSet(0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
+
+			assert(tInputData != tZeroMat);
+			_cbAllSkinnedBones->GetDataStruct()->gCBuf_Bones[bone->_index] = tInputData;
+			//_cbAllSkinnedBones->GetDataStruct()->gCBuf_Bones[bone->_index] = bone->_offsetMatrix;
+		}
+
+		//Early Return
+		if (selfNode->_numChildren == 0)
+		{
+			return;
+		}
+
+		for (int i = 0; i < selfNode->_childrenList.size(); i++)
+		{
+			FillInBoneBuffer(selfNode->_childrenList[i].get());
+		}
+	}
+
+	Pg::Data::AnimTransform* RenderObjectSkinnedMesh3D::FindAnimTransform(const std::string& animNodeName)
+	{
+		assert(_animatedModifNodeMap.contains(animNodeName) && "본 이름이 기록되어 있지 않다!");
+
+		const ModifiedNode_SkinnedMesh* tVal = _animatedModifNodeMap.at(animNodeName);
+		return tVal->_relTransform.get();
+	}
+
+	DirectX::SimpleMath::Vector3 RenderObjectSkinnedMesh3D::FillPositionForNodeAnim(RenderAnimation* renderAnim, NodeAnim_AssetData* nodeAnim)
+	{
+		DirectX::SimpleMath::Vector3 position;
+		// Position
+		{
+			int positionIndex = 0;
+			//Last Frame 유지 시도, 240521
+			if (renderAnim->_animAssetData->_durationTick - _currentTick < std::numeric_limits<double>::epsilon())
+			{
+				positionIndex = nodeAnim->_numPositionKeys - 1;
+			}
+			else
+			{
+				for (int i = 0; i < nodeAnim->_numPositionKeys; i++)
+				{
+					if (_currentTick < nodeAnim->_positionKeyList[i]._time)
+					{
+						positionIndex = i;		// i-1 < _animationTickTime < i
+						break;
+					}
+				}
+			}
+			if (positionIndex == 0)
+			{
+				position = nodeAnim->_positionKeyList[0]._value;
+			}
+			else
+			{
+				double t = (_currentTick - nodeAnim->_positionKeyList[positionIndex - 1]._time) / (nodeAnim->_positionKeyList[positionIndex]._time - nodeAnim->_positionKeyList[positionIndex - 1]._time);
+				position = DirectX::XMVectorLerp(nodeAnim->_positionKeyList[positionIndex - 1]._value, nodeAnim->_positionKeyList[positionIndex]._value, (float)t);
+			}
+		}
+		return position;
+	}
+
+	DirectX::SimpleMath::Quaternion RenderObjectSkinnedMesh3D::FillRotationForNodeAnim(RenderAnimation* renderAnim, NodeAnim_AssetData* nodeAnim)
+	{
+		// Rotation
+		DirectX::SimpleMath::Quaternion rotation;
+		{
+			int rotationIndex = 0;
+			//Last Frame 유지 시도, 240521
+			if (renderAnim->_animAssetData->_durationTick - _currentTick < std::numeric_limits<double>::epsilon())
+			{
+				rotationIndex = nodeAnim->_numRotationKeys - 1;
+			}
+			else
+			{
+				for (int i = 0; i < nodeAnim->_numRotationKeys; i++)
+				{
+					if (_currentTick < nodeAnim->_rotationKeyList[i]._time)
+					{
+						rotationIndex = i;
+						break;
+					}
+				}
+			}
+
+			if (rotationIndex == 0)
+			{
+				rotation = nodeAnim->_rotationKeyList[0]._value;
+			}
+			else
+			{
+				double t = (_currentTick - nodeAnim->_rotationKeyList[rotationIndex - 1]._time) / (nodeAnim->_rotationKeyList[rotationIndex]._time - nodeAnim->_rotationKeyList[rotationIndex - 1]._time);
+				rotation = DirectX::XMQuaternionSlerp(nodeAnim->_rotationKeyList[rotationIndex - 1]._value, nodeAnim->_rotationKeyList[rotationIndex]._value, (float)t);
+			}
+		}
+
+		return rotation;
+	}
+
+	DirectX::SimpleMath::Vector3 RenderObjectSkinnedMesh3D::FillScaleForNodeAnim(RenderAnimation* renderAnim, NodeAnim_AssetData* nodeAnim)
+	{
+		DirectX::SimpleMath::Vector3 scale;
+		// Scale이 만약 있으면 세팅. -> Num Scaling Keys로 표시했다!
+			// 일단 ScalingKeys의 개수가 0보다 클 때만 동작할 것!
+		if (nodeAnim->_numScalingKeys > 0)
+		{
+			int scaleIndex = 0;
+			//Last Frame 유지 시도, 240521
+			if (renderAnim->_animAssetData->_durationTick - _currentTick < std::numeric_limits<double>::epsilon())
+			{
+				scaleIndex = nodeAnim->_numScalingKeys - 1;
+			}
+			else
+			{
+				for (int i = 0; i < nodeAnim->_numScalingKeys; i++)
+				{
+					if (_currentTick < nodeAnim->_scalingKeyList[i]._time)
+					{
+						scaleIndex = i;		// i-1 < _animationTickTime < i
+						break;
+					}
+				}
+			}
+			if (scaleIndex == 0)
+			{
+				scale = nodeAnim->_scalingKeyList[0]._value;
+			}
+			else
+			{
+				double t = (_currentTick - nodeAnim->_scalingKeyList[scaleIndex - 1]._time) / (nodeAnim->_scalingKeyList[scaleIndex]._time - nodeAnim->_scalingKeyList[scaleIndex - 1]._time);
+				scale = DirectX::XMVectorLerp(nodeAnim->_scalingKeyList[scaleIndex - 1]._value, nodeAnim->_scalingKeyList[scaleIndex]._value, (float)t);
+			}
+		}
+
+		return scale;
+	}
+
+}
+
+#pragma region OldSkinningCode
+//void RenderObjectSkinnedMesh3D::CalcInterpolatedRotation(DirectX::SimpleMath::Quaternion& outQuat, double animTick, const NodeAnim_AssetData const* pNodeAnim)
+	//{
+	//	using namespace DirectX::SimpleMath;
+	//	using namespace DirectX;
+	//
+	//	//키가 한개 밖에 없으면 보간할 수 없다.
+	//	if (pNodeAnim->_numRotationKeys == 1)
+	//	{
+	//		outQuat = pNodeAnim->_rotationKeyList[0]._value;
+	//		return;
+	//	}
+	//
+	//	// 현재 Rotation 키프레임 획득.
+	//	unsigned int RotationIndex = FindRotationIndex(animTick, pNodeAnim);
+	//
+	//	// 다음 Rotation Key Index 범위 내부인지 체크.
+	//	unsigned int NextRotationIndex = (RotationIndex + 1);
+	//	assert(NextRotationIndex < pNodeAnim->_numRotationKeys);
+	//
+	//	//키프레임 사이에서의 시간 차이를 구한다.
+	//	float DeltaTime = pNodeAnim->_rotationKeyList[NextRotationIndex]._time - pNodeAnim->_rotationKeyList[RotationIndex]._time;
+	//
+	//	// 시간 변화 내부 현재 지난 시간을 구한다 -> 보간 비율.  
+	//	float Factor = (animTick - (float)pNodeAnim->_rotationKeyList[RotationIndex]._time) / DeltaTime;
+	//
+	//	///오류 : Factor가 0~1 사이로 결정되지 않는 오류 확인!
+	//	// 현재-다음 키프레임들의 회전을 위한 쿼터니언 둘 다 구한다.
+	//	const Quaternion StartRotationQ = pNodeAnim->_rotationKeyList[RotationIndex]._value;
+	//	const Quaternion EndRotationQ = pNodeAnim->_rotationKeyList[NextRotationIndex]._value;
+	//
+	//	// Interpolate between them using the Factor. 
+	//	//Quaternion::Slerp(StartRotationQ, EndRotationQ, Factor, outQuat);
+	//
+	//	//더 안전한 Slerp를 사용.
+	//	//TRY:
+	//	outQuat = MathHelper::QuaternionSlerpNoFlip(StartRotationQ, EndRotationQ, Factor);
+	//
+	//	// 정규화 후 참조자로 리턴.
+	//	outQuat.Normalize();
+	//}
+	//
+	//void RenderObjectSkinnedMesh3D::CalcInterpolatedTranslation(DirectX::SimpleMath::Vector3& outVec, double animTick, const NodeAnim_AssetData const* pNodeAnim)
+	//{
+	//	//키가 한개 밖에 없으면 보간할 수 없다.
+	//	if (pNodeAnim->_numPositionKeys == 1)
+	//	{
+	//		outVec = pNodeAnim->_positionKeyList[0]._value;
+	//		return;
+	//	}
+	//
+	//	//적합한 Position 인덱스인지 확인.
+	//	unsigned int PositionIndex = FindTranslationIndex(animTick, pNodeAnim);
+	//	unsigned int NextPositionIndex = (PositionIndex + 1);
+	//	assert(NextPositionIndex < pNodeAnim->_numPositionKeys);
+	//
+	//	//키프레임 사이에서의 시간 차이를 구한다.
+	//	float DeltaTime = pNodeAnim->_positionKeyList[NextPositionIndex]._time - pNodeAnim->_positionKeyList[PositionIndex]._time;
+	//
+	//	// 시간 변화 내부 현재 지난 시간을 구한다 -> 보간 비율.  
+	//	float Factor = (animTick - (float)pNodeAnim->_positionKeyList[PositionIndex]._time) / DeltaTime;
+	//
+	//	//전/후 보간할 Vector3 값 구하기.
+	//	const DirectX::SimpleMath::Vector3 Start = pNodeAnim->_positionKeyList[PositionIndex]._value;
+	//	const DirectX::SimpleMath::Vector3 End = pNodeAnim->_positionKeyList[NextPositionIndex]._value;
+	//
+	//	DirectX::SimpleMath::Vector3 Delta = End - Start;
+	//
+	//	//참조자로 리턴.
+	//	outVec = Start + Factor * Delta;
+	//}
+	//
+	//unsigned int RenderObjectSkinnedMesh3D::FindRotationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim)
+	//{
+	//	// Rotation 키 프레임들이 있는지 확인.
+	//	assert(pNodeAnim->_numRotationKeys > 0);
+	//
+	//	//현재 애니메이션 시간 직전의 Rotation을 찾고 인덱스 리턴.
+	//	for (unsigned int i = 0; i < pNodeAnim->_numRotationKeys - 1; i++)
+	//	{
+	//		//FIX.
+	//		if (animTick < (float)pNodeAnim->_rotationKeyList[i + 1]._time)
+	//		{
+	//			return i;
+	//		}
+	//	}
+	//
+	//	//여기까지 오면 못찾은 것 == 실패한 것.
+	//	assert(false);
+	//
+	//	return 0;
+	//}
+	//
+	//unsigned int RenderObjectSkinnedMesh3D::FindTranslationIndex(double animTick, const NodeAnim_AssetData const* pNodeAnim)
+	//{
+	//	assert(pNodeAnim->_numPositionKeys > 0);
+	//
+	//	// Find the translation key just before the current animation time and return the index. 
+	//	for (unsigned int i = 0; i < pNodeAnim->_numPositionKeys - 1; i++)
+	//	{
+	//		//FIX.
+	//		if (animTick < (float)pNodeAnim->_positionKeyList[i + 1]._time)
+	//		{
+	//			return i;
+	//		}
+	//	}
+	//
+	//	//여기까지 오면 못찾은 것 == 실패한 것.
+	//	assert(false);
+	//
+	//	return 0;
+	//}
+
+	//void RenderObjectSkinnedMesh3D::UpdateSingleNodeWithAnim(const Node_AssetData* const selfNode, const Node_AssetData* const parentNode, const NodeAnim_AssetData* const nodeAnim)
+	//{
+	//	using namespace DirectX::SimpleMath;
+	//	using namespace DirectX;
+
+	//	Matrix tNodeTransformation = selfNode->_relTransform;
+
+	//	//일단 남겨두기. Single-Mesh Animation이기에 가능. 
+	//	Matrix rotationMatrix = Matrix::CreateFromYawPitchRoll(XMConvertToRadians(0.0f), XMConvertToRadians(0.0f), XMConvertToRadians(0.0f));
+	//	tNodeTransformation = rotationMatrix;
+
+	//	// Rotation 보간.
+	//	Quaternion RotationQ;
+	//	CalcInterpolatedRotation(RotationQ, _currentTick, nodeAnim);
+	//	Matrix RotationM = DirectX::XMMatrixRotationQuaternion(RotationQ);
+
+	//	//Translation 보간.
+	//	DirectX::SimpleMath::Vector3 Translation;
+	//	CalcInterpolatedTranslation(Translation, _currentTick, nodeAnim);
+	//	Matrix TranslationM;
+	//	TranslationM = DirectX::XMMatrixTranslation(Translation.x, Translation.y, Translation.z);
+
+	//	//Rotation, Translation 결합.
+	//	tNodeTransformation = RotationM * TranslationM;
+
+	//	//RootNode <-> 일반 Node 구별을 위해.
+	//	Matrix tParentTransform = Matrix::Identity;
+	//	if (parentNode != nullptr)
+	//	{
+	//		tParentTransform = parentNode->_relTransform;
+	//	}
+
+	//	//Global Transformation 찾기.
+	//	Matrix tGlobalTransformation = tNodeTransformation * tParentTransform;
+
+	//	const auto& tMappedBones = _modelData->_assetSkinnedData->_mappedBones;
+	//	const auto& tBoneInfoVec = _modelData->_assetSkinnedData->_renderBoneInfoVector;
+	//	const auto& tMeshGlobalInvTRS = _modelData->_assetSkinnedData->_meshGlobalInverseTransform;
+
+	//	//최적화적으로 과히 좋지는 않지만, MappedBones 찾기.
+	//	if (tMappedBones.find(selfNode->_nodeName) != tMappedBones.end())
+	//	{
+	//		UINT tBoneIndex = tMappedBones.at(selfNode->_nodeName);
+
+	//		// = Final Transform의 역할까지 수행.
+	//		_boneTransformVector[tBoneIndex] =
+	//			tBoneInfoVec[tBoneIndex]._boneOffset * tGlobalTransformation * tMeshGlobalInvTRS;
+	//	}
+	//}
+#pragma endregion OldSkinningCode
